@@ -271,3 +271,15 @@ PS-DW1 MITTEL (Nutzer 17:05, AHSentinel 0.65.170): Ein Rahmen von ProfessionSent
 
 >>> NACHT-PRÜFUNG 00:19 (Supervisor) – 0.9.56 Skillplan "Mit Vorrat" (Gegenprobe leerer Vorrat = Billigst, Verbrauch je Punkt, Portionen) und 0.9.57
   Weg zeigen über LevelPilot: keine Befunde. WEITER: B2 Gelernte Quoten, B4 Warnschutz fürs Herstellen, B5 Marktlage (Antwort 23:48).
+
+>>> NACHT-PRÜFUNG 00:33 (Supervisor) – 0.9.58 B2 gelernte Verkaufschance. BEFUND PS58-1 MITTEL (belegt im Code beider Addons):
+  Prices.lua:252 liest von AHSentinel API.WorthUpTo nur den 3. Wert (w, way, safety). Laut AHSentinel API.md:34 ist der 3. Wert der TEXT
+  "sicher"/"unsicher"; die gemessene Sicherheit 0–1 ist der 4. Wert (nil = lernt noch), der Stückpreis der 5. Mit dem echten AHS wird
+  MK.SellChance darum nur 1 (sicher) oder nil (unsicher) – nie eine echte Chance, und "lernt noch" erscheint nie richtig. T281 lief grün,
+  weil die Nachbildung (ApiDummy) 0,5 als 3. Wert lieferte – sie bildet die echte Schnittstelle falsch nach.
+  LÖSUNG: 4. Wert als Chance lesen (nil = "lernt noch"), 3. Wert nur als Rückfall für alte AHS-Versionen ohne 4. Wert; MK.WorthUnsure ebenso.
+  ApiDummy genau wie API.md (alle 5 Werte); Test: echte Reihenfolge -> Chance 0,5; alte AHS (nur 3 Werte, "sicher") -> 1; Gegenprobe mit
+  heutigem Code -> rot. Bitte auch prüfen, ob PS.Call mehr als 3 Rückgabewerte weitergibt.
+  ANTWORT auf die Frage TodayCrafts: NICHT umsortieren – AHSentinel ordnet "Heute tun" selbst (RK7 enthält die Sicherheit schon); sonst würde
+  die Sicherheit doppelt zählen.
+
