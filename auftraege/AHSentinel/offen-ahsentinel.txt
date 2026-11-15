@@ -77,6 +77,14 @@
         der Knopf kauft weiter. Kopfzeile passend ("Zum Kaufen auf Kaufen klicken" bzw. wie heute).
     (e) Gold-Sicherheit wie bei der Raste: gleicher Weg (Sn:OnTrigger/Buy), gleiche Prüfungen (Max, Budget, ein Einzelkauf zur
         Zeit, Server bereit), Doppelklick kauft nicht doppelt.
+    (g) ELEGANT (Nutzer 18:29: "wichtig ist, dass diese Variante elegant umgesetzt ist und auch so aussieht"):
+        - EIN klarer Haupt-Knopf, gross und gut sichtbar im Stil des AHSentinel-Fensters (Theme modern, gleiche Schrift/Farben),
+          nicht ein weiterer kleiner Knopf zwischen anderen. Zustände sauber: aktiv (Hauptfarbe), wartet auf Server (ruhig
+          gedämpft, kein Blinken), kein Treffer (grau), gekauft (kurz grün, dann wieder bereit). Kein Flackern, kein Springen.
+        - Ein Klick fühlt sich sofort an: Knopf reagiert im selben Bild (gedrückt), Ergebnis ohne Neuaufbau der Tabelle.
+        - Text kurz und lesbar, eine Zeile, nichts abgeschnitten (A5), deDE und enUS gleich elegant (Spaltenbreite in beiden prüfen).
+        - Einstellung "Kaufen mit" schlicht (zwei Wahlpunkte), nicht in einem Untermenü versteckt.
+        - Bericht mit Bildbeschreibung jedes Zustands (oder Bild aus der Nachbildung); der Nutzer prüft das Aussehen im Spiel.
     (f) Tests: Klick mit/ohne Treffer, Ware zwei Schritte, Doppelklick, "nur Knopf" -> Mausrad tut nichts, Knopf kauft;
         Einstellung bleibt nach /reload. Locales EN/DE (alle Sprachen), CHANGELOG EN/DE.
 
