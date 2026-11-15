@@ -1,0 +1,226 @@
+AHSentinel-Protokoll v0.65.203 · 15.11. 18:42:01
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  15.11. 18:32:14 L10 ? v0.65.203
+  15.11. 18:14:11 L10 ? v0.65.202
+  15.11. 18:09:56 L10 ? v0.65.201
+  15.11. 18:09:00 L10 ? v0.65.201
+  15.11. 17:40:12 L10 ? v0.65.200
+  15.11. 17:36:48 L10 ? v0.65.200
+  15.11. 17:21:44 L10 ? v0.65.197
+  15.11. 16:55:13 L10 ? v0.65.197
+  15.11. 16:45:19 L10 ? v0.65.196
+  15.11. 16:18:07 L10 ? v0.65.196
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 29 Min., 7090 Items, Preis-Sync an
+  SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, GoldSentinelMarkt 0, GoldSentinelTest 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0, ThreatSentinel 0
+  SYNC gesendet 42 · empfangen 0 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 4 (mit Sync 2: 4, pausiert 2) · gesendet 3 · weitergegeben 0 · offline 2 · Listen 2 · Warteschlange 0 · gespeichert ja
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Gewinn-Fenster angedockt an ProfessionsFrame (Versatz 59)
+  Einstellungen geändert: cmdHint=true, fastScan=true, helpSeen=true, marketExpert=false, minimapAngle=216.6, priceGuard=20, sniperSignal=true, theme=modern, tooltipDEDetail=true, vendorButton=false, vendorFlipMin=500
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0
+
+== Einträge (200, neueste zuerst)
+[15.11. 18:42:00] SNIPER-RUHE Ruhemodus aus nach 90 s
+[15.11. 18:41:58] SNIPER-BUDGET aufgefüllt i:4251 +50000
+[15.11. 18:41:56] ABBRECHEN AUCTION_CANCELED auctionID 110743344 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 18:41:56] KAUF gesendet · Angebot 110743344 · offen 0
+[15.11. 18:41:54] SNIPER-CODE10 18:41:54 · letzte Anfrage Kauf vor 79 ms · offene Einzelkäufe 1 · Server bereit beim Senden ja
+[15.11. 18:41:54] KAUF gesendet · Angebot 110769702 · offen 0
+[15.11. 18:41:52] SNIPER-CODE10 18:41:52 · letzte Anfrage Kauf vor 69 ms · offene Einzelkäufe 1 · Server bereit beim Senden ja
+[15.11. 18:41:52] KAUF gesendet · Angebot 110786591 · offen 0
+[15.11. 18:41:51] ABBRECHEN AUCTION_CANCELED auctionID 110769097 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 18:41:51] SNIPER-CODE10 Code 10 trotz Kauf: Angebot 110769097 nach 487 ms bestätigt
+[15.11. 18:41:50] SNIPER-CODE10 18:41:50 · letzte Anfrage Kauf vor 65 ms · offene Einzelkäufe 1 · Server bereit beim Senden ja
+[15.11. 18:41:50] KAUF gesendet · Angebot 110769097 · offen 0
+[15.11. 18:41:49] SNIPER-CODE10 18:41:49 · letzte Anfrage Kauf vor 82 ms · offene Einzelkäufe 1 · Server bereit beim Senden ja
+[15.11. 18:41:49] KAUF gesendet · Angebot 110786591 · offen 0
+[15.11. 18:41:48] ABBRECHEN AUCTION_CANCELED auctionID 110787391 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 18:41:48] SNIPER-CODE10 Code 10 trotz Kauf: Angebot 110787391 nach 680 ms bestätigt
+[15.11. 18:41:47] SNIPER-CODE10 18:41:47 · letzte Anfrage Kauf vor 73 ms · offene Einzelkäufe 1 · Server bereit beim Senden ja
+[15.11. 18:41:47] KAUF gesendet · Angebot 110787391 · offen 0
+[15.11. 18:41:47] ABBRECHEN AUCTION_CANCELED auctionID 110787589 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 18:41:47] SNIPER-CODE10 Code 10 trotz Kauf: Angebot 110787589 nach 385 ms bestätigt
+[15.11. 18:41:47] SNIPER-CODE10 18:41:47 · letzte Anfrage Kauf vor 66 ms · offene Einzelkäufe 1 · Server bereit beim Senden ja
+[15.11. 18:41:46] KAUF gesendet · Angebot 110787589 · offen 0
+[15.11. 18:41:43] ABBRECHEN AUCTION_CANCELED auctionID 110787189 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 18:41:43] SNIPER-CODE10 Code 10 trotz Kauf: Angebot 110787189 nach 382 ms bestätigt
+[15.11. 18:41:42] SNIPER-CODE10 18:41:42 · letzte Anfrage Kauf vor 79 ms · offene Einzelkäufe 1 · Server bereit beim Senden ja
+[15.11. 18:41:42] KAUF gesendet · Angebot 110787189 · offen 0
+[15.11. 18:41:42] ABBRECHEN AUCTION_CANCELED auctionID 110788344 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 18:41:42] SNIPER-CODE10 Code 10 trotz Kauf: Angebot 110788344 nach 477 ms bestätigt
+[15.11. 18:41:41] SNIPER-CODE10 18:41:41 · letzte Anfrage Kauf vor 108 ms · offene Einzelkäufe 1 · Server bereit beim Senden ja
+[15.11. 18:41:41] KAUF gesendet · Angebot 110788344 · offen 0
+[15.11. 18:41:39] SNIPER-CODE10 18:41:39 · letzte Anfrage Kauf vor 71 ms · offene Einzelkäufe 1 · Server bereit beim Senden ja
+[15.11. 18:41:39] KAUF gesendet · Angebot 110786983 · offen 0
+[15.11. 18:41:37] SNIPER-SUCHE Ziel 6611 · Angebote 0 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 18:41:36] ABBRECHEN AUCTION_CANCELED auctionID 110786809 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 18:41:36] SNIPER-CODE10 Code 10 trotz Kauf: Angebot 110786809 nach 321 ms bestätigt
+[15.11. 18:41:36] SNIPER-CODE10 18:41:36 · letzte Anfrage Kauf vor 79 ms · offene Einzelkäufe 1 · Server bereit beim Senden ja
+[15.11. 18:41:36] KAUF gesendet · Angebot 110786809 · offen 0
+[15.11. 18:41:35] ABBRECHEN AUCTION_CANCELED auctionID 110788158 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 18:41:35] SNIPER-CODE10 Code 10 trotz Kauf: Angebot 110788158 nach 405 ms bestätigt
+[15.11. 18:41:35] SNIPER-CODE10 18:41:35 · letzte Anfrage Kauf vor 69 ms · offene Einzelkäufe 1 · Server bereit beim Senden ja
+[15.11. 18:41:35] KAUF gesendet · Angebot 110788158 · offen 0
+[15.11. 18:41:34] SNIPER Treffer 2 · gekauft 2 · Ø Suche>Treffer 132 ms, Treffer>Reserv. 658 ms, Reserv.>bereit 0 ms, bereit>bestätigt 0 ms
+[15.11. 18:41:34] SNIPER-SUCHE Ziel 4251 · Angebote 379 · Treffer ≤ Max 28 · gekauft 5 · Sperre msg:Server noch nicht bereit (1,4 s) – Raste wartet · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 18:41:33] SNIPER-SUCHE Ziel 14580 · Angebote 31 · Treffer ≤ Max 0 · gekauft 0 · Sperre msg:Server noch nicht bereit (0,8 s) – Raste wartet · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 18:41:32] SNIPER-SUCHE Ziel 7048 · Angebote 470 · Treffer ≤ Max 0 · gekauft 0 · Sperre msg:Server noch nicht bereit (0,0 s) – Raste wartet · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 18:41:31] SNIPER-CODE10 18:41:31 · letzte Anfrage Kauf vor 72 ms · offene Einzelkäufe 1 · Server bereit beim Senden ja
+[15.11. 18:41:31] KAUF gesendet · Angebot 110785894 · offen 0
+[15.11. 18:41:30] SNIPER-RUHE Speicher 409948 KB (+25152 KB in 60 s) · Suchen 70
+[15.11. 18:41:30] ABBRECHEN AUCTION_CANCELED auctionID 110786072 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 18:41:30] SNIPER-CODE10 Code 10 trotz Kauf: Angebot 110786072 nach 453 ms bestätigt
+[15.11. 18:41:29] SNIPER-CODE10 18:41:29 · letzte Anfrage Kauf vor 63 ms · offene Einzelkäufe 1 · Server bereit beim Senden ja
+[15.11. 18:41:29] KAUF gesendet · Angebot 110786072 · offen 0
+[15.11. 18:41:28] ABBRECHEN AUCTION_CANCELED auctionID 110786400 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 18:41:28] SNIPER-CODE10 Code 10 trotz Kauf: Angebot 110786400 nach 455 ms bestätigt
+[15.11. 18:41:28] SNIPER-CODE10 18:41:28 · letzte Anfrage Kauf vor 69 ms · offene Einzelkäufe 1 · Server bereit beim Senden ja
+[15.11. 18:41:28] KAUF gesendet · Angebot 110786400 · offen 0
+[15.11. 18:41:26] ABBRECHEN AUCTION_CANCELED auctionID 110772665 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 18:41:25] SNIPER-CODE10 Code 10 trotz Kauf: Angebot 110772665 nach 324 ms bestätigt
+[15.11. 18:41:25] SNIPER-CODE10 18:41:25 · letzte Anfrage Kauf vor 86 ms · offene Einzelkäufe 1 · Server bereit beim Senden ja
+[15.11. 18:41:25] KAUF gesendet · Angebot 110772665 · offen 0
+[15.11. 18:41:23] ABBRECHEN AUCTION_CANCELED auctionID 110771949 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 18:41:23] SNIPER-CODE10 Code 10 trotz Kauf: Angebot 110771949 nach 374 ms bestätigt
+[15.11. 18:41:22] SNIPER-CODE10 18:41:22 · letzte Anfrage Kauf vor 76 ms · offene Einzelkäufe 1 · Server bereit beim Senden ja
+[15.11. 18:41:22] KAUF gesendet · Angebot 110771949 · offen 0
+[15.11. 18:41:22] ABBRECHEN AUCTION_CANCELED auctionID 110782351 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 18:41:22] SNIPER-CODE10 Code 10 trotz Kauf: Angebot 110782351 nach 374 ms bestätigt
+[15.11. 18:41:21] SNIPER-CODE10 18:41:21 · letzte Anfrage Kauf vor 61 ms · offene Einzelkäufe 1 · Server bereit beim Senden ja
+[15.11. 18:41:21] KAUF gesendet · Angebot 110782351 · offen 0
+[15.11. 18:40:39] ENTZAUBERWERT Item 14580 · eigene Ø aus 1274 · 11083 75% × 1.53 à 380, 11082 20% × 1.51 à 1349, 11084 6% × 1.00 à 3416 · brutto 1081 · netto 1027
+[15.11. 18:40:39] ABSATZ Item 14580 · Q 14 (vollscan) · S 2.4 (measured) · S roh 2.4 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 6.1 · N 7.0
+[15.11. 18:40:39] ABSATZ Item 3365 · Q 2 (scan, Q gesamt) · S 1.0 (market, gelernt) · S roh 2.1 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 3.1 · N 4.0
+[15.11. 18:40:38] ENTZAUBERWERT Item 4251 · eigene Ø aus 1274 · 11083 75% × 1.53 à 380, 11082 20% × 1.51 à 1349, 11084 6% × 1.00 à 3416 · brutto 1081 · netto 1027
+[15.11. 18:40:38] ABSATZ Item 4251 · Q 0 (vollscan) · S 79.2 (measured) · S roh 79.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.0 · N 1.0
+[15.11. 18:40:38] ENTZAUBERWERT Item 6611 · eigene Ø aus 1274 · 11083 75% × 1.53 à 380, 11082 20% × 1.51 à 1349, 11084 6% × 1.00 à 3416 · brutto 1081 · netto 1027
+[15.11. 18:40:38] ABSATZ Item 6611 · Q 6 (vollscan) · S 13.7 (market, gelernt) · S roh 29.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.5 · N 7.0
+[15.11. 18:40:35] SNIPER-SUCHE Ziel 6611 · Angebote 0 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 18:40:35] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 0.5 Std., 10940: 0.5 Std., 11082: 0.5 Std. · 0 frisch geholt
+[15.11. 18:40:35] ABBRECHEN AUCTION_CANCELED auctionID 110767656 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 18:40:35] SNIPER-CODE10 Code 10 trotz Kauf: Angebot 110767656 nach 324 ms bestätigt
+[15.11. 18:40:34] SNIPER-CODE10 18:40:34 · letzte Anfrage Kauf vor 67 ms · offene Einzelkäufe 1 · Server bereit beim Senden ja
+[15.11. 18:40:34] KAUF gesendet · Angebot 110767656 · offen 0
+[15.11. 18:40:34] SNIPER Treffer 1 · gekauft 1 · Ø Suche>Treffer 121 ms, Treffer>Reserv. 633 ms, Reserv.>bereit 0 ms, bereit>bestätigt 0 ms
+[15.11. 18:40:34] ABBRECHEN AUCTION_CANCELED auctionID 110771257 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 18:40:34] SNIPER-CODE10 Code 10 trotz Kauf: Angebot 110771257 nach 517 ms bestätigt
+[15.11. 18:40:33] SNIPER-CODE10 18:40:33 · letzte Anfrage Kauf vor 76 ms · offene Einzelkäufe 1 · Server bereit beim Senden ja
+[15.11. 18:40:33] KAUF gesendet · Angebot 110771257 · offen 0
+[15.11. 18:40:32] SNIPER-SUCHE Ziel 4251 · Angebote 373 · Treffer ≤ Max 22 · gekauft 228 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 18:40:32] SNIPER-SUCHE Ziel 14580 · Angebote 31 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 18:40:31] SNIPER-SUCHE Ziel 7048 · Angebote 460 · Treffer ≤ Max 0 · gekauft 14 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 18:40:31] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[15.11. 18:40:30] SNIPER-RUHE Ruhemodus an
+[15.11. 18:40:26] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 18:40:26] ENTZ-VERTEILUNG Teil 4251 (885, erwartet netto 1027): 11083×1 Einstand 327 (netto 380) · Ausbeute -558
+[15.11. 18:40:12] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 45 ms
+[15.11. 18:40:10] ABSATZ Item 5765 · Q 12 (vollscan) · S 26.0 (measured) · S roh 26.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.5 · N 6.0
+[15.11. 18:40:09] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 18:40:09] ENTZ-VERTEILUNG Teil 7048 (898, erwartet netto 1027): 11083×1 Einstand 332 (netto 380) · Ausbeute -566
+[15.11. 18:38:57] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 67 ms
+[15.11. 18:38:54] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 18:38:54] ENTZ-VERTEILUNG Teil 7048 (898, erwartet netto 1028): 11083×1 Einstand 332 (netto 380) · Ausbeute -566
+[15.11. 18:38:50] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 18:38:50] ENTZ-VERTEILUNG Teil 4251 (885, erwartet netto 1028): 11083×2 Einstand 654 (netto 380) · Ausbeute -231
+[15.11. 18:38:47] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 33 ms
+[15.11. 18:38:46] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 18:38:46] ENTZ-VERTEILUNG Teil 7048 (898, erwartet netto 1029): 11083×1 Einstand 332 (netto 380) · Ausbeute -566
+[15.11. 18:38:42] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 18:38:42] ENTZ-VERTEILUNG Teil 7048 (898, erwartet netto 1029): 11083×1 Einstand 332 (netto 380) · Ausbeute -566
+[15.11. 18:38:38] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 18:38:38] ENTZ-VERTEILUNG Teil 7048 (898, erwartet netto 1030): 11083×1 Einstand 331 (netto 380) · Ausbeute -567
+[15.11. 18:38:37] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 21 ms
+[15.11. 18:38:33] ABSATZ Item 2321 · Q 5061 (scan, Q gesamt) · S 601.0 (market, gelernt) · S roh 1544.2 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 8.4 · N 7.0 · kaum
+[15.11. 18:38:33] ABSATZ Item 4305 · Q 118 (vollscan) · S 481.8 (measured) · S roh 481.8 · Deckel - · eigene Quote 3/3 · Laufzeit 2 Std. · W 0.2 · N 1.0
+[15.11. 18:38:32] ABSATZ Item 11083 · Q 0 (vollscan) · S 534.8 (measured) · S roh 534.8 · Deckel - · eigene Quote 37/27 · Laufzeit 24 Std. · W 0.0 · N 1.0
+[15.11. 18:38:32] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 18:38:32] ENTZ-VERTEILUNG Teil 7048 (898, erwartet netto 1030): 11083×2 Einstand 662 (netto 380) · Ausbeute -236
+[15.11. 18:38:31] ENTZAUBERWERT Item 5766 · eigene Ø aus 1266 · 11083 74% × 1.53 à 380, 11082 20% × 1.51 à 1349, 11084 6% × 1.00 à 3416 · brutto 1085 · netto 1031
+[15.11. 18:38:31] ABSATZ Item 5766 · Q 21 (vollscan) · S 40.3 (market, gelernt) · S roh 86.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.5 · N 7.0
+[15.11. 18:38:31] ENTZAUBERWERT Item 16607 · eigene Ø aus 766 · 10940 79% × 1.50 à 95, 10938 21% × 1.56 à 127 · brutto 163 · netto 155
+[15.11. 18:38:31] DE-CHANCEN Gruppe 2:1:a · Tabelle 10940 80%/10938 20% · echt 10940 79%/10938 21% (766)
+[15.11. 18:38:31] ABSATZ Item 3182 · Q 9 (vollscan) · S 224.6 (measured) · S roh 224.6 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.0 · N 1.0
+[15.11. 18:38:29] ENTZAUBERWERT Item 7048 · eigene Ø aus 1266 · 11083 74% × 1.53 à 380, 11082 20% × 1.51 à 1349, 11084 6% × 1.00 à 3416 · brutto 1085 · netto 1031
+[15.11. 18:38:29] DE-CHANCEN Gruppe 2:4:a · Tabelle 11083 75%/11082 20%/11084 5% · echt 11083 74%/11082 20%/11084 6% (1266)
+[15.11. 18:38:29] ABSATZ Item 7048 · Q 0 (vollscan) · S 89.1 (measured) · S roh 89.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.0 · N 1.0
+[15.11. 18:38:28] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 18:38:28] ENTZ-VERTEILUNG Teil 7048 (898, erwartet netto 1030): 11083×2 Einstand 662 (netto 380) · Ausbeute -236
+[15.11. 18:38:27] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 31 ms
+[15.11. 18:38:23] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 18:38:23] ENTZ-VERTEILUNG Teil 7048 (898, erwartet netto 1031): 11083×2 Einstand 662 (netto 380) · Ausbeute -236
+[15.11. 18:38:17] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 30 ms
+[15.11. 18:38:15] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 18:38:15] ENTZ-VERTEILUNG Teil 7048 (898, erwartet netto 1031): 11083×1 Einstand 331 (netto 380) · Ausbeute -567
+[15.11. 18:37:57] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 31 ms
+[15.11. 18:37:55] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 18:37:55] ENTZ-VERTEILUNG Teil 7048 (898, erwartet netto 1031): 11083×2 Einstand 662 (netto 380) · Ausbeute -236
+[15.11. 18:37:35] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 67 ms
+[15.11. 18:37:26] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11082×1
+[15.11. 18:37:26] ENTZ-VERTEILUNG Teil 7048 (898, erwartet netto 1032): 11082×1 Einstand 1174 (netto 1349) · Ausbeute +276
+[15.11. 18:37:25] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 71 ms
+[15.11. 18:37:22] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 18:37:22] ENTZ-VERTEILUNG Teil 7048 (898, erwartet netto 1031): 11083×2 Einstand 662 (netto 380) · Ausbeute -236
+[15.11. 18:37:17] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 18:37:17] ENTZ-VERTEILUNG Teil 7048 (898, erwartet netto 1032): 11083×2 Einstand 662 (netto 380) · Ausbeute -236
+[15.11. 18:37:15] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 29 ms
+[15.11. 18:37:12] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 18:37:12] ENTZ-VERTEILUNG Teil 7048 (898, erwartet netto 1032): 11083×1 Einstand 331 (netto 380) · Ausbeute -567
+[15.11. 18:36:52] ABSATZ-UNPLAUSIBEL Item 10046 · 6.1/Tag · Quelle geschätzt
+[15.11. 18:36:50] KLICK Entzaubern-Knopf -> Fenster offen ja
+[15.11. 18:36:49] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser DATA_CHANGED · 126 ms
+[15.11. 18:36:49] ABSATZ Item 118 · Q 67 (vollscan) · S 915.1 (measured) · S roh 915.1 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.1 · N 1.0
+[15.11. 18:32:36] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 361 ms bis Comfort.lua:1002 · 361 ms
+[15.11. 18:32:34] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 24 ms bis Disenchant.lua:1527 · 26 ms
+[15.11. 18:32:34] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 15 ms bis Comfort.lua:845 · 18 ms
+[15.11. 18:32:33] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 17 ms bis Comfort.lua:779 · 17 ms
+[15.11. 18:32:33] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 18 ms bis Comfort.lua:779 · 18 ms
+[15.11. 18:32:33] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 19 ms bis Comfort.lua:765 · 20 ms
+[15.11. 18:32:33] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 12 ms bis Extras.lua:279 · 17 ms
+[15.11. 18:32:32] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 13 ms bis Extras.lua:279 · 17 ms
+[15.11. 18:32:32] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 17 ms bis Extras.lua:279 · 18 ms
+[15.11. 18:32:32] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 16 ms bis Extras.lua:279 · 18 ms
+[15.11. 18:32:32] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 17 ms bis Extras.lua:279 · 19 ms
+[15.11. 18:32:32] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 15 ms bis Extras.lua:279 · 19 ms
+[15.11. 18:32:32] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 19 ms bis Extras.lua:279 · 20 ms
+[15.11. 18:32:32] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 12 ms bis Extras.lua:279 · 16 ms
+[15.11. 18:32:32] ABSATZ-UNPLAUSIBEL Item 252890 · 7.0/Tag · Quelle geschätzt
+[15.11. 18:32:31] ABSATZ-UNPLAUSIBEL Item 14256 · 330.8/Tag · Quelle geschätzt
+[15.11. 18:32:31] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 14 ms bis Extras.lua:279 · 17 ms
+[15.11. 18:32:31] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 25 ms bis Extras.lua:279 · 30 ms
+[15.11. 18:32:31] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 27 ms bis Extras.lua:279 · 29 ms
+[15.11. 18:32:31] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 26 ms bis Extras.lua:279 · 26 ms
+[15.11. 18:32:31] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 16 ms bis Extras.lua:279 · 18 ms
+[15.11. 18:32:31] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 17 ms bis Extras.lua:279 · 18 ms
+[15.11. 18:32:31] ABSATZ-UNPLAUSIBEL Item 20750 · 86.6/Tag · Quelle geschätzt
+[15.11. 18:32:30] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 16 ms bis Extras.lua:279 · 16 ms
+[15.11. 18:32:30] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 18 ms bis Extras.lua:279 · 19 ms
+[15.11. 18:32:30] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 17 ms bis Extras.lua:279 · 17 ms
+[15.11. 18:32:30] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[15.11. 18:32:30] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 27 ms bis Extras.lua:279 · 32 ms
+[15.11. 18:32:30] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 31 ms bis Extras.lua:279 · 37 ms
+[15.11. 18:32:20] SYNC Weg=GUILD
+[15.11. 18:32:15] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[15.11. 18:32:03] SNIPER Treffer 15 · gekauft 11, weg 4 · Ø Suche>Treffer 143 ms, Treffer>Reserv. 615 ms, Reserv.>bereit 0 ms, bereit>bestätigt 0 ms
+[15.11. 18:31:56] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 677035 ms
+[15.11. 18:31:56] SNIPER-RUHE Ruhemodus aus nach 686 s
+[15.11. 18:31:53] ABBRECHEN AUCTION_CANCELED auctionID 110607312 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 18:31:53] KAUF gesendet · Angebot 110607312 · offen 0
+[15.11. 18:31:52] ABBRECHEN AUCTION_CANCELED auctionID 110607582 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 18:31:51] KAUF gesendet · Angebot 110607582 · offen 0
+[15.11. 18:31:49] ABBRECHEN AUCTION_CANCELED auctionID 110607445 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 18:31:49] KAUF gesendet · Angebot 110607445 · offen 0
+[15.11. 18:31:48] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 19 ms bis Ende ui-refresh · 19 ms
+[15.11. 18:31:47] ABBRECHEN AUCTION_CANCELED auctionID 110599709 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 18:31:47] KAUF gesendet · Angebot 110599709 · offen 0
+[15.11. 18:31:46] ABBRECHEN AUCTION_CANCELED auctionID 110607695 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 18:31:46] KAUF gesendet · Angebot 110607695 · offen 0
+[15.11. 18:31:44] ABBRECHEN AUCTION_CANCELED auctionID 110607173 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 18:31:44] KAUF gesendet · Angebot 110607173 · offen 0
+[15.11. 18:31:42] ABBRECHEN AUCTION_CANCELED auctionID 110607801 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 18:31:41] KAUF gesendet · Angebot 110607801 · offen 0
+[15.11. 18:31:40] ABBRECHEN AUCTION_CANCELED auctionID 110604356 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 18:31:39] KAUF gesendet · Angebot 110604356 · offen 0
