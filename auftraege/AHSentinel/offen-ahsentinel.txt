@@ -62,6 +62,24 @@ HP-3 MITTEL (Nutzer 10:36, Screenshot Schnäppchen > Entzauberwert leer): Text "
     "Zurzeit nichts unter dem Entzauber-Wert mit mindestens 30 % Gewinn (geprüft: n Items, Preise vom Scan vor x Min.)". Prüfen,
     warum Markt > Entzaubern gleichzeitig Zeilen zeigt (Bericht 01:36: "Entzaubern 3") – beide Ansichten müssen dieselbe Regel und
     dieselben Treffer haben (eine Zahl). Teil von UI-CLEAN1/HP-2, gleiche Reihenfolge.
+VK-P1 HOCH (Nutzer 11:52 "weshalb wird der falsche Verkaufspreis vorgeschlagen?", Screenshot Verkaufen > Einstellen, 0.65.182,
+    Schultern des Hügelwächters, 11 in Taschen, gekauft Ø 9s03, Markt 9s20, Günstigstes 9s, 479 Angebote fast alle 9s):
+    Vorschlag 11s + "Markt unter Mindestpreis 11s41". Ursache (Code Seller.lua:555 AutoFloor, Supervisor): Mindestpreis = Einkauf
+    9s03 × (1 + 20 %) / 0,95 = 11s41 – das ist ein Schutz gegen Verlust, kein Marktpreis. Bei 479 Angeboten zu 9s verkauft sich
+    11s nie (Einstellgebühr 1s verloren). Fehler:
+    (a) Ware, die der Sniper als ENTZAUBER-Ziel gekauft hat bzw. deren Entzauberwert über dem Netto-Verkauf liegt (hier
+        Entzaubern ~11s18 > Verkauf netto 9s × 0,95 = 8s55), darf im Verkaufen-Reiter keinen Verkaufspreis vorschlagen, sondern
+        oben "Entzaubern lohnt mehr (≈ 11s18 statt 8s55) – nicht einstellen" (grün) und Knopf "Einstellen" mit Rückfrage.
+        Gleiche Zahl wie Entzauber-Fenster (eine Zahl). Gilt für alle entzauberbaren Items mit DE-Wert > Netto-Verkauf.
+    (b) Ist der Markt unter dem Mindestpreis und es gibt keinen besseren Weg: nicht den Mindestpreis vorschlagen, als wäre er
+        verkäuflich, sondern klar "Verkauf zurzeit mit Verlust: Markt 9s, dein Mindestpreis 11s41 – warten oder Händler (6s59)".
+    (c) Rundung: Vorschlag 11s liegt UNTER dem eigenen Mindestpreis 11s41 (RoundPrice rundet ab) – Mindestpreis nie unterschreiten
+        durch Runden (aufrunden).
+    (d) "Gewinn erwartet −2s63" ist nicht nachvollziehbar (Erlös 10s45 − Einkauf 9s03 − Einstellgebühr 1s = +42c; Verkaufschance
+        leer). Rechnung im Tooltip der Zeile in einem Satz zeigen; Zeile muss mit den Zeilen darüber aufgehen (GRUNDSATZ
+        NACHVOLLZIEHBAR). Kein Item-Tooltip betroffen (TT-STOP gilt nur dort).
+    Test: Item mit Einkauf über Markt + DE-Wert > Verkauf -> Hinweis Entzaubern, kein Preisvorschlag; ohne DE -> Satz (b);
+    Rundung nie unter Mindestpreis; Gewinn-Zeile = Summe der Zeilen darüber.
 TT-DE2 HOCH (Nutzer 10:59 "Variante B, aber ohne die 10s76"; ergänzt TT-DE1): Tooltip-Abschnitt "Materialien" beim Entzaubern
     zeigt neben der Forever-Vorgabe die ECHTEN eigenen Ergebnisse der Gruppe. Genau so (Beispiel Schultern des Hügelwächters,
     Gruppe 2:4:a, Daten PC 15.11. 10:56, vom Supervisor ausgezählt: 659 Entzauberungen, Staub 479× = 72,7 %, Essenz 142× =
