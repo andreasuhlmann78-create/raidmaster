@@ -20,6 +20,26 @@
     alle Wege getestet (Erfolg, Fehler, Abbruch, AH zu, Kampf, alte Clients); keine Sperre ohne Zeitlimit; nichts abgeschnitten
     oder doppelt; Bericht nur "umgesetzt, zur Prüfung" mit Belegen. Lieber eine Version später als eine mit Fehlern.
 
+>>> !!! NACHT-ARBEIT 15./16.11. (Nutzer 16:34: "schreibe AHS das ins Repo genau mit der Reihenfolge – und ich will, dass AHS die
+>>>    ganze Nacht durcharbeitet – triff die nötigen Schritte"). Gilt ab sofort bis der Nutzer am 16.11. "hi" sagt:
+>>>    1. REIHENFOLGE = masterplan-ahsentinel.txt, Abschnitt D, genau so: Phase 1 (1.1 SN-RUHE1, 1.3 Rest Sniper-Block; 1.2 und
+>>>       1.4 brauchen das Spiel-Protokoll -> vorbereiten, nicht warten) -> Phase 2 (2.1 KERN-T1 fremde Auktionen, 2.2 MN1–MN5
+>>>       Marktdaten-Netz aller Spieler, 2.3 Gilden-Sync, 2.4 Vorwissen, 2.5 Testbericht MARKT-KERN) -> Phase 3 (DE-AUFT1, TB181-4,
+>>>       MAIL-1, VK-P1) -> Phase 4 (bis 0.66.0) -> Phase 5 -> … Ist eine Phase fertig, sofort die nächste.
+>>>    2. NIE IM RUHEMODUS: am Ende JEDER Arbeit send_later an dich selbst (delay_minutes 5, nur EINE Weck-Runde offen, unterbricht
+>>>       nie): "Weck-Runde: git pull --rebase, masterplan-ahsentinel.txt + offen-ahsentinel.txt lesen, obersten offenen Punkt
+>>>       umsetzen bzw. weitermachen, veröffentlichen, Bericht, nächste Weck-Runde". Nur ruhen, wenn der Plan leer ist.
+>>>    3. Der Nutzer schläft: KEINE Fragen. Unklares: vernünftigste Lesart, im Bericht begründen, weiter. Fragen an den Supervisor
+>>>       als Bericht in berichte/AHSentinel/ (er prüft die Nacht durch und antwortet in dieser Datei).
+>>>    4. Je Punkt eine kleine Version: Tests (mit alter Version ROT), Gesamtlauf, addon_check ohne FEHLER, Bericht "umgesetzt, zur
+>>>       Prüfung", GitHub-Release + Discord sofort (Text Deutsch). KEIN CurseForge in der Nacht (erst nach Sniper-Abnahme, 18:00).
+>>>    5. Gold-Sicherheit: Sniper-/Kauf-Änderungen in der Nacht nur mit Tests aller Wege; nichts Gespeichertes riskieren
+>>>       (Sicherung vor jeder Umwandlung, alte Clients nie brechen). Was nur im Spiel prüfbar ist: als "im Spiel prüfen" in die
+>>>       Morgen-Liste, nicht darauf warten.
+>>>    6. Morgen früh (spätestens 07:00): berichte/AHSentinel/2026-11-16-0700-nacht.txt – alle Versionen der Nacht, je Punkt
+>>>       ein Satz, Tests, offene Fragen, und die Liste "Im Spiel prüfen" (kurz, in der Reihenfolge, in der der Nutzer sie tun soll).
+>>>    Der Block NACHT-ARBEIT vom 14.11. weiter unten ist ÜBERHOLT (alte Reihenfolge).
+
 >>> MASTERPLAN AHSENTINEL – VOLLSTÄNDIG IN auftraege/AHSentinel/masterplan-ahsentinel.txt (Supervisor 17:00; Nutzer 16:25 "Masterplan",
     16:28 "nicht nur meine Daten, sondern die aller Spieler", 16:29 "erinnere dich an alles und ergänze den Masterplan").
     ZUERST DIESE DATEI LESEN – sie ist die EINE Reihenfolge und ersetzt jede frühere (auch 16:35 und 16:50). Kurz:
@@ -1560,7 +1580,7 @@ HB1 – zuerst kommt jetzt 1. UI-V1/UI-V1b (Verkaufen), Entscheid des Nutzers 08
 >>>    läuft; während der Arbeit keine zusätzlichen Runden. (3) Kurze Berichte, keine langen Gesamt-Testläufe ohne Anlass
 >>>    (Gesamtlauf nur vor der Veröffentlichung), keine Wiederholungen. (4) Nichts anfangen, was über Nacht halb fertig
 >>>    liegen bleibt: lieber kleine, abgeschlossene Versionen.
->>> !!! NACHT-ARBEIT (Entscheid des Nutzers 14.11. 01:19): "Lass sie durcharbeiten – wenn ich morgen aufstehe, soll alles
+>>> [ÜBERHOLT durch NACHT-ARBEIT 15./16.11. oben] NACHT-ARBEIT (Entscheid des Nutzers 14.11. 01:19): "Lass sie durcharbeiten – wenn ich morgen aufstehe, soll alles
 >>>    fertig sein." Die ganze Nacht die Prio-Liste von oben nach unten abarbeiten, Version für Version, ohne auf den Nutzer
 >>>    zu warten (Weck-Runde läuft weiter). Der Nutzer schläft: KEINE Fragen an ihn – bei Unklarem die vernünftigste Lesart
 >>>    wählen, im Bericht begründen, weitermachen. Was nur im Spiel prüfbar ist: Test vorbereiten, als "im Client prüfen"

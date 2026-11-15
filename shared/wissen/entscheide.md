@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 15.11.2026 16:34 | AHS arbeitet die ganze Nacht durch, genau in der Reihenfolge des Masterplans; Supervisor trifft die nötigen Schritte (Nacht-Block, Weck-Runde AHS 5 Min., Supervisor prüft die Nacht durch) | offen-ahsentinel.txt NACHT-ARBEIT 15./16.11. |
 | 15.11.2026 17:00 | Nutzer 16:28/16:29: Rechenkern soll die Daten ALLER Spieler nutzen; "erinnere dich an alles und ergänze den Masterplan" -> masterplan-ahsentinel.txt (Phasen 1–8, Datenstufen eigene > fremde Auktionen > Gilde > Netz aller Spieler > Tabellen; MN1–MN5 vorgezogen in Phase 2; Bot D-KERN1, Tabellen-Teil "alle") | auftraege/AHSentinel/masterplan-ahsentinel.txt, offen-discord.txt D-KERN1 |
 | 15.11.2026 16:50 | Nutzer 16:24/16:25: "Ausbau des Gehirns?", "Masterplan für AHS" -> MASTERPLAN: KERN-T1 direkt nach SN-RUHE1, parallel zur Sniper-Abnahme; danach Releaseplan 13.11. (0.66 Rechenkern-Rest, 0.67 Spielrhythmus, 0.68 Markt-Reiter) | offen-ahsentinel.txt MASTERPLAN |
 | 15.11.2026 16:35 | (Supervisor, Nutzer 16:21 "erteile AHS neue Befehle") DE-AUFT1: Einstand der Mats nach erwartetem Entzauber-Wert, Glück/Pech als "Entzauber-Ausbeute"; TT-DE3 bleibt je Gruppe | offen-ahsentinel.txt, buchhaltung.md |
