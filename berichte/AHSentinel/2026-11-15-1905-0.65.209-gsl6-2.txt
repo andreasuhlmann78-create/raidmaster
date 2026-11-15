@@ -1,0 +1,27 @@
+AHSentinel 0.65.209 – GSL6-2 (= GSL5-3) nächster Kauf aus der aktualisierten Liste – umgesetzt, zur Prüfung
+CurseForge: nein (erst nach der Sniper-Abnahme). GitHub-Release v0.65.209 und sofort im Discord.
+
+GSL6-2 (Sniper.lua Sn:OnPushedResults, FinishSearch, Bericht)
+  - Neu: Kommt ITEM_SEARCH_RESULTS_UPDATED, ohne dass der Sniper sucht, und gehört es zum Item des aktuellen Ergebnisses, wird
+    die Liste ausgewertet. Typisch ist das die Liste, die der Server nach einem Kauf von selbst schickt.
+    - Bedingungen: Einzelstücke; keine Reservierung offen; Ziel vorhanden; AH offen; Liste VOLLSTÄNDIG
+      (HasFullItemSearchResults).
+    - Ausgewertet wird sie wie eine eigene Suche (PollSearch -> FinishSearch: tote/eigene Angebote, "weg"-Anzeige SN-UI1, Max,
+      Budget, Plan).
+    - Der nächste Treffer ist sofort kaufbar, ohne auf die nächste Suche zu warten.
+    - Keine Anfrage: zählt nicht als "ohne Tastendruck gesendet" (NoteSearchKind übersprungen). Es bleibt nie eine
+      Pseudo-Suche hängen (danach self.search = nil).
+  - Waren nicht: Sie haben ihren eigenen Preis-Weg (Anfragen/Bestätigen). Die Ergebnis-Liste der Waren ist nur 3 s gültig.
+  - Messwert im Sniper-Bericht (Einzelkäufe): "Bestätigung -> nächster Kauf Ø x s, längste y s (n) · Liste vom Server z".
+    Zusammen mit dem schon vorhandenen "Raste wartete auf Server n".
+  - Verdacht, zu messen (Ursache der 1,28 s in Protokoll 6): Der Sniper sucht weiter, während ein Treffer wartet (Forever: ohne
+    Vorab-Reservierung). Jede eigene Suche belegt die Drossel des Servers, und die nächste Raste meldet dann "Server noch nicht
+    bereit" (Zähler "Raste wartete auf Server").
+    Ist dieser Zähler im nächsten Protokoll hoch, folgt: keine eigene Suche, solange ein kaufbarer Treffer wartet.
+    Das ändere ich nicht ohne Messung, weil es die Reaktionszeit auf neue Angebote anderer Ziele ändert.
+  - Szenario s209_pushed_results:
+    - Kauf, neues Angebot erscheint, der Server schickt die Liste -> ausgewertet, keine hängende Suche, Treffer sofort
+      kaufbar, keine Anfrage gezählt, zweiter Kauf mit dem Mausrad.
+    - Mit 0.65.208: 3 Prüfungen rot.
+  - CHANGELOG EN/DE (keine neuen Locales; der Bericht-Text steht im Testlog).
+Gesamtlauf (265 Szenarien, Lua 5.1): 264 bestanden. Rot nur s211_de_window_empty = Test der NÄCHSTEN Version (DE-WIN1, 0.65.210), mit 0.65.209 absichtlich rot (Gegenprobe). addon_check: siehe Release.
