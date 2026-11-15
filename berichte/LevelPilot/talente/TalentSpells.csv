@@ -1,0 +1,1391 @@
+SpellID,Name_enUS,Name_deDE,Description_enUS
+724,Lightwell,Brunnen des Lichts,Creates a holy Lightwell near the priest.  Members of your raid or party can click the Lightwell to restore $7001o1 health over $7001d.  Being attacked cancels the effect.  Lightwell lasts for $d or 5 charges.
+5570,Insect Swarm,Insektenschwarm,"The enemy target is swarmed by insects, decreasing their chance to hit with attacks by $s2% and causing $o1 Nature damage over $d."
+5923,Holy Power,Heilige Kraft,Increases the critical strike healing bonus of your Holy spells by $s1%.
+5924,,,
+5925,,,
+5926,,,
+6057,Wand Specialization,Zauberstab-Spezialisierung,Increases your damage with Wands by $s1%.
+6085,,,
+9452,Vindication,Rechtschaffene Schwächung,Gives your damaging melee attacks a chance to reduce the target's Attack Power by ${$m1/-3*$440667m1} for $440667d.
+9453,Unyielding Faith,Unumstößlicher Glaube,Reduces the duration of Fear and Disorient effects on you by $s1%.
+9799,Eye for an Eye,Auge um Auge,All critical strikes against you cause $s1% of the damage taken to the attacker as well. The damage caused by Eye for an Eye will not exceed 50% of the Paladin's total health.
+10060,Power Infusion,Seele der Macht,"Infuses the target with power, increasing their spell damage and healing done by $s2% for $d."
+11069,Accelerant,Beschleuniger,"Reduces the casting time of your Fireball, Frostfire Bolt, and Arcane Wrath spells by $/1000;S1 sec."
+11070,Improved Frostbolt,Verbesserter Frostblitz,Reduces the casting time of your Frostbolt spell by $/1000;S1 sec.
+11071,Frostbite,Erfrierung,Gives your Chill effects a $s1% chance to Freeze the target for $12494d.
+11078,Improved Fire Blast,Verbesserter Feuerschlag,Reduces the cooldown of your Fire Blast spell by ${$s1/-1000} sec and increases its range by $s2 yards.
+11080,,,
+11083,Burning Soul,Brennende Seele,Gives your Fire spells a $s1% chance to not lose casting time when you take damage and reduces the threat caused by your Fire spells by $s2%.
+11094,Improved Fire Ward,Verbesserter Feuerzauberschutz,Causes your Fire Ward to have a $s1% chance to reflect Fire spells while active.
+11095,Improved Scorch,Verbessertes Versengen,"Your Scorch spell has a $m1% chance to cause your target to be vulnerable to Fire damage. This vulnerability increases all Fire damage you deal to your target by $22959s1% and lasts $22959d, stacking up to $22959u times."
+11100,Flame Throwing,Flammenwerfen,Increases the range of your Fire spells by $s1 yards.
+11103,Impact,Einschlag,Gives your Fire spells a $m1% chance to stun the target for $12355d.
+11108,Improved Flamestrike,Verbesserter Flammenstoß,Increases the critical strike chance of your Flamestrike spell by $s1%.
+11113,Blast Wave,Druckwelle,"A wave of flame radiates outward from the caster, damaging all enemies caught within the blast for $s1 Fire damage, and Dazing them for $s2% reduced movement speed for $d."
+11115,Critical Mass,Kritische Masse,Increases the critical strike chance of your Fire spells by $s1%.
+11119,Ignite,Entzünden,Your critical strikes from Fire damage spells cause the target to burn for an additional $m1% of your spell's damage over $412538d.
+11120,,,
+11124,Fire Power,Feuermacht,"Increases the damage done by your Fire spells by $s1% per your Fire effects on the target, up to a maximum increase of ${$s1*4}%. Effects which mix multiple schools of magic do not qualify."
+11129,Combustion,Verbrennung,"When activated, this spell causes each of your Fire damage spell hits to increase your critical strike chance with Fire damage spells by $28682s1%.  This effect lasts until you have caused $n non-periodic critical strikes with Fire spells."
+11151,Piercing Ice,Stechendes Eis,Increases the damage done by your Frost spells by $s1%.
+11160,Frost Channeling,Frost-Kanalisierung,Reduces the mana cost of your Frost spells by $s1% and reduces the threat caused by your Frost spells by $s2%.
+11165,Improved Frost Nova,Verbesserte Frostnova,Reduces the cooldown of your Frost Nova spell by $/1000;s1 sec.
+11170,Shatter,Zertrümmern,Increases the critical strike chance of all your spells against Frozen targets by $m1%.
+11175,Permafrost,Dauerfrost,Increases the duration of your Chill effects by $s1% and reduces the target's speed by an additional $s2%.
+11180,Winter's Chill,Winterkälte,"Gives your Frostbolt and Fingers of Frost empowered Ice Lance spells a $m2% chance to apply Winter's Chill, increasing the target's damage taken from your next Cone of Cold by $12579s1% and it gains an additional $s3% of your spell damage, stacking up to $s1 times."
+11185,Improved Blizzard,Verbesserter Blizzard,Adds a Chill effect to your Blizzard spell. This effect lowers the target's movement speed by $m1% for $12484d.
+11189,Frost Warding,Schutz des Frostes,"Increases the Armor and resistances granted by your Frost Armor and Ice Armor spells by $s1%, gives your Frost Ward a $s2% chance to negate the warded damage spell, and increases the amount absorbed by your Ice Barrier and Frost Ward by $s3%."
+11190,Improved Cone of Cold,Verbesserter Kältekegel,Increases the damage dealt by your Cone of Cold spell by $s1%.
+11207,Ice Shards,Eissplitter,Increases the critical strike damage bonus of your Frost spells by $s1%.
+11210,Arcane Subtlety,Arkanes Feingefühl,Reduces your target's resistance to all your spells by $s2 and reduces the threat caused by your Arcane spells by $s1%.
+11213,Arcane Concentration,Arkane Konzentration,Gives you a $m1% chance of entering a Clearcasting state after any damage spell hits a target.  The Clearcasting state reduces the mana cost of your next damage spell by $/10;12536s1%.
+11222,Arcane Focus,Arkaner Fokus,Improves your chance to hit with Arcane spells by $s1%.
+11232,Arcane Mind,Arkaner Geist,Increases your Intellect by $m1% and increases the critical strike damage bonus of your Arcane spells by $m2%.
+11237,Improved Channeling,Verbesserte Kanalisierung,Gives your Arcane Missiles spell a $m1% chance and your Arcane Blast and Arcane Wrath spells a $m2% chance to not lose casting time when you take damage.
+11242,Arcane Impact,Arkaner Einschlag,Increases the critical strike chance of your Arcane spells by $m1%.
+11247,Arcane Geometry,Arkane Geometrie,Increases the range of your Arcane spells by $m1 yards.
+11252,Arcane Shielding,Arkane Schilde,Decreases the Mana lost per point of damage taken when your Mana Shield spell is active by $m1% and increases the resistances granted by your Mage Armor spell by $m2%.
+11255,Improved Counterspell,Verbesserter Gegenzauber,Your Counterspell also Silences the target for ${$m1/1000} sec.
+11366,Pyroblast,Pyroschlag,Hurls an immense fiery boulder that causes $s1 Fire damage and an additional $o2 Fire damage over $d.
+11367,,,
+11368,,,
+11426,Ice Barrier,Eisbarriere,"Shield yourself, absorbing ${$s1+($SPFR*0.1)*($11189s3/100+1)} damage and increasing your Frost damage by $1326891s1% for $d. While shielded, your Frost damage is increased by an additional $s2% and you do not lose casting time when you take damage."
+11958,Ice Block,Eisblock,"You become encased in a block of ice, protecting you from all physical attacks and spells for $d, but during that time you cannot attack, move, or cast spells."
+12042,Arcane Power,Arkane Macht,"For the next $d, your spells deal $s1% more damage while costing $s2% more mana to cast."
+12043,Presence of Mind,Geistesgegenwart,"When activated, your next Mage spell with a casting time less than 10 sec becomes an instant cast spell."
+12163,Two-Handed Weapon Specialization,Zweihandwaffen-Spezialisierung,Increases the damage you deal with two-handed melee weapons by $s1%.
+12165,,,
+12281,Weaponmaster,Waffenmeister,Gives you a $m1% chance to get an extra attack on the same target after dealing damage with your Sword.
+12282,Improved Heroic Strike,Verbesserter heldenhafter Stoß,Reduces the cost of your Heroic Strike ability by $/10;s1 Rage.
+12284,Weaponmaster,Waffenmeister,Your attacks with Maces and Staves ignore $m1% of your target's armor.
+12285,Improved Charge,Verbesserter Sturmangriff,Increases the Rage generated by your Charge ability by $/10;s1.
+12286,Improved Rend,Verbessertes Verwunden,Increases the Bleed damage done by your Rend ability by $s1%.
+12287,Improved Thunder Clap,Verbesserter Donnerknall,Reduces the Rage cost of your Thunder Clap ability by $/10;s1.
+12289,Improved Hamstring,Verbesserte Kniesehne,Gives your Hamstring ability a $m1% chance to immobilize the target for $23694d.
+12290,Improved Overpower,Verbessertes Überwältigen,Increases the critical strike chance of your Overpower ability by $s1%.
+12292,Sweeping Strikes,Weitreichende Stöße,Your next $n melee attacks strike an additional nearby opponent.
+12294,Mortal Strike,Tödlicher Stoß,"A vicious strike that deals weapon damage plus $s2 and wounds the target, reducing the effectiveness of any healing by $s1% for $d."
+12295,Improved Tactical Mastery,Verbesserter Taktiker,Tactical Mastery lets you retain up to an additional $s1 Rage when you change stances.
+12296,Anger Management,Aggressionskontrolle,"Generates $m2 Rage every $m3 sec while in combat, and reduces Rage loss while out of combat by $s4%."
+12297,Anticipation,Vorahnung,Increases your Defense Skill by $m1.
+12298,Shield Specialization,Schild-Spezialisierung,Increases your chance to Block attacks with your shield by $s1% and grants you a $m2% chance to generate ${$1310318m1/10} Rage when you Block.
+12299,Toughness,Zähigkeit,Increases your Armor value from items by $s1%.
+12300,,,
+12301,Improved Bloodrage,Verbesserter Blutrausch,Increases all the Rage generated by your Bloodrage ability by $m1%.
+12302,Improved Taunt,Verbesserter Spott,Reduces the cooldown of your Taunt ability by $/1000;s1 sec.
+12303,,,
+12307,Improved Shield Block,Verbesserter Schildblock,Allows your Shield Block ability to block an additional attack and increases the duration by $/1000;S2 second.
+12308,Improved Sunder Armor,Verbessertes Rüstung zerreißen,Reduces the Rage cost of your Sunder Armor ability by $/10;s1.
+12311,Improved Shield Bash,Verbesserter Schildhieb,Gives your Shield Bash ability a $m1% chance to Silence the target for $18498d.
+12312,Improved Shield Wall,Verbesserter Schildwall,Reduces the cooldown of your Shield Wall ability by ${$m1/-60000}.1 min.
+12313,Improved Disarm,Verbessertes Entwaffnen,Reduces the cooldown of your Disarm ability by $/1000;s1 secs.
+12317,Enrage,Wutanfall,Gives you a $h% chance to deal $m1% increased Physical damage for $12880d after being the victim of any damaging attack.
+12318,Improved Battle Shout,Verbesserter Schlachtruf,Increases the melee attack power bonus of your Battle Shout by $s1%.
+12319,Flurry,Schlaghagel,Increases your melee attack speed by $m1% for your next $12966n swings after dealing a melee critical strike.
+12320,Cruelty,Grausamkeit,Improves your chance to get a critical strike with melee attacks by $s1%.
+12321,Booming Voice,Donnernde Stimme,Increases the area of effect of your Shouts by $s1% and reduces the Rage cost by of your Shouts and Howls by $s2%.
+12322,Unbridled Wrath,Entfesselter Zorn,Gives you a $m1% chance to generate ${$12964m1/10} additional Rage when you deal melee damage with a weapon.
+12323,Piercing Howl,Durchdringendes Heulen,"Causes all enemies within $a2 yds to be Dazed, reducing movement speed by $s1% for $d."
+12324,Improved Demoralizing Shout,Verbesserter demoralisierender Ruf,Increases the melee attack power reduction of your Demoralizing Shout by $s1%.
+12328,Death Wish,Todeswunsch,"When activated, increases your Physical damage done by $s1% and makes you immune to Fear effects, but increases all damage you take by $s3%. Lasts $d."
+12329,Improved Cleave,Verbessertes Spalten,Reduces the Rage cost of your Cleave ability by ${$m1/-10}.
+12330,,,
+12338,,,
+12339,,,
+12340,,,
+12341,,,
+12342,,,
+12349,,,
+12350,,,
+12351,,,
+12353,,,
+12357,,,
+12358,,,
+12359,,,
+12360,,,
+12378,,,
+12398,,,
+12399,,,
+12400,,,
+12463,,,
+12464,,,
+12467,,,
+12469,,,
+12472,Cold Snap,Kälteeinbruch,Finishes the remaining cooldown on all your other Frost spells.
+12473,,,
+12475,,,
+12487,,,
+12488,,,
+12489,,,
+12490,,,
+12496,,,
+12497,,,
+12500,,,
+12501,,,
+12502,,,
+12503,,,
+12518,,,
+12519,,,
+12569,,,
+12571,,,
+12574,,,
+12575,,,
+12576,,,
+12577,,,
+12592,,,
+12598,,,
+12605,,,
+12606,Magic Attunement,Einklang der Magie,Increases the effect of your Amplify Magic and Dampen Magic spells by $s1%.
+12658,,,
+12659,,,
+12663,,,
+12664,,,
+12665,,,
+12666,,,
+12668,,,
+12672,,,
+12676,,,
+12677,,,
+12678,,,
+12679,,,
+12697,,,
+12700,Weaponmaster,Waffenmeister,Increases your chance to get a critical strike with Axes and Polearms by $s1%.
+12701,,,
+12702,,,
+12703,,,
+12704,,,
+12711,,,
+12712,,,
+12713,,,
+12714,,,
+12724,,,
+12725,,,
+12726,,,
+12727,,,
+12750,,,
+12751,,,
+12752,,,
+12753,,,
+12761,,,
+12762,,,
+12763,,,
+12764,,,
+12765,Improved Taunt,Verbesserter Spott,Reduces the cooldown of your Taunt ability by $/1000;s1 sec.
+12781,,,
+12783,,,
+12784,,,
+12785,,,
+12788,,,
+12789,,,
+12791,,,
+12792,Defiance,Trotz,Increases all threat generated in Defensive stance by an additional $s1% while a shield is equipped.
+12797,Improved Revenge,Verbesserte Rache,Increases damage dealt by your Revenge ability by $m1%.
+12799,,,
+12800,,,
+12803,,,
+12804,,,
+12807,,,
+12809,Concussion Blow,Erschütternder Schlag,Stuns the target for $d.
+12810,,,
+12811,,,
+12812,,,
+12813,,,
+12814,,,
+12815,,,
+12818,,,
+12830,,,
+12831,,,
+12832,,,
+12833,,,
+12834,Deep Wounds,Tiefe Wunden,"Your critical strikes cause your opponent to Bleed, dealing $m1% of your melee weapon's average damage over $412609d."
+12835,,,
+12836,,,
+12837,,,
+12838,,,
+12839,,,
+12840,,,
+12841,,,
+12842,,,
+12846,,,
+12847,,,
+12848,,,
+12849,,,
+12852,,,
+12853,,,
+12855,,,
+12856,,,
+12857,Improved Battle Shout,Verbesserter Schlachtruf,Increases the melee attack power bonus of your Battle Shout by $s1%.
+12858,Improved Battle Shout,Verbesserter Schlachtruf,Increases the melee attack power bonus of your Battle Shout by $s1%.
+12860,Improved Battle Shout,Verbesserter Schlachtruf,Increases the melee attack power bonus of your Battle Shout by $s1%.
+12861,Improved Battle Shout,Verbesserter Schlachtruf,Increases the melee attack power bonus of your Battle Shout by $s1%.
+12862,Improved Slam,Verbessertes Zerschmettern,"Reduces the cooldown of your Slam ability by ${$m3/-1000}.1 sec, the cast time and global cooldown by ${$m1/-1000}.2 sec, and Slam no longer interrupts or delays your melee swing."
+12867,,,
+12872,,,
+12873,,,
+12876,Improved Demoralizing Shout,Verbesserter demoralisierender Ruf,Increases the melee attack power reduction of your Demoralizing Shout by $s1%.
+12877,Improved Demoralizing Shout,Verbesserter demoralisierender Ruf,Increases the melee attack power reduction of your Demoralizing Shout by $s1%.
+12878,Improved Demoralizing Shout,Verbesserter demoralisierender Ruf,Increases the melee attack power reduction of your Demoralizing Shout by $s1%.
+12879,Improved Demoralizing Shout,Verbesserter demoralisierender Ruf,Increases the melee attack power reduction of your Demoralizing Shout by $s1%.
+12944,Improved Shield Block,Verbesserter Schildblock,Allows your Shield Block ability to block an additional attack and increases the duration by $/1000;s2 seconds.
+12945,Improved Shield Block,Verbesserter Schildblock,Allows your Shield Block ability to block an additional attack and increases the duration by $/1000;S2 second.
+12950,,,
+12952,,,
+12953,,,
+12958,,,
+12959,,,
+12960,,,
+12961,,,
+12962,Iron Will,Eiserner Wille,Reduces the duration of Stun and Fear effects inflicted on you by $s1%.
+12963,Improved Overpower,Verbessertes Überwältigen,Increases the critical strike chance of your Overpower ability by $s1%.
+12971,,,
+12972,,,
+12973,,,
+12974,,,
+12975,Last Stand,Letztes Gefecht,"When activated, this ability temporarily grants you $12976s1% of your maximum health for $12976d. After the effect expires, the health is lost."
+12982,,,
+12983,,,
+12984,,,
+12985,,,
+12999,,,
+13000,,,
+13001,,,
+13002,,,
+13043,,,
+13045,,,
+13046,,,
+13047,,,
+13048,,,
+13705,Precision,Präzision,Improves your chance to hit by $s1%.
+13706,Hack and Slash,Niedermetzeln,Increases your chance to get a critical strike with Daggers and Fist Weapons by $s1%.
+13707,Fist Weapon Specialization,Faustwaffen-Spezialisierung,Increases your chance to get a critical strike with Fist Weapons by $s1%.
+13709,Hack and Slash,Niedermetzeln,Your attacks with Maces ignore up to $m1% of your target's armor.
+13712,Lightning Reflexes,Blitzartige Reflexe,Increases your Dodge chance by $s1%.
+13713,Deflection,Abwehr,Increases your Parry chance by $s1%.
+13715,Dual Wield Specialization,Beidhändigkeitsspezialisierung,Increases the damage done by your off-hand weapon by $s1%.
+13732,Efficient Strikes,Effiziente Schläge,Reduces the Energy cost of your Sinister Strike and Hemorrhage abilities by $s1.
+13733,,,
+13741,Improved Gouge,Verbesserter Solarplexus,Increases the duration of your Gouge ability by $/1000;S1 sec.
+13742,Endurance,Durchhaltevermögen,Reduces the cooldown of your Sprint and Evasion abilities by $m1%.
+13743,Improved Sprint,Verbessertes Sprinten,Gives a $m1% chance to remove all movement impairing effects when you activate your Sprint ability.
+13750,Adrenaline Rush,Adrenalinrausch,Increases your Energy regeneration rate by $s1% for $d.
+13754,Improved Kick,Verbesserter Tritt,Gives your Kick ability a $m1% chance to Silence the target for $18425d.
+13788,,,
+13789,,,
+13790,,,
+13791,,,
+13792,,,
+13793,,,
+13800,,,
+13801,,,
+13802,,,
+13803,,,
+13804,,,
+13805,,,
+13806,,,
+13807,,,
+13832,,,
+13843,,,
+13844,,,
+13845,,,
+13848,,,
+13849,,,
+13851,,,
+13852,,,
+13853,,,
+13854,,,
+13855,,,
+13856,,,
+13863,,,
+13865,,,
+13866,,,
+13867,,,
+13872,,,
+13875,,,
+13877,Blade Flurry,Klingenwirbel,Increases your melee attack speed by $s1% and your melee attacks strike an additional nearby opponent. Lasts $d.
+13958,Master of Deception,Meister der Täuschung,Reduces the chance enemies have to detect you while in Stealth mode as if you were ${$m1/5} $llevel:levels; higher.
+13960,Hack and Slash,Niedermetzeln,"Gives your melee weapon attacks a benefit depending on the weapon.
+
+    |CFFFFFFFFAxe/Sword:|R Your successful
+    melee attacks have a $s3% chance
+    to trigger an extra attack on the 
+    target.
+
+    |CFFFFFFFFDagger/Fist:|R Increases your
+    critical strike chance by $s1%.
+
+    |CFFFFFFFFMace:|R Your attacks ignore $s2% of
+    your target's armor."
+13961,,,
+13962,,,
+13963,,,
+13964,,,
+13966,Fist Weapon Specialization,Faustwaffen-Spezialisierung,Increases your chance to get a critical strike with Fist Weapons by $s1%.
+13967,Fist Weapon Specialization,Faustwaffen-Spezialisierung,Increases your chance to get a critical strike with Fist Weapons by $s1%.
+13968,Fist Weapon Specialization,Faustwaffen-Spezialisierung,Increases your chance to get a critical strike with Fist Weapons by $s1%.
+13969,Fist Weapon Specialization,Faustwaffen-Spezialisierung,Increases your chance to get a critical strike with Fist Weapons by $s1%.
+13970,,,
+13971,,,
+13972,,,
+13973,,,
+13975,Camouflage,Camouflage,Reduces your speed penalty from your Stealth ability by $s1% and reduces its cooldown by $/1000;s2 sec.
+13976,Initiative,Initiative,"Gives you a $s1% chance to add an additional combo point to your target when using your Ambush, Garrote, or Cheap Shot ability."
+13979,,,
+13980,,,
+13981,Elusiveness,Flüchtigkeit,Reduces the cooldown of your Vanish and Blind abilities by $/1000;S1 sec.
+13983,Setup,Reinlegen,Gives you a $m1% chance to add a Combo Point to your target after Dodging their attack or fully resisting one of their spells.
+14057,Opportunity,Günstige Gelegenheit,"Increases the damage dealt by your Backstab, Garrote, Ambush, and Mutilate abilities by $s1%."
+14062,,,
+14063,,,
+14064,,,
+14065,,,
+14066,,,
+14070,,,
+14071,,,
+14072,,,
+14073,,,
+14074,,,
+14075,,,
+14076,Improved Sap,Verbesserte Kopfnuss,Gives you a $s1% chance to return to stealth mode after using your Sap ability.
+14079,Improved Ambush,Verbesserter Hinterhalt,Increases the critical strike chance of your Ambush ability by $s1%.
+14080,,,
+14081,,,
+14082,Dirty Deeds,Gemeinheiten,"Reduces the Energy cost of your Cheap Shot and Garrote abilities by $m1, and your Garrote ability no longer requires you to be behind your target."
+14083,,,
+14094,Improved Sap,Verbesserte Kopfnuss,Gives you a $s1% chance to return to stealth mode after using your Sap ability.
+14095,Improved Sap,Verbesserte Kopfnuss,Gives you a $s1% chance to return to stealth mode after using your Sap ability.
+14113,Improved Poisons,Verbesserte Gifte,"Increases the chance to apply Poisons to your target by $m1%, and gives Poison applications a $m2% chance to not consume a charge."
+14114,,,
+14115,,,
+14116,,,
+14117,,,
+14128,Lethality,Tödlichkeit,"Increases the critical strike damage bonus of your Sinister Strike, Gouge, Backstab, Mutilate, Ghostly Strike, and Hemorrhage abilities by $s1%."
+14132,,,
+14135,,,
+14136,,,
+14137,,,
+14138,Malice,Tücke,Increases your critical strike chance with all attacks and Poisons by $s1%.
+14139,,,
+14140,,,
+14141,,,
+14142,,,
+14144,Remorseless Attacks,Gnadenlose Angriffe,"After killing a non-trivial enemy, gives you a $m1% increased critical strike chance on your next Sinister Strike, Backstab, Ambush, Mutilate, or Ghostly Strike. Lasts $14143d."
+14148,,,
+14156,Ruthlessness,Skrupellosigkeit,Gives your finishing moves a $m1% chance to add a Combo Point to your target.
+14158,Murder,Mord,Increases all damage dealt by $m1% against Humanoid and Giant targets.
+14159,,,
+14160,,,
+14161,,,
+14162,Coup de Grace,Gnadenstoß,"Increases the damage done by your Eviscerate ability by $m1%, and the damage and storage rate of your Death Mark ability by $m2%."
+14163,,,
+14164,,,
+14165,Improved Slice and Dice,Verbessertes Zerhäckseln,Increases the duration of your Slice and Dice ability by $s1%.
+14166,,,
+14167,,,
+14168,Improved Expose Armor,Verbessertes Rüstung schwächen,"Reduces the Energy cost of your Expose Armor ability by $m1, and refunds $m2 Combo $LPoint:Points; when cast with $m3 Combo Points."
+14169,,,
+14171,Serrated Blades,Gezahnte Klingen,Causes your attacks to ignore $m1% of your target's Armor and increases the damage dealt by your Rupture ability by $m2%.
+14172,,,
+14173,,,
+14174,Improved Kidney Shot,Verbesserter Nierenhieb,Enemies Stunned by your Kidney Shot ability take $s1% increased damage from your poisons and attacks.
+14175,,,
+14176,,,
+14177,Cold Blood,Kaltblütigkeit,"When activated, increases the critical strike chance of your next Sinister Strike, Backstab, Ambush, Eviscerate, or Mutilate by $s1%."
+14179,Relentless Strikes,Unerbittliche Stöße,Your finishing moves have a $m1% chance per Combo Point to restore $14181s1 Energy.
+14183,Premeditation,Konzentration,Adds $s1 Combo Points to your target. You must add to or use those combo points within $d or the combo points are lost.
+14185,Preparation,Vorbereitung,"When activated, this ability immediately finishes the cooldown on your other Rogue abilities."
+14186,Seal Fate,Schicksal besiegeln,Your critical strikes from abilities that add Combo Points have a $m1% chance to add an additional Combo Point.
+14190,,,
+14193,,,
+14194,,,
+14195,,,
+14251,Riposte,Riposte,A strike that becomes active after parrying an opponent's attack.  This attack deals $s1% weapon damage and disarms the target for $19718d.
+14278,Ghostly Strike,Geisterhafter Stoß,"A strike that deals $s1% ($m4% if a Dagger is equipped in your Main Hand) weapon damage, increases your chance to dodge by $s2% for $d, and causes your next Ambush or Garrote cast within $1329326d to not require Stealth.  Awards $s3 combo $lpoint:points;."
+14520,Mental Agility,Mentale Beweglichkeit,"Reduces the mana cost of your Smite, Holy Fire, and instant cast spells by $s1%."
+14521,Meditation,Meditation,Allows $s1% of your Mana regeneration to continue while casting.
+14522,Unbreakable Will,Unbezwingbarer Wille,"Reduces the duration of Stun, Fear, and Silence effects inflicted on you by $m1%."
+14523,Silent Resolve,Schweigsame Entschlossenheit,"Reduces the threat generated by your spells by $s1% and reduces the duration of Stun, Fear, and Silence effects inflicted on you by $m2%.
+"
+14524,Wand Specialization,Zauberstab-Spezialisierung,Increases your damage with Wands by $s1%.
+14525,,,
+14526,,,
+14527,,,
+14528,,,
+14531,Martyrdom,Märtyrertum,Gives you a $m1% chance to gain Focused Casting for $27828d after being the victim of a melee or ranged critical strike. The Focused Casting effect prevents you from losing casting time when taking damage and increases your resistance to Interrupt effects by $27828s2%.
+14747,Improved Inner Fire,Verbessertes inneres Feuer,Increases the Armor bonus of your Inner Fire spell by $s1% and increases its total charges by $m2.
+14748,Improved Power Word: Shield,Verbessertes Machtwort: Schild,Increases the damage absorbed by your Power Word: Shield by $s1%.
+14749,Improved Power Word: Fortitude,Verbessertes Machtwort: Seelenstärke,Increases the effect of your Power Word: Fortitude and Prayer of Fortitude spells by $s1%.
+14750,Improved Mana Burn,Verbesserter Manabrand,Reduces the casting time of your Mana Burn spell by ${$m1/-1000}.1 sec.
+14751,Inner Focus,Innerer Fokus,"When activated, reduces the Mana cost of your next spell by $s1% and increases its critical effect chance by $s2% if it is a non-periodic spell and capable of a critical effect."
+14752,Divine Spirit,Göttlicher Willen,"Holy power infuses the target, increasing their Spirit by $s1 for $d."
+14767,Improved Power Word: Fortitude,Verbessertes Machtwort: Seelenstärke,Increases the effect of your Power Word: Fortitude and Prayer of Fortitude spells by $s1%.
+14768,,,
+14769,,,
+14770,,,
+14771,,,
+14772,,,
+14774,,,
+14776,,,
+14777,,,
+14780,,,
+14781,,,
+14782,,,
+14783,,,
+14784,,,
+14785,,,
+14786,,,
+14787,,,
+14788,,,
+14789,,,
+14790,,,
+14791,,,
+14889,Holy Specialization,Heiligspezialisierung,Increases the critical effect chance of your Holy spells by $s1%.
+14892,Inspiration,Inspiration,Your non-periodic critical heals increase your target's Armor by $m1% for $14893d.
+14898,Spiritual Healing,Spirituelle Heilung,Increases the amount healed by your spells by $s1%.
+14901,Spiritual Guidance,Geistige Führung,Increases your spell healing by up to $s2% of your total Spirit and your spell damage by up to $s1% of your total Spirit.
+14908,Improved Renew,Verbesserte Erneuerung,Increases the amount healed by your Renew spell by $s1%.
+14909,Searing Light,Sengendes Licht,"Increases your Holy damage done by $m1%, and gives a $m2% chance each time your Holy Fire spell deals periodic damage for your next Holy Nova to cost no Mana."
+14911,,,
+14912,Improved Healing,Verbesserte Heilung,"Reduces the Mana cost of your Lesser Heal, Heal, Greater Heal, Penance, and Prayer of Mending spells by $s1%."
+14913,Twilight Focus,Zwielichtfokus,Gives your spells a $s1% chance to not lose casting time when you take damage.
+14983,Vigor,Lebenskraft,Increases your maximum Energy by $s1.
+15008,,,
+15009,,,
+15010,,,
+15011,,,
+15012,,,
+15013,,,
+15014,,,
+15017,,,
+15018,,,
+15020,,,
+15028,,,
+15029,,,
+15030,,,
+15031,,,
+15047,,,
+15052,,,
+15053,,,
+15058,Arcane Instability,Arkane Instabilität,Increases the damage done by your spells by $m1% and your critical strike chance by $m2%.
+15059,,,
+15060,,,
+15237,Holy Nova,Heilige Nova,"Causes an explosion of holy light around the caster, causing $s1 Holy damage to all enemy targets within $a1 yards and healing all party members within $23455a1 yards for $23455s1. These effects cause no threat."
+15257,Shadow Weaving,Schattenwirken,"Your Shadow damage spells have a $s1% chance to increase the Shadow damage the target takes from you by $15258s1% for $15258d, stacking up to $15258u times."
+15259,Darkness,Dunkelheit,Increases your Shadow damage done by $s1%.
+15260,Shadow Focus,Schattenfokus,Improves your chance to hit with Shadow spells by $s1%.
+15268,Blackout,Blackout,Gives your Shadow damage spells a $h% chance to stun the target for $15269d.
+15270,Spirit Tap,Willensentzug,"Gives you a $m1% chance to increase your Spirit by $15271s1% for $15271d after killing a non-trivial target or when an enemy afflicted by your Vampiric Embrace dies. For the duration, $15271S2% of your Mana regeneration will continue while casting."
+15272,,,
+15273,Improved Mind Blast,Verbesserter Gedankenschlag,Reduces the cooldown of your Mind Blast spell by $/1000;S1 sec.
+15274,Improved Fade,Verbessertes Verblassen,Decreases the cooldown of your Fade ability by $/1000;s1 sec.
+15275,Improved Shadow Word: Pain,Verbessertes Schattenwort: Schmerz,Increases the duration of your Shadow Word: Pain spell by ${$s1/1000} sec.
+15286,Vampiric Embrace,Vampirumarmung,Afflicts your target with Shadow energy that causes all party members to be healed for $s1% of any Shadow spell damage you deal for $d.
+15307,,,
+15308,,,
+15309,,,
+15310,,,
+15311,,,
+15312,,,
+15313,,,
+15314,,,
+15316,,,
+15317,,,
+15318,Shadow Affinity,Schattenaffinität,Reduces the threat generated by your Shadow spells by $s1%.
+15320,,,
+15323,Blackout,Blackout,Gives your Shadow damage spells a $h% chance to stun the target for $15269d.
+15324,Blackout,Blackout,Gives your Shadow damage spells a $h% chance to stun the target for $15269d.
+15325,Blackout,Blackout,Gives your Shadow damage spells a $h% chance to stun the target for $15269d.
+15326,Blackout,Blackout,Gives your Shadow damage spells a $m1% chance to stun the target for $15269d.
+15327,,,
+15328,,,
+15329,,,
+15330,,,
+15331,,,
+15332,,,
+15333,,,
+15334,,,
+15335,,,
+15336,,,
+15337,,,
+15338,,,
+15349,,,
+15354,,,
+15355,,,
+15356,,,
+15362,,,
+15363,,,
+15392,Improved Psychic Scream,Verbesserter psychischer Schrei,Reduces the cooldown of your Psychic Scream spell by $/1000;s1 sec.
+15407,Mind Flay,Gedankenschinden,"Assault the target's mind with Shadow energy, causing $o1 Shadow damage over $d  and slowing their movement speed by $m2%."
+15448,,,
+15473,Shadowform,Schattengestalt,"Assume Shadowform, increasing your Shadow damage by $s2%, reducing the Mana cost of all Shadow spells by $m4%, increasing the critical strike damage bonus of your Shadow spells by $m5%, and reducing Physical damage taken by you by $s3%. However, you may not cast healing spells while in this form."
+15487,Silence,Stille,"Silences the target, preventing them from casting spells for $d and interrupting their spellcasts for $1241057d."
+16035,Concussion,Erschütterung,"Increases the damage done by your Lightning Bolt, Chain Lightning, and Earth Shock spells by $m1%."
+16038,Call of Flame,Ruf der Flamme,"Increases the damage done by your Fire Totems and by your Flame Shock and Fire Nova spells by $m1%, as well as increases the duration of your Flame Shock spell by ${$m3/1000} sec."
+16039,Convection,Konvektion,"Reduces the mana cost of your Shock, Lightning Bolt, and Chain Lightning spells by $m1%."
+16040,Reverberation,Nachklingen,Reduces the cooldown of your Shock spells by ${$m1/-1000}.1 sec.
+16041,,,
+16043,Earth's Grasp,Griff der Erde,Increases the health of your Stoneclaw Totem by $m1% and the radius of your Earthbind Totem by $m2%.
+16086,Trial by Fire,Feuerprobe,"Increases the damage done by your Fire Nova spell by $m1% and reduces its cooldown by ${$m2/-1000} sec, and increases the duration of your Magma Totem by ${$m3/1000} sec."
+16089,Elemental Fury,Elementarfuror,"Increases the critical strike damage bonus of your Searing and Magma Totems and your Fire, Frost, and Nature spells by $m1%."
+16105,,,
+16106,,,
+16107,,,
+16108,,,
+16109,,,
+16110,,,
+16111,,,
+16112,,,
+16113,,,
+16114,,,
+16115,,,
+16116,,,
+16117,,,
+16118,,,
+16119,,,
+16120,Call of Thunder,Ruf des Donners,Increases the critical strike chance of your Lightning Bolt and Chain Lightning spells by $s1%.
+16130,,,
+16160,,,
+16161,,,
+16164,Elemental Focus,Elementarfokus,"Gives you a $s1% chance to enter a Clearcasting state after casting any Fire, Frost, or Nature damage spell.  The Clearcasting state reduces the mana cost of your next damage spell by $16246s1%."
+16166,Lightning Mastery,Blitzbeherrschung,"Gain mastery over Lightning, reducing the cast time of your Lightning Bolt spell by ${$m1/-1000}.1 sec, and removing the cooldown from your Chain Lightning spell. Lasts $d."
+16173,Totemic Focus,Totemfokus,Reduces the Mana cost of your totems and any spells that summon or move them by $m1%.
+16176,Ancestral Healing,Heilung der Ahnen,Increases your target's armor value by $m1% for $16177d after getting a critical effect from one of your healing spells.
+16178,Purification,Läuterung,Increases the effectiveness of your healing spells by $m1%.
+16179,Tidal Focus,Gezeitenfokus,Reduces the Mana cost of your healing spells by $m1% and improves your chance to hit by $m2%.
+16180,Nature's Guidance,Weisheit der Natur,Improves your chance to hit by $s1%.
+16181,Healing Focus,Heilfokus,Gives your healing spells a $m1% chance to not lose casting time when you take damage.
+16182,Improved Healing Wave,Verbesserte Welle der Heilung,Reduces the casting time of your Healing Wave spell by ${$m1/-1000}.1 sec.
+16184,Improved Reincarnation,Verbesserte Reinkarnation,"Reduces the cooldown of your Reincarnation spell by ${$m1/-60000} min, increases your maximum health by $m2%, and increases the amount of health and Mana you reincarnate with by an additional $m3%."
+16187,Restorative Totems,Regenerationstotems,Increases the effect of your Mana Spring Totem by $m1% and increases the effect of your Healing Stream Totem by $m2%.
+16188,Nature's Swiftness,Schnelligkeit der Natur,"When activated, your next Nature spell with a casting time less than 10 sec. becomes an instant cast spell."
+16189,Totemic Mastery,Totembeherrschung,The radius of your totems that affect friendly targets is increased to 30 yd.
+16190,Mana Tide Totem,Totem der Manaflut,Summons a Mana Tide Totem with $s1 health at the feet of the caster for ${$d-1} sec that restores $16191s1 mana every $16191t1 seconds to group members within $16191a1 yards.
+16194,Tidal Mastery,Gezeitenbeherrschung,Increases the critical effect chance of your healing spells by $m1%.
+16196,Nature's Guidance,Weisheit der Natur,Improves your chance to hit by $m1%.
+16198,Nature's Guidance,Weisheit der Natur,Improves your chance to hit by $s1%.
+16205,,,
+16206,,,
+16207,,,
+16208,,,
+16209,,,
+16210,,,
+16211,,,
+16212,,,
+16213,,,
+16214,,,
+16215,,,
+16216,,,
+16217,,,
+16218,,,
+16219,,,
+16220,,,
+16221,,,
+16222,,,
+16223,,,
+16224,,,
+16225,,,
+16226,,,
+16227,,,
+16228,,,
+16229,,,
+16230,,,
+16232,,,
+16233,,,
+16234,,,
+16235,,,
+16240,,,
+16252,Toughness,Zähigkeit,Increases your Stamina by $m1%.
+16253,Shield Specialization,Schild-Spezialisierung,Increases your chance to block attacks with a shield by $s1% and increases the amount blocked by $s2%.
+16254,Anticipation,Vorahnung,Increases your chance to dodge by an additional $m1%.
+16255,Thundering Strikes,Donnernde Stöße,Improves your chance to get a critical strike with all spells and attacks by $m1%.
+16256,Flurry,Schlaghagel,Increases your attack speed by $m1% for your next $16257n swings after dealing a melee critical strike.
+16258,Guardian Totems,Wächtertotems,Increases the amount of damage reduced by your Stoneskin Totem and Windwall Totem by $m1% and reduces the cooldown of your Grounding Totem by ${$m2/-1000} sec.
+16259,Enhancing Totems,Stärkungstotems,Increases the effect of your Strength of Earth and Grace of Air Totems by $s1%.
+16261,Improved Lightning Shield,Verbesserter Blitzschlagschild,Increases the damage done by your Lightning Shield orbs by $m1%.
+16262,Improved Ghost Wolf,Verbesserter Geisterwolf,"Reduces the cast time of your Ghost Wolf spell by ${$m1/-1000}.1 sec, and Ghost Wolf may be used indoors."
+16266,Elemental Weapons,Elementarwaffen,"Increases the melee attack power bonus of your Rockbiter Weapon by $m1%, your Windfury Weapon effect by $m3% and increases the damage caused by your Flametongue Weapon and Frostbrand Weapon by $m2%."
+16268,Spirit Weapons,Waffen der Geister,"Gives a chance to parry enemy melee attacks, reduces all threat generated by your attacks by $s1% while Rockbiter Weapon is not active, and increases all threat generated by $s3% while Rockbiter Weapon is active."
+16269,Two-Handed Axes and Maces,Zweihandäxte und -Streitkolben,Allows you to use Two-Handed Axes and Two-Handed Maces.
+16271,,,
+16272,,,
+16273,,,
+16274,,,
+16281,,,
+16282,,,
+16283,,,
+16284,,,
+16287,,,
+16290,,,
+16291,,,
+16293,,,
+16295,Enhancing Totems,Stärkungstotems,Increases the effect of your Strength of Earth and Grace of Air Totems by $s1%.
+16298,Shield Specialization,Schild-Spezialisierung,Increases your chance to block attacks with a shield by $s1% and increases the amount blocked by $s2%.
+16299,Shield Specialization,Schild-Spezialisierung,Increases your chance to block attacks with a shield by $s1% and increases the amount blocked by $s2%.
+16300,Shield Specialization,Schild-Spezialisierung,Increases your chance to block attacks with a shield by $s1% and increases the amount blocked by $s2%.
+16301,Shield Specialization,Schild-Spezialisierung,Increases your chance to block attacks with a shield by $s1% and increases the amount blocked by $s2%.
+16302,,,
+16303,,,
+16304,,,
+16305,,,
+16306,,,
+16307,,,
+16308,,,
+16309,,,
+16462,Deflection,Abwehr,Increases your Parry chance by $s1%.
+16463,,,
+16464,,,
+16465,,,
+16466,,,
+16487,Blood Craze,Blutwahnsinn,Regenerates $m1% of your total Health over $16488d after being the victim of a critical strike or suffering more than $m2% of your maximum Health from a single attack.
+16489,,,
+16492,,,
+16493,Impale,Durchbohren,Increases the critical strike damage bonus of your abilities by $s1%.
+16494,,,
+16511,Hemorrhage,Blutsturz,An instant strike that deals $m4% weapon damage ($m5% if a Dagger is equipped) and causes the target to take $m3% increased Rupture and Garrote damage from the Rogue. Lasts $d. Awards $s2 Combo $lPoint:Points;.
+16513,Vile Poisons,Üble Gifte,Increases the damage dealt by your poisons by $m1% and gives your poisons an additional $m3% chance to resist dispel effects.
+16514,,,
+16515,,,
+16538,Bastion,Bastion,Increases all damage you deal by $s1% while a shield is equipped.
+16539,,,
+16540,,,
+16541,,,
+16542,,,
+16544,,,
+16578,Elemental Alacrity,Elementare Geschwindigkeit,Reduces the cast time of your Lightning Bolt and Chain Lightning spells by ${$m1/-1000}.2 sec.
+16579,Lightning Mastery,Blitzschlagbeherrschung,Reduces the cast time of your Lightning Bolt and Chain Lightning spells by $/1000;S1 sec.
+16580,Lightning Mastery,Blitzschlagbeherrschung,Reduces the cast time of your Lightning Bolt and Chain Lightning spells by $/1000;S1 sec.
+16581,Lightning Mastery,Blitzschlagbeherrschung,Reduces the cast time of your Lightning Bolt and Chain Lightning spells by $/1000;S1 sec.
+16582,Lightning Mastery,Blitzschlagbeherrschung,Reduces the cast time of your Lightning Bolt and Chain Lightning spells by $/1000;S1 sec.
+16689,Nature's Grasp,Griff der Natur,The next $n melee $Lattack:attacks; that $Lstrikes:strike; the caster will afflict the attacker with Entangling Roots (Rank 1). Castable while shapeshifted. Lasts $d.
+16719,,,
+16720,,,
+16757,Arctic Reach,Arktische Reichweite,"Increases the range of your Frostbolt, Ice Lance, and Blizzard spells and the radius of your Frost Nova and Cone of Cold spells by $s1%."
+16758,,,
+16763,,,
+16765,,,
+16766,,,
+16769,,,
+16770,,,
+16814,Improved Wrath,Verbesserter Zorn,Reduces the cast time of your Wrath spell by $/1000;S1 sec and its Mana cost by $s2%.
+16815,,,
+16816,,,
+16817,,,
+16818,,,
+16819,Nature's Reach,Reichweite der Natur,Increases the range of your offensive Balance spells by $m1% and improves your chance to hit by $m2%.
+16820,,,
+16821,Improved Moonfire,Verbessertes Mondfeuer,Increases the damage and critical strike chance of your Moonfire spell by $s1%.
+16822,,,
+16823,,,
+16824,,,
+16825,,,
+16833,Natural Shapeshifter,Schnellwandlung,Reduces the mana cost of all shapeshifting by $s1%.
+16834,,,
+16835,,,
+16836,Improved Thorns,Verbesserte Dornen,Increases damage caused by your Thorns spell by $s1%.
+16839,Improved Thorns,Verbesserte Dornen,Increases damage caused by your Thorns spell by $s1%.
+16840,Improved Thorns,Verbesserte Dornen,Increases damage caused by your Thorns spell by $s1%.
+16845,Moonglow,Mondschein,Reduces the Mana cost of your damaging spells by $s1%.
+16846,,,
+16847,,,
+16850,Improved Starfire,Verbessertes Sternenfeuer,"Reduces the cast time of Starfire by $/1000;S1 sec and Starfire has a $s2% chance to stun its target for $16922d.
+"
+16857,,,
+16858,Feral Aggression,Wilde Aggression,Increases the Attack Power reduction of your Demoralizing Roar by $s1% and the damage caused by your Ferocious Bite by $s2%.
+16859,Feral Aggression,Wilde Aggression,Increases the Attack Power reduction of your Demoralizing Roar by $s1% and the damage caused by your Ferocious Bite by $s2%.
+16860,Feral Aggression,Wilde Aggression,Increases the Attack Power reduction of your Demoralizing Roar by $s1% and the damage caused by your Ferocious Bite by $s2%.
+16861,Feral Aggression,Wilde Aggression,Increases the Attack Power reduction of your Demoralizing Roar by $s1% and the damage caused by your Ferocious Bite by $s2%.
+16862,Feral Aggression,Wilde Aggression,Increases the Attack Power reduction of your Demoralizing Roar by $s1% and the damage caused by your Ferocious Bite by $s2%.
+16864,Omen of Clarity,Omen der Klarsicht,"Your spells and attacks have a chance to grant you Clearcasting, reducing the Mana, Rage, or Energy cost of your next damage or healing spell or offensive ability by $16870s1%. Clearcasting is not consumed by Wrath or by spells or abilities that cost no resources."
+16880,Nature's Grace,Anmut der Natur,"All non-periodic spell criticals grace you with a blessing of nature, increasing your spellcasting speed and reducing your global cooldown by $m1% for $16886d."
+16896,Moonfury,Mondfuror,Increases the damage done by your Arcane and Nature spells by $m1%.
+16897,,,
+16899,,,
+16900,,,
+16901,,,
+16902,Natural Weapons,Waffenbalance,$?s436895[Increases all damage you deal by $s1%.][Increases the damage you deal with physical attacks in all forms by $s1%.]
+16903,Natural Weapons,Waffenbalance,$?s436895[Increases all damage you deal by $s1%.][Increases the damage you deal with physical attacks in all forms by $s1%.]
+16904,Natural Weapons,Waffenbalance,$?s436895[Increases all damage you deal by $s1%.][Increases the damage you deal with physical attacks in all forms by $s1%.]
+16905,Natural Weapons,Waffenbalance,$?s436895[Increases all damage you deal by $s1%.][Increases the damage you deal with physical attacks in all forms by $s1%.]
+16906,Natural Weapons,Waffenbalance,$?s436895[Increases all damage you deal by $s1%.][Increases the damage you deal with physical attacks in all forms by $s1%.]
+16909,Vengeance,Rache,Increases the critical strike damage bonus of your Arcane and Nature spells by $m1%.
+16910,,,
+16911,,,
+16912,,,
+16913,,,
+16918,Improved Entangling Roots,Verbesserte Wucherwurzeln,"Increases the damage done by your Entangling Roots spell by $m1%, and its victims can take up to $m1% more damage without interrupting the effect."
+16919,,,
+16920,,,
+16923,,,
+16924,,,
+16925,,,
+16926,,,
+16929,Thick Hide,Dickes Fell,"While in Bear Form, Cat Form, Dire Bear Form, or Moonkin Form, you gain $s2 additional base Armor per level and another ${$m1/100}.2 base Armor for each point of defense skill beyond five times your level. This amount can be further increased by multipliers from those forms."
+16930,,,
+16931,,,
+16932,,,
+16933,,,
+16934,Ferocity,Wildheit,"Reduces the cost of your Maul, Primal Bite, Swipe, Claw, and Rake abilities by $/10;s1 Rage or Energy."
+16935,,,
+16936,,,
+16937,,,
+16938,,,
+16940,Brutal Impact,Brutaler Hieb,Increases the stun duration of your Bash and Pounce abilities by $/1000;S1 sec and reduces the cooldown of Bash by ${$m2/-1000} sec.
+16941,,,
+16942,Sharpened Claws,Geschärfte Klauen,"Increases your critical strike chance while in Bear Form, Dire Bear Form, or Cat Form by $s1%."
+16943,,,
+16944,,,
+16947,Feral Instinct,Instinkt der Wildnis,Increases damage done by your Swipe ability by $s2% and reduces the chance enemies have to detect you while Prowling as if you were ${$m1/5} $llevel:levels; higher.
+16948,,,
+16949,,,
+16950,,,
+16951,,,
+16952,,,
+16954,,,
+16958,Blood Frenzy,Blutraserei,"Gives you a $m1% chance to gain an additional $/10;16959s1 Rage any time you get a critical strike while in Bear Form or Dire Bear Form. In addition, your non-periodic critical strikes from Cat Form abilities that generate Combo Points have a $m2% chance to add an additional Combo Point."
+16961,,,
+16966,Shredding Attacks,Schreddernde Angriffe,Reduces the Energy cost of your Shred ability by $m1 and reduces the Rage cost of your Lacerate ability by ${$m2/-10}.
+16968,Improved Shred,Verbessertes Schreddern,Reduces the Energy cost of your Shred ability by $s1.
+16972,Predatory Strikes,Raubtierschläge,"Increases your melee Attack Power in Cat Form, Bear Form, and Dire Bear Form by $s1% of your level."
+16974,,,
+16975,,,
+16979,Feral Charge (Bear),Wilde Attacke (Bär),"Charge an enemy, immobilizing them and interrupting any spell they are casting for $19675d."
+16998,Savage Fury,Ungezähmte Wut,"Increases the damage caused by your Claw, Rake, Shred, Maul, and Swipe abilities by $s1%."
+16999,,,
+17002,Feral Swiftness,Schnelligkeit der Wildnis,"Increases your movement speed while in Cat Form by $m2%, and increases your chance to Dodge by $m1%."
+17003,Heart of the Wild,Herz der Wildnis,"Increases your Intellect by $s1%.  In addition, while in Bear Form or Dire Bear Form your Stamina is increased by $s2% and while in Cat Form your Strength is increased by $s3%."
+17004,,,
+17005,,,
+17006,,,
+17007,Leader of the Pack,Rudelführer,"While in Cat Form, Bear Form, or Dire Bear Form, the Leader of the Pack increases the Critical Strike chance of all party or raid members within $24932a1 yards by $24932s1%."
+17050,Improved Mark of the Wild,Verbessertes Mal der Wildnis,Increases the effects of your Mark of the Wild and Gift of the Wild spells by $s1%.
+17051,Improved Mark of the Wild,Verbessertes Mal der Wildnis,Increases the effects of your Mark of the Wild and Gift of the Wild spells by $s1%.
+17053,Improved Mark of the Wild,Verbessertes Mal der Wildnis,Increases the effects of your Mark of the Wild and Gift of the Wild spells by $s1%.
+17054,Improved Mark of the Wild,Verbessertes Mal der Wildnis,Increases the effects of your Mark of the Wild and Gift of the Wild spells by $s1%.
+17055,Improved Mark of the Wild,Verbessertes Mal der Wildnis,Increases the effects of your Mark of the Wild and Gift of the Wild spells by $s1%.
+17056,Furor,Ingrimm,"Gives you a $m1% chance to gain $/10;17057s1 Rage when shapeshifting into Bear Form or Dire Bear Form. Shapeshifting into Cat Form restores ${100*($m2/100)}% of the Energy you had when last in Cat Form, plus ${10*($m2/100)} Energy per second spent outside Bear Form or Dire Bear Form, up to ${100*($m2/100)} Energy."
+17058,,,
+17059,,,
+17060,,,
+17061,,,
+17063,Nature's Focus,Naturfokus,Gives your Arcane and Nature spells a $m1% chance to not lose casting time when you take damage.
+17065,,,
+17066,,,
+17067,,,
+17068,,,
+17069,Naturalist,Naturalist,Reduces the cast time of your Healing Touch and Wild Growth spells by $/1000;S1 sec and increases all damage you deal by $m2%.
+17070,,,
+17071,,,
+17072,,,
+17073,,,
+17074,Improved Regrowth,Verbessertes Nachwachsen,Increases the critical effect chance of your Regrowth spell by $s1%.
+17075,,,
+17076,,,
+17077,,,
+17078,,,
+17079,Improved Enrage,Verbesserter Wutanfall,$?a436895[The Enrage ability instantly generates an additional $/10;17080s1 Rage.][The Enrage ability now instantly generates $/10;17080s1 Rage.]
+17082,Improved Enrage,Verbesserter Wutanfall,$?a436895[The Enrage ability instantly generates an additional $/10;17081s1 Rage.][The Enrage ability now instantly generates $/10;17081s1 Rage.]
+17104,Gift of Nature,Geschenk der Natur,Increases the effect of all your healing spells by $s1%.
+17106,Reflection,Reflexion,Allows $s1% of your Mana regeneration to continue while casting.
+17107,,,
+17108,,,
+17111,Improved Rejuvenation,Verbesserte Verjüngung,Increases the effect of your Rejuvenation spell by $s1%.
+17112,,,
+17113,,,
+17116,Nature's Swiftness,Schnelligkeit der Natur,"When activated, your next Nature spell becomes an instant cast spell."
+17118,Subtlety,Feingefühl,Reduces the threat generated by your Nature and Arcane spells by $s1%.
+17119,,,
+17120,,,
+17121,,,
+17122,,,
+17123,Improved Tranquility,Verbesserte Gelassenheit,Reduces threat caused by Tranquility by $s1% and its cooldown by $m2%.
+17124,,,
+17191,,,
+17245,Overgrowth,Wildes Wachstum,Increases the maximum number of targets you may have affected by Entangling Roots by $s1.
+17247,,,
+17248,,,
+17249,,,
+17322,Shadow Reach,Schattenreichweite,Increases the range of your offensive Shadow spells by $s1%.
+17323,,,
+17325,,,
+17364,Stormstrike,Sturmschlag,"Instantly strike for $s3% weapon damage and increase the damage you deal to the target with your next Lightning Bolt, Chain Lightning, or Earth Shock spell by $s2% for $d."
+17485,Ancestral Knowledge,Wissen der Ahnen,Increases your Intellect by $m1%.
+17486,,,
+17487,,,
+17488,,,
+17489,,,
+17778,Cataclysm,Katastrophe,Reduces the Mana cost of your Destruction spells by $s1%.
+17779,,,
+17780,,,
+17781,,,
+17782,,,
+17783,Fel Concentration,Teufelskonzentration,"Gives your Drain Life, Drain Mana, Drain Soul, and Wrack spells a $s1% chance to not lose casting time when you take damage."
+17784,,,
+17785,,,
+17786,,,
+17787,,,
+17788,Bane,Dunkle Macht,"Reduces the casting time of your Shadow Bolt, Immolate, and Incinerate spells by $/1000;S1 sec and your Soul Fire spell by $/1000;S2 sec."
+17789,,,
+17790,,,
+17791,,,
+17792,,,
+17793,Improved Shadow Bolt,Verbesserter Schattenblitz,Your Shadow Bolt critical strikes increase Shadow damage taken by the target from your attacks by $m1% for $17794d.
+17796,,,
+17801,,,
+17802,,,
+17803,,,
+17804,Soul Siphon,Seelenentzug,"Increases the damage done or health drained by your Drain Life, Drain Soul, and Wrack spells by $s1% per each of your Corruption, Siphon Life, and Bane of Agony effects active on the target, up to a maximum increase of ${$m1*3}%."
+17805,,,
+17806,,,
+17807,,,
+17808,,,
+17810,Improved Corruption,Verbesserte Verderbnis,Reduces the casting time of your Corruption spell by $/1000;S1 sec and increases the damage it deals by $m2%.
+17811,,,
+17812,,,
+17813,,,
+17814,,,
+17815,Improved Immolate,Verbesserter Feuerbrand,Increases the initial damage of your Immolate spell by $s1%.
+17833,Improved Immolate,Verbesserter Feuerbrand,Increases the initial damage of your Immolate spell by $s1%.
+17834,Improved Immolate,Verbesserter Feuerbrand,Increases the initial damage of your Immolate spell by $s1%.
+17835,Improved Immolate,Verbesserter Feuerbrand,Increases the initial damage of your Immolate spell by $s1%.
+17836,Improved Immolate,Verbesserter Feuerbrand,Increases the initial damage of your Immolate spell by $s1%.
+17864,,,
+17877,Shadowburn,Schattenbrand,"Instantly blasts the target for $s2 Shadow damage.  If a non-trivial target dies within $d of being hit with Shadowburn, the caster gains a Soul Shard."
+17917,Destructive Reach,Zerstörerische Reichweite,Increases the range of your Destruction spells by $s1%.
+17918,,,
+17927,Agonizing Flames,Peinigende Flammen,Increases the critical strike chance of your Searing Pain spell by $m1% and the damage done by all your Destruction spells by $m2%.
+17929,,,
+17930,,,
+17931,,,
+17932,,,
+17954,Emberstorm,Glutsturm,Increases the damage done by your Fire spells by $m1% and reduces the cast time of your Searing Pain spell by ${$m3/-1000}.1 sec.
+17955,,,
+17956,,,
+17957,,,
+17958,,,
+17959,Ruin,Verderben,Increases the critical strike damage bonus of your Destruction spells by $s1%.
+17962,Conflagrate,Feuersbrunst,"Ignites a target that is already afflicted by your Immolate spell, dealing $s1 Fire damage and consuming your Immolate effect."
+18073,Pyroclasm,Feuerschwall,"Gives your Soul Fire spell a $s1% chance to Stun the target for $18093d, and your Rain of Fire and Hellfire spells a $s1% chance over their duration to Stun targets they damage for $18093d."
+18094,Nightfall,Einbruch der Nacht,"Gives your Corruption, Drain Soul, Drain Life, and Wrack spells a $m1% chance to cause you to enter a Shadow Trance after damaging the opponent. The Shadow Trance reduces the casting time of your next Shadow Bolt spell by $17941s1%."
+18095,,,
+18096,Apocalypse,Apokalypse,"Your non-periodic critical strikes with your Fire spells increase your Shadow damage done by $m1% for $18093d, and your non-periodic critical strikes with your Shadow spells increase your Fire damage done by $m1% for $18093d."
+18119,Aftermath,Nachwirkung,"Increases the initial damage of your Immolate spell by $m2% and your Conflagrate spell has a $m1% chance to Daze the target, reducing the target's movement speed by $18118m1% for $18118d."
+18120,,,
+18121,,,
+18122,,,
+18123,,,
+18126,Improved Firebolt,Verbesserter Feuerblitz,Reduces the casting time of your Imp's Firebolt spell by $/1000;S1 sec.
+18127,Improved Firebolt,Verbesserter Feuerblitz,Reduces the casting time of your Imp's Firebolt spell by $/1000;S1 sec.
+18128,Improved Lash of Pain,Verbesserte Schmerzenspeitsche,Reduces the cooldown of your Succubus' and Incubus' Lash of Pain spell by $/1000;s1 sec.
+18129,Improved Lash of Pain,Verbesserte Schmerzenspeitsche,Reduces the cooldown of your Succubus' and Incubus' Lash of Pain spell by $/1000;s1 sec.
+18130,Devastation,Verwüstung,Increases the critical strike chance of your Destruction spells by $s1%.
+18131,,,
+18132,,,
+18133,,,
+18134,,,
+18135,Intensity,Intensität,Gives your Destruction spells a $s1% chance to not lose casting time when you take damage.
+18136,,,
+18174,Suppression,Unterdrückung,Improves your chance to hit by $m1% and reduces all threat you generate by $m3%.
+18175,,,
+18176,,,
+18177,,,
+18178,,,
+18179,Improved Curse of Weakness,Verbesserter Fluch der Schwäche,Increases the effect of your Curse of Weakness by $s1%.
+18180,Improved Curse of Weakness,Verbesserter Fluch der Schwäche,Increases the effect of your Curse of Weakness by $s1%.
+18181,Improved Curse of Weakness,Verbesserter Fluch der Schwäche,Increases the effect of your Curse of Weakness by $s1%.
+18182,Improved Life Tap,Verbesserter Aderlass,Increases the amount of Mana awarded by your Life Tap spell by $s1%.
+18183,,,
+18213,,,
+18218,Grim Reach,Grimmige Reichweite,Increases the range of your Affliction spells by $s1%.
+18219,,,
+18220,,,
+18223,Curse of Exhaustion,Fluch der Erschöpfung,Reduces the target's movement speed by $s1% for $d.  Only one Curse per Warlock can be active on any one target.
+18265,Siphon Life,Lebensentzug,Transfers $s1 health from the target to the caster every $t1 sec.  Lasts $d.
+18271,Shadow Mastery,Schattenbeherrschung,Increases the damage dealt or life drained by your Shadow spells by $s1%.
+18272,,,
+18273,,,
+18274,,,
+18275,,,
+18288,Amplify Curse,Fluch verstärken,"Increases the effect of your next Curse of Weakness or Bane of Agony by $s1%, or your next Curse of Exhaustion by $s2%.  Lasts $d."
+18310,Improved Curse of Exhaustion,Verbesserter Fluch der Erschöpfung,Increases the speed reduction of your Curse of Exhaustion by $s1%.
+18311,Improved Curse of Exhaustion,Verbesserter Fluch der Erschöpfung,Increases the speed reduction of your Curse of Exhaustion by $s1%.
+18312,Improved Curse of Exhaustion,Verbesserter Fluch der Erschöpfung,Increases the speed reduction of your Curse of Exhaustion by $s1%.
+18313,Improved Curse of Exhaustion,Verbesserter Fluch der Erschöpfung,Increases the speed reduction of your Curse of Exhaustion by $s1%.
+18372,,,
+18393,,,
+18427,Aggression,Aggression,Increases the damage of your Sinister Strike and Eviscerate abilities by $s1%.
+18428,,,
+18429,,,
+18459,Incineration,Verbrennung,"Increases the critical strike chance of your Fire Blast, Ice Lance, Arcane Blast, and Scorch spells by $s1%."
+18460,,,
+18462,Arcane Meditation,Arkane Meditation,Allows $s1% of your Mana regeneration to continue while casting.
+18463,,,
+18464,,,
+18530,Divine Fury,Göttlicher Furor,"Reduces the casting time of your Smite, Holy Fire, Heal, and Greater Heal spells by $/1000;S1 sec."
+18531,,,
+18533,,,
+18534,,,
+18535,,,
+18544,Force of Will,Macht des Willens,Increases your spell damage by $s2% and the critical strike chance of your offensive spells by $s1%.
+18547,Force of Will,Macht des Willens,Increases your spell damage by $s2% and the critical strike chance of your offensive spells by $s1%.
+18548,Force of Will,Macht des Willens,Increases your spell damage by $s2% and the critical strike chance of your offensive spells by $s1%.
+18549,Force of Will,Macht des Willens,Increases your spell damage by $s2% and the critical strike chance of your offensive spells by $s1%.
+18550,Force of Will,Macht des Willens,Increases your spell damage by $s1% and the critical strike chance of your offensive spells by $s1%.
+18551,Mental Strength,Mentale Stärke,Increases your total Intellect by $m1%.
+18552,,,
+18553,,,
+18554,,,
+18555,,,
+18562,Swiftmend,Rasche Heilung,Instantly heals a target with your active Rejuvenation or Regrowth effect for an amount equal to the full duration of the periodic effect.
+18692,Improved Healthstone,Verbesserter Gesundheitsstein,Increases the amount of Health restored by your Healthstone by $s1%.
+18693,Improved Healthstone,Verbesserter Gesundheitsstein,Increases the amount of Health restored by your Healthstone by $s1%.
+18694,Improved Imp,Verbesserter Wichtel,Increases the damage of your Imp's Firebolt spell by $s2% and the effect of its Fire Shield spell by $s1%.
+18695,,,
+18696,,,
+18697,Demonic Embrace,Dämonische Umarmung,Increases your total Stamina by $s1%.
+18698,,,
+18699,,,
+18700,,,
+18701,,,
+18703,Improved Health Funnel,Verbesserte Lebenslinie,"Increases the amount of health transferred by your Health Funnel spell by $m1%, reduces its health cost by $m2%, and reduces all threat your Health Funnel generates by $m3%. Allows Health Funnel to be used regardless of your demon's health."
+18704,,,
+18705,Improved Voidwalker,Verbesserter Leerwandler,"Increases the effectiveness of your Voidwalker's Torment, Consume Shadows, Sacrifice, and Suffering spells by $s1%."
+18706,,,
+18707,,,
+18708,Fel Domination,Teufelsbeherrschung,"Your next Imp, Voidwalker, Succubus, Incubus, or Felhunter Summon spell has its casting time reduced by $/1000;S1 sec and its Mana cost reduced by $s2%."
+18709,Master Summoner,Meister der Beschwörung,"Reduces the casting time of your Imp, Voidwalker, Succubus, Incubus, and Felhunter Summoning spells by $/1000;s1 sec and the Mana cost by $s2%."
+18710,,,
+18731,Fel Vitality,Teuflische Vitalität,"Increases the maximum health and Mana of your Imp, Voidwalker, Succubus, Incubus, and Felhunter by $s1%, and increases your maximum Mana by $s2%."
+18743,,,
+18744,,,
+18745,,,
+18746,,,
+18748,,,
+18749,,,
+18750,,,
+18751,,,
+18752,,,
+18754,Improved Sayaad,Verbesserte Sayaad,"Increases the effect of your Succubus' and Incubus' Lash of Pain and Soothing Kiss spells by $s1%, and increases the duration of your Succubus' and Incubus' Seduction and Lesser Invisibility spells by $s2%."
+18755,,,
+18756,,,
+18767,Improved Firestone,Verbesserter Feuerstein,Increases the bonus Fire damage from Firestones and the Firestone effect by $s1%.
+18768,Improved Firestone,Verbesserter Feuerstein,Increases the bonus Fire damage from Firestones and the Firestone effect by $s1%.
+18769,Unholy Power,Unheilige Macht,"Increases all damage done by your Imp, Voidwalker, Succubus, Incubus, and Felhunter pets by $s1%."
+18770,,,
+18771,,,
+18772,,,
+18773,,,
+18774,Improved Spellstone,Verbesserter Zauberstein,Increases the amount of damage absorbed by your Spellstone by $s1%.
+18775,Improved Spellstone,Verbesserter Zauberstein,Increases the amount of damage absorbed by your Spellstone by $s1%.
+18788,Demonic Sacrifice,Dämonische Opferung,"When activated, sacrifices your summoned Demon to enhance the opposing aspect of your power, granting you an effect that lasts $18789d. The effect is canceled if any Demon is summoned.
+
+Imp: Increases your Shadow damage by $18789s1%.
+
+Voidwalker: Restores $18792s1% of your total Mana every $18792t1 sec.
+
+Succubus/Incubus: Increases your Fire damage by $18791s1%.
+
+Felhunter: Restores $18790s1% of your total Health every $18790t1 sec."
+18821,Improved Subjugate Demon,Verbessertes Dämon unterwerfen,Reduces the Attack Speed and Casting Speed penalty of your Subjugate Demon spell by $s1% and reduces the resist chance by $s3%.
+18822,Improved Subjugate Demon,Verbessertes Dämon unterwerfen,Reduces the Attack Speed and Casting Speed penalty of your Subjugate Demon spell by $s1% and reduces the resist chance by $s3%.
+18823,Improved Subjugate Demon,Verbessertes Dämon unterwerfen,Reduces the Attack Speed and Casting Speed penalty of your Subjugate Demon spell by $s1% and reduces the resist chance by $s3%.
+18824,Improved Subjugate Demon,Verbessertes Dämon unterwerfen,Reduces the Attack Speed and Casting Speed penalty of your Subjugate Demon spell by $s1% and reduces the resist chance by $s3%.
+18825,Improved Subjugate Demon,Verbessertes Dämon unterwerfen,Reduces the Attack Speed and Casting Speed penalty of your Subjugate Demon spell by $s1% and reduces the resist chance by $s3%.
+18827,Improved Bane of Agony,Verbessertes Omen der Pein,Increases the damage done by your Bane of Agony by $s1%.
+18829,,,
+18830,,,
+19028,Soul Link,Seelenverbindung,"When active, $18814s1% of all damage taken by the caster is taken by your Imp, Voidwalker, Succubus, Incubus, or Felhunter Demon instead. In addition, both the Demon and the master will inflict $25228s1% more damage. Lasts as long as the Demon is active."
+19151,Humanoid Slaying,Humanoidentöten,Increases all damage caused against Humanoid targets by $s1% and increases critical damage caused against Humanoid targets by an additional $s2%.
+19152,Humanoid Slaying,Humanoidentöten,Increases all damage caused against Humanoid targets by $s1% and increases critical damage caused against Humanoid targets by an additional $s2%.
+19153,Humanoid Slaying,Humanoidentöten,Increases all damage caused against Humanoid targets by $s1% and increases critical damage caused against Humanoid targets by an additional $s2%.
+19159,Savage Strikes,Wilde Schläge,Increases the critical strike chance of all your melee abilities by $s1%.
+19160,,,
+19168,Lightning Reflexes,Blitzartige Reflexe,Increases your Agility by $s1%.
+19180,,,
+19181,,,
+19184,Entrapment,Einfangen,"When your traps are triggered, all affected targets are Entrapped, preventing them from moving for ${$m1/1000} sec."
+19228,Improved Wing Clip,Verbessertes Zurechtstutzen,Gives your Wing Clip ability a $s1% chance to immobilize the target for $19229d.
+19232,,,
+19233,,,
+19234,,,
+19235,,,
+19239,Clever Traps,Falleneffizienz,Increases the duration of Freezing and Frost trap effects by $s1% and the damage of Immolation and Explosive trap effects by $s2%.
+19245,,,
+19255,Survivalist,Überlebenskünstler,Increases your total Health by $s1%.
+19256,,,
+19257,,,
+19258,,,
+19259,,,
+19263,Deterrence,Abschreckung,"When activated, increases your Dodge and Parry chance by $s1% for $d."
+19286,Improved Feign Death,Verbessertes Totstellen,Reduces the chance your Feign Death ability will be resisted by $s1%.
+19287,Improved Feign Death,Verbessertes Totstellen,Reduces the chance your Feign Death ability will be resisted by $s1%.
+19290,Surefooted,Sicherer Stand,Increases your hit chance by $m3% and reduces the duration of movement impairing effects on you by $m2%.
+19294,,,
+19295,Deflection,Abwehr,Increases your Parry chance by $s1%.
+19297,,,
+19298,,,
+19300,,,
+19301,,,
+19306,Counterattack,Gegenangriff,"A strike that becomes active after parrying an opponent's attack. This attack deals $s2% weapon damage plus $m1 and immobilizes the target for $d. Counterattack cannot be blocked, dodged, or parried."
+19370,Killer Instinct,Tötungstrieb,Increases your critical strike chance with all attacks by $s1%.
+19371,,,
+19373,,,
+19376,Survival Tactics,Überlebenstaktik,Increases your chance to hit with your Trap and Feign Death abilities by $s1%.
+19377,,,
+19386,,,
+19387,,,
+19388,,,
+19389,,,
+19390,,,
+19407,Improved Concussive Shot,Verbesserter erschütternder Schuss,Gives your Concussive Shot a $m1% chance to stun the target for $19410d.
+19412,,,
+19413,,,
+19414,,,
+19415,,,
+19416,Efficiency,Effizienz,"Reduces the Mana cost of your Shots, Stings, and melee abilities by $s1%."
+19417,,,
+19418,,,
+19419,,,
+19420,,,
+19421,Improved Hunter's Mark,Verbessertes Mal des Jägers,Increases the Ranged Attack Power bonus of your Hunter's Mark spell by $s1%.
+19422,,,
+19423,,,
+19424,,,
+19425,,,
+19426,Lethal Attacks,Tödliche Angriffe,Increases your critical strike chance with all attacks by $m1%.
+19427,,,
+19429,,,
+19430,,,
+19431,,,
+19434,Aimed Shot,Gezielter Schuss,An aimed shot that increases ranged damage by $s1. Aimed Shot shares its cooldown with Multi-Shot.
+19454,Improved Arcane Shot,Verbesserter arkaner Schuss,Reduces the cooldown of your Arcane Shot by $/1000;S1 sec. Does not affect the cooldown of abilities which share a cooldown with Arcane Shot.
+19455,,,
+19456,,,
+19457,,,
+19458,,,
+19461,Barrage,Sperrfeuer,"Increases the damage done by your Multi-Shot, Aimed Shot, and Volley abilities by $s1%."
+19462,,,
+19464,Improved Serpent Sting,Verbesserter Schlangenbiss,Increases the damage done by your Serpent Sting by $s1%.
+19465,,,
+19466,,,
+19467,,,
+19468,,,
+19485,Mortal Shots,Todbringende Schüsse,Increases the critical strike damage bonus on all ranged abilities by $m1%.
+19487,,,
+19488,,,
+19489,,,
+19490,,,
+19491,,,
+19493,,,
+19494,,,
+19498,Hawk Eye,Falkenauge,Increases the range of your ranged weapons by $s1 yards.
+19499,,,
+19500,,,
+19503,Scatter Shot,Streuschuss,A short-range shot that deals $s1% weapon damage and disorients the target for $d.  Any damage caused will remove the effect.  Turns off your attack when used.
+19506,Trueshot Aura,Aura des Volltreffers,Increases the Ranged Attack Power of party or raid members within $a1 yards by $s1. Lasts $d.
+19507,Ranged Weapon Specialization,Distanzwaffen-Spezialisierung,Increases the damage you deal with ranged weapons by $s1%.
+19508,,,
+19509,,,
+19510,,,
+19511,,,
+19549,Improved Aspect of the Monkey,Verbesserter Aspekt des Affen,"Increases the Dodge bonus of your Aspect of the Monkey by $s1%. Additionally, your pet gains 50% of the effect of your Aspect of the Monkey ability."
+19550,,,
+19551,,,
+19552,Deadly Aspects,Tödliche Aspekte,"While Aspect of the Hawk is active, Auto Shot has a $s1% chance of increasing ranged attack speed by $6150s1% for $6150d. While Aspect of the Beast is active, all melee auto attacks have a $s2% chance of increasing melee attack speed by $1299448s1% for $1299448d."
+19553,,,
+19554,,,
+19555,,,
+19556,,,
+19557,Improved Eyes of the Beast,Verbesserte Augen des Wildtiers,Increases the duration of your Eyes of the Beast by $/1000;s1 sec.
+19558,Improved Eyes of the Beast,Verbesserte Augen des Wildtiers,Increases the duration of your Eyes of the Beast by $/1000;s1 sec.
+19559,Pathfinding,Orientierung,Increases the speed bonus of your Aspect of the Cheetah and Aspect of the Pack by $s1%.
+19560,,,
+19572,Improved Mend Pet,Verbessertes Tier heilen,"Gives your Mend Pet spell a $s1% chance of cleansing $24406s1 Curse, Disease, Magic, or Poison effect from your pet each time it heals and reduces the Mana cost by $s2%."
+19573,,,
+19574,Bestial Wrath,Zorn des Wildtiers,"Send your pet into a rage causing $s2% additional damage for $d.  While enraged, the beast does not feel pity or remorse or fear and it cannot be stopped unless killed."
+19575,,,
+19577,Intimidation,Einschüchterung,"Command your pet to Stun the target for $24394d on its next successful attack, which also gains $m2% increased critical strike chance. Generates high threat."
+19578,Spirit Bond,Geistbande,"While your pet is active, you and your pet will regenerate $m1% of total health every $m2 sec."
+19583,Endurance Training,Belastbarkeit-Ausbildung,Increases the Health and Armor of your pets by $s1%.
+19584,,,
+19585,,,
+19586,,,
+19587,,,
+19590,Bestial Discipline,Wildtierdisziplin,Increases the Focus regeneration of your pets by $s1% and allows $m2% of your Mana regeneration to continue while casting.
+19592,,,
+19596,Bestial Swiftness,Erhöhte Tiergeschwindigkeit,Increases the movement speed of your pets by $s1%.
+19598,Ferocity,Wildheit,Increases the critical strike chance of your pets and hawks by $s1%.
+19599,,,
+19600,,,
+19601,,,
+19602,,,
+19609,Thick Hide,Dickes Fell,Increases the Armor of your pets by $s1%.
+19610,,,
+19612,,,
+19616,Unleashed Fury,Entfesselter Zorn,Increases the damage done by your pets and hawks by $s1%.
+19617,,,
+19618,,,
+19619,,,
+19620,,,
+19621,Frenzy,Raserei,Gives your pet a $s1% chance to gain a $19615s1% attack speed increase for $19615d after dealing a critical strike.
+19622,,,
+19623,,,
+19624,,,
+19625,,,
+20042,Improved Blessing of Might,Verbesserter Segen der Macht,Increases the melee attack power bonus of your Blessing of Might by $s1%.
+20045,Improved Blessing of Might,Verbesserter Segen der Macht,Increases the melee attack power bonus of your Blessing of Might by $s1%.
+20046,Improved Blessing of Might,Verbesserter Segen der Macht,Increases the melee attack power bonus of your Blessing of Might by $s1%.
+20047,Improved Blessing of Might,Verbesserter Segen der Macht,Increases the melee attack power bonus of your Blessing of Might by $s1%.
+20048,Improved Blessing of Might,Verbesserter Segen der Macht,Increases the melee attack power bonus of your Blessing of Might by $s1%.
+20049,Vengeance,Rache,Increases your Physical and Holy damage dealt by $s1% for $20050d after landing a non-periodic critical strike.  Stacks up to $20050u times.
+20056,,,
+20057,,,
+20058,,,
+20059,,,
+20060,Deflection,Abwehr,Increases your Parry chance by $s1%.
+20061,,,
+20062,,,
+20063,,,
+20064,,,
+20066,Repentance,Buße,"Puts the enemy target in a state of meditation, incapacitating them for up to $d. Any damage caused will awaken the target. Only works against Humanoids."
+20091,Improved Retribution Aura,Verbesserte Aura der Vergeltung,Increases the damage done by your Retribution Aura by $s1%.
+20092,Improved Retribution Aura,Verbesserte Aura der Vergeltung,Increases the damage done by your Retribution Aura by $s1%.
+20096,Anticipation,Vorahnung,Increases your Defense Skill by $m1.
+20097,,,
+20098,,,
+20099,,,
+20100,,,
+20101,Benediction,Segnung,Reduces the Mana cost of all instant cast spells and abilities by $m1%.
+20102,,,
+20103,,,
+20104,,,
+20105,,,
+20111,Two-Handed Weapon Specialization,Zweihandwaffen-Spezialisierung,"Increases the Physical and Holy damage you deal by $s1%, and reduces all threat you generate by $m2% while a two-handed melee weapon is equipped."
+20112,,,
+20113,,,
+20117,Conviction,Überzeugung,Improves your chance to get a critical strike with all spells and attacks by $m1%.
+20118,,,
+20119,,,
+20120,,,
+20121,,,
+20127,Redoubt,Verschanzen,Damaging melee attacks against you have a $h% chance to increase your chance to block by $m1%.  Lasts $20128d or $20128n blocks.
+20130,,,
+20135,,,
+20136,,,
+20137,,,
+20138,Improved Devotion Aura,Verbesserte Aura der Hingabe,"Increases the armor bonus of your Devotion Aura by $s1%, and increases all healing received by party members affected by your Auras by $m2%."
+20139,,,
+20140,,,
+20141,,,
+20142,,,
+20143,Toughness,Zähigkeit,Increases your armor value from items by $s1%.
+20144,,,
+20145,,,
+20146,,,
+20147,,,
+20148,Shield Specialization,Schild-Spezialisierung,Increases the amount of damage absorbed by your shield by $s1%.
+20149,Shield Specialization,Schild-Spezialisierung,Increases the amount of damage absorbed by your shield by $s1%.
+20150,Shield Specialization,Schild-Spezialisierung,"Increases the amount of damage absorbed by your shield by $m1%, and gives your blocks a $m2% chance to restore $1310925m1% of your maximum Mana.  May only occur once every $proccooldown sec."
+20174,Guardian's Favor,Gunst des Hüters,Reduces the cooldown of your Blessing of Protection by $/60000;s1 min and increases the duration of your Blessing of Freedom by $/1000;s2 sec.
+20175,,,
+20177,Reckoning,Abrechnung,Gives you a $m1% chance after Blocking and a ${$m1*2.5}% chance after receiving a non-periodic critical strike to gain an extra attack. Stores up to $1326084u extra attacks. Cannot occur from Blocks more than once every ${$proccooldown}.1 sec.
+20179,,,
+20180,,,
+20181,,,
+20182,,,
+20189,Precision,Präzision,Improves your chance to hit by $s1%.
+20192,,,
+20193,,,
+20196,One-Handed Weapon Specialization,Einhandwaffen-Spezialisierung,Increases the damage you deal with one-handed melee weapons by $s1%.
+20197,,,
+20198,,,
+20199,,,
+20200,,,
+20205,Spiritual Focus,Spiritueller Fokus,"Gives your Flash of Light, Holy Light, and Light's Vigil spells a $s1% chance to not lose casting time when you take damage."
+20206,,,
+20207,,,
+20208,,,
+20209,,,
+20210,Illumination,Illumination,"After getting a critical effect from your Flash of Light, Holy Light, Light's Vigil, or Holy Shock heal spell you have a $m1% chance to gain Mana equal to $m3% of the base cost of the spell."
+20212,,,
+20213,,,
+20214,,,
+20215,,,
+20216,Divine Favor,Göttliche Gunst,"When activated, gives your next Flash of Light, Holy Light, or Holy Shock spell a $s1% critical effect chance."
+20217,Blessing of Kings,Segen der Könige,"Places a Blessing on the friendly target, increasing total stats by $s1% for $d.  Players may only have one Blessing on them per Paladin at any one time."
+20218,Sanctity Aura,Aura der Heiligkeit,Increases Holy damage done by party members within $a1 yards by $s1%.  Players may only have one Aura on them per Paladin at any one time.
+20224,Improved Seals,Verbesserte Siegel,Increases the damage done by your Seals and Judgements by $s1%.
+20225,,,
+20234,,,
+20235,,,
+20237,Healing Light,Heilendes Licht,"Increases the amount healed by your Holy Light, Flash of Light, and Holy Shock spells by $s1%."
+20238,,,
+20239,,,
+20244,Improved Blessing of Wisdom,Verbesserter Segen der Weisheit,Increases the effect of your Blessing of Wisdom spell by $s1%.
+20245,Improved Blessing of Wisdom,Verbesserter Segen der Weisheit,Increases the effect of your Blessing of Wisdom spell by $s1%.
+20254,Improved Concentration Aura,Verbesserte Aura der Konzentration,"Increases the effect of your Concentration Aura by an additional $m1%, and your Concentration Aura also reduces the duration of Silence and Interrupt effects on your party members by $m2%."
+20255,,,
+20256,,,
+20257,Divine Intellect,Göttliche Weisheit,Increases your total Intellect by $s1%.
+20258,,,
+20259,,,
+20260,,,
+20261,,,
+20262,Divine Strength,Göttliche Stärke,Increases your Strength by $s1%.
+20263,,,
+20264,,,
+20265,,,
+20266,,,
+20330,,,
+20331,,,
+20332,,,
+20335,Improved Seal of the Crusader,Verbessertes Siegel des Kreuzfahrers,Increases the melee attack power bonus of your Seal of the Crusader and the Holy damage increase of your Judgement of the Crusader by $s1%.
+20336,Improved Seal of the Crusader,Verbessertes Siegel des Kreuzfahrers,Increases the melee attack power bonus of your Seal of the Crusader and the Holy damage increase of your Judgement of the Crusader by $s1%.
+20337,Improved Seal of the Crusader,Verbessertes Siegel des Kreuzfahrers,Increases the melee attack power bonus of your Seal of the Crusader and the Holy damage increase of your Judgement of the Crusader by $s1%.
+20359,Lasting Judgement,Dauerhaftes Richturteil,Increases the duration of your Judgement of Light and Judgement of Wisdom by $/1000;s1 sec.
+20360,Lasting Judgement,Dauerhaftes Richturteil,Increases the duration of your Judgement of Light and Judgement of Wisdom by $/1000;s1 sec.
+20361,Lasting Judgement,Dauerhaftes Richturteil,Increases the duration of your Judgement of Light and Judgement of Wisdom by $/1000;s1 sec.
+20375,Seal of Command,Siegel des Befehls,"Gives the Paladin a chance to deal additional Holy damage equal to $20424s1% of normal weapon damage.  Only one Seal can be active on the Paladin at any one time.  Lasts $d.
+
+Unleashing this Seal's energy will judge an enemy, instantly causing $/2;20467s1 Holy damage, $20467s1 if the target is stunned or incapacitated."
+20468,Improved Righteous Fury,Verbesserter Zorn der Gerechtigkeit,"While Righteous Fury is active, all damage taken is reduced by $m1%."
+20469,,,
+20470,,,
+20473,Holy Shock,Heiliger Schock,"Blasts the target with Holy energy, causing $25912s1 Holy damage to an enemy, or $25914s1 healing to an ally."
+20487,Improved Hammer of Justice,Verbesserter Hammer der Gerechtigkeit,Decreases the cooldown of your Hammer of Justice spell by $/1000;s1 sec.
+20488,,,
+20489,,,
+20496,,,
+20497,,,
+20498,,,
+20499,,,
+20500,Improved Berserker Rage,Verbesserte Berserkerwut,Your Berserker Rage ability will instantly generate $/10;m1 Rage and has a $m2% chance to remove all movement impairing effects when activated.
+20501,,,
+20502,Improved Execute,Verbessertes Hinrichten,Reduces the Rage cost of your Execute ability by $/10;s1.
+20503,,,
+20504,Improved Intercept,Verbessertes Abfangen,Reduces the cooldown of your Intercept ability by $/1000;s1 sec.
+20505,,,
+20711,Spirit of Redemption,Geist der Erlösung,"Upon death, the priest becomes the Spirit of Redemption for $27827d.  The Spirit of Redemption cannot move, attack, be attacked or targeted by any spells or effects.  While in this form the priest can cast any healing spell free of cost.  When the effect ends, the priest dies."
+20895,,,
+20911,,,
+20925,Holy Shield,Heiliger Schild,"Increases chance to block by $s1% for $d, and deals $s2 Holy damage for each attack blocked while active.  Damage caused by Holy Shield causes 20% additional threat. Each block expends a charge. $n charges."
+23584,Dual Wield Specialization,Beidhändigkeits-Spezialisierung,Increases the damage done by your off-hand weapon by $m1% and the Rage generated by your off-hand attacks by $m2%.
+23585,,,
+23586,,,
+23587,,,
+23588,,,
+23695,,,
+23785,Master Demonologist,Meister der Dämonologie,"Grants both the Warlock and the summoned demon an effect as long as that demon is active.
+
+Imp - Increases Fire damage done by $m1%.
+
+Voidwalker - Reduces Physical damage taken by $m2%.
+
+Succubus/Incubus - Increases Shadow damage done by $m3%.
+
+Felhunter - Reduces Magic damage taken by $m4%."
+23822,,,
+23823,,,
+23824,,,
+23825,,,
+23881,Bloodthirst,Blutdurst,Instantly attack the target causing damage equal to $s2% of your Attack Power plus $s1 and increasing your movement speed by $s3% for $d.
+23922,Shield Slam,Schildschlag,"Slam the target with your shield, causing $s2 damage, increased by your Block Value, and has a 50% chance of dispelling $s1 magic effect on the target. Causes a very high amount of threat."
+24283,,,
+24293,Improved Tracking,Verbessertes Fährtenlesen,"While tracking Beasts, Demons, Dragonkin, Elementals, Giants, Humanoids, or Undead, all damage you deal to the tracked creature type is increased by $m1%."
+24294,Monster Slaying,Monstertöten,"Increases all damage caused against Beasts, Giants and Dragonkin targets by $s1% and increases critical damage caused against Beasts, Giants and Dragonkin targets by an additional $s2%."
+24295,Monster Slaying,Monstertöten,"Increases all damage caused against Beasts, Giants and Dragonkin targets by $s1% and increases critical damage caused against Beasts, Giants and Dragonkin targets by an additional $s2%."
+24296,,,
+24297,,,
+24386,,,
+24387,,,
+24443,Improved Revive Pet,Verbessertes Tier wiederbeleben,"Revive Pet's casting time is reduced by $/1000;s1 sec, mana cost is reduced by $s2%, and increases the health your pet returns with by an additional $s3%."
+24691,,,
+24858,Moonkin Form,Moonkingestalt,"Shapeshift into Moonkin Form, increasing Omen of Clarity's chance to trigger by $s5%, Armor contribution from items by $24905s1%, and all party or raid members within $24907a1 yards have their Critical Strike chance increased by $24907s1%. Also protects the caster from Polymorph effects and prevents the use of healing spells.
+
+The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects."
+24866,,,
+24894,,,
+24943,,,
+24944,,,
+24945,,,
+24946,,,
+24968,Tranquil Spirit,Gelassener Geist,Reduces the mana cost of your Healing Touch and Tranquility spells by $s1%.
+24969,,,
+24970,,,
+24971,,,
+24972,,,
+25829,,,
+25836,,,
+25956,Improved Judgement,Verbessertes Richturteil,Decreases the cooldown of your Judgement ability by $/1000;s1 sec.
+25957,,,
+25988,,,
+26016,,,
+26021,,,
+26022,Pursuit of Justice,Streben nach Gerechtigkeit,Increases movement speed and mounted movement speed by $s1%.  This does not stack with other movement speed increasing effects.
+26023,,,
+26573,Consecration,Weihe,"Consecrates the land beneath the Paladin, doing ${$1280345m1*8} Holy damage over $d to enemies who enter the area. The first $s3 enemies who enter the area will take an additional ${$1280345m2*8} damage over $d."
+27789,Holy Reach,Heilige Reichweite,Increases the range of your Smite and Holy Fire spells and the radius of your Prayer of Healing and Holy Nova spells by $s1%.
+27790,,,
+27811,Blessed Recovery,Gesegnete Erholung,"After being struck by a melee or ranged critical hit, or suffering more than $m2% of your maximum Health from a single attack, heal $s1% of the damage taken over $27813d. Refreshing this effect carries over any remaining healing."
+27815,,,
+27816,,,
+27839,Improved Vampiric Embrace,Verbesserte Vampirumarmung,Increases the percentage healed by your Vampiric Embrace by an additional $s1%.
+27840,,,
+27900,Spell Warding,Zauberschutz,Reduces all spell damage taken by $s1%.
+27901,,,
+27902,,,
+27903,,,
+27904,,,
+28332,,,
+28574,Arcane Resilience,Arkane Widerstandsfähigkeit,Increases your Armor by an amount equal to $s1% of your Intellect.
+28592,,,
+28593,,,
+28594,,,
+28595,,,
+28996,Elemental Warding,Schutz der Elemente,"Reduces damage taken from Fire, Frost, and Nature effects by $m1%."
+28997,,,
+28998,,,
+28999,Elemental Reach,Elementare Reichweite,"Increases the range of your Lightning Bolt, Chain Lightning, and Fire Nova spells by $m1 yards."
+29000,,,
+29062,Eye of the Storm,Auge des Sturms,Gives your Lightning Bolt and Chain Lightning spells a $m1% chance to not lose casting time when you take damage.
+29064,,,
+29065,,,
+29074,Master of Elements,Meister der Elemente,Your Fire and Frost critical strikes will refund $s1% of their base mana cost.
+29075,,,
+29076,,,
+29079,,,
+29080,,,
+29082,Weapon Mastery,Waffenbeherrschung,Increases the damage you deal with all weapons by $s1%.
+29084,Weapon Mastery,Waffenbeherrschung,Increases the damage you deal with all weapons by $s1%.
+29086,Weapon Mastery,Waffenbeherrschung,Increases the damage you deal with all weapons by $s1%.
+29087,Weapon Mastery,Waffenbeherrschung,Increases the damage you deal with all weapons by $s1%.
+29088,Weapon Mastery,Waffenbeherrschung,Increases the damage you deal with all weapons by $s1%.
+29179,,,
+29180,,,
+29187,Natural Grace,Natürliche Anmut,Reduces the threat generated by your spells by $m1%.
+29189,Healing Grace,Geschick der Heilung,Reduces the threat generated by your healing spells by $s1%.
+29191,Healing Grace,Geschick der Heilung,Reduces the threat generated by your healing spells by $s1%.
+29192,Improved Weapon Totems,Verbesserte Waffentotems,Increases the melee attack power bonus of your Windfury Totem by $s1% and increases the damage caused by your Flametongue Totem by $s2%.
+29193,Improved Weapon Totems,Verbesserte Waffentotems,Increases the melee attack power bonus of your Windfury Totem by $s1% and increases the damage caused by your Flametongue Totem by $s2%.
+29202,,,
+29205,,,
+29206,Healing Way,Pfad der Heilung,Increases the amount healed by your Healing Wave spell by $m1%.
+29438,Precision,Präzision,Improves your chance to hit with all spells by $s1%.
+29439,,,
+29440,,,
+29441,Magic Absorption,Magische Vereinnahmung,Increases all your resistances by $s2 and causes all spells you fully resist to restore $s1% of your total mana. Cannot trigger more often than 1 time per sec.
+29444,,,
+29445,,,
+29446,,,
+29447,,,
+30160,Elemental Devastation,Elementarverwüstung,Your Critical Strikes with direct damage spells increase your chance to get a Critical Strike with melee attacks by $m1% for $30165d.
+30892,Sleight of Hand,Kunstgriff,Reduces the chance you are critically hit by attacks by $m1% and increases the threat reduction of your Feint ability by $m2%.
+30893,,,
+30894,Heightened Senses,Geschärfte Sinne,Increases your Stealth detection as if you were ${$m1/5} $llevel:levels; higher and reduces your chance to be hit by spells and ranged attacks by $m2%.
+30895,,,
+30902,Deadliness,Todbringer,Increases your Attack Power by $s1%.
+30903,,,
+30904,,,
+30905,,,
+30906,,,
+30919,Weapon Expertise,Waffenexperte,Reduces the chance for your attacks to be Dodged or Parried by $m1%.
+30920,,,
