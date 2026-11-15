@@ -80,6 +80,23 @@ WoW-Forever-Eigenheiten, die PS sichtbar führen muss (warcrafttavern Forever-Be
     klassisches Theme bleibt als Option. Schrift einheitlich, nichts abgeschnitten (Testroutine K).
   - Oben rechts ein Aktualisieren-Knopf an derselben Stelle wie in AHS (Entscheid 15.11. 10:29 sinngemäss).
 
+3.1b ÖFFNEN UND BERUF WECHSELN (Idee des Nutzers 19:45): "Nicht nur, dass die UI rechts neben dem Fenster von AHS aufgeht, sondern
+  wenn ich das Handwerksbuch aufmache – je nach Beruf wechselt die Auswahl sofort."
+  - PS öffnet sich AUTOMATISCH mit dem Berufsfenster (Blizzard-Handwerksbuch, alle Spielversionen: ProfessionsFrame, TradeSkillFrame,
+    CraftFrame), angedockt rechts daneben – ohne Klick auf "Alle Rezepte". Schliesst sich mit dem Berufsfenster. Einstellung
+    "mit dem Berufsfenster öffnen" Standard AN (der Spieler kann es abschalten; der Knopf am Berufsfenster bleibt zum Ein/Aus).
+  - Beruf wechseln (Schneiderei -> Kochen, auch Verzauberkunst im alten CraftFrame): Inhalt wechselt SOFORT (im selben oder nächsten
+    Bild), nicht erst nach einem Neuaufbau. Dafür je Beruf ein fertiger Zwischenspeicher (Liste, Plan, Gold, Barometer-Werte),
+    vorbereitet in Portionen im Hintergrund (Ruhemodus beachten), sobald die Rezepte des Berufs bekannt sind; beim Wechsel zuerst der
+    Zwischenspeicher, frische Zahlen danach in Portionen ≤ 8 ms. Ziel gemessen: Wechsel ≤ 16 ms im Bild, sichtbarer Inhalt ≤ 0,2 s.
+  - Je Beruf merkt sich PS den zuletzt benutzten Reiter (z. B. Kochen -> Skillen, Schneiderei -> Gold) und öffnet dort wieder.
+  - Kopfzeile zeigt immer Beruf + Fertigkeit ("Schneiderei 110/150"), damit klar ist, wofür die Zahlen gelten.
+  - Gilt auch für Twinks/andere Figuren, wenn deren Beruf angeschaut wird (verlinkter Beruf im Chat): Anzeige "Beruf von <Figur>"
+    nur lesend, ohne Einkauf.
+  - Test: Fenster öffnen -> Panel da (ohne Klick); 5× zwischen zwei Berufen wechseln -> jedes Mal richtiger Beruf, richtiger
+    Reiter, Wechsel ≤ 16 ms (Testroutine-Messung), kein alter Inhalt sichtbar; Abschalten der Einstellung -> öffnet nicht mehr.
+  - AHSentinel: Mit PS ist kein AHS-Gewinn-Fenster mehr am Berufsfenster (PS-DOCK1) – also kein Gedränge mit drei Fenstern.
+
 3.2 Vier Reiter = vier Fragen (eine Ebene, keine zweite Knopfreihe)
   [Jetzt] [Skillen] [Gold] [Rezepte]           + unten immer sichtbar: Leiste "Einkauf / Warteschlange (n)"
   JETZT (Startseite, F1): höchstens drei Karten, jede mit EINER Zahl, EINEM Satz und EINEM Knopf:
