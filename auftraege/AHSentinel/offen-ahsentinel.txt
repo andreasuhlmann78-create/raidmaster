@@ -33,6 +33,22 @@ UI-CLEAN1 HOCH (Nutzer 10:25 "in der Testroutine prüfen, ob es Fenster, Reiter 
         "wird entfernt: … – Ersatz/Grund: …" und der Supervisor prüft die Liste; gespeicherte Daten (SavedVariables) bleiben immer.
     Reihenfolge: SN-B9 (Release-Blocker) -> UI-CLEAN1 (A) in 0.65.181 mitliefern -> (B) Bereinigung. Für das Release um 18:00 müssen
     Überlappungen und abgeschnittene Texte in sichtbaren Hauptansichten behoben sein; Rest von (B) darf in den nächsten Tag.
+HP-2 HOCH (Nutzer 10:33, Screenshot Kaufen > Schnäppchen > "Händlerpreis", 0.65.180; Code geprüft vom Supervisor):
+    BELEGT im Code: (a) A:FindVendorDeals (AHAnalyzerPro.lua:3194) nimmt quantity = GESAMTMENGE des Items über ALLE Preisstufen
+    (GetCurrent), nicht die Stücke unter dem Händlerpreis. Daraus UI_Profit.lua:370 "Gewinn/Tag = Gewinn/Stück × Menge" -> z. B.
+    Farbenprächtiger Federbusch 21c × ~298 = 62s 58c, obwohl nur die billigste Stufe unter 8s 25c liegt. Zahl falsch/aufgebläht.
+    (b) Der "+"-Knopf (UI_Profit.lua:216) legt das Sniper-Ziel mit derselben falschen Menge (bis 1000) und Budget = (Händler−1c) ×
+    Menge an. (c) FindVendorDeals prüft NICHT, was VendorFlipOffers (HP1) schon prüft: Händlerpreis vom Spiel bestätigt (nicht aus
+    der alten Tabelle) und plausibel (VendorPlausible) -> falsche Händlerpreise können als Schnäppchen erscheinen ("komisch").
+    (d) Preise bis 2 Std. alt -> beim Snipen oft schon weg. (e) Die Menge ist für den Spieler nicht sichtbar.
+    SOLL: (1) EINE Funktion für Händler-Schnäppchen (Reiter, Heute tun, Sniper-"+") = VendorFlipOffers-Regeln (bestätigter,
+    plausibler Händlerpreis). (2) Spalte "Menge" = Stücke mit Stückpreis < Händlerpreis aus dem letzten Vollscan bzw. der
+    Preisleiter (genau je Stufe); ohne genaue Daten "≥ 1". (3) "Gewinn/Tag" ersetzen durch "Gewinn gesamt" = Σ (Händlerpreis −
+    Stückpreis) über genau diese Stücke. (4) "+" -> Sniper-Ziel: Max/Stück = Händlerpreis − 1c (Einkaufspreis gemäss Händlerpreis,
+    Wunsch des Nutzers), Menge = diese Stücke (bzw. 1000, wenn der Nutzer mehr will), Budget = Σ dieser Stücke, Kauf nie ≥ Händler-
+    preis (SK1-o). (5) Alter der Preise sichtbar ("vor x Min."), älter als 30 Min. grau. Test mit Leiter 3 Stufen (unter/gleich/
+    über Händlerpreis) + Tabellen-Händlerpreis (darf nicht erscheinen) + Selbstkontrolle (Menge/Gewinn gesamt = Nachrechnung).
+    Reihenfolge: nach SN-B9 und dem Ketten-Kandidaten, vor UI-CLEAN1.
 UI-REF1 MITTEL (Nutzer 10:29 bestätigt, Vorschlag Supervisor): EIN Aktualisieren-Knopf, in JEDEM AHSentinel-Fenster an genau
     derselben Stelle (Kopfzeile oben rechts neben "Optionen", gleiches Symbol). Klick = aktualisiert den aktuellen Reiter (Sniper:
     sofort suchen; Markt: neu rechnen; Buchhaltung/Verkaufen/Einkauf: neu laden); Shift+Klick = alles. Tooltip in einem Satz,
