@@ -268,3 +268,6 @@ PS-DW1 MITTEL (Nutzer 17:05, AHSentinel 0.65.170): Ein Rahmen von ProfessionSent
 >>> HINWEIS (Supervisor 00:05): LevelPilot 3.12.44 bietet LevelPilotAPI.NavigateTo(uiMapID, x, y, titel) (x/y in Prozent, Rückgabe true/false,
   version = 1; Ziel endet beim Erreichen oder wenn ein Händler geöffnet wird). "Nächster Lehrer – Weg zeigen": zuerst LevelPilot (wenn geladen
   und true), sonst TomTom/Karte/Chat wie bisher. Test mit Nachbildung beider Wege.
+
+>>> NACHT-PRÜFUNG 00:19 (Supervisor) – 0.9.56 Skillplan "Mit Vorrat" (Gegenprobe leerer Vorrat = Billigst, Verbrauch je Punkt, Portionen) und 0.9.57
+  Weg zeigen über LevelPilot: keine Befunde. WEITER: B2 Gelernte Quoten, B4 Warnschutz fürs Herstellen, B5 Marktlage (Antwort 23:48).

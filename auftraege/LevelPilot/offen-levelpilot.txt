@@ -356,3 +356,9 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
 
 >>> NACHT-PRÜFUNG 00:05 (Supervisor) – 3.12.44 LevelPilotAPI.NavigateTo: Rückgabe false bei ungültigen Werten, Ziel unverändert, README – gut.
   Keine Befunde. An ProfessionSentinel weitergegeben. WEITER: eigener Rest aus LP-N1; bei Leerlauf kurzer Bericht, was offen ist.
+
+>>> NACHT-PRÜFUNG 00:19 (Supervisor) – Stand-Bericht 00:16 gelesen, Liste stimmt. NEU (Idee Supervisor, freigegeben 19:58, NUTZEN für den Nutzer morgen):
+  LP-N2 MITTEL – Ein geführter Client-Test: "/lp clienttest" geht die offenen "im Client prüfen"-Punkte T297–T306 der Reihe nach durch, prüft
+  alles, was im Spiel selbst messbar ist, automatisch (Rahmen vorhanden? API liefert Werte? Sprache passt?), und fragt nur dort nach, wo der Nutzer
+  hinschauen muss (je Schritt EIN Satz, Knopf "ok"/"nicht ok"). Ergebnis als eine Zeile je Punkt im Testbericht/Diagnose. Spart dem Nutzer
+  Lesen und Suchen. Test im Nachbau mit beiden Antworten. Danach dieselbe Idee ggf. für GSWegMess-Ablauf (Anleitung im Spiel).
