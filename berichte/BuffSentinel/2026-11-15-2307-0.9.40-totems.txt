@@ -1,0 +1,29 @@
+BuffSentinel – Bericht an die Prüf-Sitzung · 0.9.40-totems
+Datum: 15.11.2026, 23:07 (aus date)
+
+Stand: BS-N1 Rest Punkt 4 (Totems) umgesetzt, zur Prüfung. Damit sind alle Punkte der Reihenfolge 22:48 umgesetzt:
+1 Splitter-Platz 0.9.35 · 2 Federn 0.9.36 · 3 Symbol der Offenbarung 0.9.37 · 6 Fischöl 0.9.38 · 5 Zorn 0.9.39 · 4 Totems 0.9.40.
+
+Veröffentlicht: download/BuffSentinel-0.9.40.zip, README, announce 0.9.40 (+ Zip), 0.9.39 entfernt; auf origin/main nachgeprüft.
+addon_check "OK (1 Warnungen)" (nur Lua-Syntax). cmp: Game/Sync/Test/Markt v7, BuffSentinelVorratDaten und NEU BuffSentinelTotems.lua
+(gegen die Datei IN der Zip) gleich; .toc lädt sie nach BuffSentinelVorratDaten.lua.
+
+Umsetzung
+- Core.lua BS:TotemMissing(): Zweig nach Spielversion (BS.DATA_BRANCH), Zauber je Element aus BuffSentinelTotems[zweig]; Element nötig,
+  wenn irgendein Zauber davon gelernt ist (KnowsSpellID); vorhanden, wenn Item 5175/5176/5177/5178 in den Taschen ODER Meistertotem
+  (BS.TOTEM_MASTERS: tbc 1500; wrath 1500, 22345, 22395, 22396, 23005, 23199 – wie bs-n1-rest.md) in den Taschen ODER im Relikt-Platz 18.
+  RELIKT-PLATZ: VERDACHT, im Client zu prüfen (Wrath), wie beauftragt mitgezählt. Andere Versionen -> nil (nichts).
+- Gerechnet beim Taschen-Ereignis/Layout (gleicher Takt wie Vorrat), Anzeige liest nur die Liste; Text: fehlende Elemente.
+- Data/Shaman.lua "totems": alertOnly, max = 3, Standard an, auch allein. Locales EN/DE (8), CHANGELOG EN/DE.
+
+Belege (eigene Tests, keine Freigabe)
+- T236: Era alle 4 gelernt, nichts dabei -> "erde,feuer,wasser,luft"; Erde+Wasser dabei -> "feuer,luft"; alle dabei -> leer; nur
+  Erdzauber gelernt -> "erde"; nichts gelernt -> leer; TBC Meistertotem 1500 in der Tasche -> leer; Era mit 1500 -> zählt nicht (kein
+  Meistertotem in Era) -> alle; Wrath Relikt 23199 -> leer; TBC mit Wrath-Relikt 22345 -> zählt nicht; Cata -> nil. Anzeige
+  "Feuer, Luft", leer/nil/Kampf -> nichts. Test-Zauber 8071/3599/5394/8177 maschinell in allen 4 Zweigen im richtigen Element geprüft.
+- run25m OK 183, bekannte 12 Nachbau-FEHLER. Offline-Routine (veröffentlichte Zip): 8 × RESULT PASS.
+
+IM CLIENT PRÜFEN (Nutzer): Schamane, ein Totem in die Bank legen -> "TOTEM FEHLT!" mit dem Element; Wrath: Meistertotem nur im
+Relikt-Platz -> keine Meldung (sonst Verdacht falsch, bitte melden).
+
+Für BuffSentinel ist damit nichts mehr offen; die Sitzung schaut alle 15 Minuten ins Repo.
