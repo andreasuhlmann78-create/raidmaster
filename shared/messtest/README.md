@@ -70,3 +70,32 @@ gross sind die Daten, wenn andere Spieler sie mitlesen und weitergeben? Ohne Par
 
 Am besten über einen Abend: alle 30–60 Min. `/gsmess markt` (oder einfach den AHSentinel-Vollscan – GSMesstest liest mit),
 mindestens 3 Scans, danach `/reload`.
+
+## GSSniperLog (15. Nov. 2026) – alles rund um den AHSentinel-Sniper mitschreiben
+
+Auftrag des Nutzers 14:03/14:04: "ein Mini-Addon, das ich laufen lassen kann und alles im Hintergrund live testet, ohne dass
+ich etwas machen muss … es soll alles rund um den Sniper testen, wirklich ALLES, mit dem Ziel, dass er perfekt funktioniert".
+
+**Passiv:** kauft nichts, verkauft nichts, ruft keine geschützte Funktion auf, ändert AHSentinel nicht (nur lesen und
+`hooksecurefunc` = nachher mithören). Keine Spielernamen (Systemmeldungen nur als Art, z. B. "gewonnen").
+
+Installieren: `GSSniperLog.zip` entpacken nach `Interface/AddOns` (Ordner `GSSniperLog`). Danach normal spielen (snipen,
+entzaubern, verkaufen, Post holen). `/gssl` zeigt den Stand, `/gssl aus|an|leeren`. Beim Ausloggen oder `/reload` geht das
+Ergebnis (`GSDIAG1|GSSniperLog|…`) mit dem Uploader nach `testberichte/diagnose/GSSniperLog/`.
+
+Schreibt mit (je Zeile Uhrzeit auf 0,1 s):
+- SUCHE/ERGEBNIS: jede Suche, Antwortzeit des Servers, Angebote unter dem Max-Preis des Ziels, günstigstes Angebot
+- WEG: Angebot unter Max verschwand ohne unseren Kauf (erst nach 2 vollständigen Ergebnissen, Teilergebnisse zählen nicht),
+  wie lange es sichtbar war
+- KAUF-GESENDET / KAUF-OK / KAUF-OFFEN: jeder gesendete Kauf (PlaceBid, Waren), offene Käufe beim Senden, doppelt gesendet,
+  Reaktion seit erstem Sehen, Antwortzeit, keine Bestätigung in 30 s, späte Bestätigung
+- FEHLER / AH-FEHLER / DROSSEL: "Interner Auktion-Fehler", AH-Fehlercodes, Drossel-Ereignisse des Servers
+- GOLD: jeder Gold-Abgang/-Zugang mit Zusammenhang (AH Kauf, Einstellgebühr, Post, Händler, sonst)
+- AHS-ZÄHLER / AHS-STATUS / PAUSE: Zähler von AHSentinel je Ziel, jeder Statuswechsel mit Dauer, Lücken ohne Sniper-Suche
+- BILD: Frames > 100 ms bei offenem AH; MINUTE: Zusammenfassung je Minute
+- Zusammenfassung: Erfolg je "offene Käufe beim Senden" (0/1/≥2), Gold bestätigt gegen Gold-Abgang, AHSentinel-Zähler
+
+Test: `lua5.1 shared/messtest/GSSniperLog/test_gssniperlog.lua shared/messtest/GSSniperLog/GSSniperLog.lua` – 5 Szenario-Läufe
+(normaler Ablauf, doppelt/ohne Antwort/spät/Waren, weggeschnappt/Teilergebnisse, Pausen/Status/Gold-Zusammenhang/Vollscan,
+Robustheit ohne AHSentinel/AH-API, Begrenzungen, Befehle, globale Namen) + 5 Zufallsläufe à 20000 Ereignisse:
+92/92 OK, 0,03 ms je Ereignis. addon_check: OK (nur Hinweise Sprache/GoldSentinelGame – Messwerkzeug, nicht veröffentlicht).
