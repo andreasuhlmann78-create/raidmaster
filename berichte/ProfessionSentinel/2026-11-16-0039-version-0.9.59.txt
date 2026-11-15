@@ -1,0 +1,40 @@
+BERICHT PROFESSIONSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 16.11.2026 00:39 · Sitzung: ProfessionSentinel-Sitzung · Version: 0.9.59 · Commit: 7bbf93b (Quell-Repo), Release v0.9.59
+Grundlage: offen-professionsentinel.txt, Befund PS58-1 (Commit 83eec4f0).
+Hinweis: Hier steht nur "umgesetzt, zur Prüfung" mit Belegen. Ob etwas erledigt ist, entscheidet die Prüf-Sitzung.
+
+UMGESETZT, ZUR PRÜFUNG – PS58-1
+-------------------------------
+Ursache (belegt): AHSentinel 0.65.244 API.lua WorthUpTo gibt "return Int(amt), way, safe, conf, Int(per)" zurück
+(API.md Zeile 34: 3. Wert "sicher"/"unsicher", 4. Wert Sicherheit 0–1, nil = lernt noch, 5. Wert Preis je Stück).
+PS 0.9.58 las nur 3 Werte und nahm den 3. als Chance -> "sicher" = 100 %, "unsicher" = keine Chance, "lernt noch" nie.
+Die Nachbildung in T281 gab die Werte in falscher Reihenfolge (380, "sell", 0.5) – darum war der Test grün.
+
+1. Prices.lua (~Z. 252): alle Rückgabewerte werden mit Anzahl gelesen (select("#")).
+   - 4 oder mehr Werte (heutige AHS): Chance = 4. Wert (MK.SellChance, 0–1), 4. Wert nil -> learning = true, keine Quote.
+   - nur 3 Werte (ältere AHS): Rückfall auf den 3. Wert ("sicher" -> 1, "unsicher" -> keine Chance).
+   - worthUnsure: 3. Wert "unsicher" ODER 4. Wert unter MK.HIT_MIN_RATE (MK.WorthUnsure, gleiche Regel wie bisher).
+2. PriceSource.lua PS.Call: gab schon vorher unpack(res, 2) weiter (alle Werte bis zum ersten Loch, das # bestimmte –
+   bei einem nil in der Mitte, z. B. "sicher", nil, per, war das Ende unbestimmt). Jetzt mit gespeicherter Anzahl
+   (unpack(res, 2, res.n)): alle Werte kommen an, auch hinter nil.
+3. Market.lua: Kommentar zu MK.WorthUnsure/SellChance auf die 4-Werte-Regel angepasst (Code unverändert).
+
+TESTS (eigene, Hinweise – keine Freigabe)
+-----------------------------------------
+- Neuer Helfer WorthDummy in TestRoutine.lua: gibt genau die 5 Werte von API.md zurück (old = true: nur 3 Werte).
+  Die Nachbildung in der Rechnungs-Prüfung (Z. ~6309) gibt jetzt ebenfalls 800, "sell", "sicher", 0.8, 800 zurück.
+- T281 erweitert (10 Prüfungen): echte Reihenfolge ("unsicher", 0.5) -> Chance 0,5 und unsicher; 4. Wert nil -> lernt noch,
+  nicht 100 %; alte AHS ("sicher", nur 3 Werte) -> 1; alte AHS "unsicher" -> keine Chance + unsicher; PS.Call gibt
+  1, nil, nil, nil, 5 vollständig weiter (5 Werte).
+- Gegenprobe: Prices.lua + PriceSource.lua aus 0.9.58 mit neuem T281 -> FEHLER "10 Prüfungen, 4 Fehler: Chance = 4. Wert
+  (0,5): nil". Mit 0.9.59 OK.
+- run_offline (LuaJIT): Forever OK 237 / FEHLER 0, Era OK 219 / 0, Retail OK 217 / 0, TBC ohne Lua-Fehler, Exit 0.
+  --lua51: Forever OK 237 / 0, Retail OK 217 / 0. Schnelltest Ausgang 0, check_actions OK, Locale-Schlüssel 518.
+- addon_check auf download/ProfessionSentinel-0.9.59.zip und announce-Zip: OK. ZIP = Release-Asset = Quell-Repo (diff -r leer).
+
+IM CLIENT PRÜFEN
+----------------
+- Mit AHSentinel 0.65.244: Gold-Liste, Tooltip eines Produkts mit gelernter Quote -> "verkauft sich zu x %" mit dem Wert,
+  den AHSentinel selbst zeigt; frisches Produkt -> "lernt noch".
+
+NÄCHSTES (Reihenfolge laut Antwort der Prüf-Sitzung): B4 Warnschutz fürs Herstellen (WS-LOOP1), dann B5 Marktlage im Tooltip.
