@@ -1,0 +1,37 @@
+Markt-Tabellen täglich – 15.11.2026 (geplante Aufgabe, Lauf 04:41 UTC)
+=====================================================================
+Quelle: aktuell/DESKTOP-NVITMSE/forever/konto-.../AHSentinel.lua (Stand 15.11. 01:01 UTC, 3,7 Std. alt; die
+Laptop-Datei ist vom 13.11. 16:04 UTC und wurde nicht mitgezählt). Daten bis 15.11. 00:48 UTC.
+Ergebnis: shared/markt-tabellen/GoldSentinelMarktTabellen.lua, 1885 Bytes.
+
+Prüfung (dreifach): lädt in Lua (lupa) ok · Grösse 1,9 KB < 50 KB ok · nur Zahlen und Schlüssel (Bänder,
+Gruppen-Schlüssel, Zustände), keine Namen ok · Zustände nur welle/durch/steigt/offen ok · Plausibilität gegen
+gestern ok (keine Änderung > 20 Prozentpunkte bei Entzaubern/Kaufstufen).
+
+Wellen je Band (gestern -> heute)
+  5-25   offen 0.586 (9 T)  -> steigt 0.649 (10 T)
+  26-35  durch 0.138 (9 T)  -> durch  0.149 (10 T)
+  36-45  offen 0.260 (9 T)  -> durch  0.220 (10 T)
+  46-55  offen 0.377 (8 T)  -> offen  0.447 (9 T)
+  56-60  offen 0.274 (6 T)  -> offen  0.449 (7 T)
+
+Entzaubern (Gewinn gemessen / Mindestgewinn)
+  2:4:a  n 557 (+33), nKauf 483 (+33), Tabelle 0.953, Gewinn 0.340 (gestern 0.354), Mindest 0.20
+  2:6:a  n 124, nKauf 62 (unverändert), Tabelle 0.950, Gewinn 0.199, Mindest 0.30
+  2:1:a  NEU: n 448, nKauf 0, Tabelle 1.023, Gewinn ungemessen (nil), Mindest 0.20
+
+Kaufstufen (Kaufpreis/Wert -> Gewinn)
+  bis 0.6: n 21  0.527 (=)
+  bis 0.7: n 158 0.427 (gestern 154 / 0.432)
+  bis 0.8: n 236 0.331 (gestern 234 / 0.331)
+  bis 0.9: n 66  0.173 (gestern 42 / 0.182)
+  darüber: n 14 -0.042 (gestern 11 / -0.021)
+
+Verkaufsquoten (Preis/Markt -> Anteil verkauft)
+  de:    bis 0.90 n 11 0.298 · bis 0.97 n 13 0.333 · bis 1.03 n 24 0.542 · bis 1.10 n 3 0.667 · darüber n 30 0.400
+  metal: bis 1.03 n 1 1.0 · darüber n 1 0.0
+  consum NEU: bis 1.03 n 1 0.0
+
+Auffällig, zur Kenntnis (kein Befund): de "bis 1.10" fällt 1.0 -> 0.667 bei nur n 3, de "darüber" steigt
+0.217 -> 0.400 bei n 19 -> 30. consum/metal mit n 1 haben kaum Gewicht (L2, k = 2). Neue Gruppe 2:1:a ohne Käufe,
+daher nur Tabellenfaktor.
