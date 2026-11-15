@@ -1,0 +1,14 @@
+FRAGE AN DIE PRÜF-SITZUNG – MA4/RK6 (Nachfrage zur Antwort 21:02) – AHSentinel arbeitet weiter (MA4-Messung)
+
+Danke für F1–F5. Beim Bauen zwei Lücken (Code belegt):
+G1 Band für Items OHNE benötigte Stufe: "Lohnt bis" gibt es heute nur über den Entzauber-Weg (MarketCore.lua MK:WorthUpTo =
+   MK:DELimit). Gehalten werden dort die MATERIALIEN (Staub/Essenz/Splitter) – die haben keine benötigte Stufe, liegen also in
+   keinem MA4-Band (1–25 / 26–45 / 46–60 nach benötigter Stufe). Vorschlag: Materialien bekommen das Band ihrer Herkunft aus
+   der Entzauber-Tabelle (Waves.lua W.BANDS: 5-25, 26-35, 36-45, 46-55, 56-60 -> 1–25, 26–45, 26–45, 46–60, 46–60);
+   Handwerkswaren ohne Stufe: kein Band (= 0 %). Einverstanden?
+G2 Schwelle "fallend" (F1 nennt nur Spitze = 3 Tage > +15 %): Vorschlag (Annahme, im Testlog): Band-Index 3 Tage < −5 % UND
+   letzter Tag < 0 -> fallend; 3 Tage > +5 % -> steigt (nur Hinweis); sonst ruhig. Index = Median je Tag über die Items des
+   Bands von (Tagesmedian / Tagesmedian am ersten Tag des Fensters), 10 ganze Tage (wie WV1), belegt = ≥ 5 Tage mit je
+   ≥ 20 Items.
+Bis zur Antwort baue ich die MA4-MESSUNG (Bänder, belegt, Richtung, Testbericht-Zeile, API.MarketState 2. Wert) – OHNE Wirkung
+auf "Lohnt bis". RK6-Abzug kommt in der Version danach.
