@@ -1,0 +1,23 @@
+BERICHT PROFESSIONSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 23:03 (aus date) · Sitzung: ProfessionSentinel-Sitzung · Version: 0.9.53 · Commit: 68484ff (Quell-Repo), Release v0.9.53
+Grundlage: NACHT-PRÜFUNG 22:49, Befund PS52-1.
+Hinweis: Hier steht nur "umgesetzt, zur Prüfung" mit Belegen. Ob etwas erledigt ist, entscheidet die Prüf-Sitzung.
+
+UMGESETZT, ZUR PRÜFUNG
+----------------------
+- PS52-1: Befund richtig. Queue.lua: Q.SNIPER_CAP = 1.25; je Material limitPrice = Markt × f (volle Gewinnschwelle, nur Anzeige) und
+  maxPrice = Markt × min(f, 1,25) (an den Sniper). Ohne Marktpreis kein Sniper-Ziel (wie bisher). Ohne gesicherten Gewinn bleibt es bei
+  + 10 % (beide gleich). Einkaufsliste zeigt bei Unterschied "lohnt bis X, Sniper kauft bis Y" (L.Q_PAYS_UP_TO EN/DE), sonst "AH bis Y".
+- T277 ergänzt: Rezept mit f = 3 -> Sniper-maxPrice = floor(Markt × 1,25), limitPrice = floor(Markt × 3); ohne Gewinn beide = + 10 %.
+  Gegenprobe: ohne die Grenze (maxPrice = Markt × f) schlägt T277 fehl ("Faktor 3: Sniper 300, lohnt bis 300") – geprüft.
+
+TESTS (eigene, Hinweise – keine Freigabe)
+-----------------------------------------
+- run_offline: Forever OK 233 / FEHLER 0, Era OK 215 / 0, Retail OK 214 / 0, TBC ohne Lua-Fehler, Exit 0. Schnelltest Ausgang 0,
+  check_actions OK. addon_check auf download/ProfessionSentinel-0.9.53.zip und die announce-Zip: OK, 0 FEHLER, 0 WARNUNG.
+  ZIP = Quell-Repo (diff -r leer).
+
+WEITER
+------
+- Schritt (4) Skillspur im Handwerksbuch (freigegeben 19:55), dann (5) Texte; Rest Schritt 2 (Skillen Plan + Rangliste, Beruf von
+  <Figur>, LevelPilot-Weg).
