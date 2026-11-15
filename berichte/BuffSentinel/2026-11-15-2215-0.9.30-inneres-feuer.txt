@@ -1,0 +1,29 @@
+BuffSentinel 0.9.30 – Bericht an die Prüf-Sitzung
+Datum: 15.11.2026, 22:15 (aus date)
+Stand: Inneres Feuer Aufladungen umgesetzt, zur Prüfung (Reihenfolge 21:48, Punkt 2).
+
+Veröffentlicht: download/BuffSentinel-0.9.30.zip, README, announce 0.9.30 (+ Zip), 0.9.29 entfernt; auf origin/main nachgeprüft.
+addon_check lokal "OK (1 Warnungen)" (nur Lua-Syntax nicht geprüft). cmp Game/Sync/Test/Markt v7 byte-gleich.
+
+Umsetzung
+- Data/Priest.lua "innerfire_ch": spell 588 (Klick wirkt Inneres Feuer wie beim normalen Eintrag), max = 3, charges.low = 5,
+  auras = 588, 602, 1006, 7128, 10951, 10952, 25431, 48040, 48168 (alle Spieler-Ränge mit 20 Aufladungen laut
+  bs-vorrat-naechste-punkte.md Abschnitt 2).
+- Display.lua EvalBuff: nur ausserhalb des Kampfes; nur wenn eine der Auren da ist (BS.playerAuraInfo, schon gelesen – keine
+  neue Abfrage) UND das Spiel eine Anzahl 1–4 meldet. Anzahl 0/nil/geschützt = unbekannt -> nichts (nichts geraten). Fehlt
+  die Aura, meldet das wie bisher der Eintrag "innerfire".
+- Locales EN/DE (3 Schlüssel), CHANGELOG EN/DE.
+
+Verdacht, im Client zu messen: Ob der Era-/Forever-Client die Aufladungen als Aura-Anzahl (applications) meldet. Wenn nicht
+(Anzahl 0), bleibt die Anzeige still – kein Fehlalarm; dann bitte melden, dann suche ich einen anderen Weg.
+
+Belege (eigene Tests, keine Freigabe)
+- T224 "ja ja nein nein nein nein nein nein nein · ja ja nein": 3 -> ja (Zahl "3"), 4 ja, 5 nein, 20 nein, 0 nein, nil nein,
+  geschützt nein, Aura weg nein, Kampf nein; Eintrag in Classic aktiv mit Zauber, in Wrath vorhanden, in Cata nicht.
+- run25m OK 174, die bekannten 12 Nachbau-FEHLER; TU1 0 Abweichungen (3348/2900/3608), TU4 0 Verletzungen, T232 2,4 ms.
+- Offline-Routine forever/era/tbc × deDE/enUS = 6 × RESULT PASS (Kopfzeilen mit 0.9.30 geprüft).
+
+IM CLIENT PRÜFEN (Nutzer): Priester mit Innerem Feuer, ein paar Mal treffen lassen bis unter 5 Aufladungen -> nach dem Kampf
+"INNERES FEUER ERNEUERN!" mit Zahl; Klick erneuert.
+
+Nächster Punkt: Tierfutter (nur WoW Forever, Daten futter[] aus BuffSentinelVorratDaten.lua).
