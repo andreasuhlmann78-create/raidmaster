@@ -1,6 +1,6 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-15 13:58 UTC
+Ausgewertet: 2026-11-15 14:50 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
@@ -18,20 +18,20 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 133 | `testberichte/diagnose/AHSentinel/0.65.190-6bbbe72d2f42.txt` |
-| BuffSentinel | 38 | `testberichte/diagnose/BuffSentinel/0.9.21-ba8ede23106d.txt` |
+| AHSentinel | 136 | `testberichte/diagnose/AHSentinel/0.65.192-ff178f9909a7.txt` |
+| BuffSentinel | 38 | `testberichte/diagnose/BuffSentinel/0.9.12-7f8dfb5af187.txt` |
 | GSMesstest | 9 | `testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt` |
-| GSSniperLog | 1 | `testberichte/diagnose/GSSniperLog/1.0-cfffe8e8d766.txt` |
-| GuildSentinel | 129 | `testberichte/diagnose/GuildSentinel/0.9.39-df8e511c619e.txt` |
-| LevelPilot | 29 | `testberichte/diagnose/LevelPilot/3.12.30-abeea3d868d4.txt` |
-| ProfessionSentinel | 109 | `testberichte/diagnose/ProfessionSentinel/0.9.45-a03ada4798c0.txt` |
-| ThreatSentinel | 107 | `testberichte/diagnose/ThreatSentinel/2.5.13-080a210f6ef7.txt` |
+| GSSniperLog | 4 | `testberichte/diagnose/GSSniperLog/1.0-4e84a2ded52c.txt` |
+| GuildSentinel | 132 | `testberichte/diagnose/GuildSentinel/0.9.39-5a5100206a35.txt` |
+| LevelPilot | 32 | `testberichte/diagnose/LevelPilot/3.12.30-98fd2cacc1b8.txt` |
+| ProfessionSentinel | 112 | `testberichte/diagnose/ProfessionSentinel/0.9.45-cedeb6a237d8.txt` |
+| ThreatSentinel | 110 | `testberichte/diagnose/ThreatSentinel/2.5.13-d9a62bf8f986.txt` |
 
 ## Wegdaten (GSWEGE1)
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| LevelPilot | 183 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794748426-8505ef.json` |
+| LevelPilot | 186 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794750358-cbbdc9.json` |
 
 ## AHSentinel
 

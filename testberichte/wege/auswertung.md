@@ -82,9 +82,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Alteracgebirge (1416)
 
-- Wegstücke 160, Knoten 215, zusammenhängende Teile 7
+- Wegstücke 171, Knoten 282, zusammenhängende Teile 7
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 116 Knoten, Bereich 21–50 / 51–86
+  - Teil 1: 183 Knoten, Bereich 9–50 / 50–87
   - Teil 2: 41 Knoten, Bereich 21–36 / 8–27
   - Teil 3: 38 Knoten, Bereich 16–22 / 88–93
   - Teil 4: 11 Knoten, Bereich 30–34 / 28–38
@@ -105,16 +105,16 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Tirisfal (1420)
 
-- Wegstücke 655, Knoten 893, zusammenhängende Teile 19
+- Wegstücke 659, Knoten 960, zusammenhängende Teile 20
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 850 Knoten, Bereich 25–84 / 21–76
+  - Teil 1: 913 Knoten, Bereich 25–84 / 21–78
   - Teil 2: 8 Knoten, Bereich 56–59 / 41–43
   - Teil 3: 4 Knoten, Bereich 63–63 / 47–51
   - Teil 4: 4 Knoten, Bereich 58–60 / 81–82
-  - Teil 5: 3 Knoten, Bereich 56–56 / 40–42
-  - Teil 6: 3 Knoten, Bereich 32–32 / 59–60
-  - Teil 7: 2 Knoten, Bereich 69–69 / 63–63
-  - Teil 8: 2 Knoten, Bereich 45–45 / 29–30
+  - Teil 5: 4 Knoten, Bereich 85–85 / 30–32
+  - Teil 6: 3 Knoten, Bereich 56–56 / 40–42
+  - Teil 7: 3 Knoten, Bereich 32–32 / 59–60
+  - Teil 8: 2 Knoten, Bereich 69–69 / 63–63
 - **Ausreisser:** Wegstück 1: Sprung 4.9 % von 30.4,71.5 nach 31.6,66.8
 - **Ausreisser:** Wegstück 40: Sprung 4.8 % von 31.9,64.4 nach 29.4,60.3
 - **Ausreisser:** Wegstück 85: Sprung 4.9 % von 59.2,46.6 nach 58.2,51.4
@@ -138,9 +138,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Silberwald (1421)
 
-- Wegstücke 527, Knoten 804, zusammenhängende Teile 7
+- Wegstücke 536, Knoten 880, zusammenhängende Teile 7
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 643 Knoten, Bereich 34–80 / 5–74
+  - Teil 1: 719 Knoten, Bereich 34–80 / 5–74
   - Teil 2: 118 Knoten, Bereich 55–65 / 57–78
   - Teil 3: 17 Knoten, Bereich 55–58 / 45–50
   - Teil 4: 11 Knoten, Bereich 58–61 / 8–14
@@ -164,9 +164,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Vorgebirge von Hillsbrad (1424)
 
-- Wegstücke 469, Knoten 673, zusammenhängende Teile 3
+- Wegstücke 478, Knoten 695, zusammenhängende Teile 3
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 660 Knoten, Bereich 27–64 / 16–64
+  - Teil 1: 682 Knoten, Bereich 27–64 / 16–64
   - Teil 2: 11 Knoten, Bereich 31–33 / 20–26
   - Teil 3: 2 Knoten, Bereich 63–64 / 39–39
 - **Ausreisser:** Wegstück 1: Sprung 5.2 % von 61.8,39.2 nach 62.0,34.0
@@ -280,9 +280,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Undercity (1458)
 
-- Wegstücke 1498, Knoten 814, zusammenhängende Teile 3
+- Wegstücke 1502, Knoten 817, zusammenhängende Teile 3
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 811 Knoten, Bereich 44–86 / 1–96
+  - Teil 1: 814 Knoten, Bereich 44–86 / 1–96
   - Teil 2: 2 Knoten, Bereich 83–84 / 15–16
   - Teil 3: 1 Knoten, Bereich 53–53 / 32–32
 - **Ausreisser:** Wegstück 1: Sprung 10.6 % von 46.4,72.8 nach 52.8,64.4

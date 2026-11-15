@@ -1,0 +1,225 @@
+AHSentinel-Protokoll v0.65.193 · 15.11. 15:01:18
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  15.11. 14:46:03 L10 ? v0.65.193
+  15.11. 14:37:11 L10 ? v0.65.192
+  15.11. 14:36:50 L10 ? v0.65.192
+  15.11. 14:24:24 L10 ? v0.65.190
+  15.11. 14:18:21 L10 ? v0.65.190
+  15.11. 14:16:12 L10 ? v0.65.190
+  15.11. 14:13:51 L10 ? v0.65.190
+  15.11. 14:07:44 L10 ? v0.65.189
+  15.11. 13:41:19 L10 ? v0.65.189
+  15.11. 13:40:39 L10 ? v0.65.189
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 34 Min., 7066 Items, Preis-Sync an
+  SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 2, GoldSentinelMarkt 2, GoldSentinelTest 2, GuildSentinel 2, LevelPilot 1, LevelPilotG 1, ThreatSentinel 0
+  SYNC gesendet 20 · empfangen 192 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 4 (mit Sync 2: 4, pausiert 1) · gesendet 5 · weitergegeben 0 · offline 1 · Listen 4 · Warteschlange 0 · gespeichert ja
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Einstellungen geändert: cmdHint=true, fastScan=true, helpSeen=true, marketExpert=false, minimapAngle=216.6, priceGuard=20, sniperSignal=true, theme=modern, tooltipDEDetail=true, vendorButton=false, vendorFlipMin=500
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0
+
+== Einträge (200, neueste zuerst)
+[15.11. 15:01:17] LANGSAM ×4 Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 25 ms bis Ende ui-refresh · 25 ms
+[15.11. 15:01:12] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 17 ms bis Ende ui-refresh · 17 ms
+[15.11. 15:01:10] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 39 ms bis Ende ui-refresh · 39 ms
+[15.11. 15:01:08] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 27 ms bis Ende ui-refresh · 27 ms
+[15.11. 15:01:06] ABBRECHEN AUCTION_CANCELED auctionID 107237363 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 15:01:05] KAUF gesendet · Angebot 107237363 · offen 17
+[15.11. 15:01:05] ABBRECHEN AUCTION_CANCELED auctionID 107294026 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 15:01:05] KAUF gesendet · Angebot 107293319 · offen 17
+[15.11. 15:01:05] SNIPER-SUCHE Suche vom Server verworfen nach 0.1 s – sofort neu
+[15.11. 15:01:05] KAUF gesendet · Angebot 107294026 · offen 16
+[15.11. 15:01:04] KAUF gesendet · Angebot 107293915 · offen 15
+[15.11. 15:01:04] KAUF gesendet · Angebot 107293842 · offen 14
+[15.11. 15:01:04] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 22 ms bis Ende ui-refresh · 22 ms
+[15.11. 15:01:03] KAUF gesendet · Angebot 107236165 · offen 13
+[15.11. 15:01:03] KAUF gesendet · Angebot 107237198 · offen 12
+[15.11. 15:01:03] KAUF gesendet · Angebot 107237897 · offen 11
+[15.11. 15:01:03] ABBRECHEN AUCTION_CANCELED auctionID 107238075 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 15:01:02] KAUF gesendet · Angebot 107237544 · offen 11
+[15.11. 15:01:02] ABBRECHEN AUCTION_CANCELED auctionID 107237718 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 15:01:02] KAUF gesendet · Angebot 107238075 · offen 11
+[15.11. 15:01:02] KAUF gesendet · Angebot 107233625 · offen 10
+[15.11. 15:01:01] KAUF gesendet · Angebot 107237718 · offen 9
+[15.11. 15:01:01] KAUF gesendet · Angebot 107233741 · offen 8
+[15.11. 15:01:01] ABBRECHEN AUCTION_CANCELED auctionID 107233504 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 15:01:01] KAUF gesendet · Angebot 107233148 · offen 8
+[15.11. 15:01:00] ABBRECHEN AUCTION_CANCELED auctionID 107230381 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 15:01:00] KAUF gesendet · Angebot 107233504 · offen 8
+[15.11. 15:01:00] KAUF gesendet · Angebot 107229862 · offen 7
+[15.11. 15:01:00] KAUF gesendet · Angebot 107230381 · offen 6
+[15.11. 15:00:59] KAUF gesendet · Angebot 107230006 · offen 5
+[15.11. 15:00:59] KAUF gesendet · Angebot 107230512 · offen 4
+[15.11. 15:00:59] ABBRECHEN AUCTION_CANCELED auctionID 107233397 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 15:00:58] KAUF gesendet · Angebot 107233397 · offen 4
+[15.11. 15:00:58] KAUF gesendet · Angebot 107230643 · offen 3
+[15.11. 15:00:58] KAUF gesendet · Angebot 107233258 · offen 2
+[15.11. 15:00:58] ABBRECHEN AUCTION_CANCELED auctionID 107230276 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 15:00:57] KAUF gesendet · Angebot 107233012 · offen 2
+[15.11. 15:00:57] KAUF gesendet · Angebot 107230276 · offen 1
+[15.11. 15:00:57] LANGSAM Hintergrund-Aufgabe forecast-eval · 0 Schritte · längster Schritt 28 ms bis Forecast.lua:841 · 33 ms
+[15.11. 15:00:57] LANGSAM Hintergrund-Aufgabe forecast-eval · 0 Schritte · längster Schritt 14 ms bis Forecast.lua:841 · 16 ms
+[15.11. 15:00:57] KAUF gesendet · Angebot 107290092 · offen 0
+[15.11. 15:00:57] SNIPER-SUCHE Ziel 14580 · Angebote 20 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 15:00:47] SNIPER-SUCHE Ziel 6611 · Angebote 0 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 15:00:42] SNIPER-SUCHE Ziel 4251 · Angebote 514 · Treffer ≤ Max 25 · gekauft 105 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 15:00:36] SNIPER-SUCHE Ziel 7048 · Angebote 208 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:59:53] SNIPER-SUCHE Ziel 14580 · Angebote 20 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:59:47] SNIPER-SUCHE Ziel 6611 · Angebote 0 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:59:45] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 19 ms bis Ende ui-refresh · 19 ms
+[15.11. 14:59:42] SNIPER-SUCHE Ziel 4251 · Angebote 515 · Treffer ≤ Max 26 · gekauft 105 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:59:36] SNIPER-SUCHE Ziel 7048 · Angebote 209 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:59:25] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 16 ms bis Ende ui-refresh · 16 ms
+[15.11. 14:58:49] SNIPER-SUCHE Ziel 14580 · Angebote 20 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:58:47] SNIPER-SUCHE Ziel 6611 · Angebote 0 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:58:42] SNIPER-SUCHE Ziel 4251 · Angebote 544 · Treffer ≤ Max 55 · gekauft 105 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:58:36] SNIPER-SUCHE Ziel 7048 · Angebote 200 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:58:31] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 17 ms bis Ende ui-refresh · 17 ms
+[15.11. 14:57:45] SNIPER-SUCHE Ziel 14580 · Angebote 20 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:57:43] SNIPER-SUCHE Ziel 6611 · Angebote 0 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:57:42] SNIPER-SUCHE Ziel 4251 · Angebote 520 · Treffer ≤ Max 31 · gekauft 105 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:57:36] SNIPER-SUCHE Ziel 7048 · Angebote 200 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:56:45] SNIPER-SUCHE Ziel 14580 · Angebote 20 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:56:43] SNIPER-SUCHE Ziel 6611 · Angebote 0 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:56:38] SNIPER-SUCHE Ziel 4251 · Angebote 489 · Treffer ≤ Max 0 · gekauft 105 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:56:32] SNIPER-SUCHE Ziel 7048 · Angebote 204 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:56:30] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 23 ms bis Ende ui-refresh · 23 ms
+[15.11. 14:56:02] SYNC gesendet 2, empfangen 3, verworfen 0 · Kanal verweigert 0
+[15.11. 14:55:41] SNIPER-SUCHE Ziel 14580 · Angebote 19 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:55:39] SNIPER-SUCHE Ziel 6611 · Angebote 0 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:55:34] SNIPER-SUCHE Ziel 4251 · Angebote 489 · Treffer ≤ Max 0 · gekauft 105 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:55:32] SNIPER-SUCHE Ziel 7048 · Angebote 207 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:55:28] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 20 ms bis Ende ui-refresh · 20 ms
+[15.11. 14:55:26] SNIPER Treffer 1 · weg 1 · Ø Suche>Treffer 100 ms
+[15.11. 14:54:50] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 18 ms bis Ende ui-refresh · 18 ms
+[15.11. 14:54:37] SNIPER-SUCHE Ziel 14580 · Angebote 19 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:54:35] SNIPER-SUCHE Ziel 6611 · Angebote 0 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:54:34] SNIPER-SUCHE Ziel 4251 · Angebote 489 · Treffer ≤ Max 3 · gekauft 105 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:54:28] SNIPER-SUCHE Ziel 7048 · Angebote 242 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:54:10] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 18 ms bis Ende ui-refresh · 18 ms
+[15.11. 14:54:06] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 19 ms bis Ende ui-refresh · 19 ms
+[15.11. 14:53:33] SNIPER-SUCHE Ziel 14580 · Angebote 19 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:53:31] SNIPER-SUCHE Ziel 6611 · Angebote 0 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:53:30] SNIPER-SUCHE Ziel 4251 · Angebote 470 · Treffer ≤ Max 0 · gekauft 105 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:53:28] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 23 ms bis Ende ui-refresh · 23 ms
+[15.11. 14:53:24] SNIPER-SUCHE Ziel 7048 · Angebote 241 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:53:00] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 19 ms bis Ende ui-refresh · 20 ms
+[15.11. 14:52:31] SNIPER-SUCHE Ziel 6611 · Angebote 0 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:52:30] SNIPER-SUCHE Ziel 4251 · Angebote 454 · Treffer ≤ Max 0 · gekauft 105 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:52:29] SNIPER-SUCHE Ziel 14580 · Angebote 19 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:52:24] SNIPER-SUCHE Ziel 7048 · Angebote 241 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:51:42] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 23 ms bis Ende ui-refresh · 23 ms
+[15.11. 14:51:31] SNIPER-SUCHE Ziel 6611 · Angebote 0 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:51:30] SNIPER-SUCHE Ziel 4251 · Angebote 425 · Treffer ≤ Max 0 · gekauft 105 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:51:29] SNIPER-SUCHE Ziel 14580 · Angebote 19 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:51:20] SNIPER-SUCHE Ziel 7048 · Angebote 247 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:50:34] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 17 ms bis Ende ui-refresh · 17 ms
+[15.11. 14:50:27] SNIPER-SUCHE Ziel 6611 · Angebote 0 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:50:26] SNIPER-SUCHE Ziel 4251 · Angebote 392 · Treffer ≤ Max 0 · gekauft 105 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:50:25] SNIPER-SUCHE Ziel 14580 · Angebote 19 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:50:18] SUCHEN Grenze erreicht: 85 in 60 s (max je Minute = 90)
+[15.11. 14:50:16] SNIPER-SUCHE Ziel 7048 · Angebote 262 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:50:09] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 16 ms bis Ende ui-refresh · 16 ms
+[15.11. 14:49:25] SNIPER-SUCHE Ziel 6611 · Angebote 0 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:49:24] SNIPER-SUCHE Ziel 4251 · Angebote 368 · Treffer ≤ Max 0 · gekauft 105 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:49:23] SNIPER-SUCHE Ziel 14580 · Angebote 19 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:49:18] SUCHEN Grenze erreicht: 85 in 60 s (max je Minute = 90)
+[15.11. 14:49:14] SNIPER-SUCHE Ziel 7048 · Angebote 272 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:48:23] SNIPER-SUCHE Ziel 6611 · Angebote 0 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:48:22] SNIPER-SUCHE Ziel 4251 · Angebote 367 · Treffer ≤ Max 0 · gekauft 105 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:48:21] SNIPER-SUCHE Ziel 14580 · Angebote 19 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:48:17] SUCHEN Grenze erreicht: 85 in 60 s (max je Minute = 90)
+[15.11. 14:48:12] SNIPER-SUCHE Ziel 7048 · Angebote 280 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:47:21] SNIPER-SUCHE Ziel 6611 · Angebote 0 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:47:20] SNIPER-SUCHE Ziel 4251 · Angebote 346 · Treffer ≤ Max 0 · gekauft 105 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:47:20] SNIPER-SUCHE Ziel 14580 · Angebote 19 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:47:17] SUCHEN Grenze erreicht: 80 in 60 s (max je Minute = 90)
+[15.11. 14:47:10] SNIPER-SUCHE Ziel 7048 · Angebote 281 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:46:57] ABBRECHEN ×2 AUCTION_CANCELED auctionID 106862025 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 14:46:32] ENTZAUBERWERT Item 7048 · eigene Ø aus 965 · 11083 74% × 1.52 à 398, 11082 21% × 1.50 à 1411, 11084 5% × 1.00 à 3467 · brutto 1135 · netto 1076
+[15.11. 14:46:32] ABSATZ Item 7048 · Q 0 (vollscan) · S 84.5 (measured) · S roh 84.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.0 · N 1.0
+[15.11. 14:46:32] ENTZAUBERWERT Item 14580 · eigene Ø aus 965 · 11083 74% × 1.52 à 398, 11082 21% × 1.50 à 1411, 11084 5% × 1.00 à 3467 · brutto 1135 · netto 1076
+[15.11. 14:46:32] ABSATZ Item 14580 · Q 7 (vollscan) · S 2.3 (measured) · S roh 2.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 3.4 · N 7.0
+[15.11. 14:46:32] ABSATZ Item 3365 · Q 1 (scan, Q gesamt) · S 0.9 (market, gelernt) · S roh 2.6 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 2.1 · N 3.0
+[15.11. 14:46:31] ENTZAUBERWERT Item 4251 · eigene Ø aus 965 · 11083 74% × 1.52 à 398, 11082 21% × 1.50 à 1411, 11084 5% × 1.00 à 3467 · brutto 1135 · netto 1076
+[15.11. 14:46:31] ABSATZ Item 4251 · Q 0 (vollscan) · S 75.1 (measured) · S roh 75.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.0 · N 1.0
+[15.11. 14:46:31] ENTZAUBERWERT Item 6611 · eigene Ø aus 965 · 11083 74% × 1.52 à 398, 11082 21% × 1.50 à 1411, 11084 5% × 1.00 à 3467 · brutto 1135 · netto 1076
+[15.11. 14:46:31] DE-CHANCEN Gruppe 2:4:a · Tabelle 11083 75%/11082 20%/11084 5% · echt 11083 74%/11082 21%/11084 5% (965)
+[15.11. 14:46:31] ABSATZ Item 6611 · Q 57 (scan, Q gesamt) · S 10.2 (market, gelernt) · S roh 31.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 5.7 · N 7.0
+[15.11. 14:46:24] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 0.2 Std., 10940: 0.3 Std., 11082: 0.2 Std. · 0 frisch geholt
+[15.11. 14:46:22] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 293 ms bis Comfort.lua:1002 · 293 ms
+[15.11. 14:46:21] SNIPER-SUCHE Ziel 6611 · Angebote 0 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:46:20] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 19 ms bis Disenchant.lua:1527 · 23 ms
+[15.11. 14:46:20] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 22 ms bis Extras.lua:279 · 27 ms
+[15.11. 14:46:20] ABSATZ-UNPLAUSIBEL Item 9264 · 104.9/Tag · Quelle geschätzt
+[15.11. 14:46:20] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 23 ms bis Extras.lua:279 · 23 ms
+[15.11. 14:46:20] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 16 ms bis Extras.lua:279 · 16 ms
+[15.11. 14:46:20] SNIPER-SUCHE Ziel 4251 · Angebote 369 · Treffer ≤ Max 0 · gekauft 105 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:46:19] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 13 ms bis Extras.lua:279 · 18 ms
+[15.11. 14:46:19] SNIPER-SUCHE Ziel 14580 · Angebote 19 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:46:19] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[15.11. 14:46:10] LANGSAM Hintergrund-Aufgabe forecast-eval · 0 Schritte · längster Schritt 20 ms bis Forecast.lua:841 · 22 ms
+[15.11. 14:46:10] LANGSAM Hintergrund-Aufgabe forecast-eval · 0 Schritte · längster Schritt 18 ms bis Forecast.lua:841 · 18 ms
+[15.11. 14:46:09] SNIPER-SUCHE Ziel 7048 · Angebote 282 · Treffer ≤ Max 0 · gekauft 16 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:46:09] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[15.11. 14:46:08] SYNC Weg=GUILD
+[15.11. 14:46:08] EIGENE Ware Item 11083 · buyout 418 · Menge 48 · als Stückpreis gelesen
+[15.11. 14:46:07] ABSATZ-UNPLAUSIBEL Item 3859 · 3493.0/Tag · Quelle gemessen
+[15.11. 14:46:07] ABSATZ-UNPLAUSIBEL Item 4603 · 2718.2/Tag · Quelle geschätzt
+[15.11. 14:46:07] ABSATZ-UNPLAUSIBEL Item 2744 · 233.5/Tag · Quelle geschätzt
+[15.11. 14:46:03] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[15.11. 14:45:50] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 20 ms bis Ende ui-refresh · 20 ms
+[15.11. 14:45:47] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 18 ms bis Ende ui-refresh · 18 ms
+[15.11. 14:45:45] SNIPER-SUCHE Ziel 6611 · Angebote 0 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:45:44] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 17 ms bis Ende ui-refresh · 17 ms
+[15.11. 14:45:44] SNIPER Treffer 1 · weg 1 · Ø Suche>Treffer 100 ms
+[15.11. 14:45:44] SNIPER-SUCHE Ziel 4251 · Angebote 370 · Treffer ≤ Max 0 · gekauft 105 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:45:43] SNIPER-SUCHE Ziel 14580 · Angebote 19 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:45:43] SNIPER-SUCHE Ziel 7048 · Angebote 282 · Treffer ≤ Max 0 · gekauft 16 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:45:28] SUCHEN Grenze erreicht: 84 in 60 s (max je Minute = 90)
+[15.11. 14:45:12] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 17 ms bis Ende ui-refresh · 17 ms
+[15.11. 14:45:05] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 16 ms bis Ende ui-refresh · 16 ms
+[15.11. 14:45:04] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 17 ms bis Ende ui-refresh · 17 ms
+[15.11. 14:44:54] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 16 ms bis Ende ui-refresh · 16 ms
+[15.11. 14:44:46] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 20 ms bis Ende ui-refresh · 20 ms
+[15.11. 14:44:42] SNIPER-SUCHE Ziel 6611 · Angebote 0 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:44:42] SNIPER-SUCHE Ziel 4251 · Angebote 391 · Treffer ≤ Max 0 · gekauft 105 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:44:41] SNIPER-SUCHE Ziel 14580 · Angebote 19 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:44:40] SNIPER-SUCHE Ziel 7048 · Angebote 283 · Treffer ≤ Max 0 · gekauft 16 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:44:39] SNIPER Treffer 1 · weg 1 · Ø Suche>Treffer 167 ms
+[15.11. 14:44:31] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 17 ms bis Ende ui-refresh · 17 ms
+[15.11. 14:44:28] SUCHEN Grenze erreicht: 84 in 60 s (max je Minute = 90)
+[15.11. 14:44:20] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 18 ms bis Ende ui-refresh · 18 ms
+[15.11. 14:44:15] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 17 ms bis Ende ui-refresh · 17 ms
+[15.11. 14:44:12] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 19 ms bis Ende ui-refresh · 19 ms
+[15.11. 14:44:07] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 22 ms bis Ende ui-refresh · 22 ms
+[15.11. 14:43:55] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 19 ms bis Ende ui-refresh · 19 ms
+[15.11. 14:43:40] SNIPER-SUCHE Ziel 6611 · Angebote 0 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:43:39] SNIPER-SUCHE Ziel 4251 · Angebote 416 · Treffer ≤ Max 9 · gekauft 105 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:43:39] SNIPER-SUCHE Ziel 14580 · Angebote 19 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:43:38] SNIPER-SUCHE Ziel 7048 · Angebote 280 · Treffer ≤ Max 0 · gekauft 16 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:43:28] SUCHEN Grenze erreicht: 85 in 60 s (max je Minute = 90)
+[15.11. 14:43:26] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 21 ms bis Ende ui-refresh · 21 ms
+[15.11. 14:43:23] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 19 ms bis Ende ui-refresh · 19 ms
+[15.11. 14:43:20] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 16 ms bis Ende ui-refresh · 16 ms
+[15.11. 14:43:12] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 17 ms bis Ende ui-refresh · 17 ms
+[15.11. 14:42:57] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 16 ms bis Ende ui-refresh · 16 ms
+[15.11. 14:42:54] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 18 ms bis Ende ui-refresh · 18 ms
+[15.11. 14:42:43] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 17 ms bis Ende ui-refresh · 17 ms
+[15.11. 14:42:40] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 19 ms bis Ende ui-refresh · 19 ms
+[15.11. 14:42:38] SNIPER-SUCHE Ziel 6611 · Angebote 0 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:42:37] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 21 ms bis Ende ui-refresh · 21 ms
+[15.11. 14:42:37] SNIPER-SUCHE Ziel 4251 · Angebote 410 · Treffer ≤ Max 0 · gekauft 105 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:42:37] SNIPER-SUCHE Ziel 14580 · Angebote 19 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:42:36] SNIPER-SUCHE Ziel 7048 · Angebote 278 · Treffer ≤ Max 0 · gekauft 16 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:42:29] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 17 ms bis Ende ui-refresh · 17 ms
+[15.11. 14:42:27] SUCHEN Grenze erreicht: 83 in 60 s (max je Minute = 90)
+[15.11. 14:42:26] LANGSAM ×2 Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 18 ms bis Ende ui-refresh · 18 ms
+[15.11. 14:42:12] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 17 ms bis Ende ui-refresh · 17 ms
+[15.11. 14:42:09] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 20 ms bis Ende ui-refresh · 20 ms
+[15.11. 14:41:58] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 17 ms bis Ende ui-refresh · 17 ms
+[15.11. 14:41:55] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 24 ms bis Ende ui-refresh · 24 ms
