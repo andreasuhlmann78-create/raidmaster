@@ -1,15 +1,15 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-15 12:59 UTC
+Ausgewertet: 2026-11-15 13:58 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
 | Addon | letzter Testlauf | Version | Client | OK | FEHLER | übersprungen | im Client prüfen | Fehler im Spiel (7 Tage) |
 |---|---|---|---|---|---|---|---|---|
-| AHSentinel | 15.11.2026 12:35 UTC | 0.65.188 | forever 1.60.1 (Interface 16001) | 22 | 4 | 1 | 0 | 40 |
+| AHSentinel | 15.11.2026 12:35 UTC | 0.65.188 | forever 1.60.1 (Interface 16001) | 22 | 4 | 1 | 0 | 44 |
 | BuffSentinel | 05.11.2026 00:19 UTC | 0.9.7 | forever 1.60.1 (Interface 16001) | 120 | 1 | 10 | 11 | 569 |
 | GuildSentinel | 09.11.2026 05:47 UTC | 0.9.13 | forever 1.60.1 (Interface 16001) | 153 | 4 | 23 | 5 | 22 |
-| LevelPilot | 05.11.2026 00:21 UTC | 3.12.6 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 1924 |
+| LevelPilot | 05.11.2026 00:21 UTC | 3.12.6 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 1710 |
 | ProfessionSentinel | 09.11.2026 06:57 UTC | 0.9.28 | forever 1.60.1 (Interface 16001) | 5 | 2 | 1 | 0 | 0 |
 | RaidMaster | 05.11.2026 00:07 UTC | 3.0.17 | forever 1.60.1 (Interface 16001) | 98 | 3 | 10 | 12 | 2 |
 | ThreatSentinel | 10.11.2026 10:06 UTC | 2.5.4 | forever 1.60.1 (Interface 16001) | 7 | 1 | 0 | 1 | 6 |
@@ -18,19 +18,20 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 131 | `testberichte/diagnose/AHSentinel/0.65.153-7fbbaab1129a.txt` |
-| BuffSentinel | 37 | `testberichte/diagnose/BuffSentinel/0.9.21-954831c99821.txt` |
+| AHSentinel | 133 | `testberichte/diagnose/AHSentinel/0.65.190-6bbbe72d2f42.txt` |
+| BuffSentinel | 38 | `testberichte/diagnose/BuffSentinel/0.9.21-ba8ede23106d.txt` |
 | GSMesstest | 9 | `testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt` |
-| GuildSentinel | 126 | `testberichte/diagnose/GuildSentinel/0.9.38-e7eada8b66f4.txt` |
-| LevelPilot | 27 | `testberichte/diagnose/LevelPilot/3.12.24-380792c77533.txt` |
-| ProfessionSentinel | 106 | `testberichte/diagnose/ProfessionSentinel/0.9.32-f20258571d33.txt` |
-| ThreatSentinel | 105 | `testberichte/diagnose/ThreatSentinel/2.5.6-bdca8cfdf92f.txt` |
+| GSSniperLog | 1 | `testberichte/diagnose/GSSniperLog/1.0-cfffe8e8d766.txt` |
+| GuildSentinel | 129 | `testberichte/diagnose/GuildSentinel/0.9.39-df8e511c619e.txt` |
+| LevelPilot | 29 | `testberichte/diagnose/LevelPilot/3.12.30-abeea3d868d4.txt` |
+| ProfessionSentinel | 109 | `testberichte/diagnose/ProfessionSentinel/0.9.45-a03ada4798c0.txt` |
+| ThreatSentinel | 107 | `testberichte/diagnose/ThreatSentinel/2.5.13-080a210f6ef7.txt` |
 
 ## Wegdaten (GSWEGE1)
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| LevelPilot | 178 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794744612-0e9267.json` |
+| LevelPilot | 183 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794748426-8505ef.json` |
 
 ## AHSentinel
 
@@ -53,8 +54,8 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 **Fehler im Spiel (letzte 7 Tage)**
 - 20× `ADDON_ACTION_FORBIDDEN`: UNKNOWN() – Version 0.65.16, 0.65.80 · forever 1.60.1 (Interface 16001) · zuletzt 11.11.2026 16:25 UTC
+- 12× `ADDON_ACTION_BLOCKED`: UNKNOWN() – Version 0.65.16, 0.65.182, 0.65.189 · forever 1.60.1 (Interface 16001) · zuletzt 15.11.2026 13:13 UTC
 - 11× `Lua`: Interface/AddOns/AHSentinel/Seller.lua:1433: attempt to index local 'msg' (a secret string value, while execution tainted by 'AHSentinel') – Version 0.65.77, 0.65.80 · forever 1.60.1 (Interface 16001) · zuletzt 10.11.2026 14:28 UTC
-- 8× `ADDON_ACTION_BLOCKED`: UNKNOWN() – Version 0.65.16, 0.65.182 · forever 1.60.1 (Interface 16001) · zuletzt 15.11.2026 10:54 UTC
 - 1× `Job:craft-top`: Interface/AddOns/AHSentinel/Crafting.lua:515: attempt to index field '?' (a nil value) – Version 0.65.138 · forever 1.60.1 (Interface 16001) · zuletzt 14.11.2026 06:53 UTC
 
 ## BuffSentinel
@@ -139,7 +140,7 @@ Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) ·
 **Testlauf 3.12.6 · forever 1.60.1 (Interface 16001) · 05.11.2026 00:21 UTC** – OK 11 · FEHLER 0 · übersprungen 0 · im Client prüfen 0
 
 **Fehler im Spiel (letzte 7 Tage)**
-- 1904× `session`: Interface/AddOns/LevelPilot/Session.lua:29: attempt to perform boolean test on a secret boolean value (execution tainted by 'LevelPilot') – Version 3.12.13 · forever 1.60.1 (Interface 16001) · zuletzt 08.11.2026 20:41 UTC
+- 1690× `session`: Interface/AddOns/LevelPilot/Session.lua:29: attempt to perform boolean test on a secret boolean value (execution tainted by 'LevelPilot') – Version 3.12.13 · forever 1.60.1 (Interface 16001) · zuletzt 08.11.2026 20:41 UTC
 - 19× `Comm-Empfang`: Interface/AddOns/LevelPilot/Comm.lua:405: attempt to index field 'Caves' (a nil value) – Version 3.12.13 · forever 1.60.1 (Interface 16001) · zuletzt 07.11.2026 11:56 UTC
 - 1× `Wegdaten`: Interface/AddOns/LevelPilot/Graph.lua:533: attempt to index upvalue 'G' (a nil value) – Version 3.12.13 · forever 1.60.1 (Interface 16001) · zuletzt 09.11.2026 21:49 UTC
 

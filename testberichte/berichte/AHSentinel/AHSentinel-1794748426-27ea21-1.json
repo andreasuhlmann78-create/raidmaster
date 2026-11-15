@@ -1,0 +1,31 @@
+{
+ "addon": "AHSentinel",
+ "counts": {},
+ "env": {
+  "build": "70938",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 10,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [
+  {
+   "count": 4,
+   "msg": "UNKNOWN()",
+   "nur_zaehler": true,
+   "version": "0.65.189",
+   "vorher": 3,
+   "wo": "ADDON_ACTION_BLOCKED"
+  }
+ ],
+ "f": 1,
+ "id": "AHSentinel-1794748426-27ea21-1",
+ "kind": "fehler",
+ "time": 1794748426,
+ "version": "0.65.189"
+}

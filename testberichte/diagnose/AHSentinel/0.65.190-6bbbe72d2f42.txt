@@ -1,0 +1,225 @@
+AHSentinel-Protokoll v0.65.190 · 15.11. 14:18:16
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  15.11. 14:16:12 L10 ? v0.65.190
+  15.11. 14:13:51 L10 ? v0.65.190
+  15.11. 14:07:44 L10 ? v0.65.189
+  15.11. 13:41:19 L10 ? v0.65.189
+  15.11. 13:40:39 L10 ? v0.65.189
+  15.11. 13:35:08 L10 ? v0.65.188
+  15.11. 13:27:11 L10 ? v0.65.188
+  15.11. 13:19:53 L10 ? v0.65.188
+  15.11. 13:01:40 L10 ? v0.65.187
+  15.11. 12:37:50 L10 ? v0.65.186
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 42 Min., 7052 Items, Preis-Sync an
+  SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, GoldSentinelMarkt 0, GoldSentinelTest 0, GuildSentinel 2, LevelPilot 1, LevelPilotG 0, ThreatSentinel 0
+  SYNC gesendet 17 · empfangen 48 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 4 (mit Sync 2: 4, pausiert 1) · gesendet 3 · weitergegeben 0 · offline 1 · Listen 2 · Warteschlange 0 · gespeichert ja
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Einstellungen geändert: cmdHint=true, fastScan=true, helpSeen=true, marketExpert=false, minimapAngle=216.6, priceGuard=20, sniperSignal=true, theme=modern, tooltipDEDetail=true, vendorButton=false, vendorFlipMin=500
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0
+
+== Einträge (200, neueste zuerst)
+[15.11. 14:17:42] ABBRECHEN ×7 AUCTION_CANCELED auctionID 106614863 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 14:16:30] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 305 ms bis Comfort.lua:1002 · 305 ms
+[15.11. 14:16:29] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 23 ms bis Disenchant.lua:1527 · 25 ms
+[15.11. 14:16:29] ABSATZ-UNPLAUSIBEL Item 7947 · 6.9/Tag · Quelle geschätzt
+[15.11. 14:16:29] LANGSAM ×2 Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 14 ms bis Extras.lua:279 · 16 ms
+[15.11. 14:16:28] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 13 ms bis Extras.lua:279 · 16 ms
+[15.11. 14:16:28] LANGSAM ×2 Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 14 ms bis Extras.lua:279 · 18 ms
+[15.11. 14:16:27] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[15.11. 14:16:27] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 18 ms bis Extras.lua:279 · 19 ms
+[15.11. 14:16:27] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 30 ms bis Extras.lua:279 · 31 ms
+[15.11. 14:16:27] ABSATZ-UNPLAUSIBEL Item 7919 · 120.6/Tag · Quelle geschätzt
+[15.11. 14:16:17] SYNC Weg=GUILD
+[15.11. 14:16:12] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[15.11. 14:15:39] ABBRECHEN ×3 AUCTION_CANCELED auctionID 106614863 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 14:15:16] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=4 · Minimum jetzt 100
+[15.11. 14:15:16] EINSTELLEN Item 11083 · Menge 84 · Auktionen 1 · Laufzeit 1 · Preis 419/Stück, 35196 gesamt · Gebühr erwartet 100, abgezogen 100 (0.28 % vom Preis) · Günstigstes 420 · Mindestpreis 2 (vendor)
+[15.11. 14:15:16] AHS-POST PostCommodity: arg2=1 arg3=84 arg4=419 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/5
+[15.11. 14:15:08] VERKAUFEN-KLICK Zeile Item 11083 · vorher 11083 · nachher 11083 · Fehler 0 · Titel Seelenstaub
+[15.11. 14:15:06] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 0.0 Std., 10940: 0.7 Std., 11082: 0.0 Std. · 0 frisch geholt
+[15.11. 14:15:02] SNIPER-SUCHE Ziel 4251 · Angebote 316 · Treffer ≤ Max 3 · gekauft 39 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:15:02] SNIPER-SUCHE Ziel 7048 · Angebote 419 · Treffer ≤ Max 0 · gekauft 3 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:14:51] ABBRECHEN AUCTION_CANCELED auctionID 113 (erwartet 106516679) -> fremd, nichts geändert
+[15.11. 14:14:51] ABBRECHEN CancelAuction aufgerufen, warte auf AUCTION_CANCELED
+[15.11. 14:14:51] ABBRECHEN Blizzard-Abbruch auctionID 106516679 · Item 11083
+[15.11. 14:14:51] ABBRECHEN Klick: Zeile auctionID 106516679 · Item 11083 · Menge 84 · Status liegen · Preis 422
+[15.11. 14:14:42] ABBRECHEN AUCTION_CANCELED auctionID 106604954 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 14:14:41] ABBRECHEN AUCTION_CANCELED auctionID 106606399 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 14:14:41] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[15.11. 14:14:41] EINSTELLEN Item 11083 · Menge 15 · Auktionen 1 · Laufzeit 1 · Preis 419/Stück, 6285 gesamt · Gebühr erwartet 100, abgezogen 100 (1.59 % vom Preis) · Günstigstes 420 · Mindestpreis 2 (vendor)
+[15.11. 14:14:40] AHS-POST PostCommodity: arg2=1 arg3=15 arg4=419 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/5
+[15.11. 14:14:40] ABBRECHEN ×2 AUCTION_CANCELED auctionID 106604954 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 14:14:36] VERKAUFEN-KLICK Zeile Item 11083 · vorher 11082 · nachher 11083 · Fehler 0 · Titel Seelenstaub
+[15.11. 14:14:35] ABSATZ Item 279972 · Q 0 (vollscan) · S 103.9 (market, gelernt) · S roh 300.6 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.0 · N 1.0
+[15.11. 14:14:35] ABSATZ Item 2997 · Q 14 (vollscan) · S 241.1 (measured) · S roh 241.1 · Deckel - · eigene Quote 3/3 · Laufzeit 24 Std. · W 0.1 · N 1.0
+[15.11. 14:14:35] ABSATZ Item 6338 · Q 0 (vollscan) · S 54.4 (measured) · S roh 54.4 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.0 · N 1.0
+[15.11. 14:14:35] ABSATZ Item 4470 · Q 2990 (scan, Q gesamt) · S 397.6 (market, gelernt) · S roh 1035.6 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 7.5 · N 7.0 · kaum
+[15.11. 14:14:35] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[15.11. 14:14:35] EINSTELLEN Item 11082 · Menge 6 · Auktionen 1 · Laufzeit 1 · Preis 1494/Stück, 8964 gesamt · Gebühr erwartet 100, abgezogen 100 (1.12 % vom Preis) · Günstigstes 1495 · Mindestpreis 17 (learned)
+[15.11. 14:14:34] AHS-POST PostCommodity: arg2=1 arg3=6 arg4=1494 arg5=nil, ItemLocation gültig ja, Bag/Slot 1/1
+[15.11. 14:14:22] ABSATZ Item 11134 · Q 27 (vollscan) · S 275.6 (measured) · S roh 275.6 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.1 · N 1.0
+[15.11. 14:14:22] VERKAUFEN-KLICK Zeile Item 11082 · vorher nil · nachher 11082 · Fehler 0 · Titel Große Astralessenz
+[15.11. 14:14:09] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 305 ms bis Comfort.lua:1002 · 305 ms
+[15.11. 14:14:08] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 23 ms bis Disenchant.lua:1527 · 24 ms
+[15.11. 14:14:08] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 14 ms bis Comfort.lua:765 · 17 ms
+[15.11. 14:14:08] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 25 ms bis Extras.lua:279 · 26 ms
+[15.11. 14:14:07] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 12 ms bis Extras.lua:279 · 16 ms
+[15.11. 14:14:07] ABSATZ-UNPLAUSIBEL Item 7947 · 6.9/Tag · Quelle geschätzt
+[15.11. 14:14:07] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[15.11. 14:13:59] ABSATZ Item 11082 · Q 0 (vollscan) · S 135.1 (measured) · S roh 135.1 · Deckel - · eigene Quote 27/31 · Laufzeit 24 Std. · W 0.0 · N 1.1
+[15.11. 14:13:59] ABSATZ Item 11083 · Q 46 (vollscan) · S 507.1 (measured) · S roh 507.1 · Deckel - · eigene Quote 28/27 · Laufzeit 24 Std. · W 0.1 · N 1.0
+[15.11. 14:13:59] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 0.1 Std., 10940: 0.6 Std., 11082: 0.1 Std. · 4 frisch geholt
+[15.11. 14:13:59] LANGSAM Hintergrund-Aufgabe forecast-eval · 0 Schritte · längster Schritt 18 ms bis Forecast.lua:841 · 23 ms
+[15.11. 14:13:58] LANGSAM Hintergrund-Aufgabe forecast-eval · 0 Schritte · längster Schritt 15 ms bis Forecast.lua:841 · 17 ms
+[15.11. 14:13:58] LANGSAM Hintergrund-Aufgabe forecast-eval · 0 Schritte · längster Schritt 13 ms bis Forecast.lua:841 · 16 ms
+[15.11. 14:13:57] SYNC Weg=GUILD
+[15.11. 14:13:56] SNIPER-SUCHE Ziel 4251 · Angebote 315 · Treffer ≤ Max 0 · gekauft 39 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:13:55] EIGENE Ware Item 11083 · buyout 422 · Menge 84 · als Stückpreis gelesen
+[15.11. 14:13:54] SNIPER-SUCHE Ziel 7048 · Angebote 441 · Treffer ≤ Max 0 · gekauft 3 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:13:54] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[15.11. 14:13:54] ABSATZ-UNPLAUSIBEL Item 7919 · 120.6/Tag · Quelle geschätzt
+[15.11. 14:13:52] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[15.11. 14:10:18] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 35 ms
+[15.11. 14:10:17] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 14:10:13] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11082×2
+[15.11. 14:10:08] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 14:10:08] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 35 ms
+[15.11. 14:10:04] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 14:10:00] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11082×2
+[15.11. 14:09:58] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 30 ms
+[15.11. 14:09:56] DE-GEZÄHLT ×2 Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 14:09:48] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 32 ms
+[15.11. 14:09:47] DE-GEZÄHLT ×3 Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 14:09:38] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 32 ms
+[15.11. 14:09:32] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11082×1
+[15.11. 14:09:28] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 31 ms
+[15.11. 14:09:27] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 14:09:23] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11082×1
+[15.11. 14:09:19] KLICK Entzaubern-Knopf -> Fenster offen ja
+[15.11. 14:09:19] ABSATZ-UNPLAUSIBEL Item 4311 · 25.3/Tag · Quelle geschätzt
+[15.11. 14:09:18] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser DATA_CHANGED · 202 ms
+[15.11. 14:09:18] ABSATZ Item 118 · Q 671 (scan, Q gesamt) · S 867.7 (measured) · S roh 867.7 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.8 · N 1.0
+[15.11. 14:09:16] PD7 Preisverlauf verdichtet: 470131 -> 466381 Zeilen (~19282 -> ~19128 KB)
+[15.11. 14:09:03] ABSATZ Item 4245 · Q 0 (vollscan) · S 233.6 (measured) · S roh 233.6 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.0 · N 1.0
+[15.11. 14:08:53] SNIPER Treffer 2 · weg 1, Fehler 1 · Ø Suche>Treffer 119 ms, Treffer>Reserv. 744 ms, Reserv.>bereit 0 ms, bereit>bestätigt 0 ms
+[15.11. 14:08:52] ABBRECHEN AUCTION_CANCELED auctionID 106515091 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 14:08:51] SNIPER-SUCHE Ziel 4251 · Angebote 485 · Treffer ≤ Max 0 · gekauft 39 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:08:50] ABBRECHEN AUCTION_CANCELED auctionID 106515091 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 14:08:50] SNIPER-SUCHE Ziel 7048 · Angebote 416 · Treffer ≤ Max 0 · gekauft 3 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:08:48] ABBRECHEN ×3 AUCTION_CANCELED auctionID 106515091 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 14:08:41] AHS-POST PostCommodity: arg2=1 arg3=4 arg4=919 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/10
+[15.11. 14:08:41] WARNSCHUTZ Item 11134 · Preis 919 · Vergleich 919 (unter deinem Einkaufspreis) · trotzdem eingestellt
+[15.11. 14:08:40] WARNSCHUTZ Item 11134 · Preis 919 · Vergleich 919 (unter deinem Einkaufspreis) · gewarnt
+[15.11. 14:08:39] ABBRECHEN AUCTION_CANCELED auctionID 106515091 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 14:08:38] WARNSCHUTZ Item 11134 · Preis 859 · Vergleich 919 (unter deinem Einkaufspreis) · Preis angepasst
+[15.11. 14:08:37] WARNSCHUTZ Item 11134 · Preis 859 · Vergleich 919 (unter deinem Einkaufspreis) · gewarnt
+[15.11. 14:08:35] ABBRECHEN ×2 AUCTION_CANCELED auctionID 106515091 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 14:08:32] ABBRECHEN AUCTION_CANCELED auctionID 106517456 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 14:08:32] VERKAUFEN-KLICK Zeile Item 11134 · vorher 11084 · nachher 11134 · Fehler 0 · Titel Geringe Mystikeressenz
+[15.11. 14:08:31] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[15.11. 14:08:31] EINSTELLEN Item 11084 · Menge 6 · Auktionen 1 · Laufzeit 1 · Preis 3677/Stück, 22062 gesamt · Gebühr erwartet 100, abgezogen 100 (0.45 % vom Preis) · Günstigstes 3678 · Mindestpreis 27 (learned)
+[15.11. 14:08:30] AHS-POST PostCommodity: arg2=1 arg3=6 arg4=3677 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/16
+[15.11. 14:08:28] VERKAUFEN-KLICK Zeile Item 11084 · vorher 11083 · nachher 11084 · Fehler 0 · Titel Großer gleißender Splitter
+[15.11. 14:08:28] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 106495636 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 14:08:28] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=4 · Minimum jetzt 100
+[15.11. 14:08:28] EINSTELLEN Item 11083 · Menge 92 · Auktionen 1 · Laufzeit 1 · Preis 422/Stück, 38824 gesamt · Gebühr erwartet 100, abgezogen 100 (0.26 % vom Preis) · Günstigstes 423 · Mindestpreis 2 (vendor)
+[15.11. 14:08:27] ABBRECHEN AUCTION_CANCELED auctionID 106516679 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 14:08:27] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 106498664 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 14:08:27] AHS-POST PostCommodity: arg2=1 arg3=92 arg4=422 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/5
+[15.11. 14:08:27] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 106498788 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 14:08:26] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 106498244 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 14:08:25] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 106493287 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 14:08:24] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 106492179 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 14:08:23] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 106492505 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 14:08:22] VERKAUFEN-KLICK Zeile Item 11083 · vorher 11082 · nachher 11083 · Fehler 0 · Titel Seelenstaub
+[15.11. 14:08:22] SNIPER-BESTÄTIGT Item 4251 · Angebot 106493760 · über Gold (keine Antwort des Servers)
+[15.11. 14:08:22] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 106493455 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 14:08:22] ABSATZ Item 11084 · Q 141 (search) · S 80.2 (measured) · S roh 80.2 · Deckel - · eigene Quote 17/21 · Laufzeit 24 Std. · W 1.8 · N 1.2
+[15.11. 14:08:21] ABSATZ Item 11134 · Q 27 (vollscan) · S 275.6 (measured) · S roh 275.6 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.1 · N 1.0
+[15.11. 14:08:21] ABSATZ Item 279972 · Q 27 (vollscan) · S 103.9 (market, gelernt) · S roh 300.6 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.3 · N 1.0
+[15.11. 14:08:21] ABSATZ Item 2997 · Q 0 (vollscan) · S 241.1 (measured) · S roh 241.1 · Deckel - · eigene Quote 3/3 · Laufzeit 24 Std. · W 0.0 · N 1.0
+[15.11. 14:08:21] ABSATZ Item 6338 · Q 0 (vollscan) · S 54.4 (measured) · S roh 54.4 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.0 · N 1.0
+[15.11. 14:08:21] ABSATZ Item 4470 · Q 3059 (scan, Q gesamt) · S 370.8 (market, gelernt) · S roh 1035.6 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 8.3 · N 7.0 · kaum
+[15.11. 14:08:21] EIGENE Ware Item 11082 · buyout 1493 · Menge 28 · als Stückpreis gelesen
+[15.11. 14:08:21] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=1 · Minimum jetzt 100
+[15.11. 14:08:21] EINSTELLEN Item 11082 · Menge 28 · Auktionen 1 · Laufzeit 1 · Preis 1493/Stück, 41804 gesamt · Gebühr erwartet 100, abgezogen 100 (0.24 % vom Preis) · Günstigstes 1494 · Mindestpreis 17 (learned)
+[15.11. 14:08:21] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 106492808 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 14:08:21] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 106492666 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 14:08:21] AHS-POST PostCommodity: arg2=1 arg3=28 arg4=1493 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/7
+[15.11. 14:08:11] ABSATZ Item 11083 · Q 95 (search) · S 507.1 (measured) · S roh 507.1 · Deckel - · eigene Quote 28/27 · Laufzeit 24 Std. · W 0.2 · N 1.0
+[15.11. 14:08:10] VERKAUFEN-KLICK Zeile Item 11082 · vorher nil · nachher 11082 · Fehler 0 · Titel Große Astralessenz
+[15.11. 14:08:10] ABSATZ Item 11082 · Q 48 (search) · S 135.1 (measured) · S roh 135.1 · Deckel - · eigene Quote 27/31 · Laufzeit 24 Std. · W 0.4 · N 1.1
+[15.11. 14:08:02] LANGSAM Hintergrund-Aufgabe ui-refresh · 5 Schritte · längster Schritt 20 ms bis Ende ui-refresh · 20 ms
+[15.11. 14:08:02] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 421 ms bis Comfort.lua:1002 · 421 ms
+[15.11. 14:08:01] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 17 ms bis Disenchant.lua:1527 · 20 ms
+[15.11. 14:08:01] ABSATZ-UNPLAUSIBEL Item 7947 · 6.9/Tag · Quelle geschätzt
+[15.11. 14:08:00] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[15.11. 14:07:59] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 22 ms bis Ende ui-refresh · 22 ms
+[15.11. 14:07:58] ABBRECHEN AUCTION_CANCELED auctionID 106497385 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 14:07:57] KAUF gesendet · Angebot 106495636 · offen 11
+[15.11. 14:07:57] KAUF gesendet · Angebot 106497385 · offen 10
+[15.11. 14:07:57] ABBRECHEN AUCTION_CANCELED auctionID 106497809 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 14:07:57] KAUF gesendet · Angebot 106498664 · offen 10
+[15.11. 14:07:57] KAUF gesendet · Angebot 106497809 · offen 9
+[15.11. 14:07:56] ABBRECHEN AUCTION_CANCELED auctionID 106494191 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 14:07:56] KAUF gesendet · Angebot 106498788 · offen 9
+[15.11. 14:07:56] ABBRECHEN AUCTION_CANCELED auctionID 106494515 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 14:07:56] KAUF gesendet · Angebot 106494191 · offen 9
+[15.11. 14:07:55] KAUF gesendet · Angebot 106498244 · offen 8
+[15.11. 14:07:55] KAUF gesendet · Angebot 106494515 · offen 7
+[15.11. 14:07:55] ABBRECHEN AUCTION_CANCELED auctionID 106493890 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 14:07:55] KAUF gesendet · Angebot 106493287 · offen 7
+[15.11. 14:07:54] ABBRECHEN AUCTION_CANCELED auctionID 106491845 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 14:07:54] KAUF gesendet · Angebot 106493890 · offen 7
+[15.11. 14:07:54] KAUF gesendet · Angebot 106491845 · offen 6
+[15.11. 14:07:54] ABBRECHEN AUCTION_CANCELED auctionID 106492012 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 14:07:54] KAUF gesendet · Angebot 106492179 · offen 6
+[15.11. 14:07:53] KAUF gesendet · Angebot 106492012 · offen 5
+[15.11. 14:07:53] SNIPER Treffer 1 · gekauft 1 · Ø Suche>Treffer 129 ms, Treffer>Reserv. 358 ms, Reserv.>bereit 0 ms, bereit>bestätigt 0 ms
+[15.11. 14:07:53] ABBRECHEN AUCTION_CANCELED auctionID 106492352 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 14:07:53] KAUF gesendet · Angebot 106492505 · offen 5
+[15.11. 14:07:52] KAUF gesendet · Angebot 106492352 · offen 4
+[15.11. 14:07:52] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 0.5 Std., 10940: 0.5 Std., 11082: 0.5 Std. · 10 frisch geholt
+[15.11. 14:07:52] KAUF gesendet · Angebot 106493760 · offen 3
+[15.11. 14:07:52] LANGSAM Hintergrund-Aufgabe forecast-eval · 0 Schritte · längster Schritt 15 ms bis Forecast.lua:841 · 20 ms
+[15.11. 14:07:52] LANGSAM Hintergrund-Aufgabe forecast-eval · 0 Schritte · längster Schritt 13 ms bis Forecast.lua:841 · 16 ms
+[15.11. 14:07:52] ABBRECHEN AUCTION_CANCELED auctionID 106493120 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 14:07:52] LANGSAM Hintergrund-Aufgabe ui-refresh · 9 Schritte · längster Schritt 14 ms bis Ende ui-refresh · 16 ms
+[15.11. 14:07:52] KAUF gesendet · Angebot 106493455 · offen 3
+[15.11. 14:07:51] KAUF gesendet · Angebot 106493120 · offen 2
+[15.11. 14:07:51] ABBRECHEN AUCTION_CANCELED auctionID 106492965 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 14:07:51] KAUF gesendet · Angebot 106492808 · offen 2
+[15.11. 14:07:50] KAUF gesendet · Angebot 106492965 · offen 1
+[15.11. 14:07:50] KAUF gesendet · Angebot 106492666 · offen 0
+[15.11. 14:07:50] ENTZAUBERWERT Item 4251 · eigene Ø aus 891 · 11083 74% × 1.52 à 402, 11082 21% × 1.49 à 1426, 11084 5% × 1.00 à 3480 · brutto 1142 · netto 1082
+[15.11. 14:07:50] ABSATZ Item 4251 · Q 27 (vollscan) · S 75.1 (measured) · S roh 75.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.4 · N 5.0
+[15.11. 14:07:50] ENTZAUBERWERT Item 7048 · eigene Ø aus 891 · 11083 74% × 1.52 à 402, 11082 21% × 1.49 à 1426, 11084 5% × 1.00 à 3480 · brutto 1142 · netto 1082
+[15.11. 14:07:50] DE-CHANCEN Gruppe 2:4:a · Tabelle 11083 75%/11082 20%/11084 5% · echt 11083 74%/11082 21%/11084 5% (891)
+[15.11. 14:07:50] ABSATZ Item 7048 · Q 0 (vollscan) · S 80.0 (measured) · S roh 80.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.0 · N 1.0
+[15.11. 14:07:50] SYNC Weg=GUILD
+[15.11. 14:07:49] SNIPER-SUCHE Ziel 4251 · Angebote 540 · Treffer ≤ Max 23 · gekauft 28 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:07:48] SNIPER-SUCHE Ziel 7048 · Angebote 412 · Treffer ≤ Max 0 · gekauft 3 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:07:48] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[15.11. 14:07:47] ABSATZ-UNPLAUSIBEL Item 7919 · 120.6/Tag · Quelle geschätzt
+[15.11. 14:07:45] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[15.11. 14:07:38] LANGSAM ×2 Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 31 ms bis Ende ui-refresh · 31 ms
+[15.11. 14:07:36] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 32 ms bis Ende ui-refresh · 32 ms
+[15.11. 14:07:35] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 43 ms bis Ende ui-refresh · 43 ms
+[15.11. 14:07:34] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 32 ms bis Ende ui-refresh · 32 ms
+[15.11. 14:07:34] SNIPER-SUCHE Ziel 4251 · Angebote 546 · Treffer ≤ Max 29 · gekauft 28 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 14:07:33] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 34 ms bis Ende ui-refresh · 34 ms
+[15.11. 14:07:32] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 35 ms bis Ende ui-refresh · 35 ms
+[15.11. 14:07:31] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 33 ms bis Ende ui-refresh · 33 ms
+[15.11. 14:07:30] LANGSAM ×2 Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 32 ms bis Ende ui-refresh · 32 ms
+[15.11. 14:07:28] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 31 ms bis Ende ui-refresh · 31 ms
+[15.11. 14:07:27] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 32 ms bis Ende ui-refresh · 32 ms
+[15.11. 14:07:26] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 33 ms bis Ende ui-refresh · 33 ms
+[15.11. 14:07:25] LANGSAM ×4 Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 32 ms bis Ende ui-refresh · 32 ms
+[15.11. 14:07:21] LANGSAM ×2 Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 34 ms bis Ende ui-refresh · 34 ms
+[15.11. 14:07:19] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 32 ms bis Ende ui-refresh · 32 ms
+[15.11. 14:07:18] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 25 ms bis Ende ui-refresh · 25 ms

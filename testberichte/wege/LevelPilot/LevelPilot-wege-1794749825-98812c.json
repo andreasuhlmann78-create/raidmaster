@@ -1,0 +1,59 @@
+{
+ "addon": "LevelPilot",
+ "blocked": [],
+ "env": {
+  "build": "70938",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 10,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "f": 1,
+ "fest": [],
+ "id": "LevelPilot-wege-1794749825-98812c",
+ "kind": "wege",
+ "npc": [],
+ "time": 1794749825,
+ "version": "3.12.30",
+ "zones": [
+  {
+   "edges": [
+    {
+     "n": 3,
+     "p": [
+      55.6,
+      34.7,
+      56,
+      34.8,
+      56.3,
+      34.9,
+      56.6,
+      35,
+      56.9,
+      35.1,
+      57.3,
+      35.2,
+      57.6,
+      35.3,
+      57.8,
+      35.7,
+      58.2,
+      35.7,
+      58.5,
+      35.7,
+      58.8,
+      35.8
+     ],
+     "src": "geteilt"
+    }
+   ],
+   "map": 1421,
+   "name": "Silberwald"
+  }
+ ]
+}

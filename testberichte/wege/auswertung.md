@@ -138,9 +138,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Silberwald (1421)
 
-- Wegstücke 519, Knoten 795, zusammenhängende Teile 7
+- Wegstücke 527, Knoten 804, zusammenhängende Teile 7
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 634 Knoten, Bereich 34–80 / 5–74
+  - Teil 1: 643 Knoten, Bereich 34–80 / 5–74
   - Teil 2: 118 Knoten, Bereich 55–65 / 57–78
   - Teil 3: 17 Knoten, Bereich 55–58 / 45–50
   - Teil 4: 11 Knoten, Bereich 58–61 / 8–14
@@ -280,7 +280,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Undercity (1458)
 
-- Wegstücke 1494, Knoten 814, zusammenhängende Teile 3
+- Wegstücke 1498, Knoten 814, zusammenhängende Teile 3
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 811 Knoten, Bereich 44–86 / 1–96
   - Teil 2: 2 Knoten, Bereich 83–84 / 15–16
