@@ -1,0 +1,20 @@
+BERICHT LevelPilot 3.12.42 – LP-N1 2 Schritt 1: Upgrades im Händlerfenster
+Projekt: LevelPilot · Datum: 15.11.2026 23:33 (aus date) · Status: umgesetzt, zur Prüfung
+
+Bezug: offen-levelpilot.txt, NACHT-PRÜFUNG 23:18 ("2 Upgrade-Finder: Schritt 1 (Händlerfenster) FREIGEGEBEN"). Punkt 1 Talent-Text
+wartet auf die Talent-Tabellen (Frage-Bericht 23:2x); darum vorgezogen.
+
+UMSETZUNG (Advisor.lua; Schalter advUpgrades = "Ausrüstungs-Upgrades", ab Werk an):
+- A:MerchantUpgrades(): jede Ware (API.MerchantCount/MerchantLink, alter und moderner Client), tragbar (API.IsEquippable) und
+  A:UpgradeValue(link) – dieselbe Bewertung wie der Hinweis "Mögliches Upgrade" (Klassen-Gewichte, Rüstungstyp ab 40, Mindestlevel,
+  benutzbar, deutlich besser als der schwächste belegte Platz).
+- A:MarkMerchant(): Plus-Zeichen (Interface\Icons\Spell_ChargePositive – schon im Guide benutzt, also im Client vorhanden) oben
+  links am Warenknopf der aktuellen Seite; nur im Kauf-Reiter (selectedTab 1); Seite aus MerchantFrame.page; sonst ausgeblendet.
+- Auslöser: MERCHANT_SHOW/UPDATE/CLOSED, GET_ITEM_INFO_RECEIVED (Werte kommen verzögert), Seitenwechsel über
+  hooksecurefunc("MerchantFrame_UpdateMerchantInfo") falls vorhanden; gedrosselt (0,2 s). Keine Meldung, kein Kauf.
+- Psychologie: nur markieren (Kontrolle beim Spieler), nur "deutlich besser" (wie bisher MIN_GAIN), keine Flut.
+BELEGE: T304: Seite 1 – Ware 2 markiert, Ware 3 nicht · Seite 2 – Ware 12 auf Platz 2 markiert · Rückkauf-Reiter 0 und
+ausgeblendet · Schalter aus 0. run_offline.py mit der veröffentlichten ZIP (allein): 37/37 ohne FEHLER (im Client prüfen 14),
+Meldungs-Weiche OK; private Regressionen 36/36; addon_check OK.
+GRENZE (Verdacht, zu messen): Knopfnamen MerchantItem1..10ItemButton und MerchantFrame.page/selectedTab wie im Classic-Rahmen;
+im Forever-Client prüfen (CLIENT T304). Fehlen sie, erscheint einfach keine Markierung.
