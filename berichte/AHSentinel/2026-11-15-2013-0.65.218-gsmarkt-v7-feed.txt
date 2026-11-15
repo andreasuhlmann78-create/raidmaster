@@ -1,0 +1,16 @@
+AHSentinel 0.65.218 – GoldSentinelMarkt v7 (byte-gleich aus shared/) + Messung Feed – umgesetzt, zur Prüfung; Feed bleibt AUS
+CurseForge: nein (erst nach der Sniper-Abnahme). GitHub-Release v0.65.218 und sofort im Discord.
+
+GoldSentinelMarkt.lua = shared/GoldSentinelMarkt.lua Version 7 (cmp byte-gleich).
+Messung s216_feed_memory mit v7, Feed an (7 Läufe, je derselbe Ablauf wie 19:33). Feed-Anteil = Lauf 4 − Mittel(Lauf 3, 5):
+  3 115 · 5 390 · 6 283 · 6 993 · 5 845 · 3 053 · 5 860 KB -> Median 5 845 KB (Grenze 4 096) – HÄLT NICHT.
+  - Längster Frame mit Feed: zweimal +20 ms (66/65 gegen 41/45 ms), sonst innerhalb +5 ms.
+  - Auffällig zweigeteilt: Die beiden kleinen Werte (~3,1 MB) fallen genau mit den langen Bildern zusammen.
+    Verdacht, zu messen: Der Feed läuft in Portionen über das Scan-Ende hinaus. Dann zählt ein Teil seines Speichers in Lauf 5
+    (Grundlinie) statt in Lauf 4, und der Feed-Anteil erscheint kleiner. Der wahre Anteil liegt damit eher bei ~5,8–7,0 MB.
+  - Mit v6 waren es 6,0–7,2 MB (Median 6,3); v7 bringt im ganzen Vollscan damit nur ~0,5 MB weniger. Der Nachbau des Supervisors
+    (nur Feed, 7,5 -> 2,8 MB) misst also nicht dasselbe wie s216 (ganzer Vollscan mit Feed).
+  -> VS.FEED_ON bleibt false. Bitte im Nachbau mit dem ganzen Vollscan (s216) messen. s216 und die Läufe liegen in
+     ahanalyzerpro/tests/wowsim.
+Sonst keine Änderung (nur die Version, CHANGELOG EN/DE).
+Gesamtlauf (271 Szenarien, Lua 5.1): 271 bestanden, 0 rot. addon_check: siehe Release (keine Warnung "veraltete Fassung" mehr erwartet).

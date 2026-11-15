@@ -1,5 +1,5 @@
 AHSentinel – Nacht 15./16.11.2026 (Nacht-Arbeit nach masterplan-ahsentinel.txt Abschnitt D und PRIO-JETZT-Liste)
-Stand: 15.11.2026 20:02 (Zwischenstand – wird bis 07:00 fortgeschrieben)
+Stand: 15.11.2026 20:13 (Zwischenstand – wird bis 07:00 fortgeschrieben)
 Alle Versionen: GitHub-Release + Discord (announce/). KEIN CurseForge (erst nach der Sniper-Abnahme). Jede Version "umgesetzt,
 zur Prüfung", Bericht je Version in berichte/AHSentinel/.
 
@@ -25,6 +25,7 @@ VERSIONEN DER NACHT (je ein Satz)
   0.65.215 WS-LOOP1 + POST-BLOCK1 Warnschutz: "Preis anpassen" ohne Endlosschleife, "Trotzdem einstellen" stellt zuerst ein.
   0.65.216 RK7: Budget-Verteilung in "Heute tun" nach Gold je Tag je 1g × Sicherheit; Feed-Messung (bleibt aus, 6,3 MB > 4 MB).
   0.65.217 PS-DOCK1: mit ProfessionSentinel kein eigenes Gewinn-Fenster; API.ReagentsToList für PS.
+  0.65.218 GoldSentinelMarkt v7 übernommen; Feed gemessen (Median 5,8 MB > 4 MB) -> bleibt aus.
 WEITERE
 
 TESTS
@@ -34,7 +35,7 @@ TESTS
 
 OFFENE FRAGEN / ENTSCHEIDE
   - RK5: beantwortet (18:39), umgesetzt in 0.65.213.
-  - Feed (Marktdaten-Netz): gemessen 6,3 MB Feed-Anteil > Grenze 4 MB -> bleibt aus; Entscheid v7 oder Grenze offen.
+  - Feed (Marktdaten-Netz): auch mit v7 Median 5,8 MB Feed-Anteil im ganzen Vollscan (s216) > 4 MB -> bleibt aus; Nachbau mit ganzem Vollscan erbeten.
   - RK7: Soll auch die ANZEIGE in "Heute tun" nach dem RK7-Rang sortiert werden (heute nur die Budget-Verteilung)?
   - GSL6-2 Ursache der 1,28 s: Verdacht "eigene Suche belegt die Drossel" – Messwert jetzt im Sniper-Bericht.
 
