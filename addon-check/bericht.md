@@ -24,5 +24,5 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 ## ThreatSentinel-2.5.13.zip: OK (1 Warnungen)
 - **WARNUNG** ThreatSentinel/GoldSentinelMarkt.lua: veraltete offizielle Fassung (Version 3) – auf shared/GoldSentinelMarkt.lua Version 4 aktualisieren
 
-## levelpilot__levelpilot-3.12.32.LevelPilot.zip: OK
+## levelpilot__levelpilot-3.12.33.LevelPilot.zip: OK
 
