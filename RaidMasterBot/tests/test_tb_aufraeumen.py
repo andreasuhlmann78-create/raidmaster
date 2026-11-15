@@ -107,7 +107,7 @@ class Aufraeumen(unittest.TestCase):
         self.assertEqual(n, tb.MAX_PER_RUN)
 
     def test_t07_bot_postet_nichts(self):
-        with open(os.path.join(BOT_DIR, "bot.py"), encoding="utf-8") as f:
+        with open(os.path.join(BOT_DIR, "betrieb_bot.py"), encoding="utf-8") as f:   # D-3 Schritt 21
             src = f.read()
         body = src[src.index("async def tb_cleanup_loop"):src.index("async def before_tb_cleanup")]
         self.assertNotIn(".send(", body)

@@ -15,6 +15,12 @@ WAS
   market_store (SELBST GEFUNDEN: seit Schritt 4 / 1.5.149 in bot.py unbenutzt, ohne Wirkung). Damit meldet
   pyflakes für bot.py keine durch D-3 entstandenen unbenutzten Namen mehr (die übrigen Meldungen gab es schon vor
   D-3, z. B. gzip doppelt, ch unbenutzt).
+  [BERICHTIGT 15.11. 22:29: FALSCH. Nachgemessen an den Ständen 1.5.145–1.5.164: vor D-3 (1.5.145) meldete pyflakes
+  nur "ch unbenutzt". Durch D-3 unbenutzt geworden und von mir übersehen (mein Filter blendete sie aus): gzip
+  (seit 1.5.146), logging, shutil, kern.CONFIG_PATH/DEFAULT_CONFIG/load_config/ICON_MAP_BUNDLED (seit 1.5.148),
+  blizzard_api_check, kern.MARKT_DIR (seit 1.5.149), kern.fame_db (seit 1.5.153), kern.lootdb (seit 1.5.157),
+  kern.ADDON_DIR (seit 1.5.164),
+  tip_view (war schon vor D-3 nie benutzt). Alle in 1.5.168 entfernt, Bericht 1.5.168.]
 - bot.py: git diff --numstat +5 −125, jetzt 5970 Zeilen.
 - test_bank_bot: die Zeile, die BANK_CHANNEL in bot.py verglich, entfällt (bot.py führt den Namen nicht mehr);
   die übrigen Prüfungen der 5 Tests bleiben.

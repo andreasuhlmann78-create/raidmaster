@@ -98,7 +98,7 @@ class Lade(unittest.TestCase):
         self.assertIs(uploader_bot.bot, b.bot)                   # D-3 Schritt 9: Uploader-Versand
         self.assertIs(b.bot.tree.get_command("uploader").callback, uploader_bot.uploader_cmd.callback)
         self.assertEqual(uploader_bot.ADDON_DIR, os.path.join(os.path.dirname(b.__file__), "addon"))
-        self.assertIs(b.ADDON_DIR, kern.ADDON_DIR)
+        self.assertIs(uploader_bot.ADDON_DIR, kern.ADDON_DIR)
         import bank_bot
         self.assertIs(bank_bot.bot, b.bot)                       # D-3 Schritt 10: Gildenbank und Raidfähigkeit
         self.assertIs(b.post_guild_bank, bank_bot.post_guild_bank)
@@ -142,6 +142,11 @@ class Lade(unittest.TestCase):
         self.assertIs(ankuendigung_bot.bot, b.bot)               # D-3 Schritt 18: Addon-Versionen, Ankündigungen
         self.assertIs(b.check_addon_release, ankuendigung_bot.check_addon_release)
         self.assertEqual(ankuendigung_bot.ADDON_DIR, kern.ADDON_DIR)
+        import betrieb_bot
+        self.assertIs(betrieb_bot.bot, b.bot)                    # D-3 Schritt 21: Server-Betrieb
+        for name in ("backup_loop", "icon_map_loop", "tb_cleanup_loop"):
+            self.assertIs(getattr(b, name), getattr(betrieb_bot, name), name)
+        self.assertIs(b.bot.tree.get_command("daten-import").callback, betrieb_bot.import_cmd.callback)
         self.assertIs(b.restart_soon, grund.restart_soon)               # D-3 Schritt 19: Neustart in grund.py
         self.assertFalse(hasattr(b, "EXIT_CODE"))                       # nur grund.EXIT_CODE
         import update_bot
