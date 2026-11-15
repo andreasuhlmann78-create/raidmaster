@@ -79,6 +79,27 @@ T373 NACHTRAG (Entwurf Nachprüfung 11:20, vom Supervisor übernommen): Diagnose
     Aufgabe cache:warm-today · 0 Schritte · längster Schritt 182 ms bis Comfort.lua:1002" (früher 50–54 ms in 0.65.110), dazu
     16–40 ms Extras.lua:279, Comfort.lua:779/931, pd7 16–18 ms AHAnalyzerPro.lua:1152. Ziel ≤ 16 ms je Bild; "0 Schritte" = pausiert
     nie. Gehört zu RUCKEL-1 (zurückgestellt), Zahl und Stelle hier festgehalten. UI-CLEAN1 (A) 0.65.182: durch TB184-U1/U3 ersetzt.
+PRÜFUNG 0.65.190 (Supervisor 14:20, Bericht + Code Sniper.lua Remaining/NoteGoldStart/RetrySearch gelesen) – zur Prüfung, Befunde:
+    GUT/plausibel: TB188-7 (Scan während Test gesperrt, auch VS.Start), TB188-6 (Watchdog, Fortschritt, S4 30 s), TB188-3 Ursache
+    im Code (Books LOG_MAX 4000 warf Buchungen NACH dem Stichtag weg) – starker Fund; TB189-5 Fix mit g.others; TB189-1 Text.
+    P190-1 HOCH (TB188-8 Fix): Sn:RetrySearch setzt lastSearch = -100 -> Suche SOFORT neu. Bei QUERY_DROPPED (Server drosselt)
+           wird so in die Drossel hineingehämmert; CanSearch prüft zwar QueryReady/Drossel – belegen, dass nach DROPPED vor der
+           neuen Suche AUCTION_HOUSE_THROTTLED_SYSTEM_READY bzw. IsThrottledMessageSystemReady abgewartet wird. Bei "replaced"
+           (Ergebnis für ein anderes Item = Suche des Spielers ODER eines anderen Addons) nicht sofort neu: sonst Ping-Pong mit
+           Auctionator/Blizzard-Suche des Spielers -> kurze Rücksicht (z. B. 0,5–1 s, oder bis die fremde Suche beantwortet ist).
+           Zähler retry je Grund im Sniper-Bericht + Grenze (z. B. höchstens 3 sofortige Wiederholungen in 10 s, dann normaler Takt).
+    P190-2 MITTEL (TB189-5): others zählt nur BESTÄTIGTE Ausgaben der anderen Ziele (u.spent). Gesendete, schon abgebuchte, aber
+           noch unbestätigte Käufe der anderen Ziele landen bis zur Bestätigung als "eigen"/"andere Ausgaben" beim Ziel -> Rest
+           springt kurz. Gesendete der anderen (SentFor) mit abziehen. Ausserdem: wird ein anderes Ziel GELÖSCHT, fällt dessen
+           Zuwachs aus others weg -> Rest des verbleibenden Ziels sinkt. Lösung: Zuwachs je Ziel aus dem goldLog/Kauf-Protokoll statt
+           aus db.targets.
+    P190-3: TB188-3 – nach dem Stichtag verlorene Verkäufe (vor 0.65.190) lassen sich laut Bericht nicht wiederherstellen. Bitte
+           prüfen, ob sie aus den Post-Rechnungen (Ledger/Journal/Prognose-Fälle) rekonstruierbar sind; sonst im Bericht die
+           Zahl "verloren: n Verkäufe, Erlös x" einmal nennen (Nachvollziehbarkeit).
+    Messwerkzeug: Der Nutzer spielt ab 14:15 mit GSSniperLog (passiv, shared/messtest/GSSniperLog) – liefert unabhängig je Suche
+    Antwortzeit, je Kauf offen/Antwort/Fehler/Drossel, weggeschnappte Angebote, Pausen mit AHS-Status, Gold je Zusammenhang. Der
+    Supervisor wertet es aus; AHS bekommt daraus belegte Aufträge. AHS ändert dafür nichts.
+    Reihenfolge jetzt: P190-1 -> TB189-2 -> TB189-3/4 -> TB188-9 -> P190-2/3 -> (nach SNIPER-Abnahme) TT-DE2, KERN-T1, MAIL-Rest, VK-P1, UI.
 TB189 (Nutzer 13:53, 2 Screenshots Sniper 13:52:51/13:53:00, 0.65.189; 2 Ziele: Azurblaue Seidenkapuze max 9s Budget 5g, Schultern
     des Hügelwächters max 9s14) – Supervisor geprüft:
     GUT: Gold 14g28s52 -> 14g19s38 = −9s14 = genau 1 Kauf, Zähler Schultern 15 -> 16 (Zähler = Gold ✓). Kopf jetzt "Treffer · mit
