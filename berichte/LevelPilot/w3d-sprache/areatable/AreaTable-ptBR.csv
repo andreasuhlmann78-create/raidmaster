@@ -1,0 +1,1405 @@
+ID,AreaName_lang,ParentAreaID,ContinentID
+1,Dun Morogh,0,0
+2,Praia Grande,40,0
+3,Ermos,0,0
+4,Barreira do Inferno,0,0
+7,Angra Aguanegra,33,0
+8,Pântano das Mágoas,0,0
+9,Vale de Vila Norte,12,0
+10,Floresta do Crepúsculo,0,0
+11,Pantanal,0,0
+12,Floresta de Elwynn,0,0
+13,A Árvore do Mundo,10,0
+14,Durotar,0,1
+15,Pântano Vadeoso,0,1
+16,Azshara,0,1
+17,Sertões,0,1
+18,Lago de Cristal,12,0
+19,Zul'Gurub,33,0
+20,Arroio da Lua,40,0
+21,Kul Tiraz,0,0
+22,Ilha dos Programadores,0,451
+23,Rio Vila Norte,12,0
+24,Abadia de Vila Norte,12,0
+25,Montanha Rocha Negra,0,0
+26,Farol,40,0
+28,Terras Pestilentas Ocidentais,0,0
+30,Nove,0,0
+32,O Cemitério,10,0
+33,Selva do Espinhaço,0,0
+34,Mina da Serra do Eco,12,0
+35,Angra do Butim,33,0
+36,Montanhas de Alterac,0,0
+37,Lago Nazferiti,33,0
+38,Loch Modan,0,0
+40,Cerro Oeste,0,0
+41,Trilha do Vento Morto,0,0
+42,Vila Sombria,10,0
+43,Praia Selvagem,33,0
+44,Montanhas Cristarrubra,0,0
+45,Planalto Arathi,0,0
+46,Estepes Ardentes,0,0
+47,Terras Agrestes,0,0
+49,Antro do Morto,22,451
+51,Garganta Abrasadora,0,0
+53,Acampamento dos Ladrões,12,0
+54,Mina de Jaspe,12,0
+55,Valley of Heroes UNUSED,12,0
+56,Vigia dos Heróis,12,0
+57,Mina Vailafundo,12,0
+59,Vinhedos de Vila Norte,12,0
+60,Boca da Mata,12,0
+61,Cachoeira do Trovão,12,0
+62,Plantação de Abóboras dos Braga,12,0
+63,Fazenda dos Campedra,12,0
+64,Vinhedos dos Madruga,12,0
+65,***On Map Dungeon***,0,0
+66,***On Map Dungeon***,0,1
+67,***On Map Dungeon***,0,17
+68,Lago Plácido,44,0
+69,Vila Plácida,44,0
+70,Mirante de Pedra,44,0
+71,Cachoeira do Mirante de Pedra,44,0
+72,Portal Negro,4,0
+73,Rasgo Infecto,4,0
+74,Poço de Lágrimas,8,0
+75,Pedregal,8,0
+76,Retiro Alqueivado,8,0
+77,Sidermar,1,0
+80,Montanhas de Ventobravo,12,0
+81,Jeff NE Quadrant Changed,22,451
+82,Jeff NW Quadrant,22,451
+83,Jeff SE Quadrant,22,451
+84,Jeff SW Quadrant,22,451
+85,Clareiras de Tirisfal,0,0
+86,Lago do Monumento,12,0
+87,Vila d'Ouro,12,0
+88,Madeireira Vale do Leste,12,0
+89,Pomar do Lago Espelhado,12,0
+91,Torre de Azora,12,0
+92,Lago Espelhado,12,0
+93,Gruta de Vul'Gol,10,0
+94,Monte Corvo,10,0
+95,Garganta Cristarrubra,44,0
+96,Torre de Ilgalar,44,0
+97,Serraria Alther,44,0
+98,Cavernas Retibanas,44,0
+99,Acampamento dos Rebeldes,33,0
+100,Expedição do Rosarães,33,0
+101,Complexo do Kurzen,33,0
+102,Ruínas de Zul'Kanda,33,0
+103,Ruínas de Zul'Mamwe,33,0
+104,O Arrecife Torpe,33,0
+105,Gruta de Mosh'Ogg,33,0
+106,O Arsenal,33,0
+107,Fazenda dos Saldanha,40,0
+108,Morro da Sentinela,40,0
+109,Plantação de Abóboras do Taturana,40,0
+111,Mina Veiojango,40,0
+113,Pedreira Costa Dourada,40,0
+115,Farol de Cerro Oeste,40,0
+116,Vale Nebuloso,8,0
+117,Acampamento Grom'gol,33,0
+118,Sítio de Escavação de Whelgar,11,0
+120,Guarnição da Ribeira d'Oeste,12,0
+121,Cemitério Jardins da Paz,10,0
+122,Ruínas Zuuldaia,33,0
+123,Ruínas de Bal'lal,33,0
+125,Ruínas de Kal'ai,33,0
+126,Ruínas de Tkashi,33,0
+127,Ruínas de Balia'mah,33,0
+128,Ruínas Ziata'jai,33,0
+129,Ruínas de Nizjah,33,0
+130,Floresta de Pinhaprata,0,0
+131,Kharanos,1,0
+132,Vale Cristálgida,1,0
+133,Gnomeregan,1,0
+134,Pedreira Gol'Bolar,1,0
+135,Fortaleza Jubafria,1,0
+136,Covil Cinzento,1,0
+137,Aldeia da Cevada,1,0
+138,Refúgio Pinhal das Brumas,1,0
+139,Terras Pestilentas Orientais,0,0
+141,Teldrassil,0,1
+142,Sítio de Escavação de Bandaferro,38,0
+143,Fortaleza Mo'grosh,38,0
+144,Thelsamar,38,0
+145,Portão de Algaz,38,0
+146,Dique Lapidado,38,0
+147,Pavilhão dos Andarilhos,38,0
+148,Costa Negra,0,1
+149,Mina da Prata,38,0
+150,Porto de Menethil,11,0
+151,Ilha dos Designers,0,451
+152,O Baluarte,85,0
+153,Ruínas de Lordaeron,85,0
+154,Plangemortis,85,0
+155,Vale Teia da Noite,85,0
+156,Fazenda dos Solliden,85,0
+157,Moinhos dos Agamand,85,0
+158,Cripta da Família Agamand,85,0
+159,Montalvo,85,0
+160,Jardins Murmurantes,85,0
+161,Terraço do Repouso,85,0
+162,Lago Águas Claras,85,0
+163,Refúgio de Tertuliano,85,0
+164,Sítio dos Garren,85,0
+165,Fazenda dos Balnir,85,0
+166,Casarão Lar Glacial,85,0
+167,Guarita dos Cruzados,85,0
+168,Costa Norte,85,0
+169,Praia Sibilante,85,0
+170,Espelho de Lordaeron,0,0
+172,Ilha de Fenris,130,0
+173,Repouso de Faol,85,0
+186,Dolanaar,141,1
+187,Darnassus UNUSED,141,1
+188,Umbravale,141,1
+189,Garagem do Gradaço,1,0
+190,Amparo,28,0
+192,Madeireira Beiranorte,28,0
+193,Ruínas de Andorhal,28,0
+195,Escola de Necromancia,28,0
+196,Tumba de Uther,28,0
+197,Colina do Pesar,28,0
+198,Caverna das Lágrimas,28,0
+199,Campo Pedravil,28,0
+200,Lágrimas de Dalson,28,0
+201,Aridez de Garrão,28,0
+202,O Antro Repelente,28,0
+203,Bastilha Mardenforte,28,0
+204,Vilarejo Lenhardente,130,0
+205,Dun Modr,11,0
+206,Cerro Oeste,0,36
+207,O Grande Oceano,0,36
+208,Unused Ironcladcove,0,36
+209,Bastilha da Presa Negra,0,33
+210,***On Map Dungeon***,0,36
+211,Lago Nevado,1,0
+212,Lago Helm,1,0
+213,Mina Elenfunda,130,0
+214,O Grande Oceano,0,0
+215,Mulgore,0,1
+219,Fazenda dos Aleixo,40,0
+220,Chapada Nuvem Vermelha,215,1
+221,Aldeia Narache,215,1
+222,Aldeia Casco Sangrento,215,1
+223,Lago da Ferradura,215,1
+224,Caravana Devastada,215,1
+225,Rochedo Vermelho,215,1
+226,Penumbra Furtiva,130,0
+227,Sítio do Valgan,130,0
+228,O Sepulcro,130,0
+229,Miséria de Olsen,130,0
+230,Muralha Greymane,130,0
+231,Cilada de Beren,130,0
+232,Ilhas da Aurora,130,0
+233,Lenhâmbar,130,0
+235,Castelo Fenris,130,0
+236,Bastilha da Presa Negra,130,0
+237,Campos Apodrecidos,130,0
+238,Horto dos Maldonado,130,0
+239,Plantação do Ivar,130,0
+240,Campo Morto,130,0
+241,O Horto Pútrido,10,0
+242,Bosque Brilhante,10,0
+243,Morro dos Esquecidos,10,0
+244,Propriedade dos Whipple,10,0
+245,Fazenda dos Figueira,10,0
+246,O Caldeirão,51,0
+247,Escavação Pedrassuja,51,0
+249,Rochedo Malhorrendo,46,0
+250,Ruínas de Thaurissan,46,0
+251,Monte Candente,46,0
+252,Fortaleza Rocha Negra,46,0
+253,Pilar de Cinzas,46,0
+254,Montanha Rocha Negra,46,0
+255,Altar das Tempestades,46,0
+256,Aldrassil,141,1
+257,Caverna Fionumbra,141,1
+258,Pedra Vil,141,1
+259,Lago Al'Ameth,141,1
+260,Vilarejo Brisastral,141,1
+261,Acampamento Masca-pinho,141,1
+262,Gruta de Ban'ethil,141,1
+263,A Fenda,141,1
+264,Clareira do Oráculo,141,1
+265,Rio Olho-d'Água,141,1
+266,Lago Olho-d'Água,141,1
+267,Contraforte de Eira dos Montes,0,0
+268,Cratera de Azshara,0,37
+269,Dun Algaz,0,0
+271,Costa Sul,267,0
+272,Serraria Tarren,267,0
+275,Forte do Desterro,267,0
+276,UNUSED Stonewrought Pass,0,0
+277,Caverna do Pé da Serra,36,0
+278,Campo de Internação de Lordaeron,36,0
+279,Dalaran,36,0
+280,Strahnbrad,36,0
+281,Ruínas de Alterac,36,0
+282,Bastilha Esmagaterra,36,0
+283,Antro do Massacre,36,0
+284,As Terras Altas,36,0
+285,Torre do Sul,267,0
+286,Campos de Eira dos Montes,267,0
+287,Eira dos Montes,267,0
+288,Mina Veioazul,267,0
+289,Sítio de Nethander,267,0
+290,Dun Garok,267,0
+293,Muralha de Thoradin,0,0
+294,Praia Oriental,267,0
+295,Praia Ocidental,267,0
+296,South Seas UNUSED,0,0
+297,Ilha Jaguara,33,0
+298,Baía de Baradin,11,0
+299,Baía de Menethil,11,0
+300,Praia Brumalga,8,0
+301,Costa Selvagem,33,0
+302,Praia Cristalina,33,0
+303,Praia da Concha,33,0
+305,Costa da Maré do Norte,130,0
+306,Costa da Maré do Sul,130,0
+307,Penhascos Panorâmicos,47,0
+308,O Mar Proibido,0,0
+309,Tumba dos Barbaférreos,11,0
+310,Mina Veia de Cristal,33,0
+311,Ruínas de Aboraz,33,0
+312,Pontal de Janeiro,33,0
+313,Casa Grande do Norte,45,0
+314,Fazenda Go'Shek,45,0
+315,Fazenda dos Dabyrie,45,0
+316,Forte Punho de Pedra,45,0
+317,Aldeia Cascasseca,45,0
+318,Garganta Seca,45,0
+320,Ponta do Refúgio,45,0
+321,Ruína do Martelo,45,0
+322,Destroços de Aguanegra,45,0
+323,Acampamento do Nabrava,45,0
+324,Bastilha de Stromgarde,45,0
+325,Torre de Arathor,45,0
+326,O Sacrário,45,0
+327,Enseada de Faldir,45,0
+328,Recife dos Afogados,45,0
+330,Ponte Thandol,0,0
+331,Vale Gris,0,1
+332,O Grande Oceano,0,1
+333,Círculo de União Oriental,45,0
+334,Círculo de União Ocidental,45,0
+335,Círculo de União Interno,45,0
+336,Círculo de União Externo,45,0
+337,Descanso do Apócrifo,3,0
+338,Fortaleza Angor,3,0
+339,Ravina Lethlor,3,0
+340,Karrath,3,0
+341,Acampamento Kosh,3,0
+342,Acampamento Barf,3,0
+343,Acampamento Wurg,3,0
+344,Acampamento Cang,3,0
+345,Ruína de Agmundo,3,0
+346,Sítio de Escavação do Pé-de-malho,3,0
+347,Gruta Arrota-pó,3,0
+348,Ninho da Águia,47,0
+349,Bastilha Martelo Feroz,47,0
+350,Pavilhão Quel'Danil,47,0
+351,Rocha Oculta,47,0
+352,Zun'watha,47,0
+353,Shadra'Alor,47,0
+354,Jintha'Alor,47,0
+355,Altar de Zul,47,0
+356,Seradane,47,0
+357,Feralas,0,1
+358,Ravina da Lâmina Espinhenta,215,1
+359,Bael Modan,17,1
+360,Mina da Empreendimentos S.A.,215,1
+361,Selva Maleva,0,1
+362,Monte Navalha,14,1
+363,Vale das Provações,14,1
+364,O Covil,14,1
+365,Covil da Lâmina Ardente,14,1
+366,Penedo de Kolkar,14,1
+367,Aldeia Sen'jin,14,1
+368,Ilhas do Eco,14,1
+369,Desfiladeiro do Trovão,14,1
+370,Barranco da Ravina Seca,14,1
+371,Caverna Sopravento,14,1
+372,Bastilha Tiragarde,14,1
+373,Praia do Bota-a-pique,14,1
+374,Baía Carpunhal,14,1
+375,Praia do Olho Seco,14,1
+377,Rio Furiaustral,0,1
+378,Acampamento Taurajo,17,1
+379,Posto Remoto,17,1
+380,A Encruzilhada,17,1
+381,Mina Veio do Pedregulho,17,1
+382,Charco de Lodo,17,1
+383,Montes Áridos,17,1
+384,Morro de Brumedo,17,1
+385,Fortaleza da Guardanorte,17,1
+386,Os Charcos Esquecidos,17,1
+387,Oásis das Águas Claras,17,1
+388,O Oásis Estagnado,17,1
+390,Campo dos Gigantes,17,1
+391,Costa dos Mercadores,17,1
+392,Vila Catraca,17,1
+393,Praia Lançanegra,14,1
+394,Darrowmere Lake UNUSED,0,0
+395,Caer Darrow UNUSED,394,0
+396,Poço Casco Invernal,215,1
+397,Poço Chifre Troante,215,1
+398,Poço Juba Agreste,215,1
+399,Serra do Horizonte,215,1
+400,Mil Agulhas,0,1
+401,Escadaria de Tidus,17,1
+403,Estalagem Pouso do Umbral,15,1
+404,Sítio de Escavação de Bael'Dun,215,1
+405,Desolação,0,1
+406,Cordilheira das Torres de Pedra,0,1
+407,Orgrimmar UNUSED,14,1
+408,Ilha de Gillijim,0,0
+409,Ilha do Doutor Lapidis,0,0
+410,Garganta do Vento Cortante,14,1
+411,Refúgio de Bathran,331,1
+412,Ruínas de Ordil'Aran,331,1
+413,Entreposto de Maestra,331,1
+414,Praia de Zoram,331,1
+415,Astranaar,331,1
+416,Altar de Aessina,331,1
+417,Santuário Cicatriz de Fogo,331,1
+418,Ruínas de Poeira Estelar,331,1
+419,Vale Uivante,331,1
+420,Refúgio Brisaprata,331,1
+421,Lago Mistral,331,1
+422,Lago Céu Caído,331,1
+424,Lago Íris,331,1
+425,Poço Lunar,331,1
+426,Refúgio Bosque Real,331,1
+427,Gruta Escura,331,1
+428,Trilha da Noite,331,1
+429,Xavian,331,1
+430,Satyrnaar,331,1
+431,Posto Machadada,331,1
+432,Retiro de Dor'Danil,331,1
+433,Rio Felfarren,331,1
+434,Monte Fogovil,331,1
+435,Cânion do Demônio Caído,331,1
+436,Serra do Demônio Caído,331,1
+437,Acampamento de Lenhadores Brado Guerreiro,331,1
+438,Sombrarrama,331,1
+439,Chapada Cintilante,400,1
+440,Tanaris,0,1
+441,Lago Falathim,331,1
+442,Auberdine,148,1
+443,Ruínas de Mathistra,148,1
+444,Torre de Althalaxx,148,1
+445,Quedas de Fontescarpa,148,1
+446,Bashal'Aran,148,1
+447,Ameth'Aran,148,1
+448,Bosque dos Ancientes,148,1
+449,Glaive do Mestre,148,1
+450,Escavação de Trilheiro,148,1
+452,Beira das Névoas,148,1
+453,Praia da Ressaca,148,1
+454,Rio Crenado,148,1
+455,Antro dos Bosqueneros,148,1
+456,Rio Fontescarpa,148,1
+457,Mar Velado,0,1
+458,Estrada do Ouro,17,1
+459,Posto da Vigília Escarlate,85,0
+460,Retiro Rocha do Sol,406,1
+461,Rochedo Cortavento,406,1
+463,Lago do Rochedo,406,1
+464,Lago Mirkfallon,406,1
+465,Vale Carbonizado,406,1
+466,Vale Furissangue,406,1
+467,Morro das Torres de Pedra,406,1
+468,Retiro do Gadanho,406,1
+469,Vale Matagrande,406,1
+470,Thunder Bluff UNUSED,215,1
+471,Chapada Vento Valente,215,1
+472,Chapada Rocha de Fogo,215,1
+473,Manto de Rocha,215,1
+474,Acampamento Galath,215,1
+475,Spirit RiseUNUSED,215,1
+476,Elder RiseUNUSED,215,1
+477,Ruínas de Jubuwal,33,0
+478,Águas de Arlithrien,141,1
+479,Sítio de Escavação Velhomalho,400,1
+480,Aldeia E'thok,400,1
+481,Rochedo do Casco Fendido,400,1
+482,Alcândora,400,1
+483,Garganta Uivante,400,1
+484,Aldeia Vento Livre,400,1
+485,O Grande Elevador,400,1
+486,Castelo Galath,400,1
+487,Covil Plumerrante,400,1
+488,Gruta Velha,400,1
+489,Thalanaar,357,1
+490,Cratera Un'Goro,0,1
+491,Urzal dos Tuscos,0,47
+492,Cemitério de Monte Corvo,10,0
+493,Clareira da Lua,0,1
+495,DELETE ME,0,0
+496,Aldeia Muralha Verde,15,1
+497,Casarão do Pantanal Iluminado,15,1
+498,Antro do Dinossangue,15,1
+499,Caverna Névoa Negra,15,1
+500,Cabo Moggle,15,1
+501,Destroços de Beezil,15,1
+502,Morro das Bruxas,15,1
+503,Pontal de Vigília,15,1
+504,Torre Norte,15,1
+505,Torre Oeste,15,1
+506,Posto Perdido,15,1
+507,Charneca Azul,15,1
+508,Ruínas Pedramalho,15,1
+509,Antro das Chamas,15,1
+510,Draconumbra,15,1
+511,Pântano da Serpe,15,1
+512,Onyxia's Lair UNUSED,15,1
+513,Ilha Theramore,15,1
+514,Cidadela do Esteio,15,1
+515,Prisão Encouraçado,15,1
+516,Baía de Vadeoso,15,1
+517,Enseada da Fúria das Marés,15,1
+518,Costa Tenebrosa,15,1
+536,Quinta dos Aguiar,10,0
+537,Pico Penacho de Fogo,490,1
+538,Poços de Piche Lakkari,490,1
+539,Terroral,490,1
+540,Fenda Coleante,490,1
+541,Refúgio do Marshal,490,1
+542,Pedra do Limo,490,1
+543,Fontes Termais Golakka,490,1
+556,Loch,38,0
+576,Refúgio dos Mendigos,10,0
+596,Cemitério dos Kodos,405,1
+597,Entreposto do Espírito que Anda,405,1
+598,Praia de Sar'theris,405,1
+599,Fortaleza Machado do Trovão,405,1
+600,Covil do Bolgan,405,1
+602,Ruínas de Mannoroc,405,1
+603,Sargeron,405,1
+604,Aldeia Magram,405,1
+606,Aldeia Gelkis,405,1
+607,Vale das Lanças,405,1
+608,Posto do Nijel,405,1
+609,Aldeia Kolkar,405,1
+616,Monte Hyjal,0,1
+618,Hibérnia,0,1
+636,Rio Lobonegro,406,1
+637,Rocha dos Kodos,215,1
+638,Caminho Oculto,14,1
+639,Rocha dos Espíritos,14,1
+640,Altar da Chama Latente,14,1
+656,Lago Eluna'ara,493,1
+657,O Refúgio,8,0
+676,Terralém,0,150
+696,Craftsmen's Terrace UNUSED,141,1
+697,Tradesmen's Terrace UNUSED,141,1
+698,The Temple Gardens UNUSED,141,1
+699,Temple of Elune UNUSED,141,1
+700,Cenarion Enclave UNUSED,141,1
+701,Warrior's Terrace UNUSED,141,1
+702,Vila de Rut'theran,141,1
+716,Complexo de Bandaferro,1,0
+717,O Cárcere,0,34
+718,Caverna Ululante,0,43
+719,Profundezas Negras,0,48
+720,Ilha da Peleja,17,1
+721,Gnomeregan,0,90
+722,Urzal dos Mortos,0,129
+736,Ravina de Ban'ethil,141,1
+796,Monastério Escarlate,0,189
+797,Ancoradouro de Jerod,12,0
+798,Torre Serrana,12,0
+799,Margem Escurecida,10,0
+800,Caminho de Cristálgida,1,0
+801,Vale Brisa Álgida,1,0
+802,Cordilheira Cintilante,1,0
+803,Rancho Ambarmanso,1,0
+804,Montes Túndricos,1,0
+805,Desfiladeiro do Portão Sul,1,0
+806,Posto de Guarda do Portão Sul,1,0
+807,Desfiladeiro do Portão Norte,1,0
+808,Posto de Guarda do Portão Norte,1,0
+809,Portões de Altaforja,1,0
+810,Lagoa das Águas Paradas,85,0
+811,Vale do Pesadelo,85,0
+812,Vale Veneracnídeo,85,0
+813,O Baluarte,28,0
+814,Rio Furiaustral,14,1
+815,Rio Furiaustral,17,1
+816,Terras Crinavalha,14,1
+817,Rocha da Caveira,14,1
+818,Rochedo Jubalba,215,1
+819,Serra Ventofúria,215,1
+820,Planícies Douradas,215,1
+821,Morros Ondulantes,215,1
+836,Dun Algaz,11,0
+837,Dun Algaz,38,0
+838,Desfiladeiro do Portão Norte,38,0
+839,Desfiladeiro do Portão Sul,38,0
+856,Bosque do Crepúsculo,10,0
+876,Ilha dos MJs,0,1
+877,Delete ME,17,1
+878,Rio Furiaustral,16,1
+879,Rio Furiaustral,331,1
+880,Ponte Thandol,45,0
+881,Ponte Thandol,11,0
+896,Ilha da Purgação,267,0
+916,Sítio dos Jansen,40,0
+917,O Alqueire Morto,40,0
+918,Fazenda dos Peçanha,40,0
+919,Lago Stendel,40,0
+920,Os Obeliscos,40,0
+921,Recanto de Demont,40,0
+922,Planícies do Pó,40,0
+923,Vale Lascapedra,38,0
+924,Vale dos Reis,38,0
+925,Estação Algaz,38,0
+926,Fazenda dos Bucklebree,130,0
+927,Margem Brilhante,130,0
+928,Atracadouro da Maré do Norte,130,0
+936,Serra Garracinza,38,0
+956,Campos Verdejantes,0,169
+976,Geringontzan,440,1
+977,Porto de Bondebico,440,1
+978,Zul'Farrak,440,1
+979,Posto Silitriste,440,1
+980,Vale Moitagulhas,440,1
+981,Fenda Hazzali,440,1
+982,Covil Nóxio,440,1
+983,Complexo Dunamalho,440,1
+984,Ruínas de Lunaleste,440,1
+985,Campo das Minas d'Água,440,1
+986,Covil de Zalashji,440,1
+987,Praia do Fim do Mundo,440,1
+988,Praia das Sete Ondas,440,1
+989,Uldum,440,1
+990,Vale dos Vigilantes,440,1
+991,Posto de Gunstan,440,1
+992,Ruínas de Lunassul,440,1
+996,Acampamento dos Laceradores,44,0
+997,Vale dos Laceradores,44,0
+998,Rocha dos Laceradores,44,0
+999,Torre Mirante de Pedra,44,0
+1000,Vale Galardell,44,0
+1001,Estrada Beira-lago,44,0
+1002,Três Caminhos,44,0
+1016,Monte Umbraforja,11,0
+1017,Serra dos Raptores,11,0
+1018,Pântano do Canal Negro,11,0
+1019,Zona Verde,139,0
+1020,Charco Pelemusgo,11,0
+1021,Rocha de Thelgen,11,0
+1022,Pântano Peixeazul,11,0
+1023,Vale Espuma de Sal,11,0
+1024,Pântano do Ocaso,11,0
+1025,Zona Verde,11,0
+1036,Acampamento Presirada,11,0
+1037,Grim Batol,11,0
+1038,Portões Presa do Dragão,11,0
+1039,Frota Perdida,11,0
+1056,Monte das Flechas,267,0
+1057,Muralha de Thoradin,267,0
+1076,Passagem Tramateia,406,1
+1097,Margem Silenciada,10,0
+1098,Casarão dos Brumanto,10,0
+1099,Aldeia Mojache,357,1
+1100,Complexo do Temível Totem,357,1
+1101,Profundeza Atormentada,357,1
+1102,Lago Vento Selvagem,357,1
+1103,Assentamento Gordunni,357,1
+1104,Mok'Gordun,357,1
+1105,Vale dos Abomináveis,357,1
+1106,Planalto Esfiapluma,357,1
+1107,Lago Soprocioso,357,1
+1108,Costa Esquecida,357,1
+1109,Pilar Leste,357,1
+1110,Pilar Oeste,357,1
+1111,Ramo de Morfeu,357,1
+1112,Lago Jademir,357,1
+1113,Oneiros,357,1
+1114,Ruínas dos Ventos Corvejantes,357,1
+1115,Bastilha Cortifúria,357,1
+1116,Domínio de Plumaluna,357,1
+1117,Ruínas de Solarsal,357,1
+1118,Lower Wilds UNUSED,357,1
+1119,Colossos Gêmeos,357,1
+1120,Ilha de Sardor,357,1
+1121,Ilha do Medo,357,1
+1136,Selva Alta,357,1
+1137,Baixio Selvagem,357,1
+1156,Sertões Meridionais,17,1
+1157,Estrada do Ouro Sul,17,1
+1176,Zul'Farrak,0,209
+1196,UNUSEDAlcaz Island,0,1
+1216,Gruta Bocanera,16,1
+1217,Acampamento Vanndir,16,1
+1218,TESTAzshara,16,1
+1219,Assentamento Legashi,16,1
+1220,Base Darnassiana,16,1
+1221,Ruínas de Eldarath,16,1
+1222,Ninho de Hetaera,16,1
+1223,Templo de Zin-Malor,16,1
+1224,Campo dos Ursos,16,1
+1225,Ursolan,16,1
+1226,Templo de Arkkoran,16,1
+1227,Baía das Tempestades,16,1
+1228,Areal Despedaçado,16,1
+1229,Torre de Eldara,16,1
+1230,Costa Rasgada,16,1
+1231,Praia do Recife Sul,16,1
+1232,Monumento a Cristacorvo,16,1
+1233,Cordilheira Esquecida,16,1
+1234,Lago Mennar,16,1
+1235,Ermida Cantonegro,16,1
+1236,Assentamento Haldarr,16,1
+1237,Valormok,16,1
+1256,Profundezas Devastadas,16,1
+1276,Túnel Garracava,331,1
+1277,Túnel Garracava,406,1
+1296,Fazenda Petradente,14,1
+1297,Fazenda do Beberrão,14,1
+1316,Urzal dos Mortos,17,1
+1336,Enseada do Armador Perdido,440,1
+1337,Uldaman,0,70
+1338,Espelho de Lordaeron,130,0
+1339,Espelho de Lordaeron,36,0
+1357,Canto da Forca,36,0
+1377,Silithus,0,1
+1397,Floresta Esmeralda,0,169
+1417,Templo Submerso,0,109
+1437,Domínio de Malhorrendo,4,0
+1438,Bastilha de Etergarde,4,0
+1439,Posto Malhorrendo,4,0
+1440,Cavernas Serpeantes,4,0
+1441,Altar das Tempestades,4,0
+1442,Cerro da Sentinela de Fogo,51,0
+1443,Fosso de Lava,51,0
+1444,Mar de Cinzas,51,0
+1445,Montanha Rocha Negra,51,0
+1446,Posto de Tório,51,0
+1457,Armaria da Guarnição,4,0
+1477,Templo de Atal'Hakkar,0,0
+1497,Cidade Baixa,0,0
+1517,Uldaman,3,0
+1518,Not Used Deadmines,40,0
+1519,Ventobravo,0,0
+1537,Altaforja,0,0
+1557,Castelo do Casco Fendido,400,1
+1577,Cabo do Espinhaço,33,0
+1578,Costa Selvagem Sul,33,0
+1579,Unused The Deadmines 002,0,0
+1580,Unused Ironclad Cove 003,1579,0
+1581,Minas Mortas,0,36
+1582,Covil Encouraçado,1581,36
+1583,Pico da Rocha Negra,0,0
+1584,Abismo Rocha Negra,0,0
+1597,Raptor Grounds UNUSED,17,1
+1598,Grol'dom Farm UNUSED,17,1
+1599,Campo-base Mor'shan,17,1
+1600,Honor's Stand UNUSED,17,1
+1601,Blackthorn Ridge UNUSED,17,1
+1602,Bramblescar UNUSED,17,1
+1603,Agama'gor UNUSED,17,1
+1617,Vale dos Heróis,1519,0
+1637,Orgrimmar,0,1
+1638,Penhasco do Trovão,0,1
+1639,Platô dos Anciãos,1638,1
+1640,Platô dos Espíritos,1638,1
+1641,Platô dos Caçadores,1638,1
+1657,Darnassus,0,1
+1658,Enclave Cenariano,1657,1
+1659,Terraço dos Artesãos,1657,1
+1660,Terraço dos Guerreiros,1657,1
+1661,Jardins do Templo,1657,1
+1662,Terraço dos Mercadores,1657,1
+1677,Promontório de Gavin,36,0
+1678,Promontório de Sofera,36,0
+1679,Adaga de Corrahn,36,0
+1680,Terralta,36,0
+1681,Costa da Bruma,36,0
+1682,Nicho de Dandred,36,0
+1683,Caverna Rugido,36,0
+1684,Morro do Ventogelante,36,0
+1697,Terra dos Raptores,17,1
+1698,Espinheira,17,1
+1699,Morro dos Espinhos,17,1
+1700,Agama'gor,17,1
+1701,Serra de Abrunhal,17,1
+1702,Posto da Honra,17,1
+1703,Paliçada Mor'shan,17,1
+1704,Fazenda Grol'dom,17,1
+1717,Urzal dos Tuscos,17,1
+1718,O Grande Elevador,17,1
+1737,Vale da Névoa,33,0
+1738,Olho-d'água Nek'mani,33,0
+1739,Complexo da Vela Sangrenta,33,0
+1740,Base da Empreendimentos S.A.,33,0
+1741,Arena de Gurubashi,33,0
+1742,Covil dos Espíritos,33,0
+1757,Véu Carmesim,33,0
+1758,O Rasgamar,33,0
+1759,O Sorte da Donzela,33,0
+1760,Centro de Operações da Empreendimentos S.A.,33,0
+1761,Vila da Lenha Morta,361,1
+1762,Aldeia Patavil,361,1
+1763,Jaedenar,361,1
+1764,Rio Peçonha,361,1
+1765,Salto da Peçonha,361,1
+1766,Vale das Escaras Pungentes,361,1
+1767,Floresta Ferrárbol,361,1
+1768,Caverna Ferrárbol,361,1
+1769,Domínio dos Presamatos,361,1
+1770,Fortaleza do Concílio das Sombras,361,1
+1771,Santuário do Embusteiro,361,1
+1777,Caverna de Itharius,8,0
+1778,Penumbra das Mágoas,8,0
+1779,Vila Draenil'dur,8,0
+1780,Entroncamento da Lança Lascada,8,0
+1797,Pantanal dos Cervos,8,0
+1798,Lodaçal Mutante,8,0
+1817,Caverna Pantanal dos Cervos,8,0
+1837,Caverna Cascasseca,45,0
+1857,Muralha de Thoradin,45,0
+1858,Pedre'gor,45,0
+1877,Vale das Presas,3,0
+1878,Terrasseca,3,0
+1879,Chapada da Ilusão,3,0
+1880,Casa de Barbapena,47,0
+1881,Alambique do Borracho,47,0
+1882,Trilha da Névoa Pestilenta,47,0
+1883,Lago Valovento,47,0
+1884,Agol'watha,47,0
+1885,Hiri'watha,47,0
+1886,Ruína Assustadora,47,0
+1887,Covil do Bogen,47,0
+1897,Terraço do Criador,3,0
+1898,Ravina de Sopravento,3,0
+1917,Shaol'watha,47,0
+1937,Ruínas da Sombrassolar,440,1
+1938,Pilar Partido,440,1
+1939,Areias Abissais,440,1
+1940,Costa Quebra-sul,440,1
+1941,Cavernas do Tempo,0,1
+1942,Os Pântanos,490,1
+1943,Platô Petraferro,490,1
+1957,Caverna Calcinar,51,0
+1958,Acampamento Curtume,51,0
+1959,Vale Calcinado,51,0
+1977,Zul'Gurub,0,309
+1978,Posto Brumalga,8,0
+1997,Posto Peçonha,361,1
+1998,Clareira da Galhaça,361,1
+2017,Stratholme,0,329
+2037,UNUSEDShadowfang Keep 003,0,0
+2057,Scolomântia,0,289
+2077,Vale do Crepúsculo,148,1
+2078,Costa do Crepúsculo,148,1
+2079,Ilha Alcaz,15,1
+2097,Pináculo da Nuvem Negra,400,1
+2098,Catacumbas do Bosque da Aurora,10,0
+2099,Bastilha Mirante de Pedra,44,0
+2100,Maraudon,0,349
+2101,Estalagem Pilsen,38,0
+2102,Destilaria Cervaforte,1,0
+2103,Bastilha Menethil,11,0
+2104,Taberna Aguafunda,11,0
+2117,Sepulcro Sombrio,85,0
+2118,Prefeitura de Montalvo,85,0
+2119,Taberna Finda Forca,85,0
+2137,The Pools of VisionUNUSED,215,1
+2138,Covil de Brumedo,17,1
+2157,Bastilha Bael'Dun,17,1
+2158,Covil de Ardeluta,15,1
+2159,Covil da Onyxia,0,1
+2160,Mina Cortavento,406,1
+2161,O Descanso de Rolando,10,0
+2177,Ringue de Batalha,33,0
+2197,Poços das Visões,1638,1
+2198,Ravina da Sombra Partida,405,1
+2217,Vila da Lança Partida,405,1
+2237,Posto Confinalvo,400,1
+2238,Górnia,400,1
+2239,Cratera Olho do Zane,400,1
+2240,Circuito da Ilusão,400,1
+2241,Pedra Sabre-de-gelo,618,1
+2242,Bosque Oculto,618,1
+2243,Posto Presamatos,618,1
+2244,Aldeia dos Invernosos,618,1
+2245,Mazthoril,618,1
+2246,Fontes Termais de Fogofrio,618,1
+2247,Serra Cardo de Gelo,618,1
+2248,Dun Mandarr,618,1
+2249,Garganta dos Sussurros Gelados,618,1
+2250,Matagal da Asa da Coruja,618,1
+2251,Lago Kel'Theril,618,1
+2252,Ruínas de Kel'Theril,618,1
+2253,Aldeia Chuva Estelar,618,1
+2254,Gruta de Ban'Thallow,618,1
+2255,Visteterna,618,1
+2256,Garganta do Sussurro Sombrio,618,1
+2257,Metrô Correfundo,0,369
+2258,Vale Fungi,139,0
+2259,UNUSEDThe Marris Stead,139,0
+2260,Sítio dos Marris,139,0
+2261,Chácara Secreta,139,0
+2262,Vila das Flechas,139,0
+2263,Torre da Coroa,139,0
+2264,Cruzamento de Corin,139,0
+2265,Base de Operações Escarlate,139,0
+2266,Manopla de Tyr,139,0
+2267,Basílica Escarlate,139,0
+2268,Capela Esperança da Luz,139,0
+2269,Engenho Assombrado,139,0
+2270,Clareira Nociva,139,0
+2271,Torre da Muralha Leste,139,0
+2272,Vilarejo do Norte,139,0
+2273,Zul'Mashar,139,0
+2274,Mazra'Alor,139,0
+2275,Torre do Passo Norte,139,0
+2276,Abrigo Quel'Lithien,139,0
+2277,Bosque Pestilento,139,0
+2278,Fortaleza do Flagelo,139,0
+2279,Stratholme,139,0
+2280,UNUSED Stratholme,0,0
+2297,Lago das Flechas,28,0
+2298,Castro das Flechas,28,0
+2299,Lago das Flechas,139,0
+2300,Cavernas do Tempo,440,1
+2301,Aldeia dos Pelocardo,331,1
+2302,O Atoleiro,15,1
+2303,Garganta do Quebravento,400,1
+2317,Mares do Sul,440,1
+2318,O Grande Oceano,15,1
+2319,O Grande Oceano,17,1
+2320,O Grande Oceano,14,1
+2321,O Grande Oceano,16,1
+2322,Mar Velado,141,1
+2323,Mar Velado,357,1
+2324,Mar Velado,405,1
+2325,Mar Velado,331,1
+2326,Mar Velado,148,1
+2337,Guarnição do Monte Navalha,14,1
+2338,Mares do Sul,33,0
+2339,O Grande Oceano,33,0
+2357,Aldeia Dente Sangrento,331,1
+2358,Cantilenda,331,1
+2359,Aldeia Pataverde,331,1
+2360,Posto Avançado Asa de Prata,331,1
+2361,Refúgio Noturno,493,1
+2362,Santuário de Remulos,493,1
+2363,Templos de Tempesfúria,493,1
+2364,O Grande Oceano,40,0
+2365,O Grande Oceano,11,0
+2366,Lamaçal Negro,0,269
+2367,Antigo Contraforte de Eira dos Montes,0,269
+2368,Serraria Tarren,2367,269
+2369,Costa Sul,2367,269
+2370,Forte do Desterro,2367,269
+2371,Dun Garok,2367,269
+2372,Campos de Eira dos Montes,2367,269
+2373,Praia Oriental,2367,269
+2374,Sítio de Nethander,2367,269
+2375,Monte das Flechas,2367,269
+2376,Torre do Sul,2367,269
+2377,Muralha de Thoradin,2367,269
+2378,Praia Ocidental,2367,269
+2379,Mina Veioazul,2367,269
+2397,O Grande Oceano,267,0
+2398,O Grande Oceano,130,0
+2399,O Grande Oceano,85,0
+2400,O Mar Proibido,47,0
+2401,O Mar Proibido,45,0
+2402,O Mar Proibido,11,0
+2403,O Mar Proibido,8,0
+2404,Tethris Aran,405,1
+2405,Ethel Rethor,405,1
+2406,Ilha Ranazjar,405,1
+2407,Barraco do Kormek,405,1
+2408,Aldeia Pescassombra,405,1
+2417,Estreito Rocha Negra,46,0
+2418,Vigia de Morgan,46,0
+2419,Rocha Coleante,46,0
+2420,Vale Asa do Terror,46,0
+2421,Draco'dar,46,0
+2437,Cavernas Ígneas,0,389
+2457,Floresta Noturcanto,331,1
+2477,Mar Velado,1377,1
+2478,Morlos'Aran,361,1
+2479,Santuário Esmeralda,361,1
+2480,Grota Flamejade,361,1
+2481,Ruínas de Constellas,361,1
+2497,Confins Amargos,16,1
+2517,Cerro do Profanador,4,0
+2518,Pavilhão Lariss,357,1
+2519,Serra dos Patábua,357,1
+2520,Covil dos Patábua,357,1
+2521,Rio Verdantis,357,1
+2522,Ruínas de Isildien,357,1
+2537,Aldeia do Temível Totem,406,1
+2538,Aldeia Apareje,406,1
+2539,Malaka'jin,406,1
+2540,Ravina da Avalanche,406,1
+2541,Desfiladeiro Sishir,406,1
+2557,Gládio Cruel,0,429
+2558,Garganta do Vento Morto,41,0
+2559,Rio Diamante,41,0
+2560,Acampamento de Ariden,41,0
+2561,A Garra,41,0
+2562,Karazhan,41,0
+2563,Terreno de Morgan,41,0
+2577,Gládio Cruel,357,1
+2597,Vale Alterac,0,30
+2617,Acampamento do Rabiscafuso,405,1
+2618,Aldeia Flamejade,361,1
+2619,Rio Thondroril,139,0
+2620,Rio Thondroril,28,0
+2621,Lago Mereldar,139,0
+2622,Cicatriz Pestilenta,139,0
+2623,Fenda Infectis,139,0
+2624,Lago Bosquenero,139,0
+2625,Portão da Muralha Leste,139,0
+2626,Túnel Terrorteia,139,0
+2627,Várzea do Medo,139,0
+2637,Bastilha Karrathia,331,1
+2657,Vale dos Ossos,16651,1
+2677,Covil Asa Negra,0,469
+2697,Encruzilhada do Defunto,41,0
+2717,Núcleo Derretido,0,409
+2737,Muralha do Escaravelho,1377,1
+2738,Vila do Vento Sul,1377,1
+2739,Acampamento do Crepúsculo,1377,1
+2740,Vale de Cristal,1377,1
+2741,Palanque do Escaravelho,1377,1
+2742,Colme'Ashi,1377,1
+2743,Colme'Zora,1377,1
+2744,Colme'Régia,1377,1
+2757,Altar do Guerreiro Caído,17,1
+2777,UNUSED Alterac Valley,267,0
+2797,Profundezas Negras,331,1
+2817,***On Map Dungeon***,0,30
+2837,Porão do Senhorio,41,0
+2838,Galeria Lapidada,51,0
+2839,Vale Alterac,36,0
+2857,Jaula Troante,440,1
+2877,Teste de Chunk,22,451
+2897,Assentamento Zoram'gar,331,1
+2917,Salão dos Lendários,0,450
+2918,Salão dos Campeões,0,449
+2937,Complexo Grosh'gok,41,0
+2938,Garganta Adormecida,41,0
+2957,Mina Ferrofundo,2597,30
+2958,Posto Avançado Larpétreo,2597,30
+2959,Dun Baldar,2597,30
+2960,Desfiladeiro Asálgida,2597,30
+2961,Aldeia Lobo do Gelo,2597,30
+2962,Torre do Pontal,2597,30
+2963,Mina Dentefrio,2597,30
+2964,Fortaleza Invernacha,2597,30
+2977,Guarnição Sanguefrio,2597,30
+2978,Bastilha Lobo do Gelo,2597,30
+2979,Fazenda Tor'kren,14,1
+3017,Desfiladeiro Punhal de Gelo,2597,30
+3037,Acampamento Petraferro,400,1
+3038,Cratera do Furão,400,1
+3039,Ruínas de Tahonda,400,1
+3057,Campo de Disputa,2597,30
+3058,Caverna Asálgida,2597,30
+3077,Repouso dos Valorosos,1377,1
+3097,Pilar Enxameante,1377,1
+3098,Posto Crepúsculo,1377,1
+3099,Posto Avançado do Crepúsculo,1377,1
+3100,Acampamento Arrasado do Crepúsculo,1377,1
+3117,Covil de Shalzaru,357,1
+3137,Campo Talrendis,16,1
+3138,Sacrário de Rethress,16,1
+3139,Antro Lunorror,618,1
+3140,Caverna do Barbescama,16,1
+3157,Caverna da Avalanche,406,1
+3177,Campo de Trabalho Brado Guerreiro,331,1
+3197,Acampamento Ventogelante,28,0
+3217,A Arena,357,1
+3237,The Maul UNUSED,2557,429
+3257,Ossos de Grakkarond,1377,1
+3277,Ravina Brado Guerreiro,0,489
+3297,Cemitério Lobo do Gelo,2597,30
+3298,Desfiladeiro Lobo do Gelo,2597,30
+3299,Desfiladeiro de Dun Baldar,2597,30
+3300,Cemitério Sanguefrio,2597,30
+3301,Cemitério Nevado,2597,30
+3302,Cemitério Larpétreo,2597,30
+3303,Cemitério Lançatroz,2597,30
+3304,Casamata Asálgida,2597,30
+3305,Casamata Larpétreo,2597,30
+3306,Cordilheira Garragreste,2597,30
+3317,Aldeia Revatusco,47,0
+3318,Rocha de Durotan,2597,30
+3319,Bosque Asa de Prata,331,1
+3320,Serraria Brado Guerreiro,3277,489
+3321,Castelo Asa de Prata,3277,489
+3337,Caverna Garragreste,2597,30
+3338,Fenda Oculta,2597,30
+3357,Ilha Yojamba,33,0
+3358,Bacia Arathi,0,529
+3377,A Espiral,1977,309
+3378,Altar de Hir'eek,1977,309
+3379,Shadra'zaar,1977,309
+3380,Terras Hakkari,1977,309
+3381,Cerne de Shirvallah,1977,309
+3382,Templo de Bethekk,1977,309
+3383,Fossa Rubrofogo,1977,309
+3384,Altar do Deus Sangrento,1977,309
+3397,Terraço de Zanza,1977,309
+3398,Beira da Loucura,1977,309
+3417,Salão dos Matatroll,3358,529
+3418,Covil do Profanador,3358,529
+3419,Pontal do Pagle,1977,309
+3420,Fazenda,3358,529
+3421,Ferraria,3358,529
+3422,Serraria,3358,529
+3423,Mina de Ouro,3358,529
+3424,Estábulos,3358,529
+3425,Forte Cenariano,1377,1
+3426,Posto Guenelmo,1377,1
+3427,Acampamento Barbabronze,1377,1
+3428,Ahn'Qiraj,0,531
+3429,Ruínas de Ahn'Qiraj,0,509
+3446,Passeio do Crepúsculo,1377,1
+3447,Esconderijo de Ortell,1377,1
+3448,Terraço dos Escaravelhos,3429,509
+3449,Terraço do General,3429,509
+3450,O Reservatório,3429,509
+3451,Incubadora,3429,509
+3452,O Cortiço,3429,509
+3453,Terraço dos Vigilantes,3429,509
+3454,Ruínas de Ahn'Qiraj,1377,1
+3456,Naxxramas,0,533
+3459,Cidade,0,0
+3478,Portões de Ahn'Qiraj,0,1
+3486,Mansão de Corvoforte,36,0
+13649,Test Dungeon,0,13
+15159,Baía Abrasadora,51,0
+15475,Cânion do Demônio Caído,0,2784
+15531,Rasgo Infecto,0,2789
+15532,Penhascos Tempestuosos,0,2791
+15540,Gruta do Demônio Caído,15475,2784
+15793,Outrora,0,269
+15809,Selva Maleva,0,2806
+15810,Posto Peçonha ,15809,2806
+15811,Salto da Peçonha,15809,2806
+15812,Rio Peçonha,15809,2806
+15813,Jaedenar,15809,2806
+15814,Vale das Escaras Pungentes,15809,2806
+15815,Ruínas de Constellas,15809,2806
+15816,Bosque dos Ancientes,16362,2806
+15817,Rio Crenado,16362,2806
+15818,Costa do Crepúsculo,16362,2806
+15819,Vale do Crepúsculo,16362,2806
+15820,Glaive do Mestre,16362,2806
+15821,Ameth'Aran,16362,2806
+15822,Antro dos Bosqueneros,16362,2806
+15825,Vale de Cristal,0,2804
+15828,Incêndio de Andorhal,0,2807
+15938,Aldeia Chuva Estelar,0,2817
+16003,Azshara,0,2832
+16004,Monte Hyjal,0,2832
+16005,Garganta do Sussurro Sombrio,618,1
+16006,Xavian,16169,2832
+16007,Satyrnaar,16169,2832
+16008,Sombrarrama,16169,2832
+16009,Cantilenda,16169,2832
+16010,Acampamento de Lenhadores Brado Guerreiro,16169,2832
+16011,Rio Furiaustral,16169,2832
+16012,Floresta Noturcanto,16169,2832
+16013,Ermida Cantonegro,16169,2832
+16014,Rio Furiaustral,16003,2832
+16015,Assentamento Haldarr,16169,2832
+16016,Campo Talrendis,16169,2832
+16017,Desolação,0,2832
+16018,Feralas,0,2832
+16019,A Arena,16018,2832
+16020,Vale dos Ossos,16018,2832
+16021,Aldeia Gelkis,16018,2832
+16022,Ruínas de Mannoroc,16018,2832
+16023,Ramo de Morfeu,16018,2832
+16024,Lago Jademir,16018,2832
+16025,Ruínas dos Ventos Corvejantes,16018,2832
+16026,Colossos Gêmeos,16018,2832
+16027,Oneiros,16018,2832
+16028,Terras Pestilentas Orientais,0,2832
+16029,Terras Agrestes,0,2832
+16030,Lago Mereldar,16029,2832
+16031,Chácara Secreta,16029,2832
+16032,Base de Operações Escarlate,16029,2832
+16033,Vila das Flechas,16029,2832
+16034,Ruína Assustadora,16029,2832
+16035,O Mar Proibido,16029,2832
+16036,Rocha Oculta,16029,2832
+16037,Seradane,16029,2832
+16038,Penhascos Panorâmicos,16029,2832
+16039,Agol'watha,16029,2832
+16040,Shaol'watha,16029,2832
+16041,Lago Valovento,16029,2832
+16074,Criptas de Karazhan,0,2875
+16076,Templo de Ahn'Qiraj,0,531
+16113,Montanhas Cristarrubra,0,2853
+16114,Trilha do Vento Morto,0,2853
+16115,Barreira do Inferno,0,2853
+16116,Pântano das Mágoas,0,2853
+16117,Selva do Espinhaço,0,2853
+16118,Floresta de Elwynn,0,2853
+16119,Floresta do Crepúsculo,0,2853
+16120,Estrada Beira-lago,16113,2853
+16121,Três Caminhos,16113,2853
+16122,Encruzilhada do Defunto,16114,2853
+16123,Garganta Adormecida,16114,2853
+16124,A Garra,16114,2853
+16125,Terreno de Morgan,16114,2853
+16126,Karazhan,16114,2853
+16127,Acampamento de Ariden,16114,2853
+16128,Garganta do Vento Morto,16114,2853
+16129,Zul'Gurub,16117,2853
+16130,Torre Serrana,16118,2853
+16131,Madeireira Vale do Leste,16118,2853
+16132,Refúgio dos Mendigos,16119,2853
+16133,Cemitério Jardins da Paz,16119,2853
+16134,Vila Sombria,16119,2853
+16135,Bosque Brilhante,16119,2853
+16136,Casarão dos Brumanto,16119,2853
+16137,Margem Escurecida,16119,2853
+16138,Vale Nebuloso,16116,2853
+16139,Caverna de Itharius,16116,2853
+16140,Entroncamento da Lança Lascada,16116,2853
+16141,Altar das Tempestades,16115,2853
+16142,Rasgo Infecto,16115,2853
+16143,Domínio de Malhorrendo,16115,2853
+16144,Elwynn Forest (Blue Whelpling Inn Prototype),0,0
+16147,Floresta de Elwynn,0,2832
+16148,Floresta do Crepúsculo,0,2832
+16149,Cerro Oeste,0,2832
+16150,Ancoradouro de Jerod,16148,2832
+16151,Boca da Mata,16148,2832
+16152,Fazenda dos Campedra,16148,2832
+16153,Vinhedos dos Madruga,16148,2832
+16154,Torre de Azora,16148,2832
+16155,Mina Vailafundo,16148,2832
+16156,Plantação de Abóboras dos Braga,16148,2832
+16157,Margem Silenciada,16148,2832
+16158,Margem Escurecida,16148,2832
+16159,Quinta dos Aguiar,16148,2832
+16160,Bosque do Crepúsculo,16148,2832
+16161,Vila Sombria,16148,2832
+16162,Cemitério de Monte Corvo,16148,2832
+16163,Fazenda dos Figueira,16148,2832
+16164,Gruta de Vul'Gol,16148,2832
+16165,Morro dos Esquecidos,16148,2832
+16166,Bosque Brilhante,16148,2832
+16167,O Horto Pútrido,16148,2832
+16168,Monte Corvo,16148,2832
+16169,Vale Gris,0,2832
+16234,Fortaleza Legashi,16,1
+16236,Enclave Escarlate,0,2856
+16295,Palanque do Escaravelho,0,2902
+16335,Nova Avalon,139,0
+16361,O Mar Proibido,139,0
+16362,Fortaleza do Concílio das Sombras,0,2806
+16369,Prisão,16236,2856
+16370,Manopla de Tyr,16236,2856
+16371,Nova Avalon,16236,2856
+16372,Vastidão Proibida,16236,2856
+16373,Mina,16236,2856
+16374,Santuário Arcano,16236,2856
+16394,Naxxramas,0,2921
+16508,Estepes Ardentes,0,2940
+16509,Ventobravo,0,2940
+16510,Floresta de Elwynn,0,2940
+16511,Vale dos Heróis,16509,2940
+16512,Draco'dar,16508,2940
+16513,Montanha Rocha Negra,16508,2940
+16514,Mina da Serra do Eco,16510,2940
+16515,Torre de Azora,16510,2940
+16516,Vigia dos Heróis,16510,2940
+16517,Lago Espelhado,16510,2940
+16518,Pomar do Lago Espelhado,16510,2940
+16519,Mina de Jaspe,16510,2940
+16520,Vinhedos de Vila Norte,16510,2940
+16521,Lago de Cristal,16510,2940
+16522,Lago do Monumento,16510,2940
+16523,Vale de Vila Norte,16510,2940
+16524,Vila d'Ouro,16510,2940
+16532,Tyler's Test Map (Desolace),0,2908
+16537,Vale de Vila Norte - Camelot,16510,2940
+16544,Dalaran,0,2959
+16558,Dalaran,16544,2959
+16559,Bosque Vil,16544,2959
+16560,Dalaran,0,2959
+16562,Contraforte de Eira dos Montes,0,2959
+16577,Base da Vanguarda Talassiana,16,1
+16591,Sendas do Rio,0,0
+16593,Ilha de Zefras,0,2991
+16602,Bastilha de Bandarion,85,0
+16603,Ravina Brado Guerreiro,0,2996
+16604,Castelo Asa de Prata,16603,2996
+16605,Serraria Brado Guerreiro,16603,2996
+16606,Ilhas Lançanegra,0,2997
+16607,Ruínas,16606,2997
+16608,Acampamento,16606,2997
+16609,Enseada do Naufrágio,16606,2997
+16610,Torre Abandonada,16606,2997
+16611,Ruínas de Lordaeron,0,2999
+16612,Beco do Rei,16611,2999
+16614,Cemitério de Lordaeron,16611,2999
+16615,Mirante de Lordaeron,16611,2999
+16616,Floresta do Sussurro,85,0
+16617,Rua do Mercado,16611,2999
+16622,Bosque Thendal,16593,2991
+16623,Planalto de Shen'dar,16593,2991
+16624,Aldeia de Shen'dar,16593,2991
+16625,Lago Cantéolo,16593,2991
+16626,Baixios dos Lufopomos,16593,2991
+16628,Aerodocas de Valanaar,16593,2991
+16629,Santuário de Akir,16593,2991
+16630,Pináculos Rohashi,16593,2991
+16631,Floresta Umbréola,16593,2991
+16632,Taberna Meia Caneca,0,3002
+16635,Aldeia Thendal,16593,2991
+16636,Aldeia de Falaath,16593,2991
+16637,Campos Pisoteantes,490,1
+16638,Valanaar,16593,2991
+16650,Tyler's Test Subzone (Desolace),16532,2908
+16651,Shen'dralas,0,1
+16653,Batalha por Guilnéas,0,3005
+16654,Farol,16653,3005
+16655,Usina Hidráulica,16653,3005
+16656,Minas,16653,3005
+16657,Local de Pouso da Horda,16653,3005
+16658,Fortaleza Guilneana,16653,3005
+16659,Mirante,16653,3005
+16660,Costa Guilneana,16653,3005
+16661,Sob o Arco-íris Duplo,16653,3005
+16662,Stormr's Test Map,0,3006
+16663,Pomar dos Campo de Vento,16593,2991
+16672,Covil dos Guinchotes,16593,2991
+16673,Caverna Thendal,16593,2991
+16674,Esconderijo dos Bandidos,16593,2991
+16675,Front dos Magram,16651,1
+16676,Esconderijo dos Proscritos,16651,1
+16677,Refúgio dos Costagulha,16651,1
+16678,Mirante de Sombracerta,16651,1
+16679,Sacrário das Tempestades,16593,2991
+16685,Mortalha do Crepúsculo,16591,0
+16720,Caverna dos Noctigarra,16593,2991
+16723,Solclaro,16591,0
+16724,Bastilha de Ermoforte,16591,0
+16725,Granja dos Macário,16591,0
+16726,Bolder'ok,16591,0
+16727,Porto Detonapavio,16591,0
+16728,Costa da Lestada,16591,0
+16729,Mirante de Terral,16591,0
+16731,Posto do Vento,16591,0
+16732,Sítio de Escavação: Pantanal,0,2998
+16734,Fazenda de Elbrim,16591,0
+16735,Arroio dos Prados,16591,0
+16736,Madeireira dos Turner,16591,0
+16737,Colinas Cerdosas,16591,0
+16739,Covil dos Larápios,46,0
+16740,Martsirt,47,0
+16741,Instalações Submarinas de Altaforja,1,0
+16742,Jardins Desolados,16651,1
+16743,Rog'mar,16591,0
+16744,Vigia do Sul,16591,0
+16756,Ruínas de Guilnéas,0,0
+16757,Guilnéas,16756,0
+16758,Promontório Setentrional,16756,0
+16759,Posto Mirante do Medo,16756,0
+16760,Guarda de Rutsak,16756,0
+16761,Vila da Pedra Incandescente,16756,0
+16762,Mina da Pedra Incandescente,16756,0
+16763,Tempestária,16756,0
+16764,Floresta Negra,16756,0
+16765,Colônia de Pesca Hayward,16756,0
+16772,Unused,0,0
+16820,O Mar Proibido,16591,0
+16833,Ruínas de Ban'aethal,16593,2991
+16848,Velhamata,616,1
+16849,Pico da Eternidade,616,1
+16853,Contraforte Maculado,616,1
+16866,Dae'gun,616,1
+16867,Santuário de Aviana,616,1
+16868,Repouso do Lamento,616,1
+16876,Sítio de Escavação de Whelgar,0,0
+16877,Charco Perdido,16732,2998
+16878,Matagal do Espreitador,16732,2998
+16879,Sítio do Guardião,16732,2998
+16880,Sítio de Escavação Perdido,16732,2998
+16881,Vale das Sombras,85,0
+16916,Templos de Tempesfúria,493,1
+16919,Salão dos Thanes,0,3065
+16941,Criação,0,0
+16985,O Terraço do Moldador,490,1
+16986,Pilar da Assimilação,490,1
+16988,Cerro dos Espíritos,16593,2991
+17044,Penumbrascente,215,1
+17045,Platô do Vigia dos Céus,215,1
+17050,Cicatriz Sangrevil,616,1
+17052,Serra Escaldante,400,1
+17065,Guilnéas,0,0
+17066,Águas Infestadas de Tubarões,0,0
+17144,Refúgio de Malorne,616,1
+17145,Berço da Tranquilidade,616,1
+17191,Casarão dos Brumanto,0,3109
+17203,Porto de Ventobravo,1519,0
+17221,Muralha Celeste,16593,2991
+17223,Acampamento Gev'rek,215,1
+17674,Torre de Guarda do Pilar Oeste,16593,2991
+17675,Torre de Guarda do Pilar Leste,16593,2991
+17676,Pedras Erguidas de Cantéolo,16593,2991
+17677,Pedras Erguidas do Mirante,16593,2991
+17678,Pedras Erguidas de Thendal,16593,2991
+17684,Estábulo Bontempo,16593,2991
+17707,Ruínas Velhas de Dalaran,36,0
+17716,Retiro Presa do Dragão,11,0
+17732,Sítio de Escavação: Pantanal,11,0
+17738,O Anão Embriagado,11,0
+17780,Fortaleza de Krol'Dok,16591,0
+17803,Abismo Rocha Negra,0,230
+17804,Pico da Rocha Negra,0,229
+17808,Ruína de Freixo,16591,0
+17809,Fosso Esquecido,16591,0
+17824,Anoitecer,279,0
+17845,Pináculo Onírico,16597,2981
+17847,Antro do Crepúsculo,16591,0
+17852,Cratera de Hyjal,0,2995
+17853,Baixada Vazia,33,0
+16550,A Cidade Afogada,0,2970
+16554,Gruta Bocanera,0,2974
+16619,Sítio de Escavação - Bael Modan,0,3001
+16620,Prisão de Alcaz,0,2994
+16667,O Terraço do Moldador,0,3001
+16842,Fortaleza de Krol'Dok,0,3039
+16928,Platô do Moldador,16667,3001
+16929,Pilar da Assimilação,16667,3001
+16930,Planícies Verdejantes,16667,3001
+16931,Poços de Piche Perdidos,16667,3001
+16932,Fonte do Rubi,16667,3001
+16933,Passeio da Comunhão,16667,3001
+16934,Passeio do Planalto,16667,3001
+16935,Mirante do Vigilante,16667,3001
+16937,Campos Botânicos,16667,3001
+17036,Planalto Cristalino,16667,3001
+17037,Baixada Vazia,16550,2970
+17038,Santuário Inundado,16550,2970
+17039,Arquivos Profundos,16550,2970
+17040,Altar da Serpente,16550,2970
+17041,Anfiteatro Eterno,16550,2970
+17042,Tribuna Abissal,16550,2970
+17043,Inafundável,16550,2970
+17046,Atal'Byzal,16550,2970
+17309,Pico Profanado,16554,2974
+17310,Gruta Purulenta,16554,2974
+17311,Bosque Bocanera,16554,2974
+17312,Remanso Bocanera,16554,2974
+17313,Matagal de Focinhosso,16554,2974

@@ -317,3 +317,10 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   Werkzeug im Repo aus wago.tools AreaTable (je Sprache, Zweig wowf), Datum/Build in der Datei; unbekannter Name -> Name selbst (wie heute).
   Gespeicherte lv-Angaben beim Laden umschlüsseln. Test: deDE- und enUS-Spur derselben Ebene -> derselbe Schlüssel. Falls dein Abruf von
   wago.tools gesperrt ist: als Frage melden, ich lege die Tabelle ins Repo.
+
+>>> ANTWORT FRAGE TABELLE (Supervisor 22:03): liegt in berichte/LevelPilot/w3d-sprache/areatable/ (AreaTable + WMOAreaTable, 11 Sprachen,
+  wowf Build 1.60.1.70938, README). ACHTUNG, belegt: die Unterstadt-Viertel stehen NUR in WMOAreaTable (AreaTableID 1497), nicht in
+  AreaTable – areanames_bauen.py muss WMOAreaTable lesen; Schlüssel z. B. "#1497:<enUS-Name>" (gleicher enUS-Name + gleiche AreaTableID
+  = gleiche Ebene), denn es gibt zwei Unterstadt-Gebäude (WMOID 1150/20736) mit verschiedenen deDE-Namen ("Magieviertel" /
+  "Das Magieviertel"). Test: beide deDE-Namen und der enUS-Name -> derselbe Schlüssel. Schalter bleibt aus bis GSWegMess.
+
