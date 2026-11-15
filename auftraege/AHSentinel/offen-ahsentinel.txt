@@ -62,6 +62,20 @@
 >>>       ein Satz, Tests, offene Fragen, und die Liste "Im Spiel prüfen" (kurz, in der Reihenfolge, in der der Nutzer sie tun soll).
 >>>    Der Block NACHT-ARBEIT vom 14.11. weiter unten ist ÜBERHOLT (alte Reihenfolge).
 
+>>> ANTWORT 18:22 (Supervisor) auf berichte/AHSentinel/2026-11-15-1811-frage-mn5.txt und Bitte aus 0.65.202:
+    - MN5: Dein Vorschlag ist RICHTIG und ANGENOMMEN. A:PriceInfo bleibt unverändert (Tooltip/TT-STOP, API für ProfessionSentinel,
+      BK:MatValue nehmen nie Netz-Werte). Neuer eigener Weg A:PriceInfoNet(id) = PriceInfo, sonst Netz-Wert "unsicher"; benutzt
+      NUR der neue Markt-Reiter -> MN5 wird mit MR1 in Phase 7 gebaut. Masterplan entsprechend.
+    - GoldSentinelMarkt VERSION 6 liegt in shared/ (Bitte "GSMarkt v6: beim Feed weniger anlegen"). Ursache im Supervisor-Test
+      belegt: 6000 Items, 2. Feed legte mit v5 6,6 MB an – Enc baute je Ziffer eine Zeichenkette, Unpack/Feed je Item eine
+      Hilfstabelle. v6: Enc mit wiederverwendetem Puffer (eine Zeichenkette), Feed ohne Hilfstabellen (UnpackVals, Werte direkt
+      gepackt), Base36 von Preis/Menge/Auktionen nur einmal für Speicher und Export. Gemessen: 1,66 MB statt 6,6 MB (−75 %).
+      Tests 100/100 (Enc identisch zu Base36 für 207 Werte, Werte nach 2 Feeds stimmen). v5 als alte Fassung hinterlegt.
+      -> v6 byte-gleich kopieren, s92 mit Feed AN messen (3 unabhängige Läufe). Bleibt es über 15 MB: Messwerte je Teil
+      (AHS FeedNet-Tabellen vs. GSMarkt) im Bericht, dann entscheide ich über die Grenze. Keine Grenze ohne Messung ändern.
+    - NACHT-PRÜFUNG 0.65.201 (TB181-4/-3) und 0.65.202 (VK-P1): addon_check OK (nur Warnung "GSMarkt v5 veraltet" – mit v6 weg).
+      Zur Prüfung angenommen; Sichtprüfung im Spiel (Meine Auktionen, Verkaufen) kommt mit dem Nutzer.
+
 >>> NACHT-PRÜFUNG 17:48 (Supervisor; Berichte 0.65.199 MN1–MN5 + DE-AUFT1 und 0.65.200 GSL4-1/GSL3/TB196 gelesen; addon_check
     0.65.200 OK). Noch keine Abnahme (Messung im Spiel fehlt). Antworten:
     - GoldSentinelMarkt VERSION 5 liegt in shared/ (Bitte aus 0.65.199): Feed läuft in Portionen im Tick (≤ BUDGET_MS 4 ms je Bild,

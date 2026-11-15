@@ -63,7 +63,12 @@
 --   Vergleich (Zeit t+1, damit die Sammelstelle sie nicht als doppelt verwirft). Ein neuer Feed, waehrend ein alter laeuft:
 --   der alte wird zuerst fertig gerechnet (nichts geht verloren).
 
-local VERSION = 5
+-- Version 6 (15. November 2026, Bitte der AHSentinel-Sitzung, Bericht 0.65.202: Feed legte +7 bis +10 MB an, s92 rot):
+--   weniger Speicher-Muell beim Feed, gemessen 6000 Items: Enc baut die Zahl in einem wiederverwendeten Puffer (eine
+--   Zeichenkette statt eine je Stelle), Feed liest/schreibt die Item-Eintraege ohne Hilfstabellen (UnpackVals/PackVals),
+--   die Base36-Texte von Preis/Menge/Auktionen/Abgaengen werden fuer Speicher und Export nur einmal gebaut. Sonst unveraendert.
+
+local VERSION = 6
 
 local existing = _G.GoldSentinelMarkt
 if type(existing) == "table" and (tonumber(existing.VERSION) or 0) >= VERSION then return end
@@ -149,16 +154,22 @@ local function Drop(reason) M.stats.dropped[reason] = (M.stats.dropped[reason] o
 
 -- Base36 fuer ganze Zahlen >= 0
 local DIG = "0123456789abcdefghijklmnopqrstuvwxyz"
+-- v6: Ziffern in einen wiederverwendeten Puffer (rueckwaerts), dann EINE Zeichenkette (vorher eine je Stelle)
+local DIGB = { DIG:byte(1, -1) }
+local EBUF, EOUT = {}, {}
+local schar, unpk = string.char, unpack
 local function Enc(n)
     n = math.floor(tonumber(n) or 0)
     if n <= 0 then return "0" end
-    local s = ""
+    local k = 0
     while n > 0 do
         local r = n % 36
-        s = DIG:sub(r + 1, r + 1) .. s
+        k = k + 1
+        EBUF[k] = DIGB[r + 1]
         n = (n - r) / 36
     end
-    return s
+    for i = 1, k do EOUT[i] = EBUF[k - i + 1] end
+    return schar(unpk(EOUT, 1, k))
 end
 local function Dec(s) return tonumber(s or "", 36) end
 M.Enc, M.Dec = Enc, Dec
@@ -186,6 +197,14 @@ local function Pack(e)
     return Enc(e.p) .. "," .. Enc(e.q) .. "," .. Enc(e.n) .. "," .. Enc(e.t) .. "," .. Enc(e.o) .. "," ..
         Enc(e.g) .. "," .. Enc(e.h) .. "," .. Enc(e.l)
 end
+-- v6: ohne Hilfstabelle (fuer den Feed): nur die Werte, die der Feed braucht
+local function UnpackVals(v)
+    if type(v) ~= "string" then return nil end
+    local p, _, _, _, o, g, h, l = v:match("^(%w+),(%w+),(%w+),(%w+),(%w+),(%w+),(%w+),?(%w*)$")
+    if not p then return nil end
+    return Dec(p), Dec(o), Dec(g), Dec(h), Dec(l) or 0
+end
+M.UnpackVals = UnpackVals
 M.Unpack, M.Pack = Unpack, Pack
 
 function M.Attach(addon, db)
@@ -469,7 +488,7 @@ function M.Feed(addon, t, n, items, dt)
     for id in pairs(items) do ids[#ids + 1] = id end
     M.stats.fed = (M.stats.fed or 0) + 1
     M.prev = nil                -- naechstes eigenes Lesen vergleicht nicht mit einem Feed (keine Signaturen)
-    M.feedJob = { t = t, cnt = tonumber(n) or 0, dt = dt, src = items, ids = ids, i = 0, changed = {},
+    M.feedJob = { t = t, tEnc = Enc(t), cnt = tonumber(n) or 0, dt = dt, src = items, ids = ids, i = 0, changed = {},
                   partsA = {}, partsB = {}, nA = 0, nB = 0, ms = 0, frames = 0 }
 end
 
@@ -489,14 +508,15 @@ FeedPortion = function(j, budget)
             local hasAbg = cmpOn and it.abg ~= nil
             local g = hasAbg and math.floor(tonumber(it.abg) or 0) or 0
             local lo = hasAbg and math.min(g, math.floor(tonumber(it.abgV) or g)) or 0
-            local old = Unpack(f.i[id])
-            local e = { p = p, q = q, n = a, t = j.t, o = 0, g = old and old.g or 0, h = old and old.h or 0, l = old and old.l or 0 }
-            if hasAbg then e.g, e.l, e.h = e.g + g, e.l + lo, e.h + j.dt end
-            if not old or old.o ~= 0 or (old.p or 0) == 0 or math.abs((e.p or 0) - old.p) / old.p >= M.NET_CHANGE then
+            local op, oo, og, oh, ol = UnpackVals(f.i[id])
+            local eg, eh, el = og or 0, oh or 0, ol or 0
+            if hasAbg then eg, el, eh = eg + g, el + lo, eh + j.dt end
+            if not op or oo ~= 0 or (op or 0) == 0 or math.abs(p - op) / op >= M.NET_CHANGE then
                 j.changed[#j.changed + 1] = id
             end
-            f.i[id] = Pack(e)
-            local part = Enc(id) .. "," .. Enc(p) .. "," .. Enc(q) .. "," .. Enc(a) .. "," .. Enc(g) .. "," .. Enc(lo)
+            local sp, sq, sa = Enc(p), Enc(q), Enc(a)
+            f.i[id] = sp .. "," .. sq .. "," .. sa .. "," .. j.tEnc .. ",0," .. Enc(eg) .. "," .. Enc(eh) .. "," .. Enc(el)
+            local part = Enc(id) .. "," .. sp .. "," .. sq .. "," .. sa .. "," .. Enc(g) .. "," .. Enc(lo)
             if hasAbg or not cmpOn then j.nA = j.nA + 1; j.partsA[j.nA] = part
             else j.nB = j.nB + 1; j.partsB[j.nB] = part end
         end
