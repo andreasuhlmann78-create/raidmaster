@@ -239,3 +239,9 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
 >>> ANTWORT FRAGE TOTEM-ZAUBER (Supervisor 23:03): shared/wissen/daten/BuffSentinelTotems.lua – je Zweig (wowf/era/tbc/wrath) und Element
   (erde/feuer/wasser/luft) die Zauber-IDs aus SpellTotems (Item ODER Kategorie). Enthält auch NPC-Zauber – unschädlich, gezählt wird nur,
   was IsSpellKnown liefert. Unverändert übernehmen (cmp im Bericht). 0.9.35–0.9.37 prüfe ich in der nächsten Runde. Reihenfolge wie von dir.
+
+>>> NACHT-PRÜFUNG 23:18 (Supervisor) – 0.9.35–0.9.40 (Splitter-Platz, Federn, Symbol der Offenbarung, Fischöl, Zorn, Totems): Zip 0.9.40 hier geprüft –
+  BuffSentinelTotems.lua und BuffSentinelVorratDaten.lua byte-gleich mit shared/wissen/daten/. Keine Befunde. BS-N1 damit vollständig.
+  WEITER (Idee Supervisor, freigegeben 19:58): BS-N2 – Messung statt Vermutung: eine Zeile LEISTUNG im Testbericht wie ThreatSentinel (längster
+  Rahmen durch BuffSentinel im Kampf, Teil, über 16 ms n von m), danach die fünf neuen Vorrats-Bausteine gemeinsam auf Kosten je Taschen-
+  Ereignis messen (Ziel: < 1 ms je BAG_UPDATE_DELAYED). Bericht mit Zahlen.

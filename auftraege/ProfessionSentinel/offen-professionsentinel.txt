@@ -240,3 +240,12 @@ PS-DW1 MITTEL (Nutzer 17:05, AHSentinel 0.65.170): Ein Rahmen von ProfessionSent
     des Produkts ist selbst nur eine Schätzung. LÖSUNG: an den Sniper höchstens min(Kauf bis, Marktpreis × 1,25) geben (Anzeige "Kauf bis"
     darf den vollen Wert zeigen, mit Hinweis "lohnt bis X, Sniper kauft bis Y"); ohne Marktpreis wie bisher. Test: Rezept mit f = 3 ->
     Sniper-maxPrice = 1,25 × Markt. Sonst keine Befunde. Weiter: (4) Skillspur.
+
+>>> NACHT-PRÜFUNG 23:18 (Supervisor) – 0.9.53 PS52-1 (Sniper höchstens 1,25 × Markt, Anzeige "lohnt bis X, Sniper kauft bis Y", Gegenprobe rot) –
+  Befund behoben. 0.9.54 SKILLSPUR: Bericht gelesen – Linie an der Zeile, eine Zahl, Strich wandert ohne Neuaufbau, Chance erst ab 30 Fällen
+  gemessen, sonst "geschätzt" – genau wie freigegeben. Zeile "Bestes:" entfällt. Keine Befunde, zwei Hinweise:
+  PS54-1 NIEDRIG: ProfessionSentinelDB ist kontoweit – die gemessene Chance mischt Figuren mit unterschiedlichen Rängen von "Working Overtime"
+    (Forever). Messung je Figur ODER je Talentrang ablegen (Rang aus dem Talent lesen, sonst je Figur); Anzeige "gemessen (n, diese Figur)".
+  PS54-2 NIEDRIG: Mehrere Herstellungen in Folge ("Alle herstellen"): Fenster 2 s je Herstellung darf sich nicht überlappen – Test mit 5
+    Herstellungen im Abstand 1,5 s und 1 Punkt dazwischen -> genau 1 Punkt, im richtigen Band gezählt.
+  IM CLIENT (Nutzer): Bild-Abnahme der Skillspur. Weiter: (5) Texte, dann Rest Schritt 2.
