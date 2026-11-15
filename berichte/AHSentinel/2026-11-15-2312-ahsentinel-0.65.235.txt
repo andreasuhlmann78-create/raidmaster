@@ -1,0 +1,16 @@
+AHSentinel 0.65.235 – MR9 Plan nach Pausen (Masterplan Phase 6) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.235 und sofort im Discord.
+Damit ist Phase 6 im Code fertig (MR5 0.65.227, MR6 0.65.232, MR7 0.65.225, MR8 0.65.229, MR9 hier, RK6 0.65.231, V4 0.65.234;
+JK1–JK4 seit 11.11.).
+
+UI_Main.lua UI:SincePlan(info): nur bei Pause ≥ 2 Tage ("mehrere Tage"; ANNAHME 2). Gleiche Regeln wie MR2/MR3 heute:
+  verkaufen = Mein Lager (MV:BuildStock) mit bestem Ausgang "Einstellen", nach Wert, höchstens 2, mit Preis (A:GetSalePrice);
+  kaufen = "Heute tun" (Rechenkern mit eigenen, Gilden- und "alle"-Daten; ohne Aufträge anderer Addons) mit Höchstpreis
+  (maxUnit bzw. "Lohnt bis"), höchstens 2 – NUR aus dem Zwischenspeicher (K:TodayActions async, nie neu rechnen beim Öffnen);
+  liegen lassen = übrige Lager-Zeilen. Angehängt an das Fenster "Seit deinem letzten Besuch" (MR5, jetzt 520×330).
+  Nur Anzeige. MR3 "Chancen" als eigener Teil des neuen Markt-Reiters bleibt Phase 7.
+Tests
+  - T811 (Testroutine M, eigene Lager-/Heute-Zeilen): 1 Tag Pause -> kein Plan; 3 Tage -> 4 Zeilen, verkaufen nach Wert
+    (900 vor 100), kaufen 2 (ohne Auftrag "quick"), Höchstpreis "bis 1s 50c", liegen lassen 2. Mit 0.65.234 rot.
+  - s227 (MR5-Fenster) grün. Locales +7, CHANGELOG EN/DE.
+Gesamtlauf (frischer Klon, Kopie 0.65.235): BESTANDEN 281, FEHLGESCHLAGEN 0 (s92 fest, ohne Wiederholung).
