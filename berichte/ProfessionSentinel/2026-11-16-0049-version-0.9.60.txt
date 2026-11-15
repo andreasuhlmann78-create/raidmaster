@@ -1,0 +1,61 @@
+BERICHT PROFESSIONSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 16.11.2026 00:49 · Sitzung: ProfessionSentinel-Sitzung · Version: 0.9.60 · Commit: 4d597d6 (Quell-Repo), Release v0.9.60
+Grundlage: offen-professionsentinel.txt (Reihenfolge B2 -> B4 -> B5), analysen/professionsentinel-ausbau-aus-ahs-2026-11-16.md B4,
+Lehren WS-LOOP1 und POST-BLOCK1 (offen-ahsentinel.txt), Entscheid 15.11. 19:15.
+Hinweis: Hier steht nur "umgesetzt, zur Prüfung" mit Belegen. Ob etwas erledigt ist, entscheidet die Prüf-Sitzung.
+
+UMGESETZT, ZUR PRÜFUNG – B4 Warnschutz fürs Herstellen
+------------------------------------------------------
+Ort: Today.lua TD.Craft – der EINE Weg, auf dem PS herstellt (Zeile "Heute herstellen", Karte "Jetzt", AHS "Heute tun" über
+TodayCrafts().run -> TD.Run -> TD.Craft).
+1. Prüfung (TD.Loss) direkt vor dem Herstellen: P.Recipe(r, true) neu gerechnet (gleiche Zahl wie Tooltip/Gold-Liste).
+   Warnung, wenn net < 0, d. h. Verkauf nach AH-Gebühr (value) < Materialkosten (cost). Kostenbasis = Marktpreis
+   (echte Kostenbasis erst mit B1/AHS RealizedCraft). Unbekannter Preis -> keine Warnung (keine Behauptung ohne Zahl).
+   Nur Gold-Zeilen (Eintrag mit Preis); Herstellen zum Skillen wird nie gefragt.
+2. Warnung (TD.Warn): Raidwarnung-Ton (Alerts.PlaySound), FlashClientIcon wenn vorhanden, Fenster mit
+   "Verlust! <Rezept> / Material: x · Verkauf nach AH-Gebühr: y / Du verlierst z je Herstellung (n× = z·n)."
+   Ohne Blizzard-Fenster (StaticPopupDialogs fehlt): dieselbe Zeile im Chat, nichts hergestellt.
+3. Knöpfe:
+   - "Trotzdem herstellen": TD.Craft(e, true) – stellt sofort her, keine zweite Prüfung, keine Sperre (Lehre POST-BLOCK1).
+   - "Stattdessen: <Rezept>": das beste andere Rezept aus TD.Candidates, das DIESELBE Prüfung TD.Loss jetzt besteht
+     (Lehre WS-LOOP1: Vorschlag gegen die Regel geprüft, bevor er angeboten wird). Klick = nächster Schritt dieser Zeile.
+     Ändern sich die Preise zwischen Anzeige und Klick, bekommt die dann folgende Warnung KEINEN Vorschlag mehr
+     (TD.fromSuggestion) – die Kette endet nach höchstens einem Schritt.
+   - Bringt alles Verlust: kein Vorschlag-Knopf. "Abbrechen" = nichts.
+4. Texte DE/EN (4 Schlüssel), %-sicher über DE.PopupText.
+
+TESTS (eigene, Hinweise – keine Freigabe)
+-----------------------------------------
+- T282 neu (17 Prüfungen): Verlust -50 je Herstellung erkannt; ohne Preis (Skill) keine Frage; Gewinn -> direkt hergestellt;
+  bei Verlust nichts hergestellt, Ton 1×, Text mit exakten Zahlen (Material 300, Erlös 250, 50 je, 3× = 150);
+  Vorschlag überspringt r2 (auch Verlust) und nimmt r3; Vorschlag besteht TD.Loss; Trotzdem -> genau 1 Herstellung
+  (Zauber, Anzahl 3) ohne zweiten Ton; Vorschlag-Klick -> r3 hergestellt ohne neue Warnung; zweite Warnung nach
+  Vorschlag-Klick ohne Vorschlag (obwohl einer möglich wäre); alles Verlust -> kein Vorschlag; Rückfall ohne Fenster
+  (Chatzeile) im einfachen Mock geprüft.
+- Gegenproben: Today.lua aus 0.9.59 -> T282 FEHLER (TD.Loss fehlt); Vorschlag ohne TD.Loss-Prüfung -> T282 FEHLER
+  "15 Prüfungen, 6 Fehler: Vorschlag = bestes Rezept ohne Verlust" (Stand vor der Fenster-Rückfall-Erweiterung).
+- run_offline (LuaJIT): Forever OK 238 / FEHLER 0, Era OK 220 / 0, Retail OK 218 / 0, TBC ohne Lua-Fehler, Exit 0.
+  --lua51: Forever 238 / 0, Retail 218 / 0. Schnelltest Ausgang 0 (AUTOTEST OK in allen drei Versionen, feste Liste
+  unverändert), check_actions OK, Locale-Schlüssel 522.
+- addon_check auf download/ProfessionSentinel-0.9.60.zip und announce-Zip: OK. ZIP = Release-Asset = Quell-Repo (diff -r leer).
+
+NACHTRAG ZUM BERICHT 0.9.59
+---------------------------
+Dort stand "Schnelltest Ausgang 0" – der Wert kam aus "echo $?" hinter "| tail" (Ausgang von tail, nicht vom Schnelltest).
+Nachgeprüft am Commit 7bbf93b: Schnelltest wirklich Ausgang 0, AUTOTEST OK in allen drei Versionen. Die Aussage stimmt,
+der Beleg war aber falsch erhoben. Ab jetzt wird der Ausgang direkt gemessen.
+
+OFFEN / FRAGE AN DIE PRÜF-SITZUNG
+---------------------------------
+- Blizzards Knopf "Alle erstellen" im Berufsfenster wird NICHT abgefangen: ein Addon kann einen Blizzard-Knopf nicht
+  anhalten, ohne ihn zu ersetzen (Taint-Gefahr, gesperrte Aktion). B4 gilt darum für alle Herstellungen, die PS selbst
+  auslöst. Soll für Blizzards Knopf zusätzlich ein Hinweis (ohne Sperre) erscheinen, z. B. rote Zeile "Verlust je
+  Herstellung" in der Skillspur des gewählten Rezepts? Bis zur Antwort: nicht gebaut.
+
+IM CLIENT PRÜFEN
+----------------
+- Rezept in "Heute herstellen", dann Preis kippen (Test-Preise /ps test) -> Klick "herstellen": Ton + Fenster mit 3 Knöpfen,
+  Text lesbar (deDE/enUS). Trotzdem -> stellt her; Stattdessen -> nächster Schritt des anderen Rezepts. Classic-Fenster mit
+  3 Knöpfen (button3) in Forever/Era nachsehen.
+
+NÄCHSTES: B5 Marktlage im Tooltip.
