@@ -1,0 +1,28 @@
+BERICHT PROFESSIONSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 21:25 · Sitzung: ProfessionSentinel-Sitzung · Version: 0.9.48 · Commit: b127142 (Quell-Repo), Release v0.9.48
+Grundlage: offen-professionsentinel.txt, NACHT-PRÜFUNG 21:03 (Befund PS47-1).
+Hinweis: Hier steht nur "umgesetzt, zur Prüfung" mit Belegen. Ob etwas erledigt ist, entscheidet die Prüf-Sitzung.
+
+UMGESETZT, ZUR PRÜFUNG
+----------------------
+- PS47-1: Befund richtig – nachgelesen in AHSentinel 0.65.219 (Crafting.lua 1231–1245, Cr:PSActive liest A:Global("ProfessionSentinel")
+  .IsEnabled, nur "false" zählt). ProfessionSentinel setzt jetzt zusätzlich _G.ProfessionSentinel.IsEnabled (UI.lua direkt unter
+  IsPanelShown) mit derselben Antwort wie ProfessionSentinelAPI.IsEnabled (UI.AutoOpen()). AHS bleibt unverändert.
+- Test T273 ergänzt: Öffnen aus -> _G.ProfessionSentinel.IsEnabled() == false und eine Nachbildung von Cr:PSActive meldet "nicht
+  aktiv" (AHS zeigt sein Fenster); an -> beide true. Gegenprobe: ohne die neue Zeile in UI.lua schlägt T273 fehl (geprüft).
+- T80 heisst jetzt "vier Reiter" (nur der Titel; der Fall prüft seit 0.9.47 alle Ansichten).
+
+TESTS (eigene, Hinweise – keine Freigabe)
+-----------------------------------------
+- run_offline: Forever OK 228 / FEHLER 0, Era OK 210 / 0, Retail OK 209 / 0, TBC ohne Lua-Fehler, Exit 0. Schnelltest Ausgang 0,
+  check_actions OK.
+- addon_check auf download/ProfessionSentinel-0.9.48.zip und die announce-Zip: OK, 0 FEHLER, 0 WARNUNG. ZIP = Quell-Repo (diff -r leer).
+
+IM CLIENT PRÜFEN
+----------------
+- Mit AHSentinel: /ps auto (aus) -> Berufsfenster öffnen -> AHS-Gewinn-Fenster erscheint; /ps auto (an) -> PS-Fenster, kein AHS-Fenster.
+
+WEITER
+------
+- Schritt 2 Teil 2 als 0.9.49 (Wechsel je Beruf aus dem Zwischenspeicher, nächster Lehrer nach Entfernung, eine Zahl je Zeile,
+  Skillen: Plan + Rangliste zusammen, Gold: Verzauberer als Abschnitt) – wie im Bericht 0.9.47.
