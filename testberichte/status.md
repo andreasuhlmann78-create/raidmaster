@@ -1,12 +1,12 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-15 15:47 UTC
+Ausgewertet: 2026-11-15 16:49 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
 | Addon | letzter Testlauf | Version | Client | OK | FEHLER | übersprungen | im Client prüfen | Fehler im Spiel (7 Tage) |
 |---|---|---|---|---|---|---|---|---|
-| AHSentinel | 15.11.2026 12:35 UTC | 0.65.188 | forever 1.60.1 (Interface 16001) | 22 | 4 | 1 | 0 | 49 |
+| AHSentinel | 15.11.2026 12:35 UTC | 0.65.188 | forever 1.60.1 (Interface 16001) | 22 | 4 | 1 | 0 | 54 |
 | BuffSentinel | 05.11.2026 00:19 UTC | 0.9.7 | forever 1.60.1 (Interface 16001) | 120 | 1 | 10 | 11 | 569 |
 | GuildSentinel | 09.11.2026 05:47 UTC | 0.9.13 | forever 1.60.1 (Interface 16001) | 153 | 4 | 23 | 5 | 22 |
 | LevelPilot | 05.11.2026 00:21 UTC | 3.12.6 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 1710 |
@@ -18,20 +18,20 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 138 | `testberichte/diagnose/AHSentinel/0.65.194-db911a26c4d1.txt` |
-| BuffSentinel | 38 | `testberichte/diagnose/BuffSentinel/0.9.21-ba8ede23106d.txt` |
+| AHSentinel | 140 | `testberichte/diagnose/AHSentinel/0.65.196-84d704c725ce.txt` |
+| BuffSentinel | 38 | `testberichte/diagnose/BuffSentinel/0.9.12-7f8dfb5af187.txt` |
 | GSMesstest | 9 | `testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt` |
-| GSSniperLog | 6 | `testberichte/diagnose/GSSniperLog/1.2-cba602cb7b51.txt` |
-| GuildSentinel | 134 | `testberichte/diagnose/GuildSentinel/0.9.39-db21a6e11503.txt` |
-| LevelPilot | 34 | `testberichte/diagnose/LevelPilot/3.12.30-f97c1dfe3a38.txt` |
-| ProfessionSentinel | 114 | `testberichte/diagnose/ProfessionSentinel/0.9.45-d8068f2c37e1.txt` |
-| ThreatSentinel | 112 | `testberichte/diagnose/ThreatSentinel/2.5.13-d42f1a03e16b.txt` |
+| GSSniperLog | 8 | `testberichte/diagnose/GSSniperLog/1.3-52c992a6565b.txt` |
+| GuildSentinel | 136 | `testberichte/diagnose/GuildSentinel/0.9.39-22ff864428a6.txt` |
+| LevelPilot | 36 | `testberichte/diagnose/LevelPilot/3.12.30-0d21f66b7ef1.txt` |
+| ProfessionSentinel | 116 | `testberichte/diagnose/ProfessionSentinel/0.9.45-60b3aa1413b6.txt` |
+| ThreatSentinel | 114 | `testberichte/diagnose/ThreatSentinel/2.5.13-7ad5c78db41a.txt` |
 
 ## Wegdaten (GSWEGE1)
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| LevelPilot | 188 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794754516-3abdd4.json` |
+| LevelPilot | 192 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794758108-19ac8c.json` |
 
 ## AHSentinel
 
@@ -53,8 +53,8 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 - [FEHLER] T734 J – SN-TEST2-S13 Ruckeln: Bilder/s und längster Frame über die ganze Beobachtung, kein Frame > 33 ms (ergebnis: Ø 94 / min 39 Bilder/s · längster Frame 286 ms · Frames > 33 ms: 83 · Ursachen: fremd 83 (46 ms: nicht AHSentinel (Spiel oder anderes Addon); 38 ms: nicht AHSentinel (Spiel oder anderes Addon); 38 ms: nicht AHSentinel (Spiel oder anderes Addon); 37 ms: nicht AHSentinel (Spiel oder anderes Addon… | erwartet: kein Frame > 33 ms)
 
 **Fehler im Spiel (letzte 7 Tage)**
+- 22× `ADDON_ACTION_BLOCKED`: UNKNOWN() – Version 0.65.16, 0.65.182, 0.65.189, 0.65.194, 0.65.196 · forever 1.60.1 (Interface 16001) · zuletzt 15.11.2026 15:45 UTC
 - 20× `ADDON_ACTION_FORBIDDEN`: UNKNOWN() – Version 0.65.16, 0.65.80 · forever 1.60.1 (Interface 16001) · zuletzt 11.11.2026 16:25 UTC
-- 17× `ADDON_ACTION_BLOCKED`: UNKNOWN() – Version 0.65.16, 0.65.182, 0.65.189, 0.65.194 · forever 1.60.1 (Interface 16001) · zuletzt 15.11.2026 15:17 UTC
 - 11× `Lua`: Interface/AddOns/AHSentinel/Seller.lua:1433: attempt to index local 'msg' (a secret string value, while execution tainted by 'AHSentinel') – Version 0.65.77, 0.65.80 · forever 1.60.1 (Interface 16001) · zuletzt 10.11.2026 14:28 UTC
 - 1× `Job:craft-top`: Interface/AddOns/AHSentinel/Crafting.lua:515: attempt to index field '?' (a nil value) – Version 0.65.138 · forever 1.60.1 (Interface 16001) · zuletzt 14.11.2026 06:53 UTC
 
