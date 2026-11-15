@@ -1,0 +1,40 @@
+AHSentinel 0.65.224 – HP-2 (Masterplan 5.3; Nutzer 14.11. 10:33) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.224 und sofort im Discord.
+
+SOLL (1) EINE Funktion – AHAnalyzerPro.lua:
+  - A:VendorDeals(): die Rechnung für Profit-Reiter (über A:FindVendorDeals, alte Form), "Heute tun" und Markt > Händler (über
+    A:VendorFlipOffers = VendorDeals gefiltert nach Mindestgewinn je Angebot, sortiert, gekürzt) und den Sniper-"+".
+  - Regeln wie bisher VendorFlipOffers (HP1): nur vom Spiel bestätigter Händlerpreis (nicht vendorFromTable) und plausibel
+    (VendorPlausible), nur frische Preise (FRESH_SECONDS 2 Std.). Der Profit-Reiter filtert danach nicht mehr extra
+    (WithoutAbsurd) – sonst andere Treffer als "Heute tun".
+(2) Menge – A:VendorSteps(itemID, v): Stufen {Stückpreis, Stück} unter v, die JÜNGSTE frische Quelle gilt:
+    Angebote im Einkauf (je Angebot, ohne eigene/Lockangebote) · Preisprüfung des Verkaufens · Preisleiter des Vollscans
+    (gespeicherte Stufen; Menge darüber ohne Preis -> "mindestens", nie geschätzt). Genaue Daten gelten nur, wenn sie
+    mindestens so neu sind wie der Preis (−120 s); sonst "≥ 1" zum günstigsten Preis. Genaue Daten ohne Stück darunter ->
+    keine Zeile.
+    Profit-Reiter: Spalte "darunter" heisst in "Händlerpreis" "Menge" ("8" bzw. "≥ 1"); Tabelle hat keinen Platz für eine
+    weitere Spalte (618 px).
+(3) Gewinn gesamt = Σ (Händlerpreis − Stückpreis) über genau diese Stücke (Spalte "Gewinn gesamt" statt "Gewinn/Tag").
+(4) "+": Max = Händlerpreis − 1c (nie ≥ Händlerpreis, SK1-o), Menge = diese Stücke, Budget = Σ ihrer Preise (mindestens ein
+    Max, sonst lehnt der Sniper ab). ENTSCHEID, BITTE PRÜFEN: ohne genaue Stufen ("≥") ist die Menge unbekannt -> wie bisher
+    alles unter dem Händlerpreis bis zur angebotenen Gesamtmenge (max. 1000), Budget = Max × Menge. Jedes Stück bringt beim
+    Händler sicher Gewinn; nur Gold ist so lange gebunden. (Mit Menge 1 und Budget 1 Stück lehnte der Sniper das Ziel ab:
+    Budget < Max-Preis – s1_vendor_deals rot.)
+(5) Alter am Namen "(vor x Min.)" (fester Name, noLiveName), älter als 30 Min. alle Zahlen grau.
+Dazu: Kürzen aufs Budget genau über die Stufen (A:VendorCut, günstigste zuerst) in "Heute tun" (Kapitalschutz je Vorschlag
+  und K:AllocateBudget über r.cutQty) und Markt > Händler (CapRows über r.refit); vorher günstigster Preis × Menge.
+TESTS
+  - T801 (Testroutine J): Leiter 50×5 / 70×3 / 80×4 (= Händler) / 95×2, Händler 80: Menge 8 genau, Gewinn 180, Kosten 460,
+    gekürzt auf 300 -> 5/250/150, Profit-Reiter 8/180, Heute 8/180, Tabellen-Händlerpreis nie.
+  - Szenario s224_hp2_vendor_ladder (Vollscan-Leiter): 5×100 + 3×120 unter 150, 4×150 gleich, 2×200 darüber -> Menge 8,
+    Gewinn 340, Kosten 860, Kürzen 600 -> 5/500/250 und 740 -> 7/740/310, Tabellenware nie, Profit-Reiter Spalten Menge/Gewinn
+    gesamt, "8" sichtbar, Alter am Namen, "+" = 149/8/860, Markt > Händler 8/340, grau. Mit 0.65.223 rot.
+  - s1_vendor_deals (klassischer Scan, ohne Leiter: "≥ 1") weiter grün inkl. Kauf der 10 billigen. T184/T185 grün.
+  - Locales +2, CHANGELOG EN/DE.
+EIGENER BEFUND IM GESAMTLAUF (behoben vor der Veröffentlichung): s92 rot in 3 von 3 Läufen, Lauf 3 +17,4–18,8 MB (Grenze 15 MB)
+  und ~45 Frames mehr als 0.65.223. Ursache gemessen: ohne A:VendorDeals nach dem Scan 14,1 MB = wie 0.65.223 (13,9). In
+  VendorDeals prüfte vendorOf für JEDES Item zuerst Bestätigung und Plausibilität (VendorPlausible -> A:GetMarketValue, Median
+  14 Tage) – auch wenn das günstigste Angebot über dem Händlerpreis lag. Jetzt zuerst die billige Prüfung (günstigstes Angebot
+  < roher Händlerpreis?), erst dann bestätigt/plausibel. Ergebnis gleich (s224, s1_vendor_deals, T801 grün). Gemessen je 3×:
+  0.65.223 Frames 134–138, Speicher 9,9–14,1 MB · 0.65.224 jetzt Frames 134–135, Speicher 14,1 MB.
+Gesamtlauf nach der Behebung (frische Kopie des Repos 942d91c, Addon 0.65.224): 275 bestanden, 0 rot (s92 im ersten Anlauf grün).
