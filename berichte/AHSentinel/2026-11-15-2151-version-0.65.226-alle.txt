@@ -1,0 +1,30 @@
+AHSentinel 0.65.226 – Phase 2 "alle Spieler" (Masterplan E, Supervisor-Teil geliefert 20:52) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.226 und sofort im Discord.
+Reihenfolge: Phase 2 hat Vorrang vor Phase 6 (oberste Prio "Gehirn", Nutzer 10:45) – darum direkt nach MR7 (0.65.225).
+
+Kern.lua K:AllItem(itemID): liest GoldSentinelMarktTabellen.alle (v = 1) der eigenen Fraktion (A.marketKey "…|Horde" -> H,
+  "…|Alliance" -> A; neutrales AH: keine Daten, Teil hat nur H/A), Felder laut alle.felder (Rückfall Reihenfolge README):
+  preis, min = absatzMin, max = absatzMax, quellen, tage, scans. Fehlt Tabelle/Teil/Item -> nil (alles wie bisher).
+Vollscan.lua VS:SalesRate(itemID) – Absatz je Tag für die Planung:
+  - eigene Messung (VS:MeasuredRate, ≥ 3 Paare, ≥ 3 Tage, plausibel) + Vorwissen absatzMin mit Gewicht k = 2 Paare (L2):
+    (eigen × Paare + alleMin × 2) / (Paare + 2), Quelle "gemessen+alle";
+  - eigene Messung noch zu kurz (Paare > 0): ebenso gemischt (eigene Rate × Abbruch-Faktor wie MeasuredRate);
+  - ohne eigene Messung: absatzMin allein (VORSICHTIG die Untergrenze der Spanne), Quelle "alle"; plausibel wie gemessen
+    (K2: ≤ 2 × Ø-Menge, ≤ 25 % des Angebots je Std., sonst nil + Diagnose ABSATZ-UNPLAUSIBEL "alle Spieler");
+  - absatzMin nil (nicht gemessen) -> kein Vorwissen.
+  VS:MeasuredRate bleibt die EIGENE Messung (Zähler "gemessen", Lernfaktor Learn.lua) – fremde Daten zählen dort nie.
+Verwendung: A:SellOutlook (Quelle "alle", allPlayers), A:GetLiquidity ("alle" statt "gemessen", damit nichts es für eigene
+  Messung hält), A:PerDayInfo (Text "alle Spieler (n), x Tage" bzw. "gemessen, x Tage + n Spieler"), Markt (Lücken: PerDay;
+  Überfüllt: "alle" wie gemessen = Sicherheit mittel; Detail-Zeile), Tooltip ("~x/Tag (alle Spieler (n), x Tage)").
+ANNAHMEN, BITTE PRÜFEN: Untergrenze statt Mitte der Spanne (vorsichtig für Kaufmengen); "quellen" als n Spieler angezeigt
+  (Untergrenze laut README); der Preis aus "alle" wird noch nicht genutzt (eigene Preise sind frischer) – auf Wunsch als
+  Rückfall-Marktwert.
+Tests
+  - T803 (Testroutine M, Testnaht K.tablesOverride, eigene Messung über die eigene Funktion VS.MeasuredRate ersetzt): ohne
+    eigene Messung Horde 5 (= absatzMin) "alle", 2 Tage, 3 Spieler; Text; absatz nil -> nil; Allianz 1; neutral nil; eigene
+    10 bei 4 Paaren -> 8,33 "gemessen+alle" ((40 + 10) / 6); ohne Tabelle 10 "gemessen". Mit 0.65.225 rot.
+  - Szenario s226_alle_prior (Eisenerz, Fraktion des Spielers): vorher keine Quelle "alle"; mit Teil 4 "alle" 3 Tage 5 Spieler,
+    Text und Tooltip "alle Spieler (5), 3 Tage".
+  - Die ausgelieferte GoldSentinelMarktTabellen.lua hat den Teil noch nicht (byte-gleich) – keine Zahl ändert sich heute.
+  - Locales +2, CHANGELOG EN/DE.
+Gesamtlauf (frische Kopie des Repos f0507bc, Addon 0.65.226): 277 bestanden, 0 rot.
