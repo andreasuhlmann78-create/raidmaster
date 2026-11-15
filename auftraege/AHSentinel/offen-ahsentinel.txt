@@ -61,6 +61,22 @@
 >>>    6. NEU 18:5x (Spieler betroffen, HOCH, direkt nach 1.): ESL1 und DE-WIN1 – siehe Blöcke gleich unten.
 >>>    7. NEU 19:03 (Entscheid des Nutzers): SN-SCAN1 Sniper-Knopf während des Vollscans sperren – direkt nach SN-BTN1.
 
+>>> NACHT-PRÜFUNG 20:15 (Supervisor) – 0.65.216 (Inhalt), 0.65.217, 0.65.218. Berichte gegen Code gelesen.
+  0.65.216 RK7: Comfort.lua K:RankScore/K:WaySafety gelesen. Rang = (Gewinn/Einsatz) ÷ max(Tage,0,25) × Sicherheit; Sicherheit = MK:Quote
+     (Anteil 0–1, MarketCore.lua:124) ab FREE_MIN 20 Fällen, sonst FREE_PCT 0,60. T797 nachgerechnet: 0,090 > 0,060 > 0,045 – stimmt.
+     ANTWORT auf die Frage: Die ANZEIGE bleibt nach Gewinn sortiert (MH-1, Grundsatz "einfach zu verstehen": eine Zahl, die der
+     Spieler kennt; eine Rang-Zahl versteht er nicht). Aber: wird eine Zeile wegen des Budgets gekürzt oder fällt weg, soll die Zeile
+     das in einem Satz sagen ("Menge gekürzt: Budget geht zuerst an sicherere/schnellere Wege") – sonst wirkt die Liste widersprüchlich.
+     NIEDRIG, eigene kleine Version, Test.
+  0.65.217 PS-DOCK1: Crafting.lua Cr:PSActive/PSPanelShown/IndexForSpell gelesen – wie im Bericht, geheime Werte abgefangen.
+     HINWEIS (kein Fehler von AHS): Die heute veröffentlichte PS 0.9.45 hat kein PS.IsEnabled -> PSActive = wahr, sobald PS geladen
+     ist. Schliesst der Spieler das PS-Panel (PS speichert panelOpen=false, UI.lua:2925), sieht er am Berufsfenster KEINE
+     Gewinnliste mehr. Das löst PS mit der UI-Überarbeitung (öffnet mit dem Handwerksbuch, Knopf zum Wieder-Öffnen) – in PS
+     eingetragen. Für AHS nichts zu tun.
+  0.65.218 GSM7: GoldSentinelMarkt.lua byte-gleich v7 (cmp hier). Messung gelesen: Feed-Anteil im ganzen Vollscan Median 5 845 KB –
+     der Feed bleibt AUS, richtig so. Der Supervisor hat nur den Feed-Müll gemessen (7,5 -> 2,8 MB), nicht den ganzen Vollscan –
+     Bericht trifft zu. -> Der SUPERVISOR misst jetzt selbst mit s216 im ahanalyzerpro-Nachbau (tests/wowsim) und sucht, woher die
+     übrigen ~5 MB kommen. AHS wartet NICHT darauf: weiter Masterplan (Phase 4 Rest mit Messdaten offen -> danach Phase 2 Gehirn).
 >>> NACHT-PRÜFUNG 19:52 (Supervisor) – 0.65.214, 0.65.215, 0.65.216. Berichte gegen Diff gelesen, Zahlen nachgerechnet.
   0.65.215 WS-LOOP1: Zahlen geprüft: 919 × 0,95 = 873,05 -> 8s73c; 919 − 873 = 46c; × 4 = 1s84c; ceil(919/0,95) = 968; ceil(500/0,95)
     = 527; ceil(900/0,95) = 948 – alles exakt. Vorschlag wird gegen ALLE Regeln geprüft (bis 8×) – richtig. Passt zum Entscheid 19:15.

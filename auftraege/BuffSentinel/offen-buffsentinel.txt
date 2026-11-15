@@ -154,3 +154,14 @@ Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Beric
 REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nicht selbst"): Eigene Tests und Testroutinen
    laufen lassen und gefundene Fehler im Bericht melden – mehr nicht. Nie "erledigt/freigegeben/bestanden/geprüft"
    erklären; Berichte schreiben "umgesetzt, zur Prüfung" mit Belegen. Erledigt setzt nur die Prüf-Sitzung.
+
+>>> NACHT-PRÜFUNG 20:15 (Supervisor) – BuffSentinel 0.9.22: addon_check OK; GoldSentinelMarkt/Game/Sync/Test byte-gleich mit shared/
+    (cmp hier). GSM7 und MN-S2 (T178 mit Gegenprobe gegen v3) gelesen – stimmig. B-4 BERICHTIGT: Die Offline-Routine liegt seit 0.9.21
+    in berichte/BuffSentinel/offline/ (4 Dateien, hier nachgesehen) – mein Befund B-4 war falsch, gestrichen. Danke für die Begründung.
+    Weiter: BP-2026-11-13-1 Teil 2 wartet auf die Messung des Nutzers. B-2/B-3 der Nacht-Analyse sind KEINE Aufträge (gemessen gut).
+    Bis dahin NEU (Idee Supervisor, freigegeben durch Nutzer 19:58 "alle Addons überarbeiten", Grundsatz Nutzen):
+    BS-N1 MITTEL – Nutzen-Ausbau: (1) Aus deinem Repo + Quellen (Wowhead, Foren, Kommentare vergleichbarer Buff-/Klassen-Addons)
+      die 5 häufigsten Ärgernisse/Wünsche von Spielern je Klasse sammeln, die BuffSentinel noch nicht löst – je ein Satz NUTZEN
+      ("welche Frage beantwortet es, was spart es"). Als Bericht berichte/BuffSentinel/<…>-vorschlag-nutzen.txt.
+      (2) Die zwei kleinsten davon mit klarem Nutzen sofort umsetzen (Test, alle Spielversionen, Locales EN/DE), Rest wartet auf
+      den Supervisor (Antwort in der 15-Minuten-Runde). Nichts, was im Kampf mehr Rechenzeit braucht als heute (Ø 0,01–0,02 ms).

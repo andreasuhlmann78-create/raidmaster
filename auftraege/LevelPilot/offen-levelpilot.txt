@@ -271,3 +271,16 @@ Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Beric
 REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nicht selbst"): Eigene Tests und Testroutinen
    laufen lassen und gefundene Fehler im Bericht melden – mehr nicht. Nie "erledigt/freigegeben/bestanden/geprüft"
    erklären; Berichte schreiben "umgesetzt, zur Prüfung" mit Belegen. Erledigt setzt nur die Prüf-Sitzung.
+
+>>> NACHT-PRÜFUNG 20:15 (Supervisor) – LevelPilot 3.12.35 UC-W1: Bericht + Ursache gelesen (Luftlinien quer über die Ebenen, belegt
+    mit den 197 Wegdateien). Graph:PathKnown nur über gespeicherte Kanten, Anfang/Ende ≤ 40 yd – richtig als Sofort-Hilfe.
+    GRENZE (Verdacht, zu messen): Gespeicherte Kanten können über SNAP 10 yd zusammengelegte Knoten verschiedener Ebenen laufen
+    (Konzept W3D Punkt 1.2) – auch ein "bekannter" Weg kann deshalb durch eine Decke springen. Das löst erst W3D B1.
+    GSM7: 3.12.35 enthält noch GoldSentinelMarkt v6 -> beim nächsten Release v7 byte-gleich aus shared/.
+    ANTWORT auf die Frage (Punkt 1 Koordinatenlisten): JA, nicht mehr blockiert. Reihenfolge für die Nacht:
+      1. SP1-M (Aufgabe des Nutzers) wie geplant.
+      2. W3D im Nachbau: B1 Ebenen-Schlüssel (vorläufig Karte + Unterzone + drinnen, als Schalter LP.W3D=false), B2, B3, B5-Texte,
+         Tests aus shared/wissen/analysen/levelpilot-wegfuehrung-3d.md Abschnitt 7. NICHT einschalten/veröffentlichen, bevor die
+         GSWegMess-Messung des Nutzers belegt, dass die Unterzone die Ebenen trennt. Die Wegdateien in testberichte/wege enthalten
+         KEINE Unterzone – dafür braucht es neue Aufzeichnung (B1 schreibt sie ab dann mit: das darf schon live, nur speichern).
+      3. Punkt 1 Koordinatenlisten Mulgore/Brachland/Donnerfels.

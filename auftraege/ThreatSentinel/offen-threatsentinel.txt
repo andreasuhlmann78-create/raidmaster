@@ -141,3 +141,11 @@ Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Beric
 REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nicht selbst"): Eigene Tests und Testroutinen
    laufen lassen und gefundene Fehler im Bericht melden – mehr nicht. Nie "erledigt/freigegeben/bestanden/geprüft"
    erklären; Berichte schreiben "umgesetzt, zur Prüfung" mit Belegen. Erledigt setzt nur die Prüf-Sitzung.
+
+>>> NACHT-PRÜFUNG 20:15 (Supervisor) – ThreatSentinel 2.5.14: addon_check OK, gemeinsame Dateien byte-gleich (cmp hier).
+    T-3 Alerts.lua:220–248 gelesen: Grenze nur Gruppen-Chat, je Meldungstext 5 s, Liste > 60 s geleert, Zähler chatHeld – stimmt mit
+    Auftrag. T-2 Diag.lua:80–135 + Core.lua:1173 gelesen: Messung nur im Kampf, je Bild (GetTime) summiert, Ticker/OnUpdate nicht
+    innerhalb von Ereignissen -> keine doppelte Zählung gefunden; Testwerte 8/18/1 ms -> "18.0 ms (Plaketten-Effekte), 1 von 3"
+    nachgerechnet. TS-T1 gelesen. Keine Befunde.
+    IM SPIEL MESSEN (Nutzer): ein Dungeon als Tank, danach /ts protokoll -> Zeilen LEISTUNG schicken.
+    Weiter: nächster Punkt der Reihenfolge in dieser Datei (Nacht-Analyse threatsentinel-2026-11-16.md, Rest).

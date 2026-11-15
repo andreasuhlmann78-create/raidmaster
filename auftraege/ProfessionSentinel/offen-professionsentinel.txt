@@ -182,3 +182,9 @@ PS-DW1 MITTEL (Nutzer 17:05, AHSentinel 0.65.170): Ein Rahmen von ProfessionSent
    "Entzaubern (n)" von AHSentinel am Berufsfenster und fängt den Klick ab (mit PS aus geht der Knopf). Prüfen, welcher PS-Rahmen
    dort Maus annimmt (auch unsichtbare/leere Rahmen, EnableMouse); nur sichtbare Bedienteile dürfen Klicks nehmen. Die Lage des
    AHS-Knopfs ändert AHS (DW-K1-B1); PS ändert nur PS. Test: mit beiden Addons ist der AHS-Knopf klickbar.
+
+>>> HINWEIS 20:15 (Supervisor, aus der Prüfung AHSentinel 0.65.217 PS-DOCK1): AHSentinel blendet sein Gewinn-Fenster aus, sobald PS
+    geladen ist (Entscheid 19:29: eine Rezeptliste – PS). Schliesst der Spieler heute das PS-Panel (panelOpen=false, UI.lua:2925),
+    sieht er am Berufsfenster gar keine Gewinnliste mehr. In der UI-Überarbeitung (anweisung-ui-crafter 3.1b) deshalb PFLICHT:
+    am Berufsfenster immer ein kleiner Knopf "PS", der das Panel wieder öffnet; dazu PS.IsEnabled() (false, wenn der Spieler PS
+    ausgeschaltet hat) – dann zeigt AHS sein Fenster wieder. Test: Panel zu -> Knopf sichtbar -> Klick -> Panel offen.
