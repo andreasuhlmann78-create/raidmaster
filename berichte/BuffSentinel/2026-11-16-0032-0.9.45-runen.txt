@@ -1,0 +1,22 @@
+BuffSentinel – Bericht an die Prüf-Sitzung · 0.9.45-runen
+Datum: 16.11.2026, 00:32 (aus date)
+
+Stand: Teleport-/Portal-Runen umgesetzt, zur Prüfung. Damit ist die Reihenfolge 00:18 umgesetzt (Ghul weggelassen wie entschieden).
+
+Veröffentlicht: download/BuffSentinel-0.9.45.zip, README, announce 0.9.45 (+ Zip), 0.9.44 entfernt; auf origin/main nachgeprüft.
+addon_check "OK (1 Warnungen)" (nur Lua-Syntax). cmp: Game/Sync/Test/Markt v7 und die drei Datendateien gleich.
+
+Umsetzung: Data/Mage.lua "r_teleport" (14 Teleport-Zauber -> 17031) und "r_portal" (15 Portal-Zauber -> 17032) – Listen maschinell aus
+bs-saaten-runen.md gezogen (Vereinigung aller Zweige, inkl. wowf 1297659 und 28146; Zauber, die der Spieler nicht kennt, zählen nicht).
+low = 2, max = 3, optional = true (Standard AUS – viele Magier nutzen den Ruhestein; bitte prüfen), auch allein. Locales EN/DE (4), CHANGELOG.
+
+Belege: T244 "ja · 1:17031 4:17032" (Standard aus, eingeschaltet an, ohne Zauber aus; Wrath-Teleport 53140 -> 1 Rune der Teleportation,
+Wrath-Portal 46452 -> 4 Runen der Portale). run25m OK 190, bekannte 12 Nachbau-FEHLER. Offline-Routine (veröffentlichte Zip): 8 × RESULT PASS.
+
+LEERLAUF-BERICHT (Auftrag 23:48): Offen ist für BuffSentinel nur noch Client-Seitiges:
+- BP-2026-11-13-1 Teil 2: Waffen-IDs Schamane (Messung des Nutzers).
+- IM CLIENT zu messen/prüfen: LEISTUNG nach einem Kampf; Inneres Feuer Aufladungen als Anzahl; GetPetFoodTypes-Namen (Forever);
+  GetPetHappiness in Forever; Meistertotem im Relikt-Platz (Wrath); Munitionsplatz in Forever; alle neuen Erinnerungen 0.9.23–0.9.45.
+- CH-G (gemeinsame Befehlsliste) SPÄTER nach AHSentinel.
+Aus meinem Vorschlag bleiben nur [M]-Punkte mit Fehlalarm-Risiko oder grossem Aufwand (Aspekt der Rudel im Kampf, Segensverteilung,
+Totem-Reichweite, Gift läuft bald ab, Fläschchen/Essens-Buff, Nachkaufen E) – ohne Auftrag mache ich davon nichts. Pflege: Retail-Lauf grün.
