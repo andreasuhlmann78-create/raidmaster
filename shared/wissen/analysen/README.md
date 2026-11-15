@@ -13,7 +13,7 @@ Prüf-Sitzung einen Auftrag in auftraege/<Projekt>/offen-*.txt schreibt. Befunde
 |---|---|---|---|---|
 | ProfessionSentinel | professionsentinel-2026-11-16.md | 0.9.45 | fertig 15.11. 19:06 | Ruckeln gemessen: Spitze 921 ms, >100 Bilder über 50 ms (Ursache zu messen) |
 | GuildSentinel | guildsentinel-2026-11-16.md | 0.9.39 | fertig 15.11. 19:09 | 12 alte Regressionstests rot (nicht nachgeführt); GSMarkt v4 bei CurseForge-Spielern |
-| BuffSentinel | buffsentinel-2026-11-16.md | – | offen | – |
+| BuffSentinel | buffsentinel-2026-11-16.md | 0.9.21 | fertig 15.11. 19:13 | unauffällig (Spitze 4 ms); GSMarkt v3 |
 | ThreatSentinel | threatsentinel-2026-11-16.md | – | offen | – |
 | LevelPilot | levelpilot-2026-11-16.md | – | offen | – |
 | RaidMaster + Uploader | raidmaster-2026-11-16.md | – | offen | – |
