@@ -1,0 +1,41 @@
+BERICHT DISCORD – Bot 1.5.156: D-3 Schritt 11 (Regeln als eigenes Modul) – umgesetzt, zur Prüfung
+Zeit: 15.11.2026 21:50 (aus date)
+Commit: 66e7a206 auf origin/main, CI bot-tests: success
+
+WARUM JETZT
+- Geplant war die Beute-Datenbank (/beute). Abhängigkeitsprüfung: update_lootdb ruft ensure_dkp_rules und
+  ensure_guild_rules (Regeln mit Materialien nachziehen); post_loot_table braucht raid_channel (Raid-Bereich).
+  Darum zuerst die Regeln als eigener Bereich; die Beute folgt (raid_channel dann nach grund.py).
+
+WAS
+- Neues Modul RaidMasterBot/regeln_bot.py (148 Zeilen): channel_links, ensure_guild_rules, ensure_dkp_rules.
+  Bank-Bestand unter den Regeln kommt aus bank_bot (BANK_CHANNEL, post_guild_bank).
+- UNVERÄNDERT verschoben: Quelltext je Name per ast verglichen -> alle 3 identisch.
+- bot.py: nicht mehr benutzte Importnamen entfernt – channel_links und BANK_CHANNEL (durch diesen Schritt) und
+  market_store (SELBST GEFUNDEN: seit Schritt 4 / 1.5.149 in bot.py unbenutzt, ohne Wirkung). Damit meldet
+  pyflakes für bot.py keine durch D-3 entstandenen unbenutzten Namen mehr (die übrigen Meldungen gab es schon vor
+  D-3, z. B. gzip doppelt, ch unbenutzt).
+- bot.py: git diff --numstat +5 −125, jetzt 5970 Zeilen.
+- test_bank_bot: die Zeile, die BANK_CHANNEL in bot.py verglich, entfällt (bot.py führt den Namen nicht mehr);
+  die übrigen Prüfungen der 5 Tests bleiben.
+
+TESTS
+- Bisher kein Test für channel_links und ensure_dkp_rules. NEU test_regeln_bot.py (4 Tests, REGRESSIONEN
+  T-D3-REGELN): {#kanal} wird Link, fehlender Kanal bzw. kein Server -> **#kanal**; #regeln beim ersten Mal
+  gepostet, unverändert nichts, geändert bearbeitet (gleiche Nachrichten-IDs) statt neu gepostet; ohne #regeln
+  nichts. Gegenproben: Hash-Vergleich entfernt -> FAILED (1); Links nie aufgelöst -> FAILED (1); zurückgesetzt
+  -> OK.
+- test_lade: regeln_bot.bot ist bot.bot; ensure_guild_rules dasselbe Objekt; post_guild_bank aus bank_bot.
+- Slash-Befehle: 49, unverändert. 303 Tests OK (299 + 4 neue); jede Testdatei einzeln mit -I OK;
+  REGRESSIONEN 41 von 41.
+
+BETRIEB NACHGESTELLT (an einer Kopie)
+1. Update vom Stand 1.5.155 (Attrappen-config, state.json, Uploader-ZIP im addon-Ordner): updater._copy_new
+   kopiert VERSION, bot.py, regeln_bot.py, tests; config/state/ZIP unverändert (md5); VERSION 1.5.156.
+2. Start wie launcher.py: Abbruch erst bei der Anmeldung (LoginFailure, Test-Token).
+3. Ohne config.json: Exit-Code 3, Meldung "Bitte zuerst config.json ausfüllen …", config.json angelegt.
+
+OFFEN
+- Frage zur Selbst-Aktualisierung während D-3 (Bericht 2155 frage-d3): noch keine Antwort.
+- NÄCHSTE BEREICHE: Beute-Datenbank (update_lootdb, lootdb_text, post_loot_table, /beute; raid_channel nach
+  grund.py), Klassenrollen, DKP, Raids, Uploads, Server-Einrichtung, zuletzt RaidBot.
