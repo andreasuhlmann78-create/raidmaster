@@ -43,6 +43,15 @@ TB184 (Testbericht 0.65.184, 15.11. 12:27, /ahs testroutine ui – Supervisor ge
        abgeschnitten (130 %/Modern) – Handlung muss ganz lesbar sein (Text kürzen oder Zeile höher/2-zeilig).
      REGEL für Listen: Item-Namen in Listen dürfen gekürzt sein, WENN Mouseover den vollen Namen zeigt – alles andere
        (Handlungen, Status, Beträge, Spaltenköpfe, Knöpfe) nie abschneiden.
+  TB184-U3 HOCH (Nutzer 12:28 "die Reiter werden kontrolliert, die Untersektionen aber nicht"): BELEGT im Bericht 12:27 – geprüft
+     wurden nur 11 Ansichten × 4 (= 44): Übersicht, Kaufen > Einkauf/Sniper/Wächter/Schnäppchen, Verkaufen > Einstellen/Meine
+     Auktionen, Markt > Markt/Watchlist, Buchhaltung > ledger. NICHT geprüft (Beispiele): Schnäppchen > Marktwert/Händlerpreis/
+     Entzauberwert/Gebote/Flips; Markt-Ansichten (Heute, Lücken, Überfüllt, Trends, Entzaubern …); Buchhaltung-Ansichten
+     (Heute, Pro Item, Details …); Einkauf-Kategorien und Favoriten-Menü; Optionen-Seiten; eigene Fenster (Entzaubern, Gewinn/
+     Beste Rezepte am Berufsfenster, Sniper-Rückfragen, Preisverlauf); aufklappbare Abschnitte und Rückfrage-Dialoge.
+     Zu tun: T750 geht JEDE Ebene durch – Reiter -> Unterreiter -> jede Ansicht/Knopfleiste -> jeder aufklappbare Abschnitt –
+     plus alle eigenen Fenster und Dialoge (öffnen, prüfen, schliessen, Zustand zurück). Liste aller Ansichten automatisch aus
+     dem UI-Baum, nicht von Hand; Bericht nennt "geprüft n von m Ansichten" und listet ungeprüfte mit Grund. Ziel m = alle.
   TB184-B1 HOCH (Buchhaltung, Perfektion): Zwischen Testbericht 11:57 und 12:27 (beide Stichtag 11.11. 16:42) sind VERGANGENE
      Zahlen gesunken: Erlös 383836 -> 247713 (−13g61s23), Verkäufe 162 -> 152, Gewinn 54823 -> 27845; Tagesbilanz 14.11.
      gebucht +16624 -> +22133 (Lücke +512 -> −4997). Erlös und abgeschlossene Tage dürfen sich nicht rückwirkend ändern,
