@@ -178,6 +178,18 @@ class Uploader(unittest.TestCase):
         rest = src.replace(body, "")
         self.assertNotIn("testberichte_channel_id", rest.replace('route_message(cfg', ''))
         self.assertNotIn("ch.send", body)
+        # D-3 (ab 1.5.160): die aus bot.py ausgelagerten Module gehören zu bot.py – auch dort kein Testberichte-Kanal
+        # und kein Import von testberichte (vorher prüfte der Test nur bot.py, die Module still nicht)
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import bot_quelle
+        geteilt = [p for p in bot_quelle.dateien() if os.path.basename(p).endswith("_bot.py")
+                   or os.path.basename(p) in ("kern.py", "grund.py", "bot_hilfen.py")]
+        self.assertGreaterEqual(len(geteilt), 15)                    # Stand 1.5.160: 12 *_bot.py + kern, grund, bot_hilfen
+        for p in geteilt:
+            with open(p, encoding="utf-8") as f:
+                code = f.read()
+            for bad in ("testberichte_channel_id", "import testberichte", "from testberichte"):
+                self.assertNotIn(bad, code, os.path.basename(p))
 
     def test_b09_find_player(self):
         r = [{"name": "Tank1", "dkp": 1}, {"name": "Testa Beispiel", "dkp": 2}]

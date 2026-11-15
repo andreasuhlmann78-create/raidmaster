@@ -120,9 +120,16 @@ class Lade(unittest.TestCase):
         import willkommen_bot
         self.assertIs(willkommen_bot.bot, b.bot)                 # D-3 Schritt 14: Willkommen
         self.assertIs(b.ensure_welcome, willkommen_bot.ensure_welcome)
-        self.assertIs(b.is_chef, grund.is_chef)
+        self.assertIs(willkommen_bot.is_chef, grund.is_chef)
         for name, fn in (("willkommen", willkommen_bot.welcome_cmd), ("einladung", willkommen_bot.welcome_invite_cmd)):
             self.assertIs(b.bot.tree.get_command(name).callback, fn.callback)
+        import gildenname_bot
+        self.assertIs(gildenname_bot.bot, b.bot)                 # D-3 Schritt 15: Gildenname
+        self.assertIs(b.handle_name_post, gildenname_bot.handle_name_post)
+        self.assertIs(b.name_poll, gildenname_bot.name_poll)
+        self.assertIs(gildenname_bot.ensure_welcome, willkommen_bot.ensure_welcome)
+        self.assertIs(gildenname_bot.is_chef, grund.is_chef)
+        self.assertIs(b.bot.tree.get_command("gildenname"), gildenname_bot.name_group)
         self.assertIs(b.NO_PING, grund.NO_PING)
 
     def test_findet_fehlenden_namen(self):

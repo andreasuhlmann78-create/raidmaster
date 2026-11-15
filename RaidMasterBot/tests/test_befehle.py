@@ -13,8 +13,13 @@ HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, HERE)
 import server_setup  # noqa: E402
 
-with open(os.path.join(HERE, "bot.py"), encoding="utf-8") as _f:
-    SRC = _f.read()
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import bot_quelle  # noqa: E402
+
+# D-3 (ab 1.5.160): bot.py UND alle Bot-Module – die Befehle stehen seit Schritt 4 auch in markt_bot, pn_bot,
+# ruhmeshalle_bot, uploader_bot, bank_bot, beute_bot, willkommen_bot, gildenname_bot. Vorher las der Test nur bot.py
+# und prüfte die verschobenen Befehle still nicht mehr.
+SRC = bot_quelle.alle()
 
 
 def command_info() -> dict:
