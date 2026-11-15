@@ -48,6 +48,24 @@
          Nutzer jetzt die Ursache je Aussetzer (AHS-Aufgabe, Speicherbereinigung, Ereignissturm, Addon-Zeiten). Supervisor liefert
          die Stellen nach – AHS jetzt nur: offene Käufe nie unbegrenzt anwachsen lassen (56 offen = Folge von GSL1-1).
   Reihenfolge ab jetzt: GSL1-1 -> GSL1-3 -> GSL1-2 -> GSL1-4 -> TB192 -> restlicher Sniper-Block -> Abnahme A1–A6.
+>>> SN-UI1 (Nutzer 15.11. 15:12 "ja mach das so – es dürfen keine Fehler passieren"; nach GSL1-1..3, vor der Abnahme A5):
+    Angebotsliste im Sniper-Fenster (UI_Sniper.lua p.listings): erledigte Zeilen verschwinden.
+    (a) Zeile ENTFERNEN nur bei Gewissheit: Kauf bestätigt (AUCTION_HOUSE_PURCHASE_COMPLETED mit der auctionID dieser Zeile) oder
+        Server meldet ausdrücklich "nicht mehr da" (AUCTION_HOUSE_SHOW_ERROR Code 4 ItemNotFound für den Kauf dieser Zeile) oder das
+        Angebot fehlt in einem VOLLSTÄNDIGEN neuen Suchergebnis (HasFullItemSearchResults true).
+    (b) NICHT entfernen bei Code 10 (DatabaseError), DROPPED, fehlender Antwort, Zeitüberschreitung – die Zeile bleibt mit Status
+        ("keine Antwort" grau / "Fehler – nochmal" orange) und bleibt kaufbar (GSL1: Code 10 kommt meist vom zu schnellen Senden).
+    (c) Ablauf: Status "gekauft" (grün) bzw. "weg" (rot) genau 1,0 s sichtbar, dann Zeile raus. Bei Teilkauf (Stapel) Zeile mit
+        Restmenge stehen lassen, nur die Menge anpassen.
+    (d) Kaufen bleibt unabhängig von der Anzeige: Mausrad/Taste kauft den geplanten Treffer (auctionID), nie "die Zeile unter der
+        Maus"; das Entfernen darf den Plan, die Reihenfolge, Zähler, Budget und Max nicht ändern. Kein Neuaufbau ganzer Tabellen
+        pro Ereignis über 16 ms (Messung im Bericht).
+    (e) Zusammenfassung unter der Liste: "gekauft n · weggeschnappt n · ohne Antwort n" (diese Suche/dieses Ziel); Zahlen = Zähler
+        des Sniper-Berichts, eine Zahl je Sache, nichts abgeschnitten (deDE und enUS).
+    (f) Tests Pflicht (Testroutine sniper, neue S-Fälle): bestätigt -> 1 s -> weg; Code 4 -> weg; Code 10 -> bleibt; keine Antwort
+        -> bleibt; Teilkauf -> Rest bleibt; zwei Bestätigungen in derselben Sekunde; Bestätigung für eine Zeile, die schon durch neue
+        Suche ersetzt ist (keine falsche Zeile entfernen); AH schliessen während der 1 s (kein Fehler, kein Timer-Rest); Ziel wechseln
+        während der 1 s. Locales EN/DE, CHANGELOG EN/DE.
 >>> DE-AUFT1 (Supervisor 15.11. 15:10, Verdacht – zu belegen, nach dem Sniper-Block): Einstand-Aufteilung beim Entzaubern. Auswertung
     11:51–15:01 (shared/wissen/auswertungen/2026-11-15-kaufen-entzaubern-verkaufen.md): Kette Schulter -> Entzaubern -> Verkauf
     = +1s70 je Stück, aber AHS bucht verkauften Seelenstaub mit Einstand 5s06/Stück (16g33s02 für 323) über dem Verkaufspreis
