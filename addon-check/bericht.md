@@ -11,7 +11,8 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 ## BuffSentinel-0.9.21.zip: OK (1 Warnungen)
 - **WARNUNG** BuffSentinel/GoldSentinelMarkt.lua: veraltete offizielle Fassung (Version 3) – auf shared/GoldSentinelMarkt.lua Version 4 aktualisieren
 
-## GuildSentinel-0.9.38.zip: OK (1 Warnungen)
+## GuildSentinel-0.9.38.zip: FEHLER (1 Warnungen)
+- **FEHLER** Version 0.9.38 ist NIEDRIGER als schon veröffentlichte 0.9.39 (Discord (announce/)). Neue Version muss höher sein als 0.9.39, sonst bekommen Spieler das Update nicht.
 - **WARNUNG** GuildSentinel/GoldSentinelMarkt.lua: veraltete offizielle Fassung (Version 2) – auf shared/GoldSentinelMarkt.lua Version 4 aktualisieren
 
 ## ProfessionSentinel-0.9.45.zip: OK (1 Warnungen)
