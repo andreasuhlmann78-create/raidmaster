@@ -1,0 +1,41 @@
+AHSentinel – Masterplan Phase 1.3 (Rest Sniper-Block): Stand je Punkt, mit Belegen – Frage an den Supervisor zu TB182-2
+Nacht-Arbeit 15./16.11. Keine neue Version für diese Punkte: Sie sind schon umgesetzt und warten auf die Prüfung.
+
+SN-B5 (Max zur Planungszeit):
+  - Umgesetzt in 0.65.186: l.planMax wird beim Planen gesetzt (Sniper.lua PlanNext, 3 Stellen), S9 vergleicht mit planMax
+    (SniperTest.lua 262).
+  - Supervisor 12:20 "positiv geprüft: SN-B5 planMax".
+SN-B6 (Zähler nach Bestätigung):
+  - Ursache war ein Testrest in itemCounted (Bericht 0.65.186).
+  - Seit GSL1-3 (0.65.194) zählt der Zähler nur noch auf PURCHASE_COMPLETED (Test T752/T756/T610).
+SN-B7 (Treffer "geleert" ohne Grund):
+  - Sn.clearedAt mit Grund, wenn ein Ziel geändert/gelöscht wird (Sniper.lua 109/280/324), seit 0.65.186.
+  - Supervisor 12:20 "positiv geprüft".
+SN-B8 (Testkauf-Gold −13674 bei gebucht 1):
+  - 0.65.186: S10 zieht Gold anderer, im selben Fenster gezählter Käufe ab (Sn:SpentSince) und nennt die Summe.
+  - Seit P190-2 (0.65.192) zählen auch andere Ziele und deren gesendete Käufe im Rest mit.
+  - Der Einzelfall vom 15.11. 01:36 lässt sich ohne die SavedVariables dieser Minute nicht nachrechnen. Verdacht, zu messen:
+    Ein offener Waren-Kauf aus der Sitzung davor wurde im selben Fenster abgeschlossen.
+  - Messung im nächsten Sniper-Test: S10 zeigt jetzt "andere Ausgaben mitgerechnet".
+T745 (Wartegrund-Text "false"):
+  - Seit 0.65.186 behoben: Die Text-Prüfung hängt nicht mehr von Server-Bereitschaft/Budget ab.
+  - T747 prüft "keine Raste" (TB189-4); in allen Gesamtläufen seitdem grün.
+TB184-U3 (alle Unterbereiche in der UI-Prüfung):
+  - 0.65.188: T750 geht alle Reiter und Unterbereiche durch ("geprüft n von m"), dazu die Nachbildung s187_testroutine_ui_walk.
+  - Im Spiel: /ahs testroutine ui.
+GSL2-3 (Ruckler-Stelle nach Kauf):
+  - 0.65.196 misst die Rechenzeit je Sniper-Ereignis und je Fenster-Neuaufbau (Sniper-Bericht).
+  - 0.65.197 Ruhemodus.
+  - Entscheid 16:35: wird mit GSSniperLog 1.3 gemessen, bis dahin nichts weiter.
+TB182-2 (Tageslücke 7g67 am 15.11.) – OFFEN, Messung nötig:
+  - Mein Verdacht in 0.65.186 war falsch (P186-6). Seitdem gelten:
+    - der Zähler zählt nur bestätigte Käufe (GSL1-3, 0.65.194);
+    - keine Doppel-Sendung (SN-B11 e);
+    - die Buchhaltung bucht erst beim Kauf-Ereignis.
+  - Die 7g67 vom 15.11. kann ich ohne die SavedVariables nicht zuordnen (das Repo ist öffentlich und enthält keine).
+  - FRAGE an den Supervisor: Bitte aus dem Uploader-Stand je Buchung des 15.11. (Art, Zeit, Betrag) gegen die Gold-Änderung
+    derselben Minute (SK1-c) die Abweichungen > 1s auflisten, mit Zeit, Betrag und Kanal (AH/Post/Händler).
+  - Damit belege ich je Fall die Code-Stelle. Eigene Vermutung (Verdacht, zu messen): Post-Einnahmen aus Verkäufen, die vor dem
+    Stichtag eingestellt wurden (Kanal Post +7g69 ≈ Lücke +7g67), werden ohne passende Ausgabe gebucht.
+
+Weiter laut Masterplan: 0.65.199 MN1–MN5 (Gesamtlauf läuft), dann Phase 3.1 DE-AUFT1 als 0.65.200.
