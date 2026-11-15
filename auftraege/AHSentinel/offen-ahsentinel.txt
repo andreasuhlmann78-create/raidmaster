@@ -97,6 +97,21 @@ TB188 (Sniper-Testbericht 0.65.188, 15.11. 13:27 – Supervisor geprüft): Abnah
             ein Zeitlimit (z. B. 60 s), danach FEHLER "Zeitlimit" mit Name des Tests und weiter mit dem nächsten; Gesamtlauf
             höchstens 5 Min. Fortschritt sichtbar ("S7 von 13 läuft – noch höchstens n s"). Ursache des Hängers aus dem
             Abbruch-Bericht des Nutzers belegen (folgt).
+    TB188-7 HOCH – GOLD/DATEN-SICHERHEIT (Sniper-Test 13:35): "Sandbox (echte Daten unverändert): FEHLER: 200 Pfade, wiederhergestellt
+            (nicht vollständig): totalScans, scanLog.1.items …". Während des Tests lief ein ECHTER Vollscan (13:35, 260573 Auktionen).
+            Die Sandbox hat echte, während des Tests entstandene Daten als "Test-Änderung" gewertet und zurückgesetzt bzw. halb
+            zurückgesetzt. Echte Daten dürfen durch einen Test NIE verloren gehen oder halb überschrieben werden. Zu tun: (a) während
+            der Testroutine keine echten Scans starten (Vollscan-Auslöser sperren und im Bericht nennen) ODER echte Änderungen
+            erkennen und behalten; (b) belegen, welche 200 Pfade betroffen sind und ob echte Scan-/Preisdaten von 13:35 verloren
+            gingen; (c) Test: echter Scan während des Tests -> danach sind die echten Daten vollständig da, Sandbox OK.
+    TB188-8 HOCH (A4, Bestätigung TB188-1 + SN-B12): S11 nach Vollscan (38 s) erst nach 8,5 s weiter, nach AH-Klick 8,6/8,7 s – drei
+            Mal fast gleich lang -> sieht nach einem festen Zeitgeber (~8 s) aus, nicht nach Zufall. SN-B12 (a) "nach Vollscan sofort"
+            wirkt im Spiel noch nicht. Ursache belegen (welche Sperre/Zeitgeber hält 8 s), Ziel ≤ 2 s nach Vollscan, ≤ 5 s nach Klick.
+    TB188-9 MITTEL: S8 "reihum" mit EINEM Ziel rot (Lücke 1,2 s gegen Grenze 1,1 s) – Pausen (Vollscan) dürfen nicht mitzählen
+            ("ohne Pausen" laut Test); prüfen, ob die Vollscan-Pause herausgerechnet wird.
+    TB188-6 KORREKTUR: Der Lauf 13:35 endete nach 123 s – er hing nicht, er zeigte nur keinen Fortschritt. Pflicht bleibt: sichtbarer
+            Fortschritt ("S7 von 13 – noch höchstens n s") und Zeitlimit je S-Test.
+    Positiv: Ruckeln im Lauf 13:35 ganz "fremd" (AHSentinel 0 von 83 Frames > 33 ms); Vollscan-Lesen ok (längster Frame Einlesen 33 ms).
     TB188-5 Hinweis (zurückgestellt, Nutzer 14.11. "Ruckeln im Test egal"): S5/S13 längster Frame 427 ms, Ursachen AHSentinel 4,
             Sync 3, fremd 27 – AHSentinel-Anteil im Auge behalten (RUCKEL-1).
     Sniper-Takt Testlauf Ø 72/Min. (Server 90), echte Sitzung 12:38 Ø 60/Min. – noch mit Einzelkauf AN (0.65.186).
