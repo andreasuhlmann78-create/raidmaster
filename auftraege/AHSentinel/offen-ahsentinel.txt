@@ -20,6 +20,39 @@
     alle Wege getestet (Erfolg, Fehler, Abbruch, AH zu, Kampf, alte Clients); keine Sperre ohne Zeitlimit; nichts abgeschnitten
     oder doppelt; Bericht nur "umgesetzt, zur Prüfung" mit Belegen. Lieber eine Version später als eine mit Fehlern.
 
+>>> GSL2 – ZWEITES PROTOKOLL GSSniperLog 1.2 (Nutzer 15:01–15:29, AHS 0.65.193; Nutzer 15:33 "läuft nicht viel besser", 15:34 "meldet
+    sehr oft Interner Auktionsfehler"). Supervisor ausgewertet, Zahlen aus dem Protokoll, Code-Stellen gelesen. HÖCHSTE PRIO, VOR GSL1-2.
+    Sitzung: Suchen 1211 · Käufe gesendet 343 · bestätigt 116 (34 %) · ohne Antwort 220 · DOPPELT gesendet 56 · Code 10 ×175 ·
+    Code 4 ×3 · DROPPED nach Kauf ×163, nach Suche ×20 · Käufe gesendet, obwohl IsThrottledMessageSystemReady false: 259 von 343 ·
+    weggeschnappt (Angebot ≤ Max verschwand ohne unseren Kauf) 153 · Gold bestätigt 10g20s82 = Gold-Abgang AH-Kauf 10g20s82 (exakt).
+  GSL2-1 BELEGT, Ursachenkette der vielen "Interner Auktion-Fehler" + verpassten Käufe:
+         (1) Kauf wird gesendet, obwohl der Server nicht bereit ist (259/343) -> Code 10 (175×) oder gar keine Antwort (220×).
+         (2) Sniper.lua 729 ItemPurchaseFailed -> MarkDead (1359) bei JEDEM Fehler, auch Code 10 -> Angebot DEAD_TTL = 600 s
+             ausgeblendet (A:HideDeadOffer). Code 10 heisst hier "zu schnell gesendet", NICHT "Angebot weg".
+         (3) Folge 15:27:59–15:28:42: Status 43,3 s "Treffer! Mausrad zum Kaufen", Nutzer rastet 51× (48 ohne Kauf, Raste->Senden
+             Ø 444 ms), die günstigsten Angebote 8s38/8s40 stehen 23–32 s sichtbar im AH und werden von anderen gekauft (WEG);
+             15:28:54–15:29:56 "sucht selbstständig" trotz 57–60 Angeboten ≤ Max 9s14 (günstigstes 8s59–8s90), 0 gesendet.
+         (4) Gleichzeitig werden alte Angebote zu 9s00 erneut gesendet (DOPPELT, 170–189 s nach erstem Sehen) und erst dann bestätigt
+             – das teurere statt des günstigeren.
+         FIX: (a) Senden nur bei IsThrottledMessageSystemReady() (GSL1-1). (b) MarkDead NUR bei Code 4 (ItemNotFound) oder wenn das
+         Angebot in einem VOLLSTÄNDIGEN neuen Suchergebnis fehlt. Code 10/DROPPED/keine Antwort: Angebot bleibt kaufbar, nächster
+         Versuch erst bei SYSTEM_READY, höchstens 2 Wiederholungen je Angebot, danach 30 s Pause (nie 600 s). (c) Ein Angebot nie ein
+         zweites Mal senden, solange der erste Kauf weder bestätigt noch abgelehnt ist (56 doppelt). (d) Raste ohne Kauf darf es bei
+         Status "Treffer!" nicht geben – sonst Grund im Status ("Server nicht bereit, 0,4 s").
+         Beleg im Bericht: Test (Mock Code 10 -> Angebot bleibt; Code 4 -> weg; System nicht bereit -> kein PlaceBid) und Zähler je Minute.
+  GSL2-2 BELEGT – GSL1-3 (Zähler eins zu hoch) wiederholt: 15:24:17.2 AHS-Zähler +1 (8s25c) genau in der Sekunde, in der Kauf
+         107618756 (8s25c) nach 30 s OHNE Bestätigung abläuft; kein Gold-Abgang in dieser Sekunde. AHS zählt einen unbestätigten Kauf
+         beim Ablauf seiner 30-s-Frist. Sitzung: AHS +117 / 10g29s07 gegen 116 bestätigt / 10g20s82 – Differenz genau dieser Kauf.
+         Zählen nur auf PURCHASE_COMPLETED oder belegten Gold-Abgang, nie auf Fristablauf.
+  GSL2-3 Ruckler beim Kaufen (Zusammenhang belegt, Stelle zu messen): 662 Bilder > 100 ms in der Sitzung; von 207 BILD-Zeilen mit
+         letzter Anfrage lagen 125 ≤ 300 ms nach einem KAUF (meist 113–116 ms, AHS-Aufgaben "keine"). AHS-Profiler Ø 13,98 / 15,39 ms
+         je Bild in den Minuten 15:27/15:28 (Ziel ≤ 16 ms GESAMT). Verdacht: Verarbeitung nach Kauf/Ergebnis (ITEM_SEARCH_RESULTS_UPDATED,
+         AUCTION_CANCELED nach jedem eigenen Kauf – jetzt belegt, PURCHASE_COMPLETED, Tabellen-Neuaufbau). Mit debugprofilestop die
+         Stelle messen und auf ≤ 16 ms bringen. Daneben: forecast-eval 35× und cache:today 20× bei offenem AH während des Snipens –
+         beim Snipen pausieren.
+  GSL2-4 8,2-s-Pausen weiter in 0.65.193 (15:20–15:26: 9× 8,1–8,9 s, einmal 40,3 s, Status "sucht selbstständig") = GSL1-2.
+  Reihenfolge ab jetzt: GSL2-1 (enthält GSL1-1) -> GSL2-2 (= GSL1-3) -> GSL2-4 (= GSL1-2) -> GSL2-3 -> SN-UI1 -> Rest Sniper-Block.
+
 >>> GSL1 – NEUER AUFTRAG, HÖCHSTE PRIO IM SNIPER-BLOCK (Supervisor 15.11. 14:50; Grundlage: erstes Protokoll des passiven Mess-Addons
     GSSniperLog 1.0, Nutzer 14:18–14:24 mit AHS 0.65.190; Datei liegt beim Supervisor, Zahlen unten aus dem Protokoll übernommen).
     Hinweis: Dieser Block hätte schon um 14:30 im Repo stehen sollen – Versäumnis des Supervisors, nicht von AHS.
