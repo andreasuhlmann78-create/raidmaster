@@ -205,3 +205,15 @@ PS-DW1 MITTEL (Nutzer 17:05, AHSentinel 0.65.170): Ein Rahmen von ProfessionSent
   API.QuietOn: als Wunsch an AHSentinel weitergegeben (offen-ahsentinel, NIEDRIG). Bis dahin liest PS Sniper.quietSince – reicht.
   WEITER: Schritt (2) der Anweisung (Fenster/Stil, vier Reiter, Öffnen mit dem Handwerksbuch, Zwischenspeicher je Beruf, Knopf
     "PS" zum Wiederöffnen + PS.IsEnabled()). Grundsatz 19:58 bei jeder Zeile: Nutzen, eine Zahl, einfach zu verstehen.
+
+>>> NACHT-PRÜFUNG 21:03 (Supervisor) – ProfessionSentinel 0.9.47 (Schritt 2 Teil 1: vier Reiter, Jetzt, Öffnen mit dem Berufsfenster).
+  Bericht gelesen, Abbildung alt->neu vollständig mit Tests, T143 jetzt in Portionen ≤ 6 ms unter Lua 5.1 – gut.
+  BEFUND PS47-1 MITTEL (belegt im Code): AHSentinel liest den Schalter an der GLOBALEN Tabelle ProfessionSentinel
+    (AHS Crafting.lua Cr:PSActive: A:Global("ProfessionSentinel").IsEnabled), PS 0.9.47 definiert ihn aber nur an
+    ProfessionSentinelAPI (Today.lua:381 API.IsEnabled). UI.lua:2961–2962 setzt an _G.ProfessionSentinel nur IsPanelShown.
+    Folge: Schaltet der Spieler "Mit dem Berufsfenster öffnen" aus, blendet AHS sein Gewinn-Fenster TROTZDEM aus -> am Berufsfenster
+    gar keine Gewinnliste. (Der Fehler liegt in meinem Hinweis 20:15 "PS.IsEnabled()" – zu ungenau geschrieben, nicht bei dir.)
+    LÖSUNG (PS-Seite, AHS bleibt unverändert): _G.ProfessionSentinel.IsEnabled = API.IsEnabled zusätzlich setzen (beide Wege gleich).
+    Test: Autoöffnen aus -> _G.ProfessionSentinel.IsEnabled() == false; an -> true; mit AHS-Nachbildung: AHS-Fenster erscheint bei aus.
+  Sonst keine Befunde. Weiter: Schritt 2 Teil 2 (0.9.48) wie im Bericht.
+
