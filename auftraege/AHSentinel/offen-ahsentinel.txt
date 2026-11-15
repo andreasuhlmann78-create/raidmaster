@@ -79,6 +79,22 @@ T373 NACHTRAG (Entwurf Nachprüfung 11:20, vom Supervisor übernommen): Diagnose
     Aufgabe cache:warm-today · 0 Schritte · längster Schritt 182 ms bis Comfort.lua:1002" (früher 50–54 ms in 0.65.110), dazu
     16–40 ms Extras.lua:279, Comfort.lua:779/931, pd7 16–18 ms AHAnalyzerPro.lua:1152. Ziel ≤ 16 ms je Bild; "0 Schritte" = pausiert
     nie. Gehört zu RUCKEL-1 (zurückgestellt), Zahl und Stelle hier festgehalten. UI-CLEAN1 (A) 0.65.182: durch TB184-U1/U3 ersetzt.
+TB188 (Sniper-Testbericht 0.65.188, 15.11. 13:27 – Supervisor geprüft): Abnahme NICHT möglich (keine Käufe im Lauf, S4 vom Nutzer
+    abgelehnt). Befunde:
+    TB188-1 HOCH (A4): S11 – nach einem Klick ins Auktionshaus suchte der Sniper erst nach 8,4 s weiter (Ziel ≤ 5 s); die anderen
+            Pausen 0,0–0,6 s. Ursache belegen (welche Sperre hielt nach dem AH-Klick: Seller.urgent/Preisprüfung?), auf ≤ 5 s bringen.
+    TB188-2 HOCH (A6): Bericht zeigt weder "Geld je Ziel" noch "Einzelkäufe: gesendet …" (BuyStatText gibt bei 0 Käufen nil).
+            Abnahme-Zeilen IMMER zeigen, auch "keine Käufe in diesem Lauf"/"letzte echte Sitzung: …" (aus den Sniper-Daten
+            der Sitzung, nicht nur des Testlaufs).
+    TB188-3 HOCH (TB184-B1 bestätigt, 3. Messpunkt): Buchhaltung Erlös 11:57 383836 -> 12:27 247713 -> 13:27 390925, Verkäufe 162
+            -> 152 -> 166, ausstehend 10 -> 15 -> 3, Gewinn 54823 -> 27845 -> 74636. Gleicher Stichtag – die Summe springt um
+            ±14g. Verdacht (zu messen): Verkäufe wandern zwischen "gebucht" und "ausstehend/unterwegs" hin und her. Belegen und
+            so bauen, dass eine gebuchte Zahl nur wächst oder mit benannter Reparatur sinkt.
+    TB188-4: 13:02 automatisch ausgebucht 45 × Item 10940 (Einstand 1g18s22, TB182-4) – bekam der Spieler einen Hinweis? Im Bericht
+            mit Grund nennen (TB182-3 Regel: grosse Ausbuchungen nie still).
+    TB188-5 Hinweis (zurückgestellt, Nutzer 14.11. "Ruckeln im Test egal"): S5/S13 längster Frame 427 ms, Ursachen AHSentinel 4,
+            Sync 3, fremd 27 – AHSentinel-Anteil im Auge behalten (RUCKEL-1).
+    Sniper-Takt Testlauf Ø 72/Min. (Server 90), echte Sitzung 12:38 Ø 60/Min. – noch mit Einzelkauf AN (0.65.186).
 TB186-1 HOCH (Nutzer 12:46 "da stimmt was nicht … schau die abgebrochene Auktion an", Screenshot Meine Auktionen 12:42, 0.65.186):
     Geringe Mystikeressenz 4 × 11s61 (Restzeit 1 Std., Status "unterboten", Günstigstes 8s60) steht wieder in der Liste – dieselbe
     Menge und derselbe Stückpreis wie die um ~10:50 abgebrochene Auktion (10:46 noch 23 Min. Restzeit). Die Liste kommt laut Code
