@@ -49,7 +49,8 @@ class Lade(unittest.TestCase):
 
     def test_module_importierbar(self):
         sys.path.insert(0, bot_quelle.BOT_DIR)
-        skip = {"bot.py", "markt_bericht_holen.py"}       # bot.py: unten über bot_harness; Sammler braucht requests (GitHub)
+        # bot.py und kern.py: unten über bot_harness (kern liest config.json neben sich); Sammler braucht requests
+        skip = {"bot.py", "kern.py", "markt_bericht_holen.py"}
         for p in bot_quelle.dateien():
             name = os.path.basename(p)
             if name in skip:
@@ -58,6 +59,11 @@ class Lade(unittest.TestCase):
         from bot_harness import load_bot                    # bot.py selbst über die Attrappen-config
         b, _ = load_bot()
         self.assertTrue(hasattr(b, "zip_addon_info"))           # aus bot_hilfen übernommen
+        import kern
+        self.assertIs(b.cfg, kern.cfg)                           # D-3 Schritt 2: dieselben Objekte, nur einmal
+        self.assertIs(b.state, kern.state)
+        self.assertIs(b.kills_db, kern.kills_db)
+        self.assertEqual(os.path.dirname(kern.__file__), os.path.dirname(b.__file__))
 
     def test_findet_fehlenden_namen(self):
         self.assertEqual(unbound("def f():\n    return cfg['x']\n"), [(2, "cfg")])

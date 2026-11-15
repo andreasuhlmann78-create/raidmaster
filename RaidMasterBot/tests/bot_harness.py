@@ -43,6 +43,15 @@ def load_bot():
     argv = sys.argv
     sys.argv = ["bot.py"]
     try:
+        # D-3 (ab 1.5.147): kern.py liest config.json neben SICH – darum immer die Kopie im Temp-Ordner laden (die
+        # Attrappen-config), nie die im Repo (dort ist keine config.json -> sys.exit). Gilt für alle Module, die beim
+        # Import Dateien neben sich lesen.
+        for modname in ("kern",):
+            sys.modules.pop(modname, None)
+            ks = importlib.util.spec_from_file_location(modname, os.path.join(tmp, modname + ".py"))
+            km = importlib.util.module_from_spec(ks)
+            sys.modules[modname] = km
+            ks.loader.exec_module(km)
         spec = importlib.util.spec_from_file_location("bot_under_test", os.path.join(tmp, "bot.py"))
         mod = importlib.util.module_from_spec(spec)
         sys.modules["bot_under_test"] = mod
