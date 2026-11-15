@@ -24,6 +24,32 @@
       A6 /ahs testroutine sniper: alle S-Tests + T752 + neuer S-Takt grün; Abschnitt "Geld je Ziel" Differenz 0.
     Bericht: je Punkt Ursache (Code-Stelle) + Fix + Test + Messwerte aus echten Daten; "umgesetzt, zur Prüfung".
 
+TB184 (Testbericht 0.65.184, 15.11. 12:27, /ahs testroutine ui – Supervisor geprüft, jede Zeile der UI-BEFUNDE (81) eingeordnet):
+  TB184-U1 PRÜFTEIL noch zu grob (falsche Treffer, vor (B) beheben):
+     - Reiterleiste "'Übersicht' bei 94 überlagert 'Kaufen' bei 176" usw. (nur Klassisch, in JEDER Ansicht gezählt = 40 Zeilen):
+       klassische Reiter überlappen absichtlich (Blizzard-Stil). Nur zählen, wenn sich die TEXTE überlappen bzw. Klickflächen
+       sich so überlappen, dass ein Klick den falschen Reiter trifft – und die Reiterleiste nur EINMAL prüfen, nicht je Ansicht.
+     - "Frame ragt aus AHAnalyzerProWindow/Frame" ohne Namen: Befund muss das Element benennen (Name oder Pfad + Grösse +
+       um wie viele Pixel), sonst nicht prüfbar.
+     - Symbol-Texte "|T134327:…|t" einzeln als "abgeschnitten": Symbolcode im Befund durch den sichtbaren Text ersetzen.
+  TB184-U2 ECHTE Befunde (in UI-CLEAN1 B, Sniper-Teile sofort in SNIPER-KOMPLETT A5):
+     Sniper: "76/1000 gekauft · Budget übr…" abgeschnitten (in 0.65.185 "Rest" – prüfen); Platzhalter "Stufe ab"/"Stufe bis"
+       abgeschnitten (Bild: "Stufe…"); "X" ragt aus dem Knopf; "Preisverlauf"-Knopf überlagert "402 Einträge" (auch im Bild).
+     Kaufen > Einkauf: "Verbrauchbare Gegenstände" abgeschnitten. Kaufen > Schnäppchen: Spalte "Gewinn/Tag" ragt heraus, Beträge
+       "1780…" und "+" abgeschnitten (130 %/Modern) – Marktwert/Flips fallen mit HP-4 weg, Händlerpreis/Entzauberwert prüfen.
+     Verkaufen > Meine Auktionen: Status "wartet: Server bremst" abgeschnitten (wie TB181-4 c). Verkaufen > Einstellen: Item-
+       namen abgeschnitten ("Schultern des Hüg…").
+     Markt: "Deine Sachen zuerst (einstelle…" und alle Handlungs-Texte "Verkaufe 13x Fraktionsbanner (…" / "Stelle 5x … he…"
+       abgeschnitten (130 %/Modern) – Handlung muss ganz lesbar sein (Text kürzen oder Zeile höher/2-zeilig).
+     REGEL für Listen: Item-Namen in Listen dürfen gekürzt sein, WENN Mouseover den vollen Namen zeigt – alles andere
+       (Handlungen, Status, Beträge, Spaltenköpfe, Knöpfe) nie abschneiden.
+  TB184-B1 HOCH (Buchhaltung, Perfektion): Zwischen Testbericht 11:57 und 12:27 (beide Stichtag 11.11. 16:42) sind VERGANGENE
+     Zahlen gesunken: Erlös 383836 -> 247713 (−13g61s23), Verkäufe 162 -> 152, Gewinn 54823 -> 27845; Tagesbilanz 14.11.
+     gebucht +16624 -> +22133 (Lücke +512 -> −4997). Erlös und abgeschlossene Tage dürfen sich nicht rückwirkend ändern,
+     ausser durch eine benannte Reparatur mit Zeile im Bericht. Ursache belegen (welche Buchungen wurden wann verändert/
+     verschoben, z. B. nach "ausstehend" 10 -> 15?) und Bericht-Zeile "Änderungen an früheren Tagen" einführen.
+  TB184-S1 Hinweis: Sniper-Takt 12:16 Ø 85,2 Suchen/Min. (höchster 86) – nahe an der Grenze 90/Min.; passt zu "so schnell wie
+     erlaubt", AH-Fehler "Server bremst" im Blick behalten (A1).
 >>> VORPRÜFUNG 0.65.185 (Supervisor 12:35, Code gelesen, Bericht fehlt noch – "nicht warten"):
     V185-1 WICHTIG: (b) "nur ein Einzelkauf zur Zeit" (ItemGate, Wartezeit 1–3 s je Kauf) beruht auf meiner FALSCHEN Annahme von
            12:08 (korrigiert 12:22: die 67 Käufe kamen an, nur spät bestätigt). Gleichzeitiges Senden hat NICHT nachweislich
