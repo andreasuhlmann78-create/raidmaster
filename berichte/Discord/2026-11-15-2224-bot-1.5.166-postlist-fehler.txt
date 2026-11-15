@@ -1,0 +1,39 @@
+BERICHT DISCORD – Bot 1.5.166: Befehlslisten – abgelehnter Teil bricht den Rest nicht mehr ab – umgesetzt, zur Prüfung
+Zeit: 15.11.2026 22:24 (aus date)
+Commit: 84ebe89c auf origin/main, CI bot-tests: success
+Anlass: Frage der Nacht-Prüfung 22:18 ("ob _post_list das Senden jetzt abfängt").
+
+ANTWORT AUF DIE FRAGE
+- Bis 1.5.165: NEIN. _post_list fing nur Bearbeiten und Löschen ab, nicht das Senden. Zudem benutzte
+  #befehlsliste (ensure_command_list) _post_list gar nicht, sondern eine eigene Kopie derselben Schleife (per
+  Vergleich: bis auf eine Leerzeile identisch) – ebenfalls ohne Abfangen. Ein abgelehnter Teil (z. B. die 2022
+  Zeichen seit 1.5.141) brach also ensure_command_list ab; die Teile danach und das Speichern der IDs fielen aus.
+- Ab 1.5.166: JA, an beiden Stellen.
+
+WAS
+- _post_list: Senden in try/except discord.HTTPException; Warnung "Liste <key>: Teil i von n nicht gepostet: …";
+  die übrigen Teile werden gepostet, die IDs gespeichert. Beim nächsten Lauf fehlt die ID des abgelehnten Teils,
+  er wird nachgeholt (Reihenfolge im Kanal bleibt richtig: vorhandene Nachrichten werden der Reihe nach
+  bearbeitet, der letzte Teil neu gepostet).
+- ensure_command_list ruft _post_list(channel, command_list_text(), "command_list_messages") – gleicher Schlüssel
+  wie bisher, die gespeicherten IDs gelten weiter (kein Neu-Posten der ganzen Liste nach dem Update).
+- Zusammen mit 1.5.162 (keine Teile über 2000 Zeichen) sollte der Fall gar nicht mehr eintreten; die
+  Fehlerbehandlung ist die zweite Sicherung.
+
+TESTS
+- NEU test_abgelehnter_teil_bricht_nicht_ab (T-POSTLIST-FEHLER): Teil 2 von 3 abgelehnt -> Teil 1 und 3 gepostet,
+  IDs gespeichert, Warnung im Protokoll; nächster Lauf bearbeitet die zwei vorhandenen und postet den dritten.
+- NEU test_offiziersliste_ueber_post_list (T-POSTLIST-OFFIZIERE): ensure_command_list ruft _post_list mit dem
+  Schlüssel command_list_messages und allen Teilen der Liste.
+- Gegenprobe mit dem Code von 1.5.165: beide neuen Tests scheitern (1 FAILED, 1 ERROR).
+- Slash-Befehle: 49, unverändert. 342 Tests OK; jede Testdatei einzeln mit -I OK; REGRESSIONEN 53 von 53.
+
+BETRIEB NACHGESTELLT (an einer Kopie)
+1. Update vom Stand 1.5.165: updater._copy_new kopiert VERSION, befehlsliste_bot.py, tests; config/state/ZIP
+   unverändert (md5); VERSION 1.5.166.
+2. Start wie launcher.py: Abbruch erst bei der Anmeldung (LoginFailure, Test-Token).
+3. Ohne config.json: Exit-Code 3, Meldung "Bitte zuerst config.json ausfüllen …", config.json angelegt.
+4. Neustart nach Update (Ende-zu-Ende, bot.py als __main__): Exit-Code 42 = RESTART_CODE.
+
+IM CLIENT ZU PRÜFEN (nach /update)
+- #befehlsliste: 5 Nachrichten, keine Warnung "nicht gepostet" im Protokoll.
