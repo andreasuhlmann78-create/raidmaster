@@ -1,0 +1,37 @@
+AHSentinel 0.65.223 – HP-3 (Masterplan 5.3; Nutzer 14.11. 10:36) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.223 und sofort im Discord.
+
+Befund HP-3: (1) Text "Dafür braucht es Scans über mehrere Tage" falsch; (2) Markt > Entzaubern zeigte Zeilen, Schnäppchen >
+Entzauberwert gleichzeitig nicht – beide Ansichten sollen dieselbe Regel und dieselben Treffer haben.
+URSACHE (Code belegt): zwei verschiedene Rechnungen.
+  - Schnäppchen > Entzauberwert: D:FindDeals (Disenchant.lua) = DealValue "complete" + LimitFromNet > Preis, ohne Preisleiter,
+    ohne Absatz der Materialien, ohne Budget, danach noch A:WithoutAbsurd.
+  - Markt > Entzaubern: MV:BuildDE -> MV:DEOffer (D:Prior, Qualität 2–4, CanDisenchant, PlannedValue, Mindestgewinn DEMinPct,
+    Preisleiter, Absatz, FlipBlocked, CapRows/Budget).
+UMGESETZT:
+  - UI_Profit.lua DisenchantDeals = MV:BuildDE() (eine Rechnung). Spalten: Sofortkauf = tiefster Preis, Entzauberwert = Wert je
+    Stück bei geplanter Menge (r.net), darunter = (Wert − Ø Preis)/Wert, Gewinn/Stück = r.unitGold, letzte Spalte in dieser
+    Ansicht "Gewinn gesamt" = r.profit (Gewinn der geplanten Menge, dieselbe Zahl wie Markt > Entzaubern; Gewinn/Tag ergibt
+    beim Entzaubern keinen Sinn). Kein zweiter Filter (WithoutAbsurd) für Entzaubern.
+  - GOLD-SICHERHEIT (beim Lesen gefunden): "+" in Schnäppchen > Entzauberwert legte das Sniper-Ziel mit Höchstpreis = Wert − 1c,
+    Menge 1 an – also Kauf ohne Gewinn bis knapp an den Wert. Jetzt MV:BuyDE(r) wie "Kaufen" in Markt > Entzaubern: Max =
+    "Lohnt bis" (Rechenkern), Menge und Budget aus der Planung; kauft selbst nichts.
+  - Grund der leeren Liste (MV:DEEmptyText, derselbe Text in beiden Ansichten, MV.reason.de):
+      Weg Entzaubern abgewählt -> "Der Weg Entzaubern ist abgewählt (Optionen) - darum keine Entzauber-Schnäppchen."
+      keine Preise der letzten 2 Std. -> "Keine Preise der letzten 2 Std. - zuerst im Auktionshaus scannen."
+      sonst -> "Zurzeit nichts unter dem Entzauber-Wert mit mindestens X % Gewinn (geprüft: n Items, die du entzaubern kannst;
+      Preise vom Scan vor m Min.)." (n = Items mit frischem Preis, Vorwissen, Qualität 2–4, entzauberbar; m = jüngster Preis).
+  - Schnäppchen > Händlerpreis leer: "Zurzeit nichts im Auktionshaus billiger als beim Händler (Preise der letzten 2 Std.)."
+    (der Mehrtage-Text gilt nur noch für Gebote).
+  - Untertitel und "+"-Tooltip angepasst (Marktwert-Teil entfernt, HP-4).
+  - Szenario s223_hp3_de_same: dieselben Treffer (Item-Liste gleich), gleiche Menge/Gewinn/Wert für Testgegenstand 10, Spalte
+    "Gewinn gesamt", "+" = Lohnt bis (< Wert), Gründe (Weg aus, keine Preise, geprüft 3 vor 2 Min.), Markt nennt denselben
+    Grund. Mit 0.65.222 rot. s6_disenchant (Treffer + "+" legt Ziel an) weiter grün.
+  - Locales +8 (alle Sprachen), CHANGELOG EN/DE.
+Wunsch ProfessionSentinel (Nacht-Prüfung 20:45, NIEDRIG): API.QuietOn() -> true/false (Sniper im Ruhemodus), liest nur
+  Sn.quietSince (ohne Nebenwirkung, anders als Sn:QuietOn, das Protokoll schreibt und "Meine Auktionen" nachholt). API.md
+  nachgeführt (dazu die fehlende Zeile API.ReagentsToList aus 0.65.217). Test T800 (aus/an, gleiche Tabelle über
+  AHSentinel.API und AHAnalyzerPro.API, Stand unberührt).
+OFFEN / VERDACHT, ZU PRÜFEN: "Heute tun" (Comfort.lua:994) und der Selbsttest "Unter Entzauberwert" nutzen weiter D:FindDeals
+  (andere Regel). Nicht Teil von HP-3 (nur die zwei Ansichten); auf Wunsch stelle ich "Heute tun" ebenfalls auf DEOffer um.
+Gesamtlauf (frische Kopie des Repos ab7de61, Addon 0.65.223): 273 bestanden, 1 rot = s216 nur Frame-Grenze (CPU-Zeit). Einzeln wiederholt: grün, grün, rot (Speicher immer grün: Feed höchstens 2426 KB, FeedNet 129 KB). Messreihe allein 5×: längster Frame mit Feed 39–47 ms, ohne 39–54 ms – Ausreisser auf beiden Seiten, kein Feed-Effekt. Nach Hinweis Supervisor 21:03 behandelt run_all.sh s216 jetzt wie s92 (2 von 3) -> bestanden.
