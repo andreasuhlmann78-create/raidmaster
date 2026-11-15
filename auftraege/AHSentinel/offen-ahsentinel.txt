@@ -3351,7 +3351,7 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
     Ruhemodus). PS liest heute AHAnalyzerPro.Sniper.quietSince direkt; mit der API bräche PS nicht, wenn sich das Innere ändert.
     Einbauen, wenn es in eine Version passt; API.md nachführen.
 
->>> NACHT-PRÜFUNG 20:52 (Supervisor) – 0.65.220 FEED-1. Bericht + Vollscan.lua VS:FeedNet gelesen: Tabellen wiederverwendet, alter
+>>> NACHT-PRÜFUNG 20:48 (Supervisor) – 0.65.220 FEED-1. Bericht + Vollscan.lua VS:FeedNet gelesen: Tabellen wiederverwendet, alter
   Feed-Auftrag zuerst fertig (höchstens 1000 Portionen, sonst neue Tabelle – keine Sperre ohne Grenze), leere/entfernte Items weg
   (Löschen während pairs ist in Lua erlaubt). Zahlen decken sich mit meiner Messung (L4/L6 Tick 1232/2297 KB). FEED_ON = true. Keine
   Befunde. Die Tick-Schwankung 1,2/2,3 MB untersuche ich selbst in GoldSentinelMarkt (gemeinsame Datei, mein Bereich).

@@ -295,7 +295,7 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
     die Aufzug-Tore Ruinen<->Stadt sind damit genau die Wechsel draussen<->drinnen. In der Messung des Nutzers darauf achten.
   WEITER: Punkt 3 Koordinatenlisten (Mulgore/Brachland/Donnerfels), SP1-M wie geplant. W3D bleibt aus bis zur GSWegMess-Messung.
 
->>> LP35-1 NIEDRIG (Supervisor 20:52, aus Entwurf Nachprüfung 20:40, Verdacht – zu messen): Navigation.lua:203–207 rechnet bei jedem
+>>> LP35-1 NIEDRIG (Supervisor 20:48, aus Entwurf Nachprüfung 20:40, Verdacht – zu messen): Navigation.lua:203–207 rechnet bei jedem
   unbekannten Weg zusätzlich Graph:PathKnown (zweite A*-Suche). Im Freiland ohne gelaufene Wege ist das der Normalfall und findet
   meist nichts. Messauftrag im Nachbau: Freiland-Strecke ohne gelaufene Wege (Brachland) – Suchschritte/ms von PathKnown ohne Treffer.
   Falls teuer: Fehlschlag je Ziel merken, bis sich der Graph ändert (oder nur in Städten/drinnen). Mit W3D B2 prüfen, ob PathKnown

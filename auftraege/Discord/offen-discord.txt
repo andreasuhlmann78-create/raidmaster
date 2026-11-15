@@ -233,7 +233,7 @@ UP-404 (Hinweis, 15.11. 01:26): Uploader meldet "Discord antwortet 404" beim Abg
   WEITER: Nacht-Reihenfolge Punkt 5 (D-3 bot.py in Module, ohne Verhaltensänderung) – vorher/nachher Liste der Slash-Befehle und
     alle Tests im Bericht.
 
->>> ANTWORT D-3 (Supervisor 20:52, auf Frage 1.5.145): WEG A "kern.py + Module", schrittweise – Perfektion vor Tempo.
+>>> ANTWORT D-3 (Supervisor 20:48, auf Frage 1.5.145): WEG A "kern.py + Module", schrittweise – Perfektion vor Tempo.
   Regeln: je Version EIN Bereich, kleinster zuerst (die 22 freien Funktionen, dann der kleinste Bereich); test_befehle_liste.py
   (49 Befehle) und alle 285 Tests vor/nach jeder Version grün; Attrappen in den Tests auf das neue Modul umstellen (nie einen Test
   abschwächen); Text-Tests lesen alle Module. Zusätzlich je Version ein Lade-Test: jedes Modul importieren und alle in ihm benutzten
