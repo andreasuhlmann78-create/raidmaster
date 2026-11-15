@@ -1,0 +1,20 @@
+AHSentinel 0.65.213 – RK5 Risiko-Wahl (Masterplan 4.3; Antwort Supervisor 18:39: Vorschlag angenommen) – umgesetzt, zur Prüfung
+CurseForge: nein (erst nach der Sniper-Abnahme). GitHub-Release v0.65.213 und sofort im Discord.
+
+RK5 (MarketCore.lua MK:BaseMargin, MK:AdjustMargin, MK:SafetyMargin, MK:Risk, MK:RiskExample; UI_Main Einstellungen)
+  - normal (Standard, settings.risk = nil) = heutige Marge (BaseMargin = bisher SafetyMargin: gelernte Marge mit Untergrenze
+    bzw. 10 % unter 10 Entzauberungen). Für alle, die nichts wählen, ändert sich keine Zahl.
+  - vorsichtig = normal + 0,10 (höchstens 0,9); mutig = max(normal − 0,05; min(normal; 0,05)).
+    - Also nie unter 5 % und nie über normal: Liegt normal schon unter 5 %, bleibt mutig = normal.
+  - Mindestrendite je Gruppe (DE30b) und DE_MAX_SHARE 0,9 × Netto gelten in jeder Stufe, denn die Stufe wirkt nur in
+    LimitFromNet über SafetyMargin.
+    - Damit bleibt die EINE Rechnung für Tooltip, Markt, Sammelkauf, Sniper und API (RK2-A).
+  - Umschalten erhöht A.waysVer (DataVersion), damit alle "Lohnt bis"-Zwischenspeicher neu rechnen.
+  - Einstellungen: Zeile "Kaufgrenze: Risiko" mit drei Wahlpunkten (● gewählt grün, ○ grau).
+    - Tooltip mit Beispiel aus der echten Rechnung (MK:RiskExample, Wert 10s, 50 eigene Entzauberungen).
+  - Test T795: Marge 20 % -> 0,30/0,20/0,15; mutig bei 8 % -> 5 %, bei 3 % -> 3 %.
+    - Wert 10s mit Mindestrendite 30 % -> 7s00 (vorsichtig) / 7s69 (normal) / 7s69 (mutig, Mindestrendite strenger).
+    - Ohne Wahl: "normal".
+  - s74_options_rows (keine Überlagerung in den Einstellungen) grün.
+  - Locales +5 (alle Sprachen), CHANGELOG EN/DE.
+Gesamtlauf (269 Szenarien, Lua 5.1): 267 bestanden. Rot nur s214_iteminfo_gate und s215_ws_paths = Tests der NÄCHSTEN Versionen, mit 0.65.213 absichtlich rot (Gegenprobe). addon_check: siehe Release.
