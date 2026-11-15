@@ -1,0 +1,33 @@
+BERICHT PROFESSIONSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 22:20 (aus date) · Sitzung: ProfessionSentinel-Sitzung · Version: 0.9.51 · Commit: ccf682b (Quell-Repo), Release v0.9.51
+Grundlage: anweisung-ui-crafter-2026-11-15.txt 3.2 GOLD ("Entzaubern-Handel (Verzauberer) als Abschnitt unten, nicht als eigene Ansicht").
+Hinweis: Hier steht nur "umgesetzt, zur Prüfung" mit Belegen. Ob etwas erledigt ist, entscheidet die Prüf-Sitzung.
+
+UMGESETZT, ZUR PRÜFUNG
+----------------------
+- RefreshDisenchant(prof, rank, maxRank, text, intoDp): mit intoDp fügt es seine Gruppen (Ziel, Sniper/Mindestaufschlag, Schnäppchen,
+  Herstellen zum Entzaubern, Chancen) in eine bestehende Liste ein, ohne eigene Liste/Zusammenfassung. RefreshGold ruft es am Ende
+  für Verzauberer auf (vorher eine Zeile "Zum Verzauberer" mit Klick in die eigene Ansicht). Der Reiter Gold hat keinen Umschalter
+  mehr; ein gespeicherter Modus "disenchant" (db.panelMode, Testmodus, Reiter je Beruf) zeigt die Gold-Liste.
+- Nichts entfällt: alle Gruppen und Knöpfe der Verzauberer-Ansicht sind im Abschnitt (gleiche Funktion, gleiche Schlüssel de-*).
+- Test T80 angepasst: mit Verzauberkunst enthält die Gold-Liste "de-goal", ohne nicht; "disenchant" zählt nicht mehr als eigene
+  erreichbare Ansicht. T81/T118 laufen weiter über alle Modi (auch "disenchant").
+
+TESTS (eigene, Hinweise – keine Freigabe)
+-----------------------------------------
+- run_offline (LuaJIT): Forever OK 232 / FEHLER 0, Era OK 214 / 0, Retail OK 213 / 0, TBC ohne Lua-Fehler, Exit 0.
+- --lua51: Forever OK 232 / 0, Retail OK 213 / 0.
+- Schnelltest Ausgang 0: dumpTab überspringt einzelne Info-Zeilen auf oberster Ebene (Gold-Liste); feste Liste um T80 für Era/Retail
+  ergänzt (liest die Gruppen wie T272 – der einfache Mock hat keinen Baum; Forever hatte T80 schon in der Liste). check_actions OK.
+- addon_check auf download/ProfessionSentinel-0.9.51.zip und die announce-Zip: OK, 0 FEHLER, 0 WARNUNG. ZIP = Quell-Repo (diff -r leer).
+
+IM CLIENT PRÜFEN
+----------------
+- Verzauberer: Reiter Gold -> unten Ziel/Sniper/Schnäppchen/Chancen; Klicks wie vorher; Liste ruckelt beim Öffnen nicht (/ps protokoll).
+
+OFFEN (Rest Schritt 2) und danach
+---------------------------------
+- Skillen: Plan und Rangliste zu einer Ansicht mit Umschalter "billigster Weg / mit dem, was ich habe".
+- "Beruf von <Figur>" für verlinkte Berufe (nur lesend).
+- LevelPilot-Übergabe für "Weg zeigen" (wartet auf Schnittstelle).
+- Danach Schritte (3) Einkauf-Leiste mit Warteschlange, (4) Skillspur, (5) Texte.
