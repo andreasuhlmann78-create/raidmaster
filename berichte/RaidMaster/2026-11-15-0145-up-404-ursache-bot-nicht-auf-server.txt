@@ -18,3 +18,16 @@ den OAuth2-URL-Generator wieder eingeladen (bot + applications.commands; Rechte 
 Kanäle ansehen, Soforteinladung erstellen, Links einbetten, Nachrichtenverlauf anzeigen). 02:01: "er ist wieder da".
 Nächste Schritte beim Nutzer: /version prüfen, /uploader -> neue uploader_config.json + sync_config.json auf beide
 Rechner (Webhooks wurden beim Entfernen gelöscht). Wer/warum entfernt: Audit-Log noch nicht ausgewertet.
+
+NACHTRAG 02:33: Bot läuft wieder und antwortet.
+- Nach dem Wiedereinladen fehlten die Slash-Befehle (Discord löscht Server-Befehle beim Entfernen; der Bot meldet sie
+  nur in setup_hook an) -> Neustart auf dem VPS (systemctl restart raidmaster) nötig.
+- Danach "403 Forbidden 50001 Missing Access" in on_ready/ensure_command_list: Beim Entfernen wurde die verwaltete
+  Bot-Rolle gelöscht; die Kanal-Freigaben der privaten Kanäle galten der alten Rolle. Behoben, indem der Nutzer der
+  neuen Rolle "Raidmaster tool" Administrator gab, dann erneut Neustart.
+- SSH-Warnung "host key changed" beim Nutzer geprüft: Host-Schlüssel auf dem VPS unverändert seit 24.10. 12:57
+  (Einrichtung), nur Anmeldungen mit dem Schlüssel des Nutzers (24.10., 13.11., 15.11.), Laufzeit 10 Tage -> veralteter
+  known_hosts-Eintrag auf dem PC, kein Hinweis auf Einbruch.
+Hinweis für Discord (Vorschlag): Bot sollte nach Wieder-Beitritt (on_guild_join) Befehle selbst neu anmelden und bei
+  fehlendem Kanalzugriff eine verständliche Meldung geben ("Bot-Rolle hat keinen Zugriff auf #… – Rolle freigeben").
+Offen beim Nutzer: /uploader -> neue uploader_config.json + sync_config.json auf beide Rechner (und Mitglieder).
