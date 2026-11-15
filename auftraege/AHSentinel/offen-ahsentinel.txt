@@ -2,6 +2,16 @@
 >>> SNIPER-TEST 0.65.179 (01:23): 1 Ziel, Ø 62 Suchen/Min., jedes Ziel ≤ 1 s, 0 Treffer (Markt ganz über Max 18c, günstigstes 22c)
     -> SN-B4 hier nicht prüfbar (braucht Treffer). S13: 717 lange Bilder, alle "nicht AHSentinel" -> kein AHS-Fehler, SN-TEST2-1
     damit geklärt. T745 rot nur wegen "Text false" (Wartegrund-Text) – beheben. SK1-o 11/11 stimmig.
+>>> SNIPER-TEST 0.65.179 (01:30, Max 20c): 9 Treffer, 1 gekauft, 7 verpasst; Ø 60/Min.; kein Ruckeln. Rot:
+SN-B5 HOCH (wahrscheinliche Hauptursache der verlorenen Duelle, zu SN-B4): S9 "213 geplante Angebote geprüft · über Max 156
+    (22 Stückpreis 22 > Max 20)". Der Sniper PLANT Käufe mit Stücken über Max mit (Menge über mehrere Preisstufen) – die
+    Preisprüfung ergibt dann einen Durchschnitt über Max -> Abbruch/neue Runde -> Duell verloren. Echte Käufe blieben ≤ Max
+    (SK1-o 12/12), aber die angefragte Menge muss NUR Stücke ≤ Max enthalten (Summe der Mengen der Stufen ≤ Max, volle Menge
+    davon – Entscheid 00:38 "möglichst alles" heisst alles ≤ Max, nicht mehr). Test: Stufen 20c×5, 20c×10, 22c×40, Max 20 ->
+    fragt 15 an, S9 über Max 0.
+SN-B6 HOCH: S2 Zähler: nach Bestätigung "0/10 gekauft · Budget übrig 10s" statt "1/10 · 95c" – ein bestätigter Kauf wird nicht
+    gezählt bzw. zurückgesetzt. Budget/Menge müssen stimmen (Gold-Sicherheit).
+SN-B7 MITTEL: S1 ein Treffer ohne Grund verschwunden ("20x60 (geleert)").
 >>> GRUNDSATZ NACHVOLLZIEHBAR (Nutzer 14.11. 15:18, gilt für alles Neue): Zahl + EIN Satz, was sie ist und wie sie entsteht (≤ 20 Wörter, Alltagssprache). Siehe auftraege/README.md.
 >>> CURSEFORGE NUR 1× TÄGLICH UM 18:00 (Entscheid des Nutzers 15.11.2026 00:56): Veröffentlichungen auf CurseForge nur noch
     einmal pro Tag um 18:00 Uhr (Schweizer Zeit) – die Version, die dann geprüft vorliegt. Dazwischen weiter Versionen bauen und im
