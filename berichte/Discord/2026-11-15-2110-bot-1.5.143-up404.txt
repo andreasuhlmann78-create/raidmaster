@@ -1,0 +1,58 @@
+BERICHT DISCORD AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 21:10 · Sitzung: Discord-Projekt · Version: Bot 1.5.143
+Umgesetzt, zur Prüfung. Nacht-Reihenfolge Punkt 2 (UP-404 a–d).
+
+(b) Bot meldet, wenn er auf keinem Server ist oder Rechte fehlen
+- bot_rechte.start_check(guilds, guild_id, perms_of) -> (Stufe, Text).
+  - "fehler": "Bot nicht auf dem Server: …" (keiner bzw. nicht der eingestellte guild_id). Steht nur im Protokoll,
+    weil ohne Server nichts gepostet werden kann.
+  - "warnung": fehlende Rechte, je Recht mit Grund, z. B. "manage_webhooks (Uploader-Webhooks anlegen)".
+  - "hinweis": Rolle hat Administrator, mehr als nötig.
+- bot.check_bot_rights läuft in on_ready ("Start") und on_guild_join ("Einladung"). Warnungen und Hinweise kommen
+  zusätzlich nach #bot-befehle, nur wenn sie sich geändert haben (Merker rechte_meldung). Kein Lärm bei jedem Neustart.
+- on_guild_remove: sofort log.error "Bot nicht auf dem Server: Der Bot wurde vom Server … entfernt …".
+- WORTLAUT NEBENEINANDER (Auftrag "Wortlaut gleich halten"):
+  - Bot 1.5.143:      "Bot nicht auf dem Server: Der Bot ist auf keinem Discord-Server. …" bzw. "… wurde vom Server …
+                      entfernt …"
+  - Uploader 2.3.12:  RaidMasterUploader/uploader.py:907 "Der Webhook-Link ist ungültig (gelöscht?). In Discord
+                      /uploader erneut ausführen." und :776 "Webhook für #testberichte ungültig – /uploader erneut
+                      ausführen."
+  - BEFUND: Der Uploader 2.3.12 enthält den Text "Bot nicht auf dem Server" NICHT (grep ohne Treffer). Damit beide
+    gleich heissen, bitte der RaidMaster-Sitzung weitergeben: bei 401/404 zusätzlich "Bot nicht auf dem Server?" nennen.
+    Den Uploader ändere ich nicht (anderes Projekt).
+(c) Befehle nach dem Einladen: on_guild_join -> tree.copy_global_to(guild) + tree.sync(guild). Kein Neustart nötig.
+(d) Rolle ohne Administrator
+- bot_rechte.NEEDED: genau die benutzten Rechte, je mit Grund (Belege im Code: create_text_channel/category/voice,
+  create_role/add_roles/set_permissions, create_webhook, purge/delete, create_thread privat, add_reaction,
+  create_invite, guild.edit/Einführung).
+  Rechte-Zahl für den Einladungslink ohne Administrator: 361582685297 (Test: kein Administrator, kein Kick/Bann).
+  Anleitung in ANLEITUNG 6d.
+- Damit das Ausschalten von Administrator nichts unsichtbar macht: Solange Administrator an ist, gibt der Bot EINMAL
+  jedem privaten Kanal und jeder privaten Kategorie eine ausdrückliche Freigabe für sich selbst
+  (bot_rechte.needs_explicit: @everyone verborgen, weder Bot noch Bot-Rolle freigegeben). Freigegeben werden
+  ansehen/senden/Verlauf/Links/Dateien/Reaktionen/Nachrichten verwalten. Meldung mit der Liste in #bot-befehle.
+- Administrator aus der Rolle nehmen muss der Nutzer in Discord selbst. Ein Bot kann seine höchste eigene Rolle nicht
+  ändern. Danach meldet der Bot beim Start, falls ein Recht fehlt.
+(a) Audit-Log: einmal (Merker audit_up404_done), wenn view_audit_log vorhanden (heute über Administrator), liest der Bot
+  die letzten 200 Einträge. Zum Bot (kick/ban/bot_add/unban) postet er in #bot-befehle Zeit, Aktion, höchste Rolle des
+  Auslösers und Grund – keine Namen.
+  Das Ergebnis kann ich nicht ins Repo holen (Discord). Bitte den Nutzer fragen, oder er schickt ein Bild.
+
+TESTS T-UP404 (12):
+- kein Server, falscher Server, alles da, fehlende Rechte mit Grund, Administrator-Hinweis;
+- Einladungszahl ohne Administrator;
+- Audit-Auswertung: Rolle, Grund, nur Einträge zum Bot;
+- needs_explicit: öffentlich, privat, Bot oder Bot-Rolle freigegeben.
+- Ablauf mit dem echten bot.py:
+  - meldet einmal, nicht zweimal; kein Server -> nur Protokoll;
+  - on_guild_join synchronisiert;
+  - private Kanäle nur einmal freigegeben.
+REGRESSIONEN um T-UP404b/c/d ergänzt. Alle 284 Bot-Tests OK.
+
+IM BETRIEB ZU PRÜFEN:
+1. Nach /update in #bot-befehle: "Private Kanäle ausdrücklich für den Bot freigegeben (n)", Rechte-Hinweis Administrator
+   und Audit-Log-Zeilen.
+2. Danach Administrator aus der Rolle nehmen und /update bzw. Neustart. Es kommen keine fehlenden Rechte; /raid
+   erstellen, /uploader und das Posten in #ruhmeshalle funktionieren weiter.
+
+WEITER: Punkt 4 (D-2), dann Punkt 5 (D-3).
