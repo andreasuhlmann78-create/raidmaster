@@ -1,0 +1,21 @@
+BERICHT DISCORD AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 16:15 · Sitzung: Discord-Projekt · Version: Bot 1.5.139
+Umgesetzt, zur Prüfung.
+
+ENTSCHEIDE DES NUTZERS (15.11. 16:05, bitte in shared/wissen/entscheide.md):
+- "Raids sind Raids und Dungeons sind Dungeons": in #ruhmeshalle getrennt.
+- Raids immer unten, nach den Dungeons.
+Anlass: Live-Bild 15:52 zeigte die Dungeon-Tafeln (Ragefireabgrund, Ruinen von Lordaeron, Höhlen des Wehklagens, Burg
+Schattenfang) mit "🆕 = Rekord vom letzten Raidabend".
+
+UMGESETZT:
+- rekord_tafel.boards: Reihenfolge Dungeons (nach Level), "Weitere Bosse (ohne Zuordnung)", Raids zuletzt.
+- rekord_tafel.with_headers: vor jedem Abschnitt eine Überschrift, nur wenn er Tafeln hat: "## 🗝️ Dungeons",
+  "## ❔ Ohne Zuordnung", "## 🏰 Raids". Die Überschriften verwaltet der Bot wie die Tafeln (posten, bearbeiten,
+  bei neuer Reihenfolge alles neu).
+- Dungeon-Tafeln: "🆕 = Rekord vom letzten Besuch" statt "Raidabend".
+- Die Liste der Schlüssel ist neu, daher postet der Bot beim nächsten Upload alle Tafeln einmal in der neuen
+  Reihenfolge neu und löscht die alten.
+- Tests T-RT angepasst und ergänzt: Reihenfolge, Überschriften nie doppelt, Text "Besuch" ohne "Raidabend", von Hand
+  gelöschte Tafel. Alle 257 Bot-Tests OK.
+- Im Betrieb zu prüfen: nach /update und dem nächsten Upload die neue Reihenfolge mit Überschriften.
