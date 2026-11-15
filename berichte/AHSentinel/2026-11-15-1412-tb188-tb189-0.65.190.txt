@@ -1,0 +1,73 @@
+AHSentinel 0.65.190 – TB188-7, TB189-5, TB188-8, TB189-1, TB188-6, TB188-1..4 – umgesetzt, zur Prüfung
+Reihenfolge nach Nutzer 13:57: zuerst TB188-7 und TB189-5, dann TB188-8, dann der Rest.
+CurseForge: nein (nächster Termin 18:00). GitHub-Release v0.65.190 und sofort im Discord (announce/); nicht in download/.
+
+TB188-6 (Testroutine sniper hängt): Ursache des konkreten Hängers 13:32 ohne Abbruch-Bericht NICHT belegt (Verdacht, zu
+ messen: Frage S4 blieb ohne Antwort stehen – bis 0.65.189 wartete SPT:AskS4 ohne Zeitlimit; oder der Lauf wirkte nur
+ hängend, weil er ~4–5 Min. ohne Fortschrittsanzeige lief: S4 bis 120 s + Beobachtung 120 s). Umgesetzt (gilt für JEDEN Teil):
+ - TR:Watchdog in TR:Poll: Gesamt-Zeitlimit je Teil (PART_MAX: sniper 200 s, andere 1800 s) -> FEHLER T761 "Teil x nach n s
+   abgebrochen bei Schritt i von n – Rest übersprungen", Protokoll TESTROUTINE, Finish (Daten wie immer zurück).
+ - Stillstand: kein Warten und STALL_MAX = 10 s kein nächster Schritt -> FEHLER T762 und weiter.
+ - Frage S4: ohne Antwort nach ASK_MAX = 30 s übersprungen ("keine Antwort … – Testkauf übersprungen"), Routine startet.
+   S4_WAIT 120 -> 60 s. Summe höchstens 30 + 60 + 200 s < 5 Min.
+ - Fortschritt im Testfenster (jede Sekunde): "Schritt 2 von 4 · wartet noch höchstens 110 s · Teil höchstens noch 180 s".
+ Nachbildung s190_testroutine_never_hangs (neu): Frage ohne Antwort -> Routine startet nach ≤ 30 s, S4 "keine Antwort";
+ Fortschritt sichtbar; Beobachtung künstlich 1000 s -> Zeitlimit greift (≤ 215 s), FEHLER T761 mit Schritt, Ziele wie
+ vorher, Sandbox OK. s44 (sniper) weiter grün.
+TB188-1 (8,4 s nach AH-Klick): Ursache NICHT belegt (kein Protokoll mit Sperrgrund). Umgesetzt ist die Messung: Sn:BlockReason
+ (erste zutreffende Ursache: eigene Suche wartet, Kauf wartet, Markt-Scan, Vollscan, Preisprüfung, angeklicktes Item, Wächter,
+ Einkauf, Server nicht bereit (Drossel), Suchen je Minute voll, Abstand zur letzten Anfrage, Intervall, bereit). S11 summiert
+ während einer offenen "AH-Klick"-Pause die Sekunden je Ursache und nennt die drei grössten: "AH-Klick 0 s -> weiter nach 8.4 s
+ (hielt auf: …)". Test T764. Verdacht (zu messen): eigene Suche des Snipers wartet auf eine Antwort, die durch die Suche des
+ Spielers ersetzt wurde (dann löst HOLD_MAX 10 s) – der nächste Testbericht zeigt es.
+TB188-2: SPT:TopLines zeigt "Geld je Ziel" und "Einzelkäufe" IMMER: aus der laufenden Spiel-Sitzung, sonst aus der letzten
+ echten Sitzung (db.sniper.lastBuySummary, gespeichert beim Ausschalten des Snipers und beim Start der Testroutine VOR der
+ Sicherung), sonst "keine Käufe …". Test T763.
+TB188-3 (Erlös/Verkäufe sinken rückwirkend): Ursache im Code BELEGT, Zahl noch zu messen: Books.lua Log() warf bei mehr als
+ LOG_MAX = 4000 Buchungen die ältesten weg – auch solche NACH dem Stichtag; BK:Summary("all") rechnet nur aus db.log -> alte
+ Verkäufe (und Anzahlungen) seit dem Stichtag fielen aus Erlös/Verkäufen. Passt zu 11:57 -> 12:27 (Sniper-Käufe 12:00–12:16:
+ viele neue Buchungen -> −10 Verkäufe, −13g61) und zu 13:27 (+14 neue Verkäufe). Der Kommentar "Summen je Tag bleiben in days"
+ war veraltet (days gibt es nicht mehr).
+ Fix: gekürzt werden über 4000 nur Buchungen VOR dem Stichtag; nach dem Stichtag erst ab LOG_HARD = 20000, dann gezählt
+ (db.cutAfter) mit Protokoll BUCHHALTUNG. Bericht neu: "Buchungen n (Kürzen vor dem Stichtag ab 4000, danach ab 20000) ·
+ älteste … · nach dem Stichtag gekürzt k" plus Hinweis, wenn die älteste Buchung nach dem Stichtag liegt (= vor 0.65.190 schon
+ gekürzt; diese Verkäufe sind verloren und lassen sich nicht wiederherstellen). Feld buch_log. Test T765.
+ Bitte im nächsten Testbericht die Zeile "Buchungen …" prüfen – sie belegt, ob gekürzt wurde.
+TB188-4: CorrectStock bucht "fehlt" jetzt mit Grund (Bericht/Reparatur-Liste: "Grund: nicht in Taschen, Bank, Briefkasten
+ (Abbild …) und eigenen Auktionen; letzter Zugang …"), Protokoll BUCHHALTUNG und Chat-Hinweis an den Spieler mit Menge,
+ Name, Einstand ("zählt nicht als Verlust im Handel; kommt die Ware zurück, wird das zurückgenommen"). Die Ausbuchung 13:02
+ (45 × 10940) lief noch ohne Hinweis.
+TB186-1 Nachtrag (Mystik in der Tasche 13:34): ohne Protokoll nach 12:37 nicht belegbar (Verdacht, zu messen). Bitte
+ /ahs protokoll schicken: Zeilen ABBRECHEN/EINSTELLEN (jetzt mit Günstigstes und Mindestpreis) zeigen, was 12:42–13:34 geschah.
+TB188-7 (Sandbox setzte echten Vollscan zurück): Ursache im Code BELEGT: ST:Lock sperrte nur A.StartFullScan (Knöpfe, Minimap,
+ /ahs scan). Der direkte Weg VS:Start (/ahs vollscan) war offen; ausserdem prüfte TR:Start nicht, ob schon ein Scan lief (z. B.
+ während der Frage S4 gestartet). Die Daten eines solchen echten Scans landeten in der Sandbox und wurden beim Wiederherstellen
+ zurückgesetzt (totalScans, scanLog, Preise …) – (b): welche 200 Pfade genau, steht nur im Bericht des Nutzers; Verdacht:
+ die Scan-/Preisdaten von 13:35 sind verloren (Preise kommen mit dem nächsten Scan wieder, scanLog-Eintrag fehlt).
+ Fix (a): ST:Lock sperrt auch VS.Start (nur der Test selbst darf, VS.testDB gesetzt); TR:Start und SPT:Begin lehnen ab,
+ solange ein Scan läuft ("Erst den laufenden Markt-Scan abwarten …"); SPT:StartRoutine wartet nach der Frage S4 bis 120 s auf
+ einen laufenden Scan. Bericht T766 "gesperrte Scan-Starts n". (c) Nachbildung s190b_scan_locked_in_test: Start während Scan
+ abgelehnt, /ahs vollscan und Markt scannen während der Routine gesperrt, kein echter Scan, danach wieder frei, Bericht nennt 2.
+TB189-5 (mehrere Ziele fressen das Budget): Ursache wie belegt (Remaining zog den ganzen Gold-Abgang seit dem Start ab).
+ Fix: NoteGoldStart merkt die Ausgaben aller anderen Ziele (g.others); Remaining zieht deren Zuwachs vom Gold-Abgang ab; nur
+ der nicht zuordenbare Rest (ohne eigene gesendete Käufe) bleibt als Sicherheitsabzug und steht im Status ("Rest … · 9c
+ andere Ausgaben mitgerechnet"). Test T767: B kauft 5 × 9s14 -> Rest A 5g bleibt 5g; ungezählter Abgang 9c -> A 4g91 + Nennung.
+TB188-8 (8,5/8,6/8,7 s): fester Zeitgeber BELEGT im Code: Sniper.lua TIMEOUT = 8 s (Suche ohne Antwort gilt erst nach 8 s als
+ ergebnislos). Die Antwort kommt nie, wenn der Server die Anfrage verwirft (AUCTION_HOUSE_THROTTLED_MESSAGE_DROPPED, typisch
+ direkt nach dem Vollscan) oder die Suche des Spielers sie ersetzt (Ergebnis zu einem anderen Item) – Verdacht für die drei
+ Fälle, die Messung TB188-1 (hielt auf: …) und das neue Protokoll zeigen es. Fix: Ereignis QUERY_DROPPED bzw. Ergebnis für ein
+ anderes Item -> Sn:RetrySearch: Suche verwerfen (KEIN FinishSearch mit leerer Liste, Angebote gelten nicht als weg),
+ lastSearch zurück, sofort neu; Protokoll SNIPER-SUCHE "vom Server verworfen/durch eine andere Suche ersetzt nach x s – sofort
+ neu", Zähler Sn.retry. Test T768.
+TB189-1: Sn:NothingText: sind alle Angebote ≤ Max schon gesendet/gekauft -> "Alle passenden Angebote gesendet – n warten auf
+ Antwort" (bzw. "… schon gekauft oder gesendet – nichts mehr frei"); sonst "Nichts bis zu deinem Max-Preis (x). Günstigstes: y"
+ (≤ statt "unter"). Test T769.
+Nebenbefund Gesamtlauf: s43 T459 (Vollscan höchstens 1 Speicherbereinigung) zuverlässig rot mit 0.65.190, grün mit 0.65.189.
+ Gemessen: der gemessene Vollscan startete mit 12 MB mehr Speicher (Müll der vorherigen Testschritte); dessen Wegräumen
+ zählte als 3–5 "Speicherbereinigungen". Bisect (je Datei zurück, Ballast-Versuch) zeigte keine einzelne Ursache – Grenzlage.
+ Fix nur im Test: collectgarbage("collect") direkt vor dem gemessenen Vollscan (Ruckeln im Test erlaubt, Nutzer 14.11.).
+ Danach 2× grün (Zuwachs 1068 KB, 0 Bereinigungen).
+Noch offen (nächste Version): TB188-9 (S8 Pausen herausrechnen), TB189-2 (6 warten / Frist 30 s / "Interner Auktion-Fehler"),
+ TB189-3 (abgeschnitten, Ø Reaktion), TB189-4 (Grund je verpasstem Treffer).
+Gesamtlauf 255/255 (neu: s190_testroutine_never_hangs, s190b_scan_locked_in_test), addon_check OK (Release- und announce-Zip). Release v0.65.190 = geprüfter Stand, Discord sofort.
+TB189-6 (17 warten, Gold kaum bewegt): Messung beim Nutzer erbeten (/ahs einzelkauf aus/an je 2 Min., danach /ahs testroutine sniper – Zeile "Einzelkäufe … offen 0/1/≥2" steht jetzt immer im Bericht). Ergebnis folgt im nächsten Bericht.
