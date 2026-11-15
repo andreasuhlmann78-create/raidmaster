@@ -1,0 +1,23 @@
+BERICHT DISCORD AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 21:23 (aus date) · Sitzung: Discord-Projekt · Version: Bot 1.5.148
+Umgesetzt, zur Prüfung. D-3 Schritt 3 (Weg A).
+
+- grund.py (neu): UNVERÄNDERT aus bot.py: is_guild_leader, is_admin, is_creator, channel_by_id, post_bot_log,
+  bot_guild (6 Funktionen). Sie brauchen nur bot, cfg, book, log; cfg/book/log kommen aus kern.
+- Das Bot-Objekt entsteht weiter in bot.py ("bot = RaidBot()"). Direkt danach steht "grund.bot = bot", bevor ein
+  Ereignis oder Befehl laufen kann. Die Funktionen lesen bot erst beim Aufruf.
+  Warum die Klasse RaidBot (noch) nicht umzieht: setup_hook startet 8 Schleifen, und on_ready/on_message rufen viele
+  Funktionen aus bot.py auf. Sie zieht um, wenn die Bereiche getrennt sind.
+- bot.py übernimmt die 6 Funktionen mit Namen. Aufrufe und Attrappen am bot-Modul wirken wie vorher.
+- Lade-Test: grund.bot ist dasselbe Objekt wie bot.bot; bot.channel_by_id ist grund.channel_by_id.
+  test_lade lädt jetzt zuerst bot_harness, damit kern aus der Testkopie kommt. Einzeln mit -I lief er sonst in
+  sys.exit (kern aus dem Repo ohne config.json) – gefunden mit dem Einzellauf aller Testdateien.
+- Betrieb nachgestellt (Kopie des Bot-Ordners): ohne config.json Exit 3 wie vorher; mit config.json ist grund.bot
+  gleich bot.bot, und 30 Befehle bzw. Gruppen sind angemeldet (49 mit Untergruppen, test_befehle_liste grün).
+- Tests: alle 288 OK, jede Testdatei einzeln mit -I OK, GitHub Bot-Tests erfolgreich. bot.py: 7179 -> 7140 Zeilen.
+- BERICHTIGUNG UHRZEITEN (Hinweis 21:19): Die Berichte "2210-…d3-schritt1" und "2235-…d3-schritt2" entstanden
+  tatsächlich um ca. 21:05 und 21:15. Die Zeit im Namen war geschätzt. Ab jetzt nur noch aus date. Die Dateien
+  benenne ich nicht um, damit Verweise gültig bleiben.
+- NÄCHSTER SCHRITT 4: der erste echte Bereich als Modul, der kleinste mit klaren Grenzen: Marktdaten (market_store,
+  market_intake, market_catchup, post_market_report, post_market_daily, blizzard_monthly, /marktdaten) nach
+  markt_bot.py. Die Tests patchen dann markt_bot statt bot.
