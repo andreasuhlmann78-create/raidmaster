@@ -1,0 +1,16 @@
+AHSentinel 0.65.228 – Phase 3 Rest: BH-TT2 umgesetzt, VK-E1 belegt – zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.228 und sofort im Discord.
+
+BH-TT2 (NIEDRIG, Sichtprüfung 0.65.173): UI_Ledger.lua – im Zeilen-Tooltip einer Entzauber-Gruppe (Buchhaltung > Pro Item)
+  steht vor den Material-Zeilen die Überschrift "Erlös:", die Zeilen sind eingerückt. Szenario s228_bhtt2_tooltip:
+  "Erlös:" vorhanden und vor der ersten Material-Zeile. Mit 0.65.227 rot. Locale +1.
+VK-E1 (NIEDRIG, Screenshots 17:19): BELEGT ERLEDIGT durch DE-AUFT1 (0.65.199), keine Code-Änderung nötig:
+  Books.lua BK:OnDisenchant teilt den Einstand des Teils je Material nach dem Netto-WERT auf
+  (alloc[i] = Einstand × Netto-Preis[i] × Stück / erwarteter Netto-Wert; BK:MatNet aus A:RealPrice minus Gebühr) – nicht mehr
+  nach Stückzahl. Staub und Essenz bekommen also Einstand im Verhältnis ihres Werts (Essenz 37 % teurer -> 37 % mehr Einstand).
+  Test T784 (1000 Zufalls-Entzauberungen, Lager + Ausbeute gehen auf den Kupfer auf). Gilt für NEUE Entzauberungen; die
+  Buchungen vor 0.65.199 bleiben (Regel: alte Buchungen nie umschreiben).
+  Teil 2 "Vorschlag = günstigstes − 1c" gehört zu VS-1 (T709, umgesetzt).
+MAIL-1: (a)–(d) umgesetzt (0.65.184; Diagnose POST-ÜBERSPRUNGEN Mailer.lua:145) – kein Rest offen.
+Damit ist Phase 3 im Code fertig (3.1 DE-AUFT1, 3.2 TB181-4, 3.3 MAIL-1, 3.4 VK-P1/VK-E1/BH-TT2).
+Gesamtlauf (frische Kopie des Repos aac20ff, Addon 0.65.228): 279 bestanden, 0 rot.
