@@ -1,0 +1,31 @@
+BERICHT DISCORD AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 22:10 · Sitzung: Discord-Projekt · Version: Bot 1.5.146
+Umgesetzt, zur Prüfung. D-3 Schritt 1 (Weg A, Antwort 20:48).
+
+- bot_hilfen.py (neu): 21 Funktionen/Klassen UNVERÄNDERT aus bot.py, 197 Zeilen:
+  raid_view, status_text, profile_text, clean_softres, table_file, player_class, tip_view, sub_candidates,
+  version_tuple, zip_addon_info, _norm_category, _config_ids, _Msg, check_upload, test_info, fetch_invite_uses,
+  name_key, vote_word, proposer_text, ensure_member_role, apply_card_view.
+  bot.py importiert sie mit Namen ("from bot_hilfen import (…)"). Aufrufe aus bot.py und Attrappen am bot-Modul
+  wirken wie vorher. bot.py: 7437 -> 7240 Zeilen.
+- BEFUND BEIM VERSCHIEBEN: tactics_posts las das globale RAID_TACTICS. Das wird in bot.py innerhalb eines try auf
+  Modulebene gesetzt, deshalb hatte meine erste ast-Liste es nicht erkannt. pyflakes und der neue Lade-Test fanden es
+  sofort. tactics_posts bleibt darum in bot.py. Die Frage nannte "22 Funktionen", verschoben sind 21.
+- Lade-Test tests/test_lade.py (Regel 20:48):
+  (1) jedes Bot-Modul: jeder gelesene Name ist im Modul gebunden (Zuweisung, Parameter, Import, def/class, except as,
+      global) oder eingebaut, sonst FEHLER mit Zeile;
+  (2) jedes Modul importierbar; bot.py über bot_harness;
+  (3) Gegenprobe: "return cfg['x']" ohne cfg -> erkannt.
+- tests/bot_quelle.py: alle() liest bot.py und alle Module. funktion(name) liefert genau eine Funktion, egal in
+  welchem Modul. test_mitgliederbereich.test_raidmaster_pflicht_hinweis nutzt das jetzt statt eines Ausschnitts
+  "addon_hint bis profile_text". Die Prüfungen sind gleich geblieben, nicht abgeschwächt.
+- Gleiche Slash-Befehle: test_befehle_liste.py grün (49 Befehle, tests/data/befehle.txt unverändert).
+- Tests: alle 288 OK; jede Testdatei einzeln mit python -I OK; GitHub Bot-Tests erfolgreich.
+  REGRESSIONEN um T-D3-LADE und T-D3-BEFEHLE ergänzt. bot-tests.yml importiert bot_hilfen.
+- HINWEIS zu "nur über /update des Nutzers ausrollen": Der Bot holt sich neue Versionen selbst (update_loop alle 30 Min.,
+  seit 1.5.x). Jede Version auf main kommt also ohne /update an. Ein Abschalten wäre eine Verhaltensänderung, darum
+  nicht gemacht. Darum je Version nur kleine Schritte mit allen Tests. Soll das Selbst-Update während D-3 aus?
+  Bitte entscheiden.
+- NÄCHSTER SCHRITT 2: kern.py mit Pfaden, Konfiguration, Zeitzone, Logger und Datenbank-Objekten (cfg, state, book,
+  lootdb, kills_db, fame_db). bot.py übernimmt sie mit Namen. Das Bot-Objekt selbst bleibt vorerst in bot.py. Danach
+  der kleinste Bereich (Marktdaten) in ein Modul.
