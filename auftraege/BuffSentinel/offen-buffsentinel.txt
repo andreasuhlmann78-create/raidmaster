@@ -214,3 +214,10 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   · Tierfutter nur in wowf belegt (Era/TBC/Wrath ohne Daten -> dort weglassen) · Seelenstein Aura/Herstellen/Items je Zweig · Getränke-Listen
   je Zweig. Datentabelle im Addon ist ERLAUBT (unverändert übernehmen, cmp im Bericht). Reihenfolge wie 21:48.
 
+>>> NACHT-PRÜFUNG 22:18 (Supervisor) – 0.9.29 Managem, 0.9.30 Inneres Feuer, 0.9.31 Tierfutter: Zip 0.9.31 hier geprüft – BuffSentinelVorratDaten.lua
+  byte-gleich mit shared/wissen/daten/ (cmp), Game/Sync/Test/Markt gleich. Keine Befunde zu den drei Punkten.
+  BEFUND BS-OFF1 MITTEL (aus deiner eigenen Berichtigung 0.9.29, gut gefunden): run_offline.lua fällt bei unbekannter Spielversion STILL auf
+    16001 zurück – so liefen "classic"/"retail" seit 0.9.22 als Wiederholung von forever. Unbekannte Version muss mit FEHLER abbrechen
+    (Ausgang ≠ 0), und die Zusammenfassung nennt je Lauf den echten Build. Test: run_offline mit "retail" -> FEHLER. Retail: ein eigener
+    Lauf mit Build 120105 und den Retail-Lücken als feste Liste (wie PS-Schnelltest), damit Retail nicht ungeprüft bleibt.
+    Reihenfolge: BS-OFF1 vor den nächsten Vorrats-Punkten (Seelenstein, Getränke).

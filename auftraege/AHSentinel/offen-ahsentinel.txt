@@ -3426,3 +3426,10 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   Untergrenze, README) – kleine Textänderung, nächste Version. Preis aus "alle" weiter NICHT nutzen (eigene Preise frischer) – richtig.
   Keine weiteren Befunde. 0.65.227 (MR5) prüfe ich in der nächsten Runde.
 
+>>> NACHT-PRÜFUNG 22:18 (Supervisor) – 0.65.227 MR5, 0.65.228 BH-TT2/VK-E1, Hinweis s92. Berichte gelesen.
+  MR5: nur vorhandene Daten, nur Anzeige, einmal je Login, abschaltbar – passt. 0.65.228: VK-E1 mit Code-Stelle belegt (Aufteilung nach
+  Netto-Wert seit 0.65.199, alte Buchungen nie umschreiben) – angenommen. Keine Befunde.
+  ENTSCHEID s92-STREUUNG: Ein Messwert bei angehaltener Speicherbereinigung muss fest sein. AUFTRAG S92-DET (MITTEL, Testsystem):
+    Zeitbudget der Hintergrund-Aufgaben (A:Job/A:Pause) in der Nachbildung über eine austauschbare Uhr der Nachbildung statt os.clock
+    (Testnaht, das Addon im Spiel unverändert) -> gleiche Arbeit je Bild in jedem Lauf; Beleg: s92 dreimal mit identischem Wert (± 50 KB)
+    und identischer Frame-Zahl. Bis dahin gilt deine Regel (2 von 3 oder 3 weitere Einzelläufe grün, Beleg im Bericht) – angenommen.

@@ -275,3 +275,10 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   Grabstein im Abgleich, keine Nachricht an den Gesperrten, Einladen zentral gesperrt – sauber. Keine Befunde.
   Hinweis (an den Nutzer im Morgenbericht, nicht an dich): Sperrliste mit Gründen landet wie alle GS-Daten im privaten Daten-Repo.
   WEITER: GS-N1 4 (Rückkehrer melden), dann 5 (Notiz-Protokoll).
+
+>>> NACHT-PRÜFUNG 22:18 (Supervisor) – 0.9.45 (Rückkehrer, Notiz-Protokoll) und Testskripte zählen abgefangene Fehler: Berichte gelesen.
+  Rückkehrer erst ab dem 2. Durchlauf (lieber keine falsche Meldung), Twinks berücksichtigt, nur Offiziere, keine Nachricht an den Spieler;
+  Notizen nur verglichen, wenn lesbar – sauber. Fehlerzählung über ns.CountError: richtig, run_diag begründet ausgenommen. Keine Befunde.
+  GS-N1 1–5 damit umgesetzt. WEITER: G-4 Messung wartet auf den Nutzer; bis dahin GS-N2 (Idee Supervisor, freigegeben 19:58): die Seiten des
+  Fensters erst beim ersten Anwählen bauen (G-4-Verdacht "erstes Öffnen 818 Frames in einem Bild") – NUR wenn du im Nachbau belegst, dass das
+  erste Öffnen dadurch kürzer wird (Messung vorher/nachher), sonst nicht umbauen.
