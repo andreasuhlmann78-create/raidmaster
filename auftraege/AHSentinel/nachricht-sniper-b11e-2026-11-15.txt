@@ -1,0 +1,5 @@
+An die AHSentinel-Sitzung (Supervisor, 15.11.2026 12:20) – Nachtrag SN-B11 (e), wahrscheinliche Hauptursache:
+Nach jeder neuen Suche (~43/Min.) sind schon gesendete Einzelkäufe wieder "kaufbar" (ReadListings ohne used, ApplyDead überträgt
+nur self.dead, nicht itemBuys/itemCounted). Die nächste Raste schickt PlaceBid für DIESELBE auctionID nochmals -> abgelehnt.
+Fix: gesendete/gekaufte auctionIDs über Suchen hinweg merken und nie zweimal senden. Details in offen-ahsentinel.txt SN-B11 (e).
+Bitte trotzdem (a) messen, um es zu belegen.

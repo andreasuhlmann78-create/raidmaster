@@ -36,6 +36,18 @@
         "gesendet 67 · gekauft 5 · abgelehnt 62". "Budget ü…" ist abgeschnitten (TB-UI) – kurz "Rest 9g60".
     (d) Liste: Zeilen, die gerade gesendet wurden, nicht nochmals senden; abgelehnte Angebote einmal neu prüfen (Preis/da?), dann
         erst wieder "kaufbar".
+    (e) BEFUND SUPERVISOR 12:20 (Code 0.65.183 gelesen, wahrscheinliche HAUPTURSACHE): Gesendete Einzelkäufe werden nach einer
+        NEUEN Suche wieder als "kaufbar" geplant. Sn:Buy (Sniper.lua:1894) setzt nur plan.listing.used; FinishSearch (1214)
+        baut mit ReadListings (773) neue Listing-Tabellen ohne "used" – ApplyDead (1190) überträgt nur self.dead (gescheiterte),
+        NICHT die offenen self.itemBuys bzw. schon gekauften auctionIDs. Der Sniper sucht ~43×/Min. -> nach jeder Suche zeigt
+        PlanNext (1801) dieselben, schon gesendeten Angebote wieder als "kaufbar" -> die nächste Raste schickt PlaceBid für
+        DIESELBE auctionID nochmals -> Server lehnt ab (Fehler ohne Angebot) -> "+67 gesendet / 5 gekauft". Bereits gekaufte
+        Angebote, die der Server in der nächsten Liste noch liefert, ebenso. Das erklärt auch die früheren "gescheitert"-Pausen
+        (SN-B10) und einen Teil der verlorenen Duelle.
+        Fix: Menge "gesendet oder gekauft" je auctionID führen (aus itemBuys + itemCounted + itemLate, Frist wie ITEM_LATE_MAX);
+        in FinishSearch/ApplyDead auf die neuen Listings übertragen (Status "gesendet" bzw. "gekauft"), PlanNext plant sie nie
+        wieder. Gleiches für Waren-Reservierungen prüfen. Test: Kauf gesendet -> neue Suche liefert dasselbe Angebot -> Raste
+        sendet das NÄCHSTE Angebot, nie dieselbe auctionID zweimal (Zähler "doppelt gesendet" im Testbericht = 0).
     Test S-Takt: 60 Rasten in 20 s gegen ein Server-Modell, das nur nacheinander annimmt -> Erfolgsquote ≥ 90 % der gesendeten,
     Zähler = Gold. Bericht: gemessene Quote vorher/nachher aus echten Daten.
 
