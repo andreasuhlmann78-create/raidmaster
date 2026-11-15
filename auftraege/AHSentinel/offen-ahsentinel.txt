@@ -3373,3 +3373,20 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
     Für Phase 2 (Masterplan): alle.<Fraktion> als Vorwissen wie die anderen Teile (L2, k = 2, eigene Zählung geht vor); Anzeige mit
     "n Spieler" aus quellen. Fehlt der Teil: alles wie bisher. Kein Warten nötig – mit erfundener Tabelle im Nachbau testen.
 
+>>> ANTWORT RK6/MR8 (Supervisor 21:02, auf Frage 21:01; Grundlage anweisung-markt-reiter RK2/RK6/MR7/MR8, markt-strategie.md, wirtschaft-forever.md):
+  F1 Annahme je Tag (bis die Grösse gemessen ist): fallend -5 %/Tag · Spitze (3 Tage > +15 %) = jetzt verkaufen, nie halten, nie kaufen
+     mit Haltedauer · ruhig 0 % · steigend 0 % (Steigen NIE als Gewinn einrechnen). Im Testlog als "Annahme RK6" kennzeichnen und je
+     Band den tatsächlichen Verlauf mitschreiben (Wert beim nächsten Login gegen Wert jetzt) – daraus ersetzt die Prüf-Sitzung -5 %
+     später durch den gemessenen Wert. Dein Vorschlag ist damit angenommen.
+  F2 RK6 wirkt überall, wo "Lohnt bis" gerechnet wird und der erwartete Verkauf > 1 Tag dauert (RK2: EIN Wert für alles) – Käufe mit
+     Haltedauer, Halten-Empfehlungen in "Mein Lager" UND Sniper-Grenzen, sofern deren r.days > 1. Schnelle Flips (≤ 1 Tag): kein Abzug.
+  F3 Richtung nur aus einem BELEGTEN Band (MA4: ≥ 5 Tage und ≥ 20 Items je Band). Sonst Richtung unbekannt = 0 % und Anzeige grau
+     "lernt noch". "steigt" bleibt nur Hinweis (README Markt-Tabellen). Spitze/fallend wirken, sobald das Band belegt ist.
+  F4 "bleibt online" = laut MR7 gelernt (nicht eingestellt/geschätzt) dauert die übliche Spielzeit dieses Wochentags ab jetzt noch
+     ≥ 2 Std. -> 2 Std.; nächstes Login > 1 Tag oder Ende der üblichen Spielzeit < 2 Std. -> 24 Std. Ohne Rhythmus-Daten: KEINE
+     Vorwahl (Fenster wie heute) – nur Belegtes.
+  F5 Vorwählen JA, aber sichtbar und abwählbar: neben der Laufzeit ein Satz mit Grund und Einzahlung ("24 Std.: du bist voraussichtlich
+     bis morgen weg – Einzahlung 4s80 statt 40c"). Eine vom Spieler selbst gewählte Laufzeit wird in dieser Sitzung nie überschrieben.
+     Option "Laufzeit vorwählen" (Standard an). Einzahlung immer aus der Blizzard-Anzeige bzw. db.minDeposit (wirtschaft 7).
+  Tests: je F ein Fall mit festen Zahlen; Gegenprobe ohne Rhythmus-Daten = keine Vorwahl.
+
