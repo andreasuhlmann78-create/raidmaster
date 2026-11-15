@@ -15,6 +15,12 @@ SN-B5 HOCH (wahrscheinliche Hauptursache der verlorenen Duelle, zu SN-B4): S9 "2
 SN-B6 HOCH: S2 Zähler: nach Bestätigung "0/10 gekauft · Budget übrig 10s" statt "1/10 · 95c" – ein bestätigter Kauf wird nicht
     gezählt bzw. zurückgesetzt. Budget/Menge müssen stimmen (Gold-Sicherheit).
 SN-B7 MITTEL: S1 ein Treffer ohne Grund verschwunden ("20x60 (geleert)").
+>>> SNIPER-TEST 0.65.179 (01:36, Max unverändert): S9 OK (über Max 0) -> SN-B5 war Testfehler (Max während des Tests geändert);
+    S9 soll den Max zur Planungszeit speichern. 10 Treffer, 1 gekauft, 9 verpasst, Ø 83/Min. Weiter rot: S2 (SN-B6) und NEU:
+SN-B8 HOCH (Gold-Sicherheit): S10 "S4 Gold 201005 -> 187331 (−13674) · gebucht 1" – beim echten 1-Stück-Testkauf sank das Gold
+    um 1g 36s 74c statt 1c. Klären, welcher Kauf in diesem Fenster sonst abgeschlossen wurde (noch offener Sniper-/Waren-Kauf aus
+    der Sitzung davor? ~680 Leinenstoff à ~20c?). Lager zeigt Leinenstoff gebucht 731, vorhanden 0 (Briefkasten?). Jeder Gold-
+    Abgang muss einer Buchung zugeordnet sein; offene Käufe vor dem Test abschliessen bzw. im Bericht nennen.
 >>> GRUNDSATZ NACHVOLLZIEHBAR (Nutzer 14.11. 15:18, gilt für alles Neue): Zahl + EIN Satz, was sie ist und wie sie entsteht (≤ 20 Wörter, Alltagssprache). Siehe auftraege/README.md.
 >>> CURSEFORGE NUR 1× TÄGLICH UM 18:00 (Entscheid des Nutzers 15.11.2026 00:56): Veröffentlichungen auf CurseForge nur noch
     einmal pro Tag um 18:00 Uhr (Schweizer Zeit) – die Version, die dann geprüft vorliegt. Dazwischen weiter Versionen bauen und im
