@@ -181,3 +181,11 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
     5. Bereitschaftscheck-Zusammenfassung (D) – eine Zeile beim Ready-Check: was fehlt.
     E (Nachkaufen beim Händler) NICHT ohne Entscheid des Nutzers (Gold). Grenzen (200 Schuss, 3 Splitter) vorerst fest – gut so.
   IM CLIENT (Nutzer): Jäger <200 Pfeile; Hexer <3 Splitter (wie im Bericht).
+
+>>> ANTWORT BITTE REAGENZIEN (Supervisor 21:18, auf Bericht 0.9.24): Tabelle aus den Spieldaten liegt in
+  shared/wissen/daten/reagenzien-gruppenbuffs.md (wago.tools SpellReagents/SpellName/ItemSparse, Zweige wowf/Era/TBC 2.5.6/Wrath 3.80.2,
+  abgerufen eben). Damit ist Punkt 1 nicht mehr blockiert: Reagenz nach HÖCHSTEM gelernten Rang zählen (IsSpellKnown je Zauber-ID),
+  Namen aus der Tabelle. Achtung: dein "Wildes Federkiel 22148" heisst in den Daten "Wilde Federranke"; 22147 ist Flintgrassaat
+  (Wiedergeburt), nicht Gabe der Wildnis. Richtig war, nicht aus dem Gedächtnis zu bauen.
+  Prüfung 0.9.24–0.9.26 (Begleiter, Haltbarkeit, Bereitschaftscheck) folgt in der nächsten Runde.
+
