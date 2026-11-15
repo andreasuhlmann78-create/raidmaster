@@ -62,6 +62,24 @@
 >>>       ein Satz, Tests, offene Fragen, und die Liste "Im Spiel prüfen" (kurz, in der Reihenfolge, in der der Nutzer sie tun soll).
 >>>    Der Block NACHT-ARBEIT vom 14.11. weiter unten ist ÜBERHOLT (alte Reihenfolge).
 
+>>> SN-BTN1 HOCH – SPIELER-WUNSCH (fremder Spieler: "I really do not like the scroll wheel to purchase.. just make the button that
+    says buy.. buy"; Nutzer 18:27: "bitte umsetzen, aber ohne den Scroll zu löschen"). Masterplan Phase 1 (Sniper perfekt), nach
+    POST-BLOCK1. Heute ruft der Knopf "Kaufen" Sn:OnTrigger() = genau EIN Schritt wie eine Raste ("jede Raste macht den nächsten
+    Schritt": suchen -> planen -> kaufen). Für den Spieler muss gelten:
+    (a) EIN Klick auf "Kaufen"/"Buy" = EIN Kauf, wenn ein Treffer wartet (Einzelkauf: PlaceBid direkt im Klick). Wartet kein Treffer:
+        Knopf grau mit Grund im Tooltip ("Kein Angebot unter deinem Max – der Sniper sucht weiter"), KEIN versteckter Such-Schritt.
+    (b) Waren (Stapel): Blizzard verlangt zwei Klicks (Preis anfragen, dann bestätigen). Knopftext zeigt den Schritt ehrlich:
+        "Preis anfragen (12× Leinenstoff)" -> "Kaufen bestätigen: 12× für 3s00". Nie mehr Schritte als nötig.
+    (c) Knopftext nennt, was gekauft wird: "Kaufen: 1× Schultern des Hügelwächters für 8s50" (EN "Buy: 1× … for …"), gekürzt mit "…"
+        nur am Namen, Betrag immer voll (A5).
+    (d) Mausrad und eigene Taste BLEIBEN (Nutzer: Scroll nicht löschen) und bleiben Standard. Neue Einstellung "Kaufen mit":
+        Mausrad + Knopf (Standard) / nur Knopf. "Nur Knopf" schaltet die Mausrad-/Tasten-Bindung ab (ClearOverrideBindings),
+        der Knopf kauft weiter. Kopfzeile passend ("Zum Kaufen auf Kaufen klicken" bzw. wie heute).
+    (e) Gold-Sicherheit wie bei der Raste: gleicher Weg (Sn:OnTrigger/Buy), gleiche Prüfungen (Max, Budget, ein Einzelkauf zur
+        Zeit, Server bereit), Doppelklick kauft nicht doppelt.
+    (f) Tests: Klick mit/ohne Treffer, Ware zwei Schritte, Doppelklick, "nur Knopf" -> Mausrad tut nichts, Knopf kauft;
+        Einstellung bleibt nach /reload. Locales EN/DE (alle Sprachen), CHANGELOG EN/DE.
+
 >>> POST-BLOCK1 HOCH – SPIELER-MELDUNG (fremder Spieler, über den Nutzer 18:25): "error when posting item
     1x [ADDON_ACTION_BLOCKED] AddOn 'AHSentinel' tried to call the protected function 'UNKNOWN()'.
     [!BugGrabber/BugGrabber.lua]:554: in function '?'"  – Version des Spielers unbekannt (CurseForge = 0.65.178?).
