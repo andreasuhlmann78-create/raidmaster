@@ -1,0 +1,33 @@
+BERICHT GUILDSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 21:49 (Uhrzeit aus date, Europe/Zurich) · Sitzung: GuildSentinel-Projekt-Sitzung · Version: 0.9.45 · Commit: GuildSentinel 1231e4e
+Veröffentlichung: Discord ja (announce/, sofort). CurseForge: nein (nächster Termin 16.11.2026 18:00).
+Auftrag: GS-N1 4 Rückkehrer und 5 Notiz-Protokoll (freigegeben 21:33).
+
+UMGESETZT, ZUR PRÜFUNG:
+- GS-N1 4 (Roster.lua, R:Compare): Mitglied ist online, war laut letztem Stand (o.seen) >= R.RETURN_DAYS = 30 Tage
+  offline, und kein anderer Charakter desselben Spielers (Main + Twinks über MainOf/AltsOf) war in 30 Tagen online
+  (R:OtherCharSeen) -> Verlauf "return" mit Tagen + Ereignis GS_RETURNED -> nur Offiziere: Chat-Zeile "Rückkehrer: %s
+  ist nach %d Tagen wieder online – willkommen heißen?" (bei Twinks mit Main in Klammern). Nur ab dem 2. Durchlauf der
+  Sitzung (self.scans >= 1): Beim ersten Lesen nach dem Einloggen ist der gespeicherte Stand alt – sonst wäre jeder
+  "zurück", der in meiner Abwesenheit gespielt hat. Folge: Wer zum Zeitpunkt meines Einloggens schon online ist, wird
+  nicht gemeldet (bewusst, lieber keine falsche Meldung). Keine Nachricht an den Spieler.
+- GS-N1 5: Der Stand je Mitglied merkt jetzt die öffentliche Notiz (n) und – nur wenn Offiziersnotizen lesbar sind
+  (mindestens eine im Durchlauf nicht leer) – die Offiziersnotiz (on). Änderung -> Verlauf "pnote"/"onote" mit
+  R.NoteChange: „alt“ → „neu“ (leer = –, je höchstens 60 Bytes, UTF-8-sicher). Nicht lesbar -> nichts verglichen,
+  gemerkter Stand bleibt (keine falschen Änderungen). Erste lesbare Offiziersnotiz wird nur gemerkt. Der Verlauf ist
+  lokal (g.log wird nie gesendet). Mitglieder > Verlauf zeigt die drei neuen Arten ("ist nach langer Pause zurück",
+  "öffentliche Notiz geändert", "Offiziersnotiz geändert"; Details "nach %d Tagen" bzw. alt → neu).
+- 5 neue Texte, 10 Sprachen.
+
+EIGENE TESTS (Belege, keine Freigabe):
+- test/run_alle.sh: "GESAMT: 128 Läufe, 0 rot · 4481 Einzelprüfungen bestanden, 0 fehlgeschlagen".
+- Routine: Forever OK 299, Era OK 304, TBC OK 304, je FEHLER 0. T300a OtherCharSeen (Twink/allein, 30 Tage),
+  T300b NoteChange (leer, Kürzung, UTF-8).
+- test/run_return.lua 11/11, 0 Fehlermeldungen, je 16001/11508/20505 (echter Weg GUILD_ROSTER_UPDATE): 40 Tage ->
+  Verlauf + Hinweis; Twink 45 Tage mit Main vor 2 Tagen -> nein; 29 Tage -> nein; kein doppelter Eintrag; erster Durchlauf
+  nach dem Einloggen -> nein; öffentliche Notiz alt → neu; erste Offiziersnotiz nur gemerkt, Änderung protokolliert;
+  nicht mehr lesbar -> keine Einträge, Stand bleibt; Verlauf öffnet ohne Fehler.
+- Gegenproben (je rot): Sitzungs-Bedingung weg; Twink-Prüfung weg (2 Fehler); Lesbarkeits-Prüfung weg; Merken ohne
+  Lesbarkeit (2 Fehler).
+
+GS-N1 ist damit vollständig umgesetzt (1–5). WEITER: ältere Testskripte auf echte Fehlerzählung umstellen (Hinweis 0.9.44).
