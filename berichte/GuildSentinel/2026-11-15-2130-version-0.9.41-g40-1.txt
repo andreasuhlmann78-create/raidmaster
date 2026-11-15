@@ -1,0 +1,30 @@
+BERICHT GUILDSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 · Sitzung: GuildSentinel-Projekt-Sitzung · Version: 0.9.41 · Commit: GuildSentinel 7741171
+Veröffentlichung: Discord ja (announce/, sofort). CurseForge: nein (nächster Termin 16.11.2026 18:00).
+Auftrag: G40-1 NIEDRIG (Nacht-Prüfung 20:48).
+
+UMGESETZT, ZUR PRÜFUNG:
+- G40-1 (a): a.noAuto wird jetzt angezeigt. Pages.lua: Zeilen-Anzeige der Bewerberliste als R.AppRender (vorher namenlose
+  Funktion, jetzt prüfbar); Status bei st == "new" und noAuto: GOLD "selbst anschreiben"; Tooltip: "Nicht automatisch
+  angeschrieben (höchstens %d automatische Antworten in %d Minuten) – bitte selbst anflüstern." Spalte Status 90 -> 110 px
+  (die Spalte Nachricht ist die flexible). Die Markierung fällt weg, sobald (1) automatisch geschrieben wird (neues
+  Fenster, Stichwort erneut) oder (2) der Spieler den Bewerber selbst anflüstert: neu CHAT_MSG_WHISPER_INFORM ->
+  Rc.OnWhisperSent(target) (geschützter Wert -> nichts). Vorher wurde noAuto auch bei jeder normalen Nachricht eines
+  bekannten Bewerbers gelöscht, ohne dass etwas gesendet wurde – jetzt nur, wenn wirklich geschrieben wird.
+- G40-1 (b): Bekannter Bewerber + Stichwort + volle Grenze: Zeile "Bewerber %s: automatische Antwort pausiert (höchstens
+  %d in %d Minuten), bitte selbst anschreiben." – höchstens einmal je Name und Fenster (Rc.pausedNoted, Name -> Zeit,
+  wird mit PruneReplied nach 600 s geleert). Neue Bewerber behalten die Zeile "Neuer Bewerber: … pausiert …".
+- 3 neue Texte, 10 Sprachen.
+
+EIGENE TESTS (Belege, keine Freigabe):
+- addon_check siehe unten (ohne FEHLER/WARNUNG); test/run_alle.sh "GESAMT: 119 Läufe, 0 rot · 4334 Einzelprüfungen".
+- Routine: Forever OK 288, Era OK 293, TBC OK 293, je FEHLER 0.
+- T296d: 6. Fremder -> Anzeige "selbst anschreiben", der 1. nicht; eigene Flüsternachricht -> Markierung weg.
+  T296e: bekannter Bewerber, Stichwort 2× bei voller Grenze -> genau 1 Hinweis, nichts gesendet, markiert.
+- Gegenproben (je rot erkannt): Anzeige aus -> T296d "angezeigt false"; OnWhisperSent wirkungslos -> T296d "weg false";
+  Hinweis ohne Einmal-Sperre -> T296e "Hinweise 2"; Hinweis aus -> T296e "Hinweise 0".
+- test/run_g3.lua (echter Ereignisweg) 9/9 je 16001/11508/20505: zusätzlich pausierter Bewerber schreibt Stichwort 2× ->
+  1 Hinweis, 0 gesendet; CHAT_MSG_WHISPER_INFORM an einen Pausierten löscht nur dessen Markierung.
+- run_uicheck 13/13, run_uilang deDE/ruRU 22/22.
+
+IM CLIENT PRÜFEN: Status "selbst anschreiben" und Tooltip in der Bewerberliste (nur bei mehr als 5 Bewerbern in 10 Min.).
