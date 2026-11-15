@@ -26,10 +26,15 @@
 -- 1.4 (Protokoll 15.11. 16:45: "Rasten 0" trotz 14 Käufen): Mausrad über AHSentinel-Fenstern zählt als Raste, wenn ein
 --   Treffer wartet (AHSentinel kauft dort über Sn:WheelBuy statt über die Knöpfe); Minuten-Zeile "Rasten über: …".
 --
+-- 1.5 (Protokoll 15.11. 16:55: Code 10 kam 63–80 ms nach JEDEM Kauf, obwohl alle 17 Käufe gelangen): ALLE Anfrage-
+--   Funktionen von C_AuctionHouse werden mitgehört (Send*/Query*/Place*/Post*/Cancel*/Start*/Confirm*/Replicate*/Request*/
+--   Refresh*/Search*), mit Quelle; bei jedem AH-Fehler und jeder Drossel-Warteschlange stehen die Anfragen der letzten
+--   0,5 s in der Zeile ("davor: PlaceBid AHSentinel/Sniper.lua −72 ms, …"). So zeigt sich, wer den Fehler auslöst.
+--
 -- Ergebnis: beim Ausloggen oder /reload als "GSDIAG1|GSSniperLog|…" in GSSniperLogDB.export -> der RaidMasterUploader
 -- bringt es nach testberichte/diagnose/GSSniperLog/. Befehl: /gssl (Stand), /gssl aus|an, /gssl leeren.
 
-local ADDON, VERSION = "GSSniperLog", "1.4"
+local ADDON, VERSION = "GSSniperLog", "1.5"
 local MAXLOG = 6000            -- Zeilen im Speicher (älteste fallen weg)
 local EXPORT_MAX = 400000      -- Zeichen in der Ausgabe für den Uploader
 local CONFIRM_MAX = 30         -- Sekunden: ohne Antwort gilt ein Kauf als "keine Bestätigung"
@@ -207,8 +212,28 @@ local function Source()
     return "?"
 end
 B.Source = Source
+B.ring = B.ring or {}
+local function RingPush(kind, src)
+    local r = B.ring
+    r[#r + 1] = { t = Now(), k = kind, s = src }
+    if #r > 40 then table.remove(r, 1) end
+end
+-- Anfragen der letzten <win> Sekunden als Text (neueste zuerst)
+local function RecentCalls(win)
+    local now, out = Now(), {}
+    for i = #B.ring, 1, -1 do
+        local e = B.ring[i]
+        local d = now - e.t
+        if d > win then break end
+        out[#out + 1] = string.format("%s %s −%d ms", e.k, e.s, math.floor(d * 1000 + 0.5))
+        if #out >= 6 then break end
+    end
+    return #out > 0 and table.concat(out, ", ") or "keine"
+end
+B.RecentCalls = RecentCalls
 local function NoteSource(kind)
     local src = Source()
+    RingPush(kind, src)
     B.min.src = B.min.src or {}
     Inc(B.min.src, kind .. " " .. src)
     B.tot.src = B.tot.src or {}
@@ -408,6 +433,14 @@ local function ResolveBid(auctionID, how)
     end
     b.done, b.ok = true, true
     local lat = now - b.t
+    -- 1.5: Code 10 zwischen Senden und Bestätigung dieses Kaufs = Fehlermeldung trotz gelungenem Kauf
+    for _, c in ipairs(B.c10 or {}) do
+        if not c.used and c.t >= b.t and c.t <= now then
+            c.used = true
+            Inc(B.tot, "c10TrotzKauf"); Inc(B.min, "c10TrotzKauf")
+            break
+        end
+    end
     Inc(B.tot, "gekauft"); Inc(B.min, "gekauft")
     Inc(B.tot, "summe", b.amount); Inc(B.min, "summe", b.amount)
     if b.late then Inc(B.tot, "spaet") end
@@ -441,6 +474,11 @@ local function CheckTimeouts()
     end
     for aid, t in pairs(B.sent) do if now - t > 600 then B.sent[aid] = nil end end
     for aid, o in pairs(B.offers) do if now - o.t > 600 then B.offers[aid] = nil end end
+    if B.c10 and #B.c10 > 0 then
+        local keep = {}
+        for _, c in ipairs(B.c10) do if now - c.t < 60 then keep[#keep + 1] = c end end
+        B.c10 = keep
+    end
 end
 
 ---------------------------------------------------------------------------
@@ -534,8 +572,8 @@ local function MinuteSummary()
     parts[#parts + 1] = string.format("Suchen %d (Ø Antwort %s, längste %s, längste Lücke %s)", m.suchen or 0,
         (m.latN or 0) > 0 and string.format("%.2f s", m.latSum / m.latN) or "-",
         m.latMax and string.format("%.2f s", m.latMax) or "-", m.gapMax and string.format("%.1f s", m.gapMax) or "-")
-    parts[#parts + 1] = string.format("gesendet %d · gekauft %d · ohne Antwort %d · doppelt %d · wiederholt %d · Fehler %d · weggeschnappt %d",
-        m.gesendet or 0, m.gekauft or 0, m.ohneAntwort or 0, m.doppelt or 0, m.wiederholt or 0, m.fehler or 0, m.weg or 0)
+    parts[#parts + 1] = string.format("gesendet %d · gekauft %d · ohne Antwort %d · doppelt %d · wiederholt %d · Fehler %d · weggeschnappt %d · Code 10 trotz Kauf %d",
+        m.gesendet or 0, m.gekauft or 0, m.ohneAntwort or 0, m.doppelt or 0, m.wiederholt or 0, m.fehler or 0, m.weg or 0, m.c10TrotzKauf or 0)
     parts[#parts + 1] = string.format("Antwortzeit Ø %s, längste %s",
         (m.antwortN or 0) > 0 and string.format("%.2f s", m.antwortSum / m.antwortN) or "-",
         m.antwortMax and string.format("%.2f s", m.antwortMax) or "-")
@@ -603,6 +641,8 @@ local function SummaryLines()
     out[#out + 1] = string.format("Anfragen ans AH nach Quelle: %s · davon fremd während Sniper an: %d · Sniper an (AH offen) %d s",
         #sp > 0 and table.concat(sp, ", ") or "-", t.fremdBeimSnipen or 0, t.snipeSec or 0)
     out[#out + 1] = string.format("Vollscan-Antworten: %d (in %d Schüben)", t.vsAntworten or 0, t.vsSchuebe or 0)
+    out[#out + 1] = string.format("Code 10 (Interner Auktion-Fehler), obwohl der Kauf danach bestätigt wurde: %d · mitgehörte Anfrage-Funktionen: %d",
+        t.c10TrotzKauf or 0, B.genericHooks or 0)
     local A = AHS()
     out[#out + 1] = "AHSentinel-Version: " .. tostring(A and A.version or "nicht geladen")
     return out
@@ -698,14 +738,33 @@ local function Hook()
         Log("WARE-START", string.format("Item %s · %s Stück", tostring(itemID), tostring(qty)))
     end)
     H("ConfirmCommoditiesPurchase", function(itemID, qty)
+        NoteSource("Warenkauf bestätigen")
         Inc(B.tot, "gesendet"); Inc(B.min, "gesendet")
         NoteCall("Warenkauf")
         B.comm = { t = Now(), item = tonumber(itemID), qty = tonumber(qty) or 0, money = GetMoneyNow() }
         Log("WARE-GESENDET", string.format("Item %s · %s Stück", tostring(itemID), tostring(qty)))
     end)
-    H("CancelAuction", function(auctionID) Log("ABBRUCH", "Auktion " .. tostring(auctionID)) end)
-    H("PostItem", function() B.lastPost = Now(); Log("EINSTELLEN", "Ausrüstung") end)
-    H("PostCommodity", function() B.lastPost = Now(); Log("EINSTELLEN", "Ware") end)
+    H("CancelAuction", function(auctionID) NoteSource("Abbrechen"); Log("ABBRUCH", "Auktion " .. tostring(auctionID)) end)
+    H("PostItem", function() NoteSource("Einstellen"); B.lastPost = Now(); Log("EINSTELLEN", "Ausrüstung") end)
+    H("PostCommodity", function() NoteSource("Einstellen"); B.lastPost = Now(); Log("EINSTELLEN", "Ware") end)
+    -- 1.5: alle übrigen Anfrage-Funktionen nur mitzählen (mit Quelle, im Ring für die Fehlerzeilen)
+    local SPEC = { SendSearchQuery = 1, SendSellSearchQuery = 1, SendBrowseQuery = 1, ReplicateItems = 1, PlaceBid = 1,
+        QueryOwnedAuctions = 1, QueryBids = 1, StartCommoditiesPurchase = 1, ConfirmCommoditiesPurchase = 1, CancelAuction = 1,
+        PostItem = 1, PostCommodity = 1 }
+    local names = {}
+    for name, fn in pairs(C) do
+        if type(fn) == "function" and type(name) == "string" and not SPEC[name]
+            and (name:find("^Send") or name:find("^Query") or name:find("^Place") or name:find("^Post") or name:find("^Cancel")
+                 or name:find("^Start") or name:find("^Confirm") or name:find("^Replicate") or name:find("^Request")
+                 or name:find("^Refresh") or name:find("^Search")) then
+            names[#names + 1] = name
+        end
+    end
+    table.sort(names)
+    for _, name in ipairs(names) do
+        H(name, function() NoteSource(name) end)
+    end
+    B.genericHooks = #names
 end
 
 ---------------------------------------------------------------------------
@@ -797,9 +856,11 @@ handlers.AUCTION_HOUSE_SHOW_ERROR = function(code)
     local word = AHERR[tonumber(code) or -1]
     Err("AH-Fehlercode " .. tostring(code) .. (word and (" " .. word) or ""))
     local aid, b = OldestOpen()
-    Log("AH-FEHLER", string.format("Code %s%s · letzte Anfrage %s vor %d ms · offene Käufe %d%s", tostring(code), word and (" " .. word) or "",
+    Log("AH-FEHLER", string.format("Code %s%s · letzte Anfrage %s vor %d ms · offene Käufe %d%s · davor (0,5 s): %s", tostring(code), word and (" " .. word) or "",
         tostring(B.lastCall or "?"), math.floor((Now() - (B.lastCallT or Now())) * 1000), OpenCount(),
-        b and string.format(" · ältester seit %.2f s", Now() - b.t) or ""))
+        b and string.format(" · ältester seit %.2f s", Now() - b.t) or "", RecentCalls(0.5)))
+    B.c10 = B.c10 or {}
+    if tonumber(code) == 10 then B.c10[#B.c10 + 1] = { t = Now() } end
     if b and not b.err then b.err = "Code " .. tostring(code) end
 end
 handlers.COMMODITY_PURCHASE_SUCCEEDED = function()
@@ -860,7 +921,7 @@ for _, e in ipairs({ "AUCTION_HOUSE_THROTTLED_MESSAGE_DROPPED", "AUCTION_HOUSE_T
             Err("Drossel: Nachricht verworfen (nach " .. tostring(B.lastCall or "?") .. ")")
             Log("DROSSEL", "VERWORFEN · " .. last .. " · offene Käufe " .. OpenCount())
         elseif short == "MESSAGE_QUEUED" then
-            Log("DROSSEL", "in Warteschlange · " .. last)
+            Log("DROSSEL", "in Warteschlange · " .. last .. " · davor (0,5 s): " .. RecentCalls(0.5))
         elseif short == "SYSTEM_READY" then
             B.readyFrame = true                          -- 1.3: ab jetzt bereit (gilt für die nächste Anfrage)
             Log("DROSSEL", "Server wieder bereit")

@@ -143,3 +143,10 @@ Tests: 8 Szenario-Läufe + 5 Zufallsläufe à 20000 Ereignisse, 148/148 OK, 5× 
   1.4 hört zusätzlich OnMouseWheel aller AHSentinel-Fenster mit (HookScript, auch verschachtelte Tabellen, neue werden
   jede Minute erfasst) und zählt es als Raste nur, wenn Sn:HitWaiting() wahr ist. Minuten-Zeile "Rasten über: …".
 Tests: 9 Szenario-Läufe + 5 Zufallsläufe, 155/155 OK, 5× wiederholt.
+
+### GSSniperLog 1.5 (15.11. 16:57, aus Protokoll 4 von 16:55)
+- Befund: 17 Käufe, alle bestätigt, Gold exakt – aber 18 × Code 10 ("Interner Auktion-Fehler"), jeder 63–80 ms nach einem Kauf.
+- 1.5 hört ALLE Anfrage-Funktionen von C_AuctionHouse mit (Send/Query/Place/Post/Cancel/Start/Confirm/Replicate/Request/
+  Refresh/Search, nie Get/Has/Is), mit Quelle (Addon/Datei). AH-FEHLER- und Warteschlangen-Zeilen nennen die Anfragen der
+  letzten 0,5 s ("davor: Gebote Blizzard −40 ms, Kauf AHSentinel/Sniper.lua −70 ms"). Neuer Zähler "Code 10 trotz Kauf".
+Tests: 10 Szenario-Läufe + 5 Zufallsläufe, 165/165 OK, 5× wiederholt, 0,03 ms je Ereignis.

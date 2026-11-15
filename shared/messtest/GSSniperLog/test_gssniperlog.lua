@@ -112,7 +112,7 @@ local function offer(aid, price, own) return { auctionID = aid, buyoutAmount = p
 do
     local W = NewWorld()
     W.fire("PLAYER_LOGIN")
-    check(W.hooks == 8, "Lauf 1: 8 Hooks (alle vorhandenen) gesetzt (ist " .. W.hooks .. ")")
+    check(W.hooks == 8 and W.B.genericHooks == 0, "Lauf 1: 8 Hooks, keiner doppelt (alle vorhandenen) gesetzt (ist " .. W.hooks .. ")")
     W.fire("AUCTION_HOUSE_SHOW")
     W.search(4251); W.tick(0.3)
     W.results[4251] = { offer(1, 900), offer(2, 905), offer(3, 914), offer(4, 1000) }
@@ -144,7 +144,7 @@ do
     check(W.find("MINUTE Suchen 1") == 1, "Lauf 1: Minuten-Zusammenfassung")
     W.fire("PLAYER_LOGOUT")
     local ex = W.env.GSSniperLogDB.export
-    check(type(ex) == "string" and ex:find("^GSDIAG1|GSSniperLog|1.4|") ~= nil, "Lauf 1: Export beginnt mit GSDIAG1|GSSniperLog|1.4|")
+    check(type(ex) == "string" and ex:find("^GSDIAG1|GSSniperLog|1.5|") ~= nil, "Lauf 1: Export beginnt mit GSDIAG1|GSSniperLog|1.5|")
     check(ex:find("== Einträge (", 1, true) ~= nil, "Lauf 1: Export hat '== Einträge'")
     check(W.B.tot.eigeneFehler == nil, "Lauf 1: keine eigenen Fehler")
 end
@@ -582,6 +582,50 @@ do
     late.scripts.OnMouseWheel(late, 1)
     check(W.B.tot.rasten == 4 and W.B.tot.eigeneFehler == nil, "Lauf 9: Fehler in HitWaiting abgefangen")
 end
+
+---------------------------------------------------------------------------
+-- Lauf 10 (1.5): alle Anfrage-Funktionen mitgehört; Code 10 trotz Kauf; "davor"-Liste an Fehler/Warteschlange
+---------------------------------------------------------------------------
+do
+    local W = NewWorld()
+    local C = W.env.C_AuctionHouse
+    C.QueryOwnedAuctions = function() end
+    C.QueryBids = function() end
+    C.RefreshCommoditySearchResults = function() end
+    C.RequestMoreBrowseResults = function() end
+    C.GetNumItemSearchResults2 = function() end          -- Get* darf NICHT gehookt werden
+    C.IsThrottledMessageSystemReady = function() return true end
+    W.stack = "Interface/AddOns/AHSentinel/Sniper.lua:2740: in function"
+    W.env.debugstack = function() return W.stack end
+    local hooksBefore = W.hooks
+    W.fire("PLAYER_LOGIN"); W.fire("AUCTION_HOUSE_SHOW"); W.tick(1.1)
+    check(W.B.genericHooks == 2, "Lauf 10: 2 weitere Anfrage-Funktionen mitgehört (Get* nicht) (ist " .. tostring(W.B.genericHooks) .. ")")
+    C.PlaceBid(501, 890); W.tick(0.03, 0.03)
+    W.stack = "Interface/AddOns/Blizzard_AuctionHouseUI/Blizzard_AuctionHouseFrame.lua:10: in function"
+    C.QueryBids(); W.tick(0.04, 0.04)
+    W.fire("AUCTION_HOUSE_SHOW_ERROR", 10)
+    check(W.find("AH%-FEHLER Code 10 .* davor %(0,5 s%): Gebote Blizzard −40 ms, Kauf AHSentinel/Sniper%.lua −70 ms") == 1, "Lauf 10: Fehlerzeile nennt die Anfragen davor mit Quelle")
+    W.fire("AUCTION_HOUSE_THROTTLED_MESSAGE_QUEUED")
+    check(W.find("DROSSEL in Warteschlange .* davor %(0,5 s%): Gebote Blizzard") == 1, "Lauf 10: Warteschlange nennt Anfragen davor")
+    W.tick(0.1, 0.1)
+    W.fire("AUCTION_HOUSE_PURCHASE_COMPLETED", 501); W.pay(-890)
+    check(W.B.tot.c10TrotzKauf == 1, "Lauf 10: Code 10 trotz Kauf gezählt")
+    -- Code 10 ohne späteren Kauf zählt nicht als "trotz Kauf"
+    C.PlaceBid(502, 890); W.tick(0.05, 0.05); W.fire("AUCTION_HOUSE_SHOW_ERROR", 10); W.tick(31)
+    check(W.B.tot.c10TrotzKauf == 1, "Lauf 10: Code 10 ohne Bestätigung nicht 'trotz Kauf'")
+    -- ein Code 10 wird nur einmal verbraucht
+    C.PlaceBid(503, 890); W.tick(0.05, 0.05); W.fire("AUCTION_HOUSE_SHOW_ERROR", 10)
+    W.fire("AUCTION_HOUSE_PURCHASE_COMPLETED", 503)
+    C.PlaceBid(504, 890); W.fire("AUCTION_HOUSE_PURCHASE_COMPLETED", 504)
+    check(W.B.tot.c10TrotzKauf == 2, "Lauf 10: jeder Code 10 nur einmal gezählt (ist " .. tostring(W.B.tot.c10TrotzKauf) .. ")")
+    C.RefreshCommoditySearchResults(1); C.RequestMoreBrowseResults()
+    W.tick(60)
+    check(W.find("Code 10 trotz Kauf 2") == 1, "Lauf 10: Minuten-Zeile Code 10 trotz Kauf")
+    check(W.find("RefreshCommoditySearchResults Blizzard 1") == 1, "Lauf 10: generische Anfrage in der Ruhe-Zeile nach Quelle")
+    W.fire("PLAYER_LOGOUT")
+    check(W.env.GSSniperLogDB.export:find("obwohl der Kauf danach bestätigt wurde: 2", 1, true) ~= nil, "Lauf 10: Zusammenfassung")
+    check(W.B.tot.eigeneFehler == nil and W.find("GSSL%-FEHLER") == 0, "Lauf 10: keine eigenen Fehler (" .. tostring(W.B.lastError) .. ")")
+end
 ---------------------------------------------------------------------------
 -- Zufallsläufe (5 Seeds): wilde Ereignisfolgen, Invarianten müssen halten, Zeit je Ereignis messen
 ---------------------------------------------------------------------------
@@ -628,7 +672,7 @@ for seed = 1, 5 do
     check((T.gekauft or 0) <= (T.gesendet or 0) + 1, "Zufall " .. seed .. ": gekauft (ohne fremde) nie mehr als gesendet")
     check(#W.log() <= 6500, "Zufall " .. seed .. ": höchstens 6500 Zeilen")
     local ex = W.env.GSSniperLogDB.export
-    check(ex:find("^GSDIAG1|GSSniperLog|1.4|") and #ex <= 400200, "Zufall " .. seed .. ": Export gültig")
+    check(ex:find("^GSDIAG1|GSSniperLog|1.5|") and #ex <= 400200, "Zufall " .. seed .. ": Export gültig")
     check(not ex:find("\0"), "Zufall " .. seed .. ": Export ohne Nullzeichen")
     check(dt / nEv < 0.0005, string.format("Zufall %d: schnell genug (%.3f ms je Ereignis)", seed, dt / nEv * 1000))
     print(string.format("Zufall %d: %d Ereignisse, %.3f ms je Ereignis, %d Zeilen, gesendet %d, gekauft %d, weg %d",
