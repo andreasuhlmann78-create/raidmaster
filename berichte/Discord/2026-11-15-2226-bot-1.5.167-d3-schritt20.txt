@@ -1,0 +1,41 @@
+BERICHT DISCORD – Bot 1.5.167: D-3 Schritt 20 (Selbst-Update als eigenes Modul) – umgesetzt, zur Prüfung
+Zeit: 15.11.2026 22:26 (aus date)
+Commit: 52b7c10e auf origin/main, CI bot-tests: success
+
+WAS
+- Neues Modul RaidMasterBot/update_bot.py (186 Zeilen): update_lock, _restart_pending, apply_update,
+  _apply_update, check_github, _check_github, update_loop (@tasks.loop), before_update, confirm_later,
+  report_update_result, /update.
+- UNVERÄNDERT verschoben, samt Kommentaren direkt darüber: per ast verglichen -> alle 11 identisch; keine
+  Kommentarzeile verloren.
+- _restart_pending ("global" in _apply_update) liegt im Modul bei allen Funktionen, die ihn setzen
+  (_apply_update) und lesen (check_github). Neustart über grund.restart_soon (seit 1.5.165).
+- bot.py übernimmt update_loop (Start in setup_hook) und report_update_result (nach dem Start).
+  git diff --numstat +2 −159, bot.py jetzt 3381 Zeilen.
+- tb_cleanup_loop (Testberichte aufräumen) stand zwischen den Update-Funktionen und bleibt in bot.py.
+
+TESTS
+- test_update_schleife.test_eben_installiert_wird_nicht_nochmal_eingespielt: _check_github über
+  bot_quelle.funktion (gleiche Aussage: Prüfung pending.get("ref") VOR github_zip).
+- NEU test_update_bot.py (5 Tests, REGRESSIONEN T-D3-UPDATE), updater durch Ersatz ohne Dateien:
+  Bot-Änderung -> Meldung "startet in wenigen Sekunden neu", restart_soon angestossen, danach weder
+  apply_update noch check_github spielt etwas ein (install genau 1×); ohne Bot-Änderung -> installed_sha gemerkt,
+  check_addon_release aufgerufen; UpdateError -> failed_sha gemerkt, kein Neustart; /update nur Gildenleitung.
+  Gegenproben (je eine Prüfung/Zuweisung von _restart_pending bzw. failed_sha entfernt) -> 4× FAILED (1).
+- test_lade: update_bot.bot ist bot.bot; update_loop dasselbe Objekt; restart_soon aus grund;
+  check_addon_release aus ankuendigung_bot.
+- Slash-Befehle: 49, unverändert. 347 Tests OK; jede Testdatei einzeln mit -I OK; REGRESSIONEN 54 von 54.
+
+BETRIEB NACHGESTELLT (an einer Kopie)
+1. Update vom Stand 1.5.166: updater._copy_new kopiert VERSION, bot.py, tests, update_bot.py; config/state/ZIP
+   unverändert (md5); VERSION 1.5.167.
+2. Start wie launcher.py: Abbruch erst bei der Anmeldung (LoginFailure, Test-Token).
+3. Ohne config.json: Exit-Code 3, Meldung "Bitte zuerst config.json ausfüllen …", config.json angelegt.
+4. Neustart nach Update (Ende-zu-Ende an der aktualisierten Kopie, bot.py als __main__): Exit-Code 42.
+
+STAND D-3: bot.py 7437 (vor D-3) -> 3381 Zeilen; 19 Module ausgelagert.
+
+OFFEN
+- Frage zur Selbst-Aktualisierung während D-3 (Bericht 2155 frage-d3): noch keine Antwort.
+- NÄCHSTE BEREICHE: Sicherung/Symbol-Liste/Selbstprüfung (Loops), Testberichte (tb_cleanup, Test-Uploads),
+  DKP, Raids, Uploads, Kanal-Aufräumer, zuletzt RaidBot.
