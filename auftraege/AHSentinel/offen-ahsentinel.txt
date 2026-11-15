@@ -39,8 +39,9 @@
          Gesamt: AHS 55 Stück / 4g93s40c gegen 54 bestätigte / 4g84s41c. Ein Kauf wurde gezählt, ohne dass
          AUCTION_HOUSE_PURCHASE_COMPLETED kam (Verdacht: Zählen auf ein anderes Ereignis oder auf eine doppelte Sendung – 3× doppelt
          gesendet). Ursache belegen, zählen NUR auf PURCHASE_COMPLETED(auctionID) eines selbst gesendeten Kaufs.
-  GSL1-4 AUCTION_CANCELED kommt nach JEDEM eigenen Kauf (Forever-Eigenheit, im Protokoll belegt). Prüfen, dass AHS dieses Ereignis
-         nicht als "eigene Auktion abgebrochen" verbucht oder Meine Auktionen deswegen neu aufbaut (kostet Zeit beim Snipen).
+  GSL1-4 NIEDRIG, Verdacht: AUCTION_CANCELED mit fremder auctionID während des Snipens – Quelle ist die AHS-Diagnose 0.65.189
+         (13:38:44–13:38:54, "unerwartet, nichts geändert"), NICHT GSSniperLog 1.0 (dort nicht erfasst). AHS behandelt es schon
+         richtig (nichts geändert). Nur prüfen, dass dabei nichts neu aufgebaut wird; ob es nach jedem Kauf kommt, misst GSSniperLog 1.2.
   GSL1-5 Bildaussetzer während des Snipens (22 × > 100 ms, längster 1147 ms bei 56 offenen Käufen): mit GSSniperLog 1.2 misst der
          Nutzer jetzt die Ursache je Aussetzer (AHS-Aufgabe, Speicherbereinigung, Ereignissturm, Addon-Zeiten). Supervisor liefert
          die Stellen nach – AHS jetzt nur: offene Käufe nie unbegrenzt anwachsen lassen (56 offen = Folge von GSL1-1).
