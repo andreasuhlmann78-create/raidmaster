@@ -81,6 +81,19 @@
       "Scan wartet" ohne Grund. Mit 0.65.208 rot, danach grün. Den gefundenen Zustandsfehler AUCH beheben (falls die Sperre einmal
       endet, ohne dass der Scan fertig ist, darf nichts hängen bleiben).
   (d) Locales alle Sprachen, CHANGELOG EN/DE, Bericht mit Beleg der Ursache.
+  BELEG AUS PROTOKOLL 10 (GSSniperLog 1.7, 18:56–19:04, 0.65.203; Supervisor 19:04) – das "Spinnen" ist gemessen:
+    - Vollscan 19:00:40–19:01:24 (60 812 Antworten); Nutzer schaltet 19:01:28–19:01:36 den Sniper viermal an/aus.
+    - Danach Status "Sniper-Modus AN – sucht selbstständig", aber KEINE Sniper-Suche von 19:01:27 bis 19:02:08 (41 s; Zeile PAUSE
+      100,8 s seit der letzten Suche vor dem Scan). Stattdessen viermal "ANFRAGE-FREMD Suche von AHSentinel/Seller.lua während Sniper
+      an" (19:01:27, :35, :43, :51, :59 – alle 8 s), dazu PAUSE-Zeilen von je 8,1–8,3 s. Verdacht: eine Seller-Suche (Preisprüfung
+      nach dem Einstellen 18:59, "Einstellen ×3") hält den Such-Platz, und der Sniper kommt nach dem Scan nicht dazwischen.
+    - Ab 19:02:08 sucht der Sniper wieder, aber nur 39 bzw. 37 Suchen je Minute (vor dem Scan 18:45: 83/Min.) – immer 4 Suchen,
+      dann ~3 s Lücke. Ursache zu belegen (Verdacht: Rundenpause nach dem Scan bleibt stehen, oder Ruhemodus-Zustand falsch).
+    - Ruhemodus nach dem Scan: "liefen dabei (begonnen): fullscan 23 s, cache:itemlist, core:realcheck" – die Scan-Auswertung lief
+      beim Snipen (richtig, die gehört nicht zur QUIET-Liste), aber dazu wartend cache:today, core:resolve, forecast-eval,
+      ketten:refresh, pd7:prepare je 49–60 s.
+    Abnahme SN-SCAN1: nach Scan-Ende sucht der Sniper innerhalb von 1 s wieder, mit derselben Rate wie vor dem Scan; keine
+    Seller-Suche, solange der Sniper an ist (oder sie wartet, bis der Sniper aus ist, mit Zeitlimit).
 
 >>> ESL1 – "Materialien als Einkaufsliste" meldet Erfolg, aber keine Liste (Spieler-Meldung über den Nutzer 18:49, EN-Client:
     "it said it added stuff to shopping list . but I dont see any shopping list created"; Supervisor 18:5x).
