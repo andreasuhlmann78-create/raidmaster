@@ -1,0 +1,12 @@
+AHSentinel 0.65.245 – Phase 7 MR3 Weg A Teil 2 (Antwort Supervisor 23:48) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.245 und sofort im Discord.
+Umsetzung (UI_MarketView.lua):
+  - MV:RankLine(r): für Kauf-Zeilen in "Heute" (Einsatz > 0, RK7-Rang r.rank aus Comfort, = Gewinn/Einsatz ÷ Tage × Sicherheit)
+    "Rang: x je Tag je 1g Einsatz" + Weg (Comfort WAY_OF_KIND -> MA2): frei "Weg Entzaubern: 64 % (25)", lernt "Flippen lernt noch
+    (12 von 20)", gesperrt "Weg Händler gesperrt (Treffer 45 %)". Im Zeilen-Tooltip; Tabelle unverändert (Platz).
+  - OFFEN (MR3 "mit Höchstpreis 'Lohnt bis'"): die Kauf-Zeilen tragen heute maxUnit = Kaufpreis des Angebots (Sniper-Max), nicht
+    "Lohnt bis" je Zeile. "Lohnt bis" je Zeile zeigen heisst die Grenze aus MK:LimitFromNet je Weg mitführen (Flip: Kaufgrenze,
+    Entzaubern: DEOffer upto, Händler: Händler − 1c) – nächster Teil (A Teil 3), wenn gewünscht.
+Tests: T819 (frei/lernt/gesperrt mit Rang; ohne Einsatz nil) – mit 0.65.244 rot (RankLine fehlt), mit 0.65.245 grün. s42 grün.
+  CHANGELOG EN/DE.
+Gesamtlauf (frischer Klon, Kopie 0.65.245): BESTANDEN 315, FEHLGESCHLAGEN 0.
