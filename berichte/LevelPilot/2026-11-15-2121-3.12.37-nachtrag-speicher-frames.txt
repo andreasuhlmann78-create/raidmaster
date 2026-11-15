@@ -1,0 +1,20 @@
+BERICHT LevelPilot 3.12.37 – Nachtrag: Speicher, längster Frame beim Laden, T151/T157/T263
+Projekt: LevelPilot · Datum: 15.11.2026 21:21 (aus date) · Status: umgesetzt, zur Prüfung
+
+Bezug: offen-levelpilot.txt, Nacht-Prüfung 21:19 ("Speicher und längster Frame beim Laden im Spiel-Nachbau (T151/T157/T263 grün?)
+ausdrücklich nennen").
+
+Startwegnetz im Nachbau (Lua 5.1, echte Zonengrössen ZONESIZE):
+- Speicher: aufgebautes Startnetz +731 KB; Rohdaten Data/Wege.lua 176 KB, nach dem Aufbau freigegeben (LP.SeedWege = nil).
+- Laden als Hintergrund-Portion "seedwege": längstes Stück 4,0 ms (Budget 4 ms je Bild), 4–5 Bilder (test_seedwege.lua, Teil 5).
+
+Testroutine-Tests (veröffentlichte ZIP, run_offline.py, alle fünf Lagen grün = 37/37 Läufe ohne FEHLER):
+- T151 Graph:Path Orgrimmar -> Wegkreuz: grün. Einzelmessung Forever deDE: Median 8,94 ms, Höchstwert 36,96 ms (soll < 16 ms Median).
+  Mit echten Zonengrössen: Median 5,9 / 6,5 / 6,7 ms (3.12.35: 0,4 ms; der erste, kalte Lauf ~50 ms rechnet die Gefahrenwerte
+  der Startkanten einmal).
+- T157 Speicher (Zuwachs während der Prüfungen < 1024 KB): grün in allen fünf Lagen. (Die erste, verworfene Variante: 6–8 MB, rot.)
+- T263 Last-Test Portionen <= 16 ms: grün. Einzelmessung: Wegsuche 40 Portionen, längste 5,1 ms; unerreichbares Ziel 111 Portionen,
+  längste 10,9 ms, beendet. (Erste Variante: längste 20,7 ms, rot.)
+
+Berichtigung Uhrzeit: Meine Berichte 2026-11-15-2115-3.12.37-startwegnetz.txt und 2026-11-15-2125-lp35-1-messung.txt wurden beide
+um 21:14 committet (git log); die Namen waren geschätzt. Ab jetzt Zeiten nur aus "date".
