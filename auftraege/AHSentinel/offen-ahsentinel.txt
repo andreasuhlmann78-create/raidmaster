@@ -65,6 +65,19 @@
     und der längste Frame darf mit Feed höchstens 5 ms länger sein als ohne. Beides erfüllt -> VS.FEED_ON einschalten (Phase 2,
     Marktdaten-Netz aller Spieler). In der Testroutine beide Grenzen als Prüfung festhalten, damit ein späterer Anstieg rot wird.
 
+>>> NACHT-PRÜFUNG 19:17 (Supervisor) – 0.65.208 bis 0.65.211. addon_check 0.65.210: OK. Berichte gegen Diff gelesen (Stichproben).
+  0.65.208 SN-BTN1: Weg = derselbe OnTrigger wie Raste (Gold-Sicherheit unverändert), Knopf liest nur Zustände, Doppelklick = 1 Kauf
+    (s208). Passt zum Auftrag. Abnahme "elegant" nur im Spiel durch den Nutzer (Aussehen, Zustände, nichts abgeschnitten).
+  0.65.209 GSL6-2: Sniper.lua Sn:OnPushedResults – nur vollständige Liste, Einzelstücke, keine Reservierung offen. Passt.
+    Hinweis: Protokoll 10 zeigt nach dem Scan 37–39 Suchen/Min. statt 83 (SN-SCAN1-Beleg) – beim nächsten Protokoll mit 0.65.209+
+    prüfen, ob die Rate vor/nach Scan gleich ist und ob "Raste wartete auf Server" hoch ist (dein Verdacht im Bericht).
+  0.65.210 ESL1: Ursache leer/nil/zu lang belegt in T794 – passt. DE-WIN1: Ursache (a) in der Nachbildung belegt, Zeile DE-LEER und
+    Neuzeichnen bei GET_ITEM_INFO_RECEIVED – passt; Bestätigung im Spiel über DE-LEER. Achtung GSL8-1: Neuzeichnen nur für
+    AUSGELASSENE Teile (sonst bei den Stürmen nach dem Vollscan tausendfach) – laut Bericht so gebaut; im Protokoll prüfen.
+  0.65.211 GSL7-1 (Fenster 1,0 s, jüngster Kauf), GSL5-4 (Treffer zuerst), GSL5-5 (Zeile SCAN-START), GSL6-3 (Budget rechnet
+    unbestätigte mit: JA, Code belegt) – passt. GSL6-3 damit erledigt aus Sicht des Codes.
+  Offen und ganz oben: POST-BLOCK1 (nachgestellt, Warnschutz-Weg), WS-LOOP1 (HOCH), SN-SCAN1, GSL8-1.
+
 >>> SN-SCAN1 – ENTSCHEID DES NUTZERS 19:03: "Wir sollten den Sniper-Knopf während des Scans sperren, weil wenn man ihn während dem
     Scan an und aus macht, spinnt nachher der Sniper." (3 Bildschirmfotos 19:00–19:01, 0.65.203: während "Vollscan läuft – noch ca.
     35 s (Sniper wartet)" mehrmals AN/AUS; danach Fusszeile "Scan wartet: Sniper-Ruhemodus" bzw. "Nächster Scan in 14:04",
