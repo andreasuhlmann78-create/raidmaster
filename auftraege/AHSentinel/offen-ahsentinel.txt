@@ -48,6 +48,12 @@
          Nutzer jetzt die Ursache je Aussetzer (AHS-Aufgabe, Speicherbereinigung, Ereignissturm, Addon-Zeiten). Supervisor liefert
          die Stellen nach – AHS jetzt nur: offene Käufe nie unbegrenzt anwachsen lassen (56 offen = Folge von GSL1-1).
   Reihenfolge ab jetzt: GSL1-1 -> GSL1-3 -> GSL1-2 -> GSL1-4 -> TB192 -> restlicher Sniper-Block -> Abnahme A1–A6.
+>>> DE-AUFT1 (Supervisor 15.11. 15:10, Verdacht – zu belegen, nach dem Sniper-Block): Einstand-Aufteilung beim Entzaubern. Auswertung
+    11:51–15:01 (shared/wissen/auswertungen/2026-11-15-kaufen-entzaubern-verkaufen.md): Kette Schulter -> Entzaubern -> Verkauf
+    = +1s70 je Stück, aber AHS bucht verkauften Seelenstaub mit Einstand 5s06/Stück (16g33s02 für 323) über dem Verkaufspreis
+    4s01 netto, Essenz mit 5s61 weit darunter (Markt 14s18). Tooltip zeigt deshalb "Seelenstaub Gewinn −19c". Belegen: nach
+    welchem Schlüssel wird der Einstand eines entzauberten Items auf die Mats verteilt (Regel buchhaltung.md: nach Marktwert zum
+    Zeitpunkt des Entzauberns)? Oder stammt der teure Staub aus älterer Ware? Mit Zahlen im Bericht.
 >>> TB192 (Nutzer 14:39, Screenshot Meine Auktionen, 0.65.192) – Supervisor nachgerechnet: Wert 24 × 14s86 = 3g56s64 + 48 × 4s18 =
     2g00s64 = 5g57s28 ✓; erhalten 13g44s63 × 0,95 = 12g77s40, angezeigt 12g77s27 (−13c; Rundung je Verkauf bei 28 Verkäufen
     plausibel – belegen und im Tooltip "Summe der einzeln gerundeten Beträge" nennen). Noch sichtbar in 0.65.192: TB181-1 (graue
