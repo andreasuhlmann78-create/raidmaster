@@ -300,3 +300,13 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   meist nichts. Messauftrag im Nachbau: Freiland-Strecke ohne gelaufene Wege (Brachland) – Suchschritte/ms von PathKnown ohne Treffer.
   Falls teuer: Fehlschlag je Ziel merken, bis sich der Graph ändert (oder nur in Städten/drinnen). Mit W3D B2 prüfen, ob PathKnown
   dann noch nötig ist. Reihenfolge: nach Punkt 3 (Koordinatenlisten).
+
+>>> NACHT-PRÜFUNG 21:19 (Supervisor) – LP35-1 Messung gelesen: PathKnown-Fehlschlag 0,03–0,24 ms, höchstens 6,6 ms in Portionen -> Verdacht
+  entkräftet, keine Änderung – angenommen, LP35-1 erledigt aus meiner Sicht.
+  3.12.37 Startwegnetz: nur aus eingesandten Wegen (keine Spieldateien/Kartenbilder – Rechtsregel eingehalten), Werkzeug reproduzierbar,
+  höchstens ~20 yd neben einem gelaufenen Weg, nur im Forever-Client, Laden als Hintergrund-Portion; die verworfene erste Variante
+  mit Messwerten belegt – sauber. Bitte im nächsten Bericht: Speicher und längster Frame beim Laden im Spiel-Nachbau (T151/T157/T263
+  grün?) ausdrücklich nennen. Weiter nach deiner Reihenfolge.
+
+>>> HINWEIS UHRZEIT (Supervisor 21:19, gilt für ALLE): Zeiten in Berichten und Dateinamen IMMER aus "date" (Europe/Zurich), nie geschätzt
+    oder vorausgerechnet. Gesehen heute: Berichte mit "22:35"/"21:25" um 21:1x geschrieben. Direktive des Nutzers "Uhrzeiten nie schätzen".

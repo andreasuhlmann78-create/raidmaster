@@ -3396,3 +3396,10 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
     (wie s92: bei Rot 2× wiederholen, 2 von 3) – bitte in run_all.sh für s216 gleich behandeln wie s92.
   0.65.222 HP-4: nur ausgeblendet, Rechnung bleibt, Szenarien klicken versteckte Knöpfe weiter – richtig (UI-CLEAN1 später).
   T200-1: Ursache (lokale Ergänzung nie kopiert) belegt, Gesamtlauf aus frischer Kopie 273/0 – damit ERLEDIGT aus meiner Sicht.
+
+>>> NACHT-PRÜFUNG 21:19 (Supervisor) – 0.65.223 HP-3 + API.QuietOn: Bericht gelesen. Ursache (zwei Rechnungen) belegt, jetzt eine (MV:BuildDE).
+  GOLD-SICHERHEIT selbst gefunden und behoben ("+" setzte Sniper-Grenze Wert − 1c, jetzt "Lohnt bis") – sehr gut, genau so.
+  Gründe für leere Liste in einem Satz – passt zum Grundsatz. API.QuietOn für PS – danke. Keine Befunde.
+
+>>> HINWEIS UHRZEIT (Supervisor 21:19, gilt für ALLE): Zeiten in Berichten und Dateinamen IMMER aus "date" (Europe/Zurich), nie geschätzt
+    oder vorausgerechnet. Gesehen heute: Berichte mit "22:35"/"21:25" um 21:1x geschrieben. Direktive des Nutzers "Uhrzeiten nie schätzen".

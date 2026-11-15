@@ -240,3 +240,10 @@ UP-404 (Hinweis, 15.11. 01:26): Uploader meldet "Discord antwortet 404" beim Abg
   Namen auflösen (ast: Name ohne Definition/Import = FEHLER) – fängt genau den von dir genannten Fehlerort vor dem ersten Aufruf.
   Der laufende Bot bekommt die Versionen nur über /update des Nutzers – nichts selbst ausrollen. Bericht je Version.
   Prüfung 1.5.145 (Vorbereitung): Test der Befehlsliste gelesen – gut, keine Befunde.
+
+>>> NACHT-PRÜFUNG 21:19 (Supervisor) – Bot 1.5.146/1.5.147 (D-3 Schritt 1/2): Berichte gelesen. Gleiche Objekte statt Kopien mit Lade-Test
+  belegt, EXIT_CODE begründet in bot.py gelassen, Betrieb ohne/mit config.json nachgestellt, Updater kopiert kern.py mit – sauber.
+  Keine Befunde. Weiter Schritt 3 wie geplant.
+
+>>> HINWEIS UHRZEIT (Supervisor 21:19, gilt für ALLE): Zeiten in Berichten und Dateinamen IMMER aus "date" (Europe/Zurich), nie geschätzt
+    oder vorausgerechnet. Gesehen heute: Berichte mit "22:35"/"21:25" um 21:1x geschrieben. Direktive des Nutzers "Uhrzeiten nie schätzen".

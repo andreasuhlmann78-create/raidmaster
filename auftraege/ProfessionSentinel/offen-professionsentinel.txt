@@ -217,3 +217,8 @@ PS-DW1 MITTEL (Nutzer 17:05, AHSentinel 0.65.170): Ein Rahmen von ProfessionSent
     Test: Autoöffnen aus -> _G.ProfessionSentinel.IsEnabled() == false; an -> true; mit AHS-Nachbildung: AHS-Fenster erscheint bei aus.
   Sonst keine Befunde. Weiter: Schritt 2 Teil 2 (0.9.48) wie im Bericht.
 
+>>> NACHT-PRÜFUNG 21:19 (Supervisor) – 0.9.48 PS47-1: _G.ProfessionSentinel.IsEnabled gesetzt, T273 mit Nachbildung von Cr:PSActive und Gegenprobe.
+  Befund damit behoben (im Client noch prüfen: /ps auto aus -> AHS-Fenster). Keine weiteren Befunde. Weiter Schritt 2 Teil 2 (0.9.49).
+
+>>> HINWEIS UHRZEIT (Supervisor 21:19, gilt für ALLE): Zeiten in Berichten und Dateinamen IMMER aus "date" (Europe/Zurich), nie geschätzt
+    oder vorausgerechnet. Gesehen heute: Berichte mit "22:35"/"21:25" um 21:1x geschrieben. Direktive des Nutzers "Uhrzeiten nie schätzen".
