@@ -45,6 +45,7 @@
 >>>       im Ruhemodus klären), GSL6-3 (Beleg Budget/Max).
 >>>    Danach weiter mit Phase 4 (RK5 nach der Antwort unten, RK6/RK7 …).
 >>>    6. NEU 18:5x (Spieler betroffen, HOCH, direkt nach 1.): ESL1 und DE-WIN1 – siehe Blöcke gleich unten.
+>>>    7. NEU 19:03 (Entscheid des Nutzers): SN-SCAN1 Sniper-Knopf während des Vollscans sperren – direkt nach SN-BTN1.
 
 >>> NACHT-PRÜFUNG 18:58 (Supervisor) – 0.65.206 und 0.65.207. addon_check 0.65.207: OK.
   0.65.207 POST-BLOCK1: Code gelesen (Seller.lua Se:Post, Se:OnActionBlocked, Ereignisse ADDON_ACTION_BLOCKED/FORBIDDEN) – passt zum
@@ -63,6 +64,23 @@
     bleibt. Für den Feed-Anteil gilt eine eigene Grenze von höchstens 4 MB zusätzlich (gemessen +3,1 MB mit v6, Median aus 3 Läufen),
     und der längste Frame darf mit Feed höchstens 5 ms länger sein als ohne. Beides erfüllt -> VS.FEED_ON einschalten (Phase 2,
     Marktdaten-Netz aller Spieler). In der Testroutine beide Grenzen als Prüfung festhalten, damit ein späterer Anstieg rot wird.
+
+>>> SN-SCAN1 – ENTSCHEID DES NUTZERS 19:03: "Wir sollten den Sniper-Knopf während des Scans sperren, weil wenn man ihn während dem
+    Scan an und aus macht, spinnt nachher der Sniper." (3 Bildschirmfotos 19:00–19:01, 0.65.203: während "Vollscan läuft – noch ca.
+    35 s (Sniper wartet)" mehrmals AN/AUS; danach Fusszeile "Scan wartet: Sniper-Ruhemodus" bzw. "Nächster Scan in 14:04",
+    "Ruhemodus: 3 Aufgaben pausiert").  PRIO JETZT: direkt nach SN-BTN1 (vor GSL6-2).
+  (a) Solange ein Vollscan läuft: Knopf "Sniper-Modus" grau und ohne Wirkung, Tooltip "Gesperrt, bis der Scan fertig ist – noch ca.
+      x s". Gleiches für /ahs sniper, Tastenbelegung und jeden anderen Weg, der den Sniper-Modus umschaltet (alle Wege suchen und
+      im Bericht aufzählen). Klick während der Sperre: kurze Meldung, kein Umschalten, nichts vormerken.
+  (b) Keine Sperre ohne Zeitlimit: Sperre endet beim Scan-Ende, bei Abbruch, beim Schliessen des AH und spätestens nach der
+      längsten erlaubten Scan-Dauer (Wert aus dem Code nennen, z. B. Vollscan-Zeitlimit + 5 s). Danach ist der Knopf sofort wieder
+      bedienbar und zeigt den echten Zustand.
+  (c) Ursache "spinnt nachher" BELEGEN, nicht nur zudecken (Verdacht, zu messen): Umschalten während des Scans lässt einen Zustand
+      stehen (z. B. Sniper wartet / Ruhemodus / Scan wartet auf Sniper-Ruhemodus -> der nächste Scan bzw. die Suche hängen gegenseitig).
+      Szenario: Scan läuft -> Sniper an/aus/an/aus -> Scan fertig -> Sniper an: sucht sofort, Scan-Zeitplan stimmt, keine Fusszeile
+      "Scan wartet" ohne Grund. Mit 0.65.208 rot, danach grün. Den gefundenen Zustandsfehler AUCH beheben (falls die Sperre einmal
+      endet, ohne dass der Scan fertig ist, darf nichts hängen bleiben).
+  (d) Locales alle Sprachen, CHANGELOG EN/DE, Bericht mit Beleg der Ursache.
 
 >>> ESL1 – "Materialien als Einkaufsliste" meldet Erfolg, aber keine Liste (Spieler-Meldung über den Nutzer 18:49, EN-Client:
     "it said it added stuff to shopping list . but I dont see any shopping list created"; Supervisor 18:5x).

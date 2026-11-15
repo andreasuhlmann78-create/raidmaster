@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 15.11.2026 19:03 | AHSentinel SN-SCAN1: Sniper-Knopf während des Vollscans sperren (An/Aus während des Scans lässt den Sniper danach spinnen). Sperre mit Zeitlimit; Ursache belegen und beheben. | Nutzer im Chat |
 | 15.11.2026 18:29 | SN-BTN1 muss elegant umgesetzt sein und so aussehen: ein klarer Haupt-Knopf im AHS-Stil, saubere Zustände, sofortige Reaktion, nichts abgeschnitten | offen-ahsentinel.txt SN-BTN1 (g) |
 | 15.11.2026 18:27 | Spieler-Wunsch umsetzen: Kaufen-Knopf im Sniper kauft mit einem Klick; Mausrad/Taste NICHT löschen (bleiben Standard), Einstellung "nur Knopf" | offen-ahsentinel.txt SN-BTN1 |
 | 15.11.2026 18:02 | AHS stellt Fragen nur noch dem Supervisor (Berichte), nicht dem Nutzer; Supervisor beantwortet sie | offen-ahsentinel.txt FRAGEN NUR AN DEN SUPERVISOR |
