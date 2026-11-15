@@ -1,0 +1,13 @@
+AHSentinel 0.65.237 – S92-DET (Auftrag 22:18) + eigener Fund TB172-2a – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.237 und sofort im Discord.
+1) S92-DET: AHAnalyzerPro.lua (A:Pause, Aufgaben-Rahmen) und Vollscan.lua (Lesen in Portionen) nehmen die Uhr der Zeitbudgets
+   über die Testnaht A.budgetClock; ohne Naht (im Spiel) wie bisher debugprofilestop. Nachbildung: s92 mit SIM_DET=1 (Commit
+   45a4c08 in tests). Werte und Entscheid-Frage: berichte/AHSentinel/2026-11-15-2224-befund-s92-det.txt.
+2) TB172-2a (eigener Fund beim Einbau): A:TimeFrame (Entwickler-Messung langsamer Ereignisse, TB172-2) las "Clock", das erst
+   weiter unten in der Datei lokal wird -> undefinierte Globale (nil), die Messung lief seit TB172-2 NIE (Beleg: Gesamtlauf-
+   0.65.230 meldet in vielen Szenarien "undefinierte Globale gelesen: Clock(n)", n bis 393; mit 0.65.237 keins). Jetzt debugprofilestop direkt (echte Dauer, nicht Zeitbudget).
+   Folge für frühere Befunde: A.lastSlowEvent war immer leer -> "keine Lücke durch AHSentinel-Ereignisse" in Vollscan-Lücken
+   war damit nie belegt (nur nicht gemessen).
+Tests: T812 (Testroutine, TB172-2a), s237_det_clock (Naht benutzt, jede Pause gibt mit fester Uhr ab; Ereignis > 16 ms
+   gemerkt) - mit 0.65.236 rot (3 von 6), mit 0.65.237 grün. s42 Testroutine grün. CHANGELOG EN/DE.
+Gesamtlauf (frischer Klon, Kopie 0.65.237, s237 mit dieser Version ins Repo): BESTANDEN 282, FEHLGESCHLAGEN 0; s92 fest grün; kein "Clock" mehr unter den undefinierten Globalen.
