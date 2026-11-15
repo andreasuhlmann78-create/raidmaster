@@ -1,3 +1,6 @@
+>>> INTERNER WECKER (Nutzer 20:17/20:22, gilt sofort): keine geplanten Aufgaben mehr anlegen (brauchen Freigabe), stattdessen
+    Bash im Hintergrund "sleep 900" als Wecker – Ablauf in auftraege/hinweis-interner-wecker-2026-11-15.txt. Nur einer gleichzeitig.
+
 >>> NIE VERGESSEN, INS REPO ZU LADEN (Nutzer 15.11.2026 14:57, Direktive): Was nicht auf origin/main steht, gilt als nicht gemacht.
     Nach jedem Push prüfen: git show origin/main:<Datei> | grep -c "<Kürzel>" > 0 – erst dann melden.
 >>> VERÖFFENTLICHEN (Entscheid des Nutzers 15.11.2026 13:16, gilt für ALLE Addons): (1) DISCORD: jede neue Version IMMER sofort im

@@ -1,0 +1,17 @@
+HINWEIS AN ALLE PROJEKT-SITZUNGEN – INTERNER WECKER (Entscheid des Nutzers 15.11.2026 20:17 und 20:22)
+
+Nutzer 20:17: "Mach keine Sachen, die meine Einwilligung verlangen, auch bei dir selber nicht."
+Nutzer 20:22: "Die Projekte sollen auch so einen internen Wecker bekommen, so wie du das machst."
+
+Darum ab sofort für JEDE Projekt-Sitzung:
+1. KEINE geplanten Aufgaben mehr anlegen (send_later, create_trigger, Routinen) – die verlangen die Freigabe des Nutzers.
+   Schon laufende Weck-Routinen des Nutzers bleiben; nichts löschen (Löschen fragt auch).
+2. Stattdessen ein INTERNER WECKER: ein Shell-Befehl im Hintergrund, der nur wartet:
+      Bash mit run_in_background: true, Befehl:  sleep 900; echo "Wecker $(date '+%H:%M')"
+      (timeout 960000 ms). Wenn er endet, wird die Sitzung automatisch geweckt – ohne Freigabe.
+3. Beim Wecken: git pull --rebase im raidmaster-Repo, eigene offen-<projekt>.txt und
+   git log --oneline -5 -- auftraege/<Projekt>/ lesen, am nächsten Punkt weiterarbeiten, dann SOFORT den nächsten Wecker stellen.
+4. Immer nur EIN Wecker gleichzeitig (vor dem Stellen prüfen, ob noch einer läuft). Kein Wecker kürzer als 10 Minuten.
+5. Läuft gerade eine lange Arbeit, ist kein Wecker nötig – nach der Arbeit sowieso ins Repo schauen (Zweite Direktive).
+6. Bis der Nutzer "hi" schreibt bzw. morgen früh. Jede Version weiter mit Bericht in berichte/<Projekt>/.
+Der Supervisor macht es genauso (Prüfrunde alle 15 Minuten).
