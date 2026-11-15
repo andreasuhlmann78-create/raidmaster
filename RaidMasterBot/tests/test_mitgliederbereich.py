@@ -11,6 +11,8 @@ import os
 import sys
 import unittest
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
 import discord
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -349,12 +351,11 @@ class BotCode(unittest.TestCase):
         self.assertIn('cfg.pop("name_poll_channel_id"', body)
 
     def test_raidmaster_pflicht_hinweis(self):
-        with open(os.path.join(HERE, "bot.py"), encoding="utf-8") as f:
-            src = f.read()
-        body = src[src.index("def addon_hint("):src.index("def profile_text(")]
+        import bot_quelle                      # D-3: Funktion finden, egal in welchem Modul sie liegt
+        body = bot_quelle.funktion("addon_hint")
         self.assertIn('"pug"', body)
         self.assertIn("RaidMaster", body)
-        self.assertEqual(src.count("addon_hint(raid, actual)"), 2)
+        self.assertEqual(bot_quelle.alle().count("addon_hint(raid, actual)"), 2)
 
     def test_einrichten_nur_mit_bestaetigung(self):
         with open(os.path.join(HERE, "bot.py"), encoding="utf-8") as f:

@@ -357,6 +357,8 @@ REGRESSIONEN = {
     "T-UP404b": ("test_bot_rechte", "BotAblauf", "test_kein_server_nur_protokoll"),
     "T-UP404c": ("test_bot_rechte", "BotAblauf", "test_einladung_meldet_befehle_an"),
     "T-UP404d": ("test_bot_rechte", "BotAblauf", "test_private_kanaele_freigeben"),
+    "T-D3-LADE": ("test_lade", "Lade", "test_alle_namen_aufloesbar"),
+    "T-D3-BEFEHLE": ("test_befehle_liste", "BefehleListe", "test_gleiche_befehle"),
     "T-D-MN8b": ("test_market", "BotAblauf", "test_T_D_MN8b_aenderung_erst_nach_senden_merken"),
     "T-D-GS1b": ("test_market", "BotAblauf", "test_T_D_GS1b_grosse_guildsentinel_datei"),
     "T-MN8": ("test_blizzard_api_check", "MN8", "test_T_MN8_keine_geheimnisse_und_ergebnis"),

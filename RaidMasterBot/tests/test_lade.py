@@ -1,0 +1,68 @@
+"""D-3 Lade-Test (ab Bot 1.5.146, Regel der Prüf-Sitzung 15.11. 20:48): jedes Bot-Modul importieren und alle in ihm
+benutzten Namen auflösen. Ein Name, der gelesen, aber im Modul nirgends gebunden wird (Zuweisung, Parameter, Import,
+def/class, except … as, global) und kein eingebauter Name ist, ist ein FEHLER – genau der Fehler, der beim Verschieben
+von Code aus bot.py in ein Modul entsteht (er zeigte sich sonst erst beim ersten Aufruf).
+"""
+import ast
+import builtins
+import importlib
+import os
+import sys
+import unittest
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+import bot_quelle  # noqa: E402
+
+BUILTIN = set(dir(builtins)) | {"__file__", "__name__", "__doc__", "__spec__", "__builtins__"}
+
+
+def unbound(src: str) -> list[tuple[int, str]]:
+    tree = ast.parse(src)
+    bound = set()
+    for n in ast.walk(tree):
+        if isinstance(n, ast.Name) and isinstance(n.ctx, (ast.Store, ast.Del)):
+            bound.add(n.id)
+        elif isinstance(n, ast.arg):
+            bound.add(n.arg)
+        elif isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+            bound.add(n.name)
+        elif isinstance(n, (ast.Import, ast.ImportFrom)):
+            for a in n.names:
+                bound.add((a.asname or a.name).split(".")[0])
+        elif isinstance(n, ast.ExceptHandler) and n.name:
+            bound.add(n.name)
+        elif isinstance(n, (ast.Global, ast.Nonlocal)):
+            bound.update(n.names)
+        elif isinstance(n, ast.MatchAs) and n.name:
+            bound.add(n.name)
+    return sorted({(n.lineno, n.id) for n in ast.walk(tree)
+                   if isinstance(n, ast.Name) and isinstance(n.ctx, ast.Load) and n.id not in bound | BUILTIN})
+
+
+class Lade(unittest.TestCase):
+    def test_alle_namen_aufloesbar(self):
+        for p in bot_quelle.dateien():
+            with open(p, encoding="utf-8") as f:
+                bad = unbound(f.read())
+            self.assertEqual(bad, [], f"{os.path.basename(p)}: Namen ohne Definition/Import {bad}")
+
+    def test_module_importierbar(self):
+        sys.path.insert(0, bot_quelle.BOT_DIR)
+        skip = {"bot.py", "markt_bericht_holen.py"}       # bot.py: unten über bot_harness; Sammler braucht requests (GitHub)
+        for p in bot_quelle.dateien():
+            name = os.path.basename(p)
+            if name in skip:
+                continue
+            importlib.import_module(name[:-3])
+        from bot_harness import load_bot                    # bot.py selbst über die Attrappen-config
+        b, _ = load_bot()
+        self.assertTrue(hasattr(b, "zip_addon_info"))           # aus bot_hilfen übernommen
+
+    def test_findet_fehlenden_namen(self):
+        self.assertEqual(unbound("def f():\n    return cfg['x']\n"), [(2, "cfg")])
+        self.assertEqual(unbound("import os\ndef f(a):\n    return os.path.join(a)\n"), [])
+
+
+if __name__ == "__main__":
+    unittest.main()
