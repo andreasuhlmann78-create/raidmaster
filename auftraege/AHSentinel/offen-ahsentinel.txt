@@ -1,4 +1,16 @@
->>> FOKUS NUR SNIPER (Nutzer 15.11. 01:02): bis auf weiteres nur SN-B4 und SN-B3, alles andere ruht.
+>>> FOKUS JETZT KETTEN (Nutzer 15.11. 07:10 "lass uns an der Kette arbeiten") – ersetzt "Fokus nur Sniper". Sniper-Reste
+    SN-B6 (Zähler) und SN-B8 (Gold-Abgang beim Testkauf) direkt danach, nicht vergessen (Gold-Sicherheit).
+KETTE-K1 HOCH – Ketten Schritt 2 bis zur Freigabe (Vorgaben 14:51, Freigabe-Regel 14:09):
+    (1) WIDERSPRUCH beheben (Testbericht 01:36 vs. Beste Rezepte 01:04): "MARKT-KERN Ketten" zeigt Schwere Leinenhandschuhe 4307
+        "verk. +39 (Wert 133)" und die Braune Leinenhose 4343 GAR NICHT, "Beste Rezepte" zeigt beide "+61c ent.". Nachrechnung
+        Supervisor (Datenstand 00:35, Forever-Vorgabe 80/20, Classic-Mengen): Kosten 94c (2 Ballen + Faden), Entzaubern 1s 54c ->
+        +60c (64 %). Die Kette muss denselben Weg und dieselbe Zahl wie "Beste Rezepte" haben (eine Quelle, Entscheid "eine Zahl").
+    (2) Im Testbericht je gezeigter Kette eine Nachrechen-Zeile: Zutaten mit Menge × Preis (Quelle), Zwischenprodukte, Ergebnis-
+        Wert je Weg (verk./ent./Händler), gewählter Weg, Gewinn – damit der Supervisor sie gegen die Scanpreise nachrechnen kann.
+    (3) SK1-l (vorhergesagt/realisiert) muss Fälle sammeln: Herstellen -> Entzaubern -> Verkauf der Hose-Kette zählen (heute 0).
+    (4) Dann Testbericht an den Supervisor; erst nach dessen Prüfung Ke.LIVE = true (Anzeige "Stelle n× … her (+x je Stück)" in
+        Heute tun, eine Zahl mit ProfessionSentinel/Beste Rezepte, nur Gewinn ≥ 20 %, nichts mit Verlust).
+>>> (ersetzt) FOKUS NUR SNIPER (Nutzer 15.11. 01:02): bis auf weiteres nur SN-B4 und SN-B3, alles andere ruht.
 >>> SNIPER-TEST 0.65.179 (01:23): 1 Ziel, Ø 62 Suchen/Min., jedes Ziel ≤ 1 s, 0 Treffer (Markt ganz über Max 18c, günstigstes 22c)
     -> SN-B4 hier nicht prüfbar (braucht Treffer). S13: 717 lange Bilder, alle "nicht AHSentinel" -> kein AHS-Fehler, SN-TEST2-1
     damit geklärt. T745 rot nur wegen "Text false" (Wartegrund-Text) – beheben. SK1-o 11/11 stimmig.
