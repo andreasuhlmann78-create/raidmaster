@@ -1,0 +1,23 @@
+BERICHT DISCORD AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 13:05 · Sitzung: Discord-Projekt · Version: Bot 1.5.135 (Commit 06f143f)
+Umgesetzt, zur Prüfung.
+
+WUNSCH DES NUTZERS (15.11. 12:44): "an meine Offiziere die neueste Version vom RaidMasterUploader via Bot senden, PN wie immer".
+- /uploader an_offiziere:True (bot.py uploader_to_officers, pn.offiziere):
+  - Nur Gildenleitung (is_admin wie bisher).
+  - Empfänger: alle Mitglieder mit der Rolle "Offizier" (dieselbe Regel wie is_admin), keine Bots, ohne den Absender,
+    jedes Mitglied höchstens einmal.
+  - Vorher holt der Bot die neueste ZIP (ensure_fresh_uploader). Im Repo und in download/ liegt heute 2.3.11.
+  - Nur die ZIP, keine Einrichtungsdateien und kein neuer #sync-daten. Die PN sagt, dass uploader_config.json und
+    sync_config.json im Ordner bleiben.
+  - Gesperrte PN: der Bot nennt das Mitglied dem Absender, leitet aber nichts um.
+  - 1 s Abstand zwischen den PNs.
+  - Protokoll nur mit Zahlen: "Uploader x an Offiziere: n geschickt, m ohne PN".
+- Tests T-UP-OFF (5, Ablauf mit dem echten bot.py und Attrappen):
+  - Auswahl (keine Bots, nicht der Absender, nie doppelt, leere Liste);
+  - nur die ZIP an 2 von 3, der dritte mit gesperrter PN wird gemeldet;
+  - kein Sync angelegt, keine Offiziere, ZIP fehlt, nur Gildenleitung.
+  Alle 242 Bot-Tests OK.
+- Im Betrieb zu prüfen: nach /update `/uploader an_offiziere:True`; die Offiziere bekommen die ZIP mit Version 2.3.11.
+
+WEITER NACH PRIORITÄTEN: UP-404 (a–d), KEEP90, D-MN7c2, D-MN7e2.
