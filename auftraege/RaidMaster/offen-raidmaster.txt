@@ -242,6 +242,6 @@ UP-404 HOCH (Nutzer 15.11. 01:26, Screenshot Uploader): "Abgleich: Discord antwo
 
 >>> NACHT-PRÜFUNG 20:38 (Supervisor) – RaidMaster 3.0.27 / Uploader 2.3.12: Bericht gelesen. T90-Ursache in der eigenen Nachbildung
   belegt (Sprachdateien vor Locale.lua) – sauber. Neuer Befund zhCN-Platzhalter (DKP-Vergabe brach bei chinesischem Client ab) behoben,
-  alle 20 Sprachdateien per Skript geprüft, T184 mit Gegenprobe – sehr gut, genau so. GSM7 byte-gleich. addon_check läuft hier noch;
-  Ergebnis in der nächsten Runde. Weiter: deine Reihenfolge (UP-S1/UP-S1-2 Betrieb, dann Nacht-Analyse raidmaster-2026-11-16.md).
+  alle 20 Sprachdateien per Skript geprüft, T184 mit Gegenprobe – sehr gut, genau so. GSM7 byte-gleich. addon_check hier: OK, gemeinsame
+  Dateien byte-gleich (cmp). Weiter: deine Reihenfolge (UP-S1/UP-S1-2 Betrieb, dann Nacht-Analyse raidmaster-2026-11-16.md).
   Hinweis harness.lua liegt nur lokal: bitte ins Repo (berichte/RaidMaster/offline/ wie bei den anderen), damit die Prüfung sie nutzen kann.

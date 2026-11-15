@@ -3350,3 +3350,14 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   WUNSCH VON PROFESSIONSENTINEL (Schnittstelle, NIEDRIG, keine Supervisor-Idee): öffentliche API.QuietOn() -> true/false (Sniper im
     Ruhemodus). PS liest heute AHAnalyzerPro.Sniper.quietSince direkt; mit der API bräche PS nicht, wenn sich das Innere ändert.
     Einbauen, wenn es in eine Version passt; API.md nachführen.
+
+>>> NACHT-PRÜFUNG 20:52 (Supervisor) – 0.65.220 FEED-1. Bericht + Vollscan.lua VS:FeedNet gelesen: Tabellen wiederverwendet, alter
+  Feed-Auftrag zuerst fertig (höchstens 1000 Portionen, sonst neue Tabelle – keine Sperre ohne Grenze), leere/entfernte Items weg
+  (Löschen während pairs ist in Lua erlaubt). Zahlen decken sich mit meiner Messung (L4/L6 Tick 1232/2297 KB). FEED_ON = true. Keine
+  Befunde. Die Tick-Schwankung 1,2/2,3 MB untersuche ich selbst in GoldSentinelMarkt (gemeinsame Datei, mein Bereich).
+  IM SPIEL (Nutzer): nach einem Vollscan /gsmarkt bzw. Diagnose – Feed-Zähler steigt, kein Ruckler beim Scan-Ende.
+  T200-1 MITTEL (Befund aus Nachprüfung 17:45/20:40, von mir bestätigt): tests/wowsim/run_all.sh:5 setzt LUA auf einen festen Pfad
+    einer ANDEREN Sitzung (…/9ff3d5a0-…/scratchpad/bin/lua51) -> in jeder anderen Sitzung schlägt run_all.sh ohne LUA=… fehl; und
+    common.lua:129 bildet IsAddOnLoaded nur im Szenario s216 nach, nicht allgemein (jedes andere Szenario sieht "AHS nicht geladen"
+    -> GSMarkt liest Scans dort selbst, z. B. s92). LÖSUNG: LUA="${LUA:-$(command -v lua5.1 || command -v lua51)}"; IsAddOnLoaded /
+    C_AddOns.IsAddOnLoaded im Nachbau allgemein mit "AHSentinel geladen"; Gesamtlauf danach in einer frischen Umgebung belegen.

@@ -236,3 +236,12 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   0.9.40: Bericht gelesen (G-3, GSM7, G-1 mit eingestandenem Zählfehler des alten Lauf-Skripts – gut). Prüfung von Code und Zip
     folgt in der nächsten Runde (addon_check läuft). Weiter: nächster Punkt deiner Reihenfolge.
 
+>>> NACHT-PRÜFUNG 20:52 (Supervisor) – GuildSentinel 0.9.40 Code: Zip = Quell-Repo; run_alle.sh 119 Läufe / 4316 Prüfungen grün (unabhängig
+  nachgerechnet, Entwurf Nachprüfung 20:40, von mir übernommen); G-3 Recruit.lua:831–899 gelesen – gleitendes Fenster, keine Sperre
+  ohne Zeitlimit, Platzhalter stimmen. addon_check der Discord-Zip OK, gemeinsame Dateien gleich.
+  G40-1 NIEDRIG (belegt, im Code hier nachgesehen: noAuto nur Recruit.lua:885/889 gesetzt, nirgends gelesen):
+    (a) a.noAuto wird gespeichert, aber nie angezeigt – auf der Seite Rekrutierung beim Bewerber "nicht automatisch angeschrieben"
+        zeigen (alle Locales). NUTZEN: der Spieler sieht später, wem er selbst schreiben muss, nicht nur einmal im Chat.
+    (b) Bekannter Bewerber schreibt das Stichwort erneut bei voller Grenze: keine Antwort UND kein Hinweis (Hinweis nur "if not
+        known", Zeile ~874) – auch dann eine Zeile "automatische Antwort pausiert" (höchstens einmal je Name und Fenster).
+    Test: T296 um (a) und (b) erweitern, mit Gegenprobe. Danach weiter nach deiner Reihenfolge.
