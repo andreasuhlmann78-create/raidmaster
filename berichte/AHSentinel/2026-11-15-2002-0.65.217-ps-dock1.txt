@@ -1,0 +1,34 @@
+AHSentinel 0.65.217 – PS-DOCK1 (Entscheid des Nutzers 19:29, Phase 5 UI, MITTEL) – umgesetzt, zur Prüfung
+CurseForge: nein (erst nach der Sniper-Abnahme). GitHub-Release v0.65.217 und sofort im Discord.
+Reihenfolge: Die PRIO-JETZT-Punkte sind umgesetzt (offen nur noch Abnahmen im Spiel). Die übrigen Phase-4-Punkte brauchen
+Messdaten:
+  - RK6 Haltedauer braucht MA4/MA6 bzw. den Spielrhythmus; laut offen-ahsentinel 0.67;
+  - 4.5 Block 3 Ruckeln braucht ein Protokoll mit 0.65.214+;
+  - TB170-10/S28 braucht einen neuen Testbericht.
+Deshalb jetzt PS-DOCK1. Die Abhängigkeiten stehen im Morgenbericht.
+
+PS-DOCK1 (Crafting.lua Cr:PSActive, Cr:PSPanelShown, Cr:IndexForSpell; API.lua API.ReagentsToList)
+  - Cr:PSActive():
+    - ProfessionSentinel-Tabelle vorhanden;
+    - IsAddOnLoaded("ProfessionSentinel") nicht false;
+    - PS.IsEnabled() (falls vorhanden) nicht false.
+    Dann gilt PSPanelShown als wahr, und das AHS-Gewinn-Fenster öffnet nicht bzw. wird ausgeblendet, auch bei geschlossenem
+    PS-Panel.
+  - Ohne PS ist alles wie bisher (G1/U9-Weg bleibt für ältere PS ohne IsEnabled).
+  - API.ReagentsToList(spellID, n, nurFehlend) -> ok, Meldung, Listenname:
+    - sucht das Rezept im offenen Berufsfenster: klassisch über den Rezept-Link "enchant:ID" (GetTradeSkillRecipeLink /
+      GetCraftRecipeLink), modern über die recipeID;
+    - ruft dieselben Funktionen wie die Knöpfe (Cr:ReagentsToList / Cr:MissingToList, also mit den ESL1-Prüfungen).
+    - Kein Fenster / Rezept nicht gefunden -> false mit Meldung.
+  - Offen für PS, mit dessen Sitzung abzustimmen: Aufruf von PS aus ("Einkaufsliste"-Knöpfe in PS). Der gemeinsame Test
+    "eine Zahl" (PS zeigt WorthUpTo/NetSale von AHS) braucht beide Addons. Vorschlag: die Nachbildung lädt beide; das
+    Szenario baut die PS-Sitzung.
+  - Szenario s217_ps_dock:
+    - mit PS kein Gewinn-Fenster;
+    - API legt eine Liste mit Einträgen an;
+    - unbekanntes Rezept -> kein Erfolg;
+    - ohne PS Gewinn-Fenster wie bisher.
+    - Mit 0.65.216 rot.
+    - Nachbildung: GetTradeSkillRecipeLink ergänzt ("enchant:200000+i").
+  - Locales +2 (alle Sprachen), CHANGELOG EN/DE.
+Gesamtlauf (271 Szenarien, Lua 5.1): 271 bestanden, 0 rot. addon_check: siehe Release.
