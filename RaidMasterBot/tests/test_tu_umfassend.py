@@ -387,6 +387,7 @@ REGRESSIONEN = {
     "T-D3-TESTDATEN": ("test_dkp_tafel_bot", "Testdaten", "test_vorgemerkt_und_geteilt"),
     "T-D3-BEUTEPOST": ("test_beutepost_dkpnachricht_bot", "Beutepost", "test_tooltip_speicher_hoechstens_400"),
     "T-D3-DKPNACHRICHT": ("test_beutepost_dkpnachricht_bot", "DkpNachricht", "test_einmal_nur_an_teilnehmer"),
+    "T-D3-MONATLICH": ("test_monatlich_bot", "Monatlich", "test_ablauf"),
     "T-D3-BEFEHLE": ("test_befehle_liste", "BefehleListe", "test_gleiche_befehle"),
     "T-D-MN8b": ("test_market", "BotAblauf", "test_T_D_MN8b_aenderung_erst_nach_senden_merken"),
     "T-D-GS1b": ("test_market", "BotAblauf", "test_T_D_GS1b_grosse_guildsentinel_datei"),

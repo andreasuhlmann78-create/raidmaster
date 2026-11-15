@@ -558,13 +558,13 @@ class BotAblauf(unittest.TestCase):
             tz = ZoneInfo("Europe/Zurich")
             self.bot.state.data.pop("blizzard_fp", None)
             self.bot.state.data.pop("blizzard_month", None)
-            self.assertIsNone(run(self.bot.blizzard_monthly(datetime(2026, 11, 20, tzinfo=tz))))   # Ausgangsstand
+            self.assertIsNone(run(self.m.blizzard_monthly(datetime(2026, 11, 20, tzinfo=tz))))   # Ausgangsstand
             fp0 = self.bot.state.data["blizzard_fp"]
             outputs[0] = outputs[1]
-            self.assertIsNone(run(self.bot.blizzard_monthly(datetime(2026, 12, 1, tzinfo=tz))))    # kein Kanal
+            self.assertIsNone(run(self.m.blizzard_monthly(datetime(2026, 12, 1, tzinfo=tz))))    # kein Kanal
             self.assertEqual(self.bot.state.data["blizzard_fp"], fp0)                              # nicht verloren
             chans["x"] = ch
-            name = run(self.bot.blizzard_monthly(datetime(2027, 1, 1, tzinfo=tz)))
+            name = run(self.m.blizzard_monthly(datetime(2027, 1, 1, tzinfo=tz)))
             self.assertEqual(name, "GSBLIZZ1-2027-01-01.txt")
             self.assertNotEqual(self.bot.state.data["blizzard_fp"], fp0)
             self.assertEqual(len(ch.sent), 1)
@@ -584,12 +584,12 @@ class BotAblauf(unittest.TestCase):
             tz = ZoneInfo(self.bot.TZ)
             mon = datetime(2026, 11, 16, 9, tzinfo=tz)
             self.bot.state.data.pop("market_week", None)
-            z = run(self.bot.post_market_report(mon, force=True))
+            z = run(self.m.post_market_report(mon, force=True))
             self.assertIn("-zwischen-", z)
             self.assertNotIn("market_week", self.bot.state.data)              # Montags-Merker bleibt frei
-            w = run(self.bot.post_market_report(mon))
+            w = run(self.m.post_market_report(mon))
             self.assertEqual(w, "GSMARKTW1-2026-W46.md")
-            self.assertIsNone(run(self.bot.post_market_report(mon)))          # nie doppelt
+            self.assertIsNone(run(self.m.post_market_report(mon)))          # nie doppelt
             self.assertEqual([kw["file"].filename for _, kw in ch.sent], [z, w])
         finally:
             self.m.channel_by_id = orig
@@ -606,14 +606,14 @@ class BotAblauf(unittest.TestCase):
             tz = market.TZ
             now = datetime(2026, 11, 16, 0, 30, tzinfo=tz)
             self.bot.state.data.pop("market_day", None)
-            self.assertIsNone(run(self.bot.post_market_daily(now)))             # keine Scans: nichts posten
+            self.assertIsNone(run(self.m.post_market_daily(now)))             # keine Scans: nichts posten
             self.assertEqual(self.bot.state.data["market_day"], "2026-11-15")
             self.bot.state.data.pop("market_day")
             t0 = market.day_window("2026-11-15")[0]
             market.ingest_text(self.m._market_store, line("H", t0 + 60, {2589: (100, 5, 2, 0, 0)}), "x", now.timestamp())
-            name = run(self.bot.post_market_daily(now))
+            name = run(self.m.post_market_daily(now))
             self.assertEqual(name, "GSMARKTT1-2026-11-15.json")
-            self.assertIsNone(run(self.bot.post_market_daily(now)))             # nie doppelt
+            self.assertIsNone(run(self.m.post_market_daily(now)))             # nie doppelt
             self.assertEqual(len(ch.sent), 1)
         finally:
             self.m.channel_by_id = orig
@@ -660,8 +660,9 @@ class BotCode(unittest.TestCase):
     """Verdrahtung, die sich nur im Quelltext zeigt (on_message, Loop)."""
     @classmethod
     def setUpClass(cls):
-        with open(os.path.join(os.path.dirname(__file__), "..", "bot.py"), encoding="utf-8") as f:
-            cls.src = f.read()
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import bot_quelle                      # D-3 Schritt 28: monthly_loop steht in monatlich_bot.py
+        cls.src = bot_quelle.alle()
 
     def test_T_MN7_upload_und_testberichte_lesen(self):
         up = self.src[self.src.index("async def receive_upload"):]

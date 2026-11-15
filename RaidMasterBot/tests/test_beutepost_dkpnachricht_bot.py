@@ -98,7 +98,7 @@ class DkpNachricht(unittest.TestCase):
 
     def test_gleiche_funktionen_in_bot(self):
         self.assertIs(self.bot.send_raid_dms, self.m.send_raid_dms)
-        self.assertIs(self.bot.find_member_for_char, self.saved["find_member_for_char"])   # vor dem Ersetzen im setUp
+        self.assertIs(sys.modules["monatlich_bot"].find_member_for_char, self.saved["find_member_for_char"])
 
     def test_einmal_nur_an_teilnehmer(self):
         rows = [{"name": "Thrall", "present": True}, {"name": "Jaina", "earned": 5}, {"name": "Weg"},
