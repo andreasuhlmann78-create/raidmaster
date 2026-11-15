@@ -359,7 +359,7 @@ Für die Lua-Prüfung braucht der Bot `lupa` (steht in `requirements.txt`, wird 
     ein Raid neu dazu, postet der Bot alle Tafeln in der richtigen Reihenfolge neu. Die früheren Einzelzeilen
     „Neuer Rekord“ werden einmal gelöscht. Alle Bestzeiten als Liste: `/rekorde`.
   - **Dungeon-Tafeln (ab 1.5.137):** je Dungeon eine Tafel unter den Raids, nach Level sortiert (20 klassische und
-    9 neue Dungeons von WoW Forever), z. B. „Die Todesminen (Level 17–26)“. Gezeigt werden nur gelegte Bosse mit
+    9 neue Dungeons von WoW Forever), z. B. „⏱️ Dungeonrekorde · Die Todesminen (Level 17–26)“ (ab 1.5.140). Gezeigt werden nur gelegte Bosse mit
     ihrem Namen aus dem Spiel und „x von y Bossen gelegt“. Encounter-IDs aus Deadly Boss Mods, deutsche Namen und
     Level aus Blizzard (neue Dungeons) und PC Games (klassische) – Einzelheiten in `make_bosses.py`.
   - **Getrennt (ab 1.5.139):** oben die Dungeons unter „🗝️ Dungeons“ (nach Level), darunter Bosse ohne Zuordnung, die

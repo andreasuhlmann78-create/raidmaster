@@ -135,7 +135,7 @@ class Dungeons(unittest.TestCase):
         b = rt.boards(ks, RAIDS, NAMES, DUNGEONS)
         self.assertEqual([x["key"] for x in b], ["dg-rfc", "dg-dm", "mc"])          # Dungeons nach Level, Raids zuletzt
         dm = b[1]
-        self.assertEqual(dm["title"], "⏱️ Rekorde · Die Todesminen (Level 17–26)")
+        self.assertEqual(dm["title"], "⏱️ Dungeonrekorde · Die Todesminen (Level 17–26)")
         self.assertEqual([r["n"] for r in dm["rows"]], ["Rhahk'Zor", "Edwin van Cleef"])  # nur gelegte, Name aus dem Spiel
         t = rt.board_text(dm)
         self.assertIn("2 von 3 Bossen gelegt", t)

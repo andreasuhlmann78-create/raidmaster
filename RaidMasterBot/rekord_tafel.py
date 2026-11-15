@@ -28,6 +28,7 @@ OTHER_NAME = "Weitere Bosse (ohne Zuordnung)"
 MIN_DURATION = 10           # wie rmd.best_times: kürzere Kämpfe sind Messfehler
 EVENING_GAP = 6 * 3600      # mehr als 6 h zwischen zwei Kills = neuer Raidabend
 TITLE_PREFIX = "⏱️ Rekorde · "
+DUNGEON_PREFIX = "⏱️ Dungeonrekorde · "   # Entscheid des Nutzers 15.11. 16:17
 
 
 def load_bosses(path: str | None = None, part: str = "raids") -> list[dict]:
@@ -191,7 +192,7 @@ def dungeon_board(dg: dict, ks: list[dict]) -> dict:
                      "new": bool(k and id(k) in last_evening), "killed": True})
     lo, hi = (dg.get("lvl") or [None, None])[:2]
     lvl = f" (Level {lo}–{hi})" if lo and hi else ""
-    return {"key": dg["key"], "title": TITLE_PREFIX + dg.get("name", dg["key"]) + lvl, "rows": rows, "full": None,
+    return {"key": dg["key"], "title": DUNGEON_PREFIX + dg.get("name", dg["key"]) + lvl, "rows": rows, "full": None,
             "dungeon": True, "total": len(dg.get("bosses") or [])}
 
 
