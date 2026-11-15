@@ -1,0 +1,22 @@
+BERICHT DISCORD AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 16:00 · Sitzung: Discord-Projekt · Version: Bot 1.5.138
+Umgesetzt, zur Prüfung.
+
+ENTSCHEID DES NUTZERS (15.11. 15:51, bitte in shared/wissen/entscheide.md): Erstkills auch bei Dungeons posten, aber ohne
+Screenshot. Damit ist die offene Frage aus dem Bericht 1555 beantwortet.
+
+UMGESETZT:
+- rekord_tafel.area_of(kill, raids, dungeons, names) bestimmt Raid bzw. Dungeon über die Encounter-ID (wie die Tafeln).
+- bot.py post_first_kill:
+  - Die Beschreibung nennt den Dungeon- bzw. Raid-Namen aus area_of. Ohne Zuordnung wie bisher den Topf.
+    Vorher stand bei Dungeon-Bossen der Topf des Raidabends, z. B. "Molten Core".
+  - Bei Dungeons: kein Bild. first_posted = True, also wird auch nie ein Bild nachgereicht ("📸"-Zweig prüft zusätzlich
+    "nicht Dungeon").
+  - Bei Raids unverändert: mit Bild; ohne Bild False, damit es später nachgereicht wird.
+- Tests T-EK (3, Ablauf mit dem echten bot.py):
+  - Dungeon-Erstkill mit Dungeon-Namen und ohne Datei, obwohl ein Screenshot vorhanden ist;
+  - Raid-Erstkill mit Bild;
+  - Raid ohne Bild wartet auf das Bild;
+  - area_of für Dungeon, Raid und ohne Zuordnung.
+  Alle 257 Bot-Tests OK.
+- Im Betrieb zu prüfen: der erste Dungeon-Erstkill nach dem Update.
