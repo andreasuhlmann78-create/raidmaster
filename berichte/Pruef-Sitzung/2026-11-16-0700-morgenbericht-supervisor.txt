@@ -1,0 +1,74 @@
+MORGENBERICHT DES SUPERVISORS – Nacht 15./16.11.2026 (wird die Nacht über fortgeschrieben)
+Stand: 15.11.2026 20:52 (Uhrzeit aus date)
+
+=====================================================================================================================
+1. DAS WICHTIGSTE IN KÜRZE
+=====================================================================================================================
+- Alle acht Projekte arbeiten: AHSentinel, ProfessionSentinel, LevelPilot, GuildSentinel, BuffSentinel, ThreatSentinel,
+  RaidMaster/Uploader, Discord-Bot. Jede neue Version prüfe ich in meiner Runde alle 15 Minuten; Fragen beantworte ich dort.
+- Alle Sitzungen wecken sich mit einem internen Wecker (keine geplanten Aufgaben mehr, nichts verlangt deine Freigabe).
+  Getestet 20:23 – funktioniert.
+- AHSentinel gibt jetzt Marktdaten an die Gilde weiter (FEED-1, 0.65.220). Vorher gab ein AHS-Spieler gar nichts weiter.
+  Ursache war eine falsch aufgebaute Messung im Nachbau – von mir gefunden und belegt.
+- Neu für das "Gehirn" (AHS Phase 2): Die Markt-Tabellen enthalten jetzt einen Teil "alle" mit den Daten aller einsendenden
+  Spieler, sobald der Bot die erste Tageszusammenfassung liefert (nach deinem /update des Bots).
+
+=====================================================================================================================
+2. JE PROJEKT (Versionen dieser Nacht, alle geprüft, wenn nicht anders vermerkt)
+=====================================================================================================================
+AHSentinel 0.65.216–0.65.220
+  RK7 Rangfolge fürs Budget · PS-DOCK1 eine Rezeptliste am Berufsfenster (mit PS kein AHS-Gewinnfenster) · GoldSentinelMarkt v7 ·
+  UI-REF1 Aktualisieren-Knopf (Shift = alles neu) · FEED-1 Marktdaten-Weitergabe an.
+  Offen von mir an AHS: T200-1 (Nachbau läuft in fremden Sitzungen nicht ohne LUA=…). Wunsch von PS: API.QuietOn (niedrig).
+ProfessionSentinel 0.9.46 (Umbau Schritt 1: kein Ruckeln)
+  Schwere Rechnungen laufen in Portionen (≤ 6 ms je Bild), warten während der Sniper ruhig sein muss (mit Zeitlimit),
+  "Heute herstellen" sofort aus dem Zwischenspeicher, Rezeptliste für AHS, Knopf "Entzaubern" von AHS wieder klickbar.
+  Weiter: Schritt 2 – vier Reiter, öffnet mit dem Handwerksbuch, Knopf "PS" zum Wiederöffnen.
+LevelPilot 3.12.35–3.12.36
+  Undercity: Weg nur noch über gelaufene Wege (kein Pfeil durch Decken). Wegführung 3D im Nachbau fertig, aber AUS bis zu
+  deiner Messung mit GSWegMess; ab jetzt wird die Ebene beim Laufen mitgespeichert.
+GuildSentinel 0.9.40
+  Höchstens 5 automatische Antworten an Fremde in 10 Minuten (Schutz vor Spam-Sperre), alte Tests repariert (119 Läufe grün).
+  Hinweis von GS zur Prüfung um 18:00 war richtig -> Prüfsystem angepasst. Neu an GS: G40-1 (Hinweis bei pausierter Antwort).
+BuffSentinel 0.9.22–0.9.23
+  Marktdatei v7; neu: Warnung Munition knapp (Jäger) und Seelensplitter knapp (Hexenmeister). Reihenfolge der nächsten Ideen
+  festgelegt (Reagenzien für Gruppenbuffs, Begleiter fehlt, Gesundheitsstein, Haltbarkeit, Bereitschaftscheck).
+ThreatSentinel 2.5.14
+  Gruppen-Chat höchstens 1× je 5 s dieselbe Meldung, Leistungsmessung im Kampf (Zeile LEISTUNG), Marktdatei v7.
+RaidMaster 3.0.27 / Uploader 2.3.12
+  Echter Fehler gefunden und behoben: bei chinesischem Client brach die DKP-Vergabe ab. Alle 20 Sprachen geprüft.
+Discord-Bot 1.5.142–1.5.145
+  Marktdaten 90 Tage, Speichergrenze (nie mehr als die Hälfte des Platzes), tägliche anonyme Zusammenfassung, meldet fehlenden
+  Server/Rechte selbst, Befehle nach Einladung sofort da, Rolle ohne Administrator. Nächstes: bot.py schrittweise in Module.
+
+=====================================================================================================================
+3. MEINE EIGENE ARBEIT
+=====================================================================================================================
+- GoldSentinelMarkt Version 7 (weniger Speicher beim Weitergeben, Ergebnis byte-gleich) – in allen Addons übernommen.
+- FEED-1: Messfehler im AHS-Nachbau belegt (AHS galt dort als nicht geladen), direkt gemessen 1,2–1,4 MB je Scan.
+- Prüfsystem: ältere Zip vor 18:00 bei CurseForge-Addons nur noch Warnung; neuere Discord-Zip wird mitgeprüft.
+- Markt-Tabellen Teil "alle" (Masterplan E).
+- LevelPilot: Konzept Wegführung in 3D (shared/wissen/analysen/levelpilot-wegfuehrung-3d.md) und Messwerkzeug GSWegMess.
+
+=====================================================================================================================
+4. IDEEN DES SUPERVISORS (in deiner Abwesenheit als Auftrag gegeben, freigegeben durch dich 19:55/19:58/20:02)
+=====================================================================================================================
+- PS: UI-Überarbeitung 2 (vier Reiter, Skillspur, Einkauf-Leiste, nächster Lehrer) – Anweisung anweisung-ui-crafter-2026-11-15.txt.
+- PS: Knopf "PS" am Berufsfenster zum Wiederöffnen (sonst keine Gewinnliste mehr, wenn das PS-Panel zu ist).
+- BuffSentinel BS-N1: Vorrat-Warnungen und weitere Nutzen-Punkte je Klasse.
+- GuildSentinel G-3 (Grenze automatische Antworten), G40-1; ThreatSentinel T-2/T-3; Discord D-2/D-3; LevelPilot W3D.
+- AHSentinel: keine eigenen Ideen (dein Entscheid), nur Befunde (FEED-1, T200-1).
+
+=====================================================================================================================
+5. FÜR DICH (wenn du Zeit hast)
+=====================================================================================================================
+Im Spiel prüfen:
+  - AHSentinel 0.65.215 Warnschutz (5×), SN-SCAN1 Sniper-Knopf im Vollscan gesperrt, nach Vollscan Marktdaten-Zähler steigt.
+  - GSWegMess in Unterstadt (AH -> Magieviertel, Aufzug zu den Ruinen), danach Datei GSWegMess.lua schicken.
+  - ThreatSentinel: ein Dungeon als Tank, dann /ts protokoll (Zeilen LEISTUNG).
+  - BuffSentinel: Jäger < 200 Pfeile, Hexer < 3 Splitter.
+  - ProfessionSentinel 0.9.46: nach Vollscan kein Ruckler; /ps protokoll Zeile "Langsamste Wege".
+Entscheide (keiner eilt):
+  - BuffSentinel "Nachkaufen beim Händler mit einem Klick" – nur mit deinem Entscheid (Gold).
+  - Discord-Bot: nach /update kommt die tägliche Zusammenfassung; der Wert "2 GB = Festplatte oder Arbeitsspeicher" steht dann
+    in /marktdaten.
