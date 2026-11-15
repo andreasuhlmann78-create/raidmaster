@@ -53,6 +53,23 @@ Bezug: berichte/LevelPilot/2026-11-14-1350-wunsch-schalter-meldungen.txt. Euer V
 - Locales alle Sprachen, CHANGELOG EN/DE, Bericht nach berichte/LevelPilot/ ("umgesetzt, zur Prüfung").
 ========================================================================================================================
 
+>>> W3D – WEGFÜHRUNG IN DER 3D-WELT (HOCH, Auftrag des Nutzers 19:59/20:02: "eine PERFEKTE Lösung für die Wegführung"; Supervisor 20:05)
+  Konzept: shared/wissen/analysen/levelpilot-wegfuehrung-3d.md (ganz lesen). Ersetzt/erweitert UC-W1. Kurz:
+  Ursache (Code belegt): Knoten nur 2D; SNAP 10 Yards legt Punkte verschiedener Ebenen zusammen ("Teleporter" durch Decken);
+  Luftlinien (260 Yards) queren Wände/Ebenen. WoW gibt Addons KEINE Höhe (UnitPosition Z = 0).
+  Bausteine: B1 Ebenen-Schlüssel je Knoten (Städte/Gebäude: Unterzone = WMO-Raumname + drinnen; draussen wie heute), SNAP/Raster nur
+  innerhalb des Schlüssels · B2 Luftlinien nur draussen im selben Schlüssel · B3 Tore aus echten Wegen (Rampe/Treppe beidseitig,
+  Sturz nur nach unten, Aufzug mit Wartezeit aus TransportAnimation: Unterstadt Takt 16,7 s, Donnerfels 30 s) · B4 Startdaten für die
+  Hauptstädte (Unterstadt zuerst) aus einem Aufnahme-Lauf · B5 Führung mit Klartext je Tor ("Aufzug nach unten"), Pfeil zum nächsten
+  Tor, Hinweis "falsche Ebene", ehrliche Meldung statt falschem Pfeil.
+  REIHENFOLGE: (0) ZUERST MESSEN – der Nutzer läuft mit GSWegMess (shared/messtest/GSWegMess.zip) die 4 Testläufe; bis die Messung da
+  ist: B2 + SNAP-Trennung nach "drinnen/draussen + Unterzone" im Nachbau bauen und testen (Tests Abschnitt 7 im Konzept), aber
+  NICHT veröffentlichen, solange die Messung nicht belegt, dass Unterzone die Ebenen trennt. (1) Nach der Messung: B1–B3 fertig,
+  Version. (2) B4 Unterstadt, (3) B5, (4) weitere Städte/Höhlen.
+  NUTZEN (Grundsatz 19:58): "Wie komme ich da hin?" auch in Städten mit Stockwerken und Höhlen – ein Pfeil, ein Satz je Tor.
+  Alle Quellen erlaubt (Nutzer 20:03): wago.tools-Tabellen (WMOAreaTable, TransportAnimation, AreaTable, UiMapAssignment), Wowhead für
+  Aufzug-Orte, eigene Aufzeichnungen und die Wegdaten der Spieler.
+
 >>> PRÜFUNG 3.12.34 (Supervisor 15.11. 19:52) – Bericht 20:10 gelesen.
   L-1: Ursache im Code belegt (Ticker rief UpdateAddOnMemoryUsage), Gegenprobe 1× -> 0×, T294 in den Regressionen; Messung je Addon nur
     noch beim Öffnen des Protokolls, mit eigener Zeitmessung – genau so gewollt. Alle Ticker durchgesehen und gemessen – sehr gut.
