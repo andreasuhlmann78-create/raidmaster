@@ -1,0 +1,53 @@
+BERICHT PROFESSIONSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 16.11.2026 00:56 · Sitzung: ProfessionSentinel-Sitzung · Version: 0.9.61 · Commit: ae33db8 (Quell-Repo), Release v0.9.61
+Grundlage: offen-professionsentinel.txt (B2 -> B4 -> B5; Nacht-Prüfung 00:48 "Weiter: B4, dann B5"),
+analysen/professionsentinel-ausbau-aus-ahs-2026-11-16.md B5, AHSentinel 0.65.246 API.lua MarketState / API.md Zeile 35.
+Hinweis: Hier steht nur "umgesetzt, zur Prüfung" mit Belegen. Ob etwas erledigt ist, entscheidet die Prüf-Sitzung.
+
+UMGESETZT, ZUR PRÜFUNG – B5 Marktlage im Rezept-Tooltip
+-------------------------------------------------------
+Quelle (belegt, AHS 0.65.246 API.lua 237–256): API.MarketState(itemID) -> 1. Wert "aufkauf"/"alt"/"flut"/"duenn"/"normal"
+(oder nil ohne aktuellen Preis), 2. Wert Band-Trend "faellt"/"steigt"/"spitze"/"ruhig"/nil (MA4).
+"flut" = aktuelle Menge ≥ 3× der Menge vor ≥ 20 h UND Preis ≤ 80 % davon.
+PS liest beides schon seit 0.9.3x (Market.lua InfoRaw -> pr.state/pr.trend in MK.Judge); "aufkauf"/"alt"/"duenn" sind dort
+schon Hinweise der Rechnung (kein Gewinn, FlagText). Neu:
+1. Market.lua MK.StateLine(pr): EINE Zeile oder nichts –
+   Flut (orange): "Markt überflutet – viel mehr Angebote als gestern, Preis gefallen: jetzt nicht herstellen";
+   sonst Richtung: fällt "Preise dieser Stufe fallen – nur herstellen, was du gleich verkaufst"; Spitze "… an der Spitze –
+   jetzt verkaufen, nicht halten"; steigt (grün) "… steigen – jetzt herstellen und verkaufen". ruhig/normal/nil: keine Zeile.
+   Flut geht vor der Richtung (nie zwei Zeilen). Wortwahl der Richtung wie die Stufenband-Hinweise MK_BAND_* (eine Stimme).
+   Bewusst ohne Stufen-Zahlen ("Stufe 30–39"): die Bandgrenzen von AHS (MA4) und PS (MK.BANDS) sind nicht nachweislich gleich.
+2. UI.lua UI.TipVerdict: die Zeile unter dem Urteil/Marktwissen, auch wenn die Rechnung einen Hinweis hat (Flut ist kein
+   Hinweis der Rechnung).
+3. Texte DE/EN je 4 Schlüssel, je ≤ 20 Wörter (psychologie.md: ein Satz, eine Handlung).
+
+TESTS (eigene, Hinweise – keine Freigabe)
+-----------------------------------------
+- T283 neu (14 Prüfungen im Lauf): Flut -> genau eine Zeile; Flut + steigt -> nur Flut; faellt/spitze/steigt -> je die
+  passende Zeile; ruhig und normal ohne Richtung -> keine; StateLine(nil) -> nichts; AHS-Nachbildung MarketState
+  nil, "faellt" -> Richtung kommt an; "flut", "steigt" -> beides; 4 Texte ≤ 20 Wörter.
+- Gegenproben: UI.lua aus 0.9.60 -> T283 FEHLER "14 Prüfungen, 5 Fehler". PriceSource.lua aus 0.9.58 (altes PS.Call):
+  unter LuaJIT T283 FEHLER "Richtung hinter nil von AHSentinel: nil" und T281 FEHLER "lernt noch (4. Wert nil): 1";
+  unter Lua 5.1 (--lua51) beide OK.
+  BEFUND ZUM ALTEN PS.Call (zur Einordnung von 0.9.59): unpack(res, 2) endet bei "#res"; bei einem nil mitten in den Werten
+  ist das in Lua nicht festgelegt. LuaJIT schneidet hier ab, Lua 5.1 (wie im Spiel) bei diesen Formen nicht. Im Spiel war
+  PS58-1 also allein der falsch gelesene 3. Wert (Prices.lua); die PS.Call-Änderung in 0.9.59 macht das Weiterreichen
+  sicher statt zufällig richtig – Verdacht "im Spiel abgeschnitten" ist damit NICHT belegt, nur möglich.
+- run_offline (LuaJIT): Forever OK 239 / FEHLER 0, Era OK 221 / 0, Retail OK 219 / 0, TBC ohne Lua-Fehler, Ausgang 0.
+  --lua51: Forever 239 / 0 (Ausgang 0), Retail 219 / 0 (Ausgang 0). Schnelltest Ausgang 0 (AUTOTEST OK in allen drei
+  Versionen, feste Liste unverändert), check_actions Ausgang 0, Locale-Schlüssel 526. Ausgänge direkt gemessen.
+- addon_check auf download/ProfessionSentinel-0.9.61.zip und announce-Zip: OK. ZIP = Release-Asset = Quell-Repo (diff -r leer).
+
+FRAGE AN DIE PRÜF-SITZUNG
+-------------------------
+- Soll ein Produkt mit Marktlage "flut" auch aus "Heute herstellen" / TodayCrafts (AHS "Heute tun") fallen oder dort
+  markiert werden? Heute: nur Tooltip (wie B5 beschrieben). Bis zur Antwort: nicht geändert.
+- (aus 0.9.60, noch offen) Hinweis für Blizzards Knopf "Alle erstellen" ohne Sperre?
+
+IM CLIENT PRÜFEN
+----------------
+- Mit AHSentinel und frischem Scan: Tooltip eines Rezepts, dessen Produkt AHS als "flut" führt -> orange Zeile; Produkt in
+  einem fallenden Stufenband -> gelbe Zeile. Zeilenumbruch lesbar (deDE/enUS).
+
+NÄCHSTES: Reihenfolge B2/B4/B5 aus offen-professionsentinel.txt ist damit umgesetzt (zur Prüfung). B1 braucht AHS
+RealizedCraft (nicht jetzt). Ich schaue alle 15 Minuten ins Repo und setze neue Aufträge um.
