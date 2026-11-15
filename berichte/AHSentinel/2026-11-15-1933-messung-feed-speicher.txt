@@ -1,0 +1,14 @@
+AHSentinel – Messung Feed-Speicher (Antwort Supervisor 18:58: eigene Grenze 4 MB, Frame +5 ms) – Feed bleibt AUS
+
+Neues Szenario s216_feed_memory (Nachbildung, 6 108 Items, 21 102 Auktionen, Lua 5.1, ohne Speicherbereinigung je Lauf):
+  - Läufe abwechselnd: 1 aus, 2 an (legt die Netz-Tabellen einmalig an), 3 aus, 4 an, 5 aus.
+  - Feed-Anteil = Lauf 4 − Mittel(Lauf 3, Lauf 5). So fällt das Wachstum des Preisverlaufs je Scan heraus.
+  - Ergebnis aus 3 Messungen: Feed-Anteil 7 241 / 6 262 / 6 007 KB (Median 6,3 MB) – ÜBER der Grenze 4 MB.
+  - Längster Frame mit Feed 43 / 44 / 41 ms gegen 45 / 48 / 62 ms ohne – innerhalb +5 ms.
+  - Erste Messung mit Feed nur in Lauf 4 (ohne Vor-Lauf): +12,2 MB. Das ist der einmalige Aufbau des Netzes.
+Warum die frühere Zahl +3,1 MB kleiner war: Sie verglich s92 Lauf 3 mit Feed in ALLEN Läufen (17,0 MB) gegen einen anderen Lauf
+ohne Feed (13,9 MB). Das waren zwei Prozesse, und das Wachstum des Preisverlaufs ist darin nicht herausgerechnet. Die neue
+Messung im selben Lauf ist genauer.
+Folge: VS.FEED_ON bleibt false (Vollscan.lua). s216 prüft die Grenzen als Pflicht, sobald der Feed an ist (VS.FEED_ON = true im
+Addon); bis dahin nur Messung. s92 läuft ausdrücklich ohne Feed (Grenze 15 MB).
+Bitte entscheiden: GoldSentinelMarkt v7 (Feed sparsamer) oder die Grenze für den Feed-Anteil anheben (gemessen ~6–7 MB).
