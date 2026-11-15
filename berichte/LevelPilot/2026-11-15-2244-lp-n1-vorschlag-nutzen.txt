@@ -1,0 +1,46 @@
+LevelPilot – LP-N1: Vorschlag Nutzen-Ausbau (Wünsche von Spielern an einen Level-Führer, die LevelPilot noch nicht löst)
+Datum: 15.11.2026 22:44 (aus date) · Stand: Vorschlag an den Supervisor; die zwei kleinsten in 3.12.39 umgesetzt, zur Prüfung
+
+WIE ERHOBEN (ehrlich):
+- Häufigkeit ist NICHT gemessen (keine Umfragen/Kommentare lesbar). "Häufig" heisst: die Funktion ist ein Verkaufsargument der
+  grossen bezahlten Level-Führer (Nachfrage-Signal) oder steht dort als "kommt bald".
+- Quellen (Stand 15.11.2026):
+  Zygor Classic: https://zygorguides.com/blog/zygors-guides-for-world-of-warcraft-classic-now-available/ (Talent-Berater,
+    Ausrüstungs-/Belohnungs-Berater, Grind-Alternativen, gold-bewusste Route, Auto-Verkauf)
+  Zygor Handbuch Talent-Berater: https://www.zygorguides.com/support/manual/talent
+  RestedXP für WoW Forever: https://kami-labs.fr/en/wow-forever/restedxp-wow-forever-guide-leveling/ (Trainer-Besuche,
+    Ruhestein, Elite-/Gruppenquests, Talent-Vorschläge, "Upgrade Finder" und neuer "Talent Builder" angekündigt)
+- Abgeglichen mit dem eigenen Code (3.12.38): NICHT aufgeführt, weil vorhanden: Auto-Annehmen/Abgeben, Pfeil/Wegnetz,
+  Trainer-Kosten und -Besuch, Reittier-Gold ab 40, Ruhestein-Planung, Elite/Sicherer Modus, Belohnungs-Empfehlung/Upgrade
+  anlegen, Graue verkaufen, Vorräte, Taschen, Talentpunkte frei, Erholt-Anzeige, Dungeon-Planung, Finde nächsten.
+
+Kürzel: [U] = in 3.12.39 umgesetzt, [K] klein, [M] mittel, [G] gross. Je Punkt ein Satz NUTZEN.
+
+1. [G] Talent-Empfehlung je Klasse (Zygor Talent-Berater, RestedXP Talent Builder) – "Wohin mit meinem Punkt?" – spart
+   Fehlskillung und Lesen von Leitfäden; heute meldet LevelPilot nur "Punkte frei". Aufwand: Builds je Klasse/Forever-Regeln
+   pflegen (Daten), Anzeige im Talentfenster.
+2. [G] Upgrade-Finder ausserhalb der Questbelohnungen (RestedXP "Upgrade Finder", Zygor Ausrüstungs-Berater) – "Welches
+   günstige Teil beim Händler/im AH bringt mir am meisten?" – spart Suchen; Daten: Gegenstandswerte, Zusammenspiel mit
+   AHSentinel-Preisen (Marktdaten-Netz) möglich.
+3. [M] Grind-Ausweichorte bei Töte-/Sammel-Quests (Zygor "Grinding alternatives") – "Hier ist alles leer gefarmt – wo
+   noch?" – spart Warten auf Respawn; LevelPilot kennt Fundstellen, zeigt aber keine zweite Stelle bei vielen Spielern.
+4. [U] Waffenfertigkeit der angelegten Waffe niedrig (Speedrun-Leitfäden planen Waffentraining ein) – "Warum verfehle
+   ich so oft?" – spart verlorene Kämpfe nach einer neuen Questwaffe. Umgesetzt als Hinweis (Fertigkeit >= 25 unter dem
+   Höchstwert); Waffenmeister für neue Waffenarten [M] wäre der nächste Schritt.
+5. [U] Erholt-Bonus nutzen (RestedXP/Zygor: Ruhestein/Gasthaus-Planung) – "Lohnt es sich, im Gasthaus auszuloggen?" –
+   doppelte EP für Monster; beim Ausloggen draussen wächst der Bonus nur ein Viertel so schnell. Umgesetzt: Hinweis bei
+   AFK ausserhalb von Gasthaus/Hauptstadt, mit "Hinführen".
+
+UMGESETZT 3.12.39 (die zwei kleinsten), umgesetzt, zur Prüfung:
+- Advisor.lua CheckRested: nur wenn UnitIsAFK, nicht IsResting, nicht im Kampf, Stufe < Höchststufe; Schalter advRested
+  (Zentrale » Assistent » "Erholt-Bonus (Gasthaus)", ab Werk an). Ereignisse PLAYER_FLAGS_CHANGED, PLAYER_UPDATE_RESTING.
+- Advisor.lua CheckWeaponSkill: Waffenart der Hand- und Fernkampfwaffe (GetItemInfo Untertyp) = Name der Fertigkeit
+  (GetSkillLineInfo), Abstand >= 25 (A.WEAPON_GAP); fehlt die API (moderner Client), still aus. Schalter advWeapon. Ereignis
+  SKILL_LINES_CHANGED. Verdacht, zu messen: ob Untertyp und Fertigkeit im Forever-Client in allen Sprachen gleich heissen
+  (CLIENT T301 – wenn nicht, erscheint einfach kein Hinweis, nie ein falscher).
+- Beide Hinweise gehen über den Assistenten (Toast nur bei neuem Zustand, über die Meldungs-Weiche ML1). Texte in allen
+  Sprachdateien (esMX über esES).
+- Tests: T300 (AFK draussen 1 · Gasthaus 0 · nicht AFK 0 · Stufe 60 0 · aus 0) und T301 (40/100 Hinweis · 80/100 keiner ·
+  andere Waffenart keiner), beide deDE/enUS OK; im Client prüfen: 2 neue Anleitungen.
+- run_offline.py mit der veröffentlichten ZIP: 37 Läufe, 37 ohne FEHLER (Forever OK 274/272, Era/TBC 273, im Client prüfen 11),
+  Meldungs-Weiche OK, private Regressionen 36/36, addon_check OK.
