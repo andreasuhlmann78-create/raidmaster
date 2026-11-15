@@ -188,3 +188,11 @@ Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Beric
 REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nicht selbst"): Eigene Tests und Testroutinen
    laufen lassen und gefundene Fehler im Bericht melden – mehr nicht. Nie "erledigt/freigegeben/bestanden/geprüft"
    erklären; Berichte schreiben "umgesetzt, zur Prüfung" mit Belegen. Erledigt setzt nur die Prüf-Sitzung.
+
+UP-404 HOCH (Nutzer 15.11. 01:26, Screenshot Uploader): "Abgleich: Discord antwortet 404 – lokale Dateien bleiben unverändert,
+   neuer Versuch später." alle 5 s seit mind. 01:23; "zuletzt hochgeladen 14.11. 18:50 (DESKTOP-NVITMSE) · neuester Stand: – ·
+   FEHLER: Discord antwortet 404". Der Abgleich über Discord findet sein Ziel nicht mehr (Kanal/Nachricht/Webhook gelöscht oder
+   ID falsch?). Auftrag: (1) Ursache klären und im Fenster in Worten nennen (welcher Kanal/welche Nachricht fehlt, was der Nutzer tun
+   kann); bei 404 den Ablage-Ort neu anlegen bzw. neu suchen statt endlos zu wiederholen. (2) Bei Dauerfehler nicht alle 5 s
+   versuchen – langsamer (z. B. 1 Min.) und nur eine Zeile je Minute. (3) Prüfen, ob seit 18:50 Daten verloren sind (Push danach?).
+   Zusammen mit Discord-Projekt (Bot) klären, falls der Bot den Kanal verwaltet.

@@ -165,3 +165,6 @@ Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Beric
 REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nicht selbst"): Eigene Tests und Testroutinen
    laufen lassen und gefundene Fehler im Bericht melden – mehr nicht. Nie "erledigt/freigegeben/bestanden/geprüft"
    erklären; Berichte schreiben "umgesetzt, zur Prüfung" mit Belegen. Erledigt setzt nur die Prüf-Sitzung.
+
+UP-404 (Hinweis, 15.11. 01:26): Uploader meldet "Discord antwortet 404" beim Abgleich seit 01:23 (Daten zuletzt 14.11. 18:50).
+   Prüfen, ob der Bot den Abgleich-Kanal bzw. die Abgleich-Nachricht gelöscht/neu angelegt hat. Auftrag liegt bei RaidMaster (UP-404).
