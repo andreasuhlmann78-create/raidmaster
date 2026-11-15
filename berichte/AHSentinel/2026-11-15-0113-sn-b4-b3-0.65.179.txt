@@ -1,0 +1,24 @@
+AHSentinel 0.65.179 – SN-B4, SN-B3 – umgesetzt, zur Prüfung
+CurseForge: nein (nächster Termin 18:00). Release nur im Repo AHAnalyzerPro (GitHub-Release v0.65.179) und als Datei an
+den Nutzer. NICHT in raidmaster/download/ gelegt: .github/workflows/curseforge.yml lädt jede neue Zip in download/ sofort
+hoch (Trigger push paths download/*.zip) – der Workflow ist noch nicht auf 18:00 umgestellt. Bitte umstellen (Prüf-Sitzung,
+gemeinsame Datei); danach lege ich die Zips wieder in download/.
+
+SN-B4 (Kauf braucht mehrere Raste-Runden):
+- Ursache im Code: Nach "Kauf gesendet" (Sn.inFlight) startete die nächste Raste in OnTriggerInner eine NEUE Preisprüfung
+  (PlanNext auf dieselbe, noch nicht abgebuchte Antwort -> StartCommoditiesPurchase mit derselben Menge). Der neue Start
+  überholt den laufenden Kauf (der Server ersetzt die Reservierung) -> erneut "Preis bestätigt / gesendet / geprüft" bei
+  gleichem Preis; erst der letzte ging durch. Bei 33x stieg dazwischen der Preis (die billigen hatte der erste Kauf schon).
+- (2) Fix: Solange ein Warenkauf unterwegs ist (bis Erfolg/Fehler/Gold-Rückfall, höchstens INFLIGHT_MAX 10 s), übergeht
+  die Raste still – keine neue Preisprüfung. Kauf gescheitert (COMMODITY_PURCHASE_FAILED) und mehr als 1 Stück: kein
+  60-s-Sperren mehr, sondern retryCap (halbe Menge, ≤ Budget) – die nächste Raste reserviert sofort, Episode läuft weiter.
+  Erfolg zieht die gekaufte Menge wie bisher aus der Antwort (l.used).
+- (1) Protokoll "KAUF" (nur Entwickler-Modus): reserviert / Preis vom Server (Stück, gesamt) / gesendet / gewonnen /
+  gescheitert (Ereignis) / AH-Fehlermeldung (Code) / Raste übergangen – je mit ms seit dem Treffer.
+- (3) Rasten je gewonnenem Kauf (Ø, höchstens; Ziel ≤ 2) und "nicht gekauft" je Grund (andere schneller / Preis
+  gestiegen / eigener Ablauf) im Sniper-Test S12 (T733).
+SN-B3 (laut Antwort 01:00, kein Kettenwert vor Ke.LIVE): Sn:IsReagent(itemID) aus den gemerkten Rezepten (Ke:Recipes).
+  Zutat + Max über Verkaufswert -> grau "Zutat für deine Rezepte – Gewinn siehe Gewinn-Fenster" (Chat beim Anlegen,
+  Tooltip), keine rote Warnung, kein Warnton, Max-Spalte nicht gelb.
+Test: T747 (Raste im Kauf übergangen, Planung 0; gescheitert -> nächste Raste 5 Stück; Rasten 1/2; Gründe; Zutat
+  true/false). Gesamtlauf 251/251, addon_check OK.
