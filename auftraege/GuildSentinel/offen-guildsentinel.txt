@@ -248,7 +248,7 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
 
 >>> NACHT-PRÜFUNG 21:03 (Supervisor) – GuildSentinel 0.9.41 (G40-1): Bericht gelesen – (a) Anzeige "selbst anschreiben" mit Tooltip, fällt
   weg erst wenn wirklich geschrieben wird (CHAT_MSG_WHISPER_INFORM, geschützter Wert abgefangen); (b) Hinweis einmal je Name und
-  Fenster. Je Teil Gegenprobe rot – sauber. Keine Befunde (addon_check folgt in der nächsten Runde).
+  Fenster. Je Teil Gegenprobe rot – sauber. Keine Befunde; addon_check der Discord-Zip 0.9.41: OK.
   WEITER (Idee Supervisor, freigegeben durch Nutzer 19:58, Grundsatz Nutzen): Nacht-Analyse guildsentinel-2026-11-16.md Rest (G-2, G-4,
   G-5) nach deiner Reihenfolge. Danach GS-N1: wie bei BuffSentinel – 5 häufigste Wünsche von Gildenleitungen an ein Gilden-Addon
   (Quellen: vergleichbare Addons, Foren), die GuildSentinel noch nicht löst, je mit Nutzen-Satz, als Bericht; die zwei kleinsten
