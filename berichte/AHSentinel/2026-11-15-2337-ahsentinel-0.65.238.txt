@@ -1,0 +1,22 @@
+AHSentinel 0.65.238 – RK6-F1b (eigener Fund zur Antwort 21:02 F1) + Monatszyklus-Daten – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.238 und sofort im Discord.
+FUND: Der Band-Verlauf für F1 (db.ma4log, Testbericht-Zeile "RK6 ANNAHME … gemessen", seit 0.65.231) schrieb je Tag den
+  letzten Index der Tagesrechnung. Dieser Index ist relativ zum ersten Tag des 10-Tage-Fensters (je Item Tagesmedian / erster
+  Tagesmedian im Fenster); das Fenster wandert täglich -> Werte verschiedener Tage haben verschiedene Basen und sind NICHT
+  vergleichbar. Nachgerechnet: Preise gleichmässig +2 %/Tag -> letzter Index jeden Tag 1,02^9 = 1,195 -> gemessen 0 %/Tag.
+  Ein Messwert für die Annahme −5 %/Tag wäre damit falsch gewesen (bisher stand dort höchstens wenige Tage Verlauf).
+UMSETZUNG (Waves.lua, MarketCore.lua):
+  - ComputeLevelBands gibt je Band byDay (Tagesbeginn -> Index derselben Rechnung) zurück.
+  - LogBands: Ketten-Index – neuer Wert = letzter Wert × Index(neuer Datentag) / Index(letzter Datentag), beide aus DERSELBEN
+    Rechnung (gleiche Basis). Liegt der letzte Datentag nicht mehr im Fenster (Lücke > 9 Tage oder Band unbelegt), beginnt
+    eine neue Kette mit 1,0. Eintrag { Tag, Band, Index, Richtung, Kettenbeginn, Datentag }. Alte Einträge (ohne Kette,
+    0.65.231–237) werden nicht verglichen und altern heraus; nichts gelöscht ausser über 120 Tage.
+  - Aufbewahrung 120 Tage je Band (vorher 90 Einträge = 30 Tage bei 3 Bändern) -> Monatszyklus (Nutzer 14.11. 00:19, laut
+    offen-ahsentinel Punkt 6 "noch nicht messbar, nur Daten sammeln") wird damit später messbar.
+  - Testbericht RK6: letzter Eintrag gegen den jüngsten früheren Datentag derselben Kette, Tage zwischen den Datentagen.
+  - Keine Wirkung auf Preise/Vorschläge: RK6 HoldFactor nutzt weiter die Richtung aus der Tagesrechnung (unverändert);
+    BandHistory wird nur im Testbericht gelesen (grep belegt).
+Tests: T813 (+2 %/Tag -> Index 1,0000 -> 1,0200, gleiche Kette, 1 Tag; Lücke 29 Tage -> neue Kette 1,0; 200 Tage alter
+  Eintrag weg; altes Format ignoriert) – mit 0.65.237 rot (Testroutine: e1 nil), mit 0.65.238 grün. T807 unverändert grün.
+  s42 Testroutine grün. CHANGELOG EN/DE.
+Gesamtlauf (frischer Klon, Kopie 0.65.238): BESTANDEN 282, FEHLGESCHLAGEN 0 (s92 fest).
