@@ -64,6 +64,19 @@ TB181 (Nutzer 10:46, Screenshot Verkaufen > Meine Auktionen, 0.65.181) – Super
             zu tun ist (wie "Neu einstellen (0)"). Rot nur bei unterboten > 0 – sonst verleitet er zum Klick (Einstellgebühr weg).
     TB181-3 Fusszeile "Summe der Liste: aktiv … unterboten 0 (0) · verkauft …" wiederholt die Kopfzeile (eine Zahl einmal) ->
             eine von beiden weg (Vorschlag: Fusszeile nur bei Filter, wenn sie sich von der Kopfzeile unterscheidet).
+TB181-4 HOCH (Nutzer 10:49 "wollte die unterbotenen abbrechen, ging nicht mit dem Knopf", 2. Screenshot 10:48): Ursache (Code
+    Seller.lua:1436 + UI_Auctions.lua:55, Supervisor): Beim Klick (10:46) standen alle 4 Zeilen auf "wartet: Scan läuft"
+    (Status "?") -> CancelNextUndercut findet kein "unterboten" -> rote Meldung "Keine unterbotenen Auktionen (vorher
+    'Unterbietung prüfen')" (= TB181-1). Kopf zeigte "0 unterboten", obwohl alle 4 unterboten waren (nach dem Scan:
+    Mystik 11s61 vs 8s55 = −26 % -> "unterboten"; Astral −2c, Grosse Astral −9c, Splitter −70c = −1,8 % -> "liegen lassen",
+    nach H1 richtig, Supervisor nachgerechnet). Zu tun:
+    (a) Solange Status "?" (Preise unbekannt): Kopf "? unterboten (Preise werden geprüft)" statt "0", Knopf grau mit Tooltip
+        "Preise werden noch geprüft – gleich nochmals", und bei Klick genau diese Meldung (nicht "keine unterbotenen").
+    (b) Statt nur zu melden: Klick bei "?" stösst die Preisprüfung dieser Items vorrangig an und bricht danach EINE ab, falls
+        unterboten (zweiter Klick, kein Automatismus ohne Klick – Hardware-Ereignis).
+    (c) Status "unterboten – liegen lassen" ist in der Spalte abgeschnitten ("unterboten - liege…") -> kurz "liegen lassen"
+        (grau) und Grund im Tooltip ("nur 2c billiger – Abbrechen kostet die Gebühr, lohnt nicht").
+    (d) Test: Zeilen im Zustand "?" + Klick -> richtige Meldung, kein Abbruch; nach Preisprüfung -> bricht nur "unterboten" ab.
 KERN-T1 HÖCHSTE PRIO (Nutzer 10:45 "der Kern muss schnell lernen – aber ohne Einbussen", "oberste Prio"): Der Rechenkern
     lernt heute nur aus EIGENEN Fällen (≈ 80 Verkaufsfälle in 4 Tagen) -> Anzeige-Schwelle (N ≥ 30, Brier < 0,20) wird kaum
     erreicht. Mehr Fälle, ohne Gold, Gebühren oder Verkäufe zu opfern und OHNE Schwellen zu senken:
