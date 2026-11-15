@@ -228,7 +228,7 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
    laufen lassen und gefundene Fehler im Bericht melden – mehr nicht. Nie "erledigt/freigegeben/bestanden/geprüft"
    erklären; Berichte schreiben "umgesetzt, zur Prüfung" mit Belegen. Erledigt setzt nur die Prüf-Sitzung.
 
->>> NACHT-PRÜFUNG 20:40 (Supervisor) – GuildSentinel 0.9.40 + Hinweis addon_check 18:00.
+>>> NACHT-PRÜFUNG 20:35 (Supervisor) – GuildSentinel 0.9.40 + Hinweis addon_check 18:00.
   HINWEIS 20:25 ANGENOMMEN, im Prüfsystem behoben (addon-check/addon_check.py): Bei Addons aus curseforge/projects.json ist eine
     ältere Zip in download/, deren höhere Versionen NUR in announce/ liegen, jetzt WARNUNG "wartet auf CurseForge 18:00" statt
     FEHLER; die neuere Discord-Zip dieser Addons wird jetzt mitgeprüft (default_zips). Test test_addon_check_regeln.py 127/127,

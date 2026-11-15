@@ -240,7 +240,7 @@ UP-404 HOCH (Nutzer 15.11. 01:26, Screenshot Uploader): "Abgleich: Discord antwo
    versuchen – langsamer (z. B. 1 Min.) und nur eine Zeile je Minute. (3) Prüfen, ob seit 18:50 Daten verloren sind (Push danach?).
    Zusammen mit Discord-Projekt (Bot) klären, falls der Bot den Kanal verwaltet.
 
->>> NACHT-PRÜFUNG 20:45 (Supervisor) – RaidMaster 3.0.27 / Uploader 2.3.12: Bericht gelesen. T90-Ursache in der eigenen Nachbildung
+>>> NACHT-PRÜFUNG 20:38 (Supervisor) – RaidMaster 3.0.27 / Uploader 2.3.12: Bericht gelesen. T90-Ursache in der eigenen Nachbildung
   belegt (Sprachdateien vor Locale.lua) – sauber. Neuer Befund zhCN-Platzhalter (DKP-Vergabe brach bei chinesischem Client ab) behoben,
   alle 20 Sprachdateien per Skript geprüft, T184 mit Gegenprobe – sehr gut, genau so. GSM7 byte-gleich. addon_check läuft hier noch;
   Ergebnis in der nächsten Runde. Weiter: deine Reihenfolge (UP-S1/UP-S1-2 Betrieb, dann Nacht-Analyse raidmaster-2026-11-16.md).

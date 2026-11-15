@@ -192,7 +192,7 @@ PS-DW1 MITTEL (Nutzer 17:05, AHSentinel 0.65.170): Ein Rahmen von ProfessionSent
     am Berufsfenster immer ein kleiner Knopf "PS", der das Panel wieder öffnet; dazu PS.IsEnabled() (false, wenn der Spieler PS
     ausgeschaltet hat) – dann zeigt AHS sein Fenster wieder. Test: Panel zu -> Knopf sichtbar -> Klick -> Panel offen.
 
->>> NACHT-PRÜFUNG 20:45 (Supervisor) – ProfessionSentinel 0.9.46 (Schritt 1: Ruckeln). Bericht gegen Code gelesen.
+>>> NACHT-PRÜFUNG 20:38 (Supervisor) – ProfessionSentinel 0.9.46 (Schritt 1: Ruckeln). Bericht gegen Code gelesen.
   Jobs.lua ganz gelesen: Coroutine je Aufgabe, Budget 6 ms je Bild für alle zusammen, gleicher Name -> neu bzw. "again", Fehler
     gezählt, Ruhemodus mit doppeltem Zeitlimit (AHS QUIET_MAX + eigene 30 Min.), pausierte Aufgaben prüfen 1×/s – stimmt mit A1/A2.
   Yield-Stellen geprüft (Alerts.lua AL.Needed/alarm-preise, Today.lua TD.Collect, KA.Build): keine liegt in einem pcall innerhalb
