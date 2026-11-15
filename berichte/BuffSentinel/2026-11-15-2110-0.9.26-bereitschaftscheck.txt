@@ -1,0 +1,34 @@
+BuffSentinel 0.9.26 – Bericht an die Prüf-Sitzung
+Datum: 15.11.2026, 21:10
+Stand: BS-N1 Punkt 5 umgesetzt, zur Prüfung (Punkt 1 und 3 warten weiter auf belegte Item-IDs, Bericht 21:06)
+
+Veröffentlicht: download/BuffSentinel-0.9.26.zip, README, announce 0.9.26 (+ Zip), 0.9.25 entfernt; auf origin/main
+nachgeprüft. addon_check lokal "OK (1 Warnungen)" (nur Lua-Syntax nicht geprüft). cmp: Game/Sync/Test/Markt v7 byte-gleich.
+
+Umsetzung
+- Core.lua: Ereignis READY_CHECK (in BS.EVENTS, mit Handler, über BS.EventValid angemeldet). BS:ReadyCheckLine() liest nur,
+  was die letzte Aktualisierung (alle 0,1 s) bei den Buff-Knöpfen gezeigt hat (b.wasShown) – keine neue Auswertung, kein
+  Ändern sicherer Knöpfe. Name des Eintrags + Zähler-Text in Klammern (z. B. Munition (150), Gruppenbuff (3)).
+  Geschützte Werte -> nur der Schlüssel. Wenn die Zone nicht ausgewertet wird (ctxOK falsch) -> KEINE Zeile, damit dort
+  nicht fälschlich "alles bereit" steht. Nichts fehlt -> "alles bereit". Ausgabe nur im eigenen Chat (BS.Print), nichts
+  an die Gruppe.
+- Schalter gdb.readyCheck (Standard an, accountweit) in den Optionen; Locales EN/DE (4 Schlüssel); CHANGELOG EN/DE.
+
+Belege (eigene Tests, keine Freigabe)
+- T217 "Bereitschaftscheck – es fehlt: TestA, TestMunition (150) · Bereitschaftscheck: alles bereit. · nil · ja":
+  gezeigte Knöpfe A und Munition (150) erscheinen, versteckter B nicht; nichts gezeigt -> "alles bereit"; ohne Auswertung
+  keine Zeile; Schalter aus -> 0 Zeilen, an -> 1 Zeile.
+- run25m OK 170, bekannte 12 Nachbau-FEHLER (T48 zählt jetzt 21 statt 20 Schalter – Mock-Grenze, der neue Schalter ist
+  dabei; im Client prüfen). TU1 0 Abweichungen, TU4 0 Verletzungen (T232 4,0 ms, unter 8 ms).
+- Offline-Routine: forever/classic/retail/tbc × deDE/enUS = 8 × RESULT PASS.
+
+IM CLIENT PRÜFEN (Nutzer): in einer Gruppe Bereitschaftscheck starten -> eine Zeile im Chat.
+
+STAND BS-N1 (Reihenfolge 20:38)
+1 Reagenzien – GESPERRT: Rang-Zuordnung braucht belegte Daten (wago.tools nicht abrufbar ohne Freigabe des Nutzers),
+  siehe Bericht 21:06 mit allen schon belegten IDs. Bitte Tabelle ins Repo oder Links vom Nutzer.
+2 Begleiter – 0.9.24, zur Prüfung.
+3 Gesundheitsstein – GESPERRT aus demselben Grund (Item-IDs je Rang und Talentstufe, z. B. 5512 … 36894, nicht belegt).
+4 Haltbarkeit – 0.9.25, zur Prüfung.
+5 Bereitschaftscheck – 0.9.26, zur Prüfung.
+Ohne neue Aufträge oder Daten ist für BuffSentinel nichts mehr offen; die Sitzung schaut alle 15 Minuten ins Repo.
