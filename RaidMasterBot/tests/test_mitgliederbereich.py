@@ -357,10 +357,8 @@ class BotCode(unittest.TestCase):
         self.assertEqual(bot_quelle.alle().count("addon_hint(raid, actual)"), 2)
 
     def test_einrichten_nur_mit_bestaetigung(self):
-        with open(os.path.join(HERE, "bot.py"), encoding="utf-8") as f:
-            src = f.read()
-        body = src[src.index("async def member_area_cmd("):]
-        body = body[:body.index("\nbot.tree.add_command(mitgliederbereich_group)")]
+        import bot_quelle                      # D-3 Schritt 17: member_area_cmd steht in mitglieder_bot.py
+        body = bot_quelle.funktion("member_area_cmd")
         self.assertLess(body.index("if not bestaetigen or not complete:"), body.index("gate_item("))
         self.assertNotIn(".delete(", body)
 

@@ -133,6 +133,10 @@ class Lade(unittest.TestCase):
         self.assertIs(befehlsliste_bot.bot, b.bot)               # D-3 Schritt 16: Befehlslisten
         self.assertIs(b.ensure_command_list, befehlsliste_bot.ensure_command_list)
         self.assertIs(befehlsliste_bot.name_poll, gildenname_bot.name_poll)
+        import mitglieder_bot
+        self.assertIs(mitglieder_bot.bot, b.bot)                 # D-3 Schritt 17: Mitglieder-Bereich
+        self.assertIs(b.maintain_member_area, mitglieder_bot.maintain_member_area)
+        self.assertIs(mitglieder_bot.ensure_welcome, willkommen_bot.ensure_welcome)
         self.assertIs(b.NO_PING, grund.NO_PING)
 
     def test_findet_fehlenden_namen(self):

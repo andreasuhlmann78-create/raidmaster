@@ -238,8 +238,8 @@ class TU3Standardwerte(unittest.TestCase):
         self.assertEqual(rmd.parse_datetime("20.11.", "20", TZ, now).strftime("%Y %H:%M"), "2026 20:00")
 
     def test_einrichten_standard_ist_vorschau(self):
-        with open(os.path.join(HERE, "bot.py"), encoding="utf-8") as f:
-            src = f.read()
+        import bot_quelle                      # D-3 Schritt 17: member_area_cmd steht in mitglieder_bot.py
+        src = bot_quelle.funktion("member_area_cmd")
         self.assertIn("bestaetigen: bool = False", src[src.index("async def member_area_cmd("):][:200])
 
 
@@ -369,6 +369,7 @@ REGRESSIONEN = {
     "T-D3-BEFEHLSLISTE": ("test_befehlsliste_bot", "Befehlsliste", "test_mitgliederliste_nur_fuer_alle"),
     "T-CHUNK": ("test_chunk_blocks", "ChunkBlocks", "test_zu_langer_block_wird_geteilt"),
     "T-CHUNK-LISTE": ("test_befehlsliste_bot", "Befehlsliste", "test_keine_nachricht_ueber_2000"),
+    "T-D3-MITGLIEDER": ("test_mitglieder_bot", "Mitglieder", "test_aufnehmen_mitglied_statt_gast"),
     "T-D3-BEFEHLE": ("test_befehle_liste", "BefehleListe", "test_gleiche_befehle"),
     "T-D-MN8b": ("test_market", "BotAblauf", "test_T_D_MN8b_aenderung_erst_nach_senden_merken"),
     "T-D-GS1b": ("test_market", "BotAblauf", "test_T_D_GS1b_grosse_guildsentinel_datei"),
