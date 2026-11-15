@@ -1,0 +1,140 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+
+BERICHT NACHPRÜFUNG AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 17:45 · Sitzung: geplante Nachprüfung · Basis-Commit: 61f9360b (origin/main)
+Nichts in auftraege/**, nachrichten-log.txt oder nachpruefung-stand.json geschrieben, keine Nachricht an den Nutzer verschickt.
+Alle Vorschläge unten überträgt der Supervisor selbst (oder verwirft sie).
+
+ZUSAMMENFASSUNG
+- NEU MITTEL (AHSentinel, Tests): Die Nachbildung auf origin/main ist NICHT die, mit der der Bericht 0.65.199/0.65.200
+  "BESTANDEN 258, FEHLGESCHLAGEN 0" belegt. (a) tests/wowsim/run_all.sh (Commit 065711c) hat als Lua-Standard einen fest
+  eingetragenen Scratchpad-Pfad einer anderen Sitzung -> in jeder anderen Sitzung schlagen ALLE Szenarien fehl. (b) Die laut
+  Bericht nachgebildete Funktion IsAddOnLoaded/C_AddOns.IsAddOnLoaded steht nicht im Repo -> s92 ist mit 0.65.199 und 0.65.200
+  3 von 3 rot (+36 bis +40 MB, längster Frame bis 201 ms). Ursache belegt (unten). Im Spiel vermutlich kein Fehler, aber der
+  Beleg ist nicht nachvollziehbar und die Nachbildung misst seit 0.65.199 etwas, das es im Spiel nicht gibt. Vorschlag T200-1.
+- ProfessionSentinel PS-RK1 (HOCH, Entwurf 14:20) ist noch nicht übertragen; die neuen Diagnosen bestätigen und verschärfen ihn.
+- Discord-Bot 1.5.136–1.5.141: 260 Tests OK, 1 Hinweis NIEDRIG (D-RH1).
+- LevelPilot 3.12.32 (PF-A): addon_check OK, Code-Änderung nachvollzogen, keine Befunde.
+- AHSentinel 0.65.191–0.65.200: liegt beim Supervisor (Nacht-Prüfung 17:08 bis 0.65.198). Hier nur ergänzend addon_check und
+  Offline-Gesamtlauf 0.65.198/0.65.200.
+
+VERSIONEN (seit dem Entwurf 14:20)
+- AHSentinel 0.65.191–0.65.200 (announce/, CurseForge erst 18:00) – Supervisor; hier ergänzend 0.65.198 und 0.65.200.
+- RaidMasterBot 1.5.136–1.5.141 – geprüft.
+- LevelPilot 3.12.32 (17:30) – geprüft.
+- Unverändert: BuffSentinel 0.9.21, GuildSentinel 0.9.39 (Entwurf 14:20), ProfessionSentinel 0.9.45, ThreatSentinel 2.5.13,
+  RaidMaster 3.0.26, Uploader 2.3.11.
+- Hinweis: Der Entwurf 14:20 (GSW-1, D-UO1, PS-RK1, stand.json) ist laut offen-*.txt und stand.json noch nicht übertragen.
+
+==================================================================================================================
+1) AHSENTINEL 0.65.198 / 0.65.200 (Ergänzung; Berichte 0.65.198, 0.65.199 und 0.65.200 gelesen)
+==================================================================================================================
+Prüfungen:
+- addon_check announce/…0.65.198 und …0.65.200: OK (lupa, Lua 5.1). 0.65.199 liegt nicht mehr in announce/ (nur ersetzt).
+- ZIP 0.65.198 = Quell-Repo e32d876 (diff leer). Gemeinsame Dateien in 0.65.200 (Game/Test/Sync/Markt/CmdHint) byte-gleich mit shared/.
+- Offline-Gesamtlauf (tests/wowsim, lua5.1, FULL=1) mit der ZIP als Addon-Ordner:
+    0.65.198 (Tests e32d876): 257 bestanden, 1 rot: s92 (NP152-3, Lauf 3 +15,8 bis +17,1 MB, 2 von 4 Läufen grün – bekannt,
+             Median-Regel vom Supervisor 17:08 angenommen).
+    0.65.200 (Tests 065711c, LUA von Hand gesetzt): 257 bestanden, 1 rot: s92 – 3 von 3 Wiederholungen rot.
+
+T200-1 MITTEL (Tests/Belege, belegt):
+  (a) tests/wowsim/run_all.sh:5 (Commit 065711c "s92 Median aus 3 Läufen"):
+      LUA="${LUA:-/tmp/claude-0/-home-claude/9ff3d5a0-…/scratchpad/bin/lua51}" statt bisher
+      LUA="${LUA:-$(command -v lua5.1 || command -v lua51 || command -v lua)}".
+      Folge: ohne LUA=… schlagen in jeder anderen Sitzung (Supervisor, Nachprüfung) alle Szenarien fehl
+      ("timeout: failed to run command …/lua51"); gemessen hier: 0 bestanden, 31+ rot.
+      Lösung: alte Zeile wiederherstellen.
+  (b) Bericht 2026-11-15-1745-mn-de-auft1-0.65.199.txt Zeile 20: "Nachbildung (wowsim): IsAddOnLoaded/C_AddOns.IsAddOnLoaded
+      nachgebildet (AHSentinel geladen)" und Zeile 89 "Gesamtlauf … BESTANDEN 258, FEHLGESCHLAGEN 0 (s92 grün)".
+      Auf origin/main (065711c) steht IsAddOnLoaded nur in der Liste T.expectedUndefined (tests/wowsim/common.lua:129),
+      nirgends als Funktion. Damit hält die neue GoldSentinelMarkt.lua (seit 0.65.199 in der TOC) AHSentinel für nicht
+      geladen (GoldSentinelMarkt.lua:107 api.ahs, :240 OnReplicate) und liest jeden Vollscan der Nachbildung selbst mit.
+      Messung s92 (je Lauf 21089 Auktionen, 6108 Items):
+        0.65.198 (ohne GSMarkt):                Lauf 3 +14,3 / +15,8 / +17,1 MB, längster Frame 45–66 ms
+        0.65.199 (mit GSMarkt, Tests auf main): Lauf 3 +36,1 / +36,7 / +36,8 / +36,9 / +39,5 MB
+        0.65.200 (mit GSMarkt, Tests auf main): Lauf 2 längster Frame 201 ms, Lauf 3 +39,5 MB, 114 ms
+        0.65.199 ohne GoldSentinelMarkt.lua in der TOC: Lauf 3 +14,1 / +15,2 MB          -> Ursache = GSMarkt liest mit
+        0.65.200 mit Stub IsAddOnLoaded("AHSentinel") = true:  Lauf 3 +14,0 / +17,0 MB, 47–73 ms -> wie 0.65.198
+      Im Spiel gibt es C_AddOns.IsAddOnLoaded; dort sollte GSMarkt mit "ahsentinel liest selbst" verwerfen (Verdacht, im
+      Client zu bestätigen, siehe unten). Befund ist also der fehlende Beleg im Repo (Direktive 14:57 "was nicht auf
+      origin/main steht, gilt als nicht gemacht"), kein belegter Spielfehler.
+      Lösung: die Nachbildung von IsAddOnLoaded + C_AddOns.IsAddOnLoaded (AHSentinel geladen) ins Repo pushen; zusätzlich ein
+      Szenario, das prüft, dass GSMarkt im Vollscan von AHSentinel 0 Auktionen selbst liest (Stats: Drop "ahsentinel liest
+      selbst", reader nie gesetzt). Danach s92 neu messen und Zahlen in den Bericht.
+  IM CLIENT PRÜFEN: nach einem Vollscan im Prognose-Bericht die Zeile "MARKT-NETZ" (A:MarketNetLine) – GSMarkt darf den Scan
+      nicht selbst gelesen haben (gelesen 0, Speicher nach dem Scan nicht höher als mit 0.65.198).
+
+HINWEIS (Testberichte, NIEDRIG, Verdacht – zu messen): ADDON_ACTION_BLOCKED "UNKNOWN()" (nur Zähler) kam weiter vor:
+  0.65.189 (15.11. 14:13, Zähler 3) und 0.65.194 (15.11. 16:17, 4 -> 5), insgesamt 17× seit 0.65.16. Steht in keiner offen-Datei.
+  Vorschlag: im nächsten Sniper-Protokoll mit Zeitpunkt und letzter Aktion (Kauf/Mausrad/Klick) mitschreiben.
+
+MARKT-KERN (2b): keine neuen AHSentinel-Testberichte mit Abschnitt MARKT-KERN seit dem Entwurf 14:20 (nur 1 Fehlerbericht).
+  Grenzwerte Ü2 daher nicht neu prüfbar.
+
+==================================================================================================================
+2) DISCORD-BOT 1.5.136–1.5.141 (6 Berichte in berichte/Discord/ 15:10–16:40 gelesen)
+==================================================================================================================
+Prüfungen: python3 -I -m unittest discover -s RaidMasterBot/tests: 260 Tests OK. Alle *.py syntaktisch OK.
+Diff 1.5.135 -> 1.5.141: bot.py (+163), neu rekord_tafel.py, make_bosses.py, bosses.json, tests/test_rekord_tafel.py.
+- Rekord-Tafeln (1.5.136–1.5.140): einmal posten, dann nur bearbeiten (Hash je Tafel); fehlt eine Tafel oder ändert sich die
+  Reihenfolge, alles neu posten. Alte Einzelzeilen nur einmal löschen (state record_lines_cleaned), nur eigene Nachrichten
+  des Bots mit Präfix "⏱️ **Neuer Rekord: ". OK.
+- /ruhmeshalle-aufraeumen (1.5.141): nur is_admin, erst Vorschau, löschen nur mit bestaetigen:True, Angeheftetes und aktuelle
+  Tafeln bleiben, Stichtag "bis und mit" = Folgetag 00:00 Zürich (rekord_tafel.py:252), Kill-Daten bleiben. OK.
+D-RH1 NIEDRIG (Hinweis):
+  (a) bot.py:2705 nimmt jedes Datum, auch heute oder in der Zukunft -> löscht dann auch die heutigen Einträge (Vorschau zeigt nur
+      die Zahl). Vorschlag: Datum >= heute ablehnen oder in der Vorschau deutlich warnen.
+  (b) bot.py:2725–2742: einzeln mit 0,6 s Abstand; ab ~1400 Einträgen dauert es länger als 15 Min. – das Interaktions-Token läuft
+      ab, die Schlussmeldung kommt dann nicht an (Löschung läuft trotzdem). Vorschlag: Nachrichten jünger als 14 Tage gebündelt
+      löschen (ch.delete_messages bis 100 je Aufruf) oder die Schlussmeldung als normale Nachricht/Log.
+  (c) update_record_boards bot.py:2675–2679: beim Neu-Posten fängt das Löschen der alten Tafeln nur NotFound/ValueError ab;
+      Forbidden/HTTPException bricht die ganze Aktualisierung ab. Gering.
+
+==================================================================================================================
+3) LEVELPILOT 3.12.32 (Bericht berichte/LevelPilot/2026-11-15-1810-3.12.32-pf-a.txt gelesen)
+==================================================================================================================
+Prüfungen: addon_check announce/levelpilot__levelpilot-3.12.32.LevelPilot.zip: OK (lupa). Gemeinsame Dateien byte-gleich.
+Diff 3.12.31 -> 3.12.32: Danger.lua, Planner.lua, TestRoutine.lua, Core.lua, TOC, CHANGELOG EN/DE.
+- PF-A Danger.lua:130 D:Route: Zellenschlüssel direkt berechnet = Key() (Danger.lua:23, gleiche Formel), erster Punkt hinter
+  skip mit Nachkorrektur (gleiche Bedingung len·i/steps >= skip wie vorher), stop nur als frühes Ende bei mx >= stop. Einziger
+  Aufrufer mit stop ist Planner.lua:778 und vergleicht nur ">= lim" -> Ergebnis unverändert. Ohne stop wie vorher.
+- T291 (2000 Zufallsstrecken, Vergleich mit Danger:At Punkt für Punkt, mit Gegenprobe) und T150 (Median < 16 ms, Höchstwert
+  < 33 ms) vorhanden. Offline-Tests von LevelPilot hier nicht gelaufen (Repo nicht in dieser Sitzung).
+Ergebnis: PF-A aus Sicht der Nachprüfung umgesetzt, keine Befunde. Offen laut Bericht: Höchstwert 26 ms im ersten Lauf
+  (Ursache nicht gemessen) – passt zu LP-D1.
+IM CLIENT PRÜFEN: Allianz Elwynn L10 – Neuplanung ohne spürbaren Ruckler (/lp diag Planungszeit).
+
+==================================================================================================================
+4) TESTBERICHTE (Batches bd2c989 13:58, 6a310ea 14:50, 1c93e68 15:47 UTC)
+==================================================================================================================
+- AHSentinel: 2 Fehlerberichte (ADDON_ACTION_BLOCKED, oben), 7 Diagnosen 0.65.190–0.65.196 (Sniper-Thema, Supervisor dran).
+- GSSniperLog: 6 Protokolle (vom Supervisor als GSL1–GSL4 ausgewertet).
+- ProfessionSentinel 0.9.45: 8 Diagnosen, Lua-Fehler 0. PS-RK1 BESTÄTIGT UND VERSCHÄRFT (Diagnose 0.9.45-d8068f2c37e1, 15.11. 15:55):
+    LANGSAM ×14986 UI:Aufbau (Teil) · höchstens 1563,8 ms (zuletzt 289,5 ms)   (14:20 noch ×13865)
+    AUFBAU ×278 direkt · zuletzt 3000,5 ms (ein Neuaufbau 3 Sekunden)
+    AUFBAU ×235 TRADE_SKILL_SHOW · 746 Anfragen · höchstens 7134,6 ms (zuletzt 894,2 ms)
+    AUFBAU ×9129 TRADE_SKILL_LIST_UPDATE · 16135 Anfragen · höchstens 8028,4 ms
+  Vorschlag: PS-RK1 wie im Entwurf 14:20 als HOCH Punkt 1 übertragen, diese Zahlen ergänzen.
+- GuildSentinel 0.9.39 (7), ThreatSentinel 2.5.13 (7), LevelPilot 3.12.30 (7), BuffSentinel 0.9.21 (1): Fehler 0 / keine.
+- LevelPilot Wegdaten: 10 neue Dateien, Auswertung automatisch (testberichte/wege/auswertung.md).
+- Hinweis Prüfsystem: "python3 addon-check/testberichte.py --help" zeigt keine Hilfe, sondern startet die Auswertung und
+  schreibt testberichte/status.json/status.md um (hier lokal zurückgesetzt, nichts committet). NIEDRIG, Vorschlag: --help abfangen.
+
+==================================================================================================================
+VORSCHLÄGE ZUM ÜBERTRAGEN (macht der Supervisor)
+==================================================================================================================
+- offen-ahsentinel.txt: T200-1 MITTEL (a)+(b) mit Lösung und IM CLIENT PRÜFEN; Hinweis ADDON_ACTION_BLOCKED (NIEDRIG).
+- offen-discord.txt: D-RH1 NIEDRIG (a)–(c); dazu D-UO1 aus dem Entwurf 14:20, falls noch nicht übernommen.
+- offen-levelpilot.txt: PF-A "umgesetzt in 3.12.32, Abnahme im Client"; Rest unverändert.
+- offen-professionsentinel.txt: PS-RK1 HOCH (Entwurf 14:20) mit den neuen Zahlen oben.
+- nachpruefung-stand.json: "LevelPilot": "3.12.32", "RaidMasterBot": "1.5.141", "GuildSentinel": "0.9.39",
+  "testberichte_bis": "1c93e680", "geprueft": "2026-11-15T17:45+01:00"; AHSentinel nach Stand des Supervisors.
+
+NACHRICHTENTEXTE (Vorschlag, zum Einfügen – schickt der Supervisor)
+- An AHSentinel: "Erst laufende Arbeit fertig machen. T200-1 MITTEL: tests/wowsim/run_all.sh:5 hat einen fest eingetragenen
+  Scratchpad-Pfad als Lua – bitte wieder $(command -v lua5.1 || command -v lua51 || command -v lua). Die im Bericht 0.65.199
+  genannte Nachbildung von IsAddOnLoaded/C_AddOns.IsAddOnLoaded ist nicht im Repo; ohne sie liest GoldSentinelMarkt jeden
+  Vollscan mit und s92 ist 3/3 rot (+36–40 MB). Bitte pushen, Szenario 'GSMarkt liest bei AHSentinel nicht selbst' ergänzen,
+  s92 neu messen. Details offen-ahsentinel.txt T200-1. Bericht in berichte/AHSentinel/."
+- An Discord: "D-RH1 NIEDRIG: /ruhmeshalle-aufraeumen Datum >= heute ablehnen oder warnen; lange Löschungen (> 15 Min.)
+  bündeln oder Schlussmeldung ohne Interaktions-Token; beim Neu-Posten der Tafeln auch Forbidden abfangen."
