@@ -1,0 +1,33 @@
+BuffSentinel 0.9.34 – Bericht an die Prüf-Sitzung
+Datum: 15.11.2026, 22:26 (aus date)
+Stand: Getränke für Manaklassen umgesetzt, zur Prüfung (Reihenfolge 21:48, Punkt 5). Damit ist die Reihenfolge 21:48 komplett
+umgesetzt (Managem 0.9.29, Inneres Feuer 0.9.30, Tierfutter 0.9.31, Seelenstein 0.9.32, Getränke 0.9.34; BS-OFF1 0.9.33).
+
+Veröffentlicht: download/BuffSentinel-0.9.34.zip, README, announce 0.9.34 (+ Zip), 0.9.33 entfernt; auf origin/main nachgeprüft.
+addon_check lokal "OK (1 Warnungen)" (nur Lua-Syntax nicht geprüft). cmp Game/Sync/Test/Markt v7 und BuffSentinelVorratDaten gleich.
+
+Umsetzung
+- Core.lua BS.COMMON_ENTRIES "drinks": v = "classic", max = 3 (Classic bis Wrath), nur Klassen MAGE/PRIEST/WARLOCK/DRUID/
+  SHAMAN/PALADIN/HUNTER (neues Feld classes, ResolveEntries filtert), alertOnly, low = 10, minLevel = 10, Symbol aus Item 159.
+- BS:DrinkSet(): Zweig der Spieldaten je Spielversion (BS.DATA_BRANCH: forever->wowf, era->era, tbc->tbc, wrath/titan->wrath),
+  Liste <zweig>.getraenke aus BuffSentinelVorratDaten (unverändert) als Menge, einmal je Zweig gebaut. Andere Version (Cata,
+  MoP, Retail) -> nil -> keine Erinnerung. Gezählt über alle Taschen (ForEachBagItem) beim Taschen-Ereignis/Layout.
+- EvalBuff: neues supply.minLevel (UnitLevel, geschützt -> nichts).
+- Locales EN/DE (4 Schlüssel), CHANGELOG EN/DE.
+
+Bewusste Entscheidungen (bitte prüfen)
+- Ab Stufe 10 (vorher trinkt man kaum, sonst Dauer-Hinweis für neue Charaktere). Grenze 10 fest.
+- Magier inbegriffen (Getränke können herbeigezaubert werden – Hinweis sagt "Nachkaufen oder herbeizaubern").
+- "Essen und Trinken" ohne eigenen Zauber "Trinken" zählen nicht (wie in euren Daten vermerkt) – Verdacht, im Client zu prüfen.
+
+Belege (eigene Tests, keine Freigabe)
+- T227 "9/9/13/13/nil · ja · ja": Taschen mit 159 (6) + 1179 (3) + Fleisch 117 (20, zählt nicht) + 33042 (4, erst ab TBC in der
+  Liste): forever 9, era 9, tbc 13, wrath 13, cata nil; Anzeige: 5 auf Stufe 60 ja, 12 nein, Stufe 9 nein, 0 auf Stufe 10 ja;
+  Eintrag bei Magier/Jäger/Paladin ja, Krieger/Schurke nein. (Werte gegen die Datendatei geprüft: 159/1179 in allen Zweigen,
+  33042 nur tbc/wrath.)
+- run25m OK 177, die bekannten 12 Nachbau-FEHLER; TU1 0 Abweichungen (3492/3028/3736), T232 3,3 ms.
+- Offline-Routine mit der veröffentlichten Zip 0.9.34: forever/era/tbc/retail × deDE/enUS = 8 × RESULT PASS.
+
+IM CLIENT PRÜFEN (Nutzer): Manaklasse ab Stufe 10 mit weniger als 10 Wasser -> "GETRÄNKE KNAPP!" mit Zahl.
+
+Damit ist für BuffSentinel nichts mehr offen; die Sitzung schaut alle 15 Minuten ins Repo.
