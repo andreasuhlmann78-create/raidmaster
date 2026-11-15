@@ -1,0 +1,50 @@
+BERICHT GUILDSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 · Sitzung: GuildSentinel-Projekt-Sitzung · Version: 0.9.39 · Commit: GuildSentinel c35e637
+Veröffentlichung: Discord ja (announce/, sofort). CurseForge: nein (nächster Termin 18:00 – dann Zip nach download/).
+
+UMGESETZT, ZUR PRÜFUNG:
+- GS-W1 (HOCH) (a): Vorschlag 2 (Rc:Suggestion2, mit {tag}) endet jetzt mit "– flüstert mir: /w {name} gilde", in allen
+  10 Sprachen mit genau dem Wort der bestehenden Standardtexte (en "– whisper me: /w {name} guild", fr "– chuchotez-moi :
+  /w {name} guilde", es/esMX "– susúrrame: /w {name} hermandad", it "– sussurrami: /w {name} gilda", pt "– sussurre para
+  mim: /w {name} guilda", ru "– Пишите мне: /w {name} гильдия", ko "– 귓속말: /w {name} 길드", zh "—— 密我：/w {name} 公会/公會").
+  ptBR: der Aufbau-Standardtext hatte als einziger "– sussurre:" -> auf "– sussurre para mim:" vereinheitlicht.
+- GS-W1 (b): Kürzen auf AD_MAX 251 (Platz für "/<Kanal> " bis 255) in dieser Reihenfolge: {gesucht}-Liste auf 2 Klassen
+  (Phase Raid), dann Discord-Satz samt Tag weg, dann Rc.CutKeepWhisper: kürzt nur den Anfang am Wortende, der Flüster-
+  Teil ab dem Strich direkt vor "/w " (höchstens 40 Bytes davor) bleibt ganz. Ohne Strich (Discord weggelassen ->
+  "… Raidziel. Flüstert mir: /w …") gehört der Satz ab dem letzten Satzende dazu; der gekürzte Anfang endet dann wieder
+  mit einem Satzende. DropTag lässt den Flüster-Teil nach dem Tag stehen.
+- GS-W1 (c): eigener Text ohne "/w {name}" -> gelber Hinweis "Dein Text sagt nicht, wie man sich meldet – „/w {name} gilde“
+  anhängen?"; "Übernehmen" hängt den Teil an (Rc:AppendWhisper), nie ungefragt (Text bleibt ohne Klick unverändert).
+- GS-W2 (HOCH): Knopf "Vorschlag wählen" (ersetzt Vorschlag 1/2) öffnet ein Aufklappmenü mit 7 Vorschlägen (Rc.SUGGESTIONS):
+  Standardtext der Phase, Kurz und knapp, Aufbau – zusammen aufbauen, Raid – Kader ausbauen, Freundlich und gemütlich,
+  Mit Discord-Tag, Ohne Discord. Jeder Eintrag zeigt die Zeichenzahl des fertig eingesetzten Textes, der Tooltip den
+  Text selbst. Reihenfolge (Rc:Suggestions): Standard zuerst, dann der Vorschlag der aktuellen Phase, dann neutrale, dann
+  die andere Phase. Erst der Klick setzt ns.db.adText. Alle mit {gilde} {fraktion} {gesucht} (+ {discord}/{tag}/{phase}).
+- MARKT-v3 (NIEDRIG): shared/GoldSentinelMarkt.lua (jetzt Version 4) unverändert kopiert; cmp Game/Test/Sync/Markt gegen
+  shared/ = gleich, direkt vor dem Packen erneut. T291 verlangt VERSION >= 3.
+
+GEFUNDENE FEHLER (dabei behoben):
+- Chinesisch: DropTag prüfte "Klammer schon zu?" mit der Lua-Zeichenklasse "[%)）]" – "）" sind 3 Bytes, die Klasse traf
+  schon die öffnende "（". Folge: ohne Discord-Tag fiel der ganze Rest des Satzes samt Flüster-Teil weg (betraf auch den
+  bisherigen Vorschlag 2 auf zhCN/zhTW). Jetzt einfache Suche nach ")" und "）".
+- CutKeepWhisper entfernte Satzzeichen am Ende mit "[%s,;:–—%-]+$" – die Bytes von "–"/"—" kommen auch am Ende
+  chinesischer Zeichen vor -> halbe Zeichen möglich. Jetzt Schleife über ganze Zeichen.
+- Ohne Discord (kein Strich vor "/w") blieb beim Kürzen nur "/w {name} …" stehen, das Wort "Пишите мне:" fiel weg (ruRU,
+  Phase "fast raidbereit"). Behoben (siehe (b)).
+
+EIGENE TESTS (Belege, keine Freigabe):
+- addon_check "GuildSentinel-0.9.39.zip: OK", keine WARNUNG (Lua-Syntaxprüfung mit: luac5.1 (Lua 5.1)); Tests der
+  gemeinsamen Datei lokal nicht ausgeführt (lupa fehlt), im GitHub-Lauf.
+- Routine offline: Forever OK 283, Era OK 288, TBC OK 288, je FEHLER 0. runall 0 fehlgeschlagen (inkl. run_nomarkt).
+- Neue Tests T295a–g: a jeder Vorschlag enthält "/w {name}"; b jeder Vorschlag eingesetzt <= 251, Flüster-Teil am Ende
+  ganz, auch mit 90-Zeichen-Discord-Link und langem Gildennamen; c CutKeepWhisper; d Hinweis/Anhängen nie ungefragt;
+  e Reihenfolge nach Phase + Übernahme; f chinesische Tag-Klammer; g Kürzen ohne Strich und chinesisch (gültiges UTF-8).
+  T247 angepasst (Flüster-Teil bleibt beim Kürzen). REGRESS: GS-W1, GS-W2.
+- Sprachen-Durchlauf (alle 11 Clients deDE/enUS/frFR/esES/esMX/itIT/ptBR/ruRU/koKR/zhCN/zhTW) × 3 Phasen × 7 Vorschläge
+  × 4 Fälle (kurzer Link, 90-Zeichen-Link + langer Gildenname + 7 Klassen, ohne Discord, ohne Tag) = 84 Fälle je
+  Sprache: alle <= 251 Bytes (max 251 ruRU/zhCN/zhTW), Flüster-Teil am Ende ganz, kein "{", gültiges UTF-8, ohne Discord
+  kein "Discord", ohne Tag kein Tag, keine doppelten Leerzeichen. Fehlerhaft 0 in allen Sprachen.
+- Keine Spielernamen: Tests mit "Testname"/"Testa"/"Testgilde".
+
+IM CLIENT PRÜFEN: Rekrutierung > "Vorschlag wählen": Menü mit Zeichenzahlen, Tooltip mit fertigem Text, Klick übernimmt;
+Hinweis bei eigenem Text ohne /w und "Übernehmen" hängt an; "Werbung vorbereiten" -> Chat-Eingabe endet mit /w <Name> gilde.
