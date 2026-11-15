@@ -1,0 +1,64 @@
+BERICHT DISCORD – D-N1: fünf häufige Wünsche an einen Gilden-Discord-Bot, zwei umgesetzt in Bot 1.5.183 – umgesetzt, zur Prüfung
+Zeit: 15.11.2026 23:48 (aus date)
+Commit: 85171ebe (1.5.183) auf origin/main
+
+ZUR D-3-FRAGE: Hinweis der Prüf-Sitzung (23:33) gelesen – die Frage aus Bericht 2155 führe ich nicht mehr als offen.
+
+A. VORGEHEN UND GRENZEN
+- Quellen: Funktionslisten vergleichbarer Bots (Raid-Helper, BattleBuddy) und ein Überblicksartikel zu
+  WoW-Classic-Discord-Bots (Links unten). Eine gezählte Umfrage in Foren gab die Suche nicht her: Die Reihenfolge
+  "häufigste" ist darum NICHT gemessen, sondern die Auswahl dessen, was in diesen Quellen als Kernfunktion steht.
+- Abgeglichen mit den 49 Befehlen des Bots (Liste aus 1.5.182): Bewerbung, Erinnerung vor dem Raid,
+  Discord-Ereignisse, softres.it, Raid schliessen, Klassen-Rollen hat der Bot schon. Umfragen gibt es in Discord
+  selbst (eingebaut) – kein Bedarf im Bot. Raid-Reset-Zeiten: für WoW Forever nicht belegt -> weggelassen.
+
+B. DIE FÜNF WÜNSCHE (je ein Satz NUTZEN)
+1. Abwesenheit melden (/abwesend von–bis, Grund optional) – NUTZEN: Die Raidleitung sieht vor der Planung, wer
+   im Urlaub ist, statt einzeln nachzufragen. Quelle: Artikel (Raidplanung/Verwaltung). Grösse: mittel (Speicher,
+   Anzeige in Anmeldung/Aufstellung, Ablauf der Einträge).
+2. Wer hat sich noch nicht gemeldet – NUTZEN: Offiziere sehen auf einen Blick, wen sie vor dem Raid ansprechen
+   müssen. Quelle: Raid-Helper "Message or list signed and unsigned members". Grösse: klein -> UMGESETZT /raid fehlend.
+3. Wiederkehrende Raids (z. B. jeden Mittwoch automatisch anlegen) – NUTZEN: Die Gildenleitung muss feste
+   Raidtermine nicht jede Woche neu erstellen. Quelle: Raid-Helper (Premium "automatically recurring events").
+   Grösse: mittel (Zeitplan, Schleife, Abbruch, Test der Wiederholung).
+4. Anmeldegrenzen je Rolle/Klasse (z. B. höchstens 8 Heiler) – NUTZEN: Die Zusammenstellung stimmt schon bei der
+   Anmeldung, Überzählige landen automatisch auf der Ersatzbank. Quelle: Raid-Helper "Limit sign-ups by number,
+   class, or role". Grösse: mittel (Eingabe beim Erstellen, Ersatzbank-Logik, Addon-Export).
+5. Anwesenheit abfragen – NUTZEN: Jedes Mitglied sieht selbst, wie regelmässig es dabei war (zählt auch für die
+   Aufstellung), ohne Offiziere zu fragen. Quellen: BattleBuddy "attendance trends", Artikel "tracking attendance".
+   Grösse: klein (Zählung gibt es schon) -> UMGESETZT /anwesenheit.
+
+C. UMGESETZT IN 1.5.183 (die zwei kleinsten)
+- /raid fehlend raid:<Raid> (Gildenleitung): Gildenmitglieder (Rolle Mitglied, Raider, Raidleitung, Offizier;
+  keine Bots, keine Gäste) ohne JEDE Rückmeldung zum Raid (auch "abgemeldet" zählt als Rückmeldung). Antwort nur
+  für die fragende Person sichtbar; der Bot schreibt niemanden an. Ohne Server Members Intent ein klarer Hinweis.
+  Lange Listen gekürzt ("… und n weitere"), immer unter 2000 Zeichen.
+- /anwesenheit name:<Charakter> (alle, leer = eigener): "X war bei 8 von 10 der letzten Raidtagen dabei (80 %)",
+  mit Quelle (RaidMaster-Addon, sonst Discord-Anmeldungen) – dieselbe Funktion rmd.attendance wie die Aufstellung.
+- Keine neuen Rechte für den Bot, keine Nachrichten an Fremde, keine Spielernamen im Repo (Tests mit erfundenen
+  Namen).
+- Eingetragen: COMMAND_INFO (raid fehlend: Gildenleitung; anwesenheit: alle), ANLEITUNG.md, tests/data/befehle.txt.
+
+D. BELEGE
+- Befehlsliste 1.5.182 -> 1.5.183 (als __main__ gestartet, mit Parametern und Beschreibung verglichen): genau
+  zwei neue Zeilen (/anwesenheit(name?), /raid fehlend(raid)), alles andere gleich; 8 Ereignis-Methoden gleich.
+  Befehle oben 30 -> 31, mit Unterbefehlen 49 -> 51.
+- NEU test_dn1.py (9 Tests, REGRESSIONEN T-D-N1). Gegenproben (9, alle aufgefallen): Bots nicht ausgeschlossen,
+  Rollen egal, Rechte-Prüfung weg, Intent-Prüfung weg, Kürzung weg, unsortiert, Name nicht klein geschrieben,
+  Quelle vertauscht, ohne Prüfung "keine Raids".
+- 420 Tests OK; jede der 57 Testdateien einzeln mit -I OK; REGRESSIONEN 75 von 75.
+- Betrieb nachgestellt (Kopie): Update vom Stand 1.5.182 kopiert ANLEITUNG.md, VERSION, befehlsliste_bot.py,
+  dkp_befehle_bot.py, raid_bot.py, tests; config.json und state unverändert (md5). Start wie launcher: Abbruch erst
+  bei der Anmeldung (LoginFailure). Ohne config.json Exit 3. Neustart-Code 42 (ohne Neustart 0).
+
+E. IM DISCORD PRÜFEN (nach /update)
+- /raid fehlend bei einem offenen Raid: Liste nur für dich sichtbar, Gäste und Bots fehlen darin.
+- /anwesenheit ohne Namen: dein Stand mit Quelle. #befehle zeigt /anwesenheit, #befehlsliste /raid fehlend.
+
+VORSCHLAG NÄCHSTER SCHRITT (Entscheid der Prüf-Sitzung): Wunsch 1 (Abwesenheit) – der grösste Nutzen der drei
+offenen, mittel gross.
+
+QUELLEN
+- https://discordbotlist.com/bots/raid-helper (Funktionsliste Raid-Helper)
+- https://top.gg/bot/1467968905170653320 (BattleBuddy, Gildenverwaltung)
+- https://erp.blackboxoperations.com/blog/level-up-your-wow-classic-1761736959876 (Überblick WoW-Classic-Bots)
