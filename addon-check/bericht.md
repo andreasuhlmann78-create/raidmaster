@@ -8,7 +8,7 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 ## AHSentinel-0.65.178.zip: OK (1 Warnungen)
 - **WARNUNG** Version 0.65.178 in download/ wartet auf CurseForge 18:00 – Discord hat schon 0.65.236 (gewollt, Entscheid 15.11. 13:16)
 
-## BuffSentinel-0.9.40.zip: OK
+## BuffSentinel-0.9.41.zip: OK
 
 ## GuildSentinel-0.9.39.zip: OK (2 Warnungen)
 - **WARNUNG** Version 0.9.39 in download/ wartet auf CurseForge 18:00 – Discord hat schon 0.9.46 (gewollt, Entscheid 15.11. 13:16)
