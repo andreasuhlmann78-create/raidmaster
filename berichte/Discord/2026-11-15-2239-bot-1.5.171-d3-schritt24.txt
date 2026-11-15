@@ -1,0 +1,40 @@
+BERICHT DISCORD – Bot 1.5.171: D-3 Schritt 24 (Raid-Anzeige und Twinks als eigene Module) – umgesetzt, zur Prüfung
+Zeit: 15.11.2026 22:39 (aus date)
+Commit: 795437ac auf origin/main, CI bot-tests: success
+
+WAS
+- raidanzeige_bot.py: raid_embed, update_raid_message (35 Zeilen) – die Grundlage, die Anmeldung, Twinks,
+  Ersatzbank, Skillung und Erinnerungen brauchen; ohne sie kann keiner dieser Bereiche aus bot.py heraus.
+- twink_bot.py: der ganze Abschnitt "Twinks" (twink_group, CLASS_CHOICES, ROLE_CHOICES, own_char_autocomplete,
+  refresh_signups_of, /twink hinzufügen|entfernen|wechseln|liste, bot.tree.add_command(twink_group); 68 Zeilen).
+- UNVERÄNDERT verschoben: beide Blöcke wörtlich im alten bot.py und im Modul (Textvergleich).
+- bot.py: Importnamen ORANGE und GREY dadurch unbenutzt -> entfernt. Ordnung: "from mitglieder_bot import …"
+  steht wieder direkt unter "import mitglieder_bot" (war beim Einfügen in Schritt 22/23 nach unten gerutscht,
+  ohne Wirkung).
+- pyflakes ungefiltert vor/nach: nur die gewollten Modul-Importe neu.
+- bot.py: git diff --numstat +4 −110, jetzt 2855 Zeilen.
+
+TESTS
+- NEU test_raidanzeige_twink_bot.py (6 Tests, REGRESSIONEN T-D3-RAIDANZEIGE, T-D3-TWINK): Kärtchen (Titel bei
+  Absage und geschlossen, Farbe grau, PUG-Hinweis mit Soft-Reserve-Link, Angemeldete, Fusszeile mit Raid-ID);
+  Aktualisieren bearbeitet die Anmelde-Nachricht, ohne Nachricht nichts, Discord-Fehler nur als Warnung;
+  /twink mit vier Unterbefehlen; ohne Main kein Twink, Name nur Buchstaben; nach Änderungen werden nur Raids
+  aktualisiert, in denen das Mitglied angemeldet ist.
+  Gegenproben: "ABGESAGT" entfernt, Fehlerbehandlung falsch, alle Raids statt eigene, Main-Prüfung entfernt ->
+  je FAILED/ERROR (1); zurückgesetzt -> OK.
+- test_lade: beide Module mit demselben Bot; update_raid_message in bot.py und twink_bot dasselbe Objekt.
+- Slash-Befehle: 49, unverändert. 366 Tests OK; jede Testdatei einzeln mit -I OK; REGRESSIONEN 60 von 60.
+
+BETRIEB NACHGESTELLT (an einer Kopie)
+1. Update vom Stand 1.5.170: updater._copy_new kopiert VERSION, bot.py, raidanzeige_bot.py, tests, twink_bot.py;
+   config/state/ZIP unverändert (md5); VERSION 1.5.171.
+2. Start wie launcher.py: Abbruch erst bei der Anmeldung (LoginFailure, Test-Token).
+3. Ohne config.json: Exit-Code 3, Meldung "Bitte zuerst config.json ausfüllen …", config.json angelegt.
+4. Neustart nach Update (Ende-zu-Ende, aktualisierte Kopie): Exit-Code 42.
+
+STAND D-3: bot.py 7437 (vor D-3) -> 2855 Zeilen; 25 Module ausgelagert.
+
+OFFEN
+- Frage zur Selbst-Aktualisierung während D-3 (Bericht 2155 frage-d3): noch keine Antwort.
+- NÄCHSTE BEREICHE: Ersatzbank und Skillung (brauchen jetzt nur raidanzeige_bot), danach DKP, Raids/Anmeldung,
+  Uploads, Testberichte, Kanal-Aufräumer, zuletzt RaidBot.
