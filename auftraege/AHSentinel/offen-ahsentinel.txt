@@ -66,6 +66,12 @@
         -> bleibt; Teilkauf -> Rest bleibt; zwei Bestätigungen in derselben Sekunde; Bestätigung für eine Zeile, die schon durch neue
         Suche ersetzt ist (keine falsche Zeile entfernen); AH schliessen während der 1 s (kein Fehler, kein Timer-Rest); Ziel wechseln
         während der 1 s. Locales EN/DE, CHANGELOG EN/DE.
+>>> TT-DE3 (Supervisor 15.11. 15:28, Verdacht – nur Zahl belegen, Tooltip-Aufbau NICHT ändern: Nutzer 11:50 "der Rest vom Tooltip wird
+    nicht angefasst"). Screenshot 15:23, Schultern des Hügelwächters (4251): Entzaubern 10s73, Gewinn +1s54 (= 10s73 − Marktwert
+    9s19), Mats Staub 3s99 · Essenz 14s01 · Splitter 34s74. Supervisor aus deLog (415 eigene Entzauberungen von 4251): Staub
+    1,120/DE (74,5 % der DE), Essenz 0,335/DE (21,9 %), Splitter 0,036/DE (3,6 %) -> zu den Tooltip-Preisen 10s42 je DE, nicht
+    10s73 (+31c, +3 %). Belegen, woraus 10s73 entsteht (DealValue: Mengen, Preise, Korrektur corr, Gebühr) und ob die eigenen
+    Ergebnisse (ab 10) wirklich verwendet werden. Ist die Abweichung ein Fehler: Zahl korrigieren, sonst im Bericht begründen.
 >>> DE-AUFT1 (Supervisor 15.11. 15:10, Verdacht – zu belegen, nach dem Sniper-Block): Einstand-Aufteilung beim Entzaubern. Auswertung
     11:51–15:01 (shared/wissen/auswertungen/2026-11-15-kaufen-entzaubern-verkaufen.md): Kette Schulter -> Entzaubern -> Verkauf
     = +1s70 je Stück, aber AHS bucht verkauften Seelenstaub mit Einstand 5s06/Stück (16g33s02 für 323) über dem Verkaufspreis
