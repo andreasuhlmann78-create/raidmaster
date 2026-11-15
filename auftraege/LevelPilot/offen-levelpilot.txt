@@ -68,15 +68,20 @@ Bezug: berichte/LevelPilot/2026-11-14-1350-wunsch-schalter-meldungen.txt. Euer V
     (Bethor Iceshard, Magieviertel). Neuer Punkt UC-W1 (MITTEL): Wegführung innerhalb Undercity (mehrstöckig: Aufzüge, Ringe,
     Viertel) – Ursache belegen (fehlen Knoten im Graph? Ebene/Z?), dann Weg herstellen; Test: AH (64,36) -> Bethor Iceshard ergibt
     einen Weg mit Aufzug/Ring, nicht "Weg unbekannt". Reihenfolge: nach SP1-M-Auswertung, vor Wegpunkte.
-  VORSCHLAG L-1 – WARTET AUF FREIGABE DES NUTZERS, NOCH NICHT UMSETZEN: Spiel-Profiler (GSSniperLog 15.11.) zeigt im AH alle ~5 Min.
+  L-1 – AUFTRAG HOCH (FREIGEGEBEN vom Nutzer 19:22: "Ja, jetzt beheben") – ZUERST, vor PF-A-Rest und UC-W1: Spiel-Profiler (GSSniperLog 15.11.) zeigt im AH alle ~5 Min.
     eine Minute mit Ø ~1 ms und Spitzen bis 179 ms (Bilder > 50 ms: 53 -> 63 in 45 Min.). Verdacht, fast belegt: Protocol.lua 670
     Ticker "protocol_memory" 300 s -> UpdateAddOnMemoryUsage() misst ALLE Addons (in AHS gemessen bis 829 ms, TB168-1). Erst nach
-    Freigabe als Auftrag.
+    Freigabe als Auftrag. -> Jetzt Auftrag: (a) Ursache mit Zeitmessung um Memory() belegen (Nachbau mit grossem Lua-Speicher
+    und im Spiel: Diagnose-Zeile "Speicher-Messung x ms"); (b) kein UpdateAddOnMemoryUsage im Ticker – stattdessen
+    collectgarbage("count") (billig, gesamter Lua-Speicher) wie AHSentinel (Vollscan.lua 182 ff.), die genaue Messung je Addon nur
+    auf Befehl; SP1-M-Zeilen anpassen und im Bericht sagen, was sich an der Aussage ändert; (c) Test: Ticker ruft nie
+    UpdateAddOnMemoryUsage auf (Gegenprobe mit alter Fassung rot); (d) alle Ticker durchsehen auf weitere teure Aufrufe.
 
 ========================================================================================================================
 PRIORITÄTEN – vollständige Reihenfolge (Prüf-Sitzung, Stand 14.11. 08:30, Nachprüfung 3.12.30). Immer von oben nach unten.
 Einzelheiten weiter unten (Suche nach dem Kürzel). Wird bei jeder Änderung nachgeführt.
 ========================================================================================================================
+0. L-1       HOCH    Ruckler alle 5 Min. durch UpdateAddOnMemoryUsage im 300-s-Ticker (freigegeben 19:22) – siehe PRÜFUNG.
 1. PF-A Rest NIEDRIG Höchstwert 26 ms im ersten Lauf belegen (siehe PRÜFUNG 19:21). PF-A/LP-D1/ML1-2/GR1-K umgesetzt -> Abnahme im Spiel.
 2. UC-W1     MITTEL  Wegführung innerhalb Undercity ("Weg unbekannt" zum Lich-NPC) – siehe PRÜFUNG 19:21.
 3. SP1-M     MESSUNG Speicher-Bestand im Spiel (neue Diagnose-Zeilen) – Aufgabe des Nutzers; erst danach entscheiden.

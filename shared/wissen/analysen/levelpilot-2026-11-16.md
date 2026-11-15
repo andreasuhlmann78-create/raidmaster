@@ -23,7 +23,7 @@ Aus AHSentinel belegt (Vollscan.lua 182 ff., Testbericht 0.65.168, TB168-1): Upd
 Addons und braucht bei grossen Daten "mehrere 100 ms" (gemessen 829 ms). Im Client des Nutzers liegt der Lua-Speicher bei
 400–510 MB (vor allem AHSentinel). Die 5-Minuten-Ruckler passen genau dazu. Verdacht -> fast belegt; zu messen mit einer
 Zeitmessung um Memory() oder einem Protokoll ohne den Ticker.
-Lösungsidee (nach Freigabe): collectgarbage("count") statt UpdateAddOnMemoryUsage (wie AHSentinel), oder nur auf Befehl.
+FREIGEGEBEN vom Nutzer 19:22 -> Auftrag L-1 in offen-levelpilot.txt. Lösungsidee: collectgarbage("count") statt UpdateAddOnMemoryUsage (wie AHSentinel), oder nur auf Befehl.
 
 ### L-2 Viele schnelle Ticker (Hinweis)
 Ticker 0,05 s (Virtual "journey", nur bei Reise), 0,5 s (steps), 1 s (caves, session, ui), Navigation-/Pins-OnUpdate. Im AH

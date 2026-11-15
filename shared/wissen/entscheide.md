@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 15.11.2026 19:22 | LevelPilot L-1 (Ruckler alle 5 Min., UpdateAddOnMemoryUsage) jetzt beheben – Ausnahme von "heute Nacht nur festhalten" | offen-levelpilot.txt L-1 |
 | 15.11.2026 19:15 | AHSentinel Warnschutz beim Einstellen bleibt ("ich finde die Warnung top – sie muss einfach funktionieren"): Preis anpassen ohne Schleife, Trotzdem einstellen ohne Sperre | offen-ahsentinel.txt WS-LOOP1, POST-BLOCK1 |
 | 15.11.2026 19:03 | AHSentinel SN-SCAN1: Sniper-Knopf während des Vollscans sperren (An/Aus während des Scans lässt den Sniper danach spinnen). Sperre mit Zeitlimit; Ursache belegen und beheben. | Nutzer im Chat |
 | 15.11.2026 18:29 | SN-BTN1 muss elegant umgesetzt sein und so aussehen: ein klarer Haupt-Knopf im AHS-Stil, saubere Zustände, sofortige Reaktion, nichts abgeschnitten | offen-ahsentinel.txt SN-BTN1 (g) |
