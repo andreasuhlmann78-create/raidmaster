@@ -1,0 +1,17 @@
+AHSentinel 0.65.189 – SNIPER-KOMPLETT A4 (nie hängen): Markt-Scan-Sperre ohne Zeitlimit – umgesetzt, zur Prüfung
+CurseForge: nein (nächster Termin 18:00). GitHub-Release v0.65.189 und SOFORT im Discord (announce/, Entscheid 13:16 /
+Nutzer 13:18); nicht in download/.
+
+Ursache BELEGT im Code (eigene Durchsicht aller Sniper-Wartegründe): Sn:CanSearch / Sn:Tick warten bei A:IsScanning(true)
+(= scan.running oder scan.processing). scan.running hat Zeitlimits (PollScan: 120 s modern, 900 s altes AH). scan.processing
+wird aber nur im done-Rückruf von ProcessBest gelöst. Bricht ProcessScan/ProcessBest mit einem Fehler ab (Aufgabe "scan",
+RunJobs entfernt sie nur und meldet den Fehler), blieb scan.processing für immer an -> Sniper "wartet: Markt-Scan läuft" ohne
+Ende, ausserdem lehnte StartScan jeden neuen Scan ab ("Es läuft bereits ein Scan").
+Fix: A:RunProcessScan(results) (AHAnalyzerPro.lua) führt ProcessScan über A:PCall aus (Pausen bleiben möglich); bei Fehler
+scan.processing = false, Protokoll SCAN "Auswertung abgebrochen (…) - Scan-Sperre gelöst", Ereignis SCAN_FAILED (der Sniper
+sucht damit sofort, SN-B12 (a)), danach Fehler weiter an die Fehlermeldung der Aufgabe.
+Test T760: Fehler weitergegeben true · Sperre danach false · Ereignis SCAN_FAILED · Protokoll true.
+Übrige Wartegründe geprüft, alle mit Zeitlimit: Einkauf/Preisprüfung BLOCK_MAX 20 s; Suche/Preisprüfung/angeklicktes Item/
+Wächter/Einkauf HOLD_MAX 10 s (SN-H1); Vollscan 120 s (SN-B12); laufender Kauf 5 s bzw. CONFIRM_TIMEOUT; Wächter nur reihum.
+Gesamtlauf 253/253, Testroutine s42 grün, addon_check OK (Release-Zip und announce-Zip).
+Discord-Text nennt 0.65.187–0.65.189 zusammen (der Bot löscht den Beitrag der älteren Version beim Posten der neuen).
