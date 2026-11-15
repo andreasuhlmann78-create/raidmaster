@@ -3390,3 +3390,9 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
      Option "Laufzeit vorwählen" (Standard an). Einzahlung immer aus der Blizzard-Anzeige bzw. db.minDeposit (wirtschaft 7).
   Tests: je F ein Fall mit festen Zahlen; Gegenprobe ohne Rhythmus-Daten = keine Vorwahl.
 
+>>> NACHT-PRÜFUNG 21:03 (Supervisor) – 0.65.221 (RK7-Satz) und 0.65.222 (HP-4, T200-1). Berichte gelesen.
+  0.65.221: K:AllocateBudget herausgezogen, gekürzte Zeile mit Satz, EINE Tipp-Zeile für Weggefallene, Höchstzahl zählt nicht – so war
+    es gemeint. Keine Befunde. Hinweis s216 Frame-Grenze unter Parallel-Last rot (CPU-Zeit): Frame-Grenzen nur in Einzelläufen werten
+    (wie s92: bei Rot 2× wiederholen, 2 von 3) – bitte in run_all.sh für s216 gleich behandeln wie s92.
+  0.65.222 HP-4: nur ausgeblendet, Rechnung bleibt, Szenarien klicken versteckte Knöpfe weiter – richtig (UI-CLEAN1 später).
+  T200-1: Ursache (lokale Ergänzung nie kopiert) belegt, Gesamtlauf aus frischer Kopie 273/0 – damit ERLEDIGT aus meiner Sicht.
