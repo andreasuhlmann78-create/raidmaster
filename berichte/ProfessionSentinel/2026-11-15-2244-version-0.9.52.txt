@@ -1,0 +1,48 @@
+BERICHT PROFESSIONSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 22:44 (aus date) · Sitzung: ProfessionSentinel-Sitzung · Version: 0.9.52 · Commit: b277ab9 (Quell-Repo), Release v0.9.52
+Grundlage: anweisung-ui-crafter-2026-11-15.txt 3.2 EINKAUF-LEISTE (F5) und Schritt (3), Ausbau B3 ("Kauf bis" je Material), NACHT-PRÜFUNG 22:33.
+Hinweis: Hier steht nur "umgesetzt, zur Prüfung" mit Belegen. Ob etwas erledigt ist, entscheidet die Prüf-Sitzung.
+
+UMGESETZT, ZUR PRÜFUNG
+----------------------
+1. Neue Datei Queue.lua (alle vier TOC nach Today.lua): Warteschlange in ProfessionSentinelDB.queue = { {spell, count} } (bleibt nach dem
+   Ausloggen; höchstens 30 Rezepte; gleiches Rezept erhöht die Anzahl; unbekannte Rezepte werden übersprungen, nie ein Fehler).
+   Vormerken: Details-Knopf "Vormerken" (Reiter Rezepte), Rechtsklick auf die Karten "Nächster Skillpunkt" (Anzahl bis zur nächsten
+   Farbe) und "Bestes Gold-Rezept" (Anzahl wie Heute herstellen) im Reiter Jetzt. Eigene Herstellung (UNIT_SPELLCAST_SUCCEEDED, UI.lua)
+   zählt herunter; bei 0 fällt der Eintrag weg.
+2. EINE Einkaufsliste (Q.ShoppingList): Material aller vorgemerkten Rezepte × Anzahl, selbst günstiger herstellbare Zwischenprodukte
+   wie im Plan aufgelöst (P.ExpandNeed), hab = Taschen + Bank (GetItemCount mit Bank, sonst Taschen), fehlt = brauche − hab; Händlerware
+   zuerst. Twinks: noch nicht (PS kennt deren Taschen nicht – Verdacht, braucht eine Quelle, z. B. AHSentinel-Bestand).
+3. "Kauf bis" (B3, Gold-Sicherheit): Faktor f auf alle Materialpreise, bei dem das Rezept noch den Mindestgewinn bringt:
+   net' = net + cost − f·cost ≥ f·cost·pct/100  =>  f ≤ (net + cost) / (cost · (1 + pct/100)). Je Material gilt der kleinste Faktor aller
+   Rezepte, die es brauchen. Ohne gesicherten Gewinn (Skill-Rezepte, Flag, unter Mindestgewinn) wie bisher Marktpreis + 10 %. T277 rechnet
+   für jedes Testrezept nach: mit allen Materialien zum Kauf-bis-Preis bleibt net' ≥ Mindestgewinn.
+4. Leiste unten im Fenster (UI.queueBar, flach, links unten): "Warteschlange 3 · fehlt: 12× Leinenstoff, 4× …" (höchstens zwei Namen +
+   "…"), "alles Material da" oder "Warteschlange leer – …". Klick öffnet die Ansicht "Warteschlange" (Gruppen Warteschlange und
+   Einkaufsliste mit "Fehlendes beim Händler kaufen" (nur bei offenem Händler, Plan.BuyFromVendor über ns.Act), "Fehlendes aus dem AH
+   in den Sniper" (Disenchant.SendToSniper mit maxPrice = Kauf bis), Mengenfenster am Händler je Zeile wie im Plan, "Warteschlange
+   leeren"); nochmals Klick zurück zum vorigen Reiter. Gekauft wird nur auf Klick.
+
+TESTS (eigene, Hinweise – keine Freigabe)
+-----------------------------------------
+- Neu T277: Vormerken/Erhöhen/gespeichert, Meldung; Einkaufsliste 3×2+1×3 = 9, hab 4 -> fehlt 5; Händlerware zuerst; Kauf bis
+  ≤ Gewinnschwelle (nachgerechnet); Leistentext; Herstellen zählt herunter und entfernt bei 0; Sniper bekommt Kauf-bis als maxPrice;
+  ohne offenen Händler 0 Käufe; Ansicht hat beide Gruppen; leeren.
+- T167 nimmt die Leiste aus der Ansichten-Kette (sie ist kein Umschalter-Knopf).
+- run_offline: Forever OK 233 / FEHLER 0, Era OK 215 / 0, Retail OK 214 / 0, TBC ohne Lua-Fehler, Exit 0. --lua51 Forever OK 233 / 0,
+  Retail OK 214 / 0. check_actions OK (Kaufen nur über ns.Act).
+- Schnelltest Ausgang 0. UI.FlatButton ruft jetzt ausdrücklich Show() – im einfachen Mock waren neue Knöpfe sonst unsichtbar; damit
+  besteht T118 dort jetzt (Liste gekürzt, Hinweis "jetzt OK").
+- addon_check auf download/ProfessionSentinel-0.9.52.zip und die announce-Zip: OK, 0 FEHLER, 0 WARNUNG. ZIP = Quell-Repo (diff -r leer).
+
+IM CLIENT PRÜFEN
+----------------
+- Details -> Vormerken; Leiste zeigt Anzahl und Fehlendes; Klick -> Warteschlange/Einkaufsliste; Herstellen zählt herunter.
+- Am Händler "Fehlendes beim Händler kaufen" kauft genau das Fehlende; AH: Sniper-Ziele mit "Kauf bis"-Preis (AHSentinel-Fenster).
+- Leiste und Datenstand-Zeile unten überdecken sich nicht (deDE/enUS, 75 %/125 %).
+
+OFFEN und danach
+----------------
+- Twinks in "hab" (braucht eine Bestandsquelle), Handwerks-Protokoll (B1, AHS-API RealizedCraft).
+- Rest Schritt 2: Skillen Plan + Rangliste zusammen ("billigster Weg / mit dem, was ich habe"), "Beruf von <Figur>", LevelPilot-Weg.
+- Schritt (4) Skillspur im Handwerksbuch (ersetzt die Zeichen "20×", "≈6×" und die Zeile "Bestes:"), (5) Texte.
