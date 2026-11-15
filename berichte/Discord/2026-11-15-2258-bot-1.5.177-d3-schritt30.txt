@@ -1,0 +1,39 @@
+BERICHT DISCORD – Bot 1.5.177: D-3 Schritt 30 (Kanalpflege als eigenes Modul) – umgesetzt, zur Prüfung
+Zeit: 15.11.2026 22:58 (aus date)
+Commit: 8fd57f1f auf origin/main, CI bot-tests: success
+
+WAS
+- kanalpflege_bot.py: _keep_text, ensure_channel_texts, ensure_voice_limits, ensure_listed_raid_categories,
+  sync_raid_visibility, ensure_new_raid_categories, UNUSED_CHANNELS, clear_channels_once,
+  remove_unused_channels_once – samt Kommentaren direkt darüber.
+- UNVERÄNDERT verschoben: per ast verglichen, alle 9 identisch; keine Kommentarzeile verloren.
+- clear_channels_once: Verhalten unverändert; CLEAR_CHANNELS_ONCE ist seit Bot 1.5.109 leer (#mc-dkp erledigt) –
+  es wird nichts geleert (Entscheid des Nutzers: #mc-dkp nie wieder leeren). Neuer Test sichert beides ab.
+- bot.py: dadurch unbenutzt und entfernt: _config_ids, dkp_channel_for, NO_PING. pyflakes ungefiltert vor/nach:
+  nichts Neues.
+- bot.py: git diff --numstat +9 −291, jetzt 1813 Zeilen.
+
+TESTS
+- NEU test_kanalpflege_bot.py (4 Tests, REGRESSIONEN T-D3-KANALPFLEGE): alle 7 übernommenen Namen in bot.py
+  identisch mit dem Modul; heute nichts zu leeren (CLEAR_CHANNELS_ONCE == {}, kein Aufruf von clear_channel);
+  mit einem Test-Eintrag wird genau einmal geleert ("Das passiert nie wieder"), Merker gesetzt, zweiter Lauf
+  leert nicht; Sprachkanal-Grenze nur bei Abweichung gesetzt, ohne "Kanäle verwalten" nichts.
+  Gegenproben: Merker nicht gesetzt, Abweichungs-Prüfung entfernt, Rechte-Prüfung entfernt -> je FAILED (1).
+- test_lade, test_dkp_tafel_bot: NO_PING bzw. dkp_channel_for am Modul kanalpflege_bot geprüft.
+- Slash-Befehle: 49, unverändert. 390 Tests OK; jede Testdatei einzeln mit -I OK; REGRESSIONEN 69 von 69.
+
+BETRIEB NACHGESTELLT (an einer Kopie)
+1. Update vom Stand 1.5.176: updater._copy_new kopiert VERSION, bot.py, kanalpflege_bot.py, tests;
+   config/state/ZIP unverändert (md5); VERSION 1.5.177.
+2. Start wie launcher.py: Abbruch erst bei der Anmeldung (LoginFailure, Test-Token).
+3. Ohne config.json: Exit-Code 3, Meldung "Bitte zuerst config.json ausfüllen …", config.json angelegt.
+4. Neustart nach Update (Ende-zu-Ende, aktualisierte Kopie): Exit-Code 42.
+
+STAND D-3: bot.py 7437 (vor D-3) -> 1813 Zeilen; 34 Module ausgelagert.
+
+OFFEN
+- Frage zur Selbst-Aktualisierung während D-3 (Bericht 2155 frage-d3): noch keine Antwort.
+- VERBLEIBEND in bot.py: RaidBot (Start, Ereignisse), Raid-Befehle und Anmeldung (on_interaction, ProfileView,
+  NameModal, raid_*), /dkp, /dkpliste, /raidmaster-status, /raidmaster-einrichten, Erinnerungs-Schleife, Uploads
+  (receive_upload, process_new_data, process_assignment), ensure_test_channel, repair_missing_announcements,
+  /rekorde. Diese hängen eng zusammen; nächster Schritt: Abhängigkeiten messen und in sinnvollen Teilen weiter.
