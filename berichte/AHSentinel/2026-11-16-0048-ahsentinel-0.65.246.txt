@@ -1,0 +1,13 @@
+AHSentinel 0.65.246 – Phase 7 MR10 Wochentag-Muster – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.246 und sofort im Discord.
+Umsetzung (UI_MarketView.lua):
+  - MV:WeekdayLines(): je Stufenband aus W:CycleStatus (V4-Messung, 0.65.234): belegt (≥ 3 Wochen, ≥ 80 % gleiche Richtung) ->
+    "günstig Mo · teuer Sa" (Muster-Stelle 1 = Sonntag … 7 = Samstag, "-" günstiger, "+" teurer); genug Wochen ohne gleiches
+    Muster -> grau "kein Muster"; sonst grau "messe (x von 3 Wochen)".
+  - Anzeige im Tooltip über der Kopfzeile (Platz im Kopf ist mit Lage/Rhythmus/Vollscan voll).
+  - "Scans aller Gildenmitglieder": V4 rechnet mit allen bestätigten Preisen im Verlauf; Preise aus dem Gilden-Sync tragen das
+    Kennzeichen 2 (RecordPrice fromSync, AHAnalyzerPro.lua:1166) und gehen damit ein (Filter F[b+5] % 2 == 0, Waves.lua:362) –
+    belegt per Code, nicht gemessen. Tageszyklus wird wie entschieden nicht gezeigt.
+Tests: T820 (belegt "+-....+" -> günstig Mo · teuer So, Sa; 1 Woche -> messe (1 von 3); 5 Wochen ohne Muster -> kein Muster) – mit
+  0.65.245 rot (WeekdayLines fehlt), mit 0.65.246 grün. s78, s232, s241 grün. s42 grün. CHANGELOG EN/DE.
+Gesamtlauf (frischer Klon, Kopie 0.65.246): BESTANDEN 315, FEHLGESCHLAGEN 0.
