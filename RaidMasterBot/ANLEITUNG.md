@@ -171,7 +171,14 @@ Seit das Serverprofil öffentlich ist, sollen Neue ohne Rolle nicht den ganzen G
   Nach einem Neustart liest er die Pakete der letzten 60 Minuten nach.
 - Je Fraktion und Scan-Zeit wird ein Scan nur einmal abgelegt (PC und Laptop schicken ihn doppelt). Als Quelle zählt
   die Zufallskennung des Uploaders (ab Uploader 2.3.7), sonst der Webhook. Ablage auf dem Server unter `data/markt/`,
-  35 Tage; Grenzen: 30 neue Scans je Quelle und Stunde, 20 000 Scans, 3 GB.
+  90 Tage (ab 1.5.142, KEEP90); Grenzen: 30 neue Scans je Quelle und Stunde, 120 je Stunde gesamt, höchstens
+  20 neue Quellen-Kennungen je Tag. Speicher: höchstens 1 GB und nie mehr als die Hälfte des verfügbaren Platzes –
+  darüber löscht der Bot die ältesten Scans. Platz und Arbeitsspeicher misst der Bot selbst (`/marktdaten`,
+  Wochenbericht).
+- Täglich nach Mitternacht (ab 1.5.142, D-KERN1) legt der Bot eine anonyme Tages-Zusammenfassung von gestern
+  `GSMARKTT1-<JJJJ-MM-TT>.json` in #bot-befehle (je Fraktion und Item: Scans, Anzahl Quellen, tiefster Stückpreis
+  Median/Min/Max, Menge, Absatz je Tag als Spanne; höchstens 1 MB). Der Workflow „Marktbericht“ legt sie unter
+  `testberichte/markt/tages/` ab – für die Auswertung mit den Daten aller Spieler (AHSentinel).
 - Montags legt der Bot den Wochenbericht der abgeschlossenen Kalenderwoche `GSMARKTW1-<Jahr>-W<KW>.md` in
   #bot-befehle; der GitHub-Workflow „Marktbericht" übernimmt ihn nach `testberichte/markt/`. `/marktdaten`
   (Gildenleitung) zeigt den Stand, `/marktdaten bericht:True` legt einen Zwischenbericht der letzten 7 Tage

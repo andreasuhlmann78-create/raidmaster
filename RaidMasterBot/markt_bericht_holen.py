@@ -21,12 +21,16 @@ ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "testberichte" / "markt"
 API = "https://discord.com/api/v10"
 CHANNELS = [c.strip() for c in os.environ.get("MARKT_KANAELE", "bot-befehle").split(",") if c.strip()]
+DAY = re.compile(r"^GSMARKTT1-(\d{4}-\d{2}-\d{2})\.json$")       # D-KERN1: Tages-Zusammenfassung
 NAMES = (re.compile(r"^GSMARKTW1-(\d{4}-W\d{2}(?:-zwischen-\d{4}-\d{4})?)\.md$"), re.compile(r"^GSBLIZZ1-(\d{4}-\d{2}-\d{2})\.txt$"))
 MAX = 1024 * 1024
 HISTORY = 300
 
 
 def target(filename: str):
+    d = DAY.match(filename or "")
+    if d:
+        return OUT / "tages" / f"{d.group(1)}.json"
     m = NAMES[0].match(filename or "")
     if m:
         return OUT / f"{m.group(1)}.md"
@@ -83,6 +87,7 @@ def main() -> int:
                     if not r.ok or len(r.content) > MAX:
                         continue
                     text = r.content.decode("utf-8", errors="replace")
+                    dest.parent.mkdir(parents=True, exist_ok=True)
                     if dest.exists() and dest.read_text(encoding="utf-8") == text:
                         continue
                     dest.write_text(text, encoding="utf-8")

@@ -37,6 +37,7 @@ import io
 import json
 import os
 import re
+import shutil
 import statistics
 import time
 from array import array
@@ -49,12 +50,15 @@ FACTIONS = {"H": "Horde", "A": "Allianz", "N": "Neutral"}
 MAX_LINE = 3 * 1024 * 1024          # D-MN7f: wie der Uploader (uploader.py, 3 MB)
 MAX_ENTRIES = 50_000
 MAX_INPUT = 64 * 1024 * 1024        # entpackt
-KEEP_DAYS = 35
+KEEP_DAYS = 90                      # KEEP90 (Entscheid des Nutzers 13.11. 23:35): Trends über Monate
 FUTURE_SLACK = 3600
 WEEK = 7 * 86400
 MAX_NEW_PER_SOURCE_HOUR = 30        # D-MN7c: ein Vollscan dauert Minuten – 30 je Stunde ist weit über dem Normalfall
-MAX_SCANS = 20_000                  # D-MN7c: Ablage gesamt (35 Tage)
-MAX_STORE_BYTES = 3 * 1024 ** 3     # D-MN7c: 3 GB gepackt
+MAX_NEW_TOTAL_HOUR = 120            # D-MN7c2: alle Quellen zusammen je Stunde (neue Kennung je Paket umgeht sonst die Grenze)
+MAX_NEW_SOURCES_DAY = 20            # D-MN7c2: höchstens so viele NEUE Quellen-Kennungen je 24 h
+MAX_SCANS = 30_000                  # Ablage gesamt; darüber werden die ältesten Scans gelöscht (KEEP90)
+MAX_STORE_BYTES = 1024 ** 3         # KEEP90: höchstens 1 GB gepackt …
+DISK_SHARE = 0.5                    # … und nie mehr als 50 % des Platzes, der der Ablage zur Verfügung steht
 REPORT_PREFIX = "GSMARKTW1"         # Wochenbericht: GSMARKTW1-<JJJJ>-W<KW>.md
 
 TZ = ZoneInfo("Europe/Zurich")      # der Bot setzt seine Zone mit set_tz()
@@ -177,6 +181,52 @@ class Store:
     def bytes_total(self) -> int:
         return sum(int(h.get("b", 0)) for h in self.index["scans"].values())
 
+    def disk_free(self) -> int:
+        """Freier Platz auf dem Laufwerk der Ablage (Bytes). Für Tests ersetzbar."""
+        path = self.base
+        while not os.path.exists(path) and os.path.dirname(path) != path:
+            path = os.path.dirname(path)
+        return shutil.disk_usage(path).free
+
+    def budget(self, free: int | None = None) -> int:
+        """KEEP90: Grenze der Ablage = min(1 GB, 50 % von (frei + schon belegt)). So belegt die Ablage nie mehr als
+        die Hälfte dessen, was ihr zur Verfügung steht, und die Festplatte läuft nie voll."""
+        free = self.disk_free() if free is None else free
+        return min(MAX_STORE_BYTES, int(DISK_SHARE * (free + self.bytes_total())))
+
+    def new_total(self, now: float, window: int = 3600) -> int:
+        return sum(1 for h in self.index["scans"].values() if now - window <= h.get("an", 0) <= now)
+
+    def new_sources(self, now: float, window: int = 86400) -> set:
+        """Quellen, die in den letzten 24 h zum ersten Mal einen Scan geliefert haben."""
+        first: dict[str, int] = {}
+        for h in self.index["scans"].values():
+            if h["q"]:
+                q = h["q"][0]
+                first[q] = min(first.get(q, h.get("an", 0)), h.get("an", 0))
+        return {q for q, t in first.items() if now - window <= t <= now}
+
+    def evict_oldest(self, keep: str | None = None, budget: int | None = None) -> int:
+        """KEEP90: über MAX_SCANS oder dem Budget die ÄLTESTEN Scans (nach Scan-Zeit) löschen, nie keep.
+        Das Budget wird EINMAL vorher bestimmt: Löschen macht auf der Festplatte gleich viel frei, wie die Ablage kleiner
+        wird – (frei + belegt) bleibt gleich."""
+        n = 0
+        budget = self.budget() if budget is None else budget
+        order = sorted((h["t"], k) for k, h in self.index["scans"].items() if k != keep)
+        i = 0
+        while (len(self.index["scans"]) > MAX_SCANS or self.bytes_total() > budget) and i < len(order):
+            k = order[i][1]
+            i += 1
+            self.index["scans"].pop(k, None)
+            try:
+                os.remove(os.path.join(self.scans, k + ".json.gz"))
+            except OSError:
+                pass
+            n += 1
+        if n:
+            self.index["verdraengt"] = int(self.index.get("verdraengt", 0)) + n
+        return n
+
     def new_by_source(self, source: str, now: float, window: int = 3600) -> int:
         return sum(1 for h in self.index["scans"].values()
                    if h["q"] and h["q"][0] == source and now - window <= h.get("an", 0) <= now)
@@ -193,8 +243,10 @@ class Store:
                 head["q"].append(source)
             self.index["dupes"] = int(self.index.get("dupes", 0)) + 1
             return "doppelt"
-        if (self.new_by_source(source, now) >= MAX_NEW_PER_SOURCE_HOUR or len(self.index["scans"]) >= MAX_SCANS
-                or self.bytes_total() >= MAX_STORE_BYTES):
+        known = any(h["q"] and source in h["q"] for h in self.index["scans"].values())
+        if (self.new_by_source(source, now) >= MAX_NEW_PER_SOURCE_HOUR
+                or self.new_total(now) >= MAX_NEW_TOTAL_HOUR
+                or (not known and len(self.new_sources(now)) >= MAX_NEW_SOURCES_DAY)):
             self.index["begrenzt"] = int(self.index.get("begrenzt", 0)) + 1
             return "begrenzt"
         os.makedirs(self.scans, exist_ok=True)
@@ -206,6 +258,16 @@ class Store:
         self.index["scans"][k] = {"f": scan["f"], "t": scan["t"], "auk": scan["auk"], "items": scan["items"],
                                   "cmp": scan["cmp"], "ver": scan["ver"], "n": len(scan["e"]), "q": [source],
                                   "an": int(now), "b": os.path.getsize(path)}
+        budget = self.budget()                           # gemessen NACH dem Schreiben: frei + belegt = verfügbar
+        self.evict_oldest(keep=k, budget=budget)
+        if self.bytes_total() > budget:                  # der neue Scan allein passt nicht: nicht ablegen
+            self.index["scans"].pop(k, None)
+            try:
+                os.remove(path)
+            except OSError:
+                pass
+            self.index["begrenzt"] = int(self.index.get("begrenzt", 0)) + 1
+            return "begrenzt"
         return "neu"
 
     def prune(self, now: float | None = None) -> int:
@@ -426,3 +488,140 @@ def realm_fingerprint(list_output: str) -> str:
 
 def month_key(now: datetime) -> str:
     return f"{now.year}-{now.month:02d}"
+
+
+# ---------------------------------------------------------------------------
+# KEEP90: Messung durch den Bot selbst (kein SSH nötig)
+# ---------------------------------------------------------------------------
+def _proc_kb(path: str, key: str) -> int | None:
+    try:
+        with open(path, encoding="utf-8") as f:
+            for line in f:
+                if line.startswith(key + ":"):
+                    return int(line.split()[1])
+    except (OSError, ValueError, IndexError):
+        return None
+    return None
+
+
+def measure(store: Store) -> dict:
+    """Festplatte (frei/gesamt), Grösse der Ablage, Grenze, Arbeitsspeicher des Bots und des Servers (Bytes, None =
+    nicht messbar). Linux: /proc/self/status (VmRSS), /proc/meminfo (MemTotal)."""
+    path = store.base
+    while not os.path.exists(path) and os.path.dirname(path) != path:
+        path = os.path.dirname(path)
+    du = shutil.disk_usage(path)
+    rss, total = _proc_kb("/proc/self/status", "VmRSS"), _proc_kb("/proc/meminfo", "MemTotal")
+    return {"disk_free": du.free, "disk_total": du.total, "store": store.bytes_total(), "budget": store.budget(du.free),
+            "scans": len(store.index["scans"]), "ram_bot": rss * 1024 if rss else None,
+            "ram_total": total * 1024 if total else None}
+
+
+def size(b: int | None) -> str:
+    if b is None:
+        return "nicht messbar"
+    for unit, f in (("GB", 1024 ** 3), ("MB", 1024 ** 2), ("KB", 1024)):
+        if b >= f:
+            return f"{b / f:.1f} {unit}".replace(".", ",")
+    return f"{b} Byte"
+
+
+def measure_line(m: dict) -> str:
+    """Eine Zeile für /marktdaten und den Wochenbericht (Grundsatz nachvollziehbar: Zahl + was sie ist)."""
+    return (f"Speicher: Marktdaten {size(m['store'])} ({m['scans']} Scans), Grenze {size(m['budget'])} "
+            f"(höchstens 1 GB und die Hälfte des freien Platzes) · Festplatte frei {size(m['disk_free'])} von "
+            f"{size(m['disk_total'])} · Arbeitsspeicher Bot {size(m['ram_bot'])} von {size(m['ram_total'])}")
+
+
+# ---------------------------------------------------------------------------
+# D-KERN1: anonyme Tages-Zusammenfassung aller Scans (für AHSentinel Phase 2)
+# ---------------------------------------------------------------------------
+DAY_PREFIX = "GSMARKTT1"            # Dateiname: GSMARKTT1-<JJJJ-MM-TT>.json -> testberichte/markt/tages/<JJJJ-MM-TT>.json
+DAY_MAX_BYTES = 1024 * 1024
+DAY_FIELDS = ["scans", "quellen", "preis_median", "preis_min", "preis_max", "menge_median", "absatz_min_tag",
+              "absatz_max_tag"]
+
+
+def day_window(day: str) -> tuple[float, float]:
+    """ "JJJJ-MM-TT" -> [Beginn, Ende) dieses Tages in TZ (Zeitumstellung: 23 oder 25 h)."""
+    d = datetime.strptime(day, "%Y-%m-%d").replace(tzinfo=TZ)
+    e = (d + timedelta(days=1)).replace(tzinfo=None).replace(tzinfo=TZ)
+    return d.timestamp(), e.timestamp()
+
+
+def daily_summary(store: Store, day: str) -> dict:
+    """Je Fraktion und Item: Scans, Quellen (nur Anzahl), tiefster Stückpreis Median/Min/Max, Menge Median, Absatz je Tag
+    als Spanne (wie Wochenbericht). Keine Namen, keine Quellen-Kennungen."""
+    since, until = day_window(day)
+    out = {"format": DAY_PREFIX, "tag": day, "zone": TZ.key, "von": int(since), "bis": int(until),
+           "felder": DAY_FIELDS, "fraktionen": {}}
+    for f in FACTIONS:
+        heads = store.heads(since, until, f)
+        if not heads:
+            continue
+        srcmap: dict[str, int] = {}
+        cmp_total = sum(h["cmp"] for _, h in heads if h["cmp"] > 0)
+        days = cmp_total / 86400 if cmp_total else 0
+        items: dict[int, dict] = {}
+        for k, h in heads:
+            qs = {srcmap.setdefault(q, len(srcmap)) for q in h["q"]}
+            for iid, (p, m, a, ab, abv) in store.entries(k).items():
+                it = items.setdefault(iid, {"n": 0, "q": set(), "p": array("q"), "m": array("q"), "ab": 0, "abv": 0})
+                it["n"] += 1
+                it["q"] |= qs
+                if a > 0 or m > 0:
+                    if p > 0:
+                        it["p"].append(p)
+                    it["m"].append(m)
+                if h["cmp"] > 0:
+                    it["ab"] += ab
+                    it["abv"] += abv
+        rows = {}
+        for iid, it in items.items():
+            rows[str(iid)] = [it["n"], len(it["q"]),
+                              statistics.median(it["p"]) if it["p"] else None,
+                              min(it["p"]) if it["p"] else None, max(it["p"]) if it["p"] else None,
+                              statistics.median(it["m"]) if it["m"] else None,
+                              round(it["abv"] / days, 2) if days else None, round(it["ab"] / days, 2) if days else None]
+        out["fraktionen"][f] = {"scans": len(heads), "quellen": len(srcmap),
+                                "abdeckung_h": len({hour_of_week(h["t"]) for _, h in heads}),
+                                "vergleich_h": round(cmp_total / 3600, 2), "items": rows}
+    return fit_summary(out)
+
+
+def dump_summary(d: dict) -> bytes:
+    return json.dumps(d, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+
+
+def fit_summary(d: dict) -> dict:
+    """≤ 1 MB: sonst nur Items mit ≥ 2 Quellen; reicht das nicht, die Items mit den wenigsten Scans weglassen – die
+    Anzahl steht in "weggelassen" (nie still abgeschnitten)."""
+    d["nur_ab_2_quellen"], d["weggelassen"] = False, 0
+    if len(dump_summary(d)) <= DAY_MAX_BYTES:
+        return d
+    d["nur_ab_2_quellen"] = True
+    for fr in d["fraktionen"].values():
+        before = len(fr["items"])
+        fr["items"] = {i: r for i, r in fr["items"].items() if r[1] >= 2}
+        d["weggelassen"] += before - len(fr["items"])
+    while len(dump_summary(d)) > DAY_MAX_BYTES:
+        cands = [(r[0], int(i), f) for f, fr in d["fraktionen"].items() for i, r in fr["items"].items()]
+        if not cands:
+            break
+        cands.sort()
+        drop = max(1, len(cands) // 20)                 # je Runde 5 % der kleinsten weg
+        for _, i, f in cands[:drop]:
+            del d["fraktionen"][f]["items"][str(i)]
+        d["weggelassen"] += drop
+    return d
+
+
+def day_name(day: str) -> str:
+    return f"{DAY_PREFIX}-{day}.json"
+
+
+def daily_due(now: datetime, last_day: str | None) -> str | None:
+    """Gestern (in TZ), wenn dafür noch keine Zusammenfassung gepostet wurde – sonst None."""
+    y = (now.astimezone(TZ) - timedelta(days=1)).strftime("%Y-%m-%d")
+    return None if last_day == y else y
+

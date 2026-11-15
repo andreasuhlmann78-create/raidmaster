@@ -6,6 +6,7 @@ import os
 import shutil
 import sys
 import tempfile
+import types
 import time
 import unittest
 from datetime import datetime
@@ -103,10 +104,10 @@ class StoreTest(unittest.TestCase):
 
     def test_reject_future_and_old(self):
         self.assertEqual(market.ingest_text(self.st, line("H", NOW + 2 * H, {}), "pc", NOW)["abgelehnt"], 1)
-        self.assertEqual(market.ingest_text(self.st, line("H", NOW - 40 * 86400, {}), "pc", NOW)["abgelehnt"], 1)
+        self.assertEqual(market.ingest_text(self.st, line("H", NOW - 95 * 86400, {}), "pc", NOW)["abgelehnt"], 1)
 
     def test_persist_and_prune(self):
-        market.ingest_text(self.st, line("H", NOW - 30 * 86400, {1: (5, 1, 1, 0, 0)}), "pc", NOW)
+        market.ingest_text(self.st, line("H", NOW - 85 * 86400, {1: (5, 1, 1, 0, 0)}), "pc", NOW)
         self.st.save()
         st2 = market.Store(self.dir)
         self.assertEqual(len(st2.index["scans"]), 1)
@@ -188,9 +189,13 @@ class GrenzenTest(unittest.TestCase):
         self.assertEqual(market.ingest_text(self.st, line("A", NOW - H, {}), "laptop", NOW)["neu"], 1)
         self.assertEqual(market.ingest_text(self.st, line("H", NOW, {}), "pc", NOW + 3700)["neu"], 1)
         old = market.MAX_SCANS
-        try:
+        try:                                    # KEEP90: voll -> ältester Scan weg, der neue wird abgelegt
             market.MAX_SCANS = len(self.st.index["scans"])
-            self.assertEqual(market.ingest_text(self.st, line("N", NOW - H, {}), "dritte", NOW)["begrenzt"], 1)
+            oldest = min(self.st.index["scans"].values(), key=lambda h: h["t"])["t"]
+            self.assertEqual(market.ingest_text(self.st, line("N", NOW - H, {}), "dritte", NOW)["neu"], 1)
+            self.assertEqual(len(self.st.index["scans"]), market.MAX_SCANS)
+            self.assertNotIn(oldest, [h["t"] for h in self.st.index["scans"].values() if h["f"] == "H"])
+            self.assertEqual(self.st.index["verdraengt"], 1)
         finally:
             market.MAX_SCANS = old
         self.assertGreater(self.st.bytes_total(), 0)
@@ -215,6 +220,170 @@ class GrenzenTest(unittest.TestCase):
         market.ingest_text(self.st, line("H", NOW - H, {1: (5, 1, 1, 0, 0)}), "pc", NOW)
         it = market.aggregate(self.st, "H", NOW - market.WEEK, NOW)["items"][1]
         self.assertNotIn("verlauf", it)
+
+
+class Keep90Test(unittest.TestCase):
+    """T-KEEP90a/b/c und T-D-MN7c2 (Bot 1.5.142)."""
+    def setUp(self):
+        self.dir = tempfile.mkdtemp()
+        self.st = market.Store(self.dir)
+
+    def tearDown(self):
+        shutil.rmtree(self.dir)
+
+    def test_T_KEEP90a_90_tage(self):
+        self.assertEqual(market.KEEP_DAYS, 90)
+        self.assertEqual(market.ingest_text(self.st, line("H", NOW - 80 * 86400, {1: (5, 1, 1, 0, 0)}), "pc", NOW)["neu"], 1)
+        self.assertEqual(market.ingest_text(self.st, line("H", NOW - 91 * 86400, {}), "pc", NOW)["abgelehnt"], 1)
+        self.assertEqual(self.st.prune(NOW), 0)                       # 80 Tage bleiben
+        self.assertEqual(self.st.prune(NOW + 11 * 86400), 1)          # danach 91 Tage alt -> weg
+
+    def test_T_KEEP90b_grenze_und_aelteste_weg(self):
+        self.assertEqual(market.MAX_STORE_BYTES, 1024 ** 3)
+        self.st.disk_free = lambda: 10 * 1024 ** 3                    # viel frei -> 1 GB gilt
+        self.assertEqual(self.st.budget(), 1024 ** 3)
+        self.st.disk_free = lambda: 1000                              # wenig frei -> 50 % von (frei + belegt)
+        self.assertEqual(self.st.budget(), 500)
+        big = {i: (i, 1, 1, 0, 0) for i in range(1, 400)}
+        self.st.disk_free = lambda: 10 * 1024 ** 3
+        for i in range(4):
+            self.assertEqual(market.ingest_text(self.st, line("H", NOW - (10 - i) * H, big), f"q{i}", NOW)["neu"], 1)
+        one = max(h["b"] for h in self.st.index["scans"].values())
+        total = self.st.bytes_total()
+        # jetzt ist nur Platz für 2,5 Scans (Budget = 50 % von frei + belegt): die ältesten gehen, der neue bleibt
+        free = max(0, 5 * one - total - one)
+        self.st.disk_free = lambda: free
+        r = market.ingest_text(self.st, line("H", NOW - 1 * H, big), "q9", NOW)
+        new = self.st.index["scans"][f"H-{int(NOW - H)}"]["b"]
+        budget = min(market.MAX_STORE_BYTES, int(0.5 * (free + total + new)))    # vor dem Löschen bestimmt
+        self.assertEqual(r["neu"], 1)
+        ts = sorted(h["t"] for h in self.st.index["scans"].values())
+        self.assertEqual(ts[-1], NOW - H)                             # der neue ist da
+        self.assertNotIn(NOW - 10 * H, ts)                            # der älteste ist weg
+        self.assertLessEqual(self.st.bytes_total(), budget)
+        self.assertGreater(self.st.bytes_total() + one, budget)                  # nur so viel gelöscht wie nötig
+        self.assertGreater(self.st.index["verdraengt"], 0)
+        # leere Ablage, Festplatte voll: nicht einmal ein Scan passt -> nicht ablegen ("begrenzt"), Datei wieder weg
+        st = market.Store(tempfile.mkdtemp())
+        try:
+            st.disk_free = lambda: 0
+            r = market.ingest_text(st, line("A", NOW - 2 * H, big), "q9", NOW)
+            self.assertEqual(r["begrenzt"], 1)
+            self.assertEqual(st.index["scans"], {})
+            self.assertEqual(os.listdir(os.path.join(st.base, "scans")), [])
+        finally:
+            shutil.rmtree(st.base)
+
+    def test_T_KEEP90c_messung(self):
+        m = market.measure(self.st)
+        for k in ("disk_free", "disk_total", "store", "budget", "scans", "ram_bot", "ram_total"):
+            self.assertIn(k, m)
+        self.assertGreater(m["disk_total"], 0)
+        t = market.measure_line({"store": 12 * 1024 ** 2, "scans": 340, "budget": 1024 ** 3, "disk_free": 1288490189,
+                                 "disk_total": 2 * 1024 ** 3, "ram_bot": 85 * 1024 ** 2, "ram_total": None})
+        self.assertEqual(t, "Speicher: Marktdaten 12,0 MB (340 Scans), Grenze 1,0 GB (höchstens 1 GB und die Hälfte "
+                            "des freien Platzes) · Festplatte frei 1,2 GB von 2,0 GB · Arbeitsspeicher Bot 85,0 MB von "
+                            "nicht messbar")
+
+    def test_T_D_MN7c2_neue_kennung_je_paket(self):
+        r = [market.ingest_text(self.st, line("H", NOW - 2 * H + i, {1: (5, 1, 1, 0, 0)}), f"k{i:02d}", NOW)
+             for i in range(31)]
+        self.assertEqual(sum(x["neu"] for x in r), market.MAX_NEW_SOURCES_DAY)      # 20 neue Kennungen je 24 h
+        self.assertEqual(sum(x["begrenzt"] for x in r), 31 - market.MAX_NEW_SOURCES_DAY)
+        # bekannte Kennung geht weiter
+        self.assertEqual(market.ingest_text(self.st, line("H", NOW - H, {}), "k00", NOW)["neu"], 1)
+        # Gesamtgrenze je Stunde über bekannte Quellen
+        st = market.Store(tempfile.mkdtemp())
+        try:
+            n = 0
+            for q in range(5):
+                for i in range(30):
+                    n += market.ingest_text(st, line("H", NOW - 3 * H + q * 100 + i, {}), f"p{q}", NOW)["neu"]
+            self.assertEqual(n, market.MAX_NEW_TOTAL_HOUR)
+        finally:
+            shutil.rmtree(st.base)
+
+
+class Kern1Test(unittest.TestCase):
+    """T-D-KERN1: anonyme Tages-Zusammenfassung (Bot 1.5.142)."""
+    def setUp(self):
+        self.dir = tempfile.mkdtemp()
+        self.st = market.Store(self.dir)
+        self.day = datetime.fromtimestamp(NOW - 86400, market.TZ).strftime("%Y-%m-%d")    # So 15.11.
+
+    def tearDown(self):
+        shutil.rmtree(self.dir)
+
+    def test_leer(self):
+        d = market.daily_summary(self.st, self.day)
+        self.assertEqual(d["fraktionen"], {})
+        self.assertEqual((d["format"], d["tag"]), ("GSMARKTT1", "2026-11-15"))
+
+    def test_eine_quelle_und_werte(self):
+        t0 = market.day_window(self.day)[0]
+        market.ingest_text(self.st, line("H", t0 + 3600, {2589: (100, 10, 4, 0, 0)}), "a" * 10, NOW)
+        market.ingest_text(self.st, line("H", t0 + 7200, {2589: (120, 8, 3, 2, 1)}, cmp_=3600), "a" * 10, NOW)
+        market.ingest_text(self.st, line("H", t0 + 86400 + 60, {2589: (999, 1, 1, 0, 0)}), "a" * 10, NOW)   # Folgetag
+        d = market.daily_summary(self.st, self.day)
+        h = d["fraktionen"]["H"]
+        self.assertEqual((h["scans"], h["quellen"], h["vergleich_h"]), (2, 1, 1.0))
+        self.assertEqual(h["items"]["2589"], [2, 1, 110, 100, 120, 9, 24.0, 48.0])   # 1 bzw. 2 Abgänge in 1 h
+        self.assertEqual(d["felder"][6:], ["absatz_min_tag", "absatz_max_tag"])
+        raw = market.dump_summary(d).decode()
+        self.assertNotIn("a" * 10, raw)                              # keine Quellen-Kennung
+        for word in ("Spieler", "name", "quelle\""):
+            self.assertNotIn(word, raw)
+
+    def test_grenze_1_mb(self):
+        t0 = market.day_window(self.day)[0]
+        many = {i: (i, 1, 1, 0, 0) for i in range(1, 3001)}
+        market.ingest_text(self.st, line("H", t0 + 60, many), "q1", NOW)
+        market.ingest_text(self.st, line("H", t0 + 120, {i: (i, 1, 1, 0, 0) for i in range(1, 101)}), "q2", NOW)
+        old = market.DAY_MAX_BYTES
+        try:
+            market.DAY_MAX_BYTES = 20_000
+            d = market.daily_summary(self.st, self.day)
+            self.assertLessEqual(len(market.dump_summary(d)), 20_000)
+            self.assertTrue(d["nur_ab_2_quellen"])
+            self.assertEqual(len(d["fraktionen"]["H"]["items"]) + d["weggelassen"], 3000)   # nichts still verloren
+            self.assertTrue(all(r[1] >= 2 for r in d["fraktionen"]["H"]["items"].values()))
+            market.DAY_MAX_BYTES = 2_000
+            d = market.daily_summary(self.st, self.day)
+            self.assertLessEqual(len(market.dump_summary(d)), 2_000)
+            self.assertEqual(len(d["fraktionen"]["H"]["items"]) + d["weggelassen"], 3000)
+        finally:
+            market.DAY_MAX_BYTES = old
+
+    def test_echte_v7_exportzeile(self):
+        with open(os.path.join(os.path.dirname(__file__), "data", "gsmarkt_v7_export.txt"), encoding="utf-8") as f:
+            ln = f.read().strip()
+        self.assertTrue(ln.startswith("GSMARKT1|1|H|"))
+        self.assertLess(len(ln), market.MAX_LINE)
+        s = market.parse_line(ln)
+        self.assertEqual((s["items"], len(s["e"])), (3054, 3054))
+        when = s["t"] + 60
+        self.assertEqual(market.ingest_text(self.st, ln, "v7", when)["neu"], 1)
+        day = datetime.fromtimestamp(s["t"], market.TZ).strftime("%Y-%m-%d")
+        d = market.daily_summary(self.st, day)
+        self.assertEqual(len(d["fraktionen"]["H"]["items"]), 3054)
+        self.assertLessEqual(len(market.dump_summary(d)), market.DAY_MAX_BYTES)
+
+    def test_faellig(self):
+        tz = market.TZ
+        now = datetime(2026, 11, 16, 0, 30, tzinfo=tz)
+        self.assertEqual(market.daily_due(now, None), "2026-11-15")
+        self.assertIsNone(market.daily_due(now, "2026-11-15"))
+        self.assertEqual(market.day_name("2026-11-15"), "GSMARKTT1-2026-11-15.json")
+        a, b = market.day_window("2026-10-25")                         # Zeitumstellung: 25 h
+        self.assertEqual(b - a, 25 * 3600)
+
+    def test_sammler(self):
+        import types as _t
+        sys.modules.setdefault("requests", _t.ModuleType("requests"))
+        import markt_bericht_holen as mbh
+        self.assertTrue(str(mbh.target("GSMARKTT1-2026-11-15.json")).endswith("markt/tages/2026-11-15.json"))
+        for bad in ("GSMARKTT1-2026-11-15.json/../x", "GSMARKTT1-15.11.2026.json"):
+            self.assertIsNone(mbh.target(bad))
 
 
 class HelperTest(unittest.TestCase):
@@ -421,6 +590,53 @@ class BotAblauf(unittest.TestCase):
             self.assertEqual(w, "GSMARKTW1-2026-W46.md")
             self.assertIsNone(run(self.bot.post_market_report(mon)))          # nie doppelt
             self.assertEqual([kw["file"].filename for _, kw in ch.sent], [z, w])
+        finally:
+            self.bot.channel_by_id = orig
+
+    def test_T_D_KERN1_tagesbericht_posten(self):
+        self.bot.cfg.update({"botcmd_channel_id": 30})
+        ch = FakeChannel(30)
+
+        async def by_id(cid):
+            return ch
+        orig = self.bot.channel_by_id
+        self.bot.channel_by_id = by_id
+        try:
+            tz = market.TZ
+            now = datetime(2026, 11, 16, 0, 30, tzinfo=tz)
+            self.bot.state.data.pop("market_day", None)
+            self.assertIsNone(run(self.bot.post_market_daily(now)))             # keine Scans: nichts posten
+            self.assertEqual(self.bot.state.data["market_day"], "2026-11-15")
+            self.bot.state.data.pop("market_day")
+            t0 = market.day_window("2026-11-15")[0]
+            market.ingest_text(self.bot._market_store, line("H", t0 + 60, {2589: (100, 5, 2, 0, 0)}), "x", now.timestamp())
+            name = run(self.bot.post_market_daily(now))
+            self.assertEqual(name, "GSMARKTT1-2026-11-15.json")
+            self.assertIsNone(run(self.bot.post_market_daily(now)))             # nie doppelt
+            self.assertEqual(len(ch.sent), 1)
+        finally:
+            self.bot.channel_by_id = orig
+
+    def test_T_D_MN7e2_nachlesen_ohne_recht(self):
+        import discord
+        self.bot.cfg.update({"testberichte_channel_id": 20, "testberichte_webhook_id": 777})
+
+        class Gesperrt(FakeChannel):
+            def history(self, **kw):
+                async def gen():
+                    raise discord.Forbidden(types.SimpleNamespace(status=403, reason="x"), "kein Leserecht")
+                    yield
+                return gen()
+        ch = Gesperrt(20)
+
+        async def by_id(cid):
+            return ch
+        orig = self.bot.channel_by_id
+        self.bot.channel_by_id = by_id
+        try:
+            with self.assertLogs("raidmaster", level="WARNING") as cm:
+                self.assertEqual(run(self.bot.market_catchup()), 0)
+            self.assertTrue(any("Nachlesen in #testberichte nicht möglich (403" in r for r in cm.output))
         finally:
             self.bot.channel_by_id = orig
 
