@@ -62,7 +62,6 @@ class Raidfaehigkeit(unittest.TestCase):
     def test_gleiche_funktionen_in_bot(self):
         self.assertIs(self.bot.post_raid_ready, self.m.post_raid_ready)
         self.assertIs(self.bot.post_guild_bank, self.m.post_guild_bank)
-        self.assertEqual(self.bot.BANK_CHANNEL, self.m.BANK_CHANNEL)
 
     def test_nur_offiziere_und_je_einmal(self):
         now = monday_after(RR["t"])

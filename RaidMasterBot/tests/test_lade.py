@@ -103,6 +103,10 @@ class Lade(unittest.TestCase):
         self.assertIs(b.post_guild_bank, bank_bot.post_guild_bank)
         self.assertIs(b.bot.tree.get_command("bank").callback, bank_bot.bank_cmd.callback)
         self.assertIs(bank_bot.item_emoji, symbole_bot.item_emoji)
+        import regeln_bot
+        self.assertIs(regeln_bot.bot, b.bot)                     # D-3 Schritt 11: Regeln
+        self.assertIs(b.ensure_guild_rules, regeln_bot.ensure_guild_rules)
+        self.assertIs(regeln_bot.post_guild_bank, bank_bot.post_guild_bank)
         self.assertIs(b.NO_PING, grund.NO_PING)
 
     def test_findet_fehlenden_namen(self):
