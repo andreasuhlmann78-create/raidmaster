@@ -1,0 +1,61 @@
+AHSentinel 0.65.200 – GSL4-1 (PRIO) + Protokoll 3 und Screenshot 16:49: GSL3-1..3, TB196-1..3 (Masterplan 1.2) – umgesetzt, zur Prüfung (TB196-4 später)
+CurseForge: nein (erst nach der Sniper-Abnahme). GitHub-Release v0.65.200 und sofort im Discord.
+
+GSL4-1 (Protokoll 4: 18× Code 10 je 63–80 ms nach einem Kauf, Kauf danach trotzdem bestätigt):
+  (a) Code 10, dem die Bestätigung DIESES Kaufs innerhalb von 2 s folgt (Sn.C10_OK_WINDOW, b.errorAt), ist kein Fehlschlag.
+      Er bekommt den eigenen Zähler "davon trotz Kauf bestätigt n" (Zeile Einzelkäufe im Sniper-Bericht), Protokoll
+      SNIPER-CODE10 "Code 10 trotz Kauf … nach n ms bestätigt", und der Eintrag in der Code-10-Liste wird markiert.
+      Belegt aus dem Code: Eine "Fehler – nochmal"-Zeile oder Pause gab es für diesen Fall schon in 0.65.196 nicht. ItemFallback
+      läuft erst nach ITEM_FALLBACK = 3 s und findet den bestätigten Kauf nicht mehr offen; OfferTry hängt nur dort.
+  (b) Nach einem Kauf liefert A:CanQueryNow 0,3 s lang false für jede eigene Anfrage ausser dem Sniper (Sn.BUY_QUIET, Sn:BuyQuiet).
+      Die Sniper-Suchen warten ohnehin, solange ein Einzelkauf offen ist (GSL1-1 b).
+      Verdacht, zu messen: GSSniperLog 1.5 zeigt die Anfragen der letzten 0,5 s vor jedem Code 10.
+  (c) Status 6 s lang "Kauf bestätigt (Server meldete kurz einen internen Fehler – ohne Folgen)" (grün). Der rote Blizzard-Text
+      selbst kommt vom Spiel und wird nicht unterdrückt.
+  Test T786: Code 10, dann Bestätigung -> trotz Kauf 1, keine Zeile, keine Versuche, gezählt 1, Status; 0,3 s keine andere Anfrage.
+NP152-3 Median (Supervisor 17:08 angenommen):
+  - Der Median über Lauf 3–5 im selben Szenario taugt nicht. Gemessen 0.65.198: 11,8 / 14,1 / 15,9 MB und 12,7 / 15,0 / 17,6 MB;
+    0.65.200: 13,0 / 13,9 / 16,2 MB. Der Preisverlauf wächst je Scan, jeder spätere Lauf legt 1–2 MB mehr an.
+  - Darum "Median aus 3 UNABHÄNGIGEN Läufen": run_all.sh wiederholt s92 bei Rot noch 2× und wertet "2 von 3 bestanden".
+    Alle Ergebnisse stehen im Log. Die Grenze von 15 MB bleibt.
+GSL3-1 (forecast-eval lief beim Snipen):
+  - Belegt aus dem Code von 0.65.196: A:SnipeDefer schob nur höchstens 120 s je Aufgabe auf (SNIPE_DEFER_MAX). Danach lief
+    forecast-eval wie gemessen.
+  - Seit 0.65.197 (SN-RUHE1 a): Ruhemodus mit 30-Min.-Grenze ab Beginn des Ruhemodus (Sn.QUIET_MAX), ganze Liste
+    (forecast*, cache:*, ketten:*, pd7*, kern:*, learn:*, core:* …). Die 120 s gelten nur noch bei ausgeschaltetem Ruhemodus.
+  - Protokoll 4 (0.65.197+) zeigt das.
+GSL3-2 (Spieler nie blockieren):
+  - A:NoteUserAH(Art) bei eigenen Eingaben des Spielers im AH: Se:Post (einstellen), Se:CheckPrice angeklickt (front),
+    Se:QueryOwned(true) ("Aktualisieren"), B:Search (Einkauf-Suche).
+  - Sn:Tick pausiert die Selbst-Suche des Snipers A.USER_PAUSE = 30 s ab der LETZTEN Eingabe (wait "spieler").
+    Status: "Sniper pausiert – du verkaufst gerade (weiter in n s)" bzw. "… du suchst gerade …".
+  - Ein wartender Treffer bleibt mit Raste/Mausrad kaufbar: nur die Selbst-Suche pausiert, OnTrigger nicht.
+  - In der Testroutine lösen Tests keine Pause aus.
+  - Nachbildung s10_buy_priority angepasst: "Sniper hat danach gesucht" jetzt nach der 30-s-Pause (warten bis 45 s).
+  - Zusammen mit SN-RUHE1 (b): blockiert werden nur AHS-eigene Hintergrund-Anfragen; was der Spieler anklickt, geht vor.
+GSL3-3 (8,1/8,8 s nach dem Öffnen des AH): Messung nötig.
+  - Verdacht, zu messen: Beim Öffnen fragt AHS automatisch "Meine Auktionen" ab (Seller.lua 1458/1691/1750) und prüft Preise im
+    Hintergrund. Beides belegte die Drossel vor der ersten Sniper-Suche.
+  - Seit 0.65.197 wartet beides im Ruhemodus (Sniper an + AH offen) und wird nach dem Ende nachgeholt. Die erste Sniper-Suche
+    sollte darum ≤ 2 s nach dem Öffnen kommen.
+  - Protokoll 4 bitte "AH geöffnet -> erste Sniper-Suche" messen.
+TB196-1 ("Interner Auktion-Fehler" mit 0.65.196): Ursache belegt sich jetzt selbst.
+  - Jeder Code 10 schreibt SNIPER-CODE10 ins Protokoll und steht im Sniper-Bericht (Zeile Einzelkäufe, die letzten 3 von bis zu 10):
+    Uhrzeit, letzte eigene Anfrage (Kauf/Suche) und vor wie vielen ms, offene Einzelkäufe, Warenkauf unterwegs, Server bereit
+    VOR dem Senden.
+  - Sn.preReady wird direkt vor PlaceBid/SendSearchQuery/SendBrowseQuery gesetzt, nicht danach (Lehre aus dem Messfehler von
+    GSSniperLog 1.2).
+TB196-2 (Abgeschnittenes in der Zielliste):
+  - Spalten neu: Ziel 118 -> 170, Stand 236 -> 184. Die kurze Form lautet nur "140/1000 · Rest 7g81".
+  - "n warten" und "geprüft vor …" stehen im Tooltip der Zeile (ProgressText lang, CheckedText); der Name steht voll im Tooltip.
+  - T771 angepasst.
+  - Ob die UI-Prüfung (T750) das finden musste: Die Zeilen der Zielliste kommen erst mit echten Zielen. In der Testroutine sind
+    die Ziele leer, darum sah T750 nichts. Vorschlag: T750 legt für die Prüfung zwei Sandbox-Ziele mit langen Namen an.
+    Nächste Version, falls gewünscht.
+TB196-3 (Kopfzeile):
+  - Neue Form "Heute: 433 Treffer · 169 mit Kauf · 263 verpasst · 1 offen · 395 Stück · Ø 10,4 s".
+  - offen = Treffer − mit Kauf − verpasst, damit die Zahl aufgeht. Kürzer, damit sie in einer Zeile bleibt. Dezimalkomma auf Deutsch.
+TB196-4 (gleiche Zeilen zusammenfassen): laut Auftrag erst nach Phase 1.3 und nur mit grünen SN-UI1-Tests – nicht in dieser Version.
+TESTS (eigene): T786 (GSL4-1), T785 (neu: Pause 30 s und danach weg, Code-10-Zeile mit Ursache, Kopfzeile mit "1 offen" und "10,4"), T771 und
+       der Kopf-Test angepasst. s42, s44, s195, s197, s10_buy_priority grün. Locales +4 (alle Sprachen), CHANGELOG EN/DE.
+Gesamtlauf der Nachbildung (wowsim, alle Szenarien): BESTANDEN 258, FEHLGESCHLAGEN 0 (s92 im ersten Lauf grün, keine Wiederholung nötig).
