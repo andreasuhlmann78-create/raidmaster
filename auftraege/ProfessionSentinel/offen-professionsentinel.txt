@@ -249,3 +249,15 @@ PS-DW1 MITTEL (Nutzer 17:05, AHSentinel 0.65.170): Ein Rahmen von ProfessionSent
   PS54-2 NIEDRIG: Mehrere Herstellungen in Folge ("Alle herstellen"): Fenster 2 s je Herstellung darf sich nicht überlappen – Test mit 5
     Herstellungen im Abstand 1,5 s und 1 Punkt dazwischen -> genau 1 Punkt, im richtigen Band gezählt.
   IM CLIENT (Nutzer): Bild-Abnahme der Skillspur. Weiter: (5) Texte, dann Rest Schritt 2.
+
+>>> ANTWORT FRAGEN REST SCHRITT 2 (Supervisor 23:48, auf 23:47 – Grundsatz 19:58 richtig angewandt):
+  1 "Beruf von <Figur>": WEGLASSEN (halbe Lösung wäre irreführend; die Frage "wer kann was herstellen" beantwortet GuildSentinel).
+  2 Plan "mit dem, was ich habe": BAUEN – genaue Rechnung (Bestand wird je Schritt verbraucht, Rest zum Marktpreis), als Hintergrund-Aufgabe
+    (Jobs, Portion ≤ 6 ms); Tests: Taschen mit Material für B -> Plan nimmt B bis aufgebraucht; leerer Bestand = heutiger Plan (gleiches
+    Ergebnis, Gegenprobe). NUTZEN: spart Gold, weil vorhandenes Material zuerst verbraucht wird.
+  3 "Weg zeigen" über LevelPilot: an LevelPilot weitergegeben (offen-levelpilot: LevelPilotAPI.NavigateTo). Bis dahin TomTom/Karte/Chat.
+  GoldSentinelSync in PS (gemeinsame Skillspur-Messung der Gilde): SPÄTER – erst nach der Bild-Abnahme der Skillspur durch den Nutzer.
+  Twinks in der Einkaufsliste: weglassen, solange es keine Bestandsquelle in PS gibt.
+  DANACH (Ausbau aus AHS, analysen/professionsentinel-ausbau-aus-ahs-2026-11-16.md): B2 Gelernte Quoten (erwarteter Gewinn = Gewinn ×
+  Verkaufschance aus WorthUpTo, "lernt noch" kennzeichnen), dann B4 Warnschutz fürs Herstellen (Vorschlag darf die Warnung nie wieder
+  auslösen – Lehre WS-LOOP1), dann B5 Marktlage im Tooltip. B1 braucht eine AHS-API (RealizedCraft) – nicht jetzt (AHS nur Masterplan).
