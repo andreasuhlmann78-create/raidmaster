@@ -1,0 +1,30 @@
+AHSentinel 0.65.195 – SN-UI1 (erledigte Zeilen in der Sniper-Liste) – umgesetzt, zur Prüfung
+CurseForge: nein (nächster Termin 18:00). GitHub-Release v0.65.195 und sofort im Discord; nicht in download/.
+
+(a) Entfernen nur bei Gewissheit, Zuordnung IMMER über die auctionID (Sn:MarkRowDone markiert die Zeile mit dieser auctionID im
+    aktuellen Ergebnis und das gesendete Angebot selbst – nie "die Zeile unter der Maus"):
+    - Kauf bestätigt: in CountItemBuy (läuft seit GSL1-3 nur noch auf AUCTION_HOUSE_PURCHASE_COMPLETED) -> "gekauft".
+    - Code 4 (ItemNotFound) und GENAU EIN offener Einzelkauf (nicht released, kein Fehler gesehen) -> dieser Kauf
+      (ItemPurchaseFailed) -> "weg". Bei mehreren offenen Käufen ist Code 4 nicht zuzuordnen -> wie bisher (Fehler ohne Angebot).
+    - fehlt in einem VOLLSTÄNDIGEN neuen Ergebnis desselben Items (PollSearch: ItemResultsFull -> s.fullResult) -> FinishSearch
+      hängt die alte Zeile als Geist an (gone, ghost, doneKind "weg"; nie geplant).
+(b) Code 10 / Fehler ohne Angebot (ItemFallback) und keine Antwort (ExpireItemBuys) -> Sn:NoteRow: Zeile bleibt, Status "Fehler –
+    nochmal" (orange) bzw. "keine Antwort" (grau), used/sentState geleert, sentIDs-Eintrag weg -> weiter kaufbar (eine Auktion
+    kann nie zweimal gekauft werden; GSSniperLog: ohne Antwort = vom Server nicht bearbeitet). "bezahlt" (Gold gesunken, GSL1-3)
+    bleibt reserviert und wird nicht neu gesendet.
+(c) Status 1,0 s sichtbar (ROW_DONE_SHOW), dann blendet Sn:VisibleListings die Zeile aus. Kein eigener Zeitgeber: das Fenster
+    frischt alle 0,5 s auf, solange Sn.doneUntil + 0,6 s nicht vorbei ist (auch ohne Sniper-Modus) -> kein Rest nach AH zu /
+    Zielwechsel. Waren: ganz gekaufte Stufe -> "gekauft" 1 s, dann weg; Teilkauf -> Zeile mit Restmenge bleibt (Sn:UseCommodityRows).
+(d) Nur Anzeige: Plan, Reihenfolge, Zähler, Budget, Max unverändert (T775 prüft Plan und Zähler). Tabellen-Aufbau je Ereignis:
+    nur die Angebotsliste (UI:Table SetData, sichtbare Zeilen); Messung ≤ 16 ms nur im Spiel möglich – Verdacht, zu messen
+    (Protokoll LANGSAM/AUFBAU meldet Aufbauten > 16 ms).
+(e) Unter der Liste: "gekauft n · weggeschnappt n · ohne Antwort n" je Ziel, diese Spiel-Sitzung (Sn.rowStats: gekauft =
+    bestätigte Käufe (Einzel/Ware), weggeschnappt = ≤ Max, nicht von uns gekauft und vom Server als weg gemeldet bzw. im
+    vollständigen Ergebnis fehlend, ohne Antwort = Einzelkäufe ohne Antwort in 30 s). Testroutine zählt nichts mit.
+(f) Tests: T775 (bestätigt -> gekauft, nach 1 s nicht mehr sichtbar · Code 4 -> weg · Code 10 -> bleibt kaufbar "Fehler –
+    nochmal" · keine Antwort -> bleibt "keine Antwort" · Plan nimmt die Fehler-Zeile wieder · zwei Bestätigungen in derselben
+    Sekunde · Bestätigung für eine schon ersetzte Zeile trifft die neue Zeile nicht · Teilkauf Ware: Rest 7 bleibt ·
+    vollständiges Ergebnis ohne das Angebot -> Geist "weg", geplant wird das vorhandene · Zähler gekauft 4 = Zielzähler 4,
+    weggeschnappt 2, ohne Antwort 1). Nachbildung s195_sniper_rows_done (Fenster: 2 Zeilen -> gekauft sichtbar -> nach 1 s eine;
+    AH schliessen während der 1 s ohne Fehler; Zielwechsel: keine falsche Zeile). Locales EN/DE (+8), CHANGELOG EN/DE.
+Gesamtlauf der Nachbildung (wowsim, alle Szenarien): BESTANDEN 256, FEHLGESCHLAGEN 0.
