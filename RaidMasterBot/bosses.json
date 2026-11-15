@@ -1,0 +1,402 @@
+{
+ "_info": "Erzeugt von make_bosses.py aus RaidMaster/Data.lua und RaidData.lua – nicht von Hand ändern. Nur Raids von WoW Forever; Bosse in der Reihenfolge des Addons.",
+ "raids": [
+  {
+   "key": "mc",
+   "bosses": [
+    {
+     "e": [
+      663
+     ],
+     "n": "Lucifron"
+    },
+    {
+     "e": [
+      664
+     ],
+     "n": "Magmadar"
+    },
+    {
+     "e": [
+      665
+     ],
+     "n": "Gehennas"
+    },
+    {
+     "e": [
+      666
+     ],
+     "n": "Garr"
+    },
+    {
+     "e": [
+      667
+     ],
+     "n": "Shazzrah"
+    },
+    {
+     "e": [
+      668
+     ],
+     "n": "Baron Geddon"
+    },
+    {
+     "e": [
+      669
+     ],
+     "n": "Sulfuronherold"
+    },
+    {
+     "e": [
+      670
+     ],
+     "n": "Golemagg der Verbrenner"
+    },
+    {
+     "e": [
+      671
+     ],
+     "n": "Majordomus Exekutus"
+    },
+    {
+     "e": [
+      672
+     ],
+     "n": "Ragnaros"
+    }
+   ]
+  },
+  {
+   "key": "barrow",
+   "bosses": []
+  },
+  {
+   "key": "hyjal",
+   "bosses": []
+  },
+  {
+   "key": "ony",
+   "bosses": [
+    {
+     "e": [
+      1084
+     ],
+     "n": "Onyxia"
+    }
+   ]
+  },
+  {
+   "key": "bwl",
+   "bosses": [
+    {
+     "e": [
+      610
+     ],
+     "n": "Razorgore der Ungezähmte"
+    },
+    {
+     "e": [
+      611
+     ],
+     "n": "Vaelastrasz der Verdorbene"
+    },
+    {
+     "e": [
+      612
+     ],
+     "n": "Brutwächter Dreschbringer"
+    },
+    {
+     "e": [
+      613
+     ],
+     "n": "Feuerschwinge"
+    },
+    {
+     "e": [
+      614
+     ],
+     "n": "Schattenschwinge"
+    },
+    {
+     "e": [
+      615
+     ],
+     "n": "Flammenmaul"
+    },
+    {
+     "e": [
+      616
+     ],
+     "n": "Chromaggus"
+    },
+    {
+     "e": [
+      617
+     ],
+     "n": "Nefarian"
+    }
+   ]
+  },
+  {
+   "key": "zg",
+   "bosses": [
+    {
+     "e": [
+      785
+     ],
+     "n": "Hohepriesterin Jeklik"
+    },
+    {
+     "e": [
+      784
+     ],
+     "n": "Hohepriester Venoxis"
+    },
+    {
+     "e": [
+      786
+     ],
+     "n": "Hohepriesterin Mar'li"
+    },
+    {
+     "e": [
+      787
+     ],
+     "n": "Blutfürst Mandokir"
+    },
+    {
+     "e": [
+      788
+     ],
+     "n": "Rand des Wahnsinns"
+    },
+    {
+     "e": [
+      790
+     ],
+     "n": "Gahz'ranka"
+    },
+    {
+     "e": [
+      789
+     ],
+     "n": "Hohepriester Thekal"
+    },
+    {
+     "e": [
+      791
+     ],
+     "n": "Hohepriesterin Arlokk"
+    },
+    {
+     "e": [
+      792
+     ],
+     "n": "Jin'do der Verhexer"
+    },
+    {
+     "e": [
+      793
+     ],
+     "n": "Hakkar der Seelenschinder"
+    }
+   ]
+  },
+  {
+   "key": "aq20",
+   "bosses": [
+    {
+     "e": [
+      718
+     ],
+     "n": "Kurinnaxx"
+    },
+    {
+     "e": [
+      719
+     ],
+     "n": "General Rajaxx"
+    },
+    {
+     "e": [
+      720
+     ],
+     "n": "Moam"
+    },
+    {
+     "e": [
+      721
+     ],
+     "n": "Buru der Verschlinger"
+    },
+    {
+     "e": [
+      722
+     ],
+     "n": "Ayamiss der Jäger"
+    },
+    {
+     "e": [
+      723
+     ],
+     "n": "Ossirian der Narbenlose"
+    }
+   ]
+  },
+  {
+   "key": "aq40",
+   "bosses": [
+    {
+     "e": [
+      709
+     ],
+     "n": "Der Prophet Skeram"
+    },
+    {
+     "e": [
+      710
+     ],
+     "n": "Adel der Silithiden"
+    },
+    {
+     "e": [
+      711
+     ],
+     "n": "Schlachtwache Sartura"
+    },
+    {
+     "e": [
+      712
+     ],
+     "n": "Fankriss der Unnachgiebige"
+    },
+    {
+     "e": [
+      713
+     ],
+     "n": "Viscidus"
+    },
+    {
+     "e": [
+      714
+     ],
+     "n": "Prinzessin Huhuran"
+    },
+    {
+     "e": [
+      715
+     ],
+     "n": "Zwillingsimperatoren"
+    },
+    {
+     "e": [
+      716
+     ],
+     "n": "Ouro"
+    },
+    {
+     "e": [
+      717
+     ],
+     "n": "C'Thun"
+    }
+   ]
+  },
+  {
+   "key": "naxx",
+   "bosses": [
+    {
+     "e": [
+      1107
+     ],
+     "n": "Anub'Rekhan"
+    },
+    {
+     "e": [
+      1110
+     ],
+     "n": "Großwitwe Faerlina"
+    },
+    {
+     "e": [
+      1116
+     ],
+     "n": "Maexxna"
+    },
+    {
+     "e": [
+      1117
+     ],
+     "n": "Noth der Seuchenfürst"
+    },
+    {
+     "e": [
+      1112
+     ],
+     "n": "Heigan der Unreine"
+    },
+    {
+     "e": [
+      1115
+     ],
+     "n": "Loatheb"
+    },
+    {
+     "e": [
+      1113
+     ],
+     "n": "Instrukteur Razuvious"
+    },
+    {
+     "e": [
+      1109
+     ],
+     "n": "Gothik der Seelenjäger"
+    },
+    {
+     "e": [
+      1121
+     ],
+     "n": "Die Vier Reiter"
+    },
+    {
+     "e": [
+      1118
+     ],
+     "n": "Flickwerk"
+    },
+    {
+     "e": [
+      1111
+     ],
+     "n": "Grobbulus"
+    },
+    {
+     "e": [
+      1108
+     ],
+     "n": "Gluth"
+    },
+    {
+     "e": [
+      1120
+     ],
+     "n": "Thaddius"
+    },
+    {
+     "e": [
+      1119
+     ],
+     "n": "Saphiron"
+    },
+    {
+     "e": [
+      1114
+     ],
+     "n": "Kel'Thuzad"
+    }
+   ]
+  }
+ ]
+}

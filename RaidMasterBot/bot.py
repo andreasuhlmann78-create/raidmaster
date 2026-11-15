@@ -27,7 +27,7 @@ import re
 import time
 import zipfile
 import zlib
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 
 import discord
@@ -45,6 +45,7 @@ import market
 import blizzard_api_check
 import uploader_version
 import pn
+import rekord_tafel
 import self_check
 import tb_aufraeumen
 import render as rimg
@@ -2575,7 +2576,6 @@ async def update_hall_of_fame():
     db = bot.dkp_db or {}
     if test_info(db):
         return
-    best_before = rmd.best_times(kills_db.data)
     added = rmd.kills_merge(kills_db.data, rmd.killlog(db), state.data.get("last_upload_by") or "")
     if added:
         kills_db.save()
@@ -2599,19 +2599,81 @@ async def update_hall_of_fame():
                     posted[key] = True
                 except discord.HTTPException:
                     pass
-        # neue Bestzeiten
-        for k in added:
-            old = best_before.get(k["e"])
-            if k.get("d") and k["d"] >= 10 and old and k["d"] < old["d"]:
-                try:
-                    await ch.send(f"⏱️ **Neuer Rekord: {k['n']} in {rmd.fmt_duration(k['d'])}** (vorher {rmd.fmt_duration(old['d'])}"
-                                  f" vom <t:{old['t']}:d>) · {rmd.pool_name(k['p'], bot.dkp_data) if k.get('p') else ''} <t:{k['t']}:d>")
-                except discord.HTTPException:
-                    pass
-            if k.get("d") and k["d"] >= 10:
-                best_before[k["e"]] = k if (not old or k["d"] < old["d"]) else old
+        # Rekord-Tafeln je Raid (ab 1.5.136): ersetzen die einzelnen Zeilen "Neuer Rekord"
+        try:
+            await update_record_boards(ch)
+        except discord.HTTPException as e:
+            log.warning("Rekord-Tafeln nicht aktualisiert: %s", e)
         state.save()
     await update_achievements(ch)
+
+
+RECORD_BOSSES = rekord_tafel.load_bosses()
+
+
+async def cleanup_old_record_lines(ch) -> int:
+    """Einmal: die alten Einzelzeilen "⏱️ Neuer Rekord: …" des Bots löschen (ersetzt durch die Tafeln)."""
+    n = 0
+    async for m in ch.history(limit=2000):
+        if m.author.id == bot.user.id and rekord_tafel.is_old_record_line(m.content):
+            try:
+                await m.delete()
+                n += 1
+            except discord.HTTPException:
+                pass
+            await asyncio.sleep(0.5)
+    return n
+
+
+async def update_record_boards(ch) -> dict:
+    """Je Raid eine Tafel in #ruhmeshalle: einmal posten, danach nur bearbeiten (ab 1.5.136).
+    Kommt ein Raid neu dazu oder fehlt eine Tafel, werden alle Tafeln in der richtigen Reihenfolge neu gepostet."""
+    names = {r["key"]: rmd.pool_name(r["key"], bot.dkp_data) for r in RECORD_BOSSES}
+    boards = rekord_tafel.boards(kills_db.data.get("kills") or [], RECORD_BOSSES, names)
+    st = state.data.setdefault("record_boards", {"order": [], "msgs": {}, "hash": {}})
+    res = {"posted": 0, "edited": 0, "deleted_old": 0}
+    if not state.data.get("record_lines_cleaned"):
+        res["deleted_old"] = await cleanup_old_record_lines(ch)
+        state.data["record_lines_cleaned"] = True
+        log.info("Ruhmeshalle: %d alte Rekordzeilen gelöscht", res["deleted_old"])
+
+    def embed(b):
+        e = discord.Embed(title=b["title"], description=rekord_tafel.board_text(b), colour=0xFF8C1A)
+        ts = [r["t"] for r in b["rows"] if r["t"]]
+        if ts:
+            e.timestamp = datetime.fromtimestamp(max(ts), timezone.utc)
+            e.set_footer(text="Neuester Rekord")
+        return e
+    keys = [b["key"] for b in boards]
+    repost = keys != st.get("order")
+    if not repost:
+        for b in boards:
+            h = rekord_tafel.board_hash(b)
+            if st["hash"].get(b["key"]) == h:
+                continue
+            try:
+                msg = await ch.fetch_message(int(st["msgs"][b["key"]]))
+                await msg.edit(embed=embed(b))
+                st["hash"][b["key"]] = h
+                res["edited"] += 1
+            except (discord.NotFound, KeyError, ValueError):
+                repost = True
+                break
+    if repost:
+        for mid in list(st.get("msgs", {}).values()):
+            try:
+                await (await ch.fetch_message(int(mid))).delete()
+            except (discord.NotFound, ValueError):
+                pass
+        st["msgs"], st["hash"] = {}, {}
+        for b in boards:
+            msg = await ch.send(embed=embed(b))
+            st["msgs"][b["key"]] = msg.id
+            st["hash"][b["key"]] = rekord_tafel.board_hash(b)
+            res["posted"] += 1
+        st["order"] = keys
+    state.save()
+    return res
 
 
 async def update_achievements(ch):

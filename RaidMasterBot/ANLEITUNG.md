@@ -351,7 +351,13 @@ Für die Lua-Prüfung braucht der Bot `lupa` (steht in `requirements.txt`, wird 
 - **#ruhmeshalle** legt der Bot selbst an (nur der Bot schreibt). Dort erscheinen:
   - **Erstkills** mit Screenshot (macht RaidMaster beim Erstkill, schickt der Uploader ab 1.6.0 mit), Datum,
     Versuchen, Kampfdauer und allen Teilnehmern.
-  - **Neue Rekorde**: schneller als die bisherige Bestzeit. Alle Bestzeiten: `/rekorde`.
+  - **Rekord-Tafeln (ab 1.5.136):** je Raid eine Tafel, die der Bot einmal postet und danach nur bearbeitet: Bosse in
+    der Reihenfolge des Raids mit Bestzeit und Datum, „noch kein Kill“ für offene Bosse, 🆕 für Rekorde vom letzten
+    Raidabend und die Bestzeit für den ganzen Raid (erster Pull bis letzter Boss an einem Abend, Lücke > 6 h =
+    neuer Abend). Die Zuordnung zum Raid geht über die Encounter-ID (bosses.json, erzeugt mit `make_bosses.py` aus
+    den Raid-Daten des Addons); Bosse ohne Zuordnung (z. B. Dungeons) stehen auf der Tafel „Weitere Bosse“. Kommt
+    ein Raid neu dazu, postet der Bot alle Tafeln in der richtigen Reihenfolge neu. Die früheren Einzelzeilen
+    „Neuer Rekord“ werden einmal gelöscht. Alle Bestzeiten als Liste: `/rekorde`.
   - **Erfolge**: Unermüdlich (10 Raids am Stück), Stammgast (25 Raids), Urgestein (50), Bossjäger (100 Bosse),
     Retter in der Not (5× von der Ersatzbank), Glückspilz (10 Items), „Erster <Boss>“. Abfragen: `/erfolge [Name]`.
   - **Raider des Monats** am Monatsanfang (Raid dabei 10 Punkte, pünktlich 2, Ersatzbank bereit 5) – bekommt
