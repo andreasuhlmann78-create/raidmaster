@@ -1,0 +1,38 @@
+BERICHT DISCORD – Bot 1.5.157: D-3 Schritt 12 (Beute-Datenbank als eigenes Modul) – umgesetzt, zur Prüfung
+Zeit: 15.11.2026 21:53 (aus date)
+Commit: bb636941 auf origin/main, CI bot-tests: success
+
+WAS
+- Neues Modul RaidMasterBot/beute_bot.py (182 Zeilen): update_lootdb, lootdb_text, post_loot_table,
+  beute_group, lootdb_boss_autocomplete, _boss_by_value, /beute boss|entfernen|export|tabellen und die Anmeldung
+  bot.tree.add_command(beute_group).
+- raid_channel (Kanal-ID eines Raid-Pools aus config.json; gebraucht von Raids, DKP, Beute, Taktiken) unverändert
+  nach grund.py; bot.py und beute_bot holen es von dort.
+- UNVERÄNDERT verschoben: Quelltext je Name bzw. Anweisung per ast verglichen -> alle 11 identisch; raid_channel
+  identisch.
+- Abschnitts-Kommentar in bot.py: Hinweis auf bank_bot.py und beute_bot.py (kein leerer Abschnitt "Beute").
+- bot.py: git diff --numstat +4 −155, jetzt 5819 Zeilen.
+
+TESTS
+- Bisher kein Ablauf-Test für die Beute-Befehle und Beutetabellen. NEU test_beute_bot.py (4 Tests, REGRESSIONEN
+  T-D3-BEUTE): /beute im Befehlsbaum ist beute_group mit genau boss/entfernen/export/tabellen; export, tabellen
+  und entfernen ohne Offiziersrecht gesperrt; post_loot_table löscht die alten Nachrichten, postet die neuen,
+  merkt die IDs, ohne Loot-Kanal nichts; update_lootdb zieht beide Regeln nach und postet jede verlangte Tabelle
+  genau einmal (doppelt/leer nicht), mit loot_tables=false keine Tabellen.
+  Gegenproben: doppelte Tabellen -> FAILED (1); alte Nachrichten bleiben -> FAILED (1); Sperre bei export
+  entfernt -> FAILED (1); zurückgesetzt -> OK.
+- test_lade: beute_bot.bot ist bot.bot; update_lootdb dasselbe Objekt; ensure_dkp_rules aus regeln_bot;
+  raid_channel in bot.py und beute_bot ist grund.raid_channel.
+- Slash-Befehle: 49, unverändert. 307 Tests OK (303 + 4 neue); jede Testdatei einzeln mit -I OK;
+  REGRESSIONEN 42 von 42.
+
+BETRIEB NACHGESTELLT (an einer Kopie)
+1. Update vom Stand 1.5.156 (Attrappen-config, state.json, Uploader-ZIP im addon-Ordner): updater._copy_new
+   kopiert VERSION, beute_bot.py, bot.py, grund.py, tests; config/state/ZIP unverändert (md5); VERSION 1.5.157.
+2. Start wie launcher.py: Abbruch erst bei der Anmeldung (LoginFailure, Test-Token).
+3. Ohne config.json: Exit-Code 3, Meldung "Bitte zuerst config.json ausfüllen …", config.json angelegt.
+
+OFFEN
+- Frage zur Selbst-Aktualisierung während D-3 (Bericht 2155 frage-d3): noch keine Antwort.
+- NÄCHSTE BEREICHE: Klassenrollen (member_class, ensure_class_role, sync_class_roles, sync_specs), DKP, Raids,
+  Uploads, Server-Einrichtung, zuletzt RaidBot.
