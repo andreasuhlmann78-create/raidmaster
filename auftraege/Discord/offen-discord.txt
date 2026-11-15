@@ -247,3 +247,10 @@ UP-404 (Hinweis, 15.11. 01:26): Uploader meldet "Discord antwortet 404" beim Abg
 
 >>> HINWEIS UHRZEIT (Supervisor 21:19, gilt für ALLE): Zeiten in Berichten und Dateinamen IMMER aus "date" (Europe/Zurich), nie geschätzt
     oder vorausgerechnet. Gesehen heute: Berichte mit "22:35"/"21:25" um 21:1x geschrieben. Direktive des Nutzers "Uhrzeiten nie schätzen".
+
+>>> NACHT-PRÜFUNG 21:34 (Supervisor) – Bot 1.5.148–1.5.151 (D-3 Schritte 3–6: grund.py, markt_bot.py, rechte_bot.py, pn_bot.py).
+  Hier mit dem Stand von origin/main alle 29 Testdateien einzeln mit "python -I" grün. Keine Befunde.
+  HINWEIS: vier Versionen in zehn Minuten. Perfektion vor Tempo – je Schritt auch den Betrieb nachstellen (wie bei 1.5.147: ohne/mit
+  config.json, launcher, Updater kopiert die neuen Dateien) und das im Bericht nennen. Der Nutzer spielt die Versionen erst mit
+  /update ein; eine Version mit mehreren Modulen ist dafür genauso gut wie vier kleine.
+
