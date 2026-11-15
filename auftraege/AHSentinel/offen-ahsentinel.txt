@@ -6,6 +6,15 @@
     Modul) hält die Sperre und gibt sie nie frei; alternativ hängt Sn.search ohne Zeitlimit. Belegen (welches Modul sperrt, seit
     wann), jede Sperre mit Zeitlimit (höchstens 10 s, danach frei + Protokoll), Status nennt das sperrende Modul. Test: Sperre
     eines Moduls bleibt hängen -> Sniper sucht nach ≤ 10 s weiter. Erst danach Release 18:00.
+>>> RELEASE-BLOCKER 0.65.180 (Nutzer 10:22 "der Sniper geht nicht mehr", Screenshot): Status "1 Ziel aktiv · wartet: Suche läuft
+    noch … · zuletzt vor 469 s: 0 Treffer · Vollscan-Sperre noch 13 Min. (Sniper sucht trotzdem)", unten "Suche läuft noch …".
+    Der Sniper hängt seit fast 8 Min. In 0.65.179 lief er (Abnahme 01:36, Ø 83/Min.) -> wahrscheinlich Rückschritt in 0.65.180.
+    Chat davor: "4 auffällig billige Waren werden nachgeprüft (Lockangebote zählen nicht)", "131 Items unter Händlerpreis".
+SN-B9 HOCH: (1) Herausfinden, wer die Sperre hält (CanSearch: Sn.search nie geleert? Seller/Watcher/Buy IsBusy/HasUrgent? die
+    Nachprüfung der billigen Waren?) und im Status den Namen nennen. (2) Wächter für jede Sperre: hängt eine Suche/Sperre länger
+    als 30 s ohne Antwort -> lösen, Grund ins Protokoll, Sniper sucht weiter. (3) Test: Suche ohne Antwort -> nach ≤ 30 s läuft
+    der Sniper wieder; Nachprüfung billiger Waren blockiert den Sniper höchstens kurz. 0.65.180 geht NICHT um 18:00 raus, bevor
+    SN-B9 behoben ist – neuer Kandidat 0.65.181 (Ketten + SN-B9).
 >>> NUR KETTE (Nutzer 15.11. 07:11 "nur Kette bitte"): ausschliesslich KETTE-K1, alles andere ruht (auch Sniper-Reste SN-B6/SN-B8 –
     die bleiben offen und kommen erst wieder, wenn der Nutzer es sagt).
     ZIEL (Nutzer 07:12 "er soll es soweit machen, dass wir releasen können"): KETTE-K1 komplett bis RELEASE-KANDIDAT – eine Version
