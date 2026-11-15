@@ -1,0 +1,166 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+
+BERICHT NACHPRÜFUNG AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 14:27 · Sitzung: geplante Nachprüfung · Basis-Commit: e3b914d
+Nichts in auftraege/**, nachrichten-log.txt oder nachpruefung-stand.json geschrieben, keine Nachricht an den Nutzer verschickt.
+Alle Vorschläge unten überträgt der Supervisor selbst (oder verwirft sie).
+
+ZUSAMMENFASSUNG
+- NEU HOCH: ProfessionSentinel 0.9.45 ruckelt im Spiel beim Aufbau der Liste: einzelne Aufbau-Portionen bis 1563,8 ms,
+  13865 Portionen über 16 ms (Diagnosen 14.11. 15:33 bis 15.11. 13:41). In keiner Prüfung bisher erwähnt. Vorschlag PS-RK1 unten.
+- GuildSentinel 0.9.39: GS-W1/GS-W2 grösstenteils umgesetzt, 1 Befund MITTEL (GSW-1: "Discord –" ohne Link nach dem Kürzen).
+- Bot 1.5.135: Tests 242/242 OK, 1 Hinweis NIEDRIG.
+- AHSentinel 0.65.190: addon_check OK; der Supervisor hat 0.65.190 schon geprüft (P190-1..3, Log 14:22) -> hier nur Ergänzung.
+  0.65.191 (14:21) liegt beim Supervisor, hier nicht geprüft.
+
+VERSIONEN (seit dem Entwurf 11:20)
+- GuildSentinel 0.9.39 (announce/, CurseForge erst 18:00) – geprüft.
+- RaidMasterBot 1.5.135 (Commit 06f143f) – geprüft.
+- AHSentinel 0.65.187–0.65.191 (announce/) – Supervisor ist dran (Prüfung 0.65.186 12:45, 0.65.190 14:22); hier nur 0.65.190 ergänzend.
+- Unverändert: BuffSentinel 0.9.21, ProfessionSentinel 0.9.45, ThreatSentinel 2.5.13, LevelPilot 3.12.31, RaidMaster 3.0.26,
+  Uploader 2.3.11.
+
+==================================================================================================================
+1) GUILDSENTINEL 0.9.39 (Bericht berichte/GuildSentinel/2026-11-15-1410-version-0.9.39-gsw.txt gelesen)
+==================================================================================================================
+Prüfungen:
+- addon_check announce/guildsentinel__guildsentinel-0.9.39.GuildSentinel.zip: OK, keine WARNUNG (lupa, Lua 5.1).
+- Gemeinsame Dateien: GoldSentinelGame/Test/Sync/Markt byte-gleich mit shared/ (Markt jetzt v4 -> MARKT-v3 erledigt).
+  GoldSentinelDev.lua unverändert gegenüber 0.9.38 (in shared/ gibt es keine Vorlage dafür – kein Befund).
+- Quell-Repo c35e637 = ZIP-Inhalt (diff leer).
+- test/run_routine.lua mit lua5.1: 16001, 11508, 20505 je 16 bestanden, 0 fehlgeschlagen. test/run.lua 77/0.
+- Diff 0.9.38 -> 0.9.39: Recruit.lua, Pages.lua, UI.lua, alle Locales, TestRoutine.lua, CHANGELOG EN/DE, LIESMICH, README_EN.
+  Keine Blizzard-Funktion ersetzt; neue Texte über L[]/N[] in allen Locale-Dateien (Sprachtest im addon_check OK).
+
+Stand der Aufträge:
+- GS-W1 (a) Vorschlag 2 mit Flüster-Teil: ERLEDIGT (Recruit.lua:58, alle Locales).
+- GS-W1 (b) Flüster-Teil nie abgeschnitten: TEILWEISE – "/w {name} gilde" bleibt immer ganz (Recruit.lua:428 CutKeepWhisper,
+  T295b/c/g), aber der Schritt "Discord-Satz weglassen" wirkt nicht, wenn ein Discord-Link gesetzt ist -> Befund GSW-1.
+- GS-W1 (c) Hinweis + "Übernehmen" hängt an, nie ungefragt: ERLEDIGT (Recruit.lua OwnAdWithoutWhisper/AppendWhisper,
+  Pages.lua Preview und adAdopt, T295d).
+- GS-W1 (d) {name} = ns.Me() zur Laufzeit, Testnamen "Testname"/"Testa": ERLEDIGT.
+- GS-W1 (e) Tests: vorhanden (T295a–g). Lücke: T295b prüft nur Länge, Ende und "{" – nicht, dass der Discord-Satz sauber
+  wegfällt (deshalb GSW-1 nicht erkannt).
+- GS-W2 Auswahl "Vorschlag wählen" mit 7 Vorschlägen, Zeichenzahl, Tooltip mit fertigem Text, Phase oben, Übernahme erst nach
+  Klick: ERLEDIGT (Recruit.lua:64 Rc.SUGGESTIONS, Rc:Suggestions; Pages.lua R.sugg2 + UI:PopupMenu-Tooltip; T295e).
+- MARKT-v3 (NIEDRIG): ERLEDIGT (GoldSentinelMarkt v4 byte-gleich).
+
+GSW-1 MITTEL (GS-W1 b, belegt durch Nachstellen mit dem echten Recruit.lua im Test-Nachbau):
+  Ort: Recruit.lua:383 und :416. Rc:Build ersetzt bei gesetztem Discord-Link schon in Zeile 383 "Discord: {discord}" durch
+  "Discord: <Link>". Der Kürz-Schritt in Zeile 416 ruft danach DropDiscord(text) auf diesem schon ersetzten Text auf –
+  DropDiscord sucht aber "{discord}" und findet nichts. Der Discord-Satz bleibt, dann kürzt CutKeepWhisper mitten im Link,
+  wirft das angeschnittene Wort weg und lässt "Discord" ohne Link stehen.
+  Gemessen (Phase raid, 3 gesuchte Klassen, Link 109 Zeichen):
+    vorher 275 Zeichen -> "… für Dungeons und Raids – entspannt, hilfsbereit, deutschsprachig. Discord – flüstert mir: /w Testname gilde"
+  Betroffen: Standardtext, Aufbau, Raid, Freundlich, Kurz (je nach Länge von Link/Gildenname). Mit kurzem Link
+  (discord.gg/test) und 9-Zeichen-Gildenname tritt es nicht auf; mit langem Link (ab ~90 Zeichen) oder langem Text schon.
+  Lösung: den Text VOR der Link-Ersetzung merken (local orig = text vor Zeile 379/383) und in Zeile 416
+  DropTag(DropDiscord(orig)) verwenden; danach wie gehabt füllen. Ausserdem im s3-Zweig dieselbe Bereinigung wie im
+  Hauptweg ("。%s*。" -> "。", Zeile 402). Test T295b ergänzen: bei langem Link darf das Ergebnis kein "Discord" ohne Link
+  enthalten (entweder "Discord: <ganzer Link>" oder gar kein "Discord"), in allen 11 Sprachen.
+
+HINWEIS (kein Befund): Der Aufbau-Vorschlag ("… ist {phase} – baut mit uns eine Gilde fürs Raiden auf!") ergibt in Phase raid
+  "ist raidbereit – baut mit uns eine Gilde fürs Raiden auf!". Er steht dann unten in der Liste; nur sprachlich holprig.
+
+IM CLIENT PRÜFEN (wie im Bericht): Menü "Vorschlag wählen" mit Zeichenzahl, Tooltip, Klick übernimmt; Hinweis + "Übernehmen"
+  bei eigenem Text ohne /w; "Werbung vorbereiten" endet mit "/w <Name> gilde".
+
+VORSCHLAG offen-guildsentinel.txt: GS-W1 und GS-W2 als erledigt markieren bis auf GSW-1 (MITTEL, oben); MARKT-v3 streichen
+  (erledigt in 0.9.39). Rest (GA, RP/RV, CH-G, IM CLIENT PRÜFEN) unverändert übernehmen.
+
+==================================================================================================================
+2) DISCORD-BOT 1.5.135 (Bericht berichte/Discord/2026-11-15-1305-bot-1.5.135-uploader-offiziere.txt gelesen)
+==================================================================================================================
+Prüfungen: python3 -I -m unittest discover -s RaidMasterBot/tests: 242 Tests OK. bot.py/pn.py Syntax OK.
+Code: /uploader an_offiziere (bot.py uploader_to_officers, pn.offiziere): nur is_admin, ZIP aus ensure_fresh_uploader,
+  keine Einrichtungsdateien, PN-Sperre gemeldet statt umgeleitet, 1 s Abstand, Protokoll nur Zahlen, Antwort ephemer mit
+  AllowedMentions.none(). Keine Tokens/Namen im Code. Freigabe aus Sicht der Nachprüfung möglich.
+D-UO1 NIEDRIG (Hinweis): pn.offiziere (pn.py ~Zeile 47) nimmt nur die Rolle "Offizier". is_admin (bot.py:504) lässt aber auch
+  Server-Besitzer und Gildenchef (is_guild_leader) zu. Schickt ein Offizier, bekommt der Gildenchef ohne Offizier-Rolle die
+  ZIP nicht. Docstring sagt "wie is_admin" – stimmt nicht ganz. Entweder Absicht (dann Docstring/Antwort anpassen) oder
+  Gildenleitung mitnehmen. Nutzer-Entscheid, nicht dringend.
+IM BETRIEB PRÜFEN: nach /update "/uploader an_offiziere:True" (wie Bericht).
+
+==================================================================================================================
+3) AHSENTINEL 0.65.190 (nur Ergänzung – Supervisor hat geprüft, P190-1..3 in offen-ahsentinel.txt)
+==================================================================================================================
+- addon_check announce/ahsentinel__ahsentinel-0.65.190.AHSentinel.zip: OK. Game/Test/Sync/CmdHint byte-gleich mit shared/.
+- Offline-Gesamtlauf (FULL=1, tests/wowsim, lua5.1): 254 bestanden, 1 fehlgeschlagen: s92_fullscan_smooth
+  "NP152-3 Lauf 3 neu angelegt +16995 KB (Grenze 15 MB)". Derselbe Fehlschlag hier auch mit 0.65.189 -> keine Regression von
+  0.65.190; Speicher-Messung in Grenzlage, abhängig von der Umgebung (Bericht des Projekts: 255/255). Nur Hinweis.
+- Books.lua (TB188-3): Variablen inbox/inT im Geltungsbereich (Zeile ~826/831), Locale-Text in allen 10 Dateien. Verdacht, zu
+  messen: LOG_HARD 20000 statt 4000 Buchungen nach dem Stichtag -> SavedVariables und BK:Summary("all") wachsen bis 5×;
+  bitte im Tempo-Test Summary-Zeit und SV-Grösse bei 20000 Buchungen messen (Ziel ≤ 16 ms je Bild).
+- Ergänzung zu P190-2 (Verdacht, zu messen): Sniper.lua Remaining zieht jetzt den Zuwachs von u.spent der anderen Ziele vom
+  Gold-Abgang ab. u.spent steigt auch bei VORLÄUFIG über das Gold gezählten Käufen (CountItemBuy viaGold, Sniper.lua ~434,
+  P186-1). Wird ein Gold-Abgang vorläufig dem falschen Ziel zugeordnet, sinkt beim richtigen Ziel sowohl der Zähler als auch
+  der Gold-Abzug -> die Gold-Sicherung (SN-B10 (3)) greift für dieses Ziel nicht mehr. Test T767 deckt nur korrekt
+  bestätigte Käufe ab. Vorschlag: Test mit zwei Zielen, Kauf von A wird vorläufig bei B gezählt -> A darf sein Budget nie
+  überschreiten. (Gold-Sicherheit: Budget nie überschreiten.)
+- MARKT-KERN (Testberichte 0.65.184/0.65.188, 4 Berichte): Weg snipe 4 Fälle, Treffer 75 %, mittlerer Fehler 26 %, "lernt";
+  flip/de/craft 0 Fälle. Unter 20 Fällen -> keine Freigabe, Grenzwerte Ü2 noch nicht anwendbar. 0 FEHLER-Zeilen. Unverändert
+  seit 0.65.184.
+
+==================================================================================================================
+4) TESTBERICHTE (Batches 313ee24 11:48 und f081be7 12:59)
+==================================================================================================================
+- AHSentinel 4+3 Berichte (0.65.184/0.65.188): vom Supervisor verarbeitet (TB186/TB188/TB189). Diagnosen 0.65.182–0.65.189:
+  "Fehler in dieser Sitzung: 0". LANGSAM wie bekannt (core:realcheck MarketCore.lua:574 15–19 ms, cache:warm-today
+  Extras.lua:279 21–25 ms, ui-refresh 18–19 ms) -> gehört zu T373, nichts Neues.
+- BuffSentinel 0.9.21 (2), GuildSentinel 0.9.38 (9), ThreatSentinel 2.5.13 (5), LevelPilot 3.12.30 (3): 0 Fehler.
+  LevelPilot 3.12.24 (alte Version): LANGSAM Routenberechnung 50–57 ms – alt, kein neuer Befund.
+- PROFESSIONSENTINEL 0.9.45 -> NEUER BEFUND (siehe 5).
+
+==================================================================================================================
+5) PROFESSIONSENTINEL 0.9.45 – NEUER BEFUND AUS DEN DIAGNOSEN
+==================================================================================================================
+PS-RK1 HOCH (Ruckeln, belegt durch 20 Diagnosen in testberichte/diagnose/ProfessionSentinel/0.9.45-*.txt):
+  Zeile "LANGSAM UI:Aufbau (Teil)" = Dauer EINER Portion des aufgeteilten Neuaufbaus (UI.lua:2357, Step(): Zeit von
+  coroutine.resume). Ziel ≤ 16 ms (ns.DIAG_SLOW_MS, Diagnose.lua:24), Budget je Portion UI.FRAME_BUDGET = 10 ms (UI.lua:2287).
+  Verlauf: 14.11. 15:33 ×134 (max 875,8 ms) · 14.11. 19:37 ×502 · 15.11. 07:35 ×4798 · 15.11. 10:30 ×13535 (max 1563,8 ms) ·
+  15.11. 12:37 ×13865 (max 1563,8 ms, zuletzt 768,0 ms). Dazu AUFBAU-Zeilen "TRADE_SKILL_SHOW … zuletzt 4056,8 ms",
+  "AHSentinel:ledger · 28 Anfragen · 7410 ms (zuletzt 2270 ms)", "Scan … zuletzt 1945 ms".
+  Bedeutung: Das Spiel steht beim Öffnen des Berufsfensters und nach AHSentinel-Buchungen bis 1,5 s still.
+  Damit ist offen-professionsentinel.txt Punkt 4 ("Neuaufbau im Client bestätigen – keine neuen LANGSAM-Einträge über 16 ms")
+  im Client WIDERLEGT, nicht nur offen. Bisher in keiner Prüfung erwähnt (Entwürfe 08:20/11:20 haben nur S7/S8 genannt).
+  Ursache: NICHT belegt. Verdacht, zu messen: (1) UI.Yield (UI.lua:2301) gibt nur nach, wenn es direkt in der Aufbau-Koroutine
+  läuft – Arbeit hinter pcall oder in Funktionen ohne Yield (z. B. Preisabfragen an AHSentinel je Rezept, Advisor) läuft am
+  Stück; (2) die erste Portion vor dem ersten Yield (Scan der Rezepte) ist zu gross; (3) AHSentinel:ledger löst bei jeder
+  Buchung (Sniper-Käufe!) einen vollen Neuaufbau aus.
+  Lösung: (a) Messen je Portion, WELCHER Abschnitt die Zeit braucht (Name des Abschnitts + Rezept-Anzahl in der LANGSAM-Zeile,
+  wie AHSentinel "längster Schritt bis Datei:Zeile"); (b) Yield-Punkte so setzen, dass keine Portion über 10 ms läuft
+  (auch innerhalb Preis-/Advisor-Schleifen; Arbeit unter pcall vor dem Aufbau vorziehen oder ohne pcall portionieren);
+  (c) AHSentinel:ledger-Anstösse bündeln (höchstens 1 Neuaufbau je x s, nur wenn das Panel offen ist); (d) Test im Nachbau
+  mit grosser Rezeptliste (Schneiderei 300+) + AHSentinel-Preisquelle: jede Portion ≤ 10 ms, Selbstkontrolle in der Diagnose
+  "längste Aufbau-Portion X ms" (rot > 16 ms); (e) Tempo-Ziel PS/RF aus pruef-ablauf.md einhalten.
+  Zusammenspiel: betrifft auch AHSentinel (Sniper-Käufe -> ledger -> PS-Neuaufbau -> Ruckeln mitten im Sniper). Vorschlag:
+  in offen-ahsentinel.txt als Hinweis bei T373/Sniper eintragen ("Ruckeln kann von PS kommen – PS-RK1").
+  Reihenfolge-Vorschlag: vor HK-P/PM (Perfektion, Ruckeln für Spieler sichtbar).
+
+VORSCHLAG offen-professionsentinel.txt: PS-RK1 HOCH als Punkt 1 der PRIORITÄTEN; Punkt 4 "Neuaufbau im Client bestätigen"
+  durch Verweis auf PS-RK1 ersetzen (im Client widerlegt). Rest unverändert.
+
+==================================================================================================================
+VORSCHLAG nachpruefung-stand.json (überträgt der Supervisor)
+==================================================================================================================
+  "GuildSentinel": "0.9.39", "RaidMasterBot": "1.5.135", "testberichte_bis": "f081be7", "geprueft": "2026-11-15T14:27+01:00"
+  (AHSentinel nach Stand des Supervisors – 0.65.190 ist von ihm geprüft; der Eintrag steht dort noch auf 0.65.178.)
+
+NACHRICHTEN-ENTWÜRFE (nur bei Übernahme schicken, Log vorher prüfen)
+- An GuildSentinel: "Erst laufende Arbeit fertig machen. Nachprüfung 0.9.39: GS-W1 (a,c,d,e), GS-W2 und MARKT-v3 umgesetzt,
+  danke. ZU TUN: GSW-1 MITTEL – Recruit.lua:416 ruft DropDiscord auf dem Text, in dem Zeile 383 '{discord}' schon durch den
+  Link ersetzt hat; bei langem Link/Text bleibt 'Discord –' ohne Link stehen. Lösung: Original-Text vor der Ersetzung merken
+  und DropTag(DropDiscord(orig)) nehmen; T295b um 'kein Discord ohne Link' in allen Sprachen ergänzen. git pull --rebase und
+  auftraege/GuildSentinel/offen-guildsentinel.txt lesen; Bericht in berichte/GuildSentinel/. Nächste Version 0.9.40, komplette
+  Dateien, alte Clients nie brechen, alle Locale-Dateien, CHANGELOG EN/DE, vor dem Push addon_check -> kein FEHLER;
+  Discord sofort, CurseForge 18:00. Ist ein Befund falsch, bitte begründet zurückmelden."
+- An ProfessionSentinel: "Erst laufende Arbeit fertig machen. PS-RK1 HOCH: Aufbau-Portionen bis 1563,8 ms, 13865× über 16 ms
+  (Diagnosen 0.9.45, 14.11.–15.11.). Ursache messen (Abschnitt je Portion), keine Portion über 10 ms, ledger-Anstösse bündeln,
+  Test mit grosser Rezeptliste. Details offen-professionsentinel.txt PS-RK1. Nächste Version 0.9.46 mit GoldSentinelMarkt v4
+  (byte-gleich), komplette Dateien, alte Clients nie brechen, Locales, CHANGELOG EN/DE, addon_check -> kein FEHLER.
+  Ist ein Befund falsch, bitte begründet zurückmelden."
+- Discord: keine Nachricht nötig (D-UO1 nur Nutzer-Entscheid).
+
+GELESEN: berichte/GuildSentinel/2026-11-15-1410-version-0.9.39-gsw.txt, berichte/Discord/2026-11-15-1305-bot-1.5.135-uploader-
+  offiziere.txt, berichte/AHSentinel/2026-11-15-1259/1306/1319/1329/1412-*.txt (vom Supervisor verarbeitet),
+  auftraege/nachrichten-log.txt bis 14:22, offen-guildsentinel.txt, offen-professionsentinel.txt, offen-ahsentinel.txt (Kopf, P190).
