@@ -1,0 +1,45 @@
+AHSentinel 0.65.204 – MR2 Mein Lager (Masterplan 4.2) – umgesetzt, zur Prüfung
+CurseForge: nein (erst nach der Sniper-Abnahme). GitHub-Release v0.65.204 und sofort im Discord.
+
+MR2 (anweisung-markt-reiter, UI_MarketView.lua MV:StockItems, MV:BuildStock, MV:StockLabel, MV:StockClick)
+  - Neue Ansicht "Mein Lager" im Markt-Reiter, direkt nach "Heute". Sie ist auch in der Standard-Ansicht sichtbar, weil MR1
+    "Mein Lager" als Hauptteil der Seite vorsieht.
+  - Bestand:
+    - Taschen und Bank aller Figuren mit gleichem Server und gleicher Fraktion (A.db.chars, wie Characters.lua sie führt);
+      fremde Server zählen nicht;
+    - Post: Stand beim letzten Öffnen des Briefkastens je Figur (Books db.inboxSnap, wird bei MAIL_SHOW/MAIL_INBOX_UPDATE
+      schon erfasst);
+    - eigene laufende Auktionen: in dieser Sitzung gelesen -> Seller.owned ohne verkaufte; sonst die gemerkten laufenden
+      (db.ownedEnds, endsAt in der Zukunft).
+  - Menge je Ort in der Spalte "Stand": "Taschen n · Bank n · Post n · Auktionen n".
+  - Herkunft (Masterplan 4.2) im Tooltip der Zeile: "Herkunft: n gekauft, Einstand x je Stück" aus der Buchhaltung (Books db.cb
+    je Figur, Menge und Kosten summiert), sonst "Herkunft: Beute oder ohne Kaufpreis".
+  - Wert jetzt = A:BestWay je Stück × Menge. Das ist dieselbe Zahl wie überall (Verkaufen netto / Entzaubern netto / Händler).
+    - Ist der letzte Scan des Items älter als 30 Minuten (A:GetCurrent Zeitstempel, MV.STOCK_FRESH = 1800), ist die Zahl
+      grau und "Scan nötig" steht davor.
+    - Items ohne bekannten Wert erscheinen nicht. Dafür steht ein Hinweis da, wenn die Liste leer ist.
+  - Sortierung: erwarteter Verlust bis zum nächsten Login zuerst, danach der Wert.
+    - Verlust = Wert × fallender 24-Std.-Trend (A:GetTrend 86400, nur negative Werte).
+    - Tooltip: "Preis fällt (24 Std. x %) - Warten bis morgen kostet etwa …".
+    - "Bis zum nächsten Login" ist als 24 Std. angenommen. Verdacht, zu messen: den echten Abstand der Logins einbeziehen
+      (Characters kennt Login-Zeiten).
+  - Ein Knopf je Zeile nach dem besten Weg. Er wirkt nur auf das, was in den Taschen dieser Figur liegt, sonst "Behalten":
+    - Einstellen -> T:QuickSell, eine Zeile in "Heute" mit Preisschutz; eingestellt wird erst mit dem Klick dort;
+    - Entzaubern -> Entzauber-Fenster;
+    - Händler -> Hinweis;
+    - Behalten -> nichts.
+    - Kein Kauf und kein Einstellen ohne weiteren Klick des Spielers.
+  - NICHT enthalten, offen:
+    - Post ist nur so aktuell wie das letzte Öffnen des Briefkastens; Post an Twinks, die dieser Twink noch nicht geöffnet
+      hat, fehlt. Verdacht, zu messen: ob der Briefkasten-Stand im Spiel zur echten Post passt.
+    - Knopf "Herstellen": Dafür fehlt der Weg "Herstellen" in A:BestWay. Er kommt mit RK3–RK7 (Kern-Wege), dann im selben Knopf.
+  - Tests:
+    - T790 (Testroutine, Nahtstellen nur eigene Funktionen): 3/2/1 Stück zu 1000 bei -10 % -> Wert 6000, Verlust 600, Knopf
+      Einstellen, Einstand 3000/6 = 500, oben; Bank 1 + Post 3 zu 5000 mit Scan von vor 60 Min. -> grau "Scan nötig", "Post 3",
+      "Herkunft: Beute oder ohne Kaufpreis", Knopf Behalten; ohne Wert -> keine Zeile.
+    - Neues Szenario s204_mein_lager (echte Daten): 40 in den Taschen + Twink 7 + Bank 5 = 52, fremder Server 1000 zählt nicht;
+      Post 3 (eigener Briefkasten; fremder Server 99 nicht), gemerkte laufende Auktion 2 (abgelaufene 50 nicht);
+      Wert = BestWay × 52; Knopf Einstellen -> Zeile in Heute mit 40; Leiste mit 8 Ansichten passt ins Fenster.
+    - T723 (MR1-V) angepasst: Standard "Heute, Mein Lager, Entzaubern", Experten 8 Ansichten (vorher 7).
+  - Locales +13 (alle Sprachen), CHANGELOG EN/DE.
+Gesamtlauf (259 Szenarien, Lua 5.1): 259 bestanden, 0 rot. addon_check: siehe Release (bricht bei FEHLER ab).
