@@ -6,7 +6,9 @@ ANALYSE – NUR FESTGEHALTEN, KEIN AUFTRAG – Fehler werden erst nach Freigabe 
 weitere Arbeit in Zukunft … von den anderen Addons werden keine Fehler behoben, auch welche schon im Repo sind nicht."
 Dazu (18:00): "bei Addon-Kontrollen schaue dir jeweils das ganze Repo an, damit du verstehst, wie es zu dem Aufbau kam."
 
-Regeln: Diese Dateien sind KEINE Aufträge. Kein Projekt setzt daraus etwas um, bevor der Nutzer es freigibt und die
+NACHTRAG 19:58 (Nutzer): "Du darfst alle Addons so überarbeiten – aber immer zuerst das Repo lesen." Befunde dürfen jetzt als Auftrag
+an die Addons gehen (ausser AHSentinel: nur Masterplan). Was hier steht, wird nach Prüfung des Nutzens übertragen und dort gekennzeichnet.
+Regeln (bis 19:58): Diese Dateien sind KEINE Aufträge. Kein Projekt setzt daraus etwas um, bevor der Nutzer es freigibt und die
 Prüf-Sitzung einen Auftrag in auftraege/<Projekt>/offen-*.txt schreibt. Befunde: GEMESSEN (mit Quelle) oder VERDACHT (zu messen).
 
 | Addon | Datei | geprüfte Version | Stand | wichtigster Befund |
