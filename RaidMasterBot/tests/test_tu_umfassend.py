@@ -381,6 +381,8 @@ REGRESSIONEN = {
     "T-D3-HANDWERK": ("test_ereignis_handwerk_bot", "Handwerk", "test_ohne_berufe_hinweis"),
     "T-D3-RAIDANZEIGE": ("test_raidanzeige_twink_bot", "Raidanzeige", "test_kaertchen"),
     "T-D3-TWINK": ("test_raidanzeige_twink_bot", "Twink", "test_nur_eigene_raids_aktualisiert"),
+    "T-D3-ERSATZ": ("test_ersatz_skillung_bot", "Ersatz", "test_fragt_nicht"),
+    "T-D3-SKILLUNG": ("test_ersatz_skillung_bot", "Skillung", "test_raids_und_pn_nur_bei_rollenwechsel"),
     "T-D3-BEFEHLE": ("test_befehle_liste", "BefehleListe", "test_gleiche_befehle"),
     "T-D-MN8b": ("test_market", "BotAblauf", "test_T_D_MN8b_aenderung_erst_nach_senden_merken"),
     "T-D-GS1b": ("test_market", "BotAblauf", "test_T_D_GS1b_grosse_guildsentinel_datei"),

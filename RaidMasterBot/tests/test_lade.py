@@ -163,6 +163,13 @@ class Lade(unittest.TestCase):
         self.assertIs(twink_bot.bot, b.bot)
         self.assertIs(b.update_raid_message, raidanzeige_bot.update_raid_message)
         self.assertIs(twink_bot.update_raid_message, raidanzeige_bot.update_raid_message)
+        import ersatz_bot
+        import skillung_bot
+        self.assertIs(ersatz_bot.bot, b.bot)                     # D-3 Schritt 25: Ersatzbank, Skillung
+        self.assertIs(skillung_bot.bot, b.bot)
+        self.assertIs(b.offer_substitute, ersatz_bot.offer_substitute)
+        self.assertIs(ersatz_bot.update_raid_message, raidanzeige_bot.update_raid_message)
+        self.assertIs(skillung_bot.update_raid_message, raidanzeige_bot.update_raid_message)
         import update_bot
         for mod in (pug_bot, betrieb_bot, update_bot):                # D-3 Schritt 19: Neustart nur in grund.py
             self.assertIs(mod.restart_soon, grund.restart_soon, mod.__name__)
