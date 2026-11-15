@@ -1,0 +1,41 @@
+AHSentinel – Fragen/Befunde an den Supervisor (TT-DE3, DE-AUFT1) und Befund GSL2-1 (2) – Entscheid nötig, ich ändere bis dahin nichts
+Code-Umsetzung GSL2-1 (b)(c)(d)/GSL2-3 kommt mit 0.65.196 (Gesamtlauf läuft, eigener Bericht folgt).
+
+GSL2-1 (2) – Befund teilweise falsch, mit Code belegt (0.65.193, Sniper.lua):
+  - ItemPurchaseFailed -> MarkDead (Z. 729, 600 s) wird beim MODERNEN AH (WoW Forever: Code 10 kommt als Zahl in
+    AUCTION_HOUSE_SHOW_ERROR) gar nicht erreicht. Aufrufer ist nur der Fehlerzweig mit AH.lastBuyError (Z. 2770), und den
+    setzt allein LegacyAH.lua Z. 757 (altes Classic-AH, UI_ERROR_MESSAGE). Code 10 lief über ItemFallback (Z. 602):
+    `b.listing.gone = true` = "weg" NUR in der aktuellen Liste bis zur nächsten Suche, kein Sn.dead, kein HideDeadOffer, keine 600 s.
+    MarkDead für Waren nur bei COMMODITY_PURCHASE_FAILED (Z. 2759).
+  - Das sichtbare Ergebnis ("Treffer!", Raste ohne Kauf, gute Angebote "weg") gab es trotzdem. Neu gefundener Fehler, der dazu
+    passt (Verdacht, zu messen):
+    Der Fehlerzweig nahm `itemBuys[1]`. Liegt dort ein schon abgelehnter, freigegebener Kauf (bleibt bis 30 s in der Liste),
+    wurde der Code 10 des NEUEN Kaufs übergangen: kein errorSeen, kein Fallback. Der neue Kauf blieb "offen", und "ein
+    Einzelkauf zur Zeit" (ItemGate) liess die Rasten bis zur Wartezeit ins Leere laufen.
+    Behoben: Es gilt jetzt der älteste noch offene Kauf ohne Fehler (nicht freigegeben). Test T776 Schritt 3 deckt das ab;
+    vorher war er rot ("3. gesendet geplant nil").
+
+TT-DE3 (Verdacht, Ursache aus dem Code belegt, Zahl ohne Änderung, Tooltip nicht angefasst):
+  - "Entzaubern 10s73" ist D:DealValue -> D:ActualValue (Disenchant.lua). Das rechnet NICHT je Item, sondern je GRUPPE:
+    D:Prior(4251) -> Schlüssel "2:k:a" (grüne Rüstung, Itemstufen-Band). D:Combined(key) zählt eigene deStats[key] UND geteilte
+    deShared[*].g[key] aller Items dieses Bandes zusammen.
+  - Wert = Σ (total_m × MatPrice_m) / n; netto = Wert − Σ (total_m/n × FeePerPiece_m) (D:ActualNet). Korrektur nur bei f < 1.
+    Die Tooltip-Preise (3s99/14s01/34s74) sind bereits netto. Mit denselben Preisen ergibt sich 10s73 genau dann, wenn die
+    Gruppe je Entzauberung z. B. etwas mehr Essenz/Splitter bringt als die 415 eigenen Entzauberungen von 4251 allein.
+  - Bitte mit deStats["2:k:a"] + deShared (gleicher Schlüssel) aus den SavedVariables nachrechnen. Die Formel steht oben.
+  - Die Abweichung ist +31c (+3 %). Ob "je Gruppe" so bleiben soll (mehr Daten, gleicher Gruppen-Würfel) oder je Item gerechnet
+    werden soll, entscheidet der Supervisor bzw. der Nutzer. Bis dahin ändere ich nichts.
+DE-AUFT1 (Ursache aus dem Code belegt):
+  - BK:OnDisenchant (Books.lua) verteilt den Einstand JE ENTZAUBERUNG auf die Beute dieser einen Entzauberung, nach
+    aktuellem Preis (BK:MatValue).
+  - Bringt eine Entzauberung nur Staub (74,5 % der Fälle), trägt der Staub den GANZEN Einstand des Teils. Bringt sie nur Essenz,
+    trägt die Essenz alles.
+  - Folge: Der Einstand je Material ≈ Einstand des Teils / Ø Stück je Entzauberung dieser Art, unabhängig vom Marktwert.
+    Mit den Supervisor-Zahlen: Staub 1,120/0,745 = 1,50 Stück je Staub-Entzauberung, Essenz 0,335/0,219 = 1,53. Daraus folgen
+    Einstände 5s06 bzw. 5s61, also Teil-Einstand ca. 7s6 bzw. 8s6. Das passt zu den Schulterpreisen und erklärt Staub über und
+    Essenz weit unter dem Markt.
+  - Vorschlag zur Entscheidung (betrifft buchhaltung.md "Entzaubern = Umbuchung"): Einstand je Stück = Preis_m × (Einstand des
+    Teils / erwarteter Wert der Entzauberung). Glück oder Pech (tatsächlicher minus erwarteter Wert) wird als eigener Posten
+    "Entzauber-Ausbeute" gebucht.
+  - Alternative ohne neuen Posten: so lassen und nur im Tooltip/Bericht den Gewinn der GANZEN Kette zeigen.
+  - Ich ändere die Buchhaltung erst nach Entscheid.
