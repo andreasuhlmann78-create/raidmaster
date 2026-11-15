@@ -1,0 +1,38 @@
+BERICHT DISCORD – Bot 1.5.173: D-3 Schritt 26 (DKP-Tabellen und Testdaten als eigene Module) – umgesetzt, zur Prüfung
+Zeit: 15.11.2026 22:46 (aus date)
+Commit: b9142549 auf origin/main, CI bot-tests: success
+
+WAS
+- testdaten_bot.py: TEST_TTL, send_test (Testnachrichten senden und zum Löschen vormerken) – von DKP-Tabellen,
+  Lootlisten und Test-Uploads gebraucht; darum zuerst.
+- dkp_tafel_bot.py: der Abschnitt "Hintergrund: DKP-Tabelle und Loot-Protokoll" (dkp_channel_for,
+  dkp_list_messages, standings_png, summary_png, send_summary, post_dkp_tables, cleanup_dkp_channels,
+  post_raid_summaries, remove_overall, post_dkp_table; 244 Zeilen).
+- UNVERÄNDERT verschoben: TEST_TTL/send_test per ast identisch; DKP-Block wörtlich im alten bot.py und im Modul.
+- bot.py: Importname table_file dadurch unbenutzt -> entfernt. pyflakes ungefiltert vor/nach: nichts Neues.
+- bot.py: git diff --numstat +8 −268, jetzt 2510 Zeilen.
+
+TESTS
+- NEU test_dkp_tafel_bot.py (5 Tests, REGRESSIONEN T-D3-DKP, T-D3-TESTDATEN): Kanal je Pool (Raid-Kanal vor
+  dkp_channels, nur mc fällt auf dkp_channel_id zurück); während eines laufenden Raids keine neue Tabelle; Pools
+  ohne DKP bzw. ohne Kanal übersprungen; #dkp-gesamt genau einmal entfernt und vergessen; Testnachricht 4500
+  Zeichen -> 3 Teile, jeder vorgemerkt mit Ablauf TEST_TTL.
+  Gegenproben: mc-Rückfall für alle Pools, Raid-läuft-Prüfung entfernt, Merker dkp_total_removed entfernt,
+  Vormerken entfernt -> je FAILED (1). "Pools ohne DKP überspringen" entfernt fiel zuerst NICHT auf (der Pool
+  ohne DKP hatte im Test auch keinen Kanal) – Test verschärft (Pool mit Kanal, aber ohne DKP), danach FAILED (1).
+- test_lade: dkp_tafel_bot.bot ist bot.bot; post_dkp_tables dasselbe Objekt; send_test überall aus testdaten_bot.
+- Slash-Befehle: 49, unverändert. 376 Tests OK; jede Testdatei einzeln mit -I OK; REGRESSIONEN 64 von 64.
+
+BETRIEB NACHGESTELLT (an einer Kopie)
+1. Update vom Stand 1.5.172: updater._copy_new kopiert VERSION, bot.py, dkp_tafel_bot.py, testdaten_bot.py, tests;
+   config/state/ZIP unverändert (md5); VERSION 1.5.173.
+2. Start wie launcher.py: Abbruch erst bei der Anmeldung (LoginFailure, Test-Token).
+3. Ohne config.json: Exit-Code 3, Meldung "Bitte zuerst config.json ausfüllen …", config.json angelegt.
+4. Neustart nach Update (Ende-zu-Ende, aktualisierte Kopie): Exit-Code 42.
+
+STAND D-3: bot.py 7437 (vor D-3) -> 2510 Zeilen; 29 Module ausgelagert.
+
+OFFEN
+- Frage zur Selbst-Aktualisierung während D-3 (Bericht 2155 frage-d3): noch keine Antwort.
+- NÄCHSTE BEREICHE: Beute-Posts (item_embed … post_new_loot), persönliche DKP-Nachricht, Raider des Monats,
+  Test-Uploads, Raids/Anmeldung, Uploads, Kanal-Aufräumer, zuletzt RaidBot.
