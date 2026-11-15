@@ -18,7 +18,7 @@
 -- Ergebnis: beim Ausloggen oder /reload als "GSDIAG1|GSSniperLog|…" in GSSniperLogDB.export -> der RaidMasterUploader
 -- bringt es nach testberichte/diagnose/GSSniperLog/. Befehl: /gssl (Stand), /gssl aus|an, /gssl leeren.
 
-local ADDON, VERSION = "GSSniperLog", "1.1"
+local ADDON, VERSION = "GSSniperLog", "1.2"
 local MAXLOG = 6000            -- Zeilen im Speicher (älteste fallen weg)
 local EXPORT_MAX = 400000      -- Zeichen in der Ausgabe für den Uploader
 local CONFIRM_MAX = 30         -- Sekunden: ohne Antwort gilt ein Kauf als "keine Bestätigung"
@@ -142,10 +142,20 @@ end
 local function NoteCall(kind)
     B.lastCall, B.lastCallT = kind, Now()
 end
+-- Ist die Drossel des Auktionshauses gerade bereit? (nil = unbekannt)
+local function ServerReady()
+    local C = _G.C_AuctionHouse
+    if not (C and C.IsThrottledMessageSystemReady) then return nil end
+    local ok, r = pcall(C.IsThrottledMessageSystemReady)
+    if not ok then return nil end
+    return r and true or false
+end
+B.ServerReady = ServerReady
 B.NoteCall = NoteCall
 local function NoteSearch(kind, itemID)
     local now = Now()
     NoteCall("Suche")
+    if ServerReady() == false then Inc(B.tot, "sucheNichtBereit"); Inc(B.min, "sucheNichtBereit") end
     Inc(B.tot, "suchen"); Inc(B.min, "suchen")
     if itemID then B.searches[itemID] = now end
     if B.lastSearchT and SniperArmed() and AHOpen() then
@@ -269,6 +279,15 @@ local function NoteBid(auctionID, amount)
     local now = Now()
     NoteCall("Kauf")
     local open = OpenCount()
+    local ready = ServerReady()
+    if ready == false then Inc(B.tot, "kaufNichtBereit"); Inc(B.min, "kaufNichtBereit") end
+    -- Raste -> Senden (Mausrad/Taste von AHSentinel)
+    local raste
+    if B.rasteT and now - B.rasteT < 1 then
+        raste = now - B.rasteT
+        B.rasteT = nil
+        Inc(B.min, "rasteSum", raste); Inc(B.min, "rasteN")
+    end
     local dup = B.sent[auctionID] and true or false
     B.sent[auctionID] = now
     local o = B.offers[auctionID]
@@ -280,8 +299,9 @@ local function NoteBid(auctionID, amount)
     local bk = B.buckets[Bucket(open)] or { n = 0, ok = 0 }
     B.buckets[Bucket(open)] = bk
     bk.n = bk.n + 1
-    Log("KAUF-GESENDET", string.format("Angebot %s · %s · offen beim Senden %d%s%s", tostring(auctionID), Money(amount), open,
-        dup and " · DOPPELT GESENDET" or "", seen and string.format(" · Reaktion %.2f s nach erstem Sehen", seen) or ""))
+    Log("KAUF-GESENDET", string.format("Angebot %s · %s · offen beim Senden %d · Server bereit %s%s%s%s", tostring(auctionID), Money(amount), open,
+        ready == nil and "?" or (ready and "ja" or "NEIN"), dup and " · DOPPELT GESENDET" or "",
+        seen and string.format(" · %.2f s nach erstem Sehen", seen) or "", raste and string.format(" · %d ms nach der Raste", math.floor(raste * 1000)) or ""))
 end
 
 local function ResolveBid(auctionID, how)
@@ -416,7 +436,9 @@ local function MinuteSummary()
         m.antwortMax and string.format("%.2f s", m.antwortMax) or "-")
     parts[#parts + 1] = string.format("Summe bestätigt %s · Gold-Abgang AH-Kauf %s · AHSentinel gezählt +%d / %s",
         Money(m.summe or 0), Money(m.goldKauf or 0), m.ahsGekauft or 0, Money(m.ahsAusgegeben or 0))
-    parts[#parts + 1] = string.format("längster Frame %d ms", math.floor(B.maxFrameMin * 1000))
+    parts[#parts + 1] = string.format("Rasten %d (ohne Kauf %d, Raste->Senden Ø %s) · gesendet bei Server nicht bereit: Käufe %d, Suchen %d",
+        m.rasten or 0, m.rasteOhne or 0, (m.rasteN or 0) > 0 and string.format("%d ms", math.floor(m.rasteSum / m.rasteN * 1000)) or "-",
+        m.kaufNichtBereit or 0, m.sucheNichtBereit or 0)
     Log("MINUTE", table.concat(parts, " · "))
     B.min = {}
     B.maxFrameMin = 0
@@ -447,7 +469,10 @@ local function SummaryLines()
     for k, v in pairs(B.errs or {}) do e[#e + 1] = k .. " ×" .. v end
     table.sort(e)
     out[#out + 1] = "Fehler/Server-Meldungen: " .. (#e > 0 and table.concat(e, " · ") or "keine")
-    out[#out + 1] = string.format("Bildaussetzer > %d ms: %d · längster Frame %d ms", SPIKE_MS, B.spikes or 0, math.floor((B.maxFrame or 0) * 1000))
+    out[#out + 1] = string.format("Bildaussetzer > %d ms: %d · längster Frame %d ms (Ursachen je Aussetzer in den Zeilen BILD, je Minute BILDER und ADDONS)",
+        SPIKE_MS, B.spikes or 0, math.floor((B.maxFrame or 0) * 1000))
+    out[#out + 1] = string.format("Rasten %d (ohne Kauf %d) · Käufe gesendet, obwohl der Server nicht bereit war: %d · Suchen dabei: %d",
+        t.rasten or 0, t.rasteOhne or 0, t.kaufNichtBereit or 0, t.sucheNichtBereit or 0)
     local A = AHS()
     out[#out + 1] = "AHSentinel-Version: " .. tostring(A and A.version or "nicht geladen")
     return out
@@ -588,6 +613,7 @@ handlers.AUCTION_HOUSE_SHOW = function()
     Hook()
     Log("AH", "geöffnet · Sniper " .. (SniperArmed() and "an" or "aus"))
     pcall(WatchAHS)
+    if B.HookRasten then pcall(B.HookRasten) end
 end
 handlers.AUCTION_HOUSE_CLOSED = function()
     B.ah = false
@@ -689,17 +715,214 @@ f:SetScript("OnEvent", function(_, ev, ...)
     end
 end)
 
+---------------------------------------------------------------------------
+-- Ruckler (1.2, Nutzer 14:35): Bildzeiten, Speicher und Speicherbereinigung, Ereignis-Stürme, laufende AHSentinel-Aufgaben,
+-- Zeit je Addon (C_AddOnProfiler, wenn das Spiel ihn hat; sonst Speicher je Addon), eigene Kosten von GSSniperLog
+---------------------------------------------------------------------------
+local R = { frames = 0, f33 = 0, f50 = 0, f100 = 0, evSec = {}, evPrev = {}, evSecT = 0, evMax = 0, mem = nil,
+            memMin = nil, gc = 0, own = 0, ownMax = 0, maxEl = 0 }
+B.R = R
+local function Ms() return (debugprofilestop and debugprofilestop()) or (Now() * 1000) end
+local function LuaMemKB()
+    local ok, v = pcall(collectgarbage, "count")
+    return ok and tonumber(v) or nil
+end
+-- alle Ereignisse je Sekunde zählen (nur zählen, sonst nichts)
+local ef = CreateFrame("Frame")
+B.eventFrame = ef
+if ef.RegisterAllEvents then pcall(ef.RegisterAllEvents, ef) end
+ef:SetScript("OnEvent", function(_, ev)
+    if B.on and ev then local c = R.evSec; c[ev] = (c[ev] or 0) + 1 end
+end)
+local function TopEvents(n)
+    local merged, total = {}, 0
+    for k, v in pairs(R.evPrev) do merged[k] = (merged[k] or 0) + v end
+    for k, v in pairs(R.evSec) do merged[k] = (merged[k] or 0) + v end
+    local arr = {}
+    for k, v in pairs(merged) do arr[#arr + 1] = { k, v }; total = total + v end
+    table.sort(arr, function(a, b) return a[2] > b[2] end)
+    local out = {}
+    for i = 1, math.min(n, #arr) do out[#out + 1] = arr[i][1] .. " " .. arr[i][2] end
+    return table.concat(out, ", "), total
+end
+local function AHSJobs()
+    local A = AHS()
+    if not (A and type(A.jobs) == "table") then return nil end
+    local names = {}
+    for _, j in ipairs(A.jobs) do
+        if type(j) == "table" and j.name then names[#names + 1] = tostring(j.name) .. (j.started and "*" or "") end
+        if #names >= 6 then break end
+    end
+    return #names > 0 and table.concat(names, ", ") or "keine"
+end
+local function AHSWindowShown()
+    local w = _G.AHAnalyzerProWindow
+    return (w and w.IsShown and w:IsShown()) and true or false
+end
+local function SpikeContext(el, memDelta)
+    local top, total = TopEvents(3)
+    local parts = { string.format("%d ms", math.floor(el * 1000)), AHOpen() and "AH offen" or "AH zu",
+        "Sniper " .. (SniperArmed() and "an" or "aus"), "AHS-Fenster " .. (AHSWindowShown() and "offen" or "zu") }
+    local jobs = AHSJobs()
+    if jobs then parts[#parts + 1] = "AHS-Aufgaben: " .. jobs end
+    if memDelta then
+        if memDelta < -1024 then parts[#parts + 1] = string.format("Speicherbereinigung (−%.1f MB)", -memDelta / 1024)
+        elseif memDelta > 512 then parts[#parts + 1] = string.format("Speicher +%.1f MB in diesem Bild", memDelta / 1024) end
+    end
+    if B.lastCallT and Now() - B.lastCallT < 0.5 then
+        parts[#parts + 1] = string.format("letzte Anfrage %s vor %d ms", tostring(B.lastCall), math.floor((Now() - B.lastCallT) * 1000))
+    end
+    if InCombatLockdown and InCombatLockdown() then parts[#parts + 1] = "Kampf" end
+    parts[#parts + 1] = "Ereignisse (2 s, " .. total .. "): " .. (top ~= "" and top or "-")
+    return table.concat(parts, " · ")
+end
+B.SpikeContext = SpikeContext
+
+-- Zeit je Addon
+local PROF
+local function ProfilerInit()
+    local P = _G.C_AddOnProfiler
+    if type(P) ~= "table" or type(P.GetAddOnMetric) ~= "function" then return nil end
+    local E = _G.Enum and _G.Enum.AddOnProfilerMetric
+    if type(E) ~= "table" or E.RecentAverageTime == nil then return nil end
+    return { P = P, recent = E.RecentAverageTime, peak = E.PeakTime, over50 = E.CountTimeOver50Ms }
+end
+local function AddonNames()
+    local names = {}
+    local CA = _G.C_AddOns
+    local num = (CA and CA.GetNumAddOns) or _G.GetNumAddOns
+    local info = (CA and CA.GetAddOnInfo) or _G.GetAddOnInfo
+    local loaded = (CA and CA.IsAddOnLoaded) or _G.IsAddOnLoaded
+    if not (num and info and loaded) then return names end
+    local okN, n = pcall(num)
+    n = okN and tonumber(n) or 0
+    for i = 1, math.min(n, 300) do
+        local ok, name = pcall(info, i)
+        if ok and type(name) == "string" then
+            local ok2, l = pcall(loaded, name)
+            if ok2 and l then names[#names + 1] = name end
+        end
+    end
+    return names
+end
+local function AddonMinute()
+    if PROF == nil then PROF = ProfilerInit() or false end
+    local parts = {}
+    if PROF then
+        local rows = {}
+        for _, name in ipairs(AddonNames()) do
+            local ok1, rec = pcall(PROF.P.GetAddOnMetric, name, PROF.recent)
+            local ok2, peak, ok3, o50 = false, nil, false, nil
+            if PROF.peak ~= nil then ok2, peak = pcall(PROF.P.GetAddOnMetric, name, PROF.peak) end
+            if PROF.over50 ~= nil then ok3, o50 = pcall(PROF.P.GetAddOnMetric, name, PROF.over50) end
+            if ok1 and tonumber(rec) then
+                rows[#rows + 1] = { name, tonumber(rec) or 0, ok2 and tonumber(peak) or 0, ok3 and tonumber(o50) or 0 }
+            end
+        end
+        table.sort(rows, function(a, b) return a[2] > b[2] end)
+        for i = 1, math.min(8, #rows) do
+            local r = rows[i]
+            parts[#parts + 1] = string.format("%s Ø %.2f ms, Spitze %.0f ms, >50 ms %d×", r[1], r[2], r[3], r[4])
+        end
+        Log("ADDONS", "Zeit je Addon (Spiel-Profiler): " .. (#parts > 0 and table.concat(parts, " · ") or "keine Werte"))
+    else
+        -- ohne Profiler: Speicher je Addon. UpdateAddOnMemoryUsage kann selbst ruckeln -> Kosten messen, über 30 ms abschalten.
+        if R.memOff then return end
+        local upd, get = _G.UpdateAddOnMemoryUsage, _G.GetAddOnMemoryUsage
+        if not (upd and get) then return end
+        local t0 = Ms()
+        pcall(upd)
+        local cost = Ms() - t0
+        if cost > 30 then R.memOff = true end
+        local rows = {}
+        for _, name in ipairs(AddonNames()) do
+            local ok, kb = pcall(get, name)
+            if ok and tonumber(kb) then rows[#rows + 1] = { name, tonumber(kb) } end
+        end
+        table.sort(rows, function(a, b) return a[2] > b[2] end)
+        R.addonMem = R.addonMem or {}
+        for i = 1, math.min(8, #rows) do
+            local prev = R.addonMem[rows[i][1]]
+            parts[#parts + 1] = string.format("%s %.1f MB%s", rows[i][1], rows[i][2] / 1024,
+                prev and string.format(" (%+.1f)", (rows[i][2] - prev) / 1024) or "")
+        end
+        for _, r in ipairs(rows) do R.addonMem[r[1]] = r[2] end
+        Log("ADDONS", string.format("Speicher je Addon (Messung kostete %d ms%s): ", math.floor(cost), R.memOff and ", ab jetzt aus" or "") ..
+            table.concat(parts, " · "))
+    end
+end
+B.AddonMinute = AddonMinute
+
+local function FrameMinute()
+    local memNow = LuaMemKB()
+    Log("BILDER", string.format("%d Bilder (Ø %d/s) · über 33 ms %d · über 50 ms %d · über 100 ms %d · längstes %d ms · Ereignisse max %d/s · Lua-Speicher %s%s · Speicherbereinigungen %d · eigene Zeit %d ms (Spitze %.1f ms)",
+        R.frames, math.floor(R.frames / 60 + 0.5), R.f33, R.f50, R.f100, math.floor((R.maxEl or 0) * 1000), R.evMax,
+        memNow and string.format("%.1f MB", memNow / 1024) or "?",
+        (memNow and R.memMin) and string.format(" (%+.1f MB)", (memNow - R.memMin) / 1024) or "", R.gc, math.floor(R.own), R.ownMax))
+    R.frames, R.f33, R.f50, R.f100, R.evMax, R.gc, R.own, R.ownMax, R.maxEl = 0, 0, 0, 0, 0, 0, 0, 0, 0
+    R.memMin = memNow
+end
+
+-- Rasten von AHSentinel (Mausrad/Taste) mithören: HookScript auf seine Knöpfe, ändert nichts
+local function HookRasten()
+    if B.rastenHooked then return end
+    for _, n in ipairs({ "AHAnalyzerProSnipeButton", "AHAnalyzerProSnipeOnlyButton" }) do
+        local b = _G[n]
+        if b and b.HookScript then
+            B.rastenHooked = true
+            pcall(b.HookScript, b, "OnClick", function()
+                if not B.on then return end
+                if B.rasteT then                 -- vorige Raste ohne Kauf
+                    Inc(B.min, "rasteOhne"); Inc(B.tot, "rasteOhne")
+                end
+                B.rasteT = Now()
+                Inc(B.min, "rasten"); Inc(B.tot, "rasten")
+            end)
+        end
+    end
+end
+B.HookRasten = HookRasten
+
 -- Takt: jede Sekunde AHSentinel lesen und Fristen prüfen, jede Minute zusammenfassen; jedes Bild die Bildzeit
 local acc, minAcc = 0, 0
 f:SetScript("OnUpdate", function(_, el)
     if not B.on then return end
+    local t0 = Ms()
     el = tonumber(el) or 0
     if el > (B.maxFrame or 0) then B.maxFrame = el end
     if el > (B.maxFrameMin or 0) then B.maxFrameMin = el end
-    if el * 1000 > SPIKE_MS and AHOpen() then
+    R.frames = R.frames + 1
+    if el > R.maxEl then R.maxEl = el end
+    if el > 0.033 then R.f33 = R.f33 + 1 end
+    if el > 0.050 then R.f50 = R.f50 + 1 end
+    if el > 0.100 then R.f100 = R.f100 + 1 end
+    local mem = LuaMemKB()
+    local memDelta = (mem and R.mem) and (mem - R.mem) or nil
+    if memDelta and memDelta < -1024 then R.gc = R.gc + 1 end
+    R.mem = mem
+    -- Ereignisse je Sekunde weiterschalten
+    local now = Now()
+    if now - R.evSecT >= 1 then
+        local n = 0
+        for _, v in pairs(R.evSec) do n = n + v end
+        if n > R.evMax then R.evMax = n end
+        R.evPrev, R.evSec, R.evSecT = R.evSec, {}, now
+    end
+    if el * 1000 > SPIKE_MS then
         B.spikes = (B.spikes or 0) + 1
-        if B.spikes <= 200 then pcall(Log, "BILD", string.format("%d ms (Sniper %s, offene Käufe %d)", math.floor(el * 1000),
-            SniperArmed() and "an" or "aus", OpenCount())) end
+        if B.spikes <= 300 then
+            local ok, txt = pcall(SpikeContext, el, memDelta)
+            pcall(Log, "BILD", ok and txt or (math.floor(el * 1000) .. " ms"))
+        end
+    end
+    -- Raste ohne Kauf nach 1 s
+    if B.rasteT and now - B.rasteT >= 1 then
+        Inc(B.min, "rasteOhne"); Inc(B.tot, "rasteOhne")
+        if (B.min.rasteOhneLog or 0) < 3 then
+            Inc(B.min, "rasteOhneLog")
+            pcall(Log, "RASTE", "ohne Kauf (Status: " .. tostring(B.status or "-") .. ")")
+        end
+        B.rasteT = nil
     end
     acc = acc + el
     minAcc = minAcc + el
@@ -720,7 +943,15 @@ f:SetScript("OnUpdate", function(_, el)
         minAcc = 0
         local ok, err = pcall(MinuteSummary)
         if not ok then pcall(Log, "GSSL-FEHLER", "Minute: " .. tostring(err)) end
+        ok, err = pcall(FrameMinute)
+        if not ok then pcall(Log, "GSSL-FEHLER", "Bilder: " .. tostring(err)) end
+        ok, err = pcall(AddonMinute)
+        if not ok then pcall(Log, "GSSL-FEHLER", "Addons: " .. tostring(err)) end
+        if not B.rastenHooked then pcall(HookRasten) end
     end
+    local d = Ms() - t0
+    R.own = R.own + d
+    if d > R.ownMax then R.ownMax = d end
 end)
 
 ---------------------------------------------------------------------------

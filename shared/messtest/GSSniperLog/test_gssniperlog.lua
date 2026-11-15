@@ -18,12 +18,18 @@ local function NewWorld(opts)
     env.date = function(fmt, sec) if fmt == "%H:%M:%S" then return os.date("!%H:%M:%S", sec or 50400) end return "15.11.2026 14:00" end
     env.time = function() return 50400 + math.floor(W.t) end
     env.GetMoney = function() return W.money end
+    env.debugprofilestop = function() return W.t * 1000 + (W.cpu or 0) end
+    W.mem = 300000
+    env.collectgarbage = function(k) if k == "count" then return W.mem end return 0 end
+    env.InCombatLockdown = function() return W.combat or false end
     env.GetBuildInfo = function() return "1.60.1", "70938", "Nov", 16001 end
     env.DEFAULT_CHAT_FRAME = { AddMessage = function(_, s) W.chat[#W.chat + 1] = s end }
     env.SlashCmdList = {}
     env.CreateFrame = function()
         local fr = { events = {}, scripts = {} }
         function fr:RegisterEvent(e) self.events[e] = true end
+        function fr:RegisterAllEvents() self.all = true end
+        function fr:HookScript(k, fn) local old = self.scripts[k]; self.scripts[k] = function(...) if old then old(...) end fn(...) end end
         function fr:SetScript(k, fn) self.scripts[k] = fn end
         W.frames[#W.frames + 1] = fr
         return fr
@@ -74,7 +80,11 @@ local function NewWorld(opts)
     setfenv(chunk, env)
     chunk()
     local f = W.frames[1]
-    function W.fire(ev, ...) if f.events[ev] and f.scripts.OnEvent then f.scripts.OnEvent(f, ev, ...) end end
+    function W.fire(ev, ...)
+        for _, fr in ipairs(W.frames) do
+            if (fr.events[ev] or fr.all) and fr.scripts.OnEvent then fr.scripts.OnEvent(fr, ev, ...) end
+        end
+    end
     function W.tick(sec, step)
         step = step or 0.1
         local n = math.floor(sec / step + 0.5)
@@ -134,7 +144,7 @@ do
     check(W.find("MINUTE Suchen 1") == 1, "Lauf 1: Minuten-Zusammenfassung")
     W.fire("PLAYER_LOGOUT")
     local ex = W.env.GSSniperLogDB.export
-    check(type(ex) == "string" and ex:find("^GSDIAG1|GSSniperLog|1.1|") ~= nil, "Lauf 1: Export beginnt mit GSDIAG1|GSSniperLog|1.1|")
+    check(type(ex) == "string" and ex:find("^GSDIAG1|GSSniperLog|1.2|") ~= nil, "Lauf 1: Export beginnt mit GSDIAG1|GSSniperLog|1.2|")
     check(ex:find("== Einträge (", 1, true) ~= nil, "Lauf 1: Export hat '== Einträge'")
     check(W.B.tot.eigeneFehler == nil, "Lauf 1: keine eigenen Fehler")
 end
@@ -297,7 +307,7 @@ do
     local allowed = { GSSniperLog = true, GSSniperLogDB = true, SLASH_GSSNIPERLOG1 = true }
     for k in pairs(W5.env) do
         local base = { GetTime=1,date=1,time=1,GetMoney=1,GetBuildInfo=1,DEFAULT_CHAT_FRAME=1,SlashCmdList=1,CreateFrame=1,
-            hooksecurefunc=1,ERR_AUCTION_WON_S=1,ERR_AUCTION_BID_PLACED=1,ERR_AUCTION_STARTED=1,ERR_AUCTION_REMOVED=1,
+            hooksecurefunc=1,debugprofilestop=1,collectgarbage=1,InCombatLockdown=1,ERR_AUCTION_WON_S=1,ERR_AUCTION_BID_PLACED=1,ERR_AUCTION_STARTED=1,ERR_AUCTION_REMOVED=1,
             ERR_AUCTION_SOLD_S=1,C_AuctionHouse=1,AHAnalyzerPro=1,_G=1 }
         if not base[k] and not allowed[k] then check(false, "Lauf 5f: unerwarteter globaler Name " .. tostring(k)) end
     end
@@ -340,6 +350,74 @@ do
     for i = 2, #lines do if lines[i]:sub(1, 10) < lines[i - 1]:sub(1, 10) then ok = false end end
     check(ok, "Lauf 6: Uhrzeiten im Protokoll nie rückwärts")
     check(W.B.tot.eigeneFehler == nil, "Lauf 6: keine eigenen Fehler")
+end
+
+---------------------------------------------------------------------------
+-- Lauf 7 (1.2): Ruckler-Ursachen, Addon-Zeit, Rasten, Server-Bereitschaft
+---------------------------------------------------------------------------
+do
+    -- a) mit Spiel-Profiler
+    local W = NewWorld()
+    W.env.Enum = { AddOnProfilerMetric = { RecentAverageTime = 1, PeakTime = 4, CountTimeOver50Ms = 8 } }
+    local vals = { AHSentinel = { 2.5, 180, 4 }, GuildSentinel = { 0.4, 30, 0 }, LevelPilot = { 1.1, 60, 1 } }
+    W.env.C_AddOnProfiler = { GetAddOnMetric = function(n, m)
+        local v = vals[n]; if not v then return 0 end
+        if m == 1 then return v[1] elseif m == 4 then return v[2] else return v[3] end end }
+    W.env.C_AddOns = { GetNumAddOns = function() return 4 end,
+        GetAddOnInfo = function(i) return ({ "AHSentinel", "GuildSentinel", "LevelPilot", "NichtGeladen" })[i] end,
+        IsAddOnLoaded = function(n) return n ~= "NichtGeladen" end }
+    W.env.AHAnalyzerPro.jobs = { { name = "kern:backfill", started = true }, { name = "cache:today" } }
+    W.env.AHAnalyzerProWindow = { IsShown = function() return true end }
+    local snipe = W.env.CreateFrame("Button")
+    W.env.AHAnalyzerProSnipeButton = snipe
+    snipe.scripts.OnClick = function() end
+    W.fire("PLAYER_LOGIN"); W.fire("AUCTION_HOUSE_SHOW")
+    check(W.B.rastenHooked == true, "Lauf 7a: Rasten-Knopf von AHSentinel mitgehört")
+    -- Ereignis-Sturm + Ruckler mit Speicherbereinigung
+    for _ = 1, 400 do W.fire("UNIT_AURA", "player") end
+    for _ = 1, 50 do W.fire("BAG_UPDATE", 0) end
+    W.tick(0.1)
+    W.mem = 250000
+    W.frame(320)
+    local bild = nil
+    for _, l in ipairs(W.log()) do if l:find("BILD 320 ms") then bild = l end end
+    check(bild ~= nil, "Lauf 7a: Ruckler 320 ms festgehalten")
+    check(bild and bild:find("AHS%-Aufgaben: kern:backfill%*, cache:today") ~= nil, "Lauf 7a: laufende AHS-Aufgaben genannt")
+    check(bild and bild:find("Speicherbereinigung %(−48%.8 MB%)") ~= nil, "Lauf 7a: Speicherbereinigung erkannt")
+    check(bild and bild:find("UNIT_AURA 400") ~= nil, "Lauf 7a: Ereignis-Sturm UNIT_AURA genannt")
+    check(bild and bild:find("AHS%-Fenster offen") ~= nil, "Lauf 7a: AHS-Fenster offen genannt")
+    -- Raste -> Senden, Server nicht bereit
+    W.env.C_AuctionHouse.IsThrottledMessageSystemReady = function() return W.ready end
+    W.ready = false
+    snipe.scripts.OnClick(snipe); W.tick(0.12, 0.12)
+    W.env.C_AuctionHouse.PlaceBid(901, 900)
+    check(W.find("KAUF%-GESENDET Angebot 901 · 9s00c · offen beim Senden 0 · Server bereit NEIN · 120 ms nach der Raste") == 1, "Lauf 7a: Raste->Senden und Server nicht bereit")
+    snipe.scripts.OnClick(snipe); W.tick(1.2)
+    check(W.find("RASTE ohne Kauf") == 1, "Lauf 7a: Raste ohne Kauf")
+    W.tick(60)
+    check(W.find("ADDONS Zeit je Addon %(Spiel%-Profiler%): AHSentinel Ø 2%.50 ms, Spitze 180 ms, >50 ms 4×") == 1, "Lauf 7a: Profiler-Zeile, AHSentinel zuerst")
+    check(W.find("NichtGeladen") == 0, "Lauf 7a: nicht geladene Addons fehlen")
+    check(W.find("BILDER %d+ Bilder") == 1, "Lauf 7a: Bilder-Zeile je Minute")
+    check(W.find("über 100 ms 2 · längstes 320 ms") == 1, "Lauf 7a: Bilder über 100 ms gezählt (320 + 120 ms), längstes 320 ms")
+    check(W.find("Rasten 2 %(ohne Kauf 1, Raste%->Senden Ø 120 ms%) · gesendet bei Server nicht bereit: Käufe 1") == 1, "Lauf 7a: Minuten-Zeile Rasten/Server")
+    check(W.B.tot.eigeneFehler == nil, "Lauf 7a: keine eigenen Fehler")
+    -- b) ohne Profiler: Speicher je Addon, teure Messung schaltet sich ab
+    local W2 = NewWorld()
+    W2.env.C_AddOns = W.env.C_AddOns
+    local mem = { AHSentinel = 40000, GuildSentinel = 3000, LevelPilot = 9000 }
+    W2.env.UpdateAddOnMemoryUsage = function() W2.cpu = (W2.cpu or 0) + 45 end      -- kostet 45 ms
+    W2.env.GetAddOnMemoryUsage = function(n) return mem[n] or 0 end
+    W2.fire("PLAYER_LOGIN"); W2.fire("AUCTION_HOUSE_SHOW")
+    W2.tick(60.1)
+    check(W2.find("ADDONS Speicher je Addon %(Messung kostete 45 ms, ab jetzt aus%): AHSentinel 39%.1 MB") == 1, "Lauf 7b: Speicher je Addon, teure Messung abgeschaltet")
+    W2.tick(60.1)
+    check(W2.find("ADDONS Speicher") == 1, "Lauf 7b: danach keine weitere Speichermessung")
+    check(W2.B.tot.eigeneFehler == nil, "Lauf 7b: keine eigenen Fehler")
+    -- c) ohne alles (kein C_AddOns, kein Profiler, kein Speicher): keine Fehler
+    local W3 = NewWorld({ noAHS = true })
+    W3.fire("PLAYER_LOGIN"); W3.tick(130); W3.frame(500); W3.fire("PLAYER_LOGOUT")
+    check(W3.B.tot.eigeneFehler == nil and W3.find("GSSL%-FEHLER") == 0, "Lauf 7c: ohne Profiler/Addon-Liste keine Fehler")
+    check(W3.find("BILD 500 ms · AH zu") == 1, "Lauf 7c: Ruckler auch bei geschlossenem AH festgehalten")
 end
 
 ---------------------------------------------------------------------------
@@ -388,7 +466,7 @@ for seed = 1, 5 do
     check((T.gekauft or 0) <= (T.gesendet or 0) + 1, "Zufall " .. seed .. ": gekauft (ohne fremde) nie mehr als gesendet")
     check(#W.log() <= 6500, "Zufall " .. seed .. ": höchstens 6500 Zeilen")
     local ex = W.env.GSSniperLogDB.export
-    check(ex:find("^GSDIAG1|GSSniperLog|1.1|") and #ex <= 400200, "Zufall " .. seed .. ": Export gültig")
+    check(ex:find("^GSDIAG1|GSSniperLog|1.2|") and #ex <= 400200, "Zufall " .. seed .. ": Export gültig")
     check(not ex:find("\0"), "Zufall " .. seed .. ": Export ohne Nullzeichen")
     check(dt / nEv < 0.0005, string.format("Zufall %d: schnell genug (%.3f ms je Ereignis)", seed, dt / nEv * 1000))
     print(string.format("Zufall %d: %d Ereignisse, %.3f ms je Ereignis, %d Zeilen, gesendet %d, gekauft %d, weg %d",

@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 15.11.2026 14:35 | Ab jetzt immer Mini-Addons (Messwerkzeuge in shared/messtest) statt einzelner Tests – laufen passiv im Hintergrund beim normalen Spielen; GSSniperLog misst Sniper und Ruckler | shared/messtest/README.md, pruef-ablauf.md |
 | 15.11.2026 13:52 | GuildSentinel: mehrere Werbetext-Vorschläge zur Auswahl (von GS erstellt), jeder immer mit "/w {name} gilde" | offen-guildsentinel.txt GS-W2 |
 | 15.11.2026 13:49 | GuildSentinel: Rekrutierungstext wieder mit "/w {name} gilde" (auch Vorschlag 2, nie wegkürzen) | offen-guildsentinel.txt GS-W1 |
 | 15.11.2026 13:16 | Discord: jede Version immer sofort veröffentlichen; CurseForge: 1× täglich 18:00, nur Addons auf CurseForge (curseforge/projects.json: AHSentinel, GuildSentinel), neue kommen automatisch dazu – alle Addons | CLAUDE.md, alle offen-*.txt (ergänzt 00:56) |

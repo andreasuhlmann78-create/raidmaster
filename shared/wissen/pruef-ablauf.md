@@ -105,6 +105,11 @@ dann Messauftrag statt Regel.
   ergänzen (Abschnitt E), damit er nicht wieder durchrutscht.
 
 ## E. Prüfregeln aus Fehlern (fortlaufend)
+- 15.11. 14:35 Nutzer: "von jetzt an immer Mini-Addons basteln – viel effektiver als einzelne Tests". REGEL: Was im Spiel gemessen
+  werden muss, misst die Prüf-Sitzung mit einem eigenen passiven Mini-Addon (shared/messtest/, nicht veröffentlicht, ändert
+  kein anderes Addon, keine Namen, Ergebnis als GSDIAG1 über den Uploader). Jedes Werkzeug vor der Abgabe mit nachgebauter
+  WoW-Umgebung und Zufallsläufen testen (mehrfach), addon_check ohne FEHLER. Befunde daraus nur als "belegt" weitergeben,
+  wenn das Protokoll sie zeigt.
 - 15.11. 12:18 Nutzer "du arbeitest schlampig": Supervisor schloss aus EINEM Gold-Stand (12:03), "nur 5 von 67 Käufen kamen an",
   und gab das als Ursache an AHS weiter – um 12:16 waren 70 gekauft (Bestätigungen kamen spät). REGEL (Perfektion, Nutzer
   12:20): Schlüsse über Käufe/Gold nur aus ZWEI Ständen mit genug Abstand (offene Vorgänge abgeschlossen) oder aus dem

@@ -106,3 +106,17 @@ Pause), Gold bei offenem AH vor "Post" (MAIL_CLOSED fehlt manchmal), offene Käu
 AUCTION_CANCELED als Server-Ereignis (kommt bei jedem eigenen Kauf). Neu: Drossel-Ereignisse und AH-Fehler nennen die letzte
 Anfrage (Suche/Kauf) und wie lange her; AH-Fehlercodes mit Wort (10 = Datenbankfehler = "Interner Auktion-Fehler").
 Tests: 6 Szenario-Läufe + 5 Zufallsläufe, 100/100 OK, 5× wiederholt.
+
+### GSSniperLog 1.2 (15.11. 14:45, Nutzer 14:35: "auch Ruckler vom Sniper bzw. AHS und alles andere, was zu Rucklern führt")
+Neu:
+- BILD (jeder Frame > 100 ms, auch bei geschlossenem AH) mit Ursachen-Spur: AH offen/zu, Sniper an/aus, AHS-Fenster offen,
+  gerade laufende AHSentinel-Aufgaben (A.jobs, * = läuft), Speicherbereinigung in diesem Bild (Lua-Speicher fällt > 1 MB)
+  oder grosser Speicherzuwachs, letzte Anfrage an den Server (< 0,5 s), Kampf, die 3 häufigsten Ereignisse der letzten 2 s
+  (alle Ereignisse werden je Sekunde gezählt – Ereignis-Stürme wie UNIT_AURA/BAG_UPDATE).
+- BILDER je Minute: Anzahl Bilder, Ø/s, über 33/50/100 ms, längstes, Ereignisse max/s, Lua-Speicher und Zuwachs,
+  Speicherbereinigungen, eigene Zeit von GSSniperLog (Beleg, dass das Werkzeug selbst nicht ruckelt).
+- ADDONS je Minute: Zeit je Addon aus dem Spiel-Profiler (C_AddOnProfiler, falls vorhanden: Ø ms, Spitze, Anzahl > 50 ms),
+  sonst Speicher je Addon mit Zuwachs (UpdateAddOnMemoryUsage – kostet selbst Zeit; über 30 ms schaltet es sich ab).
+- Sniper: Rasten (Mausrad/Taste von AHSentinel, nur mitgehört über HookScript) – Raste -> Senden in ms, Rasten ohne Kauf mit
+  AHS-Status; je Kauf/Suche, ob die Drossel des Auktionshauses bereit war (IsThrottledMessageSystemReady).
+Tests: 7 Szenario-Läufe + 5 Zufallsläufe à 20000 Ereignisse, 119/119 OK, 5× wiederholt, 0,03 ms je Ereignis.
