@@ -14,4 +14,5 @@ Darum ab sofort für JEDE Projekt-Sitzung:
 4. Immer nur EIN Wecker gleichzeitig (vor dem Stellen prüfen, ob noch einer läuft). Kein Wecker kürzer als 10 Minuten.
 5. Läuft gerade eine lange Arbeit, ist kein Wecker nötig – nach der Arbeit sowieso ins Repo schauen (Zweite Direktive).
 6. Bis der Nutzer "hi" schreibt bzw. morgen früh. Jede Version weiter mit Bericht in berichte/<Projekt>/.
+GETESTET (Supervisor 15.11. 20:25): Hintergrund-"sleep 70" endete und weckte die Sitzung ohne Freigabe – funktioniert.
 Der Supervisor macht es genauso (Prüfrunde alle 15 Minuten).
