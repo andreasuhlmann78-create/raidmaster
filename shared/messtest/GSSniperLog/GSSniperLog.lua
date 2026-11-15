@@ -18,7 +18,7 @@
 -- Ergebnis: beim Ausloggen oder /reload als "GSDIAG1|GSSniperLog|…" in GSSniperLogDB.export -> der RaidMasterUploader
 -- bringt es nach testberichte/diagnose/GSSniperLog/. Befehl: /gssl (Stand), /gssl aus|an, /gssl leeren.
 
-local ADDON, VERSION = "GSSniperLog", "1.0"
+local ADDON, VERSION = "GSSniperLog", "1.1"
 local MAXLOG = 6000            -- Zeilen im Speicher (älteste fallen weg)
 local EXPORT_MAX = 400000      -- Zeichen in der Ausgabe für den Uploader
 local CONFIRM_MAX = 30         -- Sekunden: ohne Antwort gilt ein Kauf als "keine Bestätigung"
@@ -35,9 +35,14 @@ _G.GSSniperLog = B
 -- Hilfen
 ---------------------------------------------------------------------------
 local function Now() return (GetTime and GetTime()) or 0 end
+-- Uhrzeit auf 0,1 s: Sekunden aus der Spielzeit (GetTime) ab dem Start, damit die Zehntel zur Sekunde passen
+local clockBase, getBase
 local function Clock()
     local t = Now()
-    return string.format("%s.%d", (date and date("%H:%M:%S")) or "?", math.floor((t * 10) % 10))
+    if not clockBase then clockBase, getBase = (time and time()) or 0, t end
+    local el = t - getBase
+    local sec = clockBase + math.floor(el)
+    return string.format("%s.%d", (date and date("%H:%M:%S", sec)) or "?", math.floor((el * 10) % 10))
 end
 local function Print(s)
     if DEFAULT_CHAT_FRAME and DEFAULT_CHAT_FRAME.AddMessage then
@@ -134,8 +139,13 @@ end
 ---------------------------------------------------------------------------
 -- Suchen und Ergebnisse
 ---------------------------------------------------------------------------
+local function NoteCall(kind)
+    B.lastCall, B.lastCallT = kind, Now()
+end
+B.NoteCall = NoteCall
 local function NoteSearch(kind, itemID)
     local now = Now()
+    NoteCall("Suche")
     Inc(B.tot, "suchen"); Inc(B.min, "suchen")
     if itemID then B.searches[itemID] = now end
     if B.lastSearchT and SniperArmed() and AHOpen() then
@@ -250,13 +260,14 @@ end
 ---------------------------------------------------------------------------
 local function OpenCount()
     local n = 0
-    for _, b in pairs(B.bids) do if not b.done then n = n + 1 end end
+    for _, b in pairs(B.bids) do if not b.done and not b.late then n = n + 1 end end
     return n
 end
 local function Bucket(open) return open >= 2 and "≥2" or tostring(open) end
 
 local function NoteBid(auctionID, amount)
     local now = Now()
+    NoteCall("Kauf")
     local open = OpenCount()
     local dup = B.sent[auctionID] and true or false
     B.sent[auctionID] = now
@@ -301,7 +312,7 @@ end
 local function OldestOpen()
     local best, bid
     for aid, b in pairs(B.bids) do
-        if not b.done and (not best or b.t < best.t) then best, bid = b, aid end
+        if not b.done and not b.late and (not best or b.t < best.t) then best, bid = b, aid end
     end
     return bid, best
 end
@@ -332,8 +343,7 @@ local function NoteMoney()
     B.lastMoney = m
     if d == 0 then return end
     local ctx
-    if B.mail then ctx = "Post"
-    elseif B.merchant then ctx = "Händler"
+    if B.merchant then ctx = "Händler"
     elseif AHOpen() then
         local recentBid = false
         for _, b in pairs(B.bids) do if Now() - b.t < 60 then recentBid = true break end end
@@ -341,6 +351,7 @@ local function NoteMoney()
         elseif d < 0 and recentBid then ctx = "AH Kauf"
         elseif d < 0 then ctx = "AH (ohne Kauf in den letzten 60 s)"
         else ctx = "AH Eingang" end
+    elseif B.mail then ctx = "Post"
     else ctx = "sonst" end
     if ctx == "AH Kauf" then Inc(B.tot, "goldKauf", -d); Inc(B.min, "goldKauf", -d) end
     Inc(B.tot, "gold " .. ctx, d)
@@ -519,6 +530,7 @@ local function Hook()
     end)
     H("ConfirmCommoditiesPurchase", function(itemID, qty)
         Inc(B.tot, "gesendet"); Inc(B.min, "gesendet")
+        NoteCall("Warenkauf")
         B.comm = { t = Now(), item = tonumber(itemID), qty = tonumber(qty) or 0, money = GetMoneyNow() }
         Log("WARE-GESENDET", string.format("Item %s · %s Stück", tostring(itemID), tostring(qty)))
     end)
@@ -531,6 +543,10 @@ end
 -- Ereignisse
 ---------------------------------------------------------------------------
 local f = CreateFrame("Frame")
+-- Fehlercodes des modernen Auktionshauses (Enum.AuctionHouseError) als Wort
+local AHERR = { [0] = "nicht genug Gold", [1] = "höheres Gebot", [3] = "eigenes Gebot", [4] = "Angebot nicht gefunden (schon weg)",
+    [7] = "beschäftigt", [8] = "nicht verfügbar", [10] = "Datenbankfehler (Interner Auktion-Fehler)", [23] = "doppeltes Gebot",
+    [25] = "Angebot nicht verfügbar" }
 B.frame = f
 local EVENTS = { "PLAYER_LOGIN", "PLAYER_LOGOUT", "PLAYER_MONEY", "AUCTION_HOUSE_SHOW", "AUCTION_HOUSE_CLOSED",
     "MAIL_SHOW", "MAIL_CLOSED", "MERCHANT_SHOW", "MERCHANT_CLOSED", "CHAT_MSG_SYSTEM", "UI_ERROR_MESSAGE",
@@ -567,11 +583,18 @@ end
 handlers.PLAYER_MONEY = function() NoteMoney() end
 handlers.AUCTION_HOUSE_SHOW = function()
     B.ah = true
+    B.mail = false                     -- Briefkasten ist zu, wenn das AH aufgeht (MAIL_CLOSED kommt nicht immer)
+    B.lastSearchT = nil
     Hook()
     Log("AH", "geöffnet · Sniper " .. (SniperArmed() and "an" or "aus"))
     pcall(WatchAHS)
 end
-handlers.AUCTION_HOUSE_CLOSED = function() B.ah = false; Log("AH", "geschlossen") end
+handlers.AUCTION_HOUSE_CLOSED = function()
+    B.ah = false
+    B.lastSearchT = nil                -- Zeit mit geschlossenem AH ist keine Sniper-Pause
+    B.pauseOpen = false
+    Log("AH", "geschlossen")
+end
 handlers.MAIL_SHOW = function() B.mail = true end
 handlers.MAIL_CLOSED = function() B.mail = false end
 handlers.MERCHANT_SHOW = function() B.merchant = true end
@@ -600,9 +623,11 @@ handlers.ITEM_SEARCH_RESULTS_UPDATED = function(itemKey) ReadItemResults(itemKey
 handlers.COMMODITY_SEARCH_RESULTS_UPDATED = function(itemID) ReadCommodityResults(itemID) end
 handlers.AUCTION_HOUSE_PURCHASE_COMPLETED = function(auctionID) ResolveBid(auctionID, "Server: gekauft") end
 handlers.AUCTION_HOUSE_SHOW_ERROR = function(code)
-    Err("AH-Fehlercode " .. tostring(code))
+    local word = AHERR[tonumber(code) or -1]
+    Err("AH-Fehlercode " .. tostring(code) .. (word and (" " .. word) or ""))
     local aid, b = OldestOpen()
-    Log("AH-FEHLER", string.format("Code %s · offene Käufe %d%s", tostring(code), OpenCount(),
+    Log("AH-FEHLER", string.format("Code %s%s · letzte Anfrage %s vor %d ms · offene Käufe %d%s", tostring(code), word and (" " .. word) or "",
+        tostring(B.lastCall or "?"), math.floor((Now() - (B.lastCallT or Now())) * 1000), OpenCount(),
         b and string.format(" · ältester seit %.2f s", Now() - b.t) or ""))
     if b and not b.err then b.err = "Code " .. tostring(code) end
 end
@@ -623,7 +648,11 @@ handlers.COMMODITY_PRICE_UPDATED = function(unit, total)
     Log("WARE-PREIS", string.format("Server-Preis %s/Stück, gesamt %s", Money(unit), Money(total)))
 end
 handlers.COMMODITY_PRICE_UNAVAILABLE = function() Err("Ware Preis nicht verfügbar"); Log("WARE-PREIS", "nicht verfügbar") end
-handlers.AUCTION_CANCELED = function(auctionID) Log("ABBRUCH-OK", "Auktion " .. tostring(auctionID)) end
+handlers.AUCTION_CANCELED = function(auctionID)
+    -- kommt auch bei einem EIGENEN KAUF (Server entfernt die gekaufte Auktion) – darum nur als Server-Ereignis
+    local b = auctionID and B.bids[auctionID]
+    Log("AUCTION_CANCELED", "Auktion " .. tostring(auctionID) .. (b and " (unser Kauf)" or " (eigene Auktion oder fremd)"))
+end
 handlers.AUCTION_HOUSE_AUCTION_CREATED = function() Log("EINSTELLEN-OK", "Auktion erstellt") end
 handlers.REPLICATE_ITEM_LIST_UPDATE = function()
     Log("VOLLSCAN", B.vollscanT and string.format("Antwort nach %.1f s", Now() - B.vollscanT) or "Antwort (fremd ausgelöst)")
@@ -635,7 +664,16 @@ for _, e in ipairs({ "AUCTION_HOUSE_THROTTLED_MESSAGE_DROPPED", "AUCTION_HOUSE_T
     local short = e:gsub("AUCTION_HOUSE_THROTTLED_", "")
     handlers[e] = function()
         Inc(B.tot, "drossel " .. short); Inc(B.min, "drossel " .. short)
-        if short == "MESSAGE_DROPPED" then Err("Drossel: Nachricht verworfen"); Log("DROSSEL", "Nachricht VERWORFEN · offene Käufe " .. OpenCount()) end
+        -- Zuordnung: letzte Anfrage an den Server (Suche oder Kauf) und wie lange her
+        local last = B.lastCall and string.format("letzte Anfrage %s vor %d ms", B.lastCall, math.floor((Now() - (B.lastCallT or Now())) * 1000)) or "keine Anfrage bekannt"
+        if short == "MESSAGE_DROPPED" then
+            Err("Drossel: Nachricht verworfen (nach " .. tostring(B.lastCall or "?") .. ")")
+            Log("DROSSEL", "VERWORFEN · " .. last .. " · offene Käufe " .. OpenCount())
+        elseif short == "MESSAGE_QUEUED" then
+            Log("DROSSEL", "in Warteschlange · " .. last)
+        elseif short == "SYSTEM_READY" then
+            Log("DROSSEL", "Server wieder bereit")
+        end
     end
 end
 

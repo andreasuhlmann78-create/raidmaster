@@ -15,8 +15,8 @@ local function NewWorld(opts)
     setmetatable(env, { __index = _G })
     env._G = env
     env.GetTime = function() return W.t end
-    env.date = function(fmt) return (fmt == "%H:%M:%S") and "14:00:00" or "15.11.2026 14:00" end
-    env.time = function() return 1794744000 + math.floor(W.t) end
+    env.date = function(fmt, sec) if fmt == "%H:%M:%S" then return os.date("!%H:%M:%S", sec or 50400) end return "15.11.2026 14:00" end
+    env.time = function() return 50400 + math.floor(W.t) end
     env.GetMoney = function() return W.money end
     env.GetBuildInfo = function() return "1.60.1", "70938", "Nov", 16001 end
     env.DEFAULT_CHAT_FRAME = { AddMessage = function(_, s) W.chat[#W.chat + 1] = s end }
@@ -134,7 +134,7 @@ do
     check(W.find("MINUTE Suchen 1") == 1, "Lauf 1: Minuten-Zusammenfassung")
     W.fire("PLAYER_LOGOUT")
     local ex = W.env.GSSniperLogDB.export
-    check(type(ex) == "string" and ex:find("^GSDIAG1|GSSniperLog|1.0|") ~= nil, "Lauf 1: Export beginnt mit GSDIAG1|GSSniperLog|1.0|")
+    check(type(ex) == "string" and ex:find("^GSDIAG1|GSSniperLog|1.1|") ~= nil, "Lauf 1: Export beginnt mit GSDIAG1|GSSniperLog|1.1|")
     check(ex:find("== Einträge (", 1, true) ~= nil, "Lauf 1: Export hat '== Einträge'")
     check(W.B.tot.eigeneFehler == nil, "Lauf 1: keine eigenen Fehler")
 end
@@ -149,9 +149,9 @@ do
     W.env.C_AuctionHouse.PlaceBid(7, 914); W.tick(0.2)
     check(W.find("DOPPELT GESENDET") == 1, "Lauf 2: Doppel-Sendung erkannt")
     W.fire("AUCTION_HOUSE_SHOW_ERROR", 3)
-    check(W.find("AH%-FEHLER Code 3 · offene Käufe 1") == 1, "Lauf 2: AH-Fehlercode mit offenen Käufen")
+    check(W.find("AH%-FEHLER Code 3 eigenes Gebot · letzte Anfrage Kauf vor 2%d%d ms · offene Käufe 1") + W.find("AH%-FEHLER Code 3 eigenes Gebot · letzte Anfrage Kauf vor 199 ms · offene Käufe 1") == 1, "Lauf 2: AH-Fehlercode mit letzter Anfrage und offenen Käufen")
     W.fire("AUCTION_HOUSE_THROTTLED_MESSAGE_DROPPED")
-    check(W.find("DROSSEL Nachricht VERWORFEN") == 1, "Lauf 2: Drossel verworfen")
+    check(W.find("DROSSEL VERWORFEN · letzte Anfrage Kauf vor 2%d%d ms") + W.find("DROSSEL VERWORFEN · letzte Anfrage Kauf vor 199 ms") == 1, "Lauf 2: Drossel verworfen mit Zuordnung")
     W.tick(31)
     check(W.find("KAUF%-OFFEN Angebot 7 · 9s14c · keine Bestätigung in 30 s %(Fehler gesehen: Code 3%)") == 1, "Lauf 2: ohne Antwort nach 30 s")
     W.fire("AUCTION_HOUSE_PURCHASE_COMPLETED", 7)
@@ -224,7 +224,7 @@ do
     check(W.find("AHS%-STATUS %d+%.%d s: wartet: Vollscan läuft") == 1, "Lauf 4: Status-Dauer protokolliert (ohne Farbcodes)")
     W.frame(250)
     check(W.find("BILD 250 ms") == 1, "Lauf 4: Bildaussetzer 250 ms")
-    W.fire("MAIL_SHOW"); W.pay(50000); W.fire("MAIL_CLOSED")
+    W.fire("AUCTION_HOUSE_CLOSED"); W.fire("MAIL_SHOW"); W.pay(50000); W.fire("MAIL_CLOSED"); W.fire("AUCTION_HOUSE_SHOW")
     check(W.find("GOLD %+5g00s00c · Post") == 1, "Lauf 4: Post-Gold")
     W.fire("MERCHANT_SHOW"); W.pay(1234); W.fire("MERCHANT_CLOSED")
     check(W.find("GOLD %+12s34c · Händler") == 1, "Lauf 4: Händler-Gold")
@@ -307,6 +307,42 @@ do
 end
 
 ---------------------------------------------------------------------------
+-- Lauf 6 (1.1): Befunde aus dem ersten echten Protokoll 15.11. 14:24
+---------------------------------------------------------------------------
+do
+    local W = NewWorld()
+    W.fire("PLAYER_LOGIN"); W.fire("AUCTION_HOUSE_SHOW")
+    W.search(4251); W.tick(1.0)
+    W.fire("AUCTION_HOUSE_CLOSED"); W.tick(30)
+    W.fire("AUCTION_HOUSE_SHOW"); W.tick(1.2); W.search(4251); W.tick(1.1)
+    check(W.find("PAUSE") == 0, "Lauf 6: Zeit mit geschlossenem AH ist keine Pause")
+    -- Briefkasten blieb "offen" (MAIL_CLOSED fehlte), dann AH auf: Kauf ist AH, nicht Post
+    W.fire("AUCTION_HOUSE_CLOSED"); W.fire("MAIL_SHOW"); W.fire("AUCTION_HOUSE_SHOW")
+    W.env.C_AuctionHouse.PlaceBid(55, 899); W.tick(0.3)
+    W.fire("AUCTION_HOUSE_PURCHASE_COMPLETED", 55); W.pay(-899)
+    W.fire("AUCTION_CANCELED", 55)
+    check(W.find("GOLD %-8s99c · AH Kauf") == 1, "Lauf 6: Kauf trotz vorher offenem Briefkasten als AH Kauf")
+    check(W.find("AUCTION_CANCELED Auktion 55 %(unser Kauf%)") == 1, "Lauf 6: AUCTION_CANCELED bei eigenem Kauf richtig benannt")
+    -- verspätete Käufe zählen nicht mehr als offen
+    for i = 100, 104 do W.env.C_AuctionHouse.PlaceBid(i, 900) end
+    W.tick(31)
+    W.env.C_AuctionHouse.PlaceBid(200, 900)
+    check(W.find("KAUF%-GESENDET Angebot 200 · 9s00c · offen beim Senden 0") == 1, "Lauf 6: nach Frist offene Käufe = 0")
+    -- Fehlercode 10 als Wort
+    W.fire("AUCTION_HOUSE_SHOW_ERROR", 10)
+    check(W.find("Code 10 Datenbankfehler %(Interner Auktion%-Fehler%)") == 1, "Lauf 6: Code 10 benannt")
+    -- Drossel nach einer Suche
+    W.search(4251); W.fire("AUCTION_HOUSE_THROTTLED_MESSAGE_DROPPED")
+    check(W.find("DROSSEL VERWORFEN · letzte Anfrage Suche vor 0 ms") == 1, "Lauf 6: Drossel nach Suche zugeordnet")
+    -- Uhrzeit: Zehntel laufen gleichmässig
+    local lines = W.log()
+    local ok = true
+    for i = 2, #lines do if lines[i]:sub(1, 10) < lines[i - 1]:sub(1, 10) then ok = false end end
+    check(ok, "Lauf 6: Uhrzeiten im Protokoll nie rückwärts")
+    check(W.B.tot.eigeneFehler == nil, "Lauf 6: keine eigenen Fehler")
+end
+
+---------------------------------------------------------------------------
 -- Zufallsläufe (5 Seeds): wilde Ereignisfolgen, Invarianten müssen halten, Zeit je Ereignis messen
 ---------------------------------------------------------------------------
 for seed = 1, 5 do
@@ -352,7 +388,7 @@ for seed = 1, 5 do
     check((T.gekauft or 0) <= (T.gesendet or 0) + 1, "Zufall " .. seed .. ": gekauft (ohne fremde) nie mehr als gesendet")
     check(#W.log() <= 6500, "Zufall " .. seed .. ": höchstens 6500 Zeilen")
     local ex = W.env.GSSniperLogDB.export
-    check(ex:find("^GSDIAG1|GSSniperLog|1.0|") and #ex <= 400200, "Zufall " .. seed .. ": Export gültig")
+    check(ex:find("^GSDIAG1|GSSniperLog|1.1|") and #ex <= 400200, "Zufall " .. seed .. ": Export gültig")
     check(not ex:find("\0"), "Zufall " .. seed .. ": Export ohne Nullzeichen")
     check(dt / nEv < 0.0005, string.format("Zufall %d: schnell genug (%.3f ms je Ereignis)", seed, dt / nEv * 1000))
     print(string.format("Zufall %d: %d Ereignisse, %.3f ms je Ereignis, %d Zeilen, gesendet %d, gekauft %d, weg %d",

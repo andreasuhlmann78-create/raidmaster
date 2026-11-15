@@ -99,3 +99,10 @@ Test: `lua5.1 shared/messtest/GSSniperLog/test_gssniperlog.lua shared/messtest/G
 (normaler Ablauf, doppelt/ohne Antwort/spät/Waren, weggeschnappt/Teilergebnisse, Pausen/Status/Gold-Zusammenhang/Vollscan,
 Robustheit ohne AHSentinel/AH-API, Begrenzungen, Befehle, globale Namen) + 5 Zufallsläufe à 20000 Ereignisse:
 92/92 OK, 0,03 ms je Ereignis. addon_check: OK (nur Hinweise Sprache/GoldSentinelGame – Messwerkzeug, nicht veröffentlicht).
+
+### GSSniperLog 1.1 (15.11. 14:40, nach dem ersten echten Protokoll)
+Korrigiert: Uhrzeit monoton (Zehntel passten nicht zur Sekunde), Pausen nur bei offenem AH (Briefkasten-Gang zählte als 31 s
+Pause), Gold bei offenem AH vor "Post" (MAIL_CLOSED fehlt manchmal), offene Käufe ohne die nach 30 s unbeantworteten,
+AUCTION_CANCELED als Server-Ereignis (kommt bei jedem eigenen Kauf). Neu: Drossel-Ereignisse und AH-Fehler nennen die letzte
+Anfrage (Suche/Kauf) und wie lange her; AH-Fehlercodes mit Wort (10 = Datenbankfehler = "Interner Auktion-Fehler").
+Tests: 6 Szenario-Läufe + 5 Zufallsläufe, 100/100 OK, 5× wiederholt.
