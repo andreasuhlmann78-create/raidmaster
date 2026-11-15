@@ -1,0 +1,14 @@
+AHSentinel 0.65.247 – Phase 7 MR3 Weg A Teil 3 "Lohnt bis" je Kauf-Zeile – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.247 und sofort im Discord.
+Umsetzung (nur Anzeige, keine Kauf-Rechnung geändert):
+  - Comfort.lua: Kauf-Zeilen in "Heute" tragen r.upto – Flippen: die schon gerechnete Kaufgrenze Ln:BuyLimit (bisher nur als
+    Filter genutzt, sonst nil), Händler: Händlerpreis − 1c (= maxUnit), Entzaubern: d.limit.
+  - Disenchant.lua D:FindDeals: liefert die schon gerechnete Grenze "limit" (MK:LimitFromNet bzw. BatchNet) im Ergebnis mit.
+  - UI_MarketView.lua MV:RowTipLines(r): "Lohnt bis x" (nur mit Einsatz und Grenze) vor Rang/Weg (RankLine, 0.65.245).
+  HINWEIS (Verdacht, zu prüfen): Flippen nutzt in "Heute" Ln:BuyLimit (Stufe 2 L7), nicht MK:LimitFromNet (RK2 "ein Wert für
+  alles") – die angezeigte Grenze ist die, mit der "Heute" wirklich filtert. Eine Umstellung auf LimitFromNet wäre eine Änderung
+  der Kauf-Regel – nur auf Auftrag.
+Tests: T821 (Tooltip mit Lohnt bis / ohne Grenze nur Rang / ohne Einsatz nichts; D:FindDeals: jedes gelieferte Angebot hat
+  limit > Preis – gilt auch, wenn die Testumgebung keine Angebote liefert) – mit 0.65.246 rot (RowTipLines fehlt), grün mit
+  0.65.247. T819 grün. s78, s92 fest (12/12), s224 grün. s42 grün. CHANGELOG EN/DE.
+Gesamtlauf (frischer Klon, Kopie 0.65.247): BESTANDEN 315, FEHLGESCHLAGEN 0.
