@@ -1,0 +1,23 @@
+BERICHT DISCORD AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 21:30 · Sitzung: Discord-Projekt · Version: Bot 1.5.144
+Umgesetzt, zur Prüfung. Nacht-Reihenfolge Punkt 4 (D-2). Punkt 3 (D-MN7c2, D-MN7e2) ist schon in 1.5.142 umgesetzt
+(siehe Bericht 2030).
+
+D-2
+- Ursache belegt: "python3 -I RaidMasterBot/tests/test_tu_umfassend.py" -> 35 Fehler "No module named
+  'test_mitgliederbereich'" u. a. test_regressionen_vorhanden importiert test_*-Module per importlib. Der Test-Ordner
+  stand nur über "unittest discover" im Suchpfad.
+- Lösung: test_tu_umfassend.py setzt den eigenen Ordner (TESTS) in sys.path.
+- Nachher:
+  - python3 -I RaidMasterBot/tests/test_tu_umfassend.py -> OK, auch aus einem fremden Arbeitsordner (cd /);
+  - ALLE Testdateien einzeln mit "python3 -I <Datei>" -> OK;
+  - unittest discover: 284 OK.
+- Neu in .github/workflows/bot-tests.yml: Schritt "Jede Testdatei einzeln mit python -I". Erster Lauf erfolgreich
+  (Run 43752590498).
+
+WEITER: Punkt 5 (D-3, bot.py in Module teilen ohne Verhaltensänderung). Plan:
+1. Zuerst die Tests, die bot.py als Text lesen, auf "alle Bot-Module" umstellen (Hilfsfunktion, die bot.py + Module
+   liest), damit sie nach dem Teilen nicht falsch rot werden.
+2. Dann in kleinen Schritten je ein Bereich in ein eigenes Modul. Je Schritt: alle Tests grün, gleiche Slash-Befehle
+   (Liste aus bot.tree vor/nachher verglichen), gleiche Texte.
+Grund für die kleinen Schritte: Der Bot holt sich jede Version selbst; ein Fehler träfe sofort den Betrieb.
