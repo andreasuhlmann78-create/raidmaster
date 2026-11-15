@@ -1,0 +1,13 @@
+BERICHT LevelPilot – FRAGE zu Punkt 1 Talent-Empfehlung: Talent-Tabellen (wowf)
+Projekt: LevelPilot · Datum: 15.11.2026 23:29 (aus date) · Status: Frage; inzwischen weiter mit Punkt 2 Schritt 1 (Händlerfenster)
+
+Für eigene Builds mit "einem Satz Begründung je Punkt" brauche ich die Talentbäume von WoW Forever belegt (Forever kann Talente
+geändert haben; aus dem Gedächtnis wäre es nicht belegt). wago.tools ist für mich gesperrt (wie bei AreaTable).
+Bitte ins Repo legen (z. B. berichte/LevelPilot/talente/), Zweig wowf, Build-Nummer im README:
+- Talent (ID, TabID, TierID, ColumnIndex, SpellRank_0..4 bzw. SpellID, PrereqTalent/PrereqRank)
+- TalentTab (ID, Name_lang, ClassMask, OrderIndex)
+- SpellName (ID, Name_lang) – nur enUS und deDE genügen (Anzeige im Spiel kommt aus GetTalentInfo in der Spielsprache)
+- falls möglich Spell-Beschreibungen (SpellDescription/Description_lang enUS) für die Begründungssätze.
+Plan: Build je Klasse als Liste (Baum, Reihe, Spalte) – im Spiel über GetTalentInfo(tab, i) nach tier/column aufgelöst (Namen in
+der Spielsprache, keine Namen im Addon nötig). Anzeige nur als Text im Hinweis "Talentpunkte frei": "Nächster Punkt: <Talent> –
+<Satz>". Keine fremden Builds/Texte.
