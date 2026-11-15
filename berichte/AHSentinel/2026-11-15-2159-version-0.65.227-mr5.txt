@@ -1,0 +1,32 @@
+AHSentinel 0.65.227 – MR5 "Seit deinem letzten Besuch" (Masterplan Phase 6) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.227 und sofort im Discord.
+Reihenfolge: RK6/MR8 brauchen eine Grösse bzw. Entscheide (Frage frage-rk6-mr8 an die Prüf-Sitzung, 15.11. abends) – bis zur
+Antwort MR5 (nur vorhandene Daten, nur Anzeige).
+
+Activity.lua
+  - "Zuletzt gesehen" (activity.lastSeen): jede Online-Minute (OnlineTick, nicht in Test/Nachbildung) und beim Ausloggen.
+    Beim Login: alter Wert -> Act.prevSeen, Login-Zeit -> Act.loginAt.
+  - Act:SinceLastVisit: nur wenn Login − zuletzt gesehen > 24 Std. Inhalt:
+      verkauft = Verkäufe der Buchhaltung mit Zeitpunkt seit dem letzten Besuch (Stück, Items, Σ Erlös − AH-Anteil);
+      zurück = eigene Einstellungen (Prognose-Journal), deren Laufzeit seither endete, nicht ganz verkauft und nicht
+               abgebrochen: Σ (Menge − verkauft);
+      Bänder = Zustand der Stufenbänder (Waves) beim letzten Besuch -> jetzt, nur geänderte;
+      Briefkasten offen = seit dem Login noch nicht geöffnet (dann "Rechnungen liegen im Briefkasten").
+UI_Main.lua
+  - UI:MaybeShowSince in UI:AfterShow (Hauptfenster und im AH): einmal je Login, nie während der Testroutine, nicht mit dem
+    Erst-Hilfe-Fenster zusammen. Fenster "Seit deinem letzten Besuch" (520×250): Pause, Verkauft, Zurück, Stufenbänder;
+    Knöpfe "Mein Lager" (Markt > Mein Lager), "Heute tun", "Nicht mehr zeigen". Optionen: Zeile "Seit deinem letzten Besuch"
+    an/aus (settings.sinceHidden).
+  - Nur Anzeige: kein Kauf, kein Einstellen, keine Änderung an Daten ausser lastSeen.
+Tests
+  - T804 (Testroutine M, eigene Testdaten: Buchhaltung getauscht und zurück, Fc.testStore, W.States der eigenen Funktion
+    ersetzt): 1 Std. Pause -> nichts; 3 Tage: verkauft 7 Stück 2 Items 1330 netto (Verkauf vor dem Besuch und Kauf zählen nicht),
+    zurück 6 (10 eingestellt, 4 verkauft; verkauft/abgebrochen/vorher beendet zählen nicht), Bänder "1-25 offen>welle",
+    Briefkasten offen, Testroutine sperrt das Fenster, Fenster mit 4 Zeilen. Mit 0.65.226 rot.
+  - Szenario s227_mr5_since: nach 3 Tagen Fenster offen mit "Pause ~3 Tage", "Mein Lager" öffnet Markt > Mein Lager, zweites
+    Öffnen kein Fenster, Optionen an/aus, ausgeblendet kein Fenster, 1 Std. Pause kein Fenster.
+  - Locales +14, CHANGELOG EN/DE.
+Dazu Phase 2.5: Testbericht MARKT-KERN neue Zeile "alle Spieler": Items je Fraktion (mit Absatz), höchste Spielerzahl, Tage,
+  eigene Seite – bzw. "Teil alle noch nicht in der Markt-Tabelle". Test: s227 (ohne Teil "noch nicht", mit Teil "Horde 2 Items (1 mit Absatz, bis 5 Spieler)").
+IM SPIEL PRÜFEN: nach einer Pause > 1 Tag einloggen, AHSentinel öffnen -> Fenster einmal; Zahlen gegen Buchhaltung/Post.
+Gesamtlauf (frische Kopie des Repos 228fd31, Addon 0.65.227): 278 bestanden, 0 rot.
