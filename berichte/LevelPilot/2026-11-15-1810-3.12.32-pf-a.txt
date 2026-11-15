@@ -1,0 +1,45 @@
+BERICHT LEVELPILOT AN DEN SUPERVISOR (PRÜF-SITZUNG)
+Stand: 15.11.2026 18:10 · Sitzung: LevelPilot-Projekt-Sitzung · Version: 3.12.32 · Commit: dieser Commit
+(announce/levelpilot__levelpilot-3.12.32.LevelPilot.zip)
+Anlass: PF-A (Priorität 1, Nachprüfung 3.12.30/3.12.31).
+
+UMGESETZT, ZUR PRÜFUNG
+PF-A – Planung Allianz über der 16-ms-Grenze.
+- URSACHE (belegt, Messung mit Zeit-Stichproben im Nachbau, 30 Neuplanungen Mensch L10 Wald von Elwynn 1429 48/42):
+  95 % der Zeit in Danger.lua: Route (51,1 %) und Key (43,9 %) – aufgerufen von Planner.lua:778 für jede Aufgabe auf dem
+  Kontinent (gerade Strecke Spieler → Aufgabe, Messpunkt alle 50 Yards, je Punkt ein Funktionsaufruf Key). Auf dem
+  grossen Kontinent der Allianz sind viele Strecken mehrere tausend Yards lang.
+- LÖSUNG (Danger.lua:130): dieselben Messpunkte n1 + dn·i/steps wie bisher, aber
+  a) Zellenschlüssel direkt in der Schleife (kein Aufruf Key je Punkt),
+  b) Startpunkt hinter "skip" (150 Yards) direkt berechnet statt jeden Punkt davor zu prüfen (gleiches Ergebnis wie die
+     bisherige Bedingung len·i/steps >= skip, mit Nachkorrektur nach oben/unten),
+  c) neuer Parameter stop: der Aufrufer (Planner.lua:778) fragt nur "Level >= Grenze?" und bekommt die Antwort, sobald
+     ein Punkt die Grenze erreicht. Ohne stop ist das Ergebnis das bisherige Höchstlevel.
+  Keine Änderung an der Route selbst.
+- MESSUNG (Nachbau, Mittel aus 30 Neuplanungen, os.clock, ohne Testroutine):
+    Mensch L10 Elwynn:      3.12.31 25,16 ms → 3.12.32 2,51 ms
+    Orc L6 Durotar:         3.12.31  3,82 ms → 3.12.32 2,82 ms
+    Untoter L10 Undercity:  3.12.31  8,70 ms → 3.12.32 6,50 ms
+  Testroutine T150 (Planner:Replan, 5 Läufe): Allianz Median 4,19 ms / Höchstwert 26,20 ms (vorher 20–26 / 41–49 ms);
+  Horde Median 3,78 / Höchstwert 20,70 ms. T155 Allianz 7,92 ms je Planung (vorher 23–30 ms).
+- TESTS: T150 prüft jetzt Median < 16 ms UND Höchstwert < 33 ms (Vorgabe PF-A). Neu T291 [T-PF-A]: 2000 Zufallsstrecken
+  um den Spieler (eigener Zufall, Seed 291, skip 0/37,5/150/300): neue Rechnung = bisherige Rechnung Punkt für Punkt
+  über Danger:At (Abweichung 0), mit Grenze stop: Entscheidung ">= Grenze" gleich (Abweichung 0). Gegenprobe: eine
+  absichtlich falsche Rechnung mit halb so vielen Messpunkten wird erkannt (Allianz 33 von 500, Horde 10 von 500).
+  T150 und T291 in TR.REGRESSIONS (34).
+- CHANGELOG EN/DE 3.12.32.
+
+BELEGE (eigene Tests, keine Freigabe)
+- addon_check LevelPilot-3.12.32.zip: OK (hier ohne lupa). Gemeinsame Dateien byte-gleich mit shared/.
+- run_offline.py: 34 Läufe, 34 ohne FEHLER (alle 5 Lagen der Testroutine, Meldungs-Weiche, 28 Regressionsläufe).
+- Lokale Gesamtregression 36 Läufe ohne FEHLER.
+- Offen zu klären: Der Höchstwert 26 ms (Allianz) bzw. 21 ms (Horde) entsteht im ersten der 5 Läufe; Ursache nicht
+  einzeln gemessen. Unter der Grenze 33 ms; wird mit LP-D1 (Portionen ≤ 16 ms) mit angeschaut.
+
+ALS NÄCHSTES: LP-D1 (Questauswertung nach dem Einloggen messen/portionieren), dann ML1-2, GR1-K – ohne zu warten.
+
+FRAGEN
+- keine.
+
+IM CLIENT GETESTET
+- noch nicht.
