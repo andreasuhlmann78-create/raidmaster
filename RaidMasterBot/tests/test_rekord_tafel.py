@@ -171,30 +171,31 @@ class Erstkill(unittest.TestCase):
     def setUpClass(cls):
         from bot_harness import load_bot
         cls.bot, _ = load_bot()
+        cls.m = sys.modules["ruhmeshalle_bot"]  # D-3 Schritt 8: Ruhmeshalle steht in ruhmeshalle_bot.py – dort patchen
 
     def setUp(self):
         import tempfile
         b = self.bot
-        self.saved = (b.RECORD_BOSSES, b.RECORD_DUNGEONS, b.SHOTS_DIR, dict(b.state.data))
-        b.RECORD_BOSSES, b.RECORD_DUNGEONS = RAIDS, DUNGEONS
-        b.SHOTS_DIR = tempfile.mkdtemp()
+        self.saved = (self.m.RECORD_BOSSES, self.m.RECORD_DUNGEONS, self.m.SHOTS_DIR, dict(b.state.data))
+        self.m.RECORD_BOSSES, self.m.RECORD_DUNGEONS = RAIDS, DUNGEONS
+        self.m.SHOTS_DIR = tempfile.mkdtemp()
         for e in (2746, 663):
-            with open(os.path.join(b.SHOTS_DIR, f"shot_{e}_{T0}.jpg"), "wb") as f:
+            with open(os.path.join(self.m.SHOTS_DIR, f"shot_{e}_{T0}.jpg"), "wb") as f:
                 f.write(b"jpg")
 
         async def names(m):
             return ", ".join(m)
-        self._names = b.member_names_with_dots
-        b.member_names_with_dots = names
+        self._names = self.m.member_names_with_dots
+        self.m.member_names_with_dots = names
 
     def tearDown(self):
         import shutil
         b = self.bot
-        shutil.rmtree(b.SHOTS_DIR)
-        b.RECORD_BOSSES, b.RECORD_DUNGEONS, b.SHOTS_DIR = self.saved[:3]
+        shutil.rmtree(self.m.SHOTS_DIR)
+        self.m.RECORD_BOSSES, self.m.RECORD_DUNGEONS, self.m.SHOTS_DIR = self.saved[:3]
         b.state.data.clear()
         b.state.data.update(self.saved[3])
-        b.member_names_with_dots = self._names
+        self.m.member_names_with_dots = self._names
 
     def test_area(self):
         a = rt.area_of(k(2746, T0, 95, p="mc"), RAIDS, DUNGEONS, NAMES)
@@ -206,8 +207,8 @@ class Erstkill(unittest.TestCase):
         ch = Chan()
         kd = dict(k(2746, T0, 95, p="mc", n="Edwin van Cleef"), w=0, f=True, m=["A", "B"])
         kr = dict(k(663, T0, 95, n="Lucifron"), w=2, f=True, m=["A"])
-        self.assertTrue(asyncio.run(self.bot.post_first_kill(ch, kd)))
-        self.assertTrue(asyncio.run(self.bot.post_first_kill(ch, kr)))
+        self.assertTrue(asyncio.run(self.m.post_first_kill(ch, kd)))
+        self.assertTrue(asyncio.run(self.m.post_first_kill(ch, kr)))
         d, r = ch.msgs
         self.assertIn("**Die Todesminen**", d.embed.description)                       # nicht "Molten Core"
         self.assertNotIn("file", d.kw)
@@ -221,7 +222,7 @@ class Erstkill(unittest.TestCase):
     def test_raid_ohne_bild_wartet_auf_bild(self):
         ch = Chan()
         kr = dict(k(664, T0, 95, n="Magmadar"), w=0, f=True, m=[])
-        asyncio.run(self.bot.post_first_kill(ch, kr))
+        asyncio.run(self.m.post_first_kill(ch, kr))
         self.assertFalse(self.bot.state.data["first_posted"][f"664:{T0}"])            # Bild kann später kommen
 
 
@@ -231,6 +232,7 @@ class Aufraeumen(unittest.TestCase):
     def setUpClass(cls):
         from bot_harness import load_bot
         cls.bot, _ = load_bot()
+        cls.m = sys.modules["ruhmeshalle_bot"]  # D-3 Schritt 8: Ruhmeshalle steht in ruhmeshalle_bot.py – dort patchen
 
     def test_stichtag(self):
         from zoneinfo import ZoneInfo
@@ -280,8 +282,8 @@ class Aufraeumen(unittest.TestCase):
 
         async def hall():
             return ch
-        saved = (b.hall_channel, b.is_admin, b.asyncio.sleep, dict(b.state.data), b.kills_db.data)
-        b.hall_channel, b.is_admin = hall, (lambda u: True)
+        saved = (self.m.hall_channel, self.m.is_admin, b.asyncio.sleep, dict(b.state.data), b.kills_db.data)
+        self.m.hall_channel, self.m.is_admin = hall, (lambda u: True)
 
         async def nosleep(_):
             return None
@@ -302,17 +304,17 @@ class Aufraeumen(unittest.TestCase):
                 async def send_message(self_, t, **kw):
                     sent.append(t)
             inter = types.SimpleNamespace(user=1, response=R(), followup=F())
-            asyncio.run(b.ruhmeshalle_aufraeumen_cmd.callback(inter, "14.11.2026", False))
+            asyncio.run(self.m.ruhmeshalle_aufraeumen_cmd.callback(inter, "14.11.2026", False))
             self.assertIn("**2 Einträge** bis und mit **14.11.2026**", sent[-1])
             self.assertEqual(len(ch.msgs), 5)                                  # Vorschau löscht nichts
-            asyncio.run(b.ruhmeshalle_aufraeumen_cmd.callback(inter, "14.11.2026", True))
+            asyncio.run(self.m.ruhmeshalle_aufraeumen_cmd.callback(inter, "14.11.2026", True))
             self.assertIn("2 Einträge bis und mit 14.11.2026 gelöscht", sent[-1])
             self.assertEqual([m.content for m in ch.msgs], ["Eintrag 2", "Eintrag 3", "Eintrag 4"])
             self.assertTrue(b.state.data["first_posted"]["663:1763000000"])   # kein Bild mehr nachreichen
-            asyncio.run(b.ruhmeshalle_aufraeumen_cmd.callback(inter, "kein Datum", True))
+            asyncio.run(self.m.ruhmeshalle_aufraeumen_cmd.callback(inter, "kein Datum", True))
             self.assertIn("TT.MM.JJJJ", sent[-1])
         finally:
-            b.hall_channel, b.is_admin, b.asyncio.sleep = saved[:3]
+            self.m.hall_channel, self.m.is_admin, b.asyncio.sleep = saved[:3]
             b.state.data.clear()
             b.state.data.update(saved[3])
             b.kills_db.data = saved[4]
@@ -365,11 +367,12 @@ class BotAblauf(unittest.TestCase):
     def setUpClass(cls):
         from bot_harness import load_bot
         cls.bot, _ = load_bot()
+        cls.m = sys.modules["ruhmeshalle_bot"]  # D-3 Schritt 8: Ruhmeshalle steht in ruhmeshalle_bot.py – dort patchen
 
     def setUp(self):
         b = self.bot
-        self.saved = (b.RECORD_BOSSES, dict(b.kills_db.data), dict(b.state.data), b.bot._connection.user)
-        b.RECORD_BOSSES = RAIDS
+        self.saved = (self.m.RECORD_BOSSES, dict(b.kills_db.data), dict(b.state.data), b.bot._connection.user)
+        self.m.RECORD_BOSSES = RAIDS
         b.kills_db.data = {"kills": Tafeln().kills()}
         b.state.data.pop("record_boards", None)
         b.state.data.pop("record_lines_cleaned", None)
@@ -382,7 +385,7 @@ class BotAblauf(unittest.TestCase):
 
     def tearDown(self):
         b = self.bot
-        b.RECORD_BOSSES, b.kills_db.data = self.saved[0], self.saved[1]
+        self.m.RECORD_BOSSES, b.kills_db.data = self.saved[0], self.saved[1]
         b.state.data.clear()
         b.state.data.update(self.saved[2])
         b.bot._connection.user = self.saved[3]
@@ -397,7 +400,7 @@ class BotAblauf(unittest.TestCase):
         old = asyncio.run(ch.send("⏱️ **Neuer Rekord: Lucifron in 1:35** (vorher 2:00 …)"))
         fremd = Msg(ch, "⏱️ **Neuer Rekord: von jemand anderem", author=2)
         ch.msgs.append(fremd)
-        r = asyncio.run(self.bot.update_record_boards(ch))
+        r = asyncio.run(self.m.update_record_boards(ch))
         self.assertEqual((r["posted"], r["deleted_old"]), (6, 1))          # 4 Tafeln + 2 Überschriften
         self.assertNotIn(old, ch.msgs)                                    # alte Bot-Zeile weg
         self.assertIn(fremd, ch.msgs)                                     # fremde Nachricht bleibt
@@ -409,12 +412,12 @@ class BotAblauf(unittest.TestCase):
                          ["## ❔ Ohne Zuordnung", "## 🏰 Raids"])
         mc_msg = next(m for m in ch.msgs if m.embed and m.embed.title.endswith("Molten Core"))
         # nochmals ohne Änderung: nichts gepostet, nichts bearbeitet
-        r = asyncio.run(self.bot.update_record_boards(ch))
+        r = asyncio.run(self.m.update_record_boards(ch))
         self.assertEqual((r["posted"], r["edited"], r["deleted_old"]), (0, 0, 0))
         # neuer Rekord Magmadar: nur die MC-Tafel wird bearbeitet, kein neuer Beitrag
         n = len(ch.msgs)
         self.bot.kills_db.data["kills"].append(k(664, T0 + 8 * DAY, 99))
-        r = asyncio.run(self.bot.update_record_boards(ch))
+        r = asyncio.run(self.m.update_record_boards(ch))
         self.assertEqual((r["posted"], r["edited"]), (0, 1))
         self.assertEqual(len(ch.msgs), n)
         self.assertIn("**Magmadar** – **1:39** 🆕", mc_msg.embed.description)
@@ -422,11 +425,11 @@ class BotAblauf(unittest.TestCase):
     def test_neuer_raid_ordnet_neu(self):
         ch = Chan()
         self.bot.kills_db.data = {"kills": [k(663, T0, 95)]}
-        asyncio.run(self.bot.update_record_boards(ch))
+        asyncio.run(self.m.update_record_boards(ch))
         self.assertEqual(self.titles(ch), ["⏱️ Rekorde · Molten Core"])
         asyncio.run(ch.send("🏆 Erstkill Onyxia"))
         self.bot.kills_db.data["kills"].append(k(1084, T0 + DAY, 185, p="ony"))
-        r = asyncio.run(self.bot.update_record_boards(ch))
+        r = asyncio.run(self.m.update_record_boards(ch))
         self.assertEqual(r["posted"], 3)                                  # Überschrift + 2 Tafeln
         self.assertEqual(self.titles(ch), ["⏱️ Rekorde · Molten Core", "⏱️ Rekorde · Onyxias Hort"])
         self.assertEqual(sum(1 for m in ch.msgs if m.content == "## 🏰 Raids"), 1)   # Überschrift nie doppelt
@@ -434,10 +437,10 @@ class BotAblauf(unittest.TestCase):
 
     def test_tafel_von_hand_geloescht(self):
         ch = Chan()
-        asyncio.run(self.bot.update_record_boards(ch))
+        asyncio.run(self.m.update_record_boards(ch))
         ch.msgs.remove(next(m for m in ch.msgs if m.embed and m.embed.title.endswith("Molten Core")))  # von Hand gelöscht
         self.bot.kills_db.data["kills"].append(k(663, T0 + 9 * DAY, 60))
-        r = asyncio.run(self.bot.update_record_boards(ch))
+        r = asyncio.run(self.m.update_record_boards(ch))
         self.assertEqual(r["posted"], 6)
         self.assertEqual(len([m for m in ch.msgs if m.embed]), 4)
         self.assertEqual(len([m for m in ch.msgs if m.content and m.content.startswith("## ")]), 2)

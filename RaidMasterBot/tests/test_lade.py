@@ -84,6 +84,15 @@ class Lade(unittest.TestCase):
         self.assertIs(b.class_emoji, symbole_bot.class_emoji)
         self.assertIs(b.item_emoji, symbole_bot.item_emoji)
         self.assertIs(b.state, symbole_bot.state)
+        import ruhmeshalle_bot
+        self.assertIs(ruhmeshalle_bot.bot, b.bot)                # D-3 Schritt 8: Ruhmeshalle
+        self.assertIs(b.update_hall_of_fame, ruhmeshalle_bot.update_hall_of_fame)
+        self.assertIs(b.hall_channel, ruhmeshalle_bot.hall_channel)
+        self.assertIs(ruhmeshalle_bot.class_emoji, symbole_bot.class_emoji)
+        self.assertIs(ruhmeshalle_bot.kills_db, b.kills_db)
+        for name, fn in (("ruhmeshalle-aufraeumen", ruhmeshalle_bot.ruhmeshalle_aufraeumen_cmd),
+                         ("erfolge", ruhmeshalle_bot.erfolge_cmd)):
+            self.assertIs(b.bot.tree.get_command(name).callback, fn.callback)
         self.assertIs(b.NO_PING, grund.NO_PING)
 
     def test_findet_fehlenden_namen(self):
