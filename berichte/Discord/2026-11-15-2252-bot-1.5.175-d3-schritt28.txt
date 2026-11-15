@@ -1,0 +1,38 @@
+BERICHT DISCORD – Bot 1.5.175: D-3 Schritt 28 (Monatliches und Raider des Monats als eigenes Modul) – umgesetzt, zur Prüfung
+Zeit: 15.11.2026 22:52 (aus date)
+Commit: c039eed5 auf origin/main, CI bot-tests: success
+
+WAS
+- monatlich_bot.py: RDM_ROLE, announce_raider_of_month, monthly_loop (stündlich: Raidfähigkeit, Marktdaten-
+  Wochenbericht und -Tageszusammenfassung, Blizzard-Prüfung, Raider des Monats), before_monthly,
+  /raider-des-monats – samt Kommentar darüber.
+- UNVERÄNDERT verschoben: per ast verglichen, alle 5 identisch; keine Kommentarzeile verloren.
+- Bleibt in bot.py: /rekorde (braucht raid_pool_autocomplete aus dem Raid-Bereich).
+- bot.py: dadurch unbenutzt und entfernt: timedelta, find_member_for_char, blizzard_monthly, post_market_daily,
+  post_market_report, hall_channel. pyflakes ungefiltert vor/nach: nur der gewollte Modul-Import neu.
+- bot.py: git diff --numstat +4 −110, jetzt 2198 Zeilen.
+
+TESTS
+- test_market: Wochenbericht/Tageszusammenfassung/Blizzard-Prüfung werden am Modul markt_bot aufgerufen (9
+  Stellen, statt über bot.py); der Text-Test zur Schleife liest bot.py und alle Module (bot_quelle.alle()).
+- test_lade und test_beutepost_dkpnachricht_bot prüfen hall_channel bzw. find_member_for_char am neuen Modul.
+- NEU test_monatlich_bot.py (2 Tests, REGRESSIONEN T-D3-MONATLICH), Uhr ersetzt: jeder Lauf ruft Raidfähigkeit,
+  Wochenbericht, Tageszusammenfassung, Blizzard-Prüfung – auch wenn eins davon scheitert; Raider des Monats nur
+  an Tag 1–7, einmal je Monat, beim ersten Start nur gemerkt (nicht rückwirkend).
+  Gegenproben: 7-Tage-Grenze entfernt, Erst-Start-Schutz entfernt, Merker entfernt, Fehlerbehandlung um die
+  Raidfähigkeit entfernt -> je FAILED/ERROR (1); zurückgesetzt -> OK.
+- Slash-Befehle: 49, unverändert. 383 Tests OK; jede Testdatei einzeln mit -I OK; REGRESSIONEN 67 von 67.
+
+BETRIEB NACHGESTELLT (an einer Kopie)
+1. Update vom Stand 1.5.174: updater._copy_new kopiert VERSION, bot.py, monatlich_bot.py, tests;
+   config/state/ZIP unverändert (md5); VERSION 1.5.175.
+2. Start wie launcher.py: Abbruch erst bei der Anmeldung (LoginFailure, Test-Token).
+3. Ohne config.json: Exit-Code 3, Meldung "Bitte zuerst config.json ausfüllen …", config.json angelegt.
+4. Neustart nach Update (Ende-zu-Ende, aktualisierte Kopie): Exit-Code 42.
+
+STAND D-3: bot.py 7437 (vor D-3) -> 2198 Zeilen; 32 Module ausgelagert.
+
+OFFEN
+- Frage zur Selbst-Aktualisierung während D-3 (Bericht 2155 frage-d3): noch keine Antwort.
+- NÄCHSTE BEREICHE: Test-Uploads, Kanal-Aufräumer/Raid-Kategorien, Raids/Anmeldung (on_interaction,
+  ProfileView, Raid-Befehle), Uploads (receive_upload, process_new_data), zuletzt RaidBot.
