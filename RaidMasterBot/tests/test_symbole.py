@@ -39,10 +39,12 @@ class Symbole(unittest.TestCase):
         self.m.bot = self.saved_bot
 
     def test_gleiche_funktionen_in_bot(self):
-        self.assertIs(self.bot.class_emoji, self.m.class_emoji)
-        self.assertIs(self.bot.item_emoji, self.m.item_emoji)
-        self.assertIs(self.bot.wowhead_tip, self.m.wowhead_tip)
-        self.assertEqual(self.bot.WOWHEAD_FLAVOR, self.m.WOWHEAD_FLAVOR)
+        # ab 1.5.174 benutzt bot.py die Symbole nicht mehr selbst; die Module, die sie brauchen, holen sie hier
+        bp = sys.modules["beutepost_bot"]
+        self.assertIs(bp.class_emoji, self.m.class_emoji)
+        self.assertIs(bp.item_emoji, self.m.item_emoji)
+        self.assertIs(bp.wowhead_tip, self.m.wowhead_tip)
+        self.assertEqual(bp.WOWHEAD_FLAVOR, self.m.WOWHEAD_FLAVOR)
 
     def test_unbekannte_klasse_leer(self):
         self.assertEqual(asyncio.run(self.m.class_emoji("KEINE")), "")

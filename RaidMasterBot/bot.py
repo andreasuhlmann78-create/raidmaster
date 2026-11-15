@@ -40,13 +40,11 @@ from bot_hilfen import (  # noqa: E402 – D-3 Schritt 1: Hilfen ohne Zustand
     _config_ids,
     check_upload,
     clean_softres,
-    player_class,
     profile_text,
     raid_view,
     status_text,
     test_info,
 )
-import render as rimg
 import server_setup
 import mc_tactics
 import updater
@@ -427,13 +425,6 @@ import rechte_bot  # noqa: E402 – D-3 Schritt 5: Rechte des Bots (UP-404)
 from rechte_bot import check_bot_rights  # noqa: E402
 import pn_bot  # noqa: E402,F401 – D-3 Schritt 6: /pn (meldet den Befehl beim Import an, darum erst hier)
 import symbole_bot  # noqa: E402,F401 – D-3 Schritt 7: Symbole, Emojis, Wowhead
-from symbole_bot import (  # noqa: E402
-    WOWHEAD_FLAVOR,
-    class_emoji,
-    item_emoji,
-    item_icon,
-    wowhead_tip,
-)
 import ruhmeshalle_bot  # noqa: E402,F401 – D-3 Schritt 8: Ruhmeshalle (meldet zwei Befehle beim Import an)
 from ruhmeshalle_bot import (  # noqa: E402
     hall_channel,
@@ -495,6 +486,9 @@ from dkp_tafel_bot import (  # noqa: E402 – D-3 Schritt 26: DKP-Tabellen und R
     post_raid_summaries,
     remove_overall,
 )
+from beutepost_bot import post_new_loot, send_loot_list, show_tip  # noqa: E402 – D-3 Schritt 27: Beute-Posts
+import dkp_nachricht_bot  # noqa: E402,F401 – D-3 Schritt 27: persönliche DKP-Nachricht (meldet /dkp-nachricht an)
+from dkp_nachricht_bot import find_member_for_char, send_raid_dms  # noqa: E402
 
 # ---------------------------------------------------------------------------
 # Hilfen
@@ -1485,125 +1479,6 @@ async def before_reminder():
     await bot.wait_until_ready()
 
 
-# ---------------------------------------------------------------------------
-# Items wie im Spiel: Embed mit Qualitätsfarbe, Tooltip und echtem Spielsymbol
-# ---------------------------------------------------------------------------
-
-
-async def item_embed(e: dict, db: dict | None, test: bool = False, tip: dict | None = None) -> discord.Embed:
-    """Ein vergebenes Item als Embed wie der Tooltip im Spiel."""
-    tip = tip or rmd.item_tip(db, e.get("link"))
-    if not tip or not tip.get("l"):
-        # kein Tooltip vom Addon (ältere Version oder Item noch nicht gelesen): bei Wowhead nachschlagen
-        wh = await wowhead_tip(e.get("link"))
-        if wh:
-            tip = {**wh, "l": [tuple(x) for x in wh.get("l") or []], "q": (tip or {}).get("q") or wh.get("q")}
-    name = (tip or {}).get("n") or e["item"]
-    emb = discord.Embed(title=name, url=rmd.wowhead_url(e.get("link"), WOWHEAD_FLAVOR),
-                        color=rmd.item_color(e.get("link"), tip))
-    desc = f"🎁 **{e['name']}** · **{e['amount']} DKP** · <t:{int(e['t'])}:t>"
-    block = rmd.tooltip_block(tip)
-    emb.description = desc + ("\n" + block if block else "")
-    icon = await item_icon(e.get("link"), tip)
-    if icon:
-        emb.set_thumbnail(url=icon)
-    cls = (((db or {}).get("data") or {}).get("players") or {}).get(e["name"], {})
-    cls = cls.get("c") if isinstance(cls, dict) else None
-    emb.set_author(name=f"{e['name']}" + (f" · {rimg.CLASS_NAMES.get(str(cls).upper(), '')}" if cls else ""),
-                   icon_url=rimg.class_icon_url(cls))
-    emb.set_footer(text=(("TEST · " if test else "") + e.get("pool_name", "")))
-    return emb
-
-
-def remember_tip(link: str | None, tip: dict | None, db: dict | None):
-    """Tooltip für das Menü "Tooltip anzeigen" merken (auch Testdaten, die sonst nicht gespeichert sind)."""
-    iid = rmd.item_id(link)
-    if not iid:
-        return
-    store = state.data.setdefault("tip_cache", {})
-    store[str(iid)] = {"link": link, "tip": tip, "t": int(time.time())}
-    if len(store) > 400:
-        for k, _ in sorted(store.items(), key=lambda kv: kv[1].get("t", 0))[:len(store) - 400]:
-            store.pop(k, None)
-
-
-async def loot_line(e: dict, db: dict | None) -> str:
-    tip = rmd.item_tip(db, e.get("link"))
-    remember_tip(e.get("link"), tip, db)
-    emoji = await item_emoji(e.get("link"), tip)
-    item = (tip or {}).get("n") or e["item"]
-    item_txt = f"**{item}**"     # nur Symbol und Name – kein Link, kein Tooltip
-    dot = await class_emoji(player_class(db, e["name"]))
-    return f"{emoji} <t:{int(e['t'])}:t> {dot}**{e['name']}** erhält {item_txt} für {e['amount']} DKP"
-
-
-async def send_loot_list(channel, items: list[dict], db: dict | None, header: str | None = None, test: bool = False) -> int:
-    """Loot als kompakte Liste: Item-Symbol vorne, Uhrzeit, Gewinner, Item (Link zu Wowhead), DKP.
-    Darunter ein Menü, das den Tooltip wie im Spiel zeigt (nur für den, der auswählt)."""
-    lines = [await loot_line(e, db) for e in items]
-    state.save()
-    text = ((header + "\n") if header else "") + "\n".join(lines)
-    parts = rmd.split_discord(text)
-    view = None     # kein Tooltip-Menü mehr unter der Loot-Liste
-    sent = 0
-    for i, part in enumerate(parts):
-        v = view if i == len(parts) - 1 else None
-        if test:
-            await send_test(channel, part, view=v)
-        else:
-            await channel.send(content=part, view=v) if v else await channel.send(part)
-        sent += 1
-    return sent
-
-
-async def show_tip(inter: discord.Interaction):
-    """Antwort auf das Menü "Tooltip anzeigen": Tooltip-Karte nur für den Klickenden.
-    Sofort bestätigen (Discord wartet nur 3 Sekunden), dann die Karte nachreichen."""
-    values = (inter.data or {}).get("values") or []
-    if not values:
-        return
-    try:
-        await inter.response.defer(ephemeral=True, thinking=True)
-    except discord.HTTPException:
-        pass
-    iid, name, amount, t, cls = (values[0].split("|") + ["", "", "0", "0", ""])[:5]
-    cached = (state.data.get("tip_cache") or {}).get(str(iid)) or {}
-    link = cached.get("link") or f"|Hitem:{iid}|h[Item {iid}]|h"
-    e = {"name": name, "amount": amount, "t": int(t or 0), "item": rmd.item_name(link), "link": link, "pool_name": ""}
-    emb = await item_embed(e, {"data": {"players": {name: {"c": cls}}}} if cls else None, tip=cached.get("tip"))
-    await inter.followup.send(embed=emb, ephemeral=True)
-
-
-async def post_new_loot():
-    entries = rmd.loot_entries(bot.dkp_data)
-    if not entries:
-        return
-    last = state.data.get("last_loot")
-    newest = [entries[-1]["t"], str(entries[-1]["id"])]
-    if last is None:
-        # Beim ersten Start nichts Altes posten
-        state.data["last_loot"] = newest
-        state.save()
-        return
-    fresh = [e for e in entries if (e["t"], str(e["id"])) > (last[0], last[1])]
-    state.data["last_loot"] = newest
-    state.save()
-    by_pool: dict[str, list] = {}
-    for e in fresh:
-        by_pool.setdefault(e["pool"], []).append(e)
-    for pool, items in by_pool.items():
-        channel = await channel_by_id(raid_channel(pool, "loot") or cfg.get("loot_channel_id"))
-        if not channel:
-            continue
-        try:
-            await send_loot_list(channel, items, bot.dkp_db)
-        except discord.HTTPException as ex:
-            log.warning("Loot-Liste mit Symbolen nicht möglich (%s) – als Text.", ex)
-            lines = [f"🎁 **{e['name']}** erhält **{e['item']}** für {e['amount']} DKP ({e['pool_name']})" for e in items]
-            for text in rmd.split_discord("\n".join(lines)):
-                await channel.send(text)
-
-
 @tasks.loop(seconds=30)
 async def dkp_loop():
     await process_new_data()
@@ -1652,90 +1527,9 @@ async def process_new_data():
 
 
 # ---------------------------------------------------------------------------
-# Eigene Beute-Datenbank: welcher Boss droppt was (aus euren eigenen Raids)
-# Beutetabelle je Raid im Loot-Kanal (nach jedem Raid neu unten angehängt), Befehle /beute ...
+# Eigene Beute-Datenbank (/beute): ab 1.5.157 in beute_bot.py. Beute-Posts nach dem Raid: ab 1.5.174 in
+# beutepost_bot.py. Persönliche DKP-Nachricht: ab 1.5.174 in dkp_nachricht_bot.py.
 # ---------------------------------------------------------------------------
-
-
-# ---------------------------------------------------------------------------
-# Persönliche DKP-Nachricht nach dem Raid (Direktnachricht an jeden Teilnehmer mit Discord-Profil)
-# ---------------------------------------------------------------------------
-DM_MAX_AGE = 2 * 86400
-
-
-async def find_member_for_char(name: str):
-    guild = bot_guild()
-    uid = book.user_for_char(name)
-    if guild is None:
-        return None
-    if uid:
-        m = guild.get_member(uid)
-        if m is None:
-            try:
-                m = await guild.fetch_member(uid)
-            except discord.HTTPException:
-                m = None
-        return m
-    n = name.lower()
-    for m in guild.members:
-        for cand in (getattr(m, "nick", None), getattr(m, "global_name", None), m.name):
-            if cand and str(cand).strip().lower().split(" ")[0] == n:
-                return m
-    return None
-
-
-async def send_raid_dms():
-    if not cfg.get("raid_dms", True):
-        return
-    data = bot.dkp_data or {}
-    if test_info(bot.dkp_db):
-        return
-    sent = state.data.setdefault("dm_sent", [])
-    now = time.time()
-    links = book.alt_links()
-    players = data.get("players") or {}
-    for summ in rmd.raid_summaries(data):
-        if summ["id"] in sent:
-            continue
-        sent.append(summ["id"])
-        if now - summ["t"] > DM_MAX_AGE:
-            continue                       # alte Raids beim ersten Start nicht nachschicken
-        count = 0
-        for row in summ["rows"]:
-            if not row.get("present") and not row.get("earned"):
-                continue
-            main = links.get(row["name"]) or ((players.get(row["name"]) or {}).get("m") if isinstance(players.get(row["name"]), dict) else None)
-            member = await find_member_for_char(row["name"]) or (await find_member_for_char(main) if main else None)
-            if member is None or member.bot:
-                continue
-            prof = book.profile(member.id) or {}
-            if prof.get("no_dm"):
-                continue
-            try:
-                await member.send(rmd.raid_dm_text(summ, row, data, main))
-                count += 1
-            except discord.HTTPException:
-                pass                       # Direktnachrichten ausgeschaltet
-            await asyncio.sleep(0.5)
-        log.info("Raid %s: %d persönliche DKP-Nachrichten verschickt.", summ["id"], count)
-    del sent[:-200]
-    state.save()
-
-
-@bot.tree.command(name="dkp-nachricht", description="Persönliche DKP-Nachricht nach jedem Raid an- oder abbestellen")
-@app_commands.choices(wahl=[app_commands.Choice(name="an", value="an"), app_commands.Choice(name="aus", value="aus")])
-async def dkp_dm_cmd(inter: discord.Interaction, wahl: app_commands.Choice[str]):
-    p = book.profile(inter.user.id)
-    if not p:
-        await inter.response.send_message("Lege zuerst dein Charakterprofil an (`/charakter`).", ephemeral=True)
-        return
-    if wahl.value == "aus":
-        p["no_dm"] = True
-    else:
-        p.pop("no_dm", None)
-    book.profiles.save()
-    await inter.response.send_message("Nach jedem Raid bekommst du deine DKP-Zusammenfassung per Direktnachricht."
-                                      if wahl.value == "an" else "Keine DKP-Nachrichten mehr nach dem Raid.", ephemeral=True)
 
 
 # ---------------------------------------------------------------------------

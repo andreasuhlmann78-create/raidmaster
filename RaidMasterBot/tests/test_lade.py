@@ -82,8 +82,6 @@ class Lade(unittest.TestCase):
         self.assertIs(b.bot.tree.get_command("pn").callback, pn_bot.pn_cmd.callback)
         import symbole_bot
         self.assertIs(symbole_bot.bot, b.bot)                    # D-3 Schritt 7: Symbole/Emojis/Wowhead
-        self.assertIs(b.class_emoji, symbole_bot.class_emoji)
-        self.assertIs(b.item_emoji, symbole_bot.item_emoji)
         self.assertIs(b.state, symbole_bot.state)
         import ruhmeshalle_bot
         self.assertIs(ruhmeshalle_bot.bot, b.bot)                # D-3 Schritt 8: Ruhmeshalle
@@ -170,6 +168,14 @@ class Lade(unittest.TestCase):
         self.assertIs(b.offer_substitute, ersatz_bot.offer_substitute)
         self.assertIs(ersatz_bot.update_raid_message, raidanzeige_bot.update_raid_message)
         self.assertIs(skillung_bot.update_raid_message, raidanzeige_bot.update_raid_message)
+        import beutepost_bot
+        import dkp_nachricht_bot
+        self.assertIs(beutepost_bot.bot, b.bot)                  # D-3 Schritt 27: Beute-Posts, DKP-Nachricht
+        self.assertIs(dkp_nachricht_bot.bot, b.bot)
+        self.assertIs(b.post_new_loot, beutepost_bot.post_new_loot)
+        self.assertIs(b.send_raid_dms, dkp_nachricht_bot.send_raid_dms)
+        for name in ("class_emoji", "item_emoji", "item_icon", "wowhead_tip"):   # Symbole nur aus symbole_bot
+            self.assertIs(getattr(beutepost_bot, name), getattr(symbole_bot, name), name)
         import dkp_tafel_bot
         import testdaten_bot
         self.assertIs(dkp_tafel_bot.bot, b.bot)                  # D-3 Schritt 26: DKP-Tabellen, Testdaten
