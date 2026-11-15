@@ -1,0 +1,64 @@
+BERICHT DISCORD AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 20:30 · Sitzung: Discord-Projekt · Version: Bot 1.5.142
+Umgesetzt, zur Prüfung. Nacht-Reihenfolge Punkt 1 (KEEP90 + D-KERN1), dazu Punkt 3 (D-MN7c2, D-MN7e2), weil klein.
+
+KEEP90
+- market.KEEP_DAYS = 90 (Entscheid des Nutzers 13.11. 23:35).
+- Speichergrenze: Store.budget() = min(1 GB, 50 % von (frei + belegt)).
+  - "Verfügbar" ist der freie Platz plus das, was die Ablage schon belegt. So belegt die Ablage nie mehr als die
+    Hälfte davon, und die Festplatte läuft nie voll.
+  - Gemessen mit shutil.disk_usage NACH dem Schreiben des neuen Scans, einmal je Ablegen. Beim Löschen bleibt
+    (frei + belegt) gleich, daher bleibt das Budget während des Löschens fest.
+- Über der Grenze oder über MAX_SCANS (jetzt 30 000) löscht der Bot die ÄLTESTEN Scans nach Scan-Zeit, nie den neuen.
+  Zähler "verdraengt" in index, /marktdaten.
+  - Passt nicht einmal der neue Scan allein: er wird nicht abgelegt, die Datei wieder entfernt, Zähler "begrenzt".
+  - Die Grenze je Quelle und Stunde bleibt eine Abweisung.
+- Messung durch den Bot (market.measure):
+  - freier Platz und Grösse des Laufwerks;
+  - Grösse der Ablage, Grenze, Anzahl Scans;
+  - Arbeitsspeicher des Bot-Prozesses (/proc/self/status VmRSS) und des Servers (/proc/meminfo MemTotal).
+  Eine Zeile in /marktdaten und am Ende jedes Wochen- und Zwischenberichts.
+  Beispiel: "Speicher: Marktdaten 12,0 MB (340 Scans), Grenze 1,0 GB … · Festplatte frei 1,2 GB von 2,0 GB ·
+  Arbeitsspeicher Bot 85,0 MB von …".
+- Frage "2 GB = Festplatte oder Arbeitsspeicher?": Die Messwerte stehen nach dem Update in /marktdaten. Von hier aus
+  ist der Server nicht erreichbar (Sitzung nicht mit dem Rechner verbunden). Wert bitte aus /marktdaten übernehmen.
+
+D-KERN1
+- market.daily_summary(store, "JJJJ-MM-TT"): Tag in der Zone des Bots (Zeitumstellung: 23/25 h).
+  - Je Fraktion: Scans, Quellen (nur Anzahl), abdeckung_h, vergleich_h.
+  - Je Item: [scans, quellen, preis_median, preis_min, preis_max, menge_median, absatz_min_tag, absatz_max_tag].
+    Feldnamen stehen in "felder"; Absatz wie im Wochenbericht (Summe Abgänge / Summe Vergleichsdauer × 86 400).
+  - Keine Namen, keine Quellen-Kennungen: Quellen werden je Tag auf laufende Nummern abgebildet, nur deren Anzahl
+    steht in der Datei.
+- Grenze 1 MB:
+  - zuerst nur Items mit ≥ 2 Quellen;
+  - reicht das nicht, je Runde 5 % der Items mit den wenigsten Scans weglassen;
+  - Anzahl in "weggelassen", Kennzeichen "nur_ab_2_quellen" – nie still abgeschnitten.
+- bot.post_market_daily: stündlich geprüft, einmal je Tag für gestern, Anhang GSMARKTT1-<Datum>.json in #bot-befehle.
+  Ohne Scans postet der Bot nichts. Ohne Kanal setzt er keinen Merker, damit er es nächste Stunde erneut versucht.
+- markt_bericht_holen.py: GSMARKTT1-<Datum>.json kommt nach testberichte/markt/tages/<Datum>.json (Ordner wird angelegt).
+  Der Workflow markt-bericht.yml nimmt testberichte/markt/ schon ganz mit.
+- Echte v7-Exportzeile: tests/data/gsmarkt_v7_export.txt, erzeugt mit tests/data/make_gsmarkt_v7.py aus der
+  Lua-Nachbildung von shared/tests/test_goldsentinelmarkt.py (Ablauf v7-Test, VERSION 7 geprüft).
+  - 55 287 Zeichen, 3 054 Items, Kopf GSMARKT1|1|H|…
+  - Der Bot liest sie unverändert (keine Anpassung nötig) und fasst sie zusammen: 3 054 Items, ≤ 1 MB.
+  - Beleg: Test Kern1Test.test_echte_v7_exportzeile.
+
+D-MN7c2: zusätzlich MAX_NEW_TOTAL_HOUR = 120 (alle Quellen je Stunde) und MAX_NEW_SOURCES_DAY = 20 (neue Kennungen je
+  24 h; bekannte Quellen nicht betroffen). Test: 31 Pakete mit 31 neuen Kennungen -> 20 neu, 11 "begrenzt"; 5 Quellen ×
+  30 -> 120 neu.
+D-MN7e2: market_catchup fängt discord.HTTPException um ch.history ab. Protokoll: "Marktdaten: Nachlesen in
+  #testberichte nicht möglich (403 …)". Test mit Attrappe, deren history Forbidden wirft.
+
+TESTS: T-KEEP90a (90 Tage, 91 abgelehnt, prune), T-KEEP90b (Budget 1 GB bzw. 50 %, älteste weg, nur so viel wie
+nötig, voller Datenträger: nichts abgelegt, keine Datei übrig), T-KEEP90c (Messung, Text der Zeile), T-D-KERN1 (leer,
+eine Quelle mit nachgerechneten Werten [2,1,110,100,120,9,24.0,48.0], Grenze 1 MB mit Zähler, echte v7-Zeile, fällig/
+Zeitumstellung, Sammler), T-D-MN7c2, T-D-MN7e2, Ablauf post_market_daily (keine Scans, einmal, nie doppelt).
+Bisherige Tests auf 90 Tage angepasst (95 statt 40 Tage abgelehnt; MAX_SCANS-Fall jetzt Verdrängung statt Abweisung).
+REGRESSIONEN um 6 Einträge ergänzt. Alle 272 Bot-Tests OK (python3 -I -m unittest discover -s RaidMasterBot/tests).
+
+IM BETRIEB ZU PRÜFEN: /marktdaten zeigt die Speicherzeile (Wert "Festplatte … von …" und "Arbeitsspeicher … von …" –
+damit ist die Frage 2 GB beantwortet); Montag 16.11. nach Mitternacht GSMARKTT1-2026-11-15.json in #bot-befehle, danach
+testberichte/markt/tages/2026-11-15.json (nur, wenn am 15.11. Scans ankamen).
+
+WEITER: Nacht-Reihenfolge Punkt 2 (UP-404 b/c/d).
