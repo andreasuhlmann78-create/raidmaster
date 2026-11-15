@@ -71,6 +71,13 @@
         in FinishSearch/ApplyDead auf die neuen Listings übertragen (Status "gesendet" bzw. "gekauft"), PlanNext plant sie nie
         wieder. Gleiches für Waren-Reservierungen prüfen. Test: Kauf gesendet -> neue Suche liefert dasselbe Angebot -> Raste
         sendet das NÄCHSTE Angebot, nie dieselbe auctionID zweimal (Zähler "doppelt gesendet" im Testbericht = 0).
+    (f) BELEGT SUPERVISOR 12:30 (Code 0.65.185 gelesen): Kopf "Heute: … gekauft" zählt TREFFER mit Kauf, nicht Stück.
+        Sn:MeterEnd (Sniper.lua ~1449) erhöht st.bought um 1 je Episode; eine Episode entsteht je Treffer (Zeile ~1410), nur der
+        ERSTE Kauf eines Treffers trägt sie (Sn:Buy ~1970 "self.episode = nil"), weitere Rasten im selben Treffer ep = nil ->
+        werden im Kopf nicht gezählt. Ziel-Zähler (CountItemBuy: t.bought += qty) zählt Stück. Darum 12:16 "Heute 67" gegen
+        Ziel "70/1000" (12:03: 61 gegen 5 – dort waren 65 noch offen). Zu tun (A5, eine Zahl): Kopf so beschriften, wie gezählt
+        wird ("Heute: 162 Treffer · 67 mit Kauf · 95 verpasst · gekauft 70 Stück") ODER Stück zählen – aber nie dasselbe Wort
+        "gekauft" für zwei verschiedene Zahlen. "verpasst" bleibt je Treffer.
     Test S-Takt: 60 Rasten in 20 s gegen ein Server-Modell, das nur nacheinander annimmt -> Erfolgsquote ≥ 90 % der gesendeten,
     Zähler = Gold. Bericht: gemessene Quote vorher/nachher aus echten Daten.
 
