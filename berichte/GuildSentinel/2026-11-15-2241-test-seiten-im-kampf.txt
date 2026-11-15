@@ -1,0 +1,11 @@
+BERICHT GUILDSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 22:41 (Uhrzeit aus date, Europe/Zurich) · Sitzung: GuildSentinel-Projekt-Sitzung · keine neue Addon-Version · Commit: GuildSentinel db14461
+
+UMGESETZT, ZUR PRÜFUNG (Wunsch Nacht-Prüfung 22:33 zu 0.9.46):
+- Neues Testskript test/run_combat_pages.lua: für JEDE eingeschaltete Seite (12 ausser Startseite) frisch laden,
+  Startseite öffnen, dann InCombatLockdown = true + PLAYER_REGEN_DISABLED, die Seite zum ersten Mal anwählen.
+  Je Seite geprüft: kein Lua-Fehler, Seite gebaut und angezeigt, KEIN Frame mit Secure-Vorlage im Kampf erzeugt (im
+  Spiel ADDON_ACTION_BLOCKED), kein verbotener geschützter Aufruf; danach Kampfende und Fehlerzählung (M.AllErrors).
+- Ergebnis: 48/48, 0 Fehlermeldungen je 16001, 11508, 20505.
+- Gegenprobe: ein SecureActionButtonTemplate in Le.build eingebaut -> "FAIL: lead: keine Secure-Frames im Kampf", 47/48.
+- In test/run_alle.sh aufgenommen: "GESAMT: 131 Läufe, 0 rot · 4639 Einzelprüfungen bestanden, 0 fehlgeschlagen".
