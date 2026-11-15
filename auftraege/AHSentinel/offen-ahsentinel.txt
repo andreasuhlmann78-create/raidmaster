@@ -159,6 +159,28 @@
   Messwerkzeug: GSSniperLog 1.7 ordnet AH-Fehler jetzt auch dem jüngsten Kauf zu (1.2–1.6 dem ältesten – deren Zahl "offene Käufe
   beim Senden" war darum zu hoch; GSL6-3 bitte mit dieser Einschränkung lesen).
 
+>>> GSL8 – PROTOKOLL 8 (GSSniperLog 1.6, Nutzer 18:42–18:52, AHS 0.65.203; Supervisor 18:5x).
+    A1 erneut BESTANDEN: 26 gesendet, 25 bestätigt, Gold bestätigt 2g09s00c = Gold-Abgang 2g09s00c = AHS-Zähler 25 / 2g09s00c
+    (Differenz 0), doppelt 0, ohne Antwort 0. Weggeschnappt 9 (Wettbewerb).
+  GSL8-0 POSITIV, BELEGT: "Code 10 trotz Kauf" = 0 (Minute 18:51: 23 gesendet / 22 gekauft, Code 10: 0; Protokoll 6/7: 12–14 je
+         Sitzung). Das 0,3-s-Kaufpause aus GSL4-1 (b) (Sniper.lua 652 BUY_QUIET) wirkt. Preis dafür: Raste -> Senden ist zweigeteilt,
+         36 Käufe in 9–43 ms und 57 in 222–303 ms (= Warten bis 0,3 s nach dem letzten Senden). BEHALTEN. Nicht verkürzen, ohne
+         vorher Code 10 erneut zu messen.
+  GSL8-1 NEU (MITTEL, Ruckeln): Nach dem Vollscan (18:46:29–18:46:43 und 18:47:22–23) kommen GET_ITEM_INFO_RECEIVED-Stürme von
+         2 800–9 300 Ereignissen je 2 s; dabei 20+ Bilder mit 100–177 ms und eines mit 446 ms (18:46:32, Aufgaben cache:itemlist,
+         names, de:matdiag, cache:warm-today, forecast:hours). Aufgaben in diesen Bildern: fullscan*, cache:today:10*,
+         ketten:refresh. Daraus: AHS fragt GetItemInfo für Tausende noch unbekannte Items auf einmal ab (Verdacht, zu messen: wer
+         genau – mit einem Zähler je Aufgabe belegen). Ziel: höchstens ~200 neue Item-Abfragen je Sekunde, in Portionen über
+         A.jobs, nur für Items, die wirklich gebraucht werden. Kein Bild > 50 ms durch AHS nach dem Vollscan.
+         VERDACHT dazu (DE-WIN1 a): Das Entzauber-Fenster war 18:46 leer, genau während dieses Sturms – prüfen, ob die Taschen-Items
+         dabei kurz keine GetItemInfo-Antwort haben (Prior nil) und das Fenster danach nicht neu zeichnet.
+  GSL8-2 Hinweis: Code 4 trat 1× auf (18:51:44.5 zu 110939559); das Angebot wurde NICHT erneut gesendet – GSL7-1 bleibt trotzdem
+         offen (Protokoll 7 belegt es).
+  GSL8-3 Hinweis: Status "Kauf bestätigt (Server meldete kurz einen internen Fehler …)" lag in Minute 18:42 bei 365 von 371 Rasten
+         ohne Kauf über dem Fenster – GSL5-4 bleibt wichtig.
+  Ruhemodus: in diesem Protokoll lief beim Snipen keine BEGONNENE Aufgabe, nur wartende (forecast-eval, craft-top, pd7,
+         ketten:refresh) – GSL6-1 bleibt (Code-Beleg), hier nur nicht aufgetreten.
+
 >>> GSL6 – PROTOKOLL 6 (GSSniperLog 1.5, Nutzer 18:14–18:32, AHS 0.65.202; Supervisor 18:35).
     A1 erneut BESTANDEN mit 0.65.202: 51 gesendet, 49 bestätigt (96 %), Zähler 49 / 4g36s80 = bestätigt = Gold-Abgang (exakt),
     doppelt 0, Code 10 trotz Kauf 14. Fremde Anfragen beim Snipen nur noch 1 in 1046 s (Ruhemodus wirkt für Anfragen).
