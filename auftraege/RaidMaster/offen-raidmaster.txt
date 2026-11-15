@@ -202,6 +202,13 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
    laufen lassen und gefundene Fehler im Bericht melden – mehr nicht. Nie "erledigt/freigegeben/bestanden/geprüft"
    erklären; Berichte schreiben "umgesetzt, zur Prüfung" mit Belegen. Erledigt setzt nur die Prüf-Sitzung.
 
+PRÜFUNG UP-404 (Supervisor 15.11. 12:50, Bericht 2026-11-15-0145 gelesen): Ursache BELEGT – Bot war vom Server entfernt
+   (Nutzer 01:43 "ja der Bot ist weg"), Discord hat dabei Webhooks und Bot-Rolle gelöscht -> 404. Bot 02:01 wieder eingeladen,
+   02:33 läuft (Neustart, Administrator für neue Rolle). Teil (1) Ursache damit erledigt. OFFEN, zur Prüfung: (2) bei Dauerfehler
+   nicht alle 5 s versuchen (Rückzug auf 1 Min., eine Zeile je Minute) – im Uploader umsetzen bzw. belegen; (3) Beleg, dass seit
+   14.11. 18:50 nichts verloren ging (erster erfolgreicher Upload nach /uploader mit Zeit); (4) Fenster-Text bei 404 in Worten:
+   "Bot nicht auf dem Server oder Webhook gelöscht – /uploader im Discord neu ausführen". Nutzer: nach /uploader beide Rechner
+   neu konfiguriert? (offen).
 UP-404 HOCH (Nutzer 15.11. 01:26, Screenshot Uploader): "Abgleich: Discord antwortet 404 – lokale Dateien bleiben unverändert,
    neuer Versuch später." alle 5 s seit mind. 01:23; "zuletzt hochgeladen 14.11. 18:50 (DESKTOP-NVITMSE) · neuester Stand: – ·
    FEHLER: Discord antwortet 404". Der Abgleich über Discord findet sein Ziel nicht mehr (Kanal/Nachricht/Webhook gelöscht oder

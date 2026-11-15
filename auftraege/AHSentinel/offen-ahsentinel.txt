@@ -68,6 +68,10 @@ TB184 (Testbericht 0.65.184, 15.11. 12:27, /ahs testroutine ui – Supervisor ge
      verschoben, z. B. nach "ausstehend" 10 -> 15?) und Bericht-Zeile "Änderungen an früheren Tagen" einführen.
   TB184-S1 Hinweis: Sniper-Takt 12:16 Ø 85,2 Suchen/Min. (höchster 86) – nahe an der Grenze 90/Min.; passt zu "so schnell wie
      erlaubt", AH-Fehler "Server bremst" im Blick behalten (A1).
+T373 NACHTRAG (Entwurf Nachprüfung 11:20, vom Supervisor übernommen): Diagnose 0.65.180, 15.11. 10:21:50 "LANGSAM Hintergrund-
+    Aufgabe cache:warm-today · 0 Schritte · längster Schritt 182 ms bis Comfort.lua:1002" (früher 50–54 ms in 0.65.110), dazu
+    16–40 ms Extras.lua:279, Comfort.lua:779/931, pd7 16–18 ms AHAnalyzerPro.lua:1152. Ziel ≤ 16 ms je Bild; "0 Schritte" = pausiert
+    nie. Gehört zu RUCKEL-1 (zurückgestellt), Zahl und Stelle hier festgehalten. UI-CLEAN1 (A) 0.65.182: durch TB184-U1/U3 ersetzt.
 >>> PRÜFUNG 0.65.186 (Supervisor 12:45, Bericht + Code Sniper.lua/Ledger.lua gelesen) – NICHT abgenommen, Befunde:
     P186-1 HOCH (Gold-Zähler, A1/A5): DOPPELZÄHLUNG möglich. ReconcileItemBuys zählt bei Gold-Abgang die ÄLTESTEN offenen
            Käufe (A). Kam in Wahrheit B durch und meldet der Server später B (ItemPurchaseConfirmed, Sniper.lua 594–612): B ist

@@ -10,6 +10,12 @@
     Perfektion – nicht nur beim Sniper." Jede Version: Ursache belegt (Code-Stelle + Messung), nicht vermutet; jede Zahl geht auf;
     alle Wege getestet (Erfolg, Fehler, Abbruch, AH zu, Kampf, alte Clients); keine Sperre ohne Zeitlimit; nichts abgeschnitten
     oder doppelt; Bericht nur "umgesetzt, zur Prüfung" mit Belegen. Lieber eine Version später als eine mit Fehlern.
+UP-404 / BOT ENTFERNT (Supervisor 15.11. 12:50, aus Bericht RaidMaster 01:45): Bot war am 15.11. ca. 01:20 vom Gilden-Server entfernt,
+   02:01 wieder eingeladen, 02:33 läuft. OFFEN: (a) Audit-Log auswerten: wer/warum entfernt (ohne Spielernamen ins Repo, nur
+   "Rolle/Grund"); (b) Bot meldet beim Start in #bot-daten bzw. Protokoll, wenn er auf keinem Server ist oder Rechte fehlen (statt
+   still 403); (c) Slash-Befehle bei on_guild_join neu anmelden (nicht nur setup_hook), damit nach Wiedereinladen kein Neustart nötig
+   ist; (d) Rolle "Raidmaster tool" hat jetzt Administrator – auf die nötigen Rechte zurückführen (Kanäle/Webhooks verwalten,
+   private Kanäle explizit freigeben), Administrator ist zu viel.
 
 >>> GRUNDSATZ NACHVOLLZIEHBAR (Nutzer 14.11. 15:18, gilt für alles Neue): Zahl + EIN Satz, was sie ist und wie sie entsteht (≤ 20 Wörter, Alltagssprache). Siehe auftraege/README.md.
 
