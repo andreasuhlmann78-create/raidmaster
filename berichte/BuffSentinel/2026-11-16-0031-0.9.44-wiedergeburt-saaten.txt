@@ -1,0 +1,16 @@
+BuffSentinel – Bericht an die Prüf-Sitzung · 0.9.44-wiedergeburt-saaten
+Datum: 16.11.2026, 00:31 (aus date)
+
+Stand: Wiedergeburt-Saaten umgesetzt, zur Prüfung (Reihenfolge 00:18: Saaten, Runen; Ghul weggelassen wie entschieden).
+
+Veröffentlicht: download/BuffSentinel-0.9.44.zip, README, announce 0.9.44 (+ Zip), 0.9.43 entfernt; auf origin/main nachgeprüft.
+addon_check "OK (1 Warnungen)" (nur Lua-Syntax). cmp: Game/Sync/Test/Markt v7 und die drei Datendateien gleich.
+
+Umsetzung: Data/Druid.lua "r_rebirth" (Baustein Reagenz nach höchstem Rang): 48477->44614, 26994->22147, 20748->17038, 20747->17037,
+20742->17036, 20739->17035, 20484->17034 (genau bs-saaten-runen.md), low = 1 (Hinweis bei 0), groupOnly, max = 3, Standard an.
+Locales EN/DE (3), CHANGELOG EN/DE.
+
+Belege: T243 "1:17034 5:17038 6:22147 7:44614 nil:nil" (R1 -> Ahorn; R1+R5 -> Eisenholz; TBC-Rang -> Flintgras; Wrath-Rang mit Lücke ->
+Sternblatt; nichts gelernt -> nil). run25m OK 189, bekannte 12 Nachbau-FEHLER. Offline-Routine (veröffentlichte Zip): 8 × RESULT PASS.
+
+Nächster Punkt: Teleport-/Portal-Runen.
