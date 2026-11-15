@@ -1,0 +1,9 @@
+AHSentinel 0.65.236 – Nacht-Prüfung 22:06 ("quellen" als "mind. n Spieler") – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.236 und sofort im Discord.
+Text überall, wo die Spielerzahl aus "alle" erscheint (README: Untergrenze):
+  - A:PerDayInfo "alle Spieler (mind. n), x Tage" bzw. "gemessen, x Tage + mind. n Spieler"; Tooltip und Markt-Detail ebenso.
+  - Testbericht MARKT-KERN: "Horde n Items (m mit Absatz, mind. q Spieler)" (vorher "bis q Spieler").
+  - Neue Locale-Schlüssel (alle Sprachen), alte bleiben (keine Wirkung). Preis aus "alle" weiter nicht genutzt.
+Tests: T803, s226 (neuer Text), s227 (Testbericht-Zeile) grün; Szenario-Anpassung erst mit dieser Version ins Repo (sonst
+  wären die Läufe für 0.65.229–235 rot). Mit 0.65.235 rot (alter Text). CHANGELOG EN/DE.
+Gesamtlauf (frischer Klon, Kopie 0.65.236, s226/s227 mit dieser Version ins Repo): BESTANDEN 281, FEHLGESCHLAGEN 0.
