@@ -143,11 +143,10 @@ WoW-Forever-Eigenheiten, die PS sichtbar führen muss (warcrafttavern Forever-Be
   - Die Zeile "Bestes: …" unter dem Fenster entfällt (Ersatz: Reiter Jetzt). Stern in der Blizzard-Liste bleibt (klein, eine
     Stelle). Knopf "Alle Rezepte" heisst "ProfessionSentinel" und öffnet das Fenster.
 
-3.4b BAROMETER IM HANDWERKSBUCH (Idee des Nutzers 19:42, Form 19:45: "viel feiner und moderner, nahtlos im WoW-Handwerksbuch")
-  STATUS 19:47: Die Freigabe des Nutzers galt dem UI ("also vom UI") – das Barometer ist NOCH NICHT freigegeben. Erst umsetzen,
+3.4b SKILLSPUR IM HANDWERKSBUCH (Nutzer 19:48: "Barometer" ist es nicht und darf nicht so heissen – Arbeitsname Skillspur, Name wartet auf den Nutzer; im Code heute "Lebenslinie") (Idee des Nutzers 19:42, Form 19:45: "viel feiner und moderner, nahtlos im WoW-Handwerksbuch")
+  STATUS 19:47: Die Freigabe des Nutzers galt dem UI ("also vom UI") – die Skillspur ist NOCH NICHT freigegeben. Erst umsetzen,
   wenn der Nutzer es freigibt (Form kann sich noch ändern). Messen der echten Chancen darf schon vorbereitet werden.
-  Ersetzt die heutigen Zeichen "20×", "≈6×", "≈80×" in der Blizzard-Rezeptliste (Bild-Entwurf, Zeichenfläche "Barometer im
-  Handwerksbuch", obere Liste links):
+  Ersetzt die heutigen Zeichen "20×", "≈6×", "≈80×" in der Blizzard-Rezeptliste (Bild-Entwurf, Zeichenfläche "Dein Handwerksbuch umgebaut – Skillspur"):
   - Unter jedem Rezeptnamen eine 2-px-Linie über die Zeilenbreite: Abschnitte orange/gelb/grün/grau im Verhältnis der Stufen des
     Rezepts (gelb/grün/grau-Schwellen aus den Daten der laufenden Spielversion). Der aktuelle Abschnitt kräftig (≈85 % Deckkraft),
     die anderen nur angedeutet (20–45 %). Ein feiner weisser Strich (2 px breit, 6 px hoch) = eigene Fertigkeit; er wandert beim
@@ -163,7 +162,7 @@ WoW-Forever-Eigenheiten, die PS sichtbar führen muss (warcrafttavern Forever-Be
     zu Grau, Punkt ja/nein); ab genug Fällen je Band (z. B. ≥ 30) die gemessene Chance zeigen, sonst die Formel mit "geschätzt".
     Über GoldSentinelSync anonym in der Gilde zusammenlegen (nur Zahlen, keine Namen). Forever: Legacy-Talent "Working Overtime"
     (+4 % Skill-up-Chance je Rang laut Warcraft Tavern) – Rang auslesen, falls die API ihn liefert, sonst aus den Messungen lernen.
-  - Einstellung "Barometer im Handwerksbuch" (Standard AN).
+  - Einstellung "Skillspur im Handwerksbuch" (Standard AN).
   - Test: Linie + Zahl für orange/gelb/grün/grau richtig; Strich wandert nach einem Punkt; kein Überlappen; Messung zählt richtig
     (Nachbildung mit festen Zufallszahlen, Gegenprobe).
 
