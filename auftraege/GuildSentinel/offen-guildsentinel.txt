@@ -1,3 +1,13 @@
+>>> GS-W2 HOCH (Nutzer 15.11.2026 13:52 "ich will bei Vorschlag unter mehreren Vorschlägen auswählen können – GuildSentinel soll welche
+    erstellen, immer mit /w {name} gilde"): Statt nur "Vorschlag 1/2" eine AUSWAHL von mehreren fertigen Werbetexten (z. B. 5–8),
+    die GuildSentinel selbst erstellt – verschiedene Töne/Längen (kurz, freundlich, Raid-fokussiert, Aufbau-Phase, mit Discord-
+    Tag, ohne Discord …), jeweils mit den Platzhaltern {gilde} {fraktion} {gesucht} {discord} {tag} und IMMER am Ende
+    "– flüstert mir: /w {name} gilde" (je Sprache das eigene Wort, wie GS-W1). Bedienung: Liste/Aufklappmenü "Vorschlag wählen"
+    mit Vorschau (fertig eingesetzter Text inkl. Zeichenzahl ≤ 255), Klick übernimmt in das Textfeld; der eigene Text wird nur
+    nach Klick ersetzt. Passt zur Phase (Aufbau/Raid): passende Vorschläge oben. Alle Vorschläge ≤ 255 Zeichen nach dem
+    Einsetzen (sonst nach GS-W1 (b) kürzen, /w-Teil bleibt ganz). Keine Spielernamen. Tests: jeder Vorschlag enthält "/w {name}",
+    eingesetzt ≤ 255, alle Sprachen, Auswahl übernimmt richtig. Mit GS-W1 zusammen in EINER Version; Discord sofort, CurseForge 18:00.
+
 >>> GS-W1 HOCH (Nutzer 15.11.2026 13:49 "GuildSentinel soll im Rekrutierungstext wieder den Teil mit /w … gilde reinnehmen!"):
     Befund Supervisor (Code 0.9.38, Recruit.lua): Die Standardtexte (DefaultAd Phase Aufbau/Raid, Zeile 124/126) enthalten
     "– flüstert mir: /w {name} gilde", Vorschlag 2 (Rc:Suggestion2, Zeile 51, mit {tag}) aber NICHT – und ein gespeicherter
