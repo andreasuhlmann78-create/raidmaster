@@ -367,6 +367,8 @@ REGRESSIONEN = {
     "T-D3-WILLKOMMEN": ("test_willkommen_bot", "Willkommen", "test_einmal_posten_dann_nur_bei_aenderung"),
     "T-D3-GILDENNAME": ("test_gildenname_bot", "Gildenname", "test_namenspruefung"),
     "T-D3-BEFEHLSLISTE": ("test_befehlsliste_bot", "Befehlsliste", "test_mitgliederliste_nur_fuer_alle"),
+    "T-CHUNK": ("test_chunk_blocks", "ChunkBlocks", "test_zu_langer_block_wird_geteilt"),
+    "T-CHUNK-LISTE": ("test_befehlsliste_bot", "Befehlsliste", "test_keine_nachricht_ueber_2000"),
     "T-D3-BEFEHLE": ("test_befehle_liste", "BefehleListe", "test_gleiche_befehle"),
     "T-D-MN8b": ("test_market", "BotAblauf", "test_T_D_MN8b_aenderung_erst_nach_senden_merken"),
     "T-D-GS1b": ("test_market", "BotAblauf", "test_T_D_GS1b_grosse_guildsentinel_datei"),

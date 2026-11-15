@@ -63,6 +63,12 @@ class Befehlsliste(unittest.TestCase):
         self.assertGreaterEqual(len(alle), 49)
         self.assertEqual(self.names(self.m.command_list_text()), alle)
 
+    def test_keine_nachricht_ueber_2000(self):
+        # 1.5.162 (T-CHUNK): bis 1.5.161 hatte Teil 3 der Offiziersliste 2022 Zeichen (seit 1.5.141)
+        self.m.state.data["name_poll"] = {"closed": False}
+        for parts in (self.m.command_list_text(), self.m.member_command_list_text()):
+            self.assertTrue(all(len(p) <= 2000 for p in parts), [len(p) for p in parts])
+
     def test_mitgliederliste_nur_fuer_alle(self):
         self.m.state.data["name_poll"] = {"closed": False}
         got = self.names(self.m.member_command_list_text())

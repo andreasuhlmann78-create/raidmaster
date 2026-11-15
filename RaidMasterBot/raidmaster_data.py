@@ -389,16 +389,42 @@ def personal_assignment(a: dict, name: str) -> str | None:
     return f"📋 Deine Aufgaben für **{a.get('title') or 'den Raid'}**:\n" + "\n".join(parts)
 
 
-def chunk_blocks(blocks: list[str], limit: int = 1900) -> list[str]:
+def _split_long_block(b: str, limit: int) -> list[str]:
+    """Bot 1.5.162: einen Block, der allein länger als limit ist, an Zeilengrenzen teilen (gierig, jedes Stück
+    <= limit); eine einzelne zu lange Zeile wird hart geteilt. Kürzere Blöcke bleiben unverändert."""
+    if len(b) <= limit:
+        return [b]
     out, cur = [], ""
-    for b in blocks:
-        if cur and len(cur) + len(b) + 2 > limit:
+    for line in b.split("\n"):
+        while len(line) > limit:                         # eine Zeile allein zu lang
+            if cur:
+                out.append(cur)
+                cur = ""
+            out.append(line[:limit])
+            line = line[limit:]
+        if cur and len(cur) + 1 + len(line) > limit:
             out.append(cur)
             cur = ""
-        cur = (cur + "\n\n" + b) if cur else b
+        cur = (cur + "\n" + line) if cur else line
     if cur:
-        out.append(cur[:2000])
+        out.append(cur)
     return out
+
+
+def chunk_blocks(blocks: list[str], limit: int = 1900) -> list[str]:
+    """Blöcke zu Discord-Nachrichten zusammenfassen, jede höchstens limit Zeichen (Discord: 2000).
+    Bis 1.5.161 blieb ein einzelner Block über limit ungeteilt (z. B. #befehlsliste Teil 3 mit 2022 Zeichen seit
+    1.5.141 -> von Discord abgelehnt); jetzt wird er an Zeilengrenzen geteilt."""
+    out, cur = [], ""
+    for b in blocks:
+        for piece in _split_long_block(b, limit):
+            if cur and len(cur) + len(piece) + 2 > limit:
+                out.append(cur)
+                cur = ""
+            cur = (cur + "\n\n" + piece) if cur else piece
+    if cur:
+        out.append(cur)
+    return [p[:2000] for p in out]
 
 
 def player_pool_value(p: dict, pool: str) -> int:
