@@ -1,6 +1,6 @@
 {
- "ausgewertet": "2026-11-15T00:14:54Z",
- "hinweis": "Der Bot ist auf keinem Server (oder DISCORD_GUILD_ID passt nicht).",
+ "ausgewertet": "2026-11-15T01:19:55Z",
+ "hinweis": "Der Bot darf #testberichte nicht lesen.",
  "addons": {
   "AHSentinel": {
    "berichte": 45,
@@ -1017,7 +1017,7 @@
    },
    "GuildSentinel": {
     "anzahl": 112,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.38-b54b63a79529.txt"
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.38-0e77f069f6a6.txt"
    },
    "LevelPilot": {
     "anzahl": 16,
@@ -1025,7 +1025,7 @@
    },
    "ProfessionSentinel": {
     "anzahl": 93,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.45-7a8cd483f3af.txt"
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.45-bbca32a6bc68.txt"
    },
    "ThreatSentinel": {
     "anzahl": 94,
@@ -1035,7 +1035,7 @@
   "wege": {
    "LevelPilot": {
     "anzahl": 155,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794681431-079ae4.json"
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794653036-3b17f1.json"
    }
   }
  }
