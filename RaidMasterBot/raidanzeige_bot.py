@@ -7,15 +7,49 @@ Weg A (Antwort der Prüf-Sitzung 15.11. 20:48).
 """
 from __future__ import annotations
 
+from datetime import datetime
+from zoneinfo import ZoneInfo
+
 import discord
 
+import abwesenheit
 import grund
 import raidmaster_data as rmd
 from bot_hilfen import raid_view
-from kern import GREY, ORANGE, book, log
+from kern import GREY, ORANGE, TZ, book, log, state
 
 bot = grund.bot
 assert bot is not None, "raidanzeige_bot erst nach grund.bot = bot importieren"
+
+
+def absence_line(raid: dict) -> str:
+    """D-N1 (ab Bot 1.5.184): "🏖️ Abwesend gemeldet: …" – Mitglieder, die am Raidtag abwesend gemeldet und nicht
+    angemeldet sind; nur Charakternamen (nie der Grund), bei PUG- und Testraids leer, höchstens 600 Zeichen."""
+    if raid.get("mode") == "pug" or raid.get("test"):
+        return ""
+    day = datetime.fromtimestamp(raid["start"], ZoneInfo(TZ)).date()
+    names, unknown = [], 0
+    for uid in abwesenheit.absent_on(state.data.get("absences") or {}, day):
+        s = (raid.get("signups") or {}).get(uid)
+        if s and s.get("status") == "an":
+            continue
+        p = book.profile(uid)
+        if p and p.get("name"):
+            names.append(p["name"])
+        else:
+            unknown += 1
+    if not names and not unknown:
+        return ""
+    names.sort(key=str.lower)
+    text = ""
+    for i, n in enumerate(names):
+        if len(text) + len(n) > 560:
+            unknown += len(names) - i
+            break
+        text += (", " if text else "") + n
+    if unknown:
+        text += (" und " if text else "") + f"{unknown} " + ("weiteres Mitglied" if unknown == 1 else "weitere Mitglieder")
+    return "🏖️ Abwesend gemeldet: " + text
 
 
 def raid_embed(raid: dict) -> discord.Embed:
@@ -39,6 +73,9 @@ def raid_embed(raid: dict) -> discord.Embed:
     summary = rmd.class_summary(raid)
     if summary:
         desc += "\n" + summary
+    absent = absence_line(raid)          # D-N1 (ab 1.5.184)
+    if absent:
+        desc += "\n" + absent
     e = discord.Embed(title=title, description=desc, color=GREY if raid.get("closed") else ORANGE)
     for name, value, inline in rmd.raid_fields(raid):
         e.add_field(name=name, value=value, inline=inline)

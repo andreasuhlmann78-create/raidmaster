@@ -42,7 +42,7 @@ class Fehlend(unittest.TestCase):
         m = self.m
         self.saved = (m.is_creator, m.book.get, m.bot_guild, m.bot._connection._intents)
         m.is_creator = lambda u: True
-        self.raid = {"id": 4, "title": "MC", "signups": {"1": {"status": "an"}, "2": {"status": "ab"}}}
+        self.raid = {"id": 4, "title": "MC", "start": 1794470000, "signups": {"1": {"status": "an"}, "2": {"status": "ab"}}}
         m.book.get = lambda rid: self.raid if rid == "4" else None
         self.members = [mitglied(1, "Ana", "Raider"), mitglied(2, "Bert", "Mitglied"),
                         mitglied(3, "dora", "Mitglied"), mitglied(4, "Carl", "Offizier"), mitglied(5, "Gast1", "Gast"),

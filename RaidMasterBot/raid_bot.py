@@ -23,6 +23,7 @@ import discord
 from discord import app_commands
 from discord.ext import tasks
 
+import abwesenheit
 import grund
 import mc_tactics
 import member_area
@@ -34,7 +35,7 @@ from dkp_befehle_bot import reload_dkp_if_needed
 from ereignis_bot import create_raid_event, delete_raid_event
 from grund import bot_guild, channel_by_id, is_creator, raid_channel
 from kern import TZ, book, cfg, kills_db, log, save_config, state
-from raidanzeige_bot import raid_embed, update_raid_message
+from raidanzeige_bot import absence_line, raid_embed, update_raid_message
 
 bot = grund.bot
 assert bot is not None, "raid_bot erst nach grund.bot = bot importieren"
@@ -350,6 +351,12 @@ async def post_lineup(raid: dict, extra_channel=None) -> int:
     att, n, source = rmd.attendance(bot.dkp_data, book)
     lineup = rmd.build_lineup(raid, att)
     texts = rmd.lineup_text(raid, lineup, source, n)
+    absent = absence_line(raid)                                   # D-N1 (ab 1.5.184)
+    if absent:
+        if len(texts[-1]) + len(absent) + 1 <= 2000:
+            texts[-1] += "\n" + absent
+        else:
+            texts.append(absent)
     targets = []
     main = await assignment_channel(raid.get("pool"))
     if main:
@@ -523,16 +530,17 @@ async def raid_tactics(inter: discord.Interaction, raid: str = ""):
     await inter.followup.send(f"Taktik in {channel.mention} gepostet ({n} Beiträge).", ephemeral=True)
 
 
-def missing_members(members, signups: dict) -> list[str]:
+def missing_members(members, signups: dict, absent: set[str] | None = None) -> list[str]:
     """D-N1 (ab Bot 1.5.183): Gildenmitglieder (Rolle Mitglied, Raider, Raidleitung oder Offizier; keine Bots) ohne
-    jede Rückmeldung (angemeldet, Ersatzbank, vielleicht, abgemeldet) zu einem Raid – sortiert nach Anzeigename."""
+    jede Rückmeldung (angemeldet, Ersatzbank, vielleicht, abgemeldet) zu einem Raid – sortiert nach Anzeigename.
+    Ab 1.5.184: wer am Raidtag abwesend gemeldet ist (absent: Discord-IDs als Text), bekommt "(abwesend gemeldet)"."""
     roles = {n.lower() for n in member_area.MEMBER_ROLES}
     out = []
     for m in members:
         if m.bot or str(m.id) in signups:
             continue
         if any(r.name.lower() in roles for r in m.roles):
-            out.append(m.display_name)
+            out.append(m.display_name + (" (abwesend gemeldet)" if absent and str(m.id) in absent else ""))
     return sorted(out, key=str.lower)
 
 
@@ -554,7 +562,8 @@ async def raid_missing(inter: discord.Interaction, raid: str):
             "Dafür braucht der Bot die Mitgliederliste: im Discord-Entwicklerportal unter Bot → Privileged Gateway "
             "Intents den **Server Members Intent** einschalten und den Bot neu starten.", ephemeral=True)
         return
-    names = missing_members(guild.members, r["signups"])
+    day = datetime.fromtimestamp(r["start"], ZoneInfo(TZ)).date()
+    names = missing_members(guild.members, r["signups"], abwesenheit.absent_on(state.data.get("absences") or {}, day))
     if not names:
         await inter.response.send_message(f"Zu **{r['title']}** haben sich alle Gildenmitglieder gemeldet. ✅",
                                           ephemeral=True)

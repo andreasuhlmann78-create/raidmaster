@@ -464,6 +464,7 @@ from upload_bot import (  # noqa: E402
     receive_upload,
 )
 import einrichten_bot  # noqa: E402,F401 – D-3 Schritt 35: Server-Einrichtung (meldet /raidmaster-einrichten an)
+import abwesend_bot  # noqa: E402,F401 – D-N1 (1.5.184): Abwesenheit (meldet /abwesend an)
 
 # ---------------------------------------------------------------------------
 # Hilfen

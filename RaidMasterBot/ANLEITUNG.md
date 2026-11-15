@@ -538,6 +538,7 @@ Der Bot führt im Kanal **#gildenname** eine Abstimmung (fehlt der Kanal, legt e
 | `/charakter` | alle | Charakter und Rolle festlegen |
 | `/dkp`, `/dkpliste` | alle | DKP abfragen |
 | `/anwesenheit` | alle | Wie oft war ein Charakter bei den letzten Raids dabei? |
+| `/abwesend melden`, `liste`, `entfernen` | alle | Abwesenheit (z. B. Urlaub) melden: nur Datum, optional kurzer Grund. Raid-Anmeldung und Aufstellung zeigen die Namen (nie den Grund), der Eintrag läuft danach ab. Den Grund sehen nur du und die Gildenleitung (`/abwesend liste` zeigt ihr alle). |
 | `/raidmaster-status` | Offiziere | Version, Uploads, Datenstand |
 | `/raidmaster-einrichten` | Admins | Server einrichten/ergänzen |
 | `/uploader` | Admins | Uploader-Programm + Einrichtungsdatei (Webhooks für #bot-daten und #testberichte) per Direktnachricht (`nur_programm`: nur das Programm) |
