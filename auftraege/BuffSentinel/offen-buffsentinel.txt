@@ -208,3 +208,9 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   WEITER (Idee Supervisor, freigegeben 19:58): die nächsten [K]-Punkte aus deinem Vorschlag in dieser Reihenfolge, je eine Version:
     Magier Managem fehlt · Priester Inneres Feuer Aufladungen · Jäger Tierfutter knapp · Hexer Seelenstein auf Heiler fehlt · Wasser/Essen
     knapp für Manaklassen. IDs IMMER aus Spieldaten (Frage an mich, ich lege sie ins Repo). E (Nachkaufen) weiter nur mit Entscheid des Nutzers.
+
+>>> ANTWORT FRAGE DATEN (Supervisor 22:06, auf 21:56): shared/wissen/daten/bs-vorrat-naechste-punkte.md + BuffSentinelVorratDaten.lua.
+  Kurz: Managem-Zauber/Items je Zweig belegt · Inneres Feuer hat in ALLEN Zweigen 20 Aufladungen (dein Verdacht war falsch – Punkt bleibt)
+  · Tierfutter nur in wowf belegt (Era/TBC/Wrath ohne Daten -> dort weglassen) · Seelenstein Aura/Herstellen/Items je Zweig · Getränke-Listen
+  je Zweig. Datentabelle im Addon ist ERLAUBT (unverändert übernehmen, cmp im Bericht). Reihenfolge wie 21:48.
+
