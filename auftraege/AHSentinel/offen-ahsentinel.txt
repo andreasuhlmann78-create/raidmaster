@@ -72,6 +72,20 @@ T373 NACHTRAG (Entwurf Nachprüfung 11:20, vom Supervisor übernommen): Diagnose
     Aufgabe cache:warm-today · 0 Schritte · längster Schritt 182 ms bis Comfort.lua:1002" (früher 50–54 ms in 0.65.110), dazu
     16–40 ms Extras.lua:279, Comfort.lua:779/931, pd7 16–18 ms AHAnalyzerPro.lua:1152. Ziel ≤ 16 ms je Bild; "0 Schritte" = pausiert
     nie. Gehört zu RUCKEL-1 (zurückgestellt), Zahl und Stelle hier festgehalten. UI-CLEAN1 (A) 0.65.182: durch TB184-U1/U3 ersetzt.
+TB186-1 HOCH (Nutzer 12:46 "da stimmt was nicht … schau die abgebrochene Auktion an", Screenshot Meine Auktionen 12:42, 0.65.186):
+    Geringe Mystikeressenz 4 × 11s61 (Restzeit 1 Std., Status "unterboten", Günstigstes 8s60) steht wieder in der Liste – dieselbe
+    Menge und derselbe Stückpreis wie die um ~10:50 abgebrochene Auktion (10:46 noch 23 Min. Restzeit). Die Liste kommt laut Code
+    nur vom Server (Se:ReadOwned, Seller.lua ~1145) -> es ist sehr wahrscheinlich eine NEUE Auktion zum alten Preis (Verdacht, zu
+    belegen: wer hat wann eingestellt – Protokoll AHS-POST/BLIZZARD-POST, Rückgabe-Post, "Neu einstellen").
+    BELEGT im Code (Supervisor): Abbrechen-Empfehlung und Neu-Einstellen passen nicht zusammen. Se:CancelWorth (Seller.lua ~1247)
+    rechnet den Nutzen mit newPrice = Undercut(Günstigstes) – OHNE den Mindestpreis (AutoFloor). Das Neu-Einstellen (Vorschlag
+    bzw. Serie/BatchStep) hält aber den Mindestpreis ein (Vorschlag = Mindestpreis, Serie überspringt "Konkurrenz unter deinem
+    Mindestpreis"). Folge: AHS empfiehlt "Abbrechen lohnt", obwohl danach nicht billiger eingestellt wird -> Einstellgebühr
+    verloren, Ware kommt zurück und wird wieder zum alten Preis eingestellt -> Schleife.
+    Zu tun: (a) CancelWorth mit dem Preis rechnen, zu dem AHS WIRKLICH neu einstellen würde (max(Undercut, Mindestpreis)); liegt
+    der Mindestpreis über dem Günstigsten -> Status "liegen lassen – Markt unter deinem Mindestpreis", nie "Abbrechen lohnt".
+    (b) Beim Neu-Einstellen einer zurückgekommenen Ware zum selben Preis, der schon unterboten ist: Hinweis/Rückfrage.
+    (c) Herkunft der Mystik-Auktion 12:42 belegen (Protokoll). Test: Mindestpreis > Günstigstes -> kein "Abbrechen lohnt".
 >>> PRÜFUNG 0.65.186 (Supervisor 12:45, Bericht + Code Sniper.lua/Ledger.lua gelesen) – NICHT abgenommen, Befunde:
     P186-1 HOCH (Gold-Zähler, A1/A5): DOPPELZÄHLUNG möglich. ReconcileItemBuys zählt bei Gold-Abgang die ÄLTESTEN offenen
            Käufe (A). Kam in Wahrheit B durch und meldet der Server später B (ItemPurchaseConfirmed, Sniper.lua 594–612): B ist
