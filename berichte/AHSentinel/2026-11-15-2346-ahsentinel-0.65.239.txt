@@ -1,0 +1,44 @@
+AHSentinel 0.65.239 – S92-JOBS (Entscheid S92, Supervisor 22:33) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.239 und sofort im Discord.
+MESSUNG (s92 Lauf 3, fest SIM_DET=1, neu angelegt, EXKLUSIV je Stelle; tests Commit c5b2e62 – Aufgaben über coroutine.resume
+  der Aufgaben-Schleife, Skripte über Sim:Call nach Datei:Zeile, Server-Nachbildung getrennt = kein Addon-Speicher;
+  Messwirkung +5–24 KB):
+  Stelle                                   0.65.238    0.65.239
+  Aufgabe fullscan (Einlesen+Auswertung)       4 959       4 959
+  Skript UI_Main.lua (Neuzeichnen nach
+    CACHE_UPDATED, Markt-Reiter sortiert)      3 028         852
+  Aufgabe cache:today:10                       2 917         411
+  Aufgabe cache:itemlist                       2 421       2 421
+  Aufgabe core:realcheck                       1 963       1 872
+  Aufgabe ui-refresh                           1 394         306
+  Server-Nachbildung (kein Addon)                523         523
+  übrige (je < 200)                           ~1 360      ~1 350
+  GESAMT                                      18 565      12 695   (bleibend 3 005 / 3 005)
+  Feinmessung (nur Prüfung, nicht im Repo: alle Funktionen der Module exklusiv): Tabellen-Sortieren (UI:Table Sort) 3 503 KB in
+  3 Aufrufen; Ledger SellSpeed 2 100 KB in 12 216 Aufrufen; Ledger EntriesFor 506 KB in 8 088 Aufrufen (je Aufruf eine leere
+  neue Tabelle); GetMarketValue 2 293 KB (Preisverlauf neu, sachlich nötig nach neuem Scan).
+GESENKT (die grössten zwei nach Ursache: Sortieren, Verkaufsverlauf):
+  1) UI_Main.lua t:Sort: Hilfslisten je Tabelle wiederverwendet; sortiert wird eine Positions-Liste (nur Array-Teile, behalten
+     ihre Grösse); Gleichstand -> ursprüngliche Reihenfolge (jetzt auch ≤ 400 stabil); nach dem Sortieren keine Verweise auf
+     Items. Zweites Sortieren derselben Tabelle während einer Pause bekommt eigene Listen; Merker höchstens 10 s.
+  2) Ledger.lua: EntriesFor gibt ohne Einträge eine gemeinsame, nur lesbare leere Liste; SellSpeed/ExpiryStreak ohne eigene
+     Einstellung im Zeitraum sofort zurück (ohne Hilfstabellen); speedCache-Eintrag je Item wiederverwendet.
+  Ergebnis fest: 18 541 -> 12 695 KB (−5,85 MB, −32 %). Ziel 10 MB noch nicht erreicht; nächste grosse Stellen: fullscan
+  4,96 MB, cache:itemlist 2,42 MB, core:realcheck 1,87 MB.
+BELEGT, NICHT GEÄNDERT (Entscheid erbeten): GetMarketValue 2,3 MB je Lauf kommt vom Neuanlegen des Marktwert-Speichers – er ist
+  vor jedem Vollscan LEER (gemessen: "Marktwert-Speicher vorher 0 Einträge" in Lauf 1, 2 und 3), weil A:TrimCaches alle 10 Min.
+  jeden Zwischenspeicher über A.CACHE_MAX_ITEMS = 4000 Items ganz leert (RF "Caches begrenzen"). Mit ≥ 4000 Items im AH (s92:
+  ~7000) wird so alle 10 Min. der ganze Marktwert-Speicher weggeworfen und neu gerechnet. Vorschlag: Grenze auf die Zahl der
+  Items im letzten Vollscan + 20 % (mind. 4000) setzen oder nur die ältesten Einträge kürzen – erst auf Freigabe (RF-Entscheid).
+  GEMESSEN (fest, Kopie 0.65.239 mit Änderung, nicht veröffentlicht):
+    Grenze 4000 (wie jetzt), InvalidateMarket markiert statt entfernt:   12 696 KB, bleibend 3 005 KB (keine Wirkung)
+    Grenze 100 000, InvalidateMarket entfernt (wie jetzt):              12 695 KB, bleibend   714 KB
+    Grenze 100 000 UND InvalidateMarket markiert (c.n = -1):            10 405 KB, bleibend   714 KB  (−2,29 MB)
+  -> Nur beides zusammen wirkt (jeder neue Preis entfernt heute den Eintrag, der Vollscan setzt für jedes Item einen Preis).
+  Bitte entscheiden: CACHE_MAX_ITEMS anheben (Vorschlag: Items im letzten Vollscan + 20 %, mind. 4000) + markieren statt
+  entfernen. Damit läge s92 bei ~10,4 MB (Ziel 10 MB).
+GRENZE NACHGEZOGEN: fester Lauf 13,3 MB (= 12,7 + 0,6) – Szenario-Änderung mit dieser Version ins Repo.
+Tests: T814 (Sortieren auf/ab, kurz/lang, Gleichstand, laufendes Sortieren, Merker > 10 s; leere Liste gemeinsam und nur
+  lesbar; SellSpeed ohne Einstellung nil) – mit 0.65.238 rot, mit 0.65.239 grün. s92 fest: 0.65.238 rot (18 565 > 13 300),
+  0.65.239 grün. s42 Testroutine grün. CHANGELOG EN/DE.
+Gesamtlauf (frischer Klon, Kopie 0.65.239, Grenze 13,3 MB mit dieser Version ins Repo): BESTANDEN 282, FEHLGESCHLAGEN 0.
