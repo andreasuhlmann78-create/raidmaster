@@ -1,50 +1,30 @@
 {
- "ausgewertet": "2026-11-15T10:51:15Z",
+ "ausgewertet": "2026-11-15T11:48:22Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
-   "berichte": 49,
+   "berichte": 53,
    "letzter_test": {
-    "id": "AHSentinel-1794703117-7658fa-3",
-    "version": "0.65.179",
-    "time": 1794702995,
+    "id": "AHSentinel-1794742044-2d133b-1",
+    "version": "0.65.184",
+    "time": 1794742020,
     "counts": {
      "client": 0,
-     "fehler": 3,
-     "ok": 22,
-     "uebersprungen": 1
+     "fehler": 1,
+     "ok": 3,
+     "uebersprungen": 0
     }
    },
    "fehler_tests": [
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.179",
+     "version": "0.65.184",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T731",
-     "name": "SN-TEST2-S10 Geld-Sicherheit: Beobachtung sendet nichts, Zähler unverändert; S4 Gold vorher − nachher = gebuchter Pr…",
-     "detail": "ergebnis: gesendet 0 · Zähler geändert 0 · S4 Gold 201005 -> 187331 (−13674) · gebucht 1 | erwartet: gesendet 0 · geändert 0 · Gold = gebucht",
-     "bericht": "AHSentinel-1794703117-7658fa-3"
-    },
-    {
-     "addon": "AHSentinel",
-     "art": "test",
-     "version": "0.65.179",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T614",
-     "name": "SN1951-S2 Zielzeile = bestätigte Käufe: gesendet -> Fehler zählt nicht, Bestätigung zählt",
-     "detail": "ergebnis: gesendet: \"0/10 gekauft (+2 gesendet) · Budget übrig 8s 15c\" · danach \"0/10 gekauft · Budget übrig 10s\" | erwartet: 0/10 (+2 gesendet) · danach 1/10, 95c",
-     "bericht": "AHSentinel-1794703117-7658fa-3"
-    },
-    {
-     "addon": "AHSentinel",
-     "art": "test",
-     "version": "0.65.179",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T745",
-     "name": "SN-B1/SN-B2: Bremse nach Fehler nach 10 s weg, 5 Kauf-Fehler bremsen nicht, echte Drossel nach 2 Antworten wieder voll, …",
-     "detail": "ergebnis: Bremse true, Text false, nach 10 s true · 5 Kauf-Fehler: gebremst 0, Abstand gleich true · Drossel langsamer true (≤ true s), wieder voll true · Ziele 3 -> 1, Runden i:990197403,i:990197403,i:990197403 · fragt 30 an, gestiegen -> 15 (Plan 15), erste Stufe über Max -> nil | erwartet: Bremse true, Text true, nach 10 s true · 5 Kauf-Fehler: gebremst 0, Abstand gleich true · Drossel langsamer true (≤ true s), wieder voll true · Ziele 3 -> 1, Runden i:990197403,i:990197403,i:990197403 · fragt 30 an, gestiegen -> 15 (Plan 15), erste Stufe über Max -> nil",
-     "bericht": "AHSentinel-1794703117-7658fa-3"
+     "id": "T750",
+     "name": "UI-CLEAN1 Fenster/Reiter/Optionen (Klassisch/Modern, 100 %/130 %): nichts überlappt, nichts abgeschnitten, kein Knopf o…",
+     "detail": "ergebnis: 203 Befunde (AH offen · Klassisch+Modern · 100+130 % · deDE · 44 Ansichten) · je Art: ragt heraus 42 · abgeschnitten 77 · überlappt 84 · je Ansicht: Kaufen > Schnäppchen: 44 · Kaufen > Sniper: 38 · Markt > Markt: 32 · Übersicht > overview: 18 · Kaufen > Einkauf: 14 · Verkaufen > Mein… | erwartet: 0 Befunde",
+     "bericht": "AHSentinel-1794742044-2d133b-1"
     }
    ],
    "fehler_spiel": [
@@ -83,9 +63,10 @@
      "art": "spiel",
      "wo": "ADDON_ACTION_BLOCKED",
      "msg": "UNKNOWN()",
-     "anzahl": 5,
+     "anzahl": 8,
      "versionen": [
-      "0.65.16"
+      "0.65.16",
+      "0.65.182"
      ],
      "clients": [
       "forever 1.60.1 (Interface 16001)"
@@ -567,32 +548,12 @@
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.179",
+   "version": "0.65.184",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T731",
-   "name": "SN-TEST2-S10 Geld-Sicherheit: Beobachtung sendet nichts, Zähler unverändert; S4 Gold vorher − nachher = gebuchter Pr…",
-   "detail": "ergebnis: gesendet 0 · Zähler geändert 0 · S4 Gold 201005 -> 187331 (−13674) · gebucht 1 | erwartet: gesendet 0 · geändert 0 · Gold = gebucht",
-   "bericht": "AHSentinel-1794703117-7658fa-3"
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "test",
-   "version": "0.65.179",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T614",
-   "name": "SN1951-S2 Zielzeile = bestätigte Käufe: gesendet -> Fehler zählt nicht, Bestätigung zählt",
-   "detail": "ergebnis: gesendet: \"0/10 gekauft (+2 gesendet) · Budget übrig 8s 15c\" · danach \"0/10 gekauft · Budget übrig 10s\" | erwartet: 0/10 (+2 gesendet) · danach 1/10, 95c",
-   "bericht": "AHSentinel-1794703117-7658fa-3"
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "test",
-   "version": "0.65.179",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T745",
-   "name": "SN-B1/SN-B2: Bremse nach Fehler nach 10 s weg, 5 Kauf-Fehler bremsen nicht, echte Drossel nach 2 Antworten wieder voll, …",
-   "detail": "ergebnis: Bremse true, Text false, nach 10 s true · 5 Kauf-Fehler: gebremst 0, Abstand gleich true · Drossel langsamer true (≤ true s), wieder voll true · Ziele 3 -> 1, Runden i:990197403,i:990197403,i:990197403 · fragt 30 an, gestiegen -> 15 (Plan 15), erste Stufe über Max -> nil | erwartet: Bremse true, Text true, nach 10 s true · 5 Kauf-Fehler: gebremst 0, Abstand gleich true · Drossel langsamer true (≤ true s), wieder voll true · Ziele 3 -> 1, Runden i:990197403,i:990197403,i:990197403 · fragt 30 an, gestiegen -> 15 (Plan 15), erste Stufe über Max -> nil",
-   "bericht": "AHSentinel-1794703117-7658fa-3"
+   "id": "T750",
+   "name": "UI-CLEAN1 Fenster/Reiter/Optionen (Klassisch/Modern, 100 %/130 %): nichts überlappt, nichts abgeschnitten, kein Knopf o…",
+   "detail": "ergebnis: 203 Befunde (AH offen · Klassisch+Modern · 100+130 % · deDE · 44 Ansichten) · je Art: ragt heraus 42 · abgeschnitten 77 · überlappt 84 · je Ansicht: Kaufen > Schnäppchen: 44 · Kaufen > Sniper: 38 · Markt > Markt: 32 · Übersicht > overview: 18 · Kaufen > Einkauf: 14 · Verkaufen > Mein… | erwartet: 0 Befunde",
+   "bericht": "AHSentinel-1794742044-2d133b-1"
   },
   {
    "addon": "AHSentinel",
@@ -629,9 +590,10 @@
    "art": "spiel",
    "wo": "ADDON_ACTION_BLOCKED",
    "msg": "UNKNOWN()",
-   "anzahl": 5,
+   "anzahl": 8,
    "versionen": [
-    "0.65.16"
+    "0.65.16",
+    "0.65.182"
    ],
    "clients": [
     "forever 1.60.1 (Interface 16001)"
@@ -1004,38 +966,38 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 125,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.180-26de6f187e24.txt"
+    "anzahl": 127,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.182-d73cec15a1f9.txt"
    },
    "BuffSentinel": {
     "anzahl": 35,
-    "neueste": "testberichte/diagnose/BuffSentinel/0.9.12-7f8dfb5af187.txt"
+    "neueste": "testberichte/diagnose/BuffSentinel/0.9.18-90b64a191a2b.txt"
    },
    "GSMesstest": {
     "anzahl": 9,
     "neueste": "testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt"
    },
    "GuildSentinel": {
-    "anzahl": 117,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.38-2f5c84a1bf37.txt"
+    "anzahl": 119,
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.38-1a895542c960.txt"
    },
    "LevelPilot": {
-    "anzahl": 21,
-    "neueste": "testberichte/diagnose/LevelPilot/3.12.30-7e93b0e18de9.txt"
+    "anzahl": 23,
+    "neueste": "testberichte/diagnose/LevelPilot/3.12.30-11f73b538fe4.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 98,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.45-5ccea6550cae.txt"
+    "anzahl": 100,
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.45-71de9e96cbd8.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 99,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.13-1e06aed22dc5.txt"
+    "anzahl": 101,
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.13-c75f175ae430.txt"
    }
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 163,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794738680-5bc63c.json"
+    "anzahl": 166,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794740247-0b9381.json"
    }
   }
  }

@@ -82,10 +82,14 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Alteracgebirge (1416)
 
-- Wegstücke 6, Knoten 52, zusammenhängende Teile 2
+- Wegstücke 65, Knoten 154, zusammenhängende Teile 6
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 41 Knoten, Bereich 21–36 / 8–27
-  - Teil 2: 11 Knoten, Bereich 30–34 / 28–38
+  - Teil 1: 59 Knoten, Bereich 21–29 / 51–82
+  - Teil 2: 41 Knoten, Bereich 21–36 / 8–27
+  - Teil 3: 37 Knoten, Bereich 16–22 / 88–93
+  - Teil 4: 11 Knoten, Bereich 30–34 / 28–38
+  - Teil 5: 4 Knoten, Bereich 23–25 / 88–89
+  - Teil 6: 2 Knoten, Bereich 23–24 / 51–51
 - **Ausreisser:** Wegstück 1: Sprung 4.9 % von 30.8,35.9 nach 32.0,31.2
 - **Ausreisser:** Wegstück 1: Sprung 4.1 % von 32.0,31.2 nach 34.4,27.9
 - **Ausreisser:** Wegstück 2: Sprung 4.6 % von 21.2,10.8 nach 25.8,10.3
@@ -159,10 +163,11 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Vorgebirge von Hillsbrad (1424)
 
-- Wegstücke 113, Knoten 415, zusammenhängende Teile 2
+- Wegstücke 144, Knoten 560, zusammenhängende Teile 3
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 413 Knoten, Bereich 27–64 / 19–64
-  - Teil 2: 2 Knoten, Bereich 63–64 / 39–39
+  - Teil 1: 547 Knoten, Bereich 27–64 / 18–64
+  - Teil 2: 11 Knoten, Bereich 31–33 / 20–26
+  - Teil 3: 2 Knoten, Bereich 63–64 / 39–39
 - **Ausreisser:** Wegstück 1: Sprung 5.2 % von 61.8,39.2 nach 62.0,34.0
 
 ## Sumpfland (1437)
@@ -274,7 +279,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Undercity (1458)
 
-- Wegstücke 1406, Knoten 754, zusammenhängende Teile 2
+- Wegstücke 1408, Knoten 754, zusammenhängende Teile 2
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 752 Knoten, Bereich 44–86 / 1–96
   - Teil 2: 2 Knoten, Bereich 83–84 / 15–16

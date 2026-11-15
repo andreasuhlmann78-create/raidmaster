@@ -1,0 +1,32 @@
+{
+ "addon": "AHSentinel",
+ "counts": {},
+ "env": {
+  "build": "70938",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 10,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [
+  {
+   "count": 3,
+   "first": 1794740011,
+   "last": 1794740052,
+   "msg": "UNKNOWN()",
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:407: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:400>\n[C]: ?\n[C]: ?\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/Seller.lua]:983: in function <Interface/AddOns/AHSentinel/Seller.lua:908>\n...",
+   "version": "0.65.182",
+   "wo": "ADDON_ACTION_BLOCKED"
+  }
+ ],
+ "f": 1,
+ "id": "AHSentinel-1794740247-eb61c3-1",
+ "kind": "fehler",
+ "time": 1794740247,
+ "version": "0.65.182"
+}
