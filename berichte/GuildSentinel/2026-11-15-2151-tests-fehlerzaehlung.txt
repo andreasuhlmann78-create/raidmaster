@@ -1,0 +1,11 @@
+BERICHT GUILDSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 21:51 (Uhrzeit aus date, Europe/Zurich) · Sitzung: GuildSentinel-Projekt-Sitzung · keine neue Addon-Version · Commit: GuildSentinel 57b205f
+
+UMGESETZT, ZUR PRÜFUNG (Nachtrag zum Hinweis im Bericht 0.9.44):
+- test/wowmock.lua: neu M.AllErrors(ns) = #M.errors + ns.errors.n (vom Addon abgefangene und gezählte Fehler,
+  ns.CountError), gibt die Fehlertexte aus. Alle 25 älteren Testskripte (run_admin … run_v914, run_routine) melden ihre
+  "Fehlermeldungen" jetzt darüber; vorher sahen sie nur rote Debug-Ausgaben und Zeitgeber-Fehler.
+- Ergebnis des ersten Laufs: nur run_diag.lua rot (31) – dort sind die Fehler ABSICHTLICH erzeugt (30× gleicher Fehler,
+  1× im Testmodus, prüft das Diagnose-Protokoll). run_diag zieht diese 31 jetzt ab und prüft zusätzlich, dass sie gezählt
+  wurden. Sonst keine versteckten Fehler – Verdacht aus 0.9.44 damit nicht bestätigt.
+- test/run_alle.sh: "GESAMT: 128 Läufe, 0 rot · 4483 Einzelprüfungen bestanden, 0 fehlgeschlagen".
