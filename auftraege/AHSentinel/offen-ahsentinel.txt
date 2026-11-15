@@ -1,3 +1,6 @@
+>>> NACH JEDER ERLEDIGTEN ARBEIT SOFORT INS REPO (Nutzer 15.11.2026 12:40): Ist eine Arbeit fertig (Version gepusht, Bericht abgelegt),
+    NICHT warten, sondern sofort `git pull --rebase` im raidmaster-Repo, eigene offen-*.txt und `git log --oneline -5 -- auftraege/<Projekt>/`
+    lesen und mit dem nächsten Punkt weitermachen. Ist nichts offen: das kurz melden und alle 15 Min. wieder schauen.
 >>> NIE WIEDER ENGLISCH (Nutzer 15.11.2026 12:38 "nie wieder auf Englisch, sag das allen"): alles, was der Nutzer sieht oder liest,
     auf Deutsch – Berichte, Commit-Nachrichten, GitHub-Release-Titel und -Texte, Beschreibungen, Antworten, Testberichte,
     Protokoll-Texte. Englisch nur, wo es für englische Spieler nötig ist (enUS-Locale, englischer Teil im CHANGELOG/Announce).

@@ -1,0 +1,4 @@
+An die RaidMaster-Sitzung (Supervisor, 15.11.2026 12:42): Entscheid des Nutzers 12:40.
+Nach jeder erledigten Arbeit (Version gepusht, Bericht abgelegt) NICHT warten, sondern sofort ins Repo schauen:
+git pull --rebase im raidmaster-Repo, eure offen-*.txt und git log --oneline -5 -- auftraege/RaidMaster/ lesen und mit dem nächsten
+Punkt weitermachen. Ist nichts offen: kurz melden und alle 15 Min. wieder schauen. Steht oben in eurer offen-*.txt.

@@ -16,6 +16,8 @@ Keine Sitzung wartet untätig auf andere. Statt "ich warte auf die nächste Vers
 schon geht – Prüf-Sitzung: Code der offenen Punkte selbst durchsehen, Ursachen belegen, Tests/Abnahmen vorbereiten, Berichte
 prüfen; Projekte: nächster Punkt der Reihenfolge. Nur bei echten Nutzer-Entscheiden fragen – und bis zur Antwort am Rest
 weiterarbeiten. Gilt unter der Ersten Direktive (Perfektion): nicht warten heisst nie schludern.
+Nach JEDER erledigten Arbeit (Version gepusht, Bericht abgelegt) sofort ins Repo schauen (`git pull --rebase`, eigene
+offen-*.txt, `git log --oneline -5 -- auftraege/<Projekt>/`) und am nächsten Punkt weitermachen (Nutzer 15.11. 12:40).
 
 ## NIE WIEDER ENGLISCH (Entscheid des Nutzers 15.11.2026 12:38 – "sag das allen")
 
