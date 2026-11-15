@@ -1,0 +1,72 @@
+AHSentinel 0.65.187 – SN-B12, P186-1..5, TB184-U1/U3 (Prüfteil) – umgesetzt, zur Prüfung
+CurseForge: nein (nächster Termin 18:00). GitHub-Release v0.65.187, Zip an den Nutzer; nicht in download/ (der Workflow lädt
+sofort hoch). Messwerte aus echten Daten: keine (diese Sitzung hat keinen Spielzugang).
+
+SN-B12 / P186-3 (Vollscan-Sperre) – Sniper.lua Sn:FullScanRunning, Sn:FullScanWaitText, FullScanOver:
+ (a) Endet der Vollscan (VS.running leer), setzt FullScanRunning lastSearch = -100 -> der nächste Takt (0,1 s) sucht sofort.
+     Zusätzlich lösen SCAN_FINISHED und SCAN_FAILED die Prüfung und einen Takt sofort aus (nicht in der Testroutine).
+ (b) Während des Vollscans ruhiger Status (gelb, nicht rot): "Vollscan läuft – noch ca. n s (Sniper wartet)"; n = zuletzt
+     gemessene Dauer (ohne Messung 40 s) minus Wartezeit; danach "gleich fertig (Sniper wartet seit n s)". Gilt für
+     GetStatusText, den Wartegrund und CanSearch (dort jetzt "weich", wie andere Wartegründe).
+ (c) Zeitlimit FULLSCAN_MAX = 120 s ab Beginn der Sperre: danach blockiert der Vollscan den Sniper nicht mehr (zählt in
+     holdReleased), auch wenn der Vollscan-Job verworfen wurde. VS.running selbst wird nicht verändert.
+ (d) Protokoll SNIPER-SPERRE: "Beginn: Vollscan läuft - Sniper wartet", "Ende: Vollscan fertig nach n s - Sniper sucht sofort
+     weiter", "Vollscan hält seit n s - Sperre gelöst (Zeitlimit 120 s)".
+ Test T755: läuft true · Text "noch ca. 40 s" · nach Ende false + lastSearch -100 · nach 121 s false (gelöst 1) · Protokoll
+ Beginn 2, Ende 2, Zeitlimit 1. T500 angepasst (neuer Text; stellt jetzt auch fsLock/lastSearch/Protokoll zurück).
+
+P186-1 (Doppelzählung) – Ursache wie vom Supervisor beschrieben bestätigt (ReconcileItemBuys zählt die ältesten offenen
+ Käufe; spätere Server-Bestätigung eines anderen Angebots zählte zusätzlich). Fix: über Gold gezählte Käufe sind VORLÄUFIG
+ (Sn.goldProv, je Ziel). Bestätigt der Server ein Angebot, das noch nicht gezählt ist, und gibt es für dasselbe Ziel einen
+ vorläufigen Kauf, wird der älteste vorläufige zurückgenommen (Zähler, Ausgaben, Stück, Gold-Log-Eintrag, Messung) und als
+ "spät" (itemLate, Status "gesendet") geführt; danach wird der bestätigte gezählt. Protokoll SNIPER-KORREKTUR. Bestätigt der
+ Server später auch den zurückgenommenen, wird er normal gezählt. Bestätigung eines schon vorläufig gezählten Angebots ->
+ nur "vorläufig" aufheben, nichts doppelt.
+ Test T756 (genau der Test aus P186-1): A,B gesendet, Gold −900 -> Gold zählt A (Zähler 1); Bestätigung B -> Zähler 1, A
+ "gesendet"; Gold −900, Bestätigung A -> 2; ausgegeben 1800 = Gold-Log 1800; Korrektur 1.
+P186-2 (Schalter Einzelkauf): Sn:SingleBuyOn / SetSingleBuy, gespeichert in db.sniper.singleBuy, Standard AUS = paralleles
+ Senden wie 0.65.183. Versteckter Befehl nur im Entwickler-Modus: /ahs einzelkauf an|aus. Sn:ItemGate lässt bei AUS immer
+ senden. Die Messung (a) (Quoten offen 0/1/≥2) bleibt im Sniper-Bericht. T753 läuft mit Schalter AN, T756 prüft AUS.
+P186-4 (SN-B11 f): Kopf jetzt "Heute: 162 Treffer · 67 mit Kauf · 95 verpasst · gekauft 70 Stück · Ø Reaktion x s".
+ "mit Kauf" = Treffer mit Kauf (bisheriges st.bought), "gekauft … Stück" = neue Tageszahl st.pieces (Einzelkäufe in
+ CountItemBuy, Waren in CountPurchase, Rücknahme P186-1 zieht ab). Die Testroutine ändert die echten Tageszahlen nicht
+ (Sn:AddPieces). Test T757 (Kopf mit 162/67/95/70).
+P186-5 (abgelehnt): Fehler ohne Angebot + Gold unverändert (ItemFallback) -> b.rejected, sentIDs-Eintrag weg; Fehler mit
+ Angebot (ItemPurchaseFailed) -> sentIDs-Eintrag weg. SentState überspringt abgelehnte -> die nächste Suche prüft das Angebot
+ neu. Test T757: "gesendet" -> abgelehnt nil, "gesendet" -> Fehler nil.
+P186-6 (TB182-2): Der Supervisor hat recht, mein Verdacht im Bericht 0.65.186 war falsch: Ledger:NotePurchase merkt nur vor
+ (pendingBuys, 300 s). Gebucht wird je auctionID genau einmal (OnPurchaseEvent, Ledger.lua 1727–1737: pendingBuys[auctionID]
+ bzw. lastPurchase nur bei gleicher auctionID). CountItemBuy (Sniper-Zähler) ruft den Ledger nicht auf -> eine Doppelzählung
+ im Sniper (P186-1) erzeugte KEINE doppelte Buchung. Ursache der Tageslücke 7g67 bleibt offen – Verdacht, zu messen. Hinweis
+ zum Messen: Ledger.lua 1743–1744 bucht bei Kauf-Ereignissen OHNE auctionID den letzten Sniper-/Einkauf-Kauf, wenn er jünger als
+ 15 s ist; Protokoll KAUF-DOPPELT zeigt Kauf-Ereignisse ohne passende Kaufmeldung. Bitte mit dem nächsten Testbericht die
+ Zeilen KAUF-DOPPELT und die Tagesbilanz vergleichen.
+
+TB184-U1 (Prüfteil):
+ - Reiterleiste: Reiter (Knöpfe mit tabID) zählen nur, wenn sich die TEXTE überlappen oder ein Klick in die Mitte des unteren
+   Reiters den oberen trifft (UIA.TabsClash). Reiterleiste je Variante nur EINMAL, Unterreiter-Leiste je Gruppe einmal.
+ - Befunde nennen das Element: Pfad bis zum nächsten Namen mit Feldnamen (z. B. "AHAnalyzerProWindow > content > Reiter sniper
+   > status"), Grösse und Pixel ("ragt aus …: rechts 14 px", "überlagert … um 26×20 px", "Platz 120 px, Text 180 px").
+ - Symbolcodes |T…|t / |A…|a als "[Symbol]", Farbcodes und Links entfernt (UIA.Clean).
+ - Sichere Knöpfe (Entzaubern, wirkt über Attribute) gelten nicht mehr als "ohne Funktion".
+ Test T758 (Nachbildung): Symbolcode -> "[Symbol] Schultern des Hügels"; Pfad "TestFenster > status"; "links 5 px"; klassische
+ Reiter mit 8 px Überlappung kein Befund, Texte überlappen -> Befund.
+TB184-U3 (alle Ebenen): T750 geht je Variante (Klassisch/Modern × 100/130 %) durch: Reiter -> Unterreiter -> Ansichten (aus dem
+ UI-Baum gesucht: Knöpfe mit uiaView – Markt 7, Buchhaltung 8, Schnäppchen 5) -> Optionen -> Fenster/Dialoge/Abschnitte
+ (Preisverlauf, Entzaubern + Statistik + Gesperrt-Liste, Kategorie-Menü, Favoriten-Menü, Item-Menü, Sniper-Rückfrage). Danach
+ Ansicht, Reiter, Design, Grösse, Buchhaltungs-Ansicht und Sniper-Rückfrage wie vorher. Bericht: "geprüft n von m Ansichten",
+ Abschnitt UI-BEFUNDE mit "UNGEPRÜFT (n)" und Grund. Ungeprüft mit Grund: Warnschutz (öffnet nur mit echtem Alarm), Beste
+ Rezepte/Gewinn am Berufsfenster (nur mit Berufsfenster), Post-Knöpfe (nur am Briefkasten), Detail-Ansicht Markt/Buchhaltung
+ (braucht gewähltes Item). Während Fenster geprüft werden, tut ein Klick im Item-Menü nichts (TR.uiaOpen); die Sniper-Rückfrage
+ wird ohne Anfrage geöffnet (Enter/Esc tun nichts); Kategorie-Menü mit leerem Wähler. Kein Kauf, keine Suche, kein Klick auf
+ Blizzard-Knöpfe.
+ Nachbildung s187_testroutine_ui_walk (neu): Teil "ui" mit erzwungenem Prüf-Modus -> keine Ablauf-Fehler, geprüft 156 von 160,
+ UNGEPRÜFT 4 mit Grund, Zustand danach wie vorher. Echte Rechtecke gibt es nur im Spiel – bitte /ahs testroutine ui laufen
+ lassen (Entwickler-Modus).
+ Nebenbefund der Nachbildung (für UI-CLEAN1 B, ruht): Markt-Ansichten Flippen/Händler/Lücken/Überfüllt/Entzaubern zeigen den
+ Text "lernt noch".
+
+Neu gesehen: TB186-1 (Abbrechen-Empfehlung ohne Mindestpreis) – nicht in dieser Version; Ursache im Code bestätigt
+(Se:CancelWorth rechnet newPrice = Undercut(Günstigstes) ohne AutoFloor). Folgt als 0.65.188, falls der Supervisor es nicht
+anders reiht (SNIPER-KOMPLETT sagt "alles andere ruht").
+Gesamtlauf 253/253 (neu: s187_testroutine_ui_walk), Testroutine s42 grün (T755–T758 neu), addon_check OK. Release v0.65.187 = geprüfter Stand.
