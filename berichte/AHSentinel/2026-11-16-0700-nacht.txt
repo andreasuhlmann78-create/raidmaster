@@ -1,5 +1,5 @@
 AHSentinel – Nacht 15./16.11.2026 (Nacht-Arbeit nach masterplan-ahsentinel.txt Abschnitt D und PRIO-JETZT-Liste)
-Stand: 15.11. 23:03 – veröffentlicht bis 0.65.234; 0.65.235–239 gebaut, Gesamtläufe nacheinander
+Stand: 16.11. 00:04 – veröffentlicht bis 0.65.241; 0.65.242–245 gebaut, Gesamtläufe nacheinander
 Alle Versionen: GitHub-Release + Discord (announce/). KEIN CurseForge (erst nach der Sniper-Abnahme). Jede Version "umgesetzt,
 zur Prüfung", Bericht je Version in berichte/AHSentinel/.
 
@@ -49,6 +49,12 @@ VERSIONEN DER NACHT (je ein Satz)
   0.65.238 RK6-F1b: Band-Verlauf (F1-Messung) war nicht vergleichbar (wanderndes 10-Tage-Fenster, +2 %/Tag ergab 0 %) –
            jetzt Ketten-Index auf gleicher Basis; 120 Tage für den späteren Monatszyklus.
   0.65.239 S92-JOBS: Speicher je Aufgabe gemessen; Sortieren und Verkaufsverlauf ohne Wegwerf-Tabellen -> s92 fest 18,5 -> 12,7 MB.
+  0.65.240 Entscheid 23:03: Marktwert-Speicher-Grenze nach Vollscan-Grösse (4000–20 000), markieren statt entfernen -> 10,4 MB.
+  0.65.241 Phase 7 MR11: "Vollscan in x Min. möglich" im Markt-Kopf; Kopf zwei Zeilen (war seit MR7 abgeschnitten).
+  0.65.242 Phase 7 MN5: A:PriceInfoNet – Markt-Detail zeigt ohne eigene Daten den Netz-Wert (unsicher, nie für Käufe).
+  0.65.243 Phase 7 MR4: Kopfzeile je Stufenband (Richtung oder "messe x/5", Aufkauf-Alarm) statt Preis-Index über alle Waren.
+  0.65.244 Phase 7 MR1/MR3 (A Teil 1): Zeile "Treffer je Weg" im Markt-Reiter (frei/lernt/gesperrt je Weg, MA2).
+  0.65.245 Phase 7 MR3 (A Teil 2): Tooltip der Kauf-Zeilen in "Heute" mit Rang (RK7) und Weg/Trefferquote (MA2).
   Eigener Befund im Gesamtlauf 0.65.224: s92 rot (Händler-Rechnung rechnete den Marktwert für alle Items) – vor der
   Veröffentlichung behoben und belegt.
   Dazu T200-1: Nachbildung im Repo vollständig (IsAddOnLoaded, run_all.sh ohne festen Pfad), Gesamtläufe aus frischer Kopie.
@@ -72,8 +78,9 @@ OFFENE FRAGEN / ENTSCHEIDE
   - Abdeckungs-IDs T-AB4, T-AB5, T-D1 doppelt in der Testroutine (alt, nicht von mir) – ändere ich nur auf Auftrag.
   - "Heute tun" und Selbsttest nutzen für Entzauber-Vorschläge noch D:FindDeals (andere Regel als Markt > Entzaubern) –
     Verdacht, zu prüfen; auf Wunsch stelle ich es um.
-  - S92-DET/S92: entschieden 22:33 (fester Lauf massgeblich, Grenze 19 MB) – umgesetzt; S92-JOBS in 0.65.239 (12,7 MB,
-    Grenze 13,3 MB). Ziel 10 MB offen.
+  - S92-DET/S92: entschieden 22:33 (fester Lauf massgeblich, Grenze 19 MB) – umgesetzt; S92-JOBS in 0.65.239 (12,7 MB),
+    Marktwert-Speicher in 0.65.240 (10,4 MB, Grenze 11,0 MB, bleibend 0,7 MB). Ziel 10 MB fast erreicht.
+  - Phase 7 MR1-Aufbau: beantwortet 23:48 – Weg A schrittweise (0.65.244/245); B "eine Seite" legt der Supervisor dir vor.
   - GSL6-2 Ursache der 1,28 s: Verdacht "eigene Suche belegt die Drossel" – Messwert jetzt im Sniper-Bericht.
 
 IM SPIEL PRÜFEN (in dieser Reihenfolge)
@@ -101,3 +108,4 @@ IM SPIEL PRÜFEN (in dieser Reihenfolge)
  17. UI-CLEAN1 (B): bitte "/ahs testroutine ui" mit 0.65.227 (100 % und 130 %, Modern/Klassisch) – Befunde für die Bereinigung.
  18. Markt-Reiter: Knopf "Bevor du gehst" (3 Schritte); "Mein Lager" gelb bei fallendem Band (erst mit belegten Bändern).
  19. Schnäppchen "+" mit wenig Gold: kein Ziel, Meldung "Budget je Item reicht nicht".
+ 20. Markt-Reiter-Kopf zwei Zeilen lesbar (100 % und 130 %): Index | Rhythmus · "Vollscan in x Min. möglich".
