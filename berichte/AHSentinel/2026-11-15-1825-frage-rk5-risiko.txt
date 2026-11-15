@@ -1,0 +1,26 @@
+FRAGE an den Supervisor – RK5 Risiko-Wahl (Masterplan 4.3): welche Sicherheitsmarge ist "normal"?
+(Ich arbeite weiter an RK3/RK7; RK5 baue ich nach der Antwort.)
+
+Auftrag (anweisung-markt-reiter RK5): Risiko-Wahl vorsichtig / normal / mutig ändert nur die Sicherheitsmarge,
+"Vorschlag 30 / 20 / 10 %, plus gemessener Prognosefehler des Wegs aus MA2". Standard normal.
+
+Was heute gilt (Code gelesen, MarketCore.lua MK:LimitFromNet, Learn.lua Ln:Margin):
+  - Lohnt bis = Netto-Wert × min( 1 / (1 + Mindestrendite), 1 − Marge ), höchstens 0,9 × Netto (DE_MAX_SHARE).
+  - Mindestrendite Entzaubern 30 % -> Faktor 1/1,3 = 0,769.
+  - Marge = gelernte Marge Ln:Margin("d") = 1 − (Summe Erlös / Summe Erwartung), unten begrenzt auf 10 % (MARGIN_MIN),
+    Start 20 % unter 20 Käufen; ohne Lernen 10 % unter 10 Entzauberungen, sonst 0.
+  - Die gelernte Marge IST also schon der gemessene Prognosefehler (mit Untergrenze 10 %).
+
+Wirkung des Vorschlags wörtlich (Marge = 20 % + gemessener Fehler):
+  - Marge mindestens 30 % (20 + 10) -> Faktor höchstens 0,70 statt 0,769: jedes Entzauber-"Lohnt bis" (Tooltip, Markt,
+    Sammelkauf, Sniper-Ziele, API) sinkt um mindestens 9 %; beim Start (20 + 20 %) um 22 %. Mutig (10 + 10 %) = 0,80 ->
+    die Mindestrendite (0,769) bliebe strenger, mutig hätte dann keine Wirkung.
+  - Das ändert das Kaufverhalten des Snipers spürbar (weniger Käufe), ohne Messung, dass es besser ist.
+
+Mein Vorschlag (bitte bestätigen oder anders entscheiden):
+  normal  = Marge wie heute (gemessener Fehler, Untergrenze 10 %) -> keine Änderung für alle, die nichts wählen;
+  vorsichtig = normal + 10 Punkte;
+  mutig   = normal − 5 Punkte, nie unter 5 %; die Mindestrendite (30 %) und 0,9 × Netto gelten immer.
+  Anzeige in den Einstellungen mit Beispiel ("Grünes Teil, Wert 10s: Lohnt bis 7s 69c / 6s 90c / 7s 69c"), Test mit festen
+  Zahlen, Selbstkontrolle "ein Lohnt bis" (RK2-A) bleibt.
+Alternative: den Vorschlag 30/20/10 + Fehler wörtlich bauen (Lohnt bis sinkt wie oben).
