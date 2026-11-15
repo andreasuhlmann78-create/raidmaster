@@ -6,6 +6,6 @@ Ziel des Nutzers: ProfessionSentinel wird "das beste Crafter-Addon auf dem Markt
    auftraege/ProfessionSentinel/anweisung-ui-crafter-2026-11-15.txt, dazu shared/wissen/analysen/professionsentinel-2026-11-16.md
    und professionsentinel-ausbau-aus-ahs-2026-11-16.md.
 3. Reihenfolge: zuerst PS-TC1 + Ruckeln (A1/A2, gemessen 921 ms Spitze), dann Fenster/Stil + vier Reiter (Jetzt, Skillen, Gold,
-   Rezepte) + automatisches Öffnen mit dem Handwerksbuch, dann Einkauf-Leiste mit Warteschlange, dann (erst nach eigener Freigabe des Nutzers) Skillspur im Handwerksbuch,
+   Rezepte) + automatisches Öffnen mit dem Handwerksbuch, dann Einkauf-Leiste mit Warteschlange, dann Skillspur im Handwerksbuch (freigegeben),
    dann Texte. Je Schritt eine Version, Bericht "umgesetzt, zur Prüfung" in berichte/ProfessionSentinel/.
 4. Direktiven: Perfektion, nicht warten, nie Englisch für den Nutzer, alles ins Repo (auf origin/main nachprüfen).

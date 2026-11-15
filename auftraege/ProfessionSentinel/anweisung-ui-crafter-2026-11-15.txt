@@ -144,8 +144,9 @@ WoW-Forever-Eigenheiten, die PS sichtbar führen muss (warcrafttavern Forever-Be
     Stelle). Knopf "Alle Rezepte" heisst "ProfessionSentinel" und öffnet das Fenster.
 
 3.4b SKILLSPUR IM HANDWERKSBUCH (Nutzer 19:48: "Barometer" ist es nicht und darf nicht so heissen – Arbeitsname Skillspur, Name wartet auf den Nutzer; im Code heute "Lebenslinie") (Idee des Nutzers 19:42, Form 19:45: "viel feiner und moderner, nahtlos im WoW-Handwerksbuch")
-  STATUS 19:47: Die Freigabe des Nutzers galt dem UI ("also vom UI") – die Skillspur ist NOCH NICHT freigegeben. Erst umsetzen,
-  wenn der Nutzer es freigibt (Form kann sich noch ändern). Messen der echten Chancen darf schon vorbereitet werden.
+  STATUS 19:55: FREIGEGEBEN – Nutzer: "was PS angeht so ausführen" (nach dem Entwurf "Dein Handwerksbuch umgebaut – Skillspur",
+  den er sich als Ausschnitt herausgezogen hat). Form genau wie dort: feine Linie je Zeile + Zahl rechts, grössere Skillspur beim
+  gewählten Rezept rechts im Handwerksbuch. Name vorerst "Skillspur" (Nutzer kann ihn noch ändern – Locale-Schlüssel nutzen).
   Ersetzt die heutigen Zeichen "20×", "≈6×", "≈80×" in der Blizzard-Rezeptliste (Bild-Entwurf, Zeichenfläche "Dein Handwerksbuch umgebaut – Skillspur"):
   - Unter jedem Rezeptnamen eine 2-px-Linie über die Zeilenbreite: Abschnitte orange/gelb/grün/grau im Verhältnis der Stufen des
     Rezepts (gelb/grün/grau-Schwellen aus den Daten der laufenden Spielversion). Der aktuelle Abschnitt kräftig (≈85 % Deckkraft),
