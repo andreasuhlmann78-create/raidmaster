@@ -103,10 +103,9 @@ class Vorschlag(unittest.TestCase):
 
 class BotCode(unittest.TestCase):
     def test_nur_offizierskanal_und_merker(self):
-        here = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        with open(os.path.join(here, "bot.py"), encoding="utf-8") as f:
-            src = f.read()
-        body = src[src.index("async def post_raid_ready("):src.index("@tasks.loop(hours=1)\nasync def monthly_loop")]
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import bot_quelle                                       # D-3 Schritt 10: post_raid_ready steht in bank_bot.py
+        body = bot_quelle.funktion("post_raid_ready")
         self.assertIn('find_channel(guild.text_channels, "offiziere")', body)
         self.assertEqual(body.count("ch.send("), 2)
         self.assertIn("raid_ready.too_old(", body)

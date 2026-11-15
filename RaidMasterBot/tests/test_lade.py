@@ -98,6 +98,11 @@ class Lade(unittest.TestCase):
         self.assertIs(b.bot.tree.get_command("uploader").callback, uploader_bot.uploader_cmd.callback)
         self.assertEqual(uploader_bot.ADDON_DIR, os.path.join(os.path.dirname(b.__file__), "addon"))
         self.assertIs(b.ADDON_DIR, kern.ADDON_DIR)
+        import bank_bot
+        self.assertIs(bank_bot.bot, b.bot)                       # D-3 Schritt 10: Gildenbank und Raidfähigkeit
+        self.assertIs(b.post_guild_bank, bank_bot.post_guild_bank)
+        self.assertIs(b.bot.tree.get_command("bank").callback, bank_bot.bank_cmd.callback)
+        self.assertIs(bank_bot.item_emoji, symbole_bot.item_emoji)
         self.assertIs(b.NO_PING, grund.NO_PING)
 
     def test_findet_fehlenden_namen(self):
