@@ -191,3 +191,17 @@ PS-DW1 MITTEL (Nutzer 17:05, AHSentinel 0.65.170): Ein Rahmen von ProfessionSent
     sieht er am Berufsfenster gar keine Gewinnliste mehr. In der UI-Überarbeitung (anweisung-ui-crafter 3.1b) deshalb PFLICHT:
     am Berufsfenster immer ein kleiner Knopf "PS", der das Panel wieder öffnet; dazu PS.IsEnabled() (false, wenn der Spieler PS
     ausgeschaltet hat) – dann zeigt AHS sein Fenster wieder. Test: Panel zu -> Knopf sichtbar -> Klick -> Panel offen.
+
+>>> NACHT-PRÜFUNG 20:45 (Supervisor) – ProfessionSentinel 0.9.46 (Schritt 1: Ruckeln). Bericht gegen Code gelesen.
+  Jobs.lua ganz gelesen: Coroutine je Aufgabe, Budget 6 ms je Bild für alle zusammen, gleicher Name -> neu bzw. "again", Fehler
+    gezählt, Ruhemodus mit doppeltem Zeitlimit (AHS QUIET_MAX + eigene 30 Min.), pausierte Aufgaben prüfen 1×/s – stimmt mit A1/A2.
+  Yield-Stellen geprüft (Alerts.lua AL.Needed/alarm-preise, Today.lua TD.Collect, KA.Build): keine liegt in einem pcall innerhalb
+    der Aufgabe; P.InPass ruft bei laufendem Durchgang fn direkt (Prices.lua:60) – Lua-5.1-Falle sauber vermieden.
+  PS-TC1, PS-API1 (keine Namen, T270), A3 Item-Info-Tor, A4 Messung je Weg, PS-DW1 (Ursache UI.FitBestHint belegt) gelesen.
+  Keine Befunde. Gut gemacht – genau so war Schritt 1 gemeint.
+  T145 (+1026 KB, schon 0.9.45) und T143 unter Lua 5.1 (18,5–20,6 ms am Stück, schon 0.9.45): als bekannt notiert, bitte in Schritt 2
+    mitnehmen (T143: AD.Plan auch als Aufgabe/Portionen, Ziel ≤ 16 ms; T145: Ursache der +2 KB über 1024 belegen).
+  Release-Text nur Englisch (v0.9.46): Ursache release.yml behoben, gilt ab 0.9.47 – in Ordnung.
+  API.QuietOn: als Wunsch an AHSentinel weitergegeben (offen-ahsentinel, NIEDRIG). Bis dahin liest PS Sniper.quietSince – reicht.
+  WEITER: Schritt (2) der Anweisung (Fenster/Stil, vier Reiter, Öffnen mit dem Handwerksbuch, Zwischenspeicher je Beruf, Knopf
+    "PS" zum Wiederöffnen + PS.IsEnabled()). Grundsatz 19:58 bei jeder Zeile: Nutzen, eine Zahl, einfach zu verstehen.

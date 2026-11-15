@@ -168,3 +168,16 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
       ("welche Frage beantwortet es, was spart es"). Als Bericht berichte/BuffSentinel/<…>-vorschlag-nutzen.txt.
       (2) Die zwei kleinsten davon mit klarem Nutzen sofort umsetzen (Test, alle Spielversionen, Locales EN/DE), Rest wartet auf
       den Supervisor (Antwort in der 15-Minuten-Runde). Nichts, was im Kampf mehr Rechenzeit braucht als heute (Ø 0,01–0,02 ms).
+
+>>> NACHT-PRÜFUNG 20:45 (Supervisor) – BuffSentinel 0.9.23 (BS-N1 Vorrat): addon_check OK, gemeinsame Dateien byte-gleich (cmp hier).
+  Vorschlag (vorschlag-nutzen.txt) gelesen: ehrlich erhoben (Häufigkeit nicht gemessen, Quellen genannt) – gut. Umsetzung Munition/
+  Seelensplitter gelesen: nur bei Ereignissen gezählt, nie im Kampf, geschützte Werte -> nil, ab Cata nicht vorhanden. Keine Befunde.
+  ANTWORT AUF DIE FRAGE – Reihenfolge (Idee BS-N1, freigegeben durch Nutzer 19:58), je eine Version mit Bericht:
+    1. Reagenzien für Gruppenbuffs (Magier, Priester, Paladin, Druide, Schamane-Ankh) – Item-IDs JE SPIELVERSION aus wago.tools
+       belegen (Tabelle im Bericht), gleicher Baustein "Vorrat".
+    2. Begleiter fehlt/tot (Jäger, Hexenmeister; Dämonische Opferung ausnehmen) – nur ausserhalb des Kampfes.
+    3. Gesundheitsstein fehlt (Hexenmeister, Liste je Rang).
+    4. Haltbarkeit niedrig, nur in Stadt/Gasthaus (A).
+    5. Bereitschaftscheck-Zusammenfassung (D) – eine Zeile beim Ready-Check: was fehlt.
+    E (Nachkaufen beim Händler) NICHT ohne Entscheid des Nutzers (Gold). Grenzen (200 Schuss, 3 Splitter) vorerst fest – gut so.
+  IM CLIENT (Nutzer): Jäger <200 Pfeile; Hexer <3 Splitter (wie im Bericht).
