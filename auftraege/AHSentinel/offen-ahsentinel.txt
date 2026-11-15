@@ -79,6 +79,20 @@ T373 NACHTRAG (Entwurf Nachprüfung 11:20, vom Supervisor übernommen): Diagnose
     Aufgabe cache:warm-today · 0 Schritte · längster Schritt 182 ms bis Comfort.lua:1002" (früher 50–54 ms in 0.65.110), dazu
     16–40 ms Extras.lua:279, Comfort.lua:779/931, pd7 16–18 ms AHAnalyzerPro.lua:1152. Ziel ≤ 16 ms je Bild; "0 Schritte" = pausiert
     nie. Gehört zu RUCKEL-1 (zurückgestellt), Zahl und Stelle hier festgehalten. UI-CLEAN1 (A) 0.65.182: durch TB184-U1/U3 ersetzt.
+TB189 (Nutzer 13:53, 2 Screenshots Sniper 13:52:51/13:53:00, 0.65.189; 2 Ziele: Azurblaue Seidenkapuze max 9s Budget 5g, Schultern
+    des Hügelwächters max 9s14) – Supervisor geprüft:
+    GUT: Gold 14g28s52 -> 14g19s38 = −9s14 = genau 1 Kauf, Zähler Schultern 15 -> 16 (Zähler = Gold ✓). Kopf jetzt "Treffer · mit
+    Kauf · verpasst · gekauft n Stück" ✓. Beide Ziele reihum ✓.
+    TB189-1 HOCH: Meldung "Nichts Passendes unter deinem Max-Preis. Günstigstes: 9s14" – obwohl Max 9s14 ist und die 9s14-Angebote
+    alle "gesendet"/"gekauft" sind. Falsch formuliert: richtig "Alle passenden Angebote gesendet – 6 warten auf Antwort" (bzw.
+    "nichts mehr frei"). Gleich = Max ist passend ("unter" falsch: ≤).
+    TB189-2 HOCH: "6 warten auf Antwort" bleibt stehen, dazu rot "Interner Auktion-Fehler" in der Bildmitte. Messen (Teil a): wie
+    viele der 6 wurden gekauft/abgelehnt, nach wie vielen Sekunden? Werden abgelehnte (P186-5) sichtbar freigegeben? Zählen
+    abgelehnte noch als "warten"? Anzeige muss nach Frist (30 s) auflösen.
+    TB189-3 MITTEL (A5): Ziel-Zeile "15/1000 gekauft · 6 warten auf Antwort · …" abgeschnitten (Rest/Budget nicht sichtbar); Kopf
+    "Ø Reaktion 2.1 s" -> "3.6 s" bei einem einzigen Kauf – Wert prüfen (Reaktion = Treffer bis Kauf-Senden, nicht bis Antwort?).
+    TB189-4 Hinweis: 192 verpasst bei 279 Treffern (69 %) – für A1 im Abnahmetest messen, woran verpasst wird (anderer Käufer
+    schneller? Raste zu spät? Max knapp?) – Grund je verpasstem Treffer im Sniper-Bericht zählen.
 TB188 (Sniper-Testbericht 0.65.188, 15.11. 13:27 – Supervisor geprüft): Abnahme NICHT möglich (keine Käufe im Lauf, S4 vom Nutzer
     abgelehnt). Befunde:
     TB188-1 HOCH (A4): S11 – nach einem Klick ins Auktionshaus suchte der Sniper erst nach 8,4 s weiter (Ziel ≤ 5 s); die anderen
