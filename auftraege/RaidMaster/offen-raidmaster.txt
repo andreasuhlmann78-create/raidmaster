@@ -1,3 +1,8 @@
+>>> PERFEKTION (Entscheid des Nutzers 15.11.2026 12:20, gilt für ALLE Projekte und die Prüf-Sitzung): "Von jetzt an verlange ich
+    Perfektion – nicht nur beim Sniper." Jede Version: Ursache belegt (Code-Stelle + Messung), nicht vermutet; jede Zahl geht auf;
+    alle Wege getestet (Erfolg, Fehler, Abbruch, AH zu, Kampf, alte Clients); keine Sperre ohne Zeitlimit; nichts abgeschnitten
+    oder doppelt; Bericht nur "umgesetzt, zur Prüfung" mit Belegen. Lieber eine Version später als eine mit Fehlern.
+
 PRÜFUNG Uploader 2.3.9 (Supervisor 16:05, Tests 93/93 grün, Bericht + sync.py "ud"/ud_done gelesen): UP-S1-2 umgesetzt –
 FREIGEGEBEN für den Nutzer, Bedingung: auf BEIDEN Rechnern 2.3.9 (alte Uploader ignorieren "ud"). 2.3.8 überspringen.
 Im Betrieb prüfen: nach dem Update genau eine Konflikt-Meldung je Datei am Rechner mit dem defekten Stand, AHSentinelMerge-Block

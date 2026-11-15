@@ -105,6 +105,11 @@ dann Messauftrag statt Regel.
   ergänzen (Abschnitt E), damit er nicht wieder durchrutscht.
 
 ## E. Prüfregeln aus Fehlern (fortlaufend)
+- 15.11. 12:18 Nutzer "du arbeitest schlampig": Supervisor schloss aus EINEM Gold-Stand (12:03), "nur 5 von 67 Käufen kamen an",
+  und gab das als Ursache an AHS weiter – um 12:16 waren 70 gekauft (Bestätigungen kamen spät). REGEL (Perfektion, Nutzer
+  12:20): Schlüsse über Käufe/Gold nur aus ZWEI Ständen mit genug Abstand (offene Vorgänge abgeschlossen) oder aus dem
+  Protokoll; bis dahin als "Verdacht, zu messen" kennzeichnen, nie als Ursache. Code-Befunde erst als Ursache, wenn sie die
+  beobachteten Zahlen erklären. Jede Zahl in einer Nachricht an den Nutzer vorher gegenrechnen.
 - 14.11. 08:35 ThreatSentinel 2.5.13/BuffSentinel 0.9.21 ein zweites Mal geprüft, obwohl die geplante Nachprüfung es gerade
   tat (Konflikt beim Push, doppelte Arbeit verworfen). REGEL (effizient UND genau, Nutzer 08:29): vor jeder Prüfung
   `git pull` + addon-check/nachpruefung-stand.json + nachrichten-log.txt ansehen; schon geprüft -> nur deren Ergebnis lesen.
