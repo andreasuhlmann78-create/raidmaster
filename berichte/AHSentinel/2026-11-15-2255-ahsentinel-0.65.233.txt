@@ -1,0 +1,23 @@
+AHSentinel 0.65.233 – Nacht-Prüfung 21:48 umgesetzt (HP-2 Item-Grenze, MR7 Trefferquote) – zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.233 und sofort im Discord.
+
+1) HP-2 "+" ohne genaue Stufen (Entscheid angenommen) – Budget = min(Max × Menge, Item-Grenze):
+   - BELEG, dass es vorher NICHT galt: Sniper.lua Sn:SetTarget prüft keine Item-Grenze (grep ItemBudget: nur MarketCore
+     "Heute tun"-Prüfungen) – das "+"-Ziel hatte Budget = 149c × bis 1000 Stück.
+   - AHAnalyzerPro.lua A:VendorTargetPlan(itemID, vendor, Menge, Kosten, mindestens): Max = Händler − 1c; genau: Menge =
+     Stücke, Budget = Σ (mind. ein Max); "≥": bis zur angebotenen Menge (max. 1000), Budget = Max × Menge; IMMER
+     Budget ≤ MK:ItemBudget() (je Item 10 % des Golds, dieselbe Grenze wie FL-1/"Heute tun"); Grenze < ein Stück -> kein Ziel
+     ("Item-Grenze") und Chat-Satz. UI_Profit "+" nutzt sie.
+   - Gleiches für Entzaubern (Gold-Sicherheit, FL-1 "jeder Kauf höchstens das Budget je Item"): MV:BuyDE ("Kaufen" in
+     Markt > Entzaubern und "+" in Schnäppchen > Entzauberwert) – Budget ≤ Item-Grenze, sonst kein Ziel. Vorher: Budget =
+     geplante Kosten aus DEOffer mit Anteil 25 % (Markt-Kapital), also bis 25 % je Item.
+   - K1 25 % (alle Kaufvorschläge zusammen) gilt für die Listen ("Heute tun"/Markt, AllocateBudget/CapRows); ein einzelnes
+     Sniper-Ziel liegt mit ≤ 10 % darunter.
+   - Test T809: 10g Gold, 1000 Stück angeboten, ohne Stufen -> Max 149c, Menge 1000, Budget 1g (= 10 %); genaue Stufen 8 Stück
+     -> Budget 860c; 10s Gold (Grenze 1s < 1s 49c) -> kein Ziel "Item-Grenze". s224/s1/s223/s6 grün.
+2) MR7 Trefferquote (Annahmen angenommen): Act:OnLogin merkt je Tag die Vorhersage (Tage bis zum nächsten Login, Grundlage)
+   und schreibt beim nächsten Login (anderer Tag) {Vorhersage, wirklich} ins activity.rhythmLog (höchstens 120). Testbericht
+   MARKT-KERN: "MR7 nächstes Login vorhergesagt vs. wirklich (ANNAHMEN …): Woche JJJJ-WW: x von n" (nur gelernte).
+   Test T809: Mo Vorhersage 2 -> Mi = richtig; Mi Vorhersage 1 -> Sa = falsch -> 2 Vorhersagen, 1 richtig.
+Mit 0.65.232 rot (A:VendorTargetPlan fehlt). Locale +1, CHANGELOG EN/DE.
+Gesamtlauf (frischer Klon, Kopie 0.65.233): BESTANDEN 281, FEHLGESCHLAGEN 0 (s92 fest, ohne Wiederholung).
