@@ -1,0 +1,26 @@
+BERICHT LevelPilot 3.12.41 – LP-N1 3: Grind-Ausweichorte ("Stelle abgegrast")
+Projekt: LevelPilot · Datum: 15.11.2026 23:28 (aus date) · Status: umgesetzt, zur Prüfung
+
+Bezug: offen-levelpilot.txt, NACHT-PRÜFUNG 23:18 (Reihenfolge: 3 Grind-Ausweichorte, 1 Talent-Text, 2 Schritt 1).
+
+UMSETZUNG (Planner.lua; Schalter advGrind, Zentrale » Assistent » "Abgegraste Stelle", ab Werk an):
+- Erkennung (P:CheckStuck, als Prüfung des Assistenten: alle 30 s und bei Ereignissen): erster Schritt ist eine Töte-/Sammel-
+  Aufgabe (COMPLETE), der Spieler steht höchstens 120 yd vom Ziel (P.STUCK_NEAR), nicht AFK, und der Fortschritt (Zähler und Text
+  der Questziele) ändert sich 180 s lang nicht (P.STUCK_SECS). Weggehen, anderes Ziel oder Fortschritt setzt zurück.
+- Hinweis nur, wenn es eine andere Stelle gibt (> 150 yd, nicht zu gefährlich – dieselbe Gefahrenregel wie die Planung):
+  "Seit 3 Min. kein Fortschritt bei „Quest“ – Stelle abgegrast? Nächste Stelle X entfernt." mit Knopf "Andere Stelle".
+- "Andere Stelle" (P:MarkExhausted): die Stelle gilt 1200 s als leer (Umkreis 150 yd, P.EXHAUST_R/EXHAUST_SECS), neu planen; die
+  Planung lässt leere Stellen aus (P:WithoutExhausted). Sind alle Stellen leer, bleibt die Liste wie sie war (Quest geht nie
+  verloren). Nichts automatisch – der Spieler entscheidet (psychologie.md: Kontrolle geben, keine Flut: Toast nur einmal je Zustand).
+- Texte in allen Sprachdateien (esMX über esES); Orte der Stellen aus den vorhandenen Questdaten (Datenpaket).
+
+BELEGE
+- T303 (deDE/enUS): leere Stelle ausgelassen · alle leer -> Liste bleibt · abgelaufen -> wieder da · sofort kein Hinweis · nach
+  3 Min. Hinweis ("Nächste Stelle 569 Yards entfernt") · "Andere Stelle" plant die nächste (1 Neuplanung) · weggehen setzt zurück
+  · Schalter aus = nichts. Im Client prüfen: 1 Anleitung.
+- run_offline.py mit der veröffentlichten ZIP (allein): 37/37 ohne FEHLER (Forever OK 274/272, Era/TBC 273, im Client prüfen 13),
+  Meldungs-Weiche OK; private Regressionen 36/36; Durotar 200 Wegpaare identisch zu 3.12.35; addon_check OK.
+GRENZEN (Verdacht, zu messen): 3 Minuten / 150 yd / 20 Minuten sind gesetzte Werte, nicht gemessen – Rückmeldung der Spieler
+abwarten. Kämpft der Spieler 3 Min. gegen andere Gegner am Ziel, erscheint der Hinweis auch (nur Angebot, keine Wirkung).
+
+NÄCHSTES: 1 Talent-Empfehlung als Text im Hinweis "Talentpunkte frei" (eigene Builds, je Punkt ein Satz Begründung).
