@@ -171,6 +171,18 @@
 
 >>> POST-BLOCK1 HOCH – SPIELER-MELDUNG (fremder Spieler, über den Nutzer 18:25): "error when posting item
 >>> POST-BLOCK1 – NACHGESTELLT VOM NUTZER (19:12, 3 Bildschirmfotos 19:10:42–19:10:46, Client 0.65.203, altes AH; Nutzer: "geht nicht"):
+>>> WS-LOOP1 – HOCH, SPIELER KANN NICHT EINSTELLEN (19:14, Nutzer: "das geht eben auch nicht – dann kommt die Warnung"). BELEGT IM CODE:
+    Seller.lua Se:SellWarning Zeile ~18: Warnung, wenn unit × (1 − 5 %) < Einkaufs-Ø (Erlös NACH Gebühr unter dem Einkauf). Aber
+    ref = avg, und "Preis anpassen (…)" (UI_Sell.lua 698 d.onFix) setzt genau avg = 9s19c. Mit 9s19c gilt wieder 919 × 0,95 = 873 < 919
+    -> dieselbe Warnung kommt wieder. ENDLOSSCHLEIFE: "Preis anpassen" hilft nie, der einzige Ausweg "Trotzdem einstellen" ist
+    gesperrt (POST-BLOCK1). Folge: Ware unter Einkauf + Gebühr ist mit AHS gar nicht einzustellen. Dazu ist der Text falsch:
+    "9s19c liegt 0 % unter deinem Einkaufspreis (9s19c). Verschenkt: ~0" – er vergleicht Brutto mit Einkauf, die Regel aber Netto.
+    Lösung: (a) Vorschlag "Preis anpassen" = kleinster Preis, der die Warnung NICHT mehr auslöst (hier ceil(919 / 0,95) = 968c = 9s68c,
+    danach RoundPrice nach OBEN); allgemein: jeder Vorschlag aus dem Warnschutz wird vor dem Anzeigen gegen SellWarning geprüft und
+    löst sie nie aus. (b) Text: "Nach 5 % Gebühr bekommst du X – das ist Y unter deinem Einkaufspreis Z. Verlust: ~V." (Netto, echte
+    Zahlen). Gleiches für "unter dem Händlerpreis" (Zeile ~14, auch Netto-Regel). (c) Test: für jeden Grund (Angebot, Marktwert,
+    Händler, Einkauf, Entzauberwert): Preis anpassen -> nächster Klick stellt OHNE Warnung ein; Zahlen im Text gehen exakt auf.
+    PRIO JETZT: zusammen mit POST-BLOCK1 (beide zusammen sperren das Einstellen).
     Weg = WARNSCHUTZ "Trotzdem einstellen" (UI_Sell.lua 682 -> d.onAnyway 701 -> p:Post -> Se:Post -> LegacyPost: PickupContainerItem,
     ClickAuctionSellItemButton, PostAuction). Item: Geringe Mystikeressenz ×4 (Ware), 9s19c/Stück (Warnschutz "0 % unter Einkaufspreis").
     Ergebnis: Meldung "Interface-Aktion auf Grund eines Addons fehlgeschlagen", Status bleibt "Wird eingestellt: 4x … 9s19c/Stück …",
