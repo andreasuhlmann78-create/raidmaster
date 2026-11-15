@@ -1,0 +1,41 @@
+BERICHT PROFESSIONSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 21:59 (aus date) · Sitzung: ProfessionSentinel-Sitzung · Version: 0.9.50 · Commit: 9c978e7 (Quell-Repo), Release v0.9.50
+Grundlage: anweisung-ui-crafter-2026-11-15.txt 3.3 (Zeilen), NACHT-PRÜFUNG 21:48 ("Rest Schritt 2").
+Hinweis: Hier steht nur "umgesetzt, zur Prüfung" mit Belegen. Ob etwas erledigt ist, entscheidet die Prüf-Sitzung.
+
+UMGESETZT, ZUR PRÜFUNG (3.3 "eine Zahl je Zeile")
+-------------------------------------------------
+- Rezepte (InitRecipeRow, nicht-Ranglisten-Zeilen): Name · EIN Status-Wort (lernbar / fehlt / neu) · Quelle als kleine Symbole
+  (UI.SourceKinds/SourceIcons: Lehrer, Händler, Händlergunst, Drop, Quest; Retail ohne Quelldaten: keine) · rechts EINE Zahl =
+  Fertigkeitsstufe in der Farbe der eigenen Fertigkeit. Der Gewinn je Herstellung steht nicht mehr in der Zeile (Reiter Gold, Details,
+  Tooltip – dieselbe Funktion UI.Profit).
+- Skillen: Plan-Zeilen rechts nur "6×" (planStep.crafts); "Fertigkeit 112 → 125" neu im Tooltip (L.PLAN_STEP_RANGE). Lebenslinien-
+  Balken nur noch im Reiter Skillen; Herkunfts-Punkte der Materialien nicht mehr in der Zeile (Tooltip/Details zeigen die Herkunft).
+- Gold: Gewinn je Herstellung + Weg (verk./ent.); die zweite Zahl "≤ n" (Absatz in ~2 Tagen) nur noch im Tooltip (UI.lua TipDetails:
+  SELL_CAP/SELL_HARDLY, vorhanden); "kaum Absatz", "unsicher", "sehr hohe Marge" bleiben als Wort.
+- Keine Platz-Nummer und kein Stern vor Namen im Panel (3.4: der Stern bleibt EINE Stelle, die Blizzard-Liste).
+
+TESTS (eigene, Hinweise – keine Freigabe)
+-----------------------------------------
+- Neu T276: Rezepte – Zahl rechts = Stufe, kein zweite Zahl, Quellen-Symbole vorhanden (nicht Retail), kein Platz/Stern; Plan –
+  "^%d+×$"; Gold – kein "≤". Forever, Era, Retail ohne FEHLER.
+- run_offline (LuaJIT): Forever OK 232 / FEHLER 0, Era OK 214 / 0, Retail OK 213 / 0, TBC ohne Lua-Fehler, Exit 0.
+- --lua51: Retail 0 FEHLER; Forever in einem Lauf T145 +1520 KB, im nächsten Lauf ohne FEHLER (Bereich H, schwankt unter Lua 5.1;
+  mit T276 übersprungen ebenfalls ohne FEHLER – kein Zusammenhang mit T276 gefunden). Verdacht, zu messen: Speicherbereinigung von
+  Lua 5.1 nicht deterministisch zwischen den Läufen.
+- Schnelltest Ausgang 0, check_actions OK, gen_locale_keys 487 Schlüssel.
+- addon_check auf download/ProfessionSentinel-0.9.50.zip und die announce-Zip: OK, 0 FEHLER, 0 WARNUNG. ZIP = Quell-Repo (diff -r leer).
+
+IM CLIENT PRÜFEN
+----------------
+- Reiter Rezepte: Quellen-Symbole sichtbar und nicht abgeschnitten (alle Spielversionen, 75 %/125 %), Tooltip zeigt den Gewinn.
+- Reiter Skillen/Plan: Tooltip einer Zeile zeigt "Fertigkeit von → bis".
+
+OFFEN (Rest Schritt 2) und danach
+---------------------------------
+- Skillen: Plan und Rangliste zu EINER Ansicht mit Umschalter "billigster Weg / mit dem, was ich habe" (heute: zwei Ansichten im
+  Umschalter Plan / Rangliste / Lehrer).
+- Gold: Verzauberer als Abschnitt der Liste statt eigene Ansicht.
+- "Beruf von <Figur>" für verlinkte Berufe (nur lesend).
+- LevelPilot-Übergabe für "Weg zeigen" (wartet auf Schnittstelle).
+- Danach Schritte (3) Einkauf-Leiste mit Warteschlange, (4) Skillspur im Handwerksbuch, (5) Texte.
