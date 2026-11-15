@@ -17,6 +17,12 @@ schon geht – Prüf-Sitzung: Code der offenen Punkte selbst durchsehen, Ursache
 prüfen; Projekte: nächster Punkt der Reihenfolge. Nur bei echten Nutzer-Entscheiden fragen – und bis zur Antwort am Rest
 weiterarbeiten. Gilt unter der Ersten Direktive (Perfektion): nicht warten heisst nie schludern.
 
+## NIE WIEDER ENGLISCH (Entscheid des Nutzers 15.11.2026 12:38 – "sag das allen")
+
+Alles, was der Nutzer sieht oder liest, ist Deutsch: Antworten, Berichte, Commit-Nachrichten, GitHub-Release-Titel und
+-Beschreibungen, Testberichte, Meldungen. Englisch nur dort, wo englische Spieler es brauchen (enUS-Locale, englischer Teil
+von CHANGELOG/Announce) – nie als einzige Sprache für den Nutzer.
+
 ## Aufträge der Prüf-Sitzung – vor jeder Arbeit an einem Addon lesen
 
 Ausnahme: Geplante Aufgaben (z. B. «ProfessionSentinel Rezeptdaten-Update», «Raids und Taktiken für WoW Forever») führen nur

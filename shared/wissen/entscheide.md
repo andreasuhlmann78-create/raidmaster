@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 15.11.2026 12:38 | Nie wieder Englisch – alles, was der Nutzer sieht (Berichte, Commits, Release-Texte, Antworten), auf Deutsch; Englisch nur für englische Spieler (enUS-Locale, EN-Teil CHANGELOG) | CLAUDE.md, alle offen-*.txt |
 | 15.11.2026 12:29 | "Oberste Prio" für die UI-Prüfung aller Untersektionen (TB184-U3) – gleich hoch wie Sniper-Komplett | offen-ahsentinel.txt SNIPER-KOMPLETT Nachtrag |
 | 15.11.2026 12:23 | ZWEITE DIREKTIVE: nicht warten ("wer wartet, verliert") – keine Sitzung wartet untätig, immer am nächsten machbaren Punkt weiter; unter Perfektion | CLAUDE.md, alle offen-*.txt |
 | 15.11.2026 12:22 | PERFEKTION IST DIE OBERSTE DIREKTIVE – Vorrang vor allem anderen, auch vor Tempo | CLAUDE.md (ganz oben), alle offen-*.txt |
