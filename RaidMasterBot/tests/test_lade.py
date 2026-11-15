@@ -113,6 +113,10 @@ class Lade(unittest.TestCase):
         self.assertIs(beute_bot.ensure_dkp_rules, regeln_bot.ensure_dkp_rules)
         self.assertIs(b.raid_channel, grund.raid_channel)
         self.assertIs(beute_bot.raid_channel, grund.raid_channel)
+        import klassen_bot
+        self.assertIs(klassen_bot.bot, b.bot)                    # D-3 Schritt 13: Klassenfarben
+        self.assertIs(b.sync_class_roles, klassen_bot.sync_class_roles)
+        self.assertIs(klassen_bot.book, b.book)
         self.assertIs(b.NO_PING, grund.NO_PING)
 
     def test_findet_fehlenden_namen(self):
