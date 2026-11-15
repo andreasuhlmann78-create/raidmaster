@@ -68,8 +68,8 @@ class Tafeln(unittest.TestCase):
 
     def test_reihenfolge_und_werte(self):
         b = rt.boards(self.kills(), RAIDS, NAMES)
-        self.assertEqual([x["key"] for x in b], ["mc", "ony", "barrow", rt.OTHER])
-        mc = b[0]
+        self.assertEqual([x["key"] for x in b], [rt.OTHER, "mc", "ony", "barrow"])   # ohne Zuordnung vor den Raids
+        mc = b[1]
         self.assertEqual(mc["title"], "⏱️ Rekorde · Molten Core")
         self.assertEqual([r["n"] for r in mc["rows"]], ["Lucifron", "Magmadar", "Ragnaros"])
         luc, mag, rag = mc["rows"]
@@ -78,18 +78,19 @@ class Tafeln(unittest.TestCase):
         self.assertEqual((rag["d"], rag["new"]), (180, False))
         # ganzer Raid: 5000 - (1000 - 95) = 4095 s
         self.assertEqual(mc["full"], {"d": 4095, "t": T0 + 5000})
-        self.assertEqual([r["n"] for r in b[2]["rows"]], ["Erster", "Zweiter"])
-        other = b[3]
+        self.assertEqual([r["n"] for r in b[3]["rows"]], ["Erster", "Zweiter"])
+        other = b[0]
         self.assertEqual(other["title"], "⏱️ Rekorde · Weitere Bosse (ohne Zuordnung)")
         self.assertEqual((other["rows"][0]["d"], other["rows"][0]["killed"]), (None, True))
 
     def test_text(self):
         b = rt.boards(self.kills(), RAIDS, NAMES)
-        t = rt.board_text(b[0])
+        t = rt.board_text(b[1])
         self.assertIn(f"**Lucifron** – **1:12** 🆕 · <t:{T0 + 7 * DAY + 1000}:d>", t)
         self.assertIn(f"**Magmadar** – **2:00** · <t:{T0 + 2000}:d>", t)
         self.assertIn("🏁 Ganzer Raid (erster Pull bis letzter Boss): **1:08:15**", t)
-        self.assertIn("gelegt, keine Kampfdauer gemessen", rt.board_text(b[3]))
+        self.assertIn("gelegt, keine Kampfdauer gemessen", rt.board_text(b[0]))
+        self.assertIn("🆕 = Rekord vom letzten Raidabend", t)
         self.assertLessEqual(len(t), 4000)
 
     def test_ohne_kill_und_ohne_dauer(self):
@@ -108,10 +109,10 @@ class Tafeln(unittest.TestCase):
 
     def test_fmt_hash_altzeilen(self):
         self.assertEqual((rt.fmt(72), rt.fmt(4095), rt.fmt(None), rt.fmt(0)), ("1:12", "1:08:15", "–", "0:00"))
-        b1 = rt.boards(self.kills(), RAIDS, NAMES)[0]
-        b2 = rt.boards(self.kills(), RAIDS, NAMES)[0]
+        b1 = rt.boards(self.kills(), RAIDS, NAMES)[1]
+        b2 = rt.boards(self.kills(), RAIDS, NAMES)[1]
         self.assertEqual(rt.board_hash(b1), rt.board_hash(b2))
-        b3 = rt.boards(self.kills() + [k(664, T0 + 7 * DAY + 2500, 99)], RAIDS, NAMES)[0]
+        b3 = rt.boards(self.kills() + [k(664, T0 + 7 * DAY + 2500, 99)], RAIDS, NAMES)[1]
         self.assertNotEqual(rt.board_hash(b1), rt.board_hash(b3))
         self.assertTrue(rt.is_old_record_line("⏱️ **Neuer Rekord: Lucifron in 1:12** (vorher 1:35 …"))
         for no in ("🏆 Erstkill", "", None, "⏱️ Rekorde · Molten Core"):
@@ -132,14 +133,20 @@ class Dungeons(unittest.TestCase):
         ks = [k(2741, T0, 40, p="mc", n="Rhahk'Zor"), k(2746, T0 + 600, 95, p="mc", n="Edwin van Cleef"),
               k(2732, T0 - DAY, 30, p=None, n="Oggleflint"), k(663, T0, 95)]
         b = rt.boards(ks, RAIDS, NAMES, DUNGEONS)
-        self.assertEqual([x["key"] for x in b], ["mc", "dg-rfc", "dg-dm"])          # Raids, dann nach Level
-        dm = b[2]
+        self.assertEqual([x["key"] for x in b], ["dg-rfc", "dg-dm", "mc"])          # Dungeons nach Level, Raids zuletzt
+        dm = b[1]
         self.assertEqual(dm["title"], "⏱️ Rekorde · Die Todesminen (Level 17–26)")
         self.assertEqual([r["n"] for r in dm["rows"]], ["Rhahk'Zor", "Edwin van Cleef"])  # nur gelegte, Name aus dem Spiel
         t = rt.board_text(dm)
         self.assertIn("2 von 3 Bossen gelegt", t)
         self.assertNotIn("Cookie", t)                                                   # ungelegt: nicht gezeigt
         self.assertNotIn("Ganzer Raid", t)
+        self.assertIn("🆕 = Rekord vom letzten Besuch", t)
+        self.assertNotIn("Raidabend", t)
+        h = rt.with_headers(b)
+        self.assertEqual([x.get("header") or x["key"] for x in h],
+                         ["## 🗝️ Dungeons", "dg-rfc", "dg-dm", "## 🏰 Raids", "mc"])
+        self.assertEqual(rt.with_headers([]), [])
         # alte ID (161) zählt auch
         b2 = rt.boards([k(161, T0, 40, n="Rhahk'Zor")], RAIDS, NAMES, DUNGEONS)
         self.assertEqual(b2[0]["key"], "dg-dm")
@@ -298,13 +305,16 @@ class BotAblauf(unittest.TestCase):
         fremd = Msg(ch, "⏱️ **Neuer Rekord: von jemand anderem", author=2)
         ch.msgs.append(fremd)
         r = asyncio.run(self.bot.update_record_boards(ch))
-        self.assertEqual((r["posted"], r["deleted_old"]), (4, 1))
+        self.assertEqual((r["posted"], r["deleted_old"]), (6, 1))          # 4 Tafeln + 2 Überschriften
         self.assertNotIn(old, ch.msgs)                                    # alte Bot-Zeile weg
         self.assertIn(fremd, ch.msgs)                                     # fremde Nachricht bleibt
         self.assertEqual(ch.msgs[0].content, "🏆 Erstkill … bleibt")      # Erstkill bleibt
-        self.assertEqual(self.titles(ch), ["⏱️ Rekorde · Molten Core", "⏱️ Rekorde · Onyxias Hort",
-                                           "⏱️ Rekorde · Barrow Deeps",
-                                           "⏱️ Rekorde · Weitere Bosse (ohne Zuordnung)"])
+        self.assertEqual(self.titles(ch), ["⏱️ Rekorde · Weitere Bosse (ohne Zuordnung)",
+                                           "⏱️ Rekorde · Molten Core", "⏱️ Rekorde · Onyxias Hort",
+                                           "⏱️ Rekorde · Barrow Deeps"])
+        self.assertEqual([m.content for m in ch.msgs if m.content and m.content.startswith("## ")],
+                         ["## ❔ Ohne Zuordnung", "## 🏰 Raids"])
+        mc_msg = next(m for m in ch.msgs if m.embed and m.embed.title.endswith("Molten Core"))
         # nochmals ohne Änderung: nichts gepostet, nichts bearbeitet
         r = asyncio.run(self.bot.update_record_boards(ch))
         self.assertEqual((r["posted"], r["edited"], r["deleted_old"]), (0, 0, 0))
@@ -314,7 +324,7 @@ class BotAblauf(unittest.TestCase):
         r = asyncio.run(self.bot.update_record_boards(ch))
         self.assertEqual((r["posted"], r["edited"]), (0, 1))
         self.assertEqual(len(ch.msgs), n)
-        self.assertIn("**Magmadar** – **1:39** 🆕", ch.msgs[-4].embed.description)
+        self.assertIn("**Magmadar** – **1:39** 🆕", mc_msg.embed.description)
 
     def test_neuer_raid_ordnet_neu(self):
         ch = Chan()
@@ -324,18 +334,20 @@ class BotAblauf(unittest.TestCase):
         asyncio.run(ch.send("🏆 Erstkill Onyxia"))
         self.bot.kills_db.data["kills"].append(k(1084, T0 + DAY, 185, p="ony"))
         r = asyncio.run(self.bot.update_record_boards(ch))
-        self.assertEqual(r["posted"], 2)
+        self.assertEqual(r["posted"], 3)                                  # Überschrift + 2 Tafeln
         self.assertEqual(self.titles(ch), ["⏱️ Rekorde · Molten Core", "⏱️ Rekorde · Onyxias Hort"])
+        self.assertEqual(sum(1 for m in ch.msgs if m.content == "## 🏰 Raids"), 1)   # Überschrift nie doppelt
         self.assertEqual(len([m for m in ch.msgs if m.embed]), 2)        # nichts doppelt
 
     def test_tafel_von_hand_geloescht(self):
         ch = Chan()
         asyncio.run(self.bot.update_record_boards(ch))
-        ch.msgs.remove(ch.msgs[0])                                        # jemand löscht die MC-Tafel
+        ch.msgs.remove(next(m for m in ch.msgs if m.embed and m.embed.title.endswith("Molten Core")))  # von Hand gelöscht
         self.bot.kills_db.data["kills"].append(k(663, T0 + 9 * DAY, 60))
         r = asyncio.run(self.bot.update_record_boards(ch))
-        self.assertEqual(r["posted"], 4)
+        self.assertEqual(r["posted"], 6)
         self.assertEqual(len([m for m in ch.msgs if m.embed]), 4)
+        self.assertEqual(len([m for m in ch.msgs if m.content and m.content.startswith("## ")]), 2)
 
 
 if __name__ == "__main__":

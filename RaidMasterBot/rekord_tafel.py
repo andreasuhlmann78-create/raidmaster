@@ -1,6 +1,6 @@
 """Rekord-Tafeln der Ruhmeshalle (ab Bot 1.5.136, Entscheid des Nutzers 15.11.2026 15:00).
 
-Je Raid (später auch je Dungeon) EINE Tafel in #ruhmeshalle, die der Bot einmal postet und danach nur bearbeitet:
+Je Raid und je Dungeon EINE Tafel in #ruhmeshalle (Dungeons oben, Raids immer unten, je mit Überschrift), die der Bot einmal postet und danach nur bearbeitet:
 Bosse in der Reihenfolge des Raids mit Bestzeit und Datum, "–" für Bosse ohne Kill, 🆕 für Rekorde vom letzten
 Raidabend, darunter die Bestzeit für den ganzen Raid (erster Pull bis letzter Boss an einem Abend).
 Die bisherigen einzelnen Zeilen "⏱️ Neuer Rekord: …" entfallen (werden einmal aufgeräumt).
@@ -118,7 +118,7 @@ def full_clear(kills: list[dict], boss_ids: list[set]) -> dict | None:
 
 def boards(kills: list[dict], raids: list[dict], names: dict[str, str],
            dungeons: list[dict] | None = None) -> list[dict]:
-    """Alle Tafeln in fester Reihenfolge: Raids (Reihenfolge von bosses.json), Dungeons (nach Level), "Weitere"
+    """Alle Tafeln in fester Reihenfolge: Dungeons (nach Level), "Weitere", Raids (Reihenfolge von bosses.json)
     zuletzt. Nur Raids/Dungeons mit mind. einem Kill. Jede Tafel: {key, title, rows: [{n, d, t, new, killed}], full,
     dungeon, total}."""
     dungeons = dungeons or []
@@ -129,7 +129,8 @@ def boards(kills: list[dict], raids: list[dict], names: dict[str, str],
         if not k.get("e") or not k.get("t"):
             continue
         by_raid.setdefault(raid_of(k, emap, raids), []).append(k)
-    order = [r["key"] for r in areas] + [OTHER]
+    # Reihenfolge (Entscheid des Nutzers 15.11. 16:05): Dungeons (nach Level), ohne Zuordnung, Raids immer zuletzt
+    order = [d["key"] for d in dungeons] + [OTHER] + [r["key"] for r in raids]
     out = []
     for key in order:
         ks = by_raid.get(key)
@@ -212,13 +213,33 @@ def board_text(board: dict) -> str:
         lines.append(f"🏁 Ganzer Raid (erster Pull bis letzter Boss): **{fmt(board['full']['d'])}** · "
                      f"<t:{board['full']['t']}:d>")
     lines.append("")
-    lines.append("🆕 = Rekord vom letzten Raidabend")
+    lines.append("🆕 = Rekord vom letzten Besuch" if board.get("dungeon") else "🆕 = Rekord vom letzten Raidabend")
     text = "\n".join(lines)
     return text if len(text) <= 4000 else text[:3990] + "\n…"
 
 
+HEADERS = {"raid": ("_kopf_raids", "## 🏰 Raids"), "dungeon": ("_kopf_dungeons", "## 🗝️ Dungeons"),
+           "other": ("_kopf_weitere", "## ❔ Ohne Zuordnung")}
+
+
+def with_headers(boards: list[dict]) -> list[dict]:
+    """Raids und Dungeons getrennt (Entscheid des Nutzers 15.11. 16:05): vor jedem Abschnitt eine Überschrift, nur wenn
+    der Abschnitt Tafeln hat. Reihenfolge wie boards(): Dungeons, ohne Zuordnung, Raids zuletzt."""
+    out, last = [], None
+    for b in boards:
+        kind = "dungeon" if b.get("dungeon") else ("other" if b["key"] == OTHER else "raid")
+        if kind != last:
+            key, text = HEADERS[kind]
+            out.append({"key": key, "header": text})
+            last = kind
+        out.append(b)
+    return out
+
+
 def board_hash(board: dict) -> str:
     """Gleicher Inhalt = gleicher Hash -> keine unnötige Bearbeitung."""
+    if board.get("header"):
+        return hashlib.sha256(board["header"].encode()).hexdigest()[:16]
     return hashlib.sha256((board["title"] + "\n" + board_text(board)).encode()).hexdigest()[:16]
 
 

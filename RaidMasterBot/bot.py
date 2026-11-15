@@ -2636,10 +2636,12 @@ async def cleanup_old_record_lines(ch) -> int:
 
 
 async def update_record_boards(ch) -> dict:
-    """Je Raid eine Tafel in #ruhmeshalle: einmal posten, danach nur bearbeiten (ab 1.5.136).
+    """Je Raid und je Dungeon eine Tafel in #ruhmeshalle, Raids und Dungeons unter eigener Überschrift getrennt
+    (ab 1.5.139): einmal posten, danach nur bearbeiten (ab 1.5.136).
     Kommt ein Raid neu dazu oder fehlt eine Tafel, werden alle Tafeln in der richtigen Reihenfolge neu gepostet."""
     names = {r["key"]: rmd.pool_name(r["key"], bot.dkp_data) for r in RECORD_BOSSES}
-    boards = rekord_tafel.boards(kills_db.data.get("kills") or [], RECORD_BOSSES, names, RECORD_DUNGEONS)
+    boards = rekord_tafel.with_headers(
+        rekord_tafel.boards(kills_db.data.get("kills") or [], RECORD_BOSSES, names, RECORD_DUNGEONS))
     st = state.data.setdefault("record_boards", {"order": [], "msgs": {}, "hash": {}})
     res = {"posted": 0, "edited": 0, "deleted_old": 0}
     if not state.data.get("record_lines_cleaned"):
@@ -2663,7 +2665,10 @@ async def update_record_boards(ch) -> dict:
                 continue
             try:
                 msg = await ch.fetch_message(int(st["msgs"][b["key"]]))
-                await msg.edit(embed=embed(b))
+                if b.get("header"):
+                    await msg.edit(content=b["header"])
+                else:
+                    await msg.edit(embed=embed(b))
                 st["hash"][b["key"]] = h
                 res["edited"] += 1
             except (discord.NotFound, KeyError, ValueError):
@@ -2677,7 +2682,7 @@ async def update_record_boards(ch) -> dict:
                 pass
         st["msgs"], st["hash"] = {}, {}
         for b in boards:
-            msg = await ch.send(embed=embed(b))
+            msg = await (ch.send(b["header"]) if b.get("header") else ch.send(embed=embed(b)))
             st["msgs"][b["key"]] = msg.id
             st["hash"][b["key"]] = rekord_tafel.board_hash(b)
             res["posted"] += 1

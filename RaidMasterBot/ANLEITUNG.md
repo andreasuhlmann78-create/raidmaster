@@ -362,6 +362,8 @@ Für die Lua-Prüfung braucht der Bot `lupa` (steht in `requirements.txt`, wird 
     9 neue Dungeons von WoW Forever), z. B. „Die Todesminen (Level 17–26)“. Gezeigt werden nur gelegte Bosse mit
     ihrem Namen aus dem Spiel und „x von y Bossen gelegt“. Encounter-IDs aus Deadly Boss Mods, deutsche Namen und
     Level aus Blizzard (neue Dungeons) und PC Games (klassische) – Einzelheiten in `make_bosses.py`.
+  - **Getrennt (ab 1.5.139):** oben die Dungeons unter „🗝️ Dungeons“ (nach Level), darunter Bosse ohne Zuordnung, die
+    Raids immer zuletzt unter „🏰 Raids“. Auf Dungeon-Tafeln heisst 🆕 „Rekord vom letzten Besuch“.
   - **Erstkills in Dungeons (ab 1.5.138):** werden auch gepostet, aber ohne Screenshot und mit dem Namen des Dungeons
     (nicht des Raid-Topfs). Raid-Erstkills wie bisher mit Screenshot.
   - **Erfolge**: Unermüdlich (10 Raids am Stück), Stammgast (25 Raids), Urgestein (50), Bossjäger (100 Bosse),
