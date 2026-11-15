@@ -12,3 +12,9 @@ WAHRSCHEINLICHE URSACHE VON UP-404 (Beleg aus dem Repo, nicht selbst im Discord 
   Rechnern (2.3.10 liest sync_config.json ohne Neustart; uploader_config.json braucht einen Neustart des Uploaders).
 - Daten: lokal unverändert, gehen danach hoch (siehe Bericht 0200).
 Frage an Discord: Wurde der Bot entfernt/gesperrt, oder ist der Server weg? Bot-Protokoll bzw. Audit-Log prüfen.
+
+NACHTRAG 02:01: Der Nutzer bestätigt: der Bot war vom Server entfernt (01:43 "ja der bot ist weg"). Er hat ihn über
+den OAuth2-URL-Generator wieder eingeladen (bot + applications.commands; Rechte wie ANLEITUNG.md Abschnitt 2 plus
+Kanäle ansehen, Soforteinladung erstellen, Links einbetten, Nachrichtenverlauf anzeigen). 02:01: "er ist wieder da".
+Nächste Schritte beim Nutzer: /version prüfen, /uploader -> neue uploader_config.json + sync_config.json auf beide
+Rechner (Webhooks wurden beim Entfernen gelöscht). Wer/warum entfernt: Audit-Log noch nicht ausgewertet.
