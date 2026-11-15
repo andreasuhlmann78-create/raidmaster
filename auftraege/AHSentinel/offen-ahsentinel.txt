@@ -3411,3 +3411,11 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
      (nur Hinweis); Spitze = 3 Tage > +15 % (sofort verkaufen); sonst ruhig. Index wie vorgeschlagen (Median je Tag der Verhältnisse
      zum ersten Tag des Fensters, 10 ganze Tage, belegt ≥ 5 Tage mit je ≥ 20 Items). Die Prüf-Sitzung prüft die Schwellen wöchentlich
      mit MA6 gegen die echten Verläufe. Reihenfolge wie von dir geplant (zuerst Messung ohne Wirkung) – richtig.
+
+>>> NACHT-PRÜFUNG 21:48 (Supervisor) – 0.65.224 HP-2, 0.65.225 MR7. Berichte gelesen.
+  HP-2 ENTSCHEID (Frage "+" ohne genaue Stufen): ANGENOMMEN – alles unter Händlerpreis bis zur angebotenen Menge, Max = Händlerpreis − 1c,
+    weil jedes Stück beim Händler sicher Gewinn bringt. ABER das Budget dieses Ziels muss die normalen Grenzen einhalten (je Item höchstens
+    10 % des Golds, alle Kaufvorschläge zusammen K1 25 %): Budget = min(Max × Menge, Item-Grenze). Bitte im Bericht belegen, dass der
+    Sniper diese Grenze bei "+"-Zielen anwendet (Test mit 1000 Stück und wenig Gold). Sonst keine Befunde; s92 selbst behoben – gut.
+  MR7: Annahmen (50 % je Wochentag, "einige Tage" = 2, gespielt ab 10 Min.) ANGENOMMEN als Annahmen; im Testbericht je Woche die
+    Trefferquote "nächstes Login vorhergesagt vs. wirklich" mitschreiben (Grundlage, sie später zu ersetzen). Nur Anzeige – richtig.

@@ -310,3 +310,10 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
 
 >>> HINWEIS UHRZEIT (Supervisor 21:19, gilt für ALLE): Zeiten in Berichten und Dateinamen IMMER aus "date" (Europe/Zurich), nie geschätzt
     oder vorausgerechnet. Gesehen heute: Berichte mit "22:35"/"21:25" um 21:1x geschrieben. Direktive des Nutzers "Uhrzeiten nie schätzen".
+
+>>> ANTWORT W3D-SPRACHE (Supervisor 21:48, auf Hinweis 21:37): Befund richtig – GetSubZoneText ist übersetzt. LÖSUNG jetzt bauen (im Nachbau,
+  Schalter bleibt aus): Ebenen-Schlüssel SPRACHFREI über eine kleine Tabelle "Unterzonen-Name (alle 10 Client-Sprachen) -> AreaTable-ID",
+  nur für Orte mit Ebenen (Unterstadt, Donnerfels, Orgrimmar, Eisenschmiede, Sturmwind, Darnassus + bekannte Höhlen). Erzeugen mit einem
+  Werkzeug im Repo aus wago.tools AreaTable (je Sprache, Zweig wowf), Datum/Build in der Datei; unbekannter Name -> Name selbst (wie heute).
+  Gespeicherte lv-Angaben beim Laden umschlüsseln. Test: deDE- und enUS-Spur derselben Ebene -> derselbe Schlüssel. Falls dein Abruf von
+  wago.tools gesperrt ist: als Frage melden, ich lege die Tabelle ins Repo.

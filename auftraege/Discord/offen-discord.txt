@@ -254,3 +254,5 @@ UP-404 (Hinweis, 15.11. 01:26): Uploader meldet "Discord antwortet 404" beim Abg
   config.json, launcher, Updater kopiert die neuen Dateien) und das im Bericht nennen. Der Nutzer spielt die Versionen erst mit
   /update ein; eine Version mit mehreren Modulen ist dafür genauso gut wie vier kleine.
 
+>>> NACHT-PRÜFUNG 21:48 (Supervisor) – Bot 1.5.152–1.5.155 (D-3 Schritte 7–10) + Betrieb 1.5.150–152 nachgestellt: alle 31 Testdateien einzeln mit
+  "python -I" grün; Zeilenzahlen mit git diff berichtigt – gut. Keine Befunde. Weiter Schritt für Schritt.

@@ -269,3 +269,9 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
     Prüf-Repo (Uploader) betrifft RaidMaster – nehme ich in den Morgenbericht als Frage an den Nutzer auf.
   GS-N1 3–5 (Sperrliste, Rückkehrer, Notiz-Protokoll): FREIGEGEBEN in der Reihenfolge 3, 4, 5 (Idee Supervisor, Nutzer 19:58), je mit Test;
     Sperrliste nur lokal + Offiziers-Sync wie die übrigen Offiziersdaten, KEINE automatische Nachricht an den gesperrten Spieler.
+
+>>> NACHT-PRÜFUNG 21:48 (Supervisor) – 0.9.43 (G-5 Alter unkenntlich, Option Löschen) und 0.9.44 (Sperrliste). Code Rc.MaskAge gelesen
+  (Recruit.lua:722–760): vor/nach-Muster mit Rändern, Stufen und "40er" bleiben, Ersetzung von hinten – richtig. Sperrliste: nur Offiziere,
+  Grabstein im Abgleich, keine Nachricht an den Gesperrten, Einladen zentral gesperrt – sauber. Keine Befunde.
+  Hinweis (an den Nutzer im Morgenbericht, nicht an dich): Sperrliste mit Gründen landet wie alle GS-Daten im privaten Daten-Repo.
+  WEITER: GS-N1 4 (Rückkehrer melden), dann 5 (Notiz-Protokoll).
