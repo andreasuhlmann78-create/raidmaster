@@ -186,6 +186,9 @@
     Zahlen). Gleiches für "unter dem Händlerpreis" (Zeile ~14, auch Netto-Regel). (c) Test: für jeden Grund (Angebot, Marktwert,
     Händler, Einkauf, Entzauberwert): Preis anpassen -> nächster Klick stellt OHNE Warnung ein; Zahlen im Text gehen exakt auf.
     PRIO JETZT: zusammen mit POST-BLOCK1 (beide zusammen sperren das Einstellen).
+    NUTZER 19:17: Die Warnung war RICHTIG – er hat die Essenzen heute Morgen zum selben oder etwas tieferen Preis gekauft, AHS hat das
+    erkannt. Also: Auslöser (Einkaufs-Ø) bleibt; nur der Vorschlag muss Einkauf + 5 % Gebühr decken (Gewinnschwelle, hier 9s68c), und
+    der Text muss diese Rechnung zeigen. Einstellgebühr in Forever wird beim Verkauf erstattet -> nicht einrechnen (wirtschaft-forever.md).
     Weg = WARNSCHUTZ "Trotzdem einstellen" (UI_Sell.lua 682 -> d.onAnyway 701 -> p:Post -> Se:Post -> LegacyPost: PickupContainerItem,
     ClickAuctionSellItemButton, PostAuction). Item: Geringe Mystikeressenz ×4 (Ware), 9s19c/Stück (Warnschutz "0 % unter Einkaufspreis").
     Ergebnis: Meldung "Interface-Aktion auf Grund eines Addons fehlgeschlagen", Status bleibt "Wird eingestellt: 4x … 9s19c/Stück …",
