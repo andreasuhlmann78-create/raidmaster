@@ -62,6 +62,30 @@
 >>>       ein Satz, Tests, offene Fragen, und die Liste "Im Spiel prüfen" (kurz, in der Reihenfolge, in der der Nutzer sie tun soll).
 >>>    Der Block NACHT-ARBEIT vom 14.11. weiter unten ist ÜBERHOLT (alte Reihenfolge).
 
+>>> GSL5 – PROTOKOLL 5 (GSSniperLog 1.5, Nutzer 17:20–18:14, AHS 0.65.201; Supervisor 18:23). Masterplan Phase 1.2/1.4.
+    ABNAHME A1 (Ausrüstung, ≥ 2 Min. Mausrad) – BESTANDEN, nachgerechnet 18:09–18:11: 25 Käufe gesendet, 24 bestätigt (96 % ≥ 80 %),
+    Zähler = Gold-Abgang = bestätigt je Minute exakt (19 / 1g64s50 · 4 / 35s27 · 1 / 8s27), nie über Max (8s27–9s00 bei Max 9s14),
+    keine Pause "gescheitert", doppelt 0. Gesamtes Protokoll: 46 gesendet, 44 bestätigt. A2–A6 noch offen.
+  GSL5-1 BELEGT – Code 10 kommt vom Kauf selbst: 37 × Code 10, bei ALLEN stand in den 0,5 s davor NUR "Kauf AHSentinel/Sniper.lua"
+         (GSSniperLog hört 12 Anfrage-Funktionen mit) – keine zweite Anfrage, weder von AHS noch von Blizzard. 35 davon wurden
+         bestätigt ("trotz Kauf"), 2 blieben ohne Bestätigung (echte Fehlschläge). GSL4-1 (a)/(c) bleiben richtig; der Verdacht
+         in (b) ist widerlegt – die 300-ms-Ruhe schadet nicht, löst aber den Code 10 nicht. Nichts weiter tun.
+  GSL5-2 HOCH – Ruhemodus wirkt nicht auf schon begonnene Aufgaben: 18:11 (Sniper an, AH offen, 0.65.201) liefen forecast-eval 58 s,
+         hist:flat 58 s, craft-top 36 s, pd7 29 s je Minute; 18:09 forecast-eval 49 s, cache:warm-today 37 s. Aufgaben der QUIET-Liste
+         sind in Schritte geteilt – sie müssen auch BEGONNEN zwischen zwei Schritten pausieren (Fortsetzen nach dem Ruhemodus,
+         nichts verwerfen, 30-Min.-Grenze bleibt). Test: begonnene forecast-eval + Sniper an -> kein Schritt mehr bis Sniper aus.
+  GSL5-3 MITTEL (Tempo) – Nach einem bestätigten Kauf liefert der Server sofort eine aktualisierte Liste (ERGEBNIS "Antwort nach -",
+         z. B. 18:09:09.2 mit 8 Angeboten ≤ Max), der nächste Kauf kam aber erst 18:09:12.1 nach einer neuen Suche (11.4) – ~3 s
+         verloren je Runde. Wenn diese Liste vollständig ist (HasFullItemSearchResults), den nächsten Treffer direkt daraus planen
+         (Max/Budget/tot-Prüfung wie immer), statt auf die nächste Suche zu warten. Messen: Zeit Bestätigung -> nächster Kauf.
+  GSL5-4 MITTEL (Anzeige) – Der grüne Status "Kauf bestätigt (Server meldete kurz einen internen Fehler – ohne Folgen)" steht 6 s und
+         verdeckt "Treffer! Mausrad zum Kaufen": in der Minute 18:09 fielen 265 von 316 Rasten ohne Kauf in diese Anzeige. Wartet ein
+         Treffer, Vorrang für "Treffer! Mausrad zum Kaufen" (Hinweis höchstens 1,5 s oder als Zusatz "· letzter Kauf bestätigt").
+  GSL5-5 Verdacht, zu klären – Vollscan 18:12:28 startete 0,7 s nach Sniper AUS -> AN (18:12:26.8 / 27.8), Quelle Vollscan.lua.
+         Im Ruhemodus darf kein Vollscan starten. Klären: angeklickt (dann richtig) oder automatisch (dann Fehler).
+  GSL5-6 Hinweis (Phase 4.5 Ruckeln Vollscan) – nach dem Vollscan 18:14:02–03 (Sniper aus) 8 Bilder 101–304 ms mit cache:today und
+         GET_ITEM_INFO_RECEIVED 3600–8600 je 2 s, Speicher +2–4 MB je Bild, eine Speicherbereinigung −102 MB.
+
 >>> ANTWORT 18:22 (Supervisor) auf berichte/AHSentinel/2026-11-15-1811-frage-mn5.txt und Bitte aus 0.65.202:
     - MN5: Dein Vorschlag ist RICHTIG und ANGENOMMEN. A:PriceInfo bleibt unverändert (Tooltip/TT-STOP, API für ProfessionSentinel,
       BK:MatValue nehmen nie Netz-Werte). Neuer eigener Weg A:PriceInfoNet(id) = PriceInfo, sonst Netz-Wert "unsicher"; benutzt
