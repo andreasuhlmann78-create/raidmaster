@@ -1,0 +1,37 @@
+BERICHT DISCORD – Bot 1.5.169: D-3 Schritt 22 (PUG-Einladung als eigenes Modul) – umgesetzt, zur Prüfung
+Zeit: 15.11.2026 22:33 (aus date)
+Commit: 8bf15bc4 auf origin/main, CI bot-tests: success
+
+WAS
+- Neues Modul RaidMasterBot/pug_bot.py (103 Zeilen): der ganze Abschnitt "PUG-Einladungslink" –
+  refresh_invite_cache, handle_member_join, /pug-einladung (80 Zeilen samt Abschnitts-Kommentar).
+- UNVERÄNDERT verschoben: der Block steht wörtlich im alten bot.py und im Modul (Textvergleich).
+- bot.py übernimmt refresh_invite_cache und handle_member_join (Ereignisse in RaidBot). Importnamen
+  fetch_invite_uses und restart_soon in bot.py dadurch unbenutzt -> entfernt.
+- pyflakes bot.py UNGEFILTERT vor/nach verglichen (neue Prüfregel): einzige neue Meldung ist der gewollte
+  Modul-Import "import pug_bot  # noqa: E402,F401" (pyflakes kennt noqa nicht). Sonst nur "ch unbenutzt" (vor D-3).
+- bot.py: git diff --numstat +2 −84, jetzt 3082 Zeilen.
+
+TESTS
+- test_lade und test_neustart_schleife: restart_soon wird nicht mehr über bot.py geprüft, sondern an allen drei
+  Modulen, die es aufrufen (pug_bot, betrieb_bot, update_bot) – je identisch mit grund.restart_soon.
+- NEU test_pug_bot.py (4 Tests, REGRESSIONEN T-D3-PUG): Beitritt über den PUG-Link -> Rolle Gast und eine PN,
+  Einladungszähler nachgeführt; anderer Link, Bot, fremder Server -> nichts; zwei Links gleichzeitig benutzt ->
+  keine Rolle (nicht raten).
+  Gegenproben: Eindeutigkeit ("used == [code]") gelockert -> FAILED (1); Server-Prüfung entfernt -> FAILED (1);
+  Zähler nicht nachgeführt -> FAILED (1); zurückgesetzt -> OK.
+- Slash-Befehle: 49, unverändert. 355 Tests OK; jede Testdatei einzeln mit -I OK; REGRESSIONEN 56 von 56.
+
+BETRIEB NACHGESTELLT (an einer Kopie)
+1. Update vom Stand 1.5.168: updater._copy_new kopiert VERSION, bot.py, pug_bot.py, tests; config/state/ZIP
+   unverändert (md5); VERSION 1.5.169.
+2. Start wie launcher.py: Abbruch erst bei der Anmeldung (LoginFailure, Test-Token).
+3. Ohne config.json: Exit-Code 3, Meldung "Bitte zuerst config.json ausfüllen …", config.json angelegt.
+4. Neustart nach Update (Ende-zu-Ende, aktualisierte Kopie): Exit-Code 42.
+
+STAND D-3: bot.py 7437 (vor D-3) -> 3082 Zeilen; 21 Module ausgelagert.
+
+OFFEN
+- Frage zur Selbst-Aktualisierung während D-3 (Bericht 2155 frage-d3): noch keine Antwort.
+- NÄCHSTE BEREICHE (eng verflochten, je vorher Abhängigkeiten prüfen): Testberichte/Test-Uploads, DKP, Raids
+  (Anmeldung, Ersatzbank, Ereignisse, Twinks), Uploads, Kanal-Aufräumer, zuletzt RaidBot.
