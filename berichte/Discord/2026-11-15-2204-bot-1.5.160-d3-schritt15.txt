@@ -1,0 +1,52 @@
+BERICHT DISCORD – Bot 1.5.160: D-3 Schritt 15 (Gildenname als eigenes Modul) + geschlossene Test-Lücke – umgesetzt, zur Prüfung
+Zeit: 15.11.2026 22:04 (aus date)
+Commit: 61572d8a auf origin/main, CI bot-tests: success
+
+WICHTIG – TEST-LÜCKE DURCH D-3 (selbst gefunden, geschlossen)
+- tests/test_befehle.py las NUR bot.py: "jeder Slash-Befehl steht in COMMAND_INFO" und "kein Befehl mit
+  Rechteprüfung gilt als 'alle'". Seit Schritt 4 (1.5.149, /marktdaten) prüfte er die verschobenen Befehle
+  still nicht mehr; bei 1.5.160 fiel die Zahl der gefundenen Befehle auf 33 und der Test schlug an
+  (assertGreater 35) – so entdeckt.
+- Gegenprobe belegt: alter Test + bot.py von 1.5.159 + /pn in pn_bot.py umbenannt -> alter Test OK (Fehler
+  unentdeckt). Neuer Test (liest bot_quelle.alle(), bot.py und alle Module) -> FAILED.
+- Jetzt wieder alle 49 Befehle geprüft, alle in COMMAND_INFO, keine Rechte-Widersprüche.
+- Gleiche Durchsicht für alle Tests, die bot.py als Text lesen (11 Stellen): Prüfungen mit src.index(...)
+  scheitern laut, wenn Code wandert (kein stilles Durchrutschen). Still schwächer geworden war nur noch
+  test_testberichte b08 ("kein import testberichte" / "kein testberichte_channel_id"): prüft jetzt zusätzlich die
+  15 ausgelagerten Module (12 *_bot.py, kern, grund, bot_hilfen); keine Treffer.
+- Prüfregel für mich ab jetzt je Schritt: Tests, die bot.py als Text lesen, auf "assertNotIn/Zählen über ganz
+  bot.py" durchsehen und auf bot_quelle umstellen.
+
+WAS (Schritt 15)
+- Neues Modul RaidMasterBot/gildenname_bot.py (621 Zeilen): der ganze Abschnitt "Abstimmung über den
+  Gildennamen" bis apply_fixed_guild_name (591 Zeilen: NAME_SEEDS_PATH … FIXED_GUILD_NAME, samt Kommentaren und
+  bot.tree.add_command(name_group)).
+- UNVERÄNDERT verschoben: der Block steht wörtlich im alten bot.py und im Modul (Textvergleich).
+- bot.py übernimmt FIXED_GUILD_NAME, apply_fixed_guild_name, ensure_name_poll, handle_name_button,
+  handle_name_post, name_poll; Importnamen name_key, proposer_text, vote_word, is_chef entfallen in bot.py.
+- bot.py: git diff --numstat +9 −597, jetzt 5053 Zeilen.
+
+TESTS
+- test_mitgliederbereich (gelöschter #gildenname ohne Warnung): liest name_channel über bot_quelle.funktion.
+- NEU test_gildenname_bot.py (5 Tests, REGRESSIONEN T-D3-GILDENNAME): Namensprüfung (Leerzeichen/Anführungs-
+  zeichen, 2–24 Zeichen, keine Zahlen, doppelt egal wie geschrieben); was als Vorschlag-Beitrag zählt (Erwähnung
+  des Bots stört nicht; "ja", Fragen, Chat-Sätze, mehrere Zeilen, Links, < 4 Buchstaben nicht); Vorschlag mit
+  Karte angelegt, gemerkt, Übersicht nach unten; nach Ende der Abstimmung wird #gildenname nicht neu angelegt.
+  Gegenproben: Höchstlänge 30 statt 24, Doppel-Prüfung entfernt, Ende-Prüfung entfernt, Chat-Wörter-Prüfung
+  entfernt -> je FAILED/ERROR (1); zurückgesetzt -> OK.
+- test_lade: gildenname_bot.bot ist bot.bot; handle_name_post/name_poll dieselben Objekte; ensure_welcome aus
+  willkommen_bot; is_chef aus grund; /gildenname im Befehlsbaum ist gildenname_bot.name_group.
+- Slash-Befehle: 49, unverändert. 320 Tests OK (315 + 5 neue); jede Testdatei einzeln mit -I OK;
+  REGRESSIONEN 45 von 45.
+
+BETRIEB NACHGESTELLT (an einer Kopie)
+1. Update vom Stand 1.5.159 (Attrappen-config, state.json, Uploader-ZIP im addon-Ordner): updater._copy_new
+   kopiert VERSION, bot.py, gildenname_bot.py, tests; config/state/ZIP unverändert (md5); VERSION 1.5.160.
+2. Start wie launcher.py: Abbruch erst bei der Anmeldung (LoginFailure, Test-Token).
+3. Ohne config.json: Exit-Code 3, Meldung "Bitte zuerst config.json ausfüllen …", config.json angelegt.
+- gildenname_vorschlaege.json liegt weiter neben bot.py; NAME_SEEDS_PATH = BASE aus kern (gleicher Ordner).
+
+OFFEN
+- Frage zur Selbst-Aktualisierung während D-3 (Bericht 2155 frage-d3): noch keine Antwort.
+- NÄCHSTE BEREICHE: Befehlsliste, Mitgliederbereich, Update/Sicherung, Ankündigungen und Addon-Releases, DKP,
+  Raids, Uploads, zuletzt RaidBot.
