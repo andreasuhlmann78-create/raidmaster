@@ -1,0 +1,69 @@
+BuffSentinel 0.9.24 – Bericht an die Prüf-Sitzung
+Datum: 15.11.2026, 21:06
+Stand: Punkt 2 umgesetzt, zur Prüfung · Punkt 1 GESPERRT (Quelle nicht erreichbar, siehe unten)
+
+Reihenfolge laut offen-buffsentinel.txt (Antwort 20:38): 1 Reagenzien, 2 Begleiter, 3 Gesundheitsstein, 4 Haltbarkeit, 5 Ready-Check.
+
+PUNKT 1 REAGENZIEN – NICHT UMGESETZT, BEGRÜNDUNG
+- Auftrag: "Item-IDs JE SPIELVERSION aus wago.tools belegen". wago.tools (und die Spell-Seiten von warcraftdb.com, auf die
+  wowclassicdb.com umleitet) lassen sich aus dieser Sitzung nur mit einer Freigabe des Nutzers abrufen; die Anfrage lief
+  ohne Antwort ab (Nutzer abwesend). Nach "Perfektion" und "nichts raten" baue ich die Rang-Zuordnung nicht aus dem
+  Gedächtnis.
+- Warum die Rang-Zuordnung nötig ist: Ein Priester mit nur Gebet der Seelenstärke Rang 1 braucht Heilige Kerzen (17028),
+  ab Rang 2 Geweihte Kerzen (17029), in Wrath die höchsten Ränge Andächtige Kerzen (44615). Zählt BuffSentinel die falsche
+  Kerze, warnt es dauernd (Fehlalarm). Gleiches beim Druiden (Wildbeeren/Dornwurz/Federkiel/Stachelblatt).
+- Schon BELEGT (Quellen-URLs aus der Suche bzw. gelesen):
+  Arkanes Pulver 17020 (wowhead wotlk item=17020), Symbol der Könige 21177 (wowhead tbc item=21177), Heilige Kerze 17028,
+  Geweihte Kerze 17029, Andächtige Kerze 44615 (Item-Seiten), Wildbeeren 17021, Wilder Dornwurz 17026 = Gabe der Wildnis
+  Rang 2 (warcraft.wiki.gg, Patch 1.2.0 bis 4.0.1), Wildes Stachelblatt 44605 = Gabe der Wildnis Rang 4 (warcraft.wiki.gg,
+  3.0.2 bis 4.0.1), Ankh 17030 (warcraft.wiki.gg, Gegenstand bis 5.0.4).
+  Zauber-IDs (Titel der Suchtreffer): Gebet der Seelenstärke 21562 / 25392 (TBC) / 48162 (Wrath), Gebet der Willenskraft
+  27681 / 32999 (TBC) / 48074 (Wrath), Gebet des Schattenschutzes 27683 / 39374 (TBC) / 48170 (Wrath), Gabe der Wildnis
+  21849 / 26991 (TBC).
+- NOCH OFFEN: Reagenz je Rang (welcher Rang welche Kerze/Pflanze), Wildes Federkiel 22148 (nur aus dem Gedächtnis), Gabe
+  der Wildnis Rang 2 / Rang 4 Zauber-IDs, Gebet der Seelenstärke Rang 2 Zauber-ID.
+- BITTE: Supervisor oder Nutzer – entweder die Tabelle SpellReagents für diese Zauber aus wago.tools ins Repo legen
+  (z. B. shared/wissen/…), oder der Nutzer schickt mir die wago.tools-Links im Chat (dann darf ich sie abrufen).
+  Bis dahin arbeite ich am nächsten Punkt weiter (Zweite Direktive).
+
+PUNKT 2 BEGLEITER FEHLT/TOT – umgesetzt, zur Prüfung (0.9.24)
+Veröffentlicht: download/BuffSentinel-0.9.24.zip, README, announce 0.9.24 (+ Zip), 0.9.23 entfernt; auf origin/main
+nachgeprüft. addon_check lokal OK (nur Warnung "Lua-Syntax nicht geprüft", lupa fehlt hier). cmp: Game/Sync/Test/Markt v7
+byte-gleich.
+
+Umsetzung
+- Data/Hunter.lua "pet": pet = { need = 883 } (Tier rufen; warcraft.wiki.gg "Call Pet 1" = 883, auch Classic/Cata-Links),
+  alertOnly, max = 4 (Classic-Familie bis Cata), iconSpell 883.
+- Data/Warlock.lua "pet": pet = { need = 688, noTalent = 18788 } (Wichtel beschwören 688, classicdb.ch spell=688;
+  Dämonische Opferung 18788, wowclassicdb classic/tbc/wotlk spell/18788), alertOnly, max = 4.
+- Core.lua ResolveEntries: known = Beschwörungszauber gelernt; e.petSkip = Talent 18788 bekannt (BS:HasTalentSpell).
+  EntryStatus mit eigenem Text (an / aus wegen Dämonischer Opferung). BS.PET_GRACE = 3 Sekunden.
+- Display.lua EvalBuff: im Kampf nie (und Schonfrist beginnt neu); petSkip nie; Begleiter da und lebendig -> nie;
+  fehlt/tot erst nach 3 s -> Button mit "fehlt" bzw. "tot" (Symbol grau bei tot). Beritten nie (allgemeine Regel).
+  Kosten: nur ausserhalb des Kampfes 2 Spiel-Abfragen (UnitExists/UnitIsDead "pet") je Aktualisierung; im Kampf 0.
+- Locales EN/DE (10 Schlüssel über den Generator), CHANGELOG EN/DE.
+
+Bewusste Entscheidungen (bitte prüfen)
+- Dämonische Opferung: Hexenmeister mit dem Talent bekommen KEINE Dämon-Erinnerung, auch wenn sie den Dämon gerade nicht
+  geopfert haben. Grund: sonst Fehlalarm nach jeder Opferung; die Opferungs-Buffs (je Dämon eigene Aura) kann ich ohne
+  belegte IDs nicht sicher erkennen. Nachteil: DS-Hexer ohne Erinnerung.
+- Schonfrist 3 s gegen Aufblinken nach Absteigen/Landen/Zonenwechsel (in Classic kommt der Begleiter nach dem Absteigen von
+  selbst zurück). Verdacht, im Client zu messen: reichen 3 s?
+- Kein Klick-Zauber (alertOnly): Fehlt -> Tier rufen, tot -> Tier wiederbeleben wäre möglich, braucht aber das Wechseln
+  sicherer Knopf-Attribute; als möglicher späterer Ausbau notiert.
+
+Belege (eigene Tests, keine Freigabe)
+- T209 "ja nein ja nein ja ja · nein nein nein ja nein nein ja nein nein ja nein nein": Jäger aktiv, ohne Tier rufen aus,
+  in Cata vorhanden, ab MoP nicht; Hexer aktiv, mit Dämonischer Opferung ausgenommen. Anzeige: Begleiter da nein, 0 s nein,
+  2 s nein, 3,5 s ja ("fehlt"), Kampf nein, nach Kampf 4 s Schonfrist neu (nein), dann ja, zurück sofort nein, tot 0 s nein,
+  tot 3,5 s ja ("tot"), beritten nein, ausgenommen nein.
+- TU1-Lagen T200/T251–T253: 0 Abweichungen (Begleiter hat eigene Erwartung, siehe BuffExpect). TU4: 0 Verletzungen, T232 2,5 ms.
+- run25m: OK 168, die bekannten 12 Nachbau-FEHLER (Mock-Grenzen), keine neuen.
+- Offline-Routine: forever/classic/retail/tbc × deDE/enUS = 8 × RESULT PASS.
+
+IM CLIENT PRÜFEN (Nutzer)
+- Jäger: Tier wegschicken -> nach 3 s "BEGLEITER FEHLT!"; Tier tot -> "tot"; aufsteigen/absteigen -> kein Aufblinken.
+- Hexenmeister: Dämon wegschicken -> "DÄMON FEHLT!" nach 3 s.
+
+Nächster Schritt: Punkt 4 Haltbarkeit (braucht keine Item-IDs), Punkt 3 Gesundheitsstein braucht ebenfalls Item-IDs je
+Rang (gleiche Quellenfrage wie Punkt 1).
