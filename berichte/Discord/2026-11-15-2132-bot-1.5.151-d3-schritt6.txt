@@ -8,7 +8,7 @@ WAS
 - bot.py importiert pn_bot erst nach "grund.bot = bot" (der Befehl /pn wird beim Import angemeldet). bot.py
   selbst benutzt PnModal/pn_cmd nicht, darum nur "import pn_bot". "import pn" bleibt in bot.py (uploader an
   Offiziere benutzt pn.offiziere).
-- bot.py: 40 Zeilen weniger.
+- bot.py: 39 Zeilen weniger (git diff --numstat: +1 −40). [BERICHTIGT 15.11. 21:36: vorher «40», geschätzt statt gezählt]
 
 TESTS (Regeln der Prüf-Sitzung zu Weg A)
 - test_pn.PnAblauf patcht jetzt pn_bot.is_creator und ruft pn_bot.pn_cmd (statt bot.*), keine Prüfung

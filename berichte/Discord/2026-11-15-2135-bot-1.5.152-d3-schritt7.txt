@@ -15,7 +15,7 @@ WAS
   QUALITY_SQUARES, _emoji_lock, item_emoji, class_emoji.
 - UNVERÄNDERT verschoben: Quelltext je Name alt (bot.py in HEAD~1) und neu per ast verglichen -> alle 8 identisch.
 - bot.py importiert symbole_bot nach "grund.bot = bot" und übernimmt die dort benutzten Namen (WOWHEAD_FLAVOR,
-  class_emoji, item_emoji, item_icon, wowhead_tip). bot.py: 113 Zeilen weniger.
+  class_emoji, item_emoji, item_icon, wowhead_tip). bot.py: 150 Zeilen weniger (git diff --numstat: +8 −158). [BERICHTIGT 15.11. 21:36: vorher «113», geschätzt statt gezählt]
 
 TESTS
 - NEU test_symbole.py (5 Tests, in REGRESSIONEN als T-D3-SYMBOLE): bot.py benutzt dieselben Funktionen; unbekannte

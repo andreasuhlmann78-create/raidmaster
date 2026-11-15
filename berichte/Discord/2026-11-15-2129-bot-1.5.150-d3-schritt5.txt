@@ -8,7 +8,7 @@ WAS
 - UNVERÄNDERT verschoben: Quelltext der Funktion alt (bot.py in HEAD~1) und neu per ast verglichen -> identisch.
 - bot.py importiert rechte_bot erst nach "grund.bot = bot" und übernimmt check_bot_rights mit Namen (Aufrufer
   on_ready/on_guild_join unverändert). "import bot_rechte" in bot.py entfällt, dort nicht mehr benutzt.
-- bot.py: 56 Zeilen weniger.
+- bot.py: 52 Zeilen weniger (git diff --numstat: +2 −54). [BERICHTIGT 15.11. 21:36: vorher «56», geschätzt statt gezählt]
 
 TESTS (Regeln der Prüf-Sitzung zu Weg A)
 - test_bot_rechte.BotAblauf patcht jetzt rechte_bot.post_bot_log / rechte_bot.bot_guild statt bot.* (3+2 Stellen),
