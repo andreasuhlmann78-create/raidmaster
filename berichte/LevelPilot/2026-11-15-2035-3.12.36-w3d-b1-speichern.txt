@@ -1,0 +1,60 @@
+BERICHT LevelPilot 3.12.36 – W3D im Nachbau fertig (Schalter AUS), B1 schreibt die Ebene mit, GSM7
+Projekt: LevelPilot · Datum: 15.11.2026 20:35 · Status: umgesetzt, zur Prüfung
+
+Bezug: offen-levelpilot.txt, Nacht-Prüfung 20:15, Reihenfolge Punkt 2 ("W3D im Nachbau … Schalter LP.W3D=false … NICHT
+einschalten/veröffentlichen … B1 schreibt sie ab dann mit: das darf schon live, nur speichern") und GSM7.
+
+1. WAS LIVE GEHT (Schalter aus)
+   - Aufzeichnung: jeder Spurpunkt trägt die Ebenen-Angabe lv = "Karte|d|Unterzone" (drinnen) bzw. "Karte|o|Unterzone"
+     (draussen), dazu fall = IsFalling() (für Sturz-Tore später). Quelle: C_Map.GetBestMapForUnit, IsIndoors, GetSubZoneText.
+   - Speichern: jede Ebenen-Angabe nur EINMAL in LevelPilotDB graph.lvs (Liste, höchstens 4000), am Knoten nur die Nummer
+     (nd.lv = Zahl). Grund: als Text je Knoten wären es ~30 Byte × bis 40 000 Knoten ≈ 1,2 MB SavedVariables.
+     Beschädigte Liste (kein table) wird beim Laden ersetzt, Nummern bleiben über /reload gleich (getestet).
+   - Export (/lp wege, Wegdaten beim Ausloggen): je Wegstück zusätzlich "lv" = Liste der Ebenen-Angaben je Punkt (nur wenn
+     mindestens ein Punkt eine hat). Ältere Auswertungen lesen das Feld nicht – nichts bricht.
+   - GoldSentinelMarkt.lua v7 byte-gleich aus shared/ (cmp); Game/Sync/Test unverändert gleich shared/.
+
+2. WAS EINGEBAUT, ABER AUS IST (LP.W3D = false, erst nach der GSWegMess-Messung)
+   B1 Schlüssel k (nur drinnen = lv, draussen nil), SNAP/Raster/Anschlüsse nur im selben Schlüssel · B2 drinnen keine
+   Luftlinien zwischen Knoten, kein "direkt" zwischen verschiedenen Ebenen · B3 Tor bei Schlüsselwechsel, Sturz-Tor nur in
+   Fallrichtung, Aufzug-Tor (2D ≤ 8 yd bewegt, ≥ 3 s, Ebene wechselt) mit Wartezeit (Unterstadt 8,4 s = halber Takt 16,7 s,
+   Donnerfels 15 s = halber Takt 30 s, sonst 15 s) · B5 Texte in allen Sprachdateien: "Aufzug nehmen (nach %s)",
+   "Hier hinunterspringen (nach %s)", "Übergang nach %s", "Andere Ebene – zurück zum Übergang (%s)" (+ Formen ohne Ziel),
+   angehängt an die Entfernungszeile des Pfeils.
+   Bei aus: AddNode setzt key = nil, Aufzeichnung behält keine Zusatzpunkte, PathRaw prüft keine Schlüssel, Hinweis nil.
+
+3. BELEGE (alle im Nachbau; "Verdacht, zu messen" wo vermerkt)
+   - Schalter aus = 3.12.35: 200 zufällige Wegpaare Durotar mit den eingesandten Wegdaten (Seed 7), 3.12.35 und 3.12.36 im
+     selben Aufbau: Art, Kosten (3 Nachkommastellen) und Punktzahl aller 200 Paare IDENTISCH.
+     Berichtigung: Die Vergleichsdatei von 20:11 liess sich nicht reproduzieren (anderer Kostenstand); Ursache nicht
+     belegt (Verdacht: du_edges.lua in derselben Minute neu erzeugt). Darum beide Versionen frisch im selben Aufbau
+     gerechnet, zweimal (zwei Arbeitsordner) – beide Male identisch; 3.12.35 zweimal hintereinander = deterministisch.
+   - test_w3d.lua (neu in run_offline.py): 16/16 OK – Schalter ab Werk aus; aus: gleicher Ort = ein Knoten wie bisher,
+     Ebene als Nummer gespeichert; Neustart/kaputte Liste; ein: SNAP je Ebene, Weg über das Tor, keine Luftlinie drinnen
+     (150 yd Lücke), draussen wie bisher, ein Tor, Aufzeichnung behält Wechselpunkte, Sturz hinunter ja/hinauf nein,
+     Aufzug erkannt mit 15 s (Kosten 130 ≥ 105), Texte, Export mit lv.
+   - test_ucw1.lua: Erwartung hängt jetzt am Schalter (G.On()); OK.
+   - Testroutine neuer Test T297 (Ebenen-Angabe Form "Karte|d/o|…", Nummer hin und zurück gleich, Schalter aus):
+     Forever deDE Horde OK 272 (3.12.35: 271) · FEHLER 0.
+   - run_offline.py mit der veröffentlichten ZIP: 36 Läufe, 36 ohne FEHLER (5 Testroutine-Lagen, 28 Regressionen,
+     test_ucw1, test_w3d, Meldungs-Weiche). Private Regressionen (mit Namen): 36/36 OK.
+   - addon_check: OK, keine Warnung (vorher: Warnung Markt v6).
+
+4. GRENZEN (Verdacht, zu messen)
+   - Bei Schalter aus legt SNAP 10 yd weiter Punkte verschiedener Ebenen zusammen; der zusammengelegte Knoten behält die
+     ZUERST gesehene Ebene. Für die Auswertung, ob die Unterzone die Ebenen trennt, ist GSWegMess massgeblich, nicht diese
+     Angabe.
+   - Ob IsIndoors/GetSubZoneText in Unterstadt je Ebene sauber wechseln, zeigt erst die Messung des Nutzers.
+   - Aufzug-Erkennung (3 s / 8 yd) und Wartezeiten nur im Nachbau getestet.
+
+5. BERICHTIGUNG ZEITSTEMPEL
+   Meine Berichte 2026-11-15-2110-3.12.35-uc-w1.txt und 2026-11-15-2150-w3d-entwurf.txt tragen falsche Uhrzeiten im Namen
+   (tatsächlich 19:52 bzw. 20:14 laut Commit). Ab diesem Bericht echte Uhrzeit.
+
+6. NÄCHSTES
+   Punkt 3 der Reihenfolge: Koordinatenlisten Mulgore/Brachland/Donnerfels aus testberichte/wege. W3D-Einschalten erst
+   nach der GSWegMess-Messung und Auftrag der Prüf-Sitzung.
+
+Dateien: announce/levelpilot__levelpilot-3.12.36.{md,LevelPilot.zip}, announce/levelpilot__levelpilot-uebersicht-3.12.36.md,
+berichte/LevelPilot/offline/{run_offline.py,README.md,lua/test_w3d.lua,lua/test_ucw1.lua},
+berichte/LevelPilot/w3d-entwurf/w3d-3.12.35-zu-3.12.36.diff (Graph/Recorder/Navigation, ersetzt den Entwurfs-Diff).

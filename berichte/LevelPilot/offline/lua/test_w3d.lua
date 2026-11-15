@@ -5,12 +5,34 @@ PRE_RUN = function(LP)
   local G, Geo, N, R = LP.Graph, LP.Geo, LP.Nav, LP.Recorder
   local fails = 0
   local function check(ok, text) print((ok and "OK   " or "[FEHLER] ") .. text) if not ok then fails = fails + 1 end end
-  if not G.LevelKey then print("[FEHLER] W3D fehlt") print("== 1 FEHLER") os.exit(1) end
+  if not (G.LevelKey and G.On) then print("[FEHLER] W3D fehlt") print("== 1 FEHLER") os.exit(1) end
   local Z = 1411                                  -- Durotar (Zone draussen); Ebenen kommen nur über die Schlüssel
   local function W(x, y) local i, n, w = Geo:ToWorld(Z, x, y) return i, n, w end
+  -- 0) Schalter AUS (Standard): wie 3.12.35 – Ebenen werden NICHT getrennt, die Ebenen-Angabe wird aber gespeichert
+  check(LP.W3D == false, "Schalter LP.W3D ist ab Werk aus (" .. tostring(LP.W3D) .. ")")
+  do
+    local i0, n0, w0 = W(20, 20)
+    local x1 = G:AddNode(i0, n0, w0, Z, false, "i:A", "1411|d|A")
+    local x2 = G:AddNode(i0, n0, w0, Z, false, "i:B", "1411|d|B")
+    check(x1 == x2 and G.LvName(G:NodeById(x1)) == "1411|d|A" and type(G:NodeById(x1).lv) == "number" and G:NodeById(x1).k == nil,
+      "aus: gleiche Stelle = ein Knoten wie bisher, Ebenen-Angabe gespeichert (" .. tostring(G.LvName(G:NodeById(x1))) .. ", Nr. " .. tostring(G:NodeById(x1).lv) .. ")")
+  end
+  do -- Neustart: Liste der Ebenen-Angaben bleibt, Nummern bleiben gleich, nichts doppelt
+    local n0 = #LP.db.graph.lvs
+    G:Init()
+    check(G.LvId("1411|d|A") == 1 and #LP.db.graph.lvs == n0 and G.LvName(G:NodeById(1) or {}) ~= false,
+      ("Neustart: Ebenen-Liste %d Einträge, \"1411|d|A\" = Nr. %s"):format(#LP.db.graph.lvs, tostring(G.LvId("1411|d|A"))))
+    local saved = LP.db.graph.lvs
+    LP.db.graph.lvs = "kaputt"
+    G:Init()
+    check(type(LP.db.graph.lvs) == "table" and #LP.db.graph.lvs == 0, "beschädigte Ebenen-Liste wird ersetzt statt Fehler")
+    LP.db.graph.lvs = saved
+    G:Init()
+  end
+  LP.W3D = true
   local function pts(list, key)
     local out = {}
-    for _, xy in ipairs(list) do local i, n, w = W(xy[1], xy[2]) out[#out + 1] = { i, n, w, Z, k = key } end
+    for _, xy in ipairs(list) do local i, n, w = W(xy[1], xy[2]) out[#out + 1] = { i, n, w, Z, k = key, lv = key and ("1411|d|" .. key) or nil } end
     return out
   end
   -- 1) SNAP legt Punkte verschiedener Ebenen nie zusammen
@@ -69,6 +91,40 @@ PRE_RUN = function(LP)
   local keepA, keepB = false, false
   for _, x in ipairs(kp) do if x == trail[10] then keepA = true end if x == trail[11] then keepB = true end end
   check(keepA and keepB, "Aufzeichnung: beide Punkte am Ebenenwechsel bleiben (" .. tostring(keepA) .. "/" .. tostring(keepB) .. ")")
+  -- 7) Sturz-Tor nur nach unten (Einbahn)
+  local fallPts = pts({ { 70, 20 }, { 70.5, 20 }, { 70.6, 20.1 }, { 71.1, 20.1 } }, "i:OBEN")
+  fallPts[3].k, fallPts[4].k = "i:UNTEN", "i:UNTEN"
+  fallPts[3].fall = true
+  G:AddPolyline(fallPts, "r")
+  local ui, un, uw = W(70, 20)
+  local di, dn, dw = W(71.1, 20.1)
+  local down = G:PathRaw(ui, un, uw, Z, di, dn, dw, Z, nil, true, "i:OBEN", "i:UNTEN")
+  local up = G:PathRaw(di, dn, dw, Z, ui, un, uw, Z, nil, true, "i:UNTEN", "i:OBEN")
+  check(down ~= nil and up == nil, "Sturz: hinunter Weg " .. tostring(down ~= nil) .. ", hinauf kein Weg " .. tostring(up == nil))
+  -- 8) Aufzug: 2D still, 5 s, Ebene wechselt -> Aufzug-Tor mit Wartezeit (Unterstadt 8,4 s; hier Standard 15 s)
+  local liftPts = pts({ { 75, 40 }, { 75.5, 40 }, { 75.5, 40 }, { 76, 40 } }, "i:L1")
+  liftPts[1][5], liftPts[2][5], liftPts[3][5], liftPts[4][5] = 100, 103, 108, 111
+  liftPts[3].k, liftPts[4].k = "i:L2", "i:L2"
+  G:AddPolyline(liftPts, "r")
+  local lifts, liftEdge = 0, nil
+  for _, e in pairs(LP.db.graph.edges or {}) do if e.lift then lifts = lifts + 1 liftEdge = e end end
+  local li, ln, lw = W(75, 40)
+  local mi, mn, mw = W(76, 40)
+  local lp, _, lcost = G:PathRaw(li, ln, lw, Z, mi, mn, mw, Z, nil, true, "i:L1", "i:L2")
+  check(lifts == 1 and liftEdge.wait == 15 and lp and lcost and lcost >= 15 * 7,
+    ("Aufzug erkannt %d, Wartezeit %s s, Kosten %.0f (>= 105)"):format(lifts, tostring(liftEdge and liftEdge.wait), lcost or -1))
+  -- 9) Klartext je Tor
+  local tLift = N.GateText({ lift = true }, { lv = "1458|d|Magieviertel" })
+  local tFall = N.GateText({ ow = 1 }, { lv = "1458|d|Die Kanäle" })
+  local tGate = N.GateText({ g = true }, { lv = "1458|d|" })
+  check(tLift:find("Magieviertel", 1, true) and tFall:find("Die Kanäle", 1, true) and tGate ~= "",
+    ("Texte: „%s“ · „%s“ · „%s“"):format(tLift, tFall, tGate))
+  -- 10) Export: Ebenen-Angabe je Punkt in den Wegdaten
+  local d = G:WegeData(nil)
+  local withLv = 0
+  for _, z in ipairs(d.zones) do for _, e in ipairs(z.edges) do if e.lv then withLv = withLv + 1 end end end
+  check(withLv > 0, "Wegdaten enthalten die Ebenen-Angabe (" .. withLv .. " Wegstücke)")
+  LP.W3D = false
   print(fails == 0 and "== ALLE TESTS OK" or ("== " .. fails .. " FEHLER"))
   os.exit(fails == 0 and 0 or 1)
 end
