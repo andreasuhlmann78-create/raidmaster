@@ -17,7 +17,10 @@ Nicht warten (2), nie Englisch, nie vergessen ins Repo zu laden (origin/main pr�
 3. 18:00: GuildSentinel GS-W1/GS-W2 vor CurseForge prüfen (falls Version da). AHSentinel NICHT auf CurseForge vor Sniper-Abnahme.
 4. Montag: Wochenbericht/Markt (Discord-Bot), geplante Nachprüfung lesen.
 
-## AHSentinel – MASTERPLAN 16:50 (oben in offen-ahsentinel.txt, gilt vor der Liste darunter)
+## AHSentinel – MASTERPLAN 17:00: auftraege/AHSentinel/masterplan-ahsentinel.txt (vollständig, Phasen 1–8, Datenstufen)
+Eigene Supervisor-Aufgabe daraus: markt_tabellen.py um Teil "alle" (Tages-Zusammenfassung der Bot-Sammelstelle, D-KERN1)
+erweitern, sobald die erste Tagesdatei da ist; offene Nutzer-Frage "KI aus dem Rechenkern?" (14.11. 08:02).
+### (überholt) AHSentinel – MASTERPLAN 16:50 (oben in offen-ahsentinel.txt, gilt vor der Liste darunter)
 1 SN-RUHE1 -> 2 KERN-T1 Ausbau des Gehirns (parallel zur Sniper-Abnahme) -> 3 DE-AUFT1 -> 4 Rest Sniper + Abnahme -> 5 TB181-4
 -> 6 TT-DE2 -> 7 0.66-Rest (VK-P1/S4, MR2, RK3–RK7/S5, API-PM, Absatz-Spanne, MN1–5) = 0.66.0 -> 8 MAIL-1 -> 9 UI -> 10 0.67
 Spielrhythmus -> 11 0.68 Markt-Reiter. Rechenkern S1/S2/S3a/S3b schon umgesetzt (0.65.153–165).

@@ -17,6 +17,13 @@
     Perfektion – nicht nur beim Sniper." Jede Version: Ursache belegt (Code-Stelle + Messung), nicht vermutet; jede Zahl geht auf;
     alle Wege getestet (Erfolg, Fehler, Abbruch, AH zu, Kampf, alte Clients); keine Sperre ohne Zeitlimit; nichts abgeschnitten
     oder doppelt; Bericht nur "umgesetzt, zur Prüfung" mit Belegen. Lieber eine Version später als eine mit Fehlern.
+D-KERN1 MITTEL (Supervisor 15.11. 17:00, Nutzer 16:28 "der Rechenkern soll die Daten aller Spieler nutzen"; Masterplan AHSentinel E):
+  Täglich (nach Mitternacht, Zone des Bots) eine ANONYME Tages-Zusammenfassung aller gesammelten Scans als Datei
+  testberichte/markt/tages/<JJJJ-MM-TT>.json (Weg wie die Wochenberichte, Workflow markt-bericht.yml holt sie):
+  je Fraktion und Item: Scans n, Quellen n (nur Anzahl, keine IDs), tiefster Stückpreis Median/Spanne, Menge Median,
+  Abgänge aus langer Restzeit je Tag als Spanne (Untergrenze/Obergrenze wie im Wochenbericht), Zeitraum. Keine Namen,
+  keine Quellen-Hashes, ≤ 1 MB (sonst nur Items mit ≥ 2 Quellen). Zusammen mit KEEP90 umsetzen. Tests: leere Woche,
+  eine Quelle, Grenze 1 MB, keine Namen im Ergebnis (Prüfung im Test). Bericht "umgesetzt, zur Prüfung".
 UP-404 / BOT ENTFERNT (Supervisor 15.11. 12:50, aus Bericht RaidMaster 01:45): Bot war am 15.11. ca. 01:20 vom Gilden-Server entfernt,
    02:01 wieder eingeladen, 02:33 läuft. OFFEN: (a) Audit-Log auswerten: wer/warum entfernt (ohne Spielernamen ins Repo, nur
    "Rolle/Grund"); (b) Bot meldet beim Start in #bot-daten bzw. Protokoll, wenn er auf keinem Server ist oder Rechte fehlen (statt
