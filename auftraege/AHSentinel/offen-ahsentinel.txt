@@ -49,6 +49,12 @@ HP-2 HOCH (Nutzer 10:33, Screenshot Kaufen > Schnäppchen > "Händlerpreis", 0.6
     preis (SK1-o). (5) Alter der Preise sichtbar ("vor x Min."), älter als 30 Min. grau. Test mit Leiter 3 Stufen (unter/gleich/
     über Händlerpreis) + Tabellen-Händlerpreis (darf nicht erscheinen) + Selbstkontrolle (Menge/Gewinn gesamt = Nachrechnung).
     Reihenfolge (Nutzer 10:36): als LETZTES, nach UI-CLEAN1 (B).
+HP-3 MITTEL (Nutzer 10:36, Screenshot Schnäppchen > Entzauberwert leer): Text "Keine Schnäppchen gefunden. Dafür braucht es Scans
+    über mehrere Tage." ist falsch – es gibt 10 Tage Scans. Code (Disenchant.lua:1519 D:FindDeals): leer, weil zurzeit kein grünes
+    Item unter der Kaufgrenze (Netto-Wert × (1 − Mindestgewinn 30 %), Entscheid 13.11.) liegt. Text je Lage richtig sagen, z. B.
+    "Zurzeit nichts unter dem Entzauber-Wert mit mindestens 30 % Gewinn (geprüft: n Items, Preise vom Scan vor x Min.)". Prüfen,
+    warum Markt > Entzaubern gleichzeitig Zeilen zeigt (Bericht 01:36: "Entzaubern 3") – beide Ansichten müssen dieselbe Regel und
+    dieselben Treffer haben (eine Zahl). Teil von UI-CLEAN1/HP-2, gleiche Reihenfolge.
 UI-REF1 MITTEL (Nutzer 10:29 bestätigt, Vorschlag Supervisor): EIN Aktualisieren-Knopf, in JEDEM AHSentinel-Fenster an genau
     derselben Stelle (Kopfzeile oben rechts neben "Optionen", gleiches Symbol). Klick = aktualisiert den aktuellen Reiter (Sniper:
     sofort suchen; Markt: neu rechnen; Buchhaltung/Verkaufen/Einkauf: neu laden); Shift+Klick = alles. Tooltip in einem Satz,
