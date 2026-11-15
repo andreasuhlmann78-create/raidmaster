@@ -1,0 +1,50 @@
+AHSentinel 0.65.194 – GSL1-1, GSL1-3, GSL1-2, GSL1-4, TB192 – umgesetzt, zur Prüfung
+CurseForge: nein (nächster Termin 18:00). GitHub-Release v0.65.194 und sofort im Discord; nicht in download/.
+Reihenfolge wie Auftrag 14:50: GSL1-1 -> GSL1-3 -> GSL1-2 -> GSL1-4 -> TB192.
+
+GSL1-1 (Senden schneller als der Server; offen ≥ 2 -> 47 %):
+ (a) Sn:OnTriggerInner: Raste sendet keinen Kauf (Einzel- und Warenkauf), solange A:QueryReady() = C_AuctionHouse.
+     IsThrottledMessageSystemReady() false ist; Raste still übergangen, Status "Server noch nicht bereit – Raste wartet",
+     Zähler notReadyPress im Sniper-Bericht ("Raste wartete auf Server n").
+ (b) Sn:CanSearch: solange ein Einzelkauf auf Antwort wartet (jünger als ItemWaitMax 1–3 s) oder ein Warenkauf unterwegs ist
+     (INFLIGHT_MAX 10 s) -> keine Suche ("Kauf wartet auf Antwort", weich). Zeitlimit = diese Fristen.
+ (c) "nur ein Einzelkauf zur Zeit" (ItemGate) ist jetzt STANDARD AN (db.sniper.singleBuy == false schaltet ab; /ahs einzelkauf
+     aus|an im Entwickler-Modus). Grundlage: GSSniperLog offen ≥ 2 -> 52/110. Messung bleibt im Bericht (offen 0/1/≥2).
+ (d) nach Code 10 / DROPPED: A:QueryReady folgt der Drossel des Servers (true erst nach THROTTLED_SYSTEM_READY); dazu A:QueryError
+     (Abstand ×2, höchstens 2 s). Keine feste Wartezeit.
+ Zähler je Minute im Sniper-Bericht (Zeile Einzelkäufe): "je Minute (gesendet/bestätigt/Code 10/verworfen): 14:18 12/6/5/9 …"
+ (Sn:MinNote; Code 10 = AUCTION_HOUSE_SHOW_ERROR 10 bei offenem Kauf; verworfen = MESSAGE_DROPPED).
+ Dazu (Gesamtlauf-Befund s9_instant_buy/fallback): der Sniper sucht so schnell, dass die Drossel nach jeder Suche ~0,25 s
+ "nicht bereit" ist – mit (a) fiel die Raste darum oft in ein belegtes Fenster. Fix: bei einem frischen kaufbaren Treffer sendet
+ der Sniper HIT_HOLD = 3 s lang keine neue Suche (Status "Treffer – Server frei für deine Raste"), danach sucht er wieder
+ (Zeitlimit). Waren-Treffer gelten nur 3 s (RESULT_FRESH_COMMODITY): dort hält der Sniper nur 2 s, damit der Treffer vor Ablauf
+ neu gesucht wird (sonst ging die Raste nach dem Halt ins Leere – Nachbildung s9_bait_sniper, gemessen: Raste bei 3,4 s, Treffer
+ nicht mehr frisch). Im Sniper-Test zählt dieser Halt als Pause (S8/S11). Altes AH: (a) nicht, CanSendAuctionQuery betrifft nur Suchen,
+ nicht PlaceAuctionBid (s11_legacy_wheel_buy).
+ Test T773 (Mock: Server nicht bereit -> kein PlaceBid; bereit -> 1; Suche während offenem Kauf gesperrt; 2. Raste sofort -> kein
+ 2. Kauf; Standard an).
+GSL1-3 (Zähler eins zu hoch): Ursache im Code BELEGT: ReconcileItemBuys zählte offene Käufe, sobald der Gold-Abgang sie deckte
+ (CountItemBuy "über Gold") – ohne AUCTION_HOUSE_PURCHASE_COMPLETED. Ein Gold-Abgang, der zu etwas anderem gehörte (oder zu einem
+ Kauf, der dann doch nicht bestätigt wurde), zählte so einen Kauf zu viel. Fix: gezählt wird NUR noch auf PURCHASE_COMPLETED
+ (auctionID) eines selbst gesendeten Kaufs (auch spät, itemLate). Deckt der Gold-Abgang einen offenen Kauf, wird er nur als
+ "bezahlt" markiert (goldSeen, Protokoll SNIPER-BEZAHLT): er bleibt bis ITEM_LATE_MAX = 300 s im Budget reserviert (SentFor),
+ erscheint nicht als "warten", zählt nicht als gekauft. Ohne Bestätigung nach 300 s -> SNIPER-UNBESTÄTIGT "(Gold war gesunken)",
+ nicht gezählt; die Gold-Grenze im Rest (goldStart) hält das Budget trotzdem. Tests T610, T752, T756 auf die neue Regel umgestellt
+ (T610: Gold weniger -> 0/0, reserviert 900; Bestätigung danach 1/900).
+GSL1-2 (8,2 s): Ursache BELEGT: Sniper.lua TIMEOUT = 8 s – greift, wenn der Server eine Anfrage still verwirft (kein
+ MESSAGE_DROPPED, kein Ergebnis); 0.65.190 deckte nur DROPPED/ersetzt ab. Fix: Sn:SearchTimeout = 4 × Median der gemessenen
+ Antwortzeiten + 0,5 s, 2–8 s (ohne 5 Messungen 8 s); ohne jede Antwort danach RetrySearch("timeout") (nicht als leer werten,
+ Grenze 3 in 10 s wie P190-1). Bericht "ohne Antwort n (Wartezeit x s)". Test T774 (Median 0,3 s -> 2,0 s).
+ Dazu GSL1-1 (b): keine Suche während eines offenen Kaufs (gemeinsame Drossel).
+GSL1-4: BELEGT im Code: AUCTION_CANCELED wird nur von Seller.lua registriert (Zeile ~1617); Se:OnCanceled -> CancelForeign:
+ ohne erwarteten eigenen Abbruch bzw. fremde auctionID -> nur Protokollzeile, return (kein Entfernen, kein Buchen, kein Neuaufbau
+ von Meine Auktionen, kein Ereignis). Keine Änderung nötig.
+TB192:
+ - Beträge lückenlos: A:FormatMoney zeigt bei Gold und Kupfer mit Silber 0 jetzt "00" ("2g 00s 64c"); sonst unverändert.
+ - Rundung: Meine Auktionen "erhalten" = Σ floor(Gesamt × 0,95) je verkaufter Auktion (UI_Auctions.lua Totals). Bei 28 Verkäufen bis
+   27c weniger als Summe × 0,95 – 13c passt. Tooltip am Kopf nennt es jetzt: "Erhalten ist die Summe der n einzeln abgerundeten
+   Beträge (darum bis n−1 Kupfer weniger als … × 0,95)." Ob der Server je Verkauf genauso rundet: Verdacht, zu messen (Rechnung).
+ - TB181-1: Meldung jetzt in eigener Zeile über der Tabelle (links, bis 120 px vor "n Einträge"), einzeilig.
+ - TB181-2: "Nächste unterbotene abbrechen" nur aktiv (rot), wenn mindestens eine Auktion "unterboten" ist, sonst grau.
+   Nachbildung s2_undercut_cancel angepasst: ohne unterbotene Auktion Knopf grau, Klick bricht nichts ab (statt Hinweistext).
+Gesamtlauf 254/255: einzig s10_scan_smooth (Ruckel-Messung mit echter Rechenzeit) im Gesamtlauf rot (162 bzw. 170 ms, Grenze 150). Einzeln je 3 Läufe: 0.65.193 109–117 ms, 0.65.194 109–129 ms – gleichauf, Ausreisser = Last der Maschine im Gesamtlauf (Verdacht, belegt durch die Einzelmessungen). Alle anderen grün (neu T773, T774; T610/T752/T756 umgestellt; s2_undercut_cancel angepasst). addon_check OK. Release v0.65.194 = geprüfter Stand, Discord sofort.
