@@ -9,6 +9,9 @@ SN-B5 HOCH (wahrscheinliche Hauptursache der verlorenen Duelle, zu SN-B4): S9 "2
     (SK1-o 12/12), aber die angefragte Menge muss NUR Stücke ≤ Max enthalten (Summe der Mengen der Stufen ≤ Max, volle Menge
     davon – Entscheid 00:38 "möglichst alles" heisst alles ≤ Max, nicht mehr). Test: Stufen 20c×5, 20c×10, 22c×40, Max 20 ->
     fragt 15 an, S9 über Max 0.
+    VORBEHALT (Nutzer 01:35): Der Nutzer hat während des Tests den Max-Preis geändert. S9 kann daher Pläne mit dem ALTEN Max
+    (z. B. 23c) gegen den NEUEN Max 20c gewertet haben -> zuerst prüfen: S9 muss den Max zum Zeitpunkt der Planung speichern und
+    damit vergleichen. Ist es nur das, ist SN-B5 ein Testfehler (S9 korrigieren); sonst Planung wie oben beheben.
 SN-B6 HOCH: S2 Zähler: nach Bestätigung "0/10 gekauft · Budget übrig 10s" statt "1/10 · 95c" – ein bestätigter Kauf wird nicht
     gezählt bzw. zurückgesetzt. Budget/Menge müssen stimmen (Gold-Sicherheit).
 SN-B7 MITTEL: S1 ein Treffer ohne Grund verschwunden ("20x60 (geleert)").
