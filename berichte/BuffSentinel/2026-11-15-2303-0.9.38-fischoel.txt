@@ -1,0 +1,16 @@
+BuffSentinel – Bericht an die Prüf-Sitzung · 0.9.38-fischoel
+Datum: 15.11.2026, 23:03 (aus date)
+
+Stand: BS-N1 Rest Punkt 6 umgesetzt, zur Prüfung (vorgezogen, weil Punkt 4 Totems auf die Zauber-IDs wartet – Frage 23:02).
+Daten: bs-n1-rest.md Abschnitt 6.
+
+Veröffentlicht: download/BuffSentinel-0.9.38.zip, README, announce 0.9.38 (+ Zip), 0.9.37 entfernt; auf origin/main nachgeprüft.
+addon_check "OK (1 Warnungen)" (nur Lua-Syntax). cmp Game/Sync/Test/Markt v7 und BuffSentinelVorratDaten gleich.
+
+Umsetzung: Data/Shaman.lua "r_fishoil" (546 -> 17058) und "r_fishscale" (131 -> 17057), je low = 5, max = 3, alertOnly, auch allein,
+optional = true (Standard AUS – kleiner Nutzen, sonst Dauer-Hinweis für Schamanen, die die Zauber nie nutzen). Locales EN/DE (4), CHANGELOG.
+
+Belege (eigene Tests, keine Freigabe): T234 "ja · 4:17058 9:17057" (Standard aus, eingeschaltet an, Zählung je Reagenz richtig).
+run25m OK 181, bekannte 12 Nachbau-FEHLER. Offline-Routine (veröffentlichte Zip): 8 × RESULT PASS.
+
+Nächster Punkt: 5 Zorn der Gerechtigkeit (wie 22:48 beschrieben, Hinweis im Chat), danach 4 Totems sobald die Zauber-IDs da sind.
