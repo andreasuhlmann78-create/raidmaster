@@ -1,0 +1,22 @@
+BERICHT DISCORD AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 21:26 (aus date) · Sitzung: Discord-Projekt · Version: Bot 1.5.149
+Umgesetzt, zur Prüfung. D-3 Schritt 4 (Weg A): der erste Bereich als echtes Modul.
+
+- markt_bot.py (neu, 221 Zeilen): UNVERÄNDERT aus bot.py: MARKT_EXT, _market_store, _market_lock, market_store,
+  market_intake, market_intake_safe, market_catchup, post_market_report, post_market_daily, blizzard_monthly und der
+  Befehl /marktdaten.
+- NO_PING (AllowedMentions ohne Erwähnungen) zieht nach grund.py; bot.py übernimmt es von dort.
+- Reihenfolge: bot.py importiert markt_bot erst direkt nach "grund.bot = bot", weil /marktdaten beim Import angemeldet
+  wird. markt_bot prüft das mit assert. Danach übernimmt bot.py die Funktionen mit Namen; receive_upload, on_message,
+  on_ready und monthly_loop rufen sie wie vorher auf.
+- Tests: Die Ablauf-Tests der Marktdaten patchen jetzt markt_bot (cls.m) statt bot: _market_store, _market_lock,
+  channel_by_id, blizzard_api_check – 23 Stellen. Gleiche Prüfungen, nichts abgeschwächt.
+  Lade-Test: markt_bot.bot is bot.bot, bot.market_intake is markt_bot.market_intake, bot.NO_PING is grund.NO_PING.
+- Betrieb nachgestellt: ohne config Exit 3; mit config: markt_bot.bot gleich bot.bot, /marktdaten angemeldet, gleiche
+  Funktionsobjekte.
+- Gleiche Slash-Befehle (test_befehle_liste, 49). Alle 288 Tests OK, jede Testdatei einzeln mit -I OK, GitHub
+  Bot-Tests erfolgreich.
+- bot.py: 7140 -> 6945 Zeilen.
+- NÄCHSTE BEREICHE (je eine Version, kleinster zuerst): Ruhmeshalle (Rekord-Tafeln, Erstkills, Aufräumen), Raidfähigkeit
+  (post_raid_ready), PN/Uploader-Versand, Rechte (check_bot_rights), danach die grossen (Raids/Anmeldung, Uploads, DKP,
+  Beute, Server-Einrichtung).
