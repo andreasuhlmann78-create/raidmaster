@@ -15,6 +15,21 @@ SN-B9 HOCH: (1) Herausfinden, wer die Sperre hält (CanSearch: Sn.search nie gel
     als 30 s ohne Antwort -> lösen, Grund ins Protokoll, Sniper sucht weiter. (3) Test: Suche ohne Antwort -> nach ≤ 30 s läuft
     der Sniper wieder; Nachprüfung billiger Waren blockiert den Sniper höchstens kurz. 0.65.180 geht NICHT um 18:00 raus, bevor
     SN-B9 behoben ist – neuer Kandidat 0.65.181 (Ketten + SN-B9).
+UI-CLEAN1 HOCH (Nutzer 10:25 "in der Testroutine prüfen, ob es Fenster, Reiter oder Abschnitte gibt, wo sich irgendwas
+    überlappt, veraltet ist … es muss alles sauber bereinigt werden"):
+    (A) Neuer Testteil "/ahs testroutine ui" (auch im Volltest): geht ALLE Fenster, Reiter, Unterreiter und Abschnitte von AHSentinel
+        durch (AH offen und zu, Klassisch/Modern, 100/130 %, deDE/enGB) und prüft je sichtbarem Element automatisch:
+        - Überlappung: zwei Bedienteile/Texte überdecken sich (Rechtecke schneiden sich, gleiche Ebene) – auch mit Blizzard-Fenstern
+          und ProfessionSentinel/LevelPilot (T177/T192).
+        - Abgeschnitten: Text breiter als sein Feld ("…", GetStringWidth > Breite), Element ausserhalb seines Fensters/Bildschirms.
+        - Leer/tot: Abschnitt ohne Inhalt, Knopf ohne Funktion (kein OnClick) oder der nur "kommt bald"/Platzhalter zeigt.
+        - Veraltet: Texte/Knöpfe zu entfernten oder ausgeblendeten Funktionen (MR1-V-Ansichten, alte Befehle, "lernt noch"-Reste,
+          alte Versionshinweise), doppelte Anzeigen derselben Zahl an zwei Stellen mit verschiedenem Wert, Debug-/Testtexte für
+          normale Spieler (TEST-DEV1).
+        Ergebnis im Bericht als Liste "Fenster > Reiter > Abschnitt: Befund" + Zahl; Ziel 0.
+    (B) Danach ALLES Gefundene bereinigen (entfernen, kürzen, verschieben) – nichts Neues hinzufügen. Liste vor/nach im Bericht.
+    Reihenfolge: SN-B9 (Release-Blocker) -> UI-CLEAN1 (A) in 0.65.181 mitliefern -> (B) Bereinigung. Für das Release um 18:00 müssen
+    Überlappungen und abgeschnittene Texte in sichtbaren Hauptansichten behoben sein; Rest von (B) darf in den nächsten Tag.
 >>> NUR KETTE (Nutzer 15.11. 07:11 "nur Kette bitte"): ausschliesslich KETTE-K1, alles andere ruht (auch Sniper-Reste SN-B6/SN-B8 –
     die bleiben offen und kommen erst wieder, wenn der Nutzer es sagt).
     ZIEL (Nutzer 07:12 "er soll es soweit machen, dass wir releasen können"): KETTE-K1 komplett bis RELEASE-KANDIDAT – eine Version
