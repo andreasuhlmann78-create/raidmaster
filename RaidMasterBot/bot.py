@@ -2691,6 +2691,57 @@ async def update_record_boards(ch) -> dict:
     return res
 
 
+@bot.tree.command(name="ruhmeshalle-aufraeumen",
+                  description="Gildenleitung: Einträge in #ruhmeshalle bis und mit einem Datum löschen (erst Vorschau)")
+@app_commands.describe(bis="Letzter Tag, der gelöscht wird, TT.MM.JJJJ (z. B. 14.11.2026)",
+                       bestaetigen="True = wirklich löschen (endgültig). Ohne: nur zählen, nichts löschen")
+async def ruhmeshalle_aufraeumen_cmd(inter: discord.Interaction, bis: str, bestaetigen: bool = False):
+    """Ab 1.5.141 (Wunsch des Nutzers 15.11. 16:27: "Einträge bis und mit dem 14.11. löschen"). Löscht alle Nachrichten
+    in #ruhmeshalle vor dem Folgetag 00:00 (Zeitzone des Bots) – nicht die aktuellen Rekord-Tafeln/Überschriften und
+    nichts Angeheftetes. Erst Vorschau (Anzahl), dann mit bestaetigen:True. Die Kill-Daten bleiben erhalten."""
+    if not is_admin(inter.user):
+        await inter.response.send_message("Nur für den Gildenchef und die Offiziere.", ephemeral=True)
+        return
+    cutoff = rekord_tafel.cutoff_end_of_day(bis, ZoneInfo(TZ))
+    if cutoff is None:
+        await inter.response.send_message("Datum bitte als TT.MM.JJJJ, z. B. 14.11.2026.", ephemeral=True)
+        return
+    await inter.response.defer(ephemeral=True, thinking=True)
+    ch = await hall_channel()
+    if ch is None:
+        await inter.followup.send("#ruhmeshalle nicht gefunden.", ephemeral=True)
+        return
+    keep = {int(x) for x in (state.data.get("record_boards") or {}).get("msgs", {}).values()}
+    msgs = [m async for m in ch.history(limit=5000, before=datetime.fromtimestamp(cutoff, timezone.utc))]
+    todo = rekord_tafel.cleanup_candidates(msgs, cutoff, keep)
+    day = datetime.fromtimestamp(cutoff - 1, ZoneInfo(TZ)).strftime("%d.%m.%Y")
+    if not bestaetigen:
+        await inter.followup.send(
+            f"🔎 Vorschau: In {ch.mention} würden **{len(todo)} Einträge** bis und mit **{day}** gelöscht "
+            f"(angeheftete und die aktuellen Rekord-Tafeln bleiben). Endgültig, nicht rückgängig zu machen.\n"
+            f"Zum Löschen: `/ruhmeshalle-aufraeumen bis:{bis.strip()} bestaetigen:True`", ephemeral=True)
+        return
+    done = failed = 0
+    for m in todo:
+        try:
+            await m.delete()
+            done += 1
+        except discord.HTTPException:
+            failed += 1
+        await asyncio.sleep(0.6)            # Discord: nicht zu schnell
+    # gelöschte Erstkills ohne Bild: kein "📸 Screenshot" mehr nachreichen (der Beitrag dazu ist weg)
+    posted = state.data.setdefault("first_posted", {})
+    for k in kills_db.data.get("kills") or []:
+        key = f"{k['e']}:{k['t']}"
+        if k["t"] < cutoff and posted.get(key) is False:
+            posted[key] = True
+    state.save()
+    log.info("Ruhmeshalle aufgeräumt bis %s: %d gelöscht, %d nicht löschbar", day, done, failed)
+    await inter.followup.send(f"🧹 {done} Einträge bis und mit {day} gelöscht"
+                              + (f", {failed} konnten nicht gelöscht werden (Recht „Nachrichten verwalten“?)"
+                                 if failed else "") + ".", ephemeral=True)
+
+
 async def update_achievements(ch):
     earned = rmd.achievements(bot.dkp_data, kills_db.data)
     players = fame_db.data.setdefault("players", {})
@@ -7064,6 +7115,7 @@ COMMAND_INFO = {
     "berufe": ("alle", "Spieler"),
     "bank": ("alle", "Spieler"),
     "rekorde": ("alle", "Spieler"),
+    "ruhmeshalle-aufraeumen": ("Gildenleitung", "Verwaltung"),
     "erfolge": ("alle", "Spieler"),
     "raider-des-monats": ("alle", "Spieler"),
     "beute boss": ("alle", "Spieler"),

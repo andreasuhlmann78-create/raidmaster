@@ -364,6 +364,9 @@ Für die Lua-Prüfung braucht der Bot `lupa` (steht in `requirements.txt`, wird 
     Level aus Blizzard (neue Dungeons) und PC Games (klassische) – Einzelheiten in `make_bosses.py`.
   - **Getrennt (ab 1.5.139):** oben die Dungeons unter „🗝️ Dungeons“ (nach Level), darunter Bosse ohne Zuordnung, die
     Raids immer zuletzt unter „🏰 Raids“. Auf Dungeon-Tafeln heisst 🆕 „Rekord vom letzten Besuch“.
+  - **Aufräumen (ab 1.5.141):** `/ruhmeshalle-aufraeumen bis:TT.MM.JJJJ` zeigt, wie viele Einträge bis und mit diesem
+    Tag gelöscht würden; mit `bestaetigen:True` löscht der Bot sie endgültig. Angeheftete Nachrichten und die
+    aktuellen Rekord-Tafeln bleiben, die Kill-Daten (Bestzeiten) auch. Nur Gildenleitung.
   - **Erstkills in Dungeons (ab 1.5.138):** werden auch gepostet, aber ohne Screenshot und mit dem Namen des Dungeons
     (nicht des Raid-Topfs). Raid-Erstkills wie bisher mit Screenshot.
   - **Erfolge**: Unermüdlich (10 Raids am Stück), Stammgast (25 Raids), Urgestein (50), Bossjäger (100 Bosse),

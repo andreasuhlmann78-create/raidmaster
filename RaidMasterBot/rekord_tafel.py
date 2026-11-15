@@ -247,3 +247,26 @@ def board_hash(board: dict) -> str:
 def is_old_record_line(content: str | None) -> bool:
     """Alte Einzelzeilen bis Bot 1.5.135 ("⏱️ **Neuer Rekord: …"), die beim Umstellen einmal gelöscht werden."""
     return bool(content) and content.startswith("⏱️ **Neuer Rekord: ")
+
+
+def cutoff_end_of_day(text: str, tz) -> float | None:
+    """ "TT.MM.JJJJ" -> Zeitpunkt direkt nach dem Ende dieses Tages (00:00 des Folgetags) in der Zeitzone tz.
+    "bis und mit dem 14.11." heisst: alles vor dem 15.11. 00:00. None = ungültiges Datum."""
+    from datetime import datetime, timedelta
+    try:
+        d = datetime.strptime((text or "").strip(), "%d.%m.%Y")
+    except ValueError:
+        return None
+    return (d + timedelta(days=1)).replace(tzinfo=tz).timestamp()
+
+
+def cleanup_candidates(messages, cutoff: float, keep_ids: set) -> list:
+    """Nachrichten zum Löschen: vor cutoff, nicht angeheftet, keine aktuelle Tafel/Überschrift (keep_ids)."""
+    out = []
+    for m in messages:
+        if m.id in keep_ids or getattr(m, "pinned", False):
+            continue
+        if m.created_at.timestamp() < cutoff:
+            out.append(m)
+    return out
+

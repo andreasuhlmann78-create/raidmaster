@@ -225,6 +225,99 @@ class Erstkill(unittest.TestCase):
         self.assertFalse(self.bot.state.data["first_posted"][f"664:{T0}"])            # Bild kann später kommen
 
 
+class Aufraeumen(unittest.TestCase):
+    """T-RH-AUF (1.5.141): /ruhmeshalle-aufraeumen bis:TT.MM.JJJJ – erst Vorschau, dann löschen."""
+    @classmethod
+    def setUpClass(cls):
+        from bot_harness import load_bot
+        cls.bot, _ = load_bot()
+
+    def test_stichtag(self):
+        from zoneinfo import ZoneInfo
+        from datetime import datetime
+        tz = ZoneInfo("Europe/Zurich")
+        c = rt.cutoff_end_of_day("14.11.2026", tz)
+        self.assertEqual(datetime.fromtimestamp(c, tz), datetime(2026, 11, 15, 0, 0, tzinfo=tz))
+        for bad in ("", "14.11.", "32.11.2026", "2026-11-14", None):
+            self.assertIsNone(rt.cutoff_end_of_day(bad, tz))
+
+    def msgs(self, ch):
+        from datetime import datetime, timezone
+        from zoneinfo import ZoneInfo
+        tz = ZoneInfo("Europe/Zurich")
+        def at(day, h, m=0):
+            return datetime(2026, 11, day, h, m, tzinfo=tz).astimezone(timezone.utc)
+        out = []
+        for i, (ts, pinned) in enumerate([(at(10, 20), False), (at(14, 23, 59), False), (at(14, 12), True),
+                                          (at(15, 0, 1), False), (at(15, 16), False)]):
+            m = Msg(ch, f"Eintrag {i}")
+            m.created_at, m.pinned = ts, pinned
+            out.append(m)
+        return out
+
+    def test_auswahl(self):
+        from zoneinfo import ZoneInfo
+        ch = Chan()
+        ms = self.msgs(ch)
+        c = rt.cutoff_end_of_day("14.11.2026", ZoneInfo("Europe/Zurich"))
+        got = rt.cleanup_candidates(ms, c, keep_ids={ms[0].id})
+        self.assertEqual([m.content for m in got], ["Eintrag 1"])     # 0 = Tafel, 2 = angeheftet, 3/4 = 15.11.
+
+    def test_vorschau_dann_loeschen(self):
+        b = self.bot
+        ch = Chan()
+        ch.mention = "#ruhmeshalle"
+        ch.msgs = self.msgs(ch)
+
+        def history(limit=100, before=None, **kw):
+            sel = [m for m in reversed(ch.msgs) if before is None or m.created_at < before][:limit]
+
+            async def gen():
+                for m in sel:
+                    yield m
+            return gen()
+        ch.history = history
+
+        async def hall():
+            return ch
+        saved = (b.hall_channel, b.is_admin, b.asyncio.sleep, dict(b.state.data), b.kills_db.data)
+        b.hall_channel, b.is_admin = hall, (lambda u: True)
+
+        async def nosleep(_):
+            return None
+        b.asyncio.sleep = nosleep
+        b.kills_db.data = {"kills": [{"e": 663, "t": 1763000000}]}
+        b.state.data["first_posted"] = {"663:1763000000": False}
+        try:
+            sent = []
+
+            class F:
+                async def send(self_, t, **kw):
+                    sent.append(t)
+
+            class R:
+                async def defer(self_, **kw):
+                    pass
+
+                async def send_message(self_, t, **kw):
+                    sent.append(t)
+            inter = types.SimpleNamespace(user=1, response=R(), followup=F())
+            asyncio.run(b.ruhmeshalle_aufraeumen_cmd.callback(inter, "14.11.2026", False))
+            self.assertIn("**2 Einträge** bis und mit **14.11.2026**", sent[-1])
+            self.assertEqual(len(ch.msgs), 5)                                  # Vorschau löscht nichts
+            asyncio.run(b.ruhmeshalle_aufraeumen_cmd.callback(inter, "14.11.2026", True))
+            self.assertIn("2 Einträge bis und mit 14.11.2026 gelöscht", sent[-1])
+            self.assertEqual([m.content for m in ch.msgs], ["Eintrag 2", "Eintrag 3", "Eintrag 4"])
+            self.assertTrue(b.state.data["first_posted"]["663:1763000000"])   # kein Bild mehr nachreichen
+            asyncio.run(b.ruhmeshalle_aufraeumen_cmd.callback(inter, "kein Datum", True))
+            self.assertIn("TT.MM.JJJJ", sent[-1])
+        finally:
+            b.hall_channel, b.is_admin, b.asyncio.sleep = saved[:3]
+            b.state.data.clear()
+            b.state.data.update(saved[3])
+            b.kills_db.data = saved[4]
+
+
 class Msg:
     _next = 100
 
