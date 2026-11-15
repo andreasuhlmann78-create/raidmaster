@@ -18,6 +18,40 @@
     alle Wege getestet (Erfolg, Fehler, Abbruch, AH zu, Kampf, alte Clients); keine Sperre ohne Zeitlimit; nichts abgeschnitten
     oder doppelt; Bericht nur "umgesetzt, zur Prüfung" mit Belegen. Lieber eine Version später als eine mit Fehlern.
 
+>>> GSL1 – NEUER AUFTRAG, HÖCHSTE PRIO IM SNIPER-BLOCK (Supervisor 15.11. 14:50; Grundlage: erstes Protokoll des passiven Mess-Addons
+    GSSniperLog 1.0, Nutzer 14:18–14:24 mit AHS 0.65.190; Datei liegt beim Supervisor, Zahlen unten aus dem Protokoll übernommen).
+    Hinweis: Dieser Block hätte schon um 14:30 im Repo stehen sollen – Versäumnis des Supervisors, nicht von AHS.
+    Zusammenfassung des Protokolls: Suchen 184 · Käufe gesendet 113 · bestätigt 54 · ohne jede Antwort 53 · doppelt gesendet 3 ·
+    AH-Fehlercode 10 (DatabaseError, "Interner Auktion-Fehler") ×60 · Code 4 (ItemNotFound) ×3 · THROTTLED_MESSAGE_DROPPED ×69.
+    Erfolg je Anzahl offener Käufe beim Senden: offen 0 -> 1/1 (100 %) · offen 1 -> 1/2 (50 %) · offen ≥ 2 -> 52/110 (47 %).
+    Bildaussetzer > 100 ms: 22, längster 1147 ms. Längste Lücke zwischen zwei Suchen: 8,2 s (14:24-Minute).
+  GSL1-1 HÖCHSTE PRIO – Senden schneller als der Server: 110 der 113 Käufe gingen raus, während schon ≥ 2 Käufe offen waren; davon
+         kam nicht einmal die Hälfte an, der Rest endete in Code 10 oder ohne Antwort (kostete kein Gold – belegt: Gold-Abgang passt
+         nur zu den 54 bestätigten). Fix: (a) Kauf nur senden, wenn C_AuctionHouse.IsThrottledMessageSystemReady() true ist;
+         (b) während ein Kauf auf Antwort wartet KEINE neue Suche senden (Suche + Kauf teilen sich die Drossel – 69× DROPPED);
+         (c) höchstens 1 offener Kauf, ausser eine Messung belegt, dass 2 parallel mehr bringen (Ziel A1: ≥ 80 % kommen an);
+         (d) nach Code 10 / DROPPED auf AUCTION_HOUSE_THROTTLED_SYSTEM_READY warten statt fester Zeit. Beleg im Bericht mit
+         Test (Mock: Server nicht bereit -> kein PlaceBid) und Zählern "gesendet / bestätigt / Code 10 / verworfen" je Minute.
+  GSL1-2 8-s-Pausen: In 0.65.190 noch Lücken bis 8,2 s zwischen zwei Sniper-Suchen bei aktivem Sniper ohne Kauf. Ursache im Code
+         belegen (welcher Zustand/Timer hält die Suche an) und auf ≤ 2 s bringen, ausser der Server ist nicht bereit (dann Grund
+         im Status zeigen).
+  GSL1-3 Zähler eins zu hoch: Minute 14:24 – AHS +8 Stück / 71s94c, Server bestätigt 7 / 62s95c (Differenz genau 1 Stück 8s99c).
+         Gesamt: AHS 55 Stück / 4g93s40c gegen 54 bestätigte / 4g84s41c. Ein Kauf wurde gezählt, ohne dass
+         AUCTION_HOUSE_PURCHASE_COMPLETED kam (Verdacht: Zählen auf ein anderes Ereignis oder auf eine doppelte Sendung – 3× doppelt
+         gesendet). Ursache belegen, zählen NUR auf PURCHASE_COMPLETED(auctionID) eines selbst gesendeten Kaufs.
+  GSL1-4 AUCTION_CANCELED kommt nach JEDEM eigenen Kauf (Forever-Eigenheit, im Protokoll belegt). Prüfen, dass AHS dieses Ereignis
+         nicht als "eigene Auktion abgebrochen" verbucht oder Meine Auktionen deswegen neu aufbaut (kostet Zeit beim Snipen).
+  GSL1-5 Bildaussetzer während des Snipens (22 × > 100 ms, längster 1147 ms bei 56 offenen Käufen): mit GSSniperLog 1.2 misst der
+         Nutzer jetzt die Ursache je Aussetzer (AHS-Aufgabe, Speicherbereinigung, Ereignissturm, Addon-Zeiten). Supervisor liefert
+         die Stellen nach – AHS jetzt nur: offene Käufe nie unbegrenzt anwachsen lassen (56 offen = Folge von GSL1-1).
+  Reihenfolge ab jetzt: GSL1-1 -> GSL1-3 -> GSL1-2 -> GSL1-4 -> TB192 -> restlicher Sniper-Block -> Abnahme A1–A6.
+>>> TB192 (Nutzer 14:39, Screenshot Meine Auktionen, 0.65.192) – Supervisor nachgerechnet: Wert 24 × 14s86 = 3g56s64 + 48 × 4s18 =
+    2g00s64 = 5g57s28 ✓; erhalten 13g44s63 × 0,95 = 12g77s40, angezeigt 12g77s27 (−13c; Rundung je Verkauf bei 28 Verkäufen
+    plausibel – belegen und im Tooltip "Summe der einzeln gerundeten Beträge" nennen). Noch sichtbar in 0.65.192: TB181-1 (graue
+    Meldung "Eigene Auktionen werden ge…" überlappt "2 Einträge"), TB181-2 ("Nächste unterbotene abbrechen" ROT bei 0 unterboten),
+    TB184-U2 (Status "wartet: Server bre…" abgeschnitten – in 0.65.193 angegangen, im Spiel prüfen). NEU: Spalte Gesamt zeigt
+    "2g 64c" für 2g00s64 – die Null-Silber fehlt, liest sich wie 2g64. Beträge immer lückenlos ab der grössten Stelle (2g 00s 64c).
+
 >>> SNIPER-KOMPLETT – NUR DIES, ALLES ANDERE RUHT (Nutzer 12:13 "oberste Prio, wir müssen jetzt endlich den Sniper komplett fixen!!!!")
     NACHTRAG 12:29 (Nutzer "oberste Prio" zu TB184-U3, UI-Prüfung aller Untersektionen): TB184-U3 (+ U1) gehört mit in diesen
     Block – gleich hohe Prio wie der Sniper. Reihenfolge: zuerst SN-B12 (Release-Blocker, klein), dann TB184-U1/U3 (nur Prüfteil,
