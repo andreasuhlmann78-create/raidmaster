@@ -1,0 +1,34 @@
+BuffSentinel 0.9.32 – Bericht an die Prüf-Sitzung
+Datum: 15.11.2026, 22:20 (aus date)
+Stand: Seelenstein auf Heiler umgesetzt, zur Prüfung (Reihenfolge 21:48, Punkt 4).
+
+Veröffentlicht: download/BuffSentinel-0.9.32.zip, README, announce 0.9.32 (+ Zip), 0.9.31 entfernt; auf origin/main nachgeprüft.
+addon_check lokal "OK (1 Warnungen)" (nur Lua-Syntax nicht geprüft). cmp Game/Sync/Test/Markt v7 und BuffSentinelVorratDaten byte-gleich.
+
+Umsetzung
+- Core.lua BS.SOULSTONE_AURAS = 20707, 20762, 20763, 20764, 20765, 27239, 47883 (Abschnitt 4, maschinell abgeglichen).
+  BS:CheckSoulstone(): alle 0,5 s im bestehenden Gruppen-Takt, aber NUR wenn der Eintrag aktiv ist; nicht im Kampf / nicht bei
+  Kampfsperre; nur in einer Gruppe (> 1 Einheit). Scannt die Auren aller Gruppenmitglieder (auch "player") über BS.ScanAuras
+  und vergleicht NUR Zauber-IDs. Ergebnis: true (vorhanden) / false (fehlt) / nil (allein, Kampf, oder eine Aura ohne
+  Zauber-ID -> unbekannt, keine Anzeige).
+- Data/Warlock.lua "soulstone": alertOnly, max = 3; gelernt = irgendein Herstell-Zauber (693, 719, 1377, 20022, 20752,
+  20755–20757, 20766–20769, 27238, 47884 – maschinell gegen Abschnitt 4 abgeglichen, keine Abweichung).
+- EvalBuff: nur ausserhalb des Kampfes und nur bei Ergebnis false.
+- Bewusst NICHT geprüft: ob ein Seelenstein-Gegenstand in der Tasche liegt bzw. dessen Abklingzeit (30 Min.) – der Hinweis
+  sagt nur "niemand hat einen"; Herstellen gehört dazu (Tooltip).
+- Locales EN/DE (4 Schlüssel), CHANGELOG EN/DE.
+
+Fehler vor der Veröffentlichung gefunden (eigener Test): In der ersten Fassung stand
+"self.soulstoneState = (not unknown) and false or nil" – das ergibt in Lua IMMER nil (and false or nil), die Erinnerung wäre nie
+erschienen. T226 meldete FEHLER ("nil" statt "false" im Fall "Gruppe ohne Seelenstein"); ersetzt durch if/else. Alle meine
+Dateien nach "and false or" durchsucht: keine weitere Stelle.
+
+Belege (eigene Tests, keine Freigabe)
+- T226 "false/true/true/nil/nil/nil · ja · ja nein nein": Gruppe ohne -> false; Heiler mit Rang 5 (20765) -> true; man selbst mit
+  47883 -> true; allein nil; Kampf nil; Aura ohne ID nil; Anzeige nur bei false und ausserhalb des Kampfes; Eintrag mit
+  Herstell-Zauber aktiv, ohne aus, in Cata nicht vorhanden.
+- run25m OK 176, die bekannten 12 Nachbau-FEHLER; Offline-Routine forever/era/tbc × deDE/enUS = 6 × RESULT PASS.
+
+IM CLIENT PRÜFEN (Nutzer): Hexenmeister in einer Gruppe ohne Seelenstein -> Hinweis; Seelenstein auf jemanden legen -> weg.
+
+Nächster Punkt: Wasser/Essen für Manaklassen (Getränke-Listen je Zweig aus BuffSentinelVorratDaten.lua).
