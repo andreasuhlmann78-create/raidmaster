@@ -71,6 +71,12 @@ MAIL-1 HOCH (Nutzer 11:55, 2 Screenshots Briefkasten, 0.65.182): Erster Klick ho
     (b) Das Abholen hört nicht nach der ersten Post auf, solange weitere AH-Post (auch nachladende) da ist; WoW zeigt nur die
     ersten 50 – danach Hinweis "weitere Post nach dem Leeren: Briefkasten neu öffnen".
     (c) Gleiche Meldung nicht mehrfach in die Bildschirmmitte (höchstens 1× je 5 s).
+    (d) NACHTRAG Nutzer 11:55: Die liegengebliebene Post ist eine ABGEBROCHENE Auktion (Rückgabe der Ware, vermutlich die
+        abgebrochene Geringe Mystikeressenz). AUCTION_REMOVED_MAIL_SUBJECT steht in SubjectPatterns (Mailer.lua:45) – also
+        entweder Kopfzeile noch nicht geladen (a) oder der Forever-Betreff weicht vom Muster ab. MESSEN: im Protokoll
+        (Diag "POST-ÜBERSPRUNGEN") je übersprungener Post Betreff-Länge, Muster-Treffer ja/nein, invoiceType, itemCount,
+        sender leer ja/nein (ohne Namen/Texte von Spielern) – dann gezielt beheben. Rückgaben (abgebrochen/abgelaufen) müssen
+        mit "nur Auktionspost" abgeholt werden.
     Wichtig für SN-B10 (Zähler gegen Ware): gekaufte Ware muss vollständig abgeholt und gebucht werden.
     Test: Kopfzeile erst leer, dann geladen -> holt ab; 60 Posten -> Hinweis 50er-Grenze; Meldung nicht doppelt.
 VK-P1 HOCH (Nutzer 11:52 "weshalb wird der falsche Verkaufspreis vorgeschlagen?", Screenshot Verkaufen > Einstellen, 0.65.182,
