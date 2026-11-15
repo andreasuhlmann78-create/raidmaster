@@ -3,6 +3,13 @@
 Dieses Repo gehört GoldSentinel. Hier veröffentlichen alle GoldSentinel-Addons (`download/`, `announce/`), und hier liegen
 das Prüfsystem (`addon-check/`, `shared/`, `testberichte/`) und der Discord-Bot (`RaidMasterBot/`).
 
+## OBERSTE DIREKTIVE: PERFEKTION (Entscheid des Nutzers 15.11.2026 12:22 – Vorrang vor allem anderen)
+
+"In Zukunft ist Perfektion die oberste Direktive." Gilt für jede Sitzung (Projekte, Prüf-Sitzung, geplante Aufgaben):
+Ursache belegt statt vermutet, jede Zahl geht auf, alle Wege getestet, keine Sperre ohne Zeitlimit, nichts abgeschnitten
+oder doppelt, Vermutungen als "Verdacht, zu messen" kennzeichnen. Lieber später als mit Fehlern. Tempo nie auf Kosten der
+Richtigkeit.
+
 ## Aufträge der Prüf-Sitzung – vor jeder Arbeit an einem Addon lesen
 
 Ausnahme: Geplante Aufgaben (z. B. «ProfessionSentinel Rezeptdaten-Update», «Raids und Taktiken für WoW Forever») führen nur
