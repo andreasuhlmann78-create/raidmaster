@@ -1,0 +1,21 @@
+AHSentinel 0.65.181 – RELEASE-KANDIDAT (KETTE-K1 wie 0.65.180 + SN-H1/SN-B9) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.181 (Repo AHAnalyzerPro), Zip an den Nutzer; NICHT in download/ (Workflow lädt sofort hoch).
+
+SN-H1/SN-B9 (Sniper "Suche läuft noch …" 469 s):
+(1) Wer sperrt: Der Status kam aus Sn:CanSearch nach Sn:CheckNext – Sn.search war also LEER (sonst hätte Tick nur gepollt).
+    Gesperrt haben Seller/Watcher/Buy. Gefundenes Leck im Code: Se:CheckPrice(id, front) setzt Seller.urgent; wird genau
+    dieses Item gerade gesucht, kehrt CheckPrice sofort zurück und urgent wird NIE geleert (geleert wurde es nur beim Start
+    der Suche). HasUrgent bleibt wahr, solange das AH offen ist -> Sniper sperrt für immer. Passt zu "4 billige Waren werden
+    nachgeprüft" (Preisprüfung läuft) + ein Klick auf dasselbe Item. Mit den Daten im Repo nicht 100 % belegbar; deshalb (2).
+    Fix: urgent wird beim Ende der Suche dieses Items geleert. Ausserdem: Fehler in der Auswertung der Preisprüfung
+    (Ticker) halten die Suche nicht mehr fest (pcall, Suche frei, Protokoll "FEHLER Preisprüfung Item …").
+(2) Wächter: Sn:HoldCheck – hält dasselbe Modul mit DERSELBEN Suche (Sniper-Suche, Preisprüfung, angeklicktes Item,
+    Wächter-Runde, Einkauf-Suche) länger als 10 s (SN-H1 ≤ 10 s, damit auch ≤ 30 s), wird die Sperre gelöst
+    (Protokoll "SPERRE … hielt den Sniper x s – gelöst"), Sniper sucht weiter. Ein Kauf im Einkauf, der auf Bestätigung
+    wartet, wird nie still gelöst (Geld) – nur benannt. Status: "Suche läuft noch ... (Preisprüfung, seit 4 s)".
+(3) Test T749: jede Sperre -> Modul genannt, nach 11 s gelöst. Abwechseln Preisprüfung/Sniper per Vortritt habe ich
+    versucht und wieder entfernt (Szenario s10_buy_priority: Sniper kam dann gar nicht mehr dran) – die Nachprüfung
+    blockiert den Sniper je Suche höchstens bis zu deren Ende (≤ 8 s Zeitlimit der Preisprüfung).
+KETTE-K1: unverändert gegenüber 0.65.180 (Bericht 0.65.180).
+Gesamtlauf 251/251, addon_check OK.
+Neu im Repo gesehen (HP-2, HP-3) – nicht angefasst (nur Kette + Release-Blocker).
