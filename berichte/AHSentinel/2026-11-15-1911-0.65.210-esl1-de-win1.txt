@@ -1,0 +1,41 @@
+AHSentinel 0.65.210 – ESL1 + DE-WIN1 (PRIO JETZT 6, Spieler betroffen) – umgesetzt, zur Prüfung
+CurseForge: nein (erst nach der Sniper-Abnahme). GitHub-Release v0.65.210 und sofort im Discord.
+
+ESL1 (Crafting.lua Cr:ListName, Cr:EnsureList, ReagentsToList, MissingToList; ShoppingLists.lua Testnaht Li.testDB)
+  - Befund bestätigt (Code): Die Rückgaben von Li:Create/Li:AddItem wurden nicht geprüft.
+    - title() = "" ergab den Listennamen "" ("" ist in Lua wahr). Li:Create("") scheiterte still, AddItem meldete "Liste nicht
+      gefunden", und trotzdem kam die Erfolgsmeldung.
+    - Das passt zur Spieler-Meldung "…list ." (Name fehlt).
+  - Neu: Cr:ListName(kind). Ist title() leer, nil, nicht Text, geschützt (Forever) oder > 40 Byte, wird "Berufe" (L)
+    genommen bzw. UTF-8-sicher auf 40 Byte gekürzt.
+  - Cr:EnsureList prüft Create; scheitert es, kommt die echte Meldung.
+  - AddItem-Rückgaben werden gezählt. Erfolg nur, wenn mindestens 1 Eintrag wirklich auf der Liste steht (Li:Count), sonst die
+    erste echte Fehlermeldung.
+  - MissingToList: gleich; "Du hast schon alles" nur, wenn kein AddItem scheiterte.
+  - Danach öffnet der Knopf wie bisher das Listen-Fenster (nur bei Erfolg).
+  - Test T794 (Testroutine, Ersatz-Listen Li.testDB, nie die echten Listen):
+    - title() = "", nil, 41 Zeichen, "Schneiderei", je beide Knöpfe -> Liste existiert mit 2 Einträgen (Name "Berufe" /
+      40 Byte / 11);
+    - AddItem scheitert -> false mit der echten Meldung.
+
+DE-WIN1 (DEWindow.lua DW:Queue, DW:MissingText, DW:NoteEmpty, GET_ITEM_INFO_RECEIVED; Disenchant.lua D:PriorReason)
+  - Ursache (a) in der Nachbildung BELEGT:
+    - Kennt der Client ein Teil noch nicht, liefert GetItemInfo nil -> D:Prior nil -> das Teil fehlt in der Liste.
+    - Das Fenster zeichnete nur bei BAG_UPDATE_DELAYED/Kampf neu und blieb deshalb leer, bis sich die Tasche änderte.
+    - Das passt zu den Bildern 18:46/18:50: erst leer, später ohne Neuladen wieder "noch 3".
+    - Im Spiel ist das noch zu bestätigen über die neue Zeile DE-LEER.
+  - Neu:
+    - Kandidaten = Qualität 2–4 und Waffe/Rüstung laut GetItemInfoInstant (ohne Server-Abfrage). Fehlt einer in der Liste,
+      wird der Grund gemerkt: Iteminfo noch nicht geladen / Qualität / keine Waffe/Rüstung / nie entzauberbar / Platz /
+      Stufe / gesperrt / übersprungen / Ausrüstungsset / Quest.
+    - Leere Liste: Hinweis im Fenster "n Teile ausgelassen: Grund a x, …" (gesperrt/übersprungen nennt SP3 wie bisher).
+    - Zeile DE-LEER ins Diagnose-Protokoll, je Teil itemID und Grund, nur bei geändertem Stand.
+    - GET_ITEM_INFO_RECEIVED für ein ausgelassenes Teil -> Fenster sofort neu (nur offen, nicht im Kampf).
+    - Nie ein Teil still ausgeblendet.
+  - Szenario s211_de_window_empty:
+    - Teil unbekannt -> Fenster leer mit Grund "Iteminfo", DE-LEER mit "900010 Iteminfo";
+    - Ereignis -> Teil sofort sichtbar.
+    - Mit 0.65.209: 3 Prüfungen rot (Grund fehlt, keine Diagnose, Fenster bleibt leer).
+    - s54_de_window unverändert grün.
+  Locales +7 (alle Sprachen), CHANGELOG EN/DE.
+Gesamtlauf (266 Szenarien, Lua 5.1): 265 bestanden. Rot nur s211_code4_status = Test der NÄCHSTEN Version (GSL7-1/GSL5-4, 0.65.211), mit 0.65.210 absichtlich rot (Gegenprobe). addon_check: siehe Release.
