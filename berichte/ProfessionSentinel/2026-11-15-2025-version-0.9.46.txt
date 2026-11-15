@@ -1,0 +1,117 @@
+BERICHT PROFESSIONSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 20:25 · Sitzung: ProfessionSentinel-Sitzung · Version: 0.9.46 · Commit: c7fc4cc (Quell-Repo), Release v0.9.46
+Grundlage: offen-professionsentinel.txt (Stand 20:15), anweisung-ui-crafter-2026-11-15.txt Abschnitt 4 Schritt (1) und ZUSATZ 19:59,
+shared/wissen/analysen/professionsentinel-2026-11-16.md (P-1 … P-5) und professionsentinel-ausbau-aus-ahs-2026-11-16.md (A1–A4).
+Hinweis: Hier steht nur "umgesetzt, zur Prüfung" mit Belegen. Ob etwas erledigt ist, entscheidet die Prüf-Sitzung.
+
+UMGESETZT, ZUR PRÜFUNG (Schritt 1 der UI-Überarbeitung 2: die Grundlage gegen das Ruckeln)
+-----------------------------------------------------------------------------------------
+1. A1 Hintergrund-Aufgaben mit Zeitbudget – neue Datei Jobs.lua (in allen vier TOC nach Diagnose.lua)
+   - ns.Jobs.Add(name, fn, opts): die Rechnung läuft als coroutine, je Bild höchstens J.BUDGET = 6 ms für alle Aufgaben zusammen,
+     der Rest im nächsten Bild. ns.Jobs.Yield() zwischen zwei Schritten (nie in einem pcall, Lua 5.1).
+   - Gleicher Name nochmal: eine noch nicht gestartete Aufgabe nimmt die neue Funktion, eine laufende läuft fertig und dann
+     einmal neu (nie zwei gleichzeitig, nichts geht verloren). Fehler in einer Aufgabe werden gezählt, die Liste läuft weiter.
+   - In der Testroutine (UI.SyncRefresh) läuft eine Aufgabe sofort in einem Stück (die Fälle lesen das Ergebnis gleich).
+   - Umgestellt auf Aufgaben:
+     a) Rezept-Alarm nach dem AHSentinel-Scan (Alerts.lua AL.OnScan -> Aufgabe "alarm", AL.Needed mit Yield je Rezept). Danach
+        nicht mehr ns.RefreshAll (ganzer Neuaufbau im selben Bild), sondern UI.RequestRefresh in Portionen und nur bei sichtbarem
+        Panel (P-1 a).
+     b) Rezept-Alarm aus den aktuellen AHS-Preisen beim Öffnen (AL.FromCurrent -> Aufgabe "alarm-preise").
+     c) "Heute herstellen" / TodayCrafts (PS-TC1, siehe 2).
+     d) Rezeptliste für AHSentinel (PS-API1, siehe 4).
+   - Ursache P-1 im Code belegt (nicht im Spiel gemessen): AL.OnScan lief im Ereignis SCAN_FINISHED von AHSentinel im selben Bild
+     über alle Figuren × Berufe × Rezepte und rief danach ns.RefreshAll (Alerts.lua 0.9.45 Z. 86–105); TodayCrafts rechnete bei
+     jedem Aufruf alles neu (Today.lua 0.9.45 Z. 41–88); GET_ITEM_INFO_RECEIVED löste jede Sekunde ns.RefreshAll aus
+     (Disenchant.lua 0.9.45 Z. 362–371). Welcher Weg die 921 ms im Spiel brauchte, zeigt jetzt die Messung (A4).
+2. PS-TC1 TodayCrafts aus dem Zwischenspeicher (Today.lua)
+   - Der schwere Teil (welche Rezepte lohnen: P.Recipe je gelerntem Rezept) ist TD.Collect und läuft als Aufgabe "heute" (ruhig,
+     mit Preis-Gedächtnis je Portion). Ein Aufruf rechnet nur noch Anzahl nach Gold/Taschen und den nächsten Schritt (≤ 6 Zeilen).
+   - Neu berechnet: nach Advisor.Invalidate (Scan, Rezept, Fertigkeit, Preis-Abo von AHSentinel), 2 s gesammelt; ausserdem, wenn
+     die Liste älter als 300 s ist (Preise anderer Quellen melden sich nicht). Bis die neue Liste fertig ist, gilt die alte.
+     Vorwärmen 10 s nach dem Einloggen. Neu API.TodayCraftsReady() (false nur in den ersten Sekunden).
+   - Selbstkontrolle: ns.Perf("API TodayCrafts") -> längster Aufruf in /ps protokoll und im Testbericht, "!" über 16 ms.
+3. A2 Ruhemodus des AHS-Snipers (Jobs.lua J.AHSQuiet)
+   - Ruhige Aufgaben (alle oben) warten, solange der Sniper im Ruhemodus ist. Gelesen wird: zuerst API.QuietOn (falls AHSentinel es
+     anbietet – gibt es in 0.65.217 noch NICHT), sonst AHAnalyzerPro.Sniper.quietSince/QUIET_MAX (nur lesen, über ns.Foreign).
+   - Zeitlimit doppelt: AHSentinels QUIET_MAX (1800 s) und unser eigenes J.QUIET_MAX = 30 Min. ab dem ersten Sehen. Danach laufen
+     die Aufgaben wieder in Portionen. Pausierte Aufgaben schauen nur einmal je Sekunde nach (keine Arbeit jedes Bild).
+   - Auch schon begonnene Aufgaben halten zwischen zwei Portionen an (Lehre aus AHS GSL6-1).
+   - BITTE an AHSentinel (über die Prüf-Sitzung): öffentliche API.QuietOn() -> true/false anbieten; PS nutzt sie dann automatisch.
+4. PS-API1 ProfessionSentinelAPI.KnownRecipes(charKey) -> list, ready (Today.lua, ns.KnownAPI)
+   - charKey nil = eingeloggte Figur, sonst der Schlüssel "Name-Realm" einer gemerkten Figur. Je gelerntem Rezept mit Produkt:
+     spellID, recipeID, productID, made, madeMax, materials {itemID, count}, prof, skill, color (orange/yellow/green/grey/red),
+     yellow, green, grey. Keine Namen im Ergebnis (T270 prüft: keine Textfelder ausser color).
+   - Aus dem Zwischenspeicher (Aufgabe je Figur, Name der Aufgabe ohne Figurennamen: "rezepte-api <Nummer>"); ready = false,
+     solange sie noch gebaut wird (dann die alte Liste bzw. leer). ProfessionSentinelAPI.version = 2 (alte Aufrufer mit
+     "version >= 1" laufen weiter).
+5. A3 Item-Info-Tor (Disenchant.lua DE.OnItemInfo)
+   - Nur selbst angefragte Items zählen, jedes einmal (danach "angekommen", nie neu angefragt -> keine Schleife bei unbekannten
+     Items). Gesammelt höchstens alle DE.ITEMINFO_GAP = 5 s: Advisor.Invalidate und ein Neuzeichnen in Portionen bei sichtbarem
+     Panel (vorher jede Sekunde ns.RefreshAll).
+6. A4 Messung je Weg
+   - ns.Perf/ns.PerfNote: je Weg letzter Wert, Höchstwert, Höchstwert der laufenden Minute; über 16 ms -> LANGSAM mit dem Namen
+     des Wegs. Wege: Aufgabe <Name> (je Portion), API TodayCrafts, API KnownRecipes, Rezept-Alarm (Scan-Ereignis), Neuaufbau (Teil),
+     Alles neu (erster Teil), Lebenslinien im Berufsfenster.
+   - /ps protokoll: neue Zeilen "Langsamste Wege dieser Sitzung" und "Hintergrund-Aufgaben". Testbericht: Zeilen "WEGE", "AUFGABEN",
+     "TOC". Die Testroutine selbst misst nicht mit (eigene Aufrufe sind keine Spielmessung).
+7. PS-DW1 Knopf "Entzaubern (n)" von AHSentinel
+   - Ursache belegt im Code: UI.FitBestHint machte die Zeile "Bestes:" (ein Button) so breit wie den ganzen Platz bis zum linken
+     Rand des Berufsfensters (UI.BestHintWidth, 0.9.45 UI.lua 2226–2234) – ihr unsichtbarer Teil lag unten links über dem
+     AHS-Knopf und nahm dessen Klicks. Jetzt ist die Zeile nur so breit wie ihr Text (+4 px, höchstens der Platz).
+   - In Schritt 4 (Blizzard-Fenster) entfällt die Zeile "Bestes:" ohnehin (Anweisung 3.4).
+8. GSM7: ProfessionSentinel/GoldSentinelMarkt.lua = shared/GoldSentinelMarkt.lua Version 7 (cmp gleich, nach git pull 20:20).
+   T266 verlangt VERSION >= 7. GoldSentinelGame.lua und GoldSentinelTest.lua cmp gleich mit shared/.
+9. P-3 Schnelltest (tests/smoketest.lua): feste Liste der Fälle, die der einfache Mock nicht bestehen kann (je Spielversion,
+   Bereich H ausgenommen). Ein FEHLER ausserhalb der Liste -> "AUTOTEST NEUE FEHLER: T…" und Ausgang 1; ein Fall der Liste,
+   der jetzt besteht, wird gemeldet ("Liste kürzen"). Gegenprobe: T43 absichtlich rot -> "AUTOTEST NEUE FEHLER: T43", Ausgang 1.
+10. P-5 Messung vorbereitet: jede TOC hat "## X-TOC: Camelot/Vanilla/Mainline/Allgemein"; der Testbericht zeigt "TOC: …"
+   ("Allgemein (liest alle drei Datendateien)"). Im Spiel: /ps testroutine g -> Zeile TOC ablesen. Danach entscheiden.
+11. Kleinigkeiten: README "Features (0.9.46)", Fallzahl 271 (offen Punkt 7); Testroutine T143 misst "Heute herstellen" und den
+   Rezept-Alarm jetzt als Aufgabe (längste Portion) statt als ganzen Aufruf.
+
+TESTS (eigene, Hinweise – keine Freigabe)
+-----------------------------------------
+- Neue Fälle: T268 (A1/A2: 100 Schritte à 1 ms -> jede Portion ≤ 6 ms, vollständig; Gegenprobe ohne Yield = ein Stück 100 ms,
+  gemessen; gleicher Name; Ruhemodus über Sniper.quietSince und über API.QuietOn; AHS-Grenze; eigene 30-Min.-Grenze; Fehler in
+  einer Aufgabe), T269 (PS-TC1: erster Aufruf leer + Aufgabe, danach gleiches Ergebnis wie in einem Stück; Aufruf ≤ 2 ms,
+  Portion ≤ 8 ms; veraltet -> alte Liste sofort, neue als Aufgabe), T270 (PS-API1: Anzahl = gelernte Rezepte mit Produkt
+  (Berufsfenster), Twink, ohne Beruf leer, unbekannte Figur leer, keine Namen, Zwischenspeicher, Aufruf ≤ 2 ms), T271 (PS-DW1
+  Breite kurz/lang; A3 fremdes Item, einmal je Item, ein Neuzeichnen). Regressionen: 71 von 71.
+- run_offline (LuaJIT): Forever OK 225 / FEHLER 1 (T145 Bereich H, siehe unten), Era OK 208 / 0, Retail OK 207 / 0, TBC ohne
+  Lua-Fehler, Exit 0. check_actions OK. Schnelltest Ausgang 0. gen_locale_keys: 462 Schlüssel (neu DG_PATHS, DG_JOBS EN/DE).
+- run_offline --lua51 (wie im Spiel, ohne JIT): Forever T143 "AD.Plan 1->300 18.5 ms" und T145; Retail OK 207 / 0.
+- Messwerte im Mock (LuaJIT): T269/T270 (Aufruf ≤ 2 ms, Portion ≤ 8 ms) ohne FEHLER in Forever, Era und Retail; T143 langsamster
+  Wert 10,5 ms Forever / 6 ms Retail (0.9.45: 15,5 ms); Testbericht-Zeile AUFGABEN: Teil max 0,5 ms.
+- addon_check auf download/ProfessionSentinel-0.9.46.zip und die announce-Zip: OK, 0 FEHLER, 0 WARNUNG (Marktdatei aktuell).
+- ZIP aus dem Release = Quell-Repo (diff -r leer).
+
+GEFUNDEN BEIM TESTEN (Befunde zur Prüfung)
+-------------------------------------------
+- T145 Speicher: Forever "+1026/1027 KB nach dem Lauf" schon mit 0.9.45 (HEAD gemessen: +1026 KB), Grenze 1024 – unverändert
+  vorhanden, nicht neu. Ein Zwischenstand von 0.9.46 lag bei +1615 KB; Ursache gefunden und behoben: Fälle mit Testdaten liessen
+  den Zwischenspeicher "Heute herstellen" (T255 stösst dort eine Aufgabe an) und Materiallisten an den Rezepten stehen. Jetzt legt
+  die Testroutine Aufgaben und Zwischenspeicher beim Start beiseite und gibt sie danach unverändert zurück (TR.SaveJobs/
+  RestoreJobs), Materiallisten hängen nicht mehr am Rezept. Grenze nicht erhöht.
+- T143 unter echtem Lua 5.1: AD.Plan 1->300 braucht 18,5–20,6 ms am Stück (schon in 0.9.45, HEAD 20,6 ms). Im Panel läuft der
+  Plan im portionierten Neuaufbau; der ganze Aufruf am Stück tritt dort nicht auf. Verdacht, zu messen: Reiter Skillen mit
+  300 Rezepten im Spiel (T246).
+- Release-Text: Die GitHub-Action schrieb nur den englischen CHANGELOG ins Release (gegen "nie Englisch"). Korrigiert
+  (release.yml: zuerst Deutsch, dann Englisch, Commit f1d4734) – gilt ab 0.9.47. Den Text von v0.9.46 kann diese Sitzung nicht
+  ändern (GitHub verweigert Release-Änderungen aus Claude-Sitzungen, HTTP 403). Der deutsche Text steht im CHANGELOG.de.md.
+
+IM CLIENT PRÜFEN (neu mit 0.9.46)
+---------------------------------
+- Nach einem AHSentinel-Vollscan: kein Bild über 16 ms durch ProfessionSentinel (Spiel-Profiler); /ps protokoll -> Zeile
+  "Langsamste Wege dieser Sitzung" ohne "!" (sonst die Zeile melden – sie nennt den Weg).
+- Sniper scharf im Ruhemodus: /ps protokoll -> "Hintergrund-Aufgaben … Ruhe n" zählt hoch, nach dem Snipen laufen sie.
+- AHSentinel "Heute tun": TodayCrafts sofort (Diagnose API TodayCrafts ≤ 2 ms); KnownRecipes liefert die Rezepte der Figur.
+- Am Berufsfenster: Knopf "Entzaubern (n)" von AHSentinel mit beiden Addons klickbar.
+- /ps testroutine g -> Zeile "TOC: …" (P-5) und "WEGE"/"AUFGABEN".
+
+OFFEN / NÄCHSTE SCHRITTE
+------------------------
+- Schritt (2) der Anweisung: Fenster/Stil + vier Reiter (Jetzt, Skillen, Gold, Rezepte) + automatisches Öffnen mit dem
+  Handwerksbuch + Zwischenspeicher je Beruf. Dabei der HINWEIS 20:15 (PS-DOCK1): am Berufsfenster immer ein kleiner Knopf
+  "PS" zum Wiederöffnen und PS.IsEnabled() für AHSentinel. Danach (3) Einkauf-Leiste, (4) Skillspur, (5) Texte.
+- AHSentinel: öffentliche API.QuietOn() (siehe 3) – Bitte an die Prüf-Sitzung zur Weiterleitung.
+- Unverändert offen: HK-P Rest, PM Punkt 5 (Leiter), BL3/BL4 (gemeinsame Befehlsliste nach AHSentinel), T145 im Client.
