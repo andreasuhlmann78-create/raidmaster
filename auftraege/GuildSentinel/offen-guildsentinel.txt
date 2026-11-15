@@ -1,3 +1,17 @@
+>>> GS-W1 HOCH (Nutzer 15.11.2026 13:49 "GuildSentinel soll im Rekrutierungstext wieder den Teil mit /w … gilde reinnehmen!"):
+    Befund Supervisor (Code 0.9.38, Recruit.lua): Die Standardtexte (DefaultAd Phase Aufbau/Raid, Zeile 124/126) enthalten
+    "– flüstert mir: /w {name} gilde", Vorschlag 2 (Rc:Suggestion2, Zeile 51, mit {tag}) aber NICHT – und ein gespeicherter
+    eigener Text bleibt unverändert. Zu tun:
+    (a) Vorschlag 2 bekommt am Ende ebenfalls " – flüstert mir: /w {name} gilde" (alle Locales mit dem jeweiligen Wort, wie bei
+        den Standardtexten).
+    (b) Der /w-Teil wird beim Kürzen auf die Chat-Länge (255) NIE abgeschnitten – zuerst andere Teile kürzen ({gesucht}-Liste,
+        Discord-Satz), der /w-Teil bleibt immer ganz.
+    (c) Gespeicherter eigener Text ohne "/w {name}": gelber Hinweis mit Knopf "Übernehmen" (wie GA2), der den /w-Teil anhängt –
+        nie ungefragt ändern.
+    (d) {name} = Name der eigenen Figur zur Laufzeit (UnitName). Keine Spielernamen im Repo/Tests (Testnamen wie "Testa").
+    (e) Test: Vorschlag 2 enthält "/w"; Kürzen auf 255 lässt "/w {name} gilde" ganz; eigener Text -> Hinweis + Übernehmen;
+        alle Sprachen. CHANGELOG DE/EN, Discord sofort, CurseForge erst 18:00.
+
 >>> VERÖFFENTLICHEN (Entscheid des Nutzers 15.11.2026 13:16, gilt für ALLE Addons): (1) DISCORD: jede neue Version IMMER sofort im
     Discord veröffentlichen (announce/, Text Deutsch, englischer Teil nur für englische Spieler). (2) CURSEFORGE: nur 1× täglich um
     18:00 – für die Addons, die schon auf CurseForge sind (curseforge/projects.json: zurzeit AHSentinel, GuildSentinel). Kommt ein
