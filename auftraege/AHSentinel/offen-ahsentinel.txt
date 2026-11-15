@@ -1,10 +1,11 @@
->>> SN-H1 HOCH – RELEASE-BLOCKER für 0.65.180 (Nutzer 10:21 "der Sniper geht nicht mehr", Screenshot): Sniper an, 1 Ziel
 >>> TT-STOP (Nutzer 11:50, gilt ab sofort, VORRANG vor allen älteren Aufträgen zum Item-Tooltip): "Den Rest vom Tooltip wird nicht
     angefasst! Nach dem Release bleibt der Tooltip so, bis ich etwas anderes sage." -> Am Item-Tooltip ändert AHS NUR noch den
     Abschnitt "Materialien" nach TT-DE2. Alles andere (Preis, Marktwert, Gewinn, Entzaubern, Verkaufen, Pausen-/Sniper-Zeilen,
     Rechtsklick-Hinweis, Preisverlauf) bleibt wie in 0.65.181 – Zeilen, Reihenfolge, Texte, Farben, Rechnung. Ältere offene
     Punkte, die den Item-Tooltip ändern würden (z. B. S3b "eine Zahl = bester Weg"), ruhen. Nach dem Release: keine Änderung am
     Item-Tooltip ohne neuen Entscheid des Nutzers. Selbstkontrolle/Test: Tooltip-Text (ohne Materialien) gleich wie 0.65.181.
+
+>>> SN-H1 HOCH – RELEASE-BLOCKER für 0.65.180 (Nutzer 10:21 "der Sniper geht nicht mehr", Screenshot): Sniper an, 1 Ziel
     (Leinenstoff max 15c), Status "wartet: Suche läuft noch … · zuletzt vor 469 s: 0 Treffer · Vollscan-Sperre noch 13 Min. (Sniper
     sucht trotzdem)", unten "Suche läuft noch …". An/Aus hilft nicht. Chat davor: "4 auffällig billige Waren werden nachgeprüft
     (Lockangebote zählen nicht)" und "131 Items unter Händlerpreis". Sn:CanSearch liefert "Suche läuft noch" auch, wenn
