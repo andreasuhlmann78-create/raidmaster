@@ -33,6 +33,16 @@ UI-CLEAN1 HOCH (Nutzer 10:25 "in der Testroutine prüfen, ob es Fenster, Reiter 
         "wird entfernt: … – Ersatz/Grund: …" und der Supervisor prüft die Liste; gespeicherte Daten (SavedVariables) bleiben immer.
     Reihenfolge: SN-B9 (Release-Blocker) -> UI-CLEAN1 (A) in 0.65.181 mitliefern -> (B) Bereinigung. Für das Release um 18:00 müssen
     Überlappungen und abgeschnittene Texte in sichtbaren Hauptansichten behoben sein; Rest von (B) darf in den nächsten Tag.
+UI-REF1 MITTEL (Nutzer 10:29 bestätigt, Vorschlag Supervisor): EIN Aktualisieren-Knopf, in JEDEM AHSentinel-Fenster an genau
+    derselben Stelle (Kopfzeile oben rechts neben "Optionen", gleiches Symbol). Klick = aktualisiert den aktuellen Reiter (Sniper:
+    sofort suchen; Markt: neu rechnen; Buchhaltung/Verkaufen/Einkauf: neu laden); Shift+Klick = alles. Tooltip in einem Satz,
+    was er hier tut. Die verstreuten Knöpfe ("Aktualisieren", "Jetzt suchen", "Preis prüfen" o. ä., wo sie nur aktualisieren)
+    gehen in diesem Knopf auf – Teil von UI-CLEAN1 (B), nichts Wichtiges geht verloren. Kein Ruckeln beim Klick (Portionen),
+    im Kampf gesperrt wie üblich. Test je Reiter + Selbstkontrolle (Knopf da, an derselben Stelle, wirkt).
+>>> TEMPO UND PFLICHTEN (Nutzer 10:29 "gib Gas – aber vernachlässige deine Pflichten nicht"): zügig arbeiten, aber jede Version
+    mit Test + Selbstkontrolle (Grundsatz 14.11.), Locales und CHANGELOG EN/DE, addon_check ohne FEHLER, Bericht in berichte/
+    ("umgesetzt, zur Prüfung" mit Belegen), GRUNDSATZ NACHVOLLZIEHBAR, keine Gold-Risiken, nichts für "erledigt" erklären.
+    Reihenfolge: SN-B9 -> Ketten-Kandidat 0.65.181 -> UI-CLEAN1 (A) -> UI-REF1 -> UI-CLEAN1 (B).
 >>> NUR KETTE (Nutzer 15.11. 07:11 "nur Kette bitte"): ausschliesslich KETTE-K1, alles andere ruht (auch Sniper-Reste SN-B6/SN-B8 –
     die bleiben offen und kommen erst wieder, wenn der Nutzer es sagt).
     ZIEL (Nutzer 07:12 "er soll es soweit machen, dass wir releasen können"): KETTE-K1 komplett bis RELEASE-KANDIDAT – eine Version

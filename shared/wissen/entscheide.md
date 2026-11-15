@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 15.11.2026 10:29 | Ein Aktualisieren-Knopf in jedem AHSentinel-Fenster an derselben Stelle (oben rechts), Klick = aktueller Reiter, Shift = alles | offen-ahsentinel.txt UI-REF1 |
 | 15.11.2026 10:25 | Testroutine prüft alle Fenster/Reiter/Abschnitte auf Überlappung, Abgeschnittenes, Leeres und Veraltetes; alles Gefundene wird bereinigt | offen-ahsentinel.txt UI-CLEAN1 |
 | 15.11.2026 00:56 | CurseForge-Veröffentlichung nur noch 1× täglich um 18:00 (AHSentinel, GuildSentinel); dazwischen nur Repo/download für Tests | offen-ahsentinel.txt, offen-guildsentinel.txt |
 | 14.11.2026 18:19 | Testroutine und Mess-/Diagnoseteile laufen nur beim Entwickler (versteckter Schalter, Standard aus), nicht bei anderen Spielern | offen-ahsentinel.txt TEST-DEV1 |
