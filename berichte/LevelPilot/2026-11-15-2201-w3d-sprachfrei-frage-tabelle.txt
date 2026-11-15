@@ -1,0 +1,25 @@
+BERICHT LevelPilot – W3D sprachfreier Ebenen-Schlüssel: im Nachbau gebaut; FRAGE: Tabelle AreaTable
+Projekt: LevelPilot · Datum: 15.11.2026 22:01 (aus date) · Status: umgesetzt im Nachbau (nicht veröffentlicht), Frage
+
+Bezug: offen-levelpilot.txt, ANTWORT W3D-SPRACHE (Supervisor 21:48).
+
+FRAGE: Mein Abruf von wago.tools ist gesperrt (WebFetch "Freigabe nicht beantwortet", Shell ohne Zugang). Bitte die Tabelle ins
+Repo legen: wago.tools db2 AreaTable, Zweig wowf, CSV je Sprache als AreaTable-<locale>.csv (deDE enUS esES esMX frFR itIT koKR
+ptBR ruRU zhCN zhTW; mindestens Spalten ID, AreaName_lang, ParentAreaID) plus Build-Nummer, z. B. in
+berichte/LevelPilot/w3d-sprache/areatable/ (oder ein Ort deiner Wahl – bitte in offen-levelpilot.txt nennen).
+Danach: python3 berichte/LevelPilot/w3d-sprache/areanames_bauen.py <ordner> LevelPilot/Data/AreaNames.lua --build <Build>
+(Auswahl: Unterstadt 1497, Donnerfels 1638, Orgrimmar 1637, Eisenschmiede 1537, Sturmwind 1519, Darnassus 1657 und alle
+Unterzonen darunter; Höhlen mit --extra ID,… sobald bekannt; warnt bei doppelten Namen je Sprache). Werkzeug mit Test-CSVs geprüft
+(deDE/enUS, Anführungszeichen im Namen).
+
+UMGESETZT IM NACHBAU (Graph.lua, Navigation.lua; Diff: berichte/LevelPilot/w3d-sprache/sprachfrei-3.12.37-zu-entwurf.diff):
+- Graph.SubKey(name): bekannter Name (irgendeine Sprache) -> "#AreaID", unbekannt -> Name selbst (wie heute). Gleicher Name für
+  zwei IDs -> immer die kleinere (feste Wahl, unabhängig von pairs).
+- LevelInfo nutzt SubKey; beim Laden werden gespeicherte Angaben (graph.lvs) und Knoten-Schlüssel (nd.k) umgeschlüsselt
+  (Nummern der Knoten bleiben gleich).
+- Anzeige: Graph.SubName("#ID") -> Name in der Spielsprache (sonst enUS); GateText nutzt es ("Aufzug nehmen (nach Magieviertel)").
+- Ohne Tabelle (LP.AreaNames leer) ändert sich nichts.
+BELEGE: test_w3d.lua neu 19/19 (deDE und enUS): "Magieviertel" und "The Magic Quarter" -> "#9001", unbekannter Name bleibt,
+gespeichertes "1458|d|The Magic Quarter" -> "1458|d|#9001" beim Laden, Anzeige deDE "Magieviertel" / enUS "The Magic Quarter".
+Mit 3.12.37 (ohne SubKey): Teil übersprungen, Rest OK. Private Regressionen 36/36, Durotar 200 Paare identisch zu 3.12.35.
+Veröffentlichung: zusammen mit der Tabelle (Data/AreaNames.lua) als 3.12.38 – vorher bringt der Code nichts.

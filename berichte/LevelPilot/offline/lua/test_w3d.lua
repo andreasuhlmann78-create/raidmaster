@@ -124,6 +124,28 @@ PRE_RUN = function(LP)
   local withLv = 0
   for _, z in ipairs(d.zones) do for _, e in ipairs(z.edges) do if e.lv then withLv = withLv + 1 end end end
   check(withLv > 0, "Wegdaten enthalten die Ebenen-Angabe (" .. withLv .. " Wegstücke)")
+  -- 11) sprachfrei (3.12.38, Supervisor 21:48): deDE- und enUS-Name derselben Unterzone -> derselbe Schlüssel
+  if G.SubKey then
+    local saved = LP.AreaNames
+    LP.AreaNames = { [9001] = { deDE = "Magieviertel", enUS = "The Magic Quarter", frFR = "Le quartier de la Magie" } }
+    G.ResetSubIndex()
+    local kd, ke, ku = G.SubKey("Magieviertel"), G.SubKey("The Magic Quarter"), G.SubKey("Unbekannter Ort")
+    check(kd == "#9001" and ke == kd and ku == "Unbekannter Ort",
+      ("sprachfrei: deDE %s, enUS %s, unbekannt bleibt „%s“"):format(kd, ke, ku))
+    LP.db.graph.lvs[#LP.db.graph.lvs + 1] = "1458|d|The Magic Quarter"
+    local nAlt = #LP.db.graph.lvs
+    G:Init()
+    check(LP.db.graph.lvs[nAlt] == "1458|d|#9001" and G.LvId("1458|d|#9001") == nAlt,
+      "gespeicherte Angabe beim Laden umgeschlüsselt: " .. tostring(LP.db.graph.lvs[nAlt]))
+    local loc = GetLocale()
+    local tShow = N.GateText({ lift = true }, { lv = "1458|d|#9001" })
+    check(tShow:find(loc == "deDE" and "Magieviertel" or "The Magic Quarter", 1, true) ~= nil and not tShow:find("#9001", 1, true),
+      "Anzeige in der Spielsprache (" .. tostring(loc) .. "): „" .. tShow .. "“")
+    LP.AreaNames = saved
+    G.ResetSubIndex()
+  else
+    print("SKIP sprachfreier Schlüssel: erst ab 3.12.38 (diese Fassung hat Graph.SubKey nicht)")
+  end
   LP.W3D = false
   print(fails == 0 and "== ALLE TESTS OK" or ("== " .. fails .. " FEHLER"))
   os.exit(fails == 0 and 0 or 1)

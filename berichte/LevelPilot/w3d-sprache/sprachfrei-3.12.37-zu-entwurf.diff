@@ -1,0 +1,90 @@
+--- lp31236/LevelPilot/Graph.lua	2026-11-15 21:08:10.504631303 +0100
++++ lp31238/LevelPilot/Graph.lua	2026-11-15 21:59:16.331214867 +0100
+@@ -79,11 +79,17 @@
+     -- W3D: Ebenen-Angaben nur einmal speichern (Liste), am Knoten nur die Nummer – haelt die SavedVariables klein
+     if type(G.lvs) ~= "table" then G.lvs = {} end
+     wipe(lvIdx)
+-    for i, name in ipairs(G.lvs) do lvIdx[name] = i end
++    -- 3.12.38 W3D: aeltere, uebersetzte Unterzonen-Namen in sprachfreie Schluessel umschreiben (Nummern bleiben gleich)
++    for i, name in ipairs(G.lvs) do
++        local neu = Graph.LvSprachfrei(name)
++        if neu ~= name then G.lvs[i] = neu end
++        if not lvIdx[G.lvs[i]] then lvIdx[G.lvs[i]] = i end
++    end
+ 
+     wipe(adj) wipe(grid) wipe(nodes) wipe(gwByZone) wipe(gwEdges)
+     Graph.staticLoaded = nil
+     for id, nd in pairs(G.nodes) do
++        if type(nd) == "table" and type(nd.k) == "string" then nd.k = Graph.LvSprachfrei(nd.k) end   -- 3.12.38 W3D
+         nodes[id] = nd
+         GridAdd(id, nd)
+     end
+@@ -509,13 +515,57 @@
+ LP.W3D = LP.W3D or false
+ function Graph.On() return LP.W3D == true end
+ 
++-- 3.12.38 W3D sprachfrei (Supervisor 21:48): GetSubZoneText ist uebersetzt ("Magieviertel" / "The Magic Quarter"). Fuer Orte
++-- mit Ebenen gibt es eine Tabelle Data/AreaNames.lua: LP.AreaNames = { [AreaTable-ID] = { deDE = "Name", enUS = "Name", ... } }
++-- (alle Client-Sprachen). Ein bekannter Name wird zu "#ID", ein unbekannter bleibt der Name selbst (wie bisher).
++local subIdx
++local function SubIndex()
++    if subIdx then return subIdx end
++    subIdx = {}
++    for id, names in pairs(LP.AreaNames or {}) do
++        if type(names) == "table" then
++            for _, n in pairs(names) do
++                -- gleicher Name fuer zwei IDs: immer die kleinere (feste Wahl, unabhaengig von der Reihenfolge von pairs)
++                if type(n) == "string" and n ~= "" and (not subIdx[n] or id < subIdx[n]) then subIdx[n] = id end
++            end
++        end
++    end
++    return subIdx
++end
++function Graph.ResetSubIndex() subIdx = nil end
++function Graph.SubKey(sub)
++    if type(sub) ~= "string" or sub == "" then return "" end
++    local id = SubIndex()[sub]
++    return id and ("#" .. id) or sub
++end
++-- Anzeige: "#ID" -> Name in der Sprache des Spiels (sonst Englisch, sonst irgendeiner); andere Texte unveraendert
++function Graph.SubName(sub)
++    if type(sub) ~= "string" then return sub end
++    local id = tonumber(sub:match("^#(%d+)$") or "")
++    local names = id and LP.AreaNames and LP.AreaNames[id]
++    if not names then return sub end
++    local loc = GetLocale and GetLocale()
++    if names[loc] then return names[loc] end
++    if names.enUS then return names.enUS end
++    for _, n in pairs(names) do return n end
++    return sub
++end
++-- "Karte|d|Name" -> "Karte|d|#ID" (unbekannte Namen und schon umgeschriebene Angaben bleiben)
++function Graph.LvSprachfrei(lv)
++    if type(lv) ~= "string" then return lv end
++    local head, sub = lv:match("^([^|]*|[^|]*)|(.*)$")
++    if not head or sub == "" or sub:sub(1, 1) == "#" then return lv end
++    local k = Graph.SubKey(sub)
++    return k == sub and lv or (head .. "|" .. k)
++end
++
+ -- Ebenen-Angabe am Spieler: "Karte|d|Unterzone" (d = drinnen) bzw. "Karte|o|Unterzone" (draussen)
+ function Graph.LevelInfo()
+     local S = LP.SafeValue
+     local map = C_Map and C_Map.GetBestMapForUnit and S(C_Map.GetBestMapForUnit("player")) or 0
+     local indoors = IsIndoors and S(IsIndoors()) and true or false
+     local sub = GetSubZoneText and S(GetSubZoneText()) or ""
+-    return tostring(map or 0) .. "|" .. (indoors and "d" or "o") .. "|" .. tostring(sub or ""), indoors
++    return tostring(map or 0) .. "|" .. (indoors and "d" or "o") .. "|" .. Graph.SubKey(tostring(sub or "")), indoors
+ end
+ 
+ -- Nummer einer Ebenen-Angabe (neu angelegt, solange Platz ist)
+--- lp31236/LevelPilot/Navigation.lua	2026-11-15 20:28:43.072642724 +0100
++++ lp31238/LevelPilot/Navigation.lua	2026-11-15 21:58:21.060630963 +0100
+@@ -232,6 +232,7 @@
+ function N.GateText(e, toNode)
+     local sub = SubOf(LP.Graph and LP.Graph.LvName and LP.Graph.LvName(toNode) or (toNode and toNode.lv))
+     sub = (sub and sub ~= "") and sub or nil
++    if sub and LP.Graph and LP.Graph.SubName then sub = LP.Graph.SubName(sub) end     -- 3.12.38: "#ID" -> Name
+     if e.lift then return sub and L("Aufzug nehmen (nach %s)", sub) or L["Aufzug nehmen"] end
+     if e.ow then return sub and L("Hier hinunterspringen (nach %s)", sub) or L["Hier hinunterspringen"] end
+     return sub and L("Übergang nach %s", sub) or L["Übergang zur anderen Ebene"]
