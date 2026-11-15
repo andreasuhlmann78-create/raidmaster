@@ -6,14 +6,13 @@ Tests der gemeinsamen Datei: bestanden 30/30 Prüfungen bestanden; GoldSentinelG
 Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## AHSentinel-0.65.178.zip: FEHLER
-- **FEHLER** Version 0.65.178 ist NIEDRIGER als schon veröffentlichte 0.65.200 (Discord (announce/)). Neue Version muss höher sein als 0.65.200, sonst bekommen Spieler das Update nicht.
+- **FEHLER** Version 0.65.178 ist NIEDRIGER als schon veröffentlichte 0.65.201 (Discord (announce/)). Neue Version muss höher sein als 0.65.201, sonst bekommen Spieler das Update nicht.
 
 ## BuffSentinel-0.9.21.zip: OK (1 Warnungen)
 - **WARNUNG** BuffSentinel/GoldSentinelMarkt.lua: veraltete offizielle Fassung (Version 3) – auf shared/GoldSentinelMarkt.lua Version 5 aktualisieren
 
-## GuildSentinel-0.9.38.zip: FEHLER (1 Warnungen)
-- **FEHLER** Version 0.9.38 ist NIEDRIGER als schon veröffentlichte 0.9.39 (Discord (announce/)). Neue Version muss höher sein als 0.9.39, sonst bekommen Spieler das Update nicht.
-- **WARNUNG** GuildSentinel/GoldSentinelMarkt.lua: veraltete offizielle Fassung (Version 2) – auf shared/GoldSentinelMarkt.lua Version 5 aktualisieren
+## GuildSentinel-0.9.39.zip: OK (1 Warnungen)
+- **WARNUNG** GuildSentinel/GoldSentinelMarkt.lua: veraltete offizielle Fassung (Version 4) – auf shared/GoldSentinelMarkt.lua Version 5 aktualisieren
 
 ## ProfessionSentinel-0.9.45.zip: OK (1 Warnungen)
 - **WARNUNG** ProfessionSentinel/GoldSentinelMarkt.lua: veraltete offizielle Fassung (Version 2) – auf shared/GoldSentinelMarkt.lua Version 5 aktualisieren
