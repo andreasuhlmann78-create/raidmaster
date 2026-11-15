@@ -1,0 +1,39 @@
+BERICHT DISCORD – Bot 1.5.184: D-N1 Wunsch 1 Abwesenheit melden – umgesetzt, zur Prüfung
+Zeit: 16.11.2026 00:22 (aus date)
+Commit: a51050ba auf origin/main, CI Bot-Tests: success
+
+WAS (Auftrag 00:05: nur Datum/optional Grund, Einträge laufen ab, Anzeige in Anmeldung/Aufstellung)
+- /abwesend melden von:<TT.MM.[JJJJ]> bis:<…> grund:<optional> (alle): Ohne Jahr gilt dieses Jahr, liegt der Tag
+  zurück das nächste; ein Ende ohne Jahr vor dem Beginn gehört ins Folgejahr (28.12.–03.01.). Grund: eine Zeile,
+  ohne @, höchstens 80 Zeichen. Abgelehnt mit deutscher Meldung: Ende vor Beginn, schon vorbei, mehr als 120 Tage,
+  Beginn mehr als ein Jahr voraus, doppelt, mehr als 5 gleichzeitig, unlesbares Datum.
+- /abwesend liste: Mitglied sieht nur die eigenen (nummeriert, mit Grund); Gildenleitung zusätzlich alle anderen
+  (Charaktername, sonst Discord-Name), nach Datum, mit Grund. /abwesend entfernen nummer:<n>: eigenen Eintrag löschen.
+- Ablauf: Einträge mit Ende vor heute werden bei liste/melden/entfernen gelöscht; Anzeigen filtern ohnehin nach
+  dem Raidtag (abgelaufene erscheinen nie).
+- Anzeige: Raid-Anmeldung und Aufstellung (#einteilung, #offiziere) zeigen "🏖️ Abwesend gemeldet: <Namen>" für
+  den Raidtag – nur Charakternamen, nie der Grund; wer trotzdem angemeldet ist, steht nicht drin; bei PUG- und
+  Testraids nichts (Gäste sehen keine Gildendaten); höchstens ca. 600 Zeichen ("und n weitere Mitglieder").
+  /raid fehlend markiert Abwesende mit "(abwesend gemeldet)". Nach melden/entfernen werden nur die offenen Raids
+  im Zeitraum neu angezeigt.
+- Speicher: state.json unter "absences" (nur auf dem Server, Sicherung wie bisher; nie im Repo).
+- Keine neuen Rechte, niemand wird angeschrieben. Neue Module abwesenheit.py (rein, im Workflow-Import ergänzt)
+  und abwesend_bot.py. Befehle 51 -> 54 (+3 Unterbefehle /abwesend), sonst gleich; Ereignis-Methoden gleich.
+
+TESTS
+- NEU test_abwesenheit.py (13 Tests, REGRESSIONEN T-D-N1-ABW). Gegenproben (14): Ende-vor-Beginn weg, Ablauf
+  strenger, @ bleibt, Tagesgrenze exklusiv, max 5 weg, Gildenleitungs-Prüfung weg, alle Raids aktualisiert, nicht
+  gespeichert, PUG zeigt Abwesende, Angemeldete gezeigt, Karte ohne Zeile, Aufstellung ohne Zeile, /raid fehlend
+  ohne Markierung -> alle aufgefallen; "Jahreswechsel weg" fiel zuerst NICHT auf (gleiches Ergebnis im Testfall),
+  Test um 20.12.2027–05.01. ergänzt, dann FAILED.
+- test_dn1: Test-Raid bekam ein Startdatum (nötig für den Raidtag), sonst unverändert.
+- 433 Tests OK; jede der 58 Testdateien einzeln mit -I OK; REGRESSIONEN 76 von 76.
+
+BETRIEB NACHGESTELLT (Kopie)
+- Update vom Stand 1.5.183 kopiert ANLEITUNG.md, VERSION, abwesend_bot.py, abwesenheit.py, befehlsliste_bot.py,
+  bot.py, raid_bot.py, raidanzeige_bot.py, tests; config.json und state unverändert (md5). Start wie launcher:
+  Abbruch erst bei der Anmeldung (LoginFailure). Ohne config.json Exit 3. Neustart-Code 42 (ohne Neustart 0).
+
+IM DISCORD PRÜFEN (nach /update)
+- /abwesend melden von:<Datum> bis:<Datum>, dann /abwesend liste; bei einem offenen Raid im Zeitraum erscheint
+  "🏖️ Abwesend gemeldet: <dein Charakter>" in der Anmeldung (ohne Grund).
