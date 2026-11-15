@@ -1,0 +1,30 @@
+BERICHT PROFESSIONSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 16.11.2026 00:13 (aus date) · Sitzung: ProfessionSentinel-Sitzung · Version: 0.9.57 · Commit: de88cae (Quell-Repo), Release v0.9.57
+Grundlage: HINWEIS 00:05 (LevelPilotAPI.NavigateTo, LevelPilot 3.12.44).
+Hinweis: Hier steht nur "umgesetzt, zur Prüfung" mit Belegen. Ob etwas erledigt ist, entscheidet die Prüf-Sitzung.
+
+UMGESETZT, ZUR PRÜFUNG
+----------------------
+- Waypoint.lua WP.Set: zuerst LevelPilot – ns.Foreign("LevelPilotAPI").NavigateTo(uiMapID, x, y, titel) mit x/y in Prozent (wie in
+  ns.NPCs gespeichert); nur Rückgabe true zählt als "navigiert" (Chatzeile "… (LevelPilot)"). false -> TomTom -> Kartenpin (ns.Act) ->
+  Chat wie bisher; ein Fehler in LevelPilot wird gezählt (ns.CountError "LevelPilot") und blockiert nichts.
+  Gilt für jeden "Weg zeigen": nächster Lehrer (Jetzt-Karte, Plan, Lehrer-Liste), Lernort/Händler eines Rezepts (Rechtsklick), Plan.
+- Fremd-Addon nur über ns.Foreign; LevelPilotAPI in TR.FOREIGN aufgenommen (Tests ersetzen es nie global). OptionalDeps: LevelPilot
+  ergänzt (nur Ladereihenfolge; gelesen wird beim Klick).
+
+TESTS (eigene, Hinweise – keine Freigabe)
+-----------------------------------------
+- Neu T280 (echte WP.Set über Orig, Ersatz nur in ns.foreignTest): LevelPilot true -> 1 Aufruf mit Karte, x, y in Prozent, Titel, TomTom
+  nicht aufgerufen; LevelPilot false -> TomTom; Fehler in LevelPilot -> gezählt, TomTom; ohne LevelPilot -> TomTom. Retail übersprungen
+  (keine Lehrer-Daten).
+- run_offline: Forever OK 236 / FEHLER 0, Era OK 218 / 0, Retail OK 216 / 0, TBC ohne Lua-Fehler, Exit 0. --lua51 Forever/Retail 0 FEHLER.
+  Schnelltest Ausgang 0, check_actions OK.
+- addon_check auf download/ProfessionSentinel-0.9.57.zip und die announce-Zip: OK, 0 FEHLER, 0 WARNUNG. ZIP = Quell-Repo (diff -r leer).
+
+IM CLIENT PRÜFEN
+----------------
+- Mit LevelPilot: Jetzt-Karte "Grenze …" bzw. Lehrer in der Liste anklicken -> LevelPilot-Pfeil zum Lehrer; ohne LevelPilot -> TomTom/Karte.
+
+WEITER
+------
+- B2 Gelernte Quoten (erwarteter Gewinn = Gewinn × Verkaufschance, "lernt noch"), dann B4 Warnschutz, dann B5 Marktlage im Tooltip.
