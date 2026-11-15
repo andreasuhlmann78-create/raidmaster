@@ -66,6 +66,9 @@
           gezeichnet, nicht bei GET_ITEM_INFO_RECEIVED -> bleibt leer, bis sich die Tasche ändert;
       (b) Zustand nach dem Entzaubern (pending/bagPending) hängt und Refresh kommt nicht;
       (c) anderes.
+    NACHTRAG 18:51 (2. Bildschirmfoto, 18:50): Ohne Neuladen zeigt das Fenster wieder "Schultern des Hügelwächters – noch 3 zum
+    Entzaubern". Die Teile waren also die ganze Zeit entzauberbar, das Fenster hat sich nicht neu gezeichnet bzw. die Liste kurz
+    falsch gebaut – spricht für (a) oder (b), nicht für eine Sperre. Der Fehler kommt und geht: DE-LEER-Zeile ist der Beleg.
     Auftrag: Ursache mit Beleg finden. Dazu ins Fenster bzw. Protokoll eine Zeile DE-LEER, sobald die Liste leer ist, aber
     entzauberbare Teile (Qualität 2–4, Waffe/Rüstung) in der Tasche liegen: je Teil itemID und der Grund, warum es fehlt
     (Prior nil wegen GetItemInfo / Klasse / Stufe / NOT_DE / gesperrt / übersprungen / Ausrüstungsset / Quest). Dann beheben;
