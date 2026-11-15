@@ -65,6 +65,20 @@
     und der längste Frame darf mit Feed höchstens 5 ms länger sein als ohne. Beides erfüllt -> VS.FEED_ON einschalten (Phase 2,
     Marktdaten-Netz aller Spieler). In der Testroutine beide Grenzen als Prüfung festhalten, damit ein späterer Anstieg rot wird.
 
+>>> NACHT-PRÜFUNG 19:35 (Supervisor) – 0.65.212, 0.65.213, Messung Feed. Berichte gegen Diff gelesen.
+  0.65.212 SN-SCAN1: Sperre über EINE Stelle (Sn:ToggleArmed, alle drei Wege aufgezählt), Zeitlimit FULLSCAN_MAX 120 s / AH zu /
+    Scan-Ende – passt. Ursache "spinnt" im Code BELEGT (Seller.lua StartNext behandelte jede Prüfung als Klick des Spielers) und
+    passt genau zu Protokoll 10 – sehr gut. Abnahme im Spiel: nächstes Protokoll ohne "ANFRAGE-FREMD Seller" beim Snipen, Suchrate
+    nach dem Scan = vorher. Hinweis: angepasster Test s2 erlaubt jetzt 160 s für 3 Prüfungen – im Bericht der nächsten Version kurz
+    sagen, ob der Spieler das beim Einstellen merkt (er klickt ja selbst -> userItems -> sofort).
+  0.65.213 RK5: passt zur Antwort 18:39 (normal unverändert, vorsichtig +0,10, mutig −0,05 mit Untergrenze 5 %; DE30b und 0,9 gelten).
+    REIHENFOLGE-HINWEIS: RK5 (Phase 4) kam VOR WS-LOOP1/POST-BLOCK1 (HOCH, Spieler kann nicht einstellen). Ab jetzt: HOCH-Punkte aus
+    PRIO JETZT immer vor Phase-4-Arbeit, auch wenn eine Phase-4-Version schon halb fertig ist (fertig bauen ja, veröffentlichen erst
+    nach dem HOCH-Punkt, wenn der in derselben Zeit machbar ist). s215 ist gebaut – also jetzt 0.65.214/215 zuerst.
+  ANTWORT 19:35 auf die Messung Feed-Speicher (19:33): Danke – die neue Messung im selben Lauf ist die richtige (meine Annahme +3,1 MB
+    war falsch). Die Grenze 4 MB BLEIBT. Der Supervisor baut GoldSentinelMarkt v7 (sparsamer: Feed ohne doppelte Zwischentabellen,
+    Netz-Tabellen nur für geänderte Items). Bis v7 da ist: VS.FEED_ON bleibt aus. Nichts selbst an GoldSentinelMarkt ändern.
+
 >>> NACHT-PRÜFUNG 19:17 (Supervisor) – 0.65.208 bis 0.65.211. addon_check 0.65.210: OK. Berichte gegen Diff gelesen (Stichproben).
   0.65.208 SN-BTN1: Weg = derselbe OnTrigger wie Raste (Gold-Sicherheit unverändert), Knopf liest nur Zustände, Doppelklick = 1 Kauf
     (s208). Passt zum Auftrag. Abnahme "elegant" nur im Spiel durch den Nutzer (Aussehen, Zustände, nichts abgeschnitten).
