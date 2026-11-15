@@ -35,3 +35,10 @@ Längster Frame mit Feed 18–58 ms, ohne 81–88 ms. -> Die Methode misst hier 
 3. Grenze ≤ 4 MB und Frame ≤ ohne + 5 ms erfüllt (Frame mit Feed hier sogar kürzer) -> VS.FEED_ON = true.
 NUTZEN: Mit Feed AUS gibt ein AHSentinel-Spieler heute KEINE Marktdaten ans Netz (GoldSentinelMarkt liest bei geladenem AHS nicht
 selbst) – mit Feed AN nutzen AHS Phase 2, PS und alle anderen die Scans der Gilde.
+
+## 5. Nachtrag 20:49 – Schwankung in GoldSentinelMarkt.Tick (L4 1 232 KB, L6 2 298 KB)
+Gemessen (Kopie von 0.65.220 mit Zählern in FeedFinish, nichts im Repo geändert): in L2/L4/L6 gleich viele Items (6 108: A 500,
+B 5 608, dt 905 s), L4 und L6 je 0 geänderte Preise (keine Weitergabe an die Gilde ausser Pump 0–101 KB), Export 2/4/6 Zeilen.
+Die Arbeit ist also in L4 und L6 dieselbe. AHS misst in L8 wieder 1 361 KB (= L4). -> Kein Mehraufwand je Scan; die ~1 MB in
+genau einem Lauf passen zum einmaligen Wachsen der internen Zeichenketten-Tabelle von Lua (Verdacht, nicht weiter gemessen –
+einmalig, keine Wirkung auf die Grenze). Gleichbleibend je Scan: ~1,2–1,4 MB. Kein GoldSentinelMarkt v8 nötig.

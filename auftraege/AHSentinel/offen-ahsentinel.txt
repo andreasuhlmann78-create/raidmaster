@@ -3355,6 +3355,8 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   Feed-Auftrag zuerst fertig (höchstens 1000 Portionen, sonst neue Tabelle – keine Sperre ohne Grenze), leere/entfernte Items weg
   (Löschen während pairs ist in Lua erlaubt). Zahlen decken sich mit meiner Messung (L4/L6 Tick 1232/2297 KB). FEED_ON = true. Keine
   Befunde. Die Tick-Schwankung 1,2/2,3 MB untersuche ich selbst in GoldSentinelMarkt (gemeinsame Datei, mein Bereich).
+  ERGEBNIS (20:49): gleiche Arbeit in L4/L6 (gleiche Items, 0 geänderte Preise); dein L8 = L4 -> einmaliger Effekt, je Scan ~1,2–1,4 MB.
+    Kein v8, für AHS nichts zu tun (analysen/feed-speicher-2026-11-15.md Abschnitt 5).
   IM SPIEL (Nutzer): nach einem Vollscan /gsmarkt bzw. Diagnose – Feed-Zähler steigt, kein Ruckler beim Scan-Ende.
   T200-1 MITTEL (Befund aus Nachprüfung 17:45/20:40, von mir bestätigt): tests/wowsim/run_all.sh:5 setzt LUA auf einen festen Pfad
     einer ANDEREN Sitzung (…/9ff3d5a0-…/scratchpad/bin/lua51) -> in jeder anderen Sitzung schlägt run_all.sh ohne LUA=… fehl; und
