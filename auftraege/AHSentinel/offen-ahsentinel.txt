@@ -75,6 +75,15 @@ TB184 (Testbericht 0.65.184, 15.11. 12:27, /ahs testroutine ui – Supervisor ge
     V185-3 SN-B12 (Vollscan-Sperre ohne Zeitlimit) ist in 0.65.185 noch NICHT umgesetzt (Sn:FullScanRunning unverändert) –
            Release-Blocker, gehört in die nächste Version.
     V185-4 SN-B11 (f) Heute-Zähler (Treffer vs. Stück) noch offen.
+>>> SN-B12 NACHPRÜFUNG SUPERVISOR 12:40 (Code Vollscan.lua 128–140/421–460, AHAnalyzerPro.lua 3879–3916): "Hängen" ist NICHT belegt.
+    running wird in ProcessBest (done) VOR der Meldung "AH-Scan fertig" geleert und am Ende des Jobs nochmals; Zeitlimit beim
+    Warten auf den Server gibt es (TIMEOUT). "letzter Scan vor 42 Sek." zählt ab dem START (lastScanTime Zeile 130); der Scan
+    dauerte laut Bericht 12:27 ≈ 15 s Warten + 9,5 s Einlesen + Verarbeitung -> der Screenshot fiel wohl genau ans Ende.
+    Darum: SN-B12 von "belegt" auf "Verdacht, zu messen" herabgestuft. Trotzdem Pflicht (Perfektion): (a) nach SCAN_FINISHED/
+    SCAN_FAILED stösst der Sniper SOFORT eine Suche an (Status nie veraltet stehen lassen); (b) während des Vollscans Status
+    "Vollscan läuft – noch ca. n s (Sniper wartet)" statt rot; (c) Zeitlimit 120 s für die Sperre trotzdem (falls Job verworfen
+    wird, z. B. A:Job mit gleichem Namen); (d) Protokoll SNIPER-SPERRE mit Beginn/Ende. Test: Vollscan endet -> Sniper sucht
+    innert 2 s. Im Spiel prüft der Nutzer: nach "AH-Scan fertig" sucht der Sniper innert weniger Sekunden selbst weiter.
 >>> SN-B12 RELEASE-BLOCKER (Nutzer 12:17, Screenshot 12:16, 0.65.183): Vollscan fertig ("AH-Scan fertig", "letzter Scan vor
     42 Sek."), Sniper bleibt trotzdem gesperrt: rot "Warte, bis der Vollscan fertig ist.", "Ergebnis ist veraltet – neue Suche
     nötig", "gesucht vor 5 Min.", Kaufen grau; Sniper AN/AUS (4×) hilft nicht. Code (Supervisor): Sn:CanSearch (Sniper.lua:872)
