@@ -3443,3 +3443,8 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   0.65.229 MR8: Auslegung "noch ≥ 2 Std. online -> 2 Std., auch wenn das nächste Login > 1 Tag ist" ANGENOMMEN (die Auktion läuft ab,
     solange du da bist). 0.65.230 MA4: Bänder, belegt ≥ 5 Tage × ≥ 20 Items, Richtung nur Messung ohne Wirkung, G1/G2 wie beantwortet – keine
     Befunde. Weiter: RK6-Abzug (Version danach) wie geplant.
+
+>>> NACHT-PRÜFUNG 22:49 (Supervisor) – 0.65.231 RK6, 0.65.232 MR6: Bericht + MarketCore.lua MK:HoldFactor gelesen – nur > 1 Tag, nur belegtes Band,
+  Faktor auf 0 begrenzt (math.max), wirkt über die eine LimitFromNet-Rechnung, Spitze -> kein "Lohnt bis". Den Nachtrag (Band-Verlauf nicht
+  vergleichbar, Ketten-Index in 0.65.238) selbst gefunden – gut. MR6 nur Anzeige, einmal je Sitzung, Knopf bleibt – angenommen.
+  S92 im Nachbau wie entschieden umgesetzt. Keine Befunde.

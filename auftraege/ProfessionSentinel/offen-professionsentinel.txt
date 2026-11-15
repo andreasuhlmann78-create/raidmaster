@@ -232,3 +232,11 @@ PS-DW1 MITTEL (Nutzer 17:05, AHSentinel 0.65.170): Ein Rahmen von ProfessionSent
 
 >>> NACHT-PRÜFUNG 22:33 (Supervisor) – 0.9.51 (Gold: Verzauberer als Abschnitt): nichts entfällt, alter Modus "disenchant" führt zur Gold-Liste
   – keine Befunde. Weiter (3) Einkauf-Leiste mit Warteschlange, (4) Skillspur.
+
+>>> NACHT-PRÜFUNG 22:49 (Supervisor) – 0.9.52 Warteschlange + EINE Einkaufsliste + "Kauf bis": Formel nachgerechnet
+  (net' = net + cost − f·cost ≥ f·cost·pct/100  =>  f ≤ (net+cost) / (cost·(1+pct/100))) – stimmt; je Material kleinster Faktor – stimmt.
+  BEFUND PS52-1 MITTEL (Gold-Sicherheit): Bei Rezepten mit hohem Gewinn wird f gross (z. B. 3 = dreifacher Marktpreis). Der Sniper bekommt
+    das als maxPrice und würde ein Material zum Dreifachen kaufen, obwohl es gleichzeitig zum Marktpreis zu haben ist – und der Verkaufspreis
+    des Produkts ist selbst nur eine Schätzung. LÖSUNG: an den Sniper höchstens min(Kauf bis, Marktpreis × 1,25) geben (Anzeige "Kauf bis"
+    darf den vollen Wert zeigen, mit Hinweis "lohnt bis X, Sniper kauft bis Y"); ohne Marktpreis wie bisher. Test: Rezept mit f = 3 ->
+    Sniper-maxPrice = 1,25 × Markt. Sonst keine Befunde. Weiter: (4) Skillspur.
