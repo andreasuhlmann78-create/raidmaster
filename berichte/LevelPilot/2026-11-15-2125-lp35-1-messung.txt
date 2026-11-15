@@ -1,0 +1,21 @@
+BERICHT LevelPilot – LP35-1 Messauftrag: Graph:PathKnown im Freiland ohne gelaufene Wege
+Projekt: LevelPilot · Datum: 15.11.2026 21:25 · Status: gemessen, zur Prüfung (keine Code-Änderung)
+
+Bezug: offen-levelpilot.txt LP35-1 NIEDRIG (Supervisor 20:48): "Navigation.lua:203–207 rechnet bei jedem unbekannten Weg
+zusätzlich Graph:PathKnown … Messauftrag im Nachbau: Freiland-Strecke ohne gelaufene Wege (Brachland) – Suchschritte/ms".
+
+Messung (Nachbau, Lua 5.1, echte Zonengrössen ZONESIZE, Level 14, kein eigenes Wegnetz, je 100 Zufallspaare Seed 7,
+Punkte 30–70 % / 15–85 % der Karte; Skript wie test_seedwege-Aufbau):
+                         Paare  unbekannt  PathKnown-Treffer  Path gesamt  PathKnown gesamt  je Aufruf  Höchstwert
+  3.12.37 ohne Startnetz
+    Brachland (1413)      100     100           0              49,7 ms        4,1 ms          0,04 ms    0,08 ms
+    Durotar (1411)        100     100           0              14,3 ms        3,4 ms          0,03 ms    0,06 ms
+  3.12.37 mit Startnetz
+    Brachland (1413)      100     100           0             380,5 ms       23,8 ms          0,24 ms    6,59 ms
+    Durotar (1411)        100     100           0              16,7 ms        4,0 ms          0,04 ms    0,23 ms
+
+Ergebnis: Der Fehlschlag von PathKnown ist billig – ohne bekannte Knoten in Reichweite endet die Suche sofort (0,03–0,04 ms).
+Mit dem Startnetz im Brachland im Mittel 0,24 ms, höchstens 6,6 ms (Suche läuft in der Navigation ohnehin als Portion).
+PathKnown kostet damit 6–11 % der normalen Suche. Vorschlag: keine Änderung (kein Merken der Fehlschläge nötig).
+Verdacht entkräftet für das Freiland; in Städten mit grossem eigenem Netz (Undercity) wurde 3.12.35 gemessen (Bericht UC-W1).
+Hinweis: Zufallspunkte liegen meist > 40 yd (ARRIVE) neben jedem Weg, darum nie "ganz bekannt" – erwartetes Verhalten.
