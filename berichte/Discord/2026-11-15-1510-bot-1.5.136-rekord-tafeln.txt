@@ -51,8 +51,8 @@ sortiert.
 - Eine Liste der Classic-Dungeons von WoW Forever mit Instanz-ID, deutschem Namen, Levelbereich und Bossen
   (Encounter-IDs, Reihenfolge). Gleiche Quelle wie RaidData.lua (DBM), damit die IDs belegt sind. Der Bot übernimmt
   sie mit make_bosses.py.
-Bis dahin stehen Dungeon-Kills auf der Tafel "Weitere Bosse (Dungeons und andere)". Die Level-Reihenfolge ist im Bot
-vorbereitet, sobald die Daten da sind. Dungeon-IDs schreibe ich nicht aus dem Gedächtnis (Perfektion: nur belegte
+Bis dahin stehen Dungeon-Kills auf der Tafel "Weitere Bosse (Dungeons und andere)". Die Sortierung nach Level baut der Bot,
+sobald die Daten da sind; heute ist sie noch NICHT gebaut. Dungeon-IDs schreibe ich nicht aus dem Gedächtnis (Perfektion: nur belegte
 IDs).
 
 WEITER NACH PRIORITÄTEN: UP-404 (a–d), KEEP90, D-MN7c2, D-MN7e2.
