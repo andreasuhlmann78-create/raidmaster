@@ -150,3 +150,8 @@ Spalte) vor der Freigabe gegen die Anzeige-Entscheide prüfen: nur Ergebnisse, n
 Spieler selbst ändern kann; Gewinn und % nie mit verschiedenem Vorzeichen; keine Prüf-Diagnose (Abstimmung, "nicht gebucht",
 Kostenbasis) für den Spieler – die gehört in den Testbericht. Aufträge des Supervisors, die Diagnosen verlangen, immer mit
 "NUR Testbericht" kennzeichnen, sonst baut das Projekt sie in die Anzeige ein.
+
+E-Regel (16.11.2026 00:33, Befund PS58-1 – vom Supervisor selbst gefunden): Nutzt ein Addon die Schnittstelle eines ANDEREN Addons, die Nachbildung
+im Test (Dummy/Mock) gegen die Beschreibung des anderen Addons prüfen (z. B. AHSentinel API.md: Reihenfolge und Art ALLER Rückgabewerte).
+Ein Test, der mit einer falschen Nachbildung grün ist, belegt nichts. Bei jeder Prüfung einer Version, die eine fremde API neu oder anders nutzt:
+Aufrufstelle im Code lesen und Wert für Wert mit der Beschreibung vergleichen.
