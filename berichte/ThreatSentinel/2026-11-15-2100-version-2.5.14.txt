@@ -1,0 +1,28 @@
+BERICHT THREATSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 21:00 · Sitzung: ThreatSentinel-Projekt-Sitzung · Version: 2.5.14 · Commit: fdeb2f43
+Anlass: offen-threatsentinel.txt (Nacht-Analyse 15.11. 19:59: GSM7, T-2, T-3; Priorität 1 TS-T1). Umgesetzt, zur Prüfung.
+addon_check 2.5.14: "## ThreatSentinel-2.5.14.zip: OK", keine Zeile mit Warnung/veraltet. cmp gegen shared/ vor der
+Veröffentlichung: GoldSentinelSync (v2), GoldSentinelMarkt (v7), GoldSentinelGame, GoldSentinelTest gleich.
+
+UMGESETZT, ZUR PRÜFUNG
+GSM7  GoldSentinelMarkt.lua Version 7 unverändert kopiert (vorher v3). T-MN1–T-MN4 offline OK.
+TS-T1 T-GS2 sichert vor dem Aufruf G.peers.tuzz und die Länge von G.seenList und stellt danach beides zurück (neue
+      seen-Schlüssel werden entfernt); ns.syncRoles.Grimbar wird nach T-SYNC und T-GS3 entfernt (T76 entfernt ihn schon
+      selbst nicht – er läuft im Bereich B; die Sandbox stellt syncRoles am Bereichsende zurück).
+      Regressionstest T-TS-T1 (Bereich U, nach den Sync-Tests): Mitspieler tuzz false, Dubletten-Schlüssel 0, Rolle Grimbar false.
+T-3   Alerts.lua GroupChat: gleiche Meldung höchstens 1× je A.CHAT_REPEAT = 5 s (nur Gruppen-Chat; Bildschirm und Ton
+      unverändert); Liste älter als 60 s wird geleert; Zähler A.chatHeld. Uhr A.Clock (eigenes Feld, im Test ersetzbar).
+      T-T3: 10 Wechsel in 3 s -> 1 Meldung; andere Meldung -> kommt; nach 5,1 s -> wieder erlaubt; gesamt 3, zurückgehalten 9.
+T-2   Messung (Diag.lua ns.PerfStart/PerfAdd/PerfRun/PerfStop): nur im Kampf, je Bild (GetTime gleich) summiert:
+      alle Ereignis-Empfänger (Core.lua Dispatcher, Teil = Ereignisname), Durchlauf T:Tick (ns.Timed), Abfrage CheckCC
+      (Alerts), Plaketten-Effekte (Nameplates OnUpdate), Schadensmesser- und Testprotokoll-Ticker. Kampfende: Diagnose-Zeile
+      "LEISTUNG Kampf: längster Rahmen durch ThreatSentinel X ms (Teil), über 16 ms: n von m Rahmen"; DiagExtra zeigt
+      "Leistung im letzten Kampf: …". Kosten der Messung: 2× debugprofilestop je gemessenem Teil, nur im Kampf.
+      T-T2: drei Bilder 8 / 18 / 1 ms -> "18.0 ms (Plaketten-Effekte), über 16 ms: 1 von 3 Rahmen", eine Diag-Zeile, ohne Namen.
+      Zu messen (Nutzer): ein Dungeon/Raid als Tank, danach /ts protokoll -> Zeilen LEISTUNG.
+TESTS Offline mit download/ThreatSentinel-2.5.14.zip: Forever OK 254, Era OK 258, FEHLER ausserhalb der Nachbildungs-Liste 0;
+      Regressionen 46 von 46 (neu: TS-T1, T-3, T-2).
+
+HINWEIS
+  Grenzen der Messung: Sie misst nur Arbeit von ThreatSentinel-Code, nicht das Zeichnen der Plaketten durch das Spiel und
+  nicht Code anderer Addons. Ein Bild mit mehreren ThreatSentinel-Teilen zählt als Summe.
