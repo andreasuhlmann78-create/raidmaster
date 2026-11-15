@@ -11,7 +11,7 @@ Data_Retail ~10172 Rezepte, dazu TBC-Erkennung). Forever-Eigenes (Händlergunst,
 Forever; jede Version bekommt ihre eigenen Stärken sichtbar (siehe Abschnitt 1b). Bild-Entwurf: Artifact "ProfessionSentinel – neues
 Fenster" (Supervisor, 4 Ansichten: Jetzt, Skillen, Gold+Einkauf, Rezepte).
 
-STATUS: WARTET AUF FREIGABE DES NUTZERS (Bild-Entwurf). Erst nach "ja" umsetzen. Davor: PS-TC1 und Ausbau A1/A2 (Ruckeln) sind
+STATUS: FREIGEGEBEN vom Nutzer 19:47 ("Das obere Layout finde ich extrem gut – kannst so machen"). Umsetzen in der Reihenfolge von Abschnitt 4. Davor: PS-TC1 und Ausbau A1/A2 (Ruckeln) sind
 die Grundlage – ohne ruckelfreies PS nützt die schönste Oberfläche nichts.
 
 Pflicht-Lektüre: shared/wissen/psychologie.md (Abschnitt 3 + 3b), shared/wissen/entscheide.md, die Analysen
@@ -142,6 +142,28 @@ WoW-Forever-Eigenheiten, die PS sichtbar führen muss (warcrafttavern Forever-Be
   - EINE Schreibweise: "6×" in der Farbe der nächsten Stufe (wie U6), ohne ~ und ≈; ist es geschätzt, steht das im Tooltip.
   - Die Zeile "Bestes: …" unter dem Fenster entfällt (Ersatz: Reiter Jetzt). Stern in der Blizzard-Liste bleibt (klein, eine
     Stelle). Knopf "Alle Rezepte" heisst "ProfessionSentinel" und öffnet das Fenster.
+
+3.4b BAROMETER IM HANDWERKSBUCH (Idee des Nutzers 19:42, Form 19:45: "viel feiner und moderner, nahtlos im WoW-Handwerksbuch")
+  Ersetzt die heutigen Zeichen "20×", "≈6×", "≈80×" in der Blizzard-Rezeptliste (Bild-Entwurf, Zeichenfläche "Barometer im
+  Handwerksbuch", obere Liste links):
+  - Unter jedem Rezeptnamen eine 2-px-Linie über die Zeilenbreite: Abschnitte orange/gelb/grün/grau im Verhältnis der Stufen des
+    Rezepts (gelb/grün/grau-Schwellen aus den Daten der laufenden Spielversion). Der aktuelle Abschnitt kräftig (≈85 % Deckkraft),
+    die anderen nur angedeutet (20–45 %). Ein feiner weisser Strich (2 px breit, 6 px hoch) = eigene Fertigkeit; er wandert beim
+    Skillen sofort mit (nach jedem Punkt, ohne Neuaufbau der Liste).
+  - Rechts EINE kleine Zahl in Blizzards Schrift und Grösse: orange = sichere Punkte bis Gelb ("5"); gelb/grün = Chance auf den
+    nächsten Punkt ("70 %"); grau = nichts. Kein "≈", kein "×".
+  - Blizzards eigene Elemente bleiben unverändert sichtbar (Kategorie-Balken, Pfeile, Anzahl, Stern); die Linie passt sich der
+    Zeilenhöhe an und verdeckt nie etwas (Testroutine K, alle Spielversionen und Skalierungen).
+  - Tooltip beim Überfahren der Linie: Skala mit den vier Schwellen, "noch n sichere Punkte (bis X)", Chancen je Farbe von→bis,
+    ein Satz, woher die Zahl kommt (gemessen/geschätzt).
+  - Chance: heute Formel p = (grau − Fertigkeit) / (grau − gelb) (Lifeline.lua LL.Chance; Blizzard nennt keine Formel – warcraft.wiki.gg
+    "Skill up": "genaue Chancen unbekannt"). NEU MESSEN ("zuerst messen"): bei jeder eigenen Herstellung festhalten (Farbe, Abstand
+    zu Grau, Punkt ja/nein); ab genug Fällen je Band (z. B. ≥ 30) die gemessene Chance zeigen, sonst die Formel mit "geschätzt".
+    Über GoldSentinelSync anonym in der Gilde zusammenlegen (nur Zahlen, keine Namen). Forever: Legacy-Talent "Working Overtime"
+    (+4 % Skill-up-Chance je Rang laut Warcraft Tavern) – Rang auslesen, falls die API ihn liefert, sonst aus den Messungen lernen.
+  - Einstellung "Barometer im Handwerksbuch" (Standard AN).
+  - Test: Linie + Zahl für orange/gelb/grün/grau richtig; Strich wandert nach einem Punkt; kein Überlappen; Messung zählt richtig
+    (Nachbildung mit festen Zufallszahlen, Gegenprobe).
 
 3.5 Texte (Grundsatz nachvollziehbar)
   - Jede Zahl hat im Tooltip EINEN Satz ≤ 20 Wörter: "Gewinn je Herstellung: Verkaufspreis nach 5 % Gebühr minus Material." usw.

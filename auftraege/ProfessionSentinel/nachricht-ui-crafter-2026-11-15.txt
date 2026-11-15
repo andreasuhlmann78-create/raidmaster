@@ -1,0 +1,11 @@
+Neuer Auftrag der Prüf-Sitzung für ProfessionSentinel (Nutzer hat freigegeben):
+
+Ziel des Nutzers: ProfessionSentinel wird "das beste Crafter-Addon auf dem Markt – nützlich in jeder Hinsicht", für ALLE WoW-Versionen.
+1. git pull --rebase im raidmaster-Repo.
+2. Lies auftraege/ProfessionSentinel/offen-professionsentinel.txt (oben der neue Block) und die ganze Anweisung
+   auftraege/ProfessionSentinel/anweisung-ui-crafter-2026-11-15.txt, dazu shared/wissen/analysen/professionsentinel-2026-11-16.md
+   und professionsentinel-ausbau-aus-ahs-2026-11-16.md.
+3. Reihenfolge: zuerst PS-TC1 + Ruckeln (A1/A2, gemessen 921 ms Spitze), dann Fenster/Stil + vier Reiter (Jetzt, Skillen, Gold,
+   Rezepte) + automatisches Öffnen mit dem Handwerksbuch, dann Einkauf-Leiste mit Warteschlange, dann Barometer im Handwerksbuch,
+   dann Texte. Je Schritt eine Version, Bericht "umgesetzt, zur Prüfung" in berichte/ProfessionSentinel/.
+4. Direktiven: Perfektion, nicht warten, nie Englisch für den Nutzer, alles ins Repo (auf origin/main nachprüfen).
