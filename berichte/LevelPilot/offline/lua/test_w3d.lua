@@ -127,19 +127,27 @@ PRE_RUN = function(LP)
   -- 11) sprachfrei (3.12.38, Supervisor 21:48): deDE- und enUS-Name derselben Unterzone -> derselbe Schlüssel
   if G.SubKey then
     local saved = LP.AreaNames
-    LP.AreaNames = { [9001] = { deDE = "Magieviertel", enUS = "The Magic Quarter", frFR = "Le quartier de la Magie" } }
+    -- a) echte Tabelle (Data/AreaNames.lua, wowf 1.60.1.70938): beide Unterstadt-Gebäude und Englisch -> ein Schlüssel
+    local r1, r2, r3 = G.SubKey("Magieviertel"), G.SubKey("Das Magieviertel"), G.SubKey("Magic Quarter")
+    check(saved ~= nil and r1 == "#1497:Magic Quarter" and r2 == r1 and r3 == r1,
+      ("echte Tabelle: „Magieviertel“ %s · „Das Magieviertel“ %s · „Magic Quarter“ %s"):format(r1, r2, r3))
+    local k1, k2 = G.SubKey("Die Abwasserkanäle"), G.SubKey("Sewers")
+    check(k1 == k2 and k1:sub(1, 1) == "#", ("echte Tabelle: „Die Abwasserkanäle“ %s = „Sewers“ %s"):format(k1, k2))
+    -- b) Testtabelle: Umschlüsseln gespeicherter Angaben und Anzeige
+    LP.AreaNames = { ["9001:The Magic Quarter"] = { deDE = "Magieviertel", enUS = "The Magic Quarter", alt = { "Le quartier de la Magie" } } }
     G.ResetSubIndex()
     local kd, ke, ku = G.SubKey("Magieviertel"), G.SubKey("The Magic Quarter"), G.SubKey("Unbekannter Ort")
-    check(kd == "#9001" and ke == kd and ku == "Unbekannter Ort",
+    local ka = G.SubKey("Le quartier de la Magie")
+    check(kd == "#9001:The Magic Quarter" and ke == kd and ka == kd and ku == "Unbekannter Ort",
       ("sprachfrei: deDE %s, enUS %s, unbekannt bleibt „%s“"):format(kd, ke, ku))
     LP.db.graph.lvs[#LP.db.graph.lvs + 1] = "1458|d|The Magic Quarter"
     local nAlt = #LP.db.graph.lvs
     G:Init()
-    check(LP.db.graph.lvs[nAlt] == "1458|d|#9001" and G.LvId("1458|d|#9001") == nAlt,
+    check(LP.db.graph.lvs[nAlt] == "1458|d|#9001:The Magic Quarter" and G.LvId("1458|d|#9001:The Magic Quarter") == nAlt,
       "gespeicherte Angabe beim Laden umgeschlüsselt: " .. tostring(LP.db.graph.lvs[nAlt]))
     local loc = GetLocale()
-    local tShow = N.GateText({ lift = true }, { lv = "1458|d|#9001" })
-    check(tShow:find(loc == "deDE" and "Magieviertel" or "The Magic Quarter", 1, true) ~= nil and not tShow:find("#9001", 1, true),
+    local tShow = N.GateText({ lift = true }, { lv = "1458|d|#9001:The Magic Quarter" })
+    check(tShow:find(loc == "deDE" and "Magieviertel" or "The Magic Quarter", 1, true) ~= nil and not tShow:find("#9001:The Magic Quarter", 1, true),
       "Anzeige in der Spielsprache (" .. tostring(loc) .. "): „" .. tShow .. "“")
     LP.AreaNames = saved
     G.ResetSubIndex()

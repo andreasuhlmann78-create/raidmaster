@@ -1,5 +1,5 @@
 --- lp31236/LevelPilot/Graph.lua	2026-11-15 21:08:10.504631303 +0100
-+++ lp31238/LevelPilot/Graph.lua	2026-11-15 21:59:16.331214867 +0100
++++ lp31238/LevelPilot/Graph.lua	2026-11-15 22:17:51.177240041 +0100
 @@ -79,11 +79,17 @@
      -- W3D: Ebenen-Angaben nur einmal speichern (Liste), am Knoten nur die Nummer – haelt die SavedVariables klein
      if type(G.lvs) ~= "table" then G.lvs = {} end
@@ -19,22 +19,34 @@
          nodes[id] = nd
          GridAdd(id, nd)
      end
-@@ -509,13 +515,57 @@
+@@ -509,13 +515,68 @@
  LP.W3D = LP.W3D or false
  function Graph.On() return LP.W3D == true end
  
 +-- 3.12.38 W3D sprachfrei (Supervisor 21:48): GetSubZoneText ist uebersetzt ("Magieviertel" / "The Magic Quarter"). Fuer Orte
-+-- mit Ebenen gibt es eine Tabelle Data/AreaNames.lua: LP.AreaNames = { [AreaTable-ID] = { deDE = "Name", enUS = "Name", ... } }
-+-- (alle Client-Sprachen). Ein bekannter Name wird zu "#ID", ein unbekannter bleibt der Name selbst (wie bisher).
++-- mit Ebenen gibt es eine Tabelle Data/AreaNames.lua (wago.tools AreaTable + WMOAreaTable, Zweig wowf):
++-- LP.AreaNames = { ["<Schluessel>"] = { deDE = "Name", enUS = "Name", ..., alt = { weitere Namen derselben Ebene } } },
++-- Schluessel "<AreaID>" bzw. "<AreaID>:<enUS-Name>" (Supervisor 22:03: gleiche AreaID + gleicher enUS-Name = gleiche Ebene;
++-- Unterstadt hat zwei Gebaeude mit "Magieviertel" / "Das Magieviertel"). Ein bekannter Name wird zu "#<Schluessel>",
++-- ein unbekannter bleibt der Name selbst (wie bisher).
 +local subIdx
 +local function SubIndex()
 +    if subIdx then return subIdx end
 +    subIdx = {}
-+    for id, names in pairs(LP.AreaNames or {}) do
++    local function add(n, key)
++        -- gleicher Name fuer zwei Schluessel (z. B. "Darnassus" = Stadt und Raum): immer der kleinere (feste Wahl,
++        -- unabhaengig von der Reihenfolge von pairs). Die Karte steht ohnehin vorn in der Ebenen-Angabe.
++        if type(n) == "string" and n ~= "" and (not subIdx[n] or key < subIdx[n]) then subIdx[n] = key end
++    end
++    for key, names in pairs(LP.AreaNames or {}) do
 +        if type(names) == "table" then
-+            for _, n in pairs(names) do
-+                -- gleicher Name fuer zwei IDs: immer die kleinere (feste Wahl, unabhaengig von der Reihenfolge von pairs)
-+                if type(n) == "string" and n ~= "" and (not subIdx[n] or id < subIdx[n]) then subIdx[n] = id end
++            key = tostring(key)
++            for loc, n in pairs(names) do
++                if loc == "alt" and type(n) == "table" then
++                    for _, a in ipairs(n) do add(a, key) end
++                else
++                    add(n, key)
++                end
 +            end
 +        end
 +    end
@@ -46,17 +58,16 @@
 +    local id = SubIndex()[sub]
 +    return id and ("#" .. id) or sub
 +end
-+-- Anzeige: "#ID" -> Name in der Sprache des Spiels (sonst Englisch, sonst irgendeiner); andere Texte unveraendert
++-- Anzeige: "#<Schluessel>" -> Name in der Sprache des Spiels (sonst Englisch); andere Texte unveraendert
 +function Graph.SubName(sub)
 +    if type(sub) ~= "string" then return sub end
-+    local id = tonumber(sub:match("^#(%d+)$") or "")
-+    local names = id and LP.AreaNames and LP.AreaNames[id]
-+    if not names then return sub end
++    local key = sub:match("^#(.+)$")
++    local names = key and LP.AreaNames and LP.AreaNames[key]
++    if type(names) ~= "table" then return sub end
 +    local loc = GetLocale and GetLocale()
-+    if names[loc] then return names[loc] end
-+    if names.enUS then return names.enUS end
-+    for _, n in pairs(names) do return n end
-+    return sub
++    if type(names[loc]) == "string" then return names[loc] end
++    if type(names.enUS) == "string" then return names.enUS end
++    return key:match(":(.+)$") or sub
 +end
 +-- "Karte|d|Name" -> "Karte|d|#ID" (unbekannte Namen und schon umgeschriebene Angaben bleiben)
 +function Graph.LvSprachfrei(lv)

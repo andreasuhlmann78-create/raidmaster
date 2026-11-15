@@ -1,0 +1,28 @@
+BERICHT LevelPilot 3.12.38 – W3D sprachfreier Ebenen-Schlüssel (AreaTable + WMOAreaTable)
+Projekt: LevelPilot · Datum: 15.11.2026 22:21 (aus date) · Status: umgesetzt, zur Prüfung
+
+Bezug: offen-levelpilot.txt, ANTWORT W3D-SPRACHE (21:48) und ANTWORT FRAGE TABELLE (22:03). Danke für die Tabellen.
+
+1. TABELLE Data/AreaNames.lua (104 KB im Speicher, 87 Schlüssel, 11 Sprachen), erzeugt mit
+   berichte/LevelPilot/w3d-sprache/areanames_bauen.py aus berichte/LevelPilot/w3d-sprache/areatable/ (wowf 1.60.1.70938);
+   erneuter Lauf = byte-gleich. Auswahl: Städte 1497/1638/1637/1537/1519/1657 und alle AreaTable-Unterzonen darunter (17 Gebiete)
+   + alle WMOAreaTable-Räume mit diesen AreaTableIDs. Schlüssel wie vorgeschlagen: "<AreaID>" bzw. "<AreaID>:<enUS-Name>";
+   alle Namen derselben Ebene (beide Gebäude, alle Sprachen) in deDE/enUS/…/alt.
+   Gleiche Namen für mehrere Schlüssel: 116 Namen (153 Fälle je Sprache gezählt; Werkzeug listet sie), alle geprüft:
+   94 derselbe Ort (gleicher enUS-Name, z. B. "Darnassus" = 1657 und 1657:Darnassus), 15 auf verschiedenen Karten (deDE "Die Kanäle"
+   = 1497:Canals und 1519:The Canals – die Karte steht vorn in der Ebenen-Angabe, kein Zusammenfallen), 7 unklar: 5× Eisenschmiede
+   (1537 / 1537:City of Ironforge / 1537:Ironforge – derselbe Ort), zhCN "旧城区" = 1519:Command Center/Old Town/SI:7 und zhTW
+   "秘法區" = 1537:Ironforge/The Mystic Ward (in diesen Sprachen trägt die Tabelle für mehrere Räume denselben Namen; dort fallen
+   sie auf einen Schlüssel – Verdacht, ob verschiedene Ebenen, nur Sturmwind/Eisenschmiede, Allianz). Im Spiel gilt fest der
+   kleinere Schlüssel (unabhängig von der Reihenfolge).
+2. CODE (Graph.lua, Navigation.lua; Diff berichte/LevelPilot/w3d-sprache/sprachfrei-3.12.37-zu-3.12.38.diff)
+   Graph.SubKey (Name -> "#<Schlüssel>", unbekannt -> Name), LevelInfo damit; beim Laden graph.lvs und nd.k umgeschlüsselt
+   (Nummern bleiben); Graph.SubName für die Anzeige in der Spielsprache (GateText). W3D-Schalter bleibt AUS.
+3. BELEGE
+   - test_w3d.lua 21/21 (deDE und enUS): echte Tabelle "Magieviertel" / "Das Magieviertel" / "Magic Quarter" -> "#1497:Magic Quarter";
+     "Die Abwasserkanäle" = "Sewers" -> "#1497:Sewers"; Testtabelle: alt-Name, unbekannter Name bleibt, gespeichertes
+     "1458|d|The Magic Quarter" beim Laden umgeschlüsselt, Anzeige deDE "Magieviertel" / enUS "The Magic Quarter".
+   - Testroutine T299 (neu). run_offline.py mit der veröffentlichten ZIP: 37 Läufe, 37 ohne FEHLER (Forever OK 274/272, Era/TBC 273).
+     Private Regressionen 36/36, Durotar 200 Paare identisch zu 3.12.35, addon_check OK.
+4. GRENZEN (Verdacht, zu messen): Ob GetSubZoneText drinnen genau die WMOAreaTable-Namen liefert und welches Unterstadt-Gebäude
+   (1150/20736) Forever nutzt, zeigt GSWegMess; beide sind abgebildet. Höhlen (--extra) folgen, sobald ihre IDs bekannt sind.
