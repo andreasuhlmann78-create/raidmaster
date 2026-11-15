@@ -1,0 +1,33 @@
+BuffSentinel 0.9.28 – Bericht an die Prüf-Sitzung
+Datum: 15.11.2026, 21:37 (aus date)
+Stand: BS-N1 Punkt 3 umgesetzt, zur Prüfung. Damit sind alle 5 Punkte der Reihenfolge (20:38) umgesetzt, zur Prüfung.
+
+Danke für shared/wissen/daten/gesundheitssteine.md. Umgesetzt genau nach der Regel dort: irgendein Herstell-Zauber gelernt UND
+kein Item der Liste in den Taschen -> Warnung (nicht je Rang).
+
+Veröffentlicht: download/BuffSentinel-0.9.28.zip, README, announce 0.9.28 (+ Zip), 0.9.27 entfernt; auf origin/main
+nachgeprüft. addon_check lokal "OK (1 Warnungen)" (nur Lua-Syntax nicht geprüft). cmp Game/Sync/Test/Markt v7 byte-gleich.
+
+Umsetzung
+- Data/Warlock.lua "healthstone": alertOnly, max = 3, low = 1 (Warnung nur bei 0), auch allein; supply.anyOf = Vereinigung
+  der Item-IDs aller 4 Zweige (24 IDs), supply.needAny = Vereinigung der Herstell-Zauber aller Zweige (39 IDs). IDs, die es
+  im Zweig nicht gibt, zählen 0 bzw. sind nie gelernt – darum ist die Vereinigung gefahrlos.
+- Core.lua: SupplyCount summiert anyOf; ResolveEntries: gelernt = irgendein needAny (BS.KnowsSpellID).
+- Abgleich Code gegen die Tabellen maschinell (Python, Regex über die .md und die Data-Dateien): Gesundheitsstein-Items
+  gleich, Herstell-Zauber gleich, Grosse Segen (Paladin 0.9.27) gleich – keine Abweichung.
+- Locales EN/DE (4 Schlüssel), CHANGELOG EN/DE.
+- T208 angepasst: sucht seinen Eintrag jetzt über den Schlüssel ("shards"/"ammo") statt "irgendein Vorrat" (beim Hexer gibt es
+  jetzt zwei Vorrats-Einträge). Fehler im Test, nicht im Addon – gefunden durch run25m (T208 FEHLER), behoben.
+
+Belege (eigene Tests, keine Freigabe)
+- T219 "nein ja ja ja · 0/1/1/1/2/0 · ja nein": ohne Herstell-Zauber aus; mit 6201 (Classic), 34130 (TBC), 58890 (Wrath) an;
+  leer 0, Talentstein 19013 = 1, Meister 22105 = 1, Teuflisch 36894 = 1, zwei verschiedene = 2, Seelensplitter zählt nicht;
+  Anzeige bei 0 ja, bei 1 nein.
+- T208 wieder OK "ja nein nein ja ja nein · 2/5"; T207/T209/T216–T218 OK; TU1 0 Abweichungen (3316/2868/3576), TU4 0
+  Verletzungen; run25m OK 172, die bekannten 12 Nachbau-FEHLER.
+- Offline-Routine forever/classic/retail/tbc × deDE/enUS = 8 × RESULT PASS.
+
+IM CLIENT PRÜFEN (Nutzer): Hexenmeister ohne Gesundheitsstein -> "KEIN GESUNDHEITSSTEIN!"; Stein herstellen -> weg.
+
+Stand BS-N1: 1 Reagenzien 0.9.27 · 2 Begleiter 0.9.24 · 3 Gesundheitsstein 0.9.28 · 4 Haltbarkeit 0.9.25 · 5 Bereitschaftscheck
+0.9.26 – alle zur Prüfung. Ohne neuen Auftrag ist für BuffSentinel nichts offen; die Sitzung schaut alle 15 Minuten ins Repo.
