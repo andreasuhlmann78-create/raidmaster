@@ -22,7 +22,7 @@ TESTS
 - NEU test_grenzen.py (8 Tests, REGRESSIONEN T-D-N1-GRENZEN; RaidBook mit echter Datei im Temp-Ordner, danach neu
   geladen). test_ersatz_skillung_bot: die Attrappe für book.signup lieferte None – jetzt wie das echte RaidBook den
   gesetzten Status; neuer Test "Rolle voll". Keine Prüfung abgeschwächt.
-- Gegenproben (12, alle aufgefallen): Rollen-Prüfung wirkungslos, Bleiben-Ausnahme weg, Rollenwechsel ignoriert,
+- Gegenproben (11 gültige, alle aufgefallen; BERICHTIGUNG: in der Commit-Nachricht steht "12" – gezählt 11): Rollen-Prüfung wirkungslos, Bleiben-Ausnahme weg, Rollenwechsel ignoriert,
   sich selbst mitgezählt, > statt >=, immer Rollen-Meldung, Ersatz-Zusage ignoriert Rolle, Karte ohne Plätze,
   Rechte-Prüfung weg, 0 entfernt nicht, kein Hinweis bei zu vielen.
   (Erster Versuch "Rollenprüfung weg" erzeugte einen Syntaxfehler – als Gegenprobe ungültig, durch "pass" ersetzt.)
