@@ -1,0 +1,36 @@
+BERICHT DISCORD – Bot 1.5.158: D-3 Schritt 13 (Klassenfarben als eigenes Modul) – umgesetzt, zur Prüfung
+Zeit: 15.11.2026 21:55 (aus date)
+Commit: 3e934278 auf origin/main, CI bot-tests: success
+
+WAS
+- Neues Modul RaidMasterBot/klassen_bot.py (104 Zeilen): member_class, ensure_class_role, sync_class_roles.
+- UNVERÄNDERT verschoben: Quelltext je Name per ast verglichen -> alle 3 identisch.
+- sync_specs bleibt in bot.py: braucht update_raid_message (Raid-Bereich), kommt mit den Raids.
+  Abschnitts-Kommentar in bot.py angepasst (Hinweis auf klassen_bot.py, darunter sync_specs).
+- bot.py: git diff --numstat +4 −85, jetzt 5738 Zeilen.
+
+TESTS
+- Bisher kein Test für die Klassenrollen. NEU test_klassen_bot.py (4 Tests, REGRESSIONEN T-D3-KLASSEN):
+  Klasse aus dem Profil vor dem Namen; Name aus den RaidMaster-Daten (auch "Jaina (Twink)", Kleinschreibung);
+  unbekannt -> keine; Rolle je Klasse genau einmal angelegt, falsche Klassenrolle entfernt, Bots nie,
+  zweiter Lauf 0 Änderungen; ohne "Rollen verwalten" nichts.
+  Gegenproben: Bots nicht ausgenommen -> FAILED (1); falsche Rolle bleibt -> FAILED (1); Profil übergangen ->
+  FAILED (1); zurückgesetzt -> OK.
+- test_lade: klassen_bot.bot ist bot.bot; sync_class_roles dasselbe Objekt; book dasselbe Objekt.
+- Slash-Befehle: 49, unverändert. 311 Tests OK (307 + 4 neue); jede Testdatei einzeln mit -I OK;
+  REGRESSIONEN 43 von 43.
+
+BETRIEB NACHGESTELLT (an einer Kopie)
+1. Update vom Stand 1.5.157 (Attrappen-config, state.json, Uploader-ZIP im addon-Ordner): updater._copy_new
+   kopiert VERSION, bot.py, klassen_bot.py, tests; config/state/ZIP unverändert (md5); VERSION 1.5.158.
+2. Start wie launcher.py: Abbruch erst bei der Anmeldung (LoginFailure, Test-Token).
+3. Ohne config.json: Exit-Code 3, Meldung "Bitte zuerst config.json ausfüllen …", config.json angelegt.
+
+STAND D-3
+- bot.py: 7240 Zeilen vor D-3 (Bericht 1.5.147) -> 5738 jetzt. Ausgelagert: bot_hilfen, kern, grund, markt_bot,
+  rechte_bot, pn_bot, symbole_bot, ruhmeshalle_bot, uploader_bot, bank_bot, regeln_bot, beute_bot, klassen_bot.
+- NÄCHSTE BEREICHE (gross, eng verflochten): DKP, Raids/Anmeldungen, Uploads, Server-Einrichtung, zuletzt
+  RaidBot. Vor jedem: Abhängigkeiten prüfen; wo nötig zuerst kleine gemeinsame Teile nach grund.py.
+
+OFFEN
+- Frage zur Selbst-Aktualisierung während D-3 (Bericht 2155 frage-d3): noch keine Antwort.
