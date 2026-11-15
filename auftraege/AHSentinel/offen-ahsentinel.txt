@@ -108,6 +108,14 @@
     Abnahme SN-SCAN1: nach Scan-Ende sucht der Sniper innerhalb von 1 s wieder, mit derselben Rate wie vor dem Scan; keine
     Seller-Suche, solange der Sniper an ist (oder sie wartet, bis der Sniper aus ist, mit Zeitlimit).
 
+>>> PS-DOCK1 (MITTEL, Phase 5 UI – NICHT vor den PRIO-JETZT-Punkten; Entscheid des Nutzers 19:29, siehe entscheide.md):
+    Am Berufsfenster nur noch EINE Liste "beste Rezepte". Ist ProfessionSentinel installiert UND aktiv, zeigt AHS sein Gewinn-Fenster
+    (Crafting.lua, "Beste Rezepte (Gewinn)", Einkaufslisten-Knöpfe) NICHT mehr – auch nicht, wenn das PS-Panel zu ist (bisher U9: nur
+    solange das Panel offen ist). Die Funktionen bleiben erreichbar: PS ruft über die API "Materialien als Einkaufsliste" / "Nur was
+    mir fehlt" / Sniper-Ziele auf (API.ReagentsToList(spellID, n, nurFehlend) -> ok, Meldung, Listenname). Ohne PS bleibt alles wie
+    heute. Test: mit PS geladen kein AHS-Gewinn-Fenster; ohne PS wie bisher; API-Aufruf legt die Liste an (ESL1-Prüfungen gelten).
+    Dazu "eine Zahl": PS zeigt mit AHS genau WorthUpTo/NetSale von AHS – ein gemeinsamer Test vergleicht je Rezept die Zahl.
+
 >>> ESL1 – "Materialien als Einkaufsliste" meldet Erfolg, aber keine Liste (Spieler-Meldung über den Nutzer 18:49, EN-Client:
     "it said it added stuff to shopping list . but I dont see any shopping list created"; Supervisor 18:5x).
     BELEGT IM CODE (Crafting.lua 618–641 Cr:ReagentsToList): Die Rückgaben von A.Lists:Create(listName) und A.Lists:AddItem(...)

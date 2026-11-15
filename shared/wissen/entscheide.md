@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 15.11.2026 19:29 | Berufsfenster: nur EINE Liste "beste Rezepte" – ProfessionSentinel ist das Berufs-Addon (Ziel: super nützliches Werkzeug für alle Crafter), AHSentinel liefert nur die Zahlen (API) und zeigt sein Gewinn-Fenster nur, wenn PS nicht installiert ist. Mit AHS zeigt PS genau AHS' Zahl (Test). (Nutzer: "mach das" auf die Frage a/b, Supervisor wählte a + Zahlen-Test) | anweisung-ui-crafter (PS), offen-ahsentinel.txt PS-DOCK1 |
 | 15.11.2026 19:22 | LevelPilot L-1 (Ruckler alle 5 Min., UpdateAddOnMemoryUsage) jetzt beheben – Ausnahme von "heute Nacht nur festhalten" | offen-levelpilot.txt L-1 |
 | 15.11.2026 19:15 | AHSentinel Warnschutz beim Einstellen bleibt ("ich finde die Warnung top – sie muss einfach funktionieren"): Preis anpassen ohne Schleife, Trotzdem einstellen ohne Sperre | offen-ahsentinel.txt WS-LOOP1, POST-BLOCK1 |
 | 15.11.2026 19:03 | AHSentinel SN-SCAN1: Sniper-Knopf während des Vollscans sperren (An/Aus während des Scans lässt den Sniper danach spinnen). Sperre mit Zeitlimit; Ursache belegen und beheben. | Nutzer im Chat |
