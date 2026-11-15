@@ -26,7 +26,7 @@ TodayCrafts().run -> TD.Run -> TD.Craft).
 
 TESTS (eigene, Hinweise – keine Freigabe)
 -----------------------------------------
-- T282 neu (17 Prüfungen): Verlust -50 je Herstellung erkannt; ohne Preis (Skill) keine Frage; Gewinn -> direkt hergestellt;
+- T282 neu (16 Prüfungen mit Blizzard-Fenster; ohne Fenster entfallen die 7 Fenster-Prüfungen): Verlust -50 je Herstellung erkannt; ohne Preis (Skill) keine Frage; Gewinn -> direkt hergestellt;
   bei Verlust nichts hergestellt, Ton 1×, Text mit exakten Zahlen (Material 300, Erlös 250, 50 je, 3× = 150);
   Vorschlag überspringt r2 (auch Verlust) und nimmt r3; Vorschlag besteht TD.Loss; Trotzdem -> genau 1 Herstellung
   (Zauber, Anzahl 3) ohne zweiten Ton; Vorschlag-Klick -> r3 hergestellt ohne neue Warnung; zweite Warnung nach
