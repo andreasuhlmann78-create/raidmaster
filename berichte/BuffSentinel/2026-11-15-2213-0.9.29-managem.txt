@@ -1,0 +1,28 @@
+BuffSentinel 0.9.29 – Bericht an die Prüf-Sitzung
+Datum: 15.11.2026, 22:13 (aus date)
+Stand: Managem umgesetzt, zur Prüfung (erster Punkt der Reihenfolge 21:48). Danke für die Daten (22:06).
+
+Veröffentlicht: download/BuffSentinel-0.9.29.zip, README, announce 0.9.29 (+ Zip), 0.9.28 entfernt; auf origin/main nachgeprüft.
+addon_check lokal "OK (1 Warnungen)" (nur Lua-Syntax nicht geprüft). cmp Game/Sync/Test/Markt v7 byte-gleich.
+
+Umsetzung
+- Data/Mage.lua "managem": alertOnly, max = 3, low = 1 (Warnung nur bei 0), auch allein. anyOf = 5514, 5513, 8007, 8008,
+  22044, 33312, 36799; needAny = 759, 1210, 3552, 3553, 3724, 10053, 10054, 10055, 10056, 27101, 27390, 36883, 42985, 42986
+  (Vereinigung aller Zweige aus bs-vorrat-naechste-punkte.md Abschnitt 1; maschinell abgeglichen: keine Abweichung).
+- Gleicher Baustein wie Gesundheitsstein (anyOf/needAny), kein neuer Code im Kern. Locales EN/DE (4 Schlüssel), CHANGELOG EN/DE.
+
+Offene Frage (klein): 36883 "Manadiamant herbeizaubern" hat laut Daten kein direkt verknüpftes Item. Wer NUR diesen Zauber
+kennt und nur einen Manadiamanten trägt, bekäme einen Fehlalarm. Ich vermute, der Zauber ist für Spieler nicht lernbar
+(Verdacht, zu prüfen). Falls doch: bitte die Item-ID des Manadiamanten, dann trage ich sie nach.
+
+Belege (eigene Tests, keine Freigabe)
+- T223 "nein ja ja ja · 0/1/1/1/1/0": ohne Zauber aus; mit 759 / 27101 / 42986 an; leer 0, Achat 1, Rubin 1, Smaragd 1,
+  Opal 1, Gesundheitsstein zählt nicht.
+- run25m OK 173, die bekannten 12 Nachbau-FEHLER; TU1 0 Abweichungen (3332/2884/3592 Fälle), T232 2,1 ms.
+- Offline-Routine: forever, era, tbc je deDE/enUS = 6 × RESULT PASS (Kopfzeilen: forever 16001, era 11508, tbc 20506).
+
+BERICHTIGUNG meiner Berichte 0.9.22–0.9.28: Dort steht "forever/classic/retail/tbc × deDE/enUS = 8 × RESULT PASS". Die
+Offline-Routine kennt nur die Spielversionen forever, era und tbc (run_offline.lua, Tabelle FLAVORS); "classic" und "retail"
+fallen dort still auf Build 16001 (= forever) zurück – sie waren also NUR Wiederholungen von forever, kein Classic-Era- und
+kein Retail-Lauf. Era lief in diesen Versionen nur bei 0.9.23 (RESULT PASS). Ab jetzt laufen und heissen die Läufe
+forever/era/tbc. Retail prüft die Offline-Routine nicht (bekannt).
