@@ -1,0 +1,42 @@
+AHSentinel 0.65.206 – RK4 Fähigkeiten automatisch + Wege abwählbar (Masterplan 4.3, Teil 2) – umgesetzt, zur Prüfung
+CurseForge: nein (erst nach der Sniper-Abnahme). GitHub-Release v0.65.206 und sofort im Discord.
+
+RK4 (anweisung-markt-reiter)
+  - Wege abwählbar:
+    - Einstellungen, zwei Zeilen mit je zwei Knöpfen: Entzaubern, Herstellen, Flippen, Händler. Grün = an, grau = aus;
+      Standard alle an.
+    - Gespeichert als settings.waysOff (nur die abgewählten). A:WayOn / A:SetWayOn. Umschalten erhöht A.waysVer; das steckt
+      in A:DataVersion, damit "Lohnt bis" und die Markt-Zwischenspeicher neu rechnen.
+  - Wirkung "Entzaubern aus" an der EINEN Rechnung:
+    - MK:LimitFromNet und MK:DELimit liefern kein "Lohnt bis". Das gilt damit für Tooltip, Einkauf-Markierung, Markt
+      "Entzaubern", Markt-Grenze, Sammelkauf, Sniper-Entzauberziele und API, alles über diese Funktion.
+    - A:BestWay ohne Entzaubern, also auch Mein Lager.
+  - Verzauberkunst automatisch:
+    - Characters merkt je Figur c.enchant (beim Laden und bei SKILL_LINES_CHANGED).
+    - D:AccountEnchantSkill = höchste Fertigkeit aller Figuren mit gleichem Server und gleicher Fraktion, 30 s gemerkt.
+    - D:WayDE(item) braucht die nötige Fertigkeit nach Itemstufe (D:RequiredSkill).
+    - Unbekannt (noch keine Figur gemerkt) -> nichts verstecken, wie bisher.
+    - Testroutine: Die Fertigkeit wird nicht geprüft (läuft auf jeder Figur), ausser ein Test setzt D.testSkill.
+  - Heute tun: Abgewählte Wege erscheinen nicht. Zuordnung: flip/quick -> Flippen, de/desell -> Entzaubern, vendor -> Händler,
+    craft/owncraft/chaincraft -> Herstellen. Eigene Ware verkaufen bleibt immer.
+  - Markt-Reiter: Flippen bzw. Händler leer mit dem Grund "Weg abgewählt (Einstellungen)."
+  - Kern.LohntBis: ohne die abgewählten Wege.
+  - FEHLER BEHOBEN (gefunden beim Einbau, Gold-Sicherheit): Lieferte LimitFromNet nil (S2-B3 "keine Kaufpreis-Stufe hält den
+    Mindestgewinn"), rechneten fünf Stellen ersatzweise mit dem NETTO-WERT als Grenze weiter, also ohne Mindestgewinn:
+      - D:DealLimit (Markt-Kaufgrenze): "or net";
+      - D:FindDeals (Markt "Entzaubern", zweimal): "or net";
+      - Tooltip DisenchantVerdict: "or net/(1+Mindestgewinn)";
+      - Markt-Plan Entzaubern (MV): ebenso.
+    Jetzt gilt: kein "Lohnt bis" -> kein Angebot (Grenze 0 bzw. nil), im Tooltip keine Zeile "Lohnt bis", kein grünes Urteil.
+    Der Ersatz gilt nur noch, wenn A.Core ganz fehlt.
+    Verdacht, zu messen: wie oft S2-B3 im Spiel greift. Im Testlog steht es bei "Kern"; nur dann wirkte der Fehler.
+  - Test T792: Entzaubern aus -> LimitFromNet nil, DealLimit nil (nicht netto), BestWay "sell"; wieder an -> gleiche Grenze;
+    Fertigkeit 0 -> kein Weg, 300 -> Weg; Flippen aus -> Markt-Flippen 0 Zeilen mit Grund; Einstellung danach wie vorher.
+  - Locales +4 (alle Sprachen), CHANGELOG EN/DE.
+GoldSentinelMarkt Version 6 (shared, byte-gleich kopiert). Messung Feed mit v6 (s92, Lauf 3 neu angelegt):
+  - Feed aus: 13 935 KB; Feed an: 17 019 KB (+3,1 MB; mit v5 waren es +16,8–21,6 MB).
+  - Längster Frame 41 ms gegen 43 ms aus.
+  - Feed an liegt damit über der Grenze 15 MB (NP152-3). VS.FEED_ON bleibt aus, bis v7 oder eine Freigabe es erlaubt.
+    Bitte entscheiden: Grenze für den Feed-Anteil oder weiter aus.
+Gesamtlauf (261 Szenarien, Lua 5.1): 260 bestanden. Rot nur s207_post_block. Das ist der Test der NÄCHSTEN Version
+(POST-BLOCK1, 0.65.207), mit 0.65.206 absichtlich rot (Gegenprobe). addon_check: siehe Release.
