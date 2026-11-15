@@ -1,0 +1,49 @@
+BERICHT DISCORD – Bot 1.5.181: D-3 Schritt 34 (Daten-Upload als eigenes Modul) – umgesetzt, zur Prüfung
+Zeit: 15.11.2026 23:19 (aus date)
+Commit: bb2c3de4 auf origin/main, CI Bot-Tests: success
+
+WAS
+- upload_bot.py: dkp_loop, process_new_data, receive_upload, before_dkp (@dkp_loop.before_loop).
+- UNVERÄNDERT verschoben: per ast verglichen, alle 4 identisch; alle übrigen Funktionen in bot.py unverändert.
+  Kommentare in den Funktionen bleiben; sechs leere Abschnitts-Köpfe (nur noch Verweise "ab 1.5.x in …") zu
+  einem Hinweis zusammengefasst – das sind die einzigen entfallenen Kommentarzeilen.
+- bot.py: 23 dadurch unbenutzte Importnamen entfernt (gezählt): re, tasks, check_upload, test_info, DATA_DIR,
+  UPLOAD_PATH, GS_UPLOAD_PATH, GS_READY_PATH, SHOTS_DIR, market_intake, update_hall_of_fame, post_raid_ready,
+  update_lootdb, sync_specs, post_dkp_tables, post_raid_summaries, remove_overall, post_new_loot, send_raid_dms,
+  handle_test_upload, ensure_new_raid_categories, reload_dkp_if_needed, process_assignment.
+  skillung_bot, dkp_tafel_bot, beutepost_bot werden an derselben Stelle wie bisher als Modul importiert
+  (Import-Reihenfolge unverändert).
+- pyflakes bot.py ungefiltert vor/nach verglichen: neu nur die 4 Modul-Importe "imported but unused" (gewollt,
+  wie bei allen Modulen); upload_bot.py: keine Meldung.
+- bot.py: git diff --numstat +12 −235, jetzt 642 Zeilen; upload_bot.py 221 Zeilen.
+
+TESTS
+- Angepasst (Namen nicht mehr über bot.py, jetzt Identität am Modul upload_bot): test_bank_bot, test_beute_bot,
+  test_beutepost_dkpnachricht_bot, test_dkp_befehle_bot, test_dkp_tafel_bot, test_ersatz_skillung_bot,
+  test_kanalpflege_bot, test_lade, test_raid_bot, test_testupload_bot; test_market ruft market_intake am Modul
+  markt_bot; test_uploads_gs_up liest receive_upload über bot_quelle.funktion statt bot.py. Keine Prüfung
+  abgeschwächt.
+- NEU test_upload_bot.py (7 Tests, REGRESSIONEN T-D3-UPLOAD): bisher gab es für process_new_data keinen und für
+  receive_upload nur einen Ablauf-Test. Geprüft: keine Verarbeitung ohne neue/lesbare Daten; alle 14 Schritte
+  in der bisherigen Reihenfolge; Fehler bei Klassenfarben -> Rest läuft weiter; Discord-Fehler -> nur
+  "Posten fehlgeschlagen", danach nichts mehr; fremder Webhook ignoriert; älterer Stand eines anderen Uploaders
+  nicht übernommen (derselbe darf); Testmodus lässt echte Daten unberührt; echte Daten abgelegt, Nachricht
+  gelöscht, verarbeitet; dkp_loop alle 30 s, wartet auf die Anmeldung.
+  Gegenproben (7, alle aufgefallen): Webhook-Prüfung weg, Reihenfolge getauscht, Testmodus-Prüfung weg,
+  Uploader-Ausnahme weg, Klassenfarben-Schutz weg, Nachricht nicht löschen, Intervall 60 s.
+- 406 Tests OK; jede der 55 Testdateien einzeln mit -I OK; REGRESSIONEN 73 von 73.
+
+BETRIEB NACHGESTELLT (an einer Kopie)
+1. Update vom Stand 1.5.180 (git archive): updater._copy_new kopiert VERSION, bot.py, tests, upload_bot.py;
+   config.json und state unverändert (md5); VERSION 1.5.181; Ordner danach gleich der Quelle.
+2. Start wie launcher.py (python3 bot.py): Abbruch erst bei der Anmeldung (LoginFailure, Test-Token).
+3. Ohne config.json: Exit-Code 3, Meldung "Bitte zuerst config.json ausfüllen …", config.json angelegt.
+4. Neustart nach Update (Ende-zu-Ende): Exit-Code 42; ohne Neustart 0.
+5. Start-Vergleich 1.5.180/1.5.181 (bot.py als __main__, Anmeldung ersetzt): gleiche 8 Ereignis-Methoden
+   (on_guild_join, on_guild_remove, on_interaction aus anmeldung_bot, on_invite_create, on_invite_delete,
+   on_member_join, on_message, on_ready), 30 Befehle oben, 49 mit Unterbefehlen, gleiche Namen.
+   BERICHTIGUNG zu 1.5.180: dort stand "5 Ereignisse" – das waren die mit @bot.event bzw. am Objekt gezählten;
+   die Klasse RaidBot hat insgesamt 8 Ereignis-Methoden, vor und nach jedem Schritt dieselben.
+
+STAND D-3: bot.py 7437 (vor D-3) -> 642 Zeilen.
+NÄCHSTER SCHRITT: /raidmaster-einrichten als Modul (1.5.182), dann Schlussbericht D-3.
