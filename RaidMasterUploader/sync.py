@@ -652,7 +652,9 @@ class StoreGone(StoreError):
 
 
 GONE_HELP = {
-    "webhook": "Der Kanal #sync-daten oder sein Webhook wurde gelöscht.",
+    # 2.3.12: Wortlaut wie beim Bot (UP-404, Nacht 15.11.: Bot war vom Server entfernt -> Discord löschte seine Webhooks)
+    "webhook": ("Bot nicht auf dem Server oder Webhook gelöscht (Bot vom Server entfernt, oder Kanal #sync-daten bzw. "
+                "sein Webhook gelöscht). Ist der Bot weg, ihn zuerst wieder einladen."),
     "message": "Die Index-Nachricht oben im Kanal #sync-daten wurde gelöscht.",
     "channel": "Der Kanal #sync-daten wurde gelöscht.",
     "?": "Discord findet den Abgleich-Ort nicht mehr.",

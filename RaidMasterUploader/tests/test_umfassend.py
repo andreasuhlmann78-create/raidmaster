@@ -555,6 +555,7 @@ REGRESSIONEN = {
     "UP-404f neue sync_config ohne Neustart": "test_uploader.SyncConfigNeu.test_up404f_neue_sync_config_ohne_neustart",
     "UP-404g alte Zähler ohne Ort-Kennung": "test_sync.Ort404.test_up404g_alte_zaehler_ohne_ortkennung",
     "UP-404h normal nichts angepasst": "test_sync.Ort404.test_up404h_normal_nichts_angepasst",
+    "T-UPv3 sechs Export-Zeilen v7": "test_uploader.Paket.test_upv3_sechs_exportzeilen_v7",
     "RP-U nur bank/raidReady": "test_uploader.Uploader17.test_rp_u_nur_bank_und_raidready",
 }
 

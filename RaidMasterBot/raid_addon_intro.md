@@ -27,6 +27,15 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 ===
 📜 **Updates**
 
+**3.0.27** – Chinesisch repariert, weniger Ruckeln
+• Auf Chinesisch brach die DKP-Vergabe ab – behoben. Ein neuer Test prüft jetzt alle Sprachen darauf.
+• Marktdaten-Netz Version 7: Beim Teilen eines ganzen Auktionshaus-Scans mit der Gilde kein langer Ruckler mehr.
+
+**3.0.20 bis 3.0.26** – Befehlsliste, Marktdaten, Abgleich
+• Beim Tippen von `/rm` erscheint eine Befehlsliste zum Auswählen (`/rm befehlsliste` schaltet sie aus).
+• Marktdaten-Netz: Auktionshaus-Scans werden mit der Gilde geteilt (Schalter „Marktdaten teilen“ im Fenster).
+• Abgleich zwischen PC und Laptop über den Uploader, Fehlerberichte nur mit deiner Zustimmung.
+
 **3.0.19** – Symbole in WoW Forever
 • Symbol-Leiste und RaidMaster-Tasten funktionieren in WoW Forever wieder ohne „Aktion blockiert“ – auch im Kampf. „Adds markieren“ zeigt dort einen Vorschlag.
 
@@ -44,8 +53,5 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 
 **3.0.10** – Zusammenspiel der Addons
 • Mehrere GoldSentinel-Addons gleichzeitig laufen jetzt sauber zusammen (gemeinsame Versionserkennung, Version 2).
-
-**3.0.9** – Gemeinsame Versionserkennung
-• RaidMaster erkennt WoW Forever jetzt genauso wie alle anderen Addons von GoldSentinel – auch falls Blizzard zum Launch die Versionsnummer ändert. `/gsgame` zeigt, was erkannt wurde.
 
 Ältere Neuerungen stehen im Addon in der Datei LIESMICH.txt.

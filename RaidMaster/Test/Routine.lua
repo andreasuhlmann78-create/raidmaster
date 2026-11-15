@@ -3689,6 +3689,33 @@ function R.Finish(aborted)
 		end
 		missing = nil
 
+		-- T184 (3.0.27): Platzhalter jeder geladenen Übersetzung in derselben Reihenfolge wie im deutschen Text. Lua 5.1
+		-- kennt kein "%1$s" – vertauschte Platzhalter (zhCN bis 3.0.26: "%s … %d … %s") liessen string.format abbrechen
+		-- (DKP-Vergabe fragte nicht mehr nach). Prozentzeichen mit Leerzeichen ("30 % …") sind Text, keine Platzhalter.
+		if not only or only == "F" then
+			if RM.LOCALE == "deDE" then
+				t:Skip("T184", "F", "Platzhalter der Übersetzungen", "Grundsprache")
+			else
+				t:Check("T184", "F", "Platzhalter der Übersetzungen", function()
+					local function specs(str)
+						local out = {}
+						for sp in str:gsub("%%%%", ""):gmatch("%%[-+#0]*%d*%.?%d*[sdifgxXcq]") do out[#out + 1] = sp end
+						return table.concat(out, ",")
+					end
+					local bad, n = {}, 0
+					for k, v in pairs(RM.L) do
+						if type(k) == "string" and type(v) == "string" then
+							n = n + 1
+							if specs(k) ~= specs(v) then bad[#bad + 1] = k end
+						end
+					end
+					table.sort(bad)
+					if #bad > 0 then return false, #bad .. " von " .. n .. ": " .. table.concat(bad, " | "):sub(1, 200), "0" end
+					return true, n .. " Übersetzungen, alle Platzhalter gleich"
+				end)
+			end
+		end
+
 		-- T59: gesperrte Aktionen des Spiels während der Routine (GoldSentinelTest zählt ADDON_ACTION_BLOCKED/FORBIDDEN)
 		if not only or only == "C" then
 			t:Check("T59", "C", "Gesperrte Aktionen im Spiel", function()

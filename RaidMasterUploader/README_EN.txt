@@ -240,3 +240,9 @@ Version 2.3.11 – counters after a new sync_config.json (UP-404b):
 - If sync_config.json was replaced while an older version was running, the uploader kept counters from the old sync
   location ("rule violated: rev … greater than seq") and would not take over newer states of the other computer for
   that game version. It now adjusts the counters at the first sync and reports it once. Your data stays unchanged.
+
+Version 2.3.12 – same limit as the bot, clearer text on 404:
+- A market scan may now be up to 3 MB – exactly what the bot accepts (was 2 MB). GoldSentinelMarkt version 7 keeps all
+  scans together below 1.5 MB.
+- If the sync webhook is gone (404), the window now says the bot may have been removed from the server or the webhook was
+  deleted, and to invite the bot again first if it is gone.

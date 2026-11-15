@@ -270,3 +270,9 @@ Version 2.3.11 – Zähler nach neuer sync_config.json (UP-404b):
   Abgleich-Ort ("GRUNDREGEL VERLETZT (Abgleich): rev … grösser als seq"). Dann hätte er neue Stände des anderen Rechners
   für diese Spielversion nicht übernommen. Jetzt passt er die Zähler beim ersten Abgleich an und meldet das einmal.
   Deine Daten bleiben unverändert.
+
+Version 2.3.12 – gleiche Grenze wie der Bot, klarer Text bei 404:
+- Ein Markt-Scan darf jetzt bis 3 MB gross sein – genau so viel nimmt der Bot an (bisher 2 MB). GoldSentinelMarkt
+  Version 7 bleibt mit allen Scans zusammen unter 1,5 MB.
+- Fehlt der Abgleich-Webhook (404), steht jetzt im Fenster: "Bot nicht auf dem Server oder Webhook gelöscht … Ist der Bot
+  weg, ihn zuerst wieder einladen." – gleich wie die Meldung des Bots.

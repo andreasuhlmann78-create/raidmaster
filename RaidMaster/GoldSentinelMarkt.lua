@@ -48,8 +48,33 @@
 --   4 ms; Schalter aus leert die Warteschlange; ganzer Scan an die Gilde hoechstens einmal je Stunde, sonst nur
 --   Aenderungen; Sync-Warteschlange wird nur bis 10 Nachrichten gefuellt (Platz fuer die Nachrichten der Addons);
 --   Export enthaelt auch ganz verschwundene Items ("id,0,0,0,abgaenge,abgaengeVorsichtig", Befund D-MN7b).
+-- Version 3 (13. November 2026, 23:40, Entscheid des Nutzers): Export haelt 6 statt 2 Scans fuer den Uploader (Scans
+--   eines Abends ohne laufenden Uploader gehen nicht verloren), hoechstens 1,5 MB zusammen (aelteste fallen weg) –
+--   damit Speichern/Laden der SavedVariables klein bleibt (Ruckeln vermeiden). Sonst unveraendert.
 
-local VERSION = 2
+-- Version 4 (14. November 2026, Befund MN-S2 der BuffSentinel-Sitzung): Schalter aus stoppt auch eine schon geplante
+--   Antwort "A:" (Tick prueft IsShareOn, SetShare(false) verwirft answerAt und askAt). Sonst unveraendert.
+
+-- Version 5 (15. November 2026, Bitte der AHSentinel-Sitzung, Bericht 0.65.199): Feed laeuft in Portionen (hoechstens
+--   BUDGET_MS je Bild, im Tick; M.Feed nimmt nur an und kehrt sofort zurueck) – vorher alle Items eines Scans in EINEM
+--   Aufruf (54–62 ms, +22 MB). Abgaenge beim Feed nur fuer die Items, zu denen das Host-Addon Abgaenge liefert (abg):
+--   nur dort zaehlen Abgaenge und Vergleichszeit; Items ohne abg behalten ihren Absatz (vorher: Abgang 0 + Zeit = falsch
+--   kleiner Absatz). Export: Items mit Abgaengen in der Zeile mit Vergleich (dt), Items ohne in einer zweiten Zeile ohne
+--   Vergleich (Zeit t+1, damit die Sammelstelle sie nicht als doppelt verwirft). Ein neuer Feed, waehrend ein alter laeuft:
+--   der alte wird zuerst fertig gerechnet (nichts geht verloren).
+
+-- Version 6 (15. November 2026, Bitte der AHSentinel-Sitzung, Bericht 0.65.202: Feed legte +7 bis +10 MB an, s92 rot):
+--   weniger Speicher-Muell beim Feed, gemessen 6000 Items: Enc baut die Zahl in einem wiederverwendeten Puffer (eine
+--   Zeichenkette statt eine je Stelle), Feed liest/schreibt die Item-Eintraege ohne Hilfstabellen (UnpackVals/PackVals),
+--   die Base36-Texte von Preis/Menge/Auktionen/Abgaengen werden fuer Speicher und Export nur einmal gebaut. Sonst unveraendert.
+
+-- Version 7 (15. November 2026, Messung AHSentinel s216: Feed-Anteil 6,3 MB, Grenze 4 MB): der grosse Anteil kam aus dem
+--   vollen Teilen an die Gilde (QueueScan mit full, hoechstens 1x je Stunde): je Item eine Hilfstabelle (Unpack) und vier neu
+--   gebaute Base36-Texte. Jetzt liest QueueScan die schon gespeicherten Base36-Texte direkt aus dem Item-Eintrag (keine Tabelle,
+--   kein Enc), UnpackVals faengt nur die noetigen Felder, und die Export-Zeile wird ohne zweite Kopie gebaut. Ergebnis und
+--   Nachrichten unveraendert (gleiche Zeichen).
+
+local VERSION = 7
 
 local existing = _G.GoldSentinelMarkt
 if type(existing) == "table" and (tonumber(existing.VERSION) or 0) >= VERSION then return end
@@ -68,7 +93,8 @@ M.NET_MAX = 60               -- hoechstens so viele geaenderte Items ins Netz je
 M.NET_CHANGE = 0.05          -- Preis-Aenderung, ab der ein Item als geaendert gilt
 M.OUTLIER = 3                -- fremder Preis x3 oder :3 zum eigenen (juenger als 6 Std.) = verworfen
 M.MAX_AGE = 7 * 86400        -- aeltere Daten werden nicht angenommen
-M.EXPORT_KEEP = 2            -- so viele Scans fuer den Uploader
+M.EXPORT_KEEP = 6            -- so viele Scans fuer den Uploader (v3: 6 statt 2)
+M.EXPORT_MAX_BYTES = 1536 * 1024  -- alle Export-Zeilen zusammen hoechstens so gross (aelteste fallen zuerst weg)
 M.ASK_DELAY = 60             -- Sekunden nach dem Laden bis zur Frage "wer hat Neueres?"
 M.FULL_EVERY = 3600          -- ganzer Scan an die Gilde hoechstens so oft (Sekunden), sonst nur Aenderungen
 M.OUTBOX_MAX = 1500          -- volle eigene Warteschlange: aelteste Nachricht faellt weg (gezaehlt)
@@ -134,16 +160,22 @@ local function Drop(reason) M.stats.dropped[reason] = (M.stats.dropped[reason] o
 
 -- Base36 fuer ganze Zahlen >= 0
 local DIG = "0123456789abcdefghijklmnopqrstuvwxyz"
+-- v6: Ziffern in einen wiederverwendeten Puffer (rueckwaerts), dann EINE Zeichenkette (vorher eine je Stelle)
+local DIGB = { DIG:byte(1, -1) }
+local EBUF, EOUT = {}, {}
+local schar, unpk = string.char, unpack
 local function Enc(n)
     n = math.floor(tonumber(n) or 0)
     if n <= 0 then return "0" end
-    local s = ""
+    local k = 0
     while n > 0 do
         local r = n % 36
-        s = DIG:sub(r + 1, r + 1) .. s
+        k = k + 1
+        EBUF[k] = DIGB[r + 1]
         n = (n - r) / 36
     end
-    return s
+    for i = 1, k do EOUT[i] = EBUF[k - i + 1] end
+    return schar(unpk(EOUT, 1, k))
 end
 local function Dec(s) return tonumber(s or "", 36) end
 M.Enc, M.Dec = Enc, Dec
@@ -171,6 +203,14 @@ local function Pack(e)
     return Enc(e.p) .. "," .. Enc(e.q) .. "," .. Enc(e.n) .. "," .. Enc(e.t) .. "," .. Enc(e.o) .. "," ..
         Enc(e.g) .. "," .. Enc(e.h) .. "," .. Enc(e.l)
 end
+-- v6: ohne Hilfstabelle (fuer den Feed): nur die Werte, die der Feed braucht
+local function UnpackVals(v)
+    if type(v) ~= "string" then return nil end
+    local p, o, g, h, l = v:match("^(%w+),%w+,%w+,%w+,(%w+),(%w+),(%w+),?(%w*)$")
+    if not p then return nil end
+    return Dec(p), Dec(o), Dec(g), Dec(h), Dec(l) or 0
+end
+M.UnpackVals = UnpackVals
 M.Unpack, M.Pack = Unpack, Pack
 
 function M.Attach(addon, db)
@@ -193,6 +233,7 @@ function M.SetShare(addon, on)
     local db = M.hosts[addon]
     if not db then return end
     db.gsMarktAus = (on == false) or nil
+    if on == false then M.answerAt, M.askAt = nil, nil end   -- v4 (MN-S2): geplante Frage/Antwort verwerfen
 end
 
 function M.IsShareOn()
@@ -397,8 +438,20 @@ local function Apply(t, cnt, items, cmp, low, dt, prevItems)
     table.insert(s.export, string.format("GSMARKT1|%d|%s|%d|%d|%d|%d|%s", 1,          -- Export-Format 1 (unabhaengig von der Dateiversion)
         select(2, Fac()), t, cnt,
         nItems, cmp and dt or 0, table.concat(parts, ";")))
-    while #s.export > M.EXPORT_KEEP do table.remove(s.export, 1) end
+    M.TrimExport(s.export)
     QueueScan(t, changed)
+end
+
+-- v3: Export kuerzen – hoechstens EXPORT_KEEP Scans und EXPORT_MAX_BYTES zusammen, der neueste bleibt immer
+function M.TrimExport(list)
+    if type(list) ~= "table" then return end
+    while #list > M.EXPORT_KEEP do table.remove(list, 1) end
+    local total = 0
+    for _, x in ipairs(list) do total = total + #tostring(x) end
+    while #list > 1 and total > M.EXPORT_MAX_BYTES do
+        total = total - #tostring(list[1])
+        table.remove(list, 1)
+    end
 end
 
 local function FinishRead(r)
@@ -428,29 +481,87 @@ function M.FeedStart(addon)
     if M.reader then M.reader = nil; M.stats.aborted = M.stats.aborted + 1; Drop("feed statt lesen") end
 end
 
+-- v5: Feed nimmt nur an (Liste der Item-IDs) und rechnet im Tick in Portionen (FeedPortion)
+local FeedPortion, FeedFinish
 function M.Feed(addon, t, n, items, dt)
     M.feedUntil = nil
     if not M.hosts[addon] or type(items) ~= "table" or not M.IsShareOn() then return end
-    t, dt = tonumber(t) or M.api.time(), tonumber(dt) or 0
-    local conv, cmp, low = {}, nil, nil
-    if dt > 0 then cmp, low = {}, {} end
-    for id, it in pairs(items) do
-        id = tonumber(id)
-        if id and type(it) == "table" then
-            conv[id] = { math.floor(tonumber(it.preis) or 0), math.floor(tonumber(it.menge) or 0),
-                         math.floor(tonumber(it.n) or 0) }
-            if cmp then
-                local g = math.floor(tonumber(it.abg) or 0)
-                cmp[id] = g
-                low[id] = math.min(g, math.floor(tonumber(it.abgV) or g))
-            end
-        end
+    if M.feedJob then                       -- alter Feed noch nicht fertig: zuerst ganz zu Ende rechnen
+        while M.feedJob and not FeedPortion(M.feedJob, nil) do end
     end
+    t, dt = tonumber(t) or M.api.time(), tonumber(dt) or 0
+    local ids = {}
+    for id in pairs(items) do ids[#ids + 1] = id end
     M.stats.fed = (M.stats.fed or 0) + 1
-    if cmp then M.stats.compared = M.stats.compared + 1 end
     M.prev = nil                -- naechstes eigenes Lesen vergleicht nicht mit einem Feed (keine Signaturen)
-    Apply(t, tonumber(n) or 0, conv, cmp, low, dt, nil)
+    M.feedJob = { t = t, tEnc = Enc(t), cnt = tonumber(n) or 0, dt = dt, src = items, ids = ids, i = 0, changed = {},
+                  partsA = {}, partsB = {}, nA = 0, nB = 0, ms = 0, frames = 0 }
 end
+
+-- eine Portion rechnen; budget = ms (nil = ohne Grenze). Rueckgabe true, wenn fertig.
+FeedPortion = function(j, budget)
+    local f = Fac()
+    if not f then M.feedJob = nil; return true end
+    local t0 = M.api.ms()
+    local ids, src = j.ids, j.src
+    local cmpOn = j.dt > 0
+    while j.i < #ids do
+        j.i = j.i + 1
+        local id = tonumber(ids[j.i])
+        local it = src[ids[j.i]]
+        if id and type(it) == "table" then
+            local p, q, a = math.floor(tonumber(it.preis) or 0), math.floor(tonumber(it.menge) or 0), math.floor(tonumber(it.n) or 0)
+            local hasAbg = cmpOn and it.abg ~= nil
+            local g = hasAbg and math.floor(tonumber(it.abg) or 0) or 0
+            local lo = hasAbg and math.min(g, math.floor(tonumber(it.abgV) or g)) or 0
+            local op, oo, og, oh, ol = UnpackVals(f.i[id])
+            local eg, eh, el = og or 0, oh or 0, ol or 0
+            if hasAbg then eg, el, eh = eg + g, el + lo, eh + j.dt end
+            if not op or oo ~= 0 or (op or 0) == 0 or math.abs(p - op) / op >= M.NET_CHANGE then
+                j.changed[#j.changed + 1] = id
+            end
+            local sp, sq, sa = Enc(p), Enc(q), Enc(a)
+            f.i[id] = sp .. "," .. sq .. "," .. sa .. "," .. j.tEnc .. ",0," .. Enc(eg) .. "," .. Enc(eh) .. "," .. Enc(el)
+            local part = Enc(id) .. "," .. sp .. "," .. sq .. "," .. sa .. "," .. Enc(g) .. "," .. Enc(lo)
+            if hasAbg or not cmpOn then j.nA = j.nA + 1; j.partsA[j.nA] = part
+            else j.nB = j.nB + 1; j.partsB[j.nB] = part end
+        end
+        if budget and (j.i % M.CHECK_EVERY == 0) and M.api.ms() - t0 >= budget then break end
+    end
+    j.ms, j.frames = j.ms + (M.api.ms() - t0), j.frames + 1
+    if j.i >= #ids then FeedFinish(j); return true end
+    return false
+end
+
+FeedFinish = function(j)
+    M.feedJob = nil
+    local f, fac = Fac()
+    if not f then return end
+    f.t = j.t
+    M.stats.scans = M.stats.scans + 1
+    M.stats.read = j.cnt
+    M.stats.lastT = j.t
+    M.stats.items = j.nA + j.nB
+    M.stats.lastMs, M.stats.lastFrames = j.ms, j.frames
+    if j.dt > 0 then M.stats.compared = M.stats.compared + 1 end
+    local s = M.store
+    s.export = s.export or {}
+    -- v7: Kopf an den ersten Teil haengen und einmal verbinden (keine zweite Kopie der ganzen Zeile durch string.format)
+    local function Line(parts, n, t, dt)
+        local head = string.format("GSMARKT1|%d|%s|%d|%d|%d|%d|", 1, fac, t, j.cnt, n, dt)
+        if n == 0 then return head end
+        parts[1] = head .. parts[1]
+        return table.concat(parts, ";", 1, n)
+    end
+    table.insert(s.export, Line(j.partsA, j.nA, j.t, j.dt > 0 and j.dt or 0))
+    if j.nB > 0 then           -- Items ohne Abgaenge: eigene Zeile ohne Vergleich (t+1, sonst "doppelt" bei der Sammelstelle)
+        table.insert(s.export, Line(j.partsB, j.nB, j.t + 1, 0))
+    end
+    j.partsA, j.partsB = nil, nil
+    M.TrimExport(s.export)
+    QueueScan(j.t, j.changed)
+end
+M.FeedPortion = function(budget) if M.feedJob then return FeedPortion(M.feedJob, budget) end return true end
 
 ---------------------------------------------------------------------------
 -- Teilen
@@ -458,6 +569,14 @@ end
 local function Entry(id, e)
     return Enc(id) .. "," .. Enc(e.p) .. "," .. Enc(e.q) .. "," .. Enc(e.n)
 end
+-- v7: Eintrag direkt aus dem gespeicherten Text "p,q,n,t,o,..." (gleiche Base36-Zeichen wie Entry, ohne Hilfstabelle)
+local function EntryFromText(id, v)
+    local pqn = type(v) == "string" and v:match("^(%w+,%w+,%w+),")
+    if pqn then return Enc(id) .. "," .. pqn end
+    local e = Unpack(v)
+    return e and Entry(id, e) or nil
+end
+M.EntryFromText = EntryFromText
 
 -- alle eigenen Items eines Scans an die Gilde, die geaenderten (hoechstens NET_MAX) auch ins Netz
 QueueScan = function(t, changed, full)
@@ -468,9 +587,12 @@ QueueScan = function(t, changed, full)
     local all = {}
     if full then
         M.lastFull = now
-        for id, v in pairs(f.i) do
-            local e = Unpack(v)
-            if e and e.o == 0 and e.t == t then all[#all + 1] = id end
+        local tEnc = Enc(t)
+        for id, v in pairs(f.i) do       -- v7: Zeit und Herkunft direkt aus dem Text lesen (keine Hilfstabelle je Item)
+            if type(v) == "string" then
+                local te, oe = v:match("^%w+,%w+,%w+,(%w+),(%w+),")
+                if te == tEnc and oe == "0" then all[#all + 1] = id end
+            end
         end
     else
         for i = 1, math.min(#changed, M.NET_MAX) do all[i] = changed[i] end
@@ -482,7 +604,7 @@ QueueScan = function(t, changed, full)
     local function batches(list, opts)
         local cur, len = {}, #head
         for _, id in ipairs(list) do
-            local e = Entry(id, Unpack(f.i[id]))
+            local e = EntryFromText(id, f.i[id])
             if #cur > 0 and (#cur >= M.ITEMS_PER_MSG or len + 1 + #e > max) then
                 M.outbox[#M.outbox + 1] = { head .. table.concat(cur, ";"), opts }
                 cur, len = {}, #head
@@ -601,6 +723,10 @@ function M.Tick()
     Register()
     local now = M.api.now()
     if M.readAt and now >= M.readAt and not M.api.inCombat() then StartRead() end
+    if M.feedJob and not M.api.inCombat() then
+        local ok, e3 = pcall(FeedPortion, M.feedJob, M.BUDGET_MS)
+        if not ok then M.feedJob = nil; Drop(("feed " .. tostring(e3)):sub(1, 60)) end
+    end
     local r = M.reader
     if r and not M.api.inCombat() then
         local done, err = ReadPortion(r)
@@ -622,6 +748,7 @@ function M.Tick()
     end
     if M.answerAt and now >= M.answerAt then
         M.answerAt = nil
+        if not M.IsShareOn() then return M.Pump() end      -- v4 (MN-S2): Schalter aus -> keine Antwort mehr
         local f, fac = Fac()
         if f and M.ep then
             M.ep:Send("A:" .. fac .. ":" .. Enc(f.t), { scope = "guild", net = false })
@@ -671,7 +798,7 @@ if CF then
     local acc = 0
     fr:SetScript("OnUpdate", function(_, dt)
         acc = acc + (dt or 0)
-        if acc < 0.05 and not _G.GoldSentinelMarkt.reader then return end
+        if acc < 0.05 and not _G.GoldSentinelMarkt.reader and not _G.GoldSentinelMarkt.feedJob then return end
         acc = 0
         pcall(_G.GoldSentinelMarkt.Tick)
     end)

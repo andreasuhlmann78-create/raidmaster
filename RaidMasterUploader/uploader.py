@@ -69,7 +69,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import sync  # noqa: E402  (Abgleich PC/Laptop, ab 2.1.0)
 import daten  # noqa: E402  (Daten für die Prüf-Sitzung, ab 2.3.0)
 
-VERSION = "2.3.11"
+VERSION = "2.3.12"
 SHOT_WINDOW = (-30, 180)          # Bild darf so viele Sekunden vor/nach der gemerkten Zeit entstanden sein
 SHOT_MAX_BYTES = 9 * 1024 * 1024
 SHOT_MAX_AGE = 14 * 86400
@@ -92,8 +92,10 @@ EXTRA_STR = re.compile(r'"((?:GSDIAG1\||GSWEGE1\{|GSMARKT1\|)(?:[^"\\]|\\.)*)"',
 # ab 2.3.6 (MN6): Marktdaten-Netz (GoldSentinelMarkt.lua, Liste <Addon>DB.gsMarkt.export). Nur Zeilen GENAU in diesem
 # Format gehen weiter – Zahlen in Base36, keine Namen möglich. Je Scan (Fraktion + Scan-Zeit) nur einmal.
 MARKT_LINE = re.compile(r"^GSMARKT1\|\d{1,4}\|[HAN]\|\d{9,11}\|\d{1,9}\|\d{1,7}\|\d{1,9}\|[0-9a-z,;]*$")
-# ab 2.3.7 (MN6b): 2 MB – so viel nimmt der Bot je Zeile an (market.MAX_LINE); grösser = übersprungen und einmal gemeldet
-MARKT_MAX_ONE = 2 * 1024 * 1024
+# ab 2.3.12: 3 MB – genau so viel nimmt der Bot je Zeile an (RaidMasterBot/market.py MAX_LINE, D-MN7f); bis 2.3.11 waren es
+# 2 MB mit veraltetem Kommentar. Grösser = übersprungen und einmal gemeldet. GoldSentinelMarkt v7 hält alle Export-Zeilen
+# zusammen unter 1,5 MB; eine Zeile von 3 MB passt noch in einen Paket-Teil (TEST_MAX_JSON 4 MB entpackt).
+MARKT_MAX_ONE = 3 * 1024 * 1024
 # ab 2.3.7 (MN6b): anonyme Zufallskennung des Uploaders (16 Hex, uploader_state.json "markt_quelle", nie aus Namen
 # oder Rechnernamen) – im Paket als Feld "quelle", damit der Bot PC, Laptop und Spieler als eigene Quellen zählt.
 MARKT_QUELLE = re.compile(r"^[0-9a-f]{16}$")

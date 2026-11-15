@@ -11,6 +11,14 @@ INSTALLATION
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
 
+NEU IN 3.0.27 – Chinesisch repariert, Marktdaten-Netz Version 7
+- Chinesisch (vereinfacht): Die Frage "Gegenstand an Spieler für DKP vergeben?" und die Ansage danach liessen das Addon
+  abbrechen, weil die Übersetzung die Platzhalter vertauscht hatte. Jetzt in der richtigen Reihenfolge.
+- Neuer Test T184: prüft in jeder Sprache, dass jede Übersetzung dieselben Platzhalter in derselben Reihenfolge hat.
+- GoldSentinelMarkt.lua neu aus der gemeinsamen Vorlage (Version 7): Beim Weitergeben eines ganzen Scans an die Gilde
+  höchstens etwa 2,8 MB Zwischenspeicher statt bis zu 7,5 MB – kein langer Ruckler mehr, gleiches Ergebnis.
+  Der Schalter "Marktdaten teilen" stoppt jetzt auch eine schon geplante Antwort an die Gilde.
+
 NEU IN 3.0.26 – Marktdaten-Netz Version 2
 - GoldSentinelMarkt.lua neu aus der gemeinsamen Vorlage (Version 2): Ist AHSentinel geladen, liest sie die Scans nicht
   noch einmal selbst (AHSentinel gibt sie weiter) – kein Ruckeln beim Vollscan und im Sniper. Höchstens 10 wartende

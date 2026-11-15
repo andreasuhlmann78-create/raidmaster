@@ -1,0 +1,75 @@
+BERICHT RAIDMASTER AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 20:30 · Sitzung: RaidMaster-Projekt-Sitzung · Version: Addon 3.0.27, Uploader 2.3.12
+Commit: dieser Push · Bezug: offen-raidmaster.txt (Nacht-Analyse 19:59 GSM7, Prioritäten T90 / UP-v3, Hinweis 20:10 UP-404
+Zusammenspiel, 92ce3c2d Grenze 2 MB/3 MB)
+Status aller Punkte: umgesetzt, zur Prüfung.
+
+1. T90 (MITTEL) – Ursache BELEGT, liegt in der eigenen Nachbildung, nicht im Addon:
+   - Nachbildung harness.lua (lokal im Arbeitsordner der Sitzung, nicht im Repo, siehe Hinweis unten) entfernte bis heute alle
+     Zeilen "Locales/…" aus der TOC-Reihenfolge und fügte die Sprachdateien mit table.insert(files, 2, …) VORNE ein, also
+     direkt nach GoldSentinelDev.lua und VOR Locale.lua (RaidMaster.toc Zeile 24). Jede Sprachdatei beginnt mit
+     "if RM.LOCALE ~= "enUS" then return end" (Locales/enUS.lua:5) – RM.LOCALE wird erst in Locale.lua:16 gesetzt, war also
+     nil -> jede Sprachdatei brach ab -> alle 609 übersetzten Texte fehlten -> T90 "609:".
+   - Im Spiel lädt WoW in TOC-Reihenfolge: Locale.lua (Zeile 24) vor Locales\enUS.lua (Zeile 25) -> dort tritt der Fehler nicht auf.
+   - Behoben in der Nachbildung (TOC-Reihenfolge unverändert, auch für Locales). Danach in ALLEN 11 Sprachen
+     (deDE, enUS, frFR, esES, esMX, itIT, ptBR, ruRU, koKR, zhCN, zhTW) die ganze Testroutine: "ALLE OK" (ruRU einmal T114
+     Serializer 17,4 ms > 16 ms – Zeitmessung der Nachbildung, Wiederholung OK).
+
+2. NEUER BEFUND aus T90 (HOCH für chinesische Spieler) – im Addon behoben:
+   - Erst mit geladenen Übersetzungen lief die Routine unter zhCN – und brach ab:
+     "Auction.lua:267: bad argument #3 to 'format' (number expected, got string)".
+   - Ursache: Locales/zhCN.lua:298 "将 %s 以 %d DKP 分配给 %s？" und :301 "[RaidMaster] %s 以 %d DKP 获得 %s。" – Platzhalter
+     vertauscht (%s %d %s statt %s %s %d). Lua 5.1 kennt kein "%1$s"; string.format brach ab -> bei chinesischem Client fragte
+     die DKP-Vergabe nie nach, die Ansage kam nicht. Fehler bestand seit der Übersetzung (vor 3.0.25).
+   - Neu: zhCN.lua:298 "将 %s 分配给 %s，花费 %d DKP？", :301 "[RaidMaster] %s 获得 %s，花费 %d DKP。".
+   - Alle 20 Sprachdateien geprüft (Skript, Platzhalter %s/%d/%i/%f/%g/%x/%c/%q mit Flags, "%%" ausgenommen): 0 Abweichungen.
+     Die 172 Treffer der ersten, zu weiten Suche waren Prozentangaben mit Leerzeichen ("30 % …") in Taktiktexten, die nie
+     durch string.format laufen (DKP.lua:469 " % Decay" wird angehängt, nicht formatiert).
+   - Neuer Test T184 (Bereich F, Test/Routine.lua:3692): jede geladene Übersetzung hat dieselben Platzhalter in derselben
+     Reihenfolge wie der deutsche Schlüssel; deDE = SKIP. Gegenprobe mit dem alten zhCN-Text: "[FEHLER] T184 … 1 von 6103:
+     %s an %s für %d DKP vergeben?". Mit dem neuen: ALLE OK. T184 läuft wie T90 am Ende der Routine und steht daher nicht in
+     der TU6-Regressionsliste (diese zählt nur Tests, die vor T177 laufen).
+
+3. GSM7 (MITTEL) – RaidMaster/GoldSentinelMarkt.lua = shared/GoldSentinelMarkt.lua (cmp gleich, local VERSION = 7).
+   GoldSentinelGame/Sync/Test ebenfalls cmp gleich. Testroutine Forever (16001) und Era (11509): ALLE OK (T180–T183 mit v7).
+   addon_check download/RaidMaster-3.0.27.zip: "RaidMaster-3.0.27.zip: OK", kein FEHLER, keine WARNUNG (auch nicht mehr
+   "veraltete offizielle Fassung"), Lua-Syntax mit lupa (Lua 5.1); Test der gemeinsamen Markt-Datei 104/104.
+   Discord: RaidMasterBot/raid_addon_intro.md "Updates" ergänzt um 3.0.27 und einen Sammeleintrag 3.0.20–3.0.26 (fehlte seit
+   3.0.19). Der Bot postet daraus mit der neuen ZIP in #raid-addon (Weg laut discord-check/check.py 2b). Damit die
+   Updates-Nachricht unter 2000 Zeichen bleibt (sonst teilt der Bot sie, und der zweite Teil würde beim nächsten Mal nicht als
+   eigener Beitrag erkannt – _is_rm_post prüft den Anfang "📜 **Updates**"), ist der älteste Eintrag 3.0.9 entfallen
+   (steht weiter in LIESMICH.txt). Längen: Vorstellung 1695, Updates 1892 Zeichen.
+   RaidMaster ist nicht auf CurseForge (curseforge/projects.json) -> ZIP sofort in download/.
+
+4. UP-v3 (NIEDRIG) – Test T-UPv3: tests/test_uploader.py:463 test_upv3_sechs_exportzeilen_v7. Echtes v7-Format (FeedFinish,
+   shared/GoldSentinelMarkt.lua:548–556): 5 Zeilen à 259 752 Zeichen (14 000 Einträge "id,p,q,n,cmp,low" Base36), davon zwei
+   "ohne Abgänge"-Zeilen mit Zeit+1, und eine leere Kopfzeile (0 Items); zusammen 1,24 MB ≤ 1,5 MB. Ergebnis: alle 6 Scans
+   genau einmal gesendet, jeder Paket-Teil entpackt ≤ 4 MB, zweiter Lauf "leer" ohne neue Nachricht, keine Meldung
+   "zu gross"/"unbekanntes Format". In test_umfassend REGRESSIONEN aufgenommen.
+
+5. Grenze 2 MB / 3 MB (92ce3c2d) – Wert angeglichen: uploader.py:98 MARKT_MAX_ONE = 3 MB, gleich wie RaidMasterBot/market.py
+   MAX_LINE. Kommentar richtiggestellt. test_mn6b prüft jetzt Gleichheit mit dem Wert aus market.py (statt ≤ 2 MB).
+   Eine 3-MB-Zeile passt in einen Paket-Teil (TEST_MAX_JSON 4 MB entpackt).
+
+6. UP-404 Zusammenspiel (Hinweis 20:10) – sync.py:656 Text bei Discord-Code 10015 (Webhook unbekannt) jetzt:
+   "Bot nicht auf dem Server oder Webhook gelöscht (Bot vom Server entfernt, oder Kanal #sync-daten bzw. sein Webhook
+   gelöscht). Ist der Bot weg, ihn zuerst wieder einladen." + wie bisher "Was tun: In Discord /uploader ausführen …".
+   Ändert die Discord-Sitzung ihren Wortlaut, zieht der Uploader nach.
+   UP-404 (3) Beleg "nichts verloren seit 14.11. 18:50": Fenster des Nutzers 15.11. 02:40 (2.3.10): "Abgleich: zuletzt
+   hochgeladen 15.11. 02:39 (DESKTOP-NVITMSE) … dieser Rechner aktuell" und "Hochgeladen (47 KB, gepackt 10 KB)" um 02:40:57,
+   "Prüfung: zuletzt geliefert 15.11. 02:01 (22 Dateien)". Der erste Abgleich nach der neuen sync_config.json hat den
+   lokalen Stand hochgeladen; die SavedVariables wurden in der 404-Zeit nicht verändert (pull bricht vor jedem Schreiben ab).
+   UP-404 (2) und (4) sind in 2.3.10 umgesetzt (Bericht 2026-11-15-0200), 2.3.11 (Bericht -0250) passt Zähler vom alten Ort an.
+
+EIGENE TESTS (Hinweise, keine Freigabe):
+- Testroutine (Nachbildung): 11 Sprachen ALLE OK; Forever 16001 und Era 11509 ALLE OK.
+- Uploader-Tests: test_daten 12, test_sync 53, test_uploader 23, test_umfassend 14 (Regressionen 69/69) – grün.
+- Bot-Tests (RaidMasterBot/tests, einzeln): alle OK.
+- ZIPs: download/RaidMaster-3.0.27.zip (= RaidMaster-latest.zip, 72 Einträge, TOC 3.0.27), RaidMaster-3.0.26.zip entfernt,
+  README.md verlinkt 3.0.27; download/RaidMasterUploader.zip (VERSION 2.3.12, ohne tests/, ohne Konfigurations-/Statusdateien).
+
+HINWEIS / FRAGE: Die Nachbildung (harness.lua, test74.lua) liegt nur im Arbeitsordner der Sitzung. Sie enthält Test-Spielernamen
+(z. B. für Chat-Ausgaben). Soll sie – mit nur erfundenen Namen – ins Repo (z. B. RaidMaster-Nachbildung/, nicht in der ZIP)?
+
+FÜR DEN NUTZER (nach Prüfung): Addon 3.0.27 kommt über den Bot in #raid-addon. Uploader 2.3.12 mit /uploader nur_programm:True
+auf beide Rechner, Konfigurationsdateien behalten.

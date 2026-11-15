@@ -460,6 +460,46 @@ class Paket(Base):
         self.assertEqual(r.flush(now=3000), "leer")
         self.assertIn("Markt-Scan", up.package_summary({"markt": 2}))
 
+    def test_upv3_sechs_exportzeilen_v7(self):
+        # T-UPv3: GoldSentinelMarkt v3–v7 halten bis 6 Export-Zeilen je Addon (zusammen <= 1,5 MB). Echtes Format wie
+        # shared/GoldSentinelMarkt.lua FeedFinish: Kopf "GSMARKT1|1|<Fraktion>|<Zeit>|<gelesen>|<Items>|<dt>|", Einträge
+        # "id,p,q,n,cmp,low" in Base36 mit ";" getrennt, zweite Zeile (Items ohne Abgänge) mit Zeit+1, leere Zeile bei 0 Items.
+        def b36(n):
+            d = "0123456789abcdefghijklmnopqrstuvwxyz"
+            out = ""
+            while True:
+                n, r = divmod(n, 36)
+                out = d[r] + out
+                if not n:
+                    return out
+        def line(t, n_items, dt=600):
+            ents = ";".join(f"{b36(1000 + i)},{b36(5000 + i * 7)},{b36(1 + i % 20)},{b36(1 + i % 5)},{b36(i % 9)},{b36(4000 + i)}"
+                            for i in range(n_items))
+            return f"GSMARKT1|1|H|{t}|{n_items * 3}|{n_items}|{dt}|{ents}"
+        t0 = 1794580000
+        lines = [line(t0, 14000), line(t0 + 1, 14000, 0), line(t0 + 3600, 14000), line(t0 + 3601, 14000, 0),
+                 line(t0 + 7200, 14000), f"GSMARKT1|1|H|{t0 + 10800}|120|0|0|"]
+        self.assertTrue(all(up.MARKT_LINE.match(x) for x in lines))
+        total = sum(len(x) for x in lines)
+        self.assertGreater(min(len(x) for x in lines[:5]), 200 * 1024)            # je ~250 KB
+        self.assertLessEqual(total, int(1.5 * 1024 * 1024))                      # wie TrimExport (v3–v7)
+        sv = 'RaidMasterDB = {\n\t["gsMarkt"] = {\n\t\t["export"] = {\n' + "".join(f'\t\t\t"{x}",\n' for x in lines) + "\t\t},\n\t},\n}\n"
+        self.write("RaidMaster.lua", sv)
+        r = self.reporter()
+        self.assertEqual(r.flush(now=1000), "ok")
+        got = []
+        for i, c in enumerate(self.net.calls):
+            names = re.findall(rb'filename="(paket-[^"]+)"', c.data)
+            for nm in names:
+                raw = gzip.decompress(attachment(c.data, nm.decode()))
+                self.assertLessEqual(len(raw), up.TEST_MAX_JSON + 64 * 1024)      # Teil entpackt höchstens ~4 MB
+                got += [x for x in json.loads(raw)["items"] if x.startswith("GSMARKT1|")]
+        self.assertEqual(sorted(got), sorted(lines))                              # alle 6 Scans, keiner doppelt
+        n_calls = len(self.net.calls)
+        self.assertEqual(r.flush(now=2000), "leer")                               # zweiter Lauf: 0 neue
+        self.assertEqual(len(self.net.calls), n_calls)
+        self.assertFalse(any("zu gross" in l or "unbekanntem Format" in l for l in self.logs))
+
     def paket_doc(self, call=0):
         name = re.search(rb'filename="(paket-[^"]+)"', self.net.calls[call].data).group(1).decode()
         return json.loads(gzip.decompress(attachment(self.net.calls[call].data, name)))
@@ -486,7 +526,9 @@ class Paket(Base):
         st = up.load_state({})
         st["markt_quelle"] = "Testa"
         self.assertRegex(up.markt_source(st), r"^[0-9a-f]{16}$")
-        self.assertLessEqual(up.MARKT_MAX_ONE, 2 * 1024 * 1024)
+        bot = open(os.path.join(os.path.dirname(up.HERE), "RaidMasterBot", "market.py"), encoding="utf-8").read()
+        m = re.search(r"^MAX_LINE = (\d+) \* 1024 \* 1024", bot, re.M)
+        self.assertEqual(up.MARKT_MAX_ONE, int(m.group(1)) * 1024 * 1024)   # 2.3.12: gleiche Grenze wie der Bot
 
     def test_u3_unbekanntes_markt_format_einmal_gemeldet(self):
         # 2.3.7 (U3): Zeile in fremdem Format -> nicht gesendet, EINE Meldung ohne Inhalt, auch nach Neustart nicht wieder

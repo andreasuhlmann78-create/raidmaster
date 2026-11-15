@@ -23,6 +23,14 @@ MAIN FEATURES
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
 
+WHAT'S NEW IN 3.0.27 – Chinese fixed, market data network version 7
+- Simplified Chinese: the question "Give item to player for DKP?" and the announcement afterwards made the addon fail,
+  because the translation had swapped the placeholders. They are now in the right order.
+- New test T184: checks in every language that each translation has the same placeholders in the same order.
+- GoldSentinelMarkt.lua updated from the shared template (version 7): handing a full scan to the guild now needs at most
+  about 2.8 MB of temporary memory instead of up to 7.5 MB – no long stutter, same result.
+  The "share market data" switch now also stops a reply to the guild that was already scheduled.
+
 WHAT'S NEW IN 3.0.26 – Market data network version 2
 - GoldSentinelMarkt.lua updated from the shared template (version 2): if AHSentinel is loaded, it no longer reads the
   scans a second time (AHSentinel hands them over) – no stutter during full scans and in the sniper. At most 10 queued
