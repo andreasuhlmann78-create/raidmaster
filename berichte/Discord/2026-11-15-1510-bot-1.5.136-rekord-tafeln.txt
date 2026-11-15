@@ -1,0 +1,58 @@
+BERICHT DISCORD AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 15:10 · Sitzung: Discord-Projekt · Version: Bot 1.5.136
+Umgesetzt, zur Prüfung.
+
+ENTSCHEID DES NUTZERS (15.11. 14:43–15:03, bitte in shared/wissen/entscheide.md aufnehmen):
+- Ruhmeshalle: Rekorde mit Raid bzw. Dungeon. Ungültige (überholte) Einträge gleich nach dem neuen löschen.
+- 14:58 + 15:00: Je Raid und je Dungeon EINE Rekord-Tafel in #ruhmeshalle (dort, weil Dungeons keine eigenen Kanäle haben).
+  "ok mach das so".
+- 15:03: "die Dungeons können nach Level sortiert werden".
+
+UMGESETZT (Bot 1.5.136):
+- rekord_tafel.py (neu):
+  - Eine Tafel je Raid mit mindestens einem Kill: Bosse in Raid-Reihenfolge, Bestzeit (ab 10 s, wie rmd.best_times)
+    und Datum. Offene Bosse zeigen "noch kein Kill"; ein gelegter Boss ohne gemessene Dauer zeigt das ausdrücklich.
+  - 🆕 = Rekord vom letzten Raidabend dieses Raids (Abende getrennt durch eine Lücke > 6 h).
+  - "Ganzer Raid" = letzter Kill minus Beginn des ersten Kampfs (Kill-Zeit minus Dauer), nur an Abenden mit allen
+    Bosse der Liste und mit gemessener Dauer des ersten Kills.
+- Zuordnung:
+  - Zuerst die Encounter-ID über bosses.json (neu, erzeugt mit make_bosses.py aus RaidMaster/Data.lua und
+    RaidData.lua; nur Raids mit games "forever", von jedem Schlüssel die erste Fassung, z. B. Naxx Classic mit 15
+    Bossen).
+  - Sonst der Topf eines Forever-Raids ohne Bossliste (barrow, hyjal), dort in der Reihenfolge des ersten Kills.
+  - Sonst die Tafel "Weitere Bosse (Dungeons und andere)".
+  - BELEG, warum nicht einfach der Topf: RaidMaster/Records.lua:42–45 PoolFor(id) nimmt für unbekannte Bosse den Topf
+    der Instanz oder der laufenden Sitzung. Ein Dungeon-Boss bekommt so den Topf des Raidabends (z. B. "mc").
+- bot.py update_record_boards:
+  - Einmal posten, danach nur bearbeiten, und nur wenn sich der Inhalt ändert (Hash).
+  - Neuer Raid in der Liste oder eine Tafel fehlt: alle Tafeln löschen und in fester Reihenfolge neu posten.
+  - Die Einzelzeilen "⏱️ Neuer Rekord: …" entfallen. Die alten werden einmal gelöscht (nur eigene Nachrichten des
+    Bots, die genau so beginnen; höchstens die letzten 2000 Nachrichten).
+  - Erstkills und Erfolge bleiben unverändert.
+- Tests T-RT (10):
+  - Zuordnung (ID vor Topf, eigener Raid, Dungeon am MC-Abend);
+  - bosses.json aktuell (make_bosses.py --check im Repo), nur Forever, Naxx Classic;
+  - Werte, 🆕 und ganzer Raid nachgerechnet: 5000 − (1000 − 95) = 4095 s = 1:08:15;
+  - Grenzfälle: keine Dauer, Lücke > 6 h, leere Daten.
+  - 3 Ablauf-Tests mit dem echten bot.py und einem nachgebauten Kanal:
+    - posten, Altzeile weg, fremde Nachricht und Erstkill bleiben;
+    - zweiter Lauf ohne Änderung tut nichts; neuer Rekord bearbeitet nur eine Tafel;
+    - neuer Raid ordnet neu, nichts doppelt;
+    - eine von Hand gelöschte Tafel wird neu gepostet.
+  - Alle 252 Bot-Tests OK. Workflow-Importliste um rekord_tafel ergänzt.
+- Im Betrieb zu prüfen: Nach /update und dem nächsten Upload stehen die Tafeln in #ruhmeshalle, und die alten Zeilen
+  "Neuer Rekord" sind weg.
+
+AUFTRAG ZUM WEITERGEBEN AN RAIDMASTER (Dungeons, Nutzer 15:03 "nach Level sortiert") – bitte als Auftrag übertragen:
+Das Addon soll Dungeon-Bosse eindeutig kennzeichnen. Dann kann der Bot je Dungeon eine Tafel zeigen, nach Level
+sortiert.
+- Im Kill-Protokoll (RaidMasterDB.killlog) bei Dungeon-Kills die Instanz mitschicken, z. B. i = <Instanz-ID>
+  (GetInstanceInfo, 8. Wert) und it = "party". Topf p nur bei Raid-Bossen setzen.
+- Eine Liste der Classic-Dungeons von WoW Forever mit Instanz-ID, deutschem Namen, Levelbereich und Bossen
+  (Encounter-IDs, Reihenfolge). Gleiche Quelle wie RaidData.lua (DBM), damit die IDs belegt sind. Der Bot übernimmt
+  sie mit make_bosses.py.
+Bis dahin stehen Dungeon-Kills auf der Tafel "Weitere Bosse (Dungeons und andere)". Die Level-Reihenfolge ist im Bot
+vorbereitet, sobald die Daten da sind. Dungeon-IDs schreibe ich nicht aus dem Gedächtnis (Perfektion: nur belegte
+IDs).
+
+WEITER NACH PRIORITÄTEN: UP-404 (a–d), KEEP90, D-MN7c2, D-MN7e2.
