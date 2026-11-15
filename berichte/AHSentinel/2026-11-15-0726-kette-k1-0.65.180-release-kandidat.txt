@@ -1,0 +1,31 @@
+AHSentinel 0.65.180 – KETTE-K1 – RELEASE-KANDIDAT, umgesetzt, zur Prüfung (Ke.LIVE = true)
+CurseForge: nein (nächster Termin 18:00). Zip als GitHub-Release v0.65.180 (Repo AHAnalyzerPro) und an den Nutzer geschickt.
+NICHT in raidmaster/download/: curseforge.yml lädt jede Zip in download/ sofort hoch (kein 18:00-Halt in upload.py/Workflow).
+Bitte Workflow umstellen oder die Zip um 18:00 selbst nach download/ legen (dann geht genau diese Version hoch).
+
+(1) Widerspruch Ketten vs. "Beste Rezepte":
+- Ursache im Code: die Kette rechnete mit EIGENER Bewertung (Ke:ReagentCost/Ke:ProductValue, eigene Rekursion über alle
+  Stufen, eigene Preisleiter, eigene Händlerwahl) statt mit der von "Beste Rezepte" (Cr:ReadRecipe). Dazu: ohne geladene
+  Item-Daten (Qualität/Stufe) ist kein Entzauber-Wert rechenbar -> Weg "verk." (Handschuhe 133) bzw. "Produkt ohne Preis"
+  (Hose fehlte). Die Rechnung mit den Daten 00:35 liess sich hier nicht nachspielen (keine Scan-Daten im Repo) – beide
+  Gründe sind behoben.
+- Neu: EINE Bewertung Cr:EvalRecipe(productID, made, Zutaten, Rezepte) – ReadRecipe (Beste Rezepte) und Ke:Chain rufen
+  dieselbe Funktion; Zwischenprodukte bei den Ketten aus den gemerkten Rezepten der Figur (BestUnit/ExpandNeed mit
+  Rezeptliste), eigene Materialien wie in Beste Rezepte zum Verkaufswert. Fehlen Item-Daten: Laden anstossen, Grund
+  "Daten fehlen", nach 5 s einmal neu rechnen.
+(2) Nachrechen-Zeile im Testbericht je gezeigter Kette (Top 8), Beispiel aus dem Test:
+  "Nachrechnung <ID>: Zutaten: 2× <Ballen> à 42.0 (selbst hergestellt) = 84 [aus 2× <Leinenstoff> à 21.0 für 1 Stück];
+   1× <Faden> à 10.0 (Händler) = 10 · Kosten 94 · Werte: verk. 133, ent. 154, Händler <x> · Weg ent. · Gewinn +60 (64 %)"
+(3) SK1-l: neue Zeile "Weg Herstellen -> Entzaubern -> Verkauf: n Kettenteile entzaubert · m Material-Verkäufe ·
+  realisiert ±x" – Buchung "de" des vorhergesagten Kettenprodukts öffnet den Weg, danach zählen Verkäufe von Material mit
+  Herkunft "de" (Einstand enthält die Herstellkosten). Vorhersage beim Herstellen (CRAFT_DONE) wie bisher – sie fehlte,
+  weil die Hose nicht in der Kettenliste stand (Punkt 1).
+(4) Ke.LIVE = true: Heute tun "Stelle n× … her (+x je Stück)" (nur Gewinn ≥ 20 %, nichts mit Verlust), Zutaten der
+  Kette werden nicht zum Verkauf vorgeschlagen (MH-1). Zahl = Kette = Beste Rezepte.
+  SN-B3 bleibt beim neutralen Text (Kettenwert in der Sniper-Warnung erst nach Ihrer Prüfung – bitte sagen, ob gewünscht).
+Test: T748 (Handschuhe 94c Kosten, verk. 133/ent. 154 -> ent. +60 (64 %) = Beste Rezepte +60; Hose ohne AH-Preis +60;
+  Nachrechen-Zeile; SK1-l 1/1, entzaubert 1, verkauft 1, +66; eingeschaltet), T704/T717/T708 unverändert grün.
+Selbstkontrolle: SK1-l (oben). Gesamtlauf 250/251: rot nur s92_fullscan_smooth NP152-3 (Lauf 3 +16 MB, Grenze 15 MB) –
+  heute auch mit 0.65.179 rot (gegengeprüft), im Lauf zu 0.65.179 noch grün -> nicht durch diese Version (Speicher-Thema
+  RUCKEL-1). addon_check OK.
+Bitte an den Nutzer: /ahs testroutine (Bericht: MARKT-KERN Ketten + Nachrechen-Zeilen), Blick auf Heute tun / Beste Rezepte.
