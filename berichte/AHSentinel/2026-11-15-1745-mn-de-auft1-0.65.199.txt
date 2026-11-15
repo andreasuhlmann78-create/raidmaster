@@ -1,0 +1,89 @@
+AHSentinel 0.65.199 – MN1–MN5 Marktdaten-Netz (Masterplan 2.2) + DE-AUFT1 (Masterplan 3.1) – umgesetzt, zur Prüfung (Feed aus und MN5 nur Zusatz, begründet)
+CurseForge: nein (erst nach der Sniper-Abnahme). GitHub-Release v0.65.199 und sofort im Discord.
+
+MN1:
+  - GoldSentinelMarkt.lua (Version 4) byte-gleich aus shared/ (cp), in der TOC direkt nach GoldSentinelSync.lua.
+  - Anmeldung beim Laden: A:AttachMarketNet -> GoldSentinelMarkt.Attach("AHSentinel", AHSentinelDB), Daten in AHSentinelDB.gsMarkt.
+    Fehlt die Datei oder die AH-Schnittstelle, bleibt es still aus (pcall).
+  - FEED VORERST AUS (VS.FEED_ON = false), gemessen:
+    - Fertig gebaut sind VS:FeedNet (je Item tiefster Stückpreis s.min, Menge s.qty, Auktionen s.auc, nach gültigem Vollscan)
+      und FeedStart direkt vor ReplicateItems.
+    - GSMarkt.Feed (Version 4) verarbeitet aber alle Items eines Scans in EINEM Aufruf (Apply: Pack je Item + Export-Zeile).
+      Nachbildung s92 (6000 Items, Vollscan 3): längste Portion 54 bzw. 62 ms statt ≤ 16 ms, Speicher neu angelegt +22 bis
+      +23 MB statt +13 MB. s92 rot.
+    - Ruckeln ist verboten, und die gemeinsame Datei ändert nur die Prüf-Sitzung. Darum gibt AHSentinel seine Scans noch nicht
+      weiter. Empfangen und Teilen der Netz-Daten anderer laufen (GSMarkt selbst).
+    - BITTE an den Supervisor (GoldSentinelMarkt Version 5):
+      - Feed in Portionen (z. B. FeedBegin/FeedPart/FeedEnd oder Feed als Aufgabe mit Zeitbudget);
+      - Abgänge nur für die übergebenen Items (sonst wäre ein Abgang 0 für nicht verfolgte Items falsch).
+      Dann schalte ich FEED_ON ein; Test T782 prüft den Feed-Weg schon.
+  - Nachbildung (wowsim): IsAddOnLoaded/C_AddOns.IsAddOnLoaded nachgebildet (AHSentinel geladen). Vorher fehlte die Funktion,
+    GSMarkt hielt AHSentinel für nicht geladen und las die Vollscans in der Nachbildung SELBST (+38 MB). Im Spiel liest GSMarkt
+    neben AHSentinel nichts (v2).
+MN2:
+  - Einstellungen, Zeile "Marktdaten teilen" (Knopf an/aus/nicht verfügbar), Standard an, GSMarkt.SetShare.
+  - Tooltip: "anonym, nur Preise", keine Namen, fremde Werte überschreiben nie den eigenen Scan und lösen nie einen Kauf aus.
+  - Der lange Wortlaut "(anonym, nur Preise)" passte im Französischen nicht in die Spalte (Selbsttest T112 rot) und steht darum im
+    Tooltip.
+MN3: Testbericht-Zeile "MARKT-NETZ: Version · an/aus · Vollscans mitgelesen · weitergegeben (Feed) · Vergleiche · gesendet ·
+     empfangen (angenommen) · Speicher ~KB" (A:MarketNetLine, im Prognose-Bericht nach MARKT-KERN).
+MN4: T782 prüft:
+  - Datei geladen und angemeldet;
+  - Feed mit richtigen Werten, leeres Item nicht, dt 0;
+  - Schalter aus -> kein Feed;
+  - ohne Datei: kein Fehler, Anmelden false, Zeile "Datei fehlt".
+  Ohne AH-API: GSMarkt selbst bleibt still (ah() = nil).
+MN5 – NUR ALS ZUSATZ-ANGABE, begründet:
+  - A:NetPrice(itemID) liefert den Netz-Wert (Preis, Menge, Zeit, Herkunft "netz", Alter) nur, wenn er NEUER ist als der eigene
+    Scan des Items und höchstens 6 Std. alt ist; bei Schalter aus oder ohne Datei nil (T783).
+  - Die Rangfolge "eigener frischer Scan > Netz > Schätzung" für RECHENWERTE (A:PriceInfo) habe ich in der Nacht NICHT
+    eingeschaltet, aus drei Gründen:
+    (1) Gold-Sicherheit: A:PriceInfo speist Entzauber-Werte, Schnäppchen, Lohnt bis und Kaufgrenzen. "Fremde Werte allein lösen
+        nie Kauf/Verkauf aus" lässt sich dort nicht für jeden Weg belegen, ohne alle Kaufwege zu ändern.
+    (2) Tempo: A:PriceInfo ist der heisseste Pfad (tausende Aufrufe je Rechnung); GSMarkt.Get entpackt je Aufruf eine
+        Zeichenkette.
+    (3) Anzeige: Der Tooltip ist eingefroren (TT-STOP, Nutzer 11:50).
+  - Vorschlag: Netz-Wert erst als Rechenwert, wenn kein eigener Wert da ist UND als "unsicher" markiert (kein Sofortkauf,
+    kein Sniper-Ziel, keine Kaufgrenze daraus). Anzeige "Netz, vor n Min." im Markt-Reiter (MR1), nicht im Tooltip.
+  - Bitte entscheiden; bis dahin bleibt es Zusatz-Angabe.
+TESTS: T782 (Standard aus, Feed-Weg, Schalter, ohne Datei), T783 (neu, mit 0.65.198 rot – Funktionen fehlen).
+       s42 grün inkl. T112 (Sprachwechsel, Optionen nicht abgeschnitten). s92: längste Portion 9 ms, +13 MB.
+       Locales +2 (alle Sprachen).
+
+DE-AUFT1 – Entzauber-Einstand nach erwartetem Wert + Posten "Entzauber-Ausbeute" (Entscheid Supervisor 16:35)
+REGEL (Books.lua BK:OnDisenchant, neu BK:ExpectedDE, BK:MatNet):
+  - Einstand je Material-Stück = Netto-Preis_m × (Einstand des Teils / E).
+    Netto-Preis_m = BK:MatValue (aktueller Preis aus A:RealPrice, wie bisher) minus Gebühr je Stück (Forever A:FeePerPiece, sonst
+    5 %), Stand beim Entzaubern.
+    E = erwarteter Netto-Wert einer Entzauberung der GRUPPE = Σ erwartete Stück je Entzauberung × derselbe Netto-Preis_m.
+  - Erwartete Stück:
+    - ab D.FEW_DATA (10) Entzauberungen: D:ActualValue (eigene + geteilte Ergebnisse der Gruppe, Summe/Summe = total/n);
+    - sonst D:EstimateRows (Tabelle mit Ergebnissen verrechnet, Chance × Ø-Menge).
+  - Gleiche Preise in Zähler und Nenner: Die Ausbeute misst nur Glück/Pech der Menge, keinen Preisunterschied.
+    Ein Unterschied zu D:ActualNet (Tooltip-Wert, mit Korrektur der Materialpreise) bleibt bewusst draussen: Die Korrektur gehört zum
+    Verkaufspreis, nicht zum Einstand.
+  - Ausbeute = Σ Material-Einstand − Einstand des Teils, gebucht als Log { k = "dey", id, amt, ex = E }.
+    Exakt in Kupfer: Die Rundung je Material steckt in der Ausbeute, darum gilt Σ Einstand − Ausbeute = Einstand des Teils.
+  - Gewinn (BK:Summary): profit = Erlös − Einstand − verfallene Anzahlungen + Ausbeute.
+    Über die ganze Kette ändert sich nichts am Gold, nur die Aufteilung auf die Materialien und der Zeitpunkt von Glück/Pech.
+  - Anzeige:
+    - Buchhaltung – Details: "Entzauber-Ausbeute: +x / −x", nur wenn es Ausbeute-Buchungen gibt;
+    - Testbericht: Zeile "DE-AUFT1 Entzauber-Ausbeute … aus n Entzauberungen · Regel gilt seit <Datum Zeit>" (db.deyFrom = erste
+      Entzauberung nach der neuen Regel);
+    - Protokoll ENTZ-VERTEILUNG mit E und Ausbeute;
+    - NICHT im Tooltip (Nutzer 11:50, TT-STOP).
+  - Nur NEUE Entzauberungen. Alte Buchungen bleiben unverändert (kein stilles Umschreiben); "de"-Buchungen nach der neuen Regel
+    tragen ev = 1.
+  - Fehlt die Erwartung (keine Gruppe, Preis eines Materials mit Chance ≥ 5 % fehlt) oder ein Preis der erhaltenen Materialien:
+    bisherige Aufteilung nach relativem Preis dieser Entzauberung, keine Ausbeute-Buchung.
+TEST T784 (mit 0.65.198 rot – Funktionen fehlen):
+  - Teil 1000c, erwarteter Netto-Wert 800c. Staub netto 300c × 2 -> Einstand 750c, Ausbeute −250c (Pech). Essenz netto 1000c × 1
+    -> 1250c, Ausbeute +250c (Glück).
+  - 1000 Zufalls-Entzauberungen: Lager − Einkauf = Σ Ausbeute = Gewinn, Differenz 0 Kupfer.
+  - Ohne Erwartung: bisherige Aufteilung, nur die "de"-Buchung.
+Mit den Zahlen der Auswertung 15.11. (Staub 1,117/DE, Essenz 0,318, Splitter 0,053 zu 3s99/14s01/34s74 netto = 10s75 je DE) und
+einer Schulter zu 9s19:
+  - Staub künftig 3s99 × 9s19/10s75 = 3s41 Einstand je Stück statt 5s06; Essenz 11s98 statt 5s61.
+  - Der Tooltip "Seelenstaub Gewinn −19c" verschwindet damit für neue Ware; alter Bestand behält seinen Einstand.
+Locales +1 (alle Sprachen), CHANGELOG EN/DE (eine Version für beide Punkte: 0.65.199 wurde vor dem Gesamtlauf wegen s92 zurückgehalten).
+Gesamtlauf der Nachbildung (wowsim mit IsAddOnLoaded, alle Szenarien): BESTANDEN 258, FEHLGESCHLAGEN 0 (s92 grün: Feed aus).
