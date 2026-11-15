@@ -1,0 +1,24 @@
+AHSentinel 0.65.216 – RK7 Rangfolge (Masterplan 4.3) + Feed-Messung – umgesetzt, zur Prüfung
+CurseForge: nein (erst nach der Sniper-Abnahme). GitHub-Release v0.65.216 und sofort im Discord.
+
+RK7 (Comfort.lua K:RankScore, K:WaySafety; Heute tun / TodayActions Budget-Verteilung K1)
+  - Rang = (Gewinn / Einsatz) ÷ Tage bis zum Verkauf × Sicherheit des Wegs.
+    - Tage: r.days, sonst 1, weil die Kaufmenge auf 1 Tag Absatz begrenzt ist (buyQty).
+    - Sicherheit = Trefferquote aus MK:Quote (flip/de/vendor). Mit weniger als FREE_MIN = 20 Fällen gilt die vorsichtige
+      Freigabe-Schwelle FREE_PCT = 60 %.
+    - Ohne Einsatz (eigene Ware verkaufen/entzaubern) = zuerst.
+  - Wirkung: In dieser Reihenfolge bekommen die Vorschläge das Budget (25 % des Golds, Kürzung der Menge wie bisher).
+    Vorher: Gewinn/Einsatz ohne Tage und ohne Sicherheit.
+  - Die angezeigte Liste bleibt nach Gewinn sortiert (MH-1: eine Zahl je Zeile = Gewinn).
+    FRAGE an den Supervisor (keine Wartezeit): Soll auch die Anzeige nach dem RK7-Rang sortiert werden? Die Rang-Zahl steht
+    je Zeile bereit (r.rank).
+  - Test T797: flip (30 Fälle, 90 %) 0,090 > de (5 Fälle -> 60 %) 0,060 > flip mit 2 Tagen 0,045; eigene Ware zuerst.
+  - CHANGELOG EN/DE (keine neuen Locales).
+
+Feed (MN4): Messung s216_feed_memory -> Feed-Anteil 6,0–7,2 MB (Median 6,3) > Grenze 4 MB. VS.FEED_ON bleibt aus.
+  Eigener Bericht: …-messung-feed-speicher.txt. s92 läuft ausdrücklich ohne Feed. s216 prüft die Grenzen, sobald der Feed an ist.
+Nachtrag zu 0.65.212 (Frage Supervisor 19:35, s2 erlaubt 160 s): Der Spieler merkt das beim Einstellen nicht. Jede Prüfung,
+die er anklickt (Zeile im Verkaufen-Reiter, CheckPrice front), steht in Se.userItems und läuft sofort ("user"), auch im
+Ruhemodus. Ebenso läuft alles in den 30 s nach einer Handlung im AH (A:UserAHPause, z. B. nach dem Einstellen). Nur
+Hintergrund-Prüfungen (Serie-Vorprüfung, erneute Prüfung, Vorladen) warten bei laufendem Sniper bis 60 s, danach eine je 30 s.
+Gesamtlauf (270 Szenarien, Lua 5.1): 270 bestanden, 0 rot. addon_check: siehe Release.
