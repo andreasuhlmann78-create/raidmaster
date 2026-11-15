@@ -181,9 +181,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Tausend Nadeln (1441)
 
-- Wegstücke 828, Knoten 1259, zusammenhängende Teile 2
+- Wegstücke 885, Knoten 1386, zusammenhängende Teile 2
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 1255 Knoten, Bereich 10–89 / 18–98
+  - Teil 1: 1382 Knoten, Bereich 10–89 / 18–98
   - Teil 2: 4 Knoten, Bereich 26–26 / 31–33
 - **Widerspruch:** gesperrt (FEST) bei 40.9,35.4, aber 15× gelaufen
 - Gesperrte Wegstücke: 1
@@ -215,9 +215,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Orgrimmar (1454)
 
-- Wegstücke 897, Knoten 862, zusammenhängende Teile 5
+- Wegstücke 898, Knoten 864, zusammenhängende Teile 5
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 854 Knoten, Bereich 22–82 / 19–95
+  - Teil 1: 856 Knoten, Bereich 22–82 / 19–95
   - Teil 2: 3 Knoten, Bereich 38–40 / 28–30
   - Teil 3: 2 Knoten, Bereich 42–44 / 30–30
   - Teil 4: 2 Knoten, Bereich 44–45 / 64–64
@@ -280,7 +280,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Undercity (1458)
 
-- Wegstücke 1502, Knoten 817, zusammenhängende Teile 3
+- Wegstücke 1504, Knoten 817, zusammenhängende Teile 3
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 814 Knoten, Bereich 44–86 / 1–96
   - Teil 2: 2 Knoten, Bereich 83–84 / 15–16
