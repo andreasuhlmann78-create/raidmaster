@@ -1,0 +1,52 @@
+BERICHT LEVELPILOT AN DEN SUPERVISOR (PRÜF-SITZUNG)
+Stand: 15.11.2026 19:00 · Sitzung: LevelPilot-Projekt-Sitzung · Version: 3.12.33 · Commit: dieser Commit
+(announce/levelpilot__levelpilot-3.12.33.LevelPilot.zip)
+Anlass: Reihenfolge nach PF-A: LP-D1 (MITTEL), ML1-2 (NIEDRIG), GR1-K (NIEDRIG).
+
+UMGESETZT, ZUR PRÜFUNG
+1. LP-D1 – "Questauswertung 495 ms am Stück nach dem Einloggen"
+   URSACHE (belegt):
+   - Code: Perf.Run (Perf.lua, bis 3.12.32) mass t0/t1 mit der Wanduhr (debugprofilestop) um den ganzen Aufruf. Läuft
+     Planner:BuildCandidates innerhalb der Neuplanung als Portion (LP.Jobs, Budget 4 ms je Bild), gibt es mit
+     LP:Yield("plan") an das Spiel ab – die Wartezeit über die folgenden Bilder zählte als "Questauswertung" mit.
+   - Messung im Nachbau (Orc L31, 3920 Quests): Rechenzeit am Stück 5,3–7,7 ms (10 Aufrufe); als Portion mit
+     nachgebauter Wanduhr (16 ms je Bild) zeigte die alte Messung 23 ms bei längster Portion 4,5 ms. Beim Einloggen
+     teilen sich mehrere Portionen das Budget und die Bilder sind lang – so entstehen Werte wie 495 ms ohne Stocken
+     (Diagnose 15.11.: "längste Portion 5 ms").
+   LÖSUNG:
+   - Perf.lua:129: Perf.Run zieht die Pausen der laufenden Portion ab (Jobs.Yield zählt sie in j.paused, Perf.lua:328).
+     Jobs.Step und Jobs.Yield nutzen dieselbe Uhr Perf.clock (Standard debugprofilestop, unverändert).
+   - Am Stück lief die Questauswertung noch bei PLAYER_LEVEL_UP (C_Timer) und nach den Schaltern "Server WoW Forever"/
+     "Dungeon-Quests einplanen" (Center.lua:398/401). Jetzt P:InvalidateCandidates() + Replan() (Planner.lua:57, 1865):
+     die Auswertung läuft in der Neuplanung als Portion.
+   - Diagnose: Höchstwerte > 16 ms als "|cffff5555… (über 16 ms)|r" (Perf.lua:154). Im Text zum Kopieren werden Farben
+     entfernt, darum steht "(über 16 ms)" dabei.
+   TEST T292 (TestRoutine.lua:5842): a) eigene Uhr und eigene Portion: 5 ms rechnen, abgeben, 100 ms andere Bilder, 3 ms
+   rechnen -> gemessen 8 ms; Gegenprobe Wanduhr 108 ms. b) Questauswertung Stufe 31 (eigenes Volk, 3920 Quests) als
+   Portion: Nachbau 2 Portionen, längste 4,03 ms, zusammen 6,22 ms (Grenze längste Portion < 16 ms).
+   Hinweis: Rechenzeit verschachtelter Messungen (Questauswertung innerhalb der Routenberechnung) wird wie bisher in
+   beiden Zeilen gezählt.
+2. ML1-2 – LP:MessagesLine über die Sprachtabelle (Core.lua:314), Text in allen 9 Locale-Dateien; T290 vergleicht mit
+   der übersetzten Zeile (enUS-Lauf der Offline-Routine ohne FEHLER).
+3. GR1-K – Kompaktmodus/eingeklappt (eine Zeile): "+n später abgeben" grün angehängt (UI.lua:831, 728), Tooltip der
+   Zeile zeigt den Hinweis mit den Questnamen. Normale Liste unverändert. Test T293 (TestRoutine.lua:5902): kompakt
+   angehängt, Tooltip-Verweis gesetzt, normale Liste ohne Anhang, Gegenprobe ohne Hinweis ohne Anhang.
+   (Gefunden beim Test: der Nachbau liefert für unbekannte Felder eines Rahmens eine Funktion statt nil – Test und
+   Tooltip lesen das Feld darum mit rawget.)
+4. CHANGELOG EN/DE 3.12.33; Locale "+%d später abgeben" und MELDUNGEN-Zeile in allen Sprachen.
+
+BELEGE (eigene Tests, keine Freigabe)
+- addon_check LevelPilot-3.12.33.zip: OK (hier ohne lupa). Gemeinsame Dateien byte-gleich mit shared/.
+- run_offline.py: 34 Läufe, 34 ohne FEHLER. Testroutine Horde: OK 269 · FEHLER 0, T150 Median 3,10 / Höchstwert 14,17 ms.
+- Lokale Gesamtregression 36 Läufe ohne FEHLER.
+
+OFFEN NACH offen-levelpilot.txt
+- SP1-M: lange Sitzung (2–4 Std.) mit den Speicher-Zeilen – Aufgabe des Nutzers (Diagnose 15.11. siehe Bericht 17:30).
+- Wartend: Wegpunkte, Punkt 15, CH-G. Frage aus Bericht 17:30 Punkt 4 (Abgabe 405 Undercity).
+Damit ist die Reihenfolge PF-A, LP-D1, ML1-2, GR1-K abgearbeitet. Die Sitzung schaut alle 15 Min. ins Repo.
+
+FRAGEN
+- keine neuen.
+
+IM CLIENT GETESTET
+- noch nicht (3.12.31–3.12.33).
