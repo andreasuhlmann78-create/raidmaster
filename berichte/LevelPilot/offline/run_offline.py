@@ -68,6 +68,8 @@ REGRESSION += [
     ("test_ucw1", {"FOREVER": "1", "LVL": "10", "MAP": "1458", "PX": "64.3", "PY": "35.9"}, "Scourge", "PRIEST", "Horde", False),
     # 3.12.36 W3D: Schalter aus = wie bisher, Ebenen-Angabe gespeichert; Schalter an im Test: Ebenen, Tore, Sturz, Aufzug, Texte
     ("test_w3d", {"FOREVER": "1", "LVL": "10", "MAP": "1411", "PX": "43.3", "PY": "68.5"}, "Orc", "WARRIOR", "Horde", False),
+    # 3.12.37 Punkt 1/6: Startwegnetz Mulgore/Brachland/Donnerfels (Data/Wege.lua), echte Zonengrössen im Nachbau
+    ("test_seedwege", {"FOREVER": "1", "LVL": "10", "MAP": "1411", "PX": "43.3", "PY": "68.5"}, "Tauren", "WARRIOR", "Horde", False),
 ]
 
 
@@ -193,7 +195,7 @@ def main():
         if only in (None, "testroutine"):
             jobs += [(n, e, r, c, f, False, "test40") for (n, e, r, c, f) in ROUTINE]
         if only in (None, "regression"):
-            jobs += [(t + (" (Wegnetz)" if t == "test15" else ({"test_ucw1": " (Undercity-Weg)", "test_w3d": " (Ebenen W3D)"}.get(t, ""))), e, r, c, f, np, t)
+            jobs += [(t + (" (Wegnetz)" if t == "test15" else ({"test_ucw1": " (Undercity-Weg)", "test_w3d": " (Ebenen W3D)", "test_seedwege": " (Startwegnetz)"}.get(t, ""))), e, r, c, f, np, t)
                      for (t, e, r, c, f, np) in REGRESSION]
         results = []
         if only in (None, "regression"):

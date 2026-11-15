@@ -1,0 +1,68 @@
+BERICHT LevelPilot 3.12.37 – Punkt 1/6: eigene Koordinatenlisten Mulgore, Brachland, Donnerfels (Startwegnetz)
+Projekt: LevelPilot · Datum: 15.11.2026 21:15 · Status: umgesetzt, zur Prüfung
+
+Bezug: anweisung-wegpunkte-strassen.txt Punkt 1 und 6, offen-levelpilot.txt Nacht-Prüfung 20:15 ("3. Punkt 1
+Koordinatenlisten Mulgore/Brachland/Donnerfels") und 20:38 ("WEITER: Punkt 3").
+
+1. DATEN UND WERKZEUG
+   - Quelle: nur testberichte/wege/LevelPilot/*.json (GSWEGE1, gelaufene und geteilte Wege, ohne Namen). Keine Spieldateien,
+     keine Kartenbilder (Rechtsprüfung 9. Nov. eingehalten). 1412: 9 Dateien/593 Wegstücke, 1413: 47/2358, 1456: 24/633.
+   - Werkzeug im Repo: berichte/LevelPilot/wege-seed/seed_bauen.py (reproduzierbar: erneuter Lauf = byte-gleiche Data/Wege.lua).
+     Verfahren: Spuren ins Raster (8 yd), 1 Zelle verbreitern, Zhang-Suen-Ausdünnung zur Mittellinie, Sporne weg, Linien
+     verfolgen, glätten, Douglas-Peucker 4 yd. Schritte > 80 yd = kein durchgehender Weg.
+   - Ergebnis Data/Wege.lua (50 KB): Mulgore 231 Wege/902 Punkte/22,6 km · Brachland 574/2053/47,0 km · Donnerfels 29/113/2,7 km.
+     Bilder zur Sichtprüfung: berichte/LevelPilot/wege-seed/wegnetz-1412.png, -1413.png, -1456.png.
+   - Prüfung im Werkzeug: Startnetz-Punkte (alle 2 yd entlang) zur nächsten gelaufenen Spur: höchstens 19,6 yd (Mulgore),
+     20,3 yd (Brachland), 15,0 yd (Donnerfels); über 15 yd: 30 / 102 / 1 von 12 684 / 26 530 / 1 518 Punkten. Es gibt also
+     KEINE Verbindung, die weiter als ~20 yd neben einem gelaufenen Weg liegt. Gelaufene Punkte zum Netz: Median 6–7 yd,
+     95 % unter 26–30 yd (breite, oft begangene Flächen werden zu ihrer Mittellinie).
+   - Erste Variante (alle Kanten, Punkte in 8 yd zusammengelegt) verworfen: 4741 Knoten, Pfad Orgrimmar -> Wegkreuz 52 ms,
+     Speicher +2,9 MB (T151/T157/T263 rot in der Offline-Routine). Diese Messungen haben die jetzige Lösung bestimmt.
+
+2. EINBAU (Graph.lua, Danger.lua)
+   - Graph:LoadStatic(segments, wege): Startnetz nur im WoW-Forever-Client (Graph.SeedWegeAktiv über GoldSentinelGame; Mulgore
+     ist laut warcraft.wiki.gg "Forever map comparison" in Forever anders als in Classic). Laden als Hintergrund-Portion
+     (LP.Jobs "seedwege"), Rohdaten danach freigegeben.
+   - Knoten nur an Enden/Kreuzungen und alle 120 yd (Graph.SEED_STEP); die Punkte dazwischen hängen an der Kante (e.pts,
+     Länge e.len) und werden beim Zusammensetzen des Weges in richtiger Richtung eingefügt.
+   - Eigener Knoten in 10 yd (SNAP) wird statt eines neuen Startknotens genommen (keine Verdopplung). Startkanten liegen nur
+     im Speicher: nie in SavedVariables (G.edges), nie im Export, nie geteilt (Comm liest nur G.edges).
+   - Suche: Punkte des Startnetzes, deren Nachbarn alle Startwege sind (nd.si), suchen keine Luftlinien zu anderen Knoten und
+     zum Ziel nur bis VIRT_RANGE (260 yd); Enden des Startnetzes und eigene Knoten wie bisher. Mob-Level je Startkante einmal
+     je Stand der Gefahrenkarte (Danger.gen, neu: steigt bei Build/Reset). Eigene Wege: Verhalten unverändert.
+   - Erneutes Laden entfernt ein früheres Startnetz ganz (ClearStatic) – sonst überschrieben neue Startknoten alte.
+
+3. BELEGE (Nachbau; mit echten Zonengrössen = ZONESIZE, Verdacht s. 4.)
+   - Pfad Orgrimmar -> Wegkreuz (T151-Lage, echte Grössen): Median 5,9 / 6,5 / 6,7 ms (3 Läufe), 3.12.35: 0,4 ms. Erster
+     (kalter) Lauf ~50 ms (Gefahrenwerte der Startkanten werden einmal gerechnet; Suche läuft im Spiel in Portionen).
+   - Neuer Charakter (nur Startnetz), 5 Strecken: 2,5–8,6 ms. Mit eigenem Netz (6825 Knoten aus denselben Daten): 183 neue
+     Startknoten, 675 eigene genutzt; ohne Startnetz 20–383 ms, mit 17–401 ms (je Strecke −15 % bis +30 %, gleiche
+     Grössenordnung; diese Zeiten hat jeder Spieler mit grossem eigenem Netz schon heute, Suche in Portionen).
+   - Speicher: Startnetz +731 KB, Rohdaten 176 KB (nach dem Aufbau freigegeben).
+   - Laden in Portionen: längstes Stück 4,0 ms.
+   - Gefahrenregel wirkt: Wegkreuz -> Ratschet mit Level 6 Kosten 6362 (3 Stücke Moblevel 11 > Grenze 9), mit Level 14 1451.
+   - Durotar: 200 Wegpaare identisch zu 3.12.35 (Art, Kosten, Punkte).
+   - test_seedwege.lua (neu, in run_offline.py): 12/12 OK – geladen, freigegeben, nichts gespeichert, PathKnown in allen drei
+     Gebieten nur über Startwege, Era/TBC ohne Startnetz, eigener Knoten statt Doppel, Punkte an der Kante hin und zurück
+     exakt so lang wie der Weg (446,2 yd), Portionen < 16 ms, Export ohne Startwege.
+   - Testroutine T298 (neu). run_offline.py mit der veröffentlichten ZIP: 37 Läufe, 37 ohne FEHLER (Forever OK 273 bzw. 271,
+     Era/TBC 272, T298 dort "übersprungen" = absichtlich aus). Private Regressionen 36/36. addon_check: OK.
+   - mock2.lua (Offline): optional ZONESIZE (echte Zonengrösse je Karte), ohne Angabe wie bisher 2000 yd.
+
+4. GRENZEN (Verdacht, zu messen)
+   - Zonengrössen nur für Schwellen im Werkzeug und im Nachbau: Mulgore 5137,5×3425, Brachland 10133,3×6756,2, Donnerfels
+     1043,7×695,8 yd (Werte wie HereBeDragons-Classic; für Forever nicht bestätigt, Abfrage bei wago.tools hier nicht möglich).
+     Im Spiel rechnet LevelPilot mit den echten Kartengrössen des Clients (Geo:ToWorld).
+   - Sturz-Stellen: eine nur abwärts gelaufene Stelle wäre im Startnetz in beide Richtungen begehbar. In Mulgore/Brachland
+     nicht gefunden (Bilder prüfen), Donnerfels-Aufzüge liegen auf zwei Karten (oben 1456, unten 1412) und sind nicht betroffen.
+   - Gefahr je Startkante gilt für die ganze Kante (bis ~120 yd), bei eigenen Wegen je ~25-yd-Stück: Startwege meiden gefährliche
+     Stellen etwas grosszügiger.
+   - Breite, oft begangene Flächen (Lager, Questgebiete) werden zur Mittellinie: 5 % der gelaufenen Punkte liegen > 30 yd
+     vom Netz (nie > 60 yd); dort führt die Suche wie bisher über Luftlinie/eigene Wege.
+
+5. NÄCHSTES
+   LP35-1 (Messauftrag PathKnown im Freiland ohne gelaufene Wege), danach weitere Gebiete, sobald Wegdaten vorliegen.
+
+Dateien: announce/levelpilot__levelpilot-3.12.37.{md,LevelPilot.zip}, announce/levelpilot__levelpilot-uebersicht-3.12.37.md,
+berichte/LevelPilot/wege-seed/{seed_bauen.py,wegnetz-1412.png,wegnetz-1413.png,wegnetz-1456.png},
+berichte/LevelPilot/offline/{run_offline.py,README.md,lua/test_seedwege.lua,lua/mock2.lua}.

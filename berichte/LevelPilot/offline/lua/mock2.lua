@@ -140,6 +140,8 @@ CreateVector2D = function(x, y) return { x = x, y = y, GetXY = function(s) retur
 C_Map = {
     GetWorldPosFromMapPos = function(map, v)
         local on, ow = origin(map)
+        local sz = ZONESIZE and ZONESIZE[map]      -- optional echte Zonengroesse in Yards { Breite, Hoehe }
+        if sz then return 0, CreateVector2D(on - v.y * sz[2], ow - v.x * sz[1]) end
         return 0, CreateVector2D(on - v.y * 2000, ow - v.x * 2000)
     end,
     GetBestMapForUnit = function() return P.map end,

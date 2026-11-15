@@ -21,6 +21,7 @@ Lua 5.1: `LUA51=/pfad/zu/lua5.1`, sonst `lua5.1`/`lua51` im PATH, sonst `lupa` (
 | Regression | `lua/test2.lua` … `lua/test38.lua` | Szenarien seit 2.x; `test15` = Wegnetz-Prüfung (Höhlen, Tunnel, gelaufene Wege, Wegführung) |
 | Undercity-Weg | `lua/test_ucw1.lua` + `lua/uc_edges.lua` | UC-W1: Auktionshaus → Bethor Iceshard über die eingesandten Wegdaten (bekannter Weg statt „Weg unbekannt“) |
 | Ebenen (W3D) | `lua/test_w3d.lua` | Schalter `LP.W3D` aus = Wegführung wie bisher, Ebenen-Angabe gespeichert; im Test eingeschaltet: Ebenen getrennt, Tore, Sturz nur nach unten, Aufzug mit Wartezeit, Klartexte, Export |
+| Startwegnetz | `lua/test_seedwege.lua` | Punkt 1/6: Data/Wege.lua (Mulgore, Brachland, Donnerfels) mit echten Zonengrössen (`ZONESIZE` im Nachbau): geladen, nichts gespeichert, Wege nur über Startwege, nicht in Era/TBC, eigener Knoten statt Doppel, Portionen < 16 ms, Export ohne Startwege |
 | Meldungs-Weiche | in `run_offline.py` | ML1: keine Chat-, Bildschirm- oder Tonausgabe am Schalter „Meldungen“ vorbei |
 
 Spielversion im Nachbau: `FOREVER=1` (1.60.1), `FLAVOR=era` (1.15.7) oder `FLAVOR=tbc` (2.5.4); Sprache `LOCALE`.
