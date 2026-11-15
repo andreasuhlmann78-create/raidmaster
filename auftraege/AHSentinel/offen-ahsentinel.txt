@@ -41,7 +41,8 @@
 >>>    2. GSL6-1 (= GSL5-2): begonnene Aufgaben im Ruhemodus anhalten (AHAnalyzerPro.lua 282) – HOCH.
 >>>    3. GSL6-2 (= GSL5-3): nächster Kauf ≤ 0,3 s nach der Bestätigung aus der aktualisierten Liste – Tempo.
 >>>    4. SN-BTN1 + (g) ELEGANT: Kaufen-Knopf = ein Klick ein Kauf, Mausrad bleibt (Spieler-Wunsch, Nutzer).
->>>    5. GSL5-4 (Status "Kauf bestätigt" verdeckt "Treffer!"), GSL5-5 (Vollscan im Ruhemodus klären), GSL6-3 (Beleg Budget/Max).
+>>>    5. GSL7-1 (Angebot nach Code 4 nie nochmals senden), GSL5-4 (Status "Kauf bestätigt" verdeckt "Treffer!"), GSL5-5 (Vollscan
+>>>       im Ruhemodus klären), GSL6-3 (Beleg Budget/Max).
 >>>    Danach weiter mit Phase 4 (RK5 nach der Antwort unten, RK6/RK7 …).
 
 >>> !!! NACHT-ARBEIT 15./16.11. (Nutzer 16:34: "schreibe AHS das ins Repo genau mit der Reihenfolge – und ich will, dass AHS die
@@ -114,6 +115,20 @@
     vorsichtig = normal + 10 Punkte, mutig = normal − 5 Punkte, nie unter 5 %; Mindestrendite je Gruppe (DE30b) und 0,9 × Netto
     gelten in JEDER Stufe. Der wörtliche Vorschlag 30/20/10 + Fehler würde das heutige Lohnt bis ohne Messung um 9–22 % senken –
     abgelehnt. Anzeige mit Beispiel in den Einstellungen wie vorgeschlagen; Standard "normal" (= keine Änderung für alle).
+
+>>> GSL7 – PROTOKOLL 7 (GSSniperLog 1.5, Nutzer 18:32–18:42, AHS 0.65.203; Supervisor 18:45).
+    Zähler = Gold exakt (15 / 1g32s65). Minute 18:41–18:42: 18 Käufe gesendet, 13 bestätigt – die 5 übrigen bekamen Code 4
+    ("Angebot nicht gefunden") 150–220 ms nach dem Senden = andere Käufer waren schneller (29 Angebote weggeschnappt). Kein Fehler
+    von AHS, aber:
+  GSL7-1 MITTEL – Angebot nach Code 4 erneut gesendet: 110786591 gesendet 18:41:49.0, Code 4 um 49.1 (149 ms danach), dasselbe
+         Angebot um 18:41:52.6 nochmals gesendet -> wieder Code 4 (= eine verschenkte Raste, gefährlich langsam in einem Wettlauf).
+         SN-UI1 (a) wertet Code 4 nur bei GENAU EINEM offenen Einzelkauf als "weg"; nach Code-10-Freigaben (GSL6-3) gelten oft
+         mehrere als offen. Code 4 gehört zum JÜNGSTEN Kauf, der höchstens 1 s alt ist (Antwort 150–220 ms nach dem Senden,
+         im Protokoll 7× belegt) -> dieses Angebot sofort "weg" (nicht mehr senden), egal wie viele offen sind. Test: 2 offene
+         Käufe, Code 4 150 ms nach dem zweiten -> zweites Angebot weg, erstes bleibt offen.
+  GSL7-2 Hinweis: forecast-eval lief weiter beim Snipen (40–46 s je Minute) – bekannt, GSL6-1 (PRIO JETZT 2).
+  Messwerkzeug: GSSniperLog 1.7 ordnet AH-Fehler jetzt auch dem jüngsten Kauf zu (1.2–1.6 dem ältesten – deren Zahl "offene Käufe
+  beim Senden" war darum zu hoch; GSL6-3 bitte mit dieser Einschränkung lesen).
 
 >>> GSL6 – PROTOKOLL 6 (GSSniperLog 1.5, Nutzer 18:14–18:32, AHS 0.65.202; Supervisor 18:35).
     A1 erneut BESTANDEN mit 0.65.202: 51 gesendet, 49 bestätigt (96 %), Zähler 49 / 4g36s80 = bestätigt = Gold-Abgang (exakt),

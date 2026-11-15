@@ -34,10 +34,14 @@
 -- 1.6 (Protokoll 15.11. 18:32): RUHE trennt Aufgaben, die laufen (j.started), von Aufgaben, die nur warten
 --   ("wartend"); 1.5 zählte beides als "liefen".
 --
+-- 1.7 (Protokoll 15.11. 18:42): Ein AH-Fehler gehört zum JÜNGSTEN Kauf der letzten Sekunde (Antwort kommt 60–220 ms nach dem
+--   Senden), nicht zum ältesten offenen – 1.2–1.6 ordneten Code 4 falsch zu, "offene Käufe" stieg dadurch scheinbar bis 4.
+--   Code 4 (Angebot weg) beendet den Kauf endgültig (zählt nicht mehr als offen); Zeile "AH-FEHLER … · gehört zu Angebot n".
+--
 -- Ergebnis: beim Ausloggen oder /reload als "GSDIAG1|GSSniperLog|…" in GSSniperLogDB.export -> der RaidMasterUploader
 -- bringt es nach testberichte/diagnose/GSSniperLog/. Befehl: /gssl (Stand), /gssl aus|an, /gssl leeren.
 
-local ADDON, VERSION = "GSSniperLog", "1.6"
+local ADDON, VERSION = "GSSniperLog", "1.7"
 local MAXLOG = 6000            -- Zeilen im Speicher (älteste fallen weg)
 local EXPORT_MAX = 400000      -- Zeichen in der Ausgabe für den Uploader
 local CONFIRM_MAX = 30         -- Sekunden: ohne Antwort gilt ein Kauf als "keine Bestätigung"
@@ -855,16 +859,27 @@ end
 handlers.ITEM_SEARCH_RESULTS_UPDATED = function(itemKey) ReadItemResults(itemKey) end
 handlers.COMMODITY_SEARCH_RESULTS_UPDATED = function(itemID) ReadCommodityResults(itemID) end
 handlers.AUCTION_HOUSE_PURCHASE_COMPLETED = function(auctionID) ResolveBid(auctionID, "Server: gekauft") end
+-- 1.7: Fehler gehört zum jüngsten noch offenen Kauf, der höchstens 1 s alt ist; sonst zum ältesten offenen
+local function BidForError()
+    local now, best, bid = Now(), nil, nil
+    for a, x in pairs(B.bids) do
+        if not x.done and not x.late and now - x.t <= 1 and (not best or x.t > best.t) then best, bid = x, a end
+    end
+    if best then return bid, best end
+    return OldestOpen()
+end
+B.BidForError = BidForError
 handlers.AUCTION_HOUSE_SHOW_ERROR = function(code)
     local word = AHERR[tonumber(code) or -1]
     Err("AH-Fehlercode " .. tostring(code) .. (word and (" " .. word) or ""))
-    local aid, b = OldestOpen()
+    local aid, b = BidForError()
     Log("AH-FEHLER", string.format("Code %s%s · letzte Anfrage %s vor %d ms · offene Käufe %d%s · davor (0,5 s): %s", tostring(code), word and (" " .. word) or "",
         tostring(B.lastCall or "?"), math.floor((Now() - (B.lastCallT or Now())) * 1000), OpenCount(),
-        b and string.format(" · ältester seit %.2f s", Now() - b.t) or "", RecentCalls(0.5)))
+        b and string.format(" · gehört zu Angebot %s (gesendet vor %d ms)", tostring(aid), math.floor((Now() - b.t) * 1000)) or "", RecentCalls(0.5)))
     B.c10 = B.c10 or {}
     if tonumber(code) == 10 then B.c10[#B.c10 + 1] = { t = Now() } end
     if b and not b.err then b.err = "Code " .. tostring(code) end
+    if b and tonumber(code) == 4 then b.done, b.fail = true, true; Inc(B.tot, "code4"); Inc(B.min, "code4") end
 end
 handlers.COMMODITY_PURCHASE_SUCCEEDED = function()
     local c = B.comm

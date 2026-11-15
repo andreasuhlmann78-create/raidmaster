@@ -154,3 +154,9 @@ Tests: 10 Szenario-Läufe + 5 Zufallsläufe, 165/165 OK, 5× wiederholt, 0,03 ms
 ### GSSniperLog 1.6 (15.11. 18:34, aus Protokoll 6 von 18:32)
 - Messfehler in 1.3–1.5: RUHE zählte jede Aufgabe in A.jobs als "liefen", auch die nur wartenden. 1.6 trennt "liefen dabei
   (begonnen)" (j.started) von "wartend". Tests 165/165, 5× wiederholt.
+
+### GSSniperLog 1.7 (15.11. 18:44, aus Protokoll 7 von 18:42)
+- Messfehler in 1.2–1.6: Ein AH-Fehler wurde dem ÄLTESTEN offenen Kauf zugeordnet; die Antwort kommt aber 60–220 ms nach dem
+  Senden und gehört zum jüngsten. Folge: "offene Käufe" stieg scheinbar bis 4, ein erneutes Senden hiess "doppelt".
+  1.7: Fehler -> jüngster offener Kauf der letzten Sekunde (sonst ältester), Zeile "gehört zu Angebot n (gesendet vor x ms)";
+  Code 4 beendet den Kauf (nicht mehr offen), erneutes Senden danach = "wiederholt". Tests 170/170, 5× wiederholt.

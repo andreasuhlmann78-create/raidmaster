@@ -144,7 +144,7 @@ do
     check(W.find("MINUTE Suchen 1") == 1, "Lauf 1: Minuten-Zusammenfassung")
     W.fire("PLAYER_LOGOUT")
     local ex = W.env.GSSniperLogDB.export
-    check(type(ex) == "string" and ex:find("^GSDIAG1|GSSniperLog|1.6|") ~= nil, "Lauf 1: Export beginnt mit GSDIAG1|GSSniperLog|1.6|")
+    check(type(ex) == "string" and ex:find("^GSDIAG1|GSSniperLog|1.7|") ~= nil, "Lauf 1: Export beginnt mit GSDIAG1|GSSniperLog|1.7|")
     check(ex:find("== Einträge (", 1, true) ~= nil, "Lauf 1: Export hat '== Einträge'")
     check(W.B.tot.eigeneFehler == nil, "Lauf 1: keine eigenen Fehler")
 end
@@ -626,6 +626,27 @@ do
     check(W.env.GSSniperLogDB.export:find("obwohl der Kauf danach bestätigt wurde: 2", 1, true) ~= nil, "Lauf 10: Zusammenfassung")
     check(W.B.tot.eigeneFehler == nil and W.find("GSSL%-FEHLER") == 0, "Lauf 10: keine eigenen Fehler (" .. tostring(W.B.lastError) .. ")")
 end
+
+---------------------------------------------------------------------------
+-- Lauf 11 (1.7): Fehler gehört zum jüngsten Kauf der letzten Sekunde; Code 4 beendet den Kauf
+---------------------------------------------------------------------------
+do
+    local W = NewWorld()
+    W.fire("PLAYER_LOGIN"); W.fire("AUCTION_HOUSE_SHOW"); W.tick(1.1)
+    local C = W.env.C_AuctionHouse
+    C.PlaceBid(601, 880); W.tick(5)             -- alter offener Kauf (ohne Antwort)
+    C.PlaceBid(602, 880); W.tick(0.15, 0.15)
+    W.fire("AUCTION_HOUSE_SHOW_ERROR", 4)
+    check(W.find("AH%-FEHLER Code 4 .* gehört zu Angebot 602 %(gesendet vor 1[45]%d ms%)") == 1, "Lauf 11: Code 4 dem jüngsten Kauf zugeordnet")
+    C.PlaceBid(603, 880)
+    check(W.find("KAUF%-GESENDET Angebot 603 · 8s80c · offen beim Senden 1") == 1, "Lauf 11: Kauf mit Code 4 zählt nicht mehr als offen")
+    C.PlaceBid(602, 880)
+    check(W.find("Angebot 602 .* WIEDERHOLT %(nach Code 4%)") == 1, "Lauf 11: erneutes Senden nach Code 4 = wiederholt (nicht doppelt)")
+    W.tick(2)
+    W.fire("AUCTION_HOUSE_SHOW_ERROR", 10)
+    check(W.find("AH%-FEHLER Code 10 .* gehört zu Angebot 601") == 1, "Lauf 11: ohne Kauf in der letzten Sekunde -> ältester offener")
+    check(W.B.tot.code4 == 1 and W.B.tot.eigeneFehler == nil, "Lauf 11: Code 4 gezählt, keine eigenen Fehler")
+end
 ---------------------------------------------------------------------------
 -- Zufallsläufe (5 Seeds): wilde Ereignisfolgen, Invarianten müssen halten, Zeit je Ereignis messen
 ---------------------------------------------------------------------------
@@ -672,7 +693,7 @@ for seed = 1, 5 do
     check((T.gekauft or 0) <= (T.gesendet or 0) + 1, "Zufall " .. seed .. ": gekauft (ohne fremde) nie mehr als gesendet")
     check(#W.log() <= 6500, "Zufall " .. seed .. ": höchstens 6500 Zeilen")
     local ex = W.env.GSSniperLogDB.export
-    check(ex:find("^GSDIAG1|GSSniperLog|1.6|") and #ex <= 400200, "Zufall " .. seed .. ": Export gültig")
+    check(ex:find("^GSDIAG1|GSSniperLog|1.7|") and #ex <= 400200, "Zufall " .. seed .. ": Export gültig")
     check(not ex:find("\0"), "Zufall " .. seed .. ": Export ohne Nullzeichen")
     check(dt / nEv < 0.0005, string.format("Zufall %d: schnell genug (%.3f ms je Ereignis)", seed, dt / nEv * 1000))
     print(string.format("Zufall %d: %d Ereignisse, %.3f ms je Ereignis, %d Zeilen, gesendet %d, gekauft %d, weg %d",
