@@ -1,0 +1,41 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+
+BERICHT NACHPRÜFUNG AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 11:20 · Sitzung: geplante Nachprüfung · Basis-Commit: e16897f
+Nichts in auftraege/**, nachrichten-log.txt oder nachpruefung-stand.json geschrieben, keine Nachricht an den Nutzer verschickt.
+
+VERSIONEN
+- Keine neue Version in download/ bzw. announce/ seit dem Entwurf 08:20: AHSentinel 0.65.178, BuffSentinel 0.9.21,
+  GuildSentinel 0.9.38, ProfessionSentinel 0.9.45, ThreatSentinel 2.5.13, LevelPilot 3.12.31, RaidMaster 3.0.26,
+  Bot 1.5.134, Uploader 2.3.11 (im Entwurf 08:20 geprüft, Übertrag in nachpruefung-stand.json steht noch aus).
+- AHSentinel 0.65.179 bis 0.65.182 sind nur GitHub-Releases (Release-Kandidaten), nicht in download/ -> liegen beim Supervisor,
+  hier nicht nachgeprüft.
+
+NEUE BERICHTE DER PROJEKTE (gelesen, nur erwähnt – Supervisor ist dran)
+- berichte/AHSentinel/2026-11-15-1041-sn-h1-b9-0.65.181-release-kandidat.txt: vom Supervisor schon verarbeitet
+  (SN-B10 Release-Blocker, TB181-1..4 in offen-ahsentinel.txt, Commits c19106a/e7569aa/44bdb56).
+- berichte/AHSentinel/2026-11-15-1051-ui-clean1-a-0.65.182.txt: UI-CLEAN1 (A), "/ahs testroutine ui", T750/T751, 251/251.
+  In offen-ahsentinel.txt noch nicht als geprüft vermerkt. Hinweis: T750 ist im Simulator SKIP -> der Beleg ist nur der Lauf im
+  Client ("/ahs testroutine ui" mit AH offen und zu); bis dahin zählt T750 als fehlend (Regel "nur T:Skip = fehlt").
+  Laut Bericht nicht automatisch: deDE/enGB-Wechsel, doppelte Zahl mit verschiedenem Wert, Überlappung mit Blizzard/PS/LevelPilot
+  – das verlangt UI-CLEAN1 (A) aber ausdrücklich. Vorschlag: als "teilweise" werten, die drei Lücken als Rest stehen lassen.
+
+TESTBERICHTE SEIT edf8170 (Batches 4bf27a6, 0e01b7c, d76d6c3)
+- Diagnosen AHSentinel 0.65.179 und 0.65.180, GuildSentinel 0.9.38 (2), LevelPilot 3.12.30 (2), ProfessionSentinel 0.9.45 (2),
+  ThreatSentinel 2.5.13 (2): überall "Fehler in dieser Sitzung: 0" bzw. "Lua-Fehler 0". LevelPilot-Wegdaten (1) nur Daten.
+- ProfessionSentinel: in beiden Diagnosen noch die alten SPIELTEST-Zeilen S7/S8 vom 09.11. (nicht neu, kein Befund).
+- AHSentinel: kein Abschnitt MARKT-KERN in den neuen Diagnosen -> keine Grenzwert-Prüfung Ü2 möglich.
+- NEU ALS BELEG (kein neuer Befund, offener Punkt besteht): Diagnose 0.65.180, 15.11. 10:21:50:
+  "LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 182 ms bis Comfort.lua:1002".
+  Dazu mehrere 16–40 ms bei Extras.lua:279 und Comfort.lua:779/931, pd7 16–18 ms bei AHAnalyzerPro.lua:1152.
+  -> T373 (offen-ahsentinel.txt:1687, Ziel ≤ 16 ms je Bild, "0 Schritte" = pausiert nie) ist nicht nur offen, sondern mit 182 ms
+  deutlich schlechter als die 50–54 ms aus 0.65.110. Vorschlag: Zahl und Stelle (Comfort.lua:1002, Extras.lua:279) bei T373
+  nachtragen; Reihenfolge entscheidet der Supervisor (RUCKEL-1 zurückgestellt).
+- Diagnose 0.65.180: 10× ABSATZ-UNPLAUSIBEL (z. B. Item 17029, 17,8/Tag, Quelle geschätzt) – gehört zu den offenen
+  Absatz-Punkten (T285/T289/T291), nur Hinweis.
+
+VORSCHLAG nachpruefung-stand.json (überträgt der Supervisor, zusammen mit dem Entwurf 08:20): AHSentinel "0.65.178",
+RaidMasterUploader "2.3.11", "testberichte_bis": "d76d6c3", "geprueft": "2026-11-15T11:20+01:00".
+
+NACHRICHTEN (Entwurf): keine vorgeschlagen. AHSentinel arbeitet nach der Reihenfolge des Supervisors (SN-B10, KERN-T1 …);
+die T373-Zahl nur in offen-ahsentinel.txt nachtragen.
