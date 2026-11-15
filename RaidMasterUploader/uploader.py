@@ -69,7 +69,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import sync  # noqa: E402  (Abgleich PC/Laptop, ab 2.1.0)
 import daten  # noqa: E402  (Daten für die Prüf-Sitzung, ab 2.3.0)
 
-VERSION = "2.3.9"
+VERSION = "2.3.10"
 SHOT_WINDOW = (-30, 180)          # Bild darf so viele Sekunden vor/nach der gemerkten Zeit entstanden sein
 SHOT_MAX_BYTES = 9 * 1024 * 1024
 SHOT_MAX_AGE = 14 * 86400
@@ -980,6 +980,31 @@ def make_sync(st: dict, path: str) -> "sync.Sync | None":
                      notify=notify_logged, backup_dir=os.path.join(HERE, sync.BACKUP_DIR))
 
 
+def sync_config_mtime() -> float:
+    try:
+        return os.path.getmtime(os.path.join(HERE, sync.SYNC_CONFIG))
+    except OSError:
+        return 0.0
+
+
+def reload_sync_config(syncer, seen: float) -> float:
+    """UP-404 (ab 2.3.10): Neue sync_config.json im Ordner (nach /uploader) sofort übernehmen – ohne Neustart.
+    Liefert die neue Änderungszeit. Inhalt (Webhook-Adresse) wird nie ins Fenster geschrieben."""
+    mt = sync_config_mtime()
+    if not mt or mt == seen:
+        return mt or seen
+    conf = sync.load_sync_config(HERE)
+    if not conf:
+        log("Abgleich: sync_config.json ist unvollständig – bitte die Datei aus der Discord-Nachricht nehmen.")
+        return mt
+    if syncer is None:
+        log("Abgleich: sync_config.json gefunden – bitte den Uploader einmal neu starten, dann läuft der Abgleich.")
+        return mt
+    syncer.switch_store(sync.WebhookStore(conf["sync_webhook_url"], conf["sync_index_id"]))
+    log("Abgleich: neue sync_config.json übernommen.")
+    return mt
+
+
 def notify_logged(text: str):
     """Ab 2.3.2 (T-DU11 b): Jeder Windows-Hinweis steht auch im Fenster – mit PID, damit man den Prozess findet."""
     log(f"Windows-Hinweis (PID {os.getpid()}): {text}")
@@ -1148,6 +1173,7 @@ def main():
         log("Abgleich läuft automatisch: nach dem Beenden von WoW hoch, neuer Stand vom anderen Rechner sofort.")
     deliverer = make_daten(reporter.st, path, syncer)
     next_sync, last_status, status_text = time.time() + SYNC_TICK, time.time(), ""
+    conf_seen = sync_config_mtime()
     next_lock = time.time() + SYNC_LOCK_EVERY
     daten_text, daten_last = "", time.time()
     if not (cfg.get("test_webhook_url") or "").startswith("https://"):
@@ -1206,6 +1232,11 @@ def main():
         if syncer is not None and time.time() >= next_lock:
             next_lock = time.time() + SYNC_LOCK_EVERY
             sync.write_lock(HERE)
+        if time.time() >= next_sync:
+            try:
+                conf_seen = reload_sync_config(syncer, conf_seen)
+            except Exception as e:  # noqa: BLE001
+                log(f"Abgleich: {e}")
         if syncer is not None and time.time() >= next_sync:
             next_sync = time.time() + SYNC_TICK
             try:

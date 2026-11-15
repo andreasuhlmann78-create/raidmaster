@@ -1,0 +1,55 @@
+BERICHT RAIDMASTER AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 02:00 · Sitzung: RaidMaster-Projekt-Sitzung · Version: Uploader 2.3.10 (Addon unverändert 3.0.26)
+Commit: dieser Push · Bezug: UP-404 HOCH (offen-raidmaster.txt, 2e552e5)
+
+UMGESETZT, ZUR PRÜFUNG:
+(1) Ursache in Worten. RaidMasterUploader/sync.py:643 StoreGone, :665 gone_from_http: bei HTTP 404 liest der Uploader den
+    Discord-Fehlercode aus der Antwort – 10015 Unknown Webhook -> "Der Kanal #sync-daten oder sein Webhook wurde
+    gelöscht.", 10008 Unknown Message -> "Die Index-Nachricht oben im Kanal #sync-daten wurde gelöscht.", 10003 Unknown
+    Channel -> "Der Kanal #sync-daten wurde gelöscht.", sonst "Discord findet den Abgleich-Ort nicht mehr." Dazu immer:
+    "Was tun: In Discord /uploader ausführen und die neue sync_config.json auf BEIDEN Rechnern in den Uploader-Ordner
+    legen (alte ersetzen). Der Uploader liest sie sofort ein. Deine Daten hier bleiben unverändert und gehen danach hoch."
+    Statuszeile zusätzlich: "· in Discord /uploader ausführen, neue sync_config.json auf beide Rechner". Nie die
+    Webhook-Adresse in einer Meldung.
+    Neu anlegen/neu suchen: Der Uploader kann über den Webhook keine Kanal-Nachrichten suchen und darf keinen eigenen
+    neuen Index anlegen – der andere Rechner würde ihn nicht finden (zwei getrennte Abgleiche, schlimmer als ein Halt).
+    Den Ort legt der Bot neu an: /uploader -> setup_sync (RaidMasterBot/uploader_setup.py) findet Kanal/Webhook/Index oder
+    legt fehlende neu an und schickt eine neue sync_config.json. Der Uploader übernimmt sie im laufenden Betrieb
+    (uploader.py:990 reload_sync_config, je 5-s-Takt Änderungszeit prüfen; kein Neustart nötig).
+    Neuer Ort (andere Webhook-Nummer oder Index-Nachricht, Prüfwert ohne Token, sync.py:739 location): sync.py:1040
+    _check_location setzt revs/seq zurück (gelten am alten Ort), behält den Grundstand "files" (Konflikte werden weiter
+    richtig erkannt) und lädt den eigenen Stand am leeren neuen Ort einmal hoch ("ort_neu", sync.py:1006). Der andere
+    Rechner übernimmt dann normal (lokal unverändert -> still, sonst Konfliktregel).
+(2) Langsamer, eine Zeile: check_remote (sync.py:1089) – nach 404 fail_until/retry_at = now + 300 s (REMOTE_GONE_WAIT),
+    nach anderen Fehlern 60 s (REMOTE_FAIL_WAIT); in dieser Zeit auch pull/push (force) nicht übers Netz. Dieselbe
+    Meldung höchstens alle 10 Min. (_say_limited, sync.py:1069). Bisher: check_remote scheiterte, push() rief über
+    pull() check_remote(force=True) bei jedem 5-s-Takt erneut -> eine Zeile alle 5 s (Ursache der Beobachtung).
+(3) Datenverlust seit 18:50: Der Uploader überschreibt bei Index-Fehlern nichts (pull bricht vor jedem Schreiben ab), die
+    SavedVariables auf dem Rechner sind unverändert. Seit 18:50 ging von DIESEM Rechner nichts in den Abgleich – die
+    Stände danach liegen nur lokal und gehen nach der neuen sync_config.json am neuen Ort hoch. Der Daten-Upload an den
+    Bot (#bot-daten, uploader_config.json) und die Daten-Lieferung (daten_config.json) laufen getrennt und sind von 404
+    im Abgleich nicht betroffen. Ob der andere Rechner nach 18:50 noch hochgeladen hat, zeigt erst dessen Fenster
+    (ab 2.3.10 mit Grund) – bitte beim Nutzer erfragen. Ein am alten Ort liegender Stand des anderen Rechners ist nach
+    gelöschtem Kanal/Webhook nicht mehr erreichbar; er liegt aber lokal auf jenem Rechner und geht dort ebenfalls am
+    neuen Ort hoch (Konfliktregel greift, AHSentinelMerge bei AHSentinel.lua).
+Für Discord: Warum der Ort seit 01:23 fehlt (Kanal/Webhook/Index gelöscht?), kann nur der Bot bzw. das Discord-
+    Audit-Log zeigen. Der Uploader zeigt ab 2.3.10, WAS fehlt. setup_sync legt fehlende Teile bei /uploader neu an
+    (nichts zu ändern, sofern der Bot 'Kanäle verwalten' und 'Webhooks verwalten' hat).
+
+EIGENE TESTS (Hinweise, keine Freigabe), auch falsche Fälle:
+- test_sync.Webhook.test_up404a_grund_in_worten (Zeile 1261): Codes 10015/10008/10003/unbekannt -> webhook/message/
+  channel/"?"; kein Token in der Meldung; Ort-Kennung ändert sich mit Webhook-Nummer/Index, nicht mit dem Token.
+- test_sync.Ort404 (Zeile 423):
+  up404b – Webhook weg, 10 Min. Takt 5 s: genau 1 Zeile (mit "/uploader", "BEIDEN Rechnern", "gelöscht"),
+           höchstens 3 Index-Abfragen, lokale Datei unverändert, Hinweis in der Statuszeile.
+  up404c – kein Netz 5 Min.: 1 Zeile, höchstens 7 Abfragen; danach normal hochgeladen.
+  up404d – Index-Nachricht weg -> neue Config (neuer Ort) auf beiden: revs leer, PC lädt dort hoch, Laptop übernimmt
+           still (keine .lokal), check_state ohne Verletzung.
+  up404e – falscher Fall: gleiche Config erneut -> nichts zurückgesetzt, kein Neu-Hochladen.
+- test_uploader.SyncConfigNeu.test_up404f: neue sync_config.json -> switch_store einmal, unverändert -> nicht nochmals,
+  kein Token im Fenster.
+- Uploader-Tests: test_daten 12, test_sync 51 (+5), test_uploader 22 (+1), test_umfassend 14 (Regressionen 66/66) – grün.
+- Bot-Tests einzeln: alle OK. download/RaidMasterUploader.zip neu (VERSION 2.3.10, ohne tests/ und Config-/Statusdateien).
+
+FÜR DEN NUTZER (nach Prüfung): 2.3.10 auf beiden Rechnern; in Discord /uploader (ohne nur_programm), neue
+sync_config.json auf beide Rechner. Bis dahin: Daten bleiben lokal sicher, nichts geht verloren.

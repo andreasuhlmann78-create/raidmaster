@@ -228,3 +228,10 @@ Version 2.3.9 – no silent overwrite after a broken state (UP-S1-2):
 - The other computer then takes nothing over silently: every differing file counts as a conflict. The newer version
   wins, the other one is backed up, and AHSentinel merges both computers' bookkeeping at the next login.
 - This happens once per broken state; afterwards sync works as usual.
+
+Version 2.3.10 – "Discord answers 404" (UP-404):
+- The uploader now says in words what is missing (the #sync-daten webhook, its index message or the whole channel) and
+  what to do: run /uploader in Discord and put the new sync_config.json into the uploader folder on BOTH computers. It is
+  picked up immediately, no restart. Your data stays unchanged and is uploaded afterwards.
+- On a lasting error it retries every 5 minutes instead of every 5 seconds (network errors: every minute), and the same
+  message appears at most every 10 minutes.

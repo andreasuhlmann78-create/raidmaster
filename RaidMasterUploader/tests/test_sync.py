@@ -398,6 +398,99 @@ class UeberDefektUPS12(unittest.TestCase):
         self.assertFalse(any("RaidMaster.lua:" in l for l in self.pc.logs))
 
 
+class GoneStore(FakeStore):
+    """FakeStore mit Ort-Kennung; gone="webhook" -> Index nicht mehr da (404)."""
+
+    def __init__(self, loc="ort-1"):
+        super().__init__()
+        self.loc, self.gone = loc, ""
+
+    def location(self):
+        return self.loc
+
+    def read_index(self):
+        if self.gone:
+            self.reads += 1
+            raise sync.StoreGone(self.gone, 10015)
+        return super().read_index()
+
+    def write_index(self, index):
+        if self.gone:
+            raise sync.StoreGone(self.gone, 10015)
+        super().write_index(index)
+
+
+class Ort404(unittest.TestCase):
+    """UP-404 (2.3.10): Abgleich-Ort weg -> Grund in Worten, langsam, eine Zeile; neue sync_config.json -> weiter."""
+
+    def setUp(self):
+        self.d = tempfile.mkdtemp()
+        self.store = GoneStore()
+        self.pc = Machine(self.d, "PC", self.store)
+        self.lap = Machine(self.d, "Laptop", self.store)
+        self.lap.write("SavedVariables/RaidMaster.lua", "RaidMasterDB = { 1 }\n", T0 - 7200)
+        self.assertTrue(self.lap.sync.push(now=T0 - 7000))
+        self.assertTrue(self.pc.sync.pull(now=T0 - 6900))
+        self.pc.write("SavedVariables/RaidMaster.lua", "RaidMasterDB = { 2 }\n", T0 - 6000)
+        self.assertTrue(self.pc.sync.push(now=T0 - 5900))
+        self.assertTrue(self.lap.sync.pull(now=T0 - 5800))
+
+    def tearDown(self):
+        shutil.rmtree(self.d, ignore_errors=True)
+
+    def test_up404b_langsam_eine_zeile_daten_bleiben(self):
+        self.store.gone = "webhook"
+        self.pc.write("SavedVariables/RaidMaster.lua", "RaidMasterDB = { 3 }\n", T0 - 100)
+        reads0 = self.store.reads
+        for t in range(0, 600, 5):                                   # 10 Minuten, Takt 5 s
+            self.pc.sync.tick(now=T0 + t)
+        lines = [l for l in self.pc.logs if "Abgleich-Webhook" in l]
+        self.assertEqual(len(lines), 1)                              # nur EINE Zeile (nicht alle 5 s)
+        self.assertIn("/uploader", lines[0])
+        self.assertIn("BEIDEN Rechnern", lines[0])
+        self.assertIn("gelöscht", lines[0])
+        self.assertLessEqual(self.store.reads - reads0, 3)           # höchstens alle 5 Min. ein Versuch
+        self.assertEqual(self.pc.read("SavedVariables/RaidMaster.lua"), "RaidMasterDB = { 3 }\n")
+        self.assertIn("/uploader", self.pc.sync.status_line())
+
+    def test_up404c_netzfehler_jede_minute_eine_zeile(self):
+        self.store.online = False
+        self.pc.write("SavedVariables/RaidMaster.lua", "RaidMasterDB = { 3 }\n", T0 - 100)
+        reads0 = self.store.reads
+        for t in range(0, 300, 5):
+            self.pc.sync.tick(now=T0 + t)
+        self.assertEqual(sum("kein Netz" in l for l in self.pc.logs), 1)
+        self.store.online = True
+        self.pc.sync.tick(now=T0 + 400)                               # danach normal hoch
+        self.assertEqual(self.store.index["machine"], "PC")
+        self.assertEqual(self.store.index["r"][""][0], 3)             # neuer Stand oben
+        self.assertLessEqual(self.store.reads - reads0, 7)            # etwa 1x je Minute, nicht alle 5 s
+
+    def test_up404d_neue_config_neuer_ort_abgleich_geht_weiter(self):
+        self.store.gone = "message"
+        self.pc.write("SavedVariables/RaidMaster.lua", "RaidMasterDB = { 3 }\n", T0 - 100)
+        self.pc.sync.tick(now=T0)
+        neu = GoneStore("ort-2")                                     # /uploader: neuer Webhook bzw. neue Index-Nachricht
+        self.pc.sync.switch_store(neu)
+        self.lap.sync.switch_store(neu)
+        self.assertEqual(self.pc.sync.s["revs"], {})
+        self.assertTrue(any("neuer Abgleich-Ort" in l for l in self.pc.logs))
+        self.pc.sync.tick(now=T0 + 10)
+        self.pc.sync.tick(now=T0 + 20)
+        self.assertEqual(neu.index.get("machine"), "PC")              # eigener Stand am neuen Ort
+        self.assertTrue(self.lap.sync.pull(now=T0 + 30))
+        self.assertEqual(self.lap.read("SavedVariables/RaidMaster.lua"), "RaidMasterDB = { 3 }\n")
+        self.assertFalse(any(x.endswith(".lokal") for x in self.lap.backups()))   # still: Laptop hatte nichts geändert
+        self.assertEqual(sync.check_state(self.pc.st), [])
+
+    def test_up404e_gleicher_ort_nichts_zurueckgesetzt(self):
+        # falscher Fall: dieselbe sync_config.json erneut -> Zähler bleiben, kein Neu-Hochladen
+        revs = dict(self.lap.sync.s["revs"])
+        self.lap.sync.switch_store(self.store)
+        self.assertEqual(self.lap.sync.s["revs"], revs)
+        self.assertFalse(self.lap.sync.s.get("ort_neu"))
+
+
 class Sofort(unittest.TestCase):
     """2.2.0 (S8): sofort und ohne Klick – T-SY7 … T-SY10; offene Punkte 1, 2, 5 – T-SY11 … T-SY13."""
 
@@ -1083,6 +1176,7 @@ class FakeDiscord:
         self.msgs, self.cdn, self.calls, self.n = {"900": {"id": "900", "content": "GSSYNC-INDEX", "attachments": []}}, {}, [], 900
         self.busy, self.date = 0, None
         self.empty: dict[str, int] = {}       # UP-S1: CDN-Adresse -> so oft 0 Byte liefern
+        self.gone_code = 0                    # UP-404: jede Anfrage an den Webhook -> 404 mit diesem Discord-Code
 
     def __call__(self, req, timeout=None):
         import re as _re
@@ -1096,6 +1190,9 @@ class FakeDiscord:
                 self.empty[url] -= 1
                 return Resp(b"")
             return Resp(self.cdn[url])
+        if self.gone_code and url.startswith("https://discord.invalid/api/webhooks/"):
+            raise sync.urllib.error.HTTPError(url, 404, "Not Found", {},
+                                              io.BytesIO(json.dumps({"code": self.gone_code}).encode()))
         m = _re.match(r"https://discord.invalid/api/webhooks/1/geheim(/messages/(\d+))?(\?wait=true)?$", url)
         assert m, url
         mid = m.group(2)
@@ -1160,6 +1257,24 @@ class Webhook(unittest.TestCase):
         self.assertIn("PATCH", methods)
         self.assertTrue(all(u.startswith("https://") for _, u in self.fake.calls))
         self.assertFalse(any("geheim" in l for l in pc.logs + lap.logs))
+
+    def test_up404a_grund_in_worten(self):
+        # UP-404: 404 wird nach Discord-Code unterschieden; nie die Webhook-Adresse in der Meldung
+        store = sync.WebhookStore("https://discord.invalid/api/webhooks/1/geheim", "900")
+        for code, what in ((10015, "webhook"), (10008, "message"), (10003, "channel"), (0, "?")):
+            self.fake.gone_code = code or 99999
+            with self.assertRaises(sync.StoreGone) as cm:
+                store.read_index()
+            self.assertEqual(cm.exception.what, what if code else "?")
+            self.assertIn("404", str(cm.exception))
+            self.assertNotIn("geheim", str(cm.exception))
+        self.fake.gone_code = 0
+        # Ort-Kennung: ohne Token, ändert sich mit Webhook-Nummer oder Index-Nachricht
+        a = store.location()
+        self.assertNotIn("geheim", a)
+        self.assertNotEqual(a, sync.WebhookStore("https://discord.invalid/api/webhooks/1/geheim", "901").location())
+        self.assertNotEqual(a, sync.WebhookStore("https://discord.invalid/api/webhooks/2/geheim", "900").location())
+        self.assertEqual(a, sync.WebhookStore("https://discord.invalid/api/webhooks/1/anders", "900").location())
 
     def test_ups1a_leerer_anhang_neu_holen(self):
         # UP-S1 a: 0 Byte -> Nachricht neu lesen, Anhang neu holen; zweimal leer -> Fehler mit Grund (0 Byte, HTTP)

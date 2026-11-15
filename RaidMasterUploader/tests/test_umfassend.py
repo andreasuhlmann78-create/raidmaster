@@ -547,6 +547,12 @@ REGRESSIONEN = {
     "UP-S1-2a über defekt: Konflikt statt still": "test_sync.UeberDefektUPS12.test_ups12a_vermerk_und_konflikt_statt_still",
     "UP-S1-2b Vermerk weg nach eigenem Upload": "test_sync.UeberDefektUPS12.test_ups12b_vermerk_weg_wenn_pc_wieder_hochlaedt",
     "UP-S1-2c normal still (falscher Fall)": "test_sync.UeberDefektUPS12.test_ups12c_falscher_fall_normal_still",
+    "UP-404a Grund in Worten": "test_sync.Webhook.test_up404a_grund_in_worten",
+    "UP-404b langsam, eine Zeile": "test_sync.Ort404.test_up404b_langsam_eine_zeile_daten_bleiben",
+    "UP-404c Netzfehler 1x je Minute": "test_sync.Ort404.test_up404c_netzfehler_jede_minute_eine_zeile",
+    "UP-404d neuer Ort geht weiter": "test_sync.Ort404.test_up404d_neue_config_neuer_ort_abgleich_geht_weiter",
+    "UP-404e gleicher Ort unverändert": "test_sync.Ort404.test_up404e_gleicher_ort_nichts_zurueckgesetzt",
+    "UP-404f neue sync_config ohne Neustart": "test_uploader.SyncConfigNeu.test_up404f_neue_sync_config_ohne_neustart",
     "RP-U nur bank/raidReady": "test_uploader.Uploader17.test_rp_u_nur_bank_und_raidready",
 }
 

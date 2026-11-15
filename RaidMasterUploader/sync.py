@@ -84,6 +84,11 @@ QUIET_RUNNING_SECONDS = 10       # WoW läuft (/reload, Ausloggen ins Charakter-
 PUSH_GAP_RUNNING = 60            # ... aber höchstens 1 Upload je Minute, solange WoW läuft (die letzte Fassung gewinnt)
 DELETE_PER_TICK = 5              # alte Fassungen in #sync-daten: so viele Löschversuche je Durchgang
 CHECK_REMOTE_SECONDS = 30        # WoW geschlossen: so oft den Index prüfen
+# UP-404 (ab 2.3.10): nach einem Netz-/Discord-Fehler so lange nicht erneut (statt alle 5 s); fehlt der Abgleich-Ort
+# (404), ändert sich das nicht von selbst -> seltener versuchen, bis eine neue sync_config.json da ist
+REMOTE_FAIL_WAIT = 60
+REMOTE_GONE_WAIT = 300
+SAY_SAME_EVERY = 600            # dieselbe Fehlermeldung höchstens so oft wiederholen
 CHECK_REMOTE_RUNNING = 120       # WoW läuft: so oft (nur für den Hinweis)
 STALE_DAYS = 14                  # so lange unverändert -> nur einmal als Grundstand
 # UP-S1 (ab 2.3.8): ein Stand eines anderen Rechners, der so oft hintereinander und so lange nicht lesbar ist, gilt als
@@ -635,6 +640,37 @@ class StoreError(Exception):
     pass
 
 
+class StoreGone(StoreError):
+    """UP-404 (ab 2.3.10): Discord kennt das Ziel nicht mehr (404). what = "webhook" | "message" | "channel" | "?"."""
+
+    def __init__(self, what: str, code=None):
+        self.what, self.code = what, code
+        super().__init__({"webhook": "Discord kennt den Abgleich-Webhook nicht mehr (404)",
+                          "message": "Discord kennt die Abgleich-Nachricht (Index) nicht mehr (404)",
+                          "channel": "Discord kennt den Abgleich-Kanal nicht mehr (404)"}.get(
+                              what, "Discord antwortet 404"))
+
+
+GONE_HELP = {
+    "webhook": "Der Kanal #sync-daten oder sein Webhook wurde gelöscht.",
+    "message": "Die Index-Nachricht oben im Kanal #sync-daten wurde gelöscht.",
+    "channel": "Der Kanal #sync-daten wurde gelöscht.",
+    "?": "Discord findet den Abgleich-Ort nicht mehr.",
+}
+GONE_TODO = ("Was tun: In Discord /uploader ausführen und die neue sync_config.json auf BEIDEN Rechnern in den "
+             "Uploader-Ordner legen (alte ersetzen). Der Uploader liest sie sofort ein. Deine Daten hier bleiben "
+             "unverändert und gehen danach hoch.")
+
+
+def gone_from_http(code: int, body: bytes) -> "StoreGone":
+    """Discord-Fehlercode im 404-Körper: 10015 Unknown Webhook, 10008 Unknown Message, 10003 Unknown Channel."""
+    try:
+        c = int((json.loads(body.decode("utf-8")) or {}).get("code") or 0)
+    except (ValueError, AttributeError, TypeError, UnicodeDecodeError):
+        c = 0
+    return StoreGone({10015: "webhook", 10008: "message", 10003: "channel"}.get(c, "?"), c or None)
+
+
 class WebhookStore:
     """Eine Index-Nachricht (Inhalt JSON) + je Paket eine oder mehrere Nachrichten mit Anhang.
     Misst bei jeder Antwort die Abweichung der eigenen Uhr gegenüber Discord (clock_offset) und hält Discords
@@ -690,9 +726,20 @@ class WebhookStore:
                         pass
                 self.wait_until = max(self.wait_until, time.time() + retry)
                 raise StoreError(f"Discord bremst – nächster Versuch in {int(retry) + 1} s") from None
+            if e.code == 404:
+                try:
+                    body = e.read()
+                except (OSError, AttributeError):
+                    body = b""
+                raise gone_from_http(404, body or b"") from None
             raise StoreError(f"Discord antwortet {e.code}") from None
         except (urllib.error.URLError, OSError, ValueError):
             raise StoreError("kein Netz oder Discord nicht erreichbar") from None
+
+    def location(self) -> str:
+        """Kennung des Abgleich-Orts (Webhook-Nummer + Index-Nachricht) als Prüfwert – ohne das geheime Webhook-Token."""
+        m = re.search(r"/webhooks/(\d+)", self.url)
+        return hashlib.sha1(f"{m.group(1) if m else ''}:{self.index_id}".encode()).hexdigest()[:12]
 
     def read_index(self) -> dict:
         msg = self._req("GET", f"/messages/{self.index_id}")
@@ -853,6 +900,10 @@ class Sync:
         self.skipped_logged: set[str] = set()
         self.last_taken: list[str] = []
         self.retry_at = 0.0                   # nach einem Fehler nicht alle 5 s erneut übers Netz
+        self.fail_until = 0.0                 # UP-404: Index-Fehler -> bis dahin gar nicht übers Netz (auch nicht force)
+        self.said: dict[str, float] = {}      # UP-404: Fehlermeldung -> zuletzt gezeigt
+        self.gone: str = ""                   # UP-404: "webhook"/"message"/"channel"/"?" – Abgleich-Ort fehlt
+        self._check_location()
 
     # -- Anzeige (S5)
     def status_line(self) -> str:
@@ -865,6 +916,8 @@ class Sync:
         line += f" · neuester Stand: {newest} · dieser Rechner {here}"
         if self.last_error:
             line += f" · FEHLER: {self.last_error}"
+        if self.gone:
+            line += " · in Discord /uploader ausführen, neue sync_config.json auf beide Rechner"
         bad = set(self.s.get("defekt") or [])
         if any(f"{k}:{e['rev']}" in bad for k, e in index_roots(self.remote).items()):
             line += " · defekter Stand des anderen Rechners übergangen (dort einmal WoW beenden)"
@@ -950,6 +1003,14 @@ class Sync:
             groups.setdefault(self.root_of(rel), {})[rel] = f
         changed = sorted(rel for key, files in groups.items() if not self._skip_root(key, files, now)
                          for rel, f in files.items() if self.s["files"].get(rel) != f["sha"])
+        if self.s.get("ort_neu") and self.remote is not None:
+            # UP-404: neuer, noch leerer Abgleich-Ort -> eigenen Stand dort einmal hochladen
+            have = index_roots(self.remote)
+            missing = sorted(rel for key, files in groups.items() if key not in have
+                             and not self._skip_root(key, files, now) for rel in files)
+            if not missing:
+                self.s.pop("ort_neu", None)
+            changed = sorted(set(changed) | set(missing))
         return changed, self._newest(scan)
 
     def _backup(self, files: dict[str, bytes], now: float, tag: str) -> str:
@@ -975,10 +1036,48 @@ class Sync:
                     shutil.rmtree(d, ignore_errors=True)
         return dest
 
+    # -- UP-404 (ab 2.3.10): Abgleich-Ort
+    def _check_location(self) -> None:
+        """Neuer Abgleich-Ort (andere Webhook-Nummer oder Index-Nachricht in sync_config.json): Zähler des alten Orts
+        gelten dort nicht -> revs/seq zurücksetzen, Grundstand (files) behalten, damit Konflikte richtig erkannt werden;
+        dieser Rechner lädt seinen Stand dort einmal hoch, sobald der neue Ort leer ist."""
+        loc = getattr(self.store, "location", None)
+        if not callable(loc):
+            return
+        loc = loc()
+        old = self.s.get("ort")
+        self.s["ort"] = loc
+        if old and old != loc:
+            self.s["revs"], self.s["seq"] = {}, 0
+            for k in ("defekt", "unlesbar", "ud_done", "blocked_since", "blocked_why", "blocked_told"):
+                self.s.pop(k, None)
+            self.s["ort_neu"] = True
+            self.log("Abgleich: neuer Abgleich-Ort (neue sync_config.json) – die Daten hier bleiben unverändert und "
+                     "werden dort abgeglichen.")
+            try:
+                self.save()
+            except OSError:
+                pass
+
+    def switch_store(self, store) -> None:
+        """Neue sync_config.json im laufenden Betrieb: neuen Ort übernehmen, Fehlerzustand vergessen."""
+        self.store = store
+        self.remote, self.next_remote, self.fail_until, self.retry_at = None, 0.0, 0.0, 0.0
+        self.last_error, self.gone, self.said = "", "", {}
+        self._check_location()
+
+    def _say_limited(self, text: str, now: float) -> None:
+        """Dieselbe Meldung höchstens alle SAY_SAME_EVERY Sekunden (UP-404: nicht alle 5 s dieselbe Zeile)."""
+        if now - self.said.get(text, -1e18) >= SAY_SAME_EVERY:
+            self.said = {text: now}
+            self._say(text)
+
     # -- Index
     def check_remote(self, now: float | None = None, force: bool = False,
                      every: float = CHECK_REMOTE_SECONDS) -> dict | None:
         now = time.time() if now is None else now
+        if now < self.fail_until:
+            return None if (force or self.last_error) else self.remote   # UP-404: nach Fehler warten, still
         if not force and now < self.next_remote:
             return self.remote
         if float(getattr(self.store, "wait_until", 0.0) or 0.0) > time.time():
@@ -986,10 +1085,16 @@ class Sync:
         self.next_remote = now + every
         try:
             self.remote = self.store.read_index()
-            self.last_error = ""
+            self.last_error, self.gone = "", ""
+        except StoreGone as e:
+            self.last_error, self.gone = str(e), e.what
+            self.fail_until = self.retry_at = now + REMOTE_GONE_WAIT
+            self._say_limited(f"Abgleich: {e}. {GONE_HELP.get(e.what, GONE_HELP['?'])} {GONE_TODO}", now)
+            return None
         except StoreError as e:
             self.last_error = str(e)
-            self._say(f"Abgleich: {e} – lokale Dateien bleiben unverändert, neuer Versuch später.")
+            self.fail_until = self.retry_at = now + REMOTE_FAIL_WAIT
+            self._say_limited(f"Abgleich: {e} – lokale Dateien bleiben unverändert, neuer Versuch in 1 Minute.", now)
             return None
         if int((self.remote or {}).get("seq") or 0) > int(self.s.get("seq") or 0) and not self.pending():
             self.s["seq"] = int(self.remote.get("seq") or 0)   # nur Spielversionen, die es hier nicht gibt
@@ -1355,8 +1460,13 @@ class Sync:
                 for p in parts:
                     self.store.delete_part(p)
             self.last_error = str(e)
-            self.retry_at = now + 60
-            self._say(f"Abgleich: Hochladen nicht möglich ({e}) – neuer Versuch später.")
+            if isinstance(e, StoreGone):
+                self.gone = e.what
+                self.fail_until = self.retry_at = now + REMOTE_GONE_WAIT
+                self._say_limited(f"Abgleich: {e}. {GONE_HELP.get(e.what, GONE_HELP['?'])} {GONE_TODO}", now)
+            else:
+                self.retry_at = now + REMOTE_FAIL_WAIT
+                self._say_limited(f"Abgleich: Hochladen nicht möglich ({e}) – neuer Versuch in 1 Minute.", now)
             return False
         self.s.setdefault("to_delete", [])
         for old in drop:

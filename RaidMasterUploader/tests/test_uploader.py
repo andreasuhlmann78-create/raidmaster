@@ -243,6 +243,33 @@ WEG = 'GSWEGE1' + json.dumps({"f": 1, "kind": "wege", "id": "w-1", "addon": "Lev
                               "zones": [{"map": 1412, "pts": [[1, 2]]}]})
 
 
+class SyncConfigNeu(Base):
+    def test_up404f_neue_sync_config_ohne_neustart(self):
+        # UP-404: neue sync_config.json im Ordner -> sofort übernommen (switch_store), nie die Adresse im Fenster
+        old = up.HERE
+        up.HERE = self.d
+        try:
+            got = []
+
+            class S:
+                def switch_store(self, store):
+                    got.append(store)
+            fn = os.path.join(self.d, "sync_config.json")
+            seen = up.reload_sync_config(S(), 0.0)
+            self.assertEqual((seen, got), (0.0, []))                  # keine Datei -> nichts
+            with open(fn, "w", encoding="utf-8") as f:
+                json.dump({"sync_webhook_url": "https://discord.invalid/api/webhooks/5/geheim", "sync_index_id": "77"}, f)
+            seen = up.reload_sync_config(S(), seen)
+            self.assertEqual(len(got), 1)
+            self.assertEqual(got[0].index_id, "77")
+            self.assertEqual(up.reload_sync_config(S(), seen), seen)   # unverändert -> nicht nochmals
+            self.assertEqual(len(got), 1)
+            self.assertFalse(any("geheim" in l for l in self.logs))
+            self.assertTrue(any("neue sync_config.json übernommen" in l for l in self.logs))
+        finally:
+            up.HERE = old
+
+
 class Paket(Base):
     def setUp(self):
         super().setUp()

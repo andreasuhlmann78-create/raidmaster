@@ -256,3 +256,11 @@ Version 2.3.9 – kein stilles Überschreiben nach einem defekten Stand (UP-S1-2
 - Der andere Rechner übernimmt dann nichts still: Jede abweichende Datei gilt als Konflikt. Die neuere Fassung gewinnt,
   die andere wird gesichert, und AHSentinel führt die Buchhaltung beider Rechner beim nächsten Login zusammen.
 - Das passiert nur einmal je defektem Stand; danach läuft der Abgleich wieder wie gewohnt.
+
+Version 2.3.10 – "Discord antwortet 404" (UP-404):
+- Der Uploader sagt jetzt in Worten, was fehlt: der Webhook des Kanals #sync-daten, die Index-Nachricht darin oder der
+  ganze Kanal – und was zu tun ist: In Discord /uploader ausführen und die neue sync_config.json auf BEIDEN Rechnern in
+  den Uploader-Ordner legen. Der Uploader liest sie sofort ein, ohne Neustart. Deine Daten bleiben unverändert und gehen
+  danach hoch.
+- Bei einem dauerhaften Fehler versucht er es nicht mehr alle 5 Sekunden, sondern alle 5 Minuten (bei Netzfehlern jede
+  Minute), und dieselbe Meldung erscheint höchstens alle 10 Minuten.
