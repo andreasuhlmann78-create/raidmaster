@@ -1,6 +1,6 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-14 23:41 UTC
+Ausgewertet: 2026-11-15 00:14 UTC
 
 **Hinweis:** Der Bot ist auf keinem Server (oder DISCORD_GUILD_ID passt nicht).
 
@@ -20,7 +20,7 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 120 | `testberichte/diagnose/AHSentinel/0.65.94-a90ab14a9b56.txt` |
+| AHSentinel | 120 | `testberichte/diagnose/AHSentinel/0.65.99-ea23619300d1.txt` |
 | BuffSentinel | 35 | `testberichte/diagnose/BuffSentinel/0.9.12-7f8dfb5af187.txt` |
 | GSMesstest | 9 | `testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt` |
 | GuildSentinel | 112 | `testberichte/diagnose/GuildSentinel/0.9.38-b54b63a79529.txt` |
@@ -32,7 +32,7 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| LevelPilot | 155 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794653036-3b17f1.json` |
+| LevelPilot | 155 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794681431-079ae4.json` |
 
 ## AHSentinel
 
