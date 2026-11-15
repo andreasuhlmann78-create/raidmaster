@@ -1,0 +1,56 @@
+BERICHT LEVELPILOT AN DEN SUPERVISOR (PRÜF-SITZUNG)
+Stand: 15.11.2026 20:10 · Sitzung: LevelPilot-Projekt-Sitzung · Version: 3.12.34 · Commit: dieser Commit
+(announce/levelpilot__levelpilot-3.12.34.LevelPilot.zip)
+Anlass: L-1 HOCH (freigegeben 19:22), danach PF-A-Rest (Prüfung 19:21). Dazu GoldSentinelMarkt v6 (df15ad59).
+
+UMGESETZT, ZUR PRÜFUNG
+1. L-1 – Ruckler alle 5 Min.
+   (a) URSACHE: Code bis 3.12.33 Protocol.lua: LP:Ticker("protocol_memory", 300, Memory) -> UpdateAddOnMemoryUsage() (misst ALLE
+       Addons). Gegenprobe im Nachbau mit 3.12.33: der registrierte Ticker ruft UpdateAddOnMemoryUsage 1× je Takt auf; 3.12.34: 0×.
+       Die DAUER kann der Nachbau nicht nachstellen (er hat keine echte Speicherzählung je Addon). Darum misst LevelPilot sie jetzt
+       im Spiel: Diagnose "SPEICHER LevelPilot (gemessen beim Öffnen des Protokolls) … Speicher-Messung x ms" (Protocol.lua:408,
+       Zeit mit debugprofilestop um UpdateAddOnMemoryUsage + GetAddOnMemoryUsage). Bitte im Spiel ablesen (mit allen Addons).
+   (b) Ticker (Protocol.lua:679, 709) und Login-Messung nach 30 s nur noch collectgarbage("count") (Lua gesamt, alle Addons,
+       wie AHSentinel). Genaue Messung je Addon nur in Pr:Show (Protokoll öffnen, Protocol.lua:567). Der Diagnose-Text (auch der
+       Export beim Ausloggen) misst nicht mehr je Addon.
+       WAS SICH AN DER AUSSAGE SP1-M ÄNDERT: Die Zeilen "LevelPilot nach dem Einloggen/aktuell/Höchstwert" (bisher alle 5 Min.)
+       gibt es so nicht mehr. Neu: "SPEICHER Lua gesamt (alle Addons, alle 5 Min.) nach dem Einloggen · aktuell · Höchstwert" und
+       "SPEICHER LevelPilot (gemessen beim Öffnen des Protokolls) aktuell · Höchstwert · Speicher-Messung x ms". Der Verlauf je
+       Sitzung zeigt "Lua gesamt Login»Ende, max" (alle Addons, im Spiel des Nutzers ~400 MB). Für LevelPilot allein gibt es
+       damit nur noch Stichproben beim Öffnen des Protokolls; der Bestand (Wegpunkte, Zwischenspeicher) und "angelegt je Modul"
+       bleiben unverändert und reichen für SP1-M (Wachstum erkennt man am Bestand).
+   (c) T294 (TestRoutine.lua:5948): registrierter 300-s-Ticker, Pr.MemoryTick und Diagnose-Text/Export rufen
+       UpdateAddOnMemoryUsage 0× auf (zählende Ersatzfunktion nur über setfenv auf eigene Funktionen); Gegenprobe: die Messung auf
+       Befehl zählt 1×. In TR.REGRESSIONS.
+   (d) ALLE TICKER durchgesehen und im Nachbau gemessen (Allianz L10, 20 Aufrufe je Ticker, Mittel/Höchstwert):
+       caves 1 s 0,002/0,002 ms · path 0,5 s 0,004/0,005 · steps 0,5 s 0,003/0,006 · ui 1 s 0,059/0,081 · session 1 s 0,001/0,004 ·
+       protocol_check 5 s 0,017/0,040 · replan 15 s 2,0/2,5 (in Portionen) · advisor 30 s 0,60/8,57 · group 30 s 0,001/0,004 ·
+       social 120 s 0,001/0,004 · protocol_memory 300 s 0,002/0,003 · rules 600 s 0,004/0,008 · comm_diag 600 s 0,014/0,059 ·
+       comm_hello 900 s 0,008/0,037. Kein weiterer Aufruf, der alle Addons durchgeht. Auffällig nur advisor (erster Lauf 8,6 ms;
+       liest Ausrüstung und Taschen mit Spiel-Funktionen, im Nachbau nicht realistisch) -> jetzt in der Zeitmessung als
+       "Assistent" (Perf.lua:245); Verdacht, im Spiel zu messen.
+2. PF-A-Rest – Höchstwert 26 ms im ersten Lauf
+   URSACHE (belegt mit Zeit-Stichproben je Lauf von T150 im Testlauf Allianz): der erste der 5 Läufe 78,5 ms (mit Stichproben-
+   Aufwand) mit QuestDB QuickInfo/PackRaw (Questauswertung) und QuestDB ServiceNPCs (Dienst-NPCs) oben; die Läufe 2–5 3–4 ms.
+   Vorherige Tests der Testroutine (Stufe/Sprache gewechselt) hatten die Kandidaten und Dienst-NPCs ungültig gemacht; ein Klick
+   (Replan(true)) rechnete sie am Stück neu. Im Nachbau ohne Testroutine: Neuplanung mit neuer Questauswertung 10,8–13,4 ms,
+   mit neuen Dienst-NPCs 7,2–11,7 ms (Dienst-NPCs allein 3,0–4,0 ms).
+   LÖSUNG: Planner:Cold() (Planner.lua:60: Stufe ~= Kandidaten-Stufe oder Dienst-NPCs leer). Ein Klick mit kalten
+   Zwischenspeichern läuft wie die automatische Planung in Portionen (Planner.lua:1440); warm rechnet der Klick sofort wie bisher.
+   T295 (TestRoutine.lua:5979): kalt erkannt, in Portionen (Allianz 4 Bilder, längste 10,58 ms; Horde 6 Bilder, längste 9,94 ms),
+   danach warm, warmer Klick sofort. T150 (TestRoutine.lua:1239) plant vorher einmal (warm): Allianz Median 4,13 / Höchstwert
+   4,26 ms, Horde 3,62 / 3,74 ms.
+   Offen (Verdacht, zu messen): Die längste Portion (bis 10,6 ms) liegt über dem Budget 4 ms – ein Block gibt nicht ab
+   (vermutlich Dienst-NPCs ~3 ms + Aufgabensammlung). Unter 16 ms; nicht weiter verfolgt ohne Auftrag.
+3. GoldSentinelMarkt v6 unverändert kopiert (cmp gleich), addon_check ohne Warnung.
+4. CHANGELOG EN/DE 3.12.34.
+
+BELEGE (eigene Tests, keine Freigabe)
+- addon_check LevelPilot-3.12.34.zip: OK, keine Warnung (hier ohne lupa).
+- run_offline.py: 34 Läufe, 34 ohne FEHLER. Testroutine Horde OK 271 · FEHLER 0.
+- Lokale Gesamtregression 36 Läufe ohne FEHLER.
+
+ALS NÄCHSTES: UC-W1 (Weg in Undercity zu Bethor Iceshard) – ohne zu warten.
+
+IM CLIENT GETESTET
+- noch nicht. Bitte im Spiel: Protokoll öffnen -> Zeile "Speicher-Messung x ms" ablesen; im AH 45 Min. ohne 5-Min.-Ruckler.
