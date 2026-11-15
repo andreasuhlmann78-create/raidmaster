@@ -1,0 +1,14 @@
+AHSentinel 0.65.241 – Phase 7 MR11 "nächster Vollscan möglich in x Min." – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.241 und sofort im Discord.
+Umsetzung (UI_MarketView.lua):
+  - MV:ScanHintText(): nur mit eingeschaltetem Vollscan (VS:Enabled); "Vollscan läuft" / "Vollscan in %d Min. möglich" (VS:Wait,
+    Minuten aufgerundet, nie 0) / "Vollscan jetzt möglich". Neue Locale-Schlüssel in allen Sprachen.
+  - Kopf p:LageText(): ZWEI Zeilen – Markt-Index | Rhythmus (MR7) · Vollscan (MR11). Je Sekunde wird der Hinweis geprüft und nur
+    bei Änderung neu gesetzt (Minuten genau, keine Rechnung je Bild).
+  - EIGENER FUND: Der Kopf war schon seit MR7 (0.65.225) länger als der Platz (gemessen deDE 706 px auf 389 px) und wurde
+    abgeschnitten. Jetzt zwei Zeilen, Zier-Linie nach dem Titel 40 statt 140 px (Kopf beginnt 100 px früher), kürzere Texte für
+    frFR/es/pt/it/ru. Jede Zeile passt in allen 11 Sprachen (gemessen, s241).
+Tests: s241_mr11_scan_hint (aus: kein Hinweis; jetzt möglich; läuft; nach dem Scan genau die Minuten; 5 Min. später ohne
+  Neuaufbau aktuell; zwei Zeilen; jede Zeile passt; endet vor "Bevor du gehst") – grün in deDE + 10 Sprachen; mit 0.65.240 rot.
+  run_all.sh lässt s241 in allen Sprachen laufen (mit dieser Version ins Repo). s225, s232, s5_help grün. CHANGELOG EN/DE.
+Gesamtlauf (frischer Klon, Kopie 0.65.241, s241 + Sprachen-Schleife mit dieser Version ins Repo): BESTANDEN 293, FEHLGESCHLAGEN 0.
