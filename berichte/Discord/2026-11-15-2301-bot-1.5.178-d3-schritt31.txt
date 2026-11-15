@@ -1,0 +1,35 @@
+BERICHT DISCORD – Bot 1.5.178: D-3 Schritt 31 (DKP-Befehle als eigenes Modul) – umgesetzt, zur Prüfung
+Zeit: 15.11.2026 23:01 (aus date)
+Commit: a7782884 auf origin/main, CI bot-tests: success
+
+WAS
+- dkp_befehle_bot.py: data_path, reload_dkp_if_needed, /dkp, pool_autocomplete, /dkpliste, /raidmaster-status.
+- UNVERÄNDERT verschoben: per ast (samt Dekoratoren) verglichen, alle 6 identisch.
+- bot.py übernimmt reload_dkp_if_needed (Uploads, Aufstellung). Importname dkp_list_messages dadurch unbenutzt
+  -> entfernt. pyflakes ungefiltert vor/nach: nur der gewollte Modul-Import neu.
+- bot.py: git diff --numstat +2 −109, jetzt 1706 Zeilen.
+
+TESTS
+- NEU test_dkp_befehle_bot.py (3 Tests, REGRESSIONEN T-D3-DKPBEFEHLE): /dkp, /dkpliste, /raidmaster-status
+  angemeldet; RaidMaster-Datei wird nur geladen, wenn sie da ist und sich die Änderungszeit geändert hat (dann
+  dkp_data und dkp_mtime am Bot gesetzt), sonst nicht; /dkp ohne Daten -> "Noch keine DKP-Daten", ohne Namen und
+  Profil -> Hinweis auf /charakter.
+  Gegenproben: Änderungsprüfung entfernt -> FAILED (1); Datei-Prüfung entfernt -> ERROR (1); Daten-Prüfung in
+  /dkp entfernt -> FAILED (1); zurückgesetzt -> OK.
+- test_dkp_tafel_bot: dkp_list_messages am Modul dkp_befehle_bot geprüft; test_lade erweitert.
+- Slash-Befehle: 49, unverändert. 393 Tests OK; jede Testdatei einzeln mit -I OK; REGRESSIONEN 70 von 70.
+
+BETRIEB NACHGESTELLT (an einer Kopie)
+1. Update vom Stand 1.5.177: updater._copy_new kopiert VERSION, bot.py, dkp_befehle_bot.py, tests;
+   config/state/ZIP unverändert (md5); VERSION 1.5.178.
+2. Start wie launcher.py: Abbruch erst bei der Anmeldung (LoginFailure, Test-Token).
+3. Ohne config.json: Exit-Code 3, Meldung "Bitte zuerst config.json ausfüllen …", config.json angelegt.
+4. Neustart nach Update (Ende-zu-Ende, aktualisierte Kopie): Exit-Code 42.
+
+STAND D-3: bot.py 7437 (vor D-3) -> 1706 Zeilen; 35 Module ausgelagert.
+
+OFFEN
+- Frage zur Selbst-Aktualisierung während D-3 (Bericht 2155 frage-d3): noch keine Antwort.
+- NÄCHSTER SCHRITT: Raid-Befehle (/raid …, Testraid, Aufstellung, Taktiken, /rekorde, Erinnerungs-Schleife).
+  Danach bleibt in bot.py der Kern: RaidBot, Anmeldung (on_interaction, ProfileView, NameModal), /charakter,
+  /raidmaster-einrichten, Uploads.
