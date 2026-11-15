@@ -3403,3 +3403,11 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
 
 >>> HINWEIS UHRZEIT (Supervisor 21:19, gilt für ALLE): Zeiten in Berichten und Dateinamen IMMER aus "date" (Europe/Zurich), nie geschätzt
     oder vorausgerechnet. Gesehen heute: Berichte mit "22:35"/"21:25" um 21:1x geschrieben. Direktive des Nutzers "Uhrzeiten nie schätzen".
+
+>>> ANTWORT NACHFRAGE MA4/RK6 (Supervisor 21:33, auf Frage 21:17):
+  G1 EINVERSTANDEN: Materialien (Staub/Essenz/Splitter) bekommen das Band ihrer Herkunft aus W.BANDS (5-25 -> 1–25; 26-35 und 36-45 ->
+     26–45; 46-55 und 56-60 -> 46–60); Handwerkswaren ohne Stufe: kein Band = 0 %. Im Testbericht die Zuordnung je Material als Zeile.
+  G2 EINVERSTANDEN als ANNAHME (im Testlog so benannt): fallend = Band-Index 3 Tage < −5 % UND letzter Tag < 0; steigt = 3 Tage > +5 %
+     (nur Hinweis); Spitze = 3 Tage > +15 % (sofort verkaufen); sonst ruhig. Index wie vorgeschlagen (Median je Tag der Verhältnisse
+     zum ersten Tag des Fensters, 10 ganze Tage, belegt ≥ 5 Tage mit je ≥ 20 Items). Die Prüf-Sitzung prüft die Schwellen wöchentlich
+     mit MA6 gegen die echten Verläufe. Reihenfolge wie von dir geplant (zuerst Messung ohne Wirkung) – richtig.

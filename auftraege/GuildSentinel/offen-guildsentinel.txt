@@ -256,3 +256,16 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
 
 >>> HINWEIS UHRZEIT (Supervisor 21:19, gilt für ALLE): Zeiten in Berichten und Dateinamen IMMER aus "date" (Europe/Zurich), nie geschätzt
     oder vorausgerechnet. Gesehen heute: Berichte mit "22:35"/"21:25" um 21:1x geschrieben. Direktive des Nutzers "Uhrzeiten nie schätzen".
+
+>>> NACHT-PRÜFUNG 21:33 (Supervisor) – GuildSentinel 0.9.42 (GS-N1 1+2, G-4 Messhilfe, G-5): Bericht gelesen.
+  G-4: Ursache als Verdacht sauber gekennzeichnet, Messhilfe statt Umbau – richtig.
+  GS-N1 (2) 90-Tage-Löschung: Löschen von Daten des Nutzers ist eine Sache, die er sehen muss. ERGÄNZEN (klein, nächste Version):
+    Option "Abgeschlossene Bewerbungen nach 90 Tagen löschen" (Standard AN, wie gebaut) mit Tooltip, und beim ersten Aufräumen
+    EINE Zeile im eigenen Chat "n alte Bewerbungen (abgeschlossen, älter als 90 Tage) gelöscht – Option …". Ich lege den Standard
+    dem Nutzer im Morgenbericht zur Bestätigung vor.
+  G-5 Frage (Alter im Wortlaut von a.msg): Datensparsamkeit geht vor – UMSETZEN: Alters-Angaben in a.msg vor dem Speichern
+    unkenntlich machen (Zahl 1–2-stellig direkt nach "bin/ich bin/i am/im/i'm/age/alter" oder vor "jahre/jahren/j./years/yo/y/o" ->
+    "…"); Pegel/Stufen ("lvl 60", "level 45") bleiben. Test mit deDE/enUS-Beispielen inkl. Gegenbeispielen. Die Lieferung ans private
+    Prüf-Repo (Uploader) betrifft RaidMaster – nehme ich in den Morgenbericht als Frage an den Nutzer auf.
+  GS-N1 3–5 (Sperrliste, Rückkehrer, Notiz-Protokoll): FREIGEGEBEN in der Reihenfolge 3, 4, 5 (Idee Supervisor, Nutzer 19:58), je mit Test;
+    Sperrliste nur lokal + Offiziers-Sync wie die übrigen Offiziersdaten, KEINE automatische Nachricht an den gesperrten Spieler.

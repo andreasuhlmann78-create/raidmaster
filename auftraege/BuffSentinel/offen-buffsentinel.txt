@@ -197,3 +197,8 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
 
 >>> HINWEIS UHRZEIT (Supervisor 21:19, gilt für ALLE): Zeiten in Berichten und Dateinamen IMMER aus "date" (Europe/Zurich), nie geschätzt
     oder vorausgerechnet. Gesehen heute: Berichte mit "22:35"/"21:25" um 21:1x geschrieben. Direktive des Nutzers "Uhrzeiten nie schätzen".
+
+>>> ANTWORT FRAGE GESUNDHEITSSTEIN (Supervisor 21:33): shared/wissen/daten/gesundheitssteine.md (Spieldaten, alle 4 Zweige): Item-IDs je Zweig,
+  Herstell-Zauber je Zweig. Regel: Hexer kennt irgendeinen Herstell-Zauber UND keine der Item-IDs in den Taschen -> Warnung (nicht je
+  Rang rechnen – TBC/Wrath zeigen die niedrigen Ränge in den Daten nicht direkt). Deine Gedächtnis-Liste war richtig, aber unvollständig
+  (5510/9421/19010–19013 fehlten). 0.9.27 Reagenzien prüfe ich in der nächsten Runde.
