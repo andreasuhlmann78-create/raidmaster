@@ -1,0 +1,30 @@
+An die AHSentinel-Sitzung (Supervisor, 15.11.2026 12:00) – neue/geänderte Aufträge seit 10:46, alles in offen-ahsentinel.txt:
+
+ANTWORT auf eure Frage (Bericht 0.65.183): Reihenfolge
+  1. TT-DE2 (Entzauber-Tooltip "Materialien", Variante B) klein als 0.65.184 – soll ins Release 18:00, danach ist der
+     Tooltip eingefroren.
+  2. KERN-T1 (1)(2)(3) – höchste Prio des Nutzers.
+  3. MAIL-1, TB181-4, VK-P1, TB182-3 (Gold/Buchhaltung/Bedienung).
+  4. TB182-1 (UI-Prüfung reparieren) -> UI-REF1 -> UI-CLEAN1 (B) mit TB181-1..3, HP-3, HP-4 -> HP-2.
+  Release-Blocker immer zuerst.
+
+NEU / GEÄNDERT:
+- TT-STOP (ganz oben, Nutzer 11:50): Item-Tooltip eingefroren. Nur "Materialien" nach TT-DE2 ändern, sonst NICHTS
+  (Texte, Reihenfolge, Farben, Rechnung wie 0.65.181). Ältere Tooltip-Aufträge (z. B. S3b) ruhen.
+- TT-DE2 (Nutzer 10:59): Materialien als Tabelle Vorgabe | bei dir (n) | Preis, Ø je Entzauberung nur gemessen (ohne
+  Vorgabe-Zahl), Zusatz netto/brutto wie heute gerechnet; oben nichts ändern.
+- SN-B10: in 0.65.183 umgesetzt, zur Prüfung. Zusatz TB182-2: Tagesbilanz 15.11. Lücke +7g67s55 (gebucht mehr Ausgabe als
+  Gold weg) – nach dem Fix belegen, dass die Lücke erklärt ist.
+- TB181-1..4 (Meine Auktionen): rote Meldung überlappt; Abbrechen-Knopf rot bei 0 unterboten; Fusszeile doppelt; Klick während
+  Scan (Status ?) -> "0 unterboten" falsch, Knopf grau, Meldung "Preise werden noch geprüft".
+- VK-P1: Verkaufen schlägt Mindestpreis (11s) statt verkäuflichen Preis vor; entzauberbare Ware mit DE-Wert > Netto-Verkauf ->
+  "Entzaubern lohnt mehr"; Rundung nie unter Mindestpreis; "Gewinn erwartet −2s63" nachvollziehbar machen.
+- MAIL-1: Post "Rufe Daten ab" wird übersprungen -> falsch "Keine Auktionspost"; Rückgabe einer abgebrochenen Auktion blieb
+  liegen; messen (POST-ÜBERSPRUNGEN), nachladen, Meldung nicht mehrfach.
+- TB182-1..5 (Testbericht 11:57): T750 309 Befunde, nur 3 im Bericht, vermutlich falsche Treffer (Bezugsrahmen) – vollständige,
+  gruppierte Liste; Ausbuchung 10:21 von 1239 Stück (8g47s63 Einstand) + SK1-m "Herstellen ohne Rezept" Zauber 836/3909;
+  Item 10940 Lager 45/vorhanden 0; Speicher +114 MB nach Scan (nur beobachten).
+- HP-4 (Nutzer 10:42): Schnäppchen "Marktwert" und "Flips" ausblenden (Daten bleiben).
+- KERN-T1 (Nutzer 10:45): siehe Datei.
+
+Pflichten wie immer: Tests + Selbstkontrolle, Locales/CHANGELOG EN/DE, addon_check, Bericht "umgesetzt, zur Prüfung".

@@ -193,8 +193,10 @@ KERN-T1 HÖCHSTE PRIO (Nutzer 10:45 "der Kern muss schnell lernen – aber ohne 
     NICHT: Schwellen senken, absichtlich teurer/in Kleinstapeln einstellen (kostet Gebühren/Verkäufe – Nutzer: ohne Einbussen).
     Testbericht MARKT-KERN: je Weg Fälle/Tag (eigen / Markt / Gilde), geeichter Faktor je Gruppe mit n, Brier, Grundlinie,
     seit wann Anzeige frei. Tests mit erfundenen Scans (verschwunden/abgelaufen/unterboten/zurückgezogen) + Selbstkontrolle.
-    Reihenfolge NEU (Nutzer 10:45): KERN-T1 zuerst (nach evtl. Befunden zu 0.65.181), dann UI-CLEAN1 (A) -> UI-REF1 ->
-    UI-CLEAN1 (B) mit HP-3/HP-4 -> HP-2. Kleine Versionen sind erlaubt ((1) zuerst).
+    REIHENFOLGE (Supervisor 12:00, Antwort auf Frage im Bericht 0.65.183): 1. TT-DE2 klein als 0.65.184 (geht mit ins Release
+    18:00 – danach ist der Tooltip eingefroren, TT-STOP) -> 2. KERN-T1 (1),(2),(3) -> 3. MAIL-1 + TB181-4 + VK-P1 + TB182-3
+    (Gold/Buchhaltung) -> 4. TB182-1 (UI-Prüfung reparieren) -> UI-REF1 -> UI-CLEAN1 (B) mit TB181-1..3/HP-3/HP-4 -> HP-2.
+    Release-Blocker gehen immer vor. Kleine Versionen erlaubt.
 HP-4 MITTEL (Nutzer 10:42 "so bringt das nichts", Screenshots Schnäppchen > Marktwert und > Flips, 0.65.180): Die Ansichten
     "Marktwert" und "Flips" unter Kaufen > Schnäppchen AUSBLENDEN (wie MR1 am 13.11. "Flippen" im Markt-Reiter). Grund: beide
     rechnen gegen den Median der ANGEBOTSpreise (nicht bezahlte Preise), Gewinn/Tag ist nicht gemessen (Robuster Stein 1s16/Stk.
