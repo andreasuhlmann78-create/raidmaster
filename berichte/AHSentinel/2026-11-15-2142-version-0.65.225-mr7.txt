@@ -1,0 +1,29 @@
+AHSentinel 0.65.225 – MR7 Spielrhythmus (Masterplan Phase 6, anweisung-markt-reiter Teil B/F3) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.225 und sofort im Discord.
+Reihenfolge: Phase 5 umgesetzt (UI-REF1, HP-4, HP-3, HP-2); UI-CLEAN1 (B) braucht einen neuen "/ahs testroutine ui"-Bericht aus
+dem Spiel (die Nachbildung hat kein echtes Layout, abgeschnittene Texte sind hier nicht messbar) -> "Im Spiel prüfen". Darum
+Phase 6, Reihenfolge laut Anweisung Teil F3: MR7 zuerst.
+
+Activity.lua
+  - Act:NoteLogin (PLAYER_LOGIN): Login-Zeitpunkte, höchstens 200, /reload innert 5 Min. zählt nicht doppelt.
+  - Act:PlayedDays: gespielt = Online ≥ 10 Min. an dem Tag (vorhandene Aktivität days[..].online, 120 Tage) oder ein Login.
+  - Act:Rhythm: gelernt aus den letzten 28 Tagen, erst ab 14 Tagen Daten (Spanne ab dem ersten gespielten Tag), sonst
+    "ohne Daten: 1 Tag" (wie Anweisung). Nächstes Login = erster kommender Tag ab morgen, dessen Wochentag in mindestens der
+    Hälfte der Wochen gespielt wurde; sonst der Wochentag mit dem höchsten Anteil. Dazu gespielte Tage je Woche.
+  - Selbst einstellbar (Optionen > Spielrhythmus, ein Knopf wechselt): automatisch / täglich (1 Tag) / einige Tage pro Woche
+    (2 Tage) / nur Wochenende (nächster Sa oder So ab morgen). ANNAHMEN, BITTE PRÜFEN: Schwelle 50 % je Wochentag,
+    "einige Tage" = alle 2 Tage, Tag gespielt ab 10 Min. online. Stunde des Logins noch nicht genutzt (nur Tage).
+  - Anzeige im Kopf des Markt-Reiters (hinter dem Index): "Nächstes Login ~2 Tage (gelernt)" / "(selbst eingestellt)" /
+    "(ohne Daten)". Nur Information – ändert keine Kaufgrenze, keinen Kauf. MR8 (Laufzeit) und MR6 bauen darauf auf.
+Tests
+  - T802 (Testroutine M, fester Zeitpunkt Mittwoch 18.11.2026 12:00 UTC, eigene Testdaten, echte Daten unberührt):
+    leer -> 1 Tag ohne Daten · gespielt Mo+Fr der letzten 28 Tage -> nächstes Login Freitag = 2 Tage, gelernt, 2,2 Tage/Woche
+    (8 Tage in 26 Tagen Spanne) · nur 7 Tage Daten -> ohne Daten · täglich 1, einige 2, Wochenende 3 (Mi -> Sa) · 3 Logins
+    in 1000 s -> 2 gespeichert. Mit 0.65.224 rot (Act:Rhythm fehlt).
+  - Szenario s225_mr7_rhythm: Login beim Start gemerkt, Kopf zeigt "Nächstes Login ~1 Tag (ohne Daten)", Knopf wechselt durch
+    alle vier, automatisch speichert nichts.
+  - Locales +10 (alle Sprachen; "selbst eingestellt" eigener Schlüssel, weil "eingestellt" schon "posted" heisst),
+    CHANGELOG EN/DE.
+NEBENBEFUND (Testroutine, nicht von mir): Abdeckungs-IDs T-AB4, T-AB5, T-D1 stehen je zweimal in der Liste. Meine neuen IDs
+  habe ich geprüft (T-HP2 gab es schon -> meine heissen T-HP-2/-3/-4). Die drei alten ändere ich nur auf Auftrag.
+Gesamtlauf (frische Kopie des Repos 56b5249, Addon 0.65.225): 276 bestanden, 0 rot.
