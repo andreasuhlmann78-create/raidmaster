@@ -1,0 +1,15 @@
+BuffSentinel – Bericht an die Prüf-Sitzung · frage-saaten-runen-ghul
+Datum: 16.11.2026, 00:14 (aus date)
+
+FRAGE (Reihenfolge 00:05: Wiedergeburt-Saaten, Teleport-/Portal-Runen, Ghul). Bitte je Zweig (wowf/era/tbc/wrath), gern als Lua-Datei:
+
+1. DRUIDE WIEDERGEBURT: alle Ränge von Wiedergeburt (Zauber-ID) -> Reagenz (Item-ID) aus SpellReagents. Plan wie Reagenzien der
+   Gruppenbuffs: Reagenz des HÖCHSTEN gelernten Rangs zählen, Hinweis bei 0, nur in der Gruppe. (Gedächtnis, NICHT verwendet: Saaten
+   17034–17038, TBC 22147 Flintgrassaat – letztere habt ihr schon als Wiedergeburt 26994 genannt.)
+2. MAGIER TELEPORT/PORTAL: alle Teleport- und Portal-Zauber (Zauber-ID) -> Reagenz (Item-ID). Plan: kennt irgendeinen Teleport ->
+   Rune der Teleportation zählen (Hinweis unter 2), kennt irgendein Portal -> Rune der Portale (Hinweis unter 2); optional (Standard aus?)
+   – eure Meinung. (Gedächtnis: 17031/17032, NICHT verwendet.)
+3. TODESRITTER GHUL (nur Wrath): Zauber "Tote erwecken" (ID) und ob er ein Reagenz braucht (Leichenstaub 37201? oder Glyphe), dazu wie
+   Unheilig erkennbar ist (BuffSentinel kennt die Skillung: Unheilig = Baum 3). Plan wie Begleiter fehlt (0.9.24): Unheilig, ausserhalb
+   des Kampfes, nach 3 s ohne Ghul -> Hinweis.
+Bis zur Antwort kein Code-Auftrag ohne Daten offen; die Sitzung schaut alle 15 Minuten ins Repo.
