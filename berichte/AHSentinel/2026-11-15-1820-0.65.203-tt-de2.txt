@@ -1,0 +1,35 @@
+AHSentinel 0.65.203 – TT-DE2 (Masterplan 4.1) – umgesetzt, zur Prüfung; dazu MN5-Analyse (Frage an den Supervisor)
+CurseForge: nein (erst nach der Sniper-Abnahme). GitHub-Release v0.65.203 und sofort im Discord.
+
+TT-DE2 (Tooltip.lua TT:AddMaterialBlock, TT:MeasuredShares). Nur der Abschnitt "Materialien"; der Rest des Tooltips ist unverändert
+(TT-STOP).
+  - Kopfzeile "Materialien" wie bisher, darunter die Spaltenzeile "Vorgabe | bei dir (n)   Preis".
+  - Je Material: links wie bisher "1–2 Name  75 %" (Vorgabe), rechts "73 %   4s04" (gemessener Anteil, dann Netto-Preis wie bisher,
+    mit den bisherigen Warnungen).
+  - Grundlage des Anteils:
+    - eigene Entzauberungen der Gruppe (A.db.deStats[Gruppe], ohne geteilte), Anteil = times / n, gerundet;
+    - bei eigenen < 30 und genug geteilten: eigene + geteilte (D:Combined), Spalte "Gilde (n)";
+    - sonst grau "noch n/30".
+  - Letzte Zeile "Ø je Entzauberung  <Wert> netto": DIESELBE Zahl wie der Entzauberungswert oben (D:DealValue netto). Unter
+    30 Fällen ist das die Mischung wie bisher (DealValue entscheidet).
+  - Selbstkontrolle: TT.lastDE2Avg = gezeigter Wert, Test vergleicht mit DealValue.
+  - Abweichung vom Bild des Auftrags (eine Zeile mehr): Die Spaltenköpfe stehen in einer eigenen Zeile unter "Materialien". Die
+    Kopfzeile "Materialien" bleibt allein, weil vier bestehende Tests (T215, T228, T273, T743) und die Tooltip-Prüfung sie als
+    eigene Zeile erkennen; im Tooltip ist es eine kleine graue Zeile.
+  - Test T789: 659 eigene (479/142/38) -> 73 % / 22 % / 6 %; 10 eigene + 40 Gilde -> "Gilde (50)", Staub 72 %; 10 + 5 ->
+    "noch 10/30"; Ø = 1125 netto = DealValue.
+  Locales +6 (alle Sprachen), CHANGELOG EN/DE.
+MN5-ENTSCHEID (Supervisor 17:48: Netz-Wert als Rechenwert nur ohne eigenen Wert, "unsicher", nie Kauf/Sniper/Kaufgrenze, Anzeige
+nur im Markt-Reiter) – Code gelesen, Frage vor dem Bau:
+  - A:PriceInfo ist die eine Preisfunktion für ALLES. Ein Netz-Wert dort (ohne eigenen Wert) erscheint sofort an drei Stellen:
+    (1) im Item-Tooltip (Tooltip.lua 318 zeigt den Preis mit Quelle) – verletzt TT-STOP und "nur im Markt-Reiter";
+    (2) über die API (API.lua 41) bei ProfessionSentinel – dort entscheidet er über Rezepte/Kauf;
+    (3) in BK:MatValue (Entzauber-Aufteilung).
+  - Sicher wäre ein eigener Weg: A:PriceInfoNet(id) = PriceInfo, sonst Netz-Wert "unsicher". Den nutzt nur der neue Markt-Reiter
+    (MR1, Phase 7). A:PriceInfo bleibt unverändert, D:MatPrice nimmt nie Netz-Werte.
+  - Bis zum Markt-Reiter hätte das keine sichtbare Wirkung. Der heutige Markt-Reiter listet nur Items mit eigenen Daten.
+  - Vorschlag: MN5 mit MR1 (Phase 7) bauen. Bitte bestätigen oder anders entscheiden.
+Gesamtlauf (258 Szenarien, Lua 5.1): 257 bestanden, 1 rot: s43_testroutine_server T126 "längste Portion 8.7 ms" (Grenze 8 ms).
+  Einzeln 3× wiederholt: 3× grün. Verdacht, zu messen: Während des Gesamtlaufs liefen parallel Einzeltests für 0.65.204
+  (CPU-Last); T126 misst echte CPU-Zeit. Keine Änderung an Scan oder Auswertung in 0.65.203.
+addon_check: siehe Release-Protokoll (kein FEHLER, sonst bricht das Skript ab).
