@@ -147,7 +147,13 @@ class Lade(unittest.TestCase):
         for name in ("backup_loop", "icon_map_loop", "tb_cleanup_loop"):
             self.assertIs(getattr(b, name), getattr(betrieb_bot, name), name)
         self.assertIs(b.bot.tree.get_command("daten-import").callback, betrieb_bot.import_cmd.callback)
-        self.assertIs(b.restart_soon, grund.restart_soon)               # D-3 Schritt 19: Neustart in grund.py
+        import pug_bot
+        self.assertIs(pug_bot.bot, b.bot)                        # D-3 Schritt 22: PUG-Einladung
+        self.assertIs(b.handle_member_join, pug_bot.handle_member_join)
+        self.assertIs(b.bot.tree.get_command("pug-einladung").callback, pug_bot.pug_invite_cmd.callback)
+        import update_bot
+        for mod in (pug_bot, betrieb_bot, update_bot):                # D-3 Schritt 19: Neustart nur in grund.py
+            self.assertIs(mod.restart_soon, grund.restart_soon, mod.__name__)
         self.assertFalse(hasattr(b, "EXIT_CODE"))                       # nur grund.EXIT_CODE
         import update_bot
         self.assertIs(update_bot.bot, b.bot)                     # D-3 Schritt 20: Selbst-Update

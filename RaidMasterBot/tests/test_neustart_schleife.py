@@ -87,7 +87,8 @@ class Neustart(unittest.TestCase):
             self.assertEqual(closed, [True])
         finally:
             g.EXIT_CODE, g.asyncio.sleep, g.bot.close = saved
-        self.assertIs(self.bot.restart_soon, g.restart_soon)
+        for name in ("pug_bot", "betrieb_bot", "update_bot"):       # alle Aufrufer nutzen grund.restart_soon
+            self.assertIs(sys.modules[name].restart_soon, g.restart_soon, name)
 
     def test_bot_beendet_sich_mit_grund_exit_code(self):
         import ast
