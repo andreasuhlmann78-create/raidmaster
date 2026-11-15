@@ -1,0 +1,23 @@
+BERICHT DISCORD AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 16:40 · Sitzung: Discord-Projekt · Version: Bot 1.5.141
+Umgesetzt, zur Prüfung.
+
+WUNSCH DES NUTZERS (15.11. 16:27): "Der Bot soll die Einträge bis und mit dem 14.11. in der Ruhmeshalle löschen."
+- Neuer Befehl /ruhmeshalle-aufraeumen bis:TT.MM.JJJJ [bestaetigen].
+  - Nur Gildenleitung (is_admin).
+  - Ohne bestaetigen nur eine Vorschau mit der Anzahl und dem Hinweis "endgültig".
+  - Gelöscht wird erst mit bestaetigen:True. Der Nutzer bestätigt so selbst im Discord, weil die Löschung endgültig ist.
+- Grenze: vor dem Folgetag 00:00 in der Zeitzone des Bots ("bis und mit 14.11." = vor 15.11. 00:00 Zürich).
+- Es bleiben:
+  - angeheftete Nachrichten;
+  - die aktuellen Rekord-Tafeln und Überschriften (IDs aus state record_boards);
+  - die Kill-Daten (kills.json), also auch die Bestzeiten auf den Tafeln.
+- Für Erstkills vor dem Stichtag, deren Bild noch fehlte (first_posted False), setzt der Bot True. Er reicht also kein
+  "📸" zu einem gelöschten Beitrag nach.
+- Löschen einzeln mit 0,6 s Abstand. Nicht löschbare Einträge werden gezählt und gemeldet.
+- Tests T-RH-AUF (3):
+  - Stichtag mit Zeitzone und ungültigen Daten;
+  - Auswahl ohne Tafel, ohne Angeheftetes, ohne 15.11.;
+  - Ablauf mit dem echten bot.py: Vorschau löscht nichts, Bestätigung löscht genau 2, kein Bild nachreichen.
+  Alle 260 Bot-Tests OK.
+- Im Betrieb: Der Nutzer führt nach /update zuerst die Vorschau aus, dann die Bestätigung.
