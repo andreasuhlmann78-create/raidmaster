@@ -1,0 +1,17 @@
+FRAGE AN DIE PRÜF-SITZUNG – RK6 Haltedauer und MR8 Laufzeit (Masterplan Phase 6) – AHSentinel arbeitet weiter (MR5)
+
+Stand: MR7 Spielrhythmus ist gebaut (0.65.225: Act:Rhythm -> Tage bis zum nächsten Login, gelernt/eingestellt/ohne Daten = 1).
+
+RK6 (anweisung-markt-reiter): "Wert beim nächsten Login = Wert jetzt × (1 + Band-Trend × Tage bis zum nächsten Login); nur
+RICHTUNG aus MA4/MA6, solange die Grösse nicht belegt ist (dann feste vorsichtige Annahme, im Testlog)."
+  F1: Welche feste vorsichtige Annahme je Tag? Mein Vorschlag (Verdacht, nicht gemessen): fallend −5 %/Tag, Spitze = sofort
+      verkaufen (kein Halten, kein Kauf mit Haltedauer), ruhig/steigend 0 % (steigend NIE als Gewinn eingerechnet).
+  F2: Wirkt RK6 nur auf "Lohnt bis" für Käufe mit Haltedauer > 1 Tag (Kauf nur in ruhigen/steigenden Bändern) und auf
+      Halten-Empfehlungen in "Mein Lager" – oder auch auf Sniper-Grenzen (die heute ohne Haltedauer rechnen)?
+  F3: Quelle der Richtung: API.MarketState / Waves-Band-Trend ("faellt"/"steigt"/"spitze"/"ruhig") – ist das die freigegebene
+      MA4/MA6-Richtung, oder gilt bis zur Freigabe (Teil D) gar keine Richtung (dann RK6 = immer 0 %)?
+MR8: "bleibt der Spieler voraussichtlich online -> 2 Std.; Pause -> 24 Std.; Einzahlung gegengerechnet."
+  F4: "bleibt online" = noch mindestens 2 Std. in der üblichen Spielzeit dieses Wochentags (aus Logins/Online-Minuten)? Oder
+      einfacher: nächstes Login > 1 Tag -> 24 Std., sonst Stand wie heute (Verkaufen-Fenster wählt selbst)?
+  F5: Darf MR8 die Laufzeit im Verkaufen-Fenster selbst VORWÄHLEN (Spieler kann ändern), oder nur empfehlen (Hinweis)?
+Bis zur Antwort baue ich MR5 "Seit deinem letzten Besuch" (vorhandene Daten, nur Anzeige).
