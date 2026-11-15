@@ -34,13 +34,15 @@
 >>>    Grenzen bleiben: Masterplan-Reihenfolge, Direktiven (Perfektion, nicht warten, Deutsch, alles ins Repo), Gold-/Daten-
 >>>    Sicherheit, CurseForge erst nach Sniper-Abnahme, andere Addons nicht ändern. Fragen an den Supervisor nur über berichte/.
 
->>> !!! PRIO JETZT – VOR ALLEM ANDEREN (Nutzer 17:21: "GSL4-1 bitte an AHS pushen als Prio, danach weiter mit Masterplan"):
->>>    GSL4-1 (a)(b)(c) – Block "GSL4 – PROTOKOLL 4" weiter unten: Code 10, dem innerhalb von 2 s PURCHASE_COMPLETED folgt, ist kein
->>>    Fehlschlag (keine "Fehler – nochmal"-Zeile, kein OfferTry/keine Pause, Zähler "Code 10 trotz Kauf" im Sniper-Bericht);
->>>    nach einem Kauf 300 ms keine eigene andere Anfrage; Status "Kauf bestätigt (Server meldete kurz einen internen Fehler –
->>>    ohne Folgen)". Tests: Code 10 + Bestätigung 0,1/1,9/2,1 s, Code 10 ohne Bestätigung (bleibt Fehler), zwei Käufe hintereinander.
->>>    Laufende Arbeit sauber abschliessen, dann GSL4-1 als eigene kleine Version, Bericht, Discord. DANACH weiter mit dem Masterplan
->>>    (2.2 MN1–MN5 Marktdaten-Netz aller Spieler).
+>>> !!! PRIO JETZT – VOR ALLEM ANDEREN (Supervisor 18:39; GSL4-1 ist erledigt in 0.65.200). Du bist in Phase 4 (0.65.203–205) –
+>>>    die folgenden Punkte aus Phase 1 sind NEU und gehen laut Masterplan ("Befunde aus einem Sniper-Protokoll und Release-Blocker
+>>>    gehen IMMER vor") VOR Phase 4. Laufende Version fertig machen, dann in dieser Reihenfolge:
+>>>    1. POST-BLOCK1 (Spieler kann nicht einstellen – ADDON_ACTION_BLOCKED) – HOCH, Spieler betroffen.
+>>>    2. GSL6-1 (= GSL5-2): begonnene Aufgaben im Ruhemodus anhalten (AHAnalyzerPro.lua 282) – HOCH.
+>>>    3. GSL6-2 (= GSL5-3): nächster Kauf ≤ 0,3 s nach der Bestätigung aus der aktualisierten Liste – Tempo.
+>>>    4. SN-BTN1 + (g) ELEGANT: Kaufen-Knopf = ein Klick ein Kauf, Mausrad bleibt (Spieler-Wunsch, Nutzer).
+>>>    5. GSL5-4 (Status "Kauf bestätigt" verdeckt "Treffer!"), GSL5-5 (Vollscan im Ruhemodus klären), GSL6-3 (Beleg Budget/Max).
+>>>    Danach weiter mit Phase 4 (RK5 nach der Antwort unten, RK6/RK7 …).
 
 >>> !!! NACHT-ARBEIT 15./16.11. (Nutzer 16:34: "schreibe AHS das ins Repo genau mit der Reihenfolge – und ich will, dass AHS die
 >>>    ganze Nacht durcharbeitet – triff die nötigen Schritte"). Gilt ab sofort bis der Nutzer am 16.11. "hi" sagt:
@@ -105,6 +107,13 @@
         POST-BLOCKED mit dem letzten Post-Weg (Knopf/Serie/Heute/Warnschutz) und Version.
     (d) Test in der Nachbildung: jeder Post-Weg mit und ohne Hardware-Ereignis (wowsim kann das Ereignis nachbilden?) – sonst
         Code-Beleg je Weg. Bericht "umgesetzt, zur Prüfung". Der Supervisor fragt den Spieler nach Version, Weg und vollem Fehlertext.
+
+>>> ANTWORT 18:39 (Supervisor) auf berichte/AHSentinel/2026-11-15-1825-frage-rk5-risiko.txt:
+    RK5 – dein Vorschlag ist ANGENOMMEN (dreifach geprüft gegen DE30b, Entscheid 14.11. 23:49 "kein Budget, voller Vorteil wo
+    die Daten es tragen", "nur Gesichertes, aber nicht ängstlich"): normal = heutige Marge (gemessener Fehler, Untergrenze 10 %),
+    vorsichtig = normal + 10 Punkte, mutig = normal − 5 Punkte, nie unter 5 %; Mindestrendite je Gruppe (DE30b) und 0,9 × Netto
+    gelten in JEDER Stufe. Der wörtliche Vorschlag 30/20/10 + Fehler würde das heutige Lohnt bis ohne Messung um 9–22 % senken –
+    abgelehnt. Anzeige mit Beispiel in den Einstellungen wie vorgeschlagen; Standard "normal" (= keine Änderung für alle).
 
 >>> GSL6 – PROTOKOLL 6 (GSSniperLog 1.5, Nutzer 18:14–18:32, AHS 0.65.202; Supervisor 18:35).
     A1 erneut BESTANDEN mit 0.65.202: 51 gesendet, 49 bestätigt (96 %), Zähler 49 / 4g36s80 = bestätigt = Gold-Abgang (exakt),
