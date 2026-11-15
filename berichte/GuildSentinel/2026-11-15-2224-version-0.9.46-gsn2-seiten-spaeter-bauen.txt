@@ -10,7 +10,7 @@ MESSUNG (test/perf_open.lua, je frisch geladen, Mittel aus 20 Läufen, Lua 5.1 o
   Summe aller Seiten               1033 Frames, 2612 Objekte        1033 Frames, 2612 Objekte (gleich, nur verteilt)
   Grösste Einzelseite beim ersten  –                                Mitglieder 887 Objekte (beim Anklicken)
   Anwählen
-  -> Belegt: das erste Öffnen erzeugt 94 % weniger Fenster-Objekte und braucht im Nachbau 81 % weniger Zeit. Gesamtarbeit
+  -> Belegt: das erste Öffnen erzeugt 92 % weniger Fenster-Objekte (173 statt 2202 Frames+Schriften+Texturen) und braucht im Nachbau 81 % weniger Zeit (Era 78 %). Gesamtarbeit
   gleich; sie verteilt sich auf die Klicks. Die Spiel-Zeit selbst ist nicht gemessen (Verdacht G-4 bleibt bis zum
   Protokoll des Nutzers offen); dazu jetzt zusätzlich LANGSAM "Seite bauen <Seite>" im Diagnose-Protokoll.
 
