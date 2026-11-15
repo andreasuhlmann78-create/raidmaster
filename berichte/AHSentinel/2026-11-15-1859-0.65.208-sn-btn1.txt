@@ -1,0 +1,48 @@
+AHSentinel 0.65.208 – SN-BTN1 (a)–(g) Kaufen-Knopf = ein Klick ein Kauf (Spieler-Wunsch) – umgesetzt, zur Prüfung
+CurseForge: nein (erst nach der Sniper-Abnahme). GitHub-Release v0.65.208 und sofort im Discord.
+Reihenfolge: SN-BTN1 vor GSL6-2 gezogen (PRIO-Liste 3 <-> 4). SN-BTN1 war beim Eingang der PRIO-Liste schon zu ~80 % gebaut;
+GSL6-2 folgt als nächste Version.
+
+(a) Klick auf "Kaufen" = Sn:OnTrigger("button"), derselbe Weg wie Raste/Taste, aber für alle Ziele (wie das Mausrad).
+    Ohne Treffer gibt es keinen Such-Schritt mehr: Rückgabe "Kein Angebot unter deinem Max – der Sniper sucht weiter".
+    Der Knopf ist dann grau mit diesem Grund im Tooltip.
+(b) Waren: Knopftext "Preis anfragen (12× Name)" -> nach der Antwort "Kaufen bestätigen: 12× für 3s00" -> Kauf.
+    Nie mehr Schritte als Blizzard verlangt.
+(c) Einzelstück: "Kaufen: 1× Name für 8s50".
+    - Name höchstens 26 Zeichen, UTF-8-sicher mit "…" gekürzt (Sn.ShortName); Betrag immer voll.
+    - Eine Zeile, Breite 424 px. Längster Fall enUS/deDE in der Nachbildung ohne Umbruch.
+(d) Mausrad und Taste bleiben Standard. Neue Einstellung "Sniper: Kaufen mit" mit zwei Wahlpunkten "Mausrad + Knopf" /
+    "nur Knopf" (db.sniper.buyWith).
+    - Bei "nur Knopf" setzt Sn:ApplyBindings keine Mausrad-/Tasten-Bindung (ClearOverrideBindings bleibt).
+    - Statuszeile "Treffer! Klick auf „Kaufen“ zum Kaufen", Kopfzeile "Zum Kaufen auf „Kaufen“ klicken – ein Klick, ein Kauf."
+    - Die Tasten-Anzeige in den Einstellungen bleibt unverändert.
+(e) Gold-Sicherheit: gleicher Weg OnTrigger -> Buy/Confirm mit Max, Budget, ItemGate (ein Einzelkauf zur Zeit), QueryReady,
+    Entprellung.
+    - Der Knopf-Zustand liest nur (Sn:ButtonState: pending, inFlight, HitWaiting, BudgetHit, PlanNext, QueryReady, ItemGate).
+      Er fragt nichts an.
+    - Doppelklick: zweiter Klick in der Entprellung bzw. ItemGate -> kein zweiter Kauf (Nachbildung belegt).
+(g) Aussehen:
+    - EIN Haupt-Knopf 440×32 über die ganze linke Spalte, direkt unter der Zielliste, Schrift GameFontNormal.
+    - Darunter "Jetzt suchen" und "Zähler zurücksetzen".
+    - Die Zielliste ist 38 px kürzer (FillColumn-Rand 64 -> 102), damit alles im Fenster bleibt.
+    - Zustände, kein Blinken mehr (das frühere Blinken bei bestätigtem Preis ist entfernt):
+        bereit (Kaufen / Preis anfragen / bestätigen / Budget auffüllen?) = Hauptfarbe (Akzent), Text hell;
+        wartet auf Server ("Preis wird angefragt …", "Kauf läuft …", "Server noch nicht bereit …") = gedämpftes Blaugrau,
+          nicht klickbar;
+        kein Treffer = grau (wie gesperrt), Text gedämpft;
+        gekauft = 1,5 s grün ("Gekauft"), dann wieder der nächste Zustand.
+    - Aktualisierung alle 0,1 s, aber nur bei geänderter Anzeige (kein Flackern). Der Klick zeichnet den Knopf sofort neu,
+      ohne Neuaufbau der Tabelle.
+    - Klassisches Theme: dieselben Zustände über aktiv/gesperrt und Textfarbe.
+    Bild: Der Nutzer prüft das Aussehen im Spiel (Liste "Im Spiel prüfen").
+(f) Tests:
+    - T793 (Testroutine): kein Treffer -> "none", Klick sucht nicht; Einzelstück-, Waren- und Bestätigungs-Text exakt;
+      Server nicht bereit -> wartet; Name gekürzt.
+    - Szenario s208_buy_button (26 Prüfungen, echte Nachbildung):
+      - Lage in der Spalte, keine Überlappung, Pausiert-Knopf im Fenster;
+      - ohne Treffer grau, keine Suche;
+      - Einzelstück: Klick = 1 Kauf, Doppelklick = 1 Kauf;
+      - "nur Knopf": Mausrad nicht gebunden, Mausrad kauft nicht, Knopf kauft; Einstellung gespeichert und zurück;
+      - Ware: "Preis anfragen (12×" -> "Kaufen bestätigen: 12×" -> erst der zweite Klick kauft.
+  Locales +21 (alle Sprachen), CHANGELOG EN/DE.
+Gesamtlauf (264 Szenarien, Lua 5.1): 263 bestanden. Rot nur s209_pushed_results = Test der NÄCHSTEN Version (GSL6-2, 0.65.209), mit 0.65.208 absichtlich rot (Gegenprobe). addon_check: siehe Release.
