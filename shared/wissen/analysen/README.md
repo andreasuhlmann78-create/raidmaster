@@ -16,5 +16,5 @@ Prüf-Sitzung einen Auftrag in auftraege/<Projekt>/offen-*.txt schreibt. Befunde
 | BuffSentinel | buffsentinel-2026-11-16.md | 0.9.21 | fertig 15.11. 19:13 | unauffällig (Spitze 4 ms); GSMarkt v3 |
 | ThreatSentinel | threatsentinel-2026-11-16.md | 2.5.13 | fertig 15.11. 19:15 | unauffällig ausserhalb Kampf; Kampf-Leistung ungemessen; GSMarkt v3 |
 | LevelPilot | levelpilot-2026-11-16.md | 3.12.33 | fertig 15.11. 19:18 | Ruckler alle ~5 Min. (Spitze 179 ms) – UpdateAddOnMemoryUsage im 300-s-Ticker |
-| RaidMaster + Uploader | raidmaster-2026-11-16.md | – | offen | – |
-| Discord-Bot | discord-bot-2026-11-16.md | – | offen | – |
+| RaidMaster + Uploader | raidmaster-2026-11-16.md | 3.0.26 | fertig 15.11. 19:25 | Uploader UP-S1/UP-S1-2 HOCH offen (Datenverlust); GSMarkt v2 |
+| Discord-Bot | discord-bot-2026-11-16.md | 1.5.141 | fertig 15.11. 19:25 | Tests 26/26 OK; D-KERN1/KEEP90 offen |
