@@ -1,0 +1,39 @@
+AHSentinel 0.65.220 – FEED-1 (Befund Supervisor 20:25) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.220 und sofort im Discord. Vorher 0.65.219 (UI-REF1) veröffentlicht, Bericht abgelegt.
+Interner Wecker (Hinweis 20:22) übernommen: keine geplanten Aufgaben mehr, Hintergrund "sleep 900", immer nur einer.
+
+FEED-1 (1) s216_feed_memory neu (Nachbau ahanalyzerpro/tests/wowsim/scenarios_new.lua)
+  - IsAddOnLoaded("AHSentinel") = wahr wie im Spiel; Prüfung: GSMarkt.api.ahs() = wahr, "Ticks mit eigenem Lesen" = 0 in allen 8 Läufen.
+  - Feed-Anteil DIREKT gemessen: neu angelegter Speicher in VS:FeedNet (inkl. GSMarkt.Feed) + GoldSentinelMarkt.Tick bei
+    angehaltener Bereinigung, bis der Feed-Auftrag fertig ist (Vorlage s216x).
+  - Lauf 1 aus, Lauf 2 an (erster Feed legt die Netz-Tabellen einmal an, nicht bewertet), dann 3–8 abwechselnd: bewertet die
+    drei Feed-Läufe 4, 6, 8. Grenzen 4 MB und Frame ≤ ohne + 5 ms unverändert, Pflicht sobald FEED_ON an ist.
+  - Gemessen (6000 Items, lua5.1, 2 Durchgänge gleiche Werte):
+      Lauf 2 an: FeedNet 1864 + Tick 2816 = 4680 KB (einmalige Anlage)
+      Lauf 4 an: FeedNet 129 + Tick 1232 = 1361 KB
+      Lauf 6 an: FeedNet 129 + Tick 2297 = 2426 KB
+      Lauf 8 an: FeedNet 129 + Tick 1232 = 1361 KB
+      aus-Läufe: 0–210 KB (Tick ohne Feed)
+      längster Frame mit Feed 44–45 ms gegen 43–44 ms ohne.
+    -> höchstens 2426 KB ≤ 4096, FeedNet höchstens 129 KB < 200, Frame +1 ms ≤ +5.
+  - Mit 0.65.219: rot (FeedNet 1543 KB > 200; Feed-Anteil 3840 KB).
+  - Schwankung Tick 1232/2297 KB bei L4/L6: wie beim Supervisor (gleiche Zahlen); Ursache in GSMarkt (Export-Liste), Verdacht,
+    zu messen – nicht AHSentinel-Code, ändere ich nicht (gemeinsame Datei).
+
+FEED-1 (2) Vollscan.lua VS:FeedNet
+  - Tabellen je Item wiederverwenden: vorhandenen Eintrag überschreiben, neue nur für neue Items; danach nicht mehr vorhandene
+    oder leere Items (qty 0) entfernen. Zweiter Feed: 129 KB in FeedNet (= GSMarkt.Feed selbst; AHS-Anteil ~0), vorher 1543.
+  - Sicherheit: GSMarkt hält die Tabelle als src im laufenden Feed-Auftrag (GoldSentinelMarkt.lua:497). Ist der alte Auftrag
+    noch nicht fertig, rechnet FeedNet ihn zuerst zu Ende (GM.FeedPortion(nil), höchstens 1000 Schleifen – dasselbe tut
+    GSMarkt.Feed ohnehin), sonst läse er überschriebene Werte. Wird er trotzdem nicht fertig: neue Tabelle, die alte bleibt dem
+    Auftrag.
+  - Test T798 (Testroutine, Modul M): gleiche Liste und gleiche Item-Tabelle, Werte 6/4/3 überschrieben, entferntes und leeres
+    Item weg, alter Auftrag zuerst fertig (sah noch Preis 5), Feed an.
+  - T782 sichert/stellt jetzt FEED_ON, feedItems, feedAbg, feedDt wieder her (vorher fest auf aus; und es hätte die echte
+    feedItems-Tabelle verändert).
+
+FEED-1 (3) VS.FEED_ON = true (s216 hält in 3 Läufen ≤ 4 MB, Pflicht-Grenzen grün).
+  - s92 setzt FEED_ON für seine 15-MB-Grenze weiter selbst aus (Grenze gilt ohne Feed, Supervisor 18:58).
+  - Abdeckung T-FEED-1 -> T798 + Nachbildung s216_feed_memory.
+  - CHANGELOG EN/DE.
+Gesamtlauf: 272 bestanden, 0 rot (lua5.1, alle Szenarien, Feed an).
