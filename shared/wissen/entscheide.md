@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 15.11.2026 13:16 | Discord: jede Version immer sofort veröffentlichen; CurseForge: 1× täglich 18:00, nur Addons auf CurseForge (curseforge/projects.json: AHSentinel, GuildSentinel), neue kommen automatisch dazu – alle Addons | CLAUDE.md, alle offen-*.txt (ergänzt 00:56) |
 | 15.11.2026 12:40 | Nach jeder erledigten Arbeit nicht warten, sondern sofort ins Repo schauen und weitermachen (alle Projekte) | CLAUDE.md (Zweite Direktive), alle offen-*.txt |
 | 15.11.2026 12:38 | Nie wieder Englisch – alles, was der Nutzer sieht (Berichte, Commits, Release-Texte, Antworten), auf Deutsch; Englisch nur für englische Spieler (enUS-Locale, EN-Teil CHANGELOG) | CLAUDE.md, alle offen-*.txt |
 | 15.11.2026 12:29 | "Oberste Prio" für die UI-Prüfung aller Untersektionen (TB184-U3) – gleich hoch wie Sniper-Komplett | offen-ahsentinel.txt SNIPER-KOMPLETT Nachtrag |

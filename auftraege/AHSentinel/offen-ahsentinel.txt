@@ -1,3 +1,8 @@
+>>> VERÖFFENTLICHEN (Entscheid des Nutzers 15.11.2026 13:16, gilt für ALLE Addons): (1) DISCORD: jede neue Version IMMER sofort im
+    Discord veröffentlichen (announce/, Text Deutsch, englischer Teil nur für englische Spieler). (2) CURSEFORGE: nur 1× täglich um
+    18:00 – für die Addons, die schon auf CurseForge sind (curseforge/projects.json: zurzeit AHSentinel, GuildSentinel). Kommt ein
+    Addon dazu, gilt 18:00 sofort auch dafür. Für diese Addons die Zip erst um 18:00 in download/ legen (der Workflow lädt jede Zip
+    in download/ sofort hoch) – bis dahin nur announce/ (Discord) und GitHub-Release.
 >>> SEHR DRINGLICH – VOR ALLEM ANDEREN: DISCORD 0.65.187 (Nutzer 13:05/13:06 "sehr dringlich!!"): 0.65.187 im Discord veröffentlichen (announce/), NICHT download/ (CurseForge erst nach
     Sniper-Abnahme, Termin 18:00). Siehe nachricht-discord-0.65.187-2026-11-15.txt.
 >>> NACH JEDER ERLEDIGTEN ARBEIT SOFORT INS REPO (Nutzer 15.11.2026 12:40): Ist eine Arbeit fertig (Version gepusht, Bericht abgelegt),

@@ -25,6 +25,12 @@ Alles, was der Nutzer sieht oder liest, ist Deutsch: Antworten, Berichte, Commit
 -Beschreibungen, Testberichte, Meldungen. Englisch nur dort, wo englische Spieler es brauchen (enUS-Locale, englischer Teil
 von CHANGELOG/Announce) – nie als einzige Sprache für den Nutzer.
 
+## VERÖFFENTLICHEN: DISCORD IMMER, CURSEFORGE 18:00 (Entscheid des Nutzers 15.11.2026 13:16 – alle Addons)
+
+- Discord: jede neue Version sofort veröffentlichen (`announce/`).
+- CurseForge: nur 1× täglich um 18:00, für Addons in `curseforge/projects.json` (zurzeit AHSentinel, GuildSentinel); kommt ein
+  Addon dazu, gilt es sofort auch dafür. Deren Zip erst um 18:00 nach `download/` (der Workflow lädt jede Zip dort sofort hoch).
+
 ## Aufträge der Prüf-Sitzung – vor jeder Arbeit an einem Addon lesen
 
 Ausnahme: Geplante Aufgaben (z. B. «ProfessionSentinel Rezeptdaten-Update», «Raids und Taktiken für WoW Forever») führen nur

@@ -1,3 +1,8 @@
+>>> VERÖFFENTLICHEN (Entscheid des Nutzers 15.11.2026 13:16, gilt für ALLE Addons): (1) DISCORD: jede neue Version IMMER sofort im
+    Discord veröffentlichen (announce/, Text Deutsch, englischer Teil nur für englische Spieler). (2) CURSEFORGE: nur 1× täglich um
+    18:00 – für die Addons, die schon auf CurseForge sind (curseforge/projects.json: zurzeit AHSentinel, GuildSentinel). Kommt ein
+    Addon dazu, gilt 18:00 sofort auch dafür. Für diese Addons die Zip erst um 18:00 in download/ legen (der Workflow lädt jede Zip
+    in download/ sofort hoch) – bis dahin nur announce/ (Discord) und GitHub-Release.
 >>> NACH JEDER ERLEDIGTEN ARBEIT SOFORT INS REPO (Nutzer 15.11.2026 12:40): Ist eine Arbeit fertig (Version gepusht, Bericht abgelegt),
     NICHT warten, sondern sofort `git pull --rebase` im raidmaster-Repo, eigene offen-*.txt und `git log --oneline -5 -- auftraege/<Projekt>/`
     lesen und mit dem nächsten Punkt weitermachen. Ist nichts offen: das kurz melden und alle 15 Min. wieder schauen.
