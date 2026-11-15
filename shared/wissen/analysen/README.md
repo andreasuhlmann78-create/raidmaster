@@ -15,6 +15,6 @@ Prüf-Sitzung einen Auftrag in auftraege/<Projekt>/offen-*.txt schreibt. Befunde
 | GuildSentinel | guildsentinel-2026-11-16.md | 0.9.39 | fertig 15.11. 19:09 | 12 alte Regressionstests rot (nicht nachgeführt); GSMarkt v4 bei CurseForge-Spielern |
 | BuffSentinel | buffsentinel-2026-11-16.md | 0.9.21 | fertig 15.11. 19:13 | unauffällig (Spitze 4 ms); GSMarkt v3 |
 | ThreatSentinel | threatsentinel-2026-11-16.md | 2.5.13 | fertig 15.11. 19:15 | unauffällig ausserhalb Kampf; Kampf-Leistung ungemessen; GSMarkt v3 |
-| LevelPilot | levelpilot-2026-11-16.md | – | offen | – |
+| LevelPilot | levelpilot-2026-11-16.md | 3.12.33 | fertig 15.11. 19:18 | Ruckler alle ~5 Min. (Spitze 179 ms) – UpdateAddOnMemoryUsage im 300-s-Ticker |
 | RaidMaster + Uploader | raidmaster-2026-11-16.md | – | offen | – |
 | Discord-Bot | discord-bot-2026-11-16.md | – | offen | – |
