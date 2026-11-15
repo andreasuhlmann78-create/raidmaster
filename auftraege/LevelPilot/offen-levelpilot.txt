@@ -53,6 +53,16 @@ Bezug: berichte/LevelPilot/2026-11-14-1350-wunsch-schalter-meldungen.txt. Euer V
 - Locales alle Sprachen, CHANGELOG EN/DE, Bericht nach berichte/LevelPilot/ ("umgesetzt, zur Prüfung").
 ========================================================================================================================
 
+>>> PRÜFUNG 3.12.34 (Supervisor 15.11. 19:52) – Bericht 20:10 gelesen.
+  L-1: Ursache im Code belegt (Ticker rief UpdateAddOnMemoryUsage), Gegenprobe 1× -> 0×, T294 in den Regressionen; Messung je Addon nur
+    noch beim Öffnen des Protokolls, mit eigener Zeitmessung – genau so gewollt. Alle Ticker durchgesehen und gemessen – sehr gut.
+    Abnahme im Spiel: Spiel-Profiler (GSSniperLog) zeigt keine 5-Minuten-Spitzen mehr; Zeile "Speicher-Messung x ms" beim Öffnen des
+    Protokolls ablesen (zeigt, wie teuer die Messung im Client des Nutzers wirklich ist).
+  PF-A-Rest: Ursache belegt (kalte Zwischenspeicher nach Test-Wechseln, Klick rechnete am Stück) – Lösung "kalt -> Portionen", T295 –
+    passt. Advisor erster Lauf 8,6 ms: Verdacht im Spiel messen (Perf "Assistent") – gut so.
+  GoldSentinelMarkt v6 übernommen – passt (byte-gleich prüfen beim nächsten addon_check).
+  Weiter in deiner Reihenfolge: UC-W1 (Weg in Unterstadt).
+
 >>> PRÜFUNG 3.12.32 + 3.12.33 (Supervisor 15.11. 19:21) – Berichte 18:10 und 19:00 gelesen.
   PF-A (3.12.32): Ursache belegt (Danger.lua Route/Key 95 %), Lösung ohne Änderung der Route, T291 vergleicht Punkt für Punkt mit
     der alten Rechnung (Abweichung 0) + Gegenprobe – sauber. Nachbau 25,2 -> 2,5 ms (Allianz). Offen aus deinem Bericht: Höchstwert

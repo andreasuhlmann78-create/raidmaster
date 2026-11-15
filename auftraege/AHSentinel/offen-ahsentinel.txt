@@ -47,6 +47,16 @@
 >>>    6. NEU 18:5x (Spieler betroffen, HOCH, direkt nach 1.): ESL1 und DE-WIN1 – siehe Blöcke gleich unten.
 >>>    7. NEU 19:03 (Entscheid des Nutzers): SN-SCAN1 Sniper-Knopf während des Vollscans sperren – direkt nach SN-BTN1.
 
+>>> NACHT-PRÜFUNG 19:52 (Supervisor) – 0.65.214, 0.65.215, 0.65.216. Berichte gegen Diff gelesen, Zahlen nachgerechnet.
+  0.65.215 WS-LOOP1: Zahlen geprüft: 919 × 0,95 = 873,05 -> 8s73c; 919 − 873 = 46c; × 4 = 1s84c; ceil(919/0,95) = 968; ceil(500/0,95)
+    = 527; ceil(900/0,95) = 948 – alles exakt. Vorschlag wird gegen ALLE Regeln geprüft (bis 8×) – richtig. Passt zum Entscheid 19:15.
+    POST-BLOCK1: Reihenfolge im Klick umgestellt (zuerst einstellen, dann Hide/Ton) + SetPropagateKeyboardInput nur ausserhalb Kampf +
+    Sicherheitsnetz 30 s – vernünftig; Ursache bleibt im Spiel zu belegen (POST-BLOCKED). Abnahme im Spiel durch den Nutzer: Warnschutz
+    -> Trotzdem einstellen 5× (Ware + Einzelstück).
+  0.65.214 GSL8-1: Grenze 200/s nur für unbekannte Items, Zähler je Aufgabe, DE-WIN1 bleibt gedeckt – passt. Abnahme: nächstes Protokoll
+    nach einem Vollscan ohne Bilder > 50 ms durch Item-Info-Stürme; Zeile ITEMINFO lesen.
+  0.65.216 RK7 (Phase 4): Reihenfolge jetzt richtig (HOCH-Punkte waren vorher dran). Inhalt in der nächsten Runde.
+
 >>> NACHT-PRÜFUNG 18:58 (Supervisor) – 0.65.206 und 0.65.207. addon_check 0.65.207: OK.
   0.65.207 POST-BLOCK1: Code gelesen (Seller.lua Se:Post, Se:OnActionBlocked, Ereignisse ADDON_ACTION_BLOCKED/FORBIDDEN) – passt zum
     Auftrag: Weg + Zeit gemerkt, Meldung "nochmal klicken" statt "Wird eingestellt", Warte-Sperre gelöst, Diagnose POST-BLOCKED auch
