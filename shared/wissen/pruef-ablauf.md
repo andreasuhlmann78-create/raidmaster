@@ -105,7 +105,8 @@ dann Messauftrag statt Regel.
   ergänzen (Abschnitt E), damit er nicht wieder durchrutscht.
 
 ## E. Prüfregeln aus Fehlern (fortlaufend)
-- 15.11. 16:05 Messwerkzeug-Fehler: GSSniperLog 1.2 las "Server bereit" im Nach-Hook (hooksecurefunc = nach dem Aufruf) -> Zahl wertlos, war aber als "belegt" an AHS gegangen. REGEL: Bei jedem Messwert eines Mini-Addons klären, WANN gemessen wird (vor/nach dem Aufruf, Ereignis-Reihenfolge); unplausible Quoten (z. B. 1207/1211) erst prüfen, dann melden.
+- 15.11. 16:45 Uhrzeiten in Blöcken/Nachrichten waren vorausgeschätzt (z. B. "17:00" um 16:31 geschrieben) -> berichtigt. REGEL: Uhrzeit nie schätzen, immer `date +%H:%M` (Europe/Zurich) bzw. Commit-Zeit verwenden.
+- 15.11. 16:00 Messwerkzeug-Fehler: GSSniperLog 1.2 las "Server bereit" im Nach-Hook (hooksecurefunc = nach dem Aufruf) -> Zahl wertlos, war aber als "belegt" an AHS gegangen. REGEL: Bei jedem Messwert eines Mini-Addons klären, WANN gemessen wird (vor/nach dem Aufruf, Ereignis-Reihenfolge); unplausible Quoten (z. B. 1207/1211) erst prüfen, dann melden.
 - 15.11. 14:57 Nutzer: "Direktive – nie wieder vergessen ins Repo zu laden". Anlass: GSL1-1..5 nur im Chat; das Einfüge-Skript fand seinen Anker nicht, der Commit 14:48 enthielt nur die Log-Zeile. REGEL: Einfügen nur mit assert auf den Anker; nach dem Push `git show origin/main:<Datei> | grep -c <Kürzel>` > 0 prüfen, erst dann melden.
 - 15.11. 14:35 Nutzer: "von jetzt an immer Mini-Addons basteln – viel effektiver als einzelne Tests". REGEL: Was im Spiel gemessen
   werden muss, misst die Prüf-Sitzung mit einem eigenen passiven Mini-Addon (shared/messtest/, nicht veröffentlicht, ändert

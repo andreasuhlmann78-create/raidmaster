@@ -17,7 +17,7 @@
     Perfektion – nicht nur beim Sniper." Jede Version: Ursache belegt (Code-Stelle + Messung), nicht vermutet; jede Zahl geht auf;
     alle Wege getestet (Erfolg, Fehler, Abbruch, AH zu, Kampf, alte Clients); keine Sperre ohne Zeitlimit; nichts abgeschnitten
     oder doppelt; Bericht nur "umgesetzt, zur Prüfung" mit Belegen. Lieber eine Version später als eine mit Fehlern.
-D-KERN1 MITTEL (Supervisor 15.11. 17:00, Nutzer 16:28 "der Rechenkern soll die Daten aller Spieler nutzen"; Masterplan AHSentinel E):
+D-KERN1 MITTEL (Supervisor 15.11. 16:31, Nutzer 16:28 "der Rechenkern soll die Daten aller Spieler nutzen"; Masterplan AHSentinel E):
   Täglich (nach Mitternacht, Zone des Bots) eine ANONYME Tages-Zusammenfassung aller gesammelten Scans als Datei
   testberichte/markt/tages/<JJJJ-MM-TT>.json (Weg wie die Wochenberichte, Workflow markt-bericht.yml holt sie):
   je Fraktion und Item: Scans n, Quellen n (nur Anzahl, keine IDs), tiefster Stückpreis Median/Spanne, Menge Median,

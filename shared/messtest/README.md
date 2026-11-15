@@ -122,7 +122,7 @@ Neu:
 Tests: 7 Szenario-Läufe + 5 Zufallsläufe à 20000 Ereignisse, 119/119 OK, 5× wiederholt, 0,03 ms je Ereignis.
 ACHTUNG (16:05 festgestellt): "Server bereit" wurde in 1.2 im Nach-Hook gelesen (nach der eigenen Anfrage) – Zahl wertlos.
 
-### GSSniperLog 1.3 (15.11. 16:20, Nutzer 15:59: "Messtool den neuen Gegebenheiten anpassen")
+### GSSniperLog 1.3 (15.11. 16:06, Nutzer 15:59: "Messtool den neuen Gegebenheiten anpassen")
 - Server bereit VOR der Anfrage: Stand der Drossel am Ende des vorigen Bildes, AUCTION_HOUSE_THROTTLED_SYSTEM_READY setzt
   sofort "bereit"; zusätzlich "n. Anfrage im selben Bild" (dann ist der Stand für diese Anfrage nicht mehr sicher).
 - DOPPELT GESENDET nur noch, wenn der erste Kauf noch offen ist oder schon gekauft wurde; WIEDERHOLT, wenn er vorher einen

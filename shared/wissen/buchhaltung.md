@@ -76,7 +76,7 @@ Wer an der Buchhaltung eines GoldSentinel-Addons arbeitet, prüft oder Aufträge
    -> KEIN grosser Preisfall nach dem Entzaubern (−6 %); die Schieflage kommt aus der Verteilung (Staub-Anteil zu hoch bewertet).
    FALSCH waren meine Aussagen "Preisfall danach" und "Reparatur BH-AUS-3 hat 1g 90s auf Staub umgebucht" (nicht belegt).
    Nie aus einer Material-Zeile eine Kauf-Entscheidung ableiten; entscheiden nur mit Gruppe/Weg gesamt.
-   ENTSCHEID 15.11. 16:35 (Supervisor, DE-AUFT1): Verteilung nach dem ERWARTETEN Wert der Entzauberung, nicht nach der Beute
+   ENTSCHEID 15.11. 16:22 (Supervisor, DE-AUFT1): Verteilung nach dem ERWARTETEN Wert der Entzauberung, nicht nach der Beute
    der einzelnen Entzauberung: Einstand je Stück = Netto-Preis_m × (Einstand des Teils / erwarteter Netto-Wert je Entzauberung
    der Gruppe). Glück/Pech (tatsächlich − erwartet) = eigener Posten "Entzauber-Ausbeute". Σ Mats + Ausbeute = Einstand Teile.
 4. **Verkauf sofort als "ausstehend"** beim Hinweis "Käufer gefunden", mit Rechnung abgleichen (auctionID/Item+Menge+

@@ -40,9 +40,9 @@
 >>>       ein Satz, Tests, offene Fragen, und die Liste "Im Spiel prüfen" (kurz, in der Reihenfolge, in der der Nutzer sie tun soll).
 >>>    Der Block NACHT-ARBEIT vom 14.11. weiter unten ist ÜBERHOLT (alte Reihenfolge).
 
->>> MASTERPLAN AHSENTINEL – VOLLSTÄNDIG IN auftraege/AHSentinel/masterplan-ahsentinel.txt (Supervisor 17:00; Nutzer 16:25 "Masterplan",
+>>> MASTERPLAN AHSENTINEL – VOLLSTÄNDIG IN auftraege/AHSentinel/masterplan-ahsentinel.txt (Supervisor 16:31; Nutzer 16:25 "Masterplan",
     16:28 "nicht nur meine Daten, sondern die aller Spieler", 16:29 "erinnere dich an alles und ergänze den Masterplan").
-    ZUERST DIESE DATEI LESEN – sie ist die EINE Reihenfolge und ersetzt jede frühere (auch 16:35 und 16:50). Kurz:
+    ZUERST DIESE DATEI LESEN – sie ist die EINE Reihenfolge und ersetzt jede frühere (auch 16:22 und 16:26). Kurz:
     PHASE 1 Sniper perfekt (SN-RUHE1 -> Protokoll-3-Befunde -> Rest Sniper-Block -> Abnahme A1–A6) ·
     PHASE 2 Ausbau des Gehirns PARALLEL (KERN-T1 fremde Auktionen -> MN1–MN5 VORGEZOGEN: Marktdaten-Netz aller Spieler ->
     Gilden-Sync -> Vorwissen inkl. Teil "alle Spieler" -> Testbericht MARKT-KERN) · PHASE 3 Buchhaltung/Verkaufen (DE-AUFT1,
@@ -51,7 +51,7 @@
     Datenstufen des Gehirns: eigene > fremde Auktionen im Scan > Gilde > alle Spieler (Netz) > Tabellen (auch aus der
     Sammelstelle aller Spieler) – jede mit Herkunft, n und eigener Prüfung P1–P4; eigene Fälle gehen immer vor.
 
->>> SUPERVISOR 16:35 – ANTWORTEN UND NEUE BEFEHLE (Nutzer 16:21 "bitte erteile AHS neue Befehle"; Berichte 15:50 und 16:25 gelesen)
+>>> SUPERVISOR 16:22 – ANTWORTEN UND NEUE BEFEHLE (Nutzer 16:21 "bitte erteile AHS neue Befehle"; Berichte 15:50 und 16:25 gelesen)
   1. GSL2-1 (2) – AHS hat recht: In 0.65.193 erreichte Code 10 beim modernen AH MarkDead/600 s NICHT (Aufrufer nur über
      lastBuyError = LegacyAH.lua). Mein Befund war in diesem Punkt falsch; die sichtbare Wirkung kam vom übergangenen Code 10
      (itemBuys[1] = schon abgelehnter Kauf), den AHS in 0.65.196 gefunden und behoben hat (T776). Angenommen.
@@ -70,7 +70,7 @@
   4. GSL2-3 – Verdacht von AHS (113–116-ms-Bilder kommen aus der Blizzard-AH-Oberfläche) wird mit GSSniperLog 1.3 gemessen
      (ADDONS-Zeile: AHS Ø klein + Ruckler bleiben = nicht AHS). Bis dahin nichts weiter.
   5. GSSniperLog 1.3 (Messwerkzeug): "Server bereit" der Version 1.2 war ein Messfehler (Nach-Hook) – siehe Berichtigung bei GSL2.
-  [ÜBERHOLT durch MASTERPLAN 16:50] NEUE REIHENFOLGE: SN-RUHE1 (läuft) -> DE-AUFT1 -> restlicher Sniper-Block (SN-B5 Max zur Planung speichern, SN-B6 Zähler nach
+  [ÜBERHOLT durch MASTERPLAN 16:26/16:31] NEUE REIHENFOLGE: SN-RUHE1 (läuft) -> DE-AUFT1 -> restlicher Sniper-Block (SN-B5 Max zur Planung speichern, SN-B6 Zähler nach
   Bestätigung prüfen, SN-B7 Treffer "geleert" ohne Grund, SN-B8 Testkauf-Gold erklären, T745 Wartegrund "false", TB182-2
   Tageslücke 7g67, TB184-U3 Unterbereiche im UI-Prüfteil) -> Abnahme A1–A6 mit GSSniperLog-Protokoll 3 (0.65.196+) -> danach
   TT-DE2, KERN-T1, MAIL-1 Rest, VK-P1, UI-CLEAN1 (B)/UI-REF1, HP-2/3/4.
@@ -96,12 +96,12 @@
         AHS Ø ≤ 2 ms je Bild, Aufgaben bei Aussetzern "keine", Speicherbereinigungen < 5/Min. Tests: Sniper an/aus, AH auf/zu,
         Kampf, Reload während Pause, 30-Min.-Grenze. Locales EN/DE, CHANGELOG EN/DE.
 
->>> GSL2 – ZWEITES PROTOKOLL GSSniperLog 1.2 (Nutzer 15:01–15:29, AHS 0.65.193; Nutzer 15:33 "läuft nicht viel besser", 15:34 "meldet
+>>> GSL2 – ZWEITES PROTOKOLL (Supervisor 15:35) GSSniperLog 1.2 (Nutzer 15:01–15:29, AHS 0.65.193; Nutzer 15:33 "läuft nicht viel besser", 15:34 "meldet
     sehr oft Interner Auktionsfehler"). Supervisor ausgewertet, Zahlen aus dem Protokoll, Code-Stellen gelesen. HÖCHSTE PRIO, VOR GSL1-2.
     Sitzung: Suchen 1211 · Käufe gesendet 343 · bestätigt 116 (34 %) · ohne Antwort 220 · DOPPELT gesendet 56 · Code 10 ×175 ·
     Code 4 ×3 · DROPPED nach Kauf ×163, nach Suche ×20 · Käufe gesendet, obwohl IsThrottledMessageSystemReady false: 259 von 343 ·
     weggeschnappt (Angebot ≤ Max verschwand ohne unseren Kauf) 153 · Gold bestätigt 10g20s82 = Gold-Abgang AH-Kauf 10g20s82 (exakt).
-  BERICHTIGUNG SUPERVISOR 16:05 (Messfehler im Messwerkzeug, nicht in AHS): Die Zahl "gesendet, obwohl Server nicht bereit: 259/343"
+  BERICHTIGUNG SUPERVISOR 16:00 (Messfehler im Messwerkzeug, nicht in AHS): Die Zahl "gesendet, obwohl Server nicht bereit: 259/343"
          (und "Suchen dabei 1207/1211") ist NICHT belegt. GSSniperLog 1.2 liest IsThrottledMessageSystemReady() in einem Nach-Hook
          (hooksecurefunc läuft NACH PlaceBid/SendSearchQuery) – da ist die Drossel durch genau diese Anfrage schon belegt. Belegt bleiben:
          Code 10 ×175, ohne Antwort 220, doppelt 56, DROPPED ×183, MarkDead bei Fehlern, Status "Treffer!" 43 s ohne Kauf, Zähler +1
@@ -133,7 +133,7 @@
          Stelle messen und auf ≤ 16 ms bringen. Daneben: forecast-eval 35× und cache:today 20× bei offenem AH während des Snipens –
          beim Snipen pausieren.
   GSL2-4 8,2-s-Pausen weiter in 0.65.193 (15:20–15:26: 9× 8,1–8,9 s, einmal 40,3 s, Status "sucht selbstständig") = GSL1-2.
-  SUPERVISOR 15:50 – Code-Sicht 0.65.194/0.65.195 (noch KEINE Abnahme): Kauf nur bei QueryReady (Sniper.lua 2738ff), ein Einzelkauf
+  SUPERVISOR 15:46 – Code-Sicht 0.65.194/0.65.195 (noch KEINE Abnahme): Kauf nur bei QueryReady (Sniper.lua 2738ff), ein Einzelkauf
          zur Zeit, Zählen nur auf Bestätigung (GSL1-3), modernes AH: Code 10 -> errorSeen, Zeile bleibt kaufbar (720, 2938ff); MarkDead
          nur bei Code 4 mit genau EINEM offenen Kauf – passt zu GSL2-1(b). Entschieden wird mit Protokoll 3 (GSSniperLog 1.2, 0.65.195):
          Ziel ≥ 80 % der gesendeten Käufe bestätigt, Code 10 ≈ 0, doppelt 0, "gesendet bei Server nicht bereit" 0, weggeschnappt
@@ -186,7 +186,7 @@
         -> bleibt; Teilkauf -> Rest bleibt; zwei Bestätigungen in derselben Sekunde; Bestätigung für eine Zeile, die schon durch neue
         Suche ersetzt ist (keine falsche Zeile entfernen); AH schliessen während der 1 s (kein Fehler, kein Timer-Rest); Ziel wechseln
         während der 1 s. Locales EN/DE, CHANGELOG EN/DE.
->>> TT-DE3 (Supervisor 15.11. 15:28, Verdacht – nur Zahl belegen, Tooltip-Aufbau NICHT ändern: Nutzer 11:50 "der Rest vom Tooltip wird
+>>> TT-DE3 (Supervisor 15.11. 15:24, Verdacht – nur Zahl belegen, Tooltip-Aufbau NICHT ändern: Nutzer 11:50 "der Rest vom Tooltip wird
     nicht angefasst"). Screenshot 15:23, Schultern des Hügelwächters (4251): Entzaubern 10s73, Gewinn +1s54 (= 10s73 − Marktwert
     9s19), Mats Staub 3s99 · Essenz 14s01 · Splitter 34s74. Supervisor aus deLog (415 eigene Entzauberungen von 4251): Staub
     1,120/DE (74,5 % der DE), Essenz 0,335/DE (21,9 %), Splitter 0,036/DE (3,6 %) -> zu den Tooltip-Preisen 10s42 je DE, nicht

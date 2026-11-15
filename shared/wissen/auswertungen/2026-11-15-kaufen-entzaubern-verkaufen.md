@@ -33,7 +33,7 @@ Quelle: AHSentinel-SavedVariables (Uploader-Stand 15.11. 15:01), books.log (buy/
   5s06/Stück (16g33s02 / 323), bei Aufteilung nach Marktwert wären es ~3s30. Verdacht: Einstand-Aufteilung beim Entzaubern
   (oder ältere, teurere Ware) – Messauftrag an AHS (DE-AUFT1).
 
-## BERICHTIGUNG 16:35 (Supervisor)
+## BERICHTIGUNG 16:22 (Supervisor)
 Die Rechnung oben nutzt die Ausbeute NUR der 218 Schultern dieses Zeitraums (Glück/Pech dieser Stichprobe, z. B. Splitter 3,7 %).
 Die Entzauber-Tabelle hängt im Spiel nur von Qualität und Itemstufe ab. Über die ganze Gruppe "grüne Rüstung 26–30"
 (965 Entzauberungen: Staub 1,117, Essenz 0,318, Splitter 0,053 je Entzauberung) ist der ERWARTETE Netto-Wert je Schulter
