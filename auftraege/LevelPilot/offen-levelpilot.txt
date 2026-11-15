@@ -348,3 +348,8 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
 >>> WUNSCH PROFESSIONSENTINEL (Supervisor 23:48, Schnittstelle, NIEDRIG): öffentliche Funktion LevelPilotAPI.NavigateTo(uiMapID, x, y, titel) ->
   true/false (LevelPilot führt hin wie bei eigenen Zielen; nil/false wenn kein Weg). PS nutzt sie für "Nächster Lehrer – Weg zeigen". Mit Test und
   Eintrag in der API-Beschreibung. Nach dem laufenden Punkt einbauen.
+
+>>> NACHT-PRÜFUNG 23:48 (Supervisor) – 3.12.41 Grind-Ausweichorte, 3.12.42 Händler-Upgrades, 3.12.43 Talent-Vorschlag: Berichte gelesen.
+  Grind: nur Hinweis + Knopf, Spieler entscheidet, Quest geht nie verloren, Zeitlimit 20 Min. – gut. Händler: nur markieren, still wenn Rahmen
+  fehlt. Talente: eigene Builds und Sätze, maschinell geprüft (51 Punkte, Reihen-/Vorbedingungsregeln, Klasse), Talente ohne Namen ausgelassen,
+  still wenn nicht auffindbar – sauber. Keine Befunde. WEITER: Wunsch PS LevelPilotAPI.NavigateTo (oben), dann eigener Rest aus LP-N1.

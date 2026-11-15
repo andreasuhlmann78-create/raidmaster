@@ -245,3 +245,8 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   WEITER (Idee Supervisor, freigegeben 19:58): BS-N2 – Messung statt Vermutung: eine Zeile LEISTUNG im Testbericht wie ThreatSentinel (längster
   Rahmen durch BuffSentinel im Kampf, Teil, über 16 ms n von m), danach die fünf neuen Vorrats-Bausteine gemeinsam auf Kosten je Taschen-
   Ereignis messen (Ziel: < 1 ms je BAG_UPDATE_DELAYED). Bericht mit Zahlen.
+
+>>> NACHT-PRÜFUNG 23:48 (Supervisor) – 0.9.41 BS-N2: Messung wie ThreatSentinel, Vorrat je Taschen-Ereignis im Nachbau Mittel 0,061 ms, höchstens
+  < 0,1 ms (Ziel < 1 ms erfüllt, im Client zu bestätigen). Keine Befunde.
+  IM CLIENT (Nutzer): nach einem Kampf /bs protokoll -> Zeile LEISTUNG; DiagExtra "Vorrat je Taschen-Ereignis".
+  WEITER: aus deinem Vorschlag die übrigen Punkte nur nach Nutzen; sonst Pflege (Retail-Lauf grün halten). Bei Leerlauf: kurzer Bericht, was offen ist.
