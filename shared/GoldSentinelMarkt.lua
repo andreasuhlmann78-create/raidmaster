@@ -68,7 +68,13 @@
 --   Zeichenkette statt eine je Stelle), Feed liest/schreibt die Item-Eintraege ohne Hilfstabellen (UnpackVals/PackVals),
 --   die Base36-Texte von Preis/Menge/Auktionen/Abgaengen werden fuer Speicher und Export nur einmal gebaut. Sonst unveraendert.
 
-local VERSION = 6
+-- Version 7 (15. November 2026, Messung AHSentinel s216: Feed-Anteil 6,3 MB, Grenze 4 MB): der grosse Anteil kam aus dem
+--   vollen Teilen an die Gilde (QueueScan mit full, hoechstens 1x je Stunde): je Item eine Hilfstabelle (Unpack) und vier neu
+--   gebaute Base36-Texte. Jetzt liest QueueScan die schon gespeicherten Base36-Texte direkt aus dem Item-Eintrag (keine Tabelle,
+--   kein Enc), UnpackVals faengt nur die noetigen Felder, und die Export-Zeile wird ohne zweite Kopie gebaut. Ergebnis und
+--   Nachrichten unveraendert (gleiche Zeichen).
+
+local VERSION = 7
 
 local existing = _G.GoldSentinelMarkt
 if type(existing) == "table" and (tonumber(existing.VERSION) or 0) >= VERSION then return end
@@ -200,7 +206,7 @@ end
 -- v6: ohne Hilfstabelle (fuer den Feed): nur die Werte, die der Feed braucht
 local function UnpackVals(v)
     if type(v) ~= "string" then return nil end
-    local p, _, _, _, o, g, h, l = v:match("^(%w+),(%w+),(%w+),(%w+),(%w+),(%w+),(%w+),?(%w*)$")
+    local p, o, g, h, l = v:match("^(%w+),%w+,%w+,%w+,(%w+),(%w+),(%w+),?(%w*)$")
     if not p then return nil end
     return Dec(p), Dec(o), Dec(g), Dec(h), Dec(l) or 0
 end
@@ -540,12 +546,18 @@ FeedFinish = function(j)
     if j.dt > 0 then M.stats.compared = M.stats.compared + 1 end
     local s = M.store
     s.export = s.export or {}
-    table.insert(s.export, string.format("GSMARKT1|%d|%s|%d|%d|%d|%d|%s", 1, fac, j.t, j.cnt, j.nA,
-        j.dt > 0 and j.dt or 0, table.concat(j.partsA, ";")))
-    if j.nB > 0 then           -- Items ohne Abgaenge: eigene Zeile ohne Vergleich (t+1, sonst "doppelt" bei der Sammelstelle)
-        table.insert(s.export, string.format("GSMARKT1|%d|%s|%d|%d|%d|%d|%s", 1, fac, j.t + 1, j.cnt, j.nB, 0,
-            table.concat(j.partsB, ";")))
+    -- v7: Kopf an den ersten Teil haengen und einmal verbinden (keine zweite Kopie der ganzen Zeile durch string.format)
+    local function Line(parts, n, t, dt)
+        local head = string.format("GSMARKT1|%d|%s|%d|%d|%d|%d|", 1, fac, t, j.cnt, n, dt)
+        if n == 0 then return head end
+        parts[1] = head .. parts[1]
+        return table.concat(parts, ";", 1, n)
     end
+    table.insert(s.export, Line(j.partsA, j.nA, j.t, j.dt > 0 and j.dt or 0))
+    if j.nB > 0 then           -- Items ohne Abgaenge: eigene Zeile ohne Vergleich (t+1, sonst "doppelt" bei der Sammelstelle)
+        table.insert(s.export, Line(j.partsB, j.nB, j.t + 1, 0))
+    end
+    j.partsA, j.partsB = nil, nil
     M.TrimExport(s.export)
     QueueScan(j.t, j.changed)
 end
@@ -557,6 +569,14 @@ M.FeedPortion = function(budget) if M.feedJob then return FeedPortion(M.feedJob,
 local function Entry(id, e)
     return Enc(id) .. "," .. Enc(e.p) .. "," .. Enc(e.q) .. "," .. Enc(e.n)
 end
+-- v7: Eintrag direkt aus dem gespeicherten Text "p,q,n,t,o,..." (gleiche Base36-Zeichen wie Entry, ohne Hilfstabelle)
+local function EntryFromText(id, v)
+    local pqn = type(v) == "string" and v:match("^(%w+,%w+,%w+),")
+    if pqn then return Enc(id) .. "," .. pqn end
+    local e = Unpack(v)
+    return e and Entry(id, e) or nil
+end
+M.EntryFromText = EntryFromText
 
 -- alle eigenen Items eines Scans an die Gilde, die geaenderten (hoechstens NET_MAX) auch ins Netz
 QueueScan = function(t, changed, full)
@@ -567,9 +587,12 @@ QueueScan = function(t, changed, full)
     local all = {}
     if full then
         M.lastFull = now
-        for id, v in pairs(f.i) do
-            local e = Unpack(v)
-            if e and e.o == 0 and e.t == t then all[#all + 1] = id end
+        local tEnc = Enc(t)
+        for id, v in pairs(f.i) do       -- v7: Zeit und Herkunft direkt aus dem Text lesen (keine Hilfstabelle je Item)
+            if type(v) == "string" then
+                local te, oe = v:match("^%w+,%w+,%w+,(%w+),(%w+),")
+                if te == tEnc and oe == "0" then all[#all + 1] = id end
+            end
         end
     else
         for i = 1, math.min(#changed, M.NET_MAX) do all[i] = changed[i] end
@@ -581,7 +604,7 @@ QueueScan = function(t, changed, full)
     local function batches(list, opts)
         local cur, len = {}, #head
         for _, id in ipairs(list) do
-            local e = Entry(id, Unpack(f.i[id]))
+            local e = EntryFromText(id, f.i[id])
             if #cur > 0 and (#cur >= M.ITEMS_PER_MSG or len + 1 + #e > max) then
                 M.outbox[#M.outbox + 1] = { head .. table.concat(cur, ";"), opts }
                 cur, len = {}, #head

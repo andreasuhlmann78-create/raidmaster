@@ -34,6 +34,15 @@
 >>>    Grenzen bleiben: Masterplan-Reihenfolge, Direktiven (Perfektion, nicht warten, Deutsch, alles ins Repo), Gold-/Daten-
 >>>    Sicherheit, CurseForge erst nach Sniper-Abnahme, andere Addons nicht ändern. Fragen an den Supervisor nur über berichte/.
 
+>>> NUTZER 19:55: "Falls AHS komplett fertig sein sollte, bevor ich wieder online komme, soll er mit P2 Gehirn beginnen."
+>>>    -> Ist die laufende Phase 4 (Masterplan D, bis 0.66.0) fertig, bevor der Nutzer "hi" sagt: sofort PHASE 2 "Ausbau des Gehirns"
+>>>    (Masterplan: 2.2 Rest MN1–MN5 inkl. Feed AN mit GoldSentinelMarkt v7 – siehe unten –, 2.3 Gilden-Sync der Zähler, 2.4
+>>>    Vorwissen-Anschluss je Zelle inkl. "alle Spieler", 2.5 Testbericht MARKT-KERN). Danach Phase 3, dann 5 … wie im Masterplan.
+>>> GoldSentinelMarkt v7 (19:55, Supervisor) liegt in shared/: volles Teilen ohne Hilfstabellen. Gemessen im Nachbau wie s216 (6108 Items,
+>>>    volles Teilen): v6 7,5 MB -> v7 2,8 MB Speicher-Müll je Feed; ohne volles Teilen 2,0 -> 1,8 MB. Ergebnis byte-gleich mit v6
+>>>    (Nachrichten, Export, Speicher – Prüfsumme verglichen). Test 104/104 (3×). -> Byte-gleich kopieren, s216 messen (Grenze 4 MB,
+>>>    Frame +5 ms); hält es, VS.FEED_ON = true. Hält es nicht: Messwerte melden, Feed bleibt aus.
+
 >>> NUTZER 19:53: "AHS soll weitermachen mit dem Masterplan." Die Code-Punkte aus PRIO JETZT sind umgesetzt (POST-BLOCK1-Weg, GSL6-1,
 >>>    GSL6-2, SN-BTN1, GSL7-1, GSL5-4/5, GSL6-3, ESL1, DE-WIN1, SN-SCAN1, GSL8-1, WS-LOOP1) – offen sind dort nur noch Abnahmen im
 >>>    Spiel durch den Nutzer. -> Weiter strikt nach masterplan-ahsentinel.txt Abschnitt D (Phase 4 ff.; PS-DOCK1 in Phase 5).

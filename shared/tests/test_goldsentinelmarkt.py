@@ -318,12 +318,12 @@ check("Abbruch bei geänderter Liste", y.ev("GoldSentinelMarkt.Stats().aborted")
 z = Client("Testz", 13)
 set_auctions(z, rows1)
 scan(z)
-z.run(SRC.replace("local VERSION = 6", "local VERSION = 7"))
-check("neuere Fassung aktiv", z.ev("GoldSentinelMarkt.VERSION"), 7)
+z.run(SRC.replace("local VERSION = 7", "local VERSION = 8"))
+check("neuere Fassung aktiv", z.ev("GoldSentinelMarkt.VERSION"), 8)
 check("Daten übernommen", z.ev("GoldSentinelMarkt.Get(2589).preis"), 95)
 check("alter Frame still", z.ev("FRAMES[#FRAMES - 1].scripts.OnUpdate == nil"), True)
-z.run(SRC)                     # ältere Fassung lädt danach -> bleibt bei 7
-check("ältere Fassung übernimmt nicht", z.ev("GoldSentinelMarkt.VERSION"), 7)
+z.run(SRC)                     # ältere Fassung lädt danach -> bleibt bei 8
+check("ältere Fassung übernimmt nicht", z.ev("GoldSentinelMarkt.VERSION"), 8)
 
 # --- 14. Feed: Host-Addon liest selbst und gibt weiter, kein zweites Lesen ---------------------------------------------
 h = Client("Testh", 14)
@@ -391,7 +391,7 @@ tr.execute("B = {} for i = 1, 4 do B[#B+1] = string.rep('x', 600 * 1024) end Gol
 check("Export: höchstens 1,5 MB zusammen", tr.eval("#B"), 2)
 tr.execute("C = { string.rep('y', 2 * 1024 * 1024) } GoldSentinelMarkt.TrimExport(C)")
 check("Export: neuester Scan bleibt immer", tr.eval("#C"), 1)
-check("Version 6", tr.eval("GoldSentinelMarkt.VERSION"), 6)
+check("Version 7", tr.eval("GoldSentinelMarkt.VERSION"), 7)
 
 # v4 (MN-S2): geplante Antwort "A:" geht nach dem Ausschalten nicht mehr raus (Tick und SetShare)
 for i, via in enumerate(("tick", "setshare")):
@@ -505,6 +505,37 @@ print("v6 Feed 6000 Items: neu angelegt %.0f KB" % neu)
 check("v6: Feed 6000 Items legt höchstens 3 MB an (v5: 6,6 MB)", neu <= 3072, True)
 g6 = mc.ev("GoldSentinelMarkt.Get(100002)")
 check("v6: Werte nach 2 Feeds (Absatz aus 2 Vergleichen)", (g6.preis, round(g6.absatzMax)), (100002 - 100000 + 100, round(6 * 86400 / 3000)))
+
+
+# v7: volles Teilen an die Gilde (hoechstens 1x je Stunde) ohne Hilfstabellen; Ergebnis gleich, Speicher-Muell klein
+mc7 = Client("Testmem7", 51)
+mc7.run('DBF = {}; GoldSentinelMarkt.Attach("AHSentinel", DBF)')
+mc7.run("""
+math.randomseed(7)
+ITEMS = {}
+for i = 1, 6108 do ITEMS[2000 + i*3] = { preis = math.random(5, 2000000), menge = math.random(1,200), n = math.random(1,40), abg = (i % 2 == 0) and math.random(0,30) or nil, abgV = 2 } end
+GoldSentinelMarkt.Feed("AHSentinel", TIME, 21102, ITEMS, 1800)
+while GoldSentinelMarkt.feedJob do GoldSentinelMarkt.FeedPortion(4) end
+N1 = #GoldSentinelMarkt.outbox
+GoldSentinelMarkt.lastFull = nil
+collectgarbage("collect"); collectgarbage("stop"); M0 = collectgarbage("count")
+GoldSentinelMarkt.Feed("AHSentinel", TIME + 1200, 21102, ITEMS, 1200)
+while GoldSentinelMarkt.feedJob do GoldSentinelMarkt.FeedPortion(4) end
+NEU7 = collectgarbage("count") - M0; collectgarbage("restart")
+N2 = #GoldSentinelMarkt.outbox - N1
+local f = GoldSentinelMarkt.store.f
+local fac = next(f)
+local id, v = next(f[fac].i)
+E1 = GoldSentinelMarkt.EntryFromText(id, v)
+local e = GoldSentinelMarkt.Unpack(v)
+E2 = GoldSentinelMarkt.Enc(id) .. "," .. GoldSentinelMarkt.Enc(e.p) .. "," .. GoldSentinelMarkt.Enc(e.q) .. "," .. GoldSentinelMarkt.Enc(e.n)
+""")
+neu7 = mc7.ev("NEU7")
+print("v7 Feed 6108 Items mit vollem Teilen: neu angelegt %.0f KB" % neu7)
+check("v7: Feed mit vollem Teilen höchstens 3,5 MB (v6: 7,5 MB; Grenze AHS 4 MB)", neu7 <= 3584, True)
+check("v7: volles Teilen schickt alle Items (Nachrichten > 600)", mc7.ev("N2") > 600, True)
+check("v7: Eintrag aus dem Text = Eintrag aus den Werten", mc7.ev("E1"), mc7.ev("E2"))
+check("v7: Export-Zeile beginnt mit dem Kopf", mc7.ev('GoldSentinelMarkt.store.export[#GoldSentinelMarkt.store.export]:sub(1, 11)'), "GSMARKT1|1|")
 
 print(f"{checks - fails}/{checks} Prüfungen bestanden")
 sys.exit(1 if fails else 0)
