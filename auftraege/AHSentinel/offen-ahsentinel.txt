@@ -55,6 +55,28 @@ HP-3 MITTEL (Nutzer 10:36, Screenshot Schnäppchen > Entzauberwert leer): Text "
     "Zurzeit nichts unter dem Entzauber-Wert mit mindestens 30 % Gewinn (geprüft: n Items, Preise vom Scan vor x Min.)". Prüfen,
     warum Markt > Entzaubern gleichzeitig Zeilen zeigt (Bericht 01:36: "Entzaubern 3") – beide Ansichten müssen dieselbe Regel und
     dieselben Treffer haben (eine Zahl). Teil von UI-CLEAN1/HP-2, gleiche Reihenfolge.
+KERN-T1 HÖCHSTE PRIO (Nutzer 10:45 "der Kern muss schnell lernen – aber ohne Einbussen", "oberste Prio"): Der Rechenkern
+    lernt heute nur aus EIGENEN Fällen (≈ 80 Verkaufsfälle in 4 Tagen) -> Anzeige-Schwelle (N ≥ 30, Brier < 0,20) wird kaum
+    erreicht. Mehr Fälle, ohne Gold, Gebühren oder Verkäufe zu opfern und OHNE Schwellen zu senken:
+    (1) FREMDE AUKTIONEN ALS FÄLLE (grösster Hebel): Aus aufeinanderfolgenden Scans je fremdem Angebot (ohne Verkäufername
+        speichern) feststellen: vor Ablauf der Restzeit verschwunden -> "wohl verkauft" (oder zurückgezogen), bis Ablauf da
+        -> "nicht verkauft"; unterboten während der Laufzeit mitzählen (Wettlauf M-WL1). Den Faktor "verschwunden = verkauft"
+        NICHT annehmen (heute pauschal "halb verkauft", AHAnalyzerPro.lua:1793), sondern an den EIGENEN Auktionen eichen
+        (dort ist die Wahrheit bekannt: Briefkasten), je Warengruppe, k = 2. Eigener Weg im Kern ("markt") mit eigener
+        Grundlinie und eigenem Brier (P1–P4) – nie mit den eigenen echten Fällen vermischt. Nutzen erst, wenn er die
+        eigene Prüfung besteht; dann darf er als Vorwissen (L2) für die eigenen Zellen dienen.
+        Ohne Einbussen: rechnet nur beim Scan-Ende in Portionen (kein Ruckeln), keine zusätzlichen Server-Anfragen
+        (nur Scans, die ohnehin laufen), Speicher nur Zähler je Zelle und Tag (L5, Ziel gesamt < 300 KB).
+    (2) GILDEN-SYNC DER FÄLLE: Zähler je Zelle und Tag (nicht Einzelfälle, ohne Namen) über GoldSentinelSync austauschen,
+        wie die Entzauber-Ergebnisse. Fremde Zähler zählen als eigener Topf (Herkunft markiert), Prüfung P1–P4 gilt auch hier.
+        Drossel einhalten (kommunikation-forever.md), nichts im Kampf.
+    (3) VORWISSEN-ANSCHLUSS: Kern kann eine Tabelle von aussen als Vorwissen je Zelle laden (anweisung-rechenkern-066,
+        "Tabellen von aussen"); fehlt sie, läuft alles wie bisher. Die Tabelle liefert der Supervisor (Montag).
+    NICHT: Schwellen senken, absichtlich teurer/in Kleinstapeln einstellen (kostet Gebühren/Verkäufe – Nutzer: ohne Einbussen).
+    Testbericht MARKT-KERN: je Weg Fälle/Tag (eigen / Markt / Gilde), geeichter Faktor je Gruppe mit n, Brier, Grundlinie,
+    seit wann Anzeige frei. Tests mit erfundenen Scans (verschwunden/abgelaufen/unterboten/zurückgezogen) + Selbstkontrolle.
+    Reihenfolge NEU (Nutzer 10:45): KERN-T1 zuerst (nach evtl. Befunden zu 0.65.181), dann UI-CLEAN1 (A) -> UI-REF1 ->
+    UI-CLEAN1 (B) mit HP-3/HP-4 -> HP-2. Kleine Versionen sind erlaubt ((1) zuerst).
 HP-4 MITTEL (Nutzer 10:42 "so bringt das nichts", Screenshots Schnäppchen > Marktwert und > Flips, 0.65.180): Die Ansichten
     "Marktwert" und "Flips" unter Kaufen > Schnäppchen AUSBLENDEN (wie MR1 am 13.11. "Flippen" im Markt-Reiter). Grund: beide
     rechnen gegen den Median der ANGEBOTSpreise (nicht bezahlte Preise), Gewinn/Tag ist nicht gemessen (Robuster Stein 1s16/Stk.
@@ -72,7 +94,7 @@ UI-REF1 MITTEL (Nutzer 10:29 bestätigt, Vorschlag Supervisor): EIN Aktualisiere
 >>> TEMPO UND PFLICHTEN (Nutzer 10:29 "gib Gas – aber vernachlässige deine Pflichten nicht"): zügig arbeiten, aber jede Version
     mit Test + Selbstkontrolle (Grundsatz 14.11.), Locales und CHANGELOG EN/DE, addon_check ohne FEHLER, Bericht in berichte/
     ("umgesetzt, zur Prüfung" mit Belegen), GRUNDSATZ NACHVOLLZIEHBAR, keine Gold-Risiken, nichts für "erledigt" erklären.
-    Reihenfolge: SN-B9 -> Ketten-Kandidat 0.65.181 -> UI-CLEAN1 (A) -> UI-REF1 -> UI-CLEAN1 (B) -> HP-2.
+    Reihenfolge (ersetzt durch KERN-T1, Nutzer 10:45): KERN-T1 -> UI-CLEAN1 (A) -> UI-REF1 -> UI-CLEAN1 (B) -> HP-2.
 >>> NUR KETTE (Nutzer 15.11. 07:11 "nur Kette bitte"): ausschliesslich KETTE-K1, alles andere ruht (auch Sniper-Reste SN-B6/SN-B8 –
     die bleiben offen und kommen erst wieder, wenn der Nutzer es sagt).
     ZIEL (Nutzer 07:12 "er soll es soweit machen, dass wir releasen können"): KETTE-K1 komplett bis RELEASE-KANDIDAT – eine Version
