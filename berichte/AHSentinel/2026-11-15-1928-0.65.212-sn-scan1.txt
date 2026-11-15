@@ -1,0 +1,41 @@
+AHSentinel 0.65.212 – SN-SCAN1 (Entscheid des Nutzers 19:03, PRIO 7) – umgesetzt, zur Prüfung
+CurseForge: nein (erst nach der Sniper-Abnahme). GitHub-Release v0.65.212 und sofort im Discord.
+Reihenfolge: SN-SCAN1 kam 19:03 als "direkt nach SN-BTN1 (vor GSL6-2)". Zu dem Zeitpunkt waren GSL6-2 (0.65.209) sowie
+0.65.210/211 schon fertig gebaut; SN-SCAN1 ist deshalb die nächste Version.
+
+(a) Sperre: Sn:ArmLocked() = Sn:FullScanRunning() (Schnell-Vollscan läuft, AH offen).
+    - Alle Wege des Spielers zum Umschalten laufen über Sn:ToggleArmed:
+      - Knopf "Sniper-Modus" im Sniper-Reiter (UI_Sniper armBtn);
+      - Sniper-Statusknopf in der Kopfzeile (UI_Main statusButton, Linksklick);
+      - /ahs sniper (Befehlsliste "sniper").
+    - ToggleArmed lehnt während der Sperre ab: Meldung "Sniper-Modus gesperrt, bis der Vollscan fertig ist: …", kein
+      Umschalten, nichts vorgemerkt.
+    - Der Knopf im Sniper-Reiter ist grau (SetActive false), Tooltip "Gesperrt, bis der Scan fertig ist – Vollscan läuft – noch
+      ca. n s".
+    - Interne Aufrufe (Selbsttest, Testroutine, Gold-Schutz Sniper.lua 2924) nutzen SetArmed und bleiben unberührt.
+    - Tasten: Es gibt keine eigene Taste zum Umschalten. Mausrad/Taste kaufen nur, sie schalten den Modus nicht.
+(b) Zeitlimit: FullScanRunning endet, wenn VS.running endet (Scan fertig oder Abbruch, VS.TIMEOUT 90 s für die Antwort), mit
+    "AH zu" (ArmLocked prüft IsAHOpen), spätestens nach FULLSCAN_MAX = 120 s ab Beginn (dann "Sperre gelöst" im Protokoll
+    SNIPER-SPERRE). Danach ist der Knopf sofort bedienbar.
+(c) Ursache "spinnt nachher" – belegter Teil:
+    - Seller.lua StartNext behandelte JEDEN Eintrag der vorderen Prüfliste als "user" (Vorrang auch im Ruhemodus), auch
+      Prüfungen, die niemand angeklickt hatte: Serie, Unterbietung prüfen/Abbrechen, erneute Prüfung.
+    - Diese Suchen belegten den Such-Platz (Sniper CanSearch/HoldCheck "angeklicktes Item") und passen zu Protokoll 10:
+      alle 8 s "Suche von Seller.lua während Sniper an", 41 s keine Sniper-Suche, danach halbe Suchrate.
+    - Jetzt gilt "user" nur, wenn das Item angeklickt wurde (≤ 60 s, Se.userItems) oder der Spieler gerade im AH arbeitet
+      (A:UserAHPause, 30 s). Sonst wartet die Prüfung im Ruhemodus, bis der Sniper aus ist (QuietBlocks; Zeitlimit = Sniper
+      aus / AH zu / QUIET_MAX).
+    - Zeitlimit (gefunden im ersten Gesamtlauf: s2_sniper_and_seller rot, Prüfungen warteten bis zum Ende):
+      - Wartet die Liste im Ruhemodus QUIET_WAIT = 60 s, darf eine Prüfung zwischen zwei Sniper-Suchen laufen;
+      - danach höchstens eine je QUIET_GAP = 30 s (statt alle 8 s wie in Protokoll 10).
+      - s2_sniper_and_seller dafür angepasst: alle 3 Prüfungen fertig innerhalb 160 s statt 30 s; der Sniper sucht weiter.
+    - Verdacht, zu messen: Warum die Prüfungen 2 Min. nach dem Einstellen alle 8 s neu kamen (Wiederholung nach Zeitüberschreitung
+      der Antwort?). Das nächste Protokoll zeigt, ob noch "ANFRAGE-FREMD Seller" beim Snipen auftaucht.
+    - Szenario s212_scan_lock:
+      - Scan läuft -> Knopf grau, 4× an/aus ohne Wirkung;
+      - Scan fertig -> sofort bedienbar;
+      - Sniper an -> sucht innerhalb von 1 s;
+      - nicht angeklickte Verkaufen-Prüfung wartet, angeklickte läuft.
+      - Mit 0.65.211 rot.
+(d) Locales +2 (alle Sprachen), CHANGELOG EN/DE.
+Gesamtlauf (269 Szenarien, Lua 5.1): 267 bestanden. Rot nur s214_iteminfo_gate und s215_ws_paths = Tests der NÄCHSTEN Versionen (0.65.214/215), mit 0.65.212 absichtlich rot (Gegenprobe). addon_check: siehe Release.
