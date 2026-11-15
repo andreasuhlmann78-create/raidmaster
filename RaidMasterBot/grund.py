@@ -1,7 +1,8 @@
 """Grundfunktionen, die fast alle Bereiche des Bots brauchen (D-3 Schritt 3, ab Bot 1.5.148).
 
 UNVERÄNDERT aus bot.py: Rechte (is_guild_leader, is_admin, is_creator), Kanal holen (channel_by_id), Server
-(bot_guild), Meldung in den Bot-Kanal (post_bot_log); ab 1.5.157 raid_channel (Kanal-ID eines Raid-Pools).
+(bot_guild), Meldung in den Bot-Kanal (post_bot_log); ab 1.5.157 raid_channel (Kanal-ID eines Raid-Pools),
+ab 1.5.159 is_chef.
 Das Bot-Objekt selbst entsteht in bot.py; bot.py trägt es gleich danach hier ein ("grund.bot = bot"), bevor
 irgendein Ereignis oder Befehl laufen kann. Die Funktionen lesen "bot" erst beim Aufruf.
 Weg A "kern.py + Module" (Antwort der Prüf-Sitzung 15.11. 20:48).
@@ -70,3 +71,13 @@ def bot_guild():
 # D-3 Schritt 12 (1.5.157): aus bot.py – Kanal-ID eines Raid-Pools (signup, loot, dkp …) aus config.json
 def raid_channel(pool: str, kind: str) -> int:
     return int(((cfg.get("raid_channels") or {}).get(pool) or {}).get(kind) or 0)
+
+
+# D-3 Schritt 14 (1.5.159): aus bot.py – nur der Gildenchef bzw. Server-Besitzer
+def is_chef(member) -> bool:
+    """Nur der Gildenchef (bzw. der Besitzer des Discord-Servers) – z. B. für den Gildennamen."""
+    if not isinstance(member, discord.Member):
+        return False
+    if member.guild and member.id == member.guild.owner_id:
+        return True
+    return is_guild_leader(member)

@@ -8,6 +8,7 @@ import unittest
 
 BOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, BOT_DIR)
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))   # bot_quelle (D-3)
 import discord  # noqa: E402
 import invites  # noqa: E402
 
@@ -163,8 +164,8 @@ class Einladung(unittest.TestCase):
             self.assertNotIn(".delete(", code, name)
             self.assertNotIn(".edit(", code, name)
             self.assertNotIn("config", re.sub(r'"""[\s\S]*?"""', "", code).replace("cfg", ""), name)
-        bot = src("bot.py")
-        body = bot[bot.index("async def welcome_invite_cmd"):bot.index("OLD_WELCOME_START = ")]
+        import bot_quelle                       # D-3 Schritt 14: beide Funktionen stehen in willkommen_bot.py
+        body = bot_quelle.funktion("welcome_invite_cmd") + "\n" + bot_quelle.funktion("post_welcome_invite_once")
         for bad in (".delete(", ".edit(", "save_config(", "create_text_channel", "create_role", "welcome_channel_id"):
             self.assertNotIn(bad, body, bad)
         self.assertIn('state.data["welcome_invite_posted"] = True', body)
@@ -172,9 +173,10 @@ class Einladung(unittest.TestCase):
         self.assertEqual(body.count("channel.send("), 1)
 
     def test_e08_befehl_und_start(self):
-        bot = src("bot.py")
+        import bot_quelle                       # D-3 Schritt 14: /einladung steht in willkommen_bot.py
+        bot = bot_quelle.alle()
         self.assertIn('@bot.tree.command(name="einladung"', bot)
-        body = bot[bot.index("async def welcome_invite_cmd"):bot.index("async def post_welcome_invite_once")]
+        body = bot_quelle.funktion("welcome_invite_cmd")
         self.assertLess(body.index("if not is_creator(inter.user)"), body.index("ensure_welcome_invite"))
         self.assertIn("ephemeral=True", body)
         self.assertIn('"einladung": ("Gildenleitung", "Server")', bot)

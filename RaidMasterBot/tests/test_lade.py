@@ -117,6 +117,12 @@ class Lade(unittest.TestCase):
         self.assertIs(klassen_bot.bot, b.bot)                    # D-3 Schritt 13: Klassenfarben
         self.assertIs(b.sync_class_roles, klassen_bot.sync_class_roles)
         self.assertIs(klassen_bot.book, b.book)
+        import willkommen_bot
+        self.assertIs(willkommen_bot.bot, b.bot)                 # D-3 Schritt 14: Willkommen
+        self.assertIs(b.ensure_welcome, willkommen_bot.ensure_welcome)
+        self.assertIs(b.is_chef, grund.is_chef)
+        for name, fn in (("willkommen", willkommen_bot.welcome_cmd), ("einladung", willkommen_bot.welcome_invite_cmd)):
+            self.assertIs(b.bot.tree.get_command(name).callback, fn.callback)
         self.assertIs(b.NO_PING, grund.NO_PING)
 
     def test_findet_fehlenden_namen(self):
