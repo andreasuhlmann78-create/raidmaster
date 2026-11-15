@@ -12,7 +12,7 @@ LUA=""
 for c in lua5.1 luajit lua5.4 lua; do if command -v "$c" >/dev/null 2>&1; then LUA="$c"; break; fi; done
 if [ -z "$LUA" ]; then echo "Kein Lua gefunden – python3 $HERE/run_offline.py verwenden"; rm -rf "$TMP"; exit 2; fi
 fail=0
-for fl in forever era tbc; do
+for fl in forever era tbc retail; do
   for lo in deDE enUS; do
     BS_ROOT="$TMP/BuffSentinel/" BS_TESTS="$HERE" "$LUA" "$HERE/run_offline.lua" "$fl" "$lo" || fail=1
   done

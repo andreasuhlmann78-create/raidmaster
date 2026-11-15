@@ -44,7 +44,7 @@ def main():
     zipfile.ZipFile(zp).extractall(tmp)
     ROOT = os.path.join(tmp, "BuffSentinel")
     combos = [(rest[0], rest[1] if len(rest) > 1 else "deDE")] if rest else \
-        [(fl, lo) for fl in ("forever", "era", "tbc") for lo in ("deDE", "enUS")]
+        [(fl, lo) for fl in ("forever", "era", "tbc", "retail") for lo in ("deDE", "enUS")]
     ok = all([run(fl, lo) for fl, lo in combos])
     print("ALLE KOMBINATIONEN: PASS" if ok else "ALLE KOMBINATIONEN: FAIL")
     sys.exit(0 if ok else 1)

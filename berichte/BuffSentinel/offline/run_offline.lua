@@ -8,8 +8,9 @@
 -- Liegt im raidmaster-Repo (berichte/BuffSentinel/offline/), nicht in der Addon-ZIP. BS_ROOT = entpackter Ordner
 -- BuffSentinel (Standard: download/BuffSentinel-*.zip entpackt nach /tmp/BuffSentinel/ – siehe run_offline.sh).
 -- Start mit Lua 5.1 bis 5.4:
---   BS_ROOT=/pfad/BuffSentinel/ lua run_offline.lua [forever|era|tbc] [deDE|enUS]
---   sh run_offline.sh [pfad/zur/BuffSentinel-x.y.z.zip]   -> alle Kombinationen (Forever/Era/TBC × deDE/enUS)
+--   BS_ROOT=/pfad/BuffSentinel/ lua run_offline.lua [forever|era|tbc|retail] [deDE|enUS]
+--   sh run_offline.sh [pfad/zur/BuffSentinel-x.y.z.zip]   -> alle Kombinationen (Forever/Era/TBC/Retail × deDE/enUS)
+-- Unbekannte Spielversion -> FEHLER und Abbruch (BS-OFF1), nie stiller Rückfall auf eine andere Version.
 --   python3 run_offline.py [zip]                           -> dasselbe mit lupa
 -- Ohne Kommandozeile (z. B. aus Python mit lupa): Umgebungsvariablen BS_FLAVOR, BS_LOCALE, BS_ROOT.
 --
@@ -19,10 +20,20 @@
 -- ihre Abweichungen stehen als "nur Nachbau" darunter und zählen nicht.
 
 local args = arg or {}
-local FLAVORS = { forever = 16001, era = 11508, tbc = 20506 }
+local FLAVORS = { forever = 16001, era = 11508, tbc = 20506, retail = 120105 }
 local flavor = args[1] or (os.getenv and os.getenv("BS_FLAVOR")) or "forever"
 LOCALE = args[2] or (os.getenv and os.getenv("BS_LOCALE")) or "deDE"
-BUILD = FLAVORS[flavor] or 16001
+BUILD = FLAVORS[flavor]
+-- BS-OFF1 (Nachprüfung 15.11. 22:18): unbekannte Spielversion bricht mit FEHLER ab – nie still auf eine andere zurückfallen
+if not BUILD then
+    local known = {}
+    for k in pairs(FLAVORS) do known[#known + 1] = k end
+    table.sort(known)
+    print(string.format("FEHLER unbekannte Spielversion '%s' (bekannt: %s)", tostring(flavor), table.concat(known, ", ")))
+    print("RESULT FAIL")
+    if os.exit then os.exit(2) end
+    return
+end
 
 local function dirOf(p) return (p and p:match("^(.*)[/\\]")) or "." end
 local here = dirOf(args[0] or (debug and debug.getinfo and debug.getinfo(1, "S").source:gsub("^@", "")))
@@ -110,6 +121,8 @@ local ok, err = pcall(function() BS:RunTestRoutine("") end)
 if not ok then print("LAUFZEITFEHLER", err); os.exit(2) end
 
 local TU = { L = "TU1", M = "TU2", N = "TU3", O = "TU4", P = "TU5", Q = "TU6", S = "TU7" }
+-- Retail-Lücken in TU1–TU7 als feste Liste (Test-ID -> Grund); zählen in Retail nicht als FEHLER. Zurzeit keine (0.9.33).
+local RETAIL_TU_LUECKEN = {}
 local count = {}
 for _, r in ipairs(results) do
     local c = count[r.area] or { OK = 0, FEHLER = 0, SKIP = 0, CLIENT = 0 }
@@ -124,15 +137,37 @@ for _, a in ipairs({ "L", "M", "N", "O", "P", "Q", "S" }) do
     tuFail = tuFail + c.FEHLER
 end
 for _, r in ipairs(results) do
-    if r.st == "FEHLER" and TU[r.area] then print(string.format("FAIL %s %s – %s | %s", r.id, r.area, r.name, tostring(r.info):sub(1, 400))) end
+    if r.st == "FEHLER" and TU[r.area] then
+        if flavor == "retail" and RETAIL_TU_LUECKEN[r.id] then
+            tuFail = tuFail - 1
+            print(string.format("Retail-Lücke (fest, zählt nicht): %s – %s", r.id, RETAIL_TU_LUECKEN[r.id]))
+        else
+            print(string.format("FAIL %s %s – %s | %s", r.id, r.area, r.name, tostring(r.info):sub(1, 400)))
+        end
+    end
 end
-local mock = 0
+-- BS-OFF1: feste Liste der Abweichungen, die nur vom Nachbau kommen (brauchen den echten Client: Zauberbuch, Fenster,
+-- Tooltips, Töne, Optionen-Fenster, Minimap, Texte der gemeinsamen Dateien, Lua-Fehler-Zähler). Für ALLE Spielversionen
+-- gleich (gemessen 0.9.33: forever/era/tbc/retail × deDE/enUS). Neue Abweichung oder fehlende erwartete -> FEHLER, damit
+-- nichts still dazukommt oder die Liste veraltet. Retail-Lücken in TU1–TU7: RETAIL_TU_LUECKEN (zurzeit keine).
+local NACHBAU_ERWARTET = { T13 = true, T23 = true, T28 = true, T45 = true, T48 = true, T51 = true, T95 = true, T100 = true, T116 = true }
+local mock, seen, extra = 0, {}, 0
 for _, r in ipairs(results) do
     if r.st == "FEHLER" and not TU[r.area] then
         mock = mock + 1
-        print(string.format("nur Nachbau: %s %s – %s", r.id, r.area, r.name))
+        seen[r.id] = true
+        local known = NACHBAU_ERWARTET[r.id]
+        if not known then extra = extra + 1 end
+        print(string.format("%s: %s %s – %s | %s", known and "nur Nachbau" or "NEU (nicht erwartet)", r.id, r.area, r.name,
+            tostring(r.info):sub(1, 160)))
     end
 end
-print(string.format("Gesamt %d Prüfungen · TU-FEHLER %d · Nachbau-Abweichungen ausserhalb TU %d", #results, tuFail, mock))
-print(tuFail == 0 and "RESULT PASS" or "RESULT FAIL")
-if os.exit and tuFail > 0 and args[0] then os.exit(1) end
+local stale = {}
+for id in pairs(NACHBAU_ERWARTET) do if not seen[id] then stale[#stale + 1] = id end end
+table.sort(stale)
+if #stale > 0 then print("ERWARTETE Nachbau-Abweichung nicht mehr da (Liste anpassen): " .. table.concat(stale, ", ")) end
+print(string.format("Gesamt %d Prüfungen · TU-FEHLER %d · Nachbau-Abweichungen %d (davon nicht erwartet %d, veraltet %d) · Build %d",
+    #results, tuFail, mock, extra, #stale, BUILD))
+local pass = tuFail == 0 and extra == 0 and #stale == 0
+print(pass and "RESULT PASS" or "RESULT FAIL")
+if os.exit and not pass and args[0] then os.exit(1) end
