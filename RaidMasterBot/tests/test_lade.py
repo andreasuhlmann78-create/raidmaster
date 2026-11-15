@@ -72,6 +72,10 @@ class Lade(unittest.TestCase):
         import markt_bot
         self.assertIs(markt_bot.bot, b.bot)                      # D-3 Schritt 4: Marktdaten-Modul
         self.assertIs(b.market_intake, markt_bot.market_intake)
+        import rechte_bot
+        self.assertIs(rechte_bot.bot, b.bot)                     # D-3 Schritt 5: Rechte-Modul
+        self.assertIs(b.check_bot_rights, rechte_bot.check_bot_rights)
+        self.assertIs(rechte_bot.post_bot_log, b.post_bot_log)
         self.assertIs(b.NO_PING, grund.NO_PING)
 
     def test_findet_fehlenden_namen(self):

@@ -90,19 +90,20 @@ class BotAblauf(unittest.TestCase):
     def setUpClass(cls):
         from bot_harness import load_bot
         cls.bot, _ = load_bot()
+        cls.m = sys.modules["rechte_bot"]      # D-3 Schritt 5: check_bot_rights steht in rechte_bot.py – dort patchen
 
     def setUp(self):
-        b = self.bot
-        self.saved = (b.post_bot_log, b.bot_guild, dict(b.state.data), dict(b.cfg))
+        b, m = self.bot, self.m
+        self.saved = (m.post_bot_log, m.bot_guild, dict(b.state.data), dict(b.cfg))
         self.posts = []
 
         async def post(t):
             self.posts.append(t)
-        b.post_bot_log = post
+        m.post_bot_log = post
 
     def tearDown(self):
-        b = self.bot
-        b.post_bot_log, b.bot_guild = self.saved[:2]
+        b, m = self.bot, self.m
+        m.post_bot_log, m.bot_guild = self.saved[:2]
         b.state.data.clear()
         b.state.data.update(self.saved[2])
         b.cfg.clear()
@@ -119,7 +120,7 @@ class BotAblauf(unittest.TestCase):
         g = self.guild(perms(**dict(ALL, manage_webhooks=False)))
         b.bot._connection._guilds = {7: g}
         b.cfg["guild_id"] = "7"
-        b.bot_guild = lambda: g
+        self.m.bot_guild = lambda: g
         b.state.data.pop("rechte_meldung", None)
         with self.assertLogs("raidmaster", level="WARNING"):
             asyncio.run(b.check_bot_rights("Start"))
@@ -149,7 +150,7 @@ class BotAblauf(unittest.TestCase):
         g = self.guild(perms(**ALL))
         b.bot._connection._guilds = {7: g}
         b.cfg["guild_id"] = "7"
-        b.bot_guild = lambda: g
+        self.m.bot_guild = lambda: g
         try:
             asyncio.run(b.bot.on_guild_join(g))
         finally:
@@ -176,7 +177,7 @@ class BotAblauf(unittest.TestCase):
         g.me.guild_permissions = perms(administrator=True, view_audit_log=False)
         b.bot._connection._guilds = {7: g}
         b.cfg["guild_id"] = "7"
-        b.bot_guild = lambda: g
+        self.m.bot_guild = lambda: g
         b.state.data.pop("bot_private_granted", None)
         asyncio.run(b.check_bot_rights("Start"))
         self.assertEqual(set_calls, [("offiziere", True)])
