@@ -1,0 +1,360 @@
+--- lp31235/LevelPilot/Graph.lua	2026-11-15 19:48:02.820067713 +0100
++++ lp31236/LevelPilot/Graph.lua	2026-11-15 20:28:43.071778892 +0100
+@@ -64,6 +64,9 @@
+ ------------------------------------------------------------------------
+ -- Aufbau
+ ------------------------------------------------------------------------
++local lvIdx = {}
++local MAX_LVS = 4000          -- hoechstens so viele verschiedene Ebenen-Angaben (Karte|drinnen|Unterzone)
++
+ function Graph:Init()
+     LP.db.graph = LP.db.graph or {}
+     G = LP.db.graph
+@@ -73,6 +76,10 @@
+     G.count = G.count or 0
+     if type(G.blocked) ~= "table" then G.blocked = {} end      -- 3.12.10: gesperrte Kanten (Sackgassen) [Schluessel] = { t, why }
+     G.netCount = G.netCount or 0
++    -- W3D: Ebenen-Angaben nur einmal speichern (Liste), am Knoten nur die Nummer – haelt die SavedVariables klein
++    if type(G.lvs) ~= "table" then G.lvs = {} end
++    wipe(lvIdx)
++    for i, name in ipairs(G.lvs) do lvIdx[name] = i end
+ 
+     wipe(adj) wipe(grid) wipe(nodes) wipe(gwByZone) wipe(gwEdges)
+     for id, nd in pairs(G.nodes) do
+@@ -360,6 +367,62 @@
+     return out
+ end
+ 
++------------------------------------------------------------------------
++-- W3D (Entwurf, unveroeffentlicht): Ebenen-Schluessel je Knoten. nil = draussen (wie bisher, ein Schluessel je Zone);
++-- drinnen "i:<Unterzone>". Zusammenlegen (SNAP), Anhaengen (Join) und Luftlinien nur innerhalb desselben Schluessels;
++-- drinnen keine Luftlinien zwischen Knoten. Welche Zeichen die Ebene wirklich trennen, klaert die Messung (GSWegMess);
++-- darum ist die Schluessel-Funktion austauschbar (Graph.LevelKey).
++------------------------------------------------------------------------
++-- Schalter (Supervisor 15.11. 20:15): bis die Messung (GSWegMess) belegt, dass Karte + Unterzone + drinnen die Ebenen trennt,
++-- bleibt W3D AUS. Aus = Verhalten genau wie 3.12.35; nur die Ebenen-Angabe (nd.lv) wird schon mitgespeichert und exportiert.
++LP.W3D = LP.W3D or false
++function Graph.On() return LP.W3D == true end
++
++-- Ebenen-Angabe am Spieler: "Karte|d|Unterzone" (d = drinnen) bzw. "Karte|o|Unterzone" (draussen)
++function Graph.LevelInfo()
++    local S = LP.SafeValue
++    local map = C_Map and C_Map.GetBestMapForUnit and S(C_Map.GetBestMapForUnit("player")) or 0
++    local indoors = IsIndoors and S(IsIndoors()) and true or false
++    local sub = GetSubZoneText and S(GetSubZoneText()) or ""
++    return tostring(map or 0) .. "|" .. (indoors and "d" or "o") .. "|" .. tostring(sub or ""), indoors
++end
++
++-- Nummer einer Ebenen-Angabe (neu angelegt, solange Platz ist)
++function Graph.LvId(lv)
++    if type(lv) ~= "string" or not G then return nil end
++    local i = lvIdx[lv]
++    if i then return i end
++    if #G.lvs >= MAX_LVS then return nil end
++    G.lvs[#G.lvs + 1] = lv
++    lvIdx[lv] = #G.lvs
++    return #G.lvs
++end
++-- Ebenen-Angabe eines Knotens als Text (nil = keine)
++function Graph.LvName(nd)
++    local v = nd and nd.lv
++    if type(v) == "string" then return v end
++    return v and G and G.lvs and G.lvs[v] or nil
++end
++
++-- Schluessel fuer das Wegnetz: nil = draussen (wie bisher), drinnen die Ebenen-Angabe
++function Graph.LevelKey()
++    local lv, indoors = Graph.LevelInfo()
++    if not indoors then return nil end
++    return lv
++end
++
++-- Aufzug: mittlere Wartezeit = halber Takt (TransportAnimation, Konzept W3D 3b): Unterstadt 16,7 s, Donnerfels 30 s
++Graph.LIFT_WAIT = { [1458] = 8.4, [1456] = 15 }
++Graph.LIFT_WAIT_DEFAULT = 15
++Graph.LIFT_SECS = 3          -- so lange (Sekunden) in 2D fast still, waehrend die Ebene wechselt = Aufzug
++Graph.LIFT_MOVE = 8          -- Yards: so wenig Bewegung in 2D gilt als "still"
++local function SameKey(a, b) return (a and a.k) == (b and b.k) end
++local function Inside(nd, zone) return Graph.On() and ((nd and nd.k ~= nil) or Graph.INDOOR_ZONES[zone] == true) end
++-- Zonen, die ganz aus Raeumen auf mehreren Ebenen bestehen: dort nie Luftlinien zwischen Knoten, auch fuer aeltere
++-- Knoten ohne Schluessel (Unterstadt: eine Karte fuer Ring, Viertel, Kanaele – wago.tools UiMap, Supervisor 15.11.)
++Graph.INDOOR_ZONES = { [1458] = true }
++Graph.SameKey = SameKey
++
+ function Graph:Nearest(inst, n, w, radius, zone, filter)
+     local best, bestD
+     for _, id in ipairs(self:Near(inst, n, w, radius, zone)) do
+@@ -376,11 +439,14 @@
+ ------------------------------------------------------------------------
+ -- Hinzufuegen (aus Aufzeichnung oder vom Netzwerk)
+ ------------------------------------------------------------------------
+-function Graph:AddNode(inst, n, w, zone, fromNet)
+-    local id = self:Nearest(inst, n, w, SNAP, zone, function(i) return i > 0 and i < STATIC_BASE end)
++function Graph:AddNode(inst, n, w, zone, fromNet, key, lv)
++    -- W3D: nur Knoten derselben Ebene zusammenlegen (aus: Schluessel immer nil -> wie bisher)
++    if not Graph.On() then key = nil end
++    local id = self:Nearest(inst, n, w, SNAP, zone, function(i) return i > 0 and i < STATIC_BASE and nodes[i] and nodes[i].k == key end)
+     if id then
+         local nd = nodes[id]
+         nd[5] = (nd[5] or 0) + 1
++        if lv and not nd.lv then nd.lv = Graph.LvId(lv) end
+         return id, false
+     end
+     if G.count >= MAX_NODES then return nil end
+@@ -388,6 +454,8 @@
+     id = G.nextId
+     G.nextId = id + 1
+     local nd = { inst, math.floor(n * 10 + 0.5) / 10, math.floor(w * 10 + 0.5) / 10, zone, 1 }
++    nd.k = key
++    nd.lv = Graph.LvId(lv)    -- W3D: Ebenen-Angabe der Aufzeichnung als Nummer (auch bei W3D aus gespeichert)
+     if fromNet then nd.net = true G.netCount = G.netCount + 1 end
+     G.nodes[id] = nd
+     nodes[id] = nd
+@@ -432,7 +500,8 @@
+                 if key and not seen[key] and G.edges[key] == e and not (skip and skip[v]) then
+                     seen[key] = true
+                     local a, b = nodes[e[1]], nodes[e[2]]
+-                    if a and b and a[4] == zone and b[4] == zone then
++                    local want = skip and skip.k        -- W3D: nur Kanten der Ebene des neuen Knotens (nil = draussen)
++                    if a and b and a[4] == zone and b[4] == zone and a.k == want and b.k == want then
+                         local dn, dw = b[2] - a[2], b[3] - a[3]
+                         local len2 = dn * dn + dw * dw
+                         if len2 > 0 then
+@@ -480,19 +549,41 @@
+ function Graph:Join(id, skip)
+     local nd = nodes[id]
+     if not nd or not nd[4] then return false end
++    -- W3D: nur an Kanten derselben Ebene anhaengen
++    skip = skip or {}
++    skip.k = nd.k
+     local e = self:NearestEdge(nd[1], nd[2], nd[3], nd[4], self.JOIN, skip)
+     if not e then return false end
+     return self:SplitEdge(e, id)
+ end
+ 
+--- Polylinie: { {inst, n, w, zone}, ... }
++-- Polylinie: { {inst, n, w, zone, zeit, k = Schluessel, lv = Ebenen-Angabe, fall = faellt}, ... }
+ function Graph:AddPolyline(points, kind, fromNet, consent)
+     local prev, added, joined = nil, 0, 0
++    local prevP
+     for _, p in ipairs(points) do
+-        local id, created = self:AddNode(p[1], p[2], p[3], p[4], fromNet)
++        local id, created = self:AddNode(p[1], p[2], p[3], p[4], fromNet, p.k, p.lv)
+         -- neuer Knoten: an eine bestehende Kante anhaengen (nicht an die eben gelegte)
+         if id and created and self:Join(id, prev and { [prev] = true } or nil) then joined = joined + 1 end
+-        if prev and id and self:AddEdge(prev, id, kind, consent) then added = added + 1 end
++        if prev and id and self:AddEdge(prev, id, kind, consent) then
++            added = added + 1
++            -- W3D: Kante zwischen zwei Ebenen = Tor. Sturz dazwischen: nur nach unten (Einbahn prev -> id);
++            -- 2D fast still >= LIFT_SECS: Aufzug (Wartezeit in den Kosten)
++            if Graph.On() and nodes[prev] and nodes[id] and nodes[prev].k ~= nodes[id].k then
++                local e = G.edges[EdgeKey(prev, id)]
++                if e then
++                    e.g = true
++                    if prevP and (prevP.fall or p.fall) then e.ow = prev end
++                    local dt = (prevP and prevP[5] and p[5]) and (p[5] - prevP[5]) or 0
++                    if prevP and dt >= Graph.LIFT_SECS and Dist(prevP, p) <= Graph.LIFT_MOVE then
++                        e.lift = true
++                        e.wait = Graph.LIFT_WAIT[p[4]] or Graph.LIFT_WAIT_DEFAULT
++                        e.ow = nil
++                    end
++                end
++            end
++        end
++        prevP = p
+         prev = id or prev
+     end
+     if added > 0 or joined > 0 then LP:Fire("GRAPH_CHANGED") end
+@@ -618,13 +709,15 @@
+ -- ("v" = Luftlinie, sonst die Kantenart aus dem Wegenetz, "g" = Zonenuebergang).
+ -- knownOnly (3.12.35 UC-W1): nur gelaufene/geteilte Kanten und Uebergaenge; Luftlinie nur vom Start zum ersten und
+ -- vom letzten Knoten zum Ziel, jeweils hoechstens LP.Nav.ARRIVE Yards (genau die Regel von Nav.Known)
+-function Graph:PathRaw(sInst, sn, sw, sZone, gInst, gn, gw, gZone, maxExpand, knownOnly)
++-- W3D: sKey/gKey (optional) = Ebene von Start/Ziel; dann Anschluss nur an Knoten dieser Ebene (false/nil = egal)
++function Graph:PathRaw(sInst, sn, sw, sZone, gInst, gn, gw, gZone, maxExpand, knownOnly, sKey, gKey)
+     local S = { sInst, sn, sw, sZone }
+     local T = { gInst, gn, gw, gZone }
+     local ARRIVE = (LP.Nav and LP.Nav.ARRIVE) or 40
+ 
+     -- Ziel direkt in derselben Zone und nah: Luftlinie genuegt
+-    if sInst == gInst and sZone == gZone and Dist(S, T) < (knownOnly and ARRIVE + 0.001 or 60) then
++    if sInst == gInst and sZone == gZone and Dist(S, T) < (knownOnly and ARRIVE + 0.001 or 60)
++       and not (Graph.On() and sKey and gKey and sKey ~= gKey) then          -- W3D: andere Ebene -> nie direkt
+         return { S, { gInst, gn, gw, gZone, via = "v" } }, "direct", Dist(S, T)
+     end
+ 
+@@ -690,8 +783,11 @@
+             if u ~= "S" and adj[u] then
+                 for v, e in pairs(adj[u]) do
+                     -- 3.12.10: als Sackgasse gesperrte Kanten nicht mehr nehmen
+-                    if not closed[v] and not (G.blocked and type(u) == "number" and type(v) == "number" and G.blocked[EdgeKey(u, v)]) then
+-                        relax(u, v, guarded(un, nodes[v], EdgeCost(e, un, nodes[v]), e[3]), e[3])
++                    if not closed[v] and not (G.blocked and type(u) == "number" and type(v) == "number" and G.blocked[EdgeKey(u, v)])
++                       and not (e.ow and e.ow ~= u) then        -- W3D: Sturz nur in Fallrichtung
++                        local c = EdgeCost(e, un, nodes[v])
++                        if e.lift then c = c + (e.wait or Graph.LIFT_WAIT_DEFAULT) * RUN_SPEED end   -- W3D: Aufzug warten
++                        relax(u, v, guarded(un, nodes[v], c, e[3]), e[3])
+                     end
+                 end
+             end
+@@ -708,20 +804,29 @@
+                     end
+                 end
+                 for _, v in ipairs(near) do
+-                    if v ~= u and not closed[v] and (not knownOnly or (u == "S" and Dist(un, nodes[v]) <= ARRIVE)) then
+-                        relaxVirt(u, v, un, nodes[v], zone, u, v)
++                    local nv = nodes[v]
++                    -- W3D: Luftlinie zwischen Knoten nur draussen und in derselben Ebene; drinnen nur vom Start aus bis ARRIVE
++                    local inside = (u ~= "S" and Inside(un, zone)) or Inside(nv, zone)
++                    local okVirt
++                    if u == "S" then okVirt = ((not knownOnly and not inside) or Dist(un, nv) <= ARRIVE)
++                                              and (not sKey or not Graph.On() or nv.k == sKey)
++                    else okVirt = not knownOnly and not inside and SameKey(un, nv) end
++                    if v ~= u and not closed[v] and okVirt then
++                        relaxVirt(u, v, un, nv, zone, u, v)
+                     end
+                 end
+                 local gws = gwByZone[zone]
+                 if gws then
+                     for _, v in ipairs(gws) do
++                        local inside = (u ~= "S" and Inside(un, zone)) or (Graph.On() and Graph.INDOOR_ZONES[zone] == true)   -- W3D
+                         if v ~= u and not closed[v] and nodes[v][1] == inst
+-                           and (not knownOnly or (u == "S" and Dist(un, nodes[v]) <= ARRIVE)) then
++                           and ((not knownOnly and not inside) or (u == "S" and Dist(un, nodes[v]) <= ARRIVE)) then
+                             relaxVirt(u, v, un, nodes[v], zone, u, v)
+                         end
+                     end
+                 end
+-                if zone == gZone and inst == gInst and not closed["T"] and (not knownOnly or (u ~= "S" and Dist(un, T) <= ARRIVE)) then
++                if zone == gZone and inst == gInst and not closed["T"] and (not gKey or not Graph.On() or (u ~= "S" and un.k == gKey))
++                   and ((not knownOnly and not (u ~= "S" and Inside(un, zone))) or (u ~= "S" and Dist(un, T) <= ARRIVE)) then
+                     relaxVirt(u, "T", un, T, zone)
+                 end
+             end
+@@ -872,15 +977,20 @@
+                     prev, cur = cur, nx
+                 end
+                 -- Punkte: Zonenkarte, 1 Nachkommastelle, nur > WEGE_GAP Yards auseinander (Endpunkt immer)
+-                local pts, last = {}, nil
++                local pts, last, lvs, anyLv = {}, nil, {}, false
+                 for i, id in ipairs(ids) do
+                     local nd = G.nodes[id]
+                     if nd and (i == #ids or not last or Dist(last, nd) > WEGE_GAP) then
+                         local x, y = MapXY(nd)
+-                        if x then pts[#pts + 1] = x pts[#pts + 1] = y last = nd end
++                        if x then
++                            pts[#pts + 1] = x pts[#pts + 1] = y last = nd
++                            local lvName = Graph.LvName(nd)
++                            lvs[#lvs + 1] = lvName or ""         -- W3D: Ebenen-Angabe je Punkt (fuer die Auswertung)
++                            if lvName then anyLv = true end
++                        end
+                     end
+                 end
+-                if #pts >= 4 then list[#list + 1] = { p = pts, src = src, n = runs } end
++                if #pts >= 4 then list[#list + 1] = { p = pts, src = src, n = runs, lv = anyLv and lvs or nil } end
+             end
+             for id in pairs(g.adj) do
+                 if deg(id) ~= 2 then
+--- lp31235/LevelPilot/Recorder.lua	2026-11-15 19:46:13.263920048 +0100
++++ lp31236/LevelPilot/Recorder.lua	2026-11-15 20:21:53.380301935 +0100
+@@ -294,6 +294,8 @@
+         local p, nx = pts[i], pts[i + 1]
+         local keep = keepIdx[p] and TurnDeg(last, p, nx) > R.TURN_DEG
+         if not keep and D2(last, nx) > R.SEG_MAX then keep = true end
++        -- W3D: Ebenenwechsel nie wegglaetten (beide Punkte des Tors bleiben)
++        if not keep and LP.Graph and LP.Graph.On and LP.Graph.On() and (p.k ~= last.k or p.k ~= nx.k) then keep = true end
+         if keep then out[#out + 1] = p last = p end
+     end
+     out[#out + 1] = pts[n]
+@@ -341,12 +343,32 @@
+         if last[1] ~= inst or d > GAP_MAX then
+             self:FlushTrail(false)
+         elseif d < SAMPLE_DIST then
++            -- W3D (nur eingeschaltet): steht man drinnen (Aufzug, Warten) und die Ebene wechselt, Punkt trotzdem
++            -- aufnehmen (Tor); drinnen erst nach 30 s Stehen abschliessen (Aufzug-Takt bis 30 s)
++            local G = LP.Graph
++            if G and G.On and G.On() and last.k then
++                local lv, indoors = G.LevelInfo()
++                local key = indoors and lv or nil
++                if key ~= last.k then
++                    trail[#trail + 1] = { inst, n, w, map, now, lv = lv, k = key, fall = (IsFalling and LP.SafeValue(IsFalling())) or nil }
++                    lastMove = now
++                    return
++                end
++                if now - lastMove > 30 and #trail > 1 then self:FlushTrail(false) end
++                return
++            end
+             if now - lastMove > 6 and #trail > 1 then self:FlushTrail(false) end
+             return
+         end
+     end
+     lastMove = now
+-    trail[#trail + 1] = { inst, n, w, map, now, swim = IsSwimming and IsSwimming() or nil }
++    -- W3D: Ebenen-Angabe immer mitspeichern (lv); Schluessel k nur drinnen (nil = draussen); faellt (Sturz-Tor)
++    local G = LP.Graph
++    local lv, indoors
++    if G and G.LevelInfo then lv, indoors = G.LevelInfo() end
++    local falling = IsFalling and LP.SafeValue(IsFalling()) or nil
++    trail[#trail + 1] = { inst, n, w, map, now, swim = IsSwimming and IsSwimming() or nil, lv = lv,
++                          k = indoors and lv or nil, fall = falling or nil }
+     if #trail >= FLUSH_POINTS then
+         local keep = trail[#trail]
+         self:FlushTrail(false)
+--- lp31235/LevelPilot/Navigation.lua	2026-11-15 19:48:19.301687217 +0100
++++ lp31236/LevelPilot/Navigation.lua	2026-11-15 20:28:43.072642724 +0100
+@@ -225,6 +225,45 @@
+     end)
+ end
+ 
++------------------------------------------------------------------------
++-- W3D B5 (Entwurf, nur bei LP.W3D): ein Satz je Tor. Der Pfeil zeigt ohnehin auf den naechsten Wegpunkt (das Tor).
++------------------------------------------------------------------------
++local function SubOf(lv) return lv and lv:match("^[^|]*|[^|]*|(.*)$") or nil end
++function N.GateText(e, toNode)
++    local sub = SubOf(LP.Graph and LP.Graph.LvName and LP.Graph.LvName(toNode) or (toNode and toNode.lv))
++    sub = (sub and sub ~= "") and sub or nil
++    if e.lift then return sub and L("Aufzug nehmen (nach %s)", sub) or L["Aufzug nehmen"] end
++    if e.ow then return sub and L("Hier hinunterspringen (nach %s)", sub) or L["Hier hinunterspringen"] end
++    return sub and L("Übergang nach %s", sub) or L["Übergang zur anderen Ebene"]
++end
++function N:GateHint()
++    local G = LP.Graph
++    if not (G and G.On and G.On()) or not path then return nil end
++    local pi, pn, pw = LP.Geo:Player()
++    -- falsche Ebene: der naechste Wegpunkt liegt drinnen auf einer anderen Ebene als der Spieler
++    local nextP = path[pathIdx]
++    local nd = nextP and nextP.id and G:NodeById(nextP.id)
++    if nd and nd.k then
++        local lv, indoors = G.LevelInfo()
++        local me = indoors and lv or nil
++        if me and me ~= nd.k and pi and pn then
++            return L("Andere Ebene – zurück zum Übergang (%s)", LP:FormatDist(LP.Geo:Dist(pn, pw, nextP[2], nextP[3])))
++        end
++    end
++    for i = math.max(2, pathIdx), #path do
++        local a, b = path[i - 1], path[i]
++        if a.id and b.id then
++            local adj = G:Neighbors(a.id)
++            local e = adj and adj[b.id]
++            if e and e.g then
++                local d = (pi and pn) and LP.Geo:Dist(pn, pw, a[2], a[3]) or 0
++                return N.GateText(e, G:NodeById(b.id)) .. " · " .. LP:FormatDist(d)
++            end
++        end
++    end
++    return nil
++end
++
+ function N:ApplyPath(ok, p, kind, known)
+     N.pathUnknown = not (ok and p and known) or nil
+     if ok and p then
+@@ -448,6 +487,9 @@
+     local note = ""
+     if N.pathUnknown or N.pathBlocked then note = "  |cff9a9aa6(" .. L["Weg unbekannt"] .. ")|r"
+     elseif pathKind == "direct" then note = L["  |cff9a9aa6(Luftlinie)|r"] end
++    -- W3D (nur eingeschaltet): Satz zum naechsten Uebergang zwischen Ebenen bzw. "falsche Ebene"
++    local gate = N.GateHint and N:GateHint()
++    if gate then note = note .. "\n|cff3dd694" .. gate .. "|r" end
+     arrow.dist:SetText(LP:FormatDist(remain) .. note)
+ end
+ 
