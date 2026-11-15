@@ -1,0 +1,39 @@
+BERICHT DISCORD – Bot 1.5.163: D-3 Schritt 17 (Mitglieder-Bereich und Bewerbung als eigenes Modul) – umgesetzt, zur Prüfung
+Zeit: 15.11.2026 22:13 (aus date)
+Commit: ae0fd8ef auf origin/main, CI bot-tests: success
+
+WAS
+- Neues Modul RaidMasterBot/mitglieder_bot.py (295 Zeilen): der ganze Abschnitt "Mitglieder-Bereich und Bewerbung"
+  – maintain_member_area, ensure_apply_channel, ensure_apply_card, /mitgliederbereich einrichten,
+  /mitglied aufnehmen|entfernen, admit_member, ApplyModal, handle_apply_button, samt beiden bot.tree.add_command
+  (267 Zeilen am Stück).
+- UNVERÄNDERT verschoben: der Block steht wörtlich im alten bot.py und im Modul (Textvergleich).
+- bot.py übernimmt maintain_member_area und handle_apply_button; Importnamen apply_card_view und
+  ensure_member_role entfallen in bot.py. git diff --numstat +2 −271, bot.py jetzt 4559 Zeilen.
+
+TESTS
+- test_mitgliederbereich.test_einrichten_nur_mit_bestaetigung und test_tu_umfassend.test_einrichten_standard_ist_
+  vorschau lasen member_area_cmd aus bot.py (bis zur Zeile bot.tree.add_command…); jetzt bot_quelle.funktion –
+  genau dieselbe Funktion (endet vor der add_command-Zeile), gleiche Aussagen.
+- NEU test_mitglieder_bot.py (4 Tests, REGRESSIONEN T-D3-MITGLIEDER): /mitgliederbereich und /mitglied im
+  Befehlsbaum (aufnehmen, entfernen); /mitglied aufnehmen, /mitglied entfernen und /mitgliederbereich einrichten
+  ohne Recht gesperrt; Aufnehmen gibt Mitglied und nimmt Gast weg, gesperrte PN stört nicht; ohne eingerichteten
+  Bereich bzw. ohne Rechte hält der Bot nichts dicht.
+  Gegenproben: Gast bleibt -> FAILED (1); Bereich-Prüfung entfernt -> ERROR (1); je eine der drei
+  Rechte-Prüfungen der Befehle entfernt -> ERROR (1); zurückgesetzt -> OK. (Die vierte Rechte-Prüfung im Ablauf
+  der Bewerbungs-Knöpfe deckt der neue Test nicht ab.)
+- test_lade: mitglieder_bot.bot ist bot.bot; maintain_member_area dasselbe Objekt; ensure_welcome aus
+  willkommen_bot.
+- Slash-Befehle: 49, unverändert. 332 Tests OK; jede Testdatei einzeln mit -I OK; REGRESSIONEN 49 von 49.
+
+BETRIEB NACHGESTELLT (an einer Kopie)
+1. Update vom Stand 1.5.162: updater._copy_new kopiert VERSION, bot.py, mitglieder_bot.py, tests;
+   config/state/ZIP unverändert (md5); VERSION 1.5.163.
+2. Start wie launcher.py: Abbruch erst bei der Anmeldung (LoginFailure, Test-Token).
+3. Ohne config.json: Exit-Code 3, Meldung "Bitte zuerst config.json ausfüllen …", config.json angelegt.
+
+STAND D-3: bot.py 7437 (vor D-3, 1.5.145) -> 4559 Zeilen; 17 Module ausgelagert.
+
+OFFEN
+- Frage zur Selbst-Aktualisierung während D-3 (Bericht 2155 frage-d3): noch keine Antwort.
+- NÄCHSTE BEREICHE: Update/Sicherung, Ankündigungen und Addon-Releases, DKP, Raids, Uploads, zuletzt RaidBot.
