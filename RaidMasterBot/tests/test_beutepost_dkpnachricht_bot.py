@@ -23,8 +23,8 @@ class Beutepost(unittest.TestCase):
         cls.m = sys.modules["beutepost_bot"]
 
     def test_gleiche_funktionen_in_bot(self):
-        for name in ("post_new_loot", "show_tip"):
-            self.assertIs(getattr(self.bot, name), getattr(self.m, name), name)
+        self.assertIs(self.bot.post_new_loot, self.m.post_new_loot)
+        self.assertIs(sys.modules["anmeldung_bot"].show_tip, self.m.show_tip)            # ab 1.5.180 dort benutzt
         self.assertIs(sys.modules["testupload_bot"].send_loot_list, self.m.send_loot_list)   # ab 1.5.176 dort benutzt
 
     def test_tooltip_speicher_hoechstens_400(self):

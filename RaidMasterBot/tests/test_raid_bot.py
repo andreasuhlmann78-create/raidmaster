@@ -29,7 +29,8 @@ class Raid(unittest.TestCase):
                          sorted(["erstellen", "testraid", "absagen", "softres", "schliessen", "oeffnen", "export",
                                  "liste", "aufstellung", "taktik"]))
         self.assertIs(self.bot.bot.tree.get_command("rekorde").callback, self.m.rekorde_cmd.callback)
-        for name in ("post_all_tactics", "process_assignment", "reminder_loop", "send_export"):
+        self.assertIs(sys.modules["anmeldung_bot"].send_export, self.m.send_export)     # ab 1.5.180 dort benutzt
+        for name in ("post_all_tactics", "process_assignment", "reminder_loop"):
             self.assertIs(getattr(self.bot, name), getattr(self.m, name), name)
 
     def test_taktiken_geladen_und_kurz(self):

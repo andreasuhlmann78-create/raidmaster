@@ -74,7 +74,7 @@ class Mitglieder(unittest.TestCase):
         self.assertIs(tree.get_command("mitgliederbereich"), self.m.mitgliederbereich_group)
         self.assertIs(tree.get_command("mitglied"), self.m.mitglied_group)
         self.assertEqual(sorted(c.name for c in self.m.mitglied_group.commands), ["aufnehmen", "entfernen"])
-        self.assertIs(self.bot.handle_apply_button, self.m.handle_apply_button)
+        self.assertIs(sys.modules["anmeldung_bot"].handle_apply_button, self.m.handle_apply_button)
 
     def test_nur_gildenleitung(self):
         self.m.is_admin = lambda u: False

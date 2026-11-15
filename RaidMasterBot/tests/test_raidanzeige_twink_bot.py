@@ -26,7 +26,7 @@ class Raidanzeige(unittest.TestCase):
         return dict({"id": 3, "title": "MC", "start": 1794470000, "signups": {}, "pool_name": "Molten Core"}, **kw)
 
     def test_gleiche_funktionen_in_bot(self):
-        self.assertIs(self.bot.raid_embed, self.m.raid_embed)
+        self.assertIs(sys.modules["anmeldung_bot"].raid_embed, self.m.raid_embed)   # ab 1.5.180 dort benutzt
         self.assertIs(self.bot.update_raid_message, self.m.update_raid_message)
         self.assertIs(sys.modules["twink_bot"].update_raid_message, self.m.update_raid_message)
 

@@ -61,7 +61,7 @@ class Lade(unittest.TestCase):
         from bot_harness import load_bot                    # bot.py selbst über die Attrappen-config
         b, _ = load_bot()
         import bot_hilfen                                   # aus bot_hilfen übernommen (D-3 Schritt 1)
-        self.assertIs(b.raid_view, bot_hilfen.raid_view)
+        self.assertIs(sys.modules["anmeldung_bot"].raid_view, bot_hilfen.raid_view)   # D-3 Schritt 33
         import kern
         self.assertIs(b.cfg, kern.cfg)                           # D-3 Schritt 2: dieselben Objekte, nur einmal
         self.assertIs(b.state, kern.state)
@@ -164,7 +164,7 @@ class Lade(unittest.TestCase):
         import skillung_bot
         self.assertIs(ersatz_bot.bot, b.bot)                     # D-3 Schritt 25: Ersatzbank, Skillung
         self.assertIs(skillung_bot.bot, b.bot)
-        self.assertIs(b.offer_substitute, ersatz_bot.offer_substitute)
+        self.assertIs(sys.modules["anmeldung_bot"].offer_substitute, ersatz_bot.offer_substitute)
         self.assertIs(ersatz_bot.update_raid_message, raidanzeige_bot.update_raid_message)
         self.assertIs(skillung_bot.update_raid_message, raidanzeige_bot.update_raid_message)
         import beutepost_bot
@@ -213,6 +213,9 @@ class Lade(unittest.TestCase):
         self.assertIs(b.reminder_loop, raid_bot.reminder_loop)
         self.assertIs(raid_bot.reload_dkp_if_needed, dkp_befehle_bot.reload_dkp_if_needed)
         self.assertIs(raid_bot.update_raid_message, raidanzeige_bot.update_raid_message)
+        import anmeldung_bot
+        self.assertIs(anmeldung_bot.bot, b.bot)                  # D-3 Schritt 33: Anmeldung
+        self.assertIs(b.bot.on_interaction, anmeldung_bot.on_interaction)
 
     def test_findet_fehlenden_namen(self):
         self.assertEqual(unbound("def f():\n    return cfg['x']\n"), [(2, "cfg")])

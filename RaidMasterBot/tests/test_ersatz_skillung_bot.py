@@ -54,8 +54,9 @@ class Ersatz(unittest.TestCase):
         return dict({"id": 8, "title": "MC", "start": int(time.time()) + 3600, "signups": {}, "max": 2}, **kw)
 
     def test_gleiche_funktionen_in_bot(self):
-        self.assertIs(self.bot.offer_substitute, self.m.offer_substitute)
-        self.assertIs(self.bot.accept_substitute, self.m.accept_substitute)
+        an = sys.modules["anmeldung_bot"]                                 # ab 1.5.180: Knöpfe dort
+        self.assertIs(an.offer_substitute, self.m.offer_substitute)
+        self.assertIs(an.accept_substitute, self.m.accept_substitute)
         self.assertIs(self.bot.sync_specs, sys.modules["skillung_bot"].sync_specs)
 
     def test_fragt_ersten_kandidaten(self):
