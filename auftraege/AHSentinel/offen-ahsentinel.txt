@@ -20,6 +20,12 @@
     alle Wege getestet (Erfolg, Fehler, Abbruch, AH zu, Kampf, alte Clients); keine Sperre ohne Zeitlimit; nichts abgeschnitten
     oder doppelt; Bericht nur "umgesetzt, zur Prüfung" mit Belegen. Lieber eine Version später als eine mit Fehlern.
 
+>>> !!! DRINGEND – FREIE HAND (Nutzer 17:30: "AHS braucht keine Erlaubnis, er hat freie Hand, er muss keine Eingabe-Erlaubnis mehr
+>>>    einholen"): Arbeite selbstständig durch. Frag den Nutzer NICHT mehr um Erlaubnis oder Bestätigung – weder vor einer Version,
+>>>    noch vor einem Push, Release oder Discord-Beitrag, noch bei Unklarem (vernünftigste Lesart, im Bericht begründen).
+>>>    Grenzen bleiben: Masterplan-Reihenfolge, Direktiven (Perfektion, nicht warten, Deutsch, alles ins Repo), Gold-/Daten-
+>>>    Sicherheit, CurseForge erst nach Sniper-Abnahme, andere Addons nicht ändern. Fragen an den Supervisor nur über berichte/.
+
 >>> !!! PRIO JETZT – VOR ALLEM ANDEREN (Nutzer 17:21: "GSL4-1 bitte an AHS pushen als Prio, danach weiter mit Masterplan"):
 >>>    GSL4-1 (a)(b)(c) – Block "GSL4 – PROTOKOLL 4" weiter unten: Code 10, dem innerhalb von 2 s PURCHASE_COMPLETED folgt, ist kein
 >>>    Fehlschlag (keine "Fehler – nochmal"-Zeile, kein OfferTry/keine Pause, Zähler "Code 10 trotz Kauf" im Sniper-Bericht);
