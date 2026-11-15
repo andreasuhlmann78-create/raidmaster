@@ -55,6 +55,22 @@ HP-3 MITTEL (Nutzer 10:36, Screenshot Schnäppchen > Entzauberwert leer): Text "
     "Zurzeit nichts unter dem Entzauber-Wert mit mindestens 30 % Gewinn (geprüft: n Items, Preise vom Scan vor x Min.)". Prüfen,
     warum Markt > Entzaubern gleichzeitig Zeilen zeigt (Bericht 01:36: "Entzaubern 3") – beide Ansichten müssen dieselbe Regel und
     dieselben Treffer haben (eine Zahl). Teil von UI-CLEAN1/HP-2, gleiche Reihenfolge.
+TT-DE2 HOCH (Nutzer 10:59 "Variante B, aber ohne die 10s76"; ergänzt TT-DE1): Tooltip-Abschnitt "Materialien" beim Entzaubern
+    zeigt neben der Forever-Vorgabe die ECHTEN eigenen Ergebnisse der Gruppe. Genau so (Beispiel Schultern des Hügelwächters,
+    Gruppe 2:4:a, Daten PC 15.11. 10:56, vom Supervisor ausgezählt: 659 Entzauberungen, Staub 479× = 72,7 %, Essenz 142× =
+    21,5 %, Splitter 38× = 5,8 %; Ø 11s25 mit 4s04/14s74/35s92):
+        Materialien          Vorgabe   bei dir (659)   Preis
+         Seelenstaub         1–2 75 %      73 %         4s04
+         Große Astralessenz  1–2 20 %      22 %        14s74
+         Gr. gl. Splitter    1    5 %       6 %        35s92
+         Ø je Entzauberung                11s25
+    Regeln: "bei dir (n)" = eigene Entzauberungen der Gruppe (deStats, ohne geteilte; geteilte nur, wenn eigene < 30, dann
+    "Gilde (n)"); Prozent = Anteil der Entzauberungen mit diesem Material (times/n), gerundet. Unter 30 Fällen statt Prozent
+    grau "noch n/30". Ø-Zeile NUR der gemessene Wert (keine Vorgabe-Zahl daneben, Nutzer 10:59), Spalte "bei dir"; es ist
+    DIESELBE Zahl, mit der "Entzaubern" und "Gewinn" oben rechnen (eine Zahl) – unter 30 Fällen die Mischung wie bisher.
+    Beschriften, ob netto (nach 5 % AH-Anteil) oder brutto, und oben gleich rechnen (heute Gewinn 2s18 = 11s18 − 9s00: Anteil
+    abgezogen? belegen). Spalten bündig, nichts abgeschnitten, nicht breiter als der Tooltip heute. Test mit Gruppe < 30 und
+    ≥ 30 Fällen, Selbstkontrolle (Ø-Zeile = Wert in "Entzaubern").
 SN-B10 RELEASE-BLOCKER (Nutzer 10:53 "schau dir die Snipermeldungen an", Screenshot 10:51, 0.65.181; Ziel Schultern des
     Hügelwächters, 1000 Stk., Max 9s14, Budget 5g). Widersprüche (Supervisor, Code Sniper.lua gelesen):
     (1) Chat: "Ihr habt eine Auktion gewonnen" + "Gekauft: 1x … für 9s14" (mehrfach) – gleichzeitig Ziel "pausiert bis 11:00 –

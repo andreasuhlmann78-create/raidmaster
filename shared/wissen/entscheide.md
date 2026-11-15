@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 15.11.2026 10:59 | Entzauber-Tooltip: Variante B (Spalten Vorgabe / bei dir (n) / Preis), Ø je Entzauberung nur gemessen, ohne Vorgabe-Zahl | offen-ahsentinel.txt TT-DE2 |
 | 15.11.2026 10:45 | Kern muss schnell lernen, ohne Einbussen, oberste Prio: fremde Auktionen als Fälle (geeicht an eigenen), Gilden-Sync der Zähler, Vorwissen-Tabellen; keine Schwellen senken, kein teureres/kleineres Einstellen | offen-ahsentinel.txt KERN-T1 |
 | 15.11.2026 10:42 | Schnäppchen "Marktwert" und "Flips" ausblenden ("so bringt das nichts"); Händlerpreis, Entzauberwert, Flipping-Rechner bleiben | offen-ahsentinel.txt HP-4 |
 | 15.11.2026 10:29 | Ein Aktualisieren-Knopf in jedem AHSentinel-Fenster an derselben Stelle (oben rechts), Klick = aktueller Reiter, Shift = alles | offen-ahsentinel.txt UI-REF1 |
