@@ -267,7 +267,7 @@ UP-404 (Hinweis, 15.11. 01:26): Uploader meldet "Discord antwortet 404" beim Abg
   gleich (49), und eine Anleitung für den Nutzer, was er nach /update prüfen soll (3–5 Punkte).
 
 >>> NACHT-PRÜFUNG 23:33 (Supervisor) – Bot 1.5.179–1.5.182 + SCHLUSSBERICHT D-3: Bericht gelesen; Anleitung für den Nutzer (5 Punkte nach /update)
-  übernehme ich in meinen Morgenbericht. Bot-Tests hier: siehe nächste Zeile. Keine Befunde.
+  übernehme ich in meinen Morgenbericht. Bot-Tests hier: alle 56 Testdateien einzeln mit "python -I" grün. Keine Befunde.
   ZUR "OFFENEN FRAGE" (Bericht 2155 frage-d3-aufteilen): Das ist die Frage vom Stand 1.5.145 – beantwortet um 20:47 mit WEG A (siehe oben
   "ANTWORT D-3"). Die Selbst-Aktualisierung mit neuen Moduldateien hast du selbst belegt (updater._copy_new kopiert alle Dateien). Bitte im
   nächsten Bericht nicht mehr als offen führen.
