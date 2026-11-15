@@ -1,0 +1,40 @@
+BERICHT DISCORD – Bot 1.5.153: D-3 Schritt 8 (Ruhmeshalle als eigenes Modul) – umgesetzt, zur Prüfung
+Zeit: 15.11.2026 21:40 (aus date)
+Commit: 1f021841 auf origin/main, CI bot-tests: success
+
+WAS
+- Neues Modul RaidMasterBot/ruhmeshalle_bot.py (319 Zeilen): hall_channel, shot_for, member_names_with_dots,
+  kill_area, post_first_kill, update_hall_of_fame, RECORD_BOSSES, RECORD_DUNGEONS, cleanup_old_record_lines,
+  update_record_boards, /ruhmeshalle-aufraeumen, update_achievements, /erfolge.
+- UNVERÄNDERT verschoben: Quelltext je Name samt Dekoratoren alt (bot.py vor dem Schritt) und neu per ast
+  verglichen -> alle 13 identisch.
+- Bleibt in bot.py: /rekorde (braucht raid_pool_autocomplete aus dem Raid-Bereich) und Raider des Monats (benutzt
+  hall_channel, jetzt aus ruhmeshalle_bot importiert). class_emoji kommt aus symbole_bot (Schritt 7).
+- bot.py: git diff --numstat +7 −289 (netto −282), jetzt 6422 Zeilen.
+
+TESTS
+- test_rekord_tafel (Erstkill, Aufraeumen, BotAblauf) patchen und rufen jetzt ruhmeshalle_bot statt bot:
+  36 Stellen (RECORD_BOSSES, RECORD_DUNGEONS, SHOTS_DIR, member_names_with_dots, hall_channel, is_admin,
+  post_first_kill, update_record_boards, ruhmeshalle_aufraeumen_cmd), keine Prüfung abgeschwächt.
+  Gegenprobe: absichtlicher Fehler in ruhmeshalle_bot.py (Aufräumen löscht nicht) -> FAILED (failures=1);
+  zurückgesetzt -> OK.
+- test_lade: ruhmeshalle_bot.bot ist bot.bot; hall_channel/update_hall_of_fame dieselben Objekte; class_emoji aus
+  symbole_bot; kills_db dasselbe Objekt; /ruhmeshalle-aufraeumen und /erfolge im Befehlsbaum sind die Funktionen
+  aus ruhmeshalle_bot.
+- Slash-Befehle: 49, unverändert. 293 Tests OK; jede Testdatei einzeln mit -I OK; REGRESSIONEN 38 von 38.
+- Beobachtung (nicht neu): im Gesamtlauf 3× "ResourceWarning: unclosed file …shot_663….jpg" – vor und nach dem
+  Schritt gleich (je zweimal verglichen); kommt aus der Test-Attrappe (FakeChannel schliesst discord.File nicht),
+  nicht aus dem Bot. Verdacht, zu prüfen: im Betrieb schliesst discord.py die Datei beim Senden.
+
+BETRIEB NACHGESTELLT (an einer Kopie)
+1. Update: Ordner auf Stand 1.5.152 (git archive) mit Attrappen-config.json und data/state.json, dann
+   updater._copy_new(neu, alt): kopiert VERSION, bot.py, ruhmeshalle_bot.py, tests; config.json und state.json
+   unverändert (md5); VERSION danach 1.5.153.
+2. Start wie launcher.py (subprocess, cwd=BASE, aus fremdem Arbeitsordner): Abbruch erst bei der Anmeldung
+   (LoginFailure, Test-Token).
+3. Ohne config.json: Exit-Code 3, Meldung "Bitte zuerst config.json ausfüllen …", config.json angelegt.
+
+OFFEN
+- Frage zur Selbst-Aktualisierung während D-3 (Bericht 2155 frage-d3): noch keine Antwort.
+- NÄCHSTE BEREICHE: Uploader-Versand (ensure_fresh_uploader, uploader_package, /uploader, uploader_to_officers),
+  danach Bank (mit guildsentinel_db und Raidfähigkeit), DKP, Beute, Raids, Uploads, Server-Einrichtung.
