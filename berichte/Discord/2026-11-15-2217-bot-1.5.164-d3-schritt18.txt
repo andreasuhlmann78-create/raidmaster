@@ -1,0 +1,48 @@
+BERICHT DISCORD – Bot 1.5.164: D-3 Schritt 18 (Addon-Versionen und Ankündigungen als eigenes Modul) – umgesetzt, zur Prüfung
+Zeit: 15.11.2026 22:17 (aus date)
+Commit: 2faaba6d auf origin/main, CI bot-tests: success
+
+WAS
+- Neues Modul RaidMasterBot/ankuendigung_bot.py (1048 Zeilen): 43 Namen von addon_version_key bis addon_cmd –
+  Addon-Releases (ZIP im Ordner addon, GoldSentinel-Addons, Aufräumen alter Versionen und englischer Notizen,
+  RaidMaster-Vorstellung), Ankündigungen aus announce/ (Versionsreihen, Bearbeiten statt Neu-Posten, gelöschte
+  Ankündigungen entfernen), /addon und /addon-hochladen.
+- UNVERÄNDERT verschoben, samt der Kommentare direkt über den Namen: Quelltext je Name per ast verglichen ->
+  alle 43 identisch. Kommentarzeilen geprüft: keine verloren; nur die Abschnittsüberschrift "Addon-Versionen …"
+  in bot.py durch einen Hinweis auf das Modul ersetzt (Inhalt steht im Modul-Kopf).
+- Merker mit "global": _announce_cleaned (cleanup_announcements_once) und _rm_cleaned (check_addon_release)
+  sowie das Set _releases_cleaned stehen jetzt im Modul bei allen Funktionen, die sie setzen und lesen; in bot.py
+  gibt es sie nicht mehr (Test prüft beides).
+- Bleibt in bot.py: UNUSED_CHANNELS, clear_channels_once, remove_unused_channels_once (Kanal-Aufräumer, brauchen
+  dkp_channel_for), repair_missing_announcements (Update-Bereich, holt ANNOUNCE_DIR aus dem Modul).
+- bot.py: Importnamen _Msg, _norm_category, version_tuple, zip_addon_info entfallen. git diff --numstat
+  +3 −1017, bot.py jetzt 3545 Zeilen.
+
+TESTS
+- test_discord_kanaele (3 Text-Tests) lasen nur bot.py; jetzt bot.py und alle Module (bot_quelle.alle()).
+  Geprüft: die festen Ausschnitte (+2500 bzw. +2600 Zeichen ab Funktionsanfang) bleiben innerhalb des Moduls,
+  "await extra_channel(meta)" weiter genau 2×.
+- NEU test_ankuendigung_bot.py (6 Tests, REGRESSIONEN T-D3-ANKUENDIGUNG): /addon und /addon-hochladen im
+  Befehlsbaum; Versionsvergleich AH Analyzer Pro 5.9.x = 0.59.x; Versionsreihen (mit/ohne "__", ohne Nummer);
+  welche Reihen bearbeitet werden; eigener RaidMaster-Beitrag; Merker nur im Modul.
+  Gegenproben: AH-Umrechnung entfernt -> FAILED (1); "hilfe" aus den Bearbeiten-Wörtern -> FAILED (1);
+  die erste "__"-Prüfung in announce_series entfernt -> OK, weil die zweite Prüfung (nach dem Muster) dasselbe
+  abfängt (gleichwertige Änderung, kein Test-Loch).
+- test_lade: ankuendigung_bot.bot ist bot.bot; check_addon_release dasselbe Objekt; ADDON_DIR aus kern.
+  Dabei: die Lade-Prüfung "bot hat zip_addon_info" (aus Schritt 1) ersetzt durch Identität
+  bot.raid_view is bot_hilfen.raid_view (zip_addon_info wird in bot.py nicht mehr gebraucht).
+- Slash-Befehle: 49, unverändert. 338 Tests OK; jede Testdatei einzeln mit -I OK; REGRESSIONEN 50 von 50.
+
+BETRIEB NACHGESTELLT (an einer Kopie)
+1. Update vom Stand 1.5.163: updater._copy_new kopiert VERSION, ankuendigung_bot.py, bot.py, tests;
+   config/state/ZIP unverändert (md5); VERSION 1.5.164.
+2. Start wie launcher.py: Abbruch erst bei der Anmeldung (LoginFailure, Test-Token).
+3. Ohne config.json: Exit-Code 3, Meldung "Bitte zuerst config.json ausfüllen …", config.json angelegt.
+
+STAND D-3: bot.py 7437 (vor D-3) -> 3545 Zeilen; 18 Module ausgelagert.
+
+OFFEN
+- Frage zur Selbst-Aktualisierung während D-3 (Bericht 2155 frage-d3): noch keine Antwort.
+- NÄCHSTE BEREICHE: Update/Sicherung (Achtung: restart_soon setzt "global EXIT_CODE", das bot.py am Ende für
+  sys.exit liest – braucht eine kleine, bewusste Änderung; wird eigens beschrieben und getestet), DKP, Raids,
+  Uploads, Kanal-Aufräumer, zuletzt RaidBot.
