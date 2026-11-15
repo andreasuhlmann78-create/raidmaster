@@ -1,0 +1,11 @@
+BERICHT DISCORD – Stand (Leerlauf, Auftrag 00:34)
+Zeit: 16.11.2026 00:45 (aus date)
+
+- Bot 1.5.185 auf origin/main, CI Bot-Tests b017e65e: success. Hier: 442 Tests OK, jede der 59 Testdateien einzeln
+  mit -I OK.
+- Wartet auf den Nutzer: D-N1 Wunsch 3 (wiederkehrende Raids). Sonst nichts offen.
+- Beobachtung aus pyflakes (ohne "imported but unused"), KEINE Änderung, nur zur Kenntnis:
+  1. ereignis_bot.py create_raid_event: "ch = await channel_by_id(...)" wird nie benutzt – ein unnötiger Abruf je
+     neuem Raid-Ereignis (kein Fehlverhalten; so schon vor D-3 in bot.py).
+  2. blizzard_api_check.py token(): f-String ohne Platzhalter (wirkungslos).
+  Beide könnte ich in der nächsten Version mitbereinigen, wenn die Prüf-Sitzung das will.
