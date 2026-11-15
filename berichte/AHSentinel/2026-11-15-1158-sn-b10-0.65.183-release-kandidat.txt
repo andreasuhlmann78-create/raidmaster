@@ -1,0 +1,31 @@
+AHSentinel 0.65.183 – SN-B10 (Release-Blocker) – umgesetzt, zur Prüfung. NEUER RELEASE-KANDIDAT
+Enthält 0.65.181 (Ketten + SN-H1/SN-B9) + 0.65.182 (Prüfteil ui) + SN-B10. Kein CurseForge, nicht in download/.
+
+Ursache (Code Sniper.lua, Ausrüstung = Einzelkäufe über PlaceBid):
+- Modernes AH: AUCTION_HOUSE_SHOW_ERROR nennt kein Angebot. Bisher wurde der Fehler dem ÄLTESTEN offenen Kauf zugeordnet
+  und nach 3 s je Kauf einzeln über das Gold entschieden (GoldShowsBuy: Gold beim Senden − Gold jetzt − schon gezählte).
+  Bei vielen gleichzeitig offenen Käufen ist das falsch: Gold-Abgänge anderer, noch nicht gezählter Käufe werden nicht
+  abgezogen bzw. zugeordnet. Fall "gescheitert": ItemPurchaseFailed nahm den Kauf aus der Liste (MarkDead -> failIDs ->
+  nach 3 Angeboten Pause 10 Min.) – kam danach die Bestätigung, war der Kauf weder offen noch "spät" -> NIE gezählt.
+  Das erklärt (1) Pause trotz "Gekauft", (2) Zähler 26 statt mehr, (3) Gold-Abgang > Zähler × Preis -> Budget über Zähler
+  überschreitbar.
+- (4) Kopfzahl: MeterEnd konnte für einen Treffer über verschiedene Wege doppelt enden.
+Fix:
+- Sn:ReconcileItemBuys(key): das Gold entscheidet für die GRUPPE der offenen Käufe eines Ziels: Gold-Abgang seit dem ältesten
+  offenen Kauf (minus schon gezählte) deckt die ältesten k Käufe -> genau diese zählen (Kauf zählt genau einmal; Bestätigung
+  danach wird über itemCounted nicht doppelt gezählt). Aufgerufen 3 s nach einer Fehlermeldung und an der Frist (30 s).
+- Nicht gedeckte Käufe bei modernem Fehler: Angebot nur ausgeblendet (tot), NICHT als gescheitert gezählt, keine Pause; nach
+  der Frist "spät" gemerkt (späte Bestätigung zählt nach). Altes AH (Fehler nennt das Angebot) wie bisher.
+- Gold-Grenze: Sn.goldStart[Ziel] = Gold und Ausgaben beim ersten Kauf dieser Sitzung (neu bei geändertem Budget);
+  Remaining: Rest-Budget = min(Budget − gezählt − offen, Budget − Ausgaben_Start − Gold-Abgang seit Start). Gold-Abgang
+  zählt jede Ausgabe (auch fremde) -> eher zu früh gestoppt, nie über das Budget.
+- MeterEnd endet je Treffer genau einmal; Kopf zeigt verpasst = min(verpasst, Treffer − gekauft).
+- Sniper-Bericht (Teil sniper, Ergebnis oben): "Geld je Ziel (seit dem ersten Kauf): <Ziel>: n gekauft, Preise x,
+  Gold-Abgang y, Differenz z".
+Test T752 (S-Budget): 60 Käufe à 914c, Budget 5g, nur Fehler ohne Angebot, Gold sinkt für 40 -> Zähler 40, Ausgaben 36560
+  = Gold-Abgang 36560, keine Pause, 20 spät gemerkt; 10 weitere echte Käufe ohne jede Bestätigung -> Rest-Budget aus dem
+  Gold = 50000 − 50×914 (nie darüber). T610/T611/T612 (bisherige Gold-/Spät-/Fehler-Fälle) grün. Gesamtlauf 251/251, addon_check OK.
+Bitte an den Nutzer (über Supervisor): Anzahl im Briefkasten zählen = Wahrheit; Sniper-Bericht "Geld je Ziel" vergleichen.
+
+FRAGE an den Supervisor (Nutzer 11:48: "immer den Supervisor fragen, nicht mich"): Reihenfolge danach – KERN-T1 (1) zuerst
+oder TT-DE2/TB181-4 (beide HOCH, neu)? Ohne Antwort mache ich KERN-T1 (1) gemäss Reihenfolge 10:45.
