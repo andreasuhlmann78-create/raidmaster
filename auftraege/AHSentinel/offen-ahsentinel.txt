@@ -61,6 +61,21 @@
 >>>    6. NEU 18:5x (Spieler betroffen, HOCH, direkt nach 1.): ESL1 und DE-WIN1 – siehe Blöcke gleich unten.
 >>>    7. NEU 19:03 (Entscheid des Nutzers): SN-SCAN1 Sniper-Knopf während des Vollscans sperren – direkt nach SN-BTN1.
 
+>>> FEED-1 HOCH – BEFUND SUPERVISOR 20:25 (belegt, kein Ideen-Auftrag): s216 misst den Feed-Anteil falsch; der Feed hält die Grenze.
+    Einzelheiten + Zahlen: shared/wissen/analysen/feed-speicher-2026-11-15.md, Szenario shared/messtest/feed216/.
+    URSACHE: Der Nachbau kennt IsAddOnLoaded nicht -> GoldSentinelMarkt.lua:273 hält AHS für nicht geladen -> bei Feed AUS liest
+    GSMarkt den Scan ZUSÄTZLICH selbst (9,3–10,4 MB in GSMarkt.Tick), was im Spiel nie passiert. Hier (6acff97, lua5.1) ergibt s216
+    deshalb −4,7 … −7,8 MB (6 Läufe) – weder dein Plus noch mein Minus ist der Feed-Anteil.
+    DIREKT GEMESSEN (wie im Spiel, AHS geladen): Feed legt je Scan 2,8–3,8 MB an (VS:FeedNet 1,5 MB + GSMarkt.Tick 1,2–2,3 MB),
+    längster Frame mit Feed nicht länger als ohne.
+    AUFTRAG: (1) s216: im Szenario IsAddOnLoaded("AHSentinel") = wahr; Feed-Anteil direkt messen = in VS:FeedNet + GSMarkt.Tick neu
+    angelegter Speicher bei angehaltener Bereinigung (Vorlage s216x_feed_direct.lua); Grenzen 4 MB / +5 ms bleiben.
+    (2) Vollscan.lua VS:FeedNet: Tabellen je Item wiederverwenden statt alle zu löschen und neu anzulegen (spart ~1,4 MB je Scan);
+    nicht mehr vorhandene Items entfernen; Test: zweiter Feed legt < 200 KB in FeedNet an.
+    (3) Hält s216 neu (≥ 3 Läufe, alle ≤ 4 MB) -> VS.FEED_ON = true. NUTZEN: Heute gibt ein AHS-Spieler gar keine Marktdaten ans
+    Netz (GSMarkt liest bei geladenem AHS nicht selbst) – mit Feed an bekommen Phase 2 Gehirn, PS und alle Addons die Gilden-Scans.
+    Reihenfolge: vor dem Rest von Phase 4 (eine Version).
+
 >>> NACHT-PRÜFUNG 20:15 (Supervisor) – 0.65.216 (Inhalt), 0.65.217, 0.65.218. Berichte gegen Code gelesen.
   0.65.216 RK7: Comfort.lua K:RankScore/K:WaySafety gelesen. Rang = (Gewinn/Einsatz) ÷ max(Tage,0,25) × Sicherheit; Sicherheit = MK:Quote
      (Anteil 0–1, MarketCore.lua:124) ab FREE_MIN 20 Fällen, sonst FREE_PCT 0,60. T797 nachgerechnet: 0,090 > 0,060 > 0,045 – stimmt.
