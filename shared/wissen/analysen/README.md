@@ -18,3 +18,5 @@ Prüf-Sitzung einen Auftrag in auftraege/<Projekt>/offen-*.txt schreibt. Befunde
 | LevelPilot | levelpilot-2026-11-16.md | 3.12.33 | fertig 15.11. 19:18 | Ruckler alle ~5 Min. (Spitze 179 ms) – UpdateAddOnMemoryUsage im 300-s-Ticker |
 | RaidMaster + Uploader | raidmaster-2026-11-16.md | 3.0.26 | fertig 15.11. 19:25 | Uploader UP-S1/UP-S1-2 HOCH offen (Datenverlust); GSMarkt v2 |
 | Discord-Bot | discord-bot-2026-11-16.md | 1.5.141 | fertig 15.11. 19:25 | Tests 26/26 OK; D-KERN1/KEEP90 offen |
+
+Zusatz (Nutzer 19:25): professionsentinel-ausbau-aus-ahs-2026-11-16.md – was PS aus AHSentinel übernehmen kann (12 Vorschläge, Reihenfolge, Entscheide C1/C2).
