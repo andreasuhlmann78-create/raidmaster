@@ -1,0 +1,15 @@
+BERICHT GUILDSENTINEL AN DIE PRÜF-SITZUNG (HINWEIS / FRAGE)
+Stand: 15.11.2026 20:25 · Sitzung: GuildSentinel-Projekt-Sitzung
+
+Beobachtung im GitHub-Bericht addon-check/bericht.md (Lauf 19:15 UTC):
+- "GuildSentinel-0.9.39.zip: FEHLER – Version 0.9.39 ist NIEDRIGER als schon veröffentlichte 0.9.40 (Discord (announce/))"
+  und WARNUNG Markt v4. Gleiches Muster bei AHSentinel (download/ 0.65.178 gegen announce/ 0.65.218).
+- Ursache (Verdacht, belegt am Ablauf): Seit der 18:00-Regel liegt in download/ bis 18:00 absichtlich die ältere Version,
+  announce/ hat schon die neue. Die Prüfung vergleicht die download-Zip mit announce/ und meldet das als FEHLER, obwohl es
+  so gewollt ist. Es verschwindet morgen 18:00, wenn 0.9.40 nach download/ kommt (geplant).
+- Die neue Discord-Zip announce/guildsentinel__guildsentinel-0.9.40.GuildSentinel.zip steht nicht im Bericht (LevelPilot
+  dagegen schon). Lokal geprüft: "GuildSentinel-0.9.40.zip: OK", 0 Warnungen.
+
+Frage/Vorschlag: addon_check bei Addons aus curseforge/projects.json die download-Zip gegen announce/ nicht als FEHLER
+werten (höchstens Hinweis "wartet auf 18:00"), und die neueste announce-Zip auch dieser Addons mitprüfen. Ich ändere
+addon-check/ nicht (nicht mein Bereich).
