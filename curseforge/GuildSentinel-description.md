@@ -10,6 +10,15 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 ## What's new
 
+### Version 0.9.39
+
+- New (GS-W2): the "Choose suggestion" button on the recruitment page opens a list of ready-made ad texts: default text of the phase, short and simple, build-up, raid roster, friendly and cosy, with Discord tag, without Discord. Each entry shows its character count, and hovering shows the finished text. Suggestions that match the phase (build-up/raid) are at the top. Only a click replaces the text in the field.
+- GS-W1: every suggestion (including the one with the Discord tag) ends again with "– whisper me: /w <name> guild", in every language with its own word. An own text without this part gets a yellow hint; "Apply" appends it – never unasked.
+- Shortening to the chat length (255 characters): first the class list, then the Discord sentence, then the beginning of the text – the whisper part always stays whole.
+- Fixes: Chinese – dropping the Discord tag in the bracket （…） removed the whole rest including the whisper part. Shortening could cut Chinese characters in half at the end. Portuguese: all texts now use "sussurre para mim".
+- Market data network: shared file GoldSentinelMarkt.lua updated to version 4 (unchanged from shared/): export of the last 6 scans, at most 1.5 MB; turning "Share market data" off also stops an already planned reply to the guild.
+- Developer tests: T295a–g (T-GSW1/T-GSW2), T247 adjusted, T291 requires version 3 or newer.
+
 ### Version 0.9.38
 
 - Market data network: shared file GoldSentinelMarkt.lua updated to version 2. It no longer reads a full scan a second time when AHSentinel is loaded (AHSentinel hands its scan over instead) – version 1 made the game stutter during AHSentinel's full scan and in its sniper. Smaller send queue, guild summary at most hourly, sold-out items in the export.
@@ -34,13 +43,6 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 - The summary for the uploader and the Discord bot (GuildSentinelDB.raidReady, written on logout) now has the field "vorschlag": the recruitment phase GuildSentinel currently suggests ("build" / "trans" / "raid", same words as "phase"); missing when no suggestion is open or it was put off with "Later". No names. The bot can then post "GuildSentinel suggests phase … – confirm in the game".
 - Developer test: T288 (T-RP-V).
-
-### Version 0.9.34
-
-- New: command list while typing. Type /gs (or /guildsentinel) in chat and a list of ALL commands with a short description appears above the input box. Every letter filters ("/gs w" = where, away, ad …), German and English command words both work, commands with an argument show it ("thanks <Name>"), the most used are on top. A mouse click or Tab selects an entry, Enter runs it. The chat input is never written to. Developer commands only for the developer. Settings > "Command list while typing /gs" turns it off.
-- The command list and the /gs handler use one and the same command table, so the list always has every command.
-- Building block taken unchanged from AHSentinel (CmdHint).
-- Developer tests: T282–T287 (T-BL1–T-BL6). TU1 situation catalogue extended by group finder, events, polls and sync and by the situations "channel refuses addon messages", "member with an old version" and "guild changed" (11 functions x 9 situations).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
