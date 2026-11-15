@@ -1,0 +1,107 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+
+BERICHT NACHPRÜFUNG AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 20:40 · Sitzung: geplante Nachprüfung · Basis-Commit: c7c4796b (origin/main)
+Nichts in auftraege/**, nachrichten-log.txt oder nachpruefung-stand.json geschrieben, keine Nachricht an den Nutzer verschickt.
+Alle Vorschläge unten überträgt der Supervisor selbst (oder verwirft sie).
+
+ZUSAMMENFASSUNG
+- Kein FEHLER der Addon-Prüfung, kein neuer Befund HOCH.
+- Der Supervisor hat in den Nacht-Prüfungen 20:15/20:35/20:38 schon alles Neue gelesen (AHS 0.65.201–0.65.219, BS 0.9.22/0.9.23,
+  TS 2.5.14, GS 0.9.40 nur Bericht, LP 3.12.34–3.12.36, PS 0.9.46, Bot 1.5.142–144, RM 3.0.27/UP 2.3.12). Hier deshalb nur
+  ERGÄNZUNG: unabhängige Testläufe + zwei neue Hinweise NIEDRIG (G40-1, LP35-1) + Erinnerung T200-1 (MITTEL, seit 17:45 offen,
+  noch nicht übertragen, auf origin/main weiter vorhanden).
+- GuildSentinel 0.9.40: Code-Prüfung, die laut Supervisor 20:35 "in der nächsten Runde folgt", hier gemacht (Ergebnis unten).
+
+VERSIONEN (seit dem Entwurf 17:45)
+- AHSentinel 0.65.201–0.65.220 (announce/) – Supervisor. Hier: addon_check 0.65.218 und 0.65.219 OK; gemeinsame Dateien
+  (Game/Test/Sync/Markt/CmdHint) in 0.65.218 byte-gleich mit shared/.
+- BuffSentinel 0.9.22, 0.9.23 · ThreatSentinel 2.5.14 · GuildSentinel 0.9.40 · LevelPilot 3.12.33–3.12.36 · ProfessionSentinel
+  0.9.46 · RaidMasterBot 1.5.142–1.5.144 · RaidMaster 3.0.27 / Uploader 2.3.12 (letztere nur Supervisor, hier nicht geprüft).
+
+==================================================================================================================
+1) ADDON-PRÜFUNG (lupa + lua5.1 installiert, Lua-Syntax, Ladetest, Sprachtest)
+==================================================================================================================
+OK ohne Warnung: AHSentinel 0.65.218, 0.65.219 · BuffSentinel 0.9.22, 0.9.23 (announce/ und download/) · GuildSentinel 0.9.40 ·
+  ThreatSentinel 2.5.14 (announce/ und download/) · ProfessionSentinel 0.9.46 (announce/ und download/).
+OK mit 1 WARNUNG: LevelPilot 3.12.35 – GoldSentinelMarkt Version 6 statt 7 (v7 kam 19:55, 3.12.35 um 19:52 -> kein Fehler der
+  Sitzung; laut Supervisor 20:38 ist GSM7 in 3.12.36 drin).
+LevelPilot 3.12.34: erwarteter FEHLER "Version niedriger als 3.12.35" (nur weil später geprüft) – zu seiner Zeit OK.
+Gemeinsame Dateien (cmp gegen shared/): BS 0.9.22, TS 2.5.14, GS 0.9.40, PS 0.9.46 – Game/Test/Sync/Markt gleich.
+  LP 3.12.35: Markt UNGLEICH (v6, siehe oben), Rest gleich.
+Veröffentlichen 18:00: BuffSentinel und ThreatSentinel liegen sofort in download/ – richtig, sie stehen nicht in
+  curseforge/projects.json (nur AHSentinel, GuildSentinel). GS 0.9.40 nur announce/ – richtig.
+
+==================================================================================================================
+2) GUILDSENTINEL 0.9.40 (G-3, GSM7, G-1) – Code geprüft, Bericht 2026-11-15-2050 gelesen
+==================================================================================================================
+- Zip = Quell-Repo c37401b (68 Dateien cmp gleich).
+- test/run_alle.sh hier nachgerechnet: "GESAMT: 119 Läufe, 0 rot · 4316 Einzelprüfungen bestanden, 0 fehlgeschlagen" – deckt sich
+  mit dem Bericht. run_g3.lua 7/7 für 16001, 11508, 20505.
+- G-3 Recruit.lua:831–851 und Rc.OnWhisper 852–899 gelesen: gleitendes Fenster 5 in 600 s (AutoAllowed/AutoUse), kein Zeitlimit-
+  loses Sperren; Name-Sperre 10 Min. bleibt; replied wird jetzt geleert (PruneReplied). Platzhalter des neuen Texts %s/%d/%d in
+  Locales.lua:148 und Aufruf (name, AUTO_MAX, AUTO_WINDOW/60) stimmen. Antworten auf laufende Bewerbungsfragen zählen nicht
+  (TakeAnswer kommt vorher, Zeile 860) – wie im Bericht.
+- G-1: Ursachen im Bericht nachvollziehbar; die drei alten Skripte laufen in run_alle.sh grün.
+
+G40-1 NIEDRIG (Hinweis, belegt):
+  (a) a.noAuto wird gesetzt (Recruit.lua:885/889) und in den SavedVariables gespeichert, aber nirgends gelesen oder angezeigt
+      (grep: nur TestRoutine.lua:3776). Der Spieler sieht später auf der Seite Rekrutierung nicht, welche Bewerber nicht
+      automatisch angeschrieben wurden – der Hinweis steht nur einmal im Chat.
+  (b) Ein SCHON BEKANNTER Bewerber, der das Stichwort erneut schreibt, während die Grenze voll ist: keine Antwort UND kein Hinweis
+      (Zeile 874: Hinweis nur "if not known"). Still verschluckt.
+  Lösung: (a) auf der Seite Rekrutierung beim Bewerber "nicht automatisch angeschrieben" zeigen (Text in allen Locales) oder das
+      Feld weglassen; (b) auch für bekannte Bewerber eine Zeile "automatische Antwort pausiert" (höchstens einmal je Name und
+      Fenster). Test: T296 um beide Fälle erweitern.
+
+==================================================================================================================
+3) LEVELPILOT 3.12.35 (UC-W1) – Ergänzung zur Prüfung 20:15
+==================================================================================================================
+- run_offline.py mit announce/…3.12.35: "35 Läufe, 35 ohne FEHLER" (inkl. test_ucw1) – wie Bericht.
+LP35-1 NIEDRIG (Verdacht, zu messen):
+  Navigation.lua:203–207: Ist der normale Weg NICHT bekannt (Luftlinien), rechnet jede Neuberechnung zusätzlich eine zweite
+  A*-Suche Graph:PathKnown (Graph.lua:765, knownOnly). Im Freiland ist ein unbekannter Weg der Normalfall (wenig gelaufene
+  Wege) – dort läuft die zweite Suche bei jeder Neuberechnung und findet meist nichts (return nil erst nach Ausschöpfen,
+  Graph.lua:732). Kein Ruckler (läuft in LP.Jobs-Portionen), aber bis doppelte Rechenzeit und spätere Anzeige des Wegs.
+  Gemessen ist nur Undercity (18–28 ms in Portionen, Bericht 21:10).
+  Messauftrag: im Nachbau eine Freiland-Strecke ohne gelaufene Wege (z. B. Brachland) – Zahl der Suchschritte/ms von PathKnown
+  ohne Treffer. Mögliche Lösung, falls teuer: PathKnown nur, wenn Start und Ziel in derselben Zone und der normale Weg Luftlinien
+  < VIRT_RANGE in einer Stadt enthält, oder ein Fehlschlag je Ziel merken, bis sich der Graph ändert. Mit W3D (B2) prüfen, ob
+  PathKnown dann überhaupt noch nötig ist.
+
+==================================================================================================================
+4) AHSENTINEL – ERINNERUNG T200-1 (MITTEL, aus Entwurf 17:45, nicht übertragen)
+==================================================================================================================
+- Auf AHAnalyzerPro origin/main (1b0fa54, 0.65.219) weiter unverändert:
+  tests/wowsim/run_all.sh:5  LUA="${LUA:-/tmp/claude-0/-home-claude/9ff3d5a0-…/scratchpad/bin/lua51}"
+  -> in jeder anderen Sitzung schlagen ohne LUA=… alle wowsim-Szenarien fehl.
+  tests/wowsim/common.lua:129: IsAddOnLoaded nur in T.expectedUndefined, nicht nachgebildet (s92-Messung mit GSMarkt, Einzelheiten
+  im Entwurf 17:45).
+- Vorschlag: T200-1 in offen-ahsentinel.txt übernehmen (Lösung: alte LUA-Zeile mit command -v lua5.1 …; IsAddOnLoaded/
+  C_AddOns.IsAddOnLoaded im Nachbau mit "AHSentinel geladen"; Gesamtlauf danach in einer fremden Sitzung belegen).
+- TESTBERICHTE seit 17:40 (Commits 872e29db, b772c594, 07bfaad2): Diagnosen AHSentinel 0.65.200/0.65.201/0.65.203, BuffSentinel
+  0.9.21, GSSniperLog 1.5/1.7; ein Fehlerbericht AHSentinel 0.65.203: ADDON_ACTION_BLOCKED "UNKNOWN()" Zähler 6 -> 7 (nur Zähler).
+  Bekannt als POST-BLOCK1 (offen-ahsentinel.txt:57/295 ff., umgesetzt in 0.65.207/0.65.215) – nichts Neues; Abnahme: in Berichten
+  ab 0.65.215 darf der Zähler beim Einstellen nicht mehr steigen.
+- MARKT-KERN: kein AHSentinel-Testbericht mit Abschnitt MARKT-KERN seit dem letzten Stand -> keine Zahlen gegen Ü2.
+
+==================================================================================================================
+5) WEITERE UNABHÄNGIGE TESTLÄUFE (Ergänzung, keine Befunde)
+==================================================================================================================
+- BuffSentinel 0.9.22 und 0.9.23: berichte/BuffSentinel/offline/run_offline.py "ALLE KOMBINATIONEN: PASS" (6 Läufe, TU-FEHLER 0,
+  nur die bekannten 9 Nachbau-Abweichungen). T178 (MN-S2, mit Gegenprobe) grün.
+- ThreatSentinel 2.5.14: routine_offline.py Forever OK 254 · Era "FEHLER ausserhalb der Nachbildungs-Liste: 0"; Regressionen 46/46
+  – wie Bericht. Eigene Code-Lesung T-2/T-3 deckt sich mit Supervisor 20:15 (keine Doppelzählung: ns.Timed/PerfRun nur in Tickern
+  und OnUpdate, nie innerhalb eines Ereignisses).
+- ProfessionSentinel 0.9.46 (Quell-Repo f1d4734): tests/run_offline.py – Forever OK 225 (einziger FEHLER T143 Zeitmessung, zählt
+  nicht), Era OK 208, Retail OK 207, je 0 Lua-Fehler, 0 echte Aktionen. TBC: kein Bericht – gewollt ("Interface 20505 wird noch
+  nicht unterstützt"). Jobs.lua gelesen: Yield nie innerhalb pcall (P.InPass ohne pcall, solange der Durchgang je Portion läuft,
+  Prices.lua:57–64) – passt zur Regel im Kopf von Jobs.lua.
+- RaidMasterBot 1.5.144: python3 -I -m unittest discover -s RaidMasterBot/tests -> 284 Tests OK.
+
+VORSCHLAG nachpruefung-stand.json (überträgt der Supervisor):
+  AHSentinel 0.65.219, BuffSentinel 0.9.23, GuildSentinel 0.9.40, LevelPilot 3.12.35 (3.12.36 Supervisor), ProfessionSentinel
+  0.9.46, ThreatSentinel 2.5.14, RaidMasterBot 1.5.144; RaidMaster/Uploader unverändert im Stand lassen (hier nicht geprüft).
+
+NACHRICHTEN: keine geschrieben (Vorrang-Regel). Falls der Supervisor G40-1/LP35-1 übernimmt, genügt je eine Zeile in
+  offen-guildsentinel.txt bzw. offen-levelpilot.txt.
