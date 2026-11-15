@@ -362,3 +362,7 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   alles, was im Spiel selbst messbar ist, automatisch (Rahmen vorhanden? API liefert Werte? Sprache passt?), und fragt nur dort nach, wo der Nutzer
   hinschauen muss (je Schritt EIN Satz, Knopf "ok"/"nicht ok"). Ergebnis als eine Zeile je Punkt im Testbericht/Diagnose. Spart dem Nutzer
   Lesen und Suchen. Test im Nachbau mit beiden Antworten. Danach dieselbe Idee ggf. für GSWegMess-Ablauf (Anleitung im Spiel).
+
+>>> NACHT-PRÜFUNG 00:48 (Supervisor) – 3.12.45 /lp clienttest: automatisch wo möglich, nur 3 Fragen, Ergebnis in /lp diag – genau so. Keine Befunde.
+  WEITER: dasselbe für den GSWegMess-Ablauf als geführte Anleitung IN LevelPilot ("/lp wegmessung": Schritt-für-Schritt-Hinweise in Unterstadt,
+  welche Strecke laufen, wann markieren) – GSWegMess selbst bleibt das passive Werkzeug im Prüfsystem (nicht ändern, Supervisor-Werkzeug).
