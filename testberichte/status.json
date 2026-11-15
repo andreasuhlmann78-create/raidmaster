@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-15T21:21:29Z",
+ "ausgewertet": "2026-11-15T22:17:29Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -63,9 +63,8 @@
      "art": "spiel",
      "wo": "ADDON_ACTION_BLOCKED",
      "msg": "UNKNOWN()",
-     "anzahl": 28,
+     "anzahl": 25,
      "versionen": [
-      "0.65.16",
       "0.65.182",
       "0.65.189",
       "0.65.194",
@@ -75,7 +74,7 @@
      "clients": [
       "forever 1.60.1 (Interface 16001)"
      ],
-     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:397: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:390>\n[C]: ?\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/Sniper.lua]:817: in function 'Reserve'\n[Interface/AddOns/AHSentinel/Sniper.lua]:1264: in function 'Tick'\n[Interface/AddOns/AHSentinel/Sniper.lua]:1294: in function <Interface/AddOns/AHSentinel/Sniper.lua:1290>\n"
+     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:407: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:400>\n[C]: ?\n[C]: ?\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/Seller.lua]:983: in function <Interface/AddOns/AHSentinel/Seller.lua:908>\n..."
     },
     {
      "addon": "AHSentinel",
@@ -609,9 +608,8 @@
    "art": "spiel",
    "wo": "ADDON_ACTION_BLOCKED",
    "msg": "UNKNOWN()",
-   "anzahl": 28,
+   "anzahl": 25,
    "versionen": [
-    "0.65.16",
     "0.65.182",
     "0.65.189",
     "0.65.194",
@@ -621,7 +619,7 @@
    "clients": [
     "forever 1.60.1 (Interface 16001)"
    ],
-   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:397: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:390>\n[C]: ?\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/Sniper.lua]:817: in function 'Reserve'\n[Interface/AddOns/AHSentinel/Sniper.lua]:1264: in function 'Tick'\n[Interface/AddOns/AHSentinel/Sniper.lua]:1294: in function <Interface/AddOns/AHSentinel/Sniper.lua:1290>\n"
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:407: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:400>\n[C]: ?\n[C]: ?\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/Seller.lua]:983: in function <Interface/AddOns/AHSentinel/Seller.lua:908>\n..."
   },
   {
    "addon": "AHSentinel",
@@ -1006,15 +1004,15 @@
   "diagnose": {
    "AHSentinel": {
     "anzahl": 146,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.99-2bf892d983c3.txt"
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.99-d96ad9b3461c.txt"
    },
    "BuffSentinel": {
     "anzahl": 40,
-    "neueste": "testberichte/diagnose/BuffSentinel/0.9.21-ba8ede23106d.txt"
+    "neueste": "testberichte/diagnose/BuffSentinel/0.9.18-76e246dc6532.txt"
    },
    "GSMesstest": {
     "anzahl": 9,
-    "neueste": "testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt"
+    "neueste": "testberichte/diagnose/GSMesstest/3-cfdd02c16375.txt"
    },
    "GSSniperLog": {
     "anzahl": 14,
@@ -1022,25 +1020,25 @@
    },
    "GuildSentinel": {
     "anzahl": 144,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.39-df8e511c619e.txt"
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.39-174dca483f98.txt"
    },
    "LevelPilot": {
     "anzahl": 41,
-    "neueste": "testberichte/diagnose/LevelPilot/3.12.30-53fbb985d448.txt"
+    "neueste": "testberichte/diagnose/LevelPilot/3.12.30-abeea3d868d4.txt"
    },
    "ProfessionSentinel": {
     "anzahl": 124,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.45-ea4bde14ba63.txt"
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.45-fd03dabe94af.txt"
    },
    "ThreatSentinel": {
     "anzahl": 120,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.9-d96edf5d530e.txt"
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.8-412316f8cf87.txt"
    }
   },
   "wege": {
    "LevelPilot": {
     "anzahl": 198,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794760603-ad69fc.json"
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794762846-8f1070.json"
    }
   }
  }
