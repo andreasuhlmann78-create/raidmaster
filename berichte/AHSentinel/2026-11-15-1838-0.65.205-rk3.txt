@@ -1,0 +1,34 @@
+AHSentinel 0.65.205 – RK3 beide Richtungen (Masterplan 4.3, Teil 1) – umgesetzt, zur Prüfung
+CurseForge: nein (erst nach der Sniper-Abnahme). GitHub-Release v0.65.205 und sofort im Discord.
+
+RK3 (anweisung-markt-reiter; Crafting.lua Cr:Direction, Cr:WayText)
+  - Grundlage ist dieselbe Rechnung wie "Gewinn" im Gewinn-Fenster (Cr:EvalRecipe, KETTE-K1 "eine Zahl"):
+    - eigene Zutaten zählen mit ihrem Verkaufserlös (A:RealValue);
+    - fehlende Zutaten über die Preisleiter für die Serie (SeriesUnit, BR-W1);
+    - Händlerware zum Händlerpreis;
+    - Ergebnis-Menge = Mittel aus min/max (ReadRecipe), bester Ausgang Verkaufen/Entzaubern.
+  - Cr:Direction(r):
+    - Gewinn ≥ 0 -> "Herstellen lohnt (+x)" (Art "craft"); für Mein Lager / MR3 vorbereitet;
+    - Verlust und mindestens eine Zutat nicht vom Händler -> "kein Gewinn – Zutaten roh verkaufen (+y)", y = Verlust
+      (so viel mehr bringt der Rohverkauf);
+    - Verlust nur mit Händler-Zutaten -> wie bisher "kein Weg mit Gewinn" (GW-S2 unverändert).
+  - Anzeige: Zeile "bester Weg" im Gewinn-Fenster statt "kein Weg mit Gewinn".
+    - Keine neue Zeile: Der Hinweisbereich hat nur 20 px bis zum Mengenfeld. Eine zusätzliche Zeile hätte überlappt.
+    - Bei Gewinn bleibt "bester Weg: verkaufen/entzaubern/Händler". Der Gewinn steht grün daneben, ein zweites
+      "Herstellen lohnt" wäre doppelt.
+  - Abklingzeiten (RK3 "Gewinn je Abklingzeit, nicht je Klick"): Ein Klick = eine Herstellung = eine Abklingzeit. Der Gewinn je
+    Herstellung ist damit schon der Gewinn je Abklingzeit, es gibt keine Änderung. Verdacht, zu messen: Rezepte mit mehreren
+    Ergebnissen je Abklingzeit (Salzschüttler?) im Spiel prüfen.
+  - Test T791 (RK8-Prüffälle, Nahtstellen nur eigene Funktionen):
+    - Rippchen 2× Raptorfleisch 2s33 + 3× Gewürze 40c (Händler) = 5s86, Ergebnis 26s99 -> netto 25s64 ->
+      "Herstellen lohnt (+19s 78c)";
+    - Geröstetes Eberfleisch: eigene Zutat netto 1s65, Ergebnis netto 47c -> "kein Gewinn – Zutaten roh verkaufen (+1s 18c)",
+      dieselbe Zeile wie "bester Weg";
+    - Verlust nur mit Händler-Zutaten -> "kein Weg mit Gewinn".
+    - T716 (GW-S2) unverändert grün.
+  - Locales +2 (alle Sprachen), CHANGELOG EN/DE.
+OFFEN in 4.3:
+  - RK5: Frage an den Supervisor (berichte/AHSentinel/…-frage-rk5-risiko.txt). Der Vorschlag 30/20/10 % + Fehler würde jedes
+    Entzauber-"Lohnt bis" um mindestens 9 % senken.
+  - RK4, RK6, RK7: folgen.
+Gesamtlauf (259 Szenarien, Lua 5.1): 259 bestanden, 0 rot. addon_check: siehe Release (bricht bei FEHLER ab).
