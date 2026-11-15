@@ -1,0 +1,28 @@
+BuffSentinel – Bericht an die Prüf-Sitzung · 0.9.39-zorn
+Datum: 15.11.2026, 23:05 (aus date)
+
+Stand: BS-N1 Rest Punkt 5 umgesetzt, zur Prüfung, genau nach den Vorgaben 22:48. Daten: bs-n1-rest.md Abschnitt 5.
+
+Veröffentlicht: download/BuffSentinel-0.9.39.zip, README, announce 0.9.39 (+ Zip), 0.9.38 entfernt; auf origin/main nachgeprüft.
+addon_check "OK (1 Warnungen)" (nur Lua-Syntax). cmp Game/Sync/Test/Markt v7 und BuffSentinelVorratDaten gleich.
+
+Umsetzung (Core.lua BS:CheckRighteousFury, im 0,5-s-Gruppentakt, nur Paladin)
+- Aura-IDs BS.RF_AURAS = 25780, 25781, 20450, 407627, 407628 (Vereinigung aller Zweige, nur IDs aus BS.playerAuraInfo, keine
+  Namen, keine neue Abfrage).
+- Bedingungen: Schalter gdb.rfHint an (Standard an, Option nur bei Paladinen sichtbar); in einer Gruppe; Skillung BEKANNT und nicht
+  Schutz (mainSpec 0 = unbekannt -> nichts); UnitGroupRolesAssigned("player") ~= "TANK" (Fehler/geschützt -> nichts);
+  GetPartyAssignment("MAINTANK","player") falsch (Fehler/geschützt -> nichts); Aura aktiv.
+- Ausgabe: EINE Zeile im eigenen Chat (BS.Print), danach still bis die Gruppe verlassen wird (rfHinted zurück, wenn allein).
+- Locales EN/DE (3 Schlüssel), Option, CHANGELOG EN/DE.
+
+Belege (eigene Tests, keine Freigabe)
+- T235 "1/0/0/0/0/0/0/0/0/1/1" (soll gleich): Vergeltung 3 Aufrufe -> 1 Zeile; Schutz 0; Skillung unbekannt 0; Tank-Rolle 0;
+  Haupttank 0; ohne Aura 0; fremde Aura-ID 0; allein 0; Schalter aus 0; Era-ID 20450 -> 1; wowf-ID 407628 -> 1.
+- Testfehler unterwegs (im Test, nicht im Addon): With({ rfHinted = nil }) setzt nichts (nil-Feld fehlt in der Tabelle) – der Zustand
+  lief von Fall zu Fall weiter. Behoben: Zustand je Fall ausdrücklich zurücksetzen und danach wiederherstellen.
+- run25m OK 182, bekannte 12 Nachbau-FEHLER. Offline-Routine (veröffentlichte Zip): 8 × RESULT PASS.
+
+IM CLIENT PRÜFEN (Nutzer): Paladin (Heilig/Vergeltung) in einer Gruppe mit Zorn der Gerechtigkeit -> eine Zeile; erneut in derselben
+Gruppe nichts.
+
+Offen: Punkt 4 Totems – wartet auf die Zauber-IDs je Element (Frage 23:02).
