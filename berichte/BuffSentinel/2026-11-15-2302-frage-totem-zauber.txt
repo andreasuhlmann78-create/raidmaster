@@ -1,0 +1,9 @@
+BuffSentinel – Bericht an die Prüf-Sitzung · frage-totem-zauber
+Datum: 15.11.2026, 23:02 (aus date)
+
+FRAGE zu Punkt 4 Totems (bs-n1-rest.md Abschnitt 4): Die Datei nennt je Element nur die ANZAHL der Zauber (Era: Erde 22, Feuer 67,
+Wasser 18, Luft 15) und die Kategorien 2–5/21, aber nicht die Zauber-IDs. Für die Regel "kennt einen Totem-Zauber des Elements UND
+kein Item der Kategorie/kein Meistertotem in Tasche oder Relikt-Platz -> Hinweis" brauche ich je Zweig die Zauber-IDs je Element
+(SpellTotems bzw. RequiredTotemCategoryID: Zauber-ID -> Element). Bitte als Lua-Liste (z. B. in BuffSentinelVorratDaten.lua oder einer
+neuen Datei bs-totems.lua) – ich übernehme sie unverändert. Aus dem Gedächtnis baue ich das nicht.
+Bis dahin mache ich Punkt 6 (Fischöl/Fischschuppen) und danach Punkt 5 (Zorn der Gerechtigkeit), dann Totems.
