@@ -200,7 +200,11 @@ class Lade(unittest.TestCase):
         self.assertIs(b.update_loop, update_bot.update_loop)
         self.assertIs(update_bot.restart_soon, grund.restart_soon)
         self.assertIs(update_bot.check_addon_release, ankuendigung_bot.check_addon_release)
-        self.assertIs(b.NO_PING, grund.NO_PING)
+        import kanalpflege_bot
+        self.assertIs(kanalpflege_bot.bot, b.bot)                # D-3 Schritt 30: Kanalpflege
+        self.assertIs(b.sync_raid_visibility, kanalpflege_bot.sync_raid_visibility)
+        self.assertIs(kanalpflege_bot.NO_PING, grund.NO_PING)
+        self.assertIs(kanalpflege_bot.dkp_channel_for, dkp_tafel_bot.dkp_channel_for)
 
     def test_findet_fehlenden_namen(self):
         self.assertEqual(unbound("def f():\n    return cfg['x']\n"), [(2, "cfg")])
