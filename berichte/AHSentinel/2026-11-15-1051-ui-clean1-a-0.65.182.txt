@@ -1,0 +1,19 @@
+AHSentinel 0.65.182 – UI-CLEAN1 (A) – umgesetzt, zur Prüfung
+Enthält alles aus dem Release-Kandidaten 0.65.181 (Ketten + SN-H1/SN-B9) und zusätzlich nur den Prüfteil. Kein CurseForge,
+nicht in download/ (GitHub-Release v0.65.182, Zip an den Nutzer). Für 18:00 kann 0.65.181 ODER 0.65.182 gehen (182 ändert
+für Spieler nichts ausser dem Prüfteil, der nur im Entwickler-Modus läuft).
+
+UI-CLEAN1 (A): neuer Teil "/ahs testroutine ui" (auch im Volltest "auto"), T750, nur lesen:
+- geht alle sichtbaren Reiter/Unterreiter (UI:Groups) und das Optionen-Fenster durch, je Design Klassisch UND Modern und
+  Grösse 100 % UND 130 % (danach Design, Grösse und Reiter zurück).
+- je Ansicht: Überlappung von Bedienteilen (UICheck.ControlsOverlapNothing), abgeschnittene Texte (FontString:IsTruncated),
+  Element ausserhalb des Fensters (> 2 Pixel), Knopf ohne Funktion (kein OnClick/OnMouseDown/Up), veraltete/Platzhalter-
+  Texte ("kommt bald", "lernt noch", "Platzhalter", "TODO", "[debug" …).
+- Ergebnis: "x Befunde (AH offen/zu · Klassisch+Modern · 100+130 % · Sprache · n Ansichten): AHSentinel Modern 130 % >
+  Kaufen > Sniper: Text abgeschnitten: … | …" (bis 40 Befunde im Text). Ziel 0.
+- Nicht automatisch: deDE/enGB-Wechsel (Sprache des Clients; der Teil meldet die aktuelle Sprache), doppelte Zahl mit
+  verschiedenem Wert an zwei Stellen, Überlappung mit Blizzard/ProfessionSentinel/LevelPilot (bleibt T192 im Teil k).
+- Nachbildung T751 (Erkennung alter Texte und Ausserhalb). Im Simulator ohne echte Rechtecke: T750 SKIP (ehrlich).
+Gesamtlauf 251/251, addon_check OK.
+Bitte an den Nutzer: /ahs testroutine ui (einmal mit AH offen, einmal zu) – die Befundliste ist die Grundlage für (B).
+UI-REF1 und (B) folgen nach der Befundliste.
