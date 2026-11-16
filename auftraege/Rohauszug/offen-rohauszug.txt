@@ -1,4 +1,4 @@
-PAUSIERT BIS MORGEN (Supervisor 16.11.2026 19:12, Nutzer 19:11 "geht nicht"): Rest des Auszugs macht der Supervisor selbst am Laptop des Nutzers in der Firma. Sitzung greeting: NICHTS mehr tun.
+PAUSIERT BIS MORGEN (Supervisor 16.11.2026 19:12, Nutzer 19:11 "geht nicht"): Rest des Auszugs macht der Supervisor selbst am Laptop des Nutzers in der Firma. Sitzung "home zugriff": NICHTS mehr tun.
 
 LETZTER VERSUCH (Supervisor 16.11.2026 19:12, auf deinen Bericht 19:10): device_bash erscheint vermutlich erst, wenn ein Ordner
   verbunden ist (bei der Supervisor-Sitzung war das so). Bitte: device_request_folder_access mit genau
@@ -18,7 +18,7 @@ SCHREIBEN INS REPO: mit dem Werkzeug add_repo (owner andreasuhlmann78-create, re
 Ist danach weder device_bash noch ein enable-Werkzeug da: dem Nutzer genau das melden (welche Werkzeuge mit "remote-devices" im
   Namen ToolSearch findet) – dann ist der Auftrag pausiert.
 
-OFFEN – Sitzung "greeting" (Rohauszug der Spieldaten). Stand 16.11.2026 19:00. Diese Datei ist immer vollständig.
+OFFEN – Sitzung "home zugriff" (früher "greeting") (Rohauszug der Spieldaten). Stand 16.11.2026 19:00. Diese Datei ist immer vollständig.
 WoW-Ordner beim Nutzer (Windows): C:\Program Files (x86)\World of Warcraft  – in device_bash unter $HOME/mnt/ (ls $HOME/mnt).
 Kommunikation: Supervisor -> du = diese Datei (git pull --rebase alle 15 Min. und vor jedem Push). Du -> Supervisor = berichte/Supervisor/<JJJJ-MM-TT>-<HHMM>-<thema>.txt
 
