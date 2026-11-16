@@ -1,9 +1,28 @@
 MORGENBERICHT DES SUPERVISORS – Nacht 15./16.11.2026 (wird die Nacht über fortgeschrieben)
-Stand: 16.11.2026 01:18 (Uhrzeit aus date)
+Stand: 16.11.2026 05:06 (Uhrzeit aus date)
 
 =====================================================================================================================
 1. DAS WICHTIGSTE IN KÜRZE
 =====================================================================================================================
+- NEU 05:06 – KERN UND SUPERVISOR TAUSCHEN DATEN AUS (dein Entscheid 04:51/04:52). Der Abgleich hat gezeigt, warum der Kern
+  nicht in P2 kommt – drei Fehler im Addon, alle belegt und an AHS gegeben (Vorrang vor allem):
+  KERN-S1: Verkaufte Auktionen erreichen den Kern nie (Journal 60 Fälle / 41,8 verkauft – Kern 25 / 2,9). Er glaubt an 12 %
+  Verkaufschance statt 70 %. KERN-P2-1: P2 prüft Treffer statt Brier – beim Markt (Quote ~5 %) nie zu schaffen, obwohl er
+  11,6 % besser ist als die Grundlinie. KERN-P4-1: "Rückfall" nach 1 statt 7 Tagen.
+  Nach P2-1 + P4-1 wäre der Weg "markt" mit den heutigen Daten sofort in P2. Weg "sell" schlägt nach KERN-S1 die Grundlinie
+  klar (nachgespielt: Brier 0,237 gegen 0,525), braucht für P2 (< 0,20) aber noch mehr Fälle.
+  Der Kern bekommt ab jetzt meinen Teil "kern" (21 Markt-Zellen aus 154 457 Fällen) in der Markt-Tabelle, und die Tabelle
+  rechnet über ALLE Daten-Stände beider Rechner (vorher gingen alte Fälle verloren, weil das Journal nur 3000 Einträge hält).
+  Auswertung bei jeder Tabelle: testberichte/markt/kern/<Datum>.md. AHS ist wach (05:02) mit Arbeitsliste.
+- ENTSCHEID FÜR DICH: Die geplante Aufgabe "Markt-Tabellen täglich" liest nur EINE Datei. Damit gingen alte Fälle wieder
+  verloren. Ändern braucht deine Einwilligung – sag, ob ich sie anpassen soll (Anleitung shared/markt-tabellen/README.md),
+  oder ich rechne jeden Morgen selbst nach.
+- GMAIL: 56 Mails "Addon-Prüfung fehlgeschlagen" (14.11. 08:01 bis 15.11. 20:34) – alle EINE Ursache: die Prüfung meldete
+  FEHLER, wenn AHS/GS im Discord höher war als die Zip, die erst um 18:00 für CurseForge kommt. Seit 20:36 behoben, seither
+  kein Fehlschlag. Archivieren konnte ich sie nicht (Änderung im Postfach braucht deine Freigabe) – du kannst sie löschen.
+  CurseForge-Kommentar (Kaufen per Mausrad, Fehler beim Einstellen): bekannt seit 18:25, behoben in 0.65.207/208/215 –
+  auf CurseForge steht aber noch 0.65.178, bis du den Sniper abnimmst (dann geht die neueste Version um 18:00 hoch).
+- NEU 05:04: Für Tests im Spiel kleine Test-Addons je Addon (Hinweis an alle Projekte). TS bekommt als Nächstes "TSMess".
 - Alle acht Projekte arbeiten: AHSentinel, ProfessionSentinel, LevelPilot, GuildSentinel, BuffSentinel, ThreatSentinel,
   RaidMaster/Uploader, Discord-Bot. Jede neue Version prüfe ich in meiner Runde alle 15 Minuten; Fragen beantworte ich dort.
 - Alle Sitzungen wecken sich mit einem internen Wecker (keine geplanten Aufgaben mehr, nichts verlangt deine Freigabe).
