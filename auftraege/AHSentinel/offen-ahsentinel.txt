@@ -4010,3 +4010,13 @@ DL-ALT-1: In download/ liegen zwei AHSentinel-Zips (0.65.178 und 0.65.265). Die 
   Addon-Prüfung auf GitHub scheitern ("Version 0.65.178 ist NIEDRIGER als 0.65.280"). Bitte: git rm download/AHSentinel-0.65.178.zip
   (nur die alte; 0.65.265 bleibt), push, danach prüfen, dass der nächste Lauf "Addon-Prüfung" grün ist. Künftig beim Ablegen einer
   neuen Zip in download/ die ältere desselben Addons mit entfernen. Vor WACH-1 erledigen (eine Minute).
+
+==== ENTSCHEID DES NUTZERS 16.11.2026 20:03: SCHLAFEN ERST, WENN WIRKLICH ALLES ERLEDIGT IST ====
+"Wenn wirklich alles erledigt ist, leg ihn schlafen." Bedeutet für dich:
+- Weiterarbeiten (Wecker an), solange noch etwas offen ist, das du OHNE den Nutzer machen kannst: Befunde Ingametest 19:43
+  (WACH-1, VS-121, SANDBOX-1, SN-TR-2, UI-CLEAN1-B, HILFE-GRP-1), dann E/F/G/TU, dann alle übrigen offenen Punkte dieser Datei.
+- "Erledigt" heisst: umgesetzt, mit Test + Gegenprobe, Bericht im Repo. Was nur im Spiel belegt werden kann, steht als
+  Prüflisten-Punkt bereit – das zählt dann als "fertig für den Test".
+- ERST wenn nichts mehr übrig ist (nur noch Ingame-Test oder Nutzer-Entscheide): Abschlussbericht
+  berichte/AHSentinel/<Datum>-<HHMM>-fertig-schlafe.txt (was offen bleibt und warum), Wecker NICHT neu stellen, schlafen.
+  Der Supervisor weckt dich über diese Datei, sobald es neue Arbeit gibt.
