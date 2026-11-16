@@ -1,0 +1,24 @@
+AHSentinel 0.65.297 – REPOST-MENGE (Antwort Supervisor 16.11. 22:14: "Neu einstellen" nur die zurückgekommene Menge) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.297 und sofort im Discord.
+
+Umsetzung:
+- Extras.lua: X:RepostItems liefert je Item die zurückgekommene Menge (NoteReturned) statt "ja"; keine Zahl -> true = unbekannt.
+  Neu X:ConsumeReturned(id, qty): nach dem Einstellen abbuchen; aufgebraucht -> kein Kandidat mehr (die 40 behaltenen bleiben liegen).
+- Seller.lua: BatchCandidates übernimmt die Menge als Grenze (e.left, e.lim0); neue Se:BatchQty(e, count, entry, last): Ware
+  min(Taschen, Grenze), altes AH ganze Stapel innerhalb der Grenze (sonst "Zu wenig für einen Stapel"), Ausrüstung 1 Stück je Klick
+  bis die Grenze erreicht ist; BatchCurrent überspringt Einträge mit Grenze 0. Menge unbekannt -> übersprungen mit Grund
+  "zurückgekommene Menge unbekannt – bitte von Hand einstellen" (nie still alles). Die normale Serie (ohne Grenze) bleibt wie bisher.
+- Chat: "Neu einstellen: Friedensblume – 20 von 60, 40 behältst du." (nur wenn etwas in den Taschen bleibt). 3 neue Texte, 10 Sprachen.
+TESTS: T876 (Kandidaten 20/3/unbekannt; Ware 20, Ausrüstung 1, Stapel 20 / übersprungen, ohne Grenze 60; nach 3 Einzelstücken weiter
+  mit dem nächsten Item; Abbuchen 20 -> weg, 3 -> 2). Gegenprobe (Grenze in BatchQty entfernt): T876 rot ("Ware 60 · Stapel 60 / 60").
+  Nachbau s270d (Einstellen 20 von 60 -> Abbrechen -> Post -> Neu einstellen): jetzt GEPRÜFT statt nur gemessen: neue Auktion 20,
+  Taschen 40, Chatzeile "20 von 60, 40 behältst du", danach nichts mehr zum Neu-Einstellen. Gegenprobe mit 0.65.296: rot (60 eingestellt,
+  0 in den Taschen). Gleiche Mutation: s270d rot.
+Prüflisten-Punkt: keiner – die Prüfliste ist voll (Pruefliste.lua: höchstens 14 Punkte, alle 14 belegt: SN-TR, SN-RAD-A/B,
+  SN-GRENZE, POST-WS, ESL1, POST-TEUER, SCHN-ALARM, VOLLSCAN, HAENDLER-GOLD, WAECHTER-LAST, WAECHTER-FUND, UI-TEST, HILFE-GRP); der
+  Ablauf ist im Nachbau geprüft – im Spiel bei Gelegenheit "Neu einstellen" mit
+  teilweise behaltener Ware ansehen.
+
+Tests (eigene, keine Freigabe): Gesamtlauf aller Nachbauten auf dem Stand 0.65.297 (mit geprüftem s270d): BESTANDEN 339, FEHLGESCHLAGEN 0.
+addon_check: AHSentinel-0.65.297.zip OK. Veröffentlicht: GitHub-Release v0.65.297, Discord announce/ahsentinel__ahsentinel-0.65.297.md.
+Nicht in download/, kein CurseForge (erst nach dem Ingametest).
