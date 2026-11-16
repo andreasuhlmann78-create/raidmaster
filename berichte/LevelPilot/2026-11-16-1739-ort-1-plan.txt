@@ -1,0 +1,30 @@
+BERICHT LevelPilot – ORT-1 "Orte statt Radien": Plan und erster Beleg (vor dem Bau)
+Projekt: LevelPilot · Datum: 16.11.2026 17:39 (aus date) · Stand: 3.12.71 veröffentlicht (ERA-1), ORT-1 in Arbeit
+
+Bezug: Aufträge ROUTE-Q (17:29), ORT-1 (17:31), O5 (17:34). Reihenfolge wie beauftragt: ERA-1 (3.12.71, Bericht 17:36) -> ORT-1 O1/O2
+-> ROUTE-Q -> Bericht. Neue Funktionen gestoppt.
+
+1. BELEG: ZUORDNUNG ORT -> GEBIETS-ID FUNKTIONIERT (berichte/LevelPilot/orte/orte_probe.py)
+   Datenpaket-Ort (Forever-Rahmen) -> Welt (UiMapAssignment je Spielversion, Era über die Umkehr von forever_maps.lua) -> Kachel ->
+   Gebiets-ID aus gebiete_forever.json / gebiete_era.json. Hinweis zum Datenformat: der Kachel-Schlüssel ist "ty_tx" (Zeile_Spalte),
+   z. B. Nordhain = "48_32" – nicht "tx_ty". 7 Stichproben, Forever und Era gleich und richtig:
+   Marshal McBride -> 9 Northshire Valley · Gastwirt Farley -> 87 Goldshire · Tal der Prüfungen -> 363 · Camp Narache -> 221 ·
+   Todesend -> 154 Deathknell · Schattenhain -> 188 Shadowglen · Coldridge -> 132 Coldridge Valley.
+2. PLAN O1 (Daten, im Generator des Datenpakets, nicht im Spiel gerechnet)
+   - Jeder Fundort im Datenpaket (NPCs 6372 / Objekte 788; Questgeber, Abgeber, Mob- und Objekt-Orte) bekommt seine Gebiets-ID, je
+     Spielversion getrennt, wenn sie sich unterscheiden. Neue Datei Data/Orte.lua: ID je Fundort + Gebietstabelle (Eltern-Zone,
+     Erkundungsstufe). Namen im Spiel über C_Map.GetAreaInfo (übersetzt) – Verdacht, zu messen, ob es in Forever vorhanden ist; sonst
+     englischer Name aus der AreaTable.
+   - Je Ort ("Hub", Gebiets-ID mit Questgebern): Quests, Stufenspanne (Mindest-/Questlevel), Ketten, Fraktion, Dienste.
+3. PLAN O2 (Planer)
+   - Ort des Spielers = Gebiets-ID des nächsten Fundorts im Umkreis (ohne Kachelkarte im Spiel; Kachelkarte nur, wenn die Messung zeigt,
+     dass das nicht reicht – Speicher).
+   - Route je Ort: im Ort alle verfügbaren Quests annehmen -> Ziele der Umgebung -> zurück abgeben -> nächster Ort, erst wenn die
+     machbaren Quests des Orts erledigt sind oder alle übrigen > Stufe + 2. Ortswechsel nach Stufenspanne, nicht nach Entfernung allein.
+   - Dienste (Binden, Flug, Händler) nur im Ort, in dem die Route ohnehin ist (3.12.71: Binden schon nur auf dem Weg ≤ 60 yd).
+   - O5: Questgeber in der Wildnis gehören zu ihrer Gebiets-ID; mitnehmen, wenn die Route in dieses Gebiet geht oder ≤ 60 yd Umweg.
+   - Die geometrische Startgebiets-Grenze aus 3.12.71 (Mittellinie Startplatz–Gasthaus) wird durch die Gebiets-ID ersetzt.
+4. PRÜFUNG (ROUTE-Q): mess_era1_start.lua / mess_era1_weg.lua werden zur Prüfung R1–R5 über 1–60 ausgebaut (12 Reisen, Era und
+   Forever, Gegenprobe 3.12.69).
+5. FRAGE (kein Halt, ich baue weiter nach diesem Plan): Ist "Ort des Spielers = Gebiets-ID des nächsten Fundorts" für den Supervisor
+   ausreichend, oder soll die Kachelkarte (33-yd-Stücke) ins Datenpaket (Speicher, Verdacht: einige MB)? Bis zur Antwort: Fundorte.
