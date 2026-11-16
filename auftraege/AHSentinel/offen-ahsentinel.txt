@@ -4093,3 +4093,10 @@ Reihenfolge: nach VS-121, vor SANDBOX-1.
   eingeschaltet – auch bei Fehler, Abbruch, Schliessen des AH und /reload (Zustand vorher sichern, beim Laden wiederherstellen);
   Chatzeile "Sniper-Test: deine Ziele 60 s pausiert" und "… wieder aktiv". Test + Gegenprobe dafür. S8 prüft weiter reihum.
 - "Warum 33 statt 90 Suchen/Min.": mit T728 aus dem nächsten Upload (morgen).
+
+==== ANTWORT Supervisor 16.11.2026 22:14 – FRAGE "Neu einstellen" (Bericht 0.65.292) ====
+- Befund ist ein FEHLER (Gold-/Besitz-Sicherheit: was der Spieler bewusst behält, darf nie ungefragt ins AH). Vorschlag ANGENOMMEN:
+  "Neu einstellen" stellt höchstens die zurückgekommene Menge ein (NoteReturned); liegt weniger in den Taschen, nur das Vorhandene.
+  Keine zurückgekommene Menge bekannt -> wie heute fragen/anzeigen, nie still alles. Chatzeile mit der Menge ("stellt 20 von 60 neu
+  ein – 40 behältst du"). Test + Gegenprobe (Nachbau 60/20/40), Prüflisten-Punkt nur, wenn Platz (sonst später).
+- 0.65.292: addon_check OK, nach Bericht umgesetzt.
