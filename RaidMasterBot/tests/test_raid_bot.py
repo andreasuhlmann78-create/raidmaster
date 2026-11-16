@@ -27,7 +27,7 @@ class Raid(unittest.TestCase):
         self.assertIs(g, self.m.raid_group)
         self.assertEqual(sorted(c.name for c in g.commands),
                          sorted(["erstellen", "testraid", "absagen", "softres", "schliessen", "oeffnen", "export",
-                                 "liste", "aufstellung", "taktik", "fehlend", "grenzen"]))          # fehlend ab 1.5.183 (D-N1)
+                                 "liste", "aufstellung", "taktik", "fehlend", "grenzen", "wiederkehrend"]))          # fehlend ab 1.5.183 (D-N1)
         self.assertIs(self.bot.bot.tree.get_command("rekorde").callback, self.m.rekorde_cmd.callback)
         self.assertIs(sys.modules["anmeldung_bot"].send_export, self.m.send_export)     # ab 1.5.180 dort benutzt
         for name in ("post_all_tactics", "reminder_loop"):

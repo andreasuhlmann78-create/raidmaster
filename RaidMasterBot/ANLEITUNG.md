@@ -532,6 +532,7 @@ Der Bot führt im Kanal **#gildenname** eine Abstimmung (fehlt der Kanal, legt e
 | `/raid liste`, `schliessen`, `oeffnen`, `absagen`, `export` | Offiziere | Raids verwalten |
 | `/raid fehlend` | Offiziere | Wer aus der Gilde hat sich zu einem Raid noch nicht gemeldet? (nur für dich sichtbar, schreibt niemanden an) |
 | `/raid grenzen` | Offiziere | Plätze je Rolle festlegen (z. B. höchstens 8 Heiler, 0 = keine Grenze); darüber kommen neue Anmeldungen auf die Ersatzbank, schon Angemeldete bleiben. Ohne Werte: zeigt den Stand. |
+| `/raid wiederkehrend anlegen`, `liste`, `pausieren`, `loeschen` | Offiziere | Fester Wochentermin (z. B. jeden Mittwoch 20:00 Molten Core): der Bot legt die Raids selbst an, 1–4 Wochen im Voraus, nie doppelt, erst ab Öffnung des Raids; optional mit Plätzen je Rolle. Löschen lässt schon angelegte Raids stehen. |
 | `/raid taktik` | Offiziere | Taktik eines Raids (oder ohne Angabe: aller Raids) in die Taktik-Kanäle (#mc-taktik, #onyxia-taktik …) |
 | `/raid softres` | Offiziere | softres.it-Link eines PUG-Raids setzen/ändern |
 | `/addon` | alle | Download-Link der aktuellen Addon-Version |

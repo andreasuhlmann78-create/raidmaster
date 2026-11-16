@@ -36,6 +36,10 @@ COMMAND_INFO = {
     "raid taktik": ("Gildenleitung", "Raids"),
     "raid fehlend": ("Gildenleitung", "Raids"),
     "raid grenzen": ("Gildenleitung", "Raids"),
+    "raid wiederkehrend anlegen": ("Gildenleitung", "Raids"),
+    "raid wiederkehrend liste": ("Gildenleitung", "Raids"),
+    "raid wiederkehrend pausieren": ("Gildenleitung", "Raids"),
+    "raid wiederkehrend loeschen": ("Gildenleitung", "Raids"),
     "pug-einladung": ("Gildenleitung", "Raids"),
     "einladung": ("Gildenleitung", "Server"),
     "mitgliederbereich einrichten": ("Gildenleitung", "Server"),
@@ -128,14 +132,18 @@ def command_list_text() -> list[str]:
 
 
 def _command_entries() -> list[tuple[str, str, list[str]]]:
+    """Alle Befehle mit vollem Namen – ab 1.5.186 auch Untergruppen (z. B. /raid wiederkehrend anlegen)."""
     entries = []
-    for cmd in bot.tree.get_commands():
+
+    def walk(cmd, prefix=""):
         subs = getattr(cmd, "commands", None)
         if subs:
             for sub in subs:
-                entries.append((f"{cmd.name} {sub.name}", sub.description, [p.name for p in sub.parameters]))
+                walk(sub, f"{prefix}{cmd.name} ")
         else:
-            entries.append((cmd.name, cmd.description, [p.name for p in getattr(cmd, "parameters", [])]))
+            entries.append((f"{prefix}{cmd.name}", cmd.description, [p.name for p in getattr(cmd, "parameters", [])]))
+    for cmd in bot.tree.get_commands():
+        walk(cmd)
     return entries
 
 

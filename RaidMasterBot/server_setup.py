@@ -59,7 +59,8 @@ def _load_raids() -> list[dict]:
                 mode = e.get("mode") if e.get("mode") in ("readonly", "botonly") else None
                 extra.append(("text", f"{prefix}-{name}", e.get("topic") or None, mode))
         out.append({"key": key, "name": str(r["name"]), "emoji": r.get("emoji") or "🗡️", "prefix": prefix,
-                    "size": int(r.get("size") or 40), "forever": bool(r.get("forever")), "extra": extra})
+                    "size": int(r.get("size") or 40), "forever": bool(r.get("forever")), "extra": extra,
+                    "opens": str(r.get("opens") or "")})     # ab 1.5.186: Öffnungsdatum (wiederkehrende Raids)
     return out or list(_DEFAULT_RAIDS)
 
 
@@ -1333,3 +1334,14 @@ async def place_first(guild, name: str, reason: str = "RaidMaster: Kategorie nac
         return []
     await cat.edit(position=0, reason=reason)
     return [f"↕️ Kategorie **{name}** ganz nach oben verschoben"]
+
+
+def raid_opens(key: str):
+    """Öffnungsdatum eines Raids aus forever_raids.json ("opens": "JJJJ-MM-TT") als date, sonst None
+    (ab Bot 1.5.186, für wiederkehrende Raids: Termine erst ab diesem Tag)."""
+    from datetime import date
+    r = next((r for r in RAID_DEFS if r["key"] == key), None)
+    try:
+        return date.fromisoformat(r["opens"]) if r and r.get("opens") else None
+    except ValueError:
+        return None

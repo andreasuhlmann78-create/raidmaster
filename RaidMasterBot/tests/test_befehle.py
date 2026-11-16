@@ -31,6 +31,11 @@ def command_info() -> dict:
 def commands() -> dict:
     """{'raid erstellen': Rumpf der Funktion, …} – alle Slash-Befehle aus bot.py."""
     groups = dict(re.findall(r'^(\w+)\s*=\s*app_commands\.Group\(name="([^"]+)"', SRC, re.M))
+    # ab 1.5.186: Untergruppen (parent=…), z. B. /raid wiederkehrend anlegen
+    for m in re.finditer(r'^(\w+)\s*=\s*app_commands\.Group\((.*?)\)\n', SRC, re.M | re.S):
+        p = re.search(r"parent=(\w+)", m.group(2))
+        if p:
+            groups[m.group(1)] = f"{groups.get(p.group(1), p.group(1))} {groups[m.group(1)]}"
     out = {}
     for m in re.finditer(r'^@(bot\.tree|\w+)\.command\(name="([^"]+)"', SRC, re.M):
         start = SRC.index("\nasync def ", m.end())

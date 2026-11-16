@@ -101,6 +101,7 @@ class RaidBot(discord.Client):
         monthly_loop.start()
         test_cleanup_loop.start()
         tb_cleanup_loop.start()
+        recurring_loop.start()                    # D-N1 W3 (ab 1.5.186): wiederkehrende Raids
 
     async def on_guild_join(self, guild):
         """UP-404 (c): nach dem (Wieder-)Einladen Befehle sofort für diesen Server anmelden – ohne Neustart."""
@@ -465,6 +466,7 @@ from upload_bot import (  # noqa: E402
 )
 import einrichten_bot  # noqa: E402,F401 – D-3 Schritt 35: Server-Einrichtung (meldet /raidmaster-einrichten an)
 import abwesend_bot  # noqa: E402,F401 – D-N1 (1.5.184): Abwesenheit (meldet /abwesend an)
+from wiederkehrend_bot import recurring_loop  # noqa: E402 – D-N1 W3 (1.5.186): /raid wiederkehrend, Schleife
 
 # ---------------------------------------------------------------------------
 # Hilfen
