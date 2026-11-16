@@ -3760,3 +3760,28 @@ Zusätzlich aus derselben Datei (Selbsttest, nicht Sniper): T299 "○ mutig" üb
   ist klein, grau und Fachsprache ("messe 0/5" sagt dem Spieler nichts). Auftrag MR4-T: in Klartext, z. B. "Stufen 1–25: noch zu
   wenig Daten (0 von 5 Tagen)" bzw. sobald Daten da sind die Aussage selbst (bester Tag zum Verkaufen). Ausserdem überdeckt
   "6 Einträge" den Hinweistext darunter ("…einstellen, neu einstellen, entzaubern, herstellen)") – Text kürzen oder Zähler verschieben.
+
+==== AUFTRAG OPT-1 HOCH: Optionen übersichtlich neu ordnen (Nutzer 16.11.2026 08:51: "das Optionen-Menü ist eine Katastrophe – bitte
+übersichtlich gestalten") ====
+Befund am Bild (Supervisor 08:31): ein Fenster mit 3 Spalten und rund 60 Zeilen ohne Überschriften, Reihenfolge zufällig
+(Design neben Gebühren neben Sniper), lange Beschriftungen umgebrochen, "Sniper: Kaufen mit" als 28. Zeile nicht zu finden (PL-T1),
+Selbsttest T299: "○ mutig" überlagert "Sniper kauft mit". Ziel: jede Einstellung in unter 5 Sekunden finden.
+VORGABEN
+ (a) Links eine Reiterleiste mit Bereichen, rechts nur die Optionen dieses Bereichs (eine Spalte, höchstens ~12 Zeilen, nie Scrollen
+     nötig). Vorschlag Bereiche: Allgemein (Design, Sprache, Geld, Fenster, Befehlsliste) · Anzeige & Tooltip · Verkaufen
+     (Laufzeit, Warnschutz, Preisschutz, Gebühren, Post) · Kaufen & Sniper (Kaufen mit, Tasten, Tempo, Budget/Risiko, Wächter) ·
+     Markt & Empfehlungen (Wege, Spielrhythmus, Mindestgewinn) · Daten & Teilen (Sync, Marktdaten teilen, Export, Twinks) ·
+     Hinweise & Töne. Endgültige Einteilung nach dem tatsächlichen Bestand – JEDE heutige Option genau einmal (Liste alt -> neu
+     in den Bericht, Zahl muss aufgehen: n alt = n neu).
+ (b) Suchfeld oben: tippt man "sniper", "mausrad", "gebühr" …, bleiben nur passende Zeilen (über alle Bereiche, mit Bereichsname).
+ (c) Jede Zeile: kurze Beschriftung (max. ~28 Zeichen, kein Umbruch), rechts der Schalter/Wert, Erklärung nur im Tooltip.
+     Gleiche Schalter-Art überall (an/aus = ein Knopf grün/grau; Auswahl = eine Knopfreihe).
+ (d) Häufig gebraucht zuerst; selten/Experten unten unter "Weitere" (eingeklappt). Standardwert erkennbar ("Standard"-Knopf je Bereich).
+ (e) Wo eine Option gebraucht wird, steht sie zusätzlich dort (Sniper: "Kaufen mit" neben dem Kauf-Knopf – PL-T1 b); der Optionen-
+     Knopf im Sniper öffnet direkt den Bereich "Kaufen & Sniper".
+ (f) Alte Clients/Spielstände nie brechen: nur die Anzeige ordnet sich neu, alle gespeicherten Werte (db.settings.*) bleiben gleich.
+ (g) Klassisch und Modern, 100 % und 130 %, alle Sprachen (lange Texte FR/ES/RU): nichts überlappt, nichts abgeschnitten
+     (UI-CLEAN1/T299 müssen grün werden). Test: jede alte Option ist im neuen Fenster erreichbar und wirkt wie vorher.
+ (h) Prüfliste-Punkt "OPT-1 Optionen am Bild" (Entscheid des Nutzers: OK/Nicht OK) – dafür einen erledigten Punkt ersetzen.
+Psychologie (shared/wissen/psychologie.md): weniger auf einmal zeigen, Begriffe des Spielers statt Fachsprache.
+Reihenfolge: nach SN-RAD-1 und PF-1 (Gold-Sicherheit zuerst), dann OPT-1 vor den übrigen Punkten.
