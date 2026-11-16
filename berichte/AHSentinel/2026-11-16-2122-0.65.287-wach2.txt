@@ -1,0 +1,32 @@
+AHSentinel 0.65.287 – WACH-2 (HOCH, Nutzer 20:43 "Funktioniert der Wächter überhaupt?") – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.287 und sofort im Discord.
+
+1. HÜRDEN GEZÄHLT (Watcher.lua W:FinishRound): je Runde in der Reihenfolge der Prüfung – Angebote, Waren (nur Waren/"Commodities",
+   Ausrüstung prüft der Wächter bewusst nicht), mit Marktwert, belastbar, unter der Schwelle, ohne Preissturz/Flutung (FlipBlocked),
+   unter der Flip-Grenze (FlipLimitFromNet, Mindestgewinn), im Tagesbudget Weiterverkauf (Ln:BudgetLeft "e"), Marktwert ab
+   Mindestwert, neu (nicht gerade abgelehnt) = Kandidaten; dazu "unter 50 %" zum Vergleich. Die Entscheidung je Angebot ist
+   unverändert (gleiche Bedingungen, nur nacheinander geschrieben; T862 prüft jede Hürde einzeln).
+   - Im Wächter-Fenster EINE Klartext-Zeile unter dem Runden-Zähler: "Letzte Runde: 412 Angebote – 0 unter 30 % des Marktwerts –
+     bei 30 % ist das selten, mit 50 % wären es 3 gewesen" (erste Hürde, an der alles hängen bleibt) bzw. "… – n Kandidaten (werden
+     einzeln nachgeprüft)" bzw. "keine Angebote (Server hat nichts geliefert)".
+   - Protokoll: je Runde "WAECHTER-HUERDEN 412 Angebote · 37 Waren · … · 0 neu · 3 unter 50 %".
+   - Die Einstellungen des Nutzers ändert AHSentinel nicht (nur der Hinweis mit 50 %).
+2. NACHBAU MIT DEN DATEN DES NUTZERS (s267_watcher_hurdles, Repo AHAnalyzerPro): Marktdaten Horde vom 14.11. aus
+   testberichte/markt/tages/2026-11-14.json (6176 Items, als data/markt_2026-11-14.lua), Einstellungen wie beim Nutzer (Schwelle 30 %,
+   Mindestwert 3s, Budget 50g, Gold 30g), je Item 20 Preise um den Tageswert.
+   Runde A (jedes Angebot zum Tageswert): 6176 Angebote · 6176 Waren · 6176 mit Marktwert · 5933 belastbar · 0 unter 30 % ·
+   0 unter 50 % -> Zeile "Letzte Runde: 6176 Angebote – 0 unter 30 % des Marktwerts – … mit 50 % wären es 0 gewesen".
+   Runde B (dazu 20 echte Schnäppchen zu 20 % des Marktwerts, über die Preisliste verteilt, Marktwert ab 10s): 19 von 20 kommen durch
+   ALLE Hürden (1 ohne belastbaren Marktwert); 5 davon gehen je Runde weiter zur Einzelsuche (MAX_NEW 5, wie bisher).
+   Ergebnis: Keine Hürde sperrt zu Unrecht – auch Budget "e" nicht (Verdacht b widerlegt im Nachbau mit 30g Gold). Verdacht a ist
+   wahrscheinlich: Schnäppchen unter 30 % sind selten. Verdacht c (nur graue Zeilen) bleibt: ohne "gesichert" kommt nur eine graue
+   Chatzeile ohne Ton. GRENZE DES NACHBAUS: Die Tagesdaten haben je Item nur EINEN Preis (1 Scan) – wie oft ein Angebot im Spiel
+   wirklich unter 30 % fällt, zeigt erst die neue Zeile im Spiel. Darum Prüflisten-Punkt WAECHTER-FUND.
+3. PRÜFLISTE: neuer Punkt WAECHTER-FUND (statt SN-BTN1, im Ingame-Test 19:43 OK): Wächter ≥ 10 Min. an -> nach ≥ 3 Runden hakt sich
+   der Punkt selbst ab, Notiz = Hürden-Zeile. T836 angepasst (9 von 14, SN-GRENZE jetzt Schritt 4).
+4. FRAGE (Vorschlag): Soll die graue Zeile "Schnäppchen (nicht gesichert: Weiterverkauf lernt noch)" einen eigenen leisen Hinweis im
+   Wächter-Fenster bekommen ("x Schnäppchen gefunden, aber noch nicht gesichert – siehe Liste rechts")? Vorschlag: ja, ohne Ton.
+TESTS: T862 (jede Hürde einzeln mit Ersatz-Funktionen, Kandidat nur der eine, Zeile mit 50 %-Vergleich), T863 (WAECHTER-FUND erst
+  nach 3 Runden UND 10 Min.) – Gegenprobe 0.65.286 rot. s267_watcher_hurdles – Gegenprobe 0.65.286 rot. UI-Prüfung (s187): gleiche
+  18 Befunde wie 0.65.286, nichts Neues durch die Zeile.
+Gesamtlauf der Nachbildung (0.65.287): BESTANDEN 326, FEHLGESCHLAGEN 0.
