@@ -99,7 +99,8 @@ PRE_RUN = function(LP)
   check(G.ROAD_COST == 1.0, "Kosten Strasse = Länge × " .. tostring(G.ROAD_COST) .. " (Luftlinie × 1,45 + Gelände)")
   -- 7) Text für das Protokoll
   local t = G.RoadText()
-  check(t:find("^STRASSEN Kontinent 1 ") ~= nil, "Protokoll: " .. t)
+  check(t:find("^STRASSEN %(Forever%) Kontinent 1 ") ~= nil, "Protokoll: " .. t)
+  check(_G.GoldSentinelStrassenEra == nil, "Forever: Era-Strassen beim Aufbau freigegeben (Speicher)")
   -- LW-1 (3.12.51): Umweg-Faktor der Zone messen (alle Strassenknoten haben hier Zone 1413), Median im erlaubten Bereich
   J.sync = true
   G.detour = {}
@@ -119,11 +120,33 @@ PRE_RUN = function(LP)
   for i = 1, 200 do if G:NodeById(25000000 + i) then left = left + 1 end end
   check(left == 0 and next(G.roadStat) == nil, ("nach Neuaufbau: Strassenknoten übrig %d, Stand leer %s"):format(left, tostring(next(G.roadStat) == nil)))
   check(G:LoadRoads(1) == true and G.roadStat[1].fertig, "danach neu geladen (fertig " .. tostring(G.roadStat[1] and G.roadStat[1].fertig) .. ")")
-  -- Era/TBC: keine Strassen
+  -- 3.12.53 ST-5: Classic Era lädt das Era-Netz (aus dem Anniversary-Client), TBC Classic keines
   local savedGame = _G.GoldSentinelGame
+  local era = loadfile(arg[1] .. "/Data/StrassenEra.lua")
+  era()
+  local E = _G.GoldSentinelStrassenEra
+  local ek = E and E.karten and E.karten[1]
+  local eEnds, eInner = {}, 0
+  for _, line in ipairs(ek and ek.e or {}) do
+    eEnds[line[1]], eEnds[line[#line]] = true, true
+    local acc = 0
+    for j = 2, #line do
+      local a, b = line[j - 1], line[j]
+      acc = acc + math.sqrt((ek.p[2 * b - 1] - ek.p[2 * a - 1]) ^ 2 + (ek.p[2 * b] - ek.p[2 * a]) ^ 2)
+      if j < #line and acc >= G.SEED_STEP then eInner, acc = eInner + 1, 0 end
+    end
+  end
+  local nE = 0 for _ in pairs(eEnds) do nE = nE + 1 end
   _G.GoldSentinelGame = { flavor = "era", IsForever = false }
   G:LoadStatic({}, nil)
-  check(G:LoadRoads(1) == false, "Classic Era: keine Strassen (Daten aus dem Forever-Client)")
+  local okEra = G:LoadRoads(1) == true
+  local se = G.roadStat[1] or {}
+  check(okEra and se.fertig and se.knoten + se.eigen == nE + eInner and E.client == "2.5.6.70577",
+    ("Classic Era: Era-Netz geladen (Client %s), Knoten %s = Enden %d + Zwischenknoten %d; %s"):format(tostring(E and E.client),
+      tostring(se.knoten), nE, eInner, G.RoadText()))
+  _G.GoldSentinelGame = { flavor = "tbc", IsForever = false }
+  G:LoadStatic({}, nil)
+  check(G:LoadRoads(1) == false, "TBC Classic: keine Strassen")
   _G.GoldSentinelGame = savedGame
   print(fails == 0 and "== ALLE TESTS OK" or ("== " .. fails .. " FEHLER"))
   os.exit(fails == 0 and 0 or 1)

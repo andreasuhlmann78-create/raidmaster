@@ -34,7 +34,7 @@ NAH = 15.0        # yd: gelaufener Punkt "auf der Strasse"
 PAARE = 300
 
 NAMEN = {1411: "Durotar", 1412: "Mulgore", 1413: "Brachland", 1414: "Kalimdor", 1416: "Alteracgebirge", 1417: "Arathihochland",
-         1420: "Tirisfal", 1421: "Silberwald", 1424: "Hügelland", 1437: "Sumpfland", 1440: "Eschental", 1441: "Tausend Nadeln",
+         1420: "Tirisfal", 1421: "Silberwald", 1422: "Westl. Pestländer", 1424: "Hügelland", 1448: "Teufelswald", 1437: "Sumpfland", 1440: "Eschental", 1441: "Tausend Nadeln",
          1442: "Steinkrallen", 1443: "Desolace", 1445: "Düstermarschen", 1446: "Tanaris", 1454: "Orgrimmar", 1456: "Donnerfels",
          1458: "Unterstadt"}
 

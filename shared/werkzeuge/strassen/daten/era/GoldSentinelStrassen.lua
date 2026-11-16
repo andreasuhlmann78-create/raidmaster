@@ -1,11 +1,11 @@
--- GoldSentinel Strassennetz WoW Forever (automatisch erzeugt, nicht von Hand ändern)
+-- GoldSentinel Strassennetz Classic Era (aus dem Anniversary-Client, Karten 0/1 der Grundwelt) (automatisch erzeugt, nicht von Hand ändern)
 -- Quelle: Bodentexturen der Spieldateien (ADT tex0, Strassen-Texturen), Werkzeug raidmaster/shared/werkzeuge/strassen
 -- Koordinaten: Welt-Yards (x nach Norden, y nach Westen) wie C_Map.GetWorldPosFromMapPos; je Karte (0 = Östl. Königreiche,
 -- 1 = Kalimdor) Punkte p = {x1,y1, x2,y2, ...} und Kanten e = { {i1,i2,...}, ... } als Linienzüge über Punkt-Nummern (1-basiert).
-GoldSentinelStrassen = GoldSentinelStrassen or {}
-GoldSentinelStrassen.version = 1
-GoldSentinelStrassen.client = "2.5.6.70577"
-GoldSentinelStrassen.karten = {
+GoldSentinelStrassenEra = GoldSentinelStrassenEra or {}
+GoldSentinelStrassenEra.version = 1
+GoldSentinelStrassenEra.client = "2.5.6.70577"
+GoldSentinelStrassenEra.karten = {
   [0] = {
     p = {
       -11020.9,1512.5,-11019.8,1499.5,-11001.7,1514.9,-11040.6,1512,-11024,1459.4,-11007.6,1497.2,-537.8,728.8,-409.4,790.6,-346.9,811.5,-330.2,815.6,

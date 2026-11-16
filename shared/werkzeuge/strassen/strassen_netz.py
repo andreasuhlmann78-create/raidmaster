@@ -418,15 +418,23 @@ def verdichten(pkt, kan):
     return pk2, kan2, st
 
 
-def lua(netze, info):
-    z = ["-- GoldSentinel Strassennetz WoW Forever (automatisch erzeugt, nicht von Hand ändern)",
+# ST-5 (LevelPilot 16.11.2026): je Spielversion eigene globale Tabelle, damit die Dateien sich nie überschreiben
+ZIELE = {
+    "forever": ("GoldSentinelStrassen", "WoW Forever"),
+    "era": ("GoldSentinelStrassenEra", "Classic Era (aus dem Anniversary-Client, Karten 0/1 der Grundwelt)"),
+}
+
+
+def lua(netze, info, ziel="forever"):
+    name, titel = ZIELE[ziel]
+    z = ["-- GoldSentinel Strassennetz %s (automatisch erzeugt, nicht von Hand ändern)" % titel,
          "-- Quelle: Bodentexturen der Spieldateien (ADT tex0, Strassen-Texturen), Werkzeug raidmaster/shared/werkzeuge/strassen",
          "-- Koordinaten: Welt-Yards (x nach Norden, y nach Westen) wie C_Map.GetWorldPosFromMapPos; je Karte (0 = Östl. Königreiche,",
          "-- 1 = Kalimdor) Punkte p = {x1,y1, x2,y2, ...} und Kanten e = { {i1,i2,...}, ... } als Linienzüge über Punkt-Nummern (1-basiert).",
-         "GoldSentinelStrassen = GoldSentinelStrassen or {}",
-         "GoldSentinelStrassen.version = 1",
-         "GoldSentinelStrassen.client = %s" % json.dumps(info["client"]),
-         "GoldSentinelStrassen.karten = {"]
+         "%s = %s or {}" % (name, name),
+         "%s.version = 1" % name,
+         "%s.client = %s" % (name, json.dumps(info["client"])),
+         "%s.karten = {" % name]
     for m, (pkt, kan) in netze.items():
         z.append("  [%s] = {" % m)
         flat = []
@@ -445,7 +453,7 @@ def lua(netze, info):
     return "\n".join(z) + "\n"
 
 
-def main(src, outdir):
+def main(src, outdir, ziel="forever"):
     d = json.load(open(src))
     netze, stat = {}, {}
     for m, karte in d["karten"].items():
@@ -456,9 +464,11 @@ def main(src, outdir):
     os.makedirs(outdir, exist_ok=True)
     json.dump({"client": d["client"], "stat": stat, "karten": {m: {"p": p, "e": e} for m, (p, e) in netze.items()}},
               open(os.path.join(outdir, "strassen_netz.json"), "w"), separators=(",", ":"))
-    open(os.path.join(outdir, "GoldSentinelStrassen.lua"), "w", encoding="utf-8").write(lua(netze, d))
+    open(os.path.join(outdir, "GoldSentinelStrassen.lua"), "w", encoding="utf-8").write(lua(netze, d, ziel))
     print(json.dumps(stat))
 
 
 if __name__ == "__main__":
-    main(sys.argv[1], sys.argv[2])
+    # Aufruf: strassen_netz.py <maske.json> <ordner> [--ziel forever|era]
+    ziel = sys.argv[sys.argv.index("--ziel") + 1] if "--ziel" in sys.argv else "forever"
+    main(sys.argv[1], sys.argv[2], ziel)

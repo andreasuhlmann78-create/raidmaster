@@ -1,0 +1,42 @@
+BERICHT LevelPilot 3.12.53 – ST-5 Strassen für Classic Era; 17 Brücken als Bilder (umgesetzt, zur Prüfung)
+Projekt: LevelPilot · Datum: 16.11.2026 09:30 (aus date) · Version: 3.12.53
+
+Bezug: offen-levelpilot.txt "ST-5 NEU" (09:08) (a)/(b)/(c) und PRÜFUNG 09:18 (Brücken-Bilder).
+
+1. ST-5 (a) – eigene globale Tabelle je Spielversion
+   Werkzeug strassen_netz.py: neuer Schalter --ziel forever|era (ZIELE). forever -> "GoldSentinelStrassen", Kopfzeile "WoW
+   Forever" (Datei BYTE-GLEICH wie vorher, geprüft mit cmp); era -> "GoldSentinelStrassenEra", Kopfzeile "Classic Era (aus dem
+   Anniversary-Client, Karten 0/1 der Grundwelt)". daten/era/GoldSentinelStrassen.lua damit neu erzeugt (strassen_netz.json
+   inhaltlich gleich wie deine: Karten und Client identisch).
+   LevelPilot: Data/StrassenEra.lua (Kopie, byte-gleich mit daten/era/). Graph.RoadData(): Forever (SeedWegeAktiv) ->
+   GoldSentinelStrassen, Classic Era (GoldSentinelGame.flavor "era") -> GoldSentinelStrassenEra, sonst (TBC …) keine.
+   Graph.FreeOtherRoads() beim Aufbau: die Tabelle der anderen Spielversion wird freigegeben (Forever: Era-Daten weg, rund
+   280 KB im Speicher; Era: Forever-Daten weg). Protokoll nennt die Version: "STRASSEN (Forever) Kontinent 1 …".
+   HINWEIS: LevelPilot hat noch keine .toc-Zeile für Classic Era (nur 16001) – im Era-Client lädt es also noch gar nicht. Die
+   Strassen sind vorbereitet, wirksam erst mit LW-5.
+2. ST-5 (b) – T312 sinngemäss für Era: T312 nimmt Graph.RoadData() (Forever oder Era); offline (test_strassen):
+   Classic Era lädt das Era-Netz: Kalimdor 643 Knoten = 329 Enden + 314 Zwischenknoten (unabhängig aus den Rohdaten
+   gezählt), 595 Kanten (606 Stücke: 4 Ring, 7 doppelt, 2 kürzer ersetzt), 67197 yd (= README 67197); TBC Classic: keine.
+   Forever-Lauf: Era-Daten freigegeben (geprüft). Gegenprobe sinngemäss: hätten beide Dateien dieselbe Tabelle, wäre die
+   Forever-Knotenzahl (687, geprüft) die von Era (643) -> rot.
+3. ST-5 (c) – TBC-Änderungen auf Karte 0/1: bleibt Verdacht, zu messen; geht erst im Era-Client mit LW-6-Zeilen (nach LW-5).
+
+4. BRÜCKEN-BILDER (Prüfung 09:18) – berichte/LevelPilot/strassen/bruecken/ (bruecke-01.png … bruecke-17.png, liste.txt),
+   Skript bruecken_bilder.py. Je Bild 400 × 400 yd: Strassen grau, Brücke rot, gelaufene Wege blau; Titel Zone, Kartenkoordinaten,
+   Länge, Abstand zum nächsten gelaufenen Punkt. 17 Brücken = deine Zahl (11 Ö. K. + 6 Kalimdor):
+   Ö. K.: Westl. Pestländer 2, Silberwald 2, Tirisfal 2, Alteracgebirge 4, Hügelland 1; Kalimdor: Steinkrallen 1, Durotar 2,
+   Teufelswald 2, Mulgore 1. Zone = kleinste Karte, deren Grenzen den Punkt enthalten (UiMapAssignment) – an Zonenrändern
+   (Karte-x um 3–5) Verdacht: kann die Nachbarzone sein.
+   Erster Blick (meine Lesart, zu prüfen): Nr. 13/17 Durotar liegen am Ende einer gelaufenen Strasse (Fortsetzung plausibel);
+   Nr. 2 Silberwald: gelaufen nur daneben, die Brücke verbindet eine kurze Strasse quer – Verdacht Lücke über Wasser. Im Spiel
+   an den Kartenkoordinaten nachsehen ist der sichere Weg (geht in die Prüfliste, sobald Platz ist).
+
+BELEGE (eigene Tests, keine Freigabe)
+- test_strassen ALLE OK (Forever, Era, TBC); addon_check "LevelPilot-3.12.53.zip: OK"; Repo-Offline-Routine 38/38 ohne FEHLER;
+  private Gesamt-Regression (36 Läufe) ohne FEHLER. ST-3-Ergebnis nach Namensergänzung unverändert (diff).
+
+DATEIEN: LevelPilot Data/StrassenEra.lua (neu), Graph.lua (RoadData, RoadsAktiv, FreeOtherRoads, LoadRoads, RoadText),
+TestRoutine.lua (T312), LevelPilot.toc, Core.lua, CHANGELOG. Repo: shared/werkzeuge/strassen/strassen_netz.py (--ziel),
+daten/era/GoldSentinelStrassen.lua; berichte/LevelPilot/strassen/bruecken_bilder.py, bruecken/*, st3_messung.py (Namen);
+offline/lua/test_strassen.lua; announce/levelpilot__levelpilot-3.12.53.*.
+Status: umgesetzt, zur Prüfung.
