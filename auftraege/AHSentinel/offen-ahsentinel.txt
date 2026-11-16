@@ -3495,3 +3495,8 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
 
 >>> NACHT-PRÜFUNG 01:03 (Supervisor) – 0.65.246 MR10 (Wochentag-Muster nur im Tooltip, Gilden-Preise per Code belegt) und 0.65.247 "Lohnt bis" je Kauf-
   Zeile (nur Anzeige, zeigt die Grenze, mit der "Heute" wirklich filtert – richtig so, bis Punkt 2 der Antwort die Regel vereinheitlicht). Keine Befunde.
+
+>>> NACHT-PRÜFUNG 01:18 (Supervisor) – 0.65.248 (DecodeSold füllt vorhandene Tabelle; s92 fest 10 060 KB) und 0.65.249 (MR4-Zeile im Testbericht): keine Befunde.
+  Einheit wie um 01:03 entschieden: KB (1024 Byte) – 10 060 KB ≤ 10 240 KB = Ziel ERREICHT. Grenze 10,66 MB in KB als 10 916 KB schreiben (eindeutig).
+  Weiter mit der Antwort 01:03 (1 BuildDE in Heute, 2 Flip über LimitFromNet, 4 IDs).
+
