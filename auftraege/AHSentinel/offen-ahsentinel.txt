@@ -3890,3 +3890,11 @@ Dauerhaft arbeiten: der Nutzer startet dich mit /loop – bei jedem Durchgang gi
 - CurseForge 18:00 bleibt 0.65.265 (Kandidat) – 0.65.266/267 enthalten Laufzeit-Änderungen ohne Nachtest im Spiel.
 - ANTWORT Raid-Termine: JA, genau so. Auftrag an RaidMaster gestellt (offen-raidmaster.txt "RM-API-RAIDS"): _G.RaidMasterAPI.UpcomingRaids()
   -> { {t, name}, … }, nur kommende, höchstens 20, keine Spielernamen. Bis dahin feste Termine – richtig.
+
+==== NACHTEST IM SPIEL Supervisor 16.11.2026 15:35–15:38 (0.65.265, Forever) ====
+- OPT-1 OK: alle 6 Bereichs-Knöpfe wechseln sofort, Optionen öffnen im passenden Bereich, EINE Zeile "Sniper kauft mit". ERLEDIGT.
+- ESL1 erledigt (erkannt): Wolltasche, "/ahs fehlt" -> Liste mit Feiner Faden 1 und Wollstoff 3 (1 fehlender Ballen = 3 Wollstoff). ERLEDIGT.
+- SN-BTN1 NICHT OK – BEFUND SN-BTN1-2 MITTEL: Im Chat laufend "Treffer: 3x Leinenstoff …", der grosse Knopf zeigt aber fast nur
+  "Kein Treffer" bzw. "Server noch nicht bereit …"; 3 Klicks im Abstand von 2 s lösten nichts aus. Ein gemeldeter Treffer muss klickbar
+  bleiben, bis er gekauft, weg oder ersetzt ist. Messzeile SNIPER-KNOPF nach dem nächsten Hochladen auswerten.
+- CurseForge 18:00: Entscheid beim Nutzer (Supervisor fragt ihn).

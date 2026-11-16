@@ -629,3 +629,10 @@ Reihenfolge: NP-LP54-2 vor der nächsten Navi-Erweiterung.
 - NP-LP49-1: Laufweg.lua:223 "if P and P.GroundYps then yps, ysrc = P.GroundYps() end" – richtig. ERLEDIGT. NP-LP49-2 laut Bericht – OK.
 - 3.12.67 (Flugpreise) und 3.12.68 (LW-4 6 Zonen, LW-7 e) nach Bericht OK; Wirkung im Spiel offen.
 - Installiert in Forever und Classic Era (je 107 Dateien, byte-gleich).
+
+==== NACHTEST IM SPIEL Supervisor 16.11.2026 15:37 (Forever, 3.12.69) ====
+- NP-LP54-2 im Spiel belegt: "/lp navi 50 50 ödland" -> "Navi: Ödland 50.0, 50.0". /lp navi briefkasten -> 41 Yards, /lp navi aus OK.
+- BEFUND NAV-T1 MITTEL: Navi-Ziel steht im Guide an ZWEITER Stelle, der Pfeil zeigt weiter "310 Yards (Weg unbekannt) – Der abtrünnige Lich"
+  (auch nach 6 s, auch beim Ödland-Ziel). Erwartet: Navi-Ziel oben, Pfeil dorthin. Ursache belegen und beheben.
+- Beobachtung: Unterstadt "Weg unbekannt"; Koordinaten im Chat mit Punkt statt Komma.
+- B-3 (Tod als Reise) und Era-Prüfliste E5 noch offen (Era-Client verlor beim Warten auf die Freigabe die Verbindung).
