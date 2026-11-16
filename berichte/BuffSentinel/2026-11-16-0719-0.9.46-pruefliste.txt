@@ -1,0 +1,40 @@
+BuffSentinel – Bericht an die Prüf-Sitzung · 0.9.46-pruefliste
+Datum: 16.11.2026, 07:19 (aus date)
+
+Stand: Auftrag PRÜFLISTE IM SPIEL (06:49, hinweis-pruefliste-im-spiel-2026-11-16.txt) umgesetzt, zur Prüfung.
+
+Veröffentlicht: download/BuffSentinel-0.9.46.zip, README, announce 0.9.46 (+ Zip), 0.9.45 entfernt; auf origin/main nachgeprüft.
+addon_check "OK (1 Warnungen)" (nur Lua-Syntax). GoldSentinelPruefliste.lua (v1) gegen die Datei IN der Zip: gleich; dazu
+Game/Sync/Test/Markt v7 und die drei Datendateien gleich. .toc: GoldSentinelPruefliste.lua direkt nach GoldSentinelDev.lua;
+Pruefliste.lua (eigene) nach Diag.lua.
+
+Umsetzung (Punkte 1–6 des Auftrags)
+1. Gemeinsame Datei unverändert kopiert.
+2. Pruefliste.lua: Register("BuffSentinel", db = BuffSentinelDB, version, 14 Punkte) in dieser Reihenfolge (Stadt -> Klassen -> Gruppe):
+   DURA, READY, PERF, AMMO, PET, PETHAPPY, PETFOOD, INFIRE, HEXER, SOULSTONE, TOTEM, WAFFE, REAG, RF – je todo (Knopf-Texte und
+   Befehle wörtlich, Zahlen) und expect. Angemeldet beim Einloggen und nochmals beim Öffnen (falls der Entwicklermodus später kommt).
+3. Merkt selbst (BS.PLHit, nur im echten Spiel, nicht während der Testroutine, je Sitzung einmal je Punkt):
+   - Anzeige (Display.lua Refresh): eine Erinnerung ist wirklich erschienen -> Punkt laut BS.PRUEF_BY_KEY (durability, ammo, pet,
+     pethappy, petfood, innerfire_ch, healthstone/shards/shardspace, soulstone, totems, r_powder/r_candle/r_gotw/r_symbol), Notiz =
+     Schlüssel + angezeigte Zahl.
+   - READY_CHECK nach der Chat-Zeile; Zorn der Gerechtigkeit nach dem Hinweis; LEISTUNG am Kampfende (Notiz ms, über 16 / Rahmen);
+     WAFFE erst, wenn alle drei Fälle gemessen sind (nur Waffe, nur Totem, beides) – Notiz = die drei Zeilen.
+   OK/Nicht OK des Spielers nur für das Hinschauen (z. B. Relikt-Platz, "kein Aufblinken").
+4. "/bsen prüfliste", "/bsen pruefliste", "/bsen checklist" – dev = true (ohne Entwicklermodus die übliche Dev-Meldung).
+5. Testbericht: PL:ReportLines() im Feld "pruefliste" und als Zeilen unter dem Bericht; dazu im Protokoll (DiagExtra).
+6. Test T245 (unten).
+
+Fund unterwegs (echter Fehler, behoben): Die Hilfe zeigte Befehlswörter nach der CLIENT-Sprache (BS.isGerman), auch wenn die aktive
+Sprache umgeschaltet war. Das neue Wort "prüfliste" machte das sichtbar: T98 (Hilfe unter enUS ohne Deutsch) FEHLER in allen deDE-Läufen
+der Offline-Routine (NEU, nicht erwartet -> FAIL). Jetzt nach der aktiven Sprache (L.HELP_HEADER = deDE-Kopf). Zweiter Fund im Test selbst:
+die leere Liste ohne Entwicklermodus liefert für JEDES Feld eine Funktion (auch .addon) – SetupPruefliste prüft darum rawget(addon)
+als Text.
+
+Belege (eigene Tests, keine Freigabe)
+- T245 "Daten ja · ohne Dev ja · READY ja RF ja WAFFE ja PERF ja DURA ja · Bericht ja": 14 Punkte mit todo/expect/since; jeder Punkt
+  hat einen auslösenden Ort; Befehl dev; ohne Entwicklermodus Register -> leere Liste (kein addon, Hit nil, keine Berichtszeilen);
+  mit Entwicklermodus in einer Sandbox-Liste lösen Bereitschaftscheck, Zorn, Waffen-Messung (3 Fälle), Leistung und die echte
+  Aktualisierung (Haltbarkeit in der Stadt) ihren Punkt aus; Bericht = 1 + 14 Zeilen. Sandbox-Liste danach entfernt.
+- run25m OK 191, bekannte 12 Nachbau-FEHLER. Offline-Routine (veröffentlichte Zip): 8 × RESULT PASS.
+
+Nächster Punkt: BS-E1 Nachkaufen beim Händler (Entscheid 07:10).
