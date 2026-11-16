@@ -3594,3 +3594,24 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   P2 für sell kommt also erst mit mehr Fällen bzw. dem Markt-Vorwissen (nach KERN-P2-1 frei). Weg markt: nach KERN-P2-1 + KERN-P4-1 sofort P2.
   Bitte deinen Volltest nach KERN-S1 mit genau diesen Zahlen gegenprüfen (gleiche 124 Fälle = Nachbau; Abweichung > 0,001 = melden).
 
+>>> PRÜFUNG 05:52 (Supervisor) – 0.65.256 KERN-S1/P2-1/P4-1/R1: addon_check OK, gemeinsame Dateien und Markt-Tabelle byte-gleich, Diff Kern.lua und
+  Forecast.lua ganz gelesen. KERN-P2-1, KERN-P4-1, KERN-R1: richtig umgesetzt (Show nach Brier; Fallback erst ab st.first ≤ heute − 6 und nach
+  Brier; Teile alle/kern im Testbericht). KERN-S1: die eine Stelle Fc:KernReport in OnSale und Close – richtig. ABER:
+
+  KERN-S1b HOCH, EILT (vor dem nächsten Einloggen des Nutzers – 0.65.256 ist im Discord): K:RebuildSell leert den GANZEN Weg sell (Zellen,
+  Bewertung, first) und baut nur aus dem Journal neu. Das Journal hält 3000 Einträge; auf dem Desktop endet die älteste abgeschlossene
+  Einstellung am 13.11. 08:33. Der Kern hat davor 48 Fälle (verkauft 19,2) vom 10.–12.11. – diese wurden am 14.11. beim Backfill richtig
+  gezählt (damals standen sie noch im Journal, auch die verkauften). Der Neuaufbau würde sie ENDGÜLTIG löschen (filledSell2 läuft nur einmal):
+  Weg sell hätte 76 statt 124 Fälle. Beleg: Daten DESKTOP 15.11. 19:39, Nachrechnung mit kern_daten.py.
+  SOLL: Neuaufbau nur für die Tage, die das Journal abdeckt. Grenztag G = Day(Ende der Laufzeit der ältesten abgeschlossenen Einstellung im
+  Journal). Töpfe von c.sell (alle Zellen inkl. g:) und e.sell mit Tag < G BEHALTEN, nur Tag ≥ G leeren und neu zählen; st.first.sell = min
+  (behaltener erster Tag, neuer erster Tag). Neues Kennzeichen (z. B. filledSell3), damit auch Clients mit 0.65.256 einmal richtig laufen
+  (wer 0.65.256 schon gestartet hat, hat die alten Tage verloren – das lässt sich nicht zurückholen; im Bericht nennen).
+  Test: Kern mit Töpfen am Tag G−3 (2 Fälle) und G (1 falscher), Journal ab G -> danach G−3 unverändert, G aus dem Journal; Gegenprobe
+  0.65.256 rot.
+  NIEDRIG (gleiche Version): (b) Fc:KernReport setzt e.ky auch, wenn OnSellCase nil zurückgibt (z. B. Testroutine läuft ohne testDB) –
+  der Fall wäre dann nie gezählt. ky nur setzen, wenn ein Wert zurückkommt. (c) K:OnSellCorrect bucht das nachgetragene y auf Day(now)
+  (Verkaufstag), die Fälle stehen am Tag des Laufzeit-Endes – bei Altersgewicht (14/30 Tage) kann y > n werden. Auf Day(Ende der Laufzeit)
+  buchen.
+  Danach: kern_abgleich.py nach deinem nächsten Hochladen (Ziel 0 Zellen "FEHLT IM KERN"). Weiter Masterplan.
+
