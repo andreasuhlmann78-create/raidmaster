@@ -1,0 +1,90 @@
+BERICHT LevelPilot 3.12.71 – BEFUND HOCH ERA-1 (Startzone: weites Ziel vor nahen Questgebern, Pfeil kehrt um) + Ergänzungen
+Projekt: LevelPilot · Datum: 16.11.2026 17:36 (aus date) · Version: 3.12.71 · umgesetzt, zur Prüfung
+
+Bezug: auftraege/LevelPilot/offen-levelpilot.txt – ERA-1 (fa1ea855), Nachtrag 17:10 (e45ecb50), Ursache Supervisor 17:15 (427dea95),
+Ergänzung des Nutzers 17:13 (53466c6b). Gilt in Classic Era UND WoW Forever (gleicher Code), beides gemessen.
+
+1. (a) WEITES ZIEL VOR NAHEN QUESTGEBERN – URSACHE (belegt, deckt sich mit Supervisor 17:15)
+   Planner.lua (3.12.70): steps = Flugpunkt, Binden, Ruhestein, dann die geordneten Ziele. BindStep ist in Nordhain erfüllt
+   (Nordhain = Zone Wald von Elwynn, viele Aufgaben, Gasthaus Goldhain ≤ 600 yd) -> "Binden" Schritt 1. Nachbau Era, Nordhain
+   Stufe 1, nach "Die Bedrohung von innen", "Säuberung im Koboldlager" angenommen: 3.12.70 Schritt 1 = BIND Gastwirt Farley
+   (483 yd), Schritt 2 Eagan (18 yd). Gleiches beim Nachtelf: Schritt 1 = Flugpunkt Vesprystus (988 yd), danach "Keine passende
+   Quest" auf Stufe 1–2.
+   LÖSUNG:
+   - Binden nur noch, wenn das Gasthaus AUF dem Weg liegt (P.InsertOnWay): bester Platz zwischen zwei Routenschritten bzw.
+     Spieler -> erster Schritt, Umweg ≤ 60 yd (P.BIND_DETOUR); sonst kein Binden-Schritt (jede Planung prüft neu). Kein Hinweis
+     ohne Pfeil gebaut – ein Wort genügt, falls gewünscht.
+   - Flugpunkt: vor den ersten Routenschritt, der weiter weg ist (P.InsertByDistance).
+   - Im Startgebiet unter Stufe 6: weder Binden noch Flugpunkt (siehe 3).
+   Nachbau danach: Schritt 1 = Eagan (18 yd), 2 = Wölfe an der Grenze (40 yd), 3 = Koboldlager (101 yd); keine Westfall-Ziele mehr
+   in der Liste (3.12.70: Schritte 5–7 in Westfall, 1580–1727 yd).
+
+2. (b) PFEIL KEHRT UM / ENTFERNUNG STEIGT – URSACHE (belegt)
+   Nachbau Era, Nordhain -> Gasthaus Goldhain (Ziel der Bildschirmfotos), Weg alle 30 yd neu berechnet:
+     3.12.70: Restweg 563 -> 533 -> 775 -> 480 yd (steigt um 242 yd). Der Rohweg wechselte zwischen "direkt" (483 yd) und "über das
+     Tor nach Sturmwind" (765 yd) und zurück.
+   Ursache: Danger:Segment prüfte eine Gerade nur an Messpunkten alle 50 yd (Zellen 100 yd). Die Gerade Start->Ziel streift die Ecke
+   einer Zelle mit Stufe-5-Mobs (Grenze Stufe 1+3 = 4): 30 yd weiter traf ein Messpunkt die Zelle (Kosten ×25) -> anderer Weg,
+   30 yd weiter nicht mehr -> wieder der direkte. Gemessen: Segment S->Ziel = 0 / 5 / 0 / 0 / 0 / 0 / 5 / 5 / 0 für die
+   Schritte 0–8. Dazu teilte der Zwischenspeicher Strecken auf 40 yd gerundet (Ergebnis hing davon ab, welche zuerst kam).
+   LÖSUNG: Danger.CellsOnLine – Gitter-Durchlauf, jede Zelle, die die Strecke berührt (statt Messpunkten); Schlüssel des
+   Zwischenspeichers auf 1 yd. Nachbau danach: Restweg 819 -> 790 -> 503 -> 473 … -> 26 yd, steigt nie (0 Anstiege, 0 Umkehrungen).
+   Die 819 yd am Anfang sind kein Fehler: die Gerade führt dort wirklich durch die Stufe-5-Zelle (vorher nur zufällig nicht gesehen).
+   Absicherung im Navi: N.Passed – ein Wegpunkt, über den der Spieler schon hinaus ist (Skalarprodukt > 0 und der nächste ist näher),
+   wird übersprungen; der Pfeil zeigt nie auf einen Punkt hinter dem Spieler.
+   Andere 5 Startzonen (Startplatz -> erstes Gasthaus, gleicher Lauf): 3.12.70 und 3.12.71 je 0 Anstiege, 0 Umkehrungen.
+
+3. ERGÄNZUNG DES NUTZERS 17:13 – STARTGEBIET
+   Startgebiet = alle Orte, die näher am Startplatz des Volkes liegen als am nächsten Gasthaus der eigenen Fraktion UND weniger weit
+   vom Startplatz als dieses Gasthaus (Mittellinie Startplatz–Dorf, ohne feste Yard-Zahl; Startplätze wie die virtuelle Reise,
+   jetzt P.RACE_START). Regel (P:StartFilter) nur unter Stufe 6 (P.START_LEVEL):
+   - Steht der Spieler im Startgebiet und gibt es dort Aufgaben (nicht gesperrt), werden Ziele ausserhalb zurückgestellt.
+   - Startgebiete anderer Völker sind kein Ziel (3.12.70 Era: Ork mit Stufe 4 aus dem Tal der Prüfungen nach Camp Narache,
+     6261 yd). Erste Fassung galt auf allen Stufen – virtuelle Reise Mensch 1–60 +15 h (Dun-Morogh-Quests fielen weg) –, darum
+     nur unter Stufe 6.
+   - Binden und Flugpunkt nicht, solange die Regel gilt.
+   - Erst annehmen, dann erledigen (P.AcceptsFirst): Annahmen im Startgebiet, die hinter dem ersten "Erledigen" stehen, kommen davor.
+   MESSUNG (virtuelle Reise bis Stufe 6 ab Startplatz; Werkzeug berichte/LevelPilot/offline/lua/mess_era1_start.lua):
+   Era und Forever liefern mit Nachbau-Zonengrössen dieselben Zahlen; dazu mit echten Zonengrössen (ZONEN=1, HereBeDragons-Classic).
+   Erster Schritt ausserhalb des Startgebiets (Nr./Stufe), Rückkehr danach, Binden/Flugpunkt unter 6, Erledigen mit offenem Questgeber:
+     3.12.70 Nachbau-Grössen:
+       Mensch   Nr. 3, Stufe 1 (BIND)            · zurück 22 · Binden 1 · FP 0 · offen 0/4
+       Zwerg    Nr. 8, Stufe 3 (BIND)            · zurück 17 · Binden 1 · FP 0 · offen 0/2
+       Nachtelf Nr. 1, Stufe 1 (FP Vesprystus)   · zurück 23 · Binden 1 · FP 1 · offen 0/1
+       Ork      Nr. 20, Stufe 4 (dann Mulgore)   · zurück 0  · Binden 1 · FP 0 · weitester Schritt 6261 yd (Era)
+       Untoter  Nr. 17, Stufe 4                  · zurück 7  · Binden 1 · FP 0
+       Tauren   Nr. 9, Stufe 3                   · zurück 8  · Binden 1 · FP 0
+     3.12.71 Nachbau-Grössen (Era = Forever):
+       Mensch   Nr. 29, Stufe 5 (Startgebiet leer: Regel 0 Aufgaben drinnen) · zurück 0 · Binden 0 · FP 0 · offen 0/4
+       Zwerg    bis Stufe 6 nie hinaus · offen 0/2
+       Nachtelf Nr. 25, Stufe 5 (Startgebiet leer) · zurück 0 · Binden 1 (Stufe 5, in Dolanaar auf dem Weg) · FP 0 · offen 0/2
+       Ork      bis Stufe 6 nie hinaus · weitester Schritt 367 yd · offen 0/4
+       Untoter  bis Stufe 6 nie hinaus · offen 0/5
+       Tauren   Nr. 20, Stufe 5 (Startgebiet leer) · zurück 2 (Questreihe Riten der Erdenmutter: Abgabe in Camp Narache) · offen 0/3
+     Echte Zonengrössen 3.12.70 -> 3.12.71 (erster Schritt hinaus / offen):
+       Mensch Nr. 3 St. 1 BIND -> Nr. 29 St. 5 · Zwerg Nr. 24 St. 5 (Binden 1) -> Nr. 31 St. 5 (Binden 0) · Nachtelf Nr. 18 St. 3
+       (FP 1) -> Nr. 26 St. 5 · Tauren Nr. 13 St. 4 BIND -> Nr. 17 St. 4 (Startgebiet leer, 0 Binden) · Ork offen 1/5 -> 0/5 ·
+       Untoter offen 2/6 -> 0/7.
+   Ergebnis: der erste Schritt hinaus kommt in allen 12 Läufen erst, wenn im Startgebiet nichts mehr offen ist (Regel 0 Aufgaben
+   drinnen) oder nie vor Stufe 6. Zur Beobachtung "nimmt nicht alle Questgeber an": im Nachbau mit 3.12.70 war das Erledigen mit
+   offenem Questgeber 0 (Nachbau-Grössen) bzw. 1–2 (echte Grössen); im Spiel kam es vom Binden-Schritt, der wegführte.
+4. GESAMTZEIT (virtuelle Reise 1–60, 6 Völker, Forever, wie LW-2b): 3.12.70 -> 3.12.71
+   Ork 179:40 -> 177:00 · Tauren 176:34 -> 178:33 · Untoter 184:46 -> 182:59 · Nachtelf 153:37 -> 154:18 · Mensch 181:13 -> 182:16
+   · Zwerg 180:16 -> 184:14. Summe 1056,1 h -> 1059,3 h (+0,3 %), 3 schneller, 3 langsamer – kein Zeitgewinn, kein Beleg für Verlust
+   (Grössenordnung der bekannten Streuung). Ziel war die sinnvolle Führung im Startgebiet, nicht Zeit.
+5. TESTS
+   T332 (true ×10): Flugpunkt nach nahen Schritten, Reise-Schritte bleiben vorn, Wegpunkt hinter dem Spieler übersprungen / vorn nicht /
+   Ecke nicht / letzter nie, Gefahren-Zelle an der Ecke erkannt (Strecke (0,213)->(213,0), Zelle (1,1)), daneben nicht, negative
+   Koordinaten. GEGENPROBE: alte Abtastung -> "Ecke erkannt" false; altes Einfügen + kein Überspringen -> 4 Prüfungen false.
+   T333 (true ×10): Startgebiet-Grenze, Stufe 3 nur drinnen, Stufe 6 frei, ohne Aufgabe drinnen hinaus, gesperrte zählt nicht,
+   fremdes Startgebiet (unter 6 gesperrt, ab 6 frei), Binden auf dem Weg / nicht auf dem Weg kein Binden / am Ende, erst annehmen
+   dann erledigen. GEGENPROBE (Startgebiet-Regel aus, Binden wie Flugpunkt, AcceptsFirst aus): 6 Prüfungen false (Grenze,
+   nur drinnen, ohne Aufgabe hinaus, fremdes Startgebiet, kein Binden abseits, erst annehmen).
+6. PRÜFUNGEN
+   addon_check: OK. Offline-Routine: 38 Läufe, 38 ohne FEHLER. Private Regression: 36 von 36 Läufen ALLE TESTS OK.
+7. OFFEN / IM SPIEL ZU PRÜFEN (Supervisor mit dem Nutzer): E5-4..E5-6 neu; Nordhain Stufe 1: Schritt 1 Eagan, kein Binden,
+   Pfeil/Entfernung beim Laufen nach Goldhain fallen stetig.
+8. NÄCHSTE SCHRITTE (Aufträge 17:29–17:34 gelesen): Die Startgebiets-Grenze hier ist geometrisch (Mittellinie Startplatz–Gasthaus) –
+   eine Übergangslösung, damit ERA-1 sofort wirkt. ORT-1 ersetzt sie durch die Gebiets-ID aus den Spieldaten (Nordhain = Gebiet 9,
+   Goldhain 87 …), dann ROUTE-Q (R1–R5, 12 Reisen, Gegenprobe 3.12.69). Neue Funktionen gestoppt, wie beauftragt. Die Messwerkzeuge
+   mess_era1_start.lua / mess_era1_weg.lua sind der Anfang der ROUTE-Q-Prüfung (R2/R3/R4-Teile).
