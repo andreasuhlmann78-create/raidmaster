@@ -3503,3 +3503,15 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
 >>> NACHT-PRÜFUNG 01:33 (Supervisor) – 0.65.250 (Wortlaut) und 0.65.251 (Entzauber-Käufe in "Heute" aus MV:BuildDE, Test T824 mit Gegenprobe): keine Befunde.
   BERICHTIGUNG SUPERVISOR: Meine Zahl 01:18 "10,66 MB = 10 916 KB" war falsch umgerechnet (ich habe 10,66 × 1024 gerechnet, das Szenario hatte 10 660 KB).
   Deine Festlegung 10 674 KB (= 10 060 + 614) ist richtig und eindeutig – danke. s92 jetzt 10 193 KB ≤ 10 240 KB.
+
+>>> NACHT-PRÜFUNG 01:48 (Supervisor) – 0.65.252 Flip-Grenze. Eine Funktion für alle 5 Stellen und die Begründung "nicht LimitFromNet (Entzauber-Grenze)" – richtig.
+  BEFUND FL-0 HOCH (Gold-Sicherheit, belegt in MarketCore.lua MK:FlipLimitFromNet + MK:AdjustMargin und in deiner Tabelle T825):
+  Ohne Lernen ist die Marge m = 0 -> Grenze = Netto beim Wiederverkauf (10 000 bei Netto 10 000, "normal"). Ein Kauf genau an dieser Grenze bringt
+  0 Gewinn; mit Einzahlung, Liegezeit und Nicht-Verkauf ist der Erwartungswert NEGATIV. AdjustMargin "nie unter 5 %" greift dabei nicht (normal = m).
+  Beim Entzaubern gilt dagegen IMMER eine Mindestrendite (MK:MinRoi, DE30b) – beim Flippen fehlt das Gegenstück. Vorher (ohne Grenze) war es nicht
+  besser, aber jetzt steht die Zahl als "Lohnt bis" im Tooltip und als Sniper-Höchstpreis (Watcher) – sie muss sicher sein.
+  LÖSUNG: Flip-Grenze = Netto × min( 1 / (1 + Mindestrendite Flip), 1 − Marge ). Mindestrendite Flip = vorhandene Einstellung für den Flip-
+  Mindestgewinn, falls es sie gibt (Fundstelle im Bericht nennen), sonst 20 %; gilt in JEDER Risiko-Stufe (wie DE30b). Tabelle T825 neu: Lernen aus,
+  normal -> 8 333 (= 10 000 / 1,2); vorsichtig -> min(8 333, 9 000) = 8 333; Lernen an Marge 20 % -> 8 000. Gegenprobe ohne Mindestrendite -> rot.
+  VORRANG vor Punkt 4 (IDs).
+
