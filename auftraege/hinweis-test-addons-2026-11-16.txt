@@ -1,0 +1,12 @@
+HINWEIS AN ALLE PROJEKTE – KLEINE TEST-ADDONS FÜR TESTS IM SPIEL (Entscheid des Nutzers 16.11.2026 05:04; Supervisor 05:05)
+Wortlaut: "Für Tests im Spiel will ich – wo es Sinn macht – wieder so ein kleines Addon erstellt haben, je Addon eines, nicht einfach ein grosses."
+
+REGEL
+- Braucht ein Test im Spiel Messwerte, die das Addon selbst nicht liefert (Rohwerte einer API, Zeitmessung, Ereignisfolge), dann ein KLEINES,
+  eigenes Test-Addon nur für dieses Addon bauen – nicht ein grosses Sammel-Addon für alle, und nicht das Haupt-Addon aufblähen.
+- Name: <Kürzel>Mess oder <Kürzel>Test (z. B. TSMess, PSMess), Ordner shared/messtest/<Name>/ mit README (Was misst es, wie benutzen,
+  Slash-Befehl, wo landen die Werte) und Zip daneben; Auswertung als Skript mit Test (Vorbild: shared/messtest/GSWegMess/auswerten.py).
+- Klein: eine Aufgabe, keine Oberfläche ausser dem Nötigsten, nur Zahlen in den SavedVariables, keine Spielernamen, nichts senden.
+- "Wo es Sinn macht": nur wenn eine offene Frage nur im Spiel zu messen ist (Verdacht, zu messen). Sonst eigene Testroutine des Addons.
+- Bestehende Beispiele: GSWegMess (LevelPilot Wegführung 3D), GSSniperLog (AHSentinel Sniper), GSMesstest (Markt).
+- Im Bericht nennen, wenn ein Test-Addon gebaut wurde; der Nutzer installiert es nur für den Test.

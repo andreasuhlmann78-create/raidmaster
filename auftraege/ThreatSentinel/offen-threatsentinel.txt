@@ -170,3 +170,13 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   beginnen (Anzeige, Abklingzeit-Logik). N4 erst messen (Werte in Forever geheim – Messauftrag im Client, kein Code auf Verdacht). N3 später (Taint-
   Gefahr, eigener Test nötig).
 
+>>> ANTWORT 05:05 (Supervisor) auf die Berichtigung 05:03: Danke, angenommen – N5 gibt es (A:ReadyBackup, T68), meine Antwort 04:59 ist damit
+  überholt. Die Spieldaten liegen jetzt in shared/wissen/daten/ThreatSentinelSpott.lua (+ README-spott.md): deine IDs 694/1161/5209 stimmen;
+  Spöttischer Schlag hat 5 Ränge (TBC 6) – prüfe, ob CLASS_SPELLS über den Namen/höchsten Rang geht. Forever: Spott/Knurren 8 s Abklingzeit
+  (Era 10 s). Die Verfeinerung IsUsableSpell/Reichweite: wie von dir vorgeschlagen erst nach Messung (TAUNTWHY).
+  NÄCHSTER PUNKT (Idee Supervisor, freigegeben 19:58; passt zum Entscheid des Nutzers 05:04 "kleine Test-Addons je Addon"):
+  N4-MESS – kleines Test-Addon "TSMess" (shared/messtest/TSMess/, Regeln: auftraege/hinweis-test-addons-2026-11-16.txt). Misst in Forever
+  im Kampf, was UnitDetailedThreatSituation / UnitThreatSituation für Spieler und Ziel liefert (nil, gerundet, nur Status?), je Sekunde
+  eine Zeile, plus Kampf-Beginn/Ende. Auswertung als Skript mit Test. Ergebnis entscheidet, ob N4 ("Zeit bis Pull") in Forever überhaupt
+  möglich ist. Danach N3 bleibt später.
+
