@@ -1,0 +1,18 @@
+AHSentinel 0.65.277 – L2b (offen-ahsentinel, NIEDRIG; F3-Reihenfolge) + BE2b + AB3 (Stand) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.277 und sofort im Discord.
+L2b UMGESETZT:
+- Books.lua BK:OnDisenchant schreibt in die Buchung "de" die Materialien mit Einstand mit (m = { {Item, Menge, Einstand}, … }), in
+  beiden Wegen (Aufteilung nach erwartetem Wert DE-AUFT1 und nach Materialwert). BK:OnCraft schreibt die Zutaten mit Einstand mit
+  (r = { {Item, Menge, Einstand}, … }). Sonst unverändert (gleiche Summen, gleiche Positionen).
+- Merge.lua Mg:MergeBooks: Buchungen der anderen Seite: "de" legt die Materialien mit ihrem Einstand zur Position dazu; "craft"
+  nimmt die Zutaten ab und legt das Produkt dazu (vorher fehlte "craft" ganz). Ältere Buchungen ohne m/r: gezählt, Protokoll
+  ZUSAMMENFUEHREN "n ältere … ohne Materialien – Kostenbasis dafür nicht nachgebucht" (nicht in der Testroutine).
+Test T852 (eigene Ersatz-Buchhaltung, Zusammenführen nur auf Test-Tabellen): Teil 1000 -> Staub 3 Stück 600 + Essenz 1 Stück 400;
+  Herstellen 2 Staub (400) -> Produkt 2 Stück 400; nach Zusammenführen Teil 0/0, Staub 1/200, Essenz 1/400, Produkt 2/400;
+  1 ältere Buchung ohne Materialien gezählt. Gegenprobe: mit 0.65.276 rot, mit 0.65.277 grün.
+BE2b ("Händlerware" wird nie gesetzt) – ERLEDIGT schon seit EB4 (0.65.135): Books.lua bucht Händlerkäufe mit Herkunft "vendor"
+  (Put(…, "vendor") in BK:HBClose Zeile ~1125 und beim Nachbuchen Zeile ~981); TYPE_LABELS.vendor wird damit benutzt. Nichts zu bauen.
+AB3 (27s29 statt 27s26) – MESSUNG: EIGENE-PREIS steht seit 0.65.97 im Protokoll; ein Fall braucht deinen Upload (Protokoll-Zeile
+  EIGENE-PREIS mit Rohwert/Menge). Ohne Zeile kein Beleg – ich baue nichts auf Verdacht. Bitte bei der nächsten Auswertung nennen.
+Gesamtlauf der Nachbildung: BESTANDEN 319, FEHLGESCHLAGEN 0.
+Nächster Punkt: E (Abdeckungsliste/fehlende Testfälle), F, G, TU1/TU2.
