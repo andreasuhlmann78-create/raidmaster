@@ -1,0 +1,8 @@
+AHSentinel 0.65.260 – Entscheid des Nutzers 07:10 (Supervisor 07:12): MR4 und "Markt-Reiter als EINE Seite" in die Prüfliste – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.260 und sofort im Discord.
+Pruefliste.lua: Punkte 9 "MR4 – Markt-Kopf: Zeile je Stufenband gut?" und 10 "MR-SEITE – Markt-Reiter als EINE Seite?" nach den
+  Abnahme-Punkten; ohne Hit (nur OK / Nicht OK + Notiz des Nutzers), Text sagt, was OK bzw. Nicht OK bedeutet. Nichts gebaut.
+Abnahme-Liste berichte/AHSentinel/2026-11-16-0706-sniper-abnahme-liste.txt um 9–10 ergänzt (Nachtrag).
+Test T836 angepasst: 10 Punkte, nach allen Hit-Orten "8 von 10 erledigt", MR4/MR-SEITE offen, Fenster-Anweisung springt auf
+  "Schritt 9 von 10". Mit 0.65.259 rot ("an: 8 Punkte"), mit 0.65.260 grün.
+Gesamtlauf aus frischer Kopie (Lua 5.1, 0.65.260-Schnappschuss): BESTANDEN 316, FEHLGESCHLAGEN 0. s42 grün (T836).
