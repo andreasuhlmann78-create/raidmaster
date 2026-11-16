@@ -1,0 +1,28 @@
+BERICHT LevelPilot – LW-8 Stand (Ideen aus Mapzeroth/Northstar, Analyse Abschnitt 6), nur Bericht
+Projekt: LevelPilot · Datum: 16.11.2026 13:28 (aus date) · Stand Code: 3.12.64
+
+Bezug: offen-levelpilot.txt ÄHNLICHE ADDONS "LW-8 (in LW-0-Art zuerst bewerten, Bericht)". Nichts aus fremdem Code übernommen.
+
+Je Punkt der Analyse (6, "Was LevelPilot daraus nehmen soll"):
+1. Strassen aus den Spieldateien – ERLEDIGT mit eigenem Werkzeug (ST-2 bis ST-5, 3.12.50–3.12.55: Data/Strassen.lua Forever,
+   Data/StrassenEra.lua aus dem Era-Client), kein Mapzeroth-Code. Wegkosten LW-1 nutzen Strassen + Geländekarte + Netz.
+   Startnetz für ALLE Zonen (LW-4) aus Strassen: Strassen gelten schon in allen Zonen; das gelaufene Netz fehlt weiter (Daten).
+2. Flugdaten mit Zeit und Preis – ZEIT erledigt (LW-3 3.12.49, gemessen über Calib, im Reiseplan NAV-2). PREIS und Ticket-Regel
+   offen: Preise sind im Spiel bekannt (TaxiNodeCost beim Flugmeister) – Vorschlag: beim Öffnen des Flugmeisters mitschreiben
+   (eigene Messung), im Reiseplan anzeigen. Klein. Auf Wunsch als nächste Version.
+3. Exakte Reihenfolge bis 8 Ziele – GEBAUT (LW-2a, 3.12.61), Messung 12:39: wirkt nicht auf die gelaufene Route (nur Anzeige),
+   Frage F1 (abschalten?) offen.
+4. Reittier/drinnen, Ladebildschirm – Reittier-Tempo gemessen (LW-6/LW-3, MountSpeed); Ladebildschirm steckt in den Gateway-
+   Zeiten (Schiff/Zeppelin) und als Annahme 20 s beim Ruhestein (NAV-2). OFFEN: "drinnen ohne Reittier" (Städte/Höhlen
+   langsamer) – braucht W3D-Ebenen (Schalter aus bis zur Messung).
+5. Oft gelaufene Wege billiger – OFFEN. Bestand: das Startnetz trägt die Zahl der Läufe je Weg (Data/Wege.lua, Graph.lua 353),
+   die Kosten nutzen sie nicht (seed: Länge × 0,98, Graph.lua 1114). Vorschlag: Faktor 0,98 -> 0,98 – 0,01 × min(Läufe – 1, 8)
+   (bis 0,90). Wirkung nur in Mulgore/Brachland/Donnerfels (dort gibt es Startnetz) – messbar mit der virtuellen Reise Tauren/
+   Orc (Weg km, Zeit); nach den Messungen 12:39 ist die Streuung grösser als solche Effekte, darum erst bauen, wenn LW-4 (mehr
+   gelaufenes Netz) da ist. VORSCHLAG: zurückstellen bis LW-4.
+6. Northstar-Ideen – Flugpunkt holen als Schritt: gibt es (FP-Schritt); Flugpreise: siehe 2; Gruppenmitglied folgen: offen
+   (NAV-4-Schnittstelle könnte ein Ziel setzen; Spielerposition anderer nur in der Gruppe über Addon-Nachrichten – siehe
+   kommunikation-forever.md, eigene Kanäle kommen in Forever nicht an). Nicht ohne Auftrag.
+
+ZUSAMMEN: Ohne Antworten auf F1/F2, (d)/(e) und ohne Messung E1 und Wegdaten LW-4 bleibt als eigenständiger kleiner Punkt nur
+LW-8 (2) Flugpreise. Ich baue ihn nicht auf Verdacht; ein Wort genügt.
