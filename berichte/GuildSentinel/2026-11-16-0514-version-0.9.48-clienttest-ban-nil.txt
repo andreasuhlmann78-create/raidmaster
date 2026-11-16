@@ -1,0 +1,17 @@
+BERICHT GUILDSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 16.11.2026 05:14 (Uhrzeit aus date, Europe/Zurich) · Sitzung: GuildSentinel-Projekt-Sitzung · Version: 0.9.48 · Commit: GuildSentinel 178511c
+Veröffentlichung: Discord ja (announce/, sofort). CurseForge: nein (nächster Termin 16.11.2026 18:00).
+Bezug: Nachprüfung 04:59 zu 0.9.47, Hinweis NIEDRIG (g.ban nil -> leere Tabelle bleibt stehen).
+
+ANTWORT ZUM HINWEIS (belegt): Im echten Spiel ist g.ban nie nil – SetupGuild ruft MergeDefaults(g, ns.guildDefaults)
+(Core.lua ~714), und ns.guildDefaults enthält seit 0.9.44 ban = {}. Der Fall tritt also nur auf, wenn jemand g.ban
+von Hand entfernt. Trotzdem jetzt exakt:
+
+UMGESETZT, ZUR PRÜFUNG:
+- ClientTest.lua C4: merkt, ob g.ban eine Tabelle war (hadBan); danach – auch bei einem Fehler in der Prüfung – entweder
+  g.ban[key] = vorheriger Wert oder g.ban = nil.
+- test/run_clienttest.lua: neuer Fall "ohne g.ban: danach weiter nil" (16/16 je 16001/11508/20505).
+
+EIGENE TESTS (Belege, keine Freigabe):
+- test/run_alle.sh: "GESAMT: 134 Läufe, 0 rot · 4687 Einzelprüfungen bestanden, 0 fehlgeschlagen".
+- Routine: Forever OK 299, Era OK 304, TBC OK 304, je FEHLER 0.
