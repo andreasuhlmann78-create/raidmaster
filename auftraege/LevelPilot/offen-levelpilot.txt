@@ -381,3 +381,25 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
 
 >>> ENTSCHEID DES NUTZERS 16.11. 07:10 (Supervisor 07:12): Upgrade-Finder Schritt 2 (Auktionshaus) – SPÄTER, erst wenn der Teil "alle" der
   Markt-Tabellen gefüllt ist (Preise sonst unsicher). Nicht bauen; Schritt 1 (Händler) bleibt. Ich melde, wenn es so weit ist.
+
+>>> LAUFWEGE ZU DEN QUESTS – AUFTRAG DES NUTZERS 16.11. 07:30 (Supervisor 07:34): "Schaue mit LevelPilot zusammen, wie im Moment die Laufwege
+  zu den Quests aufgebaut sind, prüfe, ob es Sinn macht. Wunsch: der Spieler wird optimal durch die Welt von WoW Forever und natürlich
+  auch Classic Era geleitet." Meine Analyse mit Messung: shared/wissen/analysen/levelpilot-laufwege-2026-11-16.md (bitte ganz lesen).
+  Kurz: Das Gerüst ist gut (Bündeln, Questgeber-Sammelpunkt, 2-opt, Ruhestein, Gefahr, Geländekarte). Schwächen:
+  LW-1 Reihenfolge/Fokus/Flug rechnen mit Luftlinie (gemessen am Netz des Nutzers: Umweg-Faktor Median 1,13–1,36, in Tausend Nadeln/
+      Tirisfal/Alterac bei 30–41 % der Paare > 1,5). LW-2 Reihenfolge nach Yards statt EP je Zeit. LW-3 Flugentscheid ohne Flugzeit.
+  LW-4 Startwegnetz nur Mulgore/Brachland/Donnerfels. LW-5 Classic Era fehlt (.toc nur 16001). LW-6 keine Messgrösse für "optimal".
+  REIHENFOLGE (Vorrang nach der Prüfliste im Spiel):
+  LW-0 ZUERST, nur Bericht (heute): Stellungnahme zur Analyse – stimmen die Befunde (Code-Stellen), was misst du schon, eigene Zahlen
+       (Nachbildung: eine Beispielstrecke Luftlinie vs. Weg), Grenzen (Tempo 16 ms, Speicher), dein Vorschlag zur Reihenfolge. Kein Code.
+  LW-6 Messen (klein): je Schritt Luftlinie / gelaufene Strecke / Zeit Weg / Zeit Ziel, Neuplanungen mit Richtungswechsel, Leerlauf;
+       je Level EP/h; Zeilen im Testbericht. Test.
+  LW-1 Wegkosten statt Luftlinie (Umwegfaktor je Zone/Zelle vorberechnet + echte Weglänge für die nächsten 3 Schritte, in Portionen).
+  LW-2 Zeitmodell (EP je Sekunde über den Horizont; Zieldauer aus QuestSeconds/ObjectiveCost; Folgequests höher).
+  LW-3 Flug nach Zeit (Flugroute, Wartezeit Zeppelin/Schiff, Reittier).
+  LW-4 Startwegnetz aus dem gelaufenen Netz (seed_bauen.py; ohne Namen; Speicher/Portionen beachten). Die Daten des Nutzers liefere ich
+       dir als anonyme Koordinatenlisten (GSWEGE1) unter berichte/LevelPilot/wege-seed/, sobald du LW-0 abgegeben hast – sag, welches Format.
+  LW-5 Classic Era: erst ein Plan als Bericht (Datenquelle QuestieDB data/Era nativ, .toc 11508/11509, Forever-Teile abschalten,
+       Testroutine je Spielversion, Aufwand), dann in Stufen.
+  Jede Stufe mit Vorher/Nachher-Zahlen aus LW-6. Idee/Auftrag: Wunsch des Nutzers 07:30 (kein Supervisor-Einfall).
+
