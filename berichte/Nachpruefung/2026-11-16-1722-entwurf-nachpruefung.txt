@@ -1,0 +1,104 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+
+BERICHT NACHPRÜFUNG (geplante Aufgabe) – 16.11.2026 17:22 MEZ
+Geprüft auf origin/main 26d2acfd. Nur dieser Entwurf wird committet; nichts in auftraege/**, kein Log, keine stand.json.
+
+=====================================================================================================================
+0. ÜBERBLICK
+=====================================================================================================================
+Neu und noch nicht geprüft: nur LevelPilot 3.12.70 (NAV-T1). Ergebnis: umgesetzt wie verlangt, kein FEHLER der Addon-Prüfung,
+kein Befund HOCH. Dazu aus den Testberichten 15:12 ein neuer Befund MITTEL (LevelPilot: Spitzen über 16 ms nach dem Einloggen).
+
+Schon vom Supervisor geprüft, hier NUR erwähnt:
+- LevelPilot 3.12.67/3.12.68/3.12.69 (offen-levelpilot.txt "PRÜFUNG Supervisor 16.11.2026 14:55", Nachtest im Spiel 15:37).
+- AHSentinel 0.65.267 (Log 15:12) und 0.65.268–0.65.271 (Commit 0e9daa00). download/AHSentinel-0.65.265.zip (CurseForge, Entscheid
+  des Nutzers 17:21) ist eine ältere, schon geprüfte Version.
+- ERA-1 HOCH (LevelPilot, Startzone Era) – vom Supervisor 17:06–17:15 aufgenommen, in 3.12.70 noch nicht behandelt (erwartet,
+  3.12.70 ist nur NAV-T1).
+Übrige Höchststände unverändert: BS 0.9.47, GS 0.9.48, PS 0.9.62, TS 2.5.15, RM 3.0.29, Bot 1.5.186, Uploader 2.3.13.
+
+=====================================================================================================================
+1. LEVELPILOT 3.12.70 (gegen 3.12.69) – Bericht berichte/LevelPilot/2026-11-16-1707-3.12.70-nav-t1.txt gelesen
+=====================================================================================================================
+Prüfungen (selbst ausgeführt):
+- addon_check (mit lupa, Lua 5.1): "levelpilot__levelpilot-3.12.70.LevelPilot.zip: OK", keine Warnung; gemeinsame Tests alle grün.
+- Offline-Routine berichte/LevelPilot/offline/run_offline.py: 38 Läufe, 38 ohne FEHLER (zweiter Lauf). Im ersten Lauf einmal
+  T155 "Planung je Reiseschritt 16.49 ms (soll < 16)" in Forever deDE Horde – Zeitmessung in der Sandbox, im zweiten Lauf grün.
+  Zählt nach Auftrag nicht (Zeitmessung), nur Hinweis: T155 liegt knapp an der Grenze.
+- GEGENPROBE selbst gemacht: Planner.lua "if not prio.explicit then" durch "if true then" ersetzt (alte Regel) -> T331 in allen
+  5 Testroutinen rot ("gewähltes Ziel oben false"), Rest unverändert. Der Test fängt den Fehler.
+
+Diff 3.12.69 -> 3.12.70 (8 Dateien): Api.lua, Comfort.lua, Planner.lua, TestRoutine.lua, Core.lua/.toc (Version), CHANGELOG EN/DE.
+NAV-T1 MITTEL (Nachtest 15:37) – UMGESETZT, zur Prüfung im Client:
+- Ursache im Bericht stimmt mit dem Code: Planner.lua:1888–1897 P.InsertPriority setzte jedes Vorrang-Ziel hinter nahe Abgaben
+  (nearTurnin); Planner.lua:2027–2033 fügt Planner.priority so ein.
+- Lösung: Comfort.lua:258–259 Navigate() setzt explicit = true; das deckt alle Spieler-Wege ab, die ich gefunden habe:
+  Comfort.lua:318 (/lp weg), :413 (Wegpunkt), :597 (Kartenmarkierung), :603 (NaviTo = /lp navi, Namenssuche), :634 (Find, nächster
+  Briefkasten usw.), Api.lua:36 NavigateTo -> Comfort.Navigate; Ersatzweg Api.lua:38 ebenfalls explicit. API.NavigateToNearest
+  (Api.lua:46–51) läuft über Comfort:Find -> Navigate -> explicit. Planner.lua:1892 überspringt die nahen Abgaben nur ohne explicit.
+- Vorschläge des Assistenten (Advisor.lua:31, Hints.lua:30) setzen kein explicit -> weiter nach nahen Abgaben (T217 grün, T331 Teil 2).
+- Kein Taint, keine neuen sichtbaren Texte (nur Test-Texte), keine Locale-Änderung nötig; CHANGELOG EN/DE vorhanden; alte Clients:
+  nur ein Tabellenfeld mehr, Era/TBC-Testroutine grün.
+- T331 (Test, kein Skip): prüft InsertPriority mit/ohne explicit, Comfort.Navigate und LevelPilotAPI.NavigateTo; stellt P.Replan,
+  P.priority und C.PlanNavi wieder her.
+
+Hinweise / Fragen (kein Fehler):
+NP-LP70-1 NIEDRIG (Frage an den Supervisor bzw. Nutzer-Entscheid): Der Knopf "Hinführen" in den Assistent-Hinweisen ist auch ein
+  Klick des Spielers, setzt aber kein explicit (Advisor.lua:28–36 NavigateTo, Hints.lua:27–33 Navigate; Knöpfe Advisor.lua:67/100/
+  125/195/294, Hints.lua:225/239). Folge: Nach Klick auf "Hinführen" (z. B. Reparieren, Reitlehrer) steht das Ziel weiter HINTER
+  nahen Abgaben, der Pfeil zeigt zuerst zur Abgabe – dasselbe Bild wie NAV-T1. Hints.lua:177 (Klassentrainer automatisch) ist
+  dagegen ein echter Vorschlag ohne Klick. Vorschlag: explicit = true nur bei Klick auf "Hinführen" (Funktion mit Schalter
+  "vom Spieler"), automatische Vorschläge unverändert. Test: Klick-Weg oben, Automatik hinter nahen Abgaben; Gegenprobe rot.
+  Ob das gewünscht ist, entscheidet der Nutzer/Supervisor – im Bericht steht bewusst "Vorschläge des Assistenten kommen weiter
+  nach nahen Abgaben".
+- Koordinaten im Chat mit Punkt: Bericht begründet bewusst (Zahlenpaar "50,0, 50,0" missverständlich), schlägt "50,0 / 50,0" vor.
+  Entscheid des Nutzers/Supervisors nötig; ich halte die Begründung für nachvollziehbar.
+
+IM CLIENT PRÜFEN (3.12.70): Mit fertiger Quest in der Nähe "/lp navi 50 50 ödland" -> Navi-Ziel oben, Pfeil zeigt dorthin (CLIENT.T331);
+dasselbe mit Kartenmarkierung und "/lp navi briefkasten"; danach "/lp navi aus" -> wieder die Abgabe oben. Zusätzlich ein Assistent-
+Vorschlag (z. B. Reparieren) bleibt hinter einer nahen Abgabe.
+
+=====================================================================================================================
+2. TESTBERICHTE SEIT d76d6c3 (stand.json): ebac3ed4 (Mess-Set, kein Bericht), c0b47ae3 (Kern-Abgleich 14:40), 5c0df644 (15:12)
+=====================================================================================================================
+Diagnosen 5c0df644 (alle 16.11. 13:40): AHS 0.65.265, BS 0.9.47, GS 0.9.48, PS 0.9.62, TS 2.5.15 – je "Fehler in dieser Sitzung: 0"
+bzw. "Lua-Fehler seit dem letzten Bericht: 0". LevelPilot 3.12.64: "Letzter Fehler: keiner". PS-Zeilen "SPIELTEST S7/S8 FEHLER" sind
+vom 09.11. (alt, schon bekannt). Kein neuer Testlauf mit Abschnitt MARKT-KERN; der Kern-Abgleich 14:40 stammt von der Prüf-Sitzung
+selbst (markt P2 weitergegeben, sell Brier 0,2425 ≥ 0,20 "zu hoch" – dort schon bewertet), hier nur erwähnt.
+
+NP-LP64-D1 MITTEL (NEU, nirgends in auftraege/ oder berichte/ erwähnt; grep "e823d9606bf7" 0 Treffer):
+  testberichte/diagnose/LevelPilot/3.12.64-e823d9606bf7.txt, Zeile "ZEIT erste 60 s nach dem Einloggen":
+  "Wegnetz 1486 ms max 45 (über 16 ms) · Assistent 92 ms max 56 (über 16 ms) · Start 99 ms max 36 (über 16 ms)".
+  Verlauf aus den früheren Diagnosen desselben Spielers (Höchstwert je Aufruf, erste 60 s):
+    Wegnetz:   3.12.52 max 5 ms  -> 3.12.64 max 45 ms
+    Assistent: 3.12.47 max 28 ms -> 3.12.52 max 35 ms -> 3.12.64 max 56 ms
+    Start:     3.12.30 max 16 ms -> 3.12.64 max 36 ms
+  Das verletzt die Ruckel-Grenze "keine Spitze > 16 ms" (offen-levelpilot.txt Z. 441; PF-A/LP-D1). Der Bericht 3.12.65 (13:55) hat
+  die Diagnose 3.12.52 nur für die Planungshäufigkeit ausgewertet, nicht die Spitzen.
+  Verdacht, zu messen: Wegnetz-Spitze kommt mit dem Startwegnetz (Data/Wege.lua, LW-4 seit 3.12.6x) – offline sind die Portionen
+  < 16 ms (test_seedwege), im Spiel ein Aufruf 45 ms. Assistent: ein Durchgang am Stück (alle 30 s) wächst mit den neuen Hinweisen.
+  Ob die Spitzen im Ladebildschirm liegen (dann ohne Wirkung), ist nicht belegt.
+  Lösung: (1) je Bereich den Aufruf mit dem Höchstwert benennen (Funktion + Zeitpunkt seit Einloggen, in /lp diag); (2) Wegnetz-
+  Aufbau und Assistent-Durchgang in Portionen ≤ 16 ms (wie PF-A); Start aufteilen oder belegen, dass er im Ladebildschirm läuft;
+  (3) Test: Nachbau mit Startwegnetz und vollem Assistenten – kein Aufruf > 16 ms, Gegenprobe mit 3.12.70 rot; (4) Abnahme im Spiel:
+  /lp diag nach dem Einloggen, alle "max" ≤ 16 ms. Reihenfolge: nach ERA-1 (HOCH).
+
+=====================================================================================================================
+3. VORSCHLÄGE FÜR DEN SUPERVISOR (nicht ausgeführt)
+=====================================================================================================================
+- auftraege/LevelPilot/offen-levelpilot.txt: "PRÜFUNG 3.12.70: NAV-T1 umgesetzt (Planner.lua:1892, Comfort.lua:258, Api.lua:38,
+  T331 mit Gegenprobe rot), zur Prüfung im Client"; NP-LP64-D1 MITTEL aufnehmen (nach ERA-1); NP-LP70-1 NIEDRIG als Frage, falls
+  gewünscht; Hinweis T155 knapp an 16 ms.
+- addon-check/nachpruefung-stand.json: LevelPilot 3.12.70, AHSentinel 0.65.271 (vom Supervisor geprüft), übrige unverändert;
+  testberichte_bis 5c0df644.
+- Log-Zeile: "2026-11-16 17:22 Nachprüfung (Entwurf): LevelPilot 3.12.70 NAV-T1 umgesetzt; NP-LP64-D1 MITTEL (Spitzen > 16 ms
+  nach dem Einloggen); NP-LP70-1 Frage".
+
+Nachrichtentext an die LevelPilot-Sitzung (nur Vorschlag, vom Supervisor zu übertragen):
+  NACHRICHT AN DIE LEVELPILOT-SITZUNG (zum Einfügen) – Erst laufende Arbeit fertig machen.
+  Stand 16.11. 17:22: 3.12.70 NAV-T1 umgesetzt, zur Prüfung im Client (Gegenprobe T331 rot bestätigt).
+  ZU TUN: 1. ERA-1 HOCH (wie in offen-levelpilot.txt). 2. NP-LP64-D1 MITTEL: Spitzen nach dem Einloggen Wegnetz 45 ms, Assistent
+  56 ms, Start 36 ms (Diagnose 3.12.64) – Aufruf benennen, in Portionen ≤ 16 ms, Test mit Gegenprobe. 3. NP-LP70-1 NIEDRIG nur
+  nach Entscheid. git pull --rebase und auftraege/LevelPilot/offen-levelpilot.txt lesen; nach der Umsetzung Bericht in
+  berichte/LevelPilot/. Nächste Version 3.12.71, komplette Dateien, alte Clients nie brechen, alle Locale-Dateien, CHANGELOG EN/DE,
+  vor dem Push python3 addon-check/addon_check.py <ZIP> -> kein FEHLER. Ist ein Befund falsch, bitte begründet zurückmelden.
