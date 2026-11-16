@@ -1,0 +1,9 @@
+ZWISCHENSTAND LevelPilot – ORT-1 O5 in Arbeit, R5-Recorder als Nächstes
+Projekt: LevelPilot · Datum: 16.11.2026 20:45 (aus date) · veröffentlicht: 3.12.76 · 3.12.77 (O2) wartet auf Entscheid Zeit (+2,4 %)
+
+- Antwort R5 (Supervisor 20:35) gelesen: Recorder für Annahme/Abgabe (Quest-ID, Stufe, Zeit, Gebiets-ID, ohne Namen), neue GSWEGE-
+  Version, altes Format lesbar. Kommt nach O2/O5 – mit genauer Format-Beschreibung und Grösse je Stunde im Bericht.
+- O5 (Questgeber am Weg): neue Messregel in mess_route_q.lua ("O5": Ziel > 150 yd, annehmbare Quest mit <= 60 yd Umweg unterwegs,
+  nicht beim Ziel selbst). 3.12.77, Mensch Forever bis Stufe 20: 6 Fälle (z. B. St. 8/9 "Kopfgeld auf die Murlocs" +29 yd auf dem Weg
+  zu einer Abgabe 750 yd). Erster Bau (P.OnWayAccepts mit P.InsertOnWay, 60 yd) wirkt noch nicht (gleiche 6 Fälle) – Ursache wird
+  belegt, nichts davon veröffentlicht. Messregel zählt noch Kontinent-Reisen mit (48000 yd) – wird auf denselben Kontinent beschränkt.
