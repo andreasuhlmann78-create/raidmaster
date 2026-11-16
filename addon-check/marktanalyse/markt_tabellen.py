@@ -8,12 +8,16 @@ Liest die SavedVariables (privates Daten-Repo), rechnet Wellen je Stufenband, Ve
 Entzauber-Gewinn je Gruppe (DE30b-Mindestgewinn) und Sniper-/Kaufgewinn je Preisstufe. Schreibt nur Zahlen, keine Namen.
 Format: shared/markt-tabellen/README.md. Regeln wie im Addon (Waves.lua, PR2, DE30b, SN-M) – Summe/Summe, nie Median über
 Zufallsbeute. Jeder Teil mit n (Fallzahl).
+Teil "kern" (16.11.2026): Vorwissen je Weg und Zelle aus den Zählern des MARKT-KERNs (kern_daten.py; Regeln dort).
 """
 import sys, re, time, json, collections, statistics as st
 from pathlib import Path
 from datetime import datetime
 from zoneinfo import ZoneInfo
 from lupa.lua51 import LuaRuntime
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import kern_daten  # noqa: E402  (Teil "kern": Austausch mit dem MARKT-KERN, Nutzer 16.11.2026 04:51)
 
 Z = ZoneInfo("Europe/Zurich")
 BANDS = [("5-25", [10940, 10938, 10939, 10998, 10978]), ("26-35", [11083, 11082, 11134, 11084, 11138]),
@@ -23,6 +27,7 @@ P_F = ["t", "id", "q", "a", "pr", "rel", "d", "Q", "qs", "S", "ss", "u", "p", "W
        "sp", "x", "ex", "rs", "cr", "cg", "ub", "pw"]
 B_F = ["t", "id", "q", "pr", "way", "ev", "src", "v", "g", "r", "rq", "rv", "rk", "mv", "aid"]
 D_F = ["t", "id", "ev", "g", "dk", "src", "n", "lv", "c", "bp"]
+BASE = 1760000000                                          # Forecast.lua: t = BASE + t × 60
 PRICE_BANDS = [0.90, 0.97, 1.03, 1.10, 99.0]               # Preis / Marktwert (wie PR1/PR2)
 BUY_BANDS = [0.6, 0.7, 0.8, 0.9, 99.0]                     # Kaufpreis / Wert (wie SN-M)
 
@@ -71,6 +76,57 @@ def series_of(db):
                     if e.t and e.p:
                         out[int(id_)].append((int(e.t), float(e.p)))
     return out
+
+
+class _Journal:
+    """Zusammengeführtes Journal mehrerer Stände (siehe merge_journals) – so gebaut, wie die Rechnungen db.forecast.list lesen."""
+    def __init__(self, entries):
+        self.forecast = type("F", (), {})()
+        self.forecast.list = {i + 1: s for i, s in enumerate(entries)}
+
+
+KEY_FIELDS = {"P": 6, "B": 4, "D": 3}         # P: t id q a pr rel · B: t id q pr · D: t id ev – ändern sich nie (nur Ergebnisfelder)
+
+
+def _newest_t(db):
+    L = db.forecast and db.forecast.list
+    best = 0
+    if L:
+        for i in range(1, len(L) + 1):
+            s = L[i]
+            if s:
+                try:
+                    best = max(best, int(s.split(";")[1]))
+                except (IndexError, ValueError):
+                    pass
+    return best
+
+
+def merge_journals(dbs):
+    """Alle Stände (Tages-Sicherungen, beide Rechner) zu EINEM Journal ohne Doppelte (Nutzer 16.11.2026 04:52: "über alle Daten
+    verfügen"). Das Journal im Addon hält nur die neuesten 3000 Einträge – ältere Fälle stehen nur noch in älteren Ständen.
+    Schlüssel = Art + Felder, die sich nach dem Schreiben nie ändern (KEY_FIELDS). Ein Schlüssel kommt aus dem NEUESTEN Stand,
+    der ihn hat – mit allen seinen Vorkommen (zwei gleiche Einstellungen in derselben Minute bleiben zwei) und dem neuesten
+    Ergebnis (r, sq …). Ältere Stände füllen nur Schlüssel, die im neueren fehlen."""
+    order = sorted(dbs, key=_newest_t, reverse=True)
+    taken, out = set(), []
+    for db in order:
+        L = db.forecast and db.forecast.list
+        if not L:
+            continue
+        here = collections.defaultdict(list)
+        for i in range(1, len(L) + 1):
+            s = L[i]
+            if not s or s[0] not in KEY_FIELDS:
+                continue
+            p = s.split(";")
+            here[(s[0],) + tuple(p[1:1 + KEY_FIELDS[s[0]]])].append(s)
+        for k, ss in here.items():
+            if k not in taken:
+                taken.add(k)
+                out.extend(ss)
+    out.sort(key=lambda s: int(s.split(";")[1]) if s.split(";")[1].isdigit() else 0)
+    return _Journal(out)
 
 
 def waves(series):
@@ -317,16 +373,22 @@ def main():
         print(__doc__)
         sys.exit(1)
     dbs = [load(p) for p in args[:-1]]
-    ser = collections.defaultdict(list)
+    ser = collections.defaultdict(set)
     for db in dbs:
         for k, v in series_of(db).items():
-            ser[k].extend(v)
+            ser[k].update(v)                                   # gleiche Punkte aus mehreren Ständen nur einmal
+    ser = {k: sorted(v) for k, v in ser.items()}
+    jdb = [merge_journals(dbs)]                                # Journale aller Stände ohne Doppelte
     datenbis = max((t for v in ser.values() for t, _ in v), default=0)
     tab = {"v": 1, "erstellt": int(time.time()), "datenBis": datenbis, "wellen": waves(ser),
-           "verkauf": dict(sell_quotes(dbs)), "entzaubern": de_groups(dbs), "kaufen": buy_bands(dbs)}
+           "verkauf": dict(sell_quotes(jdb)), "entzaubern": de_groups(jdb), "kaufen": buy_bands(jdb)}
     al = alle(tages) if tages else None
     if al:
         tab["alle"] = al
+    kern, kinfo = kern_daten.kern_teil(kern_daten.newest_stores(dbs))
+    if kern:
+        tab["kern"] = kern                                     # Kern.lua K:TableCell: kern[Weg][Zelle] = { p, n }
+    tab["kernInfo"] = {"quellen": kinfo["quellen"], "zellen": sum(len(c) for c in (kern or {}).values())}
     text = ("-- GoldSentinelMarktTabellen (Prüf-Sitzung, täglich neu; nur Zahlen, keine Namen). Format: shared/markt-tabellen/"
             "README.md\nGoldSentinelMarktTabellen = " + lua_val(tab) + "\n")
     open(args[-1], "w", encoding="utf-8").write(text)
@@ -338,6 +400,7 @@ def main():
         print(f"  Entzaubern {k}: {d}")
     print("  Kaufen:", tab["kaufen"])
     print("  Verkauf:", {g: v for g, v in tab["verkauf"].items()})
+    print(f"  Kern: {tab['kernInfo']} · Wege: {kinfo['wege']}")
     if al:
         print(f"  Alle: {al['tage']} Tage, Items " + ", ".join(f"{f} {len(al[f])}" for f in ("H", "A", "N") if f in al)
               + f", weggelassen {al['weggelassen']}")

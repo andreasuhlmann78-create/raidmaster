@@ -27,6 +27,18 @@ Seit 16.11.2026 03:0x (erste echte Tagesdatei 2026-11-14: 1 Scan, 1 Quelle, kein
 mindestens 2 Quellen an einem Tag (eine Quelle ist meist der Spieler selbst – sonst zählt AHSentinel seine eigenen Daten doppelt).
 Weggelassene werden gezählt: `ohneAbsatz`, `eineQuelle`. Ohne passende Items hat der Teil nur die Kopfwerte (kein H/A).
 
+Teil `kern` (16.11.2026, Entscheid des Nutzers 04:51/04:52 – Kern und Prüf-Sitzung tauschen Daten aus): `kern[Weg][Zelle] = { p = Anteil, n = Fälle }`,
+gelesen von Kern.lua `K:TableCell` (Vorwissen L2, k = 2). Aus den Zählern `AHSentinelDB.kern` (je Kern-Speicher nur der neueste Stand, erkannt an
+`kern.since`), Gewicht wie Kern.lua (≤ 14 Tage 1, ≤ 30 Tage 0,5). Nur Wege über den Markt (`markt`, `gilde`) und nur, wenn der Weg die Güte-Prüfung
+besteht (n ≥ 30, Brier besser als die Grundlinie, Brier < 0,20); nie `sell` (steht in `verkauf`, sonst doppelt), nie `buy*`/`marktu`. Zellen erst ab
+n ≥ 30. Kopf `kernInfo = { quellen, zellen }`. Regeln und Test: `addon-check/marktanalyse/kern_daten.py`, `test_kern_daten.py` (15/15).
+Journale: verkauf/entzaubern/kaufen rechnen über ALLE übergebenen Stände (Tages-Sicherungen, beide Rechner), zusammengeführt ohne Doppelte
+(`merge_journals`: Schlüssel = Felder, die sich nie ändern; jeder Schlüssel aus dem neuesten Stand mit allen Vorkommen). Darum alle Stände übergeben:
+`python3 -I addon-check/marktanalyse/markt_tabellen.py $(find <goldsentinel-daten> -path "*forever*" -name AHSentinel.lua | sort) <ausgabe.lua>`.
+Auswertung und Abgleich mit dem Kern (bei jeder neuen Tabelle): `python3 -I addon-check/marktanalyse/kern_abgleich.py <dieselben Stände>
+--aus testberichte/markt/kern/<JJJJ-MM-TT>.md` – Stand je Weg (wie K:Show), Abgleich Verkauf/Kaufen, harte Prüfung "jeder Verkaufsfall genau einmal im
+Kern", Rückgabe an den Kern.
+
 Erzeugen: `python3 -I addon-check/marktanalyse/markt_tabellen.py <AHSentinel.lua> [...] shared/markt-tabellen/GoldSentinelMarktTabellen.lua`
 (täglich durch die geplante Aufgabe "Markt-Tabellen täglich"). Zählweisen wie im Addon: Verkauf = Anteil verkauft
 (Fc:PostOutcome, Abbruch zensiert), Entzaubern Summe/Summe (KF2) mit DE30b-Mindestgewinn, Kaufen Gewinn je Kaufpreis/Wert

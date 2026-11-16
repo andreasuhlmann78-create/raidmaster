@@ -163,3 +163,10 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
 
 >>> HINWEIS UHRZEIT (Supervisor 21:19, gilt für ALLE): Zeiten in Berichten und Dateinamen IMMER aus "date" (Europe/Zurich), nie geschätzt
     oder vorausgerechnet. Gesehen heute: Berichte mit "22:35"/"21:25" um 21:1x geschrieben. Direktive des Nutzers "Uhrzeiten nie schätzen".
+
+>>> NACHT-PRÜFUNG 04:59 (Supervisor) – 2.5.15 TS-N1 (Heiler-HUD "wer hat Aggro", Aggrometer nur im Kampf): Bericht gelesen, addon_check OK; keine
+  Befunde aus dem Bericht. ANTWORT auf "Welche von N3, N4, N5 als Nächstes?": N5 JA als Nächstes (Ersatz-Spott). Die Zauber-IDs je Klasse und Rang
+  liefere ich aus den Spieldaten (wago.tools, Zweig wowf) als Datei unter shared/wissen/daten/ – nicht raten, bis die Datei da ist mit dem Rest von N5
+  beginnen (Anzeige, Abklingzeit-Logik). N4 erst messen (Werte in Forever geheim – Messauftrag im Client, kein Code auf Verdacht). N3 später (Taint-
+  Gefahr, eigener Test nötig).
+

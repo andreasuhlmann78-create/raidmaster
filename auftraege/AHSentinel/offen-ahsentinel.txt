@@ -3533,3 +3533,47 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
 >>> SCHLAFEN (Nutzer 16.11. 04:45: "schick alle schlafen, die nichts mehr zu tun haben"; Supervisor 04:45): Du hast im Moment keinen offenen Auftrag,
   nur Punkte, die auf den Nutzer warten. Darum: laufende Arbeit sauber abschliessen (commit, push, auf origin prüfen), KEINEN neuen internen Wecker
   stellen und die Sitzung ruhen lassen. Der Nutzer weckt dich, wenn es weitergeht – dann zuerst git pull und diese Datei lesen.
+
+>>> KERN-ABGLEICH 04:58 (Supervisor) – ENTSCHEID DES NUTZERS 16.11. 04:49–04:52: "Der Kern soll deine Marktdaten bekommen. In Zukunft tauschen du und
+  der Kern Daten aus und gleichen ab, du wertest das Ganze aus. Ziel: der Kern arbeitet möglichst wirkungsvoll, verfügt über alle Daten und kommt bald
+  in P2." Damit ist SCHLAFEN (04:45) für dich aufgehoben, sobald der Nutzer dich weckt. Die drei Befunde unten haben VORRANG vor allem anderen.
+  Auswertung mit Belegen: testberichte/markt/kern/2026-11-16.md (Werkzeug addon-check/marktanalyse/kern_abgleich.py, Daten DESKTOP 15.11. 19:39).
+
+  KERN-S1 HOCH (belegt) – verkaufte Einstellungen erreichen den Kern nie. Forecast.lua:539 Fc:OnSale setzt bei vollem Verkauf e.r = "s" und speichert
+  (Put); Fc:Close (Zeile 618) nimmt nur Einträge mit leerem r und ruft nur dort Kn:OnSellCase (Zeile 631). Ein ganz verkaufter Eintrag kommt also nie
+  beim Kern an. Dazu: wird ein schon als "e"/"u" gezählter Fall später teilweise verkauft (Zeile 540, -> "t"), bleibt im Kern y = 0 stehen.
+  Beleg (harte Prüfung, seit Kern-Start 14.11. 13:03): Journal 60 abgeschlossene Verkaufsfälle, Summe verkauft 41,8 – Kern 25 Fälle, verkauft 2,9.
+  de:3 Journal 28 / 24,5 – Kern 7 / 1,7; de:2 9 / 6,0 – 4 / 0,0; de:4 7 / 3,4 – 5 / 0,4; de:5 15 / 7,9 – 8 / 0,9. Folge: Der Kern lernt "verkauft
+  fast nie" (12 % statt 70 %), Weg sell Brier 0,228 -> nie P2; jede Verkaufschance, die der Kern liefert, ist zu tief.
+  SOLL: Jeder Verkaufsfall mit endgültigem Ergebnis erreicht den Kern GENAU EINMAL mit seinem endgültigen y – egal ob Close, OnSale oder Briefkasten
+  das Ergebnis setzt (eine gemeinsame Stelle "Fall abgeschlossen", die r von leer auf s/t/e setzt und den Kern ruft). Spätere Korrektur e/u -> t:
+  nur y nachtragen (Fälle +0, Treffer + Anteil), keine zweite Bewertung. EINMALIG: Weg "sell" wie RebuildBuys (S2-B4) aus dem Journal neu aufbauen
+  (Zellen und g:-Zellen leeren, alle abgeschlossenen Fälle der letzten 30 Tage in Zeitfolge über OnSellCase) – sonst bleiben die falschen Zähler
+  30 Tage stehen. Abnahme: Testroutine "OnSale voller Verkauf -> Kern sell n +1, y 1" und "abgelaufen, später Teilverkauf -> y nachgetragen, n
+  unverändert"; im Feld: meine harte Prüfung zeigt 0 Zellen "FEHLT IM KERN".
+
+  KERN-P2-1 HOCH (belegt) – P2 "schlägt die Grundlinie" ist mit Treffern bei 0,5 umgesetzt (K:Show r.hN <= r.hB). Bei seltenen Ereignissen (Weg markt:
+  Quote um 5 %) trifft "immer nein" fast immer; eine gut kalibrierte Vorhersage sagt nie >= 0,5 und kann die Grundlinie so nie schlagen. Beleg: markt
+  Brier 0,0271 gegen Grundlinie 0,0306 (11,6 % besser, n 154 457), Treffer −3 -> gesperrt. Die Anweisung (rechenkern-066 P2) sagt "schlägt die
+  Grundlinie UND Brier < 0,20" – gemeint ist die Güte, also BRIER: zeigen, wenn n >= 30, Brier neu < Brier Grundlinie und Brier < 0,20. Treffer bleiben
+  als Zahl im Testbericht (P3).
+
+  KERN-P4-1 MITTEL (belegt) – P4 "Fällt eine Art 7 Tage LANG unter die Grundlinie" ist als Summe der letzten 7 Tage umgesetzt (K:Fallback): markt hat
+  erst EINEN Bewertungstag und steht schon auf "Rückfall". SOLL: Rückfall nur, wenn der Weg an >= 7 Tagen bewertet ist (erster Tag <= heute − 6) und
+  der Brier der letzten 7 Tage schlechter ist als die Grundlinie.
+
+  WIRKUNG (Rechnung Supervisor mit den Daten vom 15.11., zu bestätigen im Testbericht): nach KERN-P2-1 + KERN-P4-1 besteht markt P2 sofort (n 154 457,
+  Brier 0,0271 < 0,0306, < 0,20) -> K:MarketPrior wird Vorwissen der Verkaufs-Zellen. sell: erst nach KERN-S1 + Neuaufbau messbar (Verdacht, zu messen:
+  Brier deutlich unter 0,228, weil die verkauften Fälle dazukommen).
+
+  ZUR INFO (keine Code-Änderung nötig): Die Markt-Tabellen haben ab heute
+  (a) Teil "kern" = Vorwissen je Weg und Zelle, das K:TableCell (KERN-T1 (3)) schon liest: markt mit 21 Zellen (p, n; n >= 30), nur aus Wegen, die bei
+      mir die Güte-Prüfung bestehen (Brier besser als Grundlinie, < 0,20); sell nie (steht schon in "verkauf", sonst doppelt); buy* nie.
+  (b) Kopf "kernInfo" (Quellen, Zellen) – für dich nur lesen.
+  (c) Journale ALLER Stände zusammengeführt (Tages-Sicherungen beider Rechner, ohne Doppelte): verkauf/entzaubern/kaufen verlieren keine Fälle mehr,
+      wenn dein Journal (3000 Einträge) alte abschneidet. Kaufen stimmt jetzt mit deinen Zählern überein (≤0,8: 425/+30,7 %, ≤0,9: 598/+17,5 %).
+  Bitte bei der nächsten Version die Datei wie immer unverändert ins ZIP nehmen.
+  KERN-R1 KLEIN: K:ReportS2 nennt bei "Teile" nur wellen/verkauf/entzaubern/kaufen – bitte "alle" und "kern" (mit Zellenzahl) ergänzen, damit der
+  Testbericht zeigt, dass meine Daten bei dir angekommen sind.
+  RÜCKWEG (läuft schon): Deine Zähler (AHSentinelDB.kern) kommen mit jedem Daten-Hochladen zu mir; ich werte sie bei jeder Tabelle aus
+  (testberichte/markt/kern/<Datum>.md). Reihenfolge: KERN-S1 -> KERN-P2-1 -> KERN-P4-1 -> KERN-R1, dann Masterplan wie bisher.

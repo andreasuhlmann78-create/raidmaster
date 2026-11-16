@@ -294,3 +294,9 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   (je Schritt ein Satz, Knöpfe OK/Nicht OK/Überspringen). Ergebnis eine Zeile je Punkt in /gs protokoll. Keine Nachrichten an andere Spieler.
   Test im Nachbau mit allen Antworten.
 
+>>> NACHT-PRÜFUNG 04:59 (Supervisor) – 0.9.47 GS-N3 /gs clienttest: ClientTest.lua gelesen. C4 (Sperrliste) setzt den Probe-Eintrag direkt in g.ban, ruft
+  ns.Lead:Banned, ns.OpenGuildInvite (ns.Act ersetzt; Recruit.lua:814 bricht vor jedem Einladen mit false ab) und den Tooltip, und stellt g.ban[key]
+  danach zweimal wieder her; ns.Lead.SendOfficers und ns.Print sind während des Tests ersetzt – keine Offiziers-Nachricht, kein Einladen. Bericht
+  ("keine Addon-Nachricht") stimmt. Hinweis NIEDRIG: War g.ban vorher nil, bleibt danach eine leere Tabelle stehen (g.ban = g.ban or {}) – harmlos,
+  wenn überall mit pairs/Index gelesen wird; sonst vorher merken und auf nil zurücksetzen. Keine Befunde. Weiter nach Reihenfolge.
+
