@@ -3974,3 +3974,33 @@ deckst du ihn zu mit Antworten bzw. mit Arbeit"). Interner Wecker immer aktiv.
   Punkt schliessen (Rechnung mit kleinerer Menge dem offenen Kauf zuordnen, Rest bleibt offen), mit Test + Gegenprobe.
 - Nachweis im Spiel: BUY-GOLD-Zeilen im nächsten Upload; der Supervisor wiederholt die Tagesauswertung books.flow/books.log.
 - Weiter: TB182-2 (c), dann AB3, L2b, BE2b, E, F, G, TU1/TU2.
+
+==== INGAME-TEST 16.11.2026 19:20–19:43 (0.65.278, Sitzung "home zugriff" am PC des Nutzers) – BEFUNDE, VOR ALLEM ANDEREN ====
+Bericht: berichte/Supervisor/2026-11-16-1946-ingametest-ahs-0.65.278.txt (bitte ganz lesen). Die kleineren Punkte (E, F, G, TU) RUHEN,
+bis WACH-1, VS-121 und SN-TR-2 belegt behoben sind.
+
+WACH-1 SEHR HOCH (Absturz) – Lua-Fehler "AHAnalyzerPro.lua:1801: script ran too long", danach Spiel eingefroren und zurück zum
+  Anmeldebildschirm. 19:43, ~1 Min. nach dem Einschalten des Wächters, beim Öffnen der Optionen. Stack:
+  AHAnalyzerPro.lua:1801 PriceInfo <- Disenchant.lua:1080 MatPrice <- 1459 ActualValue <- 1548 DealValue <- 1363 PlannedValue
+  <- DEBuy.lua:62 Value <- 109 Candidates <- 252 WatchCheck <- Watcher.lua:399 FinishRound <- 317 PollRound <- 706 Tick.
+  Erwartet: Ursache belegen (wie viele Kandidaten × Materialien × PriceInfo-Aufrufe in EINEM Tick, mit den Daten des Nutzers –
+  Vollscan 7165 Items), dann in Portionen mit Zeitbudget je Bild (≤ 5 ms, Rest im nächsten Bild; PS-Ziel), Ergebnis-Zwischenspeicher
+  je Runde. Nachbau mit Datenmenge wie beim Nutzer, Test + Gegenprobe (alt: "too long"/> Budget, neu: kein Bild > 16 ms durch AHS).
+  Prüfliste: Punkt WAECHTER-LAST (Wächter 5 Min. an, Optionen öffnen, kein Fehler, längstes Bild ≤ 50 ms).
+VS-121 HOCH – VOLLSCAN gemessen: Speicher +121 584 KB (Ziel ≤ 10 240), längste Lücke 436 ms (Ziel ≤ 50), 28 Bereinigungen.
+  Schlechter als die alte Messung (+47 MB). Die Masterplan-Punkte 4.5 (Block 3) sind damit im Spiel NICHT erfüllt.
+  Ursache mit Messzeilen belegen (welche Tabellen wachsen, je Phase des Scans), beheben, Nachbau mit 7165 Items.
+SN-TR-2 HOCH – Testroutine Sniper: "24 OK, 4 FEHLER, 1 übersprungen". FEHLER S5 (Ruckeln: längster Frame 547 ms, Ø 35/min 20 fps;
+  Ursachen AHSentinel 67, Sync 45, fremd 359), S6 (neues Angebot erst nach ~14 s statt < 5 s), S8, S13 (Texte im Testbericht).
+  "16 Treffer, 0 gekauft, 7 verpasst". S4 übersprungen: die Mausrad-Raste der Bildschirmsteuerung kam nicht an (Verdacht: kein echtes
+  Mausrad) – S4 NICHT als Fehler werten, im Spiel mit echter Maus wiederholen.
+UI-CLEAN1-B HOCH – UI-Testroutine: 727 Befunde (ragt heraus 182, abgeschnitten 462, überlappt 44, veraltet 39); am meisten
+  Kaufen > Schnäppchen (86), Schnäppchen > Unter Händlerpreis (86), Markt > Lücken (65). Phase 5.2 ist damit NICHT fertig.
+SANDBOX-1 HOCH (Daten-Sicherheit) – UI-Testroutine meldete "FEHLER: 3 Pfade wiederhergestellt: deCount.day, deCount.counted,
+  deCount.since". Eine Testroutine darf echte Daten nie berühren. Ursache belegen (welcher Reiter/welche Funktion schreibt deCount
+  beim Zeichnen), beheben; Test: UI-Routine ändert keinen Pfad.
+HILFE-GRP-1 NIEDRIG – Punkt hakt sich nicht selbst ab (auch nach "Jetzt prüfen"); von Hand OK gesetzt.
+OK im Spiel: SN-BTN1 (Knopf blieb klickbar während der nächsten Suche, 1 Klick = 1 Kauf, 8s), POST-TEUER (232 % -> angepasst 37c,
+  keine zweite Warnung). Nicht geprüft: SCHN-ALARM (Absturz), HAENDLER-GOLD (keine grauen Items).
+REIHENFOLGE: WACH-1 -> VS-121 -> SANDBOX-1 -> SN-TR-2 -> UI-CLEAN1-B -> HILFE-GRP-1, dann wieder E/F/G/TU.
+  0.66.0 erst, wenn VOLLSCAN, WAECHTER-LAST und SN-TR im Spiel grün sind.
