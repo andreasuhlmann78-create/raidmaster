@@ -12,46 +12,31 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
-### Version 0.65.178
+### Version 0.65.265
 
-- **Sniper fast again:** a cancelled purchase (price rose, listing gone) no longer slows down the searches. After a real
-  server error the sniper is back at full pace after 10 seconds. The status line says in words why it is waiting and how
-  many targets are active.
-- **Fewer lost duels:** if the price rose before confirmation, the sniper no longer cancels and searches again – the next
-  notch asks for a smaller quantity right away. Your full quantity stays the goal. Buying still only happens on your
-  notch/key and never above your max price.
-- **Shopping, X button:** resets search, filters, category and the list, closes the favourites menu and no longer stutters.
-  If there is nothing to reset, X is grey.
+- **Options:** the area buttons on the left now switch areas (in 0.65.263/264 only the search worked). The selected area is shown in gold.
+- **Options – Buying & sniper:** one line "Sniper buys with: Mouse wheel / Own key / Button only" instead of two similar lines.
 
-### Version 0.65.177
+### Version 0.65.264
 
-- **Disenchant tooltip:** materials are shown plainly again, following the WoW Forever reference – e.g. "1–2 Vision Dust
-  75 %" with the price per piece. No more calculation details ("× Ø", "Scan"); your own disenchants keep being learned in the
-  background.
-- **Test and measuring functions only for development:** test routine, self test, self checks, diagnostic log and timing
-  measurements no longer run for normal players – less CPU time and memory.
+- **Market tab header in plain words:** instead of "measuring 0/5" per level band it now says "Market direction per level: not enough data yet (2 of 5 days)", and once a band is measured "1–25: prices falling · 26–45: prices steady …". The hint line is shorter and no longer runs under the "n entries" counter.
+- **Shopping list from a recipe – also with ProfessionSentinel:** with the profession window open and a recipe selected, `/ahs material` puts all materials on a shopping list and `/ahs missing` (German `/ahs fehlt`) only what you are missing.
 
-### Version 0.65.176
+### Version 0.65.263
 
-- **More thorough sniper check (`/ahs testroutine sniper`):** at the open auction house the test now watches your own
-  targets (a test target if you have none) and measures: pace (searches per minute against the server limit of 90),
-  whether all targets get their turn, whether hits are correct (only up to the max price, marked gold), money safety
-  (nothing sent; for the test purchase gold before − after = booked price), pauses (the sniper resumes by itself),
-  missed hits and stutter (no frame longer than 33 ms). The result is at the very top of the report in a few plain sentences.
-- Still nothing is bought without your wheel notch/key.
+- **Options – clear at last:** areas on the left (General, Display & tooltip, Selling, Buying & sniper, Market & suggestions, Data & learning), on the right only the options of that area in one column – no scrolling. A search box at the top finds every option across all areas (e.g. "wheel", "fee"). All your settings stay as they are.
+- The Options button opens the area that fits the tab you are on (sniper -> Buying & sniper).
+- Fixed: the "Price guard when posting" button showed no value – it shared its name with the "Warning guard" button.
 
-### Version 0.65.175
+### Version 0.65.262
 
-- **Sniper speed measured:** each sniper session (from switching on to off) is measured – searches, average and highest
-  searches per minute, number of targets – only real sniper searches, never the test routine. The test report shows the last
-  session. The row text is shorter ("12 s ago").
-- **"Today":** a "price fell" row only appears if selling now is really worth it (at least 1s and more than waiting).
+- **Sell – "Adjust price":** the price the price guard suggests is now accepted as your decision – posting it no longer asks a second time ("Check the price! Click again …"). Only for exactly this price and item, for 2 minutes.
+- **"Post anyway":** the chat now says that this confirmation holds for 30 seconds (same item, same price) – a second post right after it does not warn again.
 
-### Version 0.65.174
+### Version 0.65.261
 
-- **Sniper checks ALL targets:** every target in your list is searched in turn, equally often, as fast as the server allows
-  (before, a target with hits was searched much more often and the others rarely). Each row shows "checked x s ago"; a row
-  with a waiting hit is marked gold. Buying still only by click; budget and max per row apply. Test T727.
+- **Gold safety – sniper "button only":** with "Buy with: button only" the mouse wheel and your own key no longer buy anything – before, the wheel over an AHSentinel window (or a key binding) could still buy a waiting hit.
+- **Sniper:** the "Mouse wheel" button next to "Sniper mode" now switches it: green = the wheel buys, grey = only the "Buy" button buys (the same setting as in the options). When the "Buy" button is grey, the reason is shown in the line below.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
