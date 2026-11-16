@@ -1,0 +1,41 @@
+BERICHT LevelPilot 3.12.65 – LW-5 E1/E5 (Classic Era lädt, Prüfliste Era) und LW-2b (Zeitmodell im Normalmodus, belegt)
+Projekt: LevelPilot · Datum: 16.11.2026 13:55 (aus date) · Version: 3.12.65 · umgesetzt, zur Prüfung
+
+Bezug: PRÜFUNG Supervisor 13:25 (Reihenfolge E1 -> E5 -> LW-2b-Messreihe; ANTWORT F1/F2), E1-MESSUNG Forever 13:39 und Era 13:45
+("E1 ENTSCHIEDEN: Interface-Liste 16001, 11509 in beiden .toc, keine _Vanilla.toc").
+
+1. E1 – .toc
+   LevelPilot.toc und LevelPilot_Data.toc: "## Interface: 16001, 11509" (sonst unverändert). addon_check OK.
+   HINWEIS NUTZER: die zwei Test-Addons GSTocListe und GSTocDatei in beiden AddOns-Ordnern dürfen jetzt gelöscht werden.
+2. E5 – Prüfliste im Classic-Era-Client
+   Pruefliste.lua: im Era-Client eigene Liste M.ERA_POINTS (6 Punkte): E5-1 lädt (selbst: Interface/Spielversion),
+   E5-2 eigene Daten (selbst: Bereich LevelPilotDB.era), E5-3 Questlog 20 und kein Forever-Schalter (selbst), E5-4 Route/Pfeil/
+   Weg, E5-5 Orte Mulgore/Sturmwind (/lp navi briefkasten), E5-6 Testroutine FEHLER 0 (OK/Nicht OK). Im Forever-Client
+   die bisherige Liste (14 Punkte) unverändert. T309 auf die Forever-Liste festgelegt (die Era-Liste prüft T325).
+   TEST T325 (true ×6, im Forever- UND im Era-Nachbau grün). GEGENPROBE (immer Forever-Liste): Era-Liste false.
+3. LW-2b – Zeitmodell im Normalmodus (Messreihe nach ANTWORT F2: "18 Reisen je Variante, Code nur bei Beleg")
+   Messreihe: virtuelle Reise 1–60, 6 Völker × 3 Klassen = 18 Charaktere, vorher (3.12.64) gegen Zeitfaktor im Normalmodus
+   (travelF wie im Speedrun: Anteil Questdauer an Questdauer + halbem Weg, Untergrenze 0,35; Wegkosten LW-1; Questgeber am
+   selben Ort teilen den Weg):
+     Dwarf HUNTER 168,1 -> 164,7 h · Dwarf PALADIN 193,8 -> 191,4 · Dwarf WARRIOR 192,9 -> 188,1 · Human MAGE 180,0 -> 178,1
+     Human PRIEST 204,7 -> 194,3 · Human WARRIOR 186,0 -> 190,3 · NightElf DRUID 186,9 -> 180,6 · NightElf HUNTER 171,2 -> 157,9
+     NightElf PRIEST 205,0 -> 197,4 · Orc HUNTER 154,2 -> 150,9 · Orc WARLOCK 159,9 -> 159,6 · Orc WARRIOR 180,9 -> 174,3
+     Scourge MAGE 168,0 -> 170,7 · Scourge PRIEST 185,7 -> 189,4 · Scourge ROGUE 176,6 -> 174,8 · Tauren DRUID 175,9 -> 171,5
+     Tauren HUNTER 155,8 -> 151,8 · Tauren WARRIOR 179,4 -> 177,4
+   ERGEBNIS: 15 schneller, 3 langsamer; Median −197 min (−3 h 17 min), Summe −62 h über 18 Reisen; Spannweite −798 bis +255 min;
+   gelaufene km bei 17 von 18 weniger. Vorzeichentest 15/18: p ≈ 0,004 (zweiseitig ≈ 0,008).
+   Gegen Auswahl-Verzerrung: 6 der 18 waren schon in der Vorab-Messung 12:39 (dort Variante gewählt); die 12 NEUEN: 11 schneller.
+   Endfassung nachgerechnet (Code dieser Version): Orc Krieger 174 h 21 min, Mensch Magier 178 h 04 min – gleich wie in der Reihe.
+   Code: Planner.lua P.TravelFactor (gleiche Formel wie travelF im Speedrun), im Normalmodus auf a.t.value angewendet, nichts
+   ausgelassen; Schalter P.OPT.timeNormal (Vorher/Nachher). Speedrun unverändert.
+   TEST T326 (true ×6): Faktor 0,857 / 0,35 / anderer Kontinent 0,4 / 2 Questgeber, im Normalmodus angewendet, Schalter aus.
+   GEGENPROBE (Block aus): "Normalmodus angewendet" false.
+4. F1 – BELEG "Planung nicht jedes Bild" (Antwort 13:25: LW-2a lassen, wenn < 1×/s)
+   Diagnose des Nutzers 3.12.52 (testberichte/diagnose/LevelPilot/3.12.52-f3fce29272f8.txt), Zeile ZEIT seit dem Einloggen:
+   Routenberechnung 182×, Assistent 51× (Assistent läuft alle 30 s -> Sitzung ≈ 25,5 min). => ≈ 7 Planungen je Minute
+   (≈ 0,12/s), weit unter 1/s. LW-2a bleibt an.
+5. PRÜFUNGEN
+   addon_check: OK. Offline-Routine: 38 Läufe, 38 ohne FEHLER (Testroutine je Spielversion 0 FEHLER; Classic Era 275 OK).
+   Private Regression: 36 von 36 Läufen ALLE TESTS OK.
+6. NÄCHSTE SCHRITTE: LW-7 (d) "Tod als Reise" (Messung 13:43 – Frage Schwelle 3 min offen; ohne Antwort baue ich mit 3 min);
+   Friedhöfe ins Datenpaket (LevelPilot_Data, GPL).
