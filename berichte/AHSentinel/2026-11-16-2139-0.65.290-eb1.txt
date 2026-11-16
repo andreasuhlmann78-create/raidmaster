@@ -1,0 +1,18 @@
+AHSentinel 0.65.290 – E (b) Teil 1: Testfälle offline nachgebildet statt "im Spiel" – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.290 und sofort im Discord. Im Spiel ändert sich nichts (nur Tests).
+
+- T-OÜ2/T-OÜ3 -> Nachbau s260_options_classic (Repo AHAnalyzerPro): Design Klassisch, 130 %, Englisch -> in jedem Bereich der
+  Optionen nichts überlagert und alles im Fenster (T-OÜ2); eine neue Test-Option im Bereich Sniper landet in der nächsten freien
+  Zeile, ohne etwas zu überlagern (T-OÜ3). Gegenprobe (Mutation Zeilenhöhe 32 -> 12): rot ("allgemein: Button/Button").
+  Abdeckungsliste: Eintrag T-OÜ2/T-OÜ3 -> s260.
+- T468 "ohne Verzauberkunst": der Beruf wird jetzt WIRKLICH weggelassen (Verzauberkunst-Stufe 0 über die eigene Funktion
+  D:EnchantSkill); geprüft wird zusätzlich, dass D:CanDisenchant dann false ist – und die Gewinn-Zeile trotzdem steht.
+- T277 T-N2: geprüft wird jetzt GoldSentinelSync.store.book (der Speicher, den GoldSentinelSync wirklich benutzt – bei mehreren
+  Addons die Tabelle des ersten), nicht mehr nur AHSentinelDB.gsSync.book. T-GT2: als Nicht-Sammler (collector = false, danach
+  zurück), sonst endete GT.Outbox schon am "Sammler" und die Zustimmung wurde gar nicht geprüft.
+- T-GW4 -> T866: Taschen-Gesamtwert, wenn der Händler mehr zahlt: ohne Marktpreis und mit schlechterem Marktpreis = Händlerwert ×
+  Menge, mit besserem Marktpreis der AH-Wert. Gegenprobe (Mutation: RealValue wählt den Händler nie): rot.
+- Abdeckung T-BL3 -> T537/T538 (Klick wählt aus, Enter führt aus – Verhalten seit CH), T-BL4 -> T540 (Chatfeld nie beschrieben).
+NOCH "im Spiel" (Bereich K, nur mit echten Schriftbreiten messbar): T-BL7, T-GW6.
+NOCH OFFEN aus E (b) (nächste Versionen): T-DZ1/3/4, T-O1–O5, T-H1–H4, T-D2–D4, T-AB5, T-AB9/T-AB12.
+Gesamtlauf der Nachbildung (0.65.290): BESTANDEN 327, FEHLGESCHLAGEN 0.
