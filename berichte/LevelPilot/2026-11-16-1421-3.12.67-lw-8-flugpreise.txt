@@ -1,0 +1,26 @@
+BERICHT LevelPilot 3.12.67 – LW-8 (2) Flugpreise im Reiseplan
+Projekt: LevelPilot · Datum: 16.11.2026 14:21 (aus date) · Version: 3.12.67 · umgesetzt, zur Prüfung
+
+Bezug: ANTWORTEN 14:14 – F-B "JA, bauen (eigene Messung beim Öffnen des Flugmeisters, Preis im Reiseplan; ohne Messung
+'Preis unbekannt')"; F-A eigene Messlatte, F-C zurückstellen, B-1 LW-4 mit Strassennetz + vorhandenen Wegdaten (nächste Versionen).
+
+1. UMSETZUNG
+   Recorder.lua: R:RecordTaxiCost beim Öffnen der Flugkarte (TAXIMAP_OPENED, neben RecordTaxi): aktueller Ort = Knoten "CURRENT",
+   je Knoten "REACHABLE" Preis TaxiNodeCost (Kupfer) -> LP.db.flightCost[Start][Ziel] = { c, t } (LP.db = Bereich der
+   Spielversion, E3). Ein neuer Wert ersetzt den alten (Ruf-Rabatt). Nicht in der virtuellen Reise. Ohne die Spielfunktionen: nichts.
+   R.FlightCost(Start, Ziel) liest. Planner P.PlanText: Flug-Teilstück "Flug nach X, <Preis> (m:ss)" bzw. "Preis unbekannt"
+   (Session.Money: 1s 20c). Neuer Text in 10 Sprachen.
+   Spielfunktionen nur gelesen, nie ersetzt; im Test über eine eigene Ersatz-Schnittstelle (api-Parameter), keine Globals.
+2. TEST T328 (2 · true ×5): 2 Preise mitgeschrieben · nur ab Start, "DISTANT" nicht · neuer Preis ersetzt · ohne aktuellen Ort
+   nichts · ohne Schnittstelle nichts · Reiseplan mit Preis bzw. "Preis unbekannt".
+   GEGENPROBE (alles ausser CURRENT mitschreiben): 3 statt 2, "gelesen" false.
+3. PRÜFUNGEN
+   addon_check: OK. Offline-Routine: Lauf 1: 37 von 38 – T155 (Planung je Reiseschritt) im Lauf "Forever enUS Horde" 16,87 ms
+   (Grenze 16); Lauf 2 unverändert: 38 von 38 ohne FEHLER.
+   BEFUND T155 (Messrauschen, belegt): die Offline-Routine rechnet bis zu 8 Läufe gleichzeitig. Einzeln gemessen (enUS Horde, je
+   3 Läufe): mit Zeitfaktor (3.12.65) 13,0 / 9,5 / 9,4 ms, ohne 15,5 / 8,9 / 8,9 ms – der erste Lauf streut stark, der Zeitfaktor
+   kostet rund 0,5 ms. Die Flugpreise ändern die Planung nicht (nur den Text). VORSCHLAG: T155 im Nachbau über mehr Planungen
+   mitteln (heute 10) oder den ersten Durchgang verwerfen – auf Wunsch.
+   Private Regression: 36 von 36 Läufen ALLE TESTS OK.
+4. NÄCHSTE SCHRITTE: LW-4 (Startwegnetz aus Strassennetz + hochgeladenen Wegdaten testberichte/wege/LevelPilot/), dann F-A
+   (Messlatte aus eigenen Zahlen: Bestzeiten je Stufe + virtuelle Reise).
