@@ -311,3 +311,10 @@ anderen bei RaidMaster – es kann das Spiel des Nutzers ausbremsen. Danach im S
 svfilter.py:224–262: doppelte Schlüssel bzw. zweite Zuweisung von GuildSentinelDB -> frühere apps/ban bleiben im Text (theoretisch, WoW
 schreibt das nicht); 5000-fach verschachtelt -> RecursionError statt FilterError. Lösung: Doppel -> FilterError; in daten.py
 RecursionError/Exception wie FilterError behandeln (nur GuildSentinel.lua weglassen, nie Daten durchlassen). Tests mit Gegenprobe.
+
+==== AUFTRAG RM-API-RAIDS (Supervisor 16.11.2026 15:15, für AHSentinel Phase 8 Punkt 3 "Vorräte vor Raid-Abenden", Freigabe des Nutzers 14:10) ====
+Schnittstelle für andere GoldSentinel-Addons: _G.RaidMasterAPI = _G.RaidMasterAPI or {}; RaidMasterAPI.UpcomingRaids() ->
+{ { t = <Unix-Zeit Raid-Beginn>, name = "<Raid-Name>" }, ... } – NUR kommende Termine (t >= jetzt), aufsteigend, höchstens 20,
+KEINE Spielernamen/Anmeldungen/IDs. Quelle: was RaidMaster schon kennt (Signup/Discord-Termine). Fehlerfest (nie nil-Fehler, leere
+Liste wenn nichts da). Version der Schnittstelle (RaidMasterAPI.VERSION = 1). Test: Termine gestern/heute/morgen -> nur heute(später)/
+morgen; Feld "player" kommt nicht vor; >20 -> 20. AHSentinel liest es schon fehlerfest (T847).

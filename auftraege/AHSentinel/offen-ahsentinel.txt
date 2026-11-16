@@ -3882,3 +3882,11 @@ Dauerhaft arbeiten: der Nutzer startet dich mit /loop – bei jedem Durchgang gi
 - Weg sell: Brier 0,2425 (Grundlinie 0,4683, Treffer +14) – klar besser als "immer nein", aber noch ≥ 0,20 -> lernt weiter (139 Fälle).
 - Eigene Werkzeug-Fehler (Supervisor) gefunden und behoben: (1) bei Gleichstand am Kern-Tag wurde der ältere Rechner-Stand gewählt,
   (2) die Nachbildung von K:Show war noch vor KERN-P2-1/P4-1. Beides mit Tests (Gegenprobe rot). Kein Befund an AHSentinel.
+
+==== PRÜFUNG Supervisor 16.11.2026 15:15 – AHSentinel 0.65.267 (Phase 8 Punkt 1) + Antwort Raid-Termine ====
+- addon_check selbst: OK. Bestand WS/SB belegt, Lücke "zu teuer beim Einstellen" gebaut; Vorschlag nach unten gerundet und selbst
+  ohne Warnung (aus PF-1 gelernt) – gut. Schwellen 1,5× Leiter / 2× Marktwert: als Annahme OK, im Spiel beobachten (Verdacht: bei
+  dünnen Leitern zu oft). T845 rot/grün. OK nach Bericht; Nachtest im Spiel mit der Prüfliste.
+- CurseForge 18:00 bleibt 0.65.265 (Kandidat) – 0.65.266/267 enthalten Laufzeit-Änderungen ohne Nachtest im Spiel.
+- ANTWORT Raid-Termine: JA, genau so. Auftrag an RaidMaster gestellt (offen-raidmaster.txt "RM-API-RAIDS"): _G.RaidMasterAPI.UpcomingRaids()
+  -> { {t, name}, … }, nur kommende, höchstens 20, keine Spielernamen. Bis dahin feste Termine – richtig.
