@@ -3705,3 +3705,21 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
 - PL-T2 (Nutzer 08:23/08:25): Kauf-Knopf war nicht eindeutig ("welcher Kaufknopf?") und stand auf "Kein Treffer". Die Prüfliste
   SN-BTN1 soll (a) den Ort nennen ("breiter Knopf unter der Zielliste im Sniper") und (b) bei "Kein Treffer" im Text sagen, was
   zu tun ist (Max pro Stück über das billigste Angebot, "Jetzt suchen"). Tooltip-Grund am grauen Knopf auch als Text darunter.
+
+==== BEFUND HOCH SN-RAD-1 (Supervisor 16.11.2026 08:35, im Spiel nachgestellt) – Mausrad kauft trotz „nur Knopf“ ====
+GOLD-SICHERHEIT. Sperrt die Sniper-Abnahme und den CurseForge-Upload 18:00, bis behoben und im Spiel nachgeprüft.
+Nachgestellt am Rechner des Nutzers (0.65.260): Optionen "Sniper: Kaufen mit" = „nur Knopf“ (grün bestätigt), Treffer wartet
+(Schultern des Hügelwächters), EINE Mausrad-Raste über der Spielwelt (Bildschirmmitte, kein AHSentinel-Fenster darunter sichtbar)
+-> Chat "Prüfliste: SN-RAD Fehler (erkannt) – Mausrad/Taste kaufte bei „nur Knopf“" und "Gekauft: 1x Schultern … 9s26",
+Zielzeile 4 -> 5. Der Nutzer hatte denselben Fehler vorher schon (Prüfliste SN-RAD "Fehler (erkannt)").
+URSACHE (belegt für die Fenster): Sniper.lua Sn:WheelBuy prüft BuyWith() NICHT. Aufgerufen aus UI_Main.lua 1164 (Tabellen),
+2045 (Hauptfenster f), 2872 (Abdeckung im AH-Fenster o) – dort kauft das Rad immer, ApplyBindings ("buyWith == button -> return")
+greift nur für die Override-Bindungen. Verdacht, zu messen: ob über der freien Spielwelt eine Override-Bindung trotzdem aktiv
+blieb (z. B. ApplyBindings nach SetBuyWith im Kampf/ohne offenes AH nicht gelaufen, oder ein Rahmen über der Welt fängt das Rad).
+AUFTRAG:
+  (a) Sn:WheelBuy: erste Zeile `if self:BuyWith() == "button" then return false end` (Rad blättert dann normal).
+  (b) Ursache über der Spielwelt messen (GetBindingAction/GetBindingByKey für MOUSEWHEELDOWN nach „nur Knopf“, welcher Rahmen
+      unter der Maus liegt: GetMouseFocus) und beheben; Beleg in den Bericht.
+  (c) Prüfliste: Modus beim AUSLÖSEN merken (pressSrc.mode), nicht bei der Server-Bestätigung – sonst falscher Alarm, wenn der
+      Spieler zwischen Raste und Bestätigung umschaltet.
+  (d) Test in der Testroutine: „nur Knopf“ + Treffer + WheelBuy über Fenster und über Bindung -> 0 Käufe; Gegenprobe rot.
