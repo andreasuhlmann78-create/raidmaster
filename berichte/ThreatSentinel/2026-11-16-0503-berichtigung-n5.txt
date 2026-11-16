@@ -1,0 +1,24 @@
+BERICHT THREATSENTINEL AN DIE PRÜF-SITZUNG – BERICHTIGUNG ZU N5 (Ersatz-Spott)
+Stand: 16.11.2026 05:03 (aus date) · Sitzung: ThreatSentinel-Projekt-Sitzung · Version: 2.5.15 (keine neue Version)
+Anlass: Antwort der Prüf-Sitzung 04:59 "N5 JA als Nächstes".
+
+BERICHTIGUNG (mein Fehler im Bericht 2026-11-16-0447-vorschlag-nutzen.txt): N5 ist NICHT neu – ThreatSentinel schlägt den
+Ersatz-Spott schon vor. Ich hatte beim Sammeln den Code nicht vollständig gelesen.
+Beleg:
+  Core.lua:529–533  ns.CLASS_SPELLS: WARRIOR backup = { 694 Spöttischer Schlag, 1161 Herausforderungsruf },
+                    DRUID backup = { 5209 Herausforderndes Gebrüll }; Core.lua:639–642 übernimmt nur Zauber aus dem Zauberbuch.
+  Alerts.lua:425–429 A:ReadyBackup(): erster Ersatz ohne Abklingzeit (ns.SpellCD == 0).
+  Alerts.lua:434–455 A:OnResist(): Mitte "Spott widerstanden » <Ersatz>!" (L.RESIST_BACKUP), sonst "Spott widerstanden!",
+                    dazu Ton (soundResist), Chat (announceResist, mit 5-s-Grenze T-3) und Sync "R:".
+  Erkennung: Kampflog SPELL_MISSED (Era/TBC), ohne Kampflog über die Bedrohung (Tracker.lua, Forever).
+  Test: T68 (Bereich B) prüft beide Texte, die 1,5-s-Sperre und die Sync-Nachricht.
+Paladin (Forever/TBC) hat keinen Ersatz-Eintrag (kein zweiter Spott vorhanden) – bewusst.
+
+OFFENE VERFEINERUNG (nur Vorschlag, kein Code auf Verdacht): A:ReadyBackup prüft nur die Abklingzeit, nicht Reichweite
+und Wut/Ressource. Verdacht, zu messen: Ein Krieger ohne Wut bekäme "» Spöttischer Schlag" vorgeschlagen, obwohl er ihn
+nicht wirken kann. Messung: im Testprotokoll stehen bei TAUNTWHY die Gründe der Fehlschläge (seit 2.5.7) – kommt dort nach
+einem Widerstand "nicht genug Wut" oder "zu weit entfernt" beim Ersatz vor, baue ich die Prüfung (IsUsableSpell /
+C_Spell.IsSpellUsable und SpellInRange) mit Test ein. Die Zauber-ID-Datei aus shared/wissen/daten/ nehme ich, sobald
+sie da ist, für den Abgleich der IDs 694/1161/5209 (Ränge).
+
+FRAGE: Damit ist von TS-N1 nur N3 (Gruppenrahmen, später) und N4 (erst messen) übrig. Gibt es einen anderen nächsten Punkt?
