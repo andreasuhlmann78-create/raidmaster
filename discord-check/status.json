@@ -1,73 +1,87 @@
 {
-  "geprueft": "2026-11-16T12:51:31Z",
-  "commit": "80a1a6f",
+  "geprueft": "2026-11-16T18:26:52Z",
+  "commit": "43a64e2",
   "ok": true,
   "fehler": null,
   "hinweis": "Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 45 Minuten.",
   "ankuendigungen": [
     {
-      "datei": "announce/ahsentinel__ahsentinel-0.65.266.md",
+      "datei": "announce/ahsentinel__ahsentinel-0.65.279.md",
       "kanal": "ahsentinel",
-      "seit_push_min": 176,
-      "abdeckung": 1.0,
-      "status": "ok"
+      "seit_push_min": 4,
+      "abdeckung": 0.333,
+      "status": "wartet",
+      "fehlende_zeilen": [
+        "📦 **AHSentinel 0.65.279** – Testbericht aufgeräumt 🗂️",
+        "• **Testbericht:** Die Abdeckungsliste der eingebauten Testroutine nutzt jetzt die aktuelle Nummerierung der offenen Punkte. Im Spiel ändert sich nichts."
+      ],
+      "status_eigentlich": "veraltet"
     },
     {
       "datei": "announce/ahsentinel__ahsentinel-0-vorstellung-1.8.md",
       "kanal": "ahsentinel",
-      "seit_push_min": 10544,
+      "seit_push_min": 10880,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/ahsentinel__ahsentinel-hilfe-1.0.md",
       "kanal": "ahsentinel",
-      "seit_push_min": 17742,
+      "seit_push_min": 18077,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/barrow-taktik__uebersicht-1.1.md",
       "kanal": "barrow-taktik",
-      "seit_push_min": 18572,
+      "seit_push_min": 18907,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/buffsentinel__buffsentinel-0.9.47.md",
       "kanal": "buffsentinel",
-      "seit_push_min": 387,
+      "seit_push_min": 722,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
-      "datei": "announce/guildsentinel__guildsentinel-0.9.48.md",
+      "datei": "announce/guildsentinel__guildsentinel-0.9.49.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 516,
+      "seit_push_min": 82,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/hyjal-taktik__uebersicht-1.1.md",
       "kanal": "hyjal-taktik",
-      "seit_push_min": 18572,
+      "seit_push_min": 18907,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
-      "datei": "announce/levelpilot__levelpilot-3.12.64.md",
+      "datei": "announce/levelpilot__levelpilot-3.12.74.md",
       "kanal": "levelpilot",
-      "seit_push_min": 35,
-      "abdeckung": 1.0,
-      "status": "ok"
-    },
-    {
-      "datei": "announce/levelpilot__levelpilot-uebersicht-3.12.64.md",
-      "kanal": "levelpilot",
-      "seit_push_min": 35,
-      "abdeckung": 0.984,
+      "seit_push_min": 3,
+      "abdeckung": 0.5,
       "status": "wartet",
       "fehlende_zeilen": [
+        "📢 **LevelPilot 3.12.74** – keine zu hohen Quests mehr",
+        "• Der Guide nimmt nur noch Quests, die höchstens 2 Stufen über dir liegen (vorher 3). Keine orangen Quests mehr, die dich zu früh in ein höheres Gebiet schicken",
+        "• In der virtuellen Reise 1–60 ist die Route dadurch sogar etwas schneller."
+      ],
+      "status_eigentlich": "veraltet"
+    },
+    {
+      "datei": "announce/levelpilot__levelpilot-uebersicht-3.12.74.md",
+      "kanal": "levelpilot",
+      "seit_push_min": 3,
+      "abdeckung": 0.937,
+      "status": "wartet",
+      "fehlende_zeilen": [
+        "📘 **LevelPilot – was das Addon kann** (Stand 3.12.74)",
+        "• Möglichst lange in einer Zone: erst weiter, wenn dort fast nichts mehr zu tun ist, keine weiten Reisen für eine einzelne Quest, Abgaben werden gesammelt – Hau",
+        "• Pflichtregel: nie zu Zielen mit Mobs 3 oder mehr Level über euch, gefährliche Wege und Orte der Gegenfraktion werden gemieden",
         "• Auf WoW Forever eingestellt: Questlog mit 40 Plätzen, Dungeon-Planung nach den Forever-Regeln (EP, Fraktionssperren) mit allen Quests der Instanz"
       ],
       "status_eigentlich": "veraltet"
@@ -75,77 +89,77 @@
     {
       "datei": "announce/lore__alpine-vanguard-vorstellung-1.0.md",
       "kanal": "lore",
-      "seit_push_min": 22295,
+      "seit_push_min": 22630,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/mc-feuerresi__feuerresi-1.1.md",
       "kanal": "mc-feuerresi",
-      "seit_push_min": 18572,
+      "seit_push_min": 18907,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/onyxia-feuerresi__feuerresi-1.0.md",
       "kanal": "onyxia-feuerresi",
-      "seit_push_min": 27714,
+      "seit_push_min": 28049,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/onyxia-taktik__onyxia-video-1.0.md",
       "kanal": "onyxia-taktik",
-      "seit_push_min": 29138,
+      "seit_push_min": 29473,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/professionsentinel__professionsentinel-0.9.62.md",
       "kanal": "professionsentinel",
-      "seit_push_min": 738,
+      "seit_push_min": 1074,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/professionsentinel__professionsentinel-0-vorstellung-1.27.md",
       "kanal": "professionsentinel",
-      "seit_push_min": 4820,
+      "seit_push_min": 5156,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/threatsentinel__threatsentinel-2.5.15.md",
       "kanal": "threatsentinel",
-      "seit_push_min": 544,
+      "seit_push_min": 879,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/threatsentinel__threatsentinel-0-vorstellung-2.2.md",
       "kanal": "threatsentinel",
-      "seit_push_min": 20000,
+      "seit_push_min": 20336,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/buffsentinel__buffsentinel-0-vorstellung-12.md",
       "kanal": "buffsentinel",
-      "seit_push_min": 17692,
+      "seit_push_min": 18027,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-19.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 6071,
+      "seit_push_min": 6406,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/levelpilot__levelpilot-uebersicht.md",
       "kanal": "levelpilot",
-      "seit_push_min": 29964,
+      "seit_push_min": 30299,
       "abdeckung": 1.0,
       "status": "ok"
     }
@@ -153,14 +167,14 @@
   "addons": [
     {
       "addon": "AHSentinel",
-      "version": "0.65.178",
-      "datei": "download/AHSentinel-0.65.178.zip",
+      "version": "0.65.265",
+      "datei": "download/AHSentinel-0.65.265.zip",
       "kanal": "ahsentinel",
-      "seit_push_min": 2222,
+      "seit_push_min": 119,
       "status": "ok",
-      "gepostet": "2026-11-15 01:33 UTC",
+      "gepostet": "2026-11-16 16:31 UTC",
       "anhang": [
-        "AHSentinel-0.65.178.zip"
+        "AHSentinel-0.65.265.zip"
       ]
     },
     {
@@ -168,7 +182,7 @@
       "version": "3.0.29",
       "datei": "RaidMaster/RaidMaster.toc",
       "kanal": "raid-addon",
-      "seit_push_min": 244,
+      "seit_push_min": 580,
       "status": "ok",
       "gepostet": "2026-11-16 08:59 UTC",
       "anhang": [
@@ -180,7 +194,7 @@
     {
       "datei": "announce/threatsentinel__threatsentinel-0-vorstellung.md",
       "kanal": "threatsentinel",
-      "seit_push_min": 28778,
+      "seit_push_min": 29114,
       "abdeckung": 1.0,
       "status": "ok",
       "nur_info": "ersetzt durch threatsentinel__threatsentinel-0-vorstellung-2.2.md"
