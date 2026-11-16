@@ -36,3 +36,11 @@ Goldshire 8 yd neben der Strasse, Crossroads 34 yd (Strasse führt am Ort vorbei
 - Durotar/Dörfer: Strassen-Textur auch als Bodenflecken -> viele kleine Teile (Filter MIN_TEIL ggf. höher).
 - Brücken/Tunnel: Textur ist unter WMO-Brücken oft unterbrochen -> Lücken über Flüsse (Verbinden bis ~30 yd prüfen).
 - Kleine Kanten (Ö. Königreiche 9708) – erledigt mit ST-1 (verdichten), siehe oben.
+
+## Classic Era aus dem Anniversary-Client (Nutzer 16.11.2026 09:08: "Anniversary kannst du nehmen, das ist Classic mit TBC")
+Kein Era-Client beim Nutzer; Anniversary (Produkt `wow_anniversary`, Client 2.5.6.70577) mit demselben Werkzeug gelesen
+(`casc_lesen.Casc(..., product="wow_anniversary")`, gleiche WDT-FDIDs und Texturliste) -> `daten/era/`.
+Abgleich mit Forever (Zellen à 2,083 yd): 93,1 % (Ö. K.) bzw. 96,2 % (Kalimdor) der Anniversary-Strassenzellen liegen auch in
+Forever -> die Grundwelt ist dieselbe. Forever hat zusätzlich eigene Gebiete (Ö. K. Kacheln 34–36/27–29 um Gilneas, 56–57/26).
+Netz Anniversary: Ö. K. 2254 Punkte / 713 Kanten / 86785 yd, Kalimdor 1549 / 292 / 67197 yd (nach ST-1-Verdichtung).
+Verdacht, zu messen: Unterschiede Anniversary (TBC 2.5) zu Era 1.15 auf Karte 0/1 – im Spiel an Era-Wegen prüfen.

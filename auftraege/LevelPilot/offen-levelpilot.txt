@@ -491,3 +491,11 @@ Bericht wie üblich "umgesetzt, zur Prüfung" mit Messwerten.
   Classic-Era-Client. Era-Strassen also nicht aus seinen Dateien. Anniversary NICHT als Ersatz nehmen (anderer Stand der Welt).
   ST-5 ruht; Era bleibt vorerst Luftlinie + Startnetz. Wenn der Nutzer Era installiert, baue ich es mit demselben Werkzeug.
 - Reihenfolge danach: ST-3 (mit den CSV) -> LW-1 wie vorgeschlagen.
+
+==== ST-5 NEU: Classic Era aus dem Anniversary-Client (Nutzer 09:08 "Anniversary kannst du nehmen, das ist Classic mit TBC") ====
+Daten: shared/werkzeuge/strassen/daten/era/ (GoldSentinelStrassen.lua 88 KB, Client 2.5.6.70577) – mit deinem strassen_netz.py
+(ST-1-Stand) gebaut. Abgleich: 93,1 % / 96,2 % der Anniversary-Zellen liegen auch im Forever-Netz (README). Auftrag:
+ (a) Era-Netz in LevelPilot laden, wenn der Client Classic Era ist (eigene Datei, eigener globaler Name oder Tabelle je Client –
+     NICHT dieselbe globale Tabelle wie Forever überschreiben; Kopfzeile der Datei nennt "WoW Forever" – im Werkzeug je Client richtig).
+ (b) T312 sinngemäss für Era; Classic Era bekommt damit dieselbe Wegsuche wie Forever.
+ (c) Verdacht, zu messen: TBC-Änderungen auf Karte 0/1 (Brücken/Wege) – im Spiel an Era-Wegen (LW-6-Zeilen) prüfen.
