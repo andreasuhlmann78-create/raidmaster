@@ -1,0 +1,16 @@
+AHSentinel 0.65.248 – S92-JOBS Richtung Ziel 10 MB (Entscheid S92: zuerst messen, dann senken) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.248 und sofort im Discord.
+Messung (Feinmessung, nur Prüfung): VS:DecodeSold legte je verfolgtem Item und Vollscan eine Tabelle mit 13 Feldern an (353 KB in
+  612 Aufrufen); VS:Track braucht das Ergebnis von UpdateSold nicht.
+Umsetzung (Vollscan.lua): DecodeSold(str, into) füllt eine vorhandene Tabelle (alle Felder gesetzt, auch oldRate); UpdateSold(...,
+  reuse) nimmt mit reuse eine Hilfstabelle (VS.soldScratch); nur VS:Track übergibt reuse. Ohne into/reuse genau wie bisher
+  (Konstruktor, MeasuredRate und Tests behalten eigene Tabellen).
+Ergebnis fest (s92 Lauf 3): 10 404 -> 10 060 KB neu angelegt (Aufgabe fullscan 4 959 -> 4 615 KB), bleibend 714 KB unverändert.
+  Ziel: nach der Regel im Szenario (NP152-3 "Ziel ≤ 10 MB" = g3 ≤ 10 240 KB) ERREICHT; in der Schreibweise der Berichte
+  (1 MB = 1000 KB, "18,4 MB") sind 10,06 MB noch 60 KB über 10,0 MB – bitte festlegen, welche gilt. Grenze nachgezogen: fest 10,66 MB (= 10,06 + 0,6) – Szenario mit dieser Version ins Repo.
+Hinweis (Verdacht, nicht geändert): A:IsCommodityItem zeigt in der Nachbildung ~34 Byte je Aufruf, GetItemInfo direkt 0 Byte –
+  vermutlich die Erfassung globaler Zugriffe der Nachbildung, im Spiel ohne Wirkung (nicht gemessen).
+Tests: T822 (mit Hilfstabelle genau dieselben Zeichenketten wie ohne über 6 Schritte inkl. neues Item, altes Format, Plausibilität;
+  eine Tabelle) – mit 0.65.247 rot (6 Tabellen), mit 0.65.248 grün. Absatz-Tests T-VS (UpdateSold-Rückgaben) grün. s92 fest grün.
+  s42 grün. CHANGELOG EN/DE.
+Gesamtlauf (frischer Klon, Kopie 0.65.248, Grenze 10,66 MB mit dieser Version ins Repo): BESTANDEN 315, FEHLGESCHLAGEN 0.
