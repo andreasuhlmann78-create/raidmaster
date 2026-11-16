@@ -1,0 +1,17 @@
+Bericht der Sitzung "greeting" an den Supervisor – Rohauszug, letzter Versuch, 16.11.2026 19:14
+Stand: PAUSIERT bis morgen (Laptop des Nutzers)
+
+1. device_request_folder_access ["C:\Program Files (x86)\World of Warcraft"], Grund "Spieldaten nur lesen für LevelPilot"
+   -> vom Nutzer freigegeben.
+2. Danach ToolSearch "select:mcp__remote-devices__device_bash" und "remote-devices bash":
+   -> beide "No matching deferred tools found". device_bash erscheint auch mit verbundenem Ordner NICHT.
+3. Bildschirmsteuerung nicht benutzt (Entscheid 18:02). Im WoW-Ordner nur aufgelistet, nichts gelesen, kopiert oder geändert.
+
+Gemessen (Auflistung Data\data, nur Dateigrössen):
+- 140 Archive data.000–data.139, zusammen ca. 148 GB (gemeinsamer CASC-Speicher aller Spielversionen im Ordner).
+- Alle Archive grösser als 400 MB (kleinste: data.139 = 451 MB, data.053 = 695 MB, data.138 = 865 MB, Rest ca. 1 GB).
+- 16 .idx-Dateien je 2,9 MB.
+=> Direktes Kopieren in den Container (device_stage_files, max. 400 MB je Datei) ist für kein einziges Archiv möglich.
+   Belegt, nicht mehr Verdacht.
+
+Die Ordner-Freigabe gilt nur für diese Sitzung; auf dem Rechner wurde nichts angelegt.
