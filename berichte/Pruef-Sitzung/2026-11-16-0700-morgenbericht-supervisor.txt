@@ -1,5 +1,5 @@
 MORGENBERICHT DES SUPERVISORS – Nacht 15./16.11.2026 (wird die Nacht über fortgeschrieben)
-Stand: 16.11.2026 01:04 (Uhrzeit aus date)
+Stand: 16.11.2026 01:18 (Uhrzeit aus date)
 
 =====================================================================================================================
 1. DAS WICHTIGSTE IN KÜRZE
@@ -102,4 +102,19 @@ Entscheide (keiner eilt):
 - ProfessionSentinel: Ein Test (T271) lief nur im API-Lauf; Bericht 0.9.46 sagte zu viel – berichtigt.
 - Gold-Sicherheit: AHS-Entzauber-Ziele durften 25 % statt 10 % je Item ausgeben; "+"-Ziele hatten keine Item-Grenze; PS hätte Material bis zum
   Mehrfachen des Marktpreises gesnipt – alles behoben.
+
+=====================================================================================================================
+7. PROFESSIONSENTINEL – WAS DU JETZT HAST (Stand 0.9.61, von der PS-Sitzung zusammengefasst, vom Supervisor geprüft)
+=====================================================================================================================
+Öffnet mit dem Berufsfenster; vier Reiter Jetzt · Skillen · Gold · Rezepte. Jetzt: bis 3 Karten (nächster Skillpunkt, bestes Gold-Rezept,
+Rezept im AH, Grenze mit nächstem Lehrer). Skillen: Plan "Billigst" oder "Mit Vorrat", Lehrer mit "Weg zeigen" (LevelPilot). Skillspur unter
+jeder Zeile des Handwerksbuchs. Gold nach erwartetem Gewinn. Warteschlange + eine Einkaufsliste (Sniper höchstens 1,25 × Markt). Warnung vor
+Verlust beim Herstellen. Tooltip mit Marktlage. Bitte im Spiel anschauen – PS baut nichts Grosses mehr, bis du dich gemeldet hast.
+
+=====================================================================================================================
+8. WER DIE NACHT ÜBER STILL WAR (Stand 01:18)
+=====================================================================================================================
+ThreatSentinel letzter Bericht 15.11. 20:09 (Auftrag TS-N1 von 21:03 liegt unbearbeitet), RaidMaster/Uploader 15.11. 20:21, GuildSentinel
+15.11. 22:41 (alles Beauftragte erledigt). Diese Sitzungen haben ihren internen Wecker vermutlich nicht gestellt oder sind beendet – bitte
+bei Gelegenheit wecken; die Aufträge liegen in ihren offen-*.txt bereit.
 
