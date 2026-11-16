@@ -1,0 +1,25 @@
+ST-3 Messung · ROAD_COST 1.00 · Luftlinie-Kosten 1.45 · Paare 300–2000 yd je Zone (höchstens 300)
+Zone             Karte  Paare | Umweg gel./str./suche    | Fehler Luft×1,25 / Strasse / Suche | auf Strasse
+Brachland         1413    300 |  1.45   1.54   1.00      |    16 %      18 %      30 %       |  17 % von 239130 yd
+Unterstadt        1458    300 |  1.30   2.82   1.00      |     6 %     108 %      23 %       |   1 % von  63170 yd
+Tausend Nadeln    1441    300 |  1.58   2.45   1.00      |    21 %      43 %      37 %       |   0 % von  55855 yd
+Steinkrallen      1442    300 |  1.53   3.21   1.00      |    18 %     109 %      35 %       |   0 % von  42410 yd
+Orgrimmar         1454    300 |  1.33   2.19   1.00      |    10 %      52 %      25 %       |   0 % von  63596 yd
+Durotar           1411    300 |  1.41   1.51   1.00      |    14 %      30 %      28 %       |   7 % von 106888 yd
+Tirisfal          1420    300 |  1.48   1.41   1.00      |    19 %      18 %      32 %       |  29 % von  82117 yd
+Donnerfels        1456    300 |  1.16   1.49   1.00      |     9 %      34 %      13 %       |  57 % von  38258 yd
+Mulgore           1412    300 |  1.54   1.55   1.00      |    20 %      24 %      34 %       |  13 % von  72805 yd
+Silberwald        1421    300 |  1.62   1.49   1.00      |    23 %      33 %      37 %       |  24 % von  52275 yd
+Hügelland         1424    300 |  1.85   1.26   1.00      |    33 %      41 %      45 %       |  11 % von  29130 yd
+Alteracgebirge    1416    300 |  1.71   1.12   1.00      |    27 %      33 %      42 %       |   1 % von   9713 yd
+Kalimdor          1414    300 |  2.02   4.90   1.00      |    38 %     116 %      51 %       |   0 % von   5534 yd
+Tanaris           1446    300 |  1.34  10.68   1.00      |    11 %     702 %      25 %       |   0 % von   4852 yd
+Düstermarschen    1445    300 |  2.20   1.25   1.00      |    43 %      12 %      54 %       |  41 % von   7274 yd
+Arathihochland    1417    300 |  1.20   1.24   1.00      |     5 %       8 %      17 %       |  23 % von   3306 yd
+Eschental         1440    300 |  1.57   1.39   1.00      |    21 %      18 %      36 %       |  32 % von   6415 yd
+Desolace          1443     45 |  1.35   6.33   1.00      |     8 %     368 %      26 %       |   0 % von   3459 yd
+Sumpfland         1437    300 |  1.14   1.14   1.00      |    18 %       9 %      13 %       |  54 % von   2677 yd
+ALLE 5445 Paare: Umweg gelaufen 1.48 · über Strasse 2.06 · Wegsuche 1.00 · Fehler Luft×1,25 18 % · Strasse 50 % · Wegsuche 32 % · gelaufen auf Strasse 14 % von 888862 yd
+BRÜCKEN (ST-1, Lücken bis 30 yd zwischen getrennten Teilen) gegen gelaufene Wege:
+  Kontinent 0: 96 Brücken · gelaufen über die Brücke (<= 15 yd) 10 · Gegend besucht, Brücke nicht gelaufen 11 · Gegend nie gelaufen 75
+  Kontinent 1: 65 Brücken · gelaufen über die Brücke (<= 15 yd) 7 · Gegend besucht, Brücke nicht gelaufen 6 · Gegend nie gelaufen 52

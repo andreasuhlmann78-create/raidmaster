@@ -321,6 +321,7 @@ def verdichten(pkt, kan):
         kan = neu
     kan += bruecken
     st["bruecken"] = len(bruecken)
+    st["bruecken_liste"] = [[pkt[e[0]][0], pkt[e[0]][1], pkt[e[1]][0], pkt[e[1]][1]] for e in bruecken]   # ST-3: prüfen
     bl = [_laenge_e(pkt, e) for e in bruecken]
     st["bruecken_yards_summe"] = round(sum(bl))
     st["bruecken_yards_max"] = round(max(bl or [0]), 1)

@@ -1,0 +1,55 @@
+BERICHT LevelPilot 3.12.52 – ST-3 Messung Strassen gegen gelaufene Wege; BEFUND an 3.12.51 (LW-1) und Korrektur
+Projekt: LevelPilot · Datum: 16.11.2026 09:06 (aus date) · Version: 3.12.52 · umgesetzt, zur Prüfung
+
+Bezug: PRÜFUNG 08:58 (ST-3 mit UiMapAssignment-CSV), eigener Bericht 3.12.51 (LW-1).
+
+1. ST-3 MESSUNG (berichte/LevelPilot/strassen/st3_messung.py, Ergebnis st3-ergebnis-2026-11-16.txt)
+   Daten: 198 eingesandte Wegdateien (9835 verschiedene Kanten, 888 862 yd gelaufen, 19 Karten), UiMapAssignment-wowf-1.60.1.csv,
+   Strassennetz nach ST-1. Umrechnung Karte -> Welt wie GetWorldPosFromMapPos: X = maxX − y·(maxX−minX), Y = maxY − x·(maxY−minY).
+   ACHSEN BELEGT: alle 4 möglichen Zuordnungen verglichen – nur diese passt (Brachland 16 % der Punkte ≤ 15 yd neben einer
+   Strasse, die anderen 1–3 %); beste Verschiebung 0–3 yd (Brachland 0/−3, Tirisfal 0/+3, Silberwald 0/0, Donnerfels 0/0).
+   Paare gelaufener Knoten 300–2000 yd (je Zone höchstens 300, fester Startwert), 5445 Paare in 19 Zonen:
+     Umweg im gelaufenen Netz (Obergrenze des echten Wegs)      Median 1,48
+     Umweg nur über Strassen (Anschluss per Luftlinie)          Median 2,06
+     Wahl der Wegsuche OHNE gelaufene Wege (Luftlinie 1,45 vs. Strasse) Median 1,00 – sie nimmt fast immer die Luftlinie
+     Fehler der Schätzung gegen "gelaufen": Luftlinie × 1,25 = 18 % · nur Strasse = 50 % · Wahl der Wegsuche = 32 %
+     Anteil der gelaufenen Strecke auf Strassen (≤ 15 yd): 14 % (Donnerfels 57 %, Sumpfland 54 %, Tirisfal 29 %, Brachland 17 %,
+     Orgrimmar/Steinkrallen/Tausend Nadeln 0 % – dort erkennt das Werkzeug keine Strassen-Texturen, README "Bekannte Grenzen")
+   ROAD_COST: 0,5 / 0,7 / 1,0 ändern nichts an der Wahl (Paare bis 2000 yd: Strasse ist im Mittel 2,06 × Luftlinie, Luftlinie
+   kostet 1,45) – der Faktor spielt erst mit Geländekarte (Berge) und über grössere Strecken. 1,0 bleibt (gleiches Tempo).
+   Lesart: Spieler laufen meist querfeldein zu den Questgebieten, nur 14 % auf Strassen. Die Strassen helfen dort, wo die
+   Luftlinie nicht geht (Berge, Schluchten, Pässe) – das prüft erst das Spiel mit Geländekarte (LW-6-Zeilen "Pfad Netz").
+   BRÜCKEN (161 aus ST-1): über die Brücke gelaufen (≤ 15 yd) 10 + 7 = 17 – begehbar belegt; Gegend besucht, Brücke nicht
+   gelaufen 11 + 6 = 17 (Verdacht, einzeln prüfen: echte Brücke oder Lücke über Wasser); Gegend nie gelaufen 75 + 52 = 127
+   (keine Aussage möglich).
+
+2. BEFUND AN 3.12.51 (eigener, aus ST-3) – und Korrektur in 3.12.52
+   3.12.51 mass den Umweg-Faktor am Weg der NORMALEN Wegsuche. Die nimmt im offenen Gelände die Luftlinie (siehe oben) ->
+   Faktor ~1,0 (Nachbau: 1,00). Folge: die Planung hätte wieder fast mit reiner Luftlinie gerechnet, und der Flugentscheid
+   (LW-3) mit 1,0 statt 1,25 – also seltener geflogen als in 3.12.49. Gelaufen sind es im Median 1,48.
+   Korrektur: Graph:MeasureDetour misst an BEKANNTEN Wegen (Graph:PathKnown: gelaufen, Startnetz, Strassen) – wie die Analyse
+   07:34 und ST-3. Zweiter Knoten aus der Umgebung des ersten (300–2000 yd, Graph:Near), sonst treffen Zufallspaare in
+   grossen Zonen fast nie den Bereich (vorher: 5 Paare aus 80 Versuchen, jetzt 11). Unter 5 Paaren: 1,25 wie bisher.
+   Grenzen 1,0–1,8 bleiben (ST-3: Median gelaufen 1,48, nur Hügelland 1,85, Kalimdor-Karte 2,02, Düstermarschen 2,20 darüber –
+   dort kappt 1,8; Verdacht: Obergrenze, weil nicht jede Abkürzung gelaufen ist).
+   Test: test_strassen "Umweg Zone 1413 … Faktor 1,26 aus 11 Paaren" (Strassen winden sich) – Prüfung jetzt "> 1,05".
+   GEGENPROBE: alte Messung (normale Wegsuche) eingesetzt -> 1,00 -> rot.
+   Protokollzeile heisst jetzt "UMWEG je Zone (bekannter Weg/Luftlinie)".
+
+3. WAS DAS FÜR DIE NÄCHSTEN SCHRITTE HEISST (Vorschlag)
+   - Die Schätzung "Luftlinie × 1,25" ist mit 18 % Fehler schon recht gut; ein Faktor je Zone aus bekannten Wegen sollte ihn
+     senken (Zonen 1,14–1,85). Belegen im Spiel mit LW-6 (Umweg gelaufen je Zone) vorher/nachher.
+   - Strassen-Erkennung erweitern (Orgrimmar, Tausend Nadeln, Steinkrallen: 0 %): andere Texturen prüfen (Werkzeug ST-1) –
+     erst wenn LW-6 zeigt, dass dort Wege unbekannt sind.
+   - Die 17 Brücken "Gegend besucht, Brücke nicht gelaufen" einzeln auf der Karte prüfen (Bild je Brücke) – auf Wunsch.
+
+BELEGE (eigene Tests, keine Freigabe)
+- test_strassen ALLE OK (inkl. Faktor > 1,05, Kanten-Bilanz 654 = 645 + 2 + 7); Gegenprobe rot.
+- T309–T313 true (T313 rechnet mit vorgegebenen Faktoren, unabhängig von der Messart).
+- addon_check "LevelPilot-3.12.52.zip: OK"; Repo-Offline-Routine 38/38 ohne FEHLER; private Gesamt-Regression (36 Läufe) ohne FEHLER.
+- ST-5: zur Kenntnis (kein Era-Client) – ruht.
+
+DATEIEN: LevelPilot Graph.lua (MeasureDetour: PathKnown, Paare aus der Umgebung, Text), LevelPilot.toc, Core.lua, CHANGELOG.
+Repo: berichte/LevelPilot/strassen/st3_messung.py, st3-ergebnis-2026-11-16.txt; shared/werkzeuge/strassen/strassen_netz.py
+(Brückenliste in stat.verdichten.bruecken_liste; Lua-Datei byte-gleich), daten/strassen_netz.json; offline/lua/test_strassen.lua;
+announce/levelpilot__levelpilot-3.12.52.*.

@@ -105,7 +105,9 @@ PRE_RUN = function(LP)
   G.detour = {}
   G:MeasureDetour(1413)
   local dt = G.detour[1413] or {}
-  check(dt.f and dt.f >= G.DETOUR_MIN and dt.f <= G.DETOUR_MAX and (dt.n or 0) >= G.DETOUR_MIN_PAIRS,
+  -- 3.12.52 (ST-3): gemessen an BEKANNTEN Wegen (hier Strassen, die sich winden) -> Faktor > 1,05; 3.12.51 mass den Weg der
+  -- Wegsuche, der im offenen Gelände gerade geht (1,00) – Gegenprobe
+  check(dt.f and dt.f > 1.05 and dt.f <= G.DETOUR_MAX and (dt.n or 0) >= G.DETOUR_MIN_PAIRS,
     ("Umweg Zone 1413 gemessen: Faktor %s aus %s Paaren (%s Versuche, %s Knoten)"):format(tostring(dt.f and ("%.2f"):format(dt.f)),
       tostring(dt.n), tostring(dt.versuche), tostring(dt.knoten)))
   print("  " .. G.DetourText())
