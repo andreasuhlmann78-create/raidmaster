@@ -658,3 +658,14 @@ weiterschalten, Knoten überspringen, wenn der nächste näher ist). E5-4 bleibt
   Minikarte führt auf der Strasse weiter vom Ziel weg. Gleichzeitig wachsen die nahen Questgeber: Eagan 283 -> 312 Yards, Wölfe 349 -> 378,
   Koboldlager 421 -> 449. Verdacht, zu messen: Wegsuche wählt einen Strassen-Umweg (Era-Netz, Anschluss/Kosten) statt der Luftlinie, und
   der Pfeil führt den Spieler aus der Startzone. Mit genau dieser Position nachbauen (Nordhain, Strasse Richtung Wald von Elwynn).
+- ERA-1 URSACHE (Supervisor 17:15, Code 3.12.69 gelesen, Nutzer 17:12: "LevelPilot schickt mich ins Gasthaus im Wald von Elwynn"):
+  Das 625-Yards-Ziel ist der BINDEN-Schritt (Gasthaus Goldhain). Planner.lua:1997–1998: P:BindStep(...) wird VOR alle Quest-Schritte
+  gesetzt (steps = Flugpunkt, Binden, Ruhestein, dann die geordneten Ziele). BindStep (1538–1550) prüft nur: Ruhestein nicht in der
+  Fokus-Zone, ≥ BIND_TASKS Aufgaben in der Zone, Gasthaus ≤ P.HEARTH.bind = 600 yd. Nordhain gehört zur Zone Wald von Elwynn (uiMap
+  1429) -> bei Stufe 1 in Nordhain "viele Aufgaben in dieser Zone" -> Gasthaus Goldhain wird Schritt 1, noch vor Eagan (16 yd) und den
+  Wölfen (66 yd). Text dazu im Guide: "Viele Aufgaben in dieser Zone – hier binden spart später Wege".
+  Passt auch zu deiner eigenen Messung LW-7 (c) "Ruhestein + Binden – Nutzen ~0".
+  AUFTRAG zusätzlich: Binden nie vor nahe Questgeber/-ziele stellen. Binden nur, wenn das Gasthaus AUF dem Weg liegt (Umweg ≤ ~60 yd
+  gegenüber dem nächsten Quest-Schritt) oder als Hinweis ohne Pfeil; nicht in Startgebieten unter Stufe 6 (Nordhain/Tal der Prüfungen
+  usw. haben eigene Untergebiete). Test: genau diese Lage (Nordhain, Stufe 1, nach "Die Bedrohung von innen") -> Schritt 1 = Eagan;
+  Gegenprobe mit 3.12.69 rot. Gilt in Forever genauso (gleicher Code) – dort mit prüfen.
