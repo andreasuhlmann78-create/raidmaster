@@ -743,3 +743,9 @@ LIZENZ: GPL-3-Daten (Forever Route Lab, Factoruide-Daten, Questwarden) nur ins D
   (keine Lizenz).
 OFFENE FRAGEN AN DEN NUTZER (Supervisor holt die Antwort; bis dahin ohne diese Punkte weiter):
   F-OPT-1 Factoruide offline als Vergleich laufen lassen? F-OPT-2 Forever-Navmesh von Forever Route Lab ins Datenpaket?
+  ANTWORTEN DES NUTZERS 18:00 ("alles zum Vorteil von LevelPilot, solange es legal ist"):
+  F-OPT-1 JA: Factoruide (MIT-Code, GPL-3-Daten) offline in deiner Sitzung als Vergleich laufen lassen (Gesamtzeit, Zonenfolge je Volk),
+    Ansätze übernehmen mit Namensnennung. Nichts auf den Geräten des Nutzers ablegen (Entscheid 18:02).
+  F-OPT-2 JA: Forever-Navmesh von Forever Route Lab (public/nav, GPL-3) ins Datenpaket LevelPilot_Data (GPL-3), Quelle + Lizenz +
+    Stand (Client-Build) in README/NOTICE; Lesecode für das Format FRN3/FRNM im Kern selbst schreiben (kein GPL-Code in den Kern).
+  Grenze: nur Legales – Lizenzbedingungen je Quelle im Bericht belegen.
