@@ -765,3 +765,11 @@ OFFENE FRAGEN AN DEN NUTZER (Supervisor holt die Antwort; bis dahin ohne diese P
   Nachbau ist der Preis dafür. OPT-ROUTE (Suche über die ganze Welt) soll diese Zeit später zurückholen, ohne R1 zu verletzen.
 - R2-Vorschlag (Questlevel des Schritts > Stufe + 2; Stufenspanne je Ort aus ALLEN Quests mit Zielen im Ort): ANGENOMMEN.
 - Weiter wie geplant: R2 neu, Weg-Ebene für R3, R5; dann ORT-1 O2/O5; dann OPT-ROUTE.
+
+==== ENTSCHEID DES NUTZERS 16.11.2026 20:04: SCHLAFEN ERST, WENN WIRKLICH ALLES ERLEDIGT IST ====
+Weiterarbeiten (Wecker an), solange etwas offen ist, das du OHNE den Nutzer machen kannst: ROUTE-Q (R3W-Rest, R5), ORT-1 O2/O5,
+OPT-ROUTE Stufen 1–4 (Forever-Navmesh F-OPT-2 und Factoruide-Vergleich F-OPT-1 sind freigegeben), dann alle übrigen offenen Punkte.
+"Erledigt" = umgesetzt, Test + Gegenprobe, Bericht im Repo; was nur im Spiel belegbar ist, als Prüflisten-Punkt bereit.
+OPT-ROUTE Era-Gelände: wartet auf den Rest des Rohauszugs (morgen, Büro-Laptop) – das hält dich NICHT auf (Strassennetz + Gefahren-Zellen
+zuerst). ERST wenn nur noch Ingame-Test oder Nutzer-Entscheide übrig sind: Abschlussbericht berichte/LevelPilot/<Datum>-<HHMM>-fertig-schlafe.txt,
+Wecker nicht neu stellen, schlafen. Der Supervisor weckt dich über diese Datei.

@@ -12,6 +12,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
 | 16.11.2026 18:00 | LevelPilot F-OPT-1/F-OPT-2: "Alles zum Vorteil von LevelPilot, solange es legal ist" -> JA: Factoruide offline als Vergleich (in der eigenen Sitzung, nicht auf Geräten des Nutzers); Forever-Navmesh von Forever Route Lab (GPL-3) ins Datenpaket LevelPilot_Data (GPL-3) mit Quellenangabe. Grenze: Lizenzen einhalten (GPL nur ins Datenpaket, MIT mit Namensnennung, nichts ohne Lizenz) | offen-levelpilot.txt OPT-ROUTE ANTWORTEN |
+| 16.11.2026 20:04 | LevelPilot und Supervisor ebenso: schlafen erst, wenn wirklich alles erledigt ist (nur noch Ingame-Test/Nutzer-Entscheide offen) | offen-levelpilot.txt |
 | 16.11.2026 20:03 | AHSentinel: "Wenn wirklich alles erledigt ist, leg ihn schlafen" – erst Schlaf, wenn nur noch Ingame-Test/Nutzer-Entscheide offen sind (Abschlussbericht) | offen-ahsentinel.txt |
 | 16.11.2026 20:00 | Rechner-Zuständigkeit: Sitzung "home zugriff" (Projekt Addonprüfer) ist für den PC zuhause zuständig (Ingame-Tests, Bildschirmsteuerung, Aufträge in auftraege/Ingametest/ und auftraege/Rohauszug/); der Supervisor für den Büro-Laptop | auftraege/Ingametest, auftraege/Rohauszug |
 | 16.11.2026 19:58 | GuildSentinel CurseForge 0.9.49: nicht jetzt, sondern 17.11. 18:00 nach Ingame-Test (nur getestete Version) | offen-guildsentinel.txt |
