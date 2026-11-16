@@ -1,0 +1,40 @@
+BERICHT LevelPilot 3.12.54 – NAV-1a /lp navi (umgesetzt, zur Prüfung) – mit Korrektur zum Plan 09:54
+Projekt: LevelPilot · Datum: 16.11.2026 10:13 (aus date) · Version: 3.12.54
+
+Bezug: Plan NAV-1/NAV-2 (Bericht 09:54, Vorschlag "zuerst NAV-1a"); keine Gegenanweisung bis 10:09.
+
+KORREKTUR ZUM PLAN 09:54 (Bestandsaufnahme war unvollständig): Es gab schon "/lp weg X Y" (Wegpunkt in der aktuellen Zone,
+Comfort:SetWaypoint) und "/lp suche <Dienst>" (Comfort:FindNearest, Knöpfe in der Zentrale). NAV-1a baut darauf auf und ist
+darum kleiner als geplant.
+
+UMGESETZT
+1. /lp navi (auch /lp nav), Comfort:Navi:
+   - "/lp navi X Y" = Wegpunkt aktuelle Zone (wie /lp weg); "/lp navi X Y <Zone>" = Koordinaten in einer ANDEREN Zone. Zone über
+     den Namen in der Sprache des Spiels (Geo:MapName) oder von LevelPilot (Names:Zone); genauer Treffer zuerst, sonst Anfang
+     (uiMap 1411–1460 ohne Kontinente). Ungültig (< 0 / > 100) oder Zone unbekannt: Meldung, kein Ziel.
+   - "/lp navi <Dienst>" = wie /lp suche (Briefkasten, Gasthaus, Flug, Bank, Auktion, Händler, Reparatur, Trainer – deutsche
+     und englische Wörter).
+   - "/lp navi aus" (off/stop/stopp/ende): Navi-Ziel (WAY:/PRIO:) entfernen, Route geht weiter; ohne Ziel: Meldung.
+   - Ziel wie bisher über Planner.priority (Pfeil, Weg, Flüge, oben im Guide).
+2. QuestDB:NearestService wählt jetzt nach WEGKOSTEN (Luftlinie × Umweg der Zielzone, LW-1); gemeldet wird weiter die Luftlinie.
+3. EIGENER BEFUND, behoben: das englische Wort "repair" wurde von /lp find nie erkannt (Wortliste nur "repar", das steckt in
+   "repair" nicht drin). Jetzt { "repar", "repair" }.
+4. Texte: 7 neue in allen Sprachen (esMX über esES). In den Hilfetexten der anderen Sprachen stehen die englischen Dienstwörter
+   ("mailbox | inn | …"), weil nur deutsche und englische Wörter erkannt werden – keine übersetzten Wörter, die nicht gehen.
+
+TEST T314 (Regression "NAV-1a"): Zone genau/mit Leerzeichen/Grossbuchstaben, Anfang ("mul" -> Mulgore), unbekannt, leer;
+"45 60 brachland" -> Ziel WAY:1413:45.0:60.0; aus -> Ziel weg; aus ohne Ziel -> Meldung; "120 5" -> kein Ziel; Zone fehlt ->
+Meldung mit dem Namen; Dienstwörter repair/Reparatur/mailbox/gasthaus -> repair,repair,mailbox,inn; nächster Händler: A 500 yd
+(Umweg 1,8) gegen B 700 yd (Umweg 1,0) -> mit Wegkosten B (gemeldet 700), ohne (vorher) A.
+GEGENPROBE: alte Wortliste -> "repair,mailbox,inn" -> rot. (Wegkosten-Gegenprobe steckt im Test: Schalter aus -> A.)
+Ersetzt werden im Test nur eigene Tabellen von LevelPilot (Geo, Names, QuestDB, Comfort, Planner), alles zurück.
+
+BELEGE (eigene Tests, keine Freigabe): T313/T314 true; addon_check "LevelPilot-3.12.54.zip: OK"; Repo-Offline-Routine 38/38
+ohne FEHLER; private Gesamt-Regression (36 Läufe) ohne FEHLER.
+
+WEITER (Vorschlag aus dem Plan): NAV-2 Reiseplan nach Zeit (Kette Laufen/Flug/Schiff/Ruhestein mit Sekunden, Navi-Anzeige
+mit Ankunftszeit), dann NAV-1b Namenssuche mit Trefferliste. LW-5 wartet auf Frage 1 (Era-Client).
+
+DATEIEN: LevelPilot Comfort.lua (Navi, ZoneByName, WORDS repair), QuestDB.lua (NearestService), Core.lua (Befehl, Version),
+Locale_* (7 Texte), TestRoutine.lua (T314), LevelPilot.toc, CHANGELOG.md/.de.md; announce/levelpilot__levelpilot-3.12.54.*.
+Status: umgesetzt, zur Prüfung.
