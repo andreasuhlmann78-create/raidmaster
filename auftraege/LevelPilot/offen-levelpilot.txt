@@ -579,3 +579,12 @@ AddOn-Liste (Charakterauswahl, "Veraltete Addons laden" AUS): "GS Toc-Test Liste
 "GS Toc-Test Datei: HAUPT (GSTocDatei.toc)". Chat nach dem Einloggen: "GS Toc-Test Datei: gelesen wurde GS Toc-Test Datei: HAUPT
 (GSTocDatei.toc) (Interface 16001)" und "GS Toc-Test Liste: geladen (Interface 16001)".
 => Forever nimmt die Interface-Liste an und liest NICHT die _Vanilla.toc. Era-Messung folgt (Nutzer startet den Era-Client).
+
+==== E1-MESSUNG CLASSIC ERA (Supervisor 16.11.2026 13:45, Era-Client 1.15.9 / Interface 11509) – E1 ENTSCHIEDEN ====
+AddOn-Liste ("Veraltete Addons laden" AUS): "GS Toc-Test Liste (16001, 11509)" normal gelistet, KEIN "veraltet";
+"GS Toc-Test Datei: VANILLA (GSTocDatei_Vanilla.toc)". Chat: "GS Toc-Test Datei: gelesen wurde GS Toc-Test Datei: VANILLA
+(GSTocDatei_Vanilla.toc) (Interface 11509)" und "GS Toc-Test Liste: geladen (Interface 11509)".
+ERGEBNIS beider Clients: Die Interface-Liste "## Interface: 16001, 11509" wird von Forever UND Era angenommen. => Weg 1 aus deiner
+ANLEITUNG: LevelPilot.toc und LevelPilot_Data.toc bekommen "## Interface: 16001, 11509" – KEINE _Vanilla.toc nötig (Era läse sie zwar,
+aber eine Datei ist einfacher und Forever liest sie nachweislich nicht).
+Hinweis: Die zwei Test-Addons bleiben bis zum Löschen durch den Nutzer in beiden AddOns-Ordnern (Supervisor darf nicht löschen).
