@@ -1,0 +1,27 @@
+BERICHT LevelPilot 3.12.79 – ROUTE-Q R5: Questfolge aufzeichnen (Format GSWEGE f = 2)
+Projekt: LevelPilot · Datum: 16.11.2026 21:39 (aus date) · Version: 3.12.79 · umgesetzt, zur Prüfung
+
+Bezug: Antwort Supervisor 20:35 (R5 JA, ohne Namen, neue Format-Version, alte lesbar; Uploader prüft der Supervisor).
+
+1. AUFZEICHNUNG (Recorder.lua R:QuestOrder): bei QUEST_ACCEPTED ("A") und QUEST_TURNED_IN ("T"), NUR wenn LP.db.wegeAuto (dieselbe
+   Zustimmung wie die Wegdaten), nie in der virtuellen Reise. Liste LP.db.questOrder, höchstens 2000 Einträge (älteste fallen weg).
+2. FORMAT-ÄNDERUNG (Graph:WegeExport, Präfix bleibt "GSWEGE1"):
+   - Neues Feld "qo" = Liste der Einträge seit dem letzten Versand: { q = Quest-ID (Zahl), a = "A" | "T", l = Spielerstufe (Zahl),
+     t = Zeitpunkt (Unix-Sekunden), ar = Gebiets-ID aus Orte.lua (Zahl, fehlt ohne Datenpaket 1.6.3) }. KEINE Namen, kein Charakter.
+   - "f" = 2 NUR, wenn "qo" dabei ist; ohne Questfolge bleibt der Bericht genau wie bisher (f = 1, gleiche Felder) – alte Leser bleiben
+     gültig. Ein f = 2-Bericht hat alle Felder von f = 1 und zusätzlich "qo".
+   - Versandt-Merker: LP.db.wegeSent.q = Zeitpunkt des letzten gesendeten Eintrags (jeder Eintrag geht einmal).
+   - Grösse: ein Eintrag als JSON ~48 Zeichen ({"a":"A","ar":87,"l":5,"q":783,"t":1794000000}). Je Stunde: virtuelle Reise Mensch
+     1–30 ≈ 260 Annahmen + 242 Abgaben in 41 h ≈ 12 Ereignisse/h ≈ 0,6 KB je Spielstunde; obere Grenze ~60 Ereignisse/h (Startgebiet)
+     ≈ 3 KB/h. Die Gesamtgrenze der Wegdaten (WEGE_MAX 200 KB) gilt weiter.
+   - Uploader (RaidMaster): muss "f": 2 und das Feld "qo" annehmen (bitte prüfen, wie angekündigt).
+3. TEST T340 (true ×5): ohne Zustimmung nichts · Eintrag Quest/Art/Stufe/Zeit · keine Namen · gesendet als f=2 mit qo · als versandt
+   gemerkt. GEGENPROBE (ohne "qo" im Bericht): "gesendet als f=2 mit qo" false.
+4. ROUTE UNVERÄNDERT gegenüber 3.12.78 (12 Reisen ROUTE-Q identisch, Zeit identisch 1085,6 h). Rest-Fälle O5 0–2 / R6 0–1: Ursache
+   belegt für den Nachtelf-Fall (Annahme am Weg liegt in einem Nachbar-Ort, Schattenhain/Aldrassil) – die Messung R6 zählt jetzt ein Ziel,
+   das auf dem Weg zum offenen Punkt im Ort liegt (≤ 60 yd Umweg), nicht als "Ort verlassen"; Code dafür unverändert (ein Versuch, die
+   Annahmen am Weg erst nach der Kette zu nehmen, verschob den Fehler nur von R6 nach O5 – verworfen).
+5. HINWEIS ZUR MESSUNG (selbst gefunden): die ROUTE-Q-Läufe seit 3.12.73 liefen OHNE die echten Forever-Kartengrenzen (WORLDHOOK, wie die
+   Zeitmessung test26) – also auf den Test-Karten des Nachbaus. Vergleiche zwischen Fassungen bleiben gültig (gleiche Grundlage), die
+   absoluten Abstände nicht. Ich wiederhole ROUTE-Q mit WORLDHOOK (echte Grenzen) für 3.12.79 und 3.12.69 und berichte.
+6. PRÜFUNGEN: addon_check OK · Offline-Routine 38/38 ohne FEHLER · Regression 36/36 ALLE TESTS OK.
