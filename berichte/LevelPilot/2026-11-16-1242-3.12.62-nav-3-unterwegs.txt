@@ -1,0 +1,26 @@
+BERICHT LevelPilot 3.12.62 – NAV-3 Navi unterwegs (Gefahr im Reiseplan, Ankunft)
+Projekt: LevelPilot · Datum: 16.11.2026 12:42 (aus date) · Version: 3.12.62 · umgesetzt, zur Prüfung
+
+Bezug: offen-levelpilot.txt NAV-3 "neu planen, wenn der Spieler abweicht (Begrenzung gegen Hin-und-her), Ankunft erkannt
+(Radius), Gefahr (Danger) auf dem Weg anzeigen und meiden, wenn möglich; Ebenen/Städte/Höhlen über W3D". Begonnen, während
+F2 im Messbericht 12:39 offen ist (LW-2b weiter oder NAV-3 zuerst).
+
+1. BESTAND (geprüft, ohne Änderung)
+   - Neu planen bei Abweichung: Navigation rechnet den Weg spätestens alle 2,5 s neu (Nav:Recalc, RECALC_SECS), der Reiseplan
+     NAV-2 alle 10 s; Flugentscheid mit 30 s Vorsprung (margin) gegen Hin-und-her.
+   - Meiden: Graph:Path verteuert Wegstücke durch Gebiete mit Mobs ab Spielerlevel + 3 (DANGER_MULT) – Umweg, wenn es einen gibt.
+   - Ankunft: Engine:CheckSteps (GOTO, REACH 12 yd) -> erledigt, Planner nimmt das Navi-Ziel heraus.
+   - Ebenen/Städte/Höhlen: Höhlen-Zwischenziele (Graph:Path), W3D-Schalter wie bisher (aus, Supervisor 15.11. 20:15).
+2. NEU
+   - PlanPath: Gefahr entlang des gefundenen Weges (Danger:PathDanger, Grenze Danger:Limit). Bleibt trotz Umweg ein Stück ab
+     Spielerlevel + 3, zeigt der Reiseplan eine rote Zeile "Vorsicht: Gegner bis Stufe X auf dem Weg".
+   - Ankunft an einem Navi-Ziel (Planner.priority: /lp navi, /lp weg, /lp suche, Kartenmarkierung): Meldung "Navi: angekommen –
+     weiter mit der Route." Andere Gehe-zu-Schritte (z. B. zum Flugmeister) bleiben still; in der virtuellen Reise keine Meldung.
+   - 2 neue Texte in allen 10 Sprachen.
+3. TEST T322 (true ×4): Gefahr Stufe 12 bei Grenze 10 im Plan und Text · ohne Gefahr kein Hinweis · Ankunft am Navi-Ziel mit
+   Meldung · anderes Gehe-zu-Ziel still. GEGENPROBE (beides ausgeschaltet): Gefahr false, Ankunft false.
+4. PRÜFUNGEN
+   addon_check: OK. Offline-Routine: 38 Läufe, 38 ohne FEHLER (Forever deDE Horde 276 OK, enUS 276, Allianz 274, Classic Era
+   275, TBC 275; je 0 FEHLER). Private Regression: 36 von 36 Läufen ALLE TESTS OK.
+5. NÄCHSTE SCHRITTE: NAV-4 (Levelroute nutzt denselben Reiseplan; Navi pausiert die Route und setzt sie fort – das tut
+   Planner.priority schon; API für andere Addons). Antworten auf F1/F2 (Bericht 12:39) bestimmen, ob danach LW-2b weitergeht.
