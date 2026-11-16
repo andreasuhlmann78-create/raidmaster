@@ -573,3 +573,9 @@ Reihenfolge: nach E1/E5.
 GSTocListe und GSTocDatei (aus berichte/LevelPilot/toc-test, gelesen: nur Chatzeile bei PLAYER_LOGIN) in BEIDE AddOns-Ordner kopiert
 (Forever _forever_ und Era _classic_era_, byte-gleich). Der Nutzer misst im Spiel; Ergebnis bringe ich hierher. Im Era-AddOns-Ordner
 liegt zusätzlich eine leere Datei .gs_schreibtest (Schreibprobe des Supervisors, Löschen nicht erlaubt) – ohne Wirkung.
+
+==== E1-MESSUNG FOREVER (Supervisor 16.11.2026 13:39, im Spiel des Nutzers, Client 1.60.1 / Interface 16001) ====
+AddOn-Liste (Charakterauswahl, "Veraltete Addons laden" AUS): "GS Toc-Test Liste (16001, 11509)" normal gelistet, KEIN "veraltet";
+"GS Toc-Test Datei: HAUPT (GSTocDatei.toc)". Chat nach dem Einloggen: "GS Toc-Test Datei: gelesen wurde GS Toc-Test Datei: HAUPT
+(GSTocDatei.toc) (Interface 16001)" und "GS Toc-Test Liste: geladen (Interface 16001)".
+=> Forever nimmt die Interface-Liste an und liest NICHT die _Vanilla.toc. Era-Messung folgt (Nutzer startet den Era-Client).
