@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 16.11.2026 17:27 | AHSentinel: Masterplan ohne Unterbrüche weiter, interner Wecker immer aktiv; Supervisor-Wecker ebenso | offen-ahsentinel.txt DAUERAUFTRAG |
 | 16.11.2026 17:21 | CurseForge SOFORT (Nutzer: "er kann jetzt schon beginnen"): AHSentinel 0.65.265 hochladen ("die Version, die sicher getestet ist") | offen-ahsentinel.txt ENTSCHEID CURSEFORGE |
 | 16.11.2026 14:10 | AHSentinel Phase 8 frei: Schnäppchen-Alarm, Vorräte vor Raids, Warnschutz zu teuer + Budget, gemeinsame Befehlsliste | offen-ahsentinel.txt FREIGABE PHASE 8 |
 | 16.11.2026 13:27 | LevelPilot "Tod als Reise" (Speedrun, bis Stufe 10, Hinweis, standardmässig aus): "ja" | offen-levelpilot.txt ENTSCHEID LW-7 (d) |

@@ -3920,3 +3920,11 @@ Danach postet der Supervisor die freigegebenen CF-Antworten CF-AHS-2/3/4.
   2. Danach Masterplan in Reihenfolge (nur freigegebene Punkte; Phase 8 Rest ohne Freigabe nicht).
   Kleine Versionen, je Version Prüflisten-Punkt, damit der Ingame-Test morgen mit /ahs prüfliste in einem Durchgang geht.
   Nichts davon auf CurseForge, bevor es im Spiel geprüft ist.
+
+>>> DAUERAUFTRAG (Nutzer 16.11.2026 17:27): "Masterplan ohne Unterbrüche weitermachen und den internen Wecker aktiviert lassen."
+  - Nach dem Upload 0.65.265 und SN-BTN1-2: Masterplan in Reihenfolge, Punkt für Punkt, OHNE Pause zwischen den Versionen.
+  - Interner Wecker IMMER aktiv: Hintergrund "sleep 900" (auftraege/hinweis-interner-wecker-2026-11-15.txt); nach jedem Wecken git pull,
+    diese Datei lesen, weiterarbeiten, Wecker NEU stellen. Nie eine Antwort beenden, ohne dass ein Wecker läuft.
+  - Nicht schlafen, bis der Nutzer es ausdrücklich sagt. Fragen nur bei echten Nutzer-Entscheiden (berichte/AHSentinel/ – Supervisor holt
+    sie), bis zur Antwort am nächsten Punkt weiter.
+  - Nicht auf CurseForge ohne Ingame-Test (Test morgen mit /ahs prüfliste).
