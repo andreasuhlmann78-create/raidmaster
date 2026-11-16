@@ -1,0 +1,33 @@
+BERICHT LevelPilot – (1) Liste der aus Spieldateien abgeleiteten Daten (F-NAV-1 Punkt 3) · (2) OPT-ROUTE: Feinabstimmung gemessen
+Projekt: LevelPilot · Datum: 17.11.2026 00:28 (aus date) · Stand: 3.12.84 · umgesetzt, zur Prüfung
+
+Bezug: Antwort Supervisor 00:30 (F-NAV-1). Navmesh bleibt draussen; keine neuen Spieldatei-Daten ins Addon. Bestätigt.
+
+1. AUS SPIELDATEIEN ABGELEITETE DATEN IM ADDON (Stand 3.12.84 / Datenpaket 1.6.3)
+   a) LevelPilot/Data/Strassen.lua – 121 723 Bytes – seit 3.12.50 (ST-2). Quelle: Bodentexturen der ADT-Dateien (tex0,
+      Strassen-Texturen) des Forever-Clients, Werkzeug raidmaster/shared/werkzeuge/strassen. Inhalt: Linienzüge in Welt-Yards.
+      ACHTUNG: liegt im KERN (LevelPilot), nicht im Datenpaket.
+   b) LevelPilot/Data/StrassenEra.lua – 87 965 Bytes – seit 3.12.53 (ST-5). Gleiche Quelle, Era-Client 1.15 (Karten 0/1). Im KERN.
+   c) LevelPilot_Data/Data/Orte.lua – 602 046 Bytes – seit Datenpaket 1.6.3 (3.12.72, ORT-1 O1). Quelle: Gebiets-IDs je Kachel aus
+      den Kartendateien (shared/werkzeuge/strassen/daten/gebiete/, gebiete_forever.json / gebiete_era.json) + AreaTable (Eltern,
+      Erkundungsstufe, Name) + UiMapAssignment (Kartenrahmen).
+   d) LevelPilot/Data/AreaNames.lua – 30 547 Bytes – seit W3D (15.11.). Quelle: wago.tools db2 AreaTable + WMOAreaTable (Zweig wowf,
+      Build 1.60.1.70938): Unterzonen-Namen der 6 Städte in allen Client-Sprachen. Im KERN. (DB2-Tabelle, keine Geländedaten.)
+   e) LevelPilot/Data/TalentBuilds.lua – 22 368 Bytes – Reihe/Spalte/Ränge der Talente aus wago.tools (wowf); Auswahl und Texte
+      eigene. Im KERN. (DB2-Tabelle.)
+   f) Kleinere Konstanten im Kern-Code (keine Datei): Aufzug-Takte Unterstadt/Donnerfels (TransportAnimation, Graph.lua),
+      Unterstadt-Karte (wago.tools UiMap, Graph.lua); Datenpaket README: Koordinaten Mulgore/Östl. Pestländer/Rotkamm/Sturmwind auf
+      die Forever-Karten umgerechnet (Kartenrahmen aus UiMapAssignment).
+   NICHT aus Spieldateien: Wege.lua (gelaufene Wege der Spieler), Seed.lua, Gateways.lua, Caves.lua, Dungeons.lua (eigene Daten),
+   Quests/Npcs/Objects/Items/Names/Terrain/Graves (Questie/QuestieDB, GPL-3; Terrain = Spawnpunkte).
+   NUR OFFLINE (nicht im Addon): berichte/LevelPilot/offline/lua/sim/worlddata.lua (UiMapAssignment, Messwerkzeug), Navmesh-Messung.
+   Falls der Nutzer "nein" entscheidet: a/b/c lassen sich ohne Absturz entfernen (Strassen: Graph prüft auf nil; Orte: Planer fällt
+   auf Mittellinie/Kreis zurück) – Zeit- und ROUTE-Q-Folgen würde ich vorher messen.
+
+2. OPT-ROUTE STUFE 2 – FEINABSTIMMUNG (virtuelle Reise 1–60, Forever, 6 Völker; Bewertung = Zeit + 0,5 × Grinden)
+   Basis 3.12.84 neu gemessen (lpy0): 1094,6 h · Grinden 167 h · 1178,1 (gleich wie im Bericht 00:12, Lauf ist deterministisch).
+   CROSS_STARVE 2,0: 1078,8 h · 226 h · 1191,8   |  3,0: 1107,0 h · 182 h · 1198,0
+   BAND_IN 1,3: 1184,5  |  BAND_IN 2,0: 1179,0  |  BAND_OUT 0,4: 1191,2  |  BAND_OUT 0,8: 1194,5
+   Ergebnis: die eingebauten Werte (2,5; 1,5/0,6) sind in allen vier Richtungen das beste Ergebnis – keine Änderung. Weitere
+   Verbesserung braucht die echte Suche über Zonenfolgen (nächster Schritt), nicht weitere Feinabstimmung.
+3. NÄCHSTE: Suche über Zonenfolgen (Stufe 2) mit den vorhandenen Daten; keine neuen Spieldatei-Daten.
