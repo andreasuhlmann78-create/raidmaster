@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 16.11.2026 17:29 | LevelPilot: "wenn die Startzonen nicht stimmen, stimmt der Rest auch nicht" -> ROUTE-Q: automatische Routen-Prüfung 1–60 (6 Völker, Era+Forever), neue Funktionen gestoppt bis belegt | offen-levelpilot.txt ROUTE-Q |
 | 16.11.2026 17:27 | AHSentinel: Masterplan ohne Unterbrüche weiter, interner Wecker immer aktiv; Supervisor-Wecker ebenso | offen-ahsentinel.txt DAUERAUFTRAG |
 | 16.11.2026 17:21 | CurseForge SOFORT (Nutzer: "er kann jetzt schon beginnen"): AHSentinel 0.65.265 hochladen ("die Version, die sicher getestet ist") | offen-ahsentinel.txt ENTSCHEID CURSEFORGE |
 | 16.11.2026 14:10 | AHSentinel Phase 8 frei: Schnäppchen-Alarm, Vorräte vor Raids, Warnschutz zu teuer + Budget, gemeinsame Befehlsliste | offen-ahsentinel.txt FREIGABE PHASE 8 |

@@ -677,3 +677,20 @@ weiterschalten, Knoten überspringen, wenn der nächste näher ist). E5-4 bleibt
   erledigt sind bzw. ~Stufe 5–6 erreicht ist – kein Ziel aus dem Stufe-5–10-Gebiet (Goldhain/Wald von Elwynn usw.) vorher, auch nicht
   Binden/Gasthaus/Flugpunkt; (3) Prüfung in der virtuellen Reise Era UND Forever für alle 6 Startgebiete: erster Schritt ausserhalb
   des Startgebiets frühestens nach dessen letzter Quest, Zahl je Volk im Bericht; Gegenprobe mit 3.12.69 rot.
+
+==== AUFTRAG HOCH ROUTE-Q (Nutzer 16.11.2026 17:29: "wenn die Startzonen nicht stimmen, stimmt der Rest auch nicht") ====
+Richtig vermutet: ERA-1 liegt im Planer selbst (Binden-Schritt vor allen Quests, Ziele aus höheren Stufen-Gebieten, Pfeil zurück) – das
+betrifft die ganze Route 1–60 in Era UND Forever. STOPP für neue Funktionen (Navi-Extras, LW-7/LW-8), bis die Route belegt gut ist.
+ROUTEN-PRÜFUNG (automatisch, in der virtuellen Reise, 6 Völker × Era und Forever, Stufe 1–60), je Reise und gesamt als Zahlen:
+ R1 Annehmen zuerst: kein Ziel > 150 yd, solange ein annehmbarer Questgeber ≤ 150 yd nicht angenommen ist (Anzahl Verstösse).
+ R2 Stufen-Gebiet: kein Ziel in einem Gebiet, dessen Mindeststufe > Spielerstufe + 2 ist; Startgebiet erst verlassen nach dessen
+    letzter machbarer Quest (je Volk die Stufe beim Verlassen).
+ R3 Kein Hin und Her: Pfeil-Ziel wechselt nie auf einen Knoten hinter dem Spieler; Weg zum Ziel nie > 1,5 × Luftlinie ohne Grund
+    (Hindernis); Anzahl Richtungswechsel > 120° je Stunde.
+ R4 Sonder-Schritte (Binden, Ruhestein, Flugpunkt, Händler): nur wenn auf dem Weg (Umweg ≤ 60 yd) oder nachweislich Zeit sparend;
+    nie vor einem Questgeber ≤ 150 yd.
+ R5 Plausibel gegen echte Spieldaten: Reihenfolge der ersten 20 Quests je Startgebiet gegen das, was Spieler in den Wegdaten
+    (testberichte/wege) wirklich tun – Abweichungen auflisten.
+Ziel: R1–R4 = 0 Verstösse in allen 12 Reisen; Bericht mit Tabelle je Volk/Spielversion, Gegenprobe mit 3.12.69 (muss Verstösse zeigen).
+Erst danach Ingame-Test (Supervisor + Nutzer). ERA-1 ist der erste Fall davon – Reihenfolge: ERA-1-Fix -> ROUTE-Q-Prüfung bauen ->
+alle Verstösse beheben -> Bericht.
