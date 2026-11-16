@@ -1,0 +1,56 @@
+BERICHT LevelPilot 3.12.50 – ST-2 Strassen im Wegnetz, ST-4 Ladezeit/Speicher (umgesetzt, zur Prüfung); ST-3/ST-5 offen
+Projekt: LevelPilot · Datum: 16.11.2026 08:40 (aus date) · Version: 3.12.50
+
+Bezug: offen-levelpilot.txt STRASSENNETZ (ST-2, ST-4; ST-3, ST-5), PRÜFUNG 08:27 ("weiter mit ST-2 zusammen mit LW-1").
+
+UMGESETZT
+1. Data/Strassen.lua = shared/werkzeuge/strassen/daten/GoldSentinelStrassen.lua (nach ST-1, byte-gleich kopiert, 122 KB).
+   Koordinaten passen ohne Umrechnung: LevelPilot rechnet schon mit C_Map.GetWorldPosFromMapPos (inst, Nord-, West-Yards),
+   das Netz liegt in genau diesen Welt-Yards je Kontinent (0 / 1).
+2. Graph.lua Graph:LoadRoads(inst) – wie das Startwegnetz (3.12.37): Knoten an Kreuzungen/Enden und alle 120 yd, Punkte
+   dazwischen an der Kante (pts, len), Kantenart "road", IDs ab 20 000 000 (+5 Mio. je Kontinent), nie gespeichert/geteilt
+   (Link ohne G.edges). Vorhandener eigener/Startnetz-Knoten in 10 yd wird mitbenutzt (keine Verdopplung). Innere
+   Strassenknoten (nur Strassen als Nachbarn) suchen keine eigenen Luftlinien (Tempo, wie Startnetz). Gefahr entlang der
+   Kante wie bei Startwegen (e.dv je Stand der Gefahrenkarte). Kosten: Länge × Graph.ROAD_COST = 1,0 (gleiches Tempo wie
+   gelaufen; billiger als Luftlinie 1,45 × Gelände) – VERDACHT, wird mit ST-3 gemessen.
+   Zone je Knoten: neu Geo:ZoneAt(inst, n, w) = Weltpunkt -> Kontinentkarte (1414/1415) -> C_Map.GetMapInfoAtPosition
+   (das Spiel selbst; nil wenn unbekannt). Diagnose zählt "ohne Zone".
+   Nur WoW Forever (Graph.RoadsAktiv = SeedWegeAktiv). Neuaufbau (LoadStatic/Init) entfernt Strassen und lädt neu.
+3. ST-4: beim Einloggen nur der Kontinent des Spielers (Graph:Init -> LoadRoads()), der andere beim Betreten
+   (PLAYER_ENTERING_WORLD / ZONE_CHANGED_NEW_AREA), in Portionen (Jobs, "graph").
+4. Protokoll: "STRASSEN Kontinent 1 687 Knoten (0 an eigenen, 0 ohne Zone, 467 innen), 645 Kanten, 70791 yd".
+
+MESSWERTE (Nachbau; im Spiel Verdacht, zu messen)
+  Kontinent 1 Kalimdor: 687 Knoten, 645 Kanten · 3 Bilder, längste Portion 4,1 ms, gesamt 9 ms · Speicher +535 KB
+  Kontinent 0 Östl. Königreiche: 1522 Knoten, 1611 Kanten · 4 Bilder, längste Portion 4,0 ms, gesamt 16 ms · +1202 KB
+  Rohdaten Data/Strassen.lua im Speicher: 395 KB (beide Kontinente, bleibt für den Kontinentwechsel).
+  (Skript berichte/LevelPilot/offline/lua/mess_st4.lua.) Höchstens ~2,1 MB, wenn beide Kontinente geladen sind –
+  Vorschlag für später: Rohdaten eines fertig geladenen Kontinents freigeben (dann beim erneuten Betreten nicht mehr nötig).
+
+TESTS
+- Neu offline test_strassen.lua (in run_offline.py): Laden in Portionen (< 16 ms), Knoten 687 = Enden 358 + Zwischenknoten 329
+  (unabhängig aus den Rohdaten gezählt), Länge 70791 = Rohdaten, nur verlangter Kontinent, zweites Laden tut nichts, Weg
+  entlang der längsten Strasse Kalimdors (2725 yd): Weg 2637 yd, 86 % über Strassenkanten, nicht länger als die Strasse
+  (Anschluss an Start/Ziel per Luftlinie bis 260 yd, wie beim Startnetz), nichts gespeichert, Export ohne Strassen,
+  Neuaufbau entfernt alles und lädt neu, Classic Era: keine Strassen.
+  GEGENPROBE: ROAD_COST 10 -> Strassenanteil 0 % -> rot.
+- T312 (Testroutine, im Spiel): Kontinent des Spielers geladen, "ohne Zone" < 10 %, nichts gespeichert, Weg auf der längsten
+  Strasse ≥ 50 % über Strassen. Im Nachbau N/A (C_Map.GetMapInfoAtPosition fehlt).
+- addon_check "LevelPilot-3.12.50.zip: OK" · Repo-Offline-Routine 38 Läufe, 38 ohne FEHLER · private Gesamt-Regression ohne FEHLER.
+
+OFFEN
+- ST-3 (Messung Umweg Wegsuche vs. Luftlinie vs. gelaufen, und Brücken über Wasser): an den eingesandten Wegdaten (198 Dateien,
+  Kartenkoordinaten je uiMap) brauche ich die echten Kartengrenzen. BITTE: Tabelle UiMapAssignment (wago.tools, Build 1.60.1
+  bzw. Classic 1.15.x, Spalten UiMapID, Region_0..5 (Min/Max X/Y/Z), MapID) als CSV unter berichte/LevelPilot/strassen/ – wie
+  die AreaTable. Damit rechne ich jede Karte in Welt-Yards um (wie GetWorldPosFromMapPos) und messe offline. Ohne Tabelle
+  geht ST-3 nur im Spiel (LW-6-Zeilen mit Pfad "Netz" ab 3.12.50).
+- ST-5 Classic Era: offen – braucht den Era-Client auf dem Rechner des Nutzers (Produkt wow_classic_era). Ob er ihn hat: bitte
+  beim Nutzer fragen.
+- LW-1 (Wegkosten statt Luftlinie in Reihenfolge/Fokus): baue ich als Nächstes auf ST-2 auf (Umweg-Faktor je Zone aus Strassen +
+  Startnetz + eigenem Netz, begrenzt; echte Wege für die ersten 3 Schritte), sofern du nichts anderes sagst.
+
+DATEIEN
+LevelPilot: Data/Strassen.lua (neu), Graph.lua (LoadRoads, RoadText, EdgeCost road, Gefahr), Geo.lua (ZoneAt), Protocol.lua
+(Zeile STRASSEN), TestRoutine.lua (T312), LevelPilot.toc, Core.lua, CHANGELOG.md/.de.md.
+Repo: berichte/LevelPilot/offline/lua/test_strassen.lua, mess_st4.lua, run_offline.py; announce/levelpilot__levelpilot-3.12.50.*.
+Status: umgesetzt, zur Prüfung.

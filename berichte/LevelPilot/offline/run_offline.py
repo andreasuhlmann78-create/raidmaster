@@ -70,6 +70,8 @@ REGRESSION += [
     ("test_w3d", {"FOREVER": "1", "LVL": "10", "MAP": "1411", "PX": "43.3", "PY": "68.5"}, "Orc", "WARRIOR", "Horde", False),
     # 3.12.37 Punkt 1/6: Startwegnetz Mulgore/Brachland/Donnerfels (Data/Wege.lua), echte Zonengrössen im Nachbau
     ("test_seedwege", {"FOREVER": "1", "LVL": "10", "MAP": "1411", "PX": "43.3", "PY": "68.5"}, "Tauren", "WARRIOR", "Horde", False),
+    # 3.12.50 ST-2/ST-4: Strassennetz aus den Spieldateien (Data/Strassen.lua) im Wegnetz, Laden in Portionen
+    ("test_strassen", {"FOREVER": "1", "LVL": "10", "MAP": "1411", "PX": "43.3", "PY": "68.5"}, "Orc", "WARRIOR", "Horde", False),
 ]
 
 
@@ -195,7 +197,7 @@ def main():
         if only in (None, "testroutine"):
             jobs += [(n, e, r, c, f, False, "test40") for (n, e, r, c, f) in ROUTINE]
         if only in (None, "regression"):
-            jobs += [(t + (" (Wegnetz)" if t == "test15" else ({"test_ucw1": " (Undercity-Weg)", "test_w3d": " (Ebenen W3D)", "test_seedwege": " (Startwegnetz)"}.get(t, ""))), e, r, c, f, np, t)
+            jobs += [(t + (" (Wegnetz)" if t == "test15" else ({"test_ucw1": " (Undercity-Weg)", "test_w3d": " (Ebenen W3D)", "test_seedwege": " (Startwegnetz)", "test_strassen": " (Strassen ST-2)"}.get(t, ""))), e, r, c, f, np, t)
                      for (t, e, r, c, f, np) in REGRESSION]
         results = []
         if only in (None, "regression"):
