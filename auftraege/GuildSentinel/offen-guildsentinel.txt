@@ -320,3 +320,9 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   Prüfsumme (Dev.Hash), BattleTag-Weg unverändert; neuere Version gewinnt (v1 und v2 dürfen gleichzeitig geladen sein). Test
   shared/test_goldsentinel_dev.lua 5/5. AUFTRAG an jedes Addon: mit der nächsten Version shared/GoldSentinelDev.lua UNVERÄNDERT kopieren
   (ersetzt v1), .toc wie bisher (vor GoldSentinelPruefliste.lua). addon_check prüft Kopien gegen shared/ (Regel version: v1 = Warnung).
+
+>>> ENTSCHEID DES NUTZERS 16.11. 19:58 (Supervisor 20:00) – CURSEFORGE 0.9.49: NICHT JETZT. Warten bis 17.11. 18:00.
+  Vorher Ingame-Test mit der Prüfliste (/gs entwickler, Prüfliste im Spiel) durch den Nutzer oder die Sitzung "home zugriff".
+  Hochgeladen wird um 18:00 nur die im Spiel getestete Version (wie AHSentinel: "die Version, die sicher getestet ist").
+  Dann: download/GuildSentinel-0.9.39.zip entfernen, neue Zip hinein, README-Link/Beschreibung anpassen, addon_check, Upload prüfen.
+  Bis dahin weiter nach Reihenfolge.
