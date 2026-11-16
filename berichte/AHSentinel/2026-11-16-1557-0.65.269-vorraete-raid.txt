@@ -1,0 +1,33 @@
+AHSentinel 0.65.269 – FREIGABE PHASE 8 Punkt 3: Vorräte vor Raid-Abenden – umgesetzt, zur Prüfung
+CurseForge: nein (Kandidat 0.65.265 unverändert). GitHub-Release v0.65.269 und sofort im Discord.
+BESTAND vorher: /ahs raid (Comfort RAID_SETS, Einkaufsliste Raid-Vorrat für eine Raidwoche); Stufe 2 L9 Rhythmus (Preis-EMA je
+  Wochentag, gerade/ungerade Woche, ab 21 Tagen, "stabil" nur wenn beide Hälften gleich) – aber nur für gehandelte/beobachtete Items.
+UMGESETZT (neue Datei RaidSupply.lua, A.RaidSupply):
+- Termine: (1) fest im Addon 9.12.2026 "Onyxia, Hyjal-Gipfel und Barrow Deeps öffnen" (wirtschaft-forever 9, Hearthproof);
+  (2) wenn vorhanden _G.RaidMasterAPI.UpcomingRaids() – übernommen NUR Tag (aus t) und Raid-Name (≤ 40 Zeichen), alles andere
+  verworfen, Fehler abgefangen, höchstens 20 Termine. Genau so laut deiner Antwort 15:15 (Auftrag RM-API-RAIDS an RaidMaster);
+  bis RaidMaster sie liefert, gelten die festen Termine.
+- Fenster: Termin in 3, 4 oder 5 Kalendertagen (Tag über Mittag gerechnet – Sommer-/Winterzeit verschiebt den Tag nie).
+- Gemessen = für ein Item in BEIDEN Wochen-Hälften (gerade/ungerade) ist der Raid-Wochentag mindestens 10 % (Ln.RHYTHM_DIFF) teurer
+  als der heutige Wochentag, und die Daten sind ≥ 21 Tage alt (Ln.RHYTHM_DAYS). Raid-Tag-Preis = Mittel beider Hälften.
+  x % = (Raid-Tag-Preis − heutiger Marktwert) / Raid-Tag-Preis; nur Items mit heute billiger. Höchstens 3 Items, grösster Abstand zuerst.
+- Sonst EIN Satz "Raid in n Tagen (…): Tränke/Essen – noch zu wenig Daten (der Preis je Wochentag ist erst nach 3 Wochen gemessen)."
+- Items: Raid-Vorlage (/ahs raid) + gehandelte Tränke/Elixiere/Fläschchen/Essen (classID 0, Unterklassen 1,2,3,5,6).
+  NEU: Die Raid-Vorlage wird im Rhythmus (Learn.lua, SCAN_FINISHED-Aufgabe) immer mitgemessen – sonst gäbe es für sie nie Daten.
+  Kosten: 11 Items mehr im Rhythmus (je ~120 Byte), gleiche Aufgabe mit A:Pause je Item.
+- Anzeige: Zeile ganz unten in "Heute tun", Art "raidsupply", ohne Knopf (wie der Budget-Hinweis), nicht in der Testroutine.
+- Ehrlich zum Ereignis: Für eine einmalige Öffnung gibt es vorher keinen eigenen Messwert; gezeigt wird der gemessene
+  Wochentag-Effekt. Erwartung (Verdacht, zu messen): am 4.–6.12. sind ~30 Tage seit Serverstart – für Items, die seit dem 4.11.
+  beobachtet werden, reicht es; für die Raid-Vorlage beginnt die Messung erst mit 0.65.269 -> dort am 4.12. wohl "noch zu wenig Daten".
+Test T847: 4 Tage -> gemessen, 15 % (Raid-Tag 125/120 -> 123, heute 105), Satz exakt; 2/6 Tage nil, 3/5 ja; 20 Tage Daten -> wenig;
+  nur eine Hälfte teurer -> wenig; heute teurer -> wenig; Reihe 2=50,3=20,1=15 (4. Item 9 % fällt raus); Raid-Vorlage in den Items;
+  API: nur [day,name] (player/leader verworfen), Fehler in der API -> kein Absturz; Zeile raidsupply, tip, kein Knopf.
+  Gegenprobe: TestRoutine 0.65.269 mit Addon 0.65.268 -> T847 rot; mit 0.65.269 grün.
+Locales: 5 neue Texte in allen 10 Sprachen. CHANGELOG EN/DE.
+Gesamtlauf der Nachbildung: BESTANDEN 315, FEHLGESCHLAGEN 1 – wieder nur s216_feed_memory (Zeit-Grenze "längster Frame mit Feed
+  ≤ ohne + 5 ms", 2 von 3). BELEGT, dass es nicht an 0.65.268/269 liegt: 10 Läufe je Version abwechselnd, gleiche Last:
+  0.65.265 (CF-Kandidat) 8/10 grün, 0.65.267 8/10, 0.65.268 8/10, 0.65.269 9/10. Rote Läufe in allen Versionen gleich häufig.
+  Bei ~20 % roten Einzelläufen fällt der 2-von-3-Lauf rechnerisch in etwa 1 von 10 Gesamtläufen rot aus (passt zu 2 Rot in 3 Läufen heute).
+  Vorschlag (deine Entscheidung, ich ändere nichts ohne OK): Grenze als Median der längsten Frames je Seite (3 Läufe an, 3 aus)
+  statt Maximum gegen Maximum – ein einzelner Ausreisser (Speicherbereinigung/Planer) entscheidet dann nicht mehr.
+Nächster Punkt: 4. CH-G gemeinsame Befehlsliste.
