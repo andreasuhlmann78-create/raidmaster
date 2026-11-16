@@ -17,8 +17,23 @@ ABLAUF
    Englisch (Sprache des Kommentars; bei deutschem Kommentar deutsch), freundlich, kurz (≤ 80 Wörter), konkret: was behoben ist und in welcher
    Version, oder was geplant ist, oder warum nicht. Keine Versprechen ohne Entscheid des Nutzers. Nie Spielernamen, nie interne Kürzel/Pfade.
    Ehrlich: "fixed in 0.65.258 (Discord), comes to CurseForge with the next daily upload at 18:00 CET" nur, wenn das stimmt.
-4. POSTEN: Antworten erscheinen öffentlich im Namen des Nutzers. Darum postet der Supervisor eine Antwort NUR nach einem Ja des Nutzers je
+4. POSTEN (ergänzt durch Entscheid des Nutzers 06:43 "Solange es harmlose Antworten sind, sollst du das selber machen"):
+   HARMLOSE Antworten (Dank, Info zu Version/Termin, bekannte Lösung, Rückfrage nach Version/Fehlertext) postet der Supervisor selbst.
+   Alles, was etwas zusagt (neue Funktion, Termin, Umbau) oder heikel ist (Kritik, Streit, Geld/Gold, Daten), geht zuerst an den Nutzer.
+   Bisherige Regel:
+   Antworten erscheinen öffentlich im Namen des Nutzers. Darum postet der Supervisor eine Antwort NUR nach einem Ja des Nutzers je
    Antwort (Sicherheitsregel: öffentliche Beiträge nur mit Zustimmung) – oder der Nutzer postet den Text selbst. Status im offen-*.txt nachführen
    (Entwurf / freigegeben / gepostet).
 5. CURSEFORGE-SEITE: Beschreibung (curseforge/<Addon>-description.md) und Changelog aktuell halten – das Projekt liefert sie mit der Version;
    Upload wie bisher 1× täglich 18:00 (Entscheid 15.11. 13:16).
+
+STAND KOMMENTARE (06:44, Supervisor) – AHSentinel (12 Kommentare), GuildSentinel (keine):
+- CF-AHS-1 "1 Update pro Tag statt 500" (1 Tag alt, unbeantwortet) -> Supervisor 06:44 geantwortet (harmlos): seit 15.11. höchstens 1×/Tag 18:00.
+- CF-AHS-2 Kaufen per Mausrad / Kauf-Knopf -> beantwortet (Nutzer); umgesetzt 0.65.208 (SN-BTN1) – auf CurseForge noch 0.65.178.
+- CF-AHS-3 ADDON_ACTION_BLOCKED beim Einstellen ("Post anyway" nach Preiswarnung, UI_Sell.lua:686) -> Rückfrage gepostet (Nutzer);
+  behoben 0.65.207/0.65.215 (POST-BLOCK1, WS-LOOP1) – auf CurseForge noch 0.65.178.
+- CF-AHS-4 Einkaufsliste aus Materialien leer -> beantwortet "fixed in the next version"; behoben 0.65.210 – auf CurseForge noch 0.65.178.
+- paladriel (22 Tage): erledigt; Wunsch Gebots-Sniping notiert (Idee, kein Auftrag).
+OFFEN BEIM NUTZER: Die Fixes 2–4 erreichen CurseForge-Spieler erst mit einem Upload (gehalten bis zur Sniper-Abnahme). Nachfassen der
+Kommentare 2–4 ("fixed in …, on CurseForge since …") erst nach dem Upload.
+
