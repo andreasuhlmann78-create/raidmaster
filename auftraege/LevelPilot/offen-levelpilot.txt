@@ -499,3 +499,14 @@ Daten: shared/werkzeuge/strassen/daten/era/ (GoldSentinelStrassen.lua 88 KB, Cli
      NICHT dieselbe globale Tabelle wie Forever überschreiben; Kopfzeile der Datei nennt "WoW Forever" – im Werkzeug je Client richtig).
  (b) T312 sinngemäss für Era; Classic Era bekommt damit dieselbe Wegsuche wie Forever.
  (c) Verdacht, zu messen: TBC-Änderungen auf Karte 0/1 (Brücken/Wege) – im Spiel an Era-Wegen (LW-6-Zeilen) prüfen.
+
+==== PRÜFUNG Supervisor 16.11.2026 09:18 – LevelPilot 3.12.51 (LW-1, Kantenzahl), 3.12.52 (ST-3, Befund LW-1 behoben) ====
+- Kantenbilanz belegt: 654 = 645 + 2 Ring + 7 doppelt / 1667 = 1611 + 12 + 44 = meine Rechnung ✓. Eigener Befund "kürzere Strasse
+  gilt" – gut gefunden. OK.
+- ST-3 SELBST NACHGERECHNET: st3_messung.py neu laufen lassen -> alle Zahlen identisch (5445 Paare, Umweg gelaufen 1,48, Strasse 2,06,
+  Wegsuche 1,00, Fehler 18/50/32 %, 14 % auf Strassen, Brücken 10+7 gelaufen / 11+6 besucht / 75+52 nie). Achsen-Beleg (4 Zuordnungen)
+  schlüssig. OK.
+- Befund an 3.12.51 selbst gefunden und in 3.12.52 behoben (Faktor an bekannten Wegen, Gegenprobe rot) – genau richtig so. OK.
+- Beide auf dem Rechner des Nutzers installiert (3.12.52, byte-gleich). Wirkung im Spiel = LW-6-Zeilen vorher/nachher (Verdacht, zu messen).
+- Weiter: ST-5 (Era aus Anniversary, siehe ST-5 NEU 09:08 – NICHT mehr "ruht"); dann Strassen-Erkennung erweitern erst nach LW-6-Beleg.
+  Die 17 Brücken "besucht, nicht gelaufen": ja, je Brücke ein kleines Bild (Netz + gelaufene Wege) unter berichte/LevelPilot/strassen/.
