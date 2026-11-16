@@ -1,0 +1,17 @@
+AHSentinel – FRAGE TU1-HAENDLER (TU1 Rest: Mein Lager / Tooltip je Marktlage) – nichts geändert, wartet auf Entscheid
+
+GEMESSEN (Debug-Lauf auf 0.65.298, Lage L-HAENDLER aus T514–T522: Marktwert 183, Händlerpreis aus der Tabelle 500):
+  A:BestWay -> 500 "vendor" · A:RealValue -> 500, Händler besser true · A:VendorPlausible -> false
+  Folge: Mein Lager, Tooltip-Gewinn, Markt und Sniper rechnen mit "Händler 5s", obwohl derselbe Preis für Händler-Flips und für
+  "Händler zahlt mehr" im Verkaufen-Reiter (Seller.lua ~688) als unplausibel gesperrt ist (Fall Eisengranate, Extras.lua ~124).
+VERSUCH (nicht veröffentlicht): RealValue nimmt den Händlerpreis nur, wenn VendorPlausible. Dann wird T226 rot:
+  T226 (K3 "Eine Preisfunktion … Händler als Untergrenze") erwartet für einen Tabellen-Händlerpreis von 5000 bei Marktwert 1000 den
+  Händler als Wert (10000 für 2 Stück). Das ist genau der Eisengranate-Fall – zwei Regeln widersprechen sich. Änderung zurückgenommen,
+  0.65.298 unverändert.
+FRAGE (Vorschlag): Händlerpreis als Untergrenze/Weg nur, wenn er
+  (a) vom Spiel bestätigt ist (GetItemInfo, nicht nur Tabelle – A.vendorFromTable) ODER plausibel (≤ 2 × Marktwert), und
+  (b) beim echten Händlerverkauf nicht abweichend gemessen wurde (MA3-G, GoldData bad).
+  Ein vom Spiel bestätigter Händlerpreis bleibt also immer Untergrenze (K3); nur der unbestätigte Tabellenpreis über dem Doppelten
+  des Marktwerts zählt nicht. T226 würde dafür einen vom Spiel bestätigten Händlerpreis nehmen (Erwartung 10000 bleibt) und einen
+  Fall "Tabelle 5000, Marktwert 1000 -> kein Händler" dazubekommen. Entscheid?
+Bis dahin weiter mit TU1 (Markt-Reiter) ohne diesen Punkt.
