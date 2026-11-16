@@ -1,0 +1,29 @@
+AHSentinel – ABSCHLUSS der Nachtschicht: alles erledigt, was ohne Spiel und ohne Entscheid geht – Sitzung schläft (Wecker aus)
+
+Veröffentlicht heute Abend (GitHub + Discord, je Bericht in berichte/AHSentinel, nichts auf CurseForge vor dem Ingametest):
+  0.65.292 TU2 Rest · 0.65.293 WACH-2 Hinweis · 0.65.294 E (b) T-H/T-AB9/12/T-AB5 (bester Weg überall gleich)
+  0.65.295 S6 Vorschlag A · 0.65.296 TU1 Meine Auktionen (+ Fehler L6 "teurer" zum Ausreisser-Preis behoben)
+  0.65.297 Neu einstellen nur zurückgekommene Menge · 0.65.298 T-AB5 Entscheid (Gewinn-Zeile folgt BestWay)
+  0.65.299 TU1 Mein Lager (Tests) · 0.65.300 TU1-HAENDLER (Händlerpreis nur bestätigt oder plausibel), G (h)
+  Tests: s207 maschinenunabhängig gemacht (Commit a237ace, Ursache im Bericht 0.65.300).
+
+G (Hinweise, kein Muss) – Stand nach Durchsicht:
+  a) erledigt (0.65.292, T868). h) erledigt (0.65.300). g) geprüft (Bericht 0.65.300): kein Fehler.
+  b) Beste Rezepte bei DATA_CHANGED: zutreffend – die Prüfsumme (Cr:TopSignature) hängt an A.priceVersion (jede Preisänderung),
+     gedrosselt auf höchstens alle 30 s (Cr.DATA_GAP). NICHT geändert, mit Grund: die Liste hängt auch an Entzauber-Materialien
+     (DealValue der Produkte) und am Absatz (Scan/Sync); eine Prüfsumme nur über Rezept-Items könnte eine veraltete Liste stehen
+     lassen – für einen "kein Muss"-Hinweis zu riskant. Falls gewünscht: mit Messung im Client (Anzahl AUFBAU je Stunde) neu prüfen.
+  c) REPARATUR-MENGE ×2: Le:FixL6 läuft nur einmal (db.fixL6 = 1 danach) und schreibt EINE Zeile je repariertem Verkauf. ×2 heisst
+     nach dem Code: zwei reparierte Verkäufe, kein doppelter Lauf. Verdacht, mit dem Diagnose-Text 0.65.69 zu bestätigen (nicht im Repo).
+  d) f) brauchen Client-Werte (prognose_de_faktoren, T122). e) i)–n) nur zur Kenntnis.
+
+Offen – wartet auf Entscheid oder Spiel (nichts davon kann ich ohne beides weiterbringen):
+  - TU1-PI (Entscheid des Nutzers, Supervisor 22:50): Ausreisser NACH OBEN in A:PriceInfo (gemessen L-AUSREISSER: Wert 47s 50c
+    gegen Verkaufen-Vorschlag 10s). Danach: TU1 Tooltip/Mein Lager für L-AUSREISSER.
+  - T728 aus dem nächsten Upload: "warum 33 statt 90 Suchen/Min.".
+  - UI-CLEAN1-B Teil 2: Ingame-Texte UI-BEFUNDE (T617/T618/T729/T734) – holt der Supervisor mit dem Nutzer.
+  - VS-121b (Lücke 436 ms), F Raid-Vorrat (T145c), Prüfliste im Spiel (14 Punkte, u. a. SN-TR mit der neuen S6-Phase,
+    VOLLSCAN, WAECHTER-LAST/-FUND, HILFE-GRP).
+  - 0.66.0 erst, wenn VOLLSCAN, WAECHTER-LAST und SN-TR im Spiel grün sind.
+Wecker: nicht neu gestellt. Neue Aufträge bitte über auftraege/AHSentinel/ – die Sitzung schaut beim nächsten Wecken bzw. bei der
+nächsten Nachricht des Nutzers zuerst ins Repo.
