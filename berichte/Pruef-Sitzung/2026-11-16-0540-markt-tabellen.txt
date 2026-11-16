@@ -1,0 +1,63 @@
+Markt-Tabellen täglich – 16.11.2026 (geplante Aufgabe, Lauf 04:38 UTC)
+=====================================================================
+Ergebnis: KEINE neue Tabelle. Die Datei shared/markt-tabellen/GoldSentinelMarktTabellen.lua vom Supervisor
+(Commit 7fcd4efe, 16.11. 03:59 UTC, "Kern-Abgleich") ist schon aus genau diesen Daten gerechnet und bleibt unverändert.
+
+Datenlage
+- Neuester Stand: aktuell/DESKTOP-NVITMSE/forever/... (stand.json 15.11. 18:39 UTC, 10 Std. alt < 36 Std.).
+  Laptop: 13.11. 16:04 UTC. Daten-Repo seit 15.11. 19:40 (MEZ) unverändert; datenBis 1794766226 = gleicher Stand wie
+  in der Supervisor-Fassung von 03:59 UTC.
+- Nachgerechnet nach README (Stand 16.11.: Journale ALLER Stände zusammengeführt ohne Doppelte, merge_journals):
+  python3 -I addon-check/marktanalyse/markt_tabellen.py $(find <daten> -path "*forever*" -name AHSentinel.lua | sort) <aus>
+  (7 Stände: 2× aktuell, 5× tage/) -> bis auf "erstellt" IDENTISCH mit der Datei im Repo. Darum kein Commit.
+
+WIDERSPRUCH in der gespeicherten Anweisung (zur Kenntnis/Anpassung durch Supervisor bzw. Nutzer)
+- Die Anweisung verlangt "nur EINE Datei" (gegen Doppelzählung). Seit 16.11. 03:59 rechnet markt_tabellen.py mit
+  mehreren Ständen OHNE Doppelte (README Teil "Journale"). Mit nur der Desktop-Datei gerechnet (Probe, nicht committet)
+  fällt die Tabelle zurück: 2:6:a fehlt, Kaufstufe "bis 0.6" fehlt, Kaufen "darüber" n 15 -> 4 / -0.065 -> -0.303
+  (24 Prozentpunkte bei WENIGER Fällen = nach Schritt 4 unplausibel), 2:4:a n 1279 -> 1021, Wellen 26-35 durch->offen,
+  36-45 offen->durch, 46-55 offen->durch. Diese Ein-Datei-Fassung wurde verworfen.
+- Vorschlag: Schritt 2/3 der Anweisung auf den README-Aufruf (alle Stände) umstellen; die 36-Std.-Prüfung bleibt am
+  neuesten Stand. Bis dahin hat dieser Lauf nach README gerechnet (Ergebnis = Repo-Fassung).
+- Laut auftraege/hinweis-routinen-supervisor-2026-11-14.txt (a) schreibt diese Aufgabe kein Log und nichts in auftraege/ –
+  darum keine Zeile in nachrichten-log.txt (Anweisung Schritt 5 insoweit nicht ausgeführt).
+
+Prüfung der Repo-Fassung (dreifach): lädt in Lua (lupa) ok · Grösse 3750 Bytes < 50 KB ok · nur Zahlen und Schlüssel
+(Bänder, Gruppen-/Zellen-Schlüssel, Feldnamen, Zustände), keine Spieler-/Realm-Namen ok · Zustände nur
+welle/durch/steigt/offen (steigt 1, durch 1, offen 3) ok · Plausibilität gegen gestern (Bericht 15.11.) ok, keine Änderung
+> 20 Prozentpunkte.
+
+Wellen je Band (15.11. -> 16.11.)
+  5-25   steigt 0.649 (10 T) -> steigt 0.649 (10 T)
+  26-35  durch  0.149 (10 T) -> durch  0.149 (10 T)
+  36-45  durch  0.220 (10 T) -> offen  0.230 (10 T)
+  46-55  offen  0.447 (9 T)  -> offen  0.453 (9 T)
+  56-60  offen  0.449 (7 T)  -> offen  0.449 (7 T)
+
+Entzaubern (Gewinn gemessen / Mindestgewinn)
+  2:4:a  n 1279 (gestern 557), nKauf 1205 (483), Tabelle 0.965, Gewinn 0.258 (0.340; -8.2 Pp bei +722 Käufen), Mindest 0.20
+  2:6:a  n 124, nKauf 62 (=), Tabelle 0.950, Gewinn 0.199 (=), Mindest 0.30
+  2:1:a  n 750 (448), nKauf 0, Tabelle 1.007, Gewinn ungemessen, Mindest 0.20
+  2:3:a  NEU: n 20, nKauf 0, Tabelle 0.947, Gewinn ungemessen, Mindest 0.20
+
+Kaufstufen (Kaufpreis/Wert -> Gewinn)
+  bis 0.6: n 21  0.527 (=)
+  bis 0.7: n 155 0.395 (gestern 158 / 0.427; -3.2 Pp)
+  bis 0.8: n 425 0.307 (236 / 0.331)
+  bis 0.9: n 598 0.175 (66 / 0.173)
+  darüber: n 15 -0.065 (14 / -0.042)
+  (Hinweis: "bis 0.7" n 158 -> 155 trotz neuer Daten – Verdacht, zu messen: Folge des Zusammenführens ohne Doppelte.)
+
+Verkaufsquoten (Preis/Markt -> Anteil verkauft)
+  de:     bis 0.90 n 11 0.298 (=) · bis 0.97 n 19 0.491 (13/0.333) · bis 1.03 n 48 0.740 (24/0.542) ·
+          bis 1.10 n 9 0.600 (3/0.667) · darüber n 34 0.353 (30/0.400)
+  metal:  bis 1.03 n 1 1.0 · darüber n 1 0.0 (=)
+  consum: bis 1.03 n 1 0.0 (=)
+
+Weitere Teile (seit 16.11.): kern (Weg markt, 21 Zellen, 1 Quelle; Güte Brier 0.0271 < Grundlinie 0.0306, n 154457),
+alle (1 Tag, 0 Items: ohneAbsatz 6176, eineQuelle 0).
+
+Auffällig, zur Kenntnis (kein Befund): Die Sprünge gegen gestern (2:4:a, Kaufen bis 0.8/0.9, de-Quoten) haben zwei
+Ursachen zugleich: neue Spieldaten (gestern bis 15.11. 00:48 UTC, heute bis 15.11. 18:10 UTC) und das Zusammenführen
+aller Stände (neue Methode 16.11.); der Anteil je Ursache ist nicht getrennt gemessen. Welle 36-45 durch -> offen bei
+Index 0.220 -> 0.230 (Grenzfall).
