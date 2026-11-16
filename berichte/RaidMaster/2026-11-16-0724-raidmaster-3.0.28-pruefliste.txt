@@ -39,7 +39,7 @@ Status: umgesetzt, zur Prüfung.
 EIGENE TESTS (Hinweise, keine Freigabe) – Nachbildung berichte/RaidMaster/offline:
 - Forever (16001) ALLE OK, Era (11509) ALLE OK, enUS ALLE OK, zhCN ALLE OK, ruRU ALLE OK. T185 OK "13 Punkte; Hit-Stellen BL, MN2,
   MN2B, RT, SS, TR, MNT, auto SP; ohne Dev wirkungslos". TU6 Regressionen 29/29.
-- addon_check download/RaidMaster-3.0.28.zip: siehe Nachtrag unten.
+- addon_check download/RaidMaster-3.0.28.zip: "RaidMaster-3.0.28.zip: OK", kein FEHLER, keine WARNUNG; Lua-Syntax lupa (Lua 5.1).
 - Grenze: Das Fenster der Prüfliste selbst (Aufbau, Knöpfe OK/Nicht OK, Weiterspringen) kommt aus dem gemeinsamen Baustein und ist dort
   getestet (shared/pruefliste, 26/26); in der Nachbildung nicht sichtbar geprüft – im Spiel ansehen.
 
