@@ -120,7 +120,7 @@ PRE_RUN = function(LP)
   for i = 1, 200 do if G:NodeById(25000000 + i) then left = left + 1 end end
   check(left == 0 and next(G.roadStat) == nil, ("nach Neuaufbau: Strassenknoten übrig %d, Stand leer %s"):format(left, tostring(next(G.roadStat) == nil)))
   check(G:LoadRoads(1) == true and G.roadStat[1].fertig, "danach neu geladen (fertig " .. tostring(G.roadStat[1] and G.roadStat[1].fertig) .. ")")
-  -- 3.12.53 ST-5: Classic Era lädt das Era-Netz (aus dem Anniversary-Client), TBC Classic keines
+  -- 3.12.53 ST-5: Classic Era lädt das Era-Netz (3.12.55: aus dem echten Era-Client 1.15.9), TBC Classic keines
   local savedGame = _G.GoldSentinelGame
   local era = loadfile(arg[1] .. "/Data/StrassenEra.lua")
   era()
@@ -141,8 +141,8 @@ PRE_RUN = function(LP)
   G:LoadStatic({}, nil)
   local okEra = G:LoadRoads(1) == true
   local se = G.roadStat[1] or {}
-  check(okEra and se.fertig and se.knoten + se.eigen == nE + eInner and E.client == "2.5.6.70577",
-    ("Classic Era: Era-Netz geladen (Client %s), Knoten %s = Enden %d + Zwischenknoten %d; %s"):format(tostring(E and E.client),
+  check(okEra and se.fertig and se.knoten + se.eigen == nE + eInner and E.client == "1.15.9.70576",
+    ("Classic Era: Era-Netz aus dem Era-Client geladen (Client %s), Knoten %s = Enden %d + Zwischenknoten %d; %s"):format(tostring(E and E.client),
       tostring(se.knoten), nE, eInner, G.RoadText()))
   _G.GoldSentinelGame = { flavor = "tbc", IsForever = false }
   G:LoadStatic({}, nil)

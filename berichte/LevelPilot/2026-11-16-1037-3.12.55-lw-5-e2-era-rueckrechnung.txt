@@ -1,0 +1,44 @@
+BERICHT LevelPilot 3.12.55 – LW-5 E2 Rückrechnung der Forever-Zonen für Classic Era; ST-5 Era-Strassen aus dem Era-Client
+Projekt: LevelPilot · Datum: 16.11.2026 10:37 (aus date) · Version: 3.12.55 · umgesetzt, zur Prüfung
+Classic Era: vorbereitet, im Era-Client noch NICHT im Spiel geprüft (Verdacht, zu messen) – Era-Client jetzt beim Nutzer (10:36).
+
+Bezug: ENTSCHEID LW-5 (Nutzer 10:08: E1–E4 bauen), HINWEIS 10:32, ST-5 ERA-DATEN 10:36.
+
+1. E2 – RÜCKRECHNUNG (Geo:FromData / Geo:ToData, nur wenn GoldSentinelGame.flavor == "era"; Forever: nichts)
+   Rahmen: Datenpaket und eigene Daten liegen in Forever-Kartenkoordinaten; nur 4 Zonen haben andere Grenzen
+   (LP.CaveForeverMaps = Tools/forever_maps.lua: 1412, 1423, 1433, 1453; x' = sx·x + ox).
+   - QuestDB.EraUnconvert(d): einmal beim Verbinden des Pakets, in den Tabellen selbst (danach stimmt jede der >10
+     Lesestellen von selbst): N[].s, O[].s, Q[].ob.e[2] (Erkundung), D[].e (Dungeon-Eingänge), MB (Briefkästen).
+     Flag d.eraFrame -> nie doppelt. NPC 10666/10881 (Forever-Messung aus Paket 1.6.1) in Era auf die Questie-Spawns
+     (Gordo Tirisfal 43,1/54,7; Bluff Runner Windstrider Donnerfels 44,3/58,8 – Questie classicNpcDB).
+   - QuestDB.EraDungeons(): eigene Dungeon-Eingänge (Data/Dungeons.lua) – auch ohne Datenpaket, einmal.
+   - Geländekarten (Terrain.lua): Raster bleibt im Forever-Rahmen; Abfragen Segment/Unknown/Walkable rechnen den Kartenpunkt
+     mit ToData hinein, Wegpunkte mit FromData heraus.
+   - Zonenübergänge (Graph:BuildGateways, Data/Gateways.lua) und Startpunkte der virtuellen Reise (Tauren/Mulgore) mit FromData.
+   - Durchsucht: feste Koordinaten im Code (nur Virtual-Startpunkte betroffen), Data/Seed.lua (0 Treffer), Höhlen (schon
+     richtig: Classic-Werte, Umrechnung nur in Forever), Startnetz/Strassen (je Spielversion).
+   BELEG gegen Questie (Original-Spawns classicNpcDB, erster Spawn je NPC):
+     Mulgore 91 NPCs: Abweichung Median 0,044 · 95 % 0,059 · max 0,060 (Kartenprozent)
+     Östl. Pestländer 118: Median 0,039 · 95 % 0,055 · Rotkammgebirge 96: Median 0,036 · max 0,050
+     Sturmwind 187: Median 0,046 · 95 % 0,063
+     (= Rundung der Paketwerte auf 0,1.) 3 Ausreisser (1721, 1754 Sturmwind; 8532 Östl. Pestländer, 7,7–11,7 %) sind NPCs, die
+     Questie selbst korrigiert (classicNPCFixes) – das Paket enthält die korrigierten Orte, der Vergleich die Rohdaten. Kein Befund.
+   TEST T315: Forever unverändert (auch Paket); Era Mulgore 44,20/76,10 -> 44,55/75,39 genau; hin und zurück genau; andere Zone
+   unverändert; Paket: 6 Punkte (NPC 2, Objekt 1, Quest 1, Dungeon 1, Briefkasten 1; Briefkasten in Durotar unverändert);
+   Gordo auf Questie; zweimal = nichts. GEGENPROBE: Era-Erkennung aus -> rot.
+   T239 je Spielversion nachgeführt (Era: Questie-Orte für 10666/10881; Forever wie bisher) – fiel im Era-Lauf der Offline-
+   Routine zuerst rot aus, genau wegen dieser gewollten Änderung.
+2. ST-5 – Data/StrassenEra.lua = neue daten/era/GoldSentinelStrassen.lua aus dem Era-Client 1.15.9.70576 (byte-gleich, cmp).
+   test_strassen: Kalimdor Era 635 Knoten = 321 Enden + 314 Zwischenknoten (unabhängig gezählt), 588 Kanten (599 Stücke: 4 Ring,
+   7 doppelt, 2 kürzer ersetzt), 66756 yd; Client-Nummer geprüft.
+
+BELEGE (eigene Tests, keine Freigabe): T314/T315 true; addon_check "LevelPilot-3.12.55.zip: OK"; Repo-Offline-Routine 38/38
+ohne FEHLER (inkl. Testroutine Classic Era deDE); private Gesamt-Regression (36 Läufe) ohne FEHLER.
+
+WEITER (Reihenfolge LW-5): E1 jetzt am echten Era-Client – BITTE MESSEN (Nutzer, im Era-Client): /dump select(4, GetBuildInfo())
+(Interface-Nummer, Verdacht 11509) – und im FOREVER-Client, ob eine .toc mit "## Interface: 16001, 11509" als "aktuell" gilt
+(AddOn-Liste ohne "veraltet"). Ohne diese zwei Zahlen baue ich E1 nicht. Bis dahin E3 (Daten je Spielversion trennen) und E4.
+
+DATEIEN: LevelPilot Geo.lua (EraFrame, FromData, ToData), QuestDB.lua (EraUnconvert, EraDungeons, ERA_NPC), Terrain.lua,
+Graph.lua (Gateways), Virtual.lua (Startpunkte), Data/StrassenEra.lua, TestRoutine.lua (T315, T239), LevelPilot.toc, Core.lua,
+CHANGELOG; Repo offline/lua/test_strassen.lua; announce/levelpilot__levelpilot-3.12.55.*.
