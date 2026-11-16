@@ -1,0 +1,41 @@
+AHSentinel 0.65.294 – E (b): T-H1–H4, T-AB9/T-AB12, T-AB5 (dabei 3 echte Abweichungen beim besten Weg behoben) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.294 und sofort im Discord.
+
+E (b) T-H1–H4 (befund-heute-tun-haendler) -> T871: A:AuctionSize mit Leinenstoff 349 Stück.
+  H1 modernes AH: 349 als eine Auktion (Quelle "whole"), AH 53c gegen Händler 40c -> Händler besser false (RealValue, 4. Rückgabe = Händler-Tipp).
+  H2 altes AH: ohne gelernte Grösse Vorgabe 1 ("default"); gelernte Grösse über dem Stapel wird auf den Stapel gedeckelt.
+     (Erst hatte ich "altes AH = Stapelgrösse" erwartet – falsch, der Code nimmt 1 als Vorgabe und deckelt nur; Test angepasst, nicht der Code.)
+  H3 gelernte Grössen 20/40/20 -> 20 ("learned"). H4 Einzelstück -> 1.
+  Gegenprobe (Stapel-Deckel auch im modernen AH): T871 rot ("H1 20"), dazu T292 rot.
+E (b) T-AB9/T-AB12 (befund-absatz-und-silber F1, befund-absatz-zu-hoch) -> T872: Braune Leinenhose = Gruppe grün bis 15, Rüstung
+  (Tabelle 80 % Staub × 1,5 + 20 % Essenz × 1,5). Staub 76c, Essenz 92c: brutto 0,8×1,5×76 + 0,2×1,5×92 = 118,8 -> 119 (1s 19c), nachgerechnet.
+  Kette "kaum" -> Entzauberwert: kaum -> mehr Neueinstellungen -> ExpectedDepositLoss -> D:MaterialFee -> Netto. Markt Q 10886, S 300/Tag:
+    mit eigener Verkaufsquote 9 von 10: kein "kaum" (own), netto 112c; ohne eigene Verkäufe: "kaum", netto 68c.
+  Gegenprobe (eigene Quote ignoriert, posts >= 3000): T872 rot ("kaum true, netto 68"), dazu T291 und T240 rot.
+E (b) T-AB5 (angebot-und-absatz) -> T873: Tooltip / Gewinn-Fenster+Beste Rezepte / API.BestWay / A:BestWay, 5 Fälle.
+  BEFUND (im alten Code belegt, Gegenprobe mit 0.65.293): drei echte Abweichungen
+    Gleichstand 120/120:          Tooltip de, Gewinn-Fenster sell, API sell, BestWay de
+    Hauptmaterial veraltet:       Tooltip sell, Gewinn-Fenster de,  API de,  BestWay sell
+    Weg Entzaubern in Optionen aus: Tooltip de, Gewinn-Fenster de,  API de,  BestWay sell
+  Ursache: API.BestWay und Crafting (ReadRecipe) rechneten selbst (ohne StaleMain/WayDE, Gleichstand andersherum), der Tooltip
+  beachtete den Weg-Schalter nicht. Entscheid SN2115b: EINE Funktion "bester Weg".
+  Lösung: API.BestWay -> A:BestWay ("de" -> "disenchant", sonst "sell", Vertrag unverändert); Crafting: neue Cr:ChooseBest mit
+  A:ChooseWay (Entzaubern nur mit WayDE und frischem Hauptmaterial, Gleichstand Entzaubern); Tooltip BestWayValue: Weg aus (RK4) ->
+  ohne Entzauberwert. Jetzt alle 5 Fälle an allen 4 Stellen gleich. API.md und CHANGELOG nachgeführt.
+FRAGE T-AB5 (Vorschlag): Spieler OHNE Verzauberkunst. Sniper, Markt, API und jetzt Gewinn-Fenster nehmen Entzaubern dann nicht
+  (D:WayDE), der Tooltip rechnet die Gewinn-Zeile aber weiter mit dem Entzauberwert – so verlangt es LB2 ("unabhängig vom eigenen
+  Beruf"). Gemessen (T873, Fall 6): Tooltip de / Gewinn-Fenster sell / API sell / BestWay sell. Das habe ich bewusst NICHT
+  geändert, weil zwei Entscheide sich widersprechen. Vorschlag: der Tooltip folgt auch hier A:BestWay (ohne Verzauberkunst
+  Gewinn-Zeile nach Verkaufen; die Zeilen "Entzaubern: x" bleiben als Info). Entscheid?
+  Hinweis: in der Testroutine meldet D:WayDE ohne D.testSkill immer "an" – T468 sieht diesen Unterschied deshalb nicht.
+Abdeckungsliste: T-H1–H4 -> T871, T-AB9/T-AB12 -> T872, T-AB5 -> T873 (vorher "im Spiel").
+
+Tests (eigene, keine Freigabe): s42 Testroutine grün (T826 Abdeckung eindeutig, T334 Abdeckung vollständig).
+Gesamtlauf aller Nachbauten auf dem Stand 0.65.294: BESTANDEN 333, FEHLGESCHLAGEN 1 – s42b (Testroutine mit offenem AH): T872
+  "ohne eigene Verkäufe netto 113" statt kleiner. Ursache (belegt): mit offenem AH nimmt A:ListingDeposit die Einzahlung des Spiels,
+  im Nachbau für Staub 0 -> kein Einzahlungsverlust, egal ob "kaum". Ein Fehler des TESTS (hing an der Umgebung), nicht des Codes.
+  Korrektur im Test: Einzahlung der zwei Materialien fest 1s je Auktion (eigene Funktion, Forever-Minimum). Danach mit AH zu und
+  offen gleich: netto 112 (eigene Quote) / 68 ("kaum"). Erneut gelaufen auf dem Stand 0.65.294: s42, s42b, s42c, s61 (alle
+  Nachbauten mit der Testroutine "auto") grün; der Rest des Gesamtlaufs (333) war schon grün und ist von der Änderung nicht berührt.
+addon_check: AHSentinel-0.65.294.zip OK (Vorprüfung und Discord-Prüfung). Veröffentlicht: GitHub-Release v0.65.294,
+Discord announce/ahsentinel__ahsentinel-0.65.294.md. Nicht in download/, kein CurseForge (erst nach dem Ingametest).
