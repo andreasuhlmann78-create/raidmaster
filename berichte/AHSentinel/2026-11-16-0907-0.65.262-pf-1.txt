@@ -1,0 +1,24 @@
+AHSentinel 0.65.262 – PF-1, SN-RAD (e), POST-WS (Ingame-Test 16.11.) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.262 und sofort im Discord.
+PF-1: Ursache belegt mit deinen Zahlen (Markt 96, Angebote 75/80/96/99, Eingabe 9): Se:WarnRule -> Regel "unter dem günstigsten Angebot"
+  (9 < 75 × 0,9), Vorschlag max(68, Unterbieten 74) = 74 – dieser löst Se:WarnRule nicht mehr aus, aber Se:PriceRisks (Preisschutz 20 %:
+  74 < 96 × 0,8 = 76,8) -> lowWarning -> zweite Sperre "Preis prüfen!". Gewählt: "der angepasste Preis gilt als bestätigt" (dein zweiter
+  Weg) – der Vorschlag bleibt das Unterbieten des günstigsten fremden Angebots (eine Grenze am Marktwert hätte 77c vorgeschlagen, also
+  über dem günstigsten Angebot – verkauft nicht). Se:FixConfirmed(fk, id, unit, now): nur genau der vorgeschlagene Preis, dasselbe
+  Item, höchstens 120 s (Se.FIX_KEEP_S) nach dem Klick; UI_Sell p:Post überspringt dann den zweiten Klick. Die Hinweise (Preisschutz-
+  Zeile) bleiben sichtbar.
+  Test T838 mit genau diesen Zahlen: Vorschlag 74, Warnschutz danach aus, Preisschutz 1 Treffer, bestätigt true; anderer Preis 73,
+  anderes Item, nach 121 s -> false. Mit 0.65.261 rot (FixConfirmed fehlt), mit 0.65.262 grün.
+SN-RAD (e): (1) Prüfliste: ein vom Addon erkannter Fehler wird von einem späteren Hit NIE überschrieben (P:Hit verweigert, Chat
+  einmal "… bleibt Fehler – erst „Zurücksetzen“"). (2) SN-RAD geteilt: SN-RAD-A "„nur Knopf“: Mausrad kauft nie" – erledigt, sobald
+  eine Raste bei wartendem Treffer im Modus "nur Knopf" gesperrt wurde (Sn:WheelBuy), Fehler bei jedem Rad-/Tastenkauf mit Modus
+  "nur Knopf" beim Auslösen; SN-RAD-B "Mausrad grün: eine Raste = ein Kauf" – erledigt beim ersten Rad-Kauf im Modus "Mausrad + Knopf".
+  T836 angepasst (11 Punkte; Kauf über Max -> Fehler bleibt Fehler trotz späterem Budget-Treffer; leere Liste -> Fehler bleibt trotz
+  späterem Erfolg; Fenster springt auf Schritt 5 = SN-GRENZE). Mit 0.65.261 rot, mit 0.65.262 grün.
+POST-WS (Beobachtung 4c Holz zweimal): gewollt – nach "Trotzdem einstellen" gilt die Bestätigung 30 s für dasselbe Item zum selben Preis
+  (WS-LOOP1: sonst Schleife Warnung -> WoW sperrt -> Warnung). Jetzt zeitlich begrenzt UND gesagt: Chat "Bestätigt: dieses Item zu diesem
+  Preis 30 s lang ohne neue Warnung." Eigenes Angebot: Se:WarnRule nutzt pr.lowestOther (nur fremde Angebote, Seller p.own), der
+  Marktwert kommt aus den Scans – das eigene 4c-Angebot setzt den Vergleich nicht (belegt im Code, Zeile WarnRule).
+Locales: 1 neuer Text in allen 10 Sprachen. CHANGELOG EN/DE.
+Gesamtlauf aus frischer Kopie (Lua 5.1, 0.65.262-Schnappschuss): BESTANDEN 316, FEHLGESCHLAGEN 0. s42 grün (T836–T838).
+Weiter: OPT-1 (Optionen neu ordnen), dann MR4-T, SN-TR-1, ESL1-Weg, T299/T267/T72.
