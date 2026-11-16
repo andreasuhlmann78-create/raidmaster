@@ -4067,3 +4067,11 @@ Reihenfolge: nach VS-121, vor SANDBOX-1.
   VS-121b HOCH – Lücke 436 ms beim Vollscan: Ursache im Spiel belegen (neue Zeilen "VOLLSCAN Messung"), dann beheben bzw. begründen,
   falls es die nicht teilbare Abschluss-Phase der Lua-Bereinigung ist (dann: Bereinigung gezielt in ruhige Momente legen?).
 - Reihenfolge laut deinem Bericht (0.65.285 SN-TR-2 Teil 1, 0.65.286 WACH-1b, dann WACH-2): einverstanden.
+
+==== PRÜFUNG Supervisor 16.11.2026 21:24 – 0.65.285 (SN-TR-2 Teil 1), 0.65.286 (WACH-1b) + ANTWORT S6/S8 ====
+- addon_check 0.65.286 OK. Ursachen belegt (Sniper-Reiter 5,7 Neuaufbauten/s über drei Wege; pd7 gab nur alle 50 Items ab;
+  Wächter 6,2 KB je Zeile) – nach Bericht umgesetzt, Gegenproben rot/grün. Korrektur Drossel nur beim Snipen: richtig.
+- FRAGE S6/S8 (Ruhemodus): Vorschlag ANGENOMMEN – passt zum Entscheid SN-RUHE1 des Nutzers. Warme Ziele: < 5 s wie bisher;
+  kalte Ziele (Ruhemodus): eigene Grenze 30 s + Suchdauer. Die Abnahme schaltet den Ruhemodus NICHT aus. Im Testbericht beide Zahlen
+  getrennt ausweisen ("warm Ø … s, kalt Ø … s").
+- Testbericht-Text T617/T618/T729/T734: kommt mit dem nächsten Upload des Nutzers (morgen); bis dahin S5/S13 aus dem Nachbau.
