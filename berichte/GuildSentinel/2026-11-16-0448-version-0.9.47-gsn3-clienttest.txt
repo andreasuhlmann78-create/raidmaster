@@ -1,0 +1,36 @@
+BERICHT GUILDSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 16.11.2026 04:48 (Uhrzeit aus date, Europe/Zurich) · Sitzung: GuildSentinel-Projekt-Sitzung · Version: 0.9.47 · Commit: GuildSentinel 39e5862
+Veröffentlichung: Discord ja (announce/, sofort). CurseForge: nein (nächster Termin 16.11.2026 18:00).
+Auftrag: GS-N3 MITTEL (04:44) – geführter Client-Test wie LevelPilot 3.12.45.
+
+UMGESETZT, ZUR PRÜFUNG (neue Datei ClientTest.lua, in der .toc nach PagesExtra.lua; Befehl /gs clienttest):
+- 10 Punkte, je eine automatische Prüfung im Spiel (Lua-Fehler -> nur dieser Punkt FEHLER):
+  C1 (0.9.39) jeder Werbe-Vorschlag mit den echten Daten eingesetzt: "/w " drin, <= 251 · C2 (0.9.40) Grenze 5/600 s
+  voll und gleitend frei (mit eigener leerer Liste) · C3 (0.9.41) Bewerberliste zeigt "selbst anschreiben" ·
+  C4 (0.9.44, nur Offiziere, sonst N/A) Probe-Eintrag in der Sperrliste: erkannt, Einladen gesperrt, Tooltip-Zeile;
+  danach genau zurückgesetzt · C5 (0.9.45) Stand mit "zuletzt online" für Rückkehrer · C6 (0.9.45) Notizen gemerkt
+  (öffentlich/Offizier) · C7 (0.9.46) baut die noch nicht gebauten Seiten und MISST je Seite die Dauer
+  (debugprofilestop) -> längster Aufbau in ms · C8 (0.9.42) liest LANGSAM-Einträge "Fenster aufbauen" / "Seite bauen" /
+  "Mitgliederliste lesen" mit ms aus dem Protokoll (Beleg für G-4) · C9 (0.9.42) Tooltip-Zeilen für den eigenen
+  Charakter · C10 (0.9.43) MaskAge-Stichprobe.
+- 4 Fragen, nur wenn die Automatik OK ist (je ein Satz; Fenster mit OK / Nicht OK / Überspringen; das Passende wird
+  vorher geöffnet): C1 "Vorschlag wählen" mit Zeichenzahlen? · C4 Reiter Sperrliste da? · C7 jede Seite mit Inhalt? ·
+  C9 Tooltip "In der Gilde seit …"? Nicht OK -> FEHLER, Überspringen -> N/A.
+- Ergebnis: GuildSentinelDB.clientTest { v, t, lines } und in /gs protokoll ein Block "CLIENTTEST v… (Zeit):" mit
+  einer Zeile je Punkt "Cn OK|FEHLER|N/A – Name: Messwerte". Am Ende eine Chat-Zeile mit der Zusammenfassung.
+- Keine Nachrichten (kein Flüstern, kein Gildenchat, keine Addon-Nachricht), keine Änderung an Gildendaten (alles
+  Vorübergehende über With zurückgesetzt, auch bei Fehlern), nicht im Kampf, kein zweiter Lauf gleichzeitig.
+- 24 neue Texte, 10 Sprachen (Seiten-/Reiter-/Knopfnamen je Sprache wie im Spiel).
+
+EIGENE TESTS (Belege, keine Freigabe):
+- test/run_clienttest.lua 15/15, 0 Fehlermeldungen, je 16001/11508/20505: alle OK -> 10 Zeilen, 4 Fragen, keine FEHLER;
+  keine Nachricht/kein Chat/kein geschützter Aufruf; Bewerber, Sperrliste, Grenze, Werbetext, Verlauf vorher = nachher
+  (serialisiert verglichen); Protokoll enthält den Block; Nicht OK -> FEHLER, Überspringen -> N/A; eingebauter
+  Lua-Fehler -> nur dieser Punkt FEHLER; zweiter Start abgelehnt; im Kampf abgelehnt; Fragefenster mit Knopf OK bis zum
+  Ende; danach Daten unverändert.
+- Nachbau-Lauf (16001): C1–C10 OK; C7 "13/13 Seiten gebaut, längster Aufbau jetzt 0.0 ms" (Nachbau ohne debugprofilestop
+  – im Spiel kommen echte ms).
+- test/run_alle.sh: "GESAMT: 134 Läufe, 0 rot · 4684 Einzelprüfungen bestanden, 0 fehlgeschlagen".
+- Routine: Forever OK 299, Era OK 304, TBC OK 304, je FEHLER 0.
+
+FÜR DEN NUTZER: /gs clienttest (ausserhalb des Kampfes), 4 Fragen beantworten, dann /gs protokoll kopieren.
