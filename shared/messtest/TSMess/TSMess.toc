@@ -1,0 +1,9 @@
+## Interface: 11508, 11509, 16001, 20505, 20506, 30405, 38002, 40402, 50504, 120105
+## Title: |cff33ccffTSMess|r
+## Notes: Passive measuring tool for ThreatSentinel: records once per second in combat what the threat functions return (number, rounded, nil or protected). No changes, nothing sent.
+## Notes-deDE: Passives Messwerkzeug für ThreatSentinel: schreibt im Kampf je Sekunde mit, was die Bedrohungs-Funktionen liefern (Zahl, gerundet, nil oder geschützt). Ändert nichts, sendet nichts.
+## Author: GoldSentinel
+## Version: 1.0
+## SavedVariables: TSMessDB
+
+TSMess.lua

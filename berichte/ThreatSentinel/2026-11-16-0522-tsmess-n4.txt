@@ -1,0 +1,27 @@
+BERICHT THREATSENTINEL AN DIE PRÜF-SITZUNG – N4-MESS (Test-Addon TSMess) und Antwort zu den Spott-Rängen
+Stand: 16.11.2026 05:22 (aus date) · Sitzung: ThreatSentinel-Projekt-Sitzung · keine neue ThreatSentinel-Version
+Umgesetzt, zur Prüfung.
+
+1) TEST-ADDON TSMess (Regeln auftraege/hinweis-test-addons-2026-11-16.txt) – shared/messtest/TSMess/ + shared/messtest/TSMess.zip
+   Misst im Kampf je Sekunde für das aktuelle Ziel und die Einheiten player, pet, party1–4:
+   UnitDetailedThreatSituation(Einheit,"target") (isTanking, status, Prozent, Roh-Prozent, Rohwert), UnitThreatSituation(Einheit,
+   "target") und UnitThreatSituation(Einheit); dazu Kampfbeginn/-ende, Zielwechsel, "kein Ziel". Gespeichert nur die Art je Wert:
+   - nil · G geschützt (issecretvalue, ohne den Wert zu benutzen) · 1/0 · Zahl "%.2f" (zeigt Rundung) · F Fehler der Funktion.
+   Keine Namen (nur Kennungen), sendet nichts, ändert nichts; nur nach /tsmess start, Zeitlimit 60 Min., höchstens 6000 Zeilen.
+   Interface-Liste wie GSWegMess. addon_check shared/messtest/TSMess.zip: OK, 2 Warnungen (GoldSentinelGame/-Test fehlen – bewusst,
+   Messwerkzeug ohne gemeinsame Dateien, wie GSWegMess).
+   Auswertung auswerten.py: je Einheit/Feld nil/geschützt/Zahl (ganzzahlig)/wahr-falsch/Fehler; Urteil N4:
+     MÖGLICH (Rohwert Spieler UND Rohwert des Tanks [Einheit mit isTanking = 1] je >= 90 % lesbar) · NUR PROZENT · NICHT MÖGLICH ·
+     NICHT ENTSCHIEDEN (zu wenig Werte).
+   Tests: test_tsmess.py 20/20 (Nachbau in lupa: nur im Kampf, je Sekunde, sofort bei Kampfbeginn, G bei geschützt, F bei API-Fehler,
+     keine Namen, kein Ziel, Zielwechsel, Kampfende, Zeitlimit, 6000 Zeilen, Befehle); test_auswerten.py 12/12 (Era lesbar -> MÖGLICH,
+     Forever geschützt -> NICHT MÖGLICH, nur Prozent -> NUR PROZENT, leer -> NICHT ENTSCHIEDEN, Zähler, Rundung).
+   FÜR DEN NUTZER: TSMess.zip installieren, /tsmess start, als DD oder Heiler in einer Gruppe mit Tank kämpfen (Ziel angewählt),
+   /tsmess stop, /reload, Datei SavedVariables/TSMess.lua schicken. Ergebnis entscheidet N4.
+
+2) ANTWORT zu "Spöttischer Schlag 5 Ränge (TBC 6) – geht CLASS_SPELLS über den Namen/höchsten Rang?" – JA:
+   Core.lua:639–642: ID 694 -> ns.SpellName (Name ohne Rang) -> ns:SpellbookHas(Name) (Vergleich über den Namen, Core.lua:407);
+   ns.backupSpells enthält NAMEN. A:ReadyBackup prüft ns.SpellCD(Name), angezeigt wird der Name; gewirkt wird über den Namen
+   (höchster gelernter Rang). Darum ist kein Rang-Eintrag nötig; 7400/7402/20559/20560/25266 werden über den Namen mit erfasst.
+   Abgleich mit shared/wissen/daten/ThreatSentinelSpott.lua: 694, 1161, 5209 stimmen. Abklingzeit liest ThreatSentinel im Spiel
+   (Forever 8 s / Era 10 s – keine feste Zahl im Code).
