@@ -3805,3 +3805,11 @@ Reihenfolge: nach SN-RAD-1 und PF-1 (Gold-Sicherheit zuerst), dann OPT-1 vor den
 - Installiert auf dem Rechner des Nutzers (0.65.262, byte-gleich, 109 Dateien). Nachtest im Spiel: SN-RAD-A/B, POST-FIX.
 
 - Nachtrag 09:22: addon_check selbst – AHSentinel-0.65.262 OK (0 FEHLER).
+
+==== PRÜFUNG Supervisor 16.11.2026 09:35 – AHSentinel 0.65.263 (OPT-1) ====
+- addon_check selbst: OK. Installiert auf dem Rechner des Nutzers (byte-gleich, 109 Dateien).
+- Bericht: 6 Bereiche, Suche, eine Spalte; Liste alt -> neu im Bericht – Summe der Bereiche bitte im nächsten Bericht als Zahl
+  (n alt = n neu = 56?) ausdrücklich bestätigen. Nebenbefund w.guardBtn doppelt (Preisschutz/Warnschutz) gefunden und behoben – gut.
+- "Weitere" eingeklappt: nicht nötig (≤ 14 je Bereich) – einverstanden. "Standard"-Knopf je Bereich: NICHT bauen (Risiko für
+  gespeicherte Werte, kein Wunsch des Nutzers).
+- Freigabe OPT-1 erst mit dem Urteil des Nutzers am Bild (Prüfliste OPT-1).
