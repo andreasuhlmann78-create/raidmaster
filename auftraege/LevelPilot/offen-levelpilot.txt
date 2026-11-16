@@ -717,3 +717,29 @@ Reihenfolge: ERA-1-Fix -> ORT-1 (O1, O2) -> ROUTE-Q-Prüfung -> Bericht. Neue Fu
      in dieses Gebiet geht (Questziele dort) oder der Umweg klein ist (≤ ~60 yd vom Weg bzw. gleiche Gebiets-ID wie ein aktuelles Ziel),
      und ihre Folge-Quests in die Planung des Orts eingereiht, wo sie abgegeben werden. Test: je Startgebiet mindestens ein solcher Fall
      (z. B. Questgeber an einem Lager/Turm) wird beim Vorbeigehen angenommen, nicht als eigene weite Reise.
+
+==== OPT-ROUTE HOCH (Supervisor 16.11.2026 18:00 – Nutzer 17:35 "die Welt komplett absuchen und so die optimale Questroute
+erstellen", 17:38 "erst alle Hinweise studieren, dann der Plan", 17:41 "alle Möglichkeiten prüfen, wie wir LevelPilot genauer machen") ====
+Grundlage, bitte ganz lesen: shared/wissen/analysen/levelpilot-routenoptimierung-2026-11-16.md (Quellen, Lizenzen, Möglichkeiten G1–G10, Plan).
+BEFUND (belegt, Planner.lua 3.12.71): LevelPilot plant nur kurzsichtig im Spiel (CollectTasks -> ChooseFocus -> Order/TwoOpt/ExactOrder).
+Es gibt keinen Plan über 1–60. Daher die Fehler im Spiel (zu früh weg, Questgeber nicht mitgenommen, Zonensprünge).
+ERA-1/ORT-1 flicken die Startzone, die Ursache bleibt.
+REIHENFOLGE: ORT-1 und ROUTE-Q zuerst fertig (laufen). Die ROUTE-Q-Prüfung ist der Massstab für jede Stufe hier.
+STUFE 1 – Modell + Simulation offline (Tools/): Orte (ORT-1), Laufzeiten über Strassennetz + Gefahren-Zellen (Forever später
+  Navmesh, F-OPT-2), Flugzeit aus TaxiPathNode-Länge, Preise aus TaxiPath.Cost, Schiff/Zeppelin, Ruhestein. Quests mit Vorbedingungen,
+  sich ausschliessenden Quests, Stufe, EP, Questlog-Grösse je Spiel (aus Spieldaten belegen). Kampf/EP mit denselben Formeln wie
+  Virtual.lua (ein Code). Abnahme: die bisherige Route simuliert = virtuelle Reise ±2 %.
+STUFE 2 – Suche über die ganze Welt: erste Route nach Orten + Stufenband (Hub-Blöcke) und gierig; dann lokale Suche (Stopp/Block/ganzer
+  Ortsaufenthalt verschieben, Quest einfügen/streichen, Binden/Flugpunkt einfügen, ruin & recreate), Annealing oder Late Acceptance,
+  mehrere Suchen mit festen Startwerten (gleiche Eingabe = gleiche Route). Bewertung = simulierte Zeit + Strafen (Start: Zonenwechsel
+  240 s, Quest abbrechen 600 s, Grinden ×1,5 und max. 10 % je Stufe – als Einstellung, im Bericht begründet). Vorbild: Factoruide
+  ARCHITECTURE.md (MIT-Code, mit Namensnennung). Je Volk × Spiel (Forever/Era) × Modus (normal/speed).
+STUFE 3 – Datenpaket + Spiel: Schrittliste in LevelPilot_Data (GPL-3, Quellen in README). Im Spiel der Route folgen, nur die nächsten
+  10–15 Stopps lokal ordnen, bei Abweichung zum passenden Punkt der Route zurück, nie quer durch die Welt. Ohne Datenpaket bleibt der
+  heutige Planer als Rückfall. Grösse/Ladezeit messen (ruckelfrei, PS/RF). Alte Clients nicht brechen.
+STUFE 4 – Prüfung: ROUTE-Q R1–R5 alle Völker, Era + Forever; Vergleich mit Questwarden-Routen (Era, GPL-3): Gesamtzeit, Zonenfolge,
+  Grind-Anteil; Gegenprobe alte Fassung. Bericht je Stufe ("umgesetzt, zur Prüfung", mit Zahlen).
+LIZENZ: GPL-3-Daten (Forever Route Lab, Factoruide-Daten, Questwarden) nur ins Datenpaket, nie in den Kern. Kein Code aus zugzug_leveler
+  (keine Lizenz).
+OFFENE FRAGEN AN DEN NUTZER (Supervisor holt die Antwort; bis dahin ohne diese Punkte weiter):
+  F-OPT-1 Factoruide offline als Vergleich laufen lassen? F-OPT-2 Forever-Navmesh von Forever Route Lab ins Datenpaket?
