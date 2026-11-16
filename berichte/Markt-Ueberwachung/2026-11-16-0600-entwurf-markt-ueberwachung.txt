@@ -206,3 +206,14 @@ F) NÄCHSTER LAUF
 Gleiche Messungen a–f. Erwartet neu: Daten mit 0.65.25x (KERN-S1, FL-0, RK6 in Wirkung), MA1 > 0 falls MU1-1 umgesetzt,
 Ü1 mit Weg de. Werkzeuge dieses Laufs nur im Arbeitsordner – Vorschlag: als addon-check/marktanalyse/markt_ueberwachung.py
 ins Repo, damit die Wochen exakt gleich gerechnet werden (Entscheid Supervisor).
+
+=====================================================================================================================
+G) PRÜFUNG DURCH DEN SUPERVISOR (06:06)
+=====================================================================================================================
+Geprüft und übertragen: MU1-1 bis MU1-5 -> auftraege/AHSentinel/offen-ahsentinel.txt ("MARKT-ÜBERWACHUNG 16.11.2026"); Abschnitt D ->
+shared/wissen/markt-strategie.md (8g, "GEMESSEN 16.11."). Selbst belegt: MarketCore.lua Long() (Stufe 2 = 30 Min.–2 Std. -> nie lang),
+Sniper.lua:1677–1680 (snipe mit RealValue), MK:TruthValue (snipe = AH-Preis 24 Std.), Waves.lua base = erster Tag je Item; MU1-3 aus dem
+zusammengeführten Journal nachgerechnet: 755 / 315 / +27,8 % / +9,6 % / +1,4 % – exakt gleich. Sehr gute Arbeit.
+Entscheid zu F): JA – das Werkzeug als addon-check/marktanalyse/markt_ueberwachung.py mit Test ins Repo (nur Werkzeug, keine Veröffentlichung),
+damit die Wochen gleich gerechnet werden.
+

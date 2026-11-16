@@ -636,7 +636,7 @@ Werkzeuge: addon-check/marktanalyse/. Gemessen = Mindestpreise aus den eigenen S
 
 -> Jedes Band bricht ein, sobald die Masse durchlevelt, und wandert ca. 1 Band je 1–2 Tage nach oben (21–30 am 6.,
 31–40 am 7./8., 41–50 am 8.–10., 51–60 am 10.–12.). Danach bleibt das Band auf 12–35 % des Startpreises stehen.
-Seit 11./12.11. sind ALLE Bänder durch und seitwärts (±10 %); leichte Erholung in 05–20 (+12 % seit 11.) und 41–50.
+Seit 11./12.11. sind ALLE Bänder durch und seitwärts (±10 %); leichte Erholung in 05–20 (+12 % seit 11.) und 41–50. **ÜBERHOLT für Ausrüstung 46–60 (16.11., Markt-Überwachung, vom Supervisor geprüft):** siehe unten.
 Vorsicht: Der erste Tag ist dünn (Startpreise mit wenigen Angeboten) – die Höhe des Einbruchs ist übertrieben,
 die REIHENFOLGE und der ZEITPUNKT sind belegt.
 Folgerung für die Vorausschau: Ein Band, dessen Index 2 Tage hintereinander > 15 % fällt, ist "in der Welle" – nicht
@@ -652,6 +652,21 @@ Brauchbar erst nach ≥ 3 Wochen und gleicher Richtung ≥ 80 %; die Spanne lieg
 
 **3. Wochenzyklus – NICHT BELEGT.** Je Wochentag nur 1–2 Kalendertage, alles überlagert vom Start-Einbruch
 (Sa/So 7./8.11. +64/+29 % = Starttage). Frühestens nach 3–4 Wochen messbar. Monatszyklus: frühestens nach 2–3 Monaten.
+
+**GEMESSEN 16.11. (Markt-Überwachung Woche 2, Entwurf 06:00, vom Supervisor 06:06 geprüft; eigene Daten 05.–15.11., Tagesmedian Mindestpreis):**
+- MA6 Trend-Rückblick: neu 14.–15.11. nach 3 Tagen Fall > 15 % weiter 44 % / gleich 24 % / dreht 32 % (n 4'270, 3'098 Items); nach 3 Tagen
+  Anstieg > 15 % dreht 74 % (n 1'849). Gesamt 08.–15.11.: Fall 46/27/27 (n 13'611), Anstieg 21/12/67 (n 4'036). Regel hält (Richtung);
+  Umkehr nach Fall steigt (24 -> 32 %), Warngrenze 40 %. Vorbehalt: Mindestpreis-Rauschen.
+- MA4 Bänder nach benötigter Stufe, KETTENINDEX (Tag/Vortag derselben Items, 4'401 Items): 1–25 seitwärts (−0,2 %/Tag 12.–15.), 26–45 leicht
+  fallend (−2,1 %/Tag), 46–60 fällt stark (−13,7 %/Tag, −53 % seit 10.11.; AUSRÜSTUNG, nicht Material – Staub/Essenz 51–60 seitwärts).
+  Die Levelwelle erreicht jetzt die Ausrüstung 46–60. Erwartung (VERMUTET): seitwärts, sobald die Masse 60 ist.
+  Methode: Der Index "Median von Tagespreis / erster Tag je Item" (Waves.lua) verzerrt, wenn Items mitten im Fenster dazukommen (Band 1–25
+  am 12./13.11. fälschlich "fällt") – Kettenindex verwenden (Befund MU1-4).
+- Entzaubern (Journal 10.–15.11., 1'204 Käufe): gesamt +25,5 %; 14.–15.11. +18,9 % (n 749). Je Kaufpreis/Wert 14.–15.11. (Sniper, Weg d,
+  vom Supervisor nachgerechnet): ≤ 0,833 +27,8 % (n 438), 0,834–0,85 +9,6 % (n 211), 0,85–0,9 +1,4 % (n 99). BESTÄTIGT DE30b/SN-M: über
+  Wert/1,2 bleibt der Gewinn unter 20 %, über 0,85 fast null. Einzelkäufe mit Gewinn nur 27–33 % – bei Zufallsbeute zählt nur Summe/Summe.
+- Herstellen (gleiche Methode 13. gegen 15.11.): Rezepte > 10 % Gewinn 1–124 45 -> 35 %, 125–224 63 -> 56 %, 225–300 72 -> 69 %.
+  Tiefe Rezepte verlieren weiter an Boden.
 
 ## 8h. Wyckoff auf das Auktionshaus übertragen (Auftrag des Nutzers 14.11. 15:11 "beschäftige dich mit Wyckoff") – HYPOTHESE
 Wyckoff (Börse, ~1930): Preise laufen in Phasen Akkumulation -> Aufschwung (Markup) -> Verteilung (Distribution) -> Abschwung

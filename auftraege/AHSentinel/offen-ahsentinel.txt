@@ -3615,3 +3615,24 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   buchen.
   Danach: kern_abgleich.py nach deinem nächsten Hochladen (Ziel 0 Zellen "FEHLT IM KERN"). Weiter Masterplan.
 
+>>> MARKT-ÜBERWACHUNG 16.11.2026 (Entwurf der geplanten Aufgabe 06:00, vom Supervisor 06:06 geprüft: Code-Stellen selbst gelesen, MU1-3 nachgerechnet
+  – exakt gleich). Vier Befunde MITTEL + ein Verdacht. Reihenfolge: NACH KERN-S1b (eilt) und den offenen Abnahmen; vor neuen Masterplan-Punkten.
+  Volltext mit allen Zahlen: berichte/Markt-Ueberwachung/2026-11-16-0600-entwurf-markt-ueberwachung.txt (Abschnitt C).
+  MU1-1 MITTEL (belegt: MarketCore.lua:298–303 Long(); Blizzard-Stufe 2 = 30 Min.–2 Std.): MA1 zählt 2-Std.-Auktionen nie – alle 156 eigenen
+    Einstellungen sind 2 Std., db.core.ma1 n = 0. Für EIGENE Auktionen die geplante Endzeit (Einstellzeit + Dauer aus Journal P) statt
+    Restzeit: verschwunden ≥ 10 Min. vor dem geplanten Ende = Vermutung bilden und werten; fremde Auktionen unverändert. Test T-MU1-1
+    (40 Min. weg + OWN_AUCTION_SOLD -> n+1 richtig; 50 Min. weg + neu + AUCTION_CANCELLED -> richtig; Ablauf -> keine Wertung).
+  MU1-2 MITTEL (belegt: Sniper.lua:1677–1680 notiert "snipe" mit A:RealValue; MK:TruthValue "snipe" = AH-Preis 24 Std. später): Für Sniper-
+    Käufe mit Ziel Entzaubern misst MA2 die falsche Wahrheit (36 von 49 Notizen "Fehler", obwohl die Käufe +25,5 % brachten). Sniper-Kauf
+    mit Ziel-Weg d: Vorhersage = ev, Wahrheit = zugeordneter Netto-Erlös rv aus Journal B; Treffer je Tag Summe/Summe ≥ 1 + Mindestgewinn
+    (KF2, keine Einzelfall-Treffer bei Zufallsbeute). Ohne diese Korrektur darf MK:WayState "snipe" nie sperren. Test T-MU1-2.
+  MU1-3 MITTEL (belegt, nachgerechnet): 14.–15.11. lagen 315 von 755 Entzauber-Sniperkäufen über Wert/1,2 (Rendite 0,834–0,85: +9,6 %,
+    0,85–0,9: +1,4 %). Die Ziele mit festem Max (ohne t.de) werden nicht nachgeführt, MaxOverValue warnt erst über dem Wert. Gelbe Zeile beim
+    Ziel, wenn Max > "Lohnt bis" (ein Satz ≤ 20 Wörter, z. B. "Max über Lohnt bis (8s71) – hier gemessen nur +2 %"), dazu Knopf "Max folgt
+    Lohnt bis" (setzt t.de). Nichts erzwingen. Test T-MU1-3.
+  MU1-4 MITTEL (belegt: Waves.lua ComputeLevelBands, base = erster Tag je Item): Band-Richtung verzerrt, wenn Items mitten im Fenster dazukommen
+    (Band 1–25 am 12./13.11. fälschlich "fällt", Kette flach) -> RK6 senkte "Lohnt bis" ohne echten Fall. Index als Kette: je Tag Median der
+    Verhältnisse Tag/Vortag über Items mit Daten an BEIDEN Tagen (≥ 20 Paare), multipliziert; d1/d3 daraus. Test T-MU1-4.
+  MU1-5 MITTEL (Ursache Verdacht, zu messen): 22 von 561 gemessenen Items mit Absatz/Tag > ganzes Angebot (nach Abbruch-Faktor). Bis MA1 frei
+    ist (MU1-1): Absatz/Tag auf das Angebot begrenzen und darüber grau "unsicher". Test T-MU1-5.
+
