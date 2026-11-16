@@ -3785,3 +3785,13 @@ VORGABEN
  (h) Prüfliste-Punkt "OPT-1 Optionen am Bild" (Entscheid des Nutzers: OK/Nicht OK) – dafür einen erledigten Punkt ersetzen.
 Psychologie (shared/wissen/psychologie.md): weniger auf einmal zeigen, Begriffe des Spielers statt Fachsprache.
 Reihenfolge: nach SN-RAD-1 und PF-1 (Gold-Sicherheit zuerst), dann OPT-1 vor den übrigen Punkten.
+
+==== PRÜFUNG Supervisor 16.11.2026 09:02 – AHSentinel 0.65.261 (SN-RAD-1, PL-T1, PL-T2) ====
+- addon_check selbst: OK. Code gelesen: Sn:WheelBuy bricht bei „nur Knopf“ als Erstes ab (Zeile 3059); zweite Sperre in
+  OnTriggerInner (3119) für Rad UND eigene Bindung (bindCall), Knopf „Kaufen“ ausgenommen; pressSrc.mode beim Auslösen (3135). OK.
+  Ursache "über der Spielwelt" schlüssig (Prüfliste-Fenster ohne Mausrad über dem Hauptfenster) – Messzeile SNIPER-RAD bestätigt es
+  beim Nachtest.
+- Auf dem Rechner des Nutzers installiert (byte-gleich, 109 Dateien). Freigabe SN-RAD-1 erst nach dem Nachtest im Spiel (SN-RAD neu
+  offen) – der Supervisor macht ihn mit dem Nutzer.
+- Optionen gruppieren: entschieden – siehe OPT-1 HOCH (Nutzer 08:51). Noch offen: PF-1 (Preis anpassen -> zweite Sperre), POST-WS
+  Beobachtung, ESL1-Weg mit ProfessionSentinel, SN-TR-1 (Hintergrund-Bildrate), (e) Fehler darf nicht still verschwinden, MR4-T, OPT-1.
