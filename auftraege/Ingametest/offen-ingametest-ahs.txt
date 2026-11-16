@@ -1,0 +1,42 @@
+OFFEN – Sitzung "greeting": INGAME-TEST AHSentinel (Supervisor 16.11.2026 19:20, Auftrag des Nutzers 19:13: "er testet AHS ingame –
+ich öffne das Spiel und habe das AH offen"). Diese Datei ist immer vollständig.
+Kommunikation: Supervisor -> du = diese Datei (git pull --rebase alle 15 Min.). Du -> Supervisor = berichte/Supervisor/<Datum>-<HHMM>-<thema>.txt
+Werkzeuge: Bildschirmsteuerung (computer_*) auf dem PC des Nutzers. Vorher den Skill "computer-use" laden, Zugriff auf
+"World of Warcraft" (das Spiel) anfragen. Der Nutzer hat das Spiel offen und steht am Auktionshaus (WoW Forever).
+
+REGELN
+- Nur das Spiel bedienen. Nichts auf dem PC ablegen, keine anderen Programme, keine Einstellungen von Windows.
+- GOLD: Testkäufe NUR wie in den Punkten unten beschrieben, insgesamt HÖCHSTENS 1 Gold. Nie etwas Teures kaufen, nie ein
+  Budget über 1 Gold setzen. Testauktionen danach abbrechen (die kleine Einstellgebühr ist in Ordnung).
+- Keine Chat-Nachrichten an andere Spieler, nichts in Gilde/Handel schreiben. Nur Befehle "/ahs …" eintippen.
+- Bildschirmfotos mit Charakter- oder Spielernamen NIE ins Repo. Im Bericht keine Namen.
+- Hängt etwas oder ist unklar: anhalten, dem Nutzer kurz sagen, im Bericht festhalten – nicht raten.
+- Am Ende das Spiel OFFEN lassen (der Nutzer spielt), dem Nutzer melden.
+
+SCHRITT 0 – Version
+  Im Chat /ahs eingeben oder das AHS-Fenster öffnen und die Version ablesen (steht im Titel/Fuss). Erwartet: 0.65.278 (neueste,
+  github.com/andreasuhlmann78-create/AHAnalyzerPro bzw. Discord). Ist sie älter: dem Nutzer sagen "bitte AHSentinel 0.65.278
+  installieren und /reload" und warten. NICHT selbst Dateien auf den PC kopieren.
+SCHRITT 1 – Entwicklermodus + Prüfliste
+  /ahs entwickler (muss "an" melden; meldet es "aus", noch einmal eingeben). Dann /ahs prüfliste – das Fenster zeigt bis zu 14 Punkte
+  mit "Was tun" und "Was du sehen solltest". Jeden Punkt dort am Knopf als "OK" oder "Nicht OK" markieren, wie die Liste es anbietet.
+SCHRITT 2 – Reihenfolge
+  a) VOLLSCAN zuerst starten (Markt > Vollscan) – braucht einen zweiten Vollscan frühestens 15 Min. später; dazwischen die anderen Punkte.
+     Während ein Vollscan läuft, keine Sniper-Punkte (der Sniper ist dann gesperrt) – warten, bis er fertig ist.
+  b) Dann in der Reihenfolge der Prüfliste: SN-TR, SN-BTN1, SN-RAD-A, SN-RAD-B, SN-GRENZE, POST-WS, POST-FIX, POST-TEUER, ESL1,
+     SCHN-ALARM, HAENDLER-GOLD, UI-TEST, HILFE-GRP; zuletzt der zweite Vollscan.
+  Hinweise je Punkt (zusätzlich zum Text in der Liste):
+  - Sniper-Punkte: Leinenstoff o. ä. (billig), Max knapp über dem billigsten Angebot, Menge höchstens 2. SN-GRENZE: Max 30s, Budget 50s.
+  - SN-BTN1 (neu in 0.65.272): Kauf-Knopf = der BREITE Knopf unter der Zielliste. Prüfen, ob er bei einem Treffer KLICKBAR bleibt,
+    auch nach einigen Sekunden; ein Klick = genau ein Kauf (Chat "Gekauft: …"). Zeigt er "Server noch nicht bereit", muss eine Meldung
+    "der Treffer bleibt, gleich nochmal klicken" kommen.
+  - POST-*: billiges Item (unter 10s), danach unter Verkaufen > Meine Auktionen abbrechen.
+  - ESL1: geht nur mit offenem Berufsfenster; hat der Charakter keinen passenden Beruf: "nicht prüfbar" notieren.
+  - HAENDLER-GOLD: nur wenn graue Items in der Tasche und ein Händler in der Nähe sind; sonst "nicht prüfbar" notieren, nicht weglaufen,
+    ohne den Nutzer zu fragen.
+  - UI-TEST: /ahs testroutine ui – einmal reicht (Schriftgrösse/Design NICHT umstellen ohne den Nutzer zu fragen).
+SCHRITT 3 – Bericht
+  berichte/Supervisor/2026-11-16-HHMM-ingametest-ahs-0.65.278.txt (Deutsch, keine Namen):
+  je Punkt: OK / Nicht OK / nicht prüfbar, was im Chat stand (wörtlich, ohne Namen), Zahlen (Gold, Zeiten, Speicher, Lücke).
+  Dazu: Gesamtgold der Testkäufe, abgebrochene Testauktionen, Auffälligkeiten (Ruckeln, Fehlermeldungen, Lua-Fehler wörtlich).
+  Commit + push, auf origin/main nachprüfen. Dem Nutzer kurz das Ergebnis sagen.
