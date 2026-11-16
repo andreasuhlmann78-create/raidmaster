@@ -749,3 +749,12 @@ OFFENE FRAGEN AN DEN NUTZER (Supervisor holt die Antwort; bis dahin ohne diese P
   F-OPT-2 JA: Forever-Navmesh von Forever Route Lab (public/nav, GPL-3) ins Datenpaket LevelPilot_Data (GPL-3), Quelle + Lizenz +
     Stand (Client-Build) in README/NOTICE; Lesecode für das Format FRN3/FRNM im Kern selbst schreiben (kein GPL-Code in den Kern).
   Grenze: nur Legales – Lizenzbedingungen je Quelle im Bericht belegen.
+
+==== PRÜFUNG Supervisor 16.11.2026 18:35 – LevelPilot 3.12.71 (ERA-1) und 3.12.72 (ORT-1 O1, Daten 1.6.3) ====
+- addon_check 3.12.72: OK. Berichte gelesen, Zahlen stimmig: Startgebiet in allen 12 Läufen erst verlassen, wenn drinnen nichts offen
+  ist oder nie vor Stufe 6; kein Binden/Flugpunkt unter 6; Pfeil ohne Umkehr (3.12.71 Gitter-Durchlauf statt Messpunkte – richtige
+  Ursache). Gesamtzeit +0,5 % = Streuung, ehrlich als Verdacht markiert – OK.
+- Gebiets-IDs der Startgebiete (Nordhain 9 + 34 + 59 usw.) aus den Daten abgeleitet, Ausnahme Südstrom 814 begründet – OK.
+- Im Spiel offen (Nutzer morgen): Nordhain Stufe 1: Schritt 1 Eagan, kein Binden, Entfernung fällt stetig; je Volk erste Zone.
+- Weiter: ORT-1 O2 + O5, dann ROUTE-Q, dann OPT-ROUTE (Antworten F-OPT-1/2: JA). Keine Wartezeit – Fragen in berichte/, ich antworte
+  jede Runde.
