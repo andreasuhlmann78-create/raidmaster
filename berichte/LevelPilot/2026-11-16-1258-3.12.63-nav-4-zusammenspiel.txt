@@ -1,0 +1,33 @@
+BERICHT LevelPilot 3.12.63 – NAV-4 Zusammenspiel: Route nutzt den Reiseplan, Schnittstelle v2 für andere Addons
+Projekt: LevelPilot · Datum: 16.11.2026 12:58 (aus date) · Version: 3.12.63 · umgesetzt, zur Prüfung
+
+Bezug: offen-levelpilot.txt NAV-4 "Die Levelroute nutzt denselben Reiseplan (ein Rechenweg für beides); Navi-Ziel pausiert
+die Levelroute und setzt sie danach fort. API für andere Addons (ProfessionSentinel 'zum Lehrer', AHSentinel 'zum
+Auktionshaus') – nur lesen/anstossen, nie fremde Daten ändern."
+
+1. UMSETZUNG
+   - Route: Reiseplan (NAV-2) auch für den nächsten Routenschritt, wenn er ab 1500 Yards entfernt oder auf einem anderen
+     Kontinent liegt (C.PlanTarget; Navi-Ziel hat Vorrang). Neuplanung: gleicher Schritt (Schlüssel) übernimmt den letzten Plan
+     sofort (C.planCache, Hörer auf PLAN_CHANGED), neuer weiter Schritt -> Job "navplan". Alle 10 s neu (Ticker). In der
+     virtuellen Reise kein Plan (Tempo). Flugentscheid in Route und Plan: dieselbe Regel (FlyDecision).
+   - Pausieren/Fortsetzen: macht Planner.priority schon (Navi-Ziel oben, Route danach unverändert) – geprüft, keine Änderung.
+   - Anzeige: Reiseplan-Zeile jetzt für jede Schrittart (vorher nur Gehe-zu).
+   - LevelPilotAPI Version 2 (Api.lua, Beschreibung im Kopf): NavigateToNearest(art) (8 Dienstarten, sonst false),
+     StopNavigation() (nur Schlüssel PRIO:API:…), GetNavigation() (Kopie), TravelTime(karte, x, y, rückruf) (in Portionen,
+     Fehler im Rückruf landen im Fehler-Protokoll, nicht im Spiel). NavigateTo läuft jetzt über Comfort.Navigate (mit Reiseplan).
+     Version 1 bleibt gültig (NavigateTo unverändert in Aufruf und Rückgabe).
+     HINWEIS FÜR ANDERE PROJEKTE (über den Supervisor): ProfessionSentinel kann LevelPilotAPI.NavigateToNearest("trainer"),
+     AHSentinel NavigateToNearest("auction") nutzen; vorher LevelPilotAPI and LevelPilotAPI.version >= 2 prüfen.
+2. TEST T323 (true ×11): Route weit/nah/Navi zuerst · Plan · gleicher Schritt aus dem Speicher ohne neue Rechnung · Stop eines
+   eigenen Ziels nein · Abfrage als Kopie · Stop eines API-Ziels · falsche Art · Reisezeit 100 s mit Rückruf · falsche Angaben.
+   T306 nachgeführt (Version 2 statt 1). GEGENPROBE (ohne Speicher, Stop ohne Schlüsselprüfung): Speicher false, Stop eigenes
+   Ziel false, Abfrage false.
+3. PRÜFUNGEN
+   addon_check: OK. Offline-Routine: 38 Läufe, 38 ohne FEHLER (Forever deDE Horde 276 OK, enUS 276, Allianz 274, Classic Era
+   275, TBC 275; je 0 FEHLER). Dauer der Testroutine im Nachbau 3,9–4,9 s (3.12.62) -> 4,6–6,1 s (Reisepläne bei Neuplanungen werden im
+   Nachbau am Stück gerechnet; im Spiel in Portionen). Private Regression: 36 von 36 Läufen ALLE TESTS OK.
+4. STAND NAVIGATOR: NAV-1a/1b/1c, NAV-2, NAV-3, NAV-4 gebaut. Offen bleiben die Fragen F1/F2 (Bericht 12:39) und E1 (.toc,
+   Messung toc-test). LW-4 (Startwegnetz aus dem gelaufenen Netz) braucht die anonymen Wegdaten
+   des Nutzers: unter berichte/LevelPilot/wege-seed/ liegen bisher nur seed_bauen.py und 3 Bilder (keine neuen Daten) – bitte
+   liefern, sobald möglich (Format: Bericht LW-0 Abschnitt E). Bis dahin als Nächstes: LW-7 (Ideen aus dem RestedXP-Vergleich)
+   bewerten, nur Bericht.
