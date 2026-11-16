@@ -3860,3 +3860,17 @@ Reihenfolge: nach SN-RAD-1 und PF-1 (Gold-Sicherheit zuerst), dann OPT-1 vor den
   0.65.265 für den Nachtest.
 - CF-Antwort-Entwürfe CF-AHS-2/3/4: lese ich vor dem Posten nach dem Upload.
 >>> WEITER 13:25: seit 10:55 keine Arbeit im Repo. Nächster Punkt: Masterplan in Reihenfolge (Bericht 07:00) – nicht warten.
+
+==== FREIGABE PHASE 8 (Nutzer 16.11.2026 14:10) – alle vier vorgeschlagenen Punkte frei ====
+Reihenfolge (Gold-Sicherheit zuerst), je Punkt eine kleine Version, Bericht "umgesetzt, zur Prüfung", Tests + Gegenprobe:
+ 1. WS/SB – Warnschutz auch bei ZU TEUER einstellen (Gegenstück zu zu billig, gleiche Bestätigungs-Regeln wie PF-1/POST-WS) und
+    Budget-Abfrage SB: zuerst prüfen, was schon umgesetzt ist (Bestand belegen), dann nur die Lücke bauen.
+ 2. I5 Schnäppchen-Alarm: NUR Gesichertes (Weg mit Freigabe/MA2, Daten ≤ 60 s, Lockangebote ausgeschlossen), ein Ton + eine Chatzeile,
+    höchstens 1 Meldung je Item je 10 Min., abschaltbar, Standard AN nur für Wege, die P2 erreicht haben. Kein Kauf ohne Klick.
+ 3. Vorräte vor Raid-Abenden (wirtschaft-forever 8.6): aus dem Raid-Kalender (RaidMaster/Discord, z. B. 9.12.2026 Onyxia/Hyjal/
+    Barrow Deeps) 3–5 Tage vorher Hinweis "Tränke/Essen jetzt kaufen – heute x % unter dem Raid-Tag-Preis" – nur wenn der
+    Wochentag-/Ereignis-Effekt gemessen ist (sonst "noch zu wenig Daten"). Datenquelle über API, keine Spielernamen.
+ 4. CH-G gemeinsame Befehlsliste: /ahs help als Muster (gleicher Aufbau, gleiche Wörter: hilfe, optionen, prüfliste, test …), Vorschlag
+    als shared/wissen-Text für alle Addons; AHSentinel zuerst. Andere Addons ändern NUR ihre eigenen Sitzungen.
+Die übrigen Phase-8-Ideen (8i Kelly, I3, I4, I6, "kleine KI") bleiben ohne Freigabe.
+Dauerhaft arbeiten: der Nutzer startet dich mit /loop – bei jedem Durchgang git pull, diese Datei, nächster Punkt.

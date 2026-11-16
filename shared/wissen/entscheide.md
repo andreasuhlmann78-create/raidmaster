@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 16.11.2026 14:10 | AHSentinel Phase 8 frei: Schnäppchen-Alarm, Vorräte vor Raids, Warnschutz zu teuer + Budget, gemeinsame Befehlsliste | offen-ahsentinel.txt FREIGABE PHASE 8 |
 | 16.11.2026 13:27 | LevelPilot "Tod als Reise" (Speedrun, bis Stufe 10, Hinweis, standardmässig aus): "ja" | offen-levelpilot.txt ENTSCHEID LW-7 (d) |
 | 16.11.2026 10:08 | LevelPilot Era: "Forever und Era unterscheiden sich nicht sehr stark, Anniversary ist Era mit TBC" -> LW-5 bauen ohne Era-Client, gemeinsames im Forever-Client prüfen; Anniversary/TBC kein Ziel (Annahme, unbeantwortet) | offen-levelpilot.txt ENTSCHEID LW-5 |
 | 16.11.2026 09:08 | "Anniversary kannst du nehmen, das ist Classic mit TBC" (für die Era-Strassen) | Strassen Era aus wow_anniversary gelesen (daten/era), LevelPilot ST-5 neu |
