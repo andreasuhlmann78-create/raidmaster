@@ -46,3 +46,6 @@ in ProfessionSentinel, kein Release, nichts in announce/ oder download/. Datenä
 "Rezeptdaten-Lauf 16.11.: qloader.py setzt zoneIDs.* auf 0; NPC-Fixes mit [zoneIDs.X]-Spawns löschen dadurch die Spawns
 (heute: Lehrer Angus Hammerhand 276067 fällt aus Forever-Daten; vermutlich ~400 NPCs je Spielversion ohne Koordinaten).
 Bitte zoneIDs echt auflösen bzw. auf npcKeys.zoneID zurückfallen, Pipeline neu laufen lassen, Zahlen vorher/nachher im Bericht."
+
+PRÜFUNG DURCH DEN SUPERVISOR (07:44): Befund belegt (qloader.py:13 und spawn_of selbst gelesen). Übertragen als PS-PL1 HOCH an
+ProfessionSentinel; Hinweis an LevelPilot (eigener Generator). Datenänderung nicht veröffentlichen – richtig. Sehr gute Arbeit.

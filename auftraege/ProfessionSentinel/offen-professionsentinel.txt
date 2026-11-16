@@ -314,3 +314,13 @@ PS-DW1 MITTEL (Nutzer 17:05, AHSentinel 0.65.170): Ein Rahmen von ProfessionSent
   Prüfsumme (Dev.Hash), BattleTag-Weg unverändert; neuere Version gewinnt (v1 und v2 dürfen gleichzeitig geladen sein). Test
   shared/test_goldsentinel_dev.lua 5/5. AUFTRAG an jedes Addon: mit der nächsten Version shared/GoldSentinelDev.lua UNVERÄNDERT kopieren
   (ersetzt v1), .toc wie bisher (vor GoldSentinelPruefliste.lua). addon_check prüft Kopien gegen shared/ (Regel version: v1 = Warnung).
+
+>>> PS-PL1 HOCH (Entwurf der geplanten Aufgabe Rezeptdaten 16.11., vom Supervisor 07:44 geprüft: pipeline/qloader.py selbst gelesen) –
+  qloader.py:13 PRELUDE setzt QuestieDB.zoneIDs auf eine Tabelle, die für JEDEN Namen 0 liefert. Fixes mit [zoneIDs.TIRISFAL_GLADES] = …
+  werden so zu Zone 0; spawn_of() (qloader.py:114 ff.) überspringt Zone <= 0 -> NPC ohne Spawn -> fällt als Lehrer/Händler/Drop-Quelle weg
+  (heute sichtbar: Schmiede-Lehrer NPC 276067 Tirisfal). Grobe Messung im Entwurf: Forever 401 von 569 NPCs ohne Spawn haben so einen Fix,
+  Era 390 von 448 – Verdacht: seit es die zoneIDs-Fixes gibt, fehlen diese NPCs bzw. Koordinaten im Addon.
+  LÖSUNG: zoneIDs ECHT aus QuestieDB laden (die Datei mit "zoneIDs = {"), nicht pauschal 0; zusätzlich: Fix-Spawn mit unbekannter Zone nie
+  über einen gültigen Grund-Spawn schreiben (Rückfall auf npcKeys.zoneID). Danach Pipeline neu, Zahlen je Spielversion vorher/nachher
+  (Lehrer je Beruf, Händler mit Koordinaten, NPCs ohne Spawn) in den Bericht; 276067 muss wieder Lehrer 164 sein. Test in tests/ (ein Fix
+  mit zoneIDs.<NAME> ergibt die richtige Zone). Die heutige Datenänderung NICHT veröffentlichen (Rückschritt). Volltext: berichte/Rezeptdaten/2026-11-16-0724-entwurf-rezeptdaten.txt

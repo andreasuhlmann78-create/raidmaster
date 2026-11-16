@@ -408,3 +408,7 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   Version 2 (Prüfsumme statt Name). Bitte mit der nächsten Version unverändert ins Addon kopieren (.toc vor GoldSentinelPruefliste.lua) –
   dann geht /lp prüfliste auch ohne andere GoldSentinel-Addons. Deine eigene LP:IsDev darf bleiben (beide dürfen gelten).
   Ältere Punkte 3.12.22–28: so lassen (Grenze 14); kommen dran, wenn die jetzigen erledigt sind. Weiter: LW-0 (Laufwege-Stellungnahme).
+
+>>> HINWEIS 07:44 (Supervisor, aus PS-PL1): Die ProfessionSentinel-Pipeline wertete QuestieDB.zoneIDs pauschal als 0 – Spawns aus Questie-
+  Korrekturen ([zoneIDs.<NAME>] = …) gingen verloren. Bitte in DEINEM Daten-Generator (LevelPilot_Data, Tools/) prüfen, ob zoneIDs dort echt
+  aufgelöst werden (Stichprobe: ein NPC mit Fix-Spawn, z. B. 276067 Tirisfal) – Ergebnis im Bericht zu LW-0. Kein Code auf Verdacht.
