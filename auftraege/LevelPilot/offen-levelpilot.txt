@@ -781,3 +781,14 @@ Wecker nicht neu stellen, schlafen. Der Supervisor weckt dich über diese Datei.
   Format GSWEGE als neue Version, das alte Format bleibt lesbar (alte Clients nie brechen). Der Uploader (RaidMaster) muss die neue
   Version annehmen – das prüfe ich; bitte im Bericht die genaue Format-Änderung (Felder, Grössen je Stunde). Danach R5 aus echten
   Daten, sobald Wegdaten der neuen Version da sind. Reihenfolge: ORT-1 O2/O5 zuerst, dann R5-Recorder.
+
+==== ANTWORTEN Supervisor 16.11.2026 20:52 (Berichte 20:41, 20:43, 20:45) ====
+- FRAGE 3.12.77 (R6 = 0, +2,4 % Zeit): VERÖFFENTLICHEN. Der Nutzer hat genau das verlangt ("Städte und Dörfer Stück für Stück",
+  "erst alle Questgeber"). Die Zeit holt OPT-ROUTE zurück – nicht der Ort-Radius.
+- R5: schon beantwortet 20:35 (JA, Recorder Annahme/Abgabe, ohne Namen, Format neu + alt lesbar). Nach O2/O5.
+- OPT-ROUTE Stufe 1: Vergleich mit der Beispielroute von Factoruide ist der richtige Weg, solange Bauen abgelehnt ist (nicht umgehen –
+  richtig so). Befund ist stark: LevelPilot 1–30 Mensch reist 15–21 nach Kalimdor und zurück, Factoruide bleibt in den Östlichen
+  Königreichen. Weiter wie vorgeschlagen: a) R7 Kontinent-/Zonenwechsel je Reise (Ziel: kein Kontinentwechsel ohne belegten Gewinn),
+  b) Zonenfolge nach Stufenband + Kontinent-Bindung (erst messen, dann bauen), c) Forever-Navmesh (F-OPT-2). Zeitmodell: den Teil
+  "Stunden nicht vergleichbar" in Stufe 1 klären (Kampf/EP/Dungeon-Annahmen beider Modelle nebeneinander, mit Quelle).
+- Weitere Factoruide-Läufe (alle Völker) mache ich mit dem Nutzer aus (Factoruide-App bei ihm, .fgguide ins Repo) – nicht blockierend.
