@@ -1,0 +1,6 @@
+CF-ANTWORT-ENTWURF CF-AHS-4 (Einkaufsliste aus Materialien leer) – ERST NACH DEM UPLOAD 18:00 POSTEN, nur wenn 0.65.265 hochgeladen
+wurde (sonst Versionsnummer anpassen). Englisch, 66 Wörter.
+
+As promised: fixed in 0.65.265, now on CurseForge. "Materials as shopping list" and "Only what I'm missing" now always create the list,
+and if they cannot, they say why. If you use ProfessionSentinel, select a recipe in the profession window and type /ahs material
+(all materials) or /ahs missing (only what you lack). Thanks for reporting it!

@@ -1,0 +1,6 @@
+CF-ANTWORT-ENTWURF CF-AHS-3 (ADDON_ACTION_BLOCKED beim Einstellen nach "Post anyway") – ERST NACH DEM UPLOAD 18:00 POSTEN, nur wenn
+0.65.265 hochgeladen wurde (sonst Versionsnummer anpassen). Englisch, 70 Wörter.
+
+Thanks for the report and the details! This is fixed in 0.65.265, now on CurseForge: "Post anyway" now posts directly in your click.
+If the game still blocks it, the next click on "Post" posts this item at this price without another warning. "Adjust price" also
+suggests a price that does not warn again. If you still see ADDON_ACTION_BLOCKED, please post the error with your WoW version.
