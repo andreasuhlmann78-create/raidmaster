@@ -1,0 +1,19 @@
+AHSentinel 0.65.291 – E (b) Teil 2: Laufzeit T-D2/T-D3/T-D4 und Entzaubern T-DZ1/T-DZ3/T-DZ4 offline statt "im Spiel" – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.291 und sofort im Discord. Im Spiel ändert sich nichts (nur Tests).
+
+- T-D3 -> T867: Standard-Laufzeit aus den Optionen gilt für alle Wege: Serie, Neu einstellen (Se:BatchStep, die echte Funktion
+  trotz SelfTest-Sperre; Se.Post ersetzt, es wird nichts eingestellt) und "Heute tun" (Today:Post) stellen mit Stufe 2 ein, wenn
+  Stufe 2 eingestellt ist, ohne Einstellung mit Stufe 1. Gegenprobe (Mutation: Heute tun fest Stufe 1): rot ("2/2/1").
+- T-D2 -> Nachbau s268_duration_standard (Reiter Verkaufen): von Hand 24 Std. -> nächstes Item wieder Stufe 1, auch zurück zum
+  ersten Item. Gegenprobe (Mutation: Item-Wechsel setzt die Laufzeit nicht zurück): rot (2 Prüfungen).
+- T-D4 -> Nachbau s268b_duration_legacy (altes AH Era/TBC): Standard = kürzeste Stufe, Knöpfe mit der Beschriftung des Spiels
+  (AUCTION_DURATION_ONE …), kein Lua-Fehler.
+- Abdeckung: "T-D2 (Laufzeit)", "T-D3 (Laufzeit)", "T-D4 (Laufzeit)" (eigene IDs, weil "T-D2" schon für den Sniper-Fall T586 steht).
+- T-DZ1/T-DZ3/T-DZ4 -> Nachbau s269_de_count_ways: fremdes Warteschlangen-Fenster 10× (Makro ohne angeklicktes Item, Zauberbeginn
+  merkt den Taschen-Stand) -> Statistik +10 und 10 Zeilen DE-GEZÄHLT "Weg Taschen"; Rechtsklick in der Tasche (Hook auf
+  UseContainerItem) -> +1 "Weg Hook"; 9× Staub + 1× Essenz in Gruppe 2:1:a -> Chancen 85 % / 15 %, Tooltip (Shift) rechnet mit
+  85 %/15 % und nennt "noch 10/30". Gegenprobe (Mutation: Zauberbeginn merkt den Taschen-Stand nicht): T-DZ1 rot (0 statt 10).
+  HINWEIS: Der Kopf "Tabelle + 10 eigene" aus dem alten Befund gibt es seit TT-DE1 nicht mehr (jetzt "noch n/30" je Material).
+  Abdeckung: T-DZ1/T-DZ3 -> s269, T-DZ2 -> T298, T-DZ4 -> T300 + s269.
+NOCH OFFEN aus E (b): T-O1–O5, T-H1–H4, T-AB5, T-AB9/T-AB12.
+Gesamtlauf der Nachbildung (0.65.291): BESTANDEN 330, FEHLGESCHLAGEN 0.
