@@ -1,6 +1,6 @@
--- ROUTE-Q (3.12.78): Routen-Prüfung über die virtuelle Reise 1–60. R1 Annehmen zuerst, R2 Questlevel > Stufe + 2, Startgebiet verlassen,
--- R3W Weg-Ebene wie das Navi, R4 Sonder-Schritte, R6 Ort zu früh verlassen, O5 Questgeber am Weg verpasst. R3 nur als Zahl.
--- Aufruf (oder ../mess_route_q.sh): Daten aus PACKDIR; FOREVER=1 oder FLAVOR=era; LVL=1 MAP=… PX PY; lua51 mess_route_q.lua <LevelPilot> 0 <Volk> <Klasse> <Fraktion>
+-- ROUTE-Q (3.12.79): Routen-Prüfung über die virtuelle Reise 1–60. R1 Annehmen zuerst, R2 Questlevel > Stufe + 2, Startgebiet verlassen,
+-- R3W Weg-Ebene wie das Navi, R4 Sonder-Schritte, R6 Ort zu früh verlassen, O5 Questgeber am Weg verpasst, R7 Zonen-/Kontinentwechsel (Zahl).
+-- Aufruf (oder ../mess_route_q.sh): Daten aus PACKDIR; FOREVER=1 oder FLAVOR=era; echte Kartengrenzen mit WORLDHOOK/SIMDIR; lua51 mess_route_q.lua <LevelPilot> 0 <Volk> <Klasse> <Fraktion>
 if os.getenv("ZONEN") then
   ZONESIZE = { [1429] = { 3470.84, 2314.62 }, [1426] = { 4924.66, 3283.33 }, [1438] = { 5091.66, 3393.75 },
                [1411] = { 5287.5, 3525.0 }, [1420] = { 4518.75, 3012.5 }, [1412] = { 5137.5, 3425.0 } }
@@ -74,10 +74,10 @@ local startSet = {}
 for _, id in ipairs(START_IDS[race] or {}) do startSet[id] = true end
 local function InStart(inst, n, w) return startSet[AreaAt(ST[race], inst, n, w) or -1] == true end
 
-local c = { r1 = 0, r2 = 0, r2e = 0, r3 = 0, r3w = 0, r3wn = 0, r3small = 0, r3back = 0, kept = 0, r3better = 0, r6 = 0, o5 = 0, r4 = 0, steps = 0 }
+local c = { r1 = 0, r2 = 0, r2e = 0, r3 = 0, r3w = 0, r3wn = 0, r3small = 0, r3back = 0, kept = 0, r3better = 0, r6 = 0, o5 = 0, zoneCh = 0, zoneCh30 = 0, contCh = 0, contCh30 = 0, r4 = 0, steps = 0 }
 local leaveLevel, leaveOpen
 local lastKey, prevDir, lastPos
-local ex = { r1 = {}, r2 = {}, r3 = {}, r3w = {}, r4 = {}, r6 = {}, o5 = {} }
+local ex = { r1 = {}, r2 = {}, r3 = {}, r3w = {}, r4 = {}, r6 = {}, o5 = {}, r7 = {} }
 local function Ex(k, txt) if #ex[k] < 4 then ex[k][#ex[k] + 1] = txt end end
 local function Name(st)
   local q = st.id and LP.QuestDB:Get(st.id)
@@ -230,7 +230,9 @@ LP.Engine.Current = function(self)
     if d > NEAR and ha and hp ~= 0 and ta and tp ~= 0 and ta ~= ha and AreaMin(ta) and AreaMin(ha) then
       for _, t in ipairs(LP.Planner.lastTasks or {}) do
         if (t.t == "ACCEPT" or t.t == "TURNIN") and t.n and not t.pathBlocked and t.inst == pi
-           and G:Dist(pn, pw, t.n, t.w) <= 400 and t.map and AreaAt(t.map, t.inst, t.n, t.w) == ha then
+           and G:Dist(pn, pw, t.n, t.w) <= 400 and t.map and AreaAt(t.map, t.inst, t.n, t.w) == ha
+           -- liegt das Ziel auf dem Weg zu diesem offenen Punkt (<= 60 yd Umweg), ist es kein Verlassen des Ortes
+           and G:Dist(pn, pw, st.n, st.w) + G:Dist(st.n, st.w, t.n, t.w) - G:Dist(pn, pw, t.n, t.w) > 60 then
           c.r6 = c.r6 + 1
           Ex("r6", ("L%d %s (Ort %d -> %d), offen im Ort: %s %s"):format(s.level, Name(st), ha, ta, t.t, tostring(t.q or t.id)))
           break
@@ -253,6 +255,19 @@ LP.Engine.Current = function(self)
       end
     end
   end
+  -- R7 (OPT-ROUTE): Kontinent- und Zonenwechsel der Ziele (Zahl; Vergleich Factoruide Mensch 1–30: 40 Zonenwechsel)
+  if st.map then
+    local zone = LP.Planner.ZoneOf and LP.Planner.ZoneOf(st.map) or st.map
+    if c.lastZone and zone ~= c.lastZone then
+      c.zoneCh = c.zoneCh + 1
+      if s.level < 30 then c.zoneCh30 = c.zoneCh30 + 1 end
+    end
+    if c.lastInst and st.inst ~= c.lastInst then
+      c.contCh = c.contCh + 1
+      if s.level < 30 then c.contCh30 = c.contCh30 + 1 Ex("r7", ("L%d Kontinentwechsel zu %s"):format(s.level, Name(st))) end
+    end
+    c.lastZone, c.lastInst = zone, st.inst
+  end
   -- R4: Sonder-Schritt, obwohl ein Questgeber <= 150 yd offen ist
   if SPECIAL[st.t] and open then
     c.r4 = c.r4 + 1
@@ -264,8 +279,8 @@ local t0 = os.clock()
 LP.Virtual:RunAll("start", tonumber(os.getenv("MAXL") or "60"))
 local s = LP.Virtual.s
 local h = (s.clock or 0) / 3600     -- Uhr der Reise (mit Ruhezeiten); die Spielzeit steht im Reisebericht
-print(("%s %s: R1 %d · R2 %d (Ort mit Erkundungsstufe > Stufe+2: %d) · R3 %d (%.1f je h) · R3W %d von %d Wegen (davon Pfeil zurück %d; kleine Änderungen 5–50 yd: %d; alter Weg behalten: %d; Wechsel auf deutlich kürzeren Weg: %d) · R4 %d · R6 %d · O5 %d · Startgebiet verlassen auf Stufe %s (drinnen offen %s) · %d Schritte · %.0f h · Stufe %d")
-  :format(race, os.getenv("FLAVOR") == "era" and "Era" or "Forever", c.r1, c.r2, c.r2e, c.r3, h > 0 and c.r3 / h or 0, c.r3w, c.r3wn, c.r3back, c.r3small, c.kept, c.r3better, c.r4, c.r6, c.o5,
+print(("%s %s: R1 %d · R2 %d (Ort mit Erkundungsstufe > Stufe+2: %d) · R3 %d (%.1f je h) · R3W %d von %d Wegen (davon Pfeil zurück %d; kleine Änderungen 5–50 yd: %d; alter Weg behalten: %d; Wechsel auf deutlich kürzeren Weg: %d) · R4 %d · R6 %d · O5 %d · R7 Zonenwechsel %d (bis 30: %d), Kontinentwechsel %d (bis 30: %d) · Startgebiet verlassen auf Stufe %s (drinnen offen %s) · %d Schritte · %.0f h · Stufe %d")
+  :format(race, os.getenv("FLAVOR") == "era" and "Era" or "Forever", c.r1, c.r2, c.r2e, c.r3, h > 0 and c.r3 / h or 0, c.r3w, c.r3wn, c.r3back, c.r3small, c.kept, c.r3better, c.r4, c.r6, c.o5, c.zoneCh, c.zoneCh30, c.contCh, c.contCh30,
   tostring(leaveLevel), tostring(leaveOpen), c.steps, h, s.level))
-for _, k in ipairs({ "r1", "r2", "r3", "r3w", "r4", "r6", "o5" }) do for _, e in ipairs(ex[k]) do print("  " .. k:upper() .. " " .. e) end end
+for _, k in ipairs({ "r1", "r2", "r3", "r3w", "r4", "r6", "o5", "r7" }) do for _, e in ipairs(ex[k]) do print("  " .. k:upper() .. " " .. e) end end
 os.exit(0)
