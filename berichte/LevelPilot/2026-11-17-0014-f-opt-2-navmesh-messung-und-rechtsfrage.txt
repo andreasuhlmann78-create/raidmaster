@@ -1,0 +1,30 @@
+BERICHT LevelPilot – F-OPT-2 Forever-Navmesh: Messung (Grösse, Ladezeit) und RECHTSFRAGE vor dem Einbau
+Projekt: LevelPilot · Datum: 17.11.2026 00:14 (aus date) · Stand: 3.12.84 veröffentlicht · FRAGE AN SUPERVISOR/NUTZER (kein Halt)
+
+1. WIDERSPRUCH IN DEN VORGABEN (bitte entscheiden – ich baue das Navmesh bis dahin NICHT ins Datenpaket)
+   - auftraege/LevelPilot/anweisung-wegpunkte-strassen.txt (Rechtsprüfung 9.11., Commit b3339ea1): Punkt 12 (Begehbarkeitsraster
+     aus Spieldateien) GESTRICHEN – EULA 1.C.01 (abgeleitete Werke), 1.C.06 (Data Mining), Navmesh aus .adt = Bot-Technik, CurseForge
+     folgt der EULA; "Keine Spieldateien auslesen, nichts daraus ableiten."
+   - offen-levelpilot.txt 16.11. 18:00: F-OPT-2 JA, "solange es legal ist"; die Grenze dort nennt nur die Lizenz je Quelle (GPL-3).
+   - Das Forever-Route-Lab-Navmesh ist genau so ein Raster: laut seiner NOTICE.md aus Geländehöhen, Löchern, Wasser, Gebiets-IDs und
+     Kollision von WMO/M2-Modellen des Forever-Clients 1.60.1.70124 berechnet (eigener CASC-Leser). Die GPL-3 des Lab regelt nur das
+     Verhältnis zum Lab, nicht die Blizzard-EULA. Dazu: welche kleinen Netzteile behalten werden, hängt an QuestieDB-Daten (D-030);
+     QuestieDB hat laut THIRD_PARTY_NOTICES.md des Lab KEINE Lizenz (GitHub "license: null").
+   - FRAGE F-NAV-1: Gilt die Rechtsprüfung vom 9.11. weiter (dann F-OPT-2 nur offline als Messwerkzeug, nichts ins Addon), oder hat
+     der Nutzer das Navmesh im Addon in Kenntnis dieser Prüfung freigegeben? Ohne ausdrückliches Ja zur EULA-Frage bleibt es draussen.
+2. MESSUNG (eigener Leser, kein Lab-Code ausgeführt: berichte/LevelPilot/navmesh/frn3_lesen.py, frn3_zeit.lua)
+   Östliche Königreiche: 50 Blöcke, 3,54 MB, 322 141 Polygone, 542 209 Ecken, 27 366 Schwimm-Polygone, 36 Zonen.
+   Kalimdor:             58 Blöcke, 4,04 MB, 367 568 Polygone, 621 052 Ecken, 34 474 Schwimm-Polygone, 33 Zonen.
+   Dazu map.bin 13,7 / 16,7 KB (Zusammenhangs-Teile, Verbinder). Gesamt 7,6 MB roh.
+   Lua 5.1 (Desktop, Verdacht, zu messen im Spiel): grösster Block (0/28_28, 187 KB, 16 902 Polygone) entpackt in 34 ms, belegt danach
+   5,1 MB; 1/28_28 27 ms / 3,1 MB; 0/24_36 23 ms / 3,0 MB. Ganzer Kontinent entpackt wäre ~100 MB -> nur blockweise bei Bedarf.
+3. PLAN, FALLS F-NAV-1 = JA (Datenpaket, Kern nur eigener Leser)
+   a) Eigenes Ladeaddon LevelPilot_Nav (LoadOnDemand, GPL-3, NOTICE mit Quelle, Commit, Client-Build, navRevision, Lizenz): Blöcke als
+      Lua-Strings (Bytes escaped; Dateigrösse ~2× roh, Verdacht, zu messen). Ohne dieses Addon bleibt alles wie heute.
+   b) Kern (eigener Code): FRN3/FRNM lesen, nur der Block des aktuellen Wegstücks, entpackt in Teilen über mehrere Frames (Ziel ≤ 5 ms
+      je Frame, PS/RF), höchstens 2 Blöcke im Speicher (~10 MB), Polygon-A* + Trichter (eigene Umsetzung) nur für Wegstücke ≤ 1 km
+      ausserhalb des Strassennetzes; Strassennetz bleibt die Hauptquelle.
+   c) Prüfung: ROUTE-Q und Weg-Messung mit/ohne Navmesh, Speicher und Frame-Zeit je Block.
+4. FALLS NEIN: Navmesh nur offline in meiner Sitzung als Prüfmass (z. B. wie oft unsere Luftlinien-Stücke über nicht begehbares
+   Gelände laufen) – nur Zahlen im Bericht, nichts daraus ins Addon oder ins Strassennetz.
+5. WEITER OHNE WARTEN: OPT-ROUTE Stufe 2 (Suche über Zonenfolgen, Bewertung < 1178), danach R6/O5-Einzelfälle.
