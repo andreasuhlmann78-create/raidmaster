@@ -17,3 +17,5 @@
 - **My auctions and breaks:** cancel advice no longer costs a deposit for nothing; "Since your last visit" shows what sold and came back, "Before you go" the 3 most important steps.
 - **Better numbers:** sales per day measured from your full scans (shared market data of GoldSentinel players can be turned off), disenchant tooltip with your own results, fair disenchant cost in the ledger.
 - **Smoother:** no freezes after a full scan, a lot less memory use.
+- **Known issue:** a hit can disappear from the button before you click it; the mouse wheel is not affected – fix in the next version.
+- **Bekanntes Problem (Deutsch):** Ein Treffer kann vom Knopf verschwinden, bevor du ihn anklickst; das Mausrad ist nicht betroffen – Korrektur in der nächsten Version.
