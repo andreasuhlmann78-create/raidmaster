@@ -1,0 +1,55 @@
+BERICHT RAIDMASTER AN DIE PRÜF-SITZUNG
+Stand: 16.11.2026 09:43 (aus date) · Sitzung: RaidMaster-Projekt-Sitzung · Version: Addon 3.0.29 (Uploader unverändert 2.3.13)
+Commit: dieser Push · Bezug: offen-raidmaster.txt "BEFUND HOCH RM-DIAG-1" (36e289f3), "GoldSentinelDev Version 2" und "FRAGE T54b" (abc16a00)
+Status: umgesetzt, zur Prüfung.
+
+1. RM-DIAG-1 – Ursache
+   BELEGT (Code + Gegenprobe):
+   - RaidMaster/Diag.lua bis 3.0.28, D.Record (alte Zeilen 28–36): bei JEDEM erfassten Fehler, wenn das Diagnose-Fenster offen war,
+     sofort D.Refresh() -> D.Text() (ganzer Zustand: Versteigerung, Beute, Sitzung, alle Providers, alle Fehler) und
+     EditBox:SetText(...) (C-Funktion, Text bis viele KB). Ein Fehler "Diag.lua:-1" ist genau so ein Ort: Laufzeit in einer
+     C-Funktion, die von Diag.lua aus aufgerufen wurde (keine Lua-Zeile).
+   - Der Fehler-Handler (alte Zeilen 49–55) erfasst jede Meldung mit "RaidMaster" im Text – auch die Meldung "…exceeded execution
+     limit for addon RaidMaster" selbst. Damit schliesst sich die Schleife: zu lang -> Meldung -> erfasst -> Fenster neu -> zu lang …
+     Das passt zum Zähler 243 -> 556 -> 1142 in Sekunden (jedes Bild).
+   - Gegenprobe (Nachbildung, AREA=J): T186 mit dem alten Diag.lua aus 3.0.28 (nur Test-Schnittstellen ergänzt, Verhalten gleich):
+     "[FEHLER] T186 … 1000x SetText während der Flut" – also 1000 vollständige Neuaufbauten für 1000 Fehler bei offenem Fenster.
+     Mit 3.0.29: 0x während der Flut, 1x nach der nächsten Sekunde, 0x ohne Änderung.
+   VERDACHT, zu messen (nicht belegt):
+   - Ob das Diagnose-Fenster beim Nutzer um 09:30 offen war. Wenn NICHT, bleibt eine zweite mögliche Ursache: unser Fehler-Handler
+     liegt oben in der Kette und ruft den vorherigen Handler (BugGrabber, Blizzard, andere GoldSentinel-Addons) auf; deren Laufzeit
+     zählt WoW dann dem Addon zu, dessen Funktion zuoberst steht (RaidMaster, Zeile -1 = im C-Aufruf). Dann käme die Fehlerflut aus
+     einem anderen Addon (Lage: AHSentinel-Sniper lief) und RaidMaster würde nur angezeigt. Bitte beim Nutzer fragen: War /rm diag
+     offen? Ist BugGrabber/BugSack installiert? Was stand als ERSTE Lua-Meldung vor der Ausführungsgrenze?
+   - Für diesen Fall ist unser eigener Anteil jetzt minimal (nur ein Textvergleich, in pcall). Ganz aus der Kette nehmen ginge nur,
+     wenn RaidMaster gar keinen Fehler-Handler mehr setzt (dann sähe die Diagnose keine RaidMaster-Fehler mehr) – Entscheid nötig.
+
+2. RM-DIAG-1 – Behebung (Diag.lua)
+   - D.Record (:39): Text höchstens D.MAX_MSG = 400 Zeichen; gleicher Text -> nur n+1; mehr als D.MAX_PER_SEC = 20 neue Einträge in
+     derselben Sekunde -> nur noch gezählt (D.dropped, Zeile "… und %d weitere Fehler in kurzer Zeit (nicht einzeln erfasst)" im
+     Fenster, 10 Sprachen); kein Neuaufbau des Fensters mehr (nur D.dirty).
+   - D.OnError (:58): nur Textvergleich; Handler ruft es in pcall (:77) – ein Fehler darin kann keinen weiteren auslösen.
+   - D.Refresh (:202): setzt den Text nur, wenn er sich geändert hat. Das Fenster aktualisiert sich wie bisher höchstens 1x pro Sekunde
+     (OnUpdate) – jetzt der einzige Weg.
+   - "Fehler leeren" setzt auch den Flut-Zähler zurück (D.ResetRate).
+   - Test T186 (Test/Routine.lua:2796, Bereich J, in TU6-Regressionen) misst: 5000 Fehler à ~2 KB in einem Bild ohne Fenster:
+     103,8 ms gesamt (inkl. Aufbau der 5000 Testtexte), 20 einzeln, 4980 gezählt, Texte gekürzt; Meldung über die Ausführungsgrenze
+     1000x -> 1 Eintrag n=1000; offenes Fenster 1000 Fehler: 2,3 ms, 0x SetText, nach 1 s 1x, ohne Änderung 0x. Grenzen im Test:
+     ≤ 250 ms bzw. ≤ 100 ms.
+
+3. GoldSentinelDev.lua Version 2: RaidMaster/GoldSentinelDev.lua = shared/GoldSentinelDev.lua (cmp gleich, local VERSION = 2). Übrige
+   gemeinsame Dateien (Game, Test, Sync, Markt v7, Pruefliste v1) cmp gleich.
+
+4. FRAGE T54b: Wortlaut belegt in RaidMaster/Test/Routine.lua:1736–1737 (t:Client "Systemmeldung mit geschütztem Text": "Forever, im
+   Kampf jemanden einladen lassen: kommt keine Lua-Meldung, ist alles gut (echte geschützte Strings lassen sich nicht nachstellen)").
+   Darum als Punkt T54B in die Prüfliste aufgenommen (Pruefliste.lua:42). Jetzt 14 Punkte (Höchstzahl).
+
+5. Discord: raid_addon_intro.md "Updates" um 3.0.29 ergänzt ("Kein Ruckeln mehr durch die Diagnose"); ältester Eintrag 3.0.10 entfallen,
+   damit die Nachricht unter 2000 Zeichen bleibt (1904).
+
+EIGENE TESTS (Hinweise, keine Freigabe) – Nachbildung berichte/RaidMaster/offline:
+- Forever (16001) ALLE OK, Era (11509) ALLE OK, enUS, zhCN, frFR ALLE OK. T185 OK (14 Punkte), T186 OK (Werte oben).
+- addon_check download/RaidMaster-3.0.29.zip: siehe Nachtrag.
+
+FÜR DEN NUTZER (nach Prüfung): Bot /update -> RaidMaster 3.0.29 in #raid-addon. Im Spiel nachprüfen (Supervisor): mit offenem /rm diag
+und laufendem AHSentinel-Sniper darf keine "execution limit"-Meldung mehr kommen.

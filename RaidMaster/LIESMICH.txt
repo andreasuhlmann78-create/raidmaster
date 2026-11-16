@@ -11,6 +11,16 @@ INSTALLATION
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
 
+NEU IN 3.0.29 – Diagnose bremst das Spiel nicht mehr
+- Behoben: "Diag.lua: insecure scripts exceeded execution limit for addon RaidMaster" jedes Bild. War das Diagnose-Fenster
+  offen, baute RaidMaster es bei JEDEM Fehler neu auf – auch bei Fehlern anderer Addons und bei der Meldung über die
+  Ausführungsgrenze selbst. Das schaukelte sich auf. Jetzt wird ein Fehler nur noch kurz notiert (höchstens 400 Zeichen,
+  bei einer Fehlerflut nur noch gezählt), und das Fenster aktualisiert sich höchstens einmal pro Sekunde und nur bei
+  Änderung.
+- Neuer Test T186 misst das: 5000 Fehler in einem Bild und 1000 bei offenem Fenster.
+- Gemeinsame Datei GoldSentinelDev.lua Version 2 (Charakter nur noch als Prüfsumme).
+- Prüfliste: Punkt T54b dazu (Systemmeldung mit geschütztem Text).
+
 NEU IN 3.0.28 – Prüfliste im Spiel (nur für den Entwickler)
 - /rm prüfliste (auch /rm pruefliste) öffnet eine Liste der Punkte, die nur im Spiel geprüft werden können – mit genauer
   Anweisung, was zu tun ist und was man sehen muss. Die Liste merkt selbst, wenn ein Punkt erledigt ist (z. B. Testroutine

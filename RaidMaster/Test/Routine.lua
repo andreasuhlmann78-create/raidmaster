@@ -2790,6 +2790,71 @@ local function AreaJ(t, G)
 		return true, why
 	end)
 
+	-- 3.0.29 (RM-DIAG-1): Fehlerflut darf Diag.lua nicht über die Ausführungsgrenze treiben. Gemessen: 5000 Fehler in
+	-- einem Bild (ohne Fenster) und 1000 bei offenem Diagnose-Fenster; das Fenster wird dabei kein einziges Mal neu gesetzt,
+	-- danach höchstens 1x pro Sekunde und nur bei Änderung. Die Meldung über die Ausführungsgrenze selbst zählt nur hoch.
+	t:Check("T186", "J", "RM-DIAG-1 Fehlerflut: Diag bleibt billig", function()
+		local D = RM.Diag
+		if not (D and D.OnError and D.Record and debugprofilestop) then return false, "Diag.OnError fehlt", "3.0.29" end
+		local saved, savedDropped, savedDirty = {}, D.dropped, D.dirty
+		for i, e in ipairs(D.errors) do saved[i] = { t = e.t, msg = e.msg, n = e.n } end
+		local wasShown = D.window and D.window:IsShown()
+		local res, why, want = true, nil, nil
+		local ok, err = pcall(function()
+			wipe(D.errors); D.dropped = 0; D.ResetRate()
+			local pad = string.rep("x", 2000)
+			-- 1) Flut ohne Fenster
+			if D.window then D.window:Hide() end
+			local t0 = debugprofilestop()
+			for i = 1, 5000 do D.OnError("Interface/AddOns/RaidMaster/Test.lua:" .. i .. ": Flut " .. i .. " " .. pad) end
+			local ms1 = debugprofilestop() - t0
+			local n1, d1 = #D.errors, D.dropped
+			if #D.errors > 20 then res, why, want = false, #D.errors .. " Einträge", "<= 20"; return end
+			if D.dropped < 1 then res, why, want = false, "keine Flut erkannt", "dropped > 0"; return end
+			if #D.errors[1].msg > D.MAX_MSG + 4 then res, why, want = false, "Text " .. #D.errors[1].msg, "gekürzt"; return end
+			if ms1 > 250 then res, why, want = false, string.format("%.1f ms für 5000 Fehler", ms1), "<= 250 ms"; return end
+			-- 2) die Meldung über die Ausführungsgrenze selbst: ein Eintrag, nur hochgezählt
+			wipe(D.errors); D.dropped = 0; D.ResetRate()
+			local lim = "Interface/AddOns/RaidMaster/Diag.lua:-1: insecure scripts exceeded execution limit for addon RaidMaster"
+			for _ = 1, 1000 do D.OnError(lim) end
+			if #D.errors ~= 1 or D.errors[1].n ~= 1000 then
+				res, why, want = false, #D.errors .. " Einträge / n=" .. tostring(D.errors[1] and D.errors[1].n), "1 / 1000"; return
+			end
+			-- 3) Fenster offen: kein Neuaufbau je Fehler, danach 1x pro Sekunde und nur bei Änderung
+			D.ResetRate()
+			D.Show()
+			local box, calls = D.window.box, 0
+			local orig = box.SetText
+			box.SetText = function(self, txt) calls = calls + 1; return orig(self, txt) end
+			local t1 = debugprofilestop()
+			for i = 1, 1000 do D.OnError("Interface/AddOns/RaidMaster/X.lua:1: offen " .. (i % 50)) end
+			local ms2 = debugprofilestop() - t1
+			local upd = D.window:GetScript("OnUpdate")
+			local afterFlood = calls
+			upd(D.window, 1.1)
+			local afterTick = calls
+			upd(D.window, 1.1)
+			local afterIdle = calls
+			box.SetText = orig
+			if afterFlood ~= 0 then res, why, want = false, afterFlood .. "x SetText während der Flut", "0"; return end
+			if afterTick ~= 1 then res, why, want = false, afterTick .. "x SetText nach 1 s", "1"; return end
+			if afterIdle ~= 1 then res, why, want = false, (afterIdle - 1) .. "x SetText ohne Änderung", "0"; return end
+			if ms2 > 100 then res, why, want = false, string.format("%.1f ms bei offenem Fenster", ms2), "<= 100 ms"; return end
+			why = string.format("5000 Fehler %.1f ms (%d einzeln, %d gezählt), Grenzmeldung 1 Eintrag n=1000, offenes Fenster 1000 Fehler %.1f ms ohne Neuaufbau",
+				ms1, n1, d1, ms2)
+		end)
+		wipe(D.errors)
+		for i, e in ipairs(saved) do D.errors[i] = e end
+		D.dropped, D.dirty = savedDropped or 0, savedDirty
+		D.ResetRate()
+		if D.window then
+			if wasShown then D.window:Show(); D.Refresh() else D.window:Hide() end
+		end
+		if not ok then return false, "Lua: " .. tostring(err), "kein Fehler" end
+		if not res then return false, why, want end
+		return true, why
+	end)
+
 	-- 3.0.24 (BL): Befehlsliste beim Tippen – eine Tabelle für Handler und Liste (T-BL1 … T-BL6)
 	local function HintWith(dev, german)
 		local H = RM.CmdHint
@@ -3413,7 +3478,7 @@ local function AreaL(t, G)
 			{ "TU3 fehlende Einstellungen", "T174" }, { "MN4 mit/ohne GoldSentinelMarkt", "T180" },
 			{ "MN1-K FeedStart/Feed", "T180" }, { "MN-T Zähler unverändert", "T181" },
 			{ "MN4 Schalter aus", "T181" }, { "MN4 ohne AH-API", "T182" }, { "MN3 Testbericht-Zeile", "T183" },
-			{ "Prüfliste im Spiel", "T185" } }
+			{ "Prüfliste im Spiel", "T185" }, { "RM-DIAG-1 Fehlerflut", "T186" } }
 		local only = R.only
 		local have, missing = 0, {}
 		for _, r in ipairs(REG) do

@@ -25,14 +25,39 @@ D.fixers = {}          -- weitere Reparaturen: function() return { "erledigt: ..
 ---------------------------------------------------------------------------
 -- Fehler sammeln: alles, was aus RaidMaster-Dateien kommt (auch aus Timern und Fenstern)
 ---------------------------------------------------------------------------
+-- RM-DIAG-1 (3.0.29): Im Spiel des Nutzers "Diag.lua:-1: insecure scripts exceeded execution limit for addon RaidMaster",
+-- jedes Bild. Bis 3.0.28 baute D.Record bei JEDEM Fehler das ganze Diagnose-Fenster neu auf (D.Text + EditBox:SetText –
+-- ":-1" = in einer C-Funktion, die Diag.lua aufrief), sobald das Fenster offen war. Die Meldung über die Ausführungsgrenze
+-- enthält selbst "RaidMaster" -> wurde wieder erfasst -> wieder neu aufgebaut -> wieder zu lang: eine Schleife jedes Bild.
+-- Jetzt: Erfassen ist billig und begrenzt; das Fenster wird höchstens einmal pro Sekunde und nur bei Änderung neu gesetzt.
+D.MAX_MSG = 400        -- Zeichen je Fehlertext (mehr braucht die Anzeige nicht)
+D.MAX_PER_SEC = 20     -- mehr neue Erfassungen pro Sekunde -> nur noch gezählt (Fehlerflut)
+D.dropped = 0          -- in der Flut nicht mehr einzeln erfasst
+D.dirty = false        -- Fenster muss neu aufgebaut werden
+local secNow, secCount = 0, 0
+
 function D.Record(msg)
 	msg = tostring(msg or "?")
+	if #msg > D.MAX_MSG then msg = msg:sub(1, D.MAX_MSG) .. " …" end
+	local now = time()
 	for _, e in ipairs(D.errors) do
-		if e.msg == msg then e.n = e.n + 1; e.t = time() return end
+		if e.msg == msg then e.n = e.n + 1; e.t = now; D.dirty = true return end
 	end
-	table.insert(D.errors, 1, { t = time(), msg = msg, n = 1 })
+	if now ~= secNow then secNow, secCount = now, 0 end
+	secCount = secCount + 1
+	if secCount > D.MAX_PER_SEC then D.dropped = D.dropped + 1; D.dirty = true return end
+	table.insert(D.errors, 1, { t = now, msg = msg, n = 1 })
 	while #D.errors > 20 do table.remove(D.errors) end
-	if D.window and D.window:IsShown() then D.Refresh() end
+	D.dirty = true                          -- kein Neuaufbau hier: das macht das Fenster selbst, höchstens 1x pro Sekunde
+end
+
+-- Zähler der laufenden Sekunde zurücksetzen (Testroutine, "Fehler leeren")
+function D.ResetRate() secNow, secCount = 0, 0 end
+
+-- Fehler-Handler: nur ein Textvergleich, sonst nichts (läuft bei JEDEM Fehler jedes Addons)
+function D.OnError(msg)
+	local text = type(msg) == "string" and msg or tostring(msg)
+	if text:find("RaidMaster", 1, true) then D.Record(text) end
 end
 
 -- in den Fehler-Handler des Spiels einklinken (nach dem Einloggen noch einmal, falls ein
@@ -49,10 +74,7 @@ local function Hook()
 	generation = generation + 1
 	local mine = generation
 	ours = function(msg, ...)
-		if mine == generation then
-			local text = tostring(msg)
-			if text:find("RaidMaster", 1, true) then D.Record(text) end
-		end
+		if mine == generation then pcall(D.OnError, msg) end
 		if previous then return previous(msg, ...) end
 	end
 	seterrorhandler(ours)
@@ -133,9 +155,10 @@ function D.Text()
 		add("  |cff40ff40" .. L["Keine Fehler seit dem Einloggen."] .. "|r")
 	else
 		for _, e in ipairs(D.errors) do
-			add("  |cffff5544" .. date("%H:%M:%S", e.t) .. (e.n > 1 and (" (" .. e.n .. "x)") or "") .. "|r " .. e.msg:gsub("Interface\\AddOns\\", ""))
+			add("  |cffff5544" .. date("%H:%M:%S", e.t) .. (e.n > 1 and (" (" .. e.n .. "x)") or "") .. "|r " .. (e.msg:gsub("Interface\\AddOns\\", "")))
 		end
 	end
+	if D.dropped > 0 then add("  |cffff5544" .. string.format(L["… und %d weitere Fehler in kurzer Zeit (nicht einzeln erfasst)"], D.dropped) .. "|r") end
 	return table.concat(out, "\n")
 end
 
@@ -175,8 +198,13 @@ end
 ---------------------------------------------------------------------------
 -- Fenster
 ---------------------------------------------------------------------------
+-- Nur setzen, wenn sich der Text geändert hat (SetText einer grossen EditBox ist teuer)
 function D.Refresh()
-	if D.window then D.window.box:SetText(D.Text()) end
+	if not D.window then return end
+	D.dirty = false
+	local text = D.Text()
+	if text == D.window.box.text then return end
+	D.window.box:SetText(text)
 end
 
 function D.Show()
@@ -203,7 +231,7 @@ function D.Show()
 		fix:SetAccent(true)
 		local refresh = UI.Button(f, L["Aktualisieren"], 130, 26, function() D.Refresh() end)
 		refresh:SetPoint("LEFT", fix, "RIGHT", 8, 0)
-		local clear = UI.Button(f, L["Fehler leeren"], 130, 26, function() wipe(D.errors); D.Refresh() end)
+		local clear = UI.Button(f, L["Fehler leeren"], 130, 26, function() wipe(D.errors); D.dropped = 0; D.ResetRate(); D.Refresh() end)
 		clear:SetPoint("LEFT", refresh, "RIGHT", 8, 0)
 		f.elapsed = 0
 		f:SetScript("OnUpdate", function(self, el)

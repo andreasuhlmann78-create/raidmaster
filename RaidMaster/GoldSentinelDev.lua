@@ -18,7 +18,7 @@
 -- Hinweis: Addons sind offener Lua-Code. Das ist keine Sicherung gegen Leute, die den Code aendern, sondern haelt
 -- Test- und Entwicklerfunktionen fuer alle anderen Spieler unsichtbar.
 
-local VERSION = 1
+local VERSION = 2
 
 local existing = _G.GoldSentinelDev
 if type(existing) == "table" and (existing.version or 0) >= VERSION then return end
@@ -29,8 +29,9 @@ Dev.version = VERSION
 
 -- Pruefsummen erlaubter BattleTags (Kleinbuchstaben, ohne Leerzeichen; siehe Dev.Hash)
 Dev.TAGS = { [1913314458] = true }
--- Ersatz, wenn das Spiel keinen BattleTag liefert: Charakternamen (Kleinbuchstaben)
-Dev.CHARS = { dontdiems = true }
+-- Ersatz, wenn das Spiel keinen BattleTag liefert: Pruefsummen der Charakternamen (Kleinbuchstaben, Dev.Hash).
+-- Version 2 (16.11.2026): keine Namen im Klartext mehr (Repo ist oeffentlich, hinweis-keine-spielernamen; Befund LevelPilot 3.12.47).
+Dev.CHARS = { [212689612] = true }
 
 -- Pruefsumme eines BattleTags (djb2, 32 Bit)
 function Dev.Hash(tag)
@@ -59,7 +60,7 @@ function Dev:IsDev()
         ok = self.TAGS[self.Hash(tag)] == true
     else
         local name = UnitName and UnitName("player")
-        ok = type(name) == "string" and self.CHARS[name:lower()] == true
+        ok = type(name) == "string" and self.CHARS[self.Hash(name)] == true
     end
     if ok then known = true end
     return ok

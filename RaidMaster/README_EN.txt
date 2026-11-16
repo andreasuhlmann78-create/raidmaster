@@ -23,6 +23,14 @@ MAIN FEATURES
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
 
+WHAT'S NEW IN 3.0.29 – the diagnosis no longer slows the game down
+- Fixed: "Diag.lua: insecure scripts exceeded execution limit for addon RaidMaster" every frame. With the diagnosis
+  window open, RaidMaster rebuilt it on EVERY error – also errors of other addons and the execution-limit message itself,
+  which escalated. Now an error is only noted briefly (at most 400 characters, only counted during an error flood), and
+  the window refreshes at most once per second and only when something changed.
+- New test T186 measures this: 5000 errors in one frame and 1000 with the window open.
+- Shared file GoldSentinelDev.lua version 2 (character only as a checksum).
+
 WHAT'S NEW IN 3.0.28 – in-game checklist (developer only)
 - /rm checklist opens a list of the points that can only be checked in the game, with exact instructions what to do and
   what you should see. The list notices by itself when a point is done. Players without developer mode see nothing.

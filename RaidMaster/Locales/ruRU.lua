@@ -796,6 +796,7 @@ L["Minikarten-Knopf ein/aus"] = "Кнопка у миникарты вкл./вы
 L["Version und Spielversion anzeigen"] = "Показать версию аддона и игры"
 L["Befehlsliste beim Tippen ein/aus"] = "Список команд при вводе вкл./выкл."
 L["Prüfliste im Spiel (Entwickler)"] = "Контрольный список в игре (разработчик)"
+L["… und %d weitere Fehler in kurzer Zeit (nicht einzeln erfasst)"] = "… и ещё %d ошибок за короткое время (не записаны по отдельности)"
 L["Befehlsliste beim Tippen: an"] = "Список команд при вводе: вкл."
 L["Befehlsliste beim Tippen: aus"] = "Список команд при вводе: выкл."
 L["Kein Befehl – /rm öffnet das Fenster"] = "Нет команды – /rm открывает окно"

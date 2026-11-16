@@ -27,6 +27,9 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 ===
 📜 **Updates**
 
+**3.0.29** – Kein Ruckeln mehr durch die Diagnose
+• Bei vielen Fehlern (auch von anderen Addons) konnte RaidMaster das Spiel ausbremsen („execution limit“). Behoben.
+
 **3.0.27** – Chinesisch repariert, weniger Ruckeln
 • Auf Chinesisch brach die DKP-Vergabe ab – behoben. Ein neuer Test prüft jetzt alle Sprachen darauf.
 • Marktdaten-Netz Version 7: Beim Teilen eines ganzen Auktionshaus-Scans mit der Gilde kein langer Ruckler mehr.
@@ -50,8 +53,5 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 
 **3.0.12 / 3.0.13** – Berufe in WoW Forever
 • „Meine Berufe einlesen“ funktioniert jetzt auch im neuen Forever-Client: Jeder Klick öffnet den nächsten Beruf und liest Rezepte und Zutaten – für `/handwerk` und `/berufe` hier im Discord.
-
-**3.0.10** – Zusammenspiel der Addons
-• Mehrere GoldSentinel-Addons gleichzeitig laufen jetzt sauber zusammen (gemeinsame Versionserkennung, Version 2).
 
 Ältere Neuerungen stehen im Addon in der Datei LIESMICH.txt.
