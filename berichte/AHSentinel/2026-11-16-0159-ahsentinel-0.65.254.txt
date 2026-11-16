@@ -1,0 +1,20 @@
+AHSentinel 0.65.254 – Befund FL-0 HOCH (Supervisor 01:48, Flip-Grenze ohne Mindestrendite) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.254 und sofort im Discord.
+(0.65.253 "IDs" war beim Eingang des Befunds schon gebaut und im Gesamtlauf; FL-0 kam direkt danach.)
+Umsetzung (MarketCore.lua MK:FlipLimitFromNet): Grenze = Netto × min( 1 / (1 + Mindestrendite), 1 − Marge ), in JEDER Risiko-Stufe.
+  Mindestrendite = vorhandene Einstellung "Mindestrendite" – Fundstelle: DEBuy.lua DB:MinRoi() (settings.deBuyRoi, Standard 20),
+  gelesen über Seller.lua Se:MinProfitPct() ("ein Mindestgewinn für alles": Tooltip Lohnt bis, Mindestpreis, API.MinProfitPct);
+  ohne Seller 20 %. Die Entzauber-Untergrenze DE30 (30 %) gilt NICHT fürs Flippen (DB:DEMinRoi nur Entzaubern).
+  Gilt an allen 5 Stellen (Heute, Markt > Flippen, FlipCheck/Detail, Sniper/Watcher 2×) – eine Funktion.
+T825 NEU (Netto 10 000, Mindestrendite 20 %):
+  Fall                                   0.65.252     0.65.254
+  Lernen an, Marge 20 %, normal          8 000        8 000
+  Lernen an, Marge 20 %, vorsichtig      7 000        7 000
+  Lernen an, Marge 20 %, mutig           8 500        8 333
+  Lernen aus, normal                     10 000       8 333
+  Lernen aus, vorsichtig                 9 000        8 333
+  fallendes Band (× 0,9), normal         7 200        7 200
+  Spitze                                 nil          nil
+Tests: T825 – Gegenprobe mit 0.65.253 (ohne Mindestrendite) rot (mutig 8500, ohne Lernen 10000/9000), mit 0.65.254 grün. s1, s13_flips,
+  s31 (modern/legacy), s78, s9_watcher (+fallback, filters), s11_watcher (2), s53 grün. s42 grün. CHANGELOG EN/DE.
+Gesamtlauf (frischer Klon, Kopie 0.65.254, ohne parallele Läufe): BESTANDEN 315, FEHLGESCHLAGEN 0.
