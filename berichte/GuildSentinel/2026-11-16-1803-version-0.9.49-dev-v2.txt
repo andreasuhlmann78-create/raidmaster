@@ -1,0 +1,26 @@
+BERICHT GUILDSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 16.11.2026 18:03 (Uhrzeit aus date, Europe/Zurich) · Sitzung: GuildSentinel-Projekt-Sitzung · Version: 0.9.49 · Commit: GuildSentinel e1b5eaf
+Veröffentlichung: Discord ja (announce/, sofort). CurseForge: ja, 18:00 (diese Version, siehe unten).
+Auftrag: GEMEINSAME DATEI GoldSentinelDev.lua VERSION 2 (Supervisor 07:44).
+
+WARUM JETZT: Um 18:00 hätte die geplante CurseForge-Veröffentlichung 0.9.48 hochgeladen – mit GoldSentinelDev v1, die
+einen Charakternamen im Klartext enthält. Damit der Name nicht auf CurseForge landet, zuerst 0.9.49 mit v2, dann
+CurseForge mit 0.9.49.
+
+UMGESETZT, ZUR PRÜFUNG:
+- shared/GoldSentinelDev.lua (Version 2) unverändert kopiert; cmp Dev/Game/Test/Sync/Markt gegen shared/ = gleich.
+  .toc unverändert (GoldSentinelDev.lua zuerst; GoldSentinelPruefliste.lua noch nicht drin – Auftrag Prüfliste folgt).
+- Testroutine T05 und T128 verlangten GoldSentinelDev.version == 1 -> jetzt >= 2 (sonst 1 FEHLER je Lauf).
+- Im Quelltext und in den Tests von GuildSentinel kommt der Name sonst nirgends vor (grep, auch test/ und tools/).
+  HINWEIS: In der Git-Geschichte des Quell-Repos und in alten Zips (announce-/download-Verlauf im raidmaster-Repo,
+  CurseForge-Dateien bis 0.9.39) steht v1 noch. Geschichte umschreiben oder alte CurseForge-Dateien löschen entscheidet
+  der Nutzer – ich ändere dort nichts.
+
+EIGENE TESTS (Belege, keine Freigabe):
+- test/run_alle.sh: "GESAMT: 134 Läufe, 0 rot · 4687 Einzelprüfungen bestanden, 0 fehlgeschlagen" (inkl. run_dev:
+  Entwickler / fremd / ohne BattleTag).
+- Routine: Forever OK 299, Era OK 304, TBC OK 304, je FEHLER 0.
+
+NOCH OFFEN (neu seit 06:42): Prüfliste im Spiel mit shared/GoldSentinelPruefliste.lua (hinweis-pruefliste-im-spiel-
+2026-11-16.txt) – kommt als nächste Version. CurseForge-Pflege: Ablauf gelesen, warte auf CF-KOMMENTAR-Einträge.
+Entscheid 07:10 (90 Tage, Standard an, Option, Chat-Zeile): so seit 0.9.43 umgesetzt.
