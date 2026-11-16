@@ -51,3 +51,13 @@ Der Nutzer hat "WoW Classic Era" installiert (Produkt `wow_classic_era`, Client 
 nur Anniversary 565 (Kacheln 25/40 und 53/37); Kalimdor 123 982 gleich, nur Era 11, nur Anniversary 514 (Kacheln 39/38, 40/37, 39/37 –
 TBC-Änderungen um die Düstermarschen/Theramore, Verdacht). Also 99,6–99,99 % gleich; die Era-Daten sind jetzt die echten.
 Netz Era: Ö. K. 2243 Punkte / 713 Kanten / 86560 yd, Kalimdor 1537 / 285 / 66756 yd. Forever-Ausgabe unverändert (cmp).
+
+## Orte (Unterzonen) und Flugrouten aus den Spieldateien (16.11.2026 17:35, Auftrag des Nutzers 17:30/17:31)
+`gebiete.py <WoW-Ordner> <aus.json> [wowf|wow_classic_era]` liest aus jeder ROOT-ADT je Kartenstück (33,3 yd) die AreaTable-ID
+(MCNK-Kopf 0x34) – dieselbe Zuordnung, die WoW für den Ortsnamen an der Minikarte nutzt. Laufzeit 4–7 s.
+`daten/gebiete/`: `gebiete_forever.json` / `gebiete_era.json` (je Kachel 256 IDs), `areatable_*.json` (Name, Zone, Eltern, Kontinent,
+Erkundungsstufe, Fraktion), `TaxiNodes/TaxiPath/TaxiPathNode_*.csv` (Flugpunkte, Preis je Strecke, alle Wegpunkte der Flugbahn;
+Quelle wago.tools DB2, Zweige wowf / wow_classic_era).
+Stichproben (beide Clients gleich): Goldhain -> 87 Goldshire (Elwynn Forest), Abtei Nordhain -> 9 Northshire Valley, Klingenhügel ->
+362 Razor Hill (Durotar), Wegkreuz -> 380 The Crossroads (The Barrens), Brill -> 159 Brill (Tirisfal Glades).
+Punkt -> Ort: ty = (17066,667 − x)/533,333, tx = (17066,667 − y)/533,333; Zeile = Bruchteil(ty)·16, Spalte = Bruchteil(tx)·16.

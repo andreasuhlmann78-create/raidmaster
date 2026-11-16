@@ -694,3 +694,20 @@ ROUTEN-PRÜFUNG (automatisch, in der virtuellen Reise, 6 Völker × Era und Fore
 Ziel: R1–R4 = 0 Verstösse in allen 12 Reisen; Bericht mit Tabelle je Volk/Spielversion, Gegenprobe mit 3.12.69 (muss Verstösse zeigen).
 Erst danach Ingame-Test (Supervisor + Nutzer). ERA-1 ist der erste Fall davon – Reihenfolge: ERA-1-Fix -> ROUTE-Q-Prüfung bauen ->
 alle Verstösse beheben -> Bericht.
+
+==== AUFTRAG HOCH ORT-1 "Orte statt Radien" (Nutzer 17:30/17:31: "man müsste die Städte und Dörfer, wo man Quests annehmen kann, Stück
+für Stück beurteilen und nicht einfach sagen 1760 Yards"; Supervisor 17:35) – Grundlage für ROUTE-Q ====
+DATEN (vom Supervisor aus den Spieldateien gebaut, shared/werkzeuge/strassen/daten/gebiete/, README-Abschnitt "Orte"):
+  - Gebiets-ID je 33-yd-Kartenstück für Forever und Era (= Ortsname wie an der Minikarte), AreaTable mit Eltern-Zone und Erkundungsstufe.
+  - TaxiNodes/TaxiPath (Preis)/TaxiPathNode (exakte Flugbahn) für Forever und Era -> echte Flugzeiten (Bahnlänge/Fluggeschwindigkeit,
+    im Spiel 1× messen) und Preise statt Annahme "30 s + Strecke·1,3/32" (LW-3) und statt eigener Preis-Messung (LW-8).
+AUFTRAG:
+  O1 Jeden Questgeber/-abgeber (Datenpaket) seinem ORT zuordnen (Gebiets-ID aus den Daten, nicht Radius). Je Ort ("Hub"): Quests,
+     Stufenspanne (Mindest-/Questlevel), Voraussetzungen/Ketten, Fraktion, Dienste (Gasthaus, Flugmeister, Händler).
+  O2 Route = Folge von ORTEN je Stufe: im Ort alle verfügbaren Quests annehmen -> Ziele in der Umgebung gebündelt -> zurück abgeben ->
+     nächster Ort. Ein Ort wird erst verlassen, wenn seine machbaren Quests erledigt sind oder alle übrigen > Stufe + 2 liegen.
+     Ortswechsel nur in den Ort, dessen Stufenspanne passt (Erkundungsstufe/Questlevel), nicht nach Entfernung allein.
+  O3 Gasthaus/Binden, Flug, Händler sind Dienste EINES Orts – nur, wenn die Route ohnehin dort ist (R4).
+  O4 Tests: Nordhain (Gebiet 9) -> alle Nordhain-Quests vor Goldhain (87); je Volk das Startgebiet; ROUTE-Q R1–R5 = 0.
+  Era und Forever getrennt (eigene Gebietsdateien), gleicher Code.
+Reihenfolge: ERA-1-Fix -> ORT-1 (O1, O2) -> ROUTE-Q-Prüfung -> Bericht. Neue Funktionen weiter gestoppt.
