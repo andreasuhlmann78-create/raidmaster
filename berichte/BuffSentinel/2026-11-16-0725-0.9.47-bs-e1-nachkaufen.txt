@@ -1,0 +1,47 @@
+BuffSentinel – Bericht an die Prüf-Sitzung · 0.9.47-bs-e1-nachkaufen
+Datum: 16.11.2026, 07:25 (aus date)
+
+Stand: BS-E1 (Entscheid des Nutzers 07:10) umgesetzt, zur Prüfung. Gold-Sicherheit bitte besonders prüfen.
+
+Veröffentlicht: download/BuffSentinel-0.9.47.zip, README, announce 0.9.47 (+ Zip), 0.9.46 entfernt; auf origin/main nachgeprüft.
+addon_check "OK (1 Warnungen)" (nur Lua-Syntax). cmp: Game/Sync/Test/Markt v7, Pruefliste v1 und die drei Datendateien gleich.
+Neue Datei Restock.lua (.toc nach Pruefliste.lua).
+
+Umsetzung (Restock.lua)
+- Knopf (UIPanelButtonTemplate, nicht geschützt – Kaufen ist nicht gesperrt) unter MerchantFrame; nur bei offenem Händler
+  (MERCHANT_SHOW/UPDATE/CLOSED), Option gdb.restock (STANDARD AUS), nie im Kampf.
+- Plan: erster aktivierte Vorrats-Eintrag mit Zähler < Grenze (wie die Erinnerung, aber ohne "nur in der Gruppe" – man kauft vorher
+  ein) UND Soll in BS.RESTOCK_TARGET, dessen Ware DIESER Händler verkauft (Item-ID je Händlerplatz: GetMerchantItemID, sonst aus
+  dem Link). Ware: Munition = angelegte Sorte (leerer Munitionsplatz -> unbekannt -> kein Knopf); sonst das gezählte Item (Rang).
+  Nur kaufbar, Preis > 0, ohne Sonderwährung (hasExtendedCost/extendedCost). Händlerdaten: C_MerchantFrame.GetItemInfo (Forever/
+  modern), sonst GetMerchantItemInfo (Preis = Paketpreis mit Ruf-Rabatt, Paketgrösse "quantity").
+- Menge: Soll − Bestand, auf GANZE Pakete bzw. Stück abgerundet, begrenzt durch Bestand des Händlers; dann gesenkt, bis Obergrenze
+  (gdb.restockLimit, Standard 1g, Optionen 1/2/5/10/20/50g per Klick) und 1g-Rest halten. Passt nichts: Knopf grau mit Grund
+  ("über deiner Obergrenze" / "zu wenig Gold (1g muss bleiben)" / "Händler hat nicht genug").
+- Soll (bitte prüfen): Munition 1000, Arkanes Pulver/Kerzen/Gabe-Reagenz 20, Symbol der Könige 100, Symbol der Offenbarung/Ankh/
+  Wiedergeburt-Saat 5, Federn 20, Fischöl/Schuppen 10, Runen 10.
+- Kauf NUR im Klick: Plan neu berechnet und muss dieselbe Ware am selben Platz sein; Obergrenze und 1g-Rest nochmals geprüft.
+  Pakete (> 1): je Paket BuyMerchantItem(index) OHNE Menge (kauft laut warcraft.wiki.gg vor UND nach Patch 4.1 genau ein Paket –
+  die Deutung von "quantity" ist zwischen den Versionen verschieden, so spielt sie keine Rolle). Einzelware: BuyMerchantItem(index, q)
+  mit q <= GetMerchantItemMaxStack(index), in Schritten.
+- Nie doppelt: danach grau (restockBusyUntil, höchstens 5 s) bis BAG_UPDATE_DELAYED.
+- ZUSÄTZLICH Gold-Nachkontrolle (PLAYER_MONEY, 5 s): wird mehr als angezeigt (+1 Kupfer) abgezogen -> Option AUS, Chat-Meldung,
+  Protokoll "NACHKAUF abgezogen x statt y". Fängt ab, falls der Preis im Client anders zu deuten wäre.
+- Prüfliste: Punkt RESTOCK (PLHit nach dem Kauf mit Menge/Item/Preis); dafür PETHAPPY mit PETFOOD zusammengelegt (14 Punkte).
+- Locales EN/DE (15), Optionen (Schalter + Obergrenzen-Knopf), CHANGELOG EN/DE.
+
+VERDACHT, im Client zu prüfen (Gold!): (1) "price" ist der Preis des PAKETS (Blizzards Händlerfenster zeigt ihn so neben der
+Paketgrösse) – sonst greift die Nachkontrolle und schaltet aus. (2) GetMerchantItemID in Forever vorhanden (sonst Link). (3) Knopf-
+Lage unter dem Händlerfenster.
+
+Belege (eigene Tests, NIE ein echter Kauf – BuyMerchantItem im Test ersetzt)
+- T246 "arrows ja · double ja · powder ja · limit ja · limit2 ja · gold ja · noItem ja · avail ja · off ja · guard ja":
+  199 Pfeile, Soll 1000 -> 4 Pakete = 800 Stück, 2s 40c, Aufrufe "1:nil" ×4; Doppelklick -> 2. Klick 0 Aufrufe; Pulver 3 -> 17 Stück
+  25s 50c, ein Aufruf "2:17"; Obergrenze 20s -> 13 Stück 19s 50c ("weniger als Soll"); Obergrenze 50c < Paket 60c -> grau "limit";
+  Gold 1g 1s -> 1 Paket, 1g 30c -> grau "gold"; Händler ohne Ware / nur Sonderwährung -> kein Knopf; Bestand 400 -> 2 Pakete;
+  Option aus / Kampf / leerer Munitionsplatz -> nichts; Nachkontrolle 3s statt 2s40 -> AUS, genau 2s40 -> bleibt an.
+- Testfehler unterwegs (nur im Test): restockBusyUntil lief über With nicht zurück (nil-Feld) und "o.noAmmo and nil or 2515" ergab
+  immer 2515 – beide im Test behoben.
+- run25m OK 192, bekannte 12 Nachbau-FEHLER (T48 zählt jetzt 22 Schalter – Mock). Offline-Routine (veröffentlichte Zip): 8 × PASS.
+
+IM CLIENT PRÜFEN: Punkt RESTOCK der Prüfliste (/bsen prüfliste).
