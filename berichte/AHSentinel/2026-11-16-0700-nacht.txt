@@ -1,5 +1,5 @@
 AHSentinel – Nacht 15./16.11.2026 (Nacht-Arbeit nach masterplan-ahsentinel.txt Abschnitt D und PRIO-JETZT-Liste)
-Stand: 16.11. 01:50 – alle Versionen bis 0.65.253 veröffentlicht (Discord + GitHub), Warteschlange leer
+Stand: 16.11. 01:59 – alle Versionen bis 0.65.254 veröffentlicht (Discord + GitHub), Warteschlange leer
 Alle Versionen: GitHub-Release + Discord (announce/). KEIN CurseForge (erst nach der Sniper-Abnahme). Jede Version "umgesetzt,
 zur Prüfung", Bericht je Version in berichte/AHSentinel/.
 
@@ -63,6 +63,7 @@ VERSIONEN DER NACHT (je ein Satz)
   0.65.251 Antwort 01:03 (1): "Heute"/Selbsttest Entzaubern aus MV:BuildDE – eine Rechnung mit Markt > Entzaubern.
   0.65.252 Antwort 01:03 (2): eine Flip-Grenze (MK:FlipLimitFromNet, Risiko-Wahl + Halte-Risiko) für Heute, Markt und Sniper.
   0.65.253 Antwort 01:03 (4): doppelte Abdeckungs-IDs T-AB4/T-AB5/T-D1 bereinigt, Prüfung T826.
+  0.65.254 Befund FL-0 (HOCH): Flip-Grenze hält immer die Mindestrendite (20 %) – vorher ohne Lernen = voller Wiederverkaufswert.
   Eigener Befund im Gesamtlauf 0.65.224: s92 rot (Händler-Rechnung rechnete den Marktwert für alle Items) – vor der
   Veröffentlichung behoben und belegt.
   Dazu T200-1: Nachbildung im Repo vollständig (IsAddOnLoaded, run_all.sh ohne festen Pfad), Gesamtläufe aus frischer Kopie.
