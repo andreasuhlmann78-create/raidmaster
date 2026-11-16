@@ -1,5 +1,5 @@
 AHSentinel – SNIPER-ABNAHME 16.11. (vor dem CurseForge-Upload 18:00) – Abnahme-Liste für den Nutzer
-Gleicher Inhalt wie die Prüfliste im Spiel ab 0.65.259 (/ahs prüfliste). Dauer gesamt rund 15–20 Min. Gold-Einsatz: wenige Silber.
+Gleicher Inhalt wie die Prüfliste im Spiel ab 0.65.259 (Punkte 9–10 ab 0.65.260) (/ahs prüfliste). Dauer gesamt rund 15–20 Min. Gold-Einsatz: wenige Silber.
 
 VORHER (einmal): AHSentinel 0.65.259 installieren, einloggen. "/ahs entwickler an", dann "/ahs prüfliste" – das Fenster zeigt
   immer den nächsten offenen Schritt ("Das tust du / Das musst du sehen") und merkt selbst, wenn ein Schritt erledigt ist
@@ -45,6 +45,15 @@ VORHER (einmal): AHSentinel 0.65.259 installieren, einloggen. "/ahs entwickler a
    "Materialien als Einkaufsliste".
    Soll: Einkaufsliste öffnet sich mit mindestens einer Zeile, Chat "Materialien für … auf die Liste … gesetzt".
    Merkt selbst: ja (Liste mit Zeilen); leere Liste -> "Fehler (erkannt)".
+
+NACHTRAG 0.65.260 (Entscheid des Nutzers 07:10) – zwei Fragen zum Entscheiden am Bild (nur OK / Nicht OK + Notiz, nichts wird gebaut):
+9. MR4  Markt-Kopf: Zeile je Stufenband gut?
+   Tun: Markt-Reiter öffnen, erste Kopfzeile "Stufen 1-25 … · 26-45 … · 46-60 …" ansehen (Maus darüber = Wochentag-Muster).
+   Entscheid: "OK" = so lassen; "Nicht OK" = echte Kacheln bauen (dem Supervisor sagen, was anders sein soll).
+10. MR-SEITE  Markt-Reiter als EINE Seite?
+   Tun: Heute, Mein Lager und Entzaubern nacheinander ansehen.
+   Entscheid: "OK" = ja, eine Seite bauen (Lage oben, Mein Lager Mitte, Chancen unten); "Nicht OK" = Ansichten so lassen.
+Für die Abnahme bitte 0.65.260 nehmen.
 
 NICHT IN DER LISTE (Begründung): "Ware zwei Schritte" (Preis anfragen -> Kaufen bestätigen) gibt es nur im modernen Auktionshaus
   (Retail/Cata/MoP). In WoW Forever (altes AH) kauft jeder Klick ein Angebot – dort nicht prüfbar. Geprüft in der Nachbildung (s42/S2).
