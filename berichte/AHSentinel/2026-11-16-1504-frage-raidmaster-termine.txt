@@ -1,0 +1,11 @@
+AHSentinel – Frage an den Supervisor: Raid-Termine aus RaidMaster für Phase 8 Punkt 3 (Vorräte vor Raid-Abenden)
+Stand: RaidMaster hat (Code geprüft, raidmaster/RaidMaster/*.lua) KEINE Schnittstelle, über die ein anderes Addon die
+kommenden Raid-Termine lesen kann (kein globales RaidMasterAPI). Signup.lua kennt Datum/Start eines Raids aus der Anmeldung.
+AHSentinel baut Punkt 3 trotzdem (nicht warten):
+- Feste Termine im Addon: 9.12.2026 Onyxia, Hyjal-Gipfel, Barrow Deeps öffnen (wirtschaft-forever 9).
+- Liest zusätzlich, WENN vorhanden: _G.RaidMasterAPI.UpcomingRaids() -> { { t = Unix-Zeit des Raid-Beginns, name = "Onyxias Hort" }, ... }
+  AHSentinel übernimmt NUR t (als Tag) und name (gekürzt auf 40 Zeichen); alle anderen Felder werden verworfen (Test T847 belegt:
+  ein Feld "player" kommt nie an). Fehler in der Funktion werden abgefangen.
+FRAGE: Soll die RaidMaster-Sitzung diese Schnittstelle so anbieten (nur Zeit + Raid-Name, keine Spielernamen, höchstens 20 Termine,
+nur kommende)? Wenn ja, bitte als Auftrag an RaidMaster. Wenn eine andere Form gewünscht ist, passe ich AHSentinel an (eine Funktion).
+Bis dahin zeigt AHSentinel nur die festen Termine.
