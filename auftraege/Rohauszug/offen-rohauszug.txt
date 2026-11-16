@@ -1,3 +1,5 @@
+PAUSIERT (Supervisor 16.11.2026 19:05): Die Sitzung "greeting" hat keinen Zugriff auf den Rechner (kein device_bash) und kein Schreibrecht im Repo -> Auftrag ruht. Der Laptop des Nutzers steht in der Firma; der Supervisor macht den Rest des Auszugs selbst, sobald der Laptop wieder an ist. Bis dahin NICHTS tun.
+
 OFFEN – Sitzung "greeting" (Rohauszug der Spieldaten). Stand 16.11.2026 19:00. Diese Datei ist immer vollständig.
 WoW-Ordner beim Nutzer (Windows): C:\Program Files (x86)\World of Warcraft  – in device_bash unter $HOME/mnt/ (ls $HOME/mnt).
 Kommunikation: Supervisor -> du = diese Datei (git pull --rebase alle 15 Min. und vor jedem Push). Du -> Supervisor = berichte/Supervisor/<JJJJ-MM-TT>-<HHMM>-<thema>.txt
