@@ -1,0 +1,28 @@
+BERICHT LevelPilot – OPT-ROUTE Stufe 1: erster Vergleich mit Factoruide, Hinweis zum Bauen fremden Codes
+Projekt: LevelPilot · Datum: 16.11.2026 20:55 (aus date) · Stand veröffentlicht: 3.12.76 (3.12.77 wartet auf Entscheid, Bericht 20:41)
+
+1. QUELLEN GEHOLT (nur lesen, nichts in den Kern übernommen)
+   - Factoruide (github.com/brouznouf/factoruide, Code MIT, Daten GPL-3) nach /home/claude/ext (Sitzung, nicht im Repo).
+   - Forever Route Lab (github.com/laurencestokes/forever-route-lab, GPL-3): public/nav (FRN3/FRNM, NOTICE: abgeleitet aus Client
+     1.60.1.70124; Begehbarkeit "nicht im Spiel geprüft, keine Kalibrierung"). Noch nicht ins Datenpaket übernommen.
+2. FACTORUIDE ALS VERGLEICH – BAUEN NICHT MÖGLICH
+   Das Bauen und Ausführen von Factoruide (cargo build) wurde von der Sicherheitsprüfung dieser Sitzung abgelehnt – wie schon beim
+   Supervisor. Ich umgehe das nicht. Vergleich deshalb nur mit der fertigen Beispielroute, die im Factoruide-Repo liegt
+   (app/src/assets/example-guide.fgguide: Mensch Paladin 1–30, Forever, Aufwand 3, Datenstand QuestieDB 2026-10-24).
+   Wenn der Nutzer Factoruide-Läufe für alle Völker will, muss das Bauen fremden Codes ausdrücklich freigegeben werden (Nutzer-
+   Entscheid) – oder der Nutzer rechnet die Guides selbst in der Factoruide-App und legt die .fgguide-Dateien ins Repo.
+3. ERSTER VERGLEICH (Mensch Paladin 1–30, Forever)
+   Factoruide: 27 h 00 (davon 5 Dungeon-Läufe 5,4 h, Reise 9,2 h, Kampf 7,1 h, Flüge 1,4 h), 265 Quests, 40 Zonenwechsel, 13 Ruhesteine.
+   LevelPilot-Nachbau 3.12.76: 40 h 54 (3.12.77: 41 h 05), 242 Quests abgegeben, 2 Flüge, 4 Ruhesteine, 27× 10 min Grinden.
+   Die Stunden sind NICHT direkt vergleichbar (anderes Zeitmodell: Kampf, EP, Dungeons) – Verdacht, zu messen. Aussagekräftig ist die
+   Zonenfolge:
+     Factoruide: Elwynn bis 9 -> Dun Morogh 9–13 (+ Loch Modan 12) -> Elwynn/Westfall 14–18 -> Redridge 19–22 -> Duskwood/Wetlands 22–28.
+     LevelPilot: Elwynn bis 10 -> Westfall 10 -> Dun Morogh 10–12 (+ Loch Modan 11) -> Westfall 13 -> Darkshore 15–19 -> Ashenvale 19
+     -> Steinkrallen 20 -> Brachland 21 -> Loch Modan/Sumpfland/Rotkamm 21–23 -> Dämmerwald 24 -> Ashenvale/Dunkelküste 26–27.
+   Befund: LevelPilot reist 15–21 nach Kalimdor (Dunkelküste, Ashenvale, Steinkrallen, Brachland) und wieder zurück; Factoruide bleibt in
+   den Östlichen Königreichen. Das ist genau die Kurzsichtigkeit aus der Analyse (Fokus je Moment, kein Plan über die Stufen).
+4. NÄCHSTE SCHRITTE (Plan Stufe 1/2, ohne Nutzer möglich)
+   a) Prüfregel R7 "Kontinentwechsel je Reise" und "Zonenwechsel je Reise" in mess_route_q.lua (Vergleichszahl Factoruide: 40 Wechsel 1–30).
+   b) Zonenfolge als Vorgabe: Stufenband je Zone aus allen Quests (ORT-1 O1 Stufenspanne) und Kontinent-Bindung (kein Wechsel ohne
+      deutlichen Gewinn) – erst messen, dann bauen.
+   c) Forever-Navmesh ins Datenpaket: eigener Leser für FRN3/FRNM im Kern (F-OPT-2), Grösse/Ladezeit messen.
