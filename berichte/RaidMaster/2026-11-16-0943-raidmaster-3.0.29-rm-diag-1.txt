@@ -49,7 +49,8 @@ Status: umgesetzt, zur Prüfung.
 
 EIGENE TESTS (Hinweise, keine Freigabe) – Nachbildung berichte/RaidMaster/offline:
 - Forever (16001) ALLE OK, Era (11509) ALLE OK, enUS, zhCN, frFR ALLE OK. T185 OK (14 Punkte), T186 OK (Werte oben).
-- addon_check download/RaidMaster-3.0.29.zip: siehe Nachtrag.
+- addon_check download/RaidMaster-3.0.29.zip: "RaidMaster-3.0.29.zip: OK", kein FEHLER, keine WARNUNG (auch nicht mehr GoldSentinelDev v1);
+  Lua-Syntax lupa (Lua 5.1); Tests der gemeinsamen Dateien alle bestanden.
 
 FÜR DEN NUTZER (nach Prüfung): Bot /update -> RaidMaster 3.0.29 in #raid-addon. Im Spiel nachprüfen (Supervisor): mit offenem /rm diag
 und laufendem AHSentinel-Sniper darf keine "execution limit"-Meldung mehr kommen.
