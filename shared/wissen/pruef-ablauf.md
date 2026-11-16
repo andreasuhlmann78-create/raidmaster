@@ -155,3 +155,11 @@ E-Regel (16.11.2026 00:33, Befund PS58-1 – vom Supervisor selbst gefunden): Nu
 im Test (Dummy/Mock) gegen die Beschreibung des anderen Addons prüfen (z. B. AHSentinel API.md: Reihenfolge und Art ALLER Rückgabewerte).
 Ein Test, der mit einer falschen Nachbildung grün ist, belegt nichts. Bei jeder Prüfung einer Version, die eine fremde API neu oder anders nutzt:
 Aufrufstelle im Code lesen und Wert für Wert mit der Beschreibung vergleichen.
+
+E-Regel (16.11.2026 05:09, Befund KERN-S1 – beim Kern-Abgleich vom Supervisor gefunden, hätte bei der Prüfung von 0.65.153 auffallen müssen):
+Bekommt eine Lern- oder Zählschicht (Kern, Fc-Zähler, Buchhaltung) ihre Fälle aus EINEM Aufruf an EINER Stelle, ALLE Stellen suchen, die das
+Ergebnis eines Falls setzen (grep auf die Ergebnis-Zuweisung, z. B. 'e.r = '), und für jede belegen, dass der Fall danach auch gezählt wird.
+Mit echten Daten nachweisen: Fälle im Journal seit Start der Schicht = Fälle in der Schicht, je Zelle (Werkzeug für den Kern:
+addon-check/marktanalyse/kern_abgleich.py, Abschnitt "Harte Prüfung"). Eine Lernschicht, deren Quote weit von der Journal-Quote liegt,
+ist nicht "lernt noch", sondern ein Zählfehler, bis das Gegenteil belegt ist. Ebenso P2/Grundlinien-Regeln: bei seltenen Ereignissen
+(Quote < 20 %) taugt ein Treffer-Vergleich bei 0,5 nicht – Güte über Brier prüfen (Befund KERN-P2-1).
