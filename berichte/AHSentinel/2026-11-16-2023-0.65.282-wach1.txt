@@ -1,0 +1,37 @@
+AHSentinel 0.65.282 – WACH-1 (SEHR HOCH, Absturz "script ran too long" im Wächter) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.282 und sofort im Discord.
+
+URSACHE (belegt im Nachbau s261_watch_de_load, 7200 entzauberbare Zeilen wie beim Nutzer, Vollscan 7165 Items):
+- Watcher:FinishRound rief bei einer Entzauber-Runde DEBuy:WatchCheck -> Candidates für ALLE Zeilen in EINEM Bild (aus W:Tick ->
+  PollRound, genau der Stack aus deinem Befund).
+- Je Zeile rechnete Value() die ganze Kette DealValue -> ActualValue -> MatPrice -> PriceInfo ZWEIMAL (Menge 1 und geplante Menge):
+  21 PriceInfo-Aufrufe je Zeile. Dazu legte DealValue je Aufruf ~9 KB an (Speicherbereinigung) und die 7200 Treffer wurden sortiert.
+- Gemessen mit 0.65.281: EIN Bild 5400 ms, 151 200 PriceInfo-Aufrufe -> "script ran too long".
+BEHOBEN:
+- Watcher.lua: Zeilen bauen + Entzauber-Prüfung laufen als Hintergrund-Aufgabe "watcher:de-check" mit Zeitbudget 5 ms je Bild
+  (W.DE_BUDGET_MS, wie beauftragt "≤ 5 ms, Rest im nächsten Bild"); A:Pause je Zeile (auch in Candidates und WatchCheck).
+- Zwischenspeicher je Runde: Candidates merkt Value je Item+Menge; D.matCache (nur während einer Prüfung, höchstens 30 s gültig,
+  danach weg – keine Sperre ohne Zeitlimit) merkt MatPrice je Material und PlannedValue je Entzauber-Gruppe+Menge. Belegt im Code:
+  PlannedValueRaw hängt nur an der Gruppe (Prior-Schlüssel: Yield/ActualValue/PerPartMats/Correction/BatchNet/StaleMain alle über
+  den Schlüssel) und den Materialpreisen, nicht am einzelnen Item. Item ohne Gruppe (nie entzauberbar) -> wie bisher ohne Speicher.
+- Der Wächter braucht keine Reihenfolge: WatchCheck ruft Candidates(rows, true) ohne Sortieren; der Einkauf sortiert wie bisher.
+MESSUNG (Nachbau, gleiche Daten): 0.65.281: längstes Bild 5400 ms, PriceInfo 151 200. 0.65.282: längstes Bild 7 ms, PriceInfo 17,
+  98 Bilder bis fertig, 7200 Kandidaten (gleich viele). 15 000 Zeilen: längstes Bild 26 ms (Speicherbereinigung im Bild).
+TESTS:
+- s261_watch_de_load (Nachbau, im Repo AHAnalyzerPro): prüft kein Bild > 16 ms durch AHSentinel und ≤ 6 PriceInfo je Zeile.
+  Gegenprobe: mit 0.65.281 rot (5400 ms / 151 200).
+- T856: Wert je Gruppe+Menge nur einmal (andere Gruppe eigener Wert), Materialpreis je Material einmal (auch mit nil-Lücken in den
+  Rückgabewerten), Zwischenspeicher danach weg, älter als 30 s = neu gerechnet; Wächter unsortiert, Einkauf sortiert.
+  Gegenprobe mit 0.65.281: rot.
+- T857: Prüflisten-Punkt WAECHTER-LAST misst richtig (siehe unten). Gegenprobe mit 0.65.281: rot.
+- T836 angepasst (POST-FIX raus, WAECHTER-LAST offen, 10 von 14).
+PRÜFLISTE: neuer Punkt WAECHTER-LAST (statt POST-FIX, im Ingame-Test 19:43 OK erledigt; höchstens 14 Punkte).
+  Wächter an + AH offen: der Wächter misst selbst die längste eigene Rechenzeit in EINEM Bild (eigene Runde in W:Tick + Aufgabe
+  watcher:* aus A.lastJobFrame) und zur Auskunft das längste ganze Bild (enthält Spiel und andere Addons). Nach 5 Min., ≥ 1 Runde
+  und einmal geöffneten Optionen: ≤ 50 ms -> erledigt, sonst Fehler mit Zahlen (Runden, Entzauber-Prüfungen, ms).
+  Kriterium bewusst "Rechenzeit des Wächters", nicht das ganze Bild: das ganze Bild enthält fremde Ruckler (SN-TR S5: fremd 359 ms).
+  FRAGE: Soll die Prüfliste zusätzlich am ganzen Bild (≤ 50 ms) scheitern? Vorschlag: nein, nur zeigen (wie jetzt).
+Gesamtlauf der Nachbildung: BESTANDEN 319, FEHLGESCHLAGEN 2 – s10_scan_smooth und s42b (T647 Heute: Schritt 8,3 ms statt ≤ 8, CPU-Zeit),
+  beide einzeln wiederholt grün (s10 3/3, s42b 2/2). 0.65.282 ändert weder Scan noch Heute.
+Nächster Punkt: VS-121 (in Arbeit: Nachbau s262_vs_mem mit 7165 Items zeigt schon, dass "Speicher am Ende" um ±110 MB schwankt,
+  während bleibend +0,97 MB je Scan sind – Bericht mit 0.65.283).
