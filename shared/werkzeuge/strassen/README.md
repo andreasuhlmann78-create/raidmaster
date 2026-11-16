@@ -61,3 +61,11 @@ Quelle wago.tools DB2, Zweige wowf / wow_classic_era).
 Stichproben (beide Clients gleich): Goldhain -> 87 Goldshire (Elwynn Forest), Abtei Nordhain -> 9 Northshire Valley, Klingenhügel ->
 362 Razor Hill (Durotar), Wegkreuz -> 380 The Crossroads (The Barrens), Brill -> 159 Brill (Tirisfal Glades).
 Punkt -> Ort: ty = (17066,667 − x)/533,333, tx = (17066,667 − y)/533,333; Zeile = Bruchteil(ty)·16, Spalte = Bruchteil(tx)·16.
+
+## Gelände (gelaende.py, 16.11.2026)
+Aus den Rohdaten von `rohauszug.py` (Spieldateien, NICHT im Repo) eine kleine abgeleitete Karte je Spiel und Kontinent:
+Steigung, Loch im Boden, Wasser (seicht/tief/Lava) je Zelle von 4,17 yd, Bodenhöhe je Kartenstück, dazu die Standorte der
+Gebäude (WMO, mit Hülle) und Objekte (M2). Format oben in `gelaende.py`.
+Probe mit dem Teil-Auszug vom 16.11. (Östliche Königreiche, Kachelzeilen 20–27 Forever / 20–31 Era): Brill Steigung 6°, Höhe 34,
+kein Wasser; Eingang Unterstadt "Loch" = 1 (richtig, dort geht es hinunter); Forever und Era an gleichen Orten gleich.
+Vollständige Daten folgen, wenn der Auszug fertig ist (auftraege/Rohauszug/offen-rohauszug.txt).
