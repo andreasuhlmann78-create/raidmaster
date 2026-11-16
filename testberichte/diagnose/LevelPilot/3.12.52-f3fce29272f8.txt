@@ -1,0 +1,131 @@
+LevelPilot-Protokoll v3.12.52 · 16.11.2026 09:42
+Client deDE 1.60.1 · Sprache de · modern
+Charakter L10 Scourge PRIEST Horde
+Datenpaket: v1.6.1, 3920 Quests
+Sitzungen: 40 · aktiv gespielt 5h 01min · Lua gesamt max 447.7 MB
+  15.11. 18:32 L10»10 PRIEST 9min · Pause 0min · Speicher 28»18 MB, max 28
+  15.11. 18:42 L10»10 PRIEST 9min · Pause 0min · Speicher 25»17 MB, max 25
+  15.11. 18:52 L10»10 PRIEST 3min · Pause 0min · Speicher 29»29 MB, max 29
+  15.11. 18:55 L10»10 PRIEST 0min · Pause 0min · Speicher 26»26 MB, max 26
+  15.11. 18:56 L10»10 PRIEST 6min · Pause 0min · Speicher 20»21 MB, max 21
+  15.11. 19:03 L10»10 PRIEST 9min · Pause 0min · Speicher 30»19 MB, max 30
+  15.11. 19:38 L10»10 PRIEST 0min · Pause 25min · Speicher 24»24 MB, max 24
+  16.11. 08:13 L10»10 PRIEST 23min · Pause 12h 34min · Lua gesamt 415»620 MB, max 620
+  16.11. 08:41 L10»10 PRIEST 3min · Pause 0min · Lua gesamt 473»446 MB, max 473
+  16.11. 09:28 L10»10 PRIEST 9min · Pause 43min · Lua gesamt 355»448 MB, max 448
+Einstellungen geändert: minimapAngle=110.12863264616, shareSeed=true, shareSeedAsked=true
+
+== Diagnose
+  Version 3.12.52 · Client: modern · Server: WoW Forever
+  Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+  Zustand: ok · Fokus: Tirisfal
+  Position: unbekannt, Karte nil
+  Datenpaket: v1.6.1, 3920 Quests
+  QuestieDB: nicht benötigt (Datenpaket aktiv)
+  Quests: Paket 3920, Questie 0, Startdatenbank 0, eigene 36, andere 52
+  Level 10 · passende Quests 173 · Aufgaben 62 · Schritte 14
+  Questlog: 12/40 (automatisch)
+  Modus: Normal
+  Dungeons: an, Lauf ab 2 Quests, Monster-EP 36 %, Quest-EP 150 %
+  Höhlen und Tunnel bekannt: 4 (selbst gelernt 1, von anderen 0)
+  Geländeführung: keine Geländekarte für diese Zone
+  Sprachpakete: deDE geladen
+  Kills pro Minute: 2.15 (165 Messungen) · Quest-EP-Faktor: 1.00 (17 Quests)
+EP je Kill: gemessen 149 · grün 85 % (Annahme)
+  Letzter Fehler: keiner
+  SYNC GoldSentinelSync 2 · Wege: keiner · Mitspieler (1 Std.): AHSentinel 0, BuffSentinel 0, GoldSentinelMarkt 0, GoldSentinelTest 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0, ThreatSentinel 0
+  SYNC gesendet 24 · empfangen 0 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 4 (mit Sync 2: 4, pausiert 3) · gesendet 5 · weitergegeben 0 · offline 3 · Listen 4 · Warteschlange 0 · gespeichert ja
+  CLIENTTEST: noch nicht gelaufen (/lp clienttest)
+  STRASSEN Kontinent 0 1502 Knoten (20 an eigenen, 359 ohne Zone, 1017 innen), 1610 Kanten (von 1667 Stücken: 12 Ring, 45 doppelt, davon 22 kürzer ersetzt), 126749 yd
+  UMWEG je Zone (bekannter Weg/Luftlinie): Silberwald 1,68 (12 Paare) · Tirisfal 1,36 (12 Paare) · Undercity 1,35 (12 Paare)
+  LAUFWEG (seit 3.12.52): Schritte 0 (angekommen 0) · Umweg gelaufen/Luftlinie – · Zeit Weg 0:00 / am Ziel 0:00 (Weg-Anteil 0 %) · Leerlauf 0:00
+  LAUFWEG Pfad während des Wegs: Netz 0 % · Gelände 0 % · Luftlinie 0 % · unbekannt 0 % · ohne Pfad 0 %
+  LAUFWEG Neuplanungen mit Zielwechsel 0, davon Richtungswechsel über 90° 0
+  LAUFWEG je Zone (Umweg, Schritte, Weg-Anteil): noch keine Messung
+  EP/h je Level (aktive Zeit): 10: 0 (0:10 h)
+  REISE noch kein Flugvergleich · Tempo 7.0 yd/s (nil)
+  PRÜFLISTE LevelPilot: 0 von 14 erledigt
+    CT-1 offen
+    T300 offen
+    T304 offen
+    T305 offen
+    T302 offen
+    T301 offen
+    T303 offen
+    GR1-K offen
+    UC-W1 offen
+    WM offen
+    L-1 offen
+    LAG1 offen
+    PF-A offen
+    SP1-M offen
+  MELDUNGEN: an · unterdrückt 0 · durchgerutscht 0
+  MARKT-NETZ: v7 · an (LevelPilot an) · Scans mitgelesen 0 · gesendet 0 · empfangen 0 · Speicher 7662 Items, 467 KB
+  MARKT-NETZ v7 · an · Addons: AHSentinel, BuffSentinel, GuildSentinel, LevelPilot, ProfessionSentinel, RaidMaster, ThreatSentinel
+  MARKT-NETZ Scans 0 (davon vom Host übergeben 0; zuletzt 0 Auktionen, 0 Items, 0 ms in 0 Bildern) · Vergleiche 0 · abgebrochen 0
+  MARKT-NETZ Items 7662 (eigen 7662, Netz 0, Absatz gemessen 6446) · gesendet 0 · empfangen 0 · angenommen 0 · Warteschlange 0
+  MARKT-NETZ verworfen: nichts
+  SPEICHER Lua gesamt (alle Addons, alle 5 Min.) nach dem Einloggen 354.6 MB · aktuell 451.6 MB · Höchstwert 451.6 MB
+  SPEICHER LevelPilot (gemessen beim Öffnen des Protokolls) aktuell ? · Höchstwert ? · Speicher-Messung noch keine
+  SPEICHER angelegt je Modul seit dem Einloggen (Summe 128.2 MB): Wegsuche 51.4 MB · Anzeige 23.4 MB · Routenberechnung 18.5 MB · Wegnetz 16.4 MB · Assistent 10.4 MB · Navigation 5.5 MB · Aufzeichnung 2.2 MB · Protokoll 0.4 MB
+  SPEICHER Bestand: Wegpunkte 4449 · Luftlinien-Nachbarn 2234 · Geländeprüfungen 274 · Gefahren-Strecken 2301 · Quests entschlüsselt 175 · Aufgaben 62 · Questlog 12
+  ZEIT Wegsuche 3945 ms/1149× max 5 · Wegnetz 1091 ms/756× max 5 · Anzeige 684 ms/836× max 5 · Routenberechnung 372 ms/182× max 6 · Navigation 337 ms/7716× max 1 · Assistent 147 ms/51× max 35 (über 16 ms) · Aufzeichnung 78 ms/1358× max 0 · Start 69 ms/31× max 25 (über 16 ms) · Protokoll 25 ms/459× max 1 · Questauswertung 19 ms/1× max 19 (über 16 ms)
+  ZEIT erste 60 s nach dem Einloggen: Wegsuche 430 ms max 4 · Wegnetz 1091 ms max 5 · Anzeige 46 ms max 2 · Routenberechnung 90 ms max 6 · Navigation 37 ms max 1 · Assistent 53 ms max 35 (über 16 ms) · Aufzeichnung 7 ms max 0 · Start 69 ms max 25 (über 16 ms) · Protokoll 1 ms max 0 · Questauswertung 19 ms max 19 (über 16 ms)
+  ZEIT in Pausen verworfen: nichts
+  ZEIT Notbremse 0× · pausiert: nichts · Hintergrund-Arbeit: 0 laufend, 115 fertig, längste Portion 6 ms
+
+== Einträge (25, neueste zuerst)
+[16.11. 09:38] SYNC ×85 L10 Undercity(1458) 64.4,35.6 | SYNC Stand | Spiel: Undercity / Die Kanäle
+      Schritt TURNIN:405
+      SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, BuffSentinel 0, GoldSentinelMarkt 0, GoldSentinelTest 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0, ThreatSentinel 0
+      SYNC gesendet 22 · empfangen 0 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+      NETZ an · bekannt 4 (mit Sync 2: 4, pausiert 2) · gesendet 3 · weitergegeben 0 · offline 2 · Listen 2 · Warteschlange 0 · gespeichert ja
+[16.11. 09:29] SYNC ×3 L10 Undercity(1458) 64.4,35.6 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, BuffSentinel 0, GoldSentinelMarkt 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0, ThreatSentinel 0 | Spiel: Undercity / Die Kanäle
+      Schritt TURNIN:405
+[15.11. 19:04] SYNC ×5 L10 Undercity(1458) 64.2,35.9 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, GoldSentinelMarkt 0, GuildSentinel 1, LevelPilot 0, LevelPilotG 0, ThreatSentinel 0 | Spiel: Undercity / Die Kanäle
+      Schritt TURNIN:405 · v3.12.30
+[15.11. 18:53] SYNC L10 Undercity(1458) 64.2,35.8 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, GoldSentinelMarkt 0, GuildSentinel 1, LevelPilot 0, LevelPilotG 0, ThreatSentinel 0 | Spiel: Undercity / Die Kanäle
+      Schritt TURNIN:405 · v3.12.30
+[15.11. 18:43] SYNC ×8 L10 Undercity(1458) 64.2,35.8 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, GoldSentinelMarkt 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0, ThreatSentinel 0 | Spiel: Undercity / Die Kanäle
+      Schritt TURNIN:405 · v3.12.30
+[15.11. 18:15] SYNC ×7 L10 Undercity(1458) 64.3,35.7 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, GoldSentinelMarkt 0, GuildSentinel 2, LevelPilot 1, LevelPilotG 0, ThreatSentinel 0 | Spiel: Undercity / Die Kanäle
+      Schritt TURNIN:405 · v3.12.30
+[15.11. 18:10] SYNC ×18 L10 Undercity(1458) 64.3,35.7 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, GoldSentinelMarkt 0, GuildSentinel 2, LevelPilot 1, LevelPilotG 0, ThreatSentinel 0 | Spiel: Undercity / Die Kanäle
+      Schritt TURNIN:405 · v3.12.30
+[15.11. 16:56] SYNC ×6 L10 Undercity(1458) 62.4,36.8 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 2, GoldSentinelMarkt 0, GuildSentinel 2, LevelPilot 1, LevelPilotG 0, ThreatSentinel 0 | Spiel: Undercity / Die Kanäle
+      Schritt TURNIN:405 · v3.12.30
+[15.11. 15:56] SYNC L10 Undercity(1458) 64.2,35.8 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, GoldSentinelMarkt 1, GuildSentinel 2, LevelPilot 1, LevelPilotG 0, ThreatSentinel 0 | Spiel: Undercity / Die Kanäle
+      Schritt TURNIN:405 · v3.12.30
+[15.11. 14:38] SYNC L10 Undercity(1458) 64.0,35.8 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, GoldSentinelMarkt 1, GuildSentinel 2, LevelPilot 2, LevelPilotG 0, ThreatSentinel 0 | Spiel: Undercity / Die Kanäle
+      Schritt TURNIN:405 · v3.12.30
+[15.11. 13:20] SYNC L10 Undercity(1458) 64.3,35.8 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 2, GoldSentinelMarkt 2, GuildSentinel 2, LevelPilot 1, LevelPilotG 1, ThreatSentinel 0 | Spiel: Undercity / Die Kanäle
+      Schritt TURNIN:405 · v3.12.30
+[15.11. 10:22] SYNC L10 Undercity(1458) 64.2,35.7 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, GoldSentinelMarkt 1, GuildSentinel 1, LevelPilot 0, LevelPilotG 0, ThreatSentinel 0 | Spiel: Undercity / Die Kanäle
+      Schritt TURNIN:405 · v3.12.30
+[15.11. 09:11] FEST L10 Undercity(1458) 75.5,33.5 | Seit 4 min nicht näher an „TURNIN:405“ (noch 131 Yards, Weg: graph) | Spiel: Undercity / Das Magieviertel
+      Schritt TURNIN:405 · v3.12.30
+[15.11. 08:18] SCHRITT L10 Undercity(1458) 64.3,52.4 | Schritt seit 34 min aktiv: Abgeben: Der abtrünnige Lich [8]  365 Yards / bei Bethor Iceshard | Spiel: Undercity / Undercity
+      Schritt TURNIN:405 · v3.12.30
+[15.11. 07:35] SCHRITT L10 Undercity(1458) 64.5,52.4 | Schritt seit 38 min aktiv: Abgeben: Der abtrünnige Lich [8]  376 Yards / bei Bethor Iceshard | Spiel: Undercity / Undercity
+      Schritt TURNIN:405 · v3.12.30
+[15.11. 01:19] SYNC ×2 L10 Undercity(1458) 64.3,52.5 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, GoldSentinelMarkt 0, GuildSentinel 1, LevelPilot 1, LevelPilotG 0, ThreatSentinel 0 | Spiel: Undercity / Undercity
+      Schritt TURNIN:405 · v3.12.30
+[15.11. 00:57] SYNC L10 Undercity(1458) 64.2,52.3 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, GoldSentinelMarkt 0, GuildSentinel 1, LevelPilot 1, LevelPilotG 0, ThreatSentinel 0 | Spiel: Undercity / Undercity
+      Schritt TURNIN:405 · v3.12.30
+[14.11. 17:10] SYNC L10 Undercity(1458) 64.3,52.5 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, GoldSentinelMarkt 1, GuildSentinel 2, LevelPilot 1, LevelPilotG 1, ThreatSentinel 0 | Spiel: Undercity / Undercity
+      Schritt TURNIN:405 · v3.12.30
+[13.11. 16:57] GRUNDREGEL ×11 L10 Undercity(1458) 64.3,52.6 | GRUNDREGEL VERLETZT Quest 445 fertig, aber kein Abgabe-Schritt | Spiel: Undercity / Undercity
+      Schritt TURNIN:405 · v3.12.27
+[13.11. 16:48] SYNC ×3 L10 Undercity(1458) 64.3,52.6 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0 | Spiel: Undercity / Undercity
+      Schritt TURNIN:405 · v3.12.27
+[13.11. 16:20] SYNC ×2 L10 Undercity(1458) 64.3,52.6 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, GuildSentinel 1, LevelPilot 1, LevelPilotG 1 | Spiel: Undercity / Undercity
+      Schritt TURNIN:405 · v3.12.27
+[13.11. 15:50] SYNC ×6 L10 Undercity(1458) 64.3,52.6 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, GuildSentinel 1, LevelPilot 1, LevelPilotG 0 | Spiel: Undercity / Undercity
+      Schritt TURNIN:405 · v3.12.27
+[13.11. 15:25] SYNC ×2 L10 Undercity(1458) 64.3,52.6 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, GuildSentinel 1, LevelPilot 1, LevelPilotG 0 | Spiel: Undercity / Undercity
+      Schritt TURNIN:405 · v3.12.27
+[13.11. 13:21] SCHRITT L10 Undercity(1458) 64.2,52.6 | Schritt seit 25 min aktiv: Abgeben: Der abtrünnige Lich [8]  344 Yards / bei Bethor Iceshard | Spiel: Undercity / Undercity
+      Schritt TURNIN:405 · v3.12.27
+[11.11. 15:51] SCHRITT L10 Undercity(1458) 64.1,51.9 | Schritt seit 25 min aktiv: Abgeben: Der abtrünnige Lich [8]  341 Yards / bei Bethor Iceshard | Spiel: Undercity / Undercity
+      Schritt TURNIN:405 · v3.12.13
