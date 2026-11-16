@@ -1,0 +1,71 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+
+BERICHT NACHPRÜFUNG (geplante Aufgabe) – 16.11.2026 14:22 MEZ
+Geprüft auf origin/main 24946e1d. Nur dieser Entwurf wird committet; nichts in auftraege/**, kein Log, keine stand.json.
+
+=====================================================================================================================
+0. ÜBERBLICK
+=====================================================================================================================
+Keine neue Version, die nicht schon geprüft ist. Kein FEHLER der Addon-Prüfung, kein Befund HOCH.
+
+Schon vom Supervisor geprüft, hier NUR erwähnt (Log 13:24 und Commit 24946e1d 14:13): LevelPilot 3.12.55–3.12.66,
+AHSentinel 0.65.266. Übrige Höchststände unverändert seit dem Entwurf 11:25: BS 0.9.47, GS 0.9.48, PS 0.9.62, TS 2.5.15,
+RM 3.0.29, Bot 1.5.186, Uploader 2.3.13.
+
+Testberichte seit dem Entwurf 11:25: cae1c1e0 (10:44) und b4e3be61 (11:49) – nur Diagnose-Protokolle (AHS 0.65.263, BS 0.9.47,
+GS 0.9.48, LP 3.12.52, PS 0.9.62, TS 2.5.15 sowie ältere BS 0.9.21, GS 0.9.38, PS 0.9.32). In allen: "Fehler in dieser
+Sitzung: 0" bzw. "Lua-Fehler des Addons seit dem letzten Bericht: 0" bzw. "Letzter Fehler: keiner". Kein neuer Testlauf, also
+auch kein neuer Abschnitt MARKT-KERN. Keine Befunde.
+
+=====================================================================================================================
+1. NACHGEFÜHRT: BEFUNDE AUS DEN ENTWÜRFEN 08:23 UND 11:25 (gegen LevelPilot 3.12.66 und Uploader 2.3.13)
+=====================================================================================================================
+Die Befunde dieser Entwürfe stehen in keiner offen-*.txt (grep NP-LP54/NP-LP49/NP-UP13 in auftraege/: 0 Treffer).
+Stand je Befund:
+
+NP-LP54-1 HOCH (vendor/trainer im Kommentar) – ERLEDIGT in 3.12.59: Comfort.lua:337–339 (3.12.66) hat repair, vendor und trainer
+  wieder als eigene Einträge; Kommentar nennt es selbst ("3.12.59: vendor/trainer standen versehentlich im Kommentar"). Nur
+  erwähnen, nichts mehr zu tun.
+
+NP-LP54-2 MITTEL – WEITER OFFEN, jetzt breiter: Comfort.lua:350 Norm() = string.lower. Nachgewiesen (lupa, Lua 5.1):
+  ("Ödland"):lower() = "Ödland"; ("Östliche Pestländer"):lower():find("östl") = nil. Folge: "/lp navi 50 50 ödland" findet die
+  Zone nicht, ruRU-Zonen klein getippt nie. Seit NAV-1b (3.12.59) gilt das auch für die Namen-Suche: Comfort.lua:444 baut den
+  Suchschlüssel mit nm:lower(), Comfort.lua:479 vergleicht Dungeon-Namen mit :lower() – ein NPC- oder Dungeon-Name, der mit
+  Ä/Ö/Ü oder Kyrillisch beginnt, wird klein getippt nicht gefunden.
+  Lösung: eine UTF-8-Kleinschreibung (mindestens Ä Ö Ü É È À Ç Ñ und Kyrillisch А–Я/Ё) an EINER Stelle, verwendet in Norm(),
+  beim Index-Aufbau (Z. 444) und bei Dungeons (Z. 479), jeweils auf beiden Seiten. Test: "ödland", "östl", ein ruRU-Zonenname
+  klein, ein NPC mit Umlaut am Anfang; Gegenprobe mit string.lower -> rot.
+
+NP-LP49-1 NIEDRIG – WEITER OFFEN: Laufweg.lua:219 (3.12.66 unverändert) "local yps, ysrc = P and P.GroundYps and P.GroundYps()":
+  "and" gibt nur einen Wert weiter, ysrc ist immer nil -> Zeile zeigt "(nil)". Planner.lua:1618 ruft richtig P.GroundYps() direkt.
+  Lösung: if P and P.GroundYps then yps, ysrc = P.GroundYps() end; Klartext in T310/T311 prüfen (Gegenprobe).
+
+NP-LP49-2 NIEDRIG – WEITER OFFEN: Laufweg.lua:220/222 "%.1f" ergibt Punkt ("11.2"), sonst überall Komma (F2), CLIENT.T311 erwartet
+  "Tempo 11,2 yd/s (Reittier gemessen)". Lösung: Komma wie F2 oder CLIENT-Text angleichen – einheitlich.
+
+NP-UP13-1 NIEDRIG – WEITER OFFEN (Uploader 2.3.13 unverändert): svfilter.py:224–262 doppelte Schlüssel / zweite Zuweisung von
+  GuildSentinelDB -> frühere apps/ban bleiben im Text (nur theoretisch, WoW schreibt das nicht); 5000-fach verschachtelt ->
+  RecursionError statt FilterError. Lösung: Doppel -> FilterError; in daten.py RecursionError/Exception wie FilterError
+  behandeln (nur GuildSentinel.lua weglassen). Tests mit Gegenprobe. (Text ausführlich im Entwurf 08:23.)
+
+=====================================================================================================================
+2. VORSCHLÄGE FÜR DEN SUPERVISOR (nicht ausgeführt)
+=====================================================================================================================
+- auftraege/LevelPilot/offen-levelpilot.txt: NP-LP54-2 MITTEL (mit der Erweiterung auf Comfort.lua:444/479), NP-LP49-1 und
+  NP-LP49-2 NIEDRIG aufnehmen. NP-LP54-1 nicht mehr (erledigt 3.12.59).
+- auftraege/RaidMaster/offen-raidmaster.txt: NP-UP13-1 NIEDRIG aufnehmen, falls noch nicht übernommen.
+- addon-check/nachpruefung-stand.json (steht noch auf 15.11. 11:20): AHSentinel 0.65.266, LevelPilot 3.12.66, BuffSentinel 0.9.47,
+  GuildSentinel 0.9.48, ProfessionSentinel 0.9.62, ThreatSentinel 2.5.15, RaidMaster 3.0.29, RaidMasterBot 1.5.186,
+  RaidMasterUploader 2.3.13; testberichte_bis b4e3be61.
+- Log-Zeile: "2026-11-16 14:22 Nachprüfung (Entwurf): keine neuen Versionen; Testberichte ohne Fehler; NP-LP54-1 erledigt,
+  NP-LP54-2/NP-LP49-1/-2/NP-UP13-1 weiter offen".
+
+NACHRICHT AN DIE LEVELPILOT-SITZUNG (Entwurf, zum Einfügen – erst nach Übertragung durch den Supervisor):
+  Erst laufende Arbeit fertig machen. Danke für 3.12.59 (vendor/trainer wieder in der Suche).
+  ZU TUN: (1) MITTEL NP-LP54-2 – Suche mit Ä/Ö/Ü und Kyrillisch: Comfort.lua:350 Norm(), :444 Namen-Index, :479 Dungeons nutzen
+  string.lower, das Umlaute und Kyrillisch nicht klein macht ("ödland" findet "Ödland" nicht). Eine UTF-8-Kleinschreibung an
+  einer Stelle, überall verwenden; Test mit Gegenprobe. (2) NIEDRIG NP-LP49-1 Laufweg.lua:219 ysrc immer nil -> "(nil)".
+  (3) NIEDRIG NP-LP49-2 Laufweg.lua:220/222 Punkt statt Komma.
+  git pull --rebase und auftraege/LevelPilot/offen-levelpilot.txt lesen; nach der Umsetzung Bericht in berichte/LevelPilot/.
+  Nächste Version, komplette Dateien, alte Clients nie brechen, alle Locale-Dateien, CHANGELOG EN/DE, vor dem Push
+  python3 addon-check/addon_check.py <ZIP> -> kein FEHLER. Ist ein Befund falsch, bitte begründet zurückmelden.
