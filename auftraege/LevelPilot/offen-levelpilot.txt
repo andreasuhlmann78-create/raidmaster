@@ -441,3 +441,11 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   Grenzen wie immer: keine Spitze > 16 ms (Portionen), Speicher messen, Testroutine je Teil, Prüfliste im Spiel. Reihenfolge: LW-6 -> LW-3 ->
   LW-1 -> NAV-1/NAV-2 (Plan zuerst) -> LW-2 -> NAV-3/NAV-4 -> LW-4 -> LW-7 -> LW-5 (Era). Eigene Vorschläge zur Reihenfolge im Bericht.
 
+>>> ÄHNLICHE ADDONS (Auftrag des Nutzers 07:56; Supervisor 07:57): Abschnitt 6 der Analyse levelpilot-laufwege-2026-11-16.md. Wichtigster Fund:
+  MAPZEROTH (Forever, Navi mit Dijkstra) erzeugt ein STRASSENNETZ aus den Gelände-Texturen der Forever-Spieldateien (alle Kontinente),
+  hat Flüge mit echten Zeiten/Preisen, Reittier-Tempo und exakte Reihenfolge bis 12 Stopps. LW-8 (in LW-0-Art zuerst bewerten, Bericht):
+  (1) Strassennetz: Übernahme NUR bei bestätigter MIT-Lizenz (im Repo fehlt eine Lizenzdatei – nicht übernehmen, bevor das geklärt ist;
+      Klärung über den Nutzer) ODER eigenes Werkzeug nach demselben Verfahren (Aufwand, Zugriff auf den Client des Nutzers nennen).
+  (2) Flugzeit/Preis + Ticket-Regel in LW-3/NAV-2. (3) Exakte Reihenfolge bis 8 Ziele in LW-2. (4) Reittier/drinnen + Ladebildschirm in NAV-2.
+  (5) Oft gelaufene Wege billiger. Keine fremden Texte/Code ohne Lizenz übernehmen (GPL/CC/Alle Rechte = nur Ideen).
+

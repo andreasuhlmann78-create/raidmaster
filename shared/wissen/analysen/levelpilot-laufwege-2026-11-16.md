@@ -134,3 +134,39 @@ KEINE Routen, Texte oder Code übernehmen (LevelPilot steht nicht unter dieser L
 - **Messlatte:** Die Zeiten der Speedrunner je Stufe sind öffentlich (RestedXP-Leitfäden geben Stufenbereiche je Abschnitt). LevelPilot
   kann seine EP/Stunde (LW-6) gegen solche Richtwerte stellen – als Zahl, nicht als kopierte Route.
 
+## 6. Weitere ähnliche Addons (Auftrag des Nutzers 07:56 "suche nach weiteren Addons und zieh raus, was wir brauchen können") – 07:57
+
+| Addon | Spiel | Art | Lizenz | Für uns |
+|---|---|---|---|---|
+| **Mapzeroth** (Quellcode gelesen, github.com/tr0tsky0/Mapzeroth, Stand 15.11.2026) | Forever + Retail | Navi: schnellster Weg zu jedem Ziel, Dijkstra über Reise-Graph | **MIT laut CurseForge** – im Repo KEINE Lizenzdatei (vor jeder Übernahme klären) | SEHR VIEL – siehe unten |
+| **Jazkyr's Northstar** (CurseForge-Beschreibung) | nur Forever | Navi + "alle Quests einer Zone der Reihe nach", echte Flugzeiten und Preise, Flugpunkt holen, Gruppenmitglied folgen | Alle Rechte vorbehalten | nur Ideen |
+| **Well Trodden** (CurseForge-Beschreibung) | Forever | zeichnet gelaufene Wege auf, Netz aus Kreuzungen, oft gelaufene Wege zählen als kürzer, Rest Luftlinie (orange) | MIT | bestätigt LevelPilots Ansatz; Idee "oft gelaufen = billiger" |
+| **FarstriderLib** (CurseForge) | Retail/Classic/TBC/MoP, nicht Forever | Bibliothek: Reise-Graph mit Flug, Portal, Schiff, Zeppelin, Gegenstände, Zauber | GPL v3 | nur Ideen (GPL passt nicht zu LevelPilots Lizenz) |
+| **Zygor Travel System** (Handbuch) | alle | "GPS": schnellster Weg mit Reittier, Flug, Portal, Ruhestein, Zaubern; Optionen: Ruhestein ausschliessen, Flug bevorzugen, Flug automatisch nehmen | kommerziell | nur Ideen |
+| QuickRoute (CurseForge) | nur Retail | Dijkstra, Teleport-Abklingzeiten | MIT | nur Ideen |
+| Guidelime, RestedXP, Azeroth Pilot | Classic/Retail | Leitfäden von Hand (keine Wegsuche) | verschieden | siehe Abschnitt 5 |
+
+### Mapzeroth im Detail (belegt, Code) – das Wertvollste
+- **Strassennetz aus den Spieldateien von Forever:** tools/roads/gen_roads.py liest die Gelände-Texturen (ADT, Strassen-Texturen) aus dem
+  Forever-Client, macht daraus Mittellinien je Kontinent (Data/Forever/Roads.lua, 124 KB, alle Kontinente) und Stadtwege (CityPaths).
+  Das ist genau die Lücke von LW-1/LW-4: LevelPilot hat Strassen nur, wo Spieler gelaufen sind (+ Geländekarte aus Kreaturen-Positionen).
+- **Gehweg-Wahl:** Strasse kostet 1, offenes Gelände 1,8 (einstellbar 1,25–3,5); Zeit = echte Länge. Zonengrenzen nur über von Hand
+  geprüfte Übergänge ("Luftlinie ist kein sicherer Ersatz für Begehbarkeit" – gleiche Regel wie LevelPilot).
+- **Flüge mit echten Zeiten und Preisen** (Flights.lua aus gen_flights.py), mit Ticket-Logik (direkte Strecke wird immer verkauft).
+- **Reise-Graph:** Dijkstra über Knoten mit Flug, Schiff, Zeppelin, Ruhestein, Klassenzaubern, Gegenständen; Ladebildschirm-Zeit.
+- **Tempo:** Reittier nach Reitfertigkeit, drinnen ohne Reittier (MovementSpeed.lua). Gemessene Umweg-Faktoren je Stadt (PathFactors).
+- **Mehrere Ziele:** beste Reihenfolge EXAKT bis 12 Stopps (Held-Karp), darüber "nächster zuerst + Verbesserung" (MultiRoute.lua) –
+  LevelPilots Horizont ist ebenfalls 12; exakt bis ~8 Stopps ist im Spiel billig (2^8 × 64 ≈ 16 000 Schritte).
+- Forever lernt Flugpunkte beim Öffnen des Flugmeisters.
+
+### Was LevelPilot daraus nehmen soll (LW-8, Vorschlag)
+1. **Strassen aus den Spieldateien** – entweder Mapzeroths Roads.lua übernehmen (NUR wenn die MIT-Lizenz bestätigt ist: Lizenzdatei im
+   Repo oder schriftlich vom Autor; dann mit Namensnennung und Lizenztext) ODER mit eigenem Werkzeug aus dem Forever-Client erzeugen
+   (gleiches Verfahren, eigene Umsetzung; braucht den Client des Nutzers – Verdacht, Aufwand zu klären). Damit: Wegkosten (LW-1) aus Strassen
+   + Geländekarte + gelaufenem Netz, und ein Startnetz für ALLE Zonen (LW-4) ohne dass jemand alles ablaufen muss.
+2. **Flugdaten mit Zeit und Preis** (LW-3/NAV-2): eigene Messung (Calib) + Flugnetz; Ticket-Regel übernehmen (Idee).
+3. **Exakte Reihenfolge** für kleine Horizonte (LW-2): bis 8 Ziele exakt, darüber 2-opt wie heute.
+4. **Reittier/drinnen** im Tempo (NAV-2), **Ladebildschirm-Zeit** für Schiff/Zeppelin.
+5. **Oft gelaufene Wege billiger** (Well Trodden; LevelPilot hat die Zahl "Läufe" schon im Startnetz).
+6. Northstar-Ideen: Flugpreise anzeigen, "Flugpunkt holen" als Schritt (hat LevelPilot schon), Gruppenmitglied folgen (NAV-4).
+
