@@ -605,3 +605,8 @@ B-1 (Wegdaten für alle Zonen): Es gibt nur, was der Uploader schon liefert (tes
      durch Spielen + Hochladen; eine eigene Sammel-Aktion ist nicht vorgesehen. LW-4 mit dem Strassennetz (ST-2) + diesen Daten bauen.
 B-2/B-3/B-4: an den Nutzer weitergegeben; B-3/B-4 macht der Supervisor im Spiel, sobald der Nutzer am Rechner ist (mit LevelPilot-Prüfliste).
 Prüfung 3.12.65/3.12.66 folgt in der nächsten Runde.
+
+==== PRÜFUNG Supervisor 16.11.2026 14:20 – LevelPilot 3.12.65 / 3.12.66 ====
+- 3.12.66 selbst: addon_check OK; Offline-Routine 38/38 ohne FEHLER; .toc beider Addons "## Interface: 16001, 11509" (wie gemessen).
+- Installiert auf dem Rechner des Nutzers in BEIDE Clients: Forever und Classic Era (je 107 Dateien, byte-gleich, nichts Altes übrig).
+- Nachprüfung im Spiel (Era-Prüfliste E5-1..6, T318–T324, B-3) macht der Supervisor mit dem Nutzer.
