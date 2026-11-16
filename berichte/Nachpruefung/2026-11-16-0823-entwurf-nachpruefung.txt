@@ -1,0 +1,121 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+
+BERICHT NACHPRÜFUNG (geplante Aufgabe) – 16.11.2026 08:23 MEZ (aus date)
+Geprüft auf origin/main 95fc23ca. Nur dieser Entwurf wird committet; nichts in auftraege/**, kein Log, keine stand.json.
+
+=====================================================================================================================
+0. ÜBERBLICK
+=====================================================================================================================
+Kein FEHLER der Addon-Prüfung, kein Befund HOCH.
+
+Neu seit der letzten Prüfung des Supervisors (Log 07:44) und noch nicht geprüft:
+- LevelPilot 3.12.48 (LW-6 Laufweg-Messung, GoldSentinelDev v2) und 3.12.49 (LW-3 Flug nach Zeit)
+- Uploader 2.3.13 (UP-DS1 Bewerber/Sperrliste nie ins Daten-Repo) – im Log 07:44 nur "RM 3.0.28" genannt.
+
+Schon vom Supervisor geprüft, hier NUR erwähnt (nicht doppelt): AHS 0.65.260, BS 0.9.47, LP 3.12.47, RM 3.0.28, Bot 1.5.186
+(07:44), GS 0.9.48 (05:22), TS 2.5.15 (04:59), PS 0.9.62 (01:33). ST-1 Strassennetz (95fc23ca) ist Werkzeug/Daten in
+shared/werkzeuge/strassen/, keine Addon-Version – nicht nachgeprüft.
+Hinweis: addon-check/nachpruefung-stand.json steht noch auf 15.11. 11:20 (AHS 0.65.178 …) – der Supervisor führt den Stand
+offenbar über das Log; Vorschlag unten (Abschnitt 4).
+
+Testberichte: einzige neue Datei seit dem Stand ist testberichte/diagnose/LevelPilot/3.12.30-d56de4ad4ec7.txt (05:55,
+alte Version 3.12.30) – "Letzter Fehler: keiner", kein Befund.
+
+=====================================================================================================================
+1. LEVELPILOT 3.12.48 + 3.12.49 – keine Befunde HOCH/MITTEL, zwei NIEDRIG
+=====================================================================================================================
+Grundlage: announce/levelpilot__levelpilot-3.12.49.LevelPilot.zip gegen 3.12.47 (diff -r), Berichte
+berichte/LevelPilot/2026-11-16-0750-3.12.48-lw-6-messung.txt und 2026-11-16-0811-3.12.49-lw-3-flug-nach-zeit.txt gelesen.
+
+Prüfungen:
+- addon_check 3.12.49: OK (kein FEHLER, keine WARNUNG). (3.12.48 einzeln: nur FEHLER "niedriger als 3.12.49" – erwartet,
+  weil schon überholt.)
+- Offline-Routine berichte/LevelPilot/offline/run_offline.py 3.12.49: 37 Läufe, 37 ohne FEHLER (Testroutine A–J alle Lagen,
+  Regression, UC-W1, W3D, Startwegnetz) – stimmt mit dem Bericht überein.
+- Gemeinsame Dateien byte-gleich mit shared/: GoldSentinelGame, -Sync, -Test, -Dev (Version 2), -Pruefliste (cmp).
+  .toc: GoldSentinelDev.lua vor GoldSentinelPruefliste.lua (Zeile 25/26) – wie verlangt. Laufweg.lua nach Planner.lua.
+- CHANGELOG EN/DE: 3.12.48 und 3.12.49 in beiden.
+- Taint: Tests T310/T311 ersetzen nur Addon-Tabellen (LP.Calib.FlightSecs, Geo.TaxiPoint) und stellen sie zurück; keine
+  Blizzard-Funktion und keine C_-Tabelle ersetzt.
+- Rechnung LW-3 nachgerechnet (Bericht Fall B/C): B laufen 2600×1,25/14 = 232,1 s; fliegen 1000×1,25/14 + 15 +
+  (30 + Flug-Luftlinie×1,3/32) = 207,4 -> +30 = 237,4 > 232,1 -> laufen (richtig). C laufen 2500×1,25/7 = 446,4; fliegen
+  1800×1,25/7 + 15 + 60 = 396,4 -> +30 = 426,4 < 446,4 -> Flug (richtig). Annahme 1800 yd: 30 + 1800×1,3/32 = 103,1 s (stimmt).
+- LW-6 Laufweg.lua:1–228 gelesen: Sprung > 80 yd/s, Lücke > 5 s, AFK/tot, Flug und virtuelle Reise zählen nicht; Kosten ein
+  1-s-Ticker; Summen klein (je Zone, je Level). Keine nil-Zugriffe gefunden (o.inst fehlt -> früher Ausstieg; Wechsel der Welt
+  -> Start = aktuelle Position).
+
+NP-LP49-1 NIEDRIG – Laufweg.lua:219 (LW.Lines, REISE-Zeile ohne Flugvergleich):
+  "local yps, ysrc = P and P.GroundYps and P.GroundYps()" – der Operator "and" gibt nur EINEN Wert weiter; ysrc ist immer nil.
+  Nachgewiesen mit Lua 5.1 (lupa): local a,b = P and P.f and P.f() -> "7/nil". Die Zeile zeigt dann "Tempo 7.0 yd/s (nil)"
+  statt "(zu Fuss)" bzw. "(Reittier gemessen)". T310 prüft diese Zeile offenbar nicht auf den Klartext.
+  Lösung: "local yps, ysrc; if P and P.GroundYps then yps, ysrc = P.GroundYps() end"; in T310/T311 den Klartext
+  "(zu Fuss)" in der Zeile ohne Flugvergleich prüfen (Gegenprobe mit der alten Zeile -> rot).
+NP-LP49-2 NIEDRIG – Laufweg.lua:220/222 Zahlenformat: "Tempo %.1f yd/s" ergibt "11.2" (Punkt), alle anderen LAUFWEG-Zahlen
+  nutzen F2 mit Komma ("1,25"), und CLIENT.T311 (TestRoutine.lua) erwartet wörtlich "Tempo 11,2 yd/s (Reittier gemessen)".
+  Die Prüfliste im Client würde so an einer Kleinigkeit hängen. Lösung: Komma wie F2 (z. B. eigene F1-Hilfe) oder den
+  CLIENT-Text an "11.2" anpassen – einheitlich.
+Hinweis (kein Befund, Verdacht zu messen): mountYps merkt den höchsten je gesehenen Wert. In TBC hebt die Kreuzfahreraura
+  (+20 % beritten) 60 % auf 13,4 yd/s (< 15, wird übernommen) – danach plant LevelPilot auch ohne Aura mit 13,4. Falls das
+  stört: Wert nur ohne Tempo-Buff übernehmen oder Median der letzten Ritte. Druiden-Reisegestalt zählt nicht als Reittier
+  (IsMounted) – dann bleibt "zu Fuss 7"; bewusst?
+
+IM CLIENT PRÜFEN: T310 (nach einer Spielstunde /lp protokoll: LAUFWEG-Zeilen plausibel), T311 (Flugvergleich, Reittier-Tempo).
+
+=====================================================================================================================
+2. RAIDMASTER – UPLOADER 2.3.13 (UP-DS1) – umgesetzt wie verlangt, ein NIEDRIG
+=====================================================================================================================
+Grundlage: Commit d809a793 (daten.py, svfilter.py neu, tests), Bericht berichte/RaidMaster/2026-11-16-0718-uploader-2.3.13-up-ds1.txt.
+
+Prüfungen:
+- python3 -I -m unittest discover -s tests (RaidMasterUploader): 108 Tests OK.
+- daten.py:447–462: nur die hochgeladene Kopie wird gefiltert; FilterError oder fehlendes svfilter.py -> GuildSentinel.lua
+  wird nicht geliefert, eine Meldung je Datei-Stand, nie mit Inhalt. Entspricht dem Auftrag.
+- Eigene Gegenproben (Skript im Scratchpad): CRLF-Zeilenenden -> gefiltert; UTF-8-BOM -> FilterError (nicht geliefert, sicher);
+  zweimal GuildSentinelDB mit leerer ZWEITER Zuweisung -> GEHEIM bleibt im Text (siehe NP-UP13-1).
+
+NP-UP13-1 NIEDRIG – svfilter.py:224–262 filter_guildsentinel folgt der Lua-Bedeutung "letzter Wert gilt", nicht der Regel
+  "nie Bewerber/Sperrliste im hochgeladenen TEXT":
+  (a) doppelte Schlüssel ("apps" zweimal in einer Gilde, "guilds" zweimal, oder GuildSentinelDB zweimal zugewiesen) -> nur
+      das letzte Vorkommen wird geleert, frühere bleiben im Text (nachgewiesen: 3 Fälle "GEHEIM drin: True").
+      WoW schreibt solche Dateien selbst nicht – also nur theoretisch, aber der Auftrag sagt "nie ungefiltert".
+  (b) sehr tiefe Verschachtelung (5000 Ebenen) -> RecursionError statt FilterError. daten.py fängt nur FilterError; der Fehler
+      landet im allgemeinen except von uploader.py:1260 ("Prüfung: maximum recursion …") – nichts gelangt nach aussen, aber
+      dann wird KEINE Datei mehr geliefert (auch AHS/PS), bei jedem Versuch.
+  Lösung: doppelten Schlüssel bzw. zweite Zuweisung von GuildSentinelDB -> FilterError ("nicht sicher lesbar"); in daten.py
+  zusätzlich RecursionError (bzw. Exception) beim Filtern wie FilterError behandeln (nur GuildSentinel.lua weglassen).
+  Tests: die drei Doppel-Fälle und eine 5000-fach verschachtelte Datei -> nicht geliefert, AHSentinel.lua geht trotzdem hoch.
+
+OFFENE FRAGE AN DEN NUTZER aus dem Bericht (nicht von mir zu entscheiden, nur weitergeben): alte ungefilterte Stände unter
+tage/<Datum>/ und aktuell/<anderer Rechner>/ einmalig bereinigen (sie fallen sonst nach 7 Tagen weg)? Und: soll auch der
+Abgleich PC/Laptop (sync.py, #sync-daten) filtern (dann fehlen die Listen am zweiten Rechner)?
+
+=====================================================================================================================
+3. VORGESCHLAGENE NACHTRÄGE (der Supervisor überträgt)
+=====================================================================================================================
+auftraege/LevelPilot/offen-levelpilot.txt – anhängen:
+>>> NACHPRÜFUNG 08:23 (geplante Aufgabe, vom Supervisor übernommen) – 3.12.48 LW-6 und 3.12.49 LW-3: addon_check OK, Offline
+  37/37, gemeinsame Dateien byte-gleich (Dev v2), Rechnung Fall B/C nachgerechnet – umgesetzt. Zwei Kleinigkeiten:
+  NP-LP49-1 NIEDRIG Laufweg.lua:219 "local yps, ysrc = P and P.GroundYps and P.GroundYps()" -> ysrc immer nil, Zeile zeigt
+  "(nil)". Lösung: if P and P.GroundYps then yps, ysrc = P.GroundYps() end; Klartext in T310/T311 prüfen (Gegenprobe).
+  NP-LP49-2 NIEDRIG Laufweg.lua:220/222 "%.1f" -> "11.2", CLIENT.T311 erwartet "11,2": einheitlich Komma.
+  Frage: Tempo-Buffs (TBC Kreuzfahreraura) im höchsten Reittier-Tempo; Druiden-Reisegestalt bewusst "zu Fuss"?
+  Im Client: T310, T311.
+
+auftraege/RaidMaster/offen-raidmaster.txt – anhängen:
+>>> NACHPRÜFUNG 08:23 (geplante Aufgabe, vom Supervisor übernommen) – Uploader 2.3.13 UP-DS1: 108 Tests grün, Filter und
+  "nicht geliefert"-Weg wie verlangt. NP-UP13-1 NIEDRIG svfilter.py:224: doppelte Schlüssel/zweite Zuweisung von
+  GuildSentinelDB -> frühere apps/ban bleiben im Text (WoW schreibt das nicht, nur theoretisch); 5000-fach verschachtelt ->
+  RecursionError statt FilterError -> dann geht gar keine Datei mehr hoch. Lösung: Doppel -> FilterError; in daten.py beim
+  Filtern auch RecursionError/Exception wie FilterError (nur GuildSentinel.lua weglassen). Tests dazu mit Gegenprobe.
+  Frage an den Nutzer (Bericht 07:18): alte Stände tage/ bereinigen? Abgleich sync.py auch filtern?
+
+=====================================================================================================================
+4. STAND / LOG (Vorschlag)
+=====================================================================================================================
+nachrichten-log.txt: "2026-11-16 08:23 | Nachprüfung (Entwurf) | LevelPilot 3.12.48/49, Uploader 2.3.13 | NIEDRIG NP-LP49-1/-2,
+  NP-UP13-1 | Supervisor | offen-levelpilot.txt, offen-raidmaster.txt | -"
+nachpruefung-stand.json "versionen": LevelPilot 3.12.49, RaidMasterUploader 2.3.13 – dazu (laut Log vom Supervisor schon
+  geprüft) AHSentinel 0.65.260, BuffSentinel 0.9.47, GuildSentinel 0.9.48, ProfessionSentinel 0.9.62, RaidMaster 3.0.28,
+  ThreatSentinel 2.5.15, RaidMasterBot 1.5.186; "geprueft" 2026-11-16T08:23+01:00; "testberichte_bis" fc78198d.
+
+Nachrichten-Dateien: keine geschickt (Vorrang-Regel 14.11.).
