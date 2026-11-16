@@ -274,3 +274,10 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   mit dem gemeinsamen Baustein shared/GoldSentinelPruefliste.lua (unverändert kopieren). Nur Entwicklermodus, merkt selbst, zeigt
   dem Nutzer immer, was zu tun ist. Auftrag und Regeln: auftraege/hinweis-pruefliste-im-spiel-2026-11-16.txt.
 
+>>> ENTSCHEID DES NUTZERS 16.11. 07:10 (Supervisor 07:12): E NACHKAUFEN BEIM HÄNDLER MIT EINEM KLICK – JA, MIT GRENZE.
+  BS-E1: Bei offenem Händler, der das Fehlende verkauft (Pfeile/Kugeln, Reagenzien, Seelensplitter nicht – nur Kaufbares), zeigt BuffSentinel
+  EINEN Knopf "Nachkaufen: 800× Scharfer Pfeil für 2s 40c". Ein Klick = genau dieser Kauf (BuyMerchantItem im Klick, Menge = bis zum Soll,
+  höchstens volle Stapel), vorher Menge und Preis sichtbar. Gold-Obergrenze je Kauf einstellbar (Standard 1g), Funktion STANDARD AUS (Option
+  "Nachkaufen-Knopf beim Händler"). Nie automatisch ohne Klick, nie über der Grenze, nie wenn das Gold nach dem Kauf unter 1g fiele, nie
+  doppelt (Knopf nach dem Klick grau bis zur Taschenmeldung). Preise aus GetMerchantItemInfo (Ruf-Rabatt eingerechnet). Tests: Grenze,
+  zu wenig Gold, Händler ohne die Ware, Doppelklick, Option aus. Kommt in die Prüfliste im Spiel.

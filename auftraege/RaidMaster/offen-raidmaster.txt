@@ -271,3 +271,11 @@ UP-404 HOCH (Nutzer 15.11. 01:26, Screenshot Uploader): "Abgleich: Discord antwo
   mit dem gemeinsamen Baustein shared/GoldSentinelPruefliste.lua (unverändert kopieren). Nur Entwicklermodus, merkt selbst, zeigt
   dem Nutzer immer, was zu tun ist. Auftrag und Regeln: auftraege/hinweis-pruefliste-im-spiel-2026-11-16.txt.
 
+>>> ENTSCHEID DES NUTZERS 16.11. 07:10 (Supervisor 07:12): DATENSCHUTZ im privaten Daten-Repo – Bewerber und Sperrliste WEGLASSEN.
+  UP-DS1 (Uploader, daten.py): Vor dem Hochladen von GuildSentinel.lua die Tabellen "apps" (Bewerber: Name, Nachricht) und "ban" (Sperrliste
+  mit Gründen) in JEDER Gilde entfernen (GuildSentinel Core.lua:15/84–85: GuildSentinelDB … apps = { [Name] = … }, ban = { … }). Die Datei
+  im Spiel bleibt unverändert – nur die hochgeladene Kopie. Robust: Lua-Tabelle sicher lesen (Zeichenketten mit Klammern/Anführungszeichen,
+  Escapes) und die Einträge durch leere Tabellen ersetzen; geht das Lesen schief -> GuildSentinel.lua NICHT hochladen und eine Zeile im
+  Fenster ("GuildSentinel-Daten nicht geliefert: …"), nie ungefiltert. Tests: Bewerber mit "}" und Anführungszeichen im Text, Sperrgrund
+  mit Zeilenumbruch, zwei Gilden, Datei ohne apps/ban, kaputte Datei -> nicht geliefert. Danach bitte melden, ob die schon hochgeladenen
+  Stände im Daten-Repo (aktuell/, tage/) bereinigt werden sollen – das entscheidet der Nutzer (Verlauf im privaten Repo).

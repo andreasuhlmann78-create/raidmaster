@@ -287,3 +287,10 @@ UP-404 (Hinweis, 15.11. 01:26): Uploader meldet "Discord antwortet 404" beim Abg
 >>> SCHLAFEN (Nutzer 16.11. 04:45: "schick alle schlafen, die nichts mehr zu tun haben"; Supervisor 04:45): Du hast im Moment keinen offenen Auftrag,
   nur Punkte, die auf den Nutzer warten. Darum: laufende Arbeit sauber abschliessen (commit, push, auf origin prüfen), KEINEN neuen internen Wecker
   stellen und die Sitzung ruhen lassen. Der Nutzer weckt dich, wenn es weitergeht – dann zuerst git pull und diese Datei lesen.
+
+>>> ENTSCHEID DES NUTZERS 16.11. 07:10 (Supervisor 07:12): Wunsch 3 WIEDERKEHRENDE RAIDS – JA, BAUEN. Das ist der Befehl, auf den du wartest.
+  D-N1-W3: Offiziere legen einen festen Wochentermin an (/raid wiederkehrend: Raid aus forever_raids.json, Wochentag, Uhrzeit Europe/Zurich,
+  wie viele Wochen im Voraus, Anmeldegrenzen je Rolle wie bei /raid). Der Bot legt die Termine selbst an (z. B. 14 Tage im Voraus), nie
+  doppelt (gleicher Raid + Datum = schon da), Auflisten/Pausieren/Löschen nur Offiziere. Raids mit "opens" in der Zukunft: erst ab
+  Öffnungsdatum (9.12.). Zeit aus der Uhr des Servers mit Zeitzone, Sommer-/Winterzeit getestet. Tests: Anlegen, kein Doppel nach Neustart,
+  Pausieren, Löschen, Zeitumstellung, Rechte. Bericht "umgesetzt, zur Prüfung"; danach /update durch den Nutzer.
