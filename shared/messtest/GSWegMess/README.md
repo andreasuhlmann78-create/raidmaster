@@ -12,3 +12,8 @@ Eine Zeile bei jeder Änderung, bei Ereignissen und in Bewegung etwa 1× je Seku
 Testläufe: (1) Unterstadt Auktionshaus -> Bethor Iceshard (Magieviertel) und zurück; (2) Ruinen von Lordaeron -> Aufzug -> Unterstadt
 -> anderer Aufzug hinauf; (3) Donnerfels Aufzug unten -> oben; (4) eine Höhle hinein und hinaus.
 Test: test_gswegmess.py (15/15).
+
+## Auswertung (Supervisor, 16.11.2026)
+`python3 -I shared/messtest/GSWegMess/auswerten.py <SavedVariables/GSWegMess.lua>` – Abschnitte zwischen den Notizen, je Zeichen
+(Karte, Kleinkarte, Unterzone, Minikarte, drinnen) die Wechsel, Wechsel ohne 2D-Bewegung (Aufzug/Treppe) und wie viele Ebenen-Paare es an
+derselben 2D-Stelle trennt; Ereignisse und Stürze. Test: `test_auswerten.py` (10/10, erfundene Messung).
