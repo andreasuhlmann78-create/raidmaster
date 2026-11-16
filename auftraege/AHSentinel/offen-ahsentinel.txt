@@ -3525,3 +3525,8 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
 >>> NACHT-PRÜFUNG 02:19 (Supervisor) – 0.65.255: Befund richtig gestellt (0 % ist über die Oberfläche gar nicht einstellbar, kleinste Stufe 10 %) und Satz
   entsprechend – besser als mein Vorschlag. Keine Befunde.
 
+>>> HINWEIS MARKT-TABELLEN "alle" (Supervisor 03:04): Die erste echte Tagesdatei liegt vor (testberichte/markt/tages/2026-11-14.json: 1 Scan, 1 Quelle,
+  ohne Vergleich -> kein Absatz). Der Teil "alle" enthält ab jetzt nur Items MIT gemessenem Absatz und ≥ 2 Quellen (sonst wären es deine eigenen Daten
+  doppelt); neue Kopf-Zähler ohneAbsatz/eineQuelle (README). Heute ergibt das noch KEINE Items – K:AllItem liefert nil, alles wie bisher. Für dich nichts
+  zu tun; Format nur erweitert. Test 20/20.
+

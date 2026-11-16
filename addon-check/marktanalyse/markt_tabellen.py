@@ -192,6 +192,7 @@ def buy_bands(dbs):
 ALLE_TAGE = 14                 # so viele Tage (neueste Dateien) fliessen in "alle" ein
 ALLE_MAX_BYTES = 40 * 1024     # Teil "alle" höchstens so gross (ganze Datei < 50 KB, README)
 ALLE_FELDER = ["preis", "absatzMin", "absatzMax", "quellen", "tage", "scans"]
+ALLE_MIN_QUELLEN = 2           # mindestens so viele einsendende Spieler an einem Tag (sonst eigene Daten doppelt)
 
 
 def alle(tages_dir, max_bytes=ALLE_MAX_BYTES, keep=ALLE_TAGE):
@@ -245,12 +246,22 @@ def alle(tages_dir, max_bytes=ALLE_MAX_BYTES, keep=ALLE_TAGE):
     out = {"v": 1, "tage": len(days), "von": min(a for a, _ in days), "bis": max(b for _, b in days),
            "felder": list(ALLE_FELDER), "weggelassen": 0}
     rows = []                      # (scans, fac, iid, zeile)
+    out["ohneAbsatz"], out["eineQuelle"] = 0, 0
     for fac, items in acc.items():
         for iid, e in items.items():
             if not e["p"]:
                 continue
             lo = round(e["lo"] / e["w"], 2) if e["w"] else None
             hi = round(e["hi"] / e["w"], 2) if e["w"] else None
+            # 16.11. 03:0x (erste echte Tagesdatei): AHSentinel nutzt aus "alle" nur den Absatz – Items ohne gemessenen Absatz
+            # tragen nichts bei; und eine einzige Quelle ist meist der Spieler selbst (eigene Daten doppelt gezählt). Beides
+            # weglassen und zählen (nie still).
+            if lo is None or hi is None:
+                out["ohneAbsatz"] += 1
+                continue
+            if e["q"] < ALLE_MIN_QUELLEN:
+                out["eineQuelle"] += 1
+                continue
             rows.append((e["n"], fac, iid, [int(round(st.median(e["p"]))), lo, hi, e["q"], e["t"], e["n"]]))
     rows.sort(key=lambda r: (-r[0], r[1], r[2]))
     keepn = len(rows)

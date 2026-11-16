@@ -23,6 +23,9 @@ Abgänge je Tag als Spanne (Summe/Summe über die Tage, gewichtet mit der Vergle
 höchste Zahl einsendender Spieler an einem Tag (Untergrenze; Kennungen gibt die Sammelstelle nie heraus), `tage`, `scans`.
 Aus den neuesten 14 Tagesdateien `testberichte/markt/tages/<JJJJ-MM-TT>.json`; Teil höchstens 40 KB – sonst fallen die Items
 mit den wenigsten Scans weg (Anzahl in `weggelassen`). Test: `addon-check/test_markt_tabellen_alle.py`.
+Seit 16.11.2026 03:0x (erste echte Tagesdatei 2026-11-14: 1 Scan, 1 Quelle, kein Vergleich): nur Items MIT gemessenem Absatz und mit
+mindestens 2 Quellen an einem Tag (eine Quelle ist meist der Spieler selbst – sonst zählt AHSentinel seine eigenen Daten doppelt).
+Weggelassene werden gezählt: `ohneAbsatz`, `eineQuelle`. Ohne passende Items hat der Teil nur die Kopfwerte (kein H/A).
 
 Erzeugen: `python3 -I addon-check/marktanalyse/markt_tabellen.py <AHSentinel.lua> [...] shared/markt-tabellen/GoldSentinelMarktTabellen.lua`
 (täglich durch die geplante Aufgabe "Markt-Tabellen täglich"). Zählweisen wie im Addon: Verkauf = Anteil verkauft

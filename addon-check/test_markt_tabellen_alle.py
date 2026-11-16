@@ -54,7 +54,7 @@ with tempfile.TemporaryDirectory() as d:
     check("Quellen = höchste Tageszahl 3", h[3] == 3)
     check("Tage 2, Scans 12", h[4] == 2 and h[5] == 12)
     check("Item ohne Preis fehlt", 2592 not in a["H"])
-    check("Fraktion A getrennt, Absatz unbekannt -> nil", a["A"][2589][0] == 300 and a["A"][2589][1] is None)
+    check("ohne gemessenen Absatz weggelassen und gezählt (A 2589)", "A" not in a and a["ohneAbsatz"] == 1)
     # Lua: Zahl-Schlüssel, ladbar, keine Namen
     text = "GoldSentinelMarktTabellen = " + mt.lua_val({"v": 1, "alle": a})
     lua = LuaRuntime(unpack_returned_tuples=True)
@@ -62,14 +62,21 @@ with tempfile.TemporaryDirectory() as d:
     T = lua.globals().GoldSentinelMarktTabellen
     check("in Lua mit Zahl nachschlagbar", T.alle.H[2589][1] == 120 and T.alle.H[2589][2] == 5.0)
     check("Zahl-Schlüssel, kein Text-Schlüssel", "[2589]" in text and '["2589"]' not in text)
-    check("nil-Absatz als nil", T.alle.A[2589][2] is None)
+    check("zwei/drei Quellen bleiben (eineQuelle 0)", a["eineQuelle"] == 0)
+    # eine Quelle (meist der Spieler selbst) -> weg, gezählt; Gegenprobe zwei Quellen bleibt
+    with tempfile.TemporaryDirectory() as d2:
+        d2 = Path(d2)
+        day(d2, "2026-11-20", {"H": {"vergleich_h": 10, "items": {"1": [2, 1, 100, 1, 1, 1, 1, 2], "2": [2, 2, 100, 1, 1, 1, 1, 2]}}})
+        e = mt.alle(d2)
+        check("eine Quelle weggelassen, zwei Quellen bleibt", 1 not in e["H"] and 2 in e["H"] and e["eineQuelle"] == 1)
     # Grösse: viele Items -> wird gekürzt, Anzahl steht drin, die mit den meisten Scans bleiben
     many = {str(10000 + i): [1 + (i % 50), 2, 1000 + i, 1, 1, 1, 0.5, 1.5] for i in range(4000)}
     day(d, "2026-11-16", {"H": {"vergleich_h": 24, "items": many}})
     b = mt.alle(d, max_bytes=20 * 1024)
     size = len(mt.lua_val(b))
     check(f"auf Grenze gekürzt ({size} <= 20480)", size <= 20 * 1024)
-    check("weggelassen gezählt", b["weggelassen"] > 0 and b["weggelassen"] + len(b["H"]) + len(b.get("A", {})) == 4002)
+    check("weggelassen gezählt", b["weggelassen"] > 0
+          and b["weggelassen"] + len(b["H"]) + len(b.get("A", {})) + b["ohneAbsatz"] + b["eineQuelle"] == 4002)
     kept = [v[5] for v in b["H"].values()]
     dropped_max = max(1 + (i % 50) for i in range(4000) if (10000 + i) not in b["H"])
     check("behalten werden die Items mit den meisten Scans", min(kept) >= dropped_max)
