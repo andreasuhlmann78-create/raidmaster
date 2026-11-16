@@ -1,0 +1,16 @@
+BERICHT LevelPilot 3.12.82 – GRIND-1: Fassung E (Entscheid Supervisor 23:06)
+Projekt: LevelPilot · Datum: 16.11.2026 23:12 (aus date) · Version: 3.12.82 · umgesetzt, zur Prüfung
+
+1. ÄNDERUNG (P:ChooseFocus): ist daheim der beste Restwert < P.CROSS_STARVE = 2,5 (= DRAIN), gelten die Kontinent-Grenzen (Stufe 30,
+   alle 10 Stufen) nicht. Gleich wie die gemessene Fassung E (Logik verglichen; Ergebnisse unten identisch mit der E-Messung 22:48).
+2. ZEIT UND GRINDEN (virtuelle Reise 1–60, Forever) 3.12.81 -> 3.12.82:
+   Ork 176:00 -> 179:04 (Grinden 77 -> 28 h) · Untoter 180:15 -> 194:36 (95 -> 28 h) · Nachtelf 148:50 -> 168:17 (65 -> 26 h) ·
+   Zwerg 181:32 -> 188:02 (84 -> 34 h) · Tauren 176:10 -> 190:43 (74 -> 24 h) · Mensch 180:22 -> 189:59 (84 -> 36 h).
+   Summe 1043,2 -> 1110,7 h (+6,5 %); Grinden 479 -> 176 h (Anteil 42–53 % -> 13–19 %); Questziele 40–56 -> 65–90 h.
+   Bewertung Zeit + 0,5 × Grinden: 1283 -> 1199 (besser). 3.12.79 zum Vergleich: 1213.
+3. ROUTE-Q (12 Reisen, echte Kartengrenzen): R1, R2, R4 = 0; R3W 0–1 (Nachtelf Era 1); R6 0–1 (4 Reisen je 1); O5 0–3;
+   Kontinentwechsel 14–22 (bis 30: 2–4) – Kennzahl (R7), kein Verstoss (Supervisor 23:06). Startgebiet unverändert (Stufe 4–6).
+   Gegenprobe 3.12.81: Kontinentwechsel 3 (bis 30: 0), Grinden 42–53 %.
+4. TEST T341 erweitert (30 · 10 · 2.5). GEGENPROBE (CROSS_STARVE 0): false.
+5. PRÜFUNGEN: addon_check OK · Offline-Routine 38/38 ohne FEHLER · Regression 36/36 ALLE TESTS OK.
+6. NÄCHSTE: Zonenfolge (Stufenband je Zone, Kontinente als Blöcke) – Ziel Bewertung besser als 1199; R3W/R6-Einzelfälle.
