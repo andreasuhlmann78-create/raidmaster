@@ -4116,3 +4116,11 @@ Entzauber-Teil auch OHNE Verzauberkunst sichtbar sind (Info). AB5 verlangt EINEN
 - FRAGE TU1-PI (Ausreisser NACH OBEN = Median): berührt einen Entscheid DES NUTZERS (wirtschaft-forever.md §3: "Rechenwert =
   günstigstes Angebot … keine Deckelung auf den Median"). Darum NICHT ändern, der Nutzer entscheidet (frage ich ihn morgen). Bis dahin
   bleibt PriceInfo wie es ist; der Verkaufen-Vorschlag schützt beim Einstellen schon. Weiter mit dem Rest von TU1.
+
+==== ANTWORT Supervisor 16.11.2026 23:10 – FRAGE TU1-HAENDLER (Bericht 23:00) + Prüfung 0.65.297/0.65.298 ====
+- Vorschlag ANGENOMMEN. Begründung: Regel des Nutzers (wirtschaft-forever.md §3) "Händlerpreis = Untergrenze dessen, was ein Item
+  SICHER wert ist" – ein unbestätigter Tabellenpreis über 2 × Marktwert ist nicht sicher (Eisengranate). Also: Untergrenze/Weg nur,
+  wenn (a) vom Spiel bestätigt (GetItemInfo) ODER plausibel (≤ 2 × Marktwert) UND (b) nicht beim echten Verkauf abweichend gemessen
+  (MA3-G). Spiel-bestätigt bleibt immer Untergrenze (K3). T226 wie vorgeschlagen + neuer Fall "Tabelle 5000, Markt 1000 -> kein Händler".
+  Anzeige: wo der Händler-Weg deshalb fehlt, kurz grau "Händlerpreis unbestätigt".
+- 0.65.297 (Neu einstellen nur zurückgekommene Menge) und 0.65.298 (T-AB5): nach Bericht umgesetzt.
