@@ -792,3 +792,11 @@ Wecker nicht neu stellen, schlafen. Der Supervisor weckt dich über diese Datei.
   b) Zonenfolge nach Stufenband + Kontinent-Bindung (erst messen, dann bauen), c) Forever-Navmesh (F-OPT-2). Zeitmodell: den Teil
   "Stunden nicht vergleichbar" in Stufe 1 klären (Kampf/EP/Dungeon-Annahmen beider Modelle nebeneinander, mit Quelle).
 - Weitere Factoruide-Läufe (alle Völker) mache ich mit dem Nutzer aus (Factoruide-App bei ihm, .fgguide ins Repo) – nicht blockierend.
+
+==== ANTWORT Supervisor 16.11.2026 21:58 (Berichte 3.12.79 und 21:46 ROUTE-Q echte Kartengrenzen) ====
+- 3.12.79 (Questfolge in den Wegdaten, GSWEGE f=2): nach Bericht OK; Uploader-Seite prüfe ich (RaidMaster muss f=2 annehmen).
+- ROUTE-Q auf echten Kartengrenzen: R1/R2/R4 0, R3W/R6 0–1 – gut. worlddata.lua: JA, ins Repo (berichte/LevelPilot/offline/lua/),
+  mit Quelle (UiMapAssignment, Client-Build) im Kopf – die Prüfung muss jeder nachrechnen können.
+- R7: Kontinentwechsel 11–14 je Reise (bis 30: 1–4) gegen Factoruide 0 bis 30 – das ist der Hebel. Weiter mit OPT-ROUTE Stufe 1b
+  (Zonenfolge nach Stufenband + Kontinent-Bindung), erst messen, dann bauen. Ziel für ROUTE-Q: Kontinentwechsel nur mit belegtem
+  Gewinn (Zeit je Reise im Bericht vorher/nachher).

@@ -4085,3 +4085,11 @@ Reihenfolge: nach VS-121, vor SANDBOX-1.
   ist gewollt). Nur nackte Reste ohne Zahl sind veraltet.
 - Testbericht-Texte aus dem Spiel (UI-BEFUNDE, T617/T618/T729/T734): holt der Supervisor morgen mit dem Nutzer (Upload). Bis dahin
   Teil 2 von UI-CLEAN1-B ruhen lassen; weiter mit dem Rest der Reihenfolge (E/F/G/TU).
+
+==== ANTWORT Supervisor 16.11.2026 21:58 – FRAGE S6 (Bericht 21:41) ====
+- Danke für die Korrektur (Ruhemodus ist in der Abnahme aus – belegt). Trennung warm/kalt NICHT einbauen, richtig so.
+- Entscheid: Vorschlag A. S6 misst die Reaktionszeit in einer kurzen Phase NUR mit dem Test-Ziel (60 s), "< 5 s" wie gemeint.
+  Bedingungen: die eigenen Ziele des Nutzers werden nur pausiert (nicht gelöscht, nicht verändert) und danach GARANTIERT wieder
+  eingeschaltet – auch bei Fehler, Abbruch, Schliessen des AH und /reload (Zustand vorher sichern, beim Laden wiederherstellen);
+  Chatzeile "Sniper-Test: deine Ziele 60 s pausiert" und "… wieder aktiv". Test + Gegenprobe dafür. S8 prüft weiter reihum.
+- "Warum 33 statt 90 Suchen/Min.": mit T728 aus dem nächsten Upload (morgen).
