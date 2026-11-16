@@ -1,10 +1,12 @@
--- TSMess 1.0 – passives Messwerkzeug für ThreatSentinel (N4-MESS, 16.11.2026)
+-- TSMess 1.1 – passives Messwerkzeug für ThreatSentinel (N4-MESS, 16.11.2026)
 -- Frage: Liefert WoW Forever im Kampf lesbare Bedrohungswerte? Nur dann kann ThreatSentinel einem DD sagen,
 -- WIE BALD er Aggro zieht ("Zeit bis Pull", Bedrohung je Sekunde) – Wunsch N4 aus dem Nutzen-Ausbau TS-N1.
 -- Gemessen wird je Sekunde im Kampf, für das aktuelle Ziel:
 --   UnitDetailedThreatSituation(Einheit, "target") -> isTanking, status, scaledPercent, rawPercent, threatValue
 --   UnitThreatSituation(Einheit, "target") und UnitThreatSituation(Einheit)
--- Einheiten: player, pet, party1–party4 (nur Kennungen, KEINE Namen). Dazu Kampf-Beginn/-Ende und Zielwechsel.
+-- Einheiten: player, pet, party1–party4 (nur Kennungen, KEINE Namen). Im Schlachtzug zusätzlich raid1–raid40, aber nur
+-- die Einheiten, die das Ziel gerade tanken (isTanking wahr oder geschützt) – sonst wären es bis zu 40 Zeilen je Sekunde.
+-- Dazu Kampf-Beginn/-Ende und Zielwechsel.
 -- Jeder Wert wird nur als Art + Zahl gespeichert:  -  = nil · G = geschützt (secret) · 1/0 = wahr/falsch ·
 --   Zahl mit 2 Nachkommastellen (zeigt, ob gerundet geliefert wird).
 -- Es kauft nichts, ändert nichts, sendet nichts. Läuft nach /tsmess start, endet von selbst nach 60 Minuten.
@@ -14,7 +16,7 @@
 
 local M = {}
 _G.TSMess = M
-M.VERSION = "1.0"
+M.VERSION = "1.1"
 M.STEP = 1.0            -- Sekunden zwischen zwei Messungen im Kampf
 M.MAX_LINES = 6000      -- älteste Zeilen fallen weg
 M.MAX_RUN = 60 * 60     -- Sekunden: danach endet die Messung von selbst (keine Messung ohne Zeitlimit)
@@ -34,9 +36,11 @@ local function IsSecret(v)
     end
     return false
 end
+-- Reihenfolge wichtig (Hinweis Prüf-Sitzung 16.11.): ZUERST auf "geschützt" prüfen – in Clients mit geschützten Werten
+-- darf ein geschützter Wert nicht verglichen werden (auch nicht mit nil), sonst ginge die ganze Messung verloren.
 function M.Enc(v)
-    if v == nil then return "-" end
     if IsSecret(v) then return "G" end
+    if v == nil then return "-" end
     if type(v) == "boolean" then return v and "1" or "0" end
     if type(v) == "number" then
         local ok, s = pcall(string.format, "%.2f", v)
@@ -69,6 +73,21 @@ local function InCombat()
 end
 
 -- eine Messung je Einheit: Zeit|U|Einheit|isTanking|status|scaled|raw|value|uts_ziel|uts_allein
+local function SampleUnit(db, u, onlyTank)
+    local okU, ex = Call(_G.UnitExists, u)
+    if not (okU and ex == true) then return end
+    local ok, a, b, c, d, e = Call(_G.UnitDetailedThreatSituation, u, "target")
+    if not ok then a, b, c, d, e = nil, nil, nil, nil, nil end
+    if onlyTank then
+        -- Schlachtzug: nur wer das Ziel tankt (oder geschützt ist) – zuerst geschützt prüfen, dann vergleichen
+        if not (IsSecret(a) or (ok and a == true)) then return end
+    end
+    local ok2, s1 = Call(_G.UnitThreatSituation, u, "target")
+    local ok3, s2 = Call(_G.UnitThreatSituation, u)
+    Add(db, table.concat({ T(), "U", u, M.Enc(a), M.Enc(b), M.Enc(c), M.Enc(d), M.Enc(e),
+        ok2 and M.Enc(s1) or "F", ok3 and M.Enc(s2) or "F", ok and "" or "F" }, "|"))
+end
+
 function M.Sample()
     local db = DB()
     local okE, hasTarget = Call(_G.UnitExists, "target")
@@ -76,16 +95,13 @@ function M.Sample()
         Add(db, T() .. "|Z|-|kein Ziel")
         return
     end
+    local okR, inRaid = Call(_G.IsInRaid)
+    inRaid = okR and inRaid == true
     for _, u in ipairs(M.UNITS) do
-        local okU, ex = Call(_G.UnitExists, u)
-        if okU and ex == true then
-            local ok, a, b, c, d, e = Call(_G.UnitDetailedThreatSituation, u, "target")
-            if not ok then a, b, c, d, e = nil, nil, nil, nil, nil end
-            local ok2, s1 = Call(_G.UnitThreatSituation, u, "target")
-            local ok3, s2 = Call(_G.UnitThreatSituation, u)
-            Add(db, table.concat({ T(), "U", u, M.Enc(a), M.Enc(b), M.Enc(c), M.Enc(d), M.Enc(e),
-                ok2 and M.Enc(s1) or "F", ok3 and M.Enc(s2) or "F", ok and "" or "F" }, "|"))
-        end
+        if not (inRaid and u:find("^party")) then SampleUnit(db, u, false) end
+    end
+    if inRaid then
+        for i = 1, 40 do SampleUnit(db, "raid" .. i, true) end
     end
 end
 

@@ -5,7 +5,8 @@ Heiler-Spieler sagen, *wie bald* er Aggro zieht (Abstand zum Tank, Bedrohung je 
 
 **Was es misst:** im Kampf je Sekunde, für das aktuelle Ziel, für die Einheiten `player`, `pet`, `party1`–`party4`:
 `UnitDetailedThreatSituation(Einheit, "target")` (isTanking, status, Prozent, Roh-Prozent, Rohwert),
-`UnitThreatSituation(Einheit, "target")` und `UnitThreatSituation(Einheit)`. Dazu Kampfbeginn/-ende und Zielwechsel.
+`UnitThreatSituation(Einheit, "target")` und `UnitThreatSituation(Einheit)`. Im Schlachtzug zusätzlich `raid1`–`raid40`,
+aber nur wer das Ziel gerade tankt. Dazu Kampfbeginn/-ende und Zielwechsel.
 Gespeichert wird nur die Art jedes Werts: `-` nil · `G` geschützt · `1`/`0` wahr/falsch · Zahl mit 2 Nachkommastellen ·
 `F` Funktion warf einen Fehler. **Keine Namen** (nur Kennungen), nichts wird gesendet oder verändert.
 

@@ -1,0 +1,9 @@
+BERICHT THREATSENTINEL AN DIE PRÜF-SITZUNG – TSMess 1.1 (Hinweise a/b aus der Prüfung 05:26)
+Stand: 16.11.2026 05:39 (aus date) · keine neue ThreatSentinel-Version. Umgesetzt, zur Prüfung.
+(a) M.Enc: zuerst IsSecret(v), erst danach "v == nil" (Kommentar mit Grund). Test: Reihenfolge im Quelltext geprüft und
+    issecretvalue wird auch für nil zuerst gefragt; Enc(geschützt) = "G". Hinweis: In Standard-Lua (lupa) kann "== nil" nicht werfen
+    (__eq greift nur zwischen gleichen Typen) – darum prüft der Test die Reihenfolge, nicht den Wurf selbst.
+(b) Schlachtzug (IsInRaid): player, pet und raid1–raid40, aber nur Einheiten, die das Ziel tanken (isTanking wahr ODER geschützt;
+    geschützt wird zuerst geprüft); party1–4 im Schlachtzug weggelassen. Grund: 40 Zeilen je Sekunde würden 6000 Zeilen in
+    2,5 Minuten füllen. Test: 40 Einheiten, raid7 tankt lesbar, raid9 geschützt -> Zeilen nur player, raid7, raid9.
+Tests: test_tsmess.py 24/24, test_auswerten.py 12/12. addon_check shared/messtest/TSMess.zip: OK (2 Warnungen wie bisher, bewusst).

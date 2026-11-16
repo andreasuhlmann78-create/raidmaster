@@ -1,4 +1,4 @@
-"""Test TSMess 1.0 (Nachbau): Start/Stop, nur im Kampf je Sekunde, geschützte Werte -> G, Fehler -> F, keine Namen,
+"""Test TSMess 1.1 (Nachbau): Start/Stop, nur im Kampf je Sekunde, geschützte Werte -> G, Fehler -> F, keine Namen,
 Zeitlimit 60 Min., höchstens 6000 Zeilen. python3 -I test_tsmess.py"""
 import sys
 from lupa.lua51 import LuaRuntime
@@ -16,6 +16,7 @@ COMBAT = false; TARGET = true; SECRET = false
 SECRETV = setmetatable({}, {__tostring = function() error("geschützt") end})
 function issecretvalue(v) return v == SECRETV end
 EXIST = { player = true, party1 = true }
+RAID = false; function IsInRaid() return RAID end
 NAMES = { player = "Anna", party1 = "Grimbar" }
 function UnitName(u) return NAMES[u] end
 function UnitExists(u) if u == "target" then return TARGET end return EXIST[u] == true end
@@ -75,6 +76,22 @@ L.execute('TSMess.Start(); COMBAT = true; EV("PLAYER_REGEN_DISABLED"); for i = 1
 check("höchstens 6000 Zeilen", L.eval("#TSMessDB.lines"), 6000)
 L.execute('SlashCmdList.TSMESS("stop")')
 check("Stopp per Befehl", L.eval("TSMess.Running()"), False)
+# (a) Reihenfolge in M.Enc: zuerst geschützt, dann nil (in Standard-Lua kann "== nil" nicht werfen – darum Prüfung der Reihenfolge
+#     im Quelltext und: issecretvalue wird für jeden Wert zuerst gefragt)
+enc = src[src.index("function M.Enc(v)"):]
+enc = enc[:enc.index("\nend")]
+check("Enc: IsSecret vor dem nil-Vergleich", enc.index("IsSecret(v)") < enc.index("v == nil"), True)
+L.execute('ASKED = {}; local orig = issecretvalue; issecretvalue = function(v) ASKED[#ASKED+1] = (v == nil) and "nil" or "x"; return orig(v) end')
+check("Enc(nil) fragt zuerst issecretvalue", (L.eval("TSMess.Enc(nil)"), L.eval("ASKED[1]")), ("-", "nil"))
+check("Enc(geschützt) = G", L.eval("TSMess.Enc(SECRETV)"), "G")
+# (b) Schlachtzug: raid1–40, nur wer tankt
+L.execute('TSMessDB.lines = {}; SECRET = false; RAID = true; EXIST = { player = true, party1 = true }')
+L.execute('for i = 1, 40 do EXIST["raid" .. i] = true end')
+L.execute('UnitDetailedThreatSituation = function(u) if u == "raid7" then return true, 3, 100, 100, 9000 end; if u == "raid9" then return SECRETV, SECRETV, SECRETV, SECRETV, SECRETV end; return false, 1, 50, 55, 4000 end')
+L.execute('TSMess.Start(); COMBAT = true; EV("PLAYER_REGEN_DISABLED"); UPD(0.1)')
+units = [L.eval("TSMessDB.lines[%d]" % i).split("|")[2] for i in range(1, L.eval("#TSMessDB.lines") + 1) if L.eval("TSMessDB.lines[%d]" % i).split("|")[1] == "U"]
+check("Schlachtzug: Spieler + nur die Tanks (raid7 lesbar, raid9 geschützt), kein party1", units, ["player", "raid7", "raid9"])
+L.execute('SlashCmdList.TSMESS("stop")')
 L.execute('SlashCmdList.TSMESS("")')
 check("Stand-Ausgabe", "steht" in L.eval("PRINTS[#PRINTS]"), True)
 print("TSMess: %d Prüfungen, %d FEHLER" % (checks, fails))
