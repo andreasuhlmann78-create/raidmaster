@@ -3914,3 +3914,9 @@ ergänzen; um 18:00 das Zip von 0.65.265 (byte-gleich mit announce/ahsentinel__a
 download/AHSentinel-0.65.265.zip; addon_check davor; danach prüfen, dass der Workflow hochgeladen hat (Bericht mit Link/Datei-ID).
 Danach postet der Supervisor die freigegebenen CF-Antworten CF-AHS-2/3/4.
 - NACHTRAG 17:21 Nutzer: "er kann jetzt schon beginnen" -> Upload von 0.65.265 SOFORT (nicht erst 18:00), gleicher Ablauf (Known issue im Changelog, addon_check, Zip byte-gleich, Upload prüfen, Bericht).
+
+>>> WEITER NACH DEM UPLOAD (Nutzer 17:25: "nachher soll er weiterbauen – wir testen morgen"):
+  1. SN-BTN1-2 (Treffer bleibt klickbar) – mit Messzeile/Nachbau belegen, beheben, Prüflisten-Punkt.
+  2. Danach Masterplan in Reihenfolge (nur freigegebene Punkte; Phase 8 Rest ohne Freigabe nicht).
+  Kleine Versionen, je Version Prüflisten-Punkt, damit der Ingame-Test morgen mit /ahs prüfliste in einem Durchgang geht.
+  Nichts davon auf CurseForge, bevor es im Spiel geprüft ist.
