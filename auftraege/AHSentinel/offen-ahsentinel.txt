@@ -3813,3 +3813,22 @@ Reihenfolge: nach SN-RAD-1 und PF-1 (Gold-Sicherheit zuerst), dann OPT-1 vor den
 - "Weitere" eingeklappt: nicht nötig (≤ 14 je Bereich) – einverstanden. "Standard"-Knopf je Bereich: NICHT bauen (Risiko für
   gespeicherte Werte, kein Wunsch des Nutzers).
 - Freigabe OPT-1 erst mit dem Urteil des Nutzers am Bild (Prüfliste OPT-1).
+
+==== NACHTEST IM SPIEL Supervisor 16.11.2026 09:28–09:36 (0.65.263, Rechner des Nutzers) ====
+- SN-RAD-A OK (vom Supervisor markiert): „nur Knopf“ (Knopf Mausrad grau), Treffer 2× Leinenstoff im Chat, 2 Rasten (Spielwelt und
+  Zielliste) -> 0 Käufe, Ziel blieb 0/2. Die Prüfliste erkannte es NICHT selbst (blieb "offen"): über der Spielwelt erreicht das Rad
+  das Addon nicht (gewollt), über der Liste war HitWaiting wohl kurz falsch ("Server noch nicht bereit"). Verdacht, zu messen.
+- SN-RAD-B erledigt (erkannt): Mausrad grün, Raste 1 Preis anfragen, Raste 2 bestätigen -> "Gekauft: 2x Leinenstoff für 50c", Ziel erfüllt.
+- POST-FIX OK (Supervisor zurückgesetzt + OK): Fraktionsbanner 9c -> "Preis anpassen (79c)" -> Einstellen -> "Eingestellt: 1x
+  Fraktionsbanner für 79c", keine zweite Sperre. PF-1 freigegeben.
+- OPT-1 NICHT OK – BEFUND OPT-1a: Die Bereichs-Knöpfe links reagieren NICHT. Fenster öffnet richtig im Bereich "Verkaufen" (aus dem
+  Verkaufen-Reiter), aber Klicks auf "Kaufen & Sniper", "Allgemein", "Markt & Empfehlungen" wechseln nichts (3× nachgestellt, mit
+  Pause, auch nach Esc aus dem Suchfeld). Die Suche funktioniert ("mausrad" -> 3 Treffer). Bitte Ursache belegen (Klickfläche
+  überdeckt? OnClick am falschen Rahmen? Refresh setzt den Bereich auf den Reiter zurück?) und Test, der einen echten Klick nachbildet.
+  BEFUND OPT-1b: Zwei fast gleich heissende Zeilen "Sniper: Kaufen mit" (Mausrad + Knopf / nur Knopf) und "Sniper kauft mit"
+  (Mausrad / Eigene Taste) – verwirrend. Eine Zeile "Sniper kauft mit: Mausrad / Eigene Taste / nur Knopf" oder klare Namen.
+  Sonst am Bild gut: eine Spalte, kurze Beschriftungen, Werte sichtbar, Suchfeld.
+- SN-BTN1 noch offen: ein Klick auf "Preis anfragen (3× Leinenstoff)" ergab keine Meldung, der Knopf stand danach auf "Kein Treffer" und der
+  Sniper suchte schon das nächste Ziel (Schultern) – Verdacht, zu messen: Treffer verschwindet, bevor der Klick ankommt (Rundlauf geht
+  weiter, während ein Treffer wartet?). Zeile SNIPER-RAD/Protokoll prüfen.
+- Danach war WoW plötzlich nicht mehr im Vordergrund (Desktop) – ob abgestürzt, ist offen (Nutzer fragen).

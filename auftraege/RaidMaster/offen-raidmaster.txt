@@ -288,3 +288,11 @@ UP-404 HOCH (Nutzer 15.11. 01:26, Screenshot Uploader): "Abgleich: Discord antwo
 
 >>> PRÜFUNG 07:44 (Supervisor) – Addon 3.0.28 Prüfliste (13 Punkte, Sperre während Testroutine/Testmodus): addon_check OK, angenommen.
   FRAGE T54b: nur aufnehmen, wenn du den Wortlaut aus deinem Bericht belegen kannst; sonst weglassen.
+
+==== BEFUND HOCH RM-DIAG-1 (Supervisor 16.11.2026 09:31, im Spiel gesehen, RaidMaster 3.0.28) ====
+LUA-Warnung im Spiel des Nutzers: "Interface/AddOns/RaidMaster/Diag.lua:-1: insecure scripts exceeded execution limit for addon
+RaidMaster", Zeit 09:30:58, Zähler stieg in Sekunden 243 -> 556 -> 1142 (Fehler jedes Bild). WoW bot "Addons deaktivieren /
+Ignorieren" an. Lage: Undercity, Auktionshaus offen, AHSentinel-Sniper lief, GuildSentinel/LevelPilot geladen.
+Auftrag: Ursache in Diag.lua belegen (welche Schleife/OnUpdate/Hook läuft zu lange; "-1" = Code ohne Zeile, z. B. loadstring/
+geladener Text oder C-Grenze), beheben (Arbeit in Portionen, Zeitbudget je Bild), Test der die Laufzeit misst. Vorrang vor allem
+anderen bei RaidMaster – es kann das Spiel des Nutzers ausbremsen. Danach im Spiel nachprüfen (Supervisor).
