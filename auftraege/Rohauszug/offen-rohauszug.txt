@@ -1,0 +1,92 @@
+OFFEN – Sitzung "greeting" (Rohauszug der Spieldaten). Stand 16.11.2026 19:00. Diese Datei ist immer vollständig.
+WoW-Ordner beim Nutzer (Windows): C:\Program Files (x86)\World of Warcraft  – in device_bash unter $HOME/mnt/ (ls $HOME/mnt).
+Kommunikation: Supervisor -> du = diese Datei (git pull --rebase alle 15 Min. und vor jedem Push). Du -> Supervisor = berichte/Supervisor/<JJJJ-MM-TT>-<HHMM>-<thema>.txt
+
+ANWEISUNG FÜR DIE SITZUNG "greeting" (Projekt Addonprüfer)
+Vom Supervisor GoldSentinel (Prüf-Sitzung), 16.11.2026 18:55 – über den Nutzer weitergegeben.
+
+=====================================================================
+1. WORUM ES GEHT
+=====================================================================
+Der Nutzer hat entschieden: "Hol dir alles raus" – alle Spieldaten aus seinem WoW-Client, die wir für das Addon LevelPilot
+brauchen (Gelände, Höhen, Wasser, Gebäude, Objekte, Spieldaten-Tabellen), für WoW Forever UND Classic Era.
+Der Supervisor erreicht den Rechner des Nutzers zuhause nicht. Du läufst auf diesem Rechner und machst den Auszug.
+Antworte dem Nutzer immer auf Deutsch.
+
+=====================================================================
+2. WIE DAS REPO FUNKTIONIERT
+=====================================================================
+- Repo: https://github.com/andreasuhlmann78-create/raidmaster (öffentlich). Holen mit:
+    git clone https://github.com/andreasuhlmann78-create/raidmaster.git
+  Fehlt es in deiner Sitzung: mit dem Werkzeug add_repo (owner andreasuhlmann78-create, repo raidmaster) hinzufügen und klonen.
+- Es ist die gemeinsame Ablage aller Claude-Sitzungen des Nutzers (jedes Addon hat seine eigene Sitzung, dazu die Prüf-Sitzung
+  = Supervisor). Die Sitzungen sprechen NUR über das Repo miteinander:
+    auftraege/<Projekt>/offen-<projekt>.txt  = Aufträge des Supervisors an ein Projekt (ändert nur der Supervisor)
+    berichte/<Projekt>/<JJJJ-MM-TT>-<HHMM>-<thema>.txt = Berichte der Projekte an den Supervisor (eine Datei je Bericht)
+    shared/wissen/entscheide.md = alle Entscheide des Nutzers (neueste oben) – vor der Arbeit lesen
+    shared/werkzeuge/strassen/ = Werkzeuge des Supervisors zum Lesen der Spieldateien (dein Arbeitsgebiet)
+- Regeln im Repo (siehe CLAUDE.md im Repo, bitte lesen):
+    * Vor jeder Arbeit und vor jedem Push: git pull --rebase.
+    * Das Repo ist ÖFFENTLICH: nie Tokens, Passwörter, Spielernamen, E-Mail im Text, und NIE Spieldateien (Rohdaten).
+    * Commit: git -c user.name=GoldSentinel -c user.email=<die E-Mail des Nutzers, wie in den anderen Commits> commit -m "…" (Deutsch).
+    * Nach jedem Push nachprüfen, dass es angekommen ist: git fetch && git show origin/main:<Datei> | head
+      Was nicht auf origin/main steht, gilt als nicht gemacht.
+    * Alles, was der Nutzer liest, auf Deutsch.
+
+=====================================================================
+3. STRIKTE REGELN FÜR DIESEN AUFTRAG
+=====================================================================
+- NICHTS auf den Geräten des Nutzers ablegen (Entscheid 16.11. 18:02: "das schafft Abhängigkeiten").
+  Arbeitsdateien NUR im eigenen Arbeitsordner von device_bash (scratchFolder aus get_device_info, z. B. $HOME/mnt/outputs).
+  NIE in Dokumente, NIE im WoW-Ordner.
+- Im WoW-Ordner nur LESEN. Nichts installieren, nichts ändern.
+- Rohdaten (Spieldateien) nie in ein Repo, nie öffentlich. Sie bleiben im Container deiner Sitzung.
+- Den Nutzer nur fragen, wenn es wirklich nötig ist (z. B. Ordner-Freigabe "World of Warcraft").
+
+=====================================================================
+4. ABLAUF
+=====================================================================
+SCHRITT 1 – Vorbereitung (device_bash, im scratchFolder)
+  cd <scratchFolder>
+  curl -sL -o casc_lesen.py https://raw.githubusercontent.com/andreasuhlmann78-create/raidmaster/main/shared/werkzeuge/strassen/casc_lesen.py
+  curl -sL -o kacheln.py    https://raw.githubusercontent.com/andreasuhlmann78-create/raidmaster/main/shared/werkzeuge/strassen/kacheln.py
+  curl -sL -o rohauszug.py  https://raw.githubusercontent.com/andreasuhlmann78-create/raidmaster/main/shared/werkzeuge/strassen/rohauszug.py
+  curl -sL -o listfile.csv  https://github.com/wowdev/wow-listfile/releases/latest/download/community-listfile.csv
+  python3 -c "import ast;[ast.parse(open(f).read()) for f in ('casc_lesen.py','kacheln.py','rohauszug.py')];print('ok')"
+  Der WoW-Ordner liegt unter $HOME/mnt/ (ls $HOME/mnt). Darin _forever_ und _classic_era_. Fehlt er: den Nutzer bitten, den Ordner
+  "C:\Program Files (x86)\World of Warcraft" freizugeben (device_request_folder_access).
+
+SCHRITT 2 – Auszug in Abschnitten
+  Jeder device_bash-Aufruf darf höchstens 180 s laufen; Hintergrund-Prozesse sterben mit dem Aufruf. Darum immer so:
+    W="$HOME/mnt/World of Warcraft"; cd <scratchFolder>
+    for p in wowf wow_classic_era; do timeout 165 python3 rohauszug.py "$W" roh $p listfile.csv >> log_$p.txt 2>&1 & done; wait
+    tail -n 2 log_*; ls roh/wowf/f | wc -l; ls roh/wow_classic_era/f | wc -l
+  Wiederholen, bis BEIDE Logs "FERTIG" zeigen. Der Auszug macht jedes Mal dort weiter, wo er stand (vorhandene Dateien überspringt er).
+  Reihenfolge: Kacheln Östliche Königreiche, Kalimdor, dann Gebäude (WMO), Objekte (M2), Spieldaten-Tabellen (DB2).
+  Erfahrung von heute: ~500 Dateien je Spiel und Abschnitt.
+
+SCHRITT 3 – Laufend in deinen Container holen
+  Nach je 2–3 Abschnitten die NEUEN Dateien packen (tar, höchstens 350 MB je Datei), im scratchFolder:
+    beim ersten Mal:  find roh -type f > neu.txt
+    danach:           find roh -type f -newer marke > neu.txt
+    tar cf teil_NN.tar -T neu.txt ; touch marke
+  Dann device_stage_files mit dem Pfad der tar im scratchFolder -> sie landet in /mnt/user-data/uploads/… deines Containers.
+  Dort auspacken nach ~/rohdaten/ und prüfen: Anzahl Dateien = Zeilen in neu.txt. Danach die tar im scratchFolder löschen.
+  Am Ende auch index.json und log_*.txt beider Spiele holen.
+
+SCHRITT 4 – Bericht an den Supervisor
+  Datei im Repo: berichte/Supervisor/2026-11-16-HHMM-rohauszug-stand.txt (Deutsch, nur Zahlen, kein Spieldatei-Inhalt):
+    je Spiel: Kacheln je Karte vollständig/fehlend, Zahl WMO, M2, DB2, Einträge "fehlend" aus index.json, Gesamtgrösse,
+    wo die Daten in deinem Container liegen.
+  Commit + push + Prüfung auf origin/main (siehe Abschnitt 2).
+  DANACH: Der Supervisor legt ein Auswertungs-Werkzeug ins Repo: shared/werkzeuge/strassen/gelaende.py (macht aus den Rohdaten eine
+  kleine Gelände-Datei: Steigung, Wasser, Löcher, Gebäude-/Objekt-Standorte). Nach git pull lässt du es in deinem Container über
+  ~/rohdaten laufen (Aufruf steht oben in der Datei) und pushst NUR dessen Ergebnis nach shared/werkzeuge/strassen/daten/gelaende/.
+  Bis dahin die Rohdaten im Container behalten (nicht löschen).
+
+SCHRITT 5 – Aufräumen auf dem Rechner
+  Im scratchFolder alles löschen, was du angelegt hast (roh/, tar, listfile.csv, Skripte, Logs).
+  Dem Nutzer melden: "Auf deinem Rechner liegt nichts mehr von mir."
+
+Fragen oder Probleme: als Datei in berichte/Supervisor/ ablegen (pushen) und dem Nutzer kurz sagen – der Supervisor liest das Repo
+alle 15 Minuten.
