@@ -1,5 +1,5 @@
--- ROUTE-Q (3.12.72): Routen-Prüfung über die virtuelle Reise 1–60. R1 Annehmen zuerst, R2 Stufen-Gebiet + Startgebiet verlassen,
--- R3 Richtungswechsel > 120° je Stunde, R4 Sonder-Schritte vor nahem Questgeber. Zählt Verstösse, druckt je Regel bis 4 Beispiele.
+-- ROUTE-Q (3.12.74): Routen-Prüfung über die virtuelle Reise 1–60. R1 Annehmen zuerst, R2 Questlevel > Stufe + 2, Startgebiet verlassen,
+-- R3 Richtungswechsel je Stunde (Zahl), R3W Weg-Ebene (Restweg steigt/Pfeil zurück in den ersten 120 yd), R4 Sonder-Schritte vor nahem Questgeber.
 -- Aufruf (oder ../mess_route_q.sh): Daten aus PACKDIR; FOREVER=1 oder FLAVOR=era; LVL=1 MAP=… PX PY; lua51 mess_route_q.lua <LevelPilot> 0 <Volk> <Klasse> <Fraktion>
 if os.getenv("ZONEN") then
   ZONESIZE = { [1429] = { 3470.84, 2314.62 }, [1426] = { 4924.66, 3283.33 }, [1438] = { 5091.66, 3393.75 },
@@ -74,10 +74,10 @@ local startSet = {}
 for _, id in ipairs(START_IDS[race] or {}) do startSet[id] = true end
 local function InStart(inst, n, w) return startSet[AreaAt(ST[race], inst, n, w) or -1] == true end
 
-local c = { r1 = 0, r2 = 0, r2e = 0, r3 = 0, r4 = 0, steps = 0 }
+local c = { r1 = 0, r2 = 0, r2e = 0, r3 = 0, r3w = 0, r3wn = 0, r4 = 0, steps = 0 }
 local leaveLevel, leaveOpen
 local lastKey, prevDir, lastPos
-local ex = { r1 = {}, r2 = {}, r3 = {}, r4 = {} }
+local ex = { r1 = {}, r2 = {}, r3 = {}, r3w = {}, r4 = {} }
 local function Ex(k, txt) if #ex[k] < 4 then ex[k][#ex[k] + 1] = txt end end
 local function Name(st)
   local q = st.id and LP.QuestDB:Get(st.id)
@@ -103,17 +103,14 @@ LP.Engine.Current = function(self)
     c.r1 = c.r1 + 1
     Ex("r1", ("L%d %s (%.0f yd), offen: %s"):format(s.level, Name(st), d, tostring(open.q or open.id)))
   end
-  -- R2: Gebiet, dessen Mindeststufe > Stufe + 2. Mindeststufe = kleinstes Questlevel der Quests, deren Questgeber in diesem Gebiet
-  -- steht (für dieses Volk/diese Klasse). Die Erkundungsstufe der AreaTable ist KEINE Mindeststufe (Späherkuppe 15, Gol'Bolar 10 –
-  -- dort beginnen Quests ab 7–10); sie wird nur zur Information mitgezählt (R2e).
-  local aid = st.map and AreaAt(st.map, st.inst, st.n, st.w)
-  -- nur Teilgebiete (Orte: Eltern ~= 0); das allgemeine Zonengebiet (z. B. 1 Dun Morogh) hat keine Mindeststufe
-  local par = aid and LevelPilotData.ORTA[aid] and LevelPilotData.ORTA[aid][1] or 0
-  local am = aid and par ~= 0 and AreaMin(aid)
-  if am and am > s.level + 2 then
+  -- R2 (Supervisor 18:58): Questlevel des Schritts > Stufe + 2 (orange/rote Quest). Zur Information: Ort mit Erkundungsstufe > Stufe + 2.
+  local q = st.id and LP.QuestDB:Get(st.id)
+  local ql = q and q.level
+  if ql and ql > 0 and ql > s.level + 2 then
     c.r2 = c.r2 + 1
-    Ex("r2", ("L%d %s Gebiet %d (Mindeststufe %d)"):format(s.level, Name(st), aid, am))
+    Ex("r2", ("L%d %s (Questlevel %d)"):format(s.level, Name(st), ql))
   end
+  local aid = st.map and AreaAt(st.map, st.inst, st.n, st.w)
   if aid and AreaLevel(aid) > s.level + 2 then c.r2e = c.r2e + 1 end
   -- Startgebiet verlassen: erster Schritt ausserhalb, ausser einer Annahme gleich am Weg (<= 150 yd, ORT-1 O5)
   if not leaveLevel and InStart(pi, pn, pw) and not InStart(st.inst, st.n, st.w) and not (st.t == "ACCEPT" and d <= NEAR) then
@@ -132,6 +129,54 @@ LP.Engine.Current = function(self)
     end
     prevDir, lastPos = dir, { pn, pw }
   end
+  -- R3W (Weg-Ebene, wie mess_era1_weg): Weg zum Ziel jetzt und nach 30 yd entlang dieses Weges neu rechnen. Verstoss, wenn der
+  -- Restweg um > 20 yd STEIGT oder der erste Wegpunkt danach entgegen der Laufrichtung liegt (Skalarprodukt < -0,5).
+  if st.inst == pi and d > 60 and d < 3000 and LP.Graph and LP.Graph.Path then
+    local function Calc(n0, w0)
+      local ok, raw = pcall(LP.Graph.Path, LP.Graph, pi, n0, w0, st.map, st.inst, st.n, st.w, st.map)
+      if not ok or not raw then return nil end
+      local ok2, rp = pcall(LP.Terrain.Refine, LP.Terrain, raw)
+      return (ok2 and rp) or raw
+    end
+    local function Len(p, i0, n0, w0)
+      local L = G:Dist(n0, w0, p[i0][2], p[i0][3])
+      for i = i0 + 1, #p do L = L + G:Dist(p[i - 1][2], p[i - 1][3], p[i][2], p[i][3]) end
+      return L
+    end
+    -- bis zu 4 Teilstrecken à 30 yd (120 yd) – die Umschaltung kam in Nordhain erst nach 60 yd
+    local p0, qn, qw = Calc(pn, pw), pn, pw
+    local bad, why = false, nil
+    for _ = 1, tonumber(os.getenv("R3W_STEPS") or 4) do
+      if not (p0 and #p0 >= 2) then break end
+      local rem0 = Len(p0, 2, qn, qw)
+      if rem0 < 40 then break end
+      local left, i, hn, hw = 30, 2, 0, 0
+      while left > 0 and p0[i] do
+        local dd = G:Dist(qn, qw, p0[i][2], p0[i][3])
+        if dd > 0 then hn, hw = (p0[i][2] - qn) / dd, (p0[i][3] - qw) / dd end
+        if dd <= left then qn, qw, left, i = p0[i][2], p0[i][3], left - dd, i + 1
+        else qn, qw, left = qn + (p0[i][2] - qn) * left / dd, qw + (p0[i][3] - qw) * left / dd, 0 end
+      end
+      local p1 = Calc(qn, qw)
+      if not (p1 and #p1 >= 2) then break end
+      local rem1 = Len(p1, 2, qn, qw)
+      local k = 2
+      while p1[k + 1] and G:Dist(qn, qw, p1[k][2], p1[k][3]) < 10 do k = k + 1 end
+      local dn, dw = p1[k][2] - qn, p1[k][3] - qw
+      local dl = math.sqrt(dn * dn + dw * dw)
+      local back = dl > 1 and (dn / dl * hn + dw / dl * hw) < -0.5
+      if rem1 > rem0 - 30 + 20 or back then
+        bad, why = true, ("Restweg %.0f -> %.0f yd nach 30 yd%s"):format(rem0, rem1, back and ", Pfeil zurück" or "")
+        break
+      end
+      p0 = p1
+    end
+    c.r3wn = c.r3wn + 1
+    if bad then
+      c.r3w = c.r3w + 1
+      Ex("r3w", ("L%d %s %s"):format(s.level, Name(st), why))
+    end
+  end
   -- R4: Sonder-Schritt, obwohl ein Questgeber <= 150 yd offen ist
   if SPECIAL[st.t] and open then
     c.r4 = c.r4 + 1
@@ -143,8 +188,8 @@ local t0 = os.clock()
 LP.Virtual:RunAll("start", tonumber(os.getenv("MAXL") or "60"))
 local s = LP.Virtual.s
 local h = (s.clock or 0) / 3600     -- Uhr der Reise (mit Ruhezeiten); die Spielzeit steht im Reisebericht
-print(("%s %s: R1 %d · R2 %d (Erkundungsstufe: %d) · R3 %d (%.1f je h) · R4 %d · Startgebiet verlassen auf Stufe %s (drinnen offen %s) · %d Schritte · %.0f h · Stufe %d")
-  :format(race, os.getenv("FLAVOR") == "era" and "Era" or "Forever", c.r1, c.r2, c.r2e, c.r3, h > 0 and c.r3 / h or 0, c.r4,
+print(("%s %s: R1 %d · R2 %d (Ort mit Erkundungsstufe > Stufe+2: %d) · R3 %d (%.1f je h) · R3W %d von %d Wegen · R4 %d · Startgebiet verlassen auf Stufe %s (drinnen offen %s) · %d Schritte · %.0f h · Stufe %d")
+  :format(race, os.getenv("FLAVOR") == "era" and "Era" or "Forever", c.r1, c.r2, c.r2e, c.r3, h > 0 and c.r3 / h or 0, c.r3w, c.r3wn, c.r4,
   tostring(leaveLevel), tostring(leaveOpen), c.steps, h, s.level))
-for _, k in ipairs({ "r1", "r2", "r3", "r4" }) do for _, e in ipairs(ex[k]) do print("  " .. k:upper() .. " " .. e) end end
+for _, k in ipairs({ "r1", "r2", "r3", "r3w", "r4" }) do for _, e in ipairs(ex[k]) do print("  " .. k:upper() .. " " .. e) end end
 os.exit(0)

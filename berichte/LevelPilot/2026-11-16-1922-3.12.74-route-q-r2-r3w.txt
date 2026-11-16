@@ -1,0 +1,30 @@
+BERICHT LevelPilot 3.12.74 – ROUTE-Q R2 (Questlevel) behoben, R3 auf Weg-Ebene gemessen (noch offen)
+Projekt: LevelPilot · Datum: 16.11.2026 19:22 (aus date) · Version: 3.12.74 · umgesetzt, zur Prüfung
+
+Bezug: Prüfung Supervisor 18:58 (R2-Vorschlag angenommen, NEAR_ACCEPT bleibt 150 yd).
+
+1. R2 NEU (mess_route_q.lua): Verstoss = Routenschritt einer Quest mit Questlevel > Spielerstufe + 2. Zur Information weiter die
+   Zählung "Ort mit Erkundungsstufe > Stufe + 2" (keine Mindeststufe, siehe Bericht 18:43).
+   URSACHE der Verstösse (belegt, Planner.lua P:IsAvailable): Quests bis Stufe + 3 wurden angeboten.
+   LÖSUNG: P.QUEST_ABOVE = 2 (Questlevel höchstens Stufe + 2).
+   ERGEBNIS (12 Reisen, 6 Völker × Forever/Era, 1–60):  3.12.69: R2 91–168 · 3.12.73: 87–150 · 3.12.74: 0 in allen 12.
+   R1 und R4 bleiben 0 in allen 12; Startgebiet unverändert (Stufe 5–6, drinnen 0 offen; Nachtelf 1 offen auf Stufe 6).
+   ZEIT (virtuelle Reise 1–60) 3.12.73 -> 3.12.74: Untoter 189:19 -> 187:51 · Ork 178:08 -> 175:47 · Tauren 180:09 -> 180:37 ·
+   Zwerg 190:53 -> 184:18 · Nachtelf 158:08 -> 159:38 · Mensch 186:05 -> 184:37. Summe 1082,7 -> 1072,8 h (−0,9 %).
+2. R3 AUF WEG-EBENE (neu: R3W in mess_route_q.lua)
+   Je Routenschritt (60–3000 yd, gleicher Kontinent): Weg berechnen, 30 yd entlang laufen, neu berechnen, bis 4× (120 yd).
+   Verstoss: Restweg sinkt nach 30 yd um weniger als 10 yd (also steigt praktisch) oder der erste Wegpunkt liegt entgegen der
+   Laufrichtung (Skalarprodukt < −0,5). Gegenprobe Nordhain mit 3.12.70: 2 Verstösse bis Stufe 8 (darunter 539 -> 775 yd),
+   3.12.74: 0.
+   ERGEBNIS 1–60 (Verstösse / geprüfte Wege):
+     3.12.69: Forever 36/1084 · 41/1114 · 79/878 · 38/1047 · 87/926 · 76/885; Era 28/907 · 30/946 · 23/665 · 27/904 · 24/706 · 21/704
+     3.12.74: Forever 28/841 · 34/1043 · 80/859 · 36/940 · 76/843 · 81/844; Era 25/895 · 28/891 · 21/689 · 22/821 · 18/547 · 21/586
+     (Reihenfolge Zwerg, Mensch, Ork, Nachtelf, Untoter, Tauren.)
+   -> NICHT 0. Rund 2–10 % der Wege. Beispiele: Verteidigung der Länder des Kriegshymnenklans 388 -> 1348 yd, Elmores Aufgabe
+   2444 -> 2775 yd, Gefahr auf acht Beinen 738 -> 942 yd (echte Umschaltungen); viele kleine (367 -> 365, 253 -> 260: Weg
+   nach 30 yd um 20–30 yd länger, Geländeanpassung); "Pfeil zurück" bei fallendem Restweg (594 -> 564), weil die Messung den
+   Wegpunkt hinter dem Spieler noch nicht wie das Navi (N.Passed) überspringt.
+   NÄCHSTER SCHRITT (vor ORT-1 O2): Messung wie das Navi (N.Passed), Schwelle auf "Restweg steigt" (> 0) und getrennt "> 50 yd";
+   Ursachen der grossen Umschaltungen belegen (wie ERA-1 (b): Gefahren-Zellen, Startnetz, Geländeanpassung) und beheben; Ziel 0.
+3. TEST: T336 (Grenze 2 · Stufe+2 angeboten · Stufe+3 nicht · mit Grenze 3 angeboten). GEGENPROBE (QUEST_ABOVE = 3): false.
+4. PRÜFUNGEN: addon_check OK. Offline-Routine 38 Läufe, 38 ohne FEHLER. Private Regression 36 von 36 ALLE TESTS OK.
