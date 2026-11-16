@@ -1,5 +1,5 @@
 AHSentinel – Nacht 15./16.11.2026 (Nacht-Arbeit nach masterplan-ahsentinel.txt Abschnitt D und PRIO-JETZT-Liste)
-Stand: 16.11. 05:40 – alle Versionen bis 0.65.256 veröffentlicht (Discord + GitHub)
+Stand: 16.11. 06:07 – alle Versionen bis 0.65.257 veröffentlicht (Discord + GitHub)
 Alle Versionen: GitHub-Release + Discord (announce/). KEIN CurseForge (erst nach der Sniper-Abnahme). Jede Version "umgesetzt,
 zur Prüfung", Bericht je Version in berichte/AHSentinel/.
 
@@ -67,6 +67,7 @@ VERSIONEN DER NACHT (je ein Satz)
   0.65.255 Hinweis 02:03: Tooltip der Mindestrendite nennt das Flippen und die kleinste Stufe 10 % (0 % nicht einstellbar).
   0.65.256 KERN-ABGLEICH (nach dem Wecken 05:02): Verkäufe erreichen den Kern genau einmal + Neuaufbau "sell"; P2 nach Brier;
            P4 erst nach 7 Bewertungstagen; Testbericht nennt Teile alle/kern; Markt-Tabellen 16.11.
+  0.65.257 KERN-S1b (Prüfung 05:52, HOCH): Neuaufbau "sell" behält die Tage vor dem Journal; ky nur bei gezähltem Fall; Nachtrag am Fall-Tag.
   Eigener Befund im Gesamtlauf 0.65.224: s92 rot (Händler-Rechnung rechnete den Marktwert für alle Items) – vor der
   Veröffentlichung behoben und belegt.
   Dazu T200-1: Nachbildung im Repo vollständig (IsAddOnLoaded, run_all.sh ohne festen Pfad), Gesamtläufe aus frischer Kopie.
