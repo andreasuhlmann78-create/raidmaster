@@ -1,0 +1,22 @@
+BERICHT LevelPilot 3.12.69 – Befunde der Nachprüfung NP-LP54-2, NP-LP49-1, NP-LP49-2
+Projekt: LevelPilot · Datum: 16.11.2026 14:37 (aus date) · Version: 3.12.69 · umgesetzt, zur Prüfung
+
+Bezug: BEFUNDE AUS DER NACHPRÜFUNG (Supervisor 14:30). Befund NP-LP54-2 RICHTIG (selbst nachgeprüft: ("Ödland"):lower() bleibt
+"Ödland"); NP-LP49-1 RICHTIG ("a and f()" gibt nur einen Wert weiter); NP-LP49-2 RICHTIG.
+
+1. NP-LP54-2 (MITTEL) – Comfort.lua
+   Eine Faltung an einer Stelle: C.Fold (ASCII lower + UTF-8: Latin-1 À–Þ ohne × -> à–þ; Kyrillisch А–П -> а–п, Р–Я -> р–я,
+   Ѐ–Џ inkl. Ё -> ѐ–џ inkl. ё; andere Schriften unverändert, sie haben keine Gross-/Kleinschreibung). C.Norm = Fold + Leerraum.
+   Benutzt für: Eingabe (Navi, Norm), Zonennamen (ZoneByName), Namensverzeichnis der NPCs (NameIndex-Schlüssel), Dungeon-Namen
+   (NameCandidates), Dienstwörter (FindNearest). Kein string.lower mehr ausser in Fold selbst (grep geprüft).
+   Nebenbei: in NameIndex überdeckte die Variable "k" die Schleifenvariable – umbenannt (ohne Wirkung, nur sauber).
+2. NP-LP49-1 (NIEDRIG) – Laufweg.lua: "if P and P.GroundYps then yps, ysrc = P.GroundYps() end" – Quelle kommt an.
+3. NP-LP49-2 (NIEDRIG) – Laufweg.lua: F1 (eine Nachkommastelle mit Komma) für beide Tempo-Angaben der Zeile REISE; ebenso
+   tostring für fsrc/ysrc (nie "nil" als Fehler).
+4. TEST T330 (true ×5): Faltung (Ödland, ÄÖÜ ÀÉÎÑ, ТИРИСФАЛЬ, Ёж, Ѐ, ×ß unverändert, Hangul unverändert) · Zone "ödland"/
+   "ÖDLAND"/"östliche"/"тирисфальские"/"ТИРИСФАЛЬСКИЕ ЛЕСА" · NPC "öberst"/"ÖBERST ä"/"грок", Dungeon "üldaman" · Laufweg-Zeile
+   "(Reittier gemessen)" und "8,5 yd/s".
+   GEGENPROBE (Fold = string.lower, alte GroundYps-Zeile): Faltung/Zone/NPC/Quelle false (Komma bleibt, weil nur Teil 2 alt).
+5. PRÜFUNGEN
+   addon_check: OK. Offline-Routine: 38 Läufe, 38 ohne FEHLER. Private Regression: 36 von 36 Läufen ALLE TESTS OK.
+6. NÄCHSTE SCHRITTE: keine offenen Aufträge ausser Messungen im Spiel (Supervisor mit dem Nutzer). Repo alle 15 min.
