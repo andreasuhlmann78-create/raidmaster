@@ -1,0 +1,45 @@
+AHSentinel 0.65.283 – VS-121 (HOCH, VOLLSCAN "Speicher +121 584 KB") – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.283 und sofort im Discord.
+
+URSACHE (belegt): Die Prüfliste VOLLSCAN verglich den GANZEN Lua-Speicher (collectgarbage "count", alle Addons) am Ende von Scan 2
+mit dem am Ende von Scan 1. Dieser Augenblickswert enthält allen Müll, den die Bereinigung gerade noch nicht weggeräumt hat. Lua
+bereinigt erst, wenn der Speicher sich seit der letzten Bereinigung ungefähr verdoppelt hat – bei rund 400–500 MB Lua-Speicher
+schwankt der Wert darum um 100 MB und mehr, ohne dass etwas bleibt.
+- Im Spiel belegt (dein Protokoll 0.65.265, testberichte/diagnose/AHSentinel/0.65.265-0d8dfb745a85.txt):
+  "SNIPER-RUHE Speicher 423951 KB (-110989 KB in 60 s)" und 09:42 "407772 KB (+26620 KB in 60 s)" – ±110 MB in einer Minute,
+  ohne Vollscan. Frühere Messung TB118-3: "Speicher 417197->507088 KB".
+- Nachbau s262_vs_mem (Repo AHAnalyzerPro): 7165 Items wie beim Nutzer, 20 Preise je Item, 150 MB Ballast (andere Addons, in
+  Tabellen zu je 1000 Einträgen), natürliche Bereinigung wie im Spiel, drei Vollscans:
+  Scan 3 gegen Scan 2: Stand am Ende -110 619 KB (alte Messung) · bleibend +968 KB (vollständige Bereinigung).
+  In einem anderen Lauf +149 MB / -130 MB – das Vorzeichen hängt nur davon ab, wo die Bereinigung gerade steht.
+- Was wirklich wächst (Einträge je A.db-Tabelle, Scan 2 -> Scan 3): marketData +36 365 (Preisverlauf, gewollt), diag +188,
+  fullScan +10, scanLog +6, gsMarkt +2. Bleibend je Scan +0,97 MB (Ziel ≤ 10 MB erfüllt).
+- Neu angelegt je Schritt (Scan 1/2/3, KB, ganzer Lua-Speicher): Verdichtung 9118/9103/4362, Nachlauf 7874/3595/2077,
+  Verfolgung V4 -/1137/920, Einlesen 6828/603/594, Preisverlauf+Neuaufbau -/436/365.
+UMGESETZT:
+- Vollscan.lua: VS:MeasureFloor – nur mit Prüfliste (Entwicklermodus) und nur, solange der Punkt VOLLSCAN offen oder Fehler ist:
+  nach dem Mess-Fenster Bereinigung in kleinen Schritten (collectgarbage "step", Hintergrund-Aufgabe "vollscan:boden", je Schritt
+  ~4 ms angestrebt), bis ZWEI ganze Runden fertig sind, dann der Stand = bleibend. Höchstens 60 s (keine Sperre ohne Zeitlimit),
+  Fehler im Schritt = ohne Wert; Protokoll "VOLLSCAN Bleibender Speicher nach dem Scan … KB (Runden, Schritte, s, längster Schritt)".
+  Nachbau: neue Messung +966 KB gegen vollständige Bereinigung +968 KB (Abweichung 2 KB); alte Messung -110 619 KB.
+- Dazu je Scan: tiefster Stand (Auskunft) und neu angelegter Speicher je Schritt (mindestens; Bilder mit Bereinigung nicht zählbar)
+  in der Zeile "VOLLSCAN Messung …" und im Testbericht (Feld vollscan_neu).
+- SelfCheck/Prüfliste VOLLSCAN: vergleicht bleibend mit bleibend; fehlt der Wert in einem Scan -> wie bisher Stand am Ende, mit
+  "Ende, unsicher". Notiz kurz (die gemeinsame Prüfliste behält 200 Zeichen): bleibend, am Ende, Lücke mit Schritt, Bereinigungen;
+  Ursache der Lücke und neu angelegt je Schritt im Protokoll. Punkt VOLLSCAN ab 0.65.283 neu (wieder offen), Text angepasst
+  ("danach /ahs protokoll öffnen und die Zeilen VOLLSCAN Messung mitschicken").
+LÜCKE 436 ms: noch nicht belegt – Verdacht, zu messen: Abschluss-Phase der Lua-Bereinigung (ein einzelner, nicht teilbarer Schritt;
+  im Nachbau bei ~300 MB bis 102 ms, ohne dass AHSentinel in diesem Bild rechnete). Die neue Notiz nennt den Schritt, das Protokoll
+  die Ursache ("Speicherbereinigung ja/nein · Ereignis · Aufgaben … längster Schritt bis Datei:Zeile"). Bitte beim nächsten
+  VOLLSCAN-Test die beiden Zeilen "VOLLSCAN Messung" aus /ahs protokoll mitschicken.
+HINWEIS Messung im Spiel: Die Bereinigungs-Schritte nach dem Scan können ein einzelnes längeres Bild machen (Abschluss-Phase, die
+  ohne Messung genauso käme); sie laufen nur mit Prüfliste und nur, solange VOLLSCAN offen ist, NACH dem Mess-Fenster der Lücke.
+TESTS:
+- T858: Messung in Schritten (2 Runden, Zeitlimit, Fehler im Schritt, immer fertig gemeldet), Prüfliste bleibend gegen bleibend /
+  "Ende, unsicher", neu je Schritt (grösste zuerst), mit Prüfliste erst bleibend, ohne direkt, nur bei offenem Punkt.
+  Gegenprobe mit 0.65.282: rot.
+- s262_vs_mem: alte gegen neue Messung (Abweichung ≤ 2 MB), bleibend ≤ 10 MB je Scan. Gegenprobe 0.65.282: rot (fehlt).
+- s216_feed_memory: Punkt VOLLSCAN dort als erledigt gesetzt (die Messung legte sonst Bereinigungs-Arbeit mitten in die
+  Frame-Messung des Szenarios, das die Bereinigung absichtlich anhält); 3/3 grün.
+Gesamtlauf: BESTANDEN 322, FEHLGESCHLAGEN 1 – s263_ui_sandbox_decount (Nachbau SANDBOX-1, behoben in 0.65.284 = erwartete Gegenprobe).
+Danach: 0.65.284 SANDBOX-1, 0.65.285 SN-TR-2 Teil 1 (Ruckeln), 0.65.286 WACH-1b sind fertig und geprüft (eigene Berichte), dann WACH-2.
