@@ -15,7 +15,7 @@ REGELN
 
 SCHRITT 0 – Version
   Im Chat /ahs eingeben oder das AHS-Fenster öffnen und die Version ablesen (steht im Titel/Fuss). Erwartet: 0.65.278 (neueste,
-  github.com/andreasuhlmann78-create/AHAnalyzerPro bzw. Discord). Ist sie älter: dem Nutzer sagen "bitte AHSentinel 0.65.278
+  Discord bzw. GitHub-Release v0.65.278 im raidmaster-Repo). Ist sie älter: dem Nutzer sagen "bitte AHSentinel 0.65.278
   installieren und /reload" und warten. NICHT selbst Dateien auf den PC kopieren.
 SCHRITT 1 – Entwicklermodus + Prüfliste
   /ahs entwickler (muss "an" melden; meldet es "aus", noch einmal eingeben). Dann /ahs prüfliste – das Fenster zeigt bis zu 14 Punkte
