@@ -1,0 +1,40 @@
+BERICHT LevelPilot 3.12.58 – NAV-2 Reiseplan nach Zeit
+Projekt: LevelPilot · Datum: 16.11.2026 11:27 (aus date) · Version: 3.12.58 · umgesetzt, zur Prüfung
+
+Bezug: offen-levelpilot.txt NAVIGATOR NAV-2 (Entscheid des Nutzers 07:36/07:55), Plan 09:54 Abschnitt C, Reihenfolge
+"LW-5 E1–E4 vor NAV": E2–E4 gebaut (3.12.55–3.12.57), E1 wartet auf die Messung (Mess-Set toc-test, Bericht 11:02).
+
+1. UMSETZUNG (Planner.lua, Comfort.lua, UI.lua, 10 Sprachen)
+   - P:TravelPlan(start, ziel) -> { legs = { {k, secs, …} }, total, kind, hearth }:
+     Laufen/Reiten: Weg aus Graph:Path (Wegkosten LW-1, Strassen ST-2), Länge / P.GroundYps (gemessenes Reittier, sonst 7 yd/s).
+     Flug: je Bodenstück ab FLY_RULE.min Luftlinie dieselbe Regel wie TravelSteps (P.FlyDecision, P.FlightSecs gemessen LW-3);
+       Umweg des Bodenstücks = Weglänge / Luftlinie.
+     Schiff/Zeppelin/Tiefenbahn/Portal: Sekunden der Kante (Data/Gateways.lua).
+     Ruhestein: wenn LP.db.useHearth, Ruhestein bereit (API.HearthReady), Bindeort > 300 yd entfernt und Plan ab Bindeort
+       + 10 s Zauberzeit (+ 20 s Ladebildschirm bei anderem Kontinent – ANNAHME, Verdacht, zu messen) um 30 s schneller.
+   - P.PlanText: "Reise ~m:ss: 300 Yards laufen (0:43) → Flug nach X (2:10) → Zeppelin → <Zone> (6:30) → …". Zonennamen in
+     der Sprache des Spiels (Geo:MapName), nicht die deutschen Namen aus Gateways.lua.
+   - Comfort: jedes Hinführ-Ziel (Navigate: /lp navi, /lp weg, /lp suche) rechnet den Plan als Job "navplan" (Portionen,
+     Abgabestelle "graph"); alle 10 s neu (Ticker, nur mit aktivem Plan, nie im Trockenlauf). Anzeige im Guide unter dem Ziel
+     (UI:StepText, volle Ansicht). Keine zusätzliche Chatmeldung.
+
+2. TEST T318 (true ×5, mit eigenen LP-Tabellen statt Blizzard-Globals, alles zurückgestellt):
+   Laufen 700 yd / Schiff 300 s / Laufen 350 yd = 100 + 300 + 50 = 450 s · Text "7:30"/"5:00" · Flug: FP je 100 yd von
+   Start/Ziel, Flugzeit 120 s -> 200/7 + 135 s statt 6000/7 · Ruhestein bereit: 10 + 1000/7 s · nicht bereit: 6000/7 s laufen.
+   GEGENPROBEN: Transportkanten wie Boden -> Schiff/Text false; Ruhestein ohne Bereitschaftsprüfung -> "nicht bereit" false.
+
+3. MESSUNG MIT DEM ECHTEN WEGNETZ (Nachbau, Horde, sync):
+   Durotar 50,8/13,6 -> Tirisfal 60/58: "Reise ~6:36: 20 Yards laufen → Zeppelin (6:30) → 21 Yards laufen", 0,1 ms.
+   Orgrimmar -> Brachland 50/50: 16,9 ms am Stück; als Job 5 Bilder, längste Portion 4,5 ms (Ziel ≤ 16 ms).
+   BEFUND NACHBAU (kein Addon-Fehler, Verdacht, zu messen): Im Nachbau liegt Brachland 11,2 km Luftlinie von Klingenhügel
+   (Weltrahmen der Nachbau-Karten), darum wählt der Plan dort Zeppelin + Schiff. Im Spiel ist die Strecke viel kürzer – im
+   Client prüfen (CLIENT.T318).
+
+4. PRÜFUNGEN
+   addon_check: OK. Offline-Routine: 38 Läufe, 38 ohne FEHLER (Forever deDE Horde 275 OK, enUS 275, Allianz 273, Classic Era
+   274, TBC 274; je 0 FEHLER). Private Regression: 36 von 36 Läufen ALLE TESTS OK.
+
+5. IM SPIEL PRÜFEN (Vorschlag Prüfliste, wenn Platz frei wird): /lp navi 50 50 Brachland von Durotar – Plan unter dem Ziel,
+   Zeit sinkt beim Laufen; /lp navi gasthaus mit bereitem Ruhestein; Ladebildschirm-Zeit nach dem Ruhestein messen.
+
+6. NÄCHSTE SCHRITTE: NAV-1b (Namenssuche mit Trefferliste und Reisezeit) – der Reiseplan ist jetzt da. E1 nach der Messung.
