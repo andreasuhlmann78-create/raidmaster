@@ -1,0 +1,32 @@
+AHSentinel 0.65.261 – BEFUND HOCH SN-RAD-1 (Supervisor 08:35) + PL-T1 + PL-T2 + GoldSentinelDev v2 – umgesetzt, zur Prüfung
+CurseForge: nein (Kandidat entscheidet die Abnahme). GitHub-Release v0.65.261 und sofort im Discord.
+SN-RAD-1
+ (a) Sniper.lua Sn:WheelBuy: erste Prüfung `if self:BuyWith() == "button" then return false end` -> das Rad blättert in Listen
+     normal, kauft nie (alle drei Aufrufer UI_Main 1164 Tabellen, 2045 Hauptfenster, 2872 AH-Abdeckung).
+     Zweite Sperre: Sn:OnTriggerInner bricht still ab, wenn der Auslöser Rad oder Bindung ist (Sn.wheelCall / neu Sn.bindCall in
+     den Bindungs-Knöpfen MakeTrigger) und "nur Knopf" gilt. Der Knopf „Kaufen“ (kind "button") und der Kaufen-Knopf des Wächters
+     sind nicht betroffen.
+ (b) Ursache "über der Spielwelt" – Beleg aus deinem Nachstellen: die Prüfliste meldete "Mausrad/Taste kaufte" = Auslöser mit
+     Sn.wheelCall, und wheelCall setzte in 0.65.260 NUR Sn:WheelBuy (die Bindungs-Knöpfe riefen OnTrigger ohne Kennzeichen ->
+     "andere"). Der Kauf lief also über ein Fenster mit OnMouseWheel -> WheelBuy, NICHT über eine Override-Bindung (ApplyBindings
+     löscht bei "nur Knopf" alle Bindungen, Test T837 "gesetzt 0"). Verdacht, zu messen: welches Fenster – am wahrscheinlichsten
+     das AHSentinel-Hauptfenster (960×640, Bildschirmmitte) unter einem Fenster ohne Mausrad (z. B. der Prüfliste, Mitte, DIALOG):
+     WoW gibt das Rad an das oberste Fenster MIT Mausrad weiter. Messung eingebaut: Diagnose-Zeile SNIPER-RAD (nur Entwickler,
+     höchstens alle 2 s) mit dem Namen des Fensters unter der Maus (GetMouseFoci/GetMouseFocus), dem Modus und "gekauft / nicht
+     gekauft / gesperrt (nur Knopf)". Mit 0.65.261 kann es nicht mehr kaufen; die Zeile zeigt, wo es herkam.
+ (c) Prüfliste: Modus beim AUSLÖSEN gemerkt (Sn.pressSrc.mode = BuyWith() in OnTriggerInner); PLBuy wertet src.mode statt des Modus
+     bei der Server-Bestätigung.
+ (d) Test T837: "nur Knopf" + Treffer: WheelBuy -> false, 0 Auslöser; Bindungs-Knopf -> gesperrt (bricht vor jeder Prüfung ab);
+     ApplyBindings -> 0 Bindungen. Gegenprobe "Mausrad + Knopf": Rad 1 Auslöser, Bindung läuft weiter, 2 Bindungen; Modus beim
+     Auslösen "rad/both". Mit 0.65.260 rot ("Fenster true/1 · Bindung weiter · gemerkt andere/nil"), mit 0.65.261 grün.
+PL-T1 (b): Knopf „Mausrad“ im Sniper (rechts neben „Sniper-Modus“) schaltet um: grün = Rad kauft (Mausrad + Knopf), grau = nur Knopf;
+  Tooltip sagt beides und nennt Optionen > Sniper: Kaufen mit. Eigene Taste wählen schaltet auf "Mausrad + Knopf" (sonst kaufte die
+  neue Taste nicht). Breite unverändert 80 (kein neuer Text auf dem Knopf). Optionen gruppieren: nicht gemacht (grösserer Umbau
+  der Optionen – Vorschlag: Überschriften Sniper / Anzeige / Markt; bitte entscheiden).
+PL-T1 (a), PL-T2 (a): Prüfliste SN-RAD und SN-BTN1 neu gefasst (Ort: "breiter Knopf direkt unter der Zielliste", Knopf „Mausrad“
+  grün/grau, Optionen rechte Spalte); since 0.65.261 -> beide wieder offen. SN-TR: Knopf „Mausrad“ muss grün sein (Testkauf mit Raste).
+PL-T2 (b): Ist der Kaufen-Knopf grau ("Kein Treffer"/AH zu), steht sein Grund in der Meldungszeile darunter (nur solange keine
+  eigene Meldung jünger als 8 s ist; verschwindet, sobald der Knopf bereit ist).
+GoldSentinelDev.lua Version 2 aus shared/ byte-gleich (cmp).
+Locales: 3 neue Texte in allen 10 Sprachen. CHANGELOG EN/DE.
+Gesamtlauf aus frischer Kopie (Lua 5.1, 0.65.261-Schnappschuss): BESTANDEN 316, FEHLGESCHLAGEN 0. s42 grün (T836, T837).
