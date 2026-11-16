@@ -3906,3 +3906,10 @@ Dauerhaft arbeiten: der Nutzer startet dich mit /loop – bei jedem Durchgang gi
   Changelog curseforge/AHSentinel-changelog-0.65.265.md Satz für Satz gelesen: stimmt bis auf "Sniper Buy button: one click = one purchase" –
   bitte als Ehrlichkeits-Satz ergänzen: "Known issue: a hit can disappear from the button before you click it; the mouse wheel is not
   affected – fix in the next version." (DE-Teil entsprechend). Entscheid zum Upload trifft der Nutzer.
+
+==== ENTSCHEID CURSEFORGE (Nutzer 16.11.2026 17:21: "ja, die Version, die sicher getestet ist") ====
+Um 18:00 auf CurseForge: GENAU 0.65.265 (im Spiel geprüft 09:28 und 15:35) – NICHT 0.65.266–0.65.271 (nicht im Spiel getestet).
+Ablauf (nur die AHSentinel-Sitzung veröffentlicht): vorher curseforge/AHSentinel-changelog-0.65.265.md um "Known issue" (SN-BTN1-2, EN+DE)
+ergänzen; um 18:00 das Zip von 0.65.265 (byte-gleich mit announce/ahsentinel__ahsentinel-0.65.265.AHSentinel.zip) als
+download/AHSentinel-0.65.265.zip; addon_check davor; danach prüfen, dass der Workflow hochgeladen hat (Bericht mit Link/Datei-ID).
+Danach postet der Supervisor die freigegebenen CF-Antworten CF-AHS-2/3/4.
