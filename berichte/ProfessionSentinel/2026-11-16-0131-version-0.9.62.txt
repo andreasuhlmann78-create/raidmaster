@@ -1,0 +1,30 @@
+BERICHT PROFESSIONSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 16.11.2026 01:31 · Sitzung: ProfessionSentinel-Sitzung · Version: 0.9.62 · Commit: 2e36705 (Quell-Repo), Release v0.9.62
+Grundlage: offen-professionsentinel.txt, ANTWORT STAND-BERICHT PUNKT 11 (Supervisor 01:18).
+Hinweis: Hier steht nur "umgesetzt, zur Prüfung" mit Belegen. Ob etwas erledigt ist, entscheidet die Prüf-Sitzung.
+
+UMGESETZT, ZUR PRÜFUNG
+----------------------
+(a) Flut-Produkte aus "Heute herstellen": Today.lua TD.Collect – pr.state == "flut" (gleiche Quelle wie die Tooltip-Zeile B5,
+    MK.Info/MarketState) -> nicht in der Sammlung, Grund "flut" in TD.skipped gezählt (Testbericht-Zeile "Heute herstellen,
+    nicht gesichert: … flut n"). Damit fehlt das Produkt auch auf der Karte "Jetzt" (TD.Candidates) und in
+    ProfessionSentinelAPI.TodayCrafts (AHS "Heute tun") – alle lesen dieselbe Sammlung.
+    Zählung: ein Grund je Rezept (Hinweis der Rechnung vor "raw" vor "flut"; vorher zwei getrennte if mit derselben Wirkung).
+(b) Hinweis an Blizzards "Alle erstellen": nicht gebaut (Antwort NEIN).
+
+TESTS (eigene, Hinweise – keine Freigabe)
+-----------------------------------------
+- T284 neu (3 Prüfungen): zwei gleiche Rezepte, Produkt A "flut", B "normal" -> A fehlt, B drin, skipped.flut = 1;
+  Gegenprobe im Fall: A "normal" -> beide drin, kein Grund flut.
+- Gegenprobe Code: Today.lua aus 0.9.61 -> T284 FEHLER "3 Prüfungen, 2 Fehler: Flut-Produkt fehlt, ruhiges Produkt drin".
+- run_offline (LuaJIT): Forever OK 240 / FEHLER 0, Era OK 222 / 0, Retail OK 220 / 0, TBC ohne Lua-Fehler, Ausgang 0.
+  --lua51: Forever 240 / 0, Retail 220 / 0 (Ausgang je 0). Schnelltest Ausgang 0 (AUTOTEST OK ×3, Liste unverändert),
+  check_actions Ausgang 0, Locale-Schlüssel 526 (keine neuen Texte).
+- addon_check auf download/ProfessionSentinel-0.9.62.zip und announce-Zip: OK. ZIP = Release-Asset = Quell-Repo (diff -r leer).
+
+IM CLIENT PRÜFEN
+----------------
+- Mit AHSentinel: ein Produkt, das AHS als "flut" führt, steht nicht in "Heute herstellen"/"Heute tun"; Tooltip zeigt die
+  orange Zeile.
+
+DANACH: Pflege/Leerlauf (Wecker alle 15 Minuten).
