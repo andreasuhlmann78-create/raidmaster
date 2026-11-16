@@ -1,0 +1,23 @@
+BERICHT LevelPilot 3.12.46 – Geführte Wegmessung für GSWegMess (/lp wegmessung)
+Projekt: LevelPilot · Datum: 16.11.2026 01:03 (aus date) · Status: umgesetzt, zur Prüfung
+
+Bezug: offen-levelpilot.txt, NACHT-PRÜFUNG 00:48 ("/lp wegmessung … GSWegMess selbst bleibt das passive Werkzeug … nicht ändern").
+
+UMSETZUNG (neue Datei WegMessung.lua, Modul "WegMessung", Befehl /lp wegmessung)
+- Die vier Testläufe aus shared/messtest/GSWegMess/README.md als Schritte: L1 Unterstadt AH -> Bethor Iceshard (Magieviertel) -> AH
+  (3 Schritte, Pfeil über LevelPilotAPI.NavigateTo: AH 1458 64.3/35.9 wie Test UC-W1, Bethor aus dem Datenpaket NPC 1498);
+  L2 Ruinen-Aufzug hinunter, anderer Aufzug hinauf (4); L3 Donnerfels-Aufzug unten -> oben (2); L4 Höhle: Pfeil zum nächsten
+  bekannten Eingang (LP.Caves), hinein bis hinten, hinaus (3).
+- "Markieren & weiter" ruft GSWegMess.Mark("<Lauf Notiz>") (öffentliche Funktion des Werkzeugs; startet es mit GSWegMess.Start, falls
+  es noch nicht läuft); "Lauf überspringen" notiert "Ln übersprungen"; "Beenden"/Ende ruft GSWegMess.Stop und sagt: /reload, Datei
+  schicken. GSWegMess-Dateien unverändert. Fehlt GSWegMess: Hinweis, wo es liegt.
+- Notizen auf Deutsch (für die Auswertung). Anzeigetexte in allen Sprachdateien; Ortsnamen zur Laufzeit in der Spielsprache
+  (AreaNames-Tabelle: Unterstadt, Magieviertel, Ruinen von Lordaeron, Donnerfels; Mulgore über den Kartennamen; Bethor über die
+  NPC-Namen des Datenpakets) – keine geratenen Übersetzungen von Eigennamen. Platzhalter-Reihenfolge je Sprache geprüft.
+BELEGE
+- T308 (deDE/enUS): ohne Werkzeug Hinweis und kein Start · Start startet die Messung, Fenster, Pfeil gesetzt · Ortsnamen ohne "#" ·
+  3 Markierungen -> Lauf 2 · Überspringen -> Lauf 3 (Notiz "L2 übersprungen") · Ende stoppt die Messung · 9 Notizen (erste
+  "L1 Auktionshaus") · Abschlusszeile. Im Client prüfen: 1 Anleitung (CLIENT T308).
+- T01/test2 kennen das neue Modul (33). run_offline.py (allein): 37/37 ohne FEHLER; private Regressionen 36/36; addon_check OK.
+HINWEIS FÜR DEN NUTZER: /lp wegmessung, Fenster folgen, am Ende /reload, Datei WTF/Account/<Konto>/SavedVariables/GSWegMess.lua
+schicken. Die Aufzug-Orte sind nicht als Pfeil hinterlegt (keine belegten Koordinaten) – das Fenster beschreibt den Weg.
