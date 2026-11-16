@@ -1,0 +1,208 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+
+BERICHT MARKT-ÜBERWACHUNG AHSENTINEL (wöchentlich) AN DIE PRÜF-SITZUNG
+Stand: 16.11.2026 06:00 · Sitzung: geplante Aufgabe "AHSentinel Markt-Überwachung" · erster Lauf
+Daten: privates Daten-Repo, Commit 68f05d9 (Lieferung 15.11. 19:39). 7 Stände (aktuell + tage/12.–15.11., beide Rechner),
+Preisverlauf zusammengeführt: 7'096 Items, 729'174 Preispunkte, 05.11.–15.11. (15.11. bis 19:10, Teiltag).
+Neueste Addon-Version in den Daten: 0.65.203 (Testbericht 15.11. 18:13). 0.65.204–0.65.256 sind noch NICHT gemessen.
+Werkzeuge: markt_tabellen.py (series_of, merge_journals), kern_abgleich.py, eigene Auswertung (nur Zahlen, keine Namen).
+Itemstufen (benötigte Stufe) aus QuestieDB foreverItemDB.lua (öffentlich, nur gelesen, nicht ausgeführt).
+
+Vorrang-Regel beachtet (CLAUDE.md, hinweis-routinen-supervisor-2026-11-14): Diese Aufgabe schreibt NICHTS in auftraege/,
+nichts ins Log, nichts in shared/wissen/ und schickt keine Nachricht. Alles unten ist Vorschlag für den Supervisor.
+
+=====================================================================================================================
+A) MESSWERTE
+=====================================================================================================================
+
+a) MA6 Trend-Rückblick (je Item Tagesmedian der Mindestpreise; Fall/Anstieg = Tag 3 gegen Tag 0 > 15 %;
+   nächster Tag: weiter / gleich (±2 %) / dreht)
+
+   Zeitraum (Ergebnistag)          | 3 Tage Fall > 15 %                  | 3 Tage Anstieg > 15 %
+   --------------------------------+-------------------------------------+------------------------------------
+   gesamt 08.–15.11.               | n 13'611 (5'002 Items) 46 / 27 / 27 | n 4'036 (2'153 Items) 21 / 12 / 67
+   bis 13.11. (Nachrechnung Vorw.) | n  9'341             46 / 28 / 25   | n 2'187               22 / 16 / 61
+   NEU 14.–15.11.                  | n  4'270 (3'098 It.) 44 / 24 / 32   | n 1'849 (1'482 It.)   19 /  8 / 74
+   ohne Startwoche (ab 11.11.)     | n 11'014             46 / 25 / 29   | n 3'421               20 / 10 / 70
+   nur gleichgerichtet 3 Tage      | n  5'360             48 / 23 / 29   | n   264               29 /  8 / 63
+   Vorwoche (8g, 13.11.)           |                      47 / 29 / 24   |                       21 / 17 / 61
+   -> Nachrechnung bis 13.11. trifft die Vorwoche auf ±1 Punkt (Methode gleich). Regel hält:
+      Fall: weiter > dreht (44 gegen 32 %), Umkehr nimmt zu (24 -> 32 %), bleibt unter der Warngrenze 40 %.
+      Anstieg: Umkehr 74 % (vorher 61 %) – "Spitze = jetzt verkaufen, nie kaufen/halten" stärker belegt.
+   Vorbehalt: Tagesmedian des MINDESTpreises – ein einzelnes billiges Angebot macht einen "Fall", der am nächsten Tag
+   "dreht". Ein Teil der Umkehr ist Rauschen, nicht Markt. Darum zählt nur die Richtung (RK6), nicht die Grösse.
+
+b) Stufenbänder MA4 (Band = benötigte Stufe; ohne Stufe Material: Staub/Essenz/Splitter, Stoffe, Erze/Barren, Kräuter,
+   Leder, Steine). Zwei Indizes: KETTE = Produkt der Tagesmediane der Tag-zu-Tag-Verhältnisse DERSELBEN Items (robust);
+   MA4 = wie Waves.lua (Median von Tagespreis / erster Tag je Item).
+
+   Band   Items (Stufe/Mat.)  Kette 09. 10. 11. 12. 13. 14. 15.   Paare/Tag 15.  Trend 12.–15.   14.->15.   Addon-Regel 16.11.
+   1–25   1'750 (1'720/30)    0,56 0,56 0,56 0,56 0,56 0,55 0,55   1'635          −0,2 %/Tag      −0,2 %     ruhig (d3 +1 %)
+   26–45  1'742 (1'704/38)    0,14 0,12 0,11 0,10 0,10 0,10 0,10   1'718          −2,1 %/Tag      −1,0 %     fällt (d3 −9 %)
+   46–60    909 (885/24)      0,96 0,91 0,72 0,67 0,53 0,48 0,43     890          −13,7 %/Tag     −10,5 %    fällt (d3 −30 %)
+   (Index 1,00 = 05.11.; Tage mit < 20 Paaren zählen nicht – 26–45 erst ab 07.11., 46–60 erst ab 09.11. belastbar.)
+   -> NEU: Die Levelwelle hat die AUSRÜSTUNG 46–60 erreicht (Kette −53 % seit 10.11., in Folge, 414–890 Paare/Tag).
+      Materialien 51–60 (Staub/Essenz/Splitter) dagegen seitwärts (Index 0,33 -> 0,37 -> 0,31). 1–25 und 26–45 durch.
+   -> Abweichung Addon-Regel vs. Kette siehe Befund MU1-4 (Band 1–25 am 12./13.11. fälschlich "fällt").
+
+c) MARKT-KERN Ü1 (Testberichte im Repo, neuester mit Abschnitt: 0.65.188, 15.11. 12:35; Stand im Spiel 0.65.203):
+   flip 0 Fälle · snipe 4 Fälle, Treffer 75 %, Fehler 26 % · de 0 · craft 0 · vendor 0 – alle "lernt".
+   MA1: eigene Auktionen geprüft 0, Fehlerquote – . MA3: 3'086 Händlerpreise bestätigt, 0 abweichend.
+   Neuester Stand db.core (15.11. 19:10): snipe 13 Fälle, 10 Treffer (77 %), mittlerer Fehler 23 %; de 6 Fälle, 6 Treffer
+   (100 %), Fehler 10 %; gesperrt: keiner; offene Empfehlungen 57.
+   Grenzwerte Ü2: Trefferquote ≥ 60 % – kein Weg freigegeben (alle < 20 Fälle), nicht anwendbar. Fehler ≤ 15 % – snipe 23 %
+   VERFEHLT (aber falsch gemessen, MU1-2). MA1 ≤ 20 % – NICHT MESSBAR (0 Fälle, MU1-1). 0 Lua-Fehler – VERFEHLT:
+   ADDON_ACTION_BLOCKED in 0.65.189/194/196/203 (Zähler 4 -> 7) = POST-BLOCK1, schon in offen-ahsentinel.txt (PRIO).
+   Kern (kern_abgleich.py, 05:52): markt n 154'457 Brier 0,0271 < Grundlinie 0,0306; sell n 89 Brier 0,2278 – vom
+   Supervisor schon behandelt (KERN-S1/S1b/P2-1/P4-1), hier nicht doppelt.
+
+d) Eigene Nachprüfung (Journal aller Stände zusammengeführt ohne Doppelte: 1'362 Käufe B, 2'173 Entzauberungen D,
+   156 Einstellungen P; Woche 09.–15.11. = alle Fälle, das Journal beginnt am 10.11.)
+   Weg Entzaubern (Kauf -> zugeordneter Netto-Erlös):
+     Woche: 1'204 abgeschlossen, Einsatz 112,70g -> Erlös 141,43g = +25,5 %; Einzelkäufe mit Gewinn 33 %.
+     NEU 14.–15.11.: 749 abgeschlossen, 65,64g -> 78,02g = +18,9 % (UNTER Mindestgewinn 20 %); Einzelkäufe mit Gewinn 27 %.
+     Vorhersage ev Σ 80,92g gegen erzielt 78,02g = −3,6 % (≤ 15 %, hält). Beute/Vorhersage Σ/Σ 0,977 (2:4:a 0,973).
+     Je Kaufpreis/Wert (14.–15.11.): ≤ 0,833 n 438 +27,8 % · 0,834–0,85 n 211 +9,6 % · 0,85–0,9 n 99 +1,4 %
+     (bis 13.11.: ≤ 0,7 +39,9 % · ≤ 0,8 +33,1 % · ≤ 0,9 +26,7 % · > 0,9 −4,2 %). -> MU1-3.
+     Ein Item trägt 14.–15.11. fast alles: 4251 mit 699 Käufen, gesamt +20,8 %.
+   Weg AH-Weiterverkauf (Flip, way e): 98 Käufe, 10 abgeschlossen, 2 mit Gewinn, +1,2 % (zu wenig Fälle). 14.–15.11.:
+     86 Käufe, 0 abgeschlossen; davon 55 über 0,9 × Wert (v. a. 2589 Leinenstoff 35×) – Beleg für FL-0 (vom Supervisor
+     02:03 in 0.65.254 als behoben geprüft; Wirkung im Spiel noch nicht in den Daten).
+   Weg Händler: 24 Käufe, 0 abgeschlossen (kein Ergebnis messbar). Herstellen: keine Käufe mit Weg Herstellen im Journal.
+   Verkauf (P, ohne Abbruch): 124 Fälle, verkauft 54 %, vorhergesagt 70 % (14.–15.11.: 60 Fälle, 70 % gegen 50 %).
+   Abweichung Addon-Zahl gegen eigene Rechnung > 15 %: keine beim Entzaubern (−3,6 %); MA2 snipe nicht vergleichbar (MU1-2).
+
+e) Absatz-Plausibilität (fullScan.sold, Stand 15.11. 19:10; Abbruch-Faktor 0,5625 = 9 verkauft / 16 eigene verschwunden)
+   856 Items mit Rate, 561 gemessen (≥ 3 Paare, ≥ 3 Tage), Angebot aus Preisleiter (434) bzw. letzter Menge.
+   Absatz/Tag > ganzes Angebot: 22 (3,9 %); roh ohne Abbruch-Faktor 60 (10,7 %). > 25 % des Angebots je Std. (Ü3): 1 (0,2 %).
+   Beispiele (Absatz/Tag nach Faktor gegen Angebot): 13443 150 / 19 (7,9×, einziger Ü3-Fall, fängt K2 ab) · 250077 688 / 132
+   · 4382 853 / 331 · 5963 84 / 34 · 2584 519 / 235 · 4371 854 / 411 · 16083 102 / 51 (Buch!) · 2852 87 / 48.
+   328 von 856 Items haben den Zähler "unplausibel" (bad) > 0. -> MU1-5.
+
+f) Herstellen-Stichprobe (ProfessionSentinel Data_Forever ns.RecipeRows, Koch 185 + Alchemie 171 = 313 Rezepte;
+   Band nach Lernstufe; Produkt = Tagesmedian Mindestpreis × 0,95 × Mittel(min,max); Zutaten = min(AH, Händlerpreis
+   vendorBuy); nur Rezepte mit allen Preisen)
+   Anteil Rezepte mit > 10 % Gewinn:   Stufe 1–124      125–224      225–300
+   Preise 13.11. (gleiche Methode)     52/115 (45 %)    39/62 (63 %) 52/72 (72 %)
+   Preise 15.11.                       42/119 (35 %)    35/62 (56 %) 61/88 (69 %)
+   Vorwoche 8g (13.11., andere Zählung) 25/65 (38 %)    42/87 (48 %) 41/77 (53 %)
+   -> Mit gleicher Methode sinkt der Anteil in allen Bändern (−10 / −7 / −3 Punkte). Mit der alten Zählung nicht direkt
+      vergleichbar (andere Rezeptmenge: 65/87/77 statt 115/62/72) – Richtung "höhere Rezepte lohnen öfter" bleibt.
+   Ü3: 16 von 269 Rezepten > 300 % Gewinn (z. B. Transmutationen, Kebab 3c -> 37c), 11 unter −90 % (Produkt fast wertlos
+   im AH, z. B. Großer Trank des Heilers 42s Zutaten -> 41c). Solche Zahlen gehören grau ("Daten prüfen"), nie als Chance.
+
+=====================================================================================================================
+B) GRENZWERTE (Ü2) – eingehalten?
+=====================================================================================================================
+   Trefferquote ≥ 60 % je freigegebenem Weg ........ kein Weg freigegeben (alle < 20 Fälle) – nicht prüfbar
+   Fehler "Lohnt bis" ≤ 15 % ......................... Entzaubern (eigene Rechnung) −3,6 % JA; MA2 snipe 23 % NEIN (falsch gemessen)
+   MA1-Fehlerquote ≤ 20 % ............................ NICHT MESSBAR (0 Fälle seit Einbau, MU1-1)
+   0 Lua-Fehler ...................................... NEIN (ADDON_ACTION_BLOCKED, POST-BLOCK1 schon offen)
+   Ü3 Absatz > 25 %/Std. ............................. 1 Item, vom Addon abgefangen (K2) – JA
+   Trend-Regel gedreht (Fall dreht > 40 %)? .......... NEIN (32 %)
+
+=====================================================================================================================
+C) BEFUNDE (Vorschlag für offen-ahsentinel.txt, Abschnitt "MARKT-ÜBERWACHUNG 16.11.2026")
+=====================================================================================================================
+Kein HOCH: keine Empfehlung des Addons hat nachweislich Gold gekostet. Reihenfolge nach Schwere.
+
+MU1-1 MITTEL (belegt, Code + Daten) – MA1 zählt bei 2-Std.-Auktionen nie.
+  Beleg: MarketCore.lua:297–303 Long(o) verlangt Restzeit > 2 Std. (Stufe ≥ 3 bzw. > MK.LONG = 7200 s). Alle 156 eigenen
+  Einstellungen im Journal haben Dauer 2 Std. (P d=2: 62 verkauft, 54 abgelaufen, 17 Abbruch). db.core.ma1 n = 0 auf
+  beiden Rechnern; Ü1 "MA1 eigene Auktionen geprüft 0". Gilt unverändert im Code 0.65.256.
+  Folge: Absatz-Freigabe (Teil D: ≥ 30 Fälle, ≤ 20 %) für diesen Spieler NIE erreichbar; Ü2-MA1 nicht prüfbar; der
+  Abbruch-Faktor beruht nur auf 16 eigenen Fällen (fullScan.own).
+  Ursache: die Regel "Restzeit > 2 Std." in anweisung-markt-reiter MA1 ist für fremde Auktionen gedacht (Ablauf von
+  natürlichem Verschwinden trennen); bei EIGENEN Auktionen ist die geplante Endzeit bekannt.
+  Lösung: für eigene Auktionen statt Restzeit die geplante Endzeit (Einstellzeit + Dauer, aus dem Journal P) – verschwunden
+  ≥ 10 Min. vor dem geplanten Ende = Vermutung bilden und werten. Fremde Auktionen unverändert.
+  Test T-MU1-1: 2-Std.-Auktion, nach 40 Min. weg + OWN_AUCTION_SOLD -> n +1, richtig; nach 50 Min. weg + neu eingestellt
+  + AUCTION_CANCELLED -> richtig; Ablauf nach 2 Std. -> keine Wertung. (Entscheid Supervisor: Anweisung MA1 anpassen.)
+
+MU1-2 MITTEL (belegt, Code + Daten) – MA2 "snipe" misst die falsche Wahrheit.
+  Beleg: Sniper.lua:1677–1680 notiert Vorhersage = A:RealValue (AH-Wert des Items selbst); MarketCore.lua:73–87/101 wertet
+  Treffer = AH-Preis 24 Std. später ≥ Kaufpreis. Die Sniper-Käufe sind fast nur Entzauber-Käufe (14.–15.11.: 755 von 860
+  Weg d). 36 von 49 snipe-Notizen haben Kaufpreis > Vorhersage (bis 1,37×) – beim Entzaubern gewollt, nach MA2 aber
+  "Fehler". Ü1 zeigt snipe 13 Fälle / 77 % / Fehler 23 %; die echten Ergebnisse (Journal B mit zugeordnetem Erlös rv)
+  haben 1'204 Fälle (+25,5 %).
+  Folge: ab 20 Fällen sperrt bzw. gibt MK:WayState den Weg snipe nach einer Grösse frei, die mit dem Gewinn nichts zu tun hat.
+  Lösung: MA2 je Ziel-Weg: Sniper-Kauf mit Weg d -> Vorhersage = ev (Fc:BuyPrediction), Wahrheit = zugeordneter Netto-Erlös
+  rv aus dem Journal B (wie Kern buyk/buye). Bei Zufallsbeute keine Einzelfall-Treffer (KF2): Treffer = Summe Erlös /
+  Summe Einsatz je Tag ≥ 1 + Mindestgewinn; Fehler = |Σ rv − Σ ev| / Σ ev. Einzelkauf-Quote Entzaubern ist 27–33 % trotz
+  +19–25 % gesamt – darf nie als "Trefferquote" sperren.
+  Test T-MU1-2: 10 Entzauber-Käufe zu 0,8 × ev, 3 mit Essenz, 7 nur Staub, Σ +22 % -> Treffer; gleiche Käufe mit Item-AH-
+  Preis darunter -> unverändert Treffer (AH-Preis des Items zählt nicht).
+
+MU1-3 MITTEL (belegt, Daten) – Eigenes Sniper-Ziel über "Lohnt bis" ohne Hinweis.
+  Beleg: 14.–15.11. lagen 315 von 755 Entzauber-Sniperkäufen (42 %) über Wert/1,2 (DE30b-Mindestgewinn 20 %).
+  Rendite: ≤ 0,833 × Wert +27,8 % (n 438) · 0,834–0,85 +9,6 % (n 211) · 0,85–0,9 +1,4 % (n 99). Zu viel bezahlt gegen
+  Wert/1,2: 0,44g auf 28,32g Einsatz. Zeit: v. a. 15.11. 14–18 Uhr, als der Wert von 11s39 auf 10s45 fiel (−8 %), der
+  Kaufpreis aber bei 8s90–9s14 blieb. Ziele i:4251/7048/6611/14580 sind von Hand mit festem Max 9s00/9s14 angelegt
+  (ohne t.de) -> Sniper.lua:174 UpdateDETargets führt sie nicht nach; Sniper.lua:151 MaxOverValue warnt erst über dem
+  Verkaufswert (Gewinn 0), nicht über "Lohnt bis". Das Addon hat nichts Falsches empfohlen, aber auch nicht gewarnt.
+  Lösung: (1) gelbe Zeile beim Ziel, wenn Max > "Lohnt bis": "Max über Lohnt bis (x) – hier gemessen nur +y %" (ein Satz,
+  ≤ 20 Wörter, Grundsatz NACHVOLLZIEHBAR; Psychologie: Einzelfall statt Summe, helfen nie bevormunden); (2) Knopf
+  "Max folgt Lohnt bis" (setzt t.de, dann führt UpdateDETargets nach). Nichts erzwingen – Spieler entscheidet.
+  Test T-MU1-3: Ziel Max 9s00, Lohnt bis 8s71 -> gelbe Zeile; Knopf -> t.de, Max = 8s71; Wert fällt 5 % -> Max folgt.
+
+MU1-4 MITTEL (belegt, Nachbau) – Band-Richtung (MA4) verzerrt, RK6 senkte "Lohnt bis" ohne echten Fall.
+  Beleg: Waves.lua:150–196 ComputeLevelBands: Index = Median von (Tagespreis / erster Tag DES ITEMS im Fenster). Items, die
+  erst mitten im Fenster dazukommen, starten bei 1,00 und verschieben den Median. Nachbau mit den echten Daten:
+  Band 1–25 am 12.11. "fällt" (d3 −13 %), 13.11. "fällt" (d3 −14 %) – Kettenindex derselben Items im gleichen Zeitraum
+  flach (0,56 -> 0,56, n ≈ 1'500 Paare/Tag). 14.11.: d1 +8 % (Kette −2 %). Heute (16.11.) stimmen die Richtungen.
+  Folge: MarketCore.lua:432 HoldFactor rechnete für Band-1–25-Waren mit Verkaufsdauer > 1 Tag −5 %/Tag ohne echten Fall.
+  Lösung: Index als Kette: je Tag Median der Verhältnisse Tag/Vortag über Items, die an BEIDEN Tagen Daten haben
+  (≥ 20 Paare), multipliziert; d1/d3 daraus. LogBands (RK6-F1b) kann dieselbe Kette mitschreiben.
+  Test T-MU1-4: 20 Items flach, 20 neue Items ab Tag 6 mit halbem Preis -> "ruhig" (heute: "fällt").
+
+MU1-5 MITTEL (belegt, Daten; Ergänzung zu befund-absatz-zu-hoch.txt) – Absatz weiter über dem Angebot.
+  Beleg: e) oben – 22 von 561 gemessenen Items (3,9 %) mit Absatz/Tag > ganzes Angebot NACH Abbruch-Faktor; 328 von 856
+  mit Zähler "unplausibel". Die Ü3-Grenze (25 %/Std. = 6× Angebot je Tag) lässt das durch.
+  Ursache (Verdacht, zu messen): Abbrechen/Neu-Einstellen zählt als Absatz; der Abbruch-Faktor stammt aus 16 eigenen
+  Fällen (MU1-1).
+  Lösung: bis MA1 frei ist, zusätzlich Absatz/Tag ≤ Angebot (Untergrenze der Spanne, wie Phase 2 "alle"); darüber grau.
+  Test T-MU1-5: Item mit 100 Angebot, gemessen 250/Tag -> 100/Tag und grau "unsicher".
+
+HINWEIS NIEDRIG – Herstellen: 16 von 269 Koch-/Alchemie-Rezepten > 300 % und 11 < −90 % mit Tagesmedian-Preisen – nur als
+  Prüfliste für RK3/Ü3 (dünne Märkte), kein neuer Auftrag.
+
+=====================================================================================================================
+D) VORSCHLAG GEHIRN (shared/wissen/markt-strategie.md, 8g – vom Supervisor einzutragen)
+=====================================================================================================================
+- **GEMESSEN 16.11. (MA6 Trend-Rückblick, Woche 2, eigene Daten 05.–15.11., Tagesmedian Mindestpreis):** neu 14.–15.11.:
+  nach 3 Tagen Fall > 15 % weiter 44 % / gleich 24 % / dreht 32 % (n 4'270, 3'098 Items); nach 3 Tagen Anstieg > 15 %
+  dreht 74 % (n 1'849). Gesamt 08.–15.11.: Fall 46/27/27 (n 13'611), Anstieg 21/12/67 (n 4'036). Regel hält (Richtung);
+  Umkehr nach Fall steigt (24 -> 32 %), Warngrenze 40 %. Vorbehalt: Mindestpreis-Rauschen.
+- **GEMESSEN 16.11. (MA4 Bänder nach benötigter Stufe, Kettenindex, 05.–15.11., 4'401 Items):** 1–25 seitwärts (−0,2 %/Tag
+  12.–15.), 26–45 leicht fallend (−2,1 %/Tag), 46–60 fällt stark (−13,7 %/Tag, −53 % seit 10.11.; Ausrüstung, nicht
+  Material – Staub/Essenz 51–60 seitwärts). Die Levelwelle erreicht jetzt die Ausrüstung 46–60. Erwartung (VERMUTET):
+  seitwärts, sobald die Masse 60 ist. -> Bänder-Index als Kette rechnen (MU1-4).
+- **GEMESSEN 16.11. (Entzaubern, Journal 10.–15.11., 1'204 Käufe):** gesamt +25,5 %; 14.–15.11. +18,9 % (n 749). Je
+  Kaufpreis/Wert 14.–15.11.: ≤ 0,833 +27,8 % (n 438), 0,834–0,85 +9,6 % (n 211), 0,85–0,9 +1,4 % (n 99). Bestätigt
+  DE30b/SN-M: über Wert/1,2 bleibt der Gewinn unter 20 %, über 0,85 fast null. Einzelkäufe mit Gewinn nur 27–33 % –
+  bei Zufallsbeute zählt nur Summe/Summe.
+- **GEMESSEN 16.11. (Herstellen, gleiche Methode 13. gegen 15.11.):** Rezepte > 10 % Gewinn 1–124 45 -> 35 %, 125–224 63 ->
+  56 %, 225–300 72 -> 69 % (n 115–119 / 62 / 72–88). Tiefe Rezepte verlieren weiter an Boden.
+- Bei 8g "Seit 11./12.11. sind ALLE Bänder durch" (14.11. 00:45) ergänzen: "ÜBERHOLT für Ausrüstung 46–60 (16.11.)".
+
+=====================================================================================================================
+E) VORGESCHLAGENE NACHRICHT AN DIE AHSENTINEL-SITZUNG (erst nach Freigabe durch den Supervisor)
+=====================================================================================================================
+Erst laufende Arbeit fertig machen (KERN-S1b eilt vor).
+Markt-Überwachung 16.11. – vier Punkte MITTEL, nach KERN-S1b und POST-BLOCK1 einreihen:
+1. MU1-1 MA1 zählt 2-Std.-Auktionen nie (Long() > 2 Std.; alle 156 eigenen Einstellungen 2 Std.; ma1.n = 0). Lösung:
+   eigene Auktionen über die geplante Endzeit werten. Test T-MU1-1.
+2. MU1-2 MA2 snipe: Vorhersage = AH-Wert des Items, Wahrheit = AH-Preis nach 24 Std. Für Entzauber-Käufe falsch. Lösung:
+   ev und zugeordneter Erlös rv aus dem Journal, Summe/Summe je Tag. Test T-MU1-2.
+3. MU1-3 Hinweis, wenn eigenes Sniper-Max über "Lohnt bis" liegt (+ Knopf "Max folgt Lohnt bis"). Gemessen: über Wert/1,2
+   nur +1 bis +10 %. Test T-MU1-3.
+4. MU1-4 Band-Index als Kette (Tag/Vortag derselben Items) statt Basis erster Tag. Test T-MU1-4.
+5. MU1-5 bis MA1 frei: Absatz/Tag ≤ Angebot. Test T-MU1-5.
+git pull --rebase und auftraege/AHSentinel/offen-ahsentinel.txt lesen; Bericht in berichte/AHSentinel/.
+
+=====================================================================================================================
+F) NÄCHSTER LAUF
+=====================================================================================================================
+Gleiche Messungen a–f. Erwartet neu: Daten mit 0.65.25x (KERN-S1, FL-0, RK6 in Wirkung), MA1 > 0 falls MU1-1 umgesetzt,
+Ü1 mit Weg de. Werkzeuge dieses Laufs nur im Arbeitsordner – Vorschlag: als addon-check/marktanalyse/markt_ueberwachung.py
+ins Repo, damit die Wochen exakt gleich gerechnet werden (Entscheid Supervisor).
