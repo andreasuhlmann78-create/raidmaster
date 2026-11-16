@@ -1,5 +1,5 @@
 AHSentinel – Nacht 15./16.11.2026 (Nacht-Arbeit nach masterplan-ahsentinel.txt Abschnitt D und PRIO-JETZT-Liste)
-Stand: 16.11. 06:07 – alle Versionen bis 0.65.257 veröffentlicht (Discord + GitHub)
+Stand: 16.11. 06:30, zuletzt 0.65.258
 Alle Versionen: GitHub-Release + Discord (announce/). KEIN CurseForge (erst nach der Sniper-Abnahme). Jede Version "umgesetzt,
 zur Prüfung", Bericht je Version in berichte/AHSentinel/.
 
@@ -68,6 +68,9 @@ VERSIONEN DER NACHT (je ein Satz)
   0.65.256 KERN-ABGLEICH (nach dem Wecken 05:02): Verkäufe erreichen den Kern genau einmal + Neuaufbau "sell"; P2 nach Brier;
            P4 erst nach 7 Bewertungstagen; Testbericht nennt Teile alle/kern; Markt-Tabellen 16.11.
   0.65.257 KERN-S1b (Prüfung 05:52, HOCH): Neuaufbau "sell" behält die Tage vor dem Journal; ky nur bei gezähltem Fall; Nachtrag am Fall-Tag.
+  0.65.258 MARKT-ÜBERWACHUNG MU1-1..5 (Supervisor 06:06): 2-Std.-Auktionen gewertet; Sniper-Entzaubern je Kauftag am echten Erlös
+           (einmaliger Reset snipe); Sniper-Ziel Max über "Lohnt bis" gelb + Knopf "Max folgt Lohnt bis"; Stufenbänder als Kette;
+           Absatz/Tag höchstens das Angebot (grau "unsicher").
   Eigener Befund im Gesamtlauf 0.65.224: s92 rot (Händler-Rechnung rechnete den Marktwert für alle Items) – vor der
   Veröffentlichung behoben und belegt.
   Dazu T200-1: Nachbildung im Repo vollständig (IsAddOnLoaded, run_all.sh ohne festen Pfad), Gesamtläufe aus frischer Kopie.
@@ -123,3 +126,5 @@ IM SPIEL PRÜFEN (in dieser Reihenfolge)
  20. Markt-Reiter-Kopf zwei Zeilen lesbar (100 % und 130 %): Stufenbänder | Rhythmus · "Vollscan in x Min. möglich"; Maus über dem Kopf = Wochentag-Muster.
  21. MR4 am Bild entscheiden: Markt-Reiter, Kopf oben, 1. Zeile "Stufen 1-25 … · 26-45 … · 46-60 …" (farbige Abschnitte statt
      Kacheln, vorläufig angenommen) – gleicher Text im Testbericht unter "MR4 LAGE-ZEILE". Passt es so, oder echte Kacheln?
+ 22. Sniper (0.65.258): Ziel mit festem Max über "Lohnt bis" (Entzauber-Item) -> Max gelb, Tooltip-Zeile; Ziel anklicken -> Knopf
+     "Max folgt Lohnt bis" rechts neben "Zähler zurücksetzen" (Beschriftung nicht abgeschnitten, 100 % und 130 %) -> Max = Lohnt bis.

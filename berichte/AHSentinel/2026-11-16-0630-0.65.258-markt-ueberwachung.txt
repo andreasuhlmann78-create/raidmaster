@@ -1,0 +1,44 @@
+AHSentinel 0.65.258 – MU1-1 bis MU1-5 (Markt-Überwachung 16.11., Supervisor 06:06) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.258 und sofort im Discord.
+
+MU1-1 (MarketCore.lua): MK:OnOwned merkt sich je Auktion den ersten Sichtzeitpunkt (MK.firstSeen). MK:PlannedEnd sucht im Journal die
+  neueste P-Einstellung desselben Items mit e.t <= erster Sicht + 120 s und nimmt e.t + d·3600. MK:LongOwn wertet eine Auktion nur, wenn
+  sie vor dem geplanten Ende − 600 s (END_SLACK) verschwindet; ohne Journal-Eintrag wie bisher Long(o). Verschwundene aids werden aus
+  firstSeen entfernt (kein Wachsen ohne Grenze).
+  Test T831: 3 eigene 2-Std.-Auktionen; 40 Min. weg + Verkauf -> n 1 richtig; 50 Min. weg + neu eingestellt + Abbruch -> n 2 richtig;
+  Weg am geplanten Ende -> keine Vermutung. Mit 0.65.257 rot ("40 Min. false n 0 · 50 Min. false n 0"), mit 0.65.258 grün.
+MU1-2 (MarketCore.lua, Sniper.lua): MK:ResolveSnipeDE wertet je Kauftag die Journal-Käufe Weg d mit Herkunft sniper/watcher:
+  Treffer = Σ Erlös / Σ Kaufpreis >= 1 + MK:MinRoi()/100, Fehler = |Σ Erlös − Σ Vorhersage| / Σ Vorhersage. Ein Tag wird erst gewertet,
+  wenn er vorbei ist und keine Käufe mehr offen sind (höchstens 7 Tage warten), jeder Tag genau einmal (db.sde, 60 Tage). Sn:Alert
+  notiert Entzauber-Ziele nicht mehr als snipe (MK:SnipeNoteOK). EINMALIG beim ersten Start: res.snipe, err.snipe und locked.snipe
+  werden zurückgesetzt (alte Wertungen waren gegen den Wiederverkaufswert gerechnet), Protokollzeile KERN.
+  Test T832: Tag −3 2 Käufe 200 -> 280 Treffer, Tag −2 200 -> 210 kein Treffer, Kauf ohne Sniper zählt nicht, Tag −1 offen wartet ->
+  "gewertet 2 · 10 · Fehler 77,125", zweiter Aufruf 0. Mit 0.65.257 rot (Funktion fehlt), mit 0.65.258 grün.
+MU1-3 (Sniper.lua, UI_Sniper.lua): Sn:MaxOverLimit(t) – nur Ziele ohne t.de, ohne Wächter, keine Zutat, Kaufweg Entzaubern
+  (Fc:BuyPrediction = d) und Max > D:WorthLimit -> Grenze. Max-Zelle gelb; Tooltip eine Zeile "Max über Lohnt bis (x) – hier gemessen
+  ±n %" (Sn:MeasuredDE: abgeschlossene Käufe Weg d dieses Items, ab 3, Σ Erlös/Σ Kaufpreis − 1) bzw. ohne Messung "… – Käufe darüber
+  bringen zu wenig", dazu der Hinweis auf den Knopf. Neuer Knopf "Max folgt Lohnt bis" (nur sichtbar beim gewählten Ziel, wenn es
+  passt): setzt t.de und Max = Lohnt bis; danach führt Sn:UpdateDETargets das Max wie bei Zielen aus Entzaubern nach. Nichts erzwungen.
+  Test T833: Grenze 1000 bei Max 1200; 2 Käufe -> Satz ohne Messung, 3 Käufe (306/300) -> "+2 %"; Tooltip-Hinweis 1×; Max = Grenze,
+  Weiterverkauf, Zutat -> nil; Knopf -> de true, Max 1000, danach nil. Mit 0.65.257 rot (Funktion fehlt), mit 0.65.258 grün.
+MU1-4 (Waves.lua W:ComputeLevelBands): Index als Kette – je Tag d Median von Tag d / Tag d−1 über Items mit Daten an beiden Tagen,
+  ab 20 Paaren (MA4_MIN_ITEMS), aufmultipliziert. Fehlt ein Glied (< 20 Paare), bricht die Kette; es zählt die letzte ununterbrochene
+  Kette (Werte über eine Lücke sind nicht vergleichbar). d1/d3 und byDay (LogBands, RK6-F1b) aus dieser Kette. Diagnosezeile MA4
+  sagt jetzt "Tagen in der Kette mit ≥ 20 Paaren".
+  Test T834: Band 1–25: 20 Items +25 % an Tag 4, dann flach; 25 Items erst an Tag 10 -> "ruhig +0" (0.65.257: "faellt −20", rot).
+  Band 26–45 echte Spitze +20 % bleibt. Band 46–60 mit Lücke an Tag 5 -> letzte Kette Tag 6–10 (5 Tage), "faellt −8"
+  (0.65.257: 9 Tage). T806 (alte Bänder-Prüfung) unverändert grün.
+MU1-5 (Vollscan.lua, AHAnalyzerPro.lua, Tooltip.lua): VS:SalesRate = VS:SalesRateRaw (bisherige Rechnung) + VS:SupplyCap: Absatz/Tag
+  > ganzes aktuelles Angebot (A:GetCurrent, letzter Scan) -> auf das Angebot begrenzt, 5. Rückgabewert true. Ohne Angebot kein Deckel.
+  VS:MeasuredRate (eigene Messung für Zähler/Lernen) bleibt unbegrenzt. Anzeige: A:PerDayInfo grau "unsicher (Absatz über dem Angebot
+  begrenzt)", SellOutlook v.unsure/v.perDayCapped, GetLiquidity v.perDayCapped, Tooltip-Begründung mit diesem Text.
+  Test T835: Angebot 100, gemessen 250 -> 100, grau unsicher (Quelle, Ausblick, Tooltip); 80 -> 80 unverändert; ohne Angebot 250.
+  Mit 0.65.257 rot, mit 0.65.258 grün.
+  T590 angepasst (nur die Testdaten): deren Historie wechselt 5000/10 und endet mit 10 im letzten Scan – gemessen 1764 würde jetzt
+  richtig auf 10 begrenzt. Der Test gibt dem Item ein Angebot von 5000; Erwartung unverändert 1764 (gemessen).
+  Hinweis (Verdacht, zu messen): Der Deckel nimmt wie K2 die Menge des LETZTEN Scans. Ist ein Markt in diesem Scan kurz leergekauft,
+  fällt der Absatz bis zum nächsten Scan entsprechend tief (grau "unsicher"). Falls das stört: Deckel auf max(letzte Menge, Ø-Menge).
+Locales: 8 neue Texte in allen 10 Sprachen. CHANGELOG EN/DE.
+Gesamtlauf aus frischer Kopie (Lua 5.1, 0.65.258-Schnappschuss): BESTANDEN 316, FEHLGESCHLAGEN 0. s92 grün, Speicher-Aufgaben
+  gesamt 10 194 KB (unverändert, Grenze 10 674). s42 Testroutine grün (T590, T806, T831–T835).
+Gegenprobe mit 0.65.257 + neuer Testroutine: T831–T835 rot (Werte oben).
