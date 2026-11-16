@@ -1,0 +1,28 @@
+BERICHT LevelPilot – OPT-ROUTE Stufe 1: Zeitmodell LevelPilot gegen Factoruide (warum 41 h gegen 27 h, Mensch 1–30)
+Projekt: LevelPilot · Datum: 16.11.2026 22:12 (aus date) · Stand 3.12.80 · nur Analyse, kein Code
+
+Bezug: Antwort Supervisor 20:52 ("Stunden nicht vergleichbar" klären, Annahmen beider Modelle nebeneinander, mit Quelle).
+Quellen: Factoruide crates/fg-route/src/params.rs (Params::default), ARCHITECTURE.md "simulate", overrides/movement.toml (gelesen, nicht
+ausgeführt); LevelPilot Virtual.lua, Planner.lua, Compat.lua (3.12.80).
+
+Grösse                         LevelPilot (virtuelle Reise)                   Factoruide (Standard)
+Laufen                         7 yd/s; Reittier ab 40: ×1,6                   7 yd/s; Reittier ab 40: +60 % (gleich)
+Umweg Laufweg                  Luftlinie × Zonenfaktor/Wegnetz (LW-1)         Geländeweg, Faktor 1 (Weg selbst 1,27–1,31 × Luftlinie)
+Kill (Quest-Mob, gleiche Stufe) 60/1,7 = 35 s (Krieger/Paladin, CLASS_KPM;    24 s (kill_time, "von Hand kalibriert", mit Suchen/Rasten)
+                               gemessene Werte haben Vorrang)
+Kill beim Grinden              35 s (gleiche Kills/Min, je 10-min-Block)      53 s (grind_kill_time)
+Questziel-Suche                60 s (kill) / 90 s (item) / 120 s (object)     im kill_time enthalten; Objekt 12 s
+Halt (reden, looten)           (in Suche enthalten)                           8 s je Halt
+Flug                           32 yd/s × Umweg 1,3 + 30 s                     30 yd/s auf der echten Flugbahn + 25 s
+Questlog                       Forever 40, Classic 20                          40 (quest_log_size)
+Mobs am Weg                    "Monster auf dem Weg" (Anteil, WAY_KILL_TIME)   farm_on_way: 80 % der Mobs im 25-yd-Korridor, max. 10 %/Stufe (Forever)
+Dungeons                       Faktoren automatisch                            5 Läufe 1–30 (5,4 h)
+
+ERKLÄRUNG des Abstands (Mensch Paladin 1–30): Factoruide 27 h 00 (Kampf 7,1 h, Reise 9,2 h, Dungeons 5,4 h, Flüge 1,4 h …),
+LevelPilot 40 h 54. Der grösste Teil ist die Kampfzeit je Quest-Kill: 35 s gegen 24 s (+46 %) plus die Suchzeit je Ziel (60–120 s),
+die Factoruide nicht zusätzlich rechnet. Dazu rechnet Factoruide mehr Dungeons und Mobs am Weg. Beide Werte sind Annahmen
+(Factoruide: von Hand kalibriert; LevelPilot: Startwerte, im Spiel gemessene Kills/Min ersetzen sie) – welcher stimmt, zeigt nur das
+Spiel. Für Vergleiche der ROUTE (Zonenfolge, Wechsel, Anteile) ist das Zeitmodell zweitrangig; für die Gesamtzeit nicht.
+VORSCHLAG (Entscheid Supervisor/Nutzer): für OPT-ROUTE ein gemeinsamer Vergleichsmodus (Kill 24 s, Grind 53 s, Halt 8 s, Suche 0),
+um beide Routen mit GLEICHEN Annahmen zu rechnen; im Spiel bleiben LevelPilots gemessene Werte. Bis zur Antwort baue ich weiter an der
+Zonenfolge (OPT-ROUTE 1b Teil 2).
