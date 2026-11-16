@@ -550,3 +550,15 @@ ersetzen (byte-gleich), test_strassen-Zahlen nachführen (Kalimdor jetzt aus 153
 Im Classic-Era-Client: /dump select(4, GetBuildInfo()) -> 11509 (Screenshot des Nutzers). Damit ist die Era-Nummer BELEGT: 11509
 (nicht 11508). E1: .toc für Era mit 11509; ob Forever 1.60 eine Interface-Liste "16001, 11509" annimmt, weiter im Forever-Client messen
 (AddOn-Liste ohne "veraltet") – sonst eigene LevelPilot_Vanilla.toc.
+
+==== PRÜFUNG Supervisor 16.11.2026 13:25 – LevelPilot 3.12.55 bis 3.12.64 (Sammelprüfung nach Pause) ====
+- 3.12.64 selbst: addon_check OK; Repo-Offline-Routine 38 Läufe, 38 ohne FEHLER; Data/StrassenEra.lua und Data/Strassen.lua BYTE-GLEICH
+  mit daten/era/ bzw. daten/. Installiert auf dem Rechner des Nutzers (106 Dateien, byte-gleich, keine alten Dateien übrig).
+- Berichte 3.12.55–3.12.64 gelesen (E2 Rückrechnung gegen Questie, E3 Daten je Spielversion, E4, NAV-1b/1c/2/3/4, LW-2a, LW-7a): je
+  "umgesetzt, zur Prüfung" mit Tests und Gegenprobe – OK nach Bericht; Wirkung im Spiel offen (Prüfliste, LW-6-Zeilen).
+- .toc: weiter nur "## Interface: 16001" – E1 (Era 11509, belegt 10:43) noch offen; im Era-Client lädt LevelPilot so nicht. Nächster Punkt.
+- ANTWORT F1 (LW-2a, +2,3 ms je Planung): LASSEN, solange die Planung nicht jedes Bild läuft (Beleg: Aufrufe je Minute im Bericht).
+  Läuft sie öfter als 1×/s: abschalten bzw. in Portionen.
+- ANTWORT F2: NAV-3/NAV-4 sind erledigt – danach LW-2b-Messreihe (18 Reisen je Variante) wie vorgeschlagen, nur Messung, Code nur bei Beleg.
+- LW-7 (d) "Tod als Reise": Frage an den Nutzer gestellt (Supervisor); bis zur Antwort NICHT bauen.
+- REIHENFOLGE JETZT: E1 (.toc Era 11509, im Spiel messen) -> E5 (Prüfliste Era) -> LW-2b-Messreihe -> LW-7 (übrige Ideen nach Bericht).

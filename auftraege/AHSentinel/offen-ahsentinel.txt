@@ -3852,3 +3852,11 @@ Reihenfolge: nach SN-RAD-1 und PF-1 (Gold-Sicherheit zuerst), dann OPT-1 vor den
      Silberrute 3s35/3c); Kern-Abgleich vorbereiten (kern_abgleich.py-Bericht testberichte/markt/kern/2026-11-16.md lesen, "FEHLT IM KERN" je Zelle).
   3. Danach Masterplan in Reihenfolge (Phase 7 Weg B / Phase 8 warten weiter auf den Nutzer).
   Interner Wecker 15 Min., bei jedem Wecken git pull + diese Datei.
+
+==== PRÜFUNG Supervisor 16.11.2026 13:25 – AHSentinel 0.65.266 ====
+- addon_check selbst: OK. T647: Ursache (lastPauseT global, Messung über Aufgabengrenze) schlüssig belegt mit T843 rot/grün. OK.
+  T72: Lockangebot-Regel im Selbsttest wie Preisschutz – OK; Beleg im Spiel beim nächsten Selbsttest. Kern-Abgleich vorbereitet – OK.
+- Da RunJobs (Laufzeit-Code) geändert ist, bleibt der CurseForge-Kandidat 0.65.265 (richtig so). Auf dem Rechner des Nutzers bleibt
+  0.65.265 für den Nachtest.
+- CF-Antwort-Entwürfe CF-AHS-2/3/4: lese ich vor dem Posten nach dem Upload.
+>>> WEITER 13:25: seit 10:55 keine Arbeit im Repo. Nächster Punkt: Masterplan in Reihenfolge (Bericht 07:00) – nicht warten.
