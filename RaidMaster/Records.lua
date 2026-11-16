@@ -85,6 +85,12 @@ end
 ---------------------------------------------------------------------------
 -- Erstkill
 ---------------------------------------------------------------------------
+-- Prüfliste (3.0.28): Erstkill-Screenshot wurde ausgelöst -> Punkt SS
+function R.NoteShot(bossName)
+	if RM.PLHit then return RM.PLHit("SS", tostring(bossName)) end
+	return false
+end
+
 -- test = true: nur zeigen (Fanfare + Ansage), kein Screenshot und nichts für den Discord merken
 function R.Celebrate(id, bossName, tries, t, test)
 	-- Fanfare bei allen mit RaidMaster
@@ -95,6 +101,7 @@ function R.Celebrate(id, bossName, tries, t, test)
 	-- Screenshot (nach einer Sekunde, wenn der Boss sicher liegt) – der Uploader schickt ihn an Discord
 	if not test and C().firstKillScreenshot ~= false and Screenshot then
 		C_Timer.After(1.5, function() pcall(RM.Act.Screenshot) end)
+		R.NoteShot(bossName)                                                             -- Prüfliste (3.0.28)
 		RM.db.shots = RM.db.shots or {}
 		table.insert(RM.db.shots, { t = t, e = id, n = bossName })
 		while #RM.db.shots > 50 do table.remove(RM.db.shots, 1) end

@@ -1,0 +1,47 @@
+BERICHT RAIDMASTER AN DIE PRÜF-SITZUNG
+Stand: 16.11.2026 07:24 (aus date) · Sitzung: RaidMaster-Projekt-Sitzung · Version: Addon 3.0.28 (Uploader 2.3.13 siehe Bericht 0718)
+Commit: dieser Push · Bezug: auftraege/hinweis-pruefliste-im-spiel-2026-11-16.txt, offen-raidmaster.txt "PRÜFLISTE IM SPIEL" (54591622, e7fe9ddf)
+Status: umgesetzt, zur Prüfung.
+
+1. Baustein: RaidMaster/GoldSentinelPruefliste.lua = shared/GoldSentinelPruefliste.lua (cmp gleich, VERSION 1). TOC Zeile 20 direkt nach
+   GoldSentinelDev.lua, vor den eigenen Dateien. Übrige gemeinsame Dateien (Game, Test, Sync, Markt v7) ebenfalls cmp gleich.
+2. Eigene Datei RaidMaster/Pruefliste.lua (TOC Zeile 80, nach Commands.lua): RM.PRUEFPUNKTE (Zeile 17) mit 13 Punkten aus
+   offen-raidmaster.txt "IM CLIENT PRÜFEN (mit 3.0.26)", in der Reihenfolge, in der man sie im Spiel nacheinander macht:
+     TR   Testroutine ohne Fehler                     – Hit in R.NotePruefliste (Test/Routine.lua:3704) nach ganzem Lauf: 0 FEHLER -> erledigt,
+                                                         sonst "Fehler (erkannt)" mit den IDs
+     MNT  Markt-Zähler nach der Testroutine sauber    – ebenda: GoldSentinelMarkt.Stats().dropped.aus == 0
+     TB   Testbericht kommt in #testberichte          – nur Hinschauen (OK)
+     MN2  Schalter "Marktdaten teilen"                – Hit beim Klick auf den Haken (RM.MarktShareFromUI, Pruefliste.lua:124; Pages.lua ruft sie)
+     MN2B Aus bleibt nach /reload aus                 – Hit beim Einloggen, wenn marktTeilen == false (RM.PLLoginChecks, :130)
+     MN1  Vollscan wird mitgelesen                    – auto(): GoldSentinelMarkt.Stats().scans > 0
+     BL   Befehlsliste beim Tippen                    – Hit beim Klick in der Liste (Commands.lua:128) und bei Enter mit Auswahl (:110)
+     RT   Symbole in Forever ohne Sperre              – Hit, wenn der Vorschlag gezeigt wurde (RM.Markers.NoteSuggest, Markers.lua:213)
+     TT   Tooltips bei anderer UI-Skalierung          – nur Hinschauen (OK)
+     SS   Erstkill-Screenshot an Discord              – Hit, wenn der Screenshot ausgelöst wurde (RM.Records.NoteShot, Records.lua:90)
+     SP   Übernahme vor dem Einloggen belegt          – auto(): RaidMasterDB.syncProbe gesetzt
+     CONS Frage zur Weitergabe der Testberichte       – auto(): RaidMasterDB.gsTest.share.consent beantwortet (true/false)
+     GS2  Gebote mit AHSentinel und älterem RaidMaster – nur Hinschauen (OK; braucht einen zweiten Spieler)
+   Jeder Punkt mit id, title, since, todo (Befehl/Knopf wörtlich), expect (was zu sehen ist).
+   Nicht aufgenommen: die Uploader-Punkte aus "LIVE PRÜFEN" (ausserhalb des Spiels, im Uploader-Fenster) und T54b (ohne Beschreibung
+   in offen-raidmaster.txt) – Frage: soll T54b mit Wortlaut dazu?
+3. "Merkt selbst": alle Hits über RM.PLHit (Pruefliste.lua). Während der Testroutine, ihrer Nachlaufzeit und im Testmodus zählt kein Hit
+   (Quiet, :99) – sonst hakte die Routine selbst Punkte ab. Anmeldung der Liste erst, wenn der Entwicklermodus erkannt ist (RM.GetPL, :85;
+   Battle.net ist beim Laden manchmal noch nicht bereit) – beim Einloggen (+3 s), beim Befehl und beim ersten Hit.
+4. Befehl "/rm prüfliste", "/rm pruefliste", "/rm checklist" (Commands.lua, dev = true, nur in der Befehlsliste des Entwicklers);
+   ohne Entwicklermodus die übliche Meldung (RM.RequireDev). Beschreibung in allen 10 Sprachen.
+5. Testbericht: Zeile "pruefliste" mit PL:ReportLines() (Kopf + je Punkt eine Zeile, nur Kürzel/Zustand/Zeit) im Bericht der Testroutine
+   (nur Entwickler). Ordner RaidMasterDB.pruefliste in SB_SKIP der Sandbox (Test/Routine.lua:132).
+6. Test T185 (Bereich J, Test/Routine.lua:2728, in TU6-Regressionen): 1–14 Punkte, ids eindeutig, alle Felder gefüllt; ohne
+   Entwicklermodus GetPL() = nil und Hit wirkungslos; mit Entwicklermodus eigene Testliste (eigene Tabelle, RaidMasterDB unberührt): jede
+   Hit-Stelle löst ihren Punkt aus (BL über RM.CmdHint.run, MN2, MN2B, RT, SS, TR, MNT), auto SP liefert true; Hit während der Routine
+   ohne Freigabe zählt nicht; ReportLines = Punkte + 1.
+
+EIGENE TESTS (Hinweise, keine Freigabe) – Nachbildung berichte/RaidMaster/offline:
+- Forever (16001) ALLE OK, Era (11509) ALLE OK, enUS ALLE OK, zhCN ALLE OK, ruRU ALLE OK. T185 OK "13 Punkte; Hit-Stellen BL, MN2,
+  MN2B, RT, SS, TR, MNT, auto SP; ohne Dev wirkungslos". TU6 Regressionen 29/29.
+- addon_check download/RaidMaster-3.0.28.zip: siehe Nachtrag unten.
+- Grenze: Das Fenster der Prüfliste selbst (Aufbau, Knöpfe OK/Nicht OK, Weiterspringen) kommt aus dem gemeinsamen Baustein und ist dort
+  getestet (shared/pruefliste, 26/26); in der Nachbildung nicht sichtbar geprüft – im Spiel ansehen.
+
+FÜR DEN NUTZER (nach Prüfung): RaidMaster 3.0.28 (Bot /update, dann #raid-addon); im Spiel /rm prüfliste – oben steht immer der nächste
+Schritt. Discord-Vorstellung nicht geändert: für Spieler ändert sich nichts (nur Entwickler).

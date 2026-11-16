@@ -129,7 +129,7 @@ end
 ---------------------------------------------------------------------------
 -- gsMarkt/gsMarktAus (ab 3.0.25): laufende Daten des gemeinsamen Marktdaten-Netzes (GoldSentinelMarkt.lua) – sie ändern
 -- sich im Hintergrund (Scans mitlesen, Netz) und werden weder verglichen noch zurückgedreht.
-local SB_SKIP = { gsTest = true, lastSave = true, gsMarkt = true, gsMarktAus = true }
+local SB_SKIP = { gsTest = true, lastSave = true, gsMarkt = true, gsMarktAus = true, pruefliste = true }
 
 local function Deep(v, seen)
 	if type(v) ~= "table" then return v end
@@ -2723,6 +2723,73 @@ local function AreaJ(t, G)
 		return true, line
 	end)
 
+	-- 3.0.28: Prüfliste im Spiel (Entscheid des Nutzers 16.11. 06:47) – nur im Entwicklermodus; jede Stelle, die einen
+	-- Punkt "merkt", löst ihn wirklich aus. Eigene Testliste mit eigener Tabelle – RaidMasterDB bleibt unberührt.
+	t:Check("T185", "J", "Prüfliste: nur Entwickler, jede Stelle löst ihren Punkt aus", function()
+		local B, D = _G.GoldSentinelPruefliste, _G.GoldSentinelDev
+		if not (B and B.Register and D) then return false, "Baustein fehlt", "GoldSentinelPruefliste + GoldSentinelDev" end
+		local pts = RM.PRUEFPUNKTE or {}
+		if #pts < 1 or #pts > 14 then return false, #pts .. " Punkte", "1 bis 14" end
+		local seen = {}
+		for _, p in ipairs(pts) do
+			if seen[p.id] then return false, "doppelt " .. tostring(p.id), "eindeutige id" end
+			seen[p.id] = true
+			for _, f in ipairs({ "title", "since", "todo", "expect" }) do
+				if type(p[f]) ~= "string" or p[f] == "" then return false, tostring(p.id) .. " ohne " .. f, "alle Felder" end
+			end
+		end
+		local savedIsDev, savedPL, savedTest = D.IsDev, RM.PL, RM.plTest
+		local cfg, savedShare = RM.db.config, RM.db.config.marktTeilen
+		local res, why, want = true, nil, nil
+		local ok, err = pcall(function()
+			-- ohne Entwicklermodus: wirkungslos
+			D.IsDev = function() return false end
+			RM.PL = nil
+			if RM.GetPL() ~= nil then res, why, want = false, "Liste ohne Entwicklermodus", "nil"; return end
+			if RM.PLHit("TR", "x") then res, why, want = false, "Hit ohne Entwicklermodus", "false"; return end
+			-- mit Entwicklermodus: Testliste mit eigener Tabelle
+			D.IsDev = function() return true end
+			local fake = {}
+			local list = B:Register("RaidMasterT185", { db = function() return fake end, version = RM.VERSION, points = pts })
+			if not (list and list.addon) then res, why, want = false, "Register gab keine Liste", "Liste"; return end
+			RM.PL, RM.plTest = list, true
+			local function hit(id, fn)
+				fn()
+				local st = list:State(id)
+				if st ~= "auto" and st ~= "fehler" then error(id .. " nicht ausgelöst (" .. tostring(st) .. ")", 0) end
+			end
+			hit("BL", function() RM.CmdHint.run("version") end)                       -- Klick in der Befehlsliste
+			hit("MN2", function() RM.MarktShareFromUI(savedShare ~= false) end)       -- Haken in den Einstellungen
+			hit("MN2B", function() cfg.marktTeilen = false; RM.PLLoginChecks(); cfg.marktTeilen = savedShare end)
+			hit("RT", function() RM.Markers.NoteSuggest(2) end)                        -- Vorschlag in Forever
+			hit("SS", function() RM.Records.NoteShot("Testboss") end)                  -- Erstkill-Screenshot
+			hit("TR", function() R.NotePruefliste({ results = { { id = "X", status = "OK" } } }, nil) end)
+			hit("MNT", function() end)                                                 -- mit TR gesetzt
+			-- auto(): Vorgabe nil = noch nicht; mit Daten -> true
+			local probe = RaidMasterDB.syncProbe
+			RaidMasterDB.syncProbe = probe or { seq = 1, t = 0 }
+			local sp
+			for _, p in ipairs(pts) do if p.id == "SP" then sp = p end end
+			local r1 = sp and sp.auto and sp.auto()
+			RaidMasterDB.syncProbe = probe
+			if r1 ~= true then error("SP auto nicht true", 0) end
+			-- Hit während der Testroutine (ohne plTest) zählt nicht
+			RM.plTest = nil
+			list:Set("BL", "offen")
+			RM.PLHit("BL", "x")
+			if list:State("BL") ~= "offen" then error("Hit während der Routine gezählt", 0) end
+			local lines = list:ReportLines()
+			if #lines ~= #pts + 1 then error("ReportLines " .. #lines, 0) end
+			why = (#pts) .. " Punkte; Hit-Stellen BL, MN2, MN2B, RT, SS, TR, MNT, auto SP; ohne Dev wirkungslos"
+		end)
+		D.IsDev, RM.PL, RM.plTest = savedIsDev, savedPL, savedTest
+		cfg.marktTeilen = savedShare
+		if B.lists then B.lists.RaidMasterT185 = nil end
+		if not ok then return false, tostring(err), "alle Stellen" end
+		if not res then return false, why, want end
+		return true, why
+	end)
+
 	-- 3.0.24 (BL): Befehlsliste beim Tippen – eine Tabelle für Handler und Liste (T-BL1 … T-BL6)
 	local function HintWith(dev, german)
 		local H = RM.CmdHint
@@ -3345,7 +3412,8 @@ local function AreaL(t, G)
 			{ "Oberfläche: Text passt", "T158" }, { "Oberfläche: Werte", "T159" }, { "Oberfläche: Fehler-Schleifen", "T160" },
 			{ "TU3 fehlende Einstellungen", "T174" }, { "MN4 mit/ohne GoldSentinelMarkt", "T180" },
 			{ "MN1-K FeedStart/Feed", "T180" }, { "MN-T Zähler unverändert", "T181" },
-			{ "MN4 Schalter aus", "T181" }, { "MN4 ohne AH-API", "T182" }, { "MN3 Testbericht-Zeile", "T183" } }
+			{ "MN4 Schalter aus", "T181" }, { "MN4 ohne AH-API", "T182" }, { "MN3 Testbericht-Zeile", "T183" },
+			{ "Prüfliste im Spiel", "T185" } }
 		local only = R.only
 		local have, missing = 0, {}
 		for _, r in ipairs(REG) do
@@ -3632,6 +3700,22 @@ function R.Run(only)
 end
 
 -- Abschluss: Testmodus beenden, Sandbox prüfen, Bericht. Geschützt: wirft etwas, bleibt R.running nie gesetzt.
+-- Prüfliste (3.0.28): nach einem ganzen Lauf ohne Abbruch Punkt TR (0 FEHLER) und MNT (Zähler "aus" = 0) setzen
+function R.NotePruefliste(t, only)
+	if only or not (RM.PLHit and t and t.results) then return end
+	local bad = {}
+	for _, e in ipairs(t.results) do if e.status == "FEHLER" then bad[#bad + 1] = e.id end end
+	if #bad == 0 then
+		RM.PLHit("TR", #t.results .. " Prüfungen, 0 FEHLER")
+	else
+		RM.PLFail("TR", #bad .. " FEHLER: " .. table.concat(bad, ", "):sub(1, 120))
+	end
+	local g = _G.GoldSentinelMarkt
+	local s = g and g.Stats and g.Stats()
+	local aus = s and type(s.dropped) == "table" and tonumber(s.dropped.aus) or 0
+	if aus == 0 then RM.PLHit("MNT", "verworfen aus 0") else RM.PLFail("MNT", "verworfen aus " .. aus) end
+end
+
 function R.Finish(aborted)
 	if R.finished then return end
 	R.finished = true
@@ -3796,8 +3880,9 @@ function R.Finish(aborted)
 	end
 
 	local marktLine = RM.MarktLine and RM.MarktLine() or "MARKT-NETZ: -"
+	local plLines = RM.PLReportLines and RM.PLReportLines() or {}            -- Prüfliste (3.0.28, nur Entwickler)
 	local text = t:Finish({ sandbox = sandbox, fehlerzaehler = R.diagBefore .. " -> " .. #RM.Diag.errors, locale = RM.LOCALE,
-		markt = marktLine,
+		markt = marktLine, pruefliste = #plLines > 0 and table.concat(plLines, " | ") or nil,
 		testflavor_ende = G and tostring(G.flavor) or "-", blocked = blocked, echte_aktionen = realN, abgefangen = actList,
 		bereich = only or (R.long and "alle (lang)" or "alle"), abbruch = aborted and "ja" or nil })
 	text = text .. "\n" .. marktLine                       -- MN3
@@ -3817,6 +3902,7 @@ function R.Finish(aborted)
 		end)
 	else
 		RemoveSpies()
+		pcall(R.NotePruefliste, t, only)                 -- Prüfliste (3.0.28): ganze Routine -> Punkte TR und MNT
 	end
 	pcall(RM.UI.ShowExport, text, { "Neu laden und melden", function() RM.Act.ReloadUI() end })
 	Say("fertig. Bericht gespeichert – wird beim nächsten /reload oder Ausloggen an die Prüfung gemeldet. Bitte /reload.")

@@ -208,6 +208,12 @@ local function VisibleEnemies()
 	return list, blocked
 end
 
+-- Prüfliste (3.0.28): Vorschlag in WoW Forever gezeigt -> Punkt RT
+function M.NoteSuggest(marked)
+	if RM.PLHit then return RM.PLHit("RT", "Vorschlag " .. tostring(marked)) end
+	return false
+end
+
 function M.MarkAdds()
 	if not CanMark() then RM.Print(L[NO_RIGHTS]) return end
 	if M.CombatBlocked() then RM.Print(L[M.COMBAT_HINT]) return end
@@ -259,6 +265,7 @@ function M.MarkAdds()
 	if secure and marked > 0 then
 		wipe(used)              -- nichts gesetzt: Symbole bleiben frei
 		RM.Print(string.format(L["Vorschlag (Vorlage: %s): %s"], template.name, table.concat(plan, ", ")))
+		M.NoteSuggest(marked)                                                             -- Prüfliste (3.0.28)
 		RM.Print(L[M.SUGGEST_HINT])
 		M.lastPlan = plan
 	elseif marked > 0 then

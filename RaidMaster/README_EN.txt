@@ -23,6 +23,11 @@ MAIN FEATURES
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
 
+WHAT'S NEW IN 3.0.28 – in-game checklist (developer only)
+- /rm checklist opens a list of the points that can only be checked in the game, with exact instructions what to do and
+  what you should see. The list notices by itself when a point is done. Players without developer mode see nothing.
+- New test T185 checks the checklist.
+
 WHAT'S NEW IN 3.0.27 – Chinese fixed, market data network version 7
 - Simplified Chinese: the question "Give item to player for DKP?" and the announcement afterwards made the addon fail,
   because the translation had swapped the placeholders. They are now in the right order.

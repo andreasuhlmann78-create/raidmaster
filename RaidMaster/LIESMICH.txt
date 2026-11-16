@@ -11,6 +11,12 @@ INSTALLATION
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
 
+NEU IN 3.0.28 – Prüfliste im Spiel (nur für den Entwickler)
+- /rm prüfliste (auch /rm pruefliste) öffnet eine Liste der Punkte, die nur im Spiel geprüft werden können – mit genauer
+  Anweisung, was zu tun ist und was man sehen muss. Die Liste merkt selbst, wenn ein Punkt erledigt ist (z. B. Testroutine
+  ohne Fehler, Klick in der Befehlsliste, Haken "Marktdaten teilen"). Spieler ohne Entwicklermodus sehen nichts davon.
+- Neuer Test T185 prüft die Prüfliste.
+
 NEU IN 3.0.27 – Chinesisch repariert, Marktdaten-Netz Version 7
 - Chinesisch (vereinfacht): Die Frage "Gegenstand an Spieler für DKP vergeben?" und die Ansage danach liessen das Addon
   abbrechen, weil die Übersetzung die Platzhalter vertauscht hatte. Jetzt in der richtigen Reihenfolge.

@@ -67,6 +67,8 @@ RM.COMMANDS = {
 			RM.Print("v" .. RM.VERSION .. " – " .. RM.GameInfoText() .. " · " .. (RM.LANGUAGES[RM.LOCALE] or RM.LOCALE) ..
 				" (" .. RM.GAME_LOCALE .. ")")
 		end },
+	{ "prüfliste", "checklist", "Prüfliste im Spiel (Entwickler)", words = { "prüfliste", "pruefliste", "checklist" },
+		dev = true, run = function() if RM.OpenPruefliste then RM.OpenPruefliste() end end },
 	{ "befehlsliste", "commandlist", "Befehlsliste beim Tippen ein/aus", words = { "befehlsliste", "commandlist" },
 		run = function()
 			RM.db.config.cmdHint = (RM.db.config.cmdHint == false)
@@ -103,7 +105,9 @@ SLASH_RAIDMASTER2 = "/raidmaster"
 SlashCmdList["RAIDMASTER"] = function(msg)
 	local H = RM.CmdHint
 	if H then
+		local typed = msg
 		msg = H:Resolve(msg)                          -- frische Auswahl aus der Liste statt des unvollständigen Worts
+		if RM.PLHit and msg ~= typed then RM.PLHit("BL", "Enter: " .. tostring(msg)) end   -- Prüfliste (3.0.28)
 		if RM.db and RM.db.config then
 			RM.db.config.cmdUse = RM.db.config.cmdUse or {}
 			pcall(H.Count, H, msg)
@@ -120,7 +124,10 @@ RM.On("PLAYER_LOGIN", function()
 		commands = RM.COMMANDS,
 		prefixes = { "/raidmaster", "/rm" },             -- längstes zuerst prüfen
 		display = "/rm",
-		run = function(word) SlashCmdList["RAIDMASTER"](word) end,
+		run = function(word)
+			if RM.PLHit then RM.PLHit("BL", "Klick: " .. tostring(word)) end            -- Prüfliste (3.0.28)
+			SlashCmdList["RAIDMASTER"](word)
+		end,
 		store = function() return RM.db and RM.db.config.cmdUse end,
 		enabled = function() return RM.db and RM.db.config.cmdHint ~= false end,
 		L = L,
