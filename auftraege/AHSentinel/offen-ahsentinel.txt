@@ -3723,3 +3723,32 @@ AUFTRAG:
   (c) Prüfliste: Modus beim AUSLÖSEN merken (pressSrc.mode), nicht bei der Server-Bestätigung – sonst falscher Alarm, wenn der
       Spieler zwischen Raste und Bestätigung umschaltet.
   (d) Test in der Testroutine: „nur Knopf“ + Treffer + WheelBuy über Fenster und über Bindung -> 0 Käufe; Gegenprobe rot.
+
+==== INGAME-TEST 16.11. 08:30–08:43 (Supervisor am Rechner des Nutzers, Prüfliste 0.65.260) – ERGEBNIS ====
+Stand Prüfliste: 5 von 10 erledigt. SN-BTN1 OK, SN-GRENZE OK, MU1-3 OK (Max 9s35 -> 8s29 per Knopf), POST-WS OK (Holz 4c, "Trotzdem
+einstellen", Auktion erstellt). MR4/MR-SEITE offen (Entscheid des Nutzers am Bild).
+SN-RAD: Teil 1 FEHLER (siehe SN-RAD-1, Kauf trotz „nur Knopf“), Teil 2 OK (eine Raste = 1 Kauf). Die Prüfliste zeigt danach
+  "erledigt" – der spätere Hit überschreibt den erkannten Fehler. (e) SN-RAD in zwei Teile (SN-RAD-A nur Knopf, SN-RAD-B Mausrad)
+  oder Fail bleibt bis "Zurücksetzen": ein Fehler darf nie still verschwinden.
+POST-FIX NICHT OK (Supervisor markiert): Fraktionsbanner 9c -> Warnschutz "Preis anpassen (74c)" -> Feld 74c -> Einstellen ->
+  ZWEITE Sperre "Preis prüfen! Nochmal klicken, um trotzdem einzustellen" (Preisschutz: 74c = 23 % unter Marktwert 96c). Der
+  vorgeschlagene Preis darf selbst keine neue Sperre auslösen (Vorschlag = günstigstes Angebot − 1c liegt hier unter der
+  Marktwert-Schwelle). Auftrag PF-1: Vorschlag und Preisschutz auf dieselbe Grenze bringen ODER der angepasste Preis gilt als
+  bestätigt. Test mit genau diesen Zahlen (Markt 96, Angebote 75/80/96/99, Eingabe 9).
+POST-WS Beobachtung (Verdacht, zu messen): Gleich danach Holz nochmal 4c -> OHNE Warnschutz eingestellt (Chat "Eingestellt: 1x
+  Einfaches Holz für 4c"). Ist das gewollt ("keine zweite Warnung" für dasselbe Item)? Wenn ja: zeitlich begrenzen und im Text sagen;
+  sonst Fehler. Das eigene 4c-Angebot war danach "günstigstes" – Warnschutz darf sich nie am EIGENEN Angebot messen.
+ESL1 NICHT OK (Supervisor markiert): Mit ProfessionSentinel ist das AHSentinel-Gewinnfenster am Berufsfenster aus (G1) – die Knöpfe
+  "Materialien als Einkaufsliste"/"Nur was mir fehlt" sind NICHT zu finden, auch nach Schliessen des PS-Panels nicht. Die Prüfliste
+  muss den Weg nennen, der beim Nutzer wirklich geht (PS-Knopf über API.ReagentsToList? – im PS-Code nicht gefunden), oder die
+  Knöpfe müssen erreichbar sein. Mit ProfessionSentinel klären (Eintrag auch dort).
+SN-TR Testroutine Sniper (Lauf des Nutzers vor 08:30): 21 OK, 5 FEHLER, 3 übersprungen – aus SavedVariables gelesen:
+  T617/T734 Ruckeln Ø 6 / min 3 Bilder/s, längster Frame 816 ms, Ursachen AHSentinel 84, fremd 179;
+  T618 nur 1 Suche (zu wenig für Reaktionszeit); T729 längste Lücke 70,7 s > Grenze 42 s; T732 nach AH-Klick weiter erst nach
+  28–32 s (Drossel). Verdacht, zu messen: WoW lief im Hintergrund (Nutzer im Chat mit mir) -> Hintergrund-Bildrate ~6–8/s;
+  Sniper-Takt hängt an OnUpdate/Bildrate. Auftrag SN-TR-1: (a) Testroutine erkennt Hintergrund (Bildrate-Deckel) und sagt es im
+  Ergebnis statt FEHLER, oder bittet, im Vordergrund zu bleiben; (b) prüfen, ob der Sniper-Takt bei niedriger Bildrate richtig
+  bleibt (Zeit statt Bildzahl); (c) AHSentinel 84 Ruckel-Ursachen einzeln nennen.
+Zusätzlich aus derselben Datei (Selbsttest, nicht Sniper): T299 "○ mutig" überlagert "Sniper kauft mit" in den Optionen
+  (passt zu PL-T1, Optionen schwer zu finden); T267 G1/G2 false/false/0 statt false/true/1; T72 "Verkaufspreis zu hoch:
+  Silberrute 3s35, günstigstes 3c" – bitte jeweils prüfen und im Bericht beantworten.
