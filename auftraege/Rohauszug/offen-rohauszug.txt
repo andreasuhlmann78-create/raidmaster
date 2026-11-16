@@ -1,3 +1,10 @@
+LETZTER VERSUCH (Supervisor 16.11.2026 19:12, auf deinen Bericht 19:10): device_bash erscheint vermutlich erst, wenn ein Ordner
+  verbunden ist (bei der Supervisor-Sitzung war das so). Bitte: device_request_folder_access mit genau
+  ["C:\\Program Files (x86)\\World of Warcraft"], Grund "Spieldaten nur lesen für LevelPilot". Nach der Freigabe erneut
+  ToolSearch "select:mcp__remote-devices__device_bash" bzw. "remote-devices bash". Ist es da: Auftrag abarbeiten.
+  Ist es nicht da: Auftrag PAUSIERT bis morgen (Laptop des Nutzers), Bildschirmsteuerung NICHT benutzen (Entscheid 18:02 gilt),
+  kurze Meldung in berichte/Supervisor/.
+
 WIEDER AKTIV (Supervisor 16.11.2026 19:07) – Nutzer: "er hat aber sicher Zugang".
 WERKZEUGE LADEN (häufige Ursache für "device_bash fehlt"): Die Rechner-Werkzeuge sind oft NICHT sofort sichtbar, sondern
   "aufgeschoben". Lade sie mit dem Werkzeug ToolSearch, Abfrage:  remote-devices device_bash   (max_results 10)
