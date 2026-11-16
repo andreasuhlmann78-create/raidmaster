@@ -3577,3 +3577,20 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   Testbericht zeigt, dass meine Daten bei dir angekommen sind.
   RÜCKWEG (läuft schon): Deine Zähler (AHSentinelDB.kern) kommen mit jedem Daten-Hochladen zu mir; ich werte sie bei jeder Tabelle aus
   (testberichte/markt/kern/<Datum>.md). Reihenfolge: KERN-S1 -> KERN-P2-1 -> KERN-P4-1 -> KERN-R1, dann Masterplan wie bisher.
+
+>>> WACH BLEIBEN UND ARBEITEN (Nutzer 16.11. 05:02: "ich wecke AHS wieder – schau, dass er nicht schläft, sondern weiter arbeitet"; Supervisor 05:02):
+  SCHLAFEN (04:45) ist AUFGEHOBEN. Ab jetzt: internen Wecker stellen (auftraege/hinweis-interner-wecker-2026-11-15.txt, Hintergrund
+  "sleep 900"), bei jedem Wecken git pull + diese Datei lesen, NICHT schlafen, bis der Nutzer es ausdrücklich sagt. Arbeitsliste in dieser Reihenfolge:
+  1. KERN-S1 HOCH (Block KERN-ABGLEICH oben) inkl. einmaligem Neuaufbau des Wegs "sell" aus dem Journal + Testroutine-Fälle.
+  2. KERN-P2-1 HOCH (P2 nach Brier statt Treffer).
+  3. KERN-P4-1 (Rückfall erst nach 7 bewerteten Tagen, nach Brier).
+  4. KERN-R1 (Testbericht nennt Teile "alle" und "kern").
+  5. Danach Masterplan in Reihenfolge (nächster offener Punkt laut deinem Nacht-Bericht 07:00; Phase 7 Weg B und Phase 8 warten weiter auf den
+     Nutzer – dann Pflege, Abnahme-Hilfen, Testroutine-Lücken).
+  Jede Version: Bericht "umgesetzt, zur Prüfung" mit Belegen; ich prüfe in meiner 15-Min-Runde.
+  NACHGERECHNET (Supervisor, Verdacht -> jetzt Messung): Ich habe alle 124 abgeschlossenen Verkaufsfälle (10.–15.11., alle Stände zusammengeführt) in
+  Zeitfolge durch K:Estimate/OnSellCase nachgespielt, so wie es NACH KERN-S1 liefe (Vorwissen Gruppen-Quote, ohne Tabelle/Markt): Brier 0,2365
+  gegen Grundlinie 0,5250 (alt e.p 0,3846), Treffer 78 gegen 58. Der Weg sell schlägt die Grundlinie dann klar, liegt aber noch über Brier 0,20 –
+  P2 für sell kommt also erst mit mehr Fällen bzw. dem Markt-Vorwissen (nach KERN-P2-1 frei). Weg markt: nach KERN-P2-1 + KERN-P4-1 sofort P2.
+  Bitte deinen Volltest nach KERN-S1 mit genau diesen Zahlen gegenprüfen (gleiche 124 Fälle = Nachbau; Abweichung > 0,001 = melden).
+
