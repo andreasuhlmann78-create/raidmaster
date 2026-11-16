@@ -1,0 +1,57 @@
+BERICHT LevelPilot 3.12.49 – LW-3 Flug nach Zeit (umgesetzt, zur Prüfung)
+Projekt: LevelPilot · Datum: 16.11.2026 08:11 (aus date) · Version: 3.12.49
+
+Bezug: offen-levelpilot.txt LW-3 und Reihenfolge NAVIGATOR 07:56 (LW-6 -> LW-3 -> LW-1 -> NAV-1/NAV-2 …), LW-8 (2)/(4) Idee.
+
+UMGESETZT
+1. Planner.lua TravelSteps entscheidet nach ZEIT (vorher: (Weg zum + vom Flugmeister) × 1,25 + 300 < Luftlinie):
+     laufen  = Luftlinie × 1,25 / Tempo
+     fliegen = (zum + vom Flugmeister) × 1,25 / Tempo + 15 s Gespräch + Flugzeit
+     Flug nur, wenn fliegen + 30 s < laufen.  (P.TRAVEL; P.FlyDecision ist eine eigene, prüfbare Funktion)
+   Flugzeit: P.FlightSecs(Luftlinie Flugmeister -> Flugmeister) = Calib:FlightSecs (eigene gemessene Flüge ab 3, Mitspieler
+   ergänzen – gab es schon, wurde bisher nur in der virtuellen Reise benutzt), sonst Annahme wie die virtuelle Reise
+   (30 s + Strecke × 1,3 / 32 yd/s – Verdacht, wird durch Messung ersetzt).
+   Tempo: P.GroundYps() = gemessenes Reittier-Tempo (LevelPilotCharDB.mountYps), sonst 7 yd/s.
+   Umweg 1,25 auf allen Fusswegen bleibt ein Verdacht bis LW-1 (dann aus Wegnetz/Strassen/Geländekarte).
+   Kandidaten wie bisher (ab 2000 yd Luftlinie, Flugmeister bis 2500 yd vom Start / 3000 vom Ziel, nur bekannte Flugpunkte);
+   neu: beide Flugmeister müssen auf demselben Kontinent liegen (vorher implizit).
+2. Laufweg.lua: Reittier-Tempo messen – im 1-s-Ticker, wenn IsMounted und nicht im Flug: GetUnitSpeed, nur 7,5–15 yd/s
+   (über 15 = unplausibel), höchster Wert bleibt (LW.MountSpeed).
+3. Protokollzeile "REISE letzter Flugvergleich: Laufen x s · Fliegen y s (Flugzeit gemessen|Annahme) -> Flug|laufen · Tempo
+   z yd/s (Reittier gemessen|zu Fuss)" bzw. "REISE noch kein Flugvergleich · Tempo …" (nach den LAUFWEG-Zeilen).
+
+VORHER/NACHHER (Nachbau, Skript berichte/LevelPilot/offline/lua/mess_lw3.lua, fester Startwert)
+Brachland/Mulgore/Donnerfels, 4 Flugmeister aus dem Datenpaket, 2000 Paare mit zwei Flugmeistern, Flugzeit = Annahme:
+  Tempo          alte Regel Flug   nach Zeit Flug   neu Flug statt laufen   neu laufen statt Flug
+  zu Fuss 7          843 (42 %)       1070 (54 %)            247                     20
+  Reittier 11,2      843 (42 %)        557 (28 %)             34                    320
+  Reittier 14        843 (42 %)        279 (14 %)              0                    564
+Lesart: Die alte Regel kannte kein Tempo – zu Fuss flog sie zu selten, mit Reittier zu oft (Hinlaufen + Gespräch + Flug
+dauert dann länger als direkt reiten). Wie viel Zeit das im Spiel spart: LW-6-Zeilen (Zeit Weg) vorher/nachher – Verdacht,
+zu messen.
+
+TEST T311 (Regression "LW-3"): Tempo zu Fuss 7; Reittier 11,2 übernommen, 30/6 abgelehnt, 9 ersetzt 11,2 nicht, 14 übernommen;
+Flugzeit Annahme (1800 yd -> 103,1 s) und gemessen (60 s); Entscheid als Zahl: Fall B (Reittier 14, 2600 yd, je 500 yd,
+Annahme): laufen 232,1 · fliegen 207,4 (+30 = 237,4) -> laufen; Fall C (zu Fuss, 2500 yd, je 900, gemessen 60 s): laufen
+446,4 · fliegen 396,4 (+30 = 426,4) -> Flug. In TravelSteps: Geometrie Fall B nachgebaut (Luftlinie 2600, vom Flugmeister 500)
+-> kein Flug; Fall C -> "Zum Flugmeister" + Flug, Quelle "gemessen"; Protokollzeile mit 446 s / 289 s.
+GEGENPROBE: alte Regel in TravelSteps eingesetzt -> Fall B fliegt -> T311 rot. (Fall C in TravelSteps fliegt mit beiden
+Regeln – der Unterschied in C steckt im reinen Zahlenfall, den T311 auch prüft.)
+T310 nachgeführt (Protokoll jetzt 6 Zeilen: + REISE).
+
+BELEGE (eigene Tests, keine Freigabe)
+- T311 true, T310 true, T309 true; Gegenprobe wie oben.
+- addon_check: "LevelPilot-3.12.49.zip: OK".
+- Repo-Offline-Routine: 37 Läufe, 37 ohne FEHLER.
+- Private Gesamt-Regression (36 Läufe, inkl. virtuelle Reisen): alle ohne FEHLER.
+
+NOCH NICHT (bewusst): Flugpreis (LW-8 (2)) – Classic-Flüge kosten wenig, Preis kommt mit NAV-2 in die Anzeige; Schiff/Zeppelin-
+Wartezeit und Ladebildschirm (NAV-2); Reittier drinnen (NAV-2).
+
+DATEIEN
+LevelPilot: Planner.lua (P.TRAVEL, GroundYps, FlightSecs, FlyDecision, TravelSteps), Laufweg.lua (MountSpeed, REISE-Zeile),
+TestRoutine.lua (T311, T310), LevelPilot.toc, Core.lua, CHANGELOG.md/.de.md.
+Repo: berichte/LevelPilot/offline/lua/mess_lw3.lua, announce/levelpilot__levelpilot-3.12.49.*.
+
+WEITER: Auftrag af720049 (Strassennetz ST-1..ST-5) lese ich jetzt; sonst nach Reihenfolge LW-1.
+Status: umgesetzt, zur Prüfung.
