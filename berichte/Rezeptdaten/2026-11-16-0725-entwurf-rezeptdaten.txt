@@ -1,0 +1,58 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+
+Geplante Aufgabe «ProfessionSentinel Rezeptdaten-Update», Lauf 16.11.2026 07:25 (MEZ)
+Ergebnis: KEINE neue Version, kein Branch, nichts committet im ProfessionSentinel-Repo (git checkout -- .).
+Grund für diese Datei: Die Pipeline hat einen Fehler gezeigt (belegt, siehe unten), der eine Entscheidung braucht.
+
+1. Datenstand dieses Laufs
+- Clients: Forever 1.60.1.70938, Era 1.15.9.70576, Retail 12.1.5.70783 (unverändert)
+- QuestieDB: c071853 vom 16.11.2026 04:47 (+0200), "Quest fixes"
+- report.md: "No changes since the last run.", CHANGES=0
+- Rezepte: Forever 2315, Era 1267, Retail 10172
+
+2. Einzige inhaltliche Änderung der Datendateien – eine Regression, deshalb verworfen
+git diff zeigte ausser den Kopfzeilen nur in Data_Forever.lua:
+- Lehrer 276067 "Angus Hammerhand" (Schmied, Tirisfal, Horde, 21.2/45.8) fällt aus ns.Trainers[164] und ns.NPCs weg.
+Das NPC ist in QuestieDB weiterhin vorhanden (foreverBaseNpc.lua: npcFlags 16404 = Lehrer, subName Blacksmith,
+Spawn Zone 85). Es wurde also nicht entfernt, sondern von der Pipeline falsch gelesen.
+
+3. Ursache (belegt)
+- QuestieDB hat neu in src/corrections/Forever/foreverNPCFixes.lua:1180 den Eintrag
+    [276067] = { [npcKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES] = {{21.16,45.72}}} }
+- pipeline/qloader.py löst zoneIDs (ZoneDB.zoneIDs über das "generic"-Modul im PRELUDE) immer zu 0 auf.
+  Der Fix ersetzt die gültigen Spawns (Zone 85) also durch Zone 0; spawn_of() verwirft Zone <= 0 -> kein Spawn
+  -> die Lehrer-Bedingung (… and spawn_of(row)) schlägt fehl -> Lehrer fehlt.
+- Das gilt allgemein für jeden Fix, der Spawns mit zoneIDs.* setzt (Forever und Era), und sinngemäss für npcFlags.*
+  (ebenfalls immer 0) – das ist ein bestehender, bisher unbemerkter Fehler, nicht nur heute.
+
+4. Messung mit korrigierten Zonen-IDs (nur im Arbeitsordner, NICHT übernommen)
+Versuch: zoneIDs aus src/corrections/enum/zones.lua (QuestieDB) laden, sonst 0 (Patch unten).
+- Forever: Lehrer 231 -> 262 (+31, keiner fällt weg), u. a. 276067, 247223, 247226, 247227, 251905, 251993, 252084,
+  252376, 252380, 252388, 252479, 253004, 257004–257006, 257021, 267324–267338
+- Forever: NPCs 3855 -> 3882; 407 NPCs mit geändertem Hauptspawn. Era: Lehrer 214 -> 214; 396 Spawns geändert.
+- Neu auftretend: Spawns mit Koordinaten -1/-1 (Instanzen, z. B. Zone 3456 Naxxramas). Ob Addon/gen_addon_data.py
+  damit richtig umgehen (Kartenpunkt, Wegbeschreibung), ist NICHT geprüft – Verdacht, zu messen.
+Das ist keine "offensichtliche Kleinigkeit" (über 400 geänderte Spawns, 31 neue Lehrer), deshalb nicht umgesetzt.
+npcFlags wurde nicht korrigiert und nicht gemessen.
+
+Patch des Versuchs (pipeline/qloader.py, in build() direkt nach lua.execute(PRELUDE)):
+    zf = os.path.join(Q, 'src', 'corrections', 'enum', 'zones.lua')
+    lib = lua.eval('{Enum={}}')
+    lua.eval('function(src, lib) return assert(load(src))(nil, lib) end')(open(zf, encoding='utf-8').read(), lib)
+    real = lib.Enum.zoneIDs
+    lua.eval('function(real) setmetatable(QuestieDB.zoneIDs, {__index=function(_, k) return real[k] or 0 end}) end')(real)
+    lua.execute('local imp = QuestieLoader.ImportModule; local zdb = setmetatable({zoneIDs=QuestieDB.zoneIDs}, {__index=function(t,k) return imp(QuestieLoader, "ZoneDB_x")[k] end}); function QuestieLoader:ImportModule(n) if n == "ZoneDB" then return zdb end return imp(self, n) end')
+
+5. Prüfungen (auf den unveränderten Daten von main, 2e36705 / Version 0.9.62)
+3a) Lua 5.1 (lupa.luajit21, loadstring): Forever 2315, Era 1267, Retail 10172 Rezepte, kein Einbruch;
+    0 Zeilen gelb > grün oder grün > grau; Lederverarbeitung-Lehrer Forever 29, Era 30; ns.Crates Forever 30. OK
+3b) python3 -I tests/run_smoketest.py: Exit 0. OK
+3c) python3 -I tests/run_offline.py ProfessionSentinel: Exit 0, FEHLER 0 in allen Clients
+    (forever OK 240, era OK 222, retail OK 220). OK
+
+6. Entscheid für den Supervisor
+- Soll die Zonen-ID-Korrektur (und ggf. npcFlags) in pipeline/qloader.py übernommen werden? Dann vorher prüfen,
+  wie Spawns -1/-1 im Addon angezeigt werden. Bis dahin verliert jeder Lauf den Lehrer 276067 – diese Aufgabe
+  verwirft solche Läufe weiter, solange sonst nichts Neues kommt; käme gleichzeitig Neues, würde der Verlust mit
+  ausgeliefert (er wird dann im Entwurf ausgewiesen).
+- Kein Discord-Beitrag, kein Datenstand-Absatz (keine neue Version).
