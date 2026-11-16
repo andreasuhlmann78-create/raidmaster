@@ -1,5 +1,5 @@
--- ROUTE-Q (3.12.76): Routen-Prüfung über die virtuelle Reise 1–60. R1 Annehmen zuerst, R2 Questlevel > Stufe + 2, Startgebiet verlassen,
--- R3 Richtungswechsel je Stunde (Zahl), R3W Weg-Ebene wie das Navi (Restweg +50 yd / Pfeil zurück gegen den alten Weg voraus), R4 Sonder-Schritte.
+-- ROUTE-Q (3.12.77): Routen-Prüfung über die virtuelle Reise 1–60. R1 Annehmen zuerst, R2 Questlevel > Stufe + 2, Startgebiet verlassen,
+-- R3W Weg-Ebene wie das Navi, R4 Sonder-Schritte, R6 Ort zu früh verlassen (ORT-1 O2). R3 nur als Zahl je Stunde.
 -- Aufruf (oder ../mess_route_q.sh): Daten aus PACKDIR; FOREVER=1 oder FLAVOR=era; LVL=1 MAP=… PX PY; lua51 mess_route_q.lua <LevelPilot> 0 <Volk> <Klasse> <Fraktion>
 if os.getenv("ZONEN") then
   ZONESIZE = { [1429] = { 3470.84, 2314.62 }, [1426] = { 4924.66, 3283.33 }, [1438] = { 5091.66, 3393.75 },
@@ -74,10 +74,10 @@ local startSet = {}
 for _, id in ipairs(START_IDS[race] or {}) do startSet[id] = true end
 local function InStart(inst, n, w) return startSet[AreaAt(ST[race], inst, n, w) or -1] == true end
 
-local c = { r1 = 0, r2 = 0, r2e = 0, r3 = 0, r3w = 0, r3wn = 0, r3small = 0, r3back = 0, kept = 0, r3better = 0, r4 = 0, steps = 0 }
+local c = { r1 = 0, r2 = 0, r2e = 0, r3 = 0, r3w = 0, r3wn = 0, r3small = 0, r3back = 0, kept = 0, r3better = 0, r6 = 0, r4 = 0, steps = 0 }
 local leaveLevel, leaveOpen
 local lastKey, prevDir, lastPos
-local ex = { r1 = {}, r2 = {}, r3 = {}, r3w = {}, r4 = {} }
+local ex = { r1 = {}, r2 = {}, r3 = {}, r3w = {}, r4 = {}, r6 = {} }
 local function Ex(k, txt) if #ex[k] < 4 then ex[k][#ex[k] + 1] = txt end end
 local function Name(st)
   local q = st.id and LP.QuestDB:Get(st.id)
@@ -218,6 +218,26 @@ LP.Engine.Current = function(self)
       Ex("r3w", ("L%d %s %s"):format(s.level, Name(st), why))
     end
   end
+  -- R6 (ORT-1 O2): Ort zu früh verlassen – Ziel in einem ANDEREN Ort mit Questgebern, obwohl im Ort des Spielers noch eine
+  -- Annahme oder eine abgabebereite Quest offen ist (Gebiets-ID, Teilgebiete mit Eltern ~= 0)
+  do
+    local pm = select(4, G:Player())
+    local ha = pm and AreaAt(pm, pi, pn, pw)
+    local hp = ha and LevelPilotData.ORTA[ha] and LevelPilotData.ORTA[ha][1] or 0
+    local ta = st.map and AreaAt(st.map, st.inst, st.n, st.w)
+    local tp = ta and LevelPilotData.ORTA[ta] and LevelPilotData.ORTA[ta][1] or 0
+    -- nur echtes Weggehen (Ziel > 150 yd) und nur Offenes im Ort bis 400 yd (P.HUB_RADIUS)
+    if d > NEAR and ha and hp ~= 0 and ta and tp ~= 0 and ta ~= ha and AreaMin(ta) and AreaMin(ha) then
+      for _, t in ipairs(LP.Planner.lastTasks or {}) do
+        if (t.t == "ACCEPT" or t.t == "TURNIN") and t.n and not t.pathBlocked and t.inst == pi
+           and G:Dist(pn, pw, t.n, t.w) <= 400 and t.map and AreaAt(t.map, t.inst, t.n, t.w) == ha then
+          c.r6 = c.r6 + 1
+          Ex("r6", ("L%d %s (Ort %d -> %d), offen im Ort: %s %s"):format(s.level, Name(st), ha, ta, t.t, tostring(t.q or t.id)))
+          break
+        end
+      end
+    end
+  end
   -- R4: Sonder-Schritt, obwohl ein Questgeber <= 150 yd offen ist
   if SPECIAL[st.t] and open then
     c.r4 = c.r4 + 1
@@ -229,8 +249,8 @@ local t0 = os.clock()
 LP.Virtual:RunAll("start", tonumber(os.getenv("MAXL") or "60"))
 local s = LP.Virtual.s
 local h = (s.clock or 0) / 3600     -- Uhr der Reise (mit Ruhezeiten); die Spielzeit steht im Reisebericht
-print(("%s %s: R1 %d · R2 %d (Ort mit Erkundungsstufe > Stufe+2: %d) · R3 %d (%.1f je h) · R3W %d von %d Wegen (davon Pfeil zurück %d; kleine Änderungen 5–50 yd: %d; alter Weg behalten: %d; Wechsel auf deutlich kürzeren Weg: %d) · R4 %d · Startgebiet verlassen auf Stufe %s (drinnen offen %s) · %d Schritte · %.0f h · Stufe %d")
-  :format(race, os.getenv("FLAVOR") == "era" and "Era" or "Forever", c.r1, c.r2, c.r2e, c.r3, h > 0 and c.r3 / h or 0, c.r3w, c.r3wn, c.r3back, c.r3small, c.kept, c.r3better, c.r4,
+print(("%s %s: R1 %d · R2 %d (Ort mit Erkundungsstufe > Stufe+2: %d) · R3 %d (%.1f je h) · R3W %d von %d Wegen (davon Pfeil zurück %d; kleine Änderungen 5–50 yd: %d; alter Weg behalten: %d; Wechsel auf deutlich kürzeren Weg: %d) · R4 %d · R6 %d · Startgebiet verlassen auf Stufe %s (drinnen offen %s) · %d Schritte · %.0f h · Stufe %d")
+  :format(race, os.getenv("FLAVOR") == "era" and "Era" or "Forever", c.r1, c.r2, c.r2e, c.r3, h > 0 and c.r3 / h or 0, c.r3w, c.r3wn, c.r3back, c.r3small, c.kept, c.r3better, c.r4, c.r6,
   tostring(leaveLevel), tostring(leaveOpen), c.steps, h, s.level))
-for _, k in ipairs({ "r1", "r2", "r3", "r3w", "r4" }) do for _, e in ipairs(ex[k]) do print("  " .. k:upper() .. " " .. e) end end
+for _, k in ipairs({ "r1", "r2", "r3", "r3w", "r4", "r6" }) do for _, e in ipairs(ex[k]) do print("  " .. k:upper() .. " " .. e) end end
 os.exit(0)

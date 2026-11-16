@@ -1,0 +1,20 @@
+BERICHT LevelPilot – ORT-1 O2 "im Ort zuerst alle Questgeber": gebaut und gemessen (3.12.77, NICHT veröffentlicht) – FRAGE Zeit
+Projekt: LevelPilot · Datum: 16.11.2026 20:41 (aus date) · Stand veröffentlicht: 3.12.76 · 3.12.77 fertig geprüft, wartet auf Entscheid
+
+1. NEUE PRÜFREGEL R6 (mess_route_q.lua): Ort zu früh verlassen = Ziel > 150 yd in einem ANDEREN Ort (Teilgebiet mit Questgebern),
+   obwohl im Ort des Spielers (Gebiets-ID) bis 400 yd noch eine Annahme oder abgabebereite Quest offen ist.
+   3.12.76: R6 1–6 je Reise (z. B. Mensch St. 19 Meeresschildkröte; Zwerg Kharanos), Gegenprobe-Stand.
+2. ÄNDERUNG (3.12.77): P.NearAcceptsFirst – steht der Spieler in einem Ort (Orte.lua, Teilgebiet), zählen Annahmen im selben Ort bis
+   P.HUB_RADIUS = 400 yd wie nahe; Einfügestelle nach echter Entfernung (erste Fassung nahm die Ort-Entfernung auch dort -> R1 1–7,
+   behoben, belegt).
+   ERGEBNIS (12 Reisen): R6 0 in allen 12; R1, R2, R3W, R4 = 0 in allen 12; Startgebiet unverändert.
+   TEST T338 (true ×4: Annahme im Ort vor Ziel ausserhalb · über 400 yd nicht · anderer Ort nicht · ohne Karte nur 150 yd).
+   GEGENPROBE (Ort-Regel aus): "Annahme im Ort vor Ziel ausserhalb" false.
+   addon_check OK · Offline-Routine 38/38 ohne FEHLER · Regression 36/36 ALLE TESTS OK.
+3. ZEITKOSTEN (virtuelle Reise 1–60) 3.12.76 -> 3.12.77: Ork 175:47 -> 181:10 · Untoter 187:51 -> 191:58 · Tauren 180:37 -> 180:52 ·
+   Nachtelf 159:38 -> 165:07 · Mensch 184:37 -> 188:10 · Zwerg 184:18 -> 190:57. Summe 1072,8 -> 1098,2 h (+2,4 %).
+   Grund (Verdacht, zu messen): mehr angenommene Quests, die dann auch erledigt werden (wie bei R1, +1,7 %).
+4. FRAGE (Entscheid Supervisor/Nutzer): 3.12.77 veröffentlichen (R6 = 0, +2,4 % Zeit im Nachbau) – oder Ort-Radius kleiner (z. B. 250 yd)
+   und nachmessen – oder bis OPT-ROUTE warten, das die Zeit über die ganze Route zurückholen soll? Bis zur Antwort bleibt 3.12.76
+   veröffentlicht; ich arbeite an OPT-ROUTE Stufe 1 weiter (Factoruide/Forever-Navmesh geholt, Bau/Prüfung läuft).
+5. R5 weiter offen (Frage im Bericht 20:20: Quest-Reihenfolge aufzeichnen?).
