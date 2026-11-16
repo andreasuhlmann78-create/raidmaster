@@ -421,7 +421,7 @@ def verdichten(pkt, kan):
 # ST-5 (LevelPilot 16.11.2026): je Spielversion eigene globale Tabelle, damit die Dateien sich nie überschreiben
 ZIELE = {
     "forever": ("GoldSentinelStrassen", "WoW Forever"),
-    "era": ("GoldSentinelStrassenEra", "Classic Era (aus dem Anniversary-Client, Karten 0/1 der Grundwelt)"),
+    "era": ("GoldSentinelStrassenEra", "Classic Era (aus dem Era-Client 1.15, Karten 0/1)"),
 }
 
 

@@ -44,3 +44,10 @@ Abgleich mit Forever (Zellen à 2,083 yd): 93,1 % (Ö. K.) bzw. 96,2 % (Kalimdor
 Forever -> die Grundwelt ist dieselbe. Forever hat zusätzlich eigene Gebiete (Ö. K. Kacheln 34–36/27–29 um Gilneas, 56–57/26).
 Netz Anniversary: Ö. K. 2254 Punkte / 713 Kanten / 86785 yd, Kalimdor 1549 / 292 / 67197 yd (nach ST-1-Verdichtung).
 Verdacht, zu messen: Unterschiede Anniversary (TBC 2.5) zu Era 1.15 auf Karte 0/1 – im Spiel an Era-Wegen prüfen.
+
+## Classic Era jetzt aus dem echten Era-Client (16.11.2026 10:35)
+Der Nutzer hat "WoW Classic Era" installiert (Produkt `wow_classic_era`, Client 1.15.9.70576). Maske neu gelesen (16 s) und
+`daten/era/` daraus neu gebaut (`--ziel era`). Abgleich Era gegen Anniversary (Zellen à 2,083 yd): Ö. K. 139 198 gleich, nur Era 205,
+nur Anniversary 565 (Kacheln 25/40 und 53/37); Kalimdor 123 982 gleich, nur Era 11, nur Anniversary 514 (Kacheln 39/38, 40/37, 39/37 –
+TBC-Änderungen um die Düstermarschen/Theramore, Verdacht). Also 99,6–99,99 % gleich; die Era-Daten sind jetzt die echten.
+Netz Era: Ö. K. 2243 Punkte / 713 Kanten / 86560 yd, Kalimdor 1537 / 285 / 66756 yd. Forever-Ausgabe unverändert (cmp).

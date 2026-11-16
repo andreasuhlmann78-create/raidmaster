@@ -538,3 +538,10 @@ Reihenfolge: LW-5 E1–E4 vor NAV-1/NAV-2.
 Der Nutzer installiert gerade "WoW Classic Era" (1.15). Danach: (1) Supervisor liest die Era-Strassen direkt aus dem Era-Client
 (Produkt wow_classic_era) und gleicht sie mit daten/era/ (Anniversary) ab; ersetzt daten/era/ nur, wenn belegt besser. (2) E5 (im Spiel
 prüfen) wird damit möglich – E1 (.toc/Interface-Nummer) dann am echten Era-Client messen statt Verdacht. Bis dahin E2–E4 wie entschieden.
+
+==== ST-5 ERA-DATEN AUS DEM ECHTEN ERA-CLIENT (Supervisor 16.11.2026 10:36) ====
+Era-Client 1.15.9.70576 beim Nutzer installiert. daten/era/ neu: aus dem Era-Client gelesen (README-Abschnitt), 99,6 % (Ö. K.) bzw.
+99,99 % (Kalimdor) gleich wie Anniversary; Unterschiede an Düstermarschen/Theramore (TBC). Kopfzeile im Werkzeug angepasst
+("aus dem Era-Client 1.15"); Forever-Datei byte-gleich (cmp). Auftrag: Data/StrassenEra.lua mit der neuen daten/era/GoldSentinelStrassen.lua
+ersetzen (byte-gleich), test_strassen-Zahlen nachführen (Kalimdor jetzt aus 1537 Punkten), E1 und E5 jetzt am echten Era-Client
+(Interface-Nummer aus dem Client lesen: 1.15.9 -> 11509? – im Spiel /dump select(4, GetBuildInfo()) messen).
