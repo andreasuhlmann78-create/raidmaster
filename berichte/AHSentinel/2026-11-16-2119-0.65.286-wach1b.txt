@@ -1,0 +1,23 @@
+AHSentinel 0.65.286 – WACH-1b (MITTEL, Supervisor 20:35: 15 000 Zeilen -> längstes Bild 26 ms) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.286 und sofort im Discord.
+
+URSACHE (belegt, Nachbau mit angehaltener Speicherbereinigung, ausschliesslich je Stelle gemessen): die Entzauber-Prüfung des
+Wächters legte 6,0–6,2 KB Zwischen-Speicher je Zeile an (15 000 Zeilen = 93 MB Müll -> Bereinigung mitten in einem Bild).
+Je Zeile: D:Prior 2,77 KB (neue Tabellen bei JEDEM Aufruf, mehrere Aufrufe je Zeile: Prüfung "entzauberbar", Gruppen-Schlüssel,
+Mindestrendite), DEMinRoi/DEGroupInfo 1,63 KB (je Aufruf neu gerechnet, hängt nur an der Gruppe), Candidates selbst 0,96 KB
+(Text-Schlüssel "id:n" und eine Tabelle je Zeile im Wert-Zwischenspeicher). DealValue (9 KB je Aufruf) läuft seit 0.65.282 nur
+noch einmal je Gruppe und war nicht mehr der Treiber.
+UMGESETZT (nur während einer Kandidaten-Prüfung, d. h. solange D.matCache aktiv ist, höchstens 30 s):
+- D:Prior je Item einmal (auch "nicht entzauberbar" gemerkt); die Tabellen werden von allen Aufrufern nur gelesen (geprüft:
+  Blend/Yield/PerPartMats/EstimateRows schreiben nie hinein). Ausserhalb der Prüfung wie bisher (D:PriorRaw).
+- A:DEMinGain je Entzauber-Gruppe einmal (Wert hängt nur an der Gruppe: DEGroupOf, DEGroupStats, DETableReliable).
+- Candidates: Wert-Zwischenspeicher in vier Spalten je Menge (keine Text-Schlüssel, keine Tabelle je Zeile).
+MESSUNG: 6,23 -> 2,41 KB je Zeile (15 000 Zeilen, ohne Bereinigung gemessen); längstes Bild 24–26 ms -> 10–11 ms (3 Läufe);
+  7200 Zeilen: 5,85 -> 2,11 KB je Zeile, längstes Bild 5 ms. Kandidaten-Zahl unverändert (7200 bzw. 15 000).
+TESTS: T861 (Prior je Item einmal inkl. "nicht entzauberbar", Mindestrendite je Gruppe einmal, ohne Prüfung wie bisher, nach 30 s
+  neu) – Gegenprobe 0.65.285 rot. s261_watch_de_load: neue Prüfung "höchstens 3 KB je Zeile" und "gleich viele Kandidaten wie in der
+  Wächter-Runde" – Gegenprobe 0.65.284/285: rot (5,85 KB).
+DAZU (Korrektur zu 0.65.285, gefunden im Gesamtlauf): Sniper-Reiter drosselt nur noch beim Snipen (Sniper an, AH offen) – sonst
+  sofort (eigene Aktionen wie "Ziel setzen" erscheinen ohne Verzögerung). T860 prüft beide Fälle; s10_quality_picker wieder grün.
+Gezielte Läufe (0.65.286, 32 Szenarien inkl. s10_quality_picker und s260): 31 grün; rot nur s267 (Hürden-Zeile, kommt mit
+  0.65.287 = erwartete Gegenprobe). Gesamtlauf auf 0.65.287 (enthält 285–287 mit der Korrektur): BESTANDEN 326, FEHLGESCHLAGEN 0.
