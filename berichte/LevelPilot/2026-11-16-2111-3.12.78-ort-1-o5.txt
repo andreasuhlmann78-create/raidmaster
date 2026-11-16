@@ -1,0 +1,20 @@
+BERICHT LevelPilot 3.12.78 – ORT-1 O5: Questgeber am Weg (auch Wildnis) unterwegs mitnehmen
+Projekt: LevelPilot · Datum: 16.11.2026 21:11 (aus date) · Version: 3.12.78 · umgesetzt, zur Prüfung
+
+1. MESSREGEL O5 (mess_route_q.lua): Laufziel 150–1500 yd (keine Flug/Ruhestein/Reise), und eine annehmbare Quest liegt mit ≤ 60 yd
+   Umweg auf der Strecke dorthin, aber nicht beim Ziel selbst (> 60 yd vom Ziel) -> "verpasst".
+2. URSACHE, warum der erste Bau nicht wirkte (belegt, DBG5): P.InsertOnWay nahm die Stelle mit dem KLEINSTEN Umweg – das war oft
+   hinter dem Ziel (Mensch St. 8: "Kopfgeld auf die Murlocs" an Stelle 2 hinter der Abgabe 750 yd, obwohl unterwegs +29 yd).
+3. LÖSUNG: P.OnWayAccepts (nach den nahen Annahmen): Annahmen bis 1500 yd, die noch nicht oder erst später in der Route stehen,
+   kommen an die FRÜHESTE Stelle mit ≤ 60 yd Umweg (P.InsertOnWay mit "earliest"); nie vor ein vom Spieler gewähltes Ziel.
+4. ERGEBNIS (12 Reisen 1–60, Forever/Era): O5 3.12.77: 4–21 je Reise -> 3.12.78: 0–2. R1, R2, R3W, R4 = 0 in allen 12.
+   R6 (Ort zu früh verlassen): 0 -> 0–1 in 4 von 12 Reisen. Restfälle O5/R6 sind fast alle "Annahme vor Annahme" (Ziel ist selbst
+   eine Annahme, z. B. Nachtelf St. 3 Waldwebergift in Aldrassil vor Dolanaar-Lieferung in Schattenhain) – Ursache noch nicht belegt,
+   offen (Reihenfolge der Kette NearAcceptsFirst gegen OnWayAccepts).
+   ZEIT (virtuelle Reise 1–60): 3.12.77 1098,2 h -> 3.12.78 1085,6 h (−1,1 %): Ork 178:10 · Tauren 179:39 · Untoter 192:54 ·
+   Nachtelf 163:00 · Zwerg 187:46 · Mensch 184:04.
+5. TEST T339 (true ×4): Questgeber am Weg vor dem Ziel (früheste Stelle, obwohl hinten weniger Umweg) · aus hinterer Stelle nach vorn ·
+   abseits nicht · gewähltes Ziel bleibt vorn. GEGENPROBE (kleinster Umweg statt früheste Stelle): "vor dem Ziel" false.
+6. PRÜFUNGEN: addon_check OK · Offline-Routine 38/38 ohne FEHLER · Regression 36/36 ALLE TESTS OK.
+7. NÄCHSTE: R5-Recorder (gebaut, Test T340 mit Gegenprobe grün, kommt mit 3.12.79 und eigenem Bericht inkl. Format), O5/R6-Rest,
+   dann OPT-ROUTE R7 (Kontinent-/Zonenwechsel), Zeitmodell-Vergleich, Navmesh.
