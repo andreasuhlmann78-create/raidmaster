@@ -800,3 +800,6 @@ Wecker nicht neu stellen, schlafen. Der Supervisor weckt dich über diese Datei.
 - R7: Kontinentwechsel 11–14 je Reise (bis 30: 1–4) gegen Factoruide 0 bis 30 – das ist der Hebel. Weiter mit OPT-ROUTE Stufe 1b
   (Zonenfolge nach Stufenband + Kontinent-Bindung), erst messen, dann bauen. Ziel für ROUTE-Q: Kontinentwechsel nur mit belegtem
   Gewinn (Zeit je Reise im Bericht vorher/nachher).
+- NACHTRAG 22:02 Uploader-Prüfung GSWEGE f=2: RaidMasterUploader/uploader.py nimmt "GSWEGE1{…}" unverändert mit (Regex nur auf das
+  Präfix), addon-check/testberichte.py extras_from_text prüft nur kind/addon/id, nicht "f" – f=2 mit "qo" wird angenommen. OK, nichts
+  zu ändern. Auswertung von "qo" (R5) baue ich in wege_check.py, sobald die ersten f=2-Daten im Repo sind.
