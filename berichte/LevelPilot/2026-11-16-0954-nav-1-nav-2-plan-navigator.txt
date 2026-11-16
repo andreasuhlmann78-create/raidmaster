@@ -1,0 +1,54 @@
+BERICHT LevelPilot – NAV-1/NAV-2 Plan: Navigator ("zu jedem Ziel auf dem schnellsten Weg") – nur Plan, kein Code
+Projekt: LevelPilot · Datum: 16.11.2026 09:54 (aus date) · Stand 3.12.53
+
+Bezug: offen-levelpilot.txt NAVIGATOR (Entscheid des Nutzers 07:36/07:55), NAV-1 "erst Plan als Bericht, dann bauen", NAV-2;
+Reihenfolge 07:56 (… LW-1 -> NAV-1/NAV-2 Plan …). LW-5-Plan wartet auf Frage 1 (Era-Client), darum jetzt dieser Plan.
+
+A. WAS ES SCHON GIBT (Bausteine, am Code geprüft)
+ - Ziel setzen: LevelPilotAPI.NavigateTo(uiMap, x, y, Titel) (3.12.44) -> Planner.priority (Schritt "GOTO" oben im Guide,
+   P.InsertPriority, erledigt über doneKeys). Pfeil, Minikarten-Linie, Wegsuche (Graph: gelaufen, Startnetz, Strassen 3.12.50,
+   Gateways/Schiffe/Zeppeline, Höhlen, W3D vorbereitet), Gefahr (Danger) entlang des Wegs, Flug nach Zeit (3.12.49).
+ - Dienste: QuestDB:ServiceNPCs() mit Arten repair, vendor, flight, inn, trainer, bank, auction, mailbox; NearestService(art, filter).
+ - Namen in der Sprache des Spiels: Names:Npc/NpcClient/Zone/Object (Datenpaket Names_*); Weltkarte: noch kein Klick-Ziel.
+ - Messung: LW-6 (Zeit Weg/Ziel, Umweg), Flugzeiten (Calib), Reittier-Tempo.
+
+B. NAV-1 ZIELE (Bedienung)
+ 1. "/lp navi <Text>" und Knopf "Navi" in der Zentrale (kleines Eingabefeld mit Vorschlägen beim Tippen, wie die Befehlsliste
+    CmdHint). Erkannt werden, in dieser Reihenfolge:
+    a) Koordinaten: "45 60" (aktuelle Zone) oder "45 60 Brachland" (Zonenname in jeder Sprache, AreaNames/Names:Zone).
+    b) Dienst-Art: "Briefkasten", "Gasthaus", "Bank", "Auktionshaus", "Flugmeister", "Reparieren", "Händler",
+       "Lehrer <Beruf/Klasse>" (Wörter je Sprache in den Locales) -> die NÄCHSTEN passenden (Reisezeit, nicht Luftlinie).
+    c) Name: NPC (eigene Fraktion/freundlich zuerst), Dungeon-/Raid-Eingang (PACK.D), Zone (Mitte bzw. Hauptort).
+    Mehrere Treffer: die 5 nächsten mit Reisezeit zur Auswahl (Liste im Fenster, Klick = los). Ein Treffer: sofort los.
+ 2. Weltkarte: Rechtsklick-Menü "Hierhin navigieren" (Hook an WorldMapFrame, nur lesen, keine geschützten Funktionen).
+ 3. Ziel läuft über denselben Weg wie heute (priority-Schritt); "Navi beenden" = Knopf/Befehl; Ankunft erkannt (Radius).
+ 4. Pause der Levelroute: solange ein Navi-Ziel aktiv ist, steht es oben; danach geht die Route von selbst weiter (NAV-4).
+
+C. NAV-2 REISEPLAN NACH ZEIT
+ 1. Ein Rechenweg "Reisezeit(A, B)": Kette aus Laufen/Reiten (Wegsuche, Tempo gemessen), Flug (gemessene Flugzeit, LW-3),
+    Schiff/Zeppelin/Tiefenbahn (Gateways: Fahrzeit + Wartezeit), Ruhestein (wenn bereit und Bindeort nahe am Ziel),
+    Kontinente über Gateways. Heute entscheidet TravelSteps nur "fliegen ja/nein" für EIN Ziel; Navi braucht die ganze Kette
+    mit Zeiten -> P.TravelSteps wird zu einem kleinen Plan aus Teilstücken mit Sekunden je Teilstück (dieselbe Funktion nutzt
+    dann auch die Levelroute, NAV-4 "ein Rechenweg für beides").
+ 2. Anzeige wie ein Navi: Schritte "Zum Flugmeister 300 yd · Flug nach X 2:10 · 450 yd laufen", Ankunft gesamt (mm:ss),
+    verbleibende Zeit live (aus Rest-Weg / Tempo; nach dem Flug neu).
+ 3. Grenzen: jede Berechnung in Portionen (Jobs, ≤ 16 ms je Bild), Treffersuche über Namen mit Index je Sprache (einmal beim
+    ersten Gebrauch, Speicher messen), Reisezeit für 5 Treffer = 5 Wegsuchen (Messung LW-0: 0,2–6 ms je Suche).
+
+D. TESTS (je Teil, mit Gegenprobe)
+ - Eingabe-Erkennung: Koordinaten/Zone/Dienst/Name in deDE und enUS, Mehrdeutigkeit -> Liste (5), unbekannt -> Meldung.
+ - Reisezeit: Laufen gegen Flug gegen Ruhestein mit bekannten Zahlen (wie T311), Schiff mit Wartezeit.
+ - Ende/Ankunft, Pause/Fortsetzen der Levelroute, Prüfliste-Punkte für Bedienung im Spiel.
+
+E. STUFEN UND AUFWAND
+ NAV-1a klein  – /lp navi mit Koordinaten und Dienst-Arten (Bausteine vorhanden), Ziel/Ende/Ankunft.
+ NAV-1b mittel – Namenssuche (NPC/Dungeon/Zone) mit Trefferliste und Reisezeit; Knopf in der Zentrale.
+ NAV-2  mittel – Reiseplan als Kette mit Zeiten und Navi-Anzeige; TravelSteps darauf umstellen (Levelroute nutzt ihn mit).
+ NAV-1c klein  – Weltkarte "Hierhin navigieren".
+ Danach NAV-3 (unterwegs, Abweichung, Gefahr meiden) und NAV-4 (Zusammenspiel, API für andere Addons).
+
+F. VORSCHLAG
+ Ich beginne mit NAV-1a (klein, sofort nützlich, nutzt nur Vorhandenes), dann NAV-2 vor NAV-1b (die Trefferliste braucht die
+ Reisezeit). Wenn du einverstanden bist (oder nichts dagegen sagst), baue ich NAV-1a als nächste Version.
+
+Status: Plan abgegeben. Kein Code geändert.
