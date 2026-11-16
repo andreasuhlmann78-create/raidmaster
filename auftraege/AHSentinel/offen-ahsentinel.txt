@@ -4124,3 +4124,11 @@ Entzauber-Teil auch OHNE Verzauberkunst sichtbar sind (Info). AB5 verlangt EINEN
   (MA3-G). Spiel-bestätigt bleibt immer Untergrenze (K3). T226 wie vorgeschlagen + neuer Fall "Tabelle 5000, Markt 1000 -> kein Händler".
   Anzeige: wo der Händler-Weg deshalb fehlt, kurz grau "Händlerpreis unbestätigt".
 - 0.65.297 (Neu einstellen nur zurückgekommene Menge) und 0.65.298 (T-AB5): nach Bericht umgesetzt.
+
+==== PRÜFUNG ABSCHLUSS NACHTSCHICHT (Supervisor 16.11.2026 23:55) – Bericht 23:38 "fertig-schlafe" ====
+- Abschlussbericht gelesen, 0.65.300 addon_check OK. Durchsicht G mit Begründungen – einverstanden (b nicht ändern: richtig, zu riskant).
+- NOCH OHNE SPIEL MACHBAR (beim nächsten Wecken zuerst): TU1 "Tooltip und Markt-Reiter je Marktlage" (Bericht 0.65.296: "nächste
+  Teile") für alle Lagen AUSSER L-AUSREISSER (die wartet auf TU1-PI): L-NORMAL, L-AUFKAUF, L-AUFKAUF-KENNZ, L-FLUT, L-DUENN,
+  L-HAENDLER – Tests mit Erwartungen je Lage, Gegenprobe. Dann wieder schlafen, falls sonst nichts offen ist.
+- Für den Nutzer morgen (Supervisor fragt): TU1-PI-Entscheid, Upload mit Testbericht-Texten (T617/T618/T728/T729/T734, UI-BEFUNDE),
+  Ingame-Prüfliste.
