@@ -1,0 +1,42 @@
+BERICHT LevelPilot – LW-2b Zeitmodell: Messung über die ganze virtuelle Reise 1–60, KEINE Version (nicht belegt besser)
+Projekt: LevelPilot · Datum: 16.11.2026 12:39 (aus date) · Stand Code: 3.12.61 (unverändert) · Messbericht, Frage am Ende
+
+Bezug: offen-levelpilot.txt LW-2 "Zeitmodell (EP je Sekunde über den Horizont ...)", LW-0 Anpassung 2 ("zuerst travelF auch
+im Normalmodus mit Wegkosten aus LW-1"); "Jede Stufe mit Vorher/Nachher-Zahlen". Erste Direktive: nur belegt Besseres ausliefern.
+
+1. MESSGRÖSSE
+   Virtuelle Reise 1–60 im Nachbau (test26: Planung Schritt für Schritt mit Welt-Simulation, Datenpaket 1.6.1, deterministisch –
+   zwei gleiche Läufe ergeben dieselben Zahlen). Je Lauf: geschätzte Spielzeit, gelaufene km, Grind-Blöcke. Sechs Charaktere:
+   Orc Krieger, Mensch Krieger, Tauren Krieger, Nachtelf Jäger, Untoter Priester, Zwerg Krieger (Startzone je Volk).
+
+2. ERGEBNIS A – LW-2a (3.12.61, exakte Reihenfolge Schritte 2–9) wirkt auf die gelaufene Route NICHT:
+   exakt an / aus: in allen 6 Läufen auf die Minute gleich (z. B. Orc 180 h 53 min, 1431 km beide).
+   URSACHE (belegt): Nach jedem Schritt wird neu geplant; ausgeführt wird immer nur Schritt 1, und den lässt die exakte Ordnung
+   (wie 2-opt) fest. Sie ändert nur die ANZEIGE der späteren Schritte. Gegenversuch: auch Schritt 1 exakt wählen (Kette ab
+   Spieler) -> Summe 6 Läufe 1098,8 h statt 1097,8 h (± Rauschen, kein Gewinn).
+   -> Meine Aussage im Bericht 12:13 ("spart, wo es geht") stimmt nur für die angezeigte Liste. Frage unten.
+
+3. ERGEBNIS B – Zeitfaktor (travelF) auch im Normalmodus, 4 Varianten (untere Grenze / Gewicht des Weges):
+   Summe der 6 Reisen (Stunden), vorher 1097,8 h:
+     0,35 / 0,5  -> 1082,1 h (−1,4 %)   je Volk: Orc −6:32, Mensch +4:15, Tauren −2:00, Nachtelf −13:18, Untot +2:25, Zwerg −0:34
+     0,6  / 0,5  -> 1089,0 h (−0,8 %)
+     0,35 / 0,25 -> 1098,5 h (+0,1 %)
+     0,6  / 0,25 -> 1085,5 h (−1,1 %)
+   Der Mensch wird in ALLEN Varianten langsamer (+3:50 bis +10:11), die Gelaufenen km sinken meist, die Grind-Zeit steigt meist.
+   BEWERTUNG: Die Unterschiede einzelner Völker (±13 h) sind grösser als der mittlere Effekt (−1 %) und hängen nicht stetig von
+   den Parametern ab – die Planung reagiert chaotisch auf kleine Wertänderungen. Ein Gewinn ist damit NICHT belegt.
+   -> Nicht ausgeliefert, Code wieder entfernt (Arbeitskopie byte-gleich mit 3.12.61 geprüft).
+
+4. WAS ICH DARAUS ABLEITE (Vorschlag, kein Code)
+   a) Für LW-2 zählt nur die Wahl von Schritt 1 (und der Fokus-Zone) – dort muss ein Zeitmodell ansetzen, nicht in der
+      Reihenfolge danach.
+   b) Ein belegbarer Vergleich braucht mehr als 6 Reisen (Streuung). Vorschlag: Messreihe 6 Völker × 3 Startvarianten (Level
+      ±1 beim Start) = 18 Reisen je Variante, Median und Anzahl besser/schlechter. Laufzeit im Nachbau ~4 min je Variante.
+   c) Messgrössen der virtuellen Reise passen zu LW-6 (Zeit Laufen/Questziele/Grinden je Reise) – Vorher/Nachher künftig so.
+
+5. FRAGEN AN DEN SUPERVISOR
+   F1: LW-2a (exakte Reihenfolge) ändert nur die Anzeige späterer Schritte und kostet +2,3 ms je Planung. Abschalten
+       (P.OPT.exact = false, nächste Version) oder lassen (Liste im Guide zeigt die kürzeste Kette)?
+   F2: LW-2b weiter wie in 4a/4b (Zeitmodell für Schritt 1 und Fokus, Messreihe 18 Reisen) – oder zuerst NAV-3/NAV-4
+       (Reihenfolge laut Auftrag: LW-2 -> NAV-3/NAV-4)? Bis zur Antwort mache ich NAV-3 (unterwegs neu planen, Ankunft,
+       Gefahr), das ist unabhängig.
