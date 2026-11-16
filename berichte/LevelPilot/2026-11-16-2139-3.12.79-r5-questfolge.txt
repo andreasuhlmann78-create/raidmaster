@@ -11,7 +11,7 @@ Bezug: Antwort Supervisor 20:35 (R5 JA, ohne Namen, neue Format-Version, alte le
    - "f" = 2 NUR, wenn "qo" dabei ist; ohne Questfolge bleibt der Bericht genau wie bisher (f = 1, gleiche Felder) – alte Leser bleiben
      gültig. Ein f = 2-Bericht hat alle Felder von f = 1 und zusätzlich "qo".
    - Versandt-Merker: LP.db.wegeSent.q = Zeitpunkt des letzten gesendeten Eintrags (jeder Eintrag geht einmal).
-   - Grösse: ein Eintrag als JSON ~48 Zeichen ({"a":"A","ar":87,"l":5,"q":783,"t":1794000000}). Je Stunde: virtuelle Reise Mensch
+   - Grösse: ein Eintrag als JSON 46 Zeichen (gemessen) ({"a":"A","ar":87,"l":5,"q":783,"t":1794000000}). Je Stunde: virtuelle Reise Mensch
      1–30 ≈ 260 Annahmen + 242 Abgaben in 41 h ≈ 12 Ereignisse/h ≈ 0,6 KB je Spielstunde; obere Grenze ~60 Ereignisse/h (Startgebiet)
      ≈ 3 KB/h. Die Gesamtgrenze der Wegdaten (WEGE_MAX 200 KB) gilt weiter.
    - Uploader (RaidMaster): muss "f": 2 und das Feld "qo" annehmen (bitte prüfen, wie angekündigt).
