@@ -1,0 +1,176 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+
+BERICHT NACHPRÜFUNG (geplante Aufgabe) – 16.11.2026 20:39 MEZ
+Geprüft auf origin/main 2670f587. Nur dieser Entwurf wird committet; nichts in auftraege/**, kein Log, keine stand.json.
+
+=====================================================================================================================
+0. ÜBERBLICK
+=====================================================================================================================
+Kein FEHLER der Addon-Prüfung, kein Befund HOCH. Neu: 2 Befunde MITTEL, 1 NIEDRIG, 1 NIEDRIG im Prüfsystem.
+- AHSentinel 0.65.277–0.65.281 (vom Supervisor noch nicht geprüft; 0.65.282 hat er 20:35 geprüft): umgesetzt wie berichtet,
+  dazu NP-AHS281-1 MITTEL (Fenster-Abbruch: verlorene Anzahlung doppelt, wenn die Post später als 6 Std. gelesen wird) und
+  NP-AHS278-1 NIEDRIG (Verdacht). Beides auch in 0.65.282 unverändert.
+- GuildSentinel 0.9.49 (GoldSentinelDev v2) und 0.9.50 (Prüfliste im Spiel): umgesetzt, keine Befunde.
+- LevelPilot 3.12.74 (R2) und 3.12.75/3.12.76: vom Supervisor 20:35 als OK geprüft (3.12.75/76). Zusätzlich hier belegt:
+  NP-LP76-1 MITTEL – die neuen Abkürzungen kürzen auch GELAUFENE Wege (Unterstadt-Daten aus UC-W1), ohne Ebene/Aufzug/Gelände.
+- Prüfsystem: NP-SYS-1 NIEDRIG – testberichte.py wählt die "neueste Diagnose" nach Datei-Zeit (in GitHub immer gleich) ->
+  status.md zeigt zufällige alte Versionen und erzeugt Commits ohne neuen Bericht.
+Schon vom Supervisor geprüft, hier NUR erwähnt: AHSentinel 0.65.274–0.65.276 (18:58), 0.65.282 (20:35), Ingametest 0.65.278
+(WACH-1, VS-121, SANDBOX-1, SN-TR-2, UI-CLEAN1-B, HILFE-GRP-1), DL-ALT-1 (erledigt: download/ hat nur noch AHSentinel-0.65.265.zip);
+LevelPilot 3.12.71–3.12.73 (18:35/18:58), 3.12.75/3.12.76 (20:35); GuildSentinel Entscheid CurseForge 0.9.49 erst 17.11. 18:00.
+Übrige Höchststände unverändert: BS 0.9.47, PS 0.9.62, TS 2.5.15, RM 3.0.29, Bot 1.5.186, Uploader 2.3.13.
+Testberichte: seit dem Entwurf 17:22 nur zwei Läufe ohne neue Berichte (2edbcda4, 29c21f4e: nur status.md/json, siehe NP-SYS-1).
+Kein Testlauf mit Abschnitt MARKT-KERN -> keine MARKT-KERN-Zahlen gegen Ü2 zu prüfen.
+
+=====================================================================================================================
+1. AHSENTINEL 0.65.277–0.65.281 (gegen 0.65.276) – Berichte berichte/AHSentinel/2026-11-16-1857 … -1956 gelesen
+=====================================================================================================================
+Prüfungen (selbst ausgeführt):
+- addon_check 0.65.281 (lupa, Lua 5.1): "OK", keine Warnung. 0.65.277–0.65.280 aus der git-Geschichte: einziger FEHLER "Version
+  niedriger als schon veröffentlichte 0.65.281" – erwartet (ältere Version), sonst sauber.
+- Gemeinsame Dateien 0.65.281 byte-gleich mit shared/ (Game, Test, Sync, Dev, Pruefliste, Markt, CmdHint). CHANGELOG EN/DE je
+  Version vorhanden. Diffs: 277 Books/Merge, 278 Ledger, 279/280 nur TestRoutine (Abdeckungsliste, s259 im Repo AHAnalyzerPro),
+  281 Books/Mailer. Kein Taint (keine Blizzard-Funktion ersetzt), keine neuen sichtbaren Texte ausser Protokoll-Zeilen.
+- Tests T852/T854/T855 arbeiten auf Ersatz-Tabellen (BK.testDB, eigene Briefkasten-Funktionen) und stellen alles zurück.
+- 0.65.279–0.65.281 entstanden zum Teil nach dem Ingametest 19:43 ("E/F/G ruhen") – 0.65.281 war laufende Arbeit; der Bericht
+  nennt als Nächstes WACH-1 (in 0.65.282 umgesetzt). Kein Befund.
+
+Je Punkt:
+- L2b (0.65.277) UMGESETZT: Books.lua OnDisenchant schreibt m = {Item, Menge, Einstand} in beiden Wegen (Aufteilung DE-AUFT1 und
+  nach Materialwert), OnCraft r = Zutaten mit Einstand; Merge.lua MergeBooks bucht "de" (Materialien dazu) und neu "craft"
+  (Zutaten ab, Produkt dazu); ältere Buchungen ohne m/r gezählt, Protokoll ZUSAMMENFUEHREN (nicht in der Testroutine). Summen
+  stimmen mit der Buchung auf diesem Rechner überein (Merge legt alloc/parts dazu wie Put). Hinweis ohne Befund: beim Herstellen
+  zieht Merge den vollen Einstand der Zutat ab, auch wenn drüben weniger Stück bekannt sind (wie bisher beim Verkauf, gekappt bei 0).
+- BE2b: Begründung "erledigt seit EB4 (0.65.135), Put(…, "vendor")" nachvollziehbar – Streichung empfohlen.
+- AB3: Messung im Spiel (EIGENE-PREIS-Zeile) – bleibt offen, wartet auf Upload.
+- TB182-2 (c) (0.65.278) UMGESETZT: Ledger.lua:306 FindUnmatchedBuy (Teil-Rechnung -> offener Kauf mit grösserer Menge, zeitlich
+  nächster), Ledger.lua:274 MatchInvoice (mailQty/mailAmt, erst bei voller Menge "Rechnung da" und Summe der Rechnungen).
+- E (a) Abdeckungsliste (0.65.279), E (b) T-SK6/T-SK7 (0.65.280, s259) UMGESETZT laut Bericht; Frage zu Sammel-Einträgen für
+  offen 10/12 an den Supervisor.
+- T-BM6 (0.65.281) UMGESETZT mit Lücke -> NP-AHS281-1.
+
+NP-AHS281-1 MITTEL (Buchhaltung, kein Gold-Risiko) – verlorene Anzahlung doppelt gebucht, wenn die Post "Auktion abgebrochen"
+  später als 6 Std. nach dem eigenen Abbruch gelesen wird. Belegt im Code (0.65.281 und 0.65.282 gleich):
+  Books.lua:679–690 BK:OwnCancelBooked sucht die eigene Abbruch-Buchung (depx "abbruch") nur in REMOVED_WINDOW = 6 Std. vor
+  JETZT (Zeitpunkt des Lesens, Books.lua:704 OwnCancelBooked(db, it[1], Now())), nicht vor dem Eintreffen der Post.
+  Ablauf: eigener Abbruch über AHSentinel 10:00 -> depx "abbruch" (Anzahlung D1 verfallen). Briefkasten erst am nächsten Tag
+  geöffnet -> keine Buchung im Fenster -> zweite depx "abbruch-fenster". DepositStatus (Books.lua:631) markiert damit die NÄCHSTE
+  hinterlegte Anzahlung desselben Items als verfallen – typisch die der neu eingestellten Auktion (D2), die noch läuft.
+  Folge: "verfallen" zu hoch, "hinterlegt" zu niedrig. Dasselbe beim ersten Öffnen nach dem Update für alle "abgebrochen"-Posten
+  im Briefkasten, deren Abbruch schon vorher (> 6 Std.) gebucht wurde (Schlüssel "rem|…" ist neu, alle Posten werden gelesen).
+  T855 deckt den Fall nicht ab (eigener Abbruch und Post im selben Augenblick).
+  Lösung: Zeitfenster am Eintreffen der Post messen (Eintreffen ≈ Jetzt − (Laufzeit der Post − daysLeft) · 1 Tag; Laufzeit aus
+  daysLeft beim ersten Sehen bzw. 30 Tage) oder ohne Zeitgrenze die älteste noch nicht zugeordnete eigene depx "abbruch"
+  desselben Items und derselben Figur nehmen, die nach der zugehörigen Anzahlung liegt. Figur prüfen (e.ch == CharKey()).
+  Test: eigener Abbruch t0, Post gelesen t0 + 8 Std. bzw. + 3 Tage -> keine zweite depx; neu eingestellte Anzahlung bleibt
+  "hinterlegt". Gegenprobe mit 0.65.282 rot.
+  Reihenfolge: nach den Ingametest-Befunden (WACH-1 … HILFE-GRP-1).
+NP-AHS278-1 NIEDRIG (Verdacht, zu messen) – Ledger.lua:316: eine Rechnung mit kleinerer Menge wird jedem offenen Kauf mit
+  grösserer Menge desselben Items im MATCH_WINDOW zugeordnet. Kam die kleinere Menge aus einem eigenen, nicht über Sniper/Einkauf
+  gebuchten Kauf (z. B. Blizzard-Fenster), fehlt diese Buchung, und die spätere volle Rechnung des grossen Kaufs passt nicht mehr
+  (mailQty + qty > Menge) -> wird als neuer Kauf "mail" gebucht. Selten; im Spiel prüfen über KAUF-DOPPELT "(Teil-Rechnungen)"
+  in den nächsten Uploads. Lösung, falls belegt: Teil-Zuordnung nur, wenn die Rechnung aus derselben Kauf-Sitzung stammt
+  (z. B. Rechnungen innerhalb weniger Sekunden nacheinander, Summe der Teilmengen = Kaufmenge) – erst messen.
+Frage aus dem Bericht 0.65.281 (an den Supervisor): Erstattung bei Fenster-Abbruch in Forever messen? – Entscheid offen.
+
+IM CLIENT PRÜFEN (AHS 0.65.277–0.65.281): Zusammenführen zweier Rechner mit Entzaubern/Herstellen (Protokoll ZUSAMMENFUEHREN);
+Warenkauf von mehreren Verkäufern -> eine Buchung, KAUF-DOPPELT "(Teil-Rechnungen)"; Abbruch im Blizzard-Fenster -> genau eine
+depx "abbruch-fenster"; eigener Abbruch, Briefkasten erst nach > 6 Std. -> keine zweite (zeigt NP-AHS281-1).
+
+=====================================================================================================================
+2. GUILDSENTINEL 0.9.49 und 0.9.50 (gegen 0.9.48) – Berichte 2026-11-16-1803 und -2005 gelesen
+=====================================================================================================================
+Prüfungen (selbst ausgeführt):
+- addon_check 0.9.50: "OK", keine Warnung (0.9.49: nur "niedriger als 0.9.50", erwartet).
+- Zip 0.9.50 = Quell-Repo GuildSentinel 75a4898 (diff -r leer). Gemeinsame Dateien Game/Test/Sync/Dev/Pruefliste byte-gleich mit
+  shared/. CHANGELOG EN/DE je Version vorhanden; neuer sichtbarer Text "Prüfliste im Spiel (Entwickler)" in Locales.lua und allen
+  Locale-Dateien.
+- test/run_alle.sh: "GESAMT: 137 Läufe, 0 rot · 4762 Einzelprüfungen bestanden, 0 fehlgeschlagen" (gleich wie im Bericht);
+  run_pruefliste.lua 21/21 (16001, 11508, 20505); run_routine.lua 16001 und 11508: je 17 bestanden, 0 Fehlermeldungen.
+Code (Diff 0.9.49 -> 0.9.50, Core/Diag/GuildAct/Lead/Pages/Recruit/Roster/Tooltip + Pruefliste.lua):
+- ns.PLHit/PLFail (Core.lua): ohne Wirkung im Testmodus und in der Testroutine, Aufruf über pcall; ohne Entwicklermodus leere Liste.
+- Hit-Stellen an der echten Benutzung (Rc:Posted, OnInviteConfirmed, Altersantwort nur Kategorie, GA:Confirmed nur ohne Test,
+  Sperren+Entfernen in derselben Sitzung, Tooltip mit "In der Gilde seit", Notiz-Verlauf). Messwerte ohne Spielernamen.
+- Tooltip.lua: Präfix aus L["In der Gilde seit %s"] – in allen 11 Sprachen vor dem %s nicht leer (kein Fehltreffer). Läuft bei
+  jedem Tooltip (ein gsub, ohne Entwicklermodus wirkungslos) – vernachlässigbar.
+- /gs prüfliste (dev = true): ohne Entwicklermodus die übliche Meldung.
+- 0.9.49: GoldSentinelDev v2 kopiert, T05/T128 auf "version >= 2". Hinweis aus dem Bericht (v1 mit Klartext-Namen in alter
+  git-Geschichte, alten announce-/download-Zips und CurseForge-Dateien bis 0.9.39) ist ein Nutzer-Entscheid – nur weitergeben.
+Ergebnis: umgesetzt, keine Befunde. IM CLIENT PRÜFEN: /gs entwickler -> /gs prüfliste, alle 14 Punkte (Ingame-Test vor CurseForge
+17.11. 18:00, Entscheid 19:58), danach /gs protokoll Block PRÜFLISTE.
+
+=====================================================================================================================
+3. LEVELPILOT 3.12.74, 3.12.75, 3.12.76 – Berichte 1922 und 1950 gelesen (3.12.75/76 vom Supervisor 20:35 schon geprüft)
+=====================================================================================================================
+- addon_check 3.12.75 "OK" (3.12.74: nur "niedriger als 3.12.75"). Gemeinsame Dateien byte-gleich. CHANGELOG EN/DE vorhanden.
+- 3.12.74 R2: Planner.lua:156 P.QUEST_ABOVE = 2, :166 IsAvailable – genau wie im Bericht; T336 mit Gegenprobe. OK.
+- Offline-Routine 3.12.75 (38 Läufe, lua5.1): 37/38 im ersten Lauf (T151 "Graph:Path Orgrimmar -> Wegkreuz Median 21 ms, soll
+  < 16"), Testroutine-Wiederholung: T151 grün, dafür T155 16,38 ms (soll < 16) in Forever Allianz. Reine Zeitmessungen in der
+  Sandbox (2 Kerne, Läufe parallel), wechselnd – zählen nach Auftrag nicht. Hinweis wie 17:22: T151/T155 liegen knapp an der Grenze.
+
+NP-LP76-1 MITTEL (belegt im Code und im Nachbau; Wirkung im Spiel zu messen) – Graph.ShortcutStart (3.12.75, Graph.lua:1360) und
+  Graph.RemoveLoops (3.12.76, Graph.lua:1391) kürzen auch GELAUFENE Wege. Sie prüfen nur Welt/Zone, Tor (gw), Höhle (cave) und
+  Gefahr – nicht die Art der Kante (via: gelaufen/Wegnetz – Terrain.Refine lässt genau diese unverändert, Terrain.lua Keep),
+  nicht Aufzug (e.lift), Sprung (e.ow), Ebene (nd.lv/W3D) und kein Gelände (Refine läuft VOR der Abkürzung, Navigation.lua:214–221,
+  und beim Behalten Navigation.lua:404–411). Abstände nur 2D. Die neue Luftlinie erbt "via" des Zielpunkts -> N.Known bleibt true.
+  NACHBAU (selbst ausgeführt, Daten aus test_ucw1/uc_edges.lua, Unterstadt, 3.12.76): bekannte Wege (G:PathKnown) zu Bethor von
+  67 Startpunkten (30–80 × 25–75, Schritt 5): ShortcutStart entfernt in 6 Wegen 1–2 gelaufene Punkte (bis 50 yd kürzer, z. B. Start
+  55,65: 1407 -> 1357 yd), RemoveLoops in 2 Wegen je 1 Punkt; N.Known danach weiter true. Ob dabei eine Ebene übersprungen wird,
+  zeigt der Nachbau nicht (keine Höhen) – das ist genau der Fehler, den UC-W1 (3.12.35) behoben hat ("Luftlinien quer über Ebenen").
+  test_ucw1 prüft nur "Weg vorhanden", nicht ob der gelaufene Weg erhalten bleibt -> grün trotz Kürzung.
+  Lösung: (1) beide Funktionen kürzen nie über Punkte mit Wegnetz-Kante (via ~= nil/"v") in INDOOR_ZONES/Orten mit Ebenen und nie
+  über Aufzug/Sprung; (2) neues Teilstück als Luftlinie kennzeichnen (via "v") bzw. Known danach neu bestimmen; (3) wo
+  Geländedaten da sind, Abkürzung mit Terrain prüfen (Steigung/Wasser wie Refine) oder Refine danach auf das neue Stück anwenden.
+  Test: UC-W1-Daten -> 0 entfernte gelaufene Punkte (Gegenprobe 3.12.76: 6 bzw. 2 von 67); Donnerfels-Aufzug aus test_w3d bleibt;
+  R3W-Messung danach weiter 0–1. Im Spiel: Unterstadt AH -> Bethor und Donnerfels (Aufzug) mit Pfeil ablaufen.
+  Reihenfolge: vor OPT-ROUTE (dort werden dieselben Wege umgebaut), nach ORT-1 O2/O5 oder nach Entscheid des Supervisors.
+
+=====================================================================================================================
+4. PRÜFSYSTEM
+=====================================================================================================================
+NP-SYS-1 NIEDRIG – addon-check/testberichte.py:418 sortiert die Diagnose- und Wegdateien je Addon nach st_mtime. In GitHub Actions
+  haben nach dem Auschecken alle Dateien dieselbe Zeit -> "neueste Datei" in status.md/json ist zufällig (Lauf 17:46: GS 0.9.48,
+  LP 3.12.30, PS 0.9.62; Lauf 18:35: GS 0.9.39, LP 3.12.69, PS 0.9.45) und ändert sich bei jedem Lauf -> Commits 2edbcda4/29c21f4e
+  ohne neuen Bericht ("nur schreiben, wenn sich ausser der Zeit etwas geändert hat" greift nicht). Lösung: nach Version aus dem
+  Dateinamen (<Version>-<Prüfsumme>.txt, Zahlen-Tupel), bei gleicher Version nach Name sortieren; Test in den Testberichte-Tests
+  (zwei Läufe mit verschiedener mtime -> gleiche Ausgabe). Hinweis: "python3 addon-check/testberichte.py --help" kennt kein --help
+  und führt die Auswertung aus (schreibt status.md/json) – ich habe die Änderung verworfen (git checkout), nichts committet.
+
+=====================================================================================================================
+5. VORSCHLÄGE FÜR DEN SUPERVISOR (nicht ausgeführt)
+=====================================================================================================================
+- auftraege/AHSentinel/offen-ahsentinel.txt: "PRÜFUNG 0.65.277–0.65.281: L2b, TB182-2 (c), E (a), T-SK6/T-SK7, T-BM6 umgesetzt;
+  BE2b streichen (erledigt seit EB4)"; NP-AHS281-1 MITTEL nach den Ingametest-Befunden; NP-AHS278-1 NIEDRIG als Messauftrag.
+- auftraege/GuildSentinel/offen-guildsentinel.txt: "PRÜFUNG 0.9.49/0.9.50: Dev v2 und Prüfliste umgesetzt, keine Befunde; IM CLIENT
+  PRÜFEN: Prüfliste (vor CurseForge 17.11. 18:00)".
+- auftraege/LevelPilot/offen-levelpilot.txt: NP-LP76-1 MITTEL ergänzen (zu deiner Prüfung 20:35).
+- Prüfsystem: NP-SYS-1 (testberichte.py) selbst beheben oder eintragen.
+- addon-check/nachpruefung-stand.json: AHSentinel 0.65.282, GuildSentinel 0.9.50, LevelPilot 3.12.76 (mit Supervisor 20:35),
+  übrige unverändert; testberichte_bis 29c21f4e.
+- Log-Zeile: "2026-11-16 20:39 Nachprüfung (Entwurf): AHS 0.65.277–281 (NP-AHS281-1 MITTEL, NP-AHS278-1 NIEDRIG), GS 0.9.49/0.9.50
+  ohne Befund, LP NP-LP76-1 MITTEL, NP-SYS-1 NIEDRIG".
+
+Nachrichtentexte (nur Vorschlag, vom Supervisor zu übertragen):
+  NACHRICHT AN DIE AHSENTINEL-SITZUNG (zum Einfügen) – Erst laufende Arbeit fertig machen.
+  Stand 16.11. 20:39: 0.65.277–0.65.281 nachgeprüft – L2b, TB182-2 (c), E (a), T-SK6/T-SK7, T-BM6 umgesetzt (danke); BE2b erledigt.
+  ZU TUN (nach WACH-1 … HILFE-GRP-1): NP-AHS281-1 MITTEL – Books.lua:679–704 OwnCancelBooked misst die 6 Std. ab dem Lesen statt ab
+  dem Eintreffen der Post -> nach spätem Lesen zweite depx, die laufende Anzahlung der neu eingestellten Auktion gilt als verfallen.
+  Zeitfenster am Eintreffen messen oder älteste nicht zugeordnete eigene Abbruch-Buchung nehmen; Test t0 + 8 Std./+ 3 Tage,
+  Gegenprobe 0.65.282 rot. NP-AHS278-1 NIEDRIG – Teil-Rechnungen (Ledger.lua:316) im Spiel beobachten, nur bei Beleg ändern.
+  git pull --rebase und auftraege/AHSentinel/offen-ahsentinel.txt lesen; nach der Umsetzung Bericht in berichte/AHSentinel/.
+  Nächste Versionsnummer, komplette Dateien, alte Clients nie brechen, alle Locale-Dateien, CHANGELOG EN/DE, vor dem Push
+  python3 addon-check/addon_check.py <ZIP> -> kein FEHLER. Ist ein Befund falsch, bitte begründet zurückmelden.
+
+  NACHRICHT AN DIE LEVELPILOT-SITZUNG (zum Einfügen) – Erst laufende Arbeit fertig machen.
+  Stand 16.11. 20:39: Zusatz zur Prüfung 20:35. ZU TUN: NP-LP76-1 MITTEL – Graph.ShortcutStart (Graph.lua:1360) und RemoveLoops
+  (:1391) kürzen gelaufene Wege (Unterstadt-Nachbau: 6 bzw. 2 von 67 Wegen), ohne Wegnetz-Kante, Aufzug, Sprung, Ebene, Gelände;
+  Known bleibt true. Nie über Wegnetz-Kanten in Orten mit Ebenen/Aufzug/Sprung kürzen, neues Stück als Luftlinie, Gelände prüfen;
+  Test mit uc_edges (0 entfernte gelaufene Punkte, Gegenprobe 3.12.76 rot) und Donnerfels-Aufzug. Vor OPT-ROUTE.
+  git pull --rebase und auftraege/LevelPilot/offen-levelpilot.txt lesen; Bericht in berichte/LevelPilot/. Nächste Versionsnummer,
+  komplette Dateien, alte Clients nie brechen, alle Locale-Dateien, CHANGELOG EN/DE, addon_check -> kein FEHLER.
+  Ist ein Befund falsch, bitte begründet zurückmelden.
+
+  GuildSentinel: keine Nachricht nötig (keine Befunde) – nur das Ergebnis in offen-guildsentinel.txt.
+
+Nachbau-Skript NP-LP76-1 (nur im Arbeitsordner, nicht im Repo): lädt uc_edges.lua wie test_ucw1, ruft für 67 Startpunkte
+G:PathKnown, dann G.ShortcutStart und G.RemoveLoops auf und zählt die entfernten Punkte.
