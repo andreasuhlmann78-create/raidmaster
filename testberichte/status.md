@@ -1,6 +1,6 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-16 04:21 UTC
+Ausgewertet: 2026-11-16 05:55 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
@@ -12,26 +12,26 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 | LevelPilot | 05.11.2026 00:21 UTC | 3.12.6 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 1381 |
 | ProfessionSentinel | 09.11.2026 06:57 UTC | 0.9.28 | forever 1.60.1 (Interface 16001) | 5 | 2 | 1 | 0 | 0 |
 | RaidMaster | 05.11.2026 00:07 UTC | 3.0.17 | forever 1.60.1 (Interface 16001) | 98 | 3 | 10 | 12 | 0 |
-| ThreatSentinel | 10.11.2026 10:06 UTC | 2.5.4 | forever 1.60.1 (Interface 16001) | 7 | 1 | 0 | 1 | 6 |
+| ThreatSentinel | 10.11.2026 10:06 UTC | 2.5.4 | forever 1.60.1 (Interface 16001) | 7 | 1 | 0 | 1 | 0 |
 
 ## Diagnose-Protokolle (GSDIAG1)
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 146 | `testberichte/diagnose/AHSentinel/0.65.97-013d64298890.txt` |
-| BuffSentinel | 40 | `testberichte/diagnose/BuffSentinel/0.9.18-76e246dc6532.txt` |
-| GSMesstest | 9 | `testberichte/diagnose/GSMesstest/3-cfdd02c16375.txt` |
+| AHSentinel | 146 | `testberichte/diagnose/AHSentinel/0.65.94-a90ab14a9b56.txt` |
+| BuffSentinel | 40 | `testberichte/diagnose/BuffSentinel/0.9.12-7f8dfb5af187.txt` |
+| GSMesstest | 9 | `testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt` |
 | GSSniperLog | 14 | `testberichte/diagnose/GSSniperLog/1.7-d7b1125a2162.txt` |
-| GuildSentinel | 144 | `testberichte/diagnose/GuildSentinel/0.9.39-174dca483f98.txt` |
-| LevelPilot | 41 | `testberichte/diagnose/LevelPilot/3.12.30-abeea3d868d4.txt` |
-| ProfessionSentinel | 124 | `testberichte/diagnose/ProfessionSentinel/0.9.45-fd03dabe94af.txt` |
-| ThreatSentinel | 120 | `testberichte/diagnose/ThreatSentinel/2.5.9-7f347d5503ad.txt` |
+| GuildSentinel | 144 | `testberichte/diagnose/GuildSentinel/0.9.38-e7eada8b66f4.txt` |
+| LevelPilot | 42 | `testberichte/diagnose/LevelPilot/3.12.30-d56de4ad4ec7.txt` |
+| ProfessionSentinel | 124 | `testberichte/diagnose/ProfessionSentinel/0.9.45-ea4bde14ba63.txt` |
+| ThreatSentinel | 120 | `testberichte/diagnose/ThreatSentinel/2.5.9-393857b54d8e.txt` |
 
 ## Wegdaten (GSWEGE1)
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| LevelPilot | 198 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794762846-8f1070.json` |
+| LevelPilot | 198 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794760603-ad69fc.json` |
 
 ## AHSentinel
 
@@ -285,11 +285,3 @@ Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) ·
 **Testlauf 2.5.4 · forever 1.60.1 (Interface 16001) · 10.11.2026 10:06 UTC** – OK 7 · FEHLER 1 · übersprungen 0 · im Client prüfen 1 · Sandbox OK
 - [FEHLER] T181 K – Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern (ergebnis: Testzentrale überdeckt BuffSentinelAnchor_cd (BuffSentinel) · geprüft 2 | erwartet: keine)
 - [CLIENT] T186 K – Oberfläche mit offenen Blizzard-Fenstern (anleitung: Charakterfenster, Karte, Händler oder Post öffnen, dazu Testzentrale und Einstellungen; dann /ts testroutine k: T181 ohne Überlappen)
-
-**Fehler im Spiel (letzte 7 Tage)**
-- 1× `Selbsttest`: Interface/AddOns/ThreatSentinel/TestRoutine.lua:1447: TS-Selbsttest Handler – Version 2.4.5 · forever 1.60.1 (Interface 16001) · zuletzt 09.11.2026 05:49 UTC
-- 1× `Selbsttest`: TS-Selbsttest 1 – Version 2.4.5 · forever 1.60.1 (Interface 16001) · zuletzt 09.11.2026 05:49 UTC
-- 1× `Selbsttest`: TS-Selbsttest – Version 2.4.5 · forever 1.60.1 (Interface 16001) · zuletzt 09.11.2026 05:49 UTC
-- 1× `Selbsttest`: ADDON_ACTION_BLOCKED: TestFunc – Version 2.4.5 · forever 1.60.1 (Interface 16001) · zuletzt 09.11.2026 05:49 UTC
-- 1× `Selbsttest`: Interface/AddOns/ThreatSentinel/TestRoutine.lua:1433: TS-Selbsttest DD – Version 2.4.5 · forever 1.60.1 (Interface 16001) · zuletzt 09.11.2026 05:49 UTC
-- 1× `Selbsttest`: TS-Selbsttest 2 – Version 2.4.5 · forever 1.60.1 (Interface 16001) · zuletzt 09.11.2026 05:49 UTC

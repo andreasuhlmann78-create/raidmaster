@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-16T04:21:27Z",
+ "ausgewertet": "2026-11-16T05:55:28Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -474,92 +474,7 @@
      "bericht": "ThreatSentinel-1794305177-608ad8-2"
     }
    ],
-   "fehler_spiel": [
-    {
-     "addon": "ThreatSentinel",
-     "art": "spiel",
-     "wo": "Selbsttest",
-     "msg": "Interface/AddOns/ThreatSentinel/TestRoutine.lua:1447: TS-Selbsttest Handler",
-     "anzahl": 1,
-     "versionen": [
-      "2.4.5"
-     ],
-     "clients": [
-      "forever 1.60.1 (Interface 16001)"
-     ],
-     "stack": "[Interface/AddOns/ThreatSentinel/Core.lua]:1084: in function <Interface/AddOns/ThreatSentinel/Core.lua:1076>\n[Interface/AddOns/ThreatSentinel/Log.lua]:548: in function 'ReportError'\n[Interface/AddOns/ThreatSentinel/Core.lua]:1058: in function 'Fire'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1451: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1444>\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:224: in function 'Check'\n..."
-    },
-    {
-     "addon": "ThreatSentinel",
-     "art": "spiel",
-     "wo": "Selbsttest",
-     "msg": "TS-Selbsttest 1",
-     "anzahl": 1,
-     "versionen": [
-      "2.4.5"
-     ],
-     "clients": [
-      "forever 1.60.1 (Interface 16001)"
-     ],
-     "stack": "[Interface/AddOns/ThreatSentinel/Core.lua]:1084: in function <Interface/AddOns/ThreatSentinel/Core.lua:1076>\n[Interface/AddOns/ThreatSentinel/Log.lua]:548: in function 'ReportError'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1464: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1464>\n[C]: in function 'pcall'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:292: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:288>\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1464: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1458>\n..."
-    },
-    {
-     "addon": "ThreatSentinel",
-     "art": "spiel",
-     "wo": "Selbsttest",
-     "msg": "TS-Selbsttest",
-     "anzahl": 1,
-     "versionen": [
-      "2.4.5"
-     ],
-     "clients": [
-      "forever 1.60.1 (Interface 16001)"
-     ],
-     "stack": "[Interface/AddOns/ThreatSentinel/Core.lua]:1084: in function <Interface/AddOns/ThreatSentinel/Core.lua:1076>\n[Interface/AddOns/ThreatSentinel/Log.lua]:548: in function 'ReportError'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1421: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1418>\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:224: in function 'Check'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:281: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:281>\n..."
-    },
-    {
-     "addon": "ThreatSentinel",
-     "art": "spiel",
-     "wo": "Selbsttest",
-     "msg": "ADDON_ACTION_BLOCKED: TestFunc",
-     "anzahl": 1,
-     "versionen": [
-      "2.4.5"
-     ],
-     "clients": [
-      "forever 1.60.1 (Interface 16001)"
-     ],
-     "stack": "[Interface/AddOns/ThreatSentinel/Core.lua]:1084: in function <Interface/AddOns/ThreatSentinel/Core.lua:1076>\n[Interface/AddOns/ThreatSentinel/Log.lua]:548: in function 'ReportError'\n[Interface/AddOns/ThreatSentinel/Alerts.lua]:459: in function <Interface/AddOns/ThreatSentinel/Alerts.lua:456>\n[C]: in function 'pcall'\n[Interface/AddOns/ThreatSentinel/Core.lua]:1057: in function 'Fire'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1475: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1472>\n..."
-    },
-    {
-     "addon": "ThreatSentinel",
-     "art": "spiel",
-     "wo": "Selbsttest",
-     "msg": "Interface/AddOns/ThreatSentinel/TestRoutine.lua:1433: TS-Selbsttest DD",
-     "anzahl": 1,
-     "versionen": [
-      "2.4.5"
-     ],
-     "clients": [
-      "forever 1.60.1 (Interface 16001)"
-     ],
-     "stack": "[Interface/AddOns/ThreatSentinel/Core.lua]:1084: in function <Interface/AddOns/ThreatSentinel/Core.lua:1076>\n[Interface/AddOns/ThreatSentinel/Log.lua]:548: in function 'ReportError'\n[Interface/AddOns/ThreatSentinel/Threat.lua]:330: in function <Interface/AddOns/ThreatSentinel/Threat.lua:328>\n[Interface/AddOns/ThreatSentinel/Threat.lua]:365: in function 'Tick'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1437: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1429>\n[C]: in function 'pcall'\n..."
-    },
-    {
-     "addon": "ThreatSentinel",
-     "art": "spiel",
-     "wo": "Selbsttest",
-     "msg": "TS-Selbsttest 2",
-     "anzahl": 1,
-     "versionen": [
-      "2.4.5"
-     ],
-     "clients": [
-      "forever 1.60.1 (Interface 16001)"
-     ],
-     "stack": "[Interface/AddOns/ThreatSentinel/Core.lua]:1084: in function <Interface/AddOns/ThreatSentinel/Core.lua:1076>\n[Interface/AddOns/ThreatSentinel/Log.lua]:548: in function 'ReportError'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1464: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1464>\n[C]: in function 'pcall'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:292: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:288>\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1464: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1458>\n..."
-    }
-   ]
+   "fehler_spiel": []
   }
  },
  "offen": [
@@ -914,105 +829,21 @@
    "name": "Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern",
    "detail": "ergebnis: Testzentrale überdeckt BuffSentinelAnchor_cd (BuffSentinel) · geprüft 2 | erwartet: keine",
    "bericht": "ThreatSentinel-1794305177-608ad8-2"
-  },
-  {
-   "addon": "ThreatSentinel",
-   "art": "spiel",
-   "wo": "Selbsttest",
-   "msg": "Interface/AddOns/ThreatSentinel/TestRoutine.lua:1447: TS-Selbsttest Handler",
-   "anzahl": 1,
-   "versionen": [
-    "2.4.5"
-   ],
-   "clients": [
-    "forever 1.60.1 (Interface 16001)"
-   ],
-   "stack": "[Interface/AddOns/ThreatSentinel/Core.lua]:1084: in function <Interface/AddOns/ThreatSentinel/Core.lua:1076>\n[Interface/AddOns/ThreatSentinel/Log.lua]:548: in function 'ReportError'\n[Interface/AddOns/ThreatSentinel/Core.lua]:1058: in function 'Fire'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1451: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1444>\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:224: in function 'Check'\n..."
-  },
-  {
-   "addon": "ThreatSentinel",
-   "art": "spiel",
-   "wo": "Selbsttest",
-   "msg": "TS-Selbsttest 1",
-   "anzahl": 1,
-   "versionen": [
-    "2.4.5"
-   ],
-   "clients": [
-    "forever 1.60.1 (Interface 16001)"
-   ],
-   "stack": "[Interface/AddOns/ThreatSentinel/Core.lua]:1084: in function <Interface/AddOns/ThreatSentinel/Core.lua:1076>\n[Interface/AddOns/ThreatSentinel/Log.lua]:548: in function 'ReportError'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1464: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1464>\n[C]: in function 'pcall'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:292: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:288>\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1464: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1458>\n..."
-  },
-  {
-   "addon": "ThreatSentinel",
-   "art": "spiel",
-   "wo": "Selbsttest",
-   "msg": "TS-Selbsttest",
-   "anzahl": 1,
-   "versionen": [
-    "2.4.5"
-   ],
-   "clients": [
-    "forever 1.60.1 (Interface 16001)"
-   ],
-   "stack": "[Interface/AddOns/ThreatSentinel/Core.lua]:1084: in function <Interface/AddOns/ThreatSentinel/Core.lua:1076>\n[Interface/AddOns/ThreatSentinel/Log.lua]:548: in function 'ReportError'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1421: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1418>\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:224: in function 'Check'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:281: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:281>\n..."
-  },
-  {
-   "addon": "ThreatSentinel",
-   "art": "spiel",
-   "wo": "Selbsttest",
-   "msg": "ADDON_ACTION_BLOCKED: TestFunc",
-   "anzahl": 1,
-   "versionen": [
-    "2.4.5"
-   ],
-   "clients": [
-    "forever 1.60.1 (Interface 16001)"
-   ],
-   "stack": "[Interface/AddOns/ThreatSentinel/Core.lua]:1084: in function <Interface/AddOns/ThreatSentinel/Core.lua:1076>\n[Interface/AddOns/ThreatSentinel/Log.lua]:548: in function 'ReportError'\n[Interface/AddOns/ThreatSentinel/Alerts.lua]:459: in function <Interface/AddOns/ThreatSentinel/Alerts.lua:456>\n[C]: in function 'pcall'\n[Interface/AddOns/ThreatSentinel/Core.lua]:1057: in function 'Fire'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1475: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1472>\n..."
-  },
-  {
-   "addon": "ThreatSentinel",
-   "art": "spiel",
-   "wo": "Selbsttest",
-   "msg": "Interface/AddOns/ThreatSentinel/TestRoutine.lua:1433: TS-Selbsttest DD",
-   "anzahl": 1,
-   "versionen": [
-    "2.4.5"
-   ],
-   "clients": [
-    "forever 1.60.1 (Interface 16001)"
-   ],
-   "stack": "[Interface/AddOns/ThreatSentinel/Core.lua]:1084: in function <Interface/AddOns/ThreatSentinel/Core.lua:1076>\n[Interface/AddOns/ThreatSentinel/Log.lua]:548: in function 'ReportError'\n[Interface/AddOns/ThreatSentinel/Threat.lua]:330: in function <Interface/AddOns/ThreatSentinel/Threat.lua:328>\n[Interface/AddOns/ThreatSentinel/Threat.lua]:365: in function 'Tick'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1437: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1429>\n[C]: in function 'pcall'\n..."
-  },
-  {
-   "addon": "ThreatSentinel",
-   "art": "spiel",
-   "wo": "Selbsttest",
-   "msg": "TS-Selbsttest 2",
-   "anzahl": 1,
-   "versionen": [
-    "2.4.5"
-   ],
-   "clients": [
-    "forever 1.60.1 (Interface 16001)"
-   ],
-   "stack": "[Interface/AddOns/ThreatSentinel/Core.lua]:1084: in function <Interface/AddOns/ThreatSentinel/Core.lua:1076>\n[Interface/AddOns/ThreatSentinel/Log.lua]:548: in function 'ReportError'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1464: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1464>\n[C]: in function 'pcall'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:292: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:288>\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1464: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1458>\n..."
   }
  ],
  "extras": {
   "diagnose": {
    "AHSentinel": {
     "anzahl": 146,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.97-013d64298890.txt"
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.94-a90ab14a9b56.txt"
    },
    "BuffSentinel": {
     "anzahl": 40,
-    "neueste": "testberichte/diagnose/BuffSentinel/0.9.18-76e246dc6532.txt"
+    "neueste": "testberichte/diagnose/BuffSentinel/0.9.12-7f8dfb5af187.txt"
    },
    "GSMesstest": {
     "anzahl": 9,
-    "neueste": "testberichte/diagnose/GSMesstest/3-cfdd02c16375.txt"
+    "neueste": "testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt"
    },
    "GSSniperLog": {
     "anzahl": 14,
@@ -1020,25 +851,25 @@
    },
    "GuildSentinel": {
     "anzahl": 144,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.39-174dca483f98.txt"
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.38-e7eada8b66f4.txt"
    },
    "LevelPilot": {
-    "anzahl": 41,
-    "neueste": "testberichte/diagnose/LevelPilot/3.12.30-abeea3d868d4.txt"
+    "anzahl": 42,
+    "neueste": "testberichte/diagnose/LevelPilot/3.12.30-d56de4ad4ec7.txt"
    },
    "ProfessionSentinel": {
     "anzahl": 124,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.45-fd03dabe94af.txt"
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.45-ea4bde14ba63.txt"
    },
    "ThreatSentinel": {
     "anzahl": 120,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.9-7f347d5503ad.txt"
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.9-393857b54d8e.txt"
    }
   },
   "wege": {
    "LevelPilot": {
     "anzahl": 198,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794762846-8f1070.json"
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794760603-ad69fc.json"
    }
   }
  }
