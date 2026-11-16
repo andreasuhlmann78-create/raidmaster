@@ -422,3 +422,22 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   Binden zusammen (HS-Batching) als Option, (d) "Tod als Reise" im Speedrun – NUR mit Entscheid des Nutzers (Haltbarkeit, Risiko).
   (e) Messlatte: EP/Stunde je Stufe gegen öffentliche Speedrun-Zeiten (Zahl, keine Route).
 
+>>> NAVIGATOR – ENTSCHEID DES NUTZERS 16.11. 07:36/07:55 (Supervisor 07:56): "LevelPilot zu einem Navigator in WoW Forever entwickeln" – BEIDES:
+  (A) die optimale Levelroute 1–60 (LW-0..LW-7, läuft) UND (B) ein Navi zu jedem Ziel. Forever zuerst, Classic Era mit LW-5.
+  Ziel für den Spieler: Er nennt ein Ziel, LevelPilot bringt ihn auf dem SCHNELLSTEN Weg hin – wie ein Auto-Navi.
+  NAV-1 Ziele (erst Plan als Bericht, dann bauen): /lp navi <Text> und Knopf "Navi" in der Zentrale; Suche über Namen in der eingestellten
+       Sprache: NPC (Questgeber, Lehrer je Klasse/Beruf, Händler, Gastwirt, Flugmeister, Stallmeister, Bank, Auktionshaus, Briefkasten),
+       Dienst-Art ("nächster Briefkasten", "nächster Lehrer Schmiedekunst"), Dungeon-/Raid-Eingang, Zone, Koordinaten "x y [Zone]",
+       Klick auf die Weltkarte ("Hierhin navigieren"). Mehrere Treffer: die 5 nächsten mit Reisezeit zur Auswahl. Vorhandenes nutzen:
+       LevelPilotAPI.NavigateTo (3.12.44), QuestDB:ServiceNPCs/NearestService, Graph, Navigation-Pfeil.
+  NAV-2 Reiseplan nach ZEIT: Kette aus Laufen/Reiten (Graph + Geländekarte, LW-1), Flug (gemessene Flugzeit, LW-3), Schiff/Zeppelin/
+       Tiefenbahn (Gateways mit Wartezeit), Ruhestein (wenn bereit und nützlich), auch über Kontinente. Anzeige wie ein Navi: Schritte
+       ("Zum Flugmeister 300 yd -> Flug nach X 2:10 -> 450 yd laufen"), Ankunftszeit gesamt, verbleibende Zeit live.
+  NAV-3 Unterwegs: neu planen, wenn der Spieler abweicht (wie heute der Pfeil, mit Begrenzung gegen Hin-und-her), Ankunft erkannt
+       (Radius), Gefahr (Danger) auf dem Weg anzeigen und meiden, wenn möglich; Ebenen/Städte/Höhlen über W3D.
+  NAV-4 Zusammenspiel: Die Levelroute nutzt denselben Reiseplan (ein Rechenweg für beides); Navi-Ziel pausiert die Levelroute und
+       setzt sie danach fort. API für andere Addons (ProfessionSentinel "zum Lehrer", AHSentinel "zum Auktionshaus") – nur lesen/
+       anstossen, nie fremde Daten ändern.
+  Grenzen wie immer: keine Spitze > 16 ms (Portionen), Speicher messen, Testroutine je Teil, Prüfliste im Spiel. Reihenfolge: LW-6 -> LW-3 ->
+  LW-1 -> NAV-1/NAV-2 (Plan zuerst) -> LW-2 -> NAV-3/NAV-4 -> LW-4 -> LW-7 -> LW-5 (Era). Eigene Vorschläge zur Reihenfolge im Bericht.
+
