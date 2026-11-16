@@ -636,3 +636,20 @@ Reihenfolge: NP-LP54-2 vor der nächsten Navi-Erweiterung.
   (auch nach 6 s, auch beim Ödland-Ziel). Erwartet: Navi-Ziel oben, Pfeil dorthin. Ursache belegen und beheben.
 - Beobachtung: Unterstadt "Weg unbekannt"; Koordinaten im Chat mit Punkt statt Komma.
 - B-3 (Tod als Reise) und Era-Prüfliste E5 noch offen (Era-Client verlor beim Warten auf die Freigabe die Verbindung).
+
+==== BEFUND HOCH ERA-1 (Nutzer 16.11.2026 17:05, im Classic-Era-Client gespielt, 3.12.69, neuer Mensch Stufe 1, Nordhain) ====
+Rückmeldung des Nutzers (3 Bildschirmfotos, nicht im Repo wegen Charakternamen): "In der Startzone wird man zum 1. Questgeber geführt,
+das funktioniert, auch die Abgabe der 1. Quest beim NPC klappt. Danach wird man 600 Yards weit geschickt, OHNE dass die anderen Quests in
+der Startzone angenommen werden. Dann läuft man ein paar Meter in die Richtung, in die der Pfeil zeigt, und plötzlich kehrt der Pfeil um
+180° und man müsste wieder zurücklaufen – was null Sinn macht."
+Am Bild belegt:
+ (a) Nach "Die Bedrohung von innen" abgeschlossen + "Säuberung im Koboldlager" angenommen steht oben ein Ziel "… Wald von Elwynn 625 Yards"
+     (Pfeil "625 Yards (Weg unbekannt)"), während DARUNTER "Annehmen: Eagan Peltskinner [2] 16 Yards" und "Wölfe an der Grenze [2] 66 Yards"
+     stehen. Nach wenigen Metern: Eagan 135 Yards, Wölfe 203 Yards – man läuft von den nahen Questgebern weg.
+ (b) Pfeil 625 -> 547 -> 549 Yards: die Entfernung steigt wieder, der Pfeil dreht um 180° (Minikarte: Pfadlinie biegt zurück).
+     Chat: "LevelPilot: Pfeil ausgeblendet (einschalten in der Zentrale)" – Verdacht: Pfeil-Ziel wechselt zwischen Routenknoten (Anschluss
+     an einen Strassenknoten HINTER dem Spieler) oder zwischen zwei Zielen.
+AUFTRAG: Ursache für (a) und (b) mit dem Era-Nachbau belegen (Startzone Nordhain, Stufe 1, genau diese Questlage), beheben, Test mit
+Gegenprobe; Gleiches für die anderen 5 Startzonen prüfen (virtuelle Reise Era). Erwartung: in der Startzone erst alle nahen Questgeber
+(< ~150 yd) annehmen, dann gebündelt erledigen; der Pfeil zeigt nie auf einen Wegknoten hinter dem Spieler (vorwärts auf der Route
+weiterschalten, Knoten überspringen, wenn der nächste näher ist). E5-4 bleibt offen. Vorrang vor allen anderen Punkten.
