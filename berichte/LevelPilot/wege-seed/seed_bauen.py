@@ -22,6 +22,14 @@ ZONEN = {  # map: (Name, Breite yd, Höhe yd)
     1412: ("Mulgore", 5137.5, 3425.0),
     1413: ("Brachland", 10133.3, 6756.2),
     1456: ("Donnerfels", 1043.7, 695.8),
+    # 3.12.68 LW-4 (Supervisor 14:14: Strassennetz + vorhandene Wegdaten): weitere Aussenzonen mit genug Wegdaten.
+    # Städte mit Ebenen (Orgrimmar 1454, Unterstadt 1458) bewusst nicht – W3D-Schalter aus bis zur Messung.
+    1411: ("Durotar", 5287.5, 3525.0),
+    1420: ("Tirisfal", 4518.75, 3012.5),
+    1421: ("Silberwald", 4200.0, 2800.0),
+    1424: ("Vorgebirge des Hügellands", 4850.0, 3233.3),
+    1441: ("Tausend Nadeln", 4400.0, 2933.3),
+    1442: ("Steinkrallengebirge", 4883.3, 3256.2),
 }
 SPRUNG = 80.0     # yd: längerer Schritt = kein durchgehender Weg
 RADIUS = float(os.environ.get("SEED_RADIUS", "8.0"))   # yd: Punkte so nah = derselbe Knoten (Graph SNAP 10)

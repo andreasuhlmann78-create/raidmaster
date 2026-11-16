@@ -1,0 +1,36 @@
+BERICHT LevelPilot 3.12.68 – LW-4 Startwegnetz für 6 weitere Zonen, LW-7 (e) Messlatte aus eigenen Zahlen
+Projekt: LevelPilot · Datum: 16.11.2026 14:33 (aus date) · Version: 3.12.68 · umgesetzt, zur Prüfung
+
+Bezug: ANTWORTEN 14:14 – B-1 "LW-4 mit dem Strassennetz (ST-2) + diesen Daten bauen" (testberichte/wege/LevelPilot/, alle Dateien),
+F-A "Messlatte = eigene Zahlen: Bestzeiten je Stufe über alle Charaktere + virtuelle Reise".
+Neue Befunde der Nachprüfung (14:30, NP-LP54-2, NP-LP49-1/-2) kommen in der nächsten Version (3.12.69), vor jeder Navi-Erweiterung.
+
+1. LW-4 STARTWEGNETZ
+   Daten: 199 Dateien (alles, was der Uploader geliefert hat). Wegstücke je Zone: Brachland 2358, Unterstadt 1583, Orgrimmar 906,
+   Tausend Nadeln 885, Steinkrallen 799, Durotar 779, Tirisfal 697, Donnerfels 633, Mulgore 593, Silberwald 536, Hügelland 478,
+   Alterac 171, weitere < 100.
+   Gewählt: alle Aussenzonen mit ≥ 470 Wegstücken: Durotar 1411, Tirisfal 1420, Silberwald 1421, Vorgebirge des Hügellands 1424,
+   Tausend Nadeln 1441, Steinkrallengebirge 1442 (dazu wie bisher 1412, 1413, 1456). NICHT: Orgrimmar/Unterstadt (Städte mit
+   Ebenen – W3D-Schalter aus bis zur Messung), Zonen mit wenig Daten.
+   Werkzeug: berichte/LevelPilot/wege-seed/seed_bauen.py (gleiches Verfahren wie 3.12.37, Skelett), Zonengrössen wie
+   HereBeDragons-Classic (Verdacht, zu messen – wie bisher). Nachbau-Beweis: mit den heutigen Daten erzeugt das unveränderte
+   Werkzeug für die 3 alten Zonen byte-gleich die alte Data/Wege.lua; in der neuen Datei sind diese 3 Blöcke unverändert.
+   Ergebnis: 9 Zonen, 7479 Punkte, 166 km (vorher 3068 Punkte, 72 km); Datei 122 KB (vorher 50 KB). Prüfung je Zone: Abdeckung der
+   gelaufenen Punkte 71–87 %, Startnetz-Punkte ohne gelaufenen Punkt in 15 yd 0,2–5,4 % (Tirisfal am höchsten).
+   Nur WoW Forever (Graph.SeedWegeAktiv). Laden in Portionen wie bisher (test_seedwege: fertig, 9 Karten).
+   MESSUNG (virtuelle Reise 1–60, 3 Horde-Charaktere, Weg-Anteile):
+     Orc Krieger:      ohne bekannten Weg 79,5 % -> 66,1 % · auf Startnetz 12,2 % -> 26,8 %
+     Tauren Krieger:   78,1 % -> 65,7 % · 13,9 % -> 25,3 %
+     Untoter Priester: 79,7 % -> 68,0 % · 10,6 % -> 25,4 %
+   GESAMTZEIT der Reise (9 Horde-Charaktere): 4 schneller, 5 langsamer, Summe +4,1 h – KEIN Beleg für Zeitgewinn, aber auch nicht
+   dagegen: der Nachbau lässt Luftlinien ohne Hindernis zu, darum kann ein echter Weg dort nur gleich lang oder länger sein. Der
+   Nutzen (Pfad statt "Weg unbekannt", keine Wände/Felsen) zeigt sich nur im Spiel. Darum die Messgrösse "Anteil ohne Weg".
+   Tests: T298 und test_seedwege auf 9 Karten nachgeführt (Knoten > 1500, Kanten > 2000).
+2. LW-7 (e) MESSLATTE
+   Bericht der virtuellen Reise (/lp testroutine reise -> bericht): neuer Abschnitt "Messlatte: Bestzeiten je Stufe (alle deine
+   Charaktere)": je Stufe Bestwert (LP.db.bestLevel) gegen Reisezeit, Abweichung in %, Summen über dieselben Stufen. OHNE Namen
+   (der Bericht wird weitergegeben). V.BestRows. 3 neue Texte + "Bestwert" in 10 Sprachen.
+   TEST T329 (true ×4). GEGENPROBE (ohne Untergrenze 60 s): Stufen false.
+3. PRÜFUNGEN
+   addon_check: OK. Offline-Routine: 38 Läufe, 38 ohne FEHLER. Private Regression: 36 von 36 Läufen ALLE TESTS OK.
+4. NÄCHSTE SCHRITTE: 3.12.69 mit NP-LP54-2 (UTF-8-Faltung für die Suche), NP-LP49-1, NP-LP49-2.

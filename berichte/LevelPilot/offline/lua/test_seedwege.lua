@@ -6,7 +6,10 @@
 --  4. eigener Knoten an derselben Stelle wird genommen (keine Verdopplung), gespeicherte Kanten unverändert
 --  5. Laden in Portionen: kein Stück über 16 ms
 --  6. Export der Wegdaten enthält keine Startwege
-ZONESIZE = { [1412] = { 5137.5, 3425.0 }, [1413] = { 10133.3, 6756.2 }, [1456] = { 1043.7, 695.8 } }
+ZONESIZE = { [1412] = { 5137.5, 3425.0 }, [1413] = { 10133.3, 6756.2 }, [1456] = { 1043.7, 695.8 },
+  -- 3.12.68 LW-4: weitere Zonen des Startwegnetzes (Grössen wie seed_bauen.py, Verdacht, zu messen)
+  [1411] = { 5287.5, 3525.0 }, [1420] = { 4518.75, 3012.5 }, [1421] = { 4200.0, 2800.0 }, [1424] = { 4850.0, 3233.3 },
+  [1441] = { 4400.0, 2933.3 }, [1442] = { 4883.3, 3256.2 } }
 local dir = arg[0]:match("^(.*)/[^/]*$") or "."
 PRE_RUN = function(LP)
   local G, Geo, N, J = LP.Graph, LP.Geo, LP.Nav, LP.Jobs
@@ -15,7 +18,7 @@ PRE_RUN = function(LP)
   local function count(t) local n = 0 for _ in pairs(t or {}) do n = n + 1 end return n end
   -- 1) beim Einloggen geladen
   local st = G.seedWegeStat or {}
-  check(st.fertig == true and st.karten == 3 and (st.knoten or 0) > 500 and (st.kanten or 0) > 800,
+  check(st.fertig == true and st.karten == 9 and (st.knoten or 0) > 1500 and (st.kanten or 0) > 2000,
     ("geladen: fertig %s, Karten %s, Knoten %s, Kanten %s"):format(tostring(st.fertig), tostring(st.karten), tostring(st.knoten), tostring(st.kanten)))
   check(LP.SeedWege == nil, "Rohdaten nach dem Aufbau freigegeben (" .. tostring(LP.SeedWege == nil) .. ")")
   local seedSaved = 0
