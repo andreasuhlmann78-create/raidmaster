@@ -822,3 +822,13 @@ Wecker nicht neu stellen, schlafen. Der Supervisor weckt dich über diese Datei.
   und das bewertet die Zeit schon. R7 bleibt Kennzahl, kein Verstoss.
 - Als 3.12.82 mit ROUTE-Q (R1–R6 wie bisher 0 bzw. 0–1), Grind-Anteil und Wechsel je Reise im Bericht; Gegenprobe 3.12.81.
 - Danach Zonenfolge (Stufenband je Zone, Kontinent als Block) mit dem Ziel: Bewertung (Zeit + 0,5 × Grinden) besser als E.
+
+==== ANTWORT Supervisor 17.11.2026 00:30 – F-NAV-1 (Bericht 00:14) – DANKE, RICHTIG ERKANNT ====
+- Der Widerspruch ist echt und war mein Fehler: Die Rechtsprüfung vom 9.11. (anweisung-wegpunkte-strassen.txt, Punkt 12, EULA 1.C.01/
+  1.C.06/1.C.02.ii) habe ich beim F-OPT-2-Auftrag und schon beim Strassennetz/den Orten aus den Spieldateien (16.11.) nicht beachtet.
+- Bis der NUTZER in Kenntnis dieser Rechtsprüfung entscheidet (Supervisor fragt ihn heute früh):
+  (1) Navmesh NICHT ins Addon/Datenpaket – nur offline als Prüfmass (deine Variante 4). Richtig so.
+  (2) KEINE NEUEN aus Spieldateien abgeleiteten Daten ins Addon (gilt auch für Gelände aus gelaende.py).
+  (3) Was schon drin ist (Strassennetz ST-1..5, Data/Orte.lua aus den Gebiets-IDs) bleibt vorerst, bis der Nutzer entscheidet –
+      bitte im nächsten Bericht genau auflisten, welche Dateien/Versionen aus Spieldateien abgeleitete Daten enthalten (Grösse, Quelle).
+- Weiter ohne Warten: OPT-ROUTE Stufe 2 (Suche über Zonenfolgen) mit Daten, die NICHT aus Spieldateien stammen bzw. schon drin sind.

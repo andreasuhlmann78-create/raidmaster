@@ -168,3 +168,10 @@ E-Regel (16.11.2026 14:45, eigener Fehler des Supervisors beim Kern-Abgleich): E
 K:Show) bei JEDER Prüfung einer Version, die diese Regel ändert, mitziehen und mit einem Test belegen – sonst zeigt der Bericht den
 alten Stand ("Rückfall" statt P2). Und: Wählt ein Werkzeug "den neuesten Stand", muss es bei Gleichstand eindeutig entscheiden
 (jüngster Journal-Eintrag), nicht nach Dateireihenfolge – Test mit beiden Reihenfolgen.
+
+### E-Regel 17.11.2026 00:30 – Rechtsprüfungen gelten weiter, bis der Nutzer sie aufhebt
+Anlass: F-OPT-2 (Navmesh) und das Strassennetz/die Orte aus den Spieldateien (16.11.) wurden beauftragt, ohne die Rechtsprüfung vom
+9.11. (EULA 1.C.01/1.C.06/1.C.02.ii, anweisung-wegpunkte-strassen.txt Punkt 12) zu beachten; LevelPilot hat den Widerspruch gefunden.
+Regel: Vor jedem Auftrag, der Daten aus Spieldateien, fremden Daten oder Lizenzen betrifft, nach früheren Rechtsprüfungen suchen
+(grep "Rechtsprüfung\|EULA\|Lizenz" in auftraege/ und shared/wissen/). Ein "Ja" des Nutzers gilt nur für das, was ihm dabei vorlag;
+widerspricht es einer Rechtsprüfung, dem Nutzer die Prüfung vorlegen und ausdrücklich entscheiden lassen.
