@@ -1,0 +1,12 @@
+AHSentinel 0.65.274 – Masterplan 4.4 Rest: API-PM4 API.Sold(itemID, seit) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.274 und sofort im Discord.
+- API.Sold(itemID[, since]) (API.lua, API.md ergänzt): Menge, Erlös netto (Betrag − AH-Anteil), Erlös brutto, Anzahl Verkäufe aus der
+  Buchhaltung (kind "sale" dieses Items) ab since (Standard 30 Tage). Verkaufszeit wie Le:SaleTime (Post: Ankunft − 1 Std.).
+  0,0,0,0 ohne Verkauf, nil ohne ItemID/Buchhaltung. Nur lesen, Safe (nie ein Lua-Fehler). API-Version bleibt 1 (nur hinzugefügt).
+- Testroutine liest nie die echte Buchhaltung: API.testEntries.
+Test T850: 30 Tage 8 Stück / netto 1425 / brutto 1500 / 3 Verkäufe; ab 2 Tagen 5/950/1000/1 (Post-Verkauf 30 Min. vor der Grenze
+  zählt NICHT, weil Verkaufszeit = Ankunft − 1 Std.); 50 Tage 17/2280/2400/4; Käufe, Gebühren, anderes Item zählen nicht; ohne ItemID nil.
+  Gegenprobe: mit 0.65.273 rot (API.Sold fehlt), mit 0.65.274 grün.
+Prüfliste: kein Punkt (Schnittstelle ohne sichtbare Wirkung im Spiel; ProfessionSentinel kann sie mit seinem nächsten Release nutzen –
+  dort Auftrag PM6, nicht von mir geändert).
+Gesamtlauf der Nachbildung: BESTANDEN 317, FEHLGESCHLAGEN 0.
