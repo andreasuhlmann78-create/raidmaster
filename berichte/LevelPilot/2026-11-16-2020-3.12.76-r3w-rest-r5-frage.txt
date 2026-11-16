@@ -1,0 +1,29 @@
+BERICHT LevelPilot 3.12.76 – ROUTE-Q R3W-Rest behoben (0 in allen 12 Reisen), R5: Frage zu den Daten
+Projekt: LevelPilot · Datum: 16.11.2026 20:20 (aus date) · Version: 3.12.76 · umgesetzt, zur Prüfung
+
+Bezug: Bericht 3.12.75 (19:50) Punkt 4 "übrige 1er: Haarnadeln"; Entscheid des Nutzers 20:04 (weiterarbeiten bis alles erledigt).
+
+1. URSACHE (belegt, Wegpunkte mit DBG3=1, mess_route_q.lua)
+   a) Eierjagd (Brachland, Ork Forever St. 25): der Weg selbst hatte eine Haarnadel (55 yd hin, auf derselben Strasse zurück). Keine
+      Gefahren-Zelle (Segmente 23 < Grenze 24 – mein Verdacht 19:50 war falsch). Die Abkürzung am Wegbeginn (3.12.75) griff nicht,
+      weil die Haarnadel beim Berechnen weiter vorn lag und danach der alte Weg behalten wurde (Hysterese) – ohne neue Abkürzung.
+   b) Auf der Heimreise (Tausend Nadeln): Messfehler. Die Messung verglich den neuen Pfeil mit der letzten Laufrichtung; der alte Weg
+      machte dort selbst einen Knick (SW, dann O). Ein abgekürzter Knick ist keine Umkehr.
+2. LÖSUNG
+   - Graph.RemoveLoops (nach der Geländeanpassung, vor der Abkürzung am Wegbeginn): kommt der Weg innerhalb von 30 Wegpunkten auf
+     ≤ 15 yd an einen früheren Punkt zurück und ist das Stück dazwischen ≥ 30 yd länger, fällt es weg; nie über Tore/Höhlen/andere Welt,
+     nie durch Gebiete mit zu starken Mobs.
+   - N.TrimKept: auch der behaltene Weg wird ab dem Spieler am Anfang abgekürzt.
+   - Messung: "Pfeil zurück" jetzt gegen die Richtung des alten Weges 30 yd voraus (nicht gegen die letzte Laufrichtung).
+3. ERGEBNIS (12 Reisen 1–60, gleiche Messung für beide): 3.12.75: R3W 1 (Ork Forever, Eierjagd), sonst 0 · 3.12.76: 0 in allen 12.
+   Gegenprobe 3.12.74 (Ork Forever bis Stufe 30, gleiche Messung): 19 von 263 Wegen. R1, R2, R4 = 0 in allen 12.
+   Zeit (virtuelle Reise): unverändert (nur Navi).
+4. TEST: T337 erweitert (true ×8): + Haarnadel mitten im Weg entfernt, Kurve ohne Rückkehr bleibt. GEGENPROBE (RemoveLoops aus):
+   "mitten im Weg" false.
+5. PRÜFUNGEN: addon_check OK. Offline-Routine 38 Läufe, 38 ohne FEHLER. Private Regression 36 von 36 ALLE TESTS OK.
+6. R5 – FRAGE (kein Halt, ich arbeite an ORT-1 O2 weiter): R5 verlangt "Reihenfolge der ersten 20 Quests je Startgebiet gegen das,
+   was Spieler in den Wegdaten wirklich tun". Die Wegdaten (testberichte/wege/LevelPilot, 199 Dateien) enthalten nur gelaufene
+   Wegstücke, Stufe und Spielversion – keine Quest-Reihenfolge. R5 ist damit so nicht prüfbar.
+   Vorschlag: der Recorder zeichnet zusätzlich die Reihenfolge Annahme/Abgabe auf (Quest-ID, Stufe, Zeitpunkt, Gebiets-ID – keine
+   Namen) und sendet sie mit den Wegdaten (GSWEGE1, neue Version des Formats). Dann R5 aus echten Daten. Soll ich das bauen?
+   Bis zur Antwort: R5 offen, ORT-1 O2/O5 zuerst.

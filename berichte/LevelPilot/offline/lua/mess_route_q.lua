@@ -1,5 +1,5 @@
--- ROUTE-Q (3.12.75): Routen-Prüfung über die virtuelle Reise 1–60. R1 Annehmen zuerst, R2 Questlevel > Stufe + 2, Startgebiet verlassen,
--- R3 Richtungswechsel je Stunde (Zahl), R3W Weg-Ebene wie das Navi (Restweg +50 yd / Pfeil zurück in den ersten 120 yd), R4 Sonder-Schritte.
+-- ROUTE-Q (3.12.76): Routen-Prüfung über die virtuelle Reise 1–60. R1 Annehmen zuerst, R2 Questlevel > Stufe + 2, Startgebiet verlassen,
+-- R3 Richtungswechsel je Stunde (Zahl), R3W Weg-Ebene wie das Navi (Restweg +50 yd / Pfeil zurück gegen den alten Weg voraus), R4 Sonder-Schritte.
 -- Aufruf (oder ../mess_route_q.sh): Daten aus PACKDIR; FOREVER=1 oder FLAVOR=era; LVL=1 MAP=… PX PY; lua51 mess_route_q.lua <LevelPilot> 0 <Volk> <Klasse> <Fraktion>
 if os.getenv("ZONEN") then
   ZONESIZE = { [1429] = { 3470.84, 2314.62 }, [1426] = { 4924.66, 3283.33 }, [1438] = { 5091.66, 3393.75 },
@@ -138,6 +138,7 @@ LP.Engine.Current = function(self)
       local ok2, rp = pcall(LP.Terrain.Refine, LP.Terrain, raw)
       local p = (ok2 and rp) or raw
       -- wie das Navi: Abkürzung am Wegbeginn (ab 3.12.75), wenn vorhanden
+      if LP.Graph.RemoveLoops then p = LP.Graph.RemoveLoops(p) end
       if LP.Graph.ShortcutStart then p = LP.Graph.ShortcutStart(p) end
       return p
     end
@@ -168,7 +169,9 @@ LP.Engine.Current = function(self)
       if LP.Nav and LP.Nav.KeepOld and p0[i] and LP.Nav.KeepOld(remOld, rem1) then
         p1 = { { pi, qn, qw, st.map } }
         for j = i, #p0 do p1[#p1 + 1] = p0[j] end
-        rem1 = remOld
+        -- wie das Navi ab 3.12.76 (N.TrimKept): behaltenen Rest am Anfang abkürzen
+        if LP.Nav.TrimKept and LP.Graph.ShortcutStart then p1 = LP.Graph.ShortcutStart(p1) end
+        rem1 = Len(p1, 2, qn, qw)
         c.kept = c.kept + 1
       end
       local k = 2
@@ -177,6 +180,19 @@ LP.Engine.Current = function(self)
       while p1[k + 1] and (G:Dist(qn, qw, p1[k][2], p1[k][3]) < 10 or (passed and passed(p1, k, qn, qw))) do k = k + 1 end
       local dn, dw = p1[k][2] - qn, p1[k][3] - qw
       local dl = math.sqrt(dn * dn + dw * dw)
+      -- Vergleichsrichtung: der alte Weg 30 yd voraus (nicht die letzte Laufrichtung) – sonst zählt ein abgekürzter Knick des alten
+      -- Weges als "zurück" (Auf der Heimreise, Steinkrallen: alter Weg SW, dann O; neuer Pfeil O = Knick abgekürzt)
+      do
+        local ln, lw, need, jj = qn, qw, 30, i
+        while need > 0 and p0[jj] do
+          local dd = G:Dist(ln, lw, p0[jj][2], p0[jj][3])
+          if dd <= need then ln, lw, need, jj = p0[jj][2], p0[jj][3], need - dd, jj + 1
+          else ln, lw, need = ln + (p0[jj][2] - ln) * need / dd, lw + (p0[jj][3] - lw) * need / dd, 0 end
+        end
+        local an, aw = ln - qn, lw - qw
+        local al = math.sqrt(an * an + aw * aw)
+        if al > 1 then hn, hw = an / al, aw / al end
+      end
       local back = dl > 1 and (dn / dl * hn + dw / dl * hw) < -0.5
       -- Zuwachs gegenüber dem alten Weg (30 yd gelaufen): > 50 yd = Umschaltung, 5–50 yd = kleine Änderung (Zahl)
       local grow = rem1 - (rem0 - 30)
