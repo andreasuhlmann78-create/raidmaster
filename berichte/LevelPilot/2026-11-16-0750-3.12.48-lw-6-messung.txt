@@ -1,0 +1,60 @@
+BERICHT LevelPilot 3.12.48 – LW-6 Laufweg-Messung, GoldSentinelDev v2, Hinweis zoneIDs (umgesetzt, zur Prüfung)
+Projekt: LevelPilot · Datum: 16.11.2026 07:50 (aus date) · Version: 3.12.48
+
+Bezug: offen-levelpilot.txt LW-6 (Reihenfolge nach LW-0), PRÜFUNG 07:44 (GoldSentinelDev v2 übernehmen), HINWEIS 07:44 (zoneIDs).
+
+1. LW-6 MESSEN – neues Modul Laufweg.lua
+   Ticker 1 s (LW:Tick sammelt die Spielwerte, LW:Sample rechnet – Sample bekommt alles als Eingabe, darum ohne Spiel prüfbar).
+   Je Schritt mit Ziel: Luftlinie vom Start des Schritts (letzte Position vor dem Wechsel) zum Ziel; gelaufene Strecke bis zur
+   Ankunft (40 yd = N.ARRIVE); Zeit auf dem Weg / am Ziel (die Sekunde der Ankunft zählt zum Ziel); Pfadart je Weg-Sekunde
+   (Netz = graph/cave · Gelände = terrain · Luftlinie = direct · unbekannt = N.pathUnknown · ohne Pfad).
+   Neuplanung = Ziel wechselt, alter Schritt steht noch in der Schrittliste; Richtungswechsel = Richtung zum alten und neuen
+   Ziel weicht mehr als 90° ab. Leerlauf = Sekunden ohne Schritt mit Ziel (LEVEL/NODATA/NOPOS/kein Schritt).
+   EP/h je Level: aktive Sekunden (nicht AFK) und EP-Zuwachs (UnitXP; beim Aufstieg bekommt das alte Level den Rest bis XPMax).
+   Nicht gezählt: AFK, tot, Flug (Strecke; Zeit zählt zum Weg), Sprung > 80 yd/s (Ruhestein, Ladebild), Lücke > 5 s,
+   virtuelle Reise, Testroutine (LP.Act.dry). Schritte unter 10 s fallen weg (Durchklicken).
+   Gespeichert: LevelPilotCharDB.laufweg (v = 1) nur Summen je Zone und je Level.
+   Zeilen im Diagnose-Protokoll (/lp protokoll, damit auch im GSDIAG1-Testbericht), nach CLIENTTEST:
+     LAUFWEG (seit 3.12.48): Schritte n (angekommen a) · Umweg gelaufen/Luftlinie x,xx · Zeit Weg h:mm / am Ziel h:mm
+       (Weg-Anteil p %) · Leerlauf h:mm
+     LAUFWEG Pfad während des Wegs: Netz p % · Gelände p % · Luftlinie p % · unbekannt p % · ohne Pfad p %
+     LAUFWEG Neuplanungen mit Zielwechsel n, davon Richtungswechsel über 90° r
+     LAUFWEG je Zone (Umweg, Schritte, Weg-Anteil): <Zone> 1,24 (12, Weg 60 %) · … (höchstens 8 Zonen)
+     EP/h je Level (aktive Zeit): 12: 9800 (1:05 h) · … (letzte 8 Level, ab 60 s)
+   Kosten (Nachbau, 10 000 Messungen): LW:Sample 0,0022 ms, LW:Tick mit Spielwerten 0,0019 ms je Sekunde.
+   Test T310 (Regression "LW-6"): gespielte Folge mit bekannten Zahlen – Schritt A Luftlinie 300, gelaufen 260 (Umweg 0,87),
+   Weg 25 s / Ziel 25 s; B 12 s Gelände; Neuplanung auf C in Gegenrichtung (1 Neuplanung, 1 Richtungswechsel); in C Sprung
+   500 yd, 5 s Flug, 4 s AFK, 10-s-Lücke – gelaufen nur 70 yd; Leerlauf 7 s; EP Level 10 = 900 (inkl. Rest beim Aufstieg),
+   Level 11 = 50; 5 Zeilen. GEGENPROBE: Sprung- und Flugsperre entfernt -> C gelaufen 820 statt 70 -> T310 rot.
+   T198 (Ticker-Zahl) 14 -> 15 nachgeführt (neuer Ticker "laufweg").
+   Prüfliste: voll (14), T310 nicht aufgenommen – kommt rein, wenn ein Punkt nach deiner Prüfung frei wird (oder sag, welcher
+   raus soll). CLIENT-Hinweis T310 in der Testroutine.
+
+2. GoldSentinelDev.lua Version 2 aus shared/ unverändert kopiert (byte-gleich), .toc vor GoldSentinelPruefliste.lua. Eigene
+   LP:IsDev bleibt. Kommentar in Pruefliste.lua nachgeführt. /lp prüfliste geht damit ohne andere GoldSentinel-Addons.
+
+3. HINWEIS zoneIDs (PS-PL1) – Ergebnis: bei LevelPilot_Data RICHTIG aufgelöst, kein Befund.
+   Generator: LevelPilot_Data/Tools/gen_pack.lua (Questie v11.38.0). Lädt Database/Zones/data/zoneIds.lua (setzt
+   ZoneDB.zoneIDs) VOR den Korrekturen (classicNPCFixes usw. holen "local zoneIDs = ZoneDB.zoneIDs").
+   Stichprobe Tirisfal (Fix-Spawns, in den Grunddaten OHNE Spawn): NPC 1946 Lillith Nefara – Grunddaten spawns nil, Fix
+   {[zoneIDs.TIRISFAL_GLADES] = {{66.67,44.97}}} -> Datenpaket s={{1420,66.7,45}}; NPC 6390 Ulag the Cleaver – Grunddaten nil,
+   Fix 59.47/48.28 -> {{1420,59.5,48.3}}; NPC 5688 Innkeeper Renee (Grunddaten 85 = Tirisfal) -> {{1420,61.7,52.1}}.
+   Die genannte NPC 276067 gibt es in den Classic-Daten nicht (vermutlich aus QuestieDB/Forever – das nutzt LevelPilot_Data
+   nicht; Forever-Quests lernt LevelPilot selbst).
+
+BELEGE (eigene Tests, keine Freigabe)
+- T310 true, T309 true; Gegenprobe T310 rot wie oben.
+- addon_check: "LevelPilot-3.12.48.zip: OK".
+- Repo-Offline-Routine: 37 Läufe, 37 ohne FEHLER (erster Lauf vor der T198-Nachführung: 3 Testroutinen-Läufe mit T198 "15
+  statt 14" – nachgeführt, danach 37/37). test2: Modulzahl +1 (Laufweg).
+- Private Gesamt-Regression (36 Läufe): alle ohne FEHLER.
+
+WEITER (Reihenfolge aus LW-0, wartet auf deine Antwort zur Stellungnahme): LW-3 Flug nach Zeit (Daten schon da), dann LW-1.
+Für Vorher/Nachher braucht es Spielzeit mit 3.12.48 (Zeilen LAUFWEG im Protokoll).
+
+DATEIEN
+LevelPilot: Laufweg.lua (neu), GoldSentinelDev.lua (Kopie v2), LevelPilot.toc, Core.lua (Version), Protocol.lua (Zeilen),
+Pruefliste.lua (Kommentar), TestRoutine.lua (T310, T198, Modulliste), CHANGELOG.md/.de.md.
+Repo: berichte/LevelPilot/offline/lua/test2.lua, announce/levelpilot__levelpilot-3.12.48.*.
+
+Status: umgesetzt, zur Prüfung.
