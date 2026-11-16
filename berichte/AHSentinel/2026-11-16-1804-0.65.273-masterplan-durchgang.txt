@@ -1,0 +1,49 @@
+AHSentinel 0.65.273 – Nachtschicht: Masterplan-Durchgang Phase 1–7 + Prüflisten-Messpunkte VOLLSCAN und UI-TEST – umgesetzt, zur Prüfung
+CurseForge: nein (Ingame-Test morgen). GitHub-Release v0.65.273 und sofort im Discord.
+
+MASTERPLAN-DURCHGANG (auftraege/AHSentinel/masterplan-ahsentinel.txt, Reihenfolge der Datei; "erledigt in" = Version mit Bericht)
+PHASE 1 Sniper
+  1.1 SN-RUHE1 – erledigt in 0.65.197 (Bericht …-sn-ruhe1-0.65.197.txt); Abnahme-Zahlen im Spiel mit GSSniperLog.
+  1.2 GSSniperLog-Befunde – GSL1..GSL8 erledigt in 0.65.194–0.65.214 (Berichte gsl*); neue Befunde nur aus neuen Protokollen.
+  1.3 SN-B5/B6/B7/B8, T745, TB184-U3, GSL2-3 – erledigt (Beleg je Punkt: 2026-11-15-1712-phase-1-3-stand.txt, 0.65.186/188/194/196/197).
+      TB182-2 (Tageslücke 7g67) – OFFEN, wartet seit 15.11. 17:12 auf deine Daten-Auflistung (Buchung gegen Gold-Änderung je Minute).
+  1.3b POST-BLOCK1 – 0.65.207; SN-BTN1 – 0.65.208, Rest SN-BTN1-2 in 0.65.272.
+  1.4 Abnahme/CurseForge – 0.65.265 hochgeladen (Datei-ID 9650775).
+PHASE 2 Gehirn
+  2.1 KERN-T1 (1) – 0.65.198 · 2.2 MN1–MN5 – 0.65.199/0.65.218 (Feed 0.65.220) · 2.3 KERN-T1 (2) Gilden-Sync – 0.65.198 ·
+  2.4 KERN-T1 (3) + Teil "alle" – 0.65.198/0.65.226 · 2.5 Testbericht MARKT-KERN – 0.65.249/0.65.256 (im Spiel BELEGT, Kern-Abgleich 14:45).
+PHASE 3 Buchhaltung/Verkaufen
+  3.1 DE-AUFT1 – 0.65.199 · 3.2 TB181-4/-3 – 0.65.201 · 3.3 MAIL-1 – 0.65.184 · 3.4 VK-P1 – 0.65.202, VK-E1/BH-TT2 – 0.65.228.
+PHASE 4 Rechenkern
+  4.1 TT-DE2 – 0.65.203 · 4.2 MR2 – 0.65.204 · 4.3 RK3 0.65.205, RK4 0.65.206, RK5 0.65.213, RK6 0.65.231, RK7 0.65.216/221, RK8 T791 (0.65.205)
+  4.4 API-PM2/3 – 0.65.107; Rest API-PM4 (API.Sold) -> 0.65.274 (nächste Version); Absatz als Spanne – 0.65.226; TB170-10 – 0.65.219.
+  4.5 Block 3 Ruckeln/Speicher Vollscan (TB170-6/-7, TB168-1, TB172-2), TB168-9: Code-Teile in 0.65.171–173, 0.65.237 (TB172-2a), Speicher
+      0.65.239/240/248 (s92 10 060 KB). Letzte Messung im Spiel (Testbericht 16.11. 08:19, Daten 15.11. 19:01, also VOR diesen Versionen):
+      +47 MB zwischen zwei Scans, Lücke 364 ms – ALT. -> Neu: Prüflisten-Punkt VOLLSCAN misst es morgen selbst (diese Version).
+  4.6 Version 0.66.0 "Rechenkern fertig" – OFFEN: FRAGE unten.
+PHASE 5 Oberfläche
+  5.1 UI-REF1 – 0.65.219 · 5.2 UI-CLEAN1 (A) 0.65.182; (B) wartet auf einen Lauf "/ahs testroutine ui" des Nutzers -> Prüflisten-Punkt
+      UI-TEST (diese Version) · 5.3 HP-4/HP-3/HP-2 – 0.65.222/223/224.
+PHASE 6 Spielrhythmus
+  MR5 0.65.227 · MR6 0.65.232 · MR7 0.65.225 · MR8 0.65.229 · MR9 0.65.235 · RK6 0.65.231 · V4 0.65.234 · JK1–JK4 seit 11.11. (Timing.lua).
+PHASE 7 Markt-Reiter
+  MN5 0.65.242 · MR1/MR3 Weg A 0.65.244/245/247 · MR4 0.65.243 · MR10 0.65.246 · MR11 0.65.241. Weg B "eine Seite" wartet auf den Nutzer.
+PHASE 8 – die vier freigegebenen Punkte in 0.65.267–0.65.270, Prüfliste 0.65.271.
+
+FRAGEN (mit Vorschlag; ich arbeite weiter):
+  F1 (4.6): Vorschlag: 0.66.0 "Rechenkern fertig" als eigene Version mit Bericht, SOBALD der Ingame-Test morgen VOLLSCAN und MARKT-KERN
+      zeigt (sonst würde ich "fertig" ohne Beleg im Spiel behaupten). Bis dahin weiter 0.65.x. Oder sofort?
+  F2 (1.3 TB182-2): bitte die Liste aus dem Uploader-Stand (siehe Bericht 15.11. 17:12), dann belege ich je Fall die Code-Stelle.
+  F3: Nach 0.65.274 ist im Masterplan Phase 1–7 nichts mehr ohne Spiel-Messung oder Nutzer-Entscheid offen. Vorschlag für die restliche
+      Nacht: die "kleineren offenen Punkte" aus offen-ahsentinel.txt (Zeile 2614: MA3-G, AB3, L2b, BE2b, E, F, G; TU1/TU2) in dieser
+      Reihenfolge, je Punkt eine Version. Ohne Gegenbescheid fange ich damit an.
+
+UMGESETZT in 0.65.273 (nur Entwicklermodus, für Spieler keine Änderung):
+- Prüfliste VOLLSCAN (seit 0.65.273): SelfCheck SC:OnScan -> SC:PLScan nach zwei Vollscans innerhalb 6 Std.: Speicher wächst ≤ 10 MB
+  (SC.SCAN_GROW_KB, gleiche Grenze wie SK1-h) UND längste Lücke ≤ 50 ms (SC.SCAN_GAP_MS, Reiter-Ziel PS) -> erledigt, sonst
+  "Fehler (erkannt)" mit den Zahlen.
+- Prüfliste UI-TEST (seit 0.65.273): TR.PL_PART_POINT – Teil "ui" fertig ohne FEHLER -> erledigt, sonst Fehler mit Zahl (wie SN-TR).
+- Prüfliste jetzt 14 Punkte (Höchstzahl).
+Test T836 erweitert (14 Punkte, Hit/Fail-Wege VOLLSCAN +20 MB / Lücke 364 ms / ui 2 FEHLER, anderer Teil ohne Wirkung).
+  Gegenprobe: mit 0.65.272 rot, mit 0.65.273 grün.
+Gesamtlauf der Nachbildung: BESTANDEN 317, FEHLGESCHLAGEN 0.
