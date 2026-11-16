@@ -1,0 +1,17 @@
+AHSentinel 0.65.298 – Entscheid T-AB5 (Supervisor 16.11. 22:32: Gewinn-Zeile folgt A:BestWay, Entzaubern als Info) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.298 und sofort im Discord.
+
+- Tooltip.lua DisenchantVerdict: neues Feld wayDE (D:WayDE: Weg an UND Verzauberkunst) und wayOff (Weg in den Optionen aus).
+  BestWayValue: wayDE == false -> ohne Entzauberwert (wie A:BestWay). AddWayLines: wayDE == false -> "Verkaufen/Händler: x" normal,
+  "Entzaubern (mit Verzauberkunst): y" bzw. "Entzaubern (Weg aus): y" grau als Info (LB2 bleibt erfüllt). 2 Texte, 10 Sprachen.
+- EIGENER FEHLER beim Umsetzen, vor der Veröffentlichung gefunden: erst "res.wayDE = (ok and w == false) and false or true" – in Lua
+  immer true (das Muster a and false or b geht mit false nicht). Gemessen in einem Debug-Lauf (WayDE() false, Urteil true), korrigiert
+  zu "not (ok and w == false)". Keine andere Stelle im Addon nutzt das Muster (gesucht).
+TESTS: T468 neu: D.testSkill = 0 (WayDE bildet den fehlenden Beruf wirklich nach, dein Punkt) + D:EnchantSkill 0; Angebot 9s,
+  Entzaubern 9s 35c, Verkaufen 8s 99c -> "Gewinn: −1c / Stück", Info-Zeile "Entzaubern (mit Verzauberkunst):", keine "+35c".
+  T873 Fall 6 (ohne Verzauberkunst) jetzt geprüft: sell/sell/sell/sell an allen 4 Stellen.
+  Gegenprobe (neue Testroutine auf 0.65.297): T468 und T873 rot. s42 und s42b (AH offen) grün.
+
+Tests (eigene, keine Freigabe): Gesamtlauf aller Nachbauten auf dem Stand 0.65.298: BESTANDEN 339, FEHLGESCHLAGEN 0.
+addon_check: AHSentinel-0.65.298.zip OK. Veröffentlicht: GitHub-Release v0.65.298, Discord announce/ahsentinel__ahsentinel-0.65.298.md.
+Nicht in download/, kein CurseForge (erst nach dem Ingametest).
