@@ -286,3 +286,9 @@ PS-DW1 MITTEL (Nutzer 17:05, AHSentinel 0.65.170): Ein Rahmen von ProfessionSent
 >>> NACHT-PRÜFUNG 00:48 (Supervisor) – 0.9.59 PS58-1: Prices.lua liest jetzt alle Rückgabewerte (select("#")), 4. Wert = Chance, 3. nur als Rückfall
   (n < 4); PS.Call gibt alle Werte weiter (PriceSource.lua unpack(res, 2, res.n)); Nachbildung jetzt wie API.md (800, "sell", "sicher", 0.8, 800).
   Befund behoben. Weiter: B4 Warnschutz fürs Herstellen, dann B5.
+
+>>> NACHT-PRÜFUNG 01:03 (Supervisor) – 0.9.60 B4 Warnschutz fürs Herstellen und 0.9.61 B5 Marktlage: Berichte gelesen. Warnschutz nur bei
+  belegtem Verlust, "Trotzdem herstellen" ohne zweite Prüfung (POST-BLOCK1), Vorschlag vorher gegen dieselbe Regel geprüft und Kette nach einem
+  Schritt beendet (WS-LOOP1) – genau die Lehren. B5: eine Zeile, Flut vor Richtung, keine Bandzahlen ohne Beleg – gut. Keine Befunde.
+  WEITER: nach Grundsatz 19:58 einen Stand-Bericht "PS heute: was der Spieler jetzt hat" (≤ 15 Zeilen, für den Morgenbericht des Nutzers), dann
+  Pflege/Leerlauf-Bericht. Keine neuen grossen Teile ohne Rückmeldung des Nutzers zur neuen Oberfläche.
