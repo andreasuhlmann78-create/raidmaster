@@ -193,3 +193,8 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
 
 >>> PRÜFUNG 05:53 (Supervisor) – TSMess 1.1: beide Hinweise umgesetzt (zuerst IsSecret, dann nil; im Schlachtzug nur tankende Einheiten,
   Prüfung auf geschützt vor dem Vergleich). Tests hier: 24/0 und 12/0. ERLEDIGT – wartet nur noch auf die Messung des Nutzers.
+
+>>> PRÜFLISTE IM SPIEL (Entscheid des Nutzers 16.11. 06:47; Supervisor 06:49): Für jeden Punkt "im Client prüfen" baust du eine Prüfliste im Spiel
+  mit dem gemeinsamen Baustein shared/pruefliste/GoldSentinelPruefliste.lua (unverändert kopieren). Nur Entwicklermodus, merkt selbst, zeigt
+  dem Nutzer immer, was zu tun ist. Auftrag und Regeln: auftraege/hinweis-pruefliste-im-spiel-2026-11-16.txt.
+
