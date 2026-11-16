@@ -1,0 +1,26 @@
+BERICHT LevelPilot 3.12.64 – LW-7a Rundgang über die Fundorte der Gegner (Töte-Ziele)
+Projekt: LevelPilot · Datum: 16.11.2026 13:15 (aus date) · Version: 3.12.64 · umgesetzt, zur Prüfung
+
+Bezug: LW-7 (a) "Schleifen für Sammel-/Grind-Ziele" (RestedXP-Vergleich, nur Idee – nichts übernommen); meine Bewertung
+13:10 (Vorschlag: (a) zuerst, ändert die Route nicht).
+
+1. UMSETZUNG (Pins.lua, 10 Sprachen)
+   - Bestand: Pfeil zur nächsten nicht besuchten Fundstelle von Questgegenständen (Pi:NearestObject). Neu: dasselbe für die
+     Fundorte der Gegner eines Töte-Ziels (spots aus dem Datenpaket, bis 24 je Gegner), als SCHLEIFE.
+   - Pi:NextKillSpot: nur wenn der Spieler höchstens 250 yd (OBJ_NEAR) vom nächsten Fundort entfernt ist und das Ziel ≥ 3
+     Fundorte hat (Pi.ROUND_MIN); besucht ab 30 yd (Pi.ROUND_REACHED); sind alle besucht, beginnt die Runde von vorn (der
+     Fundort, an dem man steht, bleibt besucht). Fundstellen von Questgegenständen haben Vorrang. Schalter wie bisher:
+     "Pfeil zur nächsten Fundstelle" (objArrow). Pfeiltext "Gegner – Rundgang". Besucht-Liste wird beim Schrittwechsel geleert
+     (wie bei den Fundstellen).
+   - Ändert die Route nicht (nur der Pfeil in der Nähe des Ziels).
+   - Behoben beim Bau: NearestObject brach ohne Fundstellen von Gegenständen sofort ab – sonst wäre der Rundgang nie erschienen.
+2. TEST T324 (true ×6): erster Fundort, Reihenfolge, Runde von vorn, zu weit -> nichts, < 3 Fundorte -> nichts, Gebiete ohne
+   Töte-Ziel zählen nicht. GEGENPROBE (ohne Neustart der Runde, ohne Nähe-/Mindestprüfung): Runde false, < 3 false, nur Töte false.
+3. MESSBAR nur im Spiel (die virtuelle Reise rechnet Zielzeiten nicht geometrisch): Laufweg-Messung (LW-6) "Zeit am Ziel" vorher/
+   nachher je Töte-Quest. Im Client prüfen: CLIENT.T324.
+4. PRÜFUNGEN
+   addon_check: OK. Offline-Routine: 38 Läufe, 38 ohne FEHLER (Forever deDE Horde 276 OK, enUS 276, Allianz 274, Classic Era
+   275, TBC 275; je 0 FEHLER). Private Regression: 36 von 36 Läufen ALLE TESTS OK.
+5. NÄCHSTE SCHRITTE: LW-7 (c) Messung "Ruhestein + Binden zusammen" in der virtuellen Reise (nur Bericht). Offene Fragen:
+   F1/F2 (Bericht 12:39), (d) Tod als Reise (Bericht 13:10, Entscheid des Nutzers), (e) Quelle für Speedrun-Zeiten, E1 (.toc),
+   Wegdaten für LW-4.
