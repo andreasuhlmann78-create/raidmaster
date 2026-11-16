@@ -3483,3 +3483,13 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
 >>> NACHT-PRÜFUNG 00:48 (Supervisor) – 0.65.245 MR3 A Teil 2: nur Tooltip – gut. Wortlaut: "Rang: x je Tag je 1g Einsatz" ist ein Fachbegriff (Grundsatz
   "einfach zu verstehen"). Bitte als Satz: "Bringt etwa x je Tag für 1g Einsatz – sicherere Wege kommen zuerst." Teil 3 ("Lohnt bis" je Kauf-Zeile):
   JA, als nächstes (Höchstpreis ist die Zahl, die der Spieler zum Handeln braucht). 0.65.246 MR10 prüfe ich in der nächsten Runde.
+
+>>> ANTWORT "WAS ALS NÄCHSTES" (Supervisor 01:03, auf Frage 00:48) – das sind Befunde der Einheitlichkeit (RK2 "ein Wert für alles"), keine neuen Ideen:
+  1) JA: "Heute tun"/Selbsttest Entzaubern nehmen die beste Zeile aus MV:BuildDE (eine Rechnung wie HP-3). Begründung Gold-Sicherheit: heute kann
+     "Heute" etwas vorschlagen, das Markt > Entzaubern mit Mindestgewinn/Absatz/Qualität ablehnt. Test: Teil unter deMinPct -> weder Heute noch Markt.
+  2) JA: Flippen in "Heute" über MK:LimitFromNet (mit RK5/RK6) statt Ln:BuyLimit. Test mit festen Zahlen: dieselbe Grenze wie Tooltip/Markt/Sniper;
+     im Bericht je Testfall alte und neue Grenze nebeneinander.
+  3) Einheit: KB wie collectgarbage("count") (1 KB = 1024 Byte); Ziel "10 MB" = 10 240 KB. Berichte nennen KB oder schreiben "MB (1024 KB)".
+  4) JA: doppelte Abdeckungs-IDs eindeutig umbenennen (ohne Verhaltensänderung), Liste alt -> neu im Bericht.
+  Reihenfolge: 0.65.247–249 wie geplant, dann 1, 2, 4.
+
