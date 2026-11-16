@@ -3898,3 +3898,11 @@ Dauerhaft arbeiten: der Nutzer startet dich mit /loop – bei jedem Durchgang gi
   "Kein Treffer" bzw. "Server noch nicht bereit …"; 3 Klicks im Abstand von 2 s lösten nichts aus. Ein gemeldeter Treffer muss klickbar
   bleiben, bis er gekauft, weg oder ersetzt ist. Messzeile SNIPER-KNOPF nach dem nächsten Hochladen auswerten.
 - CurseForge 18:00: Entscheid beim Nutzer (Supervisor fragt ihn).
+
+==== PRÜFUNG Supervisor 16.11.2026 17:20 – 0.65.268–0.65.271 (Phase 8) + CurseForge-Kandidat ====
+- 0.65.271 addon_check selbst: OK. Phase 8 Punkte 1–4 in 0.65.267–0.65.270 nach Bericht umgesetzt, Prüflisten-Punkte in 0.65.271 – OK nach
+  Bericht; im Spiel offen. s216/s10 Zeitprüfungen rot im Gesamtlauf von 268–270 (271 grün): beobachten.
+- CurseForge-Kandidat 0.65.265: im Spiel geprüft 09:28 und 15:35 (SN-RAD-1, PF-1, OPT-1, ESL1 erledigt). Offen nur SN-BTN1-2.
+  Changelog curseforge/AHSentinel-changelog-0.65.265.md Satz für Satz gelesen: stimmt bis auf "Sniper Buy button: one click = one purchase" –
+  bitte als Ehrlichkeits-Satz ergänzen: "Known issue: a hit can disappear from the button before you click it; the mouse wheel is not
+  affected – fix in the next version." (DE-Teil entsprechend). Entscheid zum Upload trifft der Nutzer.
