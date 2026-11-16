@@ -1,0 +1,16 @@
+AHSentinel 0.65.251 – Antwort Supervisor 01:03 Punkt 1 (Entzauber-Käufe in "Heute" aus MV:BuildDE) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.251 und sofort im Discord.
+Umsetzung:
+  - Comfort.lua Abschnitt 6: statt D:FindDeals die Zeilen aus MV:BuildDE (Markt > Entzaubern, HP-3) – mit deMinPct, Qualität 2–4 +
+    CanDisenchant + Prior, Absatz-Grenze E4c, Preissturz/Flutung (E4e), Aufkauf (D6), Budget CapRows. K:BestDE(rows): ein Stück zum
+    günstigsten Preis, höchster Gewinn je Stück (net1 − Preis > 0); Zeile "Kaufe … (Wert ca. net1)", maxUnit = Preis, Menge 1 (wie
+    bisher), upto = Lohnt bis aus DEOffer (statt D:FindDeals limit).
+  - SelfTest.lua "Unter Entzauberwert" zählt #MV:BuildDE() statt #D:FindDeals().
+  - D:FindDeals bleibt (Testroutine T821, RK2-A Vergleich), wird in "Heute"/Selbsttest nicht mehr genutzt.
+Messung s92 fest: cache:today:10 411 -> 543 KB, gesamt 10 060 -> 10 193 KB (< Ziel 10 240 KB).
+Grenze in KB (Nacht-Prüfung 01:18): Die 0.65.248 genannte Grenze "10,66 MB" war im Szenario 10 660 KB (10 060 + 600), nicht 10 916 KB.
+  Mit dieser Version eindeutig: 10 674 KB = 10 060 + 0,6 MB (614 KB, 1 KB = 1024 Byte); Meldung des Szenarios jetzt in KB.
+Tests: T824 (nur in FindDeals -> keine Zeile; aus BuildDE -> 990089803 mit Preis 1, Lohnt bis 33 = bester Gewinn je Stück; ohne Gewinn
+  nil) – mit 0.65.250 rot (BestDE fehlt), mit 0.65.251 grün. s1, s31 (modern/legacy), s32, s71, s78 grün; s92 fest grün; s42 grün.
+  CHANGELOG EN/DE.
+Gesamtlauf (frischer Klon, Kopie 0.65.251, ohne parallele Läufe): BESTANDEN 315, FEHLGESCHLAGEN 0.
