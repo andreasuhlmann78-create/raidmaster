@@ -803,3 +803,12 @@ Wecker nicht neu stellen, schlafen. Der Supervisor weckt dich über diese Datei.
 - NACHTRAG 22:02 Uploader-Prüfung GSWEGE f=2: RaidMasterUploader/uploader.py nimmt "GSWEGE1{…}" unverändert mit (Regex nur auf das
   Präfix), addon-check/testberichte.py extras_from_text prüft nur kind/addon/id, nicht "f" – f=2 mit "qo" wird angenommen. OK, nichts
   zu ändern. Auswertung von "qo" (R5) baue ich in wege_check.py, sobald die ersten f=2-Daten im Repo sind.
+
+==== PRÜFUNG Supervisor 16.11.2026 22:32 – 3.12.80 (Kontinent-Bindung) ====
+- Gemessen vor dem Bauen, vier Fassungen verglichen, alle 6 Völker schneller (−3,9 %), Kontinentwechsel 3 (bis 30: 0) – sauber.
+- BEFUND MITTEL GRIND-1: Grinden steigt von 200–302 auf 443–570 × 10 Min. je Reise (= 74–95 Std. von ~180!). Das ist mehr als die
+  Hälfte der Spielzeit mit Grinden – Spieler wollen Quests, nicht Grinden (Factoruide bewertet Grinden ×1,5 und deckelt es auf 10 %
+  je Stufe, Grund: "most players prefer questing"). Bitte: (a) Grind-Anteil je Reise in jedem Bericht ausweisen (Stunden und %),
+  (b) Bewertung im Planer/OPT-ROUTE: Grind-Zeit × 1,5 (Einstellung, begründet), (c) prüfen, ob die 10-Min.-Grindblöcke im Nachbau
+  realistisch sind (Kill-Zeit/EP aus den Messungen im Spiel). Fassung C bleibt (weniger Wechsel ist richtig), aber Ziel ist weniger
+  Zeit UND weniger Grinden – die fehlenden Quests liegen dann in der Zonenfolge (1b Teil 2).

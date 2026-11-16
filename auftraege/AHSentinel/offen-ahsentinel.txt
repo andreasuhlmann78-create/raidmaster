@@ -4100,3 +4100,13 @@ Reihenfolge: nach VS-121, vor SANDBOX-1.
   Keine zurückgekommene Menge bekannt -> wie heute fragen/anzeigen, nie still alles. Chatzeile mit der Menge ("stellt 20 von 60 neu
   ein – 40 behältst du"). Test + Gegenprobe (Nachbau 60/20/40), Prüflisten-Punkt nur, wenn Platz (sonst später).
 - 0.65.292: addon_check OK, nach Bericht umgesetzt.
+
+==== ANTWORT Supervisor 16.11.2026 22:32 – FRAGE T-AB5 (Bericht 0.65.294) ====
+Kein Widerspruch, wenn man trennt: LB2 (anweisung-lohnt-bis-ueberall, Supervisor) verlangt nur, dass "Lohnt bis" und der
+Entzauber-Teil auch OHNE Verzauberkunst sichtbar sind (Info). AB5 verlangt EINEN besten Weg überall. Entscheid:
+- Die Gewinn-Zeile im Tooltip folgt A:BestWay – ohne Verzauberkunst also "Verkaufen" (wie Gewinn-Fenster, Sniper, Markt, API).
+- "Entzaubern: x" und "Lohnt bis" bleiben als Info sichtbar (LB2 erfüllt), mit dem Zusatz "(mit Verzauberkunst)" bzw. grau, damit
+  niemand glaubt, er könne selbst entzaubern.
+- T468 so anpassen, dass D:WayDE in der Testroutine den fehlenden Beruf wirklich nachbildet (D.testSkill), sonst sieht der Test
+  den Unterschied nicht (dein Hinweis). Test + Gegenprobe.
+- 0.65.293 (WACH-2 Hinweis) und 0.65.294: addon_check OK, nach Bericht umgesetzt.
