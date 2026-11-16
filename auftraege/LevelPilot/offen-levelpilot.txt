@@ -610,3 +610,13 @@ Prüfung 3.12.65/3.12.66 folgt in der nächsten Runde.
 - 3.12.66 selbst: addon_check OK; Offline-Routine 38/38 ohne FEHLER; .toc beider Addons "## Interface: 16001, 11509" (wie gemessen).
 - Installiert auf dem Rechner des Nutzers in BEIDE Clients: Forever und Classic Era (je 107 Dateien, byte-gleich, nichts Altes übrig).
 - Nachprüfung im Spiel (Era-Prüfliste E5-1..6, T318–T324, B-3) macht der Supervisor mit dem Nutzer.
+
+==== BEFUNDE AUS DER NACHPRÜFUNG (Entwurf 14:22, vom Supervisor nachgeprüft und übertragen 16.11.2026 14:30) ====
+NP-LP54-2 MITTEL – Klein-/Grossschreibung mit Umlauten und Kyrillisch: Comfort.lua:350 Norm() = string.lower, ebenso 444 (Namen-
+  Suche) und 479 (Dungeon-Namen), 588. Selbst nachgeprüft (Lua 5.1): ("Ödland"):lower() = "Ödland" -> "/lp navi 50 50 ödland" und
+  die Namen-Suche finden Zonen/NPC mit Umlaut am Anfang nicht, ruRU klein getippt nie. Lösung: eine UTF-8-Faltung (Tabelle für
+  ÄÖÜ/äöü, À–Þ, А–Я/Ё) an EINER Stelle (Norm) für Suchschlüssel und Eingabe; Test mit "ödland", "Östliche", "Ödland", ruRU; Gegenprobe rot.
+NP-LP49-1 NIEDRIG – Laufweg.lua:219 "local yps, ysrc = P and P.GroundYps and P.GroundYps()" – "and" gibt nur einen Wert weiter, ysrc
+  immer nil -> Zeile zeigt "(nil)". Lösung: if P and P.GroundYps then yps, ysrc = P.GroundYps() end; Test T310/T311 mit Quelle.
+NP-LP49-2 NIEDRIG – Laufweg.lua "%.1f" gibt Punkt ("11.2"), sonst überall Komma (F2) – einheitlich Komma.
+Reihenfolge: NP-LP54-2 vor der nächsten Navi-Erweiterung.

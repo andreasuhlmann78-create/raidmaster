@@ -69,3 +69,5 @@ NACHRICHT AN DIE LEVELPILOT-SITZUNG (Entwurf, zum Einfügen – erst nach Übert
   git pull --rebase und auftraege/LevelPilot/offen-levelpilot.txt lesen; nach der Umsetzung Bericht in berichte/LevelPilot/.
   Nächste Version, komplette Dateien, alte Clients nie brechen, alle Locale-Dateien, CHANGELOG EN/DE, vor dem Push
   python3 addon-check/addon_check.py <ZIP> -> kein FEHLER. Ist ein Befund falsch, bitte begründet zurückmelden.
+
+--- SUPERVISOR 16.11.2026 14:30: geprüft und übertragen (NP-LP54-2 selbst mit Lua 5.1 nachgewiesen); nachpruefung-stand.json nachgeführt.

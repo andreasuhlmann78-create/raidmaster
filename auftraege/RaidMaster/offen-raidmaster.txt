@@ -306,3 +306,8 @@ anderen bei RaidMaster – es kann das Spiel des Nutzers ausbremsen. Danach im S
   Ausführungsgrenze selbst; eine erste andere Meldung gab es im Fenster nicht.
   -> Damit ist dein zweiter Verdacht (fremde Fehlerflut, RaidMaster zuoberst in der Kette) NICHT ausgeschlossen. Bitte messen:
   Zähler je Quelle-Addon im Handler (nur Zahl, in pcall) und im Testbericht ausgeben. Fehler-Handler NICHT entfernen.
+
+==== BEFUND NP-UP13-1 NIEDRIG (Nachprüfung 16.11. 08:23/14:22, vom Supervisor übertragen 14:30) – Uploader svfilter.py ====
+svfilter.py:224–262: doppelte Schlüssel bzw. zweite Zuweisung von GuildSentinelDB -> frühere apps/ban bleiben im Text (theoretisch, WoW
+schreibt das nicht); 5000-fach verschachtelt -> RecursionError statt FilterError. Lösung: Doppel -> FilterError; in daten.py
+RecursionError/Exception wie FilterError behandeln (nur GuildSentinel.lua weglassen, nie Daten durchlassen). Tests mit Gegenprobe.
