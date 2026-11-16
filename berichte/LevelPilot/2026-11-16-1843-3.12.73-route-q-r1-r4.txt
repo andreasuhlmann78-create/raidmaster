@@ -1,0 +1,49 @@
+BERICHT LevelPilot 3.12.73 – ROUTE-Q: Prüfwerkzeug 1–60 gebaut, R1 und R4 auf 0, Zeitkosten gemessen
+Projekt: LevelPilot · Datum: 16.11.2026 18:43 (aus date) · Version: 3.12.73 · umgesetzt, zur Prüfung
+
+Bezug: ROUTE-Q HOCH (17:29), ORT-1 O2/O5 (17:31/17:34). Neue Funktionen weiter gestoppt.
+
+1. PRÜFWERKZEUG (berichte/LevelPilot/offline/lua/mess_route_q.lua, Lauf aller 12 Reisen: offline/mess_route_q.sh)
+   Virtuelle Reise 1–60 ab dem Startplatz, 6 Völker (Krieger) × Forever/Era. Je neuem Routenschritt:
+   - R1: Ziel > 150 yd, obwohl ein annehmbarer Questgeber ≤ 150 yd offen ist (aus den Aufgaben des Planers, nicht gesperrt).
+   - R2: Ziel in einem Ort (Teilgebiet, Gebiets-ID aus Orte.lua), dessen kleinstes Questlevel > Stufe + 2. Dazu zur Information die
+     Zählung mit der Erkundungsstufe der AreaTable.
+   - R3: Richtungswechsel > 120° zwischen aufeinanderfolgenden Zielen (Zahl je Stunde der Reise).
+   - R4: Sonder-Schritt (Binden, Flugpunkt, Ruhestein, Flug, Reise), obwohl ein Questgeber ≤ 150 yd offen ist.
+   - Startgebiet (Gebiets-IDs): Stufe beim Verlassen und wie viele Aufgaben drinnen da noch offen waren; eine Annahme gleich am Weg
+     (≤ 150 yd, O5) zählt nicht als Verlassen.
+2. ERGEBNIS (Verstösse je Reise; Forever / Era)
+                 3.12.69 (Gegenprobe)       3.12.72                      3.12.73
+   R1            73–95 / 76–109             54–90 / 62–104               0 / 0 in allen 12 Reisen
+   R4            31–40 / 34–40              15–20 / 17–25                0 / 0 in allen 12 Reisen
+   Startgebiet   Stufe 1–4 verlassen,       Stufe 5–6, drinnen 0–1       Stufe 5–6, drinnen 0 (Nachtelf: 1 offen, aber erst
+                 drinnen 2–5 offen                                       auf Stufe 6, wo die Regel endet)
+   R2            31–55                      26–59                        25–56   – NICHT 0, siehe 4
+   R3            ~0,3–0,7 je Stunde in allen Fassungen – siehe 4
+3. ÄNDERUNG IM PLANER (3.12.73)
+   - P.NearAcceptsFirst (nach NearTurninsFirst): annehmbare Questgeber ≤ 150 yd (P.NEAR_ACCEPT) vor jedes weitere Ziel und vor jeden
+     Sonder-Schritt; mehrere als Kette (der nächste, dann der nächste von dort); fehlt die Annahme in der Route (Fokus/Wert), wird
+     sie aus den Aufgaben geholt; vom Spieler gewählte Ziele (explicit) bleiben oben.
+   - StartFilter: ein Questgeber ≤ 150 yd knapp ausserhalb des Startgebiets bleibt erlaubt (O5). Anlass: Zwerg, Stufe 4, "Vorräte für
+     Tannok" 140 yd entfernt, aber ausserhalb von Coldridgetal (Gebiets-ID) – war der einzige R1-Rest.
+   ZEITKOSTEN (virtuelle Reise 1–60, wie LW-2b) 3.12.72 -> 3.12.73: Ork 176:46 -> 178:08 · Tauren 176:13 -> 180:09 · Untoter 183:15
+   -> 189:19 · Nachtelf 159:19 -> 158:08 · Mensch 182:16 -> 186:05 · Zwerg 186:38 -> 190:53. Summe 1064,5 -> 1082,7 h (+1,7 %).
+   "Erst annehmen" kostet im Nachbau Zeit (mehr angenommene Quests, die dann auch erledigt werden). Ich lasse es so, weil es die
+   Anforderung des Nutzers ist; wenn die Zeit wichtiger ist, kann P.NEAR_ACCEPT kleiner werden (z. B. 60 yd) – Entscheid beim
+   Supervisor/Nutzer, ich messe dann nach.
+4. NOCH NICHT TRAGFÄHIG (offen, ehrlich)
+   - R2: Die Erkundungsstufe der AreaTable ist keine Mindeststufe (Späherkuppe 15, Gol'Bolar-Steinbruch 10 – dort beginnen Quests ab
+     7–10; 100+ Treffer in jeder Fassung). Auch "kleinstes Questlevel der Questgeber im Ort" trifft schlecht, wenn ein Ort nur wenige
+     Questgeber hat: Rut'theran (702) "Mindeststufe 47", Gebiet 923 "40", Gebiet 465 "60" bei Mob-Zielen einer passenden Quest.
+     Vorschlag für die nächste Fassung: R2 = Questlevel des Schritts > Stufe + 2 (orange/rote Quest) und Ort-Stufenspanne aus ALLEN
+     Quests mit Zielen im Ort (nicht nur Questgebern). Das ist Teil von ORT-1 O1 (Stufenspanne je Ort).
+   - R3: Richtungswechsel zwischen ZIELEN sind meist normal (annehmen -> hinaus -> zurück abgeben). Die Pfeil-Prüfung "nie auf einen
+     Knoten hinter dem Spieler" läuft über mess_era1_weg.lua (Weg-Ebene; 3.12.71: 0 Anstiege/0 Umkehrungen in 6 Startzonen). Für 1–60
+     brauche ich die Weg-Ebene in der Reise (Neuberechnung beim Laufen) – folgt; bis dahin R3 nur als Zahl je Stunde, kein Ziel 0.
+   - R5 (Vergleich mit echten Wegdaten der Spieler): folgt.
+5. TESTS: T335 (true ×5): Annahme vor weitem Ziel, vor Binden (nahe Abgabe bleibt vorn), aus den Aufgaben geholt, Kette, gewähltes
+   Ziel bleibt. GEGENPROBE (NearAcceptsFirst aus): 4 von 5 false. T333 um "Questgeber am Weg" erweitert (true ×11); GEGENPROBE (ohne
+   die Ausnahme): false.
+6. PRÜFUNGEN: addon_check OK. Offline-Routine: 38 Läufe, 38 ohne FEHLER. Private Regression: 36 von 36 Läufen ALLE TESTS OK.
+7. NÄCHSTE SCHRITTE: R2 neu fassen (Stufenspanne je Ort, O1), Weg-Ebene für R3, R5; dann ORT-1 O2 (Ort für Ort, Ortswechsel nach
+   Stufenspanne) und O5 (Wildnis-Questgeber am Weg ≤ 60 yd – mit NEAR_ACCEPT 150 schon weiter gefasst).
