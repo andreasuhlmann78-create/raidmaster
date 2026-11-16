@@ -1,0 +1,24 @@
+HINWEIS AN ALLE PROJEKTE MIT CURSEFORGE (zurzeit AHSentinel, GuildSentinel; jedes weitere sofort) – CURSEFORGE-PFLEGE
+Entscheid des Nutzers 16.11.2026 06:42 (Supervisor 06:42): "Kümmere dich um die Bewirtschaftung von CurseForge bzw. übertrage das den Projekten –
+inkl. Beantwortung der Kommentare und Weiterleitung der Fehler oder Wünsche der Benutzer. Für grössere Umbauten, die Kunden wünschen, bitte mich
+erst fragen."
+
+ABLAUF
+1. LESEN (Supervisor, jede Runde): CurseForge-Benachrichtigungen (Gmail des Nutzers) und die Kommentarseite des Projekts. Jeder neue Kommentar
+   kommt als Block "CF-KOMMENTAR <Datum>" in auftraege/<Projekt>/offen-<projekt>.txt: Wortlaut (englisch, wie geschrieben), Version, Einordnung
+   (Fehler / Wunsch / Frage / Lob), Kürzel CF-<Projekt>-<Nr>. KEINE Benutzernamen ins öffentliche Repo ("ein Spieler auf CurseForge").
+2. EINORDNEN:
+   - Fehler -> Befund wie jeder andere (Vorrang nach Schwere; Gold-Sicherheit und "kann nicht einstellen/kaufen" = HOCH).
+   - Kleiner Wunsch (ein Knopf, ein Text, eine Einstellung, ohne Umbau) -> Projekt darf umsetzen (Masterplan-Regel: als Befund aus Spielerhand).
+   - GRÖSSERER UMBAU, den ein Kunde wünscht (neues Fenster, andere Bedienung, Logik-Änderung, mehr als ~1 Version Arbeit) -> NICHT umsetzen.
+     Der Supervisor fragt den Nutzer zuerst (Morgenbericht/Chat) und trägt die Antwort ein.
+   - Frage -> nur Antwort.
+3. ANTWORT (Projekt): Zu jedem CF-KOMMENTAR schreibt das Projekt einen Antwort-Entwurf in berichte/<Projekt>/<JJJJ-MM-TT>-<HHMM>-cf-antwort-<Nr>.txt:
+   Englisch (Sprache des Kommentars; bei deutschem Kommentar deutsch), freundlich, kurz (≤ 80 Wörter), konkret: was behoben ist und in welcher
+   Version, oder was geplant ist, oder warum nicht. Keine Versprechen ohne Entscheid des Nutzers. Nie Spielernamen, nie interne Kürzel/Pfade.
+   Ehrlich: "fixed in 0.65.258 (Discord), comes to CurseForge with the next daily upload at 18:00 CET" nur, wenn das stimmt.
+4. POSTEN: Antworten erscheinen öffentlich im Namen des Nutzers. Darum postet der Supervisor eine Antwort NUR nach einem Ja des Nutzers je
+   Antwort (Sicherheitsregel: öffentliche Beiträge nur mit Zustimmung) – oder der Nutzer postet den Text selbst. Status im offen-*.txt nachführen
+   (Entwurf / freigegeben / gepostet).
+5. CURSEFORGE-SEITE: Beschreibung (curseforge/<Addon>-description.md) und Changelog aktuell halten – das Projekt liefert sie mit der Version;
+   Upload wie bisher 1× täglich 18:00 (Entscheid 15.11. 13:16).
