@@ -1,0 +1,15 @@
+AHSentinel 0.65.288 – HILFE-GRP-1 (NIEDRIG, Punkt hakt sich nicht selbst ab) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.288 und sofort im Discord.
+
+URSACHE (belegt im Code): Der Prüflisten-Punkt HILFE-GRP hatte keine eigene Messung (kein auto, kein Hit-Ort) – er war als
+"am Bild entscheiden" angelegt. "Jetzt prüfen" (RunAuto) prüft nur Punkte mit auto-Funktion, darum blieb er offen.
+UMGESETZT:
+- /ahs hilfe zählt, was gezeigt wurde (A:HelpStats: Gruppen-Überschriften, Befehle, doppelte Befehle).
+- /ahs einstellungen (bzw. optionen) merkt sich das Öffnen der Optionen über den Befehl.
+- Pruefliste.lua P.HelpAuto (auch als auto für "Jetzt prüfen"): nach beidem -> erledigt mit Notiz "n Gruppen, m Befehle, nichts
+  doppelt; /ahs einstellungen öffnete die Optionen"; weniger als 3 Gruppen oder Doppelte -> Fehler mit Zahlen; vorher offen.
+  Beide Befehle prüfen den Punkt sofort (P:HelpCheck) – kein "Jetzt prüfen" nötig. Punkt ab 0.65.288 neu (wieder offen).
+- T836: setzt Hilfe/Optionen-Merker während des Tests zurück (sonst hakte sich HILFE-GRP dort selbst ab – belegt im Lauf).
+TESTS: T864 (echte Befehlsliste: 4 Gruppen im Entwicklermodus, 0 doppelt, > 10 Befehle; nichts -> offen; nur Hilfe -> offen; Hilfe +
+  Optionen -> erledigt; Doppelte -> Fehler; 1 Gruppe -> Fehler). Gegenprobe mit 0.65.287: rot.
+Gezielte Läufe 0.65.288: s42 Testroutine, s187 UI-Prüfung, s10_quality_picker, s5_help, s222, s260 – alle grün. Gesamtlauf auf 0.65.290 (enthält 288): BESTANDEN 327, FEHLGESCHLAGEN 0.
