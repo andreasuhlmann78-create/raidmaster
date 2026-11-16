@@ -1,0 +1,18 @@
+AHSentinel 0.65.257 – KERN-S1b HOCH (Prüfung 05:52) + (b) + (c) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.257 und sofort im Discord.
+KERN-S1b (Kern.lua K:RebuildSell): Grenztag G = Tag des Laufzeit-Endes der ältesten abgeschlossenen Einstellung im Journal (letzte 30
+  Tage). Töpfe von c.sell (alle Zellen inkl. g:) und e.sell mit Tag < G bleiben; nur Tage ≥ G werden geleert und aus dem Journal neu
+  gezählt; st.first.sell = min(behaltener erster Bewertungstag, neuer erster Tag). Ohne abgeschlossene Fälle im Journal wird nichts
+  gelöscht. Neues Kennzeichen filledSell3 (READY-Aufgabe prüft filledSell3) -> läuft auch auf Clients, die 0.65.256 schon gestartet
+  haben, einmal. WER 0.65.256 SCHON GESTARTET HAT: dessen Tage vor dem Journal sind gelöscht – nicht zurückholbar.
+  Rest-Unschärfe (Verdacht, zu messen mit kern_abgleich.py): Ein Fall, der schon aus dem Journal gefallen ist, aber erst am/nach Tag G
+  live gezählt wurde (0.65.256 und früher zählten am Tag des Schliessens, nicht am Laufzeit-Ende), wird mitgelöscht. Betrifft nur
+  Einstellungen, die vor der ältesten Journal-Einstellung endeten und erst am Tag G oder später abgeschlossen wurden.
+(b) Forecast.lua Fc:KernReport: ky nur, wenn OnSellCase einen Wert zurückgibt (Fall wirklich gezählt); Korrektur ebenso (OnSellCorrect
+  gibt dy zurück). RebuildSell vermerkt ky ebenfalls nur bei gezähltem Fall.
+(c) Fall-Tag einheitlich = Tag des Laufzeit-Endes (e.t + d): KernReport ruft OnSellCase und OnSellCorrect mit diesem Zeitpunkt (wie der
+  Neuaufbau) -> Nachtrag y im selben Tag-Topf wie der Fall, kein y > n durch das Altersgewicht.
+Tests: T830 (Kern: Tag G−3 2 Fälle/1 verkauft + g:, Tag G 1 falscher; Journal 1 verkaufter Fall mit Ende an G -> danach G−3 2/1 und g:
+  2/1 unverändert, Tag G 1/1, Bewertung G−3 2 / G 1, Startdatum G−3, ky 1) – mit 0.65.256 rot ("vor G −1/−1", Startdatum verloren),
+  mit 0.65.257 grün. T828 (KERN-S1) und T829 grün. s198, s75, s3_ledger_sales, s6_mail_collect grün. s42 grün. CHANGELOG EN/DE.
+Gesamtlauf (frischer Klon, Kopie 0.65.257, ohne parallele Läufe): BESTANDEN 316, FEHLGESCHLAGEN 0.
