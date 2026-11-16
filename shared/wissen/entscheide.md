@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 16.11.2026 18:02 | ALLE SITZUNGEN: "In Zukunft nichts mehr auf den Geräten ablegen bitte – das schafft Abhängigkeiten" -> keine Arbeitsdateien, Werkzeuge oder Auszüge mehr auf dem Rechner des Nutzers; Ergebnisse gehören ins Repo bzw. in die Sitzung. Erlaubt bleibt nur, was der Nutzer ausdrücklich verlangt (z. B. Addons installieren) | alle Sitzungen; Rohauszug künftig nur lesen und direkt herüberholen, nichts liegen lassen |
 | 16.11.2026 17:41 | "Alle Möglichkeiten prüfen, wie wir LevelPilot genauer machen können, nach der Prüfung an LevelPilot weitergeben. AHS mit Arbeit versorgen. Der Masterplan soll bis morgen früh komplett beendet sein, wenn möglich." | Supervisor: Analyse levelpilot-routenoptimierung -> LP-Auftrag; offen-ahsentinel.txt NACHTSCHICHT |
 | 16.11.2026 17:40 | "Hol dir alles raus, und zwar jetzt – nachher steht dir der Ordner nicht mehr zur Verfügung; lieber zu viel als zu wenig" | shared/werkzeuge/strassen/rohauszug.py: Kacheln, Gebäude, Objekte, DB2 beider Clients nach Dokumente/GoldSentinel-Rohdaten |
 | 16.11.2026 17:39 | AHSentinel: "Wenn AHS nicht mehr antwortet, ist er in der Warteschlaufe – dann deckst du ihn zu mit Antworten bzw. mit Arbeit" | Supervisor prüft jede Runde, ob AHS stillsteht, und gibt sofort Antwort oder nächsten Auftrag |
