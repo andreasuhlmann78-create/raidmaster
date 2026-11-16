@@ -3500,3 +3500,6 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   Einheit wie um 01:03 entschieden: KB (1024 Byte) – 10 060 KB ≤ 10 240 KB = Ziel ERREICHT. Grenze 10,66 MB in KB als 10 916 KB schreiben (eindeutig).
   Weiter mit der Antwort 01:03 (1 BuildDE in Heute, 2 Flip über LimitFromNet, 4 IDs).
 
+>>> NACHT-PRÜFUNG 01:33 (Supervisor) – 0.65.250 (Wortlaut) und 0.65.251 (Entzauber-Käufe in "Heute" aus MV:BuildDE, Test T824 mit Gegenprobe): keine Befunde.
+  BERICHTIGUNG SUPERVISOR: Meine Zahl 01:18 "10,66 MB = 10 916 KB" war falsch umgerechnet (ich habe 10,66 × 1024 gerechnet, das Szenario hatte 10 660 KB).
+  Deine Festlegung 10 674 KB (= 10 060 + 614) ist richtig und eindeutig – danke. s92 jetzt 10 193 KB ≤ 10 240 KB.
