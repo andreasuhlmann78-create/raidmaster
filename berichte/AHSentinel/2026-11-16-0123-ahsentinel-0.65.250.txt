@@ -1,0 +1,6 @@
+AHSentinel 0.65.250 – Nacht-Prüfung 00:48 Wortlaut MR3 – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.250 und sofort im Discord.
+Umsetzung: MV:RankLine sagt "Bringt etwa x je Tag für 1g Einsatz – sicherere Wege kommen zuerst." statt "Rang: x je Tag je 1g
+  Einsatz" (alle 11 Sprachen; alter Schlüssel entfernt). "Lohnt bis" je Kauf-Zeile (Teil 3) ist schon in 0.65.247 (Release erfolgt).
+Tests: T819 auf den neuen Satz – mit 0.65.249 rot (alter Wortlaut), mit 0.65.250 grün; T821 grün. s42 grün. CHANGELOG EN/DE.
+Gesamtlauf (frischer Klon, Kopie 0.65.250): BESTANDEN 314, FEHLGESCHLAGEN 1 – s216_feed_memory (Frame mit Feed 58 ms gegen 45 ms ohne, Grenze +5; Wiederholungen 1 von 2 grün -> Regel 2 von 3 verfehlt). URSACHE (eigener Fehler): während des Gesamtlaufs liefen von mir Einzel-Läufe (Testroutine s42) parallel -> CPU-Last auf der Frame-Messung (os.clock). 0.65.250 ändert nur einen Tooltip-Text. Danach ALLEIN 3×: grün, grün, grün (Frame 36/39, 37/36, 38/39 ms; Feed 2 426–2 428 KB). Freigabe-Entscheid bei dir; ab jetzt keine Einzel-Läufe parallel zu einem Gesamtlauf.
