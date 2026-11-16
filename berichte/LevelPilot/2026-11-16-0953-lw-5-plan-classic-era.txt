@@ -1,0 +1,56 @@
+BERICHT LevelPilot – LW-5 Plan: Classic Era unterstützen (nur Plan, kein Code) – mit 2 Fragen
+Projekt: LevelPilot · Datum: 16.11.2026 09:53 (aus date) · Stand 3.12.53
+
+Bezug: offen-levelpilot.txt LW-5 ("erst ein Plan als Bericht … dann in Stufen"), PRÜFUNG 09:47 ("Reihenfolge jetzt: LW-5").
+
+A. BESTANDSAUFNAHME (am Code 3.12.53 / LevelPilot_Data 1.6.1 geprüft)
+1. .toc: LevelPilot und LevelPilot_Data nur "## Interface: 16001" -> im Era-Client lädt LevelPilot heute gar nicht.
+2. Datenpaket: Classic-Daten aus Questie v11.38 (Classic-DB = Era-Welt). Auf Forever UMGERECHNET sind nur 4 Zonen mit anderen
+   Kartengrenzen (Tools/forever_maps.lua: Mulgore 1412, Östl. Pestländer 1423, Rotkammgebirge 1433, Sturmwind 1453;
+   x' = sx·x + ox). Betroffen im Paket: Npcs 523 Einträge, Objects 58, Quests 11, Services 7, Dungeons 3, Terrain 4 Zonen
+   (gezählt). Plus 2 Forever-Korrekturen aus 1.6.1 (NPC 10666 Tirisfal, 10881 Donnerfels, im Forever-Spiel gemessen).
+   -> Für Era kein zweites Datenpaket nötig: beim Lesen die Umrechnung der 4 Zonen RÜCKGÄNGIG machen (x = (x'−ox)/sx).
+   Vorbild gibt es schon: Caves.lua rechnet Höhlen-Startdaten nur in Forever um (LP.CaveForeverMaps, gleiche Werte).
+   Zentrale Lesestellen: QuestDB PackSpawns (NPC-/Objekt-Fundorte), PACK.D (Dungeon-Eingänge), Services/Flugmeister,
+   Terrain (Geländekarten je Zone), Data/Gateways.lua (4 Treffer in diesen Zonen), Data/Wege.lua (Startnetz, Forever-only,
+   schon aus).
+3. Forever-Regeln: zentral über LP.API.Forever() (GoldSentinelGame: flavor/IsForever) – Questlog 40/20, grüne Quests,
+   Dungeon-EP, Gruppen-Hinweis, Höhlen-Umrechnung. Startwegnetz und Strassen schon je Spielversion (3.12.37/3.12.53).
+4. KONTOWEITE DATEN (wichtig): LevelPilotDB speichert gelaufene Wege (graph, Weltkoordinaten), gelernte Quests (qdb, darunter
+   88 Forever-Quests 9xxxx), Flugpunkte (taxi), Kalibrierung (Kills/EP/Flüge) KONTOWEIT. Spielt jemand Forever und Era am
+   selben Rechner, bekäme Era die Forever-Wege (Mulgore ist in Forever ANDERS) und Forever-Quests. -> In Era eigener Bereich
+   (z. B. LevelPilotDB.era = { graph, qdb, taxi, calib }) oder Schlüssel je Spielversion; Austausch (Comm) ebenfalls getrennt
+   (eigener Prefix/Kanal je Spielversion).
+5. Tests: Die Offline-Routine fährt schon "Testroutine Classic Era deDE" und "TBC Classic deDE" im Nachbau (Spielversion
+   simuliert) – das ist die Basis für "Testroutine je Spielversion".
+
+B. PLAN IN STUFEN (je Stufe eine Version, Tests + Gegenprobe, Bericht)
+ E1 klein  – Laden im Era-Client: .toc beider Addons mit Interface-Liste "## Interface: 16001, 11508" (Liste geht seit
+            1.15.0/10.1). VERDACHT, zu messen: ob der Forever-Client 1.60 die Liste annimmt (AddOn-Liste ohne "veraltet");
+            sonst getrennte Datei LevelPilot_Vanilla.toc (dann messen, welche Datei Forever liest). Era-Nummer 11508 =
+            Verdacht (aktuelle Era-Version beim Bau prüfen, wago/Blizzard).
+ E2 mittel – Rückrechnung der 4 Zonen beim Lesen des Datenpakets (nur Era), Forever-Korrekturen 10666/10881 in Era zurück
+            auf Questie-Werte. Test: Hin- und Rückrechnung = identisch (Abweichung < 0,05); Stichprobe NPC in Mulgore/Sturmwind
+            je Spielversion; Gegenprobe ohne Rückrechnung rot.
+ E3 mittel – Kontoweite Daten je Spielversion trennen (A4): Wege, Quests, Flugpunkte, Kalibrierung, Austausch. Bestehende
+            Daten bleiben Forever (keine Umzüge, alte Clients nie brechen). Test: Era-Charakter sieht keine Forever-Wege/Quests.
+ E4 klein  – Forever-Teile prüfen/abschalten, die noch nicht an API.Forever hängen (Durchsicht: Data/Seed.lua Forever-Quests,
+            Gateways, Prüfliste, Wegmessung/GSWegMess-Hinweise, Texte "WoW Forever"). Testroutine je Spielversion
+            (vorhandene Era-Läufe um die neuen Tests ergänzen).
+ E5        – Im Spiel prüfen (Prüfliste) – SIEHE FRAGE 1.
+ Aufwand grob: E1+E4 je eine kleine Version, E2 und E3 je eine mittlere; zusammen 4 Versionen. Tempo/Speicher: Rückrechnung
+ nur beim Lesen (einmal je Fundort), Era-Bereich wächst nur in Era.
+
+C. FRAGEN (Entscheid des Nutzers bzw. Supervisor)
+ 1. Im Spiel prüfen: Der Nutzer hat KEINEN Era-Client (Prüfung 08:58). Ohne Era-Client kann niemand E1–E4 im Spiel abnehmen
+    (Laden, Koordinaten, Wege). Vorschlag: Era-Client installieren (gleiches Abo) ODER LW-5 bis dahin nur im Nachbau bauen
+    und NICHT für Era ankündigen. Bitte entscheiden.
+ 2. Anniversary (TBC 2.5, Client des Nutzers): soll LevelPilot dort auch laufen? Das wäre ein eigenes Projekt (TBC-Quests,
+    Scherbenwelt, 1–70) – NICHT Teil von LW-5. Nur zur Klärung, kein Vorschlag.
+
+D. VORSCHLAG ZUR REIHENFOLGE
+ Ohne Antwort auf Frage 1 baue ich nichts Era-Sichtbares. Ich kann sofort E2 und E3 im Nachbau vorbereiten (Forever bleibt
+ unverändert, Tests je Spielversion) – E3 lohnt sich auch für Forever allein nicht, darum erst nach Antwort. Bis dahin weiter
+ mit NAV-1/NAV-2 (Plan Navigator), wie in der Reihenfolge 07:56.
+
+Status: Plan abgegeben, wartet auf Frage 1. Kein Code geändert.
