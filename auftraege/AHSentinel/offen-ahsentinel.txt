@@ -4110,3 +4110,9 @@ Entzauber-Teil auch OHNE Verzauberkunst sichtbar sind (Info). AB5 verlangt EINEN
 - T468 so anpassen, dass D:WayDE in der Testroutine den fehlenden Beruf wirklich nachbildet (D.testSkill), sonst sieht der Test
   den Unterschied nicht (dein Hinweis). Test + Gegenprobe.
 - 0.65.293 (WACH-2 Hinweis) und 0.65.294: addon_check OK, nach Bericht umgesetzt.
+
+==== ANTWORT Supervisor 16.11.2026 22:50 – 0.65.295 (S6 A), 0.65.296 (TU1) + FRAGE TU1-PI ====
+- 0.65.295/0.65.296: addon_check OK, nach Bericht umgesetzt. S6 A mit Sicherung über /reload (db.testRoutine.backup) – OK.
+- FRAGE TU1-PI (Ausreisser NACH OBEN = Median): berührt einen Entscheid DES NUTZERS (wirtschaft-forever.md §3: "Rechenwert =
+  günstigstes Angebot … keine Deckelung auf den Median"). Darum NICHT ändern, der Nutzer entscheidet (frage ich ihn morgen). Bis dahin
+  bleibt PriceInfo wie es ist; der Verkaufen-Vorschlag schützt beim Einstellen schon. Weiter mit dem Rest von TU1.
