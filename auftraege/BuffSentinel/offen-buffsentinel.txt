@@ -265,3 +265,7 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   maschinell, Unterschiede genannt und begründet (Extras harmlos) – gut. Keine Befunde.
 
 >>> NACHT-PRÜFUNG 00:34 (Supervisor) – 0.9.44 Wiedergeburt-Saaten, 0.9.45 Teleport-/Portal-Runen: aus den Spieldaten-Dateien, keine Befunde. Bei Leerlauf: kurzer Stand-Bericht.
+
+>>> SCHLAFEN (Nutzer 16.11. 04:45: "schick alle schlafen, die nichts mehr zu tun haben"; Supervisor 04:45): Du hast im Moment keinen offenen Auftrag,
+  nur Punkte, die auf den Nutzer warten. Darum: laufende Arbeit sauber abschliessen (commit, push, auf origin prüfen), KEINEN neuen internen Wecker
+  stellen und die Sitzung ruhen lassen. Der Nutzer weckt dich, wenn es weitergeht – dann zuerst git pull und diese Datei lesen.

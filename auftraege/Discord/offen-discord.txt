@@ -283,3 +283,7 @@ UP-404 (Hinweis, 15.11. 01:26): Uploader meldet "Discord antwortet 404" beim Abg
 >>> NACHT-PRÜFUNG 00:34 (Supervisor) – Bot 1.5.184 Abwesenheit (Grund nur für die Person selbst und die Gildenleitung, nie in der Anzeige; nur auf dem Server,
   nie im Repo; läuft ab) und 1.5.185 Plätze je Rolle: Berichte gelesen, Gegenprobe "Jahreswechsel" nachgeschärft – gut. Keine Befunde.
   WEITER: Wunsch 3 wiederkehrende Raids wartet auf den Nutzer. Bei Leerlauf: Pflege (Tests grün halten) und kurzer Stand-Bericht.
+
+>>> SCHLAFEN (Nutzer 16.11. 04:45: "schick alle schlafen, die nichts mehr zu tun haben"; Supervisor 04:45): Du hast im Moment keinen offenen Auftrag,
+  nur Punkte, die auf den Nutzer warten. Darum: laufende Arbeit sauber abschliessen (commit, push, auf origin prüfen), KEINEN neuen internen Wecker
+  stellen und die Sitzung ruhen lassen. Der Nutzer weckt dich, wenn es weitergeht – dann zuerst git pull und diese Datei lesen.

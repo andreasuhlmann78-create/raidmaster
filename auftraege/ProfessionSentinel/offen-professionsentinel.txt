@@ -300,3 +300,7 @@ PS-DW1 MITTEL (Nutzer 17:05, AHSentinel 0.65.170): Ein Rahmen von ProfessionSent
 
 >>> NACHT-PRÜFUNG 01:33 (Supervisor) – 0.9.62 Flut-Produkte nicht in "Heute herstellen" (eine Sammlung für Liste, Karte und AHS-API; T284 mit Gegenprobe):
   keine Befunde. Pflege bis zur Rückmeldung des Nutzers.
+
+>>> SCHLAFEN (Nutzer 16.11. 04:45: "schick alle schlafen, die nichts mehr zu tun haben"; Supervisor 04:45): Du hast im Moment keinen offenen Auftrag,
+  nur Punkte, die auf den Nutzer warten. Darum: laufende Arbeit sauber abschliessen (commit, push, auf origin prüfen), KEINEN neuen internen Wecker
+  stellen und die Sitzung ruhen lassen. Der Nutzer weckt dich, wenn es weitergeht – dann zuerst git pull und diese Datei lesen.

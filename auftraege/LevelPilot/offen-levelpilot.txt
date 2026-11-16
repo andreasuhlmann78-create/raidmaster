@@ -370,3 +370,7 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
 >>> NACHT-PRÜFUNG 01:03 (Supervisor) – 3.12.46 /lp wegmessung: nutzt GSWegMess nur über dessen öffentliche Funktionen (Start/Mark/Stop), Werkzeug
   unverändert; Ortsnamen aus Tabellen statt geraten; Aufzüge ohne geratene Koordinaten – sauber. Keine Befunde. Damit hat der Nutzer morgen zwei
   Befehle (/lp clienttest, /lp wegmessung). WEITER: Leerlauf-Pflege; W3D wartet auf die Messung.
+
+>>> SCHLAFEN (Nutzer 16.11. 04:45: "schick alle schlafen, die nichts mehr zu tun haben"; Supervisor 04:45): Du hast im Moment keinen offenen Auftrag,
+  nur Punkte, die auf den Nutzer warten. Darum: laufende Arbeit sauber abschliessen (commit, push, auf origin prüfen), KEINEN neuen internen Wecker
+  stellen und die Sitzung ruhen lassen. Der Nutzer weckt dich, wenn es weitergeht – dann zuerst git pull und diese Datei lesen.
