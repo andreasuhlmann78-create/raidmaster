@@ -1,0 +1,36 @@
+AHSentinel 0.65.285 – SN-TR-2 Teil 1 (HOCH, Ruckeln beim Snipen S5/S13) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.285 und sofort im Discord.
+
+URSACHEN (belegt mit deinen Protokollen und Nachbau):
+1. Sniper-Reiter wurde zu oft neu gezeichnet. Protokolle 0.65.260–0.65.265 (testberichte/diagnose/AHSentinel): 527× "LANGSAM
+   Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt … bis Ende ui-refresh" – beim Snipen (15:36) ~20 ms jede Sekunde,
+   sonst bis 341 ms. Nachbau s266_sniper_tab_cost (5 Ziele, ein Ziel mit 400 Angeboten wie Leinenstoff 381, 60 s Snipen):
+   339 Neuaufbauten (5,7 je Sekunde) über DREI Wege: Zeitgeber 0,5 s im Reiter, SNIPER_CHANGED bei jeder Suche/Antwort und die
+   Hintergrund-Aufgabe ui-refresh (1×/s). Lua-Zeit 545–624 ms je Minute, längster Neuaufbau 15–19 ms (im Spiel kommen die
+   Fenster-Aufrufe dazu).
+2. Verdichtung des Preisverlaufs 90 s nach dem Einloggen (Aufgabe pd7) gab nur alle 50 Items ab. Protokoll 0.65.265 15:36:57–15:37:03:
+   21× "LANGSAM Hintergrund-Aufgabe pd7 · 0 Schritte · längster Schritt 17–36 ms bis AHAnalyzerPro.lua:1268". Nachbau
+   s264_pd7_portions (7165 Items, je 150 Einträge, alle verdichtbar): längstes Bild 71,7 ms.
+UMGESETZT:
+- UI_Sniper.lua: p:RefreshAuto – die automatischen Wege (Zeitgeber, SNIPER_CHANGED, ui-refresh) bauen höchstens alle 0,5 s neu;
+  was dazwischen kommt, wird am Ende der halben Sekunde EINMAL nachgeholt (nichts geht verloren). Direkte Aufrufe (Klick, Tests)
+  bauen wie bisher sofort neu. UI_Main.lua: ui-refresh nutzt RefreshAuto, wenn der Reiter eine eigene Drossel hat (nur Sniper).
+- AHAnalyzerPro.lua A:CompactAll: A:Pause() je Item (gibt nur ab, wenn das Zeitbudget des Bildes voll ist).
+MESSUNG (Nachbau): Sniper-Reiter 339 -> 120 Neuaufbauten je Minute (5,7 -> 2,0/s), Lua-Zeit 545 -> 215 ms je Minute, längster
+  6,6 ms. Verdichtung: längstes Bild 71,7 -> 10,0 ms (7165 Items, 358 Bilder statt 144).
+TESTS: T860 (Drossel: zweiter Aufruf gemerkt, nach der Lücke nachgeholt, direkt sofort; Verdichtung gibt je Item ab) – Gegenprobe
+  0.65.284 rot. s266 (≤ 2,5 Neuaufbauten/s) und s264 (kein Bild > 16 ms) – Gegenprobe 0.65.284 rot (5,7/s bzw. 71,7 ms).
+NOCH OFFEN in SN-TR-2 (nicht in dieser Version):
+- S6 (~14 s statt < 5 s) und S8: Verdacht, zu messen – im Protokoll 15:35–15:36 lief der Sniper-Ruhemodus (SN-RUHE1, Entscheid des
+  Nutzers: Ziele ohne Treffer seit 10 Min. höchstens alle 30 s). S6 rechnet den Ø Abstand ALLER Suchen + Suchdauer; Pausen und der
+  Ruhemodus ziehen den Wert hoch. FRAGE: Soll S6/S8 im Ruhemodus nur die "warmen" Ziele bewerten (Vorschlag: ja, kalte Ziele mit
+  eigener Grenze 30 s + Suchdauer), oder soll die Abnahme den Ruhemodus ausschalten?
+- Für S5/S13 im Detail brauche ich den Testbericht-Text (Zeilen T617/T618/T729/T734 mit "AHSentinel einzeln: …"); er ist noch
+  nicht über den Uploader im Repo (testberichte/status.md: letzter AHSentinel-Lauf 0.65.260). Bitte beim nächsten Test mitschicken.
+Gezielte Läufe (0.65.285, 30 Szenarien: Testroutine auto, UI-Prüfung, alle 19 Sniper-Szenarien, Wächter, Vollscan s10/s92/s216,
+  s262–s267): 27 grün; rot nur die erwarteten Gegenproben der nächsten Versionen – s261 (Speicher je Zeile 5,85 KB, behoben in 0.65.286)
+  und s267 (Hürden-Zeile, kommt mit 0.65.287). Der volle Gesamtlauf läuft auf 0.65.287 (enthält 285–287); Ergebnis im Bericht 0.65.287.
+NACHTRAG (Gesamtlauf auf 0.65.287 nach der Veröffentlichung von 0.65.285): s10_quality_picker rot – nach "Ziel setzen" ohne Snipen
+  zeigte die Zielliste das neue Ziel bis zu 0,5 s später (die Drossel galt auch ohne Snipen); ein Klick in dieser halben Sekunde
+  fand die Zeile nicht. Ursache belegt im Nachbau. Korrektur in 0.65.286: gedrosselt wird nur beim Snipen (Sniper an, AH offen),
+  sonst sofort. T860 prüft beide Fälle. Mein Fehler: der gezielte Lauf für 0.65.285 enthielt s10_quality_picker nicht.
