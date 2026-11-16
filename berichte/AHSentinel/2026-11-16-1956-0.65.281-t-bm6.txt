@@ -1,0 +1,18 @@
+AHSentinel 0.65.281 – E (b) T-BM6: abgelaufen/abgebrochen über das Blizzard-Fenster -> Einzahlung verloren – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.281 und sofort im Discord.
+BEFUND beim Nachbilden (belegt im Code): Abgelaufen war schon abgedeckt (BK:NoteInboxMail, Post AUCTION_EXPIRED_MAIL_SUBJECT -> depx
+  "ablauf"). ABGEBROCHEN im Blizzard-Fenster aber NICHT: die Anzahlung verfiel nur über AUCTION_CANCELLED (Books.lua), und das feuert
+  Se:OnCanceled nur für eigene Abbrüche (pendingCancel; fremd -> "nichts geändert"). Die Post "Auktion abgebrochen"
+  (AUCTION_REMOVED_MAIL_SUBJECT) wurde nur zum Neu-Einstellen gemerkt, nicht gebucht. -> Anzahlung blieb "hinterlegt".
+UMGESETZT:
+- Mailer M:IsRemovedMail (wie IsExpiredMail, Muster aus AUCTION_REMOVED_MAIL_SUBJECT); BK:InboxHeader liefert zusätzlich "abgebrochen".
+- BK:NoteInboxMail: Post "abgebrochen" -> depx "abbruch-fenster" (Anzahlung verloren), je Post einmal (Schlüssel rem|Item|Menge|Zeit).
+  Gab es in den letzten 6 Std. einen eigenen Abbruch desselben Items (depx "abbruch", über AUCTION_CANCELLED), wird diese Buchung der
+  Post zugeordnet (e.mailed) und NICHT nochmal gebucht.
+Test T855 (Ersatz-Buchhaltung, Briefkasten ersetzt nur über eigene Funktionen): Fenster-Abbruch -> gebucht, zweites Lesen nicht;
+  eigener Abbruch + Post -> keine zweite Buchung (abbruch+Post); Ablauf wie bisher. Gegenprobe: mit 0.65.280 rot.
+  Abdeckung: T-BM1–5 -> T297, T-BM6 -> T855. Post-, Buchhaltungs- und Abbruch-Szenarien einzeln grün.
+Verdacht, zu messen: Kommen in Forever bei einem Abbruch im Blizzard-Fenster Teile der Anzahlung zurück (Erstattung src cancel misst
+  das nur bei eigenen Abbrüchen)? Wenn ja, im Protokoll ABBRUCH sichtbar machen – sag mir, ob ich das messen soll.
+Gesamtlauf der Nachbildung: BESTANDEN 319, FEHLGESCHLAGEN 1 – s10_scan_smooth (CPU-Zeit), einzeln 3× wiederholt 3/3 grün. 0.65.281 ändert nichts am Scan.
+Nächster Punkt laut deinem Ingame-Test 19:43: WACH-1 -> VS-121 -> SANDBOX-1 -> SN-TR-2 -> UI-CLEAN1-B -> HILFE-GRP-1 (E ruht; T-OÜ2/3-Nachbildung liegt vorbereitet bereit).
