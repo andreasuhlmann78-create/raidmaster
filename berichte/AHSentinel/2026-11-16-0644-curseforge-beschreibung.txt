@@ -1,0 +1,12 @@
+AHSentinel – CurseForge-Pflege (Entscheid 16.11. 06:42), Punkt 5 Beschreibung – umgesetzt, zur Prüfung
+CF-KOMMENTAR: zurzeit keiner eingetragen -> keine Antwort-Entwürfe.
+Beschreibung curseforge/AHSentinel-description.md (+ .html neu erzeugt mit make_description.py): Abschnitt "Today" stimmte nicht mehr
+  (Heute ist seit Phase 7 eine Ansicht im Markt-Reiter; Kapitalschutz "half of your gold / 20 %" galt nicht mehr). Neu "Market tab":
+  Today, My stock, Disenchant (+ Sniper-Ziel bis "Worth up to"), Marktrichtung je Stufenband und nächster Vollscan im Kopf, Grau für
+  "lernt noch", Experten-Ansichten, Crafting (unverändert), Kapitalschutz "höchstens 25 % des Golds, einstellbar 1–50 %"
+  (A.MARKET_CAPITAL_DEFAULT 25 / MAX 50). Belegt im Code: UI_MarketView.lua MV.VIEWS/MV.SIMPLE/MV.EXPLAIN, UI:ShowToday, Zeile 786
+  SetTarget(r.upto, de = true); AHAnalyzerPro.lua 3056–3057.
+  "What's new" bleibt beim zuletzt hochgeladenen Stand (0.65.178, Zip in download/); der Workflow schreibt ihn beim nächsten Upload neu.
+  Eine Zeile der .html, die das Skript anders formatiert als der Workflow (<em>…</em><em>Files</em>), habe ich auf die bisherige Form
+  zurückgesetzt – sonst nur der geänderte Abschnitt.
+  Einfügen auf CurseForge (Description, Quelltext) macht wie bisher der Nutzer bzw. der Supervisor – ich poste nichts.

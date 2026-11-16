@@ -69,11 +69,14 @@ In-game: the **Support** button in the addon window (or `/ahs donate`).
 
 ## Features
 
-### Today – what makes the most gold right now
-- One button (or `/ahs today`) lists the best actions right now, sorted by net profit: flips, buying below vendor or disenchant value, selling from your bags, reposting returned auctions
-- **Every row has a button with the next step – right in the list:** *Check* shows the real current offer, *Buy* buys it (never more expensive and never more than suggested), flips then get *Post*
+### Market tab – what makes the most gold right now
+- **Today** (or `/ahs today`): your own things first (post, repost, disenchant, craft), below them the best chances – every row has a button with the next step
+- **My stock:** everything you own (bags, bank of all your characters, your auctions) with quantity, value now after fees and the best way to turn it into gold – what loses the most while waiting is on top
+- **Disenchant:** items that bring at least 20 % profit after disenchanting, at the current market and after fees; one click makes a sniper target up to "Worth up to"
+- **Market direction** per level band and the time until the next full scan is possible, right in the header
+- Only what your data really backs is shown; whatever is still learning stays grey. Flip, vendor, gaps, crowded and trends views are available with the expert option
 - **Crafting:** profitable recipes you already know, with a button that adds the missing reagents as buy rows (with **ProfessionSentinel** also missing recipes, vendors and drops, step by step)
-- **Capital protection:** together at most half of your gold, no single suggestion above 20 %
+- **Capital protection:** the market plans with at most 25 % of your gold by default (adjustable from 1 to 50 %)
 
 ### Market data
 - **Full market scan** with price history for every item
