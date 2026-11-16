@@ -1,0 +1,119 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+
+BERICHT NACHPRÜFUNG (geplante Aufgabe) – 16.11.2026 11:25 MEZ (aus date)
+Geprüft auf origin/main 0491df2f. Nur dieser Entwurf wird committet; nichts in auftraege/**, kein Log, keine stand.json.
+
+=====================================================================================================================
+0. ÜBERBLICK
+=====================================================================================================================
+Kein FEHLER der Addon-Prüfung. EIN Befund HOCH (Rückschritt): LevelPilot ab 3.12.54 erkennt "händler/vendor" und
+"trainer/lehrer" in /lp suche und /lp navi nicht mehr (NP-LP54-1, unten). Auch in 3.12.57 (gerade erschienen) noch drin.
+
+Neu seit der letzten Prüfung des Supervisors (Log 10:03, Commits bis 09:47) und noch nicht geprüft:
+- AHSentinel 0.65.266 (T647-Ursache, T72) – CurseForge-Kandidat bleibt laut Bericht 0.65.265.
+- LevelPilot 3.12.54 (NAV-1a), 3.12.55 (LW-5 E2, ST-5 Era-Client), 3.12.56 (LW-5 E3). 3.12.57 (LW-5 E4, 11:20) nur kurz:
+  addon_check OK, Befund NP-LP54-1 weiter vorhanden; volle Nachprüfung beim nächsten Lauf bzw. durch den Supervisor.
+
+Schon vom Supervisor geprüft, hier NUR erwähnt: AHS 0.65.260–0.65.265, RM 3.0.29, Uploader 2.3.13, Bot 1.5.186, BS 0.9.47,
+GS 0.9.48, TS 2.5.15, PS 0.9.62, LP bis 3.12.53.
+Testberichte: einzige neue Lieferung (4b90f599, 09:53) = AHS 0.65.260 (Prüfliste + Sniper-Testroutine) und Diagnosen; vom
+Supervisor schon ausgewertet (offen-ahsentinel.txt "INGAME-TEST 08:30–08:43", T72/T647/T299/T267/SN-TR-1). Nicht doppelt.
+Aus dem vorigen Entwurf (08:23) weiter offen und noch in keiner offen-*.txt: NP-LP49-1, NP-LP49-2 (Laufweg.lua:219/222 in 3.12.56
+unverändert), NP-UP13-1 (Uploader).
+
+=====================================================================================================================
+1. LEVELPILOT 3.12.54 / 3.12.55 / 3.12.56 – ein Befund HOCH, ein MITTEL
+=====================================================================================================================
+Grundlage: announce-ZIPs 3.12.53 und 3.12.56 entpackt, diff -r (ohne Strassen-Daten); Berichte
+2026-11-16-1013-3.12.54-nav-1a-navi.txt, -1037-3.12.55-lw-5-e2-era-rueckrechnung.txt, -1102-3.12.56-lw-5-e3-daten-je-spielversion.txt.
+
+Prüfungen:
+- addon_check 3.12.56: OK (0 FEHLER, 0 WARNUNG, Lua-Syntax mit lupa geprüft). 3.12.54/3.12.55 einzeln: nur FEHLER "niedriger als
+  3.12.56" (erwartet, überholt). 3.12.57: OK.
+- Offline-Routine berichte/LevelPilot/offline/run_offline.py 3.12.56: 38 Läufe, 37 ohne FEHLER; der eine (TBC, T155 Planung
+  17,7 ms > 16 ms) war Rechnerlast (parallel lief die AHS-Nachbildung) – Wiederholung "--nur testroutine": 5/5 ohne FEHLER
+  (Forever deDE/enUS 275, Allianz 273, Era 274, TBC 274). Zeitmessung zählt nicht.
+- Gemeinsame Dateien byte-gleich mit shared/ (Game, Sync, Test, Dev, Pruefliste). Data/StrassenEra.lua byte-gleich mit
+  shared/werkzeuge/strassen/daten/era/GoldSentinelStrassen.lua (Era-Client 1.15.9), Data/Strassen.lua mit daten/ (Forever).
+- CHANGELOG EN/DE: alle drei Versionen in beiden. Neue Texte (7 Navi-Texte) in allen Locale-Dateien (Sprachtest OK).
+- E3 (Core.lua:691–722 LP.Acc/ChooseAcc): Forever = LevelPilotDB wie bisher, nichts umgezogen oder gelöscht – Entscheid 10:08
+  "Forever darf nichts verlieren" eingehalten. Alle übrigen LevelPilotDB-Zugriffe durchgesehen: nur gemeinsame Teile (Protokoll,
+  Diagnose, Wegdaten-Export, gsTest, Prüfliste, Markt) – wie im Bericht.
+- E2 (Geo.lua FromData/ToData, QuestDB.EraUnconvert): nur bei flavor "era" und nur 4 Zonen; Flag eraFrame gegen doppelt.
+  Terrain/Graph/Virtual rechnen hin und zurück. Schlüssig; im Era-Client = Verdacht, zu messen (so auch im Bericht).
+- Taint: keine Blizzard-Funktion/C_-Tabelle ersetzt (T314/T315/T316 ersetzen nur eigene Tabellen).
+
+NP-LP54-1 HOCH (Rückschritt, sichtbar) – Comfort.lua:287 (3.12.54 bis 3.12.57):
+  Zeile: repair = { "repar", "repair" },   -- 3.12.54: englisch "repair" enthält "repar" nicht vendor = { … }, trainer = { … },
+  Der neue Kommentar steht VOR vendor und trainer – beide Einträge sind jetzt Kommentar. WORDS hat nur noch 6 Arten.
+  NACHGEWIESEN (lupa, WORDS aus dem ZIP geladen, Suche wie C:FindNearest):
+    3.12.53: händler->vendor, vendor->vendor, trainer->trainer, lehrer->trainer, reparatur->repair, repair->nil
+    3.12.56/3.12.57: händler->nil, vendor->nil, trainer->nil, lehrer->nil, reparatur->repair, repair->repair
+  Folge: "/lp suche händler", "/lp find trainer" und "/lp navi händler|trainer" (so in der neuen Hilfe beworben!) antworten nur mit
+  der Hilfezeile. Die Knöpfe in der Zentrale (Center.lua:546 C:Find(k.key)) gehen weiter. T314 prüft nur repair/Reparatur/mailbox/
+  gasthaus – darum grün.
+  Lösung: vendor/trainer wieder als eigene Zeile, Kommentar ans Zeilenende nach dem letzten Eintrag. T314 um ALLE 8 Dienst-Arten
+  erweitern (je ein deutsches und ein englisches Wort: händler/vendor, trainer/lehrer, gasthaus/inn, flug/flight, bank, auktion/
+  auction, briefkasten/mailbox, reparatur/repair). Gegenprobe: die heutige Zeile -> rot.
+
+NP-LP54-2 MITTEL – Comfort.lua Norm()/C.ZoneByName (3.12.54): string.lower macht nur A–Z klein. Grossbuchstaben ausserhalb ASCII
+  bleiben: "Ödland" -> "Ödland", "Östliche Pestländer" -> "Östliche pestländer" (lupa nachgewiesen). Wer "/lp navi 50 50 ödland"
+  oder "östl" tippt, bekommt "Zone nicht gefunden". In ruRU beginnt jeder Zonenname mit einem kyrillischen Grossbuchstaben –
+  klein getippt findet keine einzige Zone. T314 prüft nur ASCII ("brachland", "mul").
+  Lösung: eigene Kleinschreibung für UTF-8 (mindestens Ä Ö Ü É È À Ç Ñ und Kyrillisch А–Я/Ё) vor dem Vergleich auf beiden Seiten;
+  Test mit "ödland", "östl" und einem ruRU-Namen klein geschrieben; Gegenprobe mit string.lower -> rot.
+
+Hinweis (kein Befund): Reihenfolge laut Entscheid 10:08 "LW-5 E1–E4 vor NAV-1/NAV-2"; 3.12.54 (NAV-1a) wurde 10:13 gebaut, der
+  Entscheid stand erst 10:18 im Repo – der Bericht sagt das offen ("keine Gegenanweisung bis 10:09"). In Ordnung.
+Weiter offen aus 08:23: NP-LP49-1 NIEDRIG (Laufweg.lua:219 "local yps, ysrc = P and P.GroundYps and P.GroundYps()" -> ysrc immer nil),
+  NP-LP49-2 NIEDRIG (Laufweg.lua:220/222 "%.1f" mit Punkt statt Komma wie F2/CLIENT.T311) – in 3.12.56 unverändert.
+
+IM CLIENT PRÜFEN: T314 im Forever-Client ("/lp navi 45 60 Brachland", "/lp navi briefkasten", "/lp navi aus"); E1 Mess-Set
+  berichte/LevelPilot/toc-test/ (je Client "veraltet" ja/nein); E2/E3 im Era-Client (Era-Client jetzt beim Nutzer):
+  Gordo Tirisfal 43,1/54,7 und ein Mulgore-NPC am Pfeil; nach dem ersten Era-Login enthält LevelPilotDB.era die Daten,
+  Forever-Daten unverändert (Anzahl qdb/taxi vorher/nachher gleich).
+
+=====================================================================================================================
+2. AHSENTINEL 0.65.266 – keine Befunde
+=====================================================================================================================
+Grundlage: announce/ahsentinel__ahsentinel-0.65.266.AHSentinel.zip gegen 0.65.265 (aus 35f33250^), diff -r; Bericht
+berichte/AHSentinel/2026-11-16-1054-0.65.266-t647-t72.txt; Entwürfe cf-antwort-2/3/4 nur gesehen (Sache des Supervisors, 18:00).
+
+Prüfungen:
+- addon_check: OK (0 FEHLER, 0 WARNUNG, mit lupa). Gemeinsame Dateien byte-gleich (Game, Sync, Test, Dev, Pruefliste, Markt,
+  CmdHint; MarktTabellen mit shared/markt-tabellen/).
+- Geänderte Dateien nur: AHAnalyzerPro.lua (Version, RunJobs), SelfTest.lua (T72), TestRoutine.lua (T843/T844), .toc, CHANGELOG EN/DE.
+- T647-Fix AHAnalyzerPro.lua:434 "if Clock then lastPauseT = Clock() end" vor coroutine.resume: Messung je Aufgabe statt ab der
+  Pause der vorigen Aufgabe – Ursache im Bericht schlüssig; Schluss-Stück (Z. 439) bleibt gemessen. Ändert nur die Messung,
+  nicht das Budget – richtig so (kein Verstecken echter Spitzen: das "Ende <Name>"-Stück der ersten Aufgabe zählt weiter).
+- T72 SelfTest.lua:25–33 ST:RefLowest: Lockangebot-Regel identisch mit Se:PriceRisks (Seller.lua:954, ≤ 2 Stück und < 60 % der
+  nächsten Stufe); Leiter aus A:OfferLadder (eigene Angebote und l.bait schon heraus). Die Plausibilitätsprüfung "≤ 2× günstigstes
+  Angebot" bleibt, nur ohne Lockangebot. In Ordnung.
+- Offline-Nachbildung (ahanalyzerpro/tests/run_offline.sh, Lua 5.1, gegen die ZIP): s42 PASS (5 Prüfungen), s43 PASS (14).
+  Im Lauf sichtbar "T458 längster Frame 74 ms" = Zeitmessung der Nachbildung (Rechnerlast), zählt nicht.
+MARKT-KERN (Testbericht 0.65.260, 09:53, Supervisor hat ihn schon): snipe 13 Fälle, Treffer 85 %, mittlerer Fehler 23 %; de 6 Fälle,
+  100 %, 10 %; flip/craft/vendor 0 Fälle. Alle Wege "lernt" (< 20 Fälle) – Teil D noch nicht entscheidbar, keine Verletzung Ü2.
+  Beobachten: snipe-Fehler 23 % liegt über 15 % – sobald ≥ 20 Fälle, wäre das ein Befund HOCH, falls der Weg dann freigegeben angezeigt wird.
+  S28 (RK2-A, 12 von 20 Items mit zwei "Lohnt bis") ist bekannter Punkt TB170-10/TB172-3 – nicht neu.
+IM CLIENT PRÜFEN: T72 im nächsten Selbsttest (Silberrute: "Lockangebot … ausgenommen" oder echtes zu hoch), T647/T843 im Spiel grün.
+
+=====================================================================================================================
+3. VORSCHLÄGE FÜR DEN SUPERVISOR (nicht ausgeführt)
+=====================================================================================================================
+- auftraege/LevelPilot/offen-levelpilot.txt: Abschnitt "PRÜFUNG (Nachprüfung) 3.12.54–3.12.56" mit NP-LP54-1 HOCH, NP-LP54-2 MITTEL,
+  NP-LP49-1/-2 NIEDRIG (Text oben). NP-LP54-1 vor E5/NAV-2 erledigen (eine Zeile + Test).
+- auftraege/AHSentinel/offen-ahsentinel.txt: "0.65.266 nachgeprüft – T647/T72 umgesetzt, keine Befunde; im Spiel bestätigen".
+- addon-check/nachpruefung-stand.json (steht noch auf 15.11. 11:20): AHSentinel 0.65.266, LevelPilot 3.12.56 (3.12.57 nur kurz),
+  BuffSentinel 0.9.47, GuildSentinel 0.9.48, ProfessionSentinel 0.9.62, ThreatSentinel 2.5.15, RaidMaster 3.0.29,
+  RaidMasterBot 1.5.186, RaidMasterUploader 2.3.13; testberichte_bis 4b90f599.
+- Log-Zeile: "2026-11-16 11:25 Nachprüfung (Entwurf): AHS 0.65.266 ohne Befund; LP 3.12.54–56 NP-LP54-1 HOCH, NP-LP54-2 MITTEL".
+
+NACHRICHT AN DIE LEVELPILOT-SITZUNG (Entwurf, zum Einfügen – erst nach Übertragung durch den Supervisor):
+  Erst laufende Arbeit fertig machen. Nachprüfung 3.12.54–3.12.56 (11:25): addon_check OK, Offline-Routine 38/38, E2/E3 schlüssig.
+  ZU TUN: (1) HOCH NP-LP54-1 Comfort.lua:287 – vendor/trainer stehen im Kommentar, /lp suche|navi händler/trainer geht nicht mehr;
+  Zeile trennen, T314 alle 8 Arten de+en, Gegenprobe rot. (2) MITTEL NP-LP54-2 Zonen-Suche mit Ö/Ä/Ü und Kyrillisch (string.lower);
+  eigene UTF-8-Kleinschreibung + Test. (3) NIEDRIG NP-LP49-1/-2 Laufweg.lua:219/222.
+  git pull --rebase und auftraege/LevelPilot/offen-levelpilot.txt lesen; nach der Umsetzung Bericht in berichte/LevelPilot/.
+  Nächste Version, komplette Dateien, alte Clients nie brechen, alle Locale-Dateien, CHANGELOG EN/DE, vor dem Push
+  python3 addon-check/addon_check.py <ZIP> -> kein FEHLER. Ist ein Befund falsch, bitte begründet zurückmelden.
+Für AHSentinel keine Nachricht nötig (keine Befunde).
