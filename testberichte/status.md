@@ -1,12 +1,12 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-16 05:55 UTC
+Ausgewertet: 2026-11-16 08:53 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
 | Addon | letzter Testlauf | Version | Client | OK | FEHLER | übersprungen | im Client prüfen | Fehler im Spiel (7 Tage) |
 |---|---|---|---|---|---|---|---|---|
-| AHSentinel | 15.11.2026 12:35 UTC | 0.65.188 | forever 1.60.1 (Interface 16001) | 22 | 4 | 1 | 0 | 57 |
+| AHSentinel | 16.11.2026 07:20 UTC | 0.65.260 | forever 1.60.1 (Interface 16001) | 21 | 5 | 3 | 0 | 58 |
 | BuffSentinel | 05.11.2026 00:19 UTC | 0.9.7 | forever 1.60.1 (Interface 16001) | 120 | 1 | 10 | 11 | 566 |
 | GuildSentinel | 09.11.2026 05:47 UTC | 0.9.13 | forever 1.60.1 (Interface 16001) | 153 | 4 | 23 | 5 | 22 |
 | LevelPilot | 05.11.2026 00:21 UTC | 3.12.6 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 1381 |
@@ -18,25 +18,22 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 146 | `testberichte/diagnose/AHSentinel/0.65.94-a90ab14a9b56.txt` |
-| BuffSentinel | 40 | `testberichte/diagnose/BuffSentinel/0.9.12-7f8dfb5af187.txt` |
+| AHSentinel | 147 | `testberichte/diagnose/AHSentinel/0.65.260-51686047dc7c.txt` |
+| BuffSentinel | 41 | `testberichte/diagnose/BuffSentinel/0.9.47-ba8d4e0ba5b8.txt` |
 | GSMesstest | 9 | `testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt` |
 | GSSniperLog | 14 | `testberichte/diagnose/GSSniperLog/1.7-d7b1125a2162.txt` |
-| GuildSentinel | 144 | `testberichte/diagnose/GuildSentinel/0.9.38-e7eada8b66f4.txt` |
-| LevelPilot | 42 | `testberichte/diagnose/LevelPilot/3.12.30-d56de4ad4ec7.txt` |
-| ProfessionSentinel | 124 | `testberichte/diagnose/ProfessionSentinel/0.9.45-ea4bde14ba63.txt` |
-| ThreatSentinel | 120 | `testberichte/diagnose/ThreatSentinel/2.5.9-393857b54d8e.txt` |
+| GuildSentinel | 145 | `testberichte/diagnose/GuildSentinel/0.9.48-8e146d6f1cf1.txt` |
+| LevelPilot | 43 | `testberichte/diagnose/LevelPilot/3.12.47-e5f8ca418f49.txt` |
+| ProfessionSentinel | 125 | `testberichte/diagnose/ProfessionSentinel/0.9.62-dbd507028b4b.txt` |
+| ThreatSentinel | 121 | `testberichte/diagnose/ThreatSentinel/2.5.15-8a7b333a2542.txt` |
 
 ## Wegdaten (GSWEGE1)
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| LevelPilot | 198 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794760603-ad69fc.json` |
+| LevelPilot | 199 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794814892-0f62c3.json` |
 
 ## AHSentinel
-
-**Testlauf 0.65.182 · forever 1.60.1 (Interface 16001) · 15.11.2026 10:57 UTC** – OK 3 · FEHLER 1 · übersprungen 0 · im Client prüfen 0 · Sandbox OK
-- [FEHLER] T750 U – UI-CLEAN1 Fenster/Reiter/Optionen (Klassisch/Modern, 100 %/130 %): nichts überlappt, nichts abgeschnitten, kein Knopf o… (ergebnis: 309 Befunde (AH offen · Klassisch+Modern · 100+130 % · deDE · 44 Ansichten): AHSentinel Klassisch 100 % > Übersicht > overview: Frame ragt aus dem Fenster | AHSentinel Klassisch 100 % > Übersicht > overview: 'Übersicht' ragt aus dem Fenster | AHSentinel Klassisch 100 % > Übersicht > overview… | erwartet: 0 Befunde)
 
 **Testlauf 0.65.183 · forever 1.60.1 (Interface 16001) · 15.11.2026 11:02 UTC** – OK 0 · FEHLER 0 · übersprungen 2 · im Client prüfen 0 · Sandbox OK
 - [SKIP] T616 J – SN1951-S4 echter Mausrad-Kauf: eine Raste = genau 1 Stück (≤ 5c, nur nach Ja) (grund: Spieler hat den Testkauf nicht erlaubt (Nein))
@@ -52,11 +49,22 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 - [FEHLER] T732 J – SN-TEST2-S11 Pausen: nach Markt-Scan/Vollscan/Einkauf/AH-Klick sucht der Sniper von selbst weiter (≤ 5 s); Drossel -> … (ergebnis: 9 Pausen (vollscan 38 s -> weiter nach 8.5 s; AH-Klick 0 s -> weiter nach 8.6 s; seller 8 s -> weiter nach 0.0 s; AH-Klick 0 s -> weiter nach 8.7 s) · längste bis zur nächsten Suche 9.3 s · Drossel: Abstand 0.00 -> höchstens 0.30 -> 0.00 s (wieder schnell) | erwartet: weiter nach ≤ 5 s · wieder schnell)
 - [FEHLER] T734 J – SN-TEST2-S13 Ruckeln: Bilder/s und längster Frame über die ganze Beobachtung, kein Frame > 33 ms (ergebnis: Ø 94 / min 39 Bilder/s · längster Frame 286 ms · Frames > 33 ms: 83 · Ursachen: fremd 83 (46 ms: nicht AHSentinel (Spiel oder anderes Addon); 38 ms: nicht AHSentinel (Spiel oder anderes Addon); 38 ms: nicht AHSentinel (Spiel oder anderes Addon); 37 ms: nicht AHSentinel (Spiel oder anderes Addon… | erwartet: kein Frame > 33 ms)
 
+**Testlauf 0.65.260 · forever 1.60.1 (Interface 16001) · 16.11.2026 07:20 UTC** – OK 21 · FEHLER 5 · übersprungen 3 · im Client prüfen 0 · Sandbox FEHLER: 200 Pfade, wiederhergestellt (nicht vollständig): diag.entries.1.z, diag.entries.1.t, diag.entries.2.ms, diag.entries.2.k, diag.entries.2.t, diag.entries.3.ms, diag.entries.3.z, diag.entries.3.t, diag.entries.4.k, diag.entries.4.z, diag.entries.4.t, diag.entries.4.ms
+- [SKIP] T613 J – SN1951-S1 Treffer bleiben stehen, bis gekauft oder vom Server als weg gemeldet (grund: Markt hatte nichts Passendes: 7772 Angebote geprüft · über Max 7772 · eigene 0 · Lockangebot 0 · weg 0 · Suchen 13)
+- [FEHLER] T617 J – SN1951-S5 Ruckeln: Ø ≥ 30 Bilder/s, kein Frame > 50 ms, Sync-Warteschlange ≤ 10 (ergebnis: Ø 6 / min 3 Bilder/s · längster Frame 816 ms · Sync-Warteschlange max 0 (leer) · Ursachen: AHSentinel 84, fremd 179 (358 ms: nicht AHSentinel (Spiel oder anderes Addon); 445 ms: nicht AHSentinel (Spiel oder anderes Addon); 536 ms: nicht AHSentinel (Spiel oder anderes Addon); 541 ms: AHSentinel … | erwartet: ≥ 30 · ≤ 50 ms · ≤ 10)
+- [FEHLER] T618 J – SN1951-S6 Reaktionszeit: neues Angebot spätestens nach < 5 s sichtbar (Abstand der Suchen + Suchdauer) (ergebnis: zu wenige Suchen (1) | erwartet: < 5 s)
+- [FEHLER] T729 J – SN-TEST2-S8 reihum: jedes Ziel gesucht, längste Lücke ≤ Ziele × Ø Abstand × 1,5 (ohne Pausen) (ergebnis: 4 Ziele · i:14580 1×/70.7 s · i:4251 6×/34.1 s · i:6611 2×/69.7 s · i:7048 4×/60.6 s · Ø Abstand 7.0 s · Grenze 42.0 s | erwartet: jedes Ziel ≥ 1× · Lücke ≤ Grenze)
+- [SKIP] T730 J – SN-TEST2-S9 Treffer richtig: geplanter Kauf nur bei Stückpreis ≤ Max, Treffer golden markiert (grund: kein Treffer in der Beobachtung (7772 Angebote geprüft, über Max 7772) – Nachbildung T737)
+- [FEHLER] T732 J – SN-TEST2-S11 Pausen: nach Markt-Scan/Vollscan/Einkauf/AH-Klick sucht der Sniper von selbst weiter (≤ 5 s); Drossel -> … (ergebnis: 67 Pausen (AH-Klick 0 s -> weiter nach 32.1 s (hielt auf: Server nicht bereit (Drossel) 0.9 s, bereit 0.9 s); AH-Klick 0 s -> weiter nach 30.2 s (hielt auf: bereit 0.8 s, Server nicht bereit (Drossel) 0.5 s); AH-Klick 0 s -> weiter nach 28.9 s (hielt auf: bereit 0.7 s, Server nicht bereit (Drossel) … | erwartet: weiter nach ≤ 5 s · wieder schnell)
+- [SKIP] T733 J – SN-TEST2-S12 verpasst: Treffer, die vor dem Kauf weg waren, Zeit vom Erkennen bis weg; Ø Reaktion des Spielers (grund: kein Treffer in der Beobachtung · Ø Reaktion 8.6 s (heute, 1 Käufe) · S4 Treffer bis Kauf 9.3 s · Treffer>bestätigt (erster Versuch) Ø 4321 ms (2), Treffer>Reserv. Ø 492 ms (2), Reserv.>bereit Ø 61 ms (2), bereit>bestätigt Ø 3768 ms (2) · Rasten je Kauf Ø 2.0, höchstens 2 (Ziel ≤ 2) …)
+- [FEHLER] T734 J – SN-TEST2-S13 Ruckeln: Bilder/s und längster Frame über die ganze Beobachtung, kein Frame > 33 ms (ergebnis: Ø 6 / min 3 Bilder/s · längster Frame 816 ms · Frames > 33 ms: 263 · Ursachen: AHSentinel 84, fremd 179 (358 ms: nicht AHSentinel (Spiel oder anderes Addon); 445 ms: nicht AHSentinel (Spiel oder anderes Addon); 536 ms: nicht AHSentinel (Spiel oder anderes Addon); 541 ms: AHSentinel Kern/ITEM_SE… | erwartet: kein Frame > 33 ms)
+
 **Fehler im Spiel (letzte 7 Tage)**
 - 25× `ADDON_ACTION_BLOCKED`: UNKNOWN() – Version 0.65.182, 0.65.189, 0.65.194, 0.65.196, 0.65.203 · forever 1.60.1 (Interface 16001) · zuletzt 15.11.2026 18:13 UTC
 - 20× `ADDON_ACTION_FORBIDDEN`: UNKNOWN() – Version 0.65.16, 0.65.80 · forever 1.60.1 (Interface 16001) · zuletzt 11.11.2026 16:25 UTC
 - 11× `Lua`: Interface/AddOns/AHSentinel/Seller.lua:1433: attempt to index local 'msg' (a secret string value, while execution tainted by 'AHSentinel') – Version 0.65.77, 0.65.80 · forever 1.60.1 (Interface 16001) · zuletzt 10.11.2026 14:28 UTC
 - 1× `Job:craft-top`: Interface/AddOns/AHSentinel/Crafting.lua:515: attempt to index field '?' (a nil value) – Version 0.65.138 · forever 1.60.1 (Interface 16001) · zuletzt 14.11.2026 06:53 UTC
+- 1× `Lua`: Interface/AddOns/AHSentinel/UI_Main.lua:1303: script ran too long – Version 0.65.260 · forever 1.60.1 (Interface 16001) · zuletzt 16.11.2026 07:18 UTC
 
 ## BuffSentinel
 
