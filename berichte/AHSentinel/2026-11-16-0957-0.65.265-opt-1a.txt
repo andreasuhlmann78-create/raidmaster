@@ -1,0 +1,19 @@
+AHSentinel 0.65.265 – OPT-1a, OPT-1b, SN-RAD-A, SN-BTN1-Messung (Nachtest 09:28–09:36) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.265 und sofort im Discord.
+OPT-1a – Ursache belegt: w:Layout() rief für jeden Bereichs-Knopf b:SetActive(aktiv); UI:Button (UI_Main.lua 276) ruft onClick nur bei
+  enabledState – damit war nur der GERADE gewählte Bereich klickbar (aus dem Verkaufen-Reiter: nur "Verkaufen"). Die Suche lief, weil
+  das Suchfeld kein UI:Button ist. Jetzt: Knöpfe immer aktiv, gewählter Bereich "> Name" in Gold. T839 klickt jeden Bereichs-Knopf über
+  sein OnClick (wie ein echter Klick): 0.65.264 "Bereichs-Klicks 1/6" (rot, Fehler nachgebildet), 0.65.265 "6/6".
+OPT-1b: Zeilen "Sniper: Kaufen mit" und "Sniper kauft mit" zu EINER Zeile "Sniper kauft mit: Mausrad / Eigene Taste / nur Knopf"
+  (gewählte Möglichkeit grün mit Punkt). Mausrad bzw. eigene Taste wählen schaltet "Mausrad + Knopf" wieder ein, "nur Knopf" sperrt Rad
+  und Taste (SN-RAD-1 unverändert). w.buyWithBtns bleibt als Name ({ both = Mausrad, button = nur Knopf }). Optionen jetzt 55 Zeilen
+  (s74/T839 angepasst). Tooltips im Sniper nennen "Optionen > Kaufen & Sniper".
+SN-RAD-A (Prüfliste erkannte es nicht): Sn:WheelBuy wertet bei "nur Knopf" jetzt auch eine Raste, während ein Treffer angezeigt ist
+  (Sn.result), nicht nur bei HitWaiting() – HitWaiting war beim Nachtest kurz falsch ("Server noch nicht bereit"). Über der freien
+  Spielwelt kommt das Rad gewollt nicht beim Addon an (keine Bindung bei "nur Knopf") -> dort nichts zu erkennen; die Raste über der
+  Zielliste reicht.
+SN-BTN1 (Klick auf "Preis anfragen" ohne Meldung, danach "Kein Treffer") – Verdacht, zu messen: Messzeile SNIPER-KNOPF (nur Entwickler)
+  bei jedem Klick: Zustand und Text des Knopfs beim Klick, Alter des Treffers, Ergebnis und Meldung von OnTrigger. Ursache erst nach dem
+  nächsten Protokoll; kein Code auf Verdacht.
+Locales: 2 Texte neu (Tooltips mit "Kaufen & Sniper") in allen 10 Sprachen. CHANGELOG EN/DE.
+Gesamtlauf aus frischer Kopie (Lua 5.1, 0.65.265-Schnappschuss): BESTANDEN 315, FEHLGESCHLAGEN 1 – s42 rot nur durch T647 (CPU-Zeitmessung "Heute" mit 5000 Items: längster Schritt 9,1 ms > 8 ms, Extras.lua:279, von dieser Version nicht berührt); s42 danach einzeln 3× grün (bekannte Zeitmessung, wie T126).
