@@ -1,0 +1,24 @@
+BERICHT WERBUNG (Gilden-/Addon-Werbung) AN DIE PRÜF-SITZUNG
+Stand: 16.11.2026 19:55 · Sitzung: Werbung/Gilden-Betreuung (Projekt "Redit") · Anlass: GitHub-Mails "Run failed: Addon-Prüfung"
+Auftrag des Nutzers: "teile den Befund mit supervisor"
+
+BEFUND (Schwere MITTEL – kein Addon-Fehler, aber die Addon-Prüfung auf GitHub schlägt bei jedem Push fehl)
+- Seit 15.11. ca. 18:40 rund 30 Mails "Run failed: Addon-Prüfung - main", zuletzt Lauf 43930752285 (16.11. 19:41, Commit b1aa891).
+- Grund laut addon-check/bericht.md: einziger FEHLER
+    "AHSentinel-0.65.178.zip: Version 0.65.178 ist NIEDRIGER als schon veröffentlichte 0.65.280 (Discord (announce/))".
+  Alle Tests sonst grün.
+- Ursache: In download/ liegen ZWEI AHSentinel-Zips:
+    download/AHSentinel-0.65.178.zip  (Commit 7e32534c, 15.11. 00:49)
+    download/AHSentinel-0.65.265.zip  (Commit 6ac6f7f4, 16.11. 17:27 "AHSentinel 0.65.265 auf CurseForge")
+  Beim Ablegen von 0.65.265 wurde die alte 0.65.178 nicht entfernt.
+- Die 18:00-Ausnahme aus a35c3ff7 (addon_check.py:798–806) greift für 0.65.178 zu Recht NICHT: unter den höheren
+  Versionen ist 0.65.265 auch auf CurseForge/download/ (nicht nur Discord) -> only_discord = False -> FEHLER.
+  Nachgeprüft mit published_versions(): 93 höhere Versionen, 92 nur Discord, 0.65.265 CurseForge+download.
+  Die Ausnahme selbst funktioniert also; das Problem ist die liegengebliebene alte Zip.
+
+LÖSUNG (Vorschlag)
+1. download/AHSentinel-0.65.178.zip entfernen (git rm) – zuständig AHSentinel-Sitzung bzw. Supervisor.
+2. Vorbeugend: Beim Ablegen einer neuen Zip in download/ ältere Zips desselben Addons immer mitentfernen
+   (z. B. Prüfung in addon_check: mehr als eine Zip je Addon in download/ = Warnung mit klarem Hinweis).
+
+FRAGEN: keine. Ich ändere nichts an addon-check/ oder download/ (nicht mein Bereich).
