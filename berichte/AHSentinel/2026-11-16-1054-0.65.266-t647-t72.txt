@@ -1,0 +1,24 @@
+AHSentinel 0.65.266 – WEITER 10:40 Punkt 2 (T647-Ursache, T72, Kern-Abgleich vorbereitet) – umgesetzt, zur Prüfung
+CurseForge: nein – Kandidat bleibt 0.65.265 (nichts daran geändert). GitHub-Release v0.65.266 und sofort im Discord.
+T647 – Ursache belegt: Messfehler, kein langsamer Schritt.
+  (1) Gemessen (Nachbildung, ComputeTodayActions mit 5000 Items wie T647, Zeit zwischen zwei A:Pause je Stelle): Extras.lua:279
+      (GetFlipDeals, je Item) n 5000, längster Schritt 0,59 ms, Ø 0,017 ms; auch mit viel Speicher/Müll im Lauf (400 000 lebende
+      Tabellen + 300 000 Müll) höchstens 0,67 ms. Ein Durchgang dort kann keine 9,1 ms brauchen.
+  (2) Ursache: RunJobs setzt jobStart einmal je Bild; lastPauseT ist global. Läuft eine Aufgabe im selben Bild NACH einer anderen
+      (die fertig wurde und Budget übrig liess), misst A:Pause ihren ersten Schritt ab der letzten Pause der ANDEREN – deren
+      Schluss-Stück und der Wechsel zählen mit, und der Schritt wird der zweiten Aufgabe zugeschrieben (hier t373b, Stelle Extras:279).
+      In s42 laufen Testaufgaben vor t373b -> gelegentlich > 8 ms.
+  (3) Fix: lastPauseT = Clock() direkt vor coroutine.resume der Aufgabe (AHAnalyzerPro.lua RunJobs). Das Schluss-Stück der ersten
+      Aufgabe bleibt als "Ende <Name>" gemessen.
+  Test T843: Aufgabe A (Pause, dann 10 ms ohne Pause, fertig) und B (3 kurze Schritte) im selben Bild -> längster Schritt von B:
+  0.65.265 "10.0 ms bis TestRoutine.lua:9562" (rot – Fehler nachgebildet), 0.65.266 < 3 ms (grün). T647 grün.
+T72: SelfTest ST:RefLowest(itemID) – Vergleichswert für "Verkaufspreis zu hoch" aus A:OfferLadder ohne Lockangebot (günstigstes
+  ≤ 2 Stück und < 60 % der nächsten Stufe -> nächste Stufe, wie Se:PriceRisks); ohne Preisleiter wie bisher das günstigste Angebot des
+  Scans. Test T844 mit deinen Zahlen: Leiter 3c×1 / 3s20×5 -> 3s20, 3s35 nicht zu hoch; 1s50×3 -> 1s50, 3s35 zu hoch; ohne Leiter 3c.
+  Mit 0.65.265 rot, mit 0.65.266 grün. Ob Silberrute im Spiel wirklich ein Lockangebot hatte: im nächsten Selbsttest steht es.
+Kern-Abgleich vorbereitet (testberichte/markt/kern/2026-11-16.md, Stand 04:57 = vor 0.65.256/257): "FEHLT IM KERN" de:2 9/6,00 gegen
+  4/0,00, de:3 28/24,52 gegen 7/1,66, de:4 7/3,40 gegen 5/0,40, de:5 15/7,87 gegen 8/0,87. Erwartung nach dem einmaligen Neuaufbau
+  (filledSell3, Tage ≥ Grenztag G aus dem Journal): Kern-Fälle und verkaufte Anteile je Zelle = Journal-Spalte (9/6,00, 28/24,52,
+  7/3,40, 15/7,87; Rand ±1 am Tag des Kern-Starts). Nach dem nächsten Hochladen mit kern_abgleich.py nachrechnen.
+CHANGELOG EN/DE (für Spieler keine Änderung).
+Gesamtlauf aus frischer Kopie (Lua 5.1, 0.65.266-Schnappschuss): BESTANDEN 316, FEHLGESCHLAGEN 0 (T647 grün). s42 grün (T843, T844).
