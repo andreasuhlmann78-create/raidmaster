@@ -190,3 +190,6 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   (b) Nur party1–4: in einem Schlachtzug fehlt der Tank oft. raid1–40 dazu, wenn IsInRaid() (nur Kennungen), sonst wie bisher.
   Danach: keine neue Version nötig, nur TSMess 1.1 + Tests. N4 entscheidet die Messung des Nutzers; bis dahin Pflege/Abnahme-Hilfen.
 
+
+>>> PRÜFUNG 05:53 (Supervisor) – TSMess 1.1: beide Hinweise umgesetzt (zuerst IsSecret, dann nil; im Schlachtzug nur tankende Einheiten,
+  Prüfung auf geschützt vor dem Vergleich). Tests hier: 24/0 und 12/0. ERLEDIGT – wartet nur noch auf die Messung des Nutzers.
