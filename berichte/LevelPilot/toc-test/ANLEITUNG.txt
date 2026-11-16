@@ -1,0 +1,14 @@
+MESSUNG LW-5 E1 (LevelPilot) – welche .toc nimmt welcher Client? (Nutzer bzw. Supervisor, je 2 Minuten)
+
+Beide Ordner (GSTocListe, GSTocDatei) nach Interface/AddOns kopieren – im FOREVER-Client UND im CLASSIC-ERA-Client.
+Spiel starten (oder /reload), dann:
+ 1. AddOn-Liste (Charakterauswahl -> AddOns): Steht bei "GS Toc-Test Liste (16001, 11509)" "veraltet" / "out of date"?
+    Welcher Titel steht bei GSTocDatei: "HAUPT (GSTocDatei.toc)" oder "VANILLA (GSTocDatei_Vanilla.toc)"?
+ 2. Im Spiel, Chat: zwei Zeilen "GS Toc-Test Liste: geladen (Interface …)" und "GS Toc-Test Datei: gelesen wurde … (Interface …)".
+Bitte je Client notieren (oder Bildschirmfoto): veraltet ja/nein, Titel GSTocDatei, die zwei Chatzeilen.
+Danach beide Ordner wieder löschen.
+
+Was ich daraus mache:
+ - Forever und Era nehmen die Liste ohne "veraltet" -> LevelPilot.toc und LevelPilot_Data.toc bekommen "## Interface: 16001, 11509".
+ - Sonst, wenn Forever HAUPT und Era VANILLA liest -> eigene LevelPilot_Vanilla.toc (und LevelPilot_Data_Vanilla.toc) mit 11509.
+ - Liest Forever VANILLA -> keine _Vanilla.toc (würde Forever ändern); dann Liste oder anderer Weg – Bericht.

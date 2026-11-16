@@ -1,0 +1,57 @@
+BERICHT LevelPilot 3.12.56 – LW-5 E3 Daten je Spielversion (Classic Era getrennt von Forever); Mess-Set für E1 (.toc)
+Projekt: LevelPilot · Datum: 16.11.2026 11:02 (aus date) · Version: 3.12.56 · umgesetzt, zur Prüfung
+Classic Era: vorbereitet, im Era-Client noch NICHT im Spiel geprüft (Verdacht, zu messen).
+
+Bezug: ENTSCHEID LW-5 (Nutzer 10:08: E1–E4 bauen), Interface Era 11509 (Nutzer 10:43).
+
+1. E3 – GESAMMELTE DATEN JE SPIELVERSION
+   Core.lua: LP.IsEraClient() (GoldSentinelGame.flavor == "era"), LP.ChooseAcc(root, era), LP.Acc().
+   - WoW Forever (und jede andere Version): Bereich = LevelPilotDB selbst – genau wie bisher, nichts umgezogen, nichts gelöscht.
+   - Classic Era: Bereich = LevelPilotDB.era (beim ersten Laden leer angelegt): gelaufene Wege, gelernte Quests, Flugpunkte,
+     Händler, Höhlen, Kalibrierung, Austausch (gsSync), Einstellungen. Grund: Mulgore u. a. haben in Forever andere Karten,
+     Forever hat neue Quests – ein Era-Charakter darf sie nicht bekommen.
+   - Gemeinsam (Grundtabelle) bleiben: Diagnose-Protokoll, Wegdaten-Export (trägt die Spielversion), Testberichte (gsTest),
+     Prüfliste, Marktdaten (gsMarkt), clientTest.
+   - Festgelegt EINMAL in ADDON_LOADED (LP.accRoot, LP.accBase). Eine in der Testroutine nur vorgetäuschte Spielversion
+     ändert den Speicherort nie. Wird LevelPilotDB später ersetzt (das Addon tut das nie, Offline-Tests schon), gilt der
+     Bereich der neuen Tabelle – nie Daten einer alten.
+   Umgestellt auf LP.Acc(): Core (LoadSaved), Calib (Store + 3 Lesestellen, Ca.CalibTable), Comm (2 Kalibrierungs-Lesestellen,
+   ep:UseStorage), Locale (LP:Language), Virtual (echte Flugpunkte, Überlagerung, Fingerabdruck), Backup (CheckOnLoad,
+   SaveCopy), TestRoutine (Kalibrierung 13×, Sandbox-Restore, Taxi-Prüfung, gsSync).
+
+2. EIGENE BEFUNDE WÄHREND DES BAUS (gefunden von der Offline-Routine, Era-Lauf)
+   a) Sprache: LP:Language las LevelPilotDB.language (Grundtabelle), LP.db.language aber im Era-Bereich -> im Era-Lauf
+      wechselten T136/T281 die Sprache nicht. Behoben (Locale liest LP.Acc()).
+   b) Sandbox der Testroutine stellte mit LoadSaved(LevelPilotDB) zurück -> im Era-Lauf landeten Standard-Einstellungen in der
+      Grundtabelle ("Sandbox: FEHLER advAmmo, …"). Behoben.
+   c) Beim Durchsuchen aller LevelPilotDB-Zugriffe zusätzlich gefunden: virtuelle Reise (Flugpunkt-Überlagerung) und Sicherung
+      im Charakter hätten in Era die Grundtabelle benutzt. Behoben.
+   d) T76/T127 tauschen LevelPilotDB per WithEnv: neu WithAccEnv (setzt LP.accRoot mit, immer zurück). test10 (Offline)
+      ersetzt LevelPilotDB global: dafür LP.accBase (siehe 1).
+
+3. TEST T316 (true ×9): Forever = Grundtabelle · Era = eigener Bereich · Era-Daten bleiben, Forever unberührt · Kalibrierung im
+   Bereich / leer · Sprache · Flugpunkte · ersetzte Grundtabelle · jetzt (accKind passt zur Spielversion).
+   GEGENPROBEN (je rot): alte Calib-Lesung (LevelPilotDB.calib); alte Sprach- und Flugpunkt-Lesung (Sprache false, Flugpunkte
+   false); altes LP.Acc ohne accBase (ersetzte Grundtabelle false).
+
+4. PRÜFUNGEN
+   addon_check: OK. Offline-Routine: 38 Läufe, 38 ohne FEHLER (Testroutine Forever deDE Horde 275 OK, enUS 275, Allianz 273,
+   Classic Era 274, TBC 274; je 0 FEHLER). Private Regression: 36 von 36 Läufen ALLE TESTS OK
+   (darunter test10 Sicherung, test26–31 Simulation mit gespeicherten Kontodaten).
+
+5. E1 – MESS-SET FÜR DIE .TOC (berichte/LevelPilot/toc-test/, ANLEITUNG.txt)
+   Zwei Mini-Addons ohne Wirkung: GSTocListe (## Interface: 16001, 11509) und GSTocDatei (GSTocDatei.toc 16001 "HAUPT" +
+   GSTocDatei_Vanilla.toc 11509 "VANILLA"). Je Client (Forever und Era) ablesen: "veraltet" ja/nein, welcher Titel, zwei
+   Chatzeilen. Entscheidungsregel steht in der Anleitung. Bitte an Nutzer bzw. Supervisor: Messung, etwa 2 Minuten je Client.
+   Bis dahin bleibt LevelPilot.toc unverändert (16001) – Forever wird nicht berührt.
+
+6. E4 – ERSTE DURCHSICHT (Stand jetzt, wird in der nächsten Version fertig)
+   - Data/Seed.lua: leer (version "leer") – nichts Forever-Eigenes.
+   - Datenpaket: Questie-Classic-Daten, nur in den Forever-Rahmen umgerechnet (gen_pack.lua) und 2 NPC-Orte – E2 rechnet
+     beides zurück. Neue Forever-Quests kommen nur aus selbst aufgezeichneten Daten (qdb) – die liegen seit E3 je
+     Spielversion, ein Era-Charakter bekommt sie nicht.
+   - Startwegnetz (Data/Wege.lua) und Forever-Strassen nur im Forever-Client (Graph.SeedWegeAktiv); Era-Strassen eigene Datei.
+   - Regeln (Questlog 40, Dungeon-EP, grüne Quests) hängen an API.Forever() = GoldSentinelGame.IsForever (Era: aus).
+   Offen für E4: Texte "WoW Forever" in Hilfe/Einstellungen je Spielversion, Prüfliste, Wegmessung-Hinweise.
+
+7. NÄCHSTE SCHRITTE: E4 (Durchsicht restlicher Forever-Eigenheiten) jetzt; E1 nach der Messung; dann NAV-2.
