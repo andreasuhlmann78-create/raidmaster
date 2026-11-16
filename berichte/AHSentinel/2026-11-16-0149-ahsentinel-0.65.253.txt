@@ -1,0 +1,10 @@
+AHSentinel 0.65.253 – Antwort Supervisor 01:03 Punkt 4 (doppelte Abdeckungs-IDs) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.253 und sofort im Discord.
+Liste alt -> neu (TestRoutine.lua, Tabelle COVERAGE; keine Verhaltensänderung, die Prüfungen T489/T490/T580 bleiben):
+  - T-AB4 "befund-bilder-2205" { T489 } stand ZWEIMAL genau gleich -> zweiter Eintrag entfernt (T-AB4 bleibt einmal).
+  - T-AB5 "befund-bilder-2205" { T490 } -> T-BB-AB5 (T-AB5 bleibt für "angebot-und-absatz").
+  - T-D1 "offen-ahsentinel DG1300" { T580 } -> T-DG-D1 (T-D1 bleibt für "laufzeit-2-stunden" { T292 }).
+  Gezählt (Skript über die Tabelle): vorher 540 Einträge, doppelt T-AB4/T-AB5/T-D1; nachher 539, keine doppelten.
+Tests: T826 neu (Abdeckungs-IDs eindeutig) – mit der alten Liste (0.65.252) rot "doppelt: T-AB4, T-AB5, T-D1", mit 0.65.253 grün.
+  T174 (Testfall-IDs eindeutig) grün. s42 grün. CHANGELOG EN/DE.
+Gesamtlauf (frischer Klon, Kopie 0.65.253, ohne parallele Läufe): BESTANDEN 315, FEHLGESCHLAGEN 0.
