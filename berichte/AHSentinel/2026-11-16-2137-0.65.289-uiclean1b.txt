@@ -1,0 +1,25 @@
+AHSentinel 0.65.289 – UI-CLEAN1-B (HOCH, 727 Befunde) – Teil 1 umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.289 und sofort im Discord.
+
+STAND IM NACHBAU (UI-Testroutine s187, AH zu, Klassisch+Modern, 100+130 %, deDE, 152 von 156 Ansichten): vorher 44 Befunde
+(ragt heraus 8, überlappt 16, veraltet 20), jetzt 16 (überlappt 16).
+UMGESETZT:
+1. "ragt heraus" (8): Reiter Schnäppchen (4 Ansichten × Modern 100/130 %) – der Flipping-Rechner hatte feste 500 px Höhe, der Reiter
+   ist in Modern 480 px hoch -> 20 px unten heraus. Jetzt oben und unten am Reiter verankert (Höhe folgt dem Reiter; Inhalt endet
+   bei -316 px + Hinweis unten, passt).
+2. "veraltet" (20 im Nachbau, 39 im Spiel): Markt > Flippen/Händler/Lücken/Überfüllt/Entzaubern zeigen "lernt noch (12 von 20)".
+   Das ist der gewollte graue Stand (Entscheid des Nutzers 06:18 "nur Belegtes, sonst grau lernt noch"; Aufträge "grau lernt
+   noch (16)"). Die UI-Prüfung zählte jeden Text mit "lernt noch" als veraltet. Jetzt: nur ein nackter "lernt noch"-Rest OHNE Zahl
+   gilt als veraltet (wie im Auftrag UI-CLEAN1 A: "lernt noch"-Reste). T751 entsprechend angepasst (vorher erwartete er
+   "lernt noch (3 Fälle)" als veraltet – widerspricht dem Entscheid). FRAGE: Einverstanden? Vorschlag: ja.
+OFFEN (Teil 2) – brauche die Liste aus dem Spiel:
+- "abgeschnitten" (462 im Spiel) misst die Nachbildung nicht (Schriftbreiten gibt es nur im Spiel); "überlappt" 16 im Nachbau sind
+  Nachbau-Folgen: Rückfrage "Budget auffüllen?" und Liste "Gesperrt" – die Nachbildung legt dort alle Kinder auf dieselbe Stelle
+  (gemessen: Ja, Nein und Schliessen alle bei x 100, obwohl Ja BOTTOMLEFT +14 und Nein rechts von Ja +8 verankert sind); im Spiel
+  ist das nach meinem Wissen nicht gemeldet – Verdacht, zu messen.
+- Bitte den Text "UI-BEFUNDE" des Testberichts (Ingame-Test 19:43, /ahs testroutine ui) ins Repo legen oder über den Uploader
+  schicken (testberichte/status.md zeigt AHSentinel zuletzt 0.65.260). Dann behebe ich Kaufen > Schnäppchen (86), Unter Händlerpreis
+  (86), Markt > Lücken (65) gezielt.
+TESTS: T865 (Text-Regel "lernt noch" mit/ohne Zahl, Rechner mit 2 Ankerpunkten) – Gegenprobe mit 0.65.288: rot. s187: 16 Befunde
+  (vorher 44).
+Gezielte Läufe 0.65.289: s42 Testroutine, s187 UI-Prüfung, s10_quality_picker, s5_help, s222, s260 – alle grün. Gesamtlauf auf 0.65.290 (enthält 289): BESTANDEN 327, FEHLGESCHLAGEN 0.
