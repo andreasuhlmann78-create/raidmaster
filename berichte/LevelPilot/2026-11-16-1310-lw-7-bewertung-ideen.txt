@@ -1,0 +1,62 @@
+BERICHT LevelPilot – LW-7 Bewertung der Ideen aus dem RestedXP-Vergleich (nur Bericht, kein Code)
+Projekt: LevelPilot · Datum: 16.11.2026 13:10 (aus date) · Stand Code: 3.12.63
+
+Bezug: offen-levelpilot.txt RESTEDXP-VERGLEICH "LW-7 (nach LW-6..LW-3, Ideen, je einzeln in LW-0 bewerten): (a) Schleifen für
+Sammel-/Grind-Ziele, (b) Radius je Wegpunkt, (c) Ruhestein + Binden zusammen (HS-Batching) als Option, (d) 'Tod als Reise' im
+Speedrun – NUR mit Entscheid des Nutzers, (e) Messlatte EP/Stunde je Stufe gegen öffentliche Speedrun-Zeiten (Zahl, keine Route)."
+Lizenz RestedXP: CC BY-NC-SA 4.0 – nichts übernommen, nur Ideen bewertet.
+
+Je Idee: Bestand in LevelPilot (Code-Stelle) · Nutzen · Aufwand · Risiko · Messbarkeit · Vorschlag.
+
+(a) SCHLEIFEN FÜR SAMMEL-/GRIND-ZIELE
+    Bestand: Pins.lua Pi:NearestObject – Pfeil zur nächsten NICHT besuchten Fundstelle von Questgegenständen (besucht ab
+    OBJ_REACHED), das ist schon eine Schleife nach "nächster Nachbar" über die Fundorte. Für Töte-Ziele (Monster) gibt es keinen
+    Rundgang: der Schritt zeigt einen Punkt (Gebietsmitte), Monster am Weg nimmt die Route mit (WayKills).
+    Nutzen: mittel – bei Töte-Zielen mit grossem Gebiet läuft man heute zum Mittelpunkt und sucht selbst.
+    Aufwand: mittel (Rundgang über die Spawn-Punkte des Ziels, nächster-Nachbar + 2-opt wie in P:Order, Radius je Punkt).
+    Risiko: gering (nur Anzeige/Pfeil, ändert die Route nicht).
+    Messbarkeit: NICHT im Nachbau (die virtuelle Reise rechnet Zielzeiten mit ObjectiveCost, nicht geometrisch); nur im Spiel
+    über die Laufweg-Messung (LW-6: Zeit am Ziel je Schritt) – vorher/nachher je Spieler.
+    VORSCHLAG: ja, als LW-7a – Rundgang für Töte-Ziele mit ≥ 3 Spawn-Gruppen; Pfeil wie bei den Fundstellen.
+
+(b) RADIUS JE WEGPUNKT
+    Bestand: feste Radien – Gehe-zu erreicht 12 yd (Engine REACH), Wegpunkt des Pfeils 14 yd (Navigation WAYPOINT_REACH),
+    Wegsuche-Ziel 40 yd (Nav.ARRIVE).
+    Nutzen: gering bis mittel – nur an Engstellen (Treppen, Höhlen, Städte mit Ebenen) zu früh "erreicht". Dort hilft eher das
+    gelaufene Netz (LW-4) und W3D (Schalter aus bis zur Messung, Supervisor 15.11. 20:15).
+    Aufwand: klein (Radius aus Abstand zum nächsten Knoten ableiten).
+    VORSCHLAG: zurückstellen bis W3D/LW-4; dann mit ihnen zusammen.
+
+(c) RUHESTEIN + BINDEN ZUSAMMEN ("HS-Batching")
+    Bestand: getrennte Schritte – P:BindStep (binden in einer neuen Hauptzone mit vielen Aufgaben) und P:HearthStep (Ruhestein,
+    wenn der Bindeort nahe am Ziel liegt). Kein gemeinsamer Schritt.
+    Nutzen: im Speedrun klein bis mittel (spart einen späteren Weg zum Gastwirt); die virtuelle Reise zählt 18–24 Ruhesteine je
+    Reise 1–60 (Bericht 12:39) – eine Obergrenze lässt sich im Nachbau rechnen (Fälle, in denen Binden und Ruhestein im selben
+    Gasthaus zusammenfallen würden).
+    Aufwand: klein (Hinweistext + Erkennung der Lage), aber die Handlung selbst ist Fingerspitzengefühl (Binden genau am Ende
+    des Wirkens) – LevelPilot kann sie nicht auslösen, nur anleiten.
+    Risiko: gering (scheitert es, ist man nur am alten Ort gebunden, wie heute).
+    VORSCHLAG: zuerst messen (Anzahl Fälle in der virtuellen Reise, 6 Völker), dann entscheiden; nur im Speedrun, abschaltbar.
+
+(d) "TOD ALS REISE" (absichtlich sterben, beim Geisterheiler auferstehen)
+    Bestand: nichts.
+    Kosten im Spiel (Classic-Regeln, für Forever zu belegen): Haltbarkeit −10 % beim Tod; Auferstehen beim Geisterheiler
+    zusätzlich −25 % Haltbarkeit und Wiederbelebungsnachwirkungen (ab Stufe 11, bis 10 Minuten) – zu messen, ob Forever das
+    ändert (Verdacht, zu messen).
+    Nutzen: vor allem Stufe 1–10 (keine Nachwirkungen), wenn der Friedhof nahe am Ziel liegt. Danach meist schlechter als Laufen.
+    Risiko: hoch (ungewohnt, Reparaturkosten, kann falsch verstanden werden).
+    VORSCHLAG: NICHT bauen ohne Entscheid des Nutzers (so verlangt). Falls gewünscht: nur Speedrun, nur bis Stufe 10, nur als
+    Hinweis mit Zeitgewinn ("spart ~X min"), standardmässig aus.
+    FRAGE AN DEN NUTZER: Soll LevelPilot "Tod als Reise" überhaupt vorschlagen (Speedrun, bis Stufe 10, aus)? Ja/Nein.
+
+(e) MESSLATTE EP/STUNDE JE STUFE GEGEN ÖFFENTLICHE SPEEDRUN-ZEITEN
+    Bestand: Laufweg-Messung (LW-6, 3.12.48) und Bestzeiten je Level (Session) über alle Charaktere; die virtuelle Reise liefert
+    eine geschätzte Spielzeit 1–60 (Nachbau 158–198 h je Volk, Bericht 12:39).
+    Nutzen: mittel – eine Zahl, gegen die "optimal" gemessen wird (Ziel des Nutzers: optimal geführt).
+    Aufwand: klein (Tabelle Stufe -> Richtzeit, nur Zahlen mit Quelle; keine Route).
+    Offen: Quelle mit Lizenz/Erlaubnis für die Zahlen (öffentliche Rekordlisten). Ich suche sie nicht auf Verdacht zusammen –
+    bitte Quelle vorgeben (Supervisor), dann baue ich die Vergleichszeile in die Bestzeiten.
+
+REIHENFOLGE-VORSCHLAG: (a) zuerst (mittel, sichtbarer Nutzen, im Spiel messbar) -> (c) messen -> (e) mit Quelle -> (b) mit
+W3D/LW-4 -> (d) nur mit Entscheid.
+Bis zur Antwort baue ich (a) als nächste Version (LW-7a), weil es unabhängig ist und nichts an der Route ändert.
