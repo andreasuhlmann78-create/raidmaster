@@ -1,0 +1,26 @@
+BERICHT LevelPilot 3.12.70 – NAV-T1 (Navi-Ziel an zweiter Stelle) behoben
+Projekt: LevelPilot · Datum: 16.11.2026 17:07 (aus date) · Version: 3.12.70 · umgesetzt, zur Prüfung
+
+Bezug: NACHTEST IM SPIEL Supervisor 15:37 (Forever, 3.12.69): "BEFUND NAV-T1 MITTEL: Navi-Ziel steht im Guide an ZWEITER Stelle,
+der Pfeil zeigt weiter '310 Yards (Weg unbekannt) – Der abtrünnige Lich' … Ursache belegen und beheben."
+
+1. URSACHE (belegt, Code)
+   Planner.lua P.InsertPriority (seit 3.12.8): das Hinführ-Ziel wird NACH allen abgabebereiten Quests in der Nähe eingefügt
+   (steps[pos].nearTurnin, Abstand bis P.NEAR_TURNIN). Gedacht für Vorschläge des Assistenten (Trainer, Händler …; Test T21x
+   "Vorrang-Ziel nicht vor nahe Abgaben"). Das Navi benutzt dasselbe Feld (Planner.priority) und erbte die Regel. Im Nachtest war
+   Quest 405 "Der abtrünnige Lich" fertig und 310 yd entfernt -> Abgabe an Stelle 1, Navi-Ziel an Stelle 2, Pfeil = Schritt 1
+   (Engine:Current = steps[1]). Passt zu beiden Beobachtungen (Briefkasten und Ödland).
+2. LÖSUNG
+   Vom Spieler gewählte Ziele tragen explicit = true: Comfort.Navigate (deckt /lp navi, /lp weg, /lp suche, Namenssuche,
+   Kartenmarkierung, LevelPilotAPI.NavigateTo und die Wegmessung ab) und der Ersatzweg in Api.lua. InsertPriority: explicit ->
+   Stelle 1; sonst wie bisher nach nahen Abgaben (Assistent, Hinweise).
+3. TEST T331 (true ×4): gewähltes Ziel oben · Assistent nach nahen Abgaben (unverändert) · Navi setzt explicit · Schnittstelle setzt
+   explicit. GEGENPROBE (Regel ohne explicit): "gewähltes Ziel oben" false. Bestehender Test T217 (Vorrang-Ziel nach den Abgaben) grün.
+4. ZU DEN BEOBACHTUNGEN
+   - Unterstadt "Weg unbekannt": bekannt – Stadt mit Ebenen, W3D-Schalter aus bis zur Messung (Supervisor 15.11. 20:15); die
+     Wegmessung (/lp wegmessung, GSWegMess) liefert die Daten dafür.
+   - Koordinaten im Chat mit Punkt ("50.0, 50.0"): bewusst gelassen – Koordinaten sind ein Zahlenpaar, das Komma trennt die beiden
+     Werte (wie die Koordinaten-Anzeigen im Spiel und in TomTom/RestedXP). Mit Dezimalkomma stünde "50,0, 50,0" – missverständlich.
+     Die Komma-Regel (NP-LP49-2) gilt für Messwerte (Tempo, Faktoren). Wenn gewünscht: "50,0 / 50,0" – ein Wort genügt.
+5. PRÜFUNGEN
+   addon_check: OK. Offline-Routine: 38 Läufe, 38 ohne FEHLER. Private Regression: 36 von 36 Läufen ALLE TESTS OK.
