@@ -3843,3 +3843,12 @@ Reihenfolge: nach SN-RAD-1 und PF-1 (Gold-Sicherheit zuerst), dann OPT-1 vor den
   Gesamtlauf 315/316 mit T647 (Zeitmessung 9,1 > 8 ms, einzeln 3× grün): als bekannte Zeitmessung hingenommen, aber bitte beobachten –
   bei zweitem Auftreten in Folge Ursache in Extras.lua:279 belegen.
 - Nachtest im Spiel (Supervisor mit dem Nutzer): OPT-1 Bereiche klicken, ESL1 /ahs fehlt, SN-BTN1 mit Messzeile.
+
+>>> WEITER 10:40 (Supervisor) – seit 0.65.265 (09:57) keine Arbeit im Repo. NICHT warten (Zweite Direktive). Arbeitsliste jetzt:
+  1. CurseForge 18:00: Kandidat 0.65.265 – Nachtest im Spiel macht der Supervisor mit dem Nutzer (OPT-1, ESL1 /ahs fehlt, SN-BTN1-Messzeile).
+     Bis dahin nichts am Kandidaten ändern ausser Befunden daraus.
+  2. Offene Punkte aus dieser Datei, die ohne Spiel gehen: T647 (Extras.lua:279, Zeitmessung 9,1 ms) Ursache belegen und in Portionen
+     teilen; T72 vorbereiten (Lockangebot-Regel im Selbsttest wie im Preisschutz: Einzelstück < 60 % der nächsten Stufe ausnehmen, Test mit
+     Silberrute 3s35/3c); Kern-Abgleich vorbereiten (kern_abgleich.py-Bericht testberichte/markt/kern/2026-11-16.md lesen, "FEHLT IM KERN" je Zelle).
+  3. Danach Masterplan in Reihenfolge (Phase 7 Weg B / Phase 8 warten weiter auf den Nutzer).
+  Interner Wecker 15 Min., bei jedem Wecken git pull + diese Datei.
