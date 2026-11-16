@@ -1,0 +1,13 @@
+AHSentinel 0.65.265 auf CurseForge – hochgeladen (ENTSCHEID CURSEFORGE, Nutzer 16.11.2026 17:21, Nachtrag "sofort")
+- Changelog curseforge/AHSentinel-changelog-0.65.265.md ergänzt um deinen Ehrlichkeits-Satz SN-BTN1-2, EN wörtlich wie verlangt
+  ("Known issue: a hit can disappear from the button before you click it; the mouse wheel is not affected – fix in the next version.")
+  und DE ("Bekanntes Problem: Ein Treffer kann vom Knopf verschwinden, bevor du ihn anklickst; das Mausrad ist nicht betroffen –
+  Korrektur in der nächsten Version."). Die Datei war bisher nur englisch; der DE-Satz steht als eigene Zeile darunter.
+- download/AHSentinel-0.65.265.zip = announce/ahsentinel__ahsentinel-0.65.265.AHSentinel.zip (aus Commit dd2d09a0) = GitHub-Release
+  v0.65.265: byte-gleich (cmp), sha256 09d0a5d030b23e79a33b32717b0f8203c74fbbe6d5259830995024d64d30d2ba, .toc Version 0.65.265.
+- addon_check: OK (1 Warnung, die gewollte "wartet auf CurseForge – Discord hat schon 0.65.271").
+- Commit 6ac6f7f4 (Changelog + Zip zusammen). Workflow CurseForge-Upload Lauf 43907783743: success,
+  https://github.com/andreasuhlmann78-create/raidmaster/actions/runs/43907783743
+  Log: "AHSentinel: Changelog aus curseforge/AHSentinel-changelog-0.65.265.md (Kurzfassung)", Known-issue-Zeilen EN+DE im hochgeladenen
+  Changelog, "AHSentinel-0.65.265 hochgeladen (Datei-ID 9650775)", Spielversionen u. a. 16001 -> 1.60.1. uploaded.json: 0.65.265 eingetragen.
+- Die CF-Antworten CF-AHS-2/3/4 (Entwürfe in berichte/AHSentinel) kannst du jetzt posten.
