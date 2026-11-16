@@ -3695,3 +3695,13 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
 
 >>> PRÜFUNG 07:44 (Supervisor) – 0.65.260: MR4/MR-SEITE als Punkte 9–10 der Prüfliste (nur OK/Nicht OK, nichts gebaut), addon_check OK. Angenommen.
   0.65.260 ist die Version für die Sniper-Abnahme des Nutzers.
+
+==== INGAME-TEST DES NUTZERS 16.11.2026 ab 08:14 (Prüfliste 0.65.260) – Rückmeldungen laufend ====
+- PL-T1 (Nutzer 08:28 "in den Optionen ist so viel Zeug ... nicht zu finden"): "Sniper: Kaufen mit" steht in /ahs optionen als
+  28. Zeile (rechte Spalte, 8. von oben) zwischen 30+ Optionen. Auftrag: (a) die Prüfliste SN-RAD nennt die genaue Stelle
+  ("rechte Spalte, unter „Seit deinem letzten Besuch“") oder hat einen Knopf, der die Optionen öffnet und die Zeile hervorhebt;
+  (b) die Einstellung zusätzlich direkt im Sniper (neben dem Kauf-Knopf) – dort, wo sie gebraucht wird. Optionen gruppieren
+  (Überschriften Sniper / Anzeige / Markt) prüfen. Psychologie: Nutzer sucht dort, wo er gerade ist.
+- PL-T2 (Nutzer 08:23/08:25): Kauf-Knopf war nicht eindeutig ("welcher Kaufknopf?") und stand auf "Kein Treffer". Die Prüfliste
+  SN-BTN1 soll (a) den Ort nennen ("breiter Knopf unter der Zielliste im Sniper") und (b) bei "Kein Treffer" im Text sagen, was
+  zu tun ist (Max pro Stück über das billigste Angebot, "Jetzt suchen"). Tooltip-Grund am grauen Knopf auch als Text darunter.
