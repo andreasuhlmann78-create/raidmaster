@@ -1,0 +1,32 @@
+AHSentinel 0.65.272 – SN-BTN1-2 (Befund MITTEL, Ingame-Test 15:35): Treffer bleibt auf dem Kauf-Knopf klickbar – umgesetzt, zur Prüfung
+CurseForge: nein (erst nach dem Ingame-Test morgen). GitHub-Release v0.65.272 und sofort im Discord.
+URSACHE (belegt im Nachbau, Messzeile SNIPER-KNOPF aus dem Spiel noch nicht hochgeladen):
+- Nachbau s256_btn_hold mit den im Spiel gemessenen Zeiten (Drossel ~0,9 s, Antwort ~0,8 s – Testbericht 16.11. 08:19 "Server nicht
+  bereit (Drossel) 0.9 s"), Ware-Treffer Leinenstoff 3× unter Max, zweites Ziel ohne Treffer, "nur Knopf".
+  Mit 0.65.271: Knopf in 30 s nur 156 von 300 Proben klickbar (ask 156, none 56, wait 88); 10 Klicks im Abstand 2 s: 5 ohne Wirkung UND ohne Grund.
+  = genau das Bild aus dem Spiel ("Treffer" im Chat, Knopf fast nur "Kein Treffer"/"Server noch nicht bereit", Klicks ohne Wirkung).
+- Drei Gründe: (1) Ware-Treffer gelten nur 3 s (RESULT_FRESH_COMMODITY); (2) der Sniper sucht reihum – die Antwort des zweiten Ziels
+  ersetzt den Treffer ("Kein Treffer"); (3) nach jeder Suche ist die Drossel ~0,9 s belegt -> "Server noch nicht bereit", der Knopf ist
+  dann grau und nimmt keinen Klick an (UI:Button ignoriert Klicks im Zustand nicht aktiv), ein Klick dazwischen bleibt stumm.
+BEHOBEN (Sniper.lua):
+- Sn:ButtonState hält den zuletzt gezeigten Treffer (btnHit), wenn danach "Kein Treffer" oder "Server noch nicht bereit" käme.
+  Frei nur bei: gekauft (lastBuyDone), Ziel entfernt, weg (neue frische Antwort für DIESES Item ohne Kauf unter Max), ersetzt (neuer
+  Treffer) oder 30 s nach dem letzten Sehen (Sn.BTN_HOLD_MAX – keine Sperre ohne Zeitlimit). "Kauf läuft", Preis-Anfrage, Bestätigen,
+  Budget-Abfrage bleiben unverändert.
+- Klick auf den gehaltenen Treffer: OnTriggerInner nimmt das Ergebnis des gehaltenen Treffers (auch wenn älter als 3 s oder ein anderes
+  Ziel gesucht wurde). SICHER: Ware fragt den Preis beim Server an, gekauft wird nur bei Stück ≤ Max, Ø ≤ Max und ≤ Budget
+  (COMMODITY_PRICE_UPDATED, unverändert); Einzelangebote gelten ohnehin 30 s, der Server lehnt Verschwundenes ab.
+- Klick in der Drossel: statt stumm jetzt "Server noch nicht bereit – der Treffer bleibt, gleich nochmal klicken." (Blizzard nimmt
+  in dieser Zeit keinen Kauf an – das lässt sich nicht verschieben, weil ein Kauf einen Klick braucht).
+- "nur Knopf" + gehaltener Treffer: höchstens alle 8 s suchen (Sn.BTN_RECHECK), damit die Drossel beim Klick meist frei ist.
+  Mausrad-Modus unverändert.
+MESSWERTE nach dem Fix (s256_btn_hold): 300 von 300 Proben klickbar; 10 Klicks: 9 starten den Kauf, 1 mit Grund "Server noch nicht
+  bereit", 0 ohne Wirkung; Angebot weg -> Knopf grau, Klick kauft nichts. Mit 0.65.271 rot (156/300, 5 stumm).
+Test T849: hält bei "Kein Treffer", "Server noch nicht bereit", anderem Ziel; NICHT bei "Kauf läuft"; frei bei Ziel weg, gekauft, weg,
+  30 s; ersetzt durch neuen Treffer. Gegenprobe: mit 0.65.271 rot, mit 0.65.272 grün.
+Alle Sniper-Szenarien einzeln grün (s9_*, s27_*, s190_*, s208_buy_button, s209_*, s211_*, s212_*, sniper*).
+Prüfliste: Punkt SN-BTN1 neu ab 0.65.272 (wieder offen), Erwartung um "Treffer bleibt klickbar" ergänzt.
+Locales: 2 neue Texte in allen 10 Sprachen. CHANGELOG EN/DE.
+Gesamtlauf der Nachbildung: BESTANDEN 317 (mit dem neuen s256_btn_hold), FEHLGESCHLAGEN 0.
+Nach der nächsten Hochladung bitte die Zeilen SNIPER-KNOPF auswerten (Zustand beim Klick, Treffer-Alter) – Beleg im Spiel.
+Nächster Punkt: Masterplan in Reihenfolge.
