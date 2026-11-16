@@ -1,0 +1,23 @@
+AHSentinel 0.65.270 – FREIGABE PHASE 8 Punkt 4: CH-G gemeinsame Befehlsliste – umgesetzt, zur Prüfung
+CurseForge: nein (Kandidat 0.65.265 unverändert). GitHub-Release v0.65.270 und sofort im Discord.
+VORSCHLAG für alle Addons: shared/wissen/befehle-gemeinsam.md (als VORSCHLAG markiert, wartet auf deine Prüfung):
+  Aufbau von /<kürzel> hilfe (vier Gruppen Alltag, Einstellungen, Hilfe, Entwickler), Tabelle der Standard-Wörter DE/EN mit allen
+  angenommenen Formen, Regeln (Wort nie anders belegt, umlautfreie Form, alte eigene Namen wie LevelPilot "zentrale" bleiben zusätzlich),
+  neues Feld grp für GoldSentinelCmdHint-Tabellen, Ist-Stand je Addon aus der Code-Suche (als Verdacht markiert, Sitzungen prüfen selbst).
+  Andere Addons habe ich NICHT geändert.
+AHSentinel (Muster):
+- A:PrintCommands zeigt die Befehle in den vier Gruppen (A.CMD_GROUPS, A:CommandGroup: dev -> Entwickler, sonst A.CMD_GROUP_OF bzw.
+  Feld grp, sonst Alltag); Zeilen über A:CommandLines(german, dev) (lesbar für Tests). Entwickler-Gruppe nur im Entwicklermodus.
+- Neue angenommene Formen: optionen + einstellungen/config/settings, protokoll + diagnose. Alle übrigen Standard-Wörter gab es schon
+  (hilfe/help/?, sprache/language, minikarte/minimap, reset, handbuch/manual, debug, spenden/donate, prüfliste/pruefliste/checklist,
+  testroutine, test/selbsttest, protokoll/log).
+- Befehlsliste beim Tippen (GoldSentinelCmdHint) unverändert, sie nimmt dieselben Wörter (Spalte w).
+Test T848: ohne Entwicklermodus Gruppen Alltag,Einstellungen,Hilfe mit allen Nicht-Entwickler-Befehlen genau einmal; mit Entwicklermodus
+  dazu Entwickler und alle Befehle; jede Form jedes Standard-Worts führt zum selben Befehl. Gegenprobe: mit 0.65.269 rot, mit 0.65.270 grün.
+  Eigener Fehler unterwegs: Abdeckungs-ID "T-CHG" gab es schon (CH-G v1, 13.11.) – T826 hat es gefunden, umbenannt in T-CHG-B.
+  Einzeln grün: s12_chat_commands, s26_rename_migration (/ahs help, /ahp help), s70_cmd_hint, s74_options_rows.
+Locales: 4 neue Texte (Gruppen-Namen) in allen 10 Sprachen. CHANGELOG EN/DE.
+Gesamtlauf der Nachbildung: BESTANDEN 315, FEHLGESCHLAGEN 1 – s10_scan_smooth (einzige Zeit-Prüfung dort: "kein Ruckeln", längster
+  Frame < 150 ms CPU, os.clock). Danach einzeln 3/3 grün mit 0.65.270 und 2/2 mit 0.65.269; die übrigen 4 Prüfungen des Szenarios sind
+  fest (ohne Zeit) und waren grün. Verdacht: Last-Ausreisser beim Start des Laufs. 0.65.270 ändert nur die Hilfe-Ausgabe, nichts am Scan.
+Damit sind alle vier freigegebenen Punkte aus Phase 8 umgesetzt (0.65.267–0.65.270). Weiter nach Masterplan bzw. deiner nächsten Anweisung.
