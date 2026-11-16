@@ -163,3 +163,8 @@ Mit echten Daten nachweisen: Fälle im Journal seit Start der Schicht = Fälle i
 addon-check/marktanalyse/kern_abgleich.py, Abschnitt "Harte Prüfung"). Eine Lernschicht, deren Quote weit von der Journal-Quote liegt,
 ist nicht "lernt noch", sondern ein Zählfehler, bis das Gegenteil belegt ist. Ebenso P2/Grundlinien-Regeln: bei seltenen Ereignissen
 (Quote < 20 %) taugt ein Treffer-Vergleich bei 0,5 nicht – Güte über Brier prüfen (Befund KERN-P2-1).
+
+E-Regel (16.11.2026 14:45, eigener Fehler des Supervisors beim Kern-Abgleich): Eigene Nachbildungen von Addon-Regeln (kern_daten.show =
+K:Show) bei JEDER Prüfung einer Version, die diese Regel ändert, mitziehen und mit einem Test belegen – sonst zeigt der Bericht den
+alten Stand ("Rückfall" statt P2). Und: Wählt ein Werkzeug "den neuesten Stand", muss es bei Gleichstand eindeutig entscheiden
+(jüngster Journal-Eintrag), nicht nach Dateireihenfolge – Test mit beiden Reihenfolgen.

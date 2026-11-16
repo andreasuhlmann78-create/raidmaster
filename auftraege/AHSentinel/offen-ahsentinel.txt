@@ -3874,3 +3874,11 @@ Reihenfolge (Gold-Sicherheit zuerst), je Punkt eine kleine Version, Bericht "umg
     als shared/wissen-Text für alle Addons; AHSentinel zuerst. Andere Addons ändern NUR ihre eigenen Sitzungen.
 Die übrigen Phase-8-Ideen (8i Kelly, I3, I4, I6, "kleine KI") bleiben ohne Freigabe.
 Dauerhaft arbeiten: der Nutzer startet dich mit /loop – bei jedem Durchgang git pull, diese Datei, nächster Punkt.
+
+==== KERN-ABGLEICH Supervisor 16.11.2026 14:45 (Daten Laptop 13:40, nach 0.65.257 KERN-S1b) – testberichte/markt/kern/2026-11-16-1440.md ====
+- HARTE PRÜFUNG: 0 Zellen "FEHLT IM KERN" (vorher 4) – de:2 17/6,01, de:3 34/24,52, de:4 7/3,40, de:5 16/7,87 geht alles auf.
+  Abgleich Kern "sell" gegen Tabelle "verkauf": 0 Abweichungen ausserhalb 95 %. KERN-S1/S1b damit im echten Spielstand BELEGT. ERLEDIGT.
+- Weg markt: P2 (zeigt) – Brier 0,0271 < Grundlinie 0,0306, n 154 457, Rückfall erst ab 7 bewerteten Tagen (first 15.11.).
+- Weg sell: Brier 0,2425 (Grundlinie 0,4683, Treffer +14) – klar besser als "immer nein", aber noch ≥ 0,20 -> lernt weiter (139 Fälle).
+- Eigene Werkzeug-Fehler (Supervisor) gefunden und behoben: (1) bei Gleichstand am Kern-Tag wurde der ältere Rechner-Stand gewählt,
+  (2) die Nachbildung von K:Show war noch vor KERN-P2-1/P4-1. Beides mit Tests (Gegenprobe rot). Kein Befund an AHSentinel.

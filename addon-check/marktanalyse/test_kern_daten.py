@@ -38,7 +38,16 @@ check("neuester Tag", kd.newest_day(k) == T)
 n, y = kd.counts(k, "markt", "misc:3", T)
 check("Gewicht L4: heute 1, 20 Tage 0,5, 40 Tage 0 -> n 120, y 7", (n, y) == (120.0, 7.0))
 okS, why, r = kd.show(k, "markt", T)
-check("K:Show nachgebildet: Treffer 130 < 131 -> Rückfall/kein P2 trotz besserem Brier", not okS)
+check("K:Show wie Addon seit 0.65.256: Brier besser -> P2 trotz Treffer 130 < 131 (KERN-P2-1)", okS and why == "zeigen")
+okF, whyF, _ = kd.show(k, "markt", T, T - 30 * kd.DAY)
+check("K:Fallback: 7 Tage bewertet, Brier in 7 Tagen besser -> kein Rückfall", okF)
+lua.execute(f"""SCHLECHT7 = {{ kern = {{ v = 1, c = {{ markt = {{ x = {{ [{T}] = {{ 100, 50 }} }} }} }},
+  e = {{ markt = {{ [{T}] = {{ 100, 30.0, 25.0, 50, 50, 0, 0, 0 }} }} }} }} }}""")
+k7 = kd.kern_of(G.SCHLECHT7)
+okR, whyR, _ = kd.show(k7, "markt", T, T - 30 * kd.DAY)
+check("K:Fallback: 7 Tage bewertet und Brier schlechter -> Rückfall", (not okR) and whyR.startswith("Rückfall"))
+okR2, whyR2, _ = kd.show(k7, "markt", T, T - 2 * kd.DAY)
+check("K:Fallback: erst 3 Tage bewertet -> kein Rückfall, nur 'schlägt die Grundlinie nicht'", whyR2 == "schlägt die Grundlinie nicht")
 okU, whyU = kd.useful(k, "markt", T)
 check("Regel Prüf-Sitzung: Brier 0,0214 < 0,0286 -> weitergeben", okU)
 part, info = kd.kern_teil([G.DB])
@@ -68,6 +77,13 @@ A2 = {{ kern = {{ v = 1, since = 5, c = {{ markt = {{ x = {{ [{T}] = {{ 1, 0 }} 
 """)
 ns = kd.newest_stores([G.A1, G.A2])
 check("newest_stores: gleicher Speicher (since) nur der neueste", len(ns) == 1 and kd.newest_day(kd.kern_of(ns[0])) == T)
+# Gleichstand am Kern-Tag: der Stand mit dem jüngeren Journal gewinnt, egal in welcher Reihenfolge (Befund 16.11. 14:40)
+lua.execute(f"""
+B1 = {{ kern = {{ v = 1, since = 7, c = {{ markt = {{ x = {{ [{T}] = {{ 1, 0 }} }} }} }}, e = {{}} }}, forecast = {{ list = {{ "P;100;7;1" }} }}, alt = 1 }}
+B2 = {{ kern = {{ v = 1, since = 7, c = {{ markt = {{ x = {{ [{T}] = {{ 1, 0 }} }} }} }}, e = {{}} }}, forecast = {{ list = {{ "P;300;7;1" }} }}, neu = 1 }}
+""")
+check("newest_stores: Gleichstand am Tag -> jüngeres Journal (B2 vor B1)", kd.newest_stores([G.B1, G.B2])[0].neu == 1)
+check("newest_stores: Gleichstand am Tag -> jüngeres Journal (B1 vor B2 umgekehrt)", kd.newest_stores([G.B2, G.B1])[0].neu == 1)
 J = mt.merge_journals([G.A1, G.A2]).forecast.list
 vals = [J[i] for i in range(1, len(J) + 1)]
 check("Journal: Schlüssel aus dem neuesten Stand (2 Vorkommen, neuestes Ergebnis), B aus altem Stand ergänzt, nichts doppelt",

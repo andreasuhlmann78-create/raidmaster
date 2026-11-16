@@ -58,7 +58,12 @@ def bericht(dbs, labels):
             cells = k["c"].get(w, {})
             nf = sum(kd.counts(k, w, z, today)[0] for z in cells)
             if w in k["e"]:
-                ok, why, r = kd.show(k, w, today)
+                first = None
+                try:
+                    first = db.kern.first and db.kern.first[w]
+                except Exception:
+                    first = None
+                ok, why, r = kd.show(k, w, today, first)
                 u_ok, u_why = kd.useful(k, w, today)
                 n = r["n"]
                 out.append(f"| {w} | {len(cells)} | {nf:.0f} | {n:.0f} | {r['bN'] / n:.4f} | {r['bB'] / n:.4f} | {r['hN'] - r['hB']:+.0f} | "

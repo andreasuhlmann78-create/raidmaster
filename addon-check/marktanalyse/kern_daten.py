@@ -98,15 +98,24 @@ def evaluate(kd, way, today, days=MAX_DAYS):
     return r
 
 
-def show(kd, way, today):
-    """wie Kern.lua K:Show -> (ok, Grund, Bewertung)"""
+def fallback(kd, way, today, first=None):
+    """wie Kern.lua K:Fallback (seit 0.65.256, KERN-P4-1): erst wenn der Weg seit mindestens 7 Tagen bewertet wird
+    (kern.first[way] <= heute - 6 Tage) und über die letzten 7 Tage n >= P4_MIN und Brier schlechter als die Grundlinie."""
+    f = evaluate(kd, way, today, P4_DAYS)
+    if not first or first > today - (P4_DAYS - 1) * DAY:
+        return False, f
+    return (f["n"] >= P4_MIN and f["bN"] > f["bB"]), f
+
+
+def show(kd, way, today, first=None):
+    """wie Kern.lua K:Show seit 0.65.256 (KERN-P2-1: Grundlinie nach Brier, nicht nach Treffern) -> (ok, Grund, Bewertung).
+    first = kern.first[way] (Tag der ersten Bewertung) – ohne first nie Rückfall (wie im Addon)."""
     r = evaluate(kd, way, today)
     if r["n"] < SHOW_MIN:
         return False, "lernt noch", r
-    f = evaluate(kd, way, today, P4_DAYS)
-    if f["n"] >= P4_MIN and f["hN"] < f["hB"]:
+    if fallback(kd, way, today, first)[0]:
         return False, "Rückfall (7 Tage unter der Grundlinie)", r
-    if r["hN"] <= r["hB"]:
+    if r["bN"] >= r["bB"]:
         return False, "schlägt die Grundlinie nicht", r
     if r["bN"] / r["n"] >= BRIER_MAX:
         return False, "Brier zu hoch", r
@@ -127,6 +136,15 @@ def useful(kd, way, today):
     return True, "weitergegeben (Brier %.4f, Grundlinie %.4f, n %.0f)" % (r["bN"] / r["n"], r["bB"] / r["n"], r["n"])
 
 
+def _journal_t(db):
+    """Jüngste Zeit im Journal (Forecast) – 0, wenn keins da ist."""
+    try:
+        import markt_tabellen
+        return markt_tabellen._newest_t(db) or 0
+    except Exception:
+        return 0
+
+
 def newest_stores(dbs):
     """Je Kern-Speicher (erkannt an kern.since) nur den neuesten Stand – mehrere Tages-Sicherungen desselben Rechners sind
     derselbe Speicher und dürfen nie summiert werden; verschiedene Speicher (zweiter Rechner) zählen je einmal."""
@@ -136,7 +154,9 @@ def newest_stores(dbs):
         if not k:
             continue
         since = db.kern.since
-        day = newest_day(k)
+        # Gleichstand am Kern-Tag (z. B. ohne neue Tagesfälle): der Stand mit dem jüngsten Journal-Eintrag gewinnt
+        # (Befund 16.11. 14:40: sonst blieb der ältere Rechner-Stand stehen und der Neuaufbau KERN-S1b fehlte im Abgleich).
+        day = (newest_day(k), _journal_t(db))
         if since not in best or day > best[since][0]:
             best[since] = (day, db)
     return [db for _, db in best.values()]
