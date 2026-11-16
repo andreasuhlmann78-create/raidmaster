@@ -3941,3 +3941,28 @@ addon_check ohne FEHLER, nichts auf CurseForge (Ingame-Test morgen mit /ahs prü
 Steht ein Punkt auf einem Nutzer-Entscheid: im Bericht als FRAGE mit Vorschlag ablegen und SOFORT mit dem nächsten Punkt weiter –
 nie warten. Der Supervisor beantwortet Fragen in jeder Runde (Entscheid des Nutzers 17:39: "wenn AHS nicht mehr antwortet …
 deckst du ihn zu mit Antworten bzw. mit Arbeit"). Interner Wecker immer aktiv.
+
+==== ANTWORTEN Supervisor 16.11.2026 18:30 auf Bericht 0.65.273 (F1–F3) + Prüfung 0.65.272/0.65.273 ====
+- 0.65.272 (SN-BTN1-2) und 0.65.273 (Prüfliste VOLLSCAN/UI-TEST): addon_check OK, nach Bericht umgesetzt. Gold-Sicherheit
+  des gehaltenen Treffers geprüft: Ware fragt den Preis neu an, gekauft nur ≤ Max/Ø ≤ Max/≤ Budget – OK. Im Spiel morgen (Prüfliste).
+- F1 (4.6 / 0.66.0): Dein Vorschlag ist ANGENOMMEN: 0.66.0 "Rechenkern fertig" erst, wenn der Ingame-Test VOLLSCAN und MARKT-KERN
+  belegt. Bis dahin 0.65.x.
+- F2 (TB182-2, Tageslücke 15.11.) – AUSWERTUNG des Supervisors (Uploader-Stand 16.11. 18:18, books.flow gegen books.log, je Kanal;
+  je Minute gibt es keine Daten: db.flow speichert nur Tagessummen je Ort):
+    15.11.  AH:      gemessen −79g21s28, gebucht (Käufe ohne src −86g97s33 + Gebühren netto −20s43) −87g17s76 -> Diff +7g96s48
+            Post:    gemessen +63g63s34, gebucht (Verkäufe via ≠ vendor) +63g80s40 -> Diff −17s06
+            Händler: gemessen +6g98s19, gebucht (Verkäufe via vendor +8g67s59, Käufe src vendor −1g69s40) -> Diff 0 (exakt)
+            Summe Lücke +7g79s42 (= heutige "Tageslücke"; die 7g67 von gestern war ein früherer Stand).
+    16.11.  AH Diff −5s82, Post Diff +5s82 (genau gegengleich -> etwas wird unter AH gebucht, das als Post-Geld kommt; Verdacht, zu messen:
+            Anzahlung/Erstattung bei abgebrochener oder abgelaufener Auktion).
+    14.11.  Teil-Tag (Messbeginn 13:53) – nicht auswertbar.
+  BEFUND: Die Lücke liegt fast ganz bei den AH-KÄUFEN: am 15.11. sind 7g96 mehr Käufe gebucht, als Gold beim AH weggegangen ist
+  (805 Käufe, 86g97). Deine Vermutung "Post-Einnahmen" ist damit widerlegt (Post nur −17s06). Verdacht, zu messen (bitte je Fall die
+  Code-Stelle belegen): (a) Ware-Käufe mit dem angefragten Gesamtpreis gebucht, der Server berechnet weniger (günstigste Einheiten
+  zuerst); (b) Kauf gebucht, obwohl er scheiterte (Code 10 / GSL4-1, Fehler nach "bestätigt"); (c) doppelte Buchung desselben Kaufs.
+  Abhilfe-Vorschlag: Kauf-Buchung mit der gemessenen Gold-Änderung der Kauf-Minute abgleichen (PLAYER_MONEY-Differenz am AH ->
+  tatsächlicher Preis), Abweichung als Diagnosezeile BUY-GOLD. Umsetzen als Masterplan-Rest (Phase 3, Buchhaltung).
+- F3: JA – die kleineren offenen Punkte in deiner Reihenfolge (MA3-G, AB3, L2b, BE2b, E, F, G; TU1/TU2), je Punkt eine Version.
+  TB182-2 (oben) davor.
+- Zu Phase 7 "Weg B eine Seite wartet auf den Nutzer": schon ENTSCHIEDEN am 16.11. 08:43 (ENTSCHEIDE MR4/MR-SEITE): eine Seite NEIN,
+  Kopfzeile in Klartext statt Kacheln. Nicht mehr offen.
