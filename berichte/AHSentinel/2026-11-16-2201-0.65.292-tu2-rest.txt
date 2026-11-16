@@ -1,0 +1,31 @@
+AHSentinel 0.65.292 – TU2 Rest: Abläufe mit Unterbrechung + AB4d-Ablauf als eigener Test – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.292 und sofort im Discord. Im Spiel ändert sich nichts (nur Tests).
+
+Nachbauten (Repo AHAnalyzerPro, tests/wowsim):
+- s270_flow_interrupts:
+  (1) Einstellen geklickt, AH sofort zu (Antwort des Servers kommt nicht mehr an) -> höchstens eine Auktion; Taschen und AH passen
+      zusammen; die wartende Einstellung sperrt höchstens 5 s.
+  (2) Preisprüfung läuft, Hauptfenster zu und wieder auf -> dasselbe Item gewählt, angezeigter Preis gehört zu diesem Item.
+  (3) Sniper sendet eine Suche, das AH geht genau dann zu -> Suche verworfen, nichts gekauft; AH wieder auf -> Sniper sucht weiter.
+      Gemessen nebenbei: nach eigener AH-Benutzung (Einstellen/Preisprüfung) wartet der Sniper bis 30 s (GSL3-2, gewollt).
+- s270c_reload_a/b: /reload, während eine Einstellung auf den Server wartet -> nach dem Laden keine Sperre, nichts doppelt gebucht,
+  Einstellen geht wieder (eine Auktion).
+- s270d_cancel_mail_repost (AB4d-Ablauf): Einstellen (20 von 60) -> Abbrechen über Meine Auktionen -> Post "Auktion abgebrochen"
+  abholen -> "Neu einstellen": genau eine neue Auktion, Preis = Vorschlag des Verkaufen-Reiters, Liste "Neu einstellen" danach leer.
+FRAGE (Befund aus dem Nachbau, nicht geändert): "Neu einstellen" stellt bei Waren ALLES ein, was in den Taschen liegt – im Nachbau
+  60 Stück, obwohl nur 20 zurückgekommen sind (40 hatte der Spieler bewusst behalten). Extras merkt die zurückgekommene Menge
+  (NoteReturned), die Serie nimmt aber die ganze Menge der Taschen. Vorschlag: bei "Neu einstellen" höchstens die zurückgekommene
+  Menge einstellen. Entscheid? Bis dahin misst der Nachbau die Menge nur (T.note), prüft sie nicht.
+Abdeckungsliste: TU2-Unterbrechung, TU2-Reload, TU2-AB4d-Ablauf -> die Nachbauten oben.
+G (a) (Hinweis, kein Muss) -> T868: Preisverlauf mit kaputtem Eintrag in der Mitte (ohne Preis bzw. ohne Zeit). RepairDB prüft weiter nur
+  den ersten und letzten Eintrag (lässt ihn stehen), aber seit RF-M1 lesen alle Stellen über die flache Laufzeit-Liste, und deren
+  Aufbau (RowsToFlat) lässt Einträge ohne Zahl bei Zeit/Preis weg: flache Liste 2 von 4 (100, 110), Verdichtung und PD7-Verpacken
+  ohne Lua-Fehler (PD7 verpackt so einen Verlauf nicht). Belegt im Code: AHAnalyzerPro.lua RowsToFlat, PD7.lua EncodeFlat/Encode.
+E (b) T-O1–O5 -> T869 (Meine Auktionen): aktive Ware 43 × buyout 97 -> 97c/Stück, 41s 71c; verkaufte Ware 4 × 332 -> 83c, 3s 32c;
+  Einzelstück 200 -> 2s/2s; Status "gleich" bei gleichem Preis, "unterboten" bzw. "liegen" bei billigerem (je nach CancelWorth);
+  Kopf (p:Totals): aktiv 2 = 43s 71c, unterboten 1 = 41s 71c, verkauft 1 = 3s 32c. Gegenprobe (Mutation Summe +1): rot.
+  Die Werte "1g 61s 23c" aus dem damaligen Screenshot sind nicht im Repo – der Test nutzt die Zahlen aus T-O1–O3.
+
+Tests (eigene, keine Freigabe): Gesamtlauf aller Nachbauten auf dem Stand 0.65.292: BESTANDEN 334, FEHLGESCHLAGEN 0.
+addon_check: AHSentinel-0.65.292.zip OK (Vorprüfung und Discord-Prüfung). Veröffentlicht: GitHub-Release v0.65.292,
+Discord announce/ahsentinel__ahsentinel-0.65.292.md. Nicht in download/, kein CurseForge (erst nach dem Ingametest).
