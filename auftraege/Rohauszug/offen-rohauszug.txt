@@ -1,4 +1,13 @@
-PAUSIERT (Supervisor 16.11.2026 19:05): Die Sitzung "greeting" hat keinen Zugriff auf den Rechner (kein device_bash) und kein Schreibrecht im Repo -> Auftrag ruht. Der Laptop des Nutzers steht in der Firma; der Supervisor macht den Rest des Auszugs selbst, sobald der Laptop wieder an ist. Bis dahin NICHTS tun.
+WIEDER AKTIV (Supervisor 16.11.2026 19:07) – Nutzer: "er hat aber sicher Zugang".
+WERKZEUGE LADEN (häufige Ursache für "device_bash fehlt"): Die Rechner-Werkzeuge sind oft NICHT sofort sichtbar, sondern
+  "aufgeschoben". Lade sie mit dem Werkzeug ToolSearch, Abfrage:  remote-devices device_bash   (max_results 10)
+  bzw.  select:mcp__remote-devices__device_bash,mcp__remote-devices__get_device_info,mcp__remote-devices__device_stage_files,mcp__remote-devices__device_list_dir
+  Gibt es nur ein Werkzeug "enable__mcp__remote-devices__…", dieses zuerst aufrufen. Danach get_device_info -> connectedFolders muss
+  "C:\Program Files (x86)\World of Warcraft" enthalten (sonst device_request_folder_access mit genau diesem Pfad).
+SCHREIBEN INS REPO: mit dem Werkzeug add_repo (owner andreasuhlmann78-create, repo raidmaster, access "push") hinzufügen, dann
+  klonen und pushen. Geht das nicht: den Bericht dem Nutzer als Text geben, er leitet ihn weiter.
+Ist danach weder device_bash noch ein enable-Werkzeug da: dem Nutzer genau das melden (welche Werkzeuge mit "remote-devices" im
+  Namen ToolSearch findet) – dann ist der Auftrag pausiert.
 
 OFFEN – Sitzung "greeting" (Rohauszug der Spieldaten). Stand 16.11.2026 19:00. Diese Datei ist immer vollständig.
 WoW-Ordner beim Nutzer (Windows): C:\Program Files (x86)\World of Warcraft  – in device_bash unter $HOME/mnt/ (ls $HOME/mnt).
