@@ -3515,3 +3515,10 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   normal -> 8 333 (= 10 000 / 1,2); vorsichtig -> min(8 333, 9 000) = 8 333; Lernen an Marge 20 % -> 8 000. Gegenprobe ohne Mindestrendite -> rot.
   VORRANG vor Punkt 4 (IDs).
 
+>>> NACHT-PRÜFUNG 02:03 (Supervisor) – 0.65.253 (Abdeckungs-IDs eindeutig) und 0.65.254 FL-0: Code MK:FlipLimitFromNet gelesen; Mindestrendite aus der
+  vorhandenen Einstellung (Se:MinProfitPct = DB:MinRoi()/100, Standard 20 %) – Einheit geprüft (Bruchteil, nicht Prozent), alle Werte von T825
+  nachgerechnet (10 000/1,2 = 8 333; mutig min(8 333, 8 500) = 8 333). FL-0 behoben. Hinweis NIEDRIG: stellt der Spieler die Mindestrendite selbst auf 0,
+  ist die Grenze wieder Netto – das ist seine Wahl; im Optionen-Tooltip einen Satz ergänzen ("0 % = Kaufen ohne Gewinnpuffer").
+  Damit ist die Antwort 01:03 (1–4) umgesetzt. WEITER nach Masterplan; Phase 7 (B) und Phase 8 warten auf den Nutzer – bei Leerlauf Pflege und
+  Stand-Bericht für den Morgen.
+

@@ -100,6 +100,8 @@ Entscheide (keiner eilt):
   gemessen und von 18,6 auf 12,7 MB gesenkt.
 - BuffSentinel: Der Offline-Test lief für Classic/Retail still als Forever (Berichte 0.9.22–0.9.28 sagten zu viel) – behoben, Retail läuft jetzt echt.
 - ProfessionSentinel: Ein Test (T271) lief nur im API-Lauf; Bericht 0.9.46 sagte zu viel – berichtigt.
+- Gold-Sicherheit FL-0 (Supervisor 01:48): Die neue einheitliche Flip-Grenze lag ohne gelernte Daten genau beim Wiederverkaufswert (0 Gewinn) –
+  seit AHS 0.65.254 gilt auch beim Flippen die Mindestrendite (Standard 20 %).
 - Gold-Sicherheit: AHS-Entzauber-Ziele durften 25 % statt 10 % je Item ausgeben; "+"-Ziele hatten keine Item-Grenze; PS hätte Material bis zum
   Mehrfachen des Marktpreises gesnipt – alles behoben.
 
