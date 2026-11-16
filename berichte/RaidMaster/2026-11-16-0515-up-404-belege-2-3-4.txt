@@ -1,0 +1,46 @@
+BERICHT RAIDMASTER AN DIE PRÜF-SITZUNG
+Stand: 16.11.2026 05:15 (aus date) · Sitzung: RaidMaster-Projekt-Sitzung · Version: Uploader 2.3.12 (unverändert)
+Bezug: offen-raidmaster.txt "NACHT-PRÜFUNG 05:05 … Offen bei dir weiter: UP-404 (2), (3), (4)" und "PRÜFUNG UP-404 12:50".
+Kein neuer Code – die drei Punkte sind schon umgesetzt; hier die Belege an einer Stelle, mit Datei und Zeile (Stand origin/main).
+Status: umgesetzt, zur Prüfung.
+
+(2) Bei Dauerfehler nicht alle 5 s versuchen – umgesetzt in 2.3.10 (Bericht 2026-11-15-0200), seither unverändert:
+   - RaidMasterUploader/sync.py:89–91: REMOTE_FAIL_WAIT = 60 (Netz-/Discord-Fehler), REMOTE_GONE_WAIT = 300 (404: Ort fehlt,
+     ändert sich nicht von selbst), SAY_SAME_EVERY = 600.
+   - check_remote setzt nach Fehler fail_until/retry_at; in dieser Zeit gehen auch pull/push (force) nicht übers Netz. Ursache
+     der Beobachtung "alle 5 s" war push() -> pull() -> check_remote(force=True) bei jedem 5-s-Takt.
+   - Meldungen über _say_limited (sync.py:1095): dieselbe Zeile höchstens alle 10 Min.
+   - Abweichung vom Vorschlag "z. B. 1 Min., eine Zeile je Minute" mit Grund: bei 404 (Webhook/Index/Kanal weg) hilft
+     Wiederholen nicht, bis eine neue sync_config.json kommt; die wird ohne Neustart sofort übernommen (uploader.py
+     reload_sync_config). Darum 5 Min. statt 1 Min. und weniger Zeilen. Bei anderen Fehlern 1 Min. wie vorgeschlagen.
+   - Tests: tests/test_sync.py:441 test_up404b (Webhook weg, 10 Min. im 5-s-Takt: genau 1 Zeile, höchstens 3 Index-Abfragen,
+     lokale Datei unverändert), :456 test_up404c (kein Netz 5 Min.: 1 Zeile, höchstens 7 Abfragen, danach normal hochgeladen).
+
+(3) Beleg, dass seit 14.11. 18:50 nichts verloren ging:
+   - Fenster des Nutzers 15.11. 02:40 (Uploader 2.3.10, Screenshot im Chat): "02:40:52 Abgleich: zuletzt hochgeladen 15.11. 02:39
+     (DESKTOP-NVITMSE) · neuester Stand: DESKTOP-NVITMSE 15.11. 02:39 · dieser Rechner aktuell", "02:40:57 Hochgeladen (47 KB,
+     gepackt 10 KB). Dazu der Gildenbank-Bestand aus GuildSentinel.", "02:40:58 Prüfung: zuletzt geliefert 15.11. 02:01
+     (22 Dateien) · Repo 119,4 MB".
+     -> Erster erfolgreicher Abgleich-Upload nach der neuen sync_config.json: 15.11. 02:39. Daten-Upload an den Bot 02:40:57.
+   - Warum nichts verloren: Während der 404-Zeit (14.11. 18:50 bis 15.11. 02:39) schrieb der Uploader nichts in die
+     SavedVariables – pull() bricht vor jedem Schreiben ab, wenn der Index nicht lesbar ist (sync.py check_remote/pull). Was in
+     dieser Zeit gespielt wurde, lag lokal und ging mit dem Upload um 02:39 hoch. Die Daten-Lieferung ans Daten-Repo
+     (daten_config.json, GitHub) ist vom Discord-Abgleich unabhängig und lief weiter ("zuletzt geliefert 02:01").
+   - Nutzer 15.11. 12:47 (laut offen-raidmaster.txt): Uploader läuft wieder ohne 404.
+   - Grenze des Belegs: Ob der ZWEITE Rechner zwischen 18:50 und 02:39 einen Stand hochladen wollte, zeigt nur dessen Fenster;
+     ein Stand am alten (gelöschten) Ort wäre dort lokal geblieben und am neuen Ort hochgegangen (2.3.11 passt dazu die Zähler
+     an, Bericht 2026-11-15-0250). Verdacht auf Verlust: keiner; zum vollständigen Beleg bitte beim Nutzer das Fenster des
+     zweiten Rechners ("zuletzt hochgeladen …") ansehen lassen.
+
+(4) Fenster-Text bei 404 in Worten – umgesetzt in 2.3.10, Wortlaut in 2.3.12 an den Bot angeglichen:
+   - sync.py:656 (Discord-Code 10015, Webhook unbekannt): "Bot nicht auf dem Server oder Webhook gelöscht (Bot vom Server entfernt,
+     oder Kanal #sync-daten bzw. sein Webhook gelöscht). Ist der Bot weg, ihn zuerst wieder einladen."
+     dazu sync.py:662 GONE_TODO: "Was tun: In Discord /uploader ausführen und die neue sync_config.json auf BEIDEN Rechnern in den
+     Uploader-Ordner legen (alte ersetzen). Der Uploader liest sie sofort ein. Deine Daten hier bleiben unverändert und gehen
+     danach hoch." Weitere Fälle: 10008 (Index-Nachricht gelöscht), 10003 (Kanal gelöscht), sonst "Discord findet den
+     Abgleich-Ort nicht mehr."; Statuszeile zusätzlich "in Discord /uploader ausführen, neue sync_config.json auf beide Rechner".
+   - Gleicher Anfang wie beim Bot: RaidMasterBot/bot.py:118 und bot_rechte.py:55/63 "Bot nicht auf dem Server: …".
+   - Test: tests/test_sync.py:1287 test_up404a (Codes 10015/10008/10003/unbekannt richtig zugeordnet, kein Token in der Meldung).
+
+Eigene Tests (16.11. 05:1x erneut mit python -I gelaufen, Code unverändert): test_daten 12, test_sync 53,
+test_uploader 23, test_umfassend 14 (Regressionen 69/69) – grün.
