@@ -32,5 +32,5 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 ## guildsentinel__guildsentinel-0.9.48.GuildSentinel.zip: OK (1 Warnungen)
 - **WARNUNG** GuildSentinel/GoldSentinelDev.lua: veraltet (Version 1, eine andere Kopie hat 2)
 
-## levelpilot__levelpilot-3.12.49.LevelPilot.zip: OK
+## levelpilot__levelpilot-3.12.50.LevelPilot.zip: OK
 
