@@ -1,0 +1,39 @@
+BERICHT THREATSENTINEL AN DIE PRÜF-SITZUNG – TS-N1 Nutzen-Ausbau
+Stand: 16.11.2026 04:47 (aus date) · Sitzung: ThreatSentinel-Projekt-Sitzung · Version: 2.5.15 · Commit: 865278a3
+Umgesetzt, zur Prüfung. addon_check 2.5.15: "## ThreatSentinel-2.5.15.zip: OK", keine Warnung. Gemeinsame Dateien cmp gleich.
+Offline mit download/ThreatSentinel-2.5.15.zip: Forever OK 256, Era OK 260, FEHLER ausserhalb der Nachbildungs-Liste 0.
+
+(1) FÜNF ÄRGERNISSE/WÜNSCHE, DIE THREATSENTINEL NOCH NICHT (GANZ) LÖST – Häufigkeit: nicht gemessen
+    Quellen: Beschreibungen vergleichbarer Addons (CurseForge: ThreatMaster/"ThreatSignal", Tank Threat Watcher,
+    Light Party Threat für WoW Classic Forever) und Blizzard-Forum "Fighting for threat" (Classic, Seite 2).
+ N1 Heiler wissen im Kampf nicht sofort, welcher Mitspieler gerade Aggro hat und zuerst Heilung braucht (Forum: Heiler-Stress,
+    "inexperienced healers may prioritize DPS"; ThreatMaster hebt dafür Gruppenrahmen hervor). NUTZEN: Heiler retten den
+    DD/Heiler mit Aggro früher, weniger Tote. -> UMGESETZT (Heiler-HUD).
+ N2 Fenster stören ausserhalb des Kampfs (Tank Threat Watcher: "hide out of combat" als eigene Funktion). NUTZEN: freier
+    Bildschirm zwischen den Kämpfen. -> UMGESETZT (Aggrometer "Nur im Kampf").
+ N3 Gruppen-/Schlachtzugsrahmen des Mitspielers mit Aggro aufleuchten lassen (ThreatMaster "party and raid frame alerts").
+    NUTZEN: Tank und Heiler sehen es dort, wo sie ohnehin hinschauen. Nicht umgesetzt: hängt an fremden Rahmen (Blizzard,
+    ElvUI, Grid …), mittlerer Aufwand, Verdacht auf Taint-Fragen bei geschützten Rahmen – zu klären.
+ N4 DDs möchten wissen, WIE BALD sie Aggro ziehen (Abstand zum Tank, Bedrohung je Sekunde, "Zeit bis Pull"; Light Party Threat
+    zeigt Pull-% und TPS). NUTZEN: rechtzeitig bremsen statt erst bei 90 %. Nicht umgesetzt: braucht lesbare Rohwerte; in
+    Forever im Kampf geheim (dort nur Anzeige) – zuerst messen.
+ N5 Spott widerstanden -> der Tank braucht sofort den zweiten Weg (Forum: "resisted taunts" als grösster Frust). ThreatSentinel
+    meldet den Widerstand (Ton/Chat), schlägt aber keinen Ersatz vor (z. B. Spöttischer Schlag, Herausforderungsruf,
+    Flächenspott-Knopf). NUTZEN: Sekunden gewonnen nach einem verfehlten Spott. Nicht umgesetzt (wartet auf Antwort).
+
+(2) UMGESETZT (die zwei kleinsten)
+ N1 Heiler-HUD: HUD.lua H:Update zeigt das HUD in der Gruppen-Ansicht auch, wenn MyRole() == "HEALER" und Option hudHealer
+    (Standard an, Einstellungen bei "Kleines HUD anzeigen"). Liste = dieselbe "loose"-Liste, die Threat.lua:452 schon für
+    jeden Durchlauf baut -> keine zusätzliche Rechenzeit im Kampf, keine Chat-Meldung. DDs bekommen es nicht (ihr Werkzeug
+    bleibt die DD-Ansicht). Locales EN/DE (O_HUD_HEALER).
+    T-N1a: Heiler + Option an -> HUD sichtbar, erste Zeile mit dem Namen des Mitspielers mit Aggro; Heiler + Option aus -> nicht;
+    DD -> nicht (jeweils Gruppen-Ansicht aktiv).
+ N2 Aggrometer "Nur im Kampf": Meter.lua M:Tick blendet ausserhalb des Kampfs aus, wenn meterOnlyCombat (Standard AUS ->
+    Verhalten für bestehende Spieler unverändert). Verschieben/Testmodus bleiben sichtbar. Locales EN/DE (O_METER_ONLYCOMBAT).
+    T-N1b: an/ausserhalb false, an/im Kampf true, aus/ausserhalb true.
+ Alle Spielversionen: offline in Forever und Era; TBC nutzt denselben Weg (keine versionsabhängige API in den Änderungen).
+ Grenzen eingehalten: keine neue Rechnung im Kampf (nur eine Rollen-Abfrage je HUD-Aktualisierung), keine neuen Chat-Meldungen.
+ Regressionen: neuer Eintrag "TS-N1" -> T-N1a, T-N1b.
+
+FRAGE AN DIE PRÜF-SITZUNG: Welche von N3, N4, N5 als Nächstes? Vorschlag: N5 (klein, klarer Nutzen für Tanks, keine
+zusätzliche Rechenzeit: nur bei einem Widerstand eine Hinweiszeile mit dem nächsten bereiten Ersatz-Spott).
