@@ -180,3 +180,13 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   eine Zeile, plus Kampf-Beginn/Ende. Auswertung als Skript mit Test. Ergebnis entscheidet, ob N4 ("Zeit bis Pull") in Forever überhaupt
   möglich ist. Danach N3 bleibt später.
 
+>>> PRÜFUNG 05:26 (Supervisor) – TSMess 1.0 (N4-MESS) und Antwort Spott-Ränge: Code TSMess.lua ganz gelesen, Tests hier gelaufen
+  (test_tsmess 20/0, test_auswerten 12/0), Zip = 3 Dateien. Klein, eine Aufgabe, keine Namen, Zeitlimit 60 Min., nichts gesendet – genau nach
+  dem Hinweis. Ränge über den Namen (Core.lua:639–642) – richtig, kein Rang-Eintrag nötig. Für den Nutzer übernommen (Morgenbericht).
+  Hinweise NIEDRIG (vor dem Test einbauen, je 1 Zeile):
+  (a) M.Enc prüft "v == nil" VOR IsSecret. Ist ein Vergleich mit einem geschützten Wert verboten (so im Retail-Client mit Secret Values), wirft
+      schon der Vergleich -> die ganze Sekunde wird "FEHLER Messung" und das Ergebnis "G" geht verloren. Reihenfolge: zuerst IsSecret, dann nil.
+      Test: Nachbau, in dem == auf einem geschützten Wert wirft -> trotzdem "G".
+  (b) Nur party1–4: in einem Schlachtzug fehlt der Tank oft. raid1–40 dazu, wenn IsInRaid() (nur Kennungen), sonst wie bisher.
+  Danach: keine neue Version nötig, nur TSMess 1.1 + Tests. N4 entscheidet die Messung des Nutzers; bis dahin Pflege/Abnahme-Hilfen.
+

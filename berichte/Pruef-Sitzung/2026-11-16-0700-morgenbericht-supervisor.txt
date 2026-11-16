@@ -81,6 +81,8 @@ Discord-Bot 1.5.142–1.5.145
 =====================================================================================================================
 5. FÜR DICH (wenn du Zeit hast)
 =====================================================================================================================
+- ThreatSentinel-Messung (1 Kampf, ~5 Min.): shared/messtest/TSMess.zip installieren, /tsmess start, in einer Gruppe mit Tank
+  kämpfen (Ziel angewählt), /tsmess stop, /reload, SavedVariables/TSMess.lua hochladen. Entscheidet, ob "Zeit bis Aggro" in Forever geht.
 - Uploader am LAPTOP: im Fenster "zuletzt hochgeladen …" ansehen (letzter Beleg zu UP-404: ging dort zwischen 14.11. 18:50 und
   15.11. 02:39 nichts verloren?). Der Desktop ist belegt.
 Im Spiel prüfen:
