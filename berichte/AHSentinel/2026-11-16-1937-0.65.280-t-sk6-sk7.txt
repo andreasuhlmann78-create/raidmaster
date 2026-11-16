@@ -1,0 +1,13 @@
+AHSentinel 0.65.280 – E (b) erster Punkt: T-SK6/T-SK7 (MITTEL) offline nachgebildet – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.280 und sofort im Discord.
+- Neue Nachbildung s259_detail_suffix (Repo AHAnalyzerPro, tests/wowsim): der Server liefert – wie im Spiel – mit dem Suffix-Schlüssel
+  (itemSuffix 7) nichts.
+  T-SK6: Detail mit Suffix-Schlüssel -> genau EIN zweiter Versuch mit dem allgemeinen Schlüssel (C_AuctionHouse.MakeItemKey), alle
+  Angebote (alle Suffixe) da, Sofortkauf kauft (Sim.purchases +1).
+  T-SK7: Angebote wirklich weg -> DETAIL-LEER "itemKey Scan 0/7 · Detail …" im Protokoll, Item aus der Einkaufsliste und der Scan-Quelle
+  (goneScan), Hinweis "Keine Angebote mehr – aus der Liste genommen" im Einkauf (die Oberfläche übernimmt B.message in ihre Meldungszeile).
+- Gegenprobe (Code war schon da, also Mutationsprobe): ohne zweiten Versuch -> 3 Prüfungen rot (T-SK6); ohne DETAIL-LEER-Zeile -> T-SK7 rot.
+- Abdeckungsliste T-SK6/T-SK7 zeigt jetzt auf s259 statt "im Spiel".
+- Sniper-Teil von T-SK6: der Sniper sucht immer mit dem allgemeinen Schlüssel (MakeItemKey(itemID)) – Suffix-Fall trifft ihn nicht.
+Gesamtlauf der Nachbildung: BESTANDEN 320 (mit s259_detail_suffix), FEHLGESCHLAGEN 0.
+Nächster Punkt E (b): T-BM6 (abgelaufen/abgebrochen über Blizzard-Fenster -> Einzahlung verloren).
