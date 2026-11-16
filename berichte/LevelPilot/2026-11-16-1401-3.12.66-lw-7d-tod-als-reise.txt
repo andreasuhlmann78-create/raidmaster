@@ -1,0 +1,30 @@
+BERICHT LevelPilot 3.12.66 – LW-7 (d) "Tod als Reise" (Speedrun, bis Stufe 10, aus) + Datenpaket 1.6.2 (Friedhöfe)
+Projekt: LevelPilot · Datum: 16.11.2026 14:01 (aus date) · Version: 3.12.66 (Datenpaket 1.6.2) · umgesetzt, zur Prüfung
+
+Bezug: ENTSCHEID LW-7 (d) (Nutzer 13:27), ANTWORT Supervisor 13:57 (Schwelle 3 min, Friedhöfe ins Datenpaket (GPL), Forever-Regeln
+im Spiel messen, bevor der Hinweis Zahlen nennt), Messung 13:43.
+
+1. DATENPAKET 1.6.2 (LevelPilot_Data, GPL)
+   Data/Graves.lua (neu, in der .toc nach Services.lua): D.GY = 84 Fundorte des Geistheilers (NPC 6491) aus Questie v11.38.0,
+   je {uiMapID, x, y} im Forever-Rahmen – dieselben Werte wie in der Nachbau-Simulation (sim/graves.lua), erzeugt mit dem
+   Generator gen_graves.lua (gleiche Quelle/Umrechnung wie gen_pack.lua; im Werkzeugordner LevelPilot_Data/Tools nachgeführt,
+   Ausgabe jetzt im Paketformat). Core.lua: Version 1.6.2, GY = {} als Standard. README: Zeile 1.6.2. Questie liegt hier nicht
+   vor – die Datei wurde aus der schon erzeugten Ausgabe übertragen (Zahlen 1:1, 84 Einträge geprüft).
+   Classic Era: QDB.EraUnconvert rechnet D.GY mit zurück (gemessen: Mulgore 42,6/78,4 -> 42,64/78,14 in Era; Forever unverändert).
+2. LEVELPILOT
+   P:DeathSkip in P:TravelPlan: nur LP.db.deathSkip (Standard AUS, Schalter Einstellungen links -414), Speedrun, Stufe ≤ 10,
+   Friedhöfe vorhanden; nächster Friedhof zum Spieler (gleicher Kontinent wie das Ziel); Plan ab dem Friedhof + Sterben 90 s +
+   Auferstehen 10 s (ungünstige ANNAHMEN, damit der Tipp auch dann lohnt); Hinweis nur bei Gewinn ≥ 180 s. Ergebnis
+   plan.deathSkip -> gelbe Zeile im Reiseplan "Speedrun-Trick: hier sterben und beim Geistheiler (<Zone> x, y) auferstehen
+   spart ~X min – kostet Haltbarkeit". Die Haltbarkeit steht OHNE Zahl (Forever-Regeln nicht gemessen, Supervisor 13:57).
+   Nur Hinweis, nie Routenschritt. 2 Texte in 10 Sprachen.
+3. TEST T327 (true ×9): Hinweis 686 s · Text "~11 min" · Plan bleibt Laufen · unter 3 min nichts · Stufe 11 nichts · ohne
+   Speedrun nichts · Schalter aus nichts · anderer Kontinent nichts · ohne Daten nichts.
+   GEGENPROBE (ohne Schwelle und ohne Stufengrenze): "unter 3 min" false, "Stufe 11" false.
+4. IM SPIEL MESSEN (Verdacht, zu messen – CLIENT.T327): Haltbarkeit nach Tod und nach Auferstehen beim Geistheiler auf Forever
+   bis Stufe 10, Wiederbelebungsnachwirkungen ja/nein, Dauer "sterben" in der Praxis, welcher Friedhof gewählt wird.
+   Erst dann Zahlen zu den Kosten im Hinweis.
+5. PRÜFUNGEN
+   addon_check: OK. Offline-Routine: 38 Läufe, 38 ohne FEHLER. Private Regression: 36 von 36 Läufen ALLE TESTS OK.
+6. NÄCHSTE SCHRITTE: Reihenfolge laut 13:25 erledigt (E1, E5, LW-2b, LW-7 d). Offen: LW-7 (e) Quelle Speedrun-Zeiten, LW-8 (2)
+   Flugpreise (auf Wort), LW-4 (Wegdaten). Ich schaue weiter alle 15 min ins Repo.
