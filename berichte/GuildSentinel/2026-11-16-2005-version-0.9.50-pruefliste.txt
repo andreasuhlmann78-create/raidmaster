@@ -1,0 +1,39 @@
+BERICHT GUILDSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 16.11.2026 20:05 (Uhrzeit aus date, Europe/Zurich) · Sitzung: GuildSentinel-Projekt-Sitzung · Version: 0.9.50 · Commit: GuildSentinel 75a4898
+Veröffentlichung: Discord ja (announce/, sofort). CurseForge: nein – Entscheid 19:58: erst 17.11. 18:00 und nur die im Spiel
+getestete Version (Ingame-Test mit dieser Prüfliste).
+Auftrag: PRÜFLISTE IM SPIEL (Entscheid 16.11. 06:47, Supervisor 06:49; hinweis-pruefliste-im-spiel-2026-11-16.txt).
+
+UMGESETZT, ZUR PRÜFUNG (Punkte 1–6 des Hinweises):
+1. shared/GoldSentinelPruefliste.lua unverändert kopiert; .toc: GoldSentinelDev.lua, GoldSentinelPruefliste.lua, dann die
+   übrigen gemeinsamen Dateien; eigene Datei Pruefliste.lua nach ClientTest.lua. cmp Dev/Pruefliste/Game/Test/Sync/Markt = gleich.
+2. Pruefliste.lua: Register("GuildSentinel", db = GuildSentinelDB, 14 Punkte in Spiel-Reihenfolge, je id/title/since/todo/
+   expect mit Knopf-Namen wie im Spiel und Befehlen wörtlich): TESTROUTINE, SEITEN, GSW2, GSW1, WERBUNG, MENU, RANG,
+   EINLADEN, ALTER, SPERRLISTE, TOOLTIP, NOTIZ, MARKT, TIPPEN (aus IM CLIENT PRÜFEN der offen-Datei, die wichtigsten 14).
+   Texte nur Deutsch (nur der Entwickler sieht sie, wie der Baustein).
+3. Merkt selbst – ns.PLHit an der Stelle der echten Benutzung: WERBUNG Rc:Posted (Werbung im Kanal erschienen);
+   EINLADEN Rc.OnInviteConfirmed (Systemmeldung); ALTER Antwort auf die Altersfrage (nur Kategorie als Messwert);
+   GSW2 Auswahl im Menü "Vorschlag wählen" (id + Zeichen); GSW1 "Übernehmen" hängt /w an; MENU Rechtsklick-Menü;
+   RANG GA:Confirmed (echt, nicht Test); SPERRLISTE Entfernen nach Sperren in derselben Sitzung; TOOLTIP echter Tooltip
+   mit "In der Gilde seit"; NOTIZ Verlauf pnote/onote; TESTROUTINE am Ende der Routine – erledigt nur mit FEHLER 0 und
+   Sandbox OK, sonst "Fehler (erkannt)" (ns.PLFail). auto: SEITEN (alle eingeschalteten Seiten gebaut). Nur Hinschauen:
+   MARKT, TIPPEN (OK / Nicht OK). ns.PLHit/PLFail wirken nicht im Testmodus und nicht während der Testroutine.
+   Messwerte ohne Namen (EINLADEN "Status eingeladen").
+4. /gs prüfliste und /gs pruefliste (englisch /gs checklist), dev = true, ohne Entwicklermodus die übliche Meldung.
+5. Bericht: ns.PLReportLines() (PL:ReportLines) in /gs protokoll.
+6. Testroutine T303 (registriert, <= 14 Punkte, je Anweisung vollständig, Hit in der Routine ohne Wirkung) + test/run_pruefliste.lua.
+- Dabei: T283 zählte die Befehle als "#COMMANDS - 2" (2 Entwicklerbefehle) – jetzt allgemein "ohne dev" (3). Sandbox:
+  der Baustein legt db.pruefliste beim ersten Lesen an (z. B. /gs protokoll in der Routine) -> jetzt schon bei GS_LOGIN
+  angelegt. run_routine.lua erlaubt genau die eine gewollte Änderung p.TESTROUTINE und prüft "FEHLER 0, Sandbox OK".
+
+EIGENE TESTS (Belege, keine Freigabe):
+- test/run_pruefliste.lua 21/21, 0 Fehlermeldungen, je 16001/11508/20505: ohne Entwicklermodus leere Liste, nichts
+  gespeichert, /gs prüfliste öffnet nichts; im Entwicklermodus 14 Punkte; im Testmodus kein Hit; jede Hit-Stelle über den
+  echten Weg (Rc:Posted, OnInviteConfirmed, TakeAnswer, Knopf "Vorschlag wählen", Knopf "Übernehmen", MemberMenu,
+  GA:Confirmed, Ban+Unban, Tooltip:Add, Roster-Update mit Notiz, alle Seiten + RunAuto); Fenster offen; Bericht ohne Namen
+  und im Protokoll; PLFail -> "fehler". Gegenprobe: Hit in Rc:Posted entfernt -> "FAIL: WERBUNG über Rc:Posted".
+- test/run_alle.sh: "GESAMT: 137 Läufe, 0 rot · 4762 Einzelprüfungen bestanden, 0 fehlgeschlagen".
+- Routine: Forever OK 300, Era OK 305, TBC OK 305, je FEHLER 0.
+
+FÜR DEN NUTZER (Ingame-Test vor CurseForge 17.11. 18:00): /gs entwickler -> /gs prüfliste; das Fenster zeigt immer den
+nächsten Schritt. Am Ende /gs protokoll kopieren (Block PRÜFLISTE).
