@@ -1,0 +1,23 @@
+BERICHT LevelPilot – LW-7 (c) Messung "Ruhestein + Binden zusammen" (HS-Batching), nur Bericht, kein Code
+Projekt: LevelPilot · Datum: 16.11.2026 13:27 (aus date) · Stand Code: 3.12.64
+
+Bezug: LW-7 (c) "Ruhestein + Binden zusammen (HS-Batching) als Option"; meine Bewertung 13:10 ("zuerst messen, dann entscheiden").
+
+1. MESSUNG
+   Virtuelle Reise 1–60 (Nachbau, 6 Völker wie Bericht 12:39), Messkopie mit einer Zeile je Ruhestein (Zeit, Ort vor dem
+   Ruhestein) und je Binden (Zeit, Gasthaus, Reisezeit dorthin). Nicht im Addon, nur in der Messkopie.
+   Fall = auf einen Ruhestein folgt als nächstes Binden ein Binden im Gasthaus nahe dem Ort, an dem der Ruhestein gewirkt
+   wurde (gleiche Karte, Abstand ≤ R % der Karte). Nur dann hätte "beim Wirken binden" einen späteren Weg zum Gasthaus gespart.
+   Gesparte Zeit (Obergrenze) = Reisezeit dieses späteren Bindens.
+2. ERGEBNIS
+   Ruhesteine je Reise 19–28, Binden 13–16.
+   R = 5 %: 1 Fall in 6 Reisen (Zwerg), Obergrenze gespart 27 s. R = 15 % und 30 %: ebenso 1 Fall, 0,5 min.
+   -> Über 6 Reisen 1–60 zusammen höchstens eine halbe Minute.
+   GRUND (belegt am Ablauf): LevelPilot bindet dort, wo viele Aufgaben in einer neuen Hauptzone warten (BindStep), und setzt
+   den Ruhestein ein, wenn der Bindeort nahe am nächsten Ziel liegt (HearthStep). Die Lage "jetzt weg, später hierher zurück
+   und hier binden" entsteht in seiner Planung fast nie – anders als in festen Leitfäden, die genau damit planen.
+3. VORSCHLAG
+   (c) NICHT bauen (Nutzen im Nachbau ~0). Neu bewerten, falls LW-2b (Zeitmodell) die Ruhestein-/Bindeplanung ändert.
+4. NÄCHSTER PUNKT ohne Wartezeit: keiner aus LW-7 mehr ((a) gebaut, (b) mit W3D/LW-4, (d) Entscheid des Nutzers, (e) Quelle).
+   Offene Antworten: F1/F2 (12:39), (d)/(e) (13:10), E1-Messung (toc-test), Wegdaten LW-4. Bis dahin prüfe ich die ältesten
+   offenen Punkte in offen-levelpilot.txt (3.12.22–28, "kommen dran, wenn die jetzigen erledigt sind", Supervisor 07:44).
