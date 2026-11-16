@@ -1,0 +1,34 @@
+AHSentinel 0.65.256 – KERN-ABGLEICH (Supervisor 04:58/05:02): KERN-S1, KERN-P2-1, KERN-P4-1, KERN-R1 – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.256 und sofort im Discord.
+KERN-S1 (HOCH):
+  - Forecast.lua Fc:KernReport(e, now) = EINE Stelle "Fall abgeschlossen": ruft den Kern nur, wenn PostOutcome ein Ergebnis hat;
+    neues Journal-Feld ky (am Ende der P-Felder, alte Stände lesen es nicht) = an den Kern gemeldetes y (3 Stellen). Ohne ky ->
+    K:OnSellCase (Fall +1, bewertet), ky gesetzt. Mit ky und grösserem y (e/u -> t, mehr verkauft) -> K:OnSellCorrect: nur y
+    nachtragen (Zelle und g:-Zelle, Fälle +0, keine Bewertung), ky = y.
+  - Aufgerufen in Fc:OnSale (voller Verkauf r = "s" / Teilverkauf nach e/u -> "t", Zeit = Verkaufszeit) und Fc:Close (wie bisher,
+    jetzt über dieselbe Stelle; Briefkasten -> NoteMail -> Close). "u" und "c" bleiben zensiert (PostOutcome nil).
+  - Kern.lua K:RebuildSell: einmalig (st.filledSell2) Weg sell leeren (Zellen inkl. g:, Bewertung st.e.sell, Startdatum
+    st.first.sell), alle abgeschlossenen Verkaufsfälle der letzten 30 Tage in Zeitfolge (Ende der Laufzeit) über OnSellCase,
+    ky je Fall im Journal vermerkt. Läuft nach READY als Hintergrund-Aufgabe (mit RebuildBuys), Diagnose-Zeile KERN "Weg sell neu
+    aufgebaut: n Fälle". K:Backfill (erstes Füllen) nutzt denselben Neuaufbau (vorher ohne ky -> spätere Korrekturen hätten doppelt
+    gezählt).
+  - Gegenprüfung mit deinen 124 Fällen: NICHT möglich – die Spielerdaten (AHSentinel.lua von DESKTOP/Laptop) liegen nicht in diesem
+    Arbeitsbereich und gehören nicht ins öffentliche Repo. Bitte mit kern_abgleich.py nach dem nächsten Hochladen prüfen (Erwartung:
+    0 Zellen "FEHLT IM KERN"; Brier sell nach Neuaufbau nahe deiner Nachrechnung 0,2365).
+KERN-P2-1 (HOCH): K:Show – "schlägt die Grundlinie" jetzt Brier neu < Brier Grundlinie (vorher Treffer bei 0,5); weiter n ≥ 30 und
+  Brier < 0,20 und kein Rückfall. Treffer bleiben im Testbericht.
+KERN-P4-1: K:Fallback – nur wenn der Weg an ≥ 7 Tagen bewertet ist (st.first[way] ≤ heute − 6 Tage) und der Brier der letzten 7 Tage
+  schlechter ist als die Grundlinie (mind. 10 Fälle). Testbericht-Zusatz P4 nennt jetzt Brier statt Treffer.
+KERN-R1: K:ReportS2 "Teile:" nennt zusätzlich "alle (Horde n, Allianz m Items)" und "kern (x Zellen: markt 21, …)".
+Markt-Tabellen: shared/markt-tabellen/GoldSentinelMarktTabellen.lua (05:24) byte-gleich übernommen.
+Tests:
+  - T828 KERN-S1: voller Verkauf über OnSale -> Kern 1/1,0; Close zweimal -> weiter 1; abgelaufen -> e 1/0,0; später Teilverkauf aus der
+    Post -> t 1/0,5 (n gleich), ky 0,5; Neuaufbau mit absichtlich falschem Zähler -> 2 Fälle A 1/1,0 B 1/0,5, ky 1/0,5; zweiter Aufruf 0.
+    Mit 0.65.255 rot (RebuildSell fehlt / OnSale meldet nicht).
+  - T829 P2-1/P4-1/R1: 200 Fälle, 5 % verkauft, Vorwissen 0,05: Brier 0,0482 < 0,0500 bei Treffern 190 = 190 -> NEU "zeigen" (0.65.255:
+    false); P4: ein Bewertungstag -> kein Rückfall (0.65.255: Rückfall), 8 Tage schlechter -> Rückfall; Teile alle/kern im Bericht
+    (0.65.255: fehlen).
+  - T682 (P1–P4 alt) grün mit den neuen Regeln. s198_kern_markt, s75_forecast_journal, s3_ledger (5), s6/s13/s14 Post, s12, s184,
+    s56, s69 grün. s227 angepasst (Markt-Tabelle hat jetzt einen leeren Teil "alle" -> "ohne Teil" ausdrücklich; mit dieser Version
+    ins Repo). s92 fest 10 194 KB. s42 grün. CHANGELOG EN/DE.
+Gesamtlauf (frischer Klon, Kopie 0.65.256, ohne parallele Läufe): BESTANDEN 316, FEHLGESCHLAGEN 0.
