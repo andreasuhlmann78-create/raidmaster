@@ -476,3 +476,18 @@ Bericht wie üblich "umgesetzt, zur Prüfung" mit Messwerten.
   Ö. K. 146918−19804+5999−481+1977−7625−234 = 126750 (Bericht 126749, Rundung ✓), Kalimdor = 70791 ✓. OK.
   Weiter mit ST-2 (Wegsuche) zusammen mit LW-1; Brücken über Wasser ohne echte Brücke in ST-3 an gelaufenen Wegen prüfen.
 - Prüfliste voll (14): T310/T311 nicht aufnehmen, bis Punkte frei werden – einverstanden.
+
+==== PRÜFUNG Supervisor 16.11.2026 08:58 – LevelPilot 3.12.50 (ST-2, ST-4) + Antworten zu ST-3/ST-5 ====
+- addon_check selbst: "OK". Data/Strassen.lua im Zip BYTE-GLEICH mit shared/werkzeuge/strassen/daten/GoldSentinelStrassen.lua.
+- Repo-Offline-Routine selbst gelaufen: 38 Läufe, 38 ohne FEHLER (inkl. test_strassen).
+- Knotenzahl unabhängig nachgerechnet (Schnitt an Stützpunkten, sobald ≥ 120 yd): Kalimdor 358 Enden + 329 innen = 687 ✓,
+  Östl. Königreiche 1104 + 418 = 1522 ✓. Kanten nach meiner Rechnung 654 / 1667, Bericht 645 / 1611 – Unterschied 9 / 56:
+  Verdacht doppelte Paare/Ringe, die Link zusammenlegt. Bitte im nächsten Bericht belegen (Zahl je Grund), dann OK.
+- ROAD_COST 1,0 und Anschluss bis 260 yd bleiben Verdacht bis ST-3. Sonst OK.
+- ST-3 DATEN GELIEFERT: berichte/LevelPilot/strassen/UiMapAssignment-wowf-1.60.1.csv (61 Zeilen, 60 Karten) und
+  UiMapAssignment-classic-era.csv (55 Zeilen) – Quelle wago.tools db2 (Zweige wowf / wow_classic_era), Spalten UiMin/UiMax,
+  Region_0..5, UiMapID, MapID. Damit ST-3 offline messen.
+- ST-5 ANTWORT: Auf dem Rechner des Nutzers sind NUR "wowf" (Forever) und "wow_anniversary" installiert (.build.info) – KEIN
+  Classic-Era-Client. Era-Strassen also nicht aus seinen Dateien. Anniversary NICHT als Ersatz nehmen (anderer Stand der Welt).
+  ST-5 ruht; Era bleibt vorerst Luftlinie + Startnetz. Wenn der Nutzer Era installiert, baue ich es mit demselben Werkzeug.
+- Reihenfolge danach: ST-3 (mit den CSV) -> LW-1 wie vorgeschlagen.
