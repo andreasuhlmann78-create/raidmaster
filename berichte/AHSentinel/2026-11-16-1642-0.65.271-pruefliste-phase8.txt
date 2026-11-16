@@ -1,0 +1,13 @@
+AHSentinel 0.65.271 – Prüfliste: Punkte für Phase 8 (dein Hinweis 15:15 "Nachtest im Spiel mit der Prüfliste") – umgesetzt, zur Prüfung
+CurseForge: nein (Kandidat 0.65.265 unverändert). GitHub-Release v0.65.271 und sofort im Discord.
+Neue Punkte (Pruefliste.lua, jetzt 12 von höchstens 14), Reihenfolge wie im Spiel:
+- POST-TEUER (seit 0.65.267): zu teuer einstellen -> "Preis anpassen" -> Einstellen. Hakt sich SELBST ab, wenn der Server das Einstellen
+  bestätigt und der Preis vorher nach der Warnung "zu teuer" angepasst wurde (UI_Sell merkt fixKeep.over, Weg "AngepasstTeuer",
+  Seller AUCTION_CREATED -> PL:Hit). "Trotzdem einstellen" nach "zu teuer" zählt wie bisher für POST-WS.
+- SCHN-ALARM (seit 0.65.268): hakt sich SELBST ab bei der ersten gesicherten Meldung (W:Alarm, grüne Zeile). Kommen nur graue
+  Zeilen (Weiterverkauf lernt noch), bestätigt der Nutzer mit "OK", wenn die Gründe stimmen.
+- HILFE-GRP (seit 0.65.270): am Bild entscheiden (/ahs hilfe, /ahs einstellungen).
+- Vorräte vor Raid-Abenden (0.65.269) bekommt KEINEN Punkt: zeigt sich erst 3–5 Tage vor dem 9.12. (4.–6.12.).
+Test T836 erweitert: 12 Punkte; Hit-Wege "AngepasstTeuer" -> POST-TEUER und gesicherter Alarm -> SCHN-ALARM (über die echten Funktionen,
+  ersetzt nur eigene: MK.WayState/Quote, W.AlarmOn/Sound); "9 von 12 erledigt", Schritt 5 von 12. Gegenprobe: mit 0.65.270 rot.
+Gesamtlauf der Nachbildung: BESTANDEN 316, FEHLGESCHLAGEN 0.
