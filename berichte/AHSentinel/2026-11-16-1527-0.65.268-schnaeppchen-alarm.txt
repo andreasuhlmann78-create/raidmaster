@@ -1,0 +1,36 @@
+AHSentinel 0.65.268 – FREIGABE PHASE 8 Punkt 2: I5 Schnäppchen-Alarm – umgesetzt, zur Prüfung
+CurseForge: nein (Kandidat 0.65.265 unverändert). GitHub-Release v0.65.268 und sofort im Discord.
+BESTAND vorher: Watcher W:OnVerified meldete JEDES geprüfte Schnäppchen einmal mit Ton (wenn "Ton bei Treffern" an) und grüner Zeile –
+  ohne Freigabe-Prüfung, ohne Altersgrenze der Daten, ohne Wiederhol-Sperre je Item, nicht eigens abschaltbar.
+UMGESETZT (Watcher.lua W:Alarm / W:AlarmSecured / W:AlarmOn / W:ToggleAlarm):
+- Gesichert nur, wenn ALLE gelten: (1) Weg "flip" (Weiterverkauf) laut MA2 frei (MK:WayState = "frei": ≥ 20 bewertete Fälle, Quote
+  über der Grenze); (2) Einzelsuche höchstens 60 s alt (result.time, GetTime); (3) erstes ECHTES Angebot (Lockangebote und eigene
+  ausgelassen, Menge = plan.qty − plan.bait > 0); (4) Preis ≤ Höchstpreis des Wächters.
+- Gesichert + Alarm an: EIN Ton (8959, nur wenn "Ton bei Treffern und Alarmen" an) + EINE grüne Zeile mit Menge, Preis, % vom Marktwert,
+  Trefferquote des Weiterverkaufs und Kauf-Taste; Diagnose SCHNAEPPCHEN.
+- Nicht gesichert oder Alarm aus: nur eine graue Zeile mit Grund (Weiterverkauf lernt noch / gesperrt / Daten älter als 60 s / über dem
+  Höchstpreis / nur Lockangebot / Alarm aus), KEIN Ton.
+- Höchstens 1 Meldung je Item in 10 Minuten (W.alarmT, auch für graue Zeilen).
+- Abschaltbar: neue Zeile "Schnäppchen-Alarm" an/aus in Optionen > Kaufen & Sniper (56 Zeilen statt 55).
+- "Standard AN nur für Wege, die P2 erreicht haben": ohne eigene Wahl (Einstellung nil) ist der Alarm an, sobald der Kern-Weg "markt"
+  (verkauft in der Laufzeit – das, worauf der Weiterverkauf eines Schnäppchens baut) K:Show = P2 besteht; laut Kern-Abgleich 14:45 ist
+  "markt" P2. Eigene Wahl an/aus geht immer vor; der Klick kippt den gezeigten Zustand.
+  AUSLEGUNG zur Prüfung: "Weg mit Freigabe/MA2" = harte Bedingung MK:WayState("flip") je Meldung; "P2" = Standardwert über Kern "markt".
+  Ist eine andere Zuordnung gemeint (z. B. Weg "sell"), bitte melden – eine Zeile (W.ALARM_KERN).
+- Kein Kauf ohne Klick: W:Alarm ruft keinen Kauf auf (Test zählt Sn:Buy/Sn:OnTrigger = 0).
+Test T846: gesichert -> grün/1 Ton; 9 Min. später nichts; 10 Min. wieder; lernt/gesperrt/61 s/über Max/Lockangebot -> grau ohne Ton
+  mit Grund; 60 s noch grün; Alarm aus grau; Ton aus grün ohne Ton; Käufe 0; Standard: Kern markt nicht P2 -> aus, P2 -> an, eigene
+  Wahl aus -> aus, Klick kippt an -> aus. Gegenprobe: TestRoutine 0.65.268 mit Addon 0.65.267 -> T846 rot; mit 0.65.268 grün.
+  T839/s74: 56 Options-Zeilen, nichts überlagert, alle 4 Sprachen.
+Locales: 11 neue Texte in allen 10 Sprachen. CHANGELOG EN/DE.
+Gesamtlauf der Nachbildung (erster Lauf): 315/1 – s9_watcher erwartete die alte Zeile "Schnäppchen:"; angepasst auf die graue Zeile
+  "nicht gesichert: Weiterverkauf lernt noch" (einzeln grün mit 0.65.268, rot mit 0.65.267).
+addon_check vor dem Release fand einen eigenen Fehler: T846 ersetzte Blizzards PlaySound (Taint). Behoben: eigener Ton-Aufruf W:Sound(),
+  der Test ersetzt nur diese eigene Funktion; addon_check danach OK, T846 und s9_watcher grün.
+Gesamtlauf nach der Korrektur: BESTANDEN 315, FEHLGESCHLAGEN 1 – s216_feed_memory (Zeit-Prüfung "längster Frame mit Feed ≤ ohne + 5 ms").
+  Nicht durch 0.65.268 verursacht (Belegt): mit 0.65.267 einzeln 1 von 4 Läufen ebenso rot (28 ms ≤ 20 + 5), mit 0.65.268 2 von 3 grün.
+  Der Wächter-Code berührt den Feed nicht. Verdacht, zu messen: Ausreisser einzelner Frames (Speicherbereinigung) machen den Vergleich
+  zweier Maxima wackelig – Vorschlag: Median der längsten Frames aus mehreren Läufen statt eines Maximums. Ich ändere die Prüfung nicht
+  ohne dein OK.
+Nächster Punkt: 3. Vorräte vor Raid-Abenden.
+Hinweis: Beim Release lief die Festplatte des Arbeitsrechners voll (alte Zwischenstände, aufgeräumt). GitHub-Release und Discord danach von Hand nachgeprüft: Release-ZIP = geprüfter Stand (diff leer), Discord-ZIP = Release-ZIP (cmp), addon_check OK.
