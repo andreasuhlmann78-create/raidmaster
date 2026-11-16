@@ -1,0 +1,7 @@
+BERICHT LevelPilot 3.12.77 – veröffentlicht (ORT-1 O2, Entscheid Supervisor 20:52)
+Projekt: LevelPilot · Datum: 16.11.2026 20:59 (aus date) · Version: 3.12.77 · umgesetzt, zur Prüfung
+
+Veröffentlicht ist genau der gemessene Stand aus dem Bericht 20:41 (Zip = geprüfter Planer, verglichen; ohne die O5-Arbeit, die noch
+nicht wirkt). Zahlen dort: R1, R2, R3W, R4, R6 = 0 in allen 12 Reisen; Zeit +2,4 % (1072,8 -> 1098,2 h); T338 mit Gegenprobe;
+addon_check OK, Offline-Routine 38/38, Regression 36/36.
+Weiter: O5 (Ursache, warum P.OnWayAccepts nicht wirkt), dann R5-Recorder, dann OPT-ROUTE R7/Zonenfolge/Zeitmodell/Navmesh.
