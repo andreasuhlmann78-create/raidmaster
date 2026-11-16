@@ -31,6 +31,10 @@ DU6 Kein endloser Verlauf: Das Repo enthält immer nur
     Jede Lieferung ersetzt den Zweig durch EINEN Commit ohne Vorgänger (Orphan-Commit + Force-Push), damit ältere
     Fassungen wirklich aus dem Repo verschwinden. Über 200 MB werden die ältesten Tages-Stände früher gelöscht.
 
+DS1 Datenschutz (ab 2.3.13, Entscheid des Nutzers 16.11.2026 07:10): In GuildSentinel.lua werden vor dem Hochladen die
+    Bewerber (apps) und die Sperrliste (ban) jeder Gilde geleert (svfilter.py). Nur die hochgeladene Kopie; die Datei im
+    Spiel bleibt unverändert. Kann die Datei nicht sicher gelesen werden, wird sie NICHT geliefert (nie ungefiltert).
+
 Unabhängig vom Abgleich PC/Laptop (sync.py) und vom Daten-Upload an den Bot: Fehler hier stören die anderen nie.
 Offline testbar: alle Netzaufrufe laufen über urllib.request.urlopen (im Test ersetzt).
 """
@@ -49,6 +53,15 @@ import threading
 import time
 import urllib.error
 import urllib.request
+
+try:
+    import svfilter
+except ImportError:                      # Start aus einem anderen Ordner
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    try:
+        import svfilter
+    except ImportError:                  # svfilter.py fehlt (nur einzelne Dateien ersetzt) -> GuildSentinel.lua nie liefern
+        svfilter = None
 
 DATEN_CONFIG = "daten_config.json"
 API = "https://api.github.com"
@@ -361,6 +374,7 @@ class Daten:
         self.retry_at = 0.0
         self.last_error = ""
         self.warned_big: set[str] = set()
+        self.warned_filter: set[str] = set()       # DS1: "nicht geliefert" je Datei-Stand nur einmal melden
 
     # -- welche Dateien (DU2, T-DU10)
     def files(self) -> dict[str, str]:
@@ -430,6 +444,22 @@ class Daten:
                     data = f.read()
             except OSError:
                 continue
+            if rel.endswith("/GuildSentinel.lua"):
+                # DS1: Bewerber und Sperrliste nie ins Daten-Repo; nicht sicher lesbar -> gar nicht liefern
+                if svfilter is None:
+                    if "svfilter" not in self.warned_filter:
+                        self.warned_filter.add("svfilter")
+                        self.log("Prüfung: GuildSentinel-Daten nicht geliefert: svfilter.py fehlt im Uploader-Ordner – "
+                                 "ganze RaidMasterUploader.zip entpacken.")
+                    continue
+                try:
+                    data, _n = svfilter.filter_guildsentinel(data)
+                except svfilter.FilterError as e:
+                    key = f"{rel}:{git_blob_sha(data)}"
+                    if key not in self.warned_filter:
+                        self.warned_filter.add(key)
+                        self.log(f"Prüfung: GuildSentinel-Daten nicht geliefert: Datei nicht sicher lesbar ({e}).")
+                    continue
             cur[rel] = (data, git_blob_sha(data))
         return cur
 

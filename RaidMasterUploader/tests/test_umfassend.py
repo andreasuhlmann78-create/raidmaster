@@ -556,6 +556,10 @@ REGRESSIONEN = {
     "UP-404g alte Zähler ohne Ort-Kennung": "test_sync.Ort404.test_up404g_alte_zaehler_ohne_ortkennung",
     "UP-404h normal nichts angepasst": "test_sync.Ort404.test_up404h_normal_nichts_angepasst",
     "T-UPv3 sechs Export-Zeilen v7": "test_uploader.Paket.test_upv3_sechs_exportzeilen_v7",
+    "UP-DS1 Bewerber/Sperrliste geleert": "test_daten.Datenschutz.test_ds1_bewerber_und_sperrliste_geleert_rest_gleich",
+    "UP-DS1 kaputt -> nicht geliefert": "test_daten.Datenschutz.test_ds1_kaputte_datei_nicht_geliefert_nie_ungefiltert",
+    "UP-DS1 Zufall WoW-Format": "test_daten.Datenschutz.test_ds1_zufall_wie_wow_geschrieben",
+    "UP-DS1 ohne svfilter nie ungefiltert": "test_daten.Datenschutz.test_ds1_ohne_svfilter_nie_ungefiltert",
     "RP-U nur bank/raidReady": "test_uploader.Uploader17.test_rp_u_nur_bank_und_raidready",
 }
 

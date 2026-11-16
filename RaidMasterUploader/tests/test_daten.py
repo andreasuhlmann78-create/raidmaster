@@ -323,6 +323,154 @@ class Lieferung(unittest.TestCase):
         self.assertLess(len(days), daten.DAYS_KEEP)
 
 
+GS_SV = (
+    'GuildSentinelDB = {\n'
+    '\t["settings"] = {\n\t\t["diagSend"] = true,\n\t\t["x"] = 1.5e+20,\n\t\t["neg"] = -3,\n\t},\n'
+    '\t["guilds"] = {\n'
+    '\t\t["Realm|Gilde Eins"] = {\n'
+    '\t\t\t["roster"] = {\n\t\t\t\t["Testa"] = {\n\t\t\t\t\t["l"] = 60,\n\t\t\t\t},\n\t\t\t},\n'
+    '\t\t\t["apps"] = {\n'
+    '\t\t\t\t["Bewerber"] = {\n\t\t\t\t\t["t"] = 1794580000,\n'
+    '\t\t\t\t\t["msg"] = "Hallo } { \\"Gilde\\" ]] = \\\\ Ende",\n\t\t\t\t\t["st"] = "neu",\n\t\t\t\t},\n'
+    '\t\t\t},\n'
+    '\t\t\t["ban"] = {\n'
+    '\t\t\t\t["Gesperrt"] = {\n\t\t\t\t\t["why"] = "Zeile eins\\nZeile zwei",\n\t\t\t\t\t["t"] = 5,\n\t\t\t\t},\n'
+    '\t\t\t\t"Zweiter Gesperrter", -- Kommentar }\n'
+    '\t\t\t},\n'
+    '\t\t\t["notes"] = {\n\t\t\t\t["Testa"] = [[lange { Notiz }]],\n\t\t\t},\n'
+    '\t\t},\n'
+    '\t\t["Realm|Gilde Zwei"] = {\n'
+    '\t\t\t["apps"] = {\n\t\t\t\t["NochEiner"] = {\n\t\t\t\t\t["msg"] = "x",\n\t\t\t\t},\n\t\t\t},\n'
+    '\t\t\t["log"] = {\n\t\t\t\t{\n\t\t\t\t\t1794580000, -- [1]\n\t\t\t\t\t"j", -- [2]\n\t\t\t\t},\n\t\t\t},\n'
+    '\t\t},\n'
+    '\t},\n'
+    '}\n'
+    'GuildSentinelCharDB = nil\n')
+
+
+class Datenschutz(unittest.TestCase):
+    """UP-DS1 (2.3.13, Entscheid des Nutzers 16.11. 07:10): Bewerber (apps) und Sperrliste (ban) nie ins Daten-Repo."""
+    setUp, tearDown, make, write, run_until = (Lieferung.setUp, Lieferung.tearDown, Lieferung.make, Lieferung.write,
+                                               Lieferung.run_until)
+
+    def test_ds1_bewerber_und_sperrliste_geleert_rest_gleich(self):
+        fn = self.write("GuildSentinel.lua", GS_SV, T0)
+        self.run_until(T0 + 1, T0 + 20)
+        up = self.gh.files()[AKT + "GuildSentinel.lua"].decode("utf-8")
+        for secret in ("Bewerber", "Hallo", "Gesperrt", "Zeile eins", "Zweiter Gesperrter", "NochEiner"):
+            self.assertNotIn(secret, up)
+        for keep in ('["Testa"] = {', "[[lange { Notiz }]]", "1.5e+20", '"j", -- [2]', "GuildSentinelCharDB = nil",
+                     '["apps"] = {\n}', '["ban"] = {\n}'):
+            self.assertIn(keep, up)
+        self.assertEqual(up.count('["apps"] = {\n}'), 2)                     # beide Gilden
+        # alles ausser den zwei/drei Tabelleninhalten Zeichen für Zeichen gleich
+        import svfilter
+        self.assertEqual(svfilter.filter_guildsentinel(up.encode())[1], 0)    # nochmals gefiltert: nichts mehr zu tun
+        with open(fn, encoding="utf-8") as f:
+            self.assertEqual(f.read(), GS_SV)                                  # Datei im Spiel unverändert
+        stand = json.loads(self.gh.files()["stand.json"])
+        self.assertEqual(stand["PC"]["dateien"]["forever/" + KONTO + "/GuildSentinel.lua"]["bytes"], len(up.encode()))
+
+    def test_ds1_ohne_apps_ban_unveraendert(self):
+        sv = 'GuildSentinelDB = {\n\t["guilds"] = {\n\t\t["R|G"] = {\n\t\t\t["roster"] = {\n\t\t\t},\n\t\t},\n\t},\n}\n'
+        self.write("GuildSentinel.lua", sv, T0)
+        self.run_until(T0 + 1, T0 + 20)
+        self.assertEqual(self.gh.files()[AKT + "GuildSentinel.lua"], sv.encode())
+        sv2 = 'GuildSentinelDB = {\n\t["guilds"] = {\n\t\t["R|G"] = {\n\t\t\t["apps"] = {\n\t\t\t},\n\t\t},\n\t},\n}\n'
+        import svfilter
+        self.assertEqual(svfilter.filter_guildsentinel(sv2.encode()), (sv2.encode(), 0))   # leer bleibt wie es ist
+
+    def test_ds1_kaputte_datei_nicht_geliefert_nie_ungefiltert(self):
+        self.write("AHSentinel.lua", "AHSentinelDB = { 1 }\n", T0)
+        bad = GS_SV.replace('"Hallo } {', '"Hallo } {\n', 1)                  # Zeichenkette mit echtem Zeilenumbruch
+        self.write("GuildSentinel.lua", bad, T0)
+        self.run_until(T0 + 1, T0 + 20)
+        files = self.gh.files()
+        self.assertIn(AKT + "AHSentinel.lua", files)                          # der Rest geht hoch
+        self.assertNotIn(AKT + "GuildSentinel.lua", files)                    # nie ungefiltert
+        lines = [l for l in self.logs if "GuildSentinel-Daten nicht geliefert" in l]
+        self.assertEqual(len(lines), 1)
+        self.assertIn("Zeile", lines[0])
+        self.assertFalse(any("Bewerber" in l or "Hallo" in l for l in self.logs))
+        self.run_until(T0 + 100, T0 + 200)
+        self.assertEqual(len([l for l in self.logs if "nicht geliefert" in l]), 1)  # nur einmal je Stand
+        for broken in ('GuildSentinelDB = {\n\t["guilds"] = {\n', 'GuildSentinelDB = { ["a"] = 1 } }\n',
+                       b'GuildSentinelDB = { "\xff" }\n'):
+            import svfilter
+            with self.assertRaises(svfilter.FilterError):
+                svfilter.filter_guildsentinel(broken if isinstance(broken, bytes) else broken.encode())
+
+    def test_ds1_zufall_wie_wow_geschrieben(self):
+        # 500 zufällige Dateien im Format, das WoW schreibt (Schlüssel/Werte mit Klammern, Anführungszeichen, Escapes,
+        # Umlauten, Zeilenumbrüchen, verschachtelt, Listen mit "-- [n]"): danach nie ein Geheimnis, Rest lesbar
+        import random
+        import svfilter
+        rnd = random.Random(4711)
+        alphabet = 'ab{}[]"\\=,;-\n\täöü€ ]]'
+        def lstr(v):
+            out = []
+            for ch in v:
+                out.append({'"': '\\"', "\\": "\\\\", "\n": "\\n", "\t": "\\t"}.get(ch, ch))
+            return '"' + "".join(out) + '"'
+        def val(depth, secret=False):
+            r = rnd.random()
+            if depth > 2 or r < 0.4:
+                txt = "".join(rnd.choice(alphabet) for _ in range(rnd.randint(0, 12)))
+                return lstr(("GEHEIM" if secret else "") + txt)
+            if r < 0.55:
+                return str(rnd.choice([0, -7, 3.25, 1e20, 123456789]))
+            if r < 0.6:
+                return rnd.choice(["true", "false"])
+            return table(depth + 1, secret)
+        def table(depth, secret=False):
+            ind = "\t" * depth
+            parts = []
+            for i in range(rnd.randint(0, 4)):
+                if rnd.random() < 0.3:
+                    parts.append(f"{ind}\t{val(depth, secret)}, -- [{i + 1}]\n")
+                else:
+                    k = "".join(rnd.choice(alphabet) for _ in range(rnd.randint(1, 6)))
+                    parts.append(f"{ind}\t[{lstr(k)}] = {val(depth, secret)},\n")
+            return "{\n" + "".join(parts) + ind + "}"
+        for n in range(500):
+            guilds = []
+            for g in range(rnd.randint(1, 3)):
+                inner = [f'\t\t\t["roster"] = {table(3)},\n']
+                if rnd.random() < 0.8:
+                    inner.append(f'\t\t\t["apps"] = {{\n\t\t\t\t["GEHEIM{n}"] = {table(4, True)},\n\t\t\t}},\n')
+                if rnd.random() < 0.8:
+                    inner.append(f'\t\t\t["ban"] = {{\n\t\t\t\t{lstr("GEHEIM grund")}, -- [1]\n\t\t\t}},\n')
+                rnd.shuffle(inner)
+                guilds.append(f'\t\t[{lstr("Realm|G" + str(g))}] = {{\n' + "".join(inner) + "\t\t},\n")
+            sv = "GuildSentinelDB = {\n\t[\"guilds\"] = {\n" + "".join(guilds) + "\t},\n}\n"
+            out, cnt = svfilter.filter_guildsentinel(sv.encode("utf-8"))
+            self.assertNotIn("GEHEIM", out.decode("utf-8"), n)
+            self.assertEqual(svfilter.filter_guildsentinel(out)[1], 0)
+            self.assertEqual(out.decode("utf-8").count('["roster"]'), sv.count('["roster"]'))
+
+    def test_ds1_ohne_svfilter_nie_ungefiltert(self):
+        # nur daten.py ersetzt, svfilter.py fehlt -> GuildSentinel.lua wird nicht geliefert, eine Zeile mit "Was tun"
+        old = daten.svfilter
+        daten.svfilter = None
+        try:
+            self.write("AHSentinel.lua", "AHSentinelDB = { 1 }\n", T0)
+            self.write("GuildSentinel.lua", GS_SV, T0)
+            self.run_until(T0 + 1, T0 + 20)
+            files = self.gh.files()
+            self.assertIn(AKT + "AHSentinel.lua", files)
+            self.assertNotIn(AKT + "GuildSentinel.lua", files)
+            self.assertEqual(len([l for l in self.logs if "svfilter.py fehlt" in l]), 1)
+        finally:
+            daten.svfilter = old
+
+    def test_ds1_alter_ungefilterter_stand_verschwindet_aus_aktuell(self):
+        # Vor 2.3.13 lag die Datei ungefiltert in aktuell/<rechner>/ – die nächste Lieferung ersetzt sie (gleicher Pfad)
+        self.write("GuildSentinel.lua", GS_SV, T0)
+        self.run_until(T0 + 1, T0 + 20)
+        self.assertNotIn(b"Bewerber", self.gh.files()[AKT + "GuildSentinel.lua"])
+        self.assertFalse(any(b"Bewerber" in v for p, v in self.gh.files().items() if p.startswith("aktuell/")))
+
+
 class Einrichten(unittest.TestCase):
     """2.3.1: T-DU7 (Token mit Strg+V), T-DU8 (daten_config.json mit BOM), T-DU9 (echte Ursache, Zertifikate)."""
 

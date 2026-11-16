@@ -276,3 +276,9 @@ Version 2.3.12 – gleiche Grenze wie der Bot, klarer Text bei 404:
   Version 7 bleibt mit allen Scans zusammen unter 1,5 MB.
 - Fehlt der Abgleich-Webhook (404), steht jetzt im Fenster: "Bot nicht auf dem Server oder Webhook gelöscht … Ist der Bot
   weg, ihn zuerst wieder einladen." – gleich wie die Meldung des Bots.
+
+Version 2.3.13 – Datenschutz im Daten-Repo (UP-DS1):
+- Bewerber (mit Nachricht) und Sperrliste (mit Gründen) aus GuildSentinel gehen nicht mehr ins private Daten-Repo. Der
+  Uploader leert sie in jeder Gilde, bevor er GuildSentinel.lua hochlädt. Die Datei im Spiel bleibt unverändert.
+- Kann er die Datei nicht sicher lesen, liefert er sie gar nicht und meldet einmal "GuildSentinel-Daten nicht geliefert: …".
+- Neue Datei svfilter.py – bitte immer die ganze RaidMasterUploader.zip entpacken.

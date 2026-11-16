@@ -1,0 +1,51 @@
+BERICHT RAIDMASTER AN DIE PRÜF-SITZUNG
+Stand: 16.11.2026 07:18 (aus date) · Sitzung: RaidMaster-Projekt-Sitzung · Version: Uploader 2.3.13 (Addon unverändert 3.0.27)
+Commit: dieser Push · Bezug: offen-raidmaster.txt "ENTSCHEID DES NUTZERS 16.11. 07:10 … UP-DS1" (b1bc59eb)
+Status: umgesetzt, zur Prüfung.
+
+UP-DS1 – Bewerber (apps) und Sperrliste (ban) nie ins private Daten-Repo
+- Neue Datei RaidMasterUploader/svfilter.py:224 filter_guildsentinel(data) – kleiner Lua-Leser für SavedVariables: liest die
+  GANZE Datei (Zeichenketten "…"/'…' mit \" \\ \n \t \ddd und Zeilenfortsetzung, lange Zeichenketten [[…]]/[==[…]==],
+  Kommentare -- und --[[…]], Zahlen inkl. 1.5e+20/-3/0x.., true/false/nil, [Schlüssel] = Wert, Name = Wert, Listen).
+  In GuildSentinelDB.guilds[<jede Gilde>] werden die Einträge "apps" und "ban" (GS_DROP, svfilter.py:16) durch "{\n}" ersetzt –
+  nur deren Inhalt; jedes andere Zeichen der Datei bleibt gleich. Unerwartete Form (z. B. Text statt Tabelle) wird ebenfalls
+  geleert. Das Ergebnis wird danach noch einmal vollständig gelesen (muss gültig sein).
+- daten.py:447 (_read_files): nur die hochgeladene Kopie von GuildSentinel.lua wird gefiltert; die Datei im Spiel bleibt
+  unverändert (Test liest sie danach). Prüfwert (sha) und Grösse in stand.json gelten für die gefilterte Fassung.
+- Nicht sicher lesbar (FilterError: kein UTF-8, Zeichenkette ohne Ende, Zeilenumbruch in Zeichenkette, Tabelle ohne Ende,
+  Unbekanntes …) -> GuildSentinel.lua wird NICHT geliefert, eine Zeile "Prüfung: GuildSentinel-Daten nicht geliefert: Datei
+  nicht sicher lesbar (<Grund> (Zeile n))." – je Datei-Stand nur einmal, nie mit Inhalt. Die anderen Dateien gehen hoch.
+- Fehlt svfilter.py (nur einzelne Dateien ersetzt), wird GuildSentinel.lua ebenfalls nicht geliefert ("svfilter.py fehlt im
+  Uploader-Ordner – ganze RaidMasterUploader.zip entpacken.").
+- Discord-Upload an den Bot unverändert: dort gehen aus GuildSentinel nur Bank und raidReady (seit RP-U).
+
+EIGENE TESTS (Hinweise, keine Freigabe) – tests/test_daten.py:351 class Datenschutz:
+- :356 Bewerber mit "}" "{" "]]" Anführungszeichen und Backslash in der Nachricht, Sperrgrund mit Zeilenumbruch (\n),
+  Sperrliste mit Listeneintrag und Kommentar "-- Kommentar }", zwei Gilden, lange Zeichenkette [[lange { Notiz }]], Zahlen
+  1.5e+20/-3, Liste mit "-- [n]" -> kein Geheimnis in der hochgeladenen Datei, alles andere vorhanden, beide Gilden geleert,
+  zweites Filtern ändert nichts, Datei im Spiel unverändert, stand.json-Grösse = gefilterte Grösse.
+- :374 Datei ohne apps/ban -> Byte für Byte unverändert; leere apps bleibt wie sie ist.
+- :383 kaputte Datei -> nicht geliefert, AHSentinel.lua geht trotzdem hoch, genau EINE Meldung (auch nach 100 s), kein Inhalt im
+  Log; drei weitere kaputte Formen (Tabelle ohne Ende, Klammer zu viel, ungültiges UTF-8) -> FilterError.
+- :403 Zufall: 500 Dateien im WoW-Format (Seed 4711; Schlüssel/Werte mit { } [ ] " \ = , ; - ]] Zeilenumbruch Tab Umlaute €,
+  verschachtelt, 1–3 Gilden, apps/ban je 80 %) -> nie "GEHEIM" in der Ausgabe, roster immer erhalten, zweites Filtern 0.
+- :451 ohne svfilter -> GuildSentinel.lua nicht geliefert, eine Zeile.
+- :466 alter ungefilterter Stand in aktuell/<rechner>/ wird bei der nächsten Lieferung ersetzt.
+- Uploader-Tests: test_daten 18 (+6), test_sync 53, test_uploader 23, test_umfassend 14 (Regressionen 73/73) – grün (python -I).
+- Bot-Tests einzeln (python -I): alle OK. download/RaidMasterUploader.zip neu (13 Einträge, mit svfilter.py, VERSION 2.3.13).
+
+FRAGE AN DEN NUTZER (über die Prüf-Sitzung) – schon hochgeladene Stände bereinigen?
+- aktuell/<dieser Rechner>/: wird mit der nächsten Lieferung von 2.3.13 automatisch gefiltert ersetzt (gleicher Pfad).
+- aktuell/<anderer Rechner>/: erst, wenn auch dort 2.3.13 liefert.
+- tage/<Datum>/: Tages-Stände der letzten bis zu 7 Tage enthalten noch ungefilterte GuildSentinel.lua; sie fallen nach 7 Tagen
+  von selbst weg. Jede Lieferung ist EIN Commit ohne Vorgänger (Force-Push) – einen Git-Verlauf mit alten Fassungen gibt es im
+  Zweig nicht; GitHub kann unerreichbare alte Objekte aber noch eine Zeit lang intern halten.
+- Möglich auf Wunsch: einmalig bei der nächsten Lieferung alle GuildSentinel.lua unter tage/ (und aktuell/ anderer Rechner)
+  ebenfalls gefiltert ersetzen oder entfernen. Bitte Entscheid des Nutzers.
+
+HINWEIS: Der Abgleich PC/Laptop (sync.py) schickt GuildSentinel.lua weiter ungefiltert über den privaten Discord-Kanal
+#sync-daten (nur Bot und Nutzer sehen ihn) – das braucht der zweite Rechner, um die Bewerber/Sperrliste zu haben. UP-DS1 betrifft
+nur das Daten-Repo; falls auch der Abgleich filtern soll, wäre das ein eigener Entscheid (dann fehlen die Listen am zweiten Rechner).
+
+FÜR DEN NUTZER (nach Prüfung): /uploader nur_programm:True, ganze ZIP auf beiden Rechnern entpacken (neue Datei svfilter.py),
+Konfigurationsdateien behalten.
