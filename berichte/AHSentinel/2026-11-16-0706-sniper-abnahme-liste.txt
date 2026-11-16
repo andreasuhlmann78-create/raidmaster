@@ -1,0 +1,51 @@
+AHSentinel – SNIPER-ABNAHME 16.11. (vor dem CurseForge-Upload 18:00) – Abnahme-Liste für den Nutzer
+Gleicher Inhalt wie die Prüfliste im Spiel ab 0.65.259 (/ahs prüfliste). Dauer gesamt rund 15–20 Min. Gold-Einsatz: wenige Silber.
+
+VORHER (einmal): AHSentinel 0.65.259 installieren, einloggen. "/ahs entwickler an", dann "/ahs prüfliste" – das Fenster zeigt
+  immer den nächsten offenen Schritt ("Das tust du / Das musst du sehen") und merkt selbst, wenn ein Schritt erledigt ist
+  (Chat: "Prüfliste AHSentinel: … erledigt (erkannt)"). Stimmt etwas nicht: im Fenster "Nicht OK" und hier melden.
+  Am Ende: "/reload" – der Stand der Liste steht im Testbericht (Zeilen "PRÜFLISTE AHSentinel: …").
+
+1. SN-TR  Testroutine Sniper (S1–S6)
+   Tun: Auktionshaus öffnen, keinen Markt-Scan laufen lassen. /ahs testroutine sniper. Frage nach dem Testkauf mit "Ja", sobald
+   "Treffer" erscheint EINE Mausrad-Raste. Dann rund 2 Min. nichts tun (Beobachtung).
+   Soll: Chat "Testroutine fertig: … 0 FEHLER …"; Bericht beginnt mit "ERGEBNIS Sniper-Abnahme"; Testkauf genau 1 Stück.
+   Merkt selbst: ja (Ende der Testroutine; mit FEHLER -> "Fehler (erkannt)" mit Zahlen).
+   Abweichung: den Testbericht (/reload) – kommt von selbst.
+2. SN-BTN1  Kauf-Knopf: ein Klick = ein Kauf
+   Tun: Kaufen > Sniper: Ziel mit billigem Item (z. B. Leinenstoff, Max knapp über dem günstigsten Angebot, Menge 2), "Sniper-Modus: AN".
+   Zeigt der grosse Knopf "Kaufen: 1× … für …", EINMAL klicken.
+   Soll: genau ein Kauf (Chat "Gekauft: …"), Knopf kurz grün "Gekauft", Zielzeile zählt 1 weiter. Ohne Treffer grau "Kein Treffer".
+   Merkt selbst: ja (vom Server bestätigter Kauf ≤ 30 s nach dem Knopf).
+3. SN-RAD  Mausrad kauft nur, wenn eingeschaltet
+   Tun: /ahs optionen -> "Sniper: Kaufen mit" auf "nur Knopf"; bei einem Treffer das Mausrad drehen. Dann zurück auf "Mausrad + Knopf"
+   und bei einem Treffer EINE Raste.
+   Soll: mit "nur Knopf" kein Kauf (Kamera zoomt normal); mit "Mausrad + Knopf" kauft eine Raste genau einen Treffer.
+   Merkt selbst: ja (Rad-Kauf nach gewähltem "nur Knopf"); kauft das Rad bei "nur Knopf" -> "Fehler (erkannt)".
+4. SN-GRENZE  Max und Budget werden eingehalten
+   Tun: Ziel mit kleinem Budget, das für höchstens 2 Käufe reicht (z. B. Max 30s, Budget 50s, Menge 5), kaufen, bis nichts mehr geht.
+   Soll: kein Kauf über Max; Budget aufgebraucht -> Zielzeile gelb, Knopf fragt "Budget auffüllen?", ohne Ja kein Kauf mehr.
+   Merkt selbst: ja (Budget erreicht); Kauf über Max oder Budget überschritten -> "Fehler (erkannt)".
+5. MU1-3  Max über "Lohnt bis": gelb + Knopf
+   Tun: ein Teil aus Markt > Entzaubern als Sniper-Ziel mit Max deutlich über "Lohnt bis" setzen; Maus auf die Zeile, dann Zeile
+   anklicken und "Max folgt Lohnt bis".
+   Soll: vorher Max-Zelle gelb und Tooltip "Max über Lohnt bis (…) – …"; nachher Max = Lohnt bis, Zelle normal, Knopf weg.
+   Merkt selbst: ja (Knopf mit Erfolg).
+6. POST-WS  Einstellen trotz Preiswarnung (POST-BLOCK1/WS-LOOP1, altes AH)
+   Tun: Verkaufen > Einstellen: billiges Item (Wert unter 10s), Preis absichtlich viel zu tief (rund 1/10 des Marktwerts), "Einstellen";
+   im Fenster "Warnschutz" "Trotzdem einstellen".
+   Soll: Auktion steht unter Verkaufen > Meine Auktionen; keine zweite Warnung, keine Meldung "blockiert"/"fehlgeschlagen".
+   Merkt selbst: ja (vom Server bestätigtes Einstellen auf diesem Weg).
+7. POST-FIX  Preis anpassen ohne neue Warnung
+   Tun: wie 6, aber im Warnschutz "Preis anpassen (…)" (oder Enter), dann "Einstellen".
+   Soll: Preisfeld zeigt den Vorschlag, Einstellen ohne neue Warnung, Auktion unter Meine Auktionen.
+   Merkt selbst: ja; kommt nach "Preis anpassen" erneut eine Warnung -> "Fehler (erkannt)".
+8. ESL1  Einkaufsliste aus Materialien (0.65.210)
+   Tun: Berufsfenster öffnen (z. B. Schneiderei), Rezept wählen, im AHSentinel-Teil daneben "Nur was mir fehlt" oder
+   "Materialien als Einkaufsliste".
+   Soll: Einkaufsliste öffnet sich mit mindestens einer Zeile, Chat "Materialien für … auf die Liste … gesetzt".
+   Merkt selbst: ja (Liste mit Zeilen); leere Liste -> "Fehler (erkannt)".
+
+NICHT IN DER LISTE (Begründung): "Ware zwei Schritte" (Preis anfragen -> Kaufen bestätigen) gibt es nur im modernen Auktionshaus
+  (Retail/Cata/MoP). In WoW Forever (altes AH) kauft jeder Klick ein Angebot – dort nicht prüfbar. Geprüft in der Nachbildung (s42/S2).
+"Nie doppelt kaufen" ist Teil von 1 (S2/S3 in der Testroutine) und 2 (genau ein Kauf je Klick).
