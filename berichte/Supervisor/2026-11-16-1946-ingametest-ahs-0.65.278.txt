@@ -1,0 +1,57 @@
+Ingametest AHSentinel 0.65.278 – Sitzung "home zugriff", 16.11.2026 19:20–19:44 (Bildschirmsteuerung, WoW Forever, AH Unterstadt)
+Bericht an den Supervisor. Keine Namen. Abgebrochen um 19:43 wegen Lua-Fehler mit Spiel-Absturz (siehe unten).
+
+SCHRITT 0 – Version: 0.65.278 (im Fenstertitel abgelesen). OK.
+SCHRITT 1 – /ahs entwickler -> Chat "Entwickler-Modus: an". /ahs prüfliste geöffnet; beim Start standen schon 6 von 14 Punkten
+  aus früheren Läufen (SN-TR Fehler erkannt, SN-RAD-A OK, SN-RAD-B, SN-GRENZE, POST-WS, ESL1 erledigt erkannt, POST-FIX OK).
+Stand am Ende: 9 von 14 erledigt.
+
+JE PUNKT (in der Reihenfolge der Durchführung)
+1. VOLLSCAN (erster Scan ca. 19:20, zweiter ca. 19:36; Sniper dafür ausgeschaltet, sonst Knopf "Scan wartet: Sniper-Ruhemodus")
+   -> Prüfliste: Fehler (erkannt). Notiz: Speicher +121584 KB (Ziel <= 10240) · längste Lücke 436 ms (Ziel <= 50) · Bereinigungen 28.
+   Chat beim Start: "Schnell-Vollscan gestartet ...". Nach dem Scan 7165 Items, "Nächster Scan in ~13:30".
+2. HILFE-GRP – /ahs hilfe: Gruppen Alltag, Einstellungen, Hilfe, Entwickler vorhanden, keine Doppelten gesehen;
+   /ahs einstellungen öffnete die Optionen. Punkt hakte sich NICHT selbst ab (auch nach "Jetzt prüfen") -> von Hand "OK" gesetzt.
+3. SN-TR – /ahs testroutine sniper, Frage "Sniper-Abnahme S4: echter Testkauf von 1 Stück ... erlaubt?" mit Ja beantwortet.
+   Bei Treffer (3x Leinenstoff, Knopf "Preis anfragen") eine Mausrad-Raste über der Spielwelt gegeben -> wurde NICHT als Raste erkannt
+   (S4 übersprungen: "kein Kauf in 60 s (keine Raste oder kein Treffer)"). Die Raste scrollte stattdessen das Chatfenster
+   (Verdacht, zu messen: Bildschirmsteuerung erreicht den Mausrad-Hook nicht wie eine echte Maus).
+   Ergebnis: Prüfliste "Fehler (erkannt)", Notiz "24 OK, 4 FEHLER, 1 übersprungen". Testbericht (abgelesen):
+   "Der Sniper prüfte 5 Ziele reihum, Ø 33 Suchen/Min. (Server erlaubt 90). Jedes Ziel spätestens alle 13 s. 16 Treffer, 0 gekauft,
+   7 verpasst. Ruckeln: längster Frame 547 ms (Ziel <= 33 ms). FEHLER bei: S5, S6, S8, S13."
+   Einzeln: S1 OK, S2 OK, S3 OK, S4 SKIP, S5 FEHLER, S6 FEHLER, S7 OK, S8 FEHLER, S9 OK, S10 OK, S11 OK, S12 OK, S13 FEHLER.
+   T617 (S5 Ruckeln): soll Ø >= 30 Bilder/s, kein Frame > 50 ms, Sync-Warteschlange <= 10 | ist Ø 35 / min 20 Bilder/s,
+     längster Frame 547 ms, Sync-Warteschlange max 10; Ursachen: AHSentinel 67, Sync 45, fremd 359.
+   T618 (S6 Reaktionszeit): neues Angebot spätestens nach < 5 s sichtbar – FEHLER (Wert nicht vollständig ablesbar, ca. 14 s).
+   AUCTION_HOUSE_PURCHASE_COMPLETED 25x Ø 22.8 / max 28.9 ms · AUCTION_HOUSE_SHOW_ERROR 1x · Suchen vom Server verworfen 0.
+   Gemessen: Prognose-Trefferquote 50 % (N 139), Absatz für 585 Items, Speicher Prognose/Vollscan/Lernen 666 KB.
+4. SN-BTN1 – Ziel Leinenstoff von Hand auf Menge 2, Max 22c gesetzt (vorher Menge 3, Max 30c – BITTE BEACHTEN: Einstellung des
+   Nutzers geändert). Sniper-Modus AN. Der Sniper blieb auf dem Treffer "Azurblaue Seidenkapuze" (eigenes Ziel des Nutzers) stehen,
+   Knopf "Kaufen: 1x Azurblaue Seidenkapuze für 8 Silber" blieb klickbar, auch während der Sniper schon das nächste Ziel suchte.
+   Nach Rückfrage beim Nutzer EIN Klick -> genau 1 Kauf, 8 Silber (Gold 30g28s -> 30g20s). Prüfliste: erledigt (erkannt).
+5. UI-TEST – /ahs testroutine ui (einmal; Schrift/Design nicht von Hand umgestellt, die Routine schaltet selbst um).
+   Ergebnis: "Testroutine fertig: 4 OK, 1 FEHLER, 0 übersprungen". Prüfliste: Fehler (erkannt).
+   FEHLER T750 UI-CLEAN1: 727 Befunde (AH offen, Klassisch+Modern, 100+130 %, deDE, geprüft 152 von 156 Ansichten);
+   je Art: ragt heraus 182, abgeschnitten 462, überlappt 44, veraltet 39; je Ansicht u. a. Kaufen > Schnäppchen 86,
+   Kaufen > Schnäppchen > Unter Händlerpreis 86, Markt > Markt > Lücken 65.
+   ACHTUNG Sandbox: "FEHLER: 3 Pfade wiederhergestellt: deCount.day, deCount.counted, deCount.since" (Entzauber-Zähler!);
+   gleich danach "Entzauber-Daten unverändert: deStats 5 Gruppen ...". Bitte prüfen, ob die UI-Routine Entzauber-Daten berührt.
+6. POST-TEUER – Einfaches Holz (Marktwert 42c, günstigstes 38c) für 1s26c -> Warnschutz "liegt 232 % über dem günstigsten Angebot (38)".
+   "Preis anpassen (37)" -> 37c, Einstellen ohne neue Warnung. Prüfliste: erledigt (erkannt). Einstellgebühr 1 Silber.
+   Abbrechen unter Meine Auktionen: zu spät – Status "verkauft?", Zeile "1 verkauft (37, erhalten 35)". Keine Testauktion mehr offen.
+7. SCHN-ALARM – Wächter eingeschaltet (Kaufen > Wächter; dort Budget je Schnäppchen 50g = Einstellung des Nutzers, nicht geändert).
+   Nach ca. 1 Minute, beim Öffnen der Optionen:
+   LUA-FEHLER (wörtlich): "Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:1801: script ran too long" – Time Mon Nov 16 19:43:14 2026, Count 1
+   Stack: AHAnalyzerPro.lua:1801 'PriceInfo' <- Disenchant.lua:1080 'MatPrice' <- Disenchant.lua:1459 'ActualValue'
+     <- Disenchant.lua:1548 'DealValue' <- Disenchant.lua:1363 'PlannedValue' <- DEBuy.lua:62 'Value' <- DEBuy.lua:109 'Candidates'
+     <- DEBuy.lua:252 'WatchCheck' <- Watcher.lua:399 'FinishRound' <- Watcher.lua:317 'PollRound' <- Watcher.lua:706 'Tick'
+   Das Spiel fror ein (Bildschirm schwarz), danach stand der Client am Anmeldebildschirm. Test dort ABGEBROCHEN (Anmelden ist
+   Sache des Nutzers). SCHN-ALARM: nicht geprüft.
+8. HAENDLER-GOLD – nicht prüfbar (keine grauen Items in der Tasche gesehen; nicht weggelaufen).
+9. ESL1, SN-RAD-A/B, SN-GRENZE, POST-WS, POST-FIX – waren schon erledigt, nicht wiederholt.
+
+GOLD: Testkäufe zusammen 8 Silber (1x Azurblaue Seidenkapuze). Einstellgebühr 1 Silber (Holz). Holz verkauft für 37c (erhalten 35c).
+Keine Testauktion offen. Weit unter der Grenze von 1 Gold.
+ZUSTAND BEIM ABBRUCH: Sniper AUS, Wächter AN (eingeschaltet für SCHN-ALARM), Ziel Leinenstoff = Menge 2 / Max 22c.
+Grösster Befund: Lua-Fehler "script ran too long" im Wächter-Pfad (Watcher -> DEBuy -> Disenchant -> PriceInfo) mit Absturz;
+danach Speicher +121 MB beim Vollscan und Ruckler bis 547 ms.
