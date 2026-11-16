@@ -86,8 +86,10 @@ Discord-Bot 1.5.142–1.5.145
 =====================================================================================================================
 - ThreatSentinel-Messung (1 Kampf, ~5 Min.): shared/messtest/TSMess.zip installieren, /tsmess start, in einer Gruppe mit Tank
   kämpfen (Ziel angewählt), /tsmess stop, /reload, SavedVariables/TSMess.lua hochladen. Entscheidet, ob "Zeit bis Aggro" in Forever geht.
-- Uploader am LAPTOP: im Fenster "zuletzt hochgeladen …" ansehen (letzter Beleg zu UP-404: ging dort zwischen 14.11. 18:50 und
-  15.11. 02:39 nichts verloren?). Der Desktop ist belegt.
+- (06:28) Laptop auf den neuesten Stand gebracht: alle 7 Addons (AHS 0.65.257 …), TSMess 1.1, Uploader 2.3.6 -> 2.3.12 (nur Code,
+  keine Konfiguration angefasst). OFFEN: Am Laptop liegt noch die ALTE sync_config.json vom 11.11. – die neue (nach /uploader am
+  15.11.) dort hineinlegen, sonst meldet der Abgleich 404. Der Laptop hat zuletzt am 13.11. 16:05 abgeglichen – in der 404-Zeit
+  (14.11. 18:50 bis 15.11. 02:39) lief er nicht, also ging dort nichts verloren (UP-404 (3) damit belegt).
 Im Spiel prüfen:
   - LevelPilot: einfach "/lp clienttest" eingeben, 3 Fragen beantworten, danach "/lp diag" kopieren und schicken – ersetzt 10 Einzel-Anleitungen.
   - Discord-Bot nach /update (auf die neueste Version): (1) #bot-log "Update installiert – … läuft" bzw. /raidmaster-status zeigt die Version;

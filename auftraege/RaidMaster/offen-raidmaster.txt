@@ -260,3 +260,6 @@ UP-404 HOCH (Nutzer 15.11. 01:26, Screenshot Uploader): "Abgleich: Discord antwo
   Rest-Beleg (3) zweiter Rechner: geht an den Nutzer (Fenster "zuletzt hochgeladen …" am Laptop ansehen) – kein Auftrag an dich.
   Weiter: deine Reihenfolge (UP-S1/UP-S1-2 Betrieb, Nacht-Analyse).
 
+>>> HINWEIS 06:28 (Supervisor): UP-404 (3) zweiter Rechner belegt – der Laptop hat zuletzt am 13.11. 16:05 abgeglichen (uploader_state.json,
+  _sync.lock), lief in der 404-Zeit nicht. Uploader dort heute auf 2.3.12 gebracht; dort liegt noch die alte sync_config.json (11.11.) –
+  der Nutzer legt die neue hinein. Kein Auftrag an dich.
