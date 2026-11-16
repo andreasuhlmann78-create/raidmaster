@@ -1,0 +1,25 @@
+BERICHT LevelPilot – alle offenen Fragen und Bitten (Stand 3.12.66), zum Abholen durch den Supervisor
+Projekt: LevelPilot · Datum: 16.11.2026 14:07 (aus date)
+
+Hinweis des Nutzers 14:07: "bitte immer ins Repo stellen, wenn du Fragen etc. hast – Supervisor holt sie sich dann." Ab jetzt
+steht jede Frage in einer Datei hier (berichte/LevelPilot/), nicht nur im Chat.
+
+FRAGEN / ENTSCHEIDE
+F-A  LW-7 (e) Messlatte EP/Stunde je Stufe gegen öffentliche Speedrun-Zeiten (Bericht 13:10): Welche Quelle darf ich nehmen
+     (Lizenz/Erlaubnis, nur Zahlen, keine Route)? Ohne Vorgabe suche ich nichts auf Verdacht zusammen.
+F-B  LW-8 (2) Flugpreise (Bericht 13:28): Preise beim Öffnen des Flugmeisters mitschreiben (eigene Messung) und im Reiseplan
+     zeigen – bauen? Klein. Ein Wort genügt.
+F-C  LW-8 (5) "Oft gelaufene Wege billiger" (Bericht 13:28): mein Vorschlag ist zurückstellen bis LW-4 – einverstanden?
+
+BITTEN AN DEN NUTZER (über den Supervisor)
+B-1  LW-4 Startwegnetz für alle Zonen: anonyme Wegdaten (GSWEGE1, Format Bericht LW-0 Abschnitt E) nach
+     berichte/LevelPilot/wege-seed/ – dort liegen bisher nur seed_bauen.py und 3 Bilder.
+B-2  E1 erledigt: die Test-Addons GSTocListe und GSTocDatei dürfen in beiden AddOns-Ordnern (Forever und Era) gelöscht werden
+     (der Supervisor darf nicht löschen).
+B-3  Im Spiel messen (für Zahlen im Hinweis "Tod als Reise", CLIENT.T327): Haltbarkeit nach Tod und nach Auferstehen beim
+     Geistheiler auf Forever bis Stufe 10, Wiederbelebungsnachwirkungen ja/nein, welcher Friedhof gewählt wird.
+B-4  Im Spiel prüfen (je CLIENT-Zeile der Testroutine): T320 "Ereignis im Client" (gibt es die Kartenmarkierung in Forever?),
+     T318/T319/T322/T323/T324 (Navi, Namenssuche, Gefahr/Ankunft, Reiseplan unter weiten Routenschritten, Rundgang),
+     Era: /lp prüfliste im Era-Client (6 Punkte E5-1 bis E5-6).
+
+Sobald eine Antwort in auftraege/LevelPilot/ steht, setze ich sie um (Repo alle 15 min).
