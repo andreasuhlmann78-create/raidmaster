@@ -412,3 +412,13 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
 >>> HINWEIS 07:44 (Supervisor, aus PS-PL1): Die ProfessionSentinel-Pipeline wertete QuestieDB.zoneIDs pauschal als 0 – Spawns aus Questie-
   Korrekturen ([zoneIDs.<NAME>] = …) gingen verloren. Bitte in DEINEM Daten-Generator (LevelPilot_Data, Tools/) prüfen, ob zoneIDs dort echt
   aufgelöst werden (Stichprobe: ein NPC mit Fix-Spawn, z. B. 276067 Tirisfal) – Ergebnis im Bericht zu LW-0. Kein Code auf Verdacht.
+
+>>> RESTEDXP-VERGLEICH (Auftrag des Nutzers 07:51; Supervisor 07:53): Analyse Abschnitt 5 in shared/wissen/analysen/levelpilot-laufwege-2026-11-16.md.
+  WICHTIG: RestedXP (github.com/RestedXP/RXPGuides) steht unter CC BY-NC-SA 4.0 – KEINE Routen, Texte oder Code übernehmen, nur Ideen.
+  Kern: RestedXP hat KEINE Wegsuche – feste Leitfäden von Speedrunnern mit Hand-Zwischenpunkten (.goto x,y,Radius,0; 2 851 in den freien
+  Forever-Leitfäden), Schleifen, Reise-Tricks (78× absichtlich sterben, 66× Ruhestein, Binden während des Ruhesteins). LevelPilot ist
+  dynamisch – sein Vorteil, wenn LW-1/LW-2 die Kosten richtig rechnen und LW-4 das gelaufene Netz liefert.
+  LW-7 (nach LW-6..LW-3, Ideen, je einzeln in LW-0 bewerten): (a) Schleifen für Sammel-/Grind-Ziele, (b) Radius je Wegpunkt, (c) Ruhestein +
+  Binden zusammen (HS-Batching) als Option, (d) "Tod als Reise" im Speedrun – NUR mit Entscheid des Nutzers (Haltbarkeit, Risiko).
+  (e) Messlatte: EP/Stunde je Stufe gegen öffentliche Speedrun-Zeiten (Zahl, keine Route).
+

@@ -98,3 +98,39 @@ Jede Stufe mit Vorher/Nachher-Messung aus LW-6 (gleiche Strecke in der Nachbildu
 ## 4. Zusammenarbeit
 LevelPilot gibt zuerst eine Stellungnahme (siehe offen-levelpilot.txt LW-0): was es schon misst, ob die Befunde stimmen, welche
 Grenzen es sieht (Tempo, Speicher), und eigene Zahlen. Danach Umsetzung in der Reihenfolge oben, je Version "umgesetzt, zur Prüfung".
+
+## 5. Vergleich: RestedXP (Auftrag des Nutzers 07:51 "hol alle Daten über RestedXP und untersuche, wie sie es mit den Wegen machen")
+
+Quellen (gelesen 07:53): CurseForge-Seite "RestedXP Guide" (30,7 Mio. Downloads, letztes Update 15.11.2026) und der öffentliche Quellcode
+github.com/RestedXP/RXPGuides (Stand 14.11.2026, Commit 22e6ce2). .toc: Interface 11509 (Era), 20506, 38002, 50504, 120x – UND 16001
+(WoW Forever). **Lizenz: Creative Commons BY-NC-SA 4.0** (nicht kommerziell, gleiche Lizenz, Namensnennung) – LevelPilot darf von dort
+KEINE Routen, Texte oder Code übernehmen (LevelPilot steht nicht unter dieser Lizenz). Erlaubt ist, die Ideen zu verstehen.
+
+### Wie RestedXP Wege macht (belegt, Code und Leitfäden)
+- **Keine Wegsuche.** Es gibt keinen Algorithmus (kein A*, kein Wegnetz). Die Route ist ein von Speedrunnern **von Hand geschriebener
+  Leitfaden**: eine feste Folge von Schritten je Volk/Fraktion/Stufenbereich, mit Bedingungen je Klasse/Volk (`<< Warrior/Mage`),
+  Stufen-Prüfungen (`.xp <2`), Sprüngen (`#completewith`, `#requires`, `#sticky`).
+- **Der Laufweg sind Zwischenpunkte von Hand:** `.goto Karte/0,x,y,Radius,0` – Weltkoordinaten (robust gegen Kartenänderungen, darum
+  laufen die Leitfäden in Forever), Radius = wann der Pfeil zum nächsten Punkt springt; `,0` = Zwischenpunkt ohne eigenen Pin. Beispiel
+  Undead-Start: drei Punkte führen aus der Gruft hinaus (Treppe), bevor der Questgeber kommt. In den freien Forever-Leitfäden (Stufe 1–22,
+  13 Dateien): 12 278 `.goto`, davon 2 851 reine Weg-Zwischenpunkte, 374 Schleifen (Kreise zum Grinden/Sammeln).
+- **Reise-Tricks als Schritte:** 78× `.deathskip` (absichtlich sterben, beim Geisterheiler auferstehen = schnelle Reise), 66× `.hs`
+  Ruhestein, 44× `.bindlocation`/41× `.home` (Binden), 88× `.fly`, 60× `.fp` (Flugpunkt holen), 233× `.zoneskip`. Dazu "HS-Batching":
+  Binden im selben Augenblick wie das Ende des Ruhestein-Wirkens, so landet man am alten Ort und ist trotzdem neu gebunden.
+- `flygoto`/`groundgoto`: Punkte gelten nur mit/ohne Flugfähigkeit.
+- Pfeil + Linien auf Weltkarte und Minikarte zwischen den nächsten Punkten.
+
+### Was das für LevelPilot heisst
+- RestedXP ist **optimal, wo ein Speedrunner die Strecke abgelaufen hat** (Stufe 1–22 frei, Rest bezahlt), aber **starr**: weicht der
+  Spieler ab (andere Klasse, Gruppe, verpasste Quest, späterer Einstieg), passt die Route nicht mehr. LevelPilot plant **dynamisch** für
+  jeden Zustand – das ist der grössere Nutzen, wenn die Kosten stimmen (LW-1/LW-2).
+- Die Handarbeit von RestedXP an Engstellen (Gruft, Treppe, Felswand) entspricht bei LevelPilot dem **gelaufenen Wegnetz** (LW-4) –
+  nur dass LevelPilot sie aus echten Läufen lernt statt von Hand. Darum ist LW-4 wichtig: ohne gelaufenes Netz fehlt genau das.
+- Neu für LevelPilot (LW-7, Ideen): (a) **Tod als Reise** (deathskip) im Speedrun-Modus, nur wenn Geisterheiler nahe am Ziel, kein
+  Ehre-/Haltbarkeitsproblem (Haltbarkeit −10 % beim Geisterheiler!) – nur mit Entscheid des Nutzers (riskant/ungewohnt);
+  (b) **Ruhestein + Binden zusammen** (HS-Batching) als Option; (c) **Schleifen** für Sammel-/Grind-Ziele (Kreis über die Fundorte statt
+  ein Punkt); (d) **Radius je Punkt** (enge Stellen kleiner Radius); (e) **Weltkoordinaten** für alle gespeicherten Wege (schon so:
+  Graph-Knoten sind Weltpunkte – gut).
+- **Messlatte:** Die Zeiten der Speedrunner je Stufe sind öffentlich (RestedXP-Leitfäden geben Stufenbereiche je Abschnitt). LevelPilot
+  kann seine EP/Stunde (LW-6) gegen solche Richtwerte stellen – als Zahl, nicht als kopierte Route.
+
