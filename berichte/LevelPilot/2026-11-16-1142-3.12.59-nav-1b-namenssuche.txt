@@ -1,0 +1,41 @@
+BERICHT LevelPilot 3.12.59 – NAV-1b Suche nach Namen mit Trefferliste nach Reisezeit
+Projekt: LevelPilot · Datum: 16.11.2026 11:42 (aus date) · Version: 3.12.59 · umgesetzt, zur Prüfung
+
+Bezug: offen-levelpilot.txt NAVIGATOR NAV-1 (Ziele: NPC, Dungeon-Eingang, Zone; mehrere Treffer: die 5 nächsten mit
+Reisezeit), Plan 09:54 (NAV-1b nach NAV-2, weil die Trefferliste die Reisezeit braucht).
+
+1. UMSETZUNG (Comfort.lua, 10 Sprachen)
+   - /lp navi <Text>: Koordinaten wie bisher; ein Wort, das mit einem Dienstwort beginnt -> nächster Dienst wie bisher;
+     sonst Namenssuche. "/lp navi <Nummer>" wählt aus der letzten Trefferliste.
+   - Namensverzeichnis (C.NameIndex): einmal beim ersten Gebrauch, in Portionen (Yield alle 500 NPCs). Je NPC die Namen in
+     der eingestellten Sprache, der Sprache des Spiels und Englisch (klein). NPCs der anderen Fraktion ausgelassen, NPCs ohne
+     Fraktion (Gegner) dabei. Gemessen (Nachbau, Datenpaket 1.6.1, Horde): 4007 NPCs, 346 KB.
+   - Kandidaten: Zone (C.ZoneByName, Zonenmitte), Dungeon-Eingänge (LP.Dungeons, Name DE/EN; in Era schon beim Laden
+     zurückgerechnet – keine zweite Umrechnung), NPCs (Teilwort, nächster Fundort je NPC), höchstens 200 Namenstreffer.
+   - Die 8 nächsten nach Luftlinie bekommen einen Reiseplan (NAV-2), die 5 schnellsten werden gezeigt. Ein Treffer -> sofort.
+     Ziel als Hinführ-Ziel "PRIO:navi:…" (endet mit /lp navi aus, Reiseplan unter dem Ziel wie 3.12.58).
+
+2. EIGENE BEFUNDE (behoben)
+   a) Seit 3.12.54 standen in Comfort.lua die Dienstwörter vendor ("händ", "hand", "vendor", "verk") und trainer ("train",
+      "lehr") versehentlich im Kommentar der Zeile davor -> "/lp navi händler", "/lp suche händler", "trainer" ohne Wirkung.
+      T314 prüfte diese Wörter nicht. Jetzt in T319 (Gegenprobe: alte Zeile -> rot).
+   b) Beim Bau: ipairs über { Name1, Name2, Name3 } endet am ersten fehlenden Namen (nil) -> leeres Verzeichnis. Behoben;
+      dasselbe Muster in C.ZoneByName (MapName fehlt -> Name der eingestellten Sprache übersprungen) ebenso behoben.
+
+3. TEST T319 (true ×10, eigene Testdaten statt Datenpaket, alle Ersetzungen zurückgestellt): Dienstwörter händler/trainer/
+   gasthaus, "thrall" kein Dienst · NPC nächster Fundort, feindlicher ausgelassen · Gegner ohne Fraktion · Dungeon · zu kurz
+   (< 3 Zeichen) · Liste mit 2 Treffern · Wahl Nummer 2 · aus · ein Treffer direkt · nichts gefunden.
+   GEGENPROBEN: Dienstwort-Zeile wie 3.12.54 -> Dienstwörter false; ohne Fraktionsfilter -> NPC false; ipairs -> NPC false.
+
+4. MESSUNG MIT DEM ECHTEN DATENPAKET (Nachbau, Horde, in Portionen):
+   gornek: 1 Treffer, sofort hin, 13,2 ms CPU (mit Verzeichnis), längste Portion 4,9 ms.
+   flammenschlund: Dungeon-Eingang Orgrimmar, längste Portion 2,8 ms.
+   gastwirt: 23 Treffer, 5 schnellste (Grosk ~1:20, Wiley, Plainswind, Byula, Kauth), 86,9 ms CPU über 22 Bilder, längste
+   Portion 4,6 ms. Ziel ≤ 16 ms eingehalten.
+   Nachbau ohne Zonennamen (MapName "Zone1413") -> Zonensuche dort nicht messbar; im Client prüfen (CLIENT.T319).
+
+5. PRÜFUNGEN
+   addon_check: OK. Offline-Routine: 38 Läufe, 38 ohne FEHLER (Forever deDE Horde 275 OK, enUS 275, Allianz 273, Classic Era
+   274, TBC 274; je 0 FEHLER). Private Regression: 36 von 36 Läufen ALLE TESTS OK.
+
+6. NÄCHSTE SCHRITTE: NAV-1c (Weltkarte "Hierhin navigieren"), dann nach Reihenfolge LW-2. E1 (.toc) wartet auf die Messung.
