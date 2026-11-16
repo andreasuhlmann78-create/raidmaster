@@ -449,3 +449,18 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   (2) Flugzeit/Preis + Ticket-Regel in LW-3/NAV-2. (3) Exakte Reihenfolge bis 8 Ziele in LW-2. (4) Reittier/drinnen + Ladebildschirm in NAV-2.
   (5) Oft gelaufene Wege billiger. Keine fremden Texte/Code ohne Lizenz übernehmen (GPL/CC/Alle Rechte = nur Ideen).
 
+
+==== STRASSENNETZ AUS DEN SPIELDATEIEN – ÜBERGABE AN LEVELPILOT (Supervisor 16.11.2026 08:11) ====
+Der Supervisor hat ein EIGENES Werkzeug gebaut (kein Mapzeroth-Code, Lizenz dort weiter ungeklärt) und auf dem Rechner des Nutzers
+aus den Forever-Spieldateien ein Strassennetz gewonnen: shared/werkzeuge/strassen/ (README lesen). Daten: daten/GoldSentinelStrassen.lua
+(Karte 0: 8833 Punkte/9708 Kanten, Karte 1: 3519/2681; Welt-Yards; Stichproben Goldshire 8 yd, Orgrimmar-Tor 28 yd).
+Nutzer 08:09: Projekte einspannen – ab hier übernimmt LevelPilot den Ausbau. Der Supervisor prüft nur noch.
+  ST-1 Graph verdichten (Grad-2-Knoten zusammenlegen), Lücken an Brücken/Flüssen bis ~30 yd verbinden, kleine Flecken (Durotar) filtern.
+       Werkzeug strassen_netz.py darf LevelPilot anpassen (läuft in der Cloud aus daten/strassen_maske.json, ohne Spieldateien).
+  ST-2 Wegsuche (A*) Ziel->Ziel: Luftlinie zur nächsten Strasse + Strasse + Luftlinie, Strasse billiger (Faktor messen, nicht raten);
+       Gebiete ohne erkannte Strasse = Luftlinie wie bisher. Gehört zu LW-4/NAV-1.
+  ST-3 Messung wie LW-6 (T310): Umweg-Faktor Wegsuche vs. Luftlinie vs. tatsächlich gelaufen – Zahlen in den Bericht.
+  ST-4 Datei-Grösse/Ladezeit im Spiel messen (434 KB Lua): nur die Karte des Spielers laden oder bei Bedarf; kein Ruckeln (RF-Ziele).
+  ST-5 Classic Era: dasselbe Verfahren geht mit dem Era-Client (Produkt wow_classic_era) – nur wenn der Nutzer den Era-Client hat;
+       sonst im Bericht als offen melden.
+Bericht wie üblich "umgesetzt, zur Prüfung" mit Messwerten.

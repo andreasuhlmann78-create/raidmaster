@@ -11,6 +11,8 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 16.11.2026 08:09 | "Du musst nicht alles selber machen, spann ruhig das Projekt ein, wenn es sonst nichts zu tun hat" (zum Strassennetz) | Strassennetz-Ausbau an LevelPilot übergeben (offen-levelpilot.txt ST-1..ST-5); Supervisor prüft |
+| 16.11.2026 08:01 | "Nimm Zugriff auf die Spieldateien auf meinem Rechner und fange an" | eigenes Werkzeug shared/werkzeuge/strassen (CASC-Leser, Masken, Netz) |
 | 16.11.2026 07:36/07:55 | "Ich will, dass du es zu einem Navigator in WoW Forever entwickelst" – auf die Frage Navi zu jedem Ziel / optimale Levelroute / beides: "beides" | offen-levelpilot.txt NAVIGATOR (NAV-1..NAV-4) + LW-0..LW-7; Forever und Classic Era |
 | 16.11.2026 07:30 | "Schaue mit LevelPilot zusammen, wie die Laufwege zu den Quests aufgebaut sind, prüfe, ob es Sinn macht – der Spieler soll optimal durch die Welt von WoW Forever und natürlich auch Classic Era geleitet werden." | shared/wissen/analysen/levelpilot-laufwege-2026-11-16.md; offen-levelpilot.txt LW-0..LW-6 (Era = LW-5) |
 | 16.11.2026 07:10 | Entscheide-Runde: (1) Markt-Tabellen-Aufgabe liest alle Stände – JA (geplante Aufgabe angepasst, + Kern-Abgleich); (2) Bot wiederkehrende Raids – JA (Discord D-N1-W3); (3) GS Bewerbungen nach 90 Tagen löschen – Standard AN; (4) Bewerber/Sperrliste NICHT ins private Daten-Repo (RaidMaster UP-DS1); (5) LP Upgrade-Finder AH – SPÄTER (wenn "alle" gefüllt); (6) BS Nachkaufen beim Händler – JA mit Grenze, Standard aus (BS-E1); (7) AHS MR4/eine Seite – am Bild im Spiel (Prüfliste) | offen-*.txt der Projekte |

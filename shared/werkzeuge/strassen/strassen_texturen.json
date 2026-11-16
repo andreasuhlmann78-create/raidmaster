@@ -1,0 +1,175 @@
+{
+ "stand": "16.11.2026, Namen aus wowdev/wow-listfile, von Hand geprüft; Pfad-Texturen (Fussspuren) bewusst NICHT, desolacedirtfootprints ist allgemeiner Boden",
+ "strasse": [
+  {
+   "fdid": 188964,
+   "n": 1107,
+   "name": "tileset/tirisfall/tirisfallstoneroad01_s.blp"
+  },
+  {
+   "fdid": 186918,
+   "n": 749,
+   "name": "tileset/barrens/barrensroad01_s.blp"
+  },
+  {
+   "fdid": 187035,
+   "n": 707,
+   "name": "tileset/durotar/durotarroad_s.blp"
+  },
+  {
+   "fdid": 304640,
+   "n": 679,
+   "name": "tileset/expansion03/gilneas/gn_cobblestonef_s.blp"
+  },
+  {
+   "fdid": 188598,
+   "n": 572,
+   "name": "tileset/kalidar/kalidarroad_s.blp"
+  },
+  {
+   "fdid": 188566,
+   "n": 451,
+   "name": "tileset/ironforge/ironforgerock06road2_s.blp"
+  },
+  {
+   "fdid": 187100,
+   "n": 434,
+   "name": "tileset/elwynn/elwynncobblestonebase_s.blp"
+  },
+  {
+   "fdid": 186802,
+   "n": 384,
+   "name": "tileset/alteracmtns/alteracrockroadbase_s.blp"
+  },
+  {
+   "fdid": 189026,
+   "n": 369,
+   "name": "tileset/wetlands/wetlandsroad01_s.blp"
+  },
+  {
+   "fdid": 188796,
+   "n": 365,
+   "name": "tileset/silverpine/silverpineroad_s.blp"
+  },
+  {
+   "fdid": 188727,
+   "n": 353,
+   "name": "tileset/plaguelandseast/eastplaguedroadbase_s.blp"
+  },
+  {
+   "fdid": 187074,
+   "n": 326,
+   "name": "tileset/duskwood/duskwoodcobblestone_s.blp"
+  },
+  {
+   "fdid": 188508,
+   "n": 325,
+   "name": "tileset/feralas/feralasroad_s.blp"
+  },
+  {
+   "fdid": 188763,
+   "n": 309,
+   "name": "tileset/redridge/redridgerockroadbase_s.blp"
+  },
+  {
+   "fdid": 186975,
+   "n": 302,
+   "name": "tileset/darkshore/darkshoreroad_s.blp"
+  },
+  {
+   "fdid": 188610,
+   "n": 299,
+   "name": "tileset/loch modan/lochmodanbrickroadbase_s.blp"
+  },
+  {
+   "fdid": 188542,
+   "n": 298,
+   "name": "tileset/hyjal/alphahyjalroad_s.blp"
+  },
+  {
+   "fdid": 188665,
+   "n": 278,
+   "name": "tileset/mullgore/mullgoreroad01_s.blp"
+  },
+  {
+   "fdid": 186962,
+   "n": 253,
+   "name": "tileset/burningstepps/burningsteppsspireroad01_s.blp"
+  },
+  {
+   "fdid": 188818,
+   "n": 245,
+   "name": "tileset/stranglethorn/stranglethorncobblestoneroad_s.blp"
+  },
+  {
+   "fdid": 188854,
+   "n": 239,
+   "name": "tileset/swamp of sorrows/swampsorrowsstoneroad07_s.blp"
+  },
+  {
+   "fdid": 187066,
+   "n": 237,
+   "name": "tileset/duskwallow marsh/duskwallowstoneroad_s.blp"
+  },
+  {
+   "fdid": 188584,
+   "n": 222,
+   "name": "tileset/kalidar/kalidardarnroad_s.blp"
+  },
+  {
+   "fdid": 188982,
+   "n": 221,
+   "name": "tileset/westwood/westfallcobblestonebase_s.blp"
+  },
+  {
+   "fdid": 188478,
+   "n": 186,
+   "name": "tileset/felwood/felwoodroad_s.blp"
+  },
+  {
+   "fdid": 186766,
+   "n": 171,
+   "name": "tileset/aerie peaks/aeriepeaksrockroadbase_s.blp"
+  },
+  {
+   "fdid": 189071,
+   "n": 156,
+   "name": "tileset/zulgurub/zulgurubroad01_s.blp"
+  },
+  {
+   "fdid": 188911,
+   "n": 123,
+   "name": "tileset/the blasted lands/blastedlandsroad_s.blp"
+  },
+  {
+   "fdid": 186839,
+   "n": 112,
+   "name": "tileset/ashenvale/ashenvaleroad_s.blp"
+  },
+  {
+   "fdid": 186883,
+   "n": 109,
+   "name": "tileset/ashzara/ashzararoad_s.blp"
+  },
+  {
+   "fdid": 304665,
+   "n": 103,
+   "name": "tileset/expansion03/gilneas/gn_cobblestoneh_s.blp"
+  },
+  {
+   "fdid": 187073,
+   "n": 55,
+   "name": "tileset/duskwood/duskwoodcobblestone2_s.blp"
+  },
+  {
+   "fdid": 304663,
+   "n": 52,
+   "name": "tileset/expansion03/gilneas/gn_cobblestoneg_s.blp"
+  },
+  {
+   "fdid": 365792,
+   "n": 8,
+   "name": "tileset/orgrimmar/orgrim_road_01_s.blp"
+  }
+ ]
+}
