@@ -1,0 +1,14 @@
+BERICHT LevelPilot – OPT-ROUTE 1b Teil 2: Stufenband je Zone (Messgrundlage für die Zonenfolge)
+Projekt: LevelPilot · Datum: 16.11.2026 22:52 (aus date) · nur Daten/Analyse
+
+Werkzeug: berichte/LevelPilot/orte/stufenband.py (Datenpaket 1.6.3). Band = 20.–80. Perzentil der Questlevel der Quests, deren Geber in
+der Zone steht (uiMap), je Fraktion, mindestens 8 Quests. Ergebnis (uiMap:Band(Anzahl)):
+A 1426:3-10(69) 1429:4-10(69) 1438:4-11(68) 1457:10-55(54) 1436:12-25(33) 1439:13-20(55) 1450:14-60(23) 1432:15-22(40) 1433:15-25(35) 1453:15-54(165) 1413:18-40(61) 1442:21-27(18) 1440:21-30(42) 1431:24-30(63) 1437:24-31(40) 1455:26-60(200) 1441:31-44(27) 1424:32-40(22) 1443:33-42(40) 1445:35-42(41) 1417:36-44(30) 1418:37-42(32) 1434:37-60(177) 1416:39-60(48) 1435:42-58(20) 1425:43-48(18) 1444:44-51(47) 1446:47-60(120) 1427:49-55(26) 1419:50-57(23) 1449:52-55(33) 1447:52-60(38) 1448:54-56(62) 1428:54-60(47) 1422:55-60(58) 1452:56-60(57) 1459:60-60(12) 1454:60-60(22) 1451:60-60(96) 1423:60-60(198)
+H 1411:3-11(74) 1412:4-10(47) 1420:5-55(82) 1456:10-52(75) 1421:11-20(36) 1450:14-60(23) 1458:15-52(83) 1413:16-38(185) 1442:20-29(25) 1440:22-27(24) 1424:24-36(41) 1454:26-60(175) 1441:29-41(43) 1443:33-42(47) 1417:34-44(38) 1445:37-45(40) 1434:37-60(183) 1418:39-55(50) 1416:40-60(24) 1435:43-57(29) 1444:45-50(46) 1446:47-60(120) 1425:48-50(24) 1427:49-60(22) 1419:50-60(19) 1449:52-55(33) 1447:52-58(44) 1448:54-57(68) 1428:54-60(32) 1422:55-60(35) 1452:56-60(48) 1459:60-60(13) 1451:60-60(96) 1423:60-60(207)
+
+BEFUND für die Zonenfolge 20–30 (Allianz): Östliche Königreiche Rotkamm 1433 15–25, Dämmerwald 1431 24–30, Sumpfland 1437 24–31, Loch Modan
+1432 15–22; Kalimdor Dunkelküste 1439 13–20, Ashenvale 1440 21–30, Steinkrallen 1442 21–27. Auf beiden Kontinenten gibt es Inhalt im selben
+Stufenband – deshalb wechselt der heutige Planer hin und her, und die harte Kontinent-Bindung (3.12.80) lässt Quests liegen (GRIND-1).
+Eine gute Zonenfolge muss die Kontinente als Blöcke anordnen (z. B. Allianz: Östliche Königreiche bis ~20, dann Kalimdor 20–30, dann
+zurück) – das ist eine Suche über 1–60 (OPT-ROUTE Stufe 2), nicht eine einzelne Regel. Nächster Schritt: Zonenfolge als Vorgabe je
+Fraktion (Liste Zone/Stufenband) in die virtuelle Reise geben und messen (Zeit, Grinden, Wechsel), mehrere Kandidaten, der beste gewinnt.
