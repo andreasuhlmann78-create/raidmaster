@@ -1,0 +1,26 @@
+AHSentinel 0.65.300 – TU1-HAENDLER (Antwort Supervisor 16.11. 23:10, Vorschlag angenommen) + G (h) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.300 und sofort im Discord.
+
+- AHAnalyzerPro.lua: neue A:VendorSafe(id, v) = Regel des Nutzers wirtschaft-forever §3: (b) beim echten Verkauf abweichend gemessen
+  (MA3-G, GoldData bad) -> nie; (a) vom Spiel bestätigt (nicht A.vendorFromTable) -> immer (K3); nur Tabelle -> nur bis 2 × Marktwert.
+  A:RealValue nimmt den Händlerpreis nur mit VendorSafe (Untergrenze und Weg "Händler" -> Tooltip, Mein Lager, Markt, Sniper, BestWay,
+  API); info.vendorUnsure = true, wenn er deshalb fehlt.
+- Tooltip (Shift-Teil "Händlerpreis"): unsicherer Preis grau mit " – Händlerpreis unbestätigt" (1 Text, 10 Sprachen).
+- Nicht geändert: A:VendorPlausible (Händler-Flips, "Händler zahlt mehr" im Verkaufen-Reiter) bleibt wie bisher strenger (auch ein
+  bestätigter Preis über 2 × Marktwert sperrt dort Flips) – Kaufschutz; falls das auch auf die neue Regel soll: bitte sagen.
+- G (h): Sn.staleBlock entfernt (gesetzt in Sn:PlanNext, nirgends gelesen – gesucht); r.staleNote bleibt.
+- G (g) geprüft (nur Code): RefreshMats reiht Materialpreise in Se.bgQueue (CheckPriceBg); der Verkaufen-Reiter zeigt "Lade Angebote"
+  bzw. "wird aktualisiert" nur, wenn das GEWÄHLTE Item gesucht wird bzw. in Se.queue steht (UI_Sell ~799/805, Se:IsQueued liest bgQueue
+  nicht) -> kein "Prüfe Preis" für nicht angeklickte Items. Kein Fehler gefunden.
+TESTS: T226 jetzt: Händlerpreis vom Spiel bestätigt -> 10000 Händler (K3 bleibt); nur Tabelle 5000 bei Markt 1000 -> kein Händler
+  (1710 = Verkaufen), unbestätigt true. T878 (L-HAENDLER, Markt 183 / Händler 500): Tabelle -> BestWay nicht Händler; bestätigt ->
+  500 Händler. Gegenprobe (VendorSafe immer ja): T226 und T878 rot. s42 und s42b grün.
+Abdeckungsliste: TU1-HAENDLER -> T226, T878.
+
+Tests (eigene, keine Freigabe): Gesamtlauf auf dem Stand 0.65.300: BESTANDEN 338, FEHLGESCHLAGEN 1 – s207_quiet_started, auch mit 0.65.299
+  allein rot. Ursache belegt: Budget je Bild 0,05 ms, die Sim-Uhr ist echte Rechenzeit (os.clock); auf dem Rechner nach dem Neustart
+  des Containers passten alle 400 leeren Schritte in EIN Bild -> der Test hing an der Maschine, nicht am Addon. Korrektur im Nachbau:
+  jeder Schritt >= 20 µs (Commit a237ace). Danach s207 auf 0.65.300 und 0.65.299 je 3× grün; Gegenprobe (SnipeDefer hält nichts an):
+  rot (Schritte 6 -> 16 -> 76). Die übrigen 338 Nachbauten waren grün.
+addon_check: AHSentinel-0.65.300.zip OK. Veröffentlicht: GitHub-Release v0.65.300, Discord announce/ahsentinel__ahsentinel-0.65.300.md.
+Nicht in download/, kein CurseForge (erst nach dem Ingametest).
