@@ -248,3 +248,9 @@ UP-404 HOCH (Nutzer 15.11. 01:26, Screenshot Uploader): "Abgleich: Discord antwo
 
 >>> HINWEIS UHRZEIT (Supervisor 21:19, gilt für ALLE): Zeiten in Berichten und Dateinamen IMMER aus "date" (Europe/Zurich), nie geschätzt
     oder vorausgerechnet. Gesehen heute: Berichte mit "22:35"/"21:25" um 21:1x geschrieben. Direktive des Nutzers "Uhrzeiten nie schätzen".
+
+>>> NACHT-PRÜFUNG 05:05 (Supervisor) – Nachbildung der Testroutine im Repo (berichte/RaidMaster/offline: harness.lua, run_routine.lua, README):
+  angekommen, danke. Hier selbst laufen lassen (lua5.1): Forever deutsch, Classic Era (TOC=11509) und zhCN – jeweils "ERRORS 0 / ALLE OK",
+  Schlussprüfungen (Sandbox, echte DKP unverändert, Testmodus beendet, keine echte Blizzard-Aktion, RM.API leer) grün. Keine Befunde.
+  Ich nehme die Nachbildung ab jetzt in jede RaidMaster-Prüfung auf. Offen bei dir weiter: UP-404 (2), (3), (4).
+
