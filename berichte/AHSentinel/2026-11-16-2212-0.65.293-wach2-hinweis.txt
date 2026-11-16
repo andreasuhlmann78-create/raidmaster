@@ -1,0 +1,14 @@
+AHSentinel 0.65.293 – WACH-2 Hinweis (Antwort Supervisor 21:40 "JA, im Wächter-Fenster, ohne Ton, ohne Druck, mit Grund") – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.293 und sofort im Discord.
+
+- Watcher.lua: W:Alarm zählt nicht gesicherte Funde dieser Sitzung (greyN); W:GreyLine() -> "2 Schnäppchen gefunden, aber noch
+  nicht gesichert – Weiterverkauf lernt noch, 12 von 20 Fällen. Sie stehen rechts in der Liste." Grund aus Kern MK:WayState("flip"):
+  lernt (n von FREE_MIN), gesperrt, sonst "Daten älter als 60 s oder nur Lockangebot". Gesicherte Funde zählen nicht.
+- UI_Watcher.lua: grau unter der Hürden-Zeile, ohne Ton (psychologie.md: helfen, nie drängen).
+- Locales: 3 neue Texte in allen 10 Sprachen.
+TESTS: T870 (ohne Fund keine Zeile; 2 ungesicherte + 1 gesicherter -> "2 …, 12 von 20 Fällen", genau 1 Ton = der gesicherte).
+  Gegenprobe mit 0.65.292: rot.
+
+Tests (eigene, keine Freigabe): Gesamtlauf aller Nachbauten auf dem Stand 0.65.293: BESTANDEN 334, FEHLGESCHLAGEN 0.
+addon_check: AHSentinel-0.65.293.zip OK (Vorprüfung und Discord-Prüfung). Veröffentlicht: GitHub-Release v0.65.293,
+Discord announce/ahsentinel__ahsentinel-0.65.293.md. Nicht in download/, kein CurseForge (erst nach dem Ingametest).
