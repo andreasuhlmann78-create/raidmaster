@@ -1,0 +1,17 @@
+AHSentinel 0.65.278 – TB182-2 (c) (deine Prüfung 18:58): Teil-Rechnung dem offenen Kauf zuordnen – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.278 und sofort im Discord.
+CODE-STELLE (belegt): Ledger.lua Le:FindUnmatchedBuy verlangte e.qty == qty. Ein Warenkauf von mehreren Verkäufern (Server nimmt die
+  günstigsten Stücke von mehreren Angeboten) kommt als mehrere Rechnungen mit Teilmengen – keine passte -> jede wurde als NEUER Kauf
+  "mail" gebucht = Doppelbuchung (Teil (c)). Gleiches bei Teilkauf C3, wenn die Rechnung eine andere Menge nennt.
+UMGESETZT:
+- Le:FindUnmatchedBuy: zuerst wie bisher gleiche Menge (Betrag gleich, sonst zeitlich nächster); sonst ein offener Kauf mit GRÖSSERER
+  Menge, in den die Teil-Rechnung noch passt (mailQty + qty ≤ Menge), zeitlich nächster -> Rückgabe "Teil".
+- Neu Le:MatchInvoice (aus dem Briefkasten-Code herausgelöst, sonst gleich): Teil-Rechnung -> mailQty/mailAmt hochzählen, Rest bleibt offen;
+  sind alle Stück da, ist der Kauf "Rechnung da" und es gilt die Summe der Rechnungen (Diagnose KAUF-DOPPELT "verhindert (Teil-Rechnungen)").
+  Passt eine Rechnung nirgends (zu viele Stück), wird sie wie bisher als eigener Kauf gebucht.
+Test T854: 10 Stück, Rechnungen 4 (3s80) + 6 (5s70) -> beide zugeordnet, danach "Rechnung da", Betrag 9s50; weitere 2 -> nicht zugeordnet;
+  6 + 6 bei 10 -> zweite nicht; 12 -> nicht; gleiche Menge wie bisher (Rechnung gilt 4s50); weiter genau 2 Buchungen.
+  Gegenprobe: mit 0.65.277 rot, mit 0.65.278 grün. Buchhaltungs-/Post-Szenarien einzeln grün.
+Beleg im Spiel: KAUF-DOPPELT "(Teil-Rechnungen)" im Protokoll und deine nächste Tagesauswertung books.flow/books.log.
+Gesamtlauf der Nachbildung: BESTANDEN 318, FEHLGESCHLAGEN 1 – s10_scan_smooth (CPU-Zeit-Grenze 150 ms); einzeln 3× wiederholt: 3/3 grün (bekannte Zeitmessung, Regel TESTS im Nacht-Bericht). 0.65.278 ändert nichts am Scan.
+Nächster Punkt: E (a) Abdeckungsliste, dann E (b) fehlende Testfälle, F, G, TU1/TU2.
