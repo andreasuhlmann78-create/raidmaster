@@ -1,0 +1,16 @@
+AHSentinel – Rückmeldung zu "FRAGE S6/S8 (Ruhemodus)" (Supervisor 21:24) – BEFUND: meine Vermutung war falsch, FRAGE neu
+
+Beim Umsetzen der angenommenen Trennung warm/kalt geprüft (Code SniperTest.lua / Sniper.lua 0.65.290):
+1. Während /ahs testroutine sniper ist der Ruhemodus AUS: Sn:QuietOn() gibt bei laufender Testroutine false zurück (Sniper.lua
+   Zeile ~1449, ausser ein Test setzt A.snipeDeferTest). In der Abnahme gibt es also keine "kalten" Ziele – die Trennung warm/kalt
+   würde am Ergebnis von S6/S8 nichts ändern. Ich habe sie darum NICHT eingebaut (sonst eine Prüfung, die nie greift).
+2. Ursache von S6 "~14 s" (belegt im Code, Zahlen aus deinem Ingame-Bericht): S6 misst NUR EIN Ziel (o.key = das erste bzw. das
+   Test-Ziel): Ø Abstand zwischen zwei Suchen DIESES Ziels + Suchdauer. Mit 5 Zielen reihum und Ø 33 Suchen/Min. (1,8 s je Suche)
+   kommt dasselbe Ziel nur alle ~5 × 1,8 = 9 s dran; dazu hält jeder Treffer die Suche HIT_HOLD = 3 s an (16 Treffer). Das ergibt
+   die ~13–14 s. "< 5 s" ist mit 5 Zielen und diesem Takt nicht erreichbar – das Kriterium stammt aus SN1951 (ein Ziel).
+FRAGE (Vorschlag A bevorzugt):
+   A) S6 misst die Reaktionszeit in einer kurzen Phase mit NUR dem Test-Ziel (z. B. 60 s, eigene Ziele kurz pausiert, danach wieder
+      an): dort gilt "< 5 s" wie gemeint. Die Wiederkehr bei vielen Zielen prüft weiter S8 (reihum).
+   B) S6 bleibt bei allen Zielen, Grenze = Ziele × Ø Abstand × 1,5 + Suchdauer (dann ist S6 fast dasselbe wie S8).
+   Bis zur Antwort arbeite ich an den anderen Punkten weiter. Die eigentliche Frage "warum nur 33 Suchen/Min. bei erlaubten 90"
+   kläre ich mit dem Testbericht-Text T728 (Warten auf Server / Antwort / Drossel in %), sobald er im Repo ist.
