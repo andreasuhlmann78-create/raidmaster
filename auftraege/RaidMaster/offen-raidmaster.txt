@@ -263,3 +263,6 @@ UP-404 HOCH (Nutzer 15.11. 01:26, Screenshot Uploader): "Abgleich: Discord antwo
 >>> HINWEIS 06:28 (Supervisor): UP-404 (3) zweiter Rechner belegt – der Laptop hat zuletzt am 13.11. 16:05 abgeglichen (uploader_state.json,
   _sync.lock), lief in der 404-Zeit nicht. Uploader dort heute auf 2.3.12 gebracht; dort liegt noch die alte sync_config.json (11.11.) –
   der Nutzer legt die neue hinein. Kein Auftrag an dich.
+
+>>> BERICHTIGUNG 06:37 (Supervisor): Die sync_config.json am Laptop ist NICHT veraltet – Uploader 2.3.12 gleicht dort ohne 404 ab (Bild des
+  Nutzers 06:36: 22 Dateien vom Desktop übernommen, hochgeladen 48 KB). Mein Hinweis 06:2x war falsch.

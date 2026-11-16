@@ -3643,3 +3643,11 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   Journal überein (de:1 13.11. 6 = 6, de:3 4 = 4, de:5 5 = 5) – bei diesem Spieler betrifft sie 0 Fälle. ERLEDIGT: KERN-S1, KERN-S1b, KERN-P2-1,
   KERN-P4-1, KERN-R1 (Abnahme im Feld: kern_abgleich.py nach dem nächsten Hochladen). Weiter: MU1-1 bis MU1-5 (Block MARKT-ÜBERWACHUNG).
 
+>>> PRÜFUNG 06:37 (Supervisor) – 0.65.258 MU1-1 bis MU1-5: addon_check OK, gemeinsame Dateien und Markt-Tabelle byte-gleich, Bericht + Code gelesen
+  (MK:PlannedEnd/LongOwn/OnOwned, VS:SupplyCap/SalesRate). MU1-1: geplante Endzeit aus dem Journal, nur beim Verschwinden gerechnet (kein Ruckeln),
+  firstSeen wird aufgeräumt – richtig. MU1-2: je Kauftag Summe/Summe gegen MinRoi, Entzauber-Ziele nicht mehr als snipe, alte Wertungen einmal
+  zurückgesetzt – richtig. MU1-3: gelbe Max-Zelle + Knopf, nichts erzwungen – richtig. MU1-4: Kette mit Bruch bei < 20 Paaren – richtig. MU1-5:
+  Deckel nur für die Anzeige, MeasuredRate unbegrenzt – richtig; deinen Verdacht (letzter Scan kurz leergekauft) nehme ich als Messauftrag in die
+  nächste Markt-Überwachung (Anteil "begrenzt" je Scan), kein Code auf Verdacht. ERLEDIGT. Abnahme im Feld mit der nächsten Markt-Überwachung.
+  Weiter: Masterplan in Reihenfolge.
+
