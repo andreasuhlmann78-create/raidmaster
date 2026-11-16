@@ -1,70 +1,30 @@
 {
- "ausgewertet": "2026-11-16T18:35:18Z",
+ "ausgewertet": "2026-11-16T19:39:55Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
-   "berichte": 62,
+   "berichte": 65,
    "letzter_test": {
-    "id": "AHSentinel-1794813773-fe2fad-2",
-    "version": "0.65.260",
-    "time": 1794813647,
+    "id": "AHSentinel-1794854377-c09598-2",
+    "version": "0.65.278",
+    "time": 1794854295,
     "counts": {
      "client": 0,
-     "fehler": 5,
-     "ok": 21,
-     "uebersprungen": 3
+     "fehler": 1,
+     "ok": 4,
+     "uebersprungen": 0
     }
    },
    "fehler_tests": [
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.260",
+     "version": "0.65.278",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T617",
-     "name": "SN1951-S5 Ruckeln: Ø ≥ 30 Bilder/s, kein Frame > 50 ms, Sync-Warteschlange ≤ 10",
-     "detail": "ergebnis: Ø 6 / min 3 Bilder/s · längster Frame 816 ms · Sync-Warteschlange max 0 (leer) · Ursachen: AHSentinel 84, fremd 179 (358 ms: nicht AHSentinel (Spiel oder anderes Addon); 445 ms: nicht AHSentinel (Spiel oder anderes Addon); 536 ms: nicht AHSentinel (Spiel oder anderes Addon); 541 ms: AHSentinel … | erwartet: ≥ 30 · ≤ 50 ms · ≤ 10",
-     "bericht": "AHSentinel-1794813773-fe2fad-2"
-    },
-    {
-     "addon": "AHSentinel",
-     "art": "test",
-     "version": "0.65.260",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T618",
-     "name": "SN1951-S6 Reaktionszeit: neues Angebot spätestens nach < 5 s sichtbar (Abstand der Suchen + Suchdauer)",
-     "detail": "ergebnis: zu wenige Suchen (1) | erwartet: < 5 s",
-     "bericht": "AHSentinel-1794813773-fe2fad-2"
-    },
-    {
-     "addon": "AHSentinel",
-     "art": "test",
-     "version": "0.65.260",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T729",
-     "name": "SN-TEST2-S8 reihum: jedes Ziel gesucht, längste Lücke ≤ Ziele × Ø Abstand × 1,5 (ohne Pausen)",
-     "detail": "ergebnis: 4 Ziele · i:14580 1×/70.7 s · i:4251 6×/34.1 s · i:6611 2×/69.7 s · i:7048 4×/60.6 s · Ø Abstand 7.0 s · Grenze 42.0 s | erwartet: jedes Ziel ≥ 1× · Lücke ≤ Grenze",
-     "bericht": "AHSentinel-1794813773-fe2fad-2"
-    },
-    {
-     "addon": "AHSentinel",
-     "art": "test",
-     "version": "0.65.260",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T732",
-     "name": "SN-TEST2-S11 Pausen: nach Markt-Scan/Vollscan/Einkauf/AH-Klick sucht der Sniper von selbst weiter (≤ 5 s); Drossel -> …",
-     "detail": "ergebnis: 67 Pausen (AH-Klick 0 s -> weiter nach 32.1 s (hielt auf: Server nicht bereit (Drossel) 0.9 s, bereit 0.9 s); AH-Klick 0 s -> weiter nach 30.2 s (hielt auf: bereit 0.8 s, Server nicht bereit (Drossel) 0.5 s); AH-Klick 0 s -> weiter nach 28.9 s (hielt auf: bereit 0.7 s, Server nicht bereit (Drossel) … | erwartet: weiter nach ≤ 5 s · wieder schnell",
-     "bericht": "AHSentinel-1794813773-fe2fad-2"
-    },
-    {
-     "addon": "AHSentinel",
-     "art": "test",
-     "version": "0.65.260",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T734",
-     "name": "SN-TEST2-S13 Ruckeln: Bilder/s und längster Frame über die ganze Beobachtung, kein Frame > 33 ms",
-     "detail": "ergebnis: Ø 6 / min 3 Bilder/s · längster Frame 816 ms · Frames > 33 ms: 263 · Ursachen: AHSentinel 84, fremd 179 (358 ms: nicht AHSentinel (Spiel oder anderes Addon); 445 ms: nicht AHSentinel (Spiel oder anderes Addon); 536 ms: nicht AHSentinel (Spiel oder anderes Addon); 541 ms: AHSentinel Kern/ITEM_SE… | erwartet: kein Frame > 33 ms",
-     "bericht": "AHSentinel-1794813773-fe2fad-2"
+     "id": "T750",
+     "name": "UI-CLEAN1 Fenster/Reiter/Unterreiter/Ansichten/Fenster/Dialoge (Klassisch/Modern, 100 %/130 %): nichts überlappt, nicht…",
+     "detail": "ergebnis: 727 Befunde (AH offen · Klassisch+Modern · 100+130 % · deDE · geprüft 152 von 156 Ansichten) · je Art: ragt heraus 182 · abgeschnitten 462 · überlappt 44 · veraltet 39 · je Ansicht: Kaufen > Schnäppchen: 86 · Kaufen > Schnäppchen > Unter Händlerpreis: 86 · Markt > Markt > Lücken: 65… | erwartet: 0 Befunde · geprüft m von m",
+     "bericht": "AHSentinel-1794854377-c09598-2"
     }
    ],
    "fehler_spiel": [
@@ -143,6 +103,76 @@
       "forever 1.60.1 (Interface 16001)"
      ],
      "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[tail call]: ?\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/UI_Main.lua]:1303: in function 'Render'\n..."
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "spiel",
+     "wo": "Lua",
+     "msg": "Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:1400: script ran too long",
+     "anzahl": 1,
+     "versionen": [
+      "0.65.278"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[tail call]: ?\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/AHAnalyzerPro.lua]:1400: in function 'HF'\n..."
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "spiel",
+     "wo": "Lua",
+     "msg": "Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:1402: script ran too long",
+     "anzahl": 1,
+     "versionen": [
+      "0.65.278"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[tail call]: ?\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/AHAnalyzerPro.lua]:1402: in function 'HF'\n..."
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "spiel",
+     "wo": "Lua",
+     "msg": "Interface/AddOns/AHSentinel/Ledger.lua:1686: script ran too long",
+     "anzahl": 1,
+     "versionen": [
+      "0.65.278"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[tail call]: ?\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/Ledger.lua]:1686: in function '?'\n..."
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "spiel",
+     "wo": "Lua",
+     "msg": "Interface/AddOns/AHSentinel/Disenchant.lua:327: script ran too long",
+     "anzahl": 1,
+     "versionen": [
+      "0.65.278"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[tail call]: ?\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/Disenchant.lua]:327: in function 'add'\n..."
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "spiel",
+     "wo": "Lua",
+     "msg": "Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:1801: script ran too long",
+     "anzahl": 1,
+     "versionen": [
+      "0.65.278"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[tail call]: ?\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/AHAnalyzerPro.lua]:1801: in function 'PriceInfo'\n..."
     }
    ]
   },
@@ -491,52 +521,12 @@
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.260",
+   "version": "0.65.278",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T617",
-   "name": "SN1951-S5 Ruckeln: Ø ≥ 30 Bilder/s, kein Frame > 50 ms, Sync-Warteschlange ≤ 10",
-   "detail": "ergebnis: Ø 6 / min 3 Bilder/s · längster Frame 816 ms · Sync-Warteschlange max 0 (leer) · Ursachen: AHSentinel 84, fremd 179 (358 ms: nicht AHSentinel (Spiel oder anderes Addon); 445 ms: nicht AHSentinel (Spiel oder anderes Addon); 536 ms: nicht AHSentinel (Spiel oder anderes Addon); 541 ms: AHSentinel … | erwartet: ≥ 30 · ≤ 50 ms · ≤ 10",
-   "bericht": "AHSentinel-1794813773-fe2fad-2"
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "test",
-   "version": "0.65.260",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T618",
-   "name": "SN1951-S6 Reaktionszeit: neues Angebot spätestens nach < 5 s sichtbar (Abstand der Suchen + Suchdauer)",
-   "detail": "ergebnis: zu wenige Suchen (1) | erwartet: < 5 s",
-   "bericht": "AHSentinel-1794813773-fe2fad-2"
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "test",
-   "version": "0.65.260",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T729",
-   "name": "SN-TEST2-S8 reihum: jedes Ziel gesucht, längste Lücke ≤ Ziele × Ø Abstand × 1,5 (ohne Pausen)",
-   "detail": "ergebnis: 4 Ziele · i:14580 1×/70.7 s · i:4251 6×/34.1 s · i:6611 2×/69.7 s · i:7048 4×/60.6 s · Ø Abstand 7.0 s · Grenze 42.0 s | erwartet: jedes Ziel ≥ 1× · Lücke ≤ Grenze",
-   "bericht": "AHSentinel-1794813773-fe2fad-2"
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "test",
-   "version": "0.65.260",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T732",
-   "name": "SN-TEST2-S11 Pausen: nach Markt-Scan/Vollscan/Einkauf/AH-Klick sucht der Sniper von selbst weiter (≤ 5 s); Drossel -> …",
-   "detail": "ergebnis: 67 Pausen (AH-Klick 0 s -> weiter nach 32.1 s (hielt auf: Server nicht bereit (Drossel) 0.9 s, bereit 0.9 s); AH-Klick 0 s -> weiter nach 30.2 s (hielt auf: bereit 0.8 s, Server nicht bereit (Drossel) 0.5 s); AH-Klick 0 s -> weiter nach 28.9 s (hielt auf: bereit 0.7 s, Server nicht bereit (Drossel) … | erwartet: weiter nach ≤ 5 s · wieder schnell",
-   "bericht": "AHSentinel-1794813773-fe2fad-2"
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "test",
-   "version": "0.65.260",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T734",
-   "name": "SN-TEST2-S13 Ruckeln: Bilder/s und längster Frame über die ganze Beobachtung, kein Frame > 33 ms",
-   "detail": "ergebnis: Ø 6 / min 3 Bilder/s · längster Frame 816 ms · Frames > 33 ms: 263 · Ursachen: AHSentinel 84, fremd 179 (358 ms: nicht AHSentinel (Spiel oder anderes Addon); 445 ms: nicht AHSentinel (Spiel oder anderes Addon); 536 ms: nicht AHSentinel (Spiel oder anderes Addon); 541 ms: AHSentinel Kern/ITEM_SE… | erwartet: kein Frame > 33 ms",
-   "bericht": "AHSentinel-1794813773-fe2fad-2"
+   "id": "T750",
+   "name": "UI-CLEAN1 Fenster/Reiter/Unterreiter/Ansichten/Fenster/Dialoge (Klassisch/Modern, 100 %/130 %): nichts überlappt, nicht…",
+   "detail": "ergebnis: 727 Befunde (AH offen · Klassisch+Modern · 100+130 % · deDE · geprüft 152 von 156 Ansichten) · je Art: ragt heraus 182 · abgeschnitten 462 · überlappt 44 · veraltet 39 · je Ansicht: Kaufen > Schnäppchen: 86 · Kaufen > Schnäppchen > Unter Händlerpreis: 86 · Markt > Markt > Lücken: 65… | erwartet: 0 Befunde · geprüft m von m",
+   "bericht": "AHSentinel-1794854377-c09598-2"
   },
   {
    "addon": "AHSentinel",
@@ -613,6 +603,76 @@
     "forever 1.60.1 (Interface 16001)"
    ],
    "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[tail call]: ?\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/UI_Main.lua]:1303: in function 'Render'\n..."
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "spiel",
+   "wo": "Lua",
+   "msg": "Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:1400: script ran too long",
+   "anzahl": 1,
+   "versionen": [
+    "0.65.278"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[tail call]: ?\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/AHAnalyzerPro.lua]:1400: in function 'HF'\n..."
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "spiel",
+   "wo": "Lua",
+   "msg": "Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:1402: script ran too long",
+   "anzahl": 1,
+   "versionen": [
+    "0.65.278"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[tail call]: ?\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/AHAnalyzerPro.lua]:1402: in function 'HF'\n..."
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "spiel",
+   "wo": "Lua",
+   "msg": "Interface/AddOns/AHSentinel/Ledger.lua:1686: script ran too long",
+   "anzahl": 1,
+   "versionen": [
+    "0.65.278"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[tail call]: ?\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/Ledger.lua]:1686: in function '?'\n..."
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "spiel",
+   "wo": "Lua",
+   "msg": "Interface/AddOns/AHSentinel/Disenchant.lua:327: script ran too long",
+   "anzahl": 1,
+   "versionen": [
+    "0.65.278"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[tail call]: ?\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/Disenchant.lua]:327: in function 'add'\n..."
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "spiel",
+   "wo": "Lua",
+   "msg": "Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:1801: script ran too long",
+   "anzahl": 1,
+   "versionen": [
+    "0.65.278"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[tail call]: ?\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/AHAnalyzerPro.lua]:1801: in function 'PriceInfo'\n..."
   },
   {
    "addon": "BuffSentinel",
@@ -854,42 +914,42 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 150,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.99-ea23619300d1.txt"
+    "anzahl": 151,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.278-107a6b9554d9.txt"
    },
    "BuffSentinel": {
     "anzahl": 45,
-    "neueste": "testberichte/diagnose/BuffSentinel/0.9.21-ba8ede23106d.txt"
+    "neueste": "testberichte/diagnose/BuffSentinel/0.9.12-7f8dfb5af187.txt"
    },
    "GSMesstest": {
     "anzahl": 9,
     "neueste": "testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt"
    },
    "GSSniperLog": {
-    "anzahl": 14,
-    "neueste": "testberichte/diagnose/GSSniperLog/1.7-d7b1125a2162.txt"
+    "anzahl": 15,
+    "neueste": "testberichte/diagnose/GSSniperLog/1.7-0f9ddd3fa6f8.txt"
    },
    "GuildSentinel": {
-    "anzahl": 149,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.39-5adb6d81ffc8.txt"
+    "anzahl": 150,
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.39-e221f3cccc5f.txt"
    },
    "LevelPilot": {
-    "anzahl": 46,
-    "neueste": "testberichte/diagnose/LevelPilot/3.12.69-41732240ca0a.txt"
+    "anzahl": 47,
+    "neueste": "testberichte/diagnose/LevelPilot/3.12.30-aae21ec92ae2.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 129,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.45-ea4bde14ba63.txt"
+    "anzahl": 130,
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.45-2b7e86b3362b.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 124,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.9-393857b54d8e.txt"
+    "anzahl": 125,
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.13-f69072bba570.txt"
    }
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 199,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794760603-ad69fc.json"
+    "anzahl": 200,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794857015-ccee7f.json"
    }
   }
  }

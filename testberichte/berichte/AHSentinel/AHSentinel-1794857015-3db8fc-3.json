@@ -1,0 +1,68 @@
+{
+ "addon": "AHSentinel",
+ "counts": {},
+ "env": {
+  "build": "70938",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 10,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [
+  {
+   "count": 1,
+   "first": 1794854622,
+   "last": 1794854622,
+   "msg": "Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:1400: script ran too long",
+   "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[tail call]: ?\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/AHAnalyzerPro.lua]:1400: in function 'HF'\n...",
+   "version": "0.65.278",
+   "wo": "Lua"
+  },
+  {
+   "count": 1,
+   "first": 1794854677,
+   "last": 1794854677,
+   "msg": "Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:1402: script ran too long",
+   "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[tail call]: ?\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/AHAnalyzerPro.lua]:1402: in function 'HF'\n...",
+   "version": "0.65.278",
+   "wo": "Lua"
+  },
+  {
+   "count": 1,
+   "first": 1794854649,
+   "last": 1794854649,
+   "msg": "Interface/AddOns/AHSentinel/Ledger.lua:1686: script ran too long",
+   "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[tail call]: ?\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/Ledger.lua]:1686: in function '?'\n...",
+   "version": "0.65.278",
+   "wo": "Lua"
+  },
+  {
+   "count": 1,
+   "first": 1794854706,
+   "last": 1794854706,
+   "msg": "Interface/AddOns/AHSentinel/Disenchant.lua:327: script ran too long",
+   "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[tail call]: ?\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/Disenchant.lua]:327: in function 'add'\n...",
+   "version": "0.65.278",
+   "wo": "Lua"
+  },
+  {
+   "count": 1,
+   "first": 1794854594,
+   "last": 1794854594,
+   "msg": "Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:1801: script ran too long",
+   "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[tail call]: ?\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/AHAnalyzerPro.lua]:1801: in function 'PriceInfo'\n...",
+   "version": "0.65.278",
+   "wo": "Lua"
+  }
+ ],
+ "f": 1,
+ "id": "AHSentinel-1794857015-3db8fc-3",
+ "kind": "fehler",
+ "time": 1794857015,
+ "version": "0.65.278"
+}
