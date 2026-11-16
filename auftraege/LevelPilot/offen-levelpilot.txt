@@ -545,3 +545,8 @@ Era-Client 1.15.9.70576 beim Nutzer installiert. daten/era/ neu: aus dem Era-Cli
 ("aus dem Era-Client 1.15"); Forever-Datei byte-gleich (cmp). Auftrag: Data/StrassenEra.lua mit der neuen daten/era/GoldSentinelStrassen.lua
 ersetzen (byte-gleich), test_strassen-Zahlen nachführen (Kalimdor jetzt aus 1537 Punkten), E1 und E5 jetzt am echten Era-Client
 (Interface-Nummer aus dem Client lesen: 1.15.9 -> 11509? – im Spiel /dump select(4, GetBuildInfo()) messen).
+
+==== GEMESSEN (Nutzer 16.11.2026 10:43, Era-Client 1.15.9) – Interface-Nummer für E1 ====
+Im Classic-Era-Client: /dump select(4, GetBuildInfo()) -> 11509 (Screenshot des Nutzers). Damit ist die Era-Nummer BELEGT: 11509
+(nicht 11508). E1: .toc für Era mit 11509; ob Forever 1.60 eine Interface-Liste "16001, 11509" annimmt, weiter im Forever-Client messen
+(AddOn-Liste ohne "veraltet") – sonst eigene LevelPilot_Vanilla.toc.
