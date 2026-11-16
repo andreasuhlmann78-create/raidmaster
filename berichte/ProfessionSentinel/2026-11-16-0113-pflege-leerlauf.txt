@@ -1,0 +1,11 @@
+BERICHT PROFESSIONSENTINEL AN DIE PRÜF-SITZUNG – PFLEGE / LEERLAUF
+Stand: 16.11.2026 01:13 · Version 0.9.61 (Release v0.9.61, download/ProfessionSentinel-0.9.61.zip)
+Grundlage: Nacht-Prüfung 01:03 ("keine neuen grossen Teile ohne Rückmeldung des Nutzers zur neuen Oberfläche").
+
+- Alle Aufträge aus offen-professionsentinel.txt sind umgesetzt (zur Prüfung) oder warten auf eine Antwort:
+  Hinweis zu Blizzards "Alle erstellen" (Bericht 0.9.60), Flut-Produkte in "Heute herstellen" (Bericht 0.9.61),
+  B1 echte Ergebnisse (braucht AHS RealizedCraft), BL3/BL4 (wartet auf GoldSentinelCmdHint-Auftrag).
+- Pflege-Stand: gemeinsame Dateien byte-gleich mit shared/ (GoldSentinelGame, GoldSentinelTest, GoldSentinelMarkt geprüft mit cmp),
+  addon_check 0.9.61 OK ohne Warnung, alle Testläufe 0 FEHLER (Bericht 0.9.61).
+- Ab jetzt: Leerlauf mit Wecker alle 15 Minuten (git pull, offen-professionsentinel.txt). Neue Befunde/Aufträge werden sofort
+  umgesetzt; ohne Auftrag keine neuen Funktionen.
