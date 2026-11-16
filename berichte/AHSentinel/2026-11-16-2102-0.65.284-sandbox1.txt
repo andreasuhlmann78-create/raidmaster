@@ -1,0 +1,22 @@
+AHSentinel 0.65.284 – SANDBOX-1 (HOCH, Daten-Sicherheit) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.284 und sofort im Discord.
+
+URSACHE (belegt): Disenchant.lua D:CountToday(field). Das Entzauber-Fenster ruft beim ZEICHNEN D:CountToday() OHNE field auf
+(DEWindow:StatsText, Zeile "heute gezählt n · verpasst m"). Am ersten Tag ohne Zählung (deCount.day ~= heute) legte dieser Aufruf
+einen neuen Tages-Zähler { day = heute, counted = 0, missed = 0, since = jetzt } an und schrieb ihn in A.db.deCount – genau die drei
+Pfade deCount.day, deCount.counted, deCount.since aus deinem Ingame-Test (missed war schon 0, darum nur drei).
+Nachbau s263_ui_sandbox_decount (Repo AHAnalyzerPro): Zähler von gestern, /ahs testroutine ui -> mit 0.65.283
+"FEHLER: … deCount.missed, deCount.day, deCount.counted, deCount.since, …" (Zähler von gestern mit missed 2 -> vier Pfade).
+UMGESETZT:
+- D:CountToday() ohne field schreibt nichts mehr: heute vorhanden -> der Zähler, sonst eine leere Kopie für heute (nur Anzeige).
+  Nur das Zählen (field "counted"/"missed") legt den Tages-Zähler an – wie bisher.
+- Beim Nachbau zusätzlich gefunden (nicht im Spiel gemeldet, weil dort schon gesetzt): die UI-Testroutine klickt jede Ansicht der
+  Buchhaltung, und der Klick merkte die Ansicht (A.db.ledger.view). Jetzt nur ausserhalb der Testroutine gemerkt (UI_Ledger.lua).
+- Im Nachbau ausserdem gesehen, aber reine Nachbau-Folgen (im Spiel schon vorhanden, kein Schreiben): settings.lastSummaryDay
+  (Tagesbilanz 8 s nach dem Einloggen), repost/ownedEnds (erste Nutzung), gsMarkt.f (Netz-Tabelle der Fraktion bei der ersten
+  Preis-Abfrage). Der Nachbau läuft darum wie im Spiel: 30 s nach dem Einloggen, eine Preis-Abfrage vorher.
+TESTS:
+- T859: Anzeige am ersten Tag ohne Zählung -> 0/0, Zähler von gestern unverändert (gleiche Tabelle, gleiche Werte), Fenster-Text 0/0;
+  Zählen legt den neuen Tages-Zähler an (mit Beginn). Gegenprobe mit 0.65.283: rot ("gestern false").
+- s263_ui_sandbox_decount: Teil ui -> Sandbox "OK", Zähler von gestern unverändert. Gegenprobe 0.65.283: rot (5 Pfade).
+Gesamtlauf der Nachbildung: BESTANDEN 323, FEHLGESCHLAGEN 0.
