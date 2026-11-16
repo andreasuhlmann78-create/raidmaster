@@ -3752,3 +3752,11 @@ SN-TR Testroutine Sniper (Lauf des Nutzers vor 08:30): 21 OK, 5 FEHLER, 3 übers
 Zusätzlich aus derselben Datei (Selbsttest, nicht Sniper): T299 "○ mutig" überlagert "Sniper kauft mit" in den Optionen
   (passt zu PL-T1, Optionen schwer zu finden); T267 G1/G2 false/false/0 statt false/true/1; T72 "Verkaufspreis zu hoch:
   Silberrute 3s35, günstigstes 3c" – bitte jeweils prüfen und im Bericht beantworten.
+
+==== ENTSCHEIDE MR4 / MR-SEITE (Nutzer 08:43 "mach du das bitte" -> vom Supervisor am Bild entschieden, Prüfliste "Nicht OK") ====
+- MR-SEITE: NEIN, keine eine Seite. Ansichten Heute / Mein Lager / Entzaubern bleiben. Grund am Bild: Mein Lager hat 20+ Zeilen,
+  eine Seite würde lang und man müsste scrollen; "Heute" fasst das Wichtigste schon zusammen. Nichts bauen.
+- MR4: Kopfzeile so NICHT gut – aber KEINE Kacheln bauen. Befund am Bild: "Stufen 1-25 messe 0/5 · 26-45 messe 0/5 · 46-60 messe 0/5"
+  ist klein, grau und Fachsprache ("messe 0/5" sagt dem Spieler nichts). Auftrag MR4-T: in Klartext, z. B. "Stufen 1–25: noch zu
+  wenig Daten (0 von 5 Tagen)" bzw. sobald Daten da sind die Aussage selbst (bester Tag zum Verkaufen). Ausserdem überdeckt
+  "6 Einträge" den Hinweistext darunter ("…einstellen, neu einstellen, entzaubern, herstellen)") – Text kürzen oder Zähler verschieben.

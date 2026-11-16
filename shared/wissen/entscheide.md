@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 16.11.2026 08:43 | MR4 und Markt-Reiter-eine-Seite: "mach du das bitte" -> Supervisor entscheidet am Bild: eine Seite NEIN, Kopfzeile in Klartext statt Kacheln | offen-ahsentinel.txt ENTSCHEIDE MR4/MR-SEITE |
 | 16.11.2026 08:09 | "Du musst nicht alles selber machen, spann ruhig das Projekt ein, wenn es sonst nichts zu tun hat" (zum Strassennetz) | Strassennetz-Ausbau an LevelPilot übergeben (offen-levelpilot.txt ST-1..ST-5); Supervisor prüft |
 | 16.11.2026 08:01 | "Nimm Zugriff auf die Spieldateien auf meinem Rechner und fange an" | eigenes Werkzeug shared/werkzeuge/strassen (CASC-Leser, Masken, Netz) |
 | 16.11.2026 07:36/07:55 | "Ich will, dass du es zu einem Navigator in WoW Forever entwickelst" – auf die Frage Navi zu jedem Ziel / optimale Levelroute / beides: "beides" | offen-levelpilot.txt NAVIGATOR (NAV-1..NAV-4) + LW-0..LW-7; Forever und Classic Era |
