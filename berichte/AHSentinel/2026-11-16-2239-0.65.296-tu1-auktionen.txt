@@ -1,0 +1,34 @@
+AHSentinel 0.65.296 – TU1 Rest Teil 1: Meine Auktionen je Marktlage; dabei FEHLER gefunden und behoben (L6 "teurer" zum Ausreisser-Preis) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.296 und sofort im Discord.
+
+TU1 (offen-ahsentinel TU: "noch ohne Tooltip / Meine Auktionen / Markt-Reiter je Marktlage") – Teil 1: Meine Auktionen.
+T875: Status einer eigenen Auktion (Ware, 10 Stück, Einzahlung 10c) in den Lagen von T514–T522 (WithLage, gleiche Zahlen).
+  Erwartung aus den Regeln (nicht aus der Ausgabe): H1 CancelWorth (bis 2 % teurer gleich gut -> nie abbrechen; ab 20 % bleibt sie
+  liegen), L6 RelistHigher (teurer neu nur, wenn Mehrerlös > Einzahlung + 10 %), ohne fremde Angebote "günstigstes".
+    L-NORMAL (günstigstes fremdes 990): eigene 1000 -> liegen, 990 -> gleich, 800 -> teurer @989
+    L-FLUT (800, eigene 1000 = 20 % teurer) -> unterboten · L-LEER -> günstigstes
+    L-AUSREISSER (ein Angebot 5000, Marktwert 1000, eigene 1000) -> günstigstes (nie "teurer" zum Ausreisser-Preis)
+    L-AUFKAUF (Leiter ab 2899, Marktwert 1380, eigene 1400) -> teurer @2898
+  (Lernen aus -> Erwartung ohne "teurer"; im Lauf war Lernen an.)
+BEFUND (gemessen): L-AUSREISSER ergab "teurer @4999" – Meine Auktionen schlug vor, eine Auktion zu 10s abzubrechen und für 49s 99c
+  neu einzustellen, nur weil ein einzelnes Angebot zu 50s im Markt stand. Ursache (Learn.lua Ln:RelistHigher): neuer Preis =
+  Unterbieten des ROHEN günstigsten fremden Angebots; der Verkaufen-Vorschlag (Se:SuggestRaw) erkennt Ausreisser/Aufkauf, wurde
+  hier aber nicht benutzt. Lösung: neuer Preis höchstens der (gerundete) Verkaufen-Vorschlag; ohne Vorschlag kein "teurer".
+  Gegenprobe (Learn.lua von 0.65.295): T875 rot. s77_learn (L6 "teurer" bei Konkurrenz über dem gelernten Maximum) weiter grün.
+Dazu (aus 0.65.294 nachgezogen, siehe Bericht 294): T872 rechnet mit fester Einzahlung 1s (sonst mit offenem AH 0 im Nachbau).
+Abdeckungsliste: TU1-MA -> T875. Nächste Teile TU1: Tooltip und Markt-Reiter je Marktlage.
+Nächster Teil TU1 (Tooltip je Marktlage) – GEMESSEN (Debug-Lauf, Ausrüstung, echtes A:PriceInfo, Lagen von T514–T522):
+    L-NORMAL PI 990 · Wert (RealValue) 941 · Verkaufen-Vorschlag 800 (ganze Silber)
+    L-AUFKAUF PI 2899 · 2755 · 2700      L-AUFKAUF-KENNZ PI 2500 · 2375 · 2400
+    L-AUSREISSER PI 5000 · 4750 · 1000   <- Tooltip/Wert 47s 50c, Verkaufen-Vorschlag 10s
+    L-FLUT PI 800 · 760 · 700            L-DUENN PI 1050 · 998 · 900
+  Ursache (Code): A:PriceInfo hat bewusst nur zwei Schutzregeln (Ausreisser UNTER 10 % des Medians, nicht im Scan) und ausdrücklich
+  "keine Deckelung auf den Median" (Kommentar AHAnalyzerPro.lua vor A.OUTLIER_LOW). Ein einzelnes Angebot 5× teurer wird darum der
+  Wert (Tooltip, Gewinn, RealValue, alle Wege), der Verkaufen-Reiter dagegen erkennt es als Ausreisser.
+FRAGE TU1-PI (Vorschlag): Ausreisser NACH OBEN wie im Verkaufen-Reiter behandeln: liegt das günstigste Angebot über OUTLIER_HIGH
+  (300 %, gibt es schon, A.OUTLIER_HIGH = 3.00) × Median, gilt der Median als Wert (source "market", unsicher). Ein Aufkauf (ganze Leiter
+  150–250 %) bleibt unberührt. Das ändert einen Entscheid ("kein Deckel") und einen heissen Pfad (MN5) – darum nur nach deinem Entscheid.
+
+Tests (eigene, keine Freigabe): Gesamtlauf aller Nachbauten auf dem Stand 0.65.296: BESTANDEN 339, FEHLGESCHLAGEN 0.
+addon_check: AHSentinel-0.65.296.zip OK. Veröffentlicht: GitHub-Release v0.65.296, Discord announce/ahsentinel__ahsentinel-0.65.296.md.
+Nicht in download/, kein CurseForge (erst nach dem Ingametest).
