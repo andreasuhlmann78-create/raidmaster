@@ -287,3 +287,10 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   Nachbau) – Umbau damit begründet. Selbst geprüft: sichere Knöpfe (SecureActionButtonTemplate) entstehen nicht in page.build, sondern
   erst bei Bedarf (GuildAct.lua:358, Pages.lua:1958) – das späte Bauen einer Seite im Kampf erzeugt also keine geschützten Frames. Keine Befunde.
   Bitte als Test ergänzen: erste Anwahl einer Seite WÄHREND des Kampfes (InCombatLockdown = true) -> kein ADDON_ACTION_BLOCKED/Fehler.
+
+>>> NEU 04:44 (Idee Supervisor, freigegeben 19:58; Nutzer hat die Sitzung um 04:43 geweckt) – GS-N3 MITTEL: geführter Client-Test wie LevelPilot 3.12.45:
+  "/gs clienttest" geht alle offenen "IM CLIENT PRÜFEN"-Punkte (0.9.40–0.9.46: G-3 Grenze, noAuto-Anzeige, Sperrliste, Rückkehrer, Notiz-Protokoll,
+  Seiten später bauen, LANGSAM-Zeilen) der Reihe nach durch, prüft alles im Spiel Messbare automatisch und fragt nur, wo der Nutzer hinschauen muss
+  (je Schritt ein Satz, Knöpfe OK/Nicht OK/Überspringen). Ergebnis eine Zeile je Punkt in /gs protokoll. Keine Nachrichten an andere Spieler.
+  Test im Nachbau mit allen Antworten.
+
