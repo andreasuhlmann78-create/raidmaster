@@ -1,0 +1,39 @@
+BERICHT LevelPilot – ST-1 Strassennetz verdichtet (umgesetzt, zur Prüfung)
+Projekt: LevelPilot · Datum: 16.11.2026 08:15 (aus date) · keine neue Addon-Version (nur Werkzeug + Daten in shared/)
+
+Bezug: offen-levelpilot.txt "STRASSENNETZ AUS DEN SPIELDATEIEN – ÜBERGABE AN LEVELPILOT" (Supervisor 08:11), ST-1.
+
+UMGESETZT – shared/werkzeuge/strassen/strassen_netz.py, neue Funktion verdichten() nach dem bisherigen Ablauf:
+ 1. Skelett-Haufen: Kreuzungs-Knoten, die über Kanten < 6 yd verbunden sind, werden EIN Knoten (Mittelpunkt). Ursache belegt:
+    im Rohnetz Ö. Königreiche hatten 5353 von 6422 Knoten Grad >= 3 – benachbarte Skelett-Pixel waren je ein Knoten mit
+    2-yd-Kanten dazwischen (7869 solche Kanten, Kalimdor 2021).
+ 2. Doppelte Spuren derselben Strasse zwischen zwei Knoten (Länge ±20 %) -> nur die kürzere (21 / 7).
+ 3. Brücken: loses Ende -> nächster Punkt einer Kante eines ANDEREN Teils, höchstens 30 yd (Kante wird dort geteilt). Nur
+    zwischen getrennten Teilen, darum keine Abkürzungen innerhalb eines Netzes. 96 Brücken (1977 yd, max 29,8 yd) / 65 (1325 yd).
+ 4. Teile < 200 yd Gesamtlänge weg (Pflasterflecken): 122 Teile, 7625 yd / 125 Teile, 6949 yd.
+ 5. Endstummel < 15 yd weg; Ketten über Knoten mit Grad 2 zu einer Kante (465 / 182 Zusammenlegungen, Grad 2 danach 0).
+
+ERGEBNIS (daten/ neu erzeugt aus strassen_maske.json, ohne Spieldateien, Laufzeit 6 s)
+                     Punkte        Kanten        Knoten   Teile     Länge yd
+  Östl. Königreiche  8833 -> 3383  9708 -> 1249  -> 1104  216 -> 95  146918 -> 126749
+  Kalimdor           3519 -> 1637  2681 -> 325   -> 358   186 -> 61   80283 -> 70791
+LÄNGE GEHT AUF (Ö. Königreiche; Kalimdor gleich, Zahlen in stat.verdichten):
+  146918 − 19804 (Kanten < 6 yd) + 5999 (Kanten-Enden zur Haufen-Mitte verlängert) − 481 (doppelte Spuren) + 1977 (Brücken)
+  − 7625 (kleine Teile) − 234 (Stummel) = 126749 (±1 yd Rundung je Schritt).
+  Kalimdor: 80283 − 5034 + 1453 − 249 + 1325 − 6949 − 38 = 70791.
+Lua-Datei 434 KB -> 122 KB; in Lua 5.1 geladen: 6,1 ms, rund 0,7 MB, alle Punkt-Nummern gültig (0 ungültig).
+Abdeckung: 89,9 % (Ö. K.) bzw. 78,1 % (Kalimdor) der alten Netzpunkte haben das neue Netz in 10 yd; der Rest sind die
+entfernten kleinen Teile, Haufen-Inneres und doppelte Spuren (Verdacht, nicht einzeln nachgezählt).
+Sichtprüfung: berichte/LevelPilot/strassen/st1-vergleich-karte0.png und -karte1.png (vorher rot / nachher grün): Hauptstrassen
+erhalten, Pflasterflecken und Knäuel weg. daten/vorschau-kalimdor.png zeigt das neue Netz.
+
+NICHT GEMACHT / OFFEN
+- Die Schwellen (6 / 30 / 200 / 15 yd) sind gewählt, nicht gemessen. Ob eine Brücke im Spiel wirklich begehbar ist (Fluss ohne
+  Brücke!), prüft erst ST-2/ST-3 an gelaufenen Wegen (Verdacht: einzelne Brücken überqueren Wasser ohne Brücke – Abhilfe dann
+  über Geländekarte "nicht begehbar").
+- ST-2 (Wegsuche mit Strassen in LevelPilot), ST-3 (Messung), ST-4 (Ladezeit im Spiel, nur Karte des Spielers), ST-5 (Era-Client:
+  nur wenn der Nutzer ihn hat) – als Nächstes, in dieser Reihenfolge, zusammen mit LW-1 (Wegkosten).
+
+DATEIEN: shared/werkzeuge/strassen/strassen_netz.py (verdichten), README.md, daten/GoldSentinelStrassen.lua, strassen_netz.json,
+vorschau-kalimdor.png; berichte/LevelPilot/strassen/st1-vergleich-karte0.png, -karte1.png.
+Status: umgesetzt, zur Prüfung.
