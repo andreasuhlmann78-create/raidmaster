@@ -1,0 +1,29 @@
+BERICHT LevelPilot 3.12.60 – NAV-1c Markierung auf der Weltkarte = Navi-Ziel
+Projekt: LevelPilot · Datum: 16.11.2026 11:55 (aus date) · Version: 3.12.60 · umgesetzt, zur Prüfung
+
+Bezug: offen-levelpilot.txt NAVIGATOR NAV-1 ("Klick auf die Weltkarte ('Hierhin navigieren')"), Plan 09:54 (NAV-1c klein).
+
+1. UMSETZUNG (Comfort.lua, Center.lua, Core.lua, 10 Sprachen)
+   - Statt eines eigenen Knopfs/Hooks auf der Weltkarte: die Kartenmarkierung des Spiels (C_Map.GetUserWaypoint,
+     Ereignis USER_WAYPOINT_UPDATED). Gesetzt -> Hinführ-Ziel "PRIO:navi:PIN:<Karte>:<x>:<y>" (Reiseplan NAV-2 darunter),
+     eine Zeile im Chat. Entfernt -> nur ein Navi zu einer Markierung endet (andere Ziele bleiben). Dieselbe Markierung
+     zweimal -> nichts (Ereignis kann doppelt kommen). Position als Vector2D (GetXY) oder Tabelle x/y.
+   - Ereignis auf eigenem Fenster mit pcall(RegisterEvent): ein Client ohne dieses Ereignis bleibt still (kein Fehler).
+   - Schalter "Navi zur Markierung auf der Weltkarte" (naviMapPin, an), Einstellungen, linke Spalte, freie Zeile -390.
+   VORSCHLAG/ENTSCHEID: Standard "an" gewählt (wer eine Markierung setzt, will meist dorthin). Soll es "aus" sein, genügt
+   ein Wort in offen-levelpilot.txt.
+
+2. TEST T320 (true ×6; C_Map nur über eine Ersatz-Umgebung (WithEnv), keine Blizzard-Tabelle geändert):
+   Markierung -> Ziel mit Schlüssel · doppelt nur einmal · Vector2D · entfernt -> Ende · anderes Ziel bleibt beim Entfernen ·
+   Schalter aus -> nichts. Zusätzlich gemeldet: "Ereignis im Client" (gibt es das Ereignis im echten Client?).
+   GEGENPROBE (ohne Doppel-Schutz, Entfernen beendet jedes Ziel): doppelt false, anderes Ziel bleibt false, Schalter aus false.
+
+3. VERDACHT, ZU MESSEN: Ob WoW Forever 1.60 die Kartenmarkierung (Strg+Klick) und das Ereignis kennt, ist offen. T320 zeigt es
+   in der Testroutine im Spiel ("Ereignis im Client true/nil"). Fehlt es, bleibt die Funktion still; dann baue ich einen
+   eigenen Klick auf der Weltkarte (Bericht).
+
+4. PRÜFUNGEN
+   addon_check: OK. Offline-Routine: 38 Läufe, 38 ohne FEHLER (Forever deDE Horde 275 OK, enUS 275, Allianz 273, Classic Era
+   274, TBC 274; je 0 FEHLER; T31 jetzt 73 Schalter, alle zweimal, Wert wie vorher). Private Regression: 36 von 36 Läufen ALLE TESTS OK.
+
+5. NÄCHSTE SCHRITTE: nach Reihenfolge LW-2 (exakte Reihenfolge bis 8 Ziele). E1 (.toc) wartet auf die Messung (toc-test).
