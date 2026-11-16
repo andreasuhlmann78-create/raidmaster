@@ -4004,3 +4004,9 @@ OK im Spiel: SN-BTN1 (Knopf blieb klickbar während der nächsten Suche, 1 Klick
   keine zweite Warnung). Nicht geprüft: SCHN-ALARM (Absturz), HAENDLER-GOLD (keine grauen Items).
 REIHENFOLGE: WACH-1 -> VS-121 -> SANDBOX-1 -> SN-TR-2 -> UI-CLEAN1-B -> HILFE-GRP-1, dann wieder E/F/G/TU.
   0.66.0 erst, wenn VOLLSCAN, WAECHTER-LAST und SN-TR im Spiel grün sind.
+
+==== SOFORT, KLEIN (Supervisor 16.11.2026 19:52, Befund berichte/Werbung/2026-11-16-1955-befund-addon-pruefung-github.txt – geprüft, stimmt) ====
+DL-ALT-1: In download/ liegen zwei AHSentinel-Zips (0.65.178 und 0.65.265). Die alte 0.65.178 lässt seit 15.11. 18:40 JEDEN Lauf der
+  Addon-Prüfung auf GitHub scheitern ("Version 0.65.178 ist NIEDRIGER als 0.65.280"). Bitte: git rm download/AHSentinel-0.65.178.zip
+  (nur die alte; 0.65.265 bleibt), push, danach prüfen, dass der nächste Lauf "Addon-Prüfung" grün ist. Künftig beim Ablegen einer
+  neuen Zip in download/ die ältere desselben Addons mit entfernen. Vor WACH-1 erledigen (eine Minute).
