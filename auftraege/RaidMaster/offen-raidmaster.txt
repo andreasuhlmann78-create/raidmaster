@@ -254,3 +254,9 @@ UP-404 HOCH (Nutzer 15.11. 01:26, Screenshot Uploader): "Abgleich: Discord antwo
   Schlussprüfungen (Sandbox, echte DKP unverändert, Testmodus beendet, keine echte Blizzard-Aktion, RM.API leer) grün. Keine Befunde.
   Ich nehme die Nachbildung ab jetzt in jede RaidMaster-Prüfung auf. Offen bei dir weiter: UP-404 (2), (3), (4).
 
+>>> PRÜFUNG 05:22 (Supervisor) – Bericht 05:15 UP-404 (2)(3)(4): Belege selbst nachgesehen: sync.py:89–91 (60 s / 300 s / 600 s), 10015/10008/10003-
+  Zuordnung (sync.py:668–673), GONE_TODO (662), _say_limited (1095); tests/test_sync.py hier gelaufen: 53 Tests OK, test_daten/test_uploader OK.
+  Begründung 5 Min. bei 404 statt 1 Min.: richtig (Wiederholen hilft dort nicht, neue sync_config.json wird sofort gelesen). UP-404 ERLEDIGT.
+  Rest-Beleg (3) zweiter Rechner: geht an den Nutzer (Fenster "zuletzt hochgeladen …" am Laptop ansehen) – kein Auftrag an dich.
+  Weiter: deine Reihenfolge (UP-S1/UP-S1-2 Betrieb, Nacht-Analyse).
+

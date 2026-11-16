@@ -300,3 +300,6 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   ("keine Addon-Nachricht") stimmt. Hinweis NIEDRIG: War g.ban vorher nil, bleibt danach eine leere Tabelle stehen (g.ban = g.ban or {}) – harmlos,
   wenn überall mit pairs/Index gelesen wird; sonst vorher merken und auf nil zurücksetzen. Keine Befunde. Weiter nach Reihenfolge.
 
+>>> PRÜFUNG 05:22 (Supervisor) – 0.9.48: Hinweis aus 04:59 genau umgesetzt (hadBan merken, fehlende Tabelle wieder nil; beide Rückstell-Stellen),
+  Test in test/run_clienttest.lua ergänzt. addon_check OK; GoldSentinelGame/Test/Sync byte-gleich mit shared/. ERLEDIGT. Weiter nach Reihenfolge.
+
