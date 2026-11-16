@@ -3656,3 +3656,16 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   ein (Fehler = Befund; kleiner Wunsch = darfst du umsetzen; GRÖSSERER UMBAU = nicht umsetzen, der Nutzer entscheidet zuerst) und schreibst
   einen Antwort-Entwurf in berichte/AHSentinel/ (cf-antwort-<Nr>). Gepostet wird nur nach Ja des Nutzers.
 
+>>> SNIPER-ABNAHME HEUTE + CURSEFORGE 18:00 (Entscheid des Nutzers 16.11. 06:45: "Den Sniper nehmen wir heute vor dem Upload ab."; Supervisor 06:45)
+  Grund: Auf CurseForge steht seit 14.11. 0.65.178 – dortige Spieler haben den Einstell-Fehler (POST-BLOCK1), den alten Mausrad-Kauf und die leere
+  Einkaufsliste (Kommentare CF-AHS-2/3/4, alle bei dir behoben 0.65.207/208/210/215). Vorrang: VOR MU-Abnahme/Masterplan.
+  1. ABNAHME-LISTE für den Nutzer (bis 09:00): berichte/AHSentinel/<Datum>-<HHMM>-sniper-abnahme-liste.txt – höchstens 12 Schritte, in der
+     Reihenfolge, in der er sie im Spiel macht, je Schritt: was tun (Befehl/Knopf), was er sehen muss (Soll), was er bei Abweichung schickt.
+     Muss enthalten: /ahs testroutine sniper (S1–S6 + Erweiterungen), Kauf-Knopf SN-BTN1 (ein Klick ein Kauf, Ware zwei Schritte, Mausrad nur
+     wenn eingeschaltet), Max über "Lohnt bis" (MU1-3 gelb + Knopf), Einstellen mit Preiswarnung "Trotzdem einstellen" (POST-BLOCK1/WS-LOOP1,
+     altes AH), Einkaufsliste aus Materialien (0.65.210), Sicherheits-Grenzen (Max, Budget, nie doppelt kaufen). Dauer gesamt ≤ 20 Min.
+  2. KANDIDAT: ab 16:00 keine neuen Funktionen mehr – nur Fehler aus der Abnahme. Die letzte Version vor 17:00, die ich geprüft habe UND die der
+     Nutzer abgenommen hat, geht um 18:00 nach download/ (CurseForge). CHANGELOG EN für CurseForge: was sich seit 0.65.178 für Spieler ändert,
+     in Worten (nicht 80 Einzelversionen; höchstens 15 Punkte, Wichtigstes zuerst: Einstellen geht wieder, Kauf-Knopf, Einkaufsliste).
+  3. Nach dem Upload: Antwort-Entwürfe cf-antwort für CF-AHS-2/3/4 ("fixed in 0.65.2xx, now on CurseForge") – ich poste sie.
+

@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 16.11.2026 06:45 | "Den Sniper nehmen wir heute vor dem Upload ab." -> Sniper-Abnahme im Spiel heute; danach AHSentinel um 18:00 wieder auf CurseForge | offen-ahsentinel.txt SNIPER-ABNAHME 16.11. (Abnahme-Liste von AHS, Kandidat bis 16:00) |
 | 16.11.2026 06:43 | "Solange es harmlose Antworten sind, sollst du das selber machen." (CurseForge-Kommentare) | Supervisor postet harmlose Antworten selbst; Zusagen/Heikles zuerst an den Nutzer (hinweis-curseforge-pflege Punkt 4) |
 | 16.11.2026 06:42 | "Kümmere dich um die Bewirtschaftung von CurseForge bzw. übertrage das den Projekten – inkl. Beantwortung der Kommentare und Weiterleitung der Fehler oder Wünsche der Benutzer. Für grössere Umbauten, die Kunden wünschen, bitte mich erst fragen." | auftraege/hinweis-curseforge-pflege-2026-11-16.txt; Supervisor liest CurseForge (Gmail-Benachrichtigungen + Kommentarseite) in jeder Runde; Antworten posten nur nach Ja des Nutzers je Antwort (öffentlich in seinem Namen) |
 | 16.11.2026 05:04 | "Für Tests im Spiel – wo es Sinn macht – wieder kleine Test-Addons erstellen, je Addon eines, nicht ein grosses." | auftraege/hinweis-test-addons-2026-11-16.txt (alle Projekte); Vorbild shared/messtest/GSWegMess, GSSniperLog |
