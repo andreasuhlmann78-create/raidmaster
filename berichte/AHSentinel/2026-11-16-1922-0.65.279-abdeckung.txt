@@ -1,0 +1,13 @@
+AHSentinel 0.65.279 – E (a) Abdeckungsliste auf die aktuelle Nummerierung abgeglichen – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.279 und sofort im Discord.
+- Die 18 alten Einträge "offen 1" … "offen 11" (Fassung 11.11.) heissen jetzt "alt offen N (Fassung 11.11.)", Quelle
+  "offen-ahsentinel (alte Nummerierung)" – Zuordnung und Tests unverändert, nichts geht verloren.
+- Neu nach der Liste 13.11. (Punkte 1–12): offen 1 TS111.1-REST/T373 -> T594, T608, T647, T843 · offen 2 TS111.2-TEST -> T592, T607 ·
+  offen 3 MK-Ü1F-TEST -> T597 · offen 4 UI1618a-R -> T606 · offen 5 SBX1 -> T605 · offen 6 FW1 -> T609 · offen 7 UI1509 -> T645 ·
+  offen 8 UI1510 -> T646 · offen 9 MA3-G -> T851 (+ s257) · offen 11 MN -> T782, T783 · AB3 -> Messung im Spiel (EIGENE-PREIS).
+  Jede Test-Nummer existiert (geprüft), T826 (IDs eindeutig) grün.
+- Nicht zugeordnet: offen 10 (RK/MR/MA/Ü – hat eigene Einträge je Unterpunkt T-RK…, T-MR…) und offen 12 (Kleinpunkte, je eigene
+  Einträge). Bitte sagen, wenn du dafür Sammel-Einträge willst.
+- Gegenprobe: entfällt (nur die Liste, kein neues Verhalten); Testroutine grün.
+Gesamtlauf der Nachbildung: BESTANDEN 318, FEHLGESCHLAGEN 1 – s216_feed_memory (bekannte Zeitmessung, gleich häufig rot in allen Versionen seit 0.65.265 – Messreihe im Bericht 0.65.269). 0.65.279 ändert nur die Abdeckungsliste.
+Nächster Punkt: E (b) fehlende Testfälle, Reihenfolge der Liste: T-SK6/T-SK7 (MITTEL) zuerst.
