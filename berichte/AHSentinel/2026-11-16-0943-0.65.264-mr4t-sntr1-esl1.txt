@@ -1,0 +1,34 @@
+AHSentinel 0.65.264 – MR4-T, SN-TR-1, ESL1-Weg, T267, T72 (Ingame-Test 16.11.) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.264 und sofort im Discord.
+MR4-T (UI_MarketView MV:LageLine): Kein Band belegt -> EIN Satz "Marktrichtung je Stufe: noch zu wenig Daten (x von 5 Tagen)" (x = höchster
+  Stand der Bänder); sonst je Band "1-25: Preise fallen / steigen / ungewöhnlich hoch / stabil" bzw. "26-45: noch zu wenig Daten",
+  Aufkauf-Zahl wie bisher am Ende. "messe x/5" kommt im Markt-Reiter nicht mehr vor (die Diagnosezeile im Testbericht ist unverändert).
+  "6 Einträge" über dem Hinweis: Hinweistext rechts um 96 px kürzer (Platz für "n Einträge") und "Heute"-Text gekürzt auf "Deine Sachen
+  zuerst, darunter die besten Chancen. Der Knopf macht den nächsten Schritt." T817 (MR4) und T-MR4 LAGE-ZEILE auf Klartext angepasst,
+  neu T840. Mit 0.65.263 rot, mit 0.65.264 grün.
+SN-TR-1:
+ (a) SPT:BackgroundText: liegt Ø Bilder/s nahe der Hintergrund-Grenze (CVar maxFPSBk: Ø ≤ Grenze + 0,5 und ≥ 60 % davon) oder – ohne
+     Grenze – unter 12, sind T617/T618/T729/T732/T734 SKIP mit dem Satz "WoW lief vermutlich im Hintergrund (Ø x Bilder/s …) – bitte mit
+     WoW im Vordergrund wiederholen", derselbe Satz oben im ERGEBNIS. Verdacht, zu messen: ob Forever maxFPSBk liefert (sonst greift < 12).
+ (b) Sniper-Takt: Sn:Tick läuft aus OnUpdate mit Zeit-Summe (acc ≥ 0,1 s), Suchabstände und Drossel rechnen mit Zeit (Now()), nicht mit
+     Bildern – bei 6 Bildern/s tickt er jedes Bild (≈ 0,16 s), der Abstand bleibt zeitrichtig. Die 70,7-s-Lücke (T729) und 28–32 s nach
+     dem AH-Klick (T732) passen zur Hintergrund-Drossel bzw. der Spieler-Pause (GSL3-2: 30 s nach eigenem AH-Klick) – Verdacht, zu messen
+     im Vordergrund.
+ (c) Ruckel-Ursachen von AHSentinel einzeln: je Aufgabe bzw. Modul/Ereignis Anzahl und längstes Bild ("AHSentinel einzeln: Aufgabe
+     fc:eval ×2 (bis 80 ms), …", höchstens 8 + Rest). Test T841. Mit 0.65.263 rot, mit 0.65.264 grün.
+ESL1-Weg: Mit ProfessionSentinel ist das Gewinn-Fenster aus (PS-DOCK1) – die Knöpfe gibt es dort nicht, und PS ruft API.ReagentsToList
+  (noch) nicht auf (Eintrag für ProfessionSentinel bitte durch den Supervisor). AHSentinel bietet jetzt einen Weg, der immer geht:
+  /ahs material (alle Materialien) und /ahs fehlt bzw. /ahs missing (nur was fehlt) für das gewählte Rezept des offenen Berufsfensters –
+  gleiche Rechnung wie die Knöpfe (Cr:SelectedToList); ohne Berufsfenster bzw. ohne Rezept eine klare Meldung. Prüfliste ESL1 nennt
+  diesen Weg (since 0.65.263 -> wieder offen). Test T842. Mit 0.65.263 rot, mit 0.65.264 grün.
+T267 (Selbsttest des Nutzers false/false/0): Ursache belegt – im Spiel ist ProfessionSentinel geladen, Cr:PSActive() = true (PS-DOCK1:
+  Gewinn-Fenster immer aus), der Test prüfte aber noch G1 (aus nur bei offenem PS-Panel). Kein Fehler im Addon; der Test setzt jetzt
+  ausdrücklich PSActive = false für den G1-Fall. (In der Nachbildung ohne PS war er immer grün.)
+T72 (Selbsttest "Verkaufspreis zu hoch: Silberrute 3s35, günstigstes 3c"): Verdacht, zu messen – die Prüfung vergleicht mit dem
+  günstigsten Angebot des letzten Scans (A:GetCurrent), der Vorschlag kommt aus A:RealValue (Preisleiter/Absatz). Ein einzelnes
+  3c-Angebot weit unter dem Rest ist ein Lockangebot/Fehlpreis (Preisschutz kennt das: Einzelstück < 60 % der nächsten Stufe). Zum
+  Belegen brauche ich die Preisleiter von Silberrute (6338) aus dem nächsten Hochladen; bis dahin keine Code-Änderung auf Verdacht.
+Locales: 10 neue Texte in allen 10 Sprachen. CHANGELOG EN/DE.
+Eigener Befund im ersten Gesamtlauf: s243_mr4_lage@ruRU – volle Lage-Zeile 498 px > 489 px (Russisch "цены необычно высоки") ->
+  ruRU-Text auf "цены завышены" gekürzt, s243 in allen 11 Sprachen grün; s78 auf Klartext angepasst (Nachbildung).
+Gesamtlauf aus frischer Kopie (Lua 5.1, 0.65.264-Schnappschuss): BESTANDEN 316, FEHLGESCHLAGEN 0. s42 grün (T267, T817, T836, T840–T842).
