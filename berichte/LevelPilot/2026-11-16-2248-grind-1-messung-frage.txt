@@ -1,0 +1,27 @@
+BERICHT LevelPilot – GRIND-1: Grind-Anteil gemessen, Zielkonflikt Zeit / Grinden / Kontinentwechsel – FRAGE
+Projekt: LevelPilot · Datum: 16.11.2026 22:48 (aus date) · Stand veröffentlicht 3.12.81 (Planer wie 3.12.80)
+
+Bezug: BEFUND MITTEL GRIND-1 (Supervisor 22:32). (a) Grind-Anteil je Reise ausgewiesen, (b) Bewertung Grinden × 1,5, (c) Realismus.
+
+1. GRIND-ANTEIL (virtuelle Reise 1–60, Forever; "Grinden" aus der Zeitaufteilung des Reiseberichts)
+   Fassung                                 Zeit Summe  Grinden je Reise (Anteil)   Questziele  Kontinentwechsel (bis 30)
+   3.12.79 (ab 12, alle 3 Stufen)          1085,6 h    33–50 h (18–28 %)            64–87 h     11–13 (3–4)
+   3.12.80/81 = C (ab 30, alle 10)         1043,2 h    65–95 h (44–53 %)            40–56 h     3 (0)
+   D (C, unter 30 doch, wenn daheim nichts) 1048,9 h   gleich C bis auf Untoter     –           3–4 (0–1)
+   E (C, aber Wechsel erlaubt, wenn daheim Restwert < 2,5)  1110,7 h  24–36 h (14–20 %)  65–90 h  14–22 (2–4)
+   F (wie E, Grenze Restwert < 5)          1094,9 h    26–34 h (16–19 %)            67–87 h     22–25 (3–6)
+   Je Volk C: Untoter 95 h/180 h · Ork 77/176 · Tauren 74/176 · Nachtelf 65/149 · Mensch 84/180 · Zwerg 84/182.
+   Befund des Supervisors bestätigt: C halbiert die Kontinentwechsel, verdoppelt aber das Grinden (Quests auf dem anderen Kontinent fehlen).
+2. BEWERTUNG MIT GRINDEN × 1,5 (Factoruide-Gewicht; Summe Zeit + 0,5 × Grinden):
+   3.12.79: 1213 · C: 1283 · E: 1199 · F: 1221. Danach wäre E am besten – aber mit MEHR Kontinentwechseln (14–22) als 3.12.79 (11–13).
+   Es gibt mit den heutigen Stellschrauben (Kontinent-Regeln in P:ChooseFocus) keine Fassung, die Zeit, Grinden UND Wechsel zugleich
+   verbessert. Das kann nur die Zonenfolge über 1–60 (OPT-ROUTE 1b Teil 2 / Stufe 2: welche Zone in welchem Stufenband, Kontinent als
+   Block statt Hin und Her).
+3. (c) REALISMUS der 10-Min.-Grindblöcke: Kills/Min im Nachbau 1,7 (Krieger) = 35 s je Kill, EP je Kill nach Classic-Formel – das ist
+   OPTIMISTISCHER als Factoruide (Grind 53 s je Kill). Die Grind-STUNDEN sind also eher zu niedrig, nicht zu hoch. Im Spiel ersetzen
+   gemessene Kills/Min (Calib) den Startwert; Messwerte aus dem Spiel liegen mir nicht vor (Verdacht, zu messen).
+4. FRAGE (Entscheid Supervisor/Nutzer): Was zählt vorn, solange OPT-ROUTE Stufe 2 nicht fertig ist?
+   (A) C behalten (wenig Kontinentwechsel, mehr Grinden, kürzeste Nachbau-Zeit) – heutiger Stand,
+   (B) E nehmen (wenig Grinden, Grinden × 1,5 am besten, aber 14–22 Kontinentwechsel),
+   (C) Mittelweg messen (z. B. Wechsel nur alle 10 Stufen, aber auch unter 30, wenn daheim nichts ist – D zeigte fast keine Wirkung).
+   Bis zur Antwort bleibt 3.12.81; ich arbeite an der Zonenfolge (Stufenband je Zone aus allen Quests, Kontinent als Block).
