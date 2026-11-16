@@ -1,5 +1,5 @@
 MORGENBERICHT DES SUPERVISORS – Nacht 15./16.11.2026 (wird die Nacht über fortgeschrieben)
-Stand: 16.11.2026 00:48 (Uhrzeit aus date)
+Stand: 16.11.2026 01:04 (Uhrzeit aus date)
 
 =====================================================================================================================
 1. DAS WICHTIGSTE IN KÜRZE
@@ -70,7 +70,8 @@ Im Spiel prüfen:
   - ProfessionSentinel 0.9.54 SKILLSPUR im Handwerksbuch (Linie je Rezept, eine Zahl rechts) – Bild-Abnahme: gefällt sie dir?
   - AHSentinel: Fenster "Seit deinem letzten Besuch" / "Bevor du gehst", Laufzeit-Vorwahl im Verkaufen-Fenster.
   - AHSentinel 0.65.215 Warnschutz (5×), SN-SCAN1 Sniper-Knopf im Vollscan gesperrt, nach Vollscan Marktdaten-Zähler steigt.
-  - GSWegMess in Unterstadt (AH -> Magieviertel, Aufzug zu den Ruinen), danach Datei GSWegMess.lua schicken.
+  - Wegmessung Unterstadt/Donnerfels/Höhle: GSWegMess installieren, dann "/lp wegmessung" – LevelPilot führt dich Schritt für Schritt (Pfeil,
+    Knopf "Markieren & weiter"); am Ende /reload und die Datei SavedVariables/GSWegMess.lua schicken.
   - ThreatSentinel: ein Dungeon als Tank, dann /ts protokoll (Zeilen LEISTUNG).
   - BuffSentinel: Jäger < 200 Pfeile, Hexer < 3 Splitter.
   - ProfessionSentinel 0.9.46: nach Vollscan kein Ruckler; /ps protokoll Zeile "Langsamste Wege".
