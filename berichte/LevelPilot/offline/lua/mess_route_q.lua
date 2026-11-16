@@ -1,5 +1,5 @@
--- ROUTE-Q (3.12.74): Routen-Prüfung über die virtuelle Reise 1–60. R1 Annehmen zuerst, R2 Questlevel > Stufe + 2, Startgebiet verlassen,
--- R3 Richtungswechsel je Stunde (Zahl), R3W Weg-Ebene (Restweg steigt/Pfeil zurück in den ersten 120 yd), R4 Sonder-Schritte vor nahem Questgeber.
+-- ROUTE-Q (3.12.75): Routen-Prüfung über die virtuelle Reise 1–60. R1 Annehmen zuerst, R2 Questlevel > Stufe + 2, Startgebiet verlassen,
+-- R3 Richtungswechsel je Stunde (Zahl), R3W Weg-Ebene wie das Navi (Restweg +50 yd / Pfeil zurück in den ersten 120 yd), R4 Sonder-Schritte.
 -- Aufruf (oder ../mess_route_q.sh): Daten aus PACKDIR; FOREVER=1 oder FLAVOR=era; LVL=1 MAP=… PX PY; lua51 mess_route_q.lua <LevelPilot> 0 <Volk> <Klasse> <Fraktion>
 if os.getenv("ZONEN") then
   ZONESIZE = { [1429] = { 3470.84, 2314.62 }, [1426] = { 4924.66, 3283.33 }, [1438] = { 5091.66, 3393.75 },
@@ -74,7 +74,7 @@ local startSet = {}
 for _, id in ipairs(START_IDS[race] or {}) do startSet[id] = true end
 local function InStart(inst, n, w) return startSet[AreaAt(ST[race], inst, n, w) or -1] == true end
 
-local c = { r1 = 0, r2 = 0, r2e = 0, r3 = 0, r3w = 0, r3wn = 0, r4 = 0, steps = 0 }
+local c = { r1 = 0, r2 = 0, r2e = 0, r3 = 0, r3w = 0, r3wn = 0, r3small = 0, r3back = 0, kept = 0, r3better = 0, r4 = 0, steps = 0 }
 local leaveLevel, leaveOpen
 local lastKey, prevDir, lastPos
 local ex = { r1 = {}, r2 = {}, r3 = {}, r3w = {}, r4 = {} }
@@ -136,7 +136,10 @@ LP.Engine.Current = function(self)
       local ok, raw = pcall(LP.Graph.Path, LP.Graph, pi, n0, w0, st.map, st.inst, st.n, st.w, st.map)
       if not ok or not raw then return nil end
       local ok2, rp = pcall(LP.Terrain.Refine, LP.Terrain, raw)
-      return (ok2 and rp) or raw
+      local p = (ok2 and rp) or raw
+      -- wie das Navi: Abkürzung am Wegbeginn (ab 3.12.75), wenn vorhanden
+      if LP.Graph.ShortcutStart then p = LP.Graph.ShortcutStart(p) end
+      return p
     end
     local function Len(p, i0, n0, w0)
       local L = G:Dist(n0, w0, p[i0][2], p[i0][3])
@@ -160,13 +163,35 @@ LP.Engine.Current = function(self)
       local p1 = Calc(qn, qw)
       if not (p1 and #p1 >= 2) then break end
       local rem1 = Len(p1, 2, qn, qw)
+      -- wie das Navi ab 3.12.75: alten Weg behalten, solange der neue nicht deutlich kürzer ist (N.KeepOld)
+      local remOld = p0[i] and Len(p0, i, qn, qw) or 0
+      if LP.Nav and LP.Nav.KeepOld and p0[i] and LP.Nav.KeepOld(remOld, rem1) then
+        p1 = { { pi, qn, qw, st.map } }
+        for j = i, #p0 do p1[#p1 + 1] = p0[j] end
+        rem1 = remOld
+        c.kept = c.kept + 1
+      end
       local k = 2
-      while p1[k + 1] and G:Dist(qn, qw, p1[k][2], p1[k][3]) < 10 do k = k + 1 end
+      -- wie das Navi (CurrentWaypoint): erreichte (< 10 yd) und überschrittene Wegpunkte (N.Passed, wenn vorhanden) überspringen
+      local passed = LP.Nav and LP.Nav.Passed
+      while p1[k + 1] and (G:Dist(qn, qw, p1[k][2], p1[k][3]) < 10 or (passed and passed(p1, k, qn, qw))) do k = k + 1 end
       local dn, dw = p1[k][2] - qn, p1[k][3] - qw
       local dl = math.sqrt(dn * dn + dw * dw)
       local back = dl > 1 and (dn / dl * hn + dw / dl * hw) < -0.5
-      if rem1 > rem0 - 30 + 20 or back then
+      -- Zuwachs gegenüber dem alten Weg (30 yd gelaufen): > 50 yd = Umschaltung, 5–50 yd = kleine Änderung (Zahl)
+      local grow = rem1 - (rem0 - 30)
+      if grow > 5 and grow <= 50 then c.r3small = c.r3small + 1 end
+      -- Pfeil zurück auf einen deutlich kürzeren Weg (mind. max(30 yd, 10 %) kürzer als der Rest des alten) ist berechtigt:
+      -- der alte Weg war schlecht. Gezählt wird er getrennt (r3better), nicht als Verstoss.
+      local better = back and grow <= 0 and remOld - rem1 >= math.max(30, remOld * 0.1)
+      if better then c.r3better = c.r3better + 1 back = false end
+      if grow > 50 or back then
         bad, why = true, ("Restweg %.0f -> %.0f yd nach 30 yd%s"):format(rem0, rem1, back and ", Pfeil zurück" or "")
+        if os.getenv("DBG3") then
+          local function P(p, n0, w0) local o = {} for ii = 1, math.min(#p, 8) do o[#o + 1] = ("%.0f/%.0f%s"):format(p[ii][2] - n0, p[ii][3] - w0, p[ii].via and ("(" .. tostring(p[ii].via) .. ")") or "") end return table.concat(o, " ") end
+          io.stderr:write(("DBG3 %s Spieler %.1f/%.1f Ziel %s %.1f/%.1f k=%d\n  alt: %s\n  neu: %s\n"):format(Name(st), qn, qw, tostring(st.map), st.n, st.w, k, P(p0, qn, qw), P(p1, qn, qw)))
+        end
+        if back then c.r3back = c.r3back + 1 end
         break
       end
       p0 = p1
@@ -188,8 +213,8 @@ local t0 = os.clock()
 LP.Virtual:RunAll("start", tonumber(os.getenv("MAXL") or "60"))
 local s = LP.Virtual.s
 local h = (s.clock or 0) / 3600     -- Uhr der Reise (mit Ruhezeiten); die Spielzeit steht im Reisebericht
-print(("%s %s: R1 %d · R2 %d (Ort mit Erkundungsstufe > Stufe+2: %d) · R3 %d (%.1f je h) · R3W %d von %d Wegen · R4 %d · Startgebiet verlassen auf Stufe %s (drinnen offen %s) · %d Schritte · %.0f h · Stufe %d")
-  :format(race, os.getenv("FLAVOR") == "era" and "Era" or "Forever", c.r1, c.r2, c.r2e, c.r3, h > 0 and c.r3 / h or 0, c.r3w, c.r3wn, c.r4,
+print(("%s %s: R1 %d · R2 %d (Ort mit Erkundungsstufe > Stufe+2: %d) · R3 %d (%.1f je h) · R3W %d von %d Wegen (davon Pfeil zurück %d; kleine Änderungen 5–50 yd: %d; alter Weg behalten: %d; Wechsel auf deutlich kürzeren Weg: %d) · R4 %d · Startgebiet verlassen auf Stufe %s (drinnen offen %s) · %d Schritte · %.0f h · Stufe %d")
+  :format(race, os.getenv("FLAVOR") == "era" and "Era" or "Forever", c.r1, c.r2, c.r2e, c.r3, h > 0 and c.r3 / h or 0, c.r3w, c.r3wn, c.r3back, c.r3small, c.kept, c.r3better, c.r4,
   tostring(leaveLevel), tostring(leaveOpen), c.steps, h, s.level))
 for _, k in ipairs({ "r1", "r2", "r3", "r3w", "r4" }) do for _, e in ipairs(ex[k]) do print("  " .. k:upper() .. " " .. e) end end
 os.exit(0)

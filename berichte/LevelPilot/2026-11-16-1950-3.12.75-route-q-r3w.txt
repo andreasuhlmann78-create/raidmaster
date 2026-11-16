@@ -1,0 +1,36 @@
+BERICHT LevelPilot 3.12.75 – ROUTE-Q R3 auf Weg-Ebene: Weg springt nicht mehr (R3W 0–1 je Reise)
+Projekt: LevelPilot · Datum: 16.11.2026 19:50 (aus date) · Version: 3.12.75 · umgesetzt, zur Prüfung
+
+Bezug: Bericht 3.12.74 (19:22), Punkt 2 "R3W nicht 0".
+
+1. MESSUNG WIE DAS NAVI (mess_route_q.lua)
+   Wegpunkte werden wie im Navi übersprungen (< 10 yd oder N.Passed). Verstoss: Restweg nach 30 yd um > 50 yd länger als der alte
+   Rest, oder der Pfeil zeigt zurück (Skalarprodukt < −0,5) – AUSSER der neue Weg ist deutlich kürzer (≥ max(30 yd, 10 %)): das ist
+   ein berechtigter Wechsel weg von einem schlechten Weg und wird getrennt gezählt. Kleine Änderungen 5–50 yd werden gezählt, nicht
+   als Verstoss. 3.12.74 mit dieser Messung (Forever/Era, 6 Völker): R3W 14–37 / 11–21 je Reise, kleine Änderungen 54–249.
+2. URSACHEN (belegt mit Wegpunkten, DBG3=1 im Werkzeug)
+   a) Anschluss an Knoten statt an die Strecke: Tal der Prüfungen -> Klingenhügel (Bericht an Orgnil, Stufe 6): Weg führte per
+      Luftlinie zu einem Startnetz-Knoten 33 yd neben dem Spieler und dann auf der Strasse zurück; nach 30 yd zeigte der Pfeil
+      zurück (Wegpunkte relativ: 0/3(v) -> 15/-19 -> 30/-33 …).
+   b) Gleich gute Varianten: nach 30 yd wählt die Suche einen anderen Knoten/Anschluss oder die Geländeanpassung fällt anders aus
+      (Zalazane: alt Luftlinie 974 yd, neu angepasst; Ishamuhale: anderer Startnetz-Knoten; Arachnophobie: Weg in die andere
+      Richtung) – der Weg springt, obwohl keiner deutlich besser ist.
+3. LÖSUNG
+   a) Graph.ShortcutStart (nach Refine, im Navi): der späteste Wegpunkt ≤ 60 yd Luftlinie vom Start, der den Weg um ≥ 15 yd kürzt,
+      wird direkt angesteuert; nur gleiche Welt und Zone, nicht durch Gebiete mit zu starken Mobs (Danger:Segment), nie auf ein Tor
+      selbst, höchstens 240 yd Weg weit (echte Schleifen um Hindernisse bleiben).
+   b) Navi-Hysterese (N.KeepOld): bei gleichem Ziel, Spieler auf dem Weg und ohne erzwungene Neuberechnung bleibt der alte Weg,
+      solange der neue nicht um mindestens max(30 yd, 10 %) kürzer ist. Abseits des Weges, bei Sackgasse (N.Blocked) oder
+      "Feststecken" wird immer neu genommen.
+4. ERGEBNIS (12 Reisen 1–60, R3W Verstösse / geprüfte Wege)
+   Forever 3.12.74 -> 3.12.75: Zwerg 14 -> 0 · Mensch 22 -> 0 · Ork 37 -> 1 · Nachtelf 21 -> 1 · Untoter 35 -> 1 · Tauren 35 -> 1
+   Era     3.12.74 -> 3.12.75: Zwerg 15 -> 0 · Mensch 21 -> 1 · Ork 17 -> 0 · Nachtelf 14 -> 0 · Untoter 11 -> 0 · Tauren 14 -> 0
+   Kleine Änderungen: 54–249 -> 0 (alter Weg behalten 1962–3709 Mal je Reise). Berechtigte Wechsel auf deutlich kürzeren Weg:
+   1–6 je Reise (unverändert). R1, R2, R4 = 0 in allen 12; Startgebiet unverändert.
+   Die übrigen 1er (5 Reisen): Haarnadel im Weg selbst (Weg geht 55 yd hin und zurück, nicht nach einer Neuberechnung), z. B.
+   Eierjagd (Brachland); Verdacht, zu messen: Umweg um eine Gefahren-Zelle (Abkürzung dort gesperrt). Untersuche ich weiter.
+   Zeit (virtuelle Reise 1–60): unverändert gegenüber 3.12.74 (Navi ändert die Route nicht), Summe 1072,8 h.
+5. TESTS: T337 (true ×6): Haarnadel abgekürzt · gerader Weg bleibt · lange Schleife bleibt · nie auf ein Tor · alter Weg bleibt bis
+   max(30 yd, 10 %) · Weglänge. GEGENPROBE (Abkürzung und Hysterese aus): 2 von 6 false (Haarnadel, alter Weg).
+6. PRÜFUNGEN: addon_check OK. Offline-Routine: 38 Läufe, 38 ohne FEHLER. Private Regression: 36 von 36 Läufen ALLE TESTS OK.
+7. NÄCHSTE SCHRITTE: R3W-Rest (Haarnadeln), R5 (Vergleich mit echten Wegdaten), dann ORT-1 O2/O5.
