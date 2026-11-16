@@ -533,3 +533,8 @@ Nutzer: "wie gesagt … Forever und Era unterscheiden sich nicht sehr stark … 
 -> FRAGE 2 (nicht beantwortet): Annahme des Supervisors: Anniversary/TBC (Scherbenwelt, 1–70) ist JETZT kein Ziel; nicht bauen.
    Der Anniversary-Client dient nur als Datenquelle für Era (Strassen). Bei Wunsch des Nutzers später eigenes Projekt.
 Reihenfolge: LW-5 E1–E4 vor NAV-1/NAV-2.
+
+==== HINWEIS Supervisor 16.11.2026 10:32 – Era-Client wird installiert ====
+Der Nutzer installiert gerade "WoW Classic Era" (1.15). Danach: (1) Supervisor liest die Era-Strassen direkt aus dem Era-Client
+(Produkt wow_classic_era) und gleicht sie mit daten/era/ (Anniversary) ab; ersetzt daten/era/ nur, wenn belegt besser. (2) E5 (im Spiel
+prüfen) wird damit möglich – E1 (.toc/Interface-Nummer) dann am echten Era-Client messen statt Verdacht. Bis dahin E2–E4 wie entschieden.
