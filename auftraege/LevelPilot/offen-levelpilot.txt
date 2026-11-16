@@ -620,3 +620,12 @@ NP-LP49-1 NIEDRIG – Laufweg.lua:219 "local yps, ysrc = P and P.GroundYps and P
   immer nil -> Zeile zeigt "(nil)". Lösung: if P and P.GroundYps then yps, ysrc = P.GroundYps() end; Test T310/T311 mit Quelle.
 NP-LP49-2 NIEDRIG – Laufweg.lua "%.1f" gibt Punkt ("11.2"), sonst überall Komma (F2) – einheitlich Komma.
 Reihenfolge: NP-LP54-2 vor der nächsten Navi-Erweiterung.
+
+==== PRÜFUNG Supervisor 16.11.2026 14:55 – LevelPilot 3.12.67 / 3.12.68 / 3.12.69 ====
+- 3.12.69 selbst: addon_check OK; Offline-Routine 38/38 ohne FEHLER.
+- NP-LP54-2: Fold() (Comfort.lua 352–366) selbst mit Lua 5.1 nachgeprüft: Ödland->ödland, ÖSTLICHE->östliche, Ёлка->ёлка,
+  Яблоко->яблоко, Пустоши->пустоши, ÀÞ×ß->àþ×ß (× und ß bleiben). Byte-Rechnung (C3 +0x20; D0 80–8F -> D1 90–9F; D0 90–9F +0x20;
+  D0 A0–AF -> D1 80–8F) stimmt. Norm nutzt Fold. ERLEDIGT.
+- NP-LP49-1: Laufweg.lua:223 "if P and P.GroundYps then yps, ysrc = P.GroundYps() end" – richtig. ERLEDIGT. NP-LP49-2 laut Bericht – OK.
+- 3.12.67 (Flugpreise) und 3.12.68 (LW-4 6 Zonen, LW-7 e) nach Bericht OK; Wirkung im Spiel offen.
+- Installiert in Forever und Classic Era (je 107 Dateien, byte-gleich).
