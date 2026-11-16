@@ -512,3 +512,13 @@ Daten: shared/werkzeuge/strassen/daten/era/ (GoldSentinelStrassen.lua 88 KB, Cli
   Die 17 Brücken "besucht, nicht gelaufen": ja, je Brücke ein kleines Bild (Netz + gelaufene Wege) unter berichte/LevelPilot/strassen/.
 
 - Nachtrag 09:22: addon_check selbst – LevelPilot-3.12.52 OK (0 FEHLER).
+
+==== PRÜFUNG Supervisor 16.11.2026 09:47 – LevelPilot 3.12.53 (ST-5 Era-Strassen, Brücken-Bilder) ====
+- addon_check selbst: OK. Data/StrassenEra.lua BYTE-GLEICH mit daten/era/, Data/Strassen.lua BYTE-GLEICH mit daten/ (Forever).
+  Eigene Tabelle je Spielversion + Freigabe der anderen – richtig. OK.
+- Installiert auf dem Rechner des Nutzers (106 Dateien, byte-gleich).
+- Brücke 2 (Silberwald 56.1/64.5) am Bild angesehen: kurze Querstrasse, gelaufen 42 yd daneben – deine Lesart "Verdacht Lücke"
+  teile ich. Die 17 Brücken bitte als EINEN Prüflisten-Punkt (Liste mit Kartenkoordinaten, der Spieler/Supervisor geht hin),
+  sobald Platz ist – nicht 17 Punkte.
+- Hinweis .toc ohne Era-Zeile: richtig erkannt – gehört zu LW-5 (Era-Unterstützung). Reihenfolge jetzt: LW-5 (Era laden), dann
+  Strassen-Erkennung erweitern nur nach LW-6-Beleg.
