@@ -1,0 +1,40 @@
+BERICHT LevelPilot 3.12.72 (Datenpaket 1.6.3) – ORT-1 O1: Orte aus den Spieldateien, Startgebiet über Gebiets-IDs
+Projekt: LevelPilot · Datum: 16.11.2026 18:01 (aus date) · Version: 3.12.72 · umgesetzt, zur Prüfung
+
+Bezug: ORT-1 (17:31), Plan 17:39 (berichte/LevelPilot/2026-11-16-1739-ort-1-plan.txt). Teil 1 von ORT-1; O2 (Route Ort für Ort) folgt.
+
+1. DATEN (Datenpaket 1.6.3, Data/Orte.lua, 602 KB)
+   Gebiets-ID je 1 % x 1 % jeder Zonenkarte (uiMap 1411–1458, 48 Zonen), für Forever und Era je im eigenen Kartenrahmen
+   (UiMapAssignment wowf / classic-era) aus shared/werkzeuge/strassen/daten/gebiete/. Era nur, wo anders als Forever (36 von 48
+   Zonen sind anders – nicht nur Mulgore & Co.: auch Elwynn hat 590 von 10000 Zellen mit anderer ID, die Kartendateien unterscheiden
+   sich). Dazu D.ORTA[id] = {Eltern, Erkundungsstufe, Name} für 858 Gebiete. Werkzeug: berichte/LevelPilot/orte/orte_bauen.py
+   (erzeugt die Datei byte-gleich nach). Das beantwortet meine Frage von 17:39 selbst: eine Karte im Datenpaket ist klein genug
+   (602 KB, Zeilen erst beim ersten Zugriff entpackt), "nächster Fundort" ist nicht nötig.
+   Hinweis zum Format der Supervisor-Daten: Kachel-Schlüssel "ty_tx" (Nordhain "48_32").
+2. ADDON: Orte.lua (LP.Orte.At(map, x, y), AtWorld, Info). Startgebiete je Volk als Gebiets-IDs (LP.Orte.START), abgeleitet aus
+   den Daten: Gebiet des Startplatzes + angrenzende Teilgebiete mit Erkundungsstufe 0:
+   Mensch 9 Nordhaintal + 34 Echokammmine + 59 Weinberge · Zwerg/Gnom 132 Coldridgetal · Nachtelf 188 Schattenhain + 256 Aldrassil
+   + 263 Die Kluft · Ork/Troll 363 Tal der Prüfungen + 638/639/640 (Verborgener Pfad, Geisterfels, Schrein) · Untoter 154 Todesend
+   + 155 Nachtwebergrund · Tauren 221 Camp Narache + 220 Rotwolkenplateau.
+   Begründete Ausnahme: 814 Südstrom (grenzt an das Tal, Stufe 0) NICHT – Fluss am Rand, kein Questgebiet. Nicht dabei (Stufe > 0):
+   Steinsteinsee 8, Jaspismine 8, Kristallsee 7 (Nordhain), Coldridgepass 4, Albtraumtal 5.
+   Planer: P:StartAreas nimmt mit Ortsdaten diese IDs (P.InStartArea = Gebiets-ID am Ort in der Liste); ohne Datenpaket wie 3.12.71.
+3. MESSUNG (mess_era1_start.lua, ORTE=1: Startgebiet in der Messung ebenfalls über Gebiets-IDs, unabhängig von der Addon-Version)
+   Forever und Era gleich; 3.12.70 -> 3.12.72, erster Schritt ausserhalb des Startgebiets / Rückkehr / Binden unter 6 / offen:
+     Mensch   Nr. 3 St. 1 (BIND)            / 22 / 1 -> Nr. 29 St. 5 (drinnen 0 Aufgaben) / 0 / 0 / offen 0
+     Zwerg    Nr. 8 St. 3 (BIND)            / 16–17 / 1 -> Nr. 26 St. 5 (drinnen 0) / 0 / 0 / 0
+     Nachtelf Nr. 1 St. 1 (FP Vesprystus)   / 23 / 1 -> bis Stufe 6 nie hinaus / 0 / 0 / 0
+     Ork      Nr. 19 St. 4 / 0–1 / 1 (Era: weitester Schritt 6261 yd, Mulgore) -> Nr. 24 St. 5 (drinnen 0) / 0 / 0 / 0
+     Untoter  Nr. 17 St. 4 / 6–7 / 1 -> bis Stufe 6 nie hinaus / 0 / 0 / 0
+     Tauren   Nr. 12 St. 3 / 7–10 / 1 -> Nr. 24 St. 5 (drinnen 0) / 0 / 0 / 0
+   Alle 12 Läufe: hinaus erst, wenn im Startgebiet nichts mehr offen ist, oder nie vor Stufe 6; keine Rückkehr, kein Binden/Flugpunkt
+   unter 6, kein Erledigen mit offenem Questgeber im Startgebiet.
+4. GESAMTZEIT (virtuelle Reise 1–60, 6 Völker, Forever) 3.12.71 -> 3.12.72: Ork 177:00 -> 176:46 · Tauren 178:33 -> 176:13 ·
+   Untoter 182:59 -> 183:15 · Nachtelf 154:18 -> 159:19 · Mensch 182:16 -> 182:16 · Zwerg 184:14 -> 186:38. Summe 1059,3 -> 1064,5 h
+   (+0,5 %; gegen 3.12.70 1056,1 h: +0,8 %). Die Änderung wirkt nur unter Stufe 6; was danach anders läuft, ist Folge einer anderen
+   Startreihenfolge (Verdacht, zu messen: Streuung). Wird mit ROUTE-Q (R1–R5 über 1–60) geprüft, nicht hier schöngerechnet.
+5. TESTS: T334 (true ×6): Nordhain 9, Goldhain 87, Tal/Narache/Todesend, Rand nil, Eltern/Stufe/Name, Startgebiet über IDs.
+   GEGENPROBE (At liefert immer 12 = Elwynn): 5 von 6 false. T332/T333 unverändert grün.
+6. PRÜFUNGEN: addon_check OK. Offline-Routine 38 Läufe, 38 ohne FEHLER. Private Regression 36 von 36 ALLE TESTS OK.
+7. NÄCHSTE SCHRITTE: ORT-1 O2 (Route Ort für Ort: Hubs je Gebiets-ID, Ort erst verlassen, wenn erledigt oder Rest > Stufe + 2,
+   Ortswechsel nach Stufenspanne), O5 (Wildnis-Questgeber mitnehmen), dann ROUTE-Q.

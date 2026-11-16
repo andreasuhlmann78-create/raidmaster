@@ -1,5 +1,5 @@
 -- ERA-1 3.12.71: virtuelle Reise bis Stufe 6 ab dem Startplatz; erster Schritt ausserhalb des Startgebiets, Rückkehr, Binden/Flugpunkt,
--- Erledigen mit offenen Questgebern. Aufruf: [ZONEN=1] FOREVER=1|FLAVOR=era LVL=1 MAP=1429 PX=48.2 PY=42.9 PACKDIR=<LevelPilot_Data> lua51 mess_era1_start.lua <LevelPilot> 0 Human WARRIOR Alliance
+-- Erledigen mit offenen Questgebern. Aufruf: [ORTE=1 Startgebiet als Gebiets-IDs] [ZONEN=1] FOREVER=1|FLAVOR=era LVL=1 MAP=1429 PX=48.2 PY=42.9 PACKDIR=<LevelPilot_Data> lua51 mess_era1_start.lua <LevelPilot> 0 Human WARRIOR Alliance
 -- ERA-1 Messung: erster Schritt ausserhalb des Startgebiets, Rückkehr danach, Binden/Flugpunkt vor Stufe 6
 -- echte Zonengrössen (HereBeDragons-Classic) für die 6 Startzonen, wenn ZONEN=1
 if os.getenv("ZONEN") then
@@ -23,8 +23,36 @@ for _, v in ipairs(LP.QuestDB:ServiceNPCs().inn) do
   local i, n, w = G:ToWorld(v.map, v.x, v.y)
   if i == si then local d = G:Dist(sn, sw, n, w) if not innD or d < innD then inn, innD, innName = { n, w }, d, v.name end end
 end
+-- 3.12.72: Startgebiet als Gebiets-IDs (Datenpaket 1.6.3, unabhängig von der Addon-Version), wenn ORTE=1
+local START_IDS = { Human = { 9, 34, 59 }, Dwarf = { 132 }, NightElf = { 188, 256, 263 }, Orc = { 363, 638, 639, 640 }, Scourge = { 154, 155 }, Tauren = { 220, 221 } }
+local function AreaAt(map, inst, n, w)
+  local d = LevelPilotData and LevelPilotData.ORTE
+  local x, y = G:ToMap(map, inst, n, w)
+  if not (d and x) or x < 0 or y < 0 or x >= 100 or y >= 100 then return nil end
+  local era = G.EraFrame and G.EraFrame()
+  local str = (era and d.era[map]) or d.forever[map]
+  if not str then return nil end
+  local j = 0
+  for row in (str .. ";"):gmatch("([^;]*);") do
+    if j == math.floor(y) then
+      local xx = 0
+      for part in row:gmatch("[^,]+") do
+        local id, c = part:match("^(%d+)%*(%d+)$")
+        id, c = tonumber(id or part), tonumber(c or 1)
+        if math.floor(x) < xx + c then return id end
+        xx = xx + c
+      end
+    end
+    j = j + 1
+  end
+end
 local function Inside(i, n, w)
   if i ~= si or not n then return false end
+  if os.getenv("ORTE") then
+    local id = AreaAt(st0[1], i, n, w)
+    for _, s in ipairs(START_IDS[race]) do if s == id then return true end end
+    return false
+  end
   local d = G:Dist(sn, sw, n, w)
   return d < innD and d < G:Dist(n, w, inn[1], inn[2])
 end
