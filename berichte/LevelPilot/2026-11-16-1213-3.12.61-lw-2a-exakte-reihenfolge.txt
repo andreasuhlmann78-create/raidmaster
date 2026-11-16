@@ -1,0 +1,38 @@
+BERICHT LevelPilot 3.12.61 – LW-2a exakte Reihenfolge der nächsten 8 Schritte
+Projekt: LevelPilot · Datum: 16.11.2026 12:13 (aus date) · Version: 3.12.61 · umgesetzt, zur Prüfung
+
+Bezug: offen-levelpilot.txt LAUFWEGE LW-2 und ÄHNLICHE ADDONS (3) "Exakte Reihenfolge bis 8 Ziele in LW-2"; Reihenfolge
+LW-1 -> NAV-1/NAV-2 -> LW-2. LW-2 teile ich: LW-2a (diese Version, exakte Reihenfolge) und LW-2b (Zeitmodell: travelF auch im
+Normalmodus mit Wegkosten, Zieldauer aus QuestSeconds/ObjectiveCost – nächste Version).
+
+1. UMSETZUNG (Planner.lua)
+   P:ExactOrder nach 2-opt/Or-opt in P:Order: Schritte 2..9 (bekannte Orte auf diesem Kontinent) exakt geordnet – kürzeste
+   Kette vom ersten Schritt bis zum Schritt danach (Held-Karp über Teilmengen, m <= 8). Regeln wie Valid: je Quest annehmen
+   vor erledigen vor abgeben (Vorgänger-Masken), Questlog läuft nie über (frei je Teilmenge). Zur Sicherheit danach Valid;
+   ungültig -> wie vorher. Übernommen nur, wenn > 10 Yards kürzer. Erster Schritt bleibt (Wert und Nähe). Schalter P.OPT.exact
+   (Testumgebung). Yield alle 32 Teilmengen.
+
+2. TEST T321 (true ×6, P.OPT.wayCost aus -> genaue Zahlen): Linie 950 -> 350 yd · annehmen vor abgeben · Questlog voll
+   (gültige Eingabe 750, frei wäre 350 ungültig, bestes gültiges 650) · schon optimal bleibt · < 4 Schritte nichts · Schritt
+   danach zählt mit. GEGENPROBE (Regeln aus der Suche entfernt): Questlog voll false (Sicherung Valid verwirft das Ergebnis).
+
+3. VORHER/NACHHER (Nachbau, Kette der ersten 10 Schritte in Wegkosten, Planung am Stück):
+   Durotar L6 Horde        2030 -> 2030 yd   (exakt nicht besser)
+   Brachland L12 Horde      167 ->  159 yd   (besser, 11 yd gespart)
+   Elwynn L10 Allianz      2088 -> 2088 yd
+   Westfall L22 Allianz    2801 -> 2801 yd   (nur 4 Schritte)
+   Brachland L20 Jäger      716 ->  716 yd
+   EHRLICHES ERGEBNIS: 2-opt/Or-opt liegt in diesen Fällen schon (fast) beim Optimum; der Gewinn ist klein (0–5 %).
+   Kosten: exakte Ordnung 1,69 ms je Aufruf (m = 8, 200 Zufallsfälle). T155 (Planung je Reiseschritt der virtuellen Reise,
+   Allianz) je 3 Läufe: ohne 6,26–6,80 ms, mit 8,76–9,16 ms (Ziel < 16 ms). Im Spiel in Portionen: längste 5,0 ms.
+   EIGENER BEFUND BEIM BAU: erste Fassung (Bits mit math.floor je Abfrage) -> T155 17,01 ms im Allianz-Lauf (FEHLER). Bits
+   je Teilmenge vorberechnet -> 1,69 ms je Aufruf, T155 grün.
+   FRAGE AN DEN SUPERVISOR: Bei so kleinem Gewinn – an lassen (garantiert kürzeste Kette der nächsten Schritte, +2,3 ms je
+   Planung) oder P.OPT.exact aus? Ich habe es an gelassen; ein Wort genügt.
+
+4. PRÜFUNGEN
+   addon_check: OK. Offline-Routine: 38 Läufe, 38 ohne FEHLER (Forever deDE Horde 276 OK, enUS 276, Allianz 274, Classic Era
+   275, TBC 275; je 0 FEHLER). Private Regression: 36 von 36 Läufen ALLE TESTS OK.
+
+5. NÄCHSTE SCHRITTE: LW-2b Zeitmodell (P:Efficiency/QuestSeconds, travelF im Normalmodus mit Wegkosten, Zieldauer), mit
+   Vorher/Nachher aus LW-6. E1 (.toc) wartet auf die Messung (toc-test).
