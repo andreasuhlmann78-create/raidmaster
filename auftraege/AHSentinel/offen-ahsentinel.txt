@@ -4075,3 +4075,13 @@ Reihenfolge: nach VS-121, vor SANDBOX-1.
   kalte Ziele (Ruhemodus): eigene Grenze 30 s + Suchdauer. Die Abnahme schaltet den Ruhemodus NICHT aus. Im Testbericht beide Zahlen
   getrennt ausweisen ("warm Ø … s, kalt Ø … s").
 - Testbericht-Text T617/T618/T729/T734: kommt mit dem nächsten Upload des Nutzers (morgen); bis dahin S5/S13 aus dem Nachbau.
+
+==== PRÜFUNG Supervisor 16.11.2026 21:40 – 0.65.287 (WACH-2), 0.65.288 (HILFE-GRP-1), 0.65.289 (UI-CLEAN1-B Teil 1) + ANTWORTEN ====
+- addon_check 0.65.289 OK; Berichte gelesen. WACH-2: Hürden einzeln gezählt, Nachbau mit Horde-Tagesdaten 14.11.: keine Hürde sperrt
+  zu Unrecht (Budget "e" widerlegt), 30 % ist schlicht selten – nach Bericht OK, im Spiel WAECHTER-FUND.
+- FRAGE WACH-2 (Hinweis "x Schnäppchen gefunden, aber noch nicht gesichert"): JA, im Wächter-Fenster, ohne Ton, ohne Druck
+  (psychologie.md: helfen, nie drängen). Text kurz, mit Grund ("Weiterverkauf lernt noch, n von 20 Fällen").
+- FRAGE UI-CLEAN1-B ("lernt noch (n von 20)" nicht als veraltet zählen): JA – entspricht dem Entscheid des Nutzers (grau "lernt noch"
+  ist gewollt). Nur nackte Reste ohne Zahl sind veraltet.
+- Testbericht-Texte aus dem Spiel (UI-BEFUNDE, T617/T618/T729/T734): holt der Supervisor morgen mit dem Nutzer (Upload). Bis dahin
+  Teil 2 von UI-CLEAN1-B ruhen lassen; weiter mit dem Rest der Reihenfolge (E/F/G/TU).
