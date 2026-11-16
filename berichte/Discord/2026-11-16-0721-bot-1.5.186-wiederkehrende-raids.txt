@@ -1,0 +1,55 @@
+BERICHT DISCORD – Bot 1.5.186: D-N1-W3 wiederkehrende Raids – umgesetzt, zur Prüfung
+Zeit: 16.11.2026 07:21 (aus date)
+Commit: dfc736dd auf origin/main, CI Bot-Tests: success
+Auftrag: Entscheid des Nutzers 16.11. 07:10 (Supervisor 07:12)
+
+WAS
+- /raid wiederkehrend anlegen raid:<aus forever_raids.json/bekannte Raids> wochentag:<Mo–So> uhrzeit:<HH:MM, Zeit
+  Europe/Zurich> wochen_voraus:<1–4, Standard 2> titel/beschreibung/max_spieler (optional) tanks/heiler/nahkampf/
+  fernkampf (Plätze je Rolle wie /raid grenzen, optional).
+  /raid wiederkehrend liste | pausieren nummer | loeschen nummer. ALLE vier nur Gildenleitung (is_creator).
+- Der Bot legt die Termine selbst an: Schleife recurring_loop alle 30 Minuten (startet in setup_hook, wartet auf die
+  Anmeldung) und sofort nach anlegen bzw. wieder starten. Gepostet wie /raid erstellen: Anmelde-Kanal der
+  Raid-Kategorie, Karte mit Knöpfen, Discord-Ereignis; Raid bekommt pool, pool_name, limits, "recurring" (Nummer).
+  Nur DKP-Raids.
+- Nie doppelt: (1) die Vorlage merkt angelegte Tage in state.json ("done", 14 Tage nach dem Termin aufgeräumt) –
+  auch ein abgesagter oder gelöschter Termin kommt nicht wieder; (2) gleicher Raid + gleicher Schweizer Kalendertag
+  schon im Buch (auch abgesagt oder von Hand mit /raid erstellen) -> nicht anlegen. Beides überlebt einen Neustart.
+- Öffnungsdatum: "opens" aus forever_raids.json (Onyxia, Barrow Deeps: 2026-12-09) -> keine Termine davor;
+  server_setup lädt "opens" jetzt mit (raid_opens). Nicht angekündigte Raids (raid_released) -> keine Termine.
+- Zeit: datetime.now(ZoneInfo("Europe/Zurich")); Termin = Kalendertag + Uhrzeit in derselben Zone -> Sommer-/
+  Winterzeit von ZoneInfo.
+- Fehler: kein Anmelde-Kanal oder Discord verweigert das Posten -> kein Raid ohne Nachricht im Buch, Tag NICHT
+  gemerkt (nächster Lauf versucht es wieder), Meldung in #bot-log.
+- Pausieren: keine neuen Termine, angelegte bleiben; wieder starten legt fällige sofort an. Löschen: Vorlage weg,
+  angelegte Raids bleiben (Hinweis auf /raid absagen).
+- #befehlsliste: _command_entries geht jetzt auch in Untergruppen (vorher nur eine Ebene – eine Untergruppe hätte die
+  Liste mit AttributeError abgebrochen). test_befehle liest Untergruppen (parent=…) mit.
+- Befehle 55 -> 59 (+4 /raid wiederkehrend …), sonst gleich (Liste mit Parametern und Beschreibungen verglichen);
+  Ereignis-Methoden gleich. Keine neuen Rechte für den Bot.
+
+TESTS (Auftrag: Anlegen, kein Doppel nach Neustart, Pausieren, Löschen, Zeitumstellung, Rechte)
+- NEU test_wiederkehrend.py (11 Tests, REGRESSIONEN T-D-N1-W3), mit echtem RaidBook des Test-Bots:
+  Anlegen -> 2 Raids 18.11./25.11. 20:00, gepostet, mit Grenzen und Höchstzahl; kein Doppel beim zweiten Lauf, bei
+  verlorenem "done" (Buch), bei gelöschten Raids (done), eine Woche später genau 1 neuer (02.12.); Pausieren/wieder
+  starten/Löschen (Raids bleiben); Öffnungsdatum (nur 09.12.); ohne Kanal / Discord-Fehler; Rechte aller vier
+  Befehle, unbekannter Raid, falsche Uhrzeit, doppelte Vorlage.
+  Zeitumstellung: 20:00 Schweizer Zeit = 19:00 UTC am 24.03.2027, 18:00 UTC am 31.03.2027 (Umstellung 28.03.);
+  18:00 UTC am 21.10.2026, 19:00 UTC am 28.10.2026 (Umstellung 25.10.); 02:30 am Umstellungssonntag 25.10. bleibt
+  am 25.10.; Tag eines Raids um 00:30 Schweizer Zeit zählt zum Schweizer Tag (nicht UTC).
+- Gegenproben 15: 14 aufgefallen (Zeitzone weg, Vergangenheit erlaubt, Öffnung ignoriert, done ignoriert, Buch
+  ignoriert, anderer Raid zählt, UTC-Tag im Buch, kein Aufräumen, pausiert ignoriert, immer gemerkt, Grenzen nicht
+  übernommen, Rechte anlegen weg, Doppel-Vorlage erlaubt, Löschen löscht Raids). 1 NICHT aufgefallen, gleichwertig:
+  "höchstens 4 Wochen" im Horizont entfernt – die Tages-Schleife geht ohnehin nur 28 Tage weit.
+- 453 Tests OK; jede der 60 Testdateien einzeln mit -I OK; REGRESSIONEN 78 von 78.
+
+BETRIEB NACHGESTELLT (Kopie)
+- Update vom Stand 1.5.185 kopiert ANLEITUNG.md, VERSION, befehlsliste_bot.py, bot.py, server_setup.py, tests,
+  wiederkehrend.py, wiederkehrend_bot.py; config.json und state unverändert (md5); danach gleich der Quelle.
+- Start wie launcher: Abbruch erst bei der Anmeldung (LoginFailure). Ohne config.json Exit 3. Neustart-Code 42.
+
+FÜR DEN NUTZER NACH /update
+1. /raid wiederkehrend anlegen raid:Molten Core wochentag:Mittwoch uhrzeit:20:00 -> Antwort "Jetzt angelegt: 2 Raids",
+   in #mc-anmeldung stehen die nächsten zwei Mittwoche.
+2. /raid wiederkehrend liste zeigt den Termin; pausieren/loeschen mit der Nummer daraus.
+3. Ein Onyxia-/Barrow-Termin legt erst Raids ab dem 09.12. an.
