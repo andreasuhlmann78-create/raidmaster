@@ -1,0 +1,35 @@
+AHSentinel 0.65.259 – PRÜFLISTE IM SPIEL (Entscheid 06:47, Hinweis 06:49) für die Sniper-Abnahme – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.259 und sofort im Discord.
+1. shared/GoldSentinelPruefliste.lua byte-gleich kopiert (cmp), .toc nach GoldSentinelCmdHint.lua (also nach GoldSentinelDev.lua,
+   vor den eigenen Dateien).
+2. Pruefliste.lua: A.Pruefliste, 8 Punkte in Spiel-Reihenfolge (SN-TR, SN-BTN1, SN-RAD, SN-GRENZE, MU1-3, POST-WS, POST-FIX, ESL1),
+   je todo/expect mit Knopf-Namen und Befehlen wie im Spiel. Liste nur, wenn /ahs entwickler an UND GoldSentinelDev den Nutzer
+   erkennt; Register erst beim ersten Gebrauch (keine Kosten ohne Entwicklermodus: P:On() sofort false). Zustand in AHSentinelDB
+   (Feld pruefliste, vom Baustein angelegt). Die Testroutine löst keine Punkte aus (ausser ihrem eigenen Ende, SN-TR).
+3. "Merkt selbst" – Hit/Fail-Stellen:
+   SN-TR      TestRoutine TR:PLSniperDone aus TR:Finish: Teil "sniper", nicht abgebrochen: 0 FEHLER -> erledigt, sonst Fehler mit Zahlen.
+   SN-BTN1    Sn:PLBuy aus CountItemBuy (Einzelkauf, Server-Bestätigung) und PurchaseSucceeded (Ware): Auslöser Knopf ≤ 30 s vorher.
+   SN-RAD     Sn:PLBuy: Auslöser Mausrad/Taste (Sn.wheelCall um OnTrigger der Bindungen) nach gewähltem "nur Knopf" -> erledigt;
+              Kauf mit Mausrad bei "nur Knopf" -> Fehler.
+   SN-GRENZE  Sn:PLBuy: Sn:PriceOK (Ø je Stück > Max -> Fehler), Budget überschritten -> Fehler, Budget aufgebraucht -> erledigt.
+   MU1-3      UI_Sniper Knopf "Max folgt Lohnt bis" mit Erfolg (nicht in Sn:FollowLimit, damit T833 nichts auslöst).
+   POST-WS    Seller AUCTION_HOUSE_AUCTION_CREATED (altes AH: ERR_AUCTION_STARTED) für pendingPost.way = "Warnschutz".
+   POST-FIX   dasselbe für way = "Angepasst" (Einstellen ≤ 120 s nach "Preis anpassen" für dasselbe Item); erneuter Warnschutz für
+              dasselbe Item ≤ 120 s nach "Preis anpassen" -> Fehler (WS-LOOP1).
+   ESL1       Crafting Knöpfe "Materialien als Einkaufsliste"/"Nur was mir fehlt": Liste mit ≥ 1 Zeile -> erledigt, leer -> Fehler.
+4. /ahs prüfliste, /ahs pruefliste, /ahs checklist – nur im Entwicklermodus (dev = true, sonst die übliche Meldung).
+5. Testbericht: PL:ReportLines() am Ende jedes Testberichts (nur im Entwicklermodus).
+6. Test T836 (s42): ohne Entwicklermodus Liste nil, Hit false, 0 Bericht-Zeilen; AHS an, GoldSentinelDev aus -> nil; an: 8 Punkte;
+   jeder Hit-Ort löst aus (Kauf-Knopf, Mausrad, Kauf über Max = Fehler und danach Budget = erledigt, der echte Knopf im
+   Sniper-Reiter, Server-Ereignis Einstellen auf beiden Wegen, Einkaufsliste, Testroutine-Ende); Bericht "8 von 8 erledigt";
+   Fenster öffnet ("Prüfliste AHSentinel 0.65.259 – 8 von 8 erledigt", Hinweis /reload); leere Liste und Testroutine mit
+   FEHLER -> "fehler"; abgebrochen -> nichts. Mit 0.65.258 rot (Prüfliste fehlt), mit 0.65.259 grün.
+Nachbildung (Repo AHAnalyzerPro, tests/wowsim/wowsim.lua): Blizzard-Vorlagen UIPanelButtonTemplate und UIPanelCloseButton
+  zugelassen (gibt es in jeder Spielversion; der Baustein nutzt sie); Schliessen-Knopf blendet das Elternfenster aus wie im Spiel.
+Sniper.lua: der Mausrad-/Tasten-Weg ruft OnTrigger jetzt in pcall (um Sn.wheelCall sicher zurückzusetzen) und wirft einen Fehler
+  danach unverändert weiter – Verhalten gleich.
+Abnahme-Liste (gleicher Inhalt) liegt in berichte/AHSentinel/2026-11-16-0706-sniper-abnahme-liste.txt.
+"Ware zwei Schritte" ist nicht in der Liste: gibt es nur im modernen AH, in WoW Forever nicht prüfbar (Begründung in der Liste).
+Locales: 1 neuer Text (Befehlsbeschreibung) in allen 10 Sprachen. CHANGELOG EN/DE (für Spieler keine Änderung).
+Gesamtlauf aus frischer Kopie (Lua 5.1, 0.65.259-Schnappschuss, Nachbildung mit den zwei Vorlagen): BESTANDEN 316, FEHLGESCHLAGEN 0.
+  s92 grün. s42 Testroutine grün (T836).
