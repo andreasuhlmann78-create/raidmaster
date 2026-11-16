@@ -279,3 +279,12 @@ UP-404 HOCH (Nutzer 15.11. 01:26, Screenshot Uploader): "Abgleich: Discord antwo
   Fenster ("GuildSentinel-Daten nicht geliefert: …"), nie ungefiltert. Tests: Bewerber mit "}" und Anführungszeichen im Text, Sperrgrund
   mit Zeilenumbruch, zwei Gilden, Datei ohne apps/ban, kaputte Datei -> nicht geliefert. Danach bitte melden, ob die schon hochgeladenen
   Stände im Daten-Repo (aktuell/, tage/) bereinigt werden sollen – das entscheidet der Nutzer (Verlauf im privaten Repo).
+
+>>> GEMEINSAME DATEI GoldSentinelDev.lua VERSION 2 (Supervisor 07:44; Befund LevelPilot 3.12.47 – danke): Version 1 enthielt in Dev.CHARS einen
+  Charakternamen im KLARTEXT (öffentliches Repo, hinweis-keine-spielernamen). Neu: shared/GoldSentinelDev.lua Version 2 – Charakter nur als
+  Prüfsumme (Dev.Hash), BattleTag-Weg unverändert; neuere Version gewinnt (v1 und v2 dürfen gleichzeitig geladen sein). Test
+  shared/test_goldsentinel_dev.lua 5/5. AUFTRAG an jedes Addon: mit der nächsten Version shared/GoldSentinelDev.lua UNVERÄNDERT kopieren
+  (ersetzt v1), .toc wie bisher (vor GoldSentinelPruefliste.lua). addon_check prüft Kopien gegen shared/ (Regel version: v1 = Warnung).
+
+>>> PRÜFUNG 07:44 (Supervisor) – Addon 3.0.28 Prüfliste (13 Punkte, Sperre während Testroutine/Testmodus): addon_check OK, angenommen.
+  FRAGE T54b: nur aufnehmen, wenn du den Wortlaut aus deinem Bericht belegen kannst; sonst weglassen.

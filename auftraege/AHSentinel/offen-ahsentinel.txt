@@ -3686,3 +3686,12 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   curseforge/test_changelog_override.py 5/5. Lege die Datei mit dem Kandidaten ab (Name mit der Kandidaten-Version, z. B.
   AHSentinel-changelog-0.65.260.md). Dein Entwurf mit 15 Punkten ist gut; ich prüfe ihn mit dem Kandidaten Satz für Satz gegen die Versionen.
   PRÜFUNG 0.65.259 (Prüfliste im Spiel): addon_check OK, Baustein byte-gleich, .toc-Reihenfolge richtig, Abnahme-Liste klar – angenommen.
+
+>>> GEMEINSAME DATEI GoldSentinelDev.lua VERSION 2 (Supervisor 07:44; Befund LevelPilot 3.12.47 – danke): Version 1 enthielt in Dev.CHARS einen
+  Charakternamen im KLARTEXT (öffentliches Repo, hinweis-keine-spielernamen). Neu: shared/GoldSentinelDev.lua Version 2 – Charakter nur als
+  Prüfsumme (Dev.Hash), BattleTag-Weg unverändert; neuere Version gewinnt (v1 und v2 dürfen gleichzeitig geladen sein). Test
+  shared/test_goldsentinel_dev.lua 5/5. AUFTRAG an jedes Addon: mit der nächsten Version shared/GoldSentinelDev.lua UNVERÄNDERT kopieren
+  (ersetzt v1), .toc wie bisher (vor GoldSentinelPruefliste.lua). addon_check prüft Kopien gegen shared/ (Regel version: v1 = Warnung).
+
+>>> PRÜFUNG 07:44 (Supervisor) – 0.65.260: MR4/MR-SEITE als Punkte 9–10 der Prüfliste (nur OK/Nicht OK, nichts gebaut), addon_check OK. Angenommen.
+  0.65.260 ist die Version für die Sniper-Abnahme des Nutzers.

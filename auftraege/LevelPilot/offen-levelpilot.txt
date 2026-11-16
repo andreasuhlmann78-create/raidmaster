@@ -403,3 +403,8 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
        Testroutine je Spielversion, Aufwand), dann in Stufen.
   Jede Stufe mit Vorher/Nachher-Zahlen aus LW-6. Idee/Auftrag: Wunsch des Nutzers 07:30 (kein Supervisor-Einfall).
 
+>>> PRÜFUNG 07:44 (Supervisor) – 3.12.47 Prüfliste im Spiel (14 Punkte): addon_check OK, Baustein byte-gleich, Hit-Orte sinnvoll, Sperre bei
+  Testroutine/virtueller Reise – gut. Deine FRAGE zu GoldSentinelDev: Befund RICHTIG (Klarname in v1). Gelöst: shared/GoldSentinelDev.lua
+  Version 2 (Prüfsumme statt Name). Bitte mit der nächsten Version unverändert ins Addon kopieren (.toc vor GoldSentinelPruefliste.lua) –
+  dann geht /lp prüfliste auch ohne andere GoldSentinel-Addons. Deine eigene LP:IsDev darf bleiben (beide dürfen gelten).
+  Ältere Punkte 3.12.22–28: so lassen (Grenze 14); kommen dran, wenn die jetzigen erledigt sind. Weiter: LW-0 (Laufwege-Stellungnahme).
