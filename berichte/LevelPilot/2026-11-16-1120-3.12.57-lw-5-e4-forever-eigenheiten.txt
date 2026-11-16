@@ -1,0 +1,39 @@
+BERICHT LevelPilot 3.12.57 – LW-5 E4 Forever-Eigenheiten je Spielversion
+Projekt: LevelPilot · Datum: 16.11.2026 11:20 (aus date) · Version: 3.12.57 · umgesetzt, zur Prüfung
+Classic Era: vorbereitet, im Era-Client noch NICHT im Spiel geprüft (Verdacht, zu messen).
+
+Bezug: ENTSCHEID LW-5 (Nutzer 10:08: E1–E4 bauen), Plan E4 (Bericht 09:53): Seed, Gateways, Prüfliste, Wegmessung, Texte.
+
+1. DURCHSICHT (alle Stellen mit Forever-Bezug: grep "Forever|API.Forever|forever" über alle Dateien, Data/, Locale)
+   Ohne Änderung, schon je Spielversion bzw. nicht Forever-eigen:
+   - Data/Seed.lua: leer (version "leer").
+   - Datenpaket: Questie-Classic + Forever-Rahmen (gen_pack.lua); seit 3.12.55 (E2) in Era zurückgerechnet, auch 2 NPC-Orte.
+   - Gateways: seit E2 mit Geo:FromData. Startwegnetz (Data/Wege.lua) und Forever-Strassen nur im Forever-Client
+     (Graph.SeedWegeAktiv); Era-Strassen eigene Datei (ST-5).
+   - Regeln: Questlog 40 (API.MaxQuests), Dungeon-EP und grüne Quests (Planner), Gruppen-Hinweis (Social), Höhlen-Rahmen
+     (Caves) – alle über API.Forever() = GoldSentinelGame.IsForever bei bekannter Spielversion.
+   - Prüfliste (Pruefliste.lua): kein Forever-Bezug. Wegmessung (GSWegMess, Unterstadt/Donnerfels/Höhle): gibt es in Era
+     ebenso, Hinweise passen.
+   - Neue Forever-Quests: nur aus selbst aufgezeichneten Daten – seit E3 je Spielversion getrennt.
+   Geändert:
+   a) Einstellungen "Server WoW Forever (Questlog 40, Dungeon-EP angepasst)": wirkte in einem erkannten anderen Client nie
+      (API.Forever folgt dort der Spielversion), zeigte aber einen Haken. Jetzt dort ausgeblendet (Ce.ForeverSwitchUseful);
+      Forever und unbekannte Version: wie bisher.
+   b) Daten-Seite "So entsteht die Datenbank": in Era zwei Zeilen ohne "… neuen WoW-Forever-Quests" (Ce.DataHelp; 2 neue
+      Texte in allen 10 Sprachen, aus den bestehenden Übersetzungen ohne den Forever-Teilsatz; esMX fällt wie bisher auf esES).
+   c) NEU-Kennzeichen (q.isNew, "neu auf WoW Forever"): nur noch im Forever-Client (QDB.IsNewQuest). In Era hätte jede
+      selbst aufgezeichnete Quest ohne Paketeintrag NEU bekommen.
+   d) Selbsttest "Spielversion": Classic Era jetzt OK statt Warnung "LevelPilot ist für WoW Forever gebaut" (TBC warnt
+      weiter – kein Ziel, Entscheid des Nutzers).
+
+2. TEST T317 (true ×7): Schalter Forever an / Era aus / TBC aus · Hilfe Forever mit, Era ohne "Forever" · NEU Forever
+   (= Paket verbunden), Era nie. GEGENPROBE (alter Code: Schalter immer, Hilfe immer Forever, NEU ohne Spielversion): rot
+   (Era aus false, TBC aus false, Era ohne Forever false, Era nie false).
+
+3. PRÜFUNGEN
+   addon_check: OK. Offline-Routine: 38 Läufe, 38 ohne FEHLER (Testroutine Forever deDE Horde 275 OK, enUS 275, Allianz 273,
+   Classic Era 274, TBC 274; je 0 FEHLER; T317 automatischer Teil OK, Rest "im Client prüfen" 24 -> 25).
+   Private Regression: 36 von 36 Läufen ALLE TESTS OK.
+
+4. OFFEN: E1 (.toc) wartet auf die Messung mit dem Mess-Set berichte/LevelPilot/toc-test/ (Bericht 11:02, ANLEITUNG.txt).
+   Bis dahin nächster Punkt: NAV-2 (Reihenfolge: LW-5 E1–E4 vor NAV; E2–E4 sind gebaut).
