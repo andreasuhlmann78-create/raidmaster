@@ -1,0 +1,73 @@
+BERICHT LevelPilot 3.12.47 – Prüfliste im Spiel (umgesetzt, zur Prüfung)
+Projekt: LevelPilot · Datum: 16.11.2026 07:25 (aus date) · Version: 3.12.47
+
+Bezug: offen-levelpilot.txt ">>> PRÜFLISTE IM SPIEL (Entscheid des Nutzers 16.11. 06:47; Supervisor 06:49)" und
+auftraege/hinweis-pruefliste-im-spiel-2026-11-16.txt. Entscheid 07:10 (Upgrade-Finder Schritt 2 später) gelesen: nichts gebaut.
+
+UMGESETZT (Punkte des Auftrags)
+1. shared/GoldSentinelPruefliste.lua unverändert kopiert (Version 1, Byte-gleich). .toc: direkt nach GoldSentinelTest.lua, vor
+   Core.lua (LevelPilot hat KEIN GoldSentinelDev.lua – siehe FRAGE unten). addon_check: OK.
+2. Eigene Datei Pruefliste.lua mit 14 Punkten (Reihenfolge = wie man sie im Spiel nacheinander macht):
+   CT-1 /lp clienttest ganz durchlaufen (3.12.45) · T300 Erholt-Hinweis (3.12.39) · T304 Plus beim Händler (3.12.42) ·
+   T305 Talent-Vorschlag (3.12.43) · T302 Waffenmeister (3.12.40) · T301 Waffenfertigkeit (3.12.39) · T303 abgegraste Stelle
+   (3.12.41) · GR1-K „+1 später abgeben“ kompakt (3.12.33) · UC-W1 Weg in Unterstadt (3.12.35) · WM /lp wegmessung vollständig
+   (3.12.46) · L-1 Speicher-Messung beim Protokoll (3.12.34) · LAG1 Krieger erste 60 s < 1000 ms (3.12.24) · PF-A Allianz
+   Planung <= 16 ms (3.12.32) · SP1-M Speicher nach >= 2 Std. (3.12.30).
+   Je Punkt todo/expect mit Befehlen wörtlich, Knopfnamen wie im Spiel und Zahlen.
+   Nicht aufgenommen (Grenze 14): ältere Punkte 3.12.22–3.12.28 aus "IM CLIENT PRÜFEN" (Sync zwischen zwei Spielern,
+   Marktdaten-Scan, Zentrale-Layout, Befehlsliste, Wegaufzeichnung Orgrimmar, ML1-Stunde). Wenn du andere willst: sag welche.
+3. "Merkt selbst" – Hit()-Stellen (wo die Funktion wirklich benutzt wurde):
+   Advisor.lua CheckRested/CheckWeaponSkill/CheckWeaponMaster/CheckTalents direkt nach dem add() des Hinweises; MarkMerchant
+   bei n > 0 Plus; Planner.lua CheckStuck nach dem Hinweis "abgegrast"; UI.lua beim Anhängen von "+n später abgeben";
+   Navigation.lua N.PLWeg (Karte 1458, Weg über das Wegnetz, nicht "Weg unbekannt"/Luftlinie, > 30 Yards); WegMessung.lua
+   Finish nur bei vollständigem Durchlauf (12 Markierungen, kein Lauf übersprungen – übersprungen bleibt offen, kein Fehler);
+   ClientTest.lua am Ende: FEHLER 0 -> erledigt, sonst "Fehler (erkannt)"; zusätzlich auto() liest LevelPilotDB.clientTest
+   (gleiche Version); Protocol.lua Pr:Show (/lp protokoll) -> L-1 (Messzeit), LAG1 (nur Krieger), PF-A (nur Allianz, Fehler
+   wenn max > 16 ms), SP1-M (ab 7200 s seit dem Einloggen, Fehler wenn Wegpunkte >= 50 000).
+   Sperre: Testroutine (LP.Act.dry) und virtuelle Reise (LP.Virtual.active) melden NIE etwas (sonst würde /lp testroutine die
+   echten Punkte abhaken).
+4. Slash: /lp prüfliste, /lp pruefliste, /lp checklist – Feld dev = true (Befehlsliste nur im Testmodus), sonst LP:DevOnly()
+   mit der üblichen Testmodus-Meldung.
+5. Testbericht: PL:ReportLines() steht im Diagnose-Protokoll (/lp protokoll und GSDIAG1-Export) nach den CLIENTTEST-Zeilen.
+   Ohne Testmodus: keine Zeilen.
+6. Test T309 (Regression "Prüfliste im Spiel"): (a) ohne Testmodus: keine Liste, Hit/Fail wirkungslos, Bericht leer, nichts
+   gespeichert; (b) mit Testmodus: angemeldet, 14 Punkte vollständig, Fehler-Meldung einmalig, Kopf "0 von 14", 15 Zeilen,
+   Zustand in einer Testtabelle (nie LevelPilotDB); (c) jede der 14 Erkennungsstellen löst ihren Punkt aus (über T293,
+   T300–T304, T307 und eigene kleine Aufrufe), Gegenprobe Unterstadt (Weg unbekannt / Luftlinie / andere Karte = nichts),
+   PF-A 20 ms -> Fehler; Trocken-Sperre mit LP.Act.dry = true -> nichts gemeldet.
+   Testmodus im Test: eigene Umgebung (setfenv) nur für IsDev des Bausteins mit einer eigenen Sicht auf _G – _G wird nicht
+   beschrieben (Schreibversuch würde den Test abbrechen).
+   GEGENPROBE: Hit-Stellen T300, T304, WM umbenannt -> T309 rot, "nicht ausgelöst: T300,T304,WM".
+
+BELEGE (eigene Tests, keine Freigabe)
+- T309: true (alle Teile wie erwartet). T293, T300, T304, T307, T308 weiter true.
+- Repo-Offline-Routine (run_offline.py, 3.12.47-Zip): 37 Läufe, 37 ohne FEHLER. test2: Modulzahl +1 (Pruefliste).
+- addon_check: "LevelPilot-3.12.47.zip: OK".
+- Private Gesamt-Regression (36 Läufe, A/P-Umgebung): alle ohne FEHLER. Erster Lauf test2 "33 Module geladen (34)" = nur der
+  Modulzähler der privaten Kopie (Repo-Fassung test2.lua war schon angepasst); angepasst -> ALLE TESTS OK.
+
+KOSTEN OHNE TESTMODUS (Spieler)
+- Jede Hit-Stelle ruft M:List(): ohne Liste nur ein Zeitvergleich; höchstens alle 30 s einmal GoldSentinelDev:IsDev().
+  Navigation: die Bedingung prüft zuerst note/kind/Entfernung, dann M:List(), erst danach Geo:Player – ohne Testmodus also
+  kein zusätzlicher Geo-Aufruf. Kein Fenster, keine Tabelle in LevelPilotDB.
+
+FRAGE AN DIE PRÜF-SITZUNG (Befund an der gemeinsamen Datei, nicht von mir geändert)
+- Der Baustein erkennt den Testmodus nur über _G.GoldSentinelDev. LevelPilot hat GoldSentinelDev.lua nie mitgebracht (eigene
+  Erkennung LP:IsDev mit Prüfsummen). Die einzige Kopie im Repo (RaidMaster/GoldSentinelDev.lua, Version 1) enthält in
+  Dev.CHARS einen Charakternamen im KLARTEXT – das widerspricht hinweis-keine-spielernamen.txt; LevelPilot hat seinen
+  eigenen Charakter in 3.12.20 genau deshalb auf eine Prüfsumme umgestellt. Darum habe ich die Datei NICHT kopiert.
+  Folge: /lp prüfliste geht, sobald ein anderes GoldSentinel-Addon mit GoldSentinelDev geladen ist (RaidMaster, AHSentinel
+  …) – LevelPilot meldet sich deshalb erst beim ersten Gebrauch beim Baustein an (dann sind alle Addons geladen). Ohne ein
+  solches Addon sagt /lp prüfliste das im Chat (Hinweis auf /gsdev).
+  Vorschlag: GoldSentinelDev Version 2 in shared/ mit Charakter-Prüfsummen statt Namen; dann kopiere ich sie unverändert
+  und trage sie vor GoldSentinelPruefliste.lua ein. Bitte entscheiden.
+- Hinweis zum Baustein (nur zur Kenntnis): List:Hit schreibt eine Chatzeile; in T309 rufe ich darum den echten Hit nur über
+  die Ersatzliste auf, damit /lp testroutine keine "erledigt"-Zeilen in den Chat schreibt.
+
+DATEIEN
+LevelPilot: Pruefliste.lua (neu), GoldSentinelPruefliste.lua (Kopie), LevelPilot.toc, Core.lua (Version, Befehl),
+Advisor.lua, Planner.lua, UI.lua, Navigation.lua, WegMessung.lua, ClientTest.lua, Protocol.lua, TestRoutine.lua (T309,
+Modulliste), Locale_* (2 Texte, 9 Sprachen + esMX über esES), CHANGELOG.md/.de.md.
+Repo: berichte/LevelPilot/offline/lua/test2.lua (Modulzahl), announce/levelpilot__levelpilot-3.12.47.*.
+
+Status: umgesetzt, zur Prüfung. Im Spiel: /lp prüfliste (Testmodus) – zeigt die 14 Punkte mit Anweisung.
