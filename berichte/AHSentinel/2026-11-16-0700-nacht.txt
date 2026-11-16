@@ -1,5 +1,5 @@
 AHSentinel – Nacht 15./16.11.2026 (Nacht-Arbeit nach masterplan-ahsentinel.txt Abschnitt D und PRIO-JETZT-Liste)
-Stand: 16.11. 00:04 – veröffentlicht bis 0.65.241; 0.65.242–245 gebaut, Gesamtläufe nacheinander
+Stand: 16.11. 01:32 – veröffentlicht bis 0.65.251; 0.65.252–253 gebaut, Gesamtläufe nacheinander
 Alle Versionen: GitHub-Release + Discord (announce/). KEIN CurseForge (erst nach der Sniper-Abnahme). Jede Version "umgesetzt,
 zur Prüfung", Bericht je Version in berichte/AHSentinel/.
 
@@ -55,6 +55,14 @@ VERSIONEN DER NACHT (je ein Satz)
   0.65.243 Phase 7 MR4: Kopfzeile je Stufenband (Richtung oder "messe x/5", Aufkauf-Alarm) statt Preis-Index über alle Waren.
   0.65.244 Phase 7 MR1/MR3 (A Teil 1): Zeile "Treffer je Weg" im Markt-Reiter (frei/lernt/gesperrt je Weg, MA2).
   0.65.245 Phase 7 MR3 (A Teil 2): Tooltip der Kauf-Zeilen in "Heute" mit Rang (RK7) und Weg/Trefferquote (MA2).
+  0.65.246 Phase 7 MR10: Wochentag-Muster je Stufenband im Tooltip des Markt-Kopfs (erst ab 3 Wochen gleichem Muster).
+  0.65.247 Phase 7 MR3 (A Teil 3): "Lohnt bis" im Tooltip der Kauf-Zeilen (nur Anzeige). Weg A damit vollständig.
+  0.65.248 S92-JOBS: Absatz-Zähler mit Hilfstabelle -> s92 fest 10,06 MB (Szenario-Regel ≤ 10 240 KB erreicht; Start der Nacht 18,5 MB fest).
+  0.65.249 MR4-Zeile im Testbericht (MARKT-KERN "MR4 LAGE-ZEILE") zum Vergleich im Spiel (Supervisor 00:34).
+  0.65.250 Wortlaut (Supervisor 00:48): "Bringt etwa x je Tag für 1g Einsatz – sicherere Wege kommen zuerst." statt "Rang".
+  0.65.251 Antwort 01:03 (1): "Heute"/Selbsttest Entzaubern aus MV:BuildDE – eine Rechnung mit Markt > Entzaubern.
+  0.65.252 Antwort 01:03 (2): eine Flip-Grenze (MK:FlipLimitFromNet, Risiko-Wahl + Halte-Risiko) für Heute, Markt und Sniper.
+  0.65.253 Antwort 01:03 (4): doppelte Abdeckungs-IDs T-AB4/T-AB5/T-D1 bereinigt, Prüfung T826.
   Eigener Befund im Gesamtlauf 0.65.224: s92 rot (Händler-Rechnung rechnete den Marktwert für alle Items) – vor der
   Veröffentlichung behoben und belegt.
   Dazu T200-1: Nachbildung im Repo vollständig (IsAddOnLoaded, run_all.sh ohne festen Pfad), Gesamtläufe aus frischer Kopie.
@@ -75,11 +83,10 @@ OFFENE FRAGEN / ENTSCHEIDE
     0.65.229. Nachfrage MA4/RK6 beantwortet 21:33 (G1/G2 angenommen) – RK6 in 0.65.231.
   - s216 Frame-Grenze: CPU-Zeit, Ausreisser mit und ohne Feed; run_all.sh behandelt s216 jetzt wie s92 (2 von 3, Supervisor).
   - HP-2 "+" ohne genaue Stufen: angenommen (21:48) mit Item-Grenze – umgesetzt in 0.65.233.
-  - Abdeckungs-IDs T-AB4, T-AB5, T-D1 doppelt in der Testroutine (alt, nicht von mir) – ändere ich nur auf Auftrag.
-  - "Heute tun" und Selbsttest nutzen für Entzauber-Vorschläge noch D:FindDeals (andere Regel als Markt > Entzaubern) –
-    Verdacht, zu prüfen; auf Wunsch stelle ich es um.
+  - Abdeckungs-IDs T-AB4, T-AB5, T-D1: auf Auftrag 01:03 bereinigt (0.65.253).
+  - "Heute"/Selbsttest Entzaubern: auf Auftrag 01:03 auf MV:BuildDE umgestellt (0.65.251); Flip-Grenze vereinheitlicht (0.65.252).
   - S92-DET/S92: entschieden 22:33 (fester Lauf massgeblich, Grenze 19 MB) – umgesetzt; S92-JOBS in 0.65.239 (12,7 MB),
-    Marktwert-Speicher in 0.65.240 (10,4 MB, Grenze 11,0 MB, bleibend 0,7 MB). Ziel 10 MB fast erreicht.
+    Marktwert-Speicher in 0.65.240 (10,4 MB, Grenze 11,0 MB, bleibend 0,7 MB). 0.65.248: 10 060 KB – Ziel 10 240 KB ERREICHT (Einheit KB = 1024 Byte, Entscheid 01:03); Grenze ab 0.65.251 10 674 KB.
   - Phase 7 MR1-Aufbau: beantwortet 23:48 – Weg A schrittweise (0.65.244/245); B "eine Seite" legt der Supervisor dir vor.
   - GSL6-2 Ursache der 1,28 s: Verdacht "eigene Suche belegt die Drossel" – Messwert jetzt im Sniper-Bericht.
 
@@ -108,4 +115,6 @@ IM SPIEL PRÜFEN (in dieser Reihenfolge)
  17. UI-CLEAN1 (B): bitte "/ahs testroutine ui" mit 0.65.227 (100 % und 130 %, Modern/Klassisch) – Befunde für die Bereinigung.
  18. Markt-Reiter: Knopf "Bevor du gehst" (3 Schritte); "Mein Lager" gelb bei fallendem Band (erst mit belegten Bändern).
  19. Schnäppchen "+" mit wenig Gold: kein Ziel, Meldung "Budget je Item reicht nicht".
- 20. Markt-Reiter-Kopf zwei Zeilen lesbar (100 % und 130 %): Index | Rhythmus · "Vollscan in x Min. möglich".
+ 20. Markt-Reiter-Kopf zwei Zeilen lesbar (100 % und 130 %): Stufenbänder | Rhythmus · "Vollscan in x Min. möglich"; Maus über dem Kopf = Wochentag-Muster.
+ 21. MR4 am Bild entscheiden: Markt-Reiter, Kopf oben, 1. Zeile "Stufen 1-25 … · 26-45 … · 46-60 …" (farbige Abschnitte statt
+     Kacheln, vorläufig angenommen) – gleicher Text im Testbericht unter "MR4 LAGE-ZEILE". Passt es so, oder echte Kacheln?
