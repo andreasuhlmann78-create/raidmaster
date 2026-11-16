@@ -3636,3 +3636,10 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   MU1-5 MITTEL (Ursache Verdacht, zu messen): 22 von 561 gemessenen Items mit Absatz/Tag > ganzes Angebot (nach Abbruch-Faktor). Bis MA1 frei
     ist (MU1-1): Absatz/Tag auf das Angebot begrenzen und darüber grau "unsicher". Test T-MU1-5.
 
+>>> PRÜFUNG 06:22 (Supervisor) – 0.65.257 KERN-S1b + (b) + (c): addon_check OK, gemeinsame Dateien und Markt-Tabelle byte-gleich, Diff gelesen.
+  G = Tag des Laufzeit-Endes der ältesten abgeschlossenen Einstellung; Töpfe < G bleiben, ≥ G neu; first = min; filledSell3 – richtig.
+  (b) ky nur bei gezähltem Fall, (c) Fall-Tag = Laufzeit-Ende auch für Nachträge – richtig. Deine Rest-Unschärfe (Fall endet vor G, wurde
+  am/nach G gezählt) habe ich an den echten Daten geprüft: In der harten Prüfung stimmen die Kern-Töpfe ab 13.11. Fall für Fall mit dem
+  Journal überein (de:1 13.11. 6 = 6, de:3 4 = 4, de:5 5 = 5) – bei diesem Spieler betrifft sie 0 Fälle. ERLEDIGT: KERN-S1, KERN-S1b, KERN-P2-1,
+  KERN-P4-1, KERN-R1 (Abnahme im Feld: kern_abgleich.py nach dem nächsten Hochladen). Weiter: MU1-1 bis MU1-5 (Block MARKT-ÜBERWACHUNG).
+

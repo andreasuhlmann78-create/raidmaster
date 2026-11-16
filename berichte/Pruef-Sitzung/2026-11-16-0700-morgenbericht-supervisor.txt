@@ -4,9 +4,9 @@ Stand: 16.11.2026 05:06 (Uhrzeit aus date)
 =====================================================================================================================
 1. DAS WICHTIGSTE IN KÜRZE
 =====================================================================================================================
-- !!! WICHTIG (05:53): AHSentinel 0.65.256 NICHT im Spiel starten, bis 0.65.257 da ist. 0.65.256 baut den Verkaufs-Teil des Kerns einmal
-  neu auf und würde dabei 48 richtige Fälle vom 10.–12.11. endgültig löschen (Befund KERN-S1b an AHS, eilt). Sonst ist 0.65.256 gut
-  (P2 nach Brier, Rückfall erst nach 7 Tagen, verkaufte Auktionen erreichen den Kern).
+- (06:22) AHSentinel 0.65.257 ist geprüft und darf gestartet werden (0.65.256 bitte überspringen). Der Kern lernt jetzt
+  verkaufte Auktionen, behält beim einmaligen Neuaufbau die alten Tage, P2 nach Brier, Rückfall erst nach 7 Tagen.
+  Nach dem ersten Spielen mit 0.65.257 und dem Hochladen rechne ich mit kern_abgleich.py nach, ob alles aufgeht.
 - NEU 05:06 – KERN UND SUPERVISOR TAUSCHEN DATEN AUS (dein Entscheid 04:51/04:52). Der Abgleich hat gezeigt, warum der Kern
   nicht in P2 kommt – drei Fehler im Addon, alle belegt und an AHS gegeben (Vorrang vor allem):
   KERN-S1: Verkaufte Auktionen erreichen den Kern nie (Journal 60 Fälle / 41,8 verkauft – Kern 25 / 2,9). Er glaubt an 12 %
