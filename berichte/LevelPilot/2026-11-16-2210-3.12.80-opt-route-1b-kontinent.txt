@@ -1,0 +1,21 @@
+BERICHT LevelPilot 3.12.80 – OPT-ROUTE Stufe 1b: Kontinent-Bindung (erst gemessen, dann gebaut)
+Projekt: LevelPilot · Datum: 16.11.2026 22:10 (aus date) · Version: 3.12.80 · umgesetzt, zur Prüfung
+
+Bezug: Antwort Supervisor 21:58 ("Kontinentwechsel nur mit belegtem Gewinn, Zeit je Reise vorher/nachher").
+1. URSACHE (Code, P:ChooseFocus): Kontinentwechsel erlaubt ab Stufe 12 (CROSS_MIN_LEVEL) und alle 3 Stufen (CONT_MIN_LEVELS), wenn eine
+   Zone dort doppelt so viel Wert hat. Folge (3.12.79, echte Kartengrenzen): 11–13 Wechsel je Reise, bis Stufe 30 schon 3–4.
+2. MESSUNG DER VARIANTEN (virtuelle Reise 1–60 Forever, 6 Völker; ROUTE-Q mit echten Kartengrenzen):
+   Fassung                          Zeit Summe   Kontinentwechsel (bis 30)   Laufweg je Reise
+   3.12.79 (ab 12, alle 3 Stufen)   1085,6 h     11–13 (3–4)                 1337–1552 km
+   A: ab 30, alle 3 Stufen          1077,7 h     10 (0)                      1265–1532 km
+   B: ab 12, alle 10 Stufen         1058,5 h     4–5 (1–2)                   916–1089 km
+   C: ab 30, alle 10 Stufen         1043,2 h     3 (0)                       827–1062 km
+   C je Volk (3.12.79 -> C): Untoter 192:54 -> 180:15 · Ork 178:10 -> 176:00 · Tauren 179:39 -> 176:10 · Zwerg 187:46 -> 181:32 ·
+   Nachtelf 163:00 -> 148:50 · Mensch 184:04 -> 180:22. Alle 6 schneller, Summe −3,9 %. Mehr Grinden (443–570× 10 min statt
+   200–302×), das in der Zeit schon enthalten ist.
+3. GEBAUT: Fassung C (CROSS_MIN_LEVEL 30, CONT_MIN_LEVELS 10). Planer = gemessene Fassung C (verglichen, nur Kommentare anders).
+4. ROUTE-Q 3.12.80 (12 Reisen, echte Kartengrenzen): R1, R2, R4 = 0; R3W 0–1 (1 Reise); R6 0–1 (1 Reise); O5 0–2; Kontinentwechsel 3
+   in allen 12 (bis Stufe 30: 0); Zonenwechsel 61–115 (vorher 95–148); Startgebiet unverändert.
+5. TEST T341 (30 · 10). GEGENPROBE (Stufe 12): false.
+6. PRÜFUNGEN: addon_check OK · Offline-Routine 38/38 ohne FEHLER · Regression 36/36 ALLE TESTS OK.
+7. NÄCHSTE: Zonenfolge nach Stufenband (OPT-ROUTE 1b Teil 2), Zeitmodell-Vergleich mit Factoruide, Forever-Navmesh, Rest R3W "Land Ho!".
