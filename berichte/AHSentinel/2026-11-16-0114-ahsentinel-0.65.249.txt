@@ -1,0 +1,9 @@
+AHSentinel 0.65.249 – Nacht-Prüfung 00:34 MR4 ("Zeile im Testbericht, damit der Nutzer es im Spiel leicht findet") – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.249 und sofort im Discord.
+Umsetzung (MarketCore.lua MK:Report, Abschnitt MARKT-KERN): Zeile "MR4 LAGE-ZEILE (Markt-Reiter > Kopf oben, 1. Zeile; Bänder als
+  farbige Abschnitte): Stufen  1-25 fällt · 26-45 messe 2/5 · 46-60 ruhig · Aufkauf 1" – dieselbe Funktion MV:LageLine wie der Kopf,
+  ohne Farbcodes. Ein Bildschirmfoto kann die Nachbildung nicht liefern (sie zeichnet nicht) – im Morgenbericht steht unter "Im
+  Spiel prüfen" der Ort (Markt-Reiter, Kopf oben) für die Entscheidung "Kacheln" am Bild.
+Tests: T823 (Zeile im Bericht, Text = Kopf, keine Farbcodes) – mit 0.65.248 rot (keine Zeile), mit 0.65.249 grün. s42 grün.
+  CHANGELOG EN/DE.
+Gesamtlauf (frischer Klon, Kopie 0.65.249): BESTANDEN 315, FEHLGESCHLAGEN 0.
