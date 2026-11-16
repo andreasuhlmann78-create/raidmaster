@@ -1,0 +1,25 @@
+AHSentinel 0.65.252 – Antwort Supervisor 01:03 Punkt 2 (Flip-Grenze über eine Funktion mit RK5/RK6) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.252 und sofort im Discord.
+Umsetzung:
+  - MarketCore.lua MK:FlipLimitFromNet(net, itemID, saleDays): net × (1 − Marge); Marge = gelernte Flip-Marge Ln:Margin("e") (wie
+    bisher Ln:BuyLimit; ohne Lernen 0), angepasst an RK5 (MK:AdjustMargin: normal unverändert, vorsichtig +10 Punkte, mutig −5,
+    nie unter 5 %); RK6 MK:HoldFactor, wenn saleDays bekannt (fällt -> × Faktor, Spitze -> nil).
+    BEWUSST NICHT MK:LimitFromNet: das ist die Entzauber-Grenze (Weg Entzaubern, WayDE, DE-Mindestrendite DE30b, 0,9-Deckel) –
+    damit bekäme ein Flip ohne Verzauberkunst keine Grenze. "Ein Wert für alles" heisst hier: eine Flip-Funktion für alle Stellen.
+  - Alle 5 Flip-Stellen nutzen sie: Comfort ("Heute"), UI_MarketView (Markt > Flippen), AHAnalyzerPro A:FlipCheck (Detail),
+    Watcher.lua 2× (Sniper-Ziel aus dem Watcher, Höchstpreis). Tagesbudget Ln:BudgetLeft unverändert (nur mit Lernen).
+  - Unterschied ohne Lernen: vorher gar keine Grenze, jetzt Netto beim Wiederverkauf (normal) bzw. × 0,9 (vorsichtig).
+  - RK6 in "Heute" wie bisher zusätzlich über die Menge (fallend/Spitze -> keine Zeile, 0.65.231); die Grenze selbst wird ohne
+    bekannte Verkaufsdauer nicht gesenkt (alle Stellen gleich).
+ALT / NEU (Netto 1g = 10 000c, T825):
+  Fall                                         alt (Ln:BuyLimit)          neu (FlipLimitFromNet)
+  Lernen an, Marge 20 %, normal                8 000                      8 000
+  Lernen an, Marge 20 %, vorsichtig            8 000                      7 000
+  Lernen an, Marge 20 %, mutig                 8 000                      8 500
+  Lernen aus, normal                           keine Grenze               10 000
+  Lernen aus, vorsichtig                       keine Grenze               9 000
+  fallendes Band, 3 Tage Verkauf, Login in 2   8 000 (Heute: Menge 0)     7 200
+  Spitze, 3 Tage Verkauf                       8 000 (Heute: Menge 0)     keine (nil = kein Kauf)
+Tests: T825 (Tabelle oben) – mit 0.65.251 rot (Funktion fehlt), mit 0.65.252 grün. s1, s13_flips, s31 (modern/legacy), s78, s9_watcher
+  (+fallback, filters), s11_watcher (2), s53 grün. s42 grün. CHANGELOG EN/DE.
+Gesamtlauf (frischer Klon, Kopie 0.65.252, ohne parallele Läufe): BESTANDEN 315, FEHLGESCHLAGEN 0.
