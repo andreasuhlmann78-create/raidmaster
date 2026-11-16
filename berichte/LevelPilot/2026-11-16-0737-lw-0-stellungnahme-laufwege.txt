@@ -1,0 +1,85 @@
+BERICHT LevelPilot – LW-0 Stellungnahme zur Analyse "Laufwege zu den Quests" (nur Bericht, kein Code)
+Projekt: LevelPilot · Datum: 16.11.2026 07:37 (aus date) · Stand des Codes: 3.12.47
+
+Bezug: offen-levelpilot.txt ">>> LAUFWEGE ZU DEN QUESTS" (Nutzer 07:30, Supervisor 07:34),
+shared/wissen/analysen/levelpilot-laufwege-2026-11-16.md (ganz gelesen).
+
+A. STIMMEN DIE BEFUNDE? (am Code 3.12.47 nachgeprüft)
+LW-1 Luftlinie – STIMMT. Planner.lua: Order 1186 (Kosten = Geo:Dist × TYPE_BONUS / Wert), LegCost 1244 (2-opt und Or-opt),
+     ChooseFocus 1097 (z.near = Geo:Dist, Wert / (1 + near/TRAVEL_SCALE)), TravelSteps 1431 (direct, d1, d2 = Luftlinie),
+     ebenso HubSize/Sammelpunkt (HUB 250, GATHER) und der Zeitfaktor im Speedrun (siehe LW-2). Der echte Weg wird nur für den
+     Pfeil (Navigation) und CheckFirstPath 1406 gesucht. MAX_STEPS 12 stimmt.
+LW-2 Strecke statt Zeit – STIMMT IM NORMALMODUS, mit einer Ergänzung: Im SPEEDRUN gibt es schon ein kleines Zeitmodell.
+     SpeedFilter (Planner.lua 864 ff.) rechnet je annehmbarer Quest EP/Minute (P:Efficiency 539: QuestXP + Monster-EP /
+     QuestSeconds, gebündelt mit Partnern) und multipliziert den Wert mit travelF = secs / (secs + Weg/7 yd/s × 0,5) – Weg auch
+     hier Luftlinie (RUN_YPS 7, CROSS_SECS 900). Langsame Quests werden ausgelassen. In der REIHENFOLGE wirkt der Wert aber nur
+     gedeckelt: c / (0,6 + 0,4 × min(Wert, 1,5)) – höchstens Faktor 1,5. Zieldauer (Töten/Sammeln) geht nicht ein. Im
+     Normalmodus fehlt travelF ganz. Befund also richtig, Ansatzpunkt für LW-2 ist P:Efficiency/QuestSeconds (schon da).
+LW-3 Flug ohne Flugzeit – STIMMT für die Entscheidung (FLY_RULE min 2000, walk 1,25, extra 300). ERGÄNZUNG: Die Flugzeit wird
+     schon GEMESSEN – Calib.lua 114–160: jeder eigene Flug (Start/Ende über UnitOnTaxi, gleiche Welt, 300+ yd, 10–1800 s) wird
+     als Summe Strecke/Sekunden gespeichert, Mitspieler teilen ihre Summen (netFlights), Ca:FlightSecs(dist) liefert Sekunden je
+     Luftlinie ab 3 Flügen ("Flüge: n gemessen · x Sekunden je 1000 Yards" in der Diagnose). Benutzt wird das bisher nur in der
+     virtuellen Reise (Virtual.lua 607), nicht in TravelSteps. LW-3 kann also mit gemessenen Werten starten.
+LW-4 Startwegnetz nur 3 Gebiete – STIMMT (Data/Wege.lua 50 KB: 1412, 1413, 1456). seed_bauen.py kennt Zonengrössen nur für diese
+     3 Zonen (nur für Schwellen, Verdacht) – für weitere Zonen müssen sie dazu (aus dem Client gemessen oder als Verdacht markiert).
+LW-5 Classic Era – STIMMT (.toc 16001). Teilweise vorbereitet: Graph.SeedWegeAktiv() schaltet das Startwegnetz ausserhalb von
+     Forever schon ab (test_seedwege prüft Era/TBC), GoldSentinelGame liefert flavor. Rest wie in der Analyse.
+LW-6 Messgrösse – STIMMT in der Sache, ERGÄNZUNG was es schon gibt: Comfort.lua 232 zeigt EP/h live ("x EP/h · Level in …"),
+     Session.lua bestLevel (Sekunden je Level, eigener Bestwert), Session QuestETA/ZoneETA, Calib KillsPerMin/QuestXPFactor/
+     CompareLevelTimes, Protocol StepIdle ("Schritt seit n min aktiv", nur bei Stillstand), Perf je Modul. Es fehlen genau die
+     Zeilen der Analyse: je Schritt geplante Luftlinie / gelaufene Strecke / Zeit Weg / Zeit Ziel, Richtungswechsel nach
+     Neuplanung, Leerlauf, EP/h je Level im Protokoll.
+Hinweis Datenqualität: nicht nachgeprüft (keine Spieldaten des Nutzers hier) – übernehme ich so.
+
+B. EIGENE ZAHLEN (Nachbau, Skript berichte/LevelPilot/offline/lua/mess_lw0.lua, reproduzierbar, fester Startwert)
+Je Zone 300 zufällige Punktpaare auf dem Startwegnetz, Luftlinie 300–2000 yd, Weg = Graph:PathKnown (nur bekannte Wege):
+  Zone        mit Weg  ohne Weg  Umweg Median  90 %   > 1,5   Wegsuche ms Median / 90 % / max
+  Mulgore       194      106        1,82       2,87    69 %     0,31 / 0,87 / 3,74
+  Brachland     229       71        1,37       2,16    37 %     0,54 / 2,20 / 5,86
+  Donnerfels    133      167        1,19       1,39     1 %     0,09 / 0,14 / 0,40
+  Alle 900 Suchen: Median 0,18 ms · 90 % 1,40 ms · max 5,86 ms (Lua 5.1 im Nachbau; im Spiel Verdacht, zu messen).
+Was die Zahlen sagen:
+  1. Das Startnetz ist ein SKELETT (Mittellinien der Strassen): Mulgore 1,82 liegt deutlich über dem Netz des Nutzers
+     (1,13–1,36). Umweg aus dem gelaufenen Netz ist eine OBERGRENZE und bei dünnem Netz stark übertrieben (querfeldein ist
+     in Mulgore fast überall begehbar). Für LW-1 darf der Faktor darum NICHT allein aus dem Netz kommen: Netz und
+     Geländekarte zusammen (Netz-Umweg nur dort, wo die Geländekarte "nicht begehbar"/"unbekannt" meldet), Faktor nach oben
+     begrenzen.
+  2. Viele Paare haben gar keinen Weg (Mulgore 35 %, Donnerfels 56 %: Ebenen/Aufzüge, getrennte Stücke). Ein Faktor muss
+     "unbekannt" kennen (dann Luftlinie × Zonen-Median, nicht ∞).
+  3. Rechenzeit: eine Wegsuche 0,2 ms typisch, bis 6 ms. Echte Wege für die ganze Reihenfolge sind zu teuer: Order rechnet
+     bis 12 × Aufgaben Distanzen (bei 50 Aufgaben ~600), 2-opt bis 4 Durchgänge × k² – mit echten Wegen 100–800 ms je
+     Planung. Darum wie in der Analyse: vorberechnete Faktoren (Zelle×Zelle oder Zone) für Order/2-opt/Fokus, echte Wege nur
+     für die ersten 3 Schritte – 3 Suchen ≈ 1–18 ms, in Portionen (Jobs) unter 16 ms je Bild.
+
+C. GRENZEN
+- Tempo: jede Planung läuft als Job "replan" mit LP:Yield("plan"); Ziel ≤ 16 ms je Portion (Notbremse 50 ms). Faktoren-Tabelle
+  muss beim Einloggen in Portionen gebaut werden (wie das Startwegnetz, test_seedwege Teil 5) und darf Order nicht teurer
+  machen als ein Tabellenzugriff je Paar.
+- Speicher: Bestand Wegpunkte-Grenze 50 000 (SP1). Netz des Nutzers 4 449 Knoten – unkritisch. Faktoren je Zone und Zelle
+  (z. B. 250-yd-Zellen: Brachland ~40×27 Zellen, Paare nur innerhalb 2000 yd) = einige tausend Zahlen je Zone – nur
+  berechnen, nicht speichern (oder pro Zone kurz merken). LW-4 vergrössert Data/Wege.lua (heute 50 KB für 3 Zonen): bei 10+
+  Zonen grob 150–300 KB – Verdacht, zu messen (Ladezeit in Portionen, Speicher nach dem Aufbau, Rohdaten werden freigegeben).
+- Classic Era (LW-5): die Laufwege selbst (Graph/Terrain) sind spielversionsfrei; Forever-Teile hängen an SeedWegeAktiv,
+  Kartenumrechnung und Forever-Quests (qdb). Grösster Aufwand: Datenpaket Era (QuestieDB data/Era) und Testroutine je Version.
+
+D. MEIN VORSCHLAG ZUR REIHENFOLGE (stimmt mit der Analyse überein, mit zwei Anpassungen)
+1. LW-6 Messen (klein, zuerst) – wie vorgeschlagen; dazu je Schritt "Weg bekannt / Luftlinie / unbekannt" (sagt, wo LW-1/LW-4
+   am meisten bringen) und im Testbericht die Zonen-Mediane Umweg.
+2. LW-3 Flug nach Zeit VOR LW-1 (Anpassung 1): klein, Daten schon da (Ca:FlightSecs), unabhängig von den Wegfaktoren.
+   Laufen = Weg/7 yd/s (bzw. Reittier-Tempo aus dem Spiel), Fliegen = Hinweg + gemessene Flugzeit + Rückweg.
+3. LW-1 Wegkosten (Faktor aus Netz UND Geländekarte, begrenzt; "unbekannt" = Zonen-Median; echte Wege für 3 Schritte).
+4. LW-2 Zeitmodell (Anpassung 2: auf P:Efficiency/QuestSeconds aufbauen, die es schon gibt; zuerst travelF auch im
+   Normalmodus mit Wegkosten aus LW-1, dann Zieldauer in Order).
+5. LW-4 Startwegnetz aus allen gelaufenen Wegen – parallel möglich, sobald die Daten da sind.
+6. LW-5 Classic Era – zuerst der Plan als Bericht.
+Jede Stufe mit Vorher/Nachher aus LW-6 (Nachbau: gleiche Strecke, z. B. Brachland 10–20 und eine Tausend-Nadeln-Strecke; im
+Spiel: Protokollzeilen).
+
+E. FORMAT FÜR LW-4 (Antwort auf "sag, welches Format")
+Am liebsten genau so, wie es seed_bauen.py heute liest: GSWEGE1 als JSON wie testberichte/wege/LevelPilot/*.json (je Zone
+Kanten mit Punktlisten in Kartenkoordinaten 0–100, Kartennummer, Anzahl Läufe), OHNE Namen und ohne Zeitstempel. Bitte je
+Zone die Kartennummer (uiMapID) dazu; Zonengrössen bringe ich als Verdacht mit (HereBeDragons-Werte) und markiere sie.
+Ablage: berichte/LevelPilot/wege-seed/eingang/<datum>-<zone>.json.
+
+Status: Stellungnahme abgegeben. Wenn du einverstanden bist, beginne ich mit LW-6 (Messen). Bis zur Antwort arbeite ich die
+Zahlen für LW-6 im Nachbau vor (welche Zeilen, Testentwurf) – ohne Veröffentlichung.
