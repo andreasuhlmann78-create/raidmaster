@@ -1,0 +1,19 @@
+AHSentinel 0.65.299 – TU1 Rest Teil 2: Mein Lager je Marktlage (nur Tests) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.299 und sofort im Discord. Im Spiel ändert sich nichts.
+
+T877: MV:BuildStock mit 5 Stück eigener Ware (MV:StockItems ersetzt) in den Lagen von T514–T522. Regeln MR2 (UI_MarketView):
+  Wert = A:BestWay × Menge (eine Zahl wie überall), Gold-Wert nur mit Scan <= STOCK_FRESH (30 Min.), sonst grau "Scan nötig".
+  L-NORMAL, L-AUFKAUF, L-LEER, L-DUENN: Gold = Wert = BestWay × 5, Weg in der Zeile, frisch – ok.
+  L-ALT (Scan 7 Std.): kein Gold-Wert, "Scan nötig", Wert nur grau – ok.
+  Gegenprobe (STOCK_FRESH = unendlich): T877 rot (L-ALT).
+Nicht enthalten, mit Grund:
+  L-AUSREISSER – wartet auf den Entscheid des Nutzers TU1-PI (Antwort Supervisor 22:50).
+  L-HAENDLER – GEMESSEN: Mein Lager/BestWay rechnen mit einem unplausiblen Tabellen-Händlerpreis (500 bei Marktwert 183) ->
+    "Händler 5s". Eine Korrektur in RealValue widerspricht T226 (K3 "Händler als Untergrenze") – darum zurückgenommen und als
+    FRAGE TU1-HAENDLER mit Vorschlag gemeldet (berichte/AHSentinel/…-frage-tu1-haendler.txt).
+Abdeckungsliste: TU1-ML -> T877.
+
+Tests (eigene, keine Freigabe): Gesamtlauf aller Nachbauten auf dem Stand 0.65.299: BESTANDEN 339, FEHLGESCHLAGEN 0.
+addon_check: AHSentinel-0.65.299.zip OK. Veröffentlicht: GitHub-Release v0.65.299, Discord announce/ahsentinel__ahsentinel-0.65.299.md.
+Nicht in download/, kein CurseForge (erst nach dem Ingametest).
+Nachtrag: L-HAENDLER kommt mit 0.65.300 (FRAGE angenommen, Supervisor 23:10).
