@@ -1,0 +1,18 @@
+AHSentinel 0.65.275 – MA3-G (offen-ahsentinel Punkt 9, Rest MA3; Nachtschicht nach F3-Vorschlag) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.275 und sofort im Discord.
+- Extras.lua X:SellStep: vor jedem UseContainerItem Gold merken (s.meas: Item, Menge, erwartet = Händlerpreis × Menge, Gold vorher);
+  vor dem nächsten Verkauf X:MeasureVendor: Gold-Zuwachs gegen erwartet. Abweichung > 1 Kupfer je Stück -> db.vendorGold[item] =
+  { bad, exp (je Stück), got (gemessen je Stück), t }, Chatzeile (rot) "Händlerpreis stimmt nicht: … brachte x je Stück statt y –
+  Händler-Weg für dieses Item gesperrt.", Protokoll HAENDLER-GOLD, Prüfliste HAENDLER-GOLD Fehler mit Zahlen. Stimmt die Messung:
+  Sperre weg, Prüfliste erledigt.
+- Kommt keine Gold-Änderung, wartet der Verkauf höchstens 1,5 s (X.GOLD_WAIT, kein Hängen) und zählt "ungemessen" (nichts gesperrt).
+- Sperre wirkt über A:VendorPlausible (false bei gemessen abweichend) -> Händler-Schnäppchen (A:VendorDeals: Profit-Reiter, Heute,
+  Markt > Händler, Sniper-"+") und die Händler-Warnung beim Verkaufen nehmen das Item nicht mehr mit dem falschen Preis.
+- Nie mit echten Daten in Testroutine/Testmodus (MeasureVendor "ungemessen" ohne Ersatz-Tabelle X.testGold).
+- Prüfliste: neuer Punkt HAENDLER-GOLD (seit 0.65.275). Damit 14 Punkte bleiben, ist OPT-1 entfernt (deine Prüfung 15:35: OK, ERLEDIGT).
+Test T851: genau +15s bei 3× 5s ok; ±1c je Stück ok; +3s75 -> abweichend, gesperrt, 125 je Stück; spätere stimmige Messung hebt auf;
+  ohne Gold-Änderung "wartet" (0,5 s) / "ungemessen" (2 s); Testroutine ohne Ersatz-Tabelle misst nie. T836 angepasst (Punkte-Liste).
+Nachbildung s257_vendor_gold: Schrott zahlt richtig, Eisenerz 40c statt 150c -> Chatzeile, gesperrt mit 40/150, Schrott nicht,
+  2 Stapel in 0,8 s. Gegenprobe: mit 0.65.274 rot (T851 und s257 je 3 Prüfungen), mit 0.65.275 grün. s13_vendor_sell u. a. grün.
+Gesamtlauf der Nachbildung: BESTANDEN 318 (mit s257_vendor_gold), FEHLGESCHLAGEN 0.
+Nächster Punkt laut deiner Antwort 18:30: TB182-2 (BUY-GOLD) vor den kleineren Punkten, dann AB3, L2b, BE2b, E, F, G.
