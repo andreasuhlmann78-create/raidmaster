@@ -711,3 +711,9 @@ AUFTRAG:
   O4 Tests: Nordhain (Gebiet 9) -> alle Nordhain-Quests vor Goldhain (87); je Volk das Startgebiet; ROUTE-Q R1–R5 = 0.
   Era und Forever getrennt (eigene Gebietsdateien), gleicher Code.
 Reihenfolge: ERA-1-Fix -> ORT-1 (O1, O2) -> ROUTE-Q-Prüfung -> Bericht. Neue Funktionen weiter gestoppt.
+  O5 (Nutzer 17:34: "Questgeber stehen nicht nur in Dörfern – es kann sein, dass man bei einer Quest in der Wildnis einen Questgeber
+     trifft"): Questgeber AUSSERHALB von Orten (einzelne NPCs, Gegenstände/Objekte, die eine Quest starten, Beute-Quests) gehören zum
+     Gebiet, in dem sie stehen (Gebiets-ID, auch Wildnis-Unterzonen wie "Fargodeep Mine"). Sie werden mitgenommen, wenn die Route ohnehin
+     in dieses Gebiet geht (Questziele dort) oder der Umweg klein ist (≤ ~60 yd vom Weg bzw. gleiche Gebiets-ID wie ein aktuelles Ziel),
+     und ihre Folge-Quests in die Planung des Orts eingereiht, wo sie abgegeben werden. Test: je Startgebiet mindestens ein solcher Fall
+     (z. B. Questgeber an einem Lager/Turm) wird beim Vorbeigehen angenommen, nicht als eigene weite Reise.
