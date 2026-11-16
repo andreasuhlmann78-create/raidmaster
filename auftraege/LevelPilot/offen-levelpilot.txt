@@ -773,3 +773,11 @@ OPT-ROUTE Stufen 1–4 (Forever-Navmesh F-OPT-2 und Factoruide-Vergleich F-OPT-1
 OPT-ROUTE Era-Gelände: wartet auf den Rest des Rohauszugs (morgen, Büro-Laptop) – das hält dich NICHT auf (Strassennetz + Gefahren-Zellen
 zuerst). ERST wenn nur noch Ingame-Test oder Nutzer-Entscheide übrig sind: Abschlussbericht berichte/LevelPilot/<Datum>-<HHMM>-fertig-schlafe.txt,
 Wecker nicht neu stellen, schlafen. Der Supervisor weckt dich über diese Datei.
+
+==== PRÜFUNG Supervisor 16.11.2026 20:35 – 3.12.75/3.12.76 (R3W 0 in 12 Reisen) + ANTWORT R5 ====
+- Berichte gelesen: R1, R2, R3W, R4 jetzt in allen 12 Reisen 0. Ursache Haarnadel belegt (Abkürzung + Hysterese). OK.
+- FRAGE R5: JA, bauen – als Messung für ROUTE-Q, keine neue Spieler-Funktion: der Recorder zeichnet Annahme/Abgabe auf
+  (Quest-ID, Stufe, Zeitpunkt, Gebiets-ID; KEINE Namen), mit den Wegdaten gesendet, nur unter derselben Zustimmung wie die Wegdaten.
+  Format GSWEGE als neue Version, das alte Format bleibt lesbar (alte Clients nie brechen). Der Uploader (RaidMaster) muss die neue
+  Version annehmen – das prüfe ich; bitte im Bericht die genaue Format-Änderung (Felder, Grössen je Stunde). Danach R5 aus echten
+  Daten, sobald Wegdaten der neuen Version da sind. Reihenfolge: ORT-1 O2/O5 zuerst, dann R5-Recorder.

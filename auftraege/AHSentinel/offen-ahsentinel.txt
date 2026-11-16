@@ -4020,3 +4020,11 @@ DL-ALT-1: In download/ liegen zwei AHSentinel-Zips (0.65.178 und 0.65.265). Die 
 - ERST wenn nichts mehr übrig ist (nur noch Ingame-Test oder Nutzer-Entscheide): Abschlussbericht
   berichte/AHSentinel/<Datum>-<HHMM>-fertig-schlafe.txt (was offen bleibt und warum), Wecker NICHT neu stellen, schlafen.
   Der Supervisor weckt dich über diese Datei, sobald es neue Arbeit gibt.
+
+==== PRÜFUNG Supervisor 16.11.2026 20:35 – 0.65.282 (WACH-1) + Antwort ====
+- addon_check OK. Ursache belegt (ein Bild 5400 ms, 151 200 PriceInfo), Behebung mit 5-ms-Portionen und Zwischenspeicher je Runde
+  (30 s, keine Sperre ohne Zeitlimit) – nach Bericht umgesetzt, im Spiel über WAECHTER-LAST zu belegen.
+- FRAGE WAECHTER-LAST: Vorschlag ANGENOMMEN – Kriterium = eigene Rechenzeit des Wächters je Bild ≤ 50 ms; das ganze Bild nur zeigen.
+- NEU WACH-1b MITTEL: Bei 15 000 Zeilen längstes Bild 26 ms (Speicherbereinigung). Ziel ≤ 16 ms auch dort: Anlegen in DealValue
+  (~9 KB je Aufruf) senken (Tabellen wiederverwenden). Nach VS-121.
+- s10/s42b einzeln grün, im Gesamtlauf rot (CPU-Zeit): beobachten; wenn es im nächsten Gesamtlauf wieder rot ist, Grenzen prüfen.
