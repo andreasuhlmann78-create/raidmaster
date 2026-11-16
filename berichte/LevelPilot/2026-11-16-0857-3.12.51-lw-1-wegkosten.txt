@@ -1,0 +1,52 @@
+BERICHT LevelPilot 3.12.51 – LW-1 Wegkosten statt Luftlinie; Antwort Kantenzahl (Prüfung 08:58) (umgesetzt, zur Prüfung)
+Projekt: LevelPilot · Datum: 16.11.2026 08:57 (aus date) · Version: 3.12.51
+
+Bezug: offen-levelpilot.txt LW-1 (Reihenfolge LW-6 -> LW-3 -> LW-1), PRÜFUNG 08:58 (Kantenzahl belegen; ST-3 mit den CSV).
+Hinweis zur Reihenfolge: LW-1 war vor deiner Prüfung 08:58 schon fertig gebaut und getestet (Reihenfolge aus 07:56); ST-3 mit
+den gelieferten UiMapAssignment-CSV mache ich jetzt als Nächstes.
+
+1. ANTWORT KANTENZAHL (Prüfung 08:58) – belegt, Zahl je Grund
+   Graph:LoadRoads zählt jetzt je Stück (Kanten-Kandidat zwischen zwei Knoten):
+     Kalimdor:           Stücke 654 = Kanten 645 + Ring 2 + doppelt 7
+     Östl. Königreiche:  Stücke 1667 = Kanten 1611 + Ring 12 + doppelt 44
+   (= deine Rechnung 654 / 1667.) Ring = Anfang und Ende des Stücks sind derselbe Knoten (kurze Schleife < 120 yd an einer
+   Kreuzung) – fällt weg, ist für die Wegsuche bedeutungslos. Doppelt = zwischen denselben zwei Knoten gibt es schon eine
+   Strasse (zwei Wege um einen Platz). BEFUND dabei (eigener): bis 3.12.50 blieb die ZUERST gelesene, nicht die kürzere.
+   Behoben: die kürzere gilt (Kalimdor 3 von 7 ersetzt, Ö. K. 22 von 44). Protokoll: "… 645 Kanten (von 654 Stücken:
+   2 Ring, 7 doppelt, davon 3 kürzer ersetzt) …". test_strassen prüft die Bilanz (654 = 645 + 2 + 7).
+   Skript: berichte/LevelPilot/offline/lua/mess_kanten.lua.
+
+2. LW-1 WEGKOSTEN STATT LUFTLINIE
+   Graph:Detour(zone): Umweg-Faktor je Zone = Median von (Länge des Wegs der Wegsuche / Luftlinie) über bis zu 12 Paare
+   bekannter Knoten der Zone (300–2000 yd, feste Auswahl, höchstens 80 Versuche, Wegsuche mit höchstens 3000 Schritten),
+   begrenzt 1,0–1,8; unter 5 Paaren oder ungemessen: 1,25 (Verdacht). Einmal je Zone und Sitzung im Hintergrund (Jobs),
+   neu nach Strassen-Laden und Neuaufbau. Die Wegsuche nimmt Strassen, Startnetz, gelaufene Wege und Luftlinie mit
+   Gelände-Aufschlag – der Faktor misst also, was der Pfeil wirklich führen würde.
+   Planner: P.WayFactor(map) / P.WayDist(...) in Order (Kosten je Schritt), LegCost (2-opt/Or-opt), ChooseFocus (Nähe der
+   Zone), Speedrun-Zeitfaktor (travelF) und Flugentscheid (P.FlyDecision mit Umweg der Zielzone statt fest 1,25).
+   P.OPT.wayCost = false gibt die reine Luftlinie wie vorher (für Vergleiche). Sammelpunkte (Umkreis 250/400 yd) bleiben
+   Luftlinie (das sind Umkreise, keine Wege).
+   Protokoll: "UMWEG je Zone (Wegsuche/Luftlinie): Brachland 1,18 (12 Paare) · …".
+
+TESTS
+- T313: Median ungerade/gerade, Grenzen 1,0/1,8, zu wenig Paare = keine Messung, ohne Zone 1,25; Reihenfolge: Ziel A 500 yd
+  in Zone mit Umweg 1,8 (900 yd Weg) gegen Ziel B 700 yd in Zone mit Umweg 1,0 -> mit Wegkosten zuerst B, mit reiner
+  Luftlinie (Schalter aus = vorher) zuerst A. Das ist zugleich die Gegenprobe.
+- test_strassen: Umweg Zone 1413 im Nachbau gemessen (5 Paare, Faktor 1,00 – im Nachbau ohne Geländekarte geht die
+  Wegsuche gerade durch; im Spiel verteuert die Geländekarte Luftlinien über Berge -> grösserer Faktor; Verdacht, zu messen)
+  und die Kanten-Bilanz.
+- T309–T312 weiter true. addon_check "LevelPilot-3.12.51.zip: OK". Repo-Offline-Routine 38/38 ohne FEHLER. Private
+  Gesamt-Regression (36 Läufe): alle ohne FEHLER.
+
+GRENZEN / VERDACHT
+- Wie stark sich die Reihenfolge im Spiel ändert und ob es Zeit spart: nur mit LW-6-Zeilen (Zeit Weg, Umweg gelaufen) vorher/
+  nachher messbar. Die Schwellen der Fokus-Wahl (TRAVEL_SCALE 900, SWITCH_NEAR 500, SMALL_FAR 1500) waren auf Luftlinie
+  eingestellt und gelten jetzt für Wegstrecke – Verdacht: in Bergzonen wird seltener gewechselt (gewollt), zu messen.
+- Echte Weglänge für die ersten 3 Schritte (Analyse LW-1 Teil 2) ist noch NICHT drin – kommt nach ST-3, wenn die Faktoren
+  im Spiel belegt sind.
+
+DATEIEN: LevelPilot Graph.lua (Detour, DetourOf, MeasureDetour, DetourText; LoadRoads Zähler + kürzere Strasse), Planner.lua
+(WayFactor, WayDist, Order, LegCost, ChooseFocus, SpeedFilter, FlyDecision/TravelSteps), Protocol.lua (Zeile UMWEG),
+TestRoutine.lua (T313), LevelPilot.toc, Core.lua, CHANGELOG.md/.de.md. Repo: offline/lua/test_strassen.lua, mess_kanten.lua,
+announce/levelpilot__levelpilot-3.12.51.*.
+Status: umgesetzt, zur Prüfung.

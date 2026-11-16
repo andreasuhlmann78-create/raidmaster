@@ -55,6 +55,9 @@ PRE_RUN = function(LP)
   check(st.kanten >= #k.e and st.ohneZone == 0 and st.innen > 0,
     ("Kanten %d (Linienzüge %d), ohne Zone %d, innere Knoten %d"):format(st.kanten, #k.e, st.ohneZone, st.innen))
   print(("ST-4 Speicher nach dem Aufbau Kalimdor: +%.0f KB (Lua 5.1, Nachbau)"):format(memKB))
+  -- 3.12.51 (Prüfung 08:58): Kanten-Bilanz je Grund – Stücke = Kanten + Ring (Anfang = Ende) + doppelt (Paar schon verbunden)
+  check(st.stuecke == st.kanten + st.gleich + st.doppelt and st.stuecke == 654,
+    ("Stücke %d = Kanten %d + Ring %d + doppelt %d (davon kürzer ersetzt %d)"):format(st.stuecke, st.kanten, st.gleich, st.doppelt, st.kuerzer or 0))
   -- 2) nur dieser Kontinent, doppelt laden = nichts
   check(G.roadStat[0] == nil, "Östliche Königreiche nicht geladen (Spieler auf Kalimdor)")
   check(G:LoadRoads(1) == false, "zweites Laden desselben Kontinents tut nichts")
@@ -97,6 +100,15 @@ PRE_RUN = function(LP)
   -- 7) Text für das Protokoll
   local t = G.RoadText()
   check(t:find("^STRASSEN Kontinent 1 ") ~= nil, "Protokoll: " .. t)
+  -- LW-1 (3.12.51): Umweg-Faktor der Zone messen (alle Strassenknoten haben hier Zone 1413), Median im erlaubten Bereich
+  J.sync = true
+  G.detour = {}
+  G:MeasureDetour(1413)
+  local dt = G.detour[1413] or {}
+  check(dt.f and dt.f >= G.DETOUR_MIN and dt.f <= G.DETOUR_MAX and (dt.n or 0) >= G.DETOUR_MIN_PAIRS,
+    ("Umweg Zone 1413 gemessen: Faktor %s aus %s Paaren (%s Versuche, %s Knoten)"):format(tostring(dt.f and ("%.2f"):format(dt.f)),
+      tostring(dt.n), tostring(dt.versuche), tostring(dt.knoten)))
+  print("  " .. G.DetourText())
   -- 5) Neuaufbau entfernt die Strassen, danach neu ladbar
   local chunk = loadfile(arg[1] .. "/Data/Wege.lua")
   local T = {} chunk("LevelPilot", T)
