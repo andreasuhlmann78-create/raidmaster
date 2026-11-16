@@ -4,7 +4,7 @@ from pathlib import Path
 from lupa.lua51 import LuaRuntime
 
 HERE = Path(__file__).resolve().parent
-SRC = (HERE / "GoldSentinelPruefliste.lua").read_text(encoding="utf-8")
+SRC = (HERE.parent / "GoldSentinelPruefliste.lua").read_text(encoding="utf-8")
 ok = fail = 0
 
 

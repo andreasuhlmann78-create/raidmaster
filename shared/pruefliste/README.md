@@ -20,7 +20,7 @@ was zu tun ist."
 3. Wo nichts messbar ist (nur Hinschauen): der Nutzer drückt OK oder Nicht OK.
 
 ## Einbau (je Addon, Datei UNVERÄNDERT kopieren)
-- `GoldSentinelPruefliste.lua` aus `shared/pruefliste/` ins Addon, `.toc` nach `GoldSentinelDev.lua`, vor den eigenen Dateien.
+- `GoldSentinelPruefliste.lua` aus `shared/` ins Addon, `.toc` nach `GoldSentinelDev.lua`, vor den eigenen Dateien.
 - Eigene Datei (z. B. `Pruefliste.lua`) mit `GoldSentinelPruefliste:Register("<Addon>", { db = …, version = …, points = { … } })`.
 - Punkte = die offenen "IM CLIENT PRÜFEN"-Punkte des Addons (aus offen-*.txt / eigenen Berichten), je Punkt:
   `id` (Kürzel des Auftrags), `title` (≤ 8 Wörter), `since` (Version), `todo` (1–2 Sätze, genau: welcher Knopf, welcher Befehl),

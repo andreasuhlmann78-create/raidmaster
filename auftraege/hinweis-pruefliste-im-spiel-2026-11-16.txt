@@ -3,7 +3,7 @@ Wortlaut: "Erstelle mir für AHS und alle anderen Addons, wenn etwas getestet we
 bearbeitet ist – nur im Entwicklermodus aufrufbar." – "inkl. Anweisungen im Spiel natürlich, damit ich immer genau weiss, was zu tun ist."
 
 AUFTRAG (jedes Addon-Projekt, sobald es einen Punkt "im Client prüfen" hat; AHS SOFORT für die Sniper-Abnahme heute):
-1. shared/pruefliste/GoldSentinelPruefliste.lua UNVERÄNDERT ins Addon kopieren (gemeinsame Datei – nie selbst ändern; Wünsche an die
+1. shared/GoldSentinelPruefliste.lua UNVERÄNDERT ins Addon kopieren (gemeinsame Datei – nie selbst ändern; Wünsche an die
    Prüf-Sitzung). .toc: nach GoldSentinelDev.lua, vor den eigenen Dateien. addon_check muss OK bleiben.
 2. Eigene Datei Pruefliste.lua: Register("<Addon>", ...) mit den offenen "IM CLIENT PRÜFEN"-Punkten (höchstens 14, Reihenfolge = wie der
    Nutzer sie im Spiel am besten nacheinander macht). Je Punkt id/title/since/todo/expect – todo und expect so genau, dass der Nutzer ohne

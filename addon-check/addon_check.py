@@ -64,6 +64,7 @@ SHARED = {
     "GoldSentinelMarkt.lua": "exact",
     "GoldSentinelCmdHint.lua": "exact",
     "GoldSentinelDev.lua": "version",
+    "GoldSentinelPruefliste.lua": "version",     # Prüfliste im Spiel (Nutzer 16.11. 06:47), shared/pruefliste/README.md
 }
 # Wer GoldSentinelGame selbst nachbaut (statt die Datei zu kopieren), schreibt das hier:
 REIMPL = re.compile(r"_G\.GoldSentinel(?:Game|Test)\s*=|^\s*GoldSentinel(?:Game|Test)\s*=", re.M)

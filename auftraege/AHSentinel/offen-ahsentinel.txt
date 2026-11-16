@@ -3670,7 +3670,7 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   3. Nach dem Upload: Antwort-Entwürfe cf-antwort für CF-AHS-2/3/4 ("fixed in 0.65.2xx, now on CurseForge") – ich poste sie.
 
 >>> PRÜFLISTE IM SPIEL (Entscheid des Nutzers 16.11. 06:47; Supervisor 06:49): Für jeden Punkt "im Client prüfen" baust du eine Prüfliste im Spiel
-  mit dem gemeinsamen Baustein shared/pruefliste/GoldSentinelPruefliste.lua (unverändert kopieren). Nur Entwicklermodus, merkt selbst, zeigt
+  mit dem gemeinsamen Baustein shared/GoldSentinelPruefliste.lua (unverändert kopieren). Nur Entwicklermodus, merkt selbst, zeigt
   dem Nutzer immer, was zu tun ist. Auftrag und Regeln: auftraege/hinweis-pruefliste-im-spiel-2026-11-16.txt.
   FÜR DICH ZUERST: Die Sniper-Abnahme heute (Block SNIPER-ABNAHME) als Prüfliste im Spiel bauen – die Abnahme-Liste (bis 09:00) wird damit
   die Liste im Spiel (Datei in berichte/ zusätzlich, gleicher Inhalt). Hit()-Stellen: Kauf über den Kauf-Knopf, Einstellen nach

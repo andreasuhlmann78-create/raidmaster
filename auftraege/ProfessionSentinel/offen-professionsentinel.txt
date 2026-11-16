@@ -306,6 +306,6 @@ PS-DW1 MITTEL (Nutzer 17:05, AHSentinel 0.65.170): Ein Rahmen von ProfessionSent
   stellen und die Sitzung ruhen lassen. Der Nutzer weckt dich, wenn es weitergeht – dann zuerst git pull und diese Datei lesen.
 
 >>> PRÜFLISTE IM SPIEL (Entscheid des Nutzers 16.11. 06:47; Supervisor 06:49): Für jeden Punkt "im Client prüfen" baust du eine Prüfliste im Spiel
-  mit dem gemeinsamen Baustein shared/pruefliste/GoldSentinelPruefliste.lua (unverändert kopieren). Nur Entwicklermodus, merkt selbst, zeigt
+  mit dem gemeinsamen Baustein shared/GoldSentinelPruefliste.lua (unverändert kopieren). Nur Entwicklermodus, merkt selbst, zeigt
   dem Nutzer immer, was zu tun ist. Auftrag und Regeln: auftraege/hinweis-pruefliste-im-spiel-2026-11-16.txt.
 

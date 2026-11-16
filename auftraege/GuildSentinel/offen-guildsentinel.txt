@@ -309,6 +309,6 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   einen Antwort-Entwurf in berichte/GuildSentinel/ (cf-antwort-<Nr>). Gepostet wird nur nach Ja des Nutzers.
 
 >>> PRÜFLISTE IM SPIEL (Entscheid des Nutzers 16.11. 06:47; Supervisor 06:49): Für jeden Punkt "im Client prüfen" baust du eine Prüfliste im Spiel
-  mit dem gemeinsamen Baustein shared/pruefliste/GoldSentinelPruefliste.lua (unverändert kopieren). Nur Entwicklermodus, merkt selbst, zeigt
+  mit dem gemeinsamen Baustein shared/GoldSentinelPruefliste.lua (unverändert kopieren). Nur Entwicklermodus, merkt selbst, zeigt
   dem Nutzer immer, was zu tun ist. Auftrag und Regeln: auftraege/hinweis-pruefliste-im-spiel-2026-11-16.txt.
 

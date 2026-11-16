@@ -4,7 +4,7 @@
 -- Entscheid des Nutzers 16.11.2026 06:47: "Erstelle mir für AHS und alle anderen Addons, wenn etwas getestet werden muss, eine
 -- Checkliste im Spiel, die merkt, wenn ein Punkt bearbeitet ist – nur im Entwicklermodus aufrufbar."
 --
--- Diese Datei UNVERÄNDERT aus shared/pruefliste/ in jedes Addon kopieren und in der .toc NACH GoldSentinelDev.lua und VOR den eigenen
+-- Diese Datei UNVERÄNDERT aus shared/ in jedes Addon kopieren und in der .toc NACH GoldSentinelDev.lua und VOR den eigenen
 -- Dateien eintragen. Mehrere Addons dürfen sie mitbringen: die neueste Version gewinnt, jede Liste gehört ihrem Addon.
 --
 -- Benutzung im Addon (Beispiel AHSentinel):
