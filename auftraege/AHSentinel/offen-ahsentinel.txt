@@ -3928,3 +3928,16 @@ Danach postet der Supervisor die freigegebenen CF-Antworten CF-AHS-2/3/4.
   - Nicht schlafen, bis der Nutzer es ausdrücklich sagt. Fragen nur bei echten Nutzer-Entscheiden (berichte/AHSentinel/ – Supervisor holt
     sie), bis zur Antwort am nächsten Punkt weiter.
   - Nicht auf CurseForge ohne Ingame-Test (Test morgen mit /ahs prüfliste).
+
+==== NACHTSCHICHT (Nutzer 16.11.2026 17:41: "Der Masterplan soll bis morgen früh komplett beendet sein, wenn möglich") ====
+Ziel: bis 17.11. früh ALLE noch offenen Punkte des Masterplans Phase 1–7 umgesetzt (Phase 8 nur die vier freigegebenen, schon
+gebaut). Reihenfolge:
+  1. SN-BTN1-2 (Treffer bleibt klickbar) – belegen, beheben, Prüflisten-Punkt.
+  2. Masterplan Phase 1 -> 7 in der Reihenfolge der Datei, jeden noch offenen Punkt. Wo ein Punkt schon erledigt ist: im Bericht
+     eine Zeile "erledigt in 0.65.x (Beleg)", nicht neu bauen.
+  3. Je Punkt eine kleine Version, je Version Prüflisten-Punkt + Bericht in berichte/AHSentinel/ (umgesetzt, zur Prüfung).
+Regeln wie immer: Perfektion vor Tempo, Gold-Sicherheit, ruckelfrei (PS/RF), alte Clients nie brechen, Locales + CHANGELOG EN/DE,
+addon_check ohne FEHLER, nichts auf CurseForge (Ingame-Test morgen mit /ahs prüfliste).
+Steht ein Punkt auf einem Nutzer-Entscheid: im Bericht als FRAGE mit Vorschlag ablegen und SOFORT mit dem nächsten Punkt weiter –
+nie warten. Der Supervisor beantwortet Fragen in jeder Runde (Entscheid des Nutzers 17:39: "wenn AHS nicht mehr antwortet …
+deckst du ihn zu mit Antworten bzw. mit Arbeit"). Interner Wecker immer aktiv.
