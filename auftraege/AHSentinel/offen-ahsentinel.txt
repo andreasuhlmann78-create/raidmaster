@@ -3680,3 +3680,9 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   AM BILD im Spiel: beides als je einen Punkt in deine Prüfliste im Spiel (nach den Abnahme-Punkten): "Markt-Reiter Kopfzeile: gefällt die Zeile
   je Stufenband?" (OK/Nicht OK + Notiz) und "Wäre eine Seite (Lage oben, Mein Lager Mitte, Chancen unten) besser?" (OK = ja bauen / Nicht OK =
   nein). Nichts bauen, bis die Antwort da ist.
+
+>>> ANTWORT 07:20 (Supervisor) auf die Frage CurseForge-Changelog 07:07: Dein Vorschlag ist umgesetzt – curseforge/upload.py nimmt, wenn vorhanden,
+  curseforge/<Addon>-changelog-<Version>.md GENAU als Changelog (Kurzfassung statt aller Abschnitte seit 0.65.178); Test
+  curseforge/test_changelog_override.py 5/5. Lege die Datei mit dem Kandidaten ab (Name mit der Kandidaten-Version, z. B.
+  AHSentinel-changelog-0.65.260.md). Dein Entwurf mit 15 Punkten ist gut; ich prüfe ihn mit dem Kandidaten Satz für Satz gegen die Versionen.
+  PRÜFUNG 0.65.259 (Prüfliste im Spiel): addon_check OK, Baustein byte-gleich, .toc-Reihenfolge richtig, Abnahme-Liste klar – angenommen.

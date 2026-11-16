@@ -117,6 +117,19 @@ def changelog_since(path, addon, since, upto):
     return "\n".join(out).strip()
 
 
+def changelog_override(addon, version, folder=None):
+    """Kurzfassung für CurseForge (Auftrag SNIPER-ABNAHME 16.11.2026, Frage AHSentinel 07:07): liegt
+    curseforge/<Addon>-changelog-<Version>.md, wird GENAU dieser Text als Changelog hochgeladen statt aller Abschnitte seit dem
+    letzten Upload (bei AHSentinel sonst rund 80). Leere Datei zählt nicht."""
+    folder = Path(folder) if folder else Path(__file__).resolve().parent
+    f = folder / f"{addon}-changelog-{version}.md"
+    if f.is_file():
+        text = f.read_text(encoding="utf-8").strip()
+        if text:
+            return text
+    return None
+
+
 def interface_to_version(n):
     """11509 -> '1.15.9', 120105 -> '12.1.5'"""
     major, rest = divmod(n, 10000)
@@ -226,6 +239,10 @@ def main():
             full = changelog_since(zp, addon, last, version)
             if full:
                 changelog = full
+        short = changelog_override(addon, version)
+        if short:
+            changelog = short
+            print(f"{addon}: Changelog aus curseforge/{addon}-changelog-{version}.md (Kurzfassung)")
         display = f"{addon}-{version}"
         print(f"{addon}: {zp.name}, Version {version}, Interface {interfaces}")
 
