@@ -296,3 +296,13 @@ Ignorieren" an. Lage: Undercity, Auktionshaus offen, AHSentinel-Sniper lief, Gui
 Auftrag: Ursache in Diag.lua belegen (welche Schleife/OnUpdate/Hook läuft zu lange; "-1" = Code ohne Zeile, z. B. loadstring/
 geladener Text oder C-Grenze), beheben (Arbeit in Portionen, Zeitbudget je Bild), Test der die Laufzeit misst. Vorrang vor allem
 anderen bei RaidMaster – es kann das Spiel des Nutzers ausbremsen. Danach im Spiel nachprüfen (Supervisor).
+
+==== PRÜFUNG Supervisor 16.11.2026 10:06 – RaidMaster 3.0.29 (RM-DIAG-1) + Antworten auf die Fragen ====
+- addon_check selbst: OK. Installiert auf dem Rechner des Nutzers (71 Dateien, byte-gleich). Ursache und Gegenprobe T186 schlüssig. OK,
+  Nachprüfung im Spiel offen.
+- ANTWORTEN: (1) /rm diag war um 09:30 NICHT vom Supervisor geöffnet; ob vom Nutzer: unbekannt (frage ich ihn). (2) BugGrabber/BugSack:
+  NICHT installiert (AddOns-Ordner: AHSentinel, BuffSentinel, GSMesstest, GuildSentinel, LevelPilot, LevelPilot_Data,
+  ProfessionSentinel, RaidMaster, TSMess, ThreatSentinel). (3) Die LUA-Warnung zeigte nur EINE Meldung (1/1) – die
+  Ausführungsgrenze selbst; eine erste andere Meldung gab es im Fenster nicht.
+  -> Damit ist dein zweiter Verdacht (fremde Fehlerflut, RaidMaster zuoberst in der Kette) NICHT ausgeschlossen. Bitte messen:
+  Zähler je Quelle-Addon im Handler (nur Zahl, in pcall) und im Testbericht ausgeben. Fehler-Handler NICHT entfernen.

@@ -324,3 +324,10 @@ PS-DW1 MITTEL (Nutzer 17:05, AHSentinel 0.65.170): Ein Rahmen von ProfessionSent
   über einen gültigen Grund-Spawn schreiben (Rückfall auf npcKeys.zoneID). Danach Pipeline neu, Zahlen je Spielversion vorher/nachher
   (Lehrer je Beruf, Händler mit Koordinaten, NPCs ohne Spawn) in den Bericht; 276067 muss wieder Lehrer 164 sein. Test in tests/ (ein Fix
   mit zoneIDs.<NAME> ergibt die richtige Zone). Die heutige Datenänderung NICHT veröffentlichen (Rückschritt). Volltext: berichte/Rezeptdaten/2026-11-16-0724-entwurf-rezeptdaten.txt
+
+==== AUFTRAG PS-ESL1 (Supervisor 16.11.2026 10:06, aus dem Ingame-Test von AHSentinel) ====
+Mit ProfessionSentinel ist das AHSentinel-Gewinnfenster am Berufsfenster aus (PS-DOCK1). Die Knöpfe "Materialien als Einkaufsliste" /
+"Nur was mir fehlt" gibt es dann nirgends – im Spiel nicht zu finden (Supervisor 08:40). AHSentinel bietet dafür AHSentinel.API.
+ReagentsToList(spellID, n, onlyMissing) -> ok, Meldung, Listenname (API.lua). Auftrag: im PS-Panel beim gewählten Rezept zwei Knöpfe
+(oder ein Knopf + Rechtsklick) "Einkaufsliste (AHSentinel)" / "Nur was fehlt", nur wenn die API da ist; Meldung von AHSentinel zeigen.
+Test mit und ohne AHSentinel. Alte Clients nie brechen.

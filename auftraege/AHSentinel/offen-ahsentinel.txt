@@ -3832,3 +3832,14 @@ Reihenfolge: nach SN-RAD-1 und PF-1 (Gold-Sicherheit zuerst), dann OPT-1 vor den
   Sniper suchte schon das nächste Ziel (Schultern) – Verdacht, zu messen: Treffer verschwindet, bevor der Klick ankommt (Rundlauf geht
   weiter, während ein Treffer wartet?). Zeile SNIPER-RAD/Protokoll prüfen.
 - Danach war WoW plötzlich nicht mehr im Vordergrund (Desktop) – ob abgestürzt, ist offen (Nutzer fragen).
+
+==== PRÜFUNG Supervisor 16.11.2026 10:06 – AHSentinel 0.65.264 und 0.65.265 ====
+- addon_check 0.65.265 selbst: OK. Installiert auf dem Rechner des Nutzers (109 Dateien, byte-gleich).
+- 0.65.264: MR4-T Klartext, SN-TR-1 (Hintergrund erkennen, Takt nach Zeit, Ursachen einzeln), ESL1-Weg /ahs material und /ahs fehlt,
+  T267 Testfehler belegt – OK nach Bericht; im Spiel nachprüfen (Prüfliste). T72: einverstanden, erst mit Preisleiter belegen.
+  Eintrag für ProfessionSentinel (API.ReagentsToList aufrufen) macht der Supervisor.
+- 0.65.265: OPT-1a Ursache belegt (SetActive sperrte onClick), T839 bildet echten Klick nach – OK. OPT-1b eine Zeile – OK.
+  SN-RAD-A Erkennung über Sn.result – OK. SN-BTN1: Messzeile statt Code auf Verdacht – richtig so.
+  Gesamtlauf 315/316 mit T647 (Zeitmessung 9,1 > 8 ms, einzeln 3× grün): als bekannte Zeitmessung hingenommen, aber bitte beobachten –
+  bei zweitem Auftreten in Folge Ursache in Extras.lua:279 belegen.
+- Nachtest im Spiel (Supervisor mit dem Nutzer): OPT-1 Bereiche klicken, ESL1 /ahs fehlt, SN-BTN1 mit Messzeile.
