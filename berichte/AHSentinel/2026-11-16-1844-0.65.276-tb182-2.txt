@@ -1,0 +1,27 @@
+AHSentinel 0.65.276 – TB182-2 (deine Auswertung 18:30: 15.11. AH-Käufe 7g96 zu hoch gebucht) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.276 und sofort im Discord.
+CODE-STELLEN zu deinen drei Verdachten (je Fall belegt, soweit ohne Spieldaten möglich):
+ (a) Ware mit dem ANGEFRAGTEN Gesamtpreis gebucht – BELEGT im Code und im Nachbau: Sniper.lua Sn:Confirm setzt inFlight.cost =
+     p.total (Antwort COMMODITY_PRICE_UPDATED), Sn:PurchaseSucceeded -> lastPurchase.cost = dieser Wert -> Ledger BookPurchase
+     amount = p.cost. Was der Server bei der Bestätigung wirklich abzieht (er nimmt die dann günstigsten Stücke), sah die Buchung nie.
+     Nachbau s258_buy_gold: angefragt 90c, zwischen Anfrage und Bestätigung kommen billigere Stücke -> Gold −60c, gebucht 90c (0.65.275).
+     Dass das am 15.11. die 7g96 erklärt, ist Verdacht, zu messen (Diagnosezeile BUY-GOLD, siehe unten).
+ (b) Kauf gebucht, obwohl gescheitert – möglicher Weg: Sn:InFlightFallback wertet "Gold ≥ 50 % des Preises weniger" nach 3 s als
+     Erfolg; fällt in diese 3 s ein anderer Gold-Abgang (z. B. Einzelkauf, Einzahlung), wird ein gescheiterter Warenkauf gebucht.
+     Verdacht, zu messen. Mit 0.65.276 bucht auch dieser Weg die gemessene Änderung nur "sauber" (sonst angefragt + BUY-GOLD-Zeile).
+ (c) Doppelte Buchung – Einzelkäufe je auctionID höchstens einmal (Le:BookPurchase, KAUF-DOPPELT), Waren über p.booked, Rechnungen
+     über FindUnmatchedBuy (gleiche Menge, ±3 Tage, "Rechnung gilt"). Lücke: eine Rechnung mit ANDERER Menge (Teilkauf C3) findet ihren
+     Kauf nicht -> zweite Buchung. Verdacht, zu messen: KAUF-DOPPELT/BUY-GOLD-Zeilen im nächsten Upload.
+UMGESETZT:
+- Sn:PurchaseSucceeded gibt das Gold vor dem Senden (money0) mit und hält die Buchung an (holdBook).
+- Ledger: BUY_GOLD_WAIT 0,6 s nach der Bestätigung Le:BookMeasured: gemessen = Gold vorher − jetzt. Gebucht wird der GEMESSENE Betrag,
+  wenn sauber (kein anderer Warenkauf unterwegs, kein Einzelkauf offen, kein anderer Kauf seither gebucht, kein Einkaufs-Reiter-Kauf in
+  den letzten 5 s) und plausibel (50–105 % des angefragten); sonst der angefragte. Abweichung > 1 Kupfer: Diagnosezeile BUY-GOLD
+  "Item · Stück · angefragt · Gold − · gebucht (Grund)".
+- Bis zur Messung bucht kein anderer Weg vorzeitig (Le:BookPurchase ohne force bei holdBook = nein); danach genau einmal.
+- /reload in diesen 0,6 s: die Rechnung im Briefkasten bucht den Kauf (wie bisher).
+Test T853: 900 gemessen; anderer Kauf unterwegs / 30 % / 110 % / ohne Messung -> angefragt; vorzeitig nein, gemessen gebucht 900, genau 1×.
+Nachbildung s258_buy_gold: angefragt 90, Gold weg 60, gebucht 60, genau eine Buchung. Gegenprobe: 0.65.275 bucht 90 (rot), T853 rot.
+Alle Sniper-, Einkaufs-, Buchhaltungs- und Persistenz-Szenarien einzeln grün.
+Prüfliste: kein neuer Punkt (14 voll); Beleg im Spiel über BUY-GOLD-Zeilen im Protokoll und deine Tagesauswertung books.flow/books.log.
+Gesamtlauf der Nachbildung: BESTANDEN 319 (mit s258_buy_gold), FEHLGESCHLAGEN 0.
