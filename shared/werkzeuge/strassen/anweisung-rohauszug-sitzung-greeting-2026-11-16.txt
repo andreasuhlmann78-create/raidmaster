@@ -1,0 +1,51 @@
+ANWEISUNG an die Sitzung "greeting" (Projekt Addonprüfer) – vom Supervisor GoldSentinel, 16.11.2026 18:55
+Auftrag des Nutzers: "Hol dir alles raus" (17:40) – Spieldaten aus dem WoW-Client des Nutzers lesen. Der Supervisor erreicht den
+Rechner zuhause nicht, deshalb machst du den Auszug.
+
+STRIKTE REGELN
+- Nichts auf den Geräten des Nutzers ablegen (Entscheid 18:02, "das schafft Abhängigkeiten"). Arbeitsdateien NUR im eigenen
+  Arbeitsordner von device_bash (scratchFolder aus get_device_info, z. B. $HOME/mnt/outputs) – NIE in Dokumente, NIE im WoW-Ordner.
+- Im WoW-Ordner nur LESEN. Nichts installieren, nichts ändern.
+- Rohdateien (Spieldateien) NIE in ein Repo und nie öffentlich. Sie bleiben im Container deiner Sitzung, bis der Supervisor sie
+  abholt (Schritt 4).
+- Alles Deutsch an den Nutzer.
+
+SCHRITT 1 – Vorbereitung (im scratchFolder auf dem Rechner, device_bash)
+  cd <scratchFolder>
+  curl -sL -o casc_lesen.py  https://raw.githubusercontent.com/andreasuhlmann78-create/raidmaster/main/shared/werkzeuge/strassen/casc_lesen.py
+  curl -sL -o kacheln.py     https://raw.githubusercontent.com/andreasuhlmann78-create/raidmaster/main/shared/werkzeuge/strassen/kacheln.py
+  curl -sL -o rohauszug.py   https://raw.githubusercontent.com/andreasuhlmann78-create/raidmaster/main/shared/werkzeuge/strassen/rohauszug.py
+  curl -sL -o listfile.csv   https://github.com/wowdev/wow-listfile/releases/latest/download/community-listfile.csv
+  python3 -c "import ast;[ast.parse(open(f).read()) for f in ('casc_lesen.py','kacheln.py','rohauszug.py')];print('ok')"
+  WoW-Ordner: der freigegebene Ordner "World of Warcraft" unter $HOME/mnt/ (ls $HOME/mnt). Darin _forever_ und _classic_era_.
+
+SCHRITT 2 – Auszug in Abschnitten (jeder device_bash-Aufruf höchstens 180 s; der Auszug setzt dort fort, wo er stand)
+  W="$HOME/mnt/World of Warcraft"; cd <scratchFolder>
+  for p in wowf wow_classic_era; do timeout 165 python3 rohauszug.py "$W" roh $p listfile.csv >> log_$p.txt 2>&1 & done; wait
+  tail -n 2 log_*; ls roh/wowf/f | wc -l; ls roh/wow_classic_era/f | wc -l
+  -> wiederholen, bis BEIDE Logs "FERTIG" zeigen. Hintergrund-Prozesse überleben den Aufruf NICHT – darum immer im Vordergrund mit
+     timeout 165. Reihenfolge im Skript: Kacheln Karte 0, Karte 1, dann Gebäude (WMO + Gruppen), Objekte (M2), Spieldaten-Tabellen (DB2).
+  Erwartung (Verdacht, zu messen): je Abschnitt ~500 Dateien je Spiel, insgesamt einige GB.
+
+SCHRITT 3 – In den eigenen Container holen (laufend, nicht erst am Ende)
+  Nach je 2–3 Abschnitten die neuen Dateien als tar (≤ 350 MB je Datei) im scratchFolder packen:
+    touch -d "-0 sec" marke_neu; find roh -newer marke_alt -type f > neu.txt (beim ersten Mal ohne -newer); tar cf teil_NN.tar -T neu.txt
+    mv marke_neu marke_alt
+  Dann device_stage_files mit dem Pfad im scratchFolder -> landet in /mnt/user-data/uploads/… deines Containers; dort auspacken nach
+  ~/rohdaten/ und prüfen (Anzahl Dateien = Zeilen in neu.txt). Danach die tar im scratchFolder löschen (rm im scratchFolder ist erlaubt;
+  sonst bleibt sie dort nur bis Sitzungsende).
+  Am Ende: index.json beider Spiele mitholen; im Container eine Zusammenfassung: Kacheln je Karte vollständig/fehlend, Zahl WMO/M2/DB2,
+  Liste "fehlend" aus index.json, Gesamtgrösse.
+
+SCHRITT 4 – Übergabe an den Supervisor
+  Bericht (Text, kein Spieldatei-Inhalt) in das raidmaster-Repo: berichte/Supervisor/2026-11-16-HHMM-rohauszug-stand.txt
+  (Zahlen aus Schritt 3, wo die Daten im Container liegen). Commit + push (git -c user.name=GoldSentinel …), danach prüfen, dass
+  die Datei auf origin/main ist.
+  Die Rohdaten selbst: Der Supervisor schreibt als Nächstes ein Auswertungs-Werkzeug (Gelände: Höhe/Steigung, Wasser, Löcher,
+  Gebäude- und Objekt-Standorte -> kleine abgeleitete Datei wie die Strassen-Masken). Es kommt nach
+  shared/werkzeuge/strassen/gelaende.py; du lässt es dann in deinem Container über ~/rohdaten laufen und pushst NUR dessen Ergebnis
+  (abgeleitete Daten) nach shared/werkzeuge/strassen/daten/gelaende/. Bis dahin Rohdaten im Container behalten.
+
+SCHRITT 5 – Aufräumen auf dem Rechner
+  Am Ende im scratchFolder alles löschen, was du angelegt hast (roh/, tar, listfile.csv, Skripte). Dem Nutzer melden: "Auf deinem
+  Rechner liegt nichts mehr von mir."

@@ -3966,3 +3966,11 @@ deckst du ihn zu mit Antworten bzw. mit Arbeit"). Interner Wecker immer aktiv.
   TB182-2 (oben) davor.
 - Zu Phase 7 "Weg B eine Seite wartet auf den Nutzer": schon ENTSCHIEDEN am 16.11. 08:43 (ENTSCHEIDE MR4/MR-SEITE): eine Seite NEIN,
   Kopfzeile in Klartext statt Kacheln. Nicht mehr offen.
+
+==== PRÜFUNG Supervisor 16.11.2026 18:58 – AHSentinel 0.65.274 (API.Sold), 0.65.275 (MA3-G), 0.65.276 (TB182-2 BUY-GOLD) ====
+- addon_check 0.65.275/0.65.276: OK. Berichte gelesen.
+- 0.65.276: Ursache (a) im Code belegt (Sn:Confirm bucht den angefragten Gesamtpreis), gemessener Betrag nur bei "sauber" und 50–105 %
+  – Gold-sicher (betrifft nur die Buchung, nie den Kauf). Lücke (c) Teilkauf-Rechnung mit anderer Menge: bitte als nächsten kleinen
+  Punkt schliessen (Rechnung mit kleinerer Menge dem offenen Kauf zuordnen, Rest bleibt offen), mit Test + Gegenprobe.
+- Nachweis im Spiel: BUY-GOLD-Zeilen im nächsten Upload; der Supervisor wiederholt die Tagesauswertung books.flow/books.log.
+- Weiter: TB182-2 (c), dann AB3, L2b, BE2b, E, F, G, TU1/TU2.
