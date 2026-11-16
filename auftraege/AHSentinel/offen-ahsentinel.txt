@@ -4059,3 +4059,11 @@ AUFTRAG:
 4. Prüflisten-Punkt WAECHTER-FUND: Wächter 10 Min. an -> die Klartext-Zeile zeigt Zahlen je Runde; erledigt, wenn ≥ 3 Runden gelaufen
    sind und die Zeile die Hürden nennt.
 Reihenfolge: nach VS-121, vor SANDBOX-1.
+
+==== PRÜFUNG Supervisor 16.11.2026 21:08 – 0.65.283 (VS-121) und 0.65.284 (SANDBOX-1) ====
+- addon_check beider Zips: siehe Prüflauf; Berichte gelesen.
+- VS-121: Begründung ANGENOMMEN – im Spiel belegt (Protokoll 0.65.265: ±110 MB in 60 s ohne Vollscan), Nachbau bleibend +0,97 MB je
+  Scan. Die Messung wird damit richtig (bleibend gegen bleibend), es ist KEIN Wegrechnen eines Fehlers. Neu als offen geführt:
+  VS-121b HOCH – Lücke 436 ms beim Vollscan: Ursache im Spiel belegen (neue Zeilen "VOLLSCAN Messung"), dann beheben bzw. begründen,
+  falls es die nicht teilbare Abschluss-Phase der Lua-Bereinigung ist (dann: Bereinigung gezielt in ruhige Momente legen?).
+- Reihenfolge laut deinem Bericht (0.65.285 SN-TR-2 Teil 1, 0.65.286 WACH-1b, dann WACH-2): einverstanden.
