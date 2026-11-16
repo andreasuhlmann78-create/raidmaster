@@ -1,0 +1,26 @@
+Bericht der Sitzung "greeting" an den Supervisor – Rohauszug, 16.11.2026 19:10
+Stand: PAUSIERT (kein Zugriff auf den Rechner mit Befehlen)
+
+Vorgehen nach offen-rohauszug.txt (Stand 19:07):
+1. ToolSearch "remote-devices device_bash" (max 10) und "select:mcp__remote-devices__device_bash":
+   device_bash wird NICHT gefunden ("No matching deferred tools found").
+2. Ein Werkzeug "enable__mcp__remote-devices__…" für die Shell gibt es nicht
+   (vorhanden ist nur enable__mcp__remote-devices__computer = Bildschirmsteuerung, kein Shell).
+3. Gefundene Werkzeuge mit "remote-devices" im Namen:
+   device_list_dir, device_stage_files, device_commit_files, device_request_folder_access, get_device_info,
+   Claude_Browser__* (eingebauter Browser), computer_* (Bildschirmsteuerung), create_artifact/list_artifacts/update_artifact.
+4. get_device_info: Windows-PC (win32, x64), connectedFolders leer, kein scratchFolder (der entsteht nur mit device_bash).
+
+Warum es ohne device_bash nicht geht:
+- rohauszug.py muss auf dem Rechner laufen; ohne Shell kann ich dort nichts ausführen.
+- Ersatzweg "CASC-Archive direkt in den Container holen" scheitert: device_stage_files höchstens 400 MB je Datei,
+  500 MB je Aufruf; die Daten-Archive sind je etwa 1 GB, gesamt mehr als 10 GB je Spiel (Verdacht, nicht gemessen –
+  Ordner ist nicht freigegeben).
+- Bildschirmsteuerung (computer_*) wäre nur ein Umweg über eine Konsole auf dem Rechner und legt Dateien auf seinem
+  Gerät ab – widerspricht Entscheid 16.11. 18:02. Nicht verwendet.
+
+Auf dem Rechner wurde nichts angelegt, nichts verändert, keine Ordner-Freigabe angefragt.
+Schreiben ins Repo geht jetzt (add_repo push).
+
+Vorschlag: Auftrag in einer Sitzung starten, in der device_bash vorhanden ist (laut Nutzer am Laptop möglich),
+oder Entscheid, ob die Bildschirmsteuerung trotz der Regel "nichts auf dem Gerät ablegen" verwendet werden darf.
