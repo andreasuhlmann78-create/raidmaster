@@ -1,0 +1,38 @@
+AHSentinel 0.65.295 – S6 Vorschlag A (Entscheid Supervisor 16.11. 21:58) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.295 und sofort im Discord.
+
+Umsetzung:
+- Sniper.lua: Sn:OnlyTargets(keys, secs, note) / Sn:OnlyActive() / Sn:EndOnly(why). Die eigenen Ziele werden NUR pausiert: ein Filter
+  im Arbeitsspeicher (Sn.onlyKeys), den GetActiveTargets beachtet. Nichts davon wird gespeichert, an den Zielen ändert sich nichts.
+  Zeitlimit: S6_OBS + S6_GRACE = 75 s; danach gilt der Filter nicht mehr (OnlyActive -> EndOnly "Zeitlimit"), dazu ein Wecker
+  (C_Timer) nach 76 s. Keine Sperre ohne Zeitlimit.
+- SniperTest.lua: mit eigenen Zielen nach der Hauptbeobachtung (S1, S5, S7–S13 mit allen Zielen) eine eigene S6-Phase von 60 s nur
+  mit dem Test-Ziel (StartObserve(TR, true)); T618 kommt aus dieser Phase. Ohne eigene Ziele lief die Hauptbeobachtung schon nur mit
+  dem Test-Ziel -> T618 wie bisher daraus. Test-Ware: nur eine Ware OHNE eigenes Ziel (auch kein erfülltes/pausiertes) – vorher
+  konnte die Testroutine ein vorhandenes Ziel kurz überschreiben. Chat: "Sniper-Test: deine Ziele 60 s pausiert (Reaktionszeit nur
+  mit dem Test-Ziel)." und danach "Sniper-Test: deine Ziele sind wieder aktiv (n)." (10 Sprachen). AH mitten in der Phase zu ->
+  T618 SKIP mit Grund (statt FEHLER "zu wenige Suchen").
+- Garantiert wieder aktiv:
+  - Ende der Phase: StopObserve -> EndOnly.
+  - Fehler, Abbruch oder Zeitlimit des Teils: TR:Finish beendet eine noch laufende Beobachtung (neu; vorher lief die
+    Beobachtung nach einem Abbruch weiter).
+  - /reload: der Filter liegt nur im Arbeitsspeicher und ist weg; Testziel und Scharf-Zustand stellt die schon bestehende
+    Sicherung der Testroutine (db.testRoutine.backup, RecoverAfterReload bei READY) zurück. db.sniper ist darin (nicht NO_COPY).
+  - Wecker: nach 75 s läuft der Filter in jedem Fall ab.
+- Zeit: Teil "sniper" jetzt ca. 120 + 60 s + Schritte ≈ 185 s < PART_MAX 200; mit S4 (30 + 60 s) höchstens 290 s ≤ 5 Min. (TB188-6).
+TESTS: T874 (Filter nur Test-Ziel, db.sniper Byte für Byte gleich, Zeitlimit hebt auf + Chatzeile, Abbruch über StopObserve hebt auf,
+  Test-Ware überspringt Ware mit eigenem Ziel). Gegenproben: ohne Filter in GetActiveTargets -> rot ("Phase 1,2,3"); ohne EndOnly in
+  StopObserve -> rot ("Abbruch 3 Filter true").
+  Nachbauten mit 2 eigenen Zielen (Golddorn, Friedensblume):
+    s271_sniper_s6_phase: in der Phase nur das Test-Ziel gesucht, T618 "spätestens nach 2.8 s (Abstand 2.4 s + Suche 0.4 s, 9 Suchen,
+      eigene Phase 20 s, 2 eigene Ziele pausiert)", Chat pausiert -> wieder aktiv, Ziele unverändert, Scharf-Zustand wie vorher.
+    s271b AH zu mitten in der Phase -> T618 SKIP mit Grund, Ziele aktiv. s271c Abbruch (/ahs testroutine stop) -> Ziele aktiv,
+    Testziel weg. s271d_a/b /reload mitten in der Phase -> nach dem Laden Ziele und Scharf-Zustand wie vorher, keine Pause.
+    Gegenprobe s271 mit 0.65.294: rot (4 Fehler).
+  s44/s88 (ohne eigene Ziele) weiter grün.
+Im Spiel prüfen: /ahs testroutine sniper mit eigenen Zielen -> T618 aus der eigenen Phase "< 5 s", Chatzeilen.
+"Warum 33 statt 90 Suchen/Min.": weiter mit T728 aus dem nächsten Upload.
+
+Tests (eigene, keine Freigabe): Gesamtlauf aller Nachbauten auf dem Stand 0.65.295 (mit s271–s271d): BESTANDEN 339, FEHLGESCHLAGEN 0.
+addon_check: AHSentinel-0.65.295.zip OK. Veröffentlicht: GitHub-Release v0.65.295, Discord announce/ahsentinel__ahsentinel-0.65.295.md.
+Nicht in download/, kein CurseForge (erst nach dem Ingametest).
