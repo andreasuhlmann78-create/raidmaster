@@ -1,0 +1,48 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+
+Lauf: geplante Aufgabe "ProfessionSentinel Rezeptdaten-Update" (alte Aufgabe ohne "mit Supervisor"), 16.11.2026 07:24.
+Wegen VORRANG in raidmaster/CLAUDE.md (Entscheid 14.11. 08:55) NICHTS veröffentlicht: keine neue Version, kein Commit
+in ProfessionSentinel, kein Release, nichts in announce/ oder download/. Datenänderung verworfen (git checkout).
+
+1. DATENSTAND
+- Clients: Forever 1.60.1.70938, Era 1.15.9.70576, Retail 12.1.5.70783 (alle unverändert).
+- QuestieDB: c071853 vom 2026-11-16 (vorher 90ab55b vom 2026-11-12).
+- Pipeline: CHANGES=0 (keine neuen Rezepte, Händler, Drops, Stufen).
+- Einzige inhaltliche Änderung (git diff): Data_Forever.lua verliert den Schmiede-Lehrer
+  Angus Hammerhand (NPC 276067, Tirisfal, Horde) aus ns.Trainers[164] und ns.NPCs.
+
+2. URSACHE DER ÄNDERUNG (belegt) – Fehler in der Pipeline, KEINE echte Spieländerung
+- QuestieDB c071853 hat neu in src/corrections/Forever/foreverNPCFixes.lua:1180
+    [276067] = { [npcKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES] = {{21.16,45.72}}} }
+  Der Grund-Eintrag (generated/foreverBaseNpc.lua:27874) ist unverändert: Trainer-Flag, "Blacksmith", Spawn 85 (21.2,45.8).
+- pipeline/qloader.py:13 (PRELUDE) setzt zoneIDs auf eine Tabelle, die für JEDEN Namen 0 liefert. Der Fix ersetzt den Spawn
+  daher durch {[0] = …}; spawn_of() (qloader.py:114) überspringt Zone <= 0 -> kein Spawn -> qloader.py:144 nimmt den NPC
+  nicht als Lehrer auf.
+- Folgefehler (Verdacht, zu messen): Gleiches trifft jeden NPC, dessen Spawn ein Fix mit zoneIDs.<NAME> setzt.
+  Grobe Messung (Regex über die Fix-Dateien, nicht exakt): Forever 401 von 569 NPCs ohne Spawn haben einen solchen Fix,
+  Era 390 von 448 (z. B. NPC 300, 314, 412, 448, 16446). Diese Händler/Lehrer/Drop-NPCs haben im Addon keine oder
+  falsche Koordinaten bzw. fehlen als Lehrer – nicht erst seit heute, sondern seit es die zoneIDs-Fixes gibt.
+
+3. LÖSUNGSVORSCHLAG (für die ProfessionSentinel-Sitzung)
+- qloader.py: zoneIDs echt auflösen (ZoneDB/zoneIDs aus QuestieDB laden, z. B. Database/Zones/zoneDB bzw. die Datei mit
+  "zoneIDs = {"), statt pauschal 0. Mindestens: Spawn-Zone 0 -> auf die Zone des Grund-Eintrags (npcKeys.zoneID)
+  zurückfallen und Fix-Spawns mit unbekannter Zone nicht über gültige Grund-Spawns schreiben.
+- Danach Pipeline neu laufen lassen und Lehrer-/Koordinaten-Zahlen je Spielversion vergleichen (Erwartung: mehr NPCs mit
+  Spawn, Angus Hammerhand wieder in ns.Trainers[164]).
+- Bis dahin die heutige Datenänderung NICHT veröffentlichen (sie wäre ein Rückschritt).
+
+4. PRÜFUNGEN (mit den neuen Daten, vor dem Verwerfen)
+- 3a Lua 5.1 (lupa.luajit21, loadstring): Forever 2315 Rezepte, Era 1267, Retail 10172; 0 Zeilen gelb>grün oder grün>grau;
+  Lehrer Lederverarbeitung (165): Forever 29, Era 30; ns.Crates Forever 30. OK.
+  Hinweis: Forever hat 2315 statt der in der Anweisung genannten ca. 2211 – war schon im letzten Stand so (count = 2315).
+- 3b tests/run_smoketest.py: Exit 0 (interne AUTOTEST-Zeilen zeigen FEHLER 31/28/28 im Smoketest-Mock, Ergebnis "AUTOTEST OK").
+- 3c tests/run_offline.py ProfessionSentinel: Exit 0.
+  Forever OK 240 · FEHLER 0 · übersprungen 18 · im Client prüfen 12
+  Era     OK 222 · FEHLER 0 · übersprungen 38 · im Client prüfen 10
+  Retail  OK 220 · FEHLER 0 · übersprungen 43 · im Client prüfen 7
+  TBC: TOC-Lauf ohne Fehler; "OK: Aktionen mit Folgen nur in ns.Act" (keine echten Aktionen).
+
+5. VORGESCHLAGENE NACHRICHT (an die ProfessionSentinel-Sitzung, nach Freigabe)
+"Rezeptdaten-Lauf 16.11.: qloader.py setzt zoneIDs.* auf 0; NPC-Fixes mit [zoneIDs.X]-Spawns löschen dadurch die Spawns
+(heute: Lehrer Angus Hammerhand 276067 fällt aus Forever-Daten; vermutlich ~400 NPCs je Spielversion ohne Koordinaten).
+Bitte zoneIDs echt auflösen bzw. auf npcKeys.zoneID zurückfallen, Pipeline neu laufen lassen, Zahlen vorher/nachher im Bericht."
