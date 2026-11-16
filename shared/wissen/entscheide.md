@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 16.11.2026 10:08 | LevelPilot Era: "Forever und Era unterscheiden sich nicht sehr stark, Anniversary ist Era mit TBC" -> LW-5 bauen ohne Era-Client, gemeinsames im Forever-Client prüfen; Anniversary/TBC kein Ziel (Annahme, unbeantwortet) | offen-levelpilot.txt ENTSCHEID LW-5 |
 | 16.11.2026 09:08 | "Anniversary kannst du nehmen, das ist Classic mit TBC" (für die Era-Strassen) | Strassen Era aus wow_anniversary gelesen (daten/era), LevelPilot ST-5 neu |
 | 16.11.2026 08:51 | "Das Optionen-Menü ist eine Katastrophe – bitte übersichtlich gestalten" | AHSentinel OPT-1 HOCH (Bereiche links, Suche, eine Spalte, jede Option genau einmal) |
 | 16.11.2026 08:43 | MR4 und Markt-Reiter-eine-Seite: "mach du das bitte" -> Supervisor entscheidet am Bild: eine Seite NEIN, Kopfzeile in Klartext statt Kacheln | offen-ahsentinel.txt ENTSCHEIDE MR4/MR-SEITE |

@@ -522,3 +522,14 @@ Daten: shared/werkzeuge/strassen/daten/era/ (GoldSentinelStrassen.lua 88 KB, Cli
   sobald Platz ist – nicht 17 Punkte.
 - Hinweis .toc ohne Era-Zeile: richtig erkannt – gehört zu LW-5 (Era-Unterstützung). Reihenfolge jetzt: LW-5 (Era laden), dann
   Strassen-Erkennung erweitern nur nach LW-6-Beleg.
+
+==== ENTSCHEID LW-5 (Nutzer 16.11.2026 10:08) – Antwort auf Frage 1/2 des Plans ====
+Nutzer: "wie gesagt … Forever und Era unterscheiden sich nicht sehr stark … und Anniversary ist Era einfach mit dem Zusatz von TBC".
+-> FRAGE 1: LW-5 BAUEN (E1–E4), ohne auf einen Era-Client zu warten. Im Spiel geprüft wird alles, was Forever und Era gemeinsam haben,
+   im Forever-Client (Testroutine je Spielversion im Nachbau + Forever im Spiel). Das Era-spezifische (Laden im Era-Client, .toc-Liste,
+   Rückrechnung der 4 Zonen) bleibt "Verdacht, zu messen" und steht so im Bericht und in der Ankündigung ("Classic Era: vorbereitet,
+   im Era-Client noch nicht im Spiel geprüft"). E1: Interface-Liste nur, wenn Forever 1.60 sie nachweislich annimmt (im Spiel messen:
+   AddOn-Liste ohne "veraltet") – sonst getrennte .toc. E2/E3/E4 wie geplant, Forever darf nichts verlieren (alte Daten bleiben).
+-> FRAGE 2 (nicht beantwortet): Annahme des Supervisors: Anniversary/TBC (Scherbenwelt, 1–70) ist JETZT kein Ziel; nicht bauen.
+   Der Anniversary-Client dient nur als Datenquelle für Era (Strassen). Bei Wunsch des Nutzers später eigenes Projekt.
+Reihenfolge: LW-5 E1–E4 vor NAV-1/NAV-2.
