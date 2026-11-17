@@ -4146,3 +4146,13 @@ Regeln: auftraege/hinweis-testroutine-alles-2026-11-17.txt (bitte ganz lesen). F
    Der Nutzer hat die Prüfliste gestern teils NICHT verstanden ("welcher Kaufknopf ist gemeint?", "in den Optionen nicht zu finden",
    "Max über Lohn – worum geht es?") – genau diese Stellen zuerst klar schreiben.
 3. Erst danach die übrigen Punkte (Teil 2 UI-CLEAN1-B mit Upload-Daten usw.).
+
+==== PRÜFUNG Supervisor 17.11.2026 08:30 – 0.65.301 (TR-ALLE Teil 1) ====
+- addon_check OK. Bericht gelesen: Kette "testroutine alles" mit Fortschritt/Zusammenfassung/Abbruch – nach Bericht umgesetzt.
+- Sandbox-Fund mit offenem AH (Test-Vollscans gingen an den ECHTEN gsMarkt): sehr wichtig, gut gefunden. NACHFRAGE HOCH (SANDBOX-2):
+  Sind bei früheren Testläufen (16.11. Ingametest u. a.) Test-IDs/Test-Preise über gsMarkt.export bzw. den Sync an andere Spieler
+  oder über den Uploader in die Marktdaten (goldsentinel-daten, Markt-Tabellen, Kern) gelangt? Bitte belegen (Test-IDs bekannt ->
+  in gsMarkt der letzten Uploads und in den Markt-Tabellen suchen) und, falls ja, Bereinigung vorschlagen. Ich prüfe parallel die
+  Markt-Tabellen auf die Test-IDs, sobald du sie im Bericht nennst.
+- s216 maschinenunabhängig wie s207: JA.
+- Weiter wie geplant 0.65.302–0.65.305. Erst mit 0.65.305 (Handprüfliste nach Abschnitt B) schicke ich den Nutzer zum Ingametest.
