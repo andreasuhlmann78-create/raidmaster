@@ -1,0 +1,113 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+
+BERICHT NACHPRÜFUNG AN DIE PRÜF-SITZUNG (geplante Aufgabe)
+Stand: 17.11.2026 14:29 MEZ · Sitzung: Nachprüfung · geprüft auf origin/main 9288601c
+Nur dieser Entwurf wird committet; nichts in auftraege/**, kein Log, keine nachpruefung-stand.json.
+
+=====================================================================================================================
+0. ÜBERBLICK
+=====================================================================================================================
+Kein FEHLER der Addon-Prüfung, kein Befund HOCH. 1 MITTEL (Prüfsystem), 2 NIEDRIG (AHSentinel 0.65.318).
+- NP-SYS-2 MITTEL (Prüfsystem, shared/tests/test_goldsentinelmarkt.py): In einem flachen Klon (git clone --depth 1 – so war auch
+  der Klon dieser Sitzung) fehlen die Commits 07ba5716 und 55542918. "git show" liefert dann "", Client(src="") nimmt still die
+  AKTUELLE Datei – die Gegenproben v7/v8 vergleichen die neue Version mit sich selbst. Folge: 5 FEHLER im Test, addon_check zeigt
+  bei JEDEM Addon "Tests der gemeinsamen Datei: FEHLGESCHLAGEN" (Zip trotzdem "OK"), und die Byte-Gleichheits-Prüfungen gegen v7/v8
+  sind wertlos (bestehen immer).
+- NP-AHS318-1 NIEDRIG: "Absatz-Faktor nach jedem Scan vorgerechnet" (CHANGELOG 0.65.318) stimmt so nicht.
+- NP-AHS318-2 NIEDRIG: A.frameOwn (VS-BILD) wird nur in VS:MFinal gelöscht – bricht die Aufgabe "fullscan" mit Fehler ab,
+  bleibt die Ereignis-Zeitmessung ohne Zeitlimit an.
+Schon vom Supervisor geprüft, hier NUR erwähnt: AHSentinel 0.65.302–0.65.318 (zuletzt 0.65.318 um 14:27 mit GoldSentinelMarkt v10),
+LevelPilot 3.12.87 (08:40), Uploader 2.3.14 und ProfessionSentinel 0.9.64 (Übertrag 09:30), Ingametest 13:09 samt Einzelfehlern
+(13:20/13:35). Unverändert seit dem letzten Lauf (08:32): BuffSentinel 0.9.50, GuildSentinel 0.9.51, ProfessionSentinel 0.9.64,
+ThreatSentinel 2.5.16, RaidMaster 3.0.30, LevelPilot 3.12.87, Bot 1.5.186, Uploader 2.3.14.
+Neue Versionen über den Supervisor hinaus: keine. Die Punkte unten kommen zusätzlich aus Code, Diff und Testberichten.
+
+=====================================================================================================================
+1. PRÜFSYSTEM – NP-SYS-2 MITTEL (Beleg nachgemessen)
+=====================================================================================================================
+- shared/tests/test_goldsentinelmarkt.py:546  OLD7 = git show 07ba5716:shared/GoldSentinelMarkt.lua
+  shared/tests/test_goldsentinelmarkt.py:633  OLD8 = git show 55542918:shared/GoldSentinelMarkt.lua
+  Kein Prüfen von returncode/Länge. Client.__init__ führt "src or SRC" aus -> bei "" die aktuelle Datei.
+- Gemessen, frischer flacher Klon von 9288601c:  134/139, FEHLER: "Gegenprobe v7: Feed – Test-ID im Speicher/Export/gesendet",
+  "v9: Gegenprobe v8 – Teilen am Stück über 5 ms" (v8: 4,9 ms = v9), "v9: eigenes Lesen – Gegenprobe v8 … über 20 ms" (v8: 4,7 ms).
+  Gleicher Stand mit ganzer Geschichte (git fetch --unshallow): 137/137 bzw. alle grün, v8 19,5 ms / 111,6 ms.
+- Die Workflows nutzen fetch-depth: 0 (addon-check.yml:36) – dort fällt es nicht auf. Die Projekt-Sitzungen führen addon_check
+  vor dem Push aber in ihrem eigenen Klon aus (oft flach) und sehen "FEHLGESCHLAGEN", ohne dass ihr Addon schuld ist.
+- Lösung (wie schon für v9 gemacht, :691 variants/GoldSentinelMarkt-v9.lua): v7 und v8 ebenfalls als Dateien unter
+  shared/tests/variants/ ablegen; zusätzlich jede Gegenprobe-Quelle mit assert(len > 1000, "Vorversion fehlt") prüfen
+  (Direktive 15.11.: "Skripte brechen ab, wenn der Anker fehlt"). Test: flacher Klon -> alle Prüfungen grün bzw. klarer Abbruch,
+  nie Vergleich der Datei mit sich selbst.
+- Zuständig: Supervisor (shared/ ändert nur er). Kein Auftrag an ein Projekt.
+
+=====================================================================================================================
+2. AHSENTINEL 0.65.318 (zusätzlich zur Prüfung des Supervisors 14:27)
+=====================================================================================================================
+addon_check: OK (Zip announce/ahsentinel__ahsentinel-0.65.318.AHSentinel.zip). Diff gegen 0.65.317: AHAnalyzerPro.lua, Learn.lua,
+Vollscan.lua, TestRoutine.lua, toc, CHANGELOG EN/DE. Neue sichtbare Texte nur in Testbericht/Protokoll (Deutsch, wie bisher).
+Nachgesehen und in Ordnung:
+- Ln:BuyEntries (Learn.lua:471): exakter Vergleich (gleiche Tabelle, Länge, jede Zeichenkette), Fc:Decode ist rein (nur von der
+  Zeichenkette und der Konstante BASE abhängig, Forecast.lua:212), kein Aufrufer ändert die geteilten Einträge (BuyStats,
+  BudgetLeft, LossWarnings nur lesend). BudgetLeft rückwärts mit "break" wie vorher. Ergebnis gleich.
+- MarketFactor: Rückgaben (nil,0 / nil,n / f,n) gleich wie vorher; Aufgabe "learn:factor" übernimmt nur bei gleichem Schlüssel.
+- T892 stellt A.Forecast und Ln.buyCache wieder her (kein Durchsickern in echte Daten).
+Hinweis (kein Befund): Die Gültigkeitsprüfung je Aufruf geht über alle Journal-Einträge (bis 3000 Vergleiche). Bei vielen Aufrufen
+im selben Bild (FlipLimitFromNet je Item) summiert sich das; laut Bericht 0,15 ms je Item. Wenn es in VS-BILD auffällt: Zähler
+"Journal geändert" beim Schreiben hochzählen statt vergleichen.
+
+NP-AHS318-1 NIEDRIG – Absatz-Faktor wird nach einem Scan NICHT neu gerechnet
+- Learn.lua:229 Schlüssel = tostring(next(st.sold)) .. ":" .. Stunde. st.sold ist eine bleibende Tabelle (Vollscan.lua:1012 schreibt
+  je Item hinein), next() liefert fast immer dasselbe erste Item. Nach einem Vollscan ist der Schlüssel also gleich ->
+  WarmFactors (Learn.lua:287) gibt false zurück, nichts wird gerechnet. Der Faktor ändert sich nur zur vollen Stunde.
+- Das war schon vor 0.65.318 so (kein neuer Fehler), aber CHANGELOG.de/.md 0.65.318 und der Bericht sagen "nach jedem Scan …
+  vorgerechnet" – das stimmt nicht (Grundsatz: nichts behaupten, was der Code nicht tut).
+- Zweitens (Verdacht, zu messen): Ändert sich das erste Item doch (Umbau der Tabelle), ist hourOnly falsch und der erste Aufrufer
+  rechnet am Stück (im Nachbau mit echten Daten 32 ms) – wenn "cache:today" (Comfort.lua:711, SCAN_FINISHED) vor "learn:factor"
+  in der Liste steht.
+- Lösung: Schlüssel aus Messstand statt erstem Item (z. B. Zeit des letzten gemessenen Scans + Stunde); bei geändertem Schlüssel
+  wie bei hourOnly die alten Zahlen bis zum Ende von "learn:factor" nehmen (Zeitlimit = Dauer der Aufgabe), und Ln.factorSync
+  /factorWarm/factorStale in den Testbericht. Test: Nachbau Vollscan mit neuer Messung -> factorWarm +1, factorSync 0;
+  Gegenprobe 0.65.318: factorWarm 0 (Faktor alt). Oder den CHANGELOG-Satz berichtigen ("zur vollen Stunde").
+
+NP-AHS318-2 NIEDRIG – A.frameOwn ohne Zeitlimit, wenn der Scan mit Fehler abbricht
+- Vollscan.lua:207 setzt A.frameOwn in VS:MBegin, gelöscht nur in VS:MFinal (:391). VS:MEnd steht in der Aufgabe "fullscan"
+  (Vollscan.lua:551–571) NACH VS:ReadPortion ohne Schutz – wirft ReadPortion/NewRead/TrimRead einen Fehler, endet die Coroutine,
+  MEnd/MFinal laufen nie. Dann misst AHAnalyzerPro.lua:195 jedes Modul-Ereignis weiter mit debugprofilestop, gapFrame zählt
+  Item-Antworten – bis /reload. (curMeasure bleibt in diesem Fall schon vor 0.65.318 stehen – gleiche Ursache.)
+- Lösung: Einlesen in A:PCall fassen und bei Fehler VS:MEnd + VS.running = nil; oder Zeitlimit (z. B. MFinal spätestens
+  TIMEOUT + MEASURE_TAIL nach MBegin). Test: ReadPortion wirft im Nachbau -> A.frameOwn nil und VS.running nil nach Ablauf;
+  Gegenprobe 0.65.318 rot.
+
+=====================================================================================================================
+3. TESTBERICHTE (seit testberichte_bis 6c1dc1ad: Commits 4fb0decc, 185c3177, 19f92213)
+=====================================================================================================================
+- AHSentinel 0.65.315, 6 Teile 17.11. 12:25–13:09 MEZ (auto, ui, sniper, server, haendler, alles). Die FEHLER daraus hat der
+  Supervisor um 13:20/13:35 vollständig eingeordnet (A–F) – hier nichts doppelt.
+- MARKT-KERN gegen Ü2 (Grenzen: Treffer ≥ 60 %, mittlerer Fehler ≤ 15 % je freigegebenem Weg ab 20 Fällen, MA1 ≤ 20 %):
+    Teil auto 12:25:  snipe 39 Fälle · 59 % · 17 % · gesperrt (beide Ü2-Zeilen vorhanden – NP-MK-1 (d) wirkt)
+    Teile ui/sniper/server 12:27–12:42: snipe 0 · lernt
+    Teil haendler 13:09: snipe 2 · 50 % · 9 % · lernt
+    de 10 · 100 % · 7 % · lernt (alle Teile); flip, craft, vendor 0 · lernt; MA1 0 geprüft; MA3 2513 -> 6745 bestätigt, 1 abweichend.
+  Kein Weg ist "frei" -> Ü2 nicht verletzt, kein angezeigter Weg über der Grenze. Ergebnis: eingehalten (nichts freigegeben).
+  Der Sprung 39 -> 0 im selben Lauf ist BELEGT und richtig: MarketCore.lua:52–61 snipeFix2 (NP-MK-1 a) läuft in MK:Store(), das
+  während der Testroutine nil liefert (:39) – der Teil "auto" sah darum noch die alten 39, der erste Aufruf danach räumte auf.
+  NP-MK-1 (b) bleibt offen bis ≥ 20 neue snipe-Fälle (jetzt 2).
+- Diagnosen im selben Commit (BuffSentinel 0.9.47, GuildSentinel 0.9.48, LevelPilot 3.12.69, ProfessionSentinel 0.9.62,
+  ThreatSentinel 2.5.15, GSMesstest 5.1): ältere Versionen, längst ersetzt – nicht ausgewertet.
+- Vorschlag für die Stand-Datei (überträgt der Supervisor): testberichte_bis = 19f92213.
+
+=====================================================================================================================
+4. VORSCHLÄGE ZUM ÜBERTRAGEN (Supervisor entscheidet)
+=====================================================================================================================
+- shared/: NP-SYS-2 (v7/v8 als variants/-Dateien + assert).
+- auftraege/AHSentinel/offen-ahsentinel.txt, nach dem Abschnitt "PRÜFUNG Supervisor 17.11.2026 – 0.65.318", Reihenfolge: nach A/B
+  (nicht dringend):
+    NP-AHS318-1 NIEDRIG (Text oben, Abschnitt 2) · NP-AHS318-2 NIEDRIG (Text oben, Abschnitt 2).
+- addon-check/nachpruefung-stand.json: AHSentinel 0.65.318, testberichte_bis 19f92213, übrige Versionen unverändert;
+  geprueft 2026-11-17T14:29+01:00.
+- auftraege/nachrichten-log.txt: "2026-11-17 14:29 Nachprüfung-Entwurf: NP-SYS-2 MITTEL (Prüfsystem), AHS NP-AHS318-1/-2 NIEDRIG".
+- Nachricht an die AHSentinel-Sitzung: nicht nötig, solange der Supervisor die zwei NIEDRIG-Punkte in offen-ahsentinel.txt
+  aufnimmt (die Sitzung liest dort ohnehin vor jeder Arbeit).
+
+Gelesen: CLAUDE.md, berichte/AHSentinel/2026-11-17-1411-0.65.318-ruckel1-vs-bild.txt, offen-ahsentinel.txt ab 4170 (Nachprüfung
+08:32 bis Prüfung 0.65.318), nachrichten-log.txt, nachpruefung-stand.json.
+Nachrichten an Projekte: keine verschickt (Vorrang-Regel: nur Entwurf).
