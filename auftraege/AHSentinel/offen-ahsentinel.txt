@@ -4212,3 +4212,18 @@ Reihenfolge: 0.65.305 (Handprüfliste) zuerst, dann NP-MK-1 (a) zusammen mit MAR
   Der Verdacht "4. Lauf nur 11–20 ms" bitte im selben Bericht klären (Messung, nicht vermuten).
 - Den Nutzer schicke ich jetzt mit einer Anleitung, die PL-305-1 schon umgeht, zum Ingametest.
 Reihenfolge: 0.65.306 = PL-305-1 + MARKT-V8 + FeedNet-Portionen + NP-MK-1 (a); dann NP-AHS281-1, NP-MK-2, NP-MK-1 (b–d).
+
+==== PRÜFUNG Supervisor 17.11.2026 – 0.65.306 (NP-MK-1 a, MARKT-V8) ====
+- addon_check OK, keine Warnung (GoldSentinelMarkt v8 byte-gleich). Bericht gelesen.
+- NP-MK-1 (a): Aufschlüsselung nachgerechnet – stimmt: Fälle 1–37 22 Treffer, Ø Fehler 17,36 % ≈ 17,4 %; mit den 2 Kauftagen
+  23/39 = 59,0 %, Ø (Σ37 + 4,3 + 15,3)/39 = 16,98 % ≈ 17,0 %. Fehler = |Preis danach − Vorhersage| / Vorhersage an 8 Zeilen
+  nachgerechnet (z. B. 760/994 -> 30,8 %, 836/885 -> 5,9 %). Ursache belegt: alte Entzauber-Merkzettel mit dem AH-Preis als Wahrheit
+  (Rest aus MU1-2), KEINE Testkäufe – der Verdacht der Nachprüfung ist damit widerlegt. snipeFix2 einmalig: richtig.
+- NP306-1 MITTEL – Sperre ohne Zeitlimit (Direktive Perfektion: "keine Sperre ohne Zeitlimit"): Sn:SnipeNoteWanted sperrt JEDEN
+  Sniper-Treffer für "snipe", solange einer der Handpunkte SN-BTN1/SN-RAD-B/SN-RAD-A nicht "auto"/"ok" ist (P:HandTest). Bleibt ein
+  Punkt offen oder steht er auf "Nicht OK", lernt der Weg snipe im Entwicklermodus nie mehr – ohne Meldung.
+  Lösung: nur die Testkäufe ausnehmen: Item 2589 (Leinenstoff, wie in der Prüfliste) UND Ziel mit dem Höchstpreis aus der Prüfliste,
+  höchstens 24 Std. nach dem Öffnen der Prüfliste bzw. der letzten Änderung eines Sniper-Handpunkts; danach wieder normal. Im Kern-
+  Protokoll eine Zeile "snipe: Testkauf nicht gezählt (Prüfliste)". Test T883 erweitern: anderes Item während offenem Punkt -> zählt;
+  Leinenstoff nach 25 Std. -> zählt; Gegenprobe alte Regel rot.
+- Reihenfolge 0.65.307: PL-305-1 + FeedNet-Portionen + NP-AHS281-1 (wie du schreibst) + NP306-1 (klein). Danach NP-MK-2, NP-MK-1 (b–d).
