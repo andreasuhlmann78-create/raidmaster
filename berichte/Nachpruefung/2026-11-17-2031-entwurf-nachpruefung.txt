@@ -1,0 +1,69 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+
+BERICHT NACHPRÜFUNG AN DIE PRÜF-SITZUNG (geplante Aufgabe)
+Stand: 17.11.2026 20:31 MEZ · Sitzung: Nachprüfung · geprüft auf origin/main 69b17feb
+Nur dieser Entwurf wird committet; nichts in auftraege/**, kein Log, keine nachpruefung-stand.json.
+
+=====================================================================================================================
+0. ÜBERBLICK
+=====================================================================================================================
+Kein FEHLER der Addon-Prüfung. Kein neuer Befund (weder HOCH noch MITTEL/NIEDRIG).
+Seit dem letzten Entwurf (17:23) sind ALLE neuen Versionen schon vom Supervisor geprüft (nachrichten-log.txt 17:35–20:30).
+Diese Nachprüfung hat sie nur unabhängig gegengeprüft (addon_check, Offline-Tests) – alles grün. Nichts doppelt geschrieben.
+
+Aktuelle Versionen (alle schon vom Supervisor geprüft, hier NUR erwähnt):
+- AHSentinel 0.65.331 (Supervisor 20:15; 0.65.325–0.65.330 je Prüfung 17:55–19:45; TAINT-1, Befund 19:08)
+- GuildSentinel 0.9.53 (Supervisor 19:35, Ingametest 19:27 ausgewertet)
+- ProfessionSentinel 0.9.66 (Supervisor 20:15; Ingametest 20:15 ausgewertet 20:30: 23 FEHLER, Ruckeln bestätigt)
+- BuffSentinel 0.9.52 (Supervisor 19:15) · ThreatSentinel 2.5.18 (19:00) · LevelPilot 3.12.89 (20:00, Ingametest 20:20)
+- RaidMaster 3.0.31 (17:55, Ingametest 19:45) · Bot 1.5.186 und Uploader 2.3.14 unverändert.
+
+Vorschlag für addon-check/nachpruefung-stand.json (überträgt der Supervisor, falls gewünscht; Stand dort noch 08:32):
+  AHSentinel 0.65.331, BuffSentinel 0.9.52, GuildSentinel 0.9.53, LevelPilot 3.12.89, ProfessionSentinel 0.9.66,
+  RaidMaster 3.0.31, ThreatSentinel 2.5.18, RaidMasterBot 1.5.186, RaidMasterUploader 2.3.14, testberichte_bis 509c666c.
+
+=====================================================================================================================
+1. UNABHÄNGIGE GEGENPRÜFUNG
+=====================================================================================================================
+addon_check.py (Ladetest, Sprachtest, gemeinsame Dateien) – alle OK, 0 FEHLER:
+- announce/ahsentinel__ahsentinel-0.65.331.AHSentinel.zip: OK
+- announce/guildsentinel__guildsentinel-0.9.53.GuildSentinel.zip: OK
+- download/ProfessionSentinel-0.9.66.zip: OK
+- download/ThreatSentinel-2.5.18.zip: OK
+- download/BuffSentinel-0.9.52.zip: OK
+- announce/levelpilot__levelpilot-3.12.89.LevelPilot.zip: OK
+
+Offline-Tests:
+- GuildSentinel (Repo 8e7b7eb = 0.9.53), test/run_routine.lua mit lua5.1: 16001 -> 17 bestanden / 0 fehlgeschlagen / 0 Fehlermeldungen;
+  11508 -> 17 / 0 / 0. (Hinweis: Aufruf muss im Ordner test/ laufen, sonst findet dofile("wowmock.lua") die Datei nicht.)
+- ProfessionSentinel (Repo 7ebddfc = 0.9.66), python3 -I tests/run_offline.py ProfessionSentinel: Forever 245/275 · 0 Fehler,
+  Era 227/275 · 0, Retail 225/275 · 0, TBC ohne Lua-Fehler (0 Berichte, wie bisher), keine echten Aktionen im Nachbau, Ausgang 0.
+  Deckt sich mit dem Bericht 1953. Der Nachbau zeigt das Ruckeln im Spiel NICHT (Supervisor 20:30: Faktor 20–30) – bekannt.
+
+=====================================================================================================================
+2. TESTBERICHTE / AHSENTINEL MARKT-KERN (Teil 2b, Ü2)
+=====================================================================================================================
+Neue Testberichte seit dem Stand: 1723a132 (GuildSentinel 18:49, Diagnose AHS 0.65.328) und 509c666c (AHSentinel 0.65.328, Läufe
+18:53/18:55/18:58; LevelPilot-Wege u. a.). Ausgewertet vom Supervisor (Befunde 19:00/19:05/19:25) – hier nur MARKT-KERN gegengeprüft.
+AHSentinel-1794938023 (0.65.328): counts ok 930 · fehler 6 · client 16 · übersprungen 30 · errors (Lua) 0.
+MARKT-KERN:
+- Weg de: 10 Fälle · Treffer 100 % · mittlerer Fehler 7 % · lernt
+- Weg snipe: 2 Fälle · Treffer 50 % · mittlerer Fehler 9 % · lernt
+- Weg flip / craft / vendor: 0 Fälle · lernt
+- MA1: 0 eigene Auktionen geprüft (Fehlerquote –) · MA3: 2441 Händlerpreise bestätigt, 1 abweichend
+Grenzwerte Ü2: Kein Weg hat 20 Fälle, alle "lernt" -> keine Freigabe, Trefferquote-Grenze (≥ 60 %) noch nicht anwendbar.
+Mittlerer Fehler ≤ 15 % eingehalten (7 % / 9 %). 0 Lua-Fehler. -> Keine Verletzung, kein Befund.
+Beobachten: snipe 1 von 2 Treffer; sobald snipe ≥ 20 Fälle, Quote gegen 60 % prüfen. MA1 seit Tagen 0 – bleibt Messauftrag.
+Die eine MA3-Abweichung (Händlerpreis Spiel vs. Tabelle) ist nicht benannt – Verdacht, zu messen: welches Item (nur Item-ID ins Repo).
+
+=====================================================================================================================
+3. GELESENE BERICHTE DER PROJEKTE (seit 17:23)
+=====================================================================================================================
+AHSentinel 0.65.328/0.65.329/0.65.330 (TAINT-1)/0.65.331 · BuffSentinel 0.9.51/0.9.52 · ThreatSentinel 2.5.18 · GuildSentinel 0.9.53 ·
+LevelPilot 3.12.89, OPT-ROUTE, GRIND-1, TAINT-1-Gegencheck · ProfessionSentinel 0.9.66 (1953). Alle schon vom Supervisor beantwortet;
+nichts daraus neu zu übernehmen.
+
+=====================================================================================================================
+4. NACHRICHTEN
+=====================================================================================================================
+Keine Nachricht-Dateien erstellt oder geschickt (alles schon vom Supervisor geprüft bzw. raus). Keine Änderung an auftraege/**.
