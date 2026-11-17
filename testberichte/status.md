@@ -1,6 +1,6 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-17 16:02 UTC
+Ausgewertet: 2026-11-17 17:14 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
@@ -8,30 +8,30 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 |---|---|---|---|---|---|---|---|---|
 | AHSentinel | 17.11.2026 12:09 UTC | 0.65.315 | forever 1.60.1 (Interface 16001) | 2 | 5 | 2 | 0 | 63 |
 | BuffSentinel | 05.11.2026 00:19 UTC | 0.9.7 | forever 1.60.1 (Interface 16001) | 120 | 1 | 10 | 11 | 307 |
-| GuildSentinel | 09.11.2026 05:47 UTC | 0.9.13 | forever 1.60.1 (Interface 16001) | 153 | 4 | 23 | 5 | 1 |
+| GuildSentinel | 17.11.2026 15:46 UTC | 0.9.51 | forever 1.60.1 (Interface 16001) | 310 | 3 | 24 | 8 | 5 |
 | LevelPilot | 05.11.2026 00:21 UTC | 3.12.6 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 0 |
 | ProfessionSentinel | 09.11.2026 06:57 UTC | 0.9.28 | forever 1.60.1 (Interface 16001) | 5 | 2 | 1 | 0 | 0 |
-| RaidMaster | 05.11.2026 00:07 UTC | 3.0.17 | forever 1.60.1 (Interface 16001) | 98 | 3 | 10 | 12 | 0 |
-| ThreatSentinel | 10.11.2026 10:06 UTC | 2.5.4 | forever 1.60.1 (Interface 16001) | 7 | 1 | 0 | 1 | 0 |
+| RaidMaster | 17.11.2026 16:01 UTC | 3.0.30 | forever 1.60.1 (Interface 16001) | 131 | 4 | 11 | 12 | 0 |
+| ThreatSentinel | 17.11.2026 16:00 UTC | 2.5.16 | forever 1.60.1 (Interface 16001) | 272 | 4 | 10 | 15 | 0 |
 
 ## Diagnose-Protokolle (GSDIAG1)
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 155 | `testberichte/diagnose/AHSentinel/0.65.315-9898d5667a95.txt` |
-| BuffSentinel | 49 | `testberichte/diagnose/BuffSentinel/0.9.47-fcf53d571177.txt` |
+| AHSentinel | 156 | `testberichte/diagnose/AHSentinel/0.65.315-9898d5667a95.txt` |
+| BuffSentinel | 50 | `testberichte/diagnose/BuffSentinel/0.9.47-fcf53d571177.txt` |
 | GSMesstest | 10 | `testberichte/diagnose/GSMesstest/5.1-e71680805b41.txt` |
 | GSSniperLog | 15 | `testberichte/diagnose/GSSniperLog/1.7-d7b1125a2162.txt` |
-| GuildSentinel | 154 | `testberichte/diagnose/GuildSentinel/0.9.48-deb291b71b0c.txt` |
-| LevelPilot | 51 | `testberichte/diagnose/LevelPilot/3.12.87-4a392c3ee1d6.txt` |
-| ProfessionSentinel | 134 | `testberichte/diagnose/ProfessionSentinel/0.9.62-dfd8445cee29.txt` |
-| ThreatSentinel | 129 | `testberichte/diagnose/ThreatSentinel/2.5.15-bdc5bc9243da.txt` |
+| GuildSentinel | 155 | `testberichte/diagnose/GuildSentinel/0.9.51-05784535fcc0.txt` |
+| LevelPilot | 52 | `testberichte/diagnose/LevelPilot/3.12.87-4a392c3ee1d6.txt` |
+| ProfessionSentinel | 135 | `testberichte/diagnose/ProfessionSentinel/0.9.62-dfd8445cee29.txt` |
+| ThreatSentinel | 130 | `testberichte/diagnose/ThreatSentinel/2.5.16-05cfd406ea9d.txt` |
 
 ## Wegdaten (GSWEGE1)
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| LevelPilot | 201 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794917965-99bebb.json` |
+| LevelPilot | 202 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794931194-09674e.json` |
 
 ## AHSentinel
 
@@ -149,7 +149,45 @@ Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) ·
 - [SKIP] T173 J – N8: Offline-Test K2 (grund: offline (test/run_forever95.lua))
 - [FEHLER] T82 B – nichts gesendet (ergebnis: echt 1 (C_ChatInfo.SendAddonMessage 1), Warteschlange +0 | erwartet: echt 0, Warteschlange +0)
 
+**Testlauf 0.9.51 · forever 1.60.1 (Interface 16001) · 17.11.2026 15:46 UTC** – OK 310 · FEHLER 3 · übersprungen 24 · im Client prüfen 8 · Sandbox OK
+- [SKIP] T09b A – Simulation TBC: Inhalte (grund: beim Laden festgelegt, siehe D / offline 20505)
+- [CLIENT] T52 B – Berufsfenster einlesen (anleitung: Jedes eigene Berufsfenster einmal öffnen, dann /gs testroutine b: Seite Berufe zeigt die eigenen Rezepte)
+- [CLIENT] T180 B – Bank-Charakter im Spiel (anleitung: Einstellungen > Allgemein: 'Bank-Charakter' anhaken, Bank und Briefkasten öffnen, /reload: Bestand erscheint in #gildenbank (sobald Uploader und Bot aus dem RaidMaster-Auftrag fertig sind))
+- [CLIENT] T199 B – Verwaltungsknopf an der Gildenseite (anleitung: J drücken: rechts neben dem Gildenfenster steht 'Verwaltung (GuildSentinel)' (ohne Rechte grau); /gs verwaltung öffnet das Fenster; Passwort festlegen und mit falschem/richtigem Passwort entsperren)
+- [FEHLER] T285 B – T-BL4: Chatfeld wird nie beschrieben (nur HookScript lesen, SetFocus) (lua: GuildSentinelCmdHint:SetPoint(): Wrong object type for function)
+- [CLIENT] T191 B – Gilden-Berufsliste im Spiel (anleitung: Mit Gilde einloggen, 5 Minuten warten, /gs protokoll: Zeile 'Gilden-Berufsliste: … Zeilen' zeigt, ob das Spiel die Berufe der Mitglieder liefert; Seite Berufe zeigt dann auch Mitglieder ohne GuildSentinel (nur Stufen))
+- [CLIENT] T106 C – echte Kampfsperre (anleitung: Berufe-Seite offen, Kampf beginnen: kein ADDON_ACTION_BLOCKED für GuildSentinel, nach dem Kampf ist der Knopf wieder da)
+- [SKIP] T108 D – alter Client (grund: nicht dieser Client)
+- [SKIP] T109 D – alter Client (grund: nicht dieser Client)
+- [SKIP] T110 D – alter Client (grund: nicht dieser Client)
+- [SKIP] T111 D – alter Client (grund: nicht dieser Client)
+- [SKIP] T112 D – alter Client (grund: nicht dieser Client)
+- [SKIP] T114 D – alter Client (grund: nicht dieser Client)
+- [SKIP] T113 D – Berufe klassisch (grund: nicht dieser Client)
+- [SKIP] T115 E – Neuinstallation (grund: würde GuildSentinelDB neu anlegen; offline: jeder Lauf in test/ startet ohne GuildSentinelDB)
+- [SKIP] T117 E – Migration (grund: offline in test/run_nilglobals.lua (Altlasten) und run_lang.lua (alte Spracheinstellung))
+- [SKIP] T119 E – beschädigte Einstellungen (grund: offline in test/run_nilglobals.lua)
+- [SKIP] T123 F – alle Schlüssel vorhanden (grund: Client-Sprache ist de (Schlüssel bzw. Locales.lua))
+- [CLIENT] T136 G – Guild Roster Manager (anleitung: mit installiertem GRM: Leitung > GRM-Import zeigt Zahlen; ohne: kein Fehler)
+- [SKIP] T137 G – ProfessionSentinel (grund: GuildSentinel nutzt keine Schnittstelle von ProfessionSentinel)
+- [SKIP] T145 H – Speicher (grund: Messung im Bericht unten (collectgarbage vor/nach))
+- [CLIENT] T189 I – Diagnose-Protokoll im Spiel (anleitung: /gs protokoll öffnet ein Fenster mit markierbarem Text; nach /reload liegt GuildSentinelDB.diagExport (beginnt mit GSDIAG1) in den SavedVariables und geht mit dem Uploader nach #testberichte)
+- [SKIP] T156 J – P4a: Bewerber-Flüstern im Kampf (grund: wie T85)
+- [SKIP] T157 J – P4b: Addon-Nachricht im Kampf (grund: wie T84)
+- [SKIP] T158 J – P4c: Abklingzeit im Kampf (grund: wie T86)
+- [SKIP] T160 J – P5b: KnowsSpell über C_SpellBook (grund: wie T98/T133)
+- [SKIP] T162 J – P6b: ChatFrame_RemoveChannel (grund: wie T101)
+- [SKIP] T164 J – Launch-Tag: Interface-Nummer (grund: wie T03)
+- [CLIENT] T168 J – K2 im echten Kampf (anleitung: Mitspieler flüstert im Kampf 'gilde'; nach dem Kampf /gs testroutine whisperq und prüfen, ob Hinweis oder Bewerber erscheint)
+- [SKIP] T171 J – K5: tools/luac5.1 -v (grund: Werkzeug im Repo (offline))
+- [SKIP] T172 J – RM2: Werkzeug nicht in der ZIP (grund: offline (unzip -l))
+- [SKIP] T173 J – N8: Offline-Test K2 (grund: offline (test/run_forever95.lua))
+- [FEHLER] T182 K – Tooltips verdecken keine Knöpfe (ergebnis: 487 Tooltips, verdeckt: home: "Unterstützen" -> Button in ?; members>list: Button in ? -> Button in ?; members>list: Button in ? -> Button in ?; members>list: Button in ? -> Button in ?; members>list: Button in ? -> Button in ?; members>list: Button in ? -> Button in ?; members>list: Button in ? ->… | erwartet: 0)
+- [FEHLER] T185 K – Texte passen (ergebnis: Knöpfe abgeschnitten: group>search: Button in ?; group>free: Button in ?; group>free: Button in ?; group>free: Button in ?; group>free: Button in ?; board>offer: Button in ?; prof>dir: Button in ?; prof>dir: Button in ?; prof>dir: Button in ?; prof>req: Button in ? · WARNUNG 6 Texte zu lang: board… | erwartet: 0 abgeschnittene Knöpfe)
+- [SKIP] CT-C9 L – Spiel: Tooltip: „In der Gilde seit“ und letzter Rangwechsel (grund: nicht in einer Gilde)
+
 **Fehler im Spiel (letzte 7 Tage)**
+- 4× `GS_APPS`: Interface/AddOns/GuildSentinel/Roster.lua:124: attempt to index field 'alts' (a nil value) – Version 0.9.51 · forever 1.60.1 (Interface 16001) · zuletzt 17.11.2026 15:47 UTC
 - 1× `ADDON_ACTION_FORBIDDEN`: fn() – Version 0.9.28 · forever 1.60.1 (Interface 16001) · zuletzt 13.11.2026 04:43 UTC
 
 ## LevelPilot
@@ -220,6 +258,35 @@ Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) ·
 - [SKIP] T147 J – Berufe-Knopf übersetzt (grund: offline geprüft (Locales))
 - [CLIENT] T152 J – Berufe-Knopf im Client (anleitung: Knopf 'Meine Berufe einlesen' mehrmals, dann /rm berufe)
 - [SKIP] T90 F – Fehlende Übersetzungen (grund: Grundsprache)
+- [SKIP] T70 D – Ganze Routine im alten Client (grund: nur im alten Client (Era/TBC): dort /rmtest testroutine)
+
+**Testlauf 3.0.30 · forever 1.60.1 (Interface 16001) · 17.11.2026 16:01 UTC** – OK 131 · FEHLER 4 · übersprungen 11 · im Client prüfen 12 · Sandbox OK
+- [SKIP] T06 A – Fähigkeiten folgen der Weiche (grund: Caps nur beim Laden berechnet)
+- [CLIENT] T35b B – Berufe (Fenster echt öffnen) (anleitung: siehe T152: Knopf 'Meine Berufe einlesen' mehrmals, dann /rm berufe)
+- [CLIENT] T36b B – Gildenbank echt (anleitung: Bank-Charakter: Bank öffnen, Post öffnen, dann /rm bank – Bestand > 0 Einträge?)
+- [FEHLER] T43 B – Test-Werkzeug selbst (ony) (ergebnis: kein Item vergeben (Beute geladen 10/26) | erwartet: >= 1)
+- [CLIENT] T51b C – Absender von Addon-Nachrichten im Kampf geschützt? (anleitung: Forever, im Kampf mit Mitspieler: /rm sync – kommt keine Lua-Meldung, ist alles gut)
+- [CLIENT] T54b C – Systemmeldung mit geschütztem Text (anleitung: Forever, im Kampf jemanden einladen lassen: kommt keine Lua-Meldung, ist alles gut (echte geschützte Strings lassen sich nicht nachstellen))
+- [SKIP] T71 D – Alter Client (grund: nur im alten Client (Era/TBC))
+- [SKIP] T72 D – Alter Client (grund: nur im alten Client (Era/TBC))
+- [SKIP] T73 D – Alter Client (grund: nur im alten Client (Era/TBC))
+- [SKIP] T74 D – Alter Client (grund: nur im alten Client (Era/TBC))
+- [SKIP] T75 D – Alter Client (grund: nur im alten Client (Era/TBC))
+- [SKIP] T91 F – Formatplatzhalter (grund: offline geprüft (Lua 5.1 mit lupa))
+- [CLIENT] T92 F – Jede Sprache einmal aktiv (anleitung: einmal mit englischem Client /rmtest testroutine F)
+- [CLIENT] T103 G – DBM und BigWigs (anleitung: Pull-Timer aus der Boss-Leiste: Balken bei DBM/BigWigs sichtbar?)
+- [CLIENT] T104 G – BugSack/BugGrabber (anleitung: mit BugSack: /rmtest testroutine I – Testfehler in BugSack und Diagnose?)
+- [CLIENT] T133b J – Mouseover-Tasten und Symbol-Leiste im echten Kampf (anleitung: Forever: Mob im Kampf per RaidMaster-Taste (Mouseover) und per Klick auf die Symbol-Leiste markieren, Rechtsklick entfernt, 'Alle aus' – Symbol da, Fehlerliste leer, kein 'Aktion blockiert'?)
+- [CLIENT] T135 J – Skillungen in Forever (anleitung: /dump GetTalentTabInfo(1) und /dump GetTalentInfo(1,1); Gildenmitglied betrachten)
+- [CLIENT] T136b J – Plündermeister vorhanden (anleitung: /dump GiveMasterLoot ~= nil, GetMasterLootCandidate ~= nil; /dump C_PartyInfo and C_PartyInfo.GetLootMethod())
+- [CLIENT] T146 J – Bereitschafts-Check in alten Clients (anleitung: Era/Anniversary mit Fläschchen: /rm bereit – erkannt?)
+- [SKIP] T147 J – Berufe-Knopf übersetzt (grund: offline geprüft (Locales))
+- [CLIENT] T152 J – Berufe-Knopf im Client (anleitung: Knopf 'Meine Berufe einlesen' mehrmals, dann /rm berufe)
+- [FEHLER] T169 J – T-BL4 Chatfeld wird nie beschrieben (ergebnis: Lua-Fehler | erwartet: kein Fehler)
+- [FEHLER] T155 K – Eigene Tooltips verdecken keine Knöpfe (ergebnis: dkp: Markierungsleiste: Button verdeckt Button; auction: Markierungsleiste: Button verdeckt Button; loot: Markierungsleiste: Button verdeckt Button; log: Markierungsleiste: Button verdeckt Button; raid: Markierungsleiste: Button verdeckt Button; signup: Markierungsleiste: Button verdeckt Button; pug… | erwartet: keine)
+- [FEHLER] T156 K – Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern (ergebnis: dkp: Hauptfenster überdeckt Pfeil (LevelPilot); dkp: Bereitschaft überdeckt Pfeil (LevelPilot); auction: Hauptfenster überdeckt Pfeil (LevelPilot); auction: Bereitschaft überdeckt Pfeil (LevelPilot); loot: Hauptfenster überdeckt Pfeil (LevelPilot); loot: Bereitschaft überdeckt Pfeil (LevelPilo… | erwartet: keine)
+- [SKIP] T90 F – Fehlende Übersetzungen (grund: Grundsprache)
+- [SKIP] T184 F – Platzhalter der Übersetzungen (grund: Grundsprache)
 - [SKIP] T70 D – Ganze Routine im alten Client (grund: nur im alten Client (Era/TBC): dort /rmtest testroutine)
 
 ## ThreatSentinel
@@ -297,3 +364,34 @@ Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) ·
 **Testlauf 2.5.4 · forever 1.60.1 (Interface 16001) · 10.11.2026 10:06 UTC** – OK 7 · FEHLER 1 · übersprungen 0 · im Client prüfen 1 · Sandbox OK
 - [FEHLER] T181 K – Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern (ergebnis: Testzentrale überdeckt BuffSentinelAnchor_cd (BuffSentinel) · geprüft 2 | erwartet: keine)
 - [CLIENT] T186 K – Oberfläche mit offenen Blizzard-Fenstern (anleitung: Charakterfenster, Karte, Händler oder Post öffnen, dazu Testzentrale und Einstellungen; dann /ts testroutine k: T181 ohne Überlappen)
+
+**Testlauf 2.5.16 · forever 1.60.1 (Interface 16001) · 17.11.2026 16:00 UTC** – OK 272 · FEHLER 4 · übersprungen 10 · im Client prüfen 15 · Sandbox OK
+- [CLIENT] T11 A – Interface-Nummer des Clients in der .toc (anleitung: Interface steht in der Kopfzeile des Berichts; die Prüf-Sitzung vergleicht sie mit ## Interface (am Launch-Tag /dump select(4, GetBuildInfo())))
+- [CLIENT] T46 B – Bedrohung prüfen – im Kampf (anleitung: Mob angreifen, im Kampf /ts bedrohung: Status und Prozent (oder 'geschützt') erscheinen, kein Lua-Fehler)
+- [CLIENT] T109 C – Keine geschützten Aktionen im Kampf (anleitung: Im Kampf: Einstellungen öffnen (Hinweis 'nicht im Kampf'), /ts move (verweigert); danach /ts test > Bericht: Blocked: none)
+- [CLIENT] T110 C – Plaketten im Kampf in ANZEIGE/AUS (anleitung: Forever, Modus ANZEIGE: Pull mit 3+ Mobs – nichts leuchtet, Plaketten unverändert; nach dem Kampf wieder normal)
+- [SKIP] T112 D – Alter Client (grund: nur Classic Era / TBC)
+- [SKIP] T113 D – Alter Client (grund: nur Classic Era / TBC)
+- [SKIP] T114 D – Alter Client (grund: nur Classic Era / TBC)
+- [SKIP] T115 D – Alter Client (grund: nur Classic Era / TBC)
+- [SKIP] T116 D – Alter Client (grund: nur Classic Era / TBC)
+- [SKIP] T117 D – Gegenprobe im echten Spiel (grund: nur Classic Era / TBC)
+- [SKIP] T126 F – Im Code benutzte Schlüssel (grund: vor dem Push per Skript geprüft (manuell))
+- [CLIENT] T128 F – Andere Sprache aktivieren (anleitung: /ts testroutine sprache, dann /reload, dann /ts testroutine f (Popups und Tastenbelegungs-Namen bleiben in der Spielsprache))
+- [SKIP] T134 G – Schnittstellen zu den anderen Addons (grund: keine Schnittstelle)
+- [CLIENT] T135 G – Mehrere GoldSentinel-Addons gleichzeitig (anleitung: Mit RaidMaster, GuildSentinel, BuffSentinel, ProfessionSentinel laden, /reload, /gsgame: eine Zeile, Version 3; /ts testroutine g)
+- [CLIENT] T188 I – Diagnose-Protokoll im Spiel (anleitung: /ts protokoll öffnet ein Fenster mit markierbarem Text; nach /reload liegt ThreatSentinelDB.diagExport (beginnt mit GSDIAG1) in den SavedVariables und geht mit dem Uploader nach #testberichte)
+- [SKIP] T147 I – Lua-Fehler ausserhalb von pcall (grund: würde einen echten Fehler im Fehlerfenster/BugSack des Spielers auslösen; GoldSentinelTest.TrackErrors ist angemeldet (siehe Core.lua))
+- [CLIENT] T148 J – Kein Ersatz über das Ziel des Mobs (modern) (anleitung: Forever: Mob ohne Bedrohungsdaten bleibt IDLE (Diagnose 'Bedrohung am Ziel'), kein Leuchten)
+- [CLIENT] T149 J – Kein stilles IDLE bei geschützten Werten (anleitung: Forever, erster Kampf: /ts bedrohung zeigt 'geschützt', Hinweis 1x)
+- [CLIENT] T154 J – Taint im Modus VOLL (anleitung: Pull mit 3+ Mobs im Modus VOLL, danach /ts test > Bericht: 'Blocked: none'; kein 'ThreatSentinel hat eine Aktion blockiert')
+- [CLIENT] T157 J – Erkennung einmal pro Kampf, Zustand gespeichert (anleitung: Forever: zwei Kämpfe hintereinander, danach /ts bedrohung: 'zuletzt erkannt' mit Datum und Build)
+- [CLIENT] T174 J – UnitIsUnit nur über ns:SameUnit (anleitung: Forever, Gruppe im Kampf: kein Lua-Fehler (Testzentrale-Diagnose 'Fehler: 0'))
+- [CLIENT] T176b J – Alter Client: Kampf in der Gruppe (anleitung: Classic Era und TBC Anniversary: Schadens-/Heilmeter zählt, widerstandener Spott wird gemeldet, kein 'Addon geblockt' – Ergebnis dem Nutzer melden)
+- [CLIENT] T177 J – Launch-Tag: Interface-Nummer und erster Kampf (anleitung: /dump select(4, GetBuildInfo()); im ersten Kampf /ts bedrohung -> Modus im Bericht)
+- [SKIP] T178 J – Lua-Syntaxprüfung (grund: vor dem Push mit addon_check.py (manuell))
+- [FEHLER] T181 K – Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern (ergebnis: Testzentrale überdeckt Pfeil (LevelPilot) · geprüft 1 | erwartet: keine)
+- [FEHLER] T-K2 K – Testzentrale weicht sichtbaren Fenstern anderer GoldSentinel-Addons aus (ergebnis: verschoben true, Überdeckung 10204.191215168 | erwartet: verschoben true, Überdeckung 0)
+- [CLIENT] T186 K – Oberfläche mit offenen Blizzard-Fenstern (anleitung: Charakterfenster, Karte, Händler oder Post öffnen, dazu Testzentrale und Einstellungen; dann /ts testroutine k: T181 ohne Überlappen)
+- [FEHLER] TU1-L04t U – TU1 Schlachtzug 40 mit 40 Mobs: ein Durchlauf < 8 ms (ergebnis: 10.30 ms | erwartet: < 8 ms)
+- [FEHLER] TU6-R1 U – TU6 Regressionen: jeder Befund hat seinen Test, der Test lief (ergebnis: Regressionen: 49 von 49 vorhanden, nur im Client: T110 T128, Test FEHLER: 2.5.2 T180/T181 Rahmenname, Testzentrale über Blizzard-Fenstern; 2.5.8-1 T-K2 im Client immer FEHLER | erwartet: alle vorhanden, alle OK)

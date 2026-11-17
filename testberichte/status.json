@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-17T16:02:22Z",
+ "ausgewertet": "2026-11-17T17:14:50Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -314,61 +314,65 @@
    ]
   },
   "GuildSentinel": {
-   "berichte": 6,
+   "berichte": 7,
    "letzter_test": {
-    "id": "GuildSentinel-1794203247-f4dd4b-1",
-    "version": "0.9.13",
-    "time": 1794203239,
+    "id": "GuildSentinel-1794930432-519530-1",
+    "version": "0.9.51",
+    "time": 1794930416,
     "counts": {
-     "client": 5,
-     "fehler": 4,
-     "ok": 153,
-     "uebersprungen": 23
+     "client": 8,
+     "fehler": 3,
+     "ok": 310,
+     "uebersprungen": 24
     }
    },
    "fehler_tests": [
     {
      "addon": "GuildSentinel",
      "art": "test",
-     "version": "0.9.13",
+     "version": "0.9.51",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T118",
-     "name": "beschädigte Gildendaten",
-     "detail": "ergebnis: progress>achv: Interface/AddOns/GuildSentinel/Chronicle.lua:131: attempt to index a number value | erwartet: 0 Fehler",
-     "bericht": "GuildSentinel-1794203247-f4dd4b-1"
+     "id": "T285",
+     "name": "T-BL4: Chatfeld wird nie beschrieben (nur HookScript lesen, SetFocus)",
+     "detail": "lua: GuildSentinelCmdHint:SetPoint(): Wrong object type for function",
+     "bericht": "GuildSentinel-1794930432-519530-1"
     },
     {
      "addon": "GuildSentinel",
      "art": "test",
-     "version": "0.9.13",
+     "version": "0.9.51",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T143",
-     "name": "Seiten mit 500 Mitgliedern",
-     "detail": "ergebnis: 206.5 ms (langsamste) | erwartet: < 16 ms",
-     "bericht": "GuildSentinel-1794203247-f4dd4b-1"
+     "id": "T182",
+     "name": "Tooltips verdecken keine Knöpfe",
+     "detail": "ergebnis: 487 Tooltips, verdeckt: home: \"Unterstützen\" -> Button in ?; members>list: Button in ? -> Button in ?; members>list: Button in ? -> Button in ?; members>list: Button in ? -> Button in ?; members>list: Button in ? -> Button in ?; members>list: Button in ? -> Button in ?; members>list: Button in ? ->… | erwartet: 0",
+     "bericht": "GuildSentinel-1794930432-519530-1"
     },
     {
      "addon": "GuildSentinel",
      "art": "test",
-     "version": "0.9.13",
+     "version": "0.9.51",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T154",
-     "name": "P2: Twink/Main, Danke, Pate mit Vor- und Nachname",
-     "detail": "ergebnis: <Name>|nil|<Name> | erwartet: <Name> ×3",
-     "bericht": "GuildSentinel-1794203247-f4dd4b-1"
-    },
-    {
-     "addon": "GuildSentinel",
-     "art": "test",
-     "version": "0.9.13",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T82",
-     "name": "nichts gesendet",
-     "detail": "ergebnis: echt 1 (C_ChatInfo.SendAddonMessage 1), Warteschlange +0 | erwartet: echt 0, Warteschlange +0",
-     "bericht": "GuildSentinel-1794203247-f4dd4b-1"
+     "id": "T185",
+     "name": "Texte passen",
+     "detail": "ergebnis: Knöpfe abgeschnitten: group>search: Button in ?; group>free: Button in ?; group>free: Button in ?; group>free: Button in ?; group>free: Button in ?; board>offer: Button in ?; prof>dir: Button in ?; prof>dir: Button in ?; prof>dir: Button in ?; prof>req: Button in ? · WARNUNG 6 Texte zu lang: board… | erwartet: 0 abgeschnittene Knöpfe",
+     "bericht": "GuildSentinel-1794930432-519530-1"
     }
    ],
    "fehler_spiel": [
+    {
+     "addon": "GuildSentinel",
+     "art": "spiel",
+     "wo": "GS_APPS",
+     "msg": "Interface/AddOns/GuildSentinel/Roster.lua:124: attempt to index field 'alts' (a nil value)",
+     "anzahl": 4,
+     "versionen": [
+      "0.9.51"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/GuildSentinel/Core.lua]:317: in function 'CountError'\n[Interface/AddOns/GuildSentinel/Core.lua]:349: in function 'Fire'\n[Interface/AddOns/GuildSentinel/Recruit.lua]:1087: in function <Interface/AddOns/GuildSentinel/Recruit.lua:1071>\n[tail call]: ?\n[tail call]: ?\n..."
+    },
     {
      "addon": "GuildSentinel",
      "art": "spiel",
@@ -439,75 +443,115 @@
    "fehler_spiel": []
   },
   "RaidMaster": {
-   "berichte": 3,
+   "berichte": 4,
    "letzter_test": {
-    "id": "RaidMaster-1793837319-f8792f-1",
-    "version": "3.0.17",
-    "time": 1793837255,
+    "id": "RaidMaster-1794931362-d15947-1",
+    "version": "3.0.30",
+    "time": 1794931273,
     "counts": {
      "client": 12,
-     "fehler": 3,
-     "ok": 98,
-     "uebersprungen": 10
+     "fehler": 4,
+     "ok": 131,
+     "uebersprungen": 11
     }
    },
    "fehler_tests": [
     {
      "addon": "RaidMaster",
      "art": "test",
-     "version": "3.0.17",
+     "version": "3.0.30",
      "client": "forever 1.60.1 (Interface 16001)",
      "id": "T43",
      "name": "Test-Werkzeug selbst (ony)",
-     "detail": "ergebnis: kein Item vergeben | erwartet: >= 1 (Items vom Server geladen?)",
-     "bericht": "RaidMaster-1793837319-f8792f-1"
+     "detail": "ergebnis: kein Item vergeben (Beute geladen 10/26) | erwartet: >= 1",
+     "bericht": "RaidMaster-1794931362-d15947-1"
     },
     {
      "addon": "RaidMaster",
      "art": "test",
-     "version": "3.0.17",
+     "version": "3.0.30",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T122",
-     "name": "Doppelte Fehler",
-     "detail": "ergebnis: Diagnose 1 Einträge, n = 6 | erwartet: 1 Eintrag, n = 3",
-     "bericht": "RaidMaster-1793837319-f8792f-1"
+     "id": "T169",
+     "name": "T-BL4 Chatfeld wird nie beschrieben",
+     "detail": "ergebnis: Lua-Fehler | erwartet: kein Fehler",
+     "bericht": "RaidMaster-1794931362-d15947-1"
     },
     {
      "addon": "RaidMaster",
      "art": "test",
-     "version": "3.0.17",
+     "version": "3.0.30",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T142",
-     "name": "!dkp mit Doppelnamen (Forever-Weg)",
-     "detail": "ergebnis: [RaidMaster] <Name>: MC 40 · Ony 90 | erwartet: <Name> … 40",
-     "bericht": "RaidMaster-1793837319-f8792f-1"
+     "id": "T155",
+     "name": "Eigene Tooltips verdecken keine Knöpfe",
+     "detail": "ergebnis: dkp: Markierungsleiste: Button verdeckt Button; auction: Markierungsleiste: Button verdeckt Button; loot: Markierungsleiste: Button verdeckt Button; log: Markierungsleiste: Button verdeckt Button; raid: Markierungsleiste: Button verdeckt Button; signup: Markierungsleiste: Button verdeckt Button; pug… | erwartet: keine",
+     "bericht": "RaidMaster-1794931362-d15947-1"
+    },
+    {
+     "addon": "RaidMaster",
+     "art": "test",
+     "version": "3.0.30",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T156",
+     "name": "Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern",
+     "detail": "ergebnis: dkp: Hauptfenster überdeckt Pfeil (LevelPilot); dkp: Bereitschaft überdeckt Pfeil (LevelPilot); auction: Hauptfenster überdeckt Pfeil (LevelPilot); auction: Bereitschaft überdeckt Pfeil (LevelPilot); loot: Hauptfenster überdeckt Pfeil (LevelPilot); loot: Bereitschaft überdeckt Pfeil (LevelPilo… | erwartet: keine",
+     "bericht": "RaidMaster-1794931362-d15947-1"
     }
    ],
    "fehler_spiel": []
   },
   "ThreatSentinel": {
-   "berichte": 11,
+   "berichte": 12,
    "letzter_test": {
-    "id": "ThreatSentinel-1794305177-608ad8-2",
-    "version": "2.5.4",
-    "time": 1794305176,
+    "id": "ThreatSentinel-1794931210-b67704-1",
+    "version": "2.5.16",
+    "time": 1794931206,
     "counts": {
-     "client": 1,
-     "fehler": 1,
-     "ok": 7,
-     "uebersprungen": 0
+     "client": 15,
+     "fehler": 4,
+     "ok": 272,
+     "uebersprungen": 10
     }
    },
    "fehler_tests": [
     {
      "addon": "ThreatSentinel",
      "art": "test",
-     "version": "2.5.4",
+     "version": "2.5.16",
      "client": "forever 1.60.1 (Interface 16001)",
      "id": "T181",
      "name": "Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern",
-     "detail": "ergebnis: Testzentrale überdeckt BuffSentinelAnchor_cd (BuffSentinel) · geprüft 2 | erwartet: keine",
-     "bericht": "ThreatSentinel-1794305177-608ad8-2"
+     "detail": "ergebnis: Testzentrale überdeckt Pfeil (LevelPilot) · geprüft 1 | erwartet: keine",
+     "bericht": "ThreatSentinel-1794931210-b67704-1"
+    },
+    {
+     "addon": "ThreatSentinel",
+     "art": "test",
+     "version": "2.5.16",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T-K2",
+     "name": "Testzentrale weicht sichtbaren Fenstern anderer GoldSentinel-Addons aus",
+     "detail": "ergebnis: verschoben true, Überdeckung 10204.191215168 | erwartet: verschoben true, Überdeckung 0",
+     "bericht": "ThreatSentinel-1794931210-b67704-1"
+    },
+    {
+     "addon": "ThreatSentinel",
+     "art": "test",
+     "version": "2.5.16",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "TU1-L04t",
+     "name": "TU1 Schlachtzug 40 mit 40 Mobs: ein Durchlauf < 8 ms",
+     "detail": "ergebnis: 10.30 ms | erwartet: < 8 ms",
+     "bericht": "ThreatSentinel-1794931210-b67704-1"
+    },
+    {
+     "addon": "ThreatSentinel",
+     "art": "test",
+     "version": "2.5.16",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "TU6-R1",
+     "name": "TU6 Regressionen: jeder Befund hat seinen Test, der Test lief",
+     "detail": "ergebnis: Regressionen: 49 von 49 vorhanden, nur im Client: T110 T128, Test FEHLER: 2.5.2 T180/T181 Rahmenname, Testzentrale über Blizzard-Fenstern; 2.5.8-1 T-K2 im Client immer FEHLER | erwartet: alle vorhanden, alle OK",
+     "bericht": "ThreatSentinel-1794931210-b67704-1"
     }
    ],
    "fehler_spiel": []
@@ -792,42 +836,46 @@
   {
    "addon": "GuildSentinel",
    "art": "test",
-   "version": "0.9.13",
+   "version": "0.9.51",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T118",
-   "name": "beschädigte Gildendaten",
-   "detail": "ergebnis: progress>achv: Interface/AddOns/GuildSentinel/Chronicle.lua:131: attempt to index a number value | erwartet: 0 Fehler",
-   "bericht": "GuildSentinel-1794203247-f4dd4b-1"
+   "id": "T285",
+   "name": "T-BL4: Chatfeld wird nie beschrieben (nur HookScript lesen, SetFocus)",
+   "detail": "lua: GuildSentinelCmdHint:SetPoint(): Wrong object type for function",
+   "bericht": "GuildSentinel-1794930432-519530-1"
   },
   {
    "addon": "GuildSentinel",
    "art": "test",
-   "version": "0.9.13",
+   "version": "0.9.51",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T143",
-   "name": "Seiten mit 500 Mitgliedern",
-   "detail": "ergebnis: 206.5 ms (langsamste) | erwartet: < 16 ms",
-   "bericht": "GuildSentinel-1794203247-f4dd4b-1"
+   "id": "T182",
+   "name": "Tooltips verdecken keine Knöpfe",
+   "detail": "ergebnis: 487 Tooltips, verdeckt: home: \"Unterstützen\" -> Button in ?; members>list: Button in ? -> Button in ?; members>list: Button in ? -> Button in ?; members>list: Button in ? -> Button in ?; members>list: Button in ? -> Button in ?; members>list: Button in ? -> Button in ?; members>list: Button in ? ->… | erwartet: 0",
+   "bericht": "GuildSentinel-1794930432-519530-1"
   },
   {
    "addon": "GuildSentinel",
    "art": "test",
-   "version": "0.9.13",
+   "version": "0.9.51",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T154",
-   "name": "P2: Twink/Main, Danke, Pate mit Vor- und Nachname",
-   "detail": "ergebnis: <Name>|nil|<Name> | erwartet: <Name> ×3",
-   "bericht": "GuildSentinel-1794203247-f4dd4b-1"
+   "id": "T185",
+   "name": "Texte passen",
+   "detail": "ergebnis: Knöpfe abgeschnitten: group>search: Button in ?; group>free: Button in ?; group>free: Button in ?; group>free: Button in ?; group>free: Button in ?; board>offer: Button in ?; prof>dir: Button in ?; prof>dir: Button in ?; prof>dir: Button in ?; prof>req: Button in ? · WARNUNG 6 Texte zu lang: board… | erwartet: 0 abgeschnittene Knöpfe",
+   "bericht": "GuildSentinel-1794930432-519530-1"
   },
   {
    "addon": "GuildSentinel",
-   "art": "test",
-   "version": "0.9.13",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T82",
-   "name": "nichts gesendet",
-   "detail": "ergebnis: echt 1 (C_ChatInfo.SendAddonMessage 1), Warteschlange +0 | erwartet: echt 0, Warteschlange +0",
-   "bericht": "GuildSentinel-1794203247-f4dd4b-1"
+   "art": "spiel",
+   "wo": "GS_APPS",
+   "msg": "Interface/AddOns/GuildSentinel/Roster.lua:124: attempt to index field 'alts' (a nil value)",
+   "anzahl": 4,
+   "versionen": [
+    "0.9.51"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/GuildSentinel/Core.lua]:317: in function 'CountError'\n[Interface/AddOns/GuildSentinel/Core.lua]:349: in function 'Fire'\n[Interface/AddOns/GuildSentinel/Recruit.lua]:1087: in function <Interface/AddOns/GuildSentinel/Recruit.lua:1071>\n[tail call]: ?\n[tail call]: ?\n..."
   },
   {
    "addon": "GuildSentinel",
@@ -866,52 +914,92 @@
   {
    "addon": "RaidMaster",
    "art": "test",
-   "version": "3.0.17",
+   "version": "3.0.30",
    "client": "forever 1.60.1 (Interface 16001)",
    "id": "T43",
    "name": "Test-Werkzeug selbst (ony)",
-   "detail": "ergebnis: kein Item vergeben | erwartet: >= 1 (Items vom Server geladen?)",
-   "bericht": "RaidMaster-1793837319-f8792f-1"
+   "detail": "ergebnis: kein Item vergeben (Beute geladen 10/26) | erwartet: >= 1",
+   "bericht": "RaidMaster-1794931362-d15947-1"
   },
   {
    "addon": "RaidMaster",
    "art": "test",
-   "version": "3.0.17",
+   "version": "3.0.30",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T122",
-   "name": "Doppelte Fehler",
-   "detail": "ergebnis: Diagnose 1 Einträge, n = 6 | erwartet: 1 Eintrag, n = 3",
-   "bericht": "RaidMaster-1793837319-f8792f-1"
+   "id": "T169",
+   "name": "T-BL4 Chatfeld wird nie beschrieben",
+   "detail": "ergebnis: Lua-Fehler | erwartet: kein Fehler",
+   "bericht": "RaidMaster-1794931362-d15947-1"
   },
   {
    "addon": "RaidMaster",
    "art": "test",
-   "version": "3.0.17",
+   "version": "3.0.30",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T142",
-   "name": "!dkp mit Doppelnamen (Forever-Weg)",
-   "detail": "ergebnis: [RaidMaster] <Name>: MC 40 · Ony 90 | erwartet: <Name> … 40",
-   "bericht": "RaidMaster-1793837319-f8792f-1"
+   "id": "T155",
+   "name": "Eigene Tooltips verdecken keine Knöpfe",
+   "detail": "ergebnis: dkp: Markierungsleiste: Button verdeckt Button; auction: Markierungsleiste: Button verdeckt Button; loot: Markierungsleiste: Button verdeckt Button; log: Markierungsleiste: Button verdeckt Button; raid: Markierungsleiste: Button verdeckt Button; signup: Markierungsleiste: Button verdeckt Button; pug… | erwartet: keine",
+   "bericht": "RaidMaster-1794931362-d15947-1"
+  },
+  {
+   "addon": "RaidMaster",
+   "art": "test",
+   "version": "3.0.30",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T156",
+   "name": "Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern",
+   "detail": "ergebnis: dkp: Hauptfenster überdeckt Pfeil (LevelPilot); dkp: Bereitschaft überdeckt Pfeil (LevelPilot); auction: Hauptfenster überdeckt Pfeil (LevelPilot); auction: Bereitschaft überdeckt Pfeil (LevelPilot); loot: Hauptfenster überdeckt Pfeil (LevelPilot); loot: Bereitschaft überdeckt Pfeil (LevelPilo… | erwartet: keine",
+   "bericht": "RaidMaster-1794931362-d15947-1"
   },
   {
    "addon": "ThreatSentinel",
    "art": "test",
-   "version": "2.5.4",
+   "version": "2.5.16",
    "client": "forever 1.60.1 (Interface 16001)",
    "id": "T181",
    "name": "Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern",
-   "detail": "ergebnis: Testzentrale überdeckt BuffSentinelAnchor_cd (BuffSentinel) · geprüft 2 | erwartet: keine",
-   "bericht": "ThreatSentinel-1794305177-608ad8-2"
+   "detail": "ergebnis: Testzentrale überdeckt Pfeil (LevelPilot) · geprüft 1 | erwartet: keine",
+   "bericht": "ThreatSentinel-1794931210-b67704-1"
+  },
+  {
+   "addon": "ThreatSentinel",
+   "art": "test",
+   "version": "2.5.16",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T-K2",
+   "name": "Testzentrale weicht sichtbaren Fenstern anderer GoldSentinel-Addons aus",
+   "detail": "ergebnis: verschoben true, Überdeckung 10204.191215168 | erwartet: verschoben true, Überdeckung 0",
+   "bericht": "ThreatSentinel-1794931210-b67704-1"
+  },
+  {
+   "addon": "ThreatSentinel",
+   "art": "test",
+   "version": "2.5.16",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "TU1-L04t",
+   "name": "TU1 Schlachtzug 40 mit 40 Mobs: ein Durchlauf < 8 ms",
+   "detail": "ergebnis: 10.30 ms | erwartet: < 8 ms",
+   "bericht": "ThreatSentinel-1794931210-b67704-1"
+  },
+  {
+   "addon": "ThreatSentinel",
+   "art": "test",
+   "version": "2.5.16",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "TU6-R1",
+   "name": "TU6 Regressionen: jeder Befund hat seinen Test, der Test lief",
+   "detail": "ergebnis: Regressionen: 49 von 49 vorhanden, nur im Client: T110 T128, Test FEHLER: 2.5.2 T180/T181 Rahmenname, Testzentrale über Blizzard-Fenstern; 2.5.8-1 T-K2 im Client immer FEHLER | erwartet: alle vorhanden, alle OK",
+   "bericht": "ThreatSentinel-1794931210-b67704-1"
   }
  ],
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 155,
+    "anzahl": 156,
     "neueste": "testberichte/diagnose/AHSentinel/0.65.315-9898d5667a95.txt"
    },
    "BuffSentinel": {
-    "anzahl": 49,
+    "anzahl": 50,
     "neueste": "testberichte/diagnose/BuffSentinel/0.9.47-fcf53d571177.txt"
    },
    "GSMesstest": {
@@ -923,26 +1011,26 @@
     "neueste": "testberichte/diagnose/GSSniperLog/1.7-d7b1125a2162.txt"
    },
    "GuildSentinel": {
-    "anzahl": 154,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.48-deb291b71b0c.txt"
+    "anzahl": 155,
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.51-05784535fcc0.txt"
    },
    "LevelPilot": {
-    "anzahl": 51,
+    "anzahl": 52,
     "neueste": "testberichte/diagnose/LevelPilot/3.12.87-4a392c3ee1d6.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 134,
+    "anzahl": 135,
     "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.62-dfd8445cee29.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 129,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.15-bdc5bc9243da.txt"
+    "anzahl": 130,
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.16-05cfd406ea9d.txt"
    }
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 201,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794917965-99bebb.json"
+    "anzahl": 202,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794931194-09674e.json"
    }
   }
  }
