@@ -1,0 +1,118 @@
+AHSentinel 0.65.305 – TR-ALLE Teil 4: Handprüfliste nach Abschnitt B (nur noch echter Klick, Mausrad, echtes Gold, Händler) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.305 und sofort im Discord.
+
+AUTOMATISCH (/ahs testroutine alles, ein Prüflisten-Punkt TR-ALLES, hakt sich selbst ab):
+  1. auto (Regeln, Marktlagen-Nachbau TU1, SANDBOX-Gegenprobe)  2. ui (Oberflächen-Prüfung)  3. hilfe (HILFE-GRP)
+  4. sniper (S1–S13 mit Testziel, eigene Ziele pausiert, garantiert zurück)  5. waechter (WAECHTER-LAST + WAECHTER-FUND)
+  6. server  7. vollscan (VOLLSCAN)  8. berufe  9. haendler (Prüfungen am offenen Fenster)
+  Aus der Handliste entfernt (jetzt automatisch): SN-TR, SN-GRENZE (T549/T559), ESL1 (T794/T842), SCHN-ALARM (T846/T870), VOLLSCAN,
+  WAECHTER-LAST, WAECHTER-FUND, UI-TEST, HILFE-GRP.
+  TR-ALLES: alle 9 bestanden -> erledigt (erkannt); ein FEHLER -> „Fehler (erkannt)“, Notiz = Zusammenfassung; nur „nicht prüfbar“ ->
+  bleibt offen (Grund steht in der Zusammenfassung); abgebrochen -> nichts.
+  Hinweis: Berufe/Händler sind nur prüfbar, wenn das Fenster während der Kette offen ist (die Kette wartet bis CHAIN_WAIT).
+
+VON HAND (7 Punkte, Reihenfolge = Reihenfolge im Spiel; alle since 0.65.305, darum wieder offen). Der Text im Spiel ist derselbe,
+nur in einer Zeile je Abschnitt; jeder Punkt passt ins Fenster (T880 rechnet die Zeilen nach: höchstens 9 bei 90 Zeichen).
+Unter jedem Punkt steht im Fenster: „Stimmt es: nichts tun, das Addon merkt es selbst (sonst "OK"). Stimmt es nicht: "Nicht OK" …“.
+
+[1] TR-ALLES – Alle automatischen Prüfungen
+  Wo: Auktionshaus offen, nicht im Kampf.
+  1. In den Chat tippen: /ahs testroutine alles
+  2. Nichts anklicken, nicht weglaufen (das Auktionshaus muss offen bleiben), bis die Zusammenfassung kommt.
+     Abbrechen: /ahs testroutine stop
+  Du siehst: Chat „Testroutine alles: 9 von 9 bestanden, 0 FEHLER …“, dann das Fenster „Testbericht“.
+  Kosten: kein Gold, ca. 45 Min.
+
+[2] SN-BTN1 – Kauf-Knopf: echter Testkauf   (Frage von gestern „welcher Kaufknopf?“: der breite Knopf unter der Zielliste)
+  Wo: Auktionshaus.
+  1. Oben „Kaufen“, dann „Sniper“.
+  2. Feld „Name, ID oder Suchwort“: Leinenstoff.
+  3. Feld daneben (zeigt 1000): 1.
+  4. „Max/Stück:“ (Höchstpreis): 50s.
+  5. „Ziel setzen“.
+  6. „Sniper-Modus: AUS“ anklicken.
+  7. Breiter Knopf unten zeigt „Preis anfragen (1× Leinenstoff)“: 1 Klick.
+  8. Er zeigt „Kaufen bestätigen …“: 1 Klick.
+  Du siehst: Chat „Gekauft: 1x Leinenstoff für …“. Eine rote Warnung „über dem Verkaufswert“ ist hier normal
+  (Frage „Max über Lohn – worum geht es?“: der Höchstpreis 50s liegt absichtlich hoch, damit sicher ein Angebot passt).
+  Kosten: höchstens 50 Silber, 2 Min.
+
+[3] SN-RAD-B – Mausrad: eine Raste = ein Kauf
+  Wo: Auktionshaus, Sniper.
+  1. Knopf „Mausrad“ (neben „Sniper-Modus“) muss GRÜN sein, sonst anklicken.
+  2. Ziel wie eben: Leinenstoff, 1, 50s, „Ziel setzen“.
+  3. Breiter Knopf zeigt „Preis anfragen …“: EINE Raste am Mausrad.
+  4. Er zeigt „Kaufen bestätigen …“: noch EINE Raste.
+  Du siehst: Chat „Gekauft: 1x Leinenstoff für …“, genau 1 Stück.
+  Kosten: höchstens 50 Silber, 2 Min.
+
+[4] SN-RAD-A – Mausrad grau: kauft nie   (Frage „in den Optionen nicht zu finden“: jetzt nur noch der Knopf „Mausrad“ im Sniper)
+  Wo: Auktionshaus, Sniper.
+  1. Knopf „Mausrad“ anklicken: er wird GRAU.
+  2. Ziel wie eben: Leinenstoff, 1, 50s, „Ziel setzen“.
+  3. Breiter Knopf zeigt „Preis anfragen …“: Mausrad drehen.
+  4. In der Zielliste beim Leinenstoff „X“ (Ziel weg).
+  5. „Mausrad“ anklicken (wieder GRÜN).
+  Du siehst: Es wird NICHTS gekauft (kein „Gekauft:“ im Chat).
+  Kosten: kein Gold, 1 Min.
+
+[5] POST-WS – Zu billig: trotzdem einstellen
+  Wo: Auktionshaus.
+  1. Oben „Verkaufen“, dann „Einstellen“.
+  2. Links „Leinenstoff“ anklicken.
+  3. „Menge“: 1.
+  4. „Preis/Stück“: 1c (1 Kupfer, absichtlich zu billig).
+  5. „Einstellen“.
+  6. Im Fenster „Warnschutz“: „Trotzdem einstellen“.
+  Du siehst: Warnung „Achtung: …“, danach Chat „Eingestellt: 1x Leinenstoff …“, keine zweite Warnung.
+  Kosten: 1 Leinenstoff (wird wohl gekauft).
+
+[6] POST-TEUER – Zu teuer: Preis anpassen
+  Wo: Auktionshaus, „Verkaufen“ > „Einstellen“.
+  1. Links „Leinenstoff“.  2. „Menge“: 1.  3. „Preis/Stück“: 50g.  4. „Einstellen“.
+  5. Im Fenster „Warnschutz“: „Preis anpassen (…)“.  6. „Einstellen“.
+  7. Oben „Meine Auktionen“, beim Leinenstoff „X“ (abbrechen).
+  Du siehst: Warnung „Achtung: … über …“, Preis danach knapp unter dem günstigsten Angebot, „Eingestellt: …“ ohne neue Warnung.
+  Kosten: Gebühr unter 1 Silber.
+
+[7] HAENDLER-GOLD – Graue Items beim Händler
+  Wo: bei einem Händler, graue Items in der Tasche.
+  1. Händler ansprechen.
+  2. Maus auf den Knopf „Verkaufen: n Items (…)“ über dem Händlerfenster: die Liste zeigt, was verkauft wird
+     (steht etwas zum Behalten dort: NICHT klicken).
+  3. Klicken.
+  Du siehst: Die Items sind weg, Gold steigt um den Betrag.
+  Kosten: keine (Rückkauf beim Händler möglich).
+Gesamtkosten Gold: höchstens 1 Gold (2 Käufe à ≤ 50 Silber) + 2 Leinenstoff + Gebühren unter 1 Silber; Auktion ≤ 10 Silber eingehalten.
+
+GEFUNDEN BEIM SCHREIBEN (Code-Änderungen):
+  - WS-TEUER2 (Seller.lua SellWarning): Bei „zu teuer“ schlug „Preis anpassen“ einen Preis vor, der selbst „zu billig“ warnen konnte –
+    genau der Fall POST-TEUER mit eben gekauftem Leinenstoff (Vorschlag knapp unter dem günstigsten Angebot liegt unter dem
+    Einkaufspreis / 0,95 -> sofort neue Warnung, Schleife). Jetzt: kleinster Preis ohne Warnung „zu billig“, solange er nicht wieder
+    „zu teuer“ ist (sonst bleibt der alte Vorschlag, dann ist der Widerspruch echt). T881 rechnet: Einkauf 120 -> 127 statt 100,
+    danach keine Warnung; ohne Einkauf 100; Einkauf 300 (316 wäre zu teuer) -> 100, danach Warnung „zu billig“.
+  - VOLLSCAN-Messung im Entwicklermodus: List:State meldet für unbekannte Punkte „offen“ – ohne Punkt VOLLSCAN hätte jeder Vollscan
+    im Entwicklermodus weiter die Bereinigungs-Messung gemacht. Neu P:Has(id); VS:FloorWanted nur, wenn es den Punkt gibt (oder
+    VS.allFloor in TR-ALLE). T858 ergänzt (entfernt=false).
+  - Hit-Orte der entfernten Punkte bleiben im Code (wirkungslos, Hit/Fail auf unbekannte Punkte = false, ohne Meldung) – so kann ein
+    Punkt bei Bedarf zurückkommen; die Wächter-Messung (W:PLTick) braucht TR-ALLE weiter.
+TESTS: T836 (7 Punkte, TR-ALLES aus der Kette, FEHLER/nicht prüfbar/abgebrochen, Fenster „Schritt 7 von 7“), T880 (Abschnitt B:
+  Wo/Schritte/Kosten, keine Fachwörter, Zeilen ≤ 9), T881 (WS-TEUER2), T858 (FloorWanted). Nachbau s272: TR-ALLES-Zustand nach der Kette.
+
+S216 MASCHINENUNABHÄNGIG (Supervisor 08:30 "JA", Nachbau, kein Addon-Code):
+  - Ursache der Rötung: das längste Bild EINES Laufs schwankt mit der Maschine (ohne Feed einmal 60 ms statt ~41 ms). Bewertet wird
+    jetzt je Seite der Median der drei Läufe (Grenze unverändert +5 ms). 3 Läufe parallel zum Gesamtlauf: grün (40/40, 40/41, 39/42).
+  - Erst versucht: nur die Feed-Rechenzeit je Bild bewerten -> verworfen: der Feed läuft im gemeinsamen Zeitbudget (bis 30 ms je
+    Bild Feed, ganzes Bild trotzdem 41 gegen 42–45 ms ohne Feed); steht jetzt nur als Auskunft da.
+  - BEFUND (Verdacht, zu messen): die Gegenprobe zeigt, dass der Bild-Vergleich eine Zusatzlast von 12 ms im Feed NICHT erkennt (sie
+    fällt in ein leichtes Bild am Scan-Ende, nicht ins längste). Neu als Auskunft gemessen: längster FeedNet-Aufruf am Stück 9,5 ms im
+    Nachbau (6000 Items, CPU-Zeit) – über dem Portionsziel ≤ 5 ms je Bild (Hinweis TR-ALLE A). Im Spiel zu messen; ich schlage vor,
+    VS:FeedNet in Portionen zu teilen und in s216 „längster FeedNet-Aufruf ≤ 5 ms“ zur Pflicht zu machen – bitte entscheiden, ob als
+    nächster Punkt. Zusätzlich auffällig: der 4. Lauf mit Feed hat nur 11–20 ms längstes Bild (Verdacht: weniger Arbeit im 8. Scan).
+
+Tests (eigene, keine Freigabe): Gesamtlauf aller Nachbauten auf dem Stand 0.65.305: BESTANDEN 345, FEHLGESCHLAGEN 0 (s216 dabei noch in
+  der alten Fassung; die neue Fassung einzeln 4× grün). Gegenproben: alte Seller.lua -> T881 rot („Einkauf 120 … Vorschlag 100,
+  danach Warnung zu billig“ = die Schleife); alte Vollscan.lua -> T858 rot (entfernt=true).
+addon_check: AHSentinel-0.65.305.zip OK, 1 WARNUNG = GoldSentinelMarkt v7 statt v8 (deine neue v8; kopiere ich mit NP-MK-1 (a) in 0.65.306).
+Veröffentlicht: GitHub-Release v0.65.305, Discord announce/ahsentinel__ahsentinel-0.65.305.md. Nicht in download/, kein CurseForge.
+Nächste Punkte (Reihenfolge laut Auftrag): NP-MK-1 (a) + MARKT-V8, dann NP-AHS281-1, NP-MK-2, NP-MK-1 (b–d).
