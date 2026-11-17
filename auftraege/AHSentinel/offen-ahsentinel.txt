@@ -4369,3 +4369,28 @@ long, 12:24). Die Einzelheiten der 26 FEHLER kommen mit dem Testbericht (Upload)
    Gebühr 2974?? Zahlen prüfen).
 Reihenfolge: 0.65.317 = TR-RUN-1; dann 1 (Vollscan-Ruckeln), 2 (Wächter), 3; danach 5. Bitte im Bericht je Punkt "Ursache belegt" oder
 "Verdacht, zu messen".
+
+==== INGAMETEST 17.11. – EINZELNE FEHLER aus dem Upload (goldsentinel-daten aktuell/…/AHSentinel.lua 13:19, 0.65.315, je Teil) ====
+Ausgelesen vom Supervisor mit addon-check/testberichte.py (from_text). 26 FEHLER + T000/T762:
+A) RUCKELN IM SPIEL (HOCH, gehört zu Punkt 1/2 oben – das Spiel misst viel mehr als die Nachbauten):
+   - T458 Vollscan: längster Frame 840 ms (Einlesen) · Frames > 33 ms 696 von 1596 · Verdichtung 61, V4 51, Preisverlauf+Neuaufbau 82,
+     Nachlauf 39 ms.  T459: Zuwachs 114102 KB (ganzer Lua-Speicher), 28 Bereinigungen (Ziel ≤ 10 MB, ≤ 1).
+   - T126 Scan-Auswertung: mittlere der 3 längsten Portionen 45,4 ms (längste 47,2) – im Spiel, nicht Rauschen.
+   - T373/T647 "Heute" (cache:today): Schritt 25–26 ms bis UI_MarketView.lua:689, Bild 27,7–29,3 ms (Ziel ≤ 8 / ≤ 16).
+   - T617/T734 Sniper-Beobachtung: längster Frame 57 ms, 949 Frames > 33 ms; AHSentinel selbst: Kern/ITEM_SEARCH_RESULTS_UPDATED ×32
+     bis 49 ms, ui-refresh 34 ms ("fremd 916" = Spiel/andere Addons – bitte trotzdem die 32 eigenen bis 49 ms teilen).
+   -> Die Nachbauten unterschätzen die echte Datenmenge (224000 Auktionen, Lua-Speicher ~600 MB). Bitte für s216/T458/T126 einen Nachbau
+      in echter Grösse (Auktionen und Speicher) bauen, sonst sind die Nachbau-Grenzen wertlos.
+B) TESTS NICHT VON ECHTEN DATEN GETRENNT (Verdacht, zu belegen – MITTEL/HOCH): Mehrere Erwartungen stimmen mit den echten Daten nicht:
+   - T550 "geprüft 4" statt 2; T575 "geprüft 5" statt 3; T432 Budget-Zahlen; T49 (simuliertes Einstellen) bekommt die echte Warnung
+     "1s liegt 70 % unter dem Marktwert (3s 38c)" bzw. "2s … 38 % unter 3s 25c"; T72 "kein Knopf für: Entzaubere 6x Schultern des
+     Hügelwächters" (echtes Item aus den Taschen?). Die Nachbauten (ohne echte Daten) sind grün -> die Prüfungen lesen im Spiel echte
+     Daten mit. Bitte je Prüfung belegen und die Prüfungen auf Ersatz-Daten stellen (wie Sandbox), damit sie im Spiel dasselbe prüfen.
+C) EIN WERT JE ITEM (S28, RK2-A): 8 bzw. 11 von 20 Items mit zwei "Lohnt bis"-Werten (2866: 427 vs api 500; 7956: 390 vs 1360) – passt zur
+   Zusammenfassung "19 von 60 mit anderer Zahl". MITTEL (Grundsatz eine Zahl, eine Quelle).
+D) T750 UI-CLEAN1: ~590 Befunde (ragt heraus ~213, abgeschnitten ~330, überlappt 48; Markt > Überfüllt/Lücken, Buchhaltung > Statistik).
+   Das ist UI-CLEAN1-B Teil 2 – mit diesen echten Daten jetzt möglich.
+E) T359 Sniper-Zielzeile "50/100 gekauft · Budget 5g aufgebraucht" abgeschnitten. T729 reihum: Lücke 10–13 s > Grenze 5,3 s. T167 "20
+   Ereignisse, 0 Aufbauten" (erwartet 1–3). TSK1c/h/j: Selbstkontrolle (alte Fälle 14.–16.11.) – bitte sagen, ob noch offen oder nur alt.
+F) T000/T762 und der Lua-Fehler (SelfTest.lua:1362 bzw. UI_Main.lua:1298 "script ran too long", Schritt 306 im Teil auto) = TR-RUN-1.
+Reihenfolge: 0.65.317 TR-RUN-1 · dann A (Vollscan zuerst, mit Nachbau in echter Grösse) · B · Wächter · VOLLSCAN-Schritt · C · E · D.
