@@ -184,3 +184,12 @@ keine solchen Daten im Addon (Herkunft im Bericht belegen).
 ### E-Regel 17.11.2026 07:40 – Prüflisten müssen ohne Vorwissen verständlich sein
 Anlass: Nutzer verstand AHS-Prüflistenpunkte am 16.11. teils nicht. Jede Version mit Prüfliste: alles Automatische in '/<addon> testroutine alles';
 jeder Handpunkt mit Wo / nummerierten Schritten (genaue Knopfnamen) / wörtlich erwartetem Ergebnis / Kosten / OK-Nicht OK. Sonst nicht annehmen.
+
+### E-Regel 17.11.2026 12:40 – Testroutine selbst auf Ruckeln prüfen (mit offenem Fenster, voller Lauf)
+Anlass: AHSentinel 0.65.315, Ingametest des Nutzers: "/ahs testroutine alles" brach mit "script ran too long" ab (TR-RUN-1): das
+Testbericht-Fenster wurde nach JEDER Prüfung ganz neu aufgebaut (quadratisch), die Zeitscheibe SLICE_MS war 40 ms statt ≤ 5 ms.
+Die Prüfung hatte nur die Ergebnisse der Nachbauten gelesen, nicht die Laufzeit der Routine im vollen Lauf mit offenem Fenster.
+Regel: Bei jeder Version, die "testroutine alles" ändert oder einführt, im Code prüfen: (1) Zeitscheibe/Budget je Bild ≤ 5 ms
+EINSCHLIESSLICH Anzeige-Aktualisierung; (2) keine Arbeit je Zeile, die mit der Zahl der Zeilen wächst (Fenster/Listen nur gedrosselt
+und nur sichtbare Zeilen); (3) Fehler im Fehlerweg (Check "T000", Anzeige) gefangen; (4) Nachbau mit voller Prüfungszahl und offenem
+Fenster misst das längste Bild. Fehlt eines davon: Befund, bevor der Nutzer den Lauf im Spiel startet.
