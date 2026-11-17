@@ -13,7 +13,7 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 - **WARNUNG** BuffSentinel/GoldSentinelMarkt.lua: veraltete offizielle Fassung (Version 7) – auf shared/GoldSentinelMarkt.lua Version 10 aktualisieren
 
 ## GuildSentinel-0.9.39.zip: OK (3 Warnungen)
-- **WARNUNG** Version 0.9.39 in download/ wartet auf CurseForge 18:00 – Discord hat schon 0.9.51 (gewollt, Entscheid 15.11. 13:16)
+- **WARNUNG** Version 0.9.39 in download/ wartet auf CurseForge 18:00 – Discord hat schon 0.9.52 (gewollt, Entscheid 15.11. 13:16)
 - **WARNUNG** GuildSentinel/GoldSentinelMarkt.lua: veraltete offizielle Fassung (Version 4) – auf shared/GoldSentinelMarkt.lua Version 10 aktualisieren
 - **WARNUNG** GuildSentinel/GoldSentinelDev.lua: veraltet (Version 1, eine andere Kopie hat 2)
 
@@ -28,8 +28,7 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## ahsentinel__ahsentinel-0.65.324.AHSentinel.zip: OK
 
-## guildsentinel__guildsentinel-0.9.51.GuildSentinel.zip: OK (1 Warnungen)
-- **WARNUNG** GuildSentinel/GoldSentinelMarkt.lua: veraltete offizielle Fassung (Version 7) – auf shared/GoldSentinelMarkt.lua Version 10 aktualisieren
+## guildsentinel__guildsentinel-0.9.52.GuildSentinel.zip: OK
 
 ## levelpilot__levelpilot-3.12.87.LevelPilot.zip: OK (1 Warnungen)
 - **WARNUNG** LevelPilot/GoldSentinelMarkt.lua: veraltete offizielle Fassung (Version 7) – auf shared/GoldSentinelMarkt.lua Version 10 aktualisieren
