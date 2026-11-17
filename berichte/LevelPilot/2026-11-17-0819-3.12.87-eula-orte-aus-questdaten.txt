@@ -1,0 +1,34 @@
+BERICHT LevelPilot 3.12.87 (Datenpaket 1.6.4) – EULA-Austausch Schritt 1: Orte aus den Questdaten statt aus den Spieldateien
+Projekt: LevelPilot · Datum: 17.11.2026 08:19 (aus date) · Version: 3.12.87 · umgesetzt, zur Prüfung
+
+Bezug: Entscheid 06:22/06:34 (Austausch statt Neubau), Antworten Supervisor 07:00. Messung ohne Kartenrahmen (worlddata.lua entfernt).
+1. ÄNDERUNG
+   - Orte.lua neu (gleiche Schnittstelle At/AtWorld/Info/Available): Ort = Häufung der Questgeber/Abgeber der eigenen Fraktion aus
+     den Questdaten (Kette ≤ 100 yd, mind. 3 Punkte, Rand +40 yd), Ort-ID = Karte*1000+Nr. (nur je Sitzung). Aufbau einmal je
+     Sitzung als eigene Portion (LP.Jobs, gibt alle 40 Quests ab), 5 s nach dem Anmelden, nie mitten in einer Planung; bis dahin
+     150-yd-Regel ohne Orte. In der virtuellen Reise vor dem Start gebaut.
+   - Startgebiet: O.START entfällt -> Regel ohne Spieldaten (näher am Startplatz als am Gasthaus, im Kreis Startplatz–Gasthaus).
+   - Datenpaket 1.6.4: Data/Orte.lua (ORTE/ORTA) entfernt; README/Core-Kopf angepasst. Alte Clients: 3.12.72–3.12.86 mit 1.6.4
+     nutzen ihre Rückfallregel (geprüft: 3.12.86-Planer ohne Orte läuft, Variante "no").
+   - R5-Aufzeichnung: "ar" -> "m" (Zonenkarte). Testmodus: /lp kartenrahmen (C_Map, ohne Namen) für die Simulation.
+   - Entfernt aus dem Repo (Commit 07:0x): offline/lua/sim/worlddata.lua + world_hook.lua, orte/orte_bauen.py + orte_probe.py,
+     navmesh/frn3_*. ROUTE-Q-Werkzeug ohne Spieldaten (Orte = Häufung, Startgebiet = Gasthaus-Regel).
+2. MESSUNG (Simulation OHNE echte Kartenrahmen – jede Zone ein 2000×2000-yd-Feld im Raster; Laufen ~570 von ~715 h je Charakter,
+   deshalb für Zeitvergleiche kaum brauchbar; neu einordnen, sobald die Kartenrahmen aus /lp kartenrahmen da sind)
+   12 Charaktere, Bewertung Zeit + 0,5 × Grinden (Training / Gegenprobe):
+     3.12.86 mit Orte+Strassen 5827,7 / 5799,4 · ohne Strassen gleich (Strassen liegen in der Ersatzwelt nicht im Spielbereich –
+     Verlust so NICHT messbar) · Planer ohne Orte 5830,3 / 6045,3 · 3.12.87 (Questie-Orte) 6041,0 / 5981,1
+     (je Charakter −156 … +273 h; 5 besser / 6 schlechter gegen 3.12.86 – in dieser Ersatzwelt kein belastbarer Unterschied).
+   ROUTE-Q (12 Reisen, neues Werkzeug): 3.12.87 R1/R2/R3W/R4/R6/O5 = 0 in ALLEN 12. 3.12.86 (alte Orte im Planer, neue im Werkzeug):
+     R6 0–2 in 6 Reisen, O5 1 einmal. GEGENPROBE 3.12.69: R1 70–109, R2 92–168, R3W 14–67, R4 31–40, R6 10–31, O5 72–111.
+3. TESTS: T334 neu (je Fraktion zwei Orte, Startgebiet ohne Spieldaten; GEGENPROBE "alles ein Ort": false), T338/T340 angepasst,
+   T344 neu (Kartenrahmen; GEGENPROBE mit Namen: false). Gefundene und behobene Fehler vor der Veröffentlichung:
+   (a) O.Available baute je Aufruf die Questliste (AllIds) -> Horde-Lauf 12 984 statt 7162 ms; behoben, jetzt 7238 ms.
+   (b) Aufbau der Orte mitten in einer Planung (304 ms, Protokoll "Planung dauerte") -> eigene Portion/Zeitgeber; test32 grün.
+   (c) T155 zählte den einmaligen Aufbau in der Reise -> vor der Reise gebaut.
+4. PRÜFUNGEN: addon_check OK. Offline-Routine: 3.12.87 und 3.12.86 abwechselnd gemessen (Rechner unter Last): 87 37/38 und 36/38,
+   86 36/38 – Rest nur T151 (Graph:Path, von 3.12.87 nicht berührt; 86 gleich) bzw. T155 bei 86. Regression 35/36: test29
+   ("Ratchet nach Crossroads") scheitert ohne echte Kartenrahmen auch mit 3.12.86 (gleich gemessen). 12 Charaktere nach der letzten
+   Änderung identisch.
+5. NÄCHSTE: 3.12.88 Strassen tauschen (Strassen.lua/StrassenEra.lua raus, GSWEGE bleiben), dann TalentBuilds (3.12.89),
+   AreaNames, dann TR-ALLE. PRÜFLISTE für den Nutzer: /lp kartenrahmen (Testmodus) -> /reload -> Upload.
