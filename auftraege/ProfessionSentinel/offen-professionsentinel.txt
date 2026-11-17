@@ -458,3 +458,14 @@ anderen Items enthalten (falsche Herstellkosten). AHSentinel muss das zurückneh
 nie wieder passieren kann: Tabellen aus fremden Antworten beim Behalten flach kopieren (oder nur Zahlen behalten); Test mit einer
 Attrappe, die ihre Rückgabe-Tabelle nach dem Aufruf ändert (Gegenprobe heute rot). Ausserdem: DisenchantDeals() (neu in 0.65.334) statt
 FindDeals benutzen, sobald verfügbar.
+
+==== PRÜFUNG Supervisor 17.11.2026 23:00 – 0.9.67 ====
+- addon_check OK. Bericht 2228 gelesen. Nachbau echt: Bilder über 40 ms 268 -> 5 (3 davon EIN Aufruf in AHSentinel, E1/E3), FEHLER
+  14 -> 0, T140 längste Portion 5,6 ms mit Gegenprobe. Isolation-Ursache belegt (nur alter Name "AHAnalyzerPro" versteckt) – gut.
+  Gold-Sicherheit: FreshPrices in allen 6 Gold-Klicks, nur AHSentinel-Antworten behalten, T290 – angenommen.
+- ACHTUNG Kombination: 0.9.67 behält Antworten ROH. Mit AHSentinel 0.65.334 (wiederverwendete Rückgabe-Tabellen) liefert ein Treffer
+  falsche Zutatenlisten (BEFUND API-TAB-1 22:45). Darum: die Kopie beim Behalten (Befund 22:45) in 0.9.68 – HOCH, vor allem anderen.
+  Dem Nutzer melde ich: 0.9.67 nur mit AHSentinel ≤ 0.65.333 testen.
+- Frage Dauer-Ziel ≤ 300 s: vorläufig angenommen (Prüf-Sitzung); der Nutzer kann es ändern.
+- Takt: für 0.9.67 nicht verlangt; Pflicht bei NEUER Arbeit in Portionen (z. B. TR-ALLE D, Retail-Aufwärmen).
+- Ingametest 0.9.67 frei (mit AHSentinel ≤ 0.65.333). Danach: API-TAB-1-Kopie, T210/T38/Retail/T88, TR-ALLE D.
