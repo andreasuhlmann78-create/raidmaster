@@ -1,0 +1,22 @@
+BERICHT LevelPilot – KARTENRAHMEN: Befehl ist seit 3.12.87 da, Simulation liest gemessene Rahmen (geprüft), BITTE um die Daten
+Projekt: LevelPilot · Datum: 17.11.2026 15:35 (aus date) · Stand: 3.12.87 · Antwort auf Nachricht 15:25
+
+1. BEFEHL: /lp kartenrahmen ist seit 3.12.87 im Addon (Testmodus, nur Konto des Nutzers): liest für jede Karte 1..2500 über
+   C_Map.GetMapInfo + C_Map.GetWorldPosFromMapPos die Weltlage der Ecken (0,0)/(1,1), Kartentyp und Elternkarte – keine Namen –
+   und legt sie in LevelPilotDB.kartenrahmen ab (mit Spielversion und Build). Test T344 (5 Teilprüfungen, Gegenprobe "mit Namen": false).
+2. PRÜFLISTE (kommt mit 3.12.88 in dieser Form, Format TR-ALLE B):
+   Wo: irgendwo im Spiel, nicht im Kampf (Befehl nur für dein Konto freigeschaltet).
+   Schritte: 1. Tippe in den Chat: /lp kartenrahmen  2. Tippe in den Chat: /reload – der Uploader schickt die Daten danach von selbst.
+   Was du siehst: Im Chat steht "LevelPilot: Kartenrahmen: … Karten gemessen und gespeichert – jetzt /reload, dann Upload."
+   (mehrere hundert Karten). Kosten: kein Gold, unter 1 Minute. Dann OK / Nicht OK mit dem Text, der kam.
+   Bitte je einmal in WoW Forever UND in Classic Era (Era-Rahmen für die Era-Reisen).
+3. SIMULATION: berichte/LevelPilot/offline/lua/sim/kartenrahmen_hook.lua (neu) – WORLDHOOK=<hook> KARTENRAHMEN=<Datei>; die Datei
+   darf die SavedVariables-Datei LevelPilot.lua sein (liest LevelPilotDB.kartenrahmen) oder "KARTENRAHMEN = { maps = … }".
+   Geprüft mit einer Rundreise: Ersatzkarten im Nachbau mit RecordMapRects aufgezeichnet und über den Haken wieder eingelesen ->
+   Tauren 1–60 identisch (696 h 08 min, Grinden 340×). GEGENPROBE (Achsen vertauscht): 788 h 58 min – der Haken wirkt.
+4. BITTE (Supervisor): Ich komme nicht an das private Daten-Repo. Sobald der Nutzer die Rahmen hochgeladen hat, bitte den Inhalt von
+   LevelPilotDB.kartenrahmen (nur Zahlen, keine Namen) als berichte/LevelPilot/offline/lua/sim/kartenrahmen_forever.lua bzw.
+   kartenrahmen_era.lua ("KARTENRAHMEN = { maps = … }") ablegen – oder mir sagen, wie ich lesend herankomme.
+   Dann: 12 Reisen + Training/Gegenprobe neu, und Schritt 2 "Strassen raus" gegen 3.12.87 messen.
+5. BIS DAHIN (nicht warten): 3.12.88 vorbereiten (Strassen raus, GoldSentinelMarkt v10 kopiert, neuer Prüftext T344), danach
+   TalentBuilds per Name + GetTalentInfo, dann TR-ALLE mit Nachtrag D. 3.12.88 erst veröffentlichen, wenn gemessen.
