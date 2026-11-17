@@ -4307,3 +4307,29 @@ Reihenfolge: 0.65.306 = PL-305-1 + MARKT-V8 + FeedNet-Portionen + NP-MK-1 (a); d
   Testroutine laufen – ich werte den Bericht aus und melde es dir.
 - 2s34: Rechnung erklärt (Gewinn = Händlerpreis 300 − Angebot 183 = 117, × 2 = 234) – stimmt, meine Rückfrage ist erledigt.
 - Weiter: 0.65.316 Nachbau-Lagen Ausrüstung in ganzen Silbern, dann UI-CLEAN1-B Teil 2.
+
+==== BEFUND HOCH – Ingametest des Nutzers 17.11. 12:24 (0.65.315, /ahs testroutine alles) – TR-RUN-1 ====
+Lua-Fehler im Spiel (vom Nutzer gemeldet, Namen keine):
+  Interface/AddOns/AHSentinel/UI_Main.lua:1298: script ran too long
+  Stack: UI_Main.lua:1298 Render <- SelfTest.lua:1371 Refresh <- TestRoutine.lua:673 Row <- :704 Check <- :1481 (TR:Next, Check "T000
+  Ablauf der Routine") <- :1894 (OnUpdate -> Poll/Next). Locals: (*temporary)=0.016
+Ursache (im Code 0.65.315 belegt, Verdacht für die genaue Stelle):
+  - TR:Start öffnet das Testbericht-Fenster (TestRoutine.lua:1459 ST:ShowWindow) und TR:Row ruft nach JEDER Prüfung
+    ST.window:Refresh() (:673). Refresh baut ALLE bisherigen Zeilen neu (SelfTest.lua ~1360: rows aus ST.results, SetData, Render mit
+    Item-Symbolen/GetItemInfo) – bei n Prüfungen also n × (1 … n) Arbeit = quadratisch; im Lauf "alles" (~900 Prüfungen) wird jede
+    Zeile teurer.
+  - Ein Schritt in TR:Next warf einen Fehler (vermutlich schon "script ran too long" im Schritt selbst), das pcall fing ihn, dann
+    meldete Check "T000" -> Row -> Refresh -> der zweite Abbruch landete ungefangen beim Spieler. SLICE_MS = 40 (TestRoutine.lua:30)
+    wird nur ZWISCHEN den Schritten geprüft; Refresh zählt in jeden Schritt hinein.
+  - Widerspruch zu TR-ALLE A ("Portionen ≤ 5 ms je Bild"): SLICE_MS 40 ms in TR:Next.
+Auftrag (vor allem anderen, als 0.65.316 – die Lagen-Arbeit danach):
+  1. Fenster nicht je Zeile neu aufbauen: Row setzt nur "dirty"; Refresh höchstens alle 0,5 s über einen Zeitgeber, und nur die
+     sichtbaren Zeilen rendern (Liste ans Ende scrollen ohne alle Zeilen neu zu bauen). Bei geschlossenem Fenster gar nicht.
+  2. Zeitscheibe in TR:Next an TR-ALLE angleichen: Budget je Bild ≤ 5 ms INKLUSIVE Fenster-Aktualisierung; einzelne Prüfungen, die
+     allein länger dauern, in der Zusammenfassung mit Namen und Zeit nennen (wie die anderen Projekte).
+  3. Fehler im Fehlerweg nie weiterreichen: Row/Refresh in pcall, damit ein Abbruch in der Anzeige nie den Lauf stoppt; der Lauf geht
+     mit der nächsten Prüfung weiter, die Zeile sagt "Anzeige-Fehler: …".
+  4. Welcher Schritt war es? Aus dem Testbericht des Nutzers (kommt mit dem Upload) den Schritt vor dem Abbruch bestimmen und belegen.
+  5. Tests: Nachbau "alles" mit 900 Prüfungen und offenem Fenster: längstes Bild ≤ 5 ms (Median aus 3) und Refresh-Aufrufe ≤ Laufzeit/0,5 s;
+     Gegenprobe 0.65.315 rot. Prüfung "Row ohne Refresh je Zeile".
+Dem Nutzer sage ich: Lauf mit /ahs testroutine stop beenden, /reload, auf 0.65.316 warten.
