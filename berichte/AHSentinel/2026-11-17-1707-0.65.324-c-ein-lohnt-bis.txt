@@ -1,0 +1,42 @@
+AHSentinel 0.65.324 – C (ein "Lohnt bis" je Item, S28/RK2-A, Kern-Lohnt-Prüfung "19 von 60") – umgesetzt, zur Prüfung
+
+==== Ursache (belegt im Nachbau mit den echten Daten 13:19, lokal; Zahlen ohne Namen) ====
+- Item 1981: alle Entzauber-Anzeigen (tooltip, einkauf, markt, sammelkauf, marktgrenze, marktzeile, detail, sniper) = 5640 = Kern
+  (MK:DELimit); nur api = 6666. K:LohntBis: Wege de 5640 / haendler 6666 -> bester Weg Händler 6666. Die API liefert seit TB170-10
+  absichtlich den besten Weg (API.WorthUpTo: ist der beste Weg nicht Entzaubern, K:LohntBis). S28 (MK:LimitMismatch) verglich die API
+  aber mit dem ENTZAUBER-Wert -> "zwei Werte", obwohl jede Anzeige richtig war. Item 2244 (bester Weg Entzaubern 37850): alles gleich.
+- Die Kern-Lohnt-Prüfung (K:LohntCheck, "19 von 60") verglich umgekehrt die ENTZAUBER-Anzeigen mit dem besten Weg -> "andere Zahl" bei
+  jedem Item mit Entzauber-Grenze, dessen bester Weg AH/Händler ist. Die beiden Prüfungen massen Verschiedenes (wie TB170-10 schon sagte).
+- Die Beispiele aus dem Ingametest passen dazu (2866: 427 vs api 500; 7956: 390 vs 1360 – jeweils API höher = anderer Weg besser).
+  Verdacht, im Spiel zu bestätigen: im lokalen Nachbau haben nur 2 Items eine Entzauber-Grenze; der Ingametest zeigt es mit 20/60.
+
+==== Umsetzung ====
+- EINE Regel für beide Prüfungen: MK:LimitCompare(id, quellen, besterWeg): jede Entzauber-Anzeige = Entzauber-Grenze (kern); die API
+  (Weg offen) = der EINE Wert über alle Wege (K:LohntBis); ohne K-Wert = Entzauber-Grenze. S28 (LimitMismatch, auch die Prüfung im
+  Markt-Bericht) und K:LohntCheck nutzen sie; LohntCheck fragt bei Items ohne Entzauber-Grenze (bester Weg AH/Händler) die API direkt.
+  Die Meldung nennt jetzt den besten Weg ("Lohnt bis 5640 (bester Weg haendler 6666) · abweichend: …").
+- Keine angezeigte Zahl ändert sich; Tooltip unverändert (TT-STOP). Warum nicht alle Anzeigen auf den besten Weg: eine Entzauber-Anzeige
+  (z. B. Sniper-Entzauberziel) mit 6666 statt 5640 würde zum Kauf über dem Entzauber-Wert führen – die Grenze gehört zum Weg.
+  Falls der Supervisor/Nutzer trotzdem "alle Anzeigen = bester Weg" will: bitte entscheiden (Tooltip wäre wegen TT-STOP ausgenommen).
+- S28 läuft in Portionen (je Bild 2 Items mit Entzauber-Grenze, WAIT): Nachbau Teil server 90 -> 14 ms längster Schritt.
+- T696 angepasst: je Weg gleich (Entzauber 800, API 950 = AH) -> 0; Entzauber-Anzeige 790 bzw. API 900 -> beide erkannt.
+
+==== Belege ====
+- Nachbau echte Daten: S28 vorher 1 von 2 Items "zwei Werte" (1981), jetzt 0 von 2; LohntCheck 60 Items gleich.
+- Neu s283_lohnt_eine_regel (13 Prüfungen): (a) Fall 1981 gleich, (b) Tooltip 5600 erkannt, (c) API 6000 statt 6666 erkannt,
+  (d) bester Weg Entzaubern + API 5640 gleich, (e) bester Weg Entzaubern + API 6666 erkannt. Gegenprobe 0.65.323: (a) rot (2 Fehler).
+- s17_selftest (alle 3), s42, s42b, s282 grün. Gesamtlauf: 356/0. addon_check: OK (Release und Discord).
+
+==== Antwort zu E / TSK1c/h/j ("noch offen oder nur alt?") – aus dem Upload 13:19 gelesen ====
+- TSK1c (Auktionshaus): 57 Fälle, 9 Abweichungen, letzte 15.11. 09:01 -> nur alte Fälle (keine neue seit 15.11.).
+- TSK1j (Entzaubern-Knopf): 98 Fälle, 6 Abweichungen, letzte 14.11. 16:57 -> nur alte Fälle.
+- TSK1h (Vollscan): 24 Fälle, 11 Abweichungen, letzte 16.11. 19:37 "Speicher nach dem Scan +121584 KB, Bereinigungen 28, Lücke 436 ms"
+  -> das ist Punkt A (Vollscan-Speicher/Ruckeln, 0.65.318–0.65.320); Beleg im Spiel kommt mit dem Ingametest.
+- Vorschlag (bitte entscheiden): die Selbstkontrolle zählt Abweichungen nur seit der aktuellen Version, damit alte Fälle sie nicht
+  dauerhaft rot halten (alte bleiben im Protokoll). Ohne Entscheid ändere ich daran nichts.
+
+==== Weiter ====
+E (0.65.325) in Arbeit: T359 (geprüft wurde die lange Form, die Zeile zeigt seit TB189-3 die kurze; Pausen-Text in der Zeile kurz),
+T729 (Ingame-Zahlen 10,1/10,8/11,5/12,2/13,0 s = genau 0,7 s Takt in der Reihenfolge der Ziele -> die "Lücke" war die Zeit bis zur
+ersten Suche, nicht das Reihum; wird getrennt ausgewiesen), T167 (Verdacht: verschobener Aufbau durch echte DATA_CHANGED, Warten
+endete vorher). Nachbau-Belege folgen im Bericht 0.65.325.
