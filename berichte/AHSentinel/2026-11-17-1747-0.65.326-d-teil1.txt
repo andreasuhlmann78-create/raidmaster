@@ -1,0 +1,36 @@
+AHSentinel 0.65.326 – D Teil 1 (UI-CLEAN1: "ragt heraus" und "überlappt") – umgesetzt, zur Prüfung
+
+==== Wie gemessen (neu: T750 im Nachbau mit echten Daten) ====
+Im Upload stehen nur Summen von T750 (die Zeilen von UI-BEFUNDE werden nicht gespeichert). Deshalb läuft T750 jetzt im Nachbau: der
+Nachbau rechnet mit UI_REAL=1 die Lage der Rahmen aus ihren Ankern (GetRect) und erkennt gekürzte Texte (IsTruncated über die Breite der
+Zeichen, Zeilenumbruch, Höhe) – nur mit dieser Umgebungsvariable, sonst wie bisher. Mit den echten Daten (13:19), AH offen, Teil ui:
+0.65.325: 551 Befunde (ragt heraus 205 · abgeschnitten 302 · überlappt 44; im Spiel 588: 214 · 326 · 48) – Verteilung wie im Spiel
+(Markt > Lücken 59 / Spiel 72, Überfüllt 58 / 72, Buchhaltung > Statistik). Jede Zeile nennt jetzt auch die Stelle im Code, die den
+Rahmen anlegt (nur Nachbau, Kennzeichen UI_BORN).
+
+==== Umsetzung (je Befund Ursache im Code) ====
+- Zeilen-Knopf ragt aus der Zeile (Sniper-Ziele "X" 13 px, Schnäppchen "+" 37–40 px, je Variante): UI:Table wuchs nur (extraW ≥ 0);
+  ist die Liste schmaler als ihre Spalten (Sniper-Ziele 448 px < 170+62+184+Knopf+26), lagen letzte Spalte und Knopf ausserhalb. Jetzt
+  wird die wachsende Spalte schmaler (mindestens 40 px). Betrifft auch T359: die Spalte "Stand" lag teilweise ausserhalb der Liste.
+- Schnäppchen-Knöpfe 9 px über dem Bereich: Knöpfe (22 px) mittig zum Titel -> jetzt oben bündig, Titel 3 px tiefer.
+- Markt-Kopfzeile (zwei Zeilen, 28 px) 4 px über dem Reiter -> 4 px tiefer.
+- Buchhaltung > Statistik: Seitenleiste der Tabelle (steht über der Tabelle) über den Ansicht-Knöpfen "Vermögen/Gildenbank/Entzaubern"
+  (8 Überlappungen je Variante) -> Statistik 10 px tiefer, eine Zeile weniger (bleibt im Reiter).
+- Entzauber-Fenster: "Gesperrt" 2 px unter dem Schliessen-Knopf -> 4 px nach links.
+- Absichtlich ausserhalb (markiert uiaAllowOutside, Überlappen prüft T750 weiter): die Seitenleiste ÜBER jeder Tabelle ("123 Einträge
+  < 1 2 >") und klassisch die Reiterleiste UNTER dem Fenster (wie im Auktionshaus).
+Ergebnis Nachbau: 551 -> 301 Befunde, ragt heraus 0, überlappt 0; übrig nur "abgeschnitten" (Teil 2).
+
+==== Tests ====
+Neu s285_ui_clean_teil1 (12 Prüfungen) grün; Gegenprobe 0.65.325: 5 rot (Knopf ragt 15 px, 3 Knöpfe über dem Bereich, Schliessen/Gesperrt
+überlappen). Die Statistik-Überlappung tritt nur mit echten Daten auf (49 Einträge -> Seitenleiste breit) – Beleg mit dem UI-Nachbau oben.
+Gesamtlauf: 358/0. addon_check: OK (Release und Discord).
+
+==== D Teil 2 (0.65.327, in Arbeit) und FRAGE ====
+Übrig im Nachbau (301): Markt-Tabelle "Was tun" 77 (Sätze bis 834 px in 240 px Spalte), Markt-Erklärung 15, Preisverlauf-Liste 12,
+Übersicht 11, Detail "Preisleiter" 5, Buchhaltung > Entzaubern Spalte "eigene" 5, Schnäppchen-Namen 4, einzelne Eingabe-Hinweise.
+In Arbeit: Erklärung und Preisleiter zweizeilig, Spalte "eigene" breiter; gekürzte Tabellenzellen zeigen beim Darüberfahren den ganzen
+Text; dazu dein Entscheid zu C ("jede Anzeige sagt, für welchen Weg sie gilt") und TSK1 (beide Zahlen).
+FRAGE (Regel T750): Zählt eine TABELLENZELLE, die gekürzt ist, deren ganzer Text aber beim Darüberfahren im Tooltip steht, weiter als
+"abgeschnitten"? Vorschlag: eigene Art "gekürzt (Tooltip)" – sichtbar im Bericht, aber kein FEHLER; frei stehende Texte (Kopfzeilen,
+Erklärungen, Knöpfe, Felder) müssen ganz passen. Die langen "Was tun"-Sätze kürze ich trotzdem (Kurzform in der Zelle, ganz im Tooltip).
