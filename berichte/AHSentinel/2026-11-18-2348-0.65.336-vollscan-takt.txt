@@ -1,0 +1,52 @@
+AHSentinel 0.65.336 – Befund 19:08 Punkt 5 (Vollscan T458/T459) Teil 1 + Takt-Messwerte – umgesetzt, zur Prüfung; FRAGE zur Grenze T459
+
+Spielwerte: Lauf 19:08 (0.65.328). Nachbau mit den ECHTEN Daten des Uploads 19:38 (7232 Items, 224 192 Auktionen wie im Spiel
+gestreut, nur lokal, Lua 5.1). Nachbau-Werte sind "Verdacht, im Spiel zu bestätigen". Gegenprobe = 0.65.335 mit demselben Nachbau.
+
+==== T458 – eigene Arbeit (Spiel: eigene Arbeit höchstens 37 ms, Bild 106 ms "Preisverlauf+Neuaufbau") ====
+Nachbau Stichproben-Profil aller Schritte > 8 ms ab dem Scan (real_steps):
+- 0.65.335: fullscan 12,9 ms in A:ProcessBest – Ursache belegt: bis zu 60 Nachprüfungen Seller:CheckPrice AM STÜCK, jede mit eigener
+  Meldung SELLER_CHANGED an alle Empfänger (Fenster neu). Behebung: leise einreihen, Abgabe je Item, EINE Meldung danach.
+- danach 9,5 ms an derselben Stelle – Ursache belegt: table.sort aller "auffällig billigen" Waren (im Vollscan tausende; im Sortieren
+  kann Lua 5.1 nicht abgeben), gebraucht werden nur die 60 auffälligsten. Behebung: Auswahl der 60 in Portionen (gleiches Ergebnis).
+- 0.65.336: kein Schritt des Vollscans mehr über 8 ms. Übrig über 8 ms nur "vollscan:boden" (24–38 ms) = die Messung des bleibenden
+  Speichers selbst (collectgarbage "step", nur mit Prüfliste/Testroutine, nach dem Scan) und Einzelfälle 8–15 ms anderer Aufgaben
+  (core:realcheck, names, forecast-eval) mit Speicherbereinigung im Nachbau.
+Verhältnis Spiel/Nachbau (Bericht 0.65.333: 1,5–10×): 12,9 ms × ~3 = die 37 ms im Spiel – Verdacht, im Spiel zu bestätigen.
+"Rest Ø 58,8 ms" (Spiel/andere Addons): Verdacht, zu messen – die Speicherbereinigung, die das Spiel je Bild ausführt, arbeitet den
+Müll des Vollscans ab (Zahlen unten); dafür steht jetzt die Takt-Zeile in der Messung (eigene Arbeit je Bild getrennt vom Bild).
+
+==== T459 – Speicher (Spiel: Zuwachs 48 850 KB, 3 Bereinigungen; Grenze ≤ 10 240 KB, ≤ 1) ====
+Neu: real_vs_alloc – exklusiv angelegte KB je Funktion und Schritt (Kinder abgezogen, Messung ohne eigene Tabellen/Strings je Aufruf,
+Speicherbereinigung aus). Erster Vollscan nach dem Laden + 20 s danach:
+  0.65.335 gesamt 68 197 KB · 0.65.336 63 546 KB. Grösste Posten (0.65.336):
+  Verdichtung Digest 12 433 KB (erster Scan; ab dem zweiten werden die Tabellen des vorletzten Scans wiederverwendet, NP152-3) ·
+  Einlesen ReadPortion 10 038 KB (die gelesenen Auktionen selbst: 224 192 × Menge+Preis) · Timing:Record 4 695 KB (vorher 8 131;
+  Hilfstabellen wiederverwendet, Ergebnis byte-gleich: s304 Prüfsumme 3503484785 = 0.65.335) · FullScan:Finish 2 841 · Learn:BuildFactors
+  2 386 · Forecast:Decode 2 167 · FeedNetRun 2 036 · SellOutlook 1 815 · DecodeSold 1 293 · IsCommodityItem 1 292 (nur noch beim
+  ersten Mal je Item: Stapelgrösse gemerkt) · Forecast:Group (gemerkt).
+FRAGE an die Prüf-Sitzung: Die Grenze "Zuwachs ≤ 10 MB" ist mit 224 000 Auktionen nicht erreichbar – allein die gelesenen Daten sind
+~10 MB, die Verdichtung beim ersten Scan ~12 MB (danach wiederverwendet). Vorschlag zur Entscheidung: Grenze als "angelegt je Vollscan
+ohne die gelesenen Auktionen" oder ≤ 10 MB erst ab dem zweiten Vollscan der Sitzung; alternativ weiter verdichten (Preisleiter
+flach statt Tabelle je Stufe, ~5 MB weniger, grösserer Umbau). Bis zur Antwort arbeite ich an T617/T734 und T750 weiter.
+
+==== Takt-Messwerte (Antwort 22:10) ====
+A:Job/A:Pause liefern jetzt dieselben Messwerte wie GoldSentinelTakt, gleiche Erkennung (Stapel lesen, je Coroutine geeicht, nur wenn
+wirklich abgegeben würde):
+- je Bild mit Hintergrund-Arbeit: längstes Bild mit Etikett (Aufgabe + Stelle), Bilder über 5/16/40 ms;
+- "Abgabe nicht möglich": C-Grenze (pcall/xpcall/sort/gsub) im Stapel -> NICHT abgeben (vorher: Abbruch "attempt to yield across
+  metamethod/C-call boundary", vom pcall still geschluckt), gezählt mit Stelle; "Abgabe gescheitert" über einen Merker.
+- Zeile "Takt: …" in der Vollscan-Messung (T458-Ist-Text, Protokoll VOLLSCAN). Nachbau echte Daten: "734 Bilder · längstes 11,1 ms
+  (fullscan bis Vollscan.lua:742) · über 5/16/40 ms: 64/0/0 · Abgabe nicht möglich 0 · gescheitert 0" (mit Profiler).
+- Offline-Prüfung s302 (Abgabe an jeder Stelle, 0.65.335): 7596 Abgaben, 0 Verletzungen.
+Tests: T907 (Abgabe im pcall einer Aufgabe: kein Abbruch, gezählt mit Stelle) · s303_takt: 0.65.336 bestanden; Gegenprobe 0.65.335
+"pcall false attempt to yield across metamethod/C-call boundary".
+
+==== Antwort Prüfung 23:40 (E3 Rest-Risiko) ====
+A:RealValue, A:GetMarketValue und alle anderen A:*-Funktionen (AHAnalyzerPro / AHSentinel-Tabelle) sind INTERN – kein Vertrag, Bedeutung
+und Rückgabe können sich mit jeder Version ändern, und sie rechnen in den ersten Sekunden nach dem Laden vorläufig (ohne gelernten
+Absatz-Faktor). Andere Addons sollen nur AHSentinel.API benutzen (Vertrag Version 1); nil dort heisst "noch nicht bekannt" – dann
+bitte NICHT auf A:RealValue ausweichen, sondern später erneut fragen (API.Subscribe meldet ab 0.65.336 mit Grund "settings", sobald die Faktoren fertig sind). Bitte so in
+shared/wissen/schnittstelle-ahsentinel-api.md eintragen (Frage an die Prüf-Sitzung).
+
+Tests: Gesamtlauf 376 bestanden, 2 fehlgeschlagen – s63 (erwartete den alten Abbruch im pcall; jetzt gewollt: kein Abbruch, gezählt) angepasst; s92 Lauf 3 +10 681 KB gegen feste Grenze 10 674 (Schwankung je Lauf, erneut 10 6xx bestanden; Takt-Prüfung kostet dort ~8 KB, Gegenprobe ohne sie) · nach der Meldung "settings" s301/s42 erneut bestanden; s301 Gegenprobe 0.65.335 "Meldungen: (keine)" · addon_check OK (Release-Zip und Discord-Zip).
