@@ -359,3 +359,17 @@ nur wo nötig und jeder Handpunkt in klaren, nummerierten Schritten (Wo / Schrit
 ==== MARKT-V10 (Supervisor 17.11.2026 14:40, ersetzt MARKT-V9) ====
 - shared/GoldSentinelMarkt.lua Version 10 statt v9 kopieren (Zeitprüfung alle 20 statt 100 Einträge). Einzelheiten: Nachtrag in
   auftraege/hinweis-goldsentinelmarkt-v9-2026-11-17.txt.
+
+==== BEFUND HOCH – Ingametest des Nutzers 17.11.2026 ~17:05, 0.9.64 "/ps testroutine alles" (Forever) – PS-RUN-1 ====
+- Der Nutzer: "das Game ist abgegackt … es hat so geruckelt, dass ich es minimiert habe". Der Lauf hat das Spiel praktisch eingefroren.
+  Ein Bericht kam vermutlich nicht zustande (Spiel minimiert/abgestürzt, kein /reload) – Einzelheiten fehlen.
+- Prüfregel E 17.11. 12:40 (Testroutine selbst auf Ruckeln prüfen) war bei 0.9.64 noch nicht angewandt: gleiche Fehlerklasse wie
+  AHSentinel TR-RUN-1 und GuildSentinel (843 ms).
+- Auftrag (vor allem anderen): (1) Im Code belegen, wo der Lauf "alles" am Stück rechnet: Zeitscheibe je Bild (Ziel ≤ 5 ms inkl. Anzeige),
+  Blöcke mit vielen Prüfungen in einem Schritt, Fenster/Listen je Zeile neu aufgebaut, collectgarbage("collect"), Rezept-/Lehrer-Daten
+  (qloader, ~tausende Einträge) am Stück geladen, Simulation "alles = alle Fälle". (2) Nachbau mit ECHTER Datenmenge (Rezepte/Lehrer wie im
+  Spiel) und offenem Fenster: längstes Bild messen (Median aus 3), Gegenprobe 0.9.64. (3) Beheben: Portionen ≤ 5 ms, jede Prüfung ein
+  Schritt, Fenster gedrosselt, Fehler im Fehlerweg gefangen. (4) Zusammenfassung "längste Portion x ms (Prüfung)". (5) Sandbox: Abbruch
+  durch Absturz/Minimieren ohne /reload darf echte Daten nie verändern (SavedVariables werden ohne Ausloggen nicht geschrieben – bitte
+  bestätigen, dass ein /reload mitten im Lauf zuerst zurückstellt; T288 "Abmelden bricht ab" deckt das ab?).
+- Danach kurzer Bericht; der Nutzer testet erst wieder, wenn das belegt behoben ist.
