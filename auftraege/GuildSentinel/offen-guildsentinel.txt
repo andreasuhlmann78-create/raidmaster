@@ -457,3 +457,18 @@ AUSSER Punkt 1 stellt sich als Sendung im normalen Spiel heraus; dann sofort mel
   nächste Version wie angekündigt.
 - CurseForge: 0.9.52 morgen 18:00 bleibt (freigegeben). 0.9.53 erst nach Ingametest.
 - Nächster Ingametest "/gs testroutine alles" erst mit der Version, die die Portionen fertig hat (dem Nutzer melde ich es).
+
+==== INGAMETEST 17.11.2026 19:27 – GuildSentinel 0.9.53 "/gs testroutine alles" (Nutzer-Einfügung 19:28) ====
+OK 316 · FEHLER 1 · übersprungen 23 · im Client 8 · 13303 ms · Sandbox OK · Recorder 0 echte Sendungen · Fehlerzähler 0.
+Bestätigt im Spiel (vorher FEHLER): T285 (kein Lua-Fehler mehr), T182 (keine verdeckten Knöpfe), T82 (0 echt). 4 FEHLER -> 1.
+Hinweis: der Lauf war noch vor dem /reload nach dem AHSentinel-Lauf (AHSentinel-Taint aktiv) – trotzdem sauber.
+Offen:
+1. T185 (MITTEL): Knopf abgeschnitten settings>gen "wie der Spiel-Client (Deutsc…" – Auswahlknopf Sprache. Knopf breiter oder Text
+   kürzer ("wie Spiel (Deutsch)"), alle 11 Sprachen im Nachbau mit Lage. WARNUNG progress>achv und recruit>texts (EditBox): prüfen, ob
+   der ganze Text beim Darüberfahren/Bearbeiten sichtbar ist; sonst gleiche Behandlung.
+2. Portionen (HOCH, Entscheid 40 ms je Schritt): im Spiel längste 355,6 ms (Bereich B, bis T269) in 430 Bildern – Nachbau sagte 82,8 ms (T75).
+   Spiel und Nachbau gleichziehen: welche Arbeit in T269 dauert im Spiel 355 ms (Blizzard-Aufrufe? Gildenliste?) – belegen, dann aufteilen.
+   Ziel jede Portion ≤ 5 ms, keine über 40 ms.
+3. Speicher +9652 KB während der Routine (16:46 und 18:49 vergleichen; Anteil der Routine selbst ausweisen).
+4. T82: im Bericht die Zeile "nicht von GuildSentinel: …" ausgeben, auch wenn leer ("keine"), damit belegt ist, dass die Erkennung lief.
+   Einwand von 19:35 (gemeinsame Dateien im eigenen Ordner) bleibt.
