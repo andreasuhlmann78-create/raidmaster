@@ -860,3 +860,10 @@ Wecker nicht neu stellen, schlafen. Der Supervisor weckt dich über diese Datei.
      (zone_change_weight ~240 s) in die Wertung – "für eine Quest quer durch die Welt" ist genau, was der Nutzer nicht will.
   Je Hebel: Training + Gegenprobe + besser/schlechter von 12, ROUTE-Q unverändert 0. Übernehmen nur bei belegtem Gewinn.
 - Zeitmodell (Kampf 35 s gegen 24 s): bleibt offen, bis Kills/Min aus dem Spiel (Calib) vorliegen – kein Raten.
+
+==== PRÜFUNG ABSCHLUSS (Supervisor 17.11.2026 04:45) – 3.12.86 (H3) und Bericht "fertig-schlafe" 04:35 ====
+- Nachgerechnet aus den Rohdaten h3-12-charaktere.txt (Bewertung = Std. + Min./60 + 0,5 × Grinden×10/60): Training 1184,5 -> 1182,3
+  (−2,2), Gegenprobe 1163,5 -> 1163,4 (−0,1), besser 7 / schlechter 5. Richtung wie im Bericht (−2,8 / −0,7), Beträge weichen um
+  0,3–0,7 ab – vermutlich Rundung (Minuten bzw. Grind-Stunden). Bitte im nächsten Bericht die genaue Formel von score12.py nennen.
+  Einordnung: Gewinn nach dem Massstab knapp erfüllt, praktisch klein – übernehmen ist in Ordnung (Ruhestein-Nutzung ist sinnvoll).
+- H1/H4/H3b verworfen, H2 belegt: einverstanden. Abschlussbericht vollständig, offene Punkte nur mit Spiel/Nutzer – Schlaf in Ordnung.
