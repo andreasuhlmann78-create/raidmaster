@@ -1,0 +1,14 @@
+BERICHT LevelPilot – ROUTE-Q R6 "Kim'jael": Fehlalarm der Messung (belegt), Messung verfeinert · 3.12.85: alle Regeln 0 in allen 12 Reisen
+Projekt: LevelPilot · Datum: 17.11.2026 03:32 (aus date) · Stand: 3.12.85 (Addon unverändert) · umgesetzt, zur Prüfung
+
+1. FALL (DBG6 im Werkzeug, Untoter Forever, Stufe 51, Azshara): Spieler im Ort 1220. Route: 1) Abgabe "Kim'jael, fürwahr!" 186 yd
+   (Nachbar-Teilgebiet 1219), 2) Abgabe "Verraten" 264 yd (Objekt im Ort 1220). Beide stehen direkt hintereinander vorn, nichts bleibt
+   liegen. Diese Reihenfolge ist 78 yd kürzer als umgekehrt (186 + x gegen 264 + x). Kein Verlassen des Ortes – die Messung zählte
+   jedes Ziel in einem anderen Teilgebiet, auch wenn es näher lag als der offene Punkt.
+2. MESSUNG verfeinert (offline/lua/mess_route_q.lua, Commit vorher): R6 nur, wenn das Ziel WEITER weg ist als der offene Punkt im
+   Ort (zusätzlich zu: nicht auf dem Weg dorthin ≤ 60 yd). Das Addon ist unverändert.
+3. GEGENPROBE (gleiche Messung, alte Fassung 3.12.69): R6 19–56 je Reise (vorher 20–56) – die echten Fälle werden weiter gefunden.
+4. ERGEBNIS 3.12.85, 12 Reisen (6 Völker × Forever/Era, echte Kartengrenzen): R1 0 · R2 0 · R3W 0 · R4 0 · R6 0 · O5 0 in ALLEN 12.
+   Zum Vergleich 3.12.69: R1 43–117 · R2 101–162 · R3W 12–96 · R4 32–43 · R6 19–56 · O5 47–117.
+5. Damit ist ROUTE-Q (R1–R4, R6, O5) offline erfüllt; R5 (Vergleich mit echten Wegdaten) wartet auf f=2-Daten der Spieler.
+   NÄCHSTE: feste Zonenfolge je Fraktion (OPT-ROUTE), gemessen mit 12 Charakteren und dem Massstab aus dem Bericht 03:1x.
