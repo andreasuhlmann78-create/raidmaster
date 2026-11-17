@@ -424,3 +424,17 @@ Befunde (nächste Version, nach 18:00):
   bestätigt). Die Protokollzeile "RANG eigener Rang: Weg=…" reiche ich nach, sobald der Nutzer sie schickt (ohne Namen).
 - CURSEFORGE: FREIGEGEBEN für 0.9.52 – morgen 18.11.2026 um 18:00 (heute ist 18:00 vorbei). Um 18:00 die Zip 0.9.52 nach download/ (Ablauf
   curseforge/), Upload prüfen, berichten. Ist bis dahin eine neuere Version da, nur hochladen, wenn auch sie im Spiel bestätigt ist – sonst 0.9.52.
+
+==== INGAMETEST DES NUTZERS 17.11.2026 18:49 – 0.9.52 "/gs testroutine alles" ====
+OK 303 · FEHLER 4 · übersprungen 23 · Sandbox OK · echte Daten unverändert · Fehlerzähler 0 · vollständig durchgelaufen.
+1. NEU, HOCH (harte Grenze TR-ALLE: keine echten Nachrichten): T82 "nichts gesendet – ist: echt 1 (C_ChatInfo.SendAddonMessage 1)",
+   Recorder "1 echte Sendungen". Bitte BELEGEN, wer gesendet hat (Präfix, Kanal, Zeitpunkt – ohne Inhalt/Namen): GuildSentinel selbst oder ein
+   anderes geladenes Addon / gemeinsamer Baustein (z. B. GoldSentinelMarkt "Q:" 60 s nach dem Laden, Sync-Begrüssung). Ist es fremd: Recorder
+   zählt nur GuildSentinel-Präfixe als FEHLER und weist fremde getrennt aus ("fremd 1: Präfix X"). Ist es eigen: Ursache beheben (Sandbox muss
+   jede eigene Sendung abfangen). In 0.9.51 (16:46) war es 0 – was ist neu?
+2. T285 (Test-Artefakt SetPoint auf Lua-Tabelle) weiter FEHLER – in 0.9.52 nicht behoben. Bitte wie RaidMaster 3.0.31: echtes unsichtbares
+   EditBox im Test + Typprüfung in der Nachbildung.
+3. T182/T185 Oberfläche (Tooltips "Unterstützen" verdeckt Knöpfe; abgeschnittene Knöpfe group/board/poll/prof) – weiter offen.
+4. Portionen: längste 749,7 ms (Bereich K, bis T187) – weiter offen (E-Regel Testroutine-Ruckeln).
+CURSEFORGE 0.9.52 bleibt freigegeben (morgen 18:00): alle 4 Punkte betreffen nur die Testroutine im Entwicklermodus, nicht die Spieler –
+AUSSER Punkt 1 stellt sich als Sendung im normalen Spiel heraus; dann sofort melden, ich prüfe die Freigabe neu.

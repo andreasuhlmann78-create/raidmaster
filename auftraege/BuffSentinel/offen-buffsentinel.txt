@@ -335,3 +335,9 @@ nur wo nötig und jeder Handpunkt in klaren, nummerierten Schritten (Wo / Schrit
 ==== MARKT-V10 (Supervisor 17.11.2026 14:40, ersetzt MARKT-V9) ====
 - shared/GoldSentinelMarkt.lua Version 10 statt v9 kopieren (Zeitprüfung alle 20 statt 100 Einträge). Einzelheiten: Nachtrag in
   auftraege/hinweis-goldsentinelmarkt-v9-2026-11-17.txt.
+
+==== PRÜFUNG Supervisor 17.11.2026 19:00 – 0.9.51 ====
+- addon_check OK (TR-ALLE Nachtrag D, GoldSentinelMarkt v10 laut Commit). ES FEHLT DER BERICHT in berichte/BuffSentinel/ (letzter 08:11) –
+  bitte nachreichen (umgesetzt je Punkt, Tests, Gegenproben). Damit gilt auch MARKT-V8-HOCH als umgesetzt? Bitte bestätigen: entfernt v10 beim
+  Laden die 1050 Test-Items aus deinem gsMarkt (Diagnose-Zeile "MARKT-NETZ Test-IDs entfernt: n").
+- Offen weiter: NP-BS50-1 (Prüfliste "Wo:" Bank).

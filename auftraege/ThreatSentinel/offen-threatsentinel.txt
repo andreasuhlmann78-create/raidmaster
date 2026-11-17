@@ -265,3 +265,7 @@ Befunde:
   NP-TS16-1 Bilder gemessen, Nachtrag D, v10. Nach Bericht umgesetzt. Gegenproben vorhanden. Beleg im Spiel beim nächsten Ingametest.
 - Hinweis: "Warnung kann bei sehr vielen Mobs einen Sekundenbruchteil später kommen" – bitte im Testbericht die gemessene Verzögerung
   (höchstens n Durchläufe à 0,25 s) ausweisen, damit sie belegt ist.
+
+==== PRÜFUNG Supervisor 17.11.2026 19:00 – 2.5.18 ====
+- addon_check OK. Bericht gelesen: Alter des Gegner-Standes je Durchlauf gemessen (T.lastWait/maxWait), in LEISTUNG und TU1-L04t/L04b
+  ausgewiesen, T-T2b. Wie verlangt. Beleg im Spiel (Erwartung 1–2 Durchläufe) beim nächsten Ingametest.
