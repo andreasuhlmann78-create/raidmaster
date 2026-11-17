@@ -4193,3 +4193,22 @@ Regeln: auftraege/hinweis-testroutine-alles-2026-11-17.txt (bitte ganz lesen). F
   ohne Zeitfenster die jüngste noch nicht zugeordnete eigene Abbruch-Buchung desselben Items nehmen. Test: Abbruch, Post nach 8 Std.
   lesen -> genau eine Buchung (Gegenprobe alt: zwei).
 Reihenfolge: 0.65.305 (Handprüfliste) zuerst, dann NP-MK-1 (a) zusammen mit MARKT-V8, dann NP-AHS281-1, NP-MK-2, NP-MK-1 (b–d).
+
+==== PRÜFUNG Supervisor 17.11.2026 – 0.65.305 (TR-ALLE Teil 4, Handprüfliste) ====
+- addon_check OK (einzige WARNUNG GoldSentinelMarkt v7 -> v8, kommt mit 0.65.306). Bericht gelesen, Code TestRoutine.lua/Pruefliste.lua
+  nachgesehen. Handprüfliste nach Abschnitt B: klar, mit Wo/Schritten/Kosten – gut. WS-TEUER2 (Schleife bei "Preis anpassen") sehr gut gefunden.
+- PL-305-1 MITTEL – Punkt [1] TR-ALLES widerspricht dem Ablauf: Text sagt "Nichts anklicken, nicht weglaufen (Auktionshaus offen),
+  bis die Zusammenfassung kommt" und "Du siehst: 9 von 9 bestanden". Die Schritte 8 "berufe" und 9 "haendler" warten aber je
+  2 Minuten auf ein Berufsfenster bzw. einen Händler (TR.CHAIN_WAIT 120, sonst "nicht prüfbar") – wer dem Text folgt, bekommt
+  "7 von 9, 2 nicht prüfbar" und TR-ALLES bleibt für immer offen (Pruefliste: nur "nicht prüfbar" = bleibt offen).
+  Lösung (Text, nummeriert): "3. Steht im Chat 'bitte ein Berufsfenster öffnen': Berufsbuch öffnen (Taste K bzw. P > Beruf) und
+  deinen Beruf anklicken. 4. Steht 'bitte einen Händler öffnen': Auktionshaus schliessen, zum nächsten Händler gehen und ihn
+  ansprechen – du hast 2 Minuten. Das Auktionshaus brauchst du ab da nicht mehr." Dazu: ohne Beruf ist Schritt 8 nicht prüfbar –
+  dann zählt er NICHT gegen TR-ALLES (Grund "kein Beruf" wie bei fehlender Gilde) oder der Text sagt "mit einem Charakter mit Beruf".
+  Zusätzlich: CHAIN_WAIT für "haendler" auf 5 Min. (Weg zum Händler). Test T836/T880: Text von [1] nennt Berufsfenster und Händler;
+  Kette mit Berufsfenster nach 60 s und Händler nach 200 s -> 9 von 9.
+- ENTSCHEID zu deiner Frage (VS:FeedNet 9,5 ms am Stück): JA. FeedNet in Portionen (≤ 5 ms je Bild, wie GoldSentinelMarkt FeedPortion)
+  und in s216 "längster FeedNet-Aufruf ≤ 5 ms" als Pflicht (Gegenprobe alte Fassung rot). Zusammen mit MARKT-V8 in 0.65.306.
+  Der Verdacht "4. Lauf nur 11–20 ms" bitte im selben Bericht klären (Messung, nicht vermuten).
+- Den Nutzer schicke ich jetzt mit einer Anleitung, die PL-305-1 schon umgeht, zum Ingametest.
+Reihenfolge: 0.65.306 = PL-305-1 + MARKT-V8 + FeedNet-Portionen + NP-MK-1 (a); dann NP-AHS281-1, NP-MK-2, NP-MK-1 (b–d).
