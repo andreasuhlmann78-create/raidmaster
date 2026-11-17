@@ -1,0 +1,26 @@
+BERICHT LevelPilot – OPT-ROUTE: feste Zonenfolge je Fraktion (Versuch) – alle 12 Charaktere deutlich langsamer, verworfen
+Projekt: LevelPilot · Datum: 17.11.2026 03:38 (aus date) · Stand: 3.12.85 (Addon unverändert) · Messbericht, zur Prüfung
+
+Bezug: Antwort Supervisor 03:40 ("feste Zonenfolge je Fraktion, gemessen nach dem neuen Massstab").
+1. VERSUCH (nur Versuchskopie): Plan "Stufe -> Zone" je Fraktion nach der üblichen Classic-Zonenfolge (allgemeines Spielwissen, NICHT
+   an der Simulation abgestimmt – damit keine Überanpassung). Im Fokus-Schritt: liegt eine geplante Zone der aktuellen Stufe mit
+   Restwert >= DRAIN vor (anderer Kontinent nur mit >= 5 Aufgaben), hat sie Vorrang; sonst die bisherige Wahl.
+   Horde: Durotar/Mulgore/Tirisfal 1–12, Brachland/Silberwald 10–20, Steinkrallen 15–25, Vorgebirge/Eschental 20–30, Tausend Nadeln
+   25–35, Desolace/Arathi 30–40, Schlingendorn 32–45, Düstermarschen/Ödland 35–45, Sümpfe 37–45, Tanaris/Feralas 40–50, Hinterland
+   42–50, Sengende Schlucht 45–52, Azshara 45–55, Teufelswald/Un'Goro 48–55, Brennende Steppe 50–58, Westl. Pestl. 51–58, Östl. Pestl./
+   Winterquell 53–60, Silithus 55–60. Allianz entsprechend (Elwynn/Dun Morogh/Teldrassil, Westfall/Loch Modan/Dunkelküste, Rotkamm,
+   Dämmerwald, Sumpfland, dann wie Horde ab 20).
+2. ERGEBNIS (12 Charaktere, Bewertung Zeit + 0,5 × Grinden) 3.12.85 -> Plan:
+   Training 1185,2 -> 1337,1 · Gegenprobe 1163,8 -> 1317,8 · Summe 2349,0 -> 2655,0 (+306 h, +13 %) · besser 0 / schlechter 12
+   je Charakter +19,7 … +32,0 h. Rohdaten: berichte/LevelPilot/opt-route/2026-11-17-feste-zonenfolge-12-charaktere.txt
+3. BEWERTUNG: Eine allgemeine Zonenfolge zwingt den Planer in Zonen, deren Quests gerade nicht die besten sind (z. B. noch zu wenig
+   annehmbar, lange Wege), und von dort wieder zurück. Die wertbasierte Wahl (3.12.83/84: Stufenband + Kontinent als Block) ist klar
+   besser. VERWORFEN, nicht eingebaut.
+4. STAND OPT-ROUTE und Vorschlag
+   - Zonen-Gewichte aus Suche: überangepasst (02:26). Feste Zonenfolge: +13 %. Feinabstimmung: kein Gewinn. ROUTE-Q: alle Regeln 0.
+   - Eine echte Weltsuche (Stufe 2/3) bräuchte ein Ziel, das auf neuen Charakteren hält; meine Messungen zeigen, dass jede Route,
+     die auf die 6 Trainings-Charaktere zugeschnitten ist, auf anderen Klassen nicht trägt. Vorschlag: Stufe 2/3 nur noch mit
+     Suche über ALLE 12 (oder mehr: 9 Klassen × Völker) und Gegenprobe auf Era – das ist Rechenzeit von Tagen in dieser Sitzung.
+     FRAGE an Supervisor: so weiter (lange Suche im Hintergrund), oder OPT-ROUTE hier als "Planer-Wahl bleibt, keine feste Route"
+     abschliessen und mit dem Zeitmodell (Stufe 1: Kampf/EP/Dungeon-Annahmen neben Factoruide, mit Quelle) weitermachen?
+   Bis zur Antwort: Zeitmodell-Vergleich (kein Halt).
