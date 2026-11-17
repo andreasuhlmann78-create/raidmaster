@@ -232,7 +232,10 @@ LP.Engine.Current = function(self)
         if (t.t == "ACCEPT" or t.t == "TURNIN") and t.n and not t.pathBlocked and t.inst == pi
            and G:Dist(pn, pw, t.n, t.w) <= 400 and t.map and AreaAt(t.map, t.inst, t.n, t.w) == ha
            -- liegt das Ziel auf dem Weg zu diesem offenen Punkt (<= 60 yd Umweg), ist es kein Verlassen des Ortes
-           and G:Dist(pn, pw, st.n, st.w) + G:Dist(st.n, st.w, t.n, t.w) - G:Dist(pn, pw, t.n, t.w) > 60 then
+           and G:Dist(pn, pw, st.n, st.w) + G:Dist(st.n, st.w, t.n, t.w) - G:Dist(pn, pw, t.n, t.w) > 60
+           -- 2026-11-17: das Ziel liegt näher als der offene Punkt (nächstes zuerst, der offene Punkt folgt) – kein Verlassen
+           -- (Fall "Kim'jael, fürwahr!" 186 yd im Nachbar-Teilgebiet vor "Verraten" 264 yd im Ort: diese Reihenfolge ist 78 yd kürzer)
+           and G:Dist(pn, pw, st.n, st.w) > G:Dist(pn, pw, t.n, t.w) then
           c.r6 = c.r6 + 1
           Ex("r6", ("L%d %s (Ort %d -> %d), offen im Ort: %s %s"):format(s.level, Name(st), ha, ta, t.t, tostring(t.q or t.id)))
           break
