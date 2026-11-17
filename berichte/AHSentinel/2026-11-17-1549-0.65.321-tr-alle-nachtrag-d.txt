@@ -1,0 +1,49 @@
+AHSentinel 0.65.321 – TR-ALLE NACHTRAG D (nie auf den Nutzer warten, Fenster-Schritte automatisch nachholen) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.321 und sofort im Discord.
+
+==== Umsetzung je Punkt aus auftraege/hinweis-testroutine-alles-2026-11-17.txt Abschnitt D ====
+- D1: Ist das Fenster eines Schritts (Auktionshaus, Berufsfenster, Händler) beim Erreichen zu, wird nicht mehr gewartet (vorher bis 2
+  bzw. 5 Min.): Schritt vorgemerkt (A.db.trPending, überlebt /reload), Ergebnis "noch offen – passiert von selbst beim nächsten …",
+  der Lauf geht sofort weiter und endet normal. Ist das Fenster offen: sofort geprüft (wie bisher).
+- D2: Nachholen automatisch: alle 2 s wird geprüft (nur Entwicklermodus, nie im Kampf, nicht während einer anderen Testroutine oder
+  eines Scans); ist das Fenster eines vorgemerkten Schritts offen, läuft er von selbst (Sandbox wie im Lauf). Chatzeile "Testroutine:
+  <Schritt> nachgeholt – bestanden/FEHLER", eigener Bericht (GSTEST) mit Feld nachgeholt = "ALLES <Schritt> vom Lauf <Datum Zeit>".
+  Prüfliste TR-ALLES: FEHLER eines nachgeholten Schritts -> Fehler; sind alle Schritte erledigt und alle bestanden (und der Lauf ohne
+  FEHLER/nicht prüfbar) -> erledigt. "noch offen" zählt NICHT als FEHLER und nicht als "nicht prüfbar".
+- D3: Zusammenfassung: "… · noch offen: n (laufen von selbst, sobald das Fenster offen ist)", je Schritt die Zeile mit "passiert von
+  selbst beim nächsten Händler-Besuch / Öffnen eines Berufsfensters / Öffnen des Auktionshauses / Schnell-Vollscan (Entwicklermodus)".
+- D4: kein Schritt braucht mehr ein Eingreifen während des Laufs (alle Fenster-Schritte über D1/D2).
+- D5: verfallen nach 7 Tagen (TR.PENDING_MAX_S, Zähler expired), im Kampf nicht.
+- Vollscan: der Schritt wartet nicht mehr auf den Server-Abstand (vorher bis 25 Min.). Ist kein Scan sofort möglich (oder der zweite
+  Scan nicht), wird er vorgemerkt; solange er vorgemerkt ist, misst jeder eigene Schnell-Vollscan im Entwicklermodus den bleibenden
+  Speicher (VS:FloorWanted), und sobald der Vergleich mit dem Scan davor da ist (SC:OnScan), ist der Schritt erledigt (gleiche Bewertung
+  wie im Lauf, TR:VollscanResult).
+
+==== Tests ====
+- s272e (D5): Lauf mit Fenstern zu endet sofort, "0 FEHLER · noch offen: 2"; später Berufsfenster + Rezept -> Berufe-Schritt von selbst,
+  Chatzeile, Bericht mit Verweis; im Kampf läuft der Händler-Schritt nicht, nach dem Kampf von selbst; Prüfliste TR-ALLES danach erledigt;
+  neuer Lauf, 7 Tage später verfallen.
+- s272b: Kette wartet nicht mehr (nach 5 s fertig, "noch offen: 2").
+- s272d: erster Scan gemessen, zweiter vorgemerkt; eigener Scan später -> Schritt erledigt mit Zahlen, beide Scans mit bleibendem
+  Speicher; Server-Abstand lang -> sofort vorgemerkt.
+- s272: ganze Kette im Nachbau, Händler vorgemerkt, Vollscan gemessen oder vorgemerkt.
+- T896 (Testroutine, auch im Spiel): "noch offen" zählt nicht als FEHLER/nicht prüfbar, Zusammenfassung nennt die Zahl.
+
+==== Nächste Version (0.65.322): KAUF DOPPELT (MITTEL-HOCH) – Ursache aus den echten Daten (Verdacht, zu messen bis zum Nachbau) ====
+- Echte Daten: 4 Sniper-Käufe von Item 6299 (je 1c) – alle "mail = true" (Rechnung zugeordnet) – und dazu 2 "mail"-Käufe, deren Zeit
+  1 s VOR dem Sniper-Kauf liegt (576793/…558 gegen …559). Verdacht: die Rechnung wurde gelesen, BEVOR der Sniper-Kauf gebucht war
+  (TB182-2 holdBook: Buchung wartet auf die Gold-Messung) -> keine Zuordnung -> eigene "mail"-Buchung; danach dieselbe Rechnung
+  noch einmal gelesen (Schlüssel des Briefkastens änderte sich, z. B. nach dem Abholen) und dem inzwischen gebuchten Sniper-Kauf
+  zugeordnet. Ergebnis: eine Rechnung, zwei Buchungen. Wird im Nachbau belegt, dann behoben (ein Kauf = eine Zeile) und die bestehenden
+  Doppel einmalig bereinigt.
+
+==== Eigener Fund im Gesamtlauf (vor der Veröffentlichung behoben) ====
+- Erster Gesamtlauf 0.65.321: 351 bestanden, 1 rot – s92_fullscan_smooth (fester Lauf SIM_DET): "Lauf 3 neu angelegt +10682 KB (Grenze 10674)".
+  Kein Rauschen: fest gemessen 0.65.320 10633 KB, 0.65.321 10683 KB (+50 KB, dreimal gleich). Halbierung je Datei: nur TestRoutine.lua.
+  Ursache: der neue Zeitgeber für vorgemerkte Schritte (OnUpdate) lief in JEDEM Bild, auch ohne Vormerkung (im Nachbau kostet jeder
+  OnUpdate-Aufruf Speicher). Jetzt läuft er nur, solange etwas vorgemerkt ist (Rahmen versteckt, geweckt beim Vormerken und beim Start
+  mit offener Vormerkung). Danach fest 10633 KB = 0.65.320; zweiter Gesamtlauf siehe unten.
+
+Zweiter Gesamtlauf 0.65.321: BESTANDEN 352, FEHLGESCHLAGEN 0 (frischer Klon, nichts parallel).
+Veröffentlicht: GitHub-Release v0.65.321, Discord. CurseForge: nein.
+Nachfrage zu 0.65.320 (Hüllen OwnCreateFrame/OwnTimer): Antwort mit Nachbau-Test s280 kommt mit 0.65.322 (zusammen mit KAUF-DOPPELT).
