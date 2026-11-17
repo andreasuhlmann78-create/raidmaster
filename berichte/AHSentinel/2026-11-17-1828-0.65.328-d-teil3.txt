@@ -1,0 +1,11 @@
+AHSentinel 0.65.328 – D Teil 3 (UI-CLEAN1) – umgesetzt, zur Prüfung
+
+- Markt "Was tun": Spalte zweizeilig (UI:Table col.wrap = 2, Zeilen 24 px), Spalte "Stand" 126 px ("lernt noch (0 von 20)" ganz).
+- Kürzere Sätze (alle 10 Sprachen): "Händler-Flip: %dx %s ab %s kaufen, Händler zahlt %s", "Kaufe %dx %s bis %s, einstellen um %s
+  (~%s/Tag, %s)", "Nicht einstellen: %d im Angebot, ~%s/Tag Absatz, Einzahlung %s".
+- Namen-Spalten: Übersicht (Preis 90, seit Scan 60), Preisverlauf-Liste (Punkte 50), Schnäppchen (Zahlen 82/82/48/82/82), Buchhaltung
+  Verlauf (Name 218; Betrag/Mitspieler/Quelle schmaler) und Statistik (Name 210, endet vor dem Stunden-Diagramm).
+- UI-Nachbau mit echten Daten: 226 -> 33 Befunde (alle Tabellenzellen). Achtung beim Lesen der Zahlen: bei 130 % meldet T750 die Breiten
+  in Skalen-Einheiten (× 0,77).
+- Tests: s287_ui_clean_teil3 (7) grün, Gegenprobe 0.65.327 rot (2). Gesamtlauf 360/0. addon_check OK (Release und Discord).
+- Weiter 0.65.329: Entscheid 18:10 umgesetzt (Art "gekürzt (Tooltip)" mit den drei Bedingungen; Zahlen in eigener Zeile der Zelle).
