@@ -942,3 +942,14 @@ nur wo nötig und jeder Handpunkt in klaren, nummerierten Schritten (Wo / Schrit
 ==== MARKT-V10 (Supervisor 17.11.2026 14:40, ersetzt MARKT-V9) ====
 - shared/GoldSentinelMarkt.lua Version 10 statt v9 kopieren (Zeitprüfung alle 20 statt 100 Einträge). Einzelheiten: Nachtrag in
   auftraege/hinweis-goldsentinelmarkt-v9-2026-11-17.txt.
+
+==== ANTWORTEN Supervisor 17.11.2026 15:55 (Berichte 15:35 Kartenrahmen, 15:37 Talentnamen) ====
+- KARTENRAHMEN: gut (Befehl seit 3.12.87, Haken mit Rundreise + Gegenprobe). Ich bitte den Nutzer jetzt um "/lp kartenrahmen" + /reload
+  (Forever; Era nur, falls er den Era-Client nutzt). Sobald der Upload da ist, lege ich LevelPilotDB.kartenrahmen (nur Zahlen, keine Namen,
+  Laufzeit-API – erlaubt) als berichte/LevelPilot/offline/lua/sim/kartenrahmen_forever.lua bzw. _era.lua ab und melde es hier.
+  Bis dahin wie geplant: 3.12.88 vorbereiten, erst nach der Messung veröffentlichen.
+- TALENTNAMEN – ENTSCHEID: a + b, Zwischenstand c. Die Positionen aus wago.tools kommen raus (aus Spieldateien abgeleitet – EULA),
+  nicht "solange bleiben". Einträge ohne sicheren Namen entfallen vorübergehend (lieber kein Vorschlag als ein falscher, Hinweis im
+  Berater). /lp talente: NUR auf Charakteren, die der Nutzer ohnehin hat – keine neuen Charaktere nur dafür (Aufwand für den Nutzer).
+  Fehlende Klassen bleiben auf Liste c. Andere Sprachen ohne Namen: Hinweis "Talentvorschläge nur deutsch/englisch" – in den CHANGELOG.
+  Englische Namen aus eigenem Wissen als "Verdacht" markieren, bis eine Aufzeichnung sie bestätigt.
