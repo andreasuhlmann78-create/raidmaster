@@ -1,6 +1,6 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-17 17:14 UTC
+Ausgewertet: 2026-11-17 18:07 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
@@ -8,7 +8,7 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 |---|---|---|---|---|---|---|---|---|
 | AHSentinel | 17.11.2026 12:09 UTC | 0.65.315 | forever 1.60.1 (Interface 16001) | 2 | 5 | 2 | 0 | 63 |
 | BuffSentinel | 05.11.2026 00:19 UTC | 0.9.7 | forever 1.60.1 (Interface 16001) | 120 | 1 | 10 | 11 | 307 |
-| GuildSentinel | 17.11.2026 15:46 UTC | 0.9.51 | forever 1.60.1 (Interface 16001) | 310 | 3 | 24 | 8 | 5 |
+| GuildSentinel | 17.11.2026 17:49 UTC | 0.9.52 | forever 1.60.1 (Interface 16001) | 303 | 4 | 23 | 8 | 5 |
 | LevelPilot | 05.11.2026 00:21 UTC | 3.12.6 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 0 |
 | ProfessionSentinel | 09.11.2026 06:57 UTC | 0.9.28 | forever 1.60.1 (Interface 16001) | 5 | 2 | 1 | 0 | 0 |
 | RaidMaster | 17.11.2026 16:01 UTC | 3.0.30 | forever 1.60.1 (Interface 16001) | 131 | 4 | 11 | 12 | 0 |
@@ -18,14 +18,14 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 156 | `testberichte/diagnose/AHSentinel/0.65.315-9898d5667a95.txt` |
+| AHSentinel | 157 | `testberichte/diagnose/AHSentinel/0.65.328-e406c1f6f5d2.txt` |
 | BuffSentinel | 50 | `testberichte/diagnose/BuffSentinel/0.9.47-fcf53d571177.txt` |
 | GSMesstest | 10 | `testberichte/diagnose/GSMesstest/5.1-e71680805b41.txt` |
-| GSSniperLog | 15 | `testberichte/diagnose/GSSniperLog/1.7-d7b1125a2162.txt` |
-| GuildSentinel | 155 | `testberichte/diagnose/GuildSentinel/0.9.51-05784535fcc0.txt` |
+| GSSniperLog | 16 | `testberichte/diagnose/GSSniperLog/1.7-d7b1125a2162.txt` |
+| GuildSentinel | 156 | `testberichte/diagnose/GuildSentinel/0.9.52-c9caaeb0c5c2.txt` |
 | LevelPilot | 52 | `testberichte/diagnose/LevelPilot/3.12.87-4a392c3ee1d6.txt` |
-| ProfessionSentinel | 135 | `testberichte/diagnose/ProfessionSentinel/0.9.62-dfd8445cee29.txt` |
-| ThreatSentinel | 130 | `testberichte/diagnose/ThreatSentinel/2.5.16-05cfd406ea9d.txt` |
+| ProfessionSentinel | 136 | `testberichte/diagnose/ProfessionSentinel/0.9.62-dfd8445cee29.txt` |
+| ThreatSentinel | 131 | `testberichte/diagnose/ThreatSentinel/2.5.16-05cfd406ea9d.txt` |
 
 ## Wegdaten (GSWEGE1)
 
@@ -185,6 +185,43 @@ Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) ·
 - [FEHLER] T182 K – Tooltips verdecken keine Knöpfe (ergebnis: 487 Tooltips, verdeckt: home: "Unterstützen" -> Button in ?; members>list: Button in ? -> Button in ?; members>list: Button in ? -> Button in ?; members>list: Button in ? -> Button in ?; members>list: Button in ? -> Button in ?; members>list: Button in ? -> Button in ?; members>list: Button in ? ->… | erwartet: 0)
 - [FEHLER] T185 K – Texte passen (ergebnis: Knöpfe abgeschnitten: group>search: Button in ?; group>free: Button in ?; group>free: Button in ?; group>free: Button in ?; group>free: Button in ?; board>offer: Button in ?; prof>dir: Button in ?; prof>dir: Button in ?; prof>dir: Button in ?; prof>req: Button in ? · WARNUNG 6 Texte zu lang: board… | erwartet: 0 abgeschnittene Knöpfe)
 - [SKIP] CT-C9 L – Spiel: Tooltip: „In der Gilde seit“ und letzter Rangwechsel (grund: nicht in einer Gilde)
+
+**Testlauf 0.9.52 · forever 1.60.1 (Interface 16001) · 17.11.2026 17:49 UTC** – OK 303 · FEHLER 4 · übersprungen 23 · im Client prüfen 8 · Sandbox OK
+- [SKIP] T09b A – Simulation TBC: Inhalte (grund: beim Laden festgelegt, siehe D / offline 20505)
+- [CLIENT] T52 B – Berufsfenster einlesen (anleitung: Jedes eigene Berufsfenster einmal öffnen, dann /gs testroutine b: Seite Berufe zeigt die eigenen Rezepte)
+- [CLIENT] T180 B – Bank-Charakter im Spiel (anleitung: Einstellungen > Allgemein: 'Bank-Charakter' anhaken, Bank und Briefkasten öffnen, /reload: Bestand erscheint in #gildenbank (sobald Uploader und Bot aus dem RaidMaster-Auftrag fertig sind))
+- [CLIENT] T199 B – Verwaltungsknopf an der Gildenseite (anleitung: J drücken: rechts neben dem Gildenfenster steht 'Verwaltung (GuildSentinel)' (ohne Rechte grau); /gs verwaltung öffnet das Fenster; Passwort festlegen und mit falschem/richtigem Passwort entsperren)
+- [FEHLER] T285 B – T-BL4: Chatfeld wird nie beschrieben (nur HookScript lesen, SetFocus) (lua: GuildSentinelCmdHint:SetPoint(): Wrong object type for function)
+- [CLIENT] T191 B – Gilden-Berufsliste im Spiel (anleitung: Mit Gilde einloggen, 5 Minuten warten, /gs protokoll: Zeile 'Gilden-Berufsliste: … Zeilen' zeigt, ob das Spiel die Berufe der Mitglieder liefert; Seite Berufe zeigt dann auch Mitglieder ohne GuildSentinel (nur Stufen))
+- [CLIENT] T106 C – echte Kampfsperre (anleitung: Berufe-Seite offen, Kampf beginnen: kein ADDON_ACTION_BLOCKED für GuildSentinel, nach dem Kampf ist der Knopf wieder da)
+- [SKIP] T108 D – alter Client (grund: nicht dieser Client)
+- [SKIP] T109 D – alter Client (grund: nicht dieser Client)
+- [SKIP] T110 D – alter Client (grund: nicht dieser Client)
+- [SKIP] T111 D – alter Client (grund: nicht dieser Client)
+- [SKIP] T112 D – alter Client (grund: nicht dieser Client)
+- [SKIP] T114 D – alter Client (grund: nicht dieser Client)
+- [SKIP] T113 D – Berufe klassisch (grund: nicht dieser Client)
+- [SKIP] T115 E – Neuinstallation (grund: würde GuildSentinelDB neu anlegen; offline: jeder Lauf in test/ startet ohne GuildSentinelDB)
+- [SKIP] T117 E – Migration (grund: offline in test/run_nilglobals.lua (Altlasten) und run_lang.lua (alte Spracheinstellung))
+- [SKIP] T119 E – beschädigte Einstellungen (grund: offline in test/run_nilglobals.lua)
+- [SKIP] T123 F – alle Schlüssel vorhanden (grund: Client-Sprache ist de (Schlüssel bzw. Locales.lua))
+- [CLIENT] T136 G – Guild Roster Manager (anleitung: mit installiertem GRM: Leitung > GRM-Import zeigt Zahlen; ohne: kein Fehler)
+- [SKIP] T137 G – ProfessionSentinel (grund: GuildSentinel nutzt keine Schnittstelle von ProfessionSentinel)
+- [SKIP] T145 H – Speicher (grund: Messung im Bericht unten (collectgarbage vor/nach))
+- [CLIENT] T189 I – Diagnose-Protokoll im Spiel (anleitung: /gs protokoll öffnet ein Fenster mit markierbarem Text; nach /reload liegt GuildSentinelDB.diagExport (beginnt mit GSDIAG1) in den SavedVariables und geht mit dem Uploader nach #testberichte)
+- [SKIP] T156 J – P4a: Bewerber-Flüstern im Kampf (grund: wie T85)
+- [SKIP] T157 J – P4b: Addon-Nachricht im Kampf (grund: wie T84)
+- [SKIP] T158 J – P4c: Abklingzeit im Kampf (grund: wie T86)
+- [SKIP] T160 J – P5b: KnowsSpell über C_SpellBook (grund: wie T98/T133)
+- [SKIP] T162 J – P6b: ChatFrame_RemoveChannel (grund: wie T101)
+- [SKIP] T164 J – Launch-Tag: Interface-Nummer (grund: wie T03)
+- [CLIENT] T168 J – K2 im echten Kampf (anleitung: Mitspieler flüstert im Kampf 'gilde'; nach dem Kampf /gs testroutine whisperq und prüfen, ob Hinweis oder Bewerber erscheint)
+- [SKIP] T171 J – K5: tools/luac5.1 -v (grund: Werkzeug im Repo (offline))
+- [SKIP] T172 J – RM2: Werkzeug nicht in der ZIP (grund: offline (unzip -l))
+- [SKIP] T173 J – N8: Offline-Test K2 (grund: offline (test/run_forever95.lua))
+- [FEHLER] T182 K – Tooltips verdecken keine Knöpfe (ergebnis: 486 Tooltips, verdeckt: home: "Unterstützen" -> Button in ?; members>list: "Unterstützen" -> Button in ?; members>list: Button in ? -> Button in ?; members>list: Button in ? -> Button in ?; members>list: Button in ? -> Button in ?; members>list: Button in ? -> Button in ?; members>list: Button in … | erwartet: 0)
+- [FEHLER] T185 K – Texte passen (ergebnis: Knöpfe abgeschnitten: group>search: Button in ?; group>free: Button in ?; group>free: Button in ?; group>free: Button in ?; group>free: Button in ?; board>offer: Button in ?; poll>vote: Button in ?; prof>dir: Button in ?; prof>dir: Button in ?; prof>dir: Button in ? · WARNUNG 2 Texte zu lang: prog… | erwartet: 0 abgeschnittene Knöpfe)
+- [FEHLER] T82 B – nichts gesendet (ergebnis: echt 1 (C_ChatInfo.SendAddonMessage 1), Warteschlange +0 | erwartet: echt 0, Warteschlange +0)
 
 **Fehler im Spiel (letzte 7 Tage)**
 - 4× `GS_APPS`: Interface/AddOns/GuildSentinel/Roster.lua:124: attempt to index field 'alts' (a nil value) – Version 0.9.51 · forever 1.60.1 (Interface 16001) · zuletzt 17.11.2026 15:47 UTC
