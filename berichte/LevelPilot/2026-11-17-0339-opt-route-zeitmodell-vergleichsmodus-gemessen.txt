@@ -1,0 +1,18 @@
+BERICHT LevelPilot – OPT-ROUTE Stufe 1: Vergleichsmodus (Annahmen von Factoruide) gemessen – Zeitmodell erklärt 2/3 des Abstands
+Projekt: LevelPilot · Datum: 17.11.2026 03:39 (aus date) · Stand: 3.12.85 (Addon unverändert, nur Versuchskopie) · Messbericht
+
+Bezug: Bericht 16.11. 22:12 (Zeitmodell nebeneinander, Vorschlag Vergleichsmodus – noch ohne Antwort; offline gemessen, kein Code).
+1. VERGLEICHSMODUS (nur Versuchskopie): Kill 24 s (Factoruide kill_time), Suche je Questziel 0 (Objekt 12 s), Grinden 53 s je Kill
+   (grind_kill_time). Sonst unverändert (Laufen 7 yd/s, Wegnetz, Planer 3.12.85).
+2. MENSCH PALADIN 1–30, Nordhain, Forever (virtuelle Reise, gleiche Route-Logik):
+                         Gesamt     Laufen   Questziele   Grinden   Dungeons   Rest
+   LevelPilot normal     42 h 19    14 h     23 h         0 h       3 h        2 h
+   LevelPilot Vergleich  31 h 57    14 h     15 h         1 h       0 h        2 h
+   Factoruide (.fgguide) 27 h 00    Reise 9,2 h + Flug 1,4 h · Kampf 7,1 h · Dungeons 5,4 h (Bericht 16.11. 22:12)
+3. EINORDNUNG: Von 15,3 h Abstand erklären die Annahmen des Zeitmodells 10,4 h (68 %). Es bleiben ~5 h, vor allem LAUFEN:
+   14 h gegen 10,6 h (Reise + Flug) bei Factoruide (+3,4 h, +32 %). Verdacht, zu messen: weniger Fliegen (LevelPilot 0 h bis 30),
+   Geländeweg vs. Luftlinie × Faktor, Zonenwechsel (R7 bis 30: LevelPilot 31 gegen Factoruide 40 – also NICHT mehr Wechsel).
+   Factoruide macht mehr Dungeons (5,4 h; bei uns im Vergleichsmodus 0, weil die Stufen schneller kommen).
+   Welche Kampfzeit stimmt (35 s oder 24 s), zeigt nur das Spiel (Calib-Messung; die gemessenen Kills/Min ersetzen den Startwert).
+4. FOLGERUNG: Der Hebel für die ROUTE ist die Laufzeit (Flugpunkte/Flüge bis 30, Laufwege), nicht die Zonenwahl. Als Nächstes messe
+   ich die Laufstrecke je Stufe (Mensch 1–30) gegen die Factoruide-Route: wo wir mehr laufen und warum (Flug genutzt? Wege?).
