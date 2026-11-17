@@ -1,0 +1,56 @@
+AHSentinel 0.65.320 – A abgeschlossen (alles > 8 ms eigene Arbeit je Bild geteilt), VS-BILD-2 (eigene Skripte/Zeitgeber),
+GoldSentinelMarkt v10, NP-AHS318-1/-2, SN-EIGEN – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.320 und sofort im Discord.
+
+==== A – eigene Arbeit > 8 ms je Schritt (Nachbau mit den echten Daten, lokal; 223107 Auktionen, 7197 Items, Vollscan + 120 s) ====
+Messung ohne Profil, Schritte > 8 ms:            0.65.317    0.65.318    0.65.320
+  nach dem Scan                                   253         5           0
+  vor dem Scan (Start, erste Rechnungen)          51          8           1 (cache:warm 9,2 ms)
+Ursache je Fund (belegt mit Stichproben-Profil, Stelle im Code) und Umsetzung:
+- core:resolve 14 ms: MK:ResolveSnipeDE las das ganze Journal mit Fc:Decode -> nutzt Ln:BuyEntries (zwischengespeichert, gleiches Ergebnis).
+- cache:warm-today 13 ms: erstes Lesen des Journals (Ln:BuyEntries, 3000 Einträge) -> beim Start eigene Aufgabe "learn:buys" vor den
+  anderen, je 200 Einträge eine Pause.
+- pd7 11–17 ms: A:DataSizes zählte alle Items/Zeichenketten am Stück -> in der Aufgabe je 500 Einträge eine Pause.
+- timing 12,5 ms: TM:Prune (alle Items) und TM:Resolve (alle Fälle) ohne Pause -> Schlüssel erst holen, je 200 Items bzw. je Fall eine
+  Pause; während der Pause neu gemerkte Fälle bleiben erhalten (wie MK:Resolve).
+- names 25–50 ms (Nachbau s276): N:BuiltinTable las die eingebaute Namensliste auf einmal -> in der Aufgabe je 2000 Zeilen eine Pause;
+  beim Start LearnFromMarket als Aufgabe "names" statt am Stück.
+- Zahlen unverändert: die 20 Werte aus dem Bericht 0.65.319 mit den echten Daten erneut verglichen – gleich wie 0.65.317.
+- Wächter im Nachbau (5 Min., echte Daten): watcher:de-check 11 ms (0.65.317: 71,5 ms).
+
+==== VS-BILD-2 (Prüfung 0.65.318: "eigene OnUpdate-Skripte ebenfalls messen") ====
+- Alle 48 Module holen CreateFrame und C_Timer über Hüllen (A.OwnCreateFrame, A.OwnTimer). Nur während einer Vollscan-Messung zählt
+  jedes eigene OnUpdate-/OnEvent-Skript und jeder eigene Zeitgeber in "Skripte/Zeitgeber" (OnEvent der Frames mit A:TimeFrame dort,
+  nicht doppelt; die Hintergrund-Aufgaben weiter als "Aufgaben"). Sonst wird die Funktion unverändert aufgerufen.
+  Ausnahmen: AHAnalyzerPro.lua nur Zeitgeber (jobFrame zählt als Aufgabe), Vollscan.lua nur Zeitgeber (gapFrame misst selbst).
+- Nachbau s276 neu: eigenes OnUpdate-Skript 80 ms -> "Skripte/Zeitgeber 85 · Rest 0 ms".
+- Was dann noch "Rest" ist: Spiel, andere Addons, gemeinsame GoldSentinel-Dateien (z. B. GoldSentinelMarkt-OnUpdate).
+
+==== GoldSentinelMarkt v10 ====
+- shared/GoldSentinelMarkt.lua Version 10 unverändert kopiert (cmp gleich).
+
+==== NP-AHS318-1 – Absatz-Faktor nach dem Scan ====
+- Ursache bestätigt: Schlüssel next(st.sold) .. Stunde blieb gleich. Jetzt Schlüssel = st.lastGood (Zeit des letzten gültigen Vollscans) ..
+  Stunde. Bis "learn:factor" fertig ist, gelten die Zahlen der letzten Rechnung (nur bei derselben Datentabelle; Testroutine mit eigener
+  Tabelle rechnet sofort). factorWarm/factorSync/factorStale stehen im Testbericht (lernen_faktor).
+- s275 erweitert: neuer Scan mit anderen Messwerten -> zuerst alte Zahl, nach learn:factor die neue = nachgerechnet. Gegenprobe 0.65.319:
+  rot (blieb bei der alten Zahl).
+
+==== NP-AHS318-2 – A.frameOwn bei Fehler im Einlesen ====
+- Einlesen (NewRead/ReadPortion/TrimRead) jetzt in A:PCall; bei Fehler MEnd, Scan beendet, SCAN_FAILED, Protokoll FEHLER. Dazu Zeitlimit:
+  eine Messung endet spätestens nach 30 Min. (VS.MEASURE_MAX_S).
+- Nachbau s279_vs_einlesen_fehler: ReadPortion wirft -> Scan und Messung beendet, frameOwn nil. Gegenprobe 0.65.319: rot (beides).
+
+==== SN-EIGEN – Sniper "Kern/ITEM_SEARCH_RESULTS_UPDATED ×32 bis 49 ms" ====
+- Verdacht, zu messen: die Empfänger von SEARCH_RESULTS (Buy, Seller, Sniper:OnSearchResults). Im Nachbau mit echten Daten (Teil
+  sniper) kein Empfänger > 5 ms – der Nachbau hat nicht die echte Zahl Angebote je Suche. Darum: im Entwicklermodus misst A:Fire jetzt
+  jeden Empfänger jedes Ereignisses; über 16 ms Protokoll LANGSAM "Empfänger Datei:Zeile von EREIGNIS · ms" (T895). Der nächste Lauf
+  nennt den Empfänger.
+- Möglicher Zusammenhang (Verdacht): Kaufgrenzen je Treffer über Learn:Margin -> BuyStats (RUCKEL-1, seit 0.65.318 zwischengespeichert).
+
+==== Weiter ====
+TR-ALLE Nachtrag D (nie auf den Nutzer warten, Fenster-Schritte automatisch nachholen), dann C, E, D.
+
+Gesamtlauf 0.65.320: BESTANDEN 352, FEHLGESCHLAGEN 0 (frischer Klon, nichts parallel).
+Veröffentlicht: GitHub-Release v0.65.320, Discord. CurseForge: nein. GoldSentinelMarkt v10 (addon_check ohne Warnung).
+Prüfung 0.65.319 gelesen: lange Einzelprüfungen teilen und KAUF DOPPELT kommen in den nächsten Versionen (Reihenfolge: Nachtrag D, Kauf doppelt, lange Prüfungen, C, E, D).
