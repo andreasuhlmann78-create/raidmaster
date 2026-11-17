@@ -1,0 +1,57 @@
+BuffSentinel – Bericht an die Prüf-Sitzung · 0.9.53-leistung
+Datum: 17.11.2026, 20:55 (aus date)
+
+Stand: HINWEIS LEISTUNG 17.11. 20:45 (leistung.md gelesen) und CHANGELOG-Berichtigung – umgesetzt, zur Prüfung (0.9.53)
+
+VERÖFFENTLICHT
+- download/BuffSentinel-0.9.53.zip, README, announce (+ Zip), 0.9.52 entfernt; auf origin/main nachgeprüft. addon_check OK (1 Warnung:
+  Lua-Syntax nicht geprüft, lupa fehlt). Gemeinsame Dateien byte-gleich mit shared/. Offline-Routine auf der Zip: 8 × PASS.
+- CHANGELOG EN 0.9.52: "The nachkaufen point" -> "The restock point" (im Zip 0.9.53).
+
+1) SPIELWERT UND NACHBAU-WERT (Hinweis Punkt 1)
+- Testroutine ab 0.9.48: KEIN Spielwert vorhanden. Letzter GSTEST-Bericht von BuffSentinel im Repo: 0.9.7 vom 05.11. (testberichte/status.md).
+  Alle Nachbau-Zahlen der Portionen (längstes Bild 4,4–7,1 ms) sind darum "Verdacht, zu messen" – nicht geeicht (Muster M1).
+  Die Zusammenfassung im Spiel liefert den Spielwert beim nächsten Ingametest selbst (längstes Bild + Schritt, T250).
+- Einziges Paar Spiel/Nachbau für denselben Fall: Vorrat je Taschen-Ereignis (UpdateSupply).
+  Spiel (Diagnose 0.9.47, 9 Uploads 17.11.): Mittel 0,25–0,52 ms, höchstens 0,58 ms.
+  Nachbau T239 (22 Vorrats-Einträge, volle Taschen): Mittel 0,13 ms, höchstens 0,20–0,25 ms.
+  Faktor Spiel/Nachbau ≈ 2–4 (deutlich kleiner als M1 20–30, weil kein Fremd-Addon im Spiel). Abweichung genannt; eine Messung.
+- Ruckler über 40 ms bei BuffSentinel: keiner gefunden oder gemeldet (Hinweis Punkt 3: nichts einzutragen).
+
+2) NACHBAU MIT ECHTEN DATEN (Punkt 2) – nicht erfüllt, offen
+- goldsentinel-daten habe ich in dieser Sitzung nicht (kein lokaler Klon). BuffSentinels schwere Teile hängen nicht an
+  wachsenden Datenmengen (keine Preis-/Weg-Tabellen); die gemeinsame Marktdatei (7662 Items im Spiel) ist Sache von
+  GoldSentinelMarkt (shared/). Ich habe keine Messung damit gemacht.
+
+3) BAU-REGELN (Punkt 4) – beim Anfassen umgesetzt
+- Regel 2 (nie collectgarbage("collect")): T110 hatte zwei ganze Bereinigungen (bis 0.9.52 im Lauf "alles" übersprungen, einzeln
+  aber gelaufen). Neu: Müll je Aufruf mit collectgarbage("count"), 5 Gruppen à 20 Aufrufe je Funktion, jede Gruppe am Stück in einem
+  Bild, die grösste zählt (ein Bereinigungsschritt kann den Wert nur verkleinern). Grenzen 2/4/2 KB (Refresh/RefreshGroup/
+  ScanPlayerAuras) – vorläufig, Verdacht, am Spielwert zu eichen. T110 läuft jetzt auch bei "alles" mit. Kein "collect" mehr im Addon
+  (grep: 0 Treffer ausser "count").
+  Bisherige Leck-Prüfung (Speicher nach ganzer Bereinigung) entfällt damit – ohne ganze Bereinigung nicht messbar.
+- Regel 3 (Tabellen wiederverwenden) – zwei echte Müll-Quellen gefunden, belegt mit Aufrufverfolgung (debug.sethook "call/return",
+  Speicher je Funktion, im Nachbau):
+  a) Sounds.lua BS:SoundSetting: "self.db.soundBase[kind] or {}" legte je Aufruf eine leere Tabelle an – Refresh ruft das je Buff-Knopf
+     (Hupe/Glocke). Jetzt eine feste Nur-Lese-Tabelle EMPTY_BASE; dazu SpecKey zwischengespeichert.
+  b) Group.lua RefreshGroup (alle 0,5 s): je Gruppenmitglied eine neue Info-Tabelle (Raid: 40 je Durchlauf). Jetzt je Einheit dieselbe
+     Tabelle (Pool), self.unitInfo wird geleert statt ersetzt.
+  Messwert (Nachbau, gleicher Fall, Krieger allein): Refresh 0,15 -> 0,03 KB je Aufruf, RefreshGroup 0,18 -> 0,12 KB (allein; im Raid
+  grösser – Verdacht, zu messen). Spielwert: noch keiner.
+- NACHBAU-FEHLER selbst gefunden und behoben (M1 in die andere Richtung – der Nachbau war hier ZU SCHLECHT): die Attrappe
+  hooksecurefunc legte je Aufruf eine Tabelle an, unbekannte Methoden lieferten je Zugriff eine neue Funktion. Mit dem Lua-5.1-Prüfer
+  (pcall-Hülle mit table.pack) sah Refresh nach 2,3 KB je Aufruf aus. Echter Addon-Anteil: 0,15 KB (vorher) bzw. 0,03 KB (jetzt).
+  Behoben in run_offline.lua und mock_wow.lua (berichte/BuffSentinel/offline, Commit vor 0.9.53).
+
+4) TESTROUTINE (Punkt 5, Regel 8) – längstes BILD und Gesamtdauer je Schritt getrennt
+- Zusammenfassung: "… n Bilder, längstes Bild x ms (<Schritt>), über 5 ms: k (<Schritt ms>, …) · Schritte über 16 ms gesamt: T25 41,
+  T200 112, T251 101, T252 95, T253 112" (Nachbau). Die langen Schritte sind über viele Bilder verteilt (TU1-Lagen), jedes Bild bleibt klein.
+- NEU T250 "Bilder der Testroutine selbst" (am Ende des Laufs): höchstens 40 ms (hart) und T126-Regel: längstes Bild ≤ 2× Median der
+  drei längsten. Nachbau: "längstes Bild 4,2–5,5 ms, Median 3,7–5,4 ms · ja · ja".
+- Regel 6 ("LANGSAM"-Zeile im Spiel): BuffSentinel hat keine wachsende Hintergrund-Aufgabe; LEISTUNG je Kampf und "Vorrat je
+  Taschen-Ereignis" stehen schon im Protokoll.
+
+Belege (eigene Tests, keine Freigabe)
+- run25m: OK 198, die bekannten 12 Nachbau-FEHLER. Lua-5.1-Prüfer mit Abgabe an jeder Stelle: 48 843 Abgaben, 0 Verletzungen.
+- Abbruchwege (stopp, Kampf, /reload) und Händler-Vormerkung (D1–D6) erneut: wie in 0.9.51.
+- Abschnitt 6 (Bewährte Bausteine): B2 beschreibt BuffSentinel; B1 (ThreatSentinel) hat dieselbe Idee mit R.noYield statt Sliced – keine Änderung nötig.
