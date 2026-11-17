@@ -1,0 +1,71 @@
+BERICHT GuildSentinel 0.9.53 – Ingametest 17.11. 16:46 und 18:49: Befunde 2–4 (T285, T182/T185, Portionen) und T82
+Von: GuildSentinel-Sitzung · 17.11.2026 19:16 (Zeit aus date, Europe/Zurich) · Quellcode 8e7b7eb
+Status: umgesetzt, zur Prüfung. CurseForge: unverändert 0.9.52 morgen 18:00 (freigegeben). 0.9.53 nur, wenn sie bis dahin im Spiel bestätigt ist.
+Grundlage: Bericht 16:47 (testberichte/berichte/GuildSentinel/GuildSentinel-1794930432-519530-1.json, 0.9.51) und offen-guildsentinel.txt
+(18:49, 0.9.52; dieser Bericht ist noch nicht hochgeladen – Aussagen dazu aus dem Code belegt bzw. als Verdacht markiert).
+
+0. NEU IM NACHBAU: BILDSCHIRM-LAGE (test/geom.lua)
+   Ankerpunkte, Kinder/Regionen, Schriftbreite (geschätzt, Friz Quadrata) und Tooltip-Lage nach Anker nachgebaut. Damit laufen T182–T185
+   (Bereich K) auch ausserhalb des Spiels. Gegen 0.9.51 ergibt der Nachbau GENAU die drei FEHLER des Ingametests 16:46: T285 (SetPoint auf
+   Lua-Tabelle, gleiche Meldung "Wrong object type"), T182 (members>list …) und T185 (group>search 1, group>free 4, prof>dir, prof>req –
+   dieselben Seiten wie im Spiel). board>offer und home "Unterstützen" zeigten sich im Nachbau nicht (Schriftbreite nur geschätzt) – die
+   Meldungen nennen jetzt den Text, der nächste Ingametest zeigt, ob dort noch etwas ist.
+   run_alle.sh: Routine mit Bildschirm-Lage in allen 11 Sprachen (16001) sowie 11508 und 20505 – alle 0 FEHLER.
+
+1. T82 "nichts gesendet – echt 1 (C_ChatInfo.SendAddonMessage 1)" (18:49)
+   BELEGT IM CODE: GuildSentinel selbst sendet nur über die gemeinsame Warteschlange (GoldSentinelSync). Deren Senden (Sync.api.send) war
+   während der Routine für ALLE Präfixe ersetzt (Comm.TestHold) – eine Sendung über Sync kann also nicht gezählt worden sein. Eine direkte
+   Sendung gibt es in GuildSentinel nicht (einzige Stelle Core.lua:291 ns.SendAddonMessage = gespeicherter Verweis, nirgends benutzt; die
+   gemeinsamen Dateien Markt/Game/Dev/Pruefliste/Test rufen SendAddonMessage nicht auf). Der Zähl-Haken (hooksecurefunc) zählt aber JEDEN
+   Aufruf im Spiel. Seit 0.9.51 dauert die Routine viele Sekunden (16,6 s) – sendet in der Zeit ein anderes Addon direkt, wurde es mitgezählt.
+   VERDACHT, ZU MESSEN: welches Addon (16:46 war es 0, weil gerade keins sendete). Neu in 0.9.52 war nur GoldSentinelMarkt v10 (sendet über
+   Sync -> war zurückgehalten) und die Rang-Suche (keine Sendung).
+   LÖSUNG: Der Haken liest die Aufrufer-Kette (debugstack): "eigen" = eine GuildSentinel-Datei ausser den gemeinsamen GoldSentinel*.lua,
+   "gemeinsam <Datei>", "fremd <Addon>". Nur eigene zählen als echt (T82 FEHLER); die anderen stehen in T82 mit Präfix, Kanal und Zeitpunkt
+   (ohne Inhalt, ohne Namen): "· nicht von GuildSentinel: fremd X … Präfix P 1× · Zeitpunkte: 3.2 s fremd X P/GUILD". Leere Kette -> eigen.
+   MITGEFUNDEN: TestHold verwarf während der Routine auch die Nachrichten ANDERER Addons in der gemeinsamen Warteschlange (Rückgabe "gesendet").
+   Jetzt werden nur GuildSentinel (Comm.PREFIX) und der gemeinsame Markt (GSMARKT1, den die Routine prüft) zurückgehalten, alles andere geht
+   normal hinaus.
+   TEST: neu test/run_t82.lua (je Client 8 Prüfungen): fremd + gemeinsam -> T82 OK und genannt; eigene Datei -> T82 FEHLER; leere Kette ->
+   eigen. Gegenprobe gegen 0.9.52: 4 von 8 rot ("echt 2").
+2. T285 (Befund 2): echter unsichtbarer Rahmen (CreateFrame "EditBox", einmal je Sitzung, AutoFocus aus), Methoden nur als eigene Felder
+   ersetzt. Typprüfung in der Nachbildung (geom.lua: SetPoint an einer Lua-Tabelle ohne Rahmen -> "Wrong object type"); Gegenprobe mit der
+   alten Prüfung: genau die Meldung aus dem Spiel. Für Spieler kein Fehler (CmdHint.lua:302/303 hängt sich nur an echte ChatFrame-Felder).
+3. T182/T185 (Befund 3):
+   - Ursache T182: die Listen-Tooltips (ANCHOR_CURSOR, members/progress/prof …) und Tooltips mit festem Anker lagen über Knöpfen desselben
+     Fensters. Lösung: UI.TipOwner – Tooltips von Elementen im Hauptfenster stehen NEBEN dem Fenster auf Höhe des Elements (rechts, bei zu
+     wenig Platz links); Elemente ausserhalb (Minimap-Knopf, eigene Popups) behalten ihren Anker. Alle 24 Stellen umgestellt. Nachbau: 0
+     verdeckt in allen Sprachen. Tooltips an der Maus (ANCHOR_CURSOR) werden in T182 gezählt, aber nicht gemessen (Lage hängt von der Maus ab).
+   - Ursache T185: feste Spaltenbreiten zu klein für Überschrift oder Zahl (group>free "frei bis 18:36": Status bekam ~60 px; ruRU "Уровень",
+     itIT "Obiettivo incursione", frFR/ptBR "Remerciements (30 jours)" …), Auswahl esES "desconectado hace 90 días" zu schmal, ruRU
+     "Осталось дней: 1" (Zahl am Ende abgeschnitten).
+     Lösung: UI:List – feste Spalten wachsen bis zur Breite ihrer Überschrift und ihrer Zahlen (nur wachsend, höchstens ein Neuzeichnen);
+     freie Spalte bekommt den Rest. Zellen mit Text, die trotzdem zu lang sind, zeigen den ganzen Text im Tooltip der Zeile.
+     "Wer ist frei": Spalten 180/125 statt 210/150. esES-Auswahl 210 statt 170. ruRU "ещё %d дн." (Zahl zuerst, kurz).
+   - T185-Einteilung (FRAGE AN DEN SUPERVISOR): Den Entscheid zu AHSentinel T750 (gekürzte Tabellenzelle mit ganzem Text im Tooltip, Zahlen
+     nie gekürzt) habe ich sinngemäss übernommen: eine gekürzte Zelle ist kein FEHLER, wenn der Tooltip der Zeile genau den ganzen Text zeigt
+     (die Prüfung öffnet ihn und vergleicht) und im abgeschnittenen Teil keine Ziffer steht (geschätzt aus Breite/Platz); sie steht als
+     "n Tabellenzellen gekürzt (ganzer Text im Tooltip)" im Ergebnis. Bitte bestätigen, ob das für GuildSentinel gilt.
+   - Meldungen nennen jetzt den Text: statt "Button in ?" z. B. 'group>free: Button "Grom" / "frei bis 18:36"'.
+4. Portionen (Befund 4: 843,8 ms bzw. 749,7 ms Bereich K, bis T187)
+   URSACHE (belegt): Bait() trägt Köderwerte in ns.testSecret ein und niemand leerte die Tabelle. R.MaybeYield hält nicht an, solange
+   ns.testSecret gesetzt ist -> ab der ersten Köder-Prüfung (T118) hielt die Routine bis zum Ende nie mehr an (Bereiche E–K in je einem Stück;
+   im Nachbau sichtbar: "nicht angehalten (secret T118 … T237)"). Lösung: Köder gelten nur innerhalb ihrer Prüfung (Check leert
+   ns.testSecret danach). Zusätzlich messen T182/T185 jetzt ausserhalb der Prüfung, Seite für Seite, Rahmen-Liste und Knopf-Lagen einmal je
+   Seite (vorher je Tooltip neu: quadratisch) und halten nach jedem Tooltip bzw. 10 Texten an.
+   Nachbau (os.clock, ohne Lage): 572 Portionen, längste 82,8 ms (T75); einzige Sperre noch "flavor T10". Ziel <= 5 ms NOCH NICHT überall:
+   einzelne lange Prüfungen (T75, T269, T237, T17, T118, T22, T11, T196) müssen noch aufgeteilt werden – nächste Version.
+5. MITGEFUNDEN: Testroutine in esES rot (T296a–e, T298b, T299b: die Prüfung flüsterte "hallo gilde", esES hat "gilde" nicht unter den
+   Standard-Stichwörtern) und zhCN/zhTW (T244/T246/T248 erwarteten ", " statt chinesischem "、"). Beides Fehler der Prüfung, nicht des Addons;
+   korrigiert. run_alle.sh prüft jetzt alle 11 Sprachen.
+
+TESTS (eigene Tests, Hinweise, keine Freigabe)
+- run_alle.sh: 171 Läufe, 0 rot, 12728 Einzelprüfungen bestanden. Zahl geht auf: 6212 (0.9.52) + 7 neue Sprach-Läufe × 321 (2247) +
+  Läufe mit Bildschirm-Lage 2 × 324 + 9 × 325 + 2 × 329 + 14 (4245) + run_t82 3 × 8 (24) = 12728. Alle bisherigen Läufe zählen gleich viel
+  wie in 0.9.52 (Lauf für Lauf verglichen).
+- Testroutine ohne Lage: Forever 303, Era 308, TBC 308 OK, je 0 FEHLER; mit Lage 324–329 OK, 0 FEHLER.
+- Gegenproben: T285 alt -> "Wrong object type"; T182/T185 alt (0.9.51) -> rot wie im Spiel; T82 alt -> 4 rot.
+- addon_check: siehe unten.
+
+IM SPIEL (nächster Lauf "/gs testroutine alles", nichts von Hand nötig)
+- T182/T185 nennen jetzt Texte; T82 nennt, wer gesendet hat; die Zeile "Portionen: …" zeigt die längste Portion.
