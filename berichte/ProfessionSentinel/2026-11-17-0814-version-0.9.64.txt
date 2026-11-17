@@ -1,0 +1,251 @@
+BERICHT PROFESSIONSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 17.11.2026 08:14 · Sitzung: ProfessionSentinel-Sitzung · Version: 0.9.64 (Release v0.9.64, Commit f8b4e37) – enthält 0.9.63 (Commit 140ab98)
+Grundlage: offen-professionsentinel.txt – PS-PL1 HOCH (07:44), GoldSentinelDev Version 2 (07:44), PRÜFLISTE IM SPIEL (06:49),
+PS-ESL1 (16.11. 10:06), TR-ALLE (17.11. 07:40, hinweis-testroutine-alles-2026-11-17.txt).
+Hinweis: Hier steht nur "umgesetzt, zur Prüfung" mit Belegen. Ob etwas erledigt ist, entscheidet die Prüf-Sitzung.
+Veröffentlicht wird nur 0.9.64 (0.9.63 stand wenige Minuten als GitHub-Release; die Ankündigung 0.9.64 enthält beides).
+
+UMGESETZT, ZUR PRÜFUNG
+======================
+
+1. PS-PL1 HOCH – Zonen der QuestieDB-Korrekturen (pipeline/qloader.py)
+-----------------------------------------------------------------------
+Ursache (belegt, wie im Entwurf 16.11. 07:24): PRELUDE setzte QuestieDB.zoneIDs auf eine Tabelle, die für jeden Namen 0
+lieferte; ZoneDB war ein Platzhalter. Fixes "[npcKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES] = …}" ergaben Zone 0, spawn_of()
+übersprang Zone <= 0 -> NPC ohne Spawn -> kein Lehrer/keine Koordinaten.
+Die Korrekturdateien lesen die Zonen über ZoneDB.zoneIDs (16× "local zoneIDs = ZoneDB.zoneIDs"; Era 1301, Forever-legacy 1300,
+Forever 333 Verweise "zoneIDs.<NAME>").
+Lösung:
+- load_zones(): QuestieDBs eigene Aufzählung src/corrections/enum/zones.lua (local _, LibQuestieDB = ...; constants.zoneIDs = {…})
+  wird geladen (591 Zonen); QuestieDB.zoneIDs UND ZoneDB.zoneIDs zeigen darauf. Unbekannter Name -> -1 und wird gemeldet
+  (heute: 0 unbekannte Namen in Era und Forever).
+- Ein Fix, dessen Spawns NUR unbekannte Zonen haben, überschreibt keinen gültigen Grund-Spawn (gezählt, heute 0×).
+  Ein Fix mit LEERER Spawn-Tabelle wirkt weiter (QuestieDB entfernt so absichtlich Spawns: Era 8, Forever-legacy 8, Forever 4).
+- spawn_of(): Spawn ohne gültige Zone -> Rückfall auf npcKeys.zoneID.
+- qloader.py ist jetzt importierbar (main() hinter __name__), Aufruf von update.sh unverändert.
+
+ZAHLEN (QuestieDB e1652ce 2026-11-16, Clients unverändert: Forever 1.60.1.70938, Era 1.15.9.70576, Retail 12.1.5.70783)
+                               0.9.62 (veröff.) | alter Lader, neues QDB | 0.9.63 (neuer Lader)
+Forever Lehrer gesamt              232          |          231            |        262
+Forever Lehrer je Beruf (129/164/165/171/182/185/186/197/202/333/356/393):
+  0.9.62:  12/27/29/28/23/16/10/26/23/21/8/9
+  0.9.63:  12/28/31/30/30/19/17/27/23/22/8/15
+Forever NPCs im Addon / ohne Koordinaten   1294 / 116   |   1293 / 116   |   1320 / 47
+Forever QuestieDB-NPCs ohne Spawn (Auszug)        –     |       569      |        164
+Forever Rezept-Händler mit Spawn                  –     |   274 von 296  |   282 von 296
+Era Lehrer gesamt                  214          |          214            |        214 (je Beruf unverändert)
+Era NPCs im Addon / ohne Koordinaten       1022 / 51    |   1022 / 51    |   1022 / 5
+Era QuestieDB-NPCs ohne Spawn (Auszug)            –     |       448      |         54
+Era Rezept-Händler mit Spawn                      –     |   226 von 229  |   229 von 229
+Retail: keine NPC-Daten (wie bisher), Data_Retail.lua ändert nur Kopfzeile/Datum.
+Rezepte unverändert (Forever 2315, Era 1267, Retail 10172; diff_report: CHANGES=0).
+- 276067 Angus Hammerhand: wieder in ns.Trainers[164] (Forever), Tirisfal 21.2/45.7, Karte 1420.
+- Die 31 neuen Forever-Lehrer (gegenüber altem Lader) einzeln geprüft: 18 "Junior Mining/Herbalism/Skinning Trainer" der
+  Startgebiete (je 3 in Wald von Elwynn, Tirisfal, Durotar, Mulgore, Teldrassil, Dun Morogh), 11 Berufslehrer auf der Insel
+  Zephras (Zone 16593, Karte 2521), 1 Kochlehrerin (252084, Alteracgebirge) und 276067. Keine Testfiguren. Alle mit Karte und
+  Koordinaten im Addon. Gegenüber dem veröffentlichten 0.9.62 sind es 30 mehr (232 -> 262; 276067 war dort noch drin).
+- Geänderte Koordinaten von NPCs, die vorher schon einen Ort hatten: 2 (Forever: 4851 Stonevault Rockchewer, 4856 Stonevault
+  Cave Hunter: Loch Modan -> Ödland, so setzt es die Questie-Korrektur), Era 2.
+- Test tests/test_qloader.py (9 Prüfungen, nachgebaute kleine QuestieDB): Fix mit zoneIDs.TIRISFAL_GLADES -> Zone 85;
+  unbekannte Zone überschreibt keinen Grund-Spawn; leere Spawn-Tabelle entfernt weiter; Rückfall auf npcKeys.zoneID; unbekannte
+  Namen gemeldet; Lehrer mit Fix-Spawn bleibt Lehrer; Händler behält Koordinaten. Gegenprobe (Zonen wieder pauschal 0):
+  3 FEHLER.
+- Die Daten in 0.9.63 kommen aus diesem Lauf (neuer Lader). Der Rückschritt vom 16.11. ist damit nicht veröffentlicht worden.
+- pipeline/state/snapshot.json auf den neuen Lauf gesetzt (Grundlage des nächsten Rezeptdaten-Laufs).
+
+2. GoldSentinelDev Version 2 und GoldSentinelPruefliste (gemeinsame Dateien)
+---------------------------------------------------------------------------
+- shared/GoldSentinelDev.lua (Version 2) und shared/GoldSentinelPruefliste.lua (Version 1) UNVERÄNDERT kopiert (cmp gleich),
+  in allen 4 TOCs: GoldSentinelDev.lua, dann GoldSentinelPruefliste.lua, vor den eigenen Dateien. GoldSentinelGame/Test/Markt
+  unverändert gleich shared/.
+- T131 prüft jetzt GoldSentinelDev.version >= 2 (eine neuere Kopie eines anderen Addons darf gewinnen) und
+  GoldSentinelPruefliste.version >= 1.
+
+3. PS-ESL1 – Knopf "AHS-Liste" im Rezept-Detail
+------------------------------------------------
+- Reiter Rezepte -> Rezept anklicken -> Details unten: vier gleich breite Knöpfe (je 92 px, Abstand 4: 8 + 4×92 + 3×4 = 388 px
+  bei 406 px Breite) Herstellen · Einkaufsliste · Vormerken · AHS-Liste. EIN Knopf (Auftrag erlaubt "ein Knopf + Rechtsklick"):
+  Linksklick = alle Materialien, Rechtsklick = nur was fehlt; Tooltip erklärt beides.
+- Aufruf genau AHSentinel.API.ReagentsToList(spellID, 1, nurFehlend) (API.md Z. 36), über ns.Foreign (die Testroutine ersetzt
+  AHSentinel, ruft nie das echte) und PS.Call (Fehler in AHSentinel werden gefangen und gezählt). Die Meldung von AHSentinel
+  steht im Chat (bei Ablehnung ihr Grund, z. B. "Berufsfenster ist nicht offen."); ohne Meldung ein eigener Satz.
+- Sichtbar nur, wenn AHSentinel die Funktion anbietet; klickbar nur bei gelernten Rezepten (AHSentinel braucht das Rezept im
+  offenen Berufsfenster). Ohne AHSentinel: kein Knopf, alte Clients unverändert.
+- Beim Bau gefunden und vor dem Push behoben: der erste Entwurf las _G.AHSentinel direkt – die Testroutine hätte das echte
+  AHSentinel aufgerufen. Jetzt ns.Foreign wie alle anderen Stellen.
+
+4. PRÜFLISTE IM SPIEL (+ TR-ALLE Teil B: klare Handschritte)
+-----------------------------------------------------------
+- Pruefliste.lua (nach Core.lua): GoldSentinelPruefliste:Register("ProfessionSentinel", …) erst beim ersten Gebrauch (die
+  BattleTag-Prüfung braucht das eingeloggte Spiel). /ps prüfliste (auch /ps pruefliste, /ps checklist), nur Entwicklermodus
+  (sonst die übliche Dev-Meldung). Ohne Entwicklermodus wirkungslos: nichts registriert, nichts gespeichert, keine Berichtszeilen.
+- 14 Punkte (Höchstzahl), Reihenfolge wie man sie im Spiel nacheinander macht. Jeder Punkt: Wo · nummerierte Schritte mit EINEM
+  Handgriff je Schritt und den Namen wie im Spiel · Kosten · Was du siehst (wörtlich, wo es Chat-Text ist).
+- "Merkt selbst" (ns.PLHit an der Stelle, wo die Funktion wirklich benutzt wurde): TR (Ende eines vollständigen Laufs ohne Fehler;
+  mit Fehlern "Fehler (erkannt)"), OFFEN (Berufsfenster öffnet das Panel), WECHSEL (zweiter Beruf bekommt seinen Reiter zurück),
+  JETZT (Karte wählt das Rezept), WEG (LevelPilot/TomTom/Kartenpunkt gesetzt), VORMERKEN, HAENDLER (Käufe > 0), ESL1 (AHSentinel
+  meldet ok), TOOLTIP (Chance-, "lernt noch"- oder Marktlage-Zeile gezeigt), KAMPF (Kampf mit offenem Panel ohne PS-Fehler;
+  mit Fehler "Fehler (erkannt)"). Nur Hinschauen (OK/Nicht OK): STIL, SPUR, WARN, MINIMAP.
+- Die Testroutine hakt nie einen Punkt ab (PLMOD.Quiet). Testbericht: PL:ReportLines() am Ende des Berichts.
+- /ps warnprobe (Entwickler): das echte Warnfenster (Ton, drei Knöpfe) mit erfundenem Verlust, Text beginnt mit "PROBE – ";
+  alle Knöpfe schreiben nur "Probe: es wurde nichts hergestellt." – für Punkt WARN, ohne dass man einen Verlust erzeugen muss.
+
+DIE 14 HANDPUNKTE (Wortlaut aus Pruefliste.lua, so steht es im Spiel)
+ 1. TR – Automatische Prüfung laufen lassen (seit 0.9.63)
+      Wo: irgendwo, nicht im Kampf
+      1. Drücke die Taste P – das Zauberbuch öffnet sich.
+      2. Klicke im Zauberbuch auf das Symbol deines Berufs (Reiter „Allgemein“).
+      3. Tippe in den Chat: /ps testroutine alles
+      4. Warte, bis im Chat „Testroutine fertig“ steht. Nicht kämpfen, Spiel offen lassen.
+      Kosten: kein Gold, ca. 1 Minute
+      Was du siehst: Im Chat: „Testroutine fertig: …“ und darunter „Ergebnis: … von … bestanden · 0 Fehler · …“. Der Punkt hakt sich selbst ab.
+ 2. OFFEN – Fenster öffnet mit dem Beruf (seit 0.9.47)
+      Wo: irgendwo
+      1. Drücke die Taste P – das Zauberbuch öffnet sich.
+      2. Klicke im Zauberbuch auf das Symbol deines Berufs (Reiter „Allgemein“).
+      Kosten: kein Gold, 10 Sekunden
+      Was du siehst: Rechts neben dem Berufsfenster erscheint das Fenster „ProfessionSentinel“, ohne dass du etwas klickst. Hakt sich selbst ab.
+ 3. STIL – Aussehen des dunklen Stils (seit 0.9.47)
+      Wo: Berufsfenster offen
+      1. Schau dir das Fenster „ProfessionSentinel“ an: oben die Reiter Jetzt · Skillen · Gold · Rezepte.
+      2. Klicke jeden der vier Reiter einmal an.
+      Kosten: kein Gold, 1 Minute
+      Was du siehst: Dunkler, flacher Hintergrund, nichts abgeschnitten oder überlappt. Gefällt es dir: „OK“. Sonst „Nicht OK“ (zurück zum alten Aussehen: /ps stil).
+ 4. WECHSEL – Berufswechsel merkt den Reiter (seit 0.9.49)
+      Wo: eine Figur mit zwei Berufen
+      1. Öffne den ersten Beruf (Taste P, Symbol des Berufs).
+      2. Klicke im Fenster „ProfessionSentinel“ auf den Reiter „Gold“.
+      3. Öffne den zweiten Beruf.
+      4. Klicke dort auf den Reiter „Skillen“.
+      5. Öffne wieder den ersten Beruf.
+      Kosten: kein Gold, 1 Minute
+      Was du siehst: Beim ersten Beruf ist sofort wieder „Gold“ gewählt, ohne dass kurz der andere Beruf aufblitzt. Hakt sich selbst ab; blitzt etwas auf: „Nicht OK“.
+ 5. JETZT – Karte „Nächster Skillpunkt“ anklicken (seit 0.9.47)
+      Wo: Berufsfenster offen
+      1. Klicke im Fenster „ProfessionSentinel“ auf den Reiter „Jetzt“.
+      2. Klicke auf die Karte „Nächster Skillpunkt“.
+      Kosten: kein Gold, 10 Sekunden
+      Was du siehst: Im Berufsfenster ist genau dieses Rezept ausgewählt. Hakt sich selbst ab.
+ 6. WEG – Weg zum Lehrer zeigen (seit 0.9.57)
+      Wo: irgendwo draussen (nicht in einer Instanz)
+      1. Klicke im Fenster „ProfessionSentinel“ auf den Reiter „Skillen“.
+      2. Klicke darunter auf „Lehrer“.
+      3. Klicke auf den ersten Lehrer der Liste.
+      Kosten: kein Gold, 10 Sekunden
+      Was du siehst: Im Chat: „Wegpunkt gesetzt: <Name> – <Ort>“ mit (LevelPilot) oder (TomTom); ohne beide ein Punkt auf der Karte. Hakt sich selbst ab.
+ 7. SPUR – Skillspur im Berufsfenster (seit 0.9.54)
+      Wo: Berufsfenster offen
+      1. Schau auf die Rezeptliste im Berufsfenster von Blizzard (links).
+      2. Fahre mit der Maus über eine Rezeptzeile.
+      Kosten: kein Gold, 30 Sekunden
+      Was du siehst: Unter jeder Rezeptzeile eine feine Linie, rechts eine Zahl (orange = sichere Punkte, gelb/grün = Chance in %). Nichts verdeckt Namen oder Anzahl. Passt es: „OK“.
+ 8. VORMERKEN – Rezept vormerken (seit 0.9.52)
+      Wo: Berufsfenster offen
+      1. Klicke im Fenster „ProfessionSentinel“ auf den Reiter „Rezepte“.
+      2. Klicke auf ein gelerntes Rezept – unten öffnen sich die Details.
+      3. Klicke unten auf „Vormerken“.
+      Kosten: kein Gold, 20 Sekunden
+      Was du siehst: Im Chat: „Vorgemerkt: 1× <Rezept>“, unten die Leiste „Warteschlange 1 · …“. Hakt sich selbst ab.
+ 9. HAENDLER – Fehlendes beim Händler kaufen (seit 0.9.52)
+      Wo: bei einem Händler für Handwerkswaren (z. B. Faden, Phiolen) – vorgemerktes Rezept aus Punkt „Rezept vormerken“
+      1. Sprich den Händler an (Rechtsklick), sein Fenster ist offen.
+      2. Klicke im Fenster „ProfessionSentinel“ unten auf die Leiste „Warteschlange …“.
+      3. Klicke auf „Fehlendes beim Händler kaufen“.
+      Kosten: wenige Silber (nur was dem vorgemerkten Rezept fehlt), 1 Minute
+      Was du siehst: Genau die fehlende Menge kommt in deine Taschen, nicht mehr. Hakt sich selbst ab (Zahl der Käufe in der Notiz).
+10. ESL1 – AHS-Liste anlegen (seit 0.9.63)
+      Wo: Berufsfenster offen, AHSentinel ist an
+      1. Klicke im Fenster „ProfessionSentinel“ auf den Reiter „Rezepte“.
+      2. Klicke auf ein gelerntes Rezept – unten öffnen sich die Details.
+      3. Klicke unten mit LINKS auf „AHS-Liste“.
+      4. Klicke danach mit RECHTS auf „AHS-Liste“.
+      Kosten: kein Gold, 30 Sekunden
+      Was du siehst: Im Chat je eine Meldung von AHSentinel, dass die Einkaufsliste angelegt ist (rechts: nur was dir fehlt). Hakt sich selbst ab.
+11. WARN – Warnfenster mit drei Knöpfen (seit 0.9.60)
+      Wo: Berufsfenster offen
+      1. Tippe in den Chat: /ps warnprobe
+      2. Lies das Fenster – es ist nur eine Probe, es wird nichts hergestellt.
+      3. Klicke im Fenster auf „Abbrechen“.
+      Kosten: kein Gold, 20 Sekunden
+      Was du siehst: Ein Ton, ein Fenster „PROBE – Verlust! …“ mit drei Knöpfen: „Trotzdem herstellen“, „Stattdessen: …“, „Abbrechen“; Text vollständig lesbar. Dann „OK“.
+12. TOOLTIP – Tooltip: Verkaufschance und Marktlage (seit 0.9.61)
+      Wo: Berufsfenster offen, AHSentinel ist an und hat das Auktionshaus heute einmal gescannt
+      1. Klicke im Fenster „ProfessionSentinel“ auf den Reiter „Gold“.
+      2. Fahre mit der Maus über die ersten Zeilen.
+      3. Halte dabei die Umschalttaste (Shift) gedrückt – der Tooltip wird ausführlich.
+      Kosten: kein Gold, 30 Sekunden
+      Was du siehst: Mit Shift: „Erwartet (verkauft sich zu x %)“ oder ein grauer Satz „AHSentinel lernt noch …“; ohne Shift ggf. eine Zeile zur Marktlage (z. B. „Markt überflutet …“). Hakt sich selbst ab, sobald so eine Zeile kam.
+13. MINIMAP – Knopf an der Minimap (seit 0.9.13)
+      Wo: irgendwo
+      1. Fahre mit der Maus über das Buch-Symbol am Rand der Minimap.
+      2. Ziehe das Symbol mit gedrückter linker Maustaste ein Stück weiter.
+      3. Tippe in den Chat: /reload
+      4. Klicke das Symbol zweimal mit links an.
+      5. Klicke das Symbol mit rechts an.
+      Kosten: kein Gold, 1 Minute
+      Was du siehst: Tooltip auf Deutsch. Nach /reload an der neuen Stelle. Links: Fenster auf, dann zu. Rechts: im Chat „Optionen (jede mit ihrem Befehl umschalten):“. Dann „OK“.
+14. KAMPF – Kein Fehler im Kampf (seit 0.9.63)
+      Wo: draussen bei einem leichten Gegner, Fenster „ProfessionSentinel“ offen
+      1. Greife einen Gegner an.
+      2. Fahre im Kampf mit der Maus über ein Rezept in deinen Taschen (z. B. „Muster: …“).
+      3. Beende den Kampf.
+      Kosten: kein Gold, 1 Minute
+      Was du siehst: Keine rote Fehlermeldung, kein „Aktion blockiert“. Hakt sich nach dem Kampf selbst ab.
+
+5. TR-ALLE Teil A – "/ps testroutine alles"
+-------------------------------------------
+- Gab es schon (alles ausser [api]); neu:
+  - Fortschritt "Testroutine: 1 von 271 – …", dann alle 10 Fälle und am Ende (vorher "10/271"; 271 = Fälle der Warteschlange,
+    die Zusammenfassung zählt dazu die 3 Schlussfälle -> 274).
+  - Am Ende EINE Zusammenfassung im Chat und im Bericht: "Ergebnis: x von y bestanden · z Fehler · n nicht automatisch prüfbar",
+    darunter je Grund "nicht prüfbar: k× <Grund>" (häufigster zuerst), dazu "Ohne Ruckeln: jeder Schritt unter 5 ms je Bild"
+    bzw. "Schritte über 5 ms je Bild: n (längster Tx: y ms)".
+  - Abmelden oder /reload während eines Laufs: PLAYER_LOGOUT bricht ab und baut alles zurück, BEVOR das Spiel die
+    SavedVariables schreibt (vorher gab es dafür keinen Schutz: ein /reload mitten in einem Fall mit Warten hätte ersetzte Werte
+    speichern können – Verdacht, nicht beobachtet). Abbrechen weiter mit /ps testroutine stop; Kampf bricht ab wie bisher.
+  - Grenzen unverändert und durch Wächter belegt: keine Käufe/Aktionen (ns.Act abgefangen), Sandbox "kein Pfad geändert" (T04),
+    Hintergrund-Aufgaben pausiert und garantiert zurückgegeben (TR.SaveJobs/RestoreJobs).
+- Beispiel offline (Forever): "Ergebnis: 244 von 274 bestanden · 0 Fehler · 30 nicht automatisch prüfbar", davon 12× "braucht
+  deine Hand im Spiel – siehe /ps prüfliste", 6× "nur im echten Client", 4× "nur Classic Era", 2× "AHSentinel nicht geladen" …
+
+BEFUND / FRAGE AN DIE PRÜF-SITZUNG: "Portionen ≤ 5 ms je Bild" ist mit der heutigen Testroutine NICHT erreichbar
+- Gemessen (offline, Lua 5.1, je Fall eine Portion in einem eigenen Bild): 55 von 274 Fällen über 5 ms; die längsten T134
+  868–924 ms, T81 636 ms, T255 614 ms, T130 390 ms, T257 362 ms, T276 255 ms, T145 200 ms (LuaJIT: 44 Fälle, T134 655 ms).
+  Im Spiel vermutlich ähnlich oder langsamer (Verdacht, zu messen – die Zusammenfassung zeigt es nach dem ersten Lauf).
+- Ursache (belegt): ein Testfall ist eine Lua-Funktion, die am Stück läuft; in Lua 5.1 (WoW) kann eine Coroutine nicht über
+  pcall/xpcall hinweg anhalten – jeder Fall läuft in xpcall, und die Fälle prüfen selbst mit pcall. Teilen geht nur, wenn
+  jeder schwere Fall von Hand in Schritte (WAIT) zerlegt wird; die längsten sind gerade die Leistungs-Messfälle (T134 misst das
+  Panel über alle Ansichten, T81 alle Ansichten, T255 die Gold-Sammlung).
+- Vorschlag: (a) so lassen, die Zusammenfassung nennt die langen Schritte ehrlich, die Anleitung sagt "kurzes Stocken möglich";
+  oder (b) die 10 längsten Fälle in WAIT-Schritte zerlegen (je Fall einzeln, ≥ 1 Version). Bis zur Antwort: (a).
+
+TESTS (eigene, Hinweise – keine Freigabe)
+-----------------------------------------
+- Neu: T285 (Prüfliste: ohne Entwickler wirkungslos, 14 Punkte je mit Wo/Schritte/Kosten/Was du siehst, ein Handgriff je
+  Schritt, Anweisung passt ins Fenster, JEDE Haken-Stelle löst ihren Punkt aus – OFFEN, WECHSEL (erster Beruf nicht),
+  JETZT, WEG, VORMERKEN, HAENDLER, ESL1, TOOLTIP (Shift-Zeile und Marktlage), KAMPF (ohne/mit Fehler), TR (nur voller Lauf ohne
+  Fehler; Teil-Lauf und Abbruch zählen nicht) –, Testroutine hakt nichts ab, Berichtszeilen), T286 (AHS-Liste: ohne AHSentinel
+  kein Aufruf, genaue Argumente, Meldung von AHSentinel, Ablehnungsgrund, Fehler gefangen, vier Knöpfe passen, Knopf nur mit
+  AHSentinel sichtbar und klickbar), T287 (Warn-Probe: PROBE-Text, drei Knöpfe, nichts hergestellt; ohne Berufsfenster Hinweis),
+  T288 (Zusammenfassung mit Gründen und langsamem Schritt, "alles" = alle Fälle, Abmelden bricht einen Lauf ab: Sandbox OK,
+  Rückbau-Stapel leer). T131 angepasst. tests/test_qloader.py neu (siehe 1).
+- Gegenproben (je eine Änderung zurück, Test muss rot werden): ohne Haken in Queue.Add -> T285 FEHLER "VORMERKEN: offen";
+  ohne AHSentinel-Meldung -> T286 FEHLER "Meldung von AHSentinel im Chat"; Probe stellt her -> T287 FEHLER "nichts hergestellt";
+  ohne Abbruch beim Abmelden -> T288 FEHLER "Abmelden bricht ab: nil"; Knopf immer sichtbar -> T286 FEHLER "Knopf ohne
+  AHSentinel versteckt"; Prüflisten-Texte aus 0.9.63 -> T285 FEHLER (7× "ein Handgriff je Schritt"); qloader mit Zonen 0 -> 3 FEHLER.
+- run_offline (LuaJIT): Forever OK 244 / FEHLER 0, Era OK 226 / 0, Retail OK 224 / 0, TBC ohne Lua-Fehler, Ausgang 0.
+  --lua51: Retail 224 / 0. Forever 243 / 1: T145 Speicher "+3092 KB nach dem Lauf" – in diesem Container (neu gestartet 07:38)
+  schlägt T145 unter Lua 5.1 auch mit dem unveränderten Stand 0.9.62 fehl (gemessen +3304 KB, dazu T140 18,2 ms) – nicht durch
+  diese Version verursacht; unter LuaJIT OK. Wie im Bericht 0.9.47: Grenze nicht erhöht, Ursache der Grundlast weiter Verdacht.
+- Schnelltest Ausgang 0 (AUTOTEST OK ×3, feste Liste unverändert), check_actions Ausgang 0 ("Aktionen mit Folgen nur in ns.Act"),
+  Locale-Schlüssel 539, tests/test_qloader.py Ausgang 0.
+- addon_check auf download/ProfessionSentinel-0.9.64.zip und announce-Zip: OK. ZIP = Release-Asset = Quell-Repo (diff -r leer).
+
+IM CLIENT PRÜFEN
+----------------
+- Alles über /ps prüfliste (14 Punkte oben). Die Fälle, die offline "im Client prüfen" melden (12 in Forever), laufen im Spiel
+  zum grossen Teil automatisch, sobald das Berufsfenster offen ist (Punkt TR Schritt 1–2) – welche genau übrig bleiben, zeigt die
+  Zusammenfassung des ersten Spiel-Laufs (Verdacht, zu messen). Nicht in der Liste, weil im Spiel automatisch oder nur mit
+  besonderer Lage: T50 Händlergunst-Stand (Handelslager-Händler offen), T69 Rezept in den Taschen.
+
+NÄCHSTES: Antwort zum 5-ms-Ziel abwarten und bis dahin weiter nach offen-professionsentinel.txt.
