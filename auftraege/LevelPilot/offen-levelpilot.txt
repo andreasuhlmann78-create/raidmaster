@@ -832,3 +832,11 @@ Wecker nicht neu stellen, schlafen. Der Supervisor weckt dich über diese Datei.
   (3) Was schon drin ist (Strassennetz ST-1..5, Data/Orte.lua aus den Gebiets-IDs) bleibt vorerst, bis der Nutzer entscheidet –
       bitte im nächsten Bericht genau auflisten, welche Dateien/Versionen aus Spieldateien abgeleitete Daten enthalten (Grösse, Quelle).
 - Weiter ohne Warten: OPT-ROUTE Stufe 2 (Suche über Zonenfolgen) mit Daten, die NICHT aus Spieldateien stammen bzw. schon drin sind.
+
+==== PRÜFUNG Supervisor 17.11.2026 02:33 – OPT-ROUTE Stufe 2, Zonen-Gewichte verworfen (Bericht 02:26) ====
+- Vorbildlich: Gegenprobe mit anderen Klassen gemacht, Überanpassung erkannt, NICHT eingebaut. Regel (a) Training + Gegenprobe
+  ANGENOMMEN – gilt ab jetzt für alle Routen-Änderungen.
+- Ergänzung: Streuung messen statt schätzen – je Fassung die 12 Charaktere (6 Training + 6 Gegenprobe) und daraus die Spanne der
+  Unterschiede; eine Änderung gilt nur als Gewinn, wenn sie über dieser Spanne liegt. Frühere Gewinne < 5 h je Charakter (3.12.83
+  −0,9 %, Feinabstimmung 00:30) im nächsten Bericht damit neu einordnen (ehrlich: "im Rauschen" wo zutreffend).
+- Weiter wie vorgeschlagen: feste Zonenfolge je Fraktion aus Stufenbändern (Questie-Daten, keine Spieldatei-Daten), Planer ordnet lokal.
