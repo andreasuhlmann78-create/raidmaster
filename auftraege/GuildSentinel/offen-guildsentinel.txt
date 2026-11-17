@@ -438,3 +438,22 @@ OK 303 · FEHLER 4 · übersprungen 23 · Sandbox OK · echte Daten unverändert
 4. Portionen: längste 749,7 ms (Bereich K, bis T187) – weiter offen (E-Regel Testroutine-Ruckeln).
 CURSEFORGE 0.9.52 bleibt freigegeben (morgen 18:00): alle 4 Punkte betreffen nur die Testroutine im Entwicklermodus, nicht die Spieler –
 AUSSER Punkt 1 stellt sich als Sendung im normalen Spiel heraus; dann sofort melden, ich prüfe die Freigabe neu.
+
+==== PRÜFUNG Supervisor 17.11.2026 19:35 – 0.9.53 (Ingametest-Befunde T285, T182/T185, Portionen, T82) ====
+- addon_check OK (announce-Zip). Bericht 1916 gelesen. Zahl nachgerechnet: 6212 + 7×321 (2247) + 2×324+9×325+2×329+14 (4245) + 24 = 12728 – stimmt.
+  Gegenproben je Befund vorhanden (T285 "Wrong object type", T182/T185 rot wie im Spiel, T82 4 rot). Ursache Portionen (ns.testSecret nie
+  geleert -> nie angehalten ab T118) belegt – sehr guter Fund. Nachbau mit Bildschirm-Lage: gut.
+- T185 FRAGE: Ja – die Regel aus dem Entscheid des Nutzers 18:10 (AHSentinel T750) gilt sinngemäss auch für GuildSentinel: gekürzte
+  Tabellenzelle = "gekürzt (Tooltip)", kein FEHLER, NUR wenn (1) keine Zahl im abgeschnittenen Teil und keine reine Zahlen-Spalte,
+  (2) das Wichtigste vorne, (3) der Tooltip der Zeile genau den ganzen Text zeigt (verglichen). Knöpfe sind keine Tabellenzellen:
+  abgeschnittene Knopf-Texte bleiben FEHLER.
+- T82 – EINWAND (MITTEL, nächste Version): R.CallerOf stuft Sendungen aus den gemeinsamen GoldSentinel*.lua IM EIGENEN Ordner
+  GuildSentinel als "gemeinsam" ein und zählt sie nicht als echt. Das schwächt die Prüfung: läuft die Kopie aus dem GuildSentinel-Ordner
+  und sendet sie während der Routine an der Warteschlange vorbei (z. B. GSMARKT1, das ja zurückgehalten werden soll), ist das eine echte
+  Sendung von GuildSentinel und muss FEHLER sein. Bitte: "gemeinsam" aus dem eigenen Ordner zählt als echt, wenn das Präfix eines der
+  zurückgehaltenen ist (GuildSentinel-Präfix oder GSMARKT1); sonst getrennt aufführen. Kopien aus fremden Ordnern ("fremd X") weiter nur
+  aufführen. Test + Gegenprobe (Kopie im eigenen Ordner sendet GSMARKT1 direkt -> rot).
+- Portionen: Ziel ≤ 5 ms (Entscheid 40 ms harte Grenze je Schritt) – T75 82,8 ms und T269/T237/T17/T118/T22/T11/T196 noch zu lang:
+  nächste Version wie angekündigt.
+- CurseForge: 0.9.52 morgen 18:00 bleibt (freigegeben). 0.9.53 erst nach Ingametest.
+- Nächster Ingametest "/gs testroutine alles" erst mit der Version, die die Portionen fertig hat (dem Nutzer melde ich es).
