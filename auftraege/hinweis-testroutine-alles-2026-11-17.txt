@@ -1,0 +1,26 @@
+HINWEIS AN ALLE ADDON-PROJEKTE – Supervisor GoldSentinel, 17.11.2026 07:40
+Entscheid des Nutzers 17.11.2026 07:36: "Bei allen Addons einführen, damit möglichst wenige Handgriffe für mich bleiben – und bei den
+Ingame-Tests, die ich selbst durchführe, klar angeben, was zu machen ist. Bei den AHS-Tests von gestern habe ich zum Teil nicht
+verstanden, was ich machen muss."
+
+A) EIN BEFEHL FÜR ALLES, WAS AUTOMATISCH GEHT
+   - Jedes Addon hat "/<addon> testroutine alles" (Entwicklermodus). Er führt alle Prüfungen aus, die ohne Hand gehen, nacheinander,
+     ohne Ruckeln (Portionen ≤ 5 ms je Bild), zeigt den Fortschritt ("3 von 12 …") und am Ende EINE Zusammenfassung
+     ("x von y bestanden, z nicht prüfbar – Grund"). Abbrechbar; nach /reload sauber.
+   - Ergebnisse in den Testbericht (SavedVariables, GSTEST-Format) – kommen mit dem Upload zum Supervisor. Der Nutzer schreibt nichts ab.
+   - Grenzen (Pflicht): kein Test gibt Gold aus, stellt Auktionen ein, verschickt Post/Chat oder ändert Einstellungen des Nutzers dauerhaft;
+     echte Daten werden nie verändert (Sandbox, Gegenprobe "kein Pfad geändert"); was pausiert wird, wird garantiert wiederhergestellt.
+   - Was auch in Nachbauten geht (Marktlagen, Grenzfälle), läuft mit nachgebauten Daten, nicht mit echten Angeboten.
+B) HANDPRÜFUNG NUR, WO ES NICHT ANDERS GEHT (echter Klick, echtes Gold, echte Maus, Sichtprüfung)
+   Jeder Punkt der Prüfliste so, dass ihn der Nutzer OHNE Vorwissen versteht:
+   1. Wo: genauer Ort im Spiel ("Auktionshaus offen", "irgendwo", "bei einem Händler").
+   2. Schritte nummeriert, EIN Handgriff je Schritt, mit dem genauen Namen von Reiter/Knopf, wie er im Spiel steht
+      ("Klicke oben auf den Reiter 'Kaufen', dann links auf 'Sniper'", "Tippe in den Chat: /ahs sniper test").
+   3. Was du sehen solltest: wörtlich ("Im Chat steht: 'Gekauft: Leinenstoff ×2 …'").
+   4. Was kostet es: Gold (höchstens …), Zeit (ca. … Min.).
+   5. Dann: Knopf "OK" oder "Nicht OK" – bei Nicht OK ein Feld/eine Zeile, was stattdessen kam (der Testbericht hält den Rest fest).
+   Keine Fachwörter ohne Erklärung (nicht "PS/RF", "Brier", "Hürde"); Deutsch.
+C) ABNAHME durch den Supervisor: neue Prüfregel – eine Version mit Prüfliste wird nur angenommen, wenn A und B erfüllt sind.
+
+Bitte in die Reihenfolge einplanen (nach laufenden HOCH-Punkten), Bericht "umgesetzt, zur Prüfung" mit der Liste:
+welche Prüfungen automatisch, welche von Hand (mit dem Text jedes Handpunkts).

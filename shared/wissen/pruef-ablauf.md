@@ -180,3 +180,7 @@ widerspricht es einer Rechtsprüfung, dem Nutzer die Prüfung vorlegen und ausdr
 Entscheid des Nutzers 06:22 ("an die EULA halten"): Aufträge, Werkzeuge oder Daten, die Spieldateien des Clients auslesen oder daraus
 abgeleitet sind (Gelände, Texturen, Kartendateien, Navmesh, Gebiets-IDs aus ADT), sind gesperrt – auch offline. Prüfung jeder neuen Version:
 keine solchen Daten im Addon (Herkunft im Bericht belegen).
+
+### E-Regel 17.11.2026 07:40 – Prüflisten müssen ohne Vorwissen verständlich sein
+Anlass: Nutzer verstand AHS-Prüflistenpunkte am 16.11. teils nicht. Jede Version mit Prüfliste: alles Automatische in '/<addon> testroutine alles';
+jeder Handpunkt mit Wo / nummerierten Schritten (genaue Knopfnamen) / wörtlich erwartetem Ergebnis / Kosten / OK-Nicht OK. Sonst nicht annehmen.

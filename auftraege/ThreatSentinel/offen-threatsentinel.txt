@@ -203,3 +203,7 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   Prüfsumme (Dev.Hash), BattleTag-Weg unverändert; neuere Version gewinnt (v1 und v2 dürfen gleichzeitig geladen sein). Test
   shared/test_goldsentinel_dev.lua 5/5. AUFTRAG an jedes Addon: mit der nächsten Version shared/GoldSentinelDev.lua UNVERÄNDERT kopieren
   (ersetzt v1), .toc wie bisher (vor GoldSentinelPruefliste.lua). addon_check prüft Kopien gegen shared/ (Regel version: v1 = Warnung).
+
+==== TR-ALLE (Supervisor 17.11.2026 07:40, Entscheid des Nutzers 07:36) ====
+Bitte umsetzen: auftraege/hinweis-testroutine-alles-2026-11-17.txt – '/<addon> testroutine alles' für alles Automatische, Handprüfungen
+nur wo nötig und jeder Handpunkt in klaren, nummerierten Schritten (Wo / Schritte / Was du siehst / Kosten / OK-Nicht OK).

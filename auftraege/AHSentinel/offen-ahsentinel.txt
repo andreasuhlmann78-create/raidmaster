@@ -4132,3 +4132,17 @@ Entzauber-Teil auch OHNE Verzauberkunst sichtbar sind (Info). AB5 verlangt EINEN
   L-HAENDLER – Tests mit Erwartungen je Lage, Gegenprobe. Dann wieder schlafen, falls sonst nichts offen ist.
 - Für den Nutzer morgen (Supervisor fragt): TU1-PI-Entscheid, Upload mit Testbericht-Texten (T617/T618/T728/T729/T734, UI-BEFUNDE),
   Ingame-Prüfliste.
+
+==== TR-ALLE HOCH (Supervisor 17.11.2026 07:40, Entscheid des Nutzers 07:36) – BEIM WECKEN ZUERST ====
+Regeln: auftraege/hinweis-testroutine-alles-2026-11-17.txt (bitte ganz lesen). Für AHSentinel konkret:
+1. "/ahs testroutine alles": nacheinander automatisch – VOLLSCAN-Messung (zwei Scans mit nötigem Abstand, bleibender Speicher + längste
+   Lücke), WAECHTER-LAST (Wächter-Rechnung ein paar Minuten im Hintergrund, eigene Rechenzeit je Bild), WAECHTER-FUND (Hürden-Zeile),
+   Sniper-Testroutine (S1–S13 mit Testziel, eigene Ziele pausiert und garantiert wieder an), UI-Testroutine (Oberflächen-Befunde),
+   TU1 Tooltip/Markt-Reiter/Mein Lager je Marktlage mit NACHGEBAUTEN Angeboten (auch der noch offene Teil Tooltip/Markt-Reiter),
+   HILFE-GRP, SANDBOX-Gegenprobe (kein echter Pfad geändert). Fortschritt + Zusammenfassung "x von y", alles im Testbericht.
+2. Handprüfliste NUR noch für: Kauf-Knopf mit echtem Klick (SN-BTN1), Mausrad (S4/SN-RAD), ein echter Testkauf ≤ 1 Gold, POST-* mit
+   echter Auktion (≤ 10 Silber, danach abbrechen), Händler-Gold (graue Items). Jeder Punkt nach Abschnitt B der Hinweisdatei:
+   Wo / nummerierte Schritte mit genauen Knopfnamen / was du siehst (wörtlich) / Kosten / OK–Nicht OK.
+   Der Nutzer hat die Prüfliste gestern teils NICHT verstanden ("welcher Kaufknopf ist gemeint?", "in den Optionen nicht zu finden",
+   "Max über Lohn – worum geht es?") – genau diese Stellen zuerst klar schreiben.
+3. Erst danach die übrigen Punkte (Teil 2 UI-CLEAN1-B mit Upload-Daten usw.).

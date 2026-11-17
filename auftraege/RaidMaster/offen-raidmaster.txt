@@ -318,3 +318,7 @@ Schnittstelle für andere GoldSentinel-Addons: _G.RaidMasterAPI = _G.RaidMasterA
 KEINE Spielernamen/Anmeldungen/IDs. Quelle: was RaidMaster schon kennt (Signup/Discord-Termine). Fehlerfest (nie nil-Fehler, leere
 Liste wenn nichts da). Version der Schnittstelle (RaidMasterAPI.VERSION = 1). Test: Termine gestern/heute/morgen -> nur heute(später)/
 morgen; Feld "player" kommt nicht vor; >20 -> 20. AHSentinel liest es schon fehlerfest (T847).
+
+==== TR-ALLE (Supervisor 17.11.2026 07:40, Entscheid des Nutzers 07:36) ====
+Bitte umsetzen: auftraege/hinweis-testroutine-alles-2026-11-17.txt – '/<addon> testroutine alles' für alles Automatische, Handprüfungen
+nur wo nötig und jeder Handpunkt in klaren, nummerierten Schritten (Wo / Schritte / Was du siehst / Kosten / OK-Nicht OK).
