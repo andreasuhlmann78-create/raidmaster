@@ -1,0 +1,64 @@
+BERICHT RAIDMASTER AN DIE PRÜF-SITZUNG
+Stand: 17.11.2026 20:39 (aus date) · Sitzung: RaidMaster-Projekt-Sitzung · Version: Addon 3.0.32 (Uploader unverändert 2.3.14)
+Commit: dieser Push · Bezug: offen-raidmaster.txt "INGAMETEST 17.11.2026 19:38 – RaidMaster 3.0.31" und "HINWEIS KLEIN 19:37" (6f79b5a3, f6eaf5fc)
+Status: umgesetzt, zur Prüfung.
+
+1. T158 Knopf-Beschriftungen abgeschnitten (MITTEL)
+   - Neu UI.FitText (UI.lua): misst den Text (GetStringWidth) und verkleinert die Schrift schrittweise bis 9; reicht das nicht und ist
+     der Knopf mindestens 24 Pixel hoch, bricht er auf zwei Zeilen um. Gemessen statt geschätzt -> gilt in allen 10 Sprachen.
+   - Jeder UI.Button passt seine Beschriftung an: beim Anlegen, bei jedem SetText und bei jeder Grössenänderung (OnSizeChanged).
+     Schliessknopf behält 13 pt (labelSize). Pages.lua: der Scan-Knopf setzte den Text direkt am Label – jetzt über SetText.
+   - Spaltenköpfe von UI.List (Hinweise "Bereitschaft: Text gekürzt bei Button" = Kopfzeile "Fläschchen/Feuerwid./Haltbarkeit") passen
+     sich ebenso an (11 -> min. 8 pt, notfalls zwei Zeilen). Tabellenzellen bleiben nach Regel 18:10.
+   - Beide Fälle aus dem Ingametest: "Golemagg der Verbrenner" + Vorlagen-Symbol (Knopf 190 x 19, Platz 178 px) und "7. Vor dem Raid:
+     Anmeldungen holen" (236 x 26, Platz 222 px).
+   - Test T192 (neu, in TU6): nachgebaute Schrift (Zeichen x Grösse x 0,6, Symbol = 1 Schrifthöhe, UTF-8 als Zeichen gezählt): Boss-Knopf
+     und Anleitung passen in einer Zeile (kleiner), ein russischer Text zweizeilig, "OK" bleibt 12 pt. Gegenprobe: ohne Anpassung sind
+     die beiden Ingame-Texte zu breit.
+   - VERDACHT, zu messen: Die Breiten im Spiel kann nur der nächste Ingametest zeigen (T158 misst dort IsTruncated).
+
+2. T156 SKIP statt Prüfung
+   - Ursache belegt (Code 3.0.31): WindowsOverlapNothing zählte nur Vergleiche mit fremden Fenstern; den LevelPilot-Pfeil (HUD) nahm 3.0.31
+     schon VOR dem Zählen heraus. Um 17:01 war der Pfeil der einzige fremde Rahmen -> FEHLER; um 19:38 wurde er übersprungen, kein
+     Blizzard-Fenster war offen -> 0 Vergleiche -> "nichts geprüft".
+   - Behebung: (a) HUD-Anzeigen werden gemessen und zählen als geprüft; überlappen sie, steht ein Hinweis "… liegt über Pfeil (LevelPilot)
+     – HUD, erlaubt" (kein FEHLER, Entscheid). (b) Wurde trotzdem nichts verglichen, öffnet die Prüfung selbst das Charakterfenster des
+     Spiels (ToggleCharacter, nur ausserhalb des Kampfes und nur, wenn es zu war), misst gegen das offene Hauptfenster und schliesst es
+     wieder. Damit endet T156 mit OK oder FEHLER.
+   - T191 erweitert: 4 Rahmen gemessen (auch HUD), 3 HUD-Hinweise, ein echtes Fenster als FEHLER. Teil (b) läuft nur im Spiel (die
+     Nachbildung hat keine messbaren Rechtecke) – im nächsten Ingametest sichtbar als "Charakterfenster selbst geöffnet …".
+   - Hinweis: Ob das Hauptfenster mit dem Charakterfenster überlappt, hängt von der Lage beim Nutzer ab. Überlappt es, meldet T156 das
+     als FEHLER (Regel der Prüfung "überdeckt kein Blizzard-Fenster") – bitte entscheiden, ob das so gewollt ist.
+
+3. T43 SKIP statt Prüfung
+   - Ursache des "0 Items behandelt" belegt: ein Fehler in MEINER Auswertung von 3.0.31 – die Zähler wurden erst NACH dem zweiten
+     T.RunRaids (Prüfung "Raid starten bricht ab") gelesen, der sie zurücksetzt. Die Zahl war darum immer 0. Jetzt sofort nach dem
+     ersten Durchlauf festgehalten.
+   - Dabei zwei weitere Mängel gefunden und behoben:
+     (a) Gezählt wurden Items im Log seit dem Start – das nahm auch Items aus früheren Prüfungen mit. Beleg in der Nachbildung: ohne eine
+         einzige geladene Ony-Beute (0/26) meldete T43 "2 Items vergeben". Jetzt zählt nur, was DIESER Durchlauf vergeben hat
+         (Zähler awarded im Test-Werkzeug).
+     (b) Die Nachbildung kannte Item-IDs als Zahl nicht (GetItemInfo nahm nur Links) – T43 prüfte dort nie die Ony-Beute. Behoben:
+         jetzt "Beute geladen 26/26; behandelt 3, Versteigerung 3, vergeben 3".
+   - Neue Zähler (Test/Test.lua): behandelt, Versteigerung, andere Regel, ohne Daten, gestartet, Start nicht möglich, vergeben, ohne Gebot.
+   - "Nicht prüfbar" NUR, wenn belegt ist, dass die Daten fehlen (kein Item behandelt UND Beute 0 geladen bzw. Items ohne Daten);
+     sonst FEHLER mit allen Zahlen. Gegenprobe T43NODATA=1 (Client kennt keine Ony-Beute): "nicht prüfbar: Item-Daten fehlen …".
+   - VERDACHT, zu messen: Warum im Spiel bei 10/26 geladener Beute nichts vergeben wurde. Der nächste Ingametest zeigt es jetzt mit
+     Zahlen (z. B. "Start nicht möglich n" oder "ohne Gebot n").
+
+4. Hinweis 19:37 "/rmtest testroutine alles"
+   - Belegt: "/rmtest testroutine alles" und "/rm testroutine alles" landen in derselben Funktion R.Run (Test/Test.lua T.Slash ->
+     RM.TestRoutine.Run). Die Meldung "Bereich ALLES gibt es nicht (A … K)" steht so nur in 3.0.29 (download-Zip aus dem Verlauf,
+     Routine.lua:3689); ab 3.0.30 kennt R.Run "alles". Um 19:37 lief also noch 3.0.29 (der Ingametest 19:38 dann mit 3.0.31).
+   - Nachbildung prüft jetzt beide Schreibweisen (/rmtest testroutine alles, /rm testroutine alles, /rmtest testroutine Alles): alle
+     starten den ganzen Lauf, auch mit 3.0.31.
+   - Meldung bei unbekanntem Bereich nennt jetzt "(A … L oder alles)".
+
+EIGENE TESTS (Hinweise, keine Freigabe) – Nachbildung berichte/RaidMaster/offline:
+- Forever (16001) ALLE OK ("133 von 133 bestanden …"; längste Portion 3,9 ms, über 5 ms: 0), Era (11509) ALLE OK; enUS, zhCN, frFR,
+  ruRU ALLE OK; Abbruch STOPAT 1/20/60 ALLE OK; T43NODATA=1 ALLE OK (T43 nicht prüfbar mit Begründung).
+- Lua-Syntax lupa (Lua 5.1): 65 Dateien, 0 Fehler. Gemeinsame Dateien cmp gleich mit shared/.
+- addon_check download/RaidMaster-3.0.32.zip: "RaidMaster-3.0.32.zip: OK", kein FEHLER, keine WARNUNG (EXIT 0).
+
+FÜR DEN NUTZER (nach Prüfung): Bot /update -> RaidMaster 3.0.32, dann /reload und /rm version (muss 3.0.32 zeigen), danach
+/rm testroutine alles.

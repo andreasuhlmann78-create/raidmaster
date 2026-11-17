@@ -39,7 +39,7 @@ RM.PRUEFPUNKTE = {
 		todo = Todo("irgendwo, nach Punkt TR",
 			"Klicke im Fenster mit dem Testbericht auf den Knopf 'Neu laden und melden' (oder tippe /reload).",
 			"Öffne in Discord den Kanal #testberichte."),
-		expect = Expect("In #testberichte steht innert etwa 1 Minute ein Bericht 'RaidMaster 3.0.31' ohne das Wort FEHLER. Dann hier auf 'OK' klicken.",
+		expect = Expect("In #testberichte steht innert etwa 1 Minute ein Bericht 'RaidMaster 3.0.32' ohne das Wort FEHLER. Dann hier auf 'OK' klicken.",
 			"kein Gold, ca. 2 Minuten") },
 	{ id = "MN2", title = "Haken 'Marktdaten teilen'", since = "3.0.25",
 		todo = Todo("irgendwo",

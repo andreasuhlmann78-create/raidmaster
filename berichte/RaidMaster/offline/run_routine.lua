@@ -59,8 +59,8 @@ ReloadUI = count("ReloadUI")
 DoReadyCheck = count("DoReadyCheck")
 Screenshot = count("Screenshot")
 InviteUnit = count("InviteUnit")
--- Beute von Onyxia als bekannte Items (für den Durchlauf T43)
-for key, list in pairs(RaidMasterTestLoot) do
+-- Beute von Onyxia als bekannte Items (für den Durchlauf T43); T43NODATA=1: Client kennt die Beute nicht (Gegenprobe T43)
+for key, list in pairs(os.getenv("T43NODATA") == "1" and {} or RaidMasterTestLoot) do
 	if tostring(key):match("^249:") then
 		for _, b in ipairs(list) do for _, id in ipairs(b.i or {}) do
 			ITEMS[id] = ITEMS[id] or { "|cffa335ee|Hitem:" .. id .. "::::::::60:::::|h[Ony " .. id .. "]|h|r", 4, 4, 1, "INVTYPE_HEAD" }
@@ -146,6 +146,22 @@ if not only and not os.getenv("STOPAT") then
 	check(RaidMasterDB.routinePending == nil, "nach 7 Tagen verfallen")
 	local n2 = #RaidMasterDB.gsTest.reports
 	check(n2 == math.min(reports + 1, GoldSentinelTest.MAX_REPORTS or 10), "verfallen: kein weiterer Bericht")
+end
+-- Hinweis 17.11. 19:37: "/rmtest testroutine alles" und "/rm testroutine alles" müssen beide den ganzen Lauf starten
+if not only and not os.getenv("STOPAT") then
+	for _, cmd in ipairs({ { "RAIDMASTERTEST", "testroutine alles" }, { "RAIDMASTER", "testroutine alles" }, { "RAIDMASTERTEST", "testroutine Alles" } }) do
+		local said = {}
+		local oldSay = DEFAULT_CHAT_FRAME.AddMessage
+		DEFAULT_CHAT_FRAME.AddMessage = function(self, m, ...) said[#said + 1] = tostring(m); return oldSay(self, m, ...) end
+		SlashCmdList[cmd[1]](cmd[2])
+		DEFAULT_CHAT_FRAME.AddMessage = oldSay
+		local started = R.running and not R.only
+		check(started and not table.concat(said, " "):find("gibt es nicht", 1, true), (cmd[1] == "RAIDMASTER" and "/rm " or "/rmtest ") .. cmd[2] .. " startet den ganzen Lauf")
+		if R.running then SlashCmdList["RAIDMASTER"]("testroutine stop") end
+		local w = 0
+		while R.running and w < 60 do Advance(0.5); w = w + 0.5 end
+		Advance(15)
+	end
 end
 print(fails == 0 and "ALLE OK" or ("FEHLER: " .. fails))
 if os.getenv("SHOWALL") then

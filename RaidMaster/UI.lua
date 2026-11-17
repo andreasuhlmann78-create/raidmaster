@@ -55,6 +55,35 @@ function UI.Text(parent, text, size, r, g, b, justify)
 	return fs
 end
 
+-- 3.0.32 (Ingametest 17.11. 19:38, T158 "Beschriftung abgeschnitten"): Text an die Breite anpassen – erst die Schrift bis
+-- minSize verkleinern; reicht das nicht und ist Platz für zwei Zeilen (maxLines 2), auf zwei Zeilen umbrechen. Gilt in allen
+-- Sprachen, weil gemessen wird (GetStringWidth), nicht geschätzt. avail = Breite, die der Text haben darf.
+local function Num(x) return type(x) == "number" and x or 0 end
+function UI.FitText(fs, avail, base, minSize, maxLines)
+	if not (fs and fs.GetStringWidth and fs.SetFont) then return end
+	avail = Num(avail)
+	base = type(base) == "number" and base or 12
+	minSize = type(minSize) == "number" and minSize or 9
+	maxLines = type(maxLines) == "number" and maxLines or 1
+	if not avail or avail <= 0 then return end
+	local font, _, flags = fs:GetFont()
+	if type(font) ~= "string" then font = STANDARD_TEXT_FONT end
+	if type(flags) ~= "string" then flags = "" end
+	local size = base
+	fs:SetFont(font, size, flags or "")
+	if fs.SetWordWrap then fs:SetWordWrap(false) end
+	while size > minSize and Num(fs:GetStringWidth()) > avail - 1 do
+		size = size - 1
+		fs:SetFont(font, size, flags or "")
+	end
+	if Num(fs:GetStringWidth()) > avail - 1 and maxLines >= 2 and fs.SetWordWrap then
+		fs:SetWordWrap(true)
+		if fs.SetMaxLines then fs:SetMaxLines(maxLines) end
+	end
+	fs.fitSize = size
+	return size
+end
+
 function UI.Header(parent, text)
 	local fs = UI.Text(parent, text, 14, COLORS.accent[1], COLORS.accent[2], COLORS.accent[3])
 	local line = parent:CreateTexture(nil, "ARTWORK")
@@ -156,7 +185,15 @@ function UI.Button(parent, text, w, h, onClick, tooltip)
 		GameTooltip:Hide()
 	end)
 	b.tooltip = tooltip
-	function b:SetText(t) self.label:SetText(t) end
+	-- 3.0.32: Beschriftung passt immer – Schrift kleiner (bis 9), bei Knöpfen ab 24 Pixel Höhe notfalls zwei Zeilen
+	function b:FitLabel()
+		local avail = Num(self.label:GetWidth())
+		if avail <= 0 then avail = Num(self:GetWidth()) - 12 end
+		UI.FitText(self.label, avail, self.labelSize or 12, 9, Num(self:GetHeight()) >= 24 and 2 or 1)
+	end
+	function b:SetText(t) self.label:SetText(t); self:FitLabel() end
+	b:SetScript("OnSizeChanged", function(self) self:FitLabel() end)
+	b:FitLabel()
 	function b:SetAccent(on)
 		self.accent = on and true or nil
 		if on then
@@ -172,6 +209,7 @@ end
 
 function UI.CloseButton(parent, onClick)
 	local b = UI.Button(parent, "X", 22, 22, onClick)
+	b.labelSize = 13
 	b.label:SetFont(STANDARD_TEXT_FONT, 13, "")
 	return b
 end
@@ -463,6 +501,7 @@ function UI.List(parent, width, height, columns, opts)
 		h:SetPoint("TOPLEFT", x, -3)
 		h.text = UI.Text(h, col.title, 11, COLORS.muted[1], COLORS.muted[2], COLORS.muted[3], col.justify or "LEFT")
 		h.text:SetAllPoints()
+		UI.FitText(h.text, col.width, 11, 8, 2)      -- 3.0.32: Spaltenköpfe kürzen nie (T158-Hinweis "Text gekürzt")
 		if opts.onSort then
 			h:SetScript("OnClick", function() opts.onSort(i) end)
 			h:SetScript("OnEnter", function(self) self.text:SetTextColor(1, 1, 1) end)

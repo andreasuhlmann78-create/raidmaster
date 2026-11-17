@@ -23,6 +23,12 @@ MAIN FEATURES
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
 
+WHAT'S NEW IN 3.0.32 – labels always fit
+- Buttons and column headers fit their font to the width (smaller, on tall buttons two lines if needed) – in every
+  language. Before, e.g. "Golemagg the Incinerator" (Bosses & marks) and the Discord guide steps were cut off.
+- Developer only: the test routine always measures window overlap (opens the character window itself if needed and
+  closes it again) and reports exact numbers for the test run (loaded, auctioned, awarded).
+
 WHAT'S NEW IN 3.0.31 – no more stutter after AH scans, better test routine (developer)
 - Shared market data: no more stutter after a full AH scan (work split across frames). Test entries are never saved or
   shared.

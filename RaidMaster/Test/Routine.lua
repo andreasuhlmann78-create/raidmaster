@@ -1637,6 +1637,10 @@ local function AreaB(t, G)
 			Settle(7)
 			if T.IsRunning() then T.StopRun(); return false, "Durchlauf hängt nach " .. waited .. " s", "fertig" end
 			local n = items()
+			-- 3.0.32: Zähler JETZT festhalten – der zweite T.RunRaids unten (Abbruch-Prüfung) setzt sie zurück (in 3.0.31 stand darum
+			-- im Ingametest "0 Items behandelt", obwohl 10 Items geladen waren)
+			local st = {}
+			for k, v in pairs(T.stats or {}) do st[k] = v end
 			-- "Raid starten" in RaidMaster bricht einen laufenden Durchlauf ab
 			T.RunRaids(1)
 			local was = T.IsRunning()
@@ -1661,18 +1665,23 @@ local function AreaB(t, G)
 				if not okStress then return false, "Stresstest mit neuen Fehlern", "neue Fehler: 0" end
 				stress = ", Stresstest: neue Fehler 0"
 			end
-			if n < 1 then
-				local st = T.stats or {}
-				local detail = string.format("Beute geladen %d/%d; im Durchlauf %d Items behandelt (%d Versteigerung, %d andere Regel), %d ohne Daten",
-					known, total, st.handled or 0, st.auction or 0, st.other or 0, st.noInfo or 0)
-				-- nicht prüfbar statt FEHLER, wenn gar kein Item in die Versteigerung kam (Beute im Spiel noch nicht geladen oder die
-				-- geladenen Items gehen nach Regel an Bank/Entzauberer) – das liegt nicht am Addon. Kam eins in die Versteigerung und
-				-- wurde trotzdem nichts vergeben, bleibt es ein FEHLER.
-				if (st.auction or 0) == 0 then return ASYNC_SKIP, detail .. " – beim nächsten Lauf wieder" end
-				return false, "kein Item vergeben (" .. detail .. ")", ">= 1"
+			-- 3.0.32: gezählt wird, was DIESER Durchlauf vergeben hat (st.awarded). Die Zählung im Log (n) nahm auch Items aus früheren
+			-- Prüfungen mit (Nachbau: "2 Items vergeben" ohne eine einzige geladene Ony-Beute) – sie steht nur noch als Zusatz da.
+			if (st.awarded or 0) < 1 then
+				local detail = string.format("Beute geladen %d/%d; im Durchlauf %d Items behandelt (%d Versteigerung, %d andere Regel), %d ohne Daten; "
+					.. "Versteigerungen gestartet %d, Start nicht möglich %d, vergeben %d, ohne Gebot %d",
+					known, total, st.handled or 0, st.auction or 0, st.other or 0, st.noInfo or 0,
+					st.started or 0, st.startFail or 0, st.awarded or 0, st.noBid or 0)
+				-- 3.0.32 (Supervisor 19:42): "nicht prüfbar" NUR, wenn belegt ist, dass die Daten fehlen – kein einziges Item hatte
+				-- Daten (behandelt 0 und Beute nicht geladen bzw. Items ohne Daten). Alles andere ist FEHLER, mit allen Zahlen.
+				if (st.handled or 0) == 0 and (known == 0 or (st.noInfo or 0) > 0) then
+					return ASYNC_SKIP, "Item-Daten fehlen: " .. detail .. " – beim nächsten Lauf wieder"
+				end
+				return false, "kein Item vergeben (" .. detail .. "; im Log seit Start " .. n .. ")", ">= 1"
 			end
 			if RM.db.testMode and RM.db.testMode.post then return false, "testMode.post gesetzt", "nil" end
-			return true, n .. " Items vergeben in " .. waited .. " s" .. stress
+			return true, string.format("%d Items vergeben in %d s (Beute geladen %d/%d; behandelt %d, Versteigerung %d, ohne Gebot %d)%s",
+				st.awarded, waited, known, total, st.handled or 0, st.auction or 0, st.noBid or 0, stress)
 		end, function() Undo(u); if T.IsRunning() then T.StopRun() end; T.SetTimeOffset(0); T.FillRoster(); RM.Loot.pendingBoss = nil end)
 	end)
 
@@ -3169,6 +3178,7 @@ local function AreaJ(t, G)
 			return f
 		end
 		local mine = Fake(100, 100, 400, 300)
+		local tested, hudHints = 0, {}
 		local savedMine, savedAll = RM.uiFrames, _G.GoldSentinelUIFrames
 		local ok, problems = pcall(function()
 			RM.uiFrames = { { frame = mine, name = "Hauptfenster" } }
@@ -3178,7 +3188,9 @@ local function AreaJ(t, G)
 				{ frame = Fake(300, 300, 80, 80), name = "Einstellungen", addon = "ThreatSentinel" },
 				{ frame = Fake(120, 120, 30, 30), name = "Neu", addon = "AnderesAddon", kind = "hud" },
 			}
-			return (U.WindowsOverlapNothing())
+			local pr, n, h = U.WindowsOverlapNothing()
+			tested, hudHints = n, h
+			return pr
 		end)
 		RM.uiFrames, _G.GoldSentinelUIFrames = savedMine, savedAll
 		if not ok then return false, "Lua-Fehler " .. tostring(problems), "kein Fehler" end
@@ -3186,7 +3198,53 @@ local function AreaJ(t, G)
 		if #(problems or {}) ~= 1 or not text:find("Einstellungen", 1, true) then
 			return false, (#(problems or {}) .. ": " .. text), "genau 1 (ThreatSentinel-Einstellungen)"
 		end
-		return true, "Pfeil, Aggrometer und Art 'hud' ausgenommen; echtes Fenster gemeldet"
+		-- 3.0.32: HUD wird gemessen (zählt als geprüft) und als erlaubter Hinweis genannt – T156 ist so nie "nichts geprüft"
+		if tested ~= 4 then return false, tested .. " gemessen", "4 (auch HUD)" end
+		local h = table.concat(hudHints or {}, "; ")
+		if #(hudHints or {}) ~= 3 or not h:find("Pfeil (LevelPilot) – HUD, erlaubt", 1, true) then return false, "Hinweise: " .. h, "3 HUD-Hinweise" end
+		return true, "Pfeil, Aggrometer und Art 'hud' gemessen, aber erlaubt (4 gemessen, 3 Hinweise); echtes Fenster gemeldet"
+	end)
+
+	-- 3.0.32 (Ingametest 19:38, T158): Knopf-Beschriftungen passen sich an (Schrift kleiner, notfalls zwei Zeilen) – in jeder
+	-- Sprache, weil gemessen wird. Nachgebaute Schrift: Breite = Zeichen x Grösse x 0,55 (wie STANDARD_TEXT_FONT ungefähr).
+	t:Check("T192", "J", "Knopf-Beschriftungen passen (Schrift kleiner, notfalls zwei Zeilen)", function()
+		if not RM.UI.FitText then return false, "fehlt", "UI.FitText" end
+		local function FakeFS(text)
+			local fs = { text = text, size = 12, wrap = false, lines = 1 }
+			function fs:GetFont() return "Fonts\\FRIZQT__.TTF", self.size, "" end
+			function fs:SetFont(_, size) self.size = size end
+			function fs:GetStringWidth()
+				local icons = 0
+				local plain = self.text:gsub("|T.-|t", function() icons = icons + 1 return "" end)
+				plain = plain:gsub("[\128-\191]", "")                  -- Zeichen zählen, nicht Bytes (UTF-8)
+				return #plain * self.size * 0.6 + icons * self.size
+			end
+			function fs:SetWordWrap(w) self.wrap = w end
+			function fs:SetMaxLines(n) self.lines = n end
+			return fs
+		end
+		local cases = {
+			-- Text, verfügbare Breite, Zeilen erlaubt, erwartet: passt in 1 Zeile? / 2 Zeilen?
+			{ "Golemagg der Verbrenner |TInterface\\TargetingFrame\\UI-RaidTargetingIcon_8:0|t", 178, 1, "eine" },   -- Bosse & Symbole (190 x 19, mit Symbol)
+			{ "7. Vor dem Raid: Anmeldungen holen", 222, 2, "eine" },     -- Discord-Anleitung (Knopf 236 x 26)
+			{ "7. Перед рейдом: получить записи на рейд из Discord", 222, 2, "zwei" },
+			{ "OK", 100, 1, "eine" },
+		}
+		local bad = {}
+		for _, c in ipairs(cases) do
+			local fs = FakeFS(c[1])
+			RM.UI.FitText(fs, c[2], 12, 9, c[3])
+			local width = fs:GetStringWidth()
+			local fits = (not fs.wrap and width <= c[2]) or (fs.wrap and fs.lines == 2 and width <= c[2] * 2)
+			local how = fs.wrap and "zwei" or "eine"
+			if not fits or how ~= c[4] then bad[#bad + 1] = string.format("%s: %s Zeile(n), %.0f von %d px, Grösse %d", c[1], how, width, c[2], fs.size) end
+			if c[1] == "OK" and fs.size ~= 12 then bad[#bad + 1] = "kurzer Text verkleinert (" .. fs.size .. ")" end
+		end
+		-- Gegenprobe: ohne Anpassung wären die beiden Knöpfe aus dem Ingametest abgeschnitten
+		local g1, g2 = FakeFS("Golemagg der Verbrenner |TInterface\\TargetingFrame\\UI-RaidTargetingIcon_8:0|t"), FakeFS("7. Vor dem Raid: Anmeldungen holen")
+		if not (g1:GetStringWidth() > 178 and g2:GetStringWidth() > 222) then bad[#bad + 1] = "Gegenprobe greift nicht" end
+		if #bad > 0 then return false, table.concat(bad, "; "), "alle passen" end
+		return true, #cases .. " Beschriftungen passen (Boss-Knopf und Anleitung aus dem Ingametest, Russisch zweizeilig)"
 	end)
 
 	-- 3.0.24 (BL): Befehlsliste beim Tippen – eine Tabelle für Handler und Liste (T-BL1 … T-BL6)
@@ -3835,7 +3893,7 @@ local function AreaL(t, G)
 			{ "MN4 Schalter aus", "T181" }, { "MN4 ohne AH-API", "T182" }, { "MN3 Testbericht-Zeile", "T183" },
 			{ "Prüfliste im Spiel", "T185" }, { "RM-DIAG-1 Fehlerflut", "T186" },
 			{ "RM-DIAG-1 Fehlerquellen", "T187" }, { "RM-API-RAIDS", "T188" },
-			{ "TR-ALLE Sicherung", "T189" }, { "Tooltip-Platzierung (Ingame T155)", "T190" }, { "HUD-Ausnahme (Ingame T156)", "T191" },
+			{ "TR-ALLE Sicherung", "T189" }, { "Tooltip-Platzierung (Ingame T155)", "T190" }, { "HUD-Ausnahme (Ingame T156)", "T191" }, { "Beschriftungen passen (Ingame T158)", "T192" },
 			{ "RM-TF-1 kein Fehlerfenster", "T120" }, { "T-BL4 echtes Eingabefeld", "T169" } }
 		local only = R.only
 		local have, missing = 0, {}
@@ -3927,6 +3985,20 @@ local function AreaK(t)
 		end
 	end
 	for _, c in ipairs(ui) do if c[4] then R.Breathe(R.PRE_MS); Collect(c) end end
+	-- 3.0.32 (Ingametest 19:38: T156 SKIP "nichts geprüft"): war kein fremdes Fenster offen, öffnet die Prüfung selbst eines –
+	-- das Charakterfenster des Spiels (nur ausserhalb des Kampfes) – misst gegen das offene Hauptfenster und schliesst es wieder.
+	-- So misst T156 bei jedem Lauf und endet mit OK/FEHLER statt "nicht prüfbar".
+	if available and main and tested.T156 == 0 and not RM.InCombat() and type(ToggleCharacter) == "function"
+		and _G.CharacterFrame and not _G.CharacterFrame:IsShown() then
+		R.Breathe(R.PRE_MS)
+		local okOpen = pcall(ToggleCharacter, "PaperDollFrame")
+		if okOpen and _G.CharacterFrame:IsShown() then
+			Collect(ui[2], "mit Charakterfenster")
+			infos.T156 = { "Charakterfenster selbst geöffnet und wieder geschlossen" }
+		end
+		if _G.CharacterFrame:IsShown() then pcall(HideUIPanel, _G.CharacterFrame) end
+		if _G.CharacterFrame:IsShown() then pcall(ToggleCharacter, "PaperDollFrame") end
+	end
 	-- Seite und Fenster wie vorher
 	if main then
 		if wasPage then pcall(UI.ShowPage, wasPage) end
@@ -4069,7 +4141,7 @@ function R.Run(only)
 	only = only and only:upper() or nil
 	R.long = only == "LANG"
 	if only == "LANG" then only = nil end
-	if only and not RUNNERS[only] then Say("Bereich " .. only .. " gibt es nicht (A … K).") return end
+	if only and not RUNNERS[only] then Say("Bereich " .. only .. " gibt es nicht (A … L oder alles).") return end
 
 	HookActions()
 	wipe(realCount)

@@ -11,6 +11,13 @@ INSTALLATION
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
 
+NEU IN 3.0.32 – Beschriftungen passen immer
+- Knöpfe und Spaltenköpfe passen ihre Schrift an die Breite an (kleiner, bei hohen Knöpfen notfalls zwei Zeilen) – in
+  jeder Sprache. Vorher waren z. B. "Golemagg der Verbrenner" (Bosse & Symbole) und "7. Vor dem Raid: Anmeldungen holen"
+  (Discord-Anleitung) abgeschnitten.
+- Nur Entwickler: Die Testroutine prüft die Überlappung der Fenster immer (öffnet notfalls selbst das Charakterfenster und
+  schliesst es wieder) und nennt beim Test-Durchlauf genaue Zahlen (geladen, versteigert, vergeben).
+
 NEU IN 3.0.31 – kein Ruckeln mehr nach Auktionshaus-Scans, Testroutine verbessert (Entwickler)
 - Gemeinsame Marktdaten: kein Ruckeln mehr nach einem Vollscan (Arbeit auf mehrere Bilder verteilt). Test-Einträge werden
   nie gespeichert oder geteilt.

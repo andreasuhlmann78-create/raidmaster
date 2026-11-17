@@ -1062,7 +1062,7 @@ local RULE_NAMES = { auction = "Versteigerung", bank = "Gildenbank", de = "Entza
 
 -- ein Item wie im echten Raid behandeln: Regel prüfen, versteigern oder zuteilen
 -- 3.0.31: Zähler je Durchlauf (für die Testroutine T43: warum wurde nichts vergeben?)
-T.stats = { handled = 0, auction = 0, other = 0, noInfo = 0 }
+T.stats = { handled = 0, auction = 0, other = 0, noInfo = 0, started = 0, startFail = 0, awarded = 0, noBid = 0 }
 local function HandleItem(id, source)
 	local link, quality = ItemInfo(id)
 	if not link then T.stats.noInfo = T.stats.noInfo + 1 return end
@@ -1133,8 +1133,10 @@ local function RunStep()
 		if c.highName then
 			if RM.Auction.HideAward then RM.Auction.HideAward() end
 			RM.Auction.Award()
+			T.stats.awarded = T.stats.awarded + 1
 		else
 			RM.Auction.current = nil
+			T.stats.noBid = T.stats.noBid + 1        -- kein Gebot: nichts vergeben (T43 nennt die Zahl)
 		end
 		run.waitUntil = now + Pause(1.5)
 		return
@@ -1143,7 +1145,12 @@ local function RunStep()
 	if c then AddFakeBids(c) return end
 	if #RM.Auction.queue > 0 then
 		if T.autoAuction then
-			if not StartFromQueue() then Log("Versteigerung aus der Warteschlange nicht möglich."); wipe(RM.Auction.queue) end
+			if StartFromQueue() then
+				T.stats.started = T.stats.started + 1
+			else
+				T.stats.startFail = T.stats.startFail + 1
+				Log("Versteigerung aus der Warteschlange nicht möglich."); wipe(RM.Auction.queue)
+			end
 			run.waitUntil = now + 1
 		elseif not run.told then
 			run.told = true
@@ -1233,7 +1240,7 @@ end
 T.SetTimeOffset = SetTimeOffset
 
 function T.RunRaids(n)
-	T.stats = { handled = 0, auction = 0, other = 0, noInfo = 0 }
+	T.stats = { handled = 0, auction = 0, other = 0, noInfo = 0, started = 0, startFail = 0, awarded = 0, noBid = 0 }
 	n = math.max(1, math.min(10, math.floor(tonumber(n) or 1)))
 	if run then Log("Es läuft schon ein Durchlauf.") return end
 	if not T.active then T.Start() end

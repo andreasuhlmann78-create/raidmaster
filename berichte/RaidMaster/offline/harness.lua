@@ -126,8 +126,9 @@ ITEMS = {
  [17010]={"|cff0070dd|Hitem:17010::::::::60:::::|h[Feuerkern]|h|r",3,7,0,""},
  [18563]={"|cffff8000|Hitem:18563::::::::60:::::|h[Bindungen]|h|r",5,15,0,""},
 }
-function GetItemInfoInstant(link) local id=tonumber(tostring(link):match("item:(%d+)")); local it=ITEMS[id]; if not it then return nil end return id,"","",it[5],"icon",it[3],it[4] end
-function GetItemInfo(link) local id=tonumber(tostring(link):match("item:(%d+)")); local it=ITEMS[id]; if not it then return nil end return "n",it[1],it[2],60,60,"","",1,it[5],"tex" end
+-- 3.0.32: wie im Spiel nehmen GetItemInfo/GetItemInfoInstant eine Item-ID (Zahl) oder einen Link
+function GetItemInfoInstant(link) local id=tonumber(link) or tonumber(tostring(link):match("item:(%d+)")); local it=ITEMS[id]; if not it then return nil end return id,"","",it[5],"icon",it[3],it[4] end
+function GetItemInfo(link) local id=tonumber(link) or tonumber(tostring(link):match("item:(%d+)")); local it=ITEMS[id]; if not it then return nil end return "n",it[1],it[2],60,60,"","",1,it[5],"tex" end
 function GetInventoryItemLink() return nil end
 LOOT = {}
 function GetNumLootItems() return #LOOT end

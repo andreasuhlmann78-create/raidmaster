@@ -133,7 +133,7 @@ end
 
 -- Fall 2 (T156): eigene sichtbare Fenster überdecken weder Blizzard-Fenster noch Fenster anderer GoldSentinel-Addons
 function U.WindowsOverlapNothing()
-	local problems, tested = {}, 0
+	local problems, tested, hints = {}, 0, {}
 	for _, e in ipairs(RM.uiFrames) do
 		local mine = Shown(e.frame) and U.Rect(e.frame)
 		if mine then
@@ -145,16 +145,21 @@ function U.WindowsOverlapNothing()
 				end
 			end
 			for _, o in ipairs(GoldSentinelUIFrames) do
-				if o.addon ~= ADDON and not RM.IsForeignHUD(o) and Shown(o.frame) then
-					tested = tested + 1
+				if o.addon ~= ADDON and Shown(o.frame) then
+					tested = tested + 1                -- 3.0.32: auch HUD wird gemessen (zählt als geprüft), darf aber verdeckt sein
 					if U.Overlap(mine, U.Rect(o.frame)) > 0 then
-						problems[#problems + 1] = e.name .. " überdeckt " .. tostring(o.name) .. " (" .. tostring(o.addon) .. ")"
+						local what = tostring(o.name) .. " (" .. tostring(o.addon) .. ")"
+						if RM.IsForeignHUD(o) then
+							hints[#hints + 1] = e.name .. " liegt über " .. what .. " – HUD, erlaubt"
+						else
+							problems[#problems + 1] = e.name .. " überdeckt " .. what
+						end
 					end
 				end
 			end
 		end
 	end
-	return problems, tested
+	return problems, tested, hints
 end
 
 -- Fall 3 (T157): sichtbare Fenster und eigene Tooltips liegen ganz im Bildschirm

@@ -27,6 +27,9 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 ===
 📜 **Updates**
 
+**3.0.32** – Beschriftungen passen immer
+• Knöpfe passen ihre Schrift an – nichts mehr abgeschnitten, in jeder Sprache.
+
 **3.0.31** – kein Ruckeln nach Auktionshaus-Scans
 • Gemeinsame Marktdaten arbeiten in kleinen Portionen; Tooltips liegen nie mehr über Knöpfen.
 

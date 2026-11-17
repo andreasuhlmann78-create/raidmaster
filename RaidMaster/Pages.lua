@@ -1766,7 +1766,7 @@ UI.AddPage("specs", L["Skillungen"], function(page)
 		else
 			info:SetText(string.format(L["%d bekannte Skillungen (Gilde und frühere Raids). Nach /reload übernimmt der Discord-Bot sie in die Profile."], known))
 		end
-		scanBtn.label:SetText(Spec.scan.running and L["Scan stoppen"] or L["Raid scannen"])
+		scanBtn:SetText(Spec.scan.running and L["Scan stoppen"] or L["Raid scannen"])
 		if Spec.CanScan() then scanBtn:Enable() else scanBtn:Disable() end
 		autoCheck:Refresh()
 		if Spec.inspectUnsupported then
