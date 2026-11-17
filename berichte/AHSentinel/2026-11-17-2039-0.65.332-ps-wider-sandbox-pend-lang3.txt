@@ -1,0 +1,54 @@
+AHSentinel 0.65.332 – Auflage PS-WIDER (Prüfung 20:15), SANDBOX-PEND, Punkt 3 Teil 1 (LANG-3) – umgesetzt, zur Prüfung
+
+==== Auflage zu Punkt 2: Preisschutz, Marktwert und Angebote widersprechen sich (PS-WIDER) ====
+Umsetzung wie verlangt (nicht "Leiter allein"): Se:SellWarning erkennt den Widerspruch, wenn der kleinste Preis ohne "unter dem
+Marktwert" (≥ 75 %) selbst "zu teuer" wäre (über dem 1,5-fachen des günstigsten Angebots der frischen Leiter). Dann EINE Meldung:
+"Marktwert (6s 7c) und aktuelle Angebote (ab 1s 89c) widersprechen sich – Marktwert vermutlich veraltet. Vorschlag: 1s 88c (Preis der
+Angebote), einstellen nur mit Klick." Vorschlag = Preis der frischen Leiter (Unterbieten wie beim Preisschutz "zu teuer").
+Eingestellt wird nur nach dem Klick auf "Preis anpassen" (bestätigter Preis wie bisher, FixConfirmed); ohne Klick bleibt jede Meldung
+- nie unter 75 % ohne Klick. Alle 10 Sprachen.
+T49 geht diesen Weg (wie ein Klick auf "Preis anpassen") und nennt im Ergebnis "Widerspruch Marktwert/Angebote (Marktwert …, Angebote ab …)".
+Nachbau s295_preisschutz_widerspruch (Marktwert 6s 7c aus drei Scans, Ausreisser-Angebote ab 1s 89c, frische Preisprüfung):
+- 0.65.332: Warnung = die eine Meldung oben, Vorschlag 1s 88c meldet nicht "zu teuer", nach "Preis anpassen" bestätigt; T49 bestanden
+  mit "Widerspruch Marktwert/Angebote (Marktwert 6s 7c, Angebote ab 1s 89c) – Vorschlag 1s 88c wie nach Klick auf Preis anpassen".
+- Gegenprobe 0.65.331: Warnung "1s 88c liegt 69 % unter dem Marktwert (6s 7c)", Vorschlag 4s 56c meldet selbst "zu teuer" (OverRule 1s 89c).
+
+==== SANDBOX-PEND (neu, im Nachbau mit echten Daten gefunden) ====
+Teil auto mit den echten Daten des Uploads 19:38 meldete "Sandbox FEHLER: trPending.done.1, trPending.steps.vollscan". Ursache BELEGT:
+Der Lauf "alles" 19:08 hat einen Vollscan-Schritt vorgemerkt (trPending.steps.vollscan). Ein Test-Scan in der Routine (SC.testDB,
+z. B. T703/T858) ruft SC:OnScan -> TR:PendScan und erledigte den echten vorgemerkten Schritt mit Testzahlen. Im Spiel trifft es jeden
+Lauf, solange ein Vollscan-Schritt vorgemerkt ist.
+Umsetzung: TR:PendScan nimmt nur echte Scans ausserhalb der Routine (nicht running/finishing, kein SC.testDB). T858 hängt nicht mehr
+von einem echten vorgemerkten Schritt ab (bisher fiel T858 dann um). Neue Prüfung T902. Nachbau s294 (vorgemerkter Vollscan, Teil m):
+0.65.332 Sandbox OK, Schritt bleibt offen; Gegenprobe 0.65.331 "FEHLER: 2 Pfade, wiederhergestellt: trPending.steps.vollscan, trPending.done".
+
+==== Punkt 3 – Schritte über 16 / 40 ms, Teil 1 (LANG-3) ====
+Nachbau und Spiel gleichgezogen: die Testroutine läuft im Nachbau jetzt auch mit den ECHTEN Daten des Uploads (7232 Markt-Items, echte
+Buchhaltung/Lernen/Namen; nur lokal). Teil auto: 96 Schritte über 16 ms (Spiel 201, dieselben Prüfungen oben: T556, T579, T347, T348,
+T30.x, T648-Teile …; das Spiel ist bei denselben Schritten 2–10× langsamer). Gemessen ist eigene Rechenzeit je Schritt (os.clock), ohne
+Wartezeit. Stichproben-Profil (debug.sethook) je Prüfung nennt die Stelle. Belegte Ursachen und Umsetzung:
+- ScannedItems (Selbsttest-Hilfe, T72/T26a/T15/T73/T55/T112/S28): sortierte mit A:GetCurrent im Vergleich (n·log n Verlaufs-Lesungen) und
+  baute die Liste je Prüfung neu – 46–84 % der Zeit dieser Schritte. Jetzt Preis/Menge einmal lesen, sortiert merken (gleiche Marktdaten,
+  gleicher Scan, ≤ 60 s). S28 "Lohnt bis": 125 -> 19 ms; Tooltip-Schritt 170 -> 0,4 ms; Preisverlauf 274 -> 125 ms; Suche 291 -> 141 ms.
+- Learn:Margin las bei jedem Aufruf alle Käufe neu (je Entzauber-Kauf D:CorrectionFor) – 50–60 % von T556/T579/T30.14. Jetzt gemerkt,
+  solange dieselben Käufe, derselbe Scan, dieselbe Korrektur-Funktion und Grenzen gelten (≤ 30 s). T556 457 -> 54 ms, T579 540 -> 52 ms.
+  (Wirkt auch im Spiel ausserhalb der Testroutine: jede "Lohnt bis"-Rechnung.)
+- T347/T348 (Überfüllt, 1546/1907 ms): bauten die ganze Ansicht über alle Items; jetzt nur das Test-Item (FewItems). T329 ebenso.
+- T824/T118 ("Heute" am Stück über alle Items, 590/231 ms): ohne Markt-Liste; T118 rechnet ohne Zwischenspeicher "today:10" (ein mit
+  leerer Liste gerechneter Stand darf nie als echter Stand liegen bleiben).
+- T172 (609 ms): Copy der Protokoll-Sandbox kopierte deren Feld run = TR.T (das ganze Prüf-Objekt) tief; jetzt nur die eine Referenz.
+- T335 (577–823 ms): sechs Berichte und acht Markt-Ansichten am Stück -> 30 Teil-Schritte (MV:ReportCount je Ansicht).
+Stand Teil auto mit echten Daten (0.65.332): 96 -> 63 Schritte über 16 ms (T335 zählt jetzt in Teilen), über 40 ms noch 32: T26i 331,
+T335/24 280 (Ansicht Flippen am Stück), T72 192, T268 185, T335/26 150, T601 141, T108 141, T26a 130, T279 117, T335/27–28 99, T25a 97,
+T15 96, T312 89, T255 85, T30.01 81, T30.34 79, S31 71, T24 70, T572 65, T31.04 62, T250 59, T325 59, T55 58, T859 58, T30.13 57, T888 54,
+T14 53, T556 53, T307 51, T579 51, T107 45 (T812/T895 je 40 = absichtlich gemessene Last). Selbsttest-Schritte (Teil server): Heute tun
+186, Suche 141, Preisverlauf 125, Übersicht 106, Verkaufbarkeit 53, Flips 52 ms, Sprachwechsel Portionen bis 267 ms.
+In Arbeit für 0.65.333 (im Arbeitsstand schon umgesetzt, noch nicht geprüft): Heute tun, Suche, Flips, Verkaufbarkeit, Unter Händler-/
+Entzauberwert als Hintergrund-Aufgabe in Portionen; Sprachwechsel je Bild ein Reiter; Übersicht (Auf-/Absteiger) und Preisverlauf
+(Item-Liste) im Hintergrund wie die Markt-Ansichten (der Reiter rechnet nie selbst); T268/T601 ohne Namenssuche über alle Sprachen für
+Test-Namen; T107/T108 ohne Kopie der grossen echten Listen; T335-Ansichten als Hintergrund-Aufgabe. Ziel: kein Schritt über 40 ms eigene
+Rechenzeit.
+Nebenbefund (Verdacht, zu messen): TR:Finish vergleicht die ganze Sandbox (CompareAndRestore über alle echten Daten) und baut die Berichte
+(Fc:Report, MV:Report …) in EINEM Bild – mit echten Daten im Nachbau deutlich über 40 ms; kommt zu Punkt 3 dazu.
+
+Tests: Gesamtlauf 369 bestanden, 0 fehlgeschlagen · addon_check OK (Release-Zip und Discord-Zip). Weiter: Punkt 3 Teil 2, dann 4 (T126), 5 (Vollscan), 7–10.
