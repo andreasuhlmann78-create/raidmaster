@@ -1,0 +1,24 @@
+LevelPilot – GRIND-1 (Fassung E, CROSS_STARVE 2,5) mit den echten Kartenrahmen neu gemessen (umgesetzt, zur Prüfung)
+Bezug: Prüfung Supervisor 17:55 ("Optimierungspunkte, Grinden wieder messen"); Bericht 19:06 (Messweise, Grundlinie 3.12.88).
+Rohdaten: berichte/LevelPilot/opt-route/2026-11-17-kartenrahmen-grundlinie-und-hebel-12-charaktere.txt (angehängt: k88cs0/15/35)
+Keine Code-Änderung am Addon. Je Variante wurde nur P.CROSS_STARVE in Planner.lua geändert.
+
+Ergebnisse gegen 3.12.88 (CROSS_STARVE 2,5). Bewertung = Zeit + 0,5 × Grinden; positiv heisst schlechter.
+- 0 (ohne Fassung E, wie 3.12.81):
+  - Bewertung: Training +140,8 h, Gegenprobe +117,2 h; besser 1, schlechter 11.
+  - Reine Spielzeit −104,7 h, aber Grinden +725,3 h.
+- 1,5:
+  - Bewertung: Training +74,4 h, Gegenprobe +52,9 h; besser 1, schlechter 11.
+  - Reine Spielzeit −19,7 h, Grinden +294,0 h.
+- 3,5:
+  - Bewertung: Training +4,9 h, Gegenprobe −10,3 h; besser 7, schlechter 5.
+  - Reine Spielzeit −15,7 h, Grinden +20,7 h.
+
+Einordnung nach dem Massstab
+- Fassung E (2,5) bleibt BESTÄTIGT. 0 und 1,5 sind in beiden Gruppen deutlich schlechter.
+- 3,5 ist KEIN Gewinn: nur die Gegenprobe ist besser, das Training schlechter. Die 12 Charaktere sind gemischt (7 zu 5).
+- Ohne Fassung E wäre die reine Spielzeit 105 h kürzer, aber mit 725 h mehr Grinden. Das ist genau der Tausch, den der Nutzer
+  nicht will (Grind-Zeit × 1,5 in der Bewertung, Supervisor 22:32).
+
+Weiter
+- H5: Ruhestein in der Zone binden, in der man als Nächstes länger bleibt. Einzeln nach dem Massstab.
