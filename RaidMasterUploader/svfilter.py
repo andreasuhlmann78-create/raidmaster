@@ -10,10 +10,16 @@ Spiel bleibt unverändert. Alles andere bleibt Zeichen für Zeichen gleich (nur 
 Sicher: Die Datei wird mit einem kleinen Lua-Leser vollständig gelesen (Zeichenketten mit Anführungszeichen, Klammern,
 Escapes \\" \\\\ \\n \\ddd, Zeilenfortsetzung, lange Zeichenketten [[…]] / [==[…]==], Kommentare). Geht das Lesen schief,
 wird die Datei NICHT geliefert (FilterError) – nie ungefiltert.
+
+NP-UP13-1 (2.3.14): Zwei Fälle, die WoW nie schreibt, die aber sonst Daten durchlassen könnten, sind ebenfalls FilterError:
+- doppelter Schlüssel in einer Tabelle bzw. zweite Zuweisung desselben Namens auf oberster Ebene (z. B. zweimal GuildSentinelDB):
+  Lua nimmt den letzten Wert, der Filter sähe nur einen – ein früherer apps/ban-Inhalt bliebe im Text.
+- tiefer als MAX_DEPTH verschachtelt (statt RecursionError).
 """
 from __future__ import annotations
 
 GS_DROP = ("apps", "ban")
+MAX_DEPTH = 200          # WoW-SavedVariables sind wenige Ebenen tief; mehr = nicht sicher lesbar
 
 
 class FilterError(Exception):
@@ -23,6 +29,7 @@ class FilterError(Exception):
 class _Reader:
     def __init__(self, text: str):
         self.s, self.i, self.n = text, 0, len(text)
+        self.depth = 0
 
     def fail(self, why: str):
         line = self.s.count("\n", 0, self.i) + 1
@@ -154,10 +161,38 @@ class _Reader:
             return ("atom", start, self.i, {"true": True, "false": False, "nil": None}[w])
         self.fail(f"unbekannter Wert {w!r}")
 
+    @staticmethod
+    def _key_id(key):
+        """Schlüssel so, wie Lua sie vergleicht: true ist nicht 1, 1.0 ist 1. Tabellen als Schlüssel (None) zählen nicht."""
+        if key is None:
+            return None
+        if isinstance(key, bool):
+            return ("b", key)
+        if isinstance(key, (int, float)):
+            return ("n", key)
+        return ("s", key)
+
+    def _add(self, items, seen, key, value):
+        kid = self._key_id(key)
+        if kid is not None:
+            if kid in seen:
+                self.fail("doppelter Schlüssel")      # ohne den Schlüssel selbst (könnte ein Name sein)
+            seen.add(kid)
+        items.append((key, value))
+
     def table(self):
+        self.depth += 1
+        if self.depth > MAX_DEPTH:
+            self.fail(f"tiefer als {MAX_DEPTH} Ebenen verschachtelt")
+        try:
+            return self._table()
+        finally:
+            self.depth -= 1
+
+    def _table(self):
         start = self.i
         self.i += 1
-        items, pos = [], 0
+        items, pos, seen = [], 0, set()
         while True:
             self.skip()
             if self.i >= self.n:
@@ -178,7 +213,7 @@ class _Reader:
                     self.fail("= fehlt")
                 self.i += 1
                 key = k[3] if k[0] == "atom" else None
-                items.append((key, self.value()))
+                self._add(items, seen, key, self.value())
             else:
                 save = self.i
                 if c.isalpha() or c == "_":
@@ -186,14 +221,14 @@ class _Reader:
                     self.skip()
                     if self.s.startswith("=", self.i) and not self.s.startswith("==", self.i):
                         self.i += 1
-                        items.append((w, self.value()))
+                        self._add(items, seen, w, self.value())
                     else:
                         self.i = save
                         pos += 1
-                        items.append((pos, self.value()))
+                        self._add(items, seen, pos, self.value())
                 else:
                     pos += 1
-                    items.append((pos, self.value()))
+                    self._add(items, seen, pos, self.value())
             self.skip()
             if self.i < self.n and self.s[self.i] in ",;":
                 self.i += 1
@@ -206,6 +241,8 @@ class _Reader:
             if self.i >= self.n:
                 return out
             w = self.name()
+            if w in out:
+                self.fail(f"{w} doppelt zugewiesen")
             self.skip()
             if not self.s.startswith("=", self.i):
                 self.fail("= nach " + w + " fehlt")
@@ -228,7 +265,10 @@ def filter_guildsentinel(data: bytes) -> tuple[bytes, int]:
         text = data.decode("utf-8")
     except UnicodeDecodeError as e:
         raise FilterError(f"kein UTF-8 (Byte {e.start})") from None
-    top = _Reader(text).chunk()
+    try:
+        top = _Reader(text).chunk()
+    except RecursionError:
+        raise FilterError("zu tief verschachtelt (Python-Grenze)") from None
     db = top.get("GuildSentinelDB")
     if db is None:
         return data, 0
@@ -260,5 +300,8 @@ def filter_guildsentinel(data: bytes) -> tuple[bytes, int]:
         last = b
     out.append(text[last:])
     new = "".join(out)
-    _Reader(new).chunk()                                  # Ergebnis muss wieder lesbar sein
+    try:
+        _Reader(new).chunk()                              # Ergebnis muss wieder lesbar sein
+    except RecursionError:
+        raise FilterError("zu tief verschachtelt (Python-Grenze)") from None
     return new.encode("utf-8"), len(spans)

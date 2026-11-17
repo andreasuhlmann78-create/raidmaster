@@ -252,3 +252,8 @@ Version 2.3.13 – privacy in the data repo (UP-DS1):
   uploader empties them in every guild before uploading GuildSentinel.lua. The file in the game stays unchanged.
 - If the file cannot be read safely, it is not delivered at all, with one notice "GuildSentinel-Daten nicht geliefert: …".
 - New file svfilter.py – always extract the whole RaidMasterUploader.zip.
+
+Version 2.3.14 – even stricter privacy (NP-UP13-1):
+- If an entry in GuildSentinel.lua appears twice (e.g. "apps" twice or GuildSentinelDB twice) or the file is nested
+  unnaturally deep, the uploader does not deliver it (WoW never writes that). So no applicant and no ban list can slip
+  through. Any unexpected error while reading also means: do not deliver.

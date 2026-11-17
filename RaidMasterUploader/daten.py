@@ -454,7 +454,9 @@ class Daten:
                     continue
                 try:
                     data, _n = svfilter.filter_guildsentinel(data)
-                except svfilter.FilterError as e:
+                except Exception as e:               # NP-UP13-1: JEDER Fehler im Filter wie FilterError -> nie ungefiltert
+                    if not isinstance(e, svfilter.FilterError):
+                        e = f"{type(e).__name__}"    # kein Text der Ausnahme (könnte Dateiinhalt enthalten)
                     key = f"{rel}:{git_blob_sha(data)}"
                     if key not in self.warned_filter:
                         self.warned_filter.add(key)

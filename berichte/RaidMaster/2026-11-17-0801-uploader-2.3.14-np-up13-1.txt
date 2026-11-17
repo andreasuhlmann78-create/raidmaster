@@ -1,0 +1,39 @@
+BERICHT RAIDMASTER AN DIE PRÜF-SITZUNG
+Stand: 17.11.2026 08:01 (aus date) · Sitzung: RaidMaster-Projekt-Sitzung · Version: Uploader 2.3.14 (Addon unverändert 3.0.30)
+Commit: dieser Push · Bezug: offen-raidmaster.txt "BEFUND NP-UP13-1 NIEDRIG" (5abdb773)
+Status: umgesetzt, zur Prüfung.
+
+1. Ursache belegt (Code 2.3.13): svfilter._Reader.table() hängte jeden Eintrag an die Liste an, ohne doppelte Schlüssel zu
+   bemerken, und chunk() überschrieb einen zweiten Namen still (out[w] = …). _get() nimmt den ERSTEN Treffer. Lua dagegen nimmt den
+   LETZTEN. Bei "apps = {}" gefolgt von "apps = { Bewerber … }" leerte der Filter das leere erste und liess das zweite (gültige)
+   stehen. Tiefe Verschachtelung: value() -> table() rekursiv, bei 5000 Ebenen RecursionError (keine FilterError) – daten.py fing nur
+   FilterError, die Lieferung brach ab.
+   Gegenprobe mit dem alten Code (neue Tests gegen svfilter.py/daten.py aus HEAD vor diesem Push): "FilterError not raised : zweimal
+   apps" und "RecursionError: maximum recursion depth exceeded"; nur alte daten.py: "ValueError: Bewerber geheim" bricht die Lieferung ab.
+
+2. Behebung
+   - svfilter.py:175 _add(): je Tabelle eine Menge der Schlüssel, so wie Lua sie vergleicht (true ≠ 1, "1" ≠ 1, 1 = 1.0; auch
+     Listenplatz n und [n] = …). Doppelt -> FilterError "doppelter Schlüssel" (OHNE den Schlüssel im Text – könnte ein Name sein).
+   - svfilter.py:245 chunk(): zweite Zuweisung desselben Namens auf oberster Ebene -> FilterError "<Name> doppelt zugewiesen".
+   - svfilter.py:22/183 MAX_DEPTH = 200 -> FilterError "tiefer als 200 Ebenen verschachtelt"; zusätzlich RecursionError beim Lesen
+     und beim Nachlesen des Ergebnisses -> FilterError (:270, :305).
+   - daten.py:457: JEDE Ausnahme aus dem Filter wird wie FilterError behandelt: GuildSentinel.lua nicht geliefert, eine Meldung je
+     Stand; bei anderen Ausnahmen steht nur deren Art im Log (z. B. "ValueError"), nie ihr Text.
+
+3. Tests (tests/test_daten.py, beide in TU6 test_umfassend.py)
+   - test_np_up13_1_doppelte_schluessel_nie_durchlassen (:454): fünf Fälle -> FilterError (zweimal apps, zweimal GuildSentinelDB,
+     guilds und ["guilds"], Listenplatz 1 und [1], [1] und [1.0]); Gegenprobe erlaubt: [true]/[1]/["1"]/[false] in einer Tabelle;
+     Gegenprobe "Test beisst": ohne die Prüfung käme "Bewerber" durch; Lieferung: AHSentinel.lua geht hoch, GuildSentinel.lua nicht,
+     genau eine Logzeile, kein Name im Log.
+   - test_np_up13_1_tiefe_und_jeder_fehler (:496): 5000 Ebenen -> FilterError; 150 und genau 200 Ebenen lesbar, 201 -> FilterError;
+     Filter wirft ValueError("Bewerber geheim") -> nicht geliefert, Rest geht hoch, eine Zeile mit "ValueError", ohne "Bewerber"/"geheim".
+   - Zufallstest (500 Dateien) erzeugt jetzt pro Tabelle eindeutige Schlüssel (WoW schreibt nie doppelt; vorher konnte der Generator
+     zufällig doppelte erzeugen).
+   - Ergebnis: test_daten 20/20, test_sync 53/53, test_uploader 23/23, test_umfassend 14/14, TU6 Regressionen 75/75 (vorher 73).
+     Bot: tests/test_uploads_gs_up.py 9/9, tests/test_pn.py 18/18. Python-Syntax aller Uploader-Dateien ok.
+
+4. Veröffentlichung: uploader.py VERSION 2.3.14; LIESMICH/README_EN Abschnitt 2.3.14 (DE/EN); download/RaidMasterUploader.zip neu
+   (13 Dateien wie bisher, ohne tests/, ohne *config.json, ohne uploader_state.json).
+
+FÜR DEN NUTZER (nach Prüfung): Bot /update bzw. die neue RaidMasterUploader.zip an beiden Rechnern ganz entpacken (Einstellungen
+bleiben). Merkbar ändert sich nichts – nur bei einer unnormalen GuildSentinel.lua kommt "GuildSentinel-Daten nicht geliefert".

@@ -424,12 +424,15 @@ class Datenschutz(unittest.TestCase):
             return table(depth + 1, secret)
         def table(depth, secret=False):
             ind = "\t" * depth
-            parts = []
+            parts, keys = [], set()
             for i in range(rnd.randint(0, 4)):
                 if rnd.random() < 0.3:
                     parts.append(f"{ind}\t{val(depth, secret)}, -- [{i + 1}]\n")
                 else:
                     k = "".join(rnd.choice(alphabet) for _ in range(rnd.randint(1, 6)))
+                    if k in keys:                     # WoW schreibt jeden Schlüssel nur einmal (2.3.14: doppelt = FilterError)
+                        continue
+                    keys.add(k)
                     parts.append(f"{ind}\t[{lstr(k)}] = {val(depth, secret)},\n")
             return "{\n" + "".join(parts) + ind + "}"
         for n in range(500):
@@ -447,6 +450,80 @@ class Datenschutz(unittest.TestCase):
             self.assertNotIn("GEHEIM", out.decode("utf-8"), n)
             self.assertEqual(svfilter.filter_guildsentinel(out)[1], 0)
             self.assertEqual(out.decode("utf-8").count('["roster"]'), sv.count('["roster"]'))
+
+    def test_np_up13_1_doppelte_schluessel_nie_durchlassen(self):
+        # 2.3.14 (NP-UP13-1): doppelter Schlüssel / zweite Zuweisung -> FilterError, Datei nicht geliefert, Log ohne Namen
+        import svfilter
+        two_apps = ('GuildSentinelDB = {\n\t["guilds"] = {\n\t\t["R|G"] = {\n'
+                    '\t\t\t["apps"] = {\n\t\t\t},\n'
+                    '\t\t\t["apps"] = {\n\t\t\t\t["Bewerber"] = {\n\t\t\t\t},\n\t\t\t},\n\t\t},\n\t},\n}\n')
+        two_db = ('GuildSentinelDB = {\n\t["guilds"] = {\n\t\t["R|G"] = {\n\t\t\t["apps"] = {\n'
+                  '\t\t\t\t["Bewerber"] = 1,\n\t\t\t},\n\t\t},\n\t},\n}\nGuildSentinelDB = {\n}\n')
+        cases = {
+            "zweimal apps": two_apps,
+            "zweimal GuildSentinelDB": two_db,
+            "Name und [\"Name\"]": 'GuildSentinelDB = { guilds = {}, ["guilds"] = {} }\n',
+            "Liste und [1]": 'GuildSentinelDB = { "a", [1] = "b" }\n',
+            "1 und 1.0": 'GuildSentinelDB = { [1] = "a", [1.0] = "b" }\n',
+        }
+        for what, sv in cases.items():
+            with self.assertRaises(svfilter.FilterError, msg=what) as cm:
+                svfilter.filter_guildsentinel(sv.encode())
+            self.assertNotIn("Bewerber", str(cm.exception), what)
+        # Gegenprobe: was Lua unterscheidet, bleibt erlaubt (true ist nicht 1; "1" ist nicht 1)
+        ok = 'GuildSentinelDB = { [true] = 1, [1] = 2, ["1"] = 3, [false] = 4 }\n'
+        self.assertEqual(svfilter.filter_guildsentinel(ok.encode()), (ok.encode(), 0))
+        # Gegenprobe: ohne die neue Prüfung käme der erste Bewerber durch (der Test beisst)
+        orig = svfilter._Reader._add
+        svfilter._Reader._add = lambda self, items, seen, key, value: items.append((key, value))
+        try:
+            out, _n = svfilter.filter_guildsentinel(two_apps.encode())   # erstes apps leer, zweites (das gilt) voll
+            self.assertIn("Bewerber", out.decode())
+        finally:
+            svfilter._Reader._add = orig
+        # Lieferung: Datei nicht geliefert, Rest geht hoch, eine Zeile ohne Namen
+        self.write("AHSentinel.lua", "AHSentinelDB = { 1 }\n", T0)
+        self.write("GuildSentinel.lua", two_db, T0)
+        self.run_until(T0 + 1, T0 + 20)
+        files = self.gh.files()
+        self.assertIn(AKT + "AHSentinel.lua", files)
+        self.assertNotIn(AKT + "GuildSentinel.lua", files)
+        lines = [l for l in self.logs if "GuildSentinel-Daten nicht geliefert" in l]
+        self.assertEqual(len(lines), 1)
+        self.assertIn("doppelt zugewiesen", lines[0])
+        self.assertFalse(any("Bewerber" in l for l in self.logs))
+
+    def test_np_up13_1_tiefe_und_jeder_fehler(self):
+        import svfilter
+        deep = "GuildSentinelDB = " + "{" * 5000 + "}" * 5000 + "\n"
+        with self.assertRaises(svfilter.FilterError) as cm:                   # nicht RecursionError
+            svfilter.filter_guildsentinel(deep.encode())
+        self.assertIn("verschachtelt", str(cm.exception))
+        ok = "GuildSentinelDB = " + "{" * 150 + "}" * 150 + "\n"               # Gegenprobe: 150 Ebenen sind lesbar
+        self.assertEqual(svfilter.filter_guildsentinel(ok.encode()), (ok.encode(), 0))
+        edge = "GuildSentinelDB = " + "{" * svfilter.MAX_DEPTH + "}" * svfilter.MAX_DEPTH + "\n"
+        self.assertEqual(svfilter.filter_guildsentinel(edge.encode())[1], 0)  # genau an der Grenze noch lesbar
+        over = "GuildSentinelDB = " + "{" * (svfilter.MAX_DEPTH + 1) + "}" * (svfilter.MAX_DEPTH + 1) + "\n"
+        with self.assertRaises(svfilter.FilterError):
+            svfilter.filter_guildsentinel(over.encode())
+        # jeder andere Fehler im Filter: wie FilterError, nie ungefiltert, Log ohne Ausnahmetext
+        orig = daten.svfilter.filter_guildsentinel
+        def boom(data):
+            raise ValueError("Bewerber geheim")
+        daten.svfilter.filter_guildsentinel = boom
+        try:
+            self.write("AHSentinel.lua", "AHSentinelDB = { 1 }\n", T0)
+            self.write("GuildSentinel.lua", GS_SV, T0)
+            self.run_until(T0 + 1, T0 + 20)
+            files = self.gh.files()
+            self.assertIn(AKT + "AHSentinel.lua", files)
+            self.assertNotIn(AKT + "GuildSentinel.lua", files)
+            lines = [l for l in self.logs if "GuildSentinel-Daten nicht geliefert" in l]
+            self.assertEqual(len(lines), 1)
+            self.assertIn("ValueError", lines[0])
+            self.assertFalse(any("Bewerber" in l or "geheim" in l for l in self.logs))
+        finally:
+            daten.svfilter.filter_guildsentinel = orig
 
     def test_ds1_ohne_svfilter_nie_ungefiltert(self):
         # nur daten.py ersetzt, svfilter.py fehlt -> GuildSentinel.lua wird nicht geliefert, eine Zeile mit "Was tun"

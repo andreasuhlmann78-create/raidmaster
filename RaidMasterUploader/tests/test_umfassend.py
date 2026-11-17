@@ -560,6 +560,8 @@ REGRESSIONEN = {
     "UP-DS1 kaputt -> nicht geliefert": "test_daten.Datenschutz.test_ds1_kaputte_datei_nicht_geliefert_nie_ungefiltert",
     "UP-DS1 Zufall WoW-Format": "test_daten.Datenschutz.test_ds1_zufall_wie_wow_geschrieben",
     "UP-DS1 ohne svfilter nie ungefiltert": "test_daten.Datenschutz.test_ds1_ohne_svfilter_nie_ungefiltert",
+    "NP-UP13-1 doppelte Schlüssel": "test_daten.Datenschutz.test_np_up13_1_doppelte_schluessel_nie_durchlassen",
+    "NP-UP13-1 Tiefe, jeder Fehler": "test_daten.Datenschutz.test_np_up13_1_tiefe_und_jeder_fehler",
     "RP-U nur bank/raidReady": "test_uploader.Uploader17.test_rp_u_nur_bank_und_raidready",
 }
 
