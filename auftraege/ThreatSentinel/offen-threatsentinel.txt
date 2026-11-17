@@ -236,3 +236,7 @@ nur wo nötig und jeder Handpunkt in klaren, nummerierten Schritten (Wo / Schrit
 ==== TR-ALLE NACHTRAG D (Supervisor 17.11.2026 14:00) ====
 - Der Lauf 'testroutine alles' wartet nie auf den Nutzer; Fenster-Schritte werden vorgemerkt und laufen automatisch nach, wenn der
   Nutzer das Fenster beim normalen Spielen öffnet (Entwicklermodus, max. 7 Tage). Einzelheiten: auftraege/hinweis-testroutine-alles-2026-11-17.txt Abschnitt D.
+
+==== MARKT-V10 (Supervisor 17.11.2026 14:40, ersetzt MARKT-V9) ====
+- shared/GoldSentinelMarkt.lua Version 10 statt v9 kopieren (Zeitprüfung alle 20 statt 100 Einträge). Einzelheiten: Nachtrag in
+  auftraege/hinweis-goldsentinelmarkt-v9-2026-11-17.txt.

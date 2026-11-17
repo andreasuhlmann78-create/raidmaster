@@ -96,6 +96,7 @@ class Client:
         self.lua.execute(MOCK.replace("PLAYER = ...", f'PLAYER = "{name}"'))
         self.lua.execute(SYNC)
         self.lua.execute(src or SRC)
+        self.lua.execute("DEFAULT_CHECK = GoldSentinelMarkt.CHECK_EVERY")   # v10: Zeitmessungen mit der echten Einstellung
         self.name = name
         self.run('DB = {}; GoldSentinelMarkt.Attach("ProbeAddon", DB); GoldSentinelMarkt.CHECK_EVERY = 10')
         self.tick(0.5)               # anmelden (wie im Spiel nach dem Laden)
@@ -318,12 +319,12 @@ check("Abbruch bei geänderter Liste", y.ev("GoldSentinelMarkt.Stats().aborted")
 z = Client("Testz", 13)
 set_auctions(z, rows1)
 scan(z)
-z.run(SRC.replace("local VERSION = 9", "local VERSION = 10"))
-check("neuere Fassung aktiv", z.ev("GoldSentinelMarkt.VERSION"), 10)
+z.run(SRC.replace("local VERSION = 10", "local VERSION = 11"))
+check("neuere Fassung aktiv", z.ev("GoldSentinelMarkt.VERSION"), 11)
 check("Daten übernommen", z.ev("GoldSentinelMarkt.Get(2589).preis"), 95)
 check("alter Frame still", z.ev("FRAMES[#FRAMES - 1].scripts.OnUpdate == nil"), True)
-z.run(SRC)                     # ältere Fassung lädt danach -> bleibt bei 10
-check("ältere Fassung übernimmt nicht", z.ev("GoldSentinelMarkt.VERSION"), 10)
+z.run(SRC)                     # ältere Fassung lädt danach -> bleibt bei 11
+check("ältere Fassung übernimmt nicht", z.ev("GoldSentinelMarkt.VERSION"), 11)
 
 # --- 14. Feed: Host-Addon liest selbst und gibt weiter, kein zweites Lesen ---------------------------------------------
 h = Client("Testh", 14)
@@ -391,7 +392,8 @@ tr.execute("B = {} for i = 1, 4 do B[#B+1] = string.rep('x', 600 * 1024) end Gol
 check("Export: höchstens 1,5 MB zusammen", tr.eval("#B"), 2)
 tr.execute("C = { string.rep('y', 2 * 1024 * 1024) } GoldSentinelMarkt.TrimExport(C)")
 check("Export: neuester Scan bleibt immer", tr.eval("#C"), 1)
-check("Version 9", tr.eval("GoldSentinelMarkt.VERSION"), 9)
+check("Version 10", tr.eval("GoldSentinelMarkt.VERSION"), 10)
+check("v10: Zeitprüfung alle 20 Einträge (nicht 100)", tr.eval("DEFAULT_CHECK"), 20)
 
 # v4 (MN-S2): geplante Antwort "A:" geht nach dem Ausschalten nicht mehr raus (Tick und SetShare)
 for i, via in enumerate(("tick", "setshare")):
@@ -672,7 +674,7 @@ OUTS = table.concat(OUT, "\\n")
 """
 def run9(src):
     c = Client("Testv9", 71, src=src)
-    c.run('DBF = {}; GoldSentinelMarkt.Attach("AHSentinel", DBF); GoldSentinelMarkt.Pump = function() end')
+    c.run('DBF = {}; GoldSentinelMarkt.Attach("AHSentinel", DBF); GoldSentinelMarkt.Pump = function() end; GoldSentinelMarkt.CHECK_EVERY = DEFAULT_CHECK')
     c.run(RUN9)
     return c
 import statistics as _st
@@ -686,6 +688,22 @@ budget = c9.ev("GoldSentinelMarkt.BUDGET_MS")
 check("v9: kein Bild über Budget + 2 ms (Feed + Teilen, 6000 Items, Median aus 3)", mf <= budget + 2, True)
 check("v9: Antwort-Weg ohne Item-Liste (20000 Items) höchstens Budget + 2 ms (Median aus 3)", ma <= budget + 2, True)
 check("v9: Gegenprobe v8 – Teilen am Stück über 5 ms", c8o.ev("MAXMS") > 5, True)
+OLD9 = (ROOT / "shared/tests/variants/GoldSentinelMarkt-v9.lua").read_text(encoding="utf-8")
+def _checks(src):
+    """deterministisch: wie oft prüft eine Feed-Portion die Zeit bei 1000 Items (Budget nie erreicht)?"""
+    c = Client("Testv10", 73, src=src)
+    c.run('DBF = {}; GoldSentinelMarkt.Attach("AHSentinel", DBF); GoldSentinelMarkt.CHECK_EVERY = DEFAULT_CHECK')
+    c.run("""local I = {} for i = 1, 1000 do I[5000 + i] = { preis = 10, menge = 1, n = 1 } end
+GoldSentinelMarkt.Feed("AHSentinel", TIME, 1000, I, 0)
+NCHK = 0
+local real = GoldSentinelMarkt.api.ms
+GoldSentinelMarkt.api.ms = function() NCHK = NCHK + 1; return 0 end
+GoldSentinelMarkt.FeedPortion(4)
+GoldSentinelMarkt.api.ms = real""")
+    return c.ev("NCHK")
+n10, n9 = _checks(None), _checks(OLD9)
+print("v10 Zeitprüfungen je Feed-Portion mit 1000 Items: v10 %d, v9 %d" % (n10, n9))
+check("v10: Feed prüft die Zeit mindestens alle 20 Items (1000 Items -> ≥ 50 Prüfungen); Gegenprobe v9 ≤ 12", (n10 >= 50, n9 <= 12), (True, True))
 check("v9: Nachrichten byte-gleich wie v8 (Reihenfolge, Inhalt, Weg)", c9.ev("OUTS") == c8o.ev("OUTS") and len(c9.ev("OUTS")) > 1000, True)
 
 # v9: eigenes Lesen (ohne AHSentinel) – Auswertung in Portionen: 20000 Auktionen, zweiter Scan mit Vergleich.
@@ -697,7 +715,7 @@ def _read_run(src, seed):
     c = Client("Testv9r", 72, src=src)
     rows = [(2000 + _rnd.randint(0, 5999) * 3, _rnd.randint(1, 20), _rnd.randint(100, 900000), _rnd.randint(1, 4)) for _ in range(20000)]
     set_auctions(c, rows)
-    c.run('function debugprofilestop() return os.clock() * 1000 end; collectgarbage("stop")')
+    c.run('function debugprofilestop() return os.clock() * 1000 end; collectgarbage("stop"); GoldSentinelMarkt.CHECK_EVERY = DEFAULT_CHECK')
     c.run("""MAXT = 0
 _U9 = UPDATE
 function UPDATE(dt) local t0 = os.clock(); _U9(dt); local ms = (os.clock() - t0) * 1000; if ms > MAXT then MAXT = ms end end""")

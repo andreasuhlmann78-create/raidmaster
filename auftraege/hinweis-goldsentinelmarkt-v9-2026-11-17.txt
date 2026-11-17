@@ -1,4 +1,4 @@
-HINWEIS AN ALLE PROJEKTE MIT GoldSentinelMarkt.lua – Version 9 (Supervisor, 17.11.2026, ersetzt v8 als Kopiervorlage)
+HINWEIS AN ALLE PROJEKTE MIT GoldSentinelMarkt.lua – Version 9 – ERSETZT durch Version 10 (siehe Nachtrag unten)
 Betrifft: AHSentinel, BuffSentinel, GuildSentinel, ProfessionSentinel, RaidMaster, ThreatSentinel, LevelPilot.
 
 WARUM: Messung AHSentinel 0.65.312 (s216): das OnUpdate des gemeinsamen Bausteins brauchte 19–21 ms in EINEM Bild. Im Baustein
@@ -19,3 +19,10 @@ unverändert kopieren; CHANGELOG EN/DE: "Shared market data: no more stutter aft
 "Gemeinsame Marktdaten: kein Ruckeln mehr nach einem Vollscan (Arbeit auf mehrere Bilder verteilt)". Wer v8 noch nicht hat, nimmt
 direkt v9 (die Zeile zu v8 dann mit in den CHANGELOG). BuffSentinel: weiter bald (Test-IDs in deinem Speicher).
 Hinweis: GoldSentinelMarkt.DiagLines() hat seit v8 fünf Zeilen.
+
+==== NACHTRAG 17.11.2026 14:40 – Version 10 (ersetzt v9 als Kopiervorlage) ====
+Messung AHSentinel 0.65.318 (Nachbau mit echten Daten): Feed-Portion bis 7,2 ms bei Budget 4 ms. Ursache: die Zeit wurde nur alle
+100 Einträge geprüft (CHECK_EVERY 100; die Tests liefen mit 10 und sahen es nicht – jetzt messen die Tests mit der echten Einstellung).
+v10: alle 20 Einträge. Sonst unverändert. Test 139/139 (15 Läufe stabil), deterministische Gegenprobe v9.
+AUFTRAG MARKT-V10 (ersetzt MARKT-V9): mit der nächsten geplanten Version shared/GoldSentinelMarkt.lua (Version 10) unverändert kopieren.
+CHANGELOG-Zeile wie bei v9 (kein Ruckeln nach Vollscans). v8/v9-Kopien laufen weiter (addon_check nur WARNUNG).

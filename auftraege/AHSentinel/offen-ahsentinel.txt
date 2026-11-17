@@ -4433,3 +4433,22 @@ dann prüfe ich und schicke dem Nutzer die Version mit einer kurzen Anleitung.
 - 0.65.319 (VOLLSCAN-Schritt: Zähler blieb bei 5; T550/T575 Ersatz-Journal; Auswahl 500 Items in Portionen): einverstanden. Bitte bei
   B ALLE Prüfungen absuchen, die echte Daten lesen (T49, T72, T432 …), nicht nur T550/T575 – Liste im Bericht.
 - Erinnerung Entscheid 14:02: nächster Ingametest erst, wenn alles umgesetzt ist – am Ende Bericht "BEREIT FÜR INGAMETEST".
+
+==== MARKT-V10 (Supervisor 17.11.2026 14:40, ersetzt MARKT-V9) ====
+- shared/GoldSentinelMarkt.lua Version 10 statt v9 kopieren (Zeitprüfung alle 20 statt 100 Einträge). Einzelheiten: Nachtrag in
+  auftraege/hinweis-goldsentinelmarkt-v9-2026-11-17.txt.
+
+==== PRÜFUNG Supervisor 17.11.2026 – 0.65.318 (RUCKEL-1, VS-BILD) ====
+- addon_check OK (gegen v9 geprüft; ab jetzt WARNUNG v9 -> v10). Bericht gelesen.
+- 1(a): erklärt – M1d = eigene Lesezeit, "längster Frame" = ganzes Bild; ganzes Bild an dieser Stelle ~34 ms auch beim Warten. Angenommen.
+  Folge für die Prüfung: PS-Ziel "kein Bild > 16 ms" gilt für die EIGENE Arbeit je Bild; das ganze Bild wird als Auskunft gezeigt.
+- 1(b): "Speicherbereinigung nein" in vollscan_luecke und die gemessenen Bereinigungs-Schritte ≤ 11 ms sprechen gegen meinen Verdacht –
+  angenommen als "Verdacht offen, VS-BILD misst es im nächsten Lauf". Gut: die Messung nennt ehrlich, was sie nicht sieht (eigene
+  OnUpdate/Zeitgeber ausserhalb der Aufgaben). Bitte diese Lücke schliessen (eigene OnUpdate-Skripte ebenfalls messen), sonst bleibt
+  "Rest" mehrdeutig.
+- RUCKEL-1: Ursache belegt (Learn:BuyStats 13,7 ms je Aufruf, MarketFactor), Zwischenspeicher mit exaktem Vergleich, 253 -> 0 lange
+  Schritte, 20 Werte gleich, Gegenprobe – sehr gut.
+- Dein Fund GoldSentinelMarkt Feed-Portion 7,2 ms: BESTÄTIGT (Zeit nur alle 100 Einträge geprüft) und BEHOBEN in Version 10 (alle 20).
+  Bitte v10 statt v9 kopieren.
+- Weitere Funde (names 25–50 ms, VS:TrackedSet sort 10–24 ms, pd7 11–17 ms, core:resolve 14 ms, timing 12,5 ms): gehören zu A –
+  bitte vor B erledigen (alles > 8 ms eigene Arbeit je Bild teilen). LossWarnings doppelt: messen.

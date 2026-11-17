@@ -91,7 +91,11 @@
 --   jetzt als Auftrag in Portionen (vorher am Stueck: gemessen 60–180 ms in einem Bild bei 20000 Auktionen). Hoechstens EINE
 --   Rechen-Portion je Bild (Feed, Auswertung, Teilen, Lesen). Speicher, Export und Nachrichten byte-gleich wie v8 (Test).
 
-local VERSION = 9
+-- Version 10 (17. November 2026, Messung AHSentinel 0.65.318, Nachbau mit echten Daten: Feed-Portion bis 7,2 ms bei Budget 4 ms):
+--   die Zeit wurde nur alle 100 Eintraege geprueft (die Tests liefen mit 10 und sahen es nicht). Jetzt alle 20 (Lesen und Feed).
+--   Sonst unveraendert.
+
+local VERSION = 10
 
 local existing = _G.GoldSentinelMarkt
 if type(existing) == "table" and (tonumber(existing.VERSION) or 0) >= VERSION then return end
@@ -100,7 +104,7 @@ local M = {}
 M.VERSION = VERSION
 M.PREFIX = "GSMARKT1"
 M.BUDGET_MS = 4              -- Rechenzeit je Bild beim Lesen
-M.CHECK_EVERY = 100          -- so oft wird die Zeit innerhalb einer Portion geprueft
+M.CHECK_EVERY = 20           -- so oft wird die Zeit innerhalb einer Portion geprueft (v10: 20 statt 100 – Messung AHS 0.65.318: Feed-Portion bis 7,2 ms bei Budget 4)
 M.BURST_GAP = 30             -- Sekunden ohne Ereignis = naechstes Ereignis ist ein neuer Scan
 M.READ_DELAY = 2             -- Sekunden nach dem ersten Ereignis bis zum Lesen
 M.CMP_MIN, M.CMP_MAX = 600, 6 * 3600   -- Abstand zweier Scans fuer den Absatz-Vergleich
