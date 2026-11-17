@@ -1,0 +1,24 @@
+BERICHT LevelPilot – ABSCHLUSS: alles ohne Spiel/Nutzer Machbare erledigt · H3b verworfen · Sitzung schläft (Wecker aus)
+Projekt: LevelPilot · Datum: 17.11.2026 04:35 (aus date) · Stand: 3.12.86 (veröffentlicht, auf origin geprüft) · nach Entscheid 16.11. 20:04
+
+1. LETZTER HEBEL H3b (Binden nur in Orten mit Flugmeister ≤ 300 yd, für Ruhestein + Flug) gegen 3.12.86:
+   Training +9,7 · Gegenprobe +3,6 · besser 2 / schlechter 3 (7 unverändert) -> VERWORFEN, nicht eingebaut.
+   Rohdaten: berichte/LevelPilot/opt-route/2026-11-17-h3b-12-charaktere.txt
+2. ERLEDIGT IN DIESER NACHT (je mit Test + Gegenprobe + Bericht, "umgesetzt, zur Prüfung")
+   - 3.12.84 Kontinent als Block · 3.12.85 O5-Fehler (Questgeber übersprungen) · 3.12.86 Ruhestein mit Reiseplan (H3).
+   - ROUTE-Q offline erfüllt: R1, R2, R3W, R4, R6, O5 = 0 in allen 12 Reisen (6 Völker × Forever/Era), Gegenprobe 3.12.69 findet
+     weiter alle Fehlerarten; R6-Messung verfeinert (Fall Kim'jael).
+   - OPT-ROUTE: Feinabstimmung, Zonen-Gewichte (überangepasst), feste Zonenfolge (+13 %), H1, H4, H3b verworfen; H2 belegt; H3
+     übernommen; Streuung gemessen (kein Zufallsrauschen), Massstab 12 Charaktere eingeführt und 3.12.83–85 neu eingeordnet;
+     Vergleichsmodus (Zeitmodell erklärt 2/3 des Abstands zu Factoruide), Laufzeit-Analyse Mensch 1–30.
+   - F-OPT-2 Navmesh: gemessen, Rechtsfrage F-NAV-1 erkannt, nichts eingebaut; Liste der Spieldatei-Daten im Addon geliefert.
+3. OFFEN – NUR MIT SPIEL ODER NUTZER
+   - F-NAV-1 (Nutzer): Navmesh / Spieldatei-Daten (Strassen.lua, StrassenEra.lua im Kern, Orte.lua, AreaNames, TalentBuilds) – bis
+     zum Entscheid bleibt alles wie es ist, nichts Neues aus Spieldateien.
+   - R5 (Vergleich mit echten Wegdaten): wartet auf f=2-Daten der Spieler (wege_check des Supervisors).
+   - Zeitmodell Kampf 35 s / 24 s: wartet auf gemessene Kills/Min aus dem Spiel (Calib).
+   - Prüfliste im Spiel: CLIENT-Texte T339 (Questgeber am Weg), T341 (Kontinent), T342 (Zonen nach Stufe), T343 (Ruhestein + Flug).
+   - Era-Gelände (Rohauszug Büro-Laptop, Supervisor) – und dessen Freigabe hängt ebenfalls an F-NAV-1.
+4. MÖGLICHE WEITERE ARBEIT (nur auf Auftrag): weitere Hebel nach dem Massstab (z. B. Flugpunkt-Aufnahme früher, Annahme-Bündel
+   je Ort), längere Suche über 12+ Charaktere (abgelehnt 03:58).
+Die Sitzung schläft jetzt; Wecker nicht neu gestellt. Wecken über auftraege/LevelPilot/offen-levelpilot.txt.
