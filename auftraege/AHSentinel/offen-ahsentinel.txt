@@ -4663,3 +4663,23 @@ Reihenfolge: nach TAINT/Sandbox-Punkten des Befunds 19:08, vor den MITTEL-Punkte
   Etikett, über 5/16/40 ms, "Abgabe nicht möglich"/gescheitert) und die Lua-5.1-Regel offline geprüft wird (Abgabe an jeder Stelle, 0
   Verletzungen – wie BuffSentinel/PS yield_check). Fehlt eines davon: bei Punkt 5 (Vollscan T458/T459) auf GoldSentinelTakt umstellen.
 - Reihenfolge weiter: E1–E4 (0.65.334), dann Punkt 4/5 (T126, Vollscan), dann 7–10. BEREIT FÜR INGAMETEST erst danach.
+
+==== PRÜFUNG Supervisor 17.11.2026 22:45 – 0.65.334 (E1–E4 API-Kosten) – BEFUND HOCH API-TAB-1 + Auflagen ====
+- addon_check OK. Bericht 2216 gelesen; Messregel je Funktion mit echten Daten, Gegenprobe 0.65.333 – gut. ABER drei Punkte:
+1. HOCH API-TAB-1 (Gold-Sicherheit, Vertrag gebrochen): E4 (b) "NetSale 2. Wert und MaterialCost-Liste sind EINE wiederverwendete Tabelle
+   – gilt bis zum nächsten Aufruf" ändert die Bedeutung der Rückgabe (Vertrag Version 1: "nie Bedeutung oder Rückgabewerte ändern").
+   Beleg, dass es schadet: ProfessionSentinel speichert die Antworten roh (PriceSource.lua PS.CallCounted, Slot(...).v = res, bis 60 s) und
+   gibt bei Wiederholung GENAU diese Tabelle zurück (Market.lua MK.ApiMaterialCost -> Prices.lua apiParts). Mit 0.65.334 steht in dieser
+   Tabelle inzwischen die Zutatenliste eines ANDEREN Items -> falsche Herstellkosten im Berufsfenster/Gold-Rangliste.
+   Lösung: Rückgabe-Tabellen nie überschreiben. Erlaubt (spart genauso Speicher): je Item/Menge EINE Tabelle im Zwischenspeicher (c), die
+   nach dem Anlegen nie mehr geändert wird; bei neuem Datenstand eine NEUE Tabelle (die alte bleibt für Halter gültig). Test: zwei Items
+   nacheinander, die Tabelle des ersten danach unverändert (Gegenprobe 0.65.334 rot). Bis dahin: 0.65.334 nicht als Grundlage für PS-Tests.
+2. MITTEL GoldPerHour: erster Aufruf je Datenstand 101 ms – ein neuer Stand entsteht bei JEDER Buchung (beim Verkaufen oft) und spätestens
+   alle 60 s -> wiederkehrend ein Bild über 40 ms beim Aufrufer. Rechnung als Hintergrund-Aufgabe in Portionen; bis sie fertig ist, den
+   letzten Wert mit seiner Stand-Zeit liefern (3. Wert), beim allerersten Mal nil.
+3. MITTEL E3 "Wert ohne Markt-Faktor in den ersten Sekunden": für Kauf-/Verkauf-Entscheidungen (Sniper, Kauf-Sicherheit, Preisschutz,
+   API-Abnehmer) darf ein vorläufiger Wert nie als endgültig gelten. Belegen, welche Wege MarketFactor benutzen; für API: Kennzeichen
+   "vorläufig" als zusätzlicher letzter Rückgabewert (Vertrag erweitert) oder nil bis fertig; Sniper/Kauf intern: warten, bis fertig.
+   Test + Gegenprobe.
+- Vertrag (Frage): eingetragen wird NUR, was die Bedeutung nicht bricht: GoldPerHour 3. Wert Stand-Zeit, neu DisenchantDeals() (Liste nur
+  lesen, Stand-Zeit). "Gilt bis zum nächsten Aufruf" wird NICHT eingetragen (siehe 1).

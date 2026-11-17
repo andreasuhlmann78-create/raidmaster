@@ -9,6 +9,10 @@ GoldSentinel-Addons) benutzen sie. Rechenregeln: shared/wissen/wirtschaft-foreve
   Bruch Version 2 mit neuem Feld, Version 1 bleibt.
 - Jede Funktion ist sicher: wirft nie einen Lua-Fehler (intern pcall), gibt `nil` zurück, wenn nichts bekannt ist.
 - Alle Beträge in Kupfer (ganze Zahlen), je Stück, wenn nicht anders gesagt.
+- Zurückgegebene Tabellen werden von AHSentinel NIE nachträglich geändert (Halter dürfen sie behalten). Speicher sparen nur über
+  unveränderliche Tabellen je Ergebnis (neuer Datenstand = neue Tabelle). Befund API-TAB-1, 17.11.2026 22:45.
+- Kosten (Leistung, shared/wissen/leistung.md): jeder Aufruf unter 1 ms und ohne neue Tabellen im wiederholten Fall; Teureres nur als
+  fertiges Ergebnis einer Hintergrund-Aufgabe mit Stand-Zeit (wie DisenchantDeals, GoldPerHour).
 
 ## Funktionen (Version 1)
 | Funktion | Rückgabe |
@@ -22,8 +26,9 @@ GoldSentinel-Addons) benutzen sie. Rechenregeln: shared/wissen/wirtschaft-foreve
 | `API.BestWay(itemID)` | `"sell"` oder `"disenchant"`, Netto-Wert dieses Wegs |
 | `API.SellSpeed(itemID)` | Zustand (`"fast"`, `"slow"`, `"rare"`, `nil`), Median-Stunden bis Verkauf, Absatz pro Tag am Markt |
 | `API.MinProfitPct()` | eingestellter Mindestgewinn in % (Standard 20) |
-| `API.GoldPerHour(kind)` | Kupfer pro Stunde und gemessene Sekunden für `"craft"`, `"disenchant"`, `"flip"`, `"ah"`, `"all"` – `nil`, solange nicht gemessen (kommt mit H9) |
+| `API.GoldPerHour(kind)` | Kupfer pro Stunde und gemessene Sekunden für `"craft"`, `"disenchant"`, `"flip"`, `"ah"`, `"all"` – `nil`, solange nicht gemessen (kommt mit H9); 3. Wert (ab 0.65.334) Stand-Zeit des Werts (time()) |
 | `API.LastScan()` | Zeitpunkt des letzten Scans (time()), Anzahl Items |
+| `API.DisenchantDeals()` | (ab 0.65.334, Ergänzung 17.11.2026) fertige Liste der Entzauber-Schnäppchen der letzten Rechnung (nur lesen) und Stand-Zeit (time()); `nil`, solange noch nie gerechnet (die Rechnung wird dann im Hintergrund angestossen) |
 
 ## Ereignis
 - AHSentinel ruft nach jedem Scan und jeder Buchungsänderung `AHSentinel.API.OnChanged`-Abonnenten auf:

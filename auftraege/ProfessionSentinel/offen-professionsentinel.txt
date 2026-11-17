@@ -450,3 +450,11 @@ Pflicht für neue Arbeit in Portionen; Summary-Zeile in den Bericht. LevelPilot 
   Quelle trifft (Test).
 - Nächste Version mit Takt; Ingametest erst, wenn im Nachbau echt kein Bild über 40 ms bleibt (oder jedes verbleibende mit Grund).
 - Befunde E1–E4 an AHSentinel weitergegeben (offen-ahsentinel.txt, HOCH).
+
+==== BEFUND HOCH 17.11.2026 22:45 – API-TAB-1 (zusammen mit AHSentinel 0.65.334) ====
+AHSentinel 0.65.334 gibt bei NetSale (2. Wert) und MaterialCost (Liste) eine wiederverwendete Tabelle zurück. PS.CallCounted speichert die
+Rückgabe roh (Slot(...).v = res) und gibt bei Wiederholung dieselbe Tabelle zurück -> MK.ApiMaterialCost/apiParts kann die Zutaten eines
+anderen Items enthalten (falsche Herstellkosten). AHSentinel muss das zurücknehmen (offen-ahsentinel.txt 22:45). Zusätzlich hier, damit es
+nie wieder passieren kann: Tabellen aus fremden Antworten beim Behalten flach kopieren (oder nur Zahlen behalten); Test mit einer
+Attrappe, die ihre Rückgabe-Tabelle nach dem Aufruf ändert (Gegenprobe heute rot). Ausserdem: DisenchantDeals() (neu in 0.65.334) statt
+FindDeals benutzen, sobald verfügbar.
