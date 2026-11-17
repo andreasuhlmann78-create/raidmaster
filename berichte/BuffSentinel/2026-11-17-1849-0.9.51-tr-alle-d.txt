@@ -1,0 +1,53 @@
+BuffSentinel – Bericht an die Prüf-Sitzung · 0.9.51-tr-alle-d
+Datum: 17.11.2026, 18:49 (aus date)
+
+Stand: TR-ALLE Nachtrag D und GoldSentinelMarkt Version 10 – umgesetzt, zur Prüfung (0.9.51)
+
+VERÖFFENTLICHT
+- download/BuffSentinel-0.9.51.zip, README, announce 0.9.51 (+ Zip), 0.9.50 entfernt; auf origin/main nachgeprüft.
+- addon_check: OK, 1 Warnung (nur "Lua-Syntax nicht geprüft", lupa fehlt hier).
+- cmp: GoldSentinelGame, Sync, Test, Markt (NEU Version 10), Pruefliste, Dev byte-gleich mit shared/.
+- Supervisor-Prüfung 08:25 gelesen: Vorschlag zu den weiteren Handpunkten angenommen (nachrücken nach Abnahme), T14/T55/T74 einverstanden.
+
+NACHTRAG D – welche Schritte brauchen bei BuffSentinel ein Fenster?
+- Durchgesehen: alle R:Skip/R:Client der Testroutine. Kein bisheriger Schritt wartete auf ein Fenster (Händler, Post, Bank,
+  Berufe); alle Händler-Prüfungen (Nachkaufen T241–T246) laufen mit nachgebauten Händlerdaten. Was bisher im echten Spiel
+  NICHT geprüft wurde: ob BuffSentinel die echten Händlerdaten richtig liest (Quelle C_MerchantFrame bzw. GetMerchantItemInfo).
+  Dafür NEU T247 – genau der Fall aus D1/D2.
+Umsetzung
+- T247 "Händlerdaten im echten Spiel" (Bereich B, Selftest.MerchantCheck): liest jede Ware über BS.MerchantItem (dieselbe Funktion
+  wie das Nachkaufen), prüft Typen (Name Text, Preis Zahl ≥ 0, Paket ≥ 1, Bestand Zahl, kaufbar/Sonderwährung ja/nein),
+  zählt gelesene Item-IDs, ruft RestockPlan ohne Fehler auf. Nur lesen, kauft nie, ändert nichts.
+  Ergebnis z. B. "2 Waren, Quelle C_MerchantFrame, Item-IDs gelesen 2 von 2, falsche Werte bei: -, Plan ohne Fehler: ja".
+- D1: Händler beim Erreichen des Schritts offen -> sofort prüfen. Sonst R:Skip mit Grund "wartet auf Händler – passiert von selbst
+  beim nächsten Händler-Besuch (Entwicklermodus, 7 Tage)"; der Lauf geht weiter und endet normal; KEIN FEHLER.
+- Vormerkung erst NACH dem Verlassen der Sandbox in die echten Daten (BuffSentinelDB.trPending.merchant = {at, run}), damit die
+  Sandbox-Gegenprobe unverändert bleibt. Abgebrochener Lauf merkt nichts vor; bestandener T247 streicht eine alte Vormerkung.
+- D2: BS:MERCHANT_SHOW -> Selftest.OnWindow("merchant"): nur im Entwicklermodus (GoldSentinelDev:IsDev, still), nie während eines
+  Laufs, nie im Kampf (dann beim nächsten Besuch), nach 0,5 s (Händlerdaten geladen; Händler inzwischen zu -> nächster Besuch).
+  Eigener kleiner Bericht (GSTEST) mit T247 und Feld nachgeholt = "nachgeholt zum Lauf von Version … vom …"; Chatzeile
+  "Testroutine: Händler-Prüfung nachgeholt – bestanden" bzw. "– FEHLER (siehe Testbericht)". Rechenaufwand: eine Schleife über die
+  Händlerwaren (keine Portion nötig; Verdacht, im Client zu messen: deutlich unter 1 ms).
+- D3: Zusammenfassung (Chat) und Bericht (Feld nochOffen): "Noch offen: Händler – passiert von selbst beim nächsten Besuch".
+- D5 Verfall: älter als 7 Tage (oder ungültige/zukünftige Zeit) -> beim nächsten Händler gelöscht, keine Prüfung. Keine Sperre:
+  die Vormerkung blockiert nichts.
+- T248 "Vorgemerkte Fenster-Prüfungen: Regeln" (automatisch): Selftest.PendingDecision für 9 Fälle – keine Vormerkung, 1 Tag,
+  knapp unter 7 Tagen, knapp über 7 Tagen, Kampf, kein Entwickler, Lauf aktiv, Zeit in der Zukunft, ungültige Zeit.
+  Erwartet und erhalten: "none run run expired combat nodev none expired expired".
+- Prüfliste: kein eigener Punkt (Höchstzahl 14 erreicht); die Zusammenfassung sagt, was offen ist.
+- D4 (Eingreifen während des Laufs) trifft auf BuffSentinel nicht zu: kein Schritt braucht es.
+
+Belege (eigene Tests, keine Freigabe; Nachbau mit Händler-Nachbau)
+- Lauf ohne Händler: T247 SKIP "wartet auf Händler …", 0 FEHLER dafür; trPending.merchant in den ECHTEN Daten (run 0.9.50 im
+  Nachbau-Stand), Bericht nochOffen gesetzt, Chat-Zusammenfassung mit "Noch offen: Händler …"; Sandbox-Zeile wie vorher.
+- Händler im Kampf geöffnet: 0 neue Berichte, Vormerkung bleibt.
+- Händler normal geöffnet: 1 neuer Bericht, T247 OK "2 Waren, Quelle C_MerchantFrame, Item-IDs gelesen 2 von 2 …", nachgeholt-Feld
+  gesetzt, Chatzeile "… nachgeholt – bestanden", Vormerkung gelöscht (trPending nil).
+- Vormerkung 8 Tage alt: 0 Berichte, gelöscht.
+- Falsche Händlerdaten (Preis als Text): Chat "… nachgeholt – FEHLER (siehe Testbericht)".
+- Händler während des Laufs offen: T247 sofort im Lauf geprüft, keine Vormerkung, kein nochOffen.
+- Lua-5.1-Regel (yield nie über pcall) mit Abgabe an jeder Stelle: 48 811 Abgaben, 0 Verletzungen. run25m: OK 195, die bekannten
+  12 Nachbau-FEHLER. Offline-Routine auf der veröffentlichten Zip: 8 × PASS.
+
+IM SPIEL (Nutzer, Entwicklermodus): /bsen testroutine alles ohne offenen Händler -> Zusammenfassung mit "Noch offen: Händler";
+später einen Händler ansprechen -> nach einer halben Sekunde "Testroutine: Händler-Prüfung nachgeholt – bestanden".
