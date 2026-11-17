@@ -1,0 +1,70 @@
+AHSentinel 0.65.329 – BEREIT FÜR INGAMETEST (Entscheid des Nutzers 17.11. 14:02: "Alles beheben – vorher mache ich keinen neuen Test")
+
+Alle Punkte aus dem Ingametest 17.11. sind umgesetzt, zur Prüfung. Je Punkt: Version · was umgesetzt · Beleg (Nachbau/Gegenprobe) · was
+erst der Ingametest belegen kann. Jede Version einzeln veröffentlicht (GitHub + Discord, CurseForge erst nach dem Test) und berichtet.
+
+==== A – Ruckeln im Spiel (Vollscan, T126, Heute, Sniper-Eigenanteil) ====
+0.65.317 TR-RUN-1 · 0.65.318 RUCKEL-1 + VS-BILD · 0.65.319 RUCKEL-2 · 0.65.320 A abgeschlossen (VS-BILD-2, SN-EIGEN).
+Beleg: Nachbau in echter Grösse (223107 Auktionen, 7197 Items, Daten 13:19 nur lokal): Schritte > 8 ms eigene Arbeit nach dem Scan
+253 -> 5 -> 0, vor dem Scan 51 -> 8 -> 1; 20 Werte vorher/nachher gleich (Bericht 0.65.319). Prüfung 0.65.320: "A gilt im Nachbau als
+umgesetzt". Im Spiel zu belegen: T458/T459 (vollscan_bild: eigene Arbeit / Skripte / Rest / Item-Antworten je Bild), T126, T373/T647,
+T617/T734 (SN-EIGEN: LANGSAM-Zeilen je Empfänger).
+
+==== B – Tests von echten Daten trennen ====
+0.65.319: T550/T575 (Ersatz-Journal), T432 (Gold für die Grenze), T49 (Kandidat, den der Preisschutz annimmt), T815 (leeres Scan-
+Protokoll), T72 war ein echter Fehler (Knopf für desell/lossguard, T893). Nachbau s278 mit Gegenprobe. Prüfung 0.65.319 OK.
+
+==== Wächter (61 ms) ====
+0.65.318/0.65.320: Ursache Ln:BuyStats (Journal je Item neu gelesen), jetzt zwischengespeichert; Nachbau 71,5 -> 11,0 ms.
+Im Spiel: WAECHTER-LAST.
+
+==== VOLLSCAN-Schritt (Scan nicht erkannt) ====
+0.65.319: Ring mit 5 Scans -> "neuer Scan" am letzten Eintrag erkannt. Nachbau s277, Gegenprobe = Meldung aus dem Spiel. Prüfung OK.
+
+==== TR-ALLE Nachtrag D (nie auf den Nutzer warten, automatisch nachholen) ====
+0.65.321: vormerken statt warten, Nachholen im Entwicklermodus beim nächsten Öffnen (max. 7 Tage), "noch offen" ist kein FEHLER; Vollscan
+beim nächsten eigenen Scan gemessen. Nachbau s272/s272b/s272d/s272e. Prüfung 0.65.321 OK.
+
+==== Kauf doppelt ====
+0.65.322: ein Kauf = eine Zeile (Sniper übernimmt die Rechnungszeile, Rechnung zweimal erkannt, nächster Kauf), einmalige Bereinigung
+mit Kennzeichen (echte Daten: Buchhaltung 12 Zeilen / Journal 8, 8861 Kupfer). Nachbau s281. Prüfung 17:35 angenommen (MITTEL).
+Dazu Hüllen-Sicherheit (s280), Prüfung 17:35 beantwortet. Im Spiel: Entzauber-Knopf im/ausser Kampf (Handprüfliste).
+
+==== Lange Einzelprüfungen (40-ms-Grenze, Ziel 16 ms) ====
+0.65.323: ChkSplit/ChkReport (Teil-Schritte, Ersatz-Werte nur je Schritt); über 40 ms nur S28 und die absichtlichen T812/T895.
+Fund Spieler: Optionen erstes Öffnen 96 ms/31 MB -> 3,8 ms/1 MB (Names gsub-Kopie). 0.65.324: S28 in Portionen (90 -> 14 ms).
+0.65.327: jeder Schritt über 16 ms mit Namen im Bericht (Abschnitt + Feld schritte_16). Prüfung 17:35 bestätigt.
+
+==== C – ein "Lohnt bis" je Item ====
+0.65.324: eine Vergleichsregel MK:LimitCompare (Entzauber-Anzeigen = Entzauber-Grenze, API = bester Weg); Nachbau echte Daten: Item 1981
+vorher "zwei Werte", jetzt gleich; s283 mit Gegenprobe. Entscheid 17:35: Grenze bleibt je Weg. "Jede Anzeige sagt, für welchen Weg sie
+gilt": Entzauber-Grenzen stehen nur in Entzauber-Zusammenhängen (Tooltip-Abschnitt Entzaubern, Markt > Entzaubern, Sammelkauf, Sniper-
+Entzauberziel, Einkauf-Markierung Entzaubern); die API nennt den Weg als 2. Wert. Im Spiel: S28 + Abschnitt MARKT-KERN "Lohnt bis".
+
+==== E – Sniper-Zeile, reihum, T167, Selbstkontrolle ====
+0.65.325: T729 Ursache belegt (Lücke = Zeit bis zur ersten Suche; Lücken ab der ersten Suche, Zeit bis zur ersten Suche getrennt;
+"spieler" ist Pause), T898; T359 prüft die kurze Form, Pausen-Zeile kurz; T167 wartet auf verschobenen Aufbau (Verdacht). s284.
+0.65.327: TSK1 Status seit der aktuellen Version, beide Zahlen (Entscheid 17:35), s286. Prüfung 0.65.325 OK.
+Im Spiel: warum die erste Sniper-Suche ~10 s brauchte (T729 "erste Suche nach x s"), T167-Text (übersprungen/verschoben), T359 echte
+Schriftbreite.
+
+==== D – UI-CLEAN1 (~590 Befunde) ====
+0.65.326/327/328/329. T750 läuft im Nachbau mit echten Daten (UI_REAL=1: Lage aus Ankern, gekürzte Texte mit Schriftgrösse; UI_BORN=1:
+Stelle im Code): 0.65.325 551 Befunde (Spiel 588) -> 0.65.326 301 (ragt heraus 0, überlappt 0) -> 0.65.327 226 -> 0.65.328 33 ->
+0.65.329 0 Befunde · 4 "gekürzt (Tooltip)" (Sniper-Zielname, kein FEHLER nach Entscheid 18:10: Textzelle, keine Zahl verloren, Tooltip =
+ganzer Text – die Prüfung vergleicht das). Zahlen nie gekürzt: Markt "Was tun" Zahlen in eigener Zeile, Schnäppchen-Alter eigene Zeile
+(HP-2 (5) bleibt sichtbar), Sniper-Weg-Hinweis im Tooltip. Neu geprüft (vorher UNGEPRÜFT): Markt-Details, Buchhaltungs-Details,
+Warnschutz-Fenster (mit Beispieltext, Alarm nur beim Öffnen ersetzt, nichts eingestellt); Berufsfenster und Post-Knöpfe werden geprüft,
+WENN sie beim Lauf offen sind – sonst einmal UNGEPRÜFT, und T750 bleibt dann ehrlich FEHLER ("geprüft m von m").
+"Jede Anzeige sagt, für welchen Weg sie gilt" (C, 17:35): siehe C oben – keine Anzeige ohne Weg gefunden.
+Im Spiel: T750 mit den echten Schriftbreiten; für "geprüft m von m" den Teil ui einmal am Briefkasten und einmal mit offenem Berufsfenster.
+
+==== T306 ====
+0.65.319: geteilt (T306 Ringpuffer/Archiv/Speicher, T306b Gesamtzahl der Auswertung mit 300). Prüfung OK.
+
+==== Für die Anleitung an den Nutzer (Vorschlag) ====
+- /ahs testroutine alles (läuft ohne Warten; Fenster-Schritte holen sich beim nächsten Öffnen selbst nach) und /ahs testroutine sniper
+  mit 3–5 Zielen; ein Vollscan im Entwicklermodus (wird gemessen); danach /reload und Upload.
+- Handprüfliste: Entzauber-Knopf im und ausser Kampf; Optionen öffnen (kein Ruckler); Markt "Was tun" (zwei Zeilen, Tooltip).
+
+Tests: Gesamtlauf 0.65.328 361/0; addon_check OK (Release und Discord).

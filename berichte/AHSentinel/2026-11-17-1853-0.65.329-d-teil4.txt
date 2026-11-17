@@ -1,0 +1,32 @@
+AHSentinel 0.65.329 – D Teil 4 (Entscheid 18:10 gekürzte Tabellenzellen) – umgesetzt, zur Prüfung
+
+==== Entscheid 18:10 in T750 ====
+UIA.CutCellOK: gekürzte Zelle = Art "gekürzt (Tooltip)" (kein FEHLER) nur wenn (1) keine Zahlen-Spalte (rechtsbündig, fs.uiaAlign) und
+kein reiner Zahlentext, und im unsichtbaren Teil JEDER Zeile keine Ziffer (Schätzung Zeichen × Platz/Breite × 0,95, eher zu wenig sichtbar);
+(3) Tabelle.AddCutCells gibt genau den Text der Zelle aus (verglichen). (2) "Wichtigstes zuerst" ist Gestaltung der Zellen (unten).
+Sonst bleibt es "abgeschnitten" mit Grund ("Zahl im gekürzten Teil", "Zahlen-Spalte gekürzt", "Tooltip zeigt nicht den ganzen Text").
+T750 zählt "gekürzt (Tooltip)" getrennt ("n Befunde · dazu m gekürzt mit Tooltip (kein FEHLER)").
+
+==== Zahlen nie gekürzt (Gestaltung) ====
+- Markt "Was tun": MV.CellText – Kaufen/Einstellen, Händler-Flip, Nicht einstellen: Zeile 1 Aktion + Item, Zeile 2 nur Zahlen (neue
+  Schlüssel in 10 Sprachen); andere Zeilen wie bisher (passen zweizeilig).
+- Schnäppchen unter Händlerpreis: Alter "(vor x Min.)" in eigener zweiter Zeile (HP-2 (5) bleibt sichtbar; Zeilen 24 px).
+- Sniper-Ziele: Weg-Hinweis ("lernt noch (10 von 20)") im Tooltip, die Zeile zeigt den Namen grau.
+- Feldhinweise: fitPlaceholder gleich beim Anlegen und bei Grössenwechsel; Sniper "Preis eingeben (z. B. 22c)" nach dem Setzen neu
+  eingepasst (vorher im Nachbau 12 pt statt 11).
+==== Mehr geprüft (vorher UNGEPRÜFT) ====
+Markt-Details (ein Item gewählt, danach die vorige Wahl zurück), Buchhaltung – Details, Warnschutz-Fenster (Beispieltext; Alarm nur beim
+Öffnen ersetzt, kein Klick, nichts eingestellt; echtes offenes Fenster wird nicht verdeckt). Berufsfenster und Post-Knöpfe: geprüft, wenn
+beim Lauf offen; sonst einmal UNGEPRÜFT -> T750 bleibt ehrlich FEHLER bis beide einmal offen geprüft wurden.
+
+==== Ergebnis UI-Nachbau (echte Daten, AH offen, 4 Varianten) ====
+0 Befunde · 4 gekürzt mit Tooltip (Sniper-Zielname "Schultern des Hügelwächters", 144/168 px) · geprüft 164 von 166 (offen: Berufsfenster,
+Briefkasten). Verlauf: 551 -> 301 -> 226 -> 33 -> 0.
+
+==== Hinweis 18:45 (Platzhalter je Sprache) – BESTÄTIGT ====
+T111 "Formatplatzhalter" vergleicht für JEDEN Schlüssel und jede Sprache die Folge der Platzhalter (%s/%d/%f/%i, ohne %%) mit dem
+deutschen Schlüssel – deckt die neuen Sätze ab (grün im Gesamtlauf). Zusätzlich nachgerechnet: alle neuen Schlüssel aus 0.65.325/328/329
+(10 Schlüssel × 10 Sprachen = 100 Texte): 0 Abweichungen.
+
+==== Tests ====
+s288_ui_clean_teil4 (9) grün; Gegenprobe 0.65.328 rot (UIA.CutCellOK fehlt). Gesamtlauf 361/0. addon_check OK (Release und Discord).
