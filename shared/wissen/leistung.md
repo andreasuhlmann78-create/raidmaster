@@ -52,3 +52,39 @@ M4 (Verdacht, PS): Aufrufe in andere Addons (AHSentinel, TSM) sind im Spiel teue
   als Fall in Abschnitt 2 ein; das Projekt liefert Ursache (belegt) und Messwert danach.
 - Geplant (Prüf-Sitzung): Auswertung aller GSTEST-Berichte je Addon/Version (längstes Bild, Schritte über 16/40 ms) als Tabelle
   in testberichte/ – damit sieht man Verlauf und Rückschritte.
+
+## 6. Bewährte Bausteine – von den Projekten, die es im Spiel schon gut machen (Nutzer 17.11. 20:40: "allen zur Verfügung stellen")
+Belegt = im Spiel gemessen. Die Fundstellen sind in den veröffentlichten Zips; jedes Projekt darf das Muster übernehmen (eigener Code,
+gleiche Idee) – gemeinsame Dateien bleiben unverändert aus shared/.
+
+B1 ThreatSentinel 2.5.18 – Testroutine in einer Coroutine mit Zeitbudget (BESTER Spielwert: ganze Routine 3,5 s, 28 Pausen, jede ≤ 5 ms,
+   langsamste Portion 3,6 ms; Ingametest 17.11. 17:00). TestRoutine.lua ~Z. 280–300 und 3785–3840:
+   - Jeder Bereich läuft in coroutine.create; MaybeYield() gibt VOR jeder Prüfung ab, sobald R.FRAME_MS = 2 ms im Bild verbraucht sind
+     (Budget ab Beginn des Bildes, nicht ab Beginn der Prüfung). Ziel R.FRAME_LIMIT = 5 ms wird gemessen und berichtet.
+   - R.noYield > 0 innerhalb von Ersatz-Umgebungen (WithAPI/Scene.Run): dort nie abgeben (Lua 5.1: kein yield über pcall, und ersetzte
+     Einträge dürfen nicht in ein fremdes Bild "auslaufen").
+   - Jede Prüfung wird einzeln gemessen (Timed); allein über 5 ms -> mit Namen in die Zusammenfassung.
+B2 BuffSentinel 0.9.52 – Treiber mit Portions-Messung und Lua-5.1-Regel. SelfTest.lua ~Z. 120–160 und 410–440:
+   - BUDGET_MS = 1,5 ms, danach abgeben – der Rest bis 5 ms bleibt Puffer für den nächsten Schritt.
+   - Sliced(fn, enter, leave): Unter-Abschnitt in eigener Coroutine; enter/leave stellen den Ersatz-Zustand VOR jedem Abschnitt her und
+     danach zurück – so kann auch in Ersatz-Umgebungen abgegeben werden, ohne dass Ersatz-Werte in andere Bilder auslaufen.
+   - Drive(): misst jede Portion (frames, maxMs, maxAt = laufende Prüfung, Zählung über 5 ms mit Namen).
+   - Offline-Prüfung "yield nie über pcall": mit Abgabe an JEDER Stelle (48 812 Abgaben, 0 Verletzungen) – findet Fehler wie PS
+     "attempt to yield across metamethod/C-call boundary" vor dem Spiel.
+B3 GoldSentinelMarkt v9/v10 (shared/, Prüf-Sitzung) – schwere Arbeit als Job mit Phasen. Muster:
+   - Aufgabe = Tabelle mit Phase und Fortsetzungs-Zeiger (keys -> filter -> sort -> send; cmp1/cmp2/apply/gone/finish), je Bild ein Stück.
+   - Schlüssel sammeln fortsetzbar über next(t, k) (KeysStep) – auch das Einsammeln einer grossen Tabelle wird portioniert.
+   - Uhr nur alle N Einträge lesen (CHECK_EVERY 20; v9 hatte 100 -> Überschreitung, v10 behoben – Zahl messen, nicht raten).
+   - Höchstens EINE schwere Aufgabe je Bild (Tick); OnUpdate nur wach, solange Arbeit da ist.
+   - Tests: Zeit über echte Uhr = Median aus 3 Läufen (Rauschen), Grenze Budget + 2 ms; Ergebnis byte-gleich zur Fassung am Stück.
+B4 AHSentinel – Vollscan lesen in Portionen (Spiel 17.11. 19:08: 889 Portionen, längste eigene Lese-Portion 3,4 ms bei 305 930
+   Auktionen). Das Lesen ist gut; Verdichtung/V4/Preisverlauf danach noch nicht (bis 106 ms, Fall in Abschnitt 2) – Gegenbeispiel:
+   ein Teil gut portioniert reicht nicht, JEDER Schritt eines Ablaufs braucht es.
+B5 RaidMaster 3.0.31 – von 41,6 ms auf 21,6 ms längste Portion (Spiel 19:38); jede Portion mit Prüfungsnamen im Bericht.
+Gegen-Beispiele (was schiefging – damit es keiner wiederholt):
+G1 GuildSentinel 0.9.51: ein Test setzte einen Merker (ns.testSecret) und leerte ihn nie -> MaybeYield gab nie mehr ab -> 750–844 ms.
+   Lehre: Abgabe-Sperren immer mit Gegenstück (Ende der Prüfung) und mit Zähler im Bericht ("nicht angehalten seit …").
+G2 ProfessionSentinel 0.9.64: collectgarbage("collect") 31× im Lauf -> Einfrieren. Lehre: Regel 2 (Abschnitt 4).
+G3 Mehrere: Nachbau ohne echte Datenmenge und ohne echte andere Addons -> Faktor 20–30 zu optimistisch. Lehre: Regel 7.
+Vorschlag (Prüf-Sitzung, zur Entscheidung): ein gemeinsamer Baustein shared/GoldSentinelTakt.lua (Job mit Phasen, Budget, Messung je
+Portion, noYield/Sliced, Zeitlimit) aus B1–B3 – dann baut jedes Addon auf demselben geprüften Takt statt jedes seinen eigenen.
