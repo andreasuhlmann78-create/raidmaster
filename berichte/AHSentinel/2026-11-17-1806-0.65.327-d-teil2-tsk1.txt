@@ -1,0 +1,26 @@
+AHSentinel 0.65.327 – D Teil 2, TSK1 je Version, Schritte über 16 ms (Prüfung 17:35) – umgesetzt, zur Prüfung
+
+==== TSK1-V (Entscheid 17:35: Status seit der aktuellen Version, beide Zahlen) ====
+SelfCheck: je Kontrolle zusätzlich v/vn/vok/vbad (Zähler der aktuellen Version, neu beim Versionswechsel); SC:Split/SplitText.
+TSK1x: Status aus den Fällen seit der aktuellen Version (keine -> SKIP "seit 0.65.327 noch keine Fälle"), Zeile "seit 0.65.327: n Fälle ·
+s stimmig · a Abweichungen · älter: N Fälle · M Abweichungen · zuletzt …". Abschnitt SELBSTKONTROLLE und RedCount ebenso; alte Speicher-
+form (ohne Version) zählt ganz als "älter". Nichts wird gelöscht.
+
+==== Jeder Schritt über 16 ms mit Namen (Bestätigung 17:35) ====
+TR:NoteSlowStep führt zusätzlich die vollständige Liste > 16 ms. Textbericht: Abschnitt "SCHRITTE ÜBER 16 MS" (ganze Liste); Berichtsfeld
+schritte_16 ≤ 280 Zeichen, was nicht passt als "+ n weitere" (nie still abgeschnitten); Chat-Zeile am Ende.
+
+==== D Teil 2 ====
+Markt-Erklärung zweizeilig (vorher eine Zeile, bis 958 px auf 522 px), Preisleiter im Detail auf zwei Zeilen (höchstens 8 Detailzeilen),
+Buchhaltung > Entzaubern Spalte "eigene" 70 -> 124 px ("1155 (83g 23s 85c)"), Stufen-/Itemlevel-Felder Einkauf und Sniper breiter (Reihe
+bleibt in 446 px, "X" in der Reihe), gekürzte Tabellenzellen: beim Darüberfahren steht der ganze Text im Tooltip (alle Tabellen, UI:Table).
+UI-Nachbau mit echten Daten: 301 -> 226 Befunde (ragt heraus 0, überlappt 0). Rest: Tabellenzellen (Markt "Was tun" 77, Preisverlauf-Liste
+12, Übersicht 11, Schnäppchen 4 …) und 2 Feldhinweise mit 1–3 px (im Spiel verkleinert fitPlaceholder die Schrift; der Nachbau bildet das
+jetzt nach).
+Weiter (0.65.328): Spalte "Was tun" zweizeilig (Zeilen 24 px) – im Nachbau nimmt das die Sätze bis ~480 px ganz auf.
+FRAGE aus dem Bericht 0.65.326 (Tabellenzelle gekürzt, ganzer Text im Tooltip – FEHLER oder nicht?) bleibt offen; bis zur Antwort zähle ich
+sie wie bisher als "abgeschnitten".
+
+==== Tests ====
+Neu s286_tsk1v_schritte16 (12 Prüfungen) grün; Gegenprobe 0.65.326 rot (SC:Split fehlt). Nachbau: Schriftgrösse (SetFont) und Zeilenhöhe
+kleiner Schriften (12 px) für den UI-Nachbau. Gesamtlauf 359/0. addon_check OK (Release und Discord).
