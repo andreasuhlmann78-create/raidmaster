@@ -1,0 +1,31 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+
+Geplante Aufgabe «ProfessionSentinel Rezeptdaten-Update», Lauf 17.11.2026 07:23 (MEZ)
+Ergebnis: KEINE neue Version, kein Branch, nichts committet im ProfessionSentinel-Repo (git checkout -- .).
+Kein Release, nichts in announce/ oder download/ (Vorrang-Regel raidmaster/CLAUDE.md, Entscheid 14.11. 08:55).
+
+1. Datenstand dieses Laufs
+- Clients: Forever 1.60.1.70938, Era 1.15.9.70576, Retail 12.1.5.70783 (unverändert)
+- QuestieDB: e1652ce vom 16.11.2026 (neu gegenüber dem Stand im Addon: 90ab55b vom 12.11.)
+- report.md: "No changes since the last run.", CHANGES=0
+- Rezepte: Forever 2315, Era 1267, Retail 10172 (unverändert)
+
+2. Inhaltliche Änderung der Datendateien – dieselbe Regression wie im Entwurf vom 16.11. 07:25, deshalb verworfen
+git diff --stat: 3 Dateien, 7+/8-. Ausser den Kopfzeilen (generated/questie) nur in Data_Forever.lua:
+- Lehrer 276067 "Angus Hammerhand" (Schmied, Tirisfal, Horde, 21.2/45.8) fällt aus ns.Trainers[164] und ns.NPCs.
+Ursache unverändert wie belegt in berichte/Rezeptdaten/2026-11-16-0725-entwurf-rezeptdaten.txt, Abschnitt 3
+(pipeline/qloader.py löst zoneIDs.* zu 0 auf; der QuestieDB-Fix foreverNPCFixes.lua [276067] setzt den Spawn damit auf
+Zone 0). Heute nicht erneut gemessen: Zeilennummer des Fixes in der neuen QuestieDB nicht nachgeprüft.
+Sonst keine neuen Rezepte, Händler, Drops, Lehrer oder Stufen.
+
+3. Prüfungen (auf den unveränderten Daten von main, 2e36705 / Version 0.9.62)
+3a) Lua 5.1 (lupa.luajit21, loadstring, ns.Flavor gesetzt): Forever 2315, Era 1267, Retail 10172 Rezepte, kein Einbruch;
+    0 Zeilen gelb > grün oder grün > grau; Lederverarbeitung-Lehrer Forever 29, Era 30; ns.Crates Forever 30. OK
+3b) python3 -I tests/run_smoketest.py: Exit 0. OK
+3c) python3 -I tests/run_offline.py ProfessionSentinel: Exit 0, FEHLER 0
+    (forever OK 240, era OK 222, retail OK 220; tbc ohne Testlauf-Zeile, "Berichte gespeichert: 0"). OK
+
+4. Entscheid für den Supervisor (offen seit 16.11.)
+- Zonen-ID-Korrektur in pipeline/qloader.py übernehmen (Patch und Messung im Entwurf vom 16.11.)? Bis dahin verwirft
+  diese Aufgabe Läufe, die nur den Lehrer 276067 verlieren würden.
+- Kein Discord-Beitrag, kein Datenstand-Absatz (keine neue Version).
