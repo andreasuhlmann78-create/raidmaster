@@ -1,0 +1,47 @@
+AHSentinel 0.65.333 – Punkt 3 Teil 2 (LANG-3) – umgesetzt, zur Prüfung
+
+leistung.md und hinweis-leistung-2026-11-17 gelesen. Je Fall unten: Spielwert (Lauf 19:08 auf 0.65.328) und Nachbau-Wert mit den ECHTEN
+Daten des Uploads 19:38 (7232 Markt-Items, ~28 000 Buchungen, echte Namen/Lernen; nur lokal, Lua 5.1). Eichung: dieselben Schritte stehen
+im Spiel und im Nachbau oben; das Spiel ist bei ihnen 1,5–10× langsamer (z. B. T556 5879 ms Spiel / 457 ms Nachbau, T347 2234 / 1546,
+T72 405 / 465, T15 259 / 291, T26a 345 / 274). Ein Nachbau-Wert danach ist darum "Verdacht, im Spiel zu bestätigen", keine Freigabe.
+
+==== Fälle (Spiel 19:08 · Nachbau vorher · Ursache · Behebung · Nachbau danach) ====
+Selbsttest-Schritte (Teil server):
+- T72 Heute tun · Spiel 405 ms · Nachbau 465 -> 186 ms (0.65.332) · Ursache belegt: zweimal "Heute" frisch am Stück gerechnet (Liste und
+  nach QuickBuy) · jetzt als Zwischenspeicher-Aufgabe cache:today:10 in Portionen, der Schritt wartet und prüft den fertigen Stand
+  (QuickBuy-Zeilen stehen ausserhalb des Zwischenspeichers) · Nachbau danach: Schritt selbst < 1 ms, Aufgabe in Portionen.
+- T15 Suche nach Namen (259 / 291 -> 141), T14 Verkaufbarkeit (117 / 53), S31 Flips (21 / 52–71), S25/S26 Unter Händler-/Entzauberwert:
+  Auswertungen über ALLE Items am Stück · jetzt Hintergrund-Aufgabe in Portionen (jobCalc); die Namenssuche gibt nur in der Coroutine
+  ab, die es erlaubt (Names.pauseCo – nie über ein pcall eines anderen Aufrufers, Lua 5.1).
+- T112 Sprachwechsel · Spiel 231 ms · Nachbau Portionen bis 267 ms · Ursache: je Bild eine ganze Sprache mit allen Reitern · jetzt je
+  Bild Sprache setzen / ein Reiter / Prüfungen, so viele wie in 8 ms passen, Abfrage jedes Bild (sonst > 400 Abfragen à 0,25 s; im Nachbau
+  hatte das die Laufzeit von s274 von 144 auf 278 s verdoppelt – behoben, jetzt 152 s).
+- T25a Übersicht (Spiel 37 ms · Nachbau 106–140) und T26a/T26i Preisverlauf (345 / 125–357): Auf-/Absteiger mit A:IsReliable je Item bzw.
+  Item-Liste filtern und 7000 Zeilen sortieren am Stück · jetzt im PRODUKT als Hintergrund-Aufgabe (ui:overview-movers, ui:chartlist),
+  gleiche Regeln; die Fenster-Prüfung (UIA, T750) wartet, bis diese Aufgaben fertig sind. Wirkt beim Spieler selbst (Fenster öffnen).
+Teil auto:
+- T335 Teile 22–29 (Markt-Ansichten, 0.65.332 bis 280 ms je Teil) · jetzt je Ansicht als Hintergrund-Aufgabe, der Teil wartet.
+- T268/T601/T250/T255/T572 (Nachbau 60–247 ms) · Ursache belegt (Profil): Rechnungs-/Ziel-Namen "AHS-Testitem"/"sn1951-testziel" suchten
+  alle Namen aller Sprachen durch (Names:Search) · Ledger: Name "AHS-Test…" sofort nil (wie TR:HasTestMarker), T601 ohne Suche.
+- T55 (58–83 ms) · tiefe Kopie der echten Buchhaltung (~28 000 Einträge) · bucht jetzt in eigene leere Listen · danach noch 49 ms
+  (Rest: Test-Briefkasten einlesen, offen).
+- T107/T108 (93/143 ms) · Kopie aller grossen echten Listen für Migrations-Tests · diese Listen leer (Bücher, Entzauber-Protokoll …).
+- T556/T579 (0.65.332 53/51 ms) · Learn:Margin prüfte für den Schlüssel bei jedem Aufruf alle Fälle (BuyEntries) · Schlüssel jetzt aus
+  Liste, Länge und Änderungszähler Fc.listGen (jedes Anfügen/Ändern in Forecast.lua) · Nachbau danach unter 16 ms.
+- FRAME-0 T722 · Spiel "0 ms (bei -)" in ALLEN Teilen · Ursache im Code belegt: ein zweites frame:SetScript("OnUpdate") ersetzte die
+  Messung des längsten Bildes · jetzt ein Empfänger (TR:FrameTick). Nachbau s296: 0.65.333 gemessen; Gegenprobe 0.65.332 "0 ms (bei -)".
+  (Regel 8 leistung.md: längstes BILD wird damit wieder getrennt von der Schritt-Dauer ausgewiesen.)
+
+==== Stand ====
+Teil auto mit echten Daten: 0.65.331 96 · 0.65.332 63 · 0.65.333 39 Schritte über 16 ms; über 40 ms 14 (+ T812/T895 je 40 absichtlich).
+Über 40 ms im Nachbau noch 14 (Teil auto): T279 242 (Activity:Report "alles" über die ganze Buchhaltung), T307 138 (Prognose-Bericht),
+T30.34 83 / T31.04 66 (CSV-Export aller Items), T30.01 81 / T30.13 52 (Option ändern -> ganzes Fenster neu), T312 60 (Vollscan-Bericht),
+T325 58 (Lern-Bericht), T310 53, T888 50, T55 49, T24 48 (Designs), T26i 47, T31.15 41 (T812/T895 je 40 = absichtlich gemessene Last).
+T373 (im Spiel 19:08 rot, 18,4 ms): im Nachbau mit echten Daten einmal rot ("cache:today:10 16.6 ms, längster Schritt 14 ms bis
+Extras.lua:339"), im letzten Lauf nicht –
+Verdacht, zu messen: erste Marge-Rechnung (Learn:Margin kalt 7,2 ms im Nachbau) in einem Schritt; kommt mit Punkt 7.
+Hinweis GoldSentinelTakt (21:00) gelesen: die neuen Portionen hier nutzen die bestehenden AHSentinel-Aufgaben (A:Job/A:Pause, im Spiel
+bewährt beim Vollscan-Lesen, B4); Umstieg auf den gemeinsamen Takt bei der nächsten grösseren Arbeit an Portionen (Frage an die
+Prüf-Sitzung, ob vorher gewünscht). Befund E1–E4 (API-Kosten, 21:45) ist in Arbeit (0.65.334).
+
+Tests: Gesamtlauf 370 bestanden, 0 fehlgeschlagen · addon_check OK (Release-Zip und Discord-Zip).
