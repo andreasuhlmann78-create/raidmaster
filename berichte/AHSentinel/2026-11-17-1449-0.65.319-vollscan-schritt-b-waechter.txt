@@ -1,0 +1,88 @@
+AHSentinel 0.65.319 – VOLLSCAN-Schritt (Punkt 3), B (Tests von echten Daten trennen), Wächter (Punkt 2), TR-RUN-1 Punkt 5, T306,
+RUCKEL-2 (Auswahl 500 Items), VS-BILD Speicher – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.319 und sofort im Discord.
+Nachbau mit den echten Daten (Upload 13:19) nur lokal, nie im Repo. Je Punkt "Ursache belegt" oder "Verdacht, zu messen".
+
+==== Zu deiner Antwort 14:15: die 20 Werte (317 gegen 318, echte Daten) ====
+Gleich in beiden Versionen (Zahlen, keine Namen):
+- BuyStats d: 983 Fälle (alle Verhältnisse gleich) · Margin d = 0.100000 (983) · BudgetLeft d = 11608839 / 12500000 / 891161
+- BuyStats e: 1 Fall · Margin e = 0.200000 (1) · BudgetLeft e = 12382757 / 12500000 / 117243
+- BuyStats v: 0 Fälle · Margin v = 0.200000 (0) · BudgetLeft v = 12349621 / 12500000 / 150379
+- LossWarnings: 2 Zeilen (Item 6299, Kaufzeit 1794607580, je 1 Stück – derselbe Kauf zweimal, siehe unten)
+- MarketFactor: de 0.315938 (16) · cloth 0.307455 (5) · leather 0.324092 (5) · metal 0.267890 (8) · herb 0.357825 (23) ·
+  consum nil (3) · gear2 nil (0) · gear3 nil (0) · misc 0.392631 (597)
+- Prüfsumme FlipLimitFromNet über alle 7197 Items: 797962897
+
+==== Punkt 3 – VOLLSCAN-Schritt "Scan ohne Messung nach 10 Min." – URSACHE BELEGT (Code + Nachbau) ====
+- SC:OnScan hält höchstens 5 Scans (st.scans, "while #st.scans > 5 do table.remove"). Mit 5 gespeicherten bleibt #st.scans nach jedem
+  neuen Scan 5; die Kette wartete auf "#st.scans > n0" -> nie wahr -> nach 10 Min. "Scan ohne Messung".
+- Umsetzung: neuer Scan = der letzte gespeicherte Eintrag ist ein anderer als beim Start bzw. beim letzten gezählten Scan.
+- Nachbau s277_tr_alle_vollscan_fuenf (5 Scans gespeichert, einer weiterer): 0.65.319 "ok – bleibend … KB …"; Gegenprobe 0.65.318:
+  "nicht – Scan ohne Messung nach 10 Min." (genau die Meldung aus dem Spiel).
+
+==== B – Prüfungen, die echte Daten lesen – URSACHE BELEGT je Prüfung ====
+Abgesucht: Teil auto mit den echten Daten im Nachbau (AH offen und zu, Uhr auf 17.11. gestellt) – jede rote Prüfung angesehen –, dazu
+die im Spiel roten Prüfungen, die vom Gold/von den Taschen abhängen (im Nachbau nicht echt), im Code nachgelesen. Liste:
+- T550 "geprüft 4" statt 2 und T575 "geprüft 5" statt 3: MK:Resolve wertet auch MK:ResolveSnipeDE – das las das ECHTE Journal
+  (abgeschlossene Sniper-Entzauber-Kauftage). Im Nachbau mit echten Daten genau 4 bzw. 5 reproduziert. Fix: WithCore gibt ein leeres
+  Ersatz-Journal (Fc.testStore).
+- T432 "Budget 3g 1s" statt der Kosten: MV:BuyDE kappt mit MK:ItemBudget = 10 % des ECHTEN Golds (FL-1). Fix: Gold für die Grenze im Test
+  (MK.testMoney); die FL-1-Grenze selbst prüft T-FL1.
+- T49 "1s liegt 70 % unter dem Marktwert": die Prüfung stellte zum günstigsten echten Angebot −1c ein; das war ein Ausreisser nach unten,
+  der Preisschutz griff. Fix: Kandidat (günstigstes −1c, Vorschlag des Addons), den der Schutz annimmt – geprüft wird der Einstellbefehl.
+- T815 "ohne Scan -> 7890" (neu gefunden im Nachbau mit echten Daten, im Spiel nicht rot): ohne Vollscan las A:CacheMaxItems das
+  ECHTE Scan-Protokoll (6575 Items × 1,2). Fix: für "ohne Scan" kurz ein leeres Protokoll.
+- T72 "kein Knopf für: Entzaubere 6x …": KEIN Testfehler, sondern ein echter Fehler, den die Prüfung (bewusst mit echter Heute-Liste)
+  gefunden hat: Heute-Zeilen der Art "desell" (Entzaubern aus der Tasche) und "lossguard" (Preis gefallen) hatten in Today:Label
+  keinen Zweig -> kein Knopf. Fix: Knopf mit dem Text der Spalte "wo", Klick führt die Aktion aus (T893).
+- Bewusst echte Daten (keine Änderung): S28 (C, ein "Lohnt bis" je Item, prüft die echten Auswertungen), TSK1c/h/j (E, Selbstkontrolle
+  über echte Fälle).
+- Nachbau im Repo s278_tr_echte_daten: "echte" Daten wie im Upload (Sniper-Entzauber-Kauftage, 30g Gold, Scan-Protokoll 6575) ->
+  0.65.319 alle 4 grün; Gegenprobe 0.65.318: T432, T550, T575, T815 rot.
+
+==== Punkt 2 – Wächter 61 ms – URSACHE BELEGT (Nachbau echte Daten, 5 Min., 207 Runden) ====
+- 0.65.317: Aufgabe watcher:de-check längstes Bild 71,5 ms, längster Schritt 70,2 ms bis DEBuy.lua:130 (Schleife über die Kandidaten,
+  je Zeile Kaufgrenze -> Learn:Margin -> BuyStats = ganzes Journal). Das ist die Grösse aus dem Spiel (61 ms).
+- 0.65.319 (Fix RUCKEL-1 aus 0.65.318): watcher:de-check längstes Bild 11,0 ms, kein Schritt > 8 ms; W:Tick längster Aufruf 0,3 ms.
+- Damit umgesetzt durch 0.65.318; nichts weiter nötig. Ziel ≤ 16 ms (PS) im Nachbau erreicht; im Spiel misst es WAECHTER-LAST.
+
+==== TR-RUN-1 Punkt 5 – welcher Schritt war 306 – URSACHE BELEGT ====
+- 0.65.315 im Nachbau, Teil auto: 308 Schritte; Schritt 306 = ein Block mit 474 Prüfungen (T351 … T363) am Stück (Block "m").
+  Der Lua-Fehler im Upload (SelfTest.lua:1362 w:Refresh -> table:SetData -> UI_Main.lua:1298 Render) ist das Neuzeichnen des
+  Fensters je Zeile in genau diesem Block. Beides behoben in 0.65.317 (jede Prüfung ein Schritt, Fenster höchstens alle 0,5 s).
+
+==== T306 174 ms – geteilt ====
+- Gemessen (Nachbau): 3004 × Fc:Add 90 ms + Fc:Eval über 3000 Einträge 49 ms.
+- Jetzt T306 (Ringpuffer 3000, Archiv 5, Speicher, nur Kürzel): 2999 Einträge liegen schon im Journal, nur die letzten 5 über Fc:Add;
+  T306b (Gesamtzahl der Auswertung) mit auf 300 verkleinertem Ringpuffer: 305 Fälle, 5 in der Zusammenfassung. Gleiche Regeln.
+- T306 steht nicht mehr in der Liste der langen Schritte (vorher 147 ms im Nachbau, jetzt < 41 ms; die Liste beginnt bei 41 ms).
+  Noch lange Einzelprüfungen im Nachbau (nur Auskunft): T26b 94, S28 88, T335 80, T372 77, T111 61, T505 58, T648 58 ms – folgen.
+
+==== RUCKEL-2 – Auswahl der 500 grössten Items im Vollscan ====
+- VS:TrackedSet sortierte alle Items mit table.sort am Stück (Nachbau echte Daten 10–24 ms). Jetzt kleiner Haufen mit 500 Plätzen,
+  je 500 Items eine Pause; gleiche Menge (bei gleicher Zahl der Auktionen gewinnt die kleinere ID, vorher zufällig). T894.
+- Nachbau echte Daten: fullscan längster Schritt jetzt 8,0 ms (vorher 9,5–12,5).
+
+==== VS-BILD (Antwort 14:15: GC je Bild, eigener Speicher, Server-Anteil) ====
+- Die Zerlegung der längsten Lücke zeigt jetzt zusätzlich: Speicher vor/nach dem Bild (Sprung nach unten = Bereinigung in diesem Bild,
+  mit KB), Bereinigung in den 5 Bildern DANACH (die nicht teilbare Endphase lässt den Speicher erst beim anschliessenden Aufräumen
+  fallen), die Lesezeit beim Server (GetReplicateItemInfo, "davon Lesen beim Server") getrennt; im Bericht Vollscan: eigener neuer
+  Speicher beim Lesen (KB) und M1d heisst jetzt "längste eigene Lese-Portion" (nicht "längster Frame").
+- Nachbau s276: fremde ganze Bereinigung (30 MB Müll + collectgarbage("collect")) -> "Speicherbereinigung ja · bereinigt 41245 KB ·
+  Rest 296 ms" erkannt.
+- Nachbau echte Grösse: eigener neuer Speicher Einlesen 14,7 MB, Verdichtung 16,3 MB (ganzer Lua-Speicher im Nachbau). Im Spiel
+  stand "Einlesen 177273 KB" – das ist der Zuwachs des GANZEN Lua-Speichers in den Bildern des Einlesens (alle Addons); der eigene
+  Anteil ist ab jetzt getrennt gemessen. Verdacht, zu messen.
+
+==== Neuer Befund (gemessen, echte Daten) – Kauf doppelt im Journal ====
+- 118 Kauf-Einträge B haben eine zweite Zeile mit gleicher Zeit und gleichem Item: einmal Quelle "sniper"/"watcher", einmal "mail"
+  (z. B. Item 6299 Minute 576793 sniper + mail). Folge: Ln:LossWarnings meldet denselben Kauf zweimal; dieselben Doppel zählen in
+  BudgetLeft (heute ausgegeben) und in MK:ResolveSnipeDE (Kosten je Tag). Die Buchung beim Briefkasten (Ledger "buy", src mail) fand die
+  Rechnung des Sniper-Kaufs nicht (MatchInvoice). Gehört zu Punkt 5 TB138-2 (Geldfluss-Lücke 3,7 %) – Ursache dort weiter belegen.
+
+==== Weiter (Reihenfolge Supervisor 14:40: alles > 8 ms eigene Arbeit je Bild vor B teilen) ====
+In Arbeit für 0.65.320: GoldSentinelMarkt v10; eigene OnUpdate-Skripte, OnEvent und Zeitgeber messen (Rest eindeutig); core:resolve
+(ResolveSnipeDE über die zwischengespeicherten Käufe), pd7 (A:DataSizes in Portionen), timing (Prune/Resolve in Portionen), names.
+
+Gesamtlauf 0.65.319: BESTANDEN 351, FEHLGESCHLAGEN 0 (frischer Klon, nichts parallel).
+Veröffentlicht: GitHub-Release v0.65.319, Discord. CurseForge: nein. Hinweis: 0.65.319 enthält noch GoldSentinelMarkt v9 (Warnung addon_check), v10 kommt mit 0.65.320.
