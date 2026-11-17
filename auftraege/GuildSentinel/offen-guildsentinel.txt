@@ -359,3 +359,21 @@ nur wo nötig und jeder Handpunkt in klaren, nummerierten Schritten (Wo / Schrit
 ==== MARKT-V10 (Supervisor 17.11.2026 14:40, ersetzt MARKT-V9) ====
 - shared/GoldSentinelMarkt.lua Version 10 statt v9 kopieren (Zeitprüfung alle 20 statt 100 Einträge). Einzelheiten: Nachtrag in
   auftraege/hinweis-goldsentinelmarkt-v9-2026-11-17.txt.
+
+==== INGAMETEST DES NUTZERS 17.11.2026 16:46 – 0.9.51 "/gs testroutine alles" (Forever, Krieger 24, ohne Gilde) ====
+Ergebnis: OK 310 · FEHLER 3 · übersprungen 24 · im Client 8 · Sandbox OK · echte Daten unverändert · vollständig durchgelaufen.
+FREIGABE CURSEFORGE 18:00: JA für 0.9.51 (im Spiel getestet, keine der FEHLER ist eine Verschlechterung gegenüber der CurseForge-Version).
+  Bitte um 18:00 die Zip 0.9.51 nach download/ (Ablauf curseforge/), danach prüfen, dass der Upload durch ist, und berichten.
+Befunde (nächste Version, nach 18:00):
+1. HOCH – echter Lua-Fehler beim Spielen: "4× GS_APPS: Roster.lua:124: attempt to index field 'alts' (a nil value)" (R:MainOfRaw:
+   g.alts[name] ohne Prüfung; ns.G() ohne alts – Charakter ohne Gilde). Steht schon in 0.9.39 (kein neuer Fehler). Lösung: g.alts nil
+   abfangen (und alle anderen Zugriffe auf g.<Feld> der Gilde-Tabelle ohne Gilde absuchen). Test: ohne Gilde, Bewerber-Ereignis -> kein
+   Fehler; Gegenprobe 0.9.51 rot.
+2. T285 FEHLER "GuildSentinelCmdHint:SetPoint(): Wrong object type": Test-Artefakt – die Prüfung gibt eine Lua-Tabelle als Eingabefeld,
+   CmdHint verankert seinen Rahmen daran (SetPoint braucht im Spiel einen echten Rahmen). Lösung im Test: echtes unsichtbares EditBox
+   (CreateFrame) oder Verankerung im Test ersetzen. Kein Fehler für Spieler (bitte bestätigen).
+3. T182 Tooltips verdecken Knöpfe (home "Unterstützen", members>list …) und T185 abgeschnittene Knöpfe (group>search/free, board>offer,
+   prof>dir/req) + 6 Texte zu lang – Oberfläche aufräumen.
+4. Portionen: "277 Bilder, längste 843,8 ms (Bereich K, bis T187)" – im Spiel viel länger als im Nachbau (59 ms). Bereich K in Portionen
+   (E-Regel 17.11. 12:40: Testroutine selbst auf Ruckeln prüfen).
+5. MARKT-V10, TR-ALLE Nachtrag D wie in den Aufträgen.
