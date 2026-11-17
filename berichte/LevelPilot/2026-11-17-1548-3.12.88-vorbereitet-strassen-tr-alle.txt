@@ -7,7 +7,7 @@ Projekt: LevelPilot · Datum: 17.11.2026 15:48 (aus date) · Stand: 3.12.87 ver�
    Offline-Routine test_strassen.lua umgebaut (prüft jetzt: keine Strassen-Daten, für Forever/Era/TBC keine Strassen, nichts geladen
    oder gespeichert, Startwegnetz da: 1727 Knoten/2182 Kanten). 3.12.88: ALLE TESTS OK. GEGENPROBE 3.12.87: 5 FEHLER.
    VERLUST: in der Ersatzwelt NICHT messbar (Strassen lagen dort nie im Spielbereich: "ohne Strassen" = identisch). Messung, sobald
-   die Kartenrahmen da sind (Bericht 15:37).
+   die Kartenrahmen da sind (Bericht 15:35).
 2. TR-ALLE
    A) /lp testroutine alles: alle automatischen Prüfungen in einem Lauf (inkl. lange virtuelle Reise), Fortschritt je Bereich
       ("Testroutine: Bereich C – 3 von 11 …"), Portionen höchstens 5 ms (vorher 8), am Ende im Chat und oben im Bericht:
