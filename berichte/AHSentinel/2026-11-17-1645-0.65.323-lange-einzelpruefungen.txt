@@ -1,0 +1,54 @@
+AHSentinel 0.65.323 – LANG-1: lange Einzelprüfungen geteilt (Prüfung 0.65.319 „bitte ebenfalls teilen, vor dem Ingametest“) + Optionen ohne Ruckler – umgesetzt, zur Prüfung
+
+==== Regel (wie im Frage-Bericht 16:08 vorgeschlagen) ====
+Keine Prüfung über 40 ms (Nachbau) in einem Schritt. Daten-Erzeugung und reine Rechnung in eigene Teil-Schritte (neu TR ChkSplit:
+n Teil-Schritte + Ergebnis-Schritt, Zwischenstand in acc, wie T306); Ersatz-Werte (A.db.marketData, A.GetHistory, P.cache/A.marketKey,
+Ersatz-Taschen, Fc.testStore …) NUR innerhalb eines Schritts. T812/T895 ausgenommen (warten absichtlich 2 × 20 ms). Datenmengen und
+Erwartungen unverändert.
+
+==== Ursachen und Umsetzung je Prüfung (Nachbau, Stichproben-Profil) ====
+- T304/T305/T307/T335/T648 (47–62 ms): Ursache belegt – Fc:Report ruft Kern:ReportLines -> K:LohntCheck(60) (60 Items × alle Anzeigen,
+  im Nachbau 42–59 ms; Fc:Report ohne diesen Teil ~1 ms). Neu K:LohntCheck(maxItems, acc, step) in Portionen, Fc:Report({ lohnt = acc })
+  nimmt ein FERTIGES Ergebnis (acc.done), sonst rechnet der Kern wie bisher. Testroutine: ChkReport = 16 Teil-Schritte à 15 Markt-Items
+  (leer, sobald fertig) + Ergebnis-Schritt. Spieler-Weg unverändert (Fc:Report() ohne Argument).
+- T111 (90): 10 Teile über die sortierten Schlüssel. T372 (75): 3 Teile kodieren die 3000 Einträge, Ergebnis-Schritt wie bisher.
+- T505 (56): Daten · Marktwerte vorher · Verdichtung · Ergebnis; A.GetHistory-Ersatz je Schritt (T505Hist), danach Zwischenspeicher leer.
+- T587 (44–151): Daten · Ausloggen pending · Login+Ausloggen active · Laden+Vergleich; P.cache/A.marketKey nur je Schritt (T587With).
+- T894: Daten · Vergleichs-Sortierung · Ergebnis (VS.TOP nur im Ergebnis-Schritt). T622: 4 × 5 Items (nur lesen, buyContext je Schritt).
+- T667: Reiter aufbauen · 3 × 4 Wahlen (Ersatz-Taschen je Schritt) · Fall 2 + Ergebnis. T675: Daten-Schritt; Tausch+Speichermessung bleiben
+  zusammen in EINEM Schritt (Zwischenspeicher über Bilder könnte die Messung verfälschen). T389: Reiter Buchhaltung im eigenen Schritt.
+  T643: Daten+Erwartung · Tabellen-Weg (Ersatz je Schritt) · Rest.
+- T30.01 (Design): zurück auf das alte Design nur, wenn nötig (sonst 3 statt 2 Neuaufbauten aller Fenster).
+- T26b (91–103 ms) – ECHTER FUND, betrifft Spieler: Optionen beim ersten Öffnen 96 ms / 31,0 MB neuer Speicher. Ursache belegt
+  (Zeilen-Profil mit gestoppter Speicherbereinigung): Names.lua BuiltinCount zählte mit blob:gsub("\n%d+\t", "") – baut eine Kopie jeder
+  Namensliste (10 Sprachen, 10,3 MB Text) -> 30,7 MB, 88,9 ms in dieser einen Zeile. Lösung: feste Zahlen je Sprache (N.BUILTIN_N =
+  {Anzahl, Länge des Textblocks}); passt die Länge, gilt die Zahl ohne Lesen, sonst Zählen per string.find (keine Kopie). Werte:
+  enUS 25816, deDE 33223, frFR 33415, esES 32575, esMX 32575, ptBR 32857, ruRU 33190, koKR 33563, zhCN 32806, zhTW 32828 (gezählt
+  mit gsub und find, gleich; = Kopfzeile der Data-Dateien). Optionen erstes Öffnen jetzt 3,8 ms / 1,0 MB. Neue Prüfung T897 (je Sprache
+  ein Schritt: feste Zahl = gezählt). Nebenbei gesehen: Tooltip „rund 23.000 Items“ stimmt nicht (es sind 25–34 Tausend) – kommt mit D.
+- „Schritte über 5 ms“ nannte bei Schritten des alten Selbsttests die VORIGE Prüfung (so hiess die Optionen-Zeit „T26b“, war aber der
+  Schritt danach). Jetzt setzt der Adapter die eigene Kennung; Teil-Schritte heissen „Txxx/i“.
+
+==== Messung vorher/nachher (Nachbau, Teil auto, längster Schritt) ====
+Vorher (0.65.322, Frage-Bericht): T111 90 · T372 75 · T648 62 · T389 60 · T307 56 · T505 56 · T335 54 · T304 53 · T305 47 · T587 44 ·
+T26b 94 · S28 88 …; Prüfungen > 16 ms: 29.
+Nachher (0.65.323, Speicherbereinigung gestoppt = eigene Arbeit): über 40 ms nur S28 90 (gehört zu C) und T812/T895 40 (absichtlich);
+alle anderen ≤ 32 ms; Prüfungen > 16 ms: 15, gesamt 1097 ms.
+Nachher (normaler Lauf): zusätzlich T24 161 und T72 63 – das ist Speicherbereinigung, die zufällig in diesem Schritt läuft (ohne
+Bereinigung T24 27, T72 20); welcher Schritt sie trifft, wechselt von Lauf zu Lauf (z. B. T587 einmal 151, sonst 44). Verdacht, im
+Spiel zu messen: der Bericht „Schritte über 5 ms“ zeigt es.
+
+==== Gegenproben ====
+- s282 gegen 0.65.322: 8 Prüfungen rot (Optionen 31,0 MB; Lohnt-Prüfung nicht in Portionen; volle Lohnt-Prüfung im Ergebnis-Schritt
+  von T304/T305/T307/T648); mit 0.65.323 grün.
+- Lohnt-Prüfung in Portionen = am Stück (n, gleich, anders, Wege, Beispiele identisch); Fc:Report({lohnt}) Text = Fc:Report();
+  nicht fertiges Ergebnis wird nicht benutzt.
+
+==== Tests ====
+- Neu s282_lang1 (25 Prüfungen) grün. s42 (ganze Testroutine) grün. Gesamtlauf 355/0.
+- addon_check (Release und Discord): OK.
+
+==== Noch offen ====
+- S28 (Selbsttest „Ein Lohnt bis je Item“, 90 ms und rot im Spiel) = Punkt C, als Nächstes. Erster Befund (Verdacht, wird mit den
+  echten Daten im Nachbau belegt): S28 vergleicht die API mit dem ENTZAUBER-Wert; die API liefert seit TB170-10 absichtlich den besten
+  Weg (AH/Händler), wenn Entzaubern nicht der beste ist – passt zu 2866 427 vs 500 und 7956 390 vs 1360. Tooltip bleibt (TT-STOP).
