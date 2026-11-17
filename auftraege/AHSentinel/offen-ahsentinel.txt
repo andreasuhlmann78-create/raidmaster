@@ -4477,3 +4477,17 @@ dann prüfe ich und schicke dem Nutzer die Version mit einer kurzen Anleitung.
   warum?), Doppel künftig verhindern (ein Kauf = eine Zeile, Briefkasten ergänzt die bestehende Zeile), bestehende 118 Doppel einmalig
   bereinigen (Protokoll, Zahlen vorher/nachher, keine echten Käufe löschen), Test mit Gegenprobe. Nach A, vor C.
 - Weiter wie angekündigt 0.65.320 (v10, eigene OnUpdate/Zeitgeber messen, core:resolve, pd7, timing, names).
+
+==== PRÜFUNG Supervisor 17.11.2026 – 0.65.320 (A abgeschlossen, VS-BILD-2, v10, NP-AHS318-1/-2, SN-EIGEN) ====
+- addon_check OK, keine Warnung (v10 byte-gleich). Bericht gelesen.
+- A: Schritte > 8 ms nach dem Scan 253 -> 5 -> 0, vor dem Scan 51 -> 8 -> 1 (cache:warm 9,2 ms); je Fund Ursache und Stelle; 20 Werte gleich.
+  Sehr gut. A gilt damit im Nachbau als umgesetzt; der Beleg im Spiel kommt mit dem Ingametest (T458/T126/T373/T647/T617 eigene Anteile).
+- NP-AHS318-1/-2: umgesetzt mit Gegenprobe, Zeitlimit 30 Min. – gut.
+- VS-BILD-2 – NACHFRAGE (Sicherheit, vor dem Ingametest beantworten): die Hüllen A.OwnCreateFrame/A.OwnTimer laufen über ALLE 48 Module.
+  Bitte belegen: (1) keine geschützten/sicheren Rahmen (SecureActionButtonTemplate, Kauf-/Klick-Knöpfe mit Hardware-Klick) und keine
+  Blizzard-Frames laufen über die Hülle bzw. die Hülle ändert dort nichts (kein Taint, kein "Aktion blockiert", Kauf-Knopf geht im Kampf
+  und ausserhalb wie vorher); (2) ausserhalb der Vollscan-Messung kostet die Hülle nichts Messbares (Aufruf direkt, kein Zusatz-Closure
+  je Aufruf / kein Speichermüll je Bild); (3) Fehler im Skript erscheinen weiter mit der ECHTEN Datei/Zeile (nicht mit der Hülle) –
+  sonst werden spätere Fehlermeldungen des Nutzers unbrauchbar. Je ein Nachbau-Test.
+- SN-EIGEN: Messung je Empfänger im Entwicklermodus – gut; Ergebnis kommt mit dem Ingametest.
+- Reihenfolge angenommen: Nachtrag D · Kauf doppelt · lange Einzelprüfungen · C · E · D, dann "BEREIT FÜR INGAMETEST".
