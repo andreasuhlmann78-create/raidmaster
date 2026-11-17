@@ -1,0 +1,27 @@
+BERICHT THREATSENTINEL 2.5.18 – Hinweis Prüfung 2.5.17 (17:55): Verzögerung durch das Zeitbudget belegen
+Stand: umgesetzt, zur Prüfung (keine Selbst-Freigabe).
+Veröffentlicht: download/ThreatSentinel-2.5.18.zip (addon_check "## ThreatSentinel-2.5.18.zip: OK"),
+announce/threatsentinel__threatsentinel-2.5.18.md. Gemeinsame Dateien cmp gleich mit shared/.
+
+Hinweis: "Warnung kann bei sehr vielen Mobs einen Sekundenbruchteil später kommen – gemessene Verzögerung (höchstens n Durchläufe
+à 0,25 s) im Testbericht ausweisen."
+
+Umsetzung:
+- Threat.lua T:Tick misst nach jeder Bewertung das Alter des ältesten Gegner-Standes in Durchläufen (tickNr − evalNr, Maximum über
+  alle Gegner) -> T.lastWait; Höchstwert je Kampf T.maxWait (zurückgesetzt bei Kampfbeginn in ns.PerfStart). Durchlauf = T.TICK = 0,25 s.
+  Bedeutung: so viele Durchläufe alt kann der Stand sein, auf dem eine Warnung beruht.
+- Im Spiel (jeder Kampf): Diagnose-Zeile LEISTUNG hängt an, wenn > 0: " · Stand der Gegner höchstens n Durchläufe alt (x s)".
+  Bei 0 (alle Gegner in jedem Durchlauf bewertet) bleibt die Zeile wie bisher.
+- Im Testbericht:
+  TU1-L04t (echte Uhr, 40 Spieler, 40 Gegner): "x ms (bewertet n, später k; Stand höchstens w Durchläufe alt = s)".
+    Offline mit echter Uhr: "3.27 ms (bewertet 32, später 8; Stand höchstens 1 Durchläufe alt = 0.25 s)".
+  TU1-L04b (eigene Uhr, jede Zeitabfrage = 1 ms, also absichtlich ungünstig): "… je Durchlauf 6/6/6/6/6/6/6 · alle 40 nach
+    7 Durchläufen · keiner doppelt, solange einer fehlt true · Stand höchstens 6 Durchläufe alt (1.50 s)" – das ist die obere
+    Schranke bei 6 Gegnern je Durchlauf; die echte Zahl im Spiel zeigt TU1-L04t bzw. LEISTUNG.
+  T-T2b neu: LEISTUNG mit T.maxWait = 3 -> "· Stand der Gegner höchstens 3 Durchläufe alt (0.75 s)". T-T2 (ohne Alter) unverändert grün.
+  Regression "2.5.16 TU1-L04t" -> { TU1-L04t, TU1-L04b, T-T2b }.
+- VERDACHT, ZU MESSEN: Erwartung im Spiel bei 40 Gegnern 1–2 Durchläufe (0,25–0,5 s); Beleg im nächsten Ingametest (TU1-L04t) und
+  nach einem echten grossen Kampf (LEISTUNG).
+
+Offline (veröffentlichte ZIP, "alles"): Forever OK 267 · FEHLER 6 · übersprungen 18 · im Client 16; Era OK 271 · FEHLER 6 ·
+übersprungen 12 · im Client 17; je "FEHLER ausserhalb der Nachbildungs-Liste: 0" (6 = bekannte Fälle der Nachbildung).
