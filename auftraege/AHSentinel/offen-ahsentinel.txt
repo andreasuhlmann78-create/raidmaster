@@ -4610,3 +4610,16 @@ Statusleiste (auch beim Schliessen des Charakterfensters). Im Bericht zu TAINT-1
   11 Schreibzugriffe. Umsetzung angenommen; im Spiel zu bestätigen (nächster Lauf: T899 OK, keine TextStatusBar-Meldung).
 - Fremde Addon-Schnittstellen (ProfessionSentinelAPI/RaidMasterAPI) nicht mehr ersetzt – richtig.
 - Weiter mit den Punkten 1–10 des Befunds 19:08 (HOCH zuerst). Upload des Laufs 19:08 liegt in goldsentinel-daten (Upload 19:38).
+
+==== PRÜFUNG Supervisor 17.11.2026 20:15 – 0.65.331 (Befund 19:08 Punkte 1, 2, 6; TAINT-1 Nachtrag) ====
+- Punkt 1 Sandbox: Ursachen belegt (Stats() gab die echte Tabelle, weil time() im Spiel ganzzahlig ist; T42 suchte alle echten Ziele),
+  Nachbau mit echten Daten, Gegenproben zeigen genau die Meldungen aus dem Spiel. T900/T901 – angenommen, im Spiel zu bestätigen.
+- Punkt 6 T20: Ursache belegt (Scan-Wunsch lief in die Scan-Sperre, T766 1), Warten mit Zeitlimit 60 s – angenommen.
+- Punkt 2 T49 – angenommen MIT Auflage: Der neue Fund ist wichtiger als der Test. ANTWORT zur Frage (Preisschutz bei frischer Leiter):
+  NICHT "Leiter allein". Wenn die beiden Grenzen sich widersprechen (0,75 × Marktwert > 1,5 × günstigstes Angebot), darf "Preis anpassen"
+  nie einen Preis vorschlagen, der danach selbst warnt (heute: Vorschlag 4s 56c -> "zu teuer"). Stattdessen EINE klare Meldung
+  "Marktwert (6s 7c) und aktuelle Angebote (ab 1s 89c) widersprechen sich – Marktwert vermutlich veraltet" mit beiden Zahlen, Vorschlag
+  = Preis der frischen Leiter, Einstellen nur mit einem bewussten Klick (wie "Trotzdem einstellen"). Gold-Sicherheit bleibt: nie ohne
+  Klick unter 75 %. Test: genau dieser Fall -> eine Meldung, Vorschlag warnt nicht selbst; Gegenprobe 0.65.331 (Vorschlag warnt).
+  T49 soll dann diesen Weg prüfen und im Ergebnis "Widerspruch Marktwert/Angebote" nennen.
+- Weiter: Punkte 3, 4, 5 (HOCH) des Befunds 19:08, dann 7–10.

@@ -373,3 +373,21 @@ nur wo nötig und jeder Handpunkt in klaren, nummerierten Schritten (Wo / Schrit
   durch Absturz/Minimieren ohne /reload darf echte Daten nie verändern (SavedVariables werden ohne Ausloggen nicht geschrieben – bitte
   bestätigen, dass ein /reload mitten im Lauf zuerst zurückstellt; T288 "Abmelden bricht ab" deckt das ab?).
 - Danach kurzer Bericht; der Nutzer testet erst wieder, wenn das belegt behoben ist.
+
+==== PRÜFUNG Supervisor 17.11.2026 20:15 – 0.9.66 (PS-RUN-1) ====
+- Bericht 1953 gelesen. Ursachen im Nachbau belegt (31 ganze Speicherbereinigungen, Unter-Läufe am Stück, Aufwärmen 850 ms, schwere Fälle).
+  Längstes Bild 2608 -> 57/62 ms, Bereinigungen am Stück 31 -> 0, Gegenproben je Prüfung. Sehr gute Arbeit; PS-RUN-1 im Nachbau angenommen.
+  Im Spiel zu bestätigen.
+- ANTWORT zu Punkt 4 / FRAGE:
+  (a) JA – Portionsgrösse des Fensteraufbaus so verkleinern, dass keine Portion über 16 ms kommt (Ziel 5 ms), auch für Spieler.
+  (b) JA, HOCH – UI:UpdateBest als Hintergrund-Aufgabe in Portionen. 39–48 ms im Nachbau ist Ruckeln beim normalen Spielen (Entscheid:
+      40 ms harte Grenze). Messen im Spiel mit grossen Berufen (Bericht: längste Portion bei Berufs-Ereignis).
+  (c) Speicherbereinigung: Den unteilbaren Schritt (Abschluss eines Zyklus, bis 36 ms) löst die Testroutine selbst aus – also nicht
+      "macht das Spiel auch". Die Testroutine soll KEINEN Zyklus mehr zu Ende treiben: Speicher nur über UpdateAddOnMemoryUsage/
+      GetAddOnMemoryUsage (eigenes Bild, Dauer messen und ausweisen) oder collectgarbage("count") ohne collect/step. Danach T289/
+      "Speicher (Start)" unter 40 ms. Wenn der Vergleich ohne Bereinigung zu ungenau ist: als "Speicher ungefähr (ohne Bereinigung)"
+      ausweisen, kein FEHLER daraus.
+  (d) Retail T260 81 ms: nach (a)–(c), MITTEL.
+- FREIGABE INGAMETEST: Ja, 0.9.66 darf jetzt im Spiel getestet werden ("/ps testroutine alles"), um die Zahlen des Spiels zu bekommen
+  (Nachbau 57–66 ms statt 2,6 s Einfrieren). Ich melde es dem Nutzer.
+- Danach TR-ALLE Nachtrag D wie geplant.
