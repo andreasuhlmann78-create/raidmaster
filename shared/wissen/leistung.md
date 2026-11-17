@@ -17,7 +17,7 @@ Speicherbereinigung (Lua 5.1): wer viel Speicher anlegt und wegwirft, löst Bere
 | Datum | Addon/Version | Stelle | Spiel | Nachbau | Ursache (belegt/Verdacht) | Behebung | danach (Spiel) |
 |---|---|---|---|---|---|---|---|
 | 17.11. | ProfessionSentinel 0.9.64 | Testroutine | Spiel eingefroren, Bild 2608 ms | – | 31 ganze collectgarbage("collect") am Stück (belegt im Nachbau) | 0.9.66 Bereinigung in Portionen | 0.9.66: "mehrfach extrem geruckelt" |
-| 17.11. | ProfessionSentinel 0.9.66 | Panel-Aufbau T139 / UpdateBest T140 | 1267 / 1307 ms | 39–48 ms | Verdacht: Preisabfragen an echtes AHSentinel/TSM je Rezept; Nachbau ohne echte Addons | offen | – |
+| 17.11. | ProfessionSentinel 0.9.66 | Panel-Aufbau T139 / UpdateBest T140 | 1267 / 1307 ms | alt 39–48 ms; echt (mit AHSentinel + PC-Daten) 167 ms | belegt: AHSentinel GoldPerHour 75–489 ms, FindDeals 150 ms je Aufbau; 1,75 Mio. Fragen, ~950 MB Müll -> Bereinigung 100–370 ms | Zwischenstand: Antworten behalten, Gold/h im eigenen Bild, Schnäppchen auf Klick: 268 -> 15 Bilder über 40 ms | – |
 | 17.11. | LevelPilot 3.12.89 | Graph:Path lange Route T151 | Median 502, max 2109 ms | 352 / 1327 ms (PC-Netz, Faktor 1,43/1,59) | belegt: Prüfung mass falschen Weg (Kartenecken); 16 071 innere Wegpunkte einzeln über den Heap (NICHT 3.12.88) | 3.12.90 Ketten (richtiger Weg Nachbau 17/95 ms); 3.12.92 Takt geplant | – |
 | 17.11. | LevelPilot 3.12.89 | Einloggen T261 | 4348 ms in 60 s, längster 90 ms | – | Verdacht: dieselbe Wegnetz-Arbeit | offen | – |
 | 17.11. | AHSentinel 0.65.328 | Vollscan T458/T459 | Bild 106 ms, +48 MB, 3 Bereinigungen | im Nachbau "umgesetzt" | Verdacht: Preisverlauf-Neuaufbau legt Tabellen neu an | offen | – |
@@ -32,7 +32,7 @@ M2 (belegt, PS/GS): Testroutine-eigene Arbeit (ganze Bereinigungen, nie anhalten
 M3 (belegt LP: 16 071 innere Wegpunkte; Verdacht PS/AHS): Datenmengen wachsen mit dem Spielen (Wegnetz, Preisverlauf, Rezepte) – was am ersten Tag schnell ist,
    ist nach einer Woche langsam. Grenzen und Verdichtung von Anfang an.
 M5 (belegt GS): quadratische Rechnung (je Eintrag die ganze Liste) – bei 50 Einträgen unsichtbar, bei 500 Ruckeln.
-M4 (Verdacht, PS): Aufrufe in andere Addons (AHSentinel, TSM) sind im Spiel teuer und werden je Zeile wiederholt.
+M4 (belegt PS/AHS): Aufrufe in andere Addons (AHSentinel, TSM) sind im Spiel teuer und werden je Zeile wiederholt.
 
 ## 4. Bau-Regeln von Anfang an (Vorlage, jedes neue Addon, jede neue Funktion)
 1. Jede Arbeit, die mit der Datenmenge wächst, läuft als Aufgabe in Portionen mit Zeitbudget (Uhr: debugprofilestop) und

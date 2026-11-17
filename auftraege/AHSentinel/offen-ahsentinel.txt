@@ -4632,3 +4632,19 @@ Nachtrag 20:55: leistung.md Abschnitt 6 "Bewährte Bausteine" (ThreatSentinel/Bu
 ==== HINWEIS 17.11.2026 21:00 – GoldSentinelTakt Version 1 (Entscheid des Nutzers 20:42) ====
 auftraege/hinweis-goldsentineltakt-2026-11-17.txt lesen: gemeinsamer Takt gegen Ruckeln (shared/GoldSentinelTakt.lua, unverändert kopieren).
 Pflicht für neue Arbeit in Portionen; Summary-Zeile in den Bericht. LevelPilot (T151/T261) und ProfessionSentinel (T139/T140) zuerst.
+
+==== BEFUND HOCH 17.11.2026 21:45 – API-Kosten für andere Addons (aus ProfessionSentinel, Nachbau mit echten PC-Daten, Bericht PS 2125) ====
+ProfessionSentinel hat im Nachbau mit dem echten AHSentinel 0.65.332 und den echten Daten des PCs gemessen (tests/nachbau_echt.py im
+PS-Repo, Zeilen "Fremde Aufrufe über 5 ms"). Das Ruckeln des Berufsfensters im Spiel (bis 1,3 s) kommt zum grossen Teil aus AHSentinel:
+E1 API.GoldPerHour rechnet bei jedem Aufruf 30 Tage Buchhaltung (Activity:Report("30")): 75–93 ms, im Lauf bis 489 ms (wächst mit der
+   Buchhaltung). -> Ergebnis zwischenspeichern bis zur nächsten Buchung/Einstellung (Gold-Sicherheit: Wert mit Stand-Zeit liefern).
+E2 Disenchant:FindDeals ~150 ms am Stück -> als Aufgabe in Portionen (GoldSentinelTakt) bzw. API, die das fertige Ergebnis des letzten
+   Scans liefert (mit Zeitpunkt).
+E3 Erster NetSale/BestWay je Item 61–65 ms (Item 279941) – Verdacht: Aufbau eines Zwischenspeichers beim ersten Aufruf. Belegen, teilen
+   (im Hintergrund nach dem Scan vorbereiten) oder billiger machen.
+E4 Jeder API-Aufruf legt neue Tabellen an: ~950 MB über einen Testlauf bei 1,75 Mio. Fragen -> Speicherbereinigung in Bildern
+   von 100–370 ms. API-Antworten ohne neue Tabellen (Zahlen zurückgeben oder wiederverwendete Tabelle mit Hinweis "nur lesen").
+Regel: Jede Funktion in API.lua (Schnittstelle für andere Addons) bleibt je Aufruf unter 1 ms und legt keine Tabellen an – oder sagt
+es in der Beschreibung (shared/wissen/schnittstelle-ahsentinel-api.md) und bietet eine Portionen-/Ergebnis-Variante. Test: jede
+API-Funktion mit den echten Daten (Upload PC) gemessen, Zeit und angelegte KB je Aufruf im Bericht; Gegenprobe 0.65.332.
+Reihenfolge: nach TAINT/Sandbox-Punkten des Befunds 19:08, vor den MITTEL-Punkten (betrifft das Spielgefühl eines anderen Addons).

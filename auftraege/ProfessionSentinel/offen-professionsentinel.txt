@@ -436,3 +436,17 @@ Nachtrag 20:55: leistung.md Abschnitt 6 "Bewährte Bausteine" (ThreatSentinel/Bu
 ==== HINWEIS 17.11.2026 21:00 – GoldSentinelTakt Version 1 (Entscheid des Nutzers 20:42) ====
 auftraege/hinweis-goldsentineltakt-2026-11-17.txt lesen: gemeinsamer Takt gegen Ruckeln (shared/GoldSentinelTakt.lua, unverändert kopieren).
 Pflicht für neue Arbeit in Portionen; Summary-Zeile in den Bericht. LevelPilot (T151/T261) und ProfessionSentinel (T139/T140) zuerst.
+
+==== PRÜFUNG Supervisor 17.11.2026 21:45 – Zwischenstand 2125 (keine Version) ====
+- Nachbau mit echten Daten (echtes AHSentinel 0.65.332 + PC-Daten, Ballast) geeicht: zeigt jetzt dieselben Ruckler und denselben
+  Isolations-Fehler T212 wie das Spiel (Abstand Faktor ~4–15 genannt). Ursachen belegt (B1–B7) mit Zahlen. Sehr gute Arbeit – genau
+  das verlangt leistung.md Regel 7. Wirkung: Bilder über 40 ms 268 -> 15/16, längstes 1040 -> 148/156 ms.
+- Antwort Punkt 1 angenommen ("Schritte über 16 ms" = längstes einzelnes Bild; T275 war ein Bild von 15,9 s = Einfrieren); getrennte
+  Ausgabe (a)/(b) noch nachliefern.
+- Weg für die restlichen 15 Bilder: GoldSentinelTakt mit Sliced/NoYield – einverstanden (eigener Coroutine-Versuch mit 785 ms richtig
+  verworfen).
+- Behalten der AHSentinel-Antworten (60 s, bis Scan/Buchung/Einstellung): einverstanden, Gold-Sicherheit: im Kaufen/Verkaufen-Weg nie
+  eine behaltene Zahl ohne Kennzeichen, wenn sie älter als der letzte Scan sein könnte – im Bericht belegen, dass PS.OnChanged jede
+  Quelle trifft (Test).
+- Nächste Version mit Takt; Ingametest erst, wenn im Nachbau echt kein Bild über 40 ms bleibt (oder jedes verbleibende mit Grund).
+- Befunde E1–E4 an AHSentinel weitergegeben (offen-ahsentinel.txt, HOCH).
