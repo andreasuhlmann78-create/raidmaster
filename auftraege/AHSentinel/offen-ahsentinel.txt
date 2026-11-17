@@ -4544,3 +4544,22 @@ dann prüfe ich und schicke dem Nutzer die Version mit einer kurzen Anleitung.
 - Hinweis zu den kürzeren Sätzen: Nachrechnen der Platzhalter-Zahl je Sprache (gleich viele %d/%s wie Deutsch) – bitte bestätigen, dass die
   Locale-Prüfung das abdeckt.
 - Weiter 0.65.329 (Entscheid 18:10), dann "BEREIT FÜR INGAMETEST".
+
+==== BEFUND HOCH – Ingametest 17.11.2026 18:54 (0.65.328, "/ahs testroutine alles" läuft) – TAINT-1 ====
+Lua-Fehler beim Nutzer: "Blizzard_TextStatusBar/TextStatusBar.lua:126: attempt to compare local 'value' (a secret number value, while execution
+tainted by 'AHSentinel')" – Stack ShowStatusBarText -> UpdateTextString -> UpdateTextStringWithValues (Maus über einer Statusleiste).
+Ursache (im Code 0.65.328 belegt, Wirkung Verdacht bis Nachbau): Die Testroutine ÜBERSCHREIBT Blizzard-Globale mit eigenen Funktionen:
+  TestRoutine.lua:19205 _G.GetCVar = function(k) …  (danach zurück) · :19038 _G.SetOverrideBindingClick · :19039 _G.ClearOverrideBindings ·
+  :19240/19242 _G.GetTradeSkillSelectionIndex · :6114 _G.print.
+  In WoW wird eine globale Variable, die Addon-Code BESCHREIBT, dauerhaft "verdorben" (taint) – auch wenn danach der alte Wert zurückgeschrieben
+  wird (der Schreibvorgang selbst taintet den Eintrag bis /reload). Blizzard-Code, der danach GetCVar liest (TextStatusBar liest die CVars
+  statusText/statusTextDisplay), läuft verdorben – und ein Vergleich mit einem geschützten Wert (Gesundheit/Mana = secret) bricht ab. Genau das
+  Bild der Meldung. Im Kampf kann dasselbe "Aktion blockiert" für Blizzard-Funktionen auslösen.
+Auftrag (vor "BEREIT FÜR INGAMETEST"):
+1. Nie Blizzard-Globale oder C_-Tabellen beschreiben – auch nicht vorübergehend in der Testroutine. Stattdessen über eigene Zugänge testen
+   (A.api.GetCVar / A.Game… wie es AHSentinel schon für andere Funktionen macht) und im Test nur diesen eigenen Zugang ersetzen. Zählen nur mit
+   hooksecurefunc (wie TR.InstallCounters – richtig).
+2. Alle Stellen absuchen (_G.X = …, rawset(_G…), C_Y.Z = …, X = function ohne local im Hauptteil) in ALLEN Dateien, Liste im Bericht.
+3. Prüfung in der Testroutine: nach dem Lauf issecurevariable("GetCVar") usw. für eine Liste wichtiger Blizzard-Globale = true (sonst FEHLER);
+   Nachbau: Schreibzugriff auf eine Blizzard-Globale während des Laufs -> rot (Gegenprobe 0.65.328).
+4. Dem Nutzer bis dahin: nach jeder Testroutine /reload (setzt das Verderben zurück).
