@@ -4,6 +4,7 @@ Aufruf (aus dem raidmaster-Repo):
     python3 -I berichte/ThreatSentinel/offline/routine_offline.py /tmp/ts/ThreatSentinel Forever     # oder Era, dazu optional ein Bereich (a … k, u)
     python3 -I berichte/ThreatSentinel/offline/routine_offline.py download/ThreatSentinel-<Version>.zip Era
     python3 -I berichte/ThreatSentinel/offline/routine_offline.py                 # neueste download/ThreatSentinel-*.zip, Forever
+    TS_FRAME_MS=0 python3 -I … Forever alles   # Pause nach jeder Prüfung (Coroutine-Weg von "/ts testroutine alles")
 Läuft dieselbe Routine wie /ts testroutine im Spiel, mit simulierten Kämpfen (Lagen als Zeitreihe, Zufallsfälle).
 Die Nachbildung ist gutmütig (Frames ohne Rechtecke, kein echter Chat): Fälle, die nur im echten Client gehen, sind
 SKIP/CLIENT; die Liste NACHBILDUNG unten nennt die Fälle, die in der Nachbildung aus bekannten Gründen FEHLER sind.
@@ -93,15 +94,18 @@ for f in files:
 lua.execute("""local ok, e = pcall(GS_Fire, 'ADDON_LOADED', 'ThreatSentinel'); if not ok then print('ADDON_LOADED: ' .. tostring(e)) end
 local ok2, e2 = pcall(GS_Fire, 'PLAYER_LOGIN'); if not ok2 then print('PLAYER_LOGIN: ' .. tostring(e2)) end""")
 g.TSNS = ns
+# TR-ALLE: TS_FRAME_MS=0 zwingt eine Pause nach jeder Prüfung (prüft, dass nie über pcall hinweg abgegeben wird)
+g.TS_FRAME_MS = float(os.environ["TS_FRAME_MS"]) if os.environ.get("TS_FRAME_MS") else False
 out = lua.execute("""
 local ns = TSNS
 GoldSentinelDev.IsDev = function(self) assert(self == GoldSentinelDev, "IsDev ohne self"); return true end
 GoldSentinelDev.Require = function() return true end
 local printed = {}
 ns.Print = function(_, m) printed[#printed + 1] = tostring(m) end
+if TS_FRAME_MS then ns.Routine.FRAME_MS = TS_FRAME_MS end
 ns.Routine:Command(%r)
 local guard = 0
-while #GS_QUEUE > 0 and guard < 5000 do
+while #GS_QUEUE > 0 and guard < 20000 do
   guard = guard + 1
   local fn = table.remove(GS_QUEUE, 1)
   local ok, e = pcall(fn)
