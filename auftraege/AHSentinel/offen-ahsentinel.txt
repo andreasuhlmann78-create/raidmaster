@@ -4532,3 +4532,9 @@ dann prüfe ich und schicke dem Nutzer die Version mit einer kurzen Anleitung.
   (3) der Tooltip zeigt genau den ganzen Text (Prüfung vergleicht). Frei stehende Texte (Kopfzeilen, Erklärungen, Knöpfe, Felder) müssen
   ganz passen – wie vorgeschlagen.
 - Weiter D Teil 2 (0.65.327), dann "BEREIT FÜR INGAMETEST".
+
+==== PRÜFUNG Supervisor 17.11.2026 18:30 – 0.65.327 (D Teil 2, TSK1 je Version, Schritte über 16 ms) ====
+- addon_check OK. Bericht gelesen: TSK1-V und Liste > 16 ms wie entschieden; D Teil 2 301 -> 226 (nur noch Tabellenzellen und 2 Feldhinweise).
+- Deine offene FRAGE (gekürzte Tabellenzelle mit Tooltip) ist BEANTWORTET – siehe Eintrag "PRÜFUNG … 18:10 – 0.65.326": eigene Art "gekürzt
+  (Tooltip)", kein FEHLER, wenn (1) keine Zahl gekürzt, (2) das Wichtigste zuerst, (3) Tooltip = ganzer Text. Bitte so umsetzen.
+- Weiter 0.65.328 ("Was tun" zweizeilig), dann Bericht "BEREIT FÜR INGAMETEST" mit Liste je Punkt.
