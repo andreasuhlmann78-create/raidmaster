@@ -1,0 +1,45 @@
+AHSentinel 0.65.330 – TAINT-1 (Befund HOCH 17.11. 18:54) – umgesetzt, zur Prüfung
+
+==== Ursache – BELEGT (Code + Nachbau) ====
+Die Testroutine 0.65.329 beschrieb während eines Laufs diese Blizzard-Globale (Nachbau: jeder Schreibzugriff mitgeschrieben, Teil auto):
+GetCVar (T841, TestRoutine.lua:19205/19225), SetOverrideBindingClick + ClearOverrideBindings (Sniper-Mausrad-Test, :19038/19039/19073),
+GetTradeSkillSelectionIndex (Beruf -> Liste, :19240/19242/19247), print (Befehlsliste ohne Entwicklermodus, :6114/6116) = 11 Schreibzugriffe.
+Jeder schreibende Zugriff verdirbt den Eintrag bis /reload – auch beim Zurückschreiben; Blizzards TextStatusBar liest GetCVar -> Meldung
+des Nutzers. (Das Verderben selbst bildet der Nachbau nicht nach – es gibt kein taint ausserhalb von WoW; belegt ist der Schreibzugriff.)
+
+==== Umsetzung (Auftrag 1) ====
+- Code liest diese Funktionen jetzt über den eigenen Zugang A:Global(name): Sniper:ApplyBindings (SetOverrideBindingClick/
+  ClearOverrideBindings), Crafting API trade.selected (GetTradeSkillSelectionIndex), A:Print/A:PrintCommands (print), SniperTest
+  (GetCVar, schon vorher); dazu fremde Addon-Schnittstellen: Comfort (ProfessionSentinelAPI), RaidSupply (RaidMasterAPI).
+- Die Testroutine ersetzt nur noch A.apiOverride (Tabelle mit __index auf den vorigen Stand, danach zurück) – nie mehr _G.
+- Zählen weiterhin nur mit hooksecurefunc (TR.InstallCounters, unverändert).
+
+==== Liste aller Schreibstellen in ALLEN Dateien (Auftrag 2) ====
+Gesucht: "_G.X =", "_G[..] =", rawset(_G…), Mehrfach-Zuweisungen mit _G, Zuweisungen an C_-Tabellen/GameTooltip/UIParent/ChatFrame,
+Blizzard-Namen (Get/Set/Is/Unit/Has/Can/…) ohne local; dazu Laufzeit-Nachbau (s.o.) für die Teile auto, sniper, ui, tempo, server.
+- Blizzard-Globale: nur die 5 oben (alle in TestRoutine.lua) – entfernt. Laufzeit 0.65.330: 0 Schreibzugriffe in allen 5 Teilen.
+- Eigene/GoldSentinel-Namen (kein Blizzard-Code liest sie, bleiben): _G.AHSentinel (API.lua), AHSentinelMerge (eigene SavedVariable,
+  Merge.lua und T-Test), GoldSentinel*-Globale der gemeinsamen Dateien (unverändert aus shared/), GoldSentinelUIFrames (gemeinsame Liste)
+  und AHSentinelTestProfFrame (Test-Rahmen, eigener Name) in T-UI-Test, SlashCmdList["AHANALYZERPRO"]/SLASH_…, StaticPopupDialogs
+  ["AHSENTINEL_BOOKS_RESTART"] (übliche Anmeldung eigener Einträge, beschreibt keine Blizzard-Funktion).
+- Fremde Addon-Schnittstellen ProfessionSentinelAPI/RaidMasterAPI: wurden im Test ersetzt (kein Blizzard-Taint, aber fremdes Addon) –
+  jetzt ebenfalls nur über A.apiOverride.
+
+==== Prüfung (Auftrag 3) ====
+- T899 (nach JEDEM Lauf, auch Abbruch, in TR:Finish): 20 wichtige Blizzard-Namen (GetCVar, SetCVar, Bindungen, print, GetMoney,
+  UnitHealth/UnitPower, GetItemInfo, C_AuctionHouse/C_Item/C_Container/C_TradeSkillUI/C_Timer, CreateFrame, PlaceAuctionBid,
+  PostAuction, TextStatusBar_UpdateTextString, GameTooltip): issecurevariable = sicher (FEHLER, wenn durch AHSentinel verdorben; von
+  anderen Addons verdorben = Hinweis mit Namen) und dieselbe Funktion wie beim Start des Laufs.
+- Nachbau s289_keine_blizzard_globale: Schreibzugriffe auf Blizzard-Globale während des ganzen Teils auto = 0, T899 bestanden.
+  Gegenprobe 0.65.329: 11 Schreibzugriffe (Liste oben), T899 fehlt.
+
+==== Auftrag 4 (Nutzer) ====
+Bis 0.65.330 installiert ist: nach jeder Testroutine /reload. Ab 0.65.330 nicht mehr nötig; T899 zeigt es im Bericht.
+
+Tests: Gesamtlauf 362/0 · addon_check OK (Release und Discord). BEREIT-FÜR-INGAMETEST-Bericht wird auf 0.65.330 nachgeführt (TAINT-1 dazu).
+
+==== Zum Befund Ingametest 19:08 (fd414217) ====
+Gelesen. 0.65.330 enthält nur TAINT-1. Die Punkte 1–10 (Sandbox sniper.stats/targets, T49, Schritte über 40 ms im Spiel, T126, Vollscan
+im Spiel, T20, Einzelbefunde, SK1-m Zauber 836, TU6 CH-G, Prüfliste TR-ALLES) bearbeite ich jetzt der Reihe nach (HOCH zuerst) – der
+Bericht "BEREIT FÜR INGAMETEST" kommt erst wieder, wenn sie umgesetzt sind. Der Upload des Laufs 19:08 (Uploader) wird für 1, 2, 3, 5
+gebraucht; bis er da ist, arbeite ich mit Code und Nachbau.
