@@ -1,0 +1,65 @@
+LevelPilot 3.12.88 veröffentlicht (Discord) – Messung mit den im Spiel gemessenen Kartenrahmen (umgesetzt, zur Prüfung)
+Datum: 17.11.2026 17:29
+Bezug: offen-levelpilot.txt "KARTENRAHMEN DA (Supervisor 16:45)"; Supervisor 15:55 ("3.12.88 erst nach der Messung veröffentlichen").
+Zip: announce/levelpilot__levelpilot-3.12.88.LevelPilot.zip, md5 1447fb1bb658fb3ae54d1c5359f0e256. Datenpaket unverändert 1.6.4.
+
+1. Kartenrahmen vollständig?
+- 54 Karten. Gemessen werden nur Karten, für die C_Map.GetWorldPosFromMapPos eine Weltlage liefert. Dungeon-Karten liefern keine.
+- Enthalten sind:
+  - alle Zonen 1411–1458
+  - beide Kontinente (1414 Kalimdor, 1415 Östliche Königreiche)
+  - die Schlachtfeld-Karten 1459–1461
+  - 1463, 1464 und 2482
+- Elternkarten passen: jede Zone hat 1414 oder 1415 als Eltern (die Schlachtfelder ihre Zone), die Kontinente 947.
+- Jede Zone, die das Datenpaket nennt (1411–1459, je 10 bis 332 Punkte), ist enthalten. Für alle 12 Reisen fehlt keine Karte.
+- Prüftext angepasst (Prüfliste T344, Client-Frage T344): statt "mehrere hundert" jetzt "um 50 (alle Zonen und beide
+  Kontinente; WoW Forever: 54)".
+- Era: keine Messung vorhanden. Der Prüfpunkt bleibt für Era offen.
+
+2. Messung "Strassen raus": 3.12.87 gegen 3.12.88, mit kartenrahmen_forever.lua (WORLDHOOK=sim/kartenrahmen_hook.lua)
+- 12 Charaktere (6 Training, 6 Gegenprobe), Forever 1–60: bei allen 12 sind Spielzeit und Grinden IDENTISCH.
+  Spielzeit von 3.12.87 = 3.12.88 (Minuten), Grinden in Anzahl:
+    Training:   Scourge PRIEST 11350/196 · Orc WARRIOR 10922/190 · Tauren WARRIOR 11022/153 · NightElf HUNTER 9855/150
+                Human WARRIOR 10894/180 · Dwarf WARRIOR 11039/159
+    Gegenprobe: Scourge MAGE 10323/165 · Orc ROGUE 10333/174 · Tauren DRUID 10996/147 · NightElf DRUID 10980/183
+                Dwarf PALADIN 10821/162 · Human MAGE 10746/171
+  Mit den echten Rahmen sind es 164–189 h je Reise. In der Ersatzwelt waren es ca. 970 h. Die Zeiten sind jetzt brauchbar.
+- ROUTE-Q mit 6 Völkern × Forever/Era: alle 12 Zeilen IDENTISCH (R1 0, R2 0, R3W 0 bei beiden Fassungen). Die Era-Läufe
+  nutzten dabei ebenfalls die Forever-Rahmen, weil keine Era-Messung vorliegt.
+- Warum identisch (belegt):
+  - 3.12.87 lud die Strassen auch in der Simulation (Ladestand Kalimdor fertig, 687 Knoten / 645 Kanten).
+  - Die Strassenknoten waren bei Wegsuche 1, 1000 und 5000 im Netz.
+  - Trotzdem enthielt keine Wegsuche ein Strassenstück:
+    - Orc: 0 von 5503 Wegsuchen
+    - Human: 0 von 6057 Wegsuchen
+  - Gegenprobe mit halb so teuren Strassen (ROAD_COST 0,5): wieder 0 von 5505.
+  - Warum die Wegsuche sie nie nimmt, habe ich nicht weiter untersucht, weil der Code jetzt entfernt ist. Verdacht, zu messen:
+    Start und Ziel schliessen nicht an Strassenknoten an. Für die Östlichen Königreiche wurde in den Horde-Reisen nie geladen.
+  - Folge: das Entfernen der Strassen (EULA) ändert die Route in der Simulation nicht. Im Spiel war der Nutzen schon in
+    3.12.87 vermutlich gleich null. Das ist ein Verdacht, belegt ist es nur für die Simulation.
+- Die früheren Zahlen (Zeitberichte mit der Ersatzwelt) gelten nicht mehr. Neue Grundlinie mit echten Rahmen sind die 12
+  Werte oben.
+
+3. Prüfstand des veröffentlichten Zips
+- addon_check: OK. 1 Warnung: lupa fehlt hier, deshalb wurde die Lua-Syntax nicht geprüft.
+  Ersatz: alle Dateien mit Lua 5.1 geladen, 0 Syntaxfehler.
+- Offline-Routine: 38 Läufe, 38 ohne FEHLER. Dazu gehört test_w3d mit der erneuerten EULA-Prüfung, siehe Bericht 1602.
+- Regression: 35 von 36 Läufen grün. test29 hat 1 FEHLER, bekannt und bei 3.12.87 gleich. Der Lauf war vor der
+  Prüftext-Änderung; seither wurde nur Text geändert.
+- Einzeltests: grün: T155, T332–T346, T299, T305, T309. T312 ist nicht prüfbar (Strassen entfernt).
+
+4. Inhalt 3.12.88: siehe CHANGELOG
+- Strassen entfernt
+- Gebietsnamen-Liste entfernt
+- Aufzug-Schätzwert
+- Talentvorschläge über den Namen (nur DE/EN, mit Hinweis)
+- testroutine alles und stopp
+- Prüfliste im neuen Format
+- GoldSentinelMarkt v10
+- T344–T346
+
+5. Offen
+- Era-Kartenrahmen (der Nutzer misst bei Gelegenheit).
+- Datenpaket-Koordinaten mit den gemessenen Rahmen neu umrechnen. Das ist der nächste Punkt; mit den Forever-Rahmen
+  fange ich jetzt an.
+- Comfort ZONE_MIN/MAX: Bestätigung erbeten (Bericht 1602).
