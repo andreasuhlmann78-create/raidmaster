@@ -1,0 +1,85 @@
+BERICHT PROFESSIONSENTINEL AN DIE PRÜF-SITZUNG – VERSION 0.9.67 (Ingametest 0.9.66 Punkte 1–10, PS-RUN-1 a–d, Prüfung 21:45)
+Stand: 17.11.2026 22:28 · Release v0.9.67 (Commit b4927a4), Zip aus dem Release geladen, diff -r gegen die Quelle: gleich,
+addon_check: OK. Nur "umgesetzt, zur Prüfung" mit Belegen. Vorheriger Zwischenbericht: 2026-11-17-2125-zwischenstand-ingametest-0.9.66.txt.
+
+KURZ – NACHBAU MIT ECHTEN DATEN (tests/nachbau_echt.py: echtes AHSentinel 0.65.332 + gespeicherte Daten des PCs, Ballast 150 MB)
+                                   0.9.66 (Gegenprobe)   0.9.67
+Forever Bilder über 40 ms          268                   5   (3 davon EIN Aufruf in AHSentinel, siehe 3)
+Forever längstes Bild              1040 ms               120 ms (Aufwärmen; darin AHSentinel BestWay 64 ms beim ersten Aufruf)
+Forever FEHLER                     14 (Spiel: 23)        0
+Retail Bilder über 40 ms           –                     1 (Aufwärmen 52,6 ms; vorher T269 93 / T88 73 / T260 81)
+Retail FEHLER                      –                     0
+Nachbau ohne AHSentinel (alt)      2–3 Bilder (57/62 ms) 0 Bilder über 40 ms, längstes 39,9 ms, 0 Bereinigungen
+Längste Portion beim Berufs-Ereignis (T140, Nachbau echt): 5,6 ms (Gegenprobe UI.FRAME_BUDGET 1000: 23,7 ms -> FEHLER).
+Fragen an AHSentinel je Lauf: 1 333 991 behaltene Antworten, 85 866 echte Fragen (0.9.66: alles echte Fragen, ~1,75 Mio.).
+
+1. UMGESETZT (zur Prüfung)
+--------------------------
+Ingametest Punkt 1 (Zeitangaben): Zusammenfassung trennt jetzt
+  "Längstes einzelnes BILD je Schritt über 16 ms: n – …" (nur das zählt gegen 16/40 ms) und
+  "Gesamtdauer je Schritt über alle seine Bilder (längste 10; kein Bild): T81 635 ms in 1098 Bildern, …";
+  "Schritte mit einem Bild über 5 ms: n (längstes Bild …)". Test T289 Teil 4 prüft die getrennte Ausgabe.
+Punkt 2 (Produkt-Ruckeln): Ursachen B1–B7 (Zwischenbericht) behoben: Antworten von AHSentinel behalten (bis Scan/Buchung/
+  Einstellung bzw. Händler, ≤ 60 s, ≤ 30 000), Rezeptpreise behalten (gleiche Bedingungen), Gold je Stunde ≤ alle 10 Min. im eigenen
+  Bild, Schnäppchen nur auf Klick, Abgabe-Stellen im Aufbau, UI.FRAME_BUDGET 5 ms. UpdateBest (b): läuft im Spiel nur im
+  portionierten Aufbau; T140 misst jetzt die längste Portion bei einem Berufs-Ereignis (Median aus 3, Ranglisten jeweils neu).
+Punkt 3/4 (echte Sendungen, T255 "echte Aktion: 2"): Wächter mit Aufrufer-Kette; fremde Addons aufgeführt, kein FEHLER (T93 prüft
+  die Zuordnung). Im Nachbau 0 eigene Aufrufe – die Zahl im Spiel zeigt der nächste Ingametest mit Namen.
+Punkt 5: yield über pcall behoben (Prices.InPass in Aufgaben), tests/yield_check.py (Gegenprobe 0.9.66: 2 Verletzungen, jetzt 0 in
+  allen 4 Versionen); T244 Enumerate(nil, nil, false), Attrappe streng.
+Punkt 6 (Isolation): Ursache belegt – die Fälle versteckten nur den alten Namen "AHAnalyzerPro", das echte AHSentinel antwortete über
+  den neuen Namen "AHSentinel". Foreign() hält beide Namen gleich (ausser ein Fall setzt beide selbst); T43, T133, T137, T212 verstecken
+  alle Preis-Addons; der Selbsttest (T88) rechnet ohne installiertes AHSentinel.
+Punkt 7 (Werte T58/T88/T59/T216): dieselbe Ursache wie 6 (echte Werte von AHSentinel statt der Testwerte) – im Nachbau echt jetzt OK.
+  T258 (Grundregel in echten Daten): im Nachbau mit den PC-Daten 0 Verletzungen – Diagnose GRUNDREGEL im nächsten Ingametest.
+Punkt 8 (Oberfläche): T80 Ursache belegt – ein alter Speicherstand merkt "disenchant" für den Reiter Gold (seit 0.9.51 ein Abschnitt
+  der Gold-Liste ohne eigenen Schalter), der Reiter öffnete dann nie "gold". Produkt behoben (Reiter Gold öffnet die Gold-Liste),
+  T80 setzt diesen Stand; Gegenprobe ohne Änderung: FEHLER "Ansicht gold nicht erreichbar" wie im Spiel. T275 Wechsel: Fall in
+  Bildern. T243/T276/T180/T198/T32: im Nachbau echt OK – Verdacht, zu messen: hängen an weiteren installierten Addons
+  (TomTom/LevelPilot) oder am offenen Berufsfenster; der nächste Ingametest zeigt sie mit den neuen Angaben.
+Punkt 9 (Speicher): vorher/nachher beide über TR.MemKB ohne Bereinigung gemessen, Quelle genannt ("Speicher (ungefähr, ohne
+  Bereinigung; gemessen: Addon)"), Unterschied ausgewiesen; Mischung würde als "NICHT vergleichbar" genannt.
+Punkt 10 (Dauer): Zeile "Dauer x s (Ziel ≤ 300 s) – Anteil je Bereich: B … (…%) · …". Ziel 5 Minuten ist ein VORSCHLAG des Projekts
+  (0.9.66 im Spiel 8,3 Min.) – bitte entscheiden. Nachbau echt: Lauf 16,7 s (0.9.66: 51 s).
+PS-RUN-1 (c): kein collectgarbage collect/step mehr in der Routine (T289 prüft es mit Gegenzählung), T145 "Speicher ungefähr".
+(d) Retail T260: im Nachbau echt Retail 29–31 ms (vorher 81).
+Prüfung 21:45 – Gold-Sicherheit: ns.FreshPrices() am Anfang jedes Gold-Klicks (TD.Run, PL.BuyFromVendor, PL.ToSniper,
+  DE.SnipeDeals, DE.SnipeReagents, UI.BuyForRecipe): in diesem Bild werden behaltene Antworten und Rezeptpreise nicht gelesen, sondern
+  neu gefragt (und danach behalten); der nächste Aufbau des Panels beendet das. DE.SnipeReagents rechnet die Liste neu, wenn
+  AHSentinel seit ihrer Berechnung eine Änderung gemeldet hat. Behalten werden NUR Antworten von AHSentinel (meldet jeden Scan,
+  jede Buchung, jede Einstellung -> PS.OnChanged leert alles); aux/Auctionator/Auctioneer/TSM werden nie behalten.
+  T290 prüft: zweite Frage ohne Aufruf, nach Scan/Buchung/Einstellung neu, Fehler nie behalten, Obergrenze, nur AHSentinel-Funktionen,
+  jeder der 6 Gold-Klicks ruft FreshPrices, im Klick-Bild neu gefragt, danach wieder behalten.
+  Hinweis: Ein erster Versuch (alles Behaltene beim Klick verwerfen) ergab im Nachbau 19–28 Bilder über 40 ms (T81 bis 1377 ms, jede
+  folgende Ansicht rechnete alles neu) – daher die Form "nur dieses Bild frisch".
+Testroutine-Fälle in Bildern (Nachbau echt vorher -> jetzt): T80 148, T82 127, T219 156, T118 118, T167 87, T244 74, T255 70, T273 65,
+  T79 59, T165 52, T231 50, T164 44, T279 41, T275 211, T269 93 (Retail), T87 43, T210 43, Start 75 (Sicherung jetzt in Portionen;
+  bricht der Lauf während der Sicherung ab, wird nichts zurückgeschrieben – nichts wurde geändert) -> alle unter 40 ms ausser
+  T210 (43, eine Plausibilitätsprüfung baut Pläne) und T38 (41) in einzelnen Läufen.
+GoldSentinelTakt (Hinweis 21:00): für diese Arbeit nicht übernommen – die Fälle sind mit den vorhandenen Schritt-Helfern
+  (OpenPanelW/Portioned/WAIT) geteilt, ohne Abgabe in Ersatz-Zuständen. Der Takt kommt bei der nächsten NEUEN Arbeit in Portionen
+  (Pflicht laut Hinweis). Falls die Prüf-Sitzung ihn schon für 0.9.67 verlangt: bitte Bescheid, dann Umbau in 0.9.68.
+
+2. VERBLEIBENDE BILDER ÜBER 40 MS (Nachbau echt) – jedes mit Grund
+-------------------------------------------------------------------
+- Forever "Aufwärmen" 120 ms: erster BestWay-Aufruf eines Items in AHSentinel 64 ms (einmal je Sitzung) im selben Bild (Befund E3).
+- Forever "Aufwärmen" 79 ms: AHSentinel.API.GoldPerHour 79 ms (ein Aufruf, eigenes Bild, höchstens alle 10 Min.; Befund E1).
+- Forever "Aufwärmen" 74 ms: erster NetSale eines Items in AHSentinel ~63 ms (Befund E3).
+- Forever T210 43 ms / T38 41 ms: eigene Arbeit, knapp über der Grenze, in anderen Läufen darunter – nächste Version.
+- Retail "Aufwärmen" 52,6 ms: erster Aufbau mit 10 000 Rezepten – nächste Version. T88 (Selbsttest am Stück) lag in einem Lauf bei
+  73 ms (Produkt-Befehl /ps selftest rechnet am Stück) – nächste Version.
+
+3. FÜR DEN INGAMETEST 0.9.67
+----------------------------
+- "/ps testroutine alles" mit offenem Berufsfenster: die Zusammenfassung zeigt längstes Bild je Schritt, Gesamtdauer, Dauer mit Anteil
+  je Bereich und "Wächter, andere Addons (kein Fehler)" mit Namen.
+- Beim Spielen: Berufsfenster öffnen, Berufs-Ereignisse (Herstellen) – Diagnose zeigt "Neuaufbau (Teil)" je Portion.
+- Messauftrag: Abstand Spiel/Nachbau (heute Faktor ~4–15) mit den neuen Zahlen nachrechnen.
+
+4. NOCH OFFEN
+-------------
+- TR-ALLE Nachtrag D (Fenster-Schritte "wartet auf Fenster", bis 7 Tage nachholen) – nicht begonnen.
+- T210/T38/Retail-Aufwärmen/T88 unter 40 ms (siehe 2).
+- AHSentinel-Befunde E1–E4 (bei der Prüf-Sitzung / AHSentinel).
+Tests vor der Veröffentlichung: run_offline (4 Versionen) 0 FEHLER, Lua 5.1 Forever/Retail, smoketest, check_actions,
+Locale-Schlüssel 549, test_qloader, yield_check (Forever, Era, Retail, TBC) 0 Verletzungen, addon_check OK (lokal und Release-Zip).
