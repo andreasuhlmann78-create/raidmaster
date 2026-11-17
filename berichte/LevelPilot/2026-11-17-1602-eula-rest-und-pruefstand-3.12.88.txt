@@ -1,0 +1,53 @@
+LevelPilot – EULA-Rest in der Arbeitskopie 3.12.88 entfernt, Prüfstand (umgesetzt, zur Prüfung)
+Datum: 17.11.2026 16:02
+Bezug: Entscheid des Nutzers 17.11.2026 06:22/06:34 (keine Spieldaten), Supervisor-Antwort 15:55 (3.12.88 vorbereiten,
+erst nach der Kartenrahmen-Messung veröffentlichen). 3.12.88 ist NICHT veröffentlicht.
+
+1. Was seit dem Bericht 16xx (eula-repo-bereinigt-und-talente) noch dazukam
+- Graph.LIFT_WAIT: die Aufzug-Takte aus der Spieldaten-Tabelle TransportAnimation (Unterstadt 8,4 s, Donnerfels 15 s) sind
+  raus. Alle Aufzüge nutzen den Schätzwert LIFT_WAIT_DEFAULT = 15 s (Verdacht, zu messen: die echte Wartezeit kommt aus der
+  Wegmessung im Spiel). Wirkt nur mit W3D, und W3D ist zurzeit AUS. Für den Spieler ändert sich also nichts.
+- Graph.INDOOR_ZONES: der Kommentar verweist nicht mehr auf wago.tools UiMap. Die Begründung ist jetzt die Laufzeit
+  (C_Map liefert in der ganzen Unterstadt 1458). Der Wert selbst ist unverändert.
+- Alle Code-Kommentare „3.12.89“ wurden auf 3.12.88 geändert. Talente, Gebietsnamen und Strassen kommen zusammen in 3.12.88.
+- CHANGELOG DE/EN 3.12.88 ergänzt:
+  - „Teil 3“: Gebietsnamen-Liste entfernt, Aufzug-Schätzwert.
+  - Talentvorschläge über den Namen. Nur Deutsch und Englisch, mit Hinweis für andere Sprachen. Endet mit Hinweis, wo ein
+    Name noch nicht bestätigt ist.
+  - Tests T344, T346 neu; T299, T305 erneuert.
+- Offline-Test berichte/LevelPilot/offline/lua/test_w3d.lua, Abschnitt 11, erneuert:
+  - Ab Fassung 3.12.88 wird geprüft:
+    - LP.AreaNames == nil
+    - Schlüssel = Name aus dem Spiel
+    - alte Schlüssel „#ID:Name“ bleiben lesbar
+    - gespeicherte Angaben werden nicht umgeschlüsselt
+    - die Anzeige zeigt keine ID
+  - Ältere Fassungen laufen weiter mit den bisherigen Prüfungen.
+  - Gegenprobe: 3.12.88 mit wieder eingesetztem LP.AreaNames ergibt „== 1 FEHLER“. 3.12.87 ergibt ALLE OK (alter Zweig).
+
+2. Prüfstand der Arbeitskopie (Zip LevelPilot-3.12.88, md5 7636f5782a0dc8931516b5ec1fcb1816, nicht im Repo)
+- addon_check: OK, 1 Warnung. Die Warnung: lupa fehlt hier, deshalb wurde die Syntax nicht geprüft.
+  Ersatz: alle .lua-Dateien mit Lua 5.1 loadfile geladen, 0 Syntaxfehler.
+- Offline-Routine: 38 Läufe, 38 ohne FEHLER.
+  - Im ersten Lauf liefen meine Einzeltests parallel. Dabei schlug T263 fehl (Last-Test, längste Portion 19,8 ms statt
+    ≤ 16 ms). Ohne Parallel-Last war T263 grün. Ursache Rechnerlast, wie bei T151/T155 bekannt.
+  - Im ersten Lauf schlug auch test_w3d mit 5 FEHLER fehl, weil der Test noch die Tabelle erwartete. Siehe Punkt 1.
+- Regression (36 Läufe): 35 ALLE OK. test29 hat 1 FEHLER: „Ratchet-Schritte nach den Zielen rund um Crossroads“.
+  Derselbe Fehler kommt bei 3.12.87 und dem vorigen 3.12.88-Stand ohne echte Kartenrahmen. Bekannt, zu messen mit den
+  echten Rahmen.
+- Einzeltests:
+  - grün: T155, T332–T346 (ausser T312), T299, T305, T309
+  - T312: nicht prüfbar (Strassen seit 3.12.88 entfernt)
+
+3. Was noch an Spieldaten hängt (zur Entscheidung, nichts davon ändert der Spieler)
+- Comfort.lua C.ZONE_MIN/MAX = 1411..1460: das ist ein Zahlenbereich der uiMap-IDs, den die Laufzeit-API selbst abfragt.
+  Es ist keine Tabelle aus den Spieldateien. Meiner Meinung nach unbedenklich. Bitte bestätigen.
+- Datenpaket-README und Koordinaten: die Questie-Umrechnung über UiMapAssignment-Rahmen wird neu gemacht, sobald die
+  gemessenen Kartenrahmen da sind (Supervisor 15:55).
+
+4. Weiter
+- Sobald berichte/LevelPilot/offline/lua/sim/kartenrahmen_forever.lua (und _era.lua) im Repo liegen, folgen:
+  - Messung 3.12.87 gegen 3.12.88 (Strassen raus) mit echten Rahmen: 12 Charaktere und ROUTE-Q
+  - Wiederholung der früheren Zahlen
+  - danach die Veröffentlichung 3.12.88 mit Ankündigung
+- Bis dahin bleibt 3.12.88 unveröffentlicht.

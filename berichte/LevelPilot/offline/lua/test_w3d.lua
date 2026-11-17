@@ -101,7 +101,7 @@ PRE_RUN = function(LP)
   local down = G:PathRaw(ui, un, uw, Z, di, dn, dw, Z, nil, true, "i:OBEN", "i:UNTEN")
   local up = G:PathRaw(di, dn, dw, Z, ui, un, uw, Z, nil, true, "i:UNTEN", "i:OBEN")
   check(down ~= nil and up == nil, "Sturz: hinunter Weg " .. tostring(down ~= nil) .. ", hinauf kein Weg " .. tostring(up == nil))
-  -- 8) Aufzug: 2D still, 5 s, Ebene wechselt -> Aufzug-Tor mit Wartezeit (Unterstadt 8,4 s; hier Standard 15 s)
+  -- 8) Aufzug: 2D still, 5 s, Ebene wechselt -> Aufzug-Tor mit Wartezeit (hier Standard 15 s; seit 3.12.88 für alle Aufzüge)
   local liftPts = pts({ { 75, 40 }, { 75.5, 40 }, { 75.5, 40 }, { 76, 40 } }, "i:L1")
   liftPts[1][5], liftPts[2][5], liftPts[3][5], liftPts[4][5] = 100, 103, 108, 111
   liftPts[3].k, liftPts[4].k = "i:L2", "i:L2"
@@ -125,7 +125,25 @@ PRE_RUN = function(LP)
   for _, z in ipairs(d.zones) do for _, e in ipairs(z.edges) do if e.lv then withLv = withLv + 1 end end end
   check(withLv > 0, "Wegdaten enthalten die Ebenen-Angabe (" .. withLv .. " Wegstücke)")
   -- 11) sprachfrei (3.12.38, Supervisor 21:48): deDE- und enUS-Name derselben Unterzone -> derselbe Schlüssel
-  if G.SubKey then
+  local va, vb, vc = tostring(LP.version or ""):match("^(%d+)%.(%d+)%.(%d+)")
+  local ab3128 = va and ((tonumber(va) * 1000 + tonumber(vb)) * 1000 + tonumber(vc)) >= 3012088
+  if G.SubKey and ab3128 then
+    -- 11) ab 3.12.88 (EULA, Entscheid des Nutzers 17.11.2026 06:22): keine Gebietsnamen-Tabelle aus den Spieldaten mehr.
+    -- Der Schlüssel ist der Name aus dem Spiel; alte gespeicherte Schlüssel "#ID:Name" bleiben lesbar, nichts wird umgeschlüsselt.
+    check(LP.AreaNames == nil, ("keine Gebietsnamen-Tabelle aus den Spieldaten geladen (Fassung %s)"):format(tostring(LP.version)))
+    local kd, ke = G.SubKey("Magieviertel"), G.SubKey("The Magic Quarter")
+    check(kd == "Magieviertel" and ke == "The Magic Quarter", ("Schlüssel = Name aus dem Spiel: „%s“ · „%s“"):format(kd, ke))
+    check(G.SubName("#1497:Magic Quarter") == "Magic Quarter" and G.SubName("#1497") == "1497" and G.SubName("Die Kanäle") == "Die Kanäle",
+      ("alte Schlüssel lesbar: „%s“ · „%s“"):format(tostring(G.SubName("#1497:Magic Quarter")), tostring(G.SubName("#1497"))))
+    LP.db.graph.lvs[#LP.db.graph.lvs + 1] = "1458|d|The Magic Quarter"
+    local nAlt = #LP.db.graph.lvs
+    G:Init()
+    check(LP.db.graph.lvs[nAlt] == "1458|d|The Magic Quarter" and G.LvSprachfrei("1458|d|Magieviertel") == "1458|d|Magieviertel",
+      "gespeicherte Angabe bleibt unverändert: " .. tostring(LP.db.graph.lvs[nAlt]))
+    local tShow = N.GateText({ lift = true }, { lv = "1458|d|#1497:Magic Quarter" })
+    check(tShow:find("Magic Quarter", 1, true) ~= nil and not tShow:find("#1497", 1, true), "Anzeige alter Schlüssel ohne ID: „" .. tShow .. "“")
+  elseif G.SubKey then
+    -- 11) bis 3.12.87: Tabelle Data/AreaNames.lua (Gegenprobe mit alten Fassungen)
     local saved = LP.AreaNames
     -- a) echte Tabelle (Data/AreaNames.lua, wowf 1.60.1.70938): beide Unterstadt-Gebäude und Englisch -> ein Schlüssel
     local r1, r2, r3 = G.SubKey("Magieviertel"), G.SubKey("Das Magieviertel"), G.SubKey("Magic Quarter")
