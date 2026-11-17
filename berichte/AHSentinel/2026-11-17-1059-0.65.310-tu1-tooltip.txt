@@ -1,0 +1,28 @@
+AHSentinel 0.65.310 – TU1 Tooltip je Marktlage (alle Lagen ausser L-AUSREISSER) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.310 und sofort im Discord.
+
+T888 – Tooltip (TT:AddLines, ohne Shift; L-HAENDLER-Tabelle mit Shift) für Ware UND Ausrüstung in L-NORMAL, L-AUFKAUF,
+  L-AUFKAUF-KENNZ, L-FLUT, L-DUENN, L-HAENDLER, L-ALT (dieselben Lagen und Zahlen wie T514–T522, WithLage). 14 Fälle.
+  Erwartungen aus den Regeln (nicht aus der Ausgabe):
+  R1 Zeile „Preis“ = günstigstes Angebot; „(alt)“ genau dann, wenn der Preis nicht aus dem Scan ≤ 6 Std. kommt (nur L-ALT).
+  R2 Zeile „Marktwert“ nur, wenn Marktwert ≠ Preis (L-HAENDLER: 183 = 183 -> keine Zeile).
+  R3 „Verkaufen:“ bzw. „Händler:“ zeigt genau A:RealValue (dieselbe Zahl wie Gewinn/BestWay); ohne Händler-Weg nie über
+     Preis × (1 − AH-Anteil) (1 Kupfer Rundung: 2899 × 0,95 = 2754,05 -> 2755).
+  R4 Hinweis „Preis künstlich hoch – eigene Bestände jetzt verkaufen“ genau bei erkanntem Aufkauf (BuyoutInfo; nur L-AUFKAUF-KENNZ).
+  R5 L-HAENDLER: Händlerpreis vom Spiel -> „Händler: 5s“; nur aus der Tabelle -> „Verkaufen:“ und mit Shift grau „Händlerpreis
+     unbestätigt“ (TU1-HAENDLER).
+  Gemessen vor der Prüfung (Kopie mit Mess-Prüfung): L-NORMAL 9s90 / Marktwert 10s / Verkaufen 9s41 · L-AUFKAUF 28s99 / 13s80 / 27s55 ·
+  L-AUFKAUF-KENNZ 25s / 10s / 23s75 + Hinweis · L-FLUT 8s / 10s / 7s60 · L-DUENN 10s50 / 10s / 9s98 · L-HAENDLER 1s83 / Händler 5s.
+  Test-Hilfe korrigiert: WithLage gab A:PriceInfo ohne inScan zurück -> jede Lage stand als „(alt)“ (nur im Test, nicht im Spiel).
+  Gegenprobe: Aufkauf-Hinweis im Tooltip entfernt -> T888 rot („L-AUFKAUF-KENNZ … Aufkauf-Hinweis false“). T514–T522, T875–T878 grün.
+FRAGEN aus der Messung (Entscheid nötig, nicht geändert):
+  TU1-TT-1: Ausrüstung L-NORMAL: Tooltip „Verkaufen: 9s41“ (Wert netto), der Verkaufen-Reiter schlägt aber 8s vor (3× abgelaufen ->
+    billiger; Ware dagegen 9s89). Soll der Tooltip bei „läuft oft ab“ den Vorschlag (netto) zeigen statt des Marktwerts – oder bleibt
+    „Verkaufen:“ der erwartete Erlös nach Gebühren? (Psychologie: der Tooltip verspricht sonst 15 % mehr als der Reiter vorschlägt.)
+  TU1-TT-2: L-AUFKAUF ohne Kennzeichen (Leiter ab 28s99, Marktwert 13s80): der Verkaufen-Reiter erkennt „Aufkauf“, der Tooltip zeigt
+    den Hinweis „Preis künstlich hoch …“ nur bei BuyoutInfo (Kennzeichen). Soll der Hinweis auch bei der Leiter-Erkennung kommen?
+Nächster Teil TU1: Markt-Reiter je Marktlage.
+
+Tests (eigene, keine Freigabe): Gesamtlauf aller Nachbauten auf dem Stand 0.65.310: BESTANDEN 346, FEHLGESCHLAGEN 0.
+addon_check: AHSentinel-0.65.310.zip OK. Veröffentlicht: GitHub-Release v0.65.310, Discord announce/ahsentinel__ahsentinel-0.65.310.md.
+Nicht in download/, kein CurseForge.
