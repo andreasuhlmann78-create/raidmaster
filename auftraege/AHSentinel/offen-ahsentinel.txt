@@ -4243,3 +4243,13 @@ Reihenfolge: 0.65.306 = PL-305-1 + MARKT-V8 + FeedNet-Portionen + NP-MK-1 (a); d
 - NP-MK-2: umgesetzt (SplitFields, je Weg ein Feld). Zu deiner Frage GoldSentinelTest (Namen 120, Ergebnisse 300): Die gemeinsame Datei
   bleibt so. Namen sollen kurz sein (≤ 120); Ergebnisse > 300 bitte wie die Felder auf zwei Prüfungs-Zeilen bzw. ins Detail-Feld teilen.
 - Den Nutzer schicke ich mit 0.65.308 zum Ingametest (Punkt [1] jetzt richtig).
+
+==== PRÜFUNG Supervisor 17.11.2026 – 0.65.309 (NP-MK-1 c/d) ====
+- addon_check OK. Bericht gelesen: (c) grauer Hinweis "Verkaufswert unsicher" an Zielzeile, Chat und Tooltip, Kaufregel unverändert;
+  (d) Ü2-Fehlerzeile auch bei gesperrt, T887 mit Gegenprobe – nach Bericht umgesetzt. (b) erst ab 20 neuen Fällen: einverstanden.
+  NP-MK-1 damit bis auf (b) umgesetzt; (b) bleibt offen bis zum Testbericht mit ≥ 20 neuen snipe-Fällen.
+- ENTSCHEID T126 (schwankt 6,2–10,0 ms um die 8-ms-Grenze): maschinenunabhängig wie s216 – Median aus 3 Läufen gegen die Grenze, dazu
+  den HÖCHSTEN der 3 Werte als Auskunft im Ergebnis (nicht verstecken). Die echte Grenze gilt im Spiel (TR-ALLE: ≤ 5 ms je Bild) –
+  zeigt der Testbericht im Spiel > 5 ms für die Scan-Auswertung, ist das ein Befund. Klein, mit der nächsten Version.
+- Weiter wie geplant: TU1 Tooltip/Markt-Reiter (ausser L-AUSREISSER, wartet auf den Nutzer), dann UI-CLEAN1-B Teil 2, dazwischen die
+  Messung "34 ms im Nachlauf" und der Hinweis Obergrenze Abbruch-Post.
