@@ -64,9 +64,10 @@ TALENTS = { { { "A", 11, 15, 1, 1 } }, { { "B", 40, 45, 1, 2 } }, {} }   -- 51 P
 GoldSentinelGame = nil
 function hooksecurefunc(a, b, c)
     if type(a) == "table" then
-        local o = a[b]; a[b] = function(...) local r = { o(...) }; c(...); return unpack(r) end
+        -- ohne Tabelle je Aufruf (im Spiel macht der Haken keinen Müll; sonst verfälscht es T110)
+        local o = a[b]; a[b] = function(...) local r1, r2, r3, r4 = o(...); c(...); return r1, r2, r3, r4 end
     else
-        local o = _G[a]; _G[a] = function(...) local r = { o(...) }; b(...); return unpack(r) end
+        local o = _G[a]; _G[a] = function(...) local r1, r2, r3, r4 = o(...); b(...); return r1, r2, r3, r4 end
     end
 end
 function debugprofilestop() return os.clock() * 1000 end

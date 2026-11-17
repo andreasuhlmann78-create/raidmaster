@@ -1,12 +1,14 @@
 -- BuffSentinel – nachgebautes Spiel für die Offline-Testroutine (TU9). Nur für tests/run_offline.lua.
 -- Minimale WoW-API-Attrappe; Lua 5.1 bis 5.4. Keine echten Spielernamen.
 local unpack = table.unpack or unpack
+-- eine einzige leere Funktion für unbekannte Methoden (0.9.53: vorher je Zugriff eine neue Funktion -> Müll, der T110 verfälschte)
+local NOOP = function() end
 local function newObj(kind)
   local o = { _kind = kind, _shown = (kind ~= "Frame" and kind ~= "Button" and kind ~= "ScrollFrame" and kind~="EditBox") , _attr = {}, _scripts = {}, _alpha = 1 }
   return setmetatable(o, { __index = function(t, k)
     local f = rawget(_G, "M_" .. k)
     if f then return f end
-    if type(k) == "string" and k:match("^%u") then return function() end end
+    if type(k) == "string" and k:match("^%u") then return NOOP end
     return nil
   end })
 end
