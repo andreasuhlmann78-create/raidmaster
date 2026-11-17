@@ -1,0 +1,99 @@
+BERICHT PROFESSIONSENTINEL AN DIE PRÜF-SITZUNG – ZWISCHENSTAND INGAMETEST 0.9.66 (Punkte 1–5) UND PS-RUN-1 (a)–(d)
+Stand: 17.11.2026 21:25 · keine neue Version (nichts veröffentlicht). Code-Zwischenstand auf ProfessionSentinel main (Commits
+7d4b0b1 … neuester "Rezeptpreise über Durchläufe behalten, T275 in Bildern"). Hinweis: nur "umgesetzt, zur Prüfung" mit Belegen.
+Grund für "keine Version": Auftrag 20:28 – nächster Ingametest erst, wenn der Nachbau mit echten Daten die Ruckler von 0.9.66 zeigt
+(erfüllt, unten A) UND die neue Version sie beseitigt (noch NICHT erfüllt: 15–16 Bilder über 40 ms, unten C).
+
+A. NACHBAU MIT ECHTEN DATEN (Punkt 2, leistung.md Regel 7) – tests/nachbau_echt.py
+------------------------------------------------------------------------------------
+Im selben Lua 5.1: das echte AHSentinel 0.65.332 (Repo AHAnalyzerPro, nur gelesen) mit den echten gespeicherten Daten des PCs
+(goldsentinel-daten aktuell/DESKTOP-…/forever, AHSentinel.lua 24 MB, ProfessionSentinel.lua; nur lokal gelesen, nichts kopiert,
+Realm/Fraktion zur Laufzeit aus den Daten), echte Rezeptdaten, Ballast 150 MB, Fenster offen, "/ps testroutine alles".
+Gemessen: jedes Bild (Zeitgeber-Aufruf) mit Fall und Speicher vorher/nachher, je Preisquelle Aufrufe/Zeit/angelegte MB,
+fremde Aufrufe über 5 ms mit Aufrufstelle.
+Eichung am Spiel (gleicher Fall, Abweichung genannt) – Gegenprobe 0.9.66:
+  Fall                     Spiel 0.9.66      Nachbau echt 0.9.66     Nachbau alt (ohne AHSentinel) 0.9.66
+  T139 Panel-Aufbau        1267 ms           167 ms                  39–48 ms
+  längstes Bild            15 906 ms (T275)  1040 ms (T126)          57–62 ms
+  Bilder/Schritte > 40 ms  46 Schritte       268 Bilder              2–3 Bilder
+  FEHLER                   23                14                      0
+  T212 "kein Marktpreis"   FEHLER            FEHLER                  OK
+Ergebnis: der Nachbau zeigt jetzt dieselben Ruckler und denselben Isolations-Fehler (T212) – Muster M1/M4 belegt. Abstand zum Spiel
+bleibt Faktor ~4–15 (Verdacht, zu messen: Rechner, weitere installierte Addons, grössere Daten am Spieltag, WoW-Lua langsamer als
+lupa). Der Nachbau ist damit "geeicht mit genannter Abweichung", nicht 1:1.
+
+B. URSACHEN (belegt im Nachbau echt, Messzahlen je Lauf)
+---------------------------------------------------------
+B1 AHSentinel.API.GoldPerHour: EIN Aufruf 75–93 ms (0.9.66-Lauf: bis 489 ms, wächst mit der Buchhaltung), die Preiszeile des Panels
+   fragte ihn in JEDEM Aufbau -> je Ansicht ein Bild weit über 40 ms. (Fundstelle UI.PriceLine -> PS.GoldPerHour)
+B2 AHSentinel Disenchant:FindDeals (Schnäppchen, Gold-Ansicht für Verzauberer): EIN Aufruf ~150 ms, in jedem Aufbau.
+B3 Menge der Fragen an AHSentinel: ein Lauf fragte 785 015× GetVendorBuyPrice, 208 815× NetSale, 186 780× Price, 137 820× WorthUpTo …
+   zusammen 11,5 s und rund 950 MB neue Tabellen in AHSentinel – die Speicherbereinigung räumte das danach in Bildern von 100–370 ms.
+B4 Rezeptpreis (Prices.Recipe): 11,5 KB neue Tabellen je Rezept; jeder Aufbau rechnete alle Rezepte neu (Gold-Ansicht 21 MB).
+   Ganzer Lauf: 1780 MB angelegt (Messung mit angehaltener Bereinigung, je Fall): Aufwärmen 311, T81 279, T83 248, T139 191 MB …
+B5 Erster Aufruf von NetSale/BestWay für ein Item in AHSentinel: 61–65 ms (einmalig je Sitzung, Verdacht: AHSentinel baut dabei einen
+   Zwischenspeicher auf). Liegt in einem Aufbau-Bild; von uns nicht teilbar.
+B6 Abgabe über pcall (Punkt 5, "Aufgabe t279"): Prices.InPass rief in einer Hintergrund-Aufgabe pcall(fn) – darin Jobs.Yield. Belegt mit
+   tests/yield_check.py (Budget 0 = Abgabe an JEDER Stelle, wie BuffSentinel B2): 0.9.66 -> 2 Verletzungen (t143, t279), jetzt 0
+   (Forever 613 207 Abgaben im Aufbau + 10 442 in Aufgaben, Era, Retail 1 414 634, TBC – je 0 Verletzungen, 0 andere Lua-Fehler).
+B7 Testroutine-Speicherbereinigung (PS-RUN-1 c): Teilschritte collectgarbage("step") im Nachbau echt 161–320 ms je Bild
+   ("Speicher (Start)", T145, T289 – der unteilbare Abschluss-Schritt einer Bereinigung bei grossem Speicher).
+
+C. UMGESETZT (zur Prüfung) – Wirkung im Nachbau echt
+-----------------------------------------------------
+                                   0.9.66      jetzt (2 Läufe)
+  Bilder über 40 ms                268         15 / 16
+  längstes Bild                    1040 ms     148 / 156 ms
+  Bilder über 16 ms                623         53 / 51
+  FEHLER                           14          9
+  Lauf-Dauer (Nachbau)             51 s        16 s
+1. Gold je Stunde (B1): 10 Min. behalten (bei Buchungs-/Einstellungs-Änderung von AHSentinel neu), nie im Aufbau gefragt, sondern im
+   eigenen Bild nach dem Aufbau (bleibt ein Bild von ~80 ms je 10 Min. bei offenem Fenster – Aufwand von AHSentinel, siehe E).
+2. Schnäppchen (B2): im Spiel nur noch auf Klick ("Schnäppchen suchen", Zeile im Abschnitt), Ergebnis bis zum nächsten Scan.
+   Testroutine/ohne Zeitgeber wie bisher sofort. Neue Texte DE/EN (3 Schlüssel).
+3. Antworten von AHSentinel behalten (B3): je Funktion und Argument bis Scan/Buchung/Einstellung (PS.OnChanged) bzw. Händler
+   (MERCHANT_SHOW/CLOSED), höchstens 60 s, höchstens 30 000 Einträge; Fehler nie; Händlergunst-Kosten immer frisch; Nachschlagen
+   legt nichts an. Nachbau: 1 306 799 Treffer, 84 448 echte Fragen.
+4. Rezeptpreise über Durchläufe behalten (B4): solange Preise (PS.changes), Simulation, Quelle, Daten (AD.stamp) gleich, höchstens 60 s.
+5. Panel-Aufbau (PS-RUN-1 a/b): UI.FRAME_BUDGET 10 -> 5 ms; neue Abgabe-Stellen in Entzaubern-/Material-Rangliste, Plan-Abschluss,
+   Einkaufsliste, allen Listen-Schleifen, "Heute herstellen". Längste Strecke zwischen zwei Abgabe-Stellen im Aufbau (ohne
+   Bereinigung gemessen): vorher 30,8 ms (CurrentDE nach der Gold-Rangliste), jetzt ≤ ~12 ms. UpdateBest läuft im Spiel immer im
+   portionierten Aufbau (einziger Aufrufer DoRefresh) – damit (b) über die Abgabe-Stellen gelöst, keine eigene Aufgabe nötig.
+6. yield über pcall (B6): Prices.InPass in einer Hintergrund-Aufgabe ohne pcall. tests/yield_check.py neu (Gegenprobe oben).
+7. Wächter (Punkt 3/4): Aufrufer-Kette (debugstack). Eigener Ordner (auch gemeinsame Datei darin) = eigen -> zählt; anderes Addon =
+   "fremd <Addon>" -> im Bericht aufgeführt ("Wächter, andere Addons (kein Fehler)"), kein FEHLER. T93 prüft die Zuordnung mit drei
+   Aufrufer-Ketten. Ursache von "SendAddonMessage ×35/×54" und T255 "echte Aktion: 2": im Nachbau nicht nachstellbar (dort 0) –
+   Verdacht: andere Addons senden während der Routine; der nächste Ingametest zeigt es mit Namen.
+8. T244 (Punkt 5): Enumerate mit excludeCollapsed (nil, nil, false) an beiden Stellen; die Attrappe verlangt den Parameter jetzt wie
+   Forever 1.60.1 (Gegenprobe: ohne -> Fehler wie im Spiel). Im Produkt wird Enumerate nirgends aufgerufen.
+9. PS-RUN-1 (c): die Routine ruft collectgarbage nie mehr auf (weder collect noch step); Speicher nur gelesen, eigenes Bild, "ungefähr".
+   T145 über der Grenze -> ÜBERSPRUNGEN "Speicher ungefähr (ohne Bereinigung)" statt FEHLER. Nachbau zählt jetzt auch "step".
+   ACHTUNG Befund dazu (Nachbau alt, ohne AHSentinel): ohne jede Bereinigung wuchs der Lua-Speicher bis 610 MB und die
+   Bereinigung der Lua-Laufzeit selbst lief in Bildern von 100–197 ms (T255). Belegt durch Gegenprobe mit angehaltener Bereinigung
+   (dann T255 ≤ 18 ms). Darum zuerst B3/B4 (weniger Müll); danach keine Bereinigungs-Bilder über 40 ms mehr im Nachbau echt.
+10. T275 (Spiel 15 906 ms): beide Aufbauten und jede Portion der 5 Berufswechsel in eigenem Bild – im Nachbau nicht mehr über 40 ms.
+11. T290 neu (Regression IT-0.9.66-2): Behalten, Fehler nie behalten, Grenze, Gold je Stunde im eigenen Bild, Schnäppchen nur auf Klick.
+Tests: run_offline alle 4 Versionen 0 FEHLER, Lua 5.1 Forever/Retail, smoketest, check_actions, Locale-Schlüssel 546, yield_check OK.
+
+D. NOCH OFFEN (Reihenfolge laut Auftrag)
+----------------------------------------
+- Punkt 1 (Zeitangaben eindeutig): Antwort: "Schritte über 16 ms" ist schon heute je Schritt das längste EINZELNE Bild (NotePortion
+  misst jeden Zeitgeber-Aufruf für sich) – T275 15 906 ms war ein Bild. Die getrennte Ausgabe (a) längstes Bild / (b) Gesamtdauer je
+  Schritt fehlt noch -> nächster Schritt.
+- Restliche Bilder über 40 ms im Nachbau echt: T80 148, T219 138–156, T82 127, Aufwärmen 113–120, T118 93–118, T167 79–86,
+  Befehl (Start) 71–75, T244 68–73, T255 63–68, T273 56–65, T165 47–52, T231 45–50, T164 44, T79 42–43, T279 40.
+  Weg: GoldSentinelTakt (Hinweis 21:00) – jeder Fall als Takt-Aufgabe, Check in UI.Yield/Jobs.Yield, PCall statt pcall. Ein eigener
+  Versuch mit Coroutine je Fall (ohne Takt) ergab 23 Bilder über 40 ms (Abgaben in Ersatz-Zuständen, längstes 785 ms) und ist NICHT
+  übernommen; der Takt mit Sliced/NoYield ist der richtige Baustein.
+- Punkte 6–10 (Isolation von echten Addons T133/T137/T32/T212/T43, Werte T58/T88/T59/T216/T258, Oberfläche T80/T243/T276/T180/T198,
+  Speicher einheitlich, Dauer mit Ziel), (d) Retail T260, TR-ALLE Nachtrag D.
+
+E. BEFUNDE FÜR AHSENTINEL (über die Prüf-Sitzung; ProfessionSentinel ändert AHSentinel nicht)
+-----------------------------------------------------------------------------------------------
+E1 API.GoldPerHour rechnet bei jedem Aufruf 30 Tage Buchhaltung (Activity:Report("30")): 75–93 ms, im 0.9.66-Lauf bis 489 ms. Bitte
+   Ergebnis zwischenspeichern (bis zur nächsten Buchung) – sonst bleibt bei uns ein Bild von ~80 ms alle 10 Min.
+E2 Disenchant:FindDeals ~150 ms am Stück. Bitte als Aufgabe in Portionen bzw. eine API mit dem fertigen Ergebnis des letzten Scans.
+E3 Erster NetSale/BestWay je Item 61–65 ms (Item 279941 im Nachbau) – Verdacht: Aufbau eines Zwischenspeichers beim ersten Aufruf.
+E4 Jeder API-Aufruf legt neue Tabellen an (Nachbau: ~950 MB über einen Testlauf bei 1,75 Mio. Fragen; bei uns jetzt 84 448 Fragen).
+Messung zum Nachrechnen: python3 tests/nachbau_echt.py ProfessionSentinel <AHSentinel-Ordner> <Ordner gespeicherte Daten>
+(Zeilen "Fremde Aufrufe über 5 ms" und "Preisquellen").
