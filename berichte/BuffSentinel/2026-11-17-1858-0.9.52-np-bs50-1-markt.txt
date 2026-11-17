@@ -1,0 +1,88 @@
+BuffSentinel – Bericht an die Prüf-Sitzung · 0.9.52-np-bs50-1-markt
+Datum: 17.11.2026, 18:58 (aus date)
+
+Stand: Antwort auf die Prüfung 17.11. 19:00 · NP-BS50-1 und Bestätigung MARKT-V8 – umgesetzt, zur Prüfung (0.9.52)
+
+ZUM "BERICHT FEHLT" (0.9.51)
+- Der Bericht liegt seit 18:49 im Repo: berichte/BuffSentinel/2026-11-17-1849-0.9.51-tr-alle-d.txt (Commit 9aae7dad) – vermutlich
+  zeitgleich mit der Prüfung gepusht. Inhalt: Nachtrag D je Punkt (D1–D5), T247/T248, Tests und Gegenproben.
+
+MARKT-V8 HOCH – BESTÄTIGT (mit 0.9.51, GoldSentinelMarkt Version 10, byte-gleich mit shared/)
+- BuffSentinel meldet sich beim Laden mit GoldSentinelMarkt.Attach("BuffSentinel", BuffSentinelDB) an (Core.lua); v10 ruft dort
+  M.PurgeTestIDs(gsMarkt) auf. Diagnose: BuffSentinel gibt GM.DiagLines() mit ipairs ins Protokoll aus – die 5. Zeile kommt mit.
+- Nachbau (eigene Testdaten, NICHT die echte BuffSentinel.lua aus goldsentinel-daten – die habe ich hier nicht): gsMarkt mit den
+  1050 Test-Items 990018001–990019050 (Preis 1) plus 2 echten Items, Export mit einer reinen Test-Zeile (10 Test-Items), einer
+  gemischten Zeile (1 echtes + 2 Test-Items) und einer echten Zeile. Nach PLAYER_LOGIN:
+  Test-Items 0, echte Items 2, Export 2 Zeilen (reine Test-Zeile weg, gemischte Zeile nur noch das echte Item, Kopf 3 Auktionen
+  1 Item), Diagnose "MARKT-NETZ Test-IDs entfernt: 1062" (= 1050 + 10 + 2), auch im Protokoll (BS.DiagText).
+  Die erwartete Zahl im echten Spiel ist ca. 2100 (Supervisor) – je nachdem, wie viele Export-Einträge dort liegen.
+- CHANGELOG EN/DE 0.9.52 mit dem Satz aus dem Hinweis.
+
+NP-BS50-1 – "Wo:" passt zu den Schritten (Pruefliste.lua)
+- AMMO, PETFOOD, HEXER, TOTEM, REAG: "Wo: an der Bank einer Hauptstadt" (REAG + "in einer Gruppe"), Schritt "Sprich den Bankier an"
+  bzw. "Bankier ansprechen", am Schluss Ware aus dem Bankfach zurückholen. RESTOCK: "Wo: erst an der Bank einer Hauptstadt, dann bei
+  einem Händler mit der Ware", nummeriert: Option an, Bank, Händler, ein Klick, Ware zurückholen.
+- NEU T249 "Prüfliste: Aufbau jedes Punkts" (automatisch, Bereich B): je Punkt "Wo:" in der ersten Zeile, Schritt "1.", Zeile
+  "Kosten:", enthält ein Schritt "Bank", dann auch "Wo:"; geschätzte Zeilen im Fenster ≤ 10 (95 Zeichen je Zeile, mit Kopf- und
+  Hinweiszeile); höchstens 14 Punkte. Ergebnis 0.9.52: "14 Punkte, falsch: -".
+  Gegenprobe (drei Punkte absichtlich verdorben): FEHLER "AMMO:Bank, PET:Kosten, PETFOOD:Zeilen 18".
+- Platz: alle 14 Punkte geschätzt 9–10 Zeilen.
+
+HINWEIS "über 5 ms: n" in der Zusammenfassung: ist seit 0.9.48 drin – Chat-Zusammenfassung "… Bilder, längste Portion x ms, über 5 ms:
+n (Prüfung ms, …)", im Bericht die Felder portionen, laengstePortionMs und portionenUeber5ms.
+
+Belege (eigene Tests, keine Freigabe)
+- run25m: OK 196, die bekannten 12 Nachbau-FEHLER. Lua-5.1-Regel mit Abgabe an jeder Stelle: 48 812 Abgaben, 0 Verletzungen.
+- Offline-Routine auf der veröffentlichten Zip 0.9.52: 8 × PASS. addon_check OK (1 Warnung: Lua-Syntax nicht geprüft, lupa fehlt).
+- Veröffentlicht: download/BuffSentinel-0.9.52.zip, README, announce (+ Zip), 0.9.51 entfernt; auf origin/main nachgeprüft.
+- Kleiner Fehler von mir: im englischen CHANGELOG 0.9.52 steht "The nachkaufen point" (ein deutsches Wort) – wird mit der nächsten
+  Version berichtigt ("The restock point").
+
+Neue Texte der geänderten Punkte (so steht es im Spiel):
+== AMMO (Jäger: Munition knapp (WoW Forever))
+Das tust du: Wo: an der Bank einer Hauptstadt (WoW Forever); Jäger mit Bogen/Gewehr, kein Kampf.
+1. Sprich den Bankier an (das Bankfach geht auf).
+2. Lege Pfeile oder Kugeln ins Bankfach, bis weniger als 200 in den Taschen sind.
+3. Warte 2 Sekunden. 4. Hol die Munition wieder aus dem Bankfach.
+Kosten: kein Gold, ca. 3 Min.
+Das musst du sehen: Ein Knopf "MUNITION KNAPP!" mit der Restzahl (z. B. "150").
+== PET (Jäger/Hexer: Begleiter fehlt)
+== PETFOOD (Jäger: füttern und Tierfutter)
+Das tust du: Wo: an der Bank einer Hauptstadt, nicht im Kampf; Jäger mit Begleiter.
+1. Gesicht neben dem Bild des Begleiters gelb oder rot? Wenn grün: nicht füttern, warten.
+2. Nur WoW Forever: Bankier ansprechen, Futter ins Bankfach legen, bis unter 10 dabei sind.
+3. Warte 2 Sekunden. 4. Hol das Futter wieder aus dem Bankfach.
+Kosten: kein Gold, ca. 5–20 Min. (Warten auf gelb).
+Das musst du sehen: 1) "BEGLEITER FÜTTERN!" mit "zufrieden" oder "unglücklich" und dem Schaden in %. 2) "TIERFUTTER KNAPP!" mit der Zahl.
+== INFIRE (Priester: Inneres Feuer Aufladungen)
+== HEXER (Hexer: Splitter, Platz, Gesundheitsstein)
+Das tust du: Wo: an der Bank einer Hauptstadt (für 2.), kein Kampf; Hexenmeister. EINES reicht:
+1. Gesundheitsstein aus der Tasche ins Freie ziehen und "Ja" (zerstören) klicken.
+2. Oder: Bankier ansprechen, Seelensplitter ins Bankfach, bis unter 3 dabei sind.
+3. Oder: alle Taschenplätze füllen. Danach 2 Sekunden warten und alles zurückstellen.
+Kosten: kein Gold (neuer Gesundheitsstein: 1 Seelensplitter), ca. 3 Min.
+Das musst du sehen: "KEIN GESUNDHEITSSTEIN!" bzw. "SPLITTER KNAPP!" bzw. "KEIN PLATZ FÜR SPLITTER!"; danach weg.
+== SOULSTONE (Hexer: Seelenstein in der Gruppe)
+== TOTEM (Schamane: Totem fehlt)
+Das tust du: Wo: an der Bank einer Hauptstadt, nicht im Kampf; Schamane.
+1. Sprich den Bankier an und lege ein Totem (z. B. das Feuertotem) ins Bankfach.
+2. Warte 2 Sekunden. 3. Hol das Totem wieder aus dem Bankfach.
+4. Nur Wrath: ein Meistertotem nur im Relikt-Platz tragen – dann darf nichts erscheinen.
+Kosten: kein Gold, ca. 3 Min.
+Das musst du sehen: Ein Knopf "TOTEM FEHLT!" mit dem Element (z. B. "Feuer"); mit Meistertotem keine Meldung.
+== WAFFE (Schamane: Waffen-IDs messen)
+== REAG (Reagenz knapp in der Gruppe)
+Das tust du: Wo: an der Bank einer Hauptstadt, in einer Gruppe, nicht im Kampf.
+1. Sprich den Bankier an. Lege das Reagenz ins Bankfach, bis unter 10 dabei sind (Paladin 20)
+   (Magier: Arkanes Pulver, Priester: Kerzen, Druide: Beeren/Dornwurz, Paladin: Symbole)
+2. Warte 2 Sekunden. 3. Hol das Reagenz wieder aus dem Bankfach.
+Kosten: kein Gold, ca. 3 Min.
+Das musst du sehen: Ein Knopf "REAGENZ KNAPP!" mit der Anzahl. Allein (ohne Gruppe) keine Meldung.
+== RESTOCK (Nachkaufen beim Händler (ein Klick))
+Das tust du: Wo: erst an der Bank einer Hauptstadt, dann bei einem Händler mit der Ware.
+1. Tippe /bsen optionen, Reiter "Optionen", Haken bei "Nachkaufen-Knopf beim Händler".
+2. Bankier ansprechen, Ware ins Bankfach legen, bis sie knapp ist (wie bei AMMO oder REAG).
+3. Sprich den Händler an. 4. Klicke EINMAL auf den Knopf unter dem Händlerfenster.
+5. Danach die Ware aus dem Bankfach zurückholen.
+Kosten: höchstens 1 Gold (Grenze), mindestens 1 Gold bleibt; ca. 5 Min.
+Das musst du sehen: Knopf "Nachkaufen: <Anzahl>× <Ware> für <Preis>"; Klick kauft genau das.
