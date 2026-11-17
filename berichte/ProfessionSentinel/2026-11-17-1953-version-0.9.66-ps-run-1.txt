@@ -1,0 +1,96 @@
+BERICHT PROFESSIONSENTINEL AN DIE PRÜF-SITZUNG – BEFUND HOCH PS-RUN-1
+Stand: 17.11.2026 19:53 · Version 0.9.66 (Release v0.9.66, Commit 7ebddfc; enthält 0.9.65, Commit 7e452ff)
+Grundlage: offen-professionsentinel.txt BEFUND HOCH PS-RUN-1 (17:06), Nachricht 18:45; MARKT-V8/V9/V10.
+Hinweis: Hier steht nur "umgesetzt, zur Prüfung" mit Belegen. Ob etwas erledigt ist, entscheidet die Prüf-Sitzung.
+Veröffentlicht wird nur 0.9.66 (0.9.65 stand ~10 Minuten als GitHub-Release; die Ankündigung enthält beides).
+
+KURZ
+----
+"/ps testroutine alles" hat in 0.9.64 das Spiel eingefroren. Ursachen sind im Nachbau gemessen und belegt (unten 1). Nachbau wie im
+Spiel (Lua 5.1, echte Rezeptdaten, Fenster offen bzw. zu, 150 MB Lua-Speicher anderer Addons), Median aus 3 Läufen:
+                                     0.9.64        0.9.66 (Fenster offen)   0.9.66 (Fenster zu)
+  längstes Bild                      2608 ms       57 ms                    62 ms
+  Bilder über 40 ms                  29            2                        3
+  ganze Speicherbereinigungen        31 (je 0,34–0,69 s)  0                 0
+  Startbild (Befehl)                 nicht gemessen*  unter 16 ms           unter 16 ms
+  (* in 0.9.64 enthielt das Startbild bei geschlossenem Fenster das Aufwärmen: 850 ms, gemessen mit 0.9.65-Zwischenstand)
+Harte Grenze 40 ms: im Nachbau noch 1–4 Bilder darüber (Namen und Gründe unten 4) – NICHT vollständig erreicht.
+Ziel ≤ 5 ms je Bild: nicht für alle Schritte; jeder Schritt über 16 ms steht jetzt mit Namen in der Zusammenfassung.
+
+1. URSACHEN (belegt im Nachbau tests/nachbau_testroutine.py, je Bild Dauer + laufender Fall, Ballast 150 MB)
+------------------------------------------------------------------------------------------------------------
+a) collectgarbage("collect") am Stück: 31 je Lauf (Start 2, Abschluss 2–4, je Unter-Lauf T20/T110/T288 4, T145 4, T246 1, in
+   Extra/FinalCases 4). Je 0,26–0,69 s im Nachbau; im Spiel mit dem Lua-Speicher aller Addons (oft mehrere 100 MB) länger.
+   Das ist die Hauptursache des Einfrierens (Verdacht für das Spiel, im Nachbau belegt).
+b) Unter-Läufe (T20, T110, T288) rechneten je einen ganzen Lauf in einem Bild: 1,9 s (mit den Bereinigungen aus a).
+c) Aufwärmen beim Start (TR.WarmUp): jede Ansicht jedes Berufs in einem Bild, 850 ms (Lua 5.1), wenn das Fenster zu war.
+d) Schwere Fälle am Stück: T134 355 ms (kaputtes AHSentinel: jede Preisabfrage im Fehlerweg, Ansichten 60–88 ms je Stück),
+   T81 125 ms (alle Ansichten eines Berufs + Zeilen überfahren/klicken), T255 107 ms, T130 84 ms, T133 66 ms, T258/T257 64 ms
+   (20 Pläne am Stück), T276 63 ms, T139 54 ms, T143 48 ms (Hintergrund-Aufgaben Portion für Portion in einem Bild), T87 46 ms,
+   T86/T83/T145/T272 (Fenster mehrfach am Stück gebaut, im Test immer ganz statt in Portionen).
+e) Fenster je Zeile: NEIN (belegt) – das Testbericht-Fenster wird erst am Ende einmal gezeigt.
+f) Datenmengen: Rezept-/Lehrer-Daten werden nicht zur Laufzeit geladen (Data_*.lua beim Einloggen), qloader läuft nur in der
+   Datenaufbereitung – keine Ursache.
+
+2. BEHOBEN (0.9.65/0.9.66)
+---------------------------
+- Speicherbereinigung nur noch in Portionen: TR.GCPortion ≤ 4 ms je Bild, Grenzen 60 s UND 5000 Portionen UND 2000 Schritte je
+  Portion (keine Sperre ohne Zeitlimit, auch ohne Uhr). Start: zwei Zyklen in Portionen, dann Speicher in eigenem Bild.
+  Abschluss in Phasen: Rückbau+Sandbox (muss am Stück sein), Bereinigung in Portionen, Addon-Speicher (UpdateAddOnMemoryUsage)
+  in eigenem Bild, Bericht in eigenem Bild. Unter-Läufe und Abmelden: keine Bereinigung.
+  Speichervergleich im Spiel über GetAddOnMemoryUsage des eigenen Addons (andere Addons rechnen zwischen den Portionen mit);
+  offline (Attrappe mit fester Zahl) weiter collectgarbage("count").
+- Aufwärmen: eine Ansicht je Bild, Fenster baut dabei in Portionen (TR.portioned), danach die zwei Fenster in einem eigenen Bild.
+- Schwere Fälle in Einzelbild-Schritte geteilt (Seq/Chunks/Tasks/RowsW, Fenster im Test wie im Spiel in Portionen mit Warten auf
+  das Ende des Aufbaus: OpenPanelW/Portioned): T81 T83 T86 T87 T123 T124 T130 T133 T134 T139 T140 T143 T145 T246 T255 T257 T258
+  T272 T276 T289. Was jeder Fall prüft, ist unverändert; T139 misst jetzt die längste Portion des Aufbaus (wie im Spiel) statt
+  eines ganzen Aufbaus am Stück; T272 wartet auf die Hintergrund-Aufgabe "heute", bevor es die Gold-Karte liest (so kommt sie
+  im Spiel, PS-TC1 – im Test bisher verdeckt, weil alles sofort gerechnet wurde).
+- Kaputtes Fremd-Addon (Produkt, auch für Spieler): eine Funktion eines anderen Addons wird nach 10 Fehlern hintereinander 30 s
+  nicht mehr gefragt (PS.Call/PS.CallCounted; Händlerpreis und Händlergunst von AHSentinel laufen jetzt auch darüber). Je Testfall
+  eigener Pausen-Zustand – die Testroutine pausiert nie das echte AHSentinel (beim Bau gefunden: T212 schlug sonst fehl).
+- Fehler im Fehlerweg: TR.SafeFinishReport – ein Fehler im Abschluss nimmt den Lauf aus der Liste und schreibt eine Chatzeile,
+  nichts bleibt hängen. Zeitgeber der Routine laufen in Execute (xpcall) wie bisher.
+- Zusammenfassung: "Schritte über 16 ms: n – T276 52 ms (!), T275 41 ms (!), …" (alle über 16 ms mit Namen, über 40 ms mit
+  "(!)"), dazu "Schritte über 5 ms je Bild: n (längster …)". Start und Rückbau stehen mit ihrer Dauer darin (hängen von der
+  Datenmenge im Spiel ab – der Nachbau hat kleine gespeicherte Daten).
+- Schnelltest: Zeitgeber laufen nacheinander statt verschachtelt (vorher Stapelüberlauf mit den neuen Einzelbild-Schritten);
+  T229 läuft jetzt auch dort durch (aus der festen Liste genommen).
+- GoldSentinelMarkt Version 10 unverändert aus shared/ (cmp gleich), CHANGELOG mit den Zeilen aus v8 und v9.
+
+3. SANDBOX / ABBRUCH (Frage 5)
+-------------------------------
+- SavedVariables schreibt WoW nur beim Ausloggen, /reload und sauberem Beenden. Minimieren schreibt nichts; ein Absturz oder
+  Alt-F4 ohne sauberes Beenden schreibt nichts (die Daten auf der Platte bleiben der Stand vor dem Lauf).
+- /reload oder Ausloggen mitten im Lauf: PLAYER_LOGOUT kommt vor dem Schreiben; TR.OnLogout bricht ab und baut alles zurück
+  (Rückbau, Sandbox) synchron, ohne Speicherbereinigung (keine Bilder mehr). T288 prüft das mit einem Unter-Lauf (Sandbox OK,
+  Rückbau-Stapel leer). Im Spiel selbst nicht geprüft (Verdacht, zu messen – Punkt der Prüfliste möglich).
+
+4. NOCH ÜBER 40 ms (Nachbau Lua 5.1, 150 MB) – mit Grund, zur Entscheidung
+---------------------------------------------------------------------------
+- T289 bis 66 ms und "Speicher (Start)" bis 55 ms: ein einzelner Schritt der Lua-Speicherbereinigung (Abschluss eines Zyklus,
+  in Lua 5.1 nicht teilbar; gemessen einzeln bis 36 ms, plus Rest des Bildes). Dieselben Schritte macht das Spiel selbst auch.
+- T276 43–52 ms, T275 41–42 ms, T139 42 ms: je eine einzelne Portion des Fensteraufbaus bzw. ein Berufswechsel unter Last.
+  Weiter teilen hiesse: die Portionsgrösse des Fensters selbst verkleinern (Produktcode, betrifft das Spiel) – nicht ohne
+  Auftrag geändert.
+- Retail (offline, ohne Ballast): T260 81 ms (!) – Retail hat ~10 000 Rezepte; nächster Schritt, wenn gewünscht.
+- T140: ein einzelner Aufruf UI:UpdateBest (bestes Rezept) dauert im Nachbau unter Last 39–48 ms. Das ist Produktcode und
+  läuft im Spiel bei Berufs-Ereignissen (Verdacht: Ruckeln auch beim normalen Spielen mit grossen Berufen, zu messen).
+FRAGE: Sollen (a) die Portionsgrösse des Fensters und (b) UpdateBest als Hintergrund-Aufgabe in einer nächsten Version folgen?
+
+TESTS (eigene, Hinweise – keine Freigabe)
+-----------------------------------------
+- T289 neu (13 Prüfungen): Bereinigung in Portionen (eine je Bild) bis ein Zyklus fertig; Zeitlimit und Portionen-Grenze beenden
+  sie (auch ohne Uhr); Teil-Lauf ohne collect; Pause nach 10 Fehlern, pausiert nicht gefragt, nach der Pause wieder, Erfolg setzt
+  zurück; Zusammenfassung nennt Schritte über 16 ms; Fehler im Abschluss gefangen und gezählt.
+- Gegenproben: collect im Unter-Lauf zurück -> T289 FEHLER "Teil-Lauf ohne ganze Speicherbereinigung: 1×"; ohne Pause -> FEHLER
+  "nach 10 Fehlern pausiert"; Pause nie geprüft -> FEHLER "pausiert: nicht mehr gefragt". Nachbau 0.9.64 als Gegenprobe (Tabelle oben).
+- run_offline (LuaJIT): Forever OK 245 / FEHLER 0, Era 227 / 0, Retail 225 / 0, TBC ohne Lua-Fehler, Ausgang 0.
+  --lua51: Forever 245 / 0 (T145 jetzt OK), Retail 225 / 0. Schnelltest Ausgang 0 (AUTOTEST OK ×3), check_actions Ausgang 0,
+  Locale-Schlüssel 542, tests/test_qloader.py Ausgang 0.
+- tests/nachbau_testroutine.py neu (im Repo): python3 tests/nachbau_testroutine.py ProfessionSentinel --runs 3 --mb 150 --lua51
+  [--closed]; Ausgang 0 nur ohne Bild über 40 ms und ohne ganze Bereinigung (heute Ausgang 1 wegen 4.).
+- addon_check auf download/ProfessionSentinel-0.9.66.zip und announce-Zip: OK. ZIP = Release-Asset = Quell-Repo (diff -r leer).
+
+NOCH OFFEN (Reihenfolge): TR-ALLE Nachtrag D (Fenster-Schritte vormerken und automatisch nachholen) – nächste Version.
+Ingametest: Der Nutzer testet erst wieder, wenn die Prüf-Sitzung es freigibt (Punkt 4 entscheiden).
