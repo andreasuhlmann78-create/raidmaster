@@ -387,3 +387,16 @@ Befunde (nächste Version, nach 18:00):
 - Rechtsklick auf den EIGENEN Namen: Flüstern/Einladen/Befördern/Degradieren/Rang/Danke/Entfernen/Leitung übergeben grau "(Das bist du.)"
   – richtig so. Für den Nutzer ok. Punkt MENU damit erfüllt (Sicht), wenn auch auf einem anderen Mitglied die Rechte als Gildenmeister
   aktiv sind (vom Nutzer noch zu bestätigen).
+
+==== BEFUND HOCH (Ingametest 17.11. 16:51, Screenshot des Nutzers) – GS-RANG-1: Gildenmeister darf im Menü nicht befördern/degradieren/entfernen ====
+- Rechtsklick (als GILDENMEISTER) auf ein Mitglied: "Befördern (Mitglied -> Veteran)", "Degradieren", "Rang setzen …" und "Aus der Gilde
+  entfernen" GRAU mit "(Nicht über den eigenen Rang und nie zum Gildenmeister.)". "Gildenleitung übergeben" ist weiss (IsGuildLeader geht).
+- Code 0.9.51 (gleich in 0.9.39): Admin.lua Ad.Allowed -> my = MyRank() = ns.Roster.byName[ns.Me()].ri; ist my nil, bleiben promote/demote/
+  remove nil -> grau mit Grund "above". VERDACHT, ZU BELEGEN: der Schlüssel passt nicht – byName nutzt den Namen mit Realm ("Name-Realm"),
+  ns.Me() ohne (oder umgekehrt); der Eigen-Vergleich "(Das bist du.)" geht über ns.Same (normalisiert) und funktioniert. Zweite Möglichkeit:
+  Gildendaten beim Öffnen noch nicht geladen (siehe Korrektur 17:00).
+- Auftrag: Ursache belegen (Protokoll: ns.Me(), Schlüssel in byName, MyRank, Rights()), MyRank über ns.Same/denselben Schlüssel bauen,
+  ist der eigene Rang unbekannt: NICHT "Nicht über den eigenen Rang" behaupten, sondern "eigener Rang noch nicht geladen – gleich nochmal"
+  und neu laden (GuildRoster). Test: Gildenmeister + Mitglied mit Realm-Suffix -> befördern/entfernen erlaubt; Gegenprobe 0.9.51 rot.
+- Folge für CurseForge 18:00: 0.9.51 bleibt freigegeben (Fehler steht auch in 0.9.39, keine Verschlechterung); die Korrektur hat
+  Vorrang vor allen anderen Punkten (zusammen mit Befund 1 alts nil – vermutlich gleiche Ursache).
