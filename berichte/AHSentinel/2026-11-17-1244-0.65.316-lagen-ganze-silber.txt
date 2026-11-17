@@ -1,0 +1,18 @@
+AHSentinel 0.65.316 – Hinweis Nachbau-Lagen Ausrüstung in ganzen Silbern – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.316 und sofort im Discord.
+
+UMSETZUNG (nur Testroutine): WithLage gibt für die Ausrüstung (TUW) alle ANGEBOTSpreise auf ganze Silber aufgerundet zurück
+  (GearP: 990 -> 1000, 2899 -> 2900, 1050 -> 1100, 183 -> 200; Leiter, günstigstes fremdes/eigenes Angebot, aktueller Preis,
+  PriceInfo). Marktwert, Händlerpreis und Verlauf bleiben (dürfen Kupfer haben). Ware unverändert.
+ERWARTUNGEN NEU (aus den Regeln):
+  - T514–T522: Ausrüstung weiter im Fenster der Ware auf ganze Silber; „ohne ‚billiger‘“ nach Se:SuppressCheaperHint: aufgerundetes
+    günstigstes Angebot über dem Marktwert -> Hinweis unterdrückt (L-HAENDLER Ausrüstung: 200 > 183 -> true; vorher Ware-Wert false).
+  - T888 L-NORMAL Ausrüstung „läuft oft ab“: Angebot 10s -> Vorschlag 9s (−1 Silber) -> 900 − floor(45) = 855 = 8s55
+    (vorher 7s60 aus dem unrealistischen 9s90-Angebot). Preis-/Marktwert-Zeile und Netto-Grenze mit dem aufgerundeten Preis.
+  - T875, T877, T891 unverändert grün (Regeln galten schon je Item).
+Tests (eigene): s42 grün.
+Nachbau s216: die Pflicht „ganzes Bild nach dem Scan (Median) ≤ 16 ms“ (eingeführt 0.65.315) war maschinenabhängig – im Gesamtlauf
+  unter Last 18 ms bei sonst 13–14 ms (rot). Jetzt nur Auskunft; geprüft bleiben Nachlauf (T890) und Aufgabe fullscan (JOB-13, ≤ 10 ms).
+Tests (eigene, keine Freigabe): Gesamtlauf aller Nachbauten auf dem Stand 0.65.316: BESTANDEN 346, FEHLGESCHLAGEN 0.
+addon_check: AHSentinel-0.65.316.zip OK. Veröffentlicht: GitHub-Release v0.65.316, Discord. Nicht in download/, kein CurseForge.
+HINWEIS: dein BEFUND HOCH TR-RUN-1 kam, als 0.65.316 (Lagen) schon fertig geprüft war – TR-RUN-1 kommt sofort als 0.65.317.
