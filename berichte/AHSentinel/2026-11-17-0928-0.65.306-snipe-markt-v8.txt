@@ -1,0 +1,76 @@
+AHSentinel 0.65.306 – NP-MK-1 (a) (39 snipe-Fälle aufgeschlüsselt, alte Fälle weg, Testkäufe zählen nie) + MARKT-V8 – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.306 und sofort im Discord.
+
+NP-MK-1 (a) – BEFUND MIT BELEG (Rohdaten goldsentinel-daten, nur gelesen; tage/2026-11-15 und tage/2026-11-16 DESKTOP-NVITMSE/forever):
+  Die 39 Fälle sind KEINE Testfälle. Ursache belegt:
+  - core.snipeFix1 = 1794813634 = 16.11. 08:20 (MU1-2 in 0.65.258): damals wurden nur die WERTUNGEN von snipe gelöscht, nicht die
+    wartenden Merkzettel core.recs "snipe;…". Am 15.11. lagen 37 snipe-Merkzettel vom 14./15.11. – alle Entzauber-Käufe (Items 4251,
+    7048, 6393, 5966; im Journal B als Weg d, Quelle sniper) – noch mit dem AH-Preis als Wahrheit. Am 16.11. sind genau diese 37 aus
+    recs verschwunden (gewertet). Dazu 2 Kauftage aus dem Journal (ResolveSnipeDE, sde = 2 Tage). 37 + 2 = 39.
+  - Nachrechnung: Fälle 1–37 22 Treffer, Fehler Ø 17,4 %; mit den 2 Kauftagen 23/39 = 59,0 %, Ø 17,0 % = genau die Zahlen des
+    Testberichts. Die Reihenfolge der Ziffern in res.snipe passt zur Reihenfolge der Merkzettel; die beiden letzten Ziffern (1, 0) und
+    Fehler (4,3 % / 15,3 %) sind die Kauftage 13.11. (Σ Erlös 300383 / Σ Kosten 223209 = +35 % ≥ 30 % -> Treffer) und 14.11. (+5 % -> kein).
+  - Die Fälle aus dem Ingametest 16.11. sind NICHT unter den 39: sie warten noch (recs: 2589 um 09:31, 15:35, 19:20 und 3745 um 19:23).
+    Ob 09:31/15:35 Tests waren, lässt sich aus den Daten nicht belegen (Verdacht); 19:20/19:23 fallen in die Ingametest-Zeit.
+  Aufschlüsselung (nur IDs/Zahlen; „Preis danach“ aus Fehler und Treffer zurückgerechnet, bei zwei möglichen Werten beide):
+  Nr | Kauf (Zürich) | Item | Kaufpreis | Vorhersage | Preis danach (aus Fehler+Treffer) | Treffer | Fehler
+   1 | 14.11. 18:50 | 6393 | 971 | 760 | 994 | ja | 30.8 %
+   2 | 14.11. 19:24 | 5966 | 1590 | 1701 | 1900 | ja | 11.7 %
+   3 | 15.11. 07:25 | 4251 | 900 | 659 | 949 | ja | 44.0 %
+   4 | 15.11. 07:35 | 4251 | 819 | 659 | 949 | ja | 44.0 %
+   5 | 15.11. 10:50 | 4251 | 900 | 855 | 899 oder 811 | nein | 5.1 %
+   6 | 15.11. 11:51 | 4251 | 900 | 659 | 899 oder 419 | nein | 36.4 %
+   7 | 15.11. 12:02 | 4251 | 798 | 759 | 899 | ja | 18.4 %
+   8 | 15.11. 12:30 | 4251 | 748 | 659 | 899 | ja | 36.4 %
+   9 | 15.11. 12:42 | 4251 | 888 | 659 | 899 | ja | 36.4 %
+  10 | 15.11. 13:37 | 4251 | 815 | 775 | 899 | ja | 16.0 %
+  11 | 15.11. 13:41 | 4251 | 900 | 855 | 899 oder 811 | nein | 5.1 %
+  12 | 15.11. 13:46 | 7048 | 980 | 931 | 984 | ja | 5.7 %
+  13 | 15.11. 14:07 | 4251 | 900 | 659 | 899 oder 419 | nein | 36.4 %
+  14 | 15.11. 14:14 | 4251 | 900 | 659 | 899 oder 419 | nein | 36.4 %
+  15 | 15.11. 14:20 | 4251 | 890 | 846 | 899 | ja | 6.3 %
+  16 | 15.11. 14:23 | 7048 | 899 | 745 | 984 | ja | 32.1 %
+  17 | 15.11. 14:24 | 4251 | 900 | 659 | 899 oder 419 | nein | 36.4 %
+  18 | 15.11. 14:33 | 7048 | 879 | 931 | 984 | ja | 5.7 %
+  19 | 15.11. 14:38 | 4251 | 910 | 865 | 899 oder 831 | nein | 3.9 %
+  20 | 15.11. 14:54 | 4251 | 900 | 803 | 899 oder 707 | nein | 12.0 %
+  21 | 15.11. 15:07 | 4251 | 899 | 855 | ≈899 (Rundung des gespeicherten Fehlers) | ja | 5.1 %
+  22 | 15.11. 15:30 | 4251 | 890 | 659 | 899 | ja | 36.4 %
+  23 | 15.11. 15:55 | 4251 | 800 | 760 | 899 | ja | 18.3 %
+  24 | 15.11. 16:23 | 4251 | 914 | 870 | 899 oder 841 | nein | 3.3 %
+  25 | 15.11. 16:23 | 7048 | 849 | 902 | 984 | ja | 9.1 %
+  26 | 15.11. 16:49 | 4251 | 890 | 846 | 885 oder 807 | nein | 4.6 %
+  27 | 15.11. 17:27 | 4251 | 850 | 808 | 885 | ja | 9.5 %
+  28 | 15.11. 18:09 | 4251 | 850 | 808 | 885 | ja | 9.5 %
+  29 | 15.11. 18:10 | 4251 | 900 | 808 | 885 oder 731 | nein | 9.5 %
+  30 | 15.11. 18:22 | 4251 | 900 | 874 | 885 oder 863 | nein | 1.3 %
+  31 | 15.11. 18:31 | 7048 | 900 | 855 | 1039 | ja | 21.5 %
+  32 | 15.11. 18:40 | 4251 | 889 | 845 | 885 oder 805 | nein | 4.7 %
+  33 | 15.11. 18:42 | 7048 | 800 | 865 | 1039 | ja | 20.1 %
+  34 | 15.11. 18:51 | 4251 | 800 | 760 | 885 | ja | 16.4 %
+  35 | 15.11. 18:56 | 4251 | 890 | 846 | 885 oder 807 | nein | 4.6 %
+  36 | 15.11. 19:02 | 4251 | 900 | 855 | 885 oder 825 | nein | 3.5 %
+  37 | 15.11. 19:05 | 4251 | 880 | 836 | 885 | ja | 5.9 %
+  38 | Kauftag 13.11. (Journal Entzaubern) | Treffer | Fehler 4.3 %
+  39 | Kauftag 14.11. (Journal Entzaubern) | kein Treffer | Fehler 15.3 %
+  Recs 1-37: 22 Treffer = 59 %, mittlerer Fehler 17.4 %
+  alle 39: 23 Treffer = 59.0 %, mittlerer Fehler 17.0 %
+
+UMSETZUNG:
+  - MarketCore.lua MK:Store: einmalig snipeFix2 – res/err/locked von snipe UND alle wartenden "snipe;"-Merkzettel weg, sde leer (die
+    Entzauber-Kauftage aus dem Journal werden neu gewertet: nach den Rohdaten 13.11. Treffer, 14.11. kein Treffer, 15.11. +19 % kein
+    Treffer, sobald fertig). Andere Wege bleiben. Protokoll KERN "NP-MK-1: … n Wertungen und m Merkzettel entfernt".
+  - Testkäufe zählen nie: während der Testroutine gibt MK:Store nil (schon bisher; jetzt mit Prüfung T882 inkl. Gegenprobe ohne
+    Testroutine); NEU: solange ein Sniper-Handpunkt der Prüfliste (SN-BTN1, SN-RAD-B, SN-RAD-A) offen ist, wird kein Sniper-Treffer als
+    "snipe" gemerkt (Sn:SnipeNoteWanted, P:HandTest) – sonst wären die heutigen Leinenstoff-Testkäufe (Höchstpreis 50s) Fehlwertungen.
+  - MARKT-V8: GoldSentinelMarkt.lua byte-gleich aus shared/ (Version 8), CHANGELOG EN/DE die verlangte Zeile.
+  - (b) bis (d) folgen später nach deiner Reihenfolge. Hinweis zu (b): nach dem Neustart hat snipe zunächst nur die Kauftage aus dem
+    Journal; ob die Quote ohne die alten Fälle unter 60 % bleibt, zeigt sich erst mit neuen Fällen.
+TESTS: T882 (Neustart, zweites Laden, Testroutine ohne Wirkung, Gegenprobe), T883 (Prüflisten-Testkauf zählt nicht; danach wieder;
+  ohne Entwicklermodus immer; Entzaubern nie). Gegenproben: alte MarketCore.lua -> T882 rot; ohne HandTest -> T883 rot.
+
+Tests (eigene, keine Freigabe): Gesamtlauf aller Nachbauten auf dem Stand 0.65.306: BESTANDEN 345, FEHLGESCHLAGEN 0.
+addon_check: AHSentinel-0.65.306.zip OK (ohne Warnung, GoldSentinelMarkt v8). Veröffentlicht: GitHub-Release v0.65.306, Discord
+announce/ahsentinel__ahsentinel-0.65.306.md. Nicht in download/, kein CurseForge.
+HINWEIS Reihenfolge: deine Prüfung 0.65.305 (PL-305-1, Entscheid FeedNet in Portionen) kam, als 0.65.306 schon gebaut und geprüft
+war. PL-305-1 und FeedNet-Portionen kommen darum mit 0.65.307 (zusammen mit NP-AHS281-1, das schon fertig ist).
