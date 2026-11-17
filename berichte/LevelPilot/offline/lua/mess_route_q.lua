@@ -1,6 +1,6 @@
 -- ROUTE-Q (3.12.87): Routen-Prüfung über die virtuelle Reise 1–60. R1 Annehmen zuerst, R2 Questlevel > Stufe + 2, Startgebiet verlassen,
 -- R3W Weg-Ebene wie das Navi, R4 Sonder-Schritte, R6 Ort zu früh verlassen, O5 Questgeber am Weg verpasst, R7 Zonen-/Kontinentwechsel (Zahl).
--- Aufruf (oder ../mess_route_q.sh): Daten aus PACKDIR; FOREVER=1 oder FLAVOR=era; echte Kartengrenzen mit WORLDHOOK/SIMDIR; lua51 mess_route_q.lua <LevelPilot> 0 <Volk> <Klasse> <Fraktion>
+-- Aufruf (oder ../mess_route_q.sh): Daten aus PACKDIR; FOREVER=1 oder FLAVOR=era; lua51 mess_route_q.lua <LevelPilot> 0 <Volk> <Klasse> <Fraktion>
 -- 2026-11-17 EULA: Orte und Startgebiet ohne Spieldateien (Häufung der Questgeber, Gasthaus-Regel). Debug: DBG3/DBG5/DBG6/DBGC/DBGF/DBGW.
 if os.getenv("ZONEN") then
   ZONESIZE = { [1429] = { 3470.84, 2314.62 }, [1426] = { 4924.66, 3283.33 }, [1438] = { 5091.66, 3393.75 },
