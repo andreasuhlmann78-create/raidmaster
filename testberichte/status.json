@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-17T19:08:51Z",
+ "ausgewertet": "2026-11-17T20:12:42Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -360,57 +360,105 @@
    ]
   },
   "LevelPilot": {
-   "berichte": 14,
+   "berichte": 19,
    "letzter_test": {
-    "id": "LevelPilot-1793838099-fe4a80-12",
-    "version": "3.12.6",
-    "time": 1793838099,
+    "id": "LevelPilot-1794942753-7dcba3-21",
+    "version": "3.12.89",
+    "time": 1794942753,
     "counts": {
      "client": 0,
      "fehler": 0,
-     "ok": 11,
+     "ok": 1,
      "uebersprungen": 0
     }
    },
    "fehler_tests": [],
-   "fehler_spiel": []
+   "fehler_spiel": [
+    {
+     "addon": "LevelPilot",
+     "art": "spiel",
+     "wo": "Reise",
+     "msg": "Fehler in der Reise: Interface/AddOns/LevelPilot/Virtual.lua:135: attempt to perform indexed assignment on field '?' (a boolean value)",
+     "anzahl": 15,
+     "versionen": [
+      "3.12.89"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:469: in function 'Report'\n[Interface/AddOns/LevelPilot/Virtual.lua]:189: in function <Interface/AddOns/LevelPilot/Virtual.lua:183>\n[Interface/AddOns/LevelPilot/Virtual.lua]:814: in function <Interface/AddOns/LevelPilot/Virtual.lua:801>\n[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:495: in function 'Safe'\n[Interface/AddOns/LevelPilot/Virtual.lua]:801: in function <Interface/AddOns/LevelPilot/Virtual.lua:801>\n"
+    }
+   ]
   },
   "ProfessionSentinel": {
-   "berichte": 2,
+   "berichte": 4,
    "letzter_test": {
-    "id": "ProfessionSentinel-1794207475-66ab93-1",
-    "version": "0.9.28",
-    "time": 1794207475,
+    "id": "ProfessionSentinel-1794943358-32080d-5",
+    "version": "0.9.66",
+    "time": 1794943358,
     "counts": {
      "client": 0,
-     "fehler": 2,
-     "ok": 5,
-     "uebersprungen": 1
+     "fehler": 1,
+     "ok": 1,
+     "uebersprungen": 8
     }
    },
    "fehler_tests": [
     {
      "addon": "ProfessionSentinel",
      "art": "test",
-     "version": "0.9.28",
+     "version": "0.9.66",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "S7",
-     "name": "Kein Neuaufbau-Sturm beim Herstellen",
-     "detail": "ergebnis: 0.2 Aufbau/s, 3 LANGSAM | erwartet: ≤ 2/s, 0 LANGSAM",
-     "bericht": "ProfessionSentinel-1794207475-66ab93-1"
+     "id": "S2",
+     "name": "Fertigkeit und Plan-Start",
+     "detail": "ergebnis: Fertigkeit 0 | erwartet: > 0",
+     "bericht": "ProfessionSentinel-1794943358-32080d-5"
+    }
+   ],
+   "fehler_spiel": [
+    {
+     "addon": "ProfessionSentinel",
+     "art": "spiel",
+     "wo": "Aufgabe t279",
+     "msg": "attempt to yield across metamethod/C-call boundary",
+     "anzahl": 1,
+     "versionen": [
+      "0.9.66"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/ProfessionSentinel/Core.lua]:180: in function 'CountError'\n[Interface/AddOns/ProfessionSentinel/Jobs.lua]:153: in function <Interface/AddOns/ProfessionSentinel/Jobs.lua:149>\n[Interface/AddOns/ProfessionSentinel/Jobs.lua]:177: in function <Interface/AddOns/ProfessionSentinel/Jobs.lua:161>\n[Interface/AddOns/ProfessionSentinel/Jobs.lua]:203: in function <Interface/AddOns/ProfessionSentinel/Jobs.lua:182>\n[tail call]: ?\n..."
     },
     {
      "addon": "ProfessionSentinel",
-     "art": "test",
-     "version": "0.9.28",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "S8",
-     "name": "Oberflächen-Prüfung (Bereich K)",
-     "detail": "ergebnis: CheckButton verdeckt ProfessionSentinelPanelCloseButton; Button verdeckt ProfessionSentinelPanelCloseButton; CheckButton verdeckt Button; Button verdeckt ProfessionSentinelPanelCloseButton; Button verdeckt ProfessionSentinelPanelCloseButton; Button verdeckt ProfessionSentinelPanelCloseButton; Button… | erwartet: keine",
-     "bericht": "ProfessionSentinel-1794207475-66ab93-1"
+     "art": "spiel",
+     "wo": "ADDON_ACTION_BLOCKED",
+     "msg": "UNKNOWN()",
+     "anzahl": 1,
+     "versionen": [
+      "0.9.66"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:407: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:400>\n[C]: ?\n[C]: in function 'pcall'\n[Interface/AddOns/ProfessionSentinel/UI.lua]:769: in function <Interface/AddOns/ProfessionSentinel/UI.lua:752>\n[Interface/AddOns/ProfessionSentinel/UI.lua]:812: in function 'SelectInBlizzard'\n..."
+    },
+    {
+     "addon": "ProfessionSentinel",
+     "art": "spiel",
+     "wo": "Aufgabe t143",
+     "msg": "attempt to yield across metamethod/C-call boundary",
+     "anzahl": 1,
+     "versionen": [
+      "0.9.66"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/ProfessionSentinel/Core.lua]:180: in function 'CountError'\n[Interface/AddOns/ProfessionSentinel/Jobs.lua]:153: in function <Interface/AddOns/ProfessionSentinel/Jobs.lua:149>\n[Interface/AddOns/ProfessionSentinel/Jobs.lua]:177: in function <Interface/AddOns/ProfessionSentinel/Jobs.lua:161>\n[Interface/AddOns/ProfessionSentinel/Jobs.lua]:203: in function <Interface/AddOns/ProfessionSentinel/Jobs.lua:182>\n[tail call]: ?\n..."
     }
-   ],
-   "fehler_spiel": []
+   ]
   },
   "RaidMaster": {
    "berichte": 5,
@@ -802,24 +850,70 @@
    "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:407: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:400>\n[C]: in function 'fn'\n[Interface/AddOns/GuildSentinel/Core.lua]:198: in function 'Act'\n[Interface/AddOns/GuildSentinel/Recruit.lua]:492: in function 'Invite'\n[Interface/AddOns/GuildSentinel/Pages.lua]:983: in function <Interface/AddOns/GuildSentinel/Pages.lua:983>\n[Interface/AddOns/GuildSentinel/UI.lua]:61: in function <Interface/AddOns/GuildSentinel/UI.lua:61>\n"
   },
   {
-   "addon": "ProfessionSentinel",
-   "art": "test",
-   "version": "0.9.28",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "S7",
-   "name": "Kein Neuaufbau-Sturm beim Herstellen",
-   "detail": "ergebnis: 0.2 Aufbau/s, 3 LANGSAM | erwartet: ≤ 2/s, 0 LANGSAM",
-   "bericht": "ProfessionSentinel-1794207475-66ab93-1"
+   "addon": "LevelPilot",
+   "art": "spiel",
+   "wo": "Reise",
+   "msg": "Fehler in der Reise: Interface/AddOns/LevelPilot/Virtual.lua:135: attempt to perform indexed assignment on field '?' (a boolean value)",
+   "anzahl": 15,
+   "versionen": [
+    "3.12.89"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:469: in function 'Report'\n[Interface/AddOns/LevelPilot/Virtual.lua]:189: in function <Interface/AddOns/LevelPilot/Virtual.lua:183>\n[Interface/AddOns/LevelPilot/Virtual.lua]:814: in function <Interface/AddOns/LevelPilot/Virtual.lua:801>\n[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:495: in function 'Safe'\n[Interface/AddOns/LevelPilot/Virtual.lua]:801: in function <Interface/AddOns/LevelPilot/Virtual.lua:801>\n"
   },
   {
    "addon": "ProfessionSentinel",
    "art": "test",
-   "version": "0.9.28",
+   "version": "0.9.66",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "S8",
-   "name": "Oberflächen-Prüfung (Bereich K)",
-   "detail": "ergebnis: CheckButton verdeckt ProfessionSentinelPanelCloseButton; Button verdeckt ProfessionSentinelPanelCloseButton; CheckButton verdeckt Button; Button verdeckt ProfessionSentinelPanelCloseButton; Button verdeckt ProfessionSentinelPanelCloseButton; Button verdeckt ProfessionSentinelPanelCloseButton; Button… | erwartet: keine",
-   "bericht": "ProfessionSentinel-1794207475-66ab93-1"
+   "id": "S2",
+   "name": "Fertigkeit und Plan-Start",
+   "detail": "ergebnis: Fertigkeit 0 | erwartet: > 0",
+   "bericht": "ProfessionSentinel-1794943358-32080d-5"
+  },
+  {
+   "addon": "ProfessionSentinel",
+   "art": "spiel",
+   "wo": "Aufgabe t279",
+   "msg": "attempt to yield across metamethod/C-call boundary",
+   "anzahl": 1,
+   "versionen": [
+    "0.9.66"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/ProfessionSentinel/Core.lua]:180: in function 'CountError'\n[Interface/AddOns/ProfessionSentinel/Jobs.lua]:153: in function <Interface/AddOns/ProfessionSentinel/Jobs.lua:149>\n[Interface/AddOns/ProfessionSentinel/Jobs.lua]:177: in function <Interface/AddOns/ProfessionSentinel/Jobs.lua:161>\n[Interface/AddOns/ProfessionSentinel/Jobs.lua]:203: in function <Interface/AddOns/ProfessionSentinel/Jobs.lua:182>\n[tail call]: ?\n..."
+  },
+  {
+   "addon": "ProfessionSentinel",
+   "art": "spiel",
+   "wo": "ADDON_ACTION_BLOCKED",
+   "msg": "UNKNOWN()",
+   "anzahl": 1,
+   "versionen": [
+    "0.9.66"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:407: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:400>\n[C]: ?\n[C]: in function 'pcall'\n[Interface/AddOns/ProfessionSentinel/UI.lua]:769: in function <Interface/AddOns/ProfessionSentinel/UI.lua:752>\n[Interface/AddOns/ProfessionSentinel/UI.lua]:812: in function 'SelectInBlizzard'\n..."
+  },
+  {
+   "addon": "ProfessionSentinel",
+   "art": "spiel",
+   "wo": "Aufgabe t143",
+   "msg": "attempt to yield across metamethod/C-call boundary",
+   "anzahl": 1,
+   "versionen": [
+    "0.9.66"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/ProfessionSentinel/Core.lua]:180: in function 'CountError'\n[Interface/AddOns/ProfessionSentinel/Jobs.lua]:153: in function <Interface/AddOns/ProfessionSentinel/Jobs.lua:149>\n[Interface/AddOns/ProfessionSentinel/Jobs.lua]:177: in function <Interface/AddOns/ProfessionSentinel/Jobs.lua:161>\n[Interface/AddOns/ProfessionSentinel/Jobs.lua]:203: in function <Interface/AddOns/ProfessionSentinel/Jobs.lua:182>\n[tail call]: ?\n..."
   },
   {
    "addon": "RaidMaster",
@@ -875,7 +969,7 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 159,
+    "anzahl": 161,
     "neueste": "testberichte/diagnose/AHSentinel/0.65.328-e406c1f6f5d2.txt"
    },
    "BuffSentinel": {
@@ -887,23 +981,23 @@
     "neueste": "testberichte/diagnose/GSMesstest/5.1-e71680805b41.txt"
    },
    "GSSniperLog": {
-    "anzahl": 18,
-    "neueste": "testberichte/diagnose/GSSniperLog/1.7-d7b1125a2162.txt"
+    "anzahl": 20,
+    "neueste": "testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt"
    },
    "GuildSentinel": {
-    "anzahl": 158,
+    "anzahl": 160,
     "neueste": "testberichte/diagnose/GuildSentinel/0.9.53-86a67dcfb672.txt"
    },
    "LevelPilot": {
-    "anzahl": 53,
-    "neueste": "testberichte/diagnose/LevelPilot/3.12.87-4a392c3ee1d6.txt"
+    "anzahl": 55,
+    "neueste": "testberichte/diagnose/LevelPilot/3.12.89-b55abb37db32.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 138,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.62-dfd8445cee29.txt"
+    "anzahl": 140,
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.66-31b05f1c01d8.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 133,
+    "anzahl": 135,
     "neueste": "testberichte/diagnose/ThreatSentinel/2.5.16-05cfd406ea9d.txt"
    }
   },

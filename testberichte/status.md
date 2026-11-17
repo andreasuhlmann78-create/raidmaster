@@ -1,6 +1,6 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-17 19:08 UTC
+Ausgewertet: 2026-11-17 20:12 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
@@ -9,8 +9,8 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 | AHSentinel | 17.11.2026 18:11 UTC | 0.65.328 | forever 1.60.1 (Interface 16001) | 2 | 4 | 3 | 0 | 63 |
 | BuffSentinel | 05.11.2026 00:19 UTC | 0.9.7 | forever 1.60.1 (Interface 16001) | 120 | 1 | 10 | 11 | 307 |
 | GuildSentinel | 17.11.2026 18:27 UTC | 0.9.53 | forever 1.60.1 (Interface 16001) | 316 | 1 | 23 | 8 | 5 |
-| LevelPilot | 05.11.2026 00:21 UTC | 3.12.6 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 0 |
-| ProfessionSentinel | 09.11.2026 06:57 UTC | 0.9.28 | forever 1.60.1 (Interface 16001) | 5 | 2 | 1 | 0 | 0 |
+| LevelPilot | 17.11.2026 19:12 UTC | 3.12.89 | forever 1.60.1 (Interface 16001) | 1 | 0 | 0 | 0 | 15 |
+| ProfessionSentinel | 17.11.2026 19:22 UTC | 0.9.66 | forever 1.60.1 (Interface 16001) | 1 | 1 | 8 | 0 | 3 |
 | RaidMaster | 17.11.2026 18:38 UTC | 3.0.31 | forever 1.60.1 (Interface 16001) | 134 | 1 | 16 | 10 | 0 |
 | ThreatSentinel | 17.11.2026 16:00 UTC | 2.5.16 | forever 1.60.1 (Interface 16001) | 272 | 4 | 10 | 15 | 0 |
 
@@ -18,14 +18,14 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 159 | `testberichte/diagnose/AHSentinel/0.65.328-e406c1f6f5d2.txt` |
+| AHSentinel | 161 | `testberichte/diagnose/AHSentinel/0.65.328-e406c1f6f5d2.txt` |
 | BuffSentinel | 50 | `testberichte/diagnose/BuffSentinel/0.9.47-fcf53d571177.txt` |
 | GSMesstest | 10 | `testberichte/diagnose/GSMesstest/5.1-e71680805b41.txt` |
-| GSSniperLog | 18 | `testberichte/diagnose/GSSniperLog/1.7-d7b1125a2162.txt` |
-| GuildSentinel | 158 | `testberichte/diagnose/GuildSentinel/0.9.53-86a67dcfb672.txt` |
-| LevelPilot | 53 | `testberichte/diagnose/LevelPilot/3.12.87-4a392c3ee1d6.txt` |
-| ProfessionSentinel | 138 | `testberichte/diagnose/ProfessionSentinel/0.9.62-dfd8445cee29.txt` |
-| ThreatSentinel | 133 | `testberichte/diagnose/ThreatSentinel/2.5.16-05cfd406ea9d.txt` |
+| GSSniperLog | 20 | `testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt` |
+| GuildSentinel | 160 | `testberichte/diagnose/GuildSentinel/0.9.53-86a67dcfb672.txt` |
+| LevelPilot | 55 | `testberichte/diagnose/LevelPilot/3.12.89-b55abb37db32.txt` |
+| ProfessionSentinel | 140 | `testberichte/diagnose/ProfessionSentinel/0.9.66-31b05f1c01d8.txt` |
+| ThreatSentinel | 135 | `testberichte/diagnose/ThreatSentinel/2.5.16-05cfd406ea9d.txt` |
 
 ## Wegdaten (GSWEGE1)
 
@@ -267,6 +267,11 @@ Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) ·
 
 **Testlauf 3.12.6 · forever 1.60.1 (Interface 16001) · 05.11.2026 00:21 UTC** – OK 11 · FEHLER 0 · übersprungen 0 · im Client prüfen 0
 
+**Testlauf 3.12.89 · forever 1.60.1 (Interface 16001) · 17.11.2026 19:12 UTC** – OK 1 · FEHLER 0 · übersprungen 0 · im Client prüfen 0
+
+**Fehler im Spiel (letzte 7 Tage)**
+- 15× `Reise`: Fehler in der Reise: Interface/AddOns/LevelPilot/Virtual.lua:135: attempt to perform indexed assignment on field '?' (a boolean value) – Version 3.12.89 · forever 1.60.1 (Interface 16001) · zuletzt 17.11.2026 19:02 UTC
+
 ## ProfessionSentinel
 
 **Testlauf 0.9.13 · forever 1.60.1 (Interface 16001) · 05.11.2026 00:17 UTC** – OK 144 · FEHLER 6 · übersprungen 9 · im Client prüfen 13 · Sandbox OK
@@ -303,6 +308,22 @@ Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) ·
 - [SKIP] S5 S – Gleiche AH-Gebühr wie AHSentinel (grund: 5 Rezepte im Panel anklicken (Berufsfenster offen))
 - [FEHLER] S7 S – Kein Neuaufbau-Sturm beim Herstellen (ergebnis: 0.2 Aufbau/s, 3 LANGSAM | erwartet: ≤ 2/s, 0 LANGSAM)
 - [FEHLER] S8 S – Oberflächen-Prüfung (Bereich K) (ergebnis: CheckButton verdeckt ProfessionSentinelPanelCloseButton; Button verdeckt ProfessionSentinelPanelCloseButton; CheckButton verdeckt Button; Button verdeckt ProfessionSentinelPanelCloseButton; Button verdeckt ProfessionSentinelPanelCloseButton; Button verdeckt ProfessionSentinelPanelCloseButton; Button… | erwartet: keine)
+
+**Testlauf 0.9.66 · forever 1.60.1 (Interface 16001) · 17.11.2026 19:22 UTC** – OK 1 · FEHLER 1 · übersprungen 8 · im Client prüfen 0
+- [FEHLER] S2 S – Fertigkeit und Plan-Start (ergebnis: Fertigkeit 0 | erwartet: > 0)
+- [SKIP] S3 S – Zähler sinkt nach einem Skillpunkt (grund: herstellen, bis ein Skillpunkt kommt)
+- [SKIP] S4 S – Andocken ohne Überlappen (grund: Rezept wählen, damit das AHSentinel-Gewinn-Fenster erscheint)
+- [SKIP] S5 S – Gleiche AH-Gebühr wie AHSentinel (grund: 5 Rezepte im Panel anklicken (Berufsfenster offen))
+- [SKIP] S6 S – Rangliste Leveln sortiert (grund: Reiter „Rangliste“ öffnen)
+- [SKIP] S7 S – Kein Neuaufbau-Sturm beim Herstellen (grund: 5 Gegenstände hintereinander herstellen)
+- [SKIP] S8 S – Oberflächen-Prüfung (Bereich K) (grund: Berufsfenster mit Panel öffnen)
+- [SKIP] S9 S – Gekaufte Menge = eingegebene Menge (grund: beim Händler: in der Einkaufsliste eine Menge eingeben und „Kaufen“ klicken)
+- [SKIP] S10 S – Shift+Klick öffnet das Mengenfenster (grund: beim Händler: Shift+Klick auf eine Ware, dann noch einmal mit offener Chat-Eingabe)
+
+**Fehler im Spiel (letzte 7 Tage)**
+- 1× `Aufgabe t279`: attempt to yield across metamethod/C-call boundary – Version 0.9.66 · forever 1.60.1 (Interface 16001) · zuletzt 17.11.2026 19:23 UTC
+- 1× `ADDON_ACTION_BLOCKED`: UNKNOWN() – Version 0.9.66 · forever 1.60.1 (Interface 16001) · zuletzt 17.11.2026 19:18 UTC
+- 1× `Aufgabe t143`: attempt to yield across metamethod/C-call boundary – Version 0.9.66 · forever 1.60.1 (Interface 16001) · zuletzt 17.11.2026 19:22 UTC
 
 ## RaidMaster
 
