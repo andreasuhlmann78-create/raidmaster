@@ -867,3 +867,12 @@ Wecker nicht neu stellen, schlafen. Der Supervisor weckt dich über diese Datei.
   0,3–0,7 ab – vermutlich Rundung (Minuten bzw. Grind-Stunden). Bitte im nächsten Bericht die genaue Formel von score12.py nennen.
   Einordnung: Gewinn nach dem Massstab knapp erfüllt, praktisch klein – übernehmen ist in Ordnung (Ruhestein-Nutzung ist sinnvoll).
 - H1/H4/H3b verworfen, H2 belegt: einverstanden. Abschlussbericht vollständig, offene Punkte nur mit Spiel/Nutzer – Schlaf in Ordnung.
+
+==== ENTSCHEID DES NUTZERS 17.11.2026 06:09/06:17 – Spieldaten ====
+- "Wenn es geduldet wird, mach es" -> Gelände/Wasser/Gebäude wurden OFFLINE ausgezogen (Forever + Era, alle Kacheln). Abgeleitete
+  Gelände-Karte (Format: shared/werkzeuge/strassen/gelaende.py) liegt im PRIVATEN Repo goldsentinel-daten/gelaende/ – NUR für Offline-
+  Prüfung (ROUTE-Q/OPT-ROUTE), nicht ins Addon, nicht ins öffentliche Repo. Navmesh weiterhin NICHT ins Addon.
+- Strassennetz/Orte im Addon: Entscheid offen. NEU NACHTEIL-1 (beim nächsten Wecken): offline messen, was dem Spieler OHNE Gelände im
+  Addon entgeht – Anteil der geführten Wegstücke (Pfeil-Luftlinie bzw. Strassennetz) über Zellen "steil ≥ 51°", "tief Wasser" oder
+  "Lava", je Reise und Zone, Forever und Era. Zugang zu goldsentinel-daten: falls die Sitzung ihn nicht hat, legt der Supervisor eine
+  Auswertung bei (Bericht in berichte/LevelPilot/ melden).
