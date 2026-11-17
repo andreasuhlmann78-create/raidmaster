@@ -1061,10 +1061,14 @@ local RULE_NAMES = { auction = "Versteigerung", bank = "Gildenbank", de = "Entza
 	manual = "von Hand verteilen", notify = "Hinweis (legendär) – nie automatisch", roll = "Würfeln" }
 
 -- ein Item wie im echten Raid behandeln: Regel prüfen, versteigern oder zuteilen
+-- 3.0.31: Zähler je Durchlauf (für die Testroutine T43: warum wurde nichts vergeben?)
+T.stats = { handled = 0, auction = 0, other = 0, noInfo = 0 }
 local function HandleItem(id, source)
 	local link, quality = ItemInfo(id)
-	if not link then return end
+	if not link then T.stats.noInfo = T.stats.noInfo + 1 return end
 	local action = RM.Loot.Classify(link, quality)
+	T.stats.handled = T.stats.handled + 1
+	if action == "auction" then T.stats.auction = T.stats.auction + 1 else T.stats.other = T.stats.other + 1 end
 	-- wie ein offenes Lootfenster beim Plündermeister (Seite Loot: "Aktuelles Lootfenster")
 	RM.Loot.isOpen = true
 	RM.Loot.items[#RM.Loot.items + 1] = { link = link, quality = quality, action = action, done = action ~= "auction" and action ~= "manual" and action ~= "notify" }
@@ -1229,6 +1233,7 @@ end
 T.SetTimeOffset = SetTimeOffset
 
 function T.RunRaids(n)
+	T.stats = { handled = 0, auction = 0, other = 0, noInfo = 0 }
 	n = math.max(1, math.min(10, math.floor(tonumber(n) or 1)))
 	if run then Log("Es läuft schon ein Durchlauf.") return end
 	if not T.active then T.Start() end

@@ -67,27 +67,30 @@ function UI.Header(parent, text)
 end
 
 -- Eigenes Fenster eines Elements (Vorfahre direkt auf UIParent)
-function UI.WindowOf(owner)
+function UI.WindowOf(owner, screen)
+	screen = screen or UIParent
 	local f, n = owner, 0
 	while f and f.GetParent and n < 30 do
 		local p = f:GetParent()
-		if p == UIParent or p == nil then return f end
+		if p == screen or p == nil then return f end
 		f, n = p, n + 1
 	end
 	return nil
 end
 
 -- Tooltip neben das ganze Fenster legen (rechts, sonst links), damit er keine Knöpfe desselben Fensters verdeckt
--- (Live-Test 5. Nov.: Tooltips lagen über anderen Knöpfen). Passt er auf keiner Seite, bleibt er am Element.
-function UI.PlaceTooltip(owner, tip)
+-- (Live-Test 5. Nov.: Tooltips lagen über anderen Knöpfen). 3.0.31 (Ingametest 17.11., T155): passt er auf keiner Seite,
+-- dann über oder unter das Fenster; erst wenn auch das nicht geht, am Element. Gilt auch für die Markierungsleiste.
+function UI.PlaceTooltip(owner, tip, screen)   -- screen nur für die Testroutine (T190), sonst UIParent
 	tip = tip or GameTooltip
+	local UIParent = screen or UIParent
 	pcall(function()
-		local win = UI.WindowOf(owner)
+		local win = UI.WindowOf(owner, UIParent)
 		if not win or win == owner or not tip:IsShown() then return end
-		local wl, wr, wt = win:GetLeft(), win:GetRight(), win:GetTop()
-		local ot, tw = owner:GetTop(), tip:GetWidth()
-		local sr = UIParent:GetRight()
-		if not (wl and wr and wt and ot and tw and sr) then return end
+		local wl, wr, wt, wb = win:GetLeft(), win:GetRight(), win:GetTop(), win:GetBottom()
+		local ot, tw, th = owner:GetTop(), tip:GetWidth(), tip:GetHeight()
+		local sr, st = UIParent:GetRight(), UIParent:GetTop()
+		if not (wl and wr and wt and wb and ot and tw and th and sr and st) then return end
 		local wes, oes, tes, ues = win:GetEffectiveScale(), owner:GetEffectiveScale(), tip:GetEffectiveScale(), UIParent:GetEffectiveScale()
 		-- Verschiebungen in SetPoint gelten in der Skala des Tooltips (tes), nicht in der des Fensters (3.0.19)
 		local y = (ot * oes - wt * wes) / tes             -- auf Höhe des Elements
@@ -97,6 +100,10 @@ function UI.PlaceTooltip(owner, tip)
 			tip:SetPoint("TOPLEFT", win, "TOPRIGHT", gap, y)
 		elseif wl * wes - (gap + tw) * tes >= 0 then
 			tip:SetPoint("TOPRIGHT", win, "TOPLEFT", -gap, y)
+		elseif wt * wes + (gap + th) * tes <= st * ues then
+			tip:SetPoint("BOTTOMLEFT", win, "TOPLEFT", 0, gap)
+		elseif wb * wes - (gap + th) * tes >= 0 then
+			tip:SetPoint("TOPLEFT", win, "BOTTOMLEFT", 0, -gap)
 		else
 			tip:SetPoint("BOTTOMLEFT", owner, "TOPRIGHT")
 		end

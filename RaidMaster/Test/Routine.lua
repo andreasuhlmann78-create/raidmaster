@@ -129,7 +129,8 @@ end
 ---------------------------------------------------------------------------
 -- gsMarkt/gsMarktAus (ab 3.0.25): laufende Daten des gemeinsamen Marktdaten-Netzes (GoldSentinelMarkt.lua) – sie ändern
 -- sich im Hintergrund (Scans mitlesen, Netz) und werden weder verglichen noch zurückgedreht.
-local SB_SKIP = { gsTest = true, lastSave = true, gsMarkt = true, gsMarktAus = true, pruefliste = true, routineGuard = true }
+local SB_SKIP = { gsTest = true, lastSave = true, gsMarkt = true, gsMarktAus = true, pruefliste = true, routineGuard = true,
+	routinePending = true }
 
 local function Deep(v, seen)
 	if type(v) ~= "table" then return v end
@@ -242,10 +243,13 @@ end
 -- werden – sie steht dann in R.slow und im Bericht ("länger als 5 ms").
 R.PORTION_MS = 5
 R.PRE_MS = 1           -- vor jeder Prüfung: ist das Bild schon mehr als 1 ms belegt, erst das nächste Bild abwarten
+-- NP-RM30-1: einzeln gemessen (erster Aufbau des Hauptfensters und der Seiten) – zählt nicht zu "über 5 ms"
+R.SINGLE = { Aufbau = true, T10 = true, T12 = true }
 function R.Breathe(limit)
 	if not (debugprofilestop and R.running and R.portionStart and coroutine.running()) then return end
+	if (R.noYield or 0) > 0 then return end                 -- unter pcall (Körper von t:Check): kein Bild abgeben
 	local d = debugprofilestop() - R.portionStart
-	if d > (R.maxPortion or 0) then R.maxPortion, R.maxPortionAt = d, tostring(R.current or "?") end
+	if d > (R.maxPortion or 0) and not R.SINGLE[tostring(R.current or "?")] then R.maxPortion, R.maxPortionAt = d, tostring(R.current or "?") end
 	if d > (limit or R.PORTION_MS) then coroutine.yield("wait", 0) end
 end
 
@@ -255,9 +259,9 @@ local function CollectInSteps()
 	for _ = 1, 2 do
 		local guard = 0
 		repeat
-			local done = collectgarbage("step", 64)
+			local done = collectgarbage("step", 16)
 			guard = guard + 1
-			R.Breathe(R.PRE_MS * 2)
+			R.Breathe(R.PRE_MS)
 		until done or guard > 100000
 	end
 end
@@ -322,23 +326,58 @@ local function WithAPI(over, hide, body)
 end
 
 -- Teile von RaidMasterDB nach dem Körper wiederherstellen (gleiche Tabellen, Inhalt ersetzt)
+-- NP-RM30-1 (3.0.31): tiefe Kopie in Portionen – gibt alle 200 Einträge das Bild ab, wenn die Portion voll ist. Die Schlüssel
+-- einer Tabelle werden vorher in einer Liste gesammelt (kein "next" über eine Tabelle, die sich zwischen zwei Bildern ändert).
+-- Ausserhalb der Koroutine (oder unter pcall) wie Deep am Stück.
+local function DeepPortions(v, seen, n)
+	if type(v) ~= "table" then return v end
+	seen, n = seen or {}, n or { 0 }
+	if seen[v] then return seen[v] end
+	local c = {}
+	seen[v] = c
+	local keys = {}
+	for k in pairs(v) do keys[#keys + 1] = k end
+	for _, k in ipairs(keys) do
+		local x = v[k]
+		if x ~= nil then c[Deep(k, seen)] = DeepPortions(x, seen, n) end
+		n[1] = n[1] + 1
+		if n[1] % 200 == 0 then R.Breathe(R.PORTION_MS - 1) end
+	end
+	return c
+end
+
 local function KeepDB(keys, body)
 	local db = RM.db
 	local saved = {}
-	for _, k in ipairs(keys) do saved[k] = { had = db[k] ~= nil, tbl = db[k], copy = Deep(db[k]) } end
-	return Guard(body, function()
-		for _, k in ipairs(keys) do
-			local s = saved[k]
+	local where = R.current
+	for _, k in ipairs(keys) do
+		R.current = tostring(where) .. " Daten sichern"
+		saved[k] = { had = db[k] ~= nil, tbl = db[k], copy = DeepPortions(db[k]) }
+		R.Breathe(R.PRE_MS)                            -- NP-RM30-1: jeder Bereich der Daten in eigenen Portionen
+	end
+	-- Zurückschreiben: der Inhalt wird übernommen (die Kopie gehört nur hier hin, kein zweites Kopieren nötig); je Schlüssel in
+	-- pcall, damit ein Fehler die übrigen nicht verhindert. Nicht im Aufräumteil von Guard (der läuft unter pcall und dürfte
+	-- kein Bild abgeben) – sondern danach, mit derselben Garantie: es läuft immer, Fehler des Körpers werden danach weitergegeben.
+	local r = pack(Run(body))
+	where = R.current
+	for _, k in ipairs(keys) do
+		R.current = tostring(where) .. " Daten zurück"
+		local s = saved[k]
+		pcall(function()
 			if not s.had then
 				db[k] = nil
 			elseif type(s.tbl) == "table" then
 				db[k] = s.tbl
-				Replace(s.tbl, s.copy)
+				for key in pairs(s.tbl) do s.tbl[key] = nil end
+				for key, val in pairs(s.copy) do s.tbl[key] = val end
 			else
 				db[k] = s.copy
 			end
-		end
-	end)
+		end)
+		R.Breathe(R.PRE_MS)
+	end
+	if not r[1] then error(r[2], 0) end
+	return unpack(r, 2, r.n)
 end
 
 -- alle Handler eines Ereignisses einzeln mit pcall aufrufen (nicht über geterrorhandler)
@@ -695,9 +734,11 @@ local function AreaB(t, G)
 		return true, checks .. " Haken, " .. cycles .. " Auswahl"
 	end)
 
-	t:Check("T14", "B", "Nebenfenster und Esc", function()
+	-- NP-RM30-1 (3.0.31): jedes Nebenfenster in einem eigenen Bild (Ingametest: 11 ms am Stück)
+	AsyncCheck(t, "T14", "B", "Nebenfenster und Esc", function()
 		local errs = {}
 		local function try(what, fn, ...)
+			R.Breathe(R.PRE_MS)
 			local ok, err = pcall(fn, ...)
 			if not ok then errs[#errs + 1] = what .. ": " .. tostring(err) end
 		end
@@ -1390,7 +1431,7 @@ local function AreaB(t, G)
 			Settle(6)
 		end)
 	end)
-	t:Client("T35b", "B", "Berufe (Fenster echt öffnen)", "siehe T152: Knopf 'Meine Berufe einlesen' mehrmals, dann /rm berufe")
+	R.WindowStep(t, "T35b")          -- TR-ALLE D (3.0.31): wartet nie, wird beim nächsten Berufsfenster nachgeholt
 
 	t:Check("T36", "B", "Gildenbank", function()
 		local Bk = RM.Bank
@@ -1402,7 +1443,8 @@ local function AreaB(t, G)
 			if #list ~= 1 or list[1].id ~= 12360 then return false, #list .. " Treffer", "1 Treffer (Testbestand)" end
 		end)
 	end)
-	t:Client("T36b", "B", "Gildenbank echt", "Bank-Charakter: Bank öffnen, Post öffnen, dann /rm bank – Bestand > 0 Einträge?")
+	R.WindowStep(t, "T36b")          -- TR-ALLE D: Bank (nur Bank-Charakter)
+	R.WindowStep(t, "T36c")          -- TR-ALLE D: Post (nur Bank-Charakter)
 
 	t:Check("T37", "B", "Skillungen", function()
 		local Sp = RM.Spec
@@ -1453,8 +1495,9 @@ local function AreaB(t, G)
 				C.Send("GSTEST", big, "RAID")
 				Wait(math.max(1, C.Pending() * 0.15 + 0.5))
 				if #parts < 2 then return false, #parts .. " Teile", "Mehrteil-Nachricht (~M)" end
-				for i = #parts, 1, -1 do RM.SimulateEvent("CHAT_MSG_ADDON", RM.PREFIX, parts[i], "RAID", "Tank1") end
+				for i = #parts, 1, -1 do RM.SimulateEvent("CHAT_MSG_ADDON", RM.PREFIX, parts[i], "RAID", "Tank1"); R.Breathe(R.PRE_MS) end
 				if got ~= 1 then return false, "Handler " .. got .. "x", "genau 1x" end
+				R.Breathe(R.PRE_MS)                               -- NP-RM30-1: Schritte in eigenen Bildern
 				local e = CallHandlers("CHAT_MSG_ADDON", RM.PREFIX, "UNBEKANNT\t{}", "RAID", "Tank1")
 				if e > 0 then return false, "unbekannter Typ", "ignoriert" end
 				-- HELLO mit höherer Version: Hinweis höchstens einmal
@@ -1462,15 +1505,19 @@ local function AreaB(t, G)
 				CallHandlers("CHAT_MSG_ADDON", RM.PREFIX, "HELLO\t" .. C.Serialize(hello), "RAID", "Tank1")
 				if not (C.versions.Tank1 and C.versions.Tank1.num == RM.VERSION_NUM + 1) then return false, "HELLO nicht gemerkt", "Version gemerkt" end
 				-- SNAP einer fremden Gilde: von Nicht-Leitung ignoriert, von Raidleitung übernommen
+				R.Breathe(R.PRE_MS)
 				local snap = DKP.MakeSnapshot(5)
+				R.Breathe(R.PRE_MS)
 				snap.g, snap.v = "Fremdgilde", (snap.v or 0) + 1
 				CallHandlers("CHAT_MSG_ADDON", RM.PREFIX, "SNAP\t" .. C.Serialize(snap), "RAID", "Fremd1")
 				if RM.db.foreign and RM.db.foreign.Fremdgilde then return false, "SNAP von Nicht-Leitung übernommen", "ignoriert" end
+				R.Breathe(R.PRE_MS)
 				local origAuth = RM.IsRaidAuthority
 				Swap(u, RM, "IsRaidAuthority", function(n) return n == "Tank1" or origAuth(n) end)
 				Swap(u, RM.UI, "viewGuild", RM.UI.viewGuild)
 				C.handlers.SNAP("Tank1", snap, "RAID")
 				if not (RM.db.foreign and RM.db.foreign.Fremdgilde) then return false, "SNAP der Raidleitung", "übernommen (Ansicht)" end
+				R.Breathe(R.PRE_MS)
 				local blocked = RM.Test.blocked or 0
 				CallHandlers("CHAT_MSG_ADDON", RM.PREFIX, "PING\t{}", "RAID", "Tank1")
 				local w = 0
@@ -1564,11 +1611,18 @@ local function AreaB(t, G)
 			Swap(u, T, "pool", R.long and "mc" or "ony")
 			-- Beute vorher beim Server anfordern und warten, bis der Client sie kennt (höchstens 10 s, ab 3.0.18):
 			-- kurz nach dem ersten Einloggen war GetItemInfo leer und der Durchlauf vergab nichts
+			-- 3.0.31 (Ingametest 17.11.: "Beute geladen 10/26"): bis 30 s warten (alle 0,5 s nachfragen; GET_ITEM_INFO_RECEIVED
+			-- kommt in dieser Zeit an), früher aufhören, wenn alles da ist oder 8 s lang nichts Neues mehr kam (Items, die es in
+			-- diesem Client nicht gibt, laden nie)
 			local known, total = 0, 0
 			if T.PreloadLoot then
 				known, total = T.PreloadLoot(T.pool)
-				local w = 0
-				while total > 0 and known < total and w < 10 do Wait(1); w = w + 1; known, total = T.PreloadLoot(T.pool) end
+				local w, lastGain, lastKnown = 0, 0, known
+				while total > 0 and known < total and w < 30 and (w - lastGain) < 8 do
+					Wait(0.5); w = w + 0.5
+					known, total = T.PreloadLoot(T.pool)
+					if known > lastKnown then lastKnown, lastGain = known, w end
+				end
 			end
 			local since = RM.Now() - 1
 			local function items()
@@ -1608,8 +1662,14 @@ local function AreaB(t, G)
 				stress = ", Stresstest: neue Fehler 0"
 			end
 			if n < 1 then
-				if total > 0 and known == 0 then return ASYNC_SKIP, "Beute noch nicht vom Server geladen (" .. known .. "/" .. total .. ") – Fall später wiederholen" end
-				return false, "kein Item vergeben (Beute geladen " .. known .. "/" .. total .. ")", ">= 1"
+				local st = T.stats or {}
+				local detail = string.format("Beute geladen %d/%d; im Durchlauf %d Items behandelt (%d Versteigerung, %d andere Regel), %d ohne Daten",
+					known, total, st.handled or 0, st.auction or 0, st.other or 0, st.noInfo or 0)
+				-- nicht prüfbar statt FEHLER, wenn gar kein Item in die Versteigerung kam (Beute im Spiel noch nicht geladen oder die
+				-- geladenen Items gehen nach Regel an Bank/Entzauberer) – das liegt nicht am Addon. Kam eins in die Versteigerung und
+				-- wurde trotzdem nichts vergeben, bleibt es ein FEHLER.
+				if (st.auction or 0) == 0 then return ASYNC_SKIP, detail .. " – beim nächsten Lauf wieder" end
+				return false, "kein Item vergeben (" .. detail .. ")", ">= 1"
 			end
 			if RM.db.testMode and RM.db.testMode.post then return false, "testMode.post gesetzt", "nil" end
 			return true, n .. " Items vergeben in " .. waited .. " s" .. stress
@@ -1967,29 +2027,48 @@ local function AreaE(t)
 	-- nur der Teil mit getauschtem RM.db läuft am Stück (in einem Bild, damit kein echtes Ereignis in der Testtabelle landet)
 	AsyncCheck(t, "T84", "E", "Große Datenmengen", function()
 		local db = RM.InitDB({})
-		for i = 1, 500 do db.data.players["Spieler" .. i] = { c = "WARRIOR", d = { mc = i } } end
-		R.Breathe(R.PRE_MS)
+		-- Aufbau in kleinen Portionen (Bild abgeben ab 0,5 ms): das Anlegen vieler Tabellen löst Schritte der Speicherbereinigung
+		-- aus, deren unteilbarer Schluss im Nachbau bis ~4 ms dauert (gemessen) – darum bleibt für die eigene Arbeit wenig
+		for i = 1, 500 do
+			db.data.players["Spieler" .. i] = { c = "WARRIOR", d = { mc = i } }
+			if i % 5 == 0 then R.Breathe(0.5) end   -- viele neue Tabellen: die Speicherbereinigung (bis ~4 ms) läuft mit
+		end
+		local D1 = { Spieler1 = 1 }   -- eine gemeinsame Buchungstabelle (nur gelesen): halb so viele neue Tabellen
 		for i = 1, 5000 do
-			db.data.log[#db.data.log + 1] = { id = "t" .. i, t = i, k = "manual", x = "Test", d = { Spieler1 = 1 }, pool = "mc" }
-			if i % 500 == 0 then R.Breathe(R.PRE_MS) end
+			db.data.log[#db.data.log + 1] = { id = "t" .. i, t = i, k = "manual", x = "Test", d = D1, pool = "mc" }
+			if i % 5 == 0 then R.Breathe(0.5) end   -- viele neue Tabellen: die Speicherbereinigung (bis ~4 ms) läuft mit
 		end
 		db.specs = db.specs or {}
-		for i = 1, 300 do db.specs["Spieler" .. i] = { c = "WARRIOR", p = { 5, 5, 41 }, t = RM.Now() } end
+		for i = 1, 300 do
+			db.specs["Spieler" .. i] = { c = "WARRIOR", p = { 5, 5, 41 }, t = RM.Now() }
+			if i % 5 == 0 then R.Breathe(0.5) end   -- viele neue Tabellen: die Speicherbereinigung (bis ~4 ms) läuft mit
+		end
 		db.itemTips = {}
-		for i = 1, (RM.ItemTip.MAX or 600) + 50 do db.itemTips[100000 + i] = { n = "x", t = i } end
-		R.Breathe(0)                                  -- der getauschte Teil beginnt in einem frischen Bild
-		local t0 = Ms()
-		return WithDB(db, function()
-			local list = RM.DKP.SortedPlayers("mc")
-			local snap = RM.DKP.MakeSnapshot()
-			RM.Spec.Prune()
-			RM.ItemTip.Prune()
-			if #list < 500 then return false, #list .. " Spieler", ">= 500" end
-			if #snap.l > 60 then return false, #snap.l .. " Log-Einträge im Snapshot", "<= 60" end
-			if Count(db.itemTips) > (RM.ItemTip.MAX or 600) then return false, Count(db.itemTips) .. " Item-Tooltips", "<= " .. (RM.ItemTip.MAX or 600) end
-			if RM.Records.MAX_LOG ~= 400 then return false, "Records.MAX_LOG " .. tostring(RM.Records.MAX_LOG), 400 end
-			return true, string.format("%.0f ms", Ms() - t0)
-		end)
+		for i = 1, (RM.ItemTip.MAX or 600) + 50 do
+			db.itemTips[100000 + i] = { n = "x", t = i }
+			if i % 5 == 0 then R.Breathe(0.5) end   -- viele neue Tabellen: die Speicherbereinigung (bis ~4 ms) läuft mit
+		end
+		-- NP-RM30-1 (3.0.31): jeder Schritt mit getauschtem RM.db in einem eigenen Bild – getauscht und zurück im selben Bild,
+		-- dazwischen ist RM.db immer die echte Tabelle (kein echtes Ereignis landet in der Testtabelle)
+		local total, list, snap = 0, nil, nil
+		local steps = {
+			function() list = RM.DKP.SortedPlayers("mc") end,
+			function() snap = RM.DKP.MakeSnapshot() end,
+			function() RM.Spec.Prune() end,
+			function() RM.ItemTip.Prune() end,
+		}
+		for _, step in ipairs(steps) do
+			R.Breathe(0)
+			local t0 = Ms()
+			local ok, err = WithDB(db, function() step() return true end)
+			total = total + (Ms() - t0)
+			if not ok then return false, tostring(err), "kein Fehler" end
+		end
+		if #list < 500 then return false, #list .. " Spieler", ">= 500" end
+		if #snap.l > 60 then return false, #snap.l .. " Log-Einträge im Snapshot", "<= 60" end
+		if Count(db.itemTips) > (RM.ItemTip.MAX or 600) then return false, Count(db.itemTips) .. " Item-Tooltips", "<= " .. (RM.ItemTip.MAX or 600) end
+		if RM.Records.MAX_LOG ~= 400 then return false, "Records.MAX_LOG " .. tostring(RM.Records.MAX_LOG), 400 end
+		return true, string.format("%.0f ms in 4 Bildern", total)
 	end)
 	t:Check("T85", "E", "Berichte in den SavedVariables", function()
 		local s = RaidMasterDB.gsTest
@@ -2152,15 +2231,24 @@ local function AreaH(t)
 			return true, string.format("Tick %.3f ms, D.Text %.2f ms", tick, txt)
 		end, function() wipe(D.errors); for i, e in ipairs(saved) do D.errors[i] = e end end)
 	end)
-	t:Check("T114", "H", "Serializer 500 Spieler < 16 ms", function()
-		local data = { players = {} }
-		for i = 1, 500 do data.players["Spieler" .. i] = { c = "WARRIOR", d = { mc = i, ony = i * 2 } } end
-		local t0 = debugprofilestop()
-		local s = RM.Comm.Serialize(data)
-		RM.Comm.Deserialize(s)
-		local d = debugprofilestop() - t0
-		if d >= 16 then return false, string.format("%.1f ms", d), "< 16 ms" end
-		return true, string.format("%.1f ms", d)
+	-- NP-RM30-1 (3.0.31): 500 Spieler in 5 Teilen à 100, jeder Teil in einem eigenen Bild; Grenze für die Summe wie bisher
+	AsyncCheck(t, "T114", "H", "Serializer 500 Spieler < 16 ms (5 Teile à 100)", function()
+		local sum, worst = 0, 0
+		for part = 0, 4 do
+			local data = { players = {} }
+			for i = part * 100 + 1, part * 100 + 100 do data.players["Spieler" .. i] = { c = "WARRIOR", d = { mc = i, ony = i * 2 } } end
+			R.Breathe(0)
+			local t0 = debugprofilestop()
+			local s = RM.Comm.Serialize(data)
+			local back = RM.Comm.Deserialize(s)
+			local d = debugprofilestop() - t0
+			if type(back) ~= "table" or type(back.players) ~= "table" or not back.players["Spieler" .. (part * 100 + 1)] then
+				return false, "Teil " .. (part + 1) .. " nicht zurückgelesen", "gleiche Daten"
+			end
+			sum, worst = sum + d, math.max(worst, d)
+		end
+		if sum >= 16 then return false, string.format("%.1f ms", sum), "< 16 ms" end
+		return true, string.format("zusammen %.1f ms, teuerster Teil %.1f ms", sum, worst)
 	end)
 	t:Check("T115", "H", "Tooltip < 2 ms, erster Aufbau < 16 ms", function()
 		local TT = RM.Tooltip
@@ -2182,9 +2270,9 @@ local function AreaH(t)
 		local fake = { GetItem = function() return "x", LINK_EPIC end, AddLine = function() end, Show = function() end }
 		CollectInSteps()
 		local before = collectgarbage("count")
-		for i = 1, 100 do CallHandlers("GROUP_ROSTER_UPDATE"); if i % 10 == 0 then R.Breathe(R.PRE_MS) end end
-		for i = 1, 100 do CallHandlers("PLAYER_TARGET_CHANGED"); if i % 10 == 0 then R.Breathe(R.PRE_MS) end end
-		for _ = 1, 50 do TT.OnItem(fake) end
+		for _ = 1, 100 do CallHandlers("GROUP_ROSTER_UPDATE"); R.Breathe(R.PRE_MS) end
+		for _ = 1, 100 do CallHandlers("PLAYER_TARGET_CHANGED"); R.Breathe(R.PRE_MS) end
+		for i = 1, 50 do TT.OnItem(fake); if i % 10 == 0 then R.Breathe(R.PRE_MS) end end
 		CollectInSteps()
 		local grow = collectgarbage("count") - before
 		Settle(10)
@@ -2213,8 +2301,13 @@ local function AreaI(t)
 			return n
 		end
 		return Guard(function()
-			-- über den Fehler-Handler des Spiels wie ein echter Fehler (ohne Fehlerfenster: BugSack/Diagnose nehmen ihn auf)
-			geterrorhandler()(msg)
+			-- 3.0.31 (RM-TF-1): NICHT über geterrorhandler() – am Ende der Kette steht das Fehlerfenster des Spiels, das der Nutzer
+			-- sonst sieht. Stattdessen genau das, was die beiden Glieder der Kette tun: Diagnose (D.OnError) und der gemeinsame
+			-- Abgriff von GoldSentinelTest (Record über GoldSentinelTest.Error mit "Lua"); dass beide eingeklinkt sind, prüft T120 getrennt.
+			if not (D.IsHooked and D.IsHooked()) then return false, "Diagnose nicht eingeklinkt", "D.IsHooked" end
+			if not _G.GoldSentinelTestHooked then return false, "GoldSentinelTest-Abgriff fehlt", "eingeklinkt" end
+			D.OnError(msg)
+			GoldSentinelTest.Error("RaidMaster", "Lua", msg)
 			if #D.errors ~= before + 1 and not (D.errors[1] and D.errors[1].msg == msg) then return false, "Diagnose nicht erhöht", "+1" end
 			if count() < 1 then return false, "gsTest.errors ohne Eintrag", "1 Eintrag" end
 		end, function() cleanErrors("RaidMaster-Testfehler") end)
@@ -2233,7 +2326,7 @@ local function AreaI(t)
 		local D = RM.Diag
 		local msg = "Interface\\AddOns\\RaidMaster\\Test\\Routine.lua:2: RaidMaster-Testfehler-doppelt"
 		return Guard(function()
-			for _ = 1, 3 do geterrorhandler()(msg) end
+			for _ = 1, 3 do D.OnError(msg); GoldSentinelTest.Error("RaidMaster", "Lua", msg) end   -- RM-TF-1: ohne Fehlerfenster
 			local inDiag, n = 0, 0
 			for _, e in ipairs(D.errors) do if e.msg == msg then inDiag = inDiag + 1; n = e.n end end
 			local inGS, count = 0, 0
@@ -2721,35 +2814,38 @@ local function AreaJ(t, G)
 		return true, "aus: nichts gelesen/gesendet; an: wieder an; Zähler unverändert"
 	end)
 
-	t:Check("T182", "J", "MN4 kein Lua-Fehler ohne Auktionshaus-Schnittstelle", function()
+	-- NP-RM30-1 (3.0.31): jeder Schritt in einem eigenen Bild (Ingametest: 21 ms am Stück); Run statt pcall, damit der Körper
+	-- Bilder abgeben kann – Schnittstelle und Zähler kommen garantiert zurück (auch bei Fehler oder Abbruch des Laufs: KeepDB/Sicherung)
+	AsyncCheck(t, "T182", "J", "MN4 kein Lua-Fehler ohne Auktionshaus-Schnittstelle", function()
 		local GM = _G.GoldSentinelMarkt
 		if type(GM) ~= "table" then return false, "fehlt", "GoldSentinelMarkt" end
 		local st = MarktState(GM)
-		local origAh = GM.api.ah
-		GM.api.ah = function() return nil end               -- alter Client: kein C_AuctionHouse
 		local errs = {}
-		local okRun, err = pcall(function()
+		-- NP-RM30-1 (3.0.31): jeder Schritt in einem eigenen Bild (Ingametest: 21 ms am Stück). Jeder Schritt tauscht die
+		-- Schnittstelle und schaltet Teilen ein, ruft genau eine Funktion und stellt danach ALLES zurück – im selben Bild.
+		-- Zwischen den Bildern ist also nie etwas getauscht (kein Teilen, keine fremde Schnittstelle für andere Addons).
+		local function Step(what, prepare, fn, ...)
+			R.Breathe(0)
+			local origAh = GM.api.ah
+			GM.api.ah = function() return nil end           -- alter Client: kein C_AuctionHouse
 			RM.SetMarktShare(true)
-			GM.lastEv = nil
-			local ok1, e1 = pcall(GM.OnReplicate)
-			if not ok1 then errs[#errs + 1] = "OnReplicate: " .. tostring(e1) end
-			GM.readAt = 0
-			for _ = 1, 3 do
-				local ok2, e2 = pcall(GM.Tick)
-				if not ok2 then errs[#errs + 1] = "Tick: " .. tostring(e2) end
-			end
-			local ok3, e3 = pcall(GM.Get, 2589)
-			if not ok3 then errs[#errs + 1] = "Get: " .. tostring(e3) end
-			local ok4, e4 = pcall(GM.DiagLines)
-			if not ok4 then errs[#errs + 1] = "DiagLines: " .. tostring(e4) end
-		end)
-		GM.api.ah = origAh
-		GM.reader = nil
-		MarktRestore(GM, st)
-		if not okRun then return false, "Lua: " .. tostring(err), "kein Fehler" end
+			if prepare then pcall(prepare) end
+			local ok, e = pcall(fn, ...)
+			GM.api.ah = origAh
+			GM.reader = nil
+			MarktRestore(GM, st)
+			if not ok then errs[#errs + 1] = what .. ": " .. tostring(e) end
+		end
+		Step("OnReplicate", function() GM.lastEv = nil end, GM.OnReplicate)
+		for i = 1, 3 do
+			Step("Tick " .. i, function() GM.lastEv = GetTime and GetTime() or 0; GM.readAt = 0 end, GM.Tick)
+		end
+		Step("Get", nil, GM.Get, 2589)
+		Step("DiagLines", nil, GM.DiagLines)
 		if #errs > 0 then return false, errs[1], "kein Fehler" end
 		if not SameStats(GM.stats, st.stats) then return false, "Zähler nach dem Test verändert", "unverändert (MN-T)" end
-		return true, "ohne AH-API still; Zähler unverändert"
+		if RM.db.config.marktTeilen ~= st.share then return false, "Teilen nicht zurückgestellt", tostring(st.share) end
+		return true, "ohne AH-API still (6 Schritte in eigenen Bildern); Zähler und Teilen unverändert"
 	end)
 
 	t:Check("T183", "J", "MN3 Testbericht-Zeile MARKT-NETZ", function()
@@ -3014,6 +3110,85 @@ local function AreaJ(t, G)
 		return true, "Sicherung im Lauf da; nach Abbruch: Inhalt zurück (gleiche Tabellen), Neues weg, nur einmal"
 	end)
 
+	-- 3.0.31 (Ingametest 17.11., T155): Tooltips verdecken keine Knöpfe – Platzierung neben, über, unter dem Fenster.
+	-- Nachgebaute Rahmen (Bildschirm 1000 x 800, Skala 1); geprüft wird, wohin UI.PlaceTooltip den Tooltip setzt.
+	t:Check("T190", "J", "Tooltip neben/über/unter dem Fenster (nie über Knöpfen)", function()
+		local function Fake(l, b, w, h, parent)
+			local f = { l = l, b = b, w = w, h = h, parent = parent, shown = true }
+			function f:GetLeft() return self.l end
+			function f:GetRight() return self.l + self.w end
+			function f:GetBottom() return self.b end
+			function f:GetTop() return self.b + self.h end
+			function f:GetWidth() return self.w end
+			function f:GetHeight() return self.h end
+			function f:GetEffectiveScale() return 1 end
+			function f:GetParent() return self.parent end
+			function f:IsShown() return self.shown end
+			function f:ClearAllPoints() self.point = nil end
+			function f:SetPoint(p, rel, rp, x, y) self.point = { p, rel, rp, x or 0, y or 0 } end
+			return f
+		end
+		local screen = Fake(0, 0, 1000, 800, nil)
+		local cases = {
+			-- Fenster l, b, w, h ; erwartet Punkt, Bezug (win/owner), Bezugspunkt
+			{ "Platz rechts", { 100, 300, 400, 300 }, "TOPLEFT", "win", "TOPRIGHT" },
+			{ "nur links", { 600, 300, 380, 300 }, "TOPRIGHT", "win", "TOPLEFT" },
+			{ "breit, Platz oben", { 50, 100, 900, 400 }, "BOTTOMLEFT", "win", "TOPLEFT" },
+			{ "breit oben, Platz unten", { 50, 450, 900, 340 }, "TOPLEFT", "win", "BOTTOMLEFT" },
+			{ "Leiste am oberen Rand rechts", { 820, 770, 170, 30 }, "TOPRIGHT", "win", "TOPLEFT" },
+			{ "kein Platz", { 10, 10, 980, 780 }, "BOTTOMLEFT", "owner", "TOPRIGHT" },
+		}
+		local bad = {}
+		for _, c in ipairs(cases) do
+			local w = c[2]
+			local win = Fake(w[1], w[2], w[3], w[4], screen)
+			local owner = Fake(w[1] + 10, w[2] + 5, 20, 20, win)
+			local tip = Fake(0, 0, 250, 120, nil)
+			RM.UI.PlaceTooltip(owner, tip, screen)
+			local p = tip.point
+			local rel = p and (p[2] == win and "win" or (p[2] == owner and "owner") or "?")
+			if not (p and p[1] == c[3] and rel == c[4] and p[3] == c[5]) then
+				bad[#bad + 1] = c[1] .. ": " .. (p and (p[1] .. " an " .. rel .. " " .. p[3]) or "kein Punkt")
+			end
+		end
+		if #bad > 0 then return false, table.concat(bad, "; "), "jeder Fall richtig" end
+		return true, #cases .. " Lagen richtig (rechts, links, über, unter, Leiste oben, sonst am Element)"
+	end)
+
+	-- 3.0.31 (Entscheid Supervisor 17.11., Ingametest T156): HUD-Anzeigen anderer Addons (LevelPilot-Pfeil, ThreatSentinel-
+	-- Aggrometer …) zählen in der Überlappungs-Prüfung nicht; echte Fenster anderer GoldSentinel-Addons schon.
+	-- Nachgebaute Rahmen; GoldSentinelUIFrames und RM.uiFrames werden nur in diesem einen Aufruf (ohne Bildwechsel) getauscht.
+	t:Check("T191", "J", "Überlappung: HUD anderer Addons ausgenommen, Fenster nicht", function()
+		local U = RM.UICheck
+		if not (U and U.WindowsOverlapNothing and RM.IsForeignHUD) then return false, "fehlt", "UICheck mit HUD-Liste" end
+		local function Fake(l, b, w, h)
+			local f = {}
+			function f:GetRect() return l, b, w, h end
+			function f:IsVisible() return true end
+			function f:GetEffectiveScale() return 1 end
+			return f
+		end
+		local mine = Fake(100, 100, 400, 300)
+		local savedMine, savedAll = RM.uiFrames, _G.GoldSentinelUIFrames
+		local ok, problems = pcall(function()
+			RM.uiFrames = { { frame = mine, name = "Hauptfenster" } }
+			_G.GoldSentinelUIFrames = {
+				{ frame = Fake(150, 150, 40, 40), name = "Pfeil", addon = "LevelPilot" },
+				{ frame = Fake(200, 200, 60, 20), name = "Aggrometer", addon = "ThreatSentinel" },
+				{ frame = Fake(300, 300, 80, 80), name = "Einstellungen", addon = "ThreatSentinel" },
+				{ frame = Fake(120, 120, 30, 30), name = "Neu", addon = "AnderesAddon", kind = "hud" },
+			}
+			return (U.WindowsOverlapNothing())
+		end)
+		RM.uiFrames, _G.GoldSentinelUIFrames = savedMine, savedAll
+		if not ok then return false, "Lua-Fehler " .. tostring(problems), "kein Fehler" end
+		local text = table.concat(problems or {}, "; ")
+		if #(problems or {}) ~= 1 or not text:find("Einstellungen", 1, true) then
+			return false, (#(problems or {}) .. ": " .. text), "genau 1 (ThreatSentinel-Einstellungen)"
+		end
+		return true, "Pfeil, Aggrometer und Art 'hud' ausgenommen; echtes Fenster gemeldet"
+	end)
+
 	-- 3.0.24 (BL): Befehlsliste beim Tippen – eine Tabelle für Handler und Liste (T-BL1 … T-BL6)
 	local function HintWith(dev, german)
 		local H = RM.CmdHint
@@ -3106,15 +3281,29 @@ local function AreaJ(t, G)
 	t:Check("T169", "J", "T-BL4 Chatfeld wird nie beschrieben", function()
 		local H, restore = HintWith(false, true)
 		local writes, focus = 0, 0
-		local box = { shown = true, text = "/rm be" }
-		function box:GetText() return self.text end
-		function box:SetText() writes = writes + 1 end
-		function box:Insert() writes = writes + 1 end
-		function box:SetCursorPosition() writes = writes + 1 end
-		function box:SetFocus() focus = focus + 1 end
-		function box:IsShown() return true end
-		function box:GetWidth() return 400 end
-		local okAll = pcall(function()
+		-- 3.0.31: ein ECHTES (unsichtbares) Eingabefeld – CmdHint verankert seinen Rahmen daran, und SetPoint verlangt im Spiel
+		-- einen echten Rahmen (Ingametest 17.11.: "SetPoint(): Wrong object type" mit einer Lua-Tabelle). Die Methoden, die zählen,
+		-- sind nur auf diesem Feld überschrieben; es bekommt nie den Tastatur-Fokus (SetFocus ist ersetzt) und wird wiederverwendet.
+		local box = R.t169Box
+		if not box then
+			box = CreateFrame("EditBox", nil, UIParent)
+			box:SetAutoFocus(false)
+			box:SetSize(400, 20)
+			box:SetPoint("TOPLEFT", UIParent, "BOTTOMRIGHT", 100, -100)   -- ausserhalb des Bildschirms
+			box:SetAlpha(0)
+			box:EnableMouse(false)
+			box:Hide()
+			R.t169Box = box
+		end
+		box.GetText = function() return "/rm be" end
+		box.SetText = function() writes = writes + 1 end
+		box.Insert = function() writes = writes + 1 end
+		box.SetCursorPosition = function() writes = writes + 1 end
+		box.SetFocus = function() focus = focus + 1 end
+		box.IsShown = function() return true end
+		box.GetWidth = function() return 400 end
+		local lastBox = H.lastBox
+		local okAll, errAll = pcall(function()
 			H:OnText(box)
 			H:SelectNext(1)
 			H:SelectNext(1)
@@ -3126,8 +3315,10 @@ local function AreaJ(t, G)
 			H:Hide()
 		end)
 		restore()
+		H.lastBox, H.editBox = lastBox, nil                  -- das Testfeld nie als "letztes Chatfeld" behalten
+		box:Hide()
 		-- Quelltext-Regel: CmdHint benutzt nur HookScript, nie SetScript auf dem Chatfeld
-		if not okAll then return false, "Lua-Fehler", "kein Fehler" end
+		if not okAll then return false, "Lua-Fehler: " .. tostring(errAll):sub(1, 120), "kein Fehler" end
 		if writes ~= 0 then return false, writes .. " Schreibzugriffe", "0" end
 		if focus < 1 then return false, "kein SetFocus", "Fokus zurück" end
 		return true, "0 Schreibzugriffe, Fokus zurück"
@@ -3522,12 +3713,14 @@ local function AreaL(t, G)
 			if after ~= before + delta then
 				viol[#viol + 1] = string.format("Fall %d (Startwert %d): Summe %d -> %d, Buchung %d", case, TU_SEED, before, after, delta)
 			end
-			-- G2 jede Buchungs-ID genau einmal im Log
-			if #viol < 5 then
+			-- G2 jede Buchungs-ID genau einmal im Log – 3.0.31 (NP-RM30-1): ganzer Durchgang alle 50 Fälle und beim letzten
+			-- (vorher bei jedem Fall: 1000 Fälle x bis 1000 Einträge, viel Abfall für die Speicherbereinigung)
+			if #viol < 5 and (case % 50 == 0 or case == 1000) then
 				local seen = {}
-				for _, x in ipairs(data.log) do
+				for i, x in ipairs(data.log) do
 					if seen[x.id] then viol[#viol + 1] = string.format("Fall %d: Buchung %s doppelt im Log", case, x.id) end
 					seen[x.id] = true
+					if i % 250 == 0 then R.Breathe(R.PRE_MS) end
 				end
 			end
 			n = n + 1
@@ -3555,6 +3748,9 @@ local function AreaL(t, G)
 				if not c then viol[#viol + 1] = "Runde " .. round .. ": startet nicht" break end
 				local best, bestName = 0, nil
 				for _ = 1, 12 do
+					-- 3.0.31 (NP-RM30-1): jedes Gebot in einem eigenen Bild, wenn das Bild schon belegt ist (die Versteigerung
+					-- läuft 3 s im Testmodus – 13 Bilder reichen auch bei wenigen Bildern pro Sekunde)
+					R.Breathe(R.PRE_MS)
 					local nm = roster[rnd(1, #roster)]
 					local amt = rnd(0, 90)
 					local okBid = A.ReceiveBid(nm, amt)
@@ -3582,7 +3778,8 @@ local function AreaL(t, G)
 	end)
 
 	-- TU5: echte Daten (KOPIE aus der Sandbox) nur lesen; Verletzungen ins Diagnose-Protokoll, ohne Namen
-	t:Check("T176", "L", "TU5 echte Daten (Kopie) erfüllen die Grundregeln", function()
+	-- 3.0.31 (NP-RM30-1): die Kopie der echten Daten kann gross sein – in Portionen lesen (die Kopie ändert sich nicht)
+	AsyncCheck(t, "T176", "L", "TU5 echte Daten (Kopie) erfüllen die Grundregeln", function()
 		local real = R.snap and R.snap.db and R.snap.db.data
 		if type(real) ~= "table" then
 			TUAdd("TU5", "skip", "SKIP keine gesicherte Kopie der echten Daten")
@@ -3591,6 +3788,7 @@ local function AreaL(t, G)
 		local viol = {}
 		local ids = {}
 		for i, e in ipairs(real.log or {}) do
+			if i % 200 == 0 then R.Breathe(R.PRE_MS) end
 			if type(e) ~= "table" or not e.id then viol[#viol + 1] = "Log-Eintrag " .. i .. " ohne ID"
 			elseif ids[e.id] then viol[#viol + 1] = "Buchung doppelt im Log (Nr. " .. i .. ")"
 			else ids[e.id] = true end
@@ -3606,6 +3804,7 @@ local function AreaL(t, G)
 		local nPlayers = 0
 		for _, p in pairs(real.players or {}) do
 			nPlayers = nPlayers + 1
+			if nPlayers % 200 == 0 then R.Breathe(R.PRE_MS) end
 			for _, v in pairs((type(p) == "table" and p.d) or {}) do
 				if type(v) ~= "number" or v ~= v or v == math.huge or v == -math.huge then
 					viol[#viol + 1] = "Spieler Nr. " .. nPlayers .. ": ungültiger DKP-Stand"
@@ -3636,7 +3835,8 @@ local function AreaL(t, G)
 			{ "MN4 Schalter aus", "T181" }, { "MN4 ohne AH-API", "T182" }, { "MN3 Testbericht-Zeile", "T183" },
 			{ "Prüfliste im Spiel", "T185" }, { "RM-DIAG-1 Fehlerflut", "T186" },
 			{ "RM-DIAG-1 Fehlerquellen", "T187" }, { "RM-API-RAIDS", "T188" },
-			{ "TR-ALLE Sicherung", "T189" } }
+			{ "TR-ALLE Sicherung", "T189" }, { "Tooltip-Platzierung (Ingame T155)", "T190" }, { "HUD-Ausnahme (Ingame T156)", "T191" },
+			{ "RM-TF-1 kein Fehlerfenster", "T120" }, { "T-BL4 echtes Eingabefeld", "T169" } }
 		local only = R.only
 		local have, missing = 0, {}
 		for _, r in ipairs(REG) do
@@ -3779,10 +3979,13 @@ local function Resume(token, ...)
 	local res = pack(coroutine.resume(R.co, ...))
 	if R.portionStart and debugprofilestop then
 		local d = debugprofilestop() - R.portionStart
-		if d > (R.maxPortion or 0) then R.maxPortion, R.maxPortionAt = d, tostring(R.current or "?") end
-		if d > R.PORTION_MS and R.bigPortions then
-			local at = tostring(R.current or "?")
-			R.bigPortions[at] = math.max(R.bigPortions[at] or 0, d)
+		local at = tostring(R.current or "?")
+		if R.SINGLE[at] then
+			-- NP-RM30-1 (Entscheid Supervisor 17.11.): erster Aufbau von Fenster/Seiten wird einzeln gemessen und getrennt genannt
+			if R.singlePortions then R.singlePortions[at] = math.max(R.singlePortions[at] or 0, d) end
+		else
+			if d > (R.maxPortion or 0) then R.maxPortion, R.maxPortionAt = d, at end
+			if d > R.PORTION_MS and R.bigPortions then R.bigPortions[at] = math.max(R.bigPortions[at] or 0, d) end
 		end
 	end
 	if R.token ~= token then return end
@@ -3802,7 +4005,10 @@ function StartJob(token, i)
 	local job = R.jobs[i]
 	if not job then return R.Finish() end
 	R.current = job.area
-	if job.area then Say(string.format("%d von %d: %s …", i, R.areaCount or #R.jobs, job.name)) end   -- TR-ALLE: Fortschritt
+	if job.area then                                         -- TR-ALLE: Fortschritt (nur Bereiche zählen)
+		R.areaNo = (R.areaNo or 0) + 1
+		Say(string.format("%d von %d: %s …", R.areaNo, R.areaCount or #R.jobs, job.name))
+	end
 	R.co = coroutine.create(job.fn)
 	return Resume(token)
 end
@@ -3890,6 +4096,8 @@ function R.Run(only)
 		weekly = T.weekly }
 	R.lastText = nil
 	R.running = true
+	R.noYield = 0
+	R.pendingNow = {}
 	R.finished = false
 	R.unwatch = WatchLocale()
 	R.t = GoldSentinelTest.Begin("RaidMaster", RM.VERSION, RaidMasterDB)
@@ -3897,7 +4105,7 @@ function R.Run(only)
 	t.Wait = function(_, sec) return Wait(sec) end          -- T:Wait (asynchrones Warten) für die Prüfungen
 	-- 3.0.24 (TU6): welche Prüfungen in diesem Lauf vorkamen (für "Regressionen: n von m")
 	R.seen = {}
-	R.slow, R.maxPortion, R.portions, R.maxPortionAt, R.bigPortions = {}, 0, 0, nil, {}
+	R.slow, R.maxPortion, R.portions, R.maxPortionAt, R.bigPortions, R.singlePortions = {}, 0, 0, nil, {}, {}
 	do
 		local oCheck, oSkip, oClient = t.Check, t.Skip, t.Client
 		t.Check = function(self, id, ...)
@@ -3905,7 +4113,12 @@ function R.Run(only)
 			R.Breathe(R.PRE_MS)
 			R.current = id
 			local t0 = debugprofilestop and debugprofilestop()
-			local r = pack(oCheck(self, id, ...))
+			-- der Körper einer t:Check-Prüfung läuft unter pcall (GoldSentinelTest): dort darf kein Bild abgegeben werden
+			R.noYield = (R.noYield or 0) + 1
+			local r = pack(pcall(oCheck, self, id, ...))
+			R.noYield = R.noYield - 1
+			if not r[1] then error(r[2], 0) end
+			r = pack(unpack(r, 2, r.n))
 			if t0 then
 				local d = debugprofilestop() - t0
 				if d > R.PORTION_MS then R.slow[#R.slow + 1] = { id = id, ms = d } end
@@ -3928,8 +4141,31 @@ function R.Run(only)
 		if not T.active then error("Testmodus ließ sich nicht starten") end
 	end)
 	R.jobs = {}
-	R.areaCount = 0
+	R.areaCount, R.areaNo = 0, 0
 	if ok then
+		-- NP-RM30-1 (Entscheid Supervisor 17.11.): Hauptfenster und alle Seiten einmal VOR den Prüfungen aufbauen, eine Seite je
+		-- Bild, einzeln gemessen ("Aufbau") – T10/T12 messen danach nicht mehr den ersten Aufbau
+		R.jobs[#R.jobs + 1] = { name = "Aufbau", fn = function()
+			R.current = "Aufbau"
+			local UI = RM.UI
+			local main = UI.main
+			local wasShown = main and main:IsShown()
+			local wasPage = main and main.current
+			coroutine.yield("wait", 0)
+			pcall(UI.Open)
+			for _, id in ipairs(UI.pageOrder or {}) do
+				if UI.CanSeePage(id) and not RM.InCombat() then
+					coroutine.yield("wait", 0)
+					pcall(UI.ShowPage, id)
+				end
+			end
+			coroutine.yield("wait", 0)
+			main = UI.main
+			if main then
+				if wasPage then pcall(UI.ShowPage, wasPage) end
+				if not wasShown then main:Hide() end
+			end
+		end }
 		for _, a in ipairs(AREA_ORDER) do
 			if not only or only == a then R.areaCount = R.areaCount + 1 end
 		end
@@ -3963,11 +4199,137 @@ end
 
 -- Abschluss: Testmodus beenden, Sandbox prüfen, Bericht. Geschützt: wirft etwas, bleibt R.running nie gesetzt.
 -- Prüfliste (3.0.28): nach einem ganzen Lauf ohne Abbruch Punkt TR (0 FEHLER) und MNT (Zähler "aus" = 0) setzen
+---------------------------------------------------------------------------
+-- TR-ALLE Nachtrag D (3.0.31, Supervisor 17.11. 14:00): der Lauf wartet NIE auf den Nutzer. Schritte, die ein Fenster
+-- brauchen, werden geprüft, wenn das Fenster gerade offen ist; sonst vorgemerkt ("wartet auf Fenster", kein FEHLER) und von
+-- selbst nachgeholt, wenn der Spieler das Fenster beim normalen Spielen öffnet – nur im Entwicklermodus, höchstens 7 Tage
+-- nach dem Lauf, nie im Kampf und nie während einer Testroutine. Die Prüfungen lesen nur, was RaidMaster beim Öffnen
+-- ohnehin speichert (keine Sandbox nötig, nichts wird verändert).
+---------------------------------------------------------------------------
+R.PENDING_DAYS = 7
+local function Visible(name) local f = _G[name] return type(f) == "table" and f.IsShown and f:IsShown() and true or false end
+local function BankFresh(since, src)
+	local b = RM.db and RM.db.bank
+	if not (b and b.c == RM.Me() and (b.t or 0) >= since) then return false, "nach dem Öffnen nicht gelesen", "Bestand neu gelesen" end
+	if src and b.src ~= src then return false, "zuletzt gelesen: " .. tostring(b.src), src end
+	local n = 0
+	for _ in pairs(b.i or {}) do n = n + 1 end
+	return true, n
+end
+R.WINDOW_STEPS = {
+	T35b = { area = "B", name = "Berufe: Fenster wird eingelesen", what = "Berufe",
+		later = "passiert von selbst, wenn du das nächste Mal ein Berufsfenster öffnest",
+		events = { "TRADE_SKILL_SHOW", "CRAFT_SHOW" }, delay = 2,
+		isOpen = function() return Visible("TradeSkillFrame") or Visible("ProfessionsFrame") or Visible("CraftFrame") end,
+		check = function(since)
+			local me = RM.db and RM.db.prof and RM.db.prof[RM.Me()]
+			if not (me and (me.t or 0) >= since) then return false, "nach dem Öffnen nicht eingelesen", "Berufe-Daten neu" end
+			local best = 0
+			for _, p in pairs(me.p or {}) do if type(p) == "table" and type(p.n) == "table" then best = math.max(best, #p.n) end end
+			if best < 1 then return false, "0 Rezepte", ">= 1 Rezept" end
+			return true, best .. " Rezepte eingelesen"
+		end },
+	T36b = { area = "B", name = "Bank-Charakter: Bank wird gelesen", what = "Bank",
+		later = "passiert von selbst beim nächsten Bankbesuch",
+		need = function() return RM.Bank and RM.Bank.IsBankChar() end, needWhy = "kein Bank-Charakter (Einstellungen)",
+		events = { "BANKFRAME_OPENED" }, delay = 2,
+		isOpen = function() return RM.Bank and RM.Bank.bankOpen end,
+		check = function(since)
+			local ok, n, want = BankFresh(since)
+			if not ok then return false, n, want end
+			if n < 1 then return false, "0 Einträge", "> 0 Einträge" end
+			return true, n .. " Einträge"
+		end },
+	T36c = { area = "B", name = "Bank-Charakter: Post wird gelesen", what = "Post",
+		later = "passiert von selbst, wenn du das nächste Mal den Briefkasten öffnest",
+		need = function() return RM.Bank and RM.Bank.IsBankChar() end, needWhy = "kein Bank-Charakter (Einstellungen)",
+		events = { "MAIL_SHOW" }, delay = 3,
+		isOpen = function() return RM.Bank and RM.Bank.mailOpen end,
+		check = function(since)
+			local ok, n, want = BankFresh(since, RM.L["Post"])
+			if not ok then return false, n, want end
+			return true, "Post gelesen (" .. n .. " Einträge im Bestand)"
+		end },
+}
+R.WINDOW_ORDER = { "T35b", "T36b", "T36c" }
+R.windowSeen, R.pendingNow = {}, {}
+
+-- im Lauf: offen -> sofort prüfen; sonst vormerken
+function R.WindowStep(t, id)
+	local st = R.WINDOW_STEPS[id]
+	if st.need and not st.need() then t:Skip(id, st.area, st.name, st.needWhy) return end
+	if st.isOpen() then
+		t:Check(id, st.area, st.name, function() return st.check(R.windowSeen[id] or 0) end)
+		return
+	end
+	R.pendingNow[id] = st
+	t:Skip(id, st.area, st.name, "wartet auf Fenster: " .. st.what .. " – " .. st.later)
+end
+
+-- am Ende des Laufs: Vorgemerktes speichern (nur Entwickler); ein neuer Lauf ersetzt einen alten Stand
+function R.SavePending(t)
+	if not (RaidMasterDB and RM.IsDev and RM.IsDev()) then return end
+	local items, n = {}, 0
+	for id in pairs(R.pendingNow or {}) do items[id] = true; n = n + 1 end
+	if n == 0 then RaidMasterDB.routinePending = nil return end
+	RaidMasterDB.routinePending = { t = time(), items = items, clean = ((t and t.counts and t.counts.fehler) or 0) == 0 }
+end
+
+function R.PendingExpired(p) return type(p) ~= "table" or (time() - (tonumber(p.t) or 0)) > R.PENDING_DAYS * 86400 end
+
+-- Fenster geöffnet (normales Spielen)
+function R.OnWindow(id)
+	R.windowSeen[id] = RM.Now()
+	local p = RaidMasterDB and RaidMasterDB.routinePending
+	if not (p and type(p.items) == "table" and p.items[id]) then return end
+	if R.PendingExpired(p) then RaidMasterDB.routinePending = nil return end       -- keine Sperre ohne Zeitlimit
+	if R.running or not (RM.IsDev and RM.IsDev()) then return end
+	local since = RM.Now()
+	C_Timer.After(R.WINDOW_STEPS[id].delay, function() pcall(R.CatchUp, id, since) end)
+end
+
+function R.CatchUp(id, since)
+	local p = RaidMasterDB and RaidMasterDB.routinePending
+	if not (p and type(p.items) == "table" and p.items[id]) or R.running then return end
+	if (InCombatLockdown and InCombatLockdown()) or RM.InCombat() then return end      -- bleibt vorgemerkt
+	local st = R.WINDOW_STEPS[id]
+	local T = GoldSentinelTest.Begin("RaidMaster", RM.VERSION, RaidMasterDB)
+	local passed = false
+	T:Check(id, st.area, st.name .. " (nachgeholt)", function()
+		local ok, a, b = st.check(since)
+		passed = ok and true or false
+		return ok, a, b
+	end)
+	T:Finish({ bereich = "nachgeholt", nachgeholt = id, lauf = date and date("%d.%m.%Y %H:%M", p.t) or tostring(p.t) })
+	p.items[id] = nil
+	if not passed then p.failed = true end
+	Say(string.format("%s-Prüfung nachgeholt – %s", st.what, passed and "bestanden" or "FEHLER"))
+	if not next(p.items) then
+		RaidMasterDB.routinePending = nil
+		if p.clean and not p.failed then
+			if RM.PLHit then RM.PLHit("TR", "Lauf 0 FEHLER, nachgeholte Fenster-Schritte bestanden") end
+		elseif p.failed and RM.PLFail then
+			RM.PLFail("TR", "nachgeholter Fenster-Schritt FEHLER")
+		end
+	end
+end
+
+for _, id in ipairs(R.WINDOW_ORDER) do
+	for _, ev in ipairs(R.WINDOW_STEPS[id].events) do RM.On(ev, function() R.OnWindow(id) end) end
+end
+RM.On("PLAYER_LOGIN", function()
+	local p = RaidMasterDB and RaidMasterDB.routinePending
+	if p and R.PendingExpired(p) then RaidMasterDB.routinePending = nil end
+end)
+
 function R.NotePruefliste(t, only)
 	if only or not (RM.PLHit and t and t.results) then return end
 	local bad = {}
 	for _, e in ipairs(t.results) do if e.status == "FEHLER" then bad[#bad + 1] = e.id end end
-	if #bad == 0 then
+	local pending = RaidMasterDB and RaidMasterDB.routinePending
+	if #bad == 0 and pending and pending.items and next(pending.items) then
+		-- TR-ALLE D2: erst abhaken, wenn auch die nachgeholten Fenster-Schritte bestanden sind (R.CatchUp)
+	elseif #bad == 0 then
 		RM.PLHit("TR", #t.results .. " Prüfungen, 0 FEHLER")
 	else
 		RM.PLFail("TR", #bad .. " FEHLER: " .. table.concat(bad, ", "):sub(1, 120))
@@ -4031,6 +4393,7 @@ function R.Summary(t)
 	for _, e in ipairs((t and t.results) or {}) do
 		if e.status == "SKIP" then
 			local g = tostring(e.grund or "?"):gsub("%s*%(.*", ""):sub(1, 50)
+			if g:find("^wartet auf Fenster") then g = "wartet auf Fenster (passiert von selbst)" end
 			why[g] = (why[g] or 0) + 1
 		elseif e.status == "CLIENT" then
 			-- ehrlich: "Prüfliste" nur, wenn der Punkt wirklich in /rm prüfliste steht; sonst offene Handprüfung im echten Client
@@ -4047,18 +4410,31 @@ function R.Summary(t)
 	if skip + hand > 0 then
 		summary = summary .. string.format(", %d nicht prüfbar – %s", skip + hand, table.concat(parts, "; "))
 	end
+	-- TR-ALLE D3: was noch fehlt, in Alltagssprache
+	local open = {}
+	for _, id in ipairs(R.WINDOW_ORDER) do
+		local st = R.pendingNow and R.pendingNow[id]
+		if st then open[#open + 1] = st.what .. " – " .. st.later end
+	end
+	if #open > 0 then summary = summary .. ". Noch offen: " .. table.concat(open, "; ") end
 	table.sort(R.slow or {}, function(a, b) return a.ms > b.ms end)
 	local slow = {}
 	for i = 1, math.min(6, #(R.slow or {})) do slow[i] = string.format("%s %.0f ms", R.slow[i].id, R.slow[i].ms) end
-	local portionLine = string.format("PORTIONEN: %d Bilder, längste %.1f ms (bei %s); Prüfungen länger als %d ms am Stück: %s", R.portions or 0,
-		R.maxPortion or 0, R.maxPortionAt or "-", R.PORTION_MS, #slow > 0 and table.concat(slow, ", ") or "keine")
 	local big = {}
 	for at, ms in pairs(R.bigPortions or {}) do big[#big + 1] = { at = at, ms = ms } end
 	table.sort(big, function(a, b) return a.ms > b.ms end)
 	local bigParts = {}
 	for i = 1, math.min(8, #big) do bigParts[i] = string.format("%s %.0f ms", big[i].at, big[i].ms) end
-	portionLine = portionLine .. string.format("; Bilder über %d ms: %d Stellen%s", R.PORTION_MS, #big,
-		#big > 0 and (" (" .. table.concat(bigParts, ", ") .. ")") or "")
+	-- NP-RM30-1: "längste Portion x ms (Prüfung), über 5 ms: n (ohne einzeln gemessene)", einzeln gemessene getrennt
+	local single = {}
+	for _, at in ipairs({ "Aufbau", "T10", "T12" }) do
+		local ms = (R.singlePortions or {})[at]
+		if ms then single[#single + 1] = string.format("%s %.1f ms", at, ms) end
+	end
+	local portionLine = string.format("PORTIONEN: %d Bilder, längste Portion %.1f ms (%s), über %d ms: %d (ohne einzeln gemessene)%s; einzeln gemessen: %s; Prüfungen länger als %d ms am Stück: %s",
+		R.portions or 0, R.maxPortion or 0, R.maxPortionAt or "-", R.PORTION_MS, #big,
+		#big > 0 and (" – " .. table.concat(bigParts, ", ")) or "",
+		#single > 0 and table.concat(single, ", ") or "keine", R.PORTION_MS, #slow > 0 and table.concat(slow, ", ") or "keine")
 	return summary, portionLine
 end
 
@@ -4233,6 +4609,7 @@ function R.Finish(aborted)
 	local srcLine = RM.Diag.SourcesLine and RM.Diag.SourcesLine() or nil
 	local plLines = RM.PLReportLines and RM.PLReportLines() or {}            -- Prüfliste (3.0.28, nur Entwickler)
 	local summary, portionLine = R.Summary(t)
+	if not aborted then pcall(R.SavePending, t) end           -- TR-ALLE D: Fenster-Schritte vormerken (nur Entwickler)
 	local text = t:Finish({ sandbox = sandbox, fehlerzaehler = R.diagBefore .. " -> " .. #RM.Diag.errors, locale = RM.LOCALE,
 		markt = marktLine, pruefliste = #plLines > 0 and table.concat(plLines, " | ") or nil, fehlerquellen = srcLine,
 		zusammenfassung = summary, portionen = portionLine,

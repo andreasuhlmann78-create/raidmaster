@@ -120,6 +120,8 @@ local function Hook()
 	seterrorhandler(ours)
 end
 D.Hook = Hook
+-- 3.0.31 (RM-TF-1): für die Testroutine – ist unser Handler eingeklinkt? (ohne einen Fehler auszulösen)
+function D.IsHooked() return ours ~= nil and generation > 0 end
 Hook()
 RM.On("PLAYER_LOGIN", function() if C_Timer then C_Timer.After(5, Hook) end end)
 

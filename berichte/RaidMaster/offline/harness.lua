@@ -43,7 +43,7 @@ end
 
 -- universeller Frame-Stub
 local function NewObj()
-  local o = {scripts={}, shown=false, text=""}
+  local o = {scripts={}, shown=false, text="", _frame=true}
   return setmetatable(o, {__index=function(t,k)
     local f
     if k=="GetText" then f=function(s) return s.text end
@@ -53,6 +53,12 @@ local function NewObj()
     elseif k=="Hide" then f=function(s) s.shown=false end
     elseif k=="SetScript" then f=function(s,n,fn) s.scripts[n]=fn end
     elseif k=="GetScript" then f=function(s,n) return s.scripts[n] end
+    elseif k=="SetPoint" or k=="SetAllPoints" then
+      -- 3.0.31 (T169): wie im Spiel – ein Bezug, der eine Tabelle, aber kein Rahmen ist, gibt "Wrong object type"
+      f=function(s, p, rel)
+        if k=="SetAllPoints" then rel = p end
+        if type(rel)=="table" and not rawget(rel,"_frame") then error(k .. "(): Wrong object type for function", 2) end
+      end
     elseif k=="GetPoint" then f=function() return "CENTER", nil, "CENTER", 0, 0 end
     elseif k=="GetMinMaxValues" then f=function(s) return s.mn or 0, s.mx or 0 end
     elseif k=="SetMinMaxValues" then f=function(s,a,b) s.mn=a s.mx=b end

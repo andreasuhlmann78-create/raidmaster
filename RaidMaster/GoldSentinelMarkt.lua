@@ -74,7 +74,28 @@
 --   kein Enc), UnpackVals faengt nur die noetigen Felder, und die Export-Zeile wird ohne zweite Kopie gebaut. Ergebnis und
 --   Nachrichten unveraendert (gleiche Zeichen).
 
-local VERSION = 7
+-- Version 8 (17. November 2026, Befund SANDBOX-2 der AHSentinel-Sitzung, Bericht 2026-11-17 08:51): Test-IDs der
+--   Testroutinen (itemID ab 990000000, nie ein echtes Item) kamen am 16.11. ueber einen Feed der Testroutine in den echten
+--   Speicher (1050 Items, Preis 1) und in den Export. Jetzt: Test-IDs werden nie angenommen, gespeichert, exportiert oder
+--   gesendet (Feed, eigenes Lesen, Empfang), und beim Anmelden jedes Addons (Attach) einmal aus dessen Speicher entfernt:
+--   Items aller Fraktionen; Export-Zeilen nur aus Test-Items fallen weg, gemischte Zeilen verlieren nur die Test-Items
+--   (Kopf: Anzahl Items und Auktionen angepasst). Zaehler M.stats.testIds, Diagnose-Zeile "MARKT-NETZ Test-IDs entfernt".
+
+-- Version 9 (17. November 2026, Messung AHSentinel 0.65.312 s216: OnUpdate des Bausteins 19–21 ms in einem Bild bei 6000 Items;
+--   im Baustein nachgemessen: die Feed-Portionen halten 4 ms, aber der LETZTE Schritt (volles Teilen an die Gilde: alle Items
+--   suchen, sortieren, Nachrichten bauen) lief am Stueck 15–17 ms). Jetzt ist Teilen ein Auftrag, der im Takt in Portionen
+--   (BUDGET_MS) gerechnet wird, nie im selben Bild wie eine Feed-Portion; der Feed gibt seine Item-Liste mit (kein Durchlauf ueber
+--   den ganzen Speicher); ohne Liste werden zuerst nur die Schluessel kopiert und dann in Portionen geprueft. Nachrichten und
+--   Reihenfolge unveraendert (gleiche Zeichen); Eintraege, die inzwischen ein neuerer Scan ueberschrieben hat, schickt der neuere.
+--   Ebenso die Auswertung eines SELBST gelesenen Scans (Addons ohne AHSentinel): Vergleich, Items, verschwundene Items und Export
+--   jetzt als Auftrag in Portionen (vorher am Stueck: gemessen 60–180 ms in einem Bild bei 20000 Auktionen). Hoechstens EINE
+--   Rechen-Portion je Bild (Feed, Auswertung, Teilen, Lesen). Speicher, Export und Nachrichten byte-gleich wie v8 (Test).
+
+-- Version 10 (17. November 2026, Messung AHSentinel 0.65.318, Nachbau mit echten Daten: Feed-Portion bis 7,2 ms bei Budget 4 ms):
+--   die Zeit wurde nur alle 100 Eintraege geprueft (die Tests liefen mit 10 und sahen es nicht). Jetzt alle 20 (Lesen und Feed).
+--   Sonst unveraendert.
+
+local VERSION = 10
 
 local existing = _G.GoldSentinelMarkt
 if type(existing) == "table" and (tonumber(existing.VERSION) or 0) >= VERSION then return end
@@ -83,7 +104,7 @@ local M = {}
 M.VERSION = VERSION
 M.PREFIX = "GSMARKT1"
 M.BUDGET_MS = 4              -- Rechenzeit je Bild beim Lesen
-M.CHECK_EVERY = 100          -- so oft wird die Zeit innerhalb einer Portion geprueft
+M.CHECK_EVERY = 20           -- so oft wird die Zeit innerhalb einer Portion geprueft (v10: 20 statt 100 – Messung AHS 0.65.318: Feed-Portion bis 7,2 ms bei Budget 4)
 M.BURST_GAP = 30             -- Sekunden ohne Ereignis = naechstes Ereignis ist ein neuer Scan
 M.READ_DELAY = 2             -- Sekunden nach dem ersten Ereignis bis zum Lesen
 M.CMP_MIN, M.CMP_MAX = 600, 6 * 3600   -- Abstand zweier Scans fuer den Absatz-Vergleich
@@ -98,6 +119,7 @@ M.EXPORT_MAX_BYTES = 1536 * 1024  -- alle Export-Zeilen zusammen hoechstens so g
 M.ASK_DELAY = 60             -- Sekunden nach dem Laden bis zur Frage "wer hat Neueres?"
 M.FULL_EVERY = 3600          -- ganzer Scan an die Gilde hoechstens so oft (Sekunden), sonst nur Aenderungen
 M.OUTBOX_MAX = 1500          -- volle eigene Warteschlange: aelteste Nachricht faellt weg (gezaehlt)
+M.TEST_ID_MIN = 990000000    -- v8: ab hier Test-IDs der Testroutinen (nie ein echtes Item): nie annehmen/speichern/senden
 
 ---------------------------------------------------------------------------
 -- Schnittstelle zum Spiel
@@ -140,6 +162,7 @@ M.stats = { scans = 0, read = 0, aborted = 0, compared = 0, sent = 0, received =
 M.reader = nil
 M.prev = nil                 -- { t, sigs } letzter eigener Scan dieser Sitzung (nur im Speicher)
 M.outbox = {}
+M.queueJobs = {}             -- v9: Teilen in Portionen
 if type(existing) == "table" then
     M.hosts = existing.hosts or M.hosts
     M.stats = existing.stats or M.stats
@@ -147,6 +170,7 @@ if type(existing) == "table" then
     M.prev = existing.prev
     M.ep = existing.ep
     M.outbox = existing.outbox or M.outbox
+    M.queueJobs = existing.queueJobs or M.queueJobs
     if existing.frame then
         pcall(existing.frame.UnregisterAllEvents, existing.frame)
         pcall(existing.frame.SetScript, existing.frame, "OnUpdate", nil)
@@ -211,6 +235,81 @@ local function UnpackVals(v)
     return Dec(p), Dec(o), Dec(g), Dec(h), Dec(l) or 0
 end
 M.UnpackVals = UnpackVals
+
+-- v8: Test-IDs (Testroutinen) erkennen und aus einem Speicher entfernen
+local function IsTestID(id)
+    id = tonumber(id)
+    return id ~= nil and id >= M.TEST_ID_MIN
+end
+M.IsTestID = IsTestID
+
+-- schnelle Vorpruefung einer Export-Zeile ohne Muster (Muster ueber 1,5 MB kosten ~20 ms, das hier ~1 ms):
+-- Test-IDs 990000000..999999999 sind in Base36 sechsstellig und beginnen mit gd..gj (989293824..1001051135);
+-- echte Items (< 60 Mio.) haben hoechstens 5 Stellen. Eine Item-ID steht immer direkt nach "|" (erstes Item) oder ";".
+local TEST_PREFIX = { ";gd", ";ge", ";gf", ";gg", ";gh", ";gi", ";gj", "|gd", "|ge", "|gf", "|gg", "|gh", "|gi", "|gj" }
+local function HasTestPrefix(line)
+    for k = 1, #TEST_PREFIX do
+        local pre, init = TEST_PREFIX[k], 1
+        while true do
+            local a = line:find(pre, init, true)
+            if not a then break end
+            -- nur sechsstellige IDs (Test-ID), nicht kurze echte IDs wie "gd5"
+            if line:find("^%w%w%w%w%w%w,", a + 1) and IsTestID(tonumber(line:sub(a + 1, a + 6), 36)) then return true end
+            init = a + 3
+        end
+    end
+    return false
+end
+
+-- entfernt Test-IDs aus g (= db.gsMarkt): Items aller Fraktionen und Export-Zeilen. Rueckgabe: Items, Export-Eintraege
+function M.PurgeTestIDs(g)
+    if type(g) ~= "table" then return 0, 0 end
+    local nI, nE = 0, 0
+    for _, f in pairs(type(g.f) == "table" and g.f or {}) do
+        if type(f) == "table" and type(f.i) == "table" then
+            local del = {}
+            for id in pairs(f.i) do if IsTestID(id) then del[#del + 1] = id end end
+            for _, id in ipairs(del) do f.i[id] = nil end
+            nI = nI + #del
+        end
+    end
+    if type(g.export) == "table" then
+        local out = {}
+        for _, line in ipairs(g.export) do
+            local keepLine = line
+            if type(line) == "string" and HasTestPrefix(line) then
+                local head, cnt, _, dt, body = line:match("^(GSMARKT1|%d+|%u|%d+)|(%d+)|(%d+)|(%d+)|(.*)$")
+                if head then
+                    local kept, removed, auc = {}, 0, 0
+                    for part in body:gmatch("[^;]+") do
+                        local idE, _, _, nE36 = part:match("^(%w+),(%w+),(%w+),(%w+)")
+                        if idE and IsTestID(Dec(idE)) then
+                            removed = removed + 1
+                            auc = auc + (Dec(nE36) or 0)
+                        else
+                            kept[#kept + 1] = part
+                        end
+                    end
+                    if removed > 0 then
+                        nE = nE + removed
+                        if #kept == 0 then
+                            keepLine = nil
+                        else
+                            keepLine = head .. "|" .. math.max(0, tonumber(cnt) - auc) .. "|" .. #kept .. "|" .. dt ..
+                                "|" .. table.concat(kept, ";")
+                        end
+                    end
+                end
+            end
+            if keepLine then out[#out + 1] = keepLine end
+        end
+        if nE > 0 then
+            for k = #g.export, 1, -1 do g.export[k] = nil end
+            for k, v in ipairs(out) do g.export[k] = v end
+        end
+    end
+    return nI, nE
+end
 M.Unpack, M.Pack = Unpack, Pack
 
 function M.Attach(addon, db)
@@ -219,6 +318,12 @@ function M.Attach(addon, db)
     db.gsMarkt = db.gsMarkt or {}
     local g = db.gsMarkt
     g.v = VERSION
+    local okP, pI, pE = pcall(M.PurgeTestIDs, g)          -- v8: Test-IDs einmal beim Anmelden entfernen
+    if okP and (pI + pE) > 0 then
+        M.stats.testIds = (M.stats.testIds or 0) + pI + pE
+        M.stats.testIdsAt = M.stats.testIdsAt or {}
+        M.stats.testIdsAt[addon] = pI .. " Items, " .. pE .. " Export"
+    end
     -- Speicher: der Host mit den neuesten Daten
     local function newest(s)
         local best = 0
@@ -378,69 +483,181 @@ M.Compare = Compare
 
 local QueueScan     -- weiter unten
 
--- Ergebnis eines Scans uebernehmen (eigenes Lesen oder Feed eines Host-Addons)
+-- Ergebnis eines eigenen Scans uebernehmen – v9 als Auftrag in Portionen (M.applyJob, ApplyPortion), vorher am Stueck
+-- (gemessen 36 ms in einem Bild bei 20000 Auktionen, mit Vergleich mehr). Phasen: Vergleich (cmp1, cmp2) -> Items (apply) ->
+-- verschwundene Items (gone) -> Abschluss (finish: Export, Teilen). Ergebnis, Export und Nachrichten byte-gleich wie v8.
 --   items[id] = { Stueckpreis, Menge, Auktionen }; cmp/low[id] = Abgaenge (Ober-/Untergrenze) oder nil; dt = Sekunden
-local function Apply(t, cnt, items, cmp, low, dt, prevItems)
-    local f = Fac()
-    if not f then return end
-    local changed = {}
-    for id, it in pairs(items) do
-        local old = Unpack(f.i[id])
-        local e = { p = it[1], q = it[2], n = it[3], t = t, o = 0, g = old and old.g or 0, h = old and old.h or 0,
-                    l = old and old.l or 0 }
-        if cmp then
-            e.g = e.g + (cmp[id] or 0)
-            e.l = e.l + (low and low[id] or 0)
-            e.h = e.h + dt
-        end
-        if not old or old.o ~= 0 or (old.p or 0) == 0
-            or math.abs((e.p or 0) - old.p) / old.p >= M.NET_CHANGE then
-            changed[#changed + 1] = id
-        end
-        f.i[id] = Pack(e)
+local function KeysOf(t)
+    local k = {}
+    for x in pairs(t) do k[#k + 1] = x end
+    return k
+end
+-- Schluessel in Portionen sammeln (die Tabelle aendert sich waehrend des Auftrags nicht: next() darf weiterlaufen).
+-- Rueckgabe true, wenn fertig; j.kl = Liste, j.kk = letzter Schluessel
+local function KeysStep(j, t, budget, t0)
+    j.kl = j.kl or {}
+    local kl, k, n = j.kl, j.kk, 0
+    while true do
+        k = next(t, k)
+        if k == nil then j.kk = nil; return true end
+        kl[#kl + 1] = k
+        n = n + 1
+        if budget and n % 200 == 0 and M.api.ms() - t0 >= budget then j.kk = k; return false end
     end
-    -- Items, die seit dem letzten Scan ganz verschwunden sind: Abgaenge zaehlen, Angebot jetzt 0
-    if cmp and prevItems then
-        for id in pairs(prevItems) do
-            if not items[id] then
+end
+local function Count5(e)
+    local b = DecB(e)
+    return b[0] + b[1] + b[2] + b[3] + b[4], b
+end
+
+local ApplyPortion
+ApplyPortion = function(j, budget)
+    local t0 = M.api.ms()
+    -- Zeit alle 5 Eintraege pruefen (ein Eintrag kostet bis ~0,1 ms: Ueberschreitung des Budgets hoechstens ~0,5 ms)
+    local function over(i) return budget and (i % 5 == 0) and M.api.ms() - t0 >= budget end
+    -- Schluessel-Listen werden in einem eigenen Bild angelegt (je ~1–2 ms bei 20000), danach wird in Portionen gerechnet
+    local function pause() j.ms, j.frames = j.ms + (M.api.ms() - t0), j.frames + 1; return false end
+    while true do
+        if j.phase == "cmp1" then             -- neue Auktionen je Item
+            if not j.keys then
+                if not KeysStep(j, j.curSigs, budget, t0) then return pause() end
+                j.keys, j.kl, j.i = j.kl, nil, 0
+            end
+            local keys, cur, prev, new = j.keys, j.curSigs, j.prevSigs, j.new
+            while j.i < #keys do
+                j.i = j.i + 1
+                local sig = keys[j.i]
+                local c2 = Count5(cur[sig])
+                local c1 = prev[sig] and Count5(prev[sig]) or 0
+                if c2 > c1 then
+                    local id = tonumber(sig:match("^(%d+):"))
+                    if id then new[id] = (new[id] or 0) + (c2 - c1) end
+                end
+                if over(j.i) then j.ms, j.frames = j.ms + (M.api.ms() - t0), j.frames + 1; return false end
+            end
+            j.phase, j.keys = "cmp2", nil
+        elseif j.phase == "cmp2" then         -- Abgaenge aus Stufe 3/4 (kuerzeste Restzeiten zuerst als abgelaufen)
+            if not j.keys then
+                if not KeysStep(j, j.prevSigs, budget, t0) then return pause() end
+                j.keys, j.kl, j.i = j.kl, nil, 0
+            end
+            local keys, cur, prev, gone = j.keys, j.curSigs, j.prevSigs, j.gone
+            while j.i < #keys do
+                j.i = j.i + 1
+                local sig = keys[j.i]
+                local c1, b1 = Count5(prev[sig])
+                local c2 = cur[sig] and Count5(cur[sig]) or 0
+                local g = c1 - c2
+                if g > 0 then
+                    for _, b in ipairs({ 1, 2, 3, 4, 0 }) do
+                        local take = math.min(g, b1[b])
+                        if take > 0 then
+                            if b == 3 or b == 4 then
+                                local id = tonumber(sig:match("^(%d+):"))
+                                if id then gone[id] = (gone[id] or 0) + take end
+                            end
+                            g = g - take
+                        end
+                        if g <= 0 then break end
+                    end
+                end
+                if over(j.i) then j.ms, j.frames = j.ms + (M.api.ms() - t0), j.frames + 1; return false end
+            end
+            local low = {}           -- vorsichtig: neue Auktionen desselben Items gelten als "abgebrochen und neu eingestellt"
+            for id, g in pairs(gone) do low[id] = math.max(0, g - (j.new[id] or 0)) end
+            j.cmp, j.low, j.keys, j.new, j.gone = gone, low, nil, nil, nil
+            j.curSigs, j.prevSigs = nil, nil
+            j.phase = "apply"
+        elseif j.phase == "apply" then
+            local f = Fac()
+            if not f then M.applyJob = nil; return true end
+            if not j.ids then
+                if not KeysStep(j, j.items, budget, t0) then return pause() end
+                local ids = {}
+                for _, id in ipairs(j.kl) do      -- v8: Test-IDs nie speichern/exportieren
+                    if IsTestID(id) then j.items[id] = nil; Drop("test-id") else ids[#ids + 1] = id end
+                end
+                j.ids, j.kl, j.i, j.changed, j.parts, j.nItems = ids, nil, 0, {}, {}, 0
+                if budget then return pause() end
+            end
+            local ids, items, cmp, low, t, dt = j.ids, j.items, j.cmp, j.low, j.t, j.dt
+            while j.i < #ids do
+                j.i = j.i + 1
+                local id = ids[j.i]
+                local it = items[id]
                 local old = Unpack(f.i[id])
-                if old then
-                    old.g, old.h = (old.g or 0) + (cmp[id] or 0), (old.h or 0) + dt
-                    old.l = (old.l or 0) + (low and low[id] or 0)
-                    old.q, old.n, old.t, old.o = 0, 0, t, 0
-                    f.i[id] = Pack(old)
+                local e = { p = it[1], q = it[2], n = it[3], t = t, o = 0, g = old and old.g or 0, h = old and old.h or 0,
+                            l = old and old.l or 0 }
+                if cmp then
+                    e.g = e.g + (cmp[id] or 0)
+                    e.l = e.l + (low and low[id] or 0)
+                    e.h = e.h + dt
+                end
+                if not old or old.o ~= 0 or (old.p or 0) == 0
+                    or math.abs((e.p or 0) - old.p) / old.p >= M.NET_CHANGE then
+                    j.changed[#j.changed + 1] = id
+                end
+                f.i[id] = Pack(e)
+                j.nItems = j.nItems + 1         -- fuer den Uploader
+                j.parts[#j.parts + 1] = Enc(id) .. "," .. Enc(it[1]) .. "," .. Enc(it[2]) .. "," .. Enc(it[3]) .. "," ..
+                    Enc(cmp and cmp[id] or 0) .. "," .. Enc(low and low[id] or 0)
+                if over(j.i) then j.ms, j.frames = j.ms + (M.api.ms() - t0), j.frames + 1; return false end
+            end
+            j.phase, j.gids = "gone", nil
+        elseif j.phase == "gone" then
+            -- Items, die seit dem letzten Scan ganz verschwunden sind: Abgaenge zaehlen, Angebot jetzt 0; Export mit Menge 0
+            local f = Fac()
+            if not f then M.applyJob = nil; return true end
+            local cmp, low, items, t, dt = j.cmp, j.low, j.items, j.t, j.dt
+            if cmp and j.prevItems then
+                if not j.gids then
+                    if not KeysStep(j, j.prevItems, budget, t0) then return pause() end
+                    j.gids, j.kl, j.i = j.kl, nil, 0
+                end
+                local gids = j.gids
+                while j.i < #gids do
+                    j.i = j.i + 1
+                    local id = gids[j.i]
+                    if not items[id] then
+                        local old = Unpack(f.i[id])
+                        if old then
+                            old.g, old.h = (old.g or 0) + (cmp[id] or 0), (old.h or 0) + dt
+                            old.l = (old.l or 0) + (low and low[id] or 0)
+                            old.q, old.n, old.t, old.o = 0, 0, t, 0
+                            f.i[id] = Pack(old)
+                        end
+                        if (cmp[id] or 0) > 0 then
+                            j.parts[#j.parts + 1] = Enc(id) .. ",0,0,0," .. Enc(cmp[id] or 0) .. "," .. Enc(low and low[id] or 0)
+                        end
+                    end
+                    if over(j.i) then j.ms, j.frames = j.ms + (M.api.ms() - t0), j.frames + 1; return false end
                 end
             end
+            j.phase = "finish"
+        else                                    -- finish
+            M.applyJob = nil
+            local f, fac = Fac()
+            if not f then return true end
+            local t, cmp = j.t, j.cmp
+            f.t = t
+            M.stats.scans = M.stats.scans + 1
+            M.stats.read = j.cnt
+            M.stats.lastT = t
+            M.stats.items = j.nItems
+            M.stats.applyMs, M.stats.applyFrames = j.ms + (M.api.ms() - t0), j.frames + 1
+            local s = M.store
+            s.export = s.export or {}
+            table.insert(s.export, string.format("GSMARKT1|%d|%s|%d|%d|%d|%d|%s", 1,  -- Export-Format 1 (unabhaengig von der Dateiversion)
+                fac, t, j.cnt, j.nItems, cmp and j.dt or 0, table.concat(j.parts, ";")))
+            j.parts = nil
+            M.TrimExport(s.export)
+            QueueScan(t, j.changed, nil, j.ids)
+            return true
         end
+        if budget and M.api.ms() - t0 >= budget then return pause() end
     end
-    f.t = t
-    M.stats.scans = M.stats.scans + 1
-    M.stats.read = cnt
-    M.stats.lastT = t
-    -- fuer den Uploader
-    local parts, nItems = {}, 0
-    for id, it in pairs(items) do
-        nItems = nItems + 1
-        parts[#parts + 1] = Enc(id) .. "," .. Enc(it[1]) .. "," .. Enc(it[2]) .. "," .. Enc(it[3]) .. "," ..
-            Enc(cmp and cmp[id] or 0) .. "," .. Enc(low and low[id] or 0)
-    end
-    -- ganz verschwundene Items (ausverkauft/abgelaufen): Eintrag mit Menge 0, damit der Absatz nicht verloren geht
-    if cmp and prevItems then
-        for id in pairs(prevItems) do
-            if not items[id] and ((cmp[id] or 0) > 0) then
-                parts[#parts + 1] = Enc(id) .. ",0,0,0," .. Enc(cmp[id] or 0) .. "," .. Enc(low and low[id] or 0)
-            end
-        end
-    end
-    M.stats.items = nItems
-    local s = M.store
-    s.export = s.export or {}
-    table.insert(s.export, string.format("GSMARKT1|%d|%s|%d|%d|%d|%d|%s", 1,          -- Export-Format 1 (unabhaengig von der Dateiversion)
-        select(2, Fac()), t, cnt,
-        nItems, cmp and dt or 0, table.concat(parts, ";")))
-    M.TrimExport(s.export)
-    QueueScan(t, changed)
 end
+M.ApplyPortion = function(budget) if M.applyJob then return ApplyPortion(M.applyJob, budget) end return true end
 
 -- v3: Export kuerzen – hoechstens EXPORT_KEEP Scans und EXPORT_MAX_BYTES zusammen, der neueste bleibt immer
 function M.TrimExport(list)
@@ -454,17 +671,19 @@ function M.TrimExport(list)
     end
 end
 
+-- v9: legt nur den Auftrag an (gerechnet wird in ApplyPortion im Takt)
 local function FinishRead(r)
     if not Fac() then return end
-    local cmp, low
+    if M.applyJob then while M.applyJob and not ApplyPortion(M.applyJob, nil) do end end   -- alter Auftrag zuerst ganz
+    local j = { t = r.t, cnt = r.cnt, items = r.items, dt = M.prev and (r.t - M.prev.t) or 0,
+                prevItems = M.prev and M.prev.items, ms = 0, frames = 0, phase = "apply" }
     if M.prev and M.prev.sigs and r.t - M.prev.t >= M.CMP_MIN and r.t - M.prev.t <= M.CMP_MAX then
-        cmp, low = Compare(M.prev.sigs, r.sigs)
+        j.phase, j.prevSigs, j.curSigs, j.gone, j.new = "cmp1", M.prev.sigs, r.sigs, {}, {}
         M.stats.compared = M.stats.compared + 1
     end
-    local dt = M.prev and (r.t - M.prev.t) or 0
     M.stats.lastMs, M.stats.lastFrames = r.ms, r.frames
-    Apply(r.t, r.cnt, r.items, cmp, low, dt, M.prev and M.prev.items)
     M.prev = { t = r.t, sigs = r.sigs, items = r.items }
+    M.applyJob = j
 end
 
 -- Feed: ein Host-Addon, das selbst einen Vollscan liest (z. B. AHSentinel), gibt sein Ergebnis weiter, damit der
@@ -489,6 +708,9 @@ function M.Feed(addon, t, n, items, dt)
     if M.feedJob then                       -- alter Feed noch nicht fertig: zuerst ganz zu Ende rechnen
         while M.feedJob and not FeedPortion(M.feedJob, nil) do end
     end
+    if M.applyJob then                      -- v9: Auswertung eines eigenen Scans zuerst ganz (sonst ueberschreibt sie neuere Werte)
+        while M.applyJob and not ApplyPortion(M.applyJob, nil) do end
+    end
     t, dt = tonumber(t) or M.api.time(), tonumber(dt) or 0
     local ids = {}
     for id in pairs(items) do ids[#ids + 1] = id end
@@ -509,7 +731,9 @@ FeedPortion = function(j, budget)
         j.i = j.i + 1
         local id = tonumber(ids[j.i])
         local it = src[ids[j.i]]
-        if id and type(it) == "table" then
+        if id and IsTestID(id) then
+            Drop("test-id")                  -- v8: Test-IDs der Testroutinen nie annehmen
+        elseif id and type(it) == "table" then
             local p, q, a = math.floor(tonumber(it.preis) or 0), math.floor(tonumber(it.menge) or 0), math.floor(tonumber(it.n) or 0)
             local hasAbg = cmpOn and it.abg ~= nil
             local g = hasAbg and math.floor(tonumber(it.abg) or 0) or 0
@@ -559,7 +783,7 @@ FeedFinish = function(j)
     end
     j.partsA, j.partsB = nil, nil
     M.TrimExport(s.export)
-    QueueScan(j.t, j.changed)
+    QueueScan(j.t, j.changed, nil, j.ids)
 end
 M.FeedPortion = function(budget) if M.feedJob then return FeedPortion(M.feedJob, budget) end return true end
 
@@ -579,47 +803,107 @@ end
 M.EntryFromText = EntryFromText
 
 -- alle eigenen Items eines Scans an die Gilde, die geaenderten (hoechstens NET_MAX) auch ins Netz
-QueueScan = function(t, changed, full)
+-- v9: nur noch ein Auftrag (M.queueJobs); gerechnet wird im Takt in Portionen (QueuePortion, BUDGET_MS je Bild).
+--   ids = Liste der Items dieses Scans (vom Feed bekannt) -> kein Durchlauf ueber den ganzen Speicher noetig.
+QueueScan = function(t, changed, full, ids)
     local f, fac = Fac()
     if not f or not M.ep or not M.IsShareOn() then return end
     local now = M.api.now()
     if not full and (not M.lastFull or now - M.lastFull >= M.FULL_EVERY) then full = true end
-    local all = {}
-    if full then
-        M.lastFull = now
-        local tEnc = Enc(t)
-        for id, v in pairs(f.i) do       -- v7: Zeit und Herkunft direkt aus dem Text lesen (keine Hilfstabelle je Item)
-            if type(v) == "string" then
-                local te, oe = v:match("^%w+,%w+,%w+,(%w+),(%w+),")
-                if te == tEnc and oe == "0" then all[#all + 1] = id end
-            end
-        end
-    else
-        for i = 1, math.min(#changed, M.NET_MAX) do all[i] = changed[i] end
-    end
-    table.sort(all)
-    local head = "S:" .. fac .. ":" .. Enc(t) .. ":"
-    local S = _G.GoldSentinelSync
-    local max = (S and S.MAX_PAYLOAD) or 230
-    local function batches(list, opts)
-        local cur, len = {}, #head
-        for _, id in ipairs(list) do
-            local e = EntryFromText(id, f.i[id])
-            if #cur > 0 and (#cur >= M.ITEMS_PER_MSG or len + 1 + #e > max) then
-                M.outbox[#M.outbox + 1] = { head .. table.concat(cur, ";"), opts }
-                cur, len = {}, #head
-            end
-            cur[#cur + 1] = e
-            len = len + #e + 1
-        end
-        if #cur > 0 then M.outbox[#M.outbox + 1] = { head .. table.concat(cur, ";"), opts } end
-        while #M.outbox > M.OUTBOX_MAX do table.remove(M.outbox, 1); Drop("warteschlange voll") end
-    end
-    batches(all, { scope = "guild" })
+    if full then M.lastFull = now end
     local net = {}
     for i = 1, math.min(#changed, M.NET_MAX) do net[i] = changed[i] end
-    table.sort(net)
-    if #net > 0 and S and S.NET then batches(net, { net = true }) end
+    local q = { f = f, tEnc = Enc(t), head = "S:" .. fac .. ":" .. Enc(t) .. ":", net = net, i = 0 }
+    if full then
+        q.step, q.src, q.all = "keys", ids, {}
+    else
+        local all = {}
+        for i = 1, #net do all[i] = net[i] end
+        q.step, q.all = "sort", all
+    end
+    M.queueJobs[#M.queueJobs + 1] = q
+end
+
+-- eine Portion Teilen rechnen; budget = ms (nil = ohne Grenze). Rueckgabe true, wenn alle Auftraege fertig.
+local function QueueStep(q, budget, t0, first)
+    local f = q.f
+    local function over(i) return budget and (i % 20 == 0) and M.api.ms() - t0 >= budget end
+    if q.step == "keys" then
+        -- Schluessel kopieren (billig, ohne Text zu lesen) – danach wird nur noch die Kopie in Portionen geprueft
+        if not q.src and budget and not first and M.api.ms() - t0 >= 1 then return "naechstes" end
+        if not q.src then
+            local keys = {}
+            for id in pairs(f.i) do keys[#keys + 1] = id end
+            q.src = keys
+        end
+        q.step, q.i = "filter", 0
+        return false
+    elseif q.step == "filter" then
+        local src, all = q.src, q.all
+        while q.i < #src do
+            q.i = q.i + 1
+            local id = tonumber(src[q.i])
+            local v = id and f.i[id]
+            if type(v) == "string" and not IsTestID(id) then
+                local te, oe = v:match("^%w+,%w+,%w+,(%w+),(%w+),")
+                if te == q.tEnc and oe == "0" then all[#all + 1] = id end
+            end
+            if over(q.i) then return false end
+        end
+        q.src, q.step = nil, "sort"
+        return false
+    elseif q.step == "sort" then
+        -- Sortieren am Stueck (~1,5 ms bei 6000): nur mit frischem Budget beginnen, sonst im naechsten Bild
+        if budget and not first and M.api.ms() - t0 >= 1 then return "naechstes" end
+        table.sort(q.all)
+        table.sort(q.net)
+        q.step, q.list, q.opts, q.i, q.cur, q.len = "send", q.all, { scope = "guild" }, 0, {}, #q.head
+        return false
+    elseif q.step == "send" then
+        local S = _G.GoldSentinelSync
+        local max = (S and S.MAX_PAYLOAD) or 230
+        local list, head = q.list, q.head
+        while q.i < #list do
+            q.i = q.i + 1
+            local id = list[q.i]
+            local v = f.i[id]
+            -- nur Eintraege dieses Scans (ein neuerer Scan schickt neuere Werte selbst)
+            local te = type(v) == "string" and v:match("^%w+,%w+,%w+,(%w+),")
+            local e = (te == q.tEnc) and EntryFromText(id, v) or nil
+            if e then
+                if #q.cur > 0 and (#q.cur >= M.ITEMS_PER_MSG or q.len + 1 + #e > max) then
+                    M.outbox[#M.outbox + 1] = { head .. table.concat(q.cur, ";"), q.opts }
+                    q.cur, q.len = {}, #head
+                end
+                q.cur[#q.cur + 1] = e
+                q.len = q.len + #e + 1
+            end
+            if over(q.i) then return false end
+        end
+        if #q.cur > 0 then M.outbox[#M.outbox + 1] = { head .. table.concat(q.cur, ";"), q.opts } end
+        while #M.outbox > M.OUTBOX_MAX do table.remove(M.outbox, 1); Drop("warteschlange voll") end
+        if q.opts.scope == "guild" and #q.net > 0 and S and S.NET then
+            q.list, q.opts, q.i, q.cur, q.len = q.net, { net = true }, 0, {}, #head
+            return false
+        end
+        return true
+    end
+    return true
+end
+
+-- Rueckgabe true, wenn nichts mehr zu tun ist
+function M.QueuePortion(budget)
+    local t0 = M.api.ms()
+    local first = true
+    while M.queueJobs[1] do
+        if not M.IsShareOn() then M.queueJobs = {}; return true end
+        local done = QueueStep(M.queueJobs[1], budget, t0, first)
+        first = false
+        if done == "naechstes" then break end
+        if done then table.remove(M.queueJobs, 1) end
+        if budget and M.api.ms() - t0 >= budget then break end
+    end
+    return M.queueJobs[1] == nil
 end
 
 local function SyncQueueLen()
@@ -672,7 +956,9 @@ function M.OnMessage(msg, sender)
         for item in body:gmatch("[^;]+") do
             local a, b, c, d = item:match("^(%w+),(%w+),(%w+),(%w+)$")
             local id, p, q, n = Dec(a), Dec(b), Dec(c), Dec(d)
-            if id and p and q and n then
+            if id and IsTestID(id) then
+                Drop("test-id")              -- v8: Test-IDs von anderen (aelteren) Clients nie annehmen
+            elseif id and p and q and n then
                 local old = Unpack(f.i[id])
                 if old and old.t >= t then
                     Drop("aelter")
@@ -723,12 +1009,23 @@ function M.Tick()
     Register()
     local now = M.api.now()
     if M.readAt and now >= M.readAt and not M.api.inCombat() then StartRead() end
+    -- v9: hoechstens EINE Rechen-Portion je Bild (Feed, Auswertung des eigenen Scans, Teilen, Lesen)
+    local busy = false
     if M.feedJob and not M.api.inCombat() then
+        busy = true
         local ok, e3 = pcall(FeedPortion, M.feedJob, M.BUDGET_MS)
         if not ok then M.feedJob = nil; Drop(("feed " .. tostring(e3)):sub(1, 60)) end
+    elseif M.applyJob and not M.api.inCombat() then
+        busy = true
+        local ok, e5 = pcall(ApplyPortion, M.applyJob, M.BUDGET_MS)
+        if not ok then M.applyJob = nil; Drop(("auswertung " .. tostring(e5)):sub(1, 60)) end
+    elseif M.queueJobs[1] and not M.api.inCombat() then
+        busy = true
+        local ok, e4 = pcall(M.QueuePortion, M.BUDGET_MS)
+        if not ok then M.queueJobs = {}; Drop(("teilen " .. tostring(e4)):sub(1, 60)) end
     end
     local r = M.reader
-    if r and not M.api.inCombat() then
+    if r and not busy and not M.api.inCombat() then
         local done, err = ReadPortion(r)
         if done == "abbruch" or done == "fehler" then
             M.reader = nil
@@ -784,6 +1081,7 @@ function M.DiagLines()
         string.format("MARKT-NETZ Items %d (eigen %d, Netz %d, Absatz gemessen %d) · gesendet %d · empfangen %d · angenommen %d · Warteschlange %d",
             n, own, net, meas, s.sent, s.received, s.accepted, #M.outbox),
         "MARKT-NETZ verworfen: " .. (#drops > 0 and table.concat(drops, ", ") or "nichts"),
+        "MARKT-NETZ Test-IDs entfernt: " .. tostring(s.testIds or 0),
     }
 end
 
@@ -798,7 +1096,8 @@ if CF then
     local acc = 0
     fr:SetScript("OnUpdate", function(_, dt)
         acc = acc + (dt or 0)
-        if acc < 0.05 and not _G.GoldSentinelMarkt.reader and not _G.GoldSentinelMarkt.feedJob then return end
+        local G = _G.GoldSentinelMarkt
+        if acc < 0.05 and not G.reader and not G.feedJob and not G.applyJob and not (G.queueJobs and G.queueJobs[1]) then return end
         acc = 0
         pcall(_G.GoldSentinelMarkt.Tick)
     end)

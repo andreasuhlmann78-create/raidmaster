@@ -26,11 +26,11 @@ local function Expect(see, cost)
 end
 
 RM.PRUEFPUNKTE = {
-	{ id = "TR", title = "Testroutine: alles Automatische", since = "3.0.30",
-		todo = Todo("irgendwo, nicht im Kampf",
+	{ id = "TR", title = "Testroutine: alles Automatische", since = "3.0.31",
+		todo = Todo("irgendwo, nicht im Kampf (du musst nicht am PC bleiben – der Lauf wartet nie auf dich)",
 			"Tippe in den Chat: /rm testroutine alles",
 			"Warte, bis im Chat die Zusammenfassung '… von … bestanden' steht (vorher zählt der Chat '1 von 12 …', '2 von 12 …'). Nicht kämpfen."),
-		expect = Expect("Im Chat steht z. B. '131 von 131 bestanden, 27 nicht prüfbar – …' – beide Zahlen vor 'bestanden' sind gleich. Dieser Punkt wird von selbst grün.",
+		expect = Expect("Im Chat steht z. B. '133 von 133 bestanden, 28 nicht prüfbar – …' – beide Zahlen vor 'bestanden' sind gleich. Steht dahinter 'Noch offen: Berufe – passiert von selbst …', musst du nichts tun: beim nächsten Berufsfenster (bzw. Bank/Briefkasten) holt RaidMaster das nach und sagt es im Chat. Dieser Punkt wird von selbst grün, sobald alles bestanden ist.",
 			"kein Gold, ca. 2 Minuten") },
 	{ id = "MNT", title = "Markt-Zähler nach der Testroutine sauber", since = "3.0.26",
 		todo = Todo("nichts extra tun", "Wird mit Punkt TR (Testroutine) von selbst geprüft."),
@@ -39,7 +39,7 @@ RM.PRUEFPUNKTE = {
 		todo = Todo("irgendwo, nach Punkt TR",
 			"Klicke im Fenster mit dem Testbericht auf den Knopf 'Neu laden und melden' (oder tippe /reload).",
 			"Öffne in Discord den Kanal #testberichte."),
-		expect = Expect("In #testberichte steht innert etwa 1 Minute ein Bericht 'RaidMaster 3.0.30' ohne das Wort FEHLER. Dann hier auf 'OK' klicken.",
+		expect = Expect("In #testberichte steht innert etwa 1 Minute ein Bericht 'RaidMaster 3.0.31' ohne das Wort FEHLER. Dann hier auf 'OK' klicken.",
 			"kein Gold, ca. 2 Minuten") },
 	{ id = "MN2", title = "Haken 'Marktdaten teilen'", since = "3.0.25",
 		todo = Todo("irgendwo",

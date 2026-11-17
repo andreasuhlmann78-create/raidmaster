@@ -322,6 +322,7 @@ local function BarButton(parent, texture, size, tooltipFn, onClick)
 		GameTooltip:SetOwner(self, "ANCHOR_TOP")
 		tooltipFn(GameTooltip)
 		GameTooltip:Show()
+		RM.UI.PlaceTooltip(self)   -- 3.0.31 (T155): neben/über/unter die Leiste, nie über ihre Knöpfe
 	end)
 	b:SetScript("OnLeave", function() GameTooltip:Hide() end)
 	return b
@@ -479,6 +480,7 @@ local function Dress(b, parent, texture, size, tooltipFn)
 		GameTooltip:SetOwner(self, "ANCHOR_TOP")
 		tooltipFn(GameTooltip)
 		GameTooltip:Show()
+		RM.UI.PlaceTooltip(self)   -- 3.0.31 (T155): neben/über/unter die Leiste, nie über ihre Knöpfe
 	end)
 	b:SetScript("OnLeave", function() GameTooltip:Hide() end)
 	return b

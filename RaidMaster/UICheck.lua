@@ -22,6 +22,21 @@ RM.UI_BLIZZARD = { "ProfessionsFrame", "TradeSkillFrame", "CraftFrame", "Merchan
 
 GoldSentinelUIFrames = GoldSentinelUIFrames or {}
 
+-- 3.0.31 (Entscheid Supervisor 17.11., Ingametest T156): kleine HUD-Anzeigen anderer GoldSentinel-Addons sind keine Fenster.
+-- Ein vom Spieler geöffnetes Fenster darf sie verdecken – die Überlappungs-Prüfung (T156) zählt sie nicht. Namen genau so, wie
+-- die Addons sie in GoldSentinelUIFrames anmelden. Echte Fenster anderer GoldSentinel-Addons bleiben in der Prüfung.
+RM.UI_HUD = {
+	LevelPilot = { ["Pfeil"] = true },
+	ThreatSentinel = { ["HUD"] = true, ["Aggrometer"] = true, ["DD-Ansicht"] = true, ["Schadens-/Heilmeter"] = true,
+		["Spott-Knopf"] = true, ["Flächenspott-Knopf"] = true, ["Minimap-Knopf"] = true },
+}
+function RM.IsForeignHUD(entry)
+	if type(entry) ~= "table" then return false end
+	if entry.kind == "hud" or entry.hud == true then return true end          -- falls ein Addon die Art künftig mitgibt
+	local names = RM.UI_HUD[tostring(entry.addon)]
+	return names ~= nil and names[tostring(entry.name)] == true
+end
+
 function RM.RegisterUI(frame, name)
 	if not frame then return end
 	for _, e in ipairs(RM.uiFrames) do if e.frame == frame then return end end
@@ -130,7 +145,7 @@ function U.WindowsOverlapNothing()
 				end
 			end
 			for _, o in ipairs(GoldSentinelUIFrames) do
-				if o.addon ~= ADDON and Shown(o.frame) then
+				if o.addon ~= ADDON and not RM.IsForeignHUD(o) and Shown(o.frame) then
 					tested = tested + 1
 					if U.Overlap(mine, U.Rect(o.frame)) > 0 then
 						problems[#problems + 1] = e.name .. " überdeckt " .. tostring(o.name) .. " (" .. tostring(o.addon) .. ")"

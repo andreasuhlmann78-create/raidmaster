@@ -1,0 +1,94 @@
+BERICHT RAIDMASTER AN DIE PRÜF-SITZUNG
+Stand: 17.11.2026 17:27 (aus date) · Sitzung: RaidMaster-Projekt-Sitzung · Version: Addon 3.0.31 (Uploader unverändert 2.3.14)
+Commit: dieser Push · Bezug: offen-raidmaster.txt "BEFUND MITTEL RM-TF-1" (4ea8ae80), "INGAMETEST DES NUTZERS 17.11.2026 17:01"
+(c8d63e13), "NACHPRÜFUNG 17.11. 08:32 – NP-RM30-1" (97714ea7), "MARKT-V10" (9288601c), "TR-ALLE NACHTRAG D" (be7a6d26)
+Status: umgesetzt, zur Prüfung.
+
+1. RM-TF-1 – kein Blizzard-Fehlerfenster durch die Testroutine
+   Ursache belegt: T120 rief geterrorhandler()(msg) auf, T122 dreimal. Am Ende der Kette (Diag -> GoldSentinelTest-Abgriff -> ...)
+   steht der Handler des Spiels; mit eingeschalteter Fehleranzeige zeigt er das Fenster.
+   Behebung (Test/Routine.lua:2293 ff.): T120/T122 rufen genau das auf, was die beiden eigenen Glieder der Kette tun –
+   RM.Diag.OnError(msg) und GoldSentinelTest.Error("RaidMaster", "Lua", msg) (dieselbe Record-Funktion wie der Abgriff). Dass beide
+   eingeklinkt sind, prüft T120 ohne Fehler auszulösen: neu D.IsHooked() (Diag.lua:124) und _G.GoldSentinelTestHooked. Keine CVar.
+   Test in der Nachbildung (run_routine.lua): der unterste Handler steht jetzt für das Fehlerfenster des Spiels und zählt jeden
+   Aufruf. 3.0.31: "Fehlerfenster des Spiels insgesamt 0 (0)", "durch absichtliche Testfehler (0)". Gegenprobe mit 3.0.30
+   (repo/RaidMaster vor diesem Push): "FAIL … (4)" – genau die 1 + 3 Fenster aus dem Ingametest.
+
+2. Befunde aus dem Ingametest 17:01
+   2a T169 (Test-Artefakt, Entscheid übernommen): die Prüfung nimmt jetzt ein ECHTES unsichtbares Eingabefeld (CreateFrame("EditBox"),
+      ausserhalb des Bildschirms, Alpha 0, keine Maus, nie Tastatur-Fokus – SetFocus ist nur auf diesem Feld ersetzt), einmal angelegt
+      und wiederverwendet; danach H.lastBox zurück (das Testfeld bleibt nie "letztes Chatfeld"). Gemeinsame Datei unverändert.
+      Gegenprobe: die Nachbildung prüft SetPoint/SetAllPoints jetzt wie das Spiel ("Wrong object type", wenn der Bezug eine Tabelle,
+      aber kein Rahmen ist) – mit 3.0.30: "[FEHLER] T169 … Lua-Fehler"; mit 3.0.31 OK.
+   2b T43 (Test-Werkzeug, Beute 10/26): wartet jetzt bis 30 s (alle 0,5 s nachfragen; GET_ITEM_INFO_RECEIVED kommt in dieser Zeit an),
+      hört früher auf, wenn alles da ist oder 8 s lang nichts Neues kam (Items, die es im Client nicht gibt, laden nie). Kam KEIN Item
+      in die Versteigerung, ist das "nicht prüfbar" mit Zahlen statt FEHLER; kam eins in die Versteigerung und wurde nichts vergeben,
+      bleibt es FEHLER. Neu zählt das Test-Werkzeug je Durchlauf (RM.Test.stats): behandelt / Versteigerung / andere Regel / ohne Daten
+      – steht im Ergebnis.
+      VERDACHT, zu messen: Warum mit 10 geladenen Items nichts vergeben wurde, ist nicht belegt. Möglich: die 10 geladenen gehen nach
+      Regel an Bank/Entzauberer (dann jetzt "nicht prüfbar" mit "0 Versteigerung, n andere Regel"). Der nächste Ingametest zeigt es.
+   2c T155 Tooltips/Markierungsleiste: UI.PlaceTooltip (UI.lua:84) legt den Tooltip neben das Fenster (rechts, sonst links), NEU
+      danach über bzw. unter das Fenster, erst dann ans Element. Die Markierungsleiste setzte ihre Tooltips bisher selbst oben an den
+      Knopf (ANCHOR_TOP) – jetzt ebenfalls über UI.PlaceTooltip (Markers.lua, BarButton und Dress).
+      Test T190 (neu, in TU6): 6 nachgebaute Lagen (rechts, links, breit mit Platz oben, breit oben mit Platz unten, Leiste am oberen
+      Rand rechts, kein Platz) – alle richtig. Gegenprobe mit der alten Reihenfolge: "breit, Platz oben: BOTTOMLEFT an owner …;
+      breit oben, Platz unten: …" FEHLER.
+      VERDACHT, zu messen: Den genauen Text von T155 aus dem Ingametest habe ich nicht (im Repo liegt kein RaidMaster-Bericht vom 17.11.).
+      Behoben sind beide möglichen Ursachen (Leiste mit eigenem Anker; Hauptfenster-Tooltip, wenn rechts und links kein Platz ist).
+      Bitte den Wortlaut von T155 mitschicken, falls er nach 3.0.31 wieder kommt.
+   2d T156 LevelPilot-Pfeil (Entscheid übernommen): UICheck.lua:28 RM.UI_HUD mit Namen im Code – LevelPilot "Pfeil"; ThreatSentinel
+      "HUD", "Aggrometer", "DD-Ansicht", "Schadens-/Heilmeter", "Spott-Knopf", "Flächenspott-Knopf", "Minimap-Knopf" (Namen aus
+      ThreatSentinel 2.5.16, dort als "hud" angemeldet). Zusätzlich gilt ein Eintrag mit kind = "hud" als HUD, falls ein Addon die Art
+      künftig in GoldSentinelUIFrames mitgibt. Echte Fenster bleiben in der Prüfung.
+      Test T191 (neu, in TU6): Pfeil, Aggrometer und Art "hud" ausgenommen, ThreatSentinel "Einstellungen" gemeldet. Gegenprobe ohne
+      Ausnahme: 4 Meldungen.
+
+3. NP-RM30-1 / Portionen (Entscheid umgesetzt)
+   - Neuer erster Schritt "Aufbau" im Lauf: Hauptfenster und alle sichtbaren Seiten einmal aufbauen, eine Seite je Bild, danach Seite
+     und Fenster wie vorher. "Aufbau", T10 und T12 sind einzeln gemessen (R.SINGLE, Routine.lua:247) und zählen nicht zu "über 5 ms".
+   - Zeile im Bericht jetzt: "PORTIONEN: n Bilder, längste Portion x ms (Txx), über 5 ms: k (ohne einzeln gemessene); einzeln gemessen:
+     Aufbau …, T10 …, T12 …".
+   - Geteilt: T114 (5 Teile à 100 Spieler, je Teil ein Bild; Grenze 16 ms gilt für die Summe), T14 (jedes Nebenfenster ein Bild),
+     T39 (Schritte einzeln), T182 (6 Schritte je ein Bild – jeder Schritt tauscht Schnittstelle/Teilen und stellt sie IM SELBEN Bild
+     zurück; zwischen den Bildern ist nie etwas getauscht), T175 (Gebote einzeln; der Doppel-Check des Logs alle 50 statt bei jedem
+     Fall), T176 (Kopie der echten Daten in Portionen), T84 (frische Testtabelle, Aufbau in Portionen, jeder Schritt mit getauschtem
+     RM.db in einem eigenen Bild), KeepDB (tiefe Kopie und Zurückschreiben in Portionen, DeepPortions Routine.lua:332).
+   - Wichtig gefunden: Ein Bild abzugeben ist im Körper einer t:Check-Prüfung (läuft unter pcall) in Lua 5.1 nicht erlaubt. R.Breathe
+     tut dort jetzt nichts (R.noYield) – vorher hätte KeepDB in solchen Prüfungen einen Lua-Fehler ausgelöst.
+   - Nachbildung (je Lauf): Forever "längste Portion 4,7 ms (T84), über 5 ms: 0; einzeln gemessen: Aufbau 7,5 ms, T10 1,7 ms,
+     T12 7,4 ms"; Era "2,8 ms, über 5 ms: 0". Ehrlich: über viele Läufe gibt es vereinzelt EINE Portion von 5,0–5,5 ms bei T84.
+     Ursache belegt: der unteilbare Schluss der Lua-Speicherbereinigung (Gegenprobe: Speicherbereinigung während T84 angehalten ->
+     T84 nie über 5 ms, dafür holt sie es später nach, z. B. in T111). Gemessen im Nachbau: längster Einzelschritt der Bereinigung
+     ~3 ms bei 30 MB. Die eigene Arbeit in T84 gibt darum schon ab 0,5 ms das Bild ab und legt halb so viele Tabellen an wie vorher.
+     Unter 5 ms bei JEDEM Lauf geht nur, wenn ich die Speicherbereinigung des Spiels anhalte – das tue ich nicht (betrifft alle Addons).
+   - Im Spiel nicht gemessen (Nachbau auf dem Server). Der Testbericht aus dem Spiel zeigt die Zeile.
+
+4. TR-ALLE Nachtrag D
+   - D1: Die drei Schritte, die ein Fenster brauchen (T35b Berufsfenster, T36b Bank, T36c Post – Bank und Post nur beim Bank-Charakter,
+     sonst "nicht prüfbar: kein Bank-Charakter"), warten nie. Ist das Fenster gerade offen: sofort prüfen. Sonst "wartet auf Fenster: …"
+     (kein FEHLER). Bisher waren T35b/T36b reine Handpunkte.
+   - D2: Vorgemerkt in RaidMasterDB.routinePending (nicht in der Sandbox-Prüfung). Öffnet der Spieler das Fenster später (nur
+     Entwicklermodus, höchstens 7 Tage, nie im Kampf, nie während einer Testroutine), läuft die Prüfung nach 2–3 s von selbst. Sie liest
+     nur, was RaidMaster beim Öffnen ohnehin speichert (Berufe: Rezepte neu eingelesen; Bank: Bestand neu gelesen, > 0 Einträge; Post:
+     Post gelesen). Chatzeile "Testroutine: Berufe-Prüfung nachgeholt – bestanden/FEHLER", eigener kleiner GSTEST-Bericht (bereich
+     "nachgeholt", mit Datum des Laufs). Prüfliste TR wird erst grün, wenn der Lauf 0 FEHLER hatte UND alles Nachgeholte bestanden ist.
+   - D3: Zusammenfassung endet z. B. mit "Noch offen: Berufe – passiert von selbst, wenn du das nächste Mal ein Berufsfenster öffnest";
+     Prüfpunkt TR erklärt das im Text.
+   - D4: Kein RaidMaster-Schritt braucht ein Eingreifen während des Laufs – entfällt.
+   - D5 (Nachbildung): Lauf ohne Fenster -> T35b "wartet auf Fenster", 0 FEHLER; im Kampf geöffnet -> bleibt vorgemerkt; ausserhalb
+     -> nachgeholt, Vormerkung weg, ein Bericht mehr im GSTEST-Format; 8 Tage alt -> verfallen, kein Bericht. Alle ok.
+
+5. MARKT-V10: GoldSentinelMarkt.lua = shared (cmp gleich, VERSION 10). CHANGELOG DE/EN mit der Zeile zu v8–v10 (kein Ruckeln nach
+   Vollscans, Test-Einträge nie gespeichert/geteilt).
+
+6. Discord: raid_addon_intro.md Updates um 3.0.31 ergänzt, ältester Eintrag 3.0.16 entfallen (Teil Updates 1798 Zeichen).
+
+EIGENE TESTS (Hinweise, keine Freigabe) – Nachbildung berichte/RaidMaster/offline:
+- Forever (16001) ALLE OK ("133 von 133 bestanden, 28 nicht prüfbar – …"), Era (11509) ALLE OK ("137 von 137 …"), enUS, zhCN,
+  frFR, ruRU ALLE OK; Abbruch STOPAT 1/5/20/60 ALLE OK.
+- Neue Prüfungen der Nachbildung: Fehlerfenster des Spiels 0; SetPoint wie im Spiel; Nachtrag D (8 Punkte).
+- Lua-Syntax lupa (Lua 5.1): 65 Dateien, 0 Fehler. Gemeinsame Dateien (Game, Test, Sync, Dev v2, Markt v10, Pruefliste v1) cmp gleich.
+- addon_check download/RaidMaster-3.0.31.zip: "RaidMaster-3.0.31.zip: OK", kein FEHLER, keine WARNUNG (EXIT 0).
+
+FÜR DEN NUTZER (nach Prüfung): Bot /update -> RaidMaster 3.0.31. Im Spiel: /rm testroutine alles – es darf kein Fehlerfenster mehr
+kommen; danach einmal ein Berufsfenster öffnen (die Prüfung läuft von selbst nach).

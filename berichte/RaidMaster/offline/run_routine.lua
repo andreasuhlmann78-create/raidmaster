@@ -19,9 +19,16 @@ assert(loadfile(ADDONDIR .. "/Test/Test.lua"))("RaidMaster", RM)
 
 -- Nachbildung ergänzen (nur in dieser Testdatei)
 local base = geterrorhandler()
--- absichtliche Testfehler der Routine (T120, T122) nicht als Fehler zählen
+-- RM-TF-1 (3.0.31): der unterste Handler steht für das Fehlerfenster des Spiels ("Fehlerfenster an", scriptErrors = 1).
+-- Jeder Aufruf mit einem absichtlichen Testfehler der Routine wäre ein Fenster beim Nutzer -> gezählt, muss 0 sein.
+GAME_WINDOW_TESTERRORS, GAME_WINDOW_CALLS = 0, 0
 local handler = function(e)
-	if tostring(e):find("RaidMaster-Testfehler", 1, true) then print("absichtlicher Fehler: " .. tostring(e)) return end
+	GAME_WINDOW_CALLS = GAME_WINDOW_CALLS + 1          -- jeder Aufruf hier wäre im Spiel ein Fehlerfenster
+	if tostring(e):find("RaidMaster-Testfehler", 1, true) then
+		GAME_WINDOW_TESTERRORS = GAME_WINDOW_TESTERRORS + 1
+		print("FEHLERFENSTER DES SPIELS: " .. tostring(e))
+		return
+	end
 	return base(e)
 end
 function seterrorhandler(f) handler = f end
@@ -105,8 +112,41 @@ local rc = 0
 for k, v in pairs(REAL_CALLS) do rc = rc + v; print("  echt: " .. k .. " " .. v) end
 check(rc == 0, "keine echte Aktion (Blizzard-Funktionen der Nachbildung)")
 check(next(RM.API.over) == nil and next(RM.API.hide) == nil, "RM.API leer")
+check(GAME_WINDOW_CALLS == 0, "Fehlerfenster des Spiels insgesamt 0 (" .. GAME_WINDOW_CALLS .. ")")
+check(GAME_WINDOW_TESTERRORS == 0, "kein Fehlerfenster des Spiels durch absichtliche Testfehler (" .. GAME_WINDOW_TESTERRORS .. ")")
 check(RaidMasterDB.routineGuard == nil, "Sicherung (routineGuard) nach dem Ende gelöscht")
 print("ERRORS:", ERRORS or 0)
+-- TR-ALLE Nachtrag D (3.0.31): Fenster-Schritte warten nie, werden vorgemerkt und beim nächsten Öffnen nachgeholt
+if not only and not os.getenv("STOPAT") then
+	local p = RaidMasterDB.routinePending
+	check(RM.IsDev() == true, "Nachbildung im Entwicklermodus")
+	check(text:find("T35b", 1, true) and text:find("wartet auf Fenster", 1, true) ~= nil, "Lauf ohne Berufsfenster: T35b 'wartet auf Fenster'")
+	check(text:find("Noch offen: Berufe", 1, true) ~= nil, "Zusammenfassung nennt 'Noch offen: Berufe'")
+	check(p and p.items and p.items.T35b == true, "T35b vorgemerkt")
+	local reports = #RaidMasterDB.gsTest.reports
+	-- im Kampf: nichts nachholen, bleibt vorgemerkt
+	local oldCombat = InCombatLockdown
+	InCombatLockdown = function() return true end
+	Fire("TRADE_SKILL_SHOW"); Advance(0.5)
+	RaidMasterDB.prof.Testa = { p = { Alchimie = { n = { "Trank" }, i = { 1 } } }, t = RM.Now() + 1 }
+	Advance(3)
+	InCombatLockdown = oldCombat
+	check(RaidMasterDB.routinePending and RaidMasterDB.routinePending.items.T35b == true, "im Kampf nicht nachgeholt (bleibt vorgemerkt)")
+	-- Fenster öffnen ausserhalb des Kampfs: läuft von selbst, eigener Bericht, Vormerkung weg
+	Fire("TRADE_SKILL_SHOW"); Advance(0.5)
+	RaidMasterDB.prof.Testa = { p = { Alchimie = { n = { "Trank", "Elixier" }, i = { 1, 2 } } }, t = RM.Now() + 1 }
+	Advance(3)
+	check(RaidMasterDB.routinePending == nil, "Berufsfenster geöffnet: nachgeholt, Vormerkung weg")
+	check(#RaidMasterDB.gsTest.reports == math.min(reports + 1, GoldSentinelTest.MAX_REPORTS or 10), "eigener kleiner Bericht gespeichert")
+	local last = RaidMasterDB.gsTest.reports[#RaidMasterDB.gsTest.reports] or ""
+	check(last:find("GSTEST1", 1, true) == 1, "Bericht im GSTEST-Format")
+	-- Verfall nach 7 Tagen (keine Sperre ohne Zeitlimit)
+	RaidMasterDB.routinePending = { t = time() - 8 * 86400, items = { T35b = true }, clean = true }
+	Fire("TRADE_SKILL_SHOW"); Advance(3)
+	check(RaidMasterDB.routinePending == nil, "nach 7 Tagen verfallen")
+	local n2 = #RaidMasterDB.gsTest.reports
+	check(n2 == math.min(reports + 1, GoldSentinelTest.MAX_REPORTS or 10), "verfallen: kein weiterer Bericht")
+end
 print(fails == 0 and "ALLE OK" or ("FEHLER: " .. fails))
 if os.getenv("SHOWALL") then
 	for _, e in ipairs(R.t.results) do print(string.format("%-6s %-8s %s %s", e.id, e.status, e.name, e.ergebnis and ("| " .. e.ergebnis) or "")) end

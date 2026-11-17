@@ -27,6 +27,9 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 ===
 📜 **Updates**
 
+**3.0.31** – kein Ruckeln nach Auktionshaus-Scans
+• Gemeinsame Marktdaten arbeiten in kleinen Portionen; Tooltips liegen nie mehr über Knöpfen.
+
 **3.0.30** – Raid-Termine für andere Addons
 • Andere GoldSentinel-Addons können die kommenden Raid-Termine aus der Discord-Anmeldung lesen (z. B. AHSentinel: an Tränke erinnern). Die Diagnose zählt Fehler je Addon.
 
@@ -50,8 +53,5 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 
 **3.0.17** – Richtige Kanäle
 • Das Addon nennt jetzt die aktuellen Discord-Kanäle: Gildenbank in #gildenbank, Einteilung im Kanal des Raids (z. B. #einteilung-mc).
-
-**3.0.16** – Sicher im Kampf
-• Alles, was RaidMaster im Spiel auslöst (Chat, Symbole, Einladen, Plündern …), läuft jetzt über eine einzige Stelle – im Spiel ändert sich nichts, aber Fehler in WoW Forever werden besser abgefangen.
 
 Ältere Neuerungen stehen im Addon in der Datei LIESMICH.txt.

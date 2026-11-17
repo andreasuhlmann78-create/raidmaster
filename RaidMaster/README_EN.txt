@@ -23,6 +23,15 @@ MAIN FEATURES
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
 
+WHAT'S NEW IN 3.0.31 – no more stutter after AH scans, better test routine (developer)
+- Shared market data: no more stutter after a full AH scan (work split across frames). Test entries are never saved or
+  shared.
+- Tooltips of the marker bar and the main window never cover buttons: beside, above or below the window.
+- Developer only: the test routine no longer shows Blizzard's error window (the intentional test errors no longer go
+  through the game's error handler). It never waits for you: steps that need a window (professions, bank, mail) are
+  done automatically the next time you open it ("Noch offen: …" in the summary). All portions stay below 5 ms; the
+  first build of the main window happens before the run and is measured separately.
+
 WHAT'S NEW IN 3.0.30 – raid dates for other addons, test routine "all" (developer)
 - New for other addons: RaidMasterAPI.UpcomingRaids() returns the upcoming raid dates from the Discord signup (start
   time and title only, at most 20). AHSentinel can use it e.g. to remind you of potions before a raid.

@@ -11,6 +11,15 @@ INSTALLATION
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
 
+NEU IN 3.0.31 – kein Ruckeln mehr nach Auktionshaus-Scans, Testroutine verbessert (Entwickler)
+- Gemeinsame Marktdaten: kein Ruckeln mehr nach einem Vollscan (Arbeit auf mehrere Bilder verteilt). Test-Einträge werden
+  nie gespeichert oder geteilt.
+- Tooltips der Markierungsleiste und des Hauptfensters liegen nie über Knöpfen: neben, über oder unter dem Fenster.
+- Nur Entwickler: Die Testroutine zeigt kein Blizzard-Fehlerfenster mehr (die absichtlichen Testfehler gehen nicht mehr
+  über den Fehler-Handler des Spiels). Sie wartet nie auf dich: Schritte, die ein Fenster brauchen (Berufe, Bank, Post),
+  holt RaidMaster beim nächsten Öffnen von selbst nach ("Noch offen: …" in der Zusammenfassung). Alle Portionen bleiben
+  unter 5 ms; der erste Aufbau des Hauptfensters wird vor dem Lauf erledigt und getrennt gemessen.
+
 NEU IN 3.0.30 – Raid-Termine für andere Addons, Testroutine "alles" (Entwickler)
 - Neu für andere Addons: RaidMasterAPI.UpcomingRaids() liefert die kommenden Raid-Termine aus der Discord-Anmeldung
   (nur Startzeit und Titel, höchstens 20). AHSentinel kann damit z. B. vor einem Raid an Tränke erinnern.
