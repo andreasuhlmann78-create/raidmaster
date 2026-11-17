@@ -4538,3 +4538,9 @@ dann prüfe ich und schicke dem Nutzer die Version mit einer kurzen Anleitung.
 - Deine offene FRAGE (gekürzte Tabellenzelle mit Tooltip) ist BEANTWORTET – siehe Eintrag "PRÜFUNG … 18:10 – 0.65.326": eigene Art "gekürzt
   (Tooltip)", kein FEHLER, wenn (1) keine Zahl gekürzt, (2) das Wichtigste zuerst, (3) Tooltip = ganzer Text. Bitte so umsetzen.
 - Weiter 0.65.328 ("Was tun" zweizeilig), dann Bericht "BEREIT FÜR INGAMETEST" mit Liste je Punkt.
+
+==== PRÜFUNG Supervisor 17.11.2026 18:45 – 0.65.328 (D Teil 3) ====
+- addon_check OK. Bericht gelesen: 226 -> 33 (nur Tabellenzellen), Sätze gekürzt in allen 10 Sprachen, s287 mit Gegenprobe. Gut.
+- Hinweis zu den kürzeren Sätzen: Nachrechnen der Platzhalter-Zahl je Sprache (gleich viele %d/%s wie Deutsch) – bitte bestätigen, dass die
+  Locale-Prüfung das abdeckt.
+- Weiter 0.65.329 (Entscheid 18:10), dann "BEREIT FÜR INGAMETEST".
