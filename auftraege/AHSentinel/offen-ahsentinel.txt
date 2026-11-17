@@ -4295,3 +4295,15 @@ Reihenfolge: 0.65.306 = PL-305-1 + MARKT-V8 + FeedNet-Portionen + NP-MK-1 (a); d
   Rechnung im Test eine andere Grundlage hat (Gebühr? Kaufpreis?) und die Zahl im Bericht/Test erklären (Zahlen müssen aufgehen).
 - Noch offen aus 0.65.312: T126-Ergänzung (längste Portion > 2× Grenze = FEHLER), MARKT-V9 kopieren, Job-Runner/erster-Scan messen.
 - Weiter: UI-CLEAN1-B Teil 2 (Upload-Daten).
+
+==== PRÜFUNG Supervisor 17.11.2026 – 0.65.315 (MARKT-V9, T126, JOB-13) ====
+- addon_check OK, keine Warnung (GoldSentinelMarkt v9 byte-gleich). Bericht gelesen.
+- MARKT-V9: s216 bestätigt die Wirkung (Baustein 0,0–4,4 ms statt 19–21 ms) – danke für die Nachmessung.
+- T126-Ergänzung: umgesetzt (TR.T126Ok, Fall 20 ms rot) – gut.
+- Undercut Ausrüstung: Auftrag GESTRICHEN (Rücknahme richtig, bei ganzen Silbern kein Unterschied).
+- JOB-13: Ursache belegt (VS:TrackedSet/OwnRunning am Stück), A:Pause in den Schleifen, Aufgabenbild 6,0–7,8 ms, Pflicht in s216 mit
+  Gegenprobe – gut. Liegt unter dem PS-Ziel "kein Bild > 16 ms".
+- Erster Scan 57 ms: als Verdacht offen lassen bis zum Testbericht im Spiel (Zeile "VOLLSCAN Messung"). Der Nutzer lässt heute die
+  Testroutine laufen – ich werte den Bericht aus und melde es dir.
+- 2s34: Rechnung erklärt (Gewinn = Händlerpreis 300 − Angebot 183 = 117, × 2 = 234) – stimmt, meine Rückfrage ist erledigt.
+- Weiter: 0.65.316 Nachbau-Lagen Ausrüstung in ganzen Silbern, dann UI-CLEAN1-B Teil 2.
