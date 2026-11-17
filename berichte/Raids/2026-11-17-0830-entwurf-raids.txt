@@ -1,0 +1,76 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+
+Geplante Aufgabe: Raids und Taktiken für WoW Forever (alte Fassung, läuft noch) – Lauf 17.11.2026
+Gemäss CLAUDE.md (Vorrang 14.11.) und auftraege/hinweis-routinen-supervisor-2026-11-14.txt:
+NICHTS direkt geändert (kein announce/, kein RaidMasterBot/*.json, kein research/forever_taktiken.md). Nur dieser Entwurf.
+
+HINWEIS: Diese Aufgabe ist die ALTE Fassung (ohne "mit Supervisor"). Laut Hinweis 14.11. sollte der Nutzer sie
+ausschalten. Sie lief heute trotzdem. Bitte dem Nutzer melden, falls doppelt mit trig_019SbU842kQHaV75pbHuuofJ.
+
+Netz: warcraft.wiki.gg und www.wowhead.com in dieser Sitzung NICHT erreichbar (DNS gesperrt durch Netzwerkregeln).
+Geprüft nur über die Websuche (Trefferauszüge). Primärquellen deshalb nicht selbst gelesen.
+
+==========================================================================================
+(A) NEUE RAIDS
+==========================================================================================
+NEU (Verdacht auf offizielle Bestätigung, Primärquelle nicht selbst gehört):
+- The Scarlet Enclave (Season-of-Discovery-Raid, dt. vermutlich "Scharlachrote Enklave" – deutscher Name NICHT belegt)
+  Laut Wowhead (Artikel 383855 + Wowhead-Post auf X) bestätigt Josh "Aggrend" Greenfield (Blizzard, Senior Game Designer)
+  in Folge 7 des offiziellen WoW-Forever-Podcasts (Lore-Folge, 12.11.2026), dass die Scharlachrote Enklave "irgendwann"
+  in WoW Forever zurückkommt ("It might be a while"). KEIN Datum, KEINE Spielerzahl, KEINE Form/Version genannt.
+  Quellen:
+   https://www.wowhead.com/forever/news/season-of-discoverys-scarlet-enclave-raid-to-return-in-wow-forever-383855
+   https://x.com/Wowhead/status/2121001058033909872
+   https://www.pcgamesn.com/world-of-warcraft/forever-lore-podcast-season-of-discovery
+   https://guided.news/en/news/wow-forever-scarlet-enclave-ashbringer-return/
+
+  VORSCHLAG: noch NICHT in RaidMasterBot/forever_raids.json eintragen. Grund: "forever": true lässt den Bot sofort
+  Kategorie, Anmeldung, Sprachkanal (Plätze = size) und Einteilungs-Kanal anlegen – Spielerzahl ist aber unbekannt
+  (SoD-Fassung hatte 20, für Forever nicht belegt) und es gibt keinen Termin ("might be a while"). Eintragen, sobald
+  Blizzard Termin und Grösse nennt. Falls Supervisor/Nutzer es trotzdem jetzt will, fertiger Eintrag (size ungesichert!):
+    {
+      "key": "scarlet",
+      "name": "Scharlachrote Enklave",
+      "emoji": "⚜️",
+      "prefix": "enklave",
+      "size": 20,
+      "forever": true
+    }
+  + in RaidMasterBot/raid_materials.json unter "materials": "scarlet": []
+
+Sonst: keine neuen Raids, keine neuen Termine. Barrow Deeps (10), Hyjalgipfel (20), Onyxias Hort (40) ab 09.12.2026
+unverändert; Grössen weiter durch Blizzard/Interviews bestätigt (feste Grössen, keine flexible Skalierung, Icy Veins).
+forever_raids.json: keine Änderung nötig.
+
+==========================================================================================
+(B) TAKTIKEN
+==========================================================================================
+Nichts zu posten. Barrow/Hyjal/Onyxia öffnen erst 09.12.2026; keine neuen offiziellen Bossinfos seit dem Podcast-Teaser
+(Okt.). Bossnamen weiter nur aus Demo/Beta, Reihenfolge und Hyjal-Endboss ("Nythus the Dreambound" vs. "The Wild King",
+Schreibweise auch "Dreadbound" gesehen) weiter NICHT bestätigt.
+Hotfixes 16.11.2026 (Blizzard 24315281): nur Klassen (Furor-Krieger, Druide), Items (Outrider's Gloves, The Violet Tragan),
+Schneiderei-Taschen (Red Mageweave Bag, Green Silk Pack), Angelgestell – nichts zu Raids/Onyxia.
+  https://www.wowhead.com/forever/blue-tracker/news/us/wow-forever-hotfixes-november-16-2026-world-of-warcraft-blizzard-news-24315281
+Wochenprüfung MC/Ony/BWL… erst wieder fällig ab 22.11. (letzte 15.11.).
+
+==========================================================================================
+(C) MATERIALIEN/REZEPTE
+==========================================================================================
+Nichts Neues bestätigt. Malleable Essence of Nature bleibt Datamining (nicht eintragen).
+
+==========================================================================================
+(D) RESISTENZ-KANÄLE
+==========================================================================================
+Kein neuer Kanal. Barrow/Hyjal: weiter keine gesicherte Quelle zu Resistenzbedarf. Scharlachrote Enklave: nichts (kein Termin).
+
+==========================================================================================
+VORSCHLAG FÜR research/forever_taktiken.md (vom Supervisor zu übertragen)
+==========================================================================================
+Unter "Was noch fehlt" anhängen:
+- 2026-11-17: Blizzard-Podcast Folge 7 (12.11.2026, Josh "Aggrend" Greenfield, berichtet von Wowhead 383855): die
+  Season-of-Discovery-Raid "The Scarlet Enclave" kommt irgendwann nach WoW Forever – ohne Datum, Grösse, Form ("might be
+  a while"). Noch NICHT in forever_raids.json (Termin/Grösse fehlen). Hotfixes 16.11.2026 ohne Raidbezug. Sonst nichts
+  Neues zu Barrow/Hyjal/Onyxia (Bosse, Resistenzen, Materialien). warcraft.wiki.gg/wowhead.com in dieser Sitzung nicht
+  erreichbar (nur Suchauszüge).
+Tabelle "Letzte Wochenprüfung": barrow und hyjal -> 2026-11-17, "keine offiziellen Bossinfos/Resistenzen/Materialien, nichts gepostet".
+Tabelle (A): neue Zeile "Scharlachrote Enklave (–) | ? | – | Podcast Folge 7, 12.11.2026, ohne Termin | Wowhead 383855 | noch nicht in JSON".
