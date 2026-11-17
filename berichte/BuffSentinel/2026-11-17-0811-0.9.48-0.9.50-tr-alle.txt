@@ -1,0 +1,181 @@
+BuffSentinel – Bericht an die Prüf-Sitzung · 0.9.48-0.9.50-tr-alle
+Datum: 17.11.2026, 08:11 (aus date)
+
+Stand: TR-ALLE A und B, GoldSentinelDev Version 2 – umgesetzt, zur Prüfung (0.9.48, Nachträge 0.9.49 und 0.9.50)
+
+VERÖFFENTLICHT
+- download/BuffSentinel-0.9.48.zip, 0.9.49.zip, 0.9.50.zip (je README, announce mit Zip, Vorversion entfernt); auf origin/main
+  nachgeprüft (git status ohne "ahead", README-Link 0.9.50 vorhanden).
+- addon_check 0.9.50: OK, 1 Warnung (nur "Lua-Syntax nicht geprüft", lupa fehlt hier). 0.9.49 hatte zusätzlich eine FALSCHE
+  Warnung "tritt einem Chat-Kanal bei": nur der Name der Beitrittsfunktion stand als Text in der neuen T74-Messung – in 0.9.50
+  aus der Messung genommen (BuffSentinel tritt keinem Kanal bei, T152).
+- cmp: GoldSentinelGame, Sync, Test, Markt, Pruefliste und NEU Dev (Version 2) byte-gleich mit shared/ (pub.sh prüft Dev jetzt mit).
+
+A) /bsen testroutine alles (auch /bsen testroutine ohne Wort; englisch "all"; Entwicklermodus)
+Umsetzung (SelfTest.lua)
+- Treiber Selftest.Drive: der ganze Lauf ist EINE Coroutine; je Bild eine Portion. Abgegeben wird nach Selftest.BUDGET_MS = 1,5 ms
+  an sicheren Stellen (Selftest.Slice): vor jeder Prüfung und in langen Schleifen (TU1-Lagen je Lage, Messreihen T105–T109,
+  T18, T25, T27, T47, T92, T218, T224, T239). Jede Prüfung läuft in einer eigenen Coroutine statt pcall.
+- Lua 5.1 (WoW) darf NICHT über pcall hinweg abgeben. Darum laufen With, WithApi, Sim (Versionsweiche) und Capture jetzt über
+  Sliced: Testwerte gelten nur, solange die Prüfung wirklich rechnet; vor jedem Bildwechsel werden die echten Werte
+  zurückgestellt, danach wieder die Testwerte (echte Ereignisse laufen nie mit Testwerten oder simulierter Version).
+- Fortschritt im Chat je Bereich: "Testroutine: 3 von 18 – Funktionen … (16 Prüfungen bisher)".
+- EINE Zusammenfassung am Ende (Chat und oberste Zeile im Berichtsfenster): "Testroutine fertig: x von y bestanden, z nicht
+  prüfbar – <häufigste Gründe>; Fehler: n · <Bilder>, längste Portion <ms>, über 5 ms: <Anzahl> (<Prüfung ms>)".
+  Im Testbericht (GSTEST) als eigene Felder: zusammenfassung, portionen, bilder, laengstePortionMs, portionenUeber5ms,
+  abgebrochen. Kommt mit dem Upload; der Nutzer schreibt nichts ab.
+- Abbrechen: /bsen testroutine stopp (auch "stop", "abbrechen"). Kampfbeginn bricht ebenfalls ab. Beides: Sandbox verlassen,
+  Bericht mit "abgebrochen: …", Regressionsprüfung (Q) dann bewusst übersprungen (nicht aussagekräftig).
+- /reload oder Ausloggen mitten im Lauf: BS:PLAYER_LOGOUT ruft zuerst Selftest.OnLogout – echte BuffSentinelDB zurück, BEVOR das
+  Spiel speichert (vorher hätte die Sandbox gespeichert werden können – das galt auch schon für die TU4-Portionen bis 0.9.47),
+  Testfehler entfernt, Teilbericht mit "abgebrochen: /reload oder Ausloggen während des Laufs".
+- Lauf im Kampf beendet: Positionen/Grösse/Fenster sind im Kampf gesperrt -> BS.pendingApplyAll, nach dem Kampf
+  (PLAYER_REGEN_ENABLED) angewendet.
+- Doppelstart: "Die Testroutine läuft schon. Abbrechen: …" (Meldungen gehen über den echten Chat, nicht in die Sandbox).
+- T110 (Speicher) braucht zwei volle Speicherbereinigungen des GANZEN Lua aller Addons in einem Bild und lässt sich nicht teilen
+  (zwischen zwei Bildern legen andere Addons Speicher an). Im Lauf "alles" darum übersprungen mit Grund "nur einzeln
+  (/bsen testroutine leistung) … würde ruckeln"; einzeln (leistung / H) läuft T110 wie bisher.
+- Grenzen (Pflicht) unverändert eingehalten: kein Gold, keine Post, kein Chat, kein Kanal, keine dauerhafte Einstellung – alles
+  in der Sandbox; T136 zählt echte Aktionen (erwartet 0); Gegenprobe Sandbox wie bisher.
+
+Belege (eigene Tests, keine Freigabe)
+- Lua-5.1-Regel nachgebildet (Nachbau: pcall/xpcall zählen je Coroutine, yield über pcall = Fehler) und BUDGET 0 (Abgabe an JEDER
+  möglichen Stelle): 48 810 Abgaben, 0 Verletzungen, Ergebnis identisch mit dem Lauf am Stück.
+- Normales Budget 1,5 ms, Nachbau, 4 Läufe: 256–297 Bilder, längste Portion 4,4 / 4,6 / 5,0 / 6,7 ms, Portionen über 5 ms: 0–5
+  von ~280 (T218, T224, T252, T253, TU4). Die Lücken zwischen zwei Abgabestellen liegen meist unter 0,3 ms; die Ausreisser
+  sind einzelne Lücken bis 2,7 ms (Messung mit Zeitstempel je Slice) – Verdacht: Speicherbereinigung des Nachbau-Lua 5.4,
+  im Client zu messen. Die Zusammenfassung zeigt die Zahl im Client selbst (längste Portion, über 5 ms mit Prüfung).
+- Abbruchwege im Nachbau (Bild 60 bzw. in TU4): stopp -> "abgebrochen: auf Wunsch", Sandbox-Gegenprobe wie im Grundlauf;
+  Kampf -> "abgebrochen: Kampf begonnen"; Ausloggen -> BuffSentinelDB ist danach die echte Tabelle (ja), running nein,
+  Teilbericht gespeichert; Doppelstart -> Meldung, Lauf läuft normal weiter; stopp während TU4 -> T230–T232 übersprungen
+  "auf Wunsch".
+- run25m (Nachbau, ganzer Lauf): OK 194, die bekannten 12 Nachbau-FEHLER (gleiche Liste wie 0.9.47), Sandbox-Zeile wie 0.9.47.
+- Offline-Routine auf den veröffentlichten Zips 0.9.48/0.9.49/0.9.50: forever/era/tbc/retail × deDE/enUS = 8 × PASS
+  (0 neue, 0 veraltete Abweichungen).
+
+0.9.49 (TR-ALLE A, "der Nutzer schreibt nichts ab"): drei /dump-Handprüfungen laufen jetzt selbst
+- T14 (Forever): Talente lesbar -> automatisch OK mit "talentsReadable=… mainSpec=…"; nur wenn NICHT lesbar bleibt es Handprüfung.
+- T55 (Forever): alle Zauber-IDs aufgelöst -> automatisch OK; nur nicht aufgelöste IDs bleiben "in Forever bestätigen".
+- T74: Messung "GetNumTalentTabs=ja … ChatFrameUtil=…" als Ergebnis im Bericht (immer OK, reine Messung).
+  Abweichung vom Testplan testroutine-buffsentinel.txt (T14/T55/T74 als T:Client) – bitte prüfen.
+
+WELCHE PRÜFUNGEN AUTOMATISCH, WELCHE VON HAND
+Automatisch (/bsen testroutine alles): 18 Bereiche, im Nachbau 229 Prüfungen – K Oberfläche, A Laden, B Funktionen, C WoW Forever,
+D alte Spielversionen, E Daten, F Sprachen, G Zusammenspiel, H Leistung (ohne T110), I Fehlerzählung, J Regression, L Lagen (TU1),
+M Abläufe (TU2), N Standard (TU3), P echte Daten (TU5), S Spielversionen und Sprachen (TU7), Q behobene Befunde (TU6),
+O Grundregeln mit Zufallsdaten (TU4). Übersprungen je nach Client: T80–T87 (nur alter Client), T86 (nur Era), T103 (keine
+Schnittstelle), T140–T143 (nur im echten Client, dort automatisch).
+Von Hand – noch in der Testroutine als "im Client prüfen" (9, unverändert aus dem Testplan; brauchen Ohr, zweiten Client, Raid
+oder einen echten /reload im Kampf): T46 Töne hören, T99 englischer Client, T104 mehrere GoldSentinel-Addons, T106 Raid 40,
+T129 Klicks nach /reload im Kampf, T133 Interface-Nummer/"veraltet", T134 Ablauf im Forever-Client, T135 Gegenprobe alter Client,
+T147 Diagnose-Fenster. FRAGE: Sollen diese in die Prüfliste (dort zurzeit 14 = Höchstzahl)? Vorschlag: nach Abnahme der
+jetzigen Punkte die erledigten herausnehmen und diese nachrücken lassen.
+
+B) PRÜFLISTE – jeder Handpunkt neu (Pruefliste.lua)
+- Aufbau: "Wo:", nummerierte Schritte (ein Handgriff), "Kosten:" (Gold, Zeit); "Das musst du sehen" wörtlich – die Texte der
+  Knöpfe/Zeilen werden aus BuffSentinels eigenen Texten (L.…) zusammengesetzt, stimmen also mit dem Spiel überein.
+  OK/Nicht OK: Knöpfe des gemeinsamen Bausteins (v1 hat nur todo/expect, darum Zeilenumbrüche darin; Baustein unverändert).
+- Alle 14 Punkte erledigen sich von selbst, sobald BuffSentinel es im Spiel erkennt (BS.PLHit); OK von Hand nur, wenn nötig.
+- Platz: Das Detailfeld hat bis zu den Knöpfen ca. 150 px (= ca. 11 Zeilen bei Schrift "klein"). Schätzung je Punkt mit
+  Kopfzeile und grauer Hinweiszeile: 9–10 Zeilen (bei ca. 95 Zeichen je Zeile). Verdacht, im Client anzusehen: nichts
+  überlappt die Knöpfe.
+- Bewusst ohne genauen Namen (nicht aus Spieldaten belegt): der Jäger-Zauber zum Wegschicken des Tiers und der Menüpunkt beim
+  Hexenmeister – beschrieben statt genannt, mit Warnung "Jäger: NIE freigeben!".
+- "Meistertotem" (nur Wrath) aus der bisherigen Fassung übernommen.
+
+Text jedes Handpunkts (so steht er im Spiel):
+== DURA (Reparatur-Erinnerung in der Stadt)
+Das tust du: Wo: in einer Hauptstadt (z. B. Orgrimmar), abgestiegen, nicht im Kampf.
+1. Drücke C und fahre mit der Maus über deine Rüstungsteile: dort steht "Haltbarkeit x / y".
+2. Ein Teil muss unter 30 % haben (z. B. "Haltbarkeit 20 / 80"). Sonst vorher draussen kämpfen.
+3. Bleib 2 Sekunden in der Stadt stehen.
+Kosten: kein Gold (Reparieren danach wie immer), ca. 1 Min.
+Das musst du sehen: Ein Knopf "REPARIEREN!" mit der Prozentzahl des schwächsten Teils (z. B. "25%"). Nach dem Reparieren beim Händler ist er weg.
+== READY (Zeile beim Bereitschaftscheck)
+Das tust du: Wo: in einer Gruppe mit mindestens einem Mitspieler, du bist Gruppenleiter.
+1. Tippe in den Chat: /readycheck und drücke Enter.
+   (Bist du nicht Gruppenleiter: bitte den Leiter, einen Bereitschaftscheck zu starten.)
+Kosten: kein Gold, ca. 1 Min.
+Das musst du sehen: Eine Zeile im eigenen Chat: "Bereitschaftscheck – es fehlt: …" oder "Bereitschaftscheck: alles bereit."
+== PERF (Zeile LEISTUNG nach einem Kampf)
+Das tust du: Wo: draussen, wo es Gegner gibt.
+1. Greif einen Gegner an und kämpfe, bis der Kampf vorbei ist (ein Gegner reicht).
+2. Tippe in den Chat: /bsen protokoll und drücke Enter.
+Kosten: kein Gold, ca. 2 Min.
+Das musst du sehen: Im Protokoll eine Zeile "LEISTUNG Kampf: längster Rahmen durch BuffSentinel … ms (…), über 16 ms: … von … Rahmen". Der Punkt erledigt sich nach dem Kampf von selbst.
+== AMMO (Jäger: Munition knapp (WoW Forever))
+Das tust du: Wo: WoW Forever, Jäger mit Bogen, Armbrust oder Schusswaffe, nicht im Kampf.
+1. Drücke B (Taschen) und öffne den Köcher bzw. Munitionsbeutel.
+2. Lege Pfeile oder Kugeln in die Bank, bis weniger als 200 in den Taschen sind.
+3. Warte 2 Sekunden.
+Kosten: kein Gold, ca. 3 Min. (Munition danach wieder aus der Bank holen).
+Das musst du sehen: Ein Knopf "MUNITION KNAPP!" mit der Restzahl (z. B. "150"). Kommt nichts: "Nicht OK".
+== PET (Jäger/Hexer: Begleiter fehlt)
+Das tust du: Wo: irgendwo, abgestiegen, nicht im Kampf; Jäger oder Hexenmeister mit Begleiter.
+1. Schick den Begleiter weg (Jäger: Zauberbuch, Taste P, Zauber zum Wegschicken des Tiers;
+   Hexenmeister: Rechtsklick auf das Bild des Dämons > wegschicken). Jäger: NIE "freigeben"!
+2. Warte 3 Sekunden. 3. Ruf den Begleiter wieder (Jäger: "Tier rufen", Hexer: beschwören).
+Kosten: kein Gold (Hexenmeister: Beschwören kann 1 Seelensplitter kosten), ca. 1 Min.
+Das musst du sehen: Nach 3 Sekunden "BEGLEITER FEHLT!" (Hexenmeister: "DÄMON FEHLT!"); nach dem Rufen sofort weg.
+== PETFOOD (Jäger: füttern und Tierfutter)
+Das tust du: Wo: irgendwo, nicht im Kampf; Jäger mit Begleiter.
+1. Schau auf das Gesicht neben dem Bild des Begleiters: gelb oder rot = nicht glücklich.
+   Ist es grün: nicht füttern und warten, bis es gelb wird.
+2. Nur WoW Forever: Futter in die Bank legen, bis weniger als 10 Stück in den Taschen sind.
+Kosten: kein Gold, ca. 5–20 Min. (Warten auf gelb).
+Das musst du sehen: 1) "BEGLEITER FÜTTERN!" mit "zufrieden" oder "unglücklich" und dem Schaden in %. 2) "TIERFUTTER KNAPP!" mit der Zahl.
+== INFIRE (Priester: Inneres Feuer Aufladungen)
+Das tust du: Wo: draussen bei Gegnern; Priester, der "Inneres Feuer" kann.
+1. Wirke "Inneres Feuer" auf dich.
+2. Lass dich treffen, bis die Zahl auf dem Symbol oben rechts unter 5 ist. Beende den Kampf.
+3. Warte 2 Sekunden.
+Kosten: kein Gold, ca. 3 Min.
+Das musst du sehen: Ein Knopf "INNERES FEUER ERNEUERN!" mit der Restzahl; ein Klick darauf wirkt Inneres Feuer.
+== HEXER (Hexer: Splitter, Platz, Gesundheitsstein)
+Das tust du: Wo: irgendwo, nicht im Kampf; Hexenmeister. EINES davon reicht:
+1. Gesundheitsstein aus der Tasche ins Freie ziehen und "Ja" (zerstören) klicken.
+2. Oder: Seelensplitter in die Bank legen, bis weniger als 3 in den Taschen sind.
+3. Oder: alle Taschenplätze füllen. Danach jeweils 2 Sekunden warten.
+Kosten: kein Gold (neuer Gesundheitsstein: 1 Seelensplitter), ca. 3 Min.
+Das musst du sehen: "KEIN GESUNDHEITSSTEIN!" bzw. "SPLITTER KNAPP!" bzw. "KEIN PLATZ FÜR SPLITTER!"; nach dem Beheben weg.
+== SOULSTONE (Hexer: Seelenstein in der Gruppe)
+Das tust du: Wo: in einer Gruppe; Hexenmeister, der Seelensteine herstellen kann.
+1. Niemand in der Gruppe darf gerade einen Seelenstein tragen. Warte 2 Sekunden (nicht im Kampf).
+2. Klicke einen Mitspieler an und benutze dann den Seelenstein aus deiner Tasche (Rechtsklick).
+Kosten: 1 Seelensplitter für den Stein, ca. 3 Min.
+Das musst du sehen: Vor Schritt 2: "KEIN SEELENSTEIN IN DER GRUPPE!"; nach dem Auflegen weg.
+== TOTEM (Schamane: Totem fehlt)
+Das tust du: Wo: irgendwo, nicht im Kampf; Schamane.
+1. Drücke B (Taschen) und lege ein Totem (z. B. das Feuertotem) in die Bank.
+2. Warte 2 Sekunden. Danach das Totem wieder in die Tasche holen.
+3. Nur Wrath: ein Meistertotem nur im Relikt-Platz tragen – dann darf nichts erscheinen.
+Kosten: kein Gold, ca. 3 Min.
+Das musst du sehen: Ein Knopf "TOTEM FEHLT!" mit dem Element (z. B. "Feuer"); mit Meistertotem keine Meldung.
+== WAFFE (Schamane: Waffen-IDs messen)
+Das tust du: Wo: irgendwo, nicht im Kampf; Schamane mit Waffe ohne Verzauberung.
+1. Setze irgendein Totem und bleib 10 Sekunden stehen (nur Totem).
+2. Wirke deine Waffenverzauberung (Zauber "Waffe des …") und bleib 10 Sekunden (beides).
+3. Warte, bis das Totem von selbst verschwindet, dann noch 10 Sekunden (nur Waffe).
+Kosten: kein Gold, ca. 4 Min.
+Das musst du sehen: In /bsen protokoll drei Zeilen "WAFFE mh=… oh=… totem=…". Der Punkt erledigt sich von selbst.
+== REAG (Reagenz knapp in der Gruppe)
+Das tust du: Wo: in einer Gruppe, nicht im Kampf; Magier, Priester, Druide oder Paladin.
+1. Lege das Reagenz in die Bank, bis weniger als 10 in den Taschen sind (Paladin: unter 20).
+   (Magier: Arkanes Pulver, Priester: Kerzen, Druide: Beeren/Dornwurz, Paladin: Symbole)
+2. Warte 2 Sekunden.
+Kosten: kein Gold, ca. 3 Min.
+Das musst du sehen: Ein Knopf "REAGENZ KNAPP!" mit der Anzahl. Allein (ohne Gruppe) keine Meldung.
+== RESTOCK (Nachkaufen beim Händler (ein Klick))
+Das tust du: Wo: bei einem Händler, der deine Munition oder dein Reagenz verkauft.
+1. Tippe /bsen optionen und klicke den Reiter "Optionen".
+2. Setze den Haken bei "Nachkaufen-Knopf beim Händler".
+3. Mach die Ware knapp (wie bei AMMO oder REAG), sprich den Händler an.
+4. Klicke EINMAL auf den Knopf unter dem Händlerfenster.
+Kosten: höchstens 1 Gold (Grenze), es bleibt immer mindestens 1 Gold übrig; ca. 3 Min.
+Das musst du sehen: Knopf "Nachkaufen: <Anzahl>× <Ware> für <Preis>"; Klick kauft genau das.
+== RF (Paladin: Zorn der Gerechtigkeit)
+Das tust du: Wo: in einer Gruppe; Paladin, nicht als Tank eingetragen,
+   die meisten Talentpunkte in Heilig oder Vergeltung (Taste N zeigt es).
+1. Wirke "Zorn der Gerechtigkeit" auf dich. 2. Warte 2 Sekunden.
+Kosten: kein Gold, ca. 1 Min.
+Das musst du sehen: Genau EINE Zeile im eigenen Chat: "Hinweis: Zorn der Gerechtigkeit ist an, …" Nochmal wirken: keine zweite Zeile.
