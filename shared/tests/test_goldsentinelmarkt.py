@@ -95,7 +95,8 @@ class Client:
         g.NO_AH = no_ah
         self.lua.execute(MOCK.replace("PLAYER = ...", f'PLAYER = "{name}"'))
         self.lua.execute(SYNC)
-        self.lua.execute(src or SRC)
+        assert src is None or len(src) > 1000, "leere Quelle für Client (Vorversion fehlt?)"
+        self.lua.execute(src if src is not None else SRC)
         self.lua.execute("DEFAULT_CHECK = GoldSentinelMarkt.CHECK_EVERY")   # v10: Zeitmessungen mit der echten Einstellung
         self.name = name
         self.run('DB = {}; GoldSentinelMarkt.Attach("ProbeAddon", DB); GoldSentinelMarkt.CHECK_EVERY = 10')
@@ -543,7 +544,13 @@ check("v7: Export-Zeile beginnt mit dem Kopf", mc7.ev('GoldSentinelMarkt.store.e
 
 # v8 (SANDBOX-2): Test-IDs (ab 990000000) nie annehmen, speichern, exportieren, senden; beim Anmelden aus dem Speicher entfernen
 import subprocess as _sp
-OLD7 = _sp.run(["git", "-C", str(ROOT), "show", "07ba5716:shared/GoldSentinelMarkt.lua"], capture_output=True, text=True).stdout
+def _variant(v):
+    """Vorversion aus shared/tests/variants (nicht aus der Git-Geschichte: flache Klone haben sie nicht – NP-SYS-2).
+    Bricht ab, wenn sie fehlt oder nicht die erwartete Version ist (nie still mit der aktuellen Datei vergleichen)."""
+    txt = (ROOT / ("shared/tests/variants/GoldSentinelMarkt-v%d.lua" % v)).read_text(encoding="utf-8")
+    assert len(txt) > 1000 and ("local VERSION = %d\n" % v) in txt, "Vorversion v%d fehlt oder falsch" % v
+    return txt
+OLD7 = _variant(7)
 FEED8 = """
 ITEMS = {}
 for i = 1, 1050 do ITEMS[990018000 + i] = { preis = 1, menge = 1, n = 1 } end
@@ -630,7 +637,7 @@ print("v8 Aufräumen ohne Test-IDs (20000 Items, Export %d KB): Median %.1f ms (
 check("v8: Aufräumen ohne Test-IDs unter 15 ms (Median aus 3)", dt_ms < 15, True)
 
 # v9: Teilen in Portionen – echte Uhr (os.clock); kein Bild des Bausteins über Budget + 1 ms; Nachrichten byte-gleich wie v8
-OLD8 = _sp.run(["git", "-C", str(ROOT), "show", "55542918:shared/GoldSentinelMarkt.lua"], capture_output=True, text=True).stdout
+OLD8 = _variant(8)
 RUN9 = """
 function debugprofilestop() return os.clock() * 1000 end
 math.randomseed(9)
@@ -688,7 +695,7 @@ budget = c9.ev("GoldSentinelMarkt.BUDGET_MS")
 check("v9: kein Bild über Budget + 2 ms (Feed + Teilen, 6000 Items, Median aus 3)", mf <= budget + 2, True)
 check("v9: Antwort-Weg ohne Item-Liste (20000 Items) höchstens Budget + 2 ms (Median aus 3)", ma <= budget + 2, True)
 check("v9: Gegenprobe v8 – Teilen am Stück über 5 ms", c8o.ev("MAXMS") > 5, True)
-OLD9 = (ROOT / "shared/tests/variants/GoldSentinelMarkt-v9.lua").read_text(encoding="utf-8")
+OLD9 = _variant(9)
 def _checks(src):
     """deterministisch: wie oft prüft eine Feed-Portion die Zeit bei 1000 Items (Budget nie erreicht)?"""
     c = Client("Testv10", 73, src=src)

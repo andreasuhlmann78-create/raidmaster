@@ -4452,3 +4452,12 @@ dann prüfe ich und schicke dem Nutzer die Version mit einer kurzen Anleitung.
   Bitte v10 statt v9 kopieren.
 - Weitere Funde (names 25–50 ms, VS:TrackedSet sort 10–24 ms, pd7 11–17 ms, core:resolve 14 ms, timing 12,5 ms): gehören zu A –
   bitte vor B erledigen (alles > 8 ms eigene Arbeit je Bild teilen). LossWarnings doppelt: messen.
+
+==== NACHPRÜFUNG 17.11. 14:29, vom Supervisor geprüft und übertragen (NIEDRIG, nach A) ====
+- NP-AHS318-1: Absatz-Faktor wird nach einem Scan NICHT neu gerechnet – Learn.lua Schlüssel = next(st.sold) .. Stunde; st.sold ist
+  bleibend, next() liefert fast immer dasselbe Item -> WarmFactors rechnet nur zur vollen Stunde. CHANGELOG 0.65.318 "nach jedem Scan
+  vorgerechnet" stimmt so nicht. Lösung: Schlüssel aus dem Messstand (Zeit des letzten gemessenen Scans + Stunde), bei Wechsel alte Zahlen
+  bis zum Ende von "learn:factor"; factorWarm/factorStale in den Testbericht; oder den CHANGELOG-Satz berichtigen. Test mit Gegenprobe.
+- NP-AHS318-2: A.frameOwn (VS-BILD) wird nur in VS:MFinal gelöscht – wirft ReadPortion/NewRead/TrimRead, endet die Coroutine, MEnd/
+  MFinal laufen nie, die Ereignis-Zeitmessung bleibt bis /reload an (Sperre ohne Zeitlimit). Lösung: Einlesen in A:PCall, bei Fehler
+  VS:MEnd + VS.running = nil, oder Zeitlimit. Test: ReadPortion wirft -> frameOwn nil; Gegenprobe 0.65.318 rot.
