@@ -16,3 +16,13 @@ Quellen: virtuelle Reise 3.12.85 mit Debug (DBGF/DBGC im Messwerkzeug), Factorui
 3. MÖGLICHER HEBEL (Verdacht, zu messen, nach dem Massstab 12 Charaktere): Flug statt Laufen, wenn der Flug Zeit spart, auch für
    Strecken zwischen zwei Questzonen (Factoruide: "fly" bei jeder Strecke, die per Flug kürzer ist; LevelPilot NAV-2 "Reiseplan nach
    Zeit" vergleicht schon Laufen/Flug – prüfe ich als Nächstes, warum z. B. Westfall -> Seenhain gelaufen wird).
+4. NACHTRAG – lange Einzelstrecken > 1500 yd bis 30 (DBGW, Luftlinie): 30 Strecken, darunter
+   L10 Westfall -> Dun Morogh 4726 yd (Annahme "Höhle der Frostmane"), L17 Loch Modan -> Westfall 6452 yd ("Die Volksmiliz"),
+   L23 Dunkelküste -> Brachland 8461 yd ("Raptorhörner"), L28 Eisenschmiede -> Sturmwind 3842 yd, L29 Arathi -> Gnomeregan 4364 yd.
+   Zonenfolge LevelPilot: Elwynn -> Westfall (10) -> Dun Morogh/Loch Modan (10–17) -> Westfall (17) -> Dunkelküste/Eschental (18–22)
+   -> Brachland/Steinkrallen (23) -> Rotkamm/Dämmerwald/Sumpfland (24–30). Factoruide: Elwynn -> Westfall -> Rotkamm/Dämmerwald/
+   Sumpfland, mit Flug/Ruhestein über Sturmwind.
+   Das sind Entscheide der wertbasierten Zonenwahl (keine Regel verletzt, ROUTE-Q 0). Die Mehr-Laufzeit kommt aus dem Hin und Her
+   zwischen Zonenpaketen; eine feste Folge war aber +13 % (Bericht 03:38). Ein Ansatz nach dem Massstab wäre "Reisekosten zur Zone als
+   echte Zeit (Laufen/Flug) statt TRAVEL_SCALE" – Verdacht, zu messen; warte dazu auf die Antwort zur Frage aus dem Bericht 03:38
+   (lange Suche ja/nein), weil das wieder eine Änderung der Zonenwahl ist.
