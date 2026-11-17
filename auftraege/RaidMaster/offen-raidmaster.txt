@@ -390,3 +390,8 @@ Befunde:
 - Wortlaut T155 aus dem Ingametest 17:01 (vom Nutzer im Chat, der Upload fehlt – der Nutzer hat danach das Spiel beenden müssen):
   "[FEHLER] T155 K – Eigene Tooltips verdecken keine Knöpfe | ist: dkp: Markierungsleiste: Button verdeckt Button; auction: Markierungsleiste:
   Button verdeckt Button; loot: …; log: …; raid: …; signup: …; pug… | soll: keine" – also die Markierungsleiste (eigener Anker), passt zu 2c.
+
+==== HINWEIS KLEIN 17.11.2026 19:37 (Nutzer, 3.0.31) ====
+"/rmtest testroutine alles" meldet "Testroutine: Bereich ALLES gibt es nicht (A … K)". "/rm testroutine alles" ist der richtige Befehl, aber
+beide Befehle sollen dasselbe können: unter /rmtest "alles" ebenfalls annehmen (an /rm testroutine alles weiterreichen) oder die Meldung sagt
+"Für alles: /rm testroutine alles". Test mit beiden Schreibweisen.
