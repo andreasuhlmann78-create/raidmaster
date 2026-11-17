@@ -876,3 +876,15 @@ Wecker nicht neu stellen, schlafen. Der Supervisor weckt dich über diese Datei.
   Addon entgeht – Anteil der geführten Wegstücke (Pfeil-Luftlinie bzw. Strassennetz) über Zellen "steil ≥ 51°", "tief Wasser" oder
   "Lava", je Reise und Zone, Forever und Era. Zugang zu goldsentinel-daten: falls die Sitzung ihn nicht hat, legt der Supervisor eine
   Auswertung bei (Bericht in berichte/LevelPilot/ melden).
+
+==== ENTSCHEID DES NUTZERS 17.11.2026 06:22: "DANN HALTEN WIR UNS AN DIE EULA" – ERSETZT 06:09 ====
+F-NAV-1 = Variante A. Für LevelPilot heisst das (HOCH, beim nächsten Wecken zuerst):
+- Navmesh: nie ins Addon (bleibt so). Gelände-Karte: wird NICHT genutzt, auch nicht offline (NACHTEIL-1 entfällt).
+- Aus Spieldateien abgeleitete Daten RAUS aus Addon und Datenpaket: Strassen.lua, StrassenEra.lua (Strassennetz aus Bodentexturen),
+  Data/Orte.lua (Gebiets-IDs aus den Kartendateien). Vorher messen, was die Route verliert (12 Charaktere, ROUTE-Q), dann entfernen;
+  alte Clients nicht brechen (Planer muss ohne diese Daten sauber laufen, Rückfall wie vor ST-1/ORT-1).
+- AreaNames (6 Städte) / TalentBuilds (aus Spieldaten-Tabellen über wago.tools): im Bericht einordnen, ob ersetzbar durch Daten aus
+  dem Spiel zur Laufzeit (GetMapInfo/C_Map, Talent-API) oder aus Questie – bevorzugt Laufzeit-API.
+- Für Orte (ORT-1): Ersatz zur Laufzeit über C_Map/GetZoneText/GetSubZoneText (das Spiel sagt dem Addon, wo man ist) bzw. Häufung der
+  Questgeber aus den Questie-Daten – beides erlaubt.
+- Erlaubt bleiben: Questie-Daten, eigene im Spiel aufgezeichnete Wege der Spieler (GSWEGE), Laufzeit-APIs des Spiels.
