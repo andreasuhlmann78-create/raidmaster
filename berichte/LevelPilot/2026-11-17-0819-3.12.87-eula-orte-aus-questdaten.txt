@@ -11,7 +11,7 @@ Bezug: Entscheid 06:22/06:34 (Austausch statt Neubau), Antworten Supervisor 07:0
    - Datenpaket 1.6.4: Data/Orte.lua (ORTE/ORTA) entfernt; README/Core-Kopf angepasst. Alte Clients: 3.12.72–3.12.86 mit 1.6.4
      nutzen ihre Rückfallregel (geprüft: 3.12.86-Planer ohne Orte läuft, Variante "no").
    - R5-Aufzeichnung: "ar" -> "m" (Zonenkarte). Testmodus: /lp kartenrahmen (C_Map, ohne Namen) für die Simulation.
-   - Entfernt aus dem Repo (Commit 07:0x): offline/lua/sim/worlddata.lua + world_hook.lua, orte/orte_bauen.py + orte_probe.py,
+   - Entfernt aus dem Repo (Commit 06:58): offline/lua/sim/worlddata.lua + world_hook.lua, orte/orte_bauen.py + orte_probe.py,
      navmesh/frn3_*. ROUTE-Q-Werkzeug ohne Spieldaten (Orte = Häufung, Startgebiet = Gasthaus-Regel).
 2. MESSUNG (Simulation OHNE echte Kartenrahmen – jede Zone ein 2000×2000-yd-Feld im Raster; Laufen ~570 von ~715 h je Charakter,
    deshalb für Zeitvergleiche kaum brauchbar; neu einordnen, sobald die Kartenrahmen aus /lp kartenrahmen da sind)
