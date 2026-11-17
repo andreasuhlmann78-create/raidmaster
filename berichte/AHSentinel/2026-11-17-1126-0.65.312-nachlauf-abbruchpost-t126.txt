@@ -1,0 +1,46 @@
+AHSentinel 0.65.311 – Hinweis Obergrenze Abbruch-Post (NP-AHS281-1) + Entscheid T126 (maschinenunabhängig) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.311 und sofort im Discord.
+
+1) Obergrenze Abbruch-Post (Books.lua BK:OwnCancelBooked): zugeordnet werden nur Buchungen mit t ≤ Eintreffen der Post + 1 Std.
+   (Eintreffen = jetzt − (30 − daysLeft) Tage). T884 um deinen Fall erweitert: Blizzard-Fenster-Post vor 10 Tagen, eigener Abbruch vor
+   3 Tagen -> die alte Post bucht selbst „abbruch-fenster“, die eigene Buchung bleibt frei für ihre Post. Gegenprobe Books.lua 0.65.310:
+   „alte Post: neu gebucht false, eigene Buchung frei false“ (rot). T855 nachgezogen: dort war „1 Tag übrig“ (= 29 Tage alte Post)
+   für eine frische Post eingesetzt – jetzt 30 Tage übrig (mit Obergrenze wäre die frische eigene Buchung sonst ausserhalb).
+   Messauftrag Laufzeit der Post „Auktion abgebrochen“ in Forever: bleibt offen (im Spiel ablesen; MAIL_KEEP_DAYS = 30).
+2) T126 (Entscheid: Median aus 3 Läufen, höchster als Auskunft): Drei ganze Läufe gehen in EINEM Teil server nicht (ein Vollscan je Teil,
+   Server-Pause ≥ 15 Min.). Umgesetzt als Median der DREI LÄNGSTEN BILDER des Laufs (A.jobMeasure.top), die längste Portion als
+   Auskunft im Ergebnis: „mittlere der 3 längsten Portionen 6,1 ms (längste 6,1 ms, Auskunft) in 43 Frames“. Ein einzelner Ruckler
+   kippt das Ergebnis nicht mehr; ein echtes Überschreiten wiederholt sich über viele Bilder. Bitte bestätigen, ob das so gemeint ist –
+   sonst baue ich es auf drei Läufe der Szenario-Ebene (s43 dreimal) um. T889 (Rechnung), s43 grün.
+
+AHSentinel 0.65.312 – NACHLAUF-34 (Entscheid: messen, dann ändern) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.312 und sofort im Discord.
+
+MESSUNG (Nachbau s216, Zeitmessung je Zeitgeber und OnUpdate im Bild mit der höchsten Summe, nur in einer Kopie des Nachbaus):
+  Lauf 2–6 (je Vollscan): 34,0 / 44,9 / 35,0 / 33,6 / 37,1 ms in EINEM Zeitgeber UI_Main.lua (CACHE_UPDATED -> C_Timer 0,5 s ->
+  UI:RefreshActive -> panel:Refresh des offenen Reiters, im Nachbau Markt) – synchron, ausserhalb jeder Aufgabe (dazu 6 ms Aufgaben).
+  Damit ist auch der „4. Lauf nur 11–20 ms“ erklärt: dort fiel dieses Bild nicht ins Messfenster.
+ÄNDERUNG (UI_Main.lua UI:CacheRefresh): das Hauptfenster wird über den Hintergrund-Neuaufbau „ui-refresh“ neu aufgebaut (A:Job, in
+  Portionen, höchstens 1× je Sekunde, wie bei allen anderen Daten-Meldungen); nur das kleine Diagramm-Fenster weiter direkt.
+NACHHER (gleiche Messung): kein Bild mehr über 28 ms im Nachlauf; längstes Bild mit/ohne Feed Median 13/13 ms (vorher 40/41).
+TEST: T890 (offen -> kein direkter Neuaufbau, Hintergrund angefordert; zu -> nichts). Gegenprobe UI_Main.lua 0.65.311: T890 rot.
+WEITERE MESSWERTE (Befund bzw. Verdacht, nicht geändert):
+  - GoldSentinelMarkt.lua:896 (OnUpdate des gemeinsamen Bausteins, Feed-Portionen) 19,3 / 21,3 ms in einem Bild bei 6000 Items –
+    gemeinsame Datei (deine): Verdacht, dass FeedPortion im Nachbau sein BUDGET_MS überschreitet; bitte im Baustein messen.
+  - Job-Runner (AHAnalyzerPro.lua:391) einzelne Bilder 11–13 ms bei Budget 6 ms (ein langer Einzelschritt) – Verdacht, zu messen
+    (/ahs protokoll LANGSAM zeigt die Stelle).
+  - Erster Scan nach dem Laden: 57 ms in Vollscan.lua OnUpdate (Lauf 1) – einmalig, Verdacht, zu messen.
+  Im Spiel: /ahs protokoll LANGSAM kommt mit dem Testbericht.
+
+VERÖFFENTLICHUNG: 0.65.311 nicht einzeln – im Gesamtlauf 0.65.311 war s216 rot (längstes Bild mit Feed 37 ms gegen ohne 16 ms): genau
+  das Nachlauf-Bild (34–45 ms, CACHE_UPDATED synchron) fiel einmal in die Feed-Läufe. 0.65.312 behebt die Ursache; beide zusammen als
+  0.65.312 (CHANGELOG mit beiden Abschnitten).
+Tests (eigene, keine Freigabe): Gesamtlauf aller Nachbauten auf dem Stand 0.65.312: BESTANDEN 346, FEHLGESCHLAGEN 0.
+addon_check: AHSentinel-0.65.312.zip OK. Veröffentlicht: GitHub-Release v0.65.312, Discord announce/ahsentinel__ahsentinel-0.65.312.md.
+Nicht in download/, kein CurseForge.
+NÄCHSTES (0.65.313): TU1-TT-1 und TU1-TT-2 nach deinen Entscheiden. VORAB BEFUND (gefunden beim Nachrechnen von TU1-TT-1, Verdacht
+  bestätigt im Code): Se:Undercut bei Ausrüstung (ganze Silber) unterbietet bis fast 2 Silber statt knapp: 990 -> 990 − 1s = 890 ->
+  abgerundet 800 (richtig wäre 900, die grösste ganze Silbersumme unter 990); 2899 -> 2700 statt 2800. Die 800 bei L-NORMAL
+  Ausrüstung in meiner Frage TU1-TT-1 kam DAHER, nicht von „läuft oft ab“ (meine Begründung dort war falsch). Ich behebe das in
+  0.65.313 (unterbieten um 1 Kupfer, dann auf ganze Silber ABrunden: 990 -> 900, 1000 -> 900, 901 -> 900) mit Test und Gegenprobe;
+  TU1-TT-1 setze ich wie entschieden um (bei „läuft oft ab“ zeigt der Tooltip den Reiter-Vorschlag netto + grau „(läuft oft ab)“).
