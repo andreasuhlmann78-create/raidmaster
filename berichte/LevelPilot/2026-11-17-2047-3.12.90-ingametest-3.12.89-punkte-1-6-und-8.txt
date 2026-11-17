@@ -1,0 +1,161 @@
+LevelPilot 3.12.90 veröffentlicht (Discord) – Ingametest 3.12.89: Punkte 1–6 und 8 (umgesetzt, zur Prüfung); 7, 9, 10 als Nächstes
+Datum: 17.11.2026 20:47
+Bezug: offen-levelpilot.txt "INGAMETEST 17.11.2026 19:54" und "PRÜFUNG 20:00" (WithEnv), Hinweis Leistung 20:45 (leistung.md gelesen).
+Zip: announce/levelpilot__levelpilot-3.12.90.LevelPilot.zip, md5 327a466ab5c6e53c97f092b98d1abdfe. Datenpaket unverändert 1.6.4.
+Nachbau mit ECHTEN Daten:
+- goldsentinel-daten/aktuell/DESKTOP-NVITMSE/forever: LevelPilot.lua mit 19 446 eigenen Wegknoten und 22 200 Kanten, nur lokal gelesen.
+- Dazu die im Spiel gemessenen Kartenrahmen. Lua 5.1.
+
+1. HOCH T151 Graph:Path (Spiel: Median 502 ms, Höchstwert 2109 ms)
+Fall für leistung.md Abschnitt 2:
+| Stelle | Spiel | Nachbau | Ursache | Behebung | danach |
+|---|---|---|---|---|---|
+| Graph:PathRaw, T151 | 502 / 2109 ms | gleicher Fall, 3.12.89-Code: 352 / 1327 ms | belegt, siehe a) und b) | 3.12.90 | Nachbau 86 / 440 ms; richtiger Weg 17 / 95 ms; Spiel: Verdacht, zu messen |
+
+Eichung: Spiel/Nachbau im gleichen Fall = 1,43 (Median) bzw. 1,59 (Höchstwert).
+Erwartung im Spiel für 3.12.90 (Verdacht, zu messen):
+- richtige Strecke Orgrimmar -> Wegkreuz: Median rund 25 ms
+- alte Messstrecke: Median rund 125 ms
+
+Ursachen (belegt):
+a) PRÜFUNGSFEHLER T151:
+   - Geo:ToWorld erwartet Kartenkoordinaten 0–100. T151 übergab 0,45/0,52, also die Kartenecken.
+   - Gemessen wurde darum ein 6294-yd-Weg quer durchs unbekannte Gelände, nicht Orgrimmar -> Wegkreuz (2738 yd Luftlinie).
+   - Mit dem PC-Netz stösst diese Suche an die Grenze von 8000 Knoten.
+   - T151 rechnet jetzt mit 45/55 und 52/30.
+b) Grösse des eigenen Netzes:
+   - 16 071 der 19 446 Knoten haben genau 2 Nachbarn: Punkte mitten auf gelaufenen Wegen, im Mittel 19 yd Abstand.
+   - Die Suche ging jeden davon einzeln über den Heap, suchte von jedem Luftlinien zu allen Knoten in 260 yd und prüfte die
+     Gefahr je Kante mit einem Text-Schlüssel.
+   - Profil (Zählung je Zeile): Heap, Nachbarliste, Danger:Segment.
+   - Mit 3.12.88 (Strassen entfernt) hat das NICHTS zu tun. 3.12.87 misst im selben Fall gleich (370 ms).
+
+Behebung (Graph.lua), alles nur zur Laufzeit, nichts in den SavedVariables:
+- MarkOwnInner:
+  - Innere Punkte eigener Wege sind Knoten mit genau 2 eigenen Nachbarn, beide Kanten gelaufen (r/s/w), ohne Aufzug/Sturz, ohne
+    gesperrte Kante.
+  - Gerechnet wird beim Einloggen in Portionen (Jobs "graph"). Bis die Rechnung fertig ist, gilt das Verhalten von 3.12.89.
+  - Jede neue Kante und jede Sperre macht beide Enden wieder zu vollen Knoten.
+- Ketten:
+  - Die Suche geht innere Punkte als Kette am Stück entlang bis zum nächsten vollen Knoten.
+  - Die Kette wird gemerkt (Ende, Länge, Punkte, Rahmen); jede Netz-Änderung macht alle gemerkten Ketten ungültig.
+  - Nur das Kettenende kommt in den Heap. Die inneren Punkte werden beim Weg-Zusammensetzen eingefügt.
+  - Ziel in derselben Zone: Luftlinie zum Ziel vom nächsten Punkt der Kette und von allen Punkten in 260 yd, also wie vorher
+    von jedem Punkt.
+  - Liegt auf der Kette Gefahr (Mobs ab Stufe+3): Punkt für Punkt wie bisher.
+  - Ketten mit Lücke oder Ring, oder ein Punkt, der nicht mehr genau 2 Nachbarn hat: ebenfalls Punkt für Punkt.
+- Luftlinien in einen eigenen Weg hinein gehen nur noch zu jedem 5. inneren Punkt, also etwa alle 100 yd; vom Start aus zu allen.
+- Gefahr je gespeicherter Kante wird je Stand der Gefahrenkarte gemerkt (schwache Schlüssel).
+- Schalter Graph.OWN_INNER und Graph.INNER_JOIN = 5 (für Gegenproben).
+
+Qualität, gemessen mit 53 zufälligen Wegpaaren im PC-Netz (Durotar, Brachland, Orgrimmar, Mulgore, Tirisfal, Silberwald):
+- Rechenzeit Summe 6183 -> 1677 ms (−73 %), Höchstwert 465 -> 156 ms.
+- Wegkosten Summe −0,18 % (besser): 29 gleich, 20 schlechter, 4 besser.
+- Schlechtestes Paar +5,3 %, Orgrimmar intern, 205 -> 216.
+- Verworfene Varianten (Zahlen im Nachbau):
+  - ganz ohne Luftlinien in Wege hinein: schlechtestes Paar +42 %
+  - alle Luftlinien: Rechenzeit 2255 ms
+  - jeder 3./8./12. Punkt: +5,3 % bis +7,1 %
+  - gewichtete Schätzung 1,2/1,5: Wege +2,5 % bzw. +17 %
+- Orgrimmar -> Wegkreuz (richtige Strecke):
+  - 3.12.89: 117 ms, Kosten 3383
+  - 3.12.90: 15–22 ms, Kosten 3427 (+1,3 %)
+  - Grenze T151 < 16 ms: im Nachbau knapp, im Spiel nach Eichung voraussichtlich ~25 ms. Ehrlich: Verdacht FEHLER bleibt.
+- Im Spiel läuft die Wegsuche der Navigation ohnehin als Aufgabe in Portionen ("navpath", 4 ms je Bild). T151 misst die Summe am
+  Stück; das Bild steht dabei nicht so lange. Vorschlag zur Entscheidung: T151 misst künftig zusätzlich die längste Portion der
+  navpath-Aufgabe (Grenze 5 ms) und die Summe getrennt.
+
+Tests:
+- T348 neu, eigenes kleines Netz in einer eigenen Ecke von Mulgore, Gefahrenregel aus:
+  - Weg und Kosten mit und ohne Ketten gleich
+  - innere Punkte im Weg
+  - GEGENPROBE (Kette beim Zusammensetzen nicht eingefügt): false, 5 statt 25 Punkte
+- T151 mit richtigen Koordinaten.
+
+2. HOCH T261 Einloggen (Spiel: 4348 ms in 60 s, längster Aufruf 90 ms)
+- Beitrag 3.12.90: MarkOwnInner (Nachbau am Stück 37 ms, nach Umbau 15 ms) läuft beim Einloggen in Portionen.
+- Graph:Init selbst ist am Stück: Nachbau 35 ms mit dem PC-Netz, nach Eichung im Spiel etwa 50 ms. Verdacht, zu messen:
+  - Init ist einer der langen Aufrufe.
+  - Die 90 ms im Spiel wurden noch nicht einer Stelle zugeordnet. Der Nachbau misst die Summe nach dem Einloggen
+    (1627 ms gegen 590 ms ohne PC-Netz), aber noch nicht je Aufruf.
+- Die Rechenzeit der ersten 60 s hängt am Wegnetz: MeasureDetour (Umweg-Messung je Zone über Wegsuchen) und das Einhängen des
+  Startnetzes (Nearest je Punkt). Beide profitieren von 1.
+- NÄCHSTER SCHRITT (noch offen, nicht umgesetzt): Graph:Init in Portionen, und im Nachbau die längsten Aufrufe der ersten 60 s
+  einzeln messen. Fall für leistung.md mit "offen".
+
+3. HOCH T83/T85 virtuelle Reise: 0 Schritte, danach umgeleitet (Ursache belegt aus den PC-Daten)
+- Im Protokoll des PCs steht: "Fehler in der Reise: Virtual.lua:135: attempt to perform indexed assignment on field '?'
+  (a boolean value)".
+- Ablauf:
+  - Install kopiert den echten Charakter. bind/inDungeon/focusZone werden auf false gesetzt, danach kopierte die Schleife
+    trotzdem in c[k].
+  - Ist ein Ruhestein-Ort gesetzt (bind = Tabelle), bricht Install dort ab. Die API-Funktionen sind zu diesem Zeitpunkt schon
+    umgeleitet, saved.installed ist noch nicht gesetzt.
+  - Die Reise fängt den Fehler und startet neu. Install läuft nochmals und merkt sich dabei die UMGELEITETEN Funktionen als echt.
+  - Nach der Reise stellt Uninstall die Umleitungen "zurück". Bis /reload arbeitet LevelPilot mit Ersatz-Funktionen.
+- Nachbau mit gesetztem Bindeort: 3.12.88/3.12.89 bricht genau mit dieser Meldung ab (Zeile 135).
+- Behebung (Virtual.lua):
+  - Kopieren nur in eigene Tabellen.
+  - Echte Funktionen und Planer-Zustand werden nur beim ERSTEN Einrichten gemerkt.
+  - Rückbau prüft sich selbst: V.LeftRedirects vergleicht nach Finish/Abort jede Ersatz-Funktion und LP.char. Jeder Rest kommt
+    in die Sandbox-Prüfung ("Umleitung geblieben: …", alle Sprachen) und ins Protokoll.
+- Offline-Test test_reise_bind (neu, echte Kartenrahmen):
+  - 3.12.90 ALLE OK: 7 Schritte, alles zurück, Sandbox leer, nach Abbruch alles zurück.
+  - GEGENPROBE 3.12.88: 3 FEHLER, darunter "Virtual.lua:135" und "API.Quests, … umgeleitet".
+- Folgen im selben Lauf, Verdacht (Ursache Punkt 3):
+  - T155 (0 Planungen) und T174 (keine Weg-Kills) kommen von 0 Schritten.
+  - T100 (1 statt 0 Ziele): API.Objectives war noch die Ersatzfunktion der Reise. Sie liefert die Ziele der Reise-Quest 1 und
+    kümmert sich nicht um die im Test entfernten Spiel-Funktionen.
+  - Bestätigung im nächsten Ingametest.
+
+4. T279 "LevelPilotCmdHint:SetPoint(): Wrong object type"
+- Der Test reichte eine Lua-Tabelle als Chatfeld, und die Liste verankert sich daran.
+- Jetzt ein echter, unsichtbarer eigener EditBox-Rahmen (nur dessen Felder ersetzt, nie Blizzard-Rahmen), wie GuildSentinel T285.
+
+5. T303 "TestRoutine.lua:6354: attempt to index field 'stuck' (a nil value)"
+- Ursache belegt: CheckStuck setzt nichts, wenn der Spieler AFK ist. Der Nutzer war beim Lauf nicht am PC.
+- Jetzt mit WithEnv "nicht AFK" für CheckStuck (eigene Umgebung). Fehlt der Zustand trotzdem, wird das als Ergebnis gemeldet,
+  nicht als Lua-Fehler.
+- GEGENPROBE mit "AFK = true": 3.12.88 bricht exakt mit der Spielmeldung ab (Zeile 6354), 3.12.90 besteht.
+- T309 "nicht ausgelöst: T303" war eine Folge davon.
+
+6. Portionen-Zeile (TR-ALLE, leistung.md Regel 8)
+- Jedes Bild der Routine wird gemessen. Im Chat und im Bericht stehen zwei Zeilen:
+  - "Portionen: n Bilder, längstes x ms (Schritt), Schritte über 16 ms: k – Schritt ms, …" (höchstens 12, längste zuerst)
+  - "Rechenzeit je Bereich: Reisen x s · Grundregeln · A … · Sandbox und Bericht"
+- Längstes BILD und die Gesamtzeit je Bereich sind getrennt ausgewiesen. Alle Sprachen.
+- T349 neu: exakte Zeilen. GEGENPROBE mit Grenze 30 statt 16: false.
+
+8. T228 "fertig = Abgeben" (9 fertig, 2 Abgeben) – PRÜFUNGSFEHLER (belegt)
+- Seit 3.12.30 (GR1) zeigt der Guide fertige Quests mit Abgabe weit weg im Hinweis "Später abgeben" (Schritt mit laterIds).
+- Die Grundregel im Protokoll (Pr:CheckRules) zählt den Hinweis als Abgabe; die Anzeige-Prüfung T228 tat das nicht.
+- Im PC-Protokoll gibt es für die 7 Quests keine "GRUNDREGEL VERLETZT"-Zeile. Sie standen also im Hinweis.
+- T228 zählt jetzt laterIds wie CheckRules.
+
+7, 9, 10 (MITTEL) – noch nicht umgesetzt, als Nächstes
+- T295 (17,09 ms)
+- T220
+- T221 (zweiter Versand)
+- T249 (gsSync.book)
+- T293 (Kompaktmodus)
+- T330 (Umlaut-Faltung)
+Im Nachbau, auch mit PC-Daten und nach einer abgebrochenen Reise, sind diese alle grün. Ursache je Punkt noch offen.
+Verdacht: Teile davon sind Folgen von Punkt 3 (umgeleitete API/Geo.Player während des Laufs). Belegen im Nachbau mit dem echten
+Zustand oder mit dem nächsten Ingametest.
+
+WithEnv (Prüfung 20:00, Rest-Risiko TAINT): noch offen, als Nächstes
+- __newindex soll in die Ersatz-Tabelle schreiben (rawset) statt in _G.
+- Dazu ein Test, und eine issecurevariable-Liste nach dem Lauf.
+
+PRÜFUNGEN (Zip 3.12.90)
+- addon_check: OK, 1 Warnung (lupa fehlt; Ersatz: Lua 5.1 loadfile, 0 Syntaxfehler).
+- Offline-Routine: 40 Läufe, 40 ohne FEHLER. Neu darin: test29 mit echten Kartenrahmen (Vorschlag angenommen 20:00) und
+  test_reise_bind.
+- Regression: 35 von 36. test29 in der Ersatzwelt-Fassung hat 1 FEHLER, wie bisher; mit echten Rahmen ist er grün.
+  Die Ersatzwelt-Fassung von test29 habe ich NICHT in die Offline-Routine genommen: sie zeigt nur diesen Ersatzwelt-Fehler.
+- Einzeltests grün:
+  - T151, T152, T155
+  - T235–T237
+  - T279, T299, T303, T305, T309
+  - T332–T349
+  T312 ist nicht prüfbar (Strassen entfernt).

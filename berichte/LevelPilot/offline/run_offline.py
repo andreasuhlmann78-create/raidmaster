@@ -42,6 +42,11 @@ ROUTINE = [
 ]
 
 DUROTAR = {"FOREVER": "1", "LVL": "6", "MAP": "1411", "PX": "43.3", "PY": "68.5"}
+# 3.12.90: im Spiel gemessene Kartenrahmen (WoW Forever, 54 Karten, nur Zahlen) statt Ersatzwelt
+SIM_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "lua", "sim")
+REALFRAMES = {"FOREVER": "1", "LVL": "13", "MAP": "1413", "PX": "52", "PY": "30",
+              "WORLDHOOK": os.path.join(SIM_DIR, "kartenrahmen_hook.lua"),
+              "KARTENRAHMEN": os.path.join(SIM_DIR, "kartenrahmen_forever.lua")}
 # Regressionsläufe: (Skript, Umgebung, Volk, Klasse, Fraktion, ohne Datenpaket)
 REGRESSION = [("test2", {}, "Orc", "WARRIOR", "Horde", True)]
 REGRESSION += [(t, DUROTAR, "Orc", "WARRIOR", "Horde", False)
@@ -72,6 +77,11 @@ REGRESSION += [
     ("test_seedwege", {"FOREVER": "1", "LVL": "10", "MAP": "1411", "PX": "43.3", "PY": "68.5"}, "Tauren", "WARRIOR", "Horde", False),
     # 3.12.50 ST-2/ST-4: Strassennetz aus den Spieldateien (Data/Strassen.lua) im Wegnetz, Laden in Portionen
     ("test_strassen", {"FOREVER": "1", "LVL": "10", "MAP": "1411", "PX": "43.3", "PY": "68.5"}, "Orc", "WARRIOR", "Horde", False),
+    # 3.12.90 (Supervisor 17.11. 20:00): test29 (Wegkreuz, Pflichtregel +3) mit den im Spiel gemessenen Kartenrahmen. Die Fassung mit
+    # der Ersatzwelt (2000 x 2000 yd je Zone) meldet dort einen Fehler, den es mit echten Rahmen nicht gibt (3.12.87 bis 3.12.90 gleich).
+    ("test29", REALFRAMES, "Troll", "HUNTER", "Horde", False),
+    # 3.12.90 (Ingametest 3.12.89 T83/T85): virtuelle Reise ab hier mit Bindeort, Rückbau aller Umleitungen (auch nach Abbruch)
+    ("test_reise_bind", dict(REALFRAMES, LVL="10", MAP="1411", PX="52", PY="42"), "Orc", "WARRIOR", "Horde", False),
 ]
 
 
@@ -140,7 +150,7 @@ def lupa_main(argv):
 def run_one(cmd, root, pack, job):
     name, env_add, race, cls, fac, nopack, script = job
     env = dict(os.environ)
-    for k in ("FOREVER", "FLAVOR", "LOCALE", "CJKFONTS", "BRAKE", "ASYNC", "SVACC", "SVCHAR", "WORLDHOOK", "SIMDIR"):
+    for k in ("FOREVER", "FLAVOR", "LOCALE", "CJKFONTS", "BRAKE", "ASYNC", "SVACC", "SVCHAR", "WORLDHOOK", "SIMDIR", "KARTENRAHMEN"):
         env.pop(k, None)
     env.update(env_add)
     env["PACKDIR"] = "" if nopack else pack
@@ -197,7 +207,7 @@ def main():
         if only in (None, "testroutine"):
             jobs += [(n, e, r, c, f, False, "test40") for (n, e, r, c, f) in ROUTINE]
         if only in (None, "regression"):
-            jobs += [(t + (" (Wegnetz)" if t == "test15" else ({"test_ucw1": " (Undercity-Weg)", "test_w3d": " (Ebenen W3D)", "test_seedwege": " (Startwegnetz)", "test_strassen": " (Strassen entfernt, EULA)"}.get(t, ""))), e, r, c, f, np, t)
+            jobs += [(t + (" (Wegnetz)" if t == "test15" else ({"test_ucw1": " (Undercity-Weg)", "test_w3d": " (Ebenen W3D)", "test_seedwege": " (Startwegnetz)", "test_strassen": " (Strassen entfernt, EULA)", "test29": " (Wegkreuz, echte Kartenrahmen)", "test_reise_bind": " (Reise mit Bindeort, Rückbau)"}.get(t, ""))), e, r, c, f, np, t)
                      for (t, e, r, c, f, np) in REGRESSION]
         results = []
         if only in (None, "regression"):
