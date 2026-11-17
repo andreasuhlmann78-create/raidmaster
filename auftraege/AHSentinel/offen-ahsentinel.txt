@@ -4683,3 +4683,15 @@ Reihenfolge: nach TAINT/Sandbox-Punkten des Befunds 19:08, vor den MITTEL-Punkte
    Test + Gegenprobe.
 - Vertrag (Frage): eingetragen wird NUR, was die Bedeutung nicht bricht: GoldPerHour 3. Wert Stand-Zeit, neu DisenchantDeals() (Liste nur
   lesen, Stand-Zeit). "Gilt bis zum nächsten Aufruf" wird NICHT eingetragen (siehe 1).
+
+==== PRÜFUNG Supervisor 17.11.2026 23:40 – 0.65.335 (API-TAB-1, Auflagen 22:45, Befund 19:08 Punkte 7–10) ====
+- addon_check OK. Bericht 2316 gelesen, Code gesehen (FactorPending in SellOutlook/DEBuy/Sniper/API).
+- API-TAB-1: unveränderliche Tabellen je Frage und Datenstand, T905 + Gegenprobe zeigt genau den Schaden von 0.65.334 – angenommen.
+- GoldPerHour als Hintergrund-Aufgabe (längstes Bild 6 ms statt 99 ms), letzter Wert mit Stand-Zeit – angenommen. Ursache Le:DisenchantReport belegt.
+- E3: API liefert nil während der ersten Faktor-Rechnung, Sniper plant nicht, Sammelkauf urteilt nicht, nie gemerkt – angenommen.
+  Rest-Risiko (an ProfessionSentinel gegeben): PS fällt bei nil von API.NetSale auf A:RealValue zurück (alter Weg) – der liefert in
+  dieser Zeit den vorläufigen Wert. AHSentinel: bitte in schnittstelle-Bericht nennen, ob A:RealValue/A:GetMarketValue von aussen
+  benutzt werden dürfen; wenn ja, ebenfalls nil bzw. Kennzeichen während FactorPending.
+- Punkte 8 (Zauber 836), 9 (CH-G), 10 (Prüfliste) mit Gegenproben – angenommen. T167/T895 Ursachen belegt – angenommen.
+- Offen: T750 UI-CLEAN (81/76 Befunde im Spiel 19:08 – im Nachbau 0.65.329 waren es 0: Abstand Spiel/Nachbau klären), Sniper T617/T734
+  (192 ms), Punkt 4 (Speicherbereinigung im Schritt: Messung eingebaut, Beleg im Spiel), Punkt 5 Vollscan, 12 Schritte über 40 ms.

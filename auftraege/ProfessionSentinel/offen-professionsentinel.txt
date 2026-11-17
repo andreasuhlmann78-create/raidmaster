@@ -469,3 +469,11 @@ FindDeals benutzen, sobald verfügbar.
 - Frage Dauer-Ziel ≤ 300 s: vorläufig angenommen (Prüf-Sitzung); der Nutzer kann es ändern.
 - Takt: für 0.9.67 nicht verlangt; Pflicht bei NEUER Arbeit in Portionen (z. B. TR-ALLE D, Retail-Aufwärmen).
 - Ingametest 0.9.67 frei (mit AHSentinel ≤ 0.65.333). Danach: API-TAB-1-Kopie, T210/T38/Retail/T88, TR-ALLE D.
+
+==== HINWEIS 17.11.2026 23:40 – AHSentinel 0.65.335 (API-TAB-1 behoben, E3) ====
+- AHSentinel 0.65.335 gibt unveränderliche Tabellen zurück (API-TAB-1 behoben). Die Kopie beim Behalten (Befund 22:45) bleibt trotzdem
+  Pflicht (Schutz gegen jede Quelle).
+- NEU: Während AHSentinel nach dem Laden seine Markt-Faktoren rechnet, liefern API.NetSale/BestWay/WorthUpTo/SellSpeed nil ("noch nicht
+  bekannt"). PS.NetSale fällt dann auf den alten Weg A:RealValue zurück – der liefert in dieser Zeit einen VORLÄUFIGEN Wert. Bitte: ist
+  die API vorhanden und antwortet nil, NICHT auf A:RealValue/GetMarketValue ausweichen (Wert "unbekannt, lädt", nichts behalten),
+  und das nil nie behalten. Test mit Attrappe (API nil, RealValue liefert Zahl -> PS zeigt "lädt"); Gegenprobe 0.9.67.
