@@ -4491,3 +4491,10 @@ dann prüfe ich und schicke dem Nutzer die Version mit einer kurzen Anleitung.
   sonst werden spätere Fehlermeldungen des Nutzers unbrauchbar. Je ein Nachbau-Test.
 - SN-EIGEN: Messung je Empfänger im Entwicklermodus – gut; Ergebnis kommt mit dem Ingametest.
 - Reihenfolge angenommen: Nachtrag D · Kauf doppelt · lange Einzelprüfungen · C · E · D, dann "BEREIT FÜR INGAMETEST".
+
+==== PRÜFUNG Supervisor 17.11.2026 – 0.65.321 (TR-ALLE Nachtrag D) ====
+- addon_check OK. Bericht gelesen: D1–D5 nach Bericht umgesetzt (vormerken statt warten, automatisch nachholen nur im Entwicklermodus,
+  nicht im Kampf/Scan/anderer Routine, 7 Tage, "noch offen" zählt nicht als FEHLER; Vollscan vorgemerkt bis zum nächsten eigenen Scan).
+  Eigener Fund s92 (+50 KB durch OnUpdate in jedem Bild) vor der Veröffentlichung behoben – gut.
+- KAUF DOPPELT: Verdacht (Rechnung vor der Buchung gelesen, später erneut zugeordnet) plausibel – im Nachbau belegen, dann wie verlangt.
+- Antwort zu den Hüllen (s280) mit 0.65.322 – erwartet, vor "BEREIT FÜR INGAMETEST".
