@@ -1,0 +1,225 @@
+AHSentinel-Protokoll v0.65.315 · 17.11. 16:46:34
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  17.11. 16:35:19 L10 ? v0.65.315
+  17.11. 16:34:33 L10 ? v0.65.315
+  17.11. 16:30:34 L10 ? v0.65.315
+  17.11. 13:19:30 L10 ? v0.65.315
+  17.11. 12:22:34 L10 ? v0.65.315
+  17.11. 12:22:24 L10 ? v0.65.315
+  17.11. 12:12:06 L10 ? v0.65.265
+  16.11. 19:19:39 L10 ? v0.65.278
+  16.11. 15:34:55 L10 ? v0.65.265
+  16.11. 13:38:58 L10 ? v0.65.265
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 3 Std., 7197 Items, Preis-Sync an
+  SYNC GoldSentinelSync 2 · Wege: keiner · Mitspieler (1 Std.): AHSentinel 0, BuffSentinel 0, GoldSentinelMarkt 0, GoldSentinelTest 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0, ThreatSentinel 0
+  SYNC gesendet 24 · empfangen 0 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 4 (mit Sync 2: 4, pausiert 3) · gesendet 5 · weitergegeben 0 · offline 3 · Listen 4 · Warteschlange 0 · gespeichert ja
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Einstellungen geändert: cmdHint=true, fastScan=true, helpSeen=true, marketExpert=false, minimapAngle=216.6, priceGuard=20, sniperSignal=true, theme=modern, tooltipDEDetail=true, vendorButton=false, vendorFlipMin=500
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0
+
+== Einträge (200, neueste zuerst)
+[17.11. 16:45:18] SYNC gesendet 2, empfangen 0, verworfen 0 · Kanal verweigert 0
+[17.11. 16:35:35] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 25 ms bis UI_MarketView.lua:689 · 27 ms
+[17.11. 16:35:35] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 21 ms bis Comfort.lua:872 · 21 ms
+[17.11. 16:35:35] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 22 ms bis Comfort.lua:872 · 22 ms
+[17.11. 16:35:35] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 23 ms bis Comfort.lua:872 · 23 ms
+[17.11. 16:35:35] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 12 ms bis Extras.lua:338 · 17 ms
+[17.11. 16:35:35] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 11 ms bis Extras.lua:338 · 17 ms
+[17.11. 16:35:35] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 22 ms bis Extras.lua:338 · 23 ms
+[17.11. 16:35:35] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 16 ms bis Extras.lua:338 · 17 ms
+[17.11. 16:35:35] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 15 ms bis Extras.lua:338 · 20 ms
+[17.11. 16:35:35] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 17 ms bis Extras.lua:338 · 19 ms
+[17.11. 16:35:35] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 18 ms bis Extras.lua:338 · 19 ms
+[17.11. 16:35:35] LANGSAM ×3 Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 17 ms bis Extras.lua:338 · 19 ms
+[17.11. 16:35:34] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 15 ms bis Extras.lua:338 · 16 ms
+[17.11. 16:35:34] ABSATZ-UNPLAUSIBEL Item 4852 · 66.8/Tag · Quelle geschätzt
+[17.11. 16:35:34] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 13 ms bis Extras.lua:338 · 17 ms
+[17.11. 16:35:34] ABSATZ-UNPLAUSIBEL Item 8168 · 503.5/Tag · Quelle geschätzt
+[17.11. 16:35:34] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[17.11. 16:35:33] ABSATZ-UNPLAUSIBEL Item 250934 · 124.9/Tag · Quelle geschätzt
+[17.11. 16:35:33] ABSATZ-UNPLAUSIBEL Item 252845 · 12.2/Tag · Quelle geschätzt
+[17.11. 16:35:24] SYNC Weg=GUILD
+[17.11. 16:35:22] ABSATZ-UNPLAUSIBEL Item 2677 · 664.0/Tag · Quelle geschätzt
+[17.11. 16:35:22] ABSATZ-UNPLAUSIBEL Item 211786 · 120.7/Tag · Quelle geschätzt
+[17.11. 16:35:22] ABSATZ-UNPLAUSIBEL Item 277493 · 198.0/Tag · Quelle geschätzt
+[17.11. 16:35:22] ABSATZ-UNPLAUSIBEL Item 4538 · 227.2/Tag · Quelle geschätzt
+[17.11. 16:35:19] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[17.11. 16:34:49] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 18 ms bis Comfort.lua:1096 · 19 ms
+[17.11. 16:34:49] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 32 ms bis UI_MarketView.lua:689 · 35 ms
+[17.11. 16:34:49] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 37 ms bis Comfort.lua:872 · 37 ms
+[17.11. 16:34:49] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 17 ms bis Comfort.lua:869 · 17 ms
+[17.11. 16:34:49] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 24 ms bis Comfort.lua:872 · 24 ms
+[17.11. 16:34:49] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 26 ms bis Comfort.lua:872 · 26 ms
+[17.11. 16:34:49] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 13 ms bis Extras.lua:338 · 19 ms
+[17.11. 16:34:49] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 27 ms bis Extras.lua:338 · 27 ms
+[17.11. 16:34:48] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 14 ms bis Extras.lua:338 · 17 ms
+[17.11. 16:34:48] ABSATZ-UNPLAUSIBEL Item 4852 · 66.8/Tag · Quelle geschätzt
+[17.11. 16:34:48] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 13 ms bis Extras.lua:338 · 19 ms
+[17.11. 16:34:48] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[17.11. 16:34:48] ABSATZ-UNPLAUSIBEL Item 8168 · 503.5/Tag · Quelle geschätzt
+[17.11. 16:34:48] ABSATZ-UNPLAUSIBEL Item 250934 · 124.9/Tag · Quelle geschätzt
+[17.11. 16:34:47] ABSATZ-UNPLAUSIBEL Item 252845 · 12.2/Tag · Quelle geschätzt
+[17.11. 16:34:38] SYNC Weg=GUILD
+[17.11. 16:34:36] ABSATZ-UNPLAUSIBEL Item 2677 · 664.0/Tag · Quelle geschätzt
+[17.11. 16:34:36] ABSATZ-UNPLAUSIBEL Item 211786 · 120.7/Tag · Quelle geschätzt
+[17.11. 16:34:36] ABSATZ-UNPLAUSIBEL Item 277493 · 198.0/Tag · Quelle geschätzt
+[17.11. 16:34:36] ABSATZ-UNPLAUSIBEL Item 4538 · 227.2/Tag · Quelle geschätzt
+[17.11. 16:34:34] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[17.11. 16:32:10] PD7 Preisverlauf verdichtet: 330471 -> 308761 Zeilen (~13554 -> ~12664 KB)
+[17.11. 16:30:51] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 11 ms bis Comfort.lua:1096 · 16 ms
+[17.11. 16:30:51] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 23 ms bis UI_MarketView.lua:689 · 26 ms
+[17.11. 16:30:51] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 21 ms bis Comfort.lua:872 · 21 ms
+[17.11. 16:30:51] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 22 ms bis Comfort.lua:872 · 22 ms
+[17.11. 16:30:51] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 24 ms bis Comfort.lua:872 · 24 ms
+[17.11. 16:30:50] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 15 ms bis Extras.lua:338 · 16 ms
+[17.11. 16:30:50] ABSATZ-UNPLAUSIBEL Item 4852 · 66.9/Tag · Quelle geschätzt
+[17.11. 16:30:50] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 13 ms bis Extras.lua:338 · 17 ms
+[17.11. 16:30:50] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 15 ms bis Extras.lua:338 · 19 ms
+[17.11. 16:30:50] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 10 ms bis Extras.lua:338 · 16 ms
+[17.11. 16:30:50] ABSATZ-UNPLAUSIBEL Item 8168 · 514.0/Tag · Quelle geschätzt
+[17.11. 16:30:50] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[17.11. 16:30:49] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 16 ms bis Extras.lua:338 · 17 ms
+[17.11. 16:30:49] LANGSAM ×2 Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 15 ms bis Extras.lua:338 · 20 ms
+[17.11. 16:30:49] ABSATZ-UNPLAUSIBEL Item 252845 · 12.4/Tag · Quelle geschätzt
+[17.11. 16:30:49] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 21 ms bis Extras.lua:338 · 26 ms
+[17.11. 16:30:40] SYNC Weg=GUILD
+[17.11. 16:30:38] ABSATZ-UNPLAUSIBEL Item 2677 · 677.7/Tag · Quelle geschätzt
+[17.11. 16:30:38] ABSATZ-UNPLAUSIBEL Item 211786 · 120.1/Tag · Quelle geschätzt
+[17.11. 16:30:38] ABSATZ-UNPLAUSIBEL Item 277493 · 205.2/Tag · Quelle geschätzt
+[17.11. 16:30:38] ABSATZ-UNPLAUSIBEL Item 4538 · 228.4/Tag · Quelle geschätzt
+[17.11. 16:30:36] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[17.11. 13:29:29] SYNC gesendet 2, empfangen 0, verworfen 0 · Kanal verweigert 0
+[17.11. 13:21:04] PD7 Preisverlauf verdichtet: 335404 -> 330471 Zeilen (~13756 -> ~13554 KB)
+[17.11. 13:19:48] ITEMINFO neue Item-Anfragen 200 (zurückgestellt 0) · je Aufgabe: cache:warm 83, cache:warm-today 110, pd7:load 7
+[17.11. 13:19:48] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 24 ms bis UI_MarketView.lua:689 · 26 ms
+[17.11. 13:19:48] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 22 ms bis Comfort.lua:872 · 22 ms
+[17.11. 13:19:48] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 20 ms bis Comfort.lua:872 · 20 ms
+[17.11. 13:19:48] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 24 ms bis Comfort.lua:872 · 24 ms
+[17.11. 13:19:48] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 27 ms bis Extras.lua:338 · 28 ms
+[17.11. 13:19:48] LANGSAM ×2 Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 15 ms bis Extras.lua:338 · 18 ms
+[17.11. 13:19:47] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 19 ms bis Extras.lua:338 · 22 ms
+[17.11. 13:19:47] LANGSAM ×2 Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 17 ms bis Extras.lua:338 · 18 ms
+[17.11. 13:19:47] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 16 ms bis Extras.lua:338 · 17 ms
+[17.11. 13:19:47] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 14 ms bis Extras.lua:338 · 16 ms
+[17.11. 13:19:47] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 28 ms bis Extras.lua:338 · 29 ms
+[17.11. 13:19:47] ABSATZ-UNPLAUSIBEL Item 4852 · 66.9/Tag · Quelle geschätzt
+[17.11. 13:19:46] ABSATZ-UNPLAUSIBEL Item 8168 · 514.0/Tag · Quelle geschätzt
+[17.11. 13:19:46] ABSATZ-UNPLAUSIBEL Item 252845 · 12.4/Tag · Quelle geschätzt
+[17.11. 13:19:46] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[17.11. 13:19:37] PD7 PD7 geladen: 6637 Items, 241902 Einträge geprüft, 0 Fehler · Zustand active
+[17.11. 13:19:35] SYNC Weg=GUILD
+[17.11. 13:19:33] ABSATZ-UNPLAUSIBEL Item 2677 · 677.7/Tag · Quelle geschätzt
+[17.11. 13:19:33] ABSATZ-UNPLAUSIBEL Item 211786 · 120.1/Tag · Quelle geschätzt
+[17.11. 13:19:33] ABSATZ-UNPLAUSIBEL Item 277493 · 205.2/Tag · Quelle geschätzt
+[17.11. 13:19:33] ABSATZ-UNPLAUSIBEL Item 4538 · 228.4/Tag · Quelle geschätzt
+[17.11. 13:12:34] SYNC gesendet 339, empfangen 2, verworfen nopath 1 · Kanal verweigert 0
+[17.11. 13:10:28] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 25 ms bis UI_MarketView.lua:689 · 27 ms
+[17.11. 13:10:28] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 22 ms bis Comfort.lua:872 · 22 ms
+[17.11. 13:10:28] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 27 ms bis Comfort.lua:872 · 27 ms
+[17.11. 13:10:28] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 30 ms bis Comfort.lua:872 · 30 ms
+[17.11. 13:10:28] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 23 ms bis Comfort.lua:869 · 23 ms
+[17.11. 13:10:28] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 27 ms bis Comfort.lua:872 · 27 ms
+[17.11. 13:10:28] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 30 ms bis Comfort.lua:853 · 30 ms
+[17.11. 13:10:27] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 28 ms bis Extras.lua:338 · 29 ms
+[17.11. 13:10:27] LANGSAM ×4 Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 18 ms bis Extras.lua:338 · 18 ms
+[17.11. 13:10:27] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 21 ms bis Extras.lua:338 · 22 ms
+[17.11. 13:10:22] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 19 ms bis Extras.lua:338 · 20 ms
+[17.11. 13:10:22] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 28 ms bis Extras.lua:338 · 28 ms
+[17.11. 13:10:22] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 27 ms bis Extras.lua:338 · 27 ms
+[17.11. 13:10:22] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 30 ms bis Extras.lua:338 · 30 ms
+[17.11. 13:10:22] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 21 ms bis Extras.lua:338 · 21 ms
+[17.11. 13:10:22] LANGSAM ×3 Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 18 ms bis Extras.lua:338 · 18 ms
+[17.11. 13:10:22] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 23 ms bis Extras.lua:338 · 23 ms
+[17.11. 13:10:17] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 16 ms bis Extras.lua:338 · 17 ms
+[17.11. 13:10:17] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 17 ms bis Extras.lua:338 · 17 ms
+[17.11. 13:10:17] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 18 ms bis Extras.lua:338 · 18 ms
+[17.11. 13:10:17] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 26 ms bis Extras.lua:338 · 26 ms
+[17.11. 13:10:17] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 28 ms bis Extras.lua:338 · 28 ms
+[17.11. 13:10:17] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 29 ms bis Extras.lua:338 · 30 ms
+[17.11. 13:10:17] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 23 ms bis Extras.lua:338 · 24 ms
+[17.11. 13:10:17] LANGSAM ×2 Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 17 ms bis Extras.lua:338 · 17 ms
+[17.11. 13:10:17] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 19 ms bis Extras.lua:338 · 19 ms
+[17.11. 13:10:17] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 20 ms bis Extras.lua:338 · 20 ms
+[17.11. 13:10:17] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 17 ms bis Extras.lua:338 · 18 ms
+[17.11. 13:10:12] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 19 ms bis Extras.lua:338 · 19 ms
+[17.11. 13:10:12] LANGSAM ×2 Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 26 ms bis Extras.lua:338 · 26 ms
+[17.11. 13:10:12] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 30 ms bis Extras.lua:338 · 30 ms
+[17.11. 13:10:12] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 26 ms bis Extras.lua:338 · 27 ms
+[17.11. 13:10:12] LANGSAM ×2 Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 17 ms bis Extras.lua:338 · 17 ms
+[17.11. 13:10:12] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 19 ms bis Extras.lua:338 · 19 ms
+[17.11. 13:10:12] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 21 ms bis Extras.lua:338 · 21 ms
+[17.11. 13:10:12] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 20 ms bis Extras.lua:338 · 20 ms
+[17.11. 13:10:10] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 17 ms bis Extras.lua:338 · 17 ms
+[17.11. 13:10:07] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 16 ms bis Extras.lua:338 · 16 ms
+[17.11. 13:10:07] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 23 ms bis Extras.lua:338 · 24 ms
+[17.11. 13:10:07] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 28 ms bis Extras.lua:338 · 28 ms
+[17.11. 13:10:07] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 29 ms bis Extras.lua:338 · 29 ms
+[17.11. 13:10:06] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 31 ms bis Extras.lua:338 · 32 ms
+[17.11. 13:10:06] LANGSAM ×3 Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 19 ms bis Extras.lua:338 · 20 ms
+[17.11. 13:10:06] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 20 ms bis Extras.lua:338 · 20 ms
+[17.11. 13:10:06] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 24 ms bis Extras.lua:338 · 24 ms
+[17.11. 13:10:01] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 17 ms bis Extras.lua:338 · 18 ms
+[17.11. 13:10:01] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 16 ms bis Extras.lua:338 · 16 ms
+[17.11. 13:10:01] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 25 ms bis Extras.lua:338 · 25 ms
+[17.11. 13:10:01] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 27 ms bis Extras.lua:338 · 27 ms
+[17.11. 13:10:01] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 29 ms bis Extras.lua:338 · 29 ms
+[17.11. 13:10:01] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 31 ms bis Extras.lua:338 · 31 ms
+[17.11. 13:10:01] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 27 ms bis Extras.lua:338 · 27 ms
+[17.11. 13:10:01] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 20 ms bis Extras.lua:338 · 20 ms
+[17.11. 13:10:01] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 18 ms bis Extras.lua:338 · 18 ms
+[17.11. 13:10:01] LANGSAM ×3 Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 20 ms bis Extras.lua:338 · 20 ms
+[17.11. 13:09:58] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 16 ms bis Extras.lua:338 · 16 ms
+[17.11. 13:09:54] ABSATZ-UNPLAUSIBEL Item 21217 · 844.6/Tag · Quelle geschätzt
+[17.11. 13:09:54] ABSATZ-UNPLAUSIBEL Item 8748 · 7.8/Tag · Quelle geschätzt
+[17.11. 13:09:54] ABSATZ-UNPLAUSIBEL Item 251524 · 266.0/Tag · Quelle geschätzt
+[17.11. 13:09:54] ABSATZ-UNPLAUSIBEL Item 10024 · 10.4/Tag · Quelle geschätzt
+[17.11. 13:09:54] ABSATZ-UNPLAUSIBEL Item 252436 · 151.6/Tag · Quelle geschätzt
+[17.11. 13:09:54] ABSATZ-UNPLAUSIBEL Item 7955 · 7.7/Tag · Quelle geschätzt
+[17.11. 13:09:54] ABSATZ-UNPLAUSIBEL Item 15076 · 7.3/Tag · Quelle geschätzt
+[17.11. 13:09:54] ABSATZ-UNPLAUSIBEL Item 14046 · 35.7/Tag · Quelle geschätzt
+[17.11. 13:09:54] ABSATZ-UNPLAUSIBEL Item 890 · 18.8/Tag · Quelle geschätzt
+[17.11. 13:09:54] ABSATZ-UNPLAUSIBEL Item 7918 · 20.0/Tag · Quelle geschätzt
+[17.11. 13:09:54] ABSATZ-UNPLAUSIBEL Item 3484 · 29.9/Tag · Quelle geschätzt
+[17.11. 13:09:54] ABSATZ-UNPLAUSIBEL Item 3334 · 68.3/Tag · Quelle geschätzt
+[17.11. 13:09:54] ABSATZ-UNPLAUSIBEL Item 13119 · 11.7/Tag · Quelle geschätzt
+[17.11. 13:09:54] ABSATZ-UNPLAUSIBEL Item 5771 · 21.0/Tag · Quelle geschätzt
+[17.11. 13:09:54] ABSATZ-UNPLAUSIBEL Item 4395 · 78.6/Tag · Quelle geschätzt
+[17.11. 13:09:54] ABSATZ-UNPLAUSIBEL Item 4313 · 26.8/Tag · Quelle geschätzt
+[17.11. 13:09:54] ABSATZ-UNPLAUSIBEL Item 15313 · 6.0/Tag · Quelle geschätzt
+[17.11. 13:09:54] ABSATZ-UNPLAUSIBEL Item 7752 · 7.2/Tag · Quelle geschätzt
+[17.11. 13:09:54] ABSATZ-UNPLAUSIBEL Item 2980 · 14.7/Tag · Quelle geschätzt
+[17.11. 13:09:54] ABSATZ-UNPLAUSIBEL Item 3491 · 44.3/Tag · Quelle geschätzt
+[17.11. 13:09:54] ABSATZ-UNPLAUSIBEL Item 13129 · 9.1/Tag · Quelle geschätzt
+[17.11. 13:09:54] ABSATZ-UNPLAUSIBEL Item 250934 · 126.6/Tag · Quelle geschätzt
+[17.11. 13:09:54] ABSATZ-UNPLAUSIBEL Item 5826 · 9.0/Tag · Quelle geschätzt
+[17.11. 13:09:54] ABSATZ-UNPLAUSIBEL Item 252869 · 8.1/Tag · Quelle geschätzt
+[17.11. 13:09:54] ABSATZ-UNPLAUSIBEL Item 264064 · 15.0/Tag · Quelle geschätzt
+[17.11. 13:09:54] ABSATZ-UNPLAUSIBEL Item 4348 · 25.9/Tag · Quelle geschätzt
+[17.11. 13:09:51] ITEMINFO neue Item-Anfragen 9033 (zurückgestellt 513936) · je Aufgabe: ahs-test-error 182, cache:itemlist 2345, cache:profit:de:20:0 82, cache:profit:vendor:20:0 70, cache:today:10 2875, cache:warm 77, core:realcheck 200, forecast-eval 137, forecast:h
+[17.11. 13:09:45] ABSATZ-UNPLAUSIBEL Item 2677 · 677.7/Tag · Quelle geschätzt
+[17.11. 13:09:44] ABSATZ-UNPLAUSIBEL Item 211786 · 120.1/Tag · Quelle geschätzt
+[17.11. 13:09:44] ABSATZ-UNPLAUSIBEL Item 277493 · 205.2/Tag · Quelle geschätzt
+[17.11. 13:09:44] ABSATZ-UNPLAUSIBEL Item 4538 · 228.4/Tag · Quelle geschätzt
+[17.11. 13:02:34] SYNC gesendet 339, empfangen 2, verworfen nopath 1 · Kanal verweigert 0
+[17.11. 12:58:16] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 55 ms bis UI_MarketView.lua:689 · 57 ms
+[17.11. 12:58:15] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 38 ms bis Comfort.lua:872 · 38 ms
+[17.11. 12:58:15] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 18 ms bis Comfort.lua:869 · 19 ms
+[17.11. 12:58:15] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 19 ms bis Comfort.lua:872 · 19 ms
+[17.11. 12:58:15] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 32 ms bis Comfort.lua:872 · 32 ms
+[17.11. 12:58:15] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 25 ms bis Comfort.lua:872 · 25 ms
+[17.11. 12:58:11] LANGSAM ×2 Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 17 ms bis Extras.lua:338 · 17 ms
+[17.11. 12:58:10] LANGSAM ×2 Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 27 ms bis Extras.lua:338 · 27 ms
+[17.11. 12:58:10] LANGSAM ×2 Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 31 ms bis Extras.lua:338 · 31 ms
+[17.11. 12:58:10] LANGSAM ×2 Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 19 ms bis Extras.lua:338 · 19 ms
+[17.11. 12:58:10] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 18 ms bis Extras.lua:338 · 18 ms
+[17.11. 12:58:10] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 19 ms bis Extras.lua:338 · 19 ms
+[17.11. 12:58:10] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 23 ms bis Extras.lua:338 · 23 ms
+[17.11. 12:58:08] ABSATZ-UNPLAUSIBEL Item 4852 · 66.9/Tag · Quelle geschätzt
+[17.11. 12:58:05] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 17 ms bis Extras.lua:338 · 17 ms
+[17.11. 12:58:05] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 27 ms bis Extras.lua:338 · 27 ms
+[17.11. 12:58:05] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 28 ms bis Extras.lua:338 · 28 ms
