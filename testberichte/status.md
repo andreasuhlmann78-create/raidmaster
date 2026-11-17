@@ -1,12 +1,12 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-17 10:39 UTC
+Ausgewertet: 2026-11-17 12:35 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
 | Addon | letzter Testlauf | Version | Client | OK | FEHLER | übersprungen | im Client prüfen | Fehler im Spiel (7 Tage) |
 |---|---|---|---|---|---|---|---|---|
-| AHSentinel | 16.11.2026 18:38 UTC | 0.65.278 | forever 1.60.1 (Interface 16001) | 4 | 1 | 0 | 0 | 63 |
+| AHSentinel | 17.11.2026 12:09 UTC | 0.65.315 | forever 1.60.1 (Interface 16001) | 2 | 5 | 2 | 0 | 64 |
 | BuffSentinel | 05.11.2026 00:19 UTC | 0.9.7 | forever 1.60.1 (Interface 16001) | 120 | 1 | 10 | 11 | 307 |
 | GuildSentinel | 09.11.2026 05:47 UTC | 0.9.13 | forever 1.60.1 (Interface 16001) | 153 | 4 | 23 | 5 | 1 |
 | LevelPilot | 05.11.2026 00:21 UTC | 3.12.6 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 0 |
@@ -18,25 +18,22 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 151 | `testberichte/diagnose/AHSentinel/0.65.278-107a6b9554d9.txt` |
-| BuffSentinel | 45 | `testberichte/diagnose/BuffSentinel/0.9.47-fcf53d571177.txt` |
-| GSMesstest | 9 | `testberichte/diagnose/GSMesstest/5.1-e71680805b41.txt` |
+| AHSentinel | 153 | `testberichte/diagnose/AHSentinel/0.65.315-60cdcd1dfc35.txt` |
+| BuffSentinel | 47 | `testberichte/diagnose/BuffSentinel/0.9.47-fcf53d571177.txt` |
+| GSMesstest | 10 | `testberichte/diagnose/GSMesstest/5.1-e71680805b41.txt` |
 | GSSniperLog | 15 | `testberichte/diagnose/GSSniperLog/1.7-d7b1125a2162.txt` |
-| GuildSentinel | 150 | `testberichte/diagnose/GuildSentinel/0.9.48-a2a2ec05162c.txt` |
-| LevelPilot | 47 | `testberichte/diagnose/LevelPilot/3.12.69-41732240ca0a.txt` |
-| ProfessionSentinel | 130 | `testberichte/diagnose/ProfessionSentinel/0.9.62-dbd507028b4b.txt` |
-| ThreatSentinel | 125 | `testberichte/diagnose/ThreatSentinel/2.5.15-8a7b333a2542.txt` |
+| GuildSentinel | 152 | `testberichte/diagnose/GuildSentinel/0.9.48-deb291b71b0c.txt` |
+| LevelPilot | 49 | `testberichte/diagnose/LevelPilot/3.12.69-5b3a37419344.txt` |
+| ProfessionSentinel | 132 | `testberichte/diagnose/ProfessionSentinel/0.9.62-dbd507028b4b.txt` |
+| ThreatSentinel | 127 | `testberichte/diagnose/ThreatSentinel/2.5.15-bdc5bc9243da.txt` |
 
 ## Wegdaten (GSWEGE1)
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| LevelPilot | 200 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794857015-ccee7f.json` |
+| LevelPilot | 201 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794917965-99bebb.json` |
 
 ## AHSentinel
-
-**Testlauf 0.65.184 · forever 1.60.1 (Interface 16001) · 15.11.2026 11:27 UTC** – OK 3 · FEHLER 1 · übersprungen 0 · im Client prüfen 0 · Sandbox OK
-- [FEHLER] T750 U – UI-CLEAN1 Fenster/Reiter/Optionen (Klassisch/Modern, 100 %/130 %): nichts überlappt, nichts abgeschnitten, kein Knopf o… (ergebnis: 203 Befunde (AH offen · Klassisch+Modern · 100+130 % · deDE · 44 Ansichten) · je Art: ragt heraus 42 · abgeschnitten 77 · überlappt 84 · je Ansicht: Kaufen > Schnäppchen: 44 · Kaufen > Sniper: 38 · Markt > Markt: 32 · Übersicht > overview: 18 · Kaufen > Einkauf: 14 · Verkaufen > Mein… | erwartet: 0 Befunde)
 
 **Testlauf 0.65.188 · forever 1.60.1 (Interface 16001) · 15.11.2026 12:35 UTC** – OK 22 · FEHLER 4 · übersprungen 1 · im Client prüfen 0 · Sandbox FEHLER: 200 Pfade, wiederhergestellt (nicht vollständig): totalScans, scanLog.1.items, scanLog.1.t, scanLog.1.duration, scanLog.1.entries, scanLog.2.items, scanLog.2.t, scanLog.2.duration, scanLog.2.entries, scanLog.3.items, scanLog.3.t, scanLog.3.duration
 - [SKIP] T616 J – SN1951-S4 echter Mausrad-Kauf: eine Raste = genau 1 Stück (≤ 5c, nur nach Ja) (grund: Spieler hat den Testkauf nicht erlaubt (Nein))
@@ -58,6 +55,15 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 **Testlauf 0.65.278 · forever 1.60.1 (Interface 16001) · 16.11.2026 18:38 UTC** – OK 4 · FEHLER 1 · übersprungen 0 · im Client prüfen 0 · Sandbox FEHLER: 3 Pfade, wiederhergestellt: deCount.day, deCount.counted, deCount.since
 - [FEHLER] T750 U – UI-CLEAN1 Fenster/Reiter/Unterreiter/Ansichten/Fenster/Dialoge (Klassisch/Modern, 100 %/130 %): nichts überlappt, nicht… (ergebnis: 727 Befunde (AH offen · Klassisch+Modern · 100+130 % · deDE · geprüft 152 von 156 Ansichten) · je Art: ragt heraus 182 · abgeschnitten 462 · überlappt 44 · veraltet 39 · je Ansicht: Kaufen > Schnäppchen: 86 · Kaufen > Schnäppchen > Unter Händlerpreis: 86 · Markt > Markt > Lücken: 65… | erwartet: 0 Befunde · geprüft m von m)
 
+**Testlauf 0.65.315 · forever 1.60.1 (Interface 16001) · 17.11.2026 12:09 UTC** – OK 2 · FEHLER 5 · übersprungen 2 · im Client prüfen 0
+- [FEHLER] ALLES-1 ALLES – Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1) (ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 734 OK, 16 FEHLER, 26 übersprungen, Sandbox OK)
+- [FEHLER] ALLES-2 ALLES – Oberflächen-Prüfung (alle Reiter) (ergebnis:   2. Oberflächen-Prüfung (alle Reiter): FEHLER – 4 OK, 1 FEHLER, 0 übersprungen, Sandbox OK)
+- [FEHLER] ALLES-4 ALLES – Sniper-Testroutine S1–S13 (ohne echten Kauf) (ergebnis:   4. Sniper-Testroutine S1–S13 (ohne echten Kauf): FEHLER – 22 OK, 3 FEHLER, 4 übersprungen, Sandbox OK)
+- [FEHLER] ALLES-5 ALLES – Wächter 10 Min.: Rechenzeit je Bild und Hürden (WAECHTER-LAST, WAECHTER-FUND) (ergebnis:   5. Wächter 10 Min.: Rechenzeit je Bild und Hürden (WAECHTER-LAST, WAECHTER-FUND): FEHLER – 149 Runden in 10 Min. · längste Wächter-Rechenzeit je Bild 61 ms (≤ 50) · längstes ganzes Bild 161 ms (Auskunft) · Hürden: Letzte Runde: 275 Angebote – 0 ohne Preissturz/Flutung)
+- [FEHLER] ALLES-6 ALLES – Prüfungen am offenen Auktionshaus (ergebnis:   6. Prüfungen am offenen Auktionshaus: FEHLER – 58 OK, 6 FEHLER, 4 übersprungen, Sandbox OK)
+- [SKIP] ALLES-7 ALLES – Vollscan zweimal: bleibender Speicher und längste Lücke (VOLLSCAN) (grund:   7. Vollscan zweimal: bleibender Speicher und längste Lücke (VOLLSCAN): nicht prüfbar – Scan ohne Messung nach 10 Min.)
+- [SKIP] ALLES-8 ALLES – Prüfungen am Berufsfenster (grund:   8. Prüfungen am Berufsfenster: nicht prüfbar – Fenster nicht offen)
+
 **Fehler im Spiel (letzte 7 Tage)**
 - 25× `ADDON_ACTION_BLOCKED`: UNKNOWN() – Version 0.65.182, 0.65.189, 0.65.194, 0.65.196, 0.65.203 · forever 1.60.1 (Interface 16001) · zuletzt 15.11.2026 18:13 UTC
 - 20× `ADDON_ACTION_FORBIDDEN`: UNKNOWN() – Version 0.65.16, 0.65.80 · forever 1.60.1 (Interface 16001) · zuletzt 11.11.2026 16:25 UTC
@@ -69,6 +75,7 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 - 1× `Lua`: Interface/AddOns/AHSentinel/Ledger.lua:1686: script ran too long – Version 0.65.278 · forever 1.60.1 (Interface 16001) · zuletzt 16.11.2026 18:44 UTC
 - 1× `Lua`: Interface/AddOns/AHSentinel/Disenchant.lua:327: script ran too long – Version 0.65.278 · forever 1.60.1 (Interface 16001) · zuletzt 16.11.2026 18:45 UTC
 - 1× `Lua`: Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:1801: script ran too long – Version 0.65.278 · forever 1.60.1 (Interface 16001) · zuletzt 16.11.2026 18:43 UTC
+- 1× `Lua`: Interface/AddOns/AHSentinel/UI_Main.lua:1298: script ran too long – Version 0.65.315 · forever 1.60.1 (Interface 16001) · zuletzt 17.11.2026 11:24 UTC
 
 ## BuffSentinel
 

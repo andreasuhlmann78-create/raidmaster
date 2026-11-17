@@ -1,30 +1,70 @@
 {
- "ausgewertet": "2026-11-17T10:39:31Z",
+ "ausgewertet": "2026-11-17T12:35:20Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
-   "berichte": 65,
+   "berichte": 71,
    "letzter_test": {
-    "id": "AHSentinel-1794854377-c09598-2",
-    "version": "0.65.278",
-    "time": 1794854295,
+    "id": "AHSentinel-1794917396-413566-6",
+    "version": "0.65.315",
+    "time": 1794917396,
     "counts": {
      "client": 0,
-     "fehler": 1,
-     "ok": 4,
-     "uebersprungen": 0
+     "fehler": 5,
+     "ok": 2,
+     "uebersprungen": 2
     }
    },
    "fehler_tests": [
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.278",
+     "version": "0.65.315",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T750",
-     "name": "UI-CLEAN1 Fenster/Reiter/Unterreiter/Ansichten/Fenster/Dialoge (Klassisch/Modern, 100 %/130 %): nichts überlappt, nicht…",
-     "detail": "ergebnis: 727 Befunde (AH offen · Klassisch+Modern · 100+130 % · deDE · geprüft 152 von 156 Ansichten) · je Art: ragt heraus 182 · abgeschnitten 462 · überlappt 44 · veraltet 39 · je Ansicht: Kaufen > Schnäppchen: 86 · Kaufen > Schnäppchen > Unter Händlerpreis: 86 · Markt > Markt > Lücken: 65… | erwartet: 0 Befunde · geprüft m von m",
-     "bericht": "AHSentinel-1794854377-c09598-2"
+     "id": "ALLES-1",
+     "name": "Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1)",
+     "detail": "ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 734 OK, 16 FEHLER, 26 übersprungen, Sandbox OK",
+     "bericht": "AHSentinel-1794917396-413566-6"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.315",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "ALLES-2",
+     "name": "Oberflächen-Prüfung (alle Reiter)",
+     "detail": "ergebnis:   2. Oberflächen-Prüfung (alle Reiter): FEHLER – 4 OK, 1 FEHLER, 0 übersprungen, Sandbox OK",
+     "bericht": "AHSentinel-1794917396-413566-6"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.315",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "ALLES-4",
+     "name": "Sniper-Testroutine S1–S13 (ohne echten Kauf)",
+     "detail": "ergebnis:   4. Sniper-Testroutine S1–S13 (ohne echten Kauf): FEHLER – 22 OK, 3 FEHLER, 4 übersprungen, Sandbox OK",
+     "bericht": "AHSentinel-1794917396-413566-6"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.315",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "ALLES-5",
+     "name": "Wächter 10 Min.: Rechenzeit je Bild und Hürden (WAECHTER-LAST, WAECHTER-FUND)",
+     "detail": "ergebnis:   5. Wächter 10 Min.: Rechenzeit je Bild und Hürden (WAECHTER-LAST, WAECHTER-FUND): FEHLER – 149 Runden in 10 Min. · längste Wächter-Rechenzeit je Bild 61 ms (≤ 50) · längstes ganzes Bild 161 ms (Auskunft) · Hürden: Letzte Runde: 275 Angebote – 0 ohne Preissturz/Flutung",
+     "bericht": "AHSentinel-1794917396-413566-6"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.315",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "ALLES-6",
+     "name": "Prüfungen am offenen Auktionshaus",
+     "detail": "ergebnis:   6. Prüfungen am offenen Auktionshaus: FEHLER – 58 OK, 6 FEHLER, 4 übersprungen, Sandbox OK",
+     "bericht": "AHSentinel-1794917396-413566-6"
     }
    ],
    "fehler_spiel": [
@@ -173,6 +213,20 @@
       "forever 1.60.1 (Interface 16001)"
      ],
      "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[tail call]: ?\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/AHAnalyzerPro.lua]:1801: in function 'PriceInfo'\n..."
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "spiel",
+     "wo": "Lua",
+     "msg": "Interface/AddOns/AHSentinel/UI_Main.lua:1298: script ran too long",
+     "anzahl": 1,
+     "versionen": [
+      "0.65.315"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[tail call]: ?\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/UI_Main.lua]:1298: in function 'Render'\n..."
     }
    ]
   },
@@ -464,12 +518,52 @@
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.278",
+   "version": "0.65.315",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T750",
-   "name": "UI-CLEAN1 Fenster/Reiter/Unterreiter/Ansichten/Fenster/Dialoge (Klassisch/Modern, 100 %/130 %): nichts überlappt, nicht…",
-   "detail": "ergebnis: 727 Befunde (AH offen · Klassisch+Modern · 100+130 % · deDE · geprüft 152 von 156 Ansichten) · je Art: ragt heraus 182 · abgeschnitten 462 · überlappt 44 · veraltet 39 · je Ansicht: Kaufen > Schnäppchen: 86 · Kaufen > Schnäppchen > Unter Händlerpreis: 86 · Markt > Markt > Lücken: 65… | erwartet: 0 Befunde · geprüft m von m",
-   "bericht": "AHSentinel-1794854377-c09598-2"
+   "id": "ALLES-1",
+   "name": "Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1)",
+   "detail": "ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 734 OK, 16 FEHLER, 26 übersprungen, Sandbox OK",
+   "bericht": "AHSentinel-1794917396-413566-6"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.315",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "ALLES-2",
+   "name": "Oberflächen-Prüfung (alle Reiter)",
+   "detail": "ergebnis:   2. Oberflächen-Prüfung (alle Reiter): FEHLER – 4 OK, 1 FEHLER, 0 übersprungen, Sandbox OK",
+   "bericht": "AHSentinel-1794917396-413566-6"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.315",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "ALLES-4",
+   "name": "Sniper-Testroutine S1–S13 (ohne echten Kauf)",
+   "detail": "ergebnis:   4. Sniper-Testroutine S1–S13 (ohne echten Kauf): FEHLER – 22 OK, 3 FEHLER, 4 übersprungen, Sandbox OK",
+   "bericht": "AHSentinel-1794917396-413566-6"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.315",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "ALLES-5",
+   "name": "Wächter 10 Min.: Rechenzeit je Bild und Hürden (WAECHTER-LAST, WAECHTER-FUND)",
+   "detail": "ergebnis:   5. Wächter 10 Min.: Rechenzeit je Bild und Hürden (WAECHTER-LAST, WAECHTER-FUND): FEHLER – 149 Runden in 10 Min. · längste Wächter-Rechenzeit je Bild 61 ms (≤ 50) · längstes ganzes Bild 161 ms (Auskunft) · Hürden: Letzte Runde: 275 Angebote – 0 ohne Preissturz/Flutung",
+   "bericht": "AHSentinel-1794917396-413566-6"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.315",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "ALLES-6",
+   "name": "Prüfungen am offenen Auktionshaus",
+   "detail": "ergebnis:   6. Prüfungen am offenen Auktionshaus: FEHLER – 58 OK, 6 FEHLER, 4 übersprungen, Sandbox OK",
+   "bericht": "AHSentinel-1794917396-413566-6"
   },
   {
    "addon": "AHSentinel",
@@ -616,6 +710,20 @@
     "forever 1.60.1 (Interface 16001)"
    ],
    "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[tail call]: ?\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/AHAnalyzerPro.lua]:1801: in function 'PriceInfo'\n..."
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "spiel",
+   "wo": "Lua",
+   "msg": "Interface/AddOns/AHSentinel/UI_Main.lua:1298: script ran too long",
+   "anzahl": 1,
+   "versionen": [
+    "0.65.315"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[tail call]: ?\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/UI_Main.lua]:1298: in function 'Render'\n..."
   },
   {
    "addon": "BuffSentinel",
@@ -801,15 +909,15 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 151,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.278-107a6b9554d9.txt"
+    "anzahl": 153,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.315-60cdcd1dfc35.txt"
    },
    "BuffSentinel": {
-    "anzahl": 45,
+    "anzahl": 47,
     "neueste": "testberichte/diagnose/BuffSentinel/0.9.47-fcf53d571177.txt"
    },
    "GSMesstest": {
-    "anzahl": 9,
+    "anzahl": 10,
     "neueste": "testberichte/diagnose/GSMesstest/5.1-e71680805b41.txt"
    },
    "GSSniperLog": {
@@ -817,26 +925,26 @@
     "neueste": "testberichte/diagnose/GSSniperLog/1.7-d7b1125a2162.txt"
    },
    "GuildSentinel": {
-    "anzahl": 150,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.48-a2a2ec05162c.txt"
+    "anzahl": 152,
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.48-deb291b71b0c.txt"
    },
    "LevelPilot": {
-    "anzahl": 47,
-    "neueste": "testberichte/diagnose/LevelPilot/3.12.69-41732240ca0a.txt"
+    "anzahl": 49,
+    "neueste": "testberichte/diagnose/LevelPilot/3.12.69-5b3a37419344.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 130,
+    "anzahl": 132,
     "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.62-dbd507028b4b.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 125,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.15-8a7b333a2542.txt"
+    "anzahl": 127,
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.15-bdc5bc9243da.txt"
    }
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 200,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794857015-ccee7f.json"
+    "anzahl": 201,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794917965-99bebb.json"
    }
   }
  }

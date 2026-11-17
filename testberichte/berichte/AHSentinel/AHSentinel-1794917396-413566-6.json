@@ -1,0 +1,96 @@
+{
+ "abgebrochen": "nein",
+ "addon": "AHSentinel",
+ "counts": {
+  "client": 0,
+  "fehler": 5,
+  "ok": 2,
+  "uebersprungen": 2
+ },
+ "dur_ms": 0,
+ "env": {
+  "build": "70938",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 10,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [],
+ "f": 1,
+ "id": "AHSentinel-1794917396-413566-6",
+ "kind": "test",
+ "results": [
+  {
+   "bereich": "ALLES",
+   "ergebnis": "  1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 734 OK, 16 FEHLER, 26 übersprungen, Sandbox OK",
+   "id": "ALLES-1",
+   "name": "Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1)",
+   "status": "FEHLER"
+  },
+  {
+   "bereich": "ALLES",
+   "ergebnis": "  2. Oberflächen-Prüfung (alle Reiter): FEHLER – 4 OK, 1 FEHLER, 0 übersprungen, Sandbox OK",
+   "id": "ALLES-2",
+   "name": "Oberflächen-Prüfung (alle Reiter)",
+   "status": "FEHLER"
+  },
+  {
+   "bereich": "ALLES",
+   "ergebnis": "  3. Befehlsliste in Gruppen (HILFE-GRP): bestanden – deutsch 4 Gruppen, 41 Befehle, 0 doppelt · englisch 4 Gruppen, 41 Befehle, 0 doppelt · einstellungen -> optionen",
+   "id": "ALLES-3",
+   "name": "Befehlsliste in Gruppen (HILFE-GRP)",
+   "status": "OK"
+  },
+  {
+   "bereich": "ALLES",
+   "ergebnis": "  4. Sniper-Testroutine S1–S13 (ohne echten Kauf): FEHLER – 22 OK, 3 FEHLER, 4 übersprungen, Sandbox OK",
+   "id": "ALLES-4",
+   "name": "Sniper-Testroutine S1–S13 (ohne echten Kauf)",
+   "status": "FEHLER"
+  },
+  {
+   "bereich": "ALLES",
+   "ergebnis": "  5. Wächter 10 Min.: Rechenzeit je Bild und Hürden (WAECHTER-LAST, WAECHTER-FUND): FEHLER – 149 Runden in 10 Min. · längste Wächter-Rechenzeit je Bild 61 ms (≤ 50) · längstes ganzes Bild 161 ms (Auskunft) · Hürden: Letzte Runde: 275 Angebote – 0 ohne Preissturz/Flutung",
+   "id": "ALLES-5",
+   "name": "Wächter 10 Min.: Rechenzeit je Bild und Hürden (WAECHTER-LAST, WAECHTER-FUND)",
+   "status": "FEHLER"
+  },
+  {
+   "bereich": "ALLES",
+   "ergebnis": "  6. Prüfungen am offenen Auktionshaus: FEHLER – 58 OK, 6 FEHLER, 4 übersprungen, Sandbox OK",
+   "id": "ALLES-6",
+   "name": "Prüfungen am offenen Auktionshaus",
+   "status": "FEHLER"
+  },
+  {
+   "bereich": "ALLES",
+   "grund": "  7. Vollscan zweimal: bleibender Speicher und längste Lücke (VOLLSCAN): nicht prüfbar – Scan ohne Messung nach 10 Min.",
+   "id": "ALLES-7",
+   "name": "Vollscan zweimal: bleibender Speicher und längste Lücke (VOLLSCAN)",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "ALLES",
+   "grund": "  8. Prüfungen am Berufsfenster: nicht prüfbar – Fenster nicht offen",
+   "id": "ALLES-8",
+   "name": "Prüfungen am Berufsfenster",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "ALLES",
+   "ergebnis": "  9. Prüfungen am Händler: bestanden – 7 OK, 0 FEHLER, 1 übersprungen, Sandbox OK",
+   "id": "ALLES-9",
+   "name": "Prüfungen am Händler",
+   "status": "OK"
+  }
+ ],
+ "teil": "alles",
+ "time": 1794917396,
+ "version": "0.65.315",
+ "zusammenfassung": "Testroutine alles: 2 von 9 bestanden, 5 FEHLER, 2 nicht prüfbar (Prüfungen: 825 OK, 26 FEHLER, 35 übersprungen)"
+}
