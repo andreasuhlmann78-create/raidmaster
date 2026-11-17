@@ -1,0 +1,28 @@
+BERICHT LevelPilot – OPT-ROUTE Stufe 2, erster Versuch: Zonen-Gewichte je Fraktion – im Training besser, in der Gegenprobe NICHT
+Projekt: LevelPilot · Datum: 17.11.2026 02:26 (aus date) · Stand: 3.12.84 (nichts veröffentlicht) · Ergebnis: verworfen, Begründung unten
+
+1. VERFAHREN (berichte/LevelPilot/opt-route/zsuche.py, Protokolle daneben)
+   Planer bekommt (nur in der Arbeitskopie) ein Gewicht je Zone und Fraktion im Fokus-Schritt 3 (P.ZONE_BIAS). Koordinatensuche:
+   je Zone ×0,5 und ×2, übernommen bei Bewertung −1 h oder besser. Bewertung = Zeit + 0,5 × Grinden, virtuelle Reise 1–60 Forever.
+   Training: dieselben 3 Charaktere je Fraktion wie in den Zeitberichten (Ork/Tauren Krieger, Untoter Priester; Mensch/Zwerg
+   Krieger, Nachtelf Jäger). Basis = 3.12.84 (Kontrolle: Horde 596,5, Allianz 581,6 – gleich wie Bericht 00:12, Summe je Volk).
+   Fehler im ersten Lauf (Völker-Argument als ein Wort -> alle 3 Läufe gleiches Volk) bemerkt, Lauf verworfen, neu gerechnet.
+2. TRAINING
+   Horde: 596,5 -> 589,6 (Eschental ×2, Düstermarschen ×2, Schlingendorntal ×0,5); Ork 191,1 -> 192,8 (schlechter), Tauren 198,9
+          -> 193,5, Untoter 206,5 -> 203,3.
+   Allianz: 581,6 -> 563,1 (−3,2 %; Westfall, Loch Modan, Eschental, Teufelswald, Östl. Pestländer ×0,5; Düstermarschen, Ödland ×2);
+          alle 3 besser.
+3. GEGENPROBE (andere Klassen, gleiche Startplätze, nie in der Suche): ohne -> mit Gewichten
+   Orc Schurke 187,8 -> 185,9 · Tauren Druide 190,5 -> 192,0 · Untoter Magier 185,2 -> 194,6 (+9,4) · Horde gesamt +9,0
+   Mensch Magier 195,2 -> 193,8 · Nachtelf Druide 196,6 -> 197,5 · Zwerg Paladin 205,0 -> 201,8 · Allianz gesamt −3,6 (statt −18,5)
+4. BEWERTUNG: Überanpassung. Kleine Gewichtsänderungen verschieben die Zeit je Charakter um ±10 h (chaotisch: eine andere Zone
+   früher ändert alle späteren Entscheide). Die Suche findet Gewichte, die auf genau diese 3 Läufe passen. Für das Addon taugt das
+   nicht – NICHT eingebaut, nicht veröffentlicht. Auch die Feinabstimmung von 00:30 (2,5; 1,5/0,6) ist im Licht dieser Streuung nur
+   "kein messbarer Gewinn", keine echte Optimalität (Verdacht: Unterschiede < ~5 h sind Streuung).
+5. FOLGERUNG / NÄCHSTER SCHRITT
+   a) Jede künftige Änderung wird an Training UND Gegenprobe (andere Klassen) gemessen; übernommen nur, wenn beide besser sind.
+      Das gilt rückwirkend als Massstab für meine Berichte (bisher nur 6 Charaktere).
+   b) Zonen-Gewichte über die Kurzsicht des Planers sind der falsche Hebel. Wirksamer ist laut Auftrag Stufe 3: eine feste
+      Zonenfolge je Fraktion (Hub-Blöcke nach Stufenband) als Plan, der Planer ordnet nur lokal. Ich baue als Nächstes offline
+      eine solche Zonenfolge aus den Stufenbändern (stufenband.py, Questie-Daten – keine Spieldatei-Daten) und messe sie mit
+      Training + Gegenprobe gegen 3.12.84.
