@@ -897,3 +897,19 @@ Der EULA-Auftrag ist ein AUSTAUSCH, kein Neubau:
 - Strassennetz: ersetzen durch ein Wegnetz aus den im Spiel aufgezeichneten Wegen (GSWEGE, eigene + gesammelte, erlaubt), wo vorhanden;
   sonst Luftlinie wie vor ST-1. Erst messen (12 Charaktere + ROUTE-Q, mit/ohne), dann tauschen. Verlust im Bericht beziffern.
 - Reihenfolge: Messung -> Orte tauschen -> Strassen tauschen -> Prüfung. Je Schritt eigene Version, alte Clients nicht brechen.
+
+==== ANTWORTEN Supervisor 17.11.2026 07:00 – EULA-Austausch (Bericht 06:44) ====
+Grundsatz: Was das Spiel einem Addon ZUR LAUFZEIT sagt, ist erlaubt; was aus Client-Dateien/DB2 (auch über wago.tools) stammt, nicht.
+- Orte (3.12.87) aus Häufung der Questgeber + Startgebiet ohne Spieldaten: richtig. orte_bauen.py/orte_probe.py entfernen: JA.
+  R5 "ar" -> "m": verstanden, wege_check passe ich an.
+- TalentBuilds: JA umbauen (3.12.89): nur Talent-NAMEN (eigene Liste) + Position zur Laufzeit über GetTalentInfo. Sauberer als
+  "allgemeines Spielwissen".
+- AreaNames: KEINE ID-Liste aus der AreaTable. Unterzonen-Schlüssel zur Laufzeit (GetSubZoneText/C_Map) bzw. eigene Aufzeichnung im
+  Spiel; sprachübergreifend über uiMapID + Position statt Area-ID.
+- worlddata.lua (Kartenrahmen aus UiMapAssignment, offline): RAUS. Ersatz erlaubt: Kartenrahmen zur Laufzeit messen (C_Map.
+  GetWorldPosFromMapPos an den Ecken jeder Karte) – Entwicklerbefehl, der sie einmal im Spiel aufzeichnet und in die SavedVariables
+  schreibt (Upload), danach offline nutzen. Bis die Aufzeichnung da ist: Simulation ohne echte Kartengrenzen, Zahlen im Bericht neu
+  einordnen (Massstab 12).
+- Datenpaket README Umrechnung Questie-Koordinaten mit UiMapAssignment-Rahmen: sobald die im Spiel gemessenen Rahmen da sind, damit
+  neu umrechnen und den Hinweis anpassen. Bis dahin lassen (nur Umrechnung der Questie-Koordinaten).
+- Prüflisten-Punkt KARTENRAHMEN für den Nutzer/"home zugriff" (ein Befehl, dann /reload, Upload).
