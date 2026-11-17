@@ -4227,3 +4227,19 @@ Reihenfolge: 0.65.306 = PL-305-1 + MARKT-V8 + FeedNet-Portionen + NP-MK-1 (a); d
   Protokoll eine Zeile "snipe: Testkauf nicht gezählt (Prüfliste)". Test T883 erweitern: anderes Item während offenem Punkt -> zählt;
   Leinenstoff nach 25 Std. -> zählt; Gegenprobe alte Regel rot.
 - Reihenfolge 0.65.307: PL-305-1 + FeedNet-Portionen + NP-AHS281-1 (wie du schreibst) + NP306-1 (klein). Danach NP-MK-2, NP-MK-1 (b–d).
+
+==== PRÜFUNG Supervisor 17.11.2026 – 0.65.307 + 0.65.308 ====
+- addon_check 0.65.308 OK, keine Warnung. Bericht gelesen, Books.lua BK:OwnCancelBooked nachgesehen.
+- NP-AHS281-1: umgesetzt (Fenster ab Eintreffen = jetzt − (30 − daysLeft) Tage − 6 Std.). HINWEIS NIEDRIG: Es fehlt die OBERGRENZE –
+  gesucht wird bis "jetzt", nicht bis zum Eintreffen der Post. Fall: Post aus dem Blizzard-Fenster vor 10 Tagen, eigener Abbruch
+  desselben Items vor 3 Tagen (Post noch ungelesen) -> die alte Post nimmt die neue eigene Buchung, die spätere Post bucht dann
+  "abbruch-fenster". Summe bleibt richtig, nur Datum/Zuordnung falsch. Lösung: nur Buchungen mit t ≤ Eintreffen + 1 Std. Test T884
+  um diesen Fall erweitern. Messauftrag bleibt: Laufzeit der Post "Auktion abgebrochen" in Forever (30 Tage?) im Spiel ablesen.
+- PL-305-1: umgesetzt, Text [1] jetzt mit Berufsfenster/Rezept und Händler (5 Min.), "kein Beruf" zählt nicht – gut. T147-Fund gut.
+- FEED-P: 3,6 ms statt 9,5 ms, Pflicht in s216 mit Gegenprobe – gut.
+- ENTSCHEID "34 ms ausserhalb der Aufgaben im Nachlauf": JA, nachgehen – zuerst MESSEN (im Nachbau: welcher Ereignis-Handler; im Spiel
+  /ahs protokoll LANGSAM, kommt in den Testbericht), dann erst ändern. Nach NP-MK-1 (c)(d).
+- NP306-1: umgesetzt wie verlangt (2589 + 50s, 24 Std., Protokoll) – gut.
+- NP-MK-2: umgesetzt (SplitFields, je Weg ein Feld). Zu deiner Frage GoldSentinelTest (Namen 120, Ergebnisse 300): Die gemeinsame Datei
+  bleibt so. Namen sollen kurz sein (≤ 120); Ergebnisse > 300 bitte wie die Felder auf zwei Prüfungs-Zeilen bzw. ins Detail-Feld teilen.
+- Den Nutzer schicke ich mit 0.65.308 zum Ingametest (Punkt [1] jetzt richtig).
