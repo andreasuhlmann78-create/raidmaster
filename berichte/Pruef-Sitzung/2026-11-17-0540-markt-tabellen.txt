@@ -1,0 +1,66 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+Markt-Tabellen täglich – 17.11.2026 (geplante Aufgabe, Lauf 04:38 UTC)
+=====================================================================
+Ergebnis: Tabelle NICHT committet (Schritt 4: Fallzahl n fällt). Befund "MT-Prüfung 17.11." unten – Ursache belegt
+(Werkzeug merge_journals), keine Datenlücke. Wegen hinweis-routinen-supervisor-2026-11-14.txt (a) steht der Befund nur hier,
+nicht in auftraege/AHSentinel/offen-ahsentinel.txt und nicht im nachrichten-log.txt – Übertragung durch den Supervisor.
+Committet: nur testberichte/markt/kern/2026-11-17.md (Kern-Abgleich) und dieser Bericht.
+
+Datenlage
+- Daten-Repo letzter Commit 16.11. 20:24 MEZ (19:24 UTC), 9 Std. alt < 36 Std.
+- 9 Stände: aktuell/ (Laptop, Desktop) + tage/ 12.11. L, 13.11. L+D, 14.11. D, 15.11. D, 16.11. L+D.
+- Tests: test_kern_daten.py 20/20, test_markt_tabellen_alle.py 20/20.
+
+BEFUND MT-Prüfung 17.11. (für AHSentinel/Supervisor; betrifft addon-check/marktanalyse/markt_tabellen.py, merge_journals)
+- Kaufstufe "bis 0.7": n 155 (16.11.) -> 142 heute (15.11.: 158). Schon gestern 158 -> 155 ("Verdacht, zu messen").
+- Ursache BELEGT: merge_journals nimmt einen Schlüssel (B: t id q pr) mit ALLEN Vorkommen aus dem NEUESTEN Stand, der ihn
+  hat. Das Journal im Addon hält nur die neuesten 3000 Einträge; beim Abschneiden fallen auch einzelne Vorkommen eines
+  Schlüssels weg. Dann gewinnt der neueste Stand mit weniger Vorkommen:
+    Schlüssel B t=575788 id=7048 q=1 pr=945: tage 13.11./14.11. je 24 Vorkommen, 15.11. 21, 16.11. Laptop 10, Desktop 8
+      -> zusammengeführt 8 (16 Käufe verloren)
+    Schlüssel B t=573458 id=6040 q=1 pr=1800: 12.11. Laptop 2, später 1 -> zusammengeführt 1 (1 Kauf verloren)
+  Summe Stufe 0.6–0.7: Vereinigung 162 Vorkommen, zusammengeführt 145 (bewertbar 142).
+- Probe (nicht committet): jeder Schlüssel mit der grössten Vorkommen-Zahl über alle Stände (neueste Ergebnisse zuerst,
+  fehlende Vorkommen aus dem älteren Stand):
+    bis 0.7: n 142 / +35.5 %  ->  n 159 / +31.9 %
+    bis 0.8: n 425 / +30.7 %  ->  n 452 / +30.5 %   (heute verdeckt: auch hier fehlen 27 Fälle)
+    bis 0.6, bis 0.9, darüber, Entzaubern, Verkaufsquoten: unverändert.
+  Der Kern-Abgleich zeigt dasselbe: Kern buyk "bis 0.7" 158 Käufe gegen Tabelle 142 (+7.2 Pkt.).
+- Lösung NICHT selbst gebaut (Aufgabe ändert keinen Code). Vorschlag zur Prüfung: in merge_journals je Schlüssel die
+  Vorkommen-Zahl = Maximum über alle Stände; Ergebnisfelder aus dem neuesten Stand. Test dazu: zwei Stände, gleicher
+  Schlüssel 24× alt / 8× neu -> 24.
+
+Prüfung der neu gerechneten Fassung (dreifach, Datei im Arbeitsordner, nicht im Repo)
+- lädt in Lua (lupa) ok · 4016 Bytes < 50 KB ok · nur Zahlen und Schlüssel (Bänder, Zellen, Feldnamen, "offen"), keine
+  Spieler-/Realm-Namen ok · Zustände nur offen ok · Teil kern: nur Weg markt, p 0..1, n >= 30 (kleinstes gear3:2 n 31) ok.
+- Fallzahlen: alle übrigen n gleich oder höher; einziger Rückgang Kaufen bis 0.7 (Befund oben).
+
+Wellen je Band (Repo 16.11. -> heute gerechnet)
+  5-25   steigt 0.649 (10 T) -> offen 1.149 (10 T)
+  26-35  durch  0.149 (10 T) -> offen 0.707 (10 T)
+  36-45  offen  0.230 (10 T) -> offen 0.193 (10 T)
+  46-55  offen  0.453 (9 T)  -> offen 0.398 (10 T)
+  56-60  offen  0.449 (7 T)  -> offen 0.365 (8 T)
+  (Alle fünf Bänder "offen"; 5-25 und 26-35 mit starkem Index-Anstieg – zur Kenntnis, Verdacht, zu messen: neue Preispunkte
+   vom 16.11.)
+
+Entzaubern (unverändert gegen gestern)
+  2:4:a n 1279, nKauf 1205, Tabelle 0.965, Gewinn 0.258, Mindest 0.20
+  2:6:a n 124,  nKauf 62,   Tabelle 0.950, Gewinn 0.199, Mindest 0.30
+  2:1:a n 750,  nKauf 0,    Tabelle 1.007, Gewinn ungemessen, Mindest 0.20
+  2:3:a n 20,   nKauf 0,    Tabelle 0.947, Gewinn ungemessen, Mindest 0.20
+
+Kaufstufen (heute gerechnet; gestern in Klammern)
+  bis 0.6: n 21  +52.7 % (=) · bis 0.7: n 142 +35.5 % (155 / +39.5) · bis 0.8: n 425 +30.7 % (=) ·
+  bis 0.9: n 598 +17.5 % (=) · darüber: n 15 -6.5 % (=)
+
+Verkaufsquoten de (heute; gestern)
+  bis 0.90 n 11 0.298 (=) · bis 0.97 n 27 0.346 (19 / 0.491) · bis 1.03 n 54 0.658 (48 / 0.740) ·
+  bis 1.10 n 9 0.600 (=) · darüber n 35 0.342 (34 / 0.353)
+  metal: bis 1.03 n 1 1.0 · darüber n 1 0.0 (=) · consum: bis 1.03 n 1 0.0 (=)
+
+Teil kern: 1 Quelle (Desktop), Weg markt weitergegeben (Brier 0.0247 < Grundlinie 0.0276, n 235384); 25 Zellen (gestern 21;
+neu consum:4, g:gear3, gear3:1, gear3:2). Weg sell: Brier 0.2425 >= 0,20, nicht weitergegeben.
+
+Kern-Abgleich (testberichte/markt/kern/2026-11-17.md): Zellen, die nicht aufgehen: 0 (Ziel 0). Verkauf Kern gegen Tabelle:
+0 Abweichungen ausserhalb 95 %. Kein Befund KERN-ABGLEICH.
