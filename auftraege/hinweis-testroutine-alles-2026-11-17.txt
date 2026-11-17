@@ -24,3 +24,22 @@ C) ABNAHME durch den Supervisor: neue Prüfregel – eine Version mit Prüfliste
 
 Bitte in die Reihenfolge einplanen (nach laufenden HOCH-Punkten), Bericht "umgesetzt, zur Prüfung" mit der Liste:
 welche Prüfungen automatisch, welche von Hand (mit dem Text jedes Handpunkts).
+
+==== NACHTRAG D (Supervisor 17.11.2026 14:00, Anlass: Nutzer 13:54 "wenn ich den Test laufen lasse, bin ich nicht immer am PC und
+sehe die Anweisungen im Spiel nicht") – gilt für ALLE Projekte mit "testroutine alles" ====
+D1. Der Lauf "alles" WARTET NIE auf den Nutzer. Schritte, die ein Fenster brauchen (Berufsfenster, Händler, Post, Bank, Gruppe …),
+    werden nicht mit Wartezeit mitten im Lauf erzwungen, sondern:
+    - Ist das Fenster beim Erreichen des Schritts schon offen: sofort prüfen.
+    - Sonst: Schritt als "wartet auf Fenster" vormerken, der Lauf geht weiter und endet normal.
+D2. NACHHOLEN AUTOMATISCH: Öffnet der Nutzer das Fenster später bei normalem Spielen (nur im Entwicklermodus, höchstens 7 Tage nach dem
+    Lauf), läuft der vorgemerkte Schritt von selbst (in Portionen, Sandbox wie im Lauf, nie im Kampf), mit einer kurzen Chatzeile
+    "Testroutine: Händler-Prüfung nachgeholt – bestanden/FEHLER". Ergebnis als eigener kleiner Bericht (GSTEST) mit Verweis auf den
+    Lauf; die Prüfliste (z. B. TR-ALLES) hakt sich ab, sobald alles bestanden ist. "Wartet auf Fenster" zählt NICHT als FEHLER.
+D3. Zusammenfassung und Prüfliste sagen danach klar, was noch fehlt: "Noch offen: Händler – passiert von selbst beim nächsten Händler-
+    Besuch" (Alltagssprache, kein Befehl nötig).
+D4. Braucht ein Schritt WIRKLICH Eingreifen während des Laufs (selten): vorher beim Start EINMAL sagen, was kommt und wann, plus ein
+    gut hörbarer Ton und eine grosse Bildschirmmeldung (RaidWarning-Stil), wenn es soweit ist – und nach Ablauf der Wartezeit wie D1/D2.
+D5. Tests: Lauf ohne offenes Fenster -> endet mit "wartet auf Fenster", 0 FEHLER dafür; danach Fenster öffnen -> Schritt läuft von
+    selbst, Bericht + Prüfliste aktualisiert; nach 7 Tagen verfallen (keine Sperre ohne Zeitlimit); im Kampf nicht.
+Zuerst AHSentinel (Berufe, Händler, Vollscan-Wartezeit ebenso: kein Vollscan möglich -> vormerken, beim nächsten /ahs scan bzw. Wächter-
+Scan im Entwicklermodus messen). Andere Projekte mit der nächsten Version ihrer Testroutine.

@@ -327,3 +327,7 @@ nur wo nötig und jeder Handpunkt in klaren, nummerierten Schritten (Wo / Schrit
 - shared/GoldSentinelMarkt.lua Version 9: kein Ruckeln nach Vollscans (Teilen und Auswertung in Portionen; vorher bis 190 ms in einem
   Bild bei Spielern ohne AHSentinel). Mit der nächsten geplanten Version statt v8 kopieren + CHANGELOG EN/DE.
   Einzelheiten: auftraege/hinweis-goldsentinelmarkt-v9-2026-11-17.txt.
+
+==== TR-ALLE NACHTRAG D (Supervisor 17.11.2026 14:00) ====
+- Der Lauf 'testroutine alles' wartet nie auf den Nutzer; Fenster-Schritte werden vorgemerkt und laufen automatisch nach, wenn der
+  Nutzer das Fenster beim normalen Spielen öffnet (Entwicklermodus, max. 7 Tage). Einzelheiten: auftraege/hinweis-testroutine-alles-2026-11-17.txt Abschnitt D.

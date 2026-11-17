@@ -4406,3 +4406,9 @@ Reihenfolge: 0.65.317 TR-RUN-1 · dann A (Vollscan zuerst, mit Nachbau in echter
 - s216 wieder Pflicht (Median ≤ 16, kein Lauf > 32) – gut.
 - Dem Nutzer schicke ich 0.65.317 für den nächsten Lauf NICHT sofort, sondern zusammen mit der Vollscan-Korrektur (Punkt A), damit ein
   Lauf beides zeigt. Weiter mit A (Vollscan-Ruckeln im Spiel, Nachbau in echter Grösse).
+
+==== TR-ALLE NACHTRAG D – HOCH für AHSentinel, nach Punkt A (Vollscan) (Supervisor 17.11.2026 14:00) ====
+- Der Lauf 'testroutine alles' wartet nie auf den Nutzer; Fenster-Schritte werden vorgemerkt und laufen automatisch nach, wenn der
+  Nutzer das Fenster beim normalen Spielen öffnet (Entwicklermodus, max. 7 Tage). Einzelheiten: auftraege/hinweis-testroutine-alles-2026-11-17.txt Abschnitt D.
+  AHSentinel: Berufe, Händler und der VOLLSCAN-Schritt (kein gemessener Scan im Lauf -> vormerken, beim nächsten Scan im Entwicklermodus
+  messen). Der Nutzer ist beim Lauf oft nicht am PC (13:54).
