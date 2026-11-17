@@ -1,0 +1,141 @@
+BERICHT GUILDSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 17.11.2026 07:49 (Uhrzeit aus date, Europe/Zurich) · Sitzung: GuildSentinel-Projekt-Sitzung · Version: 0.9.51 · Commit: GuildSentinel 662c971
+Veröffentlichung: Discord ja (announce/, sofort). CurseForge: nein – Entscheid 19:58: 17.11. 18:00 nur die im Spiel getestete Version.
+Auftrag: TR-ALLE (Supervisor 07:40, Entscheid des Nutzers 07:36), hinweis-testroutine-alles-2026-11-17.txt.
+
+UMGESETZT, ZUR PRÜFUNG – A) EIN BEFEHL FÜR ALLES AUTOMATISCHE:
+- "/gs testroutine alles" (Entwicklermodus): alle Bereiche A–K der Testroutine + die 10 messbaren Spiel-Prüfpunkte des
+  Client-Tests ohne Fragen (Bereich L, mit den echten Daten, VOR dem Sandbox-Vergleich, sodass auch sie geprüft sind) +
+  danach die Automatik der Prüfliste. Fortschritt je Bereich im Chat ("Testroutine: Bereich 3 von 11 (C) …"), am Ende
+  EINE Zeile "Zusammenfassung: x von y bestanden, z nicht prüfbar – häufigste Gründe" und der Bericht im GSTEST-Format
+  (db.gsTest, kommt mit dem Upload). "/gs testroutine stop" bricht ab (Rest als übersprungen mit Grund, Bericht mit
+  "Abgebrochen: …", Sandbox wiederhergestellt).
+- Portionen: Die Routine läuft jetzt als Coroutine über viele Bilder (C_Timer.After(0)). Angehalten wird nach einer
+  Prüfung, sobald >= 2 ms im Bild verbraucht sind – nur wenn nichts vorübergehend ersetzt ist (keine Swaps, keine
+  Test-Spielversion, kein Test-Kampf, keine Köderwerte, nicht in pcall), damit das Spiel zwischen zwei Bildern nie einen
+  halben Testzustand sieht. Die zwei grossen Schleifen (T270 Lagen-Katalog, T273a–j 1000 Zufallsfälle) laufen jetzt
+  ausserhalb ihrer Prüfung mit Haltepunkten (je Lage bzw. je 5 Fälle).
+  NACHBAU-MESSUNG (os.clock, 16001): 250 Bilder, davon 222 <= 5 ms, 28 > 5 ms, 9 > 16 ms; längste Portion 59 ms
+  (bis T269, d. h. Aufbau der Lagen vor T270), weitere lange: T121 42 ms (Block mit Köderwerten, T118–T144 darf nicht
+  angehalten werden), T196 35, T75 28, T195 27, T296a 21, T17 20, T127 15, T11 12 ms. VORHER: alle Bereiche in EINEM Bild
+  (Nachbau ~1 s). Ziel <= 5 ms damit NOCH NICHT überall erreicht – offen: diese ~10 Einzelprüfungen aufteilen. Der echte
+  Wert im Spiel steht im Bericht: Zeile "Portionen: N Bilder, längste x ms (Bereich, bis Prüfung)" (Verdacht: im Spiel
+  schneller als im Nachbau, zu messen).
+- Ausloggen/Neuladen MITTEN im Lauf (neu möglich, weil die Routine über mehrere Bilder läuft): Core.lua meldet sich als
+  ERSTER Abmelde-Handler an und setzt zuerst Testdaten zurück (UnswapAll, RestoreState, echte DB). GEFUNDEN beim Testen:
+  ohne das schrieben die späteren Abmelde-Handler (RaidReady-Ausgabe für den Uploader, Diagnose-Ausgabe) die Werte der
+  TESTGILDE. Gegenprobe ohne die Zeile in Core.lua: "FAIL: Ausgabe raidReady wie bei normalem Ausloggen".
+- Grenzen eingehalten: kein Gold, keine Post/kein Chat (Recorder T82, Sync gehalten), keine dauerhafte Einstellung, echte
+  Daten unverändert (Sandbox-Vergleich, "echte Daten unverändert: OK"); Client-Test-Punkte setzen alles zurück (With).
+
+B) HANDPRÜFUNG NUR, WO ES NICHT ANDERS GEHT – Prüfliste (/gs prüfliste) neu geschrieben, jeder Punkt: "Wo:", nummerierte
+Schritte (ein Handgriff je Schritt, Seiten-/Reiter-/Knopfnamen wie im Spiel, Befehle wörtlich), "Das musst du sehen"
+wörtlich, "Kosten:" (alle kein Gold, Zeit). Danach hakt sich der Punkt selbst ab oder OK/Nicht OK (Sichtprüfungen:
+SEITEN, MARKT, TIPPEN). Automatisch statt von Hand: alles in "/gs testroutine alles" (Punkt TESTROUTINE).
+Die Punkte im Wortlaut:
+  TESTROUTINE – Alles Automatische auf einmal
+      Das tust du: Wo: irgendwo, nicht im Kampf.
+        1. Tippe in den Chat: /gs testroutine alles  (Enter)
+        2. Warte, bis im Chat „Zusammenfassung: …“ steht. Nichts anklicken.
+        (Abbrechen geht jederzeit mit: /gs testroutine stop)
+      Das musst du sehen: Im Chat nacheinander „Testroutine: Bereich 1 von 11 …“ bis „11 von 11“, dann „Zusammenfassung: … bestanden …“ und „echte Daten unverändert: OK“. Der Punkt hakt sich selbst ab.
+      Kosten: kein Gold, ca. 1 Minute.
+  SEITEN – Alle Seiten ansehen
+      Das tust du: Wo: irgendwo.
+        1. Tippe in den Chat: /gs  (Enter) – das Fenster GuildSentinel öffnet sich.
+        2. Klicke links nacheinander jeden Eintrag einmal an (Übersicht, Mitglieder, Rekrutierung …).
+        3. Schau dir jede Seite kurz an.
+      Das musst du sehen: Auf jeder Seite Text, Listen oder Knöpfe – keine leere Seite, nichts überlappt, kein Text abgeschnitten. Dann hier „OK“ (sonst „Nicht OK“ und in die Zeile schreiben, welche Seite).
+      Kosten: kein Gold, ca. 2 Minuten.
+  GSW2 – Werbetext-Vorschlag wählen
+      Das tust du: Wo: irgendwo.
+        1. Tippe: /gs werbung  (Enter) – die Seite Rekrutierung, Reiter „Werbung“ öffnet sich.
+        2. Klicke auf den Knopf „Vorschlag wählen“.
+        3. Klicke in der Liste auf einen Eintrag, z. B. „Kurz und knapp“.
+      Das musst du sehen: Die Liste zeigt hinter jedem Vorschlag „… Zeichen“. Nach dem Klick steht der Text im Feld und endet mit „– flüstert mir: /w <dein Name> gilde“. Der Punkt hakt sich selbst ab.
+      Kosten: kein Gold, unter 1 Minute.
+  GSW1 – Flüster-Teil anhängen
+      Das tust du: Wo: Rekrutierung, Reiter „Werbung“ (wie vorher).
+        1. Klicke ins Textfeld und lösche den Text.
+        2. Schreibe: Wir suchen Mitspieler
+        3. Klicke auf den Knopf „Übernehmen“ (unter dem gelben Hinweis).
+      Das musst du sehen: Vor dem Klick gelber Hinweis „Dein Text sagt nicht, wie man sich meldet – „/w {name} gilde“ anhängen?“. Danach steht „– flüstert mir: /w <dein Name> gilde“ am Ende. Der Punkt hakt sich selbst ab.
+      Kosten: kein Gold, unter 1 Minute.
+  WERBUNG – Werbung wirklich posten
+      Das tust du: Wo: in einer Hauptstadt (dort gibt es den Kanal „Handel“).
+        1. Rekrutierung, Reiter „Werbung“: Klicke auf „Werbung vorbereiten“.
+        2. Im Chat-Eingabefeld steht jetzt der Text. Drücke Enter.
+      Das musst du sehen: Dein Text erscheint im Kanal. KEIN Fenster „Aktion blockiert“. Auf der Seite steht danach „Zuletzt gepostet: …“ mit „gerade eben“ oder wenigen Sekunden. Der Punkt hakt sich selbst ab.
+      Kosten: kein Gold, unter 1 Minute (die Werbung ist echt im Kanal).
+  MENU – Rechtsklick-Menü bei Mitgliedern
+      Das tust du: Wo: irgendwo.
+        1. Tippe: /gs  (Enter) und klicke links auf „Mitglieder“.
+        2. Klicke mit der RECHTEN Maustaste auf einen Namen in der Liste.
+      Das musst du sehen: Ein Menü mit Einträgen wie „Anflüstern“, „Befördern“, „Notiz“. Was du nicht darfst, ist grau, und beim Darüberfahren steht der Grund. Der Punkt hakt sich selbst ab.
+      Kosten: kein Gold, unter 1 Minute.
+  RANG – Befördern über „Gilden-Aktion“
+      Das tust du: Wo: irgendwo, nicht im Kampf. Du brauchst einen eigenen Twink in der Gilde.
+        1. /gs, links „Mitglieder“: Rechtsklick auf deinen Twink.
+        2. Klicke im Menü auf „Befördern“.
+        3. Im Fenster „Gilden-Aktion“: klicke einmal auf den grossen Knopf.
+        4. Danach genauso „Degradieren“, damit der Twink wieder seinen alten Rang hat.
+      Das musst du sehen: Kein Fenster „Aktion blockiert“. Der Rang ändert sich genau um eine Stufe, das Fenster zeigt „Erledigt: Befördern <Name>“. Der Punkt hakt sich selbst ab.
+      Kosten: kein Gold, ca. 1 Minute.
+  EINLADEN – Bewerber einladen
+      Das tust du: Wo: irgendwo. Du brauchst einen Zweitcharakter, der NICHT in der Gilde ist und dir „gilde“ geflüstert hat.
+        1. /gs, links „Rekrutierung“, oben Reiter „Bewerber“: klicke den Bewerber an.
+        2. Klicke auf „In die Gilde einladen“.
+        3. Im Chat-Eingabefeld steht „/ginvite <Name>“: drücke Enter.
+      Das musst du sehen: Keine Meldung „geblockt“. Der Status des Bewerbers wechselt auf „eingeladen“. Der Punkt hakt sich selbst ab.
+      Kosten: kein Gold, ca. 2 Minuten (Zweitcharakter einloggen).
+  ALTER – Altersfrage mit Zweitcharakter
+      Das tust du: Wo: irgendwo. Zweitcharakter (nicht in der Gilde), zweites Spielfenster oder abwechselnd einloggen.
+        1. Mit dem Zweitcharakter dir flüstern: gilde
+        2. Die Fragen beantworten, die kommen. Bei „Wie alt bist du?“ antworte: 17
+      Das musst du sehen: In der Bewerberliste steht beim Zweitcharakter „16+“ (antwortest du „15“: höfliche Absage und „abgelehnt (Alter)“). Gespeichert wird nur 16+ / unter 16 / unklar. Der Punkt hakt sich selbst ab.
+      Kosten: kein Gold, ca. 3 Minuten.
+  SPERRLISTE – Sperrliste: sperren und entfernen
+      Das tust du: Wo: irgendwo (nur als Offizier).
+        1. Tippe: /gs  (Enter), klicke links auf „Leitung“ und oben auf den Reiter „Sperrliste“.
+        2. Ins Feld „Name“ schreiben: Testname
+        3. Ins Feld „Grund (nur für Offiziere)“ schreiben: Test
+        4. Klicke auf „Sperren“.
+        5. Klicke den Eintrag „Testname“ in der Liste an, dann auf „Von der Sperrliste nehmen“ und bestätige.
+      Das musst du sehen: Im Chat „Testname steht jetzt auf der Sperrliste.“, der Eintrag erscheint; danach „Testname ist nicht mehr auf der Sperrliste.“ und der Eintrag ist weg. Der Punkt hakt sich selbst ab.
+      Kosten: kein Gold, ca. 1 Minute.
+  TOOLTIP – Tooltip „In der Gilde seit“
+      Das tust du: Wo: irgendwo.
+        1. Öffne die Gildenliste des Spiels (Taste J oder O).
+        2. Fahre mit der Maus über einen Namen (nicht klicken).
+      Das musst du sehen: Im Tooltip steht eine Zeile „In der Gilde seit <Datum>“ (bei manchen zusätzlich „Zuletzt befördert: <Datum> (<Rang>)“). Der Punkt hakt sich selbst ab.
+      Kosten: kein Gold, unter 1 Minute.
+  NOTIZ – Notiz ändern -> Verlauf
+      Das tust du: Wo: irgendwo.
+        1. Öffne die Gildenliste des Spiels (Taste J oder O) und klicke deinen eigenen Namen an.
+        2. Ändere die öffentliche Notiz (z. B. ein Wort anhängen) und bestätige.
+        3. Warte 20 Sekunden.
+      Das musst du sehen: Unter /gs, links „Mitglieder“, Reiter „Verlauf“ steht „öffentliche Notiz geändert“ mit „alt“ → „neu“. Der Punkt hakt sich selbst ab. (Danach darfst du die Notiz zurückändern.)
+      Kosten: kein Gold, ca. 1 Minute.
+  MARKT – Haken „Marktdaten teilen“
+      Das tust du: Wo: irgendwo.
+        1. Tippe: /gs  (Enter) und klicke links auf „Einstellungen“.
+        2. Suche den Haken „Marktdaten teilen“ und lies den grauen Satz daneben.
+      Das musst du sehen: Haken und grauer Satz sind ganz lesbar, nichts überlappt oder ist abgeschnitten. Dann hier „OK“ (sonst „Nicht OK“ und schreiben, was falsch aussieht).
+      Kosten: kein Gold, unter 1 Minute.
+  TIPPEN – Befehlsliste beim Tippen
+      Das tust du: Wo: irgendwo.
+        1. Klicke ins Chat-Eingabefeld.
+        2. Tippe: /gs  und danach ein Leerzeichen (noch kein Enter).
+      Das musst du sehen: Über dem Eingabefeld erscheint eine Liste aller Befehle. Ein Klick auf einen Befehl übernimmt ihn, Enter führt ihn aus. Dann hier „OK“.
+      Kosten: kein Gold, unter 1 Minute.
+
+EIGENE TESTS (Belege, keine Freigabe):
+- test/run_tr_alles.lua 14/14 je 16001/11508/20505: Fortschritt 11/11, im ersten Bild nur eine Portion, viele Bilder,
+  10 Spiel-Prüfpunkte im gespeicherten Bericht, Zusammenfassung, Sandbox OK, echte Daten gleich; Abbruch mit Grund und
+  Daten gleich; Ausloggen mitten im Lauf: Lauf beendet, echte Daten zurück, Uploader-Ausgaben wie bei normalem Ausloggen.
+- test/run_pruefliste.lua 23/23 (neu: jeder Punkt mit "Wo:", "1. ", "Kosten:"; SEITEN ist Sichtprüfung).
+- test/run_alle.sh: "GESAMT: 140 Läufe, 0 rot · 4810 Einzelprüfungen bestanden, 0 fehlgeschlagen".
+- Routine: Forever OK 300, Era OK 305, TBC OK 305, je FEHLER 0.
+
+NOCH OFFEN AUS TR-ALLE: (1) <= 5 ms je Bild für die genannten ~10 Einzelprüfungen; (2) "bei Nicht OK ein Feld/eine Zeile"
+ist Sache des gemeinsamen Bausteins GoldSentinelPruefliste (zeigt heute nur die Knöpfe) – Vorschlag an die Prüf-Sitzung.
