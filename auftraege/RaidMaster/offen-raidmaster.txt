@@ -353,3 +353,14 @@ nur wo nötig und jeder Handpunkt in klaren, nummerierten Schritten (Wo / Schrit
 ==== MARKT-V10 (Supervisor 17.11.2026 14:40, ersetzt MARKT-V9) ====
 - shared/GoldSentinelMarkt.lua Version 10 statt v9 kopieren (Zeitprüfung alle 20 statt 100 Einträge). Einzelheiten: Nachtrag in
   auftraege/hinweis-goldsentinelmarkt-v9-2026-11-17.txt.
+
+==== BEFUND MITTEL (Ingametest des Nutzers 17.11.2026 17:02, 3.0.30 "/rm testroutine alles") – RM-TF-1 ====
+- Beim Lauf erschien beim Nutzer das Blizzard-Fehlerfenster: "Interface\AddOns\RaidMaster\Test\Routine.lua:1: RaidMaster-Testfehler"
+  (Stack Blizzard_ScriptErrors.lua:72 <- Test/Routine.lua:2217). Das ist der ABSICHTLICHE Fehler aus T120 (geterrorhandler()(msg)); T122
+  erzeugt drei weitere ("…-doppelt"). Der Kommentar sagt "ohne Fehlerfenster" – im Spiel mit eingeschalteter Fehleranzeige (scriptErrors)
+  bekommt der Nutzer aber ein echtes Fehlerfenster und hält es für einen Fehler im Addon.
+- Auftrag: Die Prüfungen dürfen dem Nutzer KEIN Fehlerfenster zeigen. Lösung ohne CVar-Änderung: nicht den Fehler-Handler des Spiels
+  aufrufen, sondern während der Prüfung einen eigenen Handler vorschalten (seterrorhandler auf eine Hülle, die nur RaidMasters Zählung
+  füttert, danach den alten Handler zurück – in pcall, garantiert zurück), oder die Zählfunktion direkt aufrufen. Wie ThreatSentinel T147
+  (übersprungen mit Begründung) ist auch ok, wenn die Zählung anders geprüft wird. Test: Lauf im Nachbau mit "Fehlerfenster an" ->
+  0 Aufrufe des Spiel-Handlers; Gegenprobe 3.0.30 rot.
