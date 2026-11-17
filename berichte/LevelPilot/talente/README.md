@@ -1,8 +1,10 @@
-# Talentbäume WoW Forever (Supervisor, 15.11.2026 23:33)
+# LevelPilot – Talent-Builds (Stand 3.12.89, EULA-Austausch)
 
-Quelle: wago.tools db2, Zweig **wowf**, Build **1.60.1.70938**, abgerufen 15.11.2026 23:33. Für LevelPilot LP-N1 Punkt 1 (Talent-Empfehlung).
-- Talent.csv – alle Spalten (ID, TierID, ColumnIndex, TabID, ClassID, SpellRank_0..4, PrereqTalent/PrereqRank …), 432 Talente
-- TalentTab-enUS.csv / TalentTab-deDE.csv – Bäume (ID, Name_lang, ClassMask, OrderIndex …)
-- TalentSpells.csv – je Rang-Zauber: Name enUS/deDE, Beschreibung enUS (Spell.Description_lang; Platzhalter wie $s1 stehen roh drin)
-Regel: eigene Builds mit eigener Begründung; Beschreibungen nur zum Verstehen, nicht als Text ins Addon kopieren.
-- Hinweis: nur 518 von 1357 Rang-Zaubern haben in Spell (wowf) eine Beschreibung; für die übrigen Ränge die Beschreibung von Rang 1 bzw. GetTalentInfo/Tooltip im Spiel nutzen.
+Entscheid des Nutzers 17.11.2026 06:22 (keine aus Spieldateien abgeleiteten Daten), Supervisor 15:55 (TalentBuilds per Name).
+
+- Entfernt: Talent.csv, TalentSpells.csv, TalentTab-*.csv (Auszüge aus den Spieldatenbanken über wago.tools) sowie builds.py und
+  talente_bauen.py (bauten daraus Baum/Reihe/Spalte). Die Historie im Repo bleibt; nichts davon wird mehr benutzt.
+- Quelle der Builds ist jetzt nur noch `LevelPilot/Data/TalentBuilds.lua`: eigene Auswahl, eigene Begründungen (de/en), Talent-NAMEN
+  (deutsch; englisch als Verdacht aus eigenem Wissen). Die Lage im Talentbaum sucht das Addon zur Laufzeit über GetTalentInfo.
+- Namen bestätigen bzw. ergänzen: im Spiel `/lp talente` (Testmodus) auf einem vorhandenen Charakter, dann /reload – die Aufzeichnung
+  (LevelPilotDB.talentbaum[Klasse][Sprache]: Name, Reihe, Spalte, Höchstrang) kommt mit dem Upload. Daraus wird die Namensliste ergänzt.

@@ -1,0 +1,26 @@
+BERICHT LevelPilot – EULA: Spieldaten-Auszüge aus dem öffentlichen Repo entfernt · TalentBuilds per Name umgesetzt (in 3.12.88/89)
+Projekt: LevelPilot · Datum: 17.11.2026 15:53 (aus date) · Stand: 3.12.87 veröffentlicht, 3.12.88 vorbereitet · umgesetzt, zur Prüfung
+
+1. AUS DEM REPO ENTFERNT (berichte/LevelPilot, Historie bleibt): alles, was aus den Spieldateien/-datenbanken stammt oder damit
+   arbeitete – talente/Talent.csv, TalentSpells.csv, TalentTab-deDE/enUS.csv, builds.py, talente_bauen.py (README neu: Stand und
+   Weg über /lp talente); w3d-sprache/areatable/ (AreaTable/WMOAreaTable in 12 Sprachen) und areanames_bauen.py;
+   strassen/UiMapAssignment-classic-era.csv, UiMapAssignment-wowf-1.60.1.csv, st3_messung.py, bruecken_bilder.py, bruecken/ (17 Bilder
+   des Strassennetzes), st1-vergleich-karte0/1.png. Bleiben: Ergebnis-Berichte und Code-Diffs (keine Spieldaten).
+   Hinweis: Die Tabellen hatte ursprünglich der Supervisor in meinem Ordner abgelegt (talente/README 15.11. 23:33) – entfernt nach dem
+   Entscheid 06:22; falls etwas davon woanders gebraucht wird, liegt es in der Historie.
+2. TALENTBUILDS PER NAME (Entscheid 15:55, a + b + Zwischenstand c) – in der Arbeitskopie, kommt mit der nächsten Version:
+   - Data/TalentBuilds.lua: nur noch de-Name, en-Name (Verdacht, LP.TALENT_EN_CHECKED = false), Ränge, Sätze; KEINE Baum/Reihe/Spalte.
+     151 Einträge, 138 mit en-Namen, 2 Platzhalter (Krieger "Waffenmeister", Schurke "Niedermetzeln" je Waffenart).
+     Ohne sicheren en-Namen (13): Verbesserter Taktiker, Rechtschaffene Schwächung, Göttliche Weisheit, Verbesserte Siegel,
+     Tödliche Aspekte, Effiziente Schläge, Arkane Geometrie, Seelenentzug (2×), Teuflische Vitalität, Wilde Attacke (Bär) – dort
+     hört der Vorschlag im englischen Client auf.
+   - Advisor:TalentNext sucht die Talente zur Laufzeit per Name (GetTalentInfo); Platzhalter/fehlender Name -> kein Vorschlag mit
+     Hinweis "Ab hier noch kein Vorschlag: der Name des nächsten Talents ist noch nicht bestätigt."; Sprache weder de noch en -> Hinweis
+     "Talentvorschläge gibt es nur auf Deutsch und Englisch." (kommt in den CHANGELOG).
+   - /lp talente (Testmodus): zeichnet den Talentbaum der eigenen Klasse auf (Name, Reihe, Spalte, Höchstrang; kein Symbol) ->
+     LevelPilotDB.talentbaum[Klasse][Sprache]. Nur auf vorhandenen Charakteren.
+   - Client-Test T305 prüft im Spiel, ob alle Namen der eigenen Klasse im Talentbaum stehen (bestätigt die Liste).
+   - Tests: T305 umgebaut (Name statt Lage; Platzhalter stoppt; englisch; fremde Sprache; Name fehlt) – GEGENPROBE (Platzhalter nicht
+     stoppen): false. T346 neu (Aufzeichnung; GEGENPROBE mit Symbol: false).
+3. NÄCHSTE: AreaNames (Unterzonen-Schlüssel zur Laufzeit, uiMapID + Position statt Area-ID), dann Messung mit Kartenrahmen.
+   Frage aus 15:48 (3.12.88 sofort oder nach Messung) weiter offen.
