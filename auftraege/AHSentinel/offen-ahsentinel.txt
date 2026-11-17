@@ -4568,3 +4568,33 @@ Auftrag (vor "BEREIT FÜR INGAMETEST"):
 - addon_check OK (announce-Zip). Bericht D Teil 4 gelesen: Regel CutCellOK wie Entscheid 18:10, 551 -> 0, Platzhalter 100 Texte 0 Abweichungen. Gut.
 - ABER: TAINT-1 (HOCH, 18:55) gilt auch für 0.65.329 – TestRoutine.lua:6114/19038/19039/19205/19240/19242 schreiben weiter Blizzard-Globale.
   "BEREIT FÜR INGAMETEST" erst wieder mit der Version, die TAINT-1 behebt (sonst kommt im Test derselbe Lua-Fehler).
+
+==== BEFUND Ingametest 17.11.2026 19:08 – "/ahs testroutine alles" auf 0.65.328 (Nutzer-Einfügung 19:17; Bericht kommt mit dem Uploader) ====
+Zahlen nachgerechnet: 930+4+27+59 = 1020 OK · 6+1+2+5 = 14 FEHLER · 30+0+1+4 = 35 übersprungen – stimmt mit der Kopfzeile. 13:09: 26 FEHLER -> jetzt 14.
+Gut: Wächter 10 Min. bestanden (längste eigene Rechenzeit 49 ms ≤ 50, 149 Runden), HILFE-GRP bestanden, Nachtrag D wirkt (3 Teile "noch
+offen", kein Warten, keine FEHLER dafür). Taint-Fehler während des Laufs -> TAINT-1 (HOCH, 18:55).
+Offen – HOCH (vor dem nächsten "BEREIT FÜR INGAMETEST"):
+1. SANDBOX FEHLER (Gebot B, Tests von echten Daten trennen): Teil 1 hat sniper.stats.bought und sniper.stats.missed geändert, Teil 6
+   sniper.targets.i:7048.found. Wurde zwar wiederhergestellt, aber ein Test schreibt in echte Daten. Welche Prüfung? Ursache belegen,
+   Nachbau mit echten Sniper-Daten, Gegenprobe 0.65.328 rot.
+2. T49 (simuliertes Einstellen) bekommt WIEDER den echten Preisschutz ("1s liegt 69 % unter dem Marktwert 3s 20c … nicht eingestellt").
+   In 0.65.319 als behoben gemeldet (Kandidat, den der Preisschutz annimmt) – im Spiel nicht behoben. Ursache belegen (welcher Marktwert
+   wird gelesen? echte Daten statt Sandbox?), Nachbau mit genau diesem Fall.
+3. SCHRITTE ÜBER 16 MS im Spiel: S28 648 · T21 546 · T72 405 · T26a 345 · T15 259 · T112 231 · T40 230 · T25c 188 · T14 117 · T26b 93 ·
+   T32 46 · T25a 37 · S26 26 · S31 21 ms. 12 davon über der harten Grenze 40 ms (Entscheid). Bericht 0.65.323/324 meldete im Nachbau nur S28
+   (90 -> 14 ms) und T812/T895 über 40 ms – das Spiel zeigt etwas anderes. Nachbau und Spiel gleichziehen (Verdacht, zu messen: Server-
+   Wartezeit oder Blizzard-Aufrufe im Schritt mitgezählt, z. B. T21/T40 mit Suche am AH). Wenn Wartezeit: getrennt ausweisen (eigene
+   Rechenzeit vs. Warten) – nur die eigene Rechenzeit gilt gegen 40 ms; sonst portionieren.
+4. T126 Scan-Auswertung: Median der 3 längsten 16,8 ms (soll ≤ 8), längste 20,6 ms (soll ≤ 16) in 154 Frames.
+5. T458/T459 Vollscan im Spiel: längster Frame 106 ms (Preisverlauf+Neuaufbau), Verdichtung 32 / V4 34 / Nachlauf 51 / Einlesen 22 ms;
+   27 Bilder über 33 ms (eigene Arbeit Ø 5,8 ms, höchstens 37 ms; Rest Ø 58,8 ms). Speicher +48 850 KB, 3 Bereinigungen (soll ≤ 10 MB, ≤ 1).
+   Der Bericht zu A ("im Nachbau umgesetzt") ist im Spiel NICHT bestätigt. Belegen, welche eigenen Schritte die 37 ms und die
+   Bereinigungen verursachen (Neuaufbau Preisverlauf: Tabellen neu statt wiederverwenden?), dann beheben. "Rest 58,8 ms" getrennt erklären.
+6. T20 "Scan ließ sich nicht starten" – wenn Server-Abstand (Vollscan 19:10, Abstand 15 Min.): kein FEHLER, sondern vormerken wie D;
+   sonst Ursache.
+MITTEL:
+7. Teile 1/2/4: Einzelbefunde (6 + 1 + 2 FEHLER) stehen nur im Bericht – im Bericht zum nächsten Stand je FEHLER Ursache und Behebung.
+8. SK1-m: 3 neue Fälle seit 0.65.328 "Herstellen ohne Rezept: Zauber 836" (16:46, 18:46, 18:50) – Punkt 5 vom 17.11. (Zauber 836/3909)
+   weiter offen: Zauber 836 bestimmen (welcher Beruf/welches Rezept), Buchung richtig zuordnen.
+9. TU6 Regressionen: 57 von 58, fehlt CH-G.
+10. PRÜFLISTE "TR-ALLES" zeigt noch den Stand 13:09 (26 FEHLER) – nach dem Lauf 19:08 muss der neue Stand dort stehen.
