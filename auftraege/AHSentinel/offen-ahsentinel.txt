@@ -4563,3 +4563,8 @@ Auftrag (vor "BEREIT FÜR INGAMETEST"):
 3. Prüfung in der Testroutine: nach dem Lauf issecurevariable("GetCVar") usw. für eine Liste wichtiger Blizzard-Globale = true (sonst FEHLER);
    Nachbau: Schreibzugriff auf eine Blizzard-Globale während des Laufs -> rot (Gegenprobe 0.65.328).
 4. Dem Nutzer bis dahin: nach jeder Testroutine /reload (setzt das Verderben zurück).
+
+==== PRÜFUNG Supervisor 17.11.2026 19:00 – 0.65.329 (D Teil 4) + "BEREIT FÜR INGAMETEST" ====
+- addon_check OK (announce-Zip). Bericht D Teil 4 gelesen: Regel CutCellOK wie Entscheid 18:10, 551 -> 0, Platzhalter 100 Texte 0 Abweichungen. Gut.
+- ABER: TAINT-1 (HOCH, 18:55) gilt auch für 0.65.329 – TestRoutine.lua:6114/19038/19039/19205/19240/19242 schreiben weiter Blizzard-Globale.
+  "BEREIT FÜR INGAMETEST" erst wieder mit der Version, die TAINT-1 behebt (sonst kommt im Test derselbe Lua-Fehler).

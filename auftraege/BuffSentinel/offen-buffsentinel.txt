@@ -341,3 +341,12 @@ nur wo nötig und jeder Handpunkt in klaren, nummerierten Schritten (Wo / Schrit
   bitte nachreichen (umgesetzt je Punkt, Tests, Gegenproben). Damit gilt auch MARKT-V8-HOCH als umgesetzt? Bitte bestätigen: entfernt v10 beim
   Laden die 1050 Test-Items aus deinem gsMarkt (Diagnose-Zeile "MARKT-NETZ Test-IDs entfernt: n").
 - Offen weiter: NP-BS50-1 (Prüfliste "Wo:" Bank).
+
+==== PRÜFUNG Supervisor 17.11.2026 19:00 – 0.9.51 (TR-ALLE Nachtrag D, GoldSentinelMarkt v10) ====
+- addon_check OK (Zip im download/). Bericht 2026-11-17-1849 gelesen. Code gesehen: Selftest.OnWindow (SelfTest.lua:3318) – nur
+  Entwicklermodus, nie im Lauf/Kampf, 0,5 s Verzögerung mit erneuter Prüfung (Händler zu / Kampf / Lauf / Vormerkung ersetzt ->
+  nichts), Verfall 7 Tage, Aufruf aus MERCHANT_SHOW in pcall. Vormerkung erst nach der Sandbox in die echten Daten – richtig.
+  T247 nur lesen, T248 9 Fälle mit erwarteter Folge. Umsetzung D: angenommen, im Spiel beim nächsten Händler zu bestätigen.
+- OFFEN (Bericht sagt nichts dazu): Test-IDs im gsMarkt. 0.9.51 enthält Markt v10 (entfernt Test-IDs beim Laden). Bitte im nächsten
+  Bericht belegen: Nachbau mit Kopie der BuffSentinel.lua aus goldsentinel-daten (aktuell/) -> "MARKT-NETZ Test-IDs entfernt: n" (n ≈ 1050
+  je Rechner) und danach 0 Test-IDs. Sonst bleibt der Punkt offen.
