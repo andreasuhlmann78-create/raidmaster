@@ -1,0 +1,73 @@
+AHSentinel 0.65.331 – Befund Ingametest 19:08 Punkte 1, 2, 6 und TAINT-1 Nachtrag 19:27 – umgesetzt, zur Prüfung
+
+Grundlage: Upload 19:38 (goldsentinel-daten, Lauf 19:08 auf 0.65.328, nur lokal gelesen). Die Zahlen unten sind aus diesem Bericht
+und aus Nachbauten mit den echten Sniper-Daten desselben Uploads.
+
+==== Punkt 1 – SANDBOX FEHLER (HOCH) ====
+Teil 1 (auto) "sniper.stats.bought, sniper.stats.missed" – Ursache BELEGT: T747 (SniperTest, SN-B4/SN-B3) ruft Sn:MeterEnd mit vier
+Test-Treffern auf (gekauft, weg, weg, gestiegen). MeterEnd zählt über Sn:Stats() – und Stats() gab in der Testroutine die ECHTE
+Tabelle zurück, sobald es für heute schon Tageszahlen gab (im Spiel: bought 1, missed 3 von heute). Ergebnis +1 gekauft, +3 verpasst,
+genau die zwei Pfade. Warum es die Nachbildung nie fand: time() lieferte dort Bruchteile (…400.4) -> Today() ungleich dem Tag der
+Tabelle -> immer eine leere Ersatztabelle. Im Spiel liefert time() ganze Sekunden. Der Nachbau setzt time() jetzt ganzzahlig.
+Teil 6 (server) "sniper.targets.i:7048.found" – Ursache BELEGT: T42 ("Sniper-Vorab-Reservierung kauft nie ohne Klick") schaltet den
+Sniper 8 s scharf. Er suchte dabei ALLE echten Ziele reihum (auch i:7048). Eine Suche, die erst nach dem Zurückschreiben der Ziele
+antwortete, schrieb FinishSearch -> t.found ins echte Ziel ("checked" ist erlaubt, darum nur "found").
+Umsetzung:
+- Sn:Stats(): in der Testroutine (ohne Mess-Test) nie die echte Tabelle – Anzeige bekommt eine Kopie mit denselben Zahlen.
+- Sn:MeterEnd: in der Testroutine (ohne Mess-Test) keine Ziel-Zähler (boughtN).
+- T42: eigene Ziel-Tabelle nur mit dem Test-Ziel; danach laufende Suche weg, altes Ergebnis zurück, Warteschlange des Test-Ziels weg,
+  echte Ziele zurück.
+- Sn:TRProtects(t) + FinishSearch: Antwort einer echten Suche, die während der Routine kommt (ausser Teile sniper/tempo, Mess-Test,
+  Test-Ziele ≥ 990000000), schreibt kein "found" ins echte Ziel (zweite Sicherung, falls eine Suche vom Wächter-Schritt davor noch läuft).
+- Neue Prüfungen T900 (MeterEnd ändert echte Tageszahlen/Ziel nicht, Anzeige 1/3) und T901 (TRProtects: echt true · Test-Ziel false ·
+  Ersatz false · Mess-Test false · Teil sniper false). Abdeckung SANDBOX-SN.
+Nachbau mit den echten Sniper-Daten (Tageszahlen bought 1 / missed 3 von heute, Ziel i:7048 wie im Upload):
+- s290a (Teil m mit T747): 0.65.331 Sandbox OK, Zahlen unverändert. Gegenprobe 0.65.330: "FEHLER: 2 Pfade, wiederhergestellt:
+  sniper.stats.bought, sniper.stats.missed" – genau die Meldung aus dem Spiel.
+- s290b (Teil server, Sniper vorher an, echtes Ziel i:7048 mit Angebot unter Max): 0.65.331 Sandbox OK. Gegenprobe 0.65.330:
+  "FEHLER: 1 Pfade, wiederhergestellt: sniper.targets.i:7048.found" – genau die Meldung aus dem Spiel.
+
+==== Punkt 2 – T49 bekommt wieder den echten Preisschutz (HOCH) ====
+Ursache BELEGT: 0.65.319 prüfte zwei Kandidaten (günstigstes − 1c, Vorschlag des Addons). Liegt das günstigste echte Angebot weit
+unter dem Marktwert (Spiel: 1s 1c gegen 3s 20c/3s 38c), liegen BEIDE unter 75 % des Marktwerts (der Vorschlag unterbietet das
+günstigste Angebot), und der Rückfall nahm wieder günstigstes − 1c -> Preisschutz. Gelesen wird der echte Marktwert
+(A:GetMarketValue, Teil server mit echtem Markt – so gewollt, keine Sandbox-Lücke).
+Neuer Befund im Nachbau (zur Kenntnis, Verdacht für das Spiel, zu messen): mit frischer Preisleiter nimmt der Schutz dort GAR KEINEN
+Preis an – unter 75 % des Marktwerts "zu billig", über dem 1,5-fachen des günstigsten Angebots "zu teuer". Nachbau: günstigstes 1s 89c,
+Marktwert 6s 7c -> versucht 1s 88c, 1s 88c, 4s 56c (Vorschlag des Schutzes), 6s 7c (Marktwert): alle gewarnt. Für den Spieler heisst
+das: "Preis anpassen" schlägt einen Preis vor, der dann "zu teuer" meldet. Frage an die Prüf-Sitzung: soll bei frischer Leiter die
+Leiter allein entscheiden (wie schon bei "zu teuer")? Nicht geändert, weil Preisschutz = Gold-Sicherheit.
+Umsetzung T49: Kandidaten günstigstes − 1c, Vorschlag, Vorschlag des Schutzes (fix), Marktwert; nimmt der Schutz keinen an, der Weg
+"Trotzdem einstellen" des Verkaufen-Fensters (wsBypass, nur für diesen einen Aufruf) – nichts wird wirklich eingestellt (Handels-Proxy),
+das Warnfenster erscheint nicht mehr (vorher öffnete T49 jedes Mal den Warnschutz). Das Ergebnis nennt den Weg.
+Nachbau s291 (Ausreisser bei 31 % des Marktwerts, wie 1s 1c zu 3s 20c): 0.65.331 T49 bestanden ("… · Preisschutz nahm keinen Preis an
+(versucht 1s 88c, 1s 88c, 4s 56c, 6s 7c) – wie Trotzdem einstellen"). Gegenprobe 0.65.330: T49 FEHLER "Achtung: 1s 88c liegt 69 % unter
+dem Marktwert (6s 7c) … Nicht eingestellt" – dasselbe Bild wie im Spiel.
+
+==== Punkt 6 – T20 "Scan ließ sich nicht starten" ====
+Ursache BELEGT: T20 lief direkt nach dem Wächter-Schritt (10 Min. mit echten Suchen). StartFullScan sah "Server nicht bereit oder
+Wächter-Runde" und legte nur einen Scan-Wunsch an (Rückgabe false = "ließ sich nicht starten"). Der Wunsch lief eine halbe Sekunde
+später in die Scan-Sperre der Testroutine – Beleg im Bericht 19:08: T766 "gesperrte Scan-Starts 1" (13:09 auf 0.65.315: T20 OK,
+T766 0). Der Schnell-Vollscan war es nicht (in der Testroutine aus, A:Simulated), die Server-Sperre (15 Min.) auch nicht (letzter Scan 13:17).
+Umsetzung: Wunsch verwerfen, der Test wartet bis 60 s, bis der Server bereit ist und keine Wächter-Runde läuft, und startet den Scan
+selbst; sonst "übersprungen" mit Grund (kein FEHLER), wie bei D.
+Nachbau s293 (Server 6 s nicht bereit): 0.65.331 T20 bestanden, T766 "gesperrte Scan-Starts 0". Gegenprobe 0.65.330: T20 FEHLER
+"Scan ließ sich nicht starten", T766 "gesperrte Scan-Starts 1" – genau das Bild aus dem Spiel.
+
+==== TAINT-1 Nachtrag 19:27 – beide Stacks im Nachbau ====
+s292_taint_stacks: Schreibzugriffe aus Addon-Dateien auf Blizzard-Globale während "auto" werden gemerkt (verdorben bis /reload, wie in
+WoW); danach die zwei Blizzard-Abläufe, die GetCVar lesen und einen geschützten Wert vergleichen:
+- Gegenprobe 0.65.329: beschrieben ClearOverrideBindings/SetOverrideBindingClick @19073, GetCVar @19225, GetTradeSkillSelectionIndex
+  @19247, print @6116 -> "Maus über Statusleiste … TextStatusBar.lua:126: attempt to compare local 'value' (a secret number value, while
+  execution tainted by 'AHSentinel')" und "ESC -> CloseWindows -> CharacterFrame:774 -> HideStatusBarText -> UpdateTextString:
+  TextStatusBar.lua:110: attempt to compare a secret number value (execution tainted by 'AHSentinel')".
+- 0.65.331 (wie 0.65.330): beschrieben nichts, beide Abläufe ohne Fehler.
+Grenze des Nachbaus: das Verderben selbst gibt es nur in WoW; nachgebildet ist die Regel "geschrieben = verdorben bis /reload".
+
+==== Nebenbei gemessen (für Punkt 3, nächste Version) ====
+Nachbau mit den echten Daten des Uploads (7232 Items), Startzeit je Selbsttest-Schritt: Heute tun 465 ms (Spiel T72 405), Sprachwechsel
+359 ms + Portionen bis 262 ms (T112 231), Suche nach Namen 291 ms (T15 259), Preisverlauf-Fenster 274 ms (T26a 345), Übersicht 140 ms,
+"Lohnt bis" 70–125 ms (S28 648). Die Grössenordnung stimmt mit dem Spiel überein – Punkt 3 wird damit nachgestellt (eigene Rechenzeit,
+keine Wartezeit). Auch Teil auto hatte 201 Schritte über 16 ms (T556 5879 ms, T579 5868 ms, T347/T348 ~2 s) – kommt zu Punkt 3 dazu.
+
+Tests: Gesamtlauf 367 bestanden, 0 fehlgeschlagen · addon_check OK (Release-Zip und Discord-Zip). Punkte 3, 4, 5, 7–10 folgen in den nächsten Versionen (HOCH zuerst).
