@@ -1,0 +1,80 @@
+AHSentinel 0.65.318 – Ingametest 17.11. Punkt 1 / Einzelfehler A (Vollscan-Ruckeln) – Teil 1 umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.318 und sofort im Discord.
+Grundlage: Upload goldsentinel-daten aktuell/AUSPLUSLAPTOP/…/AHSentinel.lua (13:19, 0.65.315), Berichte "server" und "alles",
+Protokoll LANGSAM 12:57–12:58. Je Punkt "Ursache belegt" oder "Verdacht, zu messen".
+
+==== 1(a) Welche Zahl misst was – Widerspruch M1d 3,9 ms gegen "längster Frame 819/840 ms" – URSACHE BELEGT (Code) ====
+- M1d = r.maxMs aus VS:ReadPortion (Vollscan.lua): nur die EIGENE Lesezeit einer Portion (Clock vor/nach der Leseschleife).
+  Upload Teil server: vollscan_m1d "220690;220688;2473;5.0;785;6582" = 2473 ms in 785 Portionen, längste 5,0 ms.
+- "längster Frame" je Schritt = VS:MTick: m.work[Schritt] += t − markT, markT wird bei JEDEM Bild neu gesetzt. Damit bekommt der
+  gerade laufende Schritt die GANZE Zeit zwischen zwei Bildern (Zeichnen, Spiel, andere Addons, Speicherbereinigung, eigene Arbeit).
+- Kein Widerspruch: 840 ms ist ein ganzes Bild, 5 ms die eigene Lesezeit darin. Die Ursache der Lücke ist in vollscan_luecke
+  festgehalten: "840 ms (Einlesen) · Speicherbereinigung nein · Ereignis keins (> 16 ms) · Aufgaben 4 ms (fullscan, 0 Schritte)".
+  In diesem Bild hat AHSentinel 4 ms gerechnet.
+- "Frames über 33 ms: 696 von 1596" (bzw. 1021 von 1641) ist NICHT vom Scan: vollscan_fps "Warten auf Server Ø 29 / min 25" –
+  während AHSentinel nichts tut (wartet auf den Server), lief das Spiel an dieser Stelle mit ~29 Bildern/s (= 34 ms je Bild).
+  Beim Einlesen Ø 36 Bilder/s (eher besser). Das Ziel "kein Bild > 16 ms" kann ein ganzes Bild an dieser Stelle nie erreichen;
+  messbar und erreichbar ist es für die EIGENE Arbeit je Bild.
+
+==== 1(b) 840-ms-Bild beim Einlesen, 461-ms-Bild im Nachlauf ====
+- 840 ms: eigene Aufgaben 4 ms, keine Bereinigung (Speicher fiel nicht), kein eigenes Ereignis > 16 ms -> ausserhalb von
+  AHSentinels gemessenem Code. VERDACHT, ZU MESSEN: Spiel/andere Addons; Antworten auf Item-Daten (Item-Cache) oder ein fremdes
+  collectgarbage("collect").
+  Gegen "Speicherbereinigung des Spiels" spricht die Messung im selben Upload: "Bleibender Speicher nach dem Scan 597088 KB
+  (2 Runden, 154 Schritte, 3.1 s, längster Schritt 11 ms bei 1024)" – zwei VOLLE Bereinigungsrunden über 597 MB (inkl. der nicht
+  teilbaren Endphase) liefen in Schritten von höchstens 11 ms. Eine Bereinigung in kleinen Schritten macht kein 840-ms-Bild;
+  nur eine ganze Bereinigung am Stück (collectgarbage("collect") eines Addons) könnte das (Verdacht, zu messen).
+- NEU (VS-BILD) zum Messen im nächsten Lauf: Die längste Lücke wird zerlegt: eigene Arbeit (Hintergrund-Aufgaben je Bild +
+  ALLE Ereignis-Aufrufe der Module, nicht nur > 16 ms), Rest (Spiel/andere Addons), Zahl der Item-Antworten des Servers
+  (GET_ITEM_INFO_RECEIVED/ITEM_DATA_LOAD_RESULT) in diesem Bild, bereinigte KB. Dazu je Messung: alle Bilder über 33 ms mit eigener
+  Arbeit Ø/höchstens und Rest Ø (Feld vollscan_bild, Zeile im Testbericht und im Protokoll VOLLSCAN Messung).
+  Nachbau s276_vs_bild: fremdes Addon 80 ms + 25 Item-Antworten -> "eigene Arbeit 3 ms · Rest 80 ms · Item-Antworten 25";
+  eigene Aufgabe 80 ms -> "Aufgaben 81 ms · Rest 0 ms". Gegenprobe 0.65.317: rot (keine Zerlegung).
+  Grenze der Messung (ehrlich): eigene OnUpdate-Skripte und Zeitgeber ausserhalb der Aufgaben sind nicht gemessen und stehen im Rest.
+- Nachlauf 461 ms (Lauf 13:09, nicht im Upload): Zusammensetzung VERDACHT, ZU MESSEN (VS-BILD zeigt es). Was im Nachlauf belegt
+  ist, steht unten (RUCKEL-1).
+
+==== RUCKEL-1: eigenes Ruckeln im Nachlauf – URSACHE BELEGT, umgesetzt ====
+Protokoll LANGSAM im Upload (17.11.): cache:today 94× bis Extras.lua:338 (16–34 ms), core:realcheck 25× bis MarketCore.lua:908
+(21–58 ms), cache:today bis Comfort.lua:853/869/872 und UI_MarketView.lua:689, learn:rhythm 85 ms bis Learn.lua:608.
+Nachbau in echter Grösse: die echten Gespeicherten Daten aus dem Upload (nur lokal, nie im Repo) im Nachbau geladen, 7197 Items,
+dazu 223107 Auktionen, ein Vollscan, Stichproben-Profil je langem Schritt (Stelle im Code):
+- Ursache: Learn:BuyStats las bei JEDEM Aufruf das ganze Journal (3000 Einträge, 1109 Käufe) mit Fc:Decode. Aufgerufen aus
+  MK:BeginBatch (alle 200 Items der Preisprüfung), MK:FlipLimitFromNet (je Item der Liste Heute / Flippen), Ln:BudgetLeft.
+  Gemessen (ohne Profil): ein Aufruf 13,7 ms. Stellen = genau die Stellen im Protokoll (Extras.lua:338, MarketCore.lua:908,
+  Comfort.lua, UI_MarketView.lua:689; learn:rhythm über Sn:GetTargets).
+- Zweite Ursache: Learn:MarketFactor ging je Gruppe einzeln über alle gemessenen Items (VS:MeasuredRate je Item), bis 9 Durchläufe
+  je Stunde, je 32 ms am Stück (Nachbau).
+- Umsetzung: Ln:BuyEntries – gelesene Kauf-Einträge bleiben zwischengespeichert, solange das Journal genau dasselbe ist (gleiche
+  Tabelle, gleiche Länge, an jeder Stelle dieselbe Zeichenkette; Vergleich ohne Lesen). Neu gelesen wird nur, was sich geändert hat.
+  BuyStats, BudgetLeft, LossWarnings nutzen es. MarketFactor: EIN Durchlauf für alle Gruppen; Hintergrund-Aufgabe "learn:factor"
+  rechnet nach jedem Vollscan, zur vollen Stunde und beim Start (vor den anderen Aufgaben) in Portionen vor. Nur wenn die volle
+  Stunde um ist (gleiche Messdaten) gelten bis zum Ende dieser Aufgabe die Zahlen der Vorstunde.
+- Messung echte Daten, Nachbau (ohne Profil): lange Schritte > 16 ms nach dem Scan 0.65.317: 253 · 0.65.318: 0. Längste Schritte
+  jetzt (> 8 ms, alles im Nachbau-Takt): core:resolve 14 ms, pd7 13 ms, timing 12,5 ms, fullscan 9,5 ms, cache:warm-today 8,7 ms
+  (vorher 32 ms). BuyStats "d" 1,0 ms (vorher 13,7), BuyEntries neu 6,9 ms (nur bei Journal-Änderung, dann nur neue Einträge),
+  FlipLimitFromNet 0,15 ms je Item.
+- Gegenprobe Zahlen (echte Daten, 0.65.317 gegen 0.65.318): BuyStats/Margin/BudgetLeft je Weg d/e/v, LossWarnings, MarketFactor aller
+  9 Gruppen, Prüfsumme FlipLimitFromNet über alle 7197 Items – 20 Werte, alle GLEICH.
+- Nachbau im Repo (ohne echte Daten): s275_ruckel1_journal – 3000 Einträge/1100 Käufe; 150 Aufrufe lesen 0× neu (317: 169500),
+  geänderter Eintrag 1× (317: 1100), neue Liste mit neuem Kauf 1×; Zahl für Zahl wie die alte Rechnung (im Szenario nachgebaut);
+  9 Gruppen = 1 Durchlauf (317: 7000 Aufrufe statt höchstens 1400); volle Stunde: kein Durchlauf am Stück, learn:factor rechnet vor.
+  Gegenprobe 0.65.317: 6 rot. Testroutine T892 (auch im Spiel, Ersatz-Journal): 50 Runden = 200 Lesevorgänge, Änderung = 1.
+
+==== Weitere Befunde aus dem Nachbau (nächste Version, Reihenfolge des Auftrags) ====
+- names: nach Item-Antworten des Servers läuft die Aufgabe "names" mit einem Schritt 25–50 ms bis Names.lua:489 (Nachbau s276).
+- fullscan VS:TrackedSet: table.sort über alle Items 10–24 ms am Stück (Vollscan.lua:679).
+- pd7 A:DataSizes 11–17 ms; core:resolve 14 ms (Fc:Decode in MarketCore.lua:168); timing 12,5 ms.
+- GoldSentinelMarkt v9 (gemeinsame Datei, nicht von mir zu ändern): Feed-Portion bis 7,2 ms bei Budget 4 ms (Prüfung alle 100 Items).
+- Hinweis echte Daten: Ln:LossWarnings meldet denselben Kauf zweimal (gleicher Schlüssel) – vorher wie nachher gleich (Journal-Doppel?).
+  Verdacht, zu messen.
+
+==== Noch offen aus 3955d984 / 767cec96 ====
+- Punkt 3 (VOLLSCAN-Schritt): Ursache belegt (Code) – SC:OnScan hält höchstens 5 Scans; mit 5 gespeicherten blieb #st.scans 5,
+  die Kette wartete auf "#st.scans > n0" -> nie. Umgesetzt für 0.65.319 (neuer Eintrag = anderer letzter Eintrag), Nachbau s277.
+- TR-RUN-1 Punkt 5 (Schritt 306) und T306 174 ms: folgt mit 0.65.319.
+- Punkt 2 (Wächter), B, C, D, E: folgen in dieser Reihenfolge.
+
+Gesamtlauf 0.65.318: BESTANDEN 349, FEHLGESCHLAGEN 0 (frischer Klon, nichts parallel).
+Veröffentlicht: GitHub-Release v0.65.318, Discord (announce). CurseForge: nein.
+Entscheid 14:02 gelesen: weiter in der Reihenfolge A · B · Wächter · VOLLSCAN-Schritt · Nachtrag D · C · E · D · T306, am Ende Bericht BEREIT FÜR INGAMETEST.
