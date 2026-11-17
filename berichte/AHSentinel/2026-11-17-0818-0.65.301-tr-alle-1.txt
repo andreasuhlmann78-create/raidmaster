@@ -1,0 +1,46 @@
+AHSentinel 0.65.301 – TR-ALLE Teil 1 (Entscheid des Nutzers 17.11. 07:36, Supervisor 07:40): /ahs testroutine alles – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.301 und sofort im Discord.
+
+UMSETZUNG (TestRoutine.lua TR.ALL_STEPS / AllStart / AllNext / AllPartDone / AllHelp / AllLines / AllFinish):
+  Schritte nacheinander, Fortschritt im Chat "Testroutine alles: n von 7 – <Schritt>":
+    1. auto – alle automatischen Prüfungen inkl. TU1-Marktlagen mit NACHGEBAUTEN Angeboten (T514–T523, T875, T877, T878)
+    2. ui – Oberflächen-Prüfung (Prüflisten-Punkt UI-TEST hakt sich wie bisher selbst ab)
+    3. hilfe – HILFE-GRP ohne Tippen: Befehlsliste deutsch + englisch mit Entwickler-Befehlen in Gruppen (mind. 4), nichts doppelt,
+       "einstellungen" -> optionen; setzt den Prüflisten-Punkt HILFE-GRP selbst (erledigt / Fehler mit Notiz)
+    4. sniper – Sniper-Testroutine S1–S13 mit Testziel, eigene Ziele pausiert und garantiert wieder an (S6 A); der echte Testkauf
+       S4 ist übersprungen mit Grund "Punkt der Handprüfliste" (kein Gold)
+    5. server, 6. berufe, 7. haendler – warten wie bisher bis 2 Min. auf das Fenster ("bitte … öffnen"), sonst "nicht prüfbar –
+       Fenster nicht offen"
+  Am Ende EINE Zusammenfassung: "Testroutine alles: x von 7 bestanden, f FEHLER, z nicht prüfbar (Prüfungen: a OK, b FEHLER,
+  c übersprungen)" + je Schritt eine Zeile mit Zahlen, Sandbox-Ergebnis und Grund; dazu ein eigener Testbericht "alles"
+  (GSTEST, ALLES-1…7), kommt mit dem Upload. "/reload"-Hinweis und Bericht-Fenster nur einmal am Ende (nicht je Teil).
+  Abbrechen: /ahs testroutine stop – im laufenden Teil (Daten zurück) und beim Warten auf ein Fenster; Rest "nicht prüfbar – Kette
+  abgebrochen". Ablauf nur im Arbeitsspeicher (nach /reload weg; Sicherung der Testroutine wie immer).
+DABEI GEFUNDEN UND BEHOBEN (Grenze "echte Daten nie verändert", Gegenprobe "kein Pfad geändert"):
+  Teil auto mit OFFENEM Auktionshaus (bisher in s42b nicht geprüft): Sandbox FEHLER – 7 Pfade, nach längerer Zeit 1053, "nicht
+  vollständig" wiederhergestellt. Ursachen je Prüfung belegt (Debug: Vergleich vor/nach jeder Prüfung):
+  - gsMarkt.export/gsMarkt.f: nachgespielte Test-Vollscans gingen per VS:FeedNet an den ECHTEN gemeinsamen Markt-Baustein ->
+    Test-IDs in gsMarkt. Jetzt: während der Testroutine kein Feed an den echten Baustein (Attrappen-Prüfung T782 läuft weiter).
+  - sniper.stats und marketData.<Test-ID> in T775/T776 (WithItemBuy): echte Zähler und Preis des Test-Items -> WithItemBuy sichert
+    und schreibt beides genau zurück.
+  - mailRules (T26f, Fenster Post-Regeln legt die leere Tabelle beim ersten Lesen an) -> LAZY (wie watcher.binds).
+  - settings.lastSummaryDay und sniper.needsKey: schreibt der Hintergrund zwischen zwei Prüfungen (Tagesbilanz gezeigt, Kauf braucht
+    Taste) – echter Zustand, keine Testdaten -> ALLOWED (bleibt, wie gsSync.book).
+  Danach Sandbox OK mit offenem AH. s42b prüft das jetzt.
+EIGENE FEHLER beim Bauen (vor dem Release gefunden): (1) "Copy" in WithItemBuy war eine weiter oben verdeckte Listen-Kopie ->
+  13 Prüfungen rot -> eigene tiefe Kopie. (2) saved.md war schon Sn.MarkDead -> überschrieben -> T615 rot -> eigener Name.
+TESTS: T333 neu (Schritte, Zusammenfassung mit erfundenen Ergebnissen, fehlende Zeilen nach Abbruch). Nachbauten:
+  s272 (alles mit AH offen, Berufsfenster/Händler zu): Fortschritt 7×, /reload-Hinweis 1×, auto bestanden + Sandbox OK, Hilfe
+  bestanden, Sniper gelaufen (Sandbox OK), Berufe/Händler "nicht prüfbar – Fenster nicht offen", Bericht "alles" gespeichert, kein
+  Gold, keine rote Prüfung ausser den reinen Nachbau-Abweichungen T617/T734/T458 (wie s44/s43).
+  s272b (stop beim Warten): Kette beendet, "1 von 3 bestanden", Rest "Kette abgebrochen". s42b: Sandbox OK.
+  Gegenprobe: ohne Feed-Sperre s42b rot ("gsMarkt.export, gsMarkt.f"); Stand 0.65.300 s42b rot (7 Pfade).
+NOCH NICHT (nächste Versionen, Reihenfolge Supervisor): 0.65.302 WAECHTER-LAST/-FUND automatisch, 0.65.303 VOLLSCAN automatisch,
+  0.65.304 TU1 Tooltip/Markt-Reiter je Lage, 0.65.305 Handprüfliste nur noch 5 Punkte nach Abschnitt B.
+
+Tests (eigene, keine Freigabe): Gesamtlauf aller Nachbauten auf dem Stand 0.65.301: BESTANDEN 340, FEHLGESCHLAGEN 1 – s216_feed_memory
+  (längster Frame mit Feed gegen ohne, echte Bildzeit). Belegt maschinenabhängig: je 3 Einzelläufe mit 0.65.301 UND 0.65.300 -> je
+  2× grün, 1× rot (61 ms ≤ 43 + 5 bzw. 47 ms ≤ 16 + 5). Die Feed-Sperre (0.65.301) gilt nur während der Testroutine, s216 läuft ohne.
+  Vorschlag: s216 so umbauen wie s207 (maschinenunabhängig) – mache ich als nächsten Test-Punkt, falls einverstanden.
+addon_check: AHSentinel-0.65.301.zip OK. Veröffentlicht: GitHub-Release v0.65.301, Discord announce/ahsentinel__ahsentinel-0.65.301.md.
+Nicht in download/, kein CurseForge (erst nach dem Ingametest).
