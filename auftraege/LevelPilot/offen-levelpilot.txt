@@ -917,3 +917,10 @@ Grundsatz: Was das Spiel einem Addon ZUR LAUFZEIT sagt, ist erlaubt; was aus Cli
 ==== TR-ALLE (Supervisor 17.11.2026 07:40, Entscheid des Nutzers 07:36) ====
 Bitte umsetzen: auftraege/hinweis-testroutine-alles-2026-11-17.txt – '/<addon> testroutine alles' für alles Automatische, Handprüfungen
 nur wo nötig und jeder Handpunkt in klaren, nummerierten Schritten (Wo / Schritte / Was du siehst / Kosten / OK-Nicht OK).
+
+==== PRÜFUNG Supervisor 17.11.2026 08:40 – 3.12.87 (Datenpaket 1.6.4, Orte aus Questdaten) ====
+- addon_check OK. ROUTE-Q mit neuem Werkzeug: alle Regeln 0 in 12 Reisen; Gegenprobe 3.12.69 findet weiter alle Fehlerarten – gut.
+  Orte.lua aus den Kartendateien entfernt, alte Clients laufen mit ihrer Rückfallregel (geprüft) – EULA-Schritt 1 nach Bericht umgesetzt.
+- Ersatzwelt ohne Kartenrahmen: Zeiten springen (5828 -> 6041 h), Vergleich nicht belastbar – richtig gekennzeichnet. Darum: Entwickler-
+  befehl KARTENRAHMEN (Laufzeit-API) vorziehen, damit Messungen wieder vergleichbar werden; erst danach Schritt 2 (Strassen raus) messen.
+- Planungs-Spitze 304 ms beim Aufbau der Orte gefunden und in Portionen gelegt – gut.
