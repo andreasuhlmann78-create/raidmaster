@@ -1,0 +1,63 @@
+BERICHT GuildSentinel 0.9.54 – Ingametest 17.11. 19:27 (T185, Portionen, Speicher, T82), Einwand T82 19:35, GoldSentinelTakt
+Von: GuildSentinel-Sitzung · 17.11.2026 21:25 (Zeit aus date, Europe/Zurich) · Quellcode 8555e05
+Status: umgesetzt, zur Prüfung. CurseForge: unverändert 0.9.52 am 18.11. 18:00. download/ nicht angefasst.
+Grundlage: testberichte/berichte/GuildSentinel/GuildSentinel-1794940085-e40107-1.json (0.9.53, 19:28) und offen-guildsentinel.txt.
+
+1. T185 settings>gen "wie der Spiel-Client (Deutsc…" (Knopf)
+   Ursache: Sprachauswahl fest 200 px. Lösung: UI:Dropdown kann bis b.maxW wachsen (Breite des Textes + 30, nur mit maxW, sonst wie
+   bisher); Sprachauswahl maxW 360. Gleich behandelt (im Nachbau gefunden): Beute-Wünsche Dungeon-Auswahl (esES, Zahlen "(52–60)"),
+   Zugänge-Gruppe (esMX), Aufräumen-Auswahlen (esES/frFR/ruRU; "Höchststufe behalten" jetzt in Zeile 2, Info rechts daneben).
+   Nachbau geeicht: die geschätzte Schriftbreite war für genau diesen Text 160,6 px, im Spiel abgeschnitten in 172 px -> Faktor 1,12
+   (test/geom.lua). Zusätzlich Sicherheitsabstand: run_alle.sh prüft deDE/frFR/esMX/ruRU mit 1,3 – 0 FEHLER.
+   Weitere Funde mit Faktor 1,22–1,3 behoben: Kacheln der Übersicht zweizeilig ("+12 par rapport au mois dernier", "hors ligne depuis 10
+   à 13 jours"), "Wer ist frei" Status fest + wächst, Probemitglieder "Empfehlung" fest + wächst ("Quedan 14 días"), freie Spalte
+   mindestens so breit wie ihre Überschrift ("Статус"), koKR "%d명 전리품 희망" (Zahl vorne).
+   WARNUNG progress>achv und recruit>texts: GEPRÜFT – der ganze Text war NICHT sichtbar. Ursache UI:Edit: der Tooltip hing am Rahmen
+   (holder), die Maus steht aber über dem Eingabefeld, das sie fängt -> kam praktisch nie; zudem nur für den Hinweistext. Jetzt am Feld
+   selbst, auch für einen eingetragenen Text, der breiter ist als das Feld (nicht während des Schreibens). Gildenerfolge: Zeile mit
+   Tooltip (Name + "fehlt: …") und ShowsFull. T185 wertet beides als "gekürzt (Tooltip)" (Regel Supervisor 19:35, verglichen wird
+   der Tooltip-Text, keine Ziffer im abgeschnittenen Teil). Knöpfe bleiben FEHLER.
+2. Portionen (Ingametest: längste 355,6 ms "bis T269")
+   URSACHE BELEGT: die Arbeit "bis T269" ist der Lagen-Katalog T270 (vor der Prüfung). Teurer Teil: Funktion "Mitgliederliste" in der
+   Lage "500, Gildenmeister" – ns.Roster:Inactive(14) war QUADRATISCH (je inaktivem Mitglied die ganze Liste mit MainOf; dazu
+   Social:IsAway -> AltsOf ohne Zwischenspeicher). Nachbau: 93,9 ms -> 29,4 ms (ein Durchgang) -> unter 1 ms (mit R:Memo, Abwesenheit
+   zuletzt). DAS IST AUCH FÜR SPIELER: Leitung > Inaktive, Übersicht, Aufräumen bei grossen Gilden. Ergebnis gleich (jüngstes "zuletzt
+   online" aller Charaktere desselben Mains). Zusätzlich jede Zelle (Lage x Funktion) einzeln aufgebaut, danach Abgabe.
+   Weitere Prüfungen mit über 25 ms im Spiel: T10 (113,9), T17 (85,6), T118 (83,2), T75 (41,6), T125 (41,1), T143 (36,7) laufen jetzt
+   ausserhalb der Prüfung Seite für Seite / Reiter für Reiter / Funktion für Funktion mit Abgabe (T10: zwischen den Seiten zurück auf
+   echt, T125: zurück auf die echte Sprache, damit kein fremder Code die Simulation sieht). T120 je Nachrichtenart, T273 nach jedem
+   Fall, T296a in vier Teilen mit gemeinsamem Zustand. T195/T196: Prüfsumme mit 20 statt 2000 Runden (geprüft wird die Sperre; die
+   Prüfsumme selbst prüft T197 unverändert).
+   OFFEN, ZU MESSEN: T188 (44,8 ms) und T198 (43,0 ms) dauern im Nachbau < 2 ms – Ursache im Spiel unbekannt. Beide schreiben jetzt
+   Teilzeiten ins Ergebnis (Diag / Fehler / Text-Export bzw. Einladen / Entfernen / Text-Export); der nächste Ingametest zeigt den Teil.
+   Nachbau (os.clock, Forever): 424 Bilder, längstes 18,7 ms (Bereich B); Era 11,9 ms; TBC 9,2 ms. Das Spiel war bisher 2–8× langsamer
+   als der Nachbau – Ziel <= 5 ms damit im Spiel noch nicht sicher, 40 ms sollten halten.
+3. GoldSentinelTakt (Hinweis 21:00): shared/GoldSentinelTakt.lua v1 unverändert kopiert (cmp gleich), .toc nach GoldSentinelTest.lua
+   vor den eigenen Dateien. Die Bereiche laufen als EINE Aufgabe GoldSentinelTakt.Start (budget 2 ms, timeout 600 s, PCall je
+   Bereich); R.MaybeYield behält die eigenen Sperren (Ersatz-Werte/With, Simulation, Test-Kampf, Köder) und ruft sonst
+   GoldSentinelTakt.Check(Prüfungs-Nr.). Ausloggen beendet die Aufgabe (Cancel). Bericht: neue Zeile "Takt: <Summary>".
+   Nachbau (wowmock): ein Bild je 16 ms Spielzeit, solange der Takt wach ist. "Abgabe nicht möglich" im Nachbau: 0.
+   MESSAUFTRAG (Hinweis): im nächsten Ingametest belegen, dass im Forever-Client abgegeben wird (Zeile "Takt: …").
+4. Speicher (+9652 KB)
+   Die Zahl war collectgarbage("count") – der GANZE Lua-Speicher aller Addons über 13 s. Jetzt getrennt: "Speicher: GuildSentinel ±x KB
+   (GetAddOnMemoryUsage nach UpdateAddOnMemoryUsage), alle Addons ±y KB" und "n Fenster-Seiten erstmals gebaut" (bleiben bis /reload,
+   wie beim normalen Öffnen). Mitgefunden: die Kopie der echten Daten (R.saved) blieb nach dem Lauf bis /reload im Speicher – jetzt
+   freigegeben. Im Nachbau (alle Rahmen sind Lua-Tabellen, keine anderen Addons): +3,9 MB ohne, +7,4 MB mit erstmaligem Bau der 13 Seiten.
+5. T82
+   - Zeile "nicht von GuildSentinel: …" steht immer da ("keine", wenn nichts; "nicht erfasst", wenn die Erkennung fehlt).
+   - Einwand 19:35 umgesetzt: gemeinsame Datei AUS DEM EIGENEN Ordner mit zurückgehaltenem Präfix (Comm.PREFIX "GuildSentinel" oder
+     GoldSentinelMarkt.PREFIX "GSMARKT1") zählt als echt -> FEHLER, Quelle "(eigener Ordner, zurückgehaltenes Präfix)". Kopien aus
+     fremden Ordnern nur genannt. Test run_t82.lua (je Client 12): Gegenprobe gegen 0.9.53: 2 rot (beide Präfixe).
+   - Beleg zum Verdacht 18:49: der Lauf 19:28 nennt "fremd AHSentinel C_ChatInfo.SendAddonMessage Präfix AHAP1 1× · 4.7 s".
+6. Berichte ohne Namen: T182/T185 nannten Zeilen mit ihrem Text – das ist bei Mitgliederzeilen der Name (im Nachbau: eigener Name in
+   "members>list"). Jetzt ersetzt U.Scrub eigenen Namen, alle Namen der Liste und die echten Namen vom Start durch "<Name>". Der
+   bisherige Ingametest-Bericht 19:28 enthält keinen Namen (geprüft).
+
+TESTS (eigene Tests, Hinweise, keine Freigabe)
+- run_alle.sh: 178 Läufe, 0 rot, 14322 Einzelprüfungen. Zahl geht auf, Lauf für Lauf gegen 0.9.53: 12704 (0.9.53 ohne run_t82, das
+  dort 2 rot hat) + 4 Läufe mit Schrift 1,3 (324 + 3×325 = 1299) + run_t82 3×12 (36) + run_tr_alles 4×1 (Prüfung "Zeile des Takts")
+  + run_inactive 3×93 (279) = 14322. Alle anderen Läufe zählen gleich wie in 0.9.53.
+- Neu test/run_inactive.lua: alte gegen neue Rechnung, 30 Zufallsrunden × 7/14/30 Tage mit Twinks und Abwesenheit – gleich; 500
+  Mitglieder: neu 1,4 ms, alt 312,8 ms (im Spiel war die Portion 355,6 ms). Gegenprobe gegen 0.9.53: Zeitprüfung rot (384,6 ms).
+- Testroutine: Forever 303, Era 308, TBC 308 OK, je 0 FEHLER; mit Bildschirm-Lage alle 11 Sprachen 0 FEHLER.
+- addon_check: siehe unten.
