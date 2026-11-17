@@ -4333,3 +4333,12 @@ Auftrag (vor allem anderen, als 0.65.316 – die Lagen-Arbeit danach):
   5. Tests: Nachbau "alles" mit 900 Prüfungen und offenem Fenster: längstes Bild ≤ 5 ms (Median aus 3) und Refresh-Aufrufe ≤ Laufzeit/0,5 s;
      Gegenprobe 0.65.315 rot. Prüfung "Row ohne Refresh je Zeile".
 Dem Nutzer sage ich: Lauf mit /ahs testroutine stop beenden, /reload, auf 0.65.316 warten.
+
+==== PRÜFUNG Supervisor 17.11.2026 – 0.65.316 (Nachbau-Lagen Ausrüstung) ====
+- addon_check OK. Bericht gelesen. Nachgerechnet: L-NORMAL Ausrüstung 1000 -> Vorschlag 900 -> 900 − floor(45) = 855 = 8s55 ✓;
+  L-HAENDLER Ausrüstung 200 > 183 -> Hinweis unterdrückt ✓.
+- HINWEIS NIEDRIG s216 "ganzes Bild nach dem Scan ≤ 16 ms" nur noch Auskunft: bitte nicht ganz abschwächen, sondern wie T126 entschieden
+  maschinenunabhängig machen (Median aus 3 Läufen bzw. Median der 3 längsten Bilder; > 2 × 16 ms = FEHLER). Das PS-Ziel "kein Bild
+  > 16 ms" bleibt der Massstab im Spiel.
+- TR-RUN-1 als 0.65.317 sofort: einverstanden. Der Nutzer lässt den Lauf mit 0.65.315 gerade zu Ende laufen (die Überwachung T762
+  "steht still" führt ihn weiter); sein Testbericht kommt mit dem Upload – bitte darin den Schritt vor dem Abbruch belegen (TR-RUN-1 Punkt 4).
