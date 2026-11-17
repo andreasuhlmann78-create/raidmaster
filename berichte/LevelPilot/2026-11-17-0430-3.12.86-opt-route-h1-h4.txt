@@ -1,0 +1,24 @@
+BERICHT LevelPilot 3.12.86 – OPT-ROUTE Hebel H1–H4 einzeln gemessen: H3 (Ruhestein) übernommen, H1/H4 verworfen, H2 belegt ohne Änderung
+Projekt: LevelPilot · Datum: 17.11.2026 04:30 (aus date) · Version: 3.12.86 · umgesetzt, zur Prüfung
+
+Bezug: Entscheid Supervisor 03:58 (H1–H4, Massstab 12 Charaktere, ROUTE-Q 0). Rohdaten: berichte/LevelPilot/opt-route/2026-11-17-h*-12-charaktere.txt
+Vergleich jeweils gegen 3.12.85 (Training 1185,2 · Gegenprobe 1163,8). Bewertung = Zeit + 0,5 × Grinden.
+H1 Reisezeit zur Zone als echte Zeit (Reiseplan: Wegnetz/Flug/Schiff/Ruhestein, ab 1500 yd, Zwischenspeicher):
+   Training +8,7 · Gegenprobe ±0,0 · besser 4 / schlechter 8 -> VERWORFEN (kein Gewinn).
+H2 Flug statt Laufen: BELEGT ohne Änderung. Mensch Paladin 1–30 (Debug je langer Strecke, letzte Flugprüfung): Flug wird genommen,
+   wenn mit bekanntem Flugmeister schneller (z. B. L17 Thelsamar -> Späherkuppe 333 s statt 1149 s; L26 940 -> 426 s; L28 412 -> 160 s).
+   Keine Prüfung nur, wo kein bekannter Flugmeister in Reichweite ist (L10 Westfall -> Dun Morogh: 2 Flugpunkte bekannt, keiner
+   in Dun Morogh; L23 Dunkelküste -> Brachland) oder unter 2000 yd. "Westfall -> Seenhain gelaufen" kommt in unserer Route nicht vor.
+H3 Ruhestein, wenn der Reiseplan "Ruhestein + weiter (Flug/Schiff)" schneller rechnet (bisher nur: Ziel nahe am Bindeort):
+   Training −2,8 · Gegenprobe −0,7 · besser 7 / schlechter 5 -> nach dem Massstab GEWINN (klein: −3,5 h von 2349, −0,15 %;
+   ehrlich: Nachtelf Druide +12,2). ROUTE-Q 12 Reisen: R1, R2, R3W, R4, R6, O5 = 0 in allen 12. ÜBERNOMMEN.
+   Im Spiel: Reiseplan in einer Planungs-Portion direkt aufrufen (Wegsuche gibt ab – geht nicht durch pcall), sonst mit pcall
+   (wie CheckFirstPath). Arbeitskopie gegen Versuchskopie: alle 12 Ergebnisse identisch.
+H4 Zonenwechsel-Kosten 240 s (Factoruide zone_change_weight) als Lauf-Yards in der Zonenwertung:
+   Training −11,2 · Gegenprobe +4,1 · besser 6 / schlechter 6 -> VERWORFEN (nur Training besser).
+Planungszeit: H4 fügt keine Rechnung hinzu und zeigt trotzdem 17 ms statt 14 ms je Schritt – die ms schwanken mit der Last des
+   Rechners; Verdacht, zu messen: H3 kostet keine messbare Planungszeit (in der Versuchsmessung ebenfalls 16–18 ms).
+TESTS: T343 neu (true ×3: Ruhestein wegen Reiseplan · nicht ohne Vorteil · Ziel am Bindeort wie bisher). GEGENPROBE (alte Regel):
+   "Ruhestein wegen Reiseplan" false. T155, T332–T342 grün.
+PRÜFUNGEN: addon_check OK · Offline-Routine 38/38 ohne FEHLER · Regression 36/36 ALLE TESTS OK.
+NÄCHSTE: H3b (Binden in der Hub-Stadt mit Flugmeister, Factoruide 13 Ruhesteine bis 30, wir 3) – einzeln nach dem Massstab.
