@@ -1,6 +1,7 @@
--- ROUTE-Q (3.12.79): Routen-Prüfung über die virtuelle Reise 1–60. R1 Annehmen zuerst, R2 Questlevel > Stufe + 2, Startgebiet verlassen,
+-- ROUTE-Q (3.12.87): Routen-Prüfung über die virtuelle Reise 1–60. R1 Annehmen zuerst, R2 Questlevel > Stufe + 2, Startgebiet verlassen,
 -- R3W Weg-Ebene wie das Navi, R4 Sonder-Schritte, R6 Ort zu früh verlassen, O5 Questgeber am Weg verpasst, R7 Zonen-/Kontinentwechsel (Zahl).
 -- Aufruf (oder ../mess_route_q.sh): Daten aus PACKDIR; FOREVER=1 oder FLAVOR=era; echte Kartengrenzen mit WORLDHOOK/SIMDIR; lua51 mess_route_q.lua <LevelPilot> 0 <Volk> <Klasse> <Fraktion>
+-- 2026-11-17 EULA: Orte und Startgebiet ohne Spieldateien (Häufung der Questgeber, Gasthaus-Regel). Debug: DBG3/DBG5/DBG6/DBGC/DBGF/DBGW.
 if os.getenv("ZONEN") then
   ZONESIZE = { [1429] = { 3470.84, 2314.62 }, [1426] = { 4924.66, 3283.33 }, [1438] = { 5091.66, 3393.75 },
                [1411] = { 5287.5, 3525.0 }, [1420] = { 4518.75, 3012.5 }, [1412] = { 5137.5, 3425.0 } }
@@ -16,43 +17,70 @@ local G = LP.Geo
 local race = arg[3]
 local NEAR, SPECIAL_DETOUR = 150, 60
 local SPECIAL = { BIND = true, HEARTH = true, FP = true, VENDOR = true, TRAIN = true, REPAIR = true }
-local START_IDS = { Human = { 9, 34, 59 }, Dwarf = { 132 }, Gnome = { 132 }, NightElf = { 188, 256, 263 }, Orc = { 363, 638, 639, 640 },
-  Troll = { 363, 638, 639, 640 }, Scourge = { 154, 155 }, Tauren = { 220, 221 } }
 local ST = { Human = 1429, Dwarf = 1426, Gnome = 1426, NightElf = 1438, Orc = 1411, Troll = 1411, Scourge = 1420, Tauren = 1412 }
-
-local rowCache = {}
-local function AreaAt(map, inst, n, w)
-  local d = LevelPilotData and LevelPilotData.ORTE
-  if not (d and map and n) then return nil end
-  local x, y = G:ToMap(map, inst, n, w)
-  if not x or x < 0 or y < 0 or x >= 100 or y >= 100 then return nil end
-  local era = G.EraFrame and G.EraFrame()
-  local str = (era and d.era[map]) or d.forever[map]
-  if not str then return nil end
-  local key = (era and "e" or "f") .. map .. ":" .. math.floor(y)
-  local r = rowCache[key]
-  if not r then
-    local j = 0
-    for row in (str .. ";"):gmatch("([^;]*);") do
-      if j == math.floor(y) then
-        r = {}
-        local xx = 0
-        for part in row:gmatch("[^,]+") do
-          local id, c = part:match("^(%d+)%*(%d+)$")
-          id, c = tonumber(id or part), tonumber(c or 1)
-          for _ = 1, c do r[xx] = id xx = xx + 1 end
+-- 2026-11-17 EULA (Nutzer 06:22): keine Gebiets-IDs aus den Spieldateien mehr, auch nicht in der Messung. Ort = Häufung der
+-- Questgeber/Abgeber aus den Questdaten (eigene Umsetzung, unabhängig von der Addon-Fassung: Kette <= 100 yd, mind. 3 Punkte,
+-- Rand +40 yd). Startgebiet = Punkte näher am Startplatz als am nächsten Gasthaus und innerhalb des Kreises Startplatz–Gasthaus.
+local HUB_LINK, HUB_MIN, HUB_MARGIN = 100, 3, 40
+local hubs
+local function BuildHubs()
+  hubs = {}
+  local per, seen = {}, {}
+  for _, qid in ipairs(LP.QuestDB:AllIds()) do
+    local q = LP.QuestDB:Get(qid)
+    if q then
+      for _, list in ipairs({ q.starts or {}, q.ends or {} }) do
+        for _, pt in ipairs(list) do
+          if pt[1] and pt[2] and pt[3] and not pt.obj then
+            local key = ("%d:%.1f:%.1f"):format(pt[1], pt[2], pt[3])
+            if not seen[key] then
+              seen[key] = true
+              local i, n, w = G:ToWorld(pt[1], pt[2], pt[3])
+              if i then per[pt[1]] = per[pt[1]] or {} table.insert(per[pt[1]], { i, n, w }) end
+            end
+          end
         end
-        break
       end
-      j = j + 1
     end
-    rowCache[key] = r or {}
   end
-  return r and r[math.floor(x)]
+  for map, pts in pairs(per) do
+    local out, used = {}, {}
+    for a = 1, #pts do
+      if not used[a] then
+        used[a] = true
+        local mem, k = { pts[a] }, 1
+        while k <= #mem do
+          local m = mem[k]
+          for b = 1, #pts do
+            if not used[b] and pts[b][1] == m[1] and (pts[b][2] - m[2]) ^ 2 + (pts[b][3] - m[3]) ^ 2 <= HUB_LINK * HUB_LINK then
+              used[b] = true mem[#mem + 1] = pts[b]
+            end
+          end
+          k = k + 1
+        end
+        if #mem >= HUB_MIN then
+          local sn, sw = 0, 0
+          for _, p in ipairs(mem) do sn, sw = sn + p[2], sw + p[3] end
+          local cn, cw, r = sn / #mem, sw / #mem, 0
+          for _, p in ipairs(mem) do r = math.max(r, math.sqrt((p[2] - cn) ^ 2 + (p[3] - cw) ^ 2)) end
+          out[#out + 1] = { id = map * 1000 + #out + 1, inst = mem[1][1], n = cn, w = cw, r = r + HUB_MARGIN }
+        end
+      end
+    end
+    hubs[map] = out
+  end
 end
-local function AreaLevel(id)
-  local a = LevelPilotData.ORTA and LevelPilotData.ORTA[id]
-  return a and a[2] or 0
+local function AreaAt(map, inst, n, w)
+  if not (map and inst and n) then return nil end
+  if not hubs then BuildHubs() end
+  local best, bd
+  for _, h in ipairs(hubs[map] or {}) do
+    if h.inst == inst then
+      local d = math.sqrt((n - h.n) ^ 2 + (w - h.w) ^ 2)
+      if d <= h.r and (not bd or d < bd) then best, bd = h, d end
+    end
+  end
+  return best and best.id or nil
 end
 local areaMin
 function AreaMin(id)
@@ -70,9 +98,27 @@ function AreaMin(id)
   end
   return areaMin[id]
 end
-local startSet = {}
-for _, id in ipairs(START_IDS[race] or {}) do startSet[id] = true end
-local function InStart(inst, n, w) return startSet[AreaAt(ST[race], inst, n, w) or -1] == true end
+local RS = { Human = { 1429, 48.2, 42.9 }, Dwarf = { 1426, 29.9, 71.2 }, Gnome = { 1426, 29.9, 71.2 }, NightElf = { 1438, 58.6, 44.6 },
+  Orc = { 1411, 43.3, 68.5 }, Troll = { 1411, 43.3, 68.5 }, Scourge = { 1420, 30.2, 71.7 }, Tauren = { 1412, 44.2, 76.1 } }
+local startA
+local function InStart(inst, n, w)
+  if startA == nil then
+    startA = false
+    local st = RS[race]
+    local si, sn, sw = st and G:ToWorld(st[1], G:FromData(st[1], st[2], st[3]))
+    if si then
+      local best, bn, bw
+      for _, v in ipairs(LP.QuestDB:ServiceNPCs().inn or {}) do
+        local vi, vn, vw = G:ToWorld(v.map, v.x, v.y)
+        if vi == si then local d = G:Dist(sn, sw, vn, vw) if not best or d < best then best, bn, bw = d, vn, vw end end
+      end
+      if best then startA = { si, sn, sw, best, bn, bw } end
+    end
+  end
+  if not startA or inst ~= startA[1] or not n then return false end
+  local d = G:Dist(n, w, startA[2], startA[3])
+  return d < startA[4] and d < G:Dist(n, w, startA[5], startA[6])
+end
 
 local c = { r1 = 0, r2 = 0, r2e = 0, r3 = 0, r3w = 0, r3wn = 0, r3small = 0, r3back = 0, kept = 0, r3better = 0, r6 = 0, o5 = 0, zoneCh = 0, zoneCh30 = 0, contCh = 0, contCh30 = 0, r4 = 0, steps = 0 }
 local leaveLevel, leaveOpen
@@ -93,6 +139,16 @@ LP.Engine.Current = function(self)
   local pi, pn, pw = G:Player()
   if not pi then return st end
   local d = (st.inst == pi) and G:Dist(pn, pw, st.n, st.w) or math.huge
+  if os.getenv("DBGW") and s.level <= 30 and st.inst == pi and d > 1500 then
+    local lt = LP.Planner.lastTravel
+    local kn = 0 for _ in pairs(LP.char.taxiKnown or {}) do kn = kn + 1 end
+    io.stderr:write(("DBGW L%d %s %.0f yd von %s nach %s · Flug bekannt %d · letzte Flugprüfung: %s\n"):format(s.level, Name(st), d, tostring(select(4, G:Player())), tostring(st.map), kn,
+      lt and ("laufen %.0f s, Flug %.0f s, genommen %s, nach %s"):format(lt.walk or -1, lt.fly or -1, tostring(lt.took), tostring(lt.to)) or "keine"))
+    LP.Planner.lastTravel = nil
+  end
+  if os.getenv("DBGF") and ({ FLY = true, FP = true, HEARTH = true, BIND = true, GOTO = true })[st.t] and s.level <= 30 then
+    io.stderr:write(("DBGF L%d %s %s %.0f yd\n"):format(s.level, st.t, Name(st), d))
+  end
   -- offene Questgeber <= 150 yd
   local open
   for _, t in ipairs(LP.Planner.lastTasks or {}) do
@@ -110,8 +166,6 @@ LP.Engine.Current = function(self)
     c.r2 = c.r2 + 1
     Ex("r2", ("L%d %s (Questlevel %d)"):format(s.level, Name(st), ql))
   end
-  local aid = st.map and AreaAt(st.map, st.inst, st.n, st.w)
-  if aid and AreaLevel(aid) > s.level + 2 then c.r2e = c.r2e + 1 end
   -- Startgebiet verlassen: erster Schritt ausserhalb, ausser einer Annahme gleich am Weg (<= 150 yd, ORT-1 O5)
   if not leaveLevel and InStart(pi, pn, pw) and not InStart(st.inst, st.n, st.w) and not (st.t == "ACCEPT" and d <= NEAR) then
     local inside = 0
@@ -223,9 +277,9 @@ LP.Engine.Current = function(self)
   do
     local pm = select(4, G:Player())
     local ha = pm and AreaAt(pm, pi, pn, pw)
-    local hp = ha and LevelPilotData.ORTA[ha] and LevelPilotData.ORTA[ha][1] or 0
+    local hp = ha and math.floor(ha / 1000) or 0
     local ta = st.map and AreaAt(st.map, st.inst, st.n, st.w)
-    local tp = ta and LevelPilotData.ORTA[ta] and LevelPilotData.ORTA[ta][1] or 0
+    local tp = ta and math.floor(ta / 1000) or 0
     -- nur echtes Weggehen (Ziel > 150 yd) und nur Offenes im Ort bis 400 yd (P.HUB_RADIUS)
     if d > NEAR and ha and hp ~= 0 and ta and tp ~= 0 and ta ~= ha and AreaMin(ta) and AreaMin(ha) then
       for _, t in ipairs(LP.Planner.lastTasks or {}) do
@@ -238,6 +292,14 @@ LP.Engine.Current = function(self)
            and G:Dist(pn, pw, st.n, st.w) > G:Dist(pn, pw, t.n, t.w) then
           c.r6 = c.r6 + 1
           Ex("r6", ("L%d %s (Ort %d -> %d), offen im Ort: %s %s"):format(s.level, Name(st), ha, ta, t.t, tostring(t.q or t.id)))
+          if os.getenv("DBG6") then
+            local R = LP.Planner.steps or {}
+            local parts = {}
+            for i = 1, math.min(#R, 8) do local r = R[i]; parts[#parts+1] = ("%d:%s %.0fyd%s"):format(i, Name(r), r.n and G:Dist(pn, pw, r.n, r.w) or -1, r.blocked and " blk" or "") end
+            io.stderr:write(("DBG6 Ziel %s %.0f yd; offen %s key=%s %.0f yd, val=%s, Zeilen: %s\n"):format(Name(st), d, tostring(t.q or t.id), tostring(t.key),
+              G:Dist(pn, pw, t.n, t.w), tostring(t.value), table.concat(parts, " | ")))
+            for k, v in pairs(t) do if type(v) ~= "table" then io.stderr:write(("   t.%s=%s\n"):format(k, tostring(v))) end end
+          end
           break
         end
       end
@@ -253,6 +315,19 @@ LP.Engine.Current = function(self)
         if det <= 60 and G:Dist(t.n, t.w, st.n, st.w) > 60 then
           c.o5 = c.o5 + 1
           Ex("o5", ("L%d %s (%.0f yd), am Weg: %s (+%.0f yd)"):format(s.level, Name(st), d, tostring(t.q or t.id), det))
+          if os.getenv("DBG5") then
+            local R = LP.Planner.steps or {}
+            local parts = {}
+            for i = 1, math.min(#R, 8) do local r = R[i]; parts[#parts+1] = ("%d:%s %s %.0fyd"):format(i, r.t, Name(r), r.n and G:Dist(pn, pw, r.n, r.w) or -1) end
+            io.stderr:write(("DBG5 O5 Spieler %.1f/%.1f, am Weg %s key=%s %.1f/%.1f (%.0f yd vom Spieler, %.0f yd vom Ziel) val=%s\n  Route: %s\n"):format(
+              pn, pw, tostring(t.q or t.id), tostring(t.key), t.n, t.w, G:Dist(pn, pw, t.n, t.w), G:Dist(t.n, t.w, st.n, st.w), tostring(t.value), table.concat(parts, " | ")))
+            local dg = LP.Planner.diag or {}
+            io.stderr:write(("  diag onWay=%s near=%s explicit1=%s\n"):format(tostring(dg.onWayAccepts), tostring(dg.nearAccepts), tostring(R[1] and R[1].explicit)))
+            io.stderr:write(("  geplant bei %.1f/%.1f, Planer-Erste: %s, jetzt-Erste: %s\n"):format(dg.pn or 0, dg.pw or 0, tostring(dg.first), tostring(R[1] and R[1].key)))
+            local sv = {}; for i, r in ipairs(R) do sv[i] = r end
+            local cnt = LP.Planner.OnWayAccepts(sv, LP.Planner.lastTasks, pi, pn, pw)
+            io.stderr:write(("  OnWay jetzt: %d, erster: %s\n"):format(cnt, Name(sv[1])))
+          end
           break
         end
       end
@@ -268,6 +343,13 @@ LP.Engine.Current = function(self)
     if c.lastInst and st.inst ~= c.lastInst then
       c.contCh = c.contCh + 1
       if s.level < 30 then c.contCh30 = c.contCh30 + 1 Ex("r7", ("L%d Kontinentwechsel zu %s"):format(s.level, Name(st))) end
+      if os.getenv("DBGC") and s.level < 30 then
+        local P = LP.Planner
+        local parts = {}
+        for map, z in pairs(P.lastZones or {}) do parts[#parts+1] = ("%d:%s v%.1f n%d near%.0f"):format(map, z.inst == pi and "H" or "A", z.value, z.cnt, z.near or -1) end
+        table.sort(parts)
+        io.stderr:write(("DBGC L%d Wechsel zu %s (%s), Fokus %s why=%s\n  %s\n"):format(s.level, Name(st), tostring(st.t), tostring(P.focus), tostring(P.focusWhy), table.concat(parts, " | ")))
+      end
     end
     c.lastZone, c.lastInst = zone, st.inst
   end
@@ -282,7 +364,7 @@ local t0 = os.clock()
 LP.Virtual:RunAll("start", tonumber(os.getenv("MAXL") or "60"))
 local s = LP.Virtual.s
 local h = (s.clock or 0) / 3600     -- Uhr der Reise (mit Ruhezeiten); die Spielzeit steht im Reisebericht
-print(("%s %s: R1 %d · R2 %d (Ort mit Erkundungsstufe > Stufe+2: %d) · R3 %d (%.1f je h) · R3W %d von %d Wegen (davon Pfeil zurück %d; kleine Änderungen 5–50 yd: %d; alter Weg behalten: %d; Wechsel auf deutlich kürzeren Weg: %d) · R4 %d · R6 %d · O5 %d · R7 Zonenwechsel %d (bis 30: %d), Kontinentwechsel %d (bis 30: %d) · Startgebiet verlassen auf Stufe %s (drinnen offen %s) · %d Schritte · %.0f h · Stufe %d")
+print(("%s %s: R1 %d · R2 %d (entfällt: %d) · R3 %d (%.1f je h) · R3W %d von %d Wegen (davon Pfeil zurück %d; kleine Änderungen 5–50 yd: %d; alter Weg behalten: %d; Wechsel auf deutlich kürzeren Weg: %d) · R4 %d · R6 %d · O5 %d · R7 Zonenwechsel %d (bis 30: %d), Kontinentwechsel %d (bis 30: %d) · Startgebiet verlassen auf Stufe %s (drinnen offen %s) · %d Schritte · %.0f h · Stufe %d")
   :format(race, os.getenv("FLAVOR") == "era" and "Era" or "Forever", c.r1, c.r2, c.r2e, c.r3, h > 0 and c.r3 / h or 0, c.r3w, c.r3wn, c.r3back, c.r3small, c.kept, c.r3better, c.r4, c.r6, c.o5, c.zoneCh, c.zoneCh30, c.contCh, c.contCh30,
   tostring(leaveLevel), tostring(leaveOpen), c.steps, h, s.level))
 for _, k in ipairs({ "r1", "r2", "r3", "r3w", "r4", "r6", "o5", "r7" }) do for _, e in ipairs(ex[k]) do print("  " .. k:upper() .. " " .. e) end end
