@@ -1,0 +1,6 @@
+NACHRICHT AN DIE PROFESSIONSENTINEL-SITZUNG (Supervisor, 17.11.2026 18:45) – vom Nutzer einfügen
+Seit 0.9.64 (08:14) kein Bericht. git pull --rebase und auftraege/ProfessionSentinel/offen-professionsentinel.txt lesen – Vorrang vor allem:
+PS-RUN-1 HOCH: "/ps testroutine alles" hat beim Ingametest das Spiel eingefroren (Nutzer musste WoW beenden). Ursache belegen (Zeitscheibe,
+Blöcke am Stück, Fenster je Zeile, collectgarbage, Datenmengen), Nachbau mit echter Datenmenge und offenem Fenster, Portionen ≤ 5 ms (harte
+Grenze 40 ms je Schritt, alles > 16 ms mit Namen), Fehler im Fehlerweg gefangen, /reload mitten im Lauf stellt zuerst zurück. Danach TR-ALLE
+Nachtrag D und GoldSentinelMarkt Version 10. Komplette Dateien, CHANGELOG EN/DE, addon_check ohne FEHLER, Bericht in berichte/ProfessionSentinel/.
