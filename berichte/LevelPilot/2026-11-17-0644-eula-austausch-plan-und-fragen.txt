@@ -1,0 +1,34 @@
+BERICHT LevelPilot – EULA-Austausch (Entscheid 06:22/06:34): Plan, Stand, Einordnung AreaNames/TalentBuilds, Fragen
+Projekt: LevelPilot · Datum: 17.11.2026 06:44 (aus date) · Stand: 3.12.86 · in Arbeit (kein Halt)
+
+1. REIHENFOLGE wie beauftragt: Messung -> Orte tauschen (3.12.87, Datenpaket 1.6.4 ohne Orte.lua) -> Strassen tauschen (3.12.88) ->
+   Prüfung. Alles andere bleibt (ROUTE-Q, Ort-für-Ort, Kontinent als Block, H3, Massstab 12).
+2. MESSUNG läuft (12 Charaktere + ROUTE-Q 12 Reisen): 3.12.86 ohne Strassennetz / ohne Orte im Planer / ohne beides.
+   ROUTE-Q-Werkzeug zuerst umgestellt (Commit vorher): Ort = Häufung der Questgeber/Abgeber aus den Questdaten (Kette ≤ 100 yd,
+   mind. 3 Punkte, Rand +40 yd), Startgebiet = näher am Startplatz als am Gasthaus (Kreis) – beides OHNE Spieldaten, eigene Umsetzung
+   im Werkzeug (unabhängig von der Addon-Fassung, damit die Gegenprobe mit 3.12.69 weiter geht). "R2 mit Erkundungsstufe" entfällt
+   (war nur Zusatzzahl). Basis 3.12.86 und Gegenprobe 3.12.69 werden mit dem neuen Werkzeug neu gemessen.
+3. ORTE (3.12.87, gebaut, Tests grün): Orte.lua neu – gleiche Schnittstelle (At, AtWorld, Info, Available), Quelle = Häufung der
+   Questgeber/Abgeber aus Questie (zur Laufzeit gebaut, kein Speichern). O.START entfällt -> Startgebiet nach der Regel ohne Spieldaten
+   (Mittellinie/Kreis Startplatz–Gasthaus, wie 3.12.71). Beispiele: Späherkuppe 5 Punkte r 54 yd, Seenhain 17 Punkte, Goldhain/Nordhain
+   getrennt; einzelne Höfe (< 3 Punkte) sind kein Ort. Laufzeit-API (GetSubZoneText) nicht nötig: der Planer braucht Orte beliebiger
+   Punkte (Questgeber), nicht nur des Spielers.
+   R5-Aufzeichnung (questOrder): Feld "ar" (Gebiets-ID aus Spieldateien) ersetzt durch "m" (Zonenkarte). Bitte im wege_check beachten.
+   Tests: T334 neu (Orte aus Questdaten, Startgebiet ohne Spieldaten; GEGENPROBE alles ein Ort: false), T338/T340 grün.
+4. STRASSEN (3.12.88): GSWEGE (gelaufene Wege, Wege.lua/Seed.lua) sind schon im Wegnetz; Tausch = Strassen.lua/StrassenEra.lua raus,
+   Rückfall Luftlinie wie vor ST-1. Verlust aus der Messung "ohne Strassennetz".
+5. EINORDNUNG (Auftrag 06:22):
+   - TalentBuilds.lua: Auswahl, Reihenfolge, Begründungen = eigene Inhalte; nur Baum/Reihe/Spalte stammen aus wago.tools. Genau diese
+     Werte liefert das Spiel zur Laufzeit (GetTalentInfo: tier, column, maxRank) – ersetzbar: Positionen beim ersten Öffnen im Spiel
+     aus GetTalentInfo prüfen/zuordnen. Vorschlag: Tabelle behalten, aber nur noch mit Talent-NAMEN (enUS/deDE eigene Liste) und die
+     Position zur Laufzeit per GetTalentInfo suchen. FRAGE: so umbauen (3.12.89), oder Positionen = allgemeines Spielwissen (wie jeder
+     Talentrechner) und lassen?
+   - AreaNames.lua (87 Einträge, 6 Städte, alle Sprachen): ersetzbar durch Laufzeit-API: Gebiets-ID-Liste (nur Zahlen) + Namen zur
+     Laufzeit über C_Map.GetAreaInfo(id) in der Sprache des Clients. Sprachübergreifend (Wege aus anderen Sprachen) ginge dann nur über
+     die ID. FRAGE: ID-Liste (Zahlen aus der AreaTable) zulässig, oder Unterzonen-Schlüssel nur noch über eigene Aufzeichnung im Spiel?
+   - Nur offline: berichte/LevelPilot/offline/lua/sim/worlddata.lua (Kartenrahmen aus UiMapAssignment für die Simulation, nicht im
+     Addon) und berichte/LevelPilot/orte/orte_bauen.py, orte_probe.py (bauten Orte.lua aus den Kartendateien). FRAGE: Sollen die
+     raus (dann misst die Simulation ohne echte Kartengrenzen – Zahlen ändern sich), oder ist offline erlaubt? orte_*.py entferne ich
+     mit 3.12.87, weil Orte.lua entfällt.
+   - Datenpaket README: "Koordinaten Mulgore, Östl. Pestländer, Rotkamm, Sturmwind auf die Forever-Karten umgerechnet" (mit Kartenrahmen
+     aus UiMapAssignment). Hinweis, keine Änderung ohne Auftrag (betrifft Questie-Koordinaten).
