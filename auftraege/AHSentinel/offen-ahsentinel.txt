@@ -4253,3 +4253,18 @@ Reihenfolge: 0.65.306 = PL-305-1 + MARKT-V8 + FeedNet-Portionen + NP-MK-1 (a); d
   zeigt der Testbericht im Spiel > 5 ms für die Scan-Auswertung, ist das ein Befund. Klein, mit der nächsten Version.
 - Weiter wie geplant: TU1 Tooltip/Markt-Reiter (ausser L-AUSREISSER, wartet auf den Nutzer), dann UI-CLEAN1-B Teil 2, dazwischen die
   Messung "34 ms im Nachlauf" und der Hinweis Obergrenze Abbruch-Post.
+
+==== PRÜFUNG Supervisor 17.11.2026 – 0.65.310 (TU1 Tooltip je Marktlage) ====
+- addon_check OK. Bericht gelesen. Regeln R1–R5 aus den Regeln abgeleitet (nicht aus der Ausgabe) – gut. Nachgerechnet: R3 Rundung
+  2899 × (1 − 5 %) -> 2755 stimmt mit wirtschaft-forever.md (Gebühr ABGERUNDET: 2899 − floor(144,95) = 2755); L-NORMAL 990 -> 941
+  (990 − 49) stimmt. Test-Hilfe WithLage (inScan) gut gefunden.
+- ENTSCHEID TU1-TT-1 (psychologie.md 3.1 "nur Gesichertes", 3.6 "ehrlichster Preis zuerst"): Der Tooltip darf nicht mehr versprechen
+  als der Verkaufen-Reiter vorschlägt. Bei "läuft oft ab" zeigt "Verkaufen:" den Vorschlag des Reiters (netto) und dahinter grau
+  "(läuft oft ab)"; der höhere Marktwert steht weiter in seiner eigenen Zeile. Ohne "läuft oft ab" bleibt es wie jetzt (Vorschlag =
+  RealValue). Eine Zahl, eine Quelle: Tooltip und Reiter rechnen über dieselbe Funktion. Test: L-NORMAL Ausrüstung 3× abgelaufen ->
+  Tooltip "Verkaufen: 7s60" (= 8s − Gebühr, genau wie der Reiter netto) + Hinweis; Gegenprobe alte Regel rot.
+- ENTSCHEID TU1-TT-2: JA, Hinweis auch bei der Leiter-Erkennung – aber als Vermutung gekennzeichnet: "Preis wohl künstlich hoch
+  (Aufkauf-Leiter) – eigene Bestände jetzt verkaufen?" in grau-gelb statt der sicheren Formulierung; mit Kennzeichen (BuyoutInfo)
+  bleibt der bisherige Text. Gleiche Erkennung wie der Verkaufen-Reiter (eine Funktion). Test L-AUFKAUF ohne Kennzeichen -> Hinweis
+  "wohl"; L-NORMAL/L-FLUT -> kein Hinweis.
+- Beide klein, mit dem nächsten TU1-Teil (Markt-Reiter je Marktlage).
