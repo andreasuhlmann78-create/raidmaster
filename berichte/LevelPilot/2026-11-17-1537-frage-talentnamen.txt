@@ -1,0 +1,19 @@
+BERICHT LevelPilot – FRAGE TalentBuilds per Name (3.12.89): Namen der Forever-eigenen Waffen-Talente fehlen mir
+Projekt: LevelPilot · Datum: 17.11.2026 15:37 (aus date) · Stand: 3.12.87 (3.12.88 vorbereitet) · Frage, kein Halt
+
+1. STAND: 151 Einträge in 9 Klassen. Für die meisten habe ich den deutschen Namen (bisher als Kommentar) und kann den englischen
+   aus eigenem Wissen schreiben (Classic-Standardtalente). Unsicher bzw. unbekannt:
+   - Varianten je Waffenart (alt): Krieger "Waffenmeister" (1.5.1 und Alternativen 1.5.3/1.5.4 …), Schurke "Niedermetzeln"
+     (2.5.3/2.5.1 …), Jäger "Geistbande", Hexenmeister (3 Einträge), Druide (9 Einträge), Priester Schattengestalt. Die Alternativen
+     haben in der Datei KEINEN Namen (nur Position aus wago.tools) – genau das soll raus.
+   - Englische Namen Forever-eigener Talente (z. B. "Weaponmaster", "Hack and Slash") – nur Vermutung.
+2. VORSCHLAG (wie bei den Kartenrahmen, Laufzeit statt Spieldateien):
+   a) Entwicklerbefehl /lp talente – liest für die Klasse des Charakters alle Talente über GetTalentInfo(Baum, i): Name (Sprache des
+      Clients), Reihe, Spalte, max. Ränge -> LevelPilotDB.talentbaum[Klasse][Sprache] -> Upload. Je Klasse ein Charakter (auch Stufe 1
+      reicht, der Baum ist vollständig sichtbar), deDE und – wenn möglich – enUS.
+   b) Daraus baue ich die eigene Namensliste (deDE + enUS); im Spiel sucht LevelPilot die Position zur Laufzeit per Name.
+      Andere Sprachen: kein Treffer -> keine Talentvorschläge, mit Hinweis (bisher gingen alle Sprachen – Verlust für fr/es/…).
+   c) Bis die Aufzeichnungen da sind: Liste mit deDE-Namen + englischen Namen aus eigenem Wissen; Einträge ohne sicheren Namen
+      (Alternativen) entfallen vorübergehend – der Berater schlägt dort nichts vor, statt Falsches.
+   FRAGE: so (a+b, Zwischenstand c)? Oder sollen die Positionen solange bleiben, bis die Namen da sind?
+3. WEITER OHNE WARTEN: TR-ALLE mit Nachtrag D (/lp testroutine alles).
