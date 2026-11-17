@@ -71,8 +71,18 @@ end
 -- vorhandene echte Daten (Sandbox muss sie unverändert lassen)
 RaidMasterDB = { data = { players = { Echt1 = { c = "WARRIOR", d = { mc = 77 } } }, log = {}, version = 5 }, prof = { Testa = { p = {} } },
 	lootdb = { v = 2, kills = {}, trash = {}, items = {}, bosses = {} } }
+-- leistung.md Regel 7: REALDB=<Pfad zu RaidMaster.lua aus goldsentinel-daten> lädt die ECHTEN SavedVariables (nur lokal, nie ins Repo)
+if os.getenv("REALDB") then
+	local env = {}
+	local chunk = assert(loadfile(os.getenv("REALDB")))
+	setfenv(chunk, env); chunk()
+	RaidMasterDB = env.RaidMasterDB
+	RaidMasterDB.gsTest = nil                              -- alte Berichte nicht mitzählen
+	print("ECHTE DATEN geladen: " .. math.floor(#io.open(os.getenv("REALDB")):read("*a") / 1024) .. " KB")
+end
 Fire("ADDON_LOADED", "RaidMaster"); Fire("PLAYER_LOGIN")
 Advance(6)
+RM.db.data.players.Echt1 = RM.db.data.players.Echt1 or { c = "WARRIOR", d = { mc = 77 } }   -- Messpunkt (auch bei echten Daten)
 local before = { players = RM.db.data.players.Echt1.d.mc, prof = RM.db.prof }
 RaidMasterDB.gsTest.errors = {}
 
@@ -124,6 +134,7 @@ if not only and not os.getenv("STOPAT") then
 	check(text:find("Noch offen: Berufe", 1, true) ~= nil, "Zusammenfassung nennt 'Noch offen: Berufe'")
 	check(p and p.items and p.items.T35b == true, "T35b vorgemerkt")
 	local reports = #RaidMasterDB.gsTest.reports
+	RaidMasterDB.prof = RaidMasterDB.prof or {}              -- echte Daten ohne Berufe (z. B. Era)
 	-- im Kampf: nichts nachholen, bleibt vorgemerkt
 	local oldCombat = InCombatLockdown
 	InCombatLockdown = function() return true end

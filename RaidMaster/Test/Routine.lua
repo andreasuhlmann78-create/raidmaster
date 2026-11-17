@@ -245,11 +245,13 @@ R.PORTION_MS = 5
 R.PRE_MS = 1           -- vor jeder Prüfung: ist das Bild schon mehr als 1 ms belegt, erst das nächste Bild abwarten
 -- NP-RM30-1: einzeln gemessen (erster Aufbau des Hauptfensters und der Seiten) – zählt nicht zu "über 5 ms"
 R.SINGLE = { Aufbau = true, T10 = true, T12 = true }
+-- 3.0.33: "Aufbau <Seite>" zählt auch als einzeln gemessen (Ingame 19:38: Aufbau 38,3 ms – welche Seite, zeigt jetzt der Name)
+function R.IsSingle(at) return R.SINGLE[at] or tostring(at):find("^Aufbau") ~= nil end
 function R.Breathe(limit)
 	if not (debugprofilestop and R.running and R.portionStart and coroutine.running()) then return end
 	if (R.noYield or 0) > 0 then return end                 -- unter pcall (Körper von t:Check): kein Bild abgeben
 	local d = debugprofilestop() - R.portionStart
-	if d > (R.maxPortion or 0) and not R.SINGLE[tostring(R.current or "?")] then R.maxPortion, R.maxPortionAt = d, tostring(R.current or "?") end
+	if d > (R.maxPortion or 0) and not R.IsSingle(tostring(R.current or "?")) then R.maxPortion, R.maxPortionAt = d, tostring(R.current or "?") end
 	if d > (limit or R.PORTION_MS) then coroutine.yield("wait", 0) end
 end
 
@@ -341,7 +343,7 @@ local function DeepPortions(v, seen, n)
 		local x = v[k]
 		if x ~= nil then c[Deep(k, seen)] = DeepPortions(x, seen, n) end
 		n[1] = n[1] + 1
-		if n[1] % 200 == 0 then R.Breathe(R.PORTION_MS - 1) end
+		if n[1] % 20 == 0 then R.Breathe(R.PRE_MS) end      -- 3.0.33: Ingame 19:38 "K Daten sichern 15 ms" bei 200 Einträgen je Prüfung
 	end
 	return c
 end
@@ -702,10 +704,12 @@ local function AreaB(t, G)
 		end)
 	end)
 
-	t:Check("T13", "B", "Jede Option einmal an und aus", function()
+	-- 3.0.33 (leistung.md, Ingame 19:38: 4,9–6 ms am Stück): eine Option je Bild, wenn das Bild schon belegt ist
+	AsyncCheck(t, "T13", "B", "Jede Option einmal an und aus", function()
 		local checks, cycles, bad = 0, 0, {}
 		local function label(e) return tostring(e.label or (e.options and e.options[1] and e.options[1][2]) or "?"):sub(1, 40) end
 		for _, e in ipairs(UI.registry or {}) do
+			R.Breathe(R.PRE_MS)
 			local ok, err = pcall(function()
 				if e.kind == "check" then
 					local v0 = e.getter() and true or false
@@ -961,7 +965,7 @@ local function AreaB(t, G)
 	end)
 	ClearAuction()
 
-	t:Check("T20", "B", "Versteigerung Regeln", function()
+	AsyncCheck(t, "T20", "B", "Versteigerung Regeln", function()   -- 3.0.33: zwei Teile in eigenen Bildern (Ingame 5,1 ms)
 		TestRaid()
 		ClearAuction()
 		local A = RM.Auction
@@ -979,6 +983,7 @@ local function AreaB(t, G)
 			if not A.ReceiveBid("Krieger3", 15) then return false, "Gebot 15", "angenommen" end
 			if A.ReceiveBid("Krieger4", 5000) then return false, "Gebot über DKP angenommen", "abgelehnt" end
 			ClearAuction()
+			R.Breathe(R.PRE_MS)
 			-- Main vor Twink
 			DKP.SetMain("Schurke1", "Schurke2", true)
 			A.Start(LINK_STONE)
@@ -1978,8 +1983,10 @@ local function AreaE(t)
 		if #diff > 0 then e[#e + 1] = "zweiter Lauf ändert " .. table.concat(diff, ",") end
 		if #e > 0 then return false, table.concat(e, "; "), "alle Umstellungen, zweiter Lauf ohne Änderung" end
 	end)
-	t:Check("T82", "E", "Beschädigte Einträge", function()
-		local db = Deep(RM.db)
+	-- 3.0.33 (Ingame 19:38: 5,4 ms): Kopie der echten Daten in Portionen, danach je Aufruf ein Bild
+	AsyncCheck(t, "T82", "E", "Beschädigte Einträge", function()
+		local db = DeepPortions(RM.db)
+		R.Breathe(R.PRE_MS)
 		db.data.players.X = "kaputt"
 		db.data.players.Y = { d = "x" }
 		db.data.log = { 5, { t = "a" } }
@@ -1994,25 +2001,32 @@ local function AreaE(t)
 		db.gsTest = "x"
 		local errs = {}
 		local function try(what, fn, ...)
+			R.Breathe(R.PRE_MS)
 			local ok, err = pcall(fn, ...)
 			if not ok then errs[#errs + 1] = what .. ": " .. tostring(err) end
 		end
 		try("InitDB", RM.InitDB, db)
 		try("SortedPlayers", RM.DKP.SortedPlayers, "mc", db.data)
 		try("Summary", RM.DKP.Summary, "Y", db.data)
-		WithDB(db, function()
+		R.Breathe(R.PRE_MS)
+		WithDB(db, function()                              -- getauscht nur in diesem einen Bild (R.noYield: try gibt hier kein Bild ab)
+			R.noYield = (R.noYield or 0) + 1
 			try("Spec.List", RM.Spec.List)
 			try("LDB.Stats", RM.LootDB.Stats)
+			R.noYield = R.noYield - 1
 		end)
 		if #errs > 0 then return false, table.concat(errs, " | "):sub(1, 250), "kein Lua-Fehler" end
+		return true
 	end)
-	t:Check("T83", "E", "Absturz mitten im Test", function()
+	-- 3.0.33 (Ingame 19:38: 6,1 ms): Kopien in Portionen; der Teil mit getauschtem RM.db bleibt in einem Bild
+	AsyncCheck(t, "T83", "E", "Absturz mitten im Test", function()
 		local T = RM.Test
-		local copy = Deep(RM.db)
+		local copy = DeepPortions(RM.db)
 		copy.testMode = { active = true }
-		local backup = Deep(RaidMasterTestDB)
-		local known = { data = Deep(copy.data), session = { active = false, kills = {} }, trade = {}, config = Deep(copy.config),
+		local backup = DeepPortions(RaidMasterTestDB)
+		local known = { data = DeepPortions(copy.data), session = { active = false, kills = {} }, trade = {}, config = DeepPortions(copy.config),
 			specs = {}, hasSignup = false }
+		R.Breathe(0)
 		known.data.version = 424242
 		local gs = copy.gsTest
 		local u = {}
@@ -2835,6 +2849,7 @@ local function AreaJ(t, G)
 		-- Zwischen den Bildern ist also nie etwas getauscht (kein Teilen, keine fremde Schnittstelle für andere Addons).
 		local function Step(what, prepare, fn, ...)
 			R.Breathe(0)
+			R.current = "T182 " .. what            -- 3.0.33: Ingame 21,6 ms in EINEM Schritt – welcher, zeigt die Portionen-Zeile
 			local origAh = GM.api.ah
 			GM.api.ah = function() return nil end           -- alter Client: kein C_AuctionHouse
 			RM.SetMarktShare(true)
@@ -2851,6 +2866,7 @@ local function AreaJ(t, G)
 		end
 		Step("Get", nil, GM.Get, 2589)
 		Step("DiagLines", nil, GM.DiagLines)
+		R.current = "T182"
 		if #errs > 0 then return false, errs[1], "kein Fehler" end
 		if not SameStats(GM.stats, st.stats) then return false, "Zähler nach dem Test verändert", "unverändert (MN-T)" end
 		if RM.db.config.marktTeilen ~= st.share then return false, "Teilen nicht zurückgestellt", tostring(st.share) end
@@ -2906,7 +2922,14 @@ local function AreaJ(t, G)
 			hit("MN2B", function() cfg.marktTeilen = false; RM.PLLoginChecks(); cfg.marktTeilen = savedShare end)
 			hit("RT", function() RM.Markers.NoteSuggest(2) end)                        -- Vorschlag in Forever
 			hit("SS", function() RM.Records.NoteShot("Testboss") end)                  -- Erstkill-Screenshot
-			hit("TR", function() R.NotePruefliste({ results = { { id = "X", status = "OK" } } }, nil) end)
+			-- 3.0.33 (Nachbau mit echten Daten): eine echte Vormerkung (TR-ALLE D) hält TR zu Recht offen – hier ohne Vormerkung prüfen
+			hit("TR", function()
+				local pend = RaidMasterDB and RaidMasterDB.routinePending
+				if RaidMasterDB then RaidMasterDB.routinePending = nil end
+				local ok, err = pcall(R.NotePruefliste, { results = { { id = "X", status = "OK" } } }, nil)
+				if RaidMasterDB then RaidMasterDB.routinePending = pend end
+				if not ok then error(err, 0) end
+			end)
 			hit("MNT", function() end)                                                 -- mit TR gesetzt
 			-- auto(): Vorgabe nil = noch nicht; mit Daten -> true
 			local probe = RaidMasterDB.syncProbe
@@ -3564,7 +3587,8 @@ local function AreaL(t, G)
 	TU.rows = {}
 
 	-- TU1: Lagen x Funktionen. Erwartung je Zeile; Abweichung = FEHLER mit Zeilenname
-	t:Check("T172", "L", "TU1 Lagen-Katalog: Gebote, DKP, Raid-Buchung", function()
+	-- 3.0.33 (Ingame 19:38: 6,1 ms am Stück): jede Lage in einem eigenen Bild
+	AsyncCheck(t, "T172", "L", "TU1 Lagen-Katalog: Gebote, DKP, Raid-Buchung", function()
 		TestRaid()
 		ClearAuction()
 		local s = RM.db.data.settings
@@ -3572,6 +3596,7 @@ local function AreaL(t, G)
 		local u = {}
 		local fails = {}
 		local function Row(name, want, fn)
+			R.Breathe(R.PRE_MS)
 			local ok, got = pcall(fn)
 			got = ok and got or ("Lua-Fehler: " .. tostring(got))
 			TUAdd("TU1", got == want, name .. ": " .. tostring(got) .. " (erwartet " .. tostring(want) .. ")")
@@ -4052,7 +4077,13 @@ local function Resume(token, ...)
 	if R.portionStart and debugprofilestop then
 		local d = debugprofilestop() - R.portionStart
 		local at = tostring(R.current or "?")
-		if R.SINGLE[at] then
+		-- leistung.md Regel 8: Gesamtdauer je Schritt getrennt vom längsten Bild
+		if R.stepTotal then
+			local st = R.stepTotal[at] or { ms = 0, frames = 0 }
+			st.ms, st.frames = st.ms + d, st.frames + 1
+			R.stepTotal[at] = st
+		end
+		if R.IsSingle(at) then
 			-- NP-RM30-1 (Entscheid Supervisor 17.11.): erster Aufbau von Fenster/Seiten wird einzeln gemessen und getrennt genannt
 			if R.singlePortions then R.singlePortions[at] = math.max(R.singlePortions[at] or 0, d) end
 		else
@@ -4177,7 +4208,7 @@ function R.Run(only)
 	t.Wait = function(_, sec) return Wait(sec) end          -- T:Wait (asynchrones Warten) für die Prüfungen
 	-- 3.0.24 (TU6): welche Prüfungen in diesem Lauf vorkamen (für "Regressionen: n von m")
 	R.seen = {}
-	R.slow, R.maxPortion, R.portions, R.maxPortionAt, R.bigPortions, R.singlePortions = {}, 0, 0, nil, {}, {}
+	R.slow, R.maxPortion, R.portions, R.maxPortionAt, R.bigPortions, R.singlePortions, R.stepTotal = {}, 0, 0, nil, {}, {}, {}
 	do
 		local oCheck, oSkip, oClient = t.Check, t.Skip, t.Client
 		t.Check = function(self, id, ...)
@@ -4224,14 +4255,17 @@ function R.Run(only)
 			local wasShown = main and main:IsShown()
 			local wasPage = main and main.current
 			coroutine.yield("wait", 0)
+			R.current = "Aufbau Fenster"
 			pcall(UI.Open)
 			for _, id in ipairs(UI.pageOrder or {}) do
 				if UI.CanSeePage(id) and not RM.InCombat() then
 					coroutine.yield("wait", 0)
+					R.current = "Aufbau " .. id
 					pcall(UI.ShowPage, id)
 				end
 			end
 			coroutine.yield("wait", 0)
+			R.current = "Aufbau"
 			main = UI.main
 			if main then
 				if wasPage then pcall(UI.ShowPage, wasPage) end
@@ -4499,14 +4533,22 @@ function R.Summary(t)
 	for i = 1, math.min(8, #big) do bigParts[i] = string.format("%s %.0f ms", big[i].at, big[i].ms) end
 	-- NP-RM30-1: "längste Portion x ms (Prüfung), über 5 ms: n (ohne einzeln gemessene)", einzeln gemessene getrennt
 	local single = {}
-	for _, at in ipairs({ "Aufbau", "T10", "T12" }) do
-		local ms = (R.singlePortions or {})[at]
-		if ms then single[#single + 1] = string.format("%s %.1f ms", at, ms) end
-	end
-	local portionLine = string.format("PORTIONEN: %d Bilder, längste Portion %.1f ms (%s), über %d ms: %d (ohne einzeln gemessene)%s; einzeln gemessen: %s; Prüfungen länger als %d ms am Stück: %s",
+	local sl = {}
+	for at, ms in pairs(R.singlePortions or {}) do sl[#sl + 1] = { at = at, ms = ms } end
+	table.sort(sl, function(a, b) return a.ms > b.ms end)
+	for i = 1, math.min(6, #sl) do single[#single + 1] = string.format("%s %.1f ms", sl[i].at, sl[i].ms) end
+	-- leistung.md Regel 8: Schritte, die zusammen über 16 ms brauchen, mit Gesamtdauer und Zahl der Bilder (nicht mit dem längsten Bild
+	-- verwechseln: ein Schritt kann 300 ms dauern und trotzdem nie über 5 ms je Bild liegen)
+	local steps = {}
+	for at, st in pairs(R.stepTotal or {}) do if st.ms > 16 then steps[#steps + 1] = { at = at, ms = st.ms, frames = st.frames } end end
+	table.sort(steps, function(a, b) return a.ms > b.ms end)
+	local stepParts = {}
+	for i = 1, math.min(8, #steps) do stepParts[i] = string.format("%s %.0f ms in %d Bildern", steps[i].at, steps[i].ms, steps[i].frames) end
+	local portionLine = string.format("PORTIONEN: %d Bilder, längstes Bild %.1f ms (%s), über %d ms: %d (ohne einzeln gemessene)%s; einzeln gemessen: %s; Prüfungen länger als %d ms am Stück: %s; Schritte über 16 ms gesamt: %s",
 		R.portions or 0, R.maxPortion or 0, R.maxPortionAt or "-", R.PORTION_MS, #big,
 		#big > 0 and (" – " .. table.concat(bigParts, ", ")) or "",
-		#single > 0 and table.concat(single, ", ") or "keine", R.PORTION_MS, #slow > 0 and table.concat(slow, ", ") or "keine")
+		#single > 0 and table.concat(single, ", ") or "keine", R.PORTION_MS, #slow > 0 and table.concat(slow, ", ") or "keine",
+		#stepParts > 0 and table.concat(stepParts, ", ") or "keine")
 	return summary, portionLine
 end
 

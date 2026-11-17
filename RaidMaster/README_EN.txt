@@ -23,6 +23,11 @@ MAIN FEATURES
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
 
+WHAT'S NEW IN 3.0.33 – even smoother test routine (developer)
+- Developer only: the checks that still took more than 5 ms per frame in the game (options, auction rules, damaged data,
+  crash test, situation catalogue, data backup) now work in smaller portions. The portions line also shows the total time
+  per step and, for the first build, the single page.
+
 WHAT'S NEW IN 3.0.32 – labels always fit
 - Buttons and column headers fit their font to the width (smaller, on tall buttons two lines if needed) – in every
   language. Before, e.g. "Golemagg the Incinerator" (Bosses & marks) and the Discord guide steps were cut off.

@@ -1,0 +1,48 @@
+BERICHT RAIDMASTER AN DIE PRÜF-SITZUNG
+Stand: 17.11.2026 20:51 (aus date) · Sitzung: RaidMaster-Projekt-Sitzung · Version: Addon 3.0.33 (Uploader unverändert 2.3.14)
+Commit: dieser Push · Bezug: auftraege/hinweis-leistung-2026-11-17.txt, shared/wissen/leistung.md (Pflicht, gelesen), offen-raidmaster.txt
+"Leistung im Spiel" (cd976a77, eb988361); Ingametest 19:38 (Rohdaten aus goldsentinel-daten, nur lokal gelesen)
+Status: umgesetzt, zur Prüfung.
+
+1. Rohdaten des Ingametests 19:38 (3.0.31) – aus goldsentinel-daten (aktuell/DESKTOP…/forever, RaidMaster.lua, nur lokal gelesen, nichts
+   davon ins Repo): PORTIONEN "686 Bilder, längste 21,6 ms (T182), über 5 ms: 7 – T182 22, K Daten sichern 15, T172 7, T83 6, T82 6,
+   T13 6, T20 5; einzeln: Aufbau 38,3, T10 8,1, T12 10,4". Wortlaute bestätigt: T158 "'Golemagg der Verbrenner |T…RaidTargetingIcon_8|t'
+   Beschriftung abgeschnitten" (mit Symbol – genau der Fall in T192), T43 "Beute geladen 10/26; 0 behandelt … 0 ohne Daten" (Zähler-
+   Fehler aus 3.0.31, in 3.0.32 behoben), T156 "nichts geprüft" (in 3.0.32 behoben).
+
+2. Fälle (leistung.md Regel 3 – Spielwert / Nachbau-Wert; keiner über 40 ms):
+   Fall                      | Spiel 3.0.31 | Nachbau (echte Daten)  | Ursache (belegt)                                  | Behebung 3.0.33
+   Aufbau Hauptfenster       | 38,3 ms      | 6,4 ms (Faktor ~6)     | erster Aufbau des Hauptfensters am Stück (UI.Open)| einzeln gemessen, jetzt
+                             |              |                        |                                                   | je Seite benannt ("Aufbau
+                             |              |                        |                                                   | Fenster", "Aufbau dkp" …)
+   T182 (ein Schritt)        | 21,6 ms      | < 1 ms                 | ein Schritt (welcher, unbelegt) – Verdacht: Markt  | jeder Schritt benannt
+                             |              |                        | v10 Tick/OnReplicate oder SetMarktShare            | ("T182 Tick 2" …) – zu messen
+   KeepDB "K Daten sichern"  | 15 ms        | < 1 ms                 | DeepPortions gab nur alle 200 Einträge ab          | alle 20 Einträge, ab 1 ms
+   T172 / T83 / T82 / T13 / T20 | 5–6 ms    | 1–3 ms                 | Prüfungen am Stück unter pcall (kein Bildwechsel   | als AsyncCheck, je Lage /
+                             |              |                        | möglich); T82/T83 kopierten die echten Daten ganz | Option / Aufruf ein Bild;
+                             |              |                        |                                                   | Kopien in Portionen
+   Eichung: Fenster-Aufbau Spiel/Nachbau ~6x, T12 Spiel 10,4 / Nachbau 11,0 ms (~1x). Die Portionen messen im Spiel mit der Spieluhr
+   (debugprofilestop) – sie passen sich dort selbst an; kritisch sind nur unteilbare Aufrufe (Aufbau, ein Markt-Schritt).
+
+3. Nachbau mit echten Daten (leistung.md Regel 7): run_routine.lua nimmt mit REALDB=<Pfad> die echten SavedVariables (100 KB Forever).
+   Läufe: Forever Desktop und Laptop, Era und Anniversary – ALLE OK. Dabei gefunden und behoben: T185 schlug mit echten Daten fehl,
+   weil eine echte Vormerkung (TR-ALLE D, "Berufe") den Prüflisten-Punkt TR zu Recht offen hielt – T185 prüft jetzt ohne Vormerkung.
+   Die Nachbildung lief vorher ohne Berufe-Daten (Era) in einen Lua-Fehler – behoben.
+
+4. Regel 8: Portionen-Zeile jetzt "längstes Bild x ms (Schritt) … ; einzeln gemessen: …; Schritte über 16 ms gesamt: T175 40 ms in
+   38 Bildern, T116 25 ms in 22 Bildern, …" (Gesamtdauer und längstes Bild getrennt).
+
+5. Regel 2 (keine ganze Speicherbereinigung): RaidMaster ruft collectgarbage("collect") nirgends auf; T116 nutzt nur "step" in
+   Portionen und collectgarbage("count").
+
+EIGENE TESTS (Hinweise, keine Freigabe) – Nachbildung berichte/RaidMaster/offline:
+- Forever, Era ALLE OK; enUS, zhCN, ruRU ALLE OK; STOPAT 1/20/60 ALLE OK; echte Daten (4 Stände) ALLE OK.
+- Nachbau Forever: längstes Bild 2,6–2,9 ms, über 5 ms: 0.
+- Lua-Syntax lupa (Lua 5.1): 65 Dateien, 0 Fehler. Gemeinsame Dateien cmp gleich mit shared/.
+- addon_check download/RaidMaster-3.0.33.zip: "RaidMaster-3.0.33.zip: OK", 2. Lauf EXIT 0. Beobachtung (nicht RaidMaster): der 1. Lauf endete mit
+  EXIT 1, weil ein gemeinsamer Test einmal "138/139" meldete ("Tests der gemeinsamen Datei: FEHLGESCHLAGEN"); einzeln danach
+  shared/tests/test_goldsentinelmarkt.py 139/139, zweiter addon_check EXIT 0. Verdacht, zu messen: eine Zeitmessung im Markt-Test
+  (Median-Grenze ~5 ms) kippt unter Last – bitte in addon-check/shared prüfen.
+
+FÜR DEN NUTZER (nach Prüfung): Bot /update -> RaidMaster 3.0.33. Beim nächsten "/rm testroutine alles" zeigt die Portionen-Zeile,
+welcher T182-Schritt und welche Seite beim Aufbau teuer ist.

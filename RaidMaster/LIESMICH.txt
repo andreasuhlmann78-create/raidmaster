@@ -11,6 +11,11 @@ INSTALLATION
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
 
+NEU IN 3.0.33 – Testroutine noch ruhiger (Entwickler)
+- Nur Entwickler: Die Prüfungen, die im Spiel noch über 5 ms je Bild lagen (Optionen, Versteigerungsregeln, beschädigte Daten,
+  Absturz-Test, Lagen-Katalog, Datensicherung), arbeiten jetzt in kleineren Portionen. Die Portionen-Zeile nennt zusätzlich die
+  Gesamtdauer je Schritt und beim ersten Aufbau die einzelne Seite.
+
 NEU IN 3.0.32 – Beschriftungen passen immer
 - Knöpfe und Spaltenköpfe passen ihre Schrift an die Breite an (kleiner, bei hohen Knöpfen notfalls zwei Zeilen) – in
   jeder Sprache. Vorher waren z. B. "Golemagg der Verbrenner" (Bosse & Symbole) und "7. Vor dem Raid: Anmeldungen holen"
