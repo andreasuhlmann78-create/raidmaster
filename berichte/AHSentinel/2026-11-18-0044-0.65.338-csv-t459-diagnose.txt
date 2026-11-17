@@ -1,0 +1,46 @@
+AHSentinel 0.65.338 – T459 nach Entscheid 00:10, Diagnose T750/T617 für das Spiel, Punkt 3 (Schritte über 40 ms) Teil 3; FRAGE – umgesetzt, zur Prüfung
+(0.65.337 nicht veröffentlicht – im Gesamtlauf s92 an der alten festen Grenze; alles in 0.65.338)
+
+==== T750 UI-CLEAN (Prüfung 23:40: Spiel 81/76 Befunde, Nachbau 0 – Abstand klären) ====
+Belegt: die vollständige Befund-Liste (Abschnitt UI-BEFUNDE) stand bisher NUR im Bericht zum Kopieren – weder im GSTEST-Bericht
+(Ist-Text nach 300 Zeichen gekürzt) noch in den gespeicherten Daten; die Uploads 19:38 und 20:37 enthalten sie darum nicht (gesucht).
+Ohne die Einzelfälle kann der Nachbau den Abstand nicht klären. Ab 0.65.337: db.uiFindingsLast (letzter Lauf, höchstens 400 Zeilen à
+200 Zeichen, Version, Zustand) – von der Sandbox ausgenommen (NO_COPY/ALLOWED, wie testRoutine). Verdacht, zu messen: echte
+Schriftbreiten im Client (Nachbau schätzt Breiten) und 130 % Skalierung – mit der Liste aus dem nächsten Lauf nachstellen.
+
+==== T617/T734 Sniper (Spiel 19:08: längster Frame 192 ms, Kern/ITEM_SEARCH_RESULTS_UPDATED ×71 bis 100 ms, ui-refresh ×55 bis 100 ms) ====
+Nachbau mit den ECHTEN 5 Zielen und Daten (real_sniper, je Ziel 380 Angebote, Sniper an, Reiter offen, 60 s): 1200 Bilder, über 33 ms 0,
+längstes Bild 4,8 ms (ui-refresh); Empfänger SEARCH_RESULTS: Sniper.lua:3983 86× Ø 1,80 / max 2,5 ms, Seller/Buy je 0,0 ms; Reiter 121×
+neu, längster 4,6 ms. Abstand Spiel/Nachbau ≥ 20× – Verdacht, zu messen: das Lesen jedes Angebots über die Blizzard-Schnittstelle
+(GetItemSearchResultInfo legt je Angebot eine Tabelle an, Link zerlegen) ist im Spiel viel teurer als im Nachbau. Ab 0.65.337:
+Protokoll LANGSAM "Sniper Angebote lesen: n Angebote (Ware/Einzel-Auktionen) · x ms · y ms je Angebot" ab 16 ms; dazu seit 0.65.335
+der Empfänger mit Datei:Zeile (SN-EIGEN-2). Behebung nach dem Beleg (z. B. nur Angebote bis zur Kaufgrenze lesen, Rest in Portionen).
+
+==== T459 neu (Entscheid Prüf-Sitzung 18.11. 00:10) ====
+T459 prüft jetzt: (a) erster Vollscan der Sitzung angelegt OHNE die gelesenen Auktionen ≤ 30 MB, (b) ab dem zweiten ≤ 10 MB, (d) kein Bild
+über 40 ms, in dem eine Bereinigung lief; ausgewiesen: n. Vollscan der Sitzung, gelesene Auktionen (KB), gesamt angelegt (Bilder mit
+Bereinigung nicht zählbar), Bereinigungen, Zuwachs ganzer Lua-Speicher. (c) bleibender Zuwachs: Selbstkontrolle SK1-h im Alltag (in
+der Testroutine wird der bleibende Speicher nicht gemessen). s92 (fester Lauf, dritter Scan) nach derselben Regel: ohne gelesene
+Auktionen < 10 240 KB (vorher Gesamtzahl < 10 674 KB; 0.65.336/337: 10 681 KB gesamt).
+
+==== Punkt 3: Schritte über 40 ms (Teil auto, echte Daten) ====
+Vorher (0.65.336) 11: T307 81, T30.01 79, T30.34 76, T31.04 63, T325 58, T30.13 51, T888 51, T55 49, T24 47, T859 43, T26i 42.
+Behoben in 0.65.338 (Ursache per Stichproben-Profil belegt):
+- T30.34 / T31.04 CSV-Export (Item-Liste + 7232 Zeilen formatieren am Stück): Hintergrund-Aufgabe "csv:export", A:Pause je 100 Zeilen,
+  Sortieren in Portionen (neu A:SortInPortions, stabile Merge-Sortierung; s305: gleiches Ergebnis wie table.sort für 0–7232 Elemente),
+  Fenster im eigenen Bild. Neue Prüfung T908 (Klick, Warten, Fenster, längstes Bild der Aufgabe): Nachbau echte Daten zuerst 23,1 ms
+  (sort am Stück), dann 19,3 ms (Schluss: Text zusammensetzen + Fenster im selben Schritt), jetzt grün. Am Stück zum Vergleich 68,2 ms
+  + Fenster 8,7 ms (real_csv).
+- T307 Prognose-Bericht 81 -> 25 ms: Teil 17 rechnet die Prognose-Auswertung vorher als Aufgabe (Fc:EvalInBackground, in Portionen).
+- T325 Lern-Bericht 58 -> unter 16 ms: Bericht als Aufgabe (erst Auswertung in Portionen, dann Ln:Report; SizeOf gibt alle 2000
+  Einträge ab).
+Nach 0.65.338 über 40 ms (+ T812/T895 je 40 absichtlich): T30.01 82, T30.13 54 (Design-/Sprachwechsel = UI:Rebuild aller Fenster,
+siehe FRAGE), T55 53 (Test-Briefkasten: Names:Search über alle Namen), T888 49 (TU1-Nachbau: Tooltips je Marktlage), T24 48 (Hauptfenster
++ Designs), T26i 46 (Item-Menü/Preisverlauf-Liste), T335/18 44 (Markt-Ansicht als Aufgabe, Schluss-Schritt) – weiter in 0.65.339.
+FRAGE an die Prüf-Sitzung (Entscheid nötig): Gilt die harte Grenze 40 ms auch für EINMALIGE Handlungen des Spielers, die er selbst
+auslöst und bei denen ein kurzer Halt erwartbar ist (Design/Sprache wechseln = alle Fenster neu)? Wenn ja: Neuaufbau Fenster für
+Fenster in Portionen (grösserer Umbau; die Oberfläche ist dazwischen teilweise im alten Design). Bis zur Antwort arbeite ich an den
+übrigen Fällen.
+
+s302 (Abgabe an jeder Stelle) im Gesamtlauf mit den Teilen z, m, j (Zeitlimit 300 s je Szenario): 2691 Abgaben, 0 Verletzungen; ganz "auto" einzeln.
+Tests: Gesamtlauf 378 bestanden, 1 fehlgeschlagen – s92: Lauf 3 zählte die Server-Nachbildung des Nachbaus mit (523 KB, kein Addon) und die gelesenen Auktionen sind im 3. Scan 0 KB (Vorrat wiederverwendet); nach Entscheid jetzt "angelegt von AHSentinel ohne gelesene Auktionen" < 10 240 KB fest -> bestanden · addon_check OK (Release-Zip und Discord-Zip).
