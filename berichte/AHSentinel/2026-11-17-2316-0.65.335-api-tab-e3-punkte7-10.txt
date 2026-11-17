@@ -1,0 +1,86 @@
+AHSentinel 0.65.335 – API-TAB-1 (HOCH), Auflagen 22:45 Punkt 2/3, Befund 19:08 Punkte 7–10, Punkt 4 Messung – umgesetzt, zur Prüfung
+
+Messungen: Nachbau mit den ECHTEN Daten des Uploads 19:38 (nur lokal, Lua 5.1). Spielwerte aus dem Lauf 19:08 (0.65.328) bzw. aus der
+Prüfung 22:45. Gegenprobe jeweils 0.65.334 mit demselben Nachbau. Nachbau-Werte sind "Verdacht, im Spiel zu bestätigen", keine Freigabe.
+
+==== PRÜFUNG 22:45 ====
+1. HOCH API-TAB-1 · Ursache belegt (0.65.334 E4 b): NetSale 2. Wert und MaterialCost-Liste waren EINE überschriebene Tabelle ·
+   Behebung: jede zurückgegebene Tabelle wird nach dem Anlegen nie mehr geändert. Gegen neue Tabellen je Aufruf (E4) bleibt der
+   Zwischenspeicher: dieselbe Frage (Item, Menge) im selben Datenstand bekommt DIESELBE unveränderte Tabelle; neuer Datenstand ->
+   NEUE Tabelle, die alte bleibt für Halter gültig. MaterialCost neu im Zwischenspeicher (gilt nur für dasselbe Rezept des
+   Rezept-Verzeichnisses). Der Hinweis "gilt bis zum nächsten Aufruf" ist aus dem Code entfernt (Vertrag unverändert).
+   Test: T905 (zwei Items nacheinander, mit und ohne Zwischenspeicher, neuer Stand) · Nachbau s300_api_tab: 0.65.335 8/8;
+   Gegenprobe 0.65.334: "NetSale: erste Tabelle brutto 50605 -> 16322", "MaterialCost: 1 Eintrag, Zutat 900011 -> 2 Einträge, Zutat
+   10978" (4 FEHLER). s297 (E4): 3000 Wiederholungen weiter 0,0 KB.
+2. MITTEL GoldPerHour · Spiel (Bericht PS) 75–489 ms; 0.65.334 Nachbau erster Aufruf je Stand 101 ms · Behebung: neuer Baustein
+   Act:CachedReport – der Bericht ist eine Hintergrund-Aufgabe "act:report:<Zeitraum>" in Portionen; bis er fertig ist, kommt der
+   letzte Bericht mit SEINER Stand-Zeit (3. Wert), beim allerersten Mal nil. Ursache der Dauer belegt (Profil, echte Daten): 99,2 von
+   102,1 ms in Le:DisenchantReport (2000 Entzauberungen, Materialwert je Eintrag) – auch diese Schleife gibt jetzt ab. Abgeben NUR in
+   der Coroutine der eigenen Aufgabe (Act.pauseCo/Le.pauseCo, A:PCall; nie über ein fremdes pcall, Lua 5.1).
+   Nachbau echte Daten (real_actreport): Bericht "30" im Aufruf 0,0 ms, Aufgabe 21 Bilder, längstes Bild 6,0 ms, über 8 ms 0
+   (am Stück zum Vergleich 99,3 ms); "all" 19 Bilder, längstes 6,1 ms (am Stück 101,0 ms).
+   Dieselbe Rechnung zeigt die Buchhaltung, Ansicht "Rendite" (vorher am Stück) – jetzt auch aus der Aufgabe ("Wird berechnet ..."
+   bis fertig, dann neu gezeichnet). Damit fällt T279 (Nachbau 201–242 ms) und T903 (108 ms, eigene Prüfung) aus der Liste über 16 ms.
+   Test T903 neu: erster Aufruf rechnet nicht am Stück (0), Bericht fertig, danach 1 Rechnung, neuer Stand -> alter Wert mit alter
+   Stand-Zeit ohne Rechnung im Aufruf. s297: "Bericht gerechnet 1× für 3 Aufrufe (am Stück im ersten Aufruf 0)".
+3. MITTEL E3 vorläufig · Wege belegt: Learn:MarketFactor hat genau EINEN Abnehmer im Produkt, A:SellOutlook (Absatz je Tag) – daraus
+   ExpectedDepositLoss/RealValue (NetSale, Preisvorschläge), IsSlowSeller, Prognose-Aufzeichnung, Learn, Ledger, MarketCore
+   HoldFactor (Sniper-/Entzauber-Kaufgrenzen). Behebung: Ln:FactorPending() (true nur, solange die allererste Rechnung als Aufgabe
+   läuft) -> SellOutlook kennzeichnet v.provisional und merkt es NIE (dazu Befund: der Zwischenspeicher von SellOutlook kannte A.waysVer
+   nicht – ein Wert ohne Faktor wäre bis 10 Min. geblieben; jetzt im Stempel); API NetSale/BestWay/WorthUpTo/SellSpeed liefern nil
+   ("noch nicht bekannt", Vertrag Version 1 – keine neue Rückgabe); Sammelkauf DEB:Judge urteilt nicht; Sniper PlanNext plant nicht,
+   Zeile "Lernwerte werden geladen" (10 Sprachen). Test T906, Nachbau s301_e3_vorlaeufig: 0.65.335 6/6; Gegenprobe 0.65.334 "NetSale
+   48075 · BestWay sell" während learn:factor, Kauf-Urteil urteilt (2 FEHLER).
+
+==== BEFUND 19:08 ====
+7. Einzelbefunde Teile 1/2/4 (Spiel 19:08, je FEHLER Ursache und Behebung):
+   Teil 1 (auto):
+   - T49 Preisschutz: behoben 0.65.331/0.65.332 (Weg "Widerspruch Marktwert/Angebote", PS-WIDER) – Prüfung 22:10 angenommen.
+   - T167 "20 Ereignisse, 0 Aufbauten · verschoben nein · Dauer 1.6 s" · Ursache belegt: mit geladenem ProfessionSentinel blendet die
+     Wache Cr:CheckPSPanel (alle 0,5 s, solange Cr.kind gesetzt) das Gewinn-Fenster aus (PS-DOCK1, gewollt) – die Prüfung setzt
+     Cr.kind = "ahstest", das Fenster verschwindet, Cr:RequestRefresh tut bei verborgenem Fenster nichts. Ausserdem blieb
+     Cr.hiddenForPS danach gesetzt. Behebung (nur Prüfung): während T167 gilt ProfessionSentinel als nicht geladen (apiOverride, danach
+     zurück), hiddenForPS gesichert/zurück; Ist-Text nennt "Fenster versteckt n×". Nachbau s299_t167_ps (ProfessionSentinel geladen
+     wie im Spiel): 0.65.335 "1 Aufbauten · Dauer 2.4 s · Fenster versteckt 0×"; Gegenprobe 0.65.334 "0 Aufbauten · ohne Änderung
+     übersprungen 0 · verschoben nein · Dauer 1.8 s" (= Spiel).
+   - T373/T647 "cache:today:10 18.4 ms (längster Schritt 13 ms bis UI_MarketView.lua:690)" · Z. 690 ist A:Pause() am Anfang der
+     Schleife in MV:BuildDE (Entzauber-Angebote je Item) – der Schritt endete dort, d. h. EIN Item (DEOffer) dauerte 13 ms. Im Nachbau
+     mit echten Daten grün (T373/T647 0 FEHLER, 3 Läufe). Verdacht, zu messen: Speicherbereinigung im Schritt – dafür ab 0.65.335 im
+     Ist-Text "mit Speicherbereinigung" (T126/T373, LANGSAM-Protokoll; Punkt 4 unten). Kommt im nächsten Spiel-Lauf mit Beleg.
+   - T895 "Empfänger mit Datei:Zeile false … LANGSAM Empfänger ?" · Ursache belegt: WoW hat kein debug.getinfo · Behebung (SN-EIGEN-2):
+     Fundstelle beim Anmelden (A:On) über debugstack gemerkt; Fire/FireSpread/READY nennen A:ListenerWhere(fn).
+   - T750 (81 Befunde: abgeschnitten 65, überlappt 12, veraltet 4) · OFFEN (UI-CLEAN, eigene Arbeit nach Punkt 5).
+   Teil 2 (ui): T750 (76 Befunde) · wie oben, OFFEN.
+   Teil 4 (sniper): T617/T734 (längster Frame 192 ms; AHSentinel ITEM_SEARCH_RESULTS_UPDATED ×71 bis 100 ms, ui-refresh ×55 bis 100 ms,
+   fremd 1304) · OFFEN, nach Punkt 5.
+8. SK1-m Zauber 836 · Ursache belegt: Spieltest:IsCraftSpell nahm jede Tabelle von C_TradeSkillUI.GetRecipeInfo als Rezept; für 836
+   (LOGINEFFECT, Verdacht – im Spiel zu bestätigen) liefert der Client eine Tabelle ohne dieses Rezept · Behebung: Rezept nur, wenn
+   info.recipeID == Zauber · T904 (2330 true / 836 false / 8936 false).
+9. TU6 57 von 58 (fehlt CH-G) · Ursache belegt: Abgleich der Regressionsliste nach Namen "T-CHG" vs. "CH-G" · Behebung: Abgleich auch
+   ohne Bindestriche · Nachbau s298_tu6_chg 58 von 58; Gegenprobe 0.65.334 "57 von 58 (fehlt: CH-G)".
+10. Prüfliste "TR-ALLES" alter Stand · belegt: die Prüfliste wurde 19:11:11 aktualisiert, aber der Bericht des Teils "server" (vor
+   dem Ende der Kette erstellt) trug den alten Stand · Behebung: AllFinish setzt die Prüfliste VOR dem GSTEST-Bericht, neues Feld
+   pruefliste_tr_alles im Bericht.
+
+==== Punkt 4 (T126) – Messung ====
+Verdacht, zu messen: lange Einzelschritte im Spiel in Schritten, die im Nachbau mit echten Daten < 2 ms dauern -> Speicherbereinigung
+(atomare Phase) im Schritt. Ab 0.65.335 misst jeder Schritt und jedes Bild, ob dabei eine Speicherbereinigung lief (Lua-Speicher kleiner
+als am Anfang): T126 "über n ms: x, davon mit Speicherbereinigung y", T373 ", mit Speicherbereinigung", LANGSAM-Protokoll
+" · mit Speicherbereinigung". Behebung erst nach dem Beleg im Spiel.
+
+==== Stand (Teil auto, echte Daten) ====
+Teil auto mit echten Daten (real_tr): 0 FEHLER, Sandbox OK. Über 40 ms: 0.65.333 14 -> 0.65.335 12 (T279 201–242 ms und T903 108 ms weg,
+siehe Punkt 2): T307 81, T30.01 79, T30.34 76, T31.04 63, T325 58, T30.13 51, T888 51, T55 49, T24 47, T859 43, T26i 42 (+ T812/T895 je
+40 absichtlich gemessene Last). Über 16 ms 42 (Messrauschen ±5 je Lauf; einzelne Schritte schwanken 16–20 ms).
+
+==== Takt-Messwerte (Antwort 22:10) – Offline-Prüfung "Abgabe nie über pcall" ====
+Neu: Nachbau s302_yield_check – Abgabe an JEDER Stelle (Bild-Budget 0), jede Abgabe (A:Pause/A:YieldNow) prüft den Stapel der
+Coroutine auf pcall/xpcall/sort/gsub, A:PCall prüft beim Aufruf den äusseren Stapel; Testroutine "auto" + Scan + Aufgaben danach.
+0.65.335: 7596 Abgaben, 0 Verletzungen. Gegenprobe 0.65.334: 6894 Abgaben, 7 Verletzungen – alle in MV:ReportCount (T335, seit
+0.65.333 als Aufgabe tr:t335:*), das die Markt-Ansichten über ein einfaches pcall rief: im Spiel mit grossen Daten hätte die Abgabe
+in Lua 5.1 abgebrochen und T335 "Fehler" statt Zeilenzahl gemeldet (im Nachbau mit normalem Budget unsichtbar). Behebung: A:PCall.
+Noch fehlend für den Takt-Vergleich: Zählung je Bild über 5/16/40 ms mit Etikett und "Abgabe nicht möglich" – kommt mit Punkt 5
+(Vollscan): dort entweder diese Messwerte in A:Job oder Umstieg auf GoldSentinelTakt.
+
+Tests: Gesamtlauf 371 bestanden, 4 fehlgeschlagen (s42/s42b/s272: T905/T906 mit fehlender Test-ID; s54: Ansicht Rendite jetzt aus der Hintergrund-Aufgabe, Szenario wartet) – nach Behebung alle 4 einzeln bestanden (375/0); s42/s272 nach der ReportCount-Änderung erneut bestanden · addon_check OK (Release-Zip und Discord-Zip).
+Weiter: Punkt 5 (Vollscan T458/T459, mit Takt-Messwerten bzw. GoldSentinelTakt), dann T617/T734, T750.
