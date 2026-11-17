@@ -364,3 +364,21 @@ nur wo nötig und jeder Handpunkt in klaren, nummerierten Schritten (Wo / Schrit
   füttert, danach den alten Handler zurück – in pcall, garantiert zurück), oder die Zählfunktion direkt aufrufen. Wie ThreatSentinel T147
   (übersprungen mit Begründung) ist auch ok, wenn die Zählung anders geprüft wird. Test: Lauf im Nachbau mit "Fehlerfenster an" ->
   0 Aufrufe des Spiel-Handlers; Gegenprobe 3.0.30 rot.
+
+==== INGAMETEST DES NUTZERS 17.11.2026 17:01 – 3.0.30 "/rm testroutine alles" (Forever, Krieger 24) ====
+Ergebnis: 131 von 135 bestanden, 4 FEHLER, 23 nicht prüfbar; Sandbox OK; 88 s. Portionen: längste 41,6 ms bei T10 (wie entschieden:
+Fenster vorher aufbauen, T10/T12 einzeln gemessen – noch umsetzen), T182 21 ms, T14/T114 11 ms – bitte teilen (≤ 5 ms).
+Befunde:
+1. RM-TF-1 (oben): absichtlicher Testfehler zeigt dem Nutzer das Blizzard-Fehlerfenster.
+2. T169 "T-BL4 Chatfeld wird nie beschrieben: Lua-Fehler" – gleiche Ursache wie GuildSentinel T285 ("GuildSentinelCmdHint:SetPoint(): Wrong
+   object type"): die Prüfung gibt eine Lua-Tabelle als Eingabefeld, die gemeinsame Datei GoldSentinelCmdHint verankert ihren Rahmen daran –
+   im Spiel braucht SetPoint einen echten Rahmen. ENTSCHEID: Test-Artefakt, gemeinsame Datei bleibt; im Test ein echtes unsichtbares EditBox
+   (CreateFrame("EditBox")) verwenden. Gegenprobe im Nachbau mit "echtem" SetPoint-Typcheck.
+3. T43 "Test-Werkzeug selbst (ony): kein Item vergeben (Beute geladen 10/26)" – Itemdaten im Spiel noch nicht geladen. Prüfung muss auf
+   GET_ITEM_INFO_RECEIVED warten (mit Zeitlimit) oder nachholen (TR-ALLE Nachtrag D), nicht FEHLER melden.
+4. T155 eigene Tooltips/Markierungsleiste verdecken Knöpfe (alle Seiten) – Oberfläche: Markierungsleiste nicht über Knöpfe legen.
+5. T156 "Hauptfenster/Bereitschaft überdeckt Pfeil (LevelPilot)" – ENTSCHEID Supervisor (gilt für alle Projekte, siehe auch ThreatSentinel
+   T181/T-K2): Der LevelPilot-Pfeil ist eine kleine HUD-Anzeige, kein Fenster. Ein vom Spieler geöffnetes Fenster darf ihn verdecken;
+   Überlappungs-Prüfungen zählen ihn NICHT als GoldSentinel-Fenster (Ausnahmeliste "HUD": LevelPilot-Pfeil, ThreatSentinel-Plaketten u. ä.,
+   mit Namen im Code). Echte Fenster anderer GoldSentinel-Addons bleiben in der Prüfung.
+6. MARKT-V10 und TR-ALLE Nachtrag D wie in den Aufträgen.

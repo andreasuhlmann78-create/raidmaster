@@ -253,3 +253,8 @@ Befunde:
    Ursache messen und den Durchlauf teilen/beschleunigen; Ziel PS: kein Bild > 16 ms im Kampf.
 3. Hinweis: Prüfliste 1 von 14 erledigt – die anderen 13 Handpunkte nach TR-ALLE B/D prüfen: welche lassen sich noch automatisieren
    bzw. automatisch nachholen (Nachtrag D), damit der Nutzer möglichst wenig tun muss.
+
+==== ERGÄNZUNG Supervisor 17.11.2026 17:10 zu Befund 1 (T181/T-K2) ====
+- ENTSCHEID (alle Projekte, gleicher Fund bei RaidMaster T156): Der LevelPilot-Pfeil ist eine HUD-Anzeige, kein Fenster – Überlappungs-
+  Prüfungen zählen ihn nicht als GoldSentinel-Fenster (Ausnahmeliste "HUD" mit Namen im Code). T-K2 also gegen echte Fenster anderer
+  GoldSentinel-Addons prüfen; danach muss es im Spiel grün sein (sonst Ursache belegen).
