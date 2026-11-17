@@ -1,0 +1,27 @@
+LevelPilot – Plan: GoldSentinelTakt für T151/T261 (Hinweis 21:00) – noch nicht umgesetzt, bewusst nicht in Eile
+Bezug: auftraege/hinweis-goldsentineltakt-2026-11-17.txt ("LevelPilot (T151/T261) zuerst", Nutzer: "mach ja keinen Fehler").
+Stand: 3.12.91 ist veröffentlicht (Bericht 2056). Den Takt baue ich in der nächsten Sitzung ein. Er ändert den Ablauf beim
+Einloggen; das braucht einen eigenen, vollständig getesteten Schritt und nicht einen Nachtrag am Abend (Direktive Perfektion).
+
+Geplant für 3.12.92:
+1. shared/GoldSentinelTakt.lua unverändert kopieren und in der .toc vor den eigenen Dateien eintragen (addon_check "exact").
+2. Graph:Init (T261, am Stück: Nachbau 35 ms mit dem PC-Netz, Spiel geschätzt ~50 ms) als Takt-Aufgabe "Wegnetz laden":
+   - Knoten, Kanten, Raster und innere Punkte mit Check alle ~200 Einträge.
+   - Bis fertig, gilt das Wegnetz als "lädt". Die Wegsuche nimmt dann nur Startnetz und Luftlinie, wie in den ersten Sekunden
+     heute schon beim Startnetz.
+   - Danach kommt GRAPH_CHANGED.
+   - Zuerst klären: alle Stellen, die das Netz direkt nach dem Einloggen brauchen (Planner:Init, Nav, Recorder.AddPolyline
+     während des Ladens, Backup-Wiederherstellung, Testroutine mit Jobs.sync).
+   - Tests:
+     - Laden in Portionen ≤ Budget, mit Ergebnis byte-gleich zum Laden am Stück (Knoten, Kanten, innere Punkte).
+     - Aufzeichnung während des Ladens geht nicht verloren.
+     - Zeitlimit.
+     - Gegenprobe Laden am Stück.
+3. Wegsuche der Navigation (navpath, heute LP.Jobs mit 4 ms) und T151:
+   - Wegsuche als Takt-Aufgabe mit Check im Suchschritt (statt LP:Yield).
+   - T151 misst die Summe UND das längste Bild der Aufgabe getrennt, wie im Vorschlag aus Bericht 2047.
+   - pcall um die Wegsuche (Planner 1617, H3) auf GoldSentinelTakt.PCall umstellen.
+4. Summary-Zeile des Takts in den Bericht der Testroutine.
+5. Nachbau mit den PC-Daten:
+   - Spiel- und Nachbau-Wert je Fall (leistung.md Regel 1/7); Eichung bisher Spiel/Nachbau 1,26–1,6.
+   - Messauftrag "Abgabe nicht möglich: 0" im ersten Ingametest.
