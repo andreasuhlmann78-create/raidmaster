@@ -1,0 +1,207 @@
+BERICHT THREATSENTINEL 2.5.16 – TR-ALLE, Prüfliste im Spiel, GoldSentinelDev v2
+Stand: umgesetzt, zur Prüfung (keine Selbst-Freigabe). Aufträge: auftraege/hinweis-testroutine-alles-2026-11-17.txt,
+auftraege/hinweis-pruefliste-im-spiel-2026-11-16.txt, offen-threatsentinel.txt (GoldSentinelDev Version 2).
+Veröffentlicht: download/ThreatSentinel-2.5.16.zip (addon_check: "## ThreatSentinel-2.5.16.zip: OK", keine Warnung),
+announce/threatsentinel__threatsentinel-2.5.16.md (Discord). CurseForge: nicht betroffen (nicht in curseforge/projects.json).
+
+A) EIN BEFEHL FÜR ALLES AUTOMATISCHE: /ts testroutine alles (auch "all"; Entwicklermodus)
+- Ablauf: jeder Bereich (A–K, U) läuft in einer Coroutine. Nach jeder Prüfung (C/K/CL) wird abgegeben, sobald im Bild
+  R.FRAME_MS = 5 ms verbraucht sind (TestRoutine.lua MaybeYield). Nie innerhalb von WithAPI/Szene (R.noYield > 0; dort sind
+  Einträge ersetzt, und Lua 5.1 erlaubt kein Abgeben über pcall hinweg). Die Zufallsfälle TU4 laufen in Portionen zu 20
+  (statt 100); TU4-G2 prüft jetzt "langsamste Portion höchstens 5 ms" (vorher < 8 ms).
+- Fortschritt im Chat: "Bereich C (3 von 12) ...".
+- EINE Zusammenfassung (Chat, Kopf des Testberichts, Feld extra.zusammenfassung), mit denselben Zählern wie der Kopf des
+  Testberichts (GoldSentinelTest RUN.counts – jede Zahl geht auf). Beispiel offline Forever:
+  "Zusammenfassung: 262 von 268 bestanden, 33 hier nicht prüfbar (16 nur im echten Spiel, 17 übersprungen), 6 Fehler ·
+   289 Pausen (höchstens 5 ms je Bild) – Gründe: nur im echten Spiel (Prüfliste: /ts prüfliste) ×16; nur Classic Era / TBC ×6;
+   nur im echten Client (Fenster, Rechtecke, Tooltip) ×4"
+  (die 6 Fehler sind die bekannten Fälle der Nachbildung T02, T09, T20, T34, T39, T133; Kopf: OK 262 · FEHLER 6 · übersprungen 17
+  · im Client prüfen 16 -> 262+6 = 268, 17+16 = 33.)
+- Abbrechen: /ts testroutine stop (oder "abbrechen"): nach der laufenden Prüfung wird der Bereich sauber geschlossen (Stubs
+  zurück, Sandbox zurück), die restlichen Bereiche als "abgebrochen" übersprungen, Bericht gespeichert; die Zusammenfassung
+  endet mit "· abgebrochen (/ts testroutine stop)". Läuft nichts: "Die Testroutine läuft nicht."
+- /reload oder Ausloggen mittendrin: neuer PLAYER_LOGOUT-Handler stellt Stubs, Sandbox (echte Daten) zurück, routineRunning
+  und actLog aus; der Lauf endet ohne Bericht (nichts Halbes in den SavedVariables). Der nächste Schritt tut danach nichts mehr.
+- Grenzen eingehalten: kein Gold, kein Chat/Post, nichts gesendet (echte Aktionen 0, nur mitgeschrieben), Einstellungen und
+  echte Daten unverändert (Sandbox-Gegenprobe "echte Daten unverändert: OK"), Kampf beginnt -> Rest übersprungen (wie bisher).
+
+Belege (offline, Lua 5.1 wie im Spiel, Nachbildung addon-check/ladetest.py; Aufruf in offline/README bzw. Skriptkopf):
+- python3 -I berichte/ThreatSentinel/offline/routine_offline.py download/ThreatSentinel-2.5.16.zip Forever alles
+    -> OK 262 · FEHLER 6 · übersprungen 17 · im Client prüfen 16 · "Offline: FEHLER ausserhalb der Nachbildungs-Liste: 0"
+- dasselbe Era -> OK 266 · FEHLER 6 · übersprungen 11 · im Client prüfen 17 · ausserhalb 0
+- TS_FRAME_MS=0 (neu im Offline-Skript: Pause nach JEDER Prüfung) Forever: 289 Pausen, Era: 288 Pausen, je 0 Fehler ausserhalb,
+  kein "attempt to yield across"-Fehler -> der Coroutine-Weg ist an jeder Stelle sicher.
+- Abbrechen/Ausloggen (eigenes Prüfskript, Schritt 20 / 120 / 240 von ca. 290): stop -> "Abgebrochen: abgebrochen
+  (/ts testroutine stop)", "echte Daten unverändert: OK", "Stubs zurückgesetzt: OK", routineRunning=false, actLog=nil;
+  Ausloggen -> danach running=false, routineRunning=false, swaps=0, actLog=nil, der Lauf hält an, Diagnose unverändert.
+- Neue Fälle (Bereich U, Regressionen 49 von 49): T-TR1 Pause nur bei verbrauchtem Budget, nie in WithAPI/Szene, nie
+  ausserhalb der eigenen Coroutine · T-TR2 "alles"/"all"/"stop"/"abbrechen" · T-TR3 Ausloggen-Handler, Zusammenfassung
+  mit 7 Zahlen, Fortschritt · T-BL2 Befehlsliste "te" jetzt 19 Einträge (+ testroutine alles, testroutine stop).
+- VERDACHT, ZU MESSEN: Ob 20 Zufallsfälle im echten Spiel unter 5 ms bleiben, zeigt erst TU4-G2 im Client (offline misst die
+  Nachbildung 0,0 ms). Steht dort FEHLER, wird die Portion kleiner.
+
+Welche Prüfungen automatisch: alle Bereiche A–K und U der Testroutine (Forever 268 Prüfungen mit Ergebnis, Era 272), darunter
+TU1–TU7 (Lagen-Katalog, Abläufe, Standardwerte, 1000 Zufallsfälle, echte Daten nur lesen, Regressionen, Formen des Spiels),
+Sync, Marktdaten-Netz, Befehlsliste, Leistung, Heiler-HUD/Aggrometer, Prüfliste. Nicht automatisch: was nur im echten Spiel
+geht (Fenster-Rechtecke, echter Kampf, zweiter Spieler, Auktionshaus) -> Prüfliste.
+
+B) HANDPRÜFUNGEN: PRÜFLISTE IM SPIEL (/ts prüfliste, auch /ts pruefliste und /ts checklist; nur Entwicklermodus)
+- shared/GoldSentinelPruefliste.lua unverändert kopiert (cmp gleich), .toc direkt nach GoldSentinelDev.lua; eigene Datei
+  Pruefliste.lua (nach Diag.lua). Anmeldung bei PLAYER_LOGIN und zusätzlich beim Start der Testroutine (falls der
+  Entwicklermodus beim Einloggen noch nicht erkannt war). Ohne Entwicklermodus: ns.PL = nil, nichts sichtbar, keine Kosten.
+- Kein Treffer während der Testroutine (nachgebaute Daten sind keine echte Benutzung) – ausser TR-ALLE/ERA-TBC in Finish.
+  Je Sitzung meldet jeder Punkt höchstens einmal (danach nur ein Tabellen-Zugriff). Ein als Fehler erkannter Punkt wird in
+  derselben Sitzung nicht durch einen späteren guten Fall überschrieben.
+- Testbericht und Diagnose: PL:ReportLines() (Kopf "PRÜFLISTE ThreatSentinel: x von 14 erledigt" + eine Zeile je Punkt).
+- SPOTT-GRUND: Die Spielmeldung kann einen Namen enthalten ("%s ist beschäftigt"). Deshalb wird bei "anderer Grund" der
+  Text NIE gespeichert, nur dem Entwickler im Chat gezeigt (Notiz: "anderer Grund (Text des Spiels im Chat, nicht gespeichert)").
+- Tests: T-PL1 (höchstens 14 Punkte, jeder mit "Wo:", Schritt 1, "Kosten:", "Das musst du sehen", Titel ≤ 8 Wörter, ≤ 7 Zeilen),
+  T-PL2 (ohne Entwicklermodus: nichts angemeldet, kein Treffer; mit: 14 Punkte; während der Routine kein Treffer, Finish ja;
+  gespeicherter Stand danach zurück), T-PL3 (jede Code-Stelle meldet ihren Punkt: Leistung 8 ms = erledigt / 18 ms = Fehler,
+  Spott-Grund bekannt / anderer, Sync-Test, Rolle mit Version (ohne Version kein Treffer), Sync nachgeholt, Testassistent
+  über das echte G:Enter, Spott übernommen über T:Evaluate, Heiler-HUD über T:Tick, Aggrometer über Meter:Tick, auto() von
+  MARKT und TSMESS).
+
+Text jedes Handpunkts (so steht er im Fenster der Prüfliste):
+
+ 1. TR-ALLE – Testroutine: alles Automatische einmal (seit 2.5.16) · merkt selbst beim Benutzen (Hit)
+    Das tust du:
+      Wo: irgendwo, nicht im Kampf.
+      1. Tippe in den Chat: /ts testroutine alles
+      2. Nichts tun, bis im Chat "Zusammenfassung" steht.
+      3. Tippe /reload, damit der Bericht hochgeladen wird.
+      Kosten: kein Gold, ca. 1–2 Minuten.
+    Das musst du sehen: Im Chat nacheinander "Bereich A (1 von 12)" bis "Bereich U (12 von 12)", dann "Zusammenfassung: … bestanden". Das Spiel läuft flüssig, kein Lua-Fehler.
+    Dann: nichts tun (wird erkannt) – sonst Knopf "OK" bzw. "Nicht OK".
+
+ 2. ERA-TBC – Era oder TBC: Testroutine und Kampf (seit 2.5.16) · merkt selbst beim Benutzen (Hit)
+    Das tust du:
+      Wo: Classic Era oder TBC Anniversary, draussen bei einem Gegner.
+      1. Tippe /ts testroutine alles und warte auf "Zusammenfassung".
+      2. Greife einen Gegner an und besiege ihn.
+      3. Schau dabei auf das Fenster "Bedrohung: …" (Aggrometer).
+      Kosten: kein Gold, ca. 3 Minuten.
+    Das musst du sehen: Aggrometer wie bisher mit EINER Kopfzeile, kein "Addon geblockt", kein Lua-Fehler. Schritt 1 wird erkannt; stimmt Schritt 3 nicht: "Nicht OK".
+    Dann: nichts tun (wird erkannt) – sonst Knopf "OK" bzw. "Nicht OK".
+
+ 3. SYNC-TEST – Sync-Test mit zweitem Spieler (seit 2.5.13) · merkt selbst beim Benutzen (Hit)
+    Das tust du:
+      Wo: in einer Gruppe mit einem Spieler, der ThreatSentinel ab 2.5.13 hat.
+      1. Tippe /ts sync test
+      2. Warte etwa 5 Sekunden.
+      Kosten: kein Gold, 1 Minute.
+    Das musst du sehen: Im Chat: "Sync-Test: N Antworten (Gilde a, Gruppe b)" mit N mindestens 1. Wird erkannt, sobald jemand antwortet.
+    Dann: nichts tun (wird erkannt) – sonst Knopf "OK" bzw. "Nicht OK".
+
+ 4. SYNC-ROLLE – Anderer Tank erscheint unter Tank-Sync (seit 2.5.13) · merkt selbst beim Benutzen (Hit)
+    Das tust du:
+      Wo: in einer Gruppe mit einem zweiten Tank, der ThreatSentinel hat.
+      1. Tippe /ts einstellungen
+      2. Klicke auf den Reiter "Tank-Sync".
+      Kosten: kein Gold, 1 Minute.
+    Das musst du sehen: Der andere Tank steht in der Liste (Rolle, Version). Wird erkannt, sobald seine Meldung ankommt.
+    Dann: nichts tun (wird erkannt) – sonst Knopf "OK" bzw. "Nicht OK".
+
+ 5. SYNC-SPOTT – Spott des anderen Tanks: übernommen (seit 2.5.13) · merkt selbst beim Benutzen (Hit)
+    Das tust du:
+      Wo: Dungeon mit einem zweiten Tank (beide mit ThreatSentinel).
+      1. Zieht zusammen mehrere Gegner.
+      2. Ein Gegner läuft von dir weg; der andere Tank spottet ihn.
+      Kosten: kein Gold, ein Kampf.
+    Das musst du sehen: An der Namensplakette dieses Gegners steht der Name des anderen Tanks statt einer Warnung. Wird beim ersten Mal erkannt.
+    Dann: nichts tun (wird erkannt) – sonst Knopf "OK" bzw. "Nicht OK".
+
+ 6. SYNC-NACH – Sync nach dem Kampf nachgeholt (seit 2.5.13) · merkt selbst beim Benutzen (Hit)
+    Das tust du:
+      Wo: WoW Forever, in einer Gruppe mit einem Spieler mit ThreatSentinel.
+      1. Kämpfe mindestens 30 Sekunden.
+      2. Warte nach dem Kampf 2 Sekunden.
+      3. Tippe /ts protokoll und such die Zeile "Sync".
+      Kosten: kein Gold, ein Kampf.
+    Das musst du sehen: "nachgeholt" ist grösser als 0, nirgends "Addon geblockt". Wird erkannt, sobald nach dem Kampf etwas nachgeschickt wurde.
+    Dann: nichts tun (wird erkannt) – sonst Knopf "OK" bzw. "Nicht OK".
+
+ 7. MARKT – Marktdaten: Vollscan wird mitgelesen (seit 2.5.13) · merkt automatisch (auto)
+    Das tust du:
+      Wo: beim Auktionator, mit einem Auktionshaus-Addon (z. B. AHSentinel).
+      1. Öffne das Auktionshaus.
+      2. Starte im Auktionshaus-Addon einen Vollscan und warte, bis er fertig ist.
+      3. Tippe /ts protokoll und such die Zeile "MARKT-NETZ".
+      Kosten: kein Gold, ca. 5 Minuten.
+    Das musst du sehen: "mitgelesene Scans 1" (oder mehr) und Speicher über 0 KB, kein Ruckeln. Wird von selbst erkannt.
+    Dann: nichts tun (wird erkannt) – sonst Knopf "OK" bzw. "Nicht OK".
+
+ 8. LESBAR – Forever-Dungeon: Plaketten-Messung (seit 2.5.4) · merkt selbst beim Benutzen (Hit)
+    Das tust du:
+      Wo: WoW Forever, ein Dungeon, du als Tank.
+      1. Kämpfe einen Kampf mit mehreren Gegnern.
+      2. Tippe nach dem Kampf /ts protokoll.
+      Kosten: kein Gold, ein Dungeon-Kampf.
+    Das musst du sehen: Eine Zeile "LESBAR-PLAKETTEN …" nur mit Zahlen, ohne Namen. Wird erkannt, sobald die Zeile geschrieben ist.
+    Dann: nichts tun (wird erkannt) – sonst Knopf "OK" bzw. "Nicht OK".
+
+ 9. LEISTUNG – Kampf ohne Ruckeln (höchstens 16 ms) (seit 2.5.14) · merkt selbst beim Benutzen (Hit)
+    Das tust du:
+      Wo: ein Dungeon, du als Tank (jedes Spiel).
+      1. Ziehe eine grosse Gruppe (3 oder mehr Gegner) und kämpfe.
+      2. Tippe nach dem Kampf /ts protokoll und such die Zeile "LEISTUNG".
+      Kosten: kein Gold, ein Kampf.
+    Das musst du sehen: "längster Rahmen durch ThreatSentinel x ms" mit x höchstens 16. Wird erkannt; über 16 ms steht hier "Fehler (erkannt)" mit dem Wert.
+    Dann: nichts tun (wird erkannt) – sonst Knopf "OK" bzw. "Nicht OK".
+
+10. SPOTT-GRUND – Spott schlägt fehl: Grund wird gezeigt (seit 2.5.9) · merkt selbst beim Benutzen (Hit)
+    Das tust du:
+      Wo: draussen, du als Tank mit Spott.
+      1. Tippe /ts log an
+      2. Spotte einen Gegner, der zu weit weg ist (über 30 Meter).
+      3. Tippe /ts log bericht
+      Kosten: kein Gold, 2 Minuten.
+    Das musst du sehen: In der Zusammenfassung "Gründe: …" mit dem Text des Spiels (z. B. "Außer Reichweite"). Steht dort "anderer Grund": hier "Fehler (erkannt)" und der Text des Spiels steht im Chat – bitte abschreiben.
+    Dann: nichts tun (wird erkannt) – sonst Knopf "OK" bzw. "Nicht OK".
+
+11. TSMESS – Messung mit dem Mess-Addon TSMess (seit 2.5.15) · merkt automatisch (auto)
+    Das tust du:
+      Wo: WoW Forever, in einer Gruppe mit Tank. Mess-Addon TSMess installiert (TSMess.zip).
+      1. Tippe /tsmess start
+      2. Mach ein paar Kämpfe mit angewähltem Ziel.
+      3. Tippe /tsmess stop, dann /reload.
+      Kosten: kein Gold, ca. 15 Minuten.
+    Das musst du sehen: Die Datei TSMess.lua (SavedVariables) enthält Messzeilen. Wird erkannt, sobald TSMess Messungen hat.
+    Dann: nichts tun (wird erkannt) – sonst Knopf "OK" bzw. "Nicht OK".
+
+12. HEILER-HUD – Heiler sieht das HUD in der Gruppe (seit 2.5.15) · merkt selbst beim Benutzen (Hit)
+    Das tust du:
+      Wo: in einer Gruppe, du als Heiler (Rolle Heiler).
+      1. Tippe /ts einstellungen und prüfe: "Auch als Heiler: wer hat Aggro" ist an.
+      2. Kämpfe; ein Gegner greift einen Mitspieler an.
+      Kosten: kein Gold, ein Kampf.
+    Das musst du sehen: Das HUD zeigt, wer Aggro hat. Wird erkannt, sobald das HUD dir als Heiler im Kampf erscheint.
+    Dann: nichts tun (wird erkannt) – sonst Knopf "OK" bzw. "Nicht OK".
+
+13. METER-KAMPF – Aggrometer auch ausserhalb des Kampfs (seit 2.5.15) · merkt selbst beim Benutzen (Hit)
+    Das tust du:
+      Wo: draussen, nicht im Kampf.
+      1. Klicke einen Gegner an (als Ziel), ohne anzugreifen.
+      Kosten: kein Gold, 1 Minute.
+    Das musst du sehen: Das Fenster "Bedrohung: …" ist zu sehen. Mit der Option "Nur im Kampf" verschwindet es. Wird erkannt, sobald es ausserhalb des Kampfs erscheint.
+    Dann: nichts tun (wird erkannt) – sonst Knopf "OK" bzw. "Nicht OK".
+
+14. TESTASSIST – Testassistent in Forever: n/a statt Fehler (seit 2.5.4) · merkt selbst beim Benutzen (Hit)
+    Das tust du:
+      Wo: WoW Forever, draussen.
+      1. Tippe /ts assistent
+      2. Folge den Schritten im Fenster bis zum Ende.
+      Kosten: kein Gold, ca. 5 Minuten.
+    Das musst du sehen: Plaketten-, HUD- und Rückhol-Schritte zeigen "n/a", nicht "fehlgeschlagen". Wird beim ersten übersprungenen Schritt erkannt.
+    Dann: nichts tun (wird erkannt) – sonst Knopf "OK" bzw. "Nicht OK".
+
+Nicht in der Liste (höchstens 14 Punkte), weiter in offen-threatsentinel.txt "IM CLIENT PRÜFEN": Bereich K mit offenen
+Blizzard-Fenstern (T181/T186), T144 zweimal, Sprachtest (T128), /reload im Kampf (T-P1b), T135/T154 und die älteren Einzelfälle.
+Die meisten davon laufen mit "/ts testroutine alles" mit und stehen dann im Testbericht. Kommt ein Punkt der Liste durch die
+Prüfung, nehme ich ihn in der nächsten Version heraus und rücke einen dieser nach.
+
+C) GoldSentinelDev.lua Version 2 aus shared/ unverändert kopiert (ersetzt v1), cmp gleich; addon_check ohne Warnung.
+
+Weitere Dateien: berichte/ThreatSentinel/offline/routine_offline.py – Bereich "alles" und Umgebungsvariable TS_FRAME_MS
+(eigener Commit vor der Veröffentlichung).
+Alle sechs gemeinsamen Dateien direkt vor dem Push mit cmp gegen shared/ geprüft: gleich.
