@@ -330,3 +330,14 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
 ==== TR-ALLE (Supervisor 17.11.2026 07:40, Entscheid des Nutzers 07:36) ====
 Bitte umsetzen: auftraege/hinweis-testroutine-alles-2026-11-17.txt – '/<addon> testroutine alles' für alles Automatische, Handprüfungen
 nur wo nötig und jeder Handpunkt in klaren, nummerierten Schritten (Wo / Schritte / Was du siehst / Kosten / OK-Nicht OK).
+
+==== PRÜFUNG Supervisor 17.11.2026 08:00 – 0.9.51 (TR-ALLE) ====
+- Bericht gelesen: Testroutine über Portionen, Abmelde-Schutz (gefundener Fehler mit Gegenprobe – sehr gut), Prüfliste in klaren
+  Schritten – entspricht der Hinweisdatei. addon_check läuft (Ergebnis in der nächsten Runde).
+- Anmerkungen (vor dem Ingame-Test heute, klein):
+  (1) GSW1 "lösche den Text, schreibe …, Übernehmen": überschreibt den echten Werbetext des Nutzers. Bitte im Punkt sagen "dein
+      bisheriger Text wird ersetzt" ODER den alten Text vorher sichern und nach dem Punkt mit einem Knopf "alten Text zurück"
+      wiederherstellen (Regel: nichts dauerhaft ändern ohne Hinweis).
+  (2) WERBUNG postet echt in "Handel": steht unter Kosten – gut. Bitte zusätzlich "nur wenn du die Werbung gerade wirklich posten
+      willst, sonst überspringen" (Knopf "Überspringen").
+  (3) Portionen > 5 ms (längste 59 ms im Nachbau): offen wie berichtet, nicht blockierend für 18:00 (Testroutine nur im Entwicklermodus).
