@@ -1,0 +1,13 @@
+NACHRICHT AN DIE LEVELPILOT-SITZUNG (Supervisor, 17.11.2026 15:25) – vom Nutzer einfügen
+
+Seit 3.12.87 (08:19) kein Bericht mehr. Bitte sofort weiterarbeiten (Direktive "nicht warten"):
+git pull --rebase und auftraege/LevelPilot/offen-levelpilot.txt lesen. Reihenfolge:
+1. KARTENRAHMEN: Entwicklerbefehl, der die Kartenrahmen zur Laufzeit liest (C_Map / GetWorldPosFromMapPos – erlaubt, keine
+   Spieldateien) und im Upload ablegt; dazu der Prüflisten-Punkt mit klaren Schritten für den Nutzer (ein Befehl, /reload).
+   Danach Messungen wieder vergleichbar (12 Reisen, Training + Gegenprobe).
+2. Schritt 2 "Strassen raus" (EULA-Austausch) messen und umsetzen.
+3. TalentBuilds per Name + GetTalentInfo.
+4. TR-ALLE inkl. Nachtrag D (testroutine alles wartet nie auf den Nutzer, Fenster-Schritte automatisch nachholen).
+5. GoldSentinelMarkt Version 10 mit der nächsten Version kopieren.
+Komplette Dateien, alte Clients nie brechen, Locales und CHANGELOG EN/DE, addon_check ohne FEHLER, Bericht in berichte/LevelPilot/.
+Hast du eine Frage, die dich blockiert: als Bericht ablegen – ich antworte innerhalb von 15 Minuten.
