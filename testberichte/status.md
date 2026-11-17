@@ -1,6 +1,6 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-17 08:51 UTC
+Ausgewertet: 2026-11-17 10:39 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
@@ -8,7 +8,7 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 |---|---|---|---|---|---|---|---|---|
 | AHSentinel | 16.11.2026 18:38 UTC | 0.65.278 | forever 1.60.1 (Interface 16001) | 4 | 1 | 0 | 0 | 63 |
 | BuffSentinel | 05.11.2026 00:19 UTC | 0.9.7 | forever 1.60.1 (Interface 16001) | 120 | 1 | 10 | 11 | 307 |
-| GuildSentinel | 09.11.2026 05:47 UTC | 0.9.13 | forever 1.60.1 (Interface 16001) | 153 | 4 | 23 | 5 | 2 |
+| GuildSentinel | 09.11.2026 05:47 UTC | 0.9.13 | forever 1.60.1 (Interface 16001) | 153 | 4 | 23 | 5 | 1 |
 | LevelPilot | 05.11.2026 00:21 UTC | 3.12.6 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 0 |
 | ProfessionSentinel | 09.11.2026 06:57 UTC | 0.9.28 | forever 1.60.1 (Interface 16001) | 5 | 2 | 1 | 0 | 0 |
 | RaidMaster | 05.11.2026 00:07 UTC | 3.0.17 | forever 1.60.1 (Interface 16001) | 98 | 3 | 10 | 12 | 0 |
@@ -143,7 +143,6 @@ Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) ·
 - [FEHLER] T82 B – nichts gesendet (ergebnis: echt 1 (C_ChatInfo.SendAddonMessage 1), Warteschlange +0 | erwartet: echt 0, Warteschlange +0)
 
 **Fehler im Spiel (letzte 7 Tage)**
-- 1× `ADDON_ACTION_BLOCKED`: fn() – Version 0.9.21 · forever 1.60.1 (Interface 16001) · zuletzt 10.11.2026 10:09 UTC
 - 1× `ADDON_ACTION_FORBIDDEN`: fn() – Version 0.9.28 · forever 1.60.1 (Interface 16001) · zuletzt 13.11.2026 04:43 UTC
 
 ## LevelPilot

@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-17T08:51:53Z",
+ "ausgewertet": "2026-11-17T10:39:31Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -316,20 +316,6 @@
     }
    ],
    "fehler_spiel": [
-    {
-     "addon": "GuildSentinel",
-     "art": "spiel",
-     "wo": "ADDON_ACTION_BLOCKED",
-     "msg": "fn()",
-     "anzahl": 1,
-     "versionen": [
-      "0.9.21"
-     ],
-     "clients": [
-      "forever 1.60.1 (Interface 16001)"
-     ],
-     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:407: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:400>\n[C]: in function 'fn'\n[Interface/AddOns/GuildSentinel/Core.lua]:183: in function 'Act'\n[Interface/AddOns/GuildSentinel/Core.lua]:191: in function 'Chat'\n[Interface/AddOns/GuildSentinel/Recruit.lua]:258: in function 'Post'\n..."
-    },
     {
      "addon": "GuildSentinel",
      "art": "spiel",
@@ -736,20 +722,6 @@
    "name": "nichts gesendet",
    "detail": "ergebnis: echt 1 (C_ChatInfo.SendAddonMessage 1), Warteschlange +0 | erwartet: echt 0, Warteschlange +0",
    "bericht": "GuildSentinel-1794203247-f4dd4b-1"
-  },
-  {
-   "addon": "GuildSentinel",
-   "art": "spiel",
-   "wo": "ADDON_ACTION_BLOCKED",
-   "msg": "fn()",
-   "anzahl": 1,
-   "versionen": [
-    "0.9.21"
-   ],
-   "clients": [
-    "forever 1.60.1 (Interface 16001)"
-   ],
-   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:407: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:400>\n[C]: in function 'fn'\n[Interface/AddOns/GuildSentinel/Core.lua]:183: in function 'Act'\n[Interface/AddOns/GuildSentinel/Core.lua]:191: in function 'Chat'\n[Interface/AddOns/GuildSentinel/Recruit.lua]:258: in function 'Post'\n..."
   },
   {
    "addon": "GuildSentinel",
