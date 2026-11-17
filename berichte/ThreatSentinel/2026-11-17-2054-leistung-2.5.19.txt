@@ -1,0 +1,55 @@
+BERICHT THREATSENTINEL 2.5.19 – Hinweis LEISTUNG (Entscheid des Nutzers 20:39, auftraege/hinweis-leistung-2026-11-17.txt)
+Stand: umgesetzt, zur Prüfung (keine Selbst-Freigabe). shared/wissen/leistung.md gelesen (Abschnitte 0–6).
+Veröffentlicht: download/ThreatSentinel-2.5.19.zip (addon_check "## ThreatSentinel-2.5.19.zip: OK"),
+announce/threatsentinel__threatsentinel-2.5.19.md. Gemeinsame Dateien cmp gleich mit shared/.
+Offline (veröffentlichte ZIP, "alles", Lua 5.1): Forever OK 276 · FEHLER 6 · übersprungen 18 · im Client 16; Era OK 280 · FEHLER 6 ·
+übersprungen 12 · im Client 17; je "FEHLER ausserhalb der Nachbildungs-Liste: 0"; mit TS_FRAME_MS=0 (Abgabe vor jeder Prüfung) ebenso 0.
+
+PUNKT 1 – Spielwert UND Nachbau-Wert je Fall (bekannte Fälle ThreatSentinel)
+| Fall | Spiel | Nachbau (echte Uhr, Lua 5.1) | Faktor | Stand |
+| TU1-L04t Durchlauf 40 Spieler/40 Gegner, 2.5.16 | 10,3 ms (Ingametest 17.11. 17:00) | 4,22 ms | 2,4× | 2.5.17: ganzer Durchlauf 2,7 ms im Nachbau, Budget 3 ms; Spielwert danach: offen (nächster Ingametest) |
+| Testroutine längste Portion (TU4), 2.5.16 | 3,6 ms (17:00) | – (alte Messung offline 0 ms, Uhr nachgebildet) | – | ab 2.5.17 jedes Bild gemessen |
+| Testroutine ganze Dauer, 2.5.16 | 3,5 s, 28 Pausen (17:00) | – | – | – |
+Eichung: Für ThreatSentinel liegt genau EIN Paar Spiel/Nachbau für denselben Fall vor (TU1-L04t: Faktor 2,4). Alle anderen Nachbau-Werte
+unten sind deshalb "Verdacht, zu messen" (umgerechnet mit 2,4 als Schätzung, nicht belegt).
+Ruckler über 40 ms: in den ThreatSentinel-Testberichten bisher keiner bekannt (grösster Spielwert 10,3 ms). Kein neuer Fall für Abschnitt 2.
+
+PUNKT 2 – Nachbau mit echten Daten
+ThreatSentinel hat keine mit dem Spielen wachsenden Datenmengen im Durchlauf (Bedrohung wird live gelesen). Gewachsen wird nur:
+Testprotokoll (begrenzt, LG), Diagnose (begrenzt), Marktdaten (GoldSentinelMarkt, eigene Grenzen in shared/). Echte Spielerdaten aus
+goldsentinel-daten habe ich nicht verwendet: für den Durchlauf zählt die Zahl der Gruppenmitglieder × Gegner, und die ist im Nachbau
+in echter Grösse (40 × 40). Nicht im Nachbau: andere Addons im selben Bild (DBM, Details …) – im Spiel nur über LEISTUNG messbar.
+
+PUNKT 3 – Ruckler über 40 ms als Fall: keiner gefunden/behoben (siehe oben).
+
+PUNKT 4 – Bau-Regeln an dem, was ich angefasst habe
+- Regel 2 (keine ganze Bereinigung, auch nicht in Tests): T140 rief collectgarbage("collect") 2× (vor/nach 200 Durchläufen). Jetzt
+  ohne Bereinigung: angelegter Speicher je Durchlauf in einer Szene mit 10 Gegnern, 3 Versuche à 5 Durchläufe, gewertet der grösste
+  Zuwachs (ohne zwischendurch laufende Bereinigung). Nachbau: 22,2–23,4 KB je Durchlauf, Nachbau-Funktionen MITGEZÄHLT
+  (Profil: ≈ 35 % davon legt der Nachbau der Spiel-Funktionen an). Grenze R.TICK_ALLOC_KB = 40 KB als obere Schranke.
+  VERDACHT, ZU MESSEN: Spielwert ohne Nachbau-Anteil.
+  Im übrigen Code: kein collectgarbage("collect") (grep; nur gemeinsame Dateien unverändert).
+- Regel 3 (Tabellen wiederverwenden): T:Tick legte je Durchlauf eine neue Reihenfolge-Tabelle und eine neue Vergleichsfunktion an
+  -> T.orderBuf und ByAge (einmal). Nameplates BarSize legte je Plakette und Durchlauf eine Hilfsfunktion für pcall an -> Size2 (einmal).
+  Gemessen (Speicher-Profil, Nachbau): Nameplates.lua BarSize 2,4 KB je 20 Durchläufe weniger; Threat.lua Tick-Anteil kleiner.
+- Regel 1/6 (Portionen mit Budget, längste im Protokoll): Durchlauf mit Zeitbudget seit 2.5.17; LEISTUNG je Kampf mit längstem Rahmen
+  und Alter der Gegner-Stände seit 2.5.18; LANGSAM-Zeile über ns.Timed wie bisher.
+- Regel 5 (Obergrenzen): nichts Neues angelegt.
+
+PUNKT 5 / Regel 8 – Testroutine: längstes Bild und Gesamtdauer getrennt
+Zusammenfassung jetzt: "N Bilder, längstes x ms (bei <Prüfung>), über 5 ms: n · Prüfungen über 16 ms: <Name x ms …> · allein über 5 ms:
+<…> · eigene Rechenzeit insgesamt y ms, vom Start bis zum Ende z s"; Bericht-Feld extra.bereiche "A x ms/n Bilder; B …; Abschluss …".
+Test T-TR4 (eigene Uhr): "B 7 ms/2 Bilder · C 6 ms/1 · längstes 6 ms bei C7 · über 5 ms 1".
+Dazu T90 ("Jede Option an/aus", am Stück 16–28 ms im Nachbau) in Teile zu R.T90_CHUNK = 6 Schaltern (T90-1 …), dazwischen darf abgegeben
+werden; T90 prüft danach Auswahl-Optionen und Fehlerzählung über alles ("n von N Schaltern in k Teilen"). T136 und TU1-L04t messen 3
+statt 5 Durchläufe.
+Nachbau, echte Uhr, 3 Läufe ("alles", Forever):
+  93–101 Bilder, längstes 13,5 / 15,2 / 21,1 ms (TU1-L04t bzw. TU3-D2), eigene Rechenzeit insgesamt 223–272 ms;
+  vorher (2.5.18): längstes 17,2–29,3 ms (T90).
+  Allein über 5 ms (Nachbau): T136, T139b, T140, TU1-L04t, TU1-L04b, TU3-D2, T-BL1, TU7-F-*, TU7-S1 (5–15 ms).
+  VERDACHT, ZU MESSEN: mit Faktor 2,4 im Spiel bis etwa 35–50 ms für die längste dieser Prüfungen – also möglicherweise über der harten
+  Grenze 40 ms. Beleg kommt mit dem nächsten Ingametest (die Zusammenfassung nennt sie mit Namen). Liegt eine im Spiel über 40 ms, teile
+  ich sie wie T90 (die meisten sind Szenen: dort darf nicht abgegeben werden; teilen heisst dann eine Prüfung je Teil-Szene).
+
+Bausteine (Abschnitt 6): B1 ist der eigene ThreatSentinel-Baustein. Vorschlag GoldSentinelTakt.lua: gern – ThreatSentinel stellt um,
+sobald er in shared/ liegt.
