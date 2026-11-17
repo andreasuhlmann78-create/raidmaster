@@ -175,3 +175,8 @@ Anlass: F-OPT-2 (Navmesh) und das Strassennetz/die Orte aus den Spieldateien (16
 Regel: Vor jedem Auftrag, der Daten aus Spieldateien, fremden Daten oder Lizenzen betrifft, nach früheren Rechtsprüfungen suchen
 (grep "Rechtsprüfung\|EULA\|Lizenz" in auftraege/ und shared/wissen/). Ein "Ja" des Nutzers gilt nur für das, was ihm dabei vorlag;
 widerspricht es einer Rechtsprüfung, dem Nutzer die Prüfung vorlegen und ausdrücklich entscheiden lassen.
+
+### E-Regel 17.11.2026 06:30 – Keine Spieldateien auslesen
+Entscheid des Nutzers 06:22 ("an die EULA halten"): Aufträge, Werkzeuge oder Daten, die Spieldateien des Clients auslesen oder daraus
+abgeleitet sind (Gelände, Texturen, Kartendateien, Navmesh, Gebiets-IDs aus ADT), sind gesperrt – auch offline. Prüfung jeder neuen Version:
+keine solchen Daten im Addon (Herkunft im Bericht belegen).

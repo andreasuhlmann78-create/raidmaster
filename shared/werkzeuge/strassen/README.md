@@ -1,71 +1,8 @@
-# Strassen aus den Spieldateien (WoW Forever) – eigenes Werkzeug
+# Strassen / Gelände – eingestellt (17.11.2026)
 
-Stand 16.11.2026, Supervisor (Auftrag des Nutzers 08:01: "nimm Zugriff auf die Spieldateien und fange an").
-Eigenes Verfahren, kein fremder Code (Mapzeroth-Lizenz ungeklärt). Formatbeschreibung: wowdev.wiki (CASC, BLTE, ADT, WDT).
-
-## Ablauf
-1. `casc_lesen.py` – kleiner CASC-Leser (nur lesen) für die lokale Installation (`.build.info`, Produkt `wowf`).
-2. `kacheln.py <WoW-Ordner> textur_nutzung.json` – zählt Bodentexturen je Kartenstück (Karte 0 und 1).
-3. `strassen_texturen.json` – 34 Strassen-Texturen (Namen aus wowdev/wow-listfile, von Hand geprüft;
-   Fussspuren/allgemeiner Boden bewusst NICHT).
-4. `strassen_maske.py <WoW-Ordner> strassen_texturen.json strassen_maske.json` – Alpha-Karten (MCAL) der Strassen-Schichten,
-   16×16 Zellen je Kartenstück (1 Zelle = 2,083 Yards), Schwelle 128. Läuft auf dem Rechner des Nutzers (18 s).
-5. `strassen_netz.py strassen_maske.json <ordner>` (Cloud, numpy/scipy/scikit-image) – Lücken bis ~8 yd schliessen,
-   Flecken < 60 Zellen weg, Skelett, Graph, Douglas-Peucker 4 yd, Stummel < 15 yd weg.
-
-   Danach (ST-1, LevelPilot 16.11.2026) `verdichten()`: Skelett-Haufen (Kanten < 6 yd zwischen Knoten) zu einem Knoten,
-   doppelte Spuren weg, Brücken bis 30 yd nur zwischen GETRENNTEN Teilen (loses Ende -> nächste Kante), Teile < 200 yd weg,
-   Stummel < 15 yd weg, Ketten über Knoten mit Grad 2 zu einer Kante. Länge je Schritt in `stat.verdichten` (geht auf).
-
-## Ergebnis (`daten/`, Client 1.60.1.70938, nach ST-1)
-| Karte | Punkte | Kanten | Knoten | Teile | Länge (yd) | vorher (Rohnetz) |
-|---|---|---|---|---|---|---|
-| 0 Östliche Königreiche | 3383 | 1249 | 1104 | 95 | 126749 | 8833 Punkte, 9708 Kanten, 146918 yd |
-| 1 Kalimdor | 1637 | 325 | 358 | 61 | 70791 | 3519 Punkte, 2681 Kanten, 80283 yd |
-Lua-Datei 434 KB -> 122 KB (Lua 5.1: Laden 6 ms, ~0,7 MB). Vergleichsbilder: berichte/LevelPilot/strassen/.
-
-- `GoldSentinelStrassen.lua` – Lua-Datendatei (Welt-Yards x nach Norden, y nach Westen; `p` flach, `e` Linienzüge 1-basiert).
-- `strassen_netz.json` – dasselbe zum Prüfen, `strassen_maske.json` – Rohmaske (zum erneuten Bauen ohne Spieldateien).
-- `vorschau-kalimdor.png` – Bild des Netzes.
-
-## Geprüft (Stichproben Welt-Koordinaten)
-Goldshire 8 yd neben der Strasse, Crossroads 34 yd (Strasse führt am Ort vorbei), Orgrimmar-Tor 28 yd. Achsen stimmen.
-
-## Bekannte Grenzen (Verdacht, zu messen)
-- Wege aus allgemeinem Boden (z. B. Desolace, Teile Tausend Nadeln, Ödland) erkennt das Verfahren nicht – dort Luftlinie.
-- Durotar/Dörfer: Strassen-Textur auch als Bodenflecken -> viele kleine Teile (Filter MIN_TEIL ggf. höher).
-- Brücken/Tunnel: Textur ist unter WMO-Brücken oft unterbrochen -> Lücken über Flüsse (Verbinden bis ~30 yd prüfen).
-- Kleine Kanten (Ö. Königreiche 9708) – erledigt mit ST-1 (verdichten), siehe oben.
-
-## Classic Era aus dem Anniversary-Client (Nutzer 16.11.2026 09:08: "Anniversary kannst du nehmen, das ist Classic mit TBC")
-Kein Era-Client beim Nutzer; Anniversary (Produkt `wow_anniversary`, Client 2.5.6.70577) mit demselben Werkzeug gelesen
-(`casc_lesen.Casc(..., product="wow_anniversary")`, gleiche WDT-FDIDs und Texturliste) -> `daten/era/`.
-Abgleich mit Forever (Zellen à 2,083 yd): 93,1 % (Ö. K.) bzw. 96,2 % (Kalimdor) der Anniversary-Strassenzellen liegen auch in
-Forever -> die Grundwelt ist dieselbe. Forever hat zusätzlich eigene Gebiete (Ö. K. Kacheln 34–36/27–29 um Gilneas, 56–57/26).
-Netz Anniversary: Ö. K. 2254 Punkte / 713 Kanten / 86785 yd, Kalimdor 1549 / 292 / 67197 yd (nach ST-1-Verdichtung).
-Verdacht, zu messen: Unterschiede Anniversary (TBC 2.5) zu Era 1.15 auf Karte 0/1 – im Spiel an Era-Wegen prüfen.
-
-## Classic Era jetzt aus dem echten Era-Client (16.11.2026 10:35)
-Der Nutzer hat "WoW Classic Era" installiert (Produkt `wow_classic_era`, Client 1.15.9.70576). Maske neu gelesen (16 s) und
-`daten/era/` daraus neu gebaut (`--ziel era`). Abgleich Era gegen Anniversary (Zellen à 2,083 yd): Ö. K. 139 198 gleich, nur Era 205,
-nur Anniversary 565 (Kacheln 25/40 und 53/37); Kalimdor 123 982 gleich, nur Era 11, nur Anniversary 514 (Kacheln 39/38, 40/37, 39/37 –
-TBC-Änderungen um die Düstermarschen/Theramore, Verdacht). Also 99,6–99,99 % gleich; die Era-Daten sind jetzt die echten.
-Netz Era: Ö. K. 2243 Punkte / 713 Kanten / 86560 yd, Kalimdor 1537 / 285 / 66756 yd. Forever-Ausgabe unverändert (cmp).
-
-## Orte (Unterzonen) und Flugrouten aus den Spieldateien (16.11.2026 17:35, Auftrag des Nutzers 17:30/17:31)
-`gebiete.py <WoW-Ordner> <aus.json> [wowf|wow_classic_era]` liest aus jeder ROOT-ADT je Kartenstück (33,3 yd) die AreaTable-ID
-(MCNK-Kopf 0x34) – dieselbe Zuordnung, die WoW für den Ortsnamen an der Minikarte nutzt. Laufzeit 4–7 s.
-`daten/gebiete/`: `gebiete_forever.json` / `gebiete_era.json` (je Kachel 256 IDs), `areatable_*.json` (Name, Zone, Eltern, Kontinent,
-Erkundungsstufe, Fraktion), `TaxiNodes/TaxiPath/TaxiPathNode_*.csv` (Flugpunkte, Preis je Strecke, alle Wegpunkte der Flugbahn;
-Quelle wago.tools DB2, Zweige wowf / wow_classic_era).
-Stichproben (beide Clients gleich): Goldhain -> 87 Goldshire (Elwynn Forest), Abtei Nordhain -> 9 Northshire Valley, Klingenhügel ->
-362 Razor Hill (Durotar), Wegkreuz -> 380 The Crossroads (The Barrens), Brill -> 159 Brill (Tirisfal Glades).
-Punkt -> Ort: ty = (17066,667 − x)/533,333, tx = (17066,667 − y)/533,333; Zeile = Bruchteil(ty)·16, Spalte = Bruchteil(tx)·16.
-
-## Gelände (gelaende.py, 16.11.2026)
-Aus den Rohdaten von `rohauszug.py` (Spieldateien, NICHT im Repo) eine kleine abgeleitete Karte je Spiel und Kontinent:
-Steigung, Loch im Boden, Wasser (seicht/tief/Lava) je Zelle von 4,17 yd, Bodenhöhe je Kartenstück, dazu die Standorte der
-Gebäude (WMO, mit Hülle) und Objekte (M2). Format oben in `gelaende.py`.
-Probe mit dem Teil-Auszug vom 16.11. (Östliche Königreiche, Kachelzeilen 20–27 Forever / 20–31 Era): Brill Steigung 6°, Höhe 34,
-kein Wasser; Eingang Unterstadt "Loch" = 1 (richtig, dort geht es hinunter); Forever und Era an gleichen Orten gleich.
-Vollständige Daten folgen, wenn der Auszug fertig ist (auftraege/Rohauszug/offen-rohauszug.txt).
+Entscheid des Nutzers 17.11.2026 06:22: "Dann halten wir uns an die EULA."
+Die Werkzeuge, die Spieldateien des Clients auslasen (CASC-Leser, Strassen-Masken, Strassennetz, Gebiets-IDs, Rohauszug, Gelände),
+und alle daraus abgeleiteten Daten wurden entfernt. Grundlage: Rechtsprüfung 9.11.2026 (auftraege/LevelPilot/anweisung-wegpunkte-
+strassen.txt, Punkt 12: EULA 1.C.01 abgeleitete Werke, 1.C.06; Navmesh aus Gelände = Bot-Technik).
+Erlaubt bleiben: Questie-Daten, im Spiel aufgezeichnete Wege der Spieler (GSWEGE), Laufzeit-APIs des Spiels.
+Keine Spieldateien mehr auslesen; neue Werkzeuge dieser Art nur nach ausdrücklichem, neuem Entscheid des Nutzers.
