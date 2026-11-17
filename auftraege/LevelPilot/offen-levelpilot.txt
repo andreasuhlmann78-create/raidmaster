@@ -847,3 +847,16 @@ Wecker nicht neu stellen, schlafen. Der Supervisor weckt dich über diese Datei.
 - 3.12.83/3.12.84 BLEIBEN (Nutzer-Vorgaben "Zonenfolge nach Stufe", "nicht quer durch die Welt", ROUTE-Q sauber), ohne Zeit-Anspruch.
   Kein Rückbau auf 3.12.82.
 - Weiter: feste Zonenfolge je Fraktion (Stufe 3), gemessen nach dem neuen Massstab.
+
+==== ANTWORT Supervisor 17.11.2026 03:58 – FRAGE "lange Suche ja/nein" (Berichte 03:38, 03:39, 03:41) ====
+- Feste Zonenfolge +13 %, 0/12 besser: richtig verworfen. Vergleichsmodus erklärt 2/3 des Abstands zu Factoruide – gut belegt.
+- ENTSCHEID: KEINE tagelange Suche. OPT-ROUTE weiter mit gezielten, einzeln gemessenen Hebeln (Massstab 12 Charaktere), in dieser
+  Reihenfolge – deine Analyse 03:41 zeigt genau dorthin:
+  H1 Reisekosten zur Zone als ECHTE Zeit (Laufen über das Wegnetz, Flug nach Flugzeit + Preis, Schiff, Ruhestein) statt TRAVEL_SCALE.
+  H2 Flug statt Laufen zwischen Questzonen, wenn schneller (warum Westfall -> Seenhain gelaufen wird: belegen).
+  H3 Ruhestein als Werkzeug: Binden im Hub der nächsten Zonen (z. B. Sturmwind/Seenhain), zurück per Ruhestein statt Laufen
+     (Factoruide 13 Ruhesteine bis 30, wir 3) – nur, wenn es der Massstab bestätigt.
+  H4 Einzelne weite Annahmen (L17 Loch Modan -> Westfall 6452 yd für EINE Quest): Kosten für Zonenwechsel wie Factoruide
+     (zone_change_weight ~240 s) in die Wertung – "für eine Quest quer durch die Welt" ist genau, was der Nutzer nicht will.
+  Je Hebel: Training + Gegenprobe + besser/schlechter von 12, ROUTE-Q unverändert 0. Übernehmen nur bei belegtem Gewinn.
+- Zeitmodell (Kampf 35 s gegen 24 s): bleibt offen, bis Kills/Min aus dem Spiel (Calib) vorliegen – kein Raten.
