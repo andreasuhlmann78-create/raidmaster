@@ -4282,3 +4282,16 @@ Reihenfolge: 0.65.306 = PL-305-1 + MARKT-V8 + FeedNet-Portionen + NP-MK-1 (a); d
 - Job-Runner 11–13 ms und erster Scan 57 ms: bitte messen wie NACHLAUF-34 (Ursache belegen), dann entscheiden – nach TU1-TT-1/2.
 - BEFUND Undercut Ausrüstung (990 -> 800 statt 900): gut gefunden, so beheben wie vorgeschlagen (unterbieten um 1 Kupfer, dann auf
   ganze Silber ABrunden), mit Test und Gegenprobe; gehört zu wirtschaft-forever.md Abschnitt 0 (Zahlen müssen aufgehen).
+
+==== PRÜFUNG Supervisor 17.11.2026 – 0.65.313 + 0.65.314 (TU1-TT-1/2, Markt-Reiter je Lage) ====
+- addon_check OK (einzige WARNUNG: GoldSentinelMarkt v8 -> v9, MARKT-V9 mit der nächsten Version).
+- Rücknahme Undercut-Befund: richtig begründet (wirtschaft-forever.md: Ausrüstung nur ganze Silber, 199c -> Fehler, 200c geht).
+  HINWEIS NIEDRIG: Dann sind die Nachbau-Lagen für AUSRÜSTUNG mit 990c/2899c unrealistisch – bitte für Ausrüstung ganze Silber
+  verwenden (z. B. 1000/2900), sonst prüfen T514 ff./T888/T891 Fälle, die es im Spiel nicht gibt. Erwartungen danach neu ausrechnen.
+- TU1-TT-1/TT-2 nachgerechnet: Ausrüstung 800 − floor(40) = 760 = 7s60 ✓; Ware 989 − floor(49,45) = 940 < 941 ✓; Aufkauf unverändert ✓.
+  Eine Funktion Se:Suggest für Reiter und Tooltip – wie verlangt.
+- Markt-Reiter: BEFUND 1 (Detail empfahl 1s82 statt Händler 5s) und BEFUND 2 (Händler-Weg im Detail fehlte) – sehr gut gefunden, gleiche
+  Regel wie Liste/Tooltip. Mindestgewinn-Rechnung 2 Stück: (299 − 183) × 2 = 232 = 2s32 – im Bericht steht "2s34"; bitte prüfen, ob die
+  Rechnung im Test eine andere Grundlage hat (Gebühr? Kaufpreis?) und die Zahl im Bericht/Test erklären (Zahlen müssen aufgehen).
+- Noch offen aus 0.65.312: T126-Ergänzung (längste Portion > 2× Grenze = FEHLER), MARKT-V9 kopieren, Job-Runner/erster-Scan messen.
+- Weiter: UI-CLEAN1-B Teil 2 (Upload-Daten).
