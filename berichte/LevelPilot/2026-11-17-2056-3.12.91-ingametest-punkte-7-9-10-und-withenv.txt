@@ -1,0 +1,99 @@
+LevelPilot 3.12.91 veröffentlicht (Discord) – Ingametest 3.12.89 Punkte 7, 9, 10 und WithEnv/TAINT (umgesetzt, zur Prüfung)
+Datum: 17.11.2026 20:56
+Bezug:
+- offen-levelpilot.txt "INGAMETEST 19:54" Punkte 7–10
+- "PRÜFUNG 20:00" (WithEnv)
+- Hinweis Leistung 20:45
+- Bericht 2047 (Punkte 1–6 und 8)
+Zip: announce/levelpilot__levelpilot-3.12.91.LevelPilot.zip, md5 991202cff5ec55a50f5e2d1f43d862ae. Datenpaket 1.6.4.
+Nachbau mit den PC-Daten (goldsentinel-daten, nur lokal gelesen) und den echten Kartenrahmen. Lua 5.1.
+Für jeden Punkt: mit 3.12.88/3.12.89-Code nachgestellt, sodass die Spielmeldung im Nachbau wörtlich entsteht (Gegenprobe rot);
+3.12.91 grün.
+
+WithEnv (Prüfung 20:00, TAINT-Rest-Risiko)
+- __newindex des Ersatz-Proxys schreibt jetzt mit rawset in die Ersatz-Tabelle, nie in _G.
+- T350 neu:
+  - Eine Funktion unter WithEnv legt eine Globale an. Im Test ist sie lesbar, in _G kommt sie nicht an.
+  - Dazu wird für 32 wichtige Blizzard-Namen (GetCVar, UnitIsAFK, C_QuestLog, CreateFrame …) per issecurevariable geprüft, dass
+    sie nicht verdorben sind. Der Nachbau hat kein issecurevariable (0 geprüft); im Spiel wird geprüft.
+  - GEGENPROBE (alter Proxy): "in _G angekommen true" -> false.
+- Offline-Routine 40/40 mit dem neuen Proxy, also schreibt kein Test auf diesem Weg mehr in _G.
+
+Fund nebenbei (Fehler aus 3.12.89):
+- Beim Einfügen von T347 wurde der zweizeilige Hilfetext CLIENT.T346 getrennt. Seine zweite Zeile hing in 3.12.89/3.12.90 an
+  CLIENT.T347 bzw. CLIENT.T349 (falsche Anleitung im Spiel).
+- Wieder zusammengesetzt. Das Laden der Datei hat den Fehler beim Einfügen von T350 sofort gezeigt.
+- Prüfregel für mich: neue Blöcke nur hinter vollständigen Anweisungen einfügen.
+
+Punkt 7 – T295 kalter Klick "Neu planen", längste Portion 17,09 ms (Spiel)
+- Nachbau mit PC-Daten:
+  - 3.12.88-Code: 13,51 ms; Eichung Spiel/Nachbau 1,26
+  - 3.12.91: 10,15 ms; erwartet im Spiel rund 13 ms (Verdacht, zu messen)
+- Ursache: die Wegsuche in den Planungs-Portionen. Besser durch die Ketten (Bericht 2047, Punkt 1).
+- Ohne weitere Änderung. Bestätigung mit dem nächsten Ingametest.
+
+Punkt 9
+- T220 "Abgabeziel aus dem echten Ort false": PRÜFUNGSFEHLER (belegt, Nachbau mit PC-Daten gleich false)
+  - Der Spieler hat Quest 1656 selbst schon abgegeben. Sein aufgezeichneter Abgabe-Ort (LP.db.qdb[1656], 46/64,1) hat Vorrang
+    vor dem Datenpaket – so gebaut (QuestDB: Beobachtung > Startdatenbank > andere Spieler).
+  - T220 legt die eigene Aufzeichnung für die Prüfung des npcPos-Weges jetzt kurz weg und stellt sie zurück.
+  - Nachbau mit PC-Daten: true.
+- T100 (1 statt 0 Ziele), T174 (keine Weg-Kills), T155 (0 Planungen): Folgen von Punkt 3 (Bericht 2047).
+  - API.Objectives war noch die Ersatzfunktion der abgebrochenen Reise. Sie liefert die Ziele aus der Reise-Quest 1 und ignoriert
+    die im Test entfernten Spiel-Funktionen. Die Reise hatte 0 Schritte.
+  - Nachweis über den Code; Bestätigung im nächsten Ingametest (Verdacht, zu messen).
+
+Punkt 10
+- T221 "zweiter Versand ohne Neues false": PRÜFUNGSFEHLER (belegt, Nachbau mit PC-Daten gleich false)
+  - Die Wegdaten des PCs: 17 Zonen, 422 661 Zeichen, Brachland allein 107 278; das passt nicht in einen Bericht (Grenze 200 KB).
+  - WegeExport schickt den Rest mit den nächsten Versänden (so gebaut). Im Nachbau sind es 3 Versände, dann nichts Neues.
+  - T221 versendet jetzt, bis nichts Neues mehr da ist (höchstens 10), und prüft dann den leeren Versand.
+  - Hinweis zur Entscheidung (nicht geändert):
+    - WegeExport bricht beim ersten zu grossen Gebiet ab, statt kleinere dahinter noch mitzunehmen.
+    - Verlust-Verdacht: die Liste wegeExport wird auf 200 KB gekürzt (älteste zuerst). Laufen zwei Versände vor einem Upload,
+      kann der ältere verloren gehen, obwohl er als versandt gilt. Im normalen Spiel gibt es einen Versand je Ausloggen, also
+      Verdacht, zu messen.
+- T249 "LevelPilotDB.gsSync false … Speicher eines anderen GoldSentinel-Addons": PRÜFUNGSFEHLER (belegt)
+  - Der gemeinsame Baustein GoldSentinelSync gehört dem Addon, das ihn zuerst angemeldet hat, und speichert in dessen Daten
+    (S.UseStorage: das erste Addon gewinnt) – so gebaut.
+  - Nachbau "fremder Speicher": 3.12.88 liefert wörtlich die Spielmeldung; 3.12.91 zählt den Eintrag im benutzten Speicher und
+    ist true.
+- T293 "kompakt angehängt false, Tooltip false": PRÜFUNGSFEHLER (belegt)
+  - UI:Refresh zeichnet nur bei offenem Leitfenster; im Spiel war es zu.
+  - Nachbau mit geschlossenem Fenster: 3.12.88 liefert wörtlich die Spielmeldung.
+  - T293 öffnet das Fenster jetzt kurz und stellt es danach zurück. 3.12.91: true, danach wieder zu.
+- T330 "Faltung false" (Zonensuche true): Verdacht, zu messen
+  - C.Fold begann mit string.lower. Je nach Spracheinstellung des Systems ändert string.lower auch Bytes über 127 und zerstört
+    damit UTF-8.
+  - Die Zonensuche traf trotzdem, weil Eingabe und Schlüssel gleich gefaltet wurden. Die festen Vergleichswerte des Tests
+    trafen nicht.
+  - Jetzt nur A–Z über die Byte-Werte, unabhängig vom System.
+  - Nachbau mit nachgestellter Latin-1-Kleinschreibung: 3.12.88 false, 3.12.91 true. Das Spiel zeigt ein etwas anderes Bild
+    (dort Zone true), darum bleibt es ein Verdacht; der nächste Ingametest bestätigt es.
+- T309: im Spiel nur Folge von T303 (Bericht 2047).
+
+Punkt 2 (T261 Einloggen) – Nachtrag zu Bericht 2047
+- Im Nachbau ist T261 nicht an das Spiel eichbar: Die Zählung "erste 60 s" läuft dort ohne echte Spielzeit; der Nachbau hat
+  66–84 Aufrufe, das Spiel 6062.
+- Im Spiel sind die 60 s normales Spielen mit Navigation und Planung, mit dem PC-Netz vor 3.12.90 also mit langsamer Wegsuche.
+  Verdacht, zu messen: 3.12.90/3.12.91 senken das deutlich.
+- Graph:Init am Stück (Nachbau 35 ms, Spiel geschätzt ~50 ms) bleibt der nächste Leistungs-Punkt (Init in Portionen).
+
+PRÜFUNGEN (Zip 3.12.91)
+- addon_check: OK, 1 Warnung (lupa fehlt; Ersatz: Lua 5.1 loadfile aller Dateien, 0 Syntaxfehler).
+- Offline-Routine: 40 Läufe, 40 ohne FEHLER, darunter test29 mit echten Rahmen und test_reise_bind.
+- Regression: 35 von 36. test29 in der Ersatzwelt hat 1 FEHLER (bekannt; mit echten Rahmen grün).
+- Einzeltests grün:
+  - T151, T152, T155
+  - T228, T235–T237
+  - T221, T249, T279, T293, T299
+  - T303, T305, T309, T330
+  - T332–T350
+  - T220 mit Horde-Charakter
+  - T312 nicht prüfbar
+
+OFFEN für LevelPilot (nichts davon wartet auf mich, ausser wo genannt)
+- Graph:Init in Portionen (T261), nächster Leistungs-Punkt.
+- T151-Grenze: Vorschlag in Bericht 2047 (Summe und längste navpath-Portion getrennt) – Entscheid der Prüf-Sitzung.
+- WegeExport (siehe Punkt 10) – Entscheid.
+- Bestätigung aller "Verdacht"-Punkte mit dem nächsten "/lp testroutine alles" im Spiel.
