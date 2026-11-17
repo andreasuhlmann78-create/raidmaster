@@ -1,70 +1,60 @@
 {
- "ausgewertet": "2026-11-17T18:07:56Z",
+ "ausgewertet": "2026-11-17T19:08:51Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
-   "berichte": 71,
+   "berichte": 76,
    "letzter_test": {
-    "id": "AHSentinel-1794917396-413566-6",
-    "version": "0.65.315",
-    "time": 1794917396,
+    "id": "AHSentinel-1794939071-3f02ac-5",
+    "version": "0.65.328",
+    "time": 1794939071,
     "counts": {
      "client": 0,
-     "fehler": 5,
+     "fehler": 4,
      "ok": 2,
-     "uebersprungen": 2
+     "uebersprungen": 3
     }
    },
    "fehler_tests": [
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.315",
+     "version": "0.65.328",
      "client": "forever 1.60.1 (Interface 16001)",
      "id": "ALLES-1",
      "name": "Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1)",
-     "detail": "ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 734 OK, 16 FEHLER, 26 übersprungen, Sandbox OK",
-     "bericht": "AHSentinel-1794917396-413566-6"
+     "detail": "ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 930 OK, 6 FEHLER, 30 übersprungen, Sandbox FEHLER: 2 Pfade, wiederhergestellt: sniper.stats.bought, sniper.stats.missed",
+     "bericht": "AHSentinel-1794939071-3f02ac-5"
     },
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.315",
+     "version": "0.65.328",
      "client": "forever 1.60.1 (Interface 16001)",
      "id": "ALLES-2",
      "name": "Oberflächen-Prüfung (alle Reiter)",
      "detail": "ergebnis:   2. Oberflächen-Prüfung (alle Reiter): FEHLER – 4 OK, 1 FEHLER, 0 übersprungen, Sandbox OK",
-     "bericht": "AHSentinel-1794917396-413566-6"
+     "bericht": "AHSentinel-1794939071-3f02ac-5"
     },
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.315",
+     "version": "0.65.328",
      "client": "forever 1.60.1 (Interface 16001)",
      "id": "ALLES-4",
      "name": "Sniper-Testroutine S1–S13 (ohne echten Kauf)",
-     "detail": "ergebnis:   4. Sniper-Testroutine S1–S13 (ohne echten Kauf): FEHLER – 22 OK, 3 FEHLER, 4 übersprungen, Sandbox OK",
-     "bericht": "AHSentinel-1794917396-413566-6"
+     "detail": "ergebnis:   4. Sniper-Testroutine S1–S13 (ohne echten Kauf): FEHLER – 27 OK, 2 FEHLER, 1 übersprungen, Sandbox OK",
+     "bericht": "AHSentinel-1794939071-3f02ac-5"
     },
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.315",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "ALLES-5",
-     "name": "Wächter 10 Min.: Rechenzeit je Bild und Hürden (WAECHTER-LAST, WAECHTER-FUND)",
-     "detail": "ergebnis:   5. Wächter 10 Min.: Rechenzeit je Bild und Hürden (WAECHTER-LAST, WAECHTER-FUND): FEHLER – 149 Runden in 10 Min. · längste Wächter-Rechenzeit je Bild 61 ms (≤ 50) · längstes ganzes Bild 161 ms (Auskunft) · Hürden: Letzte Runde: 275 Angebote – 0 ohne Preissturz/Flutung",
-     "bericht": "AHSentinel-1794917396-413566-6"
-    },
-    {
-     "addon": "AHSentinel",
-     "art": "test",
-     "version": "0.65.315",
+     "version": "0.65.328",
      "client": "forever 1.60.1 (Interface 16001)",
      "id": "ALLES-6",
      "name": "Prüfungen am offenen Auktionshaus",
-     "detail": "ergebnis:   6. Prüfungen am offenen Auktionshaus: FEHLER – 58 OK, 6 FEHLER, 4 übersprungen, Sandbox OK",
-     "bericht": "AHSentinel-1794917396-413566-6"
+     "detail": "ergebnis:   6. Prüfungen am offenen Auktionshaus: FEHLER – 59 OK, 5 FEHLER, 4 übersprungen, Sandbox FEHLER: 1 Pfade, wiederhergestellt: sniper.targets.i:7048.found",
+     "bericht": "AHSentinel-1794939071-3f02ac-5"
     }
    ],
    "fehler_spiel": [
@@ -314,15 +304,15 @@
    ]
   },
   "GuildSentinel": {
-   "berichte": 8,
+   "berichte": 9,
    "letzter_test": {
-    "id": "GuildSentinel-1794937766-3c9a16-1",
-    "version": "0.9.52",
-    "time": 1794937754,
+    "id": "GuildSentinel-1794940085-e40107-1",
+    "version": "0.9.53",
+    "time": 1794940071,
     "counts": {
      "client": 8,
-     "fehler": 4,
-     "ok": 303,
+     "fehler": 1,
+     "ok": 316,
      "uebersprungen": 23
     }
    },
@@ -330,42 +320,12 @@
     {
      "addon": "GuildSentinel",
      "art": "test",
-     "version": "0.9.52",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T285",
-     "name": "T-BL4: Chatfeld wird nie beschrieben (nur HookScript lesen, SetFocus)",
-     "detail": "lua: GuildSentinelCmdHint:SetPoint(): Wrong object type for function",
-     "bericht": "GuildSentinel-1794937766-3c9a16-1"
-    },
-    {
-     "addon": "GuildSentinel",
-     "art": "test",
-     "version": "0.9.52",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T182",
-     "name": "Tooltips verdecken keine Knöpfe",
-     "detail": "ergebnis: 486 Tooltips, verdeckt: home: \"Unterstützen\" -> Button in ?; members>list: \"Unterstützen\" -> Button in ?; members>list: Button in ? -> Button in ?; members>list: Button in ? -> Button in ?; members>list: Button in ? -> Button in ?; members>list: Button in ? -> Button in ?; members>list: Button in … | erwartet: 0",
-     "bericht": "GuildSentinel-1794937766-3c9a16-1"
-    },
-    {
-     "addon": "GuildSentinel",
-     "art": "test",
-     "version": "0.9.52",
+     "version": "0.9.53",
      "client": "forever 1.60.1 (Interface 16001)",
      "id": "T185",
      "name": "Texte passen",
-     "detail": "ergebnis: Knöpfe abgeschnitten: group>search: Button in ?; group>free: Button in ?; group>free: Button in ?; group>free: Button in ?; group>free: Button in ?; board>offer: Button in ?; poll>vote: Button in ?; prof>dir: Button in ?; prof>dir: Button in ?; prof>dir: Button in ? · WARNUNG 2 Texte zu lang: prog… | erwartet: 0 abgeschnittene Knöpfe",
-     "bericht": "GuildSentinel-1794937766-3c9a16-1"
-    },
-    {
-     "addon": "GuildSentinel",
-     "art": "test",
-     "version": "0.9.52",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T82",
-     "name": "nichts gesendet",
-     "detail": "ergebnis: echt 1 (C_ChatInfo.SendAddonMessage 1), Warteschlange +0 | erwartet: echt 0, Warteschlange +0",
-     "bericht": "GuildSentinel-1794937766-3c9a16-1"
+     "detail": "ergebnis: Knöpfe abgeschnitten: 1: settings>gen: Button \"wie der Spiel-Client (Deutsc\" / \"wie der Spiel-Client (Deutsc\" · WARNUNG 2 Texte zu lang: progress>achv: Frame \"Jeder Hauptberuf auf 300\" / \"fehlt: Verzauberkunst, Leder\"; recruit>texts: EditBox \"Danke für dein Interesse an\" / \"Danke für dein Intere… | erwartet: 0 abgeschnittene Knöpfe",
+     "bericht": "GuildSentinel-1794940085-e40107-1"
     }
    ],
    "fehler_spiel": [
@@ -453,58 +413,28 @@
    "fehler_spiel": []
   },
   "RaidMaster": {
-   "berichte": 4,
+   "berichte": 5,
    "letzter_test": {
-    "id": "RaidMaster-1794931362-d15947-1",
-    "version": "3.0.30",
-    "time": 1794931273,
+    "id": "RaidMaster-1794940809-3d2f08-1",
+    "version": "3.0.31",
+    "time": 1794940727,
     "counts": {
-     "client": 12,
-     "fehler": 4,
-     "ok": 131,
-     "uebersprungen": 11
+     "client": 10,
+     "fehler": 1,
+     "ok": 134,
+     "uebersprungen": 16
     }
    },
    "fehler_tests": [
     {
      "addon": "RaidMaster",
      "art": "test",
-     "version": "3.0.30",
+     "version": "3.0.31",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T43",
-     "name": "Test-Werkzeug selbst (ony)",
-     "detail": "ergebnis: kein Item vergeben (Beute geladen 10/26) | erwartet: >= 1",
-     "bericht": "RaidMaster-1794931362-d15947-1"
-    },
-    {
-     "addon": "RaidMaster",
-     "art": "test",
-     "version": "3.0.30",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T169",
-     "name": "T-BL4 Chatfeld wird nie beschrieben",
-     "detail": "ergebnis: Lua-Fehler | erwartet: kein Fehler",
-     "bericht": "RaidMaster-1794931362-d15947-1"
-    },
-    {
-     "addon": "RaidMaster",
-     "art": "test",
-     "version": "3.0.30",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T155",
-     "name": "Eigene Tooltips verdecken keine Knöpfe",
-     "detail": "ergebnis: dkp: Markierungsleiste: Button verdeckt Button; auction: Markierungsleiste: Button verdeckt Button; loot: Markierungsleiste: Button verdeckt Button; log: Markierungsleiste: Button verdeckt Button; raid: Markierungsleiste: Button verdeckt Button; signup: Markierungsleiste: Button verdeckt Button; pug… | erwartet: keine",
-     "bericht": "RaidMaster-1794931362-d15947-1"
-    },
-    {
-     "addon": "RaidMaster",
-     "art": "test",
-     "version": "3.0.30",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T156",
-     "name": "Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern",
-     "detail": "ergebnis: dkp: Hauptfenster überdeckt Pfeil (LevelPilot); dkp: Bereitschaft überdeckt Pfeil (LevelPilot); auction: Hauptfenster überdeckt Pfeil (LevelPilot); auction: Bereitschaft überdeckt Pfeil (LevelPilot); loot: Hauptfenster überdeckt Pfeil (LevelPilot); loot: Bereitschaft überdeckt Pfeil (LevelPilo… | erwartet: keine",
-     "bericht": "RaidMaster-1794931362-d15947-1"
+     "id": "T158",
+     "name": "Beschriftungen von Knöpfen nicht abgeschnitten",
+     "detail": "ergebnis: lboss: Hauptfenster: 'Golemagg der Verbrenner |TInterface\\TargetingFrame\\UI-RaidTargetingIcon_8:0|t' Beschriftung abgeschnitten; discord: Hauptfenster: '7. Vor dem Raid: Anmeldungen holen' Beschriftung abgeschnitten · geprüft 2358 · Hinweise: Bereitschaft: Text gekürzt bei Button; Bereitschaft: … | erwartet: keine",
+     "bericht": "RaidMaster-1794940809-3d2f08-1"
     }
    ],
    "fehler_spiel": []
@@ -571,52 +501,42 @@
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.315",
+   "version": "0.65.328",
    "client": "forever 1.60.1 (Interface 16001)",
    "id": "ALLES-1",
    "name": "Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1)",
-   "detail": "ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 734 OK, 16 FEHLER, 26 übersprungen, Sandbox OK",
-   "bericht": "AHSentinel-1794917396-413566-6"
+   "detail": "ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 930 OK, 6 FEHLER, 30 übersprungen, Sandbox FEHLER: 2 Pfade, wiederhergestellt: sniper.stats.bought, sniper.stats.missed",
+   "bericht": "AHSentinel-1794939071-3f02ac-5"
   },
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.315",
+   "version": "0.65.328",
    "client": "forever 1.60.1 (Interface 16001)",
    "id": "ALLES-2",
    "name": "Oberflächen-Prüfung (alle Reiter)",
    "detail": "ergebnis:   2. Oberflächen-Prüfung (alle Reiter): FEHLER – 4 OK, 1 FEHLER, 0 übersprungen, Sandbox OK",
-   "bericht": "AHSentinel-1794917396-413566-6"
+   "bericht": "AHSentinel-1794939071-3f02ac-5"
   },
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.315",
+   "version": "0.65.328",
    "client": "forever 1.60.1 (Interface 16001)",
    "id": "ALLES-4",
    "name": "Sniper-Testroutine S1–S13 (ohne echten Kauf)",
-   "detail": "ergebnis:   4. Sniper-Testroutine S1–S13 (ohne echten Kauf): FEHLER – 22 OK, 3 FEHLER, 4 übersprungen, Sandbox OK",
-   "bericht": "AHSentinel-1794917396-413566-6"
+   "detail": "ergebnis:   4. Sniper-Testroutine S1–S13 (ohne echten Kauf): FEHLER – 27 OK, 2 FEHLER, 1 übersprungen, Sandbox OK",
+   "bericht": "AHSentinel-1794939071-3f02ac-5"
   },
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.315",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "ALLES-5",
-   "name": "Wächter 10 Min.: Rechenzeit je Bild und Hürden (WAECHTER-LAST, WAECHTER-FUND)",
-   "detail": "ergebnis:   5. Wächter 10 Min.: Rechenzeit je Bild und Hürden (WAECHTER-LAST, WAECHTER-FUND): FEHLER – 149 Runden in 10 Min. · längste Wächter-Rechenzeit je Bild 61 ms (≤ 50) · längstes ganzes Bild 161 ms (Auskunft) · Hürden: Letzte Runde: 275 Angebote – 0 ohne Preissturz/Flutung",
-   "bericht": "AHSentinel-1794917396-413566-6"
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "test",
-   "version": "0.65.315",
+   "version": "0.65.328",
    "client": "forever 1.60.1 (Interface 16001)",
    "id": "ALLES-6",
    "name": "Prüfungen am offenen Auktionshaus",
-   "detail": "ergebnis:   6. Prüfungen am offenen Auktionshaus: FEHLER – 58 OK, 6 FEHLER, 4 übersprungen, Sandbox OK",
-   "bericht": "AHSentinel-1794917396-413566-6"
+   "detail": "ergebnis:   6. Prüfungen am offenen Auktionshaus: FEHLER – 59 OK, 5 FEHLER, 4 übersprungen, Sandbox FEHLER: 1 Pfade, wiederhergestellt: sniper.targets.i:7048.found",
+   "bericht": "AHSentinel-1794939071-3f02ac-5"
   },
   {
    "addon": "AHSentinel",
@@ -846,42 +766,12 @@
   {
    "addon": "GuildSentinel",
    "art": "test",
-   "version": "0.9.52",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T285",
-   "name": "T-BL4: Chatfeld wird nie beschrieben (nur HookScript lesen, SetFocus)",
-   "detail": "lua: GuildSentinelCmdHint:SetPoint(): Wrong object type for function",
-   "bericht": "GuildSentinel-1794937766-3c9a16-1"
-  },
-  {
-   "addon": "GuildSentinel",
-   "art": "test",
-   "version": "0.9.52",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T182",
-   "name": "Tooltips verdecken keine Knöpfe",
-   "detail": "ergebnis: 486 Tooltips, verdeckt: home: \"Unterstützen\" -> Button in ?; members>list: \"Unterstützen\" -> Button in ?; members>list: Button in ? -> Button in ?; members>list: Button in ? -> Button in ?; members>list: Button in ? -> Button in ?; members>list: Button in ? -> Button in ?; members>list: Button in … | erwartet: 0",
-   "bericht": "GuildSentinel-1794937766-3c9a16-1"
-  },
-  {
-   "addon": "GuildSentinel",
-   "art": "test",
-   "version": "0.9.52",
+   "version": "0.9.53",
    "client": "forever 1.60.1 (Interface 16001)",
    "id": "T185",
    "name": "Texte passen",
-   "detail": "ergebnis: Knöpfe abgeschnitten: group>search: Button in ?; group>free: Button in ?; group>free: Button in ?; group>free: Button in ?; group>free: Button in ?; board>offer: Button in ?; poll>vote: Button in ?; prof>dir: Button in ?; prof>dir: Button in ?; prof>dir: Button in ? · WARNUNG 2 Texte zu lang: prog… | erwartet: 0 abgeschnittene Knöpfe",
-   "bericht": "GuildSentinel-1794937766-3c9a16-1"
-  },
-  {
-   "addon": "GuildSentinel",
-   "art": "test",
-   "version": "0.9.52",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T82",
-   "name": "nichts gesendet",
-   "detail": "ergebnis: echt 1 (C_ChatInfo.SendAddonMessage 1), Warteschlange +0 | erwartet: echt 0, Warteschlange +0",
-   "bericht": "GuildSentinel-1794937766-3c9a16-1"
+   "detail": "ergebnis: Knöpfe abgeschnitten: 1: settings>gen: Button \"wie der Spiel-Client (Deutsc\" / \"wie der Spiel-Client (Deutsc\" · WARNUNG 2 Texte zu lang: progress>achv: Frame \"Jeder Hauptberuf auf 300\" / \"fehlt: Verzauberkunst, Leder\"; recruit>texts: EditBox \"Danke für dein Interesse an\" / \"Danke für dein Intere… | erwartet: 0 abgeschnittene Knöpfe",
+   "bericht": "GuildSentinel-1794940085-e40107-1"
   },
   {
    "addon": "GuildSentinel",
@@ -934,42 +824,12 @@
   {
    "addon": "RaidMaster",
    "art": "test",
-   "version": "3.0.30",
+   "version": "3.0.31",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T43",
-   "name": "Test-Werkzeug selbst (ony)",
-   "detail": "ergebnis: kein Item vergeben (Beute geladen 10/26) | erwartet: >= 1",
-   "bericht": "RaidMaster-1794931362-d15947-1"
-  },
-  {
-   "addon": "RaidMaster",
-   "art": "test",
-   "version": "3.0.30",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T169",
-   "name": "T-BL4 Chatfeld wird nie beschrieben",
-   "detail": "ergebnis: Lua-Fehler | erwartet: kein Fehler",
-   "bericht": "RaidMaster-1794931362-d15947-1"
-  },
-  {
-   "addon": "RaidMaster",
-   "art": "test",
-   "version": "3.0.30",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T155",
-   "name": "Eigene Tooltips verdecken keine Knöpfe",
-   "detail": "ergebnis: dkp: Markierungsleiste: Button verdeckt Button; auction: Markierungsleiste: Button verdeckt Button; loot: Markierungsleiste: Button verdeckt Button; log: Markierungsleiste: Button verdeckt Button; raid: Markierungsleiste: Button verdeckt Button; signup: Markierungsleiste: Button verdeckt Button; pug… | erwartet: keine",
-   "bericht": "RaidMaster-1794931362-d15947-1"
-  },
-  {
-   "addon": "RaidMaster",
-   "art": "test",
-   "version": "3.0.30",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T156",
-   "name": "Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern",
-   "detail": "ergebnis: dkp: Hauptfenster überdeckt Pfeil (LevelPilot); dkp: Bereitschaft überdeckt Pfeil (LevelPilot); auction: Hauptfenster überdeckt Pfeil (LevelPilot); auction: Bereitschaft überdeckt Pfeil (LevelPilot); loot: Hauptfenster überdeckt Pfeil (LevelPilot); loot: Bereitschaft überdeckt Pfeil (LevelPilo… | erwartet: keine",
-   "bericht": "RaidMaster-1794931362-d15947-1"
+   "id": "T158",
+   "name": "Beschriftungen von Knöpfen nicht abgeschnitten",
+   "detail": "ergebnis: lboss: Hauptfenster: 'Golemagg der Verbrenner |TInterface\\TargetingFrame\\UI-RaidTargetingIcon_8:0|t' Beschriftung abgeschnitten; discord: Hauptfenster: '7. Vor dem Raid: Anmeldungen holen' Beschriftung abgeschnitten · geprüft 2358 · Hinweise: Bereitschaft: Text gekürzt bei Button; Bereitschaft: … | erwartet: keine",
+   "bericht": "RaidMaster-1794940809-3d2f08-1"
   },
   {
    "addon": "ThreatSentinel",
@@ -1015,7 +875,7 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 157,
+    "anzahl": 159,
     "neueste": "testberichte/diagnose/AHSentinel/0.65.328-e406c1f6f5d2.txt"
    },
    "BuffSentinel": {
@@ -1027,30 +887,30 @@
     "neueste": "testberichte/diagnose/GSMesstest/5.1-e71680805b41.txt"
    },
    "GSSniperLog": {
-    "anzahl": 16,
+    "anzahl": 18,
     "neueste": "testberichte/diagnose/GSSniperLog/1.7-d7b1125a2162.txt"
    },
    "GuildSentinel": {
-    "anzahl": 156,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.52-c9caaeb0c5c2.txt"
+    "anzahl": 158,
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.53-86a67dcfb672.txt"
    },
    "LevelPilot": {
-    "anzahl": 52,
+    "anzahl": 53,
     "neueste": "testberichte/diagnose/LevelPilot/3.12.87-4a392c3ee1d6.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 136,
+    "anzahl": 138,
     "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.62-dfd8445cee29.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 131,
+    "anzahl": 133,
     "neueste": "testberichte/diagnose/ThreatSentinel/2.5.16-05cfd406ea9d.txt"
    }
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 202,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794931194-09674e.json"
+    "anzahl": 203,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794940044-fbacb0.json"
    }
   }
  }
