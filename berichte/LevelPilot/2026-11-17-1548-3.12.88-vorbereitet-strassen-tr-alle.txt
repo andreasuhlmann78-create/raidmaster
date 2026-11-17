@@ -1,0 +1,32 @@
+BERICHT LevelPilot – 3.12.88 VORBEREITET (nicht veröffentlicht): Strassen raus, TR-ALLE A/B/D, Prüfliste neu, GoldSentinelMarkt v10
+Projekt: LevelPilot · Datum: 17.11.2026 15:48 (aus date) · Stand: 3.12.87 veröffentlicht · umgesetzt, zur Prüfung – FRAGE unten
+
+1. STRASSEN RAUS (EULA Schritt 2): Data/Strassen.lua + Data/StrassenEra.lua aus Addon und .toc entfernt. Lader bleibt (liefert ohne
+   Daten nichts, RoadsAktiv false); Diagnose "STRASSEN keine (seit 3.12.88 entfernt – Wegnetz aus gelaufenen Wegen)"; T312 -> nicht
+   prüfbar mit diesem Grund. Wegnetz = gelaufene Wege (Startwegnetz/Wege.lua) + Luftlinie.
+   Offline-Routine test_strassen.lua umgebaut (prüft jetzt: keine Strassen-Daten, für Forever/Era/TBC keine Strassen, nichts geladen
+   oder gespeichert, Startwegnetz da: 1727 Knoten/2182 Kanten). 3.12.88: ALLE TESTS OK. GEGENPROBE 3.12.87: 5 FEHLER.
+   VERLUST: in der Ersatzwelt NICHT messbar (Strassen lagen dort nie im Spielbereich: "ohne Strassen" = identisch). Messung, sobald
+   die Kartenrahmen da sind (Bericht 15:37).
+2. TR-ALLE
+   A) /lp testroutine alles: alle automatischen Prüfungen in einem Lauf (inkl. lange virtuelle Reise), Fortschritt je Bereich
+      ("Testroutine: Bereich C – 3 von 11 …"), Portionen höchstens 5 ms (vorher 8), am Ende im Chat und oben im Bericht:
+      "Ergebnis: x von y bestanden, z nicht prüfbar – <häufigste Gründe mit Anzahl>", bei Fehlern "FEHLER: n – bitte den Bericht
+      schicken (kommt auch mit dem Upload)". /lp testroutine stopp bricht ab (Rest als übersprungen). Sandbox, Trockenlauf, Wieder-
+      herstellung und GSTEST-Bericht wie bisher (Upload). Test T345 (true ×7; GEGENPROBE Portion 8 ms + Gründe nicht gezählt: false).
+   D) Der Lauf wartet nie auf den Nutzer: LevelPilot hat in "alles" keine Fenster-Schritte (alles Automatische läuft im Nachbau).
+      Was Hand braucht, steht in der Prüfliste und hakt sich beim normalen Spielen SELBST ab (Hit an der echten Stelle: Händler,
+      Assistent, Protokoll …) – die Zusammenfassung sagt "Noch offen von Hand (passiert beim normalen Spielen, nichts zu warten): …".
+      Vormerken mit 7-Tage-Frist ist damit nicht nötig (keine Sperre).
+   B) Prüfliste: alle 14 Forever- und 6 Era-Punkte neu geschrieben: Wo / nummerierte Schritte mit wörtlichem Befehl / was du siehst /
+      Kosten; ohne Fachwörter. Neu oben: "Kartenrahmen messen (einmal)" (T344). L-1 in SP1-M aufgegangen (beides /lp protokoll).
+      Automatisch: alle Tests der Testroutine (277 OK im Nachbau, 18–19 nicht prüfbar je Lage, 50 "im Client prüfen" = Prüfliste/
+      CLIENT-Texte). Von Hand (Prüfliste, Text je Punkt in LevelPilot/Pruefliste.lua): Kartenrahmen, Client-Test, Erholt-Hinweis,
+      Händler-Plus, Talent-Vorschlag, Waffenmeister, Waffenfertigkeit, abgegraste Stelle, Einzeilen-Ansicht, Unterstadt-Weg,
+      Wegmessung, Krieger erste Minute, Allianz-Routenberechnung, Speicher nach Stunden (Era: 6 eigene Punkte).
+3. GoldSentinelMarkt.lua Version 10 unverändert aus shared/ kopiert (byte-gleich).
+4. PRÜFUNGEN (Zip 3.12.88): addon_check OK · Offline-Routine 38/38 ohne FEHLER · Regression 35/36 (test29 braucht echte Kartenrahmen,
+   mit 3.12.86 gleich) · T309 (Prüfliste) angepasst: Auslöser für T344 ergänzt, alle 14 Punkte ausgelöst.
+5. FRAGE: 3.12.88 jetzt veröffentlichen (Strassen-Entfernung ist Entscheid des Nutzers, die Messung beziffert nur den Verlust;
+   TR-ALLE und die klare Prüfliste helfen dem Nutzer sofort) – oder erst nach der Messung mit Kartenrahmen? Bis zur Antwort:
+   TalentBuilds (Frage 15:37 offen) und Messvorbereitung.

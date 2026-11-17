@@ -197,7 +197,7 @@ def main():
         if only in (None, "testroutine"):
             jobs += [(n, e, r, c, f, False, "test40") for (n, e, r, c, f) in ROUTINE]
         if only in (None, "regression"):
-            jobs += [(t + (" (Wegnetz)" if t == "test15" else ({"test_ucw1": " (Undercity-Weg)", "test_w3d": " (Ebenen W3D)", "test_seedwege": " (Startwegnetz)", "test_strassen": " (Strassen ST-2)"}.get(t, ""))), e, r, c, f, np, t)
+            jobs += [(t + (" (Wegnetz)" if t == "test15" else ({"test_ucw1": " (Undercity-Weg)", "test_w3d": " (Ebenen W3D)", "test_seedwege": " (Startwegnetz)", "test_strassen": " (Strassen entfernt, EULA)"}.get(t, ""))), e, r, c, f, np, t)
                      for (t, e, r, c, f, np) in REGRESSION]
         results = []
         if only in (None, "regression"):
