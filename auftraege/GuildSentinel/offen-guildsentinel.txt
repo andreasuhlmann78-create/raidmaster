@@ -377,3 +377,13 @@ Befunde (nächste Version, nach 18:00):
 4. Portionen: "277 Bilder, längste 843,8 ms (Bereich K, bis T187)" – im Spiel viel länger als im Nachbau (59 ms). Bereich K in Portionen
    (E-Regel 17.11. 12:40: Testroutine selbst auf Ruckeln prüfen).
 5. MARKT-V10, TR-ALLE Nachtrag D wie in den Aufträgen.
+
+==== KORREKTUR Supervisor 17.11.2026 17:00 zum Ingametest 16:46 (Screenshot des Nutzers, Namen hier weggelassen) ====
+- Der Testcharakter IST in einer Gilde und Gildenmeister (Fenster zeigt Gildenname, 8 Mitglieder, Rang "Gildenmeister"). Trotzdem:
+  CT-C9 "[SKIP] … nicht in einer Gilde" und der Lua-Fehler Roster.lua:124 g.alts nil. Meine Vermutung "ohne Gilde" in Befund 1 ist damit
+  FALSCH. Neuer Verdacht, zu messen: Gildendaten beim Testlauf/kurz nach dem Login noch nicht geladen (IsInGuild()/GetGuildInfo() noch
+  leer, ns.G() ohne alts) – Testroutine und Roster müssen das abwarten bzw. abfangen. Bitte belegen (Protokoll: Zeitpunkt
+  PLAYER_GUILD_UPDATE / GUILD_ROSTER_UPDATE gegen Zeit des Fehlers und des Laufs).
+- Rechtsklick auf den EIGENEN Namen: Flüstern/Einladen/Befördern/Degradieren/Rang/Danke/Entfernen/Leitung übergeben grau "(Das bist du.)"
+  – richtig so. Für den Nutzer ok. Punkt MENU damit erfüllt (Sicht), wenn auch auf einem anderen Mitglied die Rechte als Gildenmeister
+  aktiv sind (vom Nutzer noch zu bestätigen).
