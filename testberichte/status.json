@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-16T23:24:56Z",
+ "ausgewertet": "2026-11-17T00:25:17Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -360,50 +360,7 @@
     }
    },
    "fehler_tests": [],
-   "fehler_spiel": [
-    {
-     "addon": "LevelPilot",
-     "art": "spiel",
-     "wo": "session",
-     "msg": "Interface/AddOns/LevelPilot/Session.lua:29: attempt to perform boolean test on a secret boolean value (execution tainted by 'LevelPilot')",
-     "anzahl": 1361,
-     "versionen": [
-      "3.12.13"
-     ],
-     "clients": [
-      "forever 1.60.1 (Interface 16001)"
-     ],
-     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:317: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:335: in function <Interface/AddOns/LevelPilot/Core.lua:330>\n[tail call]: ?\n[Interface/AddOns/LevelPilot/Core.lua]:344: in function 'Safe'\n[Interface/AddOns/LevelPilot/Core.lua]:370: in function <Interface/AddOns/LevelPilot/Core.lua:370>\n"
-    },
-    {
-     "addon": "LevelPilot",
-     "art": "spiel",
-     "wo": "Comm-Empfang",
-     "msg": "Interface/AddOns/LevelPilot/Comm.lua:405: attempt to index field 'Caves' (a nil value)",
-     "anzahl": 19,
-     "versionen": [
-      "3.12.13"
-     ],
-     "clients": [
-      "forever 1.60.1 (Interface 16001)"
-     ],
-     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:317: in function 'Report'\n[Interface/AddOns/LevelPilot/Comm.lua]:506: in function <Interface/AddOns/LevelPilot/Comm.lua:498>\n[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:206: in function <Interface/AddOns/LevelPilot/Core.lua:202>\n"
-    },
-    {
-     "addon": "LevelPilot",
-     "art": "spiel",
-     "wo": "Wegdaten",
-     "msg": "Interface/AddOns/LevelPilot/Graph.lua:533: attempt to index upvalue 'G' (a nil value)",
-     "anzahl": 1,
-     "versionen": [
-      "3.12.13"
-     ],
-     "clients": [
-      "forever 1.60.1 (Interface 16001)"
-     ],
-     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:317: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:323: in function 'Try'\n[Interface/AddOns/LevelPilot/Graph.lua]:731: in function <Interface/AddOns/LevelPilot/Graph.lua:731>\n[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:206: in function <Interface/AddOns/LevelPilot/Core.lua:202>\n"
-    }
-   ]
+   "fehler_spiel": []
   },
   "ProfessionSentinel": {
    "berichte": 2,
@@ -809,48 +766,6 @@
    "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:407: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:400>\n[C]: in function 'fn'\n[Interface/AddOns/GuildSentinel/Core.lua]:198: in function 'Act'\n[Interface/AddOns/GuildSentinel/Recruit.lua]:492: in function 'Invite'\n[Interface/AddOns/GuildSentinel/Pages.lua]:983: in function <Interface/AddOns/GuildSentinel/Pages.lua:983>\n[Interface/AddOns/GuildSentinel/UI.lua]:61: in function <Interface/AddOns/GuildSentinel/UI.lua:61>\n"
   },
   {
-   "addon": "LevelPilot",
-   "art": "spiel",
-   "wo": "session",
-   "msg": "Interface/AddOns/LevelPilot/Session.lua:29: attempt to perform boolean test on a secret boolean value (execution tainted by 'LevelPilot')",
-   "anzahl": 1361,
-   "versionen": [
-    "3.12.13"
-   ],
-   "clients": [
-    "forever 1.60.1 (Interface 16001)"
-   ],
-   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:317: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:335: in function <Interface/AddOns/LevelPilot/Core.lua:330>\n[tail call]: ?\n[Interface/AddOns/LevelPilot/Core.lua]:344: in function 'Safe'\n[Interface/AddOns/LevelPilot/Core.lua]:370: in function <Interface/AddOns/LevelPilot/Core.lua:370>\n"
-  },
-  {
-   "addon": "LevelPilot",
-   "art": "spiel",
-   "wo": "Comm-Empfang",
-   "msg": "Interface/AddOns/LevelPilot/Comm.lua:405: attempt to index field 'Caves' (a nil value)",
-   "anzahl": 19,
-   "versionen": [
-    "3.12.13"
-   ],
-   "clients": [
-    "forever 1.60.1 (Interface 16001)"
-   ],
-   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:317: in function 'Report'\n[Interface/AddOns/LevelPilot/Comm.lua]:506: in function <Interface/AddOns/LevelPilot/Comm.lua:498>\n[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:206: in function <Interface/AddOns/LevelPilot/Core.lua:202>\n"
-  },
-  {
-   "addon": "LevelPilot",
-   "art": "spiel",
-   "wo": "Wegdaten",
-   "msg": "Interface/AddOns/LevelPilot/Graph.lua:533: attempt to index upvalue 'G' (a nil value)",
-   "anzahl": 1,
-   "versionen": [
-    "3.12.13"
-   ],
-   "clients": [
-    "forever 1.60.1 (Interface 16001)"
-   ],
-   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:317: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:323: in function 'Try'\n[Interface/AddOns/LevelPilot/Graph.lua]:731: in function <Interface/AddOns/LevelPilot/Graph.lua:731>\n[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:206: in function <Interface/AddOns/LevelPilot/Core.lua:202>\n"
-  },
-  {
    "addon": "ProfessionSentinel",
    "art": "test",
    "version": "0.9.28",
@@ -915,11 +830,11 @@
   "diagnose": {
    "AHSentinel": {
     "anzahl": 151,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.99-2bf892d983c3.txt"
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.99-ea23619300d1.txt"
    },
    "BuffSentinel": {
     "anzahl": 45,
-    "neueste": "testberichte/diagnose/BuffSentinel/0.9.21-ba8ede23106d.txt"
+    "neueste": "testberichte/diagnose/BuffSentinel/0.9.12-7f8dfb5af187.txt"
    },
    "GSMesstest": {
     "anzahl": 9,
@@ -939,17 +854,17 @@
    },
    "ProfessionSentinel": {
     "anzahl": 130,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.62-dbd507028b4b.txt"
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.45-ea4bde14ba63.txt"
    },
    "ThreatSentinel": {
     "anzahl": 125,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.9-e74962a58312.txt"
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.9-7f347d5503ad.txt"
    }
   },
   "wege": {
    "LevelPilot": {
     "anzahl": 200,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794760603-ad69fc.json"
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794814892-0f62c3.json"
    }
   }
  }
