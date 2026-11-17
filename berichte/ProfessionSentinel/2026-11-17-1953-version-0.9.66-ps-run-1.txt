@@ -80,7 +80,7 @@ FRAGE: Sollen (a) die Portionsgrösse des Fensters und (b) UpdateBest als Hinter
 
 TESTS (eigene, Hinweise – keine Freigabe)
 -----------------------------------------
-- T289 neu (13 Prüfungen): Bereinigung in Portionen (eine je Bild) bis ein Zyklus fertig; Zeitlimit und Portionen-Grenze beenden
+- T289 neu (11 Prüfungen): Bereinigung in Portionen (eine je Bild) bis ein Zyklus fertig; Zeitlimit und Portionen-Grenze beenden
   sie (auch ohne Uhr); Teil-Lauf ohne collect; Pause nach 10 Fehlern, pausiert nicht gefragt, nach der Pause wieder, Erfolg setzt
   zurück; Zusammenfassung nennt Schritte über 16 ms; Fehler im Abschluss gefangen und gezählt.
 - Gegenproben: collect im Unter-Lauf zurück -> T289 FEHLER "Teil-Lauf ohne ganze Speicherbereinigung: 1×"; ohne Pause -> FEHLER
