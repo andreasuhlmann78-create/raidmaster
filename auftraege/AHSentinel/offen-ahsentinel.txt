@@ -4342,3 +4342,30 @@ Dem Nutzer sage ich: Lauf mit /ahs testroutine stop beenden, /reload, auf 0.65.3
   > 16 ms" bleibt der Massstab im Spiel.
 - TR-RUN-1 als 0.65.317 sofort: einverstanden. Der Nutzer lässt den Lauf mit 0.65.315 gerade zu Ende laufen (die Überwachung T762
   "steht still" führt ihn weiter); sein Testbericht kommt mit dem Upload – bitte darin den Schritt vor dem Abbruch belegen (TR-RUN-1 Punkt 4).
+
+==== INGAMETEST DES NUTZERS 17.11. 13:09 – "/ahs testroutine alles" mit 0.65.315 (Zusammenfassung vom Nutzer, Upload folgt) ====
+Ergebnis: 2 von 9 bestanden, 5 FEHLER, 2 nicht prüfbar (Prüfungen 825 OK, 26 FEHLER, 35 übersprungen). Dazu TR-RUN-1 (script ran too
+long, 12:24). Die Einzelheiten der 26 FEHLER kommen mit dem Testbericht (Upload) – bitte sobald da je FEHLER: Ursache belegt, oder
+"Folge von TR-RUN-1 (T000/T762)". Was die Zusammenfassung schon zeigt:
+1. HOCH – VOLLSCAN IM SPIEL RUCKELT STARK (Abschnitt "Vollscan-Messung", 224309 Auktionen, 6575 Items):
+   Einlesen 25333 ms, längster Frame 819 ms · Nachlauf längster Frame 461 ms · Preisverlauf+Neuaufbau 63 ms · Verfolgung V4 43 ms ·
+   Warten auf Server 47 ms · "Frames über 33 ms: 1021 von 1641 (Budget je Frame 4 ms)". Gleichzeitig steht oben "M1d 2174 ms in 696
+   Portionen, längster Frame 3,9 ms (Ziel ≤ 8)" – WIDERSPRUCH: entweder misst M1d nur die eigene Rechenzeit (nicht das ganze Bild) oder
+   die Messung ist falsch. PS-Ziel "kein Bild > 16 ms" klar verfehlt. Bitte: (a) erklären, welche Zahl was misst (eigene Zeit vs.
+   ganzes Bild) und den Widerspruch belegen; (b) das 819-ms-Bild beim Einlesen und das 461-ms-Bild im Nachlauf mit /ahs protokoll
+   LANGSAM bzw. Zeitgeber-Messung einer Funktion zuordnen (Verdacht, zu messen: Speicherbereinigung des Spiels – "Speicher 697512 ->
+   680400 KB, 71 Bereinigungen", ganzer Lua-Speicher ~600–760 MB; oder GetReplicateItemInfo-Portionen am Stück). Der Nachbau s216 zeigte
+   13 ms – das Spiel 819 ms: der Nachbau bildet den echten Vollscan (224000 Auktionen) nicht ab -> Nachbau mit echter Grösse.
+   SK1-h Vollscan: 11 von 24 Fällen Abweichung (Speicher +47 bis +121 MB nach dem Scan).
+2. HOCH – WÄCHTER: "längste Wächter-Rechenzeit je Bild 61 ms (≤ 50) · längstes ganzes Bild 161 ms" in 10 Min. (149 Runden). Ursache
+   messen (welcher Schritt) und in Portionen teilen; Ziel PS ≤ 16 ms je Bild.
+3. Schritt 7 VOLLSCAN "nicht prüfbar – Scan ohne Messung nach 10 Min.": der Scan lief (12:56/12:57, Messwerte oben vorhanden), aber
+   die Kette erkannte ihn nicht als gemessenen Scan. Bitte Ursache belegen (VS.allFloor / Messung nicht an?) – sonst wird TR-ALLES nie
+   erledigt.
+4. Schritt 8 Berufe "Fenster nicht offen" (Nutzer hat es verpasst bzw. Text 0.65.307 noch nicht gesehen) – kein Befund.
+5. Weitere Auffälligkeiten aus den echten Daten (MITTEL, nach 1–3): SK1-m 270 Abweichungen "Herstellen ohne Rezept: Zauber 836/3909";
+   "Lohnt bis" 19 von 60 Items mit anderer Zahl im Tooltip (z. B. 15347: 1431 vs. 843); TU5 5 Verletzungen (14197 Lohnt bis 843 vs.
+   api 2719); TB138-2 Geldfluss-Lücke 3,7 % (Ziel ≤ 1 %); A7 Post-Geld 68 von 68 "anders" (Formel stimmt nie – Beispiel Kaufpreis 148 −
+   Gebühr 2974?? Zahlen prüfen).
+Reihenfolge: 0.65.317 = TR-RUN-1; dann 1 (Vollscan-Ruckeln), 2 (Wächter), 3; danach 5. Bitte im Bericht je Punkt "Ursache belegt" oder
+"Verdacht, zu messen".
