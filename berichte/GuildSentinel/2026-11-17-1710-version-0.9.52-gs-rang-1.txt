@@ -1,0 +1,70 @@
+BERICHT GuildSentinel 0.9.52 – GS-RANG-1 und Befund 1 (Ingametest 17.11. 16:46/16:51)
+Von: GuildSentinel-Sitzung · 17.11.2026 17:10 (Zeit aus date, Europe/Zurich) · Quellcode aab9e4b
+Status: umgesetzt, zur Prüfung. CurseForge: nein (Entscheid des Nutzers 16:58: erst nach Prüfung + kurzer Bestätigung im Spiel; keine Zip in download/).
+
+1. GS-RANG-1 HOCH – Gildenmeister darf im Menü nicht befördern/degradieren/entfernen
+   URSACHE (im Code belegt, im Nachbau nachgestellt):
+   - Admin.lua MyRank() (0.9.51 Zeile 162) und GuildAct.lua MyRank() (Zeile 69) lasen nur ns.Roster.byName[ns.Me()]. Schlüssel von byName
+     ist der Name aus GetGuildRosterInfo (ns.Short), ns.Me() ist ns.Short(UnitName("player")). Schreiben beide den eigenen Namen nicht
+     zeichengleich, ist MyRank nil -> Ad.Allowed lässt promote/demote/remove leer -> grau mit Grund "Nicht über den eigenen Rang …".
+   - "(Das bist du.)" auf dem eigenen Namen geht über ns.Same (Gross/klein egal, Leerzeichen getrimmt, Forever: eindeutiger Vorname) –
+     deshalb funktionierte das, MyRank aber nicht. "Gildenleitung übergeben" kommt aus IsGuildLeader() (ohne Namen) – deshalb weiss.
+   - Der Realm-Verdacht trifft NICHT zu: beide Seiten laufen durch ns.Short (Realm wird abgeschnitten).
+   - Dieselbe Ursache erklärt CT-C9 "[SKIP] nicht in einer Gilde": Tooltip:Lines(ns.Me()) findet keinen eigenen Eintrag, liefert 0 Zeilen
+     -> nil -> C9 meldete irreführend "nicht in einer Gilde". Die Gildendaten WAREN geladen (sonst hätte das Menü kein Mitglied gezeigt
+     und "(Das bist du.)" nicht erkannt). Der Verdacht "Gildendaten beim Lauf noch nicht geladen" ist damit für C9 widerlegt.
+   - Nachbau (test/run_rang.lua gegen den Code 0.9.51): eigener Listeneintrag "brakko", "Brakko " oder (Forever) "Brakko Beispiel",
+     UnitName "Brakko" -> genau das Bild des Screenshots: Befördern/Degradieren/Rang/Entfernen grau "Nicht über den eigenen Rang …",
+     C9 "nicht in einer Gilde", IsGM falsch. 26 von 40 Prüfungen rot.
+   - OFFEN, ZU MESSEN: welche Schreibweise im echten Forever-Client abweicht (Gross/klein, Leerzeichen oder Vor-/Nachname). Dafür schreibt
+     0.9.52 eine Protokollzeile "RANG eigener Rang: Weg=<exakt | Gross/klein | Leerzeichen | Spiel nur Vorname | Gildenliste nur
+     Vorname | GetGuildInfo (…)> · Rang n · Gildenliste n Einträge" – ohne Namen. Bitte nach dem nächsten Einloggen /gs protokoll ansehen.
+   LÖSUNG:
+   - Core.lua neu ns.MyEntry(): exakt, sonst derselbe Charakter nach ns.Same, nur wenn genau ein Eintrag passt (mehrdeutig -> keiner).
+   - Core.lua neu ns.MyRank(): Rang aus dem eigenen Eintrag, sonst direkt vom Spiel GetGuildInfo("player") (3. Rückgabe = Rangnummer,
+     geschützter Wert abgefangen). Protokollzeile nur, wenn sich der Weg ändert; nicht im Testmodus und nicht in der Testroutine.
+   - Rang unbekannt: Ad.Allowed setzt unknown, Menü zeigt "Eigener Rang noch nicht geladen – gleich noch einmal versuchen." (10 Sprachen),
+     Rang setzen meldet dasselbe (GA.RankSteps -> "myrank"), Gildenliste wird neu angefordert (ns.AskMyRank, höchstens alle 10 s,
+     keine Sperre ohne Zeitlimit). Nie mehr "Nicht über den eigenen Rang", wenn der eigene Rang gar nicht bekannt ist.
+   - Alle anderen Stellen mit byName[ns.Me()] auf denselben Weg umgestellt: Admin.lua, GuildAct.lua, Core.lua ns.IsGM, Bulk.lua
+     (MITGEFUNDEN: unbekannter Rang galt dort als 0 = Gildenmeister -> Entfernen-Vorschläge auch für höhere Ränge; jetzt keine),
+     Activity.lua (Rang-Vorschläge, Twink-Rang), RaidReady.lua (Offiziers-Nachrichten), Roster.lua (eigener Charakter in g.mine, jetzt
+     unter ns.Me() wie Comp/Group ihn lesen), ClientTest.lua C9 (sagt jetzt, was wirklich fehlt).
+2. BEFUND 1 – "4× GS_APPS: Roster.lua:124: attempt to index field 'alts' (a nil value)"
+   KORREKTUR DES BEFUNDS (belegt): Das ist KEIN Fehler beim normalen Spielen, sondern kam aus der Testroutine selbst. Die Prüfungen T297b
+   und T297c tauschten ns.guild gegen eine Tabelle { apps = … } ohne die übrigen Felder. Rc.PurgeOldApps feuert GS_APPS; bei offenem
+   Fenster laufen die Seiten (Rekrutierung, Übersicht) -> Roster:MainOf -> g.alts nil. 2 Prüfungen × 2 Fehler je Aufruf = genau die "4×".
+   Nachbau mit run_routine.lua und offenem Fenster (OPEN=recruit/home): mit der alten Form der Prüfung "LUA-T297b 2×" und "LUA-T297c 2×".
+   Im normalen Spiel gibt es keine Gilden-Tabelle ohne alts: ns.G() ohne Gilde liefert EMPTY mit allen Feldern aus guildDefaults, jede
+   echte Gilde läuft durch MergeDefaults (Core.lua SetupGuild, Test.lua) – alle Zuweisungen an ns.guild im Code durchgesehen.
+   LÖSUNG: T297b/c mit vollständiger Gilden-Tabelle (FakeGuild); Roster:MainOfRaw prüft g.alts trotzdem; die Testroutine meldet jetzt
+   jeden Lua-Fehler, den eine Prüfung nebenbei auslöst, als eigene Zeile "FEHLER LUA-<Prüfung>" (Selbsttest-Fehler ausgenommen).
+3. GoldSentinelMarkt v10 (MARKT-V10) unverändert aus shared/ kopiert, cmp gleich.
+
+TESTS (eigene Tests, Hinweise, keine Freigabe)
+- Neu T304a: Gildenmeister mit eigenem Namen in 3 (Forever 4) Schreibweisen -> Befördern/Degradieren/Rang/Entfernen weiss.
+  Gegenprobe mit MyRank aus 0.9.51: "0++++ 0---- 0---- 0----" rot (Forever und Era).
+- Neu T304b: Grund-Text bei unbekanntem Rang; Forever mehrdeutiger Vorname -> kein Eintrag geraten.
+- Neu T304c: Aufräumen bei offenem Fenster ohne Lua-Fehler; Gilden-Tabelle ohne alts bricht MainOf nicht ab. Gegenprobe ohne die
+  Prüfung in Roster.lua: rot.
+- Neu Lua-Fehler-Wache in Check: Gegenprobe mit der alten Form von T297b/c und offenem Fenster: "LUA-T297b", "LUA-T297c" rot.
+- Neu test/run_rang.lua (16001: 40, 11508: 32, 20505: 32 Prüfungen): Schreibweisen, Protokollzeile ohne Namen, C9, g.mine,
+  Rückfall GetGuildInfo, unbekannt (Grund, Neu-Anforderung höchstens alle 10 s, Rang setzen, keine Entfernen-Vorschläge, nicht GM),
+  Mitglied sieht Offizier weiter grau mit richtigem Grund, mehrdeutig. Gegenprobe gegen 0.9.51: 14 bestanden, 26 rot.
+- Neu in run_alle.sh: Testroutine 16001 mit offenem Fenster (recruit, home, members, lead).
+- run_alle.sh: 147 Läufe, 0 rot, 6212 Einzelprüfungen bestanden. Zahl geht auf: 4810 (0.9.51) + 104 run_rang + 4 × 320 Routine mit
+  offenem Fenster (17 + 303) + 6 Routine-Läufe × 3 neue Prüfungen T304 = 6212.
+- Testroutine: Forever OK 303 · FEHLER 0, Era OK 308 · FEHLER 0, TBC OK 308 · FEHLER 0; Sandbox OK.
+- Sprachen: neuer Text in allen 10 Sprachen (tools/loc/check.py je Sprache: fehlend 0, Fehler 0).
+- addon_check: siehe unten (Ausgabe des Veröffentlichungs-Skripts).
+
+NOCH OFFEN AUS DEM INGAMETEST (nächste Versionen, in dieser Reihenfolge)
+- Befund 2: T285 "GuildSentinelCmdHint:SetPoint(): Wrong object type" – Test-Artefakt (Lua-Tabelle als Eingabefeld). Für Spieler kein
+  Fehler (belegt: CmdHint.lua:302/303 hängt sich nur an die echten Rahmen ChatFrame<n>EditBox bzw. ChatFrameEditBox). Korrektur der Prüfung folgt.
+- Befund 3: T182/T185 Oberfläche (Tooltips verdecken Knöpfe, abgeschnittene Knöpfe, 6 Texte zu lang).
+- Befund 4: Portionen im Spiel bis 843,8 ms (Bereich K, bis T187) – Bereich K aufteilen; TR-ALLE Nachtrag D (Fenster-Schritte vormerken).
+
+IM SPIEL KURZ BESTÄTIGEN (für CurseForge)
+- Wo: irgendwo, als Gildenmeister. 1. /gs öffnen. 2. Seite "Mitglieder". 3. Rechtsklick auf ein Mitglied mit niedrigerem Rang.
+  Du siehst: "Befördern (… -> …)", "Degradieren (…)", "Rang setzen …", "Aus der Gilde entfernen" in weiss (nicht grau). Kosten: keine.
+  Danach /gs protokoll: Zeile "RANG eigener Rang: Weg=…" – bitte den Weg melden (zeigt, welche Schreibweise abweicht).
