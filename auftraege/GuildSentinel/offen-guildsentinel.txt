@@ -491,3 +491,12 @@ Pflicht für neue Arbeit in Portionen; Summary-Zeile in den Bericht. LevelPilot 
 - Erster Übernehmer von GoldSentinelTakt: MESSAUFTRAG gilt (Zeile "Takt: …" im nächsten Ingametest, "Abgabe nicht möglich" 0).
 - Offen bis zum Ingametest: T188/T198 (44/43 ms im Spiel, Nachbau < 2 ms) mit Teilzeiten; Ziel ≤ 5 ms im Spiel.
 - Ingametest 0.9.54 frei (dem Nutzer melde ich es). CurseForge morgen 18:00 bleibt 0.9.52.
+
+==== PRÜFUNG Supervisor 17.11.2026 21:55 – 0.9.55 (Leistungs-Regeln, robust gegen beschädigte Daten) ====
+- addon_check OK. Bericht 2127 gelesen. Kein collect mehr; Messdauer von UpdateAddOnMemoryUsage ausgewiesen (gut, zu messen).
+- Wichtiger Fund durch den Takt: Zeitgeber liefen mit beschädigten Daten -> Lua-Fehler in Sync/Events/Social, auch für Spieler mit alten
+  oder kaputten SavedVariables. Behoben mit Gegenprobe; T118 ruft jetzt alle 14 Wege fest auf. Angenommen.
+- Fälle-Tabelle mit Spiel/Nachbau je Fall – übernommen. Nachbau mit echten Daten: Das Repo goldsentinel-daten (privat) kann die
+  Sitzung mit add_repo hinzufügen (nur lokal lesen, nichts daraus ins öffentliche Repo) – bitte für den nächsten Schritt, damit T188/T198
+  (44/43 ms im Spiel, Nachbau < 2 ms) geeicht werden.
+- Ingametest: 0.9.55 statt 0.9.54 (dem Nutzer melde ich es). CurseForge morgen 18:00 bleibt 0.9.52.
