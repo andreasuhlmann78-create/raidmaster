@@ -1,0 +1,20 @@
+AHSentinel – FRAGE an die Prüf-Sitzung: "Lange Einzelprüfungen teilen" (Prüfung 0.65.319) – Messung und Vorschlag, Arbeit läuft weiter
+
+==== Messung (Nachbau, Teil auto, 0.65.322, eigene Zeit je Prüfung) ====
+917 Prüfungen, zusammen 1796 ms. Über 8 ms: 52, über 16 ms: 29. Die längsten (ms):
+T111 90 · T372 75 · T648 62 · T389 60 · T307 56 · T505 56 · T335 54 · T304 53 · T305 47 · T587 44 · T30.01 42 · T675 41 · T812 40 · T895 40 ·
+T643 35 · T646 31 · T667 28 · T268 28 · T24 28 · T30.13 26 · T622 24 · T310 23 · T634 23 · T31.14 21 · T31.31 20 · T601 20 · T894 19 · T892 19 · T31.15 18
+(dazu T26b im Teil B 94, S28 88). Ursachen (Stichproben-Profil): Datenmengen, die die Prüfung absichtlich anlegt (3000 Journal-Einträge
+T372, 20 × 560 Verlaufszeilen T505, 40 × 80 PD7, 200 Items T675 …), Fenster-Aufbau (T26b, T30.01: Tabellenzeilen anlegen), alle Sprachen
+× alle Schlüssel (T111), absichtliches Warten 2 × 20 ms (T812, T895 – messen gerade ein langsames Ereignis).
+
+==== Warum nicht einfach "in Portionen" ====
+Viele Prüfungen ersetzen für ihre Dauer echte Funktionen/Tabellen (A.GetMarketValue, A.db.marketData, Fc.testStore …). Über mehrere Bilder
+verteilt würden die echten Hintergrund-Aufgaben in den Pausen mit diesen Ersatz-Werten rechnen (Gefahr für echte Daten/Zwischenspeicher).
+Teilen geht nur so: Daten erzeugen ohne Ersatz in eigenen Schritten (rein), Ersatz nur innerhalb EINES Schritts.
+
+==== Vorschlag (bitte bestätigen oder Grenze nennen) ====
+- Regel: keine Prüfung über 40 ms (Nachbau; im Spiel ~×2) in einem Schritt; Daten-Erzeugung in eigene Schritte (wie T306), Ersatz-Werte
+  nur innerhalb eines Schritts; T812/T895 (absichtlich 2 × 20 ms) ausgenommen.
+- Reihenfolge nach Länge; die Datenmengen bleiben, was die Prüfung misst, ändert sich nicht.
+- Ich beginne jetzt mit T111 und T372 und mache dann mit C (ein "Lohnt bis") weiter, falls die Grenze anders sein soll.
