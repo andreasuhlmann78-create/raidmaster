@@ -1,0 +1,25 @@
+AHSentinel 0.65.303 + 0.65.304 – TR-ALLE Teil 3 (VOLLSCAN automatisch) und SANDBOX-2 (Test-IDs) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.304 und sofort im Discord (0.65.303 nicht einzeln veröffentlicht, steckt in 304).
+
+0.65.303 – Schritt "vollscan" in /ahs testroutine alles (jetzt 9 Schritte: auto, ui, hilfe, sniper, waechter, server, vollscan,
+  berufe, haendler):
+  - TR:AllVollscan: braucht das offene AH. Gab es in den letzten 6 Std. (minus Zeitlimit) schon einen gemessenen Scan, reicht EIN
+    weiterer, sonst zwei. Wartet auf VS:Wait() (Server-Sperre, Abstand ≥ 15 Min.), startet VS:Start(), wartet bis #st.scans wächst.
+    Zeitlimit ALL_VS_MAX 25 Min. gesamt, je Scan ALL_VS_SCAN 10 Min. Während des Schritts misst VS.allFloor immer den bleibenden
+    Speicher (Boden nach der Bereinigung). Bewertung wie VOLLSCAN: Zuwachs ≤ SC.SCAN_GROW_KB (10 MB), Lücke ≤ SC.SCAN_GAP_MS (50 ms).
+  - Nicht prüfbar mit Grund: AH zu, Zeitlimit, kein Scan zustande gekommen. stop -> abgebrochen, allFloor weg.
+  - Nachbauten s272 (Vollscan-Schritt), s272d (zwei Scans, ohne Schnell-Vollscan, AH zu).
+0.65.304 – SANDBOX-2 (Antwort mit Belegen schon im Bericht ...-sandbox2-test-ids.txt):
+  - Ursachen behoben: T504 fütterte nachgespielte Scans in den ECHTEN GoldSentinelMarkt (VS:FeedNet sperrt jetzt während der
+    Testroutine den gemeinsamen Baustein); T185 liess vendorPrices 999990118–131 stehen (stellt jetzt nach Liste zurück);
+    WithItemBuy stellte stats/marketData nur flach zurück (jetzt tiefe Kopie).
+  - A:PurgeTestIDs (5 s nach dem Laden, nie während der Testroutine): entfernt Test-IDs (≥ 990000000) aus vendorPrices,
+    marketData, gsMarkt.f.*.i und Export-Zeilen, deren Items alle Test-IDs sind; Protokoll TEST-IDS. Echte Daten unberührt.
+  - Sandbox strenger: ALLOWED + settings.lastSummaryDay, sniper.needsKey; LAZY + mailRules, repost, gsMarkt.f (nur nil -> Tabelle
+    ohne Testmarker). K:LoginExpiryCheck während der Testroutine 30 s später.
+  - Prüfungen: T879 (PurgeTestIDs auf Ersatz-db, echte Daten bleiben), T185; Nachbauten s273_purge_test_ids_a/b, s42 (Sandbox OK, keine
+    Test-Händlerpreise), s42b (Sandbox mit offenem AH OK).
+
+Tests (eigene, keine Freigabe): Gesamtlauf aller Nachbauten auf dem Stand 0.65.304: BESTANDEN 345, FEHLGESCHLAGEN 0.
+addon_check: AHSentinel-0.65.304.zip OK. Veröffentlicht: GitHub-Release v0.65.304, Discord announce/ahsentinel__ahsentinel-0.65.304.md.
+Nicht in download/, kein CurseForge (erst nach dem Ingametest). Nächste Version 0.65.305 = Handprüfliste nach Abschnitt B.
