@@ -1,0 +1,18 @@
+BERICHT LevelPilot – OPT-ROUTE Stufe 1: Woher die ~5 h Mehr-Laufzeit (Mensch Paladin 1–30) gegen Factoruide kommen
+Projekt: LevelPilot · Datum: 17.11.2026 03:41 (aus date) · Stand: 3.12.85 (Addon unverändert) · Analyse, zur Prüfung
+
+Bezug: Bericht 03:39 (Vergleichsmodus: 31 h 57 gegen 27 h 00, Rest vor allem Laufen 14 h gegen 10,6 h).
+Quellen: virtuelle Reise 3.12.85 mit Debug (DBGF/DBGC im Messwerkzeug), Factoruide example-guide.fgguide (gelesen, nicht ausgeführt).
+1. FLÜGE bis 30: LevelPilot 7 Flüge (ab Stufe 13: Eisenschmiede/Thelsamar/Menethil/Westfall …), 3 Ruhesteine, 9 Flugpunkte.
+   Factoruide 14 Flüge (ab Stufe 18, meist Sturmwind <-> Seenhain/Dunkelhain), 13 Ruhesteine, 7 Flugpunkte; Flugzeit 1,37 h.
+   Factoruide pendelt per Flug + Ruhestein zwischen Sturmwind und den Questzonen; LevelPilot läuft diese Strecken öfter.
+2. KONTINENTWECHSEL Stufe 18 (Dunkelküste/Eschental bis 22, Rückkehr 24): belegt NICHT als Fehler. Zonenwerte beim Wechsel (DBGC):
+   Östl. Königreiche: Westfall 2 Aufgaben (Wert 2,3), Rotkamm 2 (1,8), Dämmerwald 2 (0,8), Sumpfland 1 – daheim "ausgehungert"
+   (< 2,5); Dunkelküste 16 Aufgaben (13,1). Auf Stufe 24 hat Rotkamm 10, Dämmerwald 10, Sumpfland 8 – deshalb zurück.
+   Ursache des Hungers: die Quests in Rotkamm/Dämmerwald liegen über Stufe + 2 (P.QUEST_ABOVE). Factoruide macht von 18 bis 21
+   Westfall/Elwynn/Sturmwind fertig und fliegt mit 21 nach Seenhain.
+   Die Reise (Schiff Menethil–Auberdine, Ruhestein zurück) kostet Laufzeit; ob Bleiben + Grinden besser wäre, ist genau die Frage aus
+   GRIND-1 (Fassung E bleibt: Reisen statt Grinden, Entscheid 23:06) – ich ändere hier nichts.
+3. MÖGLICHER HEBEL (Verdacht, zu messen, nach dem Massstab 12 Charaktere): Flug statt Laufen, wenn der Flug Zeit spart, auch für
+   Strecken zwischen zwei Questzonen (Factoruide: "fly" bei jeder Strecke, die per Flug kürzer ist; LevelPilot NAV-2 "Reiseplan nach
+   Zeit" vergleicht schon Laufen/Flug – prüfe ich als Nächstes, warum z. B. Westfall -> Seenhain gelaufen wird).
