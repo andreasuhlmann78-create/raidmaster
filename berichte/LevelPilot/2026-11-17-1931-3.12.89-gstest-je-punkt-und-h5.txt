@@ -1,0 +1,49 @@
+LevelPilot 3.12.89 veröffentlicht (Discord) – GSTEST-Bericht je abgehaktem Prüflisten-Punkt; H5 gemessen (umgesetzt, zur Prüfung)
+Datum: 17.11.2026 19:31
+Bezug: Prüfung Supervisor 19:15, Antwort zu TR-ALLE Nachtrag D2, Reihenfolge (1) GRIND-1 (Bericht 1916), (2) H5.
+Zip: announce/levelpilot__levelpilot-3.12.89.LevelPilot.zip, md5 60b791c67213b9e571803e869872d64c. Datenpaket unverändert 1.6.4.
+
+1. TR-ALLE Nachtrag D2: ein GSTEST-Bericht je Punkt
+- Pruefliste.lua M:Hit / M:Fail: hakt sich ein Punkt beim Spielen ab (Hit) oder wird ein Fehler erkannt (Fail), legt
+  M:SaveHitReport genau einen GSTEST1-Bericht über GoldSentinelTest.Begin/Add/Finish ab, unverändert aus shared.
+  - Ablage: db.gsTest.reports von LevelPilotDB.
+  - Inhalt: Ergebnis-Zeile mit Punkt-ID, Name des Punkts, Messwert (ergebnis), Status OK/FEHLER, erkannt = "beim Spielen";
+    Kopf mit bereich = "pruefliste", punkt = <ID>, erkannt = "beim Spielen", Version, Zeit und Umgebung wie jeder Bericht.
+  - Ein schon erledigter Punkt erzeugt keinen zweiten Bericht (Hit nur aus offen/fehler).
+  - Nur im Entwicklermodus, weil es die Liste nur dort gibt. Keine Frist, keine Sperre.
+  - Nie während der Testroutine in die echten Daten: Sperre, solange TR.running gilt und kein Test umleitet. Trockenlauf und
+    virtuelle Reise melden ohnehin nichts (M.Dry).
+  - Wie jeder Finish-Bericht nimmt er die gesammelten Lua-Fehler mit. Sie gehen also mit diesem Bericht hoch, nicht verloren.
+- Rechenaufwand gemessen (T347, debugprofilestop im Nachbau): 0,10 ms je Bericht, verlangt < 1 ms. Der Verdacht ist bestätigt.
+- T347 neu (true × 9):
+  - ohne Testmodus kein Bericht
+  - Hit -> genau 1 Bericht, GSTEST1, Felder Punkt/Messwert/Version/"beim Spielen"/pruefliste
+  - nochmals -> weiterhin 1
+  - Fehler -> 2. Bericht mit FEHLER
+  - Sperre während der Testroutine
+  GEGENPROBE (Hit ohne Bericht): false (Berichte 0).
+- T309 leitet den Berichtsspeicher jetzt ebenfalls um, damit seine Ersatz-Hits nie in echte Daten schreiben.
+
+2. H5 (früher binden) mit echten Kartenrahmen, 12 Charaktere gegen 3.12.88
+Bewertung = Zeit + 0,5 × Grinden; positiv = schlechter.
+- BIND_TASKS 6 -> 3: Training +4,0 h · Gegenprobe +4,2 h · besser 5 / schlechter 7. VERWORFEN.
+- BIND_TASKS 6 -> 4: Training +6,9 h · Gegenprobe +6,5 h · besser 4 / schlechter 8. VERWORFEN.
+- Bindeweite 600 -> 900 yd: Training +7,6 h · Gegenprobe +7,9 h · besser 1 / schlechter 2, 9 unverändert. VERWORFEN.
+- Der Verdacht aus Bericht 1906 ist damit widerlegt. Die Bind-Regel bleibt (6 Aufgaben, 600 yd).
+  Rohdaten: opt-route/2026-11-17-kartenrahmen-grundlinie-und-hebel-12-charaktere.txt (k88h5*).
+
+3. Prüfungen (Zip 3.12.89)
+- addon_check: OK. 1 Warnung: lupa fehlt hier, deshalb Lua 5.1 loadfile für alle Dateien, 0 Syntaxfehler.
+- Offline-Routine: 38 Läufe, 38 ohne FEHLER.
+- Regression: 35 von 36 grün. test29 hat 1 FEHLER ohne echte Rahmen, wie bisher. NEU: mit den echten Kartenrahmen
+  (WORLDHOOK) ist test29 ALLE TESTS OK, bei 3.12.87 und bei 3.12.89. Der bekannte Fehler war also nur die Ersatzwelt.
+  Vorschlag: test29 in der Offline-Routine künftig mit sim/kartenrahmen_forever.lua laufen lassen.
+- Einzeltests grün: T155, T332–T347, T299, T305, T309. T312 ist nicht prüfbar (Strassen entfernt).
+
+4. Stand OPT-ROUTE mit echten Rahmen
+- Bestätigt: H3 (rund 42 h) und GRIND-1 Fassung E.
+- Verworfen: H1, H3b, H4, H5 und CROSS_STARVE 1,5/3,5.
+- Weitere Hebel nur mit neuen Daten aus dem Spiel, Verdacht, zu messen:
+  - Kills pro Minute (Calib), für das Zeitmodell
+  - Era-Kartenrahmen
+- Ohne neue Spiel-Daten habe ich keinen weiteren begründeten Hebel. Ich schaue regelmässig ins Repo.
