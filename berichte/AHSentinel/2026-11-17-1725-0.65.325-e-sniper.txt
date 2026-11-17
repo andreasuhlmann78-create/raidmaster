@@ -1,0 +1,34 @@
+AHSentinel 0.65.325 – E (Ingametest 17.11.: T359 Sniper-Zeile, T729 reihum, T167, TSK1) – umgesetzt, zur Prüfung
+
+==== T729 reihum (Ursache belegt aus den Ingame-Zahlen) ====
+Upload 13:19, Teil sniper, letzter Lauf: 5 Ziele je 31× (32×), längste Lücke 7048 10,1 · 14580 10,8 · 2589 11,5 · 4251 12,2 · 6611 13,0 s,
+Takt T728 "Abstand Ø 0,7 / max 0,8 s" (= echter Abstand zwischen zwei Suchen, SPT:Takt). Die fünf "Lücken" steigen genau um 0,7 s in
+der Reihenfolge der Ziele -> es ist die Zeit vom Beginn der Beobachtung bis zur ERSTEN Suche jedes Ziels (SPT:Reihum begann jede Lücke
+bei a = 0), danach lief der Sniper sauber reihum (5 Ziele × 0,7 s = 3,5 s). Lösung: Lücken ab der ersten Suche; Zeit bis zur ersten
+Suche getrennt im Text ("erste Suche nach 10,1 s"), dazu Pausen je Grund. Nachbildung der Ingame-Zahlen T898: längste Lücke 4,2 s
+(Ende der Beobachtung) ≤ Grenze 5,2 s OK; ein Ziel 12 s ausgelassen -> 14,0 s FEHLER. Gegenprobe 0.65.324: 12,9 s FEHLER.
+Nebenbei gefunden: Wartegrund "spieler" (GSL3-2, der Spieler benutzt das AH selbst) fehlte in SPT.PAUSE_WHY – diese Wartezeit zählte
+als Lücke und als Spielzeit; jetzt Pause (T732 prüft danach, dass der Sniper ≤ 5 s weitermacht).
+Offen (Verdacht, zu messen): WARUM die erste Suche erst nach ~10 s kam (Drossel/Freigabe 72 % der Zeit) – der Text zeigt es künftig.
+
+==== T359 Sniper-Zielzeile (Ursache belegt im Code) ====
+Die Prüfung setzte die LANGE Form ("50/100 gekauft · Budget 5g aufgebraucht") in die Zelle; die Zeile zeigt seit TB189-3 die KURZE
+(ProgressText(t, true): "50/100 · Budget 5g aufgebraucht"). Jetzt prüft T359 die kurze Form (3 Fälle) und die Pausen-Zeile. Die Pausen-
+Zeile war lang ("pausiert bis 18:45 – 3 Käufe gescheitert", 41 Zeichen bei 184 px) -> neu kurz "Pause bis 18:45 · 3 Fehlkäufe"
+(Schlüssel in allen 10 Sprachen), lang im Tooltip. Die Schriftbreite misst nur der Client (im Nachbau SKIP) -> Beleg im Ingametest.
+
+==== T167 (Verdacht, zu messen – NICHT belegt) ====
+"20 Ereignisse, 0 Aufbauten" ohne Zeitüberschreitung heisst: das Warten endete, ohne dass ein Aufbau lief. Das Warten prüfte nur
+refreshPlanned/topBuilding, nicht einen VERSCHOBENEN Aufbau (Cr.topLater: Abstand TOP_MIN_GAP, CRAFT_GAP beim Herstellen, DATA_GAP 30 s
+bei echten DATA_CHANGED). Jetzt wartet T167 auch darauf (Zeitlimit 45 s) und nennt im Text: übersprungen (ohne Änderung), verschoben
+(mit Grund), Dauer. Im Nachbau trat die Verschiebung nicht auf (der erste Aufbau mit neuem Beruf ist immer sofort) – der nächste
+Ingametest zeigt mit diesen Angaben die Ursache.
+
+==== TSK1c/h/j ====
+Antwort steht im Bericht 0.65.324 (c, j nur alte Fälle; h = Vollscan = A).
+
+==== Tests ====
+Neu s284_e_sniper (13 Prüfungen) grün, Gegenprobe 0.65.324 rot (3). T898 neu. Gesamtlauf: 357/0. addon_check: OK (Release und Discord).
+
+==== Weiter ====
+D (UI-CLEAN1, ~590 Befunde), dann "BEREIT FÜR INGAMETEST".
