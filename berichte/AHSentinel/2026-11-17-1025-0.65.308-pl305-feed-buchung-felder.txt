@@ -1,0 +1,78 @@
+AHSentinel 0.65.307 – PL-305-1, FeedNet in Portionen (FEED-P), NP-AHS281-1, NP306-1 – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.307 und sofort im Discord.
+
+1) NP-AHS281-1 – BEFUND bestätigt (Books.lua BK:OwnCancelBooked): das 6-Std.-Fenster lief ab Now() beim LESEN der Post.
+UMSETZUNG: Fenster ab dem Eintreffen der Post. Alter der Post = MAIL_KEEP_DAYS (30) − daysLeft aus GetInboxHeaderInfo; gesucht wird
+  die jüngste noch nicht zugeordnete eigene Abbruch-Buchung (depx, why "abbruch") desselben Items ab (jetzt − Alter − 6 Std.).
+  Ist die Post-Laufzeit im Spiel kürzer als 30 Tage (Verdacht, zu messen: Forever-Laufzeit der Post „Auktion abgebrochen“), wird
+  das Fenster nur grösser, nie kleiner – eine echte eigene Buchung wird also immer gefunden. Ohne daysLeft wie bisher.
+  Buchhaltungs-Wort „Anzahlung“ (buchhaltung.md Z. 132) auch im CHANGELOG.
+TESTS: T884 – Abbruch, Post nach 8 Std. gelesen -> genau eine Buchung; nach 2 Tagen ebenso; Blizzard-Fenster-Abbruch mit frischer Post
+  und 10 Tage altem eigenem Abbruch -> eigene Buchung „abbruch-fenster“; ohne daysLeft wie bisher. Gegenprobe alte Books.lua: 8 Std.
+  und 2 Tage -> zwei Buchungen (rot). T855 (T-BM6) weiter grün.
+
+2) PL-305-1 (Punkt TR-ALLES widersprach dem Ablauf):
+  - Chat beim Warten: genau, was zu tun ist (neue Texte, 10 Sprachen): Berufe „bitte ein Berufsfenster öffnen: deinen Beruf im Berufs-
+    oder Zauberbuch anklicken, dann im Berufsfenster ein Rezept anklicken“; Händler „bitte das Auktionshaus schliessen, zum nächsten
+    Händler gehen und ihn ansprechen – das Auktionshaus brauchst du danach nicht mehr“; mit der echten Wartezeit in Minuten.
+  - Händler wartet TR.CHAIN_WAIT_PART.haendler = 300 s (5 Min.), sonst 120 s.
+  - Ohne Herstellungsberuf (Cr:HasCraftProfession false): Schritt 8 sofort „nicht prüfbar – kein Beruf (zählt nicht gegen das
+    Ergebnis)“, Ergebnis frei; TR-ALLES hakt sich ab, wenn alle anderen bestanden (PLAllDone zählt freie nicht).
+  - GEFUNDEN beim Nachbau s272e: Teil berufe hat T147 „Rezept im Blizzard-Fenster gewählt (vorher ein Rezept anklicken)“ – startete die
+    Kette sofort beim Öffnen, war T147 rot und TR-ALLES ein Fehler. Jetzt wartet die Kette im modernen Client, bis ein Rezept gewählt ist
+    (höchstens TR.RECIPE_WAIT = 30 s nach dem Öffnen, dann trotzdem los; T147 sagt dann, was fehlt), und Text/Chat sagen „dann ein Rezept“.
+  - Prüfliste Punkt [1] (since 0.65.307, darum wieder offen), Text im Spiel:
+    Wo: Auktionshaus offen. 1. In den Chat: /ahs testroutine alles  2. Nichts anklicken, nicht weglaufen. 3. Chat: „… Berufsfenster …“:
+    Beruf im Berufs-/Zauberbuch anklicken, dann ein Rezept. 4. Chat: „… nächsten Händler …“: Auktionshaus zu, zum Händler gehen,
+    ansprechen (5 Min.). Abbrechen: /ahs testroutine stop
+    Du siehst: Chat „Testroutine alles: 9 von 9 bestanden, 0 FEHLER …“ (ohne Beruf: „kein Beruf“, zählt nicht), dann Fenster „Testbericht“.
+    Kosten: kein Gold, ca. 50 Min.   (9 Zeilen, T880)
+  - Tests: T885 (Wartezeiten, Chat-Texte wörtlich, „kein Beruf“ frei), T880 (Text nennt Berufsfenster und Händler), s272e (Berufsfenster
+    nach 60 s, ohne Rezept wartet die Kette, Rezept angeklickt -> läuft; Händler nach 200 s -> wartet noch und läuft: 3 von 3 bestanden,
+    0 FEHLER; ohne Beruf: nicht gewartet, „kein Beruf“), s272b/s272 angepasst (Nachbau-Charakter hat keinen Beruf).
+3) FEED-P (Entscheid FeedNet in Portionen):
+  - VS:FeedNet gibt in Portionen ab: A:Pause alle 100 Items (beide Durchgänge) und beim Abarbeiten eines alten Feed-Auftrags; eigene
+    Portionsgrenze FEED_SLICE_MS = 4 ms (neu A:YieldNow: abgeben auch bei Budget-Rest). Aufruf über A:PCall (yield über pcall bräche in
+    Lua 5.1 ab – vorher pcall). Das Entfernen fehlender Items in zwei Durchgängen (erst sammeln, dann löschen).
+  - Messung VS.feedSliceMax; s216 Pflicht „längste FeedNet-Portion ≤ 5 ms“: gemessen 3,6 ms (vorher 9,5 ms am Stück). Gegenprobe ohne
+    Portionen (FeedStep leer): 7,3 ms -> rot. Hinweis: mit FEED_SLICE_MS = 1000 bleibt sie auch ≤ 5 ms (A:Pause hält schon das
+    Bild-Budget ein) – die eigene Grenze ist nur die zweite Sicherung.
+  - Verdacht „4. Lauf nur 11–20 ms“ GEMESSEN (Bild mit dem längsten Wert je Lauf, Aufgabe und Scan-Schritt erfasst): das längste Bild
+    (~40 ms) liegt in allen „hohen“ Läufen im Scan-Schritt „Nachlauf“ (7 s nach Start) mit den Aufgaben core:realcheck, core:resolve,
+    ui-refresh, cache:today – die eigene Aufgabenzeit darin ist nur 4–6 ms. In den „tiefen“ Läufen (z. B. Lauf 8) kommt dieses
+    Nachlauf-Bild im Messfenster nicht vor; das längste Bild ist dann ein Einlese-Bild (fullscan 7–13 ms). Es liegt also nicht am Feed.
+    Neuer Verdacht, zu messen: im Nachlauf laufen ~34 ms AUSSERHALB der Aufgaben (vermutlich ein Ereignis-Handler beim Neuaufbau –
+    im Nachbau; im Spiel mit /ahs protokoll LANGSAM prüfen). Bitte entscheiden, ob ich dem nachgehe.
+4) NP306-1 (Sperre ohne Zeitlimit): ausgenommen sind nur noch die Testkäufe der Prüfliste: Item 2589 (Leinenstoff) UND Höchstpreis 50s
+  (P.HAND_ITEM/HAND_MAX, dieselben Werte wie im Text), solange ein Sniper-Handpunkt offen ist, höchstens 24 Std. nach dem Öffnen der
+  Prüfliste (db.plOpenT) bzw. der letzten Änderung eines Sniper-Handpunkts. Protokoll KERN „snipe: Testkauf nicht gezählt (Prüfliste)“
+  (höchstens alle 10 Min.). T883 erweitert (anderes Item/anderer Höchstpreis zählt, nach 25 Std. zählt, Änderung startet neu, alle
+  erledigt zählt, Entzaubern nie, Protokoll); Gegenprobe Regel 0.65.306 -> rot.
+
+AHSentinel 0.65.308 – NP-MK-2 (Testbericht-Felder über 300 Zeichen abgeschnitten) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.308 und sofort im Discord.
+
+BEFUND bestätigt: GoldSentinelTest Str schneidet jedes Feld bei MAX_TEXT 300 ab und hängt „…“ an (gemeinsame Datei, bleibt unverändert).
+  Gegenprobe 0.65.307 im Nachbau s42: entzauber_stand, markt_kern, markt_kern_wege enden auf „…“.
+UMSETZUNG (TestRoutine.lua):
+  - TR:SplitFields(finish) direkt vor T:Finish: jedes Feld > 280 Bytes wird geteilt: name, name_2, name_3 … (höchstens 9 Teile; mehr:
+    letzter Teil sagt „weitere Teile weggelassen: n“). Getrennt an „ | “; ein einzelnes Stück > 280 an einer UTF-8-Zeichengrenze.
+    TR.JoinField(f, name) setzt die Teile wieder zusammen (für die Auswertung: Teile mit " | " verbinden).
+  - Je Weg ein eigenes Feld: markt_kern_flip, markt_kern_snipe, markt_kern_de, markt_kern_craft, markt_kern_vendor (alle Zeilen mit
+    „Weg <w>“, auch „Ü2 VERFEHLT: Weg <w> …“); markt_kern_ma1 jetzt bis 600 (wird geteilt, falls länger). Die alten Felder bleiben.
+  - Betroffen gemessen (vorher abgeschnitten): entzauber_stand, markt_kern, markt_kern_wege; die übrigen (lernen_grenzen, prognose_m2,
+    prognose_p_diagnose, vollscan_m1c) werden ebenso geteilt, sobald sie im Spiel länger als 280 sind.
+TESTS: T886 (Teilen/Zusammensetzen, Umlaute an der Grenze, kein Teil > 280 und keiner endet auf „…“, Feld *_2 wird auch geteilt, je Weg
+  ein Feld), T597 unverändert grün; s42: „kein Feld im Testbericht endet auf …“ (nur die Berichtsfelder) – 0.65.308 grün, 0.65.307 rot.
+HINWEIS (gemeinsamer Baustein, nicht mein Teil): Namen einzelner Prüfungen werden bei 120 Zeichen gekürzt (17 im Lauf s42), zwei
+  Ergebnisse einzelner Prüfungen bei 300 (T-Ergebnisse > 300). Das betrifft GoldSentinelTest.lua – bitte entscheiden, ob dort mehr Platz
+  nötig ist; ich ändere die Datei nicht.
+
+VERÖFFENTLICHUNG: 0.65.307 nicht einzeln veröffentlicht – die neue Pflicht in s42 („kein Berichtsfeld endet auf …“, NP-MK-2) ist mit
+  0.65.307 absichtlich rot. 0.65.307 + 0.65.308 kommen zusammen als 0.65.308 (CHANGELOG mit beiden Abschnitten).
+  Erster Gesamtlauf 0.65.307: 345 bestanden, 1 rot = s272 Zeitüberschreitung (300 s je Nachbau): die Händler-Wartezeit 5 Min. lief im
+  Nachbau voll aus. Behoben im Nachbau (Händler-Wartezeit erst nach dem Teil auto kurz; T885 prüft dort die echten 300 s); s272 allein
+  152 s, grün.
+Tests (eigene, keine Freigabe): Gesamtlauf aller Nachbauten auf dem Stand 0.65.308: BESTANDEN 346, FEHLGESCHLAGEN 0 (neu s272e).
+addon_check: AHSentinel-0.65.308.zip OK. Veröffentlicht: GitHub-Release v0.65.308, Discord announce/ahsentinel__ahsentinel-0.65.308.md.
+Nicht in download/, kein CurseForge. Nächster Punkt: 0.65.309 = NP-MK-1 (c)(d) (fertig, Gesamtlauf läuft).
