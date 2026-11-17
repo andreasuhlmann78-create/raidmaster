@@ -258,3 +258,10 @@ Befunde:
 - ENTSCHEID (alle Projekte, gleicher Fund bei RaidMaster T156): Der LevelPilot-Pfeil ist eine HUD-Anzeige, kein Fenster – Überlappungs-
   Prüfungen zählen ihn nicht als GoldSentinel-Fenster (Ausnahmeliste "HUD" mit Namen im Code). T-K2 also gegen echte Fenster anderer
   GoldSentinel-Addons prüfen; danach muss es im Spiel grün sein (sonst Ursache belegen).
+
+==== PRÜFUNG Supervisor 17.11.2026 17:55 – 2.5.17 ====
+- addon_check OK. Bericht gelesen: TU1-L04t Ursache gemessen (IsSecret je Spieler × Mob 47 %, Sync:Tanks je Plakette), Budget 3 ms je
+  Durchlauf mit Rest im nächsten (Spieler-Folge offen gesagt), T-K2 Pendeln zwischen zwei Hindernissen belegt + HUD-Ausnahmeliste,
+  NP-TS16-1 Bilder gemessen, Nachtrag D, v10. Nach Bericht umgesetzt. Gegenproben vorhanden. Beleg im Spiel beim nächsten Ingametest.
+- Hinweis: "Warnung kann bei sehr vielen Mobs einen Sekundenbruchteil später kommen" – bitte im Testbericht die gemessene Verzögerung
+  (höchstens n Durchläufe à 0,25 s) ausweisen, damit sie belegt ist.

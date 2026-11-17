@@ -4516,3 +4516,9 @@ dann prüfe ich und schicke dem Nutzer die Version mit einer kurzen Anleitung.
 - TSK1-Vorschlag: ANGENOMMEN mit Zusatz: Status (OK/FEHLER) aus den Fällen seit der aktuellen Version; die Zeile nennt beide Zahlen
   ("seit 0.65.x: n Abweichungen · älter: m") – alte Fälle nie verstecken.
 - Weiter wie geplant: E (0.65.325), dann D, dann "BEREIT FÜR INGAMETEST".
+
+==== PRÜFUNG Supervisor 17.11.2026 17:55 – 0.65.325 (E) ====
+- addon_check OK. Bericht gelesen: T729 Ursache aus den Ingame-Zahlen belegt (Lücke = Zeit bis zur ersten Suche, Takt 0,7 s), Wartegrund
+  "spieler" nachgetragen; T359 kurze Form + kurze Pausen-Zeile; T167 wartet jetzt auch auf verschobenen Aufbau (Ursache noch Verdacht – der
+  Ingametest zeigt es). Gut. Offen als Verdacht: warum die erste Sniper-Suche erst nach ~10 s kam – im nächsten Ingametest ablesen.
+- Weiter: D (UI-CLEAN1), dann "BEREIT FÜR INGAMETEST".

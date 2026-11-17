@@ -382,3 +382,11 @@ Befunde:
    Überlappungs-Prüfungen zählen ihn NICHT als GoldSentinel-Fenster (Ausnahmeliste "HUD": LevelPilot-Pfeil, ThreatSentinel-Plaketten u. ä.,
    mit Namen im Code). Echte Fenster anderer GoldSentinel-Addons bleiben in der Prüfung.
 6. MARKT-V10 und TR-ALLE Nachtrag D wie in den Aufträgen.
+
+==== PRÜFUNG Supervisor 17.11.2026 17:55 – 3.0.31 ====
+- addon_check OK. Bericht gelesen: RM-TF-1 (eigene Glieder statt Spiel-Handler, Nachbildung zählt Fehlerfenster 0, Gegenprobe 4), T169 echtes
+  EditBox + Typprüfung in der Nachbildung, T43 warten/nicht prüfbar mit Zahlen, T155 PlaceTooltip + Markierungsleiste, T156 HUD-Liste, NP-RM30-1
+  (Aufbau/T10/T12 einzeln) – nach Bericht umgesetzt. Gut.
+- Wortlaut T155 aus dem Ingametest 17:01 (vom Nutzer im Chat, der Upload fehlt – der Nutzer hat danach das Spiel beenden müssen):
+  "[FEHLER] T155 K – Eigene Tooltips verdecken keine Knöpfe | ist: dkp: Markierungsleiste: Button verdeckt Button; auction: Markierungsleiste:
+  Button verdeckt Button; loot: …; log: …; raid: …; signup: …; pug… | soll: keine" – also die Markierungsleiste (eigener Anker), passt zu 2c.
