@@ -1,0 +1,37 @@
+BERICHT GuildSentinel 0.9.55 – Nachtrag zu 0.9.54: Leistungs-Regeln (leistung.md, Hinweis 20:45), robust gegen beschädigte Daten
+Von: GuildSentinel-Sitzung · 17.11.2026 21:27 (Zeit aus date, Europe/Zurich) · Quellcode f4a2d53
+Status: umgesetzt, zur Prüfung. CurseForge: unverändert 0.9.52 am 18.11. 18:00. download/ nicht angefasst.
+
+1. leistung.md Bau-Regel 2 ("keine ganze Speicherbereinigung, auch nicht in Tests"): die Testroutine rief collectgarbage("collect") zu
+   Beginn und am Ende auf (seit vor 0.9.51). Entfernt; Speicher wird ohne Bereinigung gemessen (Zeile sagt das), dazu
+   GetAddOnMemoryUsage für GuildSentinel allein. UpdateAddOnMemoryUsage geht im Spiel über alle Addons: die Zeit dieser Messung steht
+   jetzt in der Zeile ("Messung längstens x ms") – VERDACHT, ZU MESSEN, ob sie selbst ein Ruckler ist.
+2. Gefunden durch den Takt (0.9.54): weil die Testroutine jetzt über viele Bilder läuft, liefen Zeitgeber (Abgleich, Termine) zufällig
+   mit den absichtlich beschädigten Testdaten von T118 und brachen ab: Sync.lua:47 ("index local 'a' (a number)"), Events.lua:147
+   ("arithmetic on field 't' (a string)"), dazu Social.lua:430 (Dank ohne Zeit). Das trifft auch Spieler mit beschädigten
+   SavedVariables oder Daten von alten Versionen. Behoben: Sync:Answer (Twinks, Zugänge, Angebote, Online-Zeiten), Sync:MemData,
+   Events:SyncData, Social:ThanksSync überspringen Einträge ohne Tabelle bzw. ohne Zahl; Aufräumen beim Einloggen entfernt kaputte
+   Dank-Einträge. T118 ruft jetzt jeden Zeitgeber-/Abgleich-Weg fest einmal auf (14 Wege), damit das nicht vom Zufall abhängt.
+   Gegenprobe (Code 0.9.54): T118 rot mit genau diesen drei Meldungen.
+3. Flackernder Test behoben: run_t82.lua wartete 15 s Spielzeit; mit dem Takt (ein Bild je 16 ms) brauchte die Routine im Nachbau knapp
+   so lange -> selten rot. Jetzt 60 s. 10× hintereinander grün; run_alle.sh 3× hintereinander grün.
+
+FÄLLE ÜBER 40 MS (Hinweis Leistung Punkt 3; Spiel = Ingametest 19:28, 0.9.53; Nachbau = wowmock, os.clock)
+| Stelle | Spiel | Nachbau vorher | Ursache | Behebung | Nachbau danach |
+| T270-Vorarbeit ("bis T269"), Roster:Inactive 500 | 355,6 ms | 355,8 ms (run_inactive, alt) | belegt: quadratisch (MainOf je Paar) + IsAway ohne Zwischenspeicher | ein Durchgang + R:Memo | 1,4 ms |
+| T10 Simulation Retail, 13 Seiten | 113,9 ms | 13,5 ms | belegt: alle Seiten in einer Prüfung (Seitenbau im Spiel teuer) | Seite für Seite mit Abgabe | je Seite |
+| T17 alle Reiter | 85,6 ms | 25,3 ms | belegt: alle 41 Reiter am Stück | Reiter für Reiter | je Reiter |
+| T118 beschädigte Daten | 83,2 ms | 42,7 ms | belegt: alle Seiten+Reiter am Stück | Seite/Reiter mit Abgabe | je Reiter |
+| T188 Diagnose | 44,8 ms | < 2 ms | VERDACHT, ZU MESSEN (Nachbau nicht geeicht) | Teilzeiten im Ergebnis | – |
+| T198 Verwaltung ohne Namen | 43,0 ms | < 2 ms | VERDACHT, ZU MESSEN | Teilzeiten im Ergebnis | – |
+| T196 Sperre | 43,5 ms | 20,3 ms | belegt: 7 Prüfsummen × 2000 Runden | 20 Runden in der Prüfung | < 1 ms |
+| T75 Funktionen aus/an | 41,6 ms | 21,3 ms | belegt: 24 Funktionen am Stück | je Funktion | je Funktion |
+| T125 Sprache umschalten | 41,1 ms | 20,6 ms | belegt: 3 × 13 Seiten am Stück | je Seite | je Seite |
+Nachbau mit echten Daten (goldsentinel-daten, Hinweis Punkt 2): in dieser Sitzung nicht verfügbar (nur lokal) – OFFEN. Geeicht ist der
+Nachbau an EINEM Fall: Inactive 500 (Spiel 355,6 / Nachbau 355,8 ms, Abweichung < 1 %). Für Seitenbau/Reiter liegt der Faktor
+Spiel/Nachbau bei 2–8 (T10 8,4, T17 3,4, T118 1,9) – die Portionen sind deshalb klein gehalten (je Seite/Reiter).
+
+TESTS (eigene Tests, Hinweise, keine Freigabe)
+- run_alle.sh: 178 Läufe, 0 rot, 14322 Einzelprüfungen (wie 0.9.54; T118 bleibt eine Prüfung, prüft jetzt mehr).
+- Testroutine: Forever 303, Era 308, TBC 308 OK, je 0 FEHLER.
+- addon_check: siehe unten.
