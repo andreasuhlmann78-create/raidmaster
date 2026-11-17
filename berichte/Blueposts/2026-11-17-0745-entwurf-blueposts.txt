@@ -1,0 +1,57 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+
+Geplante Aufgabe "Blueposts", Lauf 17.11.2026 07:45 MEZ (06:45 UTC). Keine Schwere HOCH, keine Aufträge – nur Hinweise.
+
+NEUER BLUE-POST
+Kaivax, "WoW: Forever Hotfixes – November 16, 2026", Post #11, 17.11.2026 02:17 UTC (Post #1 um 02:18 nachgeführt).
+https://us.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-16-2026/2403040/11
+EU-Fassung: https://eu.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-16-2026/639885
+Direkt gelesen (US-Thread, HTML + JSON). 33 Punkte: Camping, Klassen, Dungeons, Gegenstände, PvP, Quests.
+NICHTS zu Auktionshaus, Einzahlung, Post, Händlerpreisen, Addon-API, Chat/Kanälen, Gilde, Raid-Sperren.
+
+AH-TERMIN 17.11. (US) / 18.11. (EU): weiter nur angekündigt (Kaivax #7, 12.11. 00:48 UTC). Die US-Wochenwartung ist
+heute erst später; bis jetzt kein Blue-Post "jetzt aktiv". Beim Abendlauf und am 18.11. erneut prüfen, dann Messung
+MINDESTEINZAHLUNG / db.minDeposit im Daten-Repo.
+
+VORSCHLÄGE (Hinweise, kein Auftrag – Supervisor entscheidet, ob sie in offen-*.txt kommen)
+
+1) BuffSentinel – Hinweis BP-2026-11-17 (NIEDRIG)
+   - Schamane: Windzorn-Totem-Angriffe ignorierten Rüstung und hatten keine interne Abklingzeit – behoben; Extra-Angriffe
+     erzeugen jetzt Wut; Verstümmeln/Hinrichten/Schildschlag/Schildhieb lösen das Totem nicht mehr zusätzlich aus.
+   - Verstärkung: Waffe des Mahlstroms konnte zwei Zauber verbessern – behoben. BuffSentinel zeigt den Proc über die Aura
+     (maelstrom_f, procAuras "Maelstrom Weapon") -> keine Code-Änderung nötig; die Aura verschwindet jetzt nach einem Zauber.
+   - Bedeutung für BP-2026-11-13-1 Teil 2: die Messung des Nutzers (Imbue + Waffen-Totem) sollte nach diesem Hotfix
+     gemacht werden (Totem verhält sich jetzt anders). Waffen-IDs selbst sind nicht betroffen.
+   - Priester: Vampirumarmung heilt 10 % statt 20 % (eigener Priester +100 %), ANGEKÜNDIGT "mit der Wochenwartung";
+     Dunkle Inspiration stapelte bei mehreren Schattenpriestern – behoben. Krieger Furor: Schlaghagel wird von
+     Spalten/Heldenhafter Stoss nicht mehr verbraucht; Unbändiger Zorn/Reckless Swings lösen jetzt dadurch aus.
+     BuffSentinel zeigt Schlaghagel nicht als Proc (Treffer "flurry" = Schurke Klingenwirbel) -> kein Einfluss gefunden.
+   Nur melden, falls im Spiel etwas anders wirkt.
+
+2) ThreatSentinel – Hinweis BP-2026-11-17 (NIEDRIG)
+   - Windzorn-Totem-Extraangriffe erzeugen jetzt Wut; Furor-Procs durch Spalten/Heldenhafter Stoss; Vampirumarmung
+     (angekündigt) heilt weniger -> weniger Heil-Bedrohung. ThreatSentinel enthält keinen Bezug auf diese Fähigkeiten
+     (grep 2.5.15: keine Treffer) -> kein Einfluss erwartet. Nur melden, falls Bedrohungswerte auffällig abweichen.
+
+3) LevelPilot – Hinweis BP-2026-11-17 (NIEDRIG)
+   - Wiederholbare Quest "Water Pouch Bounty" gibt keine EP mehr; Drop-Rate "Blood Red Bandanas" erhöht; Witch Doctor
+     Zum'rah ("The Talisman of Kazdor") spawnt wieder; "No Soldier Left Behind" zählt für die ganze Gruppe; Vale Screamers
+     für "Screecher Spirits" an die Küste der Insel des Schreckens verlegt; "The Return of the King?" (Theramore) blockiert
+     nicht mehr. Falls LevelPilot Water Pouch Bounty als EP-Quelle empfiehlt oder Wegpunkte für die Screamers hat:
+     prüfen. (LevelPilot-Code nicht im Zugriff dieses Laufs, nicht geprüft.)
+
+4) ProfessionSentinel / Rezeptdaten-Routine / AHSentinel – Hinweis BP-2026-11-17 (NIEDRIG)
+   - "Formel: Stiefel verzaubern – Geschwindigkeit" (Ruf-Händler) ist jetzt beim Aufheben gebunden (BoP).
+     Data_Forever.lua:2336 Rezept 1328948, Formel-Gegenstand 289560, Händler 248199/256732, bp=6200; Zeile 6784.
+     Neue Exemplare sind nicht mehr im AH handelbar (in tests/wowsim/data/markt_2026-11-14.lua von AHSentinel noch als
+     AH-Ware). Wenn ProfessionSentinel/AHSentinel diese Formel als AH-Kauf oder Weiterverkauf (Händler -> AH) empfehlen:
+     nicht mehr anbieten. Verdacht, zu messen: ob alte Exemplare weiter im AH auftauchen.
+
+5) Kein Addon betroffen: Camping (Angelgestell, Aufgeblähter Fisch), Druide Wildwuchs-Abklingzeit/Genesis, Schurke Gifte/
+   Shank, Krieger Legacy of Valor, Ertrunkene Stadt (Kapitän Dreadrise betäubbar, Braxton, Blase), Tempel von Atal'Hakkar,
+   Outrider's Gloves, Violet Tragan, Arathibecken-Friedhof.
+
+Hinweis "cooldown manager": Reckless Swings im Abklingzeiten-Manager angepasst – betrifft die Blizzard-Oberfläche, nicht
+unsere Addons.
+
+Stand nachgeführt in research/blueposts-stand.md. Kein Eintrag in auftraege/, kein Log, keine Nachrichten (Regel 14.11.).
