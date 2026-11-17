@@ -395,3 +395,19 @@ Befunde:
 "/rmtest testroutine alles" meldet "Testroutine: Bereich ALLES gibt es nicht (A … K)". "/rm testroutine alles" ist der richtige Befehl, aber
 beide Befehle sollen dasselbe können: unter /rmtest "alles" ebenfalls annehmen (an /rm testroutine alles weiterreichen) oder die Meldung sagt
 "Für alles: /rm testroutine alles". Test mit beiden Schreibweisen.
+
+==== INGAMETEST 17.11.2026 19:38 – RaidMaster 3.0.31 "/rm testroutine alles" (Nutzer-Einfügung 19:40) ====
+OK 134 · FEHLER 1 · übersprungen 16 · im Client 10 · 81860 ms · Sandbox OK. 17:01: 4 FEHLER -> 1. Kein Lua-Fehler (T169 OK), T155 OK.
+Portionen: 686 Bilder, längste 21,6 ms (T182), "Aufbau" einzeln 38,3 ms – unter 40 ms, aber über dem Ziel 5 ms. Gut gegenüber 41,6 ms.
+Offen:
+1. T158 (MITTEL): Knopf-Beschriftungen abgeschnitten: lboss "Golemagg der Verbrenner", discord "7. Vor dem Raid: Anmeldungen holen";
+   dazu Hinweise "Bereitschaft: Text gekürzt bei Button". Knöpfe breiter / zweizeilig oder kürzer – alle Sprachen. Knöpfe sind keine
+   Tabellenzellen (Regel 18:10 gilt NICHT für Knöpfe).
+2. T156 jetzt SKIP "nichts geprüft (kein sichtbares Fenster mit messbaren Rechtecken)" – 17:01 war es FEHLER (Hauptfenster/Bereitschaft
+   überdecken LevelPilot-Pfeil). Ein SKIP darf eine frühere FEHLER-Prüfung nicht ersetzen: die Prüfung muss ihre Fenster selbst öffnen
+   (wie T155/T158, die Seiten prüfen) und messen. Ursache belegen, warum nichts sichtbar war; Gegenprobe: Fenster offen + Pfeil -> FEHLER bzw.
+   OK nach der Behebung (LevelPilot-Pfeil = HUD, Entscheid). Dann wieder OK/FEHLER, nie SKIP.
+3. T43 jetzt SKIP "0 Items behandelt … beim nächsten Lauf wieder" – 17:01 FEHLER "kein Item vergeben". Warum werden im Durchlauf 0 Items
+   behandelt, obwohl 10/26 Beute geladen? Ursache belegen (Item-Daten nicht geladen -> warten mit Zeitlimit / Nachtrag D) – SKIP nur,
+   wenn die Ursache "Daten fehlen" belegt ist; sonst FEHLER.
+4. Hinweis 19:37: /rmtest testroutine alles (siehe oben).

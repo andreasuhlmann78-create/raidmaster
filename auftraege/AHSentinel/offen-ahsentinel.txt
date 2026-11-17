@@ -4603,3 +4603,10 @@ TAINT-1 Nachtrag 19:27 (Nutzer, noch vor /reload nach dem Lauf 19:08): zweiter F
 CharacterFrame:774 -> HideStatusBarText -> UpdateTextString. Bestätigt: das Verderben bleibt bis /reload bestehen und trifft jede Blizzard-
 Statusleiste (auch beim Schliessen des Charakterfensters). Im Bericht zu TAINT-1 diese beiden Stacks im Nachbau nachstellen (GetCVar
 überschrieben -> TextStatusBar liest statusText-CVars -> verdorben).
+
+==== PRÜFUNG Supervisor 17.11.2026 19:45 – 0.65.330 (TAINT-1) ====
+- addon_check OK (announce-Zip). Code durchsucht: keine Zuweisung an Blizzard-Globale mehr (verbleibend nur eigene/GoldSentinel-Namen:
+  AHSentinel, AHSentinelMerge, GoldSentinel* der gemeinsamen Dateien). T899 mit issecurevariable und Vergleich zum Start, Gegenprobe 0.65.329
+  11 Schreibzugriffe. Umsetzung angenommen; im Spiel zu bestätigen (nächster Lauf: T899 OK, keine TextStatusBar-Meldung).
+- Fremde Addon-Schnittstellen (ProfessionSentinelAPI/RaidMasterAPI) nicht mehr ersetzt – richtig.
+- Weiter mit den Punkten 1–10 des Befunds 19:08 (HOCH zuerst). Upload des Laufs 19:08 liegt in goldsentinel-daten (Upload 19:38).
