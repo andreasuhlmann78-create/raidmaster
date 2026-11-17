@@ -1033,3 +1033,12 @@ Nachtrag 20:55: leistung.md Abschnitt 6 "Bewährte Bausteine" (ThreatSentinel/Bu
 ==== HINWEIS 17.11.2026 21:00 – GoldSentinelTakt Version 1 (Entscheid des Nutzers 20:42) ====
 auftraege/hinweis-goldsentineltakt-2026-11-17.txt lesen: gemeinsamer Takt gegen Ruckeln (shared/GoldSentinelTakt.lua, unverändert kopieren).
 Pflicht für neue Arbeit in Portionen; Summary-Zeile in den Bericht. LevelPilot (T151/T261) und ProfessionSentinel (T139/T140) zuerst.
+
+==== PRÜFUNG Supervisor 17.11.2026 21:30 – 3.12.90/3.12.91 (Ingametest-Punkte) und Plan GoldSentinelTakt 3.12.92 ====
+- addon_check OK (3.12.91). Bericht 2047: T151 mass einen falschen Weg (Kartenecken 0,45 statt 45) – Prüfungsfehler belegt; Netz mit
+  16 071 inneren Punkten -> Ketten. Nachbau mit PC-Netz, Eichung 1,43/1,59. Gut.
+- ABER: auch der richtige Weg liegt im Nachbau bei 17 ms Median / 95 ms Höchstwert, im Spiel erwartet ~25 / ~150 ms -> über der harten
+  Grenze 40 ms je Bild. Das ist erst mit der Wegsuche in Portionen (Takt) behoben – Plan 3.12.92 Punkt 3 hat darum Vorrang vor Punkt 2.
+- Plan 3.12.92 angenommen (Graph:Init und Wegsuche als Takt-Aufgaben, "lädt"-Zustand, Tests byte-gleich + Gegenprobe). Während "lädt"
+  darf der Guide keinen falschen Weg als richtig zeigen (Luftlinie sichtbar als Luftlinie kennzeichnen).
+- Ingametest 3.12.91 frei (T151 richtig gemessen, T83/T85 Rückbau, T279/T303) – dem Nutzer melde ich es.

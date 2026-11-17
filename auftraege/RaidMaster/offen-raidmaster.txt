@@ -420,3 +420,12 @@ Nachtrag 20:55: leistung.md Abschnitt 6 "Bewährte Bausteine" (ThreatSentinel/Bu
 ==== HINWEIS 17.11.2026 21:00 – GoldSentinelTakt Version 1 (Entscheid des Nutzers 20:42) ====
 auftraege/hinweis-goldsentineltakt-2026-11-17.txt lesen: gemeinsamer Takt gegen Ruckeln (shared/GoldSentinelTakt.lua, unverändert kopieren).
 Pflicht für neue Arbeit in Portionen; Summary-Zeile in den Bericht. LevelPilot (T151/T261) und ProfessionSentinel (T139/T140) zuerst.
+
+==== PRÜFUNG Supervisor 17.11.2026 21:30 – 3.0.33 (Leistung) und Plan GoldSentinelTakt ====
+- addon_check OK. Bericht 2051: Spiel/Nachbau je Fall, Nachbau mit echten Daten (4 Stände), Regel 8 umgesetzt – angenommen.
+  Hinweis: collectgarbage("step") in T116 kann im Spiel den unteilbaren Abschluss eines Zyklus auslösen – Dauer jedes step messen und im
+  Bericht nennen; über 5 ms -> kleinere Schritte oder ohne step messen.
+- ANTWORT zur Frage (Bericht 2103): Der Plan genügt. Eigener Takt bleibt, solange der Ingametest mit 3.0.33 sauber ist (kein Bild über
+  5 ms, keine gescheiterte Abgabe); sonst Umstellung auf GoldSentinelTakt. Neue Arbeit in Portionen (z. B. Aufbau Hauptfenster 38 ms im
+  Spiel) direkt mit GoldSentinelTakt.
+- Ingametest 3.0.33 frei (dem Nutzer melde ich es).

@@ -481,3 +481,13 @@ Nachtrag 20:55: leistung.md Abschnitt 6 "Bewährte Bausteine" (ThreatSentinel/Bu
 ==== HINWEIS 17.11.2026 21:00 – GoldSentinelTakt Version 1 (Entscheid des Nutzers 20:42) ====
 auftraege/hinweis-goldsentineltakt-2026-11-17.txt lesen: gemeinsamer Takt gegen Ruckeln (shared/GoldSentinelTakt.lua, unverändert kopieren).
 Pflicht für neue Arbeit in Portionen; Summary-Zeile in den Bericht. LevelPilot (T151/T261) und ProfessionSentinel (T139/T140) zuerst.
+
+==== PRÜFUNG Supervisor 17.11.2026 21:30 – 0.9.54 (Ingametest 19:27, Einwand T82, GoldSentinelTakt) ====
+- addon_check OK (announce-Zip), GoldSentinelTakt.lua byte-gleich (Regel exact). Bericht 2110 gelesen. Zahl nachgerechnet:
+  12704 + 1299 + 36 + 4 + 279 = 14322 – stimmt.
+- Sehr gut: Roster:Inactive war quadratisch (Spieler betroffen, grosse Gilden) – 93,9 -> < 1 ms, Ergebnis gleich (30 Zufallsrunden).
+  Schrift-Faktor 1,12 am Spiel geeicht + Sicherheitsabstand 1,3. Einwand T82 umgesetzt mit Gegenprobe; Beleg 18:49 = AHSentinel AHAP1.
+  Namen aus Berichten entfernt (U.Scrub). Speicher getrennt (Addon / alle).
+- Erster Übernehmer von GoldSentinelTakt: MESSAUFTRAG gilt (Zeile "Takt: …" im nächsten Ingametest, "Abgabe nicht möglich" 0).
+- Offen bis zum Ingametest: T188/T198 (44/43 ms im Spiel, Nachbau < 2 ms) mit Teilzeiten; Ziel ≤ 5 ms im Spiel.
+- Ingametest 0.9.54 frei (dem Nutzer melde ich es). CurseForge morgen 18:00 bleibt 0.9.52.
