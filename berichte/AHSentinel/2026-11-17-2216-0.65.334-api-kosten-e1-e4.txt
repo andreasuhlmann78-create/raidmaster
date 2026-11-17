@@ -1,0 +1,40 @@
+AHSentinel 0.65.334 – BEFUND HOCH 21:45 API-Kosten für andere Addons (E1–E4) – umgesetzt, zur Prüfung
+
+Messung: Nachbau mit den ECHTEN Daten des Uploads 19:38 (DESKTOP, 7232 Items, ~28 000 Buchungen; nur lokal, Lua 5.1), jede API-Funktion
+mit 201 Items (jedes ~36. Item), Zeit je Aufruf (os.clock) und angelegte KB je Aufruf (Speicherbereinigung während der Messung aus).
+Spielwerte stammen aus dem Bericht ProfessionSentinel 21:25 (Nachbau PS mit echtem AHSentinel 0.65.332) – im Spiel selbst noch nicht
+gemessen: "Verdacht, im Spiel zu bestätigen". Gegenprobe = 0.65.333 mit denselben Daten.
+
+E1 GoldPerHour · PS 75–93 ms, im Lauf bis 489 ms · Nachbau 0.65.333: Median 99 ms, max 172 ms, 6127 KB je Aufruf · Ursache belegt:
+   Activity:Report("30") über die ganze Buchhaltung bei JEDEM Aufruf · Behebung: Bericht gemerkt, bis eine Buchung dazukommt/sich ändert
+   (Liste, Länge, letzter Eintrag) oder höchstens 60 s (die gemessene Spielzeit läuft weiter); neuer 3. Wert = Stand-Zeit (time()) ·
+   Nachbau danach: erster Aufruf 101 ms (einmal je Stand), danach Median 0,00 ms, im Schnitt 31 KB je Aufruf (= der erste / 201).
+E2 FindDeals · PS ~150 ms am Stück · Nachbau D:FindDeals am Stück 18–23 ms (in diesen Daten 0 Treffer) · Behebung: neue API
+   DisenchantDeals() -> fertige Liste der letzten Rechnung + Stand-Zeit; gerechnet als Hintergrund-Aufgabe "de:deals" in Portionen
+   (FindDeals gibt schon je Item ab), nach jedem Scan (wenn schon einmal gefragt) und auf Anfrage, wenn älter als 300 s; vor der ersten
+   Rechnung nil (Rechnung angestossen). ProfessionSentinel muss dafür auf DisenchantDeals umstellen (direkter Aufruf bleibt möglich).
+E3 erster NetSale/BestWay · PS 61–65 ms (Item 279941) · Nachbau direkt nach dem Laden: erster API.NetSale(279941) 43,6 ms / 2882 KB,
+   zweiter 1,1 ms · Ursache belegt (Stichproben-Profil): Learn:MarketFactor -> BuildFactors über alle gemessenen Items (MeasuredRate +
+   GetLiquidity je Item) AM STÜCK, weil die Faktoren noch nicht da waren – obwohl "learn:factor" beim Start schon vorne in der Reihe steht
+   · Behebung: solange "learn:factor" läuft und noch nie gerechnet wurde, antwortet MarketFactor ohne Faktor (wie eine Gruppe ohne
+   Messung) statt am Stück zu rechnen; sobald die Aufgabe fertig ist, rechnen alle Zwischenspeicher neu (A.waysVer). In der Testroutine
+   unverändert (Prüfungen mit eigenen Daten rechnen am Stück) · Nachbau danach: erster Aufruf 2,1 ms / 86 KB.
+   Folge für den Spieler: in den ersten Sekunden nach dem Laden kann ein Wert ohne Markt-Faktor kommen; danach derselbe Wert wie bisher.
+E4 neue Tabellen je Aufruf · PS ~950 MB über einen Testlauf (1,75 Mio. Fragen), Bereinigungen 100–370 ms · Ursachen belegt: (a) die
+   Schutz-Hülle jeder API-Funktion legte je Aufruf { pcall(...) } an; (b) NetSale/MaterialCost gaben je Aufruf neue Tabellen zurück;
+   (c) die Rechnung selbst (RealValue, BestWay, WorthUpTo) legt Zwischen-Tabellen an · Behebung: (a) Hülle ohne Tabelle; (b) NetSale
+   2. Wert und MaterialCost-Liste sind EINE wiederverwendete Tabelle ("nur lesen, gilt bis zum nächsten Aufruf"); (c) NetSale/BestWay/
+   WorthUpTo je Item (und Menge) gemerkt, solange derselbe Datenstand gilt (Preis-Stand, Scan, Buchungen, Markt, Wege, Lernen an/aus),
+   höchstens 30 s; nie während der Testroutine · Nachbau (Wiederholung desselben Items): NetSale 1,84 -> 0,02 KB und 0,03 -> 0,00 ms,
+   BestWay 1,84 -> 0,02 KB, WorthUpTo 0,32 -> 0,02 KB je Aufruf. Erster Aufruf je Item weiterhin ~2–5 KB (Rechnung selbst).
+FRAGE an die Prüf-Sitzung (Vertrag shared/wissen/schnittstelle-ahsentinel-api.md): bitte dort eintragen – NetSale 2. Wert und
+MaterialCost-Liste "nur lesen, gilt bis zum nächsten Aufruf derselben Funktion"; GoldPerHour 3. Wert Stand-Zeit; neu DisenchantDeals()
+-> Liste (nur lesen), Stand-Zeit. Rückgabewerte sonst unverändert (Version 1 bleibt).
+Messregel je Funktion (Nachbau, Median / KB je Aufruf, 0.65.334): Price 0,01 ms/0,40 · NetSale 0,06/4,98 (Wiederholung 0,00/0,02) ·
+BestWay 0,02/1,88 (0,00/0,02) · WorthUpTo 0,05/3,49 (0,00/0,02) · SellSpeed 0,00/0,03 · MarketState 0,01/0,50 · DisenchantValue
+0,00/0,02 · Deposit 0,00/0,27 · Sold 0,11/0,02 · GoldPerHour 0,00/0,0 (erster 101 ms). Alle unter 1 ms je Aufruf ausser dem ersten
+GoldPerHour je Datenstand.
+Prüfung T903 (GoldPerHour einmal je Stand, DisenchantDeals vorhanden), Nachbau s297_api_kosten (Gegenprobe 0.65.333: Bericht 2× für
+2 Aufrufe, DisenchantDeals fehlt).
+
+Tests: Gesamtlauf 371 bestanden, 0 fehlgeschlagen · addon_check OK (Release-Zip und Discord-Zip).
