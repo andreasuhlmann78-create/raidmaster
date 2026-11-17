@@ -1,0 +1,23 @@
+AHSentinel 0.65.309 – NP-MK-1 (c) und (d) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.309 und sofort im Discord.
+
+(d) MarketCore.lua MK:Report: „Ü2 VERFEHLT: Weg x mittlerer Fehler über 15 %“ jetzt auch bei „gesperrt“ (vorher nur „frei“).
+    T887: 39 Fälle, 23 Treffer, Fehler 17 % -> beide Ü2-Zeilen. Gegenprobe alte MarketCore.lua: „Fehler false“ (rot).
+(c) Solange snipe gesperrt ist: Sn:SnipeUnsure() = grauer Hinweis „Verkaufswert unsicher (Treffer x %)“ (10 Sprachen)
+    - Sniper-Zielzeile (Sn:WayNote für Ziele ohne Entzaubern; Entzauber-Ziele weiter nach Weg de),
+    - Treffer-Meldung im Chat (grau angehängt),
+    - Tooltip (Shift): „Realer Wert (nach Gebühren)“ grau mit „≈“ und der Hinweis-Zeile statt der weissen sicheren Zahl.
+    Gekauft wird unverändert nur nach dem Höchstpreis des Spielers (keine Kauf-Regel geändert). T887, T585 (unverändert grün).
+(b) Ursache bei weiter < 60 %: erst messbar, wenn neue snipe-Fälle da sind. Nach dem Neustart (0.65.306) zählt snipe nur noch die
+    Entzauber-Kauftage aus dem Journal und neue Treffer; ich werte den nächsten Testbericht je Preisstufe aus (Vorhersage/Preis danach),
+    sobald mindestens 20 neue Fälle da sind – vorher wäre jede Aussage geraten.
+
+Tests (eigene, keine Freigabe): Gesamtlauf aller Nachbauten auf dem Stand 0.65.309: BESTANDEN 345, FEHLGESCHLAGEN 1 =
+  s43_testroutine_server T126 „Scan-Auswertung in Portionen: längste Portion ≤ 8 ms“ (8,4 ms; die Wiederholung im Gesamtlauf ebenfalls rot).
+  NICHT von 0.65.309 verursacht – gemessen (s43 einzeln, echte Bildzeit): 0.65.306: 10,0 / 8,5 / 7,9 ms (2× rot), 0.65.308: 7,6 / 8,9 ms
+  (1× rot), 0.65.309: 8,2 / 6,2 / 8,0 / 7,3 ms (1× rot). Die Messung schwankt mit der Maschine um die Grenze, wie vorher s216/s207.
+  VORSCHLAG (bitte entscheiden): T126 maschinenunabhängig machen wie s216 (Median aus 3 Läufen bzw. Schritte mit fester Mindestzeit
+  wie s207) – oder Grenze lassen und nur im Spiel messen.
+addon_check: AHSentinel-0.65.309.zip OK. Veröffentlicht: GitHub-Release v0.65.309, Discord announce/ahsentinel__ahsentinel-0.65.309.md.
+Nicht in download/, kein CurseForge.
+Nächster Punkt: TU1 Tooltip und Markt-Reiter je Marktlage (ausser L-AUSREISSER), danach UI-CLEAN1-B Teil 2 (braucht Upload-Daten).
