@@ -193,3 +193,9 @@ Regel: Bei jeder Version, die "testroutine alles" ändert oder einführt, im Cod
 EINSCHLIESSLICH Anzeige-Aktualisierung; (2) keine Arbeit je Zeile, die mit der Zahl der Zeilen wächst (Fenster/Listen nur gedrosselt
 und nur sichtbare Zeilen); (3) Fehler im Fehlerweg (Check "T000", Anzeige) gefangen; (4) Nachbau mit voller Prüfungszahl und offenem
 Fenster misst das längste Bild. Fehlt eines davon: Befund, bevor der Nutzer den Lauf im Spiel startet.
+
+### E-Regel 17.11.2026 22:45 – Schnittstellen-Änderungen beim Abnehmer prüfen (API-TAB-1)
+AHSentinel 0.65.334 gab zum Sparen eine wiederverwendete Rückgabe-Tabelle zurück; ProfessionSentinel behält Antworten roh -> falsche
+Zutaten eines anderen Items. Regel: Ändert ein Addon an einer Schnittstelle (API.lua, Rückgabewerte, Tabellen, Zeitpunkt), prüft die
+Prüf-Sitzung im Code JEDES Abnehmers (grep nach dem Funktionsnamen in allen Addon-Repos), wie er die Rückgabe benutzt (behält er sie?
+ändert er sie? kopiert er?). Rückgabe-Tabellen sind unveränderlich (Vertrag schnittstelle-ahsentinel-api.md). Bedeutungsänderung = Bruch.
