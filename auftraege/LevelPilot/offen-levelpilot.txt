@@ -993,3 +993,34 @@ nur wo nötig und jeder Handpunkt in klaren, nummerierten Schritten (Wo / Schrit
   Globale an -> danach nicht in _G (Gegenprobe 3.12.89: liegt in _G). Dazu wie AHSentinel T899: nach dem Lauf issecurevariable für eine
   Liste wichtiger Blizzard-Namen.
 - Ingametest: Der Nutzer testet 3.12.89 gerade ("/lp testroutine alles", PC – dort lag noch 3.12.30, jetzt neu installiert).
+
+==== INGAMETEST 17.11.2026 19:54 – LevelPilot 3.12.89 "/lp testroutine alles" (PC, Krieger 24; Nutzer-Einfügung 20:12) ====
+OK 274 · FEHLER 16 · übersprungen 9 · im Client 48 · 982 677 ms (16,4 Min.!) · Sandbox OK · Fehlerzähler 0 · echte Aktionen 0.
+Zahl nachgerechnet: 274 + 16 = 290 – stimmt; FEHLER-Liste vollständig (16 Zeilen).
+Hinweis: Auf dem PC lag bis 19:27 noch 3.12.30 (Datenpaket 1.6.1) – erster Lauf mit neuer Version auf diesen echten Daten.
+HOCH:
+1. T151 Graph:Path Orgrimmar -> Wegkreuz: Median 502 ms, Höchstwert 2109 ms (soll < 16 ms). Das ist Ruckeln/Einfrieren für Spieler bei
+   jeder langen Route. Verdacht, zu messen: seit 3.12.88 (Strassennetz entfernt, Wegnetz aus gelaufenen Wegen) ist das Netz auf dem PC
+   gross/unverdichtet (Wege-Daten 1315 Wege, GSWEGE1 95 899 Zeichen) -> Suche ohne Grenze. Belegen mit der PC-Datei (goldsentinel-daten,
+   DESKTOP-NVITMSE), dann: Suche in Portionen (≤ 5 ms je Bild) + Netz verdichten + Zwischenspeicher. Keine Sperre ohne Zeitlimit.
+2. T261 Einloggen: 4348 ms Rechenzeit in den ersten 60 s, längster Aufruf 90 ms (soll < 1000 ms, harte Grenze 40 ms je Bild).
+   Welche Aufrufe? (Vermutlich dieselbe Wegnetz-Arbeit) – belegen, portionieren.
+3. T83/T85 virtuelle Reise: 0 Schritte, und nach dem Abbruch NICHT zurück ("umgeleitet: API.Quests, API.Objectives, API.IsQuestDone,
+   Geo.Player, API.HearthReady"). Sandbox meldet trotzdem OK – die Sandbox prüft die Umleitungen also nicht. Bis /reload arbeitet LevelPilot
+   mit Ersatz-Funktionen = falsche Anzeige für den Spieler. Ursache belegen, Rückbau immer (auch bei 0 Schritten/Fehler), und die
+   Sandbox-Prüfung um "alle Umleitungen zurück" erweitern (Gegenprobe 3.12.89 rot).
+4. T279 T-BL4 Lua "LevelPilotCmdHint:SetPoint(): Wrong object type" – gleicher Fehler der Prüfung wie bei GuildSentinel T285 (dort in 0.9.53
+   behoben: echter unsichtbarer EditBox-Rahmen statt Lua-Tabelle). Übernehmen.
+5. T303 Lua-Fehler TestRoutine.lua:6354 "attempt to index field 'stuck' (a nil value)" – Fehler der Prüfung, beheben, Test mit dem Zustand
+   ohne stuck.
+6. Dauer 16,4 Min. und KEINE Zeile zu Portionen/längstem Bild im Ergebnis (alle anderen Addons zeigen sie). Pflicht nach TR-ALLE:
+   "Portionen: n Bilder, längste x ms (Schritt), Schritte über 16 ms mit Namen". Zeitanteil je Bereich ausweisen.
+MITTEL (Ursache belegen, dann beheben oder Prüfung berichtigen – je Punkt im Bericht):
+7. T295 kalter Klick "Neu planen": längste Portion 17,09 ms (soll < 16) – knapp, im Spiel mit grossem Wegnetz.
+8. T228 Anzeige: 9 fertig, aber nur 2 als "Abgeben" in der Liste – fehlend: 3921, 742, 6541, 428, 1061, 493, 1483. Für Spieler sichtbar:
+   fertige Quests ohne Abgabe-Schritt. Ursache (Abgabe-Ort fehlt seit EULA-Daten-Entfernung?).
+9. T220 Abgabeziel aus dem echten Ort des Questgebers: false. T100 Questlog-Funktionen 1 statt 0 Ziele. T174 keine Weg-Kills bei Stufe 24.
+10. T221 zweiter Versand "nur Neues": false (sendet alles erneut?). T249 gsSync.book nicht in LevelPilotDB gespeichert ("Speicher eines
+    anderen GoldSentinel-Addons"). T293 Kompaktmodus Anhang false. T309 Prüfliste (Text abgeschnitten – vollständig im Bericht).
+    T330 Umlaut-Faltung false.
+Reihenfolge: 1, 2, 3 zuerst (Spieler betroffen), dann 4–6, dann 7–10. Bericht je Punkt mit Gegenprobe. Upload des Laufs kommt nach /reload.
