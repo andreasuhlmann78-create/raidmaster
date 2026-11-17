@@ -1,0 +1,190 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+
+BERICHT NACHPRÜFUNG (geplante Aufgabe) – 17.11.2026 08:32 MEZ
+Geprüft auf origin/main 529fe08b. Nur dieser Entwurf wird committet; nichts in auftraege/**, kein Log, keine stand.json.
+Hinweis: Die Geschichte von main beginnt neu bei 2d4d7b32 (17.11. 02:22). Ältere Stände (Vorversionen, d76d6c3 aus
+nachpruefung-stand.json) liegen nur noch in alten Zweigen (git log --all); die Vorversionen wurden von dort geholt.
+
+=====================================================================================================================
+0. ÜBERBLICK
+=====================================================================================================================
+Kein FEHLER der Addon-Prüfung. EIN Befund HOCH (Markt-Kern), dazu 3 MITTEL, 1 NIEDRIG.
+- NP-MK-1 HOCH (AHSentinel, Überwachung Ü2): Testbericht 16.11. (0.65.278): Weg "snipe" 39 Fälle, Treffer 59 % (Grenze 60 %),
+  mittlerer Fehler 17 % (Grenze 15 %). Im Entwurf 16.11. 20:39 übersehen ("kein MARKT-KERN") – hiermit nachgeholt.
+- NP-MK-2 MITTEL (AHSentinel): Testbericht-Felder über 300 Zeichen abgeschnitten (MARKT-KERN endet bei "Weg craft…") ->
+  craft, vendor und MA1 sind im Bericht nicht prüfbar.
+- NP-TS16-1 MITTEL (ThreatSentinel 2.5.16): "Portionen höchstens 5 ms" ist nicht eingehalten und nicht gemessen – die Routine
+  gibt erst ab, WENN 5 ms verbraucht sind.
+- NP-BS50-1 MITTEL (BuffSentinel 0.9.50): 6 Prüflisten-Punkte verlangen "in die Bank legen", aber "Wo:" nennt die Bank nicht.
+- NP-RM30-1 NIEDRIG (RaidMaster 3.0.30): Portionen bis 15,3 ms (Nachbau) – Frage des Projekts dazu noch ohne Antwort.
+Schon vom Supervisor geprüft, hier NUR erwähnt: BuffSentinel 0.9.48–0.9.50, RaidMaster 3.0.30, ThreatSentinel 2.5.16 (08:25,
+"nach Bericht"), GuildSentinel 0.9.51 (07:56), AHSentinel 0.65.267–0.65.300 (16.11. bis 23:10) und 0.65.301 (08:30, SANDBOX-2),
+LevelPilot bis 3.12.86 (04:37). Die Befunde unten kommen ZUSÄTZLICH aus dem Code bzw. Nachbau.
+Neu und vom Supervisor noch nicht geprüft: Uploader 2.3.14 (hier geprüft: keine Befunde), ProfessionSentinel 0.9.63/0.9.64
+(hier: addon_check + Offline-Tests, keine Befunde), LevelPilot 3.12.87 und AHSentinel 0.65.302 (nur addon_check bzw. noch gar
+nicht – überlasse ich dem Supervisor, der sie laufend prüft).
+Unverändert: Bot 1.5.186.
+NICHT ÜBERTRAGEN aus früheren Entwürfen (in keiner auftraege/-Datei zu finden): NP-AHS281-1, NP-AHS278-1, NP-LP76-1, NP-SYS-1
+(16.11. 20:39) und NP-LP70-1 (16.11. 17:22). NP-AHS281-1 und NP-SYS-1 sind heute noch belegbar (Abschnitt 6).
+
+=====================================================================================================================
+1. AHSENTINEL – MARKT-KERN (Teil 2b/4: Testberichte gegen Ü2)
+=====================================================================================================================
+Testberichte seit dem letzten Stand (AHSentinel, Feld markt_kern), Zeiten UTC:
+  15.11. 10:58–12:37 0.65.182–0.65.188  snipe 4 Fälle · 75 % · Fehler 26 % · lernt      (unter 20 Fällen: Grenzen gelten nicht)
+  16.11. 07:19/07:22 0.65.260           snipe 13 · 85 % · 23 % · lernt; de 6 · 100 % · 10 % · lernt
+  16.11. 18:26/18:39 0.65.278           snipe 39 · 59 % · 17 % · GESPERRT, Zeile "Ü2 VERFEHLT: Weg snipe Trefferquote unter 60 %";
+                                        de 9 bzw. 10 · 100 % · 7 % · lernt; flip 0 · lernt; craft/vendor/MA1: abgeschnitten (NP-MK-2)
+  Lua-Fehler: Testberichte 0.65.278 mit FEHLER 4 bzw. 1 (Prüfungen, vom Supervisor im Ingametest 19:46 behandelt).
+Grenzwerte Ü2: Trefferquote je freigegebenem Weg ≥ 60 % – snipe 59 % (23 von 39) VERFEHLT; mittlerer Fehler ≤ 15 % – snipe 17 %
+VERFEHLT (die eigene Ü2-Zeile für den Fehler kommt nur bei "frei", MarketCore.lua:740 – bei "gesperrt" fehlt sie);
+MA1-Fehlerquote ≤ 20 % – nicht prüfbar (abgeschnitten); 0 Lua-Fehler im Kern – keine Meldung.
+
+NP-MK-1 HOCH – Weg "snipe" verfehlt Ü2 (59 % / 17 %). Belegt im Code (ahanalyzerpro origin/main, Version 0.65.301/0.65.302 gleich):
+  - Die Sperre selbst stimmt: MarketCore.lua:209–221 MK:WayState -> ab FREE_MIN 20 Fällen und Quote < FREE_PCT 0,60 "gesperrt",
+    db.locked, Diag "WEG GESPERRT".
+  - Aber die Sperre hat für "snipe" KEINE sichtbare Wirkung: "snipe" steht weder in VIEW_WAY (MarketCore.lua:225) noch in TODAY_WAY
+    (:316); Sn:WayNote prüft nur "de" (Sniper.lua:2418–2425). Gemessen wird beim Sniper-Treffer die Vorhersage A:RealValue
+    (Sniper.lua:1835–1841) – dieselbe Zahl, die der Tooltip als Verkaufswert zeigt (Tooltip.lua:316, 421, 588, 683). Diese Zahl
+    wird also weiter angezeigt, obwohl der Weg den Grenzwert verfehlt (Teil 2b: "verfehlt, aber noch angezeigt" = HOCH).
+  - VERDACHT, ZU MESSEN (Ursache): Sprung von 13 Fällen/85 % (16.11. 07:19) auf 39 Fälle/59 % (16.11. 18:26) an EINEM Tag mit
+    Ingametest des Sniper (SN-TR-2, Testkäufe). Die heutige SANDBOX-2-Nachfrage des Supervisors (Test-Vollscans gingen mit offenem
+    AH an den echten gsMarkt) legt nahe, dass auch MK-Fälle aus Testläufen oder Test-Zielen (Höchstpreis absichtlich hoch/niedrig)
+    in die echte Zählung kamen. Das wäre dann ein Messfehler, kein Fehler der Vorhersage.
+  Auftrag (Vorschlag):
+  (a) Messauftrag: die 39 snipe-Fälle aufschlüsseln (Datum, Item-ID, Kaufpreis, Vorhersage, Preis danach, Treffer ja/nein, ob
+      während einer Testroutine/eines Test-Ziels notiert) – nur Zahlen/IDs, keine Namen. Gehören Fälle zu Testläufen: entfernen
+      und künftig in der Sandbox nie notieren (Test: Testroutine mit offenem AH -> MK-Zähler unverändert, Gegenprobe rot).
+  (b) Bleibt die Quote ohne Testfälle unter 60 % bzw. der Fehler über 15 %: Ursache im Verkaufswert suchen (Messung je Preisstufe:
+      Vorhersage/Preis danach) und RealValue für frisch gesnipte Items verbessern.
+  (c) Solange "snipe" gesperrt ist: am Treffer (Sniper-Zeile/Chat) und im Tooltip-Verkaufswert für dieses Item einen grauen Hinweis
+      "Verkaufswert unsicher (Treffer x %)" statt der Zahl als sichere Angabe (Grundsatz grau statt erfundener Zahl); gekauft wird
+      weiter nur nach dem Höchstpreis des Spielers (keine Gold-Wirkung).
+  (d) Ü2-Zeile "mittlerer Fehler über 15 %" auch bei "gesperrt" ausgeben (MarketCore.lua:740), sonst fehlt der zweite Verstoss im Bericht.
+  Test: T-Ü mit 39 Fällen 23 Treffer -> beide Ü2-Zeilen; Testfall-Fälle werden nicht gezählt.
+
+NP-MK-2 MITTEL – Testbericht-Felder abgeschnitten. shared/GoldSentinelTest.lua:48 T.MAX_TEXT = 300, :83 kürzt mit "…". Betroffen
+  im Bericht 16.11. 18:39: markt_kern (287 Zeichen, endet "Weg craft…"), markt_kern_wege, entzauber_stand, lernen_grenzen,
+  prognose_m2, prognose_p_diagnose, vollscan_m1c. Damit sind craft, vendor und die MA1-Fehlerquote (Ü2) nicht prüfbar
+  (Direktive Perfektion: "nichts abgeschnitten").
+  Lösung (AHSentinel, ohne die gemeinsame Datei zu ändern): je Weg ein eigenes Feld (markt_kern_flip, _snipe, _de, _craft, _vendor,
+  _ma1, je ≤ 280 Zeichen), ebenso die anderen langen Felder aufteilen. Test: kein Feld im Testbericht endet auf "…" (T-Ü).
+  (Alternative für den Supervisor: Grenze im gemeinsamen Baustein erhöhen – betrifft alle Addons und den Uploader.)
+
+=====================================================================================================================
+2. THREATSENTINEL 2.5.16 (gegen 2.5.15) – Bericht 2026-11-17-0756 gelesen, Supervisor-Prüfung 08:25 nur erwähnt
+=====================================================================================================================
+Selbst ausgeführt: addon_check "OK", keine Warnung. Gemeinsame Dateien (Game, Test, Sync, Dev v2, Markt, Pruefliste) byte-gleich mit
+shared/. CHANGELOG EN/DE vorhanden. Offline-Routine (berichte/ThreatSentinel/offline/routine_offline.py, "alles"): Forever OK 262 ·
+FEHLER 6 (bekannte Nachbildungs-Fälle) · "ausserhalb der Nachbildungs-Liste: 0"; Era ebenso 0 ausserhalb – wie im Bericht.
+Texte der Prüfliste gegen Locales.lua: "Tank-Sync" (:710), "Auch als Heiler: wer hat Aggro" (:792), "Nur im Kampf" (:816) stimmen.
+
+NP-TS16-1 MITTEL – Portionen werden nicht auf 5 ms begrenzt und nicht gemessen. TestRoutine.lua:287–295 MaybeYield gibt erst ab,
+  wenn Ms() − frameStart ≥ R.FRAME_MS (5 ms) – also ist JEDE Portion, die wegen des Budgets endet, länger als 5 ms (5 ms plus die
+  Dauer der letzten Prüfung; in WithAPI/Szenen gar nicht, R.noYield). Gemessen wird nur TU4-G2 (Zufallsfälle). Die Zusammenfassung
+  schreibt trotzdem "(höchstens 5 ms je Bild)" – ungemessene Behauptung (Auftrag TR-ALLE A: "Portionen ≤ 5 ms je Bild").
+  Lösung: Budget kleiner wählen (wie BuffSentinel 1,5 ms, Rest bleibt für die nächste Prüfung), die Dauer jeder Portion messen
+  (beim Abgeben und am Bereichsende) und in der Zusammenfassung "längste Portion x ms (Prüfung), über 5 ms: n" ausgeben statt
+  der festen Angabe; Prüfungen, die allein länger als 5 ms dauern, nennen. Test T-TR1 erweitern: Nachbau mit einer 4-ms-Prüfung
+  nach 3 ms -> Abgabe VOR dieser Prüfung; Zusammenfassung enthält die gemessene längste Portion.
+Hinweise (NIEDRIG, Text der Prüfliste nach TR-ALLE B): Punkt 13 METER-KAMPF sagt "Mit der Option 'Nur im Kampf' verschwindet es",
+  ohne Schritt, wo die Option ist (/ts einstellungen, Reiter …). Punkt 11 TSMESS sagt nicht, woher TSMess.zip kommt. Punkt 10
+  verlangt "bitte abschreiben" (Grund nachvollziehbar: Spieltext kann Namen enthalten) – so lassen, aber sagen, wohin.
+IM CLIENT PRÜFEN: /ts testroutine alles – Spiel bleibt flüssig; mit NP-TS16-1 die längste Portion ablesen.
+
+=====================================================================================================================
+3. BUFFSENTINEL 0.9.48–0.9.50 (gegen 0.9.47) – Bericht 2026-11-17-0811 gelesen, Supervisor-Prüfung 08:25 nur erwähnt
+=====================================================================================================================
+Selbst ausgeführt: addon_check 0.9.50 "OK", keine Warnung (mit lupa). Gemeinsame Dateien byte-gleich (inkl. Dev v2). CHANGELOG EN/DE.
+Offline-Routine run_offline.sh 0.9.50: forever/era/tbc/retail × deDE/enUS = 8 × PASS, 228 Prüfungen, TU-FEHLER 0, 9 bekannte
+Nachbau-Abweichungen (0 unerwartet). Code gelesen: SelfTest.lua:116–150 Slice/Sliced (Budget 1,5 ms, Testwerte nur während der
+Prüfung, vor jedem Bildwechsel zurück), Diag.lua:230–237 PLAYER_LOGOUT stellt zuerst die echte BuffSentinelDB zurück, Core.lua
+pendingApplyAll nach dem Kampf, Befehle "testroutine alles/stopp". Texte TR_* in enUS und deDE (BuffSentinel hat nur diese zwei).
+Prüfliste RESTOCK nimmt Reiter- und Haken-Namen aus L.OPTIONS / L.RESTOCK_OPTION – stimmt mit dem Spiel überein.
+
+NP-BS50-1 MITTEL – "Wo:" passt nicht zu den Schritten (TR-ALLE B1 "genauer Ort"; der Nutzer hat genau das bemängelt).
+  Pruefliste.lua: AMMO ("Wo: WoW Forever, Jäger …" – Schritt 2 "Lege Pfeile … in die Bank"), PETFOOD ("Wo: irgendwo" – "Futter in
+  die Bank legen"), HEXER ("Wo: irgendwo" – "Seelensplitter in die Bank legen"), TOTEM ("Wo: irgendwo" – "lege ein Totem … in die
+  Bank"), REAG ("Wo: in einer Gruppe" – "Lege das Reagenz in die Bank"), RESTOCK ("Wo: bei einem Händler" – Schritt 3 "Mach die
+  Ware knapp (wie bei AMMO oder REAG)", das braucht zuerst die Bank und bei REAG eine Gruppe).
+  Lösung: "Wo:" jeweils "bei einer Bank (Bankfach offen) in einer Hauptstadt" (+ Gruppe bei REAG) und als Schritt 1 "Sprich den
+  Bankier an"; bei RESTOCK zuerst Bank, dann Händler, in nummerierten Schritten; am Schluss "Ware wieder aus der Bank holen".
+  Test T-PL: jeder Punkt, dessen Schritte "Bank" enthalten, nennt die Bank in "Wo:".
+Hinweis (Verdacht, zu messen, kein Befund): Portionen im Nachbau bis 6,7 ms (0–5 von ~280 über 5 ms) – die Zusammenfassung zeigt
+  die Zahl im Spiel selbst. Platz im Detailfeld (9–10 Zeilen bei ~11 möglichen) im Spiel ansehen.
+
+=====================================================================================================================
+4. RAIDMASTER 3.0.30 und UPLOADER 2.3.14
+=====================================================================================================================
+RaidMaster 3.0.30 (Bericht 2026-11-17-0755 gelesen; Supervisor 08:25 nur erwähnt): addon_check "OK", keine Warnung. Gemeinsame
+Dateien byte-gleich. Kein CHANGELOG.md im Zip (wie bisher; Änderungen in LIESMICH/README_EN Abschnitt 3.0.30 DE/EN).
+Nachbau berichte/RaidMaster/offline/run_routine.lua mit dem Zip: Forever "131 von 131 bestanden, 27 nicht prüfbar", Era "135 von
+135, 23 nicht prüfbar", je "ALLE OK" (Sandbox OK, keine echte Aktion, routineGuard gelöscht). RM-API-RAIDS (Signup.lua:944–982) und
+RM-DIAG-1 (Diag.lua CountSource) nach Bericht; T187/T188/T189 grün im Nachbau.
+NP-RM30-1 NIEDRIG – Portionen über 5 ms. Hier gemessen: "PORTIONEN: 245 Bilder, längste 15.3 ms (bei T10); … Bilder über 5 ms: 4
+  Stellen (T10 15 ms, T12 10 ms, T114 7 ms, T39 6 ms)" (Era: längste 9,2 ms). Das Projekt sagt offen, dass T10/T12 der erste Aufbau
+  des Hauptfensters bzw. einer Seite sind, und fragt, ob auch das unter 5 ms soll. Die Supervisor-Prüfung 08:25 beantwortet die
+  Frage nicht. Vorschlag: nicht das Fenster umbauen, sondern T10/T12 im Lauf "alles" als "einzeln gemessen" führen (wie BuffSentinel
+  T110) bzw. Fenster vor dem Lauf einmal aufbauen; Entscheid beim Supervisor.
+
+Uploader 2.3.14 (Bericht 2026-11-17-0801 gelesen; vom Supervisor noch nicht geprüft):
+- python3 -I -m unittest discover -s tests (im Ordner RaidMasterUploader): 110 Tests OK (= 20 + 53 + 23 + 14 wie im Bericht).
+- svfilter.py:165–181 _key_id/_add: Schlüssel wie in Lua verglichen (("n", 1) == ("n", 1.0); true ≠ 1; "1" ≠ 1); Fehlertext ohne
+  den Schlüssel; MAX_DEPTH 200 (:183). daten.py:457 fängt jede Ausnahme, Log nur mit der Art.
+- download/RaidMasterUploader.zip: 13 Dateien, VERSION 2.3.14, svfilter.py und daten.py identisch mit dem Repo, ohne tests/ und
+  ohne *config.json.
+Ergebnis: NP-UP13-1 umgesetzt wie verlangt, keine Befunde.
+
+=====================================================================================================================
+5. PROFESSIONSENTINEL 0.9.63/0.9.64, LEVELPILOT 3.12.87, AHSENTINEL 0.65.301/0.65.302 (nur kurz)
+=====================================================================================================================
+- ProfessionSentinel 0.9.64 (Bericht 2026-11-17-0814 gelesen): addon_check "OK". tests/run_offline.py (Repo f8b4e37 = 0.9.64):
+  forever 244 von 274 · 0 Fehler, era 226 von 274 · 0 Fehler, retail 224 von 274 · 0 Fehler. T288 (TR-ALLE) vorhanden.
+  PS-PL1 laut Bericht mit Zahlen (Forever Lehrer 232 -> 262, NPCs ohne Koordinaten 116 -> 47) – Nachrechnen der Pipeline überlasse
+  ich dem Supervisor (Rezeptdaten). Keine Befunde von mir.
+- LevelPilot 3.12.87 und AHSentinel 0.65.301: addon_check "OK" (aus announce/). AHSentinel 0.65.302 kam während dieses Laufs.
+  Inhalt prüft der Supervisor (0.65.301 schon 08:30).
+
+=====================================================================================================================
+6. NOCH OFFEN AUS FRÜHEREN ENTWÜRFEN (nicht übertragen – bitte entscheiden)
+=====================================================================================================================
+- NP-AHS281-1 MITTEL: heute noch im Code (ahanalyzerpro origin/main): Books.lua:680–690 BK:OwnCancelBooked misst das 6-Std.-Fenster
+  ab Now() beim Lesen der Post (:704), nicht ab dem Eintreffen -> doppelte "abbruch-fenster"-Buchung. Text im Entwurf 16.11. 20:39.
+- NP-AHS278-1 NIEDRIG (Verdacht, zu messen), NP-LP76-1 MITTEL, NP-LP70-1 – heute NICHT neu belegt (LevelPilot seither stark
+  umgebaut, EULA-Austausch); Text in den Entwürfen 16.11. 17:22 und 20:39.
+- NP-SYS-1 NIEDRIG (Prüfsystem): weiter belegt – die Läufe c0dd0436 (06:07 UTC) und 6c1dc1ad (07:27 UTC) ändern in status.md nur die
+  "neueste Datei" der Diagnosen hin und her (z. B. AHSentinel 0.65.99 <-> 0.65.97, BuffSentinel 0.9.21 -> 0.9.18 -> 0.9.12), ohne
+  neuen Bericht.
+
+=====================================================================================================================
+7. VORSCHLAG FÜR DEN SUPERVISOR (zum Übertragen)
+=====================================================================================================================
+offen-ahsentinel.txt – Block anhängen:
+  ==== NACHPRÜFUNG 17.11.2026 08:32 – MARKT-KERN (Testbericht 0.65.278) ====
+  NP-MK-1 HOCH: Weg snipe 39 Fälle, 59 % (< 60 %), Fehler 17 % (> 15 %). Sperre greift (MarketCore.lua:209–221), wirkt aber für snipe
+  nirgends (VIEW_WAY :225, TODAY_WAY :316, Sn:WayNote nur "de" Sniper.lua:2418); RealValue wird weiter als Verkaufswert gezeigt.
+  Auftrag (a) Fälle aufschlüsseln, Testfälle (SANDBOX-2) entfernen und nie mehr zählen, (b) sonst Ursache im Verkaufswert messen,
+  (c) grauer Hinweis "Verkaufswert unsicher", solange gesperrt, (d) Ü2-Fehlerzeile auch bei gesperrt (:740). Test T-Ü.
+  NP-MK-2 MITTEL: Testbericht-Felder > 300 Zeichen abgeschnitten (GoldSentinelTest MAX_TEXT) – markt_kern je Weg in eigene Felder.
+  Reihenfolge: nach der laufenden TR-ALLE-Reihe (0.65.302–0.65.305), (a) zusammen mit SANDBOX-2.
+offen-threatsentinel.txt – NP-TS16-1 MITTEL (Text Abschnitt 2) + Hinweise NIEDRIG zur Prüfliste (Punkte 10, 11, 13).
+offen-buffsentinel.txt – NP-BS50-1 MITTEL (Text Abschnitt 3).
+offen-raidmaster.txt – NP-RM30-1 NIEDRIG (Antwort auf die Portionen-Frage); Uploader 2.3.14: "NP-UP13-1 umgesetzt, keine Befunde".
+offen-professionsentinel.txt – 0.9.64: addon_check OK, Offline 0 Fehler (Rest: Supervisor).
+addon-check/nachpruefung-stand.json (Vorschlag): AHSentinel 0.65.301, BuffSentinel 0.9.50, GuildSentinel 0.9.51, LevelPilot 3.12.87,
+  ProfessionSentinel 0.9.64, RaidMaster 3.0.30, ThreatSentinel 2.5.16, RaidMasterBot 1.5.186, RaidMasterUploader 2.3.14,
+  testberichte_bis 6c1dc1ad (d76d6c3 ist nach dem Neubeginn der Geschichte nicht mehr auf main).
+auftraege/nachrichten-log.txt (Vorschlag): "2026-11-17 08:32 Nachprüfung-Entwurf: AHS NP-MK-1 HOCH/NP-MK-2, TS NP-TS16-1, BS NP-BS50-1,
+  RM NP-RM30-1, Uploader 2.3.14 OK (Supervisor)".
+
+NACHRICHTEN ZUM EINFÜGEN (Entwurf, an die Projekt-Sitzungen erst nach Übertragung):
+- AN DIE AHSENTINEL-SITZUNG: "Erst laufende Arbeit fertig machen. git pull --rebase und auftraege/AHSentinel/offen-ahsentinel.txt
+  lesen: NP-MK-1 HOCH (Weg snipe 59 %/17 %: Fälle aufschlüsseln, Testfälle entfernen – zusammen mit SANDBOX-2 –, grauer Hinweis
+  solange gesperrt, Ü2-Fehlerzeile auch bei gesperrt) und NP-MK-2 MITTEL (MARKT-KERN je Weg in eigene Felder ≤ 280 Zeichen). Nächste
+  Version, komplette Dateien, alle Locale-Dateien, CHANGELOG EN/DE, addon_check ohne FEHLER, Bericht in berichte/AHSentinel/.
+  Ist ein Befund falsch, bitte begründet zurückmelden."
+- AN DIE THREATSENTINEL-SITZUNG: "… NP-TS16-1 MITTEL: kleineres Budget, Portionen messen, 'längste Portion x ms' statt fester
+  Angabe; Prüfliste Punkte 10/11/13 ergänzen …" (Abschluss wie oben, berichte/ThreatSentinel/).
+- AN DIE BUFFSENTINEL-SITZUNG: "… NP-BS50-1 MITTEL: 'Wo:' nennt die Bank bei AMMO, PETFOOD, HEXER, TOTEM, REAG, RESTOCK; RESTOCK
+  Bank zuerst, dann Händler …" (Abschluss wie oben, berichte/BuffSentinel/).
+- AN DIE RAIDMASTER-SITZUNG: nur nach Entscheid des Supervisors zu NP-RM30-1.
