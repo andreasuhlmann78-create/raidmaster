@@ -11,6 +11,17 @@ INSTALLATION
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
 
+NEU IN 3.0.30 – Raid-Termine für andere Addons, Testroutine "alles" (Entwickler)
+- Neu für andere Addons: RaidMasterAPI.UpcomingRaids() liefert die kommenden Raid-Termine aus der Discord-Anmeldung
+  (nur Startzeit und Titel, höchstens 20). AHSentinel kann damit z. B. vor einem Raid an Tränke erinnern.
+- Diagnose: zählt jetzt, aus welchem Addon Fehlermeldungen kommen (nur Anzahl je Addon, kein Text). Steht im
+  Diagnose-Fenster und im Testbericht ("FEHLERQUELLEN").
+- Nur Entwickler: "/rm testroutine alles" führt alle automatischen Prüfungen nacheinander aus – in kleinen Portionen,
+  ohne Ruckeln, mit Fortschritt ("3 von 12 …") und am Ende einer Zusammenfassung ("x von y bestanden …").
+  "/rm testroutine stop" bricht ab; auch ein /reload mitten im Lauf hinterlässt alles sauber.
+- Nur Entwickler: Die Prüfliste (/rm prüfliste) beschreibt jeden Handgriff genau: wo, Schritt für Schritt, was du
+  siehst, was es kostet.
+
 NEU IN 3.0.29 – Diagnose bremst das Spiel nicht mehr
 - Behoben: "Diag.lua: insecure scripts exceeded execution limit for addon RaidMaster" jedes Bild. War das Diagnose-Fenster
   offen, baute RaidMaster es bei JEDEM Fehler neu auf – auch bei Fehlern anderer Addons und bei der Meldung über die

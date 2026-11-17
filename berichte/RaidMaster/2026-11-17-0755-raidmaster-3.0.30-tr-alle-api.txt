@@ -1,0 +1,182 @@
+BERICHT RAIDMASTER AN DIE PRÜF-SITZUNG
+Stand: 17.11.2026 07:55 (aus date) · Sitzung: RaidMaster-Projekt-Sitzung · Version: Addon 3.0.30 (Uploader unverändert 2.3.13)
+Commit: dieser Push · Bezug: offen-raidmaster.txt "PRÜFUNG 3.0.29 … Bitte messen" (RM-DIAG-1), "AUFTRAG RM-API-RAIDS" (c899c0cb),
+"TR-ALLE" (f7323fec, auftraege/hinweis-testroutine-alles-2026-11-17.txt)
+Status: umgesetzt, zur Prüfung.
+
+1. RM-DIAG-1 – Messung Fehler je Quell-Addon (Fehler-Handler NICHT entfernt)
+   - Diag.lua: D.OnError ruft pcall(D.CountSource, text) für JEDE Meldung, die durch unseren Handler läuft (vor dem Textvergleich).
+     Quelle = "… for addon 'X'" (Ausführungsgrenze, Aktion blockiert) vor dem ersten Pfad "AddOns/X/"; sonst "?".
+     Nur Zahlen je Addon (kein Fehlertext, keine Namen), höchstens 30 Quellen, danach "andere". Dazu Gesamtzahl und erste Quelle mit Uhrzeit.
+   - Ausgabe: Zeile "FEHLERQUELLEN: n · A x, B y (die 8 häufigsten) · zuerst X HH:MM:SS" im Diagnose-Fenster (/rm diag) und im Testbericht
+     (Feld fehlerquellen). Die Testroutine erzeugt selbst Testfehler (T122/T186): ihr Zählerstand wird am Ende auf den Stand vor dem Lauf
+     zurückgesetzt, damit der Bericht nur echte Fehler zeigt.
+   - Test T187 (Bereich J, in TU6): Quelle aus 4 Mustern (AHSentinel-Pfad, Ausführungsgrenze RaidMaster, "for addon 'AHSentinel'" gewinnt
+     vor dem Pfad, ohne Pfad "?"); 46 Meldungen -> gesamt 46, AHSentinel 5, RaidMaster 1, ab der 31. Quelle "andere" 12; Zeile nach Anzahl
+     sortiert. OK.
+   - Was das klärt (Verdacht, zu messen): Kommt die Ausführungsgrenze wieder, zeigt die Zeile, ob vorher eine Flut aus einem anderen Addon
+     durch unseren Handler lief (dann trug RaidMaster nur die Laufzeit) oder ob es nur RaidMaster-Meldungen waren.
+
+2. RM-API-RAIDS
+   - Signup.lua:944–982: _G.RaidMasterAPI = _G.RaidMasterAPI or {}; RaidMasterAPI.VERSION = 1; RaidMasterAPI.UpcomingRaids() ->
+     { { t = <Unix-Zeit>, name = "<Titel>" }, … } – nur t >= jetzt, aufsteigend, höchstens 20 (MAX_RAIDS), Titel höchstens 60 Zeichen,
+     sonst KEINE Felder (keine Spieler, keine Anmeldungen, keine IDs). Ganz in pcall: bei jedem Fehler {} (nie nil).
+   - Quelle (ehrlich): nur die aus Discord übernommene Anmeldung RM.db.signup (Start + Titel; eine Test-Anmeldung zählt nicht). Das ist
+     zurzeit höchstens EIN Termin. Mehr Termine gibt es erst, wenn der Bot mehrere bzw. wiederkehrende Raids an das Addon liefert
+     (Hinweis an Discord/Bot – kein Auftrag von mir dorthin).
+   - Test T188: 29 Termine (gestern, heute früher, heute später, morgen …) -> 20 kommende, aufsteigend, nur Felder t und name, "player"
+     kommt nicht vor; Fehler in der Quelle -> {}; echte Anmeldung 1 Termin; Test-Anmeldung 0. OK.
+
+3. TR-ALLE Teil A – "/rm testroutine alles" (Entwicklermodus)
+   - Ein Befehl für alles Automatische (alle Bereiche nacheinander), Fortschritt im Chat "3 von 12: <Bereich> …", am Ende EINE Zeile
+     "x von y bestanden, z nicht prüfbar – <3 häufigste Gründe>" im Chat, im Berichtsfenster und im Testbericht (GSTEST, Feld
+     zusammenfassung). "/rm testroutine stop" bricht ab.
+   - Portionen: Die Routine gibt das Bild ab, sobald die laufende Portion 1 ms (vor einer Prüfung) bzw. 5 ms (danach) überschreitet.
+     Die bisher langen Prüfungen sind jetzt selbst in Portionen geteilt: T10 (ein Befehl je Bild), T12 (eine Seite je Bild), T84 (frische
+     Testtabelle statt Kopie der echten Daten, Aufbau in Portionen), T111 (ein Handler je Bild, 5 statt 20 Messungen), T116 (Speicher-
+     bereinigung in kleinen Schritten statt collectgarbage("collect") am Stück), T175 (ein Fall bzw. eine Runde je Bild), T186 (100 Fehler
+     je Bild, Grenzen je Bild ≤ 5 ms), Bereich K (eine Seite bzw. eine Prüfung je Bild).
+   - Messung im Bericht (Feld portionen): "PORTIONEN: n Bilder, längste x ms (bei Txx); Prüfungen länger als 5 ms am Stück: …; Bilder über
+     5 ms: k Stellen (…)".
+     Nachbildung Forever, drei Läufe: längste Portion 9,7 / 10,6 / 9,2 ms (vorher 71,8 ms). Über 5 ms bleiben nur Stellen, die EIN
+     unteilbarer Aufruf des Addons selbst sind (Probe einzeln gemessen):
+       T10  "/rm" ohne Zusatz = erster Aufbau des Hauptfensters 13,6 ms
+       T12  Seite "Anmeldungen" als Gruppenleiter, erster Aufbau 10,8 ms
+       T114 Serialisieren + Lesen von 500 Spielern (Sync) 7–9 ms – die Prüfung misst genau diese Grösse (Grenze < 16 ms)
+       T84/T175 gelegentlich 5–9 ms (schwankt zwischen Läufen; Rechner der Nachbildung)
+     Diese Zeiten entstehen auch, wenn der Spieler das Fenster zum ersten Mal öffnet – das ist das Addon, nicht die Routine. Wenn der
+     Supervisor auch das unter 5 ms haben will: Auftrag nötig (Hauptfenster und Seiten in Portionen aufbauen). Zahlen aus der Nachbildung
+     (Lua 5.1 auf dem Server), im Spiel nicht gemessen – Verdacht, zu messen: Werte im Spiel anders. Der Testbericht aus dem Spiel zeigt sie.
+   - Grenzen eingehalten: kein Gold, keine Auktion, keine Post, kein Chat (Spion: SendChat 0, T10), keine dauerhafte Einstellung des
+     Nutzers geändert; echte Daten in der Sandbox (Gegenprobe "kein Pfad geändert" wie bisher, Feld sandbox OK).
+   - Sauber nach /reload: Vor dem Lauf wird eine Sicherung (RaidMasterDB.routineGuard: tiefe Kopie der Bereiche, die Prüfungen
+     anfassen, plus "war da"-Merker und RaidMasterTestOptions) gespeichert; am Ende gelöscht. Wird der Lauf durch /reload oder Ausloggen
+     unterbrochen, stellt RaidMaster beim nächsten Einloggen alles wieder her (gleiche Tabellen, Inhalt zurück, neu Angelegtes weg) und sagt
+     es im Chat. Test T189: Sicherung im Lauf da; nach simuliertem Abbruch Inhalt zurück, Neues weg, nur einmal. Nachbildung mit Abbruch
+     nach 1, 5, 20, 60 Bildern (STOPAT): jedes Mal Sandbox OK, Sicherung gelöscht, Testmodus aus.
+
+4. TR-ALLE Teil B – Handprüfung
+   AUTOMATISCH in "/rm testroutine alles": alle übrigen Prüfungen der Routine (Forever 131 bestanden + 27 nicht prüfbar, Era 135 + 23), dazu
+   die Prüflistenpunkte TR und MNT (werden nach dem Lauf von selbst grün). Nicht prüfbar in der Nachbildung (im Spiel weniger): 6 "nur im
+   alten Client" (T70–T75, laufen dort selbst), 4 "nichts geprüft" (T155–T158 Rechteck-Prüfungen, im Spiel echte Fenster), T06, T91/T147
+   (offline mit lupa), T90/T184 (nur in Fremdsprache).
+   VON HAND (Prüfliste /rm prüfliste, 14 Punkte, Text wörtlich wie im Spiel; jeder Punkt hat dazu die Knöpfe "OK" und "Nicht OK" des
+   gemeinsamen Bausteins):
+   TR – Testroutine: alles Automatische (seit 3.0.30)
+        Wo: irgendwo, nicht im Kampf
+        1. Tippe in den Chat: /rm testroutine alles
+        2. Warte, bis im Chat die Zusammenfassung '… von … bestanden' steht (vorher zählt der Chat '1 von 12 …', '2 von 12 …'). Nicht kämpfen.
+        Im Chat steht z. B. '131 von 131 bestanden, 27 nicht prüfbar – …' – beide Zahlen vor 'bestanden' sind gleich. Dieser Punkt wird von selbst grün.
+        Kosten: kein Gold, ca. 2 Minuten
+   MNT – Markt-Zähler nach der Testroutine sauber (seit 3.0.26)
+        Wo: nichts extra tun
+        1. Wird mit Punkt TR (Testroutine) von selbst geprüft.
+        Dieser Punkt wird nach der Testroutine von selbst grün.
+        Kosten: nichts
+   TB – Testbericht kommt in Discord an (seit 3.0.27)
+        Wo: irgendwo, nach Punkt TR
+        1. Klicke im Fenster mit dem Testbericht auf den Knopf 'Neu laden und melden' (oder tippe /reload).
+        2. Öffne in Discord den Kanal #testberichte.
+        In #testberichte steht innert etwa 1 Minute ein Bericht 'RaidMaster 3.0.30' ohne das Wort FEHLER. Dann hier auf 'OK' klicken.
+        Kosten: kein Gold, ca. 2 Minuten
+   MN2 – Haken 'Marktdaten teilen' (seit 3.0.25)
+        Wo: irgendwo
+        1. Tippe in den Chat: /rm
+        2. Klicke oben auf den Reiter 'Einstellungen'.
+        3. Klicke rechts auf den Haken 'Marktdaten teilen (anonym, nur Preise)' (Haken geht weg).
+        4. Klicke noch einmal darauf (Haken wieder da).
+        5. Halte die Maus kurz über den Haken.
+        Der Haken steht in einer eigenen Zeile über 'Addon unterstützen', nichts überdeckt ihn; ein Hinweis erklärt ihn ('Liest Auktionshaus-Scans mit …'). Dieser Punkt wird beim Klick von selbst grün.
+        Kosten: kein Gold, 1 Minute
+   MN2B – Haken 'Marktdaten teilen' bleibt nach /reload aus (seit 3.0.25)
+        Wo: irgendwo
+        1. Tippe /rm, Reiter 'Einstellungen', Haken 'Marktdaten teilen (anonym, nur Preise)' ausschalten.
+        2. Tippe in den Chat: /reload
+        3. Nach dem Laden: /rm, Reiter 'Einstellungen' – der Haken ist weiter aus. Schalte ihn wieder ein.
+        Nach dem /reload ist der Haken aus. Dieser Punkt wird nach dem Laden von selbst grün.
+        Kosten: kein Gold, 2 Minuten
+   MN1 – Auktionshaus-Scan wird mitgelesen (seit 3.0.25)
+        Wo: Auktionshaus offen (beim Auktionator), AHSentinel geladen, Haken 'Marktdaten teilen' an
+        1. Starte in AHSentinel einen vollständigen Scan (wie gewohnt).
+        2. Warte, bis der Scan fertig ist.
+        3. Tippe in den Chat: /rm prüfliste
+        Dieser Punkt ist grün mit 'Scans 1' (oder mehr). Während des Scans ruckelt das Spiel nicht und es kommt keine rote Lua-Fehlermeldung.
+        Kosten: kein Gold (Scannen ist gratis), ca. 3 Minuten
+   BL – Befehlsliste beim Tippen (seit 3.0.24)
+        Wo: irgendwo
+        1. Tippe in den Chat: /rm be (nicht Enter drücken).
+        2. Über dem Chat erscheint eine Liste. Klicke darin auf 'bereit'.
+        3. Tippe in den Chat: /rm ver und drücke Enter.
+        Die Liste zeigt nur passende Befehle; der Klick startet den Befehl; Enter führt den obersten Eintrag aus ('version'); im Chatfeld bleibt nichts stehen. Dieser Punkt wird von selbst grün.
+        Kosten: kein Gold, 1 Minute
+   RT – Schlachtzugsymbole in WoW Forever (seit 3.0.16)
+        Wo: in einer Gruppe, du bist Leiter, Gegner in der Nähe (z. B. vor einer Instanz)
+        1. Tippe in den Chat: /rm adds
+        2. Tippe in den Chat: /rm bar
+        3. Klicke in der Symbol-Leiste, die erscheint, auf ein Symbol (z. B. Totenkopf), während ein Gegner im Ziel ist.
+        Im Chat steht 'Vorschlag (Vorlage: …): …'; das angeklickte Symbol erscheint über dem Gegner; keine Meldung 'Aktion blockiert' oder 'AddOn … wurde blockiert'.
+        Kosten: kein Gold, ca. 3 Minuten
+   T54B – Einladung im Kampf ohne Fehlermeldung (seit 3.0.16)
+        Wo: WoW Forever, während eines Kampfes
+        1. Lass dich von jemandem in eine Gruppe einladen (oder lade jemanden ein), während du kämpfst.
+        Es erscheint keine rote Lua-Fehlermeldung. Dann hier auf 'OK' klicken.
+        Kosten: kein Gold, 2 Minuten (braucht einen zweiten Spieler)
+   TT – Hinweise bei anderer UI-Grösse (seit 3.0.16)
+        Wo: irgendwo
+        1. Drücke Esc und öffne die Optionen (je nach Client 'Optionen' oder 'System').
+        2. Suche den Regler 'UI-Skalierung' (falls nötig vorher den Haken 'UI-Skalierung verwenden' setzen) und stelle ihn auf etwa 0,8. Merke dir den alten Wert.
+        3. Tippe in den Chat: /rm
+        4. Fahre mit der Maus langsam über mehrere Knöpfe im RaidMaster-Fenster.
+        5. Stelle die UI-Skalierung wieder auf den alten Wert.
+        Jeder Hinweis erscheint direkt neben dem Knopf, nicht verschoben oder abgeschnitten. Dann hier auf 'OK' klicken.
+        Kosten: kein Gold, 2 Minuten
+   SS – Erstkill-Bild an Discord (seit 3.0.16)
+        Wo: Schlachtzug, beim ersten Kill eines Bosses mit RaidMaster
+        1. Prüfe vorher: /rm, Reiter 'Einstellungen', Haken 'Erstkill-Feier und Bestzeiten' ist an.
+        2. Legt den Boss.
+        3. Nach dem Kampf: Tippe in den Chat: /reload
+        Fanfare und Ansage im Spiel; in Discord im Kanal #ruhmeshalle das Bild mit dem Boss-Namen. Dieser Punkt wird beim Kill von selbst grün; das Bild in Discord bitte selbst ansehen.
+        Kosten: kein Gold, nur beim nächsten Raid
+   SP – Abgleich vor dem Einloggen (seit 3.0.23)
+        Wo: am zweiten Rechner (Laptop), vor dem Spielstart
+        1. Starte den Uploader (uploader.bat).
+        2. Starte WoW und warte im Anmeldebildschirm, bis im Uploader-Fenster 'fertig – du kannst einloggen' steht.
+        3. Logge ein.
+        Dieser Punkt wird nach dem Einloggen von selbst grün.
+        Kosten: kein Gold, 3 Minuten
+   CONS – Frage zum Teilen der Testberichte (seit 3.0.21)
+        Wo: auf einem Rechner, auf dem die Frage noch nie beantwortet wurde (z. B. Laptop), während dein Sammler-Charakter in der Gilde online ist
+        1. Logge ein und warte etwa 1 Minute.
+        2. Es erscheint ein Fenster 'GoldSentinel-Addons: Fehlermeldungen und Testergebnisse (ohne Namen) an den Sammler der Entwickler schicken? …'.
+        3. Klicke auf 'Ja' oder 'Nein'.
+        Die Frage kommt genau einmal; mit 'Nein' wird nichts geteilt. Dieser Punkt wird nach der Antwort von selbst grün.
+        Kosten: kein Gold, 2 Minuten
+   GS2 – Gebote mit einer älteren RaidMaster-Version (seit 3.0.20)
+        Wo: in einer Gruppe mit jemandem, der eine ältere RaidMaster-Version hat; AHSentinel geladen
+        1. Starte eine Versteigerung (/rm, Reiter 'Versteigerung').
+        2. Lass den anderen ein Gebot abgeben.
+        3. Frag ihn, ob er dein Gebot und die DKP sieht.
+        Gebote und DKP kommen bei beiden an. Dann hier auf 'OK' klicken.
+        Kosten: kein Gold (DKP nur in einem Test-Topf), ca. 5 Minuten, braucht einen zweiten Spieler
+   Belegte Wortlaute: Reiter "Einstellungen", Haken "Marktdaten teilen (anonym, nur Preise)" und "Erstkill-Feier und Bestzeiten",
+   "Addon unterstützen", Hinweistext "Liest Auktionshaus-Scans mit …" (Pages.lua:1926–1937); Knopf "Neu laden und melden"
+   (Test/Routine.lua:4258); Uploader "fertig – du kannst einloggen" (sync.py:1582); Frage "GoldSentinel-Addons: Fehlermeldungen …"
+   (GoldSentinelTest.lua:569). NICHT belegt: Name des Optionsmenüs für die UI-Skalierung im Forever-Client (Punkt TT nennt darum
+   beide möglichen Namen) – Verdacht, zu messen.
+   OFFEN – Frage an den Supervisor: Die Routine kennt 12 weitere Handpunkte, die NICHT in der Prüfliste stehen (Höchstzahl 14):
+   T35b/T152 Berufe-Knopf, T36b Gildenbank, T51b Addon-Nachrichten im Kampf, T71/T146 Bereitschaft in alten Clients, T75/T136b
+   Plündermeister, T92 andere Sprache, T103 DBM/BigWigs, T104 BugSack, T133b Symbole im echten Kampf, T135 Skillungen. Die Zusammenfassung
+   nennt sie jetzt ehrlich "nur im echten Client (nicht in der Prüfliste)" statt "nur von Hand (/rm prüfliste)". Welche sollen in die
+   Prüfliste (dann fliegen andere raus oder die Höchstzahl ändert sich im gemeinsamen Baustein)?
+
+5. Discord: raid_addon_intro.md "Updates" um 3.0.30 ergänzt (für Spieler nur API + Fehlerzählung); ältester Eintrag 3.0.12/3.0.13 entfallen
+   (Teil Updates 1884 Zeichen). LIESMICH/README_EN mit Abschnitt 3.0.30 (DE/EN).
+
+EIGENE TESTS (Hinweise, keine Freigabe) – Nachbildung berichte/RaidMaster/offline:
+- Forever (16001) ALLE OK, Era (11509) ALLE OK, enUS, zhCN, frFR, ruRU ALLE OK; Abbruch STOPAT 1/5/20/60 ALLE OK.
+- T185 OK (14 Punkte), T186 OK ("1000 Fehler in 10 Bildern 15,4 ms, teuerstes Bild 1,6 ms, 20 einzeln erfasst in 1 s, 980 nur gezählt;
+  Grenzmeldung 1 Eintrag n=300; offenes Fenster 100 Fehler 0,4 ms ohne Neuaufbau"), T187, T188, T189 OK; T84 1 ms, T116 36 KB.
+- Lua-Syntax lupa (Lua 5.1): 65 Dateien, 0 Fehler. Gemeinsame Dateien (Game, Test, Sync, Dev v2, Markt v7, Pruefliste v1) cmp gleich mit shared/.
+- addon_check download/RaidMaster-3.0.30.zip: "RaidMaster-3.0.30.zip: OK", kein FEHLER, keine WARNUNG (EXIT 0).
+
+FÜR DEN NUTZER (nach Prüfung): Bot /update -> RaidMaster 3.0.30 in #raid-addon. Im Spiel: "/rm testroutine alles", dann /rm prüfliste.

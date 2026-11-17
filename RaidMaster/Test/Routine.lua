@@ -129,7 +129,7 @@ end
 ---------------------------------------------------------------------------
 -- gsMarkt/gsMarktAus (ab 3.0.25): laufende Daten des gemeinsamen Marktdaten-Netzes (GoldSentinelMarkt.lua) – sie ändern
 -- sich im Hintergrund (Scans mitlesen, Netz) und werden weder verglichen noch zurückgedreht.
-local SB_SKIP = { gsTest = true, lastSave = true, gsMarkt = true, gsMarktAus = true, pruefliste = true }
+local SB_SKIP = { gsTest = true, lastSave = true, gsMarkt = true, gsMarktAus = true, pruefliste = true, routineGuard = true }
 
 local function Deep(v, seen)
 	if type(v) ~= "table" then return v end
@@ -237,6 +237,31 @@ local function Guard(body, cleanup)
 	return unpack(r, 2, r.n)
 end
 
+-- TR-ALLE (3.0.30): Portionen ≤ 5 ms je Bild. Nach jeder Prüfung: ist die laufende Portion länger als R.PORTION_MS, gibt die
+-- Routine das Bild ab (wartet 0 s = nächstes Bild). Eine einzelne Prüfung, die selbst länger dauert, kann nicht geteilt
+-- werden – sie steht dann in R.slow und im Bericht ("länger als 5 ms").
+R.PORTION_MS = 5
+R.PRE_MS = 1           -- vor jeder Prüfung: ist das Bild schon mehr als 1 ms belegt, erst das nächste Bild abwarten
+function R.Breathe(limit)
+	if not (debugprofilestop and R.running and R.portionStart and coroutine.running()) then return end
+	local d = debugprofilestop() - R.portionStart
+	if d > (R.maxPortion or 0) then R.maxPortion, R.maxPortionAt = d, tostring(R.current or "?") end
+	if d > (limit or R.PORTION_MS) then coroutine.yield("wait", 0) end
+end
+
+-- vollständige Speicherbereinigung in kleinen Schritten über mehrere Bilder (statt collectgarbage("collect") am Stück):
+-- zwei abgeschlossene Durchgänge, damit sicher ein ganzer Durchgang von vorn dabei ist
+local function CollectInSteps()
+	for _ = 1, 2 do
+		local guard = 0
+		repeat
+			local done = collectgarbage("step", 64)
+			guard = guard + 1
+			R.Breathe(R.PRE_MS * 2)
+		until done or guard > 100000
+	end
+end
+
 -- Warten (nur im Ablauf der Routine, nicht innerhalb von t:Check – dort AsyncCheck benutzen)
 local function Wait(sec)
 	if not coroutine.running() then error("Wait außerhalb des Ablaufs der Routine", 2) end
@@ -248,6 +273,7 @@ end
 local ASYNC_SKIP = {}
 local function AsyncCheck(t, id, area, name, fn)
 	R.current = id
+	R.Breathe(R.PRE_MS)
 	local r = pack(Run(fn))
 	if r[1] and r[2] == ASYNC_SKIP then return t:Skip(id, area, name, tostring(r[3])) end
 	return t:Check(id, area, name, function()
@@ -527,7 +553,7 @@ local function AreaB(t, G)
 	local UI = RM.UI
 	Precache(R.long and "mc" or "ony")
 
-	t:Check("T10", "B", "Slash /rm mit allen Unterbefehlen", function()
+	AsyncCheck(t, "T10", "B", "Slash /rm mit allen Unterbefehlen", function()
 		local cfg = RM.db.config
 		local pos = Deep(cfg.positions)
 		local errs, first = 0, nil
@@ -540,6 +566,7 @@ local function AreaB(t, G)
 				local ok, err = pcall(SlashCmdList.RAIDMASTER, c)
 				if not ok then errs = errs + 1; first = first or (c .. ": " .. tostring(err)) end
 				if c == "pull 10" or c == "pause 5" then pcall(RM.Timer.Cancel) end
+				R.Breathe(R.PRE_MS)                   -- TR-ALLE: ein paar Befehle je Bild
 			end
 		end)
 		RM.Prof.pendingScan = nil
@@ -597,7 +624,7 @@ local function AreaB(t, G)
 		end, function() Undo(u); if not T.active then T.Start() end end)
 	end)
 
-	t:Check("T12", "B", "Hauptfenster und alle Seiten je Ansicht", function()
+	AsyncCheck(t, "T12", "B", "Hauptfenster und alle Seiten je Ansicht", function()
 		TestRaid()
 		local pages = { "dkp", "auction", "loot", "log", "raid", "signup", "pug", "ad", "assign", "lgroups", "lboss", "specs",
 			"settings", "bank", "discord" }
@@ -618,6 +645,7 @@ local function AreaB(t, G)
 						local ok, err = pcall(UI.ShowPage, id)
 						if not ok then errors = errors + 1; first = first or (role .. "/" .. id .. ": " .. tostring(err)) end
 						pcall(UI.RefreshCurrent)
+						R.Breathe(R.PRE_MS)               -- TR-ALLE: eine Seite je Bild
 					end
 				end
 			end
@@ -1935,14 +1963,21 @@ local function AreaE(t)
 			Diff(backup, RaidMasterTestDB, "RaidMasterTestDB", diff)
 		end)
 	end)
-	t:Check("T84", "E", "Große Datenmengen", function()
-		local db = Deep(RM.db)
+	-- TR-ALLE (3.0.30): frische Testtabelle statt Kopie der echten Daten (Grösse unabhängig vom Spieler) und Aufbau in Portionen;
+	-- nur der Teil mit getauschtem RM.db läuft am Stück (in einem Bild, damit kein echtes Ereignis in der Testtabelle landet)
+	AsyncCheck(t, "T84", "E", "Große Datenmengen", function()
+		local db = RM.InitDB({})
 		for i = 1, 500 do db.data.players["Spieler" .. i] = { c = "WARRIOR", d = { mc = i } } end
-		for i = 1, 5000 do db.data.log[#db.data.log + 1] = { id = "t" .. i, t = i, k = "manual", x = "Test", d = { Spieler1 = 1 }, pool = "mc" } end
+		R.Breathe(R.PRE_MS)
+		for i = 1, 5000 do
+			db.data.log[#db.data.log + 1] = { id = "t" .. i, t = i, k = "manual", x = "Test", d = { Spieler1 = 1 }, pool = "mc" }
+			if i % 500 == 0 then R.Breathe(R.PRE_MS) end
+		end
 		db.specs = db.specs or {}
 		for i = 1, 300 do db.specs["Spieler" .. i] = { c = "WARRIOR", p = { 5, 5, 41 }, t = RM.Now() } end
 		db.itemTips = {}
 		for i = 1, (RM.ItemTip.MAX or 600) + 50 do db.itemTips[100000 + i] = { n = "x", t = i } end
+		R.Breathe(0)                                  -- der getauschte Teil beginnt in einem frischen Bild
 		local t0 = Ms()
 		return WithDB(db, function()
 			local list = RM.DKP.SortedPlayers("mc")
@@ -2073,16 +2108,17 @@ local function AreaH(t)
 			return true, string.format("Mittel %.3f ms, max %.3f ms", avg, max)
 		end, function() Undo(u) end)
 	end)
-	t:Check("T111", "H", "Gruppenwechsel: Handler < 2 ms, zusammen < 16 ms", function()
+	AsyncCheck(t, "T111", "H", "Gruppenwechsel: Handler < 2 ms, zusammen < 16 ms", function()
 		TestRaid()
 		RM.UI.Open("dkp")
 		local list = RM.HandlersFor("GROUP_ROSTER_UPDATE") or {}
 		local slow, total = {}, 0
 		return Guard(function()
 			for i, fn in ipairs(list) do
-				local avg = Measure(function() pcall(fn) end)
+				local avg = Measure(function() pcall(fn) end, 5)   -- TR-ALLE: 5 statt 20 Messungen, damit ein Bild unter 5 ms bleibt
 				total = total + avg
 				if avg >= 2 then slow[#slow + 1] = string.format("#%d %.2f ms", i, avg) end
+				R.Breathe(R.PRE_MS)                   -- TR-ALLE: ein Handler je Bild (20 Messungen)
 			end
 			Settle(10)
 			if #slow > 0 then return false, table.concat(slow, ", "), "< 2 ms je Handler" end
@@ -2138,16 +2174,18 @@ local function AreaH(t)
 		if avg >= 2 then return false, string.format("%.2f ms", avg), "< 2 ms" end
 		return true, string.format("Aufbau %.2f ms, je Tooltip %.3f ms", first, avg)
 	end)
-	t:Check("T116", "H", "Speicher: Zuwachs < 256 KB", function()
+	-- TR-ALLE (3.0.30): Bereinigung und Last in Portionen über mehrere Bilder; der Zähler ist der des ganzen Spiels – was andere
+	-- Addons in diesen Bildern dauerhaft anlegen, zählt mit (Grenze 256 KB bleibt)
+	AsyncCheck(t, "T116", "H", "Speicher: Zuwachs < 256 KB", function()
 		TestRaid()
 		local TT = RM.Tooltip
 		local fake = { GetItem = function() return "x", LINK_EPIC end, AddLine = function() end, Show = function() end }
-		collectgarbage("collect")
+		CollectInSteps()
 		local before = collectgarbage("count")
-		for _ = 1, 100 do CallHandlers("GROUP_ROSTER_UPDATE") end
-		for _ = 1, 100 do CallHandlers("PLAYER_TARGET_CHANGED") end
+		for i = 1, 100 do CallHandlers("GROUP_ROSTER_UPDATE"); if i % 10 == 0 then R.Breathe(R.PRE_MS) end end
+		for i = 1, 100 do CallHandlers("PLAYER_TARGET_CHANGED"); if i % 10 == 0 then R.Breathe(R.PRE_MS) end end
 		for _ = 1, 50 do TT.OnItem(fake) end
-		collectgarbage("collect")
+		CollectInSteps()
 		local grow = collectgarbage("count") - before
 		Settle(10)
 		if grow >= 256 then return false, string.format("%.0f KB", grow), "< 256 KB" end
@@ -2790,35 +2828,51 @@ local function AreaJ(t, G)
 		return true, why
 	end)
 
-	-- 3.0.29 (RM-DIAG-1): Fehlerflut darf Diag.lua nicht über die Ausführungsgrenze treiben. Gemessen: 5000 Fehler in
-	-- einem Bild (ohne Fenster) und 1000 bei offenem Diagnose-Fenster; das Fenster wird dabei kein einziges Mal neu gesetzt,
+	-- 3.0.29 (RM-DIAG-1): Fehlerflut darf Diag.lua nicht über die Ausführungsgrenze treiben. Gemessen (ab 3.0.30 in Portionen, damit die
+	-- Routine selbst nicht ruckelt – TR-ALLE): je Bild 100 Fehler, 10 Bilder (ohne Fenster), und 100 bei offenem Diagnose-Fenster; das Fenster wird dabei kein einziges Mal neu gesetzt,
 	-- danach höchstens 1x pro Sekunde und nur bei Änderung. Die Meldung über die Ausführungsgrenze selbst zählt nur hoch.
-	t:Check("T186", "J", "RM-DIAG-1 Fehlerflut: Diag bleibt billig", function()
+	AsyncCheck(t, "T186", "J", "RM-DIAG-1 Fehlerflut: Diag bleibt billig", function()
 		local D = RM.Diag
 		if not (D and D.OnError and D.Record and debugprofilestop) then return false, "Diag.OnError fehlt", "3.0.29" end
 		local saved, savedDropped, savedDirty = {}, D.dropped, D.dirty
 		for i, e in ipairs(D.errors) do saved[i] = { t = e.t, msg = e.msg, n = e.n } end
 		local wasShown = D.window and D.window:IsShown()
 		local res, why, want = true, nil, nil
-		local ok, err = pcall(function()
+		local ok, err = Run(function()   -- Run statt pcall: der Körper gibt zwischendurch Bilder ab
 			wipe(D.errors); D.dropped = 0; D.ResetRate()
-			local pad = string.rep("x", 2000)
+			local pad = string.rep("x", 1000)
 			-- 1) Flut ohne Fenster
 			if D.window then D.window:Hide() end
-			local t0 = debugprofilestop()
-			for i = 1, 5000 do D.OnError("Interface/AddOns/RaidMaster/Test.lua:" .. i .. ": Flut " .. i .. " " .. pad) end
-			local ms1 = debugprofilestop() - t0
+			-- 1000 Fehler in 10 Bildern; gemessen wird nur der Handler (nicht der Aufbau der Testtexte), das teuerste Bild zählt.
+			-- Die Erfassung ist je Sekunde begrenzt: liegen die Bilder in k Sekunden, sind höchstens 20*k einzeln erfasst
+			local ms1, worst, secs = 0, 0, {}
+			for chunk = 0, 9 do
+				local msgs = {}
+				for i = 1, 100 do local n = chunk * 100 + i; msgs[i] = "Interface/AddOns/RaidMaster/Test.lua:" .. n .. ": Flut " .. n .. " " .. pad end
+				R.Breathe(0)
+				secs[time()] = true
+				local t0 = debugprofilestop()
+				for i = 1, 100 do D.OnError(msgs[i]) end
+				local d = debugprofilestop() - t0
+				secs[time()] = true
+				ms1, worst = ms1 + d, math.max(worst, d)
+			end
+			local nsec = 0
+			for _ in pairs(secs) do nsec = nsec + 1 end
 			local n1, d1 = #D.errors, D.dropped
 			if #D.errors > 20 then res, why, want = false, #D.errors .. " Einträge", "<= 20"; return end
+			if 1000 - d1 > D.MAX_PER_SEC * nsec then res, why, want = false, (1000 - d1) .. " einzeln in " .. nsec .. " s", "<= " .. D.MAX_PER_SEC * nsec; return end
 			if D.dropped < 1 then res, why, want = false, "keine Flut erkannt", "dropped > 0"; return end
 			if #D.errors[1].msg > D.MAX_MSG + 4 then res, why, want = false, "Text " .. #D.errors[1].msg, "gekürzt"; return end
-			if ms1 > 250 then res, why, want = false, string.format("%.1f ms für 5000 Fehler", ms1), "<= 250 ms"; return end
+			if worst > 5 then res, why, want = false, string.format("%.1f ms für 100 Fehler", worst), "<= 5 ms je Bild"; return end
+			R.Breathe(0)
 			-- 2) die Meldung über die Ausführungsgrenze selbst: ein Eintrag, nur hochgezählt
 			wipe(D.errors); D.dropped = 0; D.ResetRate()
 			local lim = "Interface/AddOns/RaidMaster/Diag.lua:-1: insecure scripts exceeded execution limit for addon RaidMaster"
-			for _ = 1, 1000 do D.OnError(lim) end
-			if #D.errors ~= 1 or D.errors[1].n ~= 1000 then
-				res, why, want = false, #D.errors .. " Einträge / n=" .. tostring(D.errors[1] and D.errors[1].n), "1 / 1000"; return
+			for _ = 1, 300 do D.OnError(lim) end
+			R.Breathe(0)
+			if #D.errors ~= 1 or D.errors[1].n ~= 300 then
+				res, why, want = false, #D.errors .. " Einträge / n=" .. tostring(D.errors[1] and D.errors[1].n), "1 / 300"; return
 			end
 			-- 3) Fenster offen: kein Neuaufbau je Fehler, danach 1x pro Sekunde und nur bei Änderung
 			D.ResetRate()
@@ -2827,7 +2881,7 @@ local function AreaJ(t, G)
 			local orig = box.SetText
 			box.SetText = function(self, txt) calls = calls + 1; return orig(self, txt) end
 			local t1 = debugprofilestop()
-			for i = 1, 1000 do D.OnError("Interface/AddOns/RaidMaster/X.lua:1: offen " .. (i % 50)) end
+			for i = 1, 100 do D.OnError("Interface/AddOns/RaidMaster/X.lua:1: offen " .. (i % 50)) end
 			local ms2 = debugprofilestop() - t1
 			local upd = D.window:GetScript("OnUpdate")
 			local afterFlood = calls
@@ -2839,9 +2893,9 @@ local function AreaJ(t, G)
 			if afterFlood ~= 0 then res, why, want = false, afterFlood .. "x SetText während der Flut", "0"; return end
 			if afterTick ~= 1 then res, why, want = false, afterTick .. "x SetText nach 1 s", "1"; return end
 			if afterIdle ~= 1 then res, why, want = false, (afterIdle - 1) .. "x SetText ohne Änderung", "0"; return end
-			if ms2 > 100 then res, why, want = false, string.format("%.1f ms bei offenem Fenster", ms2), "<= 100 ms"; return end
-			why = string.format("5000 Fehler %.1f ms (%d einzeln, %d gezählt), Grenzmeldung 1 Eintrag n=1000, offenes Fenster 1000 Fehler %.1f ms ohne Neuaufbau",
-				ms1, n1, d1, ms2)
+			if ms2 > 5 then res, why, want = false, string.format("%.1f ms bei offenem Fenster", ms2), "<= 5 ms"; return end
+			why = string.format("1000 Fehler in 10 Bildern %.1f ms, teuerstes Bild %.1f ms (%d einzeln erfasst in %d s, Liste hält %d; %d nur gezählt), Grenzmeldung 1 Eintrag n=300, offenes Fenster 100 Fehler %.1f ms ohne Neuaufbau",
+				ms1, worst, 1000 - d1, nsec, n1, d1, ms2)
 		end)
 		wipe(D.errors)
 		for i, e in ipairs(saved) do D.errors[i] = e end
@@ -2853,6 +2907,111 @@ local function AreaJ(t, G)
 		if not ok then return false, "Lua: " .. tostring(err), "kein Fehler" end
 		if not res then return false, why, want end
 		return true, why
+	end)
+
+	-- 3.0.30 (RM-DIAG-1 Messung): Fehler je Quell-Addon zählen, nur Zahlen (kein Text im Bericht)
+	t:Check("T187", "J", "RM-DIAG-1 Fehlerquellen je Addon", function()
+		local D = RM.Diag
+		if not (D and D.SourceOf and D.SourcesLine and D.CountSource) then return false, "fehlt", "3.0.30" end
+		local cases = {
+			{ "Interface/AddOns/AHSentinel/Sniper.lua:12: attempt to index nil", "AHSentinel" },
+			{ "Interface\\AddOns\\RaidMaster\\Diag.lua:-1: insecure scripts exceeded execution limit for addon RaidMaster", "RaidMaster" },
+			{ "Interface/AddOns/RaidMaster/X.lua:1: AddOn 'AHSentinel' tried to call the protected function for addon 'AHSentinel'", "AHSentinel" },
+			{ "[string \"x\"]:1: attempt to call a nil value", "?" },
+		}
+		for _, c in ipairs(cases) do
+			local got = D.SourceOf(c[1])
+			if got ~= c[2] then return false, c[1]:sub(1, 40) .. " -> " .. tostring(got), c[2] end
+		end
+		local saved = { src = D.sources, total = D.sourcesTotal, first = D.firstSource }
+		D.sources, D.sourcesTotal, D.firstSource = {}, 0, nil
+		local ok, res, info = pcall(function()
+			for _ = 1, 5 do D.OnError("Interface/AddOns/AHSentinel/A.lua:1: x") end
+			D.OnError("Interface/AddOns/RaidMaster/B.lua:1: y")
+			for i = 1, 40 do D.CountSource("Interface/AddOns/Fremd" .. i .. "/C.lua:1: z") end
+			local line = D.SourcesLine()
+			if D.sourcesTotal ~= 46 then return false, "gesamt " .. D.sourcesTotal, "46" end
+			-- 30 Quellen einzeln (AHSentinel, RaidMaster, Fremd1 … Fremd28), der Rest (12) als "andere"
+			if D.sources.AHSentinel ~= 5 or D.sources.RaidMaster ~= 1 or D.sources.andere ~= 12 then
+				return false, string.format("AHS %s RM %s andere %s", tostring(D.sources.AHSentinel), tostring(D.sources.RaidMaster),
+					tostring(D.sources.andere)), "5 / 1 / 12"
+			end
+			if not line:find("^FEHLERQUELLEN: 46 · andere 12, AHSentinel 5, ") then return false, line:sub(1, 80), "nach Anzahl sortiert" end
+			local n = 0
+			for _ in pairs(D.sources) do n = n + 1 end
+			if n > 31 then return false, n .. " Quellen", "<= 31" end
+			if not line:find("zuerst AHSentinel", 1, true) then return false, line:sub(-40), "zuerst AHSentinel" end
+			if line:find("attempt", 1, true) or line:find("lua", 1, true) then return false, "Text im Bericht", "nur Zahlen" end
+			return true, line:sub(1, 90)
+		end)
+		D.sources, D.sourcesTotal, D.firstSource = saved.src, saved.total, saved.first
+		if not ok then return false, "Lua: " .. tostring(res), "kein Fehler" end
+		return res, info
+	end)
+
+	-- 3.0.30 (RM-API-RAIDS): kommende Raid-Termine für andere Addons – nur Zeit und Name, ≤ 20, aufsteigend, fehlerfest
+	t:Check("T188", "J", "RM-API-RAIDS RaidMasterAPI.UpcomingRaids", function()
+		local API, S = _G.RaidMasterAPI, RM.Signup
+		if not (API and API.UpcomingRaids and API.VERSION == 1 and S and S.KnownRaids) then return false, "fehlt", "VERSION 1" end
+		local now = RM.Now()
+		local savedKnown, savedSignup = S.KnownRaids, RM.db.signup
+		local ok, res, info = pcall(function()
+			-- gestern, heute früher, heute später, morgen + 25 weitere (mit Feldern, die nie hinaus dürfen)
+			S.KnownRaids = function()
+				local l = {
+					{ t = now - 86400, name = "Gestern", player = "Testa" },
+					{ t = now - 600, name = "Heute früher", player = "Bob" },
+					{ t = now + 7200, name = "Heute später", player = "Cleo", list = { { name = "Offi" } }, id = 7 },
+					{ t = now + 86400, name = "Morgen", player = "Echt1" },
+				}
+				for i = 1, 25 do l[#l + 1] = { t = now + 2 * 86400 + i * 3600, name = "Raid " .. i, player = "Testa" } end
+				return l
+			end
+			local r = API.UpcomingRaids()
+			if #r ~= 20 then return false, #r .. " Termine", "20" end
+			if r[1].name ~= "Heute später" or r[2].name ~= "Morgen" then return false, tostring(r[1].name) .. ", " .. tostring(r[2].name), "Heute später, Morgen" end
+			for i, e in ipairs(r) do
+				if e.t < now then return false, "vergangen: " .. e.name, "nur kommende" end
+				if i > 1 and e.t < r[i - 1].t then return false, "nicht aufsteigend", "aufsteigend" end
+				for k in pairs(e) do if k ~= "t" and k ~= "name" then return false, "Feld " .. tostring(k), "nur t und name" end end
+			end
+			-- fehlerfest: Quelle wirft / liefert Unsinn -> leere Liste, kein Fehler
+			S.KnownRaids = function() error("kaputt") end
+			if type(API.UpcomingRaids()) ~= "table" or #API.UpcomingRaids() ~= 0 then return false, "nicht leer bei Fehler", "{}" end
+			S.KnownRaids = function() return { "x", { t = "morgen" }, { name = 5, t = now + 60 } } end
+			local r2 = API.UpcomingRaids()
+			if #r2 ~= 1 or r2[1].name ~= "" then return false, #r2 .. " bei Unsinn", "1 mit leerem Namen" end
+			-- echte Quelle: Anmeldung aus Discord, Testraid nie
+			S.KnownRaids = savedKnown
+			RM.db.signup = { title = "MC Donnerstag", start = now + 3600, list = { { name = "Testa" } } }
+			local r3 = API.UpcomingRaids()
+			if #r3 ~= 1 or r3[1].name ~= "MC Donnerstag" or r3[1].list then return false, #r3 .. " aus Anmeldung", "1, ohne Liste" end
+			RM.db.signup = { title = "TEST Raid", test = true, start = now + 3600, list = {} }
+			if #API.UpcomingRaids() ~= 0 then return false, "Testraid geliefert", "0" end
+			RM.db.signup = { title = "Vorbei", start = now - 3600, list = {} }
+			if #API.UpcomingRaids() ~= 0 then return false, "vergangener Raid geliefert", "0" end
+			return true, "20 von 29 (gestern/heute früher weg), nur t+name, Fehler -> {}, Anmeldung 1, Testraid 0"
+		end)
+		S.KnownRaids, RM.db.signup = savedKnown, savedSignup
+		if not ok then return false, "Lua: " .. tostring(res), "kein Fehler" end
+		return res, info
+	end)
+
+	-- 3.0.30 (TR-ALLE): /reload mitten im Lauf -> beim nächsten Einloggen alles zurück; Sicherung liegt während des Laufs vor
+	t:Check("T189", "J", "TR-ALLE sauber nach /reload (Sicherung)", function()
+		if not (R.SetGuard and R.RestoreGuard and R.ClearGuard) then return false, "fehlt", "3.0.30" end
+		if type(RaidMasterDB.routineGuard) ~= "table" then return false, "keine Sicherung während des Laufs", "RaidMasterDB.routineGuard" end
+		local fake = { lootdb = { a = 1, b = { c = 2 } }, records = { x = 1 }, keep = "bleibt" }
+		local lootRef = fake.lootdb
+		R.SetGuard(fake)
+		fake.lootdb.a = 99; fake.lootdb.b = nil; fake.records = nil; fake.foreign = { neu = true }
+		if not R.RestoreGuard(fake) then return false, "nicht wiederhergestellt", "true" end
+		if fake.lootdb ~= lootRef or fake.lootdb.a ~= 1 or not (fake.lootdb.b and fake.lootdb.b.c == 2) then return false, "lootdb", "wie vorher (gleiche Tabelle)" end
+		if not (fake.records and fake.records.x == 1) then return false, "records", "zurück" end
+		if fake.foreign ~= nil then return false, "foreign noch da", "nil (gab es vorher nicht)" end
+		if fake.routineGuard ~= nil or fake.keep ~= "bleibt" then return false, "Sicherung/fremder Schlüssel", "weg / unverändert" end
+		if R.RestoreGuard(fake) then return false, "zweimal", "nur einmal" end
+		return true, "Sicherung im Lauf da; nach Abbruch: Inhalt zurück (gleiche Tabellen), Neues weg, nur einmal"
 	end)
 
 	-- 3.0.24 (BL): Befehlsliste beim Tippen – eine Tabelle für Handler und Liste (T-BL1 … T-BL6)
@@ -3334,7 +3493,6 @@ local function AreaL(t, G)
 		local applied, booked = {}, 0
 		local viol = {}
 		local n = 0
-		local frameStart = debugprofilestop and debugprofilestop() or 0
 		for case = 1, 1000 do
 			local kind = rnd(1, 4)
 			local e
@@ -3373,10 +3531,7 @@ local function AreaL(t, G)
 				end
 			end
 			n = n + 1
-			if debugprofilestop and debugprofilestop() - frameStart > 8 then
-				Wait(0)                                            -- nächstes Bild
-				frameStart = debugprofilestop()
-			end
+			R.Breathe(R.PRE_MS)                                    -- TR-ALLE: Bild abgeben, bevor 5 ms voll sind
 			if #viol >= 5 then break end
 		end
 		if PoolSum(data, pool) ~= booked then viol[#viol + 1] = "Endsumme " .. PoolSum(data, pool) .. " statt " .. booked end
@@ -3394,6 +3549,7 @@ local function AreaL(t, G)
 			for round = 1, 40 do
 				for _, nm in ipairs(roster) do SetDKP(nm, apool, rnd(0, 80)) end
 				ClearAuction()
+				R.Breathe(R.PRE_MS)                                  -- TR-ALLE: zwischen zwei Runden (keine laufende Versteigerung)
 				A.Start(LINK_STONE)
 				local c = A.current
 				if not c then viol[#viol + 1] = "Runde " .. round .. ": startet nicht" break end
@@ -3478,7 +3634,9 @@ local function AreaL(t, G)
 			{ "TU3 fehlende Einstellungen", "T174" }, { "MN4 mit/ohne GoldSentinelMarkt", "T180" },
 			{ "MN1-K FeedStart/Feed", "T180" }, { "MN-T Zähler unverändert", "T181" },
 			{ "MN4 Schalter aus", "T181" }, { "MN4 ohne AH-API", "T182" }, { "MN3 Testbericht-Zeile", "T183" },
-			{ "Prüfliste im Spiel", "T185" }, { "RM-DIAG-1 Fehlerflut", "T186" } }
+			{ "Prüfliste im Spiel", "T185" }, { "RM-DIAG-1 Fehlerflut", "T186" },
+			{ "RM-DIAG-1 Fehlerquellen", "T187" }, { "RM-API-RAIDS", "T188" },
+			{ "TR-ALLE Sicherung", "T189" } }
 		local only = R.only
 		local have, missing = 0, {}
 		for _, r in ipairs(REG) do
@@ -3562,12 +3720,13 @@ local function AreaK(t)
 	if available and main and UI.pageOrder then
 		for _, id in ipairs(UI.pageOrder) do
 			if UI.CanSeePage(id) and not RM.InCombat() then
+				R.Breathe(R.PRE_MS)                        -- TR-ALLE: Seite aufbauen und je Prüfung ein eigenes Bild
 				pcall(UI.ShowPage, id)
-				for _, c in ipairs(ui) do if not c[4] then Collect(c, id) end end
+				for _, c in ipairs(ui) do if not c[4] then R.Breathe(R.PRE_MS); Collect(c, id) end end
 			end
 		end
 	end
-	for _, c in ipairs(ui) do if c[4] then Collect(c) end end
+	for _, c in ipairs(ui) do if c[4] then R.Breathe(R.PRE_MS); Collect(c) end end
 	-- Seite und Fenster wie vorher
 	if main then
 		if wasPage then pcall(UI.ShowPage, wasPage) end
@@ -3615,7 +3774,17 @@ end
 
 local function Resume(token, ...)
 	if R.token ~= token then return end
+	R.portionStart = debugprofilestop and debugprofilestop() or nil
+	R.portions = (R.portions or 0) + 1
 	local res = pack(coroutine.resume(R.co, ...))
+	if R.portionStart and debugprofilestop then
+		local d = debugprofilestop() - R.portionStart
+		if d > (R.maxPortion or 0) then R.maxPortion, R.maxPortionAt = d, tostring(R.current or "?") end
+		if d > R.PORTION_MS and R.bigPortions then
+			local at = tostring(R.current or "?")
+			R.bigPortions[at] = math.max(R.bigPortions[at] or 0, d)
+		end
+	end
 	if R.token ~= token then return end
 	local job = R.jobs[R.jobIndex]
 	if not res[1] then
@@ -3633,6 +3802,7 @@ function StartJob(token, i)
 	local job = R.jobs[i]
 	if not job then return R.Finish() end
 	R.current = job.area
+	if job.area then Say(string.format("%d von %d: %s …", i, R.areaCount or #R.jobs, job.name)) end   -- TR-ALLE: Fortschritt
 	R.co = coroutine.create(job.fn)
 	return Resume(token)
 end
@@ -3676,6 +3846,13 @@ end)
 function R.Run(only)
 	local T = RM.Test
 	if not RM.IsDev() then RM.RequireDev() return end
+	local word = only and only:upper() or nil
+	-- TR-ALLE (3.0.30): "/rm testroutine stop" bricht ab (alles wird wiederhergestellt), "alles" = ganze Routine
+	if word == "STOP" or word == "ABBRECHEN" then
+		if R.running then R.Abort("vom Nutzer abgebrochen") else Say("läuft nicht.") end
+		return
+	end
+	if word == "ALLES" then only = nil end
 	if not (T and RM.db and GoldSentinelTest) then Say("Test-Werkzeug oder GoldSentinelTest fehlt.") return end
 	if R.running then Say("läuft schon.") return end
 	if R.graceUntil and GetTime() < R.graceUntil then Say("bitte noch einen Moment warten (Nachlauf des letzten Abbruchs).") return end
@@ -3693,10 +3870,13 @@ function R.Run(only)
 	local G = RM.G
 	local snap = Snapshot()
 	R.snap = snap
+	R.SetGuard(RaidMasterDB)            -- TR-ALLE: /reload mitten im Lauf -> beim nächsten Einloggen alles zurück
 	R.only = only
 	R.testDBnilBefore = snap.testDBnil
 	R.profTable = RM.db.prof
 	R.diagBefore = #RM.Diag.errors
+	-- RM-DIAG-1 (3.0.30): Fehlerzähler je Quelle gehören dem Spiel, nicht der Routine (T122/T186 erzeugen Testfehler)
+	R.diagSources = { src = Deep(RM.Diag.sources or {}), total = RM.Diag.sourcesTotal or 0, first = Deep(RM.Diag.firstSource) }
 	R.settleUntil = 0
 	R.blockedErrors = {}
 	for k, e in pairs((RaidMasterDB.gsTest and RaidMasterDB.gsTest.errors) or {}) do
@@ -3717,9 +3897,22 @@ function R.Run(only)
 	t.Wait = function(_, sec) return Wait(sec) end          -- T:Wait (asynchrones Warten) für die Prüfungen
 	-- 3.0.24 (TU6): welche Prüfungen in diesem Lauf vorkamen (für "Regressionen: n von m")
 	R.seen = {}
+	R.slow, R.maxPortion, R.portions, R.maxPortionAt, R.bigPortions = {}, 0, 0, nil, {}
 	do
 		local oCheck, oSkip, oClient = t.Check, t.Skip, t.Client
-		t.Check = function(self, id, ...) R.seen[id] = "run"; return oCheck(self, id, ...) end
+		t.Check = function(self, id, ...)
+			R.seen[id] = "run"
+			R.Breathe(R.PRE_MS)
+			R.current = id
+			local t0 = debugprofilestop and debugprofilestop()
+			local r = pack(oCheck(self, id, ...))
+			if t0 then
+				local d = debugprofilestop() - t0
+				if d > R.PORTION_MS then R.slow[#R.slow + 1] = { id = id, ms = d } end
+			end
+			R.Breathe()
+			return unpack(r, 1, r.n)
+		end
 		if oSkip then t.Skip = function(self, id, ...) R.seen[id] = "skip"; return oSkip(self, id, ...) end end
 		if oClient then t.Client = function(self, id, ...) R.seen[id] = "client"; return oClient(self, id, ...) end end
 	end
@@ -3735,7 +3928,11 @@ function R.Run(only)
 		if not T.active then error("Testmodus ließ sich nicht starten") end
 	end)
 	R.jobs = {}
+	R.areaCount = 0
 	if ok then
+		for _, a in ipairs(AREA_ORDER) do
+			if not only or only == a then R.areaCount = R.areaCount + 1 end
+		end
 		for _, a in ipairs(AREA_ORDER) do
 			if not only or only == a then
 				R.jobs[#R.jobs + 1] = { area = a, name = AREAS[a], fn = function()
@@ -3779,6 +3976,90 @@ function R.NotePruefliste(t, only)
 	local s = g and g.Stats and g.Stats()
 	local aus = s and type(s.dropped) == "table" and tonumber(s.dropped.aus) or 0
 	if aus == 0 then RM.PLHit("MNT", "verworfen aus 0") else RM.PLFail("MNT", "verworfen aus " .. aus) end
+end
+
+-- TR-ALLE (3.0.30): sauber nach /reload. Die Bereiche ändern einige echte Tabellen kurz (EXTRA_KEYS, KeepDB stellt sie am
+-- Ende des Bereichs zurück; der Testmodus sichert seine eigenen in RaidMasterTestDB). Ein /reload mitten in einem Bereich
+-- liesse diese Änderungen stehen. Darum beim Start eine Sicherung in RaidMasterDB.routineGuard, beim Ende gelöscht; ist sie
+-- beim Einloggen noch da, wird alles daraus zurückgeschrieben.
+function R.SetGuard(db)
+	if type(db) ~= "table" then return end
+	local g = { t = time(), version = RM.VERSION, keys = {}, had = {} }
+	for _, k in ipairs(EXTRA_KEYS) do
+		g.had[k] = db[k] ~= nil
+		if db[k] ~= nil then g.keys[k] = Deep(db[k]) end
+	end
+	g.opts = Deep(RaidMasterTestOptions)
+	db.routineGuard = g
+end
+
+function R.ClearGuard(db)
+	if type(db) == "table" then db.routineGuard = nil end
+end
+
+function R.RestoreGuard(db)
+	local g = type(db) == "table" and db.routineGuard
+	if type(g) ~= "table" then return false end
+	for _, k in ipairs(EXTRA_KEYS) do
+		if g.had and g.had[k] then
+			local v = g.keys and g.keys[k]
+			if type(v) == "table" and type(db[k]) == "table" then Replace(db[k], v) else db[k] = Deep(v) end
+		else
+			db[k] = nil
+		end
+	end
+	if g.opts ~= nil and db == RaidMasterDB then RaidMasterTestOptions = Deep(g.opts) end
+	db.routineGuard = nil
+	return true
+end
+
+RM.On("PLAYER_LOGIN", function()
+	if R.running then return end
+	if RaidMasterDB and RaidMasterDB.routineGuard and R.RestoreGuard(RaidMasterDB) then
+		Say("war beim letzten Mal unterbrochen (/reload oder Ausloggen) – deine Daten sind wiederhergestellt.")
+	end
+end)
+
+-- TR-ALLE (3.0.30): EINE Zusammenfassung "x von y bestanden, z nicht prüfbar – Grund" und die Portionen
+function R.Summary(t)
+	local c = (t and t.counts) or {}
+	local ok, bad = c.ok or 0, c.fehler or 0
+	local skip, hand = c.uebersprungen or 0, c.client or 0
+	local why = {}
+	local inList = {}
+	for _, p in ipairs(RM.PRUEFPUNKTE or {}) do inList[string.upper(tostring(p.id))] = true end
+	for _, e in ipairs((t and t.results) or {}) do
+		if e.status == "SKIP" then
+			local g = tostring(e.grund or "?"):gsub("%s*%(.*", ""):sub(1, 50)
+			why[g] = (why[g] or 0) + 1
+		elseif e.status == "CLIENT" then
+			-- ehrlich: "Prüfliste" nur, wenn der Punkt wirklich in /rm prüfliste steht; sonst offene Handprüfung im echten Client
+			local g = inList[string.upper(tostring(e.id or ""))] and "nur von Hand (/rm prüfliste)" or "nur im echten Client (nicht in der Prüfliste)"
+			why[g] = (why[g] or 0) + 1
+		end
+	end
+	local list = {}
+	for g, n in pairs(why) do list[#list + 1] = { g = g, n = n } end
+	table.sort(list, function(a, b) if a.n ~= b.n then return a.n > b.n end return a.g < b.g end)
+	local parts = {}
+	for i = 1, math.min(3, #list) do parts[i] = list[i].n .. "x " .. list[i].g end
+	local summary = string.format("%d von %d bestanden", ok, ok + bad)
+	if skip + hand > 0 then
+		summary = summary .. string.format(", %d nicht prüfbar – %s", skip + hand, table.concat(parts, "; "))
+	end
+	table.sort(R.slow or {}, function(a, b) return a.ms > b.ms end)
+	local slow = {}
+	for i = 1, math.min(6, #(R.slow or {})) do slow[i] = string.format("%s %.0f ms", R.slow[i].id, R.slow[i].ms) end
+	local portionLine = string.format("PORTIONEN: %d Bilder, längste %.1f ms (bei %s); Prüfungen länger als %d ms am Stück: %s", R.portions or 0,
+		R.maxPortion or 0, R.maxPortionAt or "-", R.PORTION_MS, #slow > 0 and table.concat(slow, ", ") or "keine")
+	local big = {}
+	for at, ms in pairs(R.bigPortions or {}) do big[#big + 1] = { at = at, ms = ms } end
+	table.sort(big, function(a, b) return a.ms > b.ms end)
+	local bigParts = {}
+	for i = 1, math.min(8, #big) do bigParts[i] = string.format("%s %.0f ms", big[i].at, big[i].ms) end
+	portionLine = portionLine .. string.format("; Bilder über %d ms: %d Stellen%s", R.PORTION_MS, #big,
+		#big > 0 and (" (" .. table.concat(bigParts, ", ") .. ")") or "")
+	return summary, portionLine
 end
 
 function R.Finish(aborted)
@@ -3945,16 +4226,25 @@ function R.Finish(aborted)
 	end
 
 	local marktLine = RM.MarktLine and RM.MarktLine() or "MARKT-NETZ: -"
+	if R.diagSources and RM.Diag.sources then
+		Replace(RM.Diag.sources, R.diagSources.src)
+		RM.Diag.sourcesTotal, RM.Diag.firstSource = R.diagSources.total, R.diagSources.first
+	end
+	local srcLine = RM.Diag.SourcesLine and RM.Diag.SourcesLine() or nil
 	local plLines = RM.PLReportLines and RM.PLReportLines() or {}            -- Prüfliste (3.0.28, nur Entwickler)
+	local summary, portionLine = R.Summary(t)
 	local text = t:Finish({ sandbox = sandbox, fehlerzaehler = R.diagBefore .. " -> " .. #RM.Diag.errors, locale = RM.LOCALE,
-		markt = marktLine, pruefliste = #plLines > 0 and table.concat(plLines, " | ") or nil,
+		markt = marktLine, pruefliste = #plLines > 0 and table.concat(plLines, " | ") or nil, fehlerquellen = srcLine,
+		zusammenfassung = summary, portionen = portionLine,
 		testflavor_ende = G and tostring(G.flavor) or "-", blocked = blocked, echte_aktionen = realN, abgefangen = actList,
 		bereich = only or (R.long and "alle (lang)" or "alle"), abbruch = aborted and "ja" or nil })
 	text = text .. "\n" .. marktLine                       -- MN3
+	text = text .. "\n" .. summary .. "\n" .. portionLine     -- TR-ALLE
 	text = text .. "\n\nBericht gespeichert – wird beim nächsten /reload oder Ausloggen an die Prüfung gemeldet."
 		.. "\nNach der Testroutine bitte /reload (Knopf \"Neu laden und melden\")."
 	R.lastText = text
 	R.running = false
+	pcall(R.ClearGuard, RaidMasterDB)
 	-- Spion abbauen; nach einem Abbruch erst nach einer Nachlaufzeit (verzögerte Aktionen bleiben abgefangen)
 	if aborted then
 		R.graceUntil = GetTime() + R.GRACE
@@ -3970,6 +4260,7 @@ function R.Finish(aborted)
 		pcall(R.NotePruefliste, t, only)                 -- Prüfliste (3.0.28): ganze Routine -> Punkte TR und MNT
 	end
 	pcall(RM.UI.ShowExport, text, { "Neu laden und melden", function() RM.Act.ReloadUI() end })
+	Say(summary)
 	Say("fertig. Bericht gespeichert – wird beim nächsten /reload oder Ausloggen an die Prüfung gemeldet. Bitte /reload.")
 	return text
 end

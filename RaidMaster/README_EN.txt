@@ -23,6 +23,17 @@ MAIN FEATURES
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
 
+WHAT'S NEW IN 3.0.30 – raid dates for other addons, test routine "all" (developer)
+- New for other addons: RaidMasterAPI.UpcomingRaids() returns the upcoming raid dates from the Discord signup (start
+  time and title only, at most 20). AHSentinel can use it e.g. to remind you of potions before a raid.
+- Diagnosis: now counts which addon error messages come from (only a count per addon, no text). Shown in the diagnosis
+  window and in the test report ("FEHLERQUELLEN").
+- Developer only: "/rm testroutine alles" runs all automatic checks one after another – in small portions, without
+  stutter, with progress ("3 of 12 …") and one summary at the end. "/rm testroutine stop" aborts; a /reload in the
+  middle of a run also leaves everything clean.
+- Developer only: the checklist (/rm checklist) describes every manual step exactly: where, step by step, what you
+  see, what it costs.
+
 WHAT'S NEW IN 3.0.29 – the diagnosis no longer slows the game down
 - Fixed: "Diag.lua: insecure scripts exceeded execution limit for addon RaidMaster" every frame. With the diagnosis
   window open, RaidMaster rebuilt it on EVERY error – also errors of other addons and the execution-limit message itself,

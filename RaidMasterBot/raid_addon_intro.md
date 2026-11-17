@@ -27,6 +27,9 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 ===
 📜 **Updates**
 
+**3.0.30** – Raid-Termine für andere Addons
+• Andere GoldSentinel-Addons können die kommenden Raid-Termine aus der Discord-Anmeldung lesen (z. B. AHSentinel: an Tränke erinnern). Die Diagnose zählt Fehler je Addon.
+
 **3.0.29** – Kein Ruckeln mehr durch die Diagnose
 • Bei vielen Fehlern (auch von anderen Addons) konnte RaidMaster das Spiel ausbremsen („execution limit“). Behoben.
 
@@ -50,8 +53,5 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 
 **3.0.16** – Sicher im Kampf
 • Alles, was RaidMaster im Spiel auslöst (Chat, Symbole, Einladen, Plündern …), läuft jetzt über eine einzige Stelle – im Spiel ändert sich nichts, aber Fehler in WoW Forever werden besser abgefangen.
-
-**3.0.12 / 3.0.13** – Berufe in WoW Forever
-• „Meine Berufe einlesen“ funktioniert jetzt auch im neuen Forever-Client: Jeder Klick öffnet den nächsten Beruf und liest Rezepte und Zutaten – für `/handwerk` und `/berufe` hier im Discord.
 
 Ältere Neuerungen stehen im Addon in der Datei LIESMICH.txt.

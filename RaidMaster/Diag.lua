@@ -54,9 +54,49 @@ end
 -- Zähler der laufenden Sekunde zurücksetzen (Testroutine, "Fehler leeren")
 function D.ResetRate() secNow, secCount = 0, 0 end
 
--- Fehler-Handler: nur ein Textvergleich, sonst nichts (läuft bei JEDEM Fehler jedes Addons)
+-- RM-DIAG-1 Messung (3.0.30, Auftrag des Supervisors 16.11.): Wie viele Fehler gehen durch unseren Handler, und aus
+-- welchem Addon? Nur Zahlen je Quelle (kein Fehlertext – könnte Namen enthalten). Klärt, ob eine Fehlerflut aus einem
+-- anderen Addon kam und WoW sie RaidMaster nur zurechnete, weil unser Handler zuoberst in der Kette liegt.
+D.sources = {}         -- [Addon] = Anzahl
+D.sourcesTotal = 0
+D.firstSource = nil    -- { src = Addon, t = Zeit } – erste Meldung seit dem Laden
+local MAX_SOURCES = 30
+
+-- Quelle aus dem Text: "… for addon 'X'" (Ausführungsgrenze, Aktion blockiert) gewinnt, sonst der erste Pfad AddOns\X\
+function D.SourceOf(text)
+	local a = text:match("[Ff]or [Aa]dd[Oo]n '?\"?([%w_%-]+)")
+	if not a then a = text:match("[Aa]dd[Oo]ns[/\\]([%w_%-]+)") end
+	return a or "?"
+end
+
+function D.CountSource(text)
+	local src = D.SourceOf(text)
+	if D.sources[src] == nil then
+		local n = 0
+		for _ in pairs(D.sources) do n = n + 1 end
+		if n >= MAX_SOURCES then src = "andere" end
+	end
+	D.sources[src] = (D.sources[src] or 0) + 1
+	D.sourcesTotal = D.sourcesTotal + 1
+	if not D.firstSource then D.firstSource = { src = src, t = time() } end
+end
+
+-- Eine Zeile für Testbericht und Diagnose-Fenster: "FEHLERQUELLEN: 1142 · AHSentinel 1100, RaidMaster 42 · zuerst AHSentinel 09:30:12"
+function D.SourcesLine()
+	if D.sourcesTotal == 0 then return "FEHLERQUELLEN: 0" end
+	local list = {}
+	for k, v in pairs(D.sources) do list[#list + 1] = { k = k, v = v } end
+	table.sort(list, function(a, b) if a.v ~= b.v then return a.v > b.v end return a.k < b.k end)
+	local parts = {}
+	for i = 1, math.min(8, #list) do parts[i] = list[i].k .. " " .. list[i].v end
+	local first = D.firstSource and (" · zuerst " .. D.firstSource.src .. " " .. date("%H:%M:%S", D.firstSource.t)) or ""
+	return "FEHLERQUELLEN: " .. D.sourcesTotal .. " · " .. table.concat(parts, ", ") .. first
+end
+
+-- Fehler-Handler: Zähler je Quelle und ein Textvergleich, sonst nichts (läuft bei JEDEM Fehler jedes Addons)
 function D.OnError(msg)
 	local text = type(msg) == "string" and msg or tostring(msg)
+	pcall(D.CountSource, text)
 	if text:find("RaidMaster", 1, true) then D.Record(text) end
 end
 
@@ -158,6 +198,7 @@ function D.Text()
 			add("  |cffff5544" .. date("%H:%M:%S", e.t) .. (e.n > 1 and (" (" .. e.n .. "x)") or "") .. "|r " .. (e.msg:gsub("Interface\\AddOns\\", "")))
 		end
 	end
+	add("  " .. D.SourcesLine())
 	if D.dropped > 0 then add("  |cffff5544" .. string.format(L["… und %d weitere Fehler in kurzer Zeit (nicht einzeln erfasst)"], D.dropped) .. "|r") end
 	return table.concat(out, "\n")
 end

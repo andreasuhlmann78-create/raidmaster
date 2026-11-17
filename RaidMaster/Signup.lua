@@ -938,3 +938,45 @@ function S.ApplyStandby()
 	RM.Print(n .. L[" Spieler auf die Ersatzbank übernommen."])
 	RM.Fire("DATA_CHANGED")
 end
+
+---------------------------------------------------------------------------
+-- RM-API-RAIDS (3.0.30): Schnittstelle für andere GoldSentinel-Addons (AHSentinel "Vorräte vor Raid-Abenden")
+-- RaidMasterAPI.UpcomingRaids() -> { { t = <Unix-Zeit Raid-Beginn>, name = "<Raid-Name>" }, ... }
+--   nur kommende Termine (t >= jetzt), aufsteigend, höchstens 20, KEINE Spielernamen/Anmeldungen/IDs. Fehlerfest: liefert
+--   immer eine Tabelle (leer, wenn nichts bekannt ist), wirft nie.
+-- Quelle (S.KnownRaids): was RaidMaster schon kennt – die zuletzt aus Discord importierte Anmeldung (Zeile "Start:" mit
+-- Unix-Zeit, Titel). Testraids aus Discord (/raid testraid) nie. Weitere Quellen (z. B. wiederkehrende Raids vom Bot)
+-- kommen hier dazu, sobald der Bot sie liefert.
+---------------------------------------------------------------------------
+function S.KnownRaids()
+	local out = {}
+	local su = RM.db and RM.db.signup
+	if type(su) == "table" and not S.IsTestSignup(su) and tonumber(su.start) then
+		out[#out + 1] = { t = tonumber(su.start), name = su.title }
+	end
+	return out
+end
+
+_G.RaidMasterAPI = _G.RaidMasterAPI or {}
+local API = _G.RaidMasterAPI
+API.VERSION = 1
+API.MAX_RAIDS = 20
+
+function API.UpcomingRaids()
+	local ok, list = pcall(function()
+		local now = (RM.Now and RM.Now()) or time()
+		local out = {}
+		for _, r in ipairs(S.KnownRaids() or {}) do
+			local t = type(r) == "table" and tonumber(r.t)
+			if t and t >= now then
+				local name = type(r.name) == "string" and r.name or ""
+				out[#out + 1] = { t = math.floor(t), name = name:sub(1, 60) }   -- nur diese zwei Felder, nichts sonst
+			end
+		end
+		table.sort(out, function(a, b) if a.t ~= b.t then return a.t < b.t end return a.name < b.name end)
+		while #out > API.MAX_RAIDS do table.remove(out) end
+		return out
+	end)
+	if ok and type(list) == "table" then return list end
+	return {}
+end

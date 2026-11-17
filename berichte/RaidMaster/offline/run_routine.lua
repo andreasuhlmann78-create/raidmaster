@@ -73,7 +73,12 @@ local R = RM.TestRoutine
 local only = ROUTINE_AREA or os.getenv("AREA")
 R.Run(only)
 local waited = 0
-while R.running and waited < 400 do Advance(0.5); waited = waited + 0.5 end
+-- STOPAT=<Sekunden>: "/rm testroutine stop" nach so vielen Sekunden (Abbruch muss alles zurückstellen)
+local stopAt = tonumber(os.getenv("STOPAT") or "")
+while R.running and waited < 400 do
+	Advance(0.5); waited = waited + 0.5
+	if stopAt and waited >= stopAt and R.running then SlashCmdList["RAIDMASTER"]("testroutine stop"); stopAt = nil end
+end
 Advance(15)
 
 local fails = 0
@@ -100,6 +105,7 @@ local rc = 0
 for k, v in pairs(REAL_CALLS) do rc = rc + v; print("  echt: " .. k .. " " .. v) end
 check(rc == 0, "keine echte Aktion (Blizzard-Funktionen der Nachbildung)")
 check(next(RM.API.over) == nil and next(RM.API.hide) == nil, "RM.API leer")
+check(RaidMasterDB.routineGuard == nil, "Sicherung (routineGuard) nach dem Ende gelöscht")
 print("ERRORS:", ERRORS or 0)
 print(fails == 0 and "ALLE OK" or ("FEHLER: " .. fails))
 if os.getenv("SHOWALL") then
