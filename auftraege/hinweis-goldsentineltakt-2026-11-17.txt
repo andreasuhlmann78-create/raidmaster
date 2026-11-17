@@ -1,0 +1,20 @@
+HINWEIS AN ALLE PROJEKTE – shared/GoldSentinelTakt.lua Version 1 (gemeinsamer Takt gegen Ruckeln)
+Entscheid des Nutzers 17.11.2026 20:42 ("genau go … und mach ja keinen Fehler"). Wissen: shared/wissen/leistung.md Abschnitt 6 (B6).
+
+WAS: Ein gemeinsamer Baustein, der schwere Arbeit in Portionen teilt (je Bild höchstens 2 ms, höchstens eine Aufgabe je Bild),
+misst (längstes Bild mit Etikett, über 5/16/40 ms) und nie hängen bleibt (Zeitlimit). Gebaut aus den bewährten Mustern von
+ThreatSentinel, BuffSentinel und GoldSentinelMarkt. Geprüft: shared/tests/test_goldsentineltakt.py, 70 Prüfungen in Lua 5.1 mit
+Gegenproben. addon_check: Regel "exact" (jede Kopie Byte für Byte gleich).
+
+WIE ÜBERNEHMEN (bei der nächsten Arbeit an Portionen – Pflicht für alles NEUE, Bestehendes beim nächsten Anfassen):
+1. shared/GoldSentinelTakt.lua UNVERÄNDERT ins Addon kopieren, in der .toc VOR den eigenen Dateien eintragen.
+2. Schwere Arbeit (Testroutine-Bereiche, Panel-/Listen-Aufbau, Routen, Scan-Auswertung, Laden) als
+   GoldSentinelTakt.Start({ name = "…", owner = "<Addon>", fn = function() … GoldSentinelTakt.Check("<Etikett>") … end, onDone = … }).
+   Check in Schleifen alle paar Einträge; das Etikett (z. B. Prüfungs-Nr.) erscheint bei langen Bildern.
+3. NIE pcall um Code, der Check aufruft – stattdessen GoldSentinelTakt.PCall. Ersatz-Zustand in Tests: GoldSentinelTakt.Sliced(f,
+   enter, leave) (wie BuffSentinel). Check nie in Metamethoden, Iterator-Funktionen, sort-/gsub-Funktionen.
+4. Im Bericht/Testergebnis die Zeile GoldSentinelTakt.Summary(job) ausgeben (Portionen, längstes Bild, über 5/16/40 ms,
+   "Abgabe nicht möglich"/"gescheitert"). "Abgabe nicht möglich" > 0 auf normalen Wegen = Umbau nötig (pcall -> PCall).
+5. Eigene Takt-Lösungen, die im Spiel schon gut sind (ThreatSentinel, BuffSentinel), dürfen bleiben; neue Arbeit nimmt den Takt.
+MESSAUFTRAG (wer zuerst übernimmt): im ersten Ingametest belegen, dass im Forever-Client abgegeben wird ("Abgabe nicht möglich: 0",
+längstes Bild ≤ Budget + ein Schritt). Fragen/Funde zum Baustein an die Prüf-Sitzung (berichte/), nie selbst ändern.

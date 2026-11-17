@@ -63,6 +63,7 @@ SHARED = {
     "GoldSentinelSync.lua": "exact",
     "GoldSentinelMarkt.lua": "exact",
     "GoldSentinelCmdHint.lua": "exact",
+    "GoldSentinelTakt.lua": "exact",            # Takt für Arbeit in Portionen (Nutzer 17.11. 20:42), shared/wissen/leistung.md
     "GoldSentinelDev.lua": "version",
     "GoldSentinelPruefliste.lua": "version",     # Prüfliste im Spiel (Nutzer 16.11. 06:47), shared/pruefliste/README.md
 }

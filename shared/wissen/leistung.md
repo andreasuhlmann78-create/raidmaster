@@ -86,5 +86,20 @@ G1 GuildSentinel 0.9.51: ein Test setzte einen Merker (ns.testSecret) und leerte
    Lehre: Abgabe-Sperren immer mit Gegenstück (Ende der Prüfung) und mit Zähler im Bericht ("nicht angehalten seit …").
 G2 ProfessionSentinel 0.9.64: collectgarbage("collect") 31× im Lauf -> Einfrieren. Lehre: Regel 2 (Abschnitt 4).
 G3 Mehrere: Nachbau ohne echte Datenmenge und ohne echte andere Addons -> Faktor 20–30 zu optimistisch. Lehre: Regel 7.
-Vorschlag (Prüf-Sitzung, zur Entscheidung): ein gemeinsamer Baustein shared/GoldSentinelTakt.lua (Job mit Phasen, Budget, Messung je
+ERLEDIGT (Entscheid 20:42, siehe B6): ein gemeinsamer Baustein shared/GoldSentinelTakt.lua (Job mit Phasen, Budget, Messung je
 Portion, noYield/Sliced, Zeitlimit) aus B1–B3 – dann baut jedes Addon auf demselben geprüften Takt statt jedes seinen eigenen.
+
+B6 shared/GoldSentinelTakt.lua Version 1 (Prüf-Sitzung, 17.11.2026, Entscheid des Nutzers 20:42) – der gemeinsame Takt aus B1–B3:
+   - GoldSentinelTakt.Start({name, owner, fn, args, budget=2, timeout=300, pauseInCombat, onDone, onPortion}); in der Arbeit
+     Check(etikett) / Label / NoYield / PCall / Sliced(f, enter, leave) / Sleep / WaitFor; danach Summary(job) und job.stats.
+   - Je Bild höchstens EINE Aufgabe (reihum), Budget 0,5–8 ms, Zeitlimit höchstens 3600 s (keine Sperre ohne Zeitlimit),
+     Treiber schläft ohne Aufgaben, neuere Fassung übernimmt laufende Aufgaben (gleiche Tabelle).
+   - Lua 5.1: erkennt pcall/xpcall/sort/gsub im Stapel und gibt dort nicht ab (gezählt "Abgabe nicht möglich" mit Etikett);
+     zweite Sicherung meldet eine gescheiterte Abgabe ("Abgabe gescheitert"); Check in Metamethode/Iterator endet laut.
+     Eichung je Coroutine: Zeilen, die das Spiel unter der Coroutine anhängt, zählen nicht.
+   - Messwerte je Aufgabe: Bilder, längstes Bild mit Etikett (Beginn–Ende), Bilder über 5/16/40 ms, 10 längste, eigene
+     Rechenzeit, Dauer.
+   - Tests: shared/tests/test_goldsentineltakt.py, 70 Prüfungen in Lua 5.1, mit Gegenproben (Stapel-Erkennung aus -> stille
+     Abgabe in pcall; ohne Eichung -> nie abgegeben; Arbeit am Stück echte Uhr ~60–97 ms gegen Takt ~2,3 ms, Median aus 3).
+   - Verdacht, zu messen (im Spiel): Format von debugstack in Forever (Eichung deckt angehängte Zeilen ab). Erster Ingametest
+     eines Addons mit dem Takt: "Abgabe nicht möglich" muss auf normalen Wegen 0 sein.

@@ -4628,3 +4628,7 @@ Statusleiste (auch beim Schliessen des Charakterfensters). Im Bericht zu TAINT-1
 shared/wissen/leistung.md lesen (Pflicht) und auftraege/hinweis-leistung-2026-11-17.txt umsetzen: Spielwert UND Nachbau-Wert je Fall,
 Nachbau mit echten Daten, jeder Ruckler über 40 ms als Fall im Bericht, Bau-Regeln für alles Neue.
 Nachtrag 20:55: leistung.md Abschnitt 6 "Bewährte Bausteine" (ThreatSentinel/BuffSentinel/GoldSentinelMarkt/AHSentinel-Lesen) und Gegen-Beispiele – bei der nächsten Arbeit an Portionen übernehmen.
+
+==== HINWEIS 17.11.2026 21:00 – GoldSentinelTakt Version 1 (Entscheid des Nutzers 20:42) ====
+auftraege/hinweis-goldsentineltakt-2026-11-17.txt lesen: gemeinsamer Takt gegen Ruckeln (shared/GoldSentinelTakt.lua, unverändert kopieren).
+Pflicht für neue Arbeit in Portionen; Summary-Zeile in den Bericht. LevelPilot (T151/T261) und ProfessionSentinel (T139/T140) zuerst.
