@@ -240,3 +240,16 @@ nur wo nötig und jeder Handpunkt in klaren, nummerierten Schritten (Wo / Schrit
 ==== MARKT-V10 (Supervisor 17.11.2026 14:40, ersetzt MARKT-V9) ====
 - shared/GoldSentinelMarkt.lua Version 10 statt v9 kopieren (Zeitprüfung alle 20 statt 100 Einträge). Einzelheiten: Nachtrag in
   auftraege/hinweis-goldsentinelmarkt-v9-2026-11-17.txt.
+
+==== INGAMETEST DES NUTZERS 17.11.2026 17:00 – 2.5.16 "/ts testroutine alles" (Forever, Krieger 24) ====
+Ergebnis: 272 von 276 bestanden, 4 FEHLER, 25 hier nicht prüfbar; Sandbox, CVars, Tastenbelegung, Stubs OK; 0 echte Aktionen; Fehlerzähler 0;
+28 Pausen, Zufall langsamste Portion 3,6 ms. Gut.
+Befunde:
+1. MITTEL T181 + T-K2 (+ TU6-R1): "Testzentrale überdeckt Pfeil (LevelPilot)", T-K2 "verschoben true, Überdeckung 10204" – die Testzentrale
+   weicht dem LevelPilot-Pfeil nicht aus. TU6 sagt selbst "2.5.8-1 T-K2 im Client immer FEHLER" – eine Regression, die im Spiel nie grün war.
+   Bitte Ursache belegen (wird der Pfeil von LevelPilot als "sichtbares GoldSentinel-Fenster" erkannt? Ausweichen nur in eine Richtung?) und
+   so beheben, dass T-K2 im Spiel grün ist (Ziel Überdeckung 0, sonst ehrlich "kein freier Platz" statt FEHLER).
+2. MITTEL TU1-L04t: Schlachtzug 40 mit 40 Mobs – ein Durchlauf 10,3 ms (Ziel < 8 ms). Im Spiel gemessen (Nachbau war darunter?). Bitte
+   Ursache messen und den Durchlauf teilen/beschleunigen; Ziel PS: kein Bild > 16 ms im Kampf.
+3. Hinweis: Prüfliste 1 von 14 erledigt – die anderen 13 Handpunkte nach TR-ALLE B/D prüfen: welche lassen sich noch automatisieren
+   bzw. automatisch nachholen (Nachtrag D), damit der Nutzer möglichst wenig tun muss.
