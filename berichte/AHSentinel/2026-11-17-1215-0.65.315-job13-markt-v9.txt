@@ -1,0 +1,31 @@
+AHSentinel 0.65.315 – MARKT-V9, T126-Ergänzung, Messung Job-Runner/erster Scan (JOB-13) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.315 und sofort im Discord.
+
+1) MARKT-V9: GoldSentinelMarkt.lua byte-gleich aus shared/ (Version 9), CHANGELOG EN/DE. s216 nachgemessen (wie verlangt): der Baustein
+   (GoldSentinelMarkt.lua OnUpdate) kommt in keinem Lauf mehr unter die längsten Posten des schwersten Bilds (0,0–4,4 ms; vorher
+   19,3/21,3 ms). Feed selbst je Bild höchstens 8,4 ms (Auskunft, im gemeinsamen Budget).
+2) T126 Ergänzung: FEHLER auch, wenn die LÄNGSTE Portion > 2 × Grenze (16 ms); eine Funktion TR.T126Ok für Prüfung und T889
+   (Fall 6/6/5 mit längster 20 -> rot).
+3) Undercut Ausrüstung: zurückgezogen (siehe Bericht 0.65.314 – Ausrüstung nur in ganzen Silbern, 990c gibt es nicht). Nichts geändert.
+   Bitte deinen Auftrag dazu streichen oder sagen, falls du trotzdem 1 Kupfer + Abrunden willst (Ergebnis bei ganzen Silbern gleich).
+4) JOB-13 Job-Runner 11–13 ms – GEMESSEN (Nachbau s216, je Bild Aufgabe, Schritte und längster Schritt aus A.lastJobFrame):
+   immer Aufgabe „fullscan“, 0 Schritte (A:Pause), längster Schritt 9,2–16,4 ms bis Vollscan.lua (erstes A:Pause in VS:Track) –
+   die Vorbereitung von VS:Track (VS:TrackedSet: Forecast.RelevantItems, alle Items einsammeln, table.sort über ~6000 Items;
+   VS:OwnRunning: alle P-Einträge des Journals dekodieren) lief am Stück. Änderung: A:Pause in beiden Schleifen (alle 500 bzw. 200),
+   vor und nach dem Sortieren. NACHHER: Aufgabenbild 6,0–7,8 ms. s216 neue Pflicht „Aufgabe fullscan längstes Bild je Lauf, Median ab
+   Lauf 2 ≤ 10 ms“: 0.65.315 grün, Gegenprobe 0.65.314 rot (11,8/12,8/11,3/11,5/14,9/16,0/15,2/11,5 -> Median 12,8).
+   Dazu Pflicht „nach dem Scan kein Bild über 16 ms (Median je Seite)“ (NACHLAUF-34) – grün.
+5) Erster Scan 57 ms – GEMESSEN: einmalig im ERSTEN Lauf nach dem Laden, im Zeitgeber der Vollscan-Messung (VS:MTick, 51,6 ms beim
+   ersten Bild mit Messung, Schritt „Warten auf Server“), in den Läufen 2–8 0,0–0,9 ms; VS:MFinal 0,0–0,2 ms. Im Code von VS:MTick ist
+   nichts Teures zu sehen (collectgarbage("count"), kleine Tabellen). Verdacht, zu messen: einmaliger Effekt des Nachbaus nach dem Laden
+   (z. B. erste Speicherbereinigung nach collectgarbage("collect")). Im Spiel: die Zeile „VOLLSCAN Messung …“ (Lücke mit Schritt) im
+   Testbericht zeigt, ob es dort auch vorkommt. Nicht geändert.
+6) Zu deiner Frage „2s34 statt 2s32“ (Bericht 0.65.314, T891): Gewinn je Stück = Händlerpreis − Preis des Angebots = 300 − 183 = 117
+   (wie A:VendorDeals: profit = (v − Preis) × Menge), nicht 299 − 183 (299 ist die Kaufgrenze „kaufen bis Händlerpreis − 1“).
+   117 × 2 = 234 = 2s34 < 10s -> kein Kauf. Die Zahl im Bericht stimmt; im Test steht dieselbe Rechnung.
+7) Hinweis Nachbau-Lagen Ausrüstung (990c/2899c unrealistisch): kommt als nächster Punkt (0.65.316): für Ausrüstung ganze Silber,
+   Erwartungen neu ausrechnen.
+
+Tests (eigene, keine Freigabe): Gesamtlauf aller Nachbauten auf dem Stand 0.65.315 (ohne parallele Last): BESTANDEN 346, FEHLGESCHLAGEN 0.
+addon_check: AHSentinel-0.65.315.zip OK. Veröffentlicht: GitHub-Release v0.65.315, Discord announce/ahsentinel__ahsentinel-0.65.315.md.
+Nicht in download/, kein CurseForge.
