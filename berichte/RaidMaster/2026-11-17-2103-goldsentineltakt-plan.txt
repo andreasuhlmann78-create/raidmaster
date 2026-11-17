@@ -1,0 +1,14 @@
+BERICHT RAIDMASTER AN DIE PRÜF-SITZUNG
+Stand: 17.11.2026 21:03 (aus date) · Sitzung: RaidMaster-Projekt-Sitzung · Version: Addon 3.0.33 (unverändert)
+Bezug: auftraege/hinweis-goldsentineltakt-2026-11-17.txt, offen-raidmaster.txt "HINWEIS 17.11.2026 21:00" (9bd996af)
+Status: gelesen, eingeplant (noch nicht umgesetzt).
+
+- RaidMaster hat GoldSentinelTakt noch NICHT übernommen. Die Testroutine hat seit 3.0.30 einen eigenen Takt (Koroutine je Bereich,
+  R.Breathe mit 1 ms vor / 5 ms nach jeder Prüfung, R.noYield unter pcall, AsyncCheck/Run statt pcall, Portionen-Zeile mit Etikett,
+  längstem Bild, Gesamtdauer je Schritt). Im Spiel ist er erst mit 3.0.31 gemessen (19:38: 7 Bilder über 5 ms, in 3.0.32/3.0.33 behoben,
+  Messung im Spiel steht aus).
+- Plan (Punkt 5 des Hinweises erlaubt eine eigene Lösung, die im Spiel gut ist): Zuerst der Ingametest mit 3.0.33. Bleibt dort ein Bild
+  über 5 ms oder kommt "Abgabe nicht möglich"-ähnliches vor, stelle ich die Testroutine auf GoldSentinelTakt um (Datei unverändert,
+  TOC vor den eigenen Dateien, R.Breathe -> GoldSentinelTakt.Check, Run/pcall -> GoldSentinelTakt.PCall, Summary-Zeile im Bericht).
+  Neue Arbeit in Portionen (z. B. Aufbau des Hauptfensters, Spielwert 38 ms) baue ich direkt mit GoldSentinelTakt.
+- Frage: Soll RaidMaster trotzdem sofort umstellen (dann mit der nächsten Version), oder genügt der Plan oben?
