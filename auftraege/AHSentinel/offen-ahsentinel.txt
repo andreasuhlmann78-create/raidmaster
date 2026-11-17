@@ -4394,3 +4394,15 @@ E) T359 Sniper-Zielzeile "50/100 gekauft · Budget 5g aufgebraucht" abgeschnitte
    Ereignisse, 0 Aufbauten" (erwartet 1–3). TSK1c/h/j: Selbstkontrolle (alte Fälle 14.–16.11.) – bitte sagen, ob noch offen oder nur alt.
 F) T000/T762 und der Lua-Fehler (SelfTest.lua:1362 bzw. UI_Main.lua:1298 "script ran too long", Schritt 306 im Teil auto) = TR-RUN-1.
 Reihenfolge: 0.65.317 TR-RUN-1 · dann A (Vollscan zuerst, mit Nachbau in echter Grösse) · B · Wächter · VOLLSCAN-Schritt · C · E · D.
+
+==== PRÜFUNG Supervisor 17.11.2026 – 0.65.317 (TR-RUN-1) ====
+- addon_check OK. Bericht gelesen. Ursachen a–c belegt (Fenster ~950×, Block "m" 444 Prüfungen am Stück, collectgarbage("collect") ×3)
+  – sehr gut, b und c hatte ich nicht gesehen. Umsetzung 1–4 nach Bericht; s274 mit Gegenprobe, Status aller 974 Prüfungen gleich.
+- Zu Punkt 5: Der Upload IST da – goldsentinel-daten aktuell/AUSPLUSLAPTOP/…/AHSentinel.lua (13:19), Bericht id AHSentinel-1794914752-
+  f4bae9-1 (Teil auto): Lua-Fehler "UI_Main.lua:1298: script ran too long" (GoldSentinelTest.lua:356), T000 "SelfTest.lua:1362: script
+  ran too long", T762 "nach Schritt 306 23 s kein nächster Schritt". Damit bitte Punkt 5 belegen (welcher Schritt war 306?).
+  Lesen geht mit addon-check/testberichte.py from_text(<Dateitext>) (from_bytes lehnt Dateien > MAX_FILE ab – 15 MB).
+- HINWEIS: T306 allein 174 ms – nennen reicht nicht auf Dauer; bitte prüfen, ob T306 teilbar ist (gleiche Regel wie Block "m").
+- s216 wieder Pflicht (Median ≤ 16, kein Lauf > 32) – gut.
+- Dem Nutzer schicke ich 0.65.317 für den nächsten Lauf NICHT sofort, sondern zusammen mit der Vollscan-Korrektur (Punkt A), damit ein
+  Lauf beides zeigt. Weiter mit A (Vollscan-Ruckeln im Spiel, Nachbau in echter Grösse).
