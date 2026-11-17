@@ -400,3 +400,10 @@ Befunde (nächste Version, nach 18:00):
   und neu laden (GuildRoster). Test: Gildenmeister + Mitglied mit Realm-Suffix -> befördern/entfernen erlaubt; Gegenprobe 0.9.51 rot.
 - Folge für CurseForge 18:00: 0.9.51 bleibt freigegeben (Fehler steht auch in 0.9.39, keine Verschlechterung); die Korrektur hat
   Vorrang vor allen anderen Punkten (zusammen mit Befund 1 alts nil – vermutlich gleiche Ursache).
+
+==== ENTSCHEID DES NUTZERS 17.11.2026 16:58 – "Korrektur machen und uploaden" (ERSETZT die Freigabe 0.9.51 von 16:55) ====
+- 0.9.51 NICHT um 18:00 auf CurseForge. Stattdessen: GS-RANG-1 (Gildenmeister darf nicht befördern/entfernen) + Befund 1 (Roster alts nil)
+  SOFORT beheben, als 0.9.52 veröffentlichen (Discord), Bericht – Vorrang vor allem anderen.
+- CurseForge: die korrigierte Version, sobald (1) vom Supervisor geprüft und (2) vom Nutzer im Spiel kurz bestätigt (Rechtsklick auf ein
+  Mitglied: Befördern/Entfernen weiss). Gelingt das vor 18:00 -> Upload heute 18:00; sonst am nächsten Tag 18:00 (Regel: CurseForge 1× täglich 18:00).
+- Bis dahin KEINE Zip nach download/ legen.
