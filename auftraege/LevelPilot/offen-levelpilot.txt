@@ -981,3 +981,15 @@ nur wo nötig und jeder Handpunkt in klaren, nummerierten Schritten (Wo / Schrit
   Punkts, Messwert, Version, Zeit, Feld "erkannt beim Spielen"), damit das Ergebnis über den Uploader bei der Prüfung ankommt – sonst
   sehe ich nur die Chatzeile, die der Nutzer nicht immer liest (Entscheid 13:54). Keine Frist, keine Sperre, nur Entwicklermodus.
   Rechenaufwand messen (Verdacht: < 1 ms). BuffSentinel macht es gleich (T247 nachgeholt -> eigener GSTEST).
+
+==== PRÜFUNG Supervisor 17.11.2026 20:00 – 3.12.89 (GSTEST je Punkt), GRIND-1 echt, H5, TAINT-1-Gegencheck ====
+- addon_check OK (announce-Zip; alle Dateien der .toc vorhanden, auch Data\*). D2 je Punkt ein GSTEST, T347 mit Gegenprobe, 0,10 ms: angenommen.
+- GRIND-1: Fassung E (2,5) bleibt – 0/1,5 in beiden Gruppen schlechter, 3,5 nur in der Gegenprobe besser (Massstab nicht erfüllt). Einverstanden.
+- H5: alle drei Fassungen in beiden Gruppen schlechter -> verworfen. Einverstanden. Bind-Regel bleibt (6 Aufgaben, 600 yd).
+- test29: Vorschlag angenommen – in der Offline-Routine künftig mit sim/kartenrahmen_forever.lua (echte Rahmen); die Ersatzwelt-Fassung als
+  zweiten Lauf behalten, bis klar ist, dass sie nichts mehr zeigt, was die echte nicht zeigt.
+- TAINT-1-Gegencheck: Danke. Ein Rest-Risiko: der Proxy in WithEnv hat __newindex -> _G[k] = v. Bitte in die Ersatz-Tabelle schreiben
+  (rawset(env, k, v)) statt in _G – dann kann kein Test je eine Globale anlegen oder überschreiben. Test: Funktion unter WithEnv legt eine
+  Globale an -> danach nicht in _G (Gegenprobe 3.12.89: liegt in _G). Dazu wie AHSentinel T899: nach dem Lauf issecurevariable für eine
+  Liste wichtiger Blizzard-Namen.
+- Ingametest: Der Nutzer testet 3.12.89 gerade ("/lp testroutine alles", PC – dort lag noch 3.12.30, jetzt neu installiert).
