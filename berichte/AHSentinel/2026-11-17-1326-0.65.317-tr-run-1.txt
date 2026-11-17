@@ -1,0 +1,32 @@
+AHSentinel 0.65.317 – BEFUND HOCH TR-RUN-1 („script ran too long“ in /ahs testroutine alles) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.317 und sofort im Discord.
+
+URSACHEN (im Nachbau gemessen, s274: Testroutine „auto“, 974 Prüfungen, Testbericht-Fenster offen, 3 Läufe):
+  a) wie von dir belegt: TR:Row rief nach JEDER Prüfung ST.window:Refresh (alle Zeilen neu) – gemessen 945–950 Neuaufbauten je Lauf.
+  b) NEU gefunden: der Teil „m“ ist EIN Block (B) mit 444 Prüfungen (TestRoutine.lua ab Zeile ~10250) – ein einziger Schritt von
+     0,9–2,2 s am Stück im Nachbau (im Spiel mit echten Daten länger). Die Zeitscheibe griff nur ZWISCHEN Schritten. Dazu weitere
+     Blöcke 0,1–0,6 s (T648–T307, T372–T325, …).
+  c) NEU gefunden: drei collectgarbage("collect") am Stück (T594, vor der Vollscan-Messung im Teil server, in TR:Finish) – im Spiel
+     bei grossem Lua-Speicher Sekunden; im Nachbau T594 allein 670 ms.
+UMSETZUNG:
+  1. Fenster: TR:Row setzt nur „dirty“; TR:WindowTick zeichnet höchstens alle 0,5 s neu (Zeitgeber der Routine), nur bei offenem
+     Fenster, am Ende einmal sofort. Gemessen: 19–30 Neuaufbauten je Lauf statt ~950.
+  2. Zeitscheibe 5 ms (vorher 40) inklusive Fenster; JEDE Prüfung eines Blocks ist jetzt ein eigener Schritt (TR:Defer: wird während
+     eines Schritts Chk/Skp/Cli aufgerufen, kommt sie als eigener Schritt direkt dahinter, Reihenfolge bleibt). Längster Schritt
+     jetzt eine einzelne Prüfung: T306 174 ms (vorher Block 2,2 s). Einzelne lange Prüfungen und Schritte stehen mit Namen und ms in
+     der Zusammenfassung (Chat) und im Testbericht-Feld lange_schritte („Schritte über 5 ms (allein, nicht teilbar): … · längste
+     Prüfungen: …“). Prüfung, dass sich nichts ändert: Status aller 974 Prüfungen in s42 mit 0.65.316 und 0.65.317 identisch (diff leer).
+  3. Fehler im Fehlerweg: WindowTick mit pcall; ein Anzeige-Fehler wird eine Zeile „Anzeige-Fehler: …“ (einmal je Text), der Lauf geht
+     weiter.
+  4. Speicherbereinigung in Portionen: TR:GCWait als Warte-Schritt (je Bild ≤ 4 ms collectgarbage("step"), höchstens 60 s) vor der
+     Vollscan-Messung und als letzter Schritt vor TR:Finish; T594 misst ohne collect (Bereinigung angehalten).
+  5. Welcher Schritt im Spiel? Noch kein Upload mit dem Testbericht (goldsentinel-daten ohne UI-BEFUNDE/Bericht von 12:24). Kandidaten
+     nach Messung: der Block „m“ (T351–T363 bzw. davor) oder T594 (collect) – beide vor dem Abbruch im Teil auto. Belege ich mit dem Upload.
+TESTS: s274 (neu): Fenster höchstens Laufzeit/0,5 s + 2 neu, kein Bild über 5 ms ausser dem letzten einzelnen Schritt (Median aus 3
+  Läufen), lange Schritte genannt; 0.65.317 grün; Gegenprobe 0.65.316 rot (Fenster 945–950× neu, 18–21 Bilder mit mehreren Schritten
+  über 5 ms, keine Nennung). s42, s42b, s43, s44 grün.
+s216 (Hinweis 0.65.316): „ganzes Bild nach dem Scan“ wieder Pflicht, maschinenunabhängig wie T126: je Seite Median der 3 Läufe ≤ 16 ms
+  UND kein Lauf über 32 ms.
+
+Gesamtlauf 0.65.317: BESTANDEN 347, FEHLGESCHLAGEN 0 (alle Szenarien, frischer Klon, nichts parallel).
+Veröffentlicht: GitHub-Release v0.65.317, Discord (announce). CurseForge: nein (erst nach Ingametest).
