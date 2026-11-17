@@ -312,3 +312,7 @@ Auftrag:
    entfernter Einträge im Bericht (nur Zahlen).
 3. Tests: Zeile nur aus Test-IDs -> 0 Einträge, Zeile gemischt -> nur echte, Gegenprobe ohne Filter rot. Bot-CI grün.
 Bericht in berichte/Discord/ (umgesetzt, zur Prüfung).
+
+==== HINWEIS 17.11.2026 20:45 – LEISTUNG (Entscheid des Nutzers 20:39) ====
+shared/wissen/leistung.md lesen (Pflicht) und auftraege/hinweis-leistung-2026-11-17.txt umsetzen: Spielwert UND Nachbau-Wert je Fall,
+Nachbau mit echten Daten, jeder Ruckler über 40 ms als Fall im Bericht, Bau-Regeln für alles Neue.

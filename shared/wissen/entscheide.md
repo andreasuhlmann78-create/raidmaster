@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 17.11.2026 20:39 | Ruckeln: "Wir sammeln die Daten und stellen im Detail fest, wie man es von Anfang an verhindern kann" | Neu shared/wissen/leistung.md (Fälle, Muster, Bau-Regeln, Nachbau-Pflicht mit echten Daten); Pflicht in CLAUDE.md; hinweis-leistung-2026-11-17.txt an alle Projekte |
 | 17.11.2026 16:58 | GuildSentinel: "Korrektur machen und uploaden" – 0.9.51 nicht um 18:00 auf CurseForge; erst GS-RANG-1 (Gildenmeister darf nicht befördern) + Roster-Fehler beheben, dann die korrigierte, kurz im Spiel bestätigte Version hochladen (18:00, sonst nächster Tag) | offen-guildsentinel.txt |
 | 17.11.2026 14:02 | AHSentinel: "Alles beheben – vorher mache ich keinen neuen Test" -> nächster Ingametest erst, wenn ALLE Punkte aus dem Ingametest 17.11. (A–F, Wächter, VOLLSCAN-Schritt, Nachtrag D) umgesetzt und vom Supervisor geprüft sind | offen-ahsentinel.txt |
 | 17.11.2026 13:54 | Testroutine "alles" muss ohne Anwesenheit laufen ("bin nicht immer am PC … wenn ich Anweisungen bekomme, sehe ich die nicht immer, weil ich am Arbeiten bin") -> Supervisor: Fenster-Schritte vormerken und automatisch nachholen (TR-ALLE Nachtrag D) | alle Projekte |

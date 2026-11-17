@@ -160,6 +160,11 @@ In WoW Forever kommen Addon-Nachrichten über eigene Chat-Kanäle nicht an.
 Alle Entscheide des Nutzers stehen in `shared/wissen/entscheide.md` (neueste oben). Vor jeder Arbeit lesen; wer einen
 Entscheid aufnimmt (Prüf-Sitzung), trägt ihn sofort dort ein. Nichts darf verloren gehen (Nutzer 14.11.).
 
+## Leistung im Spiel (Pflicht)
+
+Wer Code baut, prüft oder beauftragt, der im Spiel rechnet (Scan, Route, Panel, Laden, Sync, Testroutine), liest vorher
+`shared/wissen/leistung.md` (Fälle, Muster, Bau-Regeln gegen Ruckeln, Nachbau mit echten Daten). Nutzer 17.11. 20:39.
+
 ## Psychologie der Spieler (Pflicht)
 
 Wer Anzeigen, Empfehlungen oder Meldungen baut, prüft oder beauftragt, liest vorher `shared/wissen/psychologie.md`

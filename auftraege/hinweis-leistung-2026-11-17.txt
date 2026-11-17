@@ -1,0 +1,13 @@
+HINWEIS AN ALLE PROJEKTE – Leistung im Spiel / Ruckeln von Anfang an verhindern (Entscheid des Nutzers 17.11.2026 20:39)
+
+Der Nutzer: "Wir sammeln die Daten und stellen im Detail fest, wie man es von Anfang an verhindern kann."
+Neu: shared/wissen/leistung.md (Pflicht laut CLAUDE.md) – Fälle, Muster, Bau-Regeln, Nachbau-Pflicht.
+Heute bei 4 Addons: im Nachbau "OK", im Spiel 20–30× langsamer (Muster M1). Darum gilt ab sofort:
+1. Jeder Bericht zu Leistung nennt den Spielwert UND den Nachbau-Wert für denselben Fall. Ein Nachbau-Wert ohne Eichung am Spiel ist
+   "Verdacht, zu messen", keine Behebung.
+2. Nachbau mit echten Daten in echter Grösse (goldsentinel-daten, nur lokal lesen), mit den echten anderen Addons bzw. ihrem gemessenen
+   Aufwand, Lua 5.1, Ballast.
+3. Jeder Ruckler über 40 ms, den ihr findet oder behebt: im Bericht als Fall (Stelle, Spiel ms, Nachbau ms, Ursache belegt, Behebung,
+   Messwert danach) – die Prüf-Sitzung trägt ihn in leistung.md Abschnitt 2 ein.
+4. Bau-Regeln Abschnitt 4 für alles Neue; Bestehendes beim nächsten Anfassen.
+5. Testroutine: längstes BILD und Gesamtdauer je Schritt getrennt ausweisen (Abschnitt 4 Regel 8).
