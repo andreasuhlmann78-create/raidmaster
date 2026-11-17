@@ -1,0 +1,165 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+
+BERICHT NACHPRÜFUNG AN DIE PRÜF-SITZUNG (geplante Aufgabe)
+Stand: 17.11.2026 17:23 MEZ · Sitzung: Nachprüfung · geprüft auf origin/main 99009363 (ganze Geschichte, kein flacher Klon)
+Nur dieser Entwurf wird committet; nichts in auftraege/**, kein Log, keine nachpruefung-stand.json.
+
+=====================================================================================================================
+0. ÜBERBLICK
+=====================================================================================================================
+Kein FEHLER der Addon-Prüfung (AHSentinel 0.65.324 OK, GuildSentinel 0.9.52 OK). Kein Befund HOCH.
+2 MITTEL (AHSentinel 0.65.322 KAUF-DOPPELT, beide im Nachbau BELEGT), 1 ENTSCHEID NÖTIG (AHSentinel 0.65.324 "Lohnt bis" je Weg),
+1 NIEDRIG (GuildSentinel 0.9.52).
+- NP-AHS322-1 MITTEL: Die einmalige Bereinigung (Le:FixDoubleBuys) löscht auch einen ECHTEN Kauf, wenn innert 5 Min. ein gleicher
+  Sniper-Kauf (gleiches Item, Menge, Betrag) mit eigener Rechnung liegt. Gegenprobe im Nachbau: 2 echte Käufe -> 1 Zeile.
+  Läuft beim Nutzer erst beim ersten Start von 0.65.322+ (er spielte um 16:35 noch 0.65.315) – jetzt noch vermeidbar.
+- NP-AHS322-2 MITTEL: Le:BookPurchase hängt einen Sniper-Kauf an eine FREMDE, schon gebuchte Rechnung (bis 10 Min. älter, Betrag
+  wird nicht verglichen). Nachbau: Blizzard-Kauf 100, 5 Min. später Sniper-Kauf 250 -> eine Zeile "sniper" mit 100. Verfälscht die
+  Kosten des Sniper-Kaufs im Journal (Ü2-Wertung snipe) bis die zweite Rechnung kommt, die dann als "mail" gebucht wird.
+- NP-AHS324-1 ENTSCHEID NÖTIG: 0.65.324 lässt für dasselbe Item zwei "Lohnt bis" zu (Entzauber-Anzeigen 5640, API 6666 = bester Weg);
+  die Selbstkontrolle S28/LohntCheck meldet das nicht mehr. RK2 sagt "ein Wert für alles, zwei Zahlen = FEHLER". Die Sitzung fragt
+  selbst nach dem Entscheid (Bericht 17:07) – richtig so.
+- NP-GS52-1 NIEDRIG: Activity.lua:169 P:Ranks nimmt bei unbekanntem eigenem Rang weiter 0 (Gildenmeister) – genau der Fehler, den
+  0.9.52 in Bulk.lua behebt.
+Schon vom Supervisor geprüft, hier NUR erwähnt: AHSentinel 0.65.302–0.65.321 (zuletzt 0.65.321 um 16:05 in offen-ahsentinel.txt),
+GuildSentinel 0.9.51 + Ingametest 16:46 (16:55) und Befund GS-RANG-1 (17:05), Ingametests TS/RM 17:00/17:01, PS-RUN-1 (17:15),
+NP-SYS-2 und NP-AHS318-1/-2 (14:55).
+Neu über den Supervisor hinaus geprüft: AHSentinel 0.65.322, 0.65.323, 0.65.324 · GuildSentinel 0.9.52.
+Unverändert: BuffSentinel 0.9.50, ProfessionSentinel 0.9.64, ThreatSentinel 2.5.16, RaidMaster 3.0.30, LevelPilot 3.12.87
+(3.12.88 laut Bericht 15:48 nur vorbereitet, nicht veröffentlicht), Bot 1.5.186, Uploader 2.3.14.
+
+=====================================================================================================================
+1. AHSENTINEL 0.65.322 / 0.65.323 / 0.65.324
+=====================================================================================================================
+addon_check announce/ahsentinel__ahsentinel-0.65.324.AHSentinel.zip: OK (Ladetest, Sprachtest). Gemeinsame Dateien (Game, Test, Sync,
+Markt v10, Dev, Pruefliste) byte-gleich mit shared/. CHANGELOG EN/DE je Version vorhanden.
+Diffs: 321->322 AHAnalyzerPro, Forecast, Ledger · 322->323 AHAnalyzerPro, Forecast, Kern, Names, TestRoutine · 323->324 AHAnalyzerPro,
+Kern, MarketCore, SelfTest, TestRoutine (+ toc, CHANGELOG).
+Tests (Nachbau des Projekts, Repo AHAnalyzerPro fce00e7 = Zip 0.65.324, lua5.1): s280_own_huellen 11/0, s281_kauf_doppelt 13/0,
+s282_lang1 25/0, s283_lohnt_eine_regel 13/0, s42_testroutine_auto 8/0, s43_testroutine_server 14/0 – alle PASS.
+(In s43 steht eine Zeile "FAIL H T458 … längster Frame 56 ms (Nachlauf) · Frames über 33 ms 53 von 53" – das ist das ganze Bild im
+Nachbau, vom Supervisor 0.65.318 als Auskunft angenommen; das Szenario selbst PASS. Kein Befund, nur der Vollständigkeit halber.)
+
+Nachgesehen und in Ordnung:
+- HUELLE-SICHER (AHAnalyzerPro.lua:209–212): Vorlage mit "Secure" -> Rahmen ohne Hülle zurück; einziger sicherer Rahmen im Addon
+  DEWindow.lua:534 (SecureActionButtonTemplate) läuft damit unverändert; OnClick nie umhüllt (OWN_SCRIPT nur OnUpdate/OnEvent).
+  Fehlerzeile: Hülle ruft fn direkt, s280 prüft Datei:Zeile – PASS. Kampf/Taint im Spiel bleibt IM CLIENT PRÜFEN (Handprüfliste).
+- LANG-1 Names.lua:178 N.BUILTIN_N: alle 10 Sprachen UNABHÄNGIG nachgezählt (lupa, gsub über die Datenblöcke der Zip):
+  enUS 25816/689563, deDE 33223/1034884, frFR 33415/1090206, esES 32575/1044833, esMX 32575/1045445, ptBR 32857/1043399,
+  ruRU 33190/1691970, koKR 33563/1063394, zhCN 32806/803119, zhTW 32828/800042 – Zahl UND Länge stimmen genau. Passt die Länge nicht,
+  wird mit string.find gezählt (keine Kopie) – richtig.
+- K:LohntCheck in Portionen (Kern.lua:936 ff.): Item-Liste einmal festgelegt, acc.done, ReportLines nimmt nur ein fertiges Ergebnis.
+- KAUF-DOPPELT (b) Briefkasten (Ledger.lua:175–181, 248–257): Zähler je Durchgang, alter Schlüssel nur für den ersten – zwei gleiche
+  Rechnungen bleiben zwei. In Ordnung.
+
+NP-AHS322-1 MITTEL – Bereinigung löscht echte Käufe (Gold-Buchhaltung, nicht umkehrbar)
+- Ledger.lua:389–449 Le:FixDoubleBuys (FIX_GAP_S :389, Journal-Fenster :449): Doppel = Zeile "mail" + Sniper-/Einkauf mit mail = true, gleiches Item,
+  Menge, Betrag, Abstand ≤ FIX_GAP_S = 300 s. Ein Kauf über die Blizzard-Oberfläche (oder ein gewonnenes Gebot) wird NUR über die
+  Rechnung gebucht (Quelle mail, Ledger.lua:1955 "Buchung über die Rechnung"). Liegt innert 5 Min. ein gleicher Sniper-Kauf, dessen
+  EIGENE Rechnung zugeordnet ist (mail = true), wird der echte Kauf gelöscht.
+- BELEGT (Nachbau, Szenario selbst geschrieben, nur in meinem Arbeitsordner): Zeile mail t0, 50 Kupfer + Zeile sniper t0+120 s,
+  50 Kupfer, mail = true -> FixDoubleBuys entfernt 1, übrig 1 Zeile (erwartet 2). s281 (d) prüft nur den Abstand 1 s.
+  Das Journal hat dieselbe Regel ohne die mail-Bedingung (Fenster 360 s) – dort trifft es noch mehr Fälle.
+- Bei den echten Daten liegen die Doppel laut Bericht 1 s auseinander (Rechnung 1 s VOR dem Sniper-Kauf). 300 s ist dafür viel zu weit.
+- Lösung: FIX_GAP_S auf das gemessene Mass senken (Vorschlag ≤ 30 s; Journal gleich, dort Minuten-Auflösung beachten) und im Bericht
+  die Verteilung der Abstände der 12 bzw. 8 gelöschten Paare nennen (alle ≤ x s). Zusätzlich: je Item nur bereinigen, wenn die Zahl
+  der Rechnungen (mail-Zeilen + zugeordnete Käufe) grösser ist als die Zahl der Kauf-Ereignisse – sonst nichts löschen (lieber ein
+  Doppel stehen lassen als einen echten Kauf löschen, Direktive Gold-Sicherheit). Test: echter Kauf 120 s vor gleichem Sniper-Kauf ->
+  2 Zeilen bleiben; Doppel mit 1 s -> 1 Zeile; Gegenprobe 0.65.324 rot.
+- Dringlichkeit: VOR der CurseForge-Veröffentlichung 18:00 bzw. bevor der Nutzer 0.65.322+ startet (die Bereinigung läuft einmal beim
+  Start und setzt db.kaufDoppeltFix – danach lässt sich nichts mehr zurückholen). Supervisor entscheidet, ob die Aufgabe
+  "ledger:doppelt" bis zur Korrektur abgeschaltet werden soll.
+
+NP-AHS322-2 MITTEL – Sniper-Kauf übernimmt eine fremde Rechnung (falsche Kosten im Journal/Ü2)
+- Ledger.lua:360 MAIL_FIRST_S, :373 Le:FindMailFirst, :493 Aufruf in Le:BookPurchase: schon gebuchte Rechnung (mail, nicht verknüpft),
+  gleiches Item und Menge, bis MAIL_FIRST_S = 600 s älter – der Betrag wird NICHT verglichen. Die Zeile wird zur Sniper-Zeile mit
+  dem Betrag der fremden Rechnung ("Rechnung gilt"), Fc:RelinkBuy stellt den Journal-Eintrag mit dem fremden Preis auf "sniper".
+- BELEGT (Nachbau): Rechnung 100 (Blizzard-Kauf), 300 s später BookPurchase Sniper 250 -> eine Zeile, Summe 100 (erwartet 2 Zeilen).
+  Kommt danach die Rechnung 250: InvoiceBookedCount findet sie nicht (mailT/Betrag der fremden Rechnung), FindUnmatchedBuy nimmt
+  keine Zeile mit mail = true -> neue Zeile "mail" 250. Gold-Summe am Ende richtig, aber der Sniper-Kauf steht mit 100 statt 250 im
+  Journal (ResolveSnipeDE/Ü2 "snipe" rechnet mit falschen Kosten) und der echte Blizzard-Kauf verschwindet als eigene Zeile.
+- Lösung: FindMailFirst nur bei gleichem Betrag (Rechnung = p.cost, wie MatchInvoice "exact") und kurzem Abstand (gemessen ~1 s;
+  Vorschlag ≤ 30 s statt 600 s); bei anderem Betrag oder grösserem Abstand normal neu buchen. Test: Rechnung 100 + Sniper 250 nach
+  300 s -> 2 Zeilen, Journal-Preis Sniper 250; Gegenprobe 0.65.324 rot; s281 (a) weiter grün.
+
+NP-AHS324-1 ENTSCHEID NÖTIG (Supervisor/Nutzer) – zwei "Lohnt bis" für dasselbe Item zugelassen
+- MarketCore.lua:717 MK:LimitCompare: Entzauber-Anzeigen müssen = Entzauber-Grenze sein, die API = bester Weg (K:LohntBis). Für
+  Item 1981 zeigen Tooltip ("Lohnt bis", Tooltip.lua:854), Sniper, Markt usw. 5640, die API 6666 (Händler). S28 und LohntCheck
+  zählen das ab 0.65.324 als "gleich" – die Überwachung sieht diesen Fall nicht mehr.
+- Auftrag RK2 (anweisung-markt-reiter.txt:28–30): "Ein Wert für alles … Zwei verschiedene Zahlen für dasselbe Item = FEHLER
+  (Selbsttest)"; Regel der Nachprüfung 2b: "zwei Werte für dasselbe Item = Befund HOCH".
+- Das Argument der Sitzung ist stichhaltig (ein Entzauber-Sniper-Ziel über dem Entzauber-Wert führt zu Verlustkäufen; die Grenze
+  gehört zum Weg), und der Tooltip ist eingefroren (TT-STOP). Darum kein Befund gegen die Sitzung, sondern ein Entscheid:
+  (A) RK2 so auslegen: "ein Wert je Weg", Entzauber-Anzeigen zeigen die Entzauber-Grenze; dann muss der Tooltip-Text "Lohnt bis"
+      im Entzauber-Block bleiben (ist dort) und der beste Weg erscheint nur dort, wo kein Weg genannt ist (API). Oder
+  (B) alle Anzeigen ohne Weg-Bezug = bester Weg (Tooltip wegen TT-STOP ausgenommen).
+- Unabhängig vom Entscheid (Vorschlag): S28/LohntCheck zählen die Fälle "Entzauber-Anzeige ≠ bester Weg" als eigene Auskunftszahl im
+  Abschnitt MARKT-KERN (z. B. "Entzauber-Grenze unter bestem Weg: n von m"), damit die Überwachung nicht blind wird.
+
+Nicht geprüft (nur im Spiel): HUELLE-SICHER im Kampf (Entzauber-Knopf), LANG-1 im Spiel (Optionen erstes Öffnen ≤ 16 ms), S28-Portionen
+im Spiel, Ruckeln A.
+
+=====================================================================================================================
+2. GUILDSENTINEL 0.9.52 (GS-RANG-1, Befund 1, Markt v10)
+=====================================================================================================================
+addon_check announce/guildsentinel__guildsentinel-0.9.52.GuildSentinel.zip: OK. Repo GuildSentinel aab9e4b = Zip (alle Dateien
+byte-gleich). Gemeinsame Dateien byte-gleich mit shared/ (GoldSentinelMarkt v10). Neuer Text "Eigener Rang noch nicht geladen …"
+in allen 10 Locale-Dateien. CHANGELOG EN/DE 0.9.52 vorhanden.
+Tests (lua5.1): run_rang.lua 16001 40/0, 11508 32/0, 20505 32/0 · run_routine.lua 16001 und 11508 je 17/0, 0 Fehlermeldungen ·
+run_routine.lua 16001 mit OPEN=members 17/0. Zahlen = Bericht.
+Nachgesehen und in Ordnung:
+- Core.lua ns.MyEntry: exakt, sonst ns.Same nur bei genau EINEM Treffer (mehrdeutig -> nil) – kein Raten.
+- ns.MyRank: Rang aus dem Eintrag, sonst GetGuildInfo("player") 3. Rückgabe (0 = Gildenmeister, gleiche Zählung wie
+  GetGuildRosterInfo), geschützter Wert abgefangen, nicht im Testmodus. Protokollzeile ohne Namen, nur bei Wechsel. AskMyRank
+  höchstens alle 10 s (Zeitlimit vorhanden).
+- Admin/GuildAct/Pages: unbekannter Rang -> eigener Grund statt "Nicht über den eigenen Rang", Rang setzen -> "myrank".
+- Bulk.lua MyRankIndex: unbekannt -> math.huge (keine Entfernen-Vorschläge). Roster.lua:125 g.alts geprüft. g.mine unter ns.Me()
+  (Comp.lua:107/140, Group.lua:90 lesen dort) – kein alter Doppeleintrag möglich (0.9.51 schrieb nur bei exakt gleichem Namen).
+- Befund 1 als Test-Artefakt (T297b/c ohne vollständige Gilden-Tabelle) – Begründung im Code nachvollzogen; FakeGuild + Lua-Fehler-
+  Wache, Gegenprobe laut Bericht.
+
+NP-GS52-1 NIEDRIG – Beförderungs-Ränge bei unbekanntem eigenem Rang
+- Activity.lua:169 P:Ranks: myRi = ns.MyRank() or 0 – unbekannt gilt weiter als Gildenmeister. Folge: Seite Beförderung
+  (Pages.lua:468) und Sammel-Beförderung (Bulk:PromoteCandidates -> P:Candidates, Activity.lua:191) bieten auch Ränge über dem
+  eigenen an. Die Ausführung bricht danach mit "Eigener Rang noch nicht geladen" ab (GuildAct.lua:88) – kein Schaden, aber
+  dieselbe Fehlerart, die 0.9.52 in Bulk.lua behebt (CHANGELOG nennt die Rang-Vorschläge als behoben).
+- Lösung: wie Bulk: unbekannt und nicht Testmodus -> leere Liste + ns.AskMyRank(); Testmodus -> 0. Test: MyRank nil -> P:Ranks leer,
+  Gegenprobe 0.9.52 nicht leer.
+
+IM CLIENT PRÜFEN (wie im Bericht der Sitzung): Rechtsklick als Gildenmeister -> Befördern/Degradieren/Rang/Entfernen weiss;
+/gs protokoll Zeile "RANG eigener Rang: Weg=…" melden (zeigt, welche Schreibweise abweicht – Ursache dann belegt statt vermutet).
+
+=====================================================================================================================
+3. TESTBERICHTE (seit 19f92213: df2198b5, e2c59b05, 84cad67e)
+=====================================================================================================================
+- Keine neuen Testläufe (status.md: letzter AHSentinel-Lauf 0.65.315, 12:09 UTC – vom Supervisor 13:20/13:35 ausgewertet).
+  MARKT-KERN: keine neuen Zahlen; Stand wie Entwurf 14:29 (kein Weg frei, Ü2 eingehalten).
+- Nur Diagnose-Protokolle 13:54 und 16:46 UTC+1 (AHS 0.65.315, BS 0.9.47, GS 0.9.48, LP 3.12.69/3.12.87, PS 0.9.62, TS 2.5.15):
+  alle "Fehler in dieser Sitzung: 0" bzw. "Lua-Fehler 0". Der Nutzer spielte um 16:30–16:35 noch die alten Versionen.
+- Hinweis AHSentinel (Verdacht, zu messen, NIEDRIG): Diagnose 0.65.315-9898d5667a95: "PD7 geladen: 6637 Items" um 13:19, danach
+  16:30/16:34/16:35 "PD7 geladen: 0 Items, 0 Einträge" – trotzdem "Preisverlauf verdichtet 330471 -> 308761" um 16:32. Nichts
+  verloren (PD7.lua OnLoad zählt nur gepackte Einträge "hz"), aber beim Ausloggen nach der Sitzung 13:19–13:29 wurde offenbar nicht
+  gepackt (P:Prepare/OnLogout). Folge: grössere SavedVariables, längeres Laden. IM CLIENT PRÜFEN mit aktueller Version: nach einer
+  normalen Sitzung (≥ 10 Min.) und Ausloggen muss "PD7 geladen: n Items" mit n > 0 kommen; sonst st.lastOut ins Protokoll.
+- Vorschlag Stand-Datei: testberichte_bis = 84cad67e.
+
+=====================================================================================================================
+4. VORSCHLÄGE ZUM ÜBERTRAGEN (Supervisor entscheidet)
+=====================================================================================================================
+- auftraege/AHSentinel/offen-ahsentinel.txt, neuer Abschnitt "PRÜFUNG 0.65.322–0.65.324 (Nachprüfung 17:23)":
+  addon_check OK, Hüllen-Antwort (1)–(3) belegt (s280), LANG-1 BUILTIN_N nachgezählt; NP-AHS322-1 MITTEL und NP-AHS322-2 MITTEL
+  (Text oben) VOR "BEREIT FÜR INGAMETEST" und vor dem ersten Start einer Version mit "ledger:doppelt"; NP-AHS324-1 Entscheid;
+  PD7-Hinweis als Messauftrag.
+- auftraege/GuildSentinel/offen-guildsentinel.txt: GS-RANG-1 umgesetzt (zur Bestätigung im Spiel), Befund 1 als Test-Artefakt
+  angenommen (Vorschlag), NP-GS52-1 NIEDRIG.
+- addon-check/nachpruefung-stand.json: AHSentinel 0.65.324, GuildSentinel 0.9.52, testberichte_bis 84cad67e,
+  geprueft 2026-11-17T17:23+01:00; übrige unverändert.
+- auftraege/nachrichten-log.txt: "2026-11-17 17:23 Nachprüfung-Entwurf: AHS 0.65.322–324 NP-AHS322-1/-2 MITTEL, NP-AHS324-1 Entscheid;
+  GS 0.9.52 NP-GS52-1 NIEDRIG".
+- Nachricht an die AHSentinel-Sitzung (nur wenn der Supervisor NP-AHS322-1/-2 überträgt): kurz auf die zwei Punkte hinweisen, wegen
+  der einmaligen Bereinigung VOR 18:00.
+
+Gelesen: CLAUDE.md, berichte/AHSentinel 2026-11-17-1549/1605/1608/1645/1707, berichte/GuildSentinel 2026-11-17-1710,
+offen-ahsentinel.txt ab 4286 (Prüfungen 0.65.313–0.65.321), anweisung-markt-reiter.txt RK1–RK2, nachrichten-log.txt,
+nachpruefung-stand.json, letzter Entwurf 14:29, testberichte/status.md und die neuen Diagnosen.
+Nachrichten an Projekte: keine verschickt (Vorrang-Regel: nur Entwurf).
