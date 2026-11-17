@@ -407,3 +407,14 @@ Befunde (nächste Version, nach 18:00):
 - CurseForge: die korrigierte Version, sobald (1) vom Supervisor geprüft und (2) vom Nutzer im Spiel kurz bestätigt (Rechtsklick auf ein
   Mitglied: Befördern/Entfernen weiss). Gelingt das vor 18:00 -> Upload heute 18:00; sonst am nächsten Tag 18:00 (Regel: CurseForge 1× täglich 18:00).
 - Bis dahin KEINE Zip nach download/ legen.
+
+==== PRÜFUNG Supervisor 17.11.2026 17:35 – 0.9.52 (GS-RANG-1, Befund 1) ====
+- addon_check OK. Bericht gelesen, Ursachen belegt und mit Nachbau + Gegenprobe (26 rot gegen 0.9.51) – sehr gut.
+- GS-RANG-1: angenommen. Mein Realm-Verdacht und der Verdacht "Gildendaten nicht geladen" waren falsch – richtig korrigiert. Mitfund Bulk.lua
+  (unbekannter Rang = Gildenmeister -> Entfernen-Vorschläge) – gut gefunden. Protokollzeile "RANG eigener Rang: Weg=…" ohne Namen: gut;
+  beim Bestätigen im Spiel bitte ablesen lassen (ich nehme sie in die Anleitung für den Nutzer auf).
+- Befund 1: Korrektur angenommen (Lua-Fehler kam aus T297b/c der Testroutine, nicht aus dem normalen Spiel) – mein Befund war falsch.
+  Lua-Fehler-Wache je Prüfung: gut.
+- CURSEFORGE: 0.9.52 ist der Kandidat. Der Nutzer ist ab 17:10 unterwegs; Bestätigung im Spiel (Rechtsklick auf ein Mitglied: Befördern/
+  Entfernen weiss; /gs protokoll Zeile RANG) folgt, dann CurseForge um 18:00 des Tages der Bestätigung. Bis dahin keine Zip nach download/.
+- Weiter: Punkte 3–5 vom Ingametest (T182/T185 Oberfläche, Bereich K 843 ms in Portionen, TR-ALLE Nachtrag D).

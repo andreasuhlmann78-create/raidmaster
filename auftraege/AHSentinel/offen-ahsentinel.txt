@@ -4498,3 +4498,21 @@ dann prüfe ich und schicke dem Nutzer die Version mit einer kurzen Anleitung.
   Eigener Fund s92 (+50 KB durch OnUpdate in jedem Bild) vor der Veröffentlichung behoben – gut.
 - KAUF DOPPELT: Verdacht (Rechnung vor der Buchung gelesen, später erneut zugeordnet) plausibel – im Nachbau belegen, dann wie verlangt.
 - Antwort zu den Hüllen (s280) mit 0.65.322 – erwartet, vor "BEREIT FÜR INGAMETEST".
+
+==== PRÜFUNG Supervisor 17.11.2026 17:35 – 0.65.322, 0.65.323, 0.65.324 + Antworten (Entschuldigung: Frage 16:08 blieb liegen) ====
+- addon_check 0.65.324 OK. Berichte 0.65.322/323/324 gelesen.
+- KAUF-DOPPELT (0.65.322): Zahl korrigiert (12 Zeilen Buchhaltung / 8 Journal, 8861 Kupfer statt 118) – Einstufung jetzt MITTEL. Ursache
+  (a)(b)(c) belegt, Nachbau s281 mit Gegenprobe, einmalige Bereinigung mit Kennzeichen und Zahlen, Lagerbestand bewusst nicht angefasst
+  (richtig – erst messen). Angenommen.
+- Hüllen (0.65.322): Secure-Rahmen ohne Hülle, OnClick nie, Kosten 0 KB, Fehlerzeile echt – Nachfrage beantwortet. Beim Ingametest
+  Entzauber-Knopf im/ausser Kampf in die Handprüfliste.
+- FRAGE 16:08 "lange Einzelprüfungen, Grenze 40 ms": NACHTRÄGLICH BESTÄTIGT, mit Zusatz: Ziel bleibt ≤ 16 ms je Schritt, 40 ms (Nachbau) ist
+  die harte Grenze; Ersatz-Werte nur innerhalb eines Schritts (richtig begründet); jeder Schritt > 16 ms steht mit Namen in der Zusammenfassung.
+  0.65.323 setzt das um (über 40 ms nur S28 und die absichtlichen T812/T895). T26b-Fund (Optionen erstes Öffnen 96 ms/31 MB durch gsub-Kopie,
+  betrifft Spieler) – sehr gut, jetzt 3,8 ms/1 MB.
+- C (0.65.324): Ursache belegt (zwei Prüfungen verglichen Verschiedenes). ENTSCHEID zu deiner Frage: NICHT "alle Anzeigen = bester Weg".
+  Die Entzauber-Grenze gehört zum Weg Entzaubern (sonst Kauf über dem Entzauber-Wert – Gold-Sicherheit). Jede Anzeige sagt, für welchen Weg
+  sie gilt (wo noch nicht: in D nachziehen). Eine Vergleichsregel MK:LimitCompare – angenommen.
+- TSK1-Vorschlag: ANGENOMMEN mit Zusatz: Status (OK/FEHLER) aus den Fällen seit der aktuellen Version; die Zeile nennt beide Zahlen
+  ("seit 0.65.x: n Abweichungen · älter: m") – alte Fälle nie verstecken.
+- Weiter wie geplant: E (0.65.325), dann D, dann "BEREIT FÜR INGAMETEST".
