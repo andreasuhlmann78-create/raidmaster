@@ -4648,3 +4648,18 @@ Regel: Jede Funktion in API.lua (Schnittstelle für andere Addons) bleibt je Auf
 es in der Beschreibung (shared/wissen/schnittstelle-ahsentinel-api.md) und bietet eine Portionen-/Ergebnis-Variante. Test: jede
 API-Funktion mit den echten Daten (Upload PC) gemessen, Zeit und angelegte KB je Aufruf im Bericht; Gegenprobe 0.65.332.
 Reihenfolge: nach TAINT/Sandbox-Punkten des Befunds 19:08, vor den MITTEL-Punkten (betrifft das Spielgefühl eines anderen Addons).
+
+==== PRÜFUNG Supervisor 17.11.2026 22:10 – 0.65.332 (PS-WIDER, SANDBOX-PEND, LANG-3 Teil 1) und 0.65.333 (LANG-3 Teil 2, FRAME-0) ====
+- addon_check OK (0.65.333 announce-Zip). Beide Berichte gelesen.
+- PS-WIDER wie verlangt: eine Meldung mit beiden Zahlen, Vorschlag = Preis der Angebote, einstellen nur mit Klick, nie unter 75 % ohne
+  Klick, 10 Sprachen, Gegenprobe 0.65.331. Angenommen; im Spiel zu bestätigen.
+- SANDBOX-PEND: echter vorgemerkter Vollscan-Schritt wurde von Test-Scans erledigt – gut gefunden (Nachbau mit echten Daten), T902 +
+  Gegenprobe. Angenommen.
+- LANG-3: Nachbau mit echten Daten, Spiel/Nachbau je Fall (1,5–10×), Ursachen per Profil belegt; Teil auto 96 -> 39 Schritte über 16 ms,
+  14 über 40 ms. Wichtig für Spieler: Learn:Margin gemerkt (jede "Lohnt bis"-Rechnung), Übersicht/Preisverlauf im Hintergrund.
+  FRAME-0 (zweites SetScript ersetzte die Bild-Messung) – gut gefunden. Angenommen, im Spiel zu bestätigen.
+- Restliche 14 über 40 ms (T279 Activity:Report 242 ms ist auch E1 GoldPerHour!) – mit E1–E4 zusammen lösen.
+- ANTWORT zur Frage Takt: Eigene Aufgaben (A:Job/A:Pause) dürfen bleiben, WENN sie dieselben Messwerte liefern (längstes Bild mit
+  Etikett, über 5/16/40 ms, "Abgabe nicht möglich"/gescheitert) und die Lua-5.1-Regel offline geprüft wird (Abgabe an jeder Stelle, 0
+  Verletzungen – wie BuffSentinel/PS yield_check). Fehlt eines davon: bei Punkt 5 (Vollscan T458/T459) auf GoldSentinelTakt umstellen.
+- Reihenfolge weiter: E1–E4 (0.65.334), dann Punkt 4/5 (T126, Vollscan), dann 7–10. BEREIT FÜR INGAMETEST erst danach.
