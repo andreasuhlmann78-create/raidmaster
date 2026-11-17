@@ -340,3 +340,8 @@ nur wo nötig und jeder Handpunkt in klaren, nummerierten Schritten (Wo / Schrit
   Zusammenfassung: "längste Portion x ms (Prüfung), über 5 ms: n (ohne einzeln gemessene)". Test im Nachbau: über 5 ms = 0.
 - Uploader 2.3.14: von der Nachprüfung geprüft (110 Tests, svfilter/daten.py, Zip ohne tests/ und config) – NP-UP13-1 umgesetzt,
   keine Befunde. Damit erledigt.
+
+==== MARKT-V9 (Supervisor 17.11.2026, ersetzt MARKT-V8) ====
+- shared/GoldSentinelMarkt.lua Version 9: kein Ruckeln nach Vollscans (Teilen und Auswertung in Portionen; vorher bis 190 ms in einem
+  Bild bei Spielern ohne AHSentinel). Mit der nächsten geplanten Version statt v8 kopieren + CHANGELOG EN/DE.
+  Einzelheiten: auftraege/hinweis-goldsentinelmarkt-v9-2026-11-17.txt.

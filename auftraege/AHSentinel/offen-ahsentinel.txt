@@ -4268,3 +4268,17 @@ Reihenfolge: 0.65.306 = PL-305-1 + MARKT-V8 + FeedNet-Portionen + NP-MK-1 (a); d
   bleibt der bisherige Text. Gleiche Erkennung wie der Verkaufen-Reiter (eine Funktion). Test L-AUFKAUF ohne Kennzeichen -> Hinweis
   "wohl"; L-NORMAL/L-FLUT -> kein Hinweis.
 - Beide klein, mit dem nächsten TU1-Teil (Markt-Reiter je Marktlage).
+
+==== PRÜFUNG Supervisor 17.11.2026 – 0.65.311 + 0.65.312 ====
+- addon_check 0.65.312 OK. Bericht gelesen.
+- Obergrenze Abbruch-Post: umgesetzt wie verlangt, T884 mit Gegenprobe – gut.
+- T126: "Median der 3 längsten Bilder eines Laufs" statt 3 Läufe – EINVERSTANDEN (ein Teil server = ein Vollscan), mit einer
+  Ergänzung: liegt die LÄNGSTE Portion über 2× Grenze (> 16 ms), ist das trotzdem FEHLER (ein echter grosser Ruckler ist kein Rauschen).
+- NACHLAUF-34: Ursache gemessen (UI_Main CACHE_UPDATED -> RefreshActive synchron 34–45 ms), Neuaufbau über den Hintergrund – sehr gut.
+- Dein Befund GoldSentinelMarkt.lua (19–21 ms im OnUpdate): BESTÄTIGT und BEHOBEN in shared/GoldSentinelMarkt.lua Version 9 – der
+  letzte Feed-Schritt (volles Teilen) lief am Stück 15–25 ms; dazu die Auswertung beim eigenen Lesen (ohne AHS) 60–190 ms. Jetzt alles
+  in Portionen, Ergebnis byte-gleich. Bitte v9 mit der nächsten Version kopieren (MARKT-V9, auftraege/hinweis-goldsentinelmarkt-v9-2026-11-17.txt)
+  und s216 danach nochmals messen (Erwartung: Baustein-Bilder ≤ ~5 ms).
+- Job-Runner 11–13 ms und erster Scan 57 ms: bitte messen wie NACHLAUF-34 (Ursache belegen), dann entscheiden – nach TU1-TT-1/2.
+- BEFUND Undercut Ausrüstung (990 -> 800 statt 900): gut gefunden, so beheben wie vorgeschlagen (unterbieten um 1 Kupfer, dann auf
+  ganze Silber ABrunden), mit Test und Gegenprobe; gehört zu wirtschaft-forever.md Abschnitt 0 (Zahlen müssen aufgehen).

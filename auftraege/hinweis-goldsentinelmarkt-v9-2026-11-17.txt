@@ -1,0 +1,21 @@
+HINWEIS AN ALLE PROJEKTE MIT GoldSentinelMarkt.lua – Version 9 (Supervisor, 17.11.2026, ersetzt v8 als Kopiervorlage)
+Betrifft: AHSentinel, BuffSentinel, GuildSentinel, ProfessionSentinel, RaidMaster, ThreatSentinel, LevelPilot.
+
+WARUM: Messung AHSentinel 0.65.312 (s216): das OnUpdate des gemeinsamen Bausteins brauchte 19–21 ms in EINEM Bild. Im Baustein
+nachgemessen (shared/tests/test_goldsentinelmarkt.py, echte Uhr):
+- Feed (AHSentinel gibt seinen Vollscan weiter): Portionen hielten 4 ms, aber der letzte Schritt (volles Teilen an die Gilde) lief
+  am Stück: 15–25 ms.
+- Eigenes Lesen (Addons OHNE AHSentinel – z. B. Gildenmitglieder mit BuffSentinel/GuildSentinel): die Auswertung eines Vollscans
+  (Vergleich, Items, Export) lief am Stück: 60–190 ms in einem Bild bei 20000 Auktionen = spürbarer Ruckler bei jedem Vollscan.
+
+WAS v9 TUT: Teilen und Auswertung sind Aufträge, die im Takt in Portionen gerechnet werden (BUDGET_MS 4 ms), höchstens EINE
+Rechen-Portion je Bild. Gemessen (Median aus 3 Läufen, Nachbau): Feed+Teilen 4,0–4,3 ms (v8: 16–29 ms), Antwort an die Gilde
+4,0–4,2 ms (v8: 13–25 ms), eigenes Lesen 4,2–5,0 ms (v8: 88–190 ms). Speicher, Export und Nachrichten byte-gleich wie v8 (Prüfsumme
+im Test, mit Vergleich zweier Scans). v8 bleibt drin (Test-IDs). Tests 137/137, 40 Läufe stabil.
+v7/v8-Kopien laufen weiter (addon_check nur WARNUNG). Die neueste Fassung im Client gewinnt.
+
+AUFTRAG (MARKT-V9, ersetzt MARKT-V8): Mit der NÄCHSTEN ohnehin geplanten Version shared/GoldSentinelMarkt.lua (Version 9)
+unverändert kopieren; CHANGELOG EN/DE: "Shared market data: no more stutter after a full AH scan (work split across frames)" /
+"Gemeinsame Marktdaten: kein Ruckeln mehr nach einem Vollscan (Arbeit auf mehrere Bilder verteilt)". Wer v8 noch nicht hat, nimmt
+direkt v9 (die Zeile zu v8 dann mit in den CHANGELOG). BuffSentinel: weiter bald (Test-IDs in deinem Speicher).
+Hinweis: GoldSentinelMarkt.DiagLines() hat seit v8 fünf Zeilen.

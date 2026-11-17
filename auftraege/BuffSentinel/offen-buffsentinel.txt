@@ -322,3 +322,8 @@ nur wo nötig und jeder Handpunkt in klaren, nummerierten Schritten (Wo / Schrit
   Test T-PL: jeder Punkt, dessen Schritte "Bank" enthalten, nennt die Bank in "Wo:".
 - Hinweis (Verdacht, zu messen): im Nachbau Portionen bis 6,7 ms (0–5 von ~280 über 5 ms). Die Zusammenfassung im Spiel zeigt die
   längste Portion – bitte dort "über 5 ms: n" mit ausgeben, falls noch nicht.
+
+==== MARKT-V9 (Supervisor 17.11.2026, ersetzt MARKT-V8) ====
+- shared/GoldSentinelMarkt.lua Version 9: kein Ruckeln nach Vollscans (Teilen und Auswertung in Portionen; vorher bis 190 ms in einem
+  Bild bei Spielern ohne AHSentinel). Mit der nächsten geplanten Version statt v8 kopieren + CHANGELOG EN/DE.
+  Einzelheiten: auftraege/hinweis-goldsentinelmarkt-v9-2026-11-17.txt.

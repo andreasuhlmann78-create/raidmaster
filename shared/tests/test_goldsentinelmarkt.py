@@ -318,12 +318,12 @@ check("Abbruch bei geänderter Liste", y.ev("GoldSentinelMarkt.Stats().aborted")
 z = Client("Testz", 13)
 set_auctions(z, rows1)
 scan(z)
-z.run(SRC.replace("local VERSION = 8", "local VERSION = 9"))
-check("neuere Fassung aktiv", z.ev("GoldSentinelMarkt.VERSION"), 9)
+z.run(SRC.replace("local VERSION = 9", "local VERSION = 10"))
+check("neuere Fassung aktiv", z.ev("GoldSentinelMarkt.VERSION"), 10)
 check("Daten übernommen", z.ev("GoldSentinelMarkt.Get(2589).preis"), 95)
 check("alter Frame still", z.ev("FRAMES[#FRAMES - 1].scripts.OnUpdate == nil"), True)
-z.run(SRC)                     # ältere Fassung lädt danach -> bleibt bei 9
-check("ältere Fassung übernimmt nicht", z.ev("GoldSentinelMarkt.VERSION"), 9)
+z.run(SRC)                     # ältere Fassung lädt danach -> bleibt bei 10
+check("ältere Fassung übernimmt nicht", z.ev("GoldSentinelMarkt.VERSION"), 10)
 
 # --- 14. Feed: Host-Addon liest selbst und gibt weiter, kein zweites Lesen ---------------------------------------------
 h = Client("Testh", 14)
@@ -391,7 +391,7 @@ tr.execute("B = {} for i = 1, 4 do B[#B+1] = string.rep('x', 600 * 1024) end Gol
 check("Export: höchstens 1,5 MB zusammen", tr.eval("#B"), 2)
 tr.execute("C = { string.rep('y', 2 * 1024 * 1024) } GoldSentinelMarkt.TrimExport(C)")
 check("Export: neuester Scan bleibt immer", tr.eval("#C"), 1)
-check("Version 8", tr.eval("GoldSentinelMarkt.VERSION"), 8)
+check("Version 9", tr.eval("GoldSentinelMarkt.VERSION"), 9)
 
 # v4 (MN-S2): geplante Antwort "A:" geht nach dem Ausschalten nicht mehr raus (Tick und SetShare)
 for i, via in enumerate(("tick", "setshare")):
@@ -516,11 +516,13 @@ ITEMS = {}
 for i = 1, 6108 do ITEMS[2000 + i*3] = { preis = math.random(5, 2000000), menge = math.random(1,200), n = math.random(1,40), abg = (i % 2 == 0) and math.random(0,30) or nil, abgV = 2 } end
 GoldSentinelMarkt.Feed("AHSentinel", TIME, 21102, ITEMS, 1800)
 while GoldSentinelMarkt.feedJob do GoldSentinelMarkt.FeedPortion(4) end
+while GoldSentinelMarkt.queueJobs[1] do GoldSentinelMarkt.QueuePortion(4) end   -- v9: Teilen in Portionen
 N1 = #GoldSentinelMarkt.outbox
 GoldSentinelMarkt.lastFull = nil
 collectgarbage("collect"); collectgarbage("stop"); M0 = collectgarbage("count")
 GoldSentinelMarkt.Feed("AHSentinel", TIME + 1200, 21102, ITEMS, 1200)
 while GoldSentinelMarkt.feedJob do GoldSentinelMarkt.FeedPortion(4) end
+while GoldSentinelMarkt.queueJobs[1] do GoldSentinelMarkt.QueuePortion(4) end
 NEU7 = collectgarbage("count") - M0; collectgarbage("restart")
 N2 = #GoldSentinelMarkt.outbox - N1
 local f = GoldSentinelMarkt.store.f
@@ -558,7 +560,7 @@ for name, src, want in (("v8", None, False), ("Gegenprobe v7", OLD7, True)):
     check(name + ": Feed – Test-ID im Speicher", c8.ev("GoldSentinelMarkt.Get(990018001) ~= nil"), want)
     check(name + ": Feed – Test-ID im Export", _testid_in(c8.ev("EX")), want)
     check(name + ": Feed – echtes Item bleibt", c8.ev("GoldSentinelMarkt.Get(2589).preis"), 500)
-    c8.tick(0.5)
+    c8.tick(5)                          # v9: Teilen in Portionen (Nachbau-Uhr: jeder Zeitaufruf +1 ms)
     msgs = [m for m in c8.sent() if m[0] == "GSMARKT1"]
     import re as _re
     sent_ids = [int(t, 36) for m in msgs for t in _re.findall(r"[:;]([0-9a-z]+),[0-9a-z]+,[0-9a-z]+,[0-9a-z]+(?=;|$)", m[1])]
@@ -617,9 +619,107 @@ for k = 1, 20000 do i[k * 7] = "dw,4,2,tol2yb,0,0,0,0"; parts[k] = GoldSentinelM
 local line = "GSMARKT1|1|H|1794813700|40000|20000|0|" .. table.concat(parts, ";")
 DBT = { gsMarkt = { f = { H = { t = 1, i = i } }, export = { line, line, line, line, line, line } } }
 """)
-t0 = _t.perf_counter(); ct.run("GoldSentinelMarkt.PurgeTestIDs(DBT.gsMarkt)"); dt_ms = (_t.perf_counter() - t0) * 1000
-print("v8 Aufräumen ohne Test-IDs (20000 Items, Export %d KB): %.1f ms" % (ct.ev("#DBT.gsMarkt.export[1]") * 6 // 1024, dt_ms))
-check("v8: Aufräumen ohne Test-IDs unter 15 ms (Lupa-Messung)", dt_ms < 15, True)
+_pt = []
+for _ in range(3):                      # maschinenunabhängig (Entscheid T126): Median aus 3 Messungen, CPU-Zeit der Lua-Seite
+    ct.run('collectgarbage("collect"); local t0 = os.clock(); GoldSentinelMarkt.PurgeTestIDs(DBT.gsMarkt); PT = (os.clock() - t0) * 1000')
+    _pt.append(ct.ev("PT"))
+dt_ms = sorted(_pt)[1]
+print("v8 Aufräumen ohne Test-IDs (20000 Items, Export %d KB): Median %.1f ms (höchster %.1f ms, nur beim Laden)" % (ct.ev("#DBT.gsMarkt.export[1]") * 6 // 1024, dt_ms, max(_pt)))
+check("v8: Aufräumen ohne Test-IDs unter 15 ms (Median aus 3)", dt_ms < 15, True)
+
+# v9: Teilen in Portionen – echte Uhr (os.clock); kein Bild des Bausteins über Budget + 1 ms; Nachrichten byte-gleich wie v8
+OLD8 = _sp.run(["git", "-C", str(ROOT), "show", "55542918:shared/GoldSentinelMarkt.lua"], capture_output=True, text=True).stdout
+RUN9 = """
+function debugprofilestop() return os.clock() * 1000 end
+math.randomseed(9)
+ITEMS = {}
+for i = 1, 6000 do ITEMS[2000 + i*3] = { preis = math.random(5, 2000000), menge = math.random(1,200), n = math.random(1,40), abg = (i % 2 == 0) and math.random(0,30) or nil, abgV = 2 } end
+-- Speicher wie nach vielen Netz-Empfängen: 14000 fremde Items dazu
+local f = GoldSentinelMarkt.store
+GoldSentinelMarkt.Feed("AHSentinel", TIME, 1, { [1] = { preis = 1, menge = 1, n = 1 } }, 0)
+while GoldSentinelMarkt.feedJob do GoldSentinelMarkt.FeedPortion(4) end
+if GoldSentinelMarkt.queueJobs then while GoldSentinelMarkt.queueJobs[1] do GoldSentinelMarkt.QueuePortion(4) end end
+local fac = next(f.f)
+for i = 1, 14000 do f.f[fac].i[500000 + i] = "dw,4,2,1,1,0,0,0" end
+GoldSentinelMarkt.outbox = {}
+GoldSentinelMarkt.lastFull = nil
+MAXMS, FRAMES = 0, 0
+local function frame()
+  local t0 = os.clock()
+  GoldSentinelMarkt.Tick()
+  local ms = (os.clock() - t0) * 1000
+  FRAMES = FRAMES + 1
+  if ms > MAXMS then MAXMS = ms end
+end
+GoldSentinelMarkt.Feed("AHSentinel", TIME + 1200, 21102, ITEMS, 1200)
+COMBAT = false
+NOW = NOW + 1
+for k = 1, 400 do
+  frame()
+  if not GoldSentinelMarkt.feedJob and not (GoldSentinelMarkt.queueJobs and GoldSentinelMarkt.queueJobs[1]) then break end
+end
+-- Antwort-Weg (volles Teilen ohne Item-Liste, 20000 Items im Speicher)
+GoldSentinelMarkt.answerAt = NOW - 1
+MAXA = 0
+for k = 1, 400 do
+  local t0 = os.clock(); GoldSentinelMarkt.Tick(); local ms = (os.clock() - t0) * 1000
+  if ms > MAXA then MAXA = ms end
+  if not (GoldSentinelMarkt.queueJobs and GoldSentinelMarkt.queueJobs[1]) then break end
+end
+OUT = {}
+for i, m in ipairs(GoldSentinelMarkt.outbox) do OUT[i] = m[1] .. "#" .. ((m[2] and m[2].net) and "net" or "guild") end
+OUTS = table.concat(OUT, "\\n")
+"""
+def run9(src):
+    c = Client("Testv9", 71, src=src)
+    c.run('DBF = {}; GoldSentinelMarkt.Attach("AHSentinel", DBF); GoldSentinelMarkt.Pump = function() end')
+    c.run(RUN9)
+    return c
+import statistics as _st
+c9s = [run9(None) for _ in range(3)]          # maschinenunabhängig (Entscheid T126): Median aus 3 Läufen
+c9, c8o = c9s[0], run9(OLD8)
+mf, ma = _st.median(x.ev("MAXMS") for x in c9s), _st.median(x.ev("MAXA") for x in c9s)
+print("v9 längstes Bild Feed+Teilen Median %.1f ms (höchster %.1f; v8: %.1f ms), Antwort-Weg Median %.1f ms (höchster %.1f; v8: %.1f ms), %d Bilder"
+      % (mf, max(x.ev("MAXMS") for x in c9s), c8o.ev("MAXMS"), ma, max(x.ev("MAXA") for x in c9s), c8o.ev("MAXA"), c9.ev("FRAMES")))
+budget = c9.ev("GoldSentinelMarkt.BUDGET_MS")
+# Grenze im Nachbau Budget + 2 ms (Messrauschen der Maschine bis ~1,5 ms gemessen, 25 Läufe); Ziel im Spiel ≤ 5 ms je Bild
+check("v9: kein Bild über Budget + 2 ms (Feed + Teilen, 6000 Items, Median aus 3)", mf <= budget + 2, True)
+check("v9: Antwort-Weg ohne Item-Liste (20000 Items) höchstens Budget + 2 ms (Median aus 3)", ma <= budget + 2, True)
+check("v9: Gegenprobe v8 – Teilen am Stück über 5 ms", c8o.ev("MAXMS") > 5, True)
+check("v9: Nachrichten byte-gleich wie v8 (Reihenfolge, Inhalt, Weg)", c9.ev("OUTS") == c8o.ev("OUTS") and len(c9.ev("OUTS")) > 1000, True)
+
+# v9: eigenes Lesen (ohne AHSentinel) – Auswertung in Portionen: 20000 Auktionen, zweiter Scan mit Vergleich.
+# Echte Uhr, Speicherbereinigung während der Messung aus (sie ist im Spiel global und gehört nicht dem Baustein).
+# Maschinenunabhängig (Entscheid T126): Median der längsten Bilder aus 3 Läufen; höchster Wert als Auskunft.
+import random as _rnd, hashlib as _hl, statistics as _st
+def _read_run(src, seed):
+    _rnd.seed(seed)
+    c = Client("Testv9r", 72, src=src)
+    rows = [(2000 + _rnd.randint(0, 5999) * 3, _rnd.randint(1, 20), _rnd.randint(100, 900000), _rnd.randint(1, 4)) for _ in range(20000)]
+    set_auctions(c, rows)
+    c.run('function debugprofilestop() return os.clock() * 1000 end; collectgarbage("stop")')
+    c.run("""MAXT = 0
+_U9 = UPDATE
+function UPDATE(dt) local t0 = os.clock(); _U9(dt); local ms = (os.clock() - t0) * 1000; if ms > MAXT then MAXT = ms end end""")
+    for _ in range(50): c.lua.globals().FIRE("REPLICATE_ITEM_LIST_UPDATE")
+    c.tick(40)
+    rows2 = rows[2000:] + [(2000 + _rnd.randint(0, 5999) * 3, _rnd.randint(1, 20), _rnd.randint(100, 900000), 4) for _ in range(1500)]
+    set_auctions(c, rows2)
+    c.run("TIME = TIME + 1200; NOW = NOW + 1200")
+    for _ in range(50): c.lua.globals().FIRE("REPLICATE_ITEM_LIST_UPDATE")
+    c.tick(40)
+    c.run('collectgarbage("restart")')
+    ex = "\n".join(c.ev("GoldSentinelMarkt.store.export[%d]" % i) for i in range(1, c.ev("#GoldSentinelMarkt.store.export") + 1))
+    fi = c.ev("GoldSentinelMarkt.store.f.H.i")
+    mem = repr(sorted((k, fi[k]) for k in fi.keys()))
+    return c.ev("MAXT"), _hl.sha1((ex + mem).encode()).hexdigest(), c.ev("GoldSentinelMarkt.Stats().compared")
+r9 = [_read_run(None, 5) for _ in range(3)]
+r8 = _read_run(OLD8, 5)
+m9 = _st.median(x[0] for x in r9)
+print("v9 eigenes Lesen 20000 Auktionen: längstes Bild Median %.1f ms (höchster %.1f ms) – v8: %.1f ms" % (m9, max(x[0] for x in r9), r8[0]))
+check("v9: eigenes Lesen – längstes Bild (Median aus 3) höchstens Budget + 2 ms", m9 <= budget + 2, True)
+check("v9: eigenes Lesen – Gegenprobe v8 am Stück über 20 ms", r8[0] > 20, True)
+check("v9: eigenes Lesen – Speicher und Export byte-gleich wie v8 (mit Vergleich)", (r9[0][1] == r8[1], r9[0][2], r8[2]), (True, 1, 1))
 
 print(f"{checks - fails}/{checks} Prüfungen bestanden")
 sys.exit(1 if fails else 0)

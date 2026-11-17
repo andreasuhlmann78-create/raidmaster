@@ -227,3 +227,8 @@ nur wo nötig und jeder Handpunkt in klaren, nummerierten Schritten (Wo / Schrit
   Zusammenfassung enthält die gemessene längste Portion (Gegenprobe mit alter Regel rot).
 - Prüfliste (NIEDRIG, TR-ALLE B): Punkt 13 METER-KAMPF – Schritt "wo ist die Option 'Nur im Kampf'" ergänzen (/ts einstellungen,
   Reiter …, Haken …). Punkt 11 TSMESS – sagen, woher TSMess.zip kommt. Punkt 10 "bitte abschreiben" – sagen, wohin (Bericht/Chat).
+
+==== MARKT-V9 (Supervisor 17.11.2026, ersetzt MARKT-V8) ====
+- shared/GoldSentinelMarkt.lua Version 9: kein Ruckeln nach Vollscans (Teilen und Auswertung in Portionen; vorher bis 190 ms in einem
+  Bild bei Spielern ohne AHSentinel). Mit der nächsten geplanten Version statt v8 kopieren + CHANGELOG EN/DE.
+  Einzelheiten: auftraege/hinweis-goldsentinelmarkt-v9-2026-11-17.txt.

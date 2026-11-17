@@ -346,3 +346,8 @@ nur wo nötig und jeder Handpunkt in klaren, nummerierten Schritten (Wo / Schrit
 
 ==== NACHPRÜFUNG 17.11. 08:32 (Supervisor übertragen) ====
 - 0.9.63/0.9.64: addon_check OK, Offline-Läufe forever/era/retail 0 Fehler, T288 (TR-ALLE) vorhanden – keine Befunde der Nachprüfung.
+
+==== MARKT-V9 (Supervisor 17.11.2026, ersetzt MARKT-V8) ====
+- shared/GoldSentinelMarkt.lua Version 9: kein Ruckeln nach Vollscans (Teilen und Auswertung in Portionen; vorher bis 190 ms in einem
+  Bild bei Spielern ohne AHSentinel). Mit der nächsten geplanten Version statt v8 kopieren + CHANGELOG EN/DE.
+  Einzelheiten: auftraege/hinweis-goldsentinelmarkt-v9-2026-11-17.txt.
