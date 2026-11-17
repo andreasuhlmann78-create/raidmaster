@@ -1,0 +1,52 @@
+AHSentinel 0.65.322 – KAUF DOPPELT (MITTEL-HOCH) und Antwort auf die Nachfrage zu den Mess-Hüllen (0.65.320) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.322 und sofort im Discord.
+
+==== KORREKTUR meiner Zahl aus dem Bericht 0.65.319 ("118 Käufe doppelt") ====
+- Die 118 waren Kauf-Einträge mit gleicher MINUTE und gleichem Item – das sind meistens mehrere ECHTE Sniper-Käufe derselben Ware in
+  derselben Minute, keine Doppel. Nachgezählt mit der richtigen Regel (Quelle "mail" + Sniper-/Einkauf, gleiches Item, gleiche Menge, gleicher
+  Preis, höchstens 5 Min.; je Kauf höchstens ein Partner):
+  Journal: 50 Einträge mit Quelle mail, davon 8 Doppel. Buchhaltung: 284 Kaufzeilen mit Quelle mail, davon 12 Doppel (zusammen 8861 Kupfer).
+  Die Einstufung MITTEL-HOCH bitte entsprechend prüfen; der Fehler ist echt, aber kleiner.
+
+==== Ursache – BELEGT (Nachbau s281, Gegenprobe 0.65.321) ====
+- (a) Die Kauf-Rechnung wurde gelesen, BEVOR der Sniper-Kauf gebucht war (Buchung wartet auf die Gold-Messung, TB182-2): keine Zuordnung ->
+  eigene Zeile "mail"; danach buchte der Sniper denselben Kauf noch einmal. Nachbau 0.65.321: Buchhaltung "mail,sniper" (2 Zeilen), Journal
+  "mail,sniper" – genau das Bild aus den echten Daten (Rechnung 1 s vor dem Sniper-Kauf, z. B. Item 6299).
+- (b) Dieselbe Rechnung ein zweites Mal gelesen mit anderem Schlüssel des Briefkastens: in 0.65.321 nicht erkannt.
+- (c) Nebenbefund: bei gleichem Betrag nahm eine Rechnung den ÄLTESTEN offenen Kauf im 3-Tage-Fenster (nicht den zeitlich nächsten); und zwei
+  gleiche Kauf-Rechnungen in derselben Stunde galten als eine (die zweite wurde übersehen) – Nachbau (c): 0.65.321 nur 1 von 2 zugeordnet.
+
+==== Umsetzung ====
+- Le:BookPurchase: gibt es eine schon gebuchte, keinem Kauf zugeordnete Rechnung (Quelle mail) desselben Items und derselben Menge, höchstens
+  10 Min. älter, wird DIESE Zeile zum Sniper-/Einkauf (Quelle, Auktion, zugeordnet; Betrag der Rechnung gilt) – keine zweite Zeile, keine
+  zweite Kostenbasis (Books OnBuy nur einmal). Im Journal wird der Eintrag an Ort und Stelle umgestellt (Fc:RelinkBuy, Quelle sniper/watcher).
+- Briefkasten: dieselbe Rechnung (Item, Menge, Betrag, Ankunft ±10 s) schon gebucht -> nicht nochmals (Le:InvoiceBookedCount; gleiche
+  Rechnungen im selben Durchgang zählen einzeln). Kauf-Rechnungen zählen im Durchgang wie die Forever-Verkäufe (zwei gleiche = zwei).
+- Le:FindUnmatchedBuy: bei gleichem Betrag der zeitlich nächste Kauf.
+- Einmalige Bereinigung (Aufgabe "ledger:doppelt" beim Start, Kennzeichen db.kaufDoppeltFix): je Sniper-/Einkauf mit Rechnung höchstens eine
+  "mail"-Zeile gleicher Menge und gleichen Betrags (≤ 5 Min.) entfernt; Journal gleich (Quelle mail gegen sniper/watcher/buy, gleiche Menge und
+  Preis). Echte Käufe ohne Partner bleiben. Zahlen vorher/nachher im Protokoll KAUF-DOPPELT und im Kennzeichen.
+- Mit den echten Daten (lokal): Buchhaltung 2523 Zeilen, 12 entfernt (8861 Kupfer) · Journal 3000 Einträge, 8 entfernt · Gegenprobe danach:
+  0 verbleibende Paare · LossWarnings 2 -> 1 (Item 6299 nur noch einmal) · BuyStats d unverändert 983 (die Doppel waren Weg v).
+- Lagerbestand der Buchhaltung (Books): bewusst NICHT angefasst. Die doppelten Käufe haben dort Menge zugebucht; ob der Lager-Abgleich
+  (BK:CorrectStock, "Fehlbestand ausgebucht") sie schon ausgeglichen hat, ist je Item unterschiedlich – ein zweites Ausbuchen könnte echten
+  Bestand löschen. Verdacht, zu messen: Abgleich "buch_lager_mehr" (z. B. Item 4470 +2) nach dem nächsten Lauf gegen die 12 Doppel.
+- Nachbau s281: (a) eine Zeile, Quelle sniper, Journal ein Eintrag; (b) zweites Lesen keine zweite Zeile; (c) zwei gleiche Käufe zwei Zeilen,
+  beide Rechnungen zugeordnet; (d) Bereinigung 3+3 entfernt, echter Kauf ohne Partner bleibt, zweiter Aufruf nichts. Gegenprobe 0.65.321: 6 rot.
+
+==== Nachfrage 0.65.320 – Mess-Hüllen A.OwnCreateFrame / A.OwnTimer (Nachbau s280) ====
+(1) Geschützte Rahmen: Rahmen mit Vorlage "Secure…" (bei uns der Entzauber-Knopf, DEWindow.lua SecureActionButtonTemplate) bekommen jetzt
+    KEINE Hülle – keine eigene Methode auf dem Rahmen, nichts geändert. Blizzard-Rahmen laufen nie über die Hülle (nur Rahmen, die unsere Module
+    selbst erzeugen). OnClick wird nie umhüllt (nur OnUpdate/OnEvent). Nachbau: geschützter Rahmen ohne eigene Methode; nach dem Öffnen des
+    Entzauber-Fensters alle geschützten Rahmen ohne Hülle (0.65.320/321: 2 von 2 mit Hülle -> behoben). Kampf: die Hülle verändert keine
+    geschützte Aktion; im Spiel bitte beim Ingametest Entzauber-Knopf im und ausser Kampf (Handprüfliste).
+(2) Kosten ausserhalb der Messung: die Hülle wird EINMAL beim SetScript gebaut; je Aufruf nur "A.frameOwn?" und direkter Aufruf, kein Speicher.
+    Nachbau: 100000 Aufrufe ohne Messung legen gleich viel Speicher an wie ohne Hülle (0,0 KB); Zeit je Aufruf 0,03 µs ohne / 0,07 µs mit Hülle.
+(3) Fehlermeldungen: die Hülle ruft die Funktion selbst auf; die Meldung kommt aus der Funktion -> echte Datei:Zeile. Nachbau: OnUpdate-Fehler
+    ohne und während der Messung, Zeitgeber-Fehler: alle mit der Zeile im Szenario (nicht AHAnalyzerPro.lua).
+
+==== Weiter ====
+Lange Einzelprüfungen teilen (T26b, S28, T335, T372, T111, T505, T648 …), dann C, E, D, dann Bericht "BEREIT FÜR INGAMETEST".
+
+Gesamtlauf 0.65.322: BESTANDEN 354, FEHLGESCHLAGEN 0 (frischer Klon, nichts parallel).
+Veröffentlicht: GitHub-Release v0.65.322, Discord. CurseForge: nein.
