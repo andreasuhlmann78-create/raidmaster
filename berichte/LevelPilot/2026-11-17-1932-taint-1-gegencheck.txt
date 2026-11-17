@@ -1,0 +1,16 @@
+LevelPilot – Gegencheck zu TAINT-1 (Befund AHSentinel 18:55): LevelPilot ist nicht betroffen (Hinweis, zur Prüfung)
+Anlass: TAINT-1 bei AHSentinel. Dessen Testroutine beschrieb Blizzard-Globale (GetCVar usw.); das verdirbt sie bis /reload.
+Geprüft in LevelPilot 3.12.89, alle .lua ausser den gemeinsamen GoldSentinel*.lua:
+- Schreibzugriffe auf _G (_G.X = …, _G[…] = …, rawset(_G, …)): nur eigene Namen.
+  - LevelPilotAPI, LevelPilotNames, LevelPilotData (Test T04/T26 legt es weg und zurück)
+  - GoldSentinelStrassen/-Era = nil
+  - BINDING_NAME_* für die eigenen Tastenbelegungen (übliche Art, Bindings zu benennen)
+  Keine Blizzard-Funktion, keine C_-Tabelle.
+- Testroutine: Spiel-Funktionen werden nur über WithEnv ersetzt. WithEnv setzt mit setfenv eine eigene Umgebung für EIGENE
+  Funktionen; die echten Globalen werden nicht beschrieben. Die Ersatzwerte (GetMoney, UnitLevel …) sind Felder dieser
+  Ersatz-Tabelle.
+  Hinweis: Der Proxy hat __newindex -> _G[k] = v. Er schreibt also nur, wenn eine eigene Funktion während des Tests eine
+  globale Variable anlegt. Kein Test tut das mit einem Blizzard-Namen (siehe Suche oben).
+- hooksecurefunc (TestRoutine.lua 8684, Zählen direkter Aufrufe) ersetzt nichts. Das ist die von Blizzard vorgesehene,
+  taint-freie Art.
+- Verdacht, zu messen: nur im Spiel endgültig. Bisher kein Taint-Fehler mit LevelPilot gemeldet.
