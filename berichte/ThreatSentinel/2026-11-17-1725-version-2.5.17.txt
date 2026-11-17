@@ -1,0 +1,100 @@
+BERICHT THREATSENTINEL 2.5.17 – Ingametest 17:00, NP-TS16-1, Prüfliste-Texte, TR-ALLE Nachtrag D, MARKT-V10
+Stand: umgesetzt, zur Prüfung (keine Selbst-Freigabe). Grundlage: auftraege/ThreatSentinel/offen-threatsentinel.txt (Einträge
+17.11. 08:25 bis 17:10), auftraege/hinweis-testroutine-alles-2026-11-17.txt Abschnitt D, hinweis-goldsentinelmarkt-v9-2026-11-17.txt.
+Veröffentlicht: download/ThreatSentinel-2.5.17.zip (addon_check "## ThreatSentinel-2.5.17.zip: OK", keine WARNUNG),
+announce/threatsentinel__threatsentinel-2.5.17.md (Discord). CurseForge: nicht betroffen.
+Offline (Lua 5.1, veröffentlichte ZIP, "alles"): Forever OK 266 · FEHLER 6 · übersprungen 18 · im Client 16; Era OK 270 · FEHLER 6 ·
+übersprungen 12 · im Client 17; jeweils "FEHLER ausserhalb der Nachbildungs-Liste: 0", "Regressionen: 52 von 52 vorhanden".
+Die 6 FEHLER sind die bekannten der Nachbildung (T02, T09, T20, T34, T39, T133).
+
+1) BEFUND 2 (MITTEL) TU1-L04t 10,3 ms – Ursache gemessen, Durchlauf geteilt und beschleunigt
+   Messung: Offline-Routine mit echter Uhr (debugprofilestop = os.clock) und Lua-Profiler (debug.sethook, Zählung je Funktion)
+   nur über dem gemessenen Teil von TU1-L04t. Ergebnis (Anteil der Stichproben):
+   - ns.IsSecret -> issecret -> GoldSentinelGame G.IsSecret (pcall(issecretvalue)) zusammen ≈ 47 %. Aufrufer: ReadThreat
+     (Threat.lua) für JEDEN der 40 Spieler × jeden Mob, auch wenn der Spieler gar nicht auf der Bedrohungsliste steht (alle Werte nil),
+     und die Nachbau-API der Szene selbst (TestRoutine.lua Scene.Map real(): ns.IsSecret für jeden Einheiten-Namen).
+   - Sync:Tanks() lief für jede Plakette neu (40 Spieler × GetRole) – aus TankColor/NumTanks (Nameplates.lua 419/431).
+   Änderungen:
+   a) ReadThreat: sind isTanking, status und scaled alle nil, wird nichts geprüft (nil ist nie geschützt: ns.IsSecret(nil) = false,
+      Köder rawequal(nil, bait) = false – Verhalten identisch). ns.IsSecret einmal lokal.
+   b) Sync:Tanks() einmal je Rollen-Stand (neuer Zähler ns.roleGen in ns:ClearRoleCache, das jeder Durchlauf und jede Sync-Rolle
+      aufruft) und Zeitpunkt (GetTime) und Tabelle syncRoles; Inhalt unverändert (S:TanksFresh = alte Funktion).
+   c) T:Tick bewertet die Mobs mit Zeitbudget T.BUDGET_MS = 3 ms (mindestens T.MIN_EVAL = 4 Mobs), die am längsten nicht bewerteten
+      zuerst (neue Mobs sofort). Die übrigen behalten ihren letzten Stand und kommen im nächsten Durchlauf (alle 0,25 s) dran.
+      Meldungen und HUD werden aus dem Stand ALLER Mobs gebildet; ein Mob, dessen Bewertung fehlschlug (Try = false), zählt wie
+      vorher nicht mit (m.evalOk). Uhr T.Clock ersetzbar (eigene Funktion, keine Blizzard-Funktion).
+      Folge für Spieler (CHANGELOG/Announce gesagt): bei sehr vielen Mobs kann eine Warnung einen Sekundenbruchteil später kommen.
+   d) Szene-Nachbau: real() prüft nur noch den Typ (die Szene erzeugt selbst keine geschützten Zeichenketten; der Köder SECRET ist
+      kein String). Das senkt den Messfehler der Testroutine selbst.
+   e) T136 misst 5 statt 20 Durchläufe, TU1-L04t 5 statt 10 (kürzere Bilder in der Routine, NP-TS16-1).
+   Messwerte offline (echte Uhr, Median aus 3 Läufen, Szene 40 Spieler/40 Mobs):
+     2.5.16: 4,22 ms je Durchlauf · 2.5.17 ohne Budget (ganzer Durchlauf aller Mobs): 2,66–2,83 ms (−35 %) · 2.5.17 mit Budget: ≤ Budget.
+   VERDACHT, ZU MESSEN: Das Spiel war in 2.5.16 rund 2,4× langsamer als dieser Nachbau (10,3 gegen 4,2 ms). Erwartet im Spiel:
+   ganzer Durchlauf ≈ 6–7 ms, mit Budget ≈ 3–4 ms je Durchlauf. Zeigt TU1-L04t im nächsten Ingametest.
+   Neuer Fall TU1-L04b (mit eigener Uhr, jede Zeitabfrage = 1 ms): "Budget 3 ms, mind. 4 · je Durchlauf 6/6/6/6/6/6/6 · alle 40 nach
+   7 Durchläufen · keiner doppelt, solange einer fehlt true". Gegenprobe: alte Regel bewertet 40 in EINEM Durchlauf -> rot.
+   TU1-L04t zeigt jetzt dazu "(bewertet n, später k)".
+
+2) BEFUND 1 (MITTEL) T181 + T-K2 – LevelPilot-Pfeil als HUD, Ausweichen ohne Pendeln
+   Ursache (aus dem Code belegt, im Spiel nicht nachgestellt): ns.UIAvoidBlizzard versuchte nur rechts/links neben dem ERSTEN
+   getroffenen Hindernis, höchstens 4 Mal. Zählt der LevelPilot-Pfeil als Hindernis (er stand in GoldSentinelUIFrames, LevelPilot
+   UICheck.lua OWN: { "LevelPilotArrow", "Pfeil" }), gibt es zwei Hindernisse; am Bildschirmrand springt die Lage zwischen "rechts
+   von B" (passt nicht) -> "links von B" (trifft A) -> "rechts von A" (trifft B) hin und her, übrig bleibt Überdeckung.
+   Nachgerechnet in T-K2b: alte Regel mit zwei Hindernissen Rest-Überdeckung > 0, neue Regel Lage 0/500 mit Überdeckung 0.
+   Änderungen (UICheck.lua):
+   - Entscheid 17.11. 17:10: Ausnahmeliste ns.UI_FOREIGN_HUD mit Namen (LevelPilotArrow, "LevelPilot:Pfeil"); gilt für das
+     Ausweichen UND für U.WindowsOverlapNothing (T181). Echte Fenster anderer GoldSentinel-Addons bleiben drin.
+   - U.BestPlace: alle Lagen neben jedem Hindernis (rechts, links, darüber, darunter, im Bildschirm), kleinste Überdeckung,
+     bei Gleichstand die nächste zur bisherigen Lage; erst waagrecht, nur wenn dort nichts frei ist auch senkrecht.
+   - ns.UIAvoidLast = { covered, free }. T-K2: liegt wirklich kein freier Platz frei, ehrlich SKIP "kein freier Platz: der
+     Bildschirm ist voller Fenster (Rest-Überdeckung n)" statt FEHLER; sonst Prüfung "Überdeckung 0, mit allen Fenstern 0".
+   - Neue Fälle (laufen auch offline): T-K2b (siehe oben), T-K2c (Pfeil/LevelPilotArrow ja, LevelPilot-Guide und ein "Pfeil" eines
+     anderen Addons nein). Regression "2.5.8-1 T-K2 im Client immer FEHLER" -> { T-K2, T-K2b, T-K2c }.
+   Im Spiel zu bestätigen: T-K2 und T181 grün (nächster Ingametest).
+
+3) NP-TS16-1 (MITTEL) – Portionen gemessen statt behauptet
+   - Abgabe jetzt VOR jeder Prüfung, sobald R.FRAME_MS = 2 ms im Bild verbraucht sind (Budget zählt ab Beginn des Bildes).
+   - Jede Portion (= Bild der Routine) wird gemessen; die Zusammenfassung sagt statt "(höchstens 5 ms je Bild)":
+     "N Bilder, längstes x ms (bei <Prüfung>), über 5 ms: n" und "allein über 5 ms: <Prüfung> x ms, …".
+   - Offline mit echter Uhr (Forever, "alles"): "86 Bilder, längstes 17,2 ms (bei T90), über 5 ms: 11 · allein über 5 ms: T90 16,4 ms,
+     T136 15,0 ms, T139b 7,2 ms, TU1-L04t 15,3 ms, TU3-D2 13,4 ms, T-BL1 8,7 ms, TU7-F-forever 5,9 ms, TU7-F-era 5,7 ms, TU7-F-tbc 5,9 ms,
+     TU7-S1 13,4 ms". Vor den Kürzungen bei T136/TU1-L04t: längstes 50,0 ms (T136).
+     Diese Prüfungen laufen in einer Szene (ersetzte Einträge) bzw. am Stück in RUN:Check (pcall) – dort darf nicht abgegeben werden
+     (Lua 5.1, sonst sähe der Rest des Spiels die Ersatz-Einträge). Sie werden genannt, wie verlangt. Teilen wäre ein eigener Umbau
+     (eine Prüfung je Teilschritt); bitte entscheiden, ob gewünscht.
+   - T-TR1 neu (eigene Uhr der Routine R.Now, keine Blizzard-Funktion): "Abgabe vor NB1 (Uhr 3) · NB1 im nächsten Bild true (4 ms) ·
+     alte Regel: Bild 7 ms, über 5 ms 1 · allein: NB3 6.0 ms · Szene durch, ausserhalb durch · Zusammenfassung nennt 7.0 ms true bei
+     NB2 true" (Gegenprobe alte Regel enthalten). TU4-G2 prüft jetzt gegen R.FRAME_LIMIT 5 ms. Regression NP-TS16-1 -> T-TR1.
+
+4) TR-ALLE NACHTRAG D – Fenster-Prüfung wartet nie, wird von selbst nachgeholt
+   - Einziger Schritt der Routine, der ein Spielfenster braucht: T186 (ThreatSentinel-Fenster neben offenen Blizzard-Fenstern).
+     Ist beim Lauf schon eines offen -> gleich geprüft (Prüfung mit U.WindowsOverlapNothing). Sonst SKIP "wartet auf ein Spielfenster –
+     läuft nach dem Lauf von selbst" (zählt nicht als FEHLER), Zusammenfassung "Noch offen: Fenster-Prüfung … passiert von selbst, wenn
+     du das nächste Mal ein Spielfenster öffnest (z. B. Händler, Post, Karte, Charakter)", vorgemerkt in ThreatSentinelDB.trPending
+     (Zeit + Version/Datum des Laufs).
+   - Nachholen: OnShow-Haken (HookScript) an den Spielfenstern aus ns.UI_BLIZZARD (auch später geladene: ADDON_LOADED), nur im
+     Entwicklermodus, nie im Kampf, nie während eines Laufs, 0,5 s nach dem Öffnen. Testzentrale und Einstellungen werden UNSICHTBAR
+     (Alpha 0) geöffnet, weichen aus, Überlappung wird gemessen, danach Lage, Alpha und Sichtbarkeit genau wie vorher.
+     Eigener kleiner Bericht (GoldSentinelTest, Fall T186, Felder nachgeholt/lauf/fenster), Chat "Testroutine: Fenster-Prüfung
+     nachgeholt (<Fenster>) – bestanden/FEHLER". Prüfliste: TR-ALLE hakt sich erst ab, wenn nichts mehr wartet (bzw. beim Nachholen).
+   - Zeitlimit: nach 7 Tagen verfällt die Vormerkung mit Chatzeile (keine Sperre ohne Zeitlimit).
+   - Tests: T-D1 (1 Std. gültig, 7 Tage + 1 Min. verfallen und gelöscht mit Meldung, nichts vorgemerkt = nichts), T-D2 (im Client:
+     vorübergehendes Test-"Spielfenster", Nachholen läuft, Bericht T186=true, Vormerkung gelöscht, Meldung, unsere Fenster wie vorher).
+   - Hinweis 3 (welche Handpunkte noch automatisierbar): Alle 13 übrigen Punkte haken sich schon beim normalen Spielen selbst ab
+     (Hit an der echten Stelle bzw. auto()); Handlung des Nutzers ist nur nötig, wo das Spiel es verlangt (zweiter Spieler für SYNC-*,
+     Auktionshaus-Vollscan für MARKT, TSMess-Messung, Heiler-Rolle, ein Forever-Dungeon). Mehr lässt sich ohne Spieler nicht auslösen.
+
+5) PRÜFLISTE-TEXTE (NIEDRIG)
+   - METER-KAMPF: Schritt 2 "Gegenprobe: /ts einstellungen, Reiter "Anzeigen", Abschnitt "Aggrometer": Haken "Nur im Kampf" setzen",
+     Schritt 3 "Haken wieder entfernen".
+   - TSMESS: "Mess-Addon TSMess installiert: GitHub raidmaster, Ordner shared/messtest, Datei TSMess.zip".
+   - SPOTT-GRUND: "… abschreiben und der ThreatSentinel-Sitzung (Claude) schicken" (der Text wird nie gespeichert, könnte Namen enthalten).
+   - HEILER-HUD: Ort der Option (Reiter "Anzeigen", Abschnitt "Kleines HUD").
+   - TR-ALLE: was "Noch offen: Fenster-Prüfung" bedeutet (nichts tun, läuft von selbst).
+
+6) MARKT-V10: shared/GoldSentinelMarkt.lua Version 10 unverändert kopiert (cmp gleich), CHANGELOG EN/DE mit den Zeilen zu v8
+   (Test-IDs) und v9/v10 (kein Ruckeln nach Vollscans). Diagnose zeigt "MARKT-NETZ: v10".
+
+Alle sechs gemeinsamen Dateien direkt vor dem Push mit cmp gegen shared/ geprüft: gleich.
+Offline zusätzlich: TS_FRAME_MS=0 (Abgabe vor jeder Prüfung) Forever/Era ohne Fehler ausserhalb; Abbrechen und Ausloggen bei
+Schritt 30 und 200: echte Daten unverändert OK, Stubs zurückgesetzt OK, routineRunning=false, actLog=nil.
