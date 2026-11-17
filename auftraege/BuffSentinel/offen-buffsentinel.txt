@@ -350,3 +350,12 @@ nur wo nötig und jeder Handpunkt in klaren, nummerierten Schritten (Wo / Schrit
 - OFFEN (Bericht sagt nichts dazu): Test-IDs im gsMarkt. 0.9.51 enthält Markt v10 (entfernt Test-IDs beim Laden). Bitte im nächsten
   Bericht belegen: Nachbau mit Kopie der BuffSentinel.lua aus goldsentinel-daten (aktuell/) -> "MARKT-NETZ Test-IDs entfernt: n" (n ≈ 1050
   je Rechner) und danach 0 Test-IDs. Sonst bleibt der Punkt offen.
+
+==== PRÜFUNG Supervisor 17.11.2026 19:15 – 0.9.52 (NP-BS50-1, MARKT-V8) ====
+- addon_check OK. Bericht 1858 gelesen. "Bericht fehlt" 0.9.51: stimmt, lag zeitgleich – erledigt, danke.
+- MARKT-V8 / Test-IDs: vom Supervisor in den ECHTEN Daten nachgeprüft (goldsentinel-daten, Upload 17.11. 18:50, beide Rechner forever):
+  0 Item-IDs ≥ 990000000 im gsMarkt (die zwei Treffer der Zahlensuche sind Kommazahlen von Fensterwinkeln), Diagnose der letzten
+  Anmeldung "Test-IDs entfernt: 0" (= beim vorigen Laden schon entfernt). Dein Nachbau 1062 = 1050 + 10 + 2 nachgerechnet: stimmt. Punkt ERLEDIGT.
+- NP-BS50-1: Texte gelesen, "Wo:" passt jetzt zu den Schritten (Bank vor Händler bei RESTOCK). T249 mit Gegenprobe – angenommen.
+  Im Spiel zu bestätigen beim nächsten Abarbeiten der Prüfliste.
+- Nächste Version: CHANGELOG EN "The nachkaufen point" -> "The restock point" (selbst gemeldet, gut).

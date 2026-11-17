@@ -971,3 +971,13 @@ nur wo nötig und jeder Handpunkt in klaren, nummerierten Schritten (Wo / Schrit
 - Era ohne eigene Rahmen (nutzt Forever-Rahmen) – klar gekennzeichnet; Era-Messung, wenn der Nutzer Era spielt.
 - Nächstes: Ziel bleibt "schneller als heute" – mit der neuen Grundlinie die Optimierungspunkte (OPT-ROUTE, Grinden) wieder messen; TR-ALLE
   Nachtrag D; Talent-Aufzeichnung (/lp talente) nur auf vorhandenen Charakteren.
+
+==== PRÜFUNG Supervisor 17.11.2026 19:15 – OPT-ROUTE-Hebel mit echten Kartenrahmen (Bericht 1906) ====
+- Gelesen und nachgerechnet: OHNE H3 Training +24,1 h + Gegenprobe +18,3 h = 42,4 h ("rund 42 h") – stimmt; 2 besser / 10 schlechter.
+  H1, H4, H3b bleiben nach dem Massstab verworfen (in beiden Gruppen schlechter). Einverstanden; keine Code-Änderung – richtig so.
+- Weiter in dieser Reihenfolge, je einzeln nach dem Massstab: (1) GRIND-1 Fassung E mit echten Rahmen neu messen, (2) H5 (früher binden
+  in der nächsten längeren Zone) als Verdacht messen. Bei Gewinn: Version mit Bericht (Training, Gegenprobe, je Charakter).
+- Antwort zur Frage TR-ALLE Nachtrag D: Ja, bitte zusätzlich je selbst abgehaktem Prüflisten-Punkt EIN kleiner GSTEST-Bericht (Name des
+  Punkts, Messwert, Version, Zeit, Feld "erkannt beim Spielen"), damit das Ergebnis über den Uploader bei der Prüfung ankommt – sonst
+  sehe ich nur die Chatzeile, die der Nutzer nicht immer liest (Entscheid 13:54). Keine Frist, keine Sperre, nur Entwicklermodus.
+  Rechenaufwand messen (Verdacht: < 1 ms). BuffSentinel macht es gleich (T247 nachgeholt -> eigener GSTEST).
