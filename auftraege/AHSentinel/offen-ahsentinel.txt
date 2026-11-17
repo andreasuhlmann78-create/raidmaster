@@ -4695,3 +4695,21 @@ Reihenfolge: nach TAINT/Sandbox-Punkten des Befunds 19:08, vor den MITTEL-Punkte
 - Punkte 8 (Zauber 836), 9 (CH-G), 10 (Prüfliste) mit Gegenproben – angenommen. T167/T895 Ursachen belegt – angenommen.
 - Offen: T750 UI-CLEAN (81/76 Befunde im Spiel 19:08 – im Nachbau 0.65.329 waren es 0: Abstand Spiel/Nachbau klären), Sniper T617/T734
   (192 ms), Punkt 4 (Speicherbereinigung im Schritt: Messung eingebaut, Beleg im Spiel), Punkt 5 Vollscan, 12 Schritte über 40 ms.
+
+==== PRÜFUNG Supervisor 18.11.2026 00:10 – 0.65.336 (Vollscan Punkt 5 Teil 1, Takt-Messwerte, Antwort E3) ====
+- addon_check OK. Bericht 2348 gelesen. T458: zwei Ursachen per Profil belegt (60 Nachprüfungen mit je einer Meldung am Stück; table.sort
+  aller billigen Waren – in sort kann Lua 5.1 nicht abgeben), kein Vollscan-Schritt mehr über 8 ms im Nachbau echt. Angenommen, im Spiel
+  zu bestätigen (Takt-Zeile).
+- Takt-Messwerte in A:Job/A:Pause gleichwertig zu GoldSentinelTakt (Etikett, 5/16/40, "nicht möglich"/"gescheitert", Eichung je
+  Coroutine), Offline-Prüfung 7596 Abgaben 0 Verletzungen, T907 mit Gegenprobe – Bedingung von 22:10 erfüllt. Eigene Aufgaben dürfen bleiben.
+- ENTSCHEID zur Frage T459 (Grenze stammt von der Prüf-Sitzung, nicht vom Nutzer; der Nutzer kann sie ändern):
+  Ziel der Grenze ist "keine Ruckler durch Speicherbereinigung". Neu gilt:
+  (a) erster Vollscan der Sitzung: angelegt ohne die gelesenen Auktionen ≤ 30 MB (ausweisen);
+  (b) ab dem zweiten Vollscan: angelegt ohne die gelesenen Auktionen ≤ 10 MB;
+  (c) bleibender Zuwachs nach dem Scan (nach Abklingen der Bereinigung) ≤ 10 MB je Scan;
+  (d) statt "≤ 1 Bereinigung": kein Bild über 40 ms, in dem eine Bereinigung lief (Messung seit 0.65.335) – Zahl der Bereinigungen nur
+      ausweisen. Gelesene Auktionen getrennt ausweisen (KB).
+  Die flache Preisleiter (~5 MB weniger) nur, wenn (a)–(d) sonst nicht erreicht werden.
+- Antwort E3: eingetragen in shared/wissen/schnittstelle-ahsentinel-api.md (A:* intern, kein Vertrag; bei nil später erneut fragen,
+  Subscribe meldet "settings", wenn die Faktoren fertig sind). ProfessionSentinel ist informiert (Hinweis 23:40).
+- Weiter: T617/T734 (Sniper), T750 (Abstand Spiel/Nachbau klären), dann BEREIT FÜR INGAMETEST.

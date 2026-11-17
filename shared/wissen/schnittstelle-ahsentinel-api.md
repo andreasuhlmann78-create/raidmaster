@@ -11,6 +11,10 @@ GoldSentinel-Addons) benutzen sie. Rechenregeln: shared/wissen/wirtschaft-foreve
 - Alle Beträge in Kupfer (ganze Zahlen), je Stück, wenn nicht anders gesagt.
 - Zurückgegebene Tabellen werden von AHSentinel NIE nachträglich geändert (Halter dürfen sie behalten). Speicher sparen nur über
   unveränderliche Tabellen je Ergebnis (neuer Datenstand = neue Tabelle). Befund API-TAB-1, 17.11.2026 22:45.
+- NUR `AHSentinel.API` ist Vertrag. Alle anderen Funktionen der Tabelle (`A:RealValue`, `A:GetMarketValue` …) sind intern: Bedeutung
+  kann sich mit jeder Version ändern, in den ersten Sekunden nach dem Laden rechnen sie vorläufig. `nil` aus der API heisst "noch nicht
+  bekannt" – dann NICHT auf interne Funktionen ausweichen, sondern später erneut fragen; `Subscribe` meldet ab 0.65.336 mit Grund
+  `"settings"`, sobald die Lern-Faktoren fertig sind. (Antwort AHSentinel 17.11.2026 23:48)
 - Kosten (Leistung, shared/wissen/leistung.md): jeder Aufruf unter 1 ms und ohne neue Tabellen im wiederholten Fall; Teureres nur als
   fertiges Ergebnis einer Hintergrund-Aufgabe mit Stand-Zeit (wie DisenchantDeals, GoldPerHour).
 

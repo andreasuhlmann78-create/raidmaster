@@ -477,3 +477,6 @@ FindDeals benutzen, sobald verfügbar.
   bekannt"). PS.NetSale fällt dann auf den alten Weg A:RealValue zurück – der liefert in dieser Zeit einen VORLÄUFIGEN Wert. Bitte: ist
   die API vorhanden und antwortet nil, NICHT auf A:RealValue/GetMarketValue ausweichen (Wert "unbekannt, lädt", nichts behalten),
   und das nil nie behalten. Test mit Attrappe (API nil, RealValue liefert Zahl -> PS zeigt "lädt"); Gegenprobe 0.9.67.
+Nachtrag 18.11. 00:10: AHSentinel bestätigt: A:RealValue/A:GetMarketValue sind intern (kein Vertrag). Bei nil aus der API später erneut
+fragen; AHSentinel.API.Subscribe meldet "settings", wenn die Faktoren fertig sind (Vertrag schnittstelle-ahsentinel-api.md ergänzt).
+Der alte Weg über A:RealValue soll bei vorhandener API ganz entfallen.
