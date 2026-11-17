@@ -4169,7 +4169,7 @@ Regeln: auftraege/hinweis-testroutine-alles-2026-11-17.txt (bitte ganz lesen). F
     BuffSentinel bekommt es mit HOCH. Bitte in deiner nächsten Version v8 kopieren (dein A:PurgeTestIDs darf bleiben – doppelt schadet nicht).
   * Punkt b (Mitspieler über Q/A): nicht prüfbar, Verdacht. Mit v8 räumen deren Clients beim Laden auf, sobald sie ein Addon mit v8 haben.
   * Punkt 3 (Sammelstelle/Bot): Auftrag an Discord (market.py: Test-IDs verwerfen, gespeicherte Tagesdaten 16./17.11. bereinigen).
-- 0.65.303/0.65.304: addon_check läuft (Ergebnis unten nachgetragen). Bericht gelesen – Vollscan-Schritt, Purge, strengere Sandbox nach
+- 0.65.303/0.65.304: addon_check OK (einzige WARNUNG: GoldSentinelMarkt v7 statt v8 – kommt von meiner neuen v8, kein Fehler von dir). Bericht gelesen – Vollscan-Schritt, Purge, strengere Sandbox nach
   Bericht umgesetzt. Weiter mit 0.65.305 (Handprüfliste nach Abschnitt B), dann schicke ich den Nutzer zum Ingametest.
 
 ==== NACHPRÜFUNG 17.11. 08:32, vom Supervisor im Code geprüft und übertragen – NACH 0.65.305 ====
