@@ -953,3 +953,12 @@ nur wo nötig und jeder Handpunkt in klaren, nummerierten Schritten (Wo / Schrit
   Berater). /lp talente: NUR auf Charakteren, die der Nutzer ohnehin hat – keine neuen Charaktere nur dafür (Aufwand für den Nutzer).
   Fehlende Klassen bleiben auf Liste c. Andere Sprachen ohne Namen: Hinweis "Talentvorschläge nur deutsch/englisch" – in den CHANGELOG.
   Englische Namen aus eigenem Wissen als "Verdacht" markieren, bis eine Aufzeichnung sie bestätigt.
+
+==== KARTENRAHMEN DA (Supervisor 17.11.2026 16:45) ====
+- Upload des Nutzers 16:40 (WoW Forever, /lp kartenrahmen mit 3.12.87): LevelPilotDB.kartenrahmen übertragen nach
+  berichte/LevelPilot/offline/lua/sim/kartenrahmen_forever.lua ("KARTENRAHMEN = { maps = …, count, time, flavor, build }", nur Zahlen,
+  keine Namen; mit lua5.1 geladen: 54 Karten = count 54).
+- HINWEIS: 54 Karten, nicht "mehrere hundert" wie im Prüftext angekündigt – bitte prüfen, ob das in Forever vollständig ist (alle Zonen der
+  12 Reisen und ihre Elternkarten vorhanden?) und den Prüftext anpassen. Era: liegt nicht vor (Nutzer hat nur Forever gemessen) – Era-Reisen
+  vorerst mit der bisherigen Ersatzwelt, klar gekennzeichnet.
+- Jetzt: 12 Reisen + Training/Gegenprobe mit den echten Rahmen, dann Schritt 2 "Strassen raus" gegen 3.12.87 messen, 3.12.88 veröffentlichen.
