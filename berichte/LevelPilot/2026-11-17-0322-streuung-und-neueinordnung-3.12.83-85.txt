@@ -1,0 +1,31 @@
+BERICHT LevelPilot – Streuung gemessen (Auftrag 02:33) und Neueinordnung 3.12.83 / 3.12.84 / 3.12.85 mit Training + Gegenprobe
+Projekt: LevelPilot · Datum: 17.11.2026 03:22 (aus date) · Stand: 3.12.85 · Messbericht, zur Prüfung
+
+1. STREUUNG – Ergebnis: die virtuelle Reise hat KEIN Zufallsrauschen
+   a) 4 Läufe 3.12.84 mit um 0,2 Kartenpunkte verschobenem Start (×12 Charaktere): Zeiten exakt gleich wie ohne Verschiebung.
+      (Erster Versuch war zudem falsch beschriftet – Variable $da statt $d; verworfen und neu gemacht.)
+   b) 4 Läufe 3.12.84 mit ±1 % an zwei Planer-Konstanten (TRAVEL_SCALE 909/891, SWITCH_NEAR 505/495): alle 4 × 12 exakt gleich
+      (Summe 2338,4).
+   Folgerung: Kleine Änderungen ändern keine Entscheidung; eine Änderung, die eine Zonenwahl kippt, verschiebt danach die Zeit eines
+   Charakters um bis zu ±11 h (alle späteren Entscheide folgen). Eine "Spanne der Streuung" gibt es so nicht – die Unsicherheit liegt
+   darin, ob ein Gewinn auf ANDEREN Charakteren auch eintritt. Massstab, den ich ab jetzt anwende (Vorschlag, bitte bestätigen):
+   Gewinn nur, wenn Training UND Gegenprobe besser sind UND mehr Charaktere besser als schlechter werden (12 Charaktere).
+   Werkzeug: berichte/LevelPilot/opt-route/cmp12.sh + score12.py, Rohdaten 2026-11-17-zwoelf-charaktere-3.12.82-85.txt.
+2. NEUEINORDNUNG (Bewertung = Zeit + 0,5 × Grinden; T = 6 Training, G = 6 Gegenprobe; Datenpaket in allen Fassungen gleich)
+                 Training   Gegenprobe   Summe     besser/schlechter (von 12)   Spanne je Charakter
+   3.12.82       1198,7     1154,1       2352,8
+   3.12.83       1187,8     1156,6       2344,4    82->83: 7 / 5                −8,5 … +4,2
+   3.12.84       1178,1     1160,3       2338,4    83->84: 4 / 3                −6,2 … +2,7
+   3.12.85       1185,2     1163,8       2349,0    84->85: 3 / 5                −5,0 … +11,2
+   - 3.12.83 (Zonen-Stufenband): Training −10,9, Gegenprobe +2,5 -> nach dem Massstab KEIN belegter Gewinn (im Training angepasst).
+   - 3.12.84 (Kontinent als Block): Training −9,7, Gegenprobe +3,7 -> KEIN belegter Gewinn; meine Angabe "1188 -> 1178" galt nur für
+     das Training. Ehrlich: die Bewertungen in den Berichten 3.12.83/3.12.84 waren auf genau die Charaktere bezogen, an denen ich
+     abgestimmt habe.
+   - 3.12.85 (O5-Fehler): Training +7,1, Gegenprobe +3,5 -> schlechter in Summe (+10,6 h, +0,45 %), 3 besser / 5 schlechter.
+     Fehlerbehebung zur Nutzer-Anforderung O5 (Questgeber am Weg), kein Zeit-Ziel; Ursache des Mehraufwands: mehr angenommene Quests
+     (wie bei NEAR_ACCEPT 3.12.73) – Verdacht, zu messen.
+   - 3.12.82 -> 3.12.84 zusammen: Training −20,6, Gegenprobe +6,2, 8 besser / 4 schlechter.
+3. VORSCHLAG / FRAGE AN SUPERVISOR: 3.12.83 und 3.12.84 lasse ich drin (ROUTE-Q unverändert sauber; Zonenfolge nach Stufe und
+   Kontinent als Block entsprechen den Nutzer-Vorgaben "Zonenfolge nach Stufe", "nie quer durch die Welt"), aber OHNE Zeitgewinn-
+   Anspruch. Soll ich stattdessen auf 3.12.82-Verhalten zurück? Bis zur Antwort: so lassen, weiter mit R6 "Kim'jael" und der festen
+   Zonenfolge – jede Messung ab jetzt mit 12 Charakteren und dem Massstab aus 1.
