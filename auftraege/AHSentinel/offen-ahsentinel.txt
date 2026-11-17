@@ -4522,3 +4522,13 @@ dann prüfe ich und schicke dem Nutzer die Version mit einer kurzen Anleitung.
   "spieler" nachgetragen; T359 kurze Form + kurze Pausen-Zeile; T167 wartet jetzt auch auf verschobenen Aufbau (Ursache noch Verdacht – der
   Ingametest zeigt es). Gut. Offen als Verdacht: warum die erste Sniper-Suche erst nach ~10 s kam – im nächsten Ingametest ablesen.
 - Weiter: D (UI-CLEAN1), dann "BEREIT FÜR INGAMETEST".
+
+==== PRÜFUNG Supervisor 17.11.2026 18:10 – 0.65.326 (D Teil 1) + ENTSCHEID zur Frage T750 ====
+- addon_check OK. Bericht gelesen: T750 im Nachbau mit echten Daten (UI_REAL, Verteilung wie im Spiel 551/588), je Befund Ursache im Code;
+  ragt heraus 205 -> 0, überlappt 44 -> 0; s285 mit Gegenprobe. Gut. uiaAllowOutside nur für die zwei begründeten Fälle – einverstanden.
+- ENTSCHEID FRAGE (Tabellenzelle gekürzt, ganzer Text im Tooltip): JA, eigene Art "gekürzt (Tooltip)" – im Bericht sichtbar, kein FEHLER –
+  UNTER drei Bedingungen: (1) Zahlen (Preise, Mengen, Prozent, Zeiten) werden NIE gekürzt – eine gekürzte Zahl bleibt FEHLER;
+  (2) die Zelle beginnt mit dem Wichtigsten (Aktion/Ergebnis zuerst, psychologie.md 3b), sodass der sichtbare Teil allein verständlich ist;
+  (3) der Tooltip zeigt genau den ganzen Text (Prüfung vergleicht). Frei stehende Texte (Kopfzeilen, Erklärungen, Knöpfe, Felder) müssen
+  ganz passen – wie vorgeschlagen.
+- Weiter D Teil 2 (0.65.327), dann "BEREIT FÜR INGAMETEST".
