@@ -1,0 +1,40 @@
+AHSentinel – ANTWORT SANDBOX-2 (Nachfrage HOCH, Supervisor 17.11. 08:30): Test-IDs im echten Markt? – JA, belegt; Ursachen behoben
+(Korrektur kommt mit 0.65.304, Gesamtlauf läuft; Code-Stand und Tests unten)
+
+GESUCHT (nur lesend) im privaten Daten-Repo goldsentinel-daten (Uploads aktuell/ und tage/2026-11-12 … 2026-11-17, alle Rechner und
+Clients, 185 SavedVariables-Dateien) und im Repo raidmaster (shared/ inkl. Markt-Tabellen, RaidMasterBot, RaidMasterUploader, research):
+Test-IDs = alles ab 990000000 (nie ein echtes Item).
+
+FUND 1 – gsMarkt (gemeinsamer Markt-Baustein), BELEGT:
+  - 1050 Test-IDs 990018001 … 990019050, alle mit Preis 1, Menge 1 ("c,1,1,tol2yb,0,0,0,0"), Fraktion H.
+  - Stehen im Speicher gsMarkt.f.H.i UND in gsMarkt.export als ganzer Scan: "GSMARKT1|1|H|1794813492|1050|1050|0|gdfj3x,c,1,1,0,0;…"
+    (Zeit 1794813492 = 16.11.2026 08:18 Zürich = Ingametest-Lauf der Testroutine).
+  - Datei: BuffSentinel.lua (Forever) beider Rechner, ab tage/2026-11-16 (am 12.–15.11. nicht), auch aktuell/ und tage/2026-11-17.
+    Warum dort: GoldSentinelMarkt hält EINEN Speicher (M.store = Host mit den neuesten Daten) – das war die Tabelle von BuffSentinel.
+    AHSentinel.lua (eigenes gsMarkt): sauber (0 Treffer).
+  - URSACHE (Code belegt): Prüfung T504 ("Markt dauerhaft kleiner") ruft VS:Finish mit 1050 nachgespielten Items 990018000+i auf;
+    VS:FeedNet war nicht ersetzt -> Feed an den ECHTEN Baustein. Behoben in 0.65.301 (während der Testroutine kein Feed an den echten
+    Baustein; Prüfung mit Attrappe T782 unberührt), Nachbau s42b prüft das (Gegenprobe rot).
+FUND 2 – vendorPrices (AHSentinel), BELEGT:
+  - 14 Test-IDs 999990118 … 999990131 (Händlerpreis 1000), in AHSentinel.lua (Forever) schon ab tage/2026-11-12, beide Rechner.
+  - URSACHE: T185 ("Heute tun: Angebote unter Händlerpreis") setzte 14 Händlerpreise und schrieb über pairs(vps) zurück – Einträge, die
+    vorher leer (nil) waren, fehlen in pairs -> nie gelöscht; vendorPrices steht in ALLOWED, darum meldete die Sandbox es nicht.
+    Behoben in 0.65.304 (Zurückschreiben über die ID-Liste). s42 prüft jetzt "keine Test-ID in vendorPrices" (Gegenprobe: 14 -> rot).
+NICHT GEFUNDEN: in raidmaster (Markt-Tabellen shared/, Bot, Uploader, research) keine Test-ID (dezimal gesucht). Die Markt-Tabellen
+  bitte zusätzlich auf die Basis-36-Form prüfen: Test-IDs liegen zwischen "gdf4w0" und "gjdgxr" (990018001 = "gdfj3x" … 990019050).
+WEITERGABE – was ich NICHT selbst belegen kann (Verdacht, zu prüfen):
+  a) Uploader MN6 liest <Addon>DB.gsMarkt.export -> die 1050er-Zeile aus BuffSentinel.lua wurde ab 16.11. mit hochgeladen; ob sie in
+     goldsentinel-daten -> Markt-Tabellen eingeflossen ist, entscheidet die Tabellen-Routine (bitte dort prüfen, IDs oben).
+  b) GoldSentinelMarkt beantwortet Fragen der Gilde (Q -> A + QueueScan): hat seit 16.11. 08:18 ein Gildenmitglied mit einem
+     GoldSentinel-Addon gefragt, hat es den Speicher mit den 1050 Test-Items bekommen. Bei den Mitspielern nicht prüfbar von hier.
+BEREINIGUNG – Vorschlag:
+  1. AHSentinel 0.65.304 (umgesetzt, im Gesamtlauf): A:PurgeTestIDs beim Laden (5 s nach READY, nie während der Testroutine) entfernt
+     Test-IDs aus den EIGENEN Daten: vendorPrices, marketData, eigenes gsMarkt.f.*.i; Export-Zeilen nur aus Test-Items ganz weg,
+     gemischte bleiben. Protokoll "TEST-IDS". Test T879 + Nachbau s273 (a/b).
+  2. GoldSentinelMarkt (shared/, gehört dir – ich ändere es nicht): Filter "itemID >= 990000000 nie annehmen/speichern/exportieren/
+     senden" in Feed, Apply, OnMessage (Empfang) und beim Laden einmal aus M.store und export entfernen. Das räumt auch den Speicher in
+     BuffSentinel.lua und bei Mitspielern (Empfang) auf. Danach bitte die BuffSentinel-Sitzung informieren.
+  3. Markt-Tabellen / goldsentinel-daten-Auswertung: Zeilen mit diesen IDs verwerfen (IDs oben).
+DAZU (gleiche Durchsicht, je Prüfung belegt, kommt mit 0.65.304): Sandbox meldete mit AH zu bisher unbemerkt (s42 prüfte sie nicht):
+  repost und gsMarkt.f (leere Tabelle beim ersten Lesen -> LAZY), ownedEnds (K:LoginExpiryCheck 10 s nach dem Laden lief in eine früh
+  gestartete Testroutine -> wartet jetzt bis nach dem Lauf). s42 prüft jetzt "Sandbox OK".
