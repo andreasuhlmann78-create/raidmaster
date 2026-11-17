@@ -888,3 +888,12 @@ F-NAV-1 = Variante A. Für LevelPilot heisst das (HOCH, beim nächsten Wecken zu
 - Für Orte (ORT-1): Ersatz zur Laufzeit über C_Map/GetZoneText/GetSubZoneText (das Spiel sagt dem Addon, wo man ist) bzw. Häufung der
   Questgeber aus den Questie-Daten – beides erlaubt.
 - Erlaubt bleiben: Questie-Daten, eigene im Spiel aufgezeichnete Wege der Spieler (GSWEGE), Laufzeit-APIs des Spiels.
+
+==== ZUSATZ Nutzer 17.11.2026 06:34: "Ich will nicht, dass wir wieder von vorne anfangen" ====
+Der EULA-Auftrag ist ein AUSTAUSCH, kein Neubau:
+- Alles andere bleibt unverändert: ROUTE-Q (alle Regeln 0), Ort-für-Ort-Logik, Kontinent als Block, Ruhestein (H3), Massstab 12.
+- Orte: gleiche Logik, nur die Quelle tauschen (Unterzone zur Laufzeit über C_Map/GetSubZoneText, offline Häufung der Questgeber aus
+  Questie). Ziel: ROUTE-Q bleibt 0, R6/O5 bleiben 0.
+- Strassennetz: ersetzen durch ein Wegnetz aus den im Spiel aufgezeichneten Wegen (GSWEGE, eigene + gesammelte, erlaubt), wo vorhanden;
+  sonst Luftlinie wie vor ST-1. Erst messen (12 Charaktere + ROUTE-Q, mit/ohne), dann tauschen. Verlust im Bericht beziffern.
+- Reihenfolge: Messung -> Orte tauschen -> Strassen tauschen -> Prüfung. Je Schritt eigene Version, alte Clients nicht brechen.
