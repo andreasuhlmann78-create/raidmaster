@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 17.11.2026 14:02 | AHSentinel: "Alles beheben – vorher mache ich keinen neuen Test" -> nächster Ingametest erst, wenn ALLE Punkte aus dem Ingametest 17.11. (A–F, Wächter, VOLLSCAN-Schritt, Nachtrag D) umgesetzt und vom Supervisor geprüft sind | offen-ahsentinel.txt |
 | 17.11.2026 13:54 | Testroutine "alles" muss ohne Anwesenheit laufen ("bin nicht immer am PC … wenn ich Anweisungen bekomme, sehe ich die nicht immer, weil ich am Arbeiten bin") -> Supervisor: Fenster-Schritte vormerken und automatisch nachholen (TR-ALLE Nachtrag D) | alle Projekte |
 | 16.11.2026 18:00 | LevelPilot F-OPT-1/F-OPT-2: "Alles zum Vorteil von LevelPilot, solange es legal ist" -> JA: Factoruide offline als Vergleich (in der eigenen Sitzung, nicht auf Geräten des Nutzers); Forever-Navmesh von Forever Route Lab (GPL-3) ins Datenpaket LevelPilot_Data (GPL-3) mit Quellenangabe. Grenze: Lizenzen einhalten (GPL nur ins Datenpaket, MIT mit Namensnennung, nichts ohne Lizenz) | offen-levelpilot.txt OPT-ROUTE ANTWORTEN |
 | 17.11.2026 07:36 | ALLE ADDONS: Ingame-Tests so weit wie möglich automatisch ('/<addon> testroutine alles', Ergebnis über den Upload), Handprüfung nur für echten Klick/Gold/Maus/Sicht – und jeder Handpunkt mit klaren, nummerierten Schritten ("bei AHS gestern teils nicht verstanden, was ich machen muss") | auftraege/hinweis-testroutine-alles-2026-11-17.txt, TR-ALLE in allen offen-*.txt |

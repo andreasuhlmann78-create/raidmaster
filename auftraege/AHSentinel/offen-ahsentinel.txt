@@ -4412,3 +4412,11 @@ Reihenfolge: 0.65.317 TR-RUN-1 · dann A (Vollscan zuerst, mit Nachbau in echter
   Nutzer das Fenster beim normalen Spielen öffnet (Entwicklermodus, max. 7 Tage). Einzelheiten: auftraege/hinweis-testroutine-alles-2026-11-17.txt Abschnitt D.
   AHSentinel: Berufe, Händler und der VOLLSCAN-Schritt (kein gemessener Scan im Lauf -> vormerken, beim nächsten Scan im Entwicklermodus
   messen). Der Nutzer ist beim Lauf oft nicht am PC (13:54).
+
+==== ENTSCHEID DES NUTZERS 17.11.2026 14:02 ====
+"Alles beheben – vorher mache ich keinen neuen Test." -> Der nächste Ingametest kommt erst, wenn ALLE Punkte aus dem Ingametest 17.11.
+umgesetzt sind: A (Ruckeln im Spiel: Vollscan, T126, Heute, Sniper-Eigenanteil), B (Tests von echten Daten trennen), Wächter (61 ms),
+VOLLSCAN-Schritt (Scan nicht erkannt), TR-ALLE Nachtrag D (nie auf den Nutzer warten, automatisch nachholen), C (ein "Lohnt bis"), E
+(Sniper-Zeile, reihum, T167, Selbstkontrolle), D (UI-CLEAN1, ~590 Befunde) und T306. Reihenfolge wie oben; jede Version wie bisher
+einzeln veröffentlichen und berichten. Wenn alles umgesetzt ist: Bericht "BEREIT FÜR INGAMETEST" mit Liste je Punkt (umgesetzt + Beleg),
+dann prüfe ich und schicke dem Nutzer die Version mit einer kurzen Anleitung.
