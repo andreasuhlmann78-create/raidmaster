@@ -326,3 +326,17 @@ nur wo nötig und jeder Handpunkt in klaren, nummerierten Schritten (Wo / Schrit
 ==== PRÜFUNG Supervisor 17.11.2026 08:25 – 3.0.30 (TR-ALLE) ====
 - addon_check OK. Bericht gelesen: Testroutine alles (Portionen, Fortschritt, Zusammenfassung, Abbrechen) und Prüfliste in klaren
   Schritten nach auftraege/hinweis-testroutine-alles-2026-11-17.txt – nach Bericht umgesetzt. Im Spiel durch den Nutzer bzw. "home zugriff".
+
+==== MARKT-V8 (Supervisor 17.11.2026) ====
+- shared/GoldSentinelMarkt.lua Version 8: Test-IDs (ab 990000000) nie speichern/teilen, beim Laden entfernen (SANDBOX-2).
+  Mit der nächsten geplanten Version unverändert kopieren + CHANGELOG EN/DE. Einzelheiten: auftraege/hinweis-goldsentinelmarkt-v8-2026-11-17.txt.
+  v7 läuft weiter (addon_check nur WARNUNG).
+
+==== NACHPRÜFUNG 17.11. 08:32 + ANTWORT auf deine Portionen-Frage (Supervisor) ====
+- NP-RM30-1 NIEDRIG – Portionen über 5 ms (Nachbau: längste 15,3 ms bei T10, T12 10 ms, T114 7 ms, T39 6 ms; Era 9,2 ms).
+  ENTSCHEID zu deiner Frage: Den ersten Aufbau des Hauptfensters/einer Seite (T10, T12) NICHT umbauen. Stattdessen im Lauf "alles"
+  das Fenster einmal VOR dem Lauf aufbauen (ausserhalb der Messung) und T10/T12 als "einzeln gemessen" führen (wie BuffSentinel
+  T110) – die Zusammenfassung nennt ihre Zeit getrennt. T114 und T39 (7 / 6 ms) bitte teilen, damit sie unter 5 ms bleiben.
+  Zusammenfassung: "längste Portion x ms (Prüfung), über 5 ms: n (ohne einzeln gemessene)". Test im Nachbau: über 5 ms = 0.
+- Uploader 2.3.14: von der Nachprüfung geprüft (110 Tests, svfilter/daten.py, Zip ohne tests/ und config) – NP-UP13-1 umgesetzt,
+  keine Befunde. Damit erledigt.

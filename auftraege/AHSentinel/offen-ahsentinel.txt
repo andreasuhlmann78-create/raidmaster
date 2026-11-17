@@ -4157,3 +4157,39 @@ Regeln: auftraege/hinweis-testroutine-alles-2026-11-17.txt (bitte ganz lesen). F
 - s216 maschinenunabhängig wie s207: JA.
 - Weiter wie geplant 0.65.302–0.65.305. Erst mit 0.65.305 (Handprüfliste nach Abschnitt B) schicke ich den Nutzer zum Ingametest.
 - 0.65.302 (TR-ALLE Teil 2, Wächter automatisch): addon_check OK, Bericht gelesen – nach Bericht umgesetzt. SANDBOX-2 weiter offen.
+
+==== ANTWORT Supervisor 17.11.2026 – SANDBOX-2 und 0.65.303/0.65.304 ====
+- SANDBOX-2: sauber belegt, danke. Meine Gegenprüfung:
+  * Markt-Tabellen (shared/markt-tabellen) dezimal UND in Base36 durchsucht: 0 Test-IDs. Die Tabellen kommen aus den Tages-
+    Zusammenfassungen der Sammelstelle (mind. 2 Quellen je Item) – zusätzlich jetzt fester Filter in markt_tabellen.py (≥ 990000000
+    wird nie aufgenommen).
+  * Bereinigung Punkt 2 UMGESETZT: shared/GoldSentinelMarkt.lua Version 8 – Test-IDs nie annehmen/speichern/exportieren/senden (Feed,
+    eigenes Lesen, Empfang) und beim Laden jedes Addons aus Speicher UND Export entfernen, auch gemischte Zeilen (nur die Test-Items,
+    Kopf angepasst). Tests 130/130 mit Gegenprobe gegen v7. Hinweis an alle: auftraege/hinweis-goldsentinelmarkt-v8-2026-11-17.txt;
+    BuffSentinel bekommt es mit HOCH. Bitte in deiner nächsten Version v8 kopieren (dein A:PurgeTestIDs darf bleiben – doppelt schadet nicht).
+  * Punkt b (Mitspieler über Q/A): nicht prüfbar, Verdacht. Mit v8 räumen deren Clients beim Laden auf, sobald sie ein Addon mit v8 haben.
+  * Punkt 3 (Sammelstelle/Bot): Auftrag an Discord (market.py: Test-IDs verwerfen, gespeicherte Tagesdaten 16./17.11. bereinigen).
+- 0.65.303/0.65.304: addon_check läuft (Ergebnis unten nachgetragen). Bericht gelesen – Vollscan-Schritt, Purge, strengere Sandbox nach
+  Bericht umgesetzt. Weiter mit 0.65.305 (Handprüfliste nach Abschnitt B), dann schicke ich den Nutzer zum Ingametest.
+
+==== NACHPRÜFUNG 17.11. 08:32, vom Supervisor im Code geprüft und übertragen – NACH 0.65.305 ====
+- NP-MK-1 HOCH – Weg "snipe" verfehlt Ü2: Testbericht 0.65.278: 39 Fälle, Treffer 59 % (< 60 %), mittlerer Fehler 17 % (> 15 %).
+  Nachgesehen: Die Sperre greift (MarketCore WayState), wirkt aber für snipe nirgends – "snipe" fehlt in VIEW_WAY (MarketCore.lua:225)
+  und TODAY_WAY (:316), Sn:WayNote prüft nur "de" (Sniper.lua:2418). Der Tooltip zeigt RealValue weiter als Verkaufswert.
+  Auftrag: (a) die 39 Fälle aufschlüsseln (Datum, Item-ID, Kaufpreis, Vorhersage, Preis danach, Treffer, während Testroutine/Test-Ziel
+  ja/nein – nur IDs/Zahlen). Fälle aus Tests (Ingametest SN-TR-2 am 16.11.!) entfernen und künftig in der Sandbox nie zählen
+  (Test: Testroutine mit offenem AH -> MK-Zähler unverändert, Gegenprobe rot). (b) Bleibt es ohne Testfälle unter 60 % bzw. über
+  15 %: Ursache im Verkaufswert messen (je Preisstufe Vorhersage/Preis danach). (c) Solange gesperrt: beim Treffer und im Tooltip
+  grauer Hinweis "Verkaufswert unsicher (Treffer x %)" statt sicherer Zahl; gekauft wird weiter nur nach dem Höchstpreis des Spielers.
+  (d) Ü2-Zeile "mittlerer Fehler über 15 %" auch bei "gesperrt" ausgeben (MarketCore.lua:740 nur bei "frei"). Test T-Ü: 39 Fälle,
+  23 Treffer -> beide Ü2-Zeilen.
+- NP-MK-2 MITTEL – Testbericht-Felder über 300 Zeichen werden abgeschnitten (GoldSentinelTest MAX_TEXT 300, gemeinsame Datei bleibt):
+  markt_kern endet bei "Weg craft…", ebenso markt_kern_wege, entzauber_stand, lernen_grenzen, prognose_m2, prognose_p_diagnose,
+  vollscan_m1c. Damit sind craft, vendor und MA1 (Ü2) nicht prüfbar. Lösung: je Weg ein eigenes Feld (markt_kern_flip/_snipe/_de/
+  _craft/_vendor/_ma1, je ≤ 280 Zeichen), die anderen langen Felder ebenso teilen. Test: kein Feld endet auf "…".
+- NP-AHS281-1 MITTEL (Buchhaltung, im Code nachgesehen, stimmt): Books.lua BK:OwnCancelBooked misst das 6-Std.-Fenster ab Now() beim
+  LESEN der Post, nicht ab dem Eintreffen der Abbruch-Post. Liest der Spieler die Post erst > 6 Std. nach dem eigenen Abbruch, wird die
+  Anzahlung ein zweites Mal als "abbruch-fenster" verloren gebucht. Lösung: Eintreffzeit aus daysLeft (Post-Laufzeit) rechnen bzw.
+  ohne Zeitfenster die jüngste noch nicht zugeordnete eigene Abbruch-Buchung desselben Items nehmen. Test: Abbruch, Post nach 8 Std.
+  lesen -> genau eine Buchung (Gegenprobe alt: zwei).
+Reihenfolge: 0.65.305 (Handprüfliste) zuerst, dann NP-MK-1 (a) zusammen mit MARKT-V8, dann NP-AHS281-1, NP-MK-2, NP-MK-1 (b–d).

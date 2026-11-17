@@ -303,3 +303,22 @@ nur wo nötig und jeder Handpunkt in klaren, nummerierten Schritten (Wo / Schrit
   Schritten nach auftraege/hinweis-testroutine-alles-2026-11-17.txt – nach Bericht umgesetzt. Im Spiel durch den Nutzer bzw. "home zugriff".
 - FRAGE weitere Handpunkte (T147 u. a., Prüfliste voll mit 14): Vorschlag ANGENOMMEN – nach Abnahme der jetzigen Punkte die erledigten
   herausnehmen und die neuen nachrücken lassen. Abweichung T14/T55/T74 automatisch statt T:Client: einverstanden (Ziel "nichts abschreiben").
+
+==== MARKT-V8 HOCH für BuffSentinel (Supervisor 17.11.2026) ====
+- In BuffSentinel.lua (gsMarkt) beider Rechner liegen seit 16.11. 1050 Test-Items (IDs 990018001–990019050, Preis 1) aus der
+  AHSentinel-Testroutine (Befund SANDBOX-2; nicht deine Schuld: GoldSentinelMarkt hält EINEN Speicher je Client, das war deiner).
+  Bitte BALD eine Version mit shared/GoldSentinelMarkt.lua Version 8 (unverändert kopieren): sie entfernt die Test-IDs beim Laden
+  aus Speicher und Export und nimmt nie wieder welche an. CHANGELOG EN/DE. Einzelheiten: auftraege/hinweis-goldsentinelmarkt-v8-2026-11-17.txt.
+  Im Bericht: nach dem ersten Laden die Diagnose-Zeile "MARKT-NETZ Test-IDs entfernt: n" (n ≈ 2100) bzw. Nachbau mit Kopie deiner
+  BuffSentinel.lua aus goldsentinel-daten (aktuell/) – danach 0 Test-IDs im gsMarkt.
+
+==== NACHPRÜFUNG 17.11. 08:32, vom Supervisor geprüft und übertragen ====
+- NP-BS50-1 MITTEL (im Code 0.9.50 nachgesehen, stimmt): In Pruefliste.lua passt "Wo:" nicht zu den Schritten (TR-ALLE B1 "genauer
+  Ort" – genau das hat der Nutzer bemängelt): AMMO (Schritt 2 "in die Bank"), PETFOOD ("Wo: irgendwo" – "Futter in die Bank legen"),
+  HEXER ("Wo: irgendwo" – "Seelensplitter in die Bank"), TOTEM ("Wo: irgendwo" – "Totem in die Bank"), REAG ("Wo: in einer Gruppe" –
+  "Reagenz in die Bank"), RESTOCK ("Wo: bei einem Händler" – braucht zuerst die Bank).
+  Lösung: "Wo:" = "bei einer Bank in einer Hauptstadt (Bankfach offen)" (+ "in einer Gruppe" bei REAG); Schritt 1 "Sprich den
+  Bankier an"; RESTOCK: zuerst Bank, dann Händler, nummeriert; am Schluss "Ware wieder aus der Bank holen".
+  Test T-PL: jeder Punkt, dessen Schritte "Bank" enthalten, nennt die Bank in "Wo:".
+- Hinweis (Verdacht, zu messen): im Nachbau Portionen bis 6,7 ms (0–5 von ~280 über 5 ms). Die Zusammenfassung im Spiel zeigt die
+  längste Portion – bitte dort "über 5 ms: n" mit ausgeben, falls noch nicht.

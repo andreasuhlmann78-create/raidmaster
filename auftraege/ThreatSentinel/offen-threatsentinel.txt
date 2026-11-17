@@ -211,3 +211,19 @@ nur wo nötig und jeder Handpunkt in klaren, nummerierten Schritten (Wo / Schrit
 ==== PRÜFUNG Supervisor 17.11.2026 08:25 – 2.5.16 (TR-ALLE) ====
 - addon_check OK. Bericht gelesen: Testroutine alles (Portionen, Fortschritt, Zusammenfassung, Abbrechen) und Prüfliste in klaren
   Schritten nach auftraege/hinweis-testroutine-alles-2026-11-17.txt – nach Bericht umgesetzt. Im Spiel durch den Nutzer bzw. "home zugriff".
+
+==== MARKT-V8 (Supervisor 17.11.2026) ====
+- shared/GoldSentinelMarkt.lua Version 8: Test-IDs (ab 990000000) nie speichern/teilen, beim Laden entfernen (SANDBOX-2).
+  Mit der nächsten geplanten Version unverändert kopieren + CHANGELOG EN/DE. Einzelheiten: auftraege/hinweis-goldsentinelmarkt-v8-2026-11-17.txt.
+  v7 läuft weiter (addon_check nur WARNUNG).
+
+==== NACHPRÜFUNG 17.11. 08:32, vom Supervisor geprüft und übertragen ====
+- NP-TS16-1 MITTEL (im Code 2.5.16 nachgesehen, stimmt: TestRoutine.lua MaybeYield gibt erst ab, WENN Ms()-frameStart ≥ 5 ms):
+  Jede Portion, die wegen des Budgets endet, ist dadurch LÄNGER als 5 ms (5 ms + Dauer der letzten Prüfung); in WithAPI/Szenen
+  (R.noYield) gar keine Abgabe. Die Zusammenfassung schreibt trotzdem fest "(höchstens 5 ms je Bild)" – ungemessene Behauptung.
+  Lösung: Budget kleiner (z. B. 1,5–2 ms wie BuffSentinel), Dauer JEDER Portion messen (bei Abgabe und am Bereichsende), in der
+  Zusammenfassung "längste Portion x ms (bei Prüfung …), über 5 ms: n" statt der festen Angabe; Prüfungen, die allein > 5 ms
+  dauern, mit Namen nennen. Test T-TR1 erweitern: Nachbau mit einer 4-ms-Prüfung nach 3 ms -> Abgabe VOR dieser Prüfung;
+  Zusammenfassung enthält die gemessene längste Portion (Gegenprobe mit alter Regel rot).
+- Prüfliste (NIEDRIG, TR-ALLE B): Punkt 13 METER-KAMPF – Schritt "wo ist die Option 'Nur im Kampf'" ergänzen (/ts einstellungen,
+  Reiter …, Haken …). Punkt 11 TSMESS – sagen, woher TSMess.zip kommt. Punkt 10 "bitte abschreiben" – sagen, wohin (Bericht/Chat).

@@ -338,3 +338,11 @@ nur wo nötig und jeder Handpunkt in klaren, nummerierten Schritten (Wo / Schrit
 
 ==== PRÜFUNG Supervisor 17.11.2026 08:40 – 0.9.64 (PS-PL1, PS-ESL1, Prüfliste, TR-ALLE) ====
 - addon_check OK. Bericht gelesen – nach Bericht umgesetzt. Im Spiel: Prüfliste durch den Nutzer bzw. "home zugriff".
+
+==== MARKT-V8 (Supervisor 17.11.2026) ====
+- shared/GoldSentinelMarkt.lua Version 8: Test-IDs (ab 990000000) nie speichern/teilen, beim Laden entfernen (SANDBOX-2).
+  Mit der nächsten geplanten Version unverändert kopieren + CHANGELOG EN/DE. Einzelheiten: auftraege/hinweis-goldsentinelmarkt-v8-2026-11-17.txt.
+  v7 läuft weiter (addon_check nur WARNUNG).
+
+==== NACHPRÜFUNG 17.11. 08:32 (Supervisor übertragen) ====
+- 0.9.63/0.9.64: addon_check OK, Offline-Läufe forever/era/retail 0 Fehler, T288 (TR-ALLE) vorhanden – keine Befunde der Nachprüfung.

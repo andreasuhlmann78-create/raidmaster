@@ -298,3 +298,17 @@ UP-404 (Hinweis, 15.11. 01:26): Uploader meldet "Discord antwortet 404" beim Abg
 >>> PRÜFUNG 07:44 (Supervisor) – Bot 1.5.186 wiederkehrende Raids: Bericht gegen den Auftrag geprüft – nur Gildenleitung, nie doppelt (gemerkte Tage
   + gleicher Raid/Kalendertag im Buch, überlebt Neustart), "opens" beachtet, Zeitzone Europe/Zurich, Fehler ohne Raid-Leiche, #befehlsliste
   mit Untergruppen. CI Bot-Tests success. Angenommen; Abnahme nach /update des Nutzers (ein Termin anlegen, Liste, pausieren).
+
+==== SANDBOX-2 / TEST-IDS IN DER SAMMELSTELLE – HOCH (Supervisor 17.11.2026) ====
+Befund (AHSentinel, berichte/AHSentinel/...-sandbox2-test-ids.txt): Seit 16.11. 08:18 stand in BuffSentinel.lua beider Rechner eine
+Export-Zeile "GSMARKT1|1|H|1794813492|1050|1050|0|…" mit 1050 Test-Items (IDs 990018001–990019050, Base36 "gdfj3x" …, Preis 1, Menge 1).
+Der Uploader liest <Addon>DB.gsMarkt.export -> diese Zeile ging ab 16.11. an die Sammelstelle. Die Addons (GoldSentinelMarkt v8) und
+markt_tabellen.py filtern jetzt; die Sammelstelle noch nicht.
+Auftrag:
+1. RaidMasterBot/market.py parse_line: Einträge mit Item-ID ≥ 990000000 verwerfen (nicht die ganze Zeile – gemischte Zeilen sind
+   möglich; Kopf-Prüfung D-MN7c "len(entries) < items" dann mit der Zahl VOR dem Verwerfen, sonst fällt die ganze Zeile weg).
+   Gilt für alle Wege (Upload, Tages-Zusammenfassung GSMARKTT1, Kern kern.py, markt_bot.py).
+2. Gespeicherte Daten der Sammelstelle (Store, Tages-Zusammenfassungen, Kern) vom 16./17.11. von diesen IDs bereinigen; Anzahl
+   entfernter Einträge im Bericht (nur Zahlen).
+3. Tests: Zeile nur aus Test-IDs -> 0 Einträge, Zeile gemischt -> nur echte, Gegenprobe ohne Filter rot. Bot-CI grün.
+Bericht in berichte/Discord/ (umgesetzt, zur Prüfung).

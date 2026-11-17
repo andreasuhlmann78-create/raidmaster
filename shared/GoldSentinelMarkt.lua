@@ -74,7 +74,14 @@
 --   kein Enc), UnpackVals faengt nur die noetigen Felder, und die Export-Zeile wird ohne zweite Kopie gebaut. Ergebnis und
 --   Nachrichten unveraendert (gleiche Zeichen).
 
-local VERSION = 7
+-- Version 8 (17. November 2026, Befund SANDBOX-2 der AHSentinel-Sitzung, Bericht 2026-11-17 08:51): Test-IDs der
+--   Testroutinen (itemID ab 990000000, nie ein echtes Item) kamen am 16.11. ueber einen Feed der Testroutine in den echten
+--   Speicher (1050 Items, Preis 1) und in den Export. Jetzt: Test-IDs werden nie angenommen, gespeichert, exportiert oder
+--   gesendet (Feed, eigenes Lesen, Empfang), und beim Anmelden jedes Addons (Attach) einmal aus dessen Speicher entfernt:
+--   Items aller Fraktionen; Export-Zeilen nur aus Test-Items fallen weg, gemischte Zeilen verlieren nur die Test-Items
+--   (Kopf: Anzahl Items und Auktionen angepasst). Zaehler M.stats.testIds, Diagnose-Zeile "MARKT-NETZ Test-IDs entfernt".
+
+local VERSION = 8
 
 local existing = _G.GoldSentinelMarkt
 if type(existing) == "table" and (tonumber(existing.VERSION) or 0) >= VERSION then return end
@@ -98,6 +105,7 @@ M.EXPORT_MAX_BYTES = 1536 * 1024  -- alle Export-Zeilen zusammen hoechstens so g
 M.ASK_DELAY = 60             -- Sekunden nach dem Laden bis zur Frage "wer hat Neueres?"
 M.FULL_EVERY = 3600          -- ganzer Scan an die Gilde hoechstens so oft (Sekunden), sonst nur Aenderungen
 M.OUTBOX_MAX = 1500          -- volle eigene Warteschlange: aelteste Nachricht faellt weg (gezaehlt)
+M.TEST_ID_MIN = 990000000    -- v8: ab hier Test-IDs der Testroutinen (nie ein echtes Item): nie annehmen/speichern/senden
 
 ---------------------------------------------------------------------------
 -- Schnittstelle zum Spiel
@@ -211,6 +219,81 @@ local function UnpackVals(v)
     return Dec(p), Dec(o), Dec(g), Dec(h), Dec(l) or 0
 end
 M.UnpackVals = UnpackVals
+
+-- v8: Test-IDs (Testroutinen) erkennen und aus einem Speicher entfernen
+local function IsTestID(id)
+    id = tonumber(id)
+    return id ~= nil and id >= M.TEST_ID_MIN
+end
+M.IsTestID = IsTestID
+
+-- schnelle Vorpruefung einer Export-Zeile ohne Muster (Muster ueber 1,5 MB kosten ~20 ms, das hier ~1 ms):
+-- Test-IDs 990000000..999999999 sind in Base36 sechsstellig und beginnen mit gd..gj (989293824..1001051135);
+-- echte Items (< 60 Mio.) haben hoechstens 5 Stellen. Eine Item-ID steht immer direkt nach "|" (erstes Item) oder ";".
+local TEST_PREFIX = { ";gd", ";ge", ";gf", ";gg", ";gh", ";gi", ";gj", "|gd", "|ge", "|gf", "|gg", "|gh", "|gi", "|gj" }
+local function HasTestPrefix(line)
+    for k = 1, #TEST_PREFIX do
+        local pre, init = TEST_PREFIX[k], 1
+        while true do
+            local a = line:find(pre, init, true)
+            if not a then break end
+            -- nur sechsstellige IDs (Test-ID), nicht kurze echte IDs wie "gd5"
+            if line:find("^%w%w%w%w%w%w,", a + 1) and IsTestID(tonumber(line:sub(a + 1, a + 6), 36)) then return true end
+            init = a + 3
+        end
+    end
+    return false
+end
+
+-- entfernt Test-IDs aus g (= db.gsMarkt): Items aller Fraktionen und Export-Zeilen. Rueckgabe: Items, Export-Eintraege
+function M.PurgeTestIDs(g)
+    if type(g) ~= "table" then return 0, 0 end
+    local nI, nE = 0, 0
+    for _, f in pairs(type(g.f) == "table" and g.f or {}) do
+        if type(f) == "table" and type(f.i) == "table" then
+            local del = {}
+            for id in pairs(f.i) do if IsTestID(id) then del[#del + 1] = id end end
+            for _, id in ipairs(del) do f.i[id] = nil end
+            nI = nI + #del
+        end
+    end
+    if type(g.export) == "table" then
+        local out = {}
+        for _, line in ipairs(g.export) do
+            local keepLine = line
+            if type(line) == "string" and HasTestPrefix(line) then
+                local head, cnt, _, dt, body = line:match("^(GSMARKT1|%d+|%u|%d+)|(%d+)|(%d+)|(%d+)|(.*)$")
+                if head then
+                    local kept, removed, auc = {}, 0, 0
+                    for part in body:gmatch("[^;]+") do
+                        local idE, _, _, nE36 = part:match("^(%w+),(%w+),(%w+),(%w+)")
+                        if idE and IsTestID(Dec(idE)) then
+                            removed = removed + 1
+                            auc = auc + (Dec(nE36) or 0)
+                        else
+                            kept[#kept + 1] = part
+                        end
+                    end
+                    if removed > 0 then
+                        nE = nE + removed
+                        if #kept == 0 then
+                            keepLine = nil
+                        else
+                            keepLine = head .. "|" .. math.max(0, tonumber(cnt) - auc) .. "|" .. #kept .. "|" .. dt ..
+                                "|" .. table.concat(kept, ";")
+                        end
+                    end
+                end
+            end
+            if keepLine then out[#out + 1] = keepLine end
+        end
+        if nE > 0 then
+            for k = #g.export, 1, -1 do g.export[k] = nil end
+            for k, v in ipairs(out) do g.export[k] = v end
+        end
+    end
+    return nI, nE
+end
 M.Unpack, M.Pack = Unpack, Pack
 
 function M.Attach(addon, db)
@@ -219,6 +302,12 @@ function M.Attach(addon, db)
     db.gsMarkt = db.gsMarkt or {}
     local g = db.gsMarkt
     g.v = VERSION
+    local okP, pI, pE = pcall(M.PurgeTestIDs, g)          -- v8: Test-IDs einmal beim Anmelden entfernen
+    if okP and (pI + pE) > 0 then
+        M.stats.testIds = (M.stats.testIds or 0) + pI + pE
+        M.stats.testIdsAt = M.stats.testIdsAt or {}
+        M.stats.testIdsAt[addon] = pI .. " Items, " .. pE .. " Export"
+    end
     -- Speicher: der Host mit den neuesten Daten
     local function newest(s)
         local best = 0
@@ -384,6 +473,9 @@ local function Apply(t, cnt, items, cmp, low, dt, prevItems)
     local f = Fac()
     if not f then return end
     local changed = {}
+    for id in pairs(items) do                -- v8: Test-IDs nie speichern/exportieren
+        if IsTestID(id) then items[id] = nil; Drop("test-id") end
+    end
     for id, it in pairs(items) do
         local old = Unpack(f.i[id])
         local e = { p = it[1], q = it[2], n = it[3], t = t, o = 0, g = old and old.g or 0, h = old and old.h or 0,
@@ -509,7 +601,9 @@ FeedPortion = function(j, budget)
         j.i = j.i + 1
         local id = tonumber(ids[j.i])
         local it = src[ids[j.i]]
-        if id and type(it) == "table" then
+        if id and IsTestID(id) then
+            Drop("test-id")                  -- v8: Test-IDs der Testroutinen nie annehmen
+        elseif id and type(it) == "table" then
             local p, q, a = math.floor(tonumber(it.preis) or 0), math.floor(tonumber(it.menge) or 0), math.floor(tonumber(it.n) or 0)
             local hasAbg = cmpOn and it.abg ~= nil
             local g = hasAbg and math.floor(tonumber(it.abg) or 0) or 0
@@ -672,7 +766,9 @@ function M.OnMessage(msg, sender)
         for item in body:gmatch("[^;]+") do
             local a, b, c, d = item:match("^(%w+),(%w+),(%w+),(%w+)$")
             local id, p, q, n = Dec(a), Dec(b), Dec(c), Dec(d)
-            if id and p and q and n then
+            if id and IsTestID(id) then
+                Drop("test-id")              -- v8: Test-IDs von anderen (aelteren) Clients nie annehmen
+            elseif id and p and q and n then
                 local old = Unpack(f.i[id])
                 if old and old.t >= t then
                     Drop("aelter")
@@ -784,6 +880,7 @@ function M.DiagLines()
         string.format("MARKT-NETZ Items %d (eigen %d, Netz %d, Absatz gemessen %d) · gesendet %d · empfangen %d · angenommen %d · Warteschlange %d",
             n, own, net, meas, s.sent, s.received, s.accepted, #M.outbox),
         "MARKT-NETZ verworfen: " .. (#drops > 0 and table.concat(drops, ", ") or "nichts"),
+        "MARKT-NETZ Test-IDs entfernt: " .. tostring(s.testIds or 0),
     }
 end
 

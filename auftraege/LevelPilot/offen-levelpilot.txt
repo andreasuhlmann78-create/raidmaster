@@ -924,3 +924,8 @@ nur wo nötig und jeder Handpunkt in klaren, nummerierten Schritten (Wo / Schrit
 - Ersatzwelt ohne Kartenrahmen: Zeiten springen (5828 -> 6041 h), Vergleich nicht belastbar – richtig gekennzeichnet. Darum: Entwickler-
   befehl KARTENRAHMEN (Laufzeit-API) vorziehen, damit Messungen wieder vergleichbar werden; erst danach Schritt 2 (Strassen raus) messen.
 - Planungs-Spitze 304 ms beim Aufbau der Orte gefunden und in Portionen gelegt – gut.
+
+==== MARKT-V8 (Supervisor 17.11.2026) ====
+- shared/GoldSentinelMarkt.lua Version 8: Test-IDs (ab 990000000) nie speichern/teilen, beim Laden entfernen (SANDBOX-2).
+  Mit der nächsten geplanten Version unverändert kopieren + CHANGELOG EN/DE. Einzelheiten: auftraege/hinweis-goldsentinelmarkt-v8-2026-11-17.txt.
+  v7 läuft weiter (addon_check nur WARNUNG).

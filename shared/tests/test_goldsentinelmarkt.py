@@ -301,7 +301,7 @@ x = Client("Testx", 11, no_ah=True)
 x.lua.globals().FIRE("REPLICATE_ITEM_LIST_UPDATE")
 x.tick(5)
 check("ohne C_AuctionHouse: nichts gelesen, kein Fehler", x.ev("GoldSentinelMarkt.Stats().scans"), 0)
-check("DiagLines ohne Fehler", x.ev("#GoldSentinelMarkt.DiagLines()"), 4)
+check("DiagLines ohne Fehler (v8: + Zeile Test-IDs)", x.ev("#GoldSentinelMarkt.DiagLines()"), 5)
 
 # --- 12. Liste ändert sich während des Lesens -> Abbruch ---------------------------------------------------------------
 y = Client("Testy", 12)
@@ -318,12 +318,12 @@ check("Abbruch bei geänderter Liste", y.ev("GoldSentinelMarkt.Stats().aborted")
 z = Client("Testz", 13)
 set_auctions(z, rows1)
 scan(z)
-z.run(SRC.replace("local VERSION = 7", "local VERSION = 8"))
-check("neuere Fassung aktiv", z.ev("GoldSentinelMarkt.VERSION"), 8)
+z.run(SRC.replace("local VERSION = 8", "local VERSION = 9"))
+check("neuere Fassung aktiv", z.ev("GoldSentinelMarkt.VERSION"), 9)
 check("Daten übernommen", z.ev("GoldSentinelMarkt.Get(2589).preis"), 95)
 check("alter Frame still", z.ev("FRAMES[#FRAMES - 1].scripts.OnUpdate == nil"), True)
-z.run(SRC)                     # ältere Fassung lädt danach -> bleibt bei 8
-check("ältere Fassung übernimmt nicht", z.ev("GoldSentinelMarkt.VERSION"), 8)
+z.run(SRC)                     # ältere Fassung lädt danach -> bleibt bei 9
+check("ältere Fassung übernimmt nicht", z.ev("GoldSentinelMarkt.VERSION"), 9)
 
 # --- 14. Feed: Host-Addon liest selbst und gibt weiter, kein zweites Lesen ---------------------------------------------
 h = Client("Testh", 14)
@@ -391,7 +391,7 @@ tr.execute("B = {} for i = 1, 4 do B[#B+1] = string.rep('x', 600 * 1024) end Gol
 check("Export: höchstens 1,5 MB zusammen", tr.eval("#B"), 2)
 tr.execute("C = { string.rep('y', 2 * 1024 * 1024) } GoldSentinelMarkt.TrimExport(C)")
 check("Export: neuester Scan bleibt immer", tr.eval("#C"), 1)
-check("Version 7", tr.eval("GoldSentinelMarkt.VERSION"), 7)
+check("Version 8", tr.eval("GoldSentinelMarkt.VERSION"), 8)
 
 # v4 (MN-S2): geplante Antwort "A:" geht nach dem Ausschalten nicht mehr raus (Tick und SetShare)
 for i, via in enumerate(("tick", "setshare")):
@@ -536,6 +536,90 @@ check("v7: Feed mit vollem Teilen höchstens 3,5 MB (v6: 7,5 MB; Grenze AHS 4 MB
 check("v7: volles Teilen schickt alle Items (Nachrichten > 600)", mc7.ev("N2") > 600, True)
 check("v7: Eintrag aus dem Text = Eintrag aus den Werten", mc7.ev("E1"), mc7.ev("E2"))
 check("v7: Export-Zeile beginnt mit dem Kopf", mc7.ev('GoldSentinelMarkt.store.export[#GoldSentinelMarkt.store.export]:sub(1, 11)'), "GSMARKT1|1|")
+
+# v8 (SANDBOX-2): Test-IDs (ab 990000000) nie annehmen, speichern, exportieren, senden; beim Anmelden aus dem Speicher entfernen
+import subprocess as _sp
+OLD7 = _sp.run(["git", "-C", str(ROOT), "show", "07ba5716:shared/GoldSentinelMarkt.lua"], capture_output=True, text=True).stdout
+FEED8 = """
+ITEMS = {}
+for i = 1, 1050 do ITEMS[990018000 + i] = { preis = 1, menge = 1, n = 1 } end
+ITEMS[2589] = { preis = 500, menge = 4, n = 2 }
+GoldSentinelMarkt.Feed("AHSentinel", TIME, 1052, ITEMS, 0)
+while GoldSentinelMarkt.feedJob do GoldSentinelMarkt.FeedPortion(4) end
+EX = table.concat(GoldSentinelMarkt.store.export, "\\n")
+"""
+def _testid_in(text):
+    import re
+    return any(990000000 <= int(t, 36) <= 999999999 for t in re.findall(r"(?:^|[|;])([0-9a-z]{6,}),", text))
+for name, src, want in (("v8", None, False), ("Gegenprobe v7", OLD7, True)):
+    c8 = Client("Testv8" + name[:2], 61, src=src)
+    c8.run('DBF = {}; GoldSentinelMarkt.Attach("AHSentinel", DBF)')
+    c8.run(FEED8)
+    check(name + ": Feed – Test-ID im Speicher", c8.ev("GoldSentinelMarkt.Get(990018001) ~= nil"), want)
+    check(name + ": Feed – Test-ID im Export", _testid_in(c8.ev("EX")), want)
+    check(name + ": Feed – echtes Item bleibt", c8.ev("GoldSentinelMarkt.Get(2589).preis"), 500)
+    c8.tick(0.5)
+    msgs = [m for m in c8.sent() if m[0] == "GSMARKT1"]
+    import re as _re
+    sent_ids = [int(t, 36) for m in msgs for t in _re.findall(r"[:;]([0-9a-z]+),[0-9a-z]+,[0-9a-z]+,[0-9a-z]+(?=;|$)", m[1])]
+    check(name + ": Feed – Nachrichten an die Gilde (echtes Item gesendet)", 2589 in sent_ids, True)
+    check(name + ": Feed – Test-ID gesendet", any(x >= 990000000 for x in sent_ids), want)
+c8 = Client("Testv8b", 62)
+check("v8: Feed – Test-IDs gezählt (verworfen)", c8.ev('GoldSentinelMarkt.Stats().dropped["test-id"]'), None)
+c8.run('DBF = {}; GoldSentinelMarkt.Attach("AHSentinel", DBF)')
+c8.run(FEED8)
+check("v8: Feed – 1050 Test-IDs verworfen (gezählt)", c8.ev('GoldSentinelMarkt.Stats().dropped["test-id"]'), 1050)
+check("v8: Feed – Export-Kopf zählt nur das echte Item", c8.ev("EX").split("|")[5], "1")
+# Empfang: eine Nachricht eines aelteren Clients mit Test-ID wird nicht angenommen, das echte Item schon
+e = lambda n: c8.ev("GoldSentinelMarkt.Enc(%d)" % n)
+msg = "S:H:%s:%s,1,1,1;%s,%s,1,1" % (e(c8.ev("TIME") + 10), e(990018005), e(4444), e(77))
+c8.run('GoldSentinelMarkt.OnMessage("%s", "Andere")' % msg)
+check("v8: Empfang – Test-ID nicht angenommen", c8.ev("GoldSentinelMarkt.Get(990018005)"), None)
+check("v8: Empfang – echtes Item angenommen", c8.ev("GoldSentinelMarkt.Get(4444).preis"), 77)
+# Aufräumen beim Anmelden: Speicher wie in BuffSentinel.lua (1050 Test-Items + echte), Export rein-Test, gemischt, sauber
+cp = Client("Testv8p", 63)
+cp.run("""
+local E = GoldSentinelMarkt.Enc
+local i = {}
+for k = 1, 1050 do i[990018000 + k] = "1,1,1,tol2yb,0,0,0,0" end
+i[2589] = "dw,4,2,tol2yb,0,0,0,0"
+local pure, mixed = {}, { E(2589) .. ",dw,4,2,0,0" }
+for k = 1, 1050 do pure[k] = E(990018000 + k) .. ",1,1,1,0,0" end
+for k = 1, 3 do mixed[#mixed + 1] = E(999990117 + k) .. ",1,1,5,0,0" end
+DBP = { gsMarkt = { f = { H = { t = 1794813492, i = i }, A = { t = 1, i = { [999990118] = "1,1,1,1,0,0,0,0", [25] = "2,1,1,1,0,0,0,0" } } },
+  export = { "GSMARKT1|1|H|1794813492|1050|1050|0|" .. table.concat(pure, ";"),
+             "GSMARKT1|1|H|1794813600|40|4|0|" .. table.concat(mixed, ";"),
+             "GSMARKT1|1|H|1794813700|2|1|0|" .. E(2589) .. ",dw,4,2,0,0",
+             "GSMARKT1|1|H|1794813800|0|0|0|" } } }
+SAUBER = DBP.gsMarkt.export[3]
+LEER = DBP.gsMarkt.export[4]
+GoldSentinelMarkt.Attach("BuffSentinel", DBP)
+""")
+cnt = lambda fac: cp.ev('(function() local n = 0 for _ in pairs(DBP.gsMarkt.f.%s.i) do n = n + 1 end return n end)()' % fac)
+check("v8: Aufräumen – Horde: nur echtes Item übrig", (cnt("H"), cp.ev("DBP.gsMarkt.f.H.i[2589]")), (1, "dw,4,2,tol2yb,0,0,0,0"))
+check("v8: Aufräumen – Allianz: Test-ID weg, echtes bleibt", (cnt("A"), cp.ev("DBP.gsMarkt.f.A.i[999990118]")), (1, None))
+exl = [cp.ev("DBP.gsMarkt.export[%d]" % k) for k in range(1, cp.ev("#DBP.gsMarkt.export") + 1)]
+check("v8: Aufräumen – reine Test-Zeile weg, 3 Zeilen bleiben", len(exl), 3)
+check("v8: Aufräumen – gemischte Zeile: 1 Item, 40−15 = 25 Auktionen", exl[0].split("|")[4:6], ["25", "1"])
+check("v8: Aufräumen – saubere und leere Zeile byte-gleich", (exl[1], exl[2]), (cp.ev("SAUBER"), cp.ev("LEER")))
+check("v8: Aufräumen – keine Test-ID mehr im Export", any(_testid_in(x) for x in exl), False)
+check("v8: Aufräumen – gezählt (1051 Items + 1053 Export)", cp.ev("GoldSentinelMarkt.Stats().testIds"), 1051 + 1053)
+check("v8: Aufräumen – Sammelstelle liest die gemischte Zeile", len(_mk.parse_line(exl[0])["e"]), 1)
+check("v8: Diagnose-Zeile Test-IDs", cp.ev("GoldSentinelMarkt.DiagLines()[5]"), "MARKT-NETZ Test-IDs entfernt: 2104")
+cp.run("GoldSentinelMarkt.Attach('BuffSentinel', DBP)")
+check("v8: zweites Anmelden – nichts mehr zu entfernen", cp.ev("GoldSentinelMarkt.Stats().testIds"), 2104)
+# Tempo: Aufräumen eines grossen Speichers ohne Test-IDs (20000 Items, Export 1,5 MB)
+import time as _t
+ct = Client("Testv8t", 64)
+ct.run("""
+local i, parts = {}, {}
+for k = 1, 20000 do i[k * 7] = "dw,4,2,tol2yb,0,0,0,0"; parts[k] = GoldSentinelMarkt.Enc(k * 7) .. ",dw,4,2,0,0" end
+local line = "GSMARKT1|1|H|1794813700|40000|20000|0|" .. table.concat(parts, ";")
+DBT = { gsMarkt = { f = { H = { t = 1, i = i } }, export = { line, line, line, line, line, line } } }
+""")
+t0 = _t.perf_counter(); ct.run("GoldSentinelMarkt.PurgeTestIDs(DBT.gsMarkt)"); dt_ms = (_t.perf_counter() - t0) * 1000
+print("v8 Aufräumen ohne Test-IDs (20000 Items, Export %d KB): %.1f ms" % (ct.ev("#DBT.gsMarkt.export[1]") * 6 // 1024, dt_ms))
+check("v8: Aufräumen ohne Test-IDs unter 15 ms (Lupa-Messung)", dt_ms < 15, True)
 
 print(f"{checks - fails}/{checks} Prüfungen bestanden")
 sys.exit(1 if fails else 0)

@@ -1,0 +1,24 @@
+HINWEIS AN ALLE PROJEKTE MIT GoldSentinelMarkt.lua – Version 8 (Supervisor, 17.11.2026)
+Betrifft: AHSentinel, BuffSentinel, GuildSentinel, ProfessionSentinel, RaidMaster, ThreatSentinel, LevelPilot.
+
+WARUM: Befund SANDBOX-2 (AHSentinel, berichte/AHSentinel/...-sandbox2-test-ids.txt): Am 16.11. 08:18 kamen über die Testroutine
+1050 Test-Items (IDs 990018001–990019050, Preis 1) in den ECHTEN Markt-Speicher. GoldSentinelMarkt hält EINEN Speicher je Client
+(den des Addons mit den neuesten Daten) – darum lagen sie in BuffSentinel.lua und gingen von dort in den Export (Uploader) und
+konnten über "Speichern und Weitergeben" an Gildenmitglieder gehen.
+
+WAS v8 TUT (shared/GoldSentinelMarkt.lua, Tests shared/tests/test_goldsentinelmarkt.py 130/130, mit Gegenprobe gegen v7):
+- Item-IDs ab 990000000 (Test-IDs der Testroutinen, nie ein echtes Item) werden nie angenommen, gespeichert, exportiert oder
+  gesendet: Feed eines Host-Addons, eigenes Mitlesen eines Vollscans, Empfang von anderen (auch älteren) Clients.
+- Beim Anmelden jedes Addons (Attach) werden Test-IDs aus dessen Speicher entfernt: Items aller Fraktionen; Export-Zeilen nur aus
+  Test-Items fallen weg; gemischte Zeilen verlieren nur die Test-Items (Kopf: Anzahl Items und Auktionen angepasst). Dauer ohne
+  Test-IDs bei 20000 Items und 1,8 MB Export: unter 10 ms (Nachbau), nur beim Laden.
+- Diagnose: neue 5. Zeile "MARKT-NETZ Test-IDs entfernt: n" (DiagLines liefert jetzt 5 statt 4 Zeilen – wer die Zeilen mit
+  ipairs ausgibt, muss nichts tun; wer eine feste Zahl erwartet, bitte anpassen).
+- Sonst unverändert (Nachrichten, Export-Format, Speicherformat). v7-Kopien bleiben lauffähig: addon_check meldet nur WARNUNG
+  "veraltete offizielle Fassung (Version 7)". Die neueste Fassung im Client gewinnt – sobald EIN Addon v8 bringt, gilt v8 für alle.
+
+AUFTRAG (MARKT-V8): Mit der NÄCHSTEN ohnehin geplanten Version shared/GoldSentinelMarkt.lua unverändert kopieren (byte-gleich),
+CHANGELOG EN/DE eine Zeile ("Shared market data: test item IDs are never stored or shared and are removed on load" /
+"Gemeinsame Marktdaten: Test-Item-IDs werden nie gespeichert oder geteilt und beim Laden entfernt"). Keine eigene Version nur
+dafür nötig – AUSSER BuffSentinel (dort liegen die 1050 Test-Items): bitte bald.
+Eigene Testroutinen: Wer Test-IDs ≥ 990000000 benutzt, füttert sie nie in den echten GoldSentinelMarkt (Attrappe wie AHSentinel T782).

@@ -50,6 +50,9 @@ def load(path):
     return lua.globals().AHSentinelDB
 
 
+TEST_ID_MIN = 990000000        # Test-IDs der Testroutinen (SANDBOX-2, 17.11.2026): nie ein echtes Item, nie in die Tabellen
+
+
 def series_of(db):
     """Preisverlauf je Item: [(t, preis)] – gleiche Regeln wie verlauf_auspacken.py (PD7 hz delta-kodiert, Flag 0 =
     bestätigt; history ohne unbestätigte/Sync-Punkte u/s)."""
@@ -60,6 +63,8 @@ def series_of(db):
         if not m.data:
             continue
         for id_ in m.data.keys():
+            if int(id_) >= TEST_ID_MIN:
+                continue
             d = m.data[id_]
             if d.hz:
                 prev = 0
@@ -282,6 +287,8 @@ def alle(tages_dir, max_bytes=ALLE_MAX_BYTES, keep=ALLE_TAGE):
                 try:
                     iid = int(iid)
                 except (TypeError, ValueError):
+                    continue
+                if iid >= TEST_ID_MIN:
                     continue
                 if not isinstance(row, list) or len(row) < len(fel):
                     continue
