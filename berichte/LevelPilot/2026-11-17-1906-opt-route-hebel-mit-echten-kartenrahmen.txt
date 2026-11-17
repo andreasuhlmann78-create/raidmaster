@@ -1,0 +1,45 @@
+LevelPilot – OPT-ROUTE-Hebel mit den echten Kartenrahmen neu gemessen (umgesetzt, zur Prüfung)
+Datum: 17.11.2026 19:06
+Bezug: Prüfung Supervisor 17:55 ("mit der neuen Grundlinie die Optimierungspunkte wieder messen").
+Rohdaten: berichte/LevelPilot/opt-route/2026-11-17-kartenrahmen-grundlinie-und-hebel-12-charaktere.txt
+Keine Code-Änderung am Addon: alles Versuchskopien von 3.12.88.
+
+1. Messweise
+- Simulation mit sim/kartenrahmen_forever.lua (WORLDHOOK=sim/kartenrahmen_hook.lua), 12 Charaktere.
+- Grundlinie 3.12.88: Training 1170,4 h, Gegenprobe 1153,5 h.
+- Bewertung je Charakter = Spielzeit in Minuten + 0,5 × Grinden × 10 Minuten. Die Summe wird in Stunden angegeben.
+  Das ist die Formel von score12.py: Zeit + 0,5 × Grind-Zeit; der Supervisor hatte 04:45 nach ihr gefragt.
+- Massstab: Gewinn nur, wenn Training UND Gegenprobe besser sind UND mehr Charaktere besser als schlechter.
+- Jeder Hebel wurde auf 3.12.88 übertragen, wörtlich wie in den Versuchen vom 17.11. 04:30. Je Hebel nur eine Änderung
+  in Planner.lua.
+
+2. Ergebnisse (Unterschied zu 3.12.88; positiv = langsamer)
+- OHNE H3 (Ruhestein mit Weiterflug weggenommen, ist seit 3.12.86 drin):
+  - Training +24,1 h · Gegenprobe +18,3 h · besser 2 / schlechter 10.
+  - Je Charakter: Zwergen-Paladin +18,0 · Zwergen-Krieger +8,6 · Orc-Krieger +8,0 · Menschen-Krieger +3,4 …
+  - Damit ist H3 mit echten Karten deutlich BESTÄTIGT. Vorher waren es −3,5 h, jetzt bringt er rund 42 h. H3 bleibt drin.
+- H1 (echte Reisezeit zur Zone statt TRAVEL_SCALE):
+  - Training +21,4 h · Gegenprobe +15,0 h · besser 3 / schlechter 9.
+  - Bleibt VERWORFEN.
+- H4 (Zonenwechsel 240 s, wie Factoruide):
+  - Training +11,5 h · Gegenprobe +12,8 h · besser 4 / schlechter 8.
+  - Bleibt VERWORFEN.
+  - Vorher war H4 im Training −11,2 h; mit echten Karten ist es in beiden Gruppen schlechter.
+- H3b (nur in Orten mit Flugmeister binden):
+  - Training +24,3 h · Gegenprobe +8,9 h · besser 1 / schlechter 5, 6 unverändert.
+  - Bleibt VERWORFEN.
+
+3. Einordnung
+- Die echten Kartengrössen ändern die Beträge stark, die Entscheide aber nicht. Die Ersatzwelt hatte 2000 × 2000 yd je Zone.
+- Die Ruhestein-Regel H3 ist jetzt der mit Abstand grösste belegte Hebel.
+- Verdacht, zu messen: Weitere Ruhestein-Nutzung könnte mehr bringen. Gemeint ist ein früheres Binden in der Zone, in der
+  man als Nächstes länger bleibt, statt in der aktuellen. Das wäre der nächste Hebel H5, einzeln nach dem Massstab.
+- Ebenfalls neu zu messen mit den echten Rahmen: GRIND-1 Fassung E (Wechsel bei Restwert < 2,5). Ich messe es als Nächstes.
+
+4. TR-ALLE Nachtrag D (Frage)
+- In der Prüfung 17:55 steht "TR-ALLE Nachtrag D" noch unter Nächstes. Mein Stand (Bericht 15:48 Punkt 2 D):
+  - "testroutine alles" hat bei LevelPilot keine Fenster-Schritte und wartet nie (D1).
+  - Was Hand braucht, steht in der Prüfliste. Es hakt sich beim normalen Spielen selbst ab, mit Chatzeile
+    "<Punkt> erledigt (erkannt) – <Messwert>" (D2/D3).
+  - Es wird nichts vorgemerkt, also gibt es keine Frist und keine Sperre.
+- Frage: Reicht das, oder soll zusätzlich je abgehaktem Punkt ein kleiner GSTEST-Bericht entstehen (D2, letzter Satz)?
