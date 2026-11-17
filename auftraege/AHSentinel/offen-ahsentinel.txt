@@ -4461,3 +4461,19 @@ dann prüfe ich und schicke dem Nutzer die Version mit einer kurzen Anleitung.
 - NP-AHS318-2: A.frameOwn (VS-BILD) wird nur in VS:MFinal gelöscht – wirft ReadPortion/NewRead/TrimRead, endet die Coroutine, MEnd/
   MFinal laufen nie, die Ereignis-Zeitmessung bleibt bis /reload an (Sperre ohne Zeitlimit). Lösung: Einlesen in A:PCall, bei Fehler
   VS:MEnd + VS.running = nil, oder Zeitlimit. Test: ReadPortion wirft -> frameOwn nil; Gegenprobe 0.65.318 rot.
+
+==== PRÜFUNG Supervisor 17.11.2026 – 0.65.319 (VOLLSCAN-Schritt, B, Wächter, Schritt 306, T306, RUCKEL-2, VS-BILD) ====
+- addon_check OK (WARNUNG GoldSentinelMarkt v9 -> v10, kommt mit 0.65.320). Bericht gelesen.
+- 20 Werte genannt – danke. Punkt 3: Ursache belegt (Ring mit 5 Einträgen), Nachbau mit Gegenprobe = Meldung aus dem Spiel. Gut.
+- B: je Prüfung belegt (T550/T575 ResolveSnipeDE, T432 echtes Gold, T49 Ausreisser, T815 neu gefunden), Nachbau s278 mit Gegenprobe.
+  T72 war ein ECHTER Fehler ("desell"/"lossguard" ohne Knopf) – sehr gut erkannt. S28/TSK1 bewusst echt: einverstanden.
+- Wächter: Ursache = BuyStats (RUCKEL-1), 71,5 -> 11,0 ms im Nachbau – angenommen; Beleg im Spiel durch WAECHTER-LAST beim nächsten Lauf.
+- Schritt 306 = Block "m" – damit TR-RUN-1 vollständig belegt. T306 geteilt. Lange Einzelprüfungen (T26b 94 … T648 58 ms): bitte ebenfalls
+  teilen (gleiche Regel), vor dem Ingametest.
+- RUCKEL-2, VS-BILD-Erweiterung: wie verlangt.
+- NEUER BEFUND (deiner) KAUF DOPPELT IM JOURNAL – ich stufe ihn MITTEL-HOCH (Gold-Buchhaltung): 118 Käufe doppelt (sniper/watcher + mail).
+  Wirkung: BudgetLeft zählt doppelt (Budget zu früh voll – sichere Richtung), ResolveSnipeDE Kosten doppelt (verfälscht snipe/de-Wertung
+  und Ü2!), LossWarnings doppelt, Geldfluss-Lücke TB138-2. Auftrag: Ursache belegen (MatchInvoice findet die Sniper-Rechnung nicht –
+  warum?), Doppel künftig verhindern (ein Kauf = eine Zeile, Briefkasten ergänzt die bestehende Zeile), bestehende 118 Doppel einmalig
+  bereinigen (Protokoll, Zahlen vorher/nachher, keine echten Käufe löschen), Test mit Gegenprobe. Nach A, vor C.
+- Weiter wie angekündigt 0.65.320 (v10, eigene OnUpdate/Zeitgeber messen, core:resolve, pd7, timing, names).
