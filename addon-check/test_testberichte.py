@@ -137,5 +137,24 @@ with tempfile.TemporaryDirectory() as tmp:
     check("Abschnitt Wegdaten", "## Wegdaten (GSWEGE1)" in md and "LevelPilot | 1 |" in md, True)
     check("Client erkannt", st["offen"][0]["client"].startswith("forever"), True)
 
+    # NP-SYS-1: "neueste Datei" nach Version bzw. Zeit im Namen, nie nach Änderungszeit (Gegenprobe: mtime umgekehrt setzen)
+    import os as _os
+    dd = tb.DIAG_OUT / "Probe"
+    dd.mkdir(parents=True, exist_ok=True)
+    names = ["0.65.99-aaaa.txt", "0.65.100-bbbb.txt", "0.65.94-cccc.txt"]
+    for k, nm in enumerate(names):
+        (dd / nm).write_text("x", encoding="utf-8")
+        _os.utime(dd / nm, (2000000000 - k * 1000, 2000000000 - k * 1000))   # 0.65.99 hat die neueste Änderungszeit
+    wd = tb.WEGE_OUT / "ProbeW"
+    wd.mkdir(parents=True, exist_ok=True)
+    for k, nm in enumerate(["ProbeW-wege-1794857015-aa.json", "ProbeW-wege-1793943462-bb.json"]):
+        (wd / nm).write_text("x", encoding="utf-8")
+        _os.utime(wd / nm, (1000000000 + k * 1000, 1000000000 + k * 1000))
+    st2 = tb.evaluate()
+    check("NP-SYS-1: neueste Diagnose nach Version (0.65.100), nicht nach Änderungszeit",
+          st2["extras"]["diagnose"]["Probe"]["neueste"], "testberichte/diagnose/Probe/0.65.100-bbbb.txt")
+    check("NP-SYS-1: neueste Wegdatei nach Zeit im Namen",
+          st2["extras"]["wege"]["ProbeW"]["neueste"], "testberichte/wege/ProbeW/ProbeW-wege-1794857015-aa.json")
+
 print(f"Testberichte-Tests: {'bestanden' if fails == 0 else 'FEHLGESCHLAGEN'} ({checks - fails}/{checks})")
 sys.exit(1 if fails else 0)

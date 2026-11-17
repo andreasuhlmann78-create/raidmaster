@@ -181,6 +181,20 @@ def extras_from_text(text):
     return diags, wege
 
 
+def _extra_order(f):
+    """Reihenfolge der Diagnose-/Wegdateien nach INHALT des Namens, nie nach Änderungszeit (NP-SYS-1: im frischen Checkout
+    ist die Änderungszeit zufällig -> "neueste Datei" sprang ohne neuen Bericht hin und her).
+    Diagnose "0.65.110-<hash>.txt" -> Version (0, 65, 110); Wegdaten "<Addon>-wege-<Zeit>-<hash>.json" -> Zeit; dann der Name."""
+    stem = f.name.rsplit(".", 1)[0] if "." in f.name else f.name
+    m = re.search(r"-wege-(\d+)-", f.name)
+    if m:
+        key = (int(m.group(1)),)
+    else:
+        head = stem.split("-", 1)[0]
+        key = tuple(int(x) for x in head.split(".") if x.isdigit()) if re.fullmatch(r"[\d.]+", head) else ()
+    return (key, f.name)
+
+
 def store_extras(diags, wege):
     """Diagnose als Text (nach Inhalt einmalig), Wegdaten als JSON (nach id). Gibt (neu Diagnose, neu Wege)."""
     import hashlib
@@ -415,7 +429,7 @@ def evaluate(note=None):
         rows = []
         if base.exists():
             for d in sorted(x for x in base.iterdir() if x.is_dir()):
-                files = sorted(d.iterdir(), key=lambda f: f.stat().st_mtime)
+                files = sorted(d.iterdir(), key=_extra_order)
                 if files:
                     rel = "testberichte/" + files[-1].relative_to(OUT).as_posix()
                     rows.append(f"| {d.name} | {len(files)} | `{rel}` |")
