@@ -439,3 +439,12 @@ Auftrag:
 2. Prüfen, ob andere Addons während der Routine Testdaten lesen können (RaidMaster.db.data global): besser die Sandbox so bauen, dass
    fremde Leser (über die API/RaidMaster.db) die ECHTEN Daten sehen; wenn nicht möglich, TestRunning() ist Pflicht für alle Leser.
 3. Test: fremder Leser während der Routine sieht keine Test-Kills; Gegenprobe 3.0.30.
+
+==== BEFUND HOCH 18.11.2026 06:45 – RM-TF-1 im Spiel NICHT behoben (3.0.33, Nutzer 06:41) ====
+Wieder das Blizzard-Fehlerfenster: "Interface\AddOns\RaidMaster\Test\Routine.lua:1: RaidMaster-Testfehler", Stack
+Blizzard_ScriptErrors.lua:72 <- Test/Routine.lua:2217 (dieselbe Stelle wie 17.11. 17:02). Bericht 3.0.31 meldete RM-TF-1 als umgesetzt –
+im Spiel ist es das nicht. Ursache belegen (Verdacht, zu messen: der vorgeschaltete Handler greift im Forever-Client nicht – z. B.
+seterrorhandler wirkungslos/geschützt, oder ein anderes Addon/Blizzard_ScriptErrors setzt seinen Handler danach neu; oder Routine.lua:2217
+ruft den gespeicherten Spiel-Handler direkt). Lösung, die im Spiel sicher ist: den absichtlichen Fehler NIE über den Fehler-Handler des
+Spiels schicken – die Zählfunktion von RaidMaster direkt aufrufen (wie ThreatSentinel T147). Nachbau: Blizzard_ScriptErrors-Attrappe
+zählt Aufrufe -> 0; Gegenprobe 3.0.33 = 1 mit genau diesem Stack. Bis dahin T120/T122 im Spiel überspringen (mit Grund).
