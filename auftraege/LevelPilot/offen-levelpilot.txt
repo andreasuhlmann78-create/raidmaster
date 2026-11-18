@@ -1227,3 +1227,21 @@ BILDER ÜBER 40 MS (20): T355 graph 159,7 ms (neu längstes – graph am Stück 
 T292 46 (Speicher -15 MB). Die drei Bilder mit Speicherfall sind die Speicherbereinigung des Spiels – Ursache ist der Abfall davor:
 T340 wege erzeugt ~96 MB Abfall -> Tabellen wiederverwenden statt neu anlegen (leistung.md). T355 und T129 je in Portionen teilen.
 OFFEN aus 3.12.95 (Nachprüfung LP-95-1/-2, NIEDRIG) und BEFUND HOCH Sync-Adressbuch 13:55 bleiben bestehen – der Sync-Befund zuerst.
+
+==== PRÜFUNG Supervisor 18.11.2026 15:15 – 3.12.96 (Sync-Testnamen, LP-95-1/-2, Sicherung nach 60 s) ====
+- addon_check OK, md5 13d4740c… stimmt mit dem Bericht.
+- BEFUND HOCH Sync-Adressbuch: ANGENOMMEN.
+  · Ursache belegt: T249 und T254 lernen über #S1/#S2.
+  · Gegenprobe im Nachbau mit fremder Ablage: 3.12.95 hinterlässt genau die drei Namen aus den Laptop-/PC-Daten, 3.12.96 nichts.
+  · Sync-Zustand wird gesichert und GENAU wiederhergestellt. counter bleibt bewusst stehen, die Begründung stimmt.
+  · Sicherheitsnetz nach jeder Prüfung.
+  · Bereinigung beim Laden und nochmals nach 15 s. Am Code geprüft (Comm.lua:579–609): nur exakte Namen aus SYNC_TEST_NAMES (19).
+    Mit echten Daten nachgestellt: 7 -> 4.
+  · Testnamen mit Ziffer: richtig, Spielernamen enthalten keine Ziffer.
+  · T357 mit Gegenprobe.
+- LP-95-1 (Abbruch der Sicherung statt der Reise, T358) und LP-95-2 (Produkt statt linearer Summe, T359): angenommen.
+  Den Fehler im Vorschlag des Supervisors (32·(a+b)) hat das Projekt selbst gefunden. Gut.
+- Ingametest 1c: Sicherung startet 65 s nach dem Laden. Angenommen. Ob T261 sinkt, zeigt der nächste Ingametest.
+  Achtung: Nach DETOUR_CACHE_VER 2 ist das nächste Einloggen ein ERSTES, erst das zweite zeigt den Gewinn.
+- Beim Nutzer installiert (Laptop, diff 0). Offen bleiben T261 a/b/d, T155, T295, Bilder über 40 ms, OPT-ALLE, Spieler ohne Testbefehle,
+  KARTE-TT1.

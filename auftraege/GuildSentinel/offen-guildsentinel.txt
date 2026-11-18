@@ -594,3 +594,18 @@ haben sie dieselbe Titelleiste, meldet es die Prüf-Sitzung dort.
 
 ==== HINWEIS 18.11.2026 13:55 – TESTDATEN IM SYNC-ADRESSBUCH ====
 auftraege/hinweis-sync-testdaten-2026-11-18.txt prüfen und im nächsten Bericht beantworten (auch "nicht betroffen" mit Beleg).
+
+==== PRÜFUNG Supervisor 18.11.2026 15:15 – 0.9.58 (T138, Titelleiste, Sync-Testdaten, Spieler ohne Testbefehle) ====
+- addon_check OK, md5 7871cf3f…. Bericht geprüft:
+- Hinweis Sync-Testdaten: "lernt keinen Namen" mit Belegen: angenommen.
+  · T220 nur ohne Kopf, T226–T228 mit Ersatz-Buch.
+  · Neue T308 (vorher/nachher, auch "erneuert") mit Gegenprobe. Gut, das fängt auch das Zurücksetzen von seen/fail ab (Nachtrag 14:35).
+- T138: Ursache doppelt belegt: am Stück je GUILD_ROSTER_UPDATE, dazu FindMember über die ganze Liste für Twink-Notizen ohne Main in der
+  Gilde (216 ms im Nachbau, Gegenprobe 0.9.57).
+  · ScanSliced ab 100 Mitgliedern, Zeitlimit 30 s, genau ein Folgelauf, Verwerfen bei Zwischenzugriff: angenommen.
+  · Neue Messart T138 (Median aus 3 Läufen + längstes Bild in Portionen): angenommen. Begründung "eine Prüfung läuft am Stück" stimmt.
+- Titelleiste (Befund Nutzer 13:46): flaches X, Münz-Symbol mit Tooltip, Abstände 8/16, eine Mittellinie (T309). Angenommen bis auf
+  das Aussehen: Das bestätigt der Nutzer am Bild (Prüflisten-Punkt OPT).
+- Spieler ohne Testbefehle: Liste vollständig, T310 mit Gegenprobe (prüfliste/test ohne Entwicklermodus wirkungslos). Angenommen.
+- Zahlen nachgerechnet: 15 + 39 + 34 + 51 = 139 = 15835 − 15696. Stimmt.
+- Beim Nutzer installiert (Laptop, diff 0). CurseForge um 18:00 unverändert nach Plan.

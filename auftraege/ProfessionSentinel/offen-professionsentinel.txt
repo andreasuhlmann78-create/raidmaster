@@ -589,3 +589,27 @@ MITTEL:
    welche Zahlen? Im Bericht nennen und beheben (Daten oder Regel).
 4. Prüfliste zeigt "TR fehler 18.11. 08:54" – der Lauf 13:54 hat den Punkt nicht erneuert (gleicher Fehler wie ThreatSentinel 2.5.20,
    dort behoben: nach JEDEM ganzen Lauf erneuern).
+
+==== PRÜFUNG Supervisor 18.11.2026 15:15 – 0.9.73 (Ingametest 0.9.72) ====
+- addon_check läuft noch (Ergebnis folgt als Nachtrag), md5 91e83591….
+- HOCH 1 Speicher: Messung je Teil (UI.Mem, nur dem innersten Teil zugerechnet, ohne Bereinigung): ANGENOMMEN. Richtig: erst messen,
+  dann umbauen. Die Zeile "angelegt je Teil" muss im nächsten Ingametest die 64 MB je 20 Refreshes einem Teil zuordnen.
+- HOCH 2 Bilder über 40 ms: angenommen.
+  · T292 je Bereich und Sprache ein Bild.
+  · Drei pcall-Stellen über ns.TaktPCall, offline "Abgabe nicht möglich: 0".
+  · UpdateAddOnMemoryUsage nur noch auf Wunsch (Prüfregel 11:35).
+- MITTEL 4 Prüfliste TR wird nach jedem Lauf erneuert (T285 mit Gegenproben): angenommen.
+  Bei AHSentinel 0.65.345 tritt derselbe Befund auf, er ist dort eingetragen.
+- Hinweis Sync-Testdaten: "nicht betroffen" mit Belegen (kein Sync in der .toc, 0 Treffer in den Daten): angenommen.
+- ENTSCHEID zu T258 (Frage im Bericht, Punkt 3):
+  · Die Forever-Werte von 2665/2674/22757 (grau unter erlernbar) und die 19 Rezepte mit gelb unter erlernbar sind in sich unmöglich, also
+    Datenfehler der Quelle.
+  · KEINE Werte aus Era übernehmen. Das wäre geraten, Forever kann abweichen.
+  · Stattdessen in der Pipeline jede Zeile, die die Farbstufen-Regel verletzt, als "Farbstufen unbekannt" markieren. Das Addon zeigt
+    dafür keine Farbe bzw. keine Skill-Empfehlung statt einer falschen.
+  · T258 führt diese Zeilen als bekannte Datenfehler mit Liste und Anzahl (HINWEIS, kein FEHLER). Eine NEUE Verletzung bleibt FEHLER
+    (Gegenprobe).
+  · Messauftrag an den Nutzer (Prüfliste, ohne Gold): bei Schmiedekunst 75–100 die Farbe von "Grober Wetzstein" ablesen. Erst mit dem
+    gemessenen Wert wird die Zeile korrigiert, als "Forever gemessen".
+  · Die geplante Aufgabe "Rezeptdaten-Update" darf diese Markierung nicht überschreiben.
+- Installation beim Nutzer folgt nach addon_check.
