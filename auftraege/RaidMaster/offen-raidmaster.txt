@@ -479,3 +479,13 @@ Sonst ohne Befund. Offene Punkte von 17.11. (T156, T155 usw.) bleiben, soweit ni
   samt Gegenprobe – angenommen (Ursache von hier belegt, sauber umgesetzt).
 - Beim Nutzer installiert (Laptop, diff 0). Spielwerte im nächsten Ingametest: "Aufbau Fenster" und jede Seite einzeln (Erwartung ~11/~20 ms –
   Verdacht, zu messen). Liegt eine Seite über 16 ms: in Portionen (Takt).
+
+==== INGAMETEST 18.11.2026 09:44 – RaidMaster 3.0.35 "/rm testroutine alles" (Laptop, Krieger 24) ====
+OK 138 · FEHLER 0 · übersprungen 15 · im Client 10 · 82,4 s · Sandbox OK. Zahl: 138 + 0 + 25 = 163 – stimmt.
+Fensteraufbau im Spiel: "Aufbau Fenster 10,6 ms" (3.0.34: 47,6) – Vorhersage des Berichts (~11 ms) getroffen; Seiten signup 9,3, settings 6,6,
+raid 5,8 ms. Längstes Bild 21,7 ms (T182), kein Bild über 40 ms. Gut.
+MITTEL – T43 bleibt eine Prüflücke: "SKIP Beute geladen 10/26, davon versteigerbar 0 – beim nächsten Lauf wieder". Zweimal hintereinander
+(08:34: 3 behandelt, 0 Versteigerung) stuft Classify KEIN geladenes Onyxia-Item als Versteigerung ein. Verdacht, zu messen: Classify liest die
+ECHTEN Beute-Regeln des Nutzers (z. B. Versteigerung erst ab einer Qualität/für bestimmte Items, sonst Gildenbank/Würfeln) – dann ist T43 im
+Spiel NIE prüfbar. T43 soll für seinen Durchlauf eigene Test-Regeln setzen (Versteigerung für alle Testitems, Sandbox, danach zurück), damit
+er immer OK oder FEHLER ergibt; die echten Regeln prüfen T21 usw. Im Ergebnis die geladenen Items mit Qualität und Regel nennen.
