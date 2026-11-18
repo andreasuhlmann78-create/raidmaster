@@ -488,3 +488,22 @@ betroffen" mit Beleg, im nächsten Bericht.
 
 ==== HINWEIS 18.11.2026 15:45 – GoldSentinelSync 3 IN shared/ ====
 auftraege/hinweis-sync3-2026-11-18.txt: mit der nächsten Version Sync 3 kopieren, Testroutine auf Sync-Lernen prüfen (testLearn), Liste im Bericht.
+
+==== PRÜFUNG Supervisor 18.11.2026 16:15 – 0.9.60 (Sync-Testdaten: T155 betroffen; GoldSentinelSync 3) ====
+- addon_check OK, md5 e469d421… stimmt mit dem Bericht. Sync 3 byte-gleich.
+- Selbst gefunden und ehrlich gemeldet: T155 machte einen schon vorhandenen "Testa Beispiel" zu einem aktiven Netz-Ziel. ANGENOMMEN.
+  · Der Nachbau mit Buch vorher (fail 3/pause 9/guild/v 0) belegt den Fehler mit Sync 2 UND Sync 3.
+  · Der neue T155 sichert das Buch tief und stellt es genau wieder her, auch beim Fehlschlag, ohne pcall.
+  · Er vergleicht das Buch vorher/nachher in beide Richtungen, mit Gegenprobe.
+  · testLearn gilt nur für die Bilder von T155. Gegenprobe ohne testLearn: Der Schutz von Sync 3 greift.
+- Sync 2 gegen Sync 3 im Nachbau: 8 Läufe mit gleichen Zahlen. Angenommen.
+- Zum Verdacht "hat der Lauf 13:42 den Eintrag verändert": In den hochgeladenen Daten gibt es keinen Stand vor 13:42, die Geschichte des
+  Daten-Repos wird je Tag ersetzt. Bekannt ist:
+  · Desktop 17.11. 20:10: "Testa Beispiel" mit v 0.
+  · Laptop 18.11. 14:11/14:37: v 2, fail 1, src guild, seen 14:05:34 (zuletzt LevelPilot).
+  v 2 passt zum alten T155 ODER zu LevelPilot T249. Das bleibt "Verdacht, nicht mehr messbar". Die Folgen sind mit LevelPilot 3.12.96
+  (Bereinigung) und Sync 3 erledigt.
+- BuffSentinel.lua (Laptop/Desktop, aktuell): 0 Treffer für "Testa Beispiel"/"LPWeiter". Wie vermutet, das Buch liegt bei
+  ThreatSentinel.
+- Entscheid 15:19: 0.9.60 hat eine Code-Änderung, darum ist BuffSentinel wieder in der nächsten Ingametest-Runde.
+- Beim Nutzer installiert (Laptop, diff 0). Damit ist Sync 3 beim Nutzer aktiv: Die neueste geladene Fassung gewinnt.
