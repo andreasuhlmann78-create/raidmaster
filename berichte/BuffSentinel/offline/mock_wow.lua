@@ -59,6 +59,9 @@ function CreateFrame(kind, name, parent, template)
   return o
 end
 UIParent = CreateFrame("Frame"); Minimap = CreateFrame("Frame")
+-- Einstellungsfenster des Spiels (alle unterstützten Clients haben die Settings-API; 0.9.59 meldet dort die Seite an)
+Settings = { RegisterCanvasLayoutCategory = function(frame, name) return { frame = frame, name = name } end,
+             RegisterAddOnCategory = function() end }
 DEFAULT_CHAT_FRAME = { AddMessage = function(_, m) print("[CHAT] " .. m:gsub("|c%x%x%x%x%x%x%x%x",""):gsub("|r","")) end }
 GameTooltip = newObj("Tooltip")
 UISpecialFrames = {}
