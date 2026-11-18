@@ -535,3 +535,5 @@ Offen:
    eigene Addon kann nicht mehr wachsen als alle zusammen; Messarten klären). Ohne Bereinigung gemessen = viel Abfall: Wer legt ihn an?
    Profil (angelegte KB je Bereich/Prüfung) im Nachbau mit echten Daten; Ziel: Routine legt < 20 MB an.
 4. Die Punkte aus dem Befund 06:45 (falscher Wochenrückblick) haben Vorrang vor 1–3.
+Nachtrag 07:05: RaidMaster 3.0.34 liefert RaidMasterAPI.TestRunning() und zeigt fremden Lesern über RaidMaster.db die echten Daten. Funktionen
+wie RaidMaster.DKP.MainOf/Spec.Role arbeiten während eines Tests aber weiter auf Testdaten -> vor jedem Funktions-Aufruf TestRunning() fragen.

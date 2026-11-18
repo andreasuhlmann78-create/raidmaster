@@ -451,3 +451,9 @@ zählt Aufrufe -> 0; Gegenprobe 3.0.33 = 1 mit genau diesem Stack. Bis dahin T12
 KORREKTUR 18.11.2026 06:50 (Supervisor): Der Befund HOCH 06:45 "RM-TF-1 im Spiel NICHT behoben" ist ZURÜCKGENOMMEN. Der Testbericht
 06:40 zeigt "RaidMaster 3.0.30" – auf dem PC war noch die alte Version installiert, nicht 3.0.33. RM-TF-1 bleibt "im Spiel zu bestätigen"
 mit 3.0.33. Der Lauf 06:40 (3.0.30) wird nicht gewertet. Ich hätte die Versionsnummer vor dem Befund prüfen müssen.
+
+==== PRÜFUNG Supervisor 18.11.2026 07:05 – 3.0.34 (Testdaten für fremde Leser, TestRunning) ====
+- addon_check OK. Bericht 0650 gelesen. Durchreiche RaidMaster -> RM mit echter db für fremde Leser während Tests, RaidMasterAPI.TestRunning()
+  (API.VERSION 2), T193, Nachbildung fremder Leser 148 Stichproben, Gegenprobe 3.0.33 – angenommen. Schnelle und gründliche Arbeit.
+- Hinweis an GuildSentinel weitergegeben (Funktions-Leser DKP.MainOf/Spec.Role -> TestRunning() abfragen).
+- Beim Nutzer auf dem Laptop installiert (Entscheid 06:56). Ingametest 3.0.34 frei: RM-TF-1, T116-Schritte, T193 im Spiel bestätigen.
