@@ -1,0 +1,76 @@
+AHSentinel 0.65.346 – INGAMETEST 18.11.2026 14:40 (0.65.345) und Hinweis Sync-Testdaten – umgesetzt, zur Prüfung
+
+Daten: Upload goldsentinel-daten 18.11. 14:37 (nur lokal ausgewertet). Je Punkt "belegt" oder "Verdacht, zu messen".
+
+==== HOCH 1 – T40/T45 Zeitüberschreitung ohne Suche ====
+Belegt (Code): T40 rief Sn:Search immer wieder auf, verwarf aber den Grund der Absage (CanSearch: Server-Drossel, Grenze je Minute,
+Markt-Scan/Vollscan läuft, Einkauf wartet/Kauf offen, Preisprüfung, Wächter, Ruhemodus). T45 wartete nur auf "Runde fertig". Welche
+Sperre es am 18.11. um ~14:30 war: aus den Daten NICHT belegbar (Protokoll ohne Zeitstempel, Grund nicht gespeichert) – Verdacht, zu
+messen. Hinweis aus dem Lauf: T41 (Ware kaufen, abgefangen) brauchte danach 42,8 s – dieselbe Sperre lag also noch ~4 Min. an.
+Nachbau (echte Daten, Teil server): T40/T45 bestanden – nicht nachgestellt.
+Umgesetzt: (1) Jede Absage wird mit Grund und allen aktiven Sperren gemerkt (TR:QueryBlockers: Server noch nicht bereit, Grenze je
+Minute, Markt-Scan, Vollscan, Ruhemodus, Einkauf sucht/wartet/Kauf offen, Preisprüfung, angeklicktes Item, Wächter-Runde, Sniper-
+Suche/Kauf). (2) Zeitablauf, nie gesendet, NUR Server-Sperren/Scan -> "nicht prüfbar: <Grund>" (wie Teil 7). (3) Nie gesendet wegen
+EIGENER Sperre -> FEHLER "nie gesendet: <Grund>" (eigene Sperren brauchen ein Zeitlimit). (4) Gesendet, keine Antwort -> FEHLER wie
+bisher (Gegenprobe). WaitDiag nennt die Sperren bei jeder Zeitüberschreitung.
+
+==== HOCH 2 – Wächter 58 ms ohne Etikett ====
+Belegt (Code): die Messung nahm den ganzen Takt des Wächters ODER das ganze Bild der Hintergrund-Aufgaben, wenn die letzte Aufgabe
+"watcher:*" war (das Bild enthält auch andere Aufgaben). Welches es war: nicht gespeichert. Ab jetzt steht das Etikett im Ergebnis
+("Wächter-Takt (Tick)" oder "Aufgabe watcher:… (Bild x ms, n Schritte, längster y ms bis Datei:Zeile)", "mit Speicherbereinigung").
+Daneben bleibt im Protokoll "Empfänger Watcher.lua:872 von BROWSE_RESULTS 23 ms / :875 QUERY_READY 28 ms": PollRound liest die
+Ergebnisse (GetBrowseResults, 277 Angebote) im Ereignis – Verdacht, zu messen, ob das der Client-Aufruf selbst ist.
+
+==== HOCH 3 – T459 27 MB im Spiel, 13 MB im Nachbau ====
+Belegt: (a) Der Nachbau las jedes Mal GENAU denselben Markt -> Vorrat (Einlese-Tabellen, Verdichtung) zu 100 % wiederverwendet. Mit
+Markt-Wachstum wie im Spiel (+43 % Angebote zwischen den Scans) steigt der eigene Speicher im Nachbau von 9,0 auf 16,3 MB (gelesen 0
+-> 7,3 MB). (b) Im Spiel lagen in "Einlesen" 21,2 MB gelesene Auktionen (Nachbau 7,3) – je Auktion ~80 Byte gegen ~23 im Nachbau;
+woher: Verdacht, zu messen. (c) Testroutine-Modus (Zwischenspeicher aus) ändert im Nachbau nichts (8,2 MB). (d) Oberfläche offen
+(Markt/Buchhaltung) ändert im Nachbau nichts (9,2/9,3 MB).
+Umgesetzt: eigener Speicher JE AUFGABE während der Messung (fullscan, cache:…, ui-…) in T459 und im Protokoll – zeigt beim nächsten
+Lauf, ob im Spiel andere Aufgaben mitlaufen. T459-Ergebnis: bewertete Zahlen zuerst ("angelegt … · Bilder über 40 ms mit Bereinigung n ·
+Bereinigungen n"), Aufteilung danach (nicht mehr abgeschnitten). Weniger Speicher in Verdichtung/Preisverlauf: nächster Stand.
+
+==== MITTEL ====
+4. T126 – Täter in Portionen: cache:today:10 (MV:BuildDE: Pause vor/nach jedem Angebot, Sortieren in Portionen; DEOffer selbst bleibt
+   EIN Schritt – Pausen darin bräuchten A:PCall je Item = eine Coroutine je Aufruf, im Nachbau s92 +165 KB je Vollscan, verworfen),
+   sync-send (Sync.lua:191: 7000 Einträge table.sort am Stück -> A:SortInPortions), ui:overview-movers (Sortieren in Portionen), dazu im
+   Nachbau gefunden: ui-refresh im Reiter Buchhaltung (BK:Summary/ByItem über das ganze Buch am Stück, 7,8 ms) und Listen-Sortierung
+   (Pause nach 500 statt 2000 Vergleichen), Namenssuche (je Sprache / je 25 Items). Nachbau echte Daten, Teil server: 13,1 -> 8,6–9,6 ms
+   (längste 14,2 -> 9,9–10,9). Grenze 8 ms im Nachbau noch knapp überschritten (ui:overview-movers Schluss-Stück: Liste zeichnen).
+5. Täter der 804-ms-Lücke: die Zahl je Addon kommt mit diesem Stand (eingebaut 0.65.344/345, im Lauf 14:29 stand sie nicht im Bericht:
+   Verdacht, zu messen – die Messung je Addon läuft nur, wenn MBegin aus dem echten Scan der Testroutine kommt; T458 nennt sie jetzt im
+   Hinweis "längstes ganzes Bild … Speicher je Addon").
+6. T26a 47 -> 114 ms (Preisverlauf-Fenster erstmals): Nachbau mit Stichproben – Zeit in der Fläche unter der Linie (alle 3 px eine Textur,
+   UI:Gradient je Textur zuerst ein scheiternder pcall(SetGradientAlpha) mit Fehlertext) und den EMA-Linien. Behoben: Weg des Verlaufs
+   wird gemerkt, Streifen alle 6 px. Warum im Spiel 114 statt 47: Verdacht, zu messen.
+7. SK1-m 3100 (Schmiedekunst) – Verdacht bestätigt: der Rang-Zauber hat eine Rezept-Tabelle mit recipeID 3100 und lief durch. Jetzt
+   zählt nur ein Zauber aus GetAllRecipeIDs() des offenen Berufsfensters (Liste bis 60 s nach dem Schliessen gemerkt). s317: 3100 ->
+   nichts, echtes Rezept -> gebucht; Gegenprobe 0.65.345 bucht 3100. Ob ProfessionSentinelAPI.TestRunning() um 13:49 true war: nicht
+   gespeichert – Verdacht, zu messen (bei true wäre seit 0.65.344 gar nichts gebucht worden).
+8. PRÜFLISTE TR-ALLES – Befund nicht bestätigt (mit Beleg): gespeichert ist TR-ALLES = "fehler · 18.11. 14:35 · 2 von 9 bestanden, 4 FEHLER
+   … 1039 OK, 7 FEHLER" (db Prüfliste) und der GSTEST-Bericht "alles" 14:35 enthält pruefliste_tr_alles mit genau diesem Stand. Im Upload
+   steht ZUSÄTZLICH noch der Bericht "alles" von 09:31 (1031 OK, 11 FEHLER) – vermutlich wurde dieser gelesen. FRAGE: aus welchem Feld/
+   Bericht stammt "PRÜFLISTE TR-ALLES zeigt 09:31"?
+
+==== Einzelbefunde ====
+- T277 "Ziele 0 · Name v 2 src guild" – belegt: der Testname "Testa Beispiel" stand schon im GEMEINSAMEN Adressbuch (LevelPilot, src
+  "guild"); Learn behält "guild" -> kein Netz-Ziel. Zudem schrieb T277 nur die Tabelle zurück, die Learn selbst verändert hatte (seen).
+  Jetzt eigener Testname, vorher entfernt, alter Eintrag als Kopie genau zurück. s318: Buch vor = nach, T277 bestanden; Gegenprobe
+  0.65.345: Eintrag "Testa Beispiel" danach verändert (seen).
+- T750: nächster Stand (0.65.347) mit den Texten aus db.uiFindingsLast.
+
+==== Hinweis Sync-Testdaten (13:55/14:10/14:35) ====
+1. Eigene Prüfungen, die GoldSentinelSync berühren: T277 (Learn eines Testnamens, Netz-Warteschlange, BroadcastScan mit Test-IDs),
+   T81 und T-SY (OnAddonMessage ohne #S1/#S2-Rahmen bzw. Absender nil – lernen nachweislich NICHTS, Learn nur bei gerahmten Nachrichten).
+   T277 sichert jetzt Buch-Eintrag (Kopie), Warteschlangen, api und NET-Zeit und schreibt sie genau zurück; neu T913 "Adressbuch vor/nach
+   gleich" (Fingerabdruck aller Namen und Felder) nach jedem Lauf, mit Gegenprobe (s318).
+2. Testnamen im eigenen gsSync.book (Upload 14:37, AHSentinel.lua): 4 Einträge, keiner mit "Test" im Namen (das Buch, das Sync benutzt,
+   liegt im zuerst geladenen Addon – laut Prüf-Sitzung ThreatSentinel; dort bereinigt LevelPilot).
+3. Sync-Lernen brauchen: nur T277 (ein Testname mit v 2 als Netz-Ziel) -> unter Sync 3 mit GoldSentinelSync.testLearn = true für seine
+   Dauer, Zustand wird schon jetzt genau zurückgeschrieben.
+
+==== Noch offen (nächster Stand) ====
+T750 UI-CLEAN, Spieler ohne Testbefehle (Liste + Wege + Prüfung), Nachbau wie Forever (2), Vollscan-Speicher unter 10 MB.
+
+Tests: Gesamtlauf 392 bestanden, 0 fehlgeschlagen (neu s317, s318 mit Gegenprobe 0.65.345) · GoldSentinelSync 3 (shared, 15:43) noch NICHT übernommen – nächster Stand · addon_check OK (Release-Zip und Discord-Zip).
