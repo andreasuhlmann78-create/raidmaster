@@ -471,3 +471,8 @@ auftraege/hinweis-spieler-ohne-testbefehle-2026-11-18.txt umsetzen: jede Spieler
   des Spiels, Fehler/Protokoll/Austausch über Optionen statt nur Befehle; Korrektur Raster-Knopf (Seite Buffs) – angenommen.
   52 alte Texte entfernt (Nachtrag 11:25 erfüllt). Prüfliste JAEGER/ENTZ – einverstanden.
 - Beim Nutzer installiert (Laptop, diff 0).
+
+==== INGAMETEST 18.11.2026 13:42 – BuffSentinel 0.9.59 "/bsen testroutine alles" (Laptop, Priester 10) ====
+OK 220 · FEHLER 0 · übersprungen 11 · im Client 10 · 16,8 s · Sandbox OK · echte Aktionen 0. Zahl: 220 + 0 + 21 = 241 – stimmt.
+Längstes Bild 27,3 ms (T156), kein Bild über 40 ms. OPT-ALLE und Spielerwege im Spiel ohne Fehler (T259–T262). Supervisor: ohne Befund.
+Offen nur: Prüfliste von Hand (OPT am Bild durch den Nutzer), Händler-Prüfung T247 (von selbst).

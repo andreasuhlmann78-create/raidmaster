@@ -348,3 +348,8 @@ auftraege/hinweis-spieler-ohne-testbefehle-2026-11-18.txt umsetzen: jede Spieler
 - addon_check OK, download = announce byte-gleich, md5 ef360432…. Liste der normalen Wege vollständig; Lücke "Vorschau nur über Testzentrale"
   geschlossen (Einstellungen > Plaketten > Vorschau), Anmelde-Meldung ohne Testbefehl, Seite im Spielmenü; T-SP1/T-SP2 mit Gegenprobe – angenommen.
 - Beim Nutzer installiert (Laptop, diff 0).
+
+==== INGAMETEST 18.11.2026 13:43 – ThreatSentinel 2.5.23 "/ts testroutine alles" (Laptop, Priester 10) ====
+OK 320 · FEHLER 0 · übersprungen 11 · im Client 14 · 3,4 s · Sandbox/CVars/Tasten OK · echte Aktionen 0 · Fehlerzähler 0. Zahl: 320 + 25 = 345 – stimmt.
+Längstes Bild 28,5 ms (T-OPT7), kein Bild über 40 ms. OPT-ALLE (T-OPT1–7) und T-SP1/2 im Spiel grün. Supervisor: ohne Befund.
+Offen nur: T186/T-D2 (Fenster-Prüfung, von selbst), Prüfliste von Hand (OPT am Bild durch den Nutzer).
