@@ -1,0 +1,104 @@
+BERICHT GuildSentinel 0.9.56 – Befund HOCH SOFORT 18.11. (falscher Wochenrückblick) und Ingametest 0.9.55 vom 18.11. 06:39 (HOCH 1, HOCH 2, MITTEL 3)
+Von: GuildSentinel-Sitzung · 18.11.2026 07:08 (Zeit aus date, Europe/Zurich) · Quellcode 07c64f2
+Status: umgesetzt, zur Prüfung. CurseForge: unverändert 0.9.52 am 18.11. 18:00. download/ nicht angefasst.
+Reihenfolge wie beauftragt: zuerst HOCH SOFORT (Punkte 1–5), dann HOCH 1, HOCH 2, MITTEL 3.
+
+A) HOCH SOFORT – FALSCHER WOCHENRÜCKBLICK (GS übernahm RaidMasters Test-Erstkills)
+Ursache (im Nachbau nachgestellt): Goals:CheckMiles las RaidMaster.db.data.firstKills, ohne zu prüfen, ob RaidMasters Testroutine
+lief. Die Test-Erstkills wurden als Meilensteine gespeichert, per MILES an die Gilde verteilt und im Wochenrückblick angesagt.
+1. Nie Daten eines anderen Addons während dessen Test lesen. Neu: Links K:ForeignTest(addon) = wahr, wenn <Addon>API.TestRunning()
+   wahr ist ODER einen Fehler wirft, oder <Addon>.TestRoutine.running, oder <Addon>.Test.active == true (API-Namen: RaidMaster ->
+   RaidMasterAPI, AHAnalyzerPro -> AHSentinelAPI, ThreatSentinel, BuffSentinel, LevelPilot). Nachtrag 07:05 (RaidMaster 3.0.34
+   liefert RaidMasterAPI.TestRunning()): wird als Erstes gefragt; auch vor jedem FUNKTIONS-Aufruf (RaidMaster.DKP.MainOf usw.).
+   ALLE Lesestellen fremder Daten (vollständig, per grep über alle Dateien ausser TestRoutine und gemeinsamen Dateien):
+   - Links.lua K:MarketValue (AHSentinel), K:ThreatRole (ThreatSentinelDB), K:KnowsSpell (BuffSentinel), K:EliteQuests und
+     K:EliteMatches (LevelPilot), K:NextRaid (RaidMaster), K:FirstKills (RaidMaster) – je mit ForeignTest davor.
+   - RaidMaster.lua RM() -> nil während RaidMasters Test; deckt X:Active, Version, Profs, MainOf, CanEdit, SetMain, Role ab
+     (jeder dieser Wege geht nur über RM()).
+   - Goals.lua Go:FixKillMiles (einmalige Bereinigung, Punkt 2) nur ohne fremden Test.
+   - Gemeinsame Marktdatei: GM.DiagLines liest den gemeinsamen Speicher (im Spiel der von AHSentinel/BuffSentinel) – wird in der
+     Testroutine nicht mehr aufgerufen (siehe B).
+   Dazu während der EIGENEN Routine bzw. im Testmodus: K:FirstKills liefert {}. Neu für andere: GuildSentinelAPI.TestRunning().
+2. Einmalige Bereinigung mit Merker, mit Datum protokolliert, auf beiden Rechnern: Go:FixKillMiles (einmal, Merker g.killFix; nur mit
+   geladenem RaidMaster, nicht während dessen Test, nicht im eigenen Test) entfernt kill:-Meilensteine, die das Raid-Protokoll nicht
+   belegt; Diag-Zeile "MEILENSTEIN entfernt <Schlüssel> (<Grund>), war <Datum>" und "Erstkill-Prüfung einmalig: n entfernt".
+   Entfernte Schlüssel stehen als Grabstein in g.milesBad (Zeit des Entfernens) und gehen mit MILES (Feld x) an die anderen Rechner:
+   dort wird derselbe Meilenstein entfernt (nur kill:-Schlüssel, nur wenn der eigene nicht neuer ist als der Grabstein) und nie
+   wieder übernommen. Ein echter späterer Kill (Protokollzeit nach dem Grabstein) wird wieder eingetragen. Aufruf 20 s nach Login.
+3. Plausibilität vor jeder Ansage: ein Erstkill zählt nur, wenn er in firstKills steht UND im Raid-Protokoll ein Eintrag k="boss",
+   b=<Boss>, Zahl t>0, t <= jetzt+300, nicht u (Test) existiert; als Datum gilt die Protokollzeit. Der Wochenrückblick (Chronicle
+   WeekStats) zählt nur so belegte Kills. ns.Announce hält jede Ansage zurück (Diag "ANSAGE zurückgehalten (Testroutine von X)"),
+   solange ein anderes GoldSentinel-Addon testet.
+4. Einzahl/Mehrzahl in allen 10 Sprachen: neue Hilfe ns.CountForm(n, eins, viele, wenige) – Russisch drei Formen (1/21: eins;
+   2–4/22–24: wenige; sonst viele, 11–14 viele), Französisch 0 und 1 Einzahl, sonst n==1. Betroffen: "%d Stufe(n)",
+   "%d neuer/neue %der (%s)", "%d neues Mitglied/neue Mitglieder". 6 neue Texte, alle Sprachen fehlend 0, Fehler 0.
+5. Test, der genau den Fall nachstellt: test/run_kills.lua (RaidMaster-Attrappe mit laufender Testroutine, Test-Erstkill in
+   firstKills, GuildSentinel-Meilensteine laufen -> nichts gespeichert; API- und Merker-Variante; Beleg-Regeln; Bereinigung;
+   Grabsteine im Abgleich; echter späterer Kill; Wochenrückblick nur belegte Kills, nichts während eines Tests; Einzahl/Mehrzahl je
+   Sprache; Ansage gesperrt; jede Lesestelle einzeln; GuildSentinelAPI). deDE/enUS 47, ruRU/frFR 46 Prüfungen, alle grün.
+   GEGENPROBE auf Code 0.9.55: der Vorfall wird nachgestellt ("während RaidMasters Test nichts gespeichert" FAIL).
+   Im Spiel: neue Prüfungen T305a (Test eines anderen Addons erkannt: API, API-Fehler, Merker; ohne Test nicht), T305b (während
+   RaidMaster testet: 0 Erstkills, keine Ansage), T305c (GuildSentinelAPI.TestRunning() während der Routine wahr) – mit Attrappen
+   über K.ext, nie mit den echten Addons.
+
+B) HOCH 1 – BILDER ÜBER 40 MS: T146–T188 45,3 ms, T197–T198 39,9 ms
+Ursache BELEGT (Nachbau mit den echten Daten aus goldsentinel-daten, nur lokal gelesen, nichts davon im öffentlichen Repo):
+- Teilzeiten von T188 aus dem Spiel liegen noch nicht vor (der hochgeladene Bericht ist 0.9.53; der 0.9.55-Bericht mit Teilzeiten
+  ist noch nicht in testberichte/). Deshalb im Nachbau gesucht: ns.DiagText ruft GoldSentinelMarkt.DiagLines; das geht über ALLE
+  Items des gemeinsamen Marktspeichers und entpackt jedes (Muster mit 8 Teilen + neue Tabelle je Item). Der gemeinsame Speicher
+  ist im Spiel der von AHSentinel/BuffSentinel (Forever-Daten DESKTOP: 6816 Items; GuildSentinels eigener gsMarkt ist leer).
+- Messung mit diesen 6816 echten Einträgen (Lua 5.1): 11,4 ms und 2710 KB angelegt je DiagLines-Aufruf.
+- T188 und T198 rufen DiagText je ZWEIMAL (DiagText + DiagExport, das DiagText erneut ruft) -> im Nachbau mit gleich grossem
+  Speicher T188 25,1 ms, T198 23,0 ms, T224 19,3 ms, T291 15,2 ms (Code 0.9.55). Im Spiel 44,8/45,3 bzw. 43,0/39,9 ms = Faktor ~1,8,
+  passt zu den bisherigen Faktoren Spiel/Nachbau (1,9–8). T146–T174 je 0,0–0,1 ms (Spielbericht 0.9.53) -> das Bild ist T188.
+Behebung:
+- Diag.lua: Markt-Zeilen (DiagLines + Speichergrösse) höchstens einmal je 60 s rechnen (Text und Export im selben Augenblick teilen
+  sie); während der Testroutine und im Testmodus gar nicht – dann ein schon vorhandener Stand oder die Zeile
+  "MARKT-NETZ: in der Testroutine nicht gezählt (spart Rechenzeit)" (10 Sprachen). /gs protokoll und der Export beim Ausloggen
+  rechnen wie bisher (ein Aufruf, 11 ms, nur beim Öffnen bzw. Ausloggen).
+- T291 prüft GM.DiagLines mit leerem Ersatz-Speicher (es prüft nur, dass die Zeilen kommen).
+- Neuer Test test/run_diagzeit.lua (künstlicher Speicher, 6816 Einträge im selben Format, Item-IDs ab 900001, keine echten
+  Daten): ein Aufruf für Text+Export, nach 30 s derselbe Stand, nach 61 s neu, in Routine und Testmodus 0 Aufrufe, ganze Routine
+  ruft DiagLines nie auf dem grossen Speicher auf, T188/T198/T224/T291 OK und je < 5 ms. 23 Prüfungen × 3 Spielversionen grün.
+  GEGENPROBE auf 0.9.55: 14 von 23 rot (u. a. T188 25,1 / T198 23,0 / T224 19,3 / T291 15,2 ms; 6 DiagLines-Aufrufe in der Routine).
+- Ganze Routine im Nachbau mit den echten GuildSentinel-Daten + echtem Marktspeicher: längste Portion vorher 24,7 ms (bis T198),
+  jetzt 12,0 ms (bis T22, Unterbefehle öffnen Seiten – unter 40 ms, im Spiel bisher nicht auffällig; beobachten).
+- Hinweis an die Prüf-Sitzung (gemeinsame Datei, nicht von mir zu ändern): GoldSentinelMarkt.DiagLines kostet bei 6816 Items 11 ms
+  und 2,7 MB je Aufruf in JEDEM Addon, das es aufruft; zählen ginge ohne Unpack (nur Felder o und h lesen).
+
+C) HOCH 2 – UpdateAddOnMemoryUsage 51,5 ms
+UpdateAddOnMemoryUsage wird in der Routine nicht mehr aufgerufen (vorher zweimal: Anfang und Ende; R.OwnMem liefert jetzt nil).
+Gemessen wird nur mit collectgarbage("count"). run_diagzeit prüft: Aufrufe von UpdateAddOnMemoryUsage während "/gs testroutine
+alles" = 0 (Gegenprobe 0.9.55: 2).
+
+D) MITTEL 3 – "+122139 KB GuildSentinel vs. alle Addons +83 MB"
+- Messarten: "GuildSentinel" war GetAddOnMemoryUsage (Speicher, der GuildSentinel zugerechnet wird, Ende minus Anfang); "alle Addons"
+  war collectgarbage("count") (ganzer Lua-Speicher, ebenfalls Ende minus Anfang, zu leicht anderen Zeitpunkten). Ohne Bereinigung
+  enthalten beide Abfall. Kein logischer Widerspruch: alle = GuildSentinel + andere, also andere -39 MB – möglich, wenn die laufende
+  Bereinigung in den 13,7 s Abfall ANDERER Addons freigab. Welche Werte im Spiel wirklich dahinterstehen: VERDACHT, ZU MESSEN.
+  Ebenfalls Verdacht, zu messen: was die Dateien gemeinsamer Bausteine (GoldSentinel*.lua) anlegen, wird dem Ordner zugerechnet,
+  aus dem die aktive Kopie stammt.
+- Neu: Profil je Prüfung. Jede Prüfung läuft am Stück (kein anderes Addon dazwischen) – der Zuwachs von collectgarbage("count")
+  ist ihr eigener, abzüglich dessen, was die Bereinigung in der Zeit freigibt (Untergrenze). Die Zeile "Speicher:" im Bericht nennt
+  jetzt: angelegt mindestens X KB, je Bereich (die 5 grössten), die 5 grössten Prüfungen, dazu den ganzen Lua-Speicher von Anfang bis
+  Ende. Damit zeigt der nächste Ingametest, wer den Abfall anlegt.
+- Nachbau mit echten Daten (Forever DESKTOP, GuildSentinel + Marktspeicher 6816): von den Prüfungen angelegt mindestens 9,3 MB;
+  je Bereich B 6,8 MB, H 1,3 MB, F 0,4 MB, E 0,25 MB, K 0,14 MB; grösste T138 1254 KB, T22 841 KB, T12 584 KB, T295b 571 KB, T124 436 KB.
+  Vorher kamen die 6 DiagLines-Aufrufe dazu (6 × 2,7 MB = ~16 MB, belegt). Ziel < 20 MB: im Nachbau erreicht; im Spiel offen bis
+  zum nächsten Ingametest mit der neuen Zeile (die 122 MB sind mit dem Nachbau nicht erklärt).
+
+TESTS (eigene Tests, Hinweise, keine Freigabe)
+- run_alle.sh: 185 Läufe, 0 rot, 14681 Einzelprüfungen. Abgleich mit 0.9.55 (178 Läufe, 14322, auf dem alten Code neu laufen
+  lassen und Lauf für Lauf verglichen): +7 Läufe (run_kills 4 Sprachen, run_diagzeit 3 Spielversionen); +359 Prüfungen =
+  run_v6 +2 (112 -> 114, Erstkill braucht Protokoll) + run_kills 186 (47+47+46+46) + run_diagzeit 69 (3 × 23) + T305a–c 3 × 34
+  Routine-Läufe = 102. Alle anderen Läufe mit gleicher Zahl.
+- Testroutine: Forever 306, Era 311, TBC 311 OK, je 0 FEHLER (0.9.55: 303/308/308; +3 = T305a–c).
+- Gemeinsame Dateien unverändert aus shared/ (cmp: GoldSentinelGame, Test, Sync, Dev, Markt, Pruefliste, Takt).
+- addon_check: siehe ADDON_CHECK am Ende.
+
+ADDON_CHECK (addon-check/addon_check.py, Ausgabe unverändert):
+  Vorlage shared/GoldSentinelGame.lua: Version 3
+  Vorlage shared/GoldSentinelTest.lua: Version 2
+  Tests der gemeinsamen Datei: nicht ausgeführt – lupa fehlt (pip install lupa); im GitHub-Lauf werden sie ausgeführt
+  Lua-Syntaxprüfung mit: luac5.1 (Lua 5.1)
+  ## GuildSentinel-0.9.56.zip: OK
