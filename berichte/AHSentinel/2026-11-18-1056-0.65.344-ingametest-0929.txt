@@ -1,0 +1,102 @@
+AHSentinel 0.65.344 – INGAMETEST 18.11.2026 09:29 (0.65.343) – HOCH 1–3, MITTEL 4–7, Einzelbefunde Teil 1/2 – umgesetzt, zur Prüfung
+
+Daten: Upload goldsentinel-daten 18.11. 09:33 (AHSentinel.lua, nur lokal ausgewertet). Je Punkt "Ursache belegt" oder "Verdacht, zu messen".
+
+==== HOCH 1 – Vollscan 722 ms / 285 MB ====
+(a) Das 722-ms-Bild (Protokoll vollständig, db.fullScan.vm): "Einlesen: Speicherbereinigung nein · Ereignis keins · Bild: eigene Arbeit
+    4 ms (Lesen beim Server 3,2) · Rest 718 ms (Spiel/andere Addons) · Speicher 639810 -> 733608 KB (+93798) · danach bereinigt 0 KB".
+    Belegt: in diesem EINEN Bild legte jemand 94 MB Lua-Speicher an, AHSentinel arbeitete darin 4 ms. Wer genau: Verdacht, zu messen
+    (anderes Addon / Spiel). "Abgabe nicht möglich" vollständig: 0 (TestRoutine.lua:10269), gescheitert 0.
+(b) Kein Rückschritt seit 0.65.328 – belegt aus den gespeicherten Messungen: 17.11. 12:41 Einlesen 840 ms, 12:56 819 ms (beide mit
+    ~170 MB neu im Einlesen), 17.11. 19:10 22 ms (50 MB), 18.11. 09:30 722 ms. Das 22-ms-Ergebnis war der Ausreisser, nicht die Regel.
+(c) "verfünffacht" ist ein Wechsel der Messgrösse, kein Code: 17.11. (0.65.328) zählte T459 den AHSentinel-Speicher (+48 850 KB),
+    seit 0.65.338 (Entscheid 00:10) zählte meine Umsetzung den GANZEN Lua-Speicher aller Addons und des Spiels (301 MB, darin die
+    94 MB aus (a) und 20 MB während "Warten auf Server"). Das war falsch umgesetzt: T459 zählt ab 0.65.344 den EIGENEN neuen Speicher
+    (Aufgaben + eigene Ereignisse/Skripte/Zeitgeber, je Bild/Aufruf gemessen, Bilder mit Bereinigung nicht zählbar); der ganze
+    Lua-Speicher steht weiter als Auskunft dabei. Neu: im Testlauf Speicher JE ADDON vor dem Scan und direkt nach einer Lücke ≥ 250 ms
+    (UpdateAddOnMemoryUsage, einmal, Zeit ausgewiesen und nicht gezählt) -> nennt, wer die 94 MB anlegt.
+(d) Gegenprobe mit denselben Daten (echte Daten 09:33, 224 843 Auktionen, Nachbau 3. Scan der Sitzung wie im Spiel, GC aus):
+    angelegt gesamt 0.65.343 85 052 KB, 0.65.328 (2. Scan) 68 317 KB, 0.65.344 41 190 KB. Grösster Posten 0.65.343: "Verfolgung V4"
+    A:DayStart 43 120 KB bei 63 772 Aufrufen (date("*t") legt je Aufruf eine Tabelle an). Behoben: Tagesbeginn je Viertelstunde
+    zwischengespeichert (Zeitzonen/Sommerzeit liegen auf 15-Min.-Grenzen -> exakt; geprüft 150 172 Zeitpunkte in 5 Zeitzonen inkl.
+    Kathmandu und Lord Howe, 0 Abweichungen).
+    Eigener neuer Speicher 3. Scan (0.65.344, Nachbau): 12 961 KB (Preisverlauf+Neuaufbau 5 057 · Verdichtung 3 452 · Nachlauf 2 752 ·
+    V4 2 115). Grenze 10 MB noch ÜBERSCHRITTEN – offen, nächster Stand (RecordPrice-Wachstum der Verlaufslisten 4,5 MB, Finish 2,6 MB).
+    Hinweis Nachbau: real_vs_alloc setzte die Uhr bisher nicht auf REAL_NOW -> jeder Preis wurde VOR den Verlauf eingefügt (9,8 MB
+    Verschieben, im Spiel nicht vorhanden) – korrigiert, Zahlen oben mit richtiger Uhr.
+    Szenario s313: fremdes Addon legt im Scan in EINEM Bild 63 MB an -> ganzer Speicher 71 MB, eigener 7,3 MB, Bild nennt "davon
+    eigener"; Gegenprobe 0.65.343 rot (kein eigener Wert).
+Kosten der Messung je Addon: UpdateAddOnMemoryUsage kann im Spiel lang sein (TB168-1: bis 829 ms) – nur beim echten Scan der
+Testroutine, höchstens zweimal, Zeit ausgewiesen und aus der Lücken-Messung herausgenommen (nie im normalen Spiel, nie in T721).
+T458 bewertet weiter jeden Schritt mit dem längsten Bild (auch fremde Zeit); Ergebnis nennt jetzt vorne "Lücke: eigene Arbeit x ms,
+Rest y ms · Speicher +z KB, davon eigener w KB" und die Takt-Zeile (vor der Kürzung auf 300 Zeichen).
+FRAGE: Soll T458 ein Bild, in dem AHSentinel nachweislich ≤ 5 ms arbeitete und ein anderer 718 ms, als FEHLER von AHSentinel zählen?
+
+==== HOCH 2 – T72 Silberrute (4s 88c, günstigstes Angebot 16c) – Ursache belegt ====
+Verlauf 6338: 09:11:58 16c (Menge 212) aus einer Suche während Teil auto (VerifyPrice), 09:30:07 4s 88c aus dem Markt-Scan T20 (Teil
+server), Vollscan 09:30:57 bestätigt 4s 88c (235 Auktionen). T72 lief nach T20: der Vorschlag 4s 88c = aktueller Preis (richtig);
+RefLowest -> A:OfferLadder nahm die 18 Min. alte SUCHE (gilt bis 1 Std.) statt des Scans von eben -> 16c. Der Vorschlag war richtig,
+die Vergleichszahl veraltet – das gilt auch im Spiel (Warteschlange/Wiederverkauf aus OfferLadder). Behebung: eine Suche gilt nur,
+wenn es keinen neueren Preis gibt (60 s Rand für den eigenen Eintrag der Suche). Szenario s312 genau mit diesen Zahlen: 0.65.344
+RefLowest 4s 88c; Gegenprobe 0.65.343 16c. (Die niedrigen Silberruten-Preise 3c/8c/16c/20c im Verlauf stammen alle aus Suchen,
+keiner aus einem Vollscan – ob echte Angebote: Verdacht, zu messen; Schutz davor ist jetzt die Regel oben.)
+
+==== HOCH 3 – Wächter 54 ms ====
+Protokoll: "Empfänger Watcher.lua:856 von BROWSE_RESULTS · 22 ms / 19 ms". Belegt (Code): das Ende einer Runde bewertete alle Angebote
+(277; je Marktwert, Belastbarkeit, Flip-Grenze) am Stück im Bild des Rundenendes (Tick oder BROWSE_RESULTS). Welche der Runden die 54 ms
+hatte (mit Bereinigung?): Verdacht, zu messen. Behebung: Bewertung als Aufgabe "watcher:round" mit Zeitbudget je Bild; AH inzwischen zu
+-> keine Kandidaten. s311 (400 Angebote): Aufruf 0,0 ms, längstes Bild der Aufgabe 5,0 ms, Ergebnis gleich; Gegenprobe 0.65.343:
+11,5 ms im Aufruf, keine Aufgabe. Bestehende Wächter-Szenarien (s9 ×3, s11 ×2, s53, s261, s267) bestanden.
+
+==== MITTEL ====
+4. T49 "falscher Preis: 400" – Ursache belegt: Se:Post rundet Einzelstücke auf ganze Silber (F2, RoundPrice); T49 verglich mit dem
+   ungerundeten Preis (Preis 400–499c -> eingestellt 400). Kein Preisschutz-Fall mehr. Behebung (Test): Kandidaten vorher gleich runden,
+   Vergleich mit dem wirklich eingestellten Preis. s314 (Einzelstück, Angebote ab 3s 96c): bestanden; Gegenprobe 0.65.343 FEHLER.
+5. T126 21,4/22,4 ms – Nachbau mit echten Daten (Seiten-Scan, 7253 Items): Mitte 6,4 ms, längstes 6,5 ms, über 8 ms 0. Abstand zum
+   Spiel: Verdacht, zu messen. T126 nennt jetzt vorne die Aufgaben über der Grenze mit längstem Schritt (Datei:Zeile).
+6. T21 716 ms – Ursache belegt: keine Server-Abfrage, eigene Rechenzeit (Marktwert + aktueller Preis aller 7252 Items in EINEM Schritt).
+   Jetzt Aufgabe "selftest:t21" mit Zeitbudget je Bild, der Schritt wartet.
+7. SK1-m 836/3909 "(?)": Name war "?", weil GetSpellInfo im modernen Client fehlt -> jetzt C_Spell.GetSpellName. Herstellen zählt nur bei
+   offenem Berufsfenster (bzw. bis 30 s danach, laufende Serie); während ProfessionSentinelAPI.TestRunning() wird nichts gebucht
+   (Testdaten-Regel). Damit fallen 836 (Einloggen/Neuladen, Fenster zu) und Buchungen während des PS-Tests weg – ob 836 = LOGINEFFECT:
+   Verdacht, Name steht ab jetzt in SK1-m. s315 (schlimmster Fall: Client liefert für 836 recipeID 836): bestanden; Gegenprobe 0.65.343
+   Meldung beim Einloggen.
+8. SK1-e/SK1-f: unverändert im Masterplan.
+
+==== Einzelbefunde Teil 1 (auto, 5 FEHLER) und Teil 2 (ui, 1 FEHLER) ====
+- T277 (Netz "0/false"): im Spiel entstand keine Netz-Nachricht, im Nachbau schon. Ursache: Verdacht, zu messen (gleiche
+  GoldSentinelSync-Datei in allen Addons, Netz an, 6 Mitspieler mit Sync 2). T277 nennt bei 0 Nachrichten jetzt Netz an/aus, Zahl der
+  Ziele, Name (v/src/Pause), Sync-2-Einträge und ob _G.GoldSentinelSync dieselbe Tabelle ist.
+- T292 ("Leinenstoff 349 -> 1 je Auktion (default)") und T294 (keine Zeile) – Ursache belegt: Teil auto startete 09:11:38 direkt nach
+  dem Einloggen; der Client kannte Leinenstoff noch nicht (GetItemInfo nil) -> Stapel 1 -> wie Einzelstück. Gilt auch im Spiel
+  (Einzahlung/Auktionsgrösse). Behebung: Stapelgrössen > 1 gemerkt (db.stackMem, nur Zahlen, in der Testroutine nie geschrieben), gelten
+  bis der Client das Item kennt; in der Testroutine vorher Item-Daten anfordern und ≤ 5 s warten. s316: nicht geladen -> Stapel 20,
+  "349 (whole)"; Gegenprobe 0.65.343 genau "1 (default)".
+- T400 ("Max 10s: nil · Max 15s: nil") – Ursache belegt: letzter Vollscan 14 Std. alt, Hauptmaterial 10940 "alt" (Protokoll PREIS-ALT
+  14,0 Std.) -> Entzauber-Weg veraltet -> BestWay nil. Test hing vom Alter der echten Preise ab; StaleMain für das Test-Item jetzt fest.
+  s316 belegt den Mechanismus (nach 15 Std.: StaleMain true, BestWay nil).
+- T750 (66 bzw. 65 Befunde) – Abstand Spiel/Nachbau geklärt: db.uiFindingsLast kam diesmal mit (68 Zeilen). Ursache: echte lange
+  Namen und Texte, die der Nachbau nicht hat ("Handwerksverfügung: Verschnörkelte Mithrilschulterstücke" 316 px in 234 px usw.):
+  abgeschnittene Item-Namen (Übersicht, Sniper-Ziele, Verkaufen-Taschen, Preisverlauf-Liste), Markt-Texte (Zutaten je Herstellung,
+  ProfessionSentinel-Hinweis 768 px, Lücken, Überfüllt, Detail-Zeilen), Buchhaltung Entzaubern Zahlenspalte, Einkauf: Knöpfe X/Favoriten
+  überlagern "403 Einträge", Wächter "lernt noch" als Platzhalter erkannt. Behebung im nächsten Stand (0.65.345) mit diesen Texten im
+  Nachbau.
+
+==== Befund "absichtlicher Testfehler öffnet das Fehlerfenster" (alle Addons) ====
+AHSentinel geprüft: der einzige absichtliche ungefangene Fehler (T131) läuft seit T131-1 über einen eigenen vorgeschalteten Handler, der
+nur "AHS-Test T131" zählt und NICHT weitergibt (alter Handler danach sicher zurück); ohne setzbaren Handler wird der Fehler gar nicht
+ausgelöst (übersprungen). Alle anderen Testfehler laufen in pcall. Kein Fehlerfenster – keine Änderung nötig.
+
+==== HINWEIS 10:30 – Nachbau wie Forever ====
+(1) Eigener Code nach nackten Aufrufen alter Globalen durchsucht (GetItemInfo, GetItemInfoInstant, GetItemCount, GetSpellInfo,
+    UnitBuff/Debuff/Aura, GetContainer*, GetAddOn*, PickupContainerItem …, alle Dateien ausser den gemeinsamen):
+    - Ketten.lua: GetItemInfo (Z. 179 Name, Z. 214 Händlerpreis) und GetItemCount nackt -> im Forever-Client kein Name/Händlerpreis 0.
+      Jetzt Weiche wie in den übrigen Dateien (GetItemInfo or C_Item.GetItemInfo, GetItemCount or C_Item.GetItemCount).
+    - TestRoutine T127 Speicher: GetAddOnMemoryUsage nackt -> im Forever-Client immer 0 KB; jetzt C_AddOns-Weiche.
+    - Activity SK1-m: GetSpellInfo -> zusätzlich C_Spell.GetSpellName (s. Punkt 7).
+    - Alle übrigen Stellen (Characters, Disenchant, Extras, LegacyAH, T02/T03, T-Stellen mit eigener Tabelle) prüfen zuerst C_Container/
+      C_AddOns/C_Item bzw. stehen nur im alten AH-Zweig – belegt je Stelle, keine Änderung.
+(2) Nachbildung ohne Funktionen, die Forever nicht hat: nächster Stand (Forever-Lauf in tests/wowsim mit genau der Forever-API; dafür
+    lese ich die Liste der Forever-Funktionen aus dem Client-Diagnosebericht bzw. frage sie im Bericht an, falls sie fehlt).
+
+Tests: Gesamtlauf 390 bestanden, 0 fehlgeschlagen (neu s311–s316, je mit Gegenprobe 0.65.343) · addon_check OK (Release-Zip und Discord-Zip).
