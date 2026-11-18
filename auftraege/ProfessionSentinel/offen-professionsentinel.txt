@@ -553,3 +553,9 @@ Reihenfolge: nach den laufenden HOCH-Punkten, vor MITTEL.
 - Frage Prüfliste: MINIMAP geht in OPT auf – EINVERSTANDEN (Winkel speichern prüft T185 offline).
 - HOCH 1 Nachtrag (T67/T134 pcall -> TaktPCall) – angenommen; Rest T134/T210/T243 als Verdacht im nächsten Ingametest.
 - Beim Nutzer installiert (Laptop, diff 0).
+
+==== PRÜFUNG Supervisor 18.11.2026 11:45 – 0.9.71 (Auflage AD.Update, Ursache +67 MB) ====
+- addon_check OK, download = announce byte-gleich, md5 33ebf007…. Ursache der +67 MB belegt: jeder Stub der Testroutine rief AD.Invalidate ->
+  jeder Refresh rechnete die Rangliste neu (Test mass sich selbst). Stub(…, quiet) + Gegenprobe 20× AD.Update -> 0× – angenommen.
+  AD.stats mit collectgarbage("count") (nur zählen, keine Bereinigung – Bau-Regel 2 eingehalten) – angenommen.
+- Beim Nutzer installiert (Laptop, diff 0).

@@ -518,3 +518,9 @@ auftraege/hinweis-nachbau-wie-forever-2026-11-18.txt umsetzen (nackte globale Sp
 ==== AUFTRAG 18.11.2026 10:35 – OPT-ALLE: Optionen nach Vorbild AHSentinel (Entscheid des Nutzers 10:27) ====
 auftraege/anweisung-optionen-nach-ahs-2026-11-18.txt umsetzen: Schritt 1 Bestandsaufnahme im nächsten Bericht, dann Umbau (a)–(i).
 Reihenfolge: nach den laufenden HOCH-Punkten, vor MITTEL.
+
+==== PRÜFUNG Supervisor 18.11.2026 11:45 – 3.0.38/3.0.39 (OPT-ALLE) ====
+- addon_check OK (3.0.39), md5 1da3e4bd…. n alt 61 = n neu 61, 10 Bereiche, Rechte je Option wie vorher (UI.AccessOK) mit bewusster Ausnahme
+  "Decay jeden Mittwoch" nur Offiziere (vorher sichtbar, aber nicht schaltbar) – angenommen. 3.0.39: Texte ≤ 28 Zeichen in allen 10 Sprachen
+  (vorher 24 zu lang), Standard nur eigener Bereich, Suche im Schlüssel – mit Gegenproben angenommen.
+- Beim Nutzer installiert (Laptop, diff 0). Abnahme am Bild: Prüfliste OPT.

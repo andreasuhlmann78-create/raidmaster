@@ -4847,3 +4847,20 @@ Hinweis: SK1-h zeigt für 16.11. 19:37 "+121 584 KB nach dem Scan" – passt zu 
 
 ==== HINWEIS 18.11.2026 10:30 – NACHBAU WIE FOREVER ====
 auftraege/hinweis-nachbau-wie-forever-2026-11-18.txt umsetzen (nackte globale Spiel-Funktionen suchen; Nachbildung ohne Funktionen, die Forever nicht hat).
+
+==== PRÜFUNG Supervisor 18.11.2026 11:45 – 0.65.344 (Ingametest 09:29 umgesetzt) ====
+- addon_check OK (Discord-Zip), md5 af676094…. Bericht geprüft:
+  HOCH 1: (a) 722-ms-Bild mit eigener Arbeit 4 ms und +94 MB in EINEM Bild belegt; (b) kein Rückschritt (17.11. 12:41/12:56 schon 840/819 ms)
+  belegt; (c) Messgrösse falsch umgesetzt (ganzer Lua-Speicher statt eigener) – ehrlich gemeldet, korrigiert; (d) A:DayStart (date("*t")
+  je Aufruf, 43 MB) gefunden, Viertelstunden-Cache mit 150 172 Zeitpunkten/5 Zeitzonen geprüft – angenommen. Eigener Speicher 3. Scan
+  12,96 MB > 10 MB – bleibt offen (richtig so gemeldet).
+  HOCH 2 (Silberrute: veraltete Suche statt neuerem Scan, s312 mit Gegenprobe), HOCH 3 (Wächter-Rundenende als Aufgabe, s311) – angenommen.
+  MITTEL 4 (T49 Rundung), 6 (T21 als Aufgabe), 7 (SK1-m: C_Spell.GetSpellName, nur bei offenem Berufsfenster, PS-TestRunning) – angenommen.
+  T292/T294/T400 Ursachen belegt – angenommen. T750 -> 0.65.345. Hinweis 10:30 (1) umgesetzt (Ketten.lua, T127) – gut.
+- ANTWORT auf die FRAGE zu T458: Nein – ein Bild, in dem AHSentinel nachweislich ≤ 5 ms eigene Arbeit hatte, ist KEIN FEHLER von AHSentinel.
+  Bedingungen: (1) T458 bewertet die EIGENE Arbeit je Bild gegen 16/40 ms (FEHLER bei Überschreitung); (2) fremde Zeit steht als HINWEIS mit
+  Täter (Speicher je Addon vor/nach der Lücke); (3) Ist der Täter ein GoldSentinel-Addon oder eine gemeinsame Datei (z. B. GoldSentinelMarkt,
+  die jeden Vollscan mitliest!), ist es ein Befund für DIESES Projekt bzw. die Prüf-Sitzung – AHSentinel nennt ihn im Bericht. (4) Liegen die
+  94 MB in keinem Addon (Spiel selbst, ReplicateItems): Hinweis "Spiel", kein Fehler. Verdacht, zu messen: GoldSentinelMarkt beim Mitlesen –
+  die Prüf-Sitzung prüft das selbst, sobald die Zahl je Addon da ist.
+- Beim Nutzer installiert (Laptop, diff 0). CurseForge unverändert nach Plan (18:00 nur, was dafür vorgesehen ist).
