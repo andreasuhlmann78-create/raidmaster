@@ -9,7 +9,7 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 - **WARNUNG** Version 0.65.265 in download/ wartet auf CurseForge 18:00 – Discord hat schon 0.65.341 (gewollt, Entscheid 15.11. 13:16)
 - **WARNUNG** AHSentinel/GoldSentinelMarkt.lua: veraltete offizielle Fassung (Version 7) – auf shared/GoldSentinelMarkt.lua Version 10 aktualisieren
 
-## BuffSentinel-0.9.53.zip: OK
+## BuffSentinel-0.9.54.zip: OK
 
 ## GuildSentinel-0.9.39.zip: OK (3 Warnungen)
 - **WARNUNG** Version 0.9.39 in download/ wartet auf CurseForge 18:00 – Discord hat schon 0.9.55 (gewollt, Entscheid 15.11. 13:16)
@@ -18,9 +18,9 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## ProfessionSentinel-0.9.67.zip: OK
 
-## RaidMaster-3.0.33.zip: OK
+## RaidMaster-3.0.34.zip: OK
 
-## ThreatSentinel-2.5.19.zip: OK
+## ThreatSentinel-2.5.20.zip: OK
 
 ## ahsentinel__ahsentinel-0.65.341.AHSentinel.zip: OK
 
