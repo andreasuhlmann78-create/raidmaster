@@ -1,152 +1,176 @@
 {
-  "geprueft": "2026-11-18T03:45:40Z",
-  "commit": "e8f900e",
-  "ok": false,
+  "geprueft": "2026-11-18T06:36:31Z",
+  "commit": "03a48cf",
+  "ok": true,
   "fehler": null,
   "hinweis": "Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 45 Minuten.",
   "ankuendigungen": [
     {
-      "datei": "announce/ahsentinel__ahsentinel-0.65.341.md",
+      "datei": "announce/ahsentinel__ahsentinel-0.65.342.md",
       "kanal": "ahsentinel",
-      "seit_push_min": 35,
-      "abdeckung": 1.0,
-      "status": "ok"
+      "seit_push_min": 7,
+      "abdeckung": 0.2,
+      "status": "wartet",
+      "fehlende_zeilen": [
+        "📦 **AHSentinel 0.65.342** – WICHTIG: Ladefehler behoben ⚠️",
+        "• **Bitte sofort aktualisieren:** Seit 0.65.335 lud AHSentinel im Spiel nicht vollständig (Lua-Fehler „AHAnalyzerPro.lua:161 … concatenate local 'line'“). Behob",
+        "• **Kauf-Statistik:** ältere Käufe zählen wieder mit (Trefferquote fürs Kauf-Budget).",
+        "• **Sitzungsprotokoll:** Klasse wird wieder richtig eingetragen."
+      ],
+      "status_eigentlich": "veraltet"
     },
     {
       "datei": "announce/ahsentinel__ahsentinel-0-vorstellung-1.8.md",
       "kanal": "ahsentinel",
-      "seit_push_min": 12879,
+      "seit_push_min": 13049,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/ahsentinel__ahsentinel-hilfe-1.0.md",
       "kanal": "ahsentinel",
-      "seit_push_min": 20076,
+      "seit_push_min": 20247,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/barrow-taktik__uebersicht-1.1.md",
       "kanal": "barrow-taktik",
-      "seit_push_min": 20906,
+      "seit_push_min": 21077,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
-      "datei": "announce/buffsentinel__buffsentinel-0.9.53.md",
+      "datei": "announce/buffsentinel__buffsentinel-0.9.54.md",
       "kanal": "buffsentinel",
-      "seit_push_min": 471,
+      "seit_push_min": 39,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
-      "datei": "announce/guildsentinel__guildsentinel-0.9.55.md",
+      "datei": "announce/guildsentinel__guildsentinel-0.9.56.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 437,
-      "abdeckung": 1.0,
-      "status": "ok"
+      "seit_push_min": 24,
+      "abdeckung": 0.143,
+      "status": "wartet",
+      "fehlende_zeilen": [
+        "📦 **GuildSentinel 0.9.56** – Wochenrückblick nur mit echten Erstkills",
+        "• Fehlerbehebung: Der Wochenrückblick im Gildenchat meldete Erstkills, die es nie gab (Testdaten von RaidMaster). GuildSentinel liest jetzt keine Daten anderer ",
+        "• Falsche Erstkill-Meilensteine werden beim nächsten Einloggen einmalig entfernt (auch auf den anderen Rechnern der Gilde).",
+        "• Gildenchat-Ansagen warten, solange ein anderes GoldSentinel-Addon testet.",
+        "• „1 neues Mitglied“ statt „1 neue Mitglieder“ – Einzahl/Mehrzahl in allen Sprachen."
+      ],
+      "status_eigentlich": "veraltet"
     },
     {
       "datei": "announce/hyjal-taktik__uebersicht-1.1.md",
       "kanal": "hyjal-taktik",
-      "seit_push_min": 20906,
+      "seit_push_min": 21077,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
-      "datei": "announce/levelpilot__levelpilot-3.12.91.md",
+      "datei": "announce/levelpilot__levelpilot-3.12.92.md",
       "kanal": "levelpilot",
-      "seit_push_min": 468,
+      "seit_push_min": 33,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
-      "datei": "announce/levelpilot__levelpilot-uebersicht-3.12.91.md",
+      "datei": "announce/levelpilot__levelpilot-uebersicht-3.12.92.md",
       "kanal": "levelpilot",
-      "seit_push_min": 468,
+      "seit_push_min": 33,
       "abdeckung": 0.952,
-      "status": "veraltet",
+      "status": "wartet",
       "fehlende_zeilen": [
         "• Möglichst lange in einer Zone: erst weiter, wenn dort fast nichts mehr zu tun ist, keine weiten Reisen für eine einzelne Quest, Abgaben werden gesammelt – Hau",
         "• Pflichtregel: nie zu Zielen mit Mobs 3 oder mehr Level über euch, gefährliche Wege und Orte der Gegenfraktion werden gemieden",
         "• Auf WoW Forever eingestellt: Questlog mit 40 Plätzen, Dungeon-Planung nach den Forever-Regeln (EP, Fraktionssperren) mit allen Quests der Instanz"
-      ]
+      ],
+      "status_eigentlich": "veraltet"
     },
     {
       "datei": "announce/lore__alpine-vanguard-vorstellung-1.0.md",
       "kanal": "lore",
-      "seit_push_min": 24629,
+      "seit_push_min": 24800,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/mc-feuerresi__feuerresi-1.1.md",
       "kanal": "mc-feuerresi",
-      "seit_push_min": 20906,
+      "seit_push_min": 21077,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/onyxia-feuerresi__feuerresi-1.0.md",
       "kanal": "onyxia-feuerresi",
-      "seit_push_min": 30048,
+      "seit_push_min": 30219,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/onyxia-taktik__onyxia-video-1.0.md",
       "kanal": "onyxia-taktik",
-      "seit_push_min": 31472,
+      "seit_push_min": 31643,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
-      "datei": "announce/professionsentinel__professionsentinel-0.9.67.md",
+      "datei": "announce/professionsentinel__professionsentinel-0.9.68.md",
       "kanal": "professionsentinel",
-      "seit_push_min": 376,
-      "abdeckung": 1.0,
-      "status": "ok"
+      "seit_push_min": 20,
+      "abdeckung": 0.167,
+      "status": "wartet",
+      "fehlende_zeilen": [
+        "📦 **ProfessionSentinel 0.9.68** – sicher mit jedem AHSentinel 🛡️",
+        "• **Herstellkosten immer richtig:** ProfessionSentinel behält eine eigene Kopie der AHSentinel-Werte – mit AHSentinel 0.65.334 konnte sonst die Zutatenliste ein",
+        "• **Keine vorläufigen Werte:** In den ersten Sekunden nach dem Einloggen rechnet ProfessionSentinel wie ohne AHSentinel und fragt kurz darauf neu.",
+        "• **Schnäppchen im AH** (Verzauberer) erscheinen mit AHSentinel ab 0.65.334 wieder von selbst – ohne Stocken.",
+        "• Testdaten anderer GoldSentinel-Addons werden nie gelesen."
+      ],
+      "status_eigentlich": "veraltet"
     },
     {
       "datei": "announce/professionsentinel__professionsentinel-0-vorstellung-1.27.md",
       "kanal": "professionsentinel",
-      "seit_push_min": 7155,
+      "seit_push_min": 7325,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
-      "datei": "announce/threatsentinel__threatsentinel-2.5.19.md",
+      "datei": "announce/threatsentinel__threatsentinel-2.5.20.md",
       "kanal": "threatsentinel",
-      "seit_push_min": 471,
+      "seit_push_min": 41,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/threatsentinel__threatsentinel-0-vorstellung-2.2.md",
       "kanal": "threatsentinel",
-      "seit_push_min": 22335,
+      "seit_push_min": 22505,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/buffsentinel__buffsentinel-0-vorstellung-12.md",
       "kanal": "buffsentinel",
-      "seit_push_min": 20026,
+      "seit_push_min": 20197,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-19.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 8405,
+      "seit_push_min": 8576,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/levelpilot__levelpilot-uebersicht.md",
       "kanal": "levelpilot",
-      "seit_push_min": 32298,
+      "seit_push_min": 32469,
       "abdeckung": 1.0,
       "status": "ok"
     }
@@ -157,7 +181,7 @@
       "version": "0.65.265",
       "datei": "download/AHSentinel-0.65.265.zip",
       "kanal": "ahsentinel",
-      "seit_push_min": 2117,
+      "seit_push_min": 2288,
       "status": "ok",
       "gepostet": "2026-11-16 16:31 UTC",
       "anhang": [
@@ -166,14 +190,14 @@
     },
     {
       "addon": "RaidMaster",
-      "version": "3.0.33",
+      "version": "3.0.34",
       "datei": "RaidMaster/RaidMaster.toc",
       "kanal": "raid-addon",
-      "seit_push_min": 466,
+      "seit_push_min": 42,
       "status": "ok",
-      "gepostet": "2026-11-17 20:07 UTC",
+      "gepostet": "2026-11-18 06:09 UTC",
       "anhang": [
-        "RaidMaster-3.0.33.zip"
+        "RaidMaster-3.0.34.zip"
       ]
     }
   ],
@@ -181,14 +205,14 @@
     {
       "datei": "announce/threatsentinel__threatsentinel-0-vorstellung.md",
       "kanal": "threatsentinel",
-      "seit_push_min": 31113,
+      "seit_push_min": 31283,
       "abdeckung": 1.0,
       "status": "ok",
       "nur_info": "ersetzt durch threatsentinel__threatsentinel-0-vorstellung-2.2.md"
     }
   ],
   "server": "Alpine Vanguard",
-  "wartet": false,
+  "wartet": true,
   "bot": [
     {
       "pruefung": "Kanäle aus /raidmaster-einrichten",
