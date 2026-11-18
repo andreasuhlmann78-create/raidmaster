@@ -489,3 +489,9 @@ MITTEL – T43 bleibt eine Prüflücke: "SKIP Beute geladen 10/26, davon verstei
 ECHTEN Beute-Regeln des Nutzers (z. B. Versteigerung erst ab einer Qualität/für bestimmte Items, sonst Gildenbank/Würfeln) – dann ist T43 im
 Spiel NIE prüfbar. T43 soll für seinen Durchlauf eigene Test-Regeln setzen (Versteigerung für alle Testitems, Sandbox, danach zurück), damit
 er immer OK oder FEHLER ergibt; die echten Regeln prüfen T21 usw. Im Ergebnis die geladenen Items mit Qualität und Regel nennen.
+
+==== PRÜFUNG Supervisor 18.11.2026 10:10 – 3.0.36 (T43 eigene Test-Regeln, Einstufung je Item, Ausweichen auf MC) ====
+- addon_check OK, md5 d575c9ec…. Verdacht "echte Regeln" gemessen und nur teilweise bestätigt (episch -> Versteigerung) – ehrlich gemeldet,
+  gut. Test-Regeln per Swap/Undo auf RM.db.config.rules, echte Einstufung vorher festgehalten (T.DescribeLoot), Ausweichen auf MC,
+  "nicht prüfbar" erst danach mit beiden Listen; Gegenproben T43BANKRULES/T43NOAUCT – angenommen.
+- Beim Nutzer installiert (Laptop, diff 0). Im nächsten Ingametest: Klasse/Qualität der geladenen Onyxia-Items (Ursache der 0 belegen).

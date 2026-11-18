@@ -427,3 +427,11 @@ Offen:
    ScanPlayerAuras läuft im Spiel oft (Ereignis UNIT_AURA) – Abfall je Aura messen und Tabellen wiederverwenden. Ziel ≤ 2 KB.
 2. Hinweis: T34 lief OK – die neue Zeile mit den echten Sperrwerten (Locked/ShouldAurasBeSecret/Pause) bitte im nächsten Bericht nennen,
    damit die Produkt-Frage (zeigt die Gegner-Entzauber-Anzeige im Spiel etwas?) beantwortet ist.
+
+==== PRÜFUNG Supervisor 18.11.2026 10:10 – 0.9.56 (T110 ScanPlayerAuras) ====
+- addon_check OK, download = announce byte-gleich, md5 3ef12b42…. Ursachen a/b/c belegt, eigener Anteil im Nachbau 6,02 -> 0,00 KB – angenommen.
+- ENTSCHEID (Supervisor, Grenze stammt aus der Prüfung): Grenze 2 KB gilt für den EIGENEN Anteil; der Anteil der Spiel-API wird ausgewiesen,
+  nicht begrenzt. KEINE Drosselung von ScanPlayerAuras jetzt (verzögert die Anzeige) – erst wenn der Spiel-Anteil im Spiel gemessen ist und
+  Ruckler durch Speicherbereinigung belegt sind; dann neu entscheiden.
+- Punkt 2 (T34-Werte): T34 war 09:43 OK, die Zeile mit den Sperrwerten kommt mit dem Upload des Laufs (Nutzer /reload) – noch offen.
+- Beim Nutzer installiert (Laptop, diff 0).
