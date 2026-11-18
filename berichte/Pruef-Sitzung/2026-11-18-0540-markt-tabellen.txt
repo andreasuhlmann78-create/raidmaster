@@ -1,0 +1,58 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+Markt-Tabellen täglich – 18.11.2026 (geplante Aufgabe, Lauf 04:39 UTC)
+=====================================================================
+Ergebnis: Tabelle wieder NICHT committet (Schritt 4: Fallzahl n fällt). Befund "MT-Prüfung 18.11." unten – gleiche Ursache
+wie am 17.11. (Werkzeug merge_journals, unverändert), neu belegt; keine Datenlücke. Wegen hinweis-routinen-supervisor-2026-11-14.txt (a)
+steht der Befund nur hier, nicht in auftraege/AHSentinel/offen-ahsentinel.txt und nicht im nachrichten-log.txt.
+Committet: nur testberichte/markt/kern/2026-11-18.md (Kern-Abgleich) und dieser Bericht.
+
+Datenlage
+- Daten-Repo letzter Commit 17.11. 20:38 MEZ (19:38 UTC), 9 Std. alt < 36 Std.
+- 8 Stände: aktuell/ (Laptop, Desktop) + tage/ 14.11. D, 15.11. D, 16.11. L+D, 17.11. L+D (12.11./13.11. nicht mehr im Daten-Repo).
+- Zur Kenntnis: Journal-Zeit (neuester Eintrag forecast.list) ist in aktuell/ L+D, tage/17.11. L+D und tage/16.11. D gleich
+  (580909) – das Journal ist seit dem 16.11.-Desktop-Stand nicht gewachsen. Verdacht, zu messen: am 17.11. kein AH-Handel
+  mit Journal-Einträgen. Preis-Serien sind neuer (datenBis 1794939059).
+- Tests: test_kern_daten.py 20/20, test_markt_tabellen_alle.py 20/20.
+
+BEFUND MT-Prüfung 18.11. (für AHSentinel/Supervisor; addon-check/marktanalyse/markt_tabellen.py merge_journals, Z. 110–136)
+- Kaufstufe "bis 0.7": Repo-Fassung (16.11.) n 155 -> heute n 142 (gleich wie die nicht committete Rechnung vom 17.11.).
+- Ursache neu nachgezählt (B-Schlüssel t id q pr, Vorkommen je Stand):
+    t=575788 id=7048 q=1 pr=945: tage 14.11. D 24, 15.11. D 21, 16.11. L 10, 16.11. D 8, 17.11. L+D 8, aktuell L+D 8
+      -> merge_journals nimmt den neuesten Stand (8) -> 16 Käufe verloren.
+  Der Befund vom 17.11. (Vorschlag: Vorkommen-Zahl je Schlüssel = Maximum über alle Stände, Ergebnisfelder aus dem neuesten
+  Stand; Test 24× alt / 8× neu -> 24) ist noch nicht umgesetzt; solange bleibt die Tabelle auf dem Stand 16.11.
+- Kern-Abgleich zeigt es ebenso: Kern buyk "bis 0.7" 158 Käufe gegen Tabelle 142 (+7.2 Pkt.).
+
+Prüfung der neu gerechneten Fassung (dreifach, nur im Arbeitsordner)
+- lädt in Lua (lupa) ok · 4219 Bytes < 50 KB ok · nur Zahlen und Schlüssel (Bänder, Zellen, Feldnamen, Zustände), keine
+  Spieler-/Realm-/Rechner-Namen ok · Zustände nur welle/durch/offen ok · Teil kern: nur Weg markt, p 0..1, n >= 30
+  (kleinstes gear3:2 n 31) ok.
+- Fallzahlen: alle übrigen n gleich oder höher; einziger Rückgang Kaufen bis 0.7 (Befund oben).
+
+Wellen je Band (Repo 16.11. -> heute gerechnet)
+  5-25   steigt 0.649 (10 T) -> durch 1.162 (10 T)
+  26-35  durch  0.149 (10 T) -> offen 1.168 (10 T)
+  36-45  offen  0.230 (10 T) -> durch 0.417 (10 T)
+  46-55  offen  0.453 (9 T)  -> offen 0.483 (10 T)
+  56-60  offen  0.449 (7 T)  -> welle 0.271 (9 T)
+
+Entzaubern (unverändert gegen Repo-Fassung)
+  2:4:a n 1279, nKauf 1205, Tabelle 0.965, Gewinn 0.258, Mindest 0.20
+  2:6:a n 124,  nKauf 62,   Tabelle 0.950, Gewinn 0.199, Mindest 0.30
+  2:1:a n 750,  nKauf 0,    Tabelle 1.007, Gewinn ungemessen, Mindest 0.20
+  2:3:a n 20,   nKauf 0,    Tabelle 0.947, Gewinn ungemessen, Mindest 0.20
+
+Kaufstufen (heute gerechnet; Repo in Klammern)
+  bis 0.6: n 21 +52.7 % (=) · bis 0.7: n 142 +35.5 % (155 / +39.5) · bis 0.8: n 425 +30.7 % (=) ·
+  bis 0.9: n 598 +17.5 % (=) · darüber: n 15 -6.5 % (=)
+
+Verkaufsquoten (heute; Repo)
+  de: bis 0.90 n 11 0.298 (=) · bis 0.97 n 27 0.346 (19 / 0.491) · bis 1.03 n 54 0.658 (48 / 0.740) ·
+      bis 1.10 n 9 0.600 (=) · darüber n 35 0.342 (34 / 0.353)
+  consum: neu bis 0.90 n 1 0.0; bis 1.03 n 1 0.0 (=) · metal: bis 1.03 n 1 1.0, darüber n 1 0.0 (=) · misc: neu bis 0.90 n 3 0.0
+
+Teil kern: 1 Quelle (Laptop), Weg markt weitergegeben (Brier 0.0233 < Grundlinie 0.0259, n 294631); 26 Zellen (Repo 21;
+neu consum:4, g:gear3, gear2:1, gear3:1, gear3:2). Weg sell: Brier 0.2397 >= 0,20, nicht weitergegeben.
+
+Kern-Abgleich (testberichte/markt/kern/2026-11-18.md): Zellen, die nicht aufgehen: 0 (Ziel 0). Verkauf Kern gegen Tabelle:
+0 Abweichungen ausserhalb 95 %. Kein Befund KERN-ABGLEICH.
