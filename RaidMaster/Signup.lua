@@ -959,8 +959,22 @@ end
 
 _G.RaidMasterAPI = _G.RaidMasterAPI or {}
 local API = _G.RaidMasterAPI
-API.VERSION = 1
+API.VERSION = 2
 API.MAX_RAIDS = 20
+
+-- 3.0.34 (BEFUND HOCH SOFORT 18.11.): true, solange die Testroutine, der Testmodus oder ein nachgeholter Teil der Routine läuft.
+-- Andere Addons: in dieser Zeit nichts aus RaidMaster als echtes Ereignis übernehmen (z. B. Erstkills, Meilensteine).
+-- RaidMaster.db zeigt in dieser Zeit die echten Daten; Funktionen wie RaidMaster.DKP.MainOf arbeiten aber auf den Testdaten –
+-- darum vor jedem Lesen über Funktionen TestRunning() fragen.
+function API.TestRunning()
+	local ok, r = pcall(function()
+		local R = RM.TestRoutine
+		if R and (R.running or R.catchingUp) then return true end
+		local T = RM.Test
+		return (T and T.active) and true or false
+	end)
+	return ok and r or false
+end
 
 function API.UpcomingRaids()
 	local ok, list = pcall(function()

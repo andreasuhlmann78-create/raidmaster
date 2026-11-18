@@ -23,6 +23,10 @@ MAIN FEATURES
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
 
+WHAT'S NEW IN 3.0.34 – test data stays inside RaidMaster
+- Other addons (e.g. GuildSentinel) never see test data during a test any more: RaidMaster.db shows them the real data
+  meanwhile. New for other addons: RaidMasterAPI.TestRunning() – true while a test is running.
+
 WHAT'S NEW IN 3.0.33 – even smoother test routine (developer)
 - Developer only: the checks that still took more than 5 ms per frame in the game (options, auction rules, damaged data,
   crash test, situation catalogue, data backup) now work in smaller portions. The portions line also shows the total time

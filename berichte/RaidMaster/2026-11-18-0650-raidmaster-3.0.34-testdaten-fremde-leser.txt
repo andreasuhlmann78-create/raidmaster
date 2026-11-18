@@ -1,0 +1,45 @@
+BERICHT RAIDMASTER AN DIE PRÜF-SITZUNG
+Stand: 18.11.2026 06:50 (aus date) · Sitzung: RaidMaster-Projekt-Sitzung · Version: Addon 3.0.34 (Uploader unverändert 2.3.14)
+Commit: dieser Push · Bezug: offen-raidmaster.txt "BEFUND HOCH SOFORT 18.11.2026 06:45 – TESTDATEN FÜR ANDERE ADDONS SICHTBAR" (709bc35f),
+"PRÜFUNG 17.11. 21:30" (041ea74f, Hinweis T116), Korrektur 06:50 zu RM-TF-1 (7c9b050b) zur Kenntnis genommen
+Status: umgesetzt, zur Prüfung.
+
+1. Ursache (belegt, Code): Testmodus und Testroutine schreiben in das ECHTE RM.db (Sandbox = vorher sichern, danach zurückschreiben).
+   Der globale Name RaidMaster war RM selbst – GuildSentinel liest RaidMaster.db.data/.prof/.specs (GuildSentinel/RaidMaster.lua:15 ff.)
+   und sah darum während des Tests die Testdaten (Erstkills aus T43/T.BossKill).
+
+2. Behebung – Auftrag 2 erfüllt (fremde Leser sehen die echten Daten):
+   - Core.lua:6: RaidMaster ist jetzt eine Durchreiche auf RM (RM.GLOBAL, Metatabelle). Jeder Name geht an RM wie bisher (Tastenbelegungen
+     RaidMaster.UI.Toggle, RaidMaster.Markers …), Schreiben ebenso. Nur RaidMaster.db liefert während eines Tests die ECHTEN Daten:
+     – Testroutine: den Schnappschuss vom Start (R.snap.db; was die Sandbox nicht sichert – SB_SKIP – live aus RM.db),
+     – Testmodus ohne Routine (/rmtest): die Kopie der echten Daten, die der Testmodus beim Start anlegt (RaidMasterTestDB: data,
+       session, trade, config, specs, signup), Rest live.
+     Ausserhalb von Tests ist RaidMaster.db genau RM.db. RaidMaster selbst arbeitet nur mit dem lokalen RM (geprüft: kein eigener Code
+     liest den globalen Namen ausser Bindings.xml und der Testroutine – beide gehen über die Durchreiche).
+   - Auftrag 1: RaidMasterAPI.TestRunning() (Signup.lua, API.VERSION 2) -> true während Testroutine, Testmodus und nachgeholter
+     Fenster-Schritte (R.catchingUp). Beschreibung im Code: andere Addons übernehmen in dieser Zeit nichts als echtes Ereignis; Funktionen
+     wie RaidMaster.DKP.MainOf arbeiten weiter auf den Testdaten – darum vor Funktions-Lesern TestRunning() fragen (Pflicht).
+   - Hinweis an GuildSentinel (über die Prüf-Sitzung): GS liest rm.DKP.MainOf und rm.Spec.Role (Funktionen) – dort TestRunning() abfragen.
+
+3. Tests – Auftrag 3:
+   - T193 (neu, Bereich J, in TU6): während der Routine RaidMaster ~= RM, TestRunning() true, RaidMaster.db.data = Schnappschuss vom Start,
+     nicht die Testdaten; Funktionen wie RM.
+   - Nachbildung: ein fremder Leser liest alle 0,5 s RaidMaster.db.data.firstKills (wie GuildSentinel): 148 Stichproben, nie Test-Erstkills;
+     Gegenprobe im selben Lauf: intern standen in allen 148 Stichproben Test-Erstkills in RM.db. TestRunning() immer true, danach false.
+     Testmodus (/rmtest): T.BossKill -> intern 1 Test-Erstkill, fremder Leser 0; nach dem Ende ist RaidMaster.db wieder RM.db.
+   - Gegenprobe mit 3.0.33: "fremder Leser sah nie Test-Erstkills (148 Stichproben mit Testdaten, max. 2 Kills)" FAIL,
+     "TestRunning() … 148x false" FAIL.
+   - T01/T101/T188 angepasst (RaidMaster = Durchreiche statt RM; API.VERSION >= 1 und TestRunning vorhanden).
+
+4. Hinweis Prüfung 21:30 (T116): Jeder collectgarbage("step") wird gemessen; T116 nennt jetzt "n Bereinigungsschritte, längster x ms"
+   (Nachbau: 611 Schritte, längster 0,4 ms). Im Spiel: nächster Ingametest.
+
+5. RM-TF-1: Korrektur 06:50 zur Kenntnis genommen (06:40 lief noch 3.0.30). Mit 3.0.34 im Spiel zu bestätigen.
+
+EIGENE TESTS (Hinweise, keine Freigabe) – Nachbildung berichte/RaidMaster/offline:
+- Forever, Era ALLE OK; enUS, zhCN, ruRU ALLE OK; STOPAT 1/20/60 ALLE OK; echte Daten (Desktop, Laptop) ALLE OK.
+- Lua-Syntax lupa (Lua 5.1): 65 Dateien, 0 Fehler. Gemeinsame Dateien cmp gleich mit shared/.
+- addon_check download/RaidMaster-3.0.34.zip: "RaidMaster-3.0.34.zip: OK", kein FEHLER, keine WARNUNG (EXIT 0).
+
+FÜR DEN NUTZER (nach Prüfung): Bot /update -> RaidMaster 3.0.34, dann /reload und /rm version (muss 3.0.34 zeigen). Die falschen
+Erstkill-Meldungen von GuildSentinel kamen aus dem Test vom 17.11. – deren Bereinigung ist Sache der GuildSentinel-Sitzung.

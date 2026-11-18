@@ -3,10 +3,24 @@
 
 local ADDON, RM = ...
 local L = RM.L
-RaidMaster = RM
+-- 3.0.34 (BEFUND HOCH SOFORT 18.11.: GuildSentinel las während der Testroutine Test-Erstkills aus RaidMaster.db): der globale Name
+-- RaidMaster ist für ANDERE Addons eine Durchreiche auf RM – mit einer Ausnahme: solange die Testroutine oder der Testmodus läuft,
+-- liefert RaidMaster.db die ECHTEN Daten (Kopie vom Start), nicht die Testdaten. RaidMaster selbst arbeitet nur mit dem lokalen RM.
+-- Schreiben geht wie bisher an RM.
+RM.GLOBAL = setmetatable({}, {
+	__index = function(_, k)
+		if k == "db" and RM.RealDBView then
+			local ok, view = pcall(RM.RealDBView)
+			if ok and view then return view end
+		end
+		return RM[k]
+	end,
+	__newindex = function(_, k, v) RM[k] = v end,
+})
+RaidMaster = RM.GLOBAL
 
-RM.VERSION = "3.0.33"
-RM.VERSION_NUM = 30033
+RM.VERSION = "3.0.34"
+RM.VERSION_NUM = 30034
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------

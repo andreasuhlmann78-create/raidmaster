@@ -27,6 +27,9 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 ===
 📜 **Updates**
 
+**3.0.34** – Testdaten bleiben in RaidMaster
+• Andere Addons (z. B. GuildSentinel) sehen während eines Tests nur noch echte Daten – keine falschen Erstkills mehr im Gildenchat.
+
 **3.0.32 / 3.0.33** – Beschriftungen passen immer
 • Knöpfe passen ihre Schrift an – nichts mehr abgeschnitten, in jeder Sprache. 3.0.33: nur Verbesserungen für Entwickler.
 
@@ -53,8 +56,5 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 
 **3.0.18** – Tooltips am Rand
 • Tooltips erscheinen neben dem RaidMaster-Fenster statt über anderen Knöpfen. Fehler werden nur noch einmal gezählt, auch wenn weitere GoldSentinel-Addons laufen.
-
-**3.0.17** – Richtige Kanäle
-• Das Addon nennt jetzt die aktuellen Discord-Kanäle: Gildenbank in #gildenbank, Einteilung im Kanal des Raids (z. B. #einteilung-mc).
 
 Ältere Neuerungen stehen im Addon in der Datei LIESMICH.txt.

@@ -92,8 +92,22 @@ R.Run(only)
 local waited = 0
 -- STOPAT=<Sekunden>: "/rm testroutine stop" nach so vielen Sekunden (Abbruch muss alles zurückstellen)
 local stopAt = tonumber(os.getenv("STOPAT") or "")
+-- BEFUND HOCH SOFORT 18.11.: ein FREMDES Addon liest während der Routine RaidMaster.db (wie GuildSentinel) – es darf nie Testdaten sehen
+local function CountKeys(t) local n = 0 for _ in pairs(type(t) == "table" and t or {}) do n = n + 1 end return n end
+local realKills = CountKeys(RaidMasterDB.data and RaidMasterDB.data.firstKills)
+local foreign = { samples = 0, sawTestKills = 0, internalTestKills = 0, testRunningFalse = 0, maxForeign = 0 }
+local function Sample()
+	if not R.running then return end
+	foreign.samples = foreign.samples + 1
+	local seen = CountKeys(_G.RaidMaster.db.data.firstKills)          -- so liest GuildSentinel
+	foreign.maxForeign = math.max(foreign.maxForeign, seen)
+	if seen ~= realKills then foreign.sawTestKills = foreign.sawTestKills + 1 end
+	if CountKeys(RM.db.data.firstKills) ~= realKills then foreign.internalTestKills = foreign.internalTestKills + 1 end
+	if not (RaidMasterAPI.TestRunning and RaidMasterAPI.TestRunning()) then foreign.testRunningFalse = foreign.testRunningFalse + 1 end
+end
 while R.running and waited < 400 do
 	Advance(0.5); waited = waited + 0.5
+	Sample()
 	if stopAt and waited >= stopAt and R.running then SlashCmdList["RAIDMASTER"]("testroutine stop"); stopAt = nil end
 end
 Advance(15)
@@ -173,6 +187,25 @@ if not only and not os.getenv("STOPAT") then
 		while R.running and w < 60 do Advance(0.5); w = w + 0.5 end
 		Advance(15)
 	end
+end
+-- Auswertung fremder Leser (BEFUND HOCH SOFORT 18.11.)
+if not os.getenv("STOPAT") then
+	check(foreign.samples > 0, "fremder Leser: " .. foreign.samples .. " Stichproben während der Routine")
+	if not only then check(foreign.internalTestKills > 0, "Gegenprobe: intern standen Test-Erstkills in RM.db (" .. foreign.internalTestKills .. " Stichproben)") end
+	check(foreign.sawTestKills == 0, "fremder Leser sah nie Test-Erstkills (" .. foreign.sawTestKills .. " Stichproben mit Testdaten, max. " .. foreign.maxForeign .. " Kills)")
+	check(foreign.testRunningFalse == 0, "RaidMasterAPI.TestRunning() während der Routine immer true (" .. foreign.testRunningFalse .. "x false)")
+	check(RaidMasterAPI.TestRunning and RaidMasterAPI.TestRunning() == false, "RaidMasterAPI.TestRunning() nach dem Ende false")
+	-- Testmodus ohne Routine (/rmtest): Bosskill im Testraid -> fremder Leser sieht weiter die echten Erstkills
+	local T = RM.Test
+	T.Start(); Advance(1)
+	check(RaidMasterAPI.TestRunning() == true, "Testmodus: TestRunning() true")
+	local before = CountKeys(RM.db.data.firstKills)
+	pcall(T.BossKill); Advance(2)
+	check(CountKeys(RM.db.data.firstKills) > realKills, "Gegenprobe Testmodus: intern ein Test-Erstkill (" .. CountKeys(RM.db.data.firstKills) .. ", vorher " .. before .. ")")
+	check(CountKeys(_G.RaidMaster.db.data.firstKills) == realKills, "Testmodus: fremder Leser sieht keine Test-Erstkills")
+	check(_G.RaidMaster.UI == RM.UI and _G.RaidMaster.db.prof == RM.db.prof, "Durchreiche: Funktionen und nicht gesicherte Teile wie bisher")
+	T.Stop(); Advance(2)
+	check(RaidMasterAPI.TestRunning() == false and _G.RaidMaster.db == RM.db, "nach dem Testmodus: RaidMaster.db ist wieder RM.db")
 end
 print(fails == 0 and "ALLE OK" or ("FEHLER: " .. fails))
 if os.getenv("SHOWALL") then

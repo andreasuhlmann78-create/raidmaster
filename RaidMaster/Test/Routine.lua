@@ -176,6 +176,41 @@ local function Snapshot()
 	return s
 end
 
+-- 3.0.34 (BEFUND HOCH SOFORT 18.11.): was andere Addons über RaidMaster.db sehen, solange getestet wird.
+-- Testroutine: der Schnappschuss vom Start (echte Daten; was die Sandbox nicht sichert, live aus RM.db).
+-- Testmodus ohne Routine: die Kopie, die der Testmodus beim Start von den echten Daten anlegt (RaidMasterTestDB), sonst live.
+-- Nie Testdaten. Ausserhalb von Tests: nil (dann liefert RaidMaster.db das echte RM.db).
+local realView, realViewFor
+function RM.RealDBView()
+	if R.running and R.snap and type(R.snap.db) == "table" then
+		if realViewFor ~= R.snap then
+			local sdb = R.snap.db
+			realView = setmetatable({}, { __index = function(_, k)
+				local v = sdb[k]
+				if v ~= nil then return v end
+				if SB_SKIP[k] then return RM.db and RM.db[k] end
+				return nil
+			end })
+			realViewFor = R.snap
+		end
+		return realView
+	end
+	local T = RM.Test
+	if T and T.active and type(RaidMasterTestDB) == "table" then
+		local real = RaidMasterTestDB
+		if realViewFor ~= real then
+			realView = setmetatable({}, { __index = function(_, k)
+				if k == "signup" then return real.hasSignup and real.signup or nil end
+				if k == "data" or k == "session" or k == "trade" or k == "config" or k == "specs" then return real[k] end
+				return RM.db and RM.db[k]
+			end })
+			realViewFor = real
+		end
+		return realView
+	end
+	return nil
+end
+
 local function Compare(s)
 	local db = RaidMasterDB or {}
 	local cur = {}
@@ -257,11 +292,18 @@ end
 
 -- vollständige Speicherbereinigung in kleinen Schritten über mehrere Bilder (statt collectgarbage("collect") am Stück):
 -- zwei abgeschlossene Durchgänge, damit sicher ein ganzer Durchgang von vorn dabei ist
+-- 3.0.34 (Supervisor 17.11. 21:30): die Dauer jedes Schritts wird gemessen (längster -> R.gcStepMax, Anzahl -> R.gcSteps);
+-- ein Schritt kann den unteilbaren Abschluss eines Durchgangs enthalten
 local function CollectInSteps()
 	for _ = 1, 2 do
 		local guard = 0
 		repeat
+			local t0 = debugprofilestop and debugprofilestop()
 			local done = collectgarbage("step", 16)
+			if t0 then
+				local d = debugprofilestop() - t0
+				R.gcStepMax, R.gcSteps = math.max(R.gcStepMax or 0, d), (R.gcSteps or 0) + 1
+			end
 			guard = guard + 1
 			R.Breathe(R.PRE_MS)
 		until done or guard > 100000
@@ -502,7 +544,7 @@ local function AreaA(t, G)
 			"Timer", "Prof", "Welcome", "Records", "Bank", "Test", "frame", "L", "LOCALE", "API", "Act" }
 		local miss = {}
 		for _, k in ipairs(need) do if RM[k] == nil then miss[#miss + 1] = k end end
-		if RaidMaster ~= RM then miss[#miss + 1] = "RaidMaster" end
+		if RaidMaster ~= RM.GLOBAL or RaidMaster.VERSION ~= RM.VERSION then miss[#miss + 1] = "RaidMaster" end   -- 3.0.34: Durchreiche
 		if not RaidMasterTestLoot then miss[#miss + 1] = "RaidMasterTestLoot" end
 		if not (RM.LANGUAGES and RM.LANGUAGES[RM.LOCALE]) then miss[#miss + 1] = "LANGUAGES[LOCALE]" end
 		if #miss > 0 then return false, table.concat(miss, ", "), "alle vorhanden" end
@@ -2132,7 +2174,7 @@ local function AreaG(t)
 	end)
 	t:Check("T101", "G", "Keine globalen Namen überschrieben", function()
 		local bad = {}
-		if RaidMaster ~= RM then bad[#bad + 1] = "RaidMaster" end
+		if RaidMaster ~= RM.GLOBAL or RaidMaster.UI ~= RM.UI then bad[#bad + 1] = "RaidMaster" end   -- 3.0.34: Durchreiche auf RM
 		if RaidMasterTest ~= RM.Test then bad[#bad + 1] = "RaidMasterTest" end
 		if SLASH_RAIDMASTER1 ~= "/rm" then bad[#bad + 1] = "SLASH_RAIDMASTER1" end
 		if SlashCmdList.RAIDMASTERTEST ~= RM.Test.Slash then bad[#bad + 1] = "RAIDMASTERTEST" end
@@ -2291,6 +2333,7 @@ local function AreaH(t)
 		TestRaid()
 		local TT = RM.Tooltip
 		local fake = { GetItem = function() return "x", LINK_EPIC end, AddLine = function() end, Show = function() end }
+		R.gcStepMax, R.gcSteps = 0, 0
 		CollectInSteps()
 		local before = collectgarbage("count")
 		for _ = 1, 100 do CallHandlers("GROUP_ROSTER_UPDATE"); R.Breathe(R.PRE_MS) end
@@ -2299,8 +2342,9 @@ local function AreaH(t)
 		CollectInSteps()
 		local grow = collectgarbage("count") - before
 		Settle(10)
-		if grow >= 256 then return false, string.format("%.0f KB", grow), "< 256 KB" end
-		return true, string.format("%.0f KB", grow)
+		local steps = string.format("%d Bereinigungsschritte, längster %.1f ms", R.gcSteps or 0, R.gcStepMax or 0)
+		if grow >= 256 then return false, string.format("%.0f KB; %s", grow, steps), "< 256 KB" end
+		return true, string.format("%.0f KB; %s", grow, steps)
 	end)
 end
 
@@ -3080,7 +3124,7 @@ local function AreaJ(t, G)
 	-- 3.0.30 (RM-API-RAIDS): kommende Raid-Termine für andere Addons – nur Zeit und Name, ≤ 20, aufsteigend, fehlerfest
 	t:Check("T188", "J", "RM-API-RAIDS RaidMasterAPI.UpcomingRaids", function()
 		local API, S = _G.RaidMasterAPI, RM.Signup
-		if not (API and API.UpcomingRaids and API.VERSION == 1 and S and S.KnownRaids) then return false, "fehlt", "VERSION 1" end
+		if not (API and API.UpcomingRaids and (API.VERSION or 0) >= 1 and API.TestRunning and S and S.KnownRaids) then return false, "fehlt", "VERSION >= 1, TestRunning" end
 		local now = RM.Now()
 		local savedKnown, savedSignup = S.KnownRaids, RM.db.signup
 		local ok, res, info = pcall(function()
@@ -3268,6 +3312,17 @@ local function AreaJ(t, G)
 		if not (g1:GetStringWidth() > 178 and g2:GetStringWidth() > 222) then bad[#bad + 1] = "Gegenprobe greift nicht" end
 		if #bad > 0 then return false, table.concat(bad, "; "), "alle passen" end
 		return true, #cases .. " Beschriftungen passen (Boss-Knopf und Anleitung aus dem Ingametest, Russisch zweizeilig)"
+	end)
+
+	-- 3.0.34 (BEFUND HOCH SOFORT 18.11.): andere Addons (GuildSentinel) lesen RaidMaster.db – während der Routine die ECHTEN Daten
+	t:Check("T193", "J", "Fremde Leser sehen während der Routine keine Testdaten", function()
+		local G = _G.RaidMaster
+		if G == RM then return false, "RaidMaster ist RM selbst", "Durchreiche" end
+		if not (RaidMasterAPI and RaidMasterAPI.TestRunning and RaidMasterAPI.TestRunning()) then return false, "TestRunning() false", "true während der Routine" end
+		if not (R.snap and G.db.data == R.snap.db.data) then return false, "RaidMaster.db.data ist nicht die Kopie vom Start", "echte Daten" end
+		if G.db.data == RM.db.data then return false, "RaidMaster.db.data = Testdaten", "echte Daten" end
+		if G.UI ~= RM.UI or G.VERSION ~= RM.VERSION then return false, "Durchreiche unvollständig", "wie RM" end
+		return true, "RaidMaster.db = Schnappschuss vom Start, TestRunning() true, Funktionen wie RM"
 	end)
 
 	-- 3.0.24 (BL): Befehlsliste beim Tippen – eine Tabelle für Handler und Liste (T-BL1 … T-BL6)
@@ -3918,7 +3973,7 @@ local function AreaL(t, G)
 			{ "MN4 Schalter aus", "T181" }, { "MN4 ohne AH-API", "T182" }, { "MN3 Testbericht-Zeile", "T183" },
 			{ "Prüfliste im Spiel", "T185" }, { "RM-DIAG-1 Fehlerflut", "T186" },
 			{ "RM-DIAG-1 Fehlerquellen", "T187" }, { "RM-API-RAIDS", "T188" },
-			{ "TR-ALLE Sicherung", "T189" }, { "Tooltip-Platzierung (Ingame T155)", "T190" }, { "HUD-Ausnahme (Ingame T156)", "T191" }, { "Beschriftungen passen (Ingame T158)", "T192" },
+			{ "TR-ALLE Sicherung", "T189" }, { "Tooltip-Platzierung (Ingame T155)", "T190" }, { "HUD-Ausnahme (Ingame T156)", "T191" }, { "Beschriftungen passen (Ingame T158)", "T192" }, { "Testdaten nie für andere Addons", "T193" },
 			{ "RM-TF-1 kein Fehlerfenster", "T120" }, { "T-BL4 echtes Eingabefeld", "T169" } }
 		local only = R.only
 		local have, missing = 0, {}
@@ -4399,6 +4454,7 @@ function R.CatchUp(id, since)
 	if not (p and type(p.items) == "table" and p.items[id]) or R.running then return end
 	if (InCombatLockdown and InCombatLockdown()) or RM.InCombat() then return end      -- bleibt vorgemerkt
 	local st = R.WINDOW_STEPS[id]
+	R.catchingUp = true                                          -- RaidMasterAPI.TestRunning() (3.0.34)
 	local T = GoldSentinelTest.Begin("RaidMaster", RM.VERSION, RaidMasterDB)
 	local passed = false
 	T:Check(id, st.area, st.name .. " (nachgeholt)", function()
@@ -4406,6 +4462,7 @@ function R.CatchUp(id, since)
 		passed = ok and true or false
 		return ok, a, b
 	end)
+	R.catchingUp = false
 	T:Finish({ bereich = "nachgeholt", nachgeholt = id, lauf = date and date("%d.%m.%Y %H:%M", p.t) or tostring(p.t) })
 	p.items[id] = nil
 	if not passed then p.failed = true end
