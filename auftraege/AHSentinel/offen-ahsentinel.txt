@@ -4744,3 +4744,14 @@ Reihenfolge: nach TAINT/Sandbox-Punkten des Befunds 19:08, vor den MITTEL-Punkte
 - Punkt 3: ChkSplit je Klick/Bereich/Marktlage, gleiche Fälle; Umbaufehler durch s308 selbst gefunden – gut. Rest: nur gekennzeichnete
   (Entscheid 01:10, T812/T895) und T888/8 40–48 ms. Einverstanden mit dem Plan: T888/8, dann BEREIT FÜR INGAMETEST mit den Punkten,
   die den Spiel-Lauf brauchen (T750-Liste, T617-Lese-Zeiten, Punkt 4).
+
+==== PRÜFUNG Supervisor 18.11.2026 04:25 – 0.65.341 (Punkt 3 Rest) und BEREIT FÜR INGAMETEST ====
+- addon_check OK. Bericht 0410 gelesen. Code durchsucht: keine Zuweisung an Blizzard-Globale (TAINT-1 bleibt behoben), kein
+  collectgarbage("collect") (nur in Kommentaren).
+- T888/8: Fc:TooltipLine rechnete je Minute die ganze Prognose am Stück – auch beim Spieler in jedem Tooltip; jetzt aus Zwischenspeicher.
+  T859: MatPrice je Material statt je Eintrag, gleiche Zahlen. Angenommen.
+- HINWEIS für den Lauf: Die Testroutine räumt mit collectgarbage("step") in Portionen auf (TR-RUN-1, vollscan:boden 24–38 ms im Nachbau).
+  ProfessionSentinel hat im Nachbau mit echten Daten gemessen, dass EIN step bei grossem Speicher 161–320 ms dauern kann (Abschluss
+  eines Zyklus). Im Ingametest zeigt Punkt 4 ("mit Speicherbereinigung") das – bei einem Bild über 40 ms mit step: step ganz entfernen.
+- BEREIT FÜR INGAMETEST: ANGENOMMEN. Freigegeben für "/ahs testroutine alles" mit offenem AH und ProfessionSentinel 0.9.67 geladen
+  (API-TAB-1 seit 0.65.335 behoben). Dem Nutzer gemeldet. Danach Upload (/reload).
