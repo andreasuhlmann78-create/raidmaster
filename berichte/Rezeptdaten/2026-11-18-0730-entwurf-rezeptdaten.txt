@@ -1,0 +1,28 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+
+Geplante Aufgabe «ProfessionSentinel Rezeptdaten-Update», Lauf 18.11.2026 07:23 (MEZ)
+Ergebnis: Keine neuen Rezepte oder Quellen. KEINE neue Version, kein Branch, nichts committet im ProfessionSentinel-Repo
+(git checkout -- .). Kein Release, nichts in announce/ oder download/ (Vorrang-Regel raidmaster/CLAUDE.md, Entscheid 14.11. 08:55).
+
+1. Datenstand dieses Laufs
+- Clients: Forever 1.60.1.70959 (neu, vorher 70938), Era 1.15.9.70576 (unverändert), Retail 12.1.5.70961 (neu, vorher 70783)
+- QuestieDB: 0f37b70 vom 18.11.2026 02:11 ("Fix Darkspear Islands quests"; vorher e1652ce vom 16.11.)
+- report.md: "No changes since the last run.", CHANGES=0
+- Rezepte: Forever 2315, Era 1267, Retail 10172 (unverändert)
+
+2. Inhaltliche Änderung der Datendateien: keine
+git diff --stat: 3 Dateien, 6+/6- – ausschliesslich die Kopfzeile ns.DataMeta (generated/build/questie).
+Der Lehrer 276067 "Angus Hammerhand" bleibt in Data_Forever.lua erhalten (2 Treffer, wie auf main). Die in den Entwürfen
+vom 16./17.11. beschriebene Regression tritt mit der Pipeline auf main (qloader.py aus 0.9.63, PS-PL1) nicht mehr auf.
+
+3. Prüfungen (auf main 7f57e86 / Version 0.9.68, Daten inhaltlich identisch)
+3a) Lua 5.1 (lupa.luajit21, loadstring): Forever 2315, Era 1267, Retail 10172 Rezepte, kein Einbruch;
+    0 Zeilen gelb > grün oder grün > grau; ns.Trainers[165] Forever 31, Era 30 Einträge; ns.Crates Forever 30. OK
+3b) python3 -I tests/run_smoketest.py: Exit 0. OK
+3c) python3 -I tests/run_offline.py ProfessionSentinel: Exit 0, FEHLER 0, keine LUA-FEHLER, keine ECHTEN AKTIONEN
+    (forever OK 246, era OK 228, retail OK 226; tbc ohne Testlauf-Zeile, "Berichte gespeichert: 0"). OK
+
+4. Für den Supervisor
+- Nichts zu übertragen. Kein Discord-Beitrag, kein Datenstand-Absatz (keine neue Version).
+- Hinweis: Lederverarbeitung-Lehrer Forever 31 (Entwurf 17.11.: 29). Gemessen: Data_Forever.lua auf 2e36705 (0.9.62) hat 29,
+  auf main seit 140ab98 (0.9.63, PS-PL1 Zonen der Rezeptdaten) 31 Einträge – Änderung durch 0.9.63, nicht durch diesen Lauf.
