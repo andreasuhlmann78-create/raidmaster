@@ -1113,3 +1113,15 @@ HOCH (Rest von Punkt 1):
 MITTEL:
 3. T155 Planung je Reiseschritt 28,5 ms (57) – (3.12.92: 23,1 ms auf Priester 10). T150 und T295 diesmal OK.
 Weiter offen: Befund 09:07 (T142 Fehlerfenster), "Daten sichern" mit grossen Daten (Messwert).
+
+==== PRÜFUNG Supervisor 18.11.2026 10:25 – 3.12.94 (weitere Prüfungen in Portionen, T142 ohne Fehlerfenster, T261 je Bereich) ====
+- addon_check OK, md5 9b296962… stimmt, GoldSentinelTakt.lua byte-gleich, toc 3.12.94 / 1.6.4.
+- T142/T159: Code gelesen – beide Abgriffe direkt (GoldSentinelTest.Error, Protocol.OnLuaError), Haken in der Kette geprüft, Fehlerfenster
+  gezählt (soll 0) – angenommen. Befund 09:07 umgesetzt (im Spiel zu bestätigen).
+- Ursachen der 10 längsten Bilder je Schritt aus dem Code belegt, wo nicht belegbar als "Verdacht, zu messen" gekennzeichnet – angenommen.
+- ENTSCHEID zum Vorschlag T275 (unter WithFlavor darf nicht abgegeben werden, ~110 ms je Spielversion): Prüfabdeckung NICHT ersatzlos
+  kürzen. Stattdessen je Lauf EINE Spielversion im Wechsel (forever -> era -> tbc -> …, gespeichert in der Test-Ablage, im Ergebnis
+  genannt "geprüft: era (nächster Lauf: tbc)"), so sind nach drei Läufen alle geprüft und kein Lauf hat drei solche Bilder. Liegt EINE
+  Spielversion allein im Spiel über 40 ms: BuildCandidates/Replan/UI unter WithFlavor in getrennte Abschnitte (Flavor setzen – Teil –
+  zurück – Abgabe – Flavor setzen – nächster Teil), jeder Abschnitt am Stück unter 40 ms.
+- Beim Nutzer installiert (Laptop, diff 0). Ingametest folgt (Bilder über 40 ms, T261 je Bereich).
