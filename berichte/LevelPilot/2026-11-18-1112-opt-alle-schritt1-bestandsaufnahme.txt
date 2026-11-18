@@ -1,0 +1,216 @@
+BERICHT LevelPilot an die Prüf-Sitzung – OPT-ALLE Schritt 1: Bestandsaufnahme (vor dem Umbau)
+Stand: Code 3.12.95 (Center.lua). Liste automatisch aus dem Code erzeugt (Toggle/Stepper/Sprachknöpfe, Ort, nächste Überschrift
+darüber in derselben Spalte, Standardwert aus Core.lua DEFAULTS).
+
+==== A. ALLE HEUTIGEN OPTIONEN ====
+Nr | Reiter | Ort x,y | Art | Schlüssel | Beschriftung deDE (Zeichen) | Überschrift darüber | Standard
+ 1 | Einstellungen | x16 y-40 | Schalter | autoAccept | Quests automatisch annehmen (27) | Automatik | true
+ 2 | Einstellungen | x16 y-64 | Schalter | autoTurnin | Quests automatisch abgeben (bei einer Belohnung) (48) | Automatik | true
+ 3 | Einstellungen | x16 y-88 | Schalter | usePack | Datenpaket "LevelPilot Data" nutzen, wenn installiert (53) | Automatik | true
+ 4 | Einstellungen | x16 y-112 | Schalter | useQuestie | QuestieDB nutzen, wenn installiert (ohne Datenpaket) (52) | Automatik | true
+ 5 | Einstellungen | x16 y-174 | Schalter | recordQuests | Quests aufzeichnen (18) | Aufzeichnung | true
+ 6 | Einstellungen | x16 y-198 | Schalter | recordPaths | Gelaufene Wege aufzeichnen (26) | Aufzeichnung | true
+ 7 | Einstellungen | x16 y-258 | Schalter | forever | Server WoW Forever (Questlog 40, Dungeon-EP angepasst) (54) | Server & Dungeons | true
+ 8 | Einstellungen | x16 y-282 | Schalter | dungeons | Dungeon-Quests einplanen (nur betretbare Dungeons) (50) | Server & Dungeons | true
+ 9 | Einstellungen | x16 y-310 | Zahl | dungeonMin | Dungeon-Lauf ab Quests (22) | Server & Dungeons | 2
+10 | Einstellungen | x16 y-334 | Zahl | dungeonMobXP | Dungeon-Monster-EP % (0 = auto) (31) | Server & Dungeons | 0
+11 | Einstellungen | x16 y-358 | Zahl | dungeonQuestXP | Dungeon-Quest-EP % (0 = auto) (29) | Server & Dungeons | 0
+12 | Einstellungen | x16 y-390 | Schalter | naviMapPin | Navi zur Markierung auf der Weltkarte (37) | Server & Dungeons | true
+13 | Einstellungen | x16 y-414 | Schalter | deathSkip | Speedrun: „Tod als Reise“ vorschlagen (bis Stufe 10) (52) | Server & Dungeons | false
+14 | Einstellungen | x200 y-10 | Schalter | messages | Meldungen (9) | (keine) | true
+15 | Einstellungen | x360 y-40 | Schalter | showArrow | Navigationspfeil (16) | Anzeige | true
+16 | Einstellungen | x360 y-64 | Schalter | showMinimapPath | Pfadlinie auf der Minikarte (27) | Anzeige | true
+17 | Einstellungen | x360 y-88 | Schalter | showMapPath | Pfadlinie und Marker auf der Weltkarte (38) | Anzeige | true
+18 | Einstellungen | x360 y-112 | Schalter | showMinimapBtn | Minimap-Button (14) | Anzeige | true
+19 | Einstellungen | x360 y-136 | Schalter | locked | Fenster fixieren (16) | Anzeige | false
+20 | Einstellungen | x360 y-160 | Schalter | terrainPath | Weg dem Gelände anpassen (Strassen, Täler) (42) | Anzeige | true
+21 | Einstellungen | x360 y-188 | Zahl | scale | Fenstergrösse (13) | Anzeige | 1.0
+22 | Einstellungen | x360 y-214 | Zahl | stepsShown | Angezeigte Schritte (19) | Anzeige | 5
+23 | Einstellungen | x360 y-246 | Zahl | questLogMax | Questlog-Grösse (0 = auto) (26) | Anzeige | 0
+24 | Einstellungen | x360 y-274 | Zahl | speedLevel | Speedrun-Strenge (1–3) (22) | Anzeige | 2
+25 | Einstellungen | x360 y-306 | Schalter | platesQuest | Questfortschritt über den Gegnern (Namensplaketten) (51) | Anzeige | true
+26 | Einstellungen | x360 y-330 | Schalter | platesAll | … für alle offenen Quests (statt nur den aktuellen Schritt) (59) | Anzeige | false
+27 | Einstellungen | x360 y-354 | Schalter | compactMode | Kompakter Guide (eine Zeile) (28) | Anzeige | false
+28 | Einstellungen | x360 y-378 | Schalter | ownSettings | Einstellungen nur für diesen Charakter (38) | Anzeige | –
+29 | Einstellungen | x360 y-402 | Schalter | cmdHint | Befehlsliste beim Tippen von /lp (32) | Anzeige | true
+30 | Komfort | x16 y-40 | Schalter | autoSellGrey | Graue Gegenstände beim Händler verkaufen (40) | Automatik | true
+31 | Komfort | x16 y-64 | Schalter | autoRepair | Beim Händler automatisch reparieren (35) | Automatik | true
+32 | Komfort | x16 y-88 | Schalter | autoFly | Automatisch zum geplanten Flugziel fliegen (42) | Automatik | true
+33 | Komfort | x16 y-112 | Schalter | useHearth | Ruhestein einplanen (binden und benutzen) (41) | Automatik | true
+34 | Komfort | x16 y-174 | Schalter | showActionBar | Knöpfe „Ziel anvisieren“ und „Questgegenstand“ (46) | Anzeige & Gruppe | true
+35 | Komfort | x16 y-198 | Schalter | showTimer | EP pro Stunde und Zeit bis zum nächsten Level (45) | Anzeige & Gruppe | true
+36 | Komfort | x16 y-222 | Schalter | showNewTag | Neue WoW-Forever-Quests markieren (33) | Anzeige & Gruppe | true
+37 | Komfort | x16 y-246 | Schalter | groupSync | Gruppenmodus (Fortschritt teilen) (33) | Anzeige & Gruppe | true
+38 | Komfort | x16 y-270 | Schalter | safeMode | Sicherer Modus: Elite und deutlich höhere Gegner meiden (55) | Anzeige & Gruppe | false
+39 | Komfort | x16 y-330 | Auswahl | language | Sprache (Knöpfe je Sprache) (27) | Sprache | "auto"
+40 | Extras | x16 y-36 | Schalter | mapAreas | Questgebiete auf Karte und Minikarte (36) | Karte & Questgegenstände | true
+41 | Extras | x16 y-58 | Schalter | mapAvailable | „!“ für annehmbare Quests (25) | Karte & Questgegenstände | true
+42 | Extras | x16 y-80 | Schalter | objPins | Fundstellen von Questgegenständen (33) | Karte & Questgegenstände | true
+43 | Extras | x16 y-102 | Schalter | objArrow | Pfeil zur nächsten Fundstelle (29) | Karte & Questgegenstände | true
+44 | Extras | x16 y-124 | Schalter | objAlert | Hinweis, wenn ein Questgegenstand nah ist (41) | Karte & Questgegenstände | true
+45 | Extras | x16 y-146 | Schalter | tooltips | Tooltip-Hinweise (Gegner, Gegenstände, Objekte) (47) | Karte & Questgegenstände | true
+46 | Extras | x16 y-200 | Schalter | restock | Beim Händler Vorräte nachkaufen (31) | Vorräte & Taschen | false
+47 | Extras | x16 y-222 | Schalter | restockFood | … Essen (7) | Vorräte & Taschen | true
+48 | Extras | x16 y-244 | Schalter | restockWater | … Wasser (Klassen mit Mana) (27) | Vorräte & Taschen | true
+49 | Extras | x16 y-266 | Schalter | restockAmmo | … Munition (Jäger) (18) | Vorräte & Taschen | true
+50 | Extras | x16 y-288 | Schalter | restockPetFood | … Tierfutter (Jäger) (20) | Vorräte & Taschen | true
+51 | Extras | x16 y-310 | Schalter | autoEquipRewards | Questbelohnung anlegen, wenn sie ein Upgrade ist (48) | Vorräte & Taschen | false
+52 | Extras | x16 y-332 | Schalter | bagCleanup | Hinweis: Gegenstände ohne Nutzen (32) | Vorräte & Taschen | true
+53 | Extras | x16 y-398 | Zahl | mountGold | Gold fürs Reittier (Level 40) (29) | Vorräte & Taschen | 100
+54 | Extras | x360 y-36 | Schalter | showEta | Zeit-Schätzung je Ziel und Zone (31) | Zeit & Sitzung | true
+55 | Extras | x360 y-58 | Schalter | showRested | Erholt-Bonus anzeigen (21) | Zeit & Sitzung | true
+56 | Extras | x360 y-80 | Schalter | showHearthCD | Ruhestein-Abklingzeit anzeigen (30) | Zeit & Sitzung | true
+57 | Extras | x360 y-102 | Schalter | welcomeSummary | „Wo war ich?“ beim Einloggen (28) | Zeit & Sitzung | true
+58 | Extras | x360 y-124 | Schalter | turninReminder | Hinweis auf offene Abgaben beim Zonenwechsel (44) | Zeit & Sitzung | true
+59 | Extras | x360 y-146 | Schalter | logoutSummary | Bilanz beim Ausloggen (21) | Zeit & Sitzung | true
+60 | Extras | x360 y-168 | Schalter | summaryGuild | … auch im Gildenchat (20) | Zeit & Sitzung | false
+61 | Extras | x360 y-222 | Schalter | hintClassQuests | Klassenquests der nächsten Level (32) | Hinweise | true
+62 | Extras | x360 y-244 | Schalter | hintClass | Klassen-Erinnerungen (20) | Hinweise | true
+63 | Extras | x360 y-266 | Schalter | hintTrainer | Trainer-Besuche und Kosten (26) | Hinweise | true
+64 | Extras | x360 y-288 | Schalter | hintMount | Reittier-Planung (16) | Hinweise | true
+65 | Extras | x360 y-310 | Schalter | hintProfessions | Erste Hilfe und Kochen (22) | Hinweise | true
+66 | Extras | x360 y-364 | Schalter | groupFinderText | Text für die Gruppensuche anbieten (34) | Gruppe | true
+67 | Extras | x360 y-386 | Schalter | findPartners | Mitspieler für Elite-Quests finden (zeigt anderen deinen Namen) (63) | Gruppe | true
+68 | Extras | x360 y-408 | Schalter | protocol | Fehler-Protokoll mitschreiben (bleibt auf deinem Computer) (58) | Gruppe | true
+69 | Austausch | x16 y-42 | Schalter | shareGroup | In der Gruppe / im Schlachtzug (30) | Daten mit anderen LevelPilot-Spielern teilen | true
+70 | Austausch | x16 y-68 | Schalter | shareGuild | In der Gilde (12) | Daten mit anderen LevelPilot-Spielern teilen | true
+71 | Austausch | x16 y-94 | Schalter | shareChannel | Über das Flüster-Netz (alle Spieler mit LevelPilot) (51) | Daten mit anderen LevelPilot-Spielern teilen | true
+72 | Austausch | x16 y-120 | Schalter | shareSeed | Meine Aufzeichnungen für die LevelPilot-Startdatenbank freigeben (64) | Daten mit anderen LevelPilot-Spielern teilen | false
+73 | Austausch | x360 y-42 | Schalter | marktTeilen | Marktdaten teilen (anonym, nur Preise) (38) | (keine) | true
+74 | Austausch | x360 y-150 | Schalter | wegeAuto | Wegdaten automatisch senden (ohne Namen) (40) | (keine) | true
+75 | Assistent | x440 y-40 | Schalter | advDurability | Haltbarkeit (11) | Prüfungen | true
+76 | Assistent | x440 y-64 | Schalter | advBags | Taschen & Taschen-Upgrades (26) | Prüfungen | true
+77 | Assistent | x440 y-88 | Schalter | advUpgrades | Ausrüstungs-Upgrades (20) | Prüfungen | true
+78 | Assistent | x440 y-112 | Schalter | advAmmo | Munition (Jäger) (16) | Prüfungen | true
+79 | Assistent | x440 y-136 | Schalter | advTalents | Talentpunkte (12) | Prüfungen | true
+80 | Assistent | x440 y-160 | Schalter | advTrainer | Klassentrainer (14) | Prüfungen | true
+81 | Assistent | x440 y-184 | Schalter | advRested | Erholt-Bonus (Gasthaus) (23) | Prüfungen | true
+82 | Assistent | x440 y-208 | Schalter | advWeapon | Waffenfertigkeit (16) | Prüfungen | true
+83 | Assistent | x440 y-232 | Schalter | advGrind | Abgegraste Stelle (17) | Prüfungen | true
+84 | Assistent | x440 y-268 | Zahl | durWarn | Haltbarkeit warnen ab % (23) | Prüfungen | 30
+85 | Assistent | x440 y-296 | Zahl | bagWarn | Taschen warnen ab frei (22) | Prüfungen | 3
+86 | Assistent | x440 y-324 | Zahl | ammoWarn | Munition warnen ab (18) | Prüfungen | 200
+
+n alt (im Fenster): 86 · Schalter 74 · Zahlen 11 · Auswahl 1
+doppelte Schlüssel: keine
+Beschriftung deDE länger als 28 Zeichen: 45 von 86
+ohne Überschrift in derselben Spalte: messages, marktTeilen, wegeAuto
+Standardwerte ohne Bedienelement im Fenster: restockWaterMage, foodAmount, waterAmount, ammoAmount, petFoodAmount, restockMaxPct, minimapAngle, framePos, frameW, frameH, arrowPos, centerPos, shareSeedAsked, cmdUse, qdb, graph, vendors, taxi, wegeSent, festLog, npcPos, net
+
+==== B. BEFUNDE ====
+- Drei Reiter mit Einstellungen (Einstellungen, Komfort, Extras) plus Optionen auf Austausch (6) und Assistent (12): 5 Orte.
+- Doppelte Themen bestätigt: "Automatik" auf Einstellungen UND Komfort; "Anzeige" / "Anzeige & Gruppe"; "Zeit" (Komfort, nur Anzeige
+  der Werte) / "Zeit & Sitzung" (Extras, Schalter). Karte getrennt (Pfadlinien: Einstellungen; Questgebiete/"!": Extras),
+  Ruhestein getrennt (useHearth: Komfort; showHearthCD: Extras). Kein Schlüssel ist doppelt (jede Option heute an genau einer Stelle).
+- Unter "Anzeige" (rechte Spalte Einstellungen) stehen auch questLogMax, speedLevel, platesQuest/platesAll, compactMode, ownSettings,
+  cmdHint – thematisch keine Anzeige. Unter "Server & Dungeons" stehen naviMapPin und deathSkip (gehören zu Karte bzw. Route).
+- Ohne Überschrift: messages (x200 neben "Automatik"), marktTeilen und wegeAuto (rechte Spalte Austausch).
+- Überdeckung belegt am Code: Hinweistext (Shift/Rechtsklick) bei (16,-394), 2 Zeilen, Breite 330, liegt über naviMapPin (16,-390)
+  und deathSkip (16,-414). Verdacht, zu messen (Schätzung ~6 px je Zeichen bei 11 pt): Text von "forever" (54 Zeichen, x16 y-258)
+  reicht bis ~x366 in die rechte Spalte (questLogMax y-246, speedLevel y-274); in FR/ES/RU länger.
+- 45 von 86 Beschriftungen (deDE) sind länger als 28 Zeichen -> Kurztext + Erklärung im Tooltip nötig.
+- Standardwerte ohne Bedienelement: restockWaterMage, foodAmount, waterAmount, ammoAmount, petFoodAmount, restockMaxPct (Mengen fürs
+  Nachkaufen, nur intern) und Zustände/Daten (Positionen, Grössen, qdb, graph …) – bleiben unsichtbar, keine Optionen.
+
+==== C. GEPLANTER NEUER AUFBAU (Schritt 2, Einwände bitte über offen-levelpilot.txt) ====
+Ein Reiter "Optionen" im Fenster: links 8 Bereiche, rechts eine Spalte (höchstens 12 Zeilen, kein Scrollen), Suchfeld oben,
+"Weitere" eingeklappt, "Standard" je Bereich. Austausch und Assistent behalten Zahlen/Hinweise und bekommen einen Knopf "Optionen",
+der den passenden Bereich öffnet; Komfort und Extras behalten ihre Knöpfe (Finde nächsten, Zeit, Quests teilen, Gruppen-Text, Bilanz)
+und werden zu einem Reiter zusammengelegt. Gespeicherte Schlüssel bleiben alle gleich. KARTE-TT1 kommt später in "Karte & Navigation"
+(dann 12 Zeilen).
+Quests & Route (12 Zeilen, davon unter „Weitere“ 4):
+   autoAccept  <- alt: Einstellungen x16 y-40
+   autoTurnin  <- alt: Einstellungen x16 y-64
+   dungeons  <- alt: Einstellungen x16 y-282
+   dungeonMin  <- alt: Einstellungen x16 y-310
+   safeMode  <- alt: Komfort x16 y-270
+   useHearth  <- alt: Komfort x16 y-112
+   deathSkip  <- alt: Einstellungen x16 y-414
+   speedLevel  <- alt: Einstellungen x360 y-274
+   questLogMax (Weitere)  <- alt: Einstellungen x360 y-246
+   forever (Weitere)  <- alt: Einstellungen x16 y-258
+   dungeonMobXP (Weitere)  <- alt: Einstellungen x16 y-334
+   dungeonQuestXP (Weitere)  <- alt: Einstellungen x16 y-358
+Karte & Navigation (11 Zeilen, davon unter „Weitere“ 1):
+   showArrow  <- alt: Einstellungen x360 y-40
+   showMinimapPath  <- alt: Einstellungen x360 y-64
+   showMapPath  <- alt: Einstellungen x360 y-88
+   mapAreas  <- alt: Extras x16 y-36
+   mapAvailable  <- alt: Extras x16 y-58
+   objPins  <- alt: Extras x16 y-80
+   objArrow  <- alt: Extras x16 y-102
+   objAlert  <- alt: Extras x16 y-124
+   naviMapPin  <- alt: Einstellungen x16 y-390
+   autoFly  <- alt: Komfort x16 y-88
+   terrainPath (Weitere)  <- alt: Einstellungen x360 y-160
+Fenster (12 Zeilen, davon unter „Weitere“ 1):
+   showMinimapBtn  <- alt: Einstellungen x360 y-112
+   locked  <- alt: Einstellungen x360 y-136
+   scale  <- alt: Einstellungen x360 y-188
+   stepsShown  <- alt: Einstellungen x360 y-214
+   compactMode  <- alt: Einstellungen x360 y-354
+   showTimer  <- alt: Komfort x16 y-198
+   showEta  <- alt: Extras x360 y-36
+   showRested  <- alt: Extras x360 y-58
+   showHearthCD  <- alt: Extras x360 y-80
+   showActionBar  <- alt: Komfort x16 y-174
+   showNewTag  <- alt: Komfort x16 y-222
+   cmdHint (Weitere)  <- alt: Einstellungen x360 y-402
+Händler & Taschen (10 Zeilen):
+   autoSellGrey  <- alt: Komfort x16 y-40
+   autoRepair  <- alt: Komfort x16 y-64
+   restock  <- alt: Extras x16 y-200
+   restockFood  <- alt: Extras x16 y-222
+   restockWater  <- alt: Extras x16 y-244
+   restockAmmo  <- alt: Extras x16 y-266
+   restockPetFood  <- alt: Extras x16 y-288
+   autoEquipRewards  <- alt: Extras x16 y-310
+   bagCleanup  <- alt: Extras x16 y-332
+   mountGold  <- alt: Extras x16 y-398
+Hinweise (11 Zeilen):
+   messages  <- alt: Einstellungen x200 y-10
+   tooltips  <- alt: Extras x16 y-146
+   platesQuest  <- alt: Einstellungen x360 y-306
+   platesAll  <- alt: Einstellungen x360 y-330
+   turninReminder  <- alt: Extras x360 y-124
+   welcomeSummary  <- alt: Extras x360 y-102
+   hintClassQuests  <- alt: Extras x360 y-222
+   hintClass  <- alt: Extras x360 y-244
+   hintTrainer  <- alt: Extras x360 y-266
+   hintMount  <- alt: Extras x360 y-288
+   hintProfessions  <- alt: Extras x360 y-310
+Assistent (12 Zeilen):
+   advDurability  <- alt: Assistent x440 y-40
+   advBags  <- alt: Assistent x440 y-64
+   advUpgrades  <- alt: Assistent x440 y-88
+   advAmmo  <- alt: Assistent x440 y-112
+   advTalents  <- alt: Assistent x440 y-136
+   advTrainer  <- alt: Assistent x440 y-160
+   advRested  <- alt: Assistent x440 y-184
+   advWeapon  <- alt: Assistent x440 y-208
+   advGrind  <- alt: Assistent x440 y-232
+   durWarn  <- alt: Assistent x440 y-268
+   bagWarn  <- alt: Assistent x440 y-296
+   ammoWarn  <- alt: Assistent x440 y-324
+Gruppe & Teilen (11 Zeilen, davon unter „Weitere“ 2):
+   groupSync  <- alt: Komfort x16 y-246
+   groupFinderText  <- alt: Extras x360 y-364
+   findPartners  <- alt: Extras x360 y-386
+   shareGroup  <- alt: Austausch x16 y-42
+   shareGuild  <- alt: Austausch x16 y-68
+   shareChannel  <- alt: Austausch x16 y-94
+   marktTeilen  <- alt: Austausch x360 y-42
+   logoutSummary  <- alt: Extras x360 y-146
+   summaryGuild  <- alt: Extras x360 y-168
+   shareSeed (Weitere)  <- alt: Austausch x16 y-120
+   wegeAuto (Weitere)  <- alt: Austausch x360 y-150
+Daten & Sprache (7 Zeilen, davon unter „Weitere“ 1):
+   language  <- alt: Komfort x16 y-330
+   usePack  <- alt: Einstellungen x16 y-88
+   useQuestie  <- alt: Einstellungen x16 y-112
+   recordQuests  <- alt: Einstellungen x16 y-174
+   recordPaths  <- alt: Einstellungen x16 y-198
+   ownSettings  <- alt: Einstellungen x360 y-378
+   protocol (Weitere)  <- alt: Extras x360 y-408
+
+n alt 86 · n neu 86 · doppelt neu: keine · fehlt neu: keine · unbekannt: keine
