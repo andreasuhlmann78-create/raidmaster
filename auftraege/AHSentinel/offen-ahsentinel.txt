@@ -4755,3 +4755,17 @@ Reihenfolge: nach TAINT/Sandbox-Punkten des Befunds 19:08, vor den MITTEL-Punkte
   eines Zyklus). Im Ingametest zeigt Punkt 4 ("mit Speicherbereinigung") das – bei einem Bild über 40 ms mit step: step ganz entfernen.
 - BEREIT FÜR INGAMETEST: ANGENOMMEN. Freigegeben für "/ahs testroutine alles" mit offenem AH und ProfessionSentinel 0.9.67 geladen
   (API-TAB-1 seit 0.65.335 behoben). Dem Nutzer gemeldet. Danach Upload (/reload).
+
+==== MESSAUFTRAG MITTEL 18.11.2026 06:00 – JOURNAL-SCHWUND (aus Entwurf Markt-Tabellen 18.11. 05:40, vom Supervisor geprüft) ====
+Die tägliche Markt-Tabelle wird seit dem 17.11. nicht mehr committet, weil die Fallzahl "Kaufen bis 0,7" fällt (155 -> 142).
+Vom Supervisor in goldsentinel-daten nachgezählt: Journal-Einträge "B;575788;7048;1;945;…;sniper;…;<letztes Feld>" je Stand:
+  14.11. Desktop 24 · 15.11. Desktop 21 · 16.11. Laptop 10 · 16.11. Desktop 8 · 17.11. beide 8.
+Die letzten Felder sind je Eintrag verschieden (z. B. 71840064 … 72314327). Verschwunden sind NICHT die ältesten: 16.11. Laptop -> 17.11.
+fehlen 71888524 und 72310224, während 72310129 und 72313464 bleiben. Also kein reines Kürzen auf die neuesten 3000.
+Frage (Ursache belegen, nicht vermuten): (1) Was ist das letzte Feld (eindeutige Kauf-Kennung?) und was bedeuten die Felder davor
+(1526, 358/716/5782/2891 …)? (2) Waren es 24 echte Sniper-Käufe von 7048 zu 945 in derselben Minute (Abgleich mit Buchhaltung und
+Post-Rechnungen des Stands 14.11.) – oder Doppel (Befund "Kauf doppelt", Bereinigung 0.65.322)? (3) Welche Funktion entfernt
+Journal-Einträge ausser dem Kürzen (Bereinigung, Prognose-Abschluss, Verdichtung …), und merkt sie sich, was sie entfernt hat?
+Danach entscheidet der Supervisor, wie das Prüfsystem (addon-check/marktanalyse/markt_tabellen.py merge_journals) Stände
+zusammenführt: echte Käufe aus älteren Ständen behalten, bewusst entfernte Doppel NICHT zurückholen. Bis dahin bleibt die
+Tabelle auf dem Stand 16.11. (richtig: lieber alt als falsch). Antwort im nächsten Bericht (kein Code nötig, wenn nur Auskunft).
