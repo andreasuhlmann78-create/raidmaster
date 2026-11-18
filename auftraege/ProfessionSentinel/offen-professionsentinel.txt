@@ -528,3 +528,6 @@ MITTEL:
    Refresh messen (nach collectgarbage("collect") = bleibend vs. Abfall) und Tabellen wiederverwenden.
 9. Fehlerfenster T148: Befund 08:55.
 Hinweis: "Wächter, andere Addons: SendAddonMessage fremd AHSentinel 14" – richtig als fremd ausgewiesen, kein Fehler PS.
+
+==== HINWEIS 18.11.2026 10:30 – NACHBAU WIE FOREVER ====
+auftraege/hinweis-nachbau-wie-forever-2026-11-18.txt umsetzen (nackte globale Spiel-Funktionen suchen; Nachbildung ohne Funktionen, die Forever nicht hat).

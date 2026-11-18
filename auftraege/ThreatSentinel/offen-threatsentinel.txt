@@ -327,3 +327,6 @@ OK 301 · FEHLER 0 · übersprungen 11 · im Client 14 · 3,1 s · Sandbox/CVars
 Zahl: 301 + 0 + 25 = 326 – stimmt. Längstes Bild 21,8 ms (T89), kein Bild über 40 ms. T-K2 jetzt OK (vorher SKIP). Prüfliste zeigt
 "TR-ALLE auto 18.11. 09:44 – 301/301 OK … Fenster-Prüfung wartet" – Punkt 3 im Spiel bestätigt.
 Supervisor: ohne Befund. Offen nur noch T186/T-D2 (Fenster-Prüfung) – läuft von selbst beim nächsten Spielfenster; Ergebnis mit dem Upload.
+
+==== HINWEIS 18.11.2026 10:30 – NACHBAU WIE FOREVER ====
+auftraege/hinweis-nachbau-wie-forever-2026-11-18.txt umsetzen (nackte globale Spiel-Funktionen suchen; Nachbildung ohne Funktionen, die Forever nicht hat).

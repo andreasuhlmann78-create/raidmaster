@@ -1125,3 +1125,6 @@ Weiter offen: Befund 09:07 (T142 Fehlerfenster), "Daten sichern" mit grossen Dat
   Spielversion allein im Spiel über 40 ms: BuildCandidates/Replan/UI unter WithFlavor in getrennte Abschnitte (Flavor setzen – Teil –
   zurück – Abgabe – Flavor setzen – nächster Teil), jeder Abschnitt am Stück unter 40 ms.
 - Beim Nutzer installiert (Laptop, diff 0). Ingametest folgt (Bilder über 40 ms, T261 je Bereich).
+
+==== HINWEIS 18.11.2026 10:30 – NACHBAU WIE FOREVER ====
+auftraege/hinweis-nachbau-wie-forever-2026-11-18.txt umsetzen (nackte globale Spiel-Funktionen suchen; Nachbildung ohne Funktionen, die Forever nicht hat).

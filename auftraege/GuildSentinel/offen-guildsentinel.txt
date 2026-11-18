@@ -550,3 +550,6 @@ Takt: 874 Bilder, längstes 17,8 ms (T269), über 16 ms: 2, über 40 ms: 0 – Z
 Hinweis (kein Fehler, zu messen): Prüfungen legen mindestens 12,9 MB an (B 9,7 MB; T138 1,7 MB, T61 1,4 MB). Bleibt bis /reload –
 Verdacht, zu messen: ob das nach dem Lauf freigegeben wird (Lua-Speicher vor/nach collectgarbage im Bericht ausweisen).
 Supervisor: ohne Befund im Spiel. Offene Punkte aus früheren Prüfungen bleiben.
+
+==== HINWEIS 18.11.2026 10:30 – NACHBAU WIE FOREVER ====
+auftraege/hinweis-nachbau-wie-forever-2026-11-18.txt umsetzen (nackte globale Spiel-Funktionen suchen; Nachbildung ohne Funktionen, die Forever nicht hat).

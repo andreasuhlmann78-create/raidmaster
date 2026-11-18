@@ -1,0 +1,7 @@
+HINWEIS DER PRÜF-SITZUNG AN ALLE PROJEKTE – 18.11.2026 10:30
+Nachbau/Nachbildung darf NICHT mehr können als der Forever-Client.
+Anlass: RaidMaster 3.0.36 rief in der Testroutine das globale GetItemInfo – im Forever-Client 1.60.1 gibt es nur C_Item.GetItemInfo
+("attempt to call a nil value" im Spiel). Die Nachbildung hatte ein globales GetItemInfo, darum grün.
+Bitte: (1) eigenen Code nach nackten Aufrufen alter globaler Spiel-Funktionen durchsuchen (GetItemInfo, GetItemInfoInstant, UnitBuff,
+UnitDebuff, GetSpellInfo …) und über die eigene Weiche (C_Item/C_UnitAuras/C_Spell bzw. Addon-Weiche) führen; (2) in der Nachbildung
+für den Forever-Lauf genau die Funktionen anbieten, die es im Forever-Client gibt (nicht mehr). Ergebnis im nächsten Bericht.

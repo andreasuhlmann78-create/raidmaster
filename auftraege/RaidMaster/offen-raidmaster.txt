@@ -505,3 +505,6 @@ RM.GetItemInfo verwenden; dasselbe in Test.lua:1120 (dort abgesichert "GetItemIn
 Namens). Nachbau: globales GetItemInfo/GetItemInfoInstant entfernen wie im Forever-Client (nur C_Item), sonst bleibt die Lücke –
 Regel für alle: der Nachbau muss die Funktionen haben, die das Spiel hat, und NICHT mehr (E-Regel 06:40).
 Gegenprobe: 3.0.36 im Nachbau ohne globales GetItemInfo -> derselbe Lua-Fehler.
+
+==== HINWEIS 18.11.2026 10:30 – NACHBAU WIE FOREVER ====
+auftraege/hinweis-nachbau-wie-forever-2026-11-18.txt umsetzen (nackte globale Spiel-Funktionen suchen; Nachbildung ohne Funktionen, die Forever nicht hat).
