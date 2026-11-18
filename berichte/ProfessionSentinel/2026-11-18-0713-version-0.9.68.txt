@@ -1,0 +1,50 @@
+BERICHT PROFESSIONSENTINEL AN DIE PRÜF-SITZUNG – VERSION 0.9.68 (Befund API-TAB-1 HOCH, Hinweise 23:40/00:10, Testdaten 06:45)
+Stand: 18.11.2026 07:13 · Release v0.9.68 (Commit 7f57e86), Release-Zip = Quelle (diff -r gleich), addon_check OK.
+Nur "umgesetzt, zur Prüfung" mit Belegen.
+
+1. API-TAB-1 (HOCH): Kopie beim Behalten
+- PriceSource.CallCounted: jede Tabelle einer behaltenen Antwort wird beim Behalten kopiert (PS.CopyValue, bis 3 Ebenen); auch der
+  erste Aufruf gibt schon die Kopie zurück. Nachschlagen (Treffer) legt weiter nichts an.
+- T291 Teil 1: Attrappe mit EINER wiederverwendeten Rückgabe-Tabelle (MaterialCost Item 1, dann Item 2) -> behaltene Liste von Item 1
+  bleibt Item 1, ist nicht die Tabelle der Quelle. Gegenprobe mit den Produkt-Dateien von 0.9.67: FEHLER "behaltene Zutatenliste von
+  Item 1 verändert: 20" (10 von 13 Prüfungen rot).
+
+2. nil von der API (Hinweis 23:40 / 00:10)
+- PS.NetSale: ist die API da, wird A:RealValue NIE mehr gefragt (T291: RealValue-Attrappe 0× gefragt).
+- ABWEICHUNG mit Grund: bei nil aus der API rechnet PS mit der eigenen Formel weiter (Preis der nächsten Quelle über API.Price/aux …,
+  Händlerwert als Untergrenze – genau wie ohne AHSentinel) und kennzeichnet das Ergebnis info.pending = true. Erster Versuch "nil ->
+  gar kein Wert" verlor die Händler-Untergrenze von Items ohne AH-Daten: Nachbau echt mit AHSentinel 0.65.341 FEHLER T37
+  ("Gold: X,Z" statt "X,Z,Y"). Mit der eigenen Formel: 0 FEHLER.
+- ABWEICHUNG mit Grund: nil wird kurz behalten (PS.NIL_MAX_AGE = 5 s) und mit jeder Meldung von AHSentinel (auch "settings" = Faktoren
+  fertig) verworfen. "Nie behalten" machte jedes unbekannte Item zu einer neuen Frage: Nachbau echt 997 738 Fragen statt ~85 000
+  (Treffer 379 356). Jetzt: 1 507 809 Treffer, 94 722 Fragen. T291 prüft: innerhalb 5 s nicht neu gefragt, nach 5 s neu, nach
+  OnChanged("settings") neu.
+- Die geplante Preiszeile "AHSentinel lädt noch" NICHT gebaut: nil heisst auch "Item unbekannt" – ohne Zustand in der API (Vertrag)
+  wäre der Hinweis dauernd an. FRAGE an AHSentinel/Prüf-Sitzung: API.Pending() (oder 4. Wert) in den Vertrag? Dann zeige ich es.
+
+3. Schnäppchen über API.DisenchantDeals (Befund 22:45)
+- DE.ApiDeals: fertige Liste von AHSentinel (ab 0.65.334) lesen, mit eigener Marge filtern (eigene Kopie, Liste von AHSentinel
+  unverändert – T291 prüft), sortieren, kürzen. Damit erscheinen die Schnäppchen wieder von selbst; nil -> Zeile "AHSentinel sucht die
+  Schnäppchen noch – sie erscheinen von selbst", Nachsehen nach 5 s, dann Neuaufbau in Portionen. Ohne die Funktion (AHSentinel
+  ≤ 0.65.333): weiter auf Klick.
+
+4. Testdaten fremder Addons (Hinweis 06:45)
+- Regel 1: ProfessionSentinelAPI.TestRunning() (true, solange unsere Testroutine läuft) – T291 prüft es während des Laufs.
+- Regel 2: ns.Foreign(name) liest nichts von AHSentinel (beide Namen), RaidMaster, GuildSentinel, LevelPilot, solange deren
+  <Addon>API.TestRunning() bzw. <Addon>.API.TestRunning() true ist (wie nicht geladen). T291 prüft mit einem erfundenen Addon
+  (keine echten Globalen ersetzt).
+- Lesestellen fremder Addons (Liste): AHSentinel/AHAnalyzerPro (PriceSource, Prices, Disenchant, Alerts, Favor, Today, UI, Jobs,
+  Spieltest – nur Preise/Werte, nie gespeichert ausser 60 s Zwischenspeicher), RaidMaster (Guild.lua: Gilden-/Mitgliederdaten),
+  LevelPilotAPI und TomTom (Waypoint: Wegpunkte setzen), auxForever/Auctionator/Auctioneer/TSM/Enchantrix (PriceSource: Preise),
+  GoldSentinelMarkt (gemeinsame Datei). Regel 3: ProfessionSentinel kündigt nichts automatisch an (kein Gildenchat/Flüstern/Discord).
+  TomTom/aux/Auctionator/TSM sind keine GoldSentinel-Addons (keine TestRunning-Funktion).
+
+5. Messung Nachbau echt (Forever, AHSentinel 0.65.341, Daten des PCs vom 17.11.)
+- OK 247 · FEHLER 0. Bilder über 40 ms: 8, längstes T81 147 ms (603->626 MB: ein Klick legt 23 MB an – Ursache noch zu messen),
+  dann T246 59, T210 51, T189 50, T130 47/46, T243 41, T38 40. Keine fremden Aufrufe über 5 ms mehr (AHSentinel 0.65.341 schneller).
+  Mit AHSentinel 0.65.332 (gestern) waren es 5 Bilder; die Werte schwanken je AHSentinel-Version (andere Aufrufkosten).
+- Tests: run_offline (4 Versionen) 0 FEHLER, Lua 5.1 Forever/Retail 0, smoketest, check_actions, Locale-Schlüssel 550, qloader,
+  yield_check OK. Retail T257 lag in 1 von 3 Läufen bei 8,8 ms (> 8 ms, Rauschen, sonst 6,7–6,9 ms) – unverändert gegenüber 0.9.67.
+
+6. NOCH OFFEN (nächste Version): T81 (147 ms, Ursache messen), T246/T210/T189/T130/T243/T38 unter 40 ms, Retail-Aufwärmen/T88,
+   TR-ALLE Nachtrag D (mit GoldSentinelTakt).
