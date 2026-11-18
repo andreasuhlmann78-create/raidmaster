@@ -492,3 +492,12 @@ auftraege/hinweis-testdaten-fremde-addons-2026-11-18.txt umsetzen (<Addon>API.Te
 - Beim Nutzer installiert. Ingametest frei, sobald AHSentinel ohne Ladefehler da ist (zusammen testen).
 Hinweis 08:10: AHSentinel 0.65.343 liefert API.Pending() (Vertrag ergänzt). Bitte "AHSentinel lädt noch" über "API.Pending and API.Pending()"
 anzeigen (mit älterem AHSentinel nil -> keine Zeile). Nächste Version, MITTEL.
+
+==== BEFUND MITTEL 18.11.2026 08:55 – Testroutine öffnet das Blizzard-Fehlerfenster (0.9.68, Nutzer 08:50) ====
+"Interface/AddOns/ProfessionSentinel/TestRoutine.lua:6019: ProfessionSentinel Testfehler (absichtlich)", Stack [C] error <- TestRoutine.lua:6019
+(RaiseTestError, T148 "Ungefangener Fehler wird gezählt": C_Timer.After(0, RaiseTestError)). Der absichtliche Fehler läuft ungefangen in
+den Fehler-Handler des Spiels und öffnet beim Nutzer das Fehlerfenster – er hält ihn für einen echten Fehler und meldet ihn (die Chat-Zeile
+TR_ERROR_SOON reicht nicht). Gleicher Befund wie RaidMaster RM-TF-1 und BuffSentinel 08:15 – gilt für alle Addons gleich.
+Auftrag: T148 darf keinen echten ungefangenen Fehler auslösen. Den Abgriff von GoldSentinelTest direkt prüfen (den angemeldeten Handler
+mit der Testmeldung aufrufen, OHNE den Original-Handler des Spiels weiterzureichen, bzw. den Weg wie ThreatSentinel T147); GoldSentinelTest.lua
+selbst nicht ändern (shared). Nachbau: Attrappe für Blizzard_ScriptErrors zählt Aufrufe -> 0; Gegenprobe 0.9.68 = 1 mit diesem Stack.
