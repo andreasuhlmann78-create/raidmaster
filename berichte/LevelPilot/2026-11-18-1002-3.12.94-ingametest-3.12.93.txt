@@ -1,0 +1,44 @@
+LevelPilot 3.12.94 veröffentlicht (Discord) – Ingametest 3.12.93 (09:35) Punkte 1 und 2, Befund 09:07 T142 (umgesetzt, zur Prüfung)
+Datum: 18.11.2026 10:02
+Zip: announce/levelpilot__levelpilot-3.12.94.LevelPilot.zip, md5 9b29696236b8e5e24b77843566883ebc. Datenpaket 1.6.4.
+Grundlage: GSTEST-Bericht 3.12.93 aus den Laptop-Daten (goldsentinel-daten, 09:54, nur lokal gelesen): Takt-Zeile mit den 10 längsten
+Bildern. Weitere Bilder über 40 ms nennt der Bericht nicht (nur die 10 längsten) – Ursachen unten nur für diese belegt.
+
+PUNKT 1 – Bilder über 40 ms (Spiel 3.12.93 -> Ursache -> 3.12.94)
+- T314–T319 302,7 ms: T319 (Navi nach Namen) 302 ms Rechenzeit in EINEM Bild. Ursache (Code): C:Navi/ShowHits -> NaviTo -> Navigate ->
+  C.PlanNavi = Reiseplan (Wegsuche) zu den Testzielen am Stück unter Ersatz. Geprüft wird die Auswahl, nicht der Reiseplan -> ersetzt wie
+  die Neuplanung (wie T306/T308/T320 in 3.12.93). Ebenso T314.
+- T25–T26 286,5 ms: T26 (im Spiel diesmal ausgeführt) – Überspringen/Neuplanen/Zurückstellen mit 5 Neuplanungen am Stück unter pcall.
+  -> echte Schritte des Spielers (kein Ersatz): Hülle darf abgeben, Neuplanungen als freigegebene Rechnung, sichere Stellen dazwischen.
+- T136 Zentrale 140/99,6/98,3 und T136 135,5 ms: Sprachwechsel. Nachbau: UI:Relabel stellt Text und Schrift jedes Elements um (im Spiel
+  teuer, im Nachbau fast kostenlos – Eichung T136 im Spiel 5,7×). -> Abgabe jetzt alle 5 statt 50 Elemente. Die Zentrale je Reiter ist
+  schon einzeln (3.12.93); ein einzelner Reiter bleibt am Stück (Verdacht, zu messen: Reiter "Dungeons"/"Daten").
+- T263 135,9 ms: Kandidat (Nachbau-Eichung 2,2×): die 500 empfangenen Netz-Einträge unter dem Ersatz LP.Fire am Stück. -> 10 Blöcke zu 50,
+  dazwischen sichere Stelle. (Welcher Teil von T263 die 136 ms waren, zeigt der Spielbericht nicht – Verdacht, zu messen.)
+- T275 109,6 ms: je Spielversion BuildCandidates+Replan+UI unter WithFlavor (GoldSentinelGame.SetTestFlavor = gemeinsamer Baustein, den
+  auch andere Addons lesen) – darf NICHT abgeben. Bleibt; Vorschlag: Prüfung auf eine Spielversion je Lauf reduzieren (Entscheid).
+- T224–T227 101,1 ms: UICheck (Tooltips aller Elemente, Textlänge) in WithOpenUI unter pcall ("Abgabe nicht möglich: T224/T226/T227
+  Zentrale"). -> WithOpenUI darf abgeben (nur echte Fenster), UICheck gibt je Element ab (Art "svc").
+- T129 100,8 ms: Zentrale mit kaputten Daten (Ersatz) – 3.12.93 hat Vorab-Füllen (Dungeon-Übersicht, Stufenbänder). Verdacht, zu messen.
+- "Abgabe nicht möglich" (47): T31/T81/T136/T225 svc – Ursache: der Hinweis-Lauf (Advisor) ruft jede Prüfung über pcall -> jetzt LP.PCall.
+  T224/T226/T227 Zentrale -> s. oben. T290 svc bleibt (Ersatz LP.sink, muss am Stück). T353 heisst jetzt "T353 Gegenprobe (pcall)".
+Nachbau 3.12.94 (ganze Routine): Laptop-Daten längstes Bild 64,5 ms (T128), 1 Bild über 40 ms; PC-Daten 125,8 ms (T81), 2 Bilder.
+Abgabe nicht möglich im Nachbau: nur noch T290 svc und T353 Gegenprobe.
+
+PUNKT 2 – T261 Einloggen: T261 zeigt jetzt je Bereich Summe, Aufrufe und längsten Aufruf (die 8 teuersten). Der Nachbau taugt dafür nicht
+(Aufträge laufen dort am Stück: "route 673 ms/2×", "graph 576 ms/5×"). Die Ursache belegt erst der nächste Ingametest mit dieser Zeile;
+danach teilen.
+
+BEFUND 09:07 – T142 öffnet das Fehlerfenster: Ursache bestätigt (pcall(geterrorhandler(), …) – jede Stufe der Kette ruft ihren
+gemerkten Vorgänger, zuletzt Blizzard_ScriptErrors; das lässt sich von aussen nicht abklemmen). Jetzt ruft T142 (und T159, gleicher
+Aufruf) die beiden Abgriffe direkt: GoldSentinelTest.Error("LevelPilot", "Lua", …) (dieselbe Ablage wie sein Fehler-Haken) und den
+eigenen Teil des Protokoll-Hakens (Protocol.OnLuaError, der Haken ruft ihn ebenso). Zusätzlich geprüft: beide Haken hängen in der Kette,
+"Fehlerfenster geöffnet: 0" (ScriptErrorsFrame vorher/nachher). GoldSentinelTest.lua unverändert. Gegenprobe: 3.12.92 im Spiel = 1.
+
+PRÜFUNGEN (Zip 3.12.94)
+- addon_check OK (1 Warnung lupa). Offline-Routine 40/40 ohne FEHLER. Regression 35/36 (test29 bekannt).
+- Ganze Routine Laptop/PC-Daten: dieselben 8 Nachbau-FEHLER wie 3.12.92/3.12.93; T142, T159, T353 OK; Sandbox OK.
+
+OFFEN
+- Ingametest 3.12.94: Bilder über 40 ms (erwartet weniger; bleibt sicher: T275 unter WithFlavor – Entscheid zum Vorschlag oben).
+- T261 je Bereich messen, dann teilen. T155 (MITTEL) danach. "Daten sichern" mit grossen Daten (Entscheid).
