@@ -4800,3 +4800,10 @@ auftraege/hinweis-testdaten-fremde-addons-2026-11-18.txt umsetzen (<Addon>API.Te
 nil aus der API heisst heute "unbekannt" ODER "lädt noch". Bitte additiv in den Vertrag: API.Pending() -> true, solange die erste
 Faktor-Rechnung (FactorPending) läuft – dann kann ProfessionSentinel "AHSentinel lädt noch" anzeigen. Mit dem nächsten Stand, nach dem
 Ladefehler (HOCH SOFORT 06:40).
+
+==== PRÜFUNG Supervisor 18.11.2026 07:45 – 0.65.342 (Ladefehler, and-Muster) ====
+- addon_check OK. Code A:On gesehen: match im if, beide Werte geprüft, alles in pcall, Stufe 4 = Aufrufer, Naht debugstackTest statt
+  _G-Ersatz. Suche nach dem and-Muster im Code 0.65.342: nur noch Mehrfach-Zuweisungen mit je eigenem Ausdruck (richtig).
+- Nachbildung debugstack im Spiel-Format für alle Nachbauten, Gegenprobe 0.65.341 zeigt die Meldung des Nutzers – angenommen.
+- Learn.lua:566 mit echten Daten belegt: Treffer d 0,27 -> 0,33, keine Kaufentscheidung ändert sich in diesen Daten – gut belegt.
+- Beim Nutzer installiert (Laptop). Weiter: API.Pending(), dann BEREIT FÜR INGAMETEST.
