@@ -406,3 +406,13 @@ MITTEL:
 6. T250 längstes Bild 45,3 ms (T146) – über 40 ms; teilen. Schritte gesamt T25 179 ms, T92 104, T27 103.
 7. T141 BuffSentinelOptions überdeckt LevelPilot-Pfeil (HUD) – ausweichen wie die anderen.
 8. T162 Regressionen: folgt aus 1/2.
+
+==== PRÜFUNG Supervisor 18.11.2026 09:50 – 0.9.55 (Ingametest 08:11 und Befund Fehlerfenster 08:15) ====
+- addon_check OK, download = announce byte-gleich, md5 b0f50cef….
+- T136/T158: EINE eigene Ursache belegt (Sendesperre 15 s, Lauf 18,5 s) mit Nachbau-Gegenprobe 0/0/0 -> 0/2/4; gesendete Nachricht genannt
+  und Folgen bei Empfängern aus dem Code ausgeschlossen – sauber. Sperre über den ganzen Lauf mit Zeitlimit 10 Min. + Aufheben bei Leave/
+  Logout – angenommen (Regel "keine Sperre ohne Zeitlimit" eingehalten). T257 neu – gut.
+- T34/T62: Testisolation (WithAuraFree) angenommen; Produkt-Frage bleibt offen bis zur Messung "Locked/ShouldAurasBeSecret/Pause" im Spiel.
+- Poisonstock minLevel 20 (Priester 10) – Erwartung des Tests falsch, belegt – angenommen. T100, T141 (HUD-Liste wie RM), T155, T146 Portionen –
+  angenommen. Fehlerfenster: T116 ohne Handler des Spiels, Attrappe zählt 0, Gegenprobe 0.9.54 = 1 – angenommen.
+- Beim Nutzer installiert (Laptop, diff 0). Ingametest folgt: T136 = 0, T158 0/2/4, T34-Sperrwerte, längstes Bild, kein Fehlerfenster.

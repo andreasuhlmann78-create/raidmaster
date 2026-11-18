@@ -472,3 +472,10 @@ OK 138 · FEHLER 1 · übersprungen 14 · im Client 10 · 99,0 s · Sandbox OK. 
    Design-/Sprachwechsel). Das Hauptfenster beim ersten Öffnen in Portionen bauen (Seiten erst beim ersten Zeigen, B6 GoldSentinelTakt).
    Spielwert und Nachbau-Wert im nächsten Bericht.
 Sonst ohne Befund. Offene Punkte von 17.11. (T156, T155 usw.) bleiben, soweit nicht im Bericht zu 3.0.34 umgesetzt.
+
+==== PRÜFUNG Supervisor 18.11.2026 09:50 – 3.0.35 (T43 nur versteigerbare Items, Seiten erst beim Zeigen) ====
+- addon_check OK, md5 8b74a1fb…, toc 3.0.35. Code UI.lua: CreateMain legt nur Rahmen an, UI.BuildPage einmal (p.built), BuildRest eine
+  Seite je 0,05 s, im Kampf wartet er; Refresh nur mit p.refresh – angenommen. T43 mit T.preferAuction und "nicht prüfbar … versteigerbar 0"
+  samt Gegenprobe – angenommen (Ursache von hier belegt, sauber umgesetzt).
+- Beim Nutzer installiert (Laptop, diff 0). Spielwerte im nächsten Ingametest: "Aufbau Fenster" und jede Seite einzeln (Erwartung ~11/~20 ms –
+  Verdacht, zu messen). Liegt eine Seite über 16 ms: in Portionen (Takt).

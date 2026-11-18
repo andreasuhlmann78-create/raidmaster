@@ -314,3 +314,10 @@ Offen:
    Testfenster (765×440 Testzentrale gegen TSFremdTest auf 1461×767). Die Prüfung baut sich ihr Hindernis selbst – Testfenster so legen /
    so gross wählen, dass es einen freien Platz gibt; dann OK oder FEHLER, nicht SKIP.
 3. Prüfliste zeigt weiter "TR-ALLE auto 17.11. 17:00" – Punkt 5 von 06:50 (neuer Stand nach dem Lauf) im Spiel NICHT behoben. Ursache belegen.
+
+==== PRÜFUNG Supervisor 18.11.2026 09:50 – 2.5.21 (T-D2/T-K2 lösbare Anordnung, Prüfliste neuester Lauf) ====
+- addon_check OK, download = announce byte-gleich, md5 52114dfd…. Ursachen nachgerechnet: 1461−765 = 696 → je Seite 580/581 < 765,
+  767−440 = 327 → 234/233 < 440 – es gab wirklich keinen freien Platz; Prüfung konnte nur scheitern. Neue Anordnung + T-K2d Nachrechnung,
+  SKIP entfernt – angenommen. Prüfliste: Ursache (waitWindow) belegt, R:PLRunResult nach jedem Lauf – angenommen.
+- Fehlerfenster-Befund: TS geprüft, kein geterrorhandler/seterrorhandler, Testfehler nur in pcall/ns:ReportError – angenommen.
+- Beim Nutzer installiert (Laptop, diff 0). Ingametest folgt.
