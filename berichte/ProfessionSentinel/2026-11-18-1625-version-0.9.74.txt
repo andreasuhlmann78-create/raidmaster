@@ -1,0 +1,19 @@
+BERICHT PROFESSIONSENTINEL – VERSION 0.9.74 (Entscheid T258 vom 18.11. 15:15; Hinweis Sync 3; kurz wegen Nutzung sparen)
+Release v0.9.74 (Commit d734882), Zip = Quelle (diff -r), addon_check OK. Nur "umgesetzt, zur Prüfung".
+
+1. ENTSCHEID T258 (umgesetzt, zur Prüfung)
+- pipeline/farbstufen.py (in update.sh nach gen_addon_data.py, also auch beim Rezeptdaten-Update): jede Forever-Zeile, die die Regel
+  erlernbar <= gelb <= grün <= grau verletzt, bekommt gelb/grün/grau = 0 (das Addon zeigt dafür keine Farbe und keine Skill-Empfehlung:
+  AD.Evaluate/Lifeline brauchen gelb > 0). Die Originalwerte stehen in ns.ColorsUnknown. Gemessene Werte aus
+  pipeline/farbstufen_gemessen.json gewinnen und stehen in ns.ColorsMeasured ("Forever gemessen"). Das Skript läuft mehrfach ohne Änderung
+  (geprüft). Keine Werte aus Era übernommen.
+- Forever: 16 Zeilen markiert (2665, 2674, 9273, 16991, 19048, 22757, 23650, 23652, 23653, 427061, 435481, 435903, 1255000–1255003).
+  Die 19 aus dem letzten Bericht zählten auch Zeilen mit gelb = 0, die die Regel nicht prüft. Era (2) und Retail (251) sind nicht markiert:
+  Der Entscheid nennt Forever. Bitte entscheiden, ob Era und Retail ebenfalls markiert werden sollen.
+- T258: Die markierten Zeilen erscheinen als HINWEIS mit Anzahl und Liste. Geprüft wird: keine Farbstufen, keine Skill-Empfehlung. Für alle
+  anderen Zeilen gilt die volle Regel. Gegenprobe: eine eingeschleuste neue Verletzung (2158: 65/60/110/125) ergibt FEHLER.
+- Prüfliste: neuer Messpunkt WETZSTEIN (Farbe von "Grober Wetzstein" bei Schmiedekunst 75–100 ablesen und der Prüf-Sitzung sagen).
+  Wegen der Grenze von 14 Punkten ist STIL im Punkt OPT aufgegangen (der Stil ist eine Option des Fensters).
+2. HINWEIS SYNC 3: nicht betroffen. ProfessionSentinel lädt GoldSentinelSync nicht (keine TOC-Zeile), deshalb keine Kopie.
+   Betroffene Prüfungen: keine (kein OnAddonMessage/Learn/NetSend/Tick/Pump von Sync in TestRoutine.lua).
+3. TESTS: offline Forever 248/0, Era 231/0, Retail 228/0, TBC lädt; smoketest OK; yield_check OK; check_actions OK.
