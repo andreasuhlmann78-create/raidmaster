@@ -1,0 +1,59 @@
+BERICHT THREATSENTINEL 2.5.20 – Ingametest 18.11. 06:38 (Punkte 1–5), Hinweis Testdaten (06:45), GoldSentinelTakt (21:00)
+Stand: umgesetzt, zur Prüfung (keine Selbst-Freigabe). Reihenfolge laut Nachricht: zuerst HOCH (Testdaten), dann 1–5.
+Veröffentlicht: download/ThreatSentinel-2.5.20.zip (addon_check "## ThreatSentinel-2.5.20.zip: OK"),
+announce/threatsentinel__threatsentinel-2.5.20.md. Gemeinsame Dateien cmp gleich mit shared/.
+Offline (veröffentlichte ZIP, "alles"): Forever OK 286 · FEHLER 6 · übersprungen 18 · im Client 16; Era OK 290 · FEHLER 6 ·
+übersprungen 12 · im Client 17; je "FEHLER ausserhalb der Nachbildungs-Liste: 0", Regressionen 54 von 54. Mit TS_FRAME_MS=0 ebenso 0.
+
+A) HINWEIS TESTDATEN NIE ZU ANDEREN ADDONS (hinweis-testdaten-fremde-addons-2026-11-18.txt)
+Regel 1: ThreatSentinelAPI.TestRunning() (Core.lua) = ns.routineRunning – true, solange die Routine im Sandkasten der
+  gespeicherten Daten arbeitet (vom Sandkasten-Anlegen bis zum Zurückstellen). Test T-TD1: "während der Routine true · danach false".
+Regel 2 – Lesestellen fremder Addons in ThreatSentinel (vollständige Liste, per grep auf rawget/_G belegt):
+  1. GoldSentinelMarkt.Stats() / gsMarkt-Grösse – Diagnose-Zeile MARKT-NETZ und Prüfliste MARKT (auto) -> jetzt nicht gelesen, solange
+     ein GoldSentinel-Addon testet ("MARKT-NETZ: nicht gelesen (Testroutine läuft: …)", auto() = nil).
+  2. TSMessDB.lines – Prüfliste TSMESS (auto) -> ebenso gesperrt.
+  3. GoldSentinelUIFrames – nur Rechtecke sichtbarer Fenster (Ausweichen/T181), keine Daten.
+  4. GoldSentinelSync – Nachrichten echter Mitspieler (kein fremdes Addon-Test-Material; ThreatSentinels Routine sendet nichts,
+     "echte Aktionen 0").
+  ns:ForeignTestRunning() fragt AHSentinelAPI, BuffSentinelAPI, GuildSentinelAPI, LevelPilotAPI, ProfessionSentinelAPI, RaidMasterAPI,
+  TSMessAPI (wo vorhanden) – jede Antwort geschützt (pcall). Test T-TD2 (mit vorübergehend testendem "RaidMaster"):
+  "testet: RaidMaster · Markt-Zeile true · Prüfliste MARKT nil · TSMESS nil", danach wieder leer.
+Regel 3: ThreatSentinel kündigt nichts automatisch an (kein Gildenchat/Flüstern/Discord); speichert keine fremden Daten.
+
+B) INGAMETEST 06:38
+1. T-D2 "Bericht T186=false" (+ TU6-R1): Ursache aus dem Lauf belegt, soweit ohne neue Spieldaten möglich: Im selben Lauf bewies
+   T-K2 einen Bildschirm voller Fenster (Rest-Überdeckung 7926). T-D2 prüfte den Nachhol-MECHANISMUS, aber dessen T186-Ergebnis
+   hing an genau diesen offenen Fenstern (U.WindowsOverlapNothing gegen alle Spiel- und GoldSentinel-Fenster) – also FEHLER, obwohl der
+   Mechanismus lief (Vormerkung gelöscht, Meldung, Fenster wie vorher – die anderen drei Teile waren im Spiel richtig).
+   Änderung: T-D2 läuft abgeschirmt (nur das Test-"Spielfenster" zählt; ns.UI_BLIZZARD und GoldSentinelUIFrames nur für diesen einen
+   synchronen Aufruf ersetzt, danach zurück). Schlägt T186 trotzdem fehl, steht der Grund jetzt im Ergebnis ("T186=false (…)").
+   VERDACHT, ZU MESSEN: Bestätigung im nächsten Ingametest (T-D2 grün oder mit Grund).
+2. T-PL2 "false false auto": Ursache belegt – im Spiel war TR-ALLE schon "erkannt" gespeichert (17.11. 17:00). List:Hit
+   (shared, Zeile 113) setzt nur "offen"/"fehler" auf "erkannt" -> zweiter Teil lieferte false. Der Test lief auf dem echten Speicher.
+   Änderung: T-PL2 beginnt mit frischem Speicher (ThreatSentinelDB.pruefliste = nil, danach zurück).
+5. Prüfliste zeigte noch "TR-ALLE auto 17.11. 17:00": dieselbe Ursache (Hit erneuert keinen erledigten Punkt). Neu ns:PLRefresh(id,
+   note): für Ergebnisse eines LAUFS (TR-ALLE, ERA-TBC, Fenster-Nachholen) wird der Punkt mit Zeit und Notiz erneuert; "OK"/"Nicht OK"
+   des Spielers bleiben. T-PL2 prüft das: "… · true true Lauf 2 · false ok".
+3. T-K2 SKIP statt FEHLER: Das SKIP kommt jetzt nur noch nach einem vollständigen BEWEIS, dass kein Platz frei ist:
+   U.BestPlace Stufe 2 prüft alle bündigen Lagen (linke Kante 0 oder rechte Kante eines Hindernisses, Unterkante 0 oder Oberkante
+   eines Hindernisses – jede freie Lage lässt sich dorthin schieben, also wird jede gefunden). Neu T-K2d: Lücke genau so breit wie das
+   Fenster wird gefunden (Lage 350, Überdeckung 0; Stufe 1 allein fand sie nicht), voller Bildschirm -> Überdeckung > 0, Namen der
+   Überdeckenden mit Fläche.
+   Das Ergebnis nennt jetzt: Bildschirmgrösse, Grösse der Testzentrale, Rest-Überdeckung durch <Name Fläche, …> und alle offenen
+   Fenster (Spielfenster mit Rahmennamen, GoldSentinel-Fenster "Name (Addon)"). Ist Platz frei, aber nicht erreicht -> FEHLER mit Namen.
+   Welche Fenster am 18.11. offen waren, war im alten Ergebnis nicht enthalten – das zeigt der nächste Ingametest.
+4. Bilder über 40 ms:
+   - T131 47,4 ms: _G wurde am Stück durchgegangen (zweimal: Vorher-Liste beim Start, Vergleich in T131). Jetzt R:ScanGlobals: in
+     Portionen (Abgabe alle 200 Einträge, wenn das Budget verbraucht ist), next() einzeln geschützt; verschwindet zwischen zwei Bildern
+     der gemerkte Schlüssel, beginnt der Durchgang neu (höchstens 3 Mal, sonst T131 FEHLER "nicht vollständig"). Die Vorher-Liste
+     entsteht im ersten Bereich (Coroutine), nicht mehr im Start-Bild.
+   - TU3-D2 43,4 ms: in Teilen zu 15 Feldern (TU3-D2-1 …), TU3-D2 fasst zusammen ("n von N Feldern in k Teilen").
+   Nachbau, echte Uhr, "alles": längstes Bild 10,2–10,4 ms (TU7-S1), keine Prüfung über 16 ms (vorher 13,5–21,1 ms).
+   Spiel/Nachbau für TU1-L04t jetzt 14,4 / ≈ 9 ms (Faktor ≈ 1,6). VERDACHT, ZU MESSEN: im Spiel längstes Bild ≈ 15–25 ms.
+   TU1-L04t 14,4 ms (17.11.: 10,3 ms) – gemessen werden seit 2.5.17 3 statt 10 Durchläufe inkl. Budget-Teilung; Wert liegt unter 16 ms.
+   VERDACHT, ZU MESSEN: Ursache des Anstiegs (andere Messung vs. Spiel-Last). Nächster Ingametest mit "(bewertet n, später k; Stand …)".
+
+C) GOLDSENTINELTAKT (hinweis-goldsentineltakt-2026-11-17.txt): ThreatSentinel behält seinen eigenen Takt (Punkt 5 des Hinweises:
+   im Spiel gut – 2,0 s ganze Routine, gemessene Bilder). Neue Arbeit in Portionen gab es in dieser Version nur innerhalb der Routine
+   (Teilen von T131/TU3-D2) – dafür der bestehende Routine-Takt. Den Messauftrag "Abgabe im Forever-Client" belegt ThreatSentinel
+   bereits: Zusammenfassung 06:38 mit Abgaben und gemessenen Bildern.
