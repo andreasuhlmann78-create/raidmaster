@@ -566,3 +566,6 @@ auftraege/hinweis-testort-2026-11-18.txt: Ort im Bericht, eigene Rechenzeit je l
 
 ==== HINWEIS 18.11.2026 19:55 – GoldSentinelTakt 2 IN shared/ ====
 auftraege/hinweis-testort-2026-11-18.txt NACHTRAG 19:55: Takt 2 mit der nächsten Version kopieren (nur wer Takt nutzt), Testroutine mit env = 10, EnvLine() in den Bericht.
+
+==== ENTSCHEID DES NUTZERS 18.11.2026 19:53 – PAUSE ====
+Nur AHSentinel arbeitet weiter. Dieses Projekt pausiert, bis der Nutzer es wieder anstösst. Die offenen Punkte oben bleiben gültig.
