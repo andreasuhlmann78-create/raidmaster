@@ -1,0 +1,77 @@
+BERICHT GuildSentinel 0.9.58 – T138 (Mitgliederliste), Titelleiste oben rechts, Hinweis Sync-Testdaten, Spieler ohne Testbefehle
+Von: GuildSentinel-Sitzung · 18.11.2026 14:56 (Zeit aus date, Europe/Zurich) · Quellcode 1df1a39
+Status: umgesetzt, zur Prüfung. CurseForge: unverändert 0.9.52 am 18.11. 18:00. download/ nicht angefasst.
+
+A) HINWEIS 13:55 – TESTDATEN IM SYNC-ADRESSBUCH (zuerst, weil echte Flüsternachrichten möglich)
+1. Liefert eine eigene Prüfung Nachrichten an GoldSentinelSync? Geprüft, Ergebnis: GuildSentinel lernt KEINEN Namen.
+   - Sync lernt nur bei Nachrichten MIT Kopf (#S1/#S2) von einem Absender (GoldSentinelSync.lua OnAddonMessage: Learn(sender) nur
+     "if sid"). T220 liefert nur Nachrichten OHNE Kopf (alte Version) – kein Learn. T226 ruft Sync.Learn, aber mit Ersatz-Buch und
+     Ersatz-Speicher (With Sync.book/Sync.store). T227/T228 ebenfalls mit Ersatz-Buch. Sonst keine Zustellung an Sync.
+   - Senden: die Routine hält GuildSentinel-Sendungen zurück (Comm.TestHold); T82 misst "echt 0".
+   - Neue Prüfung T308 (am Ende jeder Routine): Adressbuch vor/nach – kein Testname neu und keiner erneuert (seen). Testnamen eng
+     gefasst (GSTest…, Testa Beispiel, Mira Sonnenkind, LPWeiter…), damit echte Mitspieler, die während der Routine schreiben, nicht
+     zählen. Offline test/run_syncbook.lua: Routine OK; echter Mitspieler während der Routine OK; GEGENPROBE: Sync lernt während der
+     Routine "Testa Beispiel-Realm" -> T308 FEHLER "neu 1"; vorhandenen Testnamen erneuert -> FEHLER "erneuert 1".
+2. Eigenes gsSync.book (goldsentinel-daten 18.11. 14:37, nur lokal gelesen): Laptop und Desktop – keine Testnamen im Buch von
+   GuildSentinel (Testnamen nur in gespeicherten Testberichten gsTest). Das Buch mit den LevelPilot-Namen liegt in ThreatSentinel.lua
+   (wie im Nachtrag 14:35 belegt).
+3. Sync-Lernen braucht von GuildSentinel KEINE Prüfung mit echtem Buch (T226 lernt nur ins Ersatz-Buch). Für Sync 3 nichts nötig.
+
+B) T138 MITGLIEDERLISTE 16,2 MS (Ingametest 13:44)
+Ursache belegt:
+- Produkt: Roster:Scan lief im Spiel bei jedem GUILD_ROSTER_UPDATE am Stück (Ticker alle 30 s) – bei 500 Mitgliedern ein Bild um 16 ms.
+- Zusätzlich gefunden (Nachbau, 500 Mitglieder): Notizen "Twink von X", deren Main NICHT in der Gilde ist, liefen je Twink über die
+  ganze Liste (ns.FindMember, Rückfall ohne Treffer in byName) – 166 solche Notizen: Scan 216 ms. Behoben mit Zwischenspeicher je Name
+  (gilt, solange dieselbe Liste gilt): 4,9 ms. Gegenprobe: Code 0.9.57 im selben Nachbau 216,6 ms.
+Behebung:
+- Ab 100 Mitgliedern läuft das Lesen als Aufgabe des gemeinsamen Takts (Roster:ScanSliced): Lesen am Stück (der Server kann die Liste
+  zwischen zwei Bildern ändern), die neue Liste gilt sofort mit dem Main aus der Notiz vom letzten Stand (kein Flackern), Notizen in
+  Portionen zu 25, Vergleich + Ereignis am Ende am Stück. Ein zweites Update während des Laufs = genau EIN weiterer Lauf; liest jemand
+  dazwischen am Stück, wird die Runde verworfen. Zeitlimit 30 s; längstes Bild > 16 ms -> Protokoll LANGSAM. Unter 100 am Stück wie bisher.
+- T138 neu: Median aus 3 Läufen am Stück (je ein eigenes Bild, ausserhalb der Prüfung) + der Scan in Portionen (längstes Bild);
+  streng beides < 16 ms. Jede vierte Notiz nennt jetzt einen Main ausserhalb der Gilde. Nachbau: Median 6,9 ms, Portionen längstes
+  Bild 2,9 ms (3 Bilder). "Eigene Rechenzeit": eine Prüfung läuft am Stück, andere Addons rechnen dazwischen nicht – die Zeit ist
+  die eigene (Median gegen Ausreisser durch Bereinigung).
+- Offline test/run_scansliced.lua (3 Spielversionen, 13 Prüfungen): 500 Mitglieder in Portionen (längstes Bild 2,3–4,2 ms im
+  Nachbau), Ergebnis gleich wie am Stück, Beitritt und Beförderung im Verlauf, kein Flackern während der Portionen, Vormerken,
+  Verwerfen, unter 100 am Stück, Zwischenspeicher.
+
+C) TITELLEISTE OBEN RECHTS (Befund Nutzer 13:46)
+- Schliessen: flacher Knopf 24×24 mit grauem "X", beim Darüberfahren weiss auf dunkelrot (statt rot-goldenem UIPanelCloseButton).
+- Unterstützen: kleines Münz-Symbol (16 px, 55 % deckend, beim Darüberfahren voll) mit Tooltip "Addon unterstützen" + Erklärung,
+  öffnet wie bisher nur auf Klick das Fenster (statt grauem Knopf). /gs spenden und Optionen > Allgemein > Weitere bleiben.
+- Gildeninfo: 16 px Abstand zum Symbol, 8 px zwischen Symbol und X; alle drei gleich hoch (24) und auf einer Mittellinie.
+- GuildSentinel hat nur ein Design; geprüft mit Schrift 100 % und 130 % (Nachbildung). Neue Prüfung T309 (Lage): gleiche Höhe,
+  eine Mittellinie, Abstand ≥ 6/12, flache Knöpfe, nichts überlappt – Nachbau: "Höhe 24/24, Mitte gleich, Abstand 8/16, flach true".
+  Das Aussehen bitte am Bild bestätigen (Prüflisten-Punkt OPT).
+
+D) SPIELER OHNE TESTBEFEHLE (Hinweis 11:15) – Liste und Prüfung
+1. Spieler-Funktionen und ihr normaler Weg:
+   - Fenster: Minimap-Knopf Linksklick, /gs; Minimap Rechtsklick = Werbung vorbereiten.
+   - 13 Seiten über die Navigation links (Übersicht, Mitglieder, Gruppensuche, Termine, Meine Woche, Brett, Berufe, Fortschritt,
+     Umfragen, Rekrutierung, Leitung (nur Offiziere), Addons, Einstellungen) – keine Seite nur für Entwickler.
+   - Optionen: Einstellungen > Optionen, /gs optionen (config, einstellungen, settings), Einstellungsfenster des Spiels (Knopf
+     "Optionen öffnen"), Optionen-Knöpfe auf Rekrutierung und Gruppensuche.
+   - Befehle ohne Entwicklermodus (20): berufe, suche, gruppe, fortschritt, zugang, termine, brett, wo, danke, weg, umfrage, regeln,
+     werbung, optionen, spenden, verwaltung, sync test, protokoll, clienttest, debug.
+   - Nur Entwickler (dev = true): test (Testmodus), testroutine, prüfliste – und der Reiter Einstellungen > Testmodus.
+2. Texte: keine Hilfe, kein Tooltip, keine Meldung für Spieler nennt test/testroutine/prüfliste/gsdev (Code und Locales durchsucht;
+   /gs-Hilfe listet Entwickler-Befehle nur im Entwicklermodus).
+3. Neue Prüfung T310 (Entwicklermodus über GoldSentinelDev.IsDev ausgeschaltet): 13 Seiten ein, 20 Befehle auffindbar, /gs optionen
+   öffnet die Optionen, Seite im Einstellungsfenster des Spiels vorhanden, Hilfe ohne Entwickler-Befehle; GEGENPROBE: /gs prüfliste
+   und /gs test tun ohne Entwicklermodus nichts.
+
+TESTS (eigene Tests, Hinweise, keine Freigabe)
+- run_alle.sh: 199 Läufe, 0 rot, 15835 Einzelprüfungen. Abgleich mit 0.9.57 (193 / 15696, Lauf für Lauf): +3 run_syncbook (3 × 5 = 15),
+  +3 run_scansliced (3 × 13 = 39); 17 Routine-Läufe +2 (T308, T310) = 34; 17 Routine-Läufe mit Bildschirm-Lage +3 (dazu T309) = 51.
+  15 + 39 + 34 + 51 = 139 = 15835 − 15696. Sonst jede Zahl gleich.
+- Testroutine: Forever 314, Era/TBC 319 OK, je 0 FEHLER; mit Bildschirm-Lage und Schrift 130 % 0 FEHLER.
+- Gemeinsame Dateien unverändert aus shared/ (cmp). Locales: keine neuen Texte (nur Reihenfolge), alle 10 Sprachen fehlend 0.
+- addon_check: siehe ADDON_CHECK am Ende.
+
+ADDON_CHECK (addon-check/addon_check.py, Ausgabe unverändert):
+  Vorlage shared/GoldSentinelGame.lua: Version 3
+  Vorlage shared/GoldSentinelTest.lua: Version 2
+  Tests der gemeinsamen Datei: nicht ausgeführt – lupa fehlt (pip install lupa); im GitHub-Lauf werden sie ausgeführt
+  Lua-Syntaxprüfung mit: luac5.1 (Lua 5.1)
+  ## GuildSentinel-0.9.58.zip: OK
