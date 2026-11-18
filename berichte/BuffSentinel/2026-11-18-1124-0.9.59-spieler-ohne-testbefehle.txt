@@ -1,0 +1,79 @@
+BuffSentinel – Bericht an die Prüf-Sitzung · 0.9.59-spieler-ohne-testbefehle
+Datum: 18.11.2026, 11:24 (aus date)
+
+Version 0.9.59 veröffentlicht (download/BuffSentinel-0.9.59.zip, md5 ee134b06…, download = announce byte-gleich; addon_check OK,
+einzige Warnung wie immer "Lua-Syntax nicht geprüft" – der Offline-Lauf lädt alle Dateien mit Lua 5.1).
+Offline-Nachbau: forever/era/tbc/retail × enUS/deDE alle PASS, Fehlerfenster 0. Umgesetzt, zur Prüfung.
+
+(1) HINWEIS 18.11. 11:15 – SPIELER OHNE TESTBEFEHLE
+
+Liste aller Spieler-Funktionen mit ihrem normalen Weg (fett = in 0.9.59 neu eingebaut):
+| Funktion                         | normaler Weg (Maus)                                                    | Befehl (zusätzlich)       |
+| Optionen öffnen                  | Minimap-Knopf Linksklick; **Esc > Optionen > AddOns > BuffSentinel >   | /bsen, /bsen optionen     |
+|                                  | Knopf "Optionen öffnen"** (Settings-API, alte Clients InterfaceOptions)|                           |
+| Alle Einstellungen (35 + Recorder)| Optionen-Fenster, Bereiche + Suche (OPT-ALLE)                         | –                         |
+| Buttons anordnen                 | Knopf "Anordnen" oben im Fenster; Anzeige > "Anordnen"; Shift/Strg +   | /bsen anordnen            |
+|                                  | Linksklick Minimap-Knopf                                               |                           |
+| Positionen zurücksetzen          | Anzeige > "Positionen zurücksetzen"                                    | –                         |
+| Gruppen-Raster                   | Minimap-Knopf Rechtsklick; Knopf auf der Seite Reinigen                | –                         |
+| Töne testen                      | Knopf in der Anordnen-Leiste; Töne-Bereich (Probe je Ton)              | –                         |
+| Fehler/Diagnose anzeigen         | **Hilfen > Weitere > "Fehler anzeigen"**                               | /bsen fehler              |
+| Protokoll zeigen                 | **Hilfen > Weitere > "Protokoll zeigen"**                              | /bsen protokoll           |
+| Protokoll senden an/aus          | **Teilen & Lernen > Weitere > "Protokoll senden"**                     | /bsen protokoll aus|an    |
+| Austausch prüfen (wer nutzt BS)  | **Teilen & Lernen > Weitere > "Austausch prüfen"**                     | /bsen sync test           |
+| Befehlsliste beim Tippen an/aus  | Hilfen > "Befehlsliste"                                                | /bsen befehlsliste aus|an |
+| Spenden                          | Knopf "Spenden" oben im Optionen-Fenster                               | /bsen spenden             |
+| Nachkaufen                       | Knopf unter dem Händlerfenster; Rechtsklick darauf = Hilfen            | –                         |
+| Befehlsübersicht                 | /bsen hilfe (normaler Slash-Befehl, nur Text)                          | /bsen hilfe               |
+| Listen Skillung/Procs/Buffs/CDs/ | Seiten links im Optionen-Fenster                                       | –                         |
+| Reinigen/Recorder                |                                                                        |                           |
+Nur Entwickler (bleiben dort): Testmodus mit allen Klassen, Testroutine (alles/kampf/stopp/Bereich), Selbsttest, Prüfliste.
+Vorher fehlten: Seite im Einstellungsfenster des Spiels, und Fehler/Protokoll/Protokoll-senden/Austausch-prüfen gingen NUR per Befehl
+(normale Befehle, kein Dev – jetzt zusätzlich mit der Maus).
+
+Texte: Spieler sahen beim Anordnen "Testmodus – Klick wirkt nichts" (Button-Tooltip) und "Testmodus – ziehen verschiebt die
+Reinigungsleiste" (Reinigungsleiste) -> beim Anordnen jetzt "Anordnen – …". Kein Spielertext nennt einen Test-/Entwicklerbefehl (die
+Hilfezeile HELP_DEV war schon unbenutzt und ist mit den alten Texten entfernt). Prüflisten-Punkte OPT und RESTOCK beginnen jetzt mit dem
+Minimap-Knopf; OPT prüft zusätzlich den Weg über die Spiel-Einstellungen.
+
+Test T262 (neu, Bereich B): Liste = jeder Befehl ohne dev-Feld; jeder braucht einen Mausweg (Zeile in den Optionen, Minimap +
+Einstellungsseite, Spenden-Knopf); ohne Entwicklermodus geprüft (IsDev=false). Minimap-Linksklick öffnet die Optionen, der Knopf der
+Einstellungsseite ebenso, Seite wirklich angemeldet (via Settings/InterfaceOptions). "Protokoll senden" schaltet denselben Wert wie
+/bsen protokoll aus|an. Spielertexte (alle Zeilen + Tooltips ohne dev, Befehlsbeschreibungen ohne dev, Minimap-Tooltip, Einstellungsseite,
+Anordnen-Texte) auf "/bsen test", testroutine, selbsttest/selftest, prüfliste/checklist, /gsdev durchsucht.
+Ergebnis: "ohne Weg: - · Entwickler-Zeilen ohne/mit Dev 0/2 · Gegenprobe ja · Minimap ja · Spiel-Einstellungen ja · Entwicklerwörter: -".
+Gegenproben: (a) Befehl "probe" ohne Weg wird gemeldet; (b) Entwickler-Zeilen ohne Dev 0, mit Dev 2; (c) Nachbau ohne Settings-API ->
+"Spiel-Einstellungen nein", T262 FEHLER.
+Nachbau: mock_wow.lua hat jetzt die Settings-API (alle unterstützten Clients haben sie).
+
+(2) KORREKTUR MEINER T34-PRODUKTANTWORT (Bericht 10:33, Abschnitt B) – mein Fehler
+Ich schrieb: "ausserhalb des Kampfes zeigt sie, was am Ziel entzauberbar ist". FALSCH. Beleg im Code: BS:EvalProc begann mit
+"if not inCombat then return false end" – Procs, auch "Gegner entzaubern", nie ausserhalb des Kampfes. Im Kampf sperrt Forever das Lesen
+(Locked). Folge: In WoW Forever ist die Gegner-Entzauber-Anzeige NIE erschienen. Beim Anlegen des Prüflisten-Punkts gefunden.
+Änderung 0.9.59: Nur "Gegner entzaubern" (Einträge mit enemyDispel) und nur auf Clients mit Auren-Sperre (BS:Locked(): Forever, Retail)
+wird auch ausserhalb des Kampfes ausgewertet; alte Clients (Era/TBC/Wrath) unverändert nur im Kampf; alle anderen Procs unverändert.
+Das ist eine sichtbare Änderung (Knopf "ENTZAUBERN!" beim Anklicken eines Gegners mit Magie-Buff vor dem Pull, mit dem Proc-Ton) –
+bitte als Produkt-Entscheid mitprüfen; Rücknahme = eine Zeile.
+Tests: T263 neu (gesperrt ausserhalb ja · alter Client ausserhalb nein · alter Client im Kampf ja · anderer Proc ausserhalb nein · ohne
+Buff nein); Gegenprobe mit der alten Zeile: T263 und T245 (ENTZ) FEHLER. Die Lagen-Regeln TU1 P2 und TU4 G1 ("nie Proc ausserhalb des
+Kampfes") haben genau diese eine Ausnahme bekommen – vorher meldeten sie die Änderung (12 bzw. 5 Abweichungen), jetzt 0.
+Leistung: FindEnemyDispel ohne neue Closure je Aufruf (läuft auf Forever jetzt 10× je Sekunde ausserhalb des Kampfes, wenn ein Gegner
+im Ziel ist).
+
+(3) PRÜFLISTE (Supervisor 11:05: Punkt anlegen) – 14 Punkte bleiben die Obergrenze
+- NEU "ENTZ – Gegner entzaubern ausserhalb des Kampfes": erledigt sich von selbst, wenn der Knopf im echten Spiel ausserhalb des Kampfes
+  erscheint (BS.PLHit("ENTZ") in EvalProc, nur wenn die Prüfliste wirklich melden kann – kein Müll).
+- Platz dafür: AMMO + PETFOOD -> "JAEGER – Munition und Tierfutter" (beide Jäger, beide Bank) mit Teilen JAEGER_A (Munition) und JAEGER_B
+  (Begleiter-Laune/Futter), erledigt erst, wenn beide erschienen sind – wie HEXER (angenommen 11:25). T245 prüft beide Teile über die
+  echten Schlüssel und ENTZ über die echte Auswertung. Geschätzte Zeilen je Punkt: alle ≤ 10 (T249 OK).
+- Falls dir eine andere Zusammenlegung lieber ist: bitte sagen.
+
+(4) Unbenutzte alte Locale-Schlüssel (einverstanden 11:25): 52 entfernt (1257 -> 1219, dazu 16 neue = 1221 je Sprache). Ermittelt als
+"kein L.SCHLUESSEL und kein "SCHLUESSEL" in irgendeiner .lua-Datei (mit Data/)" ausser TOTEM_* (dynamisch L["TOTEM_" .. x]).
+T137 (en = de vollständig) und alle Seiten der Optionen OK.
+
+Hinweis Messung: ein einzelner Offline-Lauf (era/deDE, vor dem letzten Stand) meldete T250 "höchstens 2× Median: nein" (längstes Bild
+15.7 ms, unter 40 ms) – Zeitschwankung der Maschine, im nächsten Lauf und im Freigabelauf aller 8 Läufe nicht mehr. Verdacht, zu messen,
+falls es wieder auftritt.
+
+Offen: Prüfliste von Hand (JAEGER, ENTZ, OPT neu), T247 Händler (von selbst), T258 Messung im Spiel.
