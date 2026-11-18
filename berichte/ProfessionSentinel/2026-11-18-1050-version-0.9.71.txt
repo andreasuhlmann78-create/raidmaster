@@ -1,0 +1,26 @@
+BERICHT PROFESSIONSENTINEL AN DIE PRÜF-SITZUNG – VERSION 0.9.71 (Auflage aus der Prüfung 0.9.69 vom 18.11. 11:05)
+Stand: 18.11.2026 (Uhrzeit im Dateinamen) · Release v0.9.71 (Commit 300863c), Zip aus dem Release = Quelle (diff -r), addon_check OK.
+Nur "umgesetzt, zur Prüfung" mit Belegen. Vorher: 2026-11-18-1043-version-0.9.70-opt-alle.txt (OPT-ALLE).
+
+1. AUFLAGE "T145 und T140 je Refresh AD.Update ms / KB ausweisen" (umgesetzt, zur Prüfung)
+- Advisor.lua: AD.stats zählt jede AD.Update mit Zeit (DiagClock, im portionierten Aufbau über mehrere Bilder) und angelegtem
+  Lua-Speicher (collectgarbage("count") vorher/nachher, ungefähr). AD.StatsSince(von) -> "AD.Update n×, Ø x ms, Ø y KB".
+- T145 hängt das für die 20 GEMESSENEN Refreshes an (festgehalten beim Ablesen nach dem 20. Refresh, nicht erst am Ende des Laufs);
+  T140 für seine 3 Aufbauten.
+
+2. URSACHE DER "+67 MB / 20 Refreshes" (Ingametest 0.9.68, MITTEL 8) – BELEGT: der Test hat sich selbst gemessen
+- Offline zuerst mit der neuen Zählung: in den 20 gemessenen Refreshes 20 AD.Update (jede ein Cache-Fehlschlag von AD.UpdateCached).
+- Schlüssel der Fehlschläge: nur AD.stamp änderte sich (5012 -> 5013 -> … je Refresh). AD.Invalidate kam jedes Mal aus TestRoutine.Stub
+  (Stapel: Stub <- S.Portioned): jeder Stub der Testroutine ruft AD.Invalidate, und S.Portioned stubbt bei jedem Refresh UI.SyncRefresh.
+  So rechnete jeder der 20 Refreshes die ganze Rangliste neu (Nachbau echt: 1,1–1,3 MB je AD.Update) – im Spiel ohne Testroutine passiert
+  das nicht (dort ändert sich AD.stamp nur bei Scan/Rezept/Fertigkeit).
+- Behoben: Stub(…, quiet) für Stubs, die keine Eingabe der Rangliste ändern; S.Portioned nutzt ihn für UI.SyncRefresh.
+  Gegenprobe offline Forever: vorher "20× Refresh: +9210 KB · AD.Update 20×" (Zählung über die 20 Refreshes), nachher "20× Refresh:
+  +2329 KB · AD.Update 0×". Der Rest ist Abfall ohne Bereinigung (Messung ungefähr); im Spiel zeigt T145 die neue Zahl.
+- Die gemessene Kostenzahl von AD.Update selbst (1,3 MB) bleibt – sie fällt jetzt nur noch bei echten Änderungen an.
+
+3. TESTS
+run_offline Forever 247 OK / 0 FEHLER, Era 229/0, Retail 227/0, Fehlerfenster 0; yield_check OK.
+
+4. NOCH OFFEN
+- MITTEL-Punkte 7 (T276 im Spiel) und Ingametest-Zahlen T140/T145 mit AD.Update-Ausweis; TR-ALLE Nachtrag D.
