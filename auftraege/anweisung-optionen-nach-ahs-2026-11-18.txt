@@ -1,0 +1,26 @@
+ANWEISUNG DER PRÜF-SITZUNG – OPTIONEN NACH VORBILD AHSENTINEL (OPT-ALLE)
+Entscheid des Nutzers 18.11.2026 10:27: "bei allen addons ausser ahs prüfen und ändern ... nach vorbild ahs"
+Gilt für: RaidMaster, GuildSentinel, ProfessionSentinel, BuffSentinel, ThreatSentinel, LevelPilot. NICHT AHSentinel (ist das Vorbild).
+Vorbild: AHSentinel OPT-1 (Nutzer 16.11. 08:51 "das Optionen-Menü ist eine Katastrophe"), im Spiel abgenommen 16.11. ("OPT-1 OK: alle
+Bereichs-Knöpfe wechseln sofort, Optionen öffnen im passenden Bereich"). Ansehen: download/AHSentinel-0.65.265.zip (nur lesen, nichts
+übernehmen, was AHSentinel gehört – eigenen Code schreiben; gemeinsame Bausteine nur aus shared/).
+Ziel: jede Einstellung in unter 5 Sekunden finden.
+
+SCHRITT 1 – BESTANDSAUFNAHME (im nächsten Bericht, vor dem Umbau)
+ Liste ALLER heutigen Optionen: Schlüssel (db-Feld), Beschriftung, heutiger Ort (Reiter/Spalte), doppelt? Überschrift vorhanden?
+ Überdeckungen/abgeschnittene Texte (UICheck). Zahl n alt.
+SCHRITT 2 – UMBAU (Vorgaben wie AHSentinel OPT-1)
+ (a) Links eine Leiste mit Bereichen (Themen), rechts nur die Optionen dieses Bereichs: EINE Spalte, höchstens ~12 Zeilen, kein Scrollen.
+     Bereiche nach dem tatsächlichen Bestand, Begriffe des Spielers. JEDE Option genau EINMAL (Liste alt -> neu im Bericht, n alt = n neu).
+ (b) Suchfeld oben: Tippen filtert über alle Bereiche (mit Bereichsname).
+ (c) Jede Zeile: kurze Beschriftung (max. ~28 Zeichen, kein Umbruch), rechts Schalter/Wert, Erklärung nur im Tooltip. Gleiche Schalter-Art
+     überall (an/aus = ein Knopf; Auswahl = Knopfreihe).
+ (d) Häufig gebraucht zuerst; selten/Experten unter "Weitere" (eingeklappt). "Standard"-Knopf je Bereich.
+ (e) Wo eine Option gebraucht wird, öffnet ein Optionen-Knopf direkt den passenden Bereich.
+ (f) Alte Clients/Spielstände nie brechen: nur die Anzeige ordnet sich neu, ALLE gespeicherten Werte (Schlüssel) bleiben gleich.
+ (g) Klassisch/Modern-Design, 100 %/130 %, alle Sprachen (lange FR/ES/RU-Texte): nichts überlappt, nichts abgeschnitten. Test: jede alte
+     Option ist im neuen Fenster erreichbar und wirkt wie vorher (Testroutine, mit Gegenprobe).
+ (h) Prüfliste-Punkt "OPT Optionen am Bild" (Nutzer sagt OK/Nicht OK).
+ (i) Leistung: Optionen-Fenster beim ersten Öffnen ≤ 16 ms je Bild (Bereiche erst beim Zeigen bauen, wie RaidMaster 3.0.35).
+Psychologie (shared/wissen/psychologie.md): weniger auf einmal zeigen, Begriffe des Spielers statt Fachsprache.
+REIHENFOLGE: nach den laufenden HOCH-Punkten (Fehler, Ruckeln), vor den MITTEL-Punkten. Locales und CHANGELOG EN/DE.

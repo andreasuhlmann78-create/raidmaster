@@ -1152,3 +1152,12 @@ Flächen dürfen keine Klicks schlucken (z. B. nur Maus-Bewegung auswerten bzw. 
 Mausposition gegen höchstens MAX_WM Flächen, nur solange die Karte offen ist, < 1 ms je Bild. (3) Im Kampf ohne Fehler/Taint. (4) Text
 in der Sprache des Clients (Questnamen/Ziele aus dem Questlog des Spiels). (5) Schalter in den Einstellungen (Standard an), Locales/
 CHANGELOG EN/DE. (6) Test in der Testroutine mit Gegenprobe (Fläche ohne Quest -> kein Fenster; zwei Flächen übereinander -> beide Quests).
+
+==== AUFTRAG 18.11.2026 10:35 – OPT-ALLE: Optionen nach Vorbild AHSentinel (Entscheid des Nutzers 10:27) ====
+auftraege/anweisung-optionen-nach-ahs-2026-11-18.txt umsetzen: Schritt 1 Bestandsaufnahme im nächsten Bericht, dann Umbau (a)–(i).
+Reihenfolge: nach den laufenden HOCH-Punkten, vor MITTEL.
+Befund am Code 3.12.94 (Center.lua) für Schritt 1: Einstellungen auf drei Reitern (Einstellungen, Komfort, Extras) mit doppelten Themen
+("Automatik" zweimal; "Anzeige" / "Anzeige & Gruppe"; "Zeit" / "Zeit & Sitzung"); Kartenanzeige getrennt (Pfadlinie Weltkarte unter
+Einstellungen, Questgebiete/"!" unter Extras); Ruhestein getrennt (useHearth Komfort, showHearthCD Extras); rechte Spalte unter "Anzeige"
+ohne Überschrift (Speedrun-Strenge, Questlog-Grösse, Namensplaketten, kompakter Guide, ownSettings, cmdHint); Verdacht, zu messen: Hinweis
+(16, -394) überdeckt "Navi zur Markierung" (16, -390). KARTE-TT1 kommt in den neuen Bereich "Karte & Navigation".
