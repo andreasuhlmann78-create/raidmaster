@@ -1,0 +1,67 @@
+BERICHT PROFESSIONSENTINEL AN DIE PRÜF-SITZUNG – VERSION 0.9.70 (OPT-ALLE, Entscheid des Nutzers 18.11. 10:27; dazu HOCH 1 Nachtrag)
+Stand: 18.11.2026 (Uhrzeit im Dateinamen) · Release v0.9.70 (Commit 75035eb), Zip aus dem Release = Quelle (diff -r), addon_check OK. Nur "umgesetzt, zur Prüfung" mit Belegen.
+Vorheriger Bericht: 2026-11-18-1022-version-0.9.69.txt.
+
+0. REIHENFOLGE
+Zuerst HOCH 1 (laufend): Jobs.Add lief in der Testroutine synchron in einem pcall – darin war in einer Takt-Aufgabe keine Abgabe möglich
+(Summary 0.9.69: "Abgabe nicht möglich: T67 (pcall); T134 (pcall)"). Jetzt über ns.TaktPCall (GoldSentinelTakt.PCall in einer Aufgabe dieses
+Addons, sonst pcall). Offline Forever danach: Abgabe nicht möglich nur noch 1 (T270). Nachbau Forever mit 0.9.70, 2 Läufe: Bilder
+über 40 ms 2 / 3, längstes 63 ms (T210) / 55 ms (T134). T134 ist also nicht in jedem Lauf weg (Verdacht, zu messen: die Diagnose-Einträge
+je Fehler des absichtlich kaputten AHSentinel – Stapel in nachbau_echt --overrun). Übrige: T210, T243, T13 – erster Aufruf je Item in
+AHSentinel bzw. Aufbau-Portion (Stellen wie im Bericht 0.9.69). Danach OPT-ALLE.
+
+1. SCHRITT 1 – BESTANDSAUFNAHME (Stand 0.9.69, vor dem Umbau)
+ProfessionSentinel hatte KEIN Optionen-Fenster. Einstellungen waren verteilt auf Chat-Befehle, eine Chat-Liste (Minimap-Rechtsklick
+"Optionen (jede mit ihrem Befehl umschalten)"), Eingabe-Popups und Zeilen im Panel.
+Nr  Schlüssel (db-Feld)         heutige Beschriftung                                   heutiger Ort
+ 1  lifeline                     Skillspur im Handwerksbuch                              /ps line · Chat-Liste · Testmodus-Knopf (Entwickler)
+ 2  recipeAlert                  Rezept-Alarm                                            /ps alarm · Chat-Liste
+ 3  todayCrates                  Beste Kiste in „Heute herstellen“                       /ps kisten · Chat-Liste (nur Forever)
+ 4  merchantQty                  Mengenfenster am Händler (Shift+Klick)                  /ps menge · Chat-Liste
+ 5  minimapButton                Minimap-Button anzeigen                                 /ps minimap · Chat-Liste
+ 6  gsMarktAus                   Marktdaten teilen (anonym, nur Preise)                  /ps markt · Chat-Liste
+ 7  autoOpen                     Mit dem Berufsfenster öffnen                            /ps auto · Chat-Liste
+ 8  theme                        Dunkler Stil                                            /ps stil · Chat-Liste
+ 9  chars[].enchantGoal          Ziel (Gold machen / VZ verkaufen / Beides)              /ps ziel (Frage-Fenster) · Reiter Gold
+10  deMargin                     Mindestmarge beim Entzaubern in %                       Popup aus dem Reiter Gold
+11  vzMarkup                     Aufschlag auf die Materialkosten in %                   Popup (Verzauberungen verkaufen)
+12  vzMinProfit                  Mindestgewinn pro Verzauberung                          Popup (Verzauberungen verkaufen)
+13  goldRaid                     Nur Raid-Bedarf (Essen, Tränke, Fläschchen)            Zeile im Reiter Gold (nur bis Raidstart)
+n alt = 13. Doppelt: Nr. 1–8 je zweimal (Befehl + Chat-Liste), keine Überschrift, Chat-Liste ohne Gruppen. Lange Beschriftungen über 28
+Zeichen: 3, 4, 6. Nicht einstellbar (nur Standardwert, keine Bedienung): tooltip, best, guildShare, panelOpen – nicht aufgenommen
+(keine bestehende Option). Ansichts-Zustände (panelMode, Filter „Fehlt“, eingeklappte Gruppen, minimapAngle) sind keine Optionen und
+bleiben im Panel bzw. beim Ziehen.
+
+2. SCHRITT 2 – UMBAU (umgesetzt, zur Prüfung)
+(a) Neues Fenster "ProfessionSentinel-Optionen" (Options.lua): links 3 Bereiche, rechts EINE Spalte, je Bereich höchstens 7 Zeilen
+    (mit "Weitere" offen), kein Scrollen. Liste alt -> neu (n alt 13 = n neu 13, jede genau einmal, T292 prüft es):
+    Fenster:            7 autoOpen „Mit Berufsfenster öffnen“ · 8 theme „Dunkler Stil“ · 1 lifeline „Skillspur im Berufsfenster“ ·
+                        5 minimapButton „Minimap-Knopf“
+    Gold & Verzaubern:  9 enchantGoal „Ziel als Verzauberer“ (Gold | Verkaufen | Beides) · 10 deMargin „Marge beim Entzaubern“ (%) ·
+                        13 goldRaid „Gold: nur Raid-Bedarf“ · Weitere: 3 todayCrates „Kisten in „Heute herstellen““ ·
+                        11 vzMarkup „VZ-Aufschlag“ (%) · 12 vzMinProfit „VZ-Mindestgewinn“ (Gold)
+    Hilfen & Daten:     2 recipeAlert „Rezept-Alarm“ · 4 merchantQty „Mengenfenster am Händler“ · 6 gsMarktAus „Marktdaten teilen“
+(b) Suchfeld oben rechts filtert über alle Bereiche (Beschriftung, Tooltip, Befehl), Treffer unter dem Bereichsnamen; sonst „Nichts gefunden“.
+(c) Kurze Beschriftung (EN/DE je ≤ 28 Zeichen, T292), rechts der Schalter: an/aus = EIN Knopf (An/Aus), Auswahl = Knopfreihe, Wert =
+    Eingabefeld (Enter oder Verlassen übernimmt; ungültig -> alter Wert, Grenzen wie die Popups). Erklärung und Befehl nur im Tooltip.
+(d) Häufig zuerst; selten gebraucht unter „Weitere (n)“ (eingeklappt). „Standard“ je Bereich.
+(e) Zahnrad im Titel des Fensters ProfessionSentinel öffnet beim Bereich des Reiters (Gold -> „Gold & Verzaubern“, sonst „Fenster“);
+    Minimap-Rechtsklick öffnet das Fenster (vorher Chat-Liste; die Liste bleibt als Funktion M.ShowOptions); /ps optionen.
+(f) Alle gespeicherten Schlüssel unverändert (Tabelle oben); die Befehle /ps line … bleiben. Nicht angebotene Optionen (Kisten ausser
+    Forever, Raid-Bedarf nach Raidstart) stehen grau mit Grund im Tooltip.
+(g) Nur EN und DE vorhanden (keine FR/ES/RU-Texte im Addon). Texte werden bei jedem Zeichnen in der aktuellen Sprache gesetzt.
+    T292 prüft je Sprache und Bereich: echter Klick auf den Bereichs-Knopf wechselt, keine zwei Knöpfe/Felder überlappen, keine
+    Knopf-Beschriftung abgeschnitten (UICheck.TextFits) – im Nachbau ohne echte Rechtecke; Verdacht, zu messen: im Spiel bei 130 %.
+    Gegenprobe "wirkt wie vorher": je Schalter mit Befehl wird derselbe Startwert einmal über den Befehl und einmal über das Fenster
+    umgeschaltet – gespeichertes Feld und gelesener Wert gleich (7 Schalter); Zahlen/Auswahl mit Grenzen, Standard.
+(h) Prüfliste-Punkt „OPT Optionen am Bild“ neu. Grenze höchstens 14 Punkte: der alte Punkt MINIMAP (Rechtsklick zeigte die Chat-Liste)
+    ist darin aufgegangen; sein Teil "Ziehen und /reload" ist im Punkt nicht mehr enthalten (Winkel speichern prüft T185 offline).
+(i) Fenster und Zeilen werden erst beim ersten Öffnen gebaut, Zeilen nur so viele wie gezeigt; T292 misst das erste Öffnen (≤ 16 ms).
+
+3. TESTS
+run_offline Forever 247 OK / 0 FEHLER, Era 229/0, Retail 227/0 (T292 OK), Fehlerfenster 0; smoketest AUTOTEST OK (alle 3 Versionen),
+check_actions OK, yield_check 4 Versionen OK, test_qloader OK. Neuer Locale-Text EN/DE (42 Schlüssel), CHANGELOG EN/DE.
+
+4. NOCH OFFEN
+- MITTEL-Punkte aus dem Ingametest 0.9.68 (siehe Bericht 0.9.69), TR-ALLE Nachtrag D.
+- OPT im Spiel ansehen (Prüfliste OPT).
