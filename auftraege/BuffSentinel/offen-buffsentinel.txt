@@ -387,3 +387,22 @@ Blizzard_ScriptErrors.lua:59/72 <- pcall <- SelfTest.lua:3012. Der absichtliche 
 öffnet beim Nutzer das Fehlerfenster – er hält es für einen Fehler (gleicher Befund wie RaidMaster RM-TF-1). Auftrag: den absichtlichen
 Fehler NIE über geterrorhandler()/den Handler des Spiels schicken; die eigene Zählfunktion direkt aufrufen (wie ThreatSentinel T147).
 Nachbau: Blizzard_ScriptErrors-Attrappe zählt Aufrufe -> 0; Gegenprobe 0.9.54 = 1 mit diesem Stack.
+
+==== INGAMETEST 18.11.2026 08:11 – BuffSentinel 0.9.54 "/bsen testroutine alles" (Laptop, Priester 10; erster Spielwert seit 0.9.7) ====
+OK 200 · FEHLER 13 · übersprungen 11 · im Client 10 · 18,5 s · Sandbox OK. Zahl: 200 + 13 + 21 = 234 – stimmt. Fehlerfenster: Befund 08:15.
+HOCH:
+1. T136 "echte Aktionen: 3, Haken: 3 von 3" – während der Routine wurden 3 ECHTE Aktionen ausgeführt (senden/Chat/Kanal). Welche, von wem
+   (eigen oder fremdes Addon – Aufrufer-Kette wie GuildSentinel T82)? Wenn eigen: sofort abstellen. Im Ergebnis Art, Präfix/Kanal, Quelle.
+2. T158 Regression 0.9.14-1 "Namen teilen aus sendet nichts, auch nicht an Gilde/Gruppe": ist 0/0/0, soll 0/2/4 – und T155 Flüster-Netz
+   "nein · 0/1". Im Spiel anders als im Nachbau (vermutlich Sendewege im Forever-Client, kommunikation-forever.md). Ursache belegen.
+3. T34 "Gegner entzaubern: Magie nil, stehlbar nil, Wut nil/0" und T62 "Debuff-Arten geschützt" FEHLER – im Forever-Client sind
+   Aura-Felder geschützte Werte (secret). Belegen, welche Felder im Spiel nil/geschützt sind; Anzeige darf dann nichts Falsches zeigen
+   (lieber "unbekannt"). Produkt betroffen?
+MITTEL:
+4. T200/T251–T253: ROGUE poisonstock B1 "Buff fehlt ausser Kampf: ist nein, soll ja" in allen 4 Skillungen und allen Formen (forever/era/tbc)
+   – Regel oder Erwartung falsch? Im Nachbau grün? (Dann Nachbau ≠ Spiel – Ursache.)
+5. T100 Gemeinsame Dateien FEHLER mit allen 7 GoldSentinel-Addons geladen – welche Datei/Version weicht ab? (Alle Zips sind laut addon_check
+   byte-gleich.) Ergebnis-Text vollständig ausgeben.
+6. T250 längstes Bild 45,3 ms (T146) – über 40 ms; teilen. Schritte gesamt T25 179 ms, T92 104, T27 103.
+7. T141 BuffSentinelOptions überdeckt LevelPilot-Pfeil (HUD) – ausweichen wie die anderen.
+8. T162 Regressionen: folgt aus 1/2.
