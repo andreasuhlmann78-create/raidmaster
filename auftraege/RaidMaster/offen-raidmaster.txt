@@ -495,3 +495,13 @@ er immer OK oder FEHLER ergibt; die echten Regeln prüfen T21 usw. Im Ergebnis d
   gut. Test-Regeln per Swap/Undo auf RM.db.config.rules, echte Einstufung vorher festgehalten (T.DescribeLoot), Ausweichen auf MC,
   "nicht prüfbar" erst danach mit beiden Listen; Gegenproben T43BANKRULES/T43NOAUCT – angenommen.
 - Beim Nutzer installiert (Laptop, diff 0). Im nächsten Ingametest: Klasse/Qualität der geladenen Onyxia-Items (Ursache der 0 belegen).
+
+==== INGAMETEST 18.11.2026 10:04 – RaidMaster 3.0.36 "/rm testroutine alles" (Laptop, Krieger 24) ====
+OK 138 · FEHLER 1 · übersprungen 14 · im Client 10 · 81,4 s · Sandbox OK. Längstes Bild 23,1 ms, kein Bild über 40 ms. Fenster 10,9 ms.
+HOCH – T43 Lua-Fehler "Test/Test.lua:1062: attempt to call a nil value". URSACHE (Code 3.0.36 gelesen): T.DescribeLoot ruft das GLOBALE
+GetItemInfo(id) – im Forever-Client 1.60.1 gibt es nur C_Item.GetItemInfo (Core.lua:196 löst das mit RM.GetItemInfo, Test.lua:1023 mit
+ItemInfo). Die Nachbildung definiert ein globales GetItemInfo (harness.lua) und findet das darum nie. Beheben: ItemInfo(id) bzw.
+RM.GetItemInfo verwenden; dasselbe in Test.lua:1120 (dort abgesichert "GetItemInfo and …", liefert im Spiel aber immer die Zahl statt des
+Namens). Nachbau: globales GetItemInfo/GetItemInfoInstant entfernen wie im Forever-Client (nur C_Item), sonst bleibt die Lücke –
+Regel für alle: der Nachbau muss die Funktionen haben, die das Spiel hat, und NICHT mehr (E-Regel 06:40).
+Gegenprobe: 3.0.36 im Nachbau ohne globales GetItemInfo -> derselbe Lua-Fehler.
