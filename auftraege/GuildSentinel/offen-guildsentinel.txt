@@ -520,3 +520,18 @@ Auftrag:
    plausibel ist (Kill ohne Raid-Protokoll = nicht ankündigen). Test + Gegenprobe (Erstkill aus Testdaten -> keine Ankündigung).
 4. Grammatik: "1 neue Mitglieder" -> Einzahl/Mehrzahl ("1 neues Mitglied") in allen Sprachen; dasselbe für "%d Stufen" (1 Stufe) prüfen.
 5. Test, der genau den Fall nachstellt: RaidMaster-Testroutine aktiv (Attrappe) + GuildSentinel-Meilensteine laufen -> nichts gespeichert.
+
+==== INGAMETEST 18.11.2026 06:39 – GuildSentinel 0.9.55 "/gs testroutine alles" (Nutzer-Einfügung) ====
+OK 317 · FEHLER 0 · übersprungen 23 · im Client 8 · Sandbox OK · 0 echte Sendungen · Fehlerzähler 0. Erster Lauf ohne FEHLER.
+MESSAUFTRAG GoldSentinelTakt ERFÜLLT: Zeile "Takt: …" vorhanden, keine "Abgabe nicht möglich"/"gescheitert" (Summary nennt sie nur bei > 0)
+-> der Takt gibt im Forever-Client ab (814 Bilder, eigene Rechenzeit 2555 ms über 13,7 s).
+Offen:
+1. HOCH: ein Bild über 40 ms – 45,3 ms "T146–T188" (Bereich I, bis T188 – T188 war schon 19:27 mit 44,8 ms auffällig) und 39,9 ms T197–T198.
+   Teilzeiten von T188 (Diag/Fehler/Text-Export) im Bericht nennen und teilen.
+2. HOCH: "Messung (UpdateAddOnMemoryUsage) längstens 51,5 ms" – die Speichermessung selbst ist ein Ruckler über 40 ms (Verdacht bestätigt).
+   UpdateAddOnMemoryUsage nicht in der Routine aufrufen (oder nur einmal am Ende, ausgewiesen als absichtliche Last) – sonst
+   collectgarbage("count") vor/nach.
+3. MITTEL: "Speicher: GuildSentinel +122 139 KB" – 122 MB Zuwachs für GuildSentinel allein (alle Addons +83 MB?? – Widerspruch: das
+   eigene Addon kann nicht mehr wachsen als alle zusammen; Messarten klären). Ohne Bereinigung gemessen = viel Abfall: Wer legt ihn an?
+   Profil (angelegte KB je Bereich/Prüfung) im Nachbau mit echten Daten; Ziel: Routine legt < 20 MB an.
+4. Die Punkte aus dem Befund 06:45 (falscher Wochenrückblick) haben Vorrang vor 1–3.

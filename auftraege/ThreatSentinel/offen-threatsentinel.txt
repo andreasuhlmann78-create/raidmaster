@@ -286,3 +286,16 @@ Pflicht für neue Arbeit in Portionen; Summary-Zeile in den Bericht. LevelPilot 
 
 ==== HINWEIS 18.11.2026 06:45 – TESTDATEN NIE ZU ANDEREN ADDONS ====
 auftraege/hinweis-testdaten-fremde-addons-2026-11-18.txt umsetzen (<Addon>API.TestRunning(), fremde Daten nie während deren Test lesen).
+
+==== INGAMETEST 18.11.2026 06:38 – ThreatSentinel 2.5.19 "/ts testroutine alles" (Nutzer-Einfügung) ====
+OK 287 · FEHLER 3 · übersprungen 12 · im Client 14 · 1992 ms · Sandbox/CVars/Tastenbelegung OK · echte Aktionen 0. Gut: ganze Routine 2,0 s.
+Offen:
+1. FEHLER T-D2 "Bericht T186=false" (Nachtrag D: Fenster-Prüfung nachholen erzeugt keinen Bericht mit T186) und TU6-R1 (dieselben zwei
+   Regressionen). Ursache belegen – im Spiel, nicht nur im Nachbau.
+2. FEHLER T-PL2 "Prüfliste nur im Entwicklermodus": ist "false false auto" statt "false true auto" – ein Teil der Prüfung (nichts
+   gespeichert?) schlägt im Spiel fehl. Ursache belegen.
+3. T-K2 jetzt SKIP "kein freier Platz: der Bildschirm ist voller Fenster (Rest-Überdeckung 7926)" – 17.11. war es FEHLER (Überdeckung 10204).
+   Ein SKIP darf eine frühere FEHLER-Prüfung nicht ersetzen (gleiche Regel wie RaidMaster 19:38). Belegen, welche Fenster offen waren
+   (Namen im Ergebnis) und ob wirklich kein Platz ist; sonst FEHLER.
+4. Bilder: längstes 47,4 ms (T131) und TU3-D2 43,4 ms – über der harten Grenze 40 ms. Teilen. TU1-L04t 14,4 ms (17.11.: 10,3 ms).
+5. Prüfliste zeigt noch "TR-ALLE auto 17.11. 17:00" – nach dem Lauf 06:38 muss der neue Stand dort stehen.

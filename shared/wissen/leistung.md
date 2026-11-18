@@ -107,3 +107,4 @@ B6 shared/GoldSentinelTakt.lua Version 1 (Prüf-Sitzung, 17.11.2026, Entscheid d
      Abgabe in pcall; ohne Eichung -> nie abgegeben; Arbeit am Stück echte Uhr ~60–97 ms gegen Takt ~2,3 ms, Median aus 3).
    - Verdacht, zu messen (im Spiel): Format von debugstack in Forever (Eichung deckt angehängte Zeilen ab). Erster Ingametest
      eines Addons mit dem Takt: "Abgabe nicht möglich" muss auf normalen Wegen 0 sein.
+   - BELEGT IM SPIEL 18.11.2026 06:39 (GuildSentinel 0.9.55): Takt gibt im Forever-Client ab, 814 Bilder, "Abgabe nicht möglich" 0.
