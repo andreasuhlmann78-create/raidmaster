@@ -416,3 +416,14 @@ MITTEL:
 - Poisonstock minLevel 20 (Priester 10) – Erwartung des Tests falsch, belegt – angenommen. T100, T141 (HUD-Liste wie RM), T155, T146 Portionen –
   angenommen. Fehlerfenster: T116 ohne Handler des Spiels, Attrappe zählt 0, Gegenprobe 0.9.54 = 1 – angenommen.
 - Beim Nutzer installiert (Laptop, diff 0). Ingametest folgt: T136 = 0, T158 0/2/4, T34-Sperrwerte, längstes Bild, kein Fehlerfenster.
+
+==== INGAMETEST 18.11.2026 09:43 – BuffSentinel 0.9.55 "/bsen testroutine alles" (Laptop, Krieger 24) ====
+OK 213 · FEHLER 1 · übersprungen 11 · im Client 10 · 16,2 s · Sandbox OK · echte Aktionen 0. Zahl: 213 + 1 + 21 = 235 – stimmt.
+08:11 (0.9.54): 13 FEHLER -> jetzt 1. Im Spiel bestätigt: T136 (echte Aktionen 0), T158, T155, T100, T141, T200/T251–T253, T34/T62, T162,
+T250 (längstes Bild 45,3 -> 25,6 ms). Kein Fehlerfenster gemeldet. Sehr gut.
+Offen:
+1. MITTEL T110 Speicher: "ScanPlayerAuras 8,33 KB Abfall je Aufruf (Grenze 2 KB)" – 08:11 auf Priester 10 nicht FEHLER, jetzt auf Krieger
+   24. Verdacht, zu messen: Abfall wächst mit der Zahl der Auren/Zauber (neue Tabellen/Strings je Aura statt Wiederverwendung).
+   ScanPlayerAuras läuft im Spiel oft (Ereignis UNIT_AURA) – Abfall je Aura messen und Tabellen wiederverwenden. Ziel ≤ 2 KB.
+2. Hinweis: T34 lief OK – die neue Zeile mit den echten Sperrwerten (Locked/ShouldAurasBeSecret/Pause) bitte im nächsten Bericht nennen,
+   damit die Produkt-Frage (zeigt die Gegner-Entzauber-Anzeige im Spiel etwas?) beantwortet ist.
