@@ -543,3 +543,10 @@ wie RaidMaster.DKP.MainOf/Spec.Role arbeiten während eines Tests aber weiter au
   einmalige Bereinigung mit Merker + Grabstein im Abgleich, Ansage nur mit belegtem Kill (Raid-Protokoll), Ansagen gesperrt während
   fremder Tests, Einzahl/Mehrzahl in 10 Sprachen (Russisch 3 Formen), run_kills mit Gegenprobe 0.9.55 – angenommen.
 - Beim Nutzer installiert (Laptop). Im Spiel zu bestätigen: Diag "MEILENSTEIN entfernt kill:1084/kill:663", T305a–c, Bilder ≤ 40 ms.
+
+==== INGAMETEST 18.11.2026 08:32 – GuildSentinel 0.9.56 "/gs testroutine alles" (Laptop, Krieger 24) ====
+OK 320 · FEHLER 0 · übersprungen 23 · im Client 8 · 29,0 s · Sandbox OK · 0 echte Sendungen (92 aufgezeichnet) · Fehlerzähler 0.
+Takt: 874 Bilder, längstes 17,8 ms (T269), über 16 ms: 2, über 40 ms: 0 – Ziel erreicht. Vollständig durchgelaufen.
+Hinweis (kein Fehler, zu messen): Prüfungen legen mindestens 12,9 MB an (B 9,7 MB; T138 1,7 MB, T61 1,4 MB). Bleibt bis /reload –
+Verdacht, zu messen: ob das nach dem Lauf freigegeben wird (Lua-Speicher vor/nach collectgarbage im Bericht ausweisen).
+Supervisor: ohne Befund im Spiel. Offene Punkte aus früheren Prüfungen bleiben.
