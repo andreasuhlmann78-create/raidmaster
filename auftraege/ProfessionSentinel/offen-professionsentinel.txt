@@ -535,3 +535,14 @@ auftraege/hinweis-nachbau-wie-forever-2026-11-18.txt umsetzen (nackte globale Sp
 ==== AUFTRAG 18.11.2026 10:35 – OPT-ALLE: Optionen nach Vorbild AHSentinel (Entscheid des Nutzers 10:27) ====
 auftraege/anweisung-optionen-nach-ahs-2026-11-18.txt umsetzen: Schritt 1 Bestandsaufnahme im nächsten Bericht, dann Umbau (a)–(i).
 Reihenfolge: nach den laufenden HOCH-Punkten, vor MITTEL.
+
+==== PRÜFUNG Supervisor 18.11.2026 11:05 – 0.9.69 (Testroutine im Takt, T38/AD.Update gemessen, T244/T180/T32/T148, T219, T276, Speicher) ====
+- addon_check OK, download = announce byte-gleich, md5 fff60b10…. Nachbau mit echten Daten: Bilder über 40 ms 8 -> 3, längstes 147 -> 52–68 ms,
+  Fehlerfenster 0 – angenommen (Spielwert im nächsten Ingametest).
+- T38/AD.Update: gemessen 81,7 ms erster Aufruf / 16,6–18,2 ms danach, 1,3 MB Abfall je Aufruf. Begründung "im Produkt nur portioniert über
+  UI:UpdateBest im Aufbau" angenommen MIT AUFLAGE: AD.Update legt je Aufruf 1,3 MB an (erster 3,1 MB) – das ist der Kandidat für die
+  +67 MB / 20 Refreshes. Nicht jetzt umbauen, aber im nächsten Ingametest T145 und T140 je Refresh "AD.Update ms / KB" ausweisen.
+- T244 (Index, Knoten), T180/T32 (ns.Act "navigate"), T148 (GT.Error statt Handler des Spiels, Zähler 0) – angenommen.
+- T219: Prüfung war falsch (offener Zeitgeber = TD.Invalidate-Vorwärmen), neue Prüfung je Bedingung – angenommen.
+- T276: Prüfung je Zeile genau – angenommen, Ursache im nächsten Ingametest.
+- Beim Nutzer installiert (Laptop, diff 0).

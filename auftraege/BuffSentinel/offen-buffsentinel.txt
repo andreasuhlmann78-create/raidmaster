@@ -447,3 +447,11 @@ Offen nur: T34-Sperrwerte aus dem Upload (Produkt-Frage Gegner-Entzaubern), Hän
 ==== AUFTRAG 18.11.2026 10:35 – OPT-ALLE: Optionen nach Vorbild AHSentinel (Entscheid des Nutzers 10:27) ====
 auftraege/anweisung-optionen-nach-ahs-2026-11-18.txt umsetzen: Schritt 1 Bestandsaufnahme im nächsten Bericht, dann Umbau (a)–(i).
 Reihenfolge: nach den laufenden HOCH-Punkten, vor MITTEL.
+
+==== PRÜFUNG Supervisor 18.11.2026 11:05 – 0.9.57 (Nachbau wie Forever, T258 Messung) und T34-Werte ====
+- addon_check OK, download = announce byte-gleich, md5 7ff29846…. Kein nackter Aufruf alter Funktionen; Nachbildung Forever ohne die alten
+  Globalen, belegte vs. vermutete Liste getrennt, T258 misst den Rest im Spiel – angenommen.
+- T34: "Locked=true ShouldAurasBeSecret=false Pause=0.5s Sperre(Ziel)=true" – Antwort Produkt (ausserhalb des Kampfes lesbar, im Kampf nichts,
+  nie falsch) angenommen. Verdacht im Spiel zu sehen (Gegner mit Magie-Buff ausserhalb des Kampfes) -> Prüflisten-Punkt anlegen.
+- OPT-ALLE Schritt 1 erhalten – Umbau nach (a)–(i); Vorlage shared/vorlage/__ADDON__/Options.lua (Nachtrag 10:55).
+- Beim Nutzer installiert (Laptop, diff 0).
