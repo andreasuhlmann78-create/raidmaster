@@ -303,6 +303,15 @@ if FOREVER then
     C_Item = { GetItemInfo = function() return nil end, IsEquippableItem = function() return false end, EquipItemByName = function() end }
     GetNumQuestLogEntries, GetQuestLogTitle, GetNumQuestLeaderBoards, GetQuestLogLeaderBoard = nil, nil, nil, nil
     UnitCharacterPoints, GetItemInfo, IsEquippableItem, EquipItemByName, GetQuestGreenRange = nil, nil, nil, nil, nil
+    -- 3.12.95 (Hinweis Prüf-Sitzung 18.11.: die Nachbildung darf nicht mehr können als der Forever-Client): alte globale Funktionen,
+    -- die Forever 1.60.1 über C_Item/C_Spell/C_UnitAuras/C_Container/C_AddOns anbietet. Belegt fehlt GetItemInfo (RaidMaster 3.0.36);
+    -- die übrigen Verdacht, zu messen (Liste im Bericht, Messung im Spiel T357) – im Zweifel fehlen sie hier, so wird nichts zu grün.
+    FOREVER_GONE = { "GetItemInfo", "GetItemInfoInstant", "GetItemCount", "GetItemSpell", "GetItemCooldown", "IsEquippableItem",
+        "EquipItemByName", "GetSpellInfo", "GetSpellTexture", "GetSpellCooldown", "GetSpellLink", "UnitBuff", "UnitDebuff", "UnitAura",
+        "GetContainerNumSlots", "GetContainerNumFreeSlots", "GetContainerItemLink", "GetContainerItemInfo", "GetContainerItemID",
+        "UseContainerItem", "PickupContainerItem", "GetAddOnMetadata", "IsAddOnLoaded", "GetNumAddOns", "GetAddOnInfo" }
+    function StripForever() for _, n in ipairs(FOREVER_GONE) do _G[n] = nil end end
+    StripForever()
 end
 function FireAccepted(idx, id)
     if FOREVER then FireEvent("QUEST_ACCEPTED", id) else FireEvent("QUEST_ACCEPTED", idx, id) end

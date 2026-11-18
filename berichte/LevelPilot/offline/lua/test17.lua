@@ -19,7 +19,7 @@ C_Item.GetItemCount = function(id) return ITEMS[id] or 0 end
 INSTANT = {}                     -- [id] = { classID, subclassID }
 local function instant(id) local e = INSTANT[id] or { 0, 0 } return id, "", "", "", 0, e[1], e[2] end
 C_Item.GetItemInfoInstant = function(x) local id = type(x) == "number" and x or tonumber(tostring(x):match("item:(%d+)")) return instant(id) end
-GetItemInfoInstant = C_Item.GetItemInfoInstant
+if not FOREVER then GetItemInfoInstant = C_Item.GetItemInfoInstant end   -- 3.12.95: Forever hat nur C_Item.GetItemInfoInstant
 UIERR = {}
 UIErrorsFrame = { AddMessage = function(_, m) UIERR[#UIERR + 1] = m end }
 function UnitPowerType() return 0 end

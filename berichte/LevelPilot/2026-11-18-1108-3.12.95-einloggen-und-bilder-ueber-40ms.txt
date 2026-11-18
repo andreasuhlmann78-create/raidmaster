@@ -1,0 +1,101 @@
+BERICHT LevelPilot an die Prüf-Sitzung – 18.11.2026 11:08
+Version 3.12.95 – umgesetzt, zur Prüfung
+Zip: announce/levelpilot__levelpilot-3.12.95.LevelPilot.zip, md5 f318a2a6f5ab47f900d235915c3aa150. Datenpaket 1.6.4 (unverändert).
+Anlass: Ingametest 3.12.94 (HOCH, offen-levelpilot.txt 10:10) und Hinweis "Nachbau wie Forever" (10:30).
+OPT-ALLE (Entscheid 10:27) kommt als Nächstes (Reihenfolge des Nutzers: erst die laufenden HOCH-Punkte); die Bestandsaufnahme
+(Schritt 1) folgt im nächsten Bericht vor dem Umbau.
+
+==== 1. T261 EINLOGGEN: URSACHEN UND ÄNDERUNGEN ====
+Im Spiel (3.12.94): erste 60 s graph 2340 ms in 2347 Aufrufen (max 36 ms) = 83 %, "start" 1 Aufruf 85 ms.
+
+1a) "graph" = Umweg-Messung je Zone (Graph:MeasureDetour). Nachbau mit Laptop-Daten: je Zone 88–263 ms Rechenzeit (in Portionen),
+    bei jedem Einloggen neu, dazu ein zweites Mal nach dem Laden der Strassen.
+    Neu: Ergebnis je Zone in LP.db.detourCache mit einer Kennung des Netzes der Zone: Anzahl Knoten, Summe der Ids, Summe der
+    Verbindungen, Lage der Knoten (0,1 yd). Gleiche Kennung = gleiches Netz und gleiche Auswahl der Paare (fester Startwert, sortierte
+    Ids) -> gleiches Ergebnis, ohne Wegsuchen übernommen. Je Zone höchstens 3 Kennungen (die eben gemessene bleibt, sonst die zuletzt
+    gebrauchten). Unbrauchbare Werte (ausserhalb 1,0–1,8) gelten nicht.
+    Beim Bau gefunden und gleich vermieden: ("%d"):format(Summe der Ids) – %d ist in Lua 5.1 unter Windows ein 32-Bit-long, Summen
+    über 2^31 (bei grossen Zonen erreichbar) wären undefiniert. Kennung jetzt mit %.0f.
+    Nachbau, zweite Sitzung (login.lua ZWEITER=1), beide Rechner (Laptop-/PC-Daten):
+      Laptop: erste Sitzung 3 gemessen; zweite: 3 übernommen (1411: 3 Portionen 3,1 ms, 1412: 3,6 ms, 1420: 2,9 ms), 1 neu gemessen
+              (1413, in Sitzung 1 nicht gebraucht: 121,6 ms in 31 Portionen, längste 7,0 ms).
+      PC:     gleich, 3 übernommen (2,6–3,3 ms je Zone), 1413 neu 114,0 ms in 28 Portionen, längste 7,9 ms.
+    Wichtig: Das ERSTE Einloggen nach dem Update misst noch (Ablage leer) – der Gewinn zeigt sich ab dem zweiten Einloggen.
+    Verdacht, zu messen: Portionen der Umweg-Messung bis 36 ms im Spiel (Nachbau längste 7–8 ms). Ab dem zweiten Einloggen entfällt
+    die Messung für bekannte Zonen ganz.
+
+1b) "start" 85 ms = Backup:Init: Kopie aller Daten am Stück (Nachbau 43–54 ms). Neu: als Auftrag in Portionen (LP:Yield("backup")
+    alle 200 Einträge, Bereich "Sicherung"); beim Ausloggen weiter am Stück.
+    Nachbau Laptop: start 11 ms/31×/max 3 (vorher 53 ms, max 40); Sicherung 94 ms in 59 Portionen, längste 5 ms. PC: start 9 ms/max 3,
+    Sicherung 87 ms in 55 Portionen, längste 5 ms.
+    Gegenprobe (bkeq): Kopie in Portionen = Kopie am Stück: true, beide Rechner (19877 Einträge, 19446 Knoten).
+
+==== 2. BILDER ÜBER 40 MS (Ingametest 3.12.94: 26) ====
+- T21 "/lp protokoll" 91–93 ms: Ursache UpdateAddOnMemoryUsage (misst den Speicher ALLER Addons am Stück, C-Funktion, nicht teilbar).
+  Neu: "/lp protokoll" ohne diese Messung; nur "/lp protokoll speicher" (englisch "/lp log mem") misst und sagt vorher "Speicher aller
+  Addons wird gemessen – das Spiel steht dabei kurz still." Befehlsliste nennt das in allen Sprachen (dabei die alten Hinweise
+  berichtigt: dort standen übersetzte Befehlswörter wie "registro vaciar", die der Befehl gar nicht versteht – jetzt "log clear"/"log mem").
+  -> Bitte bestätigen oder ablehnen (Entscheid): Speicher aller Addons nur noch auf ausdrücklichen Befehl.
+  Neue Prüfung T355 (mit Gegenprobe): protokoll/log/diag/messen 0×, "protokoll speicher" 1×, "log mem" 1×, Knopf Fehler-Protokoll 0×,
+  Hinweis vorher ja.
+- T157 rief dieselbe Funktion selbst auf (eigenes Bild). Entfernt; T157 nennt jetzt den Wert der letzten Messung.
+- T275 92 ms: nach Entscheid der Prüf-Sitzung je Lauf EINE Spielversion im Wechsel forever -> era -> tbc (gespeichert in der
+  Test-Ablage LevelPilotDB.gsTest.lpT275, bleibt beim Zurückschreiben der Sandbox stehen). Ergebnis z. B. "geprüft: forever
+  (nächster Lauf: era), de, en". Nachbau: 12,7 ms gesamt (vorher alle drei).
+- T129 (102 ms "svc"), T136 Zentrale (86–102 ms, ×6): im Nachbau nicht als Rechenzeit nachstellbar. Belegt im Nachbau: die langen
+  Bilder bei T128/T129 fallen mit der Speicherbereinigung zusammen – Speicher fällt IM Bild:
+    T129 44,6 ms: 223 -> 177 MB · T129 83,2 ms: 177 -> 125 MB · T128 77,4 ms: 223 -> 166 MB · T129 101 ms: -68 MB · T129 64 ms: -18 MB
+  Der lange Rahmen wandert von Lauf zu Lauf (3.12.94: T128 64,5 ms; im Profil-Lauf mit anderer Zeitlage gar keiner bei T129).
+  T129 lädt neunmal kaputte und wieder echte Daten (WithLoad) und erzeugt so viel Müll.
+  Verdacht, zu messen: auch im Spiel ist es die Speicherbereinigung. Dafür neu in der Bildzählung der Routine: Zeile
+  "Bilder über 40 ms, in denen der Speicher fiel (Speicherbereinigung): n – T129 101 ms (-68 MB), …" (fällt der Speicher seit dem
+  letzten Bild um mehr als 1 MB). Der nächste Ingametest zeigt damit, ob T129/T136 dort dieselbe Ursache haben. Erst danach ändere
+  ich T129/T136 gezielt (z. B. weniger Neuladen), sonst wäre es geraten. T349 prüft die neue Zeile (mit Gegenprobe: ohne
+  Speicherfall keine Zeile, unter 40 ms zählt nicht).
+
+==== 3. ZWEI FEHLER UNTERWEGS GEFUNDEN ====
+3a) Aufträge aus der Testpause wurden verworfen (seit 3.12.93): Jobs.Start/StartTakt verwarfen während der Pause einer freigegebenen
+    Rechnung (TR.coopPause) jeden Auftrag von anderem Code. Mehrere Aufrufer setzen aber vorher einen Zustand – startete anderer Code
+    sie genau in so einer Pause (selten, nur während /lp testroutine), blieb er hängen (am Code belegt, im Spiel nicht beobachtet):
+    Umweg-Messung "in Arbeit" (Zone bis zum Neuaufbau auf 1,25), Strassen einer Karte "geladen", Orte "im Bau", eigene Ketten leer,
+    Startwegnetz "nicht fertig", LevelPilotAPI.TravelTime ohne Rückruf. Neu: zurückgestellt und nach dem Ende der Testroutine gestartet
+    (Abbruch und normales Ende); ein neuerer Start gleichen Namens ersetzt den zurückgestellten. navpath/navplan bleiben wie bisher
+    ausgelassen (LIVE_SKIP). Neue Prüfung T356: in der Pause gelaufen 0, zurückgestellt 2 (auch Takt-Auftrag), neuerer Start ersetzt,
+    nach dem Ende 2 gestartet (Summe 10110 = genau die erwarteten Aufträge).
+3b) Waffenfertigkeit (Advisor) und ClientTest T301 lasen die Waffenart über das globale GetItemInfo, gesichert mit "if GetItemInfo".
+    In Forever gibt es das nicht -> der Hinweis blieb im Forever-Client STILL (kein Fehler, nur nie ein Hinweis). Jetzt über die eigene
+    Weiche LP.API.ItemInfo (C_Item.GetItemInfo, sonst global). Der Test T301 war selbst "zu grün": er gab ein globales GetItemInfo vor.
+    Jetzt wie Forever (nur C_Item) plus Gegenprobe Classic (nur global): beide 1 Hinweis. T302 (Waffenmeister) ebenso um die
+    Forever-Gegenprobe (nur C_Item.GetItemInfoInstant) erweitert.
+
+==== 4. HINWEIS "NACHBAU WIE FOREVER" (10:30) ====
+(1) Eigener Code durchsucht nach nackten alten Globalen (GetItemInfo, GetItemInfoInstant, UnitBuff/UnitDebuff/UnitAura, GetSpellInfo,
+    GetItemCount, GetItemSpell, GetItemCooldown, GetContainer*, UseContainerItem, IsEquippableItem, EquipItemByName,
+    GetAddOnMetadata, IsAddOnLoaded, GetQuestLogTitle u. a., ohne die gemeinsamen GoldSentinel*.lua und Locales):
+    keine ungesicherten Aufrufe. Alle laufen über Weichen (Compat.lua LP.API, C_Item/C_Container/C_AddOns zuerst). Einzige Wirkung
+    im Forever-Client: die zwei stillen Stellen aus 3b (behoben). UnitBuff/UnitDebuff/GetSpellInfo nutzt LevelPilot gar nicht.
+(2) Nachbildung (offline/lua/mock2.lua und mein Arbeits-Nachbau) im Forever-Lauf: zusätzlich entfernt GetItemInfoInstant, GetItemCount,
+    GetItemSpell, GetItemCooldown, GetSpellInfo, GetSpellTexture, GetSpellCooldown, GetSpellLink, UnitBuff, UnitDebuff, UnitAura,
+    GetContainerNumSlots/NumFreeSlots/ItemLink/ItemInfo/ItemID, UseContainerItem, PickupContainerItem, GetAddOnMetadata, IsAddOnLoaded,
+    GetNumAddOns, GetAddOnInfo (Liste FOREVER_GONE, StripForever()). test17 gab im Forever-Lauf ein globales GetItemInfoInstant vor –
+    jetzt nur ohne FOREVER.
+    Belegt fehlt nur GetItemInfo (RaidMaster 3.0.36). Die übrigen: Verdacht, zu messen – im Zweifel fehlen sie in der Nachbildung,
+    so wird nichts zu grün. Ergebnis mit der strengeren Nachbildung: Offline-Routine 40/40 ohne FEHLER.
+    Vorschlag für eine genaue Liste: eine Messung im Spiel, welche dieser Namen es im Forever-Client gibt (nur Lesen von _G) – bei
+    Bedarf als Auftrag, dann baue ich sie als Prüfung ein und stelle die Nachbildung exakt darauf ein.
+
+==== 5. TESTS (eigene, Hinweise, keine Freigabe) ====
+- addon_check: OK, 1 Warnung (lupa hier nicht installierbar, Syntax nicht vom Prüfprogramm geprüft). Ersatz: alle 87 Lua-Dateien
+  aus dem Zip mit Lua 5.1 geladen (loadfile) – ohne Fehler. Gemeinsame GoldSentinel*.lua byte-gleich mit shared/.
+- Offline-Routine (berichte/LevelPilot/offline, 40 Läufe, Forever/Era/TBC, deDE/enUS, Horde/Allianz): 40 ohne FEHLER.
+- Regression (36 Läufe, Arbeits-Nachbau): 35 ohne FEHLER, test29 1 FEHLER wie seit 3.12.90 bekannt (Arbeitskopie ohne echte
+  Kartenrahmen; dieselbe Prüfung in der Offline-Routine mit echten Rahmen: OK).
+- Testroutine im Nachbau mit Laptop-Daten (lang): OK 279 · FEHLER 8 · übersprungen 18 – dieselben 8 wie 3.12.94 im selben Nachbau
+  (T84/T180/T183/T261/T262/T268/T303/T309: Nachbau-Grenzen, bekannt). Neu: T354 OK (Brachland 5214 Knoten, Faktor 1,47 aus 12 Paaren;
+  gemessen+abgelegt, aus der Ablage, andere Kennung misst neu, unbrauchbarer Wert misst neu, höchstens 3 je Zone, Kennung ohne
+  32-Bit-Überlauf – längstes Bild 23,5 ms), T355 OK, T356 OK, T349 OK (mit neuer Zeile), T301/T302 OK (beide Wege).
+  Bilder über 40 ms im Nachbau: 2 (beide T129, beide mit Speicherfall, s. 2.).
+
+==== 6. OFFEN BEI MIR ====
+- HOCH: T129/T136 im Spiel – wartet auf den Beleg der neuen Zeile im nächsten Ingametest (siehe 2.).
+- Danach OPT-ALLE (Schritt 1 Bestandsaufnahme im nächsten Bericht, dann Umbau a–i), dann MITTEL (KARTE-TT1, T155, Daten sichern).
