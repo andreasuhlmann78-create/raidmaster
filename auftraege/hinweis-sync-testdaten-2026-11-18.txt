@@ -18,3 +18,18 @@ NACHTRAG 14:10 – geplanter Schutz in GoldSentinelSync Version 3 (zur Vorbereit
 - Bis Sync 3 in shared/ liegt (eigener Hinweis mit Termin), gilt Punkt 1 ohne den Schutz. Bitte im Bericht melden, welche eigenen Prüfungen
   Sync-Lernen brauchen.
 Selbstheilung heute schon: Sync 2 entfernt einen Mitspieler nach 5 erfolglosen Zustellungen aus dem Buch (TrimBook, fail >= 5).
+
+NACHTRAG 18.11.2026 14:35 (Supervisor) – Korrektur und zweiter Mangel in GoldSentinelSync 2
+1. KORREKTUR: "die Testnamen verschwinden nach 5 erfolglosen Zustellungen von selbst" stimmt NICHT, solange LevelPilot 3.12.95 testet.
+   Beleg: Laptop-Daten 14:11 (ThreatSentinel.lua, gsSync.book): "LPWeiter-Test", "Testa Beispiel", "Testa Beispiel-Realm" mit
+   seen = 18.11. 14:05:34 = Ende der LevelPilot-Testroutine von 13:59 und src "guild". Jeder Testlauf ruft Learn() erneut auf, und Learn
+   setzt fail = 0 und pause = 0 zurück. Der Zähler erreicht 5 also nie. Die Namen gehen erst mit der LevelPilot-Bereinigung (Befund HOCH
+   13:55, Punkt 2) und dem Schutz in Sync 3 weg. Auch der Desktop hat die Einträge (DESKTOP-NVITMSE, seit 17.11. 20:10).
+2. VERDACHT, ZU MESSEN (Sync, betrifft auch echte Spieler anderer Realms): Die Meldung "kein Spieler … online" wurde beim Nutzer NICHT
+   ausgeblendet, obwohl Sync sie nach eigenem Flüstern ausblenden soll (OnSystemMessage: S.whispered[name] innerhalb 5 s). Die Meldung
+   nannte "LPWeiter Test" (Leerzeichen), geflüstert wurde an "LPWeiter-Test" (Bindestrich). Gibt der Server den Namen mit Realm in einer
+   anderen Schreibweise zurück, passt der Schlüssel nie: Die Meldung bleibt sichtbar, fail steigt nie, der Spieler wird nie pausiert.
+   "Testa Beispiel" (ohne Realm) hat dagegen fail = 1, dort hat der Abgleich gegriffen.
+   Sync 3 gleicht Namen darum tolerant ab (Bindestrich = Leerzeichen, auch ohne Realm-Teil, Gross-/Kleinschreibung). Im Test werden
+   beide Schreibweisen geprüft, mit Gegenprobe: ein anderer Name wird nicht ausgeblendet.
+   Messung im Spiel: an einen erfundenen Namen mit Realm flüstern und die Schreibweise in der Meldung notieren.
