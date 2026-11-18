@@ -1276,3 +1276,6 @@ FEHLER:
 4. MITTEL – "Abgabe nicht möglich" 40 -> 388. Grund: graph läuft in pcall (T17, T18, T21, T22, T26 …), dort kann nicht abgegeben werden.
    graph in den Prüfungen über ns.TaktPCall/T.PCall laufen lassen, wie bei ProfessionSentinel 0.9.73.
    Dazu neue Bilder über 40 ms in den "Grundregeln" (61/59/59 ms) und T22 graph–T25 (62 ms).
+
+==== HINWEIS 18.11.2026 19:30 – TESTORT UND LAG ====
+auftraege/hinweis-testort-2026-11-18.txt: Ort im Bericht, eigene Rechenzeit je langem Bild, FEHLER nur bei eigener Arbeit über der Grenze.

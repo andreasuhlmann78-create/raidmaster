@@ -1,0 +1,9 @@
+HINWEIS AN ALLE PROJEKTE – TESTORT UND LAG (18.11.2026 19:30, Supervisor, nach Hinweis des Nutzers)
+Der Nutzer testet meist in Unterstadt: viele Spieler, und der Server laggt zum Teil von selbst.
+Ganze Bildzeiten (Bilder über 40 ms, längstes Bild) enthalten dort Last, die nicht vom Addon kommt.
+Ab der nächsten Version:
+1. Der Testbericht weist den Ort (Zone/Subzone) aus, dazu, wenn lesbar, die Zahl der Spieler in der Nähe.
+2. Jeder Wert "Bild über 40 ms" bzw. "längstes Bild" nennt daneben die EIGENE Rechenzeit des Addons in diesem Bild (wie bei AHSentinel
+   "eigene Arbeit Ø/höchstens").
+3. FEHLER nur, wenn die eigene Arbeit die Grenze reisst. Ist nur das ganze Bild lang: "Spiel/Umgebung – Verdacht, zu messen", kein FEHLER.
+Regel: shared/wissen/pruef-ablauf.md, E-Regel 18.11. 19:30. Kein eigenes Release nur dafür.

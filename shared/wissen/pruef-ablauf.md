@@ -105,6 +105,15 @@ dann Messauftrag statt Regel.
   ergänzen (Abschnitt E), damit er nicht wieder durchrutscht.
 
 ## E. Prüfregeln aus Fehlern (fortlaufend)
+
+E-Regel (18.11.2026 19:30, Hinweis des Nutzers "ich stehe in Undercity, da hat es viele Leute und der Server laggt zum Teil auch von
+ganz alleine"): Die Ingametests laufen meist in Unterstadt, also mit vielen Spielern und mit Server-Lag. Ganze Bildzeiten (Bilder über 40 ms,
+längstes Bild, Lücken) enthalten dort Last des Spiels und anderer Addons. Darum bei der Bewertung IMMER die EIGENE Rechenzeit des Addons
+(Takt "eigene Rechenzeit", Teil max, eigene Arbeit je Bild) vom ganzen Bild trennen.
+- FEHLER des Addons nur, wenn die eigene Arbeit die Grenze reisst.
+- Ist nur das ganze Bild lang, gilt: "Spiel/Umgebung, Verdacht, zu messen". Gegenprobe an einem ruhigen Ort, nicht als FEHLER.
+- Vergleiche zwischen Läufen nur mit gleichem Ort und gleichem Rechner, sonst ausdrücklich als "nicht vergleichbar" kennzeichnen.
+- Jeder Testbericht muss den Ort (Zone) ausweisen, und die Zahl der Spieler in der Nähe, wenn sie lesbar ist.
 - 15.11. 18:01 Nutzer: "Bei Addon-Kontrollen jeweils das ganze Repo anschauen, damit du verstehst, wie es zu dem Aufbau kam; falls du etwas nicht verstehst, bitte prüfen." REGEL: Vor jeder grösseren Addon-Prüfung Quell-Repo (git log, Struktur, README/CHANGELOG), berichte/<Addon>/, auftraege/<Addon>/ und entscheide.md lesen; jede Auffälligkeit erst gegen diese Geschichte prüfen (Absicht/Entscheid?), dann als Befund festhalten.
 - 15.11. 16:45 Uhrzeiten in Blöcken/Nachrichten waren vorausgeschätzt (z. B. "17:00" um 16:31 geschrieben) -> berichtigt. REGEL: Uhrzeit nie schätzen, immer `date +%H:%M` (Europe/Zurich) bzw. Commit-Zeit verwenden.
 - 15.11. 16:00 Messwerkzeug-Fehler: GSSniperLog 1.2 las "Server bereit" im Nach-Hook (hooksecurefunc = nach dem Aufruf) -> Zahl wertlos, war aber als "belegt" an AHS gegangen. REGEL: Bei jedem Messwert eines Mini-Addons klären, WANN gemessen wird (vor/nach dem Aufruf, Ereignis-Reihenfolge); unplausible Quoten (z. B. 1207/1211) erst prüfen, dann melden.
