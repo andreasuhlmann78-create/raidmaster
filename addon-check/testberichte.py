@@ -465,7 +465,14 @@ def scrub_all():
     return n
 
 
+KNOWN_ARGS = {"--import", "--nur-auswerten"}
+
+
 def main(argv):
+    # --help/-h und unbekannte Schalter: nur Hilfe zeigen, NICHTS lesen oder schreiben (Befund Nachprüfung 18.11. 11:25)
+    if any(a in ("-h", "--help") for a in argv) or any(a.startswith("-") and a not in KNOWN_ARGS for a in argv):
+        print(__doc__)
+        return 0 if any(a in ("-h", "--help") for a in argv) else 2
     note = None
     print(f"geschwärzt: {scrub_all()} Dateien")
     if "--import" in argv:

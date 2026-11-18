@@ -1173,3 +1173,15 @@ auftraege/hinweis-spieler-ohne-testbefehle-2026-11-18.txt umsetzen: jede Spieler
   ausdrücklichen Befehl "/lp protokoll speicher" mit Hinweis vorher. Gilt sinngemäss für alle Addons (Prüfregel).
 - OPT-ALLE Schritt 1 erhalten (86 Optionen, 5 Orte) – Umbau nach (a)–(i).
 - Beim Nutzer installiert (Laptop, diff 0).
+
+==== NACHPRÜFUNG 18.11.2026 11:25 (Entwurf, vom Supervisor 11:55 übernommen) – 3.12.95 ====
+Beide NIEDRIG, als "Verdacht am Code" – bitte belegen oder widerlegen (Test mit Gegenprobe):
+LP-95-1 Sicherung in Portionen kann eine Überlagerung der virtuellen Reise mitkopieren: die Prüfung "eine Überlagerung nie speichern"
+   (Backup.lua:162–166, RealTaxiOf) läuft nur einmal am Anfang; startet während der Portionen eine virtuelle Reise (Virtual.lua:762 ff.),
+   kopiert Copy(db.taxi) (Backup.lua:187) nur die Überlagerung. Vorschlag: nach jeder Abgabe LP.Virtual.active prüfen -> abbrechen (das
+   Ausloggen sichert ohnehin) oder vor jedem Copy RealTaxiOf. Test: Reise während der Sicherung starten -> Kopie unverändert/abgebrochen.
+LP-95-2 Kennung der Umweg-Ablage (Graph.lua:814–829) enthält weder WELCHE Knoten verbunden sind noch die Mess-Konstanten
+   DETOUR_PAIRS/TRIES/MIN_PAIRS (Graph.lua:749). Vorschlag: Konstanten in die Kennung (bzw. DETOUR_CACHE_VER daraus) und Summe der
+   Verbindungs-Paare statt nur der Anzahl.
+Im Spiel zu prüfen: zweites Einloggen (graph deutlich unter 2340 ms, längste graph-Portion), "start" nicht mehr 85 ms, /lp protokoll ohne
+Stillstand, Zeile "Bilder über 40 ms, in denen der Speicher fiel", Waffenfertigkeits-Hinweis im Forever-Client.

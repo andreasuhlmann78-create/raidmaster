@@ -465,3 +465,9 @@ Reihenfolge: nach den laufenden HOCH-Punkten, vor MITTEL.
 
 ==== HINWEIS 18.11.2026 11:15 – SPIELER OHNE TESTBEFEHLE (Entscheid des Nutzers 11:10) ====
 auftraege/hinweis-spieler-ohne-testbefehle-2026-11-18.txt umsetzen: jede Spieler-Funktion über den normalen Weg erreichbar (Minimap, Fenster, /<befehl>, Einstellungsfenster), nie nur über Test/Entwickler; Liste im nächsten Bericht.
+
+==== PRÜFUNG Supervisor 18.11.2026 11:55 – 0.9.59 (Spieler ohne Testbefehle) ====
+- addon_check OK, download = announce byte-gleich, md5 ee134b06…. Liste der normalen Wege vollständig; neu: Seite im Einstellungsfenster
+  des Spiels, Fehler/Protokoll/Austausch über Optionen statt nur Befehle; Korrektur Raster-Knopf (Seite Buffs) – angenommen.
+  52 alte Texte entfernt (Nachtrag 11:25 erfüllt). Prüfliste JAEGER/ENTZ – einverstanden.
+- Beim Nutzer installiert (Laptop, diff 0).
