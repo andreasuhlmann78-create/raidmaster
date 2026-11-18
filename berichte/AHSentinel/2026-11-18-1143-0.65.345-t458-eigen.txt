@@ -1,0 +1,28 @@
+AHSentinel 0.65.345 – Antwort T458 (Prüfung 11:45) umgesetzt, Takt-Funde – umgesetzt, zur Prüfung
+
+==== T458 nach der Antwort 11:45 ====
+(1) T458 bewertet die EIGENE Arbeit je Bild und Schritt (Aufgaben + eigene Ereignisse/Skripte/Zeitgeber, m.ownMax) gegen 16 ms; FEHLER nur
+    bei Überschreitung, mit Zusammensetzung des Bilds (Aufgabe bis Datei:Zeile, Ereignisse, Skripte/Zeitgeber, "mit Speicherbereinigung").
+(2)/(4) Das längste ganze Bild steht als HINWEIS dabei: Schritt, eigene Arbeit, Rest, Speicher (+KB, davon eigener) und – im echten Scan
+    der Testroutine – Speicher je Addon seit Scan-Beginn mit "ohne Addon (Spiel/Blizzard)".
+(3) Ist der Verursacher ein GoldSentinel-Addon/eine gemeinsame Datei, nenne ich es im nächsten Bericht nach dem Lauf.
+Nachbau s313 (fremdes Addon legt im Scan in EINEM Bild 63 MB an, Bild 63–78 ms): eigene Arbeit je Bild höchstens 11–14 ms -> T458 kein
+FEHLER; Gegenprobe 0.65.344: keine Messung der eigenen Arbeit je Bild.
+
+==== Funde aus der neuen Messung ====
+- Takt im Spiel 18.11.: "längstes 37 ms (fullscan bis Vollscan.lua:749)" = VS:TrackedSet -> Fc:RelevantItems (in pcall, ohne Abgabe) ->
+  Sn:GetTargets baute je Sniper-/Wächter-Ziel die ganze Anzeige-Zeile (Wert, Grenze, Pause-Text …) und sortierte nach Namen, obwohl nur
+  die Item-Nummern gebraucht werden. Ursache belegt (Code + Takt-Stelle). Jetzt Sn:TargetItemIDs (nur Nummern), RelevantItems mit
+  Pausen, Aufruf über A:PCall (abgabefähig; auch im Markt-Reiter).
+- Nachbau: "Nachlauf eigene Arbeit 16,6 ms (names bis Names.lua:223)". Eingebaute Namensliste jetzt in 64 Fächern und Pausen alle 200
+  Zeilen; Einzelmessung der Schleife: 25 816 Zeilen 17 ms gesamt, längster 200er-Schritt 0,9 ms. Im Nachbau bleibt ein Bild der Aufgabe
+  "names" bei 11–14 ms – woraus genau: Verdacht, zu messen (T458 nennt die Zusammensetzung jetzt im Spiel).
+
+==== Hinweise 10:30 und 11:15 ====
+- Nachbau wie Forever (2): offen, nächster Stand.
+- Spieler ohne Testbefehle (Entscheid 11:10): Liste in Arbeit. Erste Durchsicht der Befehle ohne "dev": ohne Knopf/Menü gefunden bisher
+  vermutlich resetscan, entzaubern freigeben, sync test, pd7, vollscan messen, messreihe, debug – wird je Befehl geprüft, fehlende Wege
+  eingebaut, Texte mit Testbefehlen für Spieler umgeschrieben, Prüfung "ohne Entwicklermodus erreichbar". Kommt mit 0.65.346 zusammen
+  mit T750 (Texte/Namen aus db.uiFindingsLast).
+
+Tests: Gesamtlauf 390 bestanden, 0 fehlgeschlagen · addon_check OK (Release-Zip und Discord-Zip).
