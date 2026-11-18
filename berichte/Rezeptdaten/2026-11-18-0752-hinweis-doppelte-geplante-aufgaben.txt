@@ -1,0 +1,42 @@
+BERICHT REZEPTDATEN AN DIE PRÜF-SITZUNG (Supervisor, Projekt Addonprüfer)
+Stand: 18.11.2026 07:52 · Sitzung: geplante Aufgabe «ProfessionSentinel Rezeptdaten-Update (mit Supervisor)», auf Wunsch des Nutzers
+Thema: Die zwei alten geplanten Aufgaben laufen weiter, parallel zu den Ersatz-Aufgaben «(mit Supervisor)»
+
+BEFUND (belegt mit list_triggers, 18.11.2026 07:50)
+Laut auftraege/hinweis-routinen-supervisor-2026-11-14.txt (ERSATZ-AUFGABEN) sollte der Nutzer die zwei alten Aufgaben
+ausschalten. Sie sind beide noch EINGESCHALTET:
+
+1) trig_014TAhJfvGt4PBC6miU4aTEB «ProfessionSentinel Rezeptdaten-Update (Code)»
+   - täglich 07:21 (Europe/Zurich), enabled = true, letzter Lauf 18.11. 07:21 (erfolgreich), nächster Lauf 19.11. 07:21
+   - startet zur selben Minute wie die Ersatz-Aufgabe trig_01Q3e6A5gu4Eoca65mnAhSg3 «(mit Supervisor)»
+   - Ihre Anweisung hat KEINEN VORRANG-Absatz: Bei neuen Daten pusht sie auf main, die Action baut das GitHub-Release,
+     sie legt announce/professionsentinel__* und download/ProfessionSentinel-*.zip an (Discord) und benennt die
+     Vorstellung um, alles OHNE den Supervisor.
+2) trig_01NG4EovtRDoVGwweAvPRCtD «Raids und Taktiken für WoW Forever (Code)»
+   - täglich 07:54, enabled = true, letzter Lauf 17.11. 07:55, nächster Lauf 18.11. 07:54
+   - läuft zur selben Minute wie die Ersatz-Aufgabe trig_019SbU842kQHaV75pbHuuofJ «(mit Supervisor)»
+   - Ihre Anweisung hat KEINEN VORRANG-Absatz: Taktiken direkt nach announce/ und Änderungen direkt in
+     RaidMasterBot/forever_raids.json bzw. raid_materials.json (der Bot postet bzw. legt Kanäle sofort an).
+
+Die ganz alten Aufgaben trig_01BCxRRc9vLeXHw8FJRdaSNG und trig_011TYvrXAkrrpnfBecH1zXYW sind ausgeschaltet (in Ordnung).
+
+BELEGE IM REPO (doppelte Läufe)
+- Rezeptdaten 16.11.: zwei Entwürfe (2026-11-16-0724 und 2026-11-16-0725, Commits 564bd9ad und df3ec470).
+- Rezeptdaten 18.11.: Entwurf 2026-11-18-0730 (Commit 063c9c4a) stammt vom anderen Lauf. Dieser Lauf (Ersatz-Aufgabe,
+  Sitzung cse_017NqTqjNjJ5VZsjcJ7GUeHF) kam zum gleichen Ergebnis: CHANGES=0, nur Kopfzeilen geändert, 3a/3b/3c OK,
+  deshalb kein zweiter Entwurf.
+- Raids 17.11.: zwei Läufe zur selben Zeit (f7fc810a «Raids-Recherche 17.11.2026: nichts Neues …» und
+  735868e3/71c59e8a «Raids/Taktiken: Entwurf 17.11. für den Supervisor»).
+Bisher haben sich die alten Läufe an den VORRANG in raidmaster/CLAUDE.md gehalten (keine Direkt-Veröffentlichung gefunden:
+seit 14.11. keine Änderung an announce/*taktik*, announce/*resi*, forever_raids.json oder raid_materials.json ausser über
+Entwürfe). Das liegt aber nur daran, dass es keine neuen Daten gab und CLAUDE.md gelesen wurde.
+Verdacht, zu messen: An einem Tag mit neuen Daten kann die alte Rezeptdaten-Aufgabe ihre eigene Anweisung befolgen und
+direkt veröffentlichen. Die ProfessionSentinel-CLAUDE.md enthält den VORRANG «erst Entwurf, dann Supervisor» nicht.
+Dazu können sich zwei gleichzeitige Läufe gegenseitig stören (gleiche Versionsnummer, zwei Branches oder Entwürfe,
+Push-Konflikte).
+
+EMPFEHLUNG / FRAGE AN DEN SUPERVISOR
+- Die beiden «(Code)»-Aufgaben ausschalten (enabled = false, nicht löschen, damit der Verlauf bleibt). Das ginge auch aus
+  einer Sitzung mit update_trigger. Bisher hat sie niemand ausgeschaltet. Der Nutzer entscheidet, wer es macht.
+- Bis dahin: Entwürfe aus berichte/Rezeptdaten und berichte/Raids auf doppelte Läufe prüfen und bei neuen Daten
+  nachsehen, ob etwas direkt auf main bzw. in announce/ gelandet ist.
