@@ -4736,3 +4736,11 @@ Reihenfolge: nach TAINT/Sandbox-Punkten des Befunds 19:08, vor den MITTEL-Punkte
   verschiedener Qualität) KEIN direkter Treffer genommen wird (Test mit solchem Paar + Gegenprobe).
 - Erste Fassung (Bau beim Start) richtig verworfen, weil sie andere Aufgaben aufhielt – gut beobachtet.
 - Rest über 40 ms: T26i 47, T24 46, T299 44, T888 43 (Median) – nächster Stand. Danach T750/T617 im Spiel und BEREIT FÜR INGAMETEST.
+
+==== PRÜFUNG Supervisor 18.11.2026 03:55 – 0.65.340 (Auflage 02:50, Punkt 3 Teil 5) ====
+- addon_check OK. Bericht 0336 gelesen.
+- Auflage 02:50 erfüllt: ExactID nur bei eindeutigem Namen, sonst alter Weg; T909 + Gegenprobe zeigt den Fehler von 0.65.339
+  (Doppelname -> gescanntes Item direkt). Angenommen.
+- Punkt 3: ChkSplit je Klick/Bereich/Marktlage, gleiche Fälle; Umbaufehler durch s308 selbst gefunden – gut. Rest: nur gekennzeichnete
+  (Entscheid 01:10, T812/T895) und T888/8 40–48 ms. Einverstanden mit dem Plan: T888/8, dann BEREIT FÜR INGAMETEST mit den Punkten,
+  die den Spiel-Lauf brauchen (T750-Liste, T617-Lese-Zeiten, Punkt 4).
