@@ -1,13 +1,13 @@
 {
- "ausgewertet": "2026-11-18T07:56:35Z",
+ "ausgewertet": "2026-11-18T09:12:17Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
-   "berichte": 76,
+   "berichte": 82,
    "letzter_test": {
-    "id": "AHSentinel-1794939071-3f02ac-5",
-    "version": "0.65.328",
-    "time": 1794939071,
+    "id": "AHSentinel-1794990710-e1b3f8-5",
+    "version": "0.65.343",
+    "time": 1794990710,
     "counts": {
      "client": 0,
      "fehler": 4,
@@ -19,42 +19,42 @@
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.328",
+     "version": "0.65.343",
      "client": "forever 1.60.1 (Interface 16001)",
      "id": "ALLES-1",
      "name": "Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1)",
-     "detail": "ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 930 OK, 6 FEHLER, 30 übersprungen, Sandbox FEHLER: 2 Pfade, wiederhergestellt: sniper.stats.bought, sniper.stats.missed",
-     "bericht": "AHSentinel-1794939071-3f02ac-5"
+     "detail": "ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 943 OK, 5 FEHLER, 30 übersprungen, Sandbox OK",
+     "bericht": "AHSentinel-1794990710-e1b3f8-5"
     },
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.328",
+     "version": "0.65.343",
      "client": "forever 1.60.1 (Interface 16001)",
      "id": "ALLES-2",
      "name": "Oberflächen-Prüfung (alle Reiter)",
-     "detail": "ergebnis:   2. Oberflächen-Prüfung (alle Reiter): FEHLER – 4 OK, 1 FEHLER, 0 übersprungen, Sandbox OK",
-     "bericht": "AHSentinel-1794939071-3f02ac-5"
+     "detail": "ergebnis:   2. Oberflächen-Prüfung (alle Reiter): FEHLER – 5 OK, 1 FEHLER, 0 übersprungen, Sandbox OK",
+     "bericht": "AHSentinel-1794990710-e1b3f8-5"
     },
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.328",
+     "version": "0.65.343",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "ALLES-4",
-     "name": "Sniper-Testroutine S1–S13 (ohne echten Kauf)",
-     "detail": "ergebnis:   4. Sniper-Testroutine S1–S13 (ohne echten Kauf): FEHLER – 27 OK, 2 FEHLER, 1 übersprungen, Sandbox OK",
-     "bericht": "AHSentinel-1794939071-3f02ac-5"
+     "id": "ALLES-5",
+     "name": "Wächter 10 Min.: Rechenzeit je Bild und Hürden (WAECHTER-LAST, WAECHTER-FUND)",
+     "detail": "ergebnis:   5. Wächter 10 Min.: Rechenzeit je Bild und Hürden (WAECHTER-LAST, WAECHTER-FUND): FEHLER – 175 Runden in 10 Min. · längste Wächter-Rechenzeit je Bild 54 ms (≤ 50) · längstes ganzes Bild 105 ms (Auskunft) · Hürden: Letzte Runde: 277 Angebote – 0 neu (nicht gerade abgelehnt)",
+     "bericht": "AHSentinel-1794990710-e1b3f8-5"
     },
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.328",
+     "version": "0.65.343",
      "client": "forever 1.60.1 (Interface 16001)",
      "id": "ALLES-6",
      "name": "Prüfungen am offenen Auktionshaus",
-     "detail": "ergebnis:   6. Prüfungen am offenen Auktionshaus: FEHLER – 59 OK, 5 FEHLER, 4 übersprungen, Sandbox FEHLER: 1 Pfade, wiederhergestellt: sniper.targets.i:7048.found",
-     "bericht": "AHSentinel-1794939071-3f02ac-5"
+     "detail": "ergebnis:   6. Prüfungen am offenen Auktionshaus: FEHLER – 61 OK, 5 FEHLER, 3 übersprungen, Sandbox OK",
+     "bericht": "AHSentinel-1794990710-e1b3f8-5"
     }
    ],
    "fehler_spiel": [
@@ -220,15 +220,15 @@
    ]
   },
   "BuffSentinel": {
-   "berichte": 6,
+   "berichte": 7,
    "letzter_test": {
-    "id": "BuffSentinel-1794985881-f1a084-1",
-    "version": "0.9.54",
-    "time": 1794985862,
+    "id": "BuffSentinel-1794991410-35a47d-1",
+    "version": "0.9.55",
+    "time": 1794991394,
     "counts": {
      "client": 10,
-     "fehler": 13,
-     "ok": 200,
+     "fehler": 1,
+     "ok": 213,
      "uebersprungen": 11
     }
    },
@@ -236,132 +236,12 @@
     {
      "addon": "BuffSentinel",
      "art": "test",
-     "version": "0.9.54",
+     "version": "0.9.55",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T141",
-     "name": "Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern",
-     "detail": "ergebnis: BuffSentinelOptions überdeckt Pfeil (LevelPilot) · geprüft 1 | erwartet: keine",
-     "bericht": "BuffSentinel-1794985881-f1a084-1"
-    },
-    {
-     "addon": "BuffSentinel",
-     "art": "test",
-     "version": "0.9.54",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T34",
-     "name": "Gegner entzaubern",
-     "detail": "ergebnis: Magie nil, stehlbar nil, Wut nil/0",
-     "bericht": "BuffSentinel-1794985881-f1a084-1"
-    },
-    {
-     "addon": "BuffSentinel",
-     "art": "test",
-     "version": "0.9.54",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T155",
-     "name": "Flüster-Netz: Mitspieler gespeichert, Nachrichten nur für Gilde/Gruppe nicht geflüstert",
-     "detail": "ergebnis: nein · 0/1",
-     "bericht": "BuffSentinel-1794985881-f1a084-1"
-    },
-    {
-     "addon": "BuffSentinel",
-     "art": "test",
-     "version": "0.9.54",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T62",
-     "name": "Debuff-Arten geschützt",
-     "detail": "",
-     "bericht": "BuffSentinel-1794985881-f1a084-1"
-    },
-    {
-     "addon": "BuffSentinel",
-     "art": "test",
-     "version": "0.9.54",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T100",
-     "name": "Gemeinsame Dateien",
-     "detail": "ergebnis: geladen: RaidMaster,ThreatSentinel,AHSentinel,BuffSentinel,GuildSentinel,ProfessionSentinel,LevelPilot",
-     "bericht": "BuffSentinel-1794985881-f1a084-1"
-    },
-    {
-     "addon": "BuffSentinel",
-     "art": "test",
-     "version": "0.9.54",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T200",
-     "name": "TU1 Lagen: jede Klasse/Skillung × jede Lage × Procs, Buffs, Abklingzeiten",
-     "detail": "ergebnis: 13 Klassen, 3684 Fälle, 4 Abweichungen · ROGUE/0 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/1 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/2 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/3 poisonstock B1 Buff fehlt ausser Kampf: ist n…",
-     "bericht": "BuffSentinel-1794985881-f1a084-1"
-    },
-    {
-     "addon": "BuffSentinel",
-     "art": "test",
-     "version": "0.9.54",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T251",
-     "name": "TU7 Lagen auf forever",
-     "detail": "ergebnis: 13 Klassen, 3684 Fälle, 4 Abweichungen · ROGUE/0 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/1 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/2 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/3 poisonstock B1 Buff fehlt ausser Kampf: ist n…",
-     "bericht": "BuffSentinel-1794985881-f1a084-1"
-    },
-    {
-     "addon": "BuffSentinel",
-     "art": "test",
-     "version": "0.9.54",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T252",
-     "name": "TU7 Lagen auf era",
-     "detail": "ergebnis: 13 Klassen, 3220 Fälle, 4 Abweichungen · ROGUE/0 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/1 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/2 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/3 poisonstock B1 Buff fehlt ausser Kampf: ist n…",
-     "bericht": "BuffSentinel-1794985881-f1a084-1"
-    },
-    {
-     "addon": "BuffSentinel",
-     "art": "test",
-     "version": "0.9.54",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T253",
-     "name": "TU7 Lagen auf tbc",
-     "detail": "ergebnis: 13 Klassen, 3400 Fälle, 4 Abweichungen · ROGUE/0 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/1 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/2 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/3 poisonstock B1 Buff fehlt ausser Kampf: ist n…",
-     "bericht": "BuffSentinel-1794985881-f1a084-1"
-    },
-    {
-     "addon": "BuffSentinel",
-     "art": "test",
-     "version": "0.9.54",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T158",
-     "name": "Regression 0.9.14-1: „Namen teilen“ aus sendet nichts, auch nicht an Gilde/Gruppe",
-     "detail": "ergebnis: 0/0/0 | erwartet: 0/2/4",
-     "bericht": "BuffSentinel-1794985881-f1a084-1"
-    },
-    {
-     "addon": "BuffSentinel",
-     "art": "test",
-     "version": "0.9.54",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T136",
-     "name": "Keine echten Aktionen während des Tests (senden, Chat, Kanal betreten)",
-     "detail": "ergebnis: echte Aktionen: 3, Haken: 3 von 3",
-     "bericht": "BuffSentinel-1794985881-f1a084-1"
-    },
-    {
-     "addon": "BuffSentinel",
-     "art": "test",
-     "version": "0.9.54",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T162",
-     "name": "Regressionen: jeder Befund hat einen Test, der gelaufen ist",
-     "detail": "ergebnis: Regressionen: 28 von 28 vorhanden · FEHLER: 0.9.6-1 echte Aktionen gezählt; UI Oberfläche im Client (5.11.); SYNC Kanal/gemeinsamer Sync/Sync 2/Test 2 (9.11.); 0.9.14-1 Namen teilen aus -> nichts senden; TU1-Rest Proc mit Restzeit, Gruppenbuff von anderen",
-     "bericht": "BuffSentinel-1794985881-f1a084-1"
-    },
-    {
-     "addon": "BuffSentinel",
-     "art": "test",
-     "version": "0.9.54",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T250",
-     "name": "Bilder der Testroutine selbst",
-     "detail": "ergebnis: längstes Bild 45.3 ms (T146), Median der drei längsten 23.3 ms · höchstens 40 ms: nein · höchstens 2× Median: ja",
-     "bericht": "BuffSentinel-1794985881-f1a084-1"
+     "id": "T110",
+     "name": "Speicher",
+     "detail": "ergebnis: Müll je Aufruf: Refresh 0.00 KB, RefreshGroup 0.16 KB, ScanPlayerAuras 8.33 KB (Grenzen 2/4/2 KB)",
+     "bericht": "BuffSentinel-1794991410-35a47d-1"
     }
    ],
    "fehler_spiel": [
@@ -469,11 +349,11 @@
    ]
   },
   "LevelPilot": {
-   "berichte": 23,
+   "berichte": 31,
    "letzter_test": {
-    "id": "LevelPilot-1794980871-78c2ec-3",
-    "version": "3.12.91",
-    "time": 1794980871,
+    "id": "LevelPilot-1794991249-e42e96-3",
+    "version": "3.12.93",
+    "time": 1794991249,
     "counts": {
      "client": 0,
      "fehler": 0,
@@ -500,11 +380,11 @@
    ]
   },
   "ProfessionSentinel": {
-   "berichte": 5,
+   "berichte": 7,
    "letzter_test": {
-    "id": "ProfessionSentinel-1794943358-32080d-5",
-    "version": "0.9.66",
-    "time": 1794943358,
+    "id": "ProfessionSentinel-1794988223-6f2b42-8",
+    "version": "0.9.68",
+    "time": 1794988223,
     "counts": {
      "client": 0,
      "fehler": 1,
@@ -516,12 +396,12 @@
     {
      "addon": "ProfessionSentinel",
      "art": "test",
-     "version": "0.9.66",
+     "version": "0.9.68",
      "client": "forever 1.60.1 (Interface 16001)",
      "id": "S2",
      "name": "Fertigkeit und Plan-Start",
      "detail": "ergebnis: Fertigkeit 0 | erwartet: > 0",
-     "bericht": "ProfessionSentinel-1794943358-32080d-5"
+     "bericht": "ProfessionSentinel-1794988223-6f2b42-8"
     }
    ],
    "fehler_spiel": [
@@ -584,67 +464,35 @@
    ]
   },
   "RaidMaster": {
-   "berichte": 7,
+   "berichte": 9,
    "letzter_test": {
-    "id": "RaidMaster-1794987365-35ffb9-1",
-    "version": "3.0.34",
-    "time": 1794987266,
+    "id": "RaidMaster-1794991559-f7361f-1",
+    "version": "3.0.35",
+    "time": 1794991476,
     "counts": {
      "client": 10,
-     "fehler": 1,
+     "fehler": 0,
      "ok": 138,
-     "uebersprungen": 14
+     "uebersprungen": 15
     }
    },
-   "fehler_tests": [
-    {
-     "addon": "RaidMaster",
-     "art": "test",
-     "version": "3.0.34",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T43",
-     "name": "Test-Werkzeug selbst (ony)",
-     "detail": "ergebnis: kein Item vergeben (Beute geladen 10/26; im Durchlauf 3 Items behandelt (0 Versteigerung, 3 andere Regel), 0 ohne Daten; Versteigerungen gestartet 0, Start nicht möglich 0, vergeben 0, ohne Gebot 0; im Log seit Start 0) | erwartet: >= 1",
-     "bericht": "RaidMaster-1794987365-35ffb9-1"
-    }
-   ],
+   "fehler_tests": [],
    "fehler_spiel": []
   },
   "ThreatSentinel": {
-   "berichte": 15,
+   "berichte": 17,
    "letzter_test": {
-    "id": "ThreatSentinel-1794986819-a77da5-1",
-    "version": "2.5.20",
-    "time": 1794986816,
+    "id": "ThreatSentinel-1794991445-0293ae-1",
+    "version": "2.5.21",
+    "time": 1794991442,
     "counts": {
      "client": 14,
-     "fehler": 2,
-     "ok": 298,
-     "uebersprungen": 12
+     "fehler": 0,
+     "ok": 301,
+     "uebersprungen": 11
     }
    },
-   "fehler_tests": [
-    {
-     "addon": "ThreatSentinel",
-     "art": "test",
-     "version": "2.5.20",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T-D2",
-     "name": "Nachtrag D: Spielfenster geöffnet -> Fenster-Prüfung läuft von selbst, eigener Bericht, Fenster wieder wie vorher",
-     "detail": "ergebnis: Bericht T186=false (Testzentrale überdeckt ThreatSentinelTestSpielfenster · geprüft 2) · vorgemerkt gelöscht true · Meldung true · Fenster wie vorher true | erwartet: Bericht T186=true · vorgemerkt gelöscht true · Meldung true · Fenster wie vorher true",
-     "bericht": "ThreatSentinel-1794986819-a77da5-1"
-    },
-    {
-     "addon": "ThreatSentinel",
-     "art": "test",
-     "version": "2.5.20",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "TU6-R1",
-     "name": "TU6 Regressionen: jeder Befund hat seinen Test, der Test lief",
-     "detail": "ergebnis: Regressionen: 54 von 54 vorhanden, nur im Client: T110 T128 T-K2, Test FEHLER: TR-ALLE Nachtrag D: Fenster-Prüfung vormerken und von selbst nachholen | erwartet: alle vorhanden, alle OK",
-     "bericht": "ThreatSentinel-1794986819-a77da5-1"
-    }
-   ],
+   "fehler_tests": [],
    "fehler_spiel": []
   }
  },
@@ -652,42 +500,42 @@
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.328",
+   "version": "0.65.343",
    "client": "forever 1.60.1 (Interface 16001)",
    "id": "ALLES-1",
    "name": "Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1)",
-   "detail": "ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 930 OK, 6 FEHLER, 30 übersprungen, Sandbox FEHLER: 2 Pfade, wiederhergestellt: sniper.stats.bought, sniper.stats.missed",
-   "bericht": "AHSentinel-1794939071-3f02ac-5"
+   "detail": "ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 943 OK, 5 FEHLER, 30 übersprungen, Sandbox OK",
+   "bericht": "AHSentinel-1794990710-e1b3f8-5"
   },
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.328",
+   "version": "0.65.343",
    "client": "forever 1.60.1 (Interface 16001)",
    "id": "ALLES-2",
    "name": "Oberflächen-Prüfung (alle Reiter)",
-   "detail": "ergebnis:   2. Oberflächen-Prüfung (alle Reiter): FEHLER – 4 OK, 1 FEHLER, 0 übersprungen, Sandbox OK",
-   "bericht": "AHSentinel-1794939071-3f02ac-5"
+   "detail": "ergebnis:   2. Oberflächen-Prüfung (alle Reiter): FEHLER – 5 OK, 1 FEHLER, 0 übersprungen, Sandbox OK",
+   "bericht": "AHSentinel-1794990710-e1b3f8-5"
   },
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.328",
+   "version": "0.65.343",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "ALLES-4",
-   "name": "Sniper-Testroutine S1–S13 (ohne echten Kauf)",
-   "detail": "ergebnis:   4. Sniper-Testroutine S1–S13 (ohne echten Kauf): FEHLER – 27 OK, 2 FEHLER, 1 übersprungen, Sandbox OK",
-   "bericht": "AHSentinel-1794939071-3f02ac-5"
+   "id": "ALLES-5",
+   "name": "Wächter 10 Min.: Rechenzeit je Bild und Hürden (WAECHTER-LAST, WAECHTER-FUND)",
+   "detail": "ergebnis:   5. Wächter 10 Min.: Rechenzeit je Bild und Hürden (WAECHTER-LAST, WAECHTER-FUND): FEHLER – 175 Runden in 10 Min. · längste Wächter-Rechenzeit je Bild 54 ms (≤ 50) · längstes ganzes Bild 105 ms (Auskunft) · Hürden: Letzte Runde: 277 Angebote – 0 neu (nicht gerade abgelehnt)",
+   "bericht": "AHSentinel-1794990710-e1b3f8-5"
   },
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.328",
+   "version": "0.65.343",
    "client": "forever 1.60.1 (Interface 16001)",
    "id": "ALLES-6",
    "name": "Prüfungen am offenen Auktionshaus",
-   "detail": "ergebnis:   6. Prüfungen am offenen Auktionshaus: FEHLER – 59 OK, 5 FEHLER, 4 übersprungen, Sandbox FEHLER: 1 Pfade, wiederhergestellt: sniper.targets.i:7048.found",
-   "bericht": "AHSentinel-1794939071-3f02ac-5"
+   "detail": "ergebnis:   6. Prüfungen am offenen Auktionshaus: FEHLER – 61 OK, 5 FEHLER, 3 übersprungen, Sandbox OK",
+   "bericht": "AHSentinel-1794990710-e1b3f8-5"
   },
   {
    "addon": "AHSentinel",
@@ -851,132 +699,12 @@
   {
    "addon": "BuffSentinel",
    "art": "test",
-   "version": "0.9.54",
+   "version": "0.9.55",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T141",
-   "name": "Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern",
-   "detail": "ergebnis: BuffSentinelOptions überdeckt Pfeil (LevelPilot) · geprüft 1 | erwartet: keine",
-   "bericht": "BuffSentinel-1794985881-f1a084-1"
-  },
-  {
-   "addon": "BuffSentinel",
-   "art": "test",
-   "version": "0.9.54",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T34",
-   "name": "Gegner entzaubern",
-   "detail": "ergebnis: Magie nil, stehlbar nil, Wut nil/0",
-   "bericht": "BuffSentinel-1794985881-f1a084-1"
-  },
-  {
-   "addon": "BuffSentinel",
-   "art": "test",
-   "version": "0.9.54",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T155",
-   "name": "Flüster-Netz: Mitspieler gespeichert, Nachrichten nur für Gilde/Gruppe nicht geflüstert",
-   "detail": "ergebnis: nein · 0/1",
-   "bericht": "BuffSentinel-1794985881-f1a084-1"
-  },
-  {
-   "addon": "BuffSentinel",
-   "art": "test",
-   "version": "0.9.54",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T62",
-   "name": "Debuff-Arten geschützt",
-   "detail": "",
-   "bericht": "BuffSentinel-1794985881-f1a084-1"
-  },
-  {
-   "addon": "BuffSentinel",
-   "art": "test",
-   "version": "0.9.54",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T100",
-   "name": "Gemeinsame Dateien",
-   "detail": "ergebnis: geladen: RaidMaster,ThreatSentinel,AHSentinel,BuffSentinel,GuildSentinel,ProfessionSentinel,LevelPilot",
-   "bericht": "BuffSentinel-1794985881-f1a084-1"
-  },
-  {
-   "addon": "BuffSentinel",
-   "art": "test",
-   "version": "0.9.54",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T200",
-   "name": "TU1 Lagen: jede Klasse/Skillung × jede Lage × Procs, Buffs, Abklingzeiten",
-   "detail": "ergebnis: 13 Klassen, 3684 Fälle, 4 Abweichungen · ROGUE/0 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/1 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/2 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/3 poisonstock B1 Buff fehlt ausser Kampf: ist n…",
-   "bericht": "BuffSentinel-1794985881-f1a084-1"
-  },
-  {
-   "addon": "BuffSentinel",
-   "art": "test",
-   "version": "0.9.54",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T251",
-   "name": "TU7 Lagen auf forever",
-   "detail": "ergebnis: 13 Klassen, 3684 Fälle, 4 Abweichungen · ROGUE/0 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/1 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/2 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/3 poisonstock B1 Buff fehlt ausser Kampf: ist n…",
-   "bericht": "BuffSentinel-1794985881-f1a084-1"
-  },
-  {
-   "addon": "BuffSentinel",
-   "art": "test",
-   "version": "0.9.54",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T252",
-   "name": "TU7 Lagen auf era",
-   "detail": "ergebnis: 13 Klassen, 3220 Fälle, 4 Abweichungen · ROGUE/0 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/1 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/2 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/3 poisonstock B1 Buff fehlt ausser Kampf: ist n…",
-   "bericht": "BuffSentinel-1794985881-f1a084-1"
-  },
-  {
-   "addon": "BuffSentinel",
-   "art": "test",
-   "version": "0.9.54",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T253",
-   "name": "TU7 Lagen auf tbc",
-   "detail": "ergebnis: 13 Klassen, 3400 Fälle, 4 Abweichungen · ROGUE/0 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/1 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/2 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/3 poisonstock B1 Buff fehlt ausser Kampf: ist n…",
-   "bericht": "BuffSentinel-1794985881-f1a084-1"
-  },
-  {
-   "addon": "BuffSentinel",
-   "art": "test",
-   "version": "0.9.54",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T158",
-   "name": "Regression 0.9.14-1: „Namen teilen“ aus sendet nichts, auch nicht an Gilde/Gruppe",
-   "detail": "ergebnis: 0/0/0 | erwartet: 0/2/4",
-   "bericht": "BuffSentinel-1794985881-f1a084-1"
-  },
-  {
-   "addon": "BuffSentinel",
-   "art": "test",
-   "version": "0.9.54",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T136",
-   "name": "Keine echten Aktionen während des Tests (senden, Chat, Kanal betreten)",
-   "detail": "ergebnis: echte Aktionen: 3, Haken: 3 von 3",
-   "bericht": "BuffSentinel-1794985881-f1a084-1"
-  },
-  {
-   "addon": "BuffSentinel",
-   "art": "test",
-   "version": "0.9.54",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T162",
-   "name": "Regressionen: jeder Befund hat einen Test, der gelaufen ist",
-   "detail": "ergebnis: Regressionen: 28 von 28 vorhanden · FEHLER: 0.9.6-1 echte Aktionen gezählt; UI Oberfläche im Client (5.11.); SYNC Kanal/gemeinsamer Sync/Sync 2/Test 2 (9.11.); 0.9.14-1 Namen teilen aus -> nichts senden; TU1-Rest Proc mit Restzeit, Gruppenbuff von anderen",
-   "bericht": "BuffSentinel-1794985881-f1a084-1"
-  },
-  {
-   "addon": "BuffSentinel",
-   "art": "test",
-   "version": "0.9.54",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T250",
-   "name": "Bilder der Testroutine selbst",
-   "detail": "ergebnis: längstes Bild 45.3 ms (T146), Median der drei längsten 23.3 ms · höchstens 40 ms: nein · höchstens 2× Median: ja",
-   "bericht": "BuffSentinel-1794985881-f1a084-1"
+   "id": "T110",
+   "name": "Speicher",
+   "detail": "ergebnis: Müll je Aufruf: Refresh 0.00 KB, RefreshGroup 0.16 KB, ScanPlayerAuras 8.33 KB (Grenzen 2/4/2 KB)",
+   "bericht": "BuffSentinel-1794991410-35a47d-1"
   },
   {
    "addon": "BuffSentinel",
@@ -1079,12 +807,12 @@
   {
    "addon": "ProfessionSentinel",
    "art": "test",
-   "version": "0.9.66",
+   "version": "0.9.68",
    "client": "forever 1.60.1 (Interface 16001)",
    "id": "S2",
    "name": "Fertigkeit und Plan-Start",
    "detail": "ergebnis: Fertigkeit 0 | erwartet: > 0",
-   "bericht": "ProfessionSentinel-1794943358-32080d-5"
+   "bericht": "ProfessionSentinel-1794988223-6f2b42-8"
   },
   {
    "addon": "ProfessionSentinel",
@@ -1141,50 +869,20 @@
     "forever 1.60.1 (Interface 16001)"
    ],
    "stack": "[C]: in function 'pcall'\n[Interface/AddOns/ProfessionSentinel/Core.lua]:180: in function 'CountError'\n[Interface/AddOns/ProfessionSentinel/Jobs.lua]:153: in function <Interface/AddOns/ProfessionSentinel/Jobs.lua:149>\n[Interface/AddOns/ProfessionSentinel/Jobs.lua]:177: in function <Interface/AddOns/ProfessionSentinel/Jobs.lua:161>\n[Interface/AddOns/ProfessionSentinel/Jobs.lua]:203: in function <Interface/AddOns/ProfessionSentinel/Jobs.lua:182>\n[tail call]: ?\n..."
-  },
-  {
-   "addon": "RaidMaster",
-   "art": "test",
-   "version": "3.0.34",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T43",
-   "name": "Test-Werkzeug selbst (ony)",
-   "detail": "ergebnis: kein Item vergeben (Beute geladen 10/26; im Durchlauf 3 Items behandelt (0 Versteigerung, 3 andere Regel), 0 ohne Daten; Versteigerungen gestartet 0, Start nicht möglich 0, vergeben 0, ohne Gebot 0; im Log seit Start 0) | erwartet: >= 1",
-   "bericht": "RaidMaster-1794987365-35ffb9-1"
-  },
-  {
-   "addon": "ThreatSentinel",
-   "art": "test",
-   "version": "2.5.20",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T-D2",
-   "name": "Nachtrag D: Spielfenster geöffnet -> Fenster-Prüfung läuft von selbst, eigener Bericht, Fenster wieder wie vorher",
-   "detail": "ergebnis: Bericht T186=false (Testzentrale überdeckt ThreatSentinelTestSpielfenster · geprüft 2) · vorgemerkt gelöscht true · Meldung true · Fenster wie vorher true | erwartet: Bericht T186=true · vorgemerkt gelöscht true · Meldung true · Fenster wie vorher true",
-   "bericht": "ThreatSentinel-1794986819-a77da5-1"
-  },
-  {
-   "addon": "ThreatSentinel",
-   "art": "test",
-   "version": "2.5.20",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "TU6-R1",
-   "name": "TU6 Regressionen: jeder Befund hat seinen Test, der Test lief",
-   "detail": "ergebnis: Regressionen: 54 von 54 vorhanden, nur im Client: T110 T128 T-K2, Test FEHLER: TR-ALLE Nachtrag D: Fenster-Prüfung vormerken und von selbst nachholen | erwartet: alle vorhanden, alle OK",
-   "bericht": "ThreatSentinel-1794986819-a77da5-1"
   }
  ],
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 162,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.343-ee15ec2b669e.txt"
+    "anzahl": 165,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.343-ff200e1c4d9b.txt"
    },
    "BuffSentinel": {
-    "anzahl": 52,
-    "neueste": "testberichte/diagnose/BuffSentinel/0.9.54-e27f6daa15e2.txt"
+    "anzahl": 55,
+    "neueste": "testberichte/diagnose/BuffSentinel/0.9.55-d3c260ecc11f.txt"
    },
    "GSMesstest": {
-    "anzahl": 10,
+    "anzahl": 11,
     "neueste": "testberichte/diagnose/GSMesstest/5.1-e71680805b41.txt"
    },
    "GSSniperLog": {
@@ -1192,20 +890,20 @@
     "neueste": "testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt"
    },
    "GuildSentinel": {
-    "anzahl": 162,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.56-5ec83408899d.txt"
+    "anzahl": 165,
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.56-e9c08c401f87.txt"
    },
    "LevelPilot": {
-    "anzahl": 57,
-    "neueste": "testberichte/diagnose/LevelPilot/3.12.92-e78a7a78c7b2.txt"
+    "anzahl": 60,
+    "neueste": "testberichte/diagnose/LevelPilot/3.12.93-9331c37a2e5f.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 142,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.68-465f53481f0f.txt"
+    "anzahl": 145,
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.68-f6b623bc89a4.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 137,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.20-a38194bbec13.txt"
+    "anzahl": 140,
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.21-66c8d12f9365.txt"
    }
   },
   "wege": {
