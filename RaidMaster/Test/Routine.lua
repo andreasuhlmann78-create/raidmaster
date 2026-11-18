@@ -1661,16 +1661,23 @@ local function AreaB(t, G)
 			-- 3.0.31 (Ingametest 17.11.: "Beute geladen 10/26"): bis 30 s warten (alle 0,5 s nachfragen; GET_ITEM_INFO_RECEIVED
 			-- kommt in dieser Zeit an), früher aufhören, wenn alles da ist oder 8 s lang nichts Neues mehr kam (Items, die es in
 			-- diesem Client nicht gibt, laden nie)
-			local known, total = 0, 0
+			local known, total, auct = 0, 0, 0
 			if T.PreloadLoot then
-				known, total = T.PreloadLoot(T.pool)
+				known, total, auct = T.PreloadLoot(T.pool)
 				local w, lastGain, lastKnown = 0, 0, known
 				while total > 0 and known < total and w < 30 and (w - lastGain) < 8 do
 					Wait(0.5); w = w + 0.5
-					known, total = T.PreloadLoot(T.pool)
+					known, total, auct = T.PreloadLoot(T.pool)
 					if known > lastKnown then lastKnown, lastGain = known, w end
 				end
 			end
+			auct = auct or 0
+			-- 3.0.35 (Ingametest 18.11.: 3 gezogene Items, alle "andere Regel"): ohne ein einziges versteigerbares geladenes Item
+			-- kann diese Prüfung nichts vergeben -> nicht prüfbar mit Zahl, nie FEHLER aus Zufall
+			if auct == 0 then
+				return ASYNC_SKIP, string.format("Beute geladen %d/%d, davon versteigerbar 0 – beim nächsten Lauf wieder", known, total)
+			end
+			Swap(u, T, "preferAuction", true)               -- der Durchlauf zieht nur versteigerbare Items (Test/Test.lua Pick)
 			local since = RM.Now() - 1
 			local function items()
 				local n = 0
@@ -1689,6 +1696,7 @@ local function AreaB(t, G)
 			local st = {}
 			for k, v in pairs(T.stats or {}) do st[k] = v end
 			-- "Raid starten" in RaidMaster bricht einen laufenden Durchlauf ab
+			T.preferAuction = nil
 			T.RunRaids(1)
 			local was = T.IsRunning()
 			pcall(RM.Raid.Start)
@@ -1715,10 +1723,10 @@ local function AreaB(t, G)
 			-- 3.0.32: gezählt wird, was DIESER Durchlauf vergeben hat (st.awarded). Die Zählung im Log (n) nahm auch Items aus früheren
 			-- Prüfungen mit (Nachbau: "2 Items vergeben" ohne eine einzige geladene Ony-Beute) – sie steht nur noch als Zusatz da.
 			if (st.awarded or 0) < 1 then
-				local detail = string.format("Beute geladen %d/%d; im Durchlauf %d Items behandelt (%d Versteigerung, %d andere Regel), %d ohne Daten; "
-					.. "Versteigerungen gestartet %d, Start nicht möglich %d, vergeben %d, ohne Gebot %d",
-					known, total, st.handled or 0, st.auction or 0, st.other or 0, st.noInfo or 0,
-					st.started or 0, st.startFail or 0, st.awarded or 0, st.noBid or 0)
+				local detail = string.format("Beute geladen %d/%d (versteigerbar %d); im Durchlauf %d Items behandelt (%d Versteigerung, %d andere Regel), %d ohne Daten; "
+					.. "Versteigerungen gestartet %d, Start nicht möglich %d, vergeben %d, ohne Gebot %d; Regeln: %s",
+					known, total, auct, st.handled or 0, st.auction or 0, st.other or 0, st.noInfo or 0,
+					st.started or 0, st.startFail or 0, st.awarded or 0, st.noBid or 0, table.concat(st.items or {}, ", "))
 				-- 3.0.32 (Supervisor 19:42): "nicht prüfbar" NUR, wenn belegt ist, dass die Daten fehlen – kein einziges Item hatte
 				-- Daten (behandelt 0 und Beute nicht geladen bzw. Items ohne Daten). Alles andere ist FEHLER, mit allen Zahlen.
 				if (st.handled or 0) == 0 and (known == 0 or (st.noInfo or 0) > 0) then
@@ -1727,8 +1735,8 @@ local function AreaB(t, G)
 				return false, "kein Item vergeben (" .. detail .. "; im Log seit Start " .. n .. ")", ">= 1"
 			end
 			if RM.db.testMode and RM.db.testMode.post then return false, "testMode.post gesetzt", "nil" end
-			return true, string.format("%d Items vergeben in %d s (Beute geladen %d/%d; behandelt %d, Versteigerung %d, ohne Gebot %d)%s",
-				st.awarded, waited, known, total, st.handled or 0, st.auction or 0, st.noBid or 0, stress)
+			return true, string.format("%d Items vergeben in %d s (Beute geladen %d/%d, versteigerbar %d; behandelt %d, Versteigerung %d, ohne Gebot %d; Regeln: %s)%s",
+				st.awarded, waited, known, total, auct, st.handled or 0, st.auction or 0, st.noBid or 0, table.concat(st.items or {}, ", "), stress)
 		end, function() Undo(u); if T.IsRunning() then T.StopRun() end; T.SetTimeOffset(0); T.FillRoster(); RM.Loot.pendingBoss = nil end)
 	end)
 

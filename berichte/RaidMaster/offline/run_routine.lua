@@ -86,6 +86,8 @@ RM.db.data.players.Echt1 = RM.db.data.players.Echt1 or { c = "WARRIOR", d = { mc
 local before = { players = RM.db.data.players.Echt1.d.mc, prof = RM.db.prof }
 RaidMasterDB.gsTest.errors = {}
 
+-- T43NOAUCT=1: Gegenprobe T43 – kein geladenes Item ist versteigerbar (alle "Gildenbank")
+if os.getenv("T43NOAUCT") == "1" then RM.Loot.Classify = function() return "bank" end end
 local R = RM.TestRoutine
 local only = ROUTINE_AREA or os.getenv("AREA")
 R.Run(only)
@@ -187,6 +189,12 @@ if not only and not os.getenv("STOPAT") then
 		while R.running and w < 60 do Advance(0.5); w = w + 0.5 end
 		Advance(15)
 	end
+end
+-- 3.0.35: Seiten werden beim ersten Zeigen bzw. im Hintergrund gebaut – am Ende sind alle gebaut, jede genau einmal
+do
+	local unbuilt, total = 0, 0
+	for _, p in pairs(RM.UI.pages) do if p.frame then total = total + 1; if not p.built then unbuilt = unbuilt + 1 end end end
+	check(total > 0 and unbuilt == 0, "alle " .. total .. " Seiten gebaut (" .. unbuilt .. " offen)")
 end
 -- Auswertung fremder Leser (BEFUND HOCH SOFORT 18.11.)
 if not os.getenv("STOPAT") then

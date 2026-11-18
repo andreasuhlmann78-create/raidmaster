@@ -1018,6 +1018,34 @@ function UI.ShowGroup(gid)
 	UI.ShowPage(gid)
 end
 
+-- 3.0.35: Inhalt einer Seite einmal bauen (beim ersten Zeigen oder im Hintergrund)
+function UI.BuildPage(p)
+	if not (p and p.frame) or p.built then return end
+	p.built = true
+	local ok, refresh = pcall(p.build, p.frame)
+	if ok then p.refresh = refresh else UI.ReportError(refresh) end
+end
+
+-- 3.0.35: noch nicht gebaute Seiten im Hintergrund, eine je Bild (nie im Kampf – dann später weiter)
+local buildRestRunning = false
+function UI.BuildRest()
+	if buildRestRunning then return end
+	buildRestRunning = true
+	local function Step()
+		if RM.InCombat and RM.InCombat() then C_Timer.After(2, Step) return end
+		for _, id in ipairs(UI.pageOrder) do
+			local p = UI.pages[id]
+			if p and p.frame and not p.built then
+				UI.BuildPage(p)
+				C_Timer.After(0.05, Step)
+				return
+			end
+		end
+		buildRestRunning = false
+	end
+	C_Timer.After(0.05, Step)
+end
+
 function UI.ShowPage(id)
 	if not main then return end
 	-- Bereich statt Seite (z. B. "beute"): erster erlaubter Reiter
@@ -1031,6 +1059,7 @@ function UI.ShowPage(id)
 		end
 	end
 	if not UI.pages[id] or not UI.CanSeePage(id) then id = "dkp" end
+	UI.BuildPage(UI.pages[id])                  -- 3.0.35: erst beim ersten Zeigen bauen
 	local g = UI.GroupOf(id)
 	if g then UI.groupTab[g.id] = id end
 	local withTabs = UpdateTabs(g, id)
@@ -1291,20 +1320,22 @@ local function CreateMain()
 		f.groupNav[g.id] = b
 		y = y - 40
 	end
-	-- alle Seiten bauen (auch die, die in keinem Bereich stehen, bleiben über UI.Open erreichbar)
+	-- 3.0.35 (Ingametest 18.11.: "Aufbau Fenster 47,6 ms" am Stück, Grenze 40 ms – leistung.md): für jede Seite nur den leeren
+	-- Rahmen anlegen; ihren Inhalt baut UI.BuildPage beim ersten Zeigen, die übrigen danach im Hintergrund eine Seite je Bild
+	-- (UI.BuildRest). Seiten ausserhalb der Bereiche bleiben über UI.Open erreichbar.
 	for _, id in ipairs(UI.pageOrder) do
 		local p = UI.pages[id]
 		local page = CreateFrame("Frame", nil, content)
 		page:SetAllPoints()
 		page:Hide()
 		p.frame = page
-		local ok, refresh = pcall(p.build, page)
-		if ok then p.refresh = refresh else UI.ReportError(refresh) end
+		p.built = false
 	end
 
 	ApplyMainScale(f)
 	f:SetScript("OnShow", function() UI.RefreshCurrent() end)
 	UI.ShowPage("dkp")
+	UI.BuildRest()
 	return f
 end
 

@@ -11,6 +11,12 @@ INSTALLATION
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
 
+NEU IN 3.0.35 – Hauptfenster öffnet ohne Ruckeln
+- Das Hauptfenster baut beim ersten Öffnen nur die sichtbare Seite; die übrigen Seiten entstehen danach im Hintergrund, eine je Bild
+  (nie im Kampf). Vorher wurden alle Seiten auf einmal gebaut (im Spiel gemessen: 47,6 ms am Stück).
+- Nur Entwickler: Der Test-Durchlauf der Testroutine (T43) nimmt nur Items, die RaidMaster wirklich versteigert, und nennt je Item die
+  Regel – kein FEHLER mehr aus Zufall.
+
 NEU IN 3.0.34 – Testdaten bleiben in RaidMaster
 - Andere Addons (z. B. GuildSentinel) sehen während eines Tests nie mehr Testdaten: RaidMaster.db zeigt ihnen in dieser Zeit die
   echten Daten. Neu für andere Addons: RaidMasterAPI.TestRunning() – true, solange getestet wird.

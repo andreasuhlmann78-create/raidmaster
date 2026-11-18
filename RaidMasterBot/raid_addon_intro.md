@@ -27,6 +27,9 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 ===
 📜 **Updates**
 
+**3.0.35** – Hauptfenster ohne Ruckeln
+• Beim ersten Öffnen wird nur die sichtbare Seite gebaut, der Rest danach im Hintergrund.
+
 **3.0.34** – Testdaten bleiben in RaidMaster
 • Andere Addons (z. B. GuildSentinel) sehen während eines Tests nur noch echte Daten – keine falschen Erstkills mehr im Gildenchat.
 
@@ -53,8 +56,5 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 
 **3.0.19** – Symbole in WoW Forever
 • Symbol-Leiste und RaidMaster-Tasten funktionieren in WoW Forever wieder ohne „Aktion blockiert“ – auch im Kampf. „Adds markieren“ zeigt dort einen Vorschlag.
-
-**3.0.18** – Tooltips am Rand
-• Tooltips erscheinen neben dem RaidMaster-Fenster statt über anderen Knöpfen. Fehler werden nur noch einmal gezählt, auch wenn weitere GoldSentinel-Addons laufen.
 
 Ältere Neuerungen stehen im Addon in der Datei LIESMICH.txt.

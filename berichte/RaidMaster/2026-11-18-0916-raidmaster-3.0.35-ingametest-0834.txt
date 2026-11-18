@@ -1,0 +1,37 @@
+BERICHT RAIDMASTER AN DIE PRÜF-SITZUNG
+Stand: 18.11.2026 09:16 (aus date) · Sitzung: RaidMaster-Projekt-Sitzung · Version: Addon 3.0.35 (Uploader unverändert 2.3.14)
+Commit: dieser Push · Bezug: offen-raidmaster.txt "INGAMETEST 18.11.2026 08:34 – RaidMaster 3.0.34" (edf93576), nachricht-ingametest-2026-11-18.txt (cd35c95e)
+Status: umgesetzt, zur Prüfung.
+
+1. T43 – Zufall der Prüfung (Ursache von dir belegt, übernommen)
+   - Test/Test.lua: neuer Schalter T.preferAuction – Pick zieht dann nur geladene Items, die RM.Loot.Classify als "auction" einstuft
+     (Auctionable, in pcall). T.CountAuctionable zählt geladen/versteigerbar; T.PreloadLoot gibt als dritten Wert "davon versteigerbar".
+     Ohne den Schalter (normaler /rmtest-Durchlauf) zieht Pick wie bisher.
+   - T43 setzt den Schalter nur für den eigenen Durchlauf (Swap/Undo, vor dem zweiten Durchlauf aus). Gibt es kein versteigerbares
+     geladenes Item: "nicht prüfbar: Beute geladen x/y, davon versteigerbar 0" – nie FEHLER aus Zufall.
+   - Je behandeltem Item steht die Regel im Ergebnis ("Name (Q4) -> Versteigerung", höchstens 12; bei FEHLER mit allen Zählern).
+   - Gegenprobe (Nachbildung): normal "3 Items vergeben … versteigerbar 26; Versteigerung 3 … Regeln: … -> Versteigerung" OK;
+     T43NOAUCT=1 (Classify gibt allen "Gildenbank") -> "nicht prüfbar: Beute geladen 26/26, davon versteigerbar 0". (In diesem Gegenlauf
+     schlägt T21 erwartungsgemäss fehl, weil die Regel absichtlich verbogen ist.)
+
+2. Fensteraufbau 47,6 ms (leistung.md: kein Bild über 40 ms)
+   - Ursache belegt (Code 3.0.34, UI.lua CreateMain): beim ersten Öffnen wurden ALLE 15 Seiten in einer Schleife gebaut (pcall(p.build)).
+   - Behebung: CreateMain legt je Seite nur den leeren Rahmen an. UI.BuildPage baut eine Seite beim ersten Zeigen (UI.ShowPage);
+     UI.BuildRest baut danach die übrigen im Hintergrund, eine je Bild (C_Timer 0,05 s), im Kampf wird gewartet (2 s) und später
+     weitergemacht. Abhängigkeiten geprüft: kein Code ausser den Seiten selbst braucht gebaute Seiten (UI.registry füllt die
+     Einstellungsseite; die Testroutine baut im Schritt "Aufbau" alle Seiten über ShowPage).
+   - Werte: Spiel 3.0.34 "Aufbau Fenster 47,6 ms". Nachbau 3.0.34 "Aufbau Fenster 6,4 ms" -> Nachbau 3.0.35 "Aufbau Fenster 1,5 ms"
+     (Gerüst + erste Seite); teuerste Einzelseite im Nachbau "Aufbau signup 2,7 ms". Mit dem Faktor Spiel/Nachbau von 3.0.34 (~7,4)
+     erwartet im Spiel ~11 ms für das Fenster und ~20 ms für die Seite "Anmeldungen" – Verdacht, zu messen (nächster Ingametest; die
+     Portionen-Zeile nennt jede Seite einzeln).
+   - Nachbildung prüft: am Ende sind alle 15 Seiten gebaut, jede genau einmal.
+   - Nicht umgesetzt: GoldSentinelTakt (B6) – der Hintergrundaufbau ist eine kurze eigene Kette (eine Seite je Bild). Wird eine Seite im
+     Spiel über 16 ms gemessen, baue ich deren Inhalt mit GoldSentinelTakt in Portionen.
+
+EIGENE TESTS (Hinweise, keine Freigabe) – Nachbildung berichte/RaidMaster/offline:
+- Forever, Era ALLE OK (längstes Bild 2,6–2,9 ms, über 5 ms: 0); enUS, zhCN, ruRU ALLE OK; STOPAT 1/20/60 ALLE OK; echte Daten
+  (Desktop, Laptop) ALLE OK.
+- Lua-Syntax lupa (Lua 5.1): 65 Dateien, 0 Fehler. Gemeinsame Dateien cmp gleich mit shared/.
+- addon_check download/RaidMaster-3.0.35.zip: "RaidMaster-3.0.35.zip: OK", kein FEHLER, keine WARNUNG (EXIT 0).
+
+FÜR DEN NUTZER (nach Prüfung): Bot /update -> RaidMaster 3.0.35, /reload, /rm version (3.0.35), dann /rm testroutine alles.

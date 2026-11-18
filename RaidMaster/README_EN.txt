@@ -23,6 +23,12 @@ MAIN FEATURES
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
 
+WHAT'S NEW IN 3.0.35 – main window opens without stutter
+- On first open the main window builds only the visible page; the other pages are built afterwards in the background, one per
+  frame (never in combat). Before, all pages were built at once (measured in game: 47.6 ms in one frame).
+- Developer only: the test run (T43) only uses items RaidMaster really auctions and names the rule for each item – no more
+  random failures.
+
 WHAT'S NEW IN 3.0.34 – test data stays inside RaidMaster
 - Other addons (e.g. GuildSentinel) never see test data during a test any more: RaidMaster.db shows them the real data
   meanwhile. New for other addons: RaidMasterAPI.TestRunning() – true while a test is running.

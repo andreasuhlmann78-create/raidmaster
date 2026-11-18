@@ -1033,9 +1033,11 @@ function T.PreloadLoot(poolKey)
 	if not lt then return 0, 0 end
 	local known, total = 0, 0
 	local request = C_Item and C_Item.RequestLoadItemDataByID
+	local ids = {}
 	for _, b in ipairs(lt) do
 		for _, id in ipairs(b.i or {}) do
 			total = total + 1
+			ids[#ids + 1] = id
 			if ItemInfo(id) then
 				known = known + 1
 			elseif request then
@@ -1043,13 +1045,35 @@ function T.PreloadLoot(poolKey)
 			end
 		end
 	end
-	return known, total
+	-- 3.0.35: dritter Wert = davon versteigerbar (RM.Loot.Classify -> "auction")
+	local _, auct = T.CountAuctionable(ids)
+	return known, total, auct
 end
 
 -- n zufällige Items, die das Spiel schon kennt (sonst beim nächsten Mal)
+-- 3.0.35 (Ingametest 18.11. T43): mit T.preferAuction nur Items, die RM.Loot.Classify sicher versteigert – sonst hängt die
+-- Prüfung vom Zufall ab (3 gezogene Items, alle "andere Regel"). Ohne den Schalter wie bisher (normaler Test-Durchlauf).
+local function Auctionable(id)
+	local link, quality = ItemInfo(id)
+	if not link then return false end
+	local ok, action = pcall(RM.Loot.Classify, link, quality)
+	return ok and action == "auction"
+end
+function T.CountAuctionable(ids)
+	local known, auct = 0, 0
+	for _, id in ipairs(ids or {}) do
+		if ItemInfo(id) then
+			known = known + 1
+			if Auctionable(id) then auct = auct + 1 end
+		end
+	end
+	return known, auct
+end
 local function Pick(ids, n)
 	local pool, out = {}, {}
-	for _, id in ipairs(ids or {}) do if ItemInfo(id) then pool[#pool + 1] = id end end
+	for _, id in ipairs(ids or {}) do
+		if ItemInfo(id) and (not T.preferAuction or Auctionable(id)) then pool[#pool + 1] = id end
+	end
 	for _ = 1, n do
 		if #pool == 0 then break end
 		out[#out + 1] = table.remove(pool, math.random(#pool))
@@ -1062,12 +1086,17 @@ local RULE_NAMES = { auction = "Versteigerung", bank = "Gildenbank", de = "Entza
 
 -- ein Item wie im echten Raid behandeln: Regel prüfen, versteigern oder zuteilen
 -- 3.0.31: Zähler je Durchlauf (für die Testroutine T43: warum wurde nichts vergeben?)
-T.stats = { handled = 0, auction = 0, other = 0, noInfo = 0, started = 0, startFail = 0, awarded = 0, noBid = 0 }
+T.stats = { handled = 0, auction = 0, other = 0, noInfo = 0, started = 0, startFail = 0, awarded = 0, noBid = 0, items = {} }
 local function HandleItem(id, source)
 	local link, quality = ItemInfo(id)
 	if not link then T.stats.noInfo = T.stats.noInfo + 1 return end
 	local action = RM.Loot.Classify(link, quality)
 	T.stats.handled = T.stats.handled + 1
+	-- 3.0.35: je Item die Regel festhalten (Name/Qualität -> Regel), damit der Bericht zeigt, warum
+	if #T.stats.items < 12 then
+		local name = (GetItemInfo and GetItemInfo(id)) or tostring(id)
+		T.stats.items[#T.stats.items + 1] = string.format("%s (Q%s) -> %s", tostring(name), tostring(quality), RULE_NAMES[action] or tostring(action))
+	end
 	if action == "auction" then T.stats.auction = T.stats.auction + 1 else T.stats.other = T.stats.other + 1 end
 	-- wie ein offenes Lootfenster beim Plündermeister (Seite Loot: "Aktuelles Lootfenster")
 	RM.Loot.isOpen = true
@@ -1240,7 +1269,7 @@ end
 T.SetTimeOffset = SetTimeOffset
 
 function T.RunRaids(n)
-	T.stats = { handled = 0, auction = 0, other = 0, noInfo = 0, started = 0, startFail = 0, awarded = 0, noBid = 0 }
+	T.stats = { handled = 0, auction = 0, other = 0, noInfo = 0, started = 0, startFail = 0, awarded = 0, noBid = 0, items = {} }
 	n = math.max(1, math.min(10, math.floor(tonumber(n) or 1)))
 	if run then Log("Es läuft schon ein Durchlauf.") return end
 	if not T.active then T.Start() end
