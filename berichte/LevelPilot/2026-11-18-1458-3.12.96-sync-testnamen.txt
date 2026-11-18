@@ -1,0 +1,73 @@
+BERICHT LevelPilot an die Prüf-Sitzung – 18.11.2026 14:58
+Version 3.12.96 – umgesetzt, zur Prüfung
+Zip: announce/levelpilot__levelpilot-3.12.96.LevelPilot.zip, md5 13d4740c4fbf6728078ac88412b3a5b4. Datenpaket 1.6.4 (unverändert).
+Anlass: BEFUND HOCH 13:55 (Testnamen im Sync-Adressbuch, echtes Flüstern) – "vor allem anderen"; dazu Hinweis an alle (13:55/14:10/14:35),
+Nachprüfung LP-95-1 und LP-95-2, aus dem Ingametest 3.12.95 Punkt 1c (Sicherung nach 60 s).
+Die übrigen Punkte des Ingametests 3.12.95 (T261 a/b/d, T155, T295, Bilder über 40 ms) und OPT-ALLE kommen als Nächstes (3.12.97).
+
+==== 1. BEFUND HOCH: TESTNAMEN IM SYNC-ADRESSBUCH ====
+Ursache bestätigt (Code + Nachbau):
+- Sync lernt einen Absender nur bei Nachrichten MIT Kopf (#S1/#S2, GoldSentinelSync.lua OnAddonMessage -> Learn). Das taten T249
+  ("Testa Beispiel", stellte nur diesen einen Eintrag zurück) und T254 ("LPWeiter-Test" über #S2 = Netz, "Testa Beispiel" und
+  "Testa Beispiel-Realm" über #S1 Gilde – NICHT zurückgestellt). Learn setzt jedes Mal fail = 0 und pause = 0 (euer Nachtrag 14:35).
+- Die Sandbox von LevelPilot stellt das Adressbuch nur zurück, wenn es in LevelPilotDB liegt. Liegt es in der Ablage eines anderen
+  Addons (bei dir ThreatSentinel), bleibt der Eintrag.
+GEGENPROBE IM NACHBAU (neu: Nachbau mit Adressbuch in fremder Ablage, wie im Spiel):
+  3.12.95 ganze Testroutine -> Adressbuch danach: "LPWeiter-Test, Testa Beispiel, Testa Beispiel-Realm" (genau die drei aus deinen
+  Laptop-/PC-Daten). 3.12.96 ganze Testroutine -> Adressbuch danach: leer. Dieselbe Tabelle wie die fremde Ablage (true).
+Umsetzung:
+1. Ganzer Zustand von Sync wird um JEDE Prüfung, die Sync berührt, gesichert und danach GENAU wiederhergestellt – in dieselben
+   Tabellen (book ist zugleich die fremde Ablage): book, peers, seen, seenList, stats, whispered, hideUntil, netQueue, queue, netWin,
+   pings und NET, lastGossip, lastIntro, lastReply, lastSend, lastHello, helloAt. counter bleibt (zurückgesetzt kämen eigene neue
+   Nachrichten bei anderen als Dubletten an). Betroffene Prüfungen (14): T63, T92, T169, T242–T247, T249–T251, T254, T255.
+2. Sicherheitsnetz nach JEDER Prüfung (im langen Lauf 359): kommt ein Testname ins Adressbuch, wird er sofort entfernt und die Prüfung gilt
+   als FEHLER ("Sync-Adressbuch: n Testname(n) gelernt und entfernt").
+3. Bereinigung beim Laden (Comm:Init nach UseStorage und nochmals nach 15 s, falls das Buch eines später geladenen Addons dazukommt):
+   entfernt genau die Namen, die eine LevelPilot-Prüfung je an Sync geliefert hat (alte und neue, Liste Comm.SYNC_TEST_NAMES, 19
+   Namen), aus book, whispered, hideUntil und einer eigenen Ablage – sonst nichts. Protokoll: "Sync-Adressbuch bereinigt: n Testnamen"
+   (alle Sprachen).
+   Mit deinen echten Daten nachgestellt (ThreatSentinel.lua als fremde Ablage): Laptop VORHER 7 · entfernt 3 (LPWeiter-Test,
+   Testa Beispiel, Testa Beispiel-Realm) · NACHHER 4 echte · Protokollzeile da. PC: gleich (7 -> 4).
+4. Testnamen, die zu Sync gelangen, enthalten jetzt eine Ziffer (LP9Weiter-Test, Testa9 Beispiel, LP9Netz Partner …). Spielernamen
+   können keine Ziffer enthalten -> nie ein echter Spieler. Prüfungen, die nicht über Sync gehen (Gruppe/Partner direkt), unverändert.
+5. Neue Prüfung T357 (mit Gegenprobe): in der Hülle gelernt true, danach Zustand gleich true · Gegenprobe ohne Hülle: Sync lernt den
+   Namen (so entstand der Befund), danach zurück · Bereinigung entfernt 2 Testnamen, ein echter Name bleibt · Ende gleich.
+Antwort auf den Hinweis (13:55/14:10): Sync-LERNEN brauchen nur T249 (prüft, dass Sync lernt und in der richtigen Ablage speichert),
+T254 (Weitergabe übers Netz) und T357 (Gegenprobe). Mit Sync 3 setze ich dort GoldSentinelSync.testLearn = true nur für ihre Dauer,
+sobald die Datei in shared/ liegt. Der Verdacht zur Schreibweise (Leerzeichen/Bindestrich in der Offline-Meldung) betrifft Sync –
+von LevelPilot aus nicht änderbar.
+
+==== 2. NACHPRÜFUNG 3.12.95 ====
+LP-95-1 Sicherung + virtuelle Reise: Bei der Sicherung in Portionen wird nach jeder Abgabe geprüft, ob eine virtuelle Reise läuft ->
+  Abbruch (Kennung B.ABORT_VIRTUAL, kein Fehler, das Ausloggen sichert wie immer). Läuft eine Reise schon beim Start, wird sie NICHT mehr
+  abgebrochen (vorher: SaveCopy brach die Reise des Spielers ab), sondern die Sicherung. Am Stück (Ausloggen) wie bisher.
+  T358: Reise startet in der Pause -> abgebrochen, alte Sicherung bleibt · Reise läuft beim Start -> abgebrochen, Reise bleibt ·
+  Gegenprobe ohne Reise -> fertig, 301 Einträge (kleine Ersatz-Daten, keine Abgabe nötig).
+LP-95-2 Kennung der Umweg-Ablage: jetzt mit Mess-Konstanten (DETOUR_PAIRS/TRIES/MIN_PAIRS) und Summe über alle Verbindungs-Paare;
+  DETOUR_CACHE_VER 2 (jede Zone einmal neu messen). Beim Nachrechnen gefunden: euer Vorschlag "Summe der Verbindungs-Paare" mit einer
+  linearen Formel (id*31+nb) ergibt über beide Richtungen nur 32·(a+b) – die Netze 1–2/3–4 und 1–3/2–4 hätten dieselbe Summe (320).
+  Deshalb Produkt: EdgeTerm(a,b) = ((a mod 1000003)·(b mod 1000003)) mod 2147483647 (exakt unter 2^53): 28 gegen 22.
+  T359: andere Verbindungen -> andere Kennung true · andere Paarzahl -> andere Kennung true · gleich -> gleich true · Version 2.
+  T354 (Ablage) weiter OK mit neuer Kennung.
+
+==== 3. INGAMETEST 3.12.95 PUNKT 1c ====
+Sicherung startet erst 65 s nach dem Laden (T261 misst die ersten 60 s; die Kopie vom letzten Ausloggen gilt bis dahin). Im Testmodus
+(Jobs.sync) wie bisher sofort. Verdacht, zu messen: T261 sinkt im Spiel um die 184 ms der Sicherung. Login-Nachbau: "backup" nicht mehr
+in den ersten 60 s; Sicherung danach 44 Portionen, längste 5,5 ms (PC 7,3 ms); in Portionen = am Stück true (beide Rechner).
+Login-Nachbau zweite Sitzung mit neuer Kennung: 3 Zonen übernommen (je ~4 ms), 1 neu gemessen (beide Rechner).
+Zu 1d (erstes/zweites Einloggen): 3.12.96 misst jede Zone beim ersten Einloggen EINMAL neu (neue Kennung) – der nächste Ingametest ist
+also ein ERSTES Einloggen; das zweite Einloggen danach zeigt den Gewinn.
+
+==== 4. TESTS (eigene, Hinweise, keine Freigabe) ====
+- addon_check OK (1 Warnung: lupa hier nicht installierbar); Ersatz: 87 Lua-Dateien aus dem Zip mit Lua 5.1 geladen, ohne Fehler.
+  Gemeinsame GoldSentinel*.lua byte-gleich mit shared/. Dateiliste wie 3.12.95.
+- Testroutine im Nachbau (Laptop-Daten, lang, Sync-Adressbuch in fremder Ablage): OK 282 · FEHLER 8 – dieselben 8 bekannten
+  Nachbau-Grenzen (T84/T180/T183/T261/T262/T268/T303/T309). T357, T358, T359, T354, T249, T254, T92, T243 OK. Adressbuch danach leer.
+- Offline-Routine (40 Läufe, strengere Forever-Nachbildung): 40 ohne FEHLER.
+- Regression (36 Läufe): 35 ohne FEHLER, test29 1 FEHLER wie seit 3.12.90 bekannt (Arbeitskopie ohne echte Kartenrahmen; in der
+  Offline-Routine mit echten Rahmen OK).
+
+==== 5. ALS NÄCHSTES ====
+3.12.97: Ingametest 3.12.95 – T261 (a) graph-Aufbau aufschlüsseln, (b) Aufrufe über Budget (graph max 41, advisor max 37), T155
+(40,5 ms, wird schlechter – Ursache belegen), T295 (18,1 ms), Bilder über 40 ms (T355 graph 159,7, T340 wege 96 MB Abfall, T129).
+Danach OPT-ALLE Schritt 2 mit dem Hinweis "Spieler-Funktionen nie nur über Test-/Entwicklerwege" (11:10).
