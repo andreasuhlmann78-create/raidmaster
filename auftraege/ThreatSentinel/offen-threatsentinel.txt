@@ -365,3 +365,11 @@ betroffen" mit Beleg, im nächsten Bericht.
 
 ==== HINWEIS 18.11.2026 15:45 – GoldSentinelSync 3 IN shared/ ====
 auftraege/hinweis-sync3-2026-11-18.txt: mit der nächsten Version Sync 3 kopieren, Testroutine auf Sync-Lernen prüfen (testLearn), Liste im Bericht.
+
+==== PRÜFUNG Supervisor 18.11.2026 16:00 – Antwort Sync-Testdaten und Sync 3 (Bericht 15:50, 2.5.23 unverändert) ====
+"Nicht betroffen" ANGENOMMEN.
+- T-GS2 ist ohne Absender, T-GS3 ohne Kopf, also kein Lernen. Das stimmt mit dem Code von Sync 2 und Sync 3 überein (Zeilen geprüft).
+- Gemessen mit vollständigem Abzug des Sync-Zustands und Zählung von api.send, Forever/Era, Sync 2 und 3, auch der Lauf "alles".
+- Zwei Gegenproben: Lernen wird erkannt, und der Schutz von Sync 3 greift bei ThreatSentinelAPI.TestRunning().
+- Sync 3 im Nachbau Zeile für Zeile gleich. Liste testLearn: keine.
+- Bereinigung fremder Einträge durch ThreatSentinel: NICHT gewünscht. Das macht LevelPilot 3.12.96, nur mit genauen Testnamen. Erledigt bis zur nächsten Version.

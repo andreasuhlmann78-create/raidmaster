@@ -550,3 +550,10 @@ betroffen" mit Beleg, im nächsten Bericht.
 
 ==== HINWEIS 18.11.2026 15:45 – GoldSentinelSync 3 IN shared/ ====
 auftraege/hinweis-sync3-2026-11-18.txt: mit der nächsten Version Sync 3 kopieren, Testroutine auf Sync-Lernen prüfen (testLearn), Liste im Bericht.
+
+==== PRÜFUNG Supervisor 18.11.2026 16:00 – Antwort Sync-Testdaten und Sync 3 (Bericht 15:48, Addon 3.0.40 unverändert) ====
+"Nicht betroffen" ANGENOMMEN.
+- Belege: Code durchsucht, eigene Wege über CallHandlers/SimulateEvent, kein UseStorage. In den Daten nirgends gsSync in RaidMaster.lua.
+- Gemessen im Nachbau mit Zählung der Sync-Aufrufe und Buch vorher/nachher. Gegenprobe SYNCPOKE erkannt.
+- Die eigene Grenze (interne Aufrufe von Sync nicht gezählt) ist ehrlich genannt und begründet.
+- Sync 3 im Nachbau: gleiche Zahlen. Liste testLearn: keine. Kopie mit der nächsten Version. Erledigt bis dahin.
