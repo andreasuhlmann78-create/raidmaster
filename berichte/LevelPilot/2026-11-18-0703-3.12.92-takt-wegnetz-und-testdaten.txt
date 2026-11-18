@@ -1,0 +1,73 @@
+LevelPilot 3.12.92 veröffentlicht (Discord) – Wegnetz und Wegsuche im GoldSentinelTakt, Testdaten bleiben bei LevelPilot (umgesetzt, zur Prüfung)
+Datum: 18.11.2026 07:03
+Bezug:
+- offen-levelpilot.txt Ingametest 3.12.91 (06:42), Punkte 2 (T151) und 3 (T261 / Graph:Init)
+- Hinweis Testdaten fremde Addons (18.11. 06:45)
+- Antwort der Prüf-Sitzung 21:30 auf den Takt-Plan
+Zip: announce/levelpilot__levelpilot-3.12.92.LevelPilot.zip, md5 16cff760c48a476beb01c3675eadc43a. Datenpaket 1.6.4.
+GoldSentinelTakt.lua unverändert aus shared/ (cmp gleich), in der toc hinter GoldSentinelPruefliste.lua.
+
+Punkt 1 HOCH SOFORT (Testroutine friert ein, bis 3308 ms) ist NICHT in dieser Version.
+- 3.12.92 war vor dem Ingametest fertig gebaut. Punkt 1 folgt sofort als 3.12.93.
+- Plan: die ganze Testroutine als ein Takt-Job (Muster GuildSentinel 0.9.55). Sichere Halte-Punkte nur zwischen Prüfungen oder
+  an ausdrücklich sicheren Stellen ohne aktiven Ersatz-Zustand und ohne pcall. "Sandbox und Bericht" wird in Portionen geteilt.
+  In der Portionen-Zeile kommt "Bilder über 40 ms: n" dazu.
+
+Graph:Init in Portionen (Punkt 3, T261)
+- Graph:Init sammelt die Knoten und Kanten und lädt sie dann als Takt-Job "Wegnetz laden" (Budget 4 ms, Zeitlimit 120 s).
+  Takt.Check alle 200 Einträge.
+- Danach folgen Rest-Schritte: MarkOwnInner, Gateways, statische Daten, Strassen, Wegkorrekturen.
+- Am Ende stehen eine Zusammenfassung im Protokoll (perf) und GRAPH_CHANGED.
+- Scheitert der Job (Fehler oder Zeitlimit), lädt Graph:Init sicher am Stück nach. Keine Sperre ohne Zeitlimit.
+- Während des Ladens liefert Graph:Path eine als "direct" gekennzeichnete Luftlinie, keinen falschen Weg (Entscheid 21:30).
+- T352 neu prüft drei Dinge:
+  - Der Fingerabdruck des in Portionen geladenen Netzes ist gleich dem am Stück geladenen.
+  - Während des Ladens kommt "direct".
+  - Das Laden braucht mehrere Bilder.
+  GEGENPROBE: Graph.INIT_PORTION=false -> false.
+- Nachbau mit PC-Daten (19 446 eigene Knoten, echte Kartenrahmen):
+  - 11 Bilder, längste Portion 4,2 ms, 36–44 ms CPU gesamt.
+  - Vorher am Stück: 35 ms Nachbau. Im Spiel geschätzt rund 50 ms (Verdacht, zu messen).
+  - Erwartet im Spiel (Eichung 1,26–1,6): längste Portion 5–7 ms (Verdacht, zu messen).
+- Fund dabei: Der Fingerabdruck zählte zuerst die negativen Laufzeit-Ids mit. Jetzt zählen nur Ids >0 und <STATIC_BASE.
+
+Wegsuche über GoldSentinelTakt (Punkt 2, T151 Median 43 ms im Spiel)
+- navpath läuft über LP.Jobs.StartTakt (Budget 4 ms, Zeitlimit 120 s).
+- LP.Jobs erkennt Takt-Jobs (Takt.byCo); Jobs.Yield geht dort über Takt.Check; Cancel bricht auch den Takt-Job ab.
+- BuildChain (Ketten aus 3.12.90) gibt alle 200 Knoten ab und bricht ab, wenn sich das Netz dabei ändert (chainVer).
+- T151 misst jetzt einen Lauf in Portionen. Bedingungen: mindestens 1 Bild, Takt-Zusammenfassung vorhanden, längste Portion <16 ms.
+  Den Bench am Stück zeigt T151 nur noch zur Information.
+  GEGENPROBE: ohne Takt-Zusammenfassung -> false.
+- Nachbau mit PC-Daten: längste Portion 4,0–4,2 ms, Summe Median 16–19 ms.
+  Erwartet im Spiel: längste Portion 5–7 ms (Verdacht, zu messen).
+- T295 (Punkt 4 MITTEL, Spiel 22,3 ms): Die Ursache der Spitze im Nachbau war das kalte BuildChain am Stück.
+  Belegt durch Zeitmessung je Schritt: 34 ms -> 11,6 ms nach dem Abgeben in BuildChain. Bestätigung im nächsten Ingametest.
+- T155 (29,2 ms je Reise-Schritt): noch nicht bearbeitet, folgt nach Punkt 1.
+
+Testdaten nie zu anderen Addons (Hinweis 06:45)
+- Regel 1: LevelPilotAPI.TestRunning() (API.version 3). Sie ist true, solange die Testroutine läuft oder die virtuelle Reise aktiv
+  ist; intern heisst sie LP.TestRunning().
+- Regel 3 / eigenes Teilen:
+  - Comm teilt während TestRunning nichts automatisch. Gesperrt sind die Melder QUEST_RECORDED, PATH_RECORDED,
+    CALIB_DROP/MOB (auch im Drossel-Nachlauf), CALIB_FLIGHT und CAVE_LEARNED.
+  - Tests, die das Senden selbst prüfen, schalten es mit Comm.testSend gezielt frei.
+  - T351 neu prüft: TestRunning ist true und das Teilen ist gesperrt. GEGENPROBE: Sperre aus -> false.
+- Regel 2, Lesestellen fremder Addons (Liste):
+  - LibQuestieDB (Questie, kein GoldSentinel-Addon): Quest-Daten, nur lesend.
+  - Gemeinsame Bausteine GoldSentinelMarkt und GoldSentinelSync (Bücher-Speicher, gehört dem zuerst angemeldeten Addon) sowie
+    GoldSentinelDev/Pruefliste: gemeinsamer Code, keine Daten eines anderen Addons.
+  - Keine SavedVariables, API oder Globalen eines anderen GoldSentinel-Addons. Also gibt es nichts, was bei dessen TestRunning
+    gesperrt werden müsste.
+  - Automatische Ankündigungen: keine. Gildenchat nur auf ausdrücklichen Befehl /lp bilanz gilde (Session.lua).
+- T306 und T323 prüften API.version == 2. Jetzt prüfen sie >= 2 (Version 3 bleibt abwärtsverträglich, nichts entfernt).
+
+PRÜFUNGEN (Zip 3.12.92)
+- addon_check: OK, 1 Warnung (lupa fehlt). Ersatz: Lua 5.1 loadfile aller Dateien, 0 Syntaxfehler.
+- Offline-Routine: 40 Läufe, 40 ohne FEHLER, darunter test29 mit echten Rahmen und test_reise_bind.
+- Regression: 35 von 36. test29 in der Ersatzwelt hat 1 FEHLER (bekannt; mit echten Rahmen grün).
+- Einzeltests grün: T151, T295, T306, T323, T351, T352.
+
+OFFEN für LevelPilot
+- 3.12.93: Punkt 1 HOCH SOFORT (Testroutine im Takt, "Sandbox und Bericht" in Portionen, "Bilder über 40 ms: n"). Läuft jetzt.
+- Danach T155, dann Bestätigung T295.
+- Alte Punkte (Entscheid der Prüf-Sitzung): WegeExport, T151-Grenze.
