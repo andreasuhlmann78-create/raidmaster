@@ -1,0 +1,23 @@
+AHSentinel 0.65.340 – Auflage 02:50 (Namensverzeichnis nur eindeutig), Punkt 3 (Schritte über 40 ms) Teil 5 – umgesetzt, zur Prüfung
+
+==== Auflage 02:50: gleicher Name zweier Items ====
+0.65.339 nahm bei zwei Items mit gleichem vereinheitlichtem Namen das gescannte direkt (wie Names:Resolve es bisher auch tat). Jetzt:
+N:ExactID liefert NUR bei einem eindeutigen Namen einen Treffer; bei mehreren Items -> nil, der Aufrufer nimmt den bisherigen Weg
+(Resolve-Suche bzw. Buchhaltung wie vor 0.65.339). Test T909 (Paar "AHS-Test Klinge" gescannt / "ahs-test  KLINGE" gelernt -> kein
+Treffer; eindeutiges "AHS-Test Schild" -> Treffer). Nachbau s306: 0.65.340 "Doppelname: nil"; Gegenprobe 0.65.339 "Doppelname:
+990089801" (gescanntes Item direkt) – FEHLER.
+
+==== Punkt 3: Schritte über 40 ms (Teil auto, echte Daten, 3 Läufe) ====
+Behoben (je Teil-Schritt statt eines Schritts, gleiche Fälle und Regeln):
+- T26i Item-Menü (5–6 Klicks in einem Schritt; je Klick höchstens 18 ms, real_t26i) -> ChkSplit je Klick.
+- T299 Überlagerung in den Optionen (alle Bereiche in einem Schritt) -> ChkSplit je Bereich.
+- T888 TU1 Tooltips (14 in einem Schritt) -> ChkSplit je Marktlage + Schluss-Teil; s308: weiter "14 Fälle · alles nach Regel".
+  (Beim Umbau zuerst ein Fehler: Schluss-Teil ohne Rückgabe -> leeres Ergebnis; durch s308 gefunden und behoben.)
+- T24 Hauptfenster + Designs: 3 Designwechsel im Schritt (je ein Neuaufbau) -> nach Entscheid 01:10 gekennzeichnet "einmalig, vom
+  Spieler ausgelöst: Designwechsel ×3 im Schritt, Grenze 100 ms je Neuaufbau" (Schritt 41–46 ms).
+Ergebnis 0.65.340 (3 Läufe): ausser den gekennzeichneten (T30.01 76, T30.13 49–54, T24 41–46, T31.xx ≤ 42, T812/T895 40) nur noch
+T888/8 40/41/48 ms (Schluss-Teil: EIN Tooltip mit Shift aus der Händlertabelle) und T859 einmal 38. T888/8 nächster Stand.
+
+Tests: Gesamtlauf 382 bestanden, 0 fehlgeschlagen · addon_check OK (Release-Zip und Discord-Zip).
+Weiter: T888/8 untersuchen; danach – nach Prüfung – BEREIT FÜR INGAMETEST (offen bleiben nur Punkte, die den nächsten Spiel-Lauf
+brauchen: T750 Liste, T617 Lese-Zeiten, Punkt 4 Speicherbereinigung im Schritt).
