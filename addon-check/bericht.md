@@ -26,5 +26,5 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## guildsentinel__guildsentinel-0.9.56.GuildSentinel.zip: OK
 
-## levelpilot__levelpilot-3.12.94.LevelPilot.zip: OK
+## levelpilot__levelpilot-3.12.95.LevelPilot.zip: OK
 
