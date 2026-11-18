@@ -1,0 +1,25 @@
+AHSentinel 0.65.341 – T888/8 und T859 (Punkt 3 Rest) – umgesetzt, zur Prüfung · BEREIT FÜR INGAMETEST
+
+==== Punkt 3 Rest ====
+- T888/8 40–48 ms (EIN Tooltip) · Ursache belegt (Stichproben-Profil + Code): Fc:TooltipLine rief Fc:Eval – die ganze Prognose-
+  Auswertung am Stück, sobald die Minute wechselte (Schlüssel je Minute). Das galt auch im Spiel: jeder Tooltip einmal je Minute
+  (Kommentar 10.11. "läuft im Tooltip nicht mehr synchron" stimmte nur für den Lernpfad). Behebung: Fc:EvalCached (Zwischenspeicher,
+  Neuberechnung im Hintergrund; vor der ersten Rechnung keine Zeile). T888/8 danach nicht mehr über 16 ms.
+- T859 37–52 ms · Ursache belegt (Profil): DW:Stats rief D:MatPrice je Beute-Eintrag (2000 Entzauberungen) – jetzt je Material
+  einmal je Aufruf, gleiche Zahlen (s54 Entzauber-Fenster 37/37 bestanden). T859 danach unter 40 ms.
+Ergebnis (echte Daten, 2 Läufe): über 40 ms nur noch die gekennzeichneten Fälle – T30.01 71/72, T30.13 50/52, T24 50/55 (Entscheid
+01:10, Designwechsel bzw. 3 Designwechsel im Schritt, Grenze 100 ms) und T812/T895 40 (absichtlich gemessene Last).
+
+Tests: Gesamtlauf 382 bestanden, 0 fehlgeschlagen · addon_check OK (Release-Zip und Discord-Zip).
+
+==== BEREIT FÜR INGAMETEST (0.65.341) ====
+Alle HOCH-Punkte des Befunds 19:08 (3, 4, 5, 6), E1–E4 und die Punkte 7–10 sowie die Auflagen 22:45/00:10/01:10/02:50 sind
+umgesetzt, im Nachbau (mit echten Daten) belegt und gemeldet (0.65.331 bis 0.65.341). Offen sind nur Punkte, die den Spiel-Lauf brauchen:
+1. T750 UI-CLEAN: die vollständige Befund-Liste steht nach dem Lauf in db.uiFindingsLast (Upload) – damit Spiel/Nachbau abgleichen.
+2. T617/T734 Sniper: Protokoll LANGSAM "Sniper Angebote lesen: n Angebote · x ms · y ms je Angebot" und Empfänger mit Datei:Zeile.
+3. Punkt 4 / T126 / T373: Ist-Texte nennen "mit Speicherbereinigung" je Schritt/Bild – Beleg, ob die langen Schritte Bereinigung sind.
+4. Punkt 5 Vollscan: T458 mit Takt-Zeile, T459 nach neuer Regel (n. Vollscan der Sitzung, ohne gelesene Auktionen, Bilder > 40 ms
+   mit Bereinigung).
+5. Zu bestätigen: T49 (Widerspruch Marktwert/Angebote), T167 mit ProfessionSentinel, T895 Datei:Zeile, SK1-m (Zauber 836), TU6 58/58,
+   Prüfliste TR-ALLES aktuell, Design-/Sprachwechsel ≤ 100 ms (Protokoll EINMALIG), GoldPerHour/API ohne Ruckeln (ProfessionSentinel).
+Vorschlag für den Lauf: "/ahs testroutine alles" mit offenem AH, ProfessionSentinel geladen, danach Upload.
