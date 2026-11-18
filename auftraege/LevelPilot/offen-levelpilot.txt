@@ -1045,3 +1045,18 @@ Pflicht für neue Arbeit in Portionen; Summary-Zeile in den Bericht. LevelPilot 
 
 ==== HINWEIS 18.11.2026 06:45 – TESTDATEN NIE ZU ANDEREN ADDONS ====
 auftraege/hinweis-testdaten-fremde-addons-2026-11-18.txt umsetzen (<Addon>API.TestRunning(), fremde Daten nie während deren Test lesen).
+
+==== INGAMETEST 18.11.2026 06:42 – LevelPilot 3.12.91 "/lp testroutine alles" (Laptop, Krieger 24; Nutzer-Einfügung 06:48) ====
+OK 284 · FEHLER 4 · übersprungen 9 · im Client 53 · 330 s · Sandbox OK · echte Aktionen 0 · Fehlerzähler 0. Zahl: 284 + 4 = 288 – stimmt.
+19:54 (3.12.89, PC): 16 FEHLER -> jetzt 4. Behoben im Spiel: T83/T85 Reise-Rückbau, T279/T303 Lua-Fehler, T220/T221/T228/T249/T293/T330.
+Die neue Zeile "Portionen" zeigt ABER (erstmals messbar):
+1. HOCH SOFORT – EINFRIEREN IN DER TESTROUTINE: längstes Bild 3308,5 ms (T32), dazu "Sandbox und Bericht" 2372 ms, T136 2193, T221 1818,
+   T263 1690, T34 914, T31 678, T76 608, T18 597, T340 551, T151 422, T269 338 ms … – 73 Schritte über 16 ms. Wenn das je EIN Bild ist (so
+   steht es: "längstes 3308,5 ms"), steht das Spiel bis zu 3,3 s still. Ursachen je Schritt belegen (Nachbau mit den echten Daten des
+   Laptops, goldsentinel-daten AUSPLUSLAPTOP) und mit GoldSentinelTakt teilen (Pflicht für Portionen, im Spiel belegt durch GuildSentinel
+   0.9.55). Ziel: kein Bild über 40 ms. "Sandbox und Bericht" ebenfalls in Portionen (Kopieren/Vergleichen grosser Tabellen).
+2. HOCH T151 Graph:Path: Median 43 ms, max 252 ms (vorher 502/2109) – besser, aber über 40 ms. Plan 3.12.92 (Wegsuche als Takt-Aufgabe).
+3. HOCH T261 Einloggen 2799 ms in 60 s, längster 86 ms (vorher 4348) – Plan 3.12.92 (Graph:Init als Takt-Aufgabe).
+4. MITTEL T155 Planung je Reiseschritt 29,2 ms (57×); T295 kalter Klick längste Portion 22,3 ms (soll < 16).
+5. Die Zeile "Rechenzeit je Bereich" (B 7,3 s, J 7,1 s, F 2,2 s, Sandbox 3,4 s) gut – bitte zusätzlich "Bilder über 40 ms: n" ausweisen.
+Reihenfolge: 1 vor 2/3 (die Testroutine selbst darf nie einfrieren).
