@@ -571,3 +571,21 @@ auftraege/hinweis-spieler-ohne-testbefehle-2026-11-18.txt umsetzen: jede Spieler
 
 ==== HINWEIS 18.11.2026 13:55 – TESTDATEN IM SYNC-ADRESSBUCH ====
 auftraege/hinweis-sync-testdaten-2026-11-18.txt prüfen und im nächsten Bericht beantworten (auch "nicht betroffen" mit Beleg).
+
+==== INGAMETEST 18.11.2026 13:54 – ProfessionSentinel 0.9.72 "/ps testroutine alles" (Laptop, Krieger 24, Berufsfenster offen) ====
+OK 250 · FEHLER 1 · übersprungen 18 · im Client 10 · 227 s (Ziel ≤ 300 s – erreicht) · Sandbox OK. Zahl: 250 + 1 + 28 = 279 – stimmt.
+FORTSCHRITT gegen 0.9.68 (08:46): FEHLER 6 -> 1; Bilder über 40 ms 34 -> 14; längstes 588 -> 215 ms; Dauer 445 -> 227 s. T244/T180/T32/T219/T276 OK.
+HOCH:
+1. SPEICHER – Ursache von 0.9.71 im Spiel WIDERLEGT: "20× Refresh: +64 065 KB · AD.Update 0×". Die Rangliste wird also nicht mehr neu
+   berechnet, und trotzdem legen 20 Refreshes 64 MB an (Nachbau 0.9.71: "+2329 KB"). Abstand Spiel/Nachbau Faktor ~27 – Ursache belegen
+   (welcher Teil des Refresh legt im Spiel an: Preisabfragen an AHSentinel? Texte/Font-Strings? Zeilen neu statt wiederverwendet?).
+   Je Refresh-Teil "KB angelegt" ausweisen (collectgarbage("count") vorher/nachher, ohne Bereinigung). Lauf gesamt +136 MB.
+2. BILDER ÜBER 40 MS: 14 – T292 215 ms (neu: Optionen-Prüfung OPT-ALLE), T210 124, T269 100, T46 96, T246 88, T145 86, Speicher (Ende) 84,
+   T255 69, T258 59, T219 57, Speicher (Start) 49, T260 48, T270 48, T256 47 ms. "Abgabe nicht möglich: 8 (pcall)" bei T19/T46/T88/T210/
+   T213/T269/T270 – dort TaktPCall. T292 baut offenbar das ganze Optionen-Fenster in einem Bild: Bereiche einzeln (wie Vorgabe (i)).
+   "Speicher (Start/Ende)" 49/84 ms: welche Messung? (UpdateAddOnMemoryUsage am Stück? -> wie LevelPilot nur auf ausdrücklichen Wunsch).
+MITTEL:
+3. T258 TU5 "1 Verletzung in echten Daten (Diagnose GRUNDREGEL)" – schon am 17.11. (T258 "1 Verletzung") offen. Welches Rezept, welche Regel,
+   welche Zahlen? Im Bericht nennen und beheben (Daten oder Regel).
+4. Prüfliste zeigt "TR fehler 18.11. 08:54" – der Lauf 13:54 hat den Punkt nicht erneuert (gleicher Fehler wie ThreatSentinel 2.5.20,
+   dort behoben: nach JEDEM ganzen Lauf erneuern).
