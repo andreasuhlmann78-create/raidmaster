@@ -59,6 +59,46 @@ function UnitDebuff() return nil end
 GetChannelName = function() return 0 end
 function GetBuildInfo() return "x", "y", "z", BUILD end
 function UnitFactionGroup() return "Horde" end
+-- 0.9.57 (Hinweis 18.11. 10:30 "Nachbau darf nicht mehr können als der Forever-Client"): im Forever-Lauf die alten globalen
+-- Funktionen entfernen, die der Forever-Client 1.60.1 NICHT hat, und die modernen C_-Wege anbieten.
+--   Belegt im Spiel (BuffSentinel T74, Ingametest 18.11. 08:11/09:43): GetNumTalentTabs, GetTalentInfo, UnitBuff, GetSpellInfo = nein;
+--   C_SpellBook = ja. Belegt durch T80–T87 ("kein UnitBuff – moderner Client") und RaidMaster 3.0.36 (GetItemInfo fehlt).
+--   Verdacht, mit der erweiterten T74-Liste zu messen: UnitDebuff, GetNumTalents, GetSpellCooldown, IsUsableSpell, IsSpellInRange,
+--   GetNumSpellTabs, GetSpellTabInfo, GetSpellBookItemName (gleiche Familie wie oben) – im Nachbau ebenfalls entfernt (lieber weniger).
+if BUILD == 16001 then
+    local oldInfo, oldCd, oldUsable, oldBuff = GetSpellInfo, GetSpellCooldown, IsUsableSpell, UnitBuff
+    C_Spell = {
+        GetSpellInfo = function(s)
+            local name, _, icon, _, _, _, id = oldInfo(s)
+            if not name then return nil end
+            return { name = name, iconID = icon, spellID = id, castTime = 0, minRange = 0, maxRange = 0, originalIconID = icon }
+        end,
+        GetSpellCooldown = function(s) local st, d = oldCd(s); return { startTime = st or 0, duration = d or 0, isEnabled = true, modRate = 1 } end,
+        IsSpellUsable = function(s) return oldUsable(s) end,
+        IsSpellInRange = function() return true end,
+        IsSpellPassive = function() return false end,
+    }
+    C_SpellBook = {
+        GetNumSpellBookSkillLines = function() return 1 end,
+        GetSpellBookSkillLineInfo = function() return { name = "Allgemein", itemIndexOffset = 0, numSpellBookItems = #KNOWN, shouldHide = false } end,
+        GetSpellBookItemName = function(i) return KNOWN[i] end,
+        GetSpellBookItemInfo = function(i) local n = KNOWN[i]; if not n then return nil end
+            local _, _, _, _, _, _, id = oldInfo(n); return { name = n, itemType = 1, spellID = id, isPassive = false } end,
+    }
+    C_UnitAuras = {
+        GetAuraDataByIndex = function(u, i, filter)
+            if filter == "HARMFUL" then return nil end
+            local n, icon, count, _, dur, exp, src, _, _, sid = oldBuff(u, i)
+            if not n then return nil end
+            return { name = n, icon = icon, applications = count, duration = dur, expirationTime = exp, sourceUnit = src, spellId = sid,
+                     isHelpful = true, isHarmful = false, isStealable = false, auraInstanceID = i }
+        end,
+    }
+    for _, k in ipairs({ "GetSpellInfo", "UnitBuff", "UnitDebuff", "GetNumTalentTabs", "GetTalentInfo", "GetNumTalents", "GetSpellCooldown",
+                         "IsUsableSpell", "IsSpellInRange", "GetNumSpellTabs", "GetSpellTabInfo", "GetSpellBookItemName", "GetItemInfo" }) do
+        _G[k] = nil
+    end
+end
 BuffSentinelDB = nil
 TALENTS = { { { "A", 11, 15, 1, 1 } }, { { "B", 40, 45, 1, 2 } }, {} }   -- 51 Punkte auf Stufe 60
 GoldSentinelGame = nil
