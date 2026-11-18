@@ -572,3 +572,11 @@ auftraege/hinweis-spieler-ohne-testbefehle-2026-11-18.txt umsetzen: jede Spieler
 - addon_check OK (Discord-Zip), md5 49e278eb…. Bestandsaufnahme n alt 54 (Rolle doppelt) mit Liste, Umbau nach Vorbild, /gs optionen, Seite im
   Einstellungsfenster des Spiels; kein nackter Aufruf alter Funktionen, Nachbildung ohne globales GetItemInfo, T306 misst den Rest – angenommen.
 - download/ unverändert (CurseForge 0.9.52 um 18:00) – richtig. Beim Nutzer installiert (Laptop, diff 0). Abnahme am Bild: Prüfliste OPT.
+
+==== INGAMETEST 18.11.2026 13:44 – GuildSentinel 0.9.57 "/gs testroutine alles" (Laptop, Krieger 24) ====
+OK 326 · FEHLER 1 · übersprungen 23 · im Client 8 · 24,3 s · Sandbox OK · 0 echte Sendungen · Fehlerzähler 0. Zahl: 326 + 1 + 31 = 358 – stimmt.
+Takt: längstes Bild 27,0 ms (T21–T22), über 16 ms: 12, über 40 ms: 0. OPT-ALLE (T307a–f) im Spiel grün.
+MITTEL – T138 "Roster:Scan mit 500 Mitgliedern: 16,2 ms (soll < 16)". 0.9.56 (08:32) bestanden – knapp an der Grenze, Ergebnis schwankt mit
+dem Spiel. Zwei Dinge: (1) Messart: Median aus 3 Läufen und eigene Rechenzeit ausweisen (wie andere Projekte), damit ein einzelner Ausreisser
+nicht kippt; (2) Produkt: läuft Roster:Scan im Spiel am Stück? Bei einer echten Gilde mit 500 Mitgliedern wären 16 ms ein Bild über 16 ms –
+wenn am Stück, als Aufgabe in Portionen (GoldSentinelTakt). Ursache belegen; danach T138 wieder streng (< 16 ms je Bild).
