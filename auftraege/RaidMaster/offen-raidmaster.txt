@@ -532,3 +532,12 @@ auftraege/hinweis-spieler-ohne-testbefehle-2026-11-18.txt umsetzen: jede Spieler
 - addon_check OK, md5 b0bd17fc…. Lücke gefunden und geschlossen: Mitglieder kamen nicht an ihre persönlichen Optionen (nur per Befehl) – jetzt
   Bereich "Allgemein" für alle, /rm optionen, Seite im Einstellungsfenster des Spiels; T195 ohne Entwicklermodus mit 3 Gegenproben – angenommen.
 - Beim Nutzer installiert (Laptop, diff 0).
+
+==== HINWEIS 18.11.2026 13:55 – TESTDATEN IM SYNC-ADRESSBUCH ====
+auftraege/hinweis-sync-testdaten-2026-11-18.txt prüfen und im nächsten Bericht beantworten (auch "nicht betroffen" mit Beleg).
+
+==== INGAMETEST 18.11.2026 13:46 – RaidMaster 3.0.40 "/rm testroutine alles" (Laptop, Krieger 24) ====
+OK 141 · FEHLER 0 · übersprungen 14 · im Client 10 · 101,3 s · Sandbox OK. Zahl: 141 + 0 + 24 = 165 – stimmt. T43 jetzt OK (Test-Regeln).
+Längstes Bild 23,3 ms (T182), kein Bild über 40 ms; Aufbau Fenster 12,3 ms. Supervisor: ohne Befund für RaidMaster.
+Hinweis: Das Flüstern an "LPWeiter-Test" während dieses Laufs kam aus dem gemeinsamen Sync-Adressbuch (Testdaten LevelPilot) – kein Fehler
+von RaidMaster; Hinweis 13:55 trotzdem beantworten.

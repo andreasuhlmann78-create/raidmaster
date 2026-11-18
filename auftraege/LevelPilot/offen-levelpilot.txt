@@ -1185,3 +1185,22 @@ LP-95-2 Kennung der Umweg-Ablage (Graph.lua:814–829) enthält weder WELCHE Kno
    Verbindungs-Paare statt nur der Anzahl.
 Im Spiel zu prüfen: zweites Einloggen (graph deutlich unter 2340 ms, längste graph-Portion), "start" nicht mehr 85 ms, /lp protokoll ohne
 Stillstand, Zeile "Bilder über 40 ms, in denen der Speicher fiel", Waffenfertigkeits-Hinweis im Forever-Client.
+
+==== BEFUND HOCH 18.11.2026 13:55 – Testdaten von LevelPilot im gemeinsamen Sync-Adressbuch -> ECHTE Flüsternachrichten an Testnamen ====
+Nutzer 13:48 (Bild, im Repo ohne Bild): während der RaidMaster-Testroutine im Chat "Momentan ist kein Spieler mit dem Namen 'LPWeiter Test'
+online." = es wurde ein ECHTES Flüstern an "LPWeiter-Test" geschickt.
+URSACHE (belegt): Hochgeladene SavedVariables des Laptops (goldsentinel-daten, ThreatSentinel.lua – der gemeinsame Speicher von
+GoldSentinelSync liegt beim zuerst geladenen Addon) enthalten im Sync-Adressbuch gsSync.book die Einträge "LPWeiter-Test", "Testa Beispiel"
+und "Testa Beispiel-Realm". Diese Namen gibt es nur in LevelPilot TestRoutine.lua IMPL.T254 (Deliver(..., "WHISPER", "LPWeiter-Test"),
+origin "Testa Beispiel"). Deliver gibt die Testnachrichten an das ECHTE GoldSentinelSync weiter; Sync merkt sich die Absender als Mitspieler
+im Flüster-Netz und schickt danach echte Flüsternachrichten an sie ("NETZ … offline 2" im Diagnose-Protokoll). FakeNetPeer räumt nur
+"LPNetz Partner" auf; die Sandbox von LevelPilot sieht das Adressbuch nicht (es liegt in der Datenbank eines anderen Addons).
+Folgen: echte Nachrichten des Spielers an erfundene Namen, Fehlermeldungen im Chat bei jedem Netz-Versand, verfälschte Netz-Zahlen.
+AUFTRAG (vor allem anderen):
+1. T254 (und jede andere Prüfung, die Nachrichten an GoldSentinelSync liefert) vollständig vom echten Sync trennen: eigenes Ersatz-Buch/
+   Ersatz-Endpunkt bzw. Sync-Zustand (book, netQueue, peers, NET) vorher sichern und nachher GENAU wiederherstellen – auch in fremder DB.
+   Prüfung danach: Adressbuch vor/nach dem Lauf gleich (Gegenprobe 3.12.95: "LPWeiter-Test" kommt dazu -> FEHLER).
+2. Einmalige Bereinigung beim Laden der neuen Version: genau diese Testnamen aus dem gemeinsamen Adressbuch entfernen ("LPWeiter-Test",
+   "Testa Beispiel", "Testa Beispiel-Realm", "LPNetz Partner" und jeden weiteren Namen, den eine LevelPilot-Prüfung je geliefert hat – Liste
+   aus dem Code), sonst nichts. Ergebnis ins Diagnose-Protokoll ("Sync-Adressbuch bereinigt: n Testnamen").
+3. Alle Absender-Namen in Tests so wählen, dass sie kein echter Spieler sein können UND nie an Sync gehen.

@@ -1,0 +1,11 @@
+HINWEIS DER PRÜF-SITZUNG AN ALLE PROJEKTE (auch AHSentinel) – 18.11.2026 13:55
+Anlass (belegt): LevelPilot T254 lieferte Testnachrichten an das ECHTE GoldSentinelSync; das gemeinsame Adressbuch (gsSync.book, liegt in der
+Datenbank des zuerst geladenen Addons) merkte sich die Testnamen, und das Flüster-Netz schickte danach ECHTE Flüsternachrichten an sie
+("Momentan ist kein Spieler mit dem Namen 'LPWeiter Test' online").
+Bitte prüfen (Bericht mit Ergebnis, auch "nicht betroffen" mit Beleg):
+1. Liefert eine eigene Prüfung Nachrichten an GoldSentinelSync (OnMessage-Weg, CHAT_MSG_ADDON nachgestellt, Deliver, FakeNetPeer …)? Dann
+   Sync-Zustand (book, Warteschlangen, NET) vorher sichern und nachher genau wiederherstellen – die eigene Sandbox sieht das Buch NICHT,
+   wenn es in einer fremden Datenbank liegt. Prüfung "Adressbuch vor/nach gleich" mit Gegenprobe.
+2. Stehen im eigenen gsSync.book (falls das eigene Addon zuerst lädt) Testnamen? In den hochgeladenen Daten (Laptop) stehen zurzeit:
+   "LPWeiter-Test", "Testa Beispiel", "Testa Beispiel-Realm" (von LevelPilot, bereinigt LevelPilot).
+Die Prüf-Sitzung baut in GoldSentinelSync zusätzlich einen Schutz ein (nächste Version der gemeinsamen Datei, eigener Hinweis).
