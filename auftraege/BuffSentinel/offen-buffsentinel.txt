@@ -455,3 +455,10 @@ Reihenfolge: nach den laufenden HOCH-Punkten, vor MITTEL.
   nie falsch) angenommen. Verdacht im Spiel zu sehen (Gegner mit Magie-Buff ausserhalb des Kampfes) -> Prüflisten-Punkt anlegen.
 - OPT-ALLE Schritt 1 erhalten – Umbau nach (a)–(i); Vorlage shared/vorlage/__ADDON__/Options.lua (Nachtrag 10:55).
 - Beim Nutzer installiert (Laptop, diff 0).
+
+==== PRÜFUNG Supervisor 18.11.2026 11:25 – 0.9.58 (OPT-ALLE Umbau) ====
+- addon_check OK, download = announce byte-gleich, md5 da69f041…. n alt 35 = n neu 35, Doppelte (dispel, auto.share) aufgelöst, T259 mit
+  Gegenprobe, T260/T261 – angenommen, Abnahme am Bild durch den Nutzer (Prüfliste OPT).
+- Frage Prüfliste: HEXER + SOULSTONE zu einem Punkt (erledigt erst, wenn beide Teile erschienen sind, T245) – EINVERSTANDEN.
+- Unbenutzte alte Locale-Schlüssel in der nächsten Version aufräumen – einverstanden.
+- Beim Nutzer installiert (Laptop, diff 0).

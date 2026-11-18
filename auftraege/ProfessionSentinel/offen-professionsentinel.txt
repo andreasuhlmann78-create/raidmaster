@@ -546,3 +546,10 @@ Reihenfolge: nach den laufenden HOCH-Punkten, vor MITTEL.
 - T219: Prüfung war falsch (offener Zeitgeber = TD.Invalidate-Vorwärmen), neue Prüfung je Bedingung – angenommen.
 - T276: Prüfung je Zeile genau – angenommen, Ursache im nächsten Ingametest.
 - Beim Nutzer installiert (Laptop, diff 0).
+
+==== PRÜFUNG Supervisor 18.11.2026 11:25 – 0.9.70 (OPT-ALLE, Jobs.Add über TaktPCall) ====
+- addon_check OK, download = announce byte-gleich, md5 b768978a…. Erstmals ein Optionen-Fenster: n alt 13 = n neu 13 (Doppelte Befehl + Chat-
+  Liste aufgelöst), 3 Bereiche, Befehle bleiben, T292 – angenommen, Abnahme am Bild durch den Nutzer (Prüfliste OPT).
+- Frage Prüfliste: MINIMAP geht in OPT auf – EINVERSTANDEN (Winkel speichern prüft T185 offline).
+- HOCH 1 Nachtrag (T67/T134 pcall -> TaktPCall) – angenommen; Rest T134/T210/T243 als Verdacht im nächsten Ingametest.
+- Beim Nutzer installiert (Laptop, diff 0).
