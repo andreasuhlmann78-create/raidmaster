@@ -4980,3 +4980,18 @@ auftraege/hinweis-testort-2026-11-18.txt NACHTRAG 19:55: Takt 2 mit der nächste
 "wenn ahs schon einen hat braucht es das nicht": AHSentinel bindet GoldSentinelTakt NICHT ein. Der Hinweis 19:55 (Takt 2) gilt für AHSentinel
 nicht. Die bestehende eigene Messung ("eigene Arbeit Ø/höchstens" je Bild) bleibt und gilt als Trennung Addon/Umgebung (E-Regel 19:30).
 Der Hinweis 19:30 (Ort im Bericht) gilt weiter.
+
+==== INGAMETEST 18.11.2026 19:55 – AHSentinel 0.65.347 (PC zu Hause, Priester 10, Unterstadt; Bericht 19:44) ====
+Gesamt 1047 OK · 8 FEHLER · 33 übersprungen. Laptop 17:01: 15 FEHLER. Nicht ganz vergleichbar: anderer Rechner, andere Daten.
+Wächter 10 Min. BESTANDEN (47 ms ≤ 50). T913 Sync-Buch bestanden (Sync 3 aktiv). Längste Lücke beim Vollscan 98 ms (Laptop 919 ms),
+eigene Arbeit höchstens 11 ms.
+Weiter offen (aus 17:15), hier bestätigt:
+- HOCH 1: T45 "nie gesendet: Preisprüfung sucht" (120 s).
+- HOCH 4: T52 Unterboten "Status ?".
+- HOCH 2: T459 23 049 KB (Grenze ≤ 10 240). Kleiner als 57 984 auf dem Laptop. "Warten auf Server" ist diesmal nicht unter den eigenen
+  Posten. Belegen, warum es zwischen den Rechnern so schwankt.
+NEU bzw. wieder da:
+- HOCH: T72 "Heute tun": "Verkaufspreis zu hoch: Fraktionsbanner (1s 25c, günstigstes Angebot 58c)". Derselbe Fehlertyp wie die
+  Silberrute (0.65.343). Eine Empfehlung über dem Doppelten des günstigsten Angebots kostet Gold. Ursache belegen. Gilt die Regel aus
+  der Silberrute-Behebung nur für bestimmte Fälle?
+- MITTEL: Prüfliste TR-ALLES zeigt auf diesem Rechner "17.11. 19:11", der Lauf von 19:44 ist nicht eingetragen (Befund 8 besteht).
