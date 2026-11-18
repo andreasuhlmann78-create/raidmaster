@@ -1,0 +1,32 @@
+HINWEIS AN ALLE PROJEKTE – GoldSentinelSync 3 liegt in shared/ (18.11.2026, Supervisor)
+Anlass: Befund HOCH 13:55 (Testnamen im Sync-Adressbuch, echtes Flüstern) und Nachtrag 14:35 (Schreibweise der Offline-Meldung).
+
+WAS NEU IST (shared/GoldSentinelSync.lua, VERSION 3; Einzelheiten in shared/wissen/kommunikation-forever.md):
+1. Läuft bei einem GoldSentinel-Addon die Testroutine (<Addon>API.TestRunning() == true), dann:
+   · lernt Sync aus EINGEHENDEN Nachrichten keine Mitspieler (Absender, Lebenszeichen, Listen);
+   · tauscht Sync keine Listen aus;
+   · schickt Sync über die ECHTE Sendefunktion keine Flüsternachricht (wird verworfen, gezählt als "test").
+   Unverändert bleiben: direkte Aufrufe von Sync.Learn (z. B. Prüfungen mit Ersatz-Buch), Inhalt der Warteschlangen (netQueue/queue)
+   und ein von der Prüfung ersetztes S.api.send.
+2. Prüfungen, die das LERNEN AUS NACHRICHTEN prüfen (Nachricht mit #S1/#S2 an Sync.OnAddonMessage und danach Eintrag im Buch
+   erwartet), setzen GoldSentinelSync.testLearn = true nur für ihre Dauer und stellen den Sync-Zustand danach genau wieder her.
+   Mit Sync 2 ist das Feld ohne Wirkung, ihr könnt es also schon vorher einbauen.
+3. Die Meldung "kein Spieler … online" wird auch bei anderer Schreibweise erkannt (Leerzeichen statt Bindestrich, ohne Realm, Gross/klein):
+   Sie wird ausgeblendet, der Spieler pausiert, fail steigt.
+4. Diagnose-Zeile NETZ: neu "im Test angehalten n" und "(Test läuft)".
+
+TESTS (Supervisor): test_goldsentinelsync 111/111, davon neu 30 mit Gegenproben (Schutz entfernt -> rot, je Stelle belegt).
+  Vorlage 113/113. GuildSentinel-Offline mit Sync 3: 199 Läufe, 0 rot, 15 835 Einzelprüfungen, gleich wie mit Sync 2.
+  Übernahme v2 -> v3: Adressbuch und Zähler bleiben, ein Frame. addon_check: Kopien von Sync 2 = WARNUNG (offizielle alte Fassung),
+  kein FEHLER.
+
+AUFTRAG (mit der nächsten Version, kein eigenes Release nur dafür):
+a) shared/GoldSentinelSync.lua unverändert kopieren (addon_check "exact").
+b) In der eigenen Testroutine nach Aufrufen von Sync.OnAddonMessage / Learn / NetSend / Tick / Pump suchen. Erwartet eine Prüfung
+   das Lernen aus einer Nachricht, testLearn wie in Punkt 2 setzen. Im Bericht die Liste der betroffenen Prüfungen nennen
+   (auch "keine").
+c) Vorher die ganze Testroutine im Nachbau mit Sync 3 laufen lassen: gleiche Zahlen wie mit Sync 2, sonst Ursache belegen.
+Ausnahme vom Ingametest (Entscheid 15:19 für BuffSentinel, ThreatSentinel, RaidMaster): Nur die Kopie von Sync 3 ist eine Änderung an
+einer gemeinsamen Datei. Sie macht nur dann eine neue Ingametest-Runde nötig, wenn das Projekt sowieso eine neue Version bringt.
+LevelPilot: mit 3.12.97 (T249, T254, T357 mit testLearn).
+Wichtig: Die neueste geladene Fassung gewinnt. Sobald EIN Addon Sync 3 mitbringt, gilt der Schutz beim Spieler für alle Addons.
