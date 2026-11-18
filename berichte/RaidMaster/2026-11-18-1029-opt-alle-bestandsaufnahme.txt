@@ -1,0 +1,102 @@
+BERICHT RAIDMASTER AN DIE PRÜF-SITZUNG
+Stand: 18.11.2026 10:29 (aus date) · Sitzung: RaidMaster-Projekt-Sitzung · Version: Addon 3.0.37 (unverändert)
+Bezug: auftraege/anweisung-optionen-nach-ahs-2026-11-18.txt, offen-raidmaster.txt "AUFTRAG 18.11.2026 10:35 – OPT-ALLE" (30d6b305)
+Status: SCHRITT 1 (Bestandsaufnahme) – vor dem Umbau. Laufende HOCH-Punkte: keine offen (3.0.37 geprüft und installiert).
+
+QUELLE: Code 3.0.37 (Pages.lua, Commands.lua, Core.lua RM.DEFAULT_CONFIG / RM.DEFAULT_SETTINGS) und Vorbild AHSentinel 0.65.265 UI_Main.lua
+OPT-1 (nur gelesen). Gezählt sind gespeicherte Einstellungen (Schlüssel in RaidMasterDB), keine Ansichtsfilter (z. B. "Nur Raid" in der
+DKP-Liste, Filter im Log, Raid-Auswahl zum Anschauen) und keine Inhalte (Werbetext, Links, Fensterlage/-grösse).
+
+A. GILDEN-REGELN – RM.db.data.settings (gelten für die ganze Gilde, nur Offiziere, Knopf "Speichern und an die Gilde verteilen",
+   Häkchen sofort lokal) – Reiter "Einstellungen", zwei Spalten:
+ Nr Schlüssel            Beschriftung (heute)                          Ort / Überschrift                   Art
+  1 dkpStart             Pünktlich zum Raidstart                       Einstellungen links / "DKP-Vergabe" Zahl
+  2 dkpEnd               Raid bis zum Ende                             ebd.                                Zahl
+  3 standbyStartDKP      Ersatzbank beim Raidstart                     ebd. (Tooltip)                      Zahl
+  4 defaultBossDKP       Andere Bosse (Standard)                       ebd.                                Zahl
+  5 bossDKP[Boss]        <Bossname> (bis 16 Zeilen + Raid-Auswahl)     Einstellungen links / "Bosse"       Zahl je Boss
+  6 minBid               Mindestgebot                                  Einstellungen rechts / "Gebote"     Zahl
+  7 bidIncrement         Gebotsschritt                                 ebd.                                Zahl
+  8 auctionTime          Dauer (Sekunden)                              ebd.                                Zahl
+  9 decayPct             Decay in %                                    Einstellungen rechts / "System"     Zahl
+ 10 officerRank          Offiziersränge bis Index                      ebd. (Tooltip)                      Zahl
+ 11 firstKillDouble      Erstkill zählt doppelt                        unter "System", OHNE eigene Überschrift  an/aus
+ 12 antiSnipe            Verlängern bei späten Geboten (5 Sek.)        ebd.                                an/aus
+ 13 allowNegative        Negative DKP erlauben                         ebd.                                an/aus
+ 14 onlyOnline           Nur Spieler online erhalten DKP               ebd.                                an/aus
+ 15 standbyGetsDKP       Ersatzbank erhält DKP (nur beim Raidstart)    ebd.                                an/aus
+ 16 mainBeforeTwink      Main vor Twink                                ebd.                                an/aus
+ 17 autoDecay            Automatisch jeden Mittwoch (Raid-Reset)       Reiter "Raid" (nicht bei Decay %!)  an/aus
+
+B. PERSÖNLICH – RM.db.config (nur dieser Spieler/Rechner):
+ 18 minimap.hide         Minimap-Knopf ausblenden                      Einstellungen, unten, OHNE Überschrift  an/aus
+ 19 itemTooltip          Item-Tooltip ergänzen (Droprate, letzter Preis) ebd.                              an/aus
+ 20 bankScan             Bank-Charakter (Bestand an Discord)           ebd. – DOPPELT: auch Reiter "Gildenbank" ("Dieser Charakter
+                                                                       ist der Bank-Charakter")            an/aus
+ 21 records              Erstkill-Feier und Bestzeiten                 ebd.                                an/aus
+ 22 marktTeilen          Marktdaten teilen (anonym, nur Preise)        ebd.                                an/aus
+ 23 rules.epic           Epische Ausrüstung                            Reiter "Loot" / "Loot-Regeln"       Auswahl
+ 24 rules.blue           Blaue Ausrüstung                              ebd.                                Auswahl
+ 25 rules.recipe         Rezepte und Pläne                             ebd.                                Auswahl
+ 26 rules.mats           Handwerksmaterialien                          ebd.                                Auswahl
+ 27 fallback             (ohne Gebot an) Entzauberer/Gildenbank/Manuell ebd.                               Auswahl
+ 28 bankChar             Gildenbank-Charakter                          ebd.                                Name (Eingabe)
+ 29 deChar               Entzauberer                                   ebd. (Tooltip)                      Name (Menü)
+ 30 crafterChar          Handwerker                                    ebd. (Tooltip)                      Name (Menü)
+ 31 lootMaster           Plündermeister                                Loot – DOPPELT: auch Reiter "Einteilung" Name (Menü)
+ 32 lootThreshold        Plünderschwelle                               Loot – DOPPELT: auch Reiter "Einteilung" Auswahl
+ 33 autoLoot             Vergessenen Plündermeister automatisch setzen Loot                                an/aus
+ 34 setLootOnStart       Loot-Einstellungen bei Raidstart setzen       Loot / "Optionen"                   an/aus
+ 35 autoDistribute       Mats/Rezepte/Blaues automatisch zuteilen      ebd.                                an/aus
+ 36 announceLoot         Loot gesammelt im Raidchat ansagen            ebd.                                an/aus
+ 37 announceBids         Gebote im Raidchat ansagen                    ebd.                                an/aus
+ 38 unlootedReminder     Erinnern, wenn Boss nicht geplündert          ebd.                                an/aus
+ 39 tradeFallback        Bei Abwesenheit an mich + Handelsliste        ebd.                                an/aus
+ 40 whisperReplies       Auf !dkp-Flüstern antworten                   ebd.                                an/aus
+ 41 pullSeconds          Pull-Timer (5–20 s)                           Reiter "Raid", unten, ohne Überschrift Auswahl
+ 42 breakMinutes         Leiste: Pause 3/5/10/15 min                   ebd.                                Auswahl
+ 43 timerAddons          DBM + BigWigs / nur DBM / nur BigWigs / ohne  ebd.                                Auswahl
+ 44 pullCountdownChat    Countdown 5-4-3-2-1 im Raidchat               ebd.                                an/aus
+ 45 welcome              Begrüßung beim Raidstart                      ebd.                                an/aus
+ 46 fireResMin           Feuerwid. egal / ab 100 … 250                 ebd. (Bereitschaft)                 Auswahl
+ 47 coreHound            Kürschner ansagen, wenn ein Kernhund stirbt   Raid, rechts (nur bei MC sichtbar)  an/aus
+ 48 autoInvite           Auto-Einladung                                Reiter "Anmeldungen"                an/aus
+ 49 autoInviteMinutes    5/10/15/20/30 Min. vor Beginn                 ebd.                                Auswahl
+ 50 autoGroups           Gruppen automatisch sortieren                 ebd.                                an/aus
+ 51 adChannel            Kanal für die Werbung                         Reiter "Werbung"                    Auswahl
+ 52 adAutoInvite         Auf geflüstertes "inv" automatisch einladen   ebd. (Text ~75 Zeichen, zu lang)    an/aus
+ 53 markerTemplate       Symbol-Vorlage                                Reiter "Einteilung"                 Auswahl
+ 54 markerBar            Markierungsleiste anzeigen                    ebd.                                an/aus
+ 55 markerLocked         Leiste fixieren                               ebd.                                an/aus
+ 56 autoTemplate         Vorlage beim Bosskampf automatisch wählen     ebd.                                an/aus
+ 57 bossBar              Boss-Leiste, sobald ein Boss im Ziel ist (…)  ebd. (Text ~70 Zeichen, zu lang)    an/aus
+ 58 specScan             Als Raidleiter automatisch alle 5 Minuten scannen  Reiter "Skillungen"            an/aus
+ 59 cmdHint              Befehlsliste beim Tippen                      NUR Chatbefehl (/rm befehlsliste), kein Schalter  an/aus
+ 60 readyCheckGame       Bereitschafts-Check startet auch den des Spiels  NIRGENDS bedienbar (nur Standard an)  an/aus
+ 61 firstKillScreenshot  Screenshot beim Erstkill                      NIRGENDS bedienbar (nur Standard an)  an/aus
+
+ n alt = 61 Schlüssel (bossDKP als einer gezählt). Auf dem Bildschirm 64 Bedienelemente, weil 3 doppelt sind (bankScan, lootMaster,
+ lootThreshold). Ohne Bedienung: 3 (cmdHint nur per Befehl; readyCheckGame, firstKillScreenshot gar nicht).
+ Verteilt auf 7 Reiter (Einstellungen, Loot, Raid, Anmeldungen, Werbung, Einteilung, Skillungen) + Gildenbank. Ohne Überschrift: Nr. 11–16
+ (unter "System" gemischt), 18–22, 41–47.
+
+C. ÜBERDECKUNGEN / ABGESCHNITTEN (UICheck, Ingametests 18.11. 3.0.34–3.0.36): T155–T158 im Spiel ohne Befund (seit 3.0.32 passen
+   Knopf-Beschriftungen ihre Schrift an). Überlange Beschriftungen (über ~28 Zeichen, Vorgabe c): Nr. 15, 19, 20, 33, 34, 35, 38, 39,
+   44, 47, 52, 56, 57, 58 – in FR/ES/RU noch länger.
+
+D. VORSCHLAG FÜR DEN UMBAU (Bereiche, häufig zuerst; zur Kenntnis, Einwände bitte vor dem Bau):
+   1 Allgemein: 18, 19, 21, 22, 59, 61, Addon unterstützen
+   2 Gilde: DKP (Offiziere): 1, 2, 4, 3, 11, 14, 15, 9, 17, 10 (Speichern-Knopf des Bereichs = "an die Gilde verteilen")
+   3 Gilde: Gebote (Offiziere): 6, 7, 8, 12, 13, 16
+   4 Gilde: Boss-DKP (Offiziere): Raid-Auswahl + Boss-Zeilen (höchstens 11 je Bild; mehr Bosse -> "Weitere"-Seite statt Scrollen)
+   5 Beute: 23–27, 31, 32, 33, 34, 35; Weitere: 28–30
+   6 Ansagen & Flüstern: 36, 37, 38, 39, 40, 45, 47, 44
+   7 Raid & Timer: 41, 42, 43, 46, 60
+   8 Einladen & Werbung: 48, 49, 50, 51, 52
+   9 Symbole & Leisten: 53, 54, 55, 56, 57
+  10 Bank & Skillungen: 20, 58
+   Die Reiter behalten statt der Schalter einen Knopf "Optionen", der den passenden Bereich öffnet (e); jede Option steht dann genau
+   EINMAL im Optionen-Fenster (a). Schlüssel bleiben alle gleich (f).
+   Gilden-Regeln brauchen weiter "Speichern und an die Gilde verteilen" (Zahlenfelder wirken erst beim Speichern, Häkchen sofort lokal).
+   Umsetzung: in den drei Gilde-Bereichen unten "Speichern und verteilen" + "Verwerfen" (wie heute), Felder nur für Offiziere bedienbar.
+   Ich baue so (Schritt 2, 3.0.38), sofern kein Einwand kommt.
