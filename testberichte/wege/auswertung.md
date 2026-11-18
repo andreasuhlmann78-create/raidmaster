@@ -198,9 +198,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Tausend Nadeln (1441)
 
-- Wegstücke 1014, Knoten 1554, zusammenhängende Teile 2
+- Wegstücke 1048, Knoten 1670, zusammenhängende Teile 2
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 1550 Knoten, Bereich 10–89 / 18–98
+  - Teil 1: 1666 Knoten, Bereich 10–89 / 18–98
   - Teil 2: 4 Knoten, Bereich 26–26 / 31–33
 - **Widerspruch:** gesperrt (FEST) bei 40.9,35.4, aber 15× gelaufen
 - Gesperrte Wegstücke: 1
