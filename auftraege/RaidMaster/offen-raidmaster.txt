@@ -457,3 +457,18 @@ mit 3.0.33. Der Lauf 06:40 (3.0.30) wird nicht gewertet. Ich hätte die Versions
   (API.VERSION 2), T193, Nachbildung fremder Leser 148 Stichproben, Gegenprobe 3.0.33 – angenommen. Schnelle und gründliche Arbeit.
 - Hinweis an GuildSentinel weitergegeben (Funktions-Leser DKP.MainOf/Spec.Role -> TestRunning() abfragen).
 - Beim Nutzer auf dem Laptop installiert (Entscheid 06:56). Ingametest 3.0.34 frei: RM-TF-1, T116-Schritte, T193 im Spiel bestätigen.
+
+==== INGAMETEST 18.11.2026 08:34 – RaidMaster 3.0.34 "/rm testroutine alles" (Laptop, Krieger 24) ====
+OK 138 · FEHLER 1 · übersprungen 14 · im Client 10 · 99,0 s · Sandbox OK. Portionen: 875 Bilder, längstes 20,5 ms (T182).
+1. FEHLER T43 (ony) "kein Item vergeben – Beute geladen 10/26; 3 Items behandelt (0 Versteigerung, 3 andere Regel), 0 ohne Daten".
+   URSACHE (aus dem Code belegt, Test/Test.lua Pick + HandleItem): Daten fehlen NICHT mehr (0 ohne Daten). Pick() zieht ZUFÄLLIG aus den 10
+   geladenen Items, RM.Loot.Classify gab allen dreien eine andere Regel als "auction" -> es kann gar nichts versteigert werden. Die Prüfung
+   hängt vom Zufall und davon ab, welche Items der Client gerade kennt = Fehler der PRÜFUNG, kein Beleg für einen Fehler im Plündern.
+   Auftrag: Der Durchlauf in T43 muss mindestens ein Item behandeln, das Classify sicher als "auction" einstuft (gezielt aus den geladenen
+   Items wählen, die Classify -> "auction" geben; gibt es keins: SKIP mit Zahl "geladen x, davon versteigerbar 0", nie FEHLER aus Zufall).
+   Gegenprobe: Durchlauf mit nur Nicht-Versteigerungs-Items -> SKIP mit Begründung; mit einem Versteigerungs-Item -> vergeben >= 1 -> OK.
+   Dazu im Bericht je behandeltem Item die Regel (Name/Qualität -> Regel), damit man sieht, warum.
+2. LEISTUNG: "einzeln gemessen: Aufbau Fenster 47,6 ms" – über der Grenze 40 ms (leistung.md Abschnitt 0; Ausnahme 100 ms gilt NUR für
+   Design-/Sprachwechsel). Das Hauptfenster beim ersten Öffnen in Portionen bauen (Seiten erst beim ersten Zeigen, B6 GoldSentinelTakt).
+   Spielwert und Nachbau-Wert im nächsten Bericht.
+Sonst ohne Befund. Offene Punkte von 17.11. (T156, T155 usw.) bleiben, soweit nicht im Bericht zu 3.0.34 umgesetzt.
