@@ -1096,3 +1096,20 @@ T151 (Wegsuche Orgrimmar -> Wegkreuz) und T348 jetzt OK im Spiel – Wegsuche im
 - Beim Nutzer installiert (Laptop, diff 0). Ingametest folgt; massgeblich: "Bilder über 40 ms" und die Zeilen T261/T150/T155/T295.
 - Offen bleiben: Ingametest 3.12.92 (09:00) Punkte 2–3, Befund 09:07 (T142 Fehlerfenster), "Daten sichern" mit grossen Daten
   (Verdacht, zu messen: wie lange steht das Spiel beim Knopf mit 3 MB – Wert im nächsten Bericht; erst dann Entscheid).
+
+==== INGAMETEST 18.11.2026 09:35 – LevelPilot 3.12.93 "/lp testroutine alles" (Laptop, Krieger 24) ====
+OK 289 · FEHLER 2 · übersprungen 9 · im Client 53 · 395 s · Sandbox OK · echte Aktionen 0 · Fehlerzähler 0. Zahl: 289 + 2 = 291 – stimmt.
+GROSSER FORTSCHRITT: längstes Bild 5289 ms (3.12.92) -> 302,7 ms; Bilder über 40 ms: 33 (Zeile vorhanden, Punkt 5 erfüllt). Takt-Zeile mit
+den 10 längsten und "Abgabe nicht möglich" – genau so gewollt.
+HOCH (Rest von Punkt 1):
+1. 33 Bilder über 40 ms. Längste: T314–T319 302,7 · T25–T26 286,5 · T136 Zentrale 140/99,6/98,3 · T263 135,9 · T136 135,5 · T275 109,6 ·
+   T224–T227 101,1 · T129 100,8 ms. Erwartung des Berichts (nur T128/T129/Start der Reise) im Spiel NICHT erfüllt – Abstand Spiel/Nachbau
+   je Schritt ausweisen. "Abgabe nicht möglich: 47" – alle unter pcall (T31 graph/svc, T81/T136/T225/T290 svc, T224/T226/T227 Zentrale,
+   T353). Diese Rechnungen laufen am Stück, weil pcall die Abgabe sperrt: über LP.PCall/Takt.PCall freigeben oder vor dem pcall in
+   Portionen vorbereiten. T353 absichtlich (Gegenprobe) – in der Zählung kennzeichnen.
+2. T261 Einloggen: 3342 ms in 60 s in 4318 Aufrufen, längster 91 ms (3.12.92 auf Priester 10: 2488 ms / 1743 Aufrufe / 90 ms). Mehr als
+   doppelt so viele Aufrufe auf Krieger 24 – Verdacht, zu messen: Zahl der Quests/Wege des Charakters. Je Aufrufer Summe/Max ausweisen
+   (Punkt 2 von 09:00), dann teilen.
+MITTEL:
+3. T155 Planung je Reiseschritt 28,5 ms (57) – (3.12.92: 23,1 ms auf Priester 10). T150 und T295 diesmal OK.
+Weiter offen: Befund 09:07 (T142 Fehlerfenster), "Daten sichern" mit grossen Daten (Messwert).
