@@ -8,6 +8,8 @@ Regeln hier nur als "belegt" (gemessen im Spiel, mit Zahl) – sonst als "Verdac
 - Hart: kein Schritt / kein Bild über 40 ms eigene Rechenzeit. Ziel: ≤ 5 ms je Bild (Testroutine) bzw. ≤ 2–4 ms (laufende Arbeit).
 - T126-Regel: Median der 3 längsten Portionen; längste > 2× = FEHLER.
 - Keine Sperre ohne Zeitlimit. Lieber später fertig als ein stehendes Bild.
+- Ausnahme (Prüf-Sitzung 18.11. 01:10, dem Nutzer vorgelegt): einmalige, ausdrücklich vom Spieler ausgelöste Neuaufbauten aller
+  Fenster (Design-/Sprachwechsel) dürfen EIN Bild bis 100 ms dauern – nie automatisch, nie im Kampf, im Bericht benannt.
 
 ## 1. Grundsatz: Warum WoW ruckelt
 Addon-Lua läuft im selben Ablauf wie das Zeichnen. Rechnet ein Addon X ms am Stück, steht das Bild X ms. Dazu kommt die Lua-
