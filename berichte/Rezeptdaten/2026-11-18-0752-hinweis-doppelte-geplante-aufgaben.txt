@@ -40,3 +40,11 @@ EMPFEHLUNG / FRAGE AN DEN SUPERVISOR
   einer Sitzung mit update_trigger. Bisher hat sie niemand ausgeschaltet. Der Nutzer entscheidet, wer es macht.
 - Bis dahin: Entwürfe aus berichte/Rezeptdaten und berichte/Raids auf doppelte Läufe prüfen und bei neuen Daten
   nachsehen, ob etwas direkt auf main bzw. in announce/ gelandet ist.
+
+NACHTRAG 18.11.2026 16:20 – ENTSCHEID DES NUTZERS: "bis auf weiteres Aufträge aussetzen" (gewählt: alle Rezeptdaten- und Raids-Aufgaben)
+- AUSGESCHALTET (enabled = false, nicht gelöscht): trig_01Q3e6A5gu4Eoca65mnAhSg3 «ProfessionSentinel Rezeptdaten-Update
+  (mit Supervisor)» und trig_019SbU842kQHaV75pbHuuofJ «Raids und Taktiken für WoW Forever (mit Supervisor)».
+- NICHT ausschaltbar aus einer Sitzung (über http_api angelegt): trig_014TAhJfvGt4PBC6miU4aTEB «… Rezeptdaten-Update (Code)»
+  und trig_01NG4EovtRDoVGwweAvPRCtD «Raids und Taktiken … (Code)». Der Nutzer schaltet sie selbst aus (claude.ai/code/routines).
+  Bis dahin laufen sie weiter (07:21 bzw. 07:54).
+- Wieder einschalten nur auf Anweisung des Nutzers.
