@@ -1161,3 +1161,6 @@ Befund am Code 3.12.94 (Center.lua) für Schritt 1: Einstellungen auf drei Reite
 Einstellungen, Questgebiete/"!" unter Extras); Ruhestein getrennt (useHearth Komfort, showHearthCD Extras); rechte Spalte unter "Anzeige"
 ohne Überschrift (Speedrun-Strenge, Questlog-Grösse, Namensplaketten, kompakter Guide, ownSettings, cmdHint); Verdacht, zu messen: Hinweis
 (16, -394) überdeckt "Navi zur Markierung" (16, -390). KARTE-TT1 kommt in den neuen Bereich "Karte & Navigation".
+
+==== HINWEIS 18.11.2026 11:15 – SPIELER OHNE TESTBEFEHLE (Entscheid des Nutzers 11:10) ====
+auftraege/hinweis-spieler-ohne-testbefehle-2026-11-18.txt umsetzen: jede Spieler-Funktion über den normalen Weg erreichbar (Minimap, Fenster, /<befehl>, Einstellungsfenster), nie nur über Test/Entwickler; Liste im nächsten Bericht.

@@ -1,0 +1,17 @@
+HINWEIS DER PRÜF-SITZUNG AN ALLE PROJEKTE (auch AHSentinel) – 18.11.2026 11:15
+Entscheid des Nutzers 18.11.2026 11:10: "die spieler sollten nie über ingame test etwas aufrufen müssen ... die option kann man natürlich
+bestehen lassen."
+
+REGEL: Alles, was ein SPIELER braucht (Optionen, Fenster, Listen, Anzeigen, Hilfen), muss über den normalen Weg erreichbar sein:
+Minimap-Knopf (Links-/Rechtsklick), Hauptfenster/Reiter, Knopf am passenden Ort, Einstellungsfenster des Spiels (Knopf "Optionen
+öffnen") und der normale Slash-Befehl (/<befehl>, /<befehl> config|optionen). NIE nur über Test- oder Entwicklerwege (Testroutine,
+Prüfliste, /gsdev, "testmodus", Befehle mit dev = true). Ein ZUSÄTZLICHER Weg über die Prüfliste/Testroutine darf bleiben (z. B.
+Prüflisten-Punkt "OPT Optionen am Bild" öffnet die Optionen).
+
+AUFTRAG (im nächsten Bericht, mit Liste):
+1. Alle Funktionen für Spieler auflisten mit ihrem normalen Weg (wo klickt/tippt der Spieler?). Fehlt der normale Weg: einbauen.
+2. Hilfe-Texte, Tooltips, Meldungen und Prüflisten-Anleitungen, die einem SPIELER einen Test- oder Entwicklerbefehl nennen, umschreiben
+   auf den normalen Weg (Test-/Dev-Befehle nur in Texten, die nur der Entwickler sieht).
+3. Test in der Testroutine: jede Funktion aus Liste 1 ist ohne Entwicklermodus erreichbar (Gegenprobe: Entwicklermodus aus).
+Vorlage (shared/vorlage) hält das ein: Optionen über Minimap-Rechtsklick, /<befehl> config und Knopf im Einstellungsfenster des Spiels;
+nur die Prüfliste ist Entwickler-Werkzeug.

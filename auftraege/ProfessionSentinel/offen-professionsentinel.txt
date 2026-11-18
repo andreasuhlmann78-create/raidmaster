@@ -559,3 +559,6 @@ Reihenfolge: nach den laufenden HOCH-Punkten, vor MITTEL.
   jeder Refresh rechnete die Rangliste neu (Test mass sich selbst). Stub(…, quiet) + Gegenprobe 20× AD.Update -> 0× – angenommen.
   AD.stats mit collectgarbage("count") (nur zählen, keine Bereinigung – Bau-Regel 2 eingehalten) – angenommen.
 - Beim Nutzer installiert (Laptop, diff 0).
+
+==== HINWEIS 18.11.2026 11:15 – SPIELER OHNE TESTBEFEHLE (Entscheid des Nutzers 11:10) ====
+auftraege/hinweis-spieler-ohne-testbefehle-2026-11-18.txt umsetzen: jede Spieler-Funktion über den normalen Weg erreichbar (Minimap, Fenster, /<befehl>, Einstellungsfenster), nie nur über Test/Entwickler; Liste im nächsten Bericht.
