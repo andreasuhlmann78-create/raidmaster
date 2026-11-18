@@ -501,3 +501,30 @@ TR_ERROR_SOON reicht nicht). Gleicher Befund wie RaidMaster RM-TF-1 und BuffSent
 Auftrag: T148 darf keinen echten ungefangenen Fehler auslösen. Den Abgriff von GoldSentinelTest direkt prüfen (den angemeldeten Handler
 mit der Testmeldung aufrufen, OHNE den Original-Handler des Spiels weiterzureichen, bzw. den Weg wie ThreatSentinel T147); GoldSentinelTest.lua
 selbst nicht ändern (shared). Nachbau: Attrappe für Blizzard_ScriptErrors zählt Aufrufe -> 0; Gegenprobe 0.9.68 = 1 mit diesem Stack.
+
+==== INGAMETEST 18.11.2026 08:46 – ProfessionSentinel 0.9.68 "/ps testroutine alles" (Laptop, Priester 10, Berufsfenster offen) ====
+OK 243 · FEHLER 6 · übersprungen 18 · im Client 10 · 444,8 s · Sandbox OK. Zahl: 243 + 6 + 28 = 277 – stimmt.
+FORTSCHRITT gegen 0.9.66 (17.11. 20:15): FEHLER 23 -> 6; Panel-Aufbau T139 1267 -> 11,5 ms; UpdateBest T140 1307 -> 5,9 ms; Produkt-Wege
+höchstens 28,1 ms (Neuaufbau-Teil ×41) und 21,3 ms (Aufgabe heute) – unter 40, aber über 16 ms. Gute Arbeit.
+HOCH:
+1. RUCKELN DER TESTROUTINE: 34 Bilder über 40 ms, längstes EIN Bild T38 588 ms, T269 393, T246 338, T46 311, T43 305, T219 237 ms …
+   Dauer 445 s (Ziel ≤ 300 s, B 262 s, H 153 s). Grenze 40 ms gilt auch für die Testroutine (leistung.md 0). GoldSentinelTakt (B6) für
+   alle Schritte; wo ein Bild trotzdem lang bleibt: was läuft darin ohne Abgabe ([C]-Grenze, pcall – Summary "Abgabe nicht möglich")?
+2. T38 588 ms in EINEM Bild: der Schritt ruft AD.Update(prof, 80) synchron (TestRoutine.lua:1375). Das Produkt ruft dasselbe synchron über
+   UI:UpdateBest -> AD.UpdateCached -> AD.Update (UI.lua:2647) bei jedem Cache-Fehlschlag. Verdacht, zu messen: AD.Update kann im Spiel
+   hunderte ms kosten (hier mit Test-Preisen; welche Preisquelle?). Messen: AD.Update im Spiel mit echten Preisen (AHSentinel installiert)
+   und mit Test-Preisen; ist es > 16 ms, als Hintergrund-Aufgabe in Portionen (alte Rangliste bis zur neuen) wie TodayCrafts.
+3. T244 Lua-Fehler "TestRoutine.lua:5726: attempt to index local 'node' (a number value)". URSACHE belegt: in Forever liefert
+   dp:Enumerate(...) zuerst den Index, dann den Knoten – `for node in dp:Enumerate(nil, nil, false)` (Zeile 5725) bekommt die Zahl.
+   Zeile 501 macht es schon richtig (`for a, b in … local node = … b or a`). Gleiches Muster in 5725 übernehmen; Nachbau-Attrappe von
+   Enumerate muss wie das Spiel (Index, Knoten) liefern, sonst findet der Nachbau das nie (Regel E 06:40).
+MITTEL:
+4. T180 "WP.Set nicht über ns.Act" (seit 0.9.66 offen, Regression N0.9.11-2) – Wegpunkt-Setzen am Aktionsweg vorbei. Beheben.
+5. T219 "abgebrochener Aufbau läuft weiter" – Abbruch eines Neuaufbaus stoppt die Aufgabe nicht (Produkt? Ursache belegen).
+6. T32 "TomTom-Attrappe ×0" (seit 0.9.66) – Isolation von echtem TomTom/Wegpunkt-Addon im Spiel; Ersatz sauber einsetzen.
+7. T276 "keine Quellen-Symbole" (seit 0.9.66) – Reiter Rezepte zeigt keine Quellen-Symbole im Spiel (Nachbau grün?).
+8. SPEICHER: Addon vorher 24,6 MB -> nachher 148,7 MB (+124 MB), "20× Refresh: +67 MB" = ca. 3,4 MB Abfall je Refresh. Verdacht, zu messen:
+   Refresh baut je Lauf neue Tabellen/Strings (Abfall -> Garbage-Collector-Ruckler im Spiel). Mit collectgarbage("count") vor/nach je
+   Refresh messen (nach collectgarbage("collect") = bleibend vs. Abfall) und Tabellen wiederverwenden.
+9. Fehlerfenster T148: Befund 08:55.
+Hinweis: "Wächter, andere Addons: SendAddonMessage fremd AHSentinel 14" – richtig als fremd ausgewiesen, kein Fehler PS.
