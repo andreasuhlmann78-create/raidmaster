@@ -1075,3 +1075,15 @@ Auftrag: Der Testfehler darf NIE beim Handler des Spiels ankommen. Für die Prü
 Attrappe ersetzen, die nur zählt (seterrorhandler vorher merken, danach wieder zurück, auch bei Fehler), oder den Abgriff von
 GoldSentinelTest und das Protokoll direkt aufrufen. GoldSentinelTest.lua nicht ändern (shared). Prüfung: "Fehlerfenster geöffnet: 0".
 Gegenprobe: 3.12.92 = 1 mit diesem Stack.
+
+==== INGAMETEST 18.11.2026 09:00 – LevelPilot 3.12.92 "/lp testroutine alles" (Laptop, Priester 10; Wunsch des Nutzers vor 3.12.93) ====
+OK 286 · FEHLER 4 · übersprungen 9 · im Client 53 · 341 s · Sandbox OK · echte Aktionen 0 · Fehlerzähler 0. Zahl: 286 + 4 = 290 – stimmt.
+T151 (Wegsuche Orgrimmar -> Wegkreuz) und T348 jetzt OK im Spiel – Wegsuche im Takt wirkt. Fehlerfenster T142: Befund 09:07.
+1. HOCH SOFORT (unverändert offen, wie erwartet vor 3.12.93): EINFRIEREN der Testroutine schlimmer als 06:42 – längstes Bild 5289 ms (T32;
+   vorher 3308), Sandbox und Bericht 2303, T136 2288, T263 1787, T221 1681, T31 1219, T34 871, T76 625, T340 580, T151 403, T18 400 ms;
+   75 Schritte über 16 ms. In 3.12.93 je Schritt belegen, ob EIN Bild (Spiel steht) oder Summe; mit GoldSentinelTakt teilen; Ziel: kein
+   Bild über 40 ms. Zeile "Bilder über 40 ms: n" ergänzen (Punkt 5 von 06:42).
+2. HOCH T261 Einloggen: 2488 ms in 60 s (vorher 2799), längster 90 ms (vorher 86) – Graph:Init als Takt-Aufgabe hat das Einloggen im Spiel
+   kaum entlastet und ein Aufruf liegt über 40 ms. Ursache belegen: was kostet in den ersten 60 s (je Aufrufer Summe/Max ausweisen)?
+3. MITTEL T150 Replan Median 18,6 ms / max 23,0 (soll < 16 / < 33); T155 Planung je Reiseschritt 23,1 ms (vorher 29,2); T295 kalter Klick
+   längste Portion 27,1 ms (vorher 22,3 – schlechter). Planer in Portionen ≤ 16 ms (Takt).
