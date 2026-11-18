@@ -1087,3 +1087,12 @@ T151 (Wegsuche Orgrimmar -> Wegkreuz) und T348 jetzt OK im Spiel – Wegsuche im
    kaum entlastet und ein Aufruf liegt über 40 ms. Ursache belegen: was kostet in den ersten 60 s (je Aufrufer Summe/Max ausweisen)?
 3. MITTEL T150 Replan Median 18,6 ms / max 23,0 (soll < 16 / < 33); T155 Planung je Reiseschritt 23,1 ms (vorher 29,2); T295 kalter Klick
    längste Portion 27,1 ms (vorher 22,3 – schlechter). Planer in Portionen ≤ 16 ms (Takt).
+
+==== PRÜFUNG Supervisor 18.11.2026 09:22 – 3.12.93 (Testroutine im Takt, Sandbox in Portionen) ====
+- addon_check OK, md5 31b58350… stimmt mit dem Bericht, GoldSentinelTakt.lua byte-gleich mit shared/, toc 3.12.93 / Daten 1.6.4.
+- Code: LP.PCall = pcall im normalen Spiel; Takt.PCall nur, wenn die laufende Coroutine der Takt-Aufgabe der Routine gehört
+  (Tk.byCo[co] == TR.job) – angenommen. Keine and-Muster mit zwei Werten gefunden. Byte-Gleichheit WegeExport, Relabel-Index,
+  ServiceNPCs mit Gegenproben belegt – angenommen. ZoneBands-Fehler (yield über pcall, still abgefangen) gefunden und behoben – gut.
+- Beim Nutzer installiert (Laptop, diff 0). Ingametest folgt; massgeblich: "Bilder über 40 ms" und die Zeilen T261/T150/T155/T295.
+- Offen bleiben: Ingametest 3.12.92 (09:00) Punkte 2–3, Befund 09:07 (T142 Fehlerfenster), "Daten sichern" mit grossen Daten
+  (Verdacht, zu messen: wie lange steht das Spiel beim Knopf mit 3 MB – Wert im nächsten Bericht; erst dann Entscheid).
