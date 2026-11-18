@@ -1,0 +1,36 @@
+BuffSentinel – Bericht an die Prüf-Sitzung · 0.9.56-t110-scanplayerauras
+Datum: 18.11.2026, 09:56 (aus date)
+
+Stand: INGAMETEST 18.11. 09:43 Punkt 1 (T110 ScanPlayerAuras 8,33 KB) – umgesetzt, zur Prüfung (0.9.56); Punkt 2 (T34-Werte) siehe unten
+
+VERÖFFENTLICHT
+- download/BuffSentinel-0.9.56.zip, README, announce (+ Zip), 0.9.55 entfernt; auf origin/main nachgeprüft. addon_check OK (1 Warnung: Lua-Syntax
+  nicht geprüft, lupa fehlt). Gemeinsame Dateien byte-gleich. Offline-Routine (mit Fehler-Handler-Attrappe) auf der Zip: 8 × PASS.
+
+PUNKT 1 – T110 ScanPlayerAuras
+Ursache (Code, belegt mit Messung): je Aufruf neu angelegt –
+  a) Display.lua BS:ScanPlayerAuras: zwei Zwischentabellen (auras, info) und JE AURA eine Info-Tabelle;
+  b) AutoLearn.lua AutoScanAurasRun (läuft nach jedem Scan, auch ohne aktives Lernen): je Aura eine Tabelle {count, expires};
+  c) Recorder.lua RecordAuras (nur mit eingeschaltetem Recorder): je Scan eine neue Namens-Tabelle.
+  Dazu kommt Müll des SPIELS: C_UnitAuras.GetAuraDataByIndex liefert je Aura eine neue Tabelle (Forever hat kein UnitBuff, T80–T87).
+  Darum wächst der Wert mit der Zahl der Buffs (Priester 10: wenige Buffs, Krieger 24: mehr) – Verdacht des Supervisors bestätigt.
+Behebung: a) Zwischentabellen wiederverwendet, Info-Tabelle je Aurenname aus einem Pool (ab 60 Namen werden nicht anwesende freigegeben);
+  b) Einträge je Name wiederverwendet, weggefallene Namen entfernt; c) zwei Tabellen im Wechsel.
+Messung (Nachbau mit 15 Buffs und einer GetAuraDataByIndex-Attrappe, die wie das Spiel je Aura eine Tabelle mit 20 Feldern liefert,
+  je 5 × 20 Aufrufe, grösster Wert):
+  0.9.55: gesamt 18,91 KB je Aufruf = Spiel-Attrappe 12,89 + eigener 6,02 KB
+  0.9.56: gesamt 12,89 KB je Aufruf = Spiel-Attrappe 12,89 + eigener 0,00 KB
+  Die 12,89 KB der Attrappe sind NICHT der Spielwert (Tabellengrösse im Spiel unbekannt) – Verdacht, zu messen.
+T110 neu: misst den Anteil des Spiels getrennt (dieselben AuraByIndex-Aufrufe ohne eigene Arbeit) und gibt aus:
+  "ScanPlayerAuras x KB (davon Spiel-API y KB, eigener z KB, n Auren)". Grenze 2 KB gilt für den EIGENEN Anteil.
+  Begründung: den Müll der Spiel-API kann BuffSentinel nicht vermeiden (kein Lesen ohne Tabelle in Forever).
+  Falls die Prüf-Sitzung auch den Gesamtwert begrenzen will: Vorschlag, ScanPlayerAuras bei UNIT_AURA zu drosseln (höchstens alle 0,1 s) –
+  nicht umgesetzt, weil das die Anzeige verzögert; Entscheid erbeten.
+Im Spiel zu messen: T110-Zeile mit Spiel-API/eigener Anteil auf dem Krieger.
+
+PUNKT 2 – T34 Sperr-Werte (Locked/ShouldAurasBeSecret/Pause)
+- Der Testbericht des Laufs 09:43 (0.9.55) liegt noch NICHT im Repo (testberichte/berichte/BuffSentinel: neuester ist 0.9.54 vom 08:11;
+  status.md ebenso). Darum kann ich die Werte nicht nennen. Sobald der Uploader den Bericht ablegt, steht die Zeile im Ergebnis von T34.
+  Bitte die Zeile aus dem Ingametest 09:43 in offen-buffsentinel.txt übernehmen, falls der Supervisor sie hat.
+
+Belege (eigene Tests, keine Freigabe): run25m OK 202 (nur noch die bekannten Nachbau-FEHLER); Lua-5.1-Prüfer 49 023 Abgaben, 0 Verletzungen.
