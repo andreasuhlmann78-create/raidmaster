@@ -1,0 +1,75 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+
+Geplante Aufgabe "Blueposts", Nachlauf 18.11.2026 06:40 MEZ (05:40 UTC) auf Wunsch des Nutzers ("versuche es nochmals").
+Blizzard-Foren diesmal direkt lesbar (Discourse-JSON + HTML). Keine Schwere HOCH. Ein Hinweis MITTEL (AHSentinel, Marktdaten).
+
+NEUE BLUE-POSTS
+A) Kaivax, "Actions For Blackmaw Hold Abuse – November 17", 17.11.2026 18:38 UTC
+   https://us.forums.blizzard.com/en/wow/t/2419757  (EU: https://eu.forums.blizzard.com/en/wow/t/643759)
+   In eigenen Worten: Eine Gruppe nicht-elitärer Gegner in Blackmaw Hold liess fälschlich die volle Elite-Beute fallen
+   (früh am 16.11. per Hotfix behoben). Wer den Dungeon normal lief, hat nichts falsch gemacht. Einige hundert Spieler
+   farmten nur diese Gruppe: am 16.11. "economy lock" auf deren Accounts, am 17.11. wird alles damit verdiente Gold
+   entfernt (auch Gold aus dem Händlerverkauf der Beute), Account-Sperren für grobe Fälle. Kein Wort zu AH, Handel, Post,
+   Berufen oder Addons.
+
+B) Kaivax #12, "WoW: Forever Hotfixes – November 17, 2026", 18.11.2026 03:24 UTC (Thread 2403040, jetzt geschlossen;
+   EU-Fassung 639885 #11, 03:24 UTC)
+   https://us.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-17-2026/2403040/12
+   Direkt gelesen. Inhalt: Camping (Schlafsack nicht beritten), Klassen (Macht von Sturmwind / Segen des Kriegshäuptlings
+   enden immer beim Tod, nicht mehr auf Nicht-Spielern; Schamane: Schlaghagel verliert keine Stapel mehr durch
+   Windzorn-Totem-Angriffe), Obere Schwarzfelsspitze (Leben/Schaden der Gegner waren zu tief – jetzt volle Gruppe nötig),
+   Tausend Nadeln (2 Gegner-Fixes), Gegenstände (Night Watchman's Torch, Escape Plan, Whiteout/Crackling Staff gleiche
+   Werte, Soulforge-Rüstung Zaubermacht statt Stärke – Paladin-Tanks sollen Zaubermacht nutzen), Legacy ("Reagent
+   Economy" stoppt nicht mehr zufällig), PvP (Kriegshymnenschlucht kein Reittier im Startraum; Alteractal-Quests ab
+   Stufe 58), Berufe (siehe unten), Quests (mehrere Fixes, Agamaggan's Blood keine Dungeon-Quest mehr),
+   Oberfläche (Ignorierliste bleibt nach dem Ausloggen; UI-Fehler Meister-Schwert-/Axt-/Hammerschmied).
+
+AH-ÄNDERUNG (Mindest-Einzahlung 1c, Auktions-Post-Absender, Post-Lieferzeit 60 Min.): in den Hotfix-Listen 16.11. und
+17.11. NICHT erwähnt, kein Blue-Post "jetzt aktiv". Weiter nur angekündigt (Kaivax #7, 12.11.). Das EU-Datum ist im
+gelesenen Text nicht eindeutig belegt (US-Text: Wartung 17.11.; EU-Text: Zusammenfassung nennt 18.11., nicht wörtlich
+gelesen). -> Nach der EU-Wartung 18.11. in unseren Daten messen (AHSentinel MINDESTEINZAHLUNG / db.minDeposit).
+
+VORSCHLÄGE (Hinweise, Supervisor entscheidet, ob sie in offen-*.txt kommen)
+
+1) AHSentinel – Hinweis BP-2026-11-18-1 (MITTEL, Marktdaten)
+   Blackmaw-Hold-Fehler (bis früh 16.11.): ungewöhnlich viel Dungeon-Beute aus Blackmaw Hold kam in Umlauf (verkauft an
+   Händler, vermutlich auch ins AH – das AH nennt Blizzard nicht; Verdacht, zu messen). Preise und Mengen der Beute aus
+   Blackmaw Hold (Grüne/Blaue, BoE) zwischen Start und 16.11. können gedrückt/aufgebläht sein; nach dem Fix und der
+   Goldentfernung ist ein Rückprall möglich. Vorschlag: Für Blackmaw-Hold-Beute die Preisgeschichte bis 16.11. nicht als
+   Normalwert in Mittelwerte/Prognosen/Sniper-Schwellen übernehmen (markieren oder ausblenden), messen ob die Angebote
+   seit 16.11. sinken. Test T-BP-2026-11-18-1: Ausreisser-Zeitraum vor einem bekannten Exploit-Fix verfälscht den
+   Normalpreis nicht (Nachbau mit Marktdaten 14.11.). Keine Regel fest einbauen; Liste der Gegenstände erst messen.
+   Gehirn: markt-strategie.md (Erkenntnisse) – Eintrag "Exploit-Zeiträume als Ausreisser" vorschlagen.
+   Gold-Sicherheit/psychologie: kein Rat an Spieler, Fehler auszunutzen (Blizzard sperrt; Hinweis passt zu "helfen, nie
+   manipulieren").
+
+2) ProfessionSentinel / Rezeptdaten-Routine – Hinweis BP-2026-11-18-2 (NIEDRIG)
+   - "Orc-Kriegsgamaschen" (Orcish War Leggings, Rezept 9957): Belohnung der Quest "The Old Ways" jetzt über einen
+     Gegenstand; Ersatz bei Sumi (Schmiedehütte). Data_Forever.lua:495 Quelle {{id=7994}} – prüfen, ob Quelle/Hinweis
+     noch stimmt (Ersatz-NPC Sumi ergänzen?). Nur Datenpflege.
+   - "Bronzener Streitkolben" (Bronze Mace, Item 2848, Data_Forever.lua:71): jetzt beim Anlegen gebunden (BoE) statt
+     ungebunden. BoE bleibt im AH handelbar -> für Verkauf/Preise kein Einfluss.
+   - Goldene Schuppenstulpen (Data_Forever.lua:586) Handwerker-Auftrag: nur Abgabe-NPC repariert, kein Einfluss.
+   - Kräuterkunde: Kultivierung bei Maguskönigskraut repariert (mehr Ertrag möglich); Kürschnerei: einige Gegner nicht mehr
+     häutbar. Kein Code-Einfluss erwartet.
+
+3) BuffSentinel – Hinweis BP-2026-11-18-3 (NIEDRIG)
+   Macht von Sturmwind / Segen des Kriegshäuptlings enden jetzt beim Tod und liegen nicht mehr auf Nicht-Spielern;
+   Schamane Schlaghagel behält Stapel bei Windzorn-Totem-Angriffen. BuffSentinel 0.9.53 enthält keinen Bezug auf diese
+   Auren (grep: nur "flurry" in Data/Rogue.lua = Klingenwirbel des Schurken) -> kein Einfluss gefunden. Zu
+   BP-2026-11-13-1 (Messung Imbue + Totem): Messung nach diesem Hotfix machen.
+
+4) ThreatSentinel – Hinweis BP-2026-11-18-4 (NIEDRIG)
+   Soulforge-Rüstung (Tank-Dungeonset) jetzt Zaubermacht statt Stärke, Paladin-Tanks sollen auf Zaubermacht gehen.
+   Falls ThreatSentinel Bedrohung aus Werten schätzt: nur melden, wenn Werte auffällig abweichen. Kein Code gelesen
+   (Repo nicht im Zugriff dieses Laufs).
+
+5) LevelPilot – Hinweis BP-2026-11-18-5 (NIEDRIG)
+   Obere Schwarzfelsspitze jetzt deutlich schwerer (volle Gruppe nötig); Alteractal-Quests erst ab Stufe 58;
+   Agamaggan's Blood keine Dungeon-Quest mehr; diverse Quest-Fixes (Tausend Nadeln, Shen'dralar u. a.). Falls LevelPilot
+   UBRS-Läufe oder AV-Quests unter 58 empfiehlt: anpassen. LevelPilot 3.12.91 (grep): keine Treffer zu Upper Blackrock/
+   Alterac/Blackmaw -> vermutlich kein Einfluss.
+
+6) GuildSentinel / RaidMaster / Discord: nichts. (Ignorierliste bleibt nach Logout – Blizzard-UI, keine Addon-API.)
+
+Stand nachgeführt in research/blueposts-stand.md. Kein Eintrag in auftraege/, kein Log, keine Nachrichten (Regel 14.11.).
