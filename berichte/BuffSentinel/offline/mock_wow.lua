@@ -88,7 +88,12 @@ function IsResting() return RESTING end
 function GetZonePVPInfo() return nil end
 function UnitName(u) return ({player="Testselbst", party1="Testpartner", party2="Testzweiter"})[u] or u end
 function UnitLevel() return 60 end
-function geterrorhandler() return function() end end
+-- Attrappe Blizzard_ScriptErrors (Befund 18.11.: absichtlicher Testfehler öffnete das Fehlerfenster): jeder Aufruf des
+-- Fehler-Handlers des Spiels = ein Fehlerfenster beim Nutzer. run_offline.lua verlangt 0.
+ERRWIN_CALLS = 0
+local _errHandler = function() ERRWIN_CALLS = ERRWIN_CALLS + 1 end
+function geterrorhandler() return _errHandler end
+function seterrorhandler(h) _errHandler = h end
 function GetRealmName() return "WoWForever" end
 CLASS = CLASS or "WARRIOR"
 function UnitClass(u) if u == "player" then return "Krieger", CLASS end return "x", (u=="party1" and "PRIEST" or "MAGE") end
