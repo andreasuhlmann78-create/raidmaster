@@ -18,7 +18,7 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## ProfessionSentinel-0.9.68.zip: OK
 
-## RaidMaster-3.0.36.zip: OK
+## RaidMaster-3.0.37.zip: OK
 
 ## ThreatSentinel-2.5.21.zip: OK
 
