@@ -1,0 +1,103 @@
+BERICHT PROFESSIONSENTINEL AN DIE PRÜF-SITZUNG – VERSION 0.9.69 (Ingametest 0.9.68 vom 18.11. 08:46, Befund T148 08:55, Hinweis API.Pending 08:10)
+Stand: 18.11.2026 (Uhrzeit im Dateinamen) · Release v0.9.69 (Commit f220f75), Zip aus dem Release geladen, diff -r gegen die Quelle: gleich,
+addon_check: OK. Nur "umgesetzt, zur Prüfung" mit Belegen.
+
+KURZ – NACHBAU MIT ECHTEN DATEN (tests/nachbau_echt.py: echtes AHSentinel 0.65.343 + gespeicherte Daten des PCs, Ballast 150 MB)
+Neu im Nachbau: auch die OnUpdate-Bilder werden gemessen (GoldSentinelTakt treibt die Schritte über ein OnUpdate-Skript).
+                                     0.9.68             0.9.69 (3 Läufe)
+Forever Bilder über 40 ms            8                  4 / 3 / 3 (Median 3)
+Forever längstes Bild                147 ms (T81)       56 / 68 / 52 ms (T134, T246, T134)
+Forever Bilder über 16 ms            –                  24 / 26 / 22
+Retail Bilder über 40 ms             –                  5 (T83 82 ms – darin ein Bereinigungsschritt des Collectors 810->796 MB, T46 64, Aufwärmen 55, T81 55/40)
+FEHLER (Nachbau, Forever/Retail)     0                  0
+Offline (run_offline, eigene Attrappe): Forever 247 OK / 0 FEHLER, Era 228/0, Retail 226/0, TBC lädt; Fehlerfenster des Spiels 0.
+
+1. HOCH 1 – RUCKELN DER TESTROUTINE (umgesetzt, zur Prüfung)
+- Jeder Schritt (jede Fall-Funktion und jede WAIT-Fortsetzung) läuft als Aufgabe von GoldSentinelTakt (shared, unverändert kopiert, in allen
+  4 TOCs vor den eigenen Dateien). Budget 4 ms je Bild (TR.CASE_BUDGET_MS), Zeitlimit 600 s. Teilläufe (sync) und Clients ohne Takt wie bisher.
+- Abgabe-Stellen: UI.Yield und Jobs.Yield rufen ausserhalb ihrer eigenen Coroutine GoldSentinelTakt.Check (nur in Aufgaben DIESES Addons,
+  ns.TaktJob prüft owner). Prices.InPass nutzt in einer Takt-Aufgabe GoldSentinelTakt.Sliced (Memo nur je Portion, nie über Bilder).
+- pcall in den Fällen: in einer Takt-Aufgabe ist pcall einer Lua-Funktion GoldSentinelTakt.PCall (darf abgeben), C-Funktionen und kleine
+  Helfer (Children/Regions) bleiben beim normalen pcall. Belegt im Nachbau: T134 164 -> 52–56 ms, T210 74 -> 46–49 ms, T130 53 -> 23–42 ms.
+- Zeitmessungen in Fällen (Median3, Refresh, TodayCrafts) zählen nur die eigene Rechenzeit der Aufgabe (TR.OwnMs: Summe der Portionen),
+  nicht die Bilder dazwischen.
+- Nach einer gescheiterten Abgabe (pcall/sort im Stapel) prüft ns.TaktCheck im selben Bild nicht weiter (jede Prüfung las sonst den ganzen
+  Stapel neu: im Nachbau Teil von T134/T67 über 100 ms).
+- Aufbauten, die während des Laufs ein ZEITGEBER des Addons startet (nicht der Schritt selbst), laufen jetzt wie im Spiel in Portionen
+  (UI.SyncRefresh: ganz nur in der Takt-Aufgabe des Schritts). Beleg: T219 53 ms (Plan.lua -> Scan -> UI:Refresh) verschwunden.
+  Dazu S.Portioned: nach dem Aufbau wieder die normale Regel (vorher blieb "ganz" für den Rest des Falls stehen).
+- Zusammenfassung neu: "Teilschritte als GoldSentinelTakt-Aufgaben: n · Abgabe nicht möglich: n (T134 (pcall); …) · Abgabe gescheitert: n".
+  Offline Forever: 9515 Aufgaben, Abgabe nicht möglich 2 (T67, T134: pcall im Produkt – Alerts über Jobs/pcall), gescheitert 0.
+- Werkzeuge: nachbau_echt.py --overrun N (Stapel im Moment, in dem ein Bild N ms überschreitet), --profile N (Zeit je Stelle in Bildern
+  über 16 ms), --show T…; wowmock treibt OnUpdate-Skripte je 1/60 s, smoketest treibt den Takt ebenfalls.
+- VERBLEIBENDE Bilder über 40 ms (Nachbau Forever), mit Stelle (--overrun 14):
+  T134 52–56 ms: Fall "fehlerhaftes AHSentinel" – Diagnose-Einträge je Fehler (Diagnose.lua) in einem pcall von Alerts (Produkt) – Abgabe
+    dort nicht möglich, im Bericht genannt.
+  T210 46–49 ms: Plausibilitätsprüfungen von UICheck (Advisor.Plan/Prices) – Verdacht, zu messen: erste Aufrufe in AHSentinel je Item.
+  T246 36–68 ms / T243 26–45 ms: Aufbau-Portion des Fensters (Coroutine UI.lua:2806); darin zuletzt SetDataProvider (C, nicht teilbar) bzw.
+    einzelne Rezeptpreise > 10 ms (erste Abfrage je Item in AHSentinel, Befund E3).
+  Retail: die langen Bilder fallen mit Bereinigungsschritten des Garbage Collectors zusammen (Speicher sinkt im selben Bild, 1–1,8 GB
+  Lua-Speicher mit diesen Daten) – Verdacht, zu messen: im Spiel mit dem echten Speicherstand.
+
+2. HOCH 2 – T38 / AD.Update (gemessen)
+Nachbau mit echten Daten (grösster Beruf, 548 Rezepte, Rang 80), AD.Update am Stück:
+  echte Preise (AHSentinel): 81,7 ms beim ersten Aufruf, danach 16,6–18,2 ms; legt je Aufruf 1,3 MB an (erster 3,1 MB)
+  Test-Preise:               22,2 ms, danach 14,6–15,1 ms; 1,1 MB je Aufruf
+  -> über 16 ms. Im PRODUKT läuft AD.Update nur über UI:UpdateBest im Aufbau des Fensters (einziger Aufrufer: DoRefresh), und der Aufbau ist
+  im Spiel immer portioniert (UI.SyncRefresh ist ausserhalb der Testroutine false; Advisor-Schleifen geben über UI.Yield ab) – Beleg
+  Ingametest 0.9.68 T140: 5,9 ms je Portion. Eine eigene Hintergrund-Aufgabe ist daher nicht nötig. In der Testroutine läuft T38 jetzt
+  als Takt-Aufgabe: im Nachbau 24–36 ms (vorher 41); der Rest ist der erste Aufruf je Item in AHSentinel (Stapel endet in
+  Prices -> PriceSource -> AHSentinel, Befund E3).
+
+3. HOCH 3 / MITTEL 4 / 6 / 9 (seit dem Zwischenstand umgesetzt, zur Prüfung)
+- T244: Enumerate liefert (Index, Knoten) wie Zeile 501; Attrappe streng wie das Spiel.
+- T180/T32: Wegpunkte (LevelPilot, TomTom-Pfeil) über ns.Act("navigate", …).
+- T148 (Befund 08:55): kein echter ungefangener Fehler mehr; der Fall ruft den angemeldeten Abgriff von GoldSentinelTest mit der
+  Testmeldung (GT.Error), ohne den Handler des Spiels; run_offline zählt die Aufrufe des Fehlerfensters und wertet jeden als Fehler:
+  0 in allen Versionen ("Fehlerfenster des Spiels: 0 (durch absichtliche Testfehler: 0)").
+- API.Pending (Hinweis 08:10): Zeile "AHSentinel lädt noch" in der Preiszeile über API.Pending and API.Pending() (älteres AHSentinel: keine Zeile).
+
+4. MITTEL 5 – T219 "abgebrochener Aufbau läuft weiter": URSACHE BELEGT, DIE PRÜFUNG WAR FALSCH
+Die Prüfung verlangte nach dem Ersetzen des Aufbaus "kein offener Zeitgeber". Offline (Retail, mit portionierten Aufbauten) reproduziert:
+offen war genau 1 Zeitgeber, Today.lua:132 = TD.Invalidate (Vorwärmen von "Heute herstellen", 2 s später) – der Refresh in diesem Teil läuft
+mit SyncRefresh=false (wie im Spiel) und plant das Vorwärmen. Der alte Aufbau lief NICHT weiter (Portionen 1 -> 1, Aufbau läuft false).
+Neu geprüft: der ersetzte Aufbau läuft nie wieder – auch nach allen Zeitgebern 10 s später – und kein Aufbau bleibt hängen; die Meldung
+nennt jede Bedingung einzeln. Produkt unverändert.
+
+5. MITTEL 7 – T276 "keine Quellen-Symbole" (Verdacht, zu messen)
+Im Nachbau grün. Verdacht: die ersten 15 sichtbaren Zeilen des Berufs im Spiel haben keine Quelle mit Symbol ("automatisch gelernt" hat
+keines). Die Prüfung ist jetzt je Zeile genau: ein Symbol genau dann, wenn die Quelle eines hat (Lehrer, Händler, Händlergunst, Beute,
+Quest); sonst FEHLER mit Name, Quelle und Text der Zeile. Die alte Prüfung "mindestens ein Symbol" nur, wenn eine sichtbare Zeile eine
+solche Quelle hat. Der nächste Ingametest zeigt die Ursache.
+
+6. MITTEL 8 – SPEICHER (gemessen, Verdacht offen)
+Nachbau mit echten Daten, grösster Beruf, ein Refresh je Ansicht bei angehaltenem Collector (angelegt) und danach bereinigt (bleibend):
+  recipes 0,04 MB · ranking 0,10 · plan 0,07 · gold 0,19 · now 0,02 MB angelegt, bleibend +0,00 MB (je 4 Läufe gleich).
+  AD.Update allein (bei verworfenem Behalten): 1,1–1,3 MB je Aufruf.
+-> Im Nachbau kein Leck und wenig Abfall je Refresh. Die +67 MB / 20 Refreshes im Spiel (T145, ohne Bereinigung gemessen = mit Abfall)
+passen zu Neuberechnungen der Rangliste (AD.Update ~1,3 MB) plus Antworten von AHSentinel – Verdacht, zu messen: T145 zählt im Spiel
+mit GetAddOnMemoryUsage auch den Abfall, der in fremden Aufrufen für uns entsteht. Keine Tabellen-Wiederverwendung ohne Beleg eingebaut.
+
+7. SNIPER-SCHNÄPPCHEN (Fund im Nachbau)
+DE.SnipeDeals rief bei jedem Klick FindDeals von AHSentinel (55–67 ms in EINEM Bild, nicht teilbar). Jetzt zuerst API.DisenchantDeals
+(Liste von AHSentinel, nach jedem SCAN_FINISHED neu gerechnet – Schnäppchen ändern sich nur mit einem Scan), nur ohne diese Liste die
+eigene Suche wie bisher. Gold-Sicherheit: FreshPrices bleibt am Anfang des Klicks; eigene Behalte-Speicher werden nicht gelesen.
+Bitte prüfen, ob die Liste von AHSentinel für den Klick frisch genug ist (Vertrag: "bis zum nächsten Scan").
+
+7b. HINWEIS 10:30 – NACHBAU WIE FOREVER (geprüft)
+(1) Suche im eigenen Code (ohne die gemeinsamen Dateien) nach nackten Aufrufen von GetItemInfo, GetItemInfoInstant, UnitBuff, UnitDebuff,
+    UnitAura, GetSpellInfo, GetItemCount, GetContainer*, GetItemIcon, GetAddOnMemoryUsage, IsAddOnLoaded, GetAddOnInfo, GetMerchantItemInfo
+    (auch _G.…): 0 Treffer ausserhalb der Weiche. Alle Aufrufe laufen über ns.API (C_Item/C_AddOns zuerst); einzige _G-Stelle:
+    PriceSource.lua:226 "(C_AddOns and C_AddOns.IsAddOnLoaded) or _G.IsAddOnLoaded" – global nur, wenn C_AddOns fehlt.
+(2) Nachbildung (tests/wowmock.lua): Forever bietet nur C_Item.GetItemInfo/GetItemInfoInstant/GetItemCount und C_AddOns.*; die globalen
+    GetItemInfo/GetItemIcon/GetItemCount gibt es nur in Era/TBC, GetAddOnMetadata/IsAddOnLoaded/GetAddOnMemoryUsage nur in Era – schon so.
+    Offen (Verdacht, zu messen): ob UpdateAddOnMemoryUsage im Forever-Client 1.60.1 global vorhanden ist – die Routine ruft es nur
+    über pcall und fällt sonst auf den Lua-Speicher zurück.
+
+8. NOCH OFFEN
+- Bilder über 40 ms im Nachbau: T134, T210, T246/T243 (siehe 1), Retail GC-Schritte.
+- TR-ALLE Nachtrag D – nicht begonnen.
+- Ziel Dauer ≤ 300 s: Nachbau-Lauf mit Takt länger in Bildern (viele Teilschritte zu je ≥ 1 Bild) – im Spiel messen.
+
+Tests vor der Veröffentlichung: run_offline Forever/Era/Retail 0 FEHLER (TBC lädt), Nachbau echt Forever 3 Läufe + Retail 0 FEHLER,
+smoketest, check_actions OK, yield_check (4 Versionen) OK, Locale-Schlüssel 551, test_qloader OK, gemeinsame Dateien = shared (cmp).
