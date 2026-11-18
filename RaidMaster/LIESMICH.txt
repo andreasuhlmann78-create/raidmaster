@@ -11,6 +11,13 @@ INSTALLATION
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
 
+NEU IN 3.0.40 – Einstellungen für alle Spieler
+- Jeder Spieler kommt jetzt an seine persönlichen Einstellungen (Minimap-Knopf, Infos im Item-Tooltip, Erstkill-Feier,
+  Marktdaten teilen, Befehlsliste, Screenshot beim Erstkill): /rm > Einstellungen > Allgemein. Vorher nur Offiziere.
+- Neu: /rm optionen (auch /rm config) öffnet die Einstellungen; im Spiel unter Esc > Optionen > AddOns > RaidMaster der
+  Knopf "Optionen öffnen".
+- Nichts, was ein Spieler braucht, geht nur über Test- oder Entwicklerbefehle.
+
 NEU IN 3.0.39
 - Kurze Namen im Optionen-Fenster auch auf Englisch, Französisch, Spanisch, Italienisch, Portugiesisch und Russisch (höchstens 28
   Zeichen). Die Suche findet eine Option auch über ihren internen Namen (z. B. "pullseconds").

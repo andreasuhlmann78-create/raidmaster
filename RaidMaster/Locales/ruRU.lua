@@ -889,3 +889,7 @@ L["Symbole & Leisten …"] = "Метки и панели …"
 L["Auto-Scan …"] = "Автоскан …"
 L["Bank-Charakter …"] = "Персонаж-банк …"
 L["Zeigt den RaidMaster-Knopf an der Minimap. Aus = ausgeblendet (öffnen dann mit /rm)."] = "Показывает кнопку RaidMaster у миникарты. Выкл = скрыта (открывать через /rm)."
+-- 3.0.40: Spieler ohne Testbefehle
+L["Einstellungen öffnen"] = "Открыть настройки"
+L["Optionen öffnen"] = "Открыть параметры"
+L["Alle Einstellungen von RaidMaster stehen im eigenen Fenster (auch: /rm optionen)."] = "Все настройки RaidMaster – в его собственном окне (также: /rm options)."

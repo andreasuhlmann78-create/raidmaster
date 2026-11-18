@@ -120,6 +120,20 @@ if os.getenv("OPTRESETALL") == "1" then
 	local orig = RM.Opt.ResetArea
 	RM.Opt.ResetArea = function(id) local r = orig(id); RM.db.config.welcome = true; return r end
 end
+-- 3.0.40 Gegenproben T195 (Spieler ohne Testbefehle):
+--  PLAYERLEADER=1: Minimap-Knopf-Option wieder nur für Offiziere        -> FEHLER
+--  NOPANEL=1:      nicht im Einstellungsfenster des Spiels angemeldet     -> FEHLER
+--  CMDDEV=1:       Befehl "bereit" nur für Entwickler                     -> FEHLER
+if os.getenv("PLAYERLEADER") == "1" then
+	for _, d in ipairs(RM.Opt.DEFS) do if d.key == "minimap.hide" then d.access = "leader" end end
+end
+if os.getenv("NOPANEL") == "1" then
+	RM.Opt.gamePanelWay = nil
+	RM.Opt.RegisterGamePanel = function() return RM.Opt.gamePanel end
+end
+if os.getenv("CMDDEV") == "1" then
+	for _, c in ipairs(RM.COMMANDS) do if c[1] == "bereit" then c.dev = true end end
+end
 local R = RM.TestRoutine
 local only = ROUTINE_AREA or os.getenv("AREA")
 R.Run(only)

@@ -4,10 +4,10 @@ Raid-Werkzeuge für die Gilde auf **WoW Forever**.
 
 ## Download Addon
 
-**Aktuelle Version: [RaidMaster-3.0.39.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/RaidMaster-3.0.39.zip)**
+**Aktuelle Version: [RaidMaster-3.0.40.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/RaidMaster-3.0.40.zip)**
 (immer die neueste: [RaidMaster-latest.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/RaidMaster-latest.zip))
 
-**Test-Werkzeug für die Raidleitung:** in RaidMaster eingebaut (ab 2.1.0) – Knopf „Test“ oben im RaidMaster-Fenster oder `/rmtest`. Den alten Ordner `RaidMasterTest` bitte löschen.
+**Einstellungen:** `/rm` > Einstellungen, `/rm optionen` oder Esc > Optionen > AddOns > RaidMaster („Optionen öffnen“). Das Test-Werkzeug ist seit 3.0.6 nur für den Entwickler; den alten Ordner `RaidMasterTest` bitte löschen.
 
 **☕ Addon unterstützen:** RaidMaster ist kostenlos und entsteht in meiner Freizeit. Wer mag: **[mit PayPal spenden](https://www.paypal.com/ncp/payment/46R68N2BF7BTY)** – im Spiel Knopf „Unterstützen“ oben im Fenster oder `/rm spenden`. Danke!
 

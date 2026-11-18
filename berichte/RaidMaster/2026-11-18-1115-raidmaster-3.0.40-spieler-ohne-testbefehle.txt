@@ -1,0 +1,48 @@
+BERICHT RAIDMASTER AN DIE PRÜF-SITZUNG
+Stand: 18.11.2026 11:15 (aus date) · Sitzung: RaidMaster-Projekt-Sitzung · Version: Addon 3.0.40 (Uploader unverändert 2.3.14)
+Commit: dieser Push · Bezug: offen-raidmaster.txt "HINWEIS 18.11.2026 11:15 – SPIELER OHNE TESTBEFEHLE" (c9adcbc7),
+auftraege/hinweis-spieler-ohne-testbefehle-2026-11-18.txt; Prüfung 3.0.38/3.0.39 (b5402282) zur Kenntnis genommen
+Status: umgesetzt, zur Prüfung.
+
+1. LISTE: Spieler-Funktionen und ihr normaler Weg (vorher -> jetzt)
+   - Hauptfenster: /rm, /raidmaster, Minimap-Linksklick (unverändert).
+   - Markierungsleiste: Minimap-Rechtsklick, /rm bar, Einstellungen > Symbole & Leisten (unverändert).
+   - Seiten (DKP, Versteigerung, Loot, Raid, Anmeldungen, Gruppen, Einteilung, Bosse & Symbole, PUG, Werbung, Skillungen, Gildenbank,
+     Discord-Anleitung): Navigation im Fenster, Rechte wie bisher (unverändert).
+   - Diagnose: Knopf "Diagnose" in der Titelleiste, /rm diag; Lücken: Knopf "Lücken füllen …" (Anmeldungen), /rm lücken; Anleitung:
+     Reiter Discord-Anleitung, /rm anleitung; Unterstützen: Titelleiste, Einstellungen > Allgemein, /rm spenden (unverändert).
+   - EINSTELLUNGEN: FEHLTE für Mitglieder – die persönlichen Optionen (Minimap-Knopf, Infos im Item-Tooltip, Erstkill-Feier & Bestzeiten,
+     Marktdaten teilen, Befehlsliste beim Tippen, Screenshot beim Erstkill, Addon unterstützen) standen nur auf der Offiziers-Seite.
+     Mitglieder kamen nur per Befehl an zwei davon (/rm minimap, /rm befehlsliste). JETZT: für jeden Spieler unter /rm > Einstellungen >
+     Allgemein (access "all"); Mitglieder sehen genau diesen einen Bereich. Gilden-, Beute- und Raid-Optionen: Rechte wie bisher.
+   - NEU: /rm optionen (auch options, einstellungen, config, settings) öffnet die Einstellungen; Einstellungsfenster des Spiels
+     (Esc > Optionen > AddOns > RaidMaster) mit Knopf "Optionen öffnen" (Settings-API, sonst InterfaceOptions_AddCategory).
+   - Befehle: alle /rm-Befehle ausser "test", "testroutine", "prüfliste" sind ohne Entwicklermodus da (Befehlsliste beim Tippen
+     zeigt dieselben). Diese drei sind Entwickler-Werkzeuge – kein Spieler braucht sie.
+2. Texte mit Test-/Entwicklerbefehlen für Spieler: im Addon keine (gesucht in allen L["…"]: /rmtest, testroutine, prüfliste, /gsdev,
+   Testmodus – die Treffer stehen nur in Test-Werkzeug-Fenstern, im Testmodus oder nach RM.RequireDev, also nur beim Entwickler).
+   Umgeschrieben: README.md (Repo) nannte "Test-Werkzeug für die Raidleitung … /rmtest" – jetzt die Wege zu den Einstellungen und
+   "Test-Werkzeug seit 3.0.6 nur für den Entwickler". LIESMICH-Abschnitte zur Testroutine sind als "Nur Entwickler" bezeichnet.
+   Prüflisten-Punkt OPT führt über /rm > Einstellungen (normaler Weg).
+3. TEST T195 (Bereich J, Regressionsblock): als normales Raidmitglied mit AUSGESCHALTETEM Entwicklermodus (GoldSentinelDev.IsDev ->
+   false): /rm öffnet; Minimap links schliesst/öffnet, rechts schaltet die Leiste; Mitglied sieht Einstellungen mit nur "Allgemein" und
+   allen 6 persönlichen Optionen; /rm optionen öffnet Allgemein; Spiel-Einstellungsfenster angemeldet, "Optionen öffnen" öffnet die
+   Einstellungen; Entwickler-Befehle genau prüfliste, test, testroutine; jeder andere Befehl auffindbar.
+   Ergebnis: "ohne Entwicklermodus als Mitglied: /rm, Minimap links/rechts, /rm optionen, Einstellungsfenster des Spiels (Settings),
+   6 persönliche Optionen; Entwickler-Befehle nur prüfliste, test, testroutine".
+   Gegenproben (run_routine.lua): PLAYERLEADER=1 (Minimap-Option nur Offiziere) -> FEHLER "minimap.hide für Mitglied nicht da";
+   NOPANEL=1 -> FEHLER "nicht im Einstellungsfenster des Spiels angemeldet"; CMDDEV=1 ("bereit" nur Entwickler) -> FEHLER
+   "Entwickler-Befehle: bereit,prüfliste,test,testroutine".
+   Angepasst: T12 (Mitglied sieht jetzt die Einstellungen – nur Allgemein), T194 (4 Optionen bewusst für alle geöffnet: "all").
+   Nachbildung: Settings-API wie in Era/Forever (Kategorie für AddOns), HideUIPanel.
+
+EIGENE TESTS (Hinweise, keine Freigabe) – Nachbildung berichte/RaidMaster/offline:
+- Forever, Era ALLE OK; enUS, ruRU, zhCN, frFR ALLE OK; STOPAT 1/60 ALLE OK; echte Daten (Desktop Forever/Era, Laptop Forever) ALLE OK;
+  längstes Bild 1,6–5,0 ms (STOPAT 60: 5,0 ms T84), über 5 ms: 0.
+- Lua-Syntax (Lua 5.1, alle Dateien) ohne Fehler. Gemeinsame Dateien cmp gleich mit shared/.
+- Locales: 3 neue Texte in allen 10 Sprachen. CHANGELOG LIESMICH/README_EN "NEU IN 3.0.40"; Discord-Updates "3.0.38 – 3.0.40"
+  (ältester Eintrag 3.0.20–3.0.26 entfernt, 1629 Zeichen).
+- addon_check download/RaidMaster-3.0.40.zip: "RaidMaster-3.0.40.zip: OK", kein FEHLER, keine WARNUNG (EXIT 0).
+
+FÜR DEN NUTZER (nach Prüfung): Bot /update -> RaidMaster 3.0.40, /reload; dann Esc > Optionen > AddOns > RaidMaster > "Optionen öffnen"
+oder /rm optionen.

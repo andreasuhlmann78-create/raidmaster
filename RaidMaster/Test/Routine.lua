@@ -733,9 +733,11 @@ local function AreaB(t, G)
 				end
 			end
 			if errors > 0 then return false, errors .. " Fehler, zuerst " .. tostring(first), "0" end
-			for _, id in ipairs({ "settings", "assign", "signup" }) do
+			for _, id in ipairs({ "assign", "signup" }) do
 				if seen.member[id] then return false, "Mitglied sieht " .. id, "nicht sichtbar" end
 			end
+			-- 3.0.40 (Entscheid 18.11. 11:10): Mitglieder sehen die Einstellungen – aber nur den Bereich Allgemein (persönliche Optionen)
+			if not seen.member.settings then return false, "Mitglied sieht die Einstellungen nicht", "sichtbar (Allgemein)" end
 			return true, Count(seen.raidlead) .. " Seiten (Raidleiter), " .. Count(seen.member) .. " (Mitglied)"
 		end, function()
 			Undo(u)
@@ -3369,8 +3371,8 @@ local function AreaJ(t, G)
 		{ "settings.officerRank", "settings" }, { "settings.firstKillDouble", "settings" }, { "settings.antiSnipe", "settings" },
 		{ "settings.allowNegative", "settings" }, { "settings.onlyOnline", "settings" }, { "settings.standbyGetsDKP", "settings" },
 		{ "settings.mainBeforeTwink", "settings" }, { "settings.autoDecay", "raid", officer = true },
-		{ "minimap.hide", "settings" }, { "itemTooltip", "settings" }, { "bankScan", "settings+bank" }, { "records", "settings" },
-		{ "marktTeilen", "settings" },
+		{ "minimap.hide", "settings", all = true }, { "itemTooltip", "settings", all = true }, { "bankScan", "settings+bank" }, { "records", "settings", all = true },
+		{ "marktTeilen", "settings", all = true },
 		{ "rules.epic", "loot" }, { "rules.blue", "loot" }, { "rules.recipe", "loot" }, { "rules.mats", "loot" }, { "fallback", "loot" },
 		{ "bankChar", "loot" }, { "deChar", "loot" }, { "crafterChar", "loot" }, { "lootMaster", "loot" }, { "lootThreshold", "loot" },
 		{ "autoLoot", "loot" }, { "setLootOnStart", "loot" }, { "autoDistribute", "loot" }, { "announceLoot", "loot" },
@@ -3427,8 +3429,8 @@ local function AreaJ(t, G)
 		return Guard(function()
 			-- (a) n alt = n neu, jede Option genau einmal
 			local count, oldPage = {}, {}
-			local officerOnly = {}
-			for _, o in ipairs(OPT_OLD) do oldPage[o[1]] = o[2] or false; officerOnly[o[1]] = o.officer end
+			local officerOnly, forAll = {}, {}
+			for _, o in ipairs(OPT_OLD) do oldPage[o[1]] = o[2] or false; officerOnly[o[1]] = o.officer; forAll[o[1]] = o.all end
 			local nNew = 0
 			for _, d in ipairs(O.DEFS) do
 				if d.key then
@@ -3451,7 +3453,8 @@ local function AreaJ(t, G)
 					if pg then
 						-- officer: Schalter war für alle der Seite sichtbar, schalten durften nur Offiziere (NeedOfficer) -> wer
 						-- ihn bedienen konnte, sieht ihn jetzt (autoDecay auf der Seite Raid)
-						local want = OldVisible(pg) and not (d.cond and not d.cond()) and (not officerOnly[d.key] or RM.UI.AccessOK("leader"))
+						-- all: 3.0.40 bewusst für alle Spieler geöffnet (Entscheid 18.11. 11:10 – persönliche Optionen braucht jeder)
+						local want = (forAll[d.key] or OldVisible(pg)) and not (d.cond and not d.cond()) and (not officerOnly[d.key] or RM.UI.AccessOK("leader"))
 						if O.Visible(d) ~= want then Bad(role .. "/" .. d.key .. " sichtbar " .. tostring(O.Visible(d)) .. " (vorher " .. tostring(want) .. ")") end
 					end
 				end
@@ -3572,6 +3575,97 @@ local function AreaJ(t, G)
 			if UI.main then
 				if wasPage then pcall(UI.ShowPage, wasPage) end
 				if not wasShown then UI.main:Hide() end
+			end
+		end)
+	end)
+
+	-- 3.0.40 (Entscheid des Nutzers 18.11. 11:10, auftraege/hinweis-spieler-ohne-testbefehle): jede Spieler-Funktion ist OHNE
+	-- Entwicklermodus über den normalen Weg erreichbar (Minimap, Fenster, /rm …, Einstellungsfenster des Spiels). Geprüft als normales
+	-- Raidmitglied mit ausgeschaltetem Entwicklermodus (GoldSentinelDev.IsDev -> false).
+	R.PLAYER_WAYS = {
+		"Hauptfenster: /rm und Minimap-Linksklick", "Markierungsleiste: Minimap-Rechtsklick und /rm bar",
+		"Einstellungen (Allgemein): /rm optionen, Einstellungsfenster des Spiels (Knopf 'Optionen öffnen'), Seite Einstellungen",
+		"Persönliche Optionen für jeden: Minimap-Knopf, Item-Tooltip, Erstkill-Feier, Marktdaten, Befehlsliste, Screenshot, Unterstützen",
+		"Alle /rm-Befehle ausser test, testroutine, prüfliste (Entwickler)",
+	}
+	AsyncCheck(t, "T195", "J", "Spieler-Funktionen ohne Entwicklermodus erreichbar (normaler Weg)", function()
+		local O, UI, T = RM.Opt, RM.UI, RM.Test
+		local GD = _G.GoldSentinelDev
+		if not (O and UI.OpenOptions and GD) then return false, "Options.lua/GoldSentinelDev fehlt", "vorhanden" end
+		local u, bad = {}, {}
+		local function Bad(x) if #bad < 10 then bad[#bad + 1] = x end end
+		local wasShown = Shown(MainFrame())
+		local wasPage = UI.main and UI.main.current
+		local bar0 = RM.db.config.markerBar
+		return Guard(function()
+			Swap(u, GD, "IsDev", function() return false end)
+			if RM.IsDev() then return false, "Entwicklermodus liess sich nicht ausschalten", "aus" end
+			Swap(u, T, "role", "member")
+			-- Hauptfenster: /rm
+			if Shown(MainFrame()) then UI.Toggle() end
+			SlashCmdList["RAIDMASTER"]("")
+			if not Shown(MainFrame()) then Bad("/rm öffnet das Fenster nicht") end
+			R.Breathe(R.PRE_MS)
+			-- Minimap: Linksklick schliesst/öffnet, Rechtsklick Markierungsleiste
+			local mm = _G.RaidMasterMinimapButton
+			local click = mm and mm.GetScript and mm:GetScript("OnClick")
+			if type(click) ~= "function" then Bad("Minimap-Knopf ohne Klick")
+			else
+				click(mm, "LeftButton")
+				if Shown(MainFrame()) then Bad("Minimap-Linksklick schliesst nicht") end
+				click(mm, "LeftButton")
+				if not Shown(MainFrame()) then Bad("Minimap-Linksklick öffnet nicht") end
+				local b0 = RM.db.config.markerBar
+				click(mm, "RightButton")
+				if RM.db.config.markerBar == b0 then Bad("Minimap-Rechtsklick schaltet die Leiste nicht") end
+				RM.db.config.markerBar = bar0
+			end
+			R.Breathe(R.PRE_MS)
+			-- Einstellungen als Mitglied: nur Allgemein, mit allen persönlichen Optionen
+			if not UI.CanSeePage("settings") then Bad("Mitglied sieht die Einstellungen nicht") end
+			for _, a in ipairs(O.AREAS) do
+				if O.AreaVisible(a) ~= (a.id == "allgemein") then Bad("Bereich " .. a.id .. (O.AreaVisible(a) and " sichtbar" or " fehlt")) end
+			end
+			local need = { "minimap.hide", "itemTooltip", "records", "marktTeilen", "cmdHint", "firstKillScreenshot" }
+			for _, key in ipairs(need) do
+				local found
+				for _, d in ipairs(O.DEFS) do if d.key == key then found = d end end
+				if not (found and O.Visible(found)) then Bad(key .. " für Mitglied nicht da") end
+			end
+			-- /rm optionen
+			UI.ShowPage("dkp")
+			SlashCmdList["RAIDMASTER"]("optionen")
+			if not (UI.main and UI.main.current == "settings" and O.current == "allgemein") then Bad("/rm optionen öffnet nicht Allgemein") end
+			R.Breathe(R.PRE_MS)
+			-- Einstellungsfenster des Spiels: angemeldet, Knopf öffnet die Optionen
+			local panel = O.gamePanel or O.RegisterGamePanel()
+			if not O.gamePanelWay then Bad("nicht im Einstellungsfenster des Spiels angemeldet")
+			else
+				UI.ShowPage("dkp")
+				local oc = panel.openButton and panel.openButton:GetScript("OnClick")
+				if type(oc) ~= "function" then Bad("Knopf 'Optionen öffnen' fehlt") else
+					oc(panel.openButton, "LeftButton")
+					if not (UI.main and UI.main.current == "settings") then Bad("'Optionen öffnen' öffnet nicht die Einstellungen") end
+				end
+			end
+			-- Befehle: nur test, testroutine, prüfliste sind Entwickler-Befehle; jeder andere ist ohne Entwickler da
+			local devCmds = {}
+			for _, c in ipairs(RM.COMMANDS) do
+				if c.dev then devCmds[#devCmds + 1] = c[1] end
+				local w = (c.words and c.words[1]) or c[1]:match("^(%S+)")
+				if not c.dev and RM.FindCommand(w) ~= c then Bad("Befehl " .. c[1] .. " nicht erreichbar") end
+			end
+			table.sort(devCmds)
+			if table.concat(devCmds, ",") ~= "prüfliste,test,testroutine" then Bad("Entwickler-Befehle: " .. table.concat(devCmds, ",")) end
+			if #bad > 0 then return false, table.concat(bad, " | "), "alles ohne Entwicklermodus erreichbar" end
+			return true, string.format("ohne Entwicklermodus als Mitglied: /rm, Minimap links/rechts, /rm optionen, Einstellungsfenster des Spiels (%s), %d persönliche Optionen; Entwickler-Befehle nur %s",
+				tostring(O.gamePanelWay), #need, table.concat(devCmds, ", "))
+		end, function()
+			Undo(u)
+			RM.db.config.markerBar = bar0
+			if UI.main then
+				if wasPage then pcall(UI.ShowPage, wasPage) end
+				if Shown(MainFrame()) ~= wasShown then pcall(UI.Toggle) end
 			end
 		end)
 	end)
@@ -4225,7 +4319,7 @@ local function AreaL(t, G)
 			{ "Prüfliste im Spiel", "T185" }, { "RM-DIAG-1 Fehlerflut", "T186" },
 			{ "RM-DIAG-1 Fehlerquellen", "T187" }, { "RM-API-RAIDS", "T188" },
 			{ "TR-ALLE Sicherung", "T189" }, { "Tooltip-Platzierung (Ingame T155)", "T190" }, { "HUD-Ausnahme (Ingame T156)", "T191" }, { "Beschriftungen passen (Ingame T158)", "T192" }, { "Testdaten nie für andere Addons", "T193" },
-			{ "OPT-ALLE Optionen-Fenster", "T194" },
+			{ "OPT-ALLE Optionen-Fenster", "T194" }, { "Spieler ohne Testbefehle", "T195" },
 			{ "RM-TF-1 kein Fehlerfenster", "T120" }, { "T-BL4 echtes Eingabefeld", "T169" } }
 		local only = R.only
 		local have, missing = 0, {}

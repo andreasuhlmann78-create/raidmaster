@@ -120,7 +120,10 @@ local function SToggle(area, key, label, tip, extra)
 end
 
 -- Allgemein ---------------------------------------------------------------
-Def("allgemein", { kind = "toggle", key = "minimap.hide", invert = true, label = L["Minimap-Knopf"], access = "leader",
+-- 3.0.40 (Entscheid des Nutzers 18.11. 11:10, Hinweis "Spieler ohne Testbefehle"): die persönlichen Optionen (Minimap-Knopf,
+-- Item-Tooltip, Erstkill-Feier, Marktdaten, Befehlsliste, Screenshot, Unterstützen) braucht JEDER Spieler – darum für alle ("all").
+-- Vorher nur auf der Offiziers-Seite Einstellungen (Mitglieder kamen nur per /rm minimap bzw. /rm befehlsliste an zwei davon).
+Def("allgemein", { kind = "toggle", key = "minimap.hide", invert = true, label = L["Minimap-Knopf"], access = "all",
 	tip = L["Zeigt den RaidMaster-Knopf an der Minimap. Aus = ausgeblendet (öffnen dann mit /rm)."],
 	get = function() return C().minimap.hide and true or false end,
 	set = function(v)
@@ -130,27 +133,27 @@ Def("allgemein", { kind = "toggle", key = "minimap.hide", invert = true, label =
 	end })
 CToggle("allgemein", "itemTooltip", L["Infos im Item-Tooltip"],
 	L["Item-Tooltip ergänzen (Droprate, letzter Preis)"] .. "\n" .. L["Zeigt im Item-Tooltip, wie oft das Item bei euch gedroppt ist und wofür es zuletzt versteigert wurde."],
-	"leader", { on = true })
+	"all", { on = true })
 CToggle("allgemein", "records", L["Erstkill-Feier & Bestzeiten"],
-	L["Erstkill: Fanfare, Schlachtzugwarnung und Screenshot für Discord. Bestzeiten: 'Neuer Rekord!' bei schnelleren Kills."], "leader", { on = true })
-Def("allgemein", { kind = "toggle", key = "marktTeilen", label = L["Marktdaten teilen"], access = "leader",
+	L["Erstkill: Fanfare, Schlachtzugwarnung und Screenshot für Discord. Bestzeiten: 'Neuer Rekord!' bei schnelleren Kills."], "all", { on = true })
+Def("allgemein", { kind = "toggle", key = "marktTeilen", label = L["Marktdaten teilen"], access = "all",
 	tip = L["Marktdaten teilen (anonym, nur Preise)"] .. "\n" .. L["Liest Auktionshaus-Scans mit, die ohnehin gemacht werden (z. B. von AHSentinel), und teilt nur Preise und Mengen – ohne Namen. Aus = nichts lesen, nichts senden."],
 	get = function() return C().marktTeilen ~= false end,
 	set = function(v) RM.MarktShareFromUI(v and true or false) end })
 CToggle("allgemein", "bankScan", L["Bank-Charakter"],
 	L["Bank-Charakter (Bestand an Discord)"] .. "\n" .. L["Beim Öffnen von Bank, Briefkasten (und Gildenbank, falls vorhanden) liest RaidMaster den Bestand aus.\nDer Uploader schickt ihn an Discord (#gildenbank, /bank).\nAuf diesem Charakter erscheint dann der Bereich Gildenbank."],
 	"leaderbank", { after = function() if UI.UpdateNav then UI.UpdateNav() end end })
-Def("allgemein", { kind = "toggle", key = "cmdHint", label = L["Befehlsliste beim Tippen"], access = "leader", def = true,
+Def("allgemein", { kind = "toggle", key = "cmdHint", label = L["Befehlsliste beim Tippen"], access = "all", def = true,
 	tip = L["Tippst du /rm in den Chat, zeigt eine Liste die passenden Befehle (auch: /rm befehlsliste)."],
 	get = function() return C().cmdHint ~= false end,
 	set = function(v)
 		C().cmdHint = v and true or false
 		if not v and RM.CmdHint and RM.CmdHint.Hide then RM.CmdHint:Hide() end
 	end })
-Def("allgemein", { kind = "donate", label = L["Addon unterstützen"], access = "leader",
+Def("allgemein", { kind = "donate", label = L["Addon unterstützen"], access = "all",
 	tip = L["Öffnet das Fenster zum Unterstützen (PayPal) – nur auf Klick."] })
 CToggle("allgemein", "firstKillScreenshot", L["Screenshot beim Erstkill"],
-	L["Beim Erstkill macht RaidMaster einen Screenshot; der Uploader schickt ihn an Discord (#ruhmeshalle)."], "leader", { on = true, more = true })
+	L["Beim Erstkill macht RaidMaster einen Screenshot; der Uploader schickt ihn an Discord (#ruhmeshalle)."], "all", { on = true, more = true })
 
 -- DKP-Vergabe (Gilde) ------------------------------------------------------
 local function Max0(v) return math.max(0, v) end
@@ -845,11 +848,41 @@ function O.Build(p)
 	end
 end
 
+-- 3.0.40: Einstellungsfenster des Spiels (Esc > Optionen > AddOns > RaidMaster) mit Knopf "Optionen öffnen" – normaler Weg für
+-- Spieler, die RaidMaster dort suchen. Moderne API (Settings, Era/Forever) zuerst, sonst die alte (InterfaceOptions_AddCategory).
+function O.RegisterGamePanel()
+	if O.gamePanel then return O.gamePanel end
+	local panel = CreateFrame("Frame")
+	panel.name = "RaidMaster"
+	local title = UI.Text(panel, "RaidMaster", 16, COLORS.accent[1], COLORS.accent[2], COLORS.accent[3])
+	title:SetPoint("TOPLEFT", panel, "TOPLEFT", 16, -16)
+	local text = UI.Text(panel, L["Alle Einstellungen von RaidMaster stehen im eigenen Fenster (auch: /rm optionen)."], 12)
+	text:SetPoint("TOPLEFT", panel, "TOPLEFT", 16, -42)
+	text:SetWidth(520)
+	local btn = UI.Button(panel, L["Optionen öffnen"], 180, 26, function()
+		if SettingsPanel and SettingsPanel.IsShown and SettingsPanel:IsShown() and HideUIPanel then HideUIPanel(SettingsPanel) end
+		if InterfaceOptionsFrame and InterfaceOptionsFrame.IsShown and InterfaceOptionsFrame:IsShown() and HideUIPanel then HideUIPanel(InterfaceOptionsFrame) end
+		UI.OpenOptions("allgemein")
+	end)
+	btn:SetPoint("TOPLEFT", panel, "TOPLEFT", 16, -72)
+	panel.openButton = btn
+	if Settings and Settings.RegisterCanvasLayoutCategory and Settings.RegisterAddOnCategory then
+		local ok, cat = pcall(Settings.RegisterCanvasLayoutCategory, panel, "RaidMaster")
+		if ok and cat then pcall(Settings.RegisterAddOnCategory, cat); O.gameCategory = cat; O.gamePanelWay = "Settings" end
+	elseif InterfaceOptions_AddCategory then
+		pcall(InterfaceOptions_AddCategory, panel)
+		O.gamePanelWay = "InterfaceOptions"
+	end
+	O.gamePanel = panel
+	return panel
+end
+RM.On("PLAYER_LOGIN", function() pcall(O.RegisterGamePanel) end)
+
 -- Optionen-Knopf für die Seiten: öffnet den passenden Bereich
 function UI.OpenOptions(areaId)
 	O.pendingArea = areaId
 	UI.Open("settings")
-	if page then O.Select(areaId) end
+	if page then O.Select(areaId or O.current) end
 	O.pendingArea = nil
 end
 

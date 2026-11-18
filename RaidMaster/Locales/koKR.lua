@@ -891,3 +891,7 @@ L["Symbole & Leisten …"] = "징표 및 바 …"
 L["Auto-Scan …"] = "자동 검색 …"
 L["Bank-Charakter …"] = "은행 캐릭터 …"
 L["Zeigt den RaidMaster-Knopf an der Minimap. Aus = ausgeblendet (öffnen dann mit /rm)."] = "미니맵에 RaidMaster 버튼을 표시합니다. 끔 = 숨김 (/rm으로 열기)."
+-- 3.0.40: Spieler ohne Testbefehle
+L["Einstellungen öffnen"] = "설정 열기"
+L["Optionen öffnen"] = "옵션 열기"
+L["Alle Einstellungen von RaidMaster stehen im eigenen Fenster (auch: /rm optionen)."] = "RaidMaster의 모든 설정은 자체 창에 있습니다 (또는 /rm options)."

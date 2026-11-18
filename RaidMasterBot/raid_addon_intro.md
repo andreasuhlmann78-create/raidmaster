@@ -27,8 +27,8 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 ===
 📜 **Updates**
 
-**3.0.38 / 3.0.39** – Alle Einstellungen in einem Fenster
-• /rm > Einstellungen: links Bereiche, rechts deren Optionen, oben ein Suchfeld. Knöpfe auf den Seiten führen direkt hin; deine Werte bleiben.
+**3.0.38 – 3.0.40** – Alle Einstellungen in einem Fenster
+• `/rm optionen`: links Bereiche, rechts deren Optionen, oben ein Suchfeld; deine Werte bleiben. 3.0.40: Minimap-Knopf, Tooltip & Co. jetzt für jeden Spieler.
 
 **3.0.35 – 3.0.37** – Hauptfenster ohne Ruckeln
 • Beim ersten Öffnen wird nur die sichtbare Seite gebaut, der Rest danach im Hintergrund. 3.0.36/3.0.37: nur Verbesserungen für Entwickler.
@@ -51,10 +51,5 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 **3.0.27** – Chinesisch repariert, weniger Ruckeln
 • Auf Chinesisch brach die DKP-Vergabe ab – behoben. Ein neuer Test prüft jetzt alle Sprachen darauf.
 • Marktdaten-Netz Version 7: Beim Teilen eines ganzen Auktionshaus-Scans mit der Gilde kein langer Ruckler mehr.
-
-**3.0.20 bis 3.0.26** – Befehlsliste, Marktdaten, Abgleich
-• Beim Tippen von `/rm` erscheint eine Befehlsliste zum Auswählen (`/rm befehlsliste` schaltet sie aus).
-• Marktdaten-Netz: Auktionshaus-Scans werden mit der Gilde geteilt (Schalter „Marktdaten teilen“ im Fenster).
-• Abgleich zwischen PC und Laptop über den Uploader, Fehlerberichte nur mit deiner Zustimmung.
 
 Ältere Neuerungen stehen im Addon in der Datei LIESMICH.txt.

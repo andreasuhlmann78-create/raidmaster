@@ -23,6 +23,13 @@ MAIN FEATURES
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
 
+WHAT'S NEW IN 3.0.40 – settings for every player
+- Every player can now reach their personal settings (minimap button, item tooltip info, first kill celebration, share
+  market data, command list, screenshot on first kill): /rm > Settings > General. Before, officers only.
+- New: /rm options (also /rm config) opens the settings; in the game under Esc > Options > AddOns > RaidMaster the button
+  "Open options".
+- Nothing a player needs works only through test or developer commands.
+
 WHAT'S NEW IN 3.0.39
 - Short option names in the options window in English, French, Spanish, Italian, Portuguese and Russian too (at most 28
   characters). The search also finds an option by its internal name (e.g. "pullseconds").

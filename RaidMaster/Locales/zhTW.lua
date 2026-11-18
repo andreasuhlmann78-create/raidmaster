@@ -889,3 +889,7 @@ L["Symbole & Leisten …"] = "標記與工具列……"
 L["Auto-Scan …"] = "自動掃描……"
 L["Bank-Charakter …"] = "銀行角色……"
 L["Zeigt den RaidMaster-Knopf an der Minimap. Aus = ausgeblendet (öffnen dann mit /rm)."] = "在小地圖上顯示 RaidMaster 按鈕。關 = 隱藏（用 /rm 開啟）。"
+-- 3.0.40: Spieler ohne Testbefehle
+L["Einstellungen öffnen"] = "開啟設定"
+L["Optionen öffnen"] = "開啟選項"
+L["Alle Einstellungen von RaidMaster stehen im eigenen Fenster (auch: /rm optionen)."] = "RaidMaster 的所有設定都在它自己的視窗中（也可：/rm options）。"

@@ -60,6 +60,9 @@ RM.COMMANDS = {
 		run = function() RM.Guide.Toggle() end },
 	{ "spenden", "donate", "Entwicklung unterstützen", words = { "spenden", "donate", "support" },
 		run = function() RM.Donate.Show() end },
+	-- 3.0.40 (Entscheid 18.11. 11:10): Einstellungen über den normalen Befehl
+	{ "optionen", "options", "Einstellungen öffnen", words = { "optionen", "options", "einstellungen", "config", "settings" },
+		run = function() RM.UI.OpenOptions() end },
 	{ "minimap", "minimap", "Minikarten-Knopf ein/aus", words = { "minimap" },
 		run = function() RM.UI.ToggleMinimapButton() end },
 	{ "version", "info", "Version und Spielversion anzeigen", words = { "version", "info" },

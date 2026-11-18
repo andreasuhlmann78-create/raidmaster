@@ -173,6 +173,14 @@ if GAMETOC == 16001 then
     _G[name] = nil
   end
 end
+-- 3.0.40: Einstellungsfenster des Spiels – Era 1.15 und Forever haben die moderne Settings-API (Kategorie für AddOns), sonst nichts
+SETTINGS_CATEGORIES = {}
+Settings = {
+  RegisterCanvasLayoutCategory = function(frame, name) local c = { frame = frame, name = name }; return c end,
+  RegisterAddOnCategory = function(c) SETTINGS_CATEGORIES[#SETTINGS_CATEGORIES + 1] = c end,
+}
+SettingsPanel = NewObj()
+function HideUIPanel(f) if f and f.Hide then f:Hide() end end
 -- Testmodus-Erkennung: in den Tests gilt der Entwickler als erkannt (außer DEV_OFF ist gesetzt)
 if not GoldSentinelDev then
   GoldSentinelDev = { version = 99, IsDev = function() return not DEV_OFF end,
