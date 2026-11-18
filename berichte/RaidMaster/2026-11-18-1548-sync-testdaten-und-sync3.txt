@@ -13,7 +13,7 @@ kommt mit der nächsten RaidMaster-Version (Auftrag 15:45: kein eigenes Release 
    - Nachgestellte Addon-Nachrichten der Testroutine (T39 Test/Routine.lua:1547–1571, T44 :1777, T51 :1871, T112 :2311) laufen
      über CallHandlers (nur RaidMasters eigene Handler, RM.HandlersFor) bzw. RM.SimulateEvent (nur RM.frame) und tragen die Kennung
      RM.PREFIX – sie erreichen den Ereignis-Rahmen von Sync nie.
-   - Gemeinsame Dateien in RaidMaster, die Sync nutzen: GoldSentinelMarkt (T180–T182 tauschen die AH-Schnittstelle gegen "keine" –
+   - Gemeinsame Dateien in RaidMaster, die Sync nutzen: GoldSentinelMarkt (T180 prüft nur die Anmeldung; T181 Teilen aus: sendet nichts; T182 AH-Schnittstelle = "keine" –
      es entsteht kein Scan und nichts im Postausgang; MarktRestore stellt Zähler/Postausgang zurück) und GoldSentinelTest (teilt den
      fertigen Bericht wie vorgesehen, lernt nichts aus eigenen Prüfungen).
    - Messung im Nachbau (neu in run_routine.lua): jeder Aufruf von GoldSentinelSync.Learn/OnAddonMessage/NetSend/Send/Pump/Tick
