@@ -217,6 +217,8 @@ if not os.getenv("STOPAT") then
 	T.Stop(); Advance(2)
 	check(RaidMasterAPI.TestRunning() == false and _G.RaidMaster.db == RM.db, "nach dem Testmodus: RaidMaster.db ist wieder RM.db")
 end
+-- 3.0.37: welche fehlenden globalen Namen der Code angefragt hat (bei Forever u. a. die alten Funktionen – nur geschützt erlaubt)
+if MissingGlobals then print("FEHLENDE GLOBALE NAMEN (angefragt, nil): " .. table.concat(MissingGlobals(), ", ")) end
 print(fails == 0 and "ALLE OK" or ("FEHLER: " .. fails))
 if os.getenv("SHOWALL") then
 	for _, e in ipairs(R.t.results) do print(string.format("%-6s %-8s %s %s", e.id, e.status, e.name, e.ergebnis and ("| " .. e.ergebnis) or "")) end

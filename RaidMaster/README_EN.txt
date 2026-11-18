@@ -23,6 +23,10 @@ MAIN FEATURES
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
 
+WHAT'S NEW IN 3.0.37 – test routine (developer only)
+- Fixed: the test run (T43) stopped with a Lua error in WoW Forever (it called an item function Forever no longer has). It now
+  uses the C_Item switch like the rest of the code.
+
 WHAT'S NEW IN 3.0.36 – test routine (developer only)
 - The test run (T43) uses its own loot rules ("auction") and restores yours afterwards – so it can always be checked, whatever
   your loot rules are. The result shows how your real rules classify the items.

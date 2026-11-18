@@ -1059,7 +1059,7 @@ function T.DescribeLoot(poolKey, max)
 		for _, id in ipairs(b.i or {}) do
 			if not seen[id] and #out < (max or 12) then
 				seen[id] = true
-				local name, link, quality = GetItemInfo(id)
+				local name, link, quality = RM.GetItemInfo(id)   -- 3.0.37: Weiche (Forever hat kein globales GetItemInfo)
 				if link then
 					local ok, action = pcall(RM.Loot.Classify, link, quality)
 					local classID = select(6, RM.GetItemInfoInstant(link))
@@ -1117,7 +1117,7 @@ local function HandleItem(id, source)
 	T.stats.handled = T.stats.handled + 1
 	-- 3.0.35: je Item die Regel festhalten (Name/Qualität -> Regel), damit der Bericht zeigt, warum
 	if #T.stats.items < 12 then
-		local name = (GetItemInfo and GetItemInfo(id)) or tostring(id)
+		local name = (RM.GetItemInfo(id)) or tostring(id)   -- 3.0.37: Weiche (Forever hat kein globales GetItemInfo)
 		T.stats.items[#T.stats.items + 1] = string.format("%s (Q%s) -> %s", tostring(name), tostring(quality), RULE_NAMES[action] or tostring(action))
 	end
 	if action == "auction" then T.stats.auction = T.stats.auction + 1 else T.stats.other = T.stats.other + 1 end

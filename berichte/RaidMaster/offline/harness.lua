@@ -155,6 +155,24 @@ function MissingGlobals() local l={} for k in pairs(missing) do l[#l+1]=k end ta
 -- Addon laden
 local RM = {}
 ADDON_NS = RM
+-- 3.0.37 (Hinweis 18.11. 10:30 "Nachbau wie Forever"): Forever 1.60.1 läuft auf dem modernen Client – es gibt die alten
+-- globalen Funktionen NICHT, nur C_Item/C_AddOns/… . Die Nachbildung bietet für Forever genau das (nicht mehr); für die alten
+-- Clients (Era usw.) bleiben die globalen Funktionen.
+if GAMETOC == 16001 then
+  C_Item = C_Item or {}
+  C_Item.GetItemInfo = GetItemInfo
+  C_Item.GetItemInfoInstant = GetItemInfoInstant
+  C_Item.GetItemCount = C_Item.GetItemCount or function() return 0 end
+  C_Item.RequestLoadItemDataByID = C_Item.RequestLoadItemDataByID or function() end
+  C_AddOns = C_AddOns or {}
+  C_AddOns.GetAddOnMetadata = GetAddOnMetadata
+  C_AddOns.IsAddOnLoaded = C_AddOns.IsAddOnLoaded or function(n) return n == "RaidMaster" end
+  for _, name in ipairs({ "GetItemInfo", "GetItemInfoInstant", "GetItemCount", "GetItemIcon", "GetAddOnMetadata", "IsAddOnLoaded",
+      "GetNumAddOns", "GetAddOnInfo", "UnitBuff", "UnitDebuff", "UnitAura", "GetSpellInfo", "GetContainerNumSlots",
+      "GetContainerItemInfo", "GetContainerItemLink", "GetItemQualityColor", "IsUsableItem", "GetItemCooldown", "GetSpellCooldown" }) do
+    _G[name] = nil
+  end
+end
 -- Testmodus-Erkennung: in den Tests gilt der Entwickler als erkannt (außer DEV_OFF ist gesetzt)
 if not GoldSentinelDev then
   GoldSentinelDev = { version = 99, IsDev = function() return not DEV_OFF end,
