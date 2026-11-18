@@ -15,7 +15,7 @@ Raid-Werkzeuge für die Gilde auf **WoW Forever**.
 
 **AHSentinel** (früher AH Analyzer Pro)**:** [AHSentinel-0.65.178.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/AHSentinel-0.65.178.zip)
 
-**BuffSentinel** (Buff-Erinnerungen, Proc-Buttons und Cooldowns mit Ein-Klick-Buttons, alle WoW-Versionen): [BuffSentinel-0.9.59.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/BuffSentinel-0.9.59.zip)
+**BuffSentinel** (Buff-Erinnerungen, Proc-Buttons und Cooldowns mit Ein-Klick-Buttons, alle WoW-Versionen): [BuffSentinel-0.9.60.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/BuffSentinel-0.9.60.zip)
 
 **ThreatSentinel** (hilft Tanks, die Aggro zu halten: lose Mobs leuchten, gehaltene werden ausgeblendet, Aggrometer, Tank-Sync): [ThreatSentinel-2.5.23.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/ThreatSentinel-2.5.23.zip)
 
