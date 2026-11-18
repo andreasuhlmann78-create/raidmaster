@@ -1,0 +1,133 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+
+BERICHT NACHPRÜFUNG AN DIE PRÜF-SITZUNG (geplante Aufgabe)
+Stand: 18.11.2026 11:25 MEZ · Sitzung: Nachprüfung · geprüft auf origin/main 631ada41
+Nur dieser Entwurf wird committet; nichts in auftraege/**, kein Log, keine nachpruefung-stand.json.
+
+=====================================================================================================================
+0. ÜBERBLICK
+=====================================================================================================================
+Kein FEHLER der Addon-Prüfung. Kein Befund HOCH. Zwei Befunde NIEDRIG (LevelPilot 3.12.95, Verdacht am Code, siehe 1).
+
+Neu seit dem letzten Entwurf (08:32) und laut nachrichten-log.txt NOCH NICHT vom Supervisor geprüft – hier nachgeprüft:
+- LevelPilot 3.12.95 (2240b420, 11:10) · GuildSentinel 0.9.57 (49fcef99) · RaidMaster 3.0.40 (4308012a) ·
+  ThreatSentinel 2.5.23 (fcc65e76) · BuffSentinel 0.9.59 (631ada41, nur addon_check – kam um 11:22, Bericht fehlt noch).
+Schon vom Supervisor geprüft (nur erwähnt, nichts doppelt): AHSentinel 0.65.344, RaidMaster 3.0.36–3.0.39, BuffSentinel 0.9.56–0.9.58,
+ProfessionSentinel 0.9.69–0.9.71, ThreatSentinel 2.5.22, LevelPilot 3.12.94, Ingametests RM 3.0.35/3.0.36, BS 0.9.56, LP 3.12.94.
+RaidMasterBot 1.5.186 und Uploader 2.3.14 unverändert.
+
+Vorschlag addon-check/nachpruefung-stand.json (dort noch 17.11. 08:32; überträgt der Supervisor, falls gewünscht):
+  AHSentinel 0.65.344, BuffSentinel 0.9.59, GuildSentinel 0.9.57, LevelPilot 3.12.95, ProfessionSentinel 0.9.71,
+  RaidMaster 3.0.40, ThreatSentinel 2.5.23, RaidMasterBot 1.5.186, RaidMasterUploader 2.3.14, testberichte_bis bc105907.
+
+=====================================================================================================================
+1. LEVELPILOT 3.12.95 (Bericht berichte/LevelPilot/2026-11-18-1108-3.12.95-einloggen-und-bilder-ueber-40ms.txt)
+=====================================================================================================================
+Prüfungen:
+- addon_check (lupa, Lua 5.1): OK, 0 FEHLER, 0 WARNUNGEN. md5 f318a2a6f5ab47f900d235915c3aa150 = Bericht.
+- Offline-Routine berichte/LevelPilot/offline/run_offline.py auf der ZIP: 40 Läufe, 40 ohne FEHLER
+  (Testroutine Forever deDE/enUS Horde OK 284, Forever Allianz 281, Era 282, TBC 283, je FEHLER 0; alle Regressionen grün).
+- Diff 3.12.94 -> 3.12.95: Advisor, Backup, ClientTest, Core, Graph, Perf, Protocol, Pruefliste, TestRoutine, Locales, CHANGELOG EN/DE, toc.
+  Neuer Text "Speicher aller Addons wird gemessen …" in allen Locale-Dateien (esMX fällt laut Kopf auf esES zurück).
+
+Stand zu offen-levelpilot.txt (Ingametest 10:10, HOCH 1/2):
+- HOCH 1(b) "start" 85 ms: UMGESETZT, zur Prüfung – Backup.lua:420–429 Sicherung als Auftrag "sicherung" in Portionen (Yield alle
+  200 Einträge, Backup.lua:56–70, 76–77); Ausloggen weiter am Stück (Backup.lua:411). Nachbau laut Bericht 53 -> 11 ms, Gegenprobe
+  Portionen = am Stück. Belegt am Code.
+- HOCH 1(c) Netz neu bei jedem Einloggen: TEILWEISE – nur die Umweg-Messung wird abgelegt (Graph.lua:772–892, LP.db.detourCache,
+  Kennung aus Knotenzahl, Id-Summe, Verbindungszahl, Lage; höchstens 3 je Zone, Graph.lua:878–891 korrekt: behält die eben
+  gemessene + 2 zuletzt gebrauchte). Der Aufbau des Netzes selbst wird nicht wiederverwendet. Erstes Einloggen nach dem Update misst noch.
+- HOCH 1(a) Portionen bis 36 ms im Graph-Aufbau ("Stellen ohne Check finden"): OFFEN – im Bericht nur "Verdacht, zu messen"
+  (Nachbau 7–8 ms). Neue Zonen und das erste Einloggen haben weiter diese Portionen. Bleibt HOCH bis zum Ingametest.
+- HOCH 2 "/lp protokoll" 91–93 ms: Projekt hat die Speichermessung aus dem normalen Befehl genommen (Protocol.lua:599–607, Core.lua:938–942;
+  nur noch "/lp protokoll speicher" bzw. "/lp log mem" mit Hinweis vorher). Projekt bittet um ENTSCHEID (bestätigen/ablehnen).
+  Einschätzung: sachlich richtig – UpdateAddOnMemoryUsage ist eine C-Funktion und nicht teilbar, "in Portionen bauen" geht für
+  diesen Teil nicht. Bitte vom Supervisor/Nutzer entscheiden.
+- T275 nach Entscheid 10:25 (je Lauf eine Spielversion im Wechsel): UMGESETZT laut Bericht und Test (Nachbau 12,7 ms).
+- T129/T136 (Speicherbereinigung als Ursache): neue Zeile "Bilder über 40 ms, in denen der Speicher fiel" + T349 – wartet auf Ingametest.
+- Zusätzlich gefunden und behoben: (3a) Aufträge während der Testpause wurden verworfen -> jetzt zurückgestellt (Perf.lua:284–305,
+  317–319, 344–345; Flush TestRoutine.lua:9666, 9864), T356. (3b) Waffenfertigkeit über LP.API.ItemInfo statt globalem GetItemInfo
+  (Advisor.lua:212–219) – passt zum Hinweis "Nachbau wie Forever"; Nachbildung strenger (mock2.lua FOREVER_GONE).
+- MITTEL T155 (31,2 ms je Reiseschritt), KARTE-TT1, OPT-ALLE (Schritt 1 als eigener Bericht 946c295c, 11:12), Hinweis 11:15
+  "Spieler ohne Testbefehle": noch nicht in 3.12.95 (erwartbar, Reihenfolge).
+
+Befunde (Vorschlag für offen-levelpilot.txt):
+LP-95-1 NIEDRIG  Sicherung in Portionen kann eine Überlagerung der virtuellen Reise mitkopieren (Verdacht am Code, selten).
+   Backup.lua:157–188: Die Prüfung "eine Überlagerung nie speichern" (Backup.lua:162–166, RealTaxiOf) läuft nur EINMAL am Anfang. In der
+   Portionen-Fassung gibt der Auftrag danach ab; startet in dieser Zeit (ca. 1–2 s nach dem Einloggen) eine virtuelle Reise
+   (Virtual.lua:762 ff., setzt db.taxi auf eine Überlagerung mit __index), kopiert Copy(db.taxi) (Backup.lua:187) per pairs nur die
+   Einträge der Überlagerung -> char.backup.data.taxi unvollständig bis zum nächsten Ausloggen (dort wieder am Stück und mit Prüfung).
+   Lösung: nach jeder Abgabe in DeepCopyP/MergeMap prüfen "LP.Virtual.active" -> Auftrag abbrechen (das Ausloggen sichert ohnehin),
+   oder vor jedem Copy(...) RealTaxiOf anwenden. Test: Reise während der Sicherung starten -> Kopie unverändert/abgebrochen, Gegenprobe rot.
+LP-95-2 NIEDRIG  Kennung der Umweg-Ablage erfasst nicht alles, was das Ergebnis bestimmt (Verdacht, zu messen).
+   Graph.lua:814–829: Kennung = Knotenzahl, Id-Summe, Anzahl Verbindungen, Lage. Nicht drin: WELCHE Knoten verbunden sind (gleiche Zahl,
+   andere Verbindung = gleiche Kennung) und die Mess-Konstanten DETOUR_PAIRS/TRIES/MIN_PAIRS (Graph.lua:749). Ändert sich eine
+   Konstante oder die Wegsuche, gelten alte Werte weiter, solange DETOUR_CACHE_VER (Graph.lua:751) nicht von Hand erhöht wird.
+   Lösung: Konstanten in die Kennung (oder DETOUR_CACHE_VER daraus ableiten) und Summe der Verbindungs-Paare (z. B. Σ min(a,b)*k+max(a,b))
+   statt nur der Anzahl. Folge heute gering (Faktor 1,0–1,8 begrenzt).
+
+IM CLIENT PRÜFEN (LevelPilot):
+- Zweites Einloggen nach dem Update: T261 "graph" deutlich unter 2340 ms; längste graph-Portion (heute 36 ms).
+- "start" nicht mehr 85 ms in einem Aufruf; neue Zeile "Sicherung" in der Zeitmessung.
+- "/lp protokoll" ohne Stillstand; "/lp protokoll speicher" mit Hinweis.
+- Neue Zeile "Bilder über 40 ms, in denen der Speicher fiel" bei T129/T136.
+- Waffenfertigkeits-Hinweis erscheint jetzt im Forever-Client.
+
+=====================================================================================================================
+2. GUILDSENTINEL 0.9.57 (Bericht berichte/GuildSentinel/2026-11-18-1115-version-0.9.57-optionen.txt)
+=====================================================================================================================
+- addon_check: OK, 0 FEHLER. Gemeinsame Dateien (Game, Test, Sync, Takt) byte-gleich mit shared/.
+- ZIP = Quellcode 907bd4d (diff -rq leer).
+- test/run_routine.lua mit lua5.1: 16001 -> 17 bestanden / 0 fehlgeschlagen / 0 Fehlermeldungen; 11508 -> 17 / 0 / 0.
+  (run_alle.sh mit 193 Läufen nicht nachgefahren.)
+- OPT-ALLE: Bestandsaufnahme n alt 54 = n neu 54 (45 im Fenster + 9 Verweise mit Begründung), T307a–f, Hinweis Nachbau wie Forever
+  (T306 Funktionsbestand per rawget – gut, liefert die genaue Forever-Liste für ALLE Projekte). Kein Befund.
+- CurseForge: download/ nicht angefasst (Regel 18:00 eingehalten).
+- Offen beim Projekt: Rest "Spieler ohne Testbefehle" (Liste, nächster Bericht).
+IM CLIENT PRÜFEN: Seite im Einstellungsfenster des Spiels, Knopf "Optionen öffnen" (auch nach Kampf, kein Taint), T306-Zeile übertragen,
+T307d/e (Lage, Zeit ≤ 16 ms).
+
+=====================================================================================================================
+3. RAIDMASTER 3.0.40
+=====================================================================================================================
+- addon_check auf download/RaidMaster-3.0.40.zip und auf dem Ordner RaidMaster/: OK, 0 FEHLER.
+- Diff: persönliche Optionen (Minimap, Item-Tooltip, Erstkill, Marktdaten, Befehlsliste, Unterstützen, Screenshot) access "leader" ->
+  "all" (Options.lua:126–156), /rm optionen (Commands.lua:63–65), Seite im Einstellungsfenster des Spiels (Options.lua:851–879; Anmeldung :879,
+  mit pcall, Settings-API zuerst, sonst InterfaceOptions). Passt zum Entscheid 11:10. Kein Befund.
+- Bank-Charakter bleibt "leaderbank" – gewollt (Gildenbank).
+IM CLIENT PRÜFEN: Mitglied ohne Offiziersrang sieht Allgemein mit den 7 Optionen; Knopf im Spiel-Einstellungsfenster (HideUIPanel
+auf SettingsPanel) ohne Taint/"Aktion blockiert", auch direkt nach einem Kampf.
+
+=====================================================================================================================
+4. THREATSENTINEL 2.5.23
+=====================================================================================================================
+- addon_check: OK, 0 FEHLER. download- und announce-ZIP byte-gleich.
+- Diff 2.5.22 -> 2.5.23: Core.lua:1291 Anmeldemeldung nennt Testzentrale nur dem Entwickler; Options.lua: Schalter "Vorschau"
+  (Demo) in den Einstellungen, endet beim Schliessen/Kampfbeginn (OnHide), Seite im Spiel-Einstellungsfenster (O:BuildSettingsPage,
+  in O:Login mit pcall). CHANGELOG EN/DE, Locales. Kein Befund.
+IM CLIENT PRÜFEN: Vorschau an -> Kampf beginnen -> Vorschau aus (keine Demo-Plaketten über echten Warnungen).
+
+=====================================================================================================================
+5. BUFFSENTINEL 0.9.59 (kam um 11:22, während dieser Prüfung)
+=====================================================================================================================
+- addon_check download/BuffSentinel-0.9.59.zip: OK, 0 FEHLER. Bericht des Projekts liegt noch nicht vor -> Prüfung im nächsten Lauf
+  bzw. durch den Supervisor.
+
+=====================================================================================================================
+6. TESTBERICHTE / DIAGNOSEN (bc105907, 10:12 UTC)
+=====================================================================================================================
+BuffSentinel 0.9.56, LevelPilot 3.12.94 (4 Berichte), RaidMaster 3.0.36 (2 Berichte, Fehlerzähler 0 -> 1 = T43 GetItemInfo) – alle
+schon vom Supervisor ausgewertet (Log 10:30, 10:35, 10:50). Diagnosen AHS 0.65.343, BS 0.9.56, GS 0.9.56, LP 3.12.94, PS 0.9.68,
+TS 2.5.21 – ältere Versionen, nichts Neues übernommen.
+Hinweis Prüfsystem: "python3 addon-check/testberichte.py --help" führt die Auswertung aus (kein Hilfetext) und ändert
+testberichte/status.json/status.md. Hier zurückgesetzt, nichts committet. Vorschlag: --help abfangen (NIEDRIG, Prüfsystem).
+
+AHSentinel MARKT-KERN: keine neue AHSentinel-Version ausser 0.65.344 (vom Supervisor 11:45 geprüft), keine neue Kern-Tabelle seit
+testberichte/markt/kern/2026-11-18.md (im Entwurf 08:32 behandelt) -> nichts Neues.
+
+=====================================================================================================================
+7. GELESEN
+=====================================================================================================================
+berichte/LevelPilot/2026-11-18-1108-…, 2026-11-18-1112-opt-alle-schritt1-bestandsaufnahme (nur Kenntnis), berichte/GuildSentinel/
+2026-11-18-1115-…, Bericht ThreatSentinel 2.5.23 (38880aae, Kenntnis), auftraege/LevelPilot/offen-levelpilot.txt (Abschnitte 18.11.).
+Keine Nachrichten verschickt, keine Dateien in auftraege/** geändert (Vorrang-Regel).
