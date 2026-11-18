@@ -1,0 +1,51 @@
+BERICHT THREATSENTINEL – Antwort auf Hinweis Sync-Testdaten (13:55, Nachträge 14:10/14:35) und Hinweis Sync 3 (15:45)
+Stand 18.11.2026 15:50 · Grundlage: ThreatSentinel 2.5.23 (veröffentlicht) und Bauordner mit shared/GoldSentinelSync.lua Version 3
+Ergebnis: NICHT BETROFFEN (gemessen, mit Gegenprobe). Keine neue Version: Sync 3 kommt laut Hinweis mit der nächsten Version
+(kein eigenes Release nur dafür; 2.5.23 ist vom Ingametest befreit, Entscheid 15:19 – darum jetzt nichts geändert).
+
+1. LIEFERT EINE EIGENE PRÜFUNG NACHRICHTEN AN GOLDSENTINELSYNC? (Hinweis 13:55, Punkt 1)
+   Durchsucht: TestRoutine.lua, TestRoutineTU.lua nach OnAddonMessage, Learn, NetSend, Pump, Deliver, FakeNet, ep:OnMessage, gsSync, book.
+   Stellen, die GoldSentinelSync berühren:
+   - T-GS2: G.OnAddonMessage(Prefix, "#S1:tuzz:1:H:TANK:2.5.13", "PARTY", nil) – Absender nil. Lernen gibt es nur mit Absender
+     (GoldSentinelSync.lua Sync 2 Z. 571 / Sync 3 "if sender and not IsMe(sender) then LearnIn(...)") -> kein Eintrag im Buch.
+     Mitspieler tuzz und Dubletten-Schlüssel werden zurückgestellt (TS-T1, Prüfung T-TS-T1).
+   - T-GS3: G.OnAddonMessage(Prefix, "H:TANK:2.5.12", "PARTY", "Grimbar-Realm") – OHNE Kopf #S1/#S2. Gelernt wird nur im Zweig
+     "if sid then" -> kein Eintrag im Buch.
+   - T-SYNC, T-GS1, T106: Senden über Sy:Send/ep:Send. Im Test geht das Senden über ns.Act (nur mitgeschrieben, Sync.lua:97);
+     T-SYNC nimmt, was es in queue/netQueue legt, wieder heraus und ersetzt G.api.send (Swap, danach zurück).
+   - T76, T-SYNC (Empfang), T106: Sy:OnReceive direkt = ThreatSentinel-eigene Rollen-Tabelle, nicht die gemeinsame Datei.
+   - T-GS5 und Prüfliste SYNC-TEST: G.Ping ersetzt (Swap), kein echtes Ping.
+   Keine Prüfung erwartet das LERNEN aus einer Nachricht -> testLearn wird nirgends gebraucht.
+   LISTE DER BETROFFENEN PRÜFUNGEN (Hinweis 15:45, Punkt b): keine.
+
+   MESSUNG (Nachbau addon-check/ladetest, ganze Routine, Sync-Zustand vor/nach; Skript wie routine_offline.py, dazu Abzug von
+   book (alle Felder), peers, whispered, queue, netQueue, NET, stats.net und Zähler jedes Aufrufs von G.api.send):
+     Vorher eingetragen: ein "echter" Mitspieler Echt-Realm {fail 0, pause 0, seen 1, src guild, v 2}.
+     Forever, Sync 2: Buch vor = nach (nur Echt-Realm, alle Felder gleich), peers leer, whispered leer, queue 0, netQueue 0,
+                      stats.net alle 0, G.api.send 0 Aufrufe.
+     Forever, Sync 3: dasselbe, dazu testHeld 0 (es kam nicht einmal ein Lernversuch).
+     Era, Sync 2 und Sync 3: dasselbe.
+     Forever "alles" (Coroutine, TS_FRAME_MS=0), Sync 3: dasselbe.
+   GEGENPROBE 1 (zeigt, dass der Abzug Lernen erkennt): nach der Routine eine Nachricht mit Kopf und Absender
+     G.OnAddonMessage("ThreatSentinel", "#S1:gg:1:H:TANK:1", "PARTY", "Testa-Beispiel") -> Buch nachher mit "Testa-Beispiel"
+     (src group) – bei Sync 2 und Sync 3 erkannt.
+   GEGENPROBE 2 (Schutz von Sync 3 erkennt den ThreatSentinel-Test): dieselbe Nachricht mit ns.routineRunning = true
+     (= ThreatSentinelAPI.TestRunning()): Sync 2 lernt (learned 1), Sync 3 lernt nicht (testHeld 1, Buch unverändert).
+
+2. TESTNAMEN IM EIGENEN gsSync.book (Hinweis 13:55, Punkt 2)
+   ThreatSentinel lädt beim Nutzer zuerst, darum liegt das gemeinsame Buch in ThreatSentinelDB.gsSync. Die Namen "LPWeiter-Test",
+   "Testa Beispiel", "Testa Beispiel-Realm" stammen laut Nachtrag 14:35 aus der LevelPilot-Testroutine (seen 14:05:34, src guild).
+   Die Messung oben belegt: die ThreatSentinel-Routine schreibt nichts ins Buch. ThreatSentinel bereinigt fremde Einträge nicht selbst
+   (Bereinigung durch LevelPilot, Befund HOCH 13:55 Punkt 2; nicht das eigene Addon). Wird vom Prüfer eine Bereinigung durch
+   ThreatSentinel gewünscht, bitte als Auftrag.
+
+3. SYNC 3 (Hinweis 15:45)
+   a) shared/GoldSentinelSync.lua Version 3 liegt byte-gleich im Bauordner (cmp gleich) und kommt mit der nächsten Version.
+   b) Siehe Punkt 1: keine Prüfung braucht testLearn.
+   c) Ganze Routine im Nachbau mit Sync 2 und Sync 3, Ergebnis je Prüfung verglichen (Kennung + Status jeder Zeile, diff leer):
+        Forever: Sync 2 OK 304 · FEHLER 6 · übersprungen 19 · im Client 16 – Sync 3 genau gleich.
+        Era:     Sync 2 OK 308 · FEHLER 6 · übersprungen 13 · im Client 17 – Sync 3 genau gleich.
+        Die 6 FEHLER sind die bekannten Nachbildungs-Fälle (T02, T09, T20, T34, T39, T133); "Offline: FEHLER ausserhalb der
+        Nachbildungs-Liste: 0" in allen Läufen. T-N1 (">= 2") besteht mit Version 3.
+
+Status: umgesetzt, zur Prüfung (Antwort auf beide Hinweise; Sync 3 vorbereitet für die nächste Version).
