@@ -1,0 +1,94 @@
+BuffSentinel – Bericht an die Prüf-Sitzung · opt-alle-schritt1-bestand
+Datum: 18.11.2026, 10:33 (aus date)
+
+Stand 18.11. 10:55 – (A) HINWEIS 10:30 Nachbau wie Forever: umgesetzt, zur Prüfung (0.9.57) · (B) T34-Sperrwerte · (C) OPT-ALLE Schritt 1
+(Bestandsaufnahme, VOR dem Umbau) · Laufende HOCH-Punkte: keine (Ingametest 10:10: 0 FEHLER).
+
+(A) NACHBAU WIE FOREVER (0.9.57, veröffentlicht, auf origin/main nachgeprüft, addon_check OK, Offline-Routine 8 × PASS)
+1. Eigener Code: grep nach allen alten globalen Funktionen (GetSpellInfo, UnitBuff, UnitDebuff, UnitAura, GetItemInfo(Instant), GetItemCount,
+   GetSpellCooldown, IsUsableSpell, GetContainer*, GetNumTalentTabs, GetTalentInfo, GetSpellBookItemName, GetNumSpellTabs, GetSpellTabInfo,
+   GetAddOnMetadata, IsAddOnLoaded, GetItemCooldown, GetSpellLink, IsSpellKnown, GetMerchantItemInfo, IsPassiveSpell, GetTalentTabInfo,
+   GetPrimaryTalentTree) ausserhalb der Weiche: KEIN nackter Aufruf. Alles läuft über BS.API (Weiche) mit C_Spell / C_SpellBook /
+   C_UnitAuras / C_Item / C_Container / C_MerchantFrame zuerst; die alten Namen stehen nur in der Weiche als Ersatzweg und in Tests (WithApi).
+2. Nachbildung (run_offline.lua, nur der Forever-Lauf 16001): die alten Globalen GetSpellInfo, UnitBuff, UnitDebuff, GetNumTalentTabs,
+   GetTalentInfo, GetNumTalents, GetSpellCooldown, IsUsableSpell, IsSpellInRange, GetNumSpellTabs, GetSpellTabInfo, GetSpellBookItemName,
+   GetItemInfo sind ENTFERNT; dafür C_Spell (GetSpellInfo/Cooldown/IsSpellUsable/IsSpellInRange/IsSpellPassive), C_SpellBook und
+   C_UnitAuras.GetAuraDataByIndex. Ergebnis: Forever deDE/enUS PASS (TU 0 FEHLER, dieselben 7 "nur Nachbau"-Abweichungen).
+   Belegt (Spiel, T74 08:11/09:43): GetNumTalentTabs, GetTalentInfo, UnitBuff, GetSpellInfo = nein; C_SpellBook = ja.
+   Verdacht (gleiche Familie, nicht belegt): UnitDebuff, GetNumTalents, GetSpellCooldown, IsUsableSpell, IsSpellInRange, GetNumSpellTabs,
+   GetSpellTabInfo, GetSpellBookItemName, GetItemInfo. Darum NEU T258 (Messung, immer OK): "fehlt: … · da: …" für 21 Namen – der
+   nächste Ingametest belegt die Liste; danach passe ich die Nachbildung genau an.
+
+(B) T34 SPERRWERTE (Upload 09:43, testberichte/berichte/BuffSentinel/BuffSentinel-1794991410-35a47d-1.json, 0.9.55)
+"Locked=true ShouldAurasBeSecret=false Pause=0.5s Sperre(Ziel)=true".
+- C_Secrets.ShouldAurasBeSecret ist ausserhalb des Kampfes FALSE -> die Gegner-Entzauber-Anzeige KANN im Spiel ausserhalb des Kampfes lesen.
+- Die Sperre in diesem Augenblick kam von der Pause (auraHoldUntil, 0,5 s Rest): eine frühere Prüfung mit geschützten Testwerten hatte einen
+  verweigerten Zugriff ausgelöst (2 s Pause). Im normalen Spiel gibt es diese Pause nur nach einem echten verweigerten Zugriff.
+- Im Kampf sperrt Locked (Forever) wie gewollt: dann zeigt die Anzeige nichts (nie etwas Falsches).
+- Produkt-Antwort: ausserhalb des Kampfes zeigt sie, was am Ziel entzauberbar ist; im Kampf nichts. Kein Fehler im Produkt.
+  (Verdacht, im Spiel zu sehen: an einem Gegner mit Magie-Buff ausserhalb des Kampfes erscheint die Zeile.)
+
+(C) OPT-ALLE SCHRITT 1 – BESTANDSAUFNAHME (heute, 0.9.57)
+Fenster BuffSentinelOptions 800 × 560, links schon eine Leiste mit 7 Seiten: Skillung | Procs | Buffs | Cooldowns | Reinigen | Optionen |
+Recorder. Kopfzeile: Spenden, Anordnen, Testmodus, ×. Die Seiten Skillung/Procs/Buffs/Cooldowns/Recorder sind LISTEN (Einträge je Skillung:
+an/aus, Ton, Position – gespeichert in db.specs[specN][Eintrag]) – keine Einzel-Optionen; sie bleiben Listen.
+Die Seite "Optionen" ist EINE lange Bildlauf-Seite mit 8 Überschriften und rund 60 Zeilen – das ist das Problem.
+
+Alle gespeicherten Optionen (Schlüssel · heutige Beschriftung · Ort · doppelt?):
+Warntöne (Optionen, Überschrift "Warntöne"):
+ 1 db.soundBase.horn (+db.soundSpecs) · "Eigener Buff abgelaufen (Hupe, wiederholt)" an/aus + Ton + Anhören · Optionen
+ 2 …buff · "Gruppenbuff fehlt (einmal)" · Optionen
+ 3 …proc · "Proc" · Optionen
+ 4 …cooldown · "Abklingzeit bereit" · Optionen
+ 5 …dispel · "Debuff zum Reinigen" · Optionen  – DOPPELT: Seite Reinigen "Warnton bei neuem Debuff" (nur an/aus)
+ 6 …dispel_imp · "Wichtiger Raid-Debuff" · Optionen
+ 7 …bell · "Glocke (Einträge mit Ton an)" · Optionen
+ 8 db.hornEvery · "Hupe wiederholen alle n s" (Knopf durchschalten) · Optionen
+ 9 db.soundChannel · "Tonkanal: …" (Knopf durchschalten) · Optionen
+Wo aktiv (Überschrift "Wo soll BuffSentinel aktiv sein?"):
+10–15 db.zones.world/dungeon/raid/pvp/resting/sanctuary · Offene Welt, Dungeons, Raids, Schlachtfelder, Hauptstädte & Gasthäuser, Schutzgebiete
+Cooldowns & Reinigen:
+16 db.cdWorldCombatOnly · "Cooldown-Leiste in der offenen Welt nur im Kampf" · Optionen
+17 db.cdTimer · "Restzeit auf Cooldowns anzeigen" · Optionen
+18 db.dispel.friendly · "Reinigungsleiste für Gruppe zeigen" · Optionen – DOPPELT: Seite Reinigen "Reinigungsleiste zeigen"
+Automatisch lernen:
+19 gdb.auto.enabled · "Neue Procs und Fähigkeiten hinzufügen" · Optionen – DOPPELT: Seite Recorder
+20 gdb.auto.share · "Entdeckungen mit anderen BuffSentinel teilen" · Optionen – DOPPELT: Seite Recorder
+Anzeige & Anordnen:
+21 db.scale · "Alle Buttons n %" (–/+) · Optionen
+22–25 db.groupScale.proc/buff/cd/dispel · "Procs/Buffs/Cooldowns/Reinigen n %" (–/+) · Optionen
+26 db.minimap.hide · "Minimap-Knopf zeigen" · Optionen (ohne eigene Überschrift)
+27 gdb.cmdHint · "Befehlsliste beim Tippen" · Optionen (ohne Überschrift)
+28 gdb.readyCheck · "Zeile beim Bereitschaftscheck" · Optionen (ohne Überschrift)
+29 gdb.restock · "Nachkaufen-Knopf beim Händler …" · Optionen (ohne Überschrift)
+30 gdb.restockLimit · "Nachkaufen höchstens …" (durchschalten) · Optionen (ohne Überschrift)
+31 gdb.rfHint · "Hinweis Zorn der Gerechtigkeit" (nur Paladin) · Optionen (ohne Überschrift)
+32 GoldSentinelMarkt Host BuffSentinel gsMarktAus · "Marktdaten teilen" · Optionen (ohne Überschrift)
+Namen teilen:
+33 gdb.shareNames · "Mit Gilde und Gruppe austauschen" · Optionen
+34 gdb.shareServer · "Mit allen BuffSentinel-Nutzern austauschen" · Optionen
+Recorder:
+35 gdb.recorder.enabled · "Aufnahme starten/stoppen" · Recorder
+Aktionen (keine gespeicherten Werte): Töne auf alle anwenden, Skillung zurücksetzen, Alle Töne zurücksetzen, Anordnen, Testmodus (Kopf +
+Entwickler), Alle Positionen zurücksetzen, Alles testen (Entwickler), Grössen zurücksetzen, Spenden (Kopf + Seite), Liste leeren,
+Entfernte wieder zulassen, Spezialisierung neu lesen, Empfehlung wiederherstellen.
+n alt = 35 gespeicherte Optionen (davon 4 doppelt angezeigt: 5, 18, 19, 20) + 13 Aktionen.
+Nicht im Fenster (Anordnen-Leiste): Abstand/Richtung je Gruppe (db.gap/…), Fensterpositionen – bleiben dort.
+Überdeckt/abgeschnitten (UICheck im Spiel 10:10): T141 0 FEHLER (LevelPilot-Pfeil = HUD-Hinweis), T142/T143 OK – also keine
+abgeschnittenen Knopf-Texte; aber lange Zeilen (Erklärtexte) stehen IM Fenster statt im Tooltip, sieben Optionen ohne eigene Überschrift.
+
+UMBAU-PLAN (Schritt 2, so werde ich es bauen – Einwände bitte in offen-buffsentinel.txt)
+Links bleiben die Listen-Seiten; die lange Seite "Optionen" wird in Bereiche geteilt (je höchstens 12 Zeilen, kein Bildlauf, EINE Spalte):
+- Wo aktiv: 10–15, 16 (7 Zeilen)
+- Töne: 1–7, 8, 9 (9 Zeilen) · Weitere: Auf alle anwenden, Skillung zurücksetzen, Alle zurücksetzen
+- Anzeige: 21–25, 17, 18, 26 (8 Zeilen) + Knöpfe Anordnen, Positionen zurücksetzen · Weitere: Grössen zurücksetzen
+- Hilfen: 28, 31 (Paladin), 29, 30, 27 (bis 5 Zeilen)
+- Teilen & Lernen: 33, 34, 19, 20, 32 (5 Zeilen)
+- Recorder bleibt Liste (35 + Listen); Spenden bleibt in der Kopfzeile.
+Je Zeile: kurze Beschriftung (≤ 28 Zeichen), Schalter rechts, Erklärung im Tooltip; "Standard"-Knopf je Bereich; Suchfeld oben über alle
+Bereiche; Bereiche erst beim Zeigen bauen (≤ 16 ms je Bild); Optionen-Knopf am Ort (Händler-Knopf -> Hilfen, Reinigungsleiste -> Anzeige,
+Bereitschaftscheck-Zeile -> Hilfen). Doppelte (5, 18, 19, 20) danach genau EINMAL. Alle Schlüssel bleiben gleich (n alt = n neu = 35).
+
+FRAGE (h) Prüfliste-Punkt "OPT Optionen am Bild": Die Prüfliste hat höchstens 14 Punkte (GoldSentinelPruefliste ROWS = 14, kein Bildlauf) und
+ist voll (0 von 14 erledigt). Vorschlag: HEXER und SOULSTONE zu EINEM Punkt "Hexer" zusammenlegen (erledigt erst, wenn BEIDE Fälle im Spiel
+erschienen sind) – dann ist ein Platz für OPT frei. Bis zur Antwort baue ich den Umbau; der Punkt kommt mit der Umbau-Version.
