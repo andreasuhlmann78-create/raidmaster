@@ -42,6 +42,19 @@ Folgerungen für das Flüster-Netz von GoldSentinelSync:
   Meldung ausblenden) und an Antworten.
 - Die Drossel von GoldSentinelSync (5/s für alle Addons) liegt weit unter dem Gemessenen und bleibt.
 
+## GoldSentinelSync 3 – Schutz während Testroutinen (gebaut 18. November 2026)
+- Anlass (belegt): Die LevelPilot-Testroutine lieferte Nachrichten mit Kopf an das echte Sync. Sync lernte die Testnamen ins gemeinsame
+  Adressbuch und flüsterte sie danach echt an ("kein Spieler … online" beim Nutzer). Jeder Testlauf setzte fail = 0 zurück.
+- Läuft bei einem GoldSentinel-Addon eine Testroutine (<Addon>API.TestRunning() == true; Liste S.TEST_ADDONS + jedes angemeldete Addon):
+  · kein Lernen aus eingehenden Nachrichten (Absender, Lebenszeichen, Listen);
+  · keine Listen/Vorstellungen (NetTick);
+  · kein ECHTES Flüstern: Pump verwirft WHISPER, solange S.api.send die echte Funktion ist (verworfen "test", Zähler testHeld).
+  Direkte Aufrufe von Sync.Learn, die Warteschlangen und ein ersetztes S.api.send bleiben für Prüfungen unverändert.
+  Prüfungen, die das Lernen aus Nachrichten prüfen: GoldSentinelSync.testLearn = true nur für ihre Dauer.
+- Offline-Meldung: Der Name wird tolerant abgeglichen (Bindestrich = Leerzeichen, ohne Realm, Gross/klein).
+  Verdacht, zu messen: Schreibweise des Servers bei Namen mit Realm.
+- Neueste geladene Fassung gewinnt: Sobald EIN Addon Sync 3 mitbringt, gilt der Schutz für alle Addons. Ältere Kopien = Warnung.
+
 ## GoldSentinelSync 2 – Flüster-Netz (gebaut 9. November 2026)
 - Jeder Client merkt sich Mitspieler mit Sync 2 (aus Gilde, Gruppe, Flüstern, Listen anderer Clients), nur lokal, nur
   Namen und Zeiten (`ep:UseStorage(DB)` -> `DB.gsSync`).
