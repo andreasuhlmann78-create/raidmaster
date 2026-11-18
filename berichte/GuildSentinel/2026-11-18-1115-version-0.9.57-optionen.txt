@@ -1,0 +1,111 @@
+BERICHT GuildSentinel 0.9.57 – OPT-ALLE (Optionen nach Vorbild AHSentinel), Hinweis "Nachbau wie Forever", Teil von "Spieler ohne Testbefehle"
+Von: GuildSentinel-Sitzung · 18.11.2026 11:15 (Zeit aus date, Europe/Zurich) · Quellcode 907bd4d
+Status: umgesetzt, zur Prüfung. CurseForge: unverändert 0.9.52 am 18.11. 18:00. download/ nicht angefasst.
+Reihenfolge: laufende HOCH-Punkte gab es für GuildSentinel keine (Ingametest 0.9.56: 0 Fehler, längstes Bild 17,8 ms); zuerst der
+Hinweis Nachbau wie Forever (Fehlerklasse), dann OPT-ALLE.
+
+A) HINWEIS 10:30 – NACHBAU DARF NICHT MEHR KÖNNEN ALS FOREVER
+1. Eigener Code durchsucht (alle Dateien ausser den gemeinsamen GoldSentinel*.lua): KEIN nackter Aufruf einer alten globalen Funktion.
+   Alles geht über Weichen: ns.GetItemInfo / API.GetItemInfo (C_Item zuerst), ns.SendAddonMessage/RegisterPrefix (C_ChatInfo),
+   ns.GuildRoster (C_GuildInfo), C_Spell.GetSpellCooldown vor GetSpellCooldown, C_SpellBook.IsSpellKnown vor IsSpellKnown,
+   C_Item.GetItemCount vor GetItemCount, C_Container vor GetContainer*, C_AddOns vor GetAddOnMetadata/IsAddOnLoaded; GetItemIcon
+   nur mit "if GetItemIcon". Einzige ungeprüfte globale Aufrufe: GetGuildInfo, GetNumGuildMembers (gibt es auch in modernen Clients).
+2. Nachbildung (test/wowmock.lua): für toc 16000–19999 fehlt jetzt das globale GetItemInfo (belegt durch RaidMaster 3.0.36 T43),
+   C_Item.GetItemInfo ist da. Weitere Funktionen nur mit Beleg (Liste M.FOREVER_FEHLT). Ganze Testreihe damit grün.
+3. Beleg im Spiel: neue Prüfung T306 "Funktionsbestand des Clients" liest (nur rawget, kein Aufruf) 35 alte globale Funktionen und
+   meldet "vorhanden n von 35 · fehlt: …" – damit kann die Nachbildung genau an Forever angepasst werden. Bitte im nächsten
+   Ingametest die Zeile T306 übertragen.
+
+B) OPT-ALLE – SCHRITT 1: BESTANDSAUFNAHME (alt, 0.9.56)
+Ort alt | Beschriftung alt | gespeichert in
+Einstellungen > Allgemein (zwei Spalten, mit Überschriften Mein Main / Anzeige / Ansagen / Gruppensuche / RaidMaster / Abgleich):
+ 1 Mein Main (Auswahl) | guild.myMain          2 Sprache: (Auswahl) | uiLang          3 Minimap-Knopf anzeigen | minimapShow
+ 4 Infos im Spieler-Tooltip (Rang, Main, Berufe) | tooltip          5 Neue Gildenregeln beim Einloggen zeigen | rulesPopup
+ 6 Gildenchat: Main hinter Twinks zeigen | chatMain          7 'ist online': Main dazuschreiben | onlineMain
+ 8 Befehlsliste beim Tippen von /gs | cmdHint          9 Marktdaten teilen (anonym, nur Preise) | GoldSentinelMarkt (Freigabe)
+10 Stufen 10, 20 … | annLevels   11 Erstes Gildenmitglied auf Stufe 60/70 | annFirst   12 Jubiläen (…) | annJubilee
+13 Wochenziel und Gilden-Meilensteine | annMiles + annGoal   14 Wochenrückblick (…) | annReview   15 Gilde ist raidfähig | annRaidReady
+16 Meine Rolle: (Auswahl) | Gruppensuche-Rolle – DOPPELT (auch Seite Gruppensuche > Suchen)
+17 Hinweis, wenn eine passende Suche kommt | lfgNotify   18 mit Ton | lfgSound   19 Bank-Charakter (Bestand an Discord) | bankChars
+Einstellungen > Funktionen (drei Spalten): 20–43 die 24 Funktionen | features.<key>, dazu Knopf "Alle einschalten"
+Andere Seiten:
+44 Rekrutierung > Werbung: Erinnern, wenn die Werbung wieder fällig ist | adRemind     45 … alle (Minuten, Auswahl) | adInterval
+46 Rekrutierung > Werbung: Kanäle (Liste) | adTargets
+47 Rekrutierung > Antworten & Begrüßung: Bewerbern automatisch antworten | autoReply   48 Neue Mitglieder begrüßen | welcome
+49 Bewerbungsfragen stellen | askQuestions   50 Mindestalter | minAge   51 Abgeschlossene Bewerbungen nach 90 Tagen löschen | appsPurge
+52 Mitglieder > Beförderung: Twinks bekommen den Rang ihres Mains | altRank   53 Mitglieder > Aufstellung: Twinks mitzählen | comp.alts
+54 Verwaltungsfenster (Passwort): Verwaltungsknopf auf der Gildenseite | admin.showButton
+n alt = 54 (Rolle doppelt gezählt nur einmal). Keine Optionen (bleiben, nicht gezählt): Filter der Listen (Nur online, Twinks zeigen,
+Erledigte zeigen …), Formularfelder (Gruppensuche, Umfrage, Export), Texte (Antwort, Begrüssung, Fragen, Regeln, Werbung).
+Überdeckungen/abgeschnitten alt: T185 meldete in 0.9.53 "wie der Spiel-Client (Deutsc…" (behoben 0.9.54); keine weiteren offen.
+
+C) SCHRITT 2: UMBAU (Options.lua, neu; Einstellungen > Reiter "Optionen", Reiter "Testmodus" bleibt nur für den Entwickler)
+(a) Links 9 Bereiche, rechts eine Spalte, höchstens 12 Zeilen, kein Scrollen:
+ Allgemein: Sprache (2), Mein Main (1), Minimap-Knopf (3), [Weitere: Befehlsliste beim Tippen (8), Addon unterstützen (Knopf)]
+ Chat & Tooltip: Infos im Spieler-Tooltip (4), Main hinter Twinks (Chat) (6), 'ist online' mit Main (7), Neue Gildenregeln zeigen (5)
+ Ansagen: Stufen-Meilensteine (10), Erster auf Höchststufe (11), Jubiläen (12), Wochenziel und Meilensteine (13), Wochenrückblick (14),
+   Gilde ist raidfähig (15)
+ Gruppensuche: Hinweis bei passender Suche (17), Hinweis mit Ton (18), Meine Rolle -> Verweis auf Gruppensuche > Suchen (16)
+ Rekrutierung: Werbung: erinnern (44), Erinnern alle (Minuten) (45, Knopfreihe 10/15/20/30/45/60), Alte Bewerbungen löschen (51),
+   Verweise: Werbe-Kanäle (46), Automatische Antwort (47), Begrüssung neuer Mitglieder (48), Bewerbungsfragen (49), Mindestalter (50)
+ Daten & Abgleich: Marktdaten teilen (9), Bank-Charakter (19), Abgleich in der Gilde (Knopf "Jetzt abgleichen", Nutzerliste im
+   Tooltip), RaidMaster (Status, Erklärung im Tooltip)
+ Funktionen: Gemeinschaft (12): Übersicht, Meine Woche, Gruppensuche, Termine, Brett, Umfragen, Dank-Punkte, Fragen, Wer ist wo,
+   Abwesenheit, Online-Zeiten, Chronik     Funktionen: Gilde & Raid (12): Rennen, Zugänge, Ziele, Berufe, Abklingzeiten,
+   Beute-Wünsche, Aufstellung, Rekrutierung, Paten, Beförderung, Leitung, Addons
+ Leitung: Verweise Twinks: Rang des Mains (52), Aufstellung: Twinks zählen (53), Verwaltungsknopf (54, öffnet das Verwaltungsfenster)
+ n neu = 54: 45 Schalter/Auswahlen im Fenster + 9 Verweise. Jede Option genau EINMAL.
+ Begründung Verweise: Diese Schalter stehen bei ihrem eigenen Text bzw. Inhalt (Antwort/Begrüssung/Fragen/Alter mit Textfeld, Kanäle
+ als Liste, Rolle beim "Ich komme mit", Beförderungs-Regeln, Aufstellungs-Tabelle, Verwaltung hinter Passwort). Sie dort
+ herauszulösen trennt Schalter und Text; die Suche findet sie trotzdem, Klick springt auf Seite UND Reiter.
+ Umgezogen in die Optionen (vorher Seite Rekrutierung): Werbe-Erinnerung + Minuten, Alte Bewerbungen löschen.
+(b) Suchfeld oben über alle Bereiche (Beschriftung, Tooltip, Bereichsname), Treffer mit Bereichsname, Trefferzahl auch an den
+    Bereichs-Knöpfen, "Nichts gefunden.", mehr als 12 Treffer: "n weitere – genauer suchen".
+(c) Kurze Beschriftungen (≤ 28 Zeichen in ALLEN 10 Sprachen, geprüft; 14 Übersetzungen dafür gekürzt), rechts gleiche Schalter-Art:
+    an/aus = ein Knopf "an"/"aus", Auswahl = Knopfreihe (Minuten); lange Listen (Sprache, Main) als Auswahlfeld. Erklärung nur im
+    Tooltip (auch über dem Schalter).
+(d) Häufiges zuerst; Seltenes unter "Weitere (n)" eingeklappt; "Standard" je Bereich (mit Rückfrage, setzt NUR diesen Bereich;
+    Sprache, Main, Verweise und Knöpfe bleiben).
+(e) Optionen-Knöpfe: Rekrutierung > Werbung und > Antworten & Begrüßung, Gruppensuche (oben rechts) öffnen ihren Bereich; eine
+    ausgeschaltete Funktion öffnet ihren Funktionen-Bereich; alter Aufruf "feat" öffnet Funktionen.
+(f) Gespeichert wird unverändert in denselben Feldern (ns.db.*, features, Marktnetz-Freigabe, bankChars, myMain); nil bleibt "an",
+    wo vorher "~= false" galt (getestet). Alte Clients: nur Anzeige neu.
+(g) Kein Klassisch/Modern und keine 130-%-Einstellung in GuildSentinel; geprüft mit Schrift 100 % und 130 % (Nachbildung) in allen
+    Sprachen: T185 (abgeschnitten) und neu T307d (jeder Bereich: nichts überlappt, nichts ragt hinaus, keine Zeile fehlt). Dabei
+    gefunden und behoben: Bereichsnamen zu lang (jetzt kleinere Schrift bzw. zwei Zeilen, "Ansagen" kurz), Zeilen 10 px zu breit,
+    "wie der Spiel-Client (Español (México))" passte bei 130 % nicht (Sprache des Clients steht jetzt im Tooltip; Auswahlfeld nimmt
+    bei zu langem Text kleinere Schrift).
+(h) Prüfliste-Punkt "OPT Optionen am Bild" (OK/Nicht OK). Wegen der Grenze 14 Punkte ist dafür "MENU" (Rechtsklick-Menü, im Spiel
+    erledigt auto 17.11. 16:48) entfernt.
+(i) Zeilen werden erst beim Zeigen gebaut (erstes Öffnen: 3 von 57 Zeilen). Nachbau: erstes Öffnen der Seite 2,1–5,7 ms;
+    Aufbau eines Bereichs 0,2 ms. Im Spiel misst T307e den längsten Aufbau (Ziel ≤ 16 ms).
+Neue Prüfungen im Spiel: T307a (alt 54 = neu 54, je Bereich ≤ 12), T307b (jede der 57 Zeilen wirkt wie vorher: gleiches Feld bzw.
+gleiche Funktion, ohne echte Wirkung über Ersatz-Tabelle/Aufzeichner), T307c (Suche findet jede Zeile), T307d (Lage), T307e (Zeit),
+T307f (Beschriftung ≤ 28 Zeichen in jeder geladenen Sprache; Gegenprobe mit 30 Zeichen: FEHLER "frFR:annjubilee 30").
+Offline test/run_opt.lua (5 Läufe, Sprachen deDE/ruRU/frFR/enUS/zhTW, Forever/Era/TBC): Klick auf jeden Schalter wie ein Spieler
+schaltet genau das alte Feld und zurück, Gegenprobe (Zeile auf falsches Feld verdrahtet) fällt auf, Suche, Verweise auf Seite+Reiter,
+Optionen-Knöpfe, Standard nur eigener Bereich, Weitere, alte Spielstände.
+
+D) HINWEIS 11:15 "SPIELER OHNE TESTBEFEHLE" – Teil Optionen schon umgesetzt, Rest folgt im nächsten Bericht
+Normale Wege zu den Optionen: /gs optionen (auch options, config, einstellungen, settings; ohne Entwicklermodus), Seite im
+Einstellungsfenster des Spiels (Settings-API, in alten Clients InterfaceOptions) mit Knopf "Optionen öffnen", Fenster > links
+"Einstellungen", Optionen-Knöpfe auf den Seiten. Getestet in run_opt (Forever: Settings-API, Era/TBC: InterfaceOptions).
+Minimap-Rechtsklick bleibt wie bisher "Werbung vorbereiten" (Spieler-Funktion seit 0.9.29). Die vollständige Liste aller
+Spieler-Funktionen mit ihrem Weg und die Prüfung ohne Entwicklermodus (Punkt 1–3) kommen im nächsten Bericht.
+
+TESTS (eigene Tests, Hinweise, keine Freigabe)
+- run_alle.sh: 193 Läufe, 0 rot, 15696 Einzelprüfungen. Abgleich mit dem Stand 0.9.56 + Tests (188 / 14735, auf dem alten Code
+  laufen lassen, Lauf für Lauf): +5 Läufe run_opt (5 × 148 = 740); 17 Routine-Läufe +6 (T306, T307a/b/c/e/f) = 102;
+  17 Routine-Läufe mit Bildschirm-Lage +7 (dazu T307d) = 119. 740 + 102 + 119 = 961 = 15696 − 14735. Sonst jede Zahl gleich.
+- Angepasst: run.lua / run_rm.lua (Nutzerliste und RaidMaster-Zeile jetzt in den Optionen), run_v81 (Funktionen je Bereich ≤ 12 statt
+  drei Spalten), run_pruefliste (MENU entfernt, OPT offen).
+- Testroutine: Forever 312, Era/TBC 317 OK, je 0 FEHLER; mit Bildschirm-Lage und Schrift 130 % (deDE/frFR/esMX/ruRU) 0 FEHLER.
+- Locales: 60 neue Texte, alle 10 Sprachen fehlend 0, Fehler 0.
+- addon_check: siehe ADDON_CHECK am Ende.
+
+ADDON_CHECK (addon-check/addon_check.py, Ausgabe unverändert):
+  Vorlage shared/GoldSentinelGame.lua: Version 3
+  Vorlage shared/GoldSentinelTest.lua: Version 2
+  Tests der gemeinsamen Datei: nicht ausgeführt – lupa fehlt (pip install lupa); im GitHub-Lauf werden sie ausgeführt
+  Lua-Syntaxprüfung mit: luac5.1 (Lua 5.1)
+  ## GuildSentinel-0.9.57.zip: OK
