@@ -1065,3 +1065,13 @@ Reihenfolge: 1 vor 2/3 (die Testroutine selbst darf nie einfrieren).
 - addon_check OK. Graph:Init und Wegsuche als Takt-Aufgaben, Netz byte-gleich (Fingerabdruck), "direct" während des Ladens, Rückfall
   am Stück nur bei Fehler/Zeitlimit; T151/T352 mit Gegenprobe – angenommen. Beim Nutzer installiert.
 - Punkt 1 HOCH SOFORT (Testroutine friert bis 3,3 s) fehlt noch -> 3.12.93. Erst danach Ingametest LevelPilot.
+
+==== BEFUND MITTEL 18.11.2026 09:07 – Testroutine öffnet das Blizzard-Fehlerfenster (3.12.92 belegt installiert, Nutzer 09:05) ====
+"Interface/AddOns/LevelPilot/Test.lua:1: LP-Testfehler Handlerkette", Stack Blizzard_ScriptErrors.lua:59/72 <- pcall <- TestRoutine.lua:3497.
+URSACHE (Code des Laptops gelesen): IMPL.T142 holt h = geterrorhandler() und ruft pcall(h, msg) – die Kette endet beim Handler des Spiels,
+das Fehlerfenster öffnet sich beim Nutzer, er hält es für einen echten Fehler. Gleicher Befund wie RaidMaster RM-TF-1, BuffSentinel 08:15,
+ProfessionSentinel 08:55 – gilt für alle Addons gleich.
+Auftrag: Der Testfehler darf NIE beim Handler des Spiels ankommen. Für die Prüfung den Handler des Spiels während T142 durch eine
+Attrappe ersetzen, die nur zählt (seterrorhandler vorher merken, danach wieder zurück, auch bei Fehler), oder den Abgriff von
+GoldSentinelTest und das Protokoll direkt aufrufen. GoldSentinelTest.lua nicht ändern (shared). Prüfung: "Fehlerfenster geöffnet: 0".
+Gegenprobe: 3.12.92 = 1 mit diesem Stack.
