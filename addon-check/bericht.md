@@ -2,7 +2,7 @@
 
 Vorlage shared/GoldSentinelGame.lua: Version 3
 Vorlage shared/GoldSentinelTest.lua: Version 2
-Tests der gemeinsamen Datei: bestanden 30/30 Prüfungen bestanden; GoldSentinelGame-Tests: bestanden; 139/139 Prüfungen bestanden; GoldSentinelSync-Tests: bestanden (111/111); 70/70 Prüfungen bestanden; GoldSentinelTest-Tests: bestanden (65/65); OK 56 / FEHLER 0; UICheck-Tests: bestanden (9/9); Vorlage-Tests: bestanden (113/113); 127/127 Prüfungen bestanden; Ladetest-Tests: 35/35 bestanden; 20/20 Prüfungen bestanden; Testberichte-Tests: bestanden (27/27); Wegdaten-Tests: bestanden (14/14)
+Tests der gemeinsamen Datei: bestanden 30/30 Prüfungen bestanden; GoldSentinelGame-Tests: bestanden; 139/139 Prüfungen bestanden; GoldSentinelSync-Tests: bestanden (111/111); 82/82 Prüfungen bestanden; GoldSentinelTest-Tests: bestanden (65/65); OK 56 / FEHLER 0; UICheck-Tests: bestanden (9/9); Vorlage-Tests: bestanden (113/113); 127/127 Prüfungen bestanden; Ladetest-Tests: 35/35 bestanden; 20/20 Prüfungen bestanden; Testberichte-Tests: bestanden (27/27); Wegdaten-Tests: bestanden (14/14)
 Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## AHSentinel-0.65.265.zip: OK (3 Warnungen)
@@ -18,7 +18,8 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 - **WARNUNG** GuildSentinel/GoldSentinelDev.lua: veraltet (Version 1, eine andere Kopie hat 2)
 - **WARNUNG** GuildSentinel/GoldSentinelSync.lua: veraltete offizielle Fassung (Version 2) – auf shared/GoldSentinelSync.lua Version 3 aktualisieren
 
-## ProfessionSentinel-0.9.74.zip: OK
+## ProfessionSentinel-0.9.74.zip: OK (1 Warnungen)
+- **WARNUNG** ProfessionSentinel/GoldSentinelTakt.lua: veraltete offizielle Fassung (Version 1) – auf shared/GoldSentinelTakt.lua Version 2 aktualisieren
 
 ## RaidMaster-3.0.40.zip: OK (1 Warnungen)
 - **WARNUNG** RaidMaster/GoldSentinelSync.lua: veraltete offizielle Fassung (Version 2) – auf shared/GoldSentinelSync.lua Version 3 aktualisieren
@@ -28,8 +29,10 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## ahsentinel__ahsentinel-0.65.347.AHSentinel.zip: OK
 
-## guildsentinel__guildsentinel-0.9.58.GuildSentinel.zip: OK (1 Warnungen)
+## guildsentinel__guildsentinel-0.9.58.GuildSentinel.zip: OK (2 Warnungen)
 - **WARNUNG** GuildSentinel/GoldSentinelSync.lua: veraltete offizielle Fassung (Version 2) – auf shared/GoldSentinelSync.lua Version 3 aktualisieren
+- **WARNUNG** GuildSentinel/GoldSentinelTakt.lua: veraltete offizielle Fassung (Version 1) – auf shared/GoldSentinelTakt.lua Version 2 aktualisieren
 
-## levelpilot__levelpilot-3.12.97.LevelPilot.zip: OK
+## levelpilot__levelpilot-3.12.97.LevelPilot.zip: OK (1 Warnungen)
+- **WARNUNG** LevelPilot/GoldSentinelTakt.lua: veraltete offizielle Fassung (Version 1) – auf shared/GoldSentinelTakt.lua Version 2 aktualisieren
 
