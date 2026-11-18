@@ -4975,3 +4975,8 @@ auftraege/hinweis-testort-2026-11-18.txt: Ort im Bericht, eigene Rechenzeit je l
 
 ==== HINWEIS 18.11.2026 19:55 – GoldSentinelTakt 2 IN shared/ ====
 auftraege/hinweis-testort-2026-11-18.txt NACHTRAG 19:55: Takt 2 mit der nächsten Version kopieren (nur wer Takt nutzt), Testroutine mit env = 10, EnvLine() in den Bericht.
+
+==== ENTSCHEID DES NUTZERS 18.11.2026 19:46 – TAKT 2 FÜR AHSENTINEL NICHT NÖTIG ====
+"wenn ahs schon einen hat braucht es das nicht": AHSentinel bindet GoldSentinelTakt NICHT ein. Der Hinweis 19:55 (Takt 2) gilt für AHSentinel
+nicht. Die bestehende eigene Messung ("eigene Arbeit Ø/höchstens" je Bild) bleibt und gilt als Trennung Addon/Umgebung (E-Regel 19:30).
+Der Hinweis 19:30 (Ort im Bericht) gilt weiter.
