@@ -1,6 +1,6 @@
 # Discord-Prüfung
 
-Geprüft: 2026-11-18T02:12:19Z (Commit 35682d8), Server: Alpine Vanguard
+Geprüft: 2026-11-18T03:45:40Z (Commit e8f900e), Server: Alpine Vanguard
 
 **Ergebnis: ❌ es fehlt etwas**
 
@@ -10,29 +10,29 @@ Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 4
 
 | | Addon | Version | Kanal | Gepostet | seit Push |
 |---|---|---|---|---|---|
-| ✅ ok | AHSentinel | 0.65.265 | #ahsentinel | 2026-11-16 16:31 UTC | 33 Std. |
-| ✅ ok | RaidMaster | 3.0.33 | #raid-addon | 2026-11-17 20:07 UTC | 6 Std. |
+| ✅ ok | AHSentinel | 0.65.265 | #ahsentinel | 2026-11-16 16:31 UTC | 35 Std. |
+| ✅ ok | RaidMaster | 3.0.33 | #raid-addon | 2026-11-17 20:07 UTC | 7 Std. |
 
 ## Ankündigungen (announce/, neueste Fassung je Reihe)
 
 | | Datei | Kanal | Abdeckung | seit Push |
 |---|---|---|---|---|
-| ✅ ok | ahsentinel__ahsentinel-0.65.339.md | #ahsentinel | 100 % | 35 Min. |
+| ✅ ok | ahsentinel__ahsentinel-0.65.341.md | #ahsentinel | 100 % | 35 Min. |
 | ✅ ok | ahsentinel__ahsentinel-0-vorstellung-1.8.md | #ahsentinel | 100 % | 8 Tage |
 | ✅ ok | ahsentinel__ahsentinel-hilfe-1.0.md | #ahsentinel | 100 % | 13 Tage |
 | ✅ ok | barrow-taktik__uebersicht-1.1.md | #barrow-taktik | 100 % | 14 Tage |
-| ✅ ok | buffsentinel__buffsentinel-0.9.53.md | #buffsentinel | 100 % | 6 Std. |
-| ✅ ok | guildsentinel__guildsentinel-0.9.55.md | #guildsentinel | 100 % | 5 Std. |
+| ✅ ok | buffsentinel__buffsentinel-0.9.53.md | #buffsentinel | 100 % | 7 Std. |
+| ✅ ok | guildsentinel__guildsentinel-0.9.55.md | #guildsentinel | 100 % | 7 Std. |
 | ✅ ok | hyjal-taktik__uebersicht-1.1.md | #hyjal-taktik | 100 % | 14 Tage |
-| ✅ ok | levelpilot__levelpilot-3.12.91.md | #levelpilot | 100 % | 6 Std. |
-| ⚠️ veraltet | levelpilot__levelpilot-uebersicht-3.12.91.md | #levelpilot | 95 % | 6 Std. |
+| ✅ ok | levelpilot__levelpilot-3.12.91.md | #levelpilot | 100 % | 7 Std. |
+| ⚠️ veraltet | levelpilot__levelpilot-uebersicht-3.12.91.md | #levelpilot | 95 % | 7 Std. |
 | ✅ ok | lore__alpine-vanguard-vorstellung-1.0.md | #lore | 100 % | 17 Tage |
 | ✅ ok | mc-feuerresi__feuerresi-1.1.md | #mc-feuerresi | 100 % | 14 Tage |
 | ✅ ok | onyxia-feuerresi__feuerresi-1.0.md | #onyxia-feuerresi | 100 % | 20 Tage |
 | ✅ ok | onyxia-taktik__onyxia-video-1.0.md | #onyxia-taktik | 100 % | 21 Tage |
-| ✅ ok | professionsentinel__professionsentinel-0.9.67.md | #professionsentinel | 100 % | 4 Std. |
+| ✅ ok | professionsentinel__professionsentinel-0.9.67.md | #professionsentinel | 100 % | 6 Std. |
 | ✅ ok | professionsentinel__professionsentinel-0-vorstellung-1.27.md | #professionsentinel | 100 % | 4 Tage |
-| ✅ ok | threatsentinel__threatsentinel-2.5.19.md | #threatsentinel | 100 % | 6 Std. |
+| ✅ ok | threatsentinel__threatsentinel-2.5.19.md | #threatsentinel | 100 % | 7 Std. |
 | ✅ ok | threatsentinel__threatsentinel-0-vorstellung-2.2.md | #threatsentinel | 100 % | 15 Tage |
 | ✅ ok | buffsentinel__buffsentinel-0-vorstellung-12.md | #buffsentinel | 100 % | 13 Tage |
 | ✅ ok | guildsentinel__guildsentinel-0-vorstellung-19.md | #guildsentinel | 100 % | 5 Tage |
