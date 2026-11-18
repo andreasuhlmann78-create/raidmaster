@@ -1,0 +1,37 @@
+BuffSentinel – Bericht an die Prüf-Sitzung · 0.9.54-testdaten-api
+Datum: 18.11.2026, 06:58 (aus date)
+
+Stand: HINWEIS 18.11. 06:45 "Testdaten nie zu anderen Addons" – umgesetzt, zur Prüfung (0.9.54); GoldSentinelTakt gelesen
+
+VERÖFFENTLICHT
+- download/BuffSentinel-0.9.54.zip, README, announce (+ Zip), 0.9.53 entfernt; auf origin/main nachgeprüft. addon_check OK (1 Warnung:
+  Lua-Syntax nicht geprüft, lupa fehlt). Gemeinsame Dateien byte-gleich mit shared/. Offline-Routine auf der Zip: 8 × PASS.
+
+REGEL 1 – BuffSentinelAPI.TestRunning()
+- Core.lua: globales BuffSentinelAPI = { TestRunning = function() … end }. true, solange BS.Selftest.running – genau die Zeit, in der
+  BuffSentinelDB die Sandbox ist (Selftest:Enter ersetzt den globalen Verweis; Leave und /reload-Abbruch OnLogout stellen zurück und
+  setzen running = false). Gilt für den ganzen Lauf inkl. TU4-Portionen. Die nachgeholte Händler-Prüfung (T247) läuft ohne Sandbox und
+  schreibt keine Testdaten (nur einen Testbericht in gsTest) – dort false, richtig so.
+- Testdaten ausserhalb des Laufs: keine. Testfehler werden nach dem Lauf aus der Fehlerliste entfernt (CleanTestErrors), gsTest enthält
+  nur Testberichte (für den Uploader bestimmt, keine Spieldaten).
+- NEU T256 (Bereich B): im Lauf true, ausserhalb false (Selftest.running kurz auf false gesetzt), dazu BuffSentinelDB ≠ echte Daten
+  im Lauf. Nachbau: "im Lauf: true, ausserhalb: false".
+
+REGEL 2 – Lesestellen fremder Addons (Liste)
+- BuffSentinel liest KEINE Daten anderer Addons (keine fremden SavedVariables, keine fremde API, keine fremden Globalen mit Daten).
+  Gefunden (grep nach allen GoldSentinel-Addonnamen im eigenen Code):
+  · SelfTest.lua T100: IsAddOnLoaded für RaidMaster, ThreatSentinel, AHSentinel, GuildSentinel, ProfessionSentinel, LevelPilot (nur ja/nein).
+  · CmdHint.lua: nur Herkunfts-Kommentar (Baustein von AHSentinel).
+  · Diag.lua: nur Kommentar (RaidMasterUploader liest UNSERE SavedVariables, nicht umgekehrt).
+  · Gemeinsame Dateien aus shared/ (GoldSentinelMarkt: "ist AHSentinel geladen?" und Feed von AHSentinel; GoldSentinelGame/Test/
+    Pruefliste/Dev): nicht von mir, unverändert kopiert – Regel 2 dort ist Sache der Prüf-Sitzung (shared/).
+- Damit nichts zu übernehmen; keine Plausibilitätsprüfung nötig.
+
+REGEL 3 – Ankündigungen: BuffSentinel sendet nichts automatisch in Gildenchat, Flüstern oder Discord. Einzige Chat-Ausgabe an andere:
+  keine (Bereitschaftscheck- und Zorn-Hinweise gehen nur in den eigenen Chat). Die Testroutine sendet nie (T136 zählt echte Aktionen = 0).
+
+GOLDSENTINELTAKT (Hinweis 17.11. 21:00): gelesen. BuffSentinel hat schon eine eigene, im Nachbau mit Lua-5.1-Prüfer belegte Takt-Lösung
+(Sliced/Slice, B2 in leistung.md) – darf laut Punkt 5 bleiben. Keine neue Arbeit in Portionen in dieser Version, darum noch nicht
+übernommen. Bei der nächsten neuen Portionen-Arbeit kopiere ich shared/GoldSentinelTakt.lua unverändert.
+
+Belege (eigene Tests, keine Freigabe): run25m OK 199, die bekannten 12 Nachbau-FEHLER; Lua-5.1-Prüfer 48 844 Abgaben, 0 Verletzungen.
