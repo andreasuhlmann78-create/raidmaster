@@ -1142,3 +1142,13 @@ HOCH:
 2. Restliche Bilder über 40 ms: T136 Zentrale ~86–102 ms (6×, Sprachwechsel – Reiter am Stück), T129 svc 102, T21 /lp protokoll 91–93, T275 92.
    T275 nach Entscheid 10:25 (Spielversion im Wechsel). /lp protokoll ist ein Befehl des SPIELERS – 93 ms beim Spieler: in Portionen bauen.
 MITTEL: T155 Planung je Reiseschritt 31,2 ms (57×) – (3.12.93: 28,5).
+
+==== AUFTRAG 18.11.2026 10:30 – KARTE-TT1 (Entscheid des Nutzers 10:24) – MITTEL, nach den HOCH-Punkten ====
+Wunsch: Auf der Weltkarte zeigt das Questgebiet (halbdurchsichtige Fläche, Pins.lua UpdateWorldMap, heute EnableMouse false) beim
+Drüberfahren mit der Maus ein Fenster: Questname, Stufe, Stand der Ziele (z. B. "Wolfsfelle 3/8"), wenn möglich Entfernung. Liegen mehrere
+Gebiete übereinander: alle betroffenen Quests untereinander (keine doppelten).
+Bedingungen: (1) Klicks auf die Karte müssen weiter gehen (Zoom, Strg+Klick-Markierung T320, Blizzard-Symbole, "!"/"?" von LevelPilot) –
+Flächen dürfen keine Klicks schlucken (z. B. nur Maus-Bewegung auswerten bzw. Klicks durchreichen; Weg belegen). (2) Kein Ruckeln: Prüfung
+Mausposition gegen höchstens MAX_WM Flächen, nur solange die Karte offen ist, < 1 ms je Bild. (3) Im Kampf ohne Fehler/Taint. (4) Text
+in der Sprache des Clients (Questnamen/Ziele aus dem Questlog des Spiels). (5) Schalter in den Einstellungen (Standard an), Locales/
+CHANGELOG EN/DE. (6) Test in der Testroutine mit Gegenprobe (Fläche ohne Quest -> kein Fenster; zwei Flächen übereinander -> beide Quests).
