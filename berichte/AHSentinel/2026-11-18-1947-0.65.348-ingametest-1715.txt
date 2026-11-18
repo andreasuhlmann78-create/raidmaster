@@ -1,0 +1,30 @@
+AHSentinel 0.65.348 – Auswertung Ingametest 18.11. 17:15 (Bericht 17:01) – umgesetzt, zur Prüfung
+Daten: goldsentinel-daten 6c09891 (17:14). Vollauf 398 bestanden, 0 fehlgeschlagen (vorher 393 + s320–s324).
+
+HOCH 1 T45 "nie gesendet: Preisprüfung sucht" – Ursache belegt:
+  T20 (Markt-Scan) -> A:ProcessBest reiht bis zu 60 auffällig billige Waren zur Nachprüfung ein (vordere Liste der Preisprüfung).
+  Der Wächter wartet laut W:WhyWaiting, solange die Preisprüfung Arbeit hat (HasWork) – ohne Zeitlimit. Bei ~10 Suchen/Min
+  (im Bericht "Suchen/Min. 10") dauern 60 Nachprüfungen ~6 Min. Nachbau s320 (Server 1 Suche/5,5 s): 0.65.347 keine Runde in
+  120 s (noch 38 in der Liste); 0.65.348 erste Runde nach 49,9 s (noch 51 in der Liste), Liste läuft danach weiter.
+  Behebung: W.SELLER_WAIT 45 s, dann lässt die Preisprüfung (ausser angeklickt) eine Suche aus; Fenster 10 s, danach neu zählen
+  (auch diese Sperre begrenzt). QueryBlockers zeigt jetzt "Preisprüfung sucht/wartet (Liste n, Hintergrund m)".
+HOCH 4 T52 "Status ?" – gleiche Ursache, belegt: CheckUndercuts stellt die eigene Auktion HINTER die 60 Nachprüfungen;
+  nach 15 s kein Preis -> Status "?". Behebung: Nachprüfungen über CheckPriceBg (Hintergrund-Liste), eigene Auktionen und Klicks
+  zuerst. s323: 0.65.348 Leinenstoff nach 0,5 s geprüft; Gegenprobe 0.65.347 nach 15,1 s ohne Preis (FAIL).
+HOCH 2 T459 "Warten auf Server" 33 MB – Verdacht, zu messen (Aufteilung je Aufgabe stand im Spiel-Bericht hinter dem Schnitt):
+  T458 nennt cache:today:10 als längstes Bild IM Vollscan. Nachbau mit echten Daten (17:14, 3. Scan, "Heute tun" rechnet gerade):
+  eigener Speicher 19 298 KB, davon cache:today 10 962, forecast-eval 2 483. Behebung: Zwischenspeicher-Aufgaben (cache:*) und
+  Prognose warten während eines Vollscans (auch begonnene, nichts verworfen), Zeitlimit 300 s ab Scan-Beginn -> 9 912 KB
+  (fullscan 6 743, cache:today 2 974 nach Scan-Ende). s321 mit Gegenprobe. T459/Vollscan-Text: "je Aufgabe" und "ausserhalb von
+  Aufgaben" jetzt VOR "je Schritt", damit der nächste Ingametest die Aufteilung zeigt.
+HOCH 3 S28 1004/1003 – Leck belegt, genaue 1c-Mischung Verdacht:
+  D.matCache (Materialpreise und Planwerte je Gruppe, bis 30 s) galt global, solange DEBuy:Candidates als Aufgabe mit Pausen lief –
+  Tooltip, Markt und S28 in den Bildern dazwischen bekamen zwischengespeicherte Werte, andere Wege frische. s322: Materialpreis
+  ändert sich während der Prüfung; 0.65.347 "Lohnt bis" ausserhalb 8323 (alt), frisch 2773 (FAIL); 0.65.348 überall 2773.
+  Behebung: D:MatCacheOn() – Zwischenspeicher nur für die Aufgabe, die ihn angelegt hat (ohne Aufgabe nur im selben Bild).
+MITTEL 5 T913 "2 geändert": T277 ist der einzige direkte GSS.Learn-Aufruf und stellt den Eintrag seit 0.65.346 genau wieder her
+  (s318). Verdacht A damit ausgeschlossen, Verdacht B zu messen: T913 nennt jetzt die geänderten Felder ohne Namen mit der grössten
+  Änderung (s324, Gegenprobe ohne Felder).
+Offen (nächste Version): 6 Wächter-Tick 56 ms, 7 T126 cache:today:10 13 ms, 8 Prüfliste TR-ALLES, 9 Vollscan-Täter je Addon,
+  Hinweis Testort/GoldSentinelTakt 2.
+Discord veröffentlicht, Release v0.65.348. CurseForge nicht (erst nach Ingametest).
