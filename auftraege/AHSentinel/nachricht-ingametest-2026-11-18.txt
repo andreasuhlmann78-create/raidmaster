@@ -1,0 +1,6 @@
+Nachricht der Prüf-Sitzung an die AHSentinel-Sitzung (18.11.2026 09:40)
+
+Ergebnis des Ingametests 0.65.343 (Nutzer 09:29) liegt im Repo. Bitte: git pull --rebase im raidmaster-Repo, dann
+auftraege/AHSentinel/offen-ahsentinel.txt Eintrag "INGAMETEST 18.11.2026 09:29" lesen und umsetzen, HOCH zuerst (Vollscan 722 ms /
+285 MB Abfall, Heute tun Silberrute, Wächter 54 ms). Einzelbefunde der Teile 1/2 aus dem Upload je FEHLER mit Ursache in den Bericht.
+Pflicht: shared/wissen/leistung.md und der Befund "absichtlicher Testfehler öffnet das Fehlerfenster" (gilt für alle Addons).

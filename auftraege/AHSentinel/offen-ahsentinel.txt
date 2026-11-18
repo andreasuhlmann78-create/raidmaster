@@ -4812,3 +4812,35 @@ Ladefehler (HOCH SOFORT 06:40).
 - addon_check OK. API.Pending() additiv, in Safe(), T906 + s301 mit Gegenprobe – angenommen. Vertrag (schnittstelle-ahsentinel-api.md)
   ergänzt. s274 mit eigener Zeitgrenze statt Kürzen – richtig (Median aus 3 bleibt).
 - BEREIT FÜR INGAMETEST: ANGENOMMEN. Beim Nutzer installiert (Laptop). Lauf mit offenem AH und ProfessionSentinel 0.9.68 geladen.
+
+==== INGAMETEST 18.11.2026 09:29 – AHSentinel 0.65.343 "/ahs testroutine alles" (Laptop, Priester 10, AH offen; Einfügung 09:32) ====
+Gesamt: 1031 OK · 11 FEHLER · 42 übersprungen (17.11. 19:11 auf 0.65.328: 1020 OK · 14 FEHLER). Teile: 1 (5 FEHLER) · 2 (1) · 5 Wächter FEHLER
+· 6 (5) · 3/4 bestanden · 7/8/9 vorgemerkt (kein FEHLER, Nachtrag D wirkt). Einzelbefunde der Teile 1/2 kommen mit dem Upload – je FEHLER im
+Bericht Ursache und Behebung (wie Punkt 7 vom 17.11.).
+GUT: Sandbox in allen Teilen OK (Punkt 1 vom 17.11. – im Spiel bestätigt). Schritte über 16 ms: 14 -> 5 (T21 716, T32 59, T26a 47, S28 46,
+T26b 21; vorher S28 648, T72 405, T15 259 …). TU6 58/58. SK1-r "Heute tun: Einsatz je Item" stimmig.
+HOCH:
+1. VOLLSCAN IM SPIEL VIEL SCHLECHTER ALS AM 17.11. (T458/T459): längster Frame EINLESEN 722 ms (17.11.: 22 ms), Preisverlauf+Neuaufbau 92,
+   Nachlauf 131, Verdichtung/V4 51 ms; Frames über 33 ms 838 von 1278. T459: angelegt ohne gelesene Auktionen 285 773 KB (Grenze ≤ 10 MB ab dem
+   2. Scan; 17.11.: +48 850 KB), 13 Bereinigungen, 2 Bilder über 40 ms mit Bereinigung. Ganzer Lua-Speicher 628 -> 690 MB, höchstens 781 MB.
+   Takt-Zeile: eigenes längstes Bild 37 ms – die 722 ms liegen also AUSSERHALB der eigenen gemessenen Arbeit. Verdacht, zu messen:
+   Speicherbereinigung (285 MB neuer Abfall -> Bereinigung am Stück) oder ein Aufruf ohne Abgabe ("Abgabe nicht möglich" im Bericht
+   abgeschnitten – vollständig ausweisen). Belegen: was im Bild mit 722 ms lief (Etikett, Bereinigung ja/nein, Speicher vor/nach).
+   Welche Änderung seit 0.65.328 hat den Abfall verfünffacht? Gegenprobe mit denselben Daten (183 780 Auktionen) 0.65.328 vs. 0.65.343.
+2. T72 "Heute tun": "Verkaufspreis zu hoch: Silberrute (4s 88c, günstigstes Angebot 16c)" – Heute tun empfiehlt auf ECHTEN Daten einen
+   Verkaufspreis 30× über dem günstigsten Angebot. Entweder ist das Angebot 16c ein Ausreisser (dann darf er die Prüfung nicht kippen –
+   Regel belegen) oder die Empfehlung ist falsch (der Spieler stellt ein, nichts verkauft sich). Ursache mit diesem Fall belegen (Marktwert,
+   Leiter, Alter des Scans), psychologie.md: nie eine Empfehlung, die so nicht aufgeht.
+3. Wächter 10 Min.: längste Wächter-Rechenzeit je Bild 54 ms (Grenze ≤ 50; 17.11.: 49 ms), längstes ganzes Bild 105 ms (Auskunft). Was lief
+   im Bild mit 54 ms? In Portionen.
+MITTEL:
+4. T49 "falscher Preis: 400" – Punkt 2 vom 17.11. (Preisschutz/Widerspruch Marktwert-Angebote) im Spiel weiter nicht gelöst. Ursache mit
+   diesem Fall (welcher Marktwert, welche Leiter), Nachbau mit genau diesem Fall.
+5. T126 Scan-Auswertung: mittlere der 3 längsten 21,4 ms (17.11.: 16,8), längste 22,4 (20,6) – schlechter. Soll ≤ 8 / ≤ 16.
+6. T21 716 ms (17.11.: 546) – eigene Rechenzeit oder Server-Warten? Getrennt ausweisen (Punkt 3 vom 17.11.).
+7. SK1-m "Herstellen ohne Rezept: Zauber 3909 (08:46), Zauber 836 (09:00, 09:11)". Die Zeiten fallen genau auf /reload bzw. Einloggen des
+   Nutzers vor den Tests von ProfessionSentinel (08:46) und LevelPilot (09:00) und nach dem LevelPilot-Test (~09:11). Verdacht, zu messen:
+   836 ist ein Zauber, den das Spiel beim Einloggen/Neuladen selbst wirkt (kein Herstellen) – im Spiel /dump GetSpellInfo(836) und (3909)
+   bestimmen; Herstellen nur bei Berufszaubern buchen. Dazu Testdaten-Regel: während ProfessionSentinelAPI.TestRunning() nichts aus PS buchen.
+8. SK1-e Tagesbilanz 14./15.11. und SK1-f Lager (279972, 2589, 4470) – alte Fälle, bekannt; bleiben im Masterplan.
+Hinweis: SK1-h zeigt für 16.11. 19:37 "+121 584 KB nach dem Scan" – passt zu Punkt 1 (Speicher wächst je Scan).
