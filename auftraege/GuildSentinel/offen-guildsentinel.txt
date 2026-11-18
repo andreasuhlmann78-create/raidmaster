@@ -580,3 +580,14 @@ MITTEL – T138 "Roster:Scan mit 500 Mitgliedern: 16,2 ms (soll < 16)". 0.9.56 (
 dem Spiel. Zwei Dinge: (1) Messart: Median aus 3 Läufen und eigene Rechenzeit ausweisen (wie andere Projekte), damit ein einzelner Ausreisser
 nicht kippt; (2) Produkt: läuft Roster:Scan im Spiel am Stück? Bei einer echten Gilde mit 500 Mitgliedern wären 16 ms ein Bild über 16 ms –
 wenn am Stück, als Aufgabe in Portionen (GoldSentinelTakt). Ursache belegen; danach T138 wieder streng (< 16 ms je Bild).
+
+==== BEFUND MITTEL 18.11.2026 13:50 – Titelleiste oben rechts sieht nicht gut aus (Nutzer 13:46 mit Bild, 0.9.57) ====
+Nutzer: "oben rechts das ist nichts schönes". Am Bild (Hauptfenster, Seite Rekrutierung; Bild nicht im Repo – Namen):
+- Schliessen-Knopf ist das rot-goldene Blizzard-X (UIPanelCloseButton) – passt nicht zum dunklen, flachen Stil des Fensters.
+- "Unterstützen" ist ein grauer Blizzard-Knopf (UIPanelButtonTemplate) mitten in der Titelleiste – wirkt fremd und drängt sich vor.
+- Gildenname und "n Mitglieder, n online" stehen ohne Abstand direkt am Knopf, die Elemente rechts sind ungleich hoch/ausgerichtet.
+Auftrag: Titelleiste rechts im Stil des Fensters: flaches Schliessen-X (gleiche Farben wie die übrigen Bedienelemente, Hover hell),
+"Unterstützen" zurückhaltend (kleines Symbol oder Textverweis mit Tooltip, nicht als grauer Knopf), Gildeninfo mit Abstand und auf einer
+Linie. Gleiche Höhe und Mittellinie für alle Elemente. Psychologie: Unterstützen nie aufdringlich. Beide Designs (falls vorhanden) und 130 %.
+Test: UICheck (nichts überlappt/abgeschnitten) + Prüflisten-Punkt OPT/Optik vom Nutzer am Bild. Bitte die anderen Addons nicht anfassen –
+haben sie dieselbe Titelleiste, meldet es die Prüf-Sitzung dort.
