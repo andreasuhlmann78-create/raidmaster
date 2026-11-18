@@ -32,6 +32,7 @@ GoldSentinel-Addons) benutzen sie. Rechenregeln: shared/wissen/wirtschaft-foreve
 | `API.MinProfitPct()` | eingestellter Mindestgewinn in % (Standard 20) |
 | `API.GoldPerHour(kind)` | Kupfer pro Stunde und gemessene Sekunden für `"craft"`, `"disenchant"`, `"flip"`, `"ah"`, `"all"` – `nil`, solange nicht gemessen (kommt mit H9); 3. Wert (ab 0.65.334) Stand-Zeit des Werts (time()) |
 | `API.LastScan()` | Zeitpunkt des letzten Scans (time()), Anzahl Items |
+| `API.Pending()` | (ab 0.65.343, Ergänzung 18.11.2026) `true`, solange AHSentinel nach dem Laden die Lern-Faktoren rechnet – in dieser Zeit liefern NetSale/BestWay/WorthUpTo/SellSpeed `nil`; Ende meldet `Subscribe` mit Grund `"settings"`. Ältere Versionen: Funktion fehlt (`nil`) |
 | `API.DisenchantDeals()` | (ab 0.65.334, Ergänzung 17.11.2026) fertige Liste der Entzauber-Schnäppchen der letzten Rechnung (nur lesen) und Stand-Zeit (time()); `nil`, solange noch nie gerechnet (die Rechnung wird dann im Hintergrund angestossen) |
 
 ## Ereignis

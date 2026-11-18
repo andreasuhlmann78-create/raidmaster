@@ -490,3 +490,5 @@ auftraege/hinweis-testdaten-fremde-addons-2026-11-18.txt umsetzen (<Addon>API.Te
   behalten, verworfen bei jeder AHSentinel-Meldung. Gold-Sicherheit: Gold-Klicks fragen frisch (FreshPrices) – bleibt so.
 - FRAGE API.Pending(): an AHSentinel gegeben (Vertrag additiv). Bis dahin keine Ladezeile – richtig.
 - Beim Nutzer installiert. Ingametest frei, sobald AHSentinel ohne Ladefehler da ist (zusammen testen).
+Hinweis 08:10: AHSentinel 0.65.343 liefert API.Pending() (Vertrag ergänzt). Bitte "AHSentinel lädt noch" über "API.Pending and API.Pending()"
+anzeigen (mit älterem AHSentinel nil -> keine Zeile). Nächste Version, MITTEL.

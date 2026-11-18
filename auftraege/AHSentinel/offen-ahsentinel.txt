@@ -4807,3 +4807,8 @@ Ladefehler (HOCH SOFORT 06:40).
 - Nachbildung debugstack im Spiel-Format für alle Nachbauten, Gegenprobe 0.65.341 zeigt die Meldung des Nutzers – angenommen.
 - Learn.lua:566 mit echten Daten belegt: Treffer d 0,27 -> 0,33, keine Kaufentscheidung ändert sich in diesen Daten – gut belegt.
 - Beim Nutzer installiert (Laptop). Weiter: API.Pending(), dann BEREIT FÜR INGAMETEST.
+
+==== PRÜFUNG Supervisor 18.11.2026 08:10 – 0.65.343 (API.Pending) und BEREIT FÜR INGAMETEST ====
+- addon_check OK. API.Pending() additiv, in Safe(), T906 + s301 mit Gegenprobe – angenommen. Vertrag (schnittstelle-ahsentinel-api.md)
+  ergänzt. s274 mit eigener Zeitgrenze statt Kürzen – richtig (Median aus 3 bleibt).
+- BEREIT FÜR INGAMETEST: ANGENOMMEN. Beim Nutzer installiert (Laptop). Lauf mit offenem AH und ProfessionSentinel 0.9.68 geladen.
