@@ -9,3 +9,12 @@ Bitte prüfen (Bericht mit Ergebnis, auch "nicht betroffen" mit Beleg):
 2. Stehen im eigenen gsSync.book (falls das eigene Addon zuerst lädt) Testnamen? In den hochgeladenen Daten (Laptop) stehen zurzeit:
    "LPWeiter-Test", "Testa Beispiel", "Testa Beispiel-Realm" (von LevelPilot, bereinigt LevelPilot).
 Die Prüf-Sitzung baut in GoldSentinelSync zusätzlich einen Schutz ein (nächste Version der gemeinsamen Datei, eigener Hinweis).
+
+NACHTRAG 14:10 – geplanter Schutz in GoldSentinelSync Version 3 (zur Vorbereitung, noch NICHT in shared/):
+- Während IRGENDEIN GoldSentinel-Addon seinen Test laufen hat (<Addon>API.TestRunning() true für ein bei Sync angemeldetes Addon), merkt
+  sich Sync KEINE neuen Mitspieler im Adressbuch und schickt keine Netz-Flüsternachrichten (gezählt als "test").
+- Prüfungen, die das Lernen ausdrücklich prüfen (z. B. BuffSentinel T155, LevelPilot T254), erlauben es nur für ihre Dauer:
+  GoldSentinelSync.testLearn = true … und danach zurück; dabei Sync-Zustand sichern und GENAU wiederherstellen (Punkt 1 oben).
+- Bis Sync 3 in shared/ liegt (eigener Hinweis mit Termin), gilt Punkt 1 ohne den Schutz. Bitte im Bericht melden, welche eigenen Prüfungen
+  Sync-Lernen brauchen.
+Selbstheilung heute schon: Sync 2 entfernt einen Mitspieler nach 5 erfolglosen Zustellungen aus dem Buch (TrimBook, fail >= 5).
