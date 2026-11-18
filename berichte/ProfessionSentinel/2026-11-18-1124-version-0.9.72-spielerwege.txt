@@ -1,0 +1,43 @@
+BERICHT PROFESSIONSENTINEL AN DIE PRÜF-SITZUNG – VERSION 0.9.72 (Hinweis 11:15 "Spieler ohne Testbefehle", Entscheid des Nutzers 11:10)
+Stand: 18.11.2026 (Uhrzeit im Dateinamen) · Release v0.9.72 (Commit f634727), Zip aus dem Release = Quelle (diff -r), addon_check OK.
+Nur "umgesetzt, zur Prüfung" mit Belegen. Prüfungen 0.9.70 (11:25) und 0.9.71 (11:45) gelesen – nichts offen daraus.
+
+1. LISTE DER SPIELER-FUNKTIONEN MIT IHREM NORMALEN WEG (ohne Entwicklermodus)
+Funktion                               Normaler Weg (Spieler)                                                         neu in 0.9.72
+Fenster ProfessionSentinel             öffnet mit dem Berufsfenster · Minimap-Linksklick · /ps
+Optionen-Fenster (13 Einstellungen)    Zahnrad im Fenstertitel · Minimap-Rechtsklick · /ps optionen · /ps config ·     /ps config,
+                                       Esc → Optionen → AddOns → ProfessionSentinel → „Optionen öffnen“               Spiel-Einstellungen
+Jede einzelne Einstellung              im Optionen-Fenster (T292) · dazu ihr Befehl (/ps line, alarm, kisten, menge,
+                                       minimap, auto, stil, markt, ziel)
+Heute herstellen                       Reiter „Jetzt“ · /ps heute
+Ziel als Verzauberer                   Frage-Fenster beim ersten Öffnen · Optionen „Gold & Verzaubern“ · /ps ziel
+Reiter Skillen/Gold/Rezepte, Details,  im Fenster (Reiter, Zeilen, Knöpfe Herstellen/Einkaufsliste/Warteschlange/AHS-Liste)
+Warteschlange, Einkaufsliste
+Skillspur im Berufsfenster             im Berufsfenster selbst (Option „Skillspur im Berufsfenster“)
+Tooltip-Zeilen (Gewinn, Rezept)        von selbst beim Überfahren
+Mengenfenster am Händler               Shift+Klick auf eine Ware (Option)
+Rezept-Alarm                           von selbst nach einem AHSentinel-Scan (Option)
+Diagnose-Protokoll                     Knopf „Diagnose-Protokoll“ im Optionen-Fenster · /ps protokoll                Knopf
+Hilfe                                  /ps hilfe (Spieler-Text ohne Testbefehle)
+Spieltest (prüft beim Spielen)         /ps spieltest an|aus|bericht (kein Entwicklerbefehl)
+Fehlender normaler Weg vorher: Spiel-Einstellungsfenster (keine Kategorie) und /ps config – eingebaut. Diagnose-Protokoll hatte nur den
+Befehl – Knopf dazu. Das Testmodus-Fenster (/ps test, nur Entwickler) enthält nur Test-Werkzeuge (Simulation von Fertigkeit, Preisen,
+Verzauberer, Wegpunkt-Test); seine Reiter-Knöpfe gibt es im Fenster selbst, „Skillspur“ als Option – keine Spieler-Funktion nur dort.
+
+2. TEXTE
+- L.OPEN_PROF_FIRST (Spieler, z. B. Minimap-Linksklick ohne Beruf) nannte "/ps test" – jetzt "Taste P, dann dein Beruf" (EN/DE).
+- Alle anderen Texte mit Test-/Entwicklerbefehlen (TEST_HELP, TR_*, Prüfliste) erscheinen nur im Entwicklermodus.
+- /ps hilfe zeigt Spielern L.HELP (jetzt mit /ps optionen bzw. /ps config), Entwicklern TEST_HELP.
+
+3. TEST T293 (Testroutine, Entwicklermodus AUS)
+Minimap-Links-/Rechtsklick, /ps optionen, /ps config, Zahnrad, Knopf im Spiel-Einstellungsfenster (+ Kategorie angemeldet), /ps heute,
+/ps ziel, /ps protokoll, jeder Einstellungs-Befehl nicht dev; Gegenprobe: /ps test öffnet ohne Entwicklermodus nichts, Test-/Prüfbefehle
+sind dev; Spieler-Texte (HELP, OPEN_PROF_FIRST, Minimap-Tooltip, Optionen-Texte) in EN und DE ohne "/ps test", testroutine, selftest,
+autotest, prüfliste, warnprobe, /gsdev. Gegenprobe mit altem Text und ohne "config": T293 FEHLER (4 Fehler: /ps config fehlt, OPEN_PROF_FIRST
+EN und DE nennen "/ps test").
+Nachbildung: Settings (RegisterCanvasLayoutCategory/RegisterAddOnCategory) in Forever/Era/Retail, nicht TBC; der Code fällt ohne Settings
+auf InterfaceOptions_AddCategory zurück – Verdacht, zu messen: Kategorie im Forever-Client 1.60.1 sichtbar (Esc → Optionen → AddOns).
+
+4. TESTS
+run_offline Forever 248 OK / 0 FEHLER, Era 230/0, Retail 228/0, Fehlerfenster 0; smoketest AUTOTEST OK (3 Versionen), yield_check OK,
+Locale EN/DE ergänzt, CHANGELOG EN/DE.
