@@ -4785,3 +4785,10 @@ Auftrag (vor allem anderen):
    mit diesem debugstack -> listenerAt "AHAnalyzerPro.lua:159"; Gegenprobe 0.65.341 wirft genau die Meldung des Nutzers.
 3. Alle anderen Stellen mit debugstack/Stapel-Auswertung (Takt-Erkennung C-Grenze, SN-EIGEN, Diag) mit demselben Spiel-Format testen.
 4. Sofort neue Version; dem Nutzer: 0.65.341 nicht benutzen. Danach erneut BEREIT FÜR INGAMETEST.
+Nachtrag 06:50 – dasselbe Muster an weiteren Stellen (Supervisor, Suche im Code 0.65.341; "local a, b = x and f()" liefert b IMMER nil):
+- Learn.lua:566  local _, st = F and F:Data()  -> st immer nil: die Zusammenfassung der aus dem Ringpuffer gefallenen Käufe fliesst NIE
+  in nAll/winAll ein. Betrifft gelernte Kauf-Quoten (Kauf-Sicherheit/Margen) – HOCH: belegen, seit wann, und welche Zahlen sich
+  ändern (echte Daten, vorher/nachher).
+- Diag.lua:109  local _, class = UnitClass and UnitClass("player")  -> Klasse im Sitzungsprotokoll immer "?".
+- Disenchant.lua:840  local _, n = GetContainerItemInfo and GetContainerItemInfo(bag, slot)  -> Menge immer 1 (nur alter Client).
+Alle Stellen (auch in TestRoutine/Nachbau) mit einer Suche nach diesem Muster finden und je mit Test + Gegenprobe beheben.
