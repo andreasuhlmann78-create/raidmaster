@@ -1,0 +1,104 @@
+LevelPilot 3.12.93 veröffentlicht (Discord) – HOCH SOFORT: Testroutine friert nicht mehr ein (umgesetzt, zur Prüfung)
+Datum: 18.11.2026 09:12
+Bezug: offen-levelpilot.txt Ingametest 3.12.91 (06:42) Punkt 1 (HOCH SOFORT) und Punkt 5; Prüfung 07:30 (Punkt 1 -> 3.12.93).
+Zip: announce/levelpilot__levelpilot-3.12.93.LevelPilot.zip, md5 31b5835031a439b53846df2e5c19f9cb. Datenpaket 1.6.4.
+GoldSentinelTakt.lua unverändert aus shared/.
+
+MESSUNG (Nachbau, Lua 5.1, ganze Routine "alles", echte Daten aus goldsentinel-daten, nur lokal gelesen)
+                                   längstes Bild   Schritte >16 ms   Bilder >40 ms   eigene Rechenzeit
+- Spiel 3.12.91 (Laptop)           3308,5 ms (T32)       73                 –               17,7 s (Summe ms je Test)
+- Nachbau 3.12.92, Laptop-Daten    1221 ms (Sandbox)     35                 22              6,4 s
+- Nachbau 3.12.93, Laptop-Daten    65 ms (T128)          13                 1               7,1 s
+- Nachbau 3.12.93, PC-Daten        117 ms (T129)         12                 3               6,9 s
+- Nachbau 3.12.93 Offline-Routine: alle 40 Läufe ohne FEHLER; Allianz Stufe 10: längstes 88 ms (Start der virtuellen Reise)
+Die Nachbau-Werte schwanken von Lauf zu Lauf (kalte Zwischenspeicher je nach Reihenfolge): T128 20–96 ms, T129 33–117 ms.
+Eichung Spiel/Nachbau je Test sehr verschieden (Laptop-Bericht 3.12.91: T263 2,2×, T34 2,7×, T136 5,7×, T32 27×, weil die
+Oberfläche im Nachbau nichts kostet). Erwartung im Spiel: kein Bild über 40 ms ausser T128/T129 und dem Start der Reise
+(Verdacht, zu messen – der nächste Ingametest zeigt es: Zeile "Portionen … · Bilder über 40 ms: n" und die Takt-Zeile mit
+den 10 längsten Bildern samt Prüfung).
+
+WIE (Muster GuildSentinel 0.9.55, leistung.md)
+1. Die ganze Routine ist EINE Aufgabe von GoldSentinelTakt (Budget 4 ms, Zeitlimit 1800 s; Fehler/Zeitlimit -> Aufräumen wie
+   bisher im Fehlerfall). Bisher eigene Coroutine mit Ticker.
+2. Abgegeben wird nur an sicheren Stellen (TR.Safe): zwischen zwei Prüfungen und an gesetzten Stellen in schweren Prüfungen –
+   nie, solange Ersatzwerte gelten: WithEnv/WithSetting/WithLoad … laufen in pcall (Lua 5.1 kann dort nicht abgeben; der Takt
+   erkennt pcall im Stapel), TR.hold sperrt zusätzlich. Gemessene Abschnitte enthalten keine Abgabe.
+3. Jede Prüfung läuft über GoldSentinelTakt.PCall (darf abgeben), T:Check wertet nur das Ergebnis; die ms je Prüfung im Bericht
+   sind die Rechenzeit ohne Pausen.
+4. Freigegebene Rechnungen (TR.Coop): echte Rechnungen ohne Ersatz (Neuplanung, Wegsuche, Sprachwechsel, Befehle) dürfen an ihren
+   LP:Yield-Stellen abgeben. Dafür sind die pcall-Hüllen im Kern (LP:Safe, LP.Try, LP:AsReply, LP:Fire, Jobs am Stück, P:Replan,
+   SetLanguage) jetzt LP.PCall: im normalen Spiel genau pcall, nur im Ablauf der Routine Takt.PCall.
+5. Während eine solche Rechnung pausiert, plant anderer Code nicht dazwischen (P:Replan, LP.Jobs.Start). Während der ganzen
+   Routine startet der Code des Spiels (Ereignis/Zeitgeber/OnUpdate, nicht in einer Coroutine) keine Neuplanung und keine
+   Wegsuche "navpath"/"navplan" am Stück (vorher standen diese Bilder ausserhalb der Messung still); der Nachlauf plant neu.
+6. Der Portionen-Treiber von LP.Jobs ruht während der Routine (Jobs.manual); Tests treiben ihre Aufträge selbst und vollständig
+   gemessen an. Jobs.TaktTick treibt den Takt von Hand an, ohne die gerade laufende Routine selbst fortzusetzen (sonst beendet
+   der Takt sie mit "cannot resume non-suspended coroutine").
+7. "Sandbox und Bericht" in Portionen: Sicherung (vorher 95 ms vor dem ersten gezählten Bild), Zurückschreiben (173 ms) und
+   Vergleich (vorher Encode je Schlüssel zweimal: 1291 ms, davon graph 1011 ms) Eintrag für Eintrag; Schlüssel je Tabelle vorher
+   gesammelt (kein pairs über eine Pause). Weicht ein Schlüssel ab (anderer Code kann in einer Pause echte Daten schreiben, z. B.
+   das Protokoll), wird er einmal am Stück zurückgeschrieben und verglichen; bleibt er verschieden = FEHLER, sonst steht er im
+   Bericht als "OK (wiederholt: …)". Der Vergleich ist jetzt genau (Zahlen exakt statt 6 Stellen, jede Tiefe).
+8. Speicherbereinigung (Start, nach den Reisen, T157) in Schritten (collectgarbage "step" bis zwei Durchgänge fertig sind; ohne
+   "step" wie bisher am Stück). Nachbau vorher 120–150 ms je Aufruf in einem Bild.
+9. Nachlauf (Neuplanung, Wegsuche, Fenster) direkt nach dem Zurückschreiben, je Schritt eine Abgabe – vorher nach dem Bericht im
+   letzten Bild (das der Bericht nicht mehr zählen kann; im Nachbau 6 s in einem nicht gezählten Bild, als die Abgabe gesperrt war).
+
+URSACHEN JE SCHRITT (Spiel 3.12.91 -> Ursache im Nachbau belegt -> geändert)
+- T32 3308 / T31 678 ms: ~400 bzw. ~120 Klicks am Stück. -> Abgabe nach jedem Klick; T31 ruft den OnClick-Handler als freigegebene
+  Rechnung (Button:Click ist im Spiel eine C-Funktion); "Datenpaket nutzen" (Reconnect + kalte Neuplanung) bis 350 ms je Klick.
+- T136 2193 ms: je Sprache Sprachwechsel (UI:Relabel: Präfix-Suche über alle Texte), Neuplanung, Dienst-NPCs (Geländekarten),
+  Zentrale. -> Schritte mit Abgabe, Relabel mit Präfix-Index (s. unten), Reiter der Zentrale einzeln.
+- T221 1817 / T340 550 ms: WegeExport kodierte den GANZEN Bericht je Zone neu (48 % der Zeit). -> linear (s. unten), Abgaben.
+- T263 1690 ms: 50 Spuren AddPolyline (~8 ms je Spur) am Stück. -> Abgabe nach jeder Spur und zwischen den Portionen.
+- T34 914 / T76 603 ms: "Daten sichern" mit den ECHTEN Daten (Laptop 3 MB), dazu Neuplanung mit Testdaten. -> mit kleinen
+  Testdaten, Neuplanung während T76 aus (NoReplan). Hinweis: der Knopf "Daten sichern" selbst steht im Spiel mit grossen Daten
+  weiterhin so lange (eigener Punkt, nicht Teil der Testroutine – Entscheid der Prüf-Sitzung).
+- T18 597 ms: /lp find (Dienst-NPCs, Umwege). -> Befehle als freigegebene Rechnung, Abgabe nach jedem Befehl.
+- T151 422 ms: die Messung "am Stück" war selbst ein Bild von ~43 ms je Lauf. -> entfällt; Gesamtzeit aus einer freigegebenen
+  Rechnung (ohne Pausen); längste Portion wie in 3.12.92.
+- T269 338 ms: Quest-Zwischenspeicher kalt in der ersten Lage. -> Vorab-Füllen mit Abgaben (Get hängt nicht von Volk/Klasse ab).
+- T308 334 / T309 190 / T306 189 / T320 87 ms: Reiseplan (C.PlanNavi, Wegsuche) zu jedem Testziel – nicht Gegenstand der Prüfungen.
+  -> dort ersetzt wie die Neuplanung; ebenso im ClientTest-Schritt T306.
+- T26/T45/T17/T270/T289/T150/T275: mehrere Neuplanungen am Stück. -> freigegebene Rechnungen, Abgaben dazwischen.
+- T238 273 ms: Wegketten ALLER Zonen, gebraucht nur NPC-Orte. -> WegeData(…, noZones).
+- T21/T22/T80/T81/T112/T129/T134/T135/T291/T348/T352/T157: Abgaben zwischen Teilschritten bzw. Vorab-Füllen (T112, T129).
+
+ÄNDERUNGEN AM ADDON AUSSERHALB DER TESTROUTINE (alle mit Gegenprobe gegen 3.12.92)
+- Graph WegeExport: Grösse je Zone einmal kodiert, Bericht aus den Zonen zusammengesetzt ('"zones":[]}' am Ende geprüft, sonst wie
+  bisher). Gegenprobe: PC- und Laptop-Daten, je 12 Versände mit kleiner Grenze: Bericht BYTE-GLEICH zu 3.12.92 und gleich dem
+  vollen Encode.
+- QuestDB ServiceNPCs: Geländeprüfung Karte für Karte vorab (der Zwischenspeicher hält 6 Karten; in Händler-Reihenfolge wurde
+  dieselbe Karte immer wieder entpackt); Speicher erst fertig gefüllt. Gegenprobe: 3150 Einträge (de/en/ru) je Datensatz gleich
+  3.12.92; 8,5 -> 7 ms im Nachbau.
+- UI:Relabel (Sprachwechsel): Präfix-Index nach den ersten 6 Bytes. Gegenprobe: 33 388 Texte in 9 Sprachen, 16 553 Treffer,
+  0 verschieden.
+- Planner ZoneBands – FEHLER GEFUNDEN (belegt): in der Neuplanung als Auftrag (nach dem Einloggen) brach die Berechnung unter
+  dem pcall in ChooseFocus mit "attempt to yield across metamethod/C-call boundary" ab (still abgefangen) – die Stufenbänder fehlten
+  bis zu einer Planung am Stück. Nachbau 3.12.92: Fehler 1; 3.12.93: 0, Bänder gefüllt (34 Zonen). Jetzt vorab in DoReplan
+  ("plan", wie CollectTasks), sonst Art "svc". Bänder werden bei QuestDB:Reconnect neu berechnet (vorher nie verworfen; im
+  Nachbau rechnete T144 sie ohne Datenpaket zuerst -> T342 "Zonen mit Band 0").
+- Neue Abgabe-Art "svc" (ServiceNPCs, NearestService, DungeonOverview, Relabel, DataFingerprint, ZoneBands-Standard) und "wege"
+  (Wegketten): in keinem Auftrag freigegeben – im Spiel unverändert am Stück, nur in der Testroutine abgabefähig.
+
+TESTS
+- T353 neu: im laufenden Lauf: unter Budget keine Abgabe (Gegenprobe), über Budget Abgabe (neues Bild gezählt), in pcall und bei
+  TR.hold nie (kein Fehler). Nachbau: OK, 15 ms.
+- T349: "Bilder über 40 ms" (40 zählt nicht, 41 zählt).
+- T26: ein Ziel-Schritt (PRIO:, z. B. Trainer-Hinweis) ist kein Routenschritt -> nicht prüfbar (Offline Allianz Stufe 10: FEHLER
+  "wieder geplant false", weil der Hinweis "Klassentrainer" oben stand – im Spiel ebenso möglich).
+- T151 ohne Messung am Stück (s. oben).
+
+PRÜFUNGEN (Zip 3.12.93)
+- addon_check: OK, 1 Warnung (lupa fehlt; Lua 5.1 loadfile aller Dateien: 0 Fehler).
+- Offline-Routine: 40 Läufe, 40 ohne FEHLER.
+- Regression: 35 von 36 (test29 Ersatzwelt, bekannt).
+- Ganze Routine mit Laptop- und PC-Daten: 8 FEHLER – dieselben 8 wie 3.12.92 im Nachbau mit diesen Daten (T84/T180/T183
+  Reisezeiten, T261/T262/T268 Notbremse/Einloggen, T303, T309); Sandbox OK.
+
+OFFEN für LevelPilot
+- Ingametest der Testroutine: Bilder über 40 ms (erwartet: höchstens T128/T129/Start der Reise – Verdacht, zu messen).
+- T128 (Neuplanung mit alten Daten und leerer Eichung: Gefahrenkarte neu) und T129 (Zentrale mit kaputten Daten) laufen unter
+  Ersatz am Stück: nächster Schritt, falls das Spiel sie über 40 ms zeigt.
+- "Daten sichern" mit grossen Daten (Spieler-Knopf) – Entscheid.
+- T155, T295 (Punkt 4 MITTEL) – nächste Version.
