@@ -16,7 +16,7 @@ Statt eines eigenen Addons misst der gemeinsame Takt jetzt selbst:
    Arbeit: Ort (Zone/Subzone), Namensplaketten in Sicht, Ping Realm/Welt (GetNetStats), Bilder/s, Bildzeit in Ruhe (Median/95 %/längstes),
    Speicherbereinigungen. GoldSentinelTakt.EnvLine() liefert die Zeile für den Bericht.
 Tests: test_goldsentineltakt 82/82 mit Gegenproben (12d, 12g), Übernahme v1 -> v2 mit laufender Aufgabe. Vorlage 113/113 (die Vorlage
-nutzt env = 10 und EnvLine). Kopien von Takt 1 = WARNUNG, kein FEHLER (geprüft mit BuffSentinel 0.9.60).
+nutzt env = 10 und EnvLine). Kopien von Takt 1 = WARNUNG, kein FEHLER (geprüft mit ProfessionSentinel 0.9.74).
 AUFTRAG (mit der nächsten Version, kein eigenes Release nur dafür):
 a) shared/GoldSentinelTakt.lua unverändert kopieren.
 b) Die eigene Testroutine startet mit env = 10 (oder ruft EnvMeasure vorher auf) und schreibt EnvLine() in den Bericht.
