@@ -1,0 +1,68 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+
+BERICHT NACHPRÜFUNG AN DIE PRÜF-SITZUNG (geplante Aufgabe)
+Stand: 18.11.2026 08:32 MEZ · Sitzung: Nachprüfung · geprüft auf origin/main 42b39a5c
+Nur dieser Entwurf wird committet; nichts in auftraege/**, kein Log, keine nachpruefung-stand.json.
+
+=====================================================================================================================
+0. ÜBERBLICK
+=====================================================================================================================
+Kein FEHLER der Addon-Prüfung. Kein neuer Befund (weder HOCH noch MITTEL/NIEDRIG).
+Seit dem letzten Entwurf (17.11. 20:31) sind ALLE neuen Versionen schon vom Supervisor geprüft
+(nachrichten-log.txt 17.11. 21:30 bis 18.11. 08:20, dazu Commit 42b39a5c ThreatSentinel-Ingametest 2.5.20).
+Diese Nachprüfung hat sie nur unabhängig gegengeprüft (addon_check, Offline-Tests) – alles grün. Nichts doppelt geschrieben.
+
+Aktuelle Versionen (alle schon vom Supervisor geprüft, hier NUR erwähnt):
+- AHSentinel 0.65.343 (Supervisor 08:10, BEREIT FÜR INGAMETEST angenommen; 0.65.332–0.65.342 je Prüfung 22:10–07:45)
+- GuildSentinel 0.9.56 (07:30) · ProfessionSentinel 0.9.68 (07:30) · ThreatSentinel 2.5.20 (07:30, Ingametest 42b39a5c)
+- BuffSentinel 0.9.54 (07:30; Befund MITTEL 08:15; Ingametest 08:20) · LevelPilot 3.12.92 (07:30)
+- RaidMaster 3.0.34 (07:05) · RaidMasterBot 1.5.186 und Uploader 2.3.14 unverändert.
+
+Vorschlag für addon-check/nachpruefung-stand.json (überträgt der Supervisor, falls gewünscht; Stand dort noch 17.11. 08:32):
+  AHSentinel 0.65.343, BuffSentinel 0.9.54, GuildSentinel 0.9.56, LevelPilot 3.12.92, ProfessionSentinel 0.9.68,
+  RaidMaster 3.0.34, ThreatSentinel 2.5.20, RaidMasterBot 1.5.186, RaidMasterUploader 2.3.14, testberichte_bis b1f64be0.
+
+=====================================================================================================================
+1. UNABHÄNGIGE GEGENPRÜFUNG
+=====================================================================================================================
+addon_check.py mit lupa (Lua 5.1; Ladetest, Sprachtest, gemeinsame Dateien) – alle "OK", 0 FEHLER, Rückgabe 0:
+- announce/ahsentinel__ahsentinel-0.65.343.AHSentinel.zip
+- announce/guildsentinel__guildsentinel-0.9.56.GuildSentinel.zip
+- download/BuffSentinel-0.9.54.zip
+- download/ProfessionSentinel-0.9.68.zip
+- download/ThreatSentinel-2.5.20.zip
+- announce/levelpilot__levelpilot-3.12.92.LevelPilot.zip
+(RaidMaster 3.0.34 liegt nicht als ZIP vor; vom Supervisor 07:05 geprüft.)
+
+Offline-Tests:
+- ProfessionSentinel (Repo 7f57e86 = 0.9.68), python3 -I tests/run_offline.py ProfessionSentinel:
+  Lauf 1: 228 von 277 bestanden, 0 Fehler, 49 nicht automatisch prüfbar;
+  Lauf 2: 226 von 277 bestanden, 0 Fehler, 51 nicht automatisch prüfbar (Client-Varianten; T280 "keine Lehrer-Daten (Retail)").
+  7 Punkte "im Client prüfen" (u. a. T113 C, T186 B, T188 B) – bekannt.
+- GuildSentinel (Repo 07c64f2 = 0.9.56), test/run_routine.lua mit lua5.1:
+  16001 -> 17 bestanden / 0 fehlgeschlagen / 0 Fehlermeldungen; 11508 -> 17 / 0 / 0.
+- Bot/Uploader: Version unverändert, nicht erneut getestet.
+
+=====================================================================================================================
+2. GELESENE BERICHTE (alle schon vom Supervisor behandelt, nichts übernommen)
+=====================================================================================================================
+AHSentinel 0.65.332 bis 0.65.343 · BuffSentinel 0.9.53/0.9.54 · GuildSentinel 0.9.54/0.9.55/0.9.56 ·
+LevelPilot 3.12.90/91/92 (+ Plan Takt, opt-route) · ProfessionSentinel Zwischenstand 0.9.66, 0.9.67, 0.9.68 ·
+RaidMaster 3.0.32/33/34 (+ Takt-Plan) · ThreatSentinel 2.5.19/2.5.20 · Blueposts-Entwurf 06:40 · Rezeptdaten-Entwurf 07:30
+und Hinweis 07:52 · Pruef-Sitzung Markt-Tabellen 05:40.
+
+=====================================================================================================================
+3. AHSENTINEL MARKT-KERN (testberichte/markt/kern/2026-11-18.md, Supervisor 05:39)
+=====================================================================================================================
+- Weg "markt": n 294631, Brier 0,0233 (Grundlinie 0,0259) -> weitergegeben.
+- Weg "sell": n 143, Brier 0,2397 >= 0,20 -> laut Tabelle im Addon "Brier zu hoch", also NICHT angezeigt. Kein Befund
+  (ein Weg über dem Grenzwert, der trotzdem angezeigt würde, wäre HOCH – hier nicht der Fall; im Client gegenprüfen,
+  dass "sell" wirklich grau/gesperrt erscheint).
+- Abgleich Verkauf Kern/Tabelle: 0 Abweichungen, alle Zellen gehen auf. Kaufen: Stufe <= 0,7 +7,2 Pkt. Differenz
+  (Kern 158 / Tabelle 142 Käufe) – durch Gewichtung/Zeitraum erklärt laut Hinweis der Tabelle; vom Supervisor gesehen.
+- Keine neuen AHSentinel-Ingametest-Berichte mit Abschnitt MARKT-KERN seit dem letzten Lauf.
+
+=====================================================================================================================
+4. NACHRICHTEN
+=====================================================================================================================
+Keine. Alle Nachrichten sind laut nachrichten-log.txt schon raus (06:50 "Nachrichten zum Weiterarbeiten" u. a.).
