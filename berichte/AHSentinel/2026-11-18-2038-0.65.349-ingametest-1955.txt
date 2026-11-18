@@ -1,0 +1,32 @@
+AHSentinel 0.65.349 – Auswertung Ingametest 18.11. 19:55 (PC, 0.65.347) und Rest aus 17:15 – umgesetzt, zur Prüfung
+Daten: goldsentinel-daten 5d71c95 (PC 19:51), 6c09891 (Laptop 17:14). Vollauf 401 bestanden, 0 fehlgeschlagen (+ s325–s327).
+HOCH 1/2/4 (T45, T459, T52) und S28 aus 17:15: in 0.65.348 umgesetzt (Bericht 0.65.348); der PC-Test lief noch auf 0.65.347.
+
+HOCH T72 Fraktionsbanner (1s 25c gegen 58c) – Ursache belegt: die Silberrute-Regel (HT-ALT, 0.65.344) galt nur für die
+  Einzelsuche. Die VOLLSCAN-Leiter galt bis 2 Tage unverändert, auch wenn ein neuerer Scan einen anderen Preis hatte.
+  Nachbau mit den PC-Daten: Vollscan-Leiter 17.11. 19:10 (58c x2) – Markt-Scan der Testroutine 1s 25c – OfferLadder lieferte 58c,
+  RefLowest 58c. Der Vorschlag 1s 25c war richtig (Vollscan 19:44 bestätigt 1s 25c x56), falsch war die alte Leiter.
+  Behebung (HT-ALT2): neuerer Preis höher -> billigere Stufen weg; niedriger -> vorne (Menge 1); bleiben nur geschätzte Stufen,
+  gibt es keine Leiter. Nachbau danach: Leiter keine, RefLowest 1s 25c, T72 bestanden. s325 (Gegenprobe 0.65.348: 3 FAIL).
+  Antwort auf die Frage: ja, die Regel galt nur für die Einzelsuche; jetzt für alle Leitern.
+HOCH T459 Schwankung zwischen den Rechnern – teils belegt, Rest Verdacht, zu messen:
+  - Laptop 58 MB: 33 MB "Warten auf Server" = Hintergrund-Aufgaben während des Scans (cache:today, Prognose); seit 0.65.348
+    warten sie (Nachbau 19,3 -> 9,9 MB).
+  - Der eigene Speicher wächst mit der Marktgrösse: Nachbau PC-Daten 225 556 Auktionen 9,9 MB, 320 144 Auktionen 17,1 MB
+    (~77 Byte je Auktion, im Vollscan selbst). Im Spiel: Laptop 295 125, PC 325 693 Auktionen.
+  - PC im Spiel: Verdichtung 12,8 MB, Verfolgung V4 7,5 MB – im Nachbau Verdichtung 4,4 MB, V4 0: Verdacht (mehr Preisstufen je
+    Item im echten Markt, V4 im Nachbau aus), zu messen. Der Bericht zeigt seit 0.65.348 die Aufteilung je Aufgabe vorne.
+MITTEL 6 Wächter-Tick 56 ms (PC jetzt 47 ms bestanden): belegt, dass der Takt alle 0,1 s die ganze Ergebnisliste las
+  (GetBrowseResults, neue Tabelle mit allen Angeboten je Aufruf): Nachbau 21 Aufrufe je Runde -> 3 (nur bei Meldung oder 1×/s).
+  Dass dies die 56 ms waren: Verdacht, zu messen (Aufwand des Spiels je Aufruf). s327.
+MITTEL 7 T126 (Laptop 10,9 ms; PC 7,6 ms bestanden): Rest-Schritt ist EIN DEOffer (UI_MarketView.lua:708, nach dem Schritt). Im Nachbau
+  0,4 ms je Item (nur 2 Items mit Iteminfo). Verdacht: langsamerer Rechner bzw. Bereinigung im Schritt; ohne Änderung, zu messen.
+MITTEL 8 Prüfliste TR-ALLES – Befund falsch, Begründung: in BEIDEN Uploads ist TR-ALLES eingetragen.
+  PC: Prüfliste TR-ALLES t=1795027774 = 18.11. 19:49, s=fehler, "2 von 9 bestanden, 4 FEHLER …"; Bericht "alles" Feld
+  pruefliste_tr_alles = "fehler · 18.11. 19:49 · …". Laptop: t=1795018048 = 17:07 ("1 von 9"). Die Zeichenfolge "17.11. 19:11"
+  kommt in den PC-Daten nicht vor (grep 0 Treffer). Bitte Quelle der Anzeige nennen.
+MITTEL 9 Vollscan-Täter je Addon: neue Zeile T914 (Auskunft) – längstes ganzes Bild, eigene Arbeit, Rest, Speicher je Addon (ab
+  250 ms Lücke); Rechenzeit je Addon misst das Spiel nur mit scriptProfile (aus). s326.
+TESTORT (Hinweis 19:30): Feld testort (Gebiet/Unterzone, Namensplaketten in Sicht, Ping, Bilder/s); T722 nennt die eigene Arbeit
+  im längsten Bild (Testroutine + Aufgaben) und den Rest als Spiel/Umgebung. Takt 2: nicht übernommen (Entscheid 19:46).
+Discord veröffentlicht, Release v0.65.349. CurseForge nicht (erst nach Ingametest).
