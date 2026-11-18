@@ -210,3 +210,10 @@ läuft. Zusätzlich im Code suchen: Mehrfach-Zuweisung aus einem and/or-Ausdruck
 Befund an RaidMaster gegen 3.0.33 geschrieben, obwohl der Nutzer noch 3.0.30 installiert hatte (Kopfzeile "RaidMaster 3.0.30"). Regel: Vor
 jedem Befund aus einem Ingametest oder einer Lua-Meldung die installierte Version belegen (Kopfzeile des Testberichts, Version in
 Locals/Diagnose, Upload). Fehlt sie (reine Lua-Meldung): erst nachfragen oder als "Version unbekannt" kennzeichnen.
+
+### E-Regel 18.11.2026 10:30 – Nachbau darf NICHT mehr können als das Spiel (RaidMaster 3.0.36 T43)
+RaidMaster 3.0.36 rief in der Testroutine das globale GetItemInfo – im Forever-Client 1.60.1 gibt es nur C_Item.GetItemInfo; im Spiel
+"attempt to call a nil value". Die Nachbildung definierte ein globales GetItemInfo, darum grün. Regel: Bei jeder Prüfung neuer Code-Stellen
+nach nackten Aufrufen alter globaler Spiel-Funktionen suchen (GetItemInfo, GetItemInfoInstant, UnitBuff, GetSpellInfo …) und gegen die
+Weiche des Addons (RM.GetItemInfo, C_Item …) prüfen. Die Nachbildungen der Projekte bilden den Forever-Client nach: nur die Funktionen,
+die es dort gibt.
