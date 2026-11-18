@@ -303,3 +303,14 @@ Offen:
 ==== PRÜFUNG Supervisor 18.11.2026 07:30 – 2.5.20 (Ingametest 06:38, Testdaten) ====
 - addon_check OK. TestRunning, ForeignTestRunning vor allen fremden Lesestellen (Liste), T-D2 abgeschirmt mit Grund im Ergebnis,
   T-PL2, T-K2 mit Namen, T131/TU3-D2 in Teilen – angenommen, im Spiel zu bestätigen. Beim Nutzer installiert.
+
+==== INGAMETEST 18.11.2026 08:26 – ThreatSentinel 2.5.20 "/ts testroutine alles" (Laptop, Priester 10) ====
+OK 298 · FEHLER 2 · übersprungen 12 · im Client 14 · 3,0 s · Sandbox/CVars/Tasten OK · echte Aktionen 0. Längstes Bild 20,0 ms (T133) –
+vorher 47,4 ms: kein Bild mehr über 40 ms. Gut.
+Offen:
+1. T-D2 "Bericht T186=false (Testzentrale überdeckt ThreatSentinelTestSpielfenster · geprüft 2)" – die Prüfung überdeckt ihr EIGENES
+   Test-Spielfenster: Fehler der Prüfung (Lage des Testfensters bzw. Ausweichen gegen das Testfenster). TU6-R1 folgt daraus.
+2. T-K2 SKIP "kein freier Platz … Rest-Überdeckung 7926 durch TS-Testfenster (TSFremdTest)" – auch hier ist das Hindernis das EIGENE
+   Testfenster (765×440 Testzentrale gegen TSFremdTest auf 1461×767). Die Prüfung baut sich ihr Hindernis selbst – Testfenster so legen /
+   so gross wählen, dass es einen freien Platz gibt; dann OK oder FEHLER, nicht SKIP.
+3. Prüfliste zeigt weiter "TR-ALLE auto 17.11. 17:00" – Punkt 5 von 06:50 (neuer Stand nach dem Lauf) im Spiel NICHT behoben. Ursache belegen.
