@@ -4964,3 +4964,8 @@ MITTEL:
 9. Vollscan: Längstes Standbild beim Einlesen 919 ms. Die eigene Arbeit ist höchstens 8 ms, damit kein FEHLER von AHSentinel.
    Der Täter je Addon fehlt im Bericht weiter (Auftrag vom 11:45).
 Hinweis: Die Antwort auf den Sync-Hinweis (13:55/15:45) fehlt noch im Bericht 0.65.346. Gehört in den nächsten Bericht.
+
+==== PRÜFUNG Supervisor 18.11.2026 19:06 – 0.65.347 (Sync 3) – KURZ ====
+- addon_check OK, md5 14dab819…. Sync 3 übernommen, AHSentinelAPI.TestRunning() neu, testLearn: keine. Angenommen.
+- Zu Befund 5 (T913 "2 geändert") passt T277: GSS.Learn wird direkt aufgerufen (Verdacht A). T277 muss das Buch danach genau wiederherstellen (wie BuffSentinel T155).
+- Dem Nutzer im Gesamtpaket gegeben (PC zu Hause).
