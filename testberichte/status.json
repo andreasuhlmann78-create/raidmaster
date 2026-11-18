@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-18T06:41:07Z",
+ "ausgewertet": "2026-11-18T07:56:35Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -220,28 +220,148 @@
    ]
   },
   "BuffSentinel": {
-   "berichte": 5,
+   "berichte": 6,
    "letzter_test": {
-    "id": "BuffSentinel-1793837971-e2af59-9",
-    "version": "0.9.7",
-    "time": 1793837970,
+    "id": "BuffSentinel-1794985881-f1a084-1",
+    "version": "0.9.54",
+    "time": 1794985862,
     "counts": {
-     "client": 11,
-     "fehler": 1,
-     "ok": 120,
-     "uebersprungen": 10
+     "client": 10,
+     "fehler": 13,
+     "ok": 200,
+     "uebersprungen": 11
     }
    },
    "fehler_tests": [
     {
      "addon": "BuffSentinel",
      "art": "test",
-     "version": "0.9.7",
+     "version": "0.9.54",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T29",
-     "name": "Ereignisse",
-     "detail": "ergebnis: fehlt: LEARNED_SPELL_IN_TAB · nach Kampfbeginn sichtbar: 0",
-     "bericht": "BuffSentinel-1793837971-e2af59-9"
+     "id": "T141",
+     "name": "Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern",
+     "detail": "ergebnis: BuffSentinelOptions überdeckt Pfeil (LevelPilot) · geprüft 1 | erwartet: keine",
+     "bericht": "BuffSentinel-1794985881-f1a084-1"
+    },
+    {
+     "addon": "BuffSentinel",
+     "art": "test",
+     "version": "0.9.54",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T34",
+     "name": "Gegner entzaubern",
+     "detail": "ergebnis: Magie nil, stehlbar nil, Wut nil/0",
+     "bericht": "BuffSentinel-1794985881-f1a084-1"
+    },
+    {
+     "addon": "BuffSentinel",
+     "art": "test",
+     "version": "0.9.54",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T155",
+     "name": "Flüster-Netz: Mitspieler gespeichert, Nachrichten nur für Gilde/Gruppe nicht geflüstert",
+     "detail": "ergebnis: nein · 0/1",
+     "bericht": "BuffSentinel-1794985881-f1a084-1"
+    },
+    {
+     "addon": "BuffSentinel",
+     "art": "test",
+     "version": "0.9.54",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T62",
+     "name": "Debuff-Arten geschützt",
+     "detail": "",
+     "bericht": "BuffSentinel-1794985881-f1a084-1"
+    },
+    {
+     "addon": "BuffSentinel",
+     "art": "test",
+     "version": "0.9.54",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T100",
+     "name": "Gemeinsame Dateien",
+     "detail": "ergebnis: geladen: RaidMaster,ThreatSentinel,AHSentinel,BuffSentinel,GuildSentinel,ProfessionSentinel,LevelPilot",
+     "bericht": "BuffSentinel-1794985881-f1a084-1"
+    },
+    {
+     "addon": "BuffSentinel",
+     "art": "test",
+     "version": "0.9.54",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T200",
+     "name": "TU1 Lagen: jede Klasse/Skillung × jede Lage × Procs, Buffs, Abklingzeiten",
+     "detail": "ergebnis: 13 Klassen, 3684 Fälle, 4 Abweichungen · ROGUE/0 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/1 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/2 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/3 poisonstock B1 Buff fehlt ausser Kampf: ist n…",
+     "bericht": "BuffSentinel-1794985881-f1a084-1"
+    },
+    {
+     "addon": "BuffSentinel",
+     "art": "test",
+     "version": "0.9.54",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T251",
+     "name": "TU7 Lagen auf forever",
+     "detail": "ergebnis: 13 Klassen, 3684 Fälle, 4 Abweichungen · ROGUE/0 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/1 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/2 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/3 poisonstock B1 Buff fehlt ausser Kampf: ist n…",
+     "bericht": "BuffSentinel-1794985881-f1a084-1"
+    },
+    {
+     "addon": "BuffSentinel",
+     "art": "test",
+     "version": "0.9.54",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T252",
+     "name": "TU7 Lagen auf era",
+     "detail": "ergebnis: 13 Klassen, 3220 Fälle, 4 Abweichungen · ROGUE/0 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/1 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/2 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/3 poisonstock B1 Buff fehlt ausser Kampf: ist n…",
+     "bericht": "BuffSentinel-1794985881-f1a084-1"
+    },
+    {
+     "addon": "BuffSentinel",
+     "art": "test",
+     "version": "0.9.54",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T253",
+     "name": "TU7 Lagen auf tbc",
+     "detail": "ergebnis: 13 Klassen, 3400 Fälle, 4 Abweichungen · ROGUE/0 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/1 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/2 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/3 poisonstock B1 Buff fehlt ausser Kampf: ist n…",
+     "bericht": "BuffSentinel-1794985881-f1a084-1"
+    },
+    {
+     "addon": "BuffSentinel",
+     "art": "test",
+     "version": "0.9.54",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T158",
+     "name": "Regression 0.9.14-1: „Namen teilen“ aus sendet nichts, auch nicht an Gilde/Gruppe",
+     "detail": "ergebnis: 0/0/0 | erwartet: 0/2/4",
+     "bericht": "BuffSentinel-1794985881-f1a084-1"
+    },
+    {
+     "addon": "BuffSentinel",
+     "art": "test",
+     "version": "0.9.54",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T136",
+     "name": "Keine echten Aktionen während des Tests (senden, Chat, Kanal betreten)",
+     "detail": "ergebnis: echte Aktionen: 3, Haken: 3 von 3",
+     "bericht": "BuffSentinel-1794985881-f1a084-1"
+    },
+    {
+     "addon": "BuffSentinel",
+     "art": "test",
+     "version": "0.9.54",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T162",
+     "name": "Regressionen: jeder Befund hat einen Test, der gelaufen ist",
+     "detail": "ergebnis: Regressionen: 28 von 28 vorhanden · FEHLER: 0.9.6-1 echte Aktionen gezählt; UI Oberfläche im Client (5.11.); SYNC Kanal/gemeinsamer Sync/Sync 2/Test 2 (9.11.); 0.9.14-1 Namen teilen aus -> nichts senden; TU1-Rest Proc mit Restzeit, Gruppenbuff von anderen",
+     "bericht": "BuffSentinel-1794985881-f1a084-1"
+    },
+    {
+     "addon": "BuffSentinel",
+     "art": "test",
+     "version": "0.9.54",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T250",
+     "name": "Bilder der Testroutine selbst",
+     "detail": "ergebnis: längstes Bild 45.3 ms (T146), Median der drei längsten 23.3 ms · höchstens 40 ms: nein · höchstens 2× Median: ja",
+     "bericht": "BuffSentinel-1794985881-f1a084-1"
     }
    ],
    "fehler_spiel": [
@@ -304,15 +424,15 @@
    ]
   },
   "GuildSentinel": {
-   "berichte": 10,
+   "berichte": 11,
    "letzter_test": {
-    "id": "GuildSentinel-1794980388-9a4c03-1",
-    "version": "0.9.55",
-    "time": 1794980367,
+    "id": "GuildSentinel-1794987176-6773f4-1",
+    "version": "0.9.56",
+    "time": 1794987147,
     "counts": {
      "client": 8,
      "fehler": 0,
-     "ok": 317,
+     "ok": 320,
      "uebersprungen": 23
     }
    },
@@ -464,85 +584,65 @@
    ]
   },
   "RaidMaster": {
-   "berichte": 6,
+   "berichte": 7,
    "letzter_test": {
-    "id": "RaidMaster-1794980528-15fd97-1",
-    "version": "3.0.30",
-    "time": 1794980442,
+    "id": "RaidMaster-1794987365-35ffb9-1",
+    "version": "3.0.34",
+    "time": 1794987266,
     "counts": {
-     "client": 12,
-     "fehler": 4,
-     "ok": 131,
-     "uebersprungen": 11
+     "client": 10,
+     "fehler": 1,
+     "ok": 138,
+     "uebersprungen": 14
     }
    },
    "fehler_tests": [
     {
      "addon": "RaidMaster",
      "art": "test",
-     "version": "3.0.30",
+     "version": "3.0.34",
      "client": "forever 1.60.1 (Interface 16001)",
      "id": "T43",
      "name": "Test-Werkzeug selbst (ony)",
-     "detail": "ergebnis: kein Item vergeben (Beute geladen 10/26) | erwartet: >= 1",
-     "bericht": "RaidMaster-1794980528-15fd97-1"
-    },
-    {
-     "addon": "RaidMaster",
-     "art": "test",
-     "version": "3.0.30",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T169",
-     "name": "T-BL4 Chatfeld wird nie beschrieben",
-     "detail": "ergebnis: Lua-Fehler | erwartet: kein Fehler",
-     "bericht": "RaidMaster-1794980528-15fd97-1"
-    },
-    {
-     "addon": "RaidMaster",
-     "art": "test",
-     "version": "3.0.30",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T155",
-     "name": "Eigene Tooltips verdecken keine Knöpfe",
-     "detail": "ergebnis: dkp: Markierungsleiste: Button verdeckt Button; auction: Markierungsleiste: Button verdeckt Button; loot: Markierungsleiste: Button verdeckt Button; log: Markierungsleiste: Button verdeckt Button; raid: Markierungsleiste: Button verdeckt Button; signup: Markierungsleiste: Button verdeckt Button; pug… | erwartet: keine",
-     "bericht": "RaidMaster-1794980528-15fd97-1"
-    },
-    {
-     "addon": "RaidMaster",
-     "art": "test",
-     "version": "3.0.30",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T156",
-     "name": "Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern",
-     "detail": "ergebnis: dkp: Hauptfenster überdeckt Pfeil (LevelPilot); dkp: Bereitschaft überdeckt Pfeil (LevelPilot); auction: Hauptfenster überdeckt Pfeil (LevelPilot); auction: Bereitschaft überdeckt Pfeil (LevelPilot); loot: Hauptfenster überdeckt Pfeil (LevelPilot); loot: Bereitschaft überdeckt Pfeil (LevelPilo… | erwartet: keine",
-     "bericht": "RaidMaster-1794980528-15fd97-1"
+     "detail": "ergebnis: kein Item vergeben (Beute geladen 10/26; im Durchlauf 3 Items behandelt (0 Versteigerung, 3 andere Regel), 0 ohne Daten; Versteigerungen gestartet 0, Start nicht möglich 0, vergeben 0, ohne Gebot 0; im Log seit Start 0) | erwartet: >= 1",
+     "bericht": "RaidMaster-1794987365-35ffb9-1"
     }
    ],
    "fehler_spiel": []
   },
   "ThreatSentinel": {
-   "berichte": 14,
+   "berichte": 15,
    "letzter_test": {
-    "id": "ThreatSentinel-1794980905-6982b2-24",
-    "version": "2.5.19",
-    "time": 1794980905,
+    "id": "ThreatSentinel-1794986819-a77da5-1",
+    "version": "2.5.20",
+    "time": 1794986816,
     "counts": {
-     "client": 0,
-     "fehler": 1,
-     "ok": 0,
-     "uebersprungen": 0
+     "client": 14,
+     "fehler": 2,
+     "ok": 298,
+     "uebersprungen": 12
     }
    },
    "fehler_tests": [
     {
      "addon": "ThreatSentinel",
      "art": "test",
-     "version": "2.5.19",
+     "version": "2.5.20",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T186",
-     "name": "Oberfläche mit offenen Blizzard-Fenstern (nachgeholt bei CharacterFrame)",
-     "detail": "ergebnis: Testzentrale überdeckt Kopierfenster (LevelPilot); Einstellungen überdeckt Kopierfenster (LevelPilot) · geprüft 4 | erwartet: keine, geprüft > 0",
-     "bericht": "ThreatSentinel-1794980905-6982b2-24"
+     "id": "T-D2",
+     "name": "Nachtrag D: Spielfenster geöffnet -> Fenster-Prüfung läuft von selbst, eigener Bericht, Fenster wieder wie vorher",
+     "detail": "ergebnis: Bericht T186=false (Testzentrale überdeckt ThreatSentinelTestSpielfenster · geprüft 2) · vorgemerkt gelöscht true · Meldung true · Fenster wie vorher true | erwartet: Bericht T186=true · vorgemerkt gelöscht true · Meldung true · Fenster wie vorher true",
+     "bericht": "ThreatSentinel-1794986819-a77da5-1"
+    },
+    {
+     "addon": "ThreatSentinel",
+     "art": "test",
+     "version": "2.5.20",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "TU6-R1",
+     "name": "TU6 Regressionen: jeder Befund hat seinen Test, der Test lief",
+     "detail": "ergebnis: Regressionen: 54 von 54 vorhanden, nur im Client: T110 T128 T-K2, Test FEHLER: TR-ALLE Nachtrag D: Fenster-Prüfung vormerken und von selbst nachholen | erwartet: alle vorhanden, alle OK",
+     "bericht": "ThreatSentinel-1794986819-a77da5-1"
     }
    ],
    "fehler_spiel": []
@@ -751,12 +851,132 @@
   {
    "addon": "BuffSentinel",
    "art": "test",
-   "version": "0.9.7",
+   "version": "0.9.54",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T29",
-   "name": "Ereignisse",
-   "detail": "ergebnis: fehlt: LEARNED_SPELL_IN_TAB · nach Kampfbeginn sichtbar: 0",
-   "bericht": "BuffSentinel-1793837971-e2af59-9"
+   "id": "T141",
+   "name": "Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern",
+   "detail": "ergebnis: BuffSentinelOptions überdeckt Pfeil (LevelPilot) · geprüft 1 | erwartet: keine",
+   "bericht": "BuffSentinel-1794985881-f1a084-1"
+  },
+  {
+   "addon": "BuffSentinel",
+   "art": "test",
+   "version": "0.9.54",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T34",
+   "name": "Gegner entzaubern",
+   "detail": "ergebnis: Magie nil, stehlbar nil, Wut nil/0",
+   "bericht": "BuffSentinel-1794985881-f1a084-1"
+  },
+  {
+   "addon": "BuffSentinel",
+   "art": "test",
+   "version": "0.9.54",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T155",
+   "name": "Flüster-Netz: Mitspieler gespeichert, Nachrichten nur für Gilde/Gruppe nicht geflüstert",
+   "detail": "ergebnis: nein · 0/1",
+   "bericht": "BuffSentinel-1794985881-f1a084-1"
+  },
+  {
+   "addon": "BuffSentinel",
+   "art": "test",
+   "version": "0.9.54",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T62",
+   "name": "Debuff-Arten geschützt",
+   "detail": "",
+   "bericht": "BuffSentinel-1794985881-f1a084-1"
+  },
+  {
+   "addon": "BuffSentinel",
+   "art": "test",
+   "version": "0.9.54",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T100",
+   "name": "Gemeinsame Dateien",
+   "detail": "ergebnis: geladen: RaidMaster,ThreatSentinel,AHSentinel,BuffSentinel,GuildSentinel,ProfessionSentinel,LevelPilot",
+   "bericht": "BuffSentinel-1794985881-f1a084-1"
+  },
+  {
+   "addon": "BuffSentinel",
+   "art": "test",
+   "version": "0.9.54",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T200",
+   "name": "TU1 Lagen: jede Klasse/Skillung × jede Lage × Procs, Buffs, Abklingzeiten",
+   "detail": "ergebnis: 13 Klassen, 3684 Fälle, 4 Abweichungen · ROGUE/0 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/1 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/2 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/3 poisonstock B1 Buff fehlt ausser Kampf: ist n…",
+   "bericht": "BuffSentinel-1794985881-f1a084-1"
+  },
+  {
+   "addon": "BuffSentinel",
+   "art": "test",
+   "version": "0.9.54",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T251",
+   "name": "TU7 Lagen auf forever",
+   "detail": "ergebnis: 13 Klassen, 3684 Fälle, 4 Abweichungen · ROGUE/0 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/1 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/2 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/3 poisonstock B1 Buff fehlt ausser Kampf: ist n…",
+   "bericht": "BuffSentinel-1794985881-f1a084-1"
+  },
+  {
+   "addon": "BuffSentinel",
+   "art": "test",
+   "version": "0.9.54",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T252",
+   "name": "TU7 Lagen auf era",
+   "detail": "ergebnis: 13 Klassen, 3220 Fälle, 4 Abweichungen · ROGUE/0 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/1 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/2 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/3 poisonstock B1 Buff fehlt ausser Kampf: ist n…",
+   "bericht": "BuffSentinel-1794985881-f1a084-1"
+  },
+  {
+   "addon": "BuffSentinel",
+   "art": "test",
+   "version": "0.9.54",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T253",
+   "name": "TU7 Lagen auf tbc",
+   "detail": "ergebnis: 13 Klassen, 3400 Fälle, 4 Abweichungen · ROGUE/0 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/1 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/2 poisonstock B1 Buff fehlt ausser Kampf: ist nein, soll ja | ROGUE/3 poisonstock B1 Buff fehlt ausser Kampf: ist n…",
+   "bericht": "BuffSentinel-1794985881-f1a084-1"
+  },
+  {
+   "addon": "BuffSentinel",
+   "art": "test",
+   "version": "0.9.54",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T158",
+   "name": "Regression 0.9.14-1: „Namen teilen“ aus sendet nichts, auch nicht an Gilde/Gruppe",
+   "detail": "ergebnis: 0/0/0 | erwartet: 0/2/4",
+   "bericht": "BuffSentinel-1794985881-f1a084-1"
+  },
+  {
+   "addon": "BuffSentinel",
+   "art": "test",
+   "version": "0.9.54",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T136",
+   "name": "Keine echten Aktionen während des Tests (senden, Chat, Kanal betreten)",
+   "detail": "ergebnis: echte Aktionen: 3, Haken: 3 von 3",
+   "bericht": "BuffSentinel-1794985881-f1a084-1"
+  },
+  {
+   "addon": "BuffSentinel",
+   "art": "test",
+   "version": "0.9.54",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T162",
+   "name": "Regressionen: jeder Befund hat einen Test, der gelaufen ist",
+   "detail": "ergebnis: Regressionen: 28 von 28 vorhanden · FEHLER: 0.9.6-1 echte Aktionen gezählt; UI Oberfläche im Client (5.11.); SYNC Kanal/gemeinsamer Sync/Sync 2/Test 2 (9.11.); 0.9.14-1 Namen teilen aus -> nichts senden; TU1-Rest Proc mit Restzeit, Gruppenbuff von anderen",
+   "bericht": "BuffSentinel-1794985881-f1a084-1"
+  },
+  {
+   "addon": "BuffSentinel",
+   "art": "test",
+   "version": "0.9.54",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T250",
+   "name": "Bilder der Testroutine selbst",
+   "detail": "ergebnis: längstes Bild 45.3 ms (T146), Median der drei längsten 23.3 ms · höchstens 40 ms: nein · höchstens 2× Median: ja",
+   "bericht": "BuffSentinel-1794985881-f1a084-1"
   },
   {
    "addon": "BuffSentinel",
@@ -925,63 +1145,43 @@
   {
    "addon": "RaidMaster",
    "art": "test",
-   "version": "3.0.30",
+   "version": "3.0.34",
    "client": "forever 1.60.1 (Interface 16001)",
    "id": "T43",
    "name": "Test-Werkzeug selbst (ony)",
-   "detail": "ergebnis: kein Item vergeben (Beute geladen 10/26) | erwartet: >= 1",
-   "bericht": "RaidMaster-1794980528-15fd97-1"
-  },
-  {
-   "addon": "RaidMaster",
-   "art": "test",
-   "version": "3.0.30",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T169",
-   "name": "T-BL4 Chatfeld wird nie beschrieben",
-   "detail": "ergebnis: Lua-Fehler | erwartet: kein Fehler",
-   "bericht": "RaidMaster-1794980528-15fd97-1"
-  },
-  {
-   "addon": "RaidMaster",
-   "art": "test",
-   "version": "3.0.30",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T155",
-   "name": "Eigene Tooltips verdecken keine Knöpfe",
-   "detail": "ergebnis: dkp: Markierungsleiste: Button verdeckt Button; auction: Markierungsleiste: Button verdeckt Button; loot: Markierungsleiste: Button verdeckt Button; log: Markierungsleiste: Button verdeckt Button; raid: Markierungsleiste: Button verdeckt Button; signup: Markierungsleiste: Button verdeckt Button; pug… | erwartet: keine",
-   "bericht": "RaidMaster-1794980528-15fd97-1"
-  },
-  {
-   "addon": "RaidMaster",
-   "art": "test",
-   "version": "3.0.30",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T156",
-   "name": "Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern",
-   "detail": "ergebnis: dkp: Hauptfenster überdeckt Pfeil (LevelPilot); dkp: Bereitschaft überdeckt Pfeil (LevelPilot); auction: Hauptfenster überdeckt Pfeil (LevelPilot); auction: Bereitschaft überdeckt Pfeil (LevelPilot); loot: Hauptfenster überdeckt Pfeil (LevelPilot); loot: Bereitschaft überdeckt Pfeil (LevelPilo… | erwartet: keine",
-   "bericht": "RaidMaster-1794980528-15fd97-1"
+   "detail": "ergebnis: kein Item vergeben (Beute geladen 10/26; im Durchlauf 3 Items behandelt (0 Versteigerung, 3 andere Regel), 0 ohne Daten; Versteigerungen gestartet 0, Start nicht möglich 0, vergeben 0, ohne Gebot 0; im Log seit Start 0) | erwartet: >= 1",
+   "bericht": "RaidMaster-1794987365-35ffb9-1"
   },
   {
    "addon": "ThreatSentinel",
    "art": "test",
-   "version": "2.5.19",
+   "version": "2.5.20",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T186",
-   "name": "Oberfläche mit offenen Blizzard-Fenstern (nachgeholt bei CharacterFrame)",
-   "detail": "ergebnis: Testzentrale überdeckt Kopierfenster (LevelPilot); Einstellungen überdeckt Kopierfenster (LevelPilot) · geprüft 4 | erwartet: keine, geprüft > 0",
-   "bericht": "ThreatSentinel-1794980905-6982b2-24"
+   "id": "T-D2",
+   "name": "Nachtrag D: Spielfenster geöffnet -> Fenster-Prüfung läuft von selbst, eigener Bericht, Fenster wieder wie vorher",
+   "detail": "ergebnis: Bericht T186=false (Testzentrale überdeckt ThreatSentinelTestSpielfenster · geprüft 2) · vorgemerkt gelöscht true · Meldung true · Fenster wie vorher true | erwartet: Bericht T186=true · vorgemerkt gelöscht true · Meldung true · Fenster wie vorher true",
+   "bericht": "ThreatSentinel-1794986819-a77da5-1"
+  },
+  {
+   "addon": "ThreatSentinel",
+   "art": "test",
+   "version": "2.5.20",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "TU6-R1",
+   "name": "TU6 Regressionen: jeder Befund hat seinen Test, der Test lief",
+   "detail": "ergebnis: Regressionen: 54 von 54 vorhanden, nur im Client: T110 T128 T-K2, Test FEHLER: TR-ALLE Nachtrag D: Fenster-Prüfung vormerken und von selbst nachholen | erwartet: alle vorhanden, alle OK",
+   "bericht": "ThreatSentinel-1794986819-a77da5-1"
   }
  ],
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 161,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.328-e406c1f6f5d2.txt"
+    "anzahl": 162,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.343-ee15ec2b669e.txt"
    },
    "BuffSentinel": {
-    "anzahl": 51,
-    "neueste": "testberichte/diagnose/BuffSentinel/0.9.53-6f08a27d0b5b.txt"
+    "anzahl": 52,
+    "neueste": "testberichte/diagnose/BuffSentinel/0.9.54-e27f6daa15e2.txt"
    },
    "GSMesstest": {
     "anzahl": 10,
@@ -992,20 +1192,20 @@
     "neueste": "testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt"
    },
    "GuildSentinel": {
-    "anzahl": 161,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.55-fdf65d873e47.txt"
+    "anzahl": 162,
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.56-5ec83408899d.txt"
    },
    "LevelPilot": {
-    "anzahl": 56,
-    "neueste": "testberichte/diagnose/LevelPilot/3.12.91-49d76045b23e.txt"
+    "anzahl": 57,
+    "neueste": "testberichte/diagnose/LevelPilot/3.12.92-e78a7a78c7b2.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 141,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.67-a2416867b61d.txt"
+    "anzahl": 142,
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.68-465f53481f0f.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 136,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.19-dc0b855befe6.txt"
+    "anzahl": 137,
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.20-a38194bbec13.txt"
    }
   },
   "wege": {
