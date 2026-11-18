@@ -1,0 +1,54 @@
+BERICHT PROFESSIONSENTINEL AN DIE PRÜF-SITZUNG – VERSION 0.9.73 (Ingametest 0.9.72 vom 18.11. 13:54; Hinweis Sync-Testdaten 13:55)
+Stand: 18.11.2026 (Uhrzeit im Dateinamen) · Release v0.9.73 (Commit 78d29b7), Zip aus dem Release = Quelle (diff -r), addon_check OK.
+Nur "umgesetzt, zur Prüfung" mit Belegen.
+
+1. HOCH 1 – SPEICHER: Messung je Teil eingebaut (Ursache im Spiel noch offen, Verdacht, zu messen)
+- UI.Mem: Lua-Speicher (collectgarbage "count", ohne Bereinigung) wird bei jedem Wechsel dem innersten laufenden Teil zugerechnet
+  (exklusiv, ein Teil zählt nie, was seine inneren Teile anlegen); zwischen den Bildern eines portionierten Aufbaus nichts (dort laufen
+  andere Addons). Teile: "Rangliste (UpdateBest)", "Liste <Ansicht>", "Liste zeichnen" (SetDataProvider), "Zeilen füllen" (Initialisierer
+  der sichtbaren Zeilen), "Preisabfrage <Quelle>" (jeder echte Aufruf an AHSentinel/aux/…), "Rezeptpreis rechnen", "Aufbau sonst".
+- T145 hängt an: "angelegt je Teil: …" für genau die 20 gemessenen Refreshes. Offline Forever: "Liste recipes 5020 KB · Zeilen füllen 271 KB ·
+  Liste zeichnen 245 KB · Aufbau sonst 80 KB · Rangliste 3 KB" (20 Refreshes, AD.Update 0×). Der Teil, der im Spiel die 64 MB anlegt, steht
+  im nächsten Ingametest in dieser Zeile – erst dann wird umgebaut (keine Wiederverwendung ohne Beleg).
+- Verdacht, zu messen: "Zeilen füllen" – die Attrappe ruft die Initialisierer nur für wenige Zeilen, das Spiel für alle sichtbaren bei jedem
+  neuen DataProvider (Erklärung für Faktor ~27 möglich).
+
+2. HOCH 2 – BILDER ÜBER 40 MS
+- T292 (215 ms): die Fenster-Prüfungen laufen jetzt EIN Bereich je Sprache je Bild (6 Schritte), das Fenster selbst wird beim ersten Öffnen
+  gebaut (Zeilen nur so viele wie gezeigt).
+- "Abgabe nicht möglich (pcall)": Stellen mit nachbau_echt --profile belegt: TestMode.SelfTest (pcall um SelfTestBody, T19/T46/T88),
+  API.TodayCrafts (pcall um TD.Candidates, T213/T210), API.KnownRecipes (pcall um KA.Get, T270). Alle drei über ns.TaktPCall (in einer
+  Takt-Aufgabe dieses Addons GoldSentinelTakt.PCall, sonst pcall – Aufrufe anderer Addons unverändert). Offline jetzt in allen 3 Versionen
+  "Abgabe nicht möglich: 0 · Abgabe gescheitert: 0" (vorher Forever 1, Spiel 8).
+- "Speicher (Start/Ende)" 49/84 ms: das war UpdateAddOnMemoryUsage (geht den Speicher ALLER Addons durch). Jetzt wie LevelPilot nur auf
+  ausdrücklichen Wunsch: "/ps testroutine alles speicher"; sonst Lua-Speicher (Quelle in der Zusammenfassung genannt).
+- Nachbau mit den Laptop-Daten (AUSPLUSLAPTOP, echtes AHSentinel): Bilder über 40 ms 3, längstes 65 ms (T210). Die übrigen sind wie bisher
+  erste Aufrufe je Item in AHSentinel bzw. Aufbau-Portionen.
+
+3. MITTEL 3 – T258 "1 Verletzung in echten Daten": URSACHE BELEGT (Daten, nicht Regel)
+Nachgestellt mit den Laptop- UND Desktop-Daten (alle gelernten Rezepte aller Figuren, echtes AHSentinel): 79 geprüft, 1 Verletzung:
+  2665 Grober Wetzstein (Schmiedekunst): Regel "Farbstufen" – Data_Forever.lua: erlernbar 75, gelb 40, grün 47, grau 55
+  (Era: 75/65/72/80, Retail: 75/65/72/80; metabot.gg Forever: "Skill 75"). Grau 55 unter dem Erlernen 75 ist unmöglich.
+Im ganzen Forever-Datenpaket: grau < erlernbar bei 3 Rezepten (2665 Grober Wetzstein 75/40/47/55, 2674 Schwerer Wetzstein 125/100/107/115,
+22757 Elementarwetzstein 300/275/285/295), gelb < erlernbar bei 19 Rezepten (Era: 0 bzw. 3).
+Nicht geändert: die Werte kommen aus der Datenquelle der Pipeline; erfundene Werte trage ich nicht ein. Verdacht, zu messen (Spiel): bei
+Schmiedekunst 75–100 die Farbe von "Grober Wetzstein" im Berufsfenster ablesen. Bitte entscheiden: Korrektur in der Pipeline (z. B. Werte
+aus Era) oder Datenquelle prüfen. T258 nennt jetzt Rezept und Regel ("z. B. 2665 Grober Wetzstein: Farbstufen 75/40/47/55").
+
+4. MITTEL 4 – PRÜFLISTE "TR fehler 08:54" nach dem Lauf 13:54
+Behoben wie ThreatSentinel 2.5.20: ns.PLRefresh erneuert den Punkt TR nach JEDEM ganzen Lauf mit Zustand, Zeit und Notiz – auch wenn er
+schon erledigt ist und auch während die Routine noch als laufend zählt (Hit erneuerte nur einen offenen Punkt; PLHit/PLFail schweigen,
+solange TR:IsRunning). Ein "OK"/"Nicht OK" des Spielers bleibt, ausser der Lauf fand einen Fehler. Test in T285 mit Gegenproben.
+Verdacht, zu messen: warum 13:54 auch der FEHLER-Fall (PLFail) nicht schrieb – offline schreibt er; im Spiel zeigt der nächste Lauf es.
+
+5. HINWEIS SYNC-TESTDATEN (13:55): NICHT BETROFFEN (Belege)
+- ProfessionSentinel lädt GoldSentinelSync nicht (keine TOC-Zeile, kein gsSync in ProfessionSentinel.lua der Laptop-, Desktop- und
+  Retail-Daten: je 0 Treffer) – ein eigenes Adressbuch gibt es nicht.
+- Keine eigene Prüfung liefert Nachrichten an GoldSentinelSync: kein CHAT_MSG_ADDON, kein Deliver/OnMessage/FakeNetPeer in TestRoutine.lua;
+  die Wächter-Liste der Routine verbietet SendAddonMessage. GoldSentinelMarkt (gemeinsam) nutzt Sync nur, wenn ein anderes Addon es lädt; keine
+  eigene Prüfung ruft dessen Teilen oder Empfangen auf.
+- Sync-Lernen braucht keine eigene Prüfung.
+
+6. TESTS
+run_offline Forever 248/0, Era 230/0, Retail 228/0, TBC lädt; Fehlerfenster 0; smoketest AUTOTEST OK (3 Versionen); yield_check 4 Versionen
+OK; check_actions OK; Locale EN/DE; CHANGELOG EN/DE.
