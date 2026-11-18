@@ -1,0 +1,33 @@
+AHSentinel 0.65.339 – Entscheid 01:10 (Design-/Sprachwechsel), Punkt 3 (Schritte über 40 ms) Teil 4 – umgesetzt, zur Prüfung
+
+==== Entscheid 01:10 Design-/Sprachwechsel ====
+- UI:Rebuild nur noch über UI:SetTheme (Designwechsel) und LANGUAGE_CHANGED (Sprachwechsel) = nur auf Klick/Befehl des Spielers, nie
+  automatisch (Code durchsucht: keine weiteren Aufrufer).
+- Nie im Kampf: InCombatLockdown -> kein Neuaufbau, Meldung "Im Kampf: Fenster werden nach dem Kampf neu aufgebaut." (10 Sprachen),
+  Neuaufbau bei PLAYER_REGEN_ENABLED. Protokoll EINMALIG "Designwechsel (vom Spieler ausgelöst): alle Fenster neu in x ms" bzw.
+  "Sprachwechsel …". Nachbau s307: 0.65.339 bestanden (im Kampf unverändert, danach neu, Protokoll mit Name und Dauer); Gegenprobe
+  0.65.338 "im Kampf kein Neuaufbau" FEHLER, Protokoll fehlt.
+- Testroutine: T30.01/T30.13 (Optionen) und T31.14/T31.15/T31.31 (Befehle design/sprache) stehen in der Liste der Schritte über 16 ms
+  mit "(einmalig, vom Spieler ausgelöst: Designwechsel/Sprachwechsel, Grenze 100 ms)"; T812/T895 mit "(absichtlich gemessene Last)".
+  Nachbau echte Daten (3 Läufe): T30.01 81/81/92 ms, T30.13 56/46/74, T31.31 44/57/56 – unter 100 ms.
+
+==== Punkt 3: Schritte über 40 ms (Teil auto, echte Daten, Median aus 3 Läufen – die Werte schwanken je Lauf um bis zu ±20 ms,
+     Verdacht Speicherbereinigung im Schritt, siehe Punkt 4) ====
+Behoben in 0.65.339 (Ursache per Stichproben-Profil belegt):
+- T55 Test-Briefkasten 49–54 ms: jede Rechnung -> Names:Resolve -> Suche über alle Namen aller Sprachen (im Spiel bei JEDEM Brief
+  des Auktionshauses!). Neu: Verzeichnis "vereinheitlichter Name -> Item" der Client-Sprache (gelernte Namen + Marktdaten, 9906
+  Namen), beim ersten Bedarf als Hintergrund-Aufgabe in Portionen (A:Pause je 50, am Stück 86 ms); Names:Resolve und die
+  Buchhaltung nehmen einen eindeutigen exakten Treffer direkt, sonst wie bisher die Suche. Echte Daten (real_names_exact): 300 Namen,
+  297 Treffer, 0 Abweichungen zu Resolve, ExactID Ø 0,006 ms gegen Resolve vorher Ø 21,6 ms. Nachbau s306 (Gegenprobe: gleiche
+  Antworten). Erste Fassung baute beim Start mit der eingebauten Liste (31 050 Namen) – hielt im Gesamtlauf andere Aufgaben auf
+  (14 Szenarien rot: Diagramm-Liste leer, Ruhemodus 4 statt 1 Aufgabe …) -> nur bei Bedarf und ohne eingebaute Liste.
+- T307 Prognose-Bericht 63–70 ms (0.65.338): die Auswertung wurde vorbereitet, aber bei einem Minutenwechsel neu gerechnet, und
+  Doubles/Listen-Schleifen liefen am Stück -> Bericht selbst als Aufgabe (Teil 18), A:Pause in Doubles und den Listen-Schleifen,
+  vorbereitete Auswertung gilt für den Bericht (Fc.reportR, nie für ein Ersatz-Journal der Prüfungen – T648 hatte das gezeigt).
+  Jetzt unter 40 ms (nicht mehr in der Liste über 40).
+- T312/T310/T335/18: in den 3 Läufen unter 40 ms.
+Weiter über 40 ms (Median): T26i 47 (Item-Menü/Preisverlauf-Liste), T24 46 (Hauptfenster + Designs), T299 44, T888 43 (TU1 Tooltips je
+Marktlage); einzeln T26a 50 / T859 52 (je einmal von 3). Nächster Stand.
+
+Tests: Gesamtlauf 381 bestanden, 0 fehlgeschlagen (dritter Lauf; zwei Läufe gingen durch Neustarts der Umgebung verloren, ein Lauf
+zeigte die 14 Szenarien oben) · addon_check OK (Release-Zip und Discord-Zip).
