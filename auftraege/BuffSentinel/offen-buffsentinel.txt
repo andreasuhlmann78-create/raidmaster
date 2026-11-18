@@ -438,3 +438,8 @@ Offen:
 
 ==== HINWEIS 18.11.2026 10:30 – NACHBAU WIE FOREVER ====
 auftraege/hinweis-nachbau-wie-forever-2026-11-18.txt umsetzen (nackte globale Spiel-Funktionen suchen; Nachbildung ohne Funktionen, die Forever nicht hat).
+
+==== INGAMETEST 18.11.2026 10:10 – BuffSentinel 0.9.56 "/bsen testroutine alles" (Laptop, Krieger 24) ====
+OK 214 · FEHLER 0 · übersprungen 11 · im Client 10 · 16,4 s · Sandbox OK · echte Aktionen 0. Zahl: 214 + 0 + 21 = 235 – stimmt.
+T110 im Spiel OK (eigener Anteil unter 2 KB). Längstes Bild 24,4 ms (T156), kein Bild über 40 ms. Supervisor: ohne Befund im Spiel.
+Offen nur: T34-Sperrwerte aus dem Upload (Produkt-Frage Gegner-Entzaubern), Händler-Prüfung T247 (von selbst), Prüfliste von Hand.
