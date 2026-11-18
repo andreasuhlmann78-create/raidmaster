@@ -10,8 +10,7 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 - **WARNUNG** AHSentinel/GoldSentinelMarkt.lua: veraltete offizielle Fassung (Version 7) – auf shared/GoldSentinelMarkt.lua Version 10 aktualisieren
 - **WARNUNG** AHSentinel/GoldSentinelSync.lua: veraltete offizielle Fassung (Version 2) – auf shared/GoldSentinelSync.lua Version 3 aktualisieren
 
-## BuffSentinel-0.9.59.zip: OK (1 Warnungen)
-- **WARNUNG** BuffSentinel/GoldSentinelSync.lua: veraltete offizielle Fassung (Version 2) – auf shared/GoldSentinelSync.lua Version 3 aktualisieren
+## BuffSentinel-0.9.60.zip: OK
 
 ## GuildSentinel-0.9.39.zip: OK (4 Warnungen)
 - **WARNUNG** Version 0.9.39 in download/ wartet auf CurseForge 18:00 – Discord hat schon 0.9.58 (gewollt, Entscheid 15.11. 13:16)
