@@ -1,0 +1,102 @@
+BERICHT LevelPilot an die Prüf-Sitzung – 18.11.2026 16:47
+Version 3.12.97 – umgesetzt, zur Prüfung
+Zip: announce/levelpilot__levelpilot-3.12.97.LevelPilot.zip, md5 aafc6a2033837ae6733006179196e31d. Datenpaket 1.6.4 (unverändert).
+Anlass: Ingametest 3.12.95 (14:15: T261 a/b/d, T155, T295, Bilder über 40 ms) und Hinweis GoldSentinelSync 3 (15:45).
+OPT-ALLE, "Spieler ohne Testbefehle" (11:10) und KARTE-TT1 folgen als Nächstes.
+
+==== 1. GOLDSENTINELSYNC 3 (Hinweis 15:45) ====
+a) shared/GoldSentinelSync.lua unverändert kopiert (cmp gleich, Version 3).
+b) Aufrufe von Sync.OnAddonMessage/Learn/NetSend/Tick/Pump in der Testroutine durchgesehen. Belegt durch einen Lauf mit Sync 3 OHNE
+   testLearn: rot nur T249 (Lernen + Ablage) und T357 (Gegenprobe Lernen). T254 prüft die Weitergabe, nicht das Lernen – grün mit und
+   ohne. Diese zwei setzen jetzt GoldSentinelSync.testLearn = true nur für ihre Dauer (Guard, alter Wert danach), zusätzlich zur
+   Hülle aus 3.12.96. LISTE: T249, T357.
+   T357 prüft zusätzlich den Schutz von Sync 3: ohne testLearn lernt Sync während der Testroutine nichts (Sync 3: true; mit Sync 2: false).
+c) Ganze Testroutine im Nachbau mit Sync 2 und Sync 3 (gleicher Code, Adressbuch in fremder Ablage): je OK 282 · FEHLER 8 (die
+   bekannten Nachbau-Grenzen), Sync-Zähler gleich (received 4, sent 13, dropped nopath 2, secret 2), dieselben 588 nachgeschlagenen
+   Sprachschlüssel, Adressbuch danach leer. Wortlaut verschieden nur in T248 (Version 2/3, erwartet), T357 (Schutz, erwartet) und
+   reinen Zeit-/Bildwerten (T151, T261, T352). Erster Lauf mit Sync 3 ohne testLearn zeigte zusätzlich T61 (1153 statt 1155 gesendet)
+   und T133 (480 statt 483 Schlüssel) – Ursache: T249/T357 brachen dort früher ab; mit testLearn gleich (1155/5157, 486).
+
+==== 2. T261 EINLOGGEN ====
+(d) T261 nennt jetzt, ob es ein erstes oder zweites Einloggen war: "Einloggen: zweites (Ablage getroffen) / erstes (Ablage leer/neu) /
+    gemischt", mit Zahl übernommener und gemessener Zonen – nur innerhalb der ersten 60 s gezählt.
+    3.12.97 lässt die Ablage gültig (Kennung Version 2 wie 3.12.96). Der nächste Ingametest nach 3.12.96-Einloggen ist also ein ZWEITES.
+(a) Aufschlüsselung: Perf bucht in den ersten 60 s zusätzlich je Auftrag/Schlüssel (umweg* je Zone zusammengefasst, start je Modul);
+    T261 zeigt die 3 teuersten Bereiche mit ihren 5 teuersten Aufträgen ("aufgeschlüsselt: graph: umweg* …, strassen …").
+(b) Stellen ohne Abgabe: im Login-Nachbau jede Strecke zwischen zwei Abgabestellen gemessen (neues Werkzeug, Stelle davor/danach):
+    vorher bis 6,2 ms (Spiel ~5–7× langsamer -> passt zu graph max 41 / advisor max 37). Ursachen und Änderungen:
+    - Umweg-Messung: Umkreissuche 2000 yd (Graph:Near, 41×41 Rasterzellen mit Text-Schlüssel) bis 7,5 ms am Stück. Jetzt dieselbe
+      Kandidatenliste aus den sortierten Ids der Zone (gleiche Bedingungen wie Near), Abgabe alle 300 Knoten.
+      GEGENPROBE: Faktoren von 14 Zonen bit-gleich mit 3.12.96 (1411 1,305 · 1412 1,800 · 1413 1,513 · 1420 1,257 · 1421 1,626 ·
+      1424 1,270 · 1441 1,399 …). Ein erster Versuch (Ziehen mit Verwerfen) ergab andere Faktoren (1413 1,513 -> 1,268, 1420 1,257 -> 1,541)
+      – mit 12 Paaren streut der Faktor stark; verworfen, damit sich die Routen nicht ändern. Befund dazu: der Umweg-Faktor einer Zone
+      schwankt mit der Zufallsfolge um bis ±0,25 – Verdacht, zu messen, ob mehr Paare nötig sind (eigener Auftrag?).
+    - Wegsuche: der Startknoten prüft alle Luftlinien mit Gelände am Stück -> Abgabe alle 2 Nachbarn und nach der Umkreissuche.
+    - Assistent: kalt 13,5 ms, davon 12 ms Klassenquest-Vorwarnung (Schleife über alle ~8000 Quests bei jedem Stufenwechsel). Läuft
+      jetzt als Auftrag "advisor" in Portionen (Abgabe nach jeder Prüfung); die Klassenquest-Liste wird vorab ohne pcall in Portionen
+      gerechnet (A:AddPrepare), erst fertig ersetzt. Direkte Aufrufe (Schalter, Selbsttest, Tests) weiter am Stück.
+    - ZoneBands: ein kalter QDB:Get packt bis ~0,5 ms aus; Abgabe je Quest statt alle 40.
+    Nachher im Login-Nachbau: keine Strecke über 2 ms ohne Abgabe; PERF graph max 4 ms (beide Rechner), advisor max 1, plan max 5.
+(c) Sicherung nach 65 s: seit 3.12.96. Zusätzlich Abgabe alle 100 statt 200 Einträge (längste Portion 6,9 -> 5,1 ms);
+    in Portionen = am Stück true (beide Rechner).
+
+==== 3. T155 PLANUNG JE REISESCHRITT ====
+Belegt im Nachbau (Stufe 24, Brachland, gleiche Laptop-Daten, je 44 Planungen):
+  3.12.93: 11,34 ms · 3.12.96: 8,54 und 13,24 ms (zwei Läufe) · 3.12.97: 9,95 und 8,20 ms.
+-> Mit gleichem Code und gleichen Daten streut der Mittelwert zwischen Läufen um ~50 %. Der Median ist stabil (7,49 / 7,53 ms); einzelne
+   Planungen dauern bis 41 ms und prägen den Mittelwert. Die Verschlechterung 28,5 -> 31,2 -> 40,5 im Spiel ist im Nachbau nicht als
+   Code-Ursache nachweisbar (3.12.93 war nicht schneller). Die Pausen werden korrekt abgezogen (Reise in eigener Coroutine,
+   LP.yieldPaused). Daten 17.11. -> 18.11. nur +2 %.
+   Verdacht, zu messen: Ausreisser im Spiel (Speicherbereinigung fremden Abfalls im Planungsbild, kalte Daten).
+Neu in T155: Median, längste Planung, Planungen mit Speicherfall (Bereinigung) und deren Zeit, Speicher je Planung ohne Bereinigung
+(Nachbau ~310–340 KB je Planung). Der nächste Ingametest zeigt damit, ob Median oder Ausreisser über 16 ms liegen. Erst dann gezielt
+ändern – sonst geraten. (Die Grenze < 16 ms für den Mittelwert lasse ich unverändert.)
+
+==== 4. T295 "NEU PLANEN" KALT ====
+Ursache (Profil): StartAreas -> QDB:ServiceNPCs -> Geländeprüfung je Händler (kalte Geländekarte entpacken). Die Abgabeart "svc" galt
+nur in der Testroutine – im Spiel lief die Liste in der Neuplanung am Stück.
+- Planner:DoReplan rechnet die Dienst-NPCs vorab mit "plan" (wie ZoneBands, ausserhalb jedes pcall), Abgabe auch innerhalb einer Karte.
+- Geländekarte entpacken mit string.byte in Blöcken zu 2000 statt s:sub je Zeichen. T360: neu = alt für 3 Karten (30 006 Zellen),
+  Gegenprobe (ein Zeichen anders) -> anders.
+Nachbau: längste Portion 4,46 ms (3.12.96: 13–14 ms; Spiel 3.12.95: 18,11 ms).
+
+==== 5. BILDER ÜBER 40 MS ====
+Liste aller Bilder der Testroutine über 8 ms im Nachbau: 140 (3.12.96) -> 66 (3.12.97; 5 davon die absichtlich vorgetäuschten aus T349).
+Laufzeit der langen Routine 88 s -> 72 s. Bilder über 40 ms im Nachbau 0. Je Punkt aus dem Ingametest:
+- T355 graph 159,7 ms: T355 führte "diag" und "messen" aus (rechnen den Graphen am Stück, in WithEnv ohne Abgabe). Nicht mehr in T355
+  (geprüft wird nur noch, was T355 prüft: protokoll/log ohne Speichermessung, mit "speicher"/"mem" 1×); ausgeführt werden sie in T21,
+  dass sie den Speicher aller Addons nicht messen prüft T294.
+- T340 wege 102,8 ms / -96 MB: T340 setzte wegeSent auf leer -> WegeExport exportierte das GANZE Wegnetz. Jetzt gilt alles Gesendete
+  weiter als gesendet (Lesen über Metatabelle, Schreiben bleibt in der Hülle, echte Tabellen unberührt) – hinaus geht nur die
+  Questfolge der Prüfung (und echt Ungesendetes). T340 weiter grün (CLIENT, alle 5 Teilprüfungen true).
+- T129 svc 109,9 / T290 graph 73,3 / T136 Zentrale 67: Profil – Aufbau der Zentrale rechnet DungeonOverview (Schleife über alle Quests)
+  und Graph:Stats (alle Kanten mit Länge) bei jedem Aufbau. Jetzt: Liste der Dungeon-Quests des Spielers gemerkt (verworfen bei
+  QDB_CHANGED oder geänderter Zahl eigener Aufzeichnungen; Zahlen erledigt/im Log/offen frisch je Übersicht); Statistik gemerkt
+  (gleiche Knotenzahl und Kantentabelle, höchstens 30 s alt; Prüfungen zählen frisch). T360: Übersicht aus dem Speicher = frisch,
+  Statistik aus dem Speicher = frisch (24 457 Kanten).
+- T221 wege 73/58: Chains lief einen langen Weg am Stück ab -> Abgabe alle 100 Punkte (Ablaufen und Punkte) und in der Ring-Schleife.
+- T246 61,5 / T251 57,6 / T264 57 / T259 48 / T128 48 / T292 46: im Nachbau nach den Änderungen T259 27 ms, T128 23,7, T292 18,2,
+  T246 13,8, T251 und T264 nicht mehr über 8 ms. T290 und T292 hatten im Spiel Speicherfall (Bereinigung) – mit dem kleineren Abfall
+  (T340) Verdacht, zu messen, dass sie im Spiel sinken.
+  Noch über 20 ms im Nachbau: T30 (/lp reise stopp) 31,5 · T348 30,8/29,9 · T259 27 · T80 plan 25,2 (Speicherfall) · T266 23,7 ·
+  T128 23,7 · T295-Umfeld 22,4 (Bild T292–T295, nicht die Portion von T295) · T72 20,7 (Speicherfall). Diese nehme ich als Nächstes.
+
+==== 6. TESTS (eigene, Hinweise, keine Freigabe) ====
+- addon_check OK (1 Warnung lupa); 87 Lua-Dateien aus dem Zip mit Lua 5.1 geladen ohne Fehler; gemeinsame GoldSentinel*.lua (inkl. Sync 3)
+  byte-gleich mit shared/; Dateiliste wie 3.12.96.
+- Testroutine (lang, Laptop-Daten, fremde Sync-Ablage): OK 283 · FEHLER 8 (dieselben bekannten Nachbau-Grenzen T84/T180/T183/T261/
+  T262/T268/T303/T309) · Adressbuch danach leer. T249, T254, T295, T340, T354, T355, T357, T358, T359, T360 OK.
+  Hinweis: Nebenzähler schwanken zwischen Läufen MIT GLEICHEM CODE (das Budget je Bild misst echte Zeit -> andere Bildfolge): Sync
+  "sent" 13 (Läufe vor den Änderungen dieses Berichts) / 11 (zwei Läufe 3.12.97), nachgeschlagene Sprachschlüssel 588 / 586 bei
+  unverändertem Code. Ergebnisse (OK/FEHLER und Wortlaut ohne Zahlen) gleich. Für "sent" Verdacht, zu messen, dass es dieselbe Ursache
+  ist (die 4 echten Sendungen ans Spiel fallen alle in "Reisen").
+- Login-Nachbau zwei Sitzungen, beide Rechner: Sitzung 1 misst 3 Zonen, Sitzung 2 übernimmt 3 und misst 1 neu; umweg-Portionen höchstens
+  4,6 ms, advisor 0,2 ms, replan 1,1 ms.
+- Offline-Routine (40 Läufe): 39 ohne FEHLER, 1 mit FEHLER: T155 in "Testroutine Forever deDE Allianz" (Stufe 10, Elwynn):
+  16,13 ms je Planung (29), Median 8,50, längste 44,87 – soll < 16. Gleicher Fall je 6 Läufe nachgestellt:
+    3.12.96: 15,25 · 13,00 · 12,87 · 15,81 · 13,41 · 13,04 (Mittel 13,90)
+    3.12.97: 15,24 · 13,22 · 16,44 · 13,44 · 14,03 · 13,52 (Mittel 14,32; Median je Lauf 6,9–10,2, längste 39,7–55,0)
+  -> +0,4 ms (3 %), weit innerhalb der Streuung (beide 12,9–16,4): keine messbare Verschlechterung; der Fall liegt für beide Versionen
+  knapp unter der Grenze, Ausreisser bis 55 ms prägen den Mittelwert. Siehe T155 (Abschnitt 3): Messung erst im Spiel, dann ändern.
+- Regression (36 Läufe): 35 ohne FEHLER, test29 1 FEHLER wie seit 3.12.90 bekannt (Arbeitskopie ohne echte Kartenrahmen; in der
+  Offline-Routine mit echten Rahmen OK).
