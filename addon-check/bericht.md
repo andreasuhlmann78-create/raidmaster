@@ -33,6 +33,6 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 - **WARNUNG** GuildSentinel/GoldSentinelSync.lua: veraltete offizielle Fassung (Version 2) – auf shared/GoldSentinelSync.lua Version 3 aktualisieren
 - **WARNUNG** GuildSentinel/GoldSentinelTakt.lua: veraltete offizielle Fassung (Version 1) – auf shared/GoldSentinelTakt.lua Version 2 aktualisieren
 
-## levelpilot__levelpilot-3.12.97.LevelPilot.zip: OK (1 Warnungen)
+## levelpilot__levelpilot-3.12.98.LevelPilot.zip: OK (1 Warnungen)
 - **WARNUNG** LevelPilot/GoldSentinelTakt.lua: veraltete offizielle Fassung (Version 1) – auf shared/GoldSentinelTakt.lua Version 2 aktualisieren
 
