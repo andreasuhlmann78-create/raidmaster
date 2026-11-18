@@ -24,3 +24,8 @@ SCHRITT 2 – UMBAU (Vorgaben wie AHSentinel OPT-1)
  (i) Leistung: Optionen-Fenster beim ersten Öffnen ≤ 16 ms je Bild (Bereiche erst beim Zeigen bauen, wie RaidMaster 3.0.35).
 Psychologie (shared/wissen/psychologie.md): weniger auf einmal zeigen, Begriffe des Spielers statt Fachsprache.
 REIHENFOLGE: nach den laufenden HOCH-Punkten (Fehler, Ruckeln), vor den MITTEL-Punkten. Locales und CHANGELOG EN/DE.
+
+NACHTRAG 18.11.2026 10:55 – Vorlage zum Abschauen: shared/vorlage/__ADDON__/Options.lua setzt (a)–(i) schlank um (eine Liste
+ns.OPTIONS, Bereiche ns.OPTION_SECTIONS, Suche ns.FindOptions, "Weitere", Standard je Bereich, Bereiche erst beim Zeigen) und
+TestRoutine.lua T12/T24–T26 prüft es (jede Option genau einmal, Standardwert, Text ≤ 28 Zeichen in jeder Sprache, ≤ 12 Zeilen).
+Gilt nach Entscheid 10:28 auch für jedes neue Addon (Skelett).
