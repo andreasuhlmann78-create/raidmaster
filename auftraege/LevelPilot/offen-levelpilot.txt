@@ -1204,3 +1204,26 @@ AUFTRAG (vor allem anderen):
    "Testa Beispiel", "Testa Beispiel-Realm", "LPNetz Partner" und jeden weiteren Namen, den eine LevelPilot-Prüfung je geliefert hat – Liste
    aus dem Code), sonst nichts. Ergebnis ins Diagnose-Protokoll ("Sync-Adressbuch bereinigt: n Testnamen").
 3. Alle Absender-Namen in Tests so wählen, dass sie kein echter Spieler sein können UND nie an Sync gehen.
+
+==== INGAMETEST 18.11.2026 14:15 – LevelPilot 3.12.95 "/lp testroutine alles" (Laptop, Krieger 24, Bericht 13:59) ====
+OK 291 · FEHLER 3 · übersprungen 9 · im Client 53 · 423 s · Sandbox OK · echte Aktionen 0 (229 nur mitgeschrieben) · Fehlerzähler 0,
+Modulstartfehler 0 · Regressionen 76/76. Kein Fehlerfenster gemeldet. Keine Sync-Flüstermeldung in diesem Lauf gemeldet.
+Vergleich mit 3.12.94: Bilder über 40 ms 26 -> 20 · längstes Bild 102,5 -> 159,7 ms (schlechter) · "Abgabe nicht möglich" 35 -> 40.
+FORTSCHRITT (belegt): T261 graph 2340 ms/2347× -> 550 ms/518× (Umweg-Ablage wirkt) · start 113 ms/max 85 -> 34 ms/max 19 · backup in
+Portionen (184 ms/156×, max 4) · /lp protokoll (T21) nicht mehr unter den Bildern über 40 ms.
+FEHLER (3):
+1. HOCH – T261 Einloggen 1167 ms in 1291 Aufrufen, soll < 1000 ms; längster 41 ms. Je Aufrufer: graph 550 ms/518×/max 41 · route 267 ms/140×
+   · backup 184 ms/156× · advisor 46 ms/5×/max 37 · start 34/max 19 · path 29 · plan 23 · nav 19/346×.
+   (a) Die Grenze reissen jetzt mehrere kleine Posten zusammen – graph bleibt der grösste: welche Arbeit bleibt im graph-Aufbau, obwohl die
+   Umweg-Ablage greift? Aufschlüsseln (Netz bauen / Ketten / Umweg) und belegen. (b) graph max 41 ms und advisor max 37 ms in EINEM Aufruf –
+   Budget 4 ms wird nicht eingehalten: Stellen ohne Abgabe finden. (c) backup 184 ms: Sicherung erst NACH den ersten 60 s starten (sie ist
+   nicht dringend) – Verdacht, zu messen, ob damit die Grenze schon fällt. (d) Im Bericht angeben, ob der Lauf ein erstes oder zweites
+   Einloggen war (Ablage getroffen ja/nein), sonst ist die Zahl nicht vergleichbar.
+2. MITTEL – T155 Planung je Reiseschritt 40,48 ms (57×), soll < 16 ms. Verlauf 28,5 (3.12.93) -> 31,2 (3.12.94) -> 40,5 (3.12.95): wird mit
+   jeder Version SCHLECHTER. Ursache belegen (was kam in 3.12.95 in die Planung dazu?) und beheben.
+3. MITTEL – T295 Klick "Neu planen" kalt: in Portionen ja, aber längste Portion 18,11 ms (soll < 16). Abgabe feiner setzen.
+BILDER ÜBER 40 MS (20): T355 graph 159,7 ms (neu längstes – graph am Stück in der Prüfung), T129 svc 109,9, T340 wege 102,8 (Speicher
+-96 MB), T290 graph 73,3 (Speicher -57 MB), T221 wege 73,3/58,4, T136 Zentrale 67,0, T246 61,5, T251 57,6, T264 57, T259 48, T128 48,
+T292 46 (Speicher -15 MB). Die drei Bilder mit Speicherfall sind die Speicherbereinigung des Spiels – Ursache ist der Abfall davor:
+T340 wege erzeugt ~96 MB Abfall -> Tabellen wiederverwenden statt neu anlegen (leistung.md). T355 und T129 je in Portionen teilen.
+OFFEN aus 3.12.95 (Nachprüfung LP-95-1/-2, NIEDRIG) und BEFUND HOCH Sync-Adressbuch 13:55 bleiben bestehen – der Sync-Befund zuerst.
