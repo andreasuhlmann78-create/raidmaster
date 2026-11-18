@@ -1,0 +1,32 @@
+BERICHT RAIDMASTER AN DIE PRÜF-SITZUNG
+Stand: 18.11.2026 09:55 (aus date) · Sitzung: RaidMaster-Projekt-Sitzung · Version: Addon 3.0.36 (Uploader unverändert 2.3.14)
+Commit: dieser Push · Bezug: offen-raidmaster.txt "INGAMETEST 18.11.2026 09:44 – RaidMaster 3.0.35" MITTEL T43 (8c8fb490)
+Status: umgesetzt, zur Prüfung.
+
+1. Verdacht "echte Beute-Regeln" – gemessen, NUR TEILWEISE richtig:
+   Die echten Regeln aus goldsentinel-daten (Laptop, forever, RaidMaster.lua, nur lokal gelesen): epic = auction, blue = auction,
+   recipe = bank, mats = bank. Epische Rüstung/Waffen würden also versteigert. Dass im Spiel zweimal 0 der 10 geladenen Onyxia-Items
+   versteigerbar waren, erklären die Regeln allein NICHT. Loot.Classify (Loot.lua:125) gibt ausserdem "manual" für Quest-Items
+   (Klasse 12), alles unter Qualität 3 und Taschen/Sonstiges, "notify" ab Qualität 5. Verdacht, zu messen: geladen waren vor allem
+   solche Items (z. B. Quest-/Kopf-Items). Belegt wird das im nächsten Ingametest – das Ergebnis nennt jetzt je Item Qualität UND Klasse.
+
+2. Umgesetzt (Auftrag + Absicherung):
+   a) Eigene Test-Regeln: T43 setzt für seinen Durchlauf epic/blue/recipe/mats = "auction" (Swap auf RM.db.config.rules, Undo im
+      Aufräumteil; config liegt zusätzlich in der Sandbox des Testmodus). Die echten Regeln prüft weiter T21.
+   b) Vorher hält T43 fest, wie die ECHTEN Regeln die geladenen Items einstufen ("Name (Q4, Klasse 4) -> Versteigerung/Gildenbank/…",
+      höchstens 12; neu T.DescribeLoot in Test/Test.lua) – steht in jedem Ergebnis (OK, FEHLER, nicht prüfbar).
+   c) Ist mit Test-Regeln trotzdem kein geladenes Onyxia-Item versteigerbar (Quest-/Taschen-Items), weicht T43 auf den Geschmolzenen
+      Kern aus (fast nur epische Rüstung/Waffen, eigener Topf, ebenfalls nur geladene Items, bis 15 s laden).
+   d) Erst wenn auch dort nichts versteigerbar ist: "nicht prüfbar" mit Topf, geladen x/y und beiden Einstufungen.
+3. Gegenproben (Nachbildung):
+   - T43BANKRULES=1 (echte Regeln schicken alles zur Gildenbank, wie vermutet): 3.0.35 "nicht prüfbar … versteigerbar 0"; 3.0.36 OK
+     "3 Items vergeben … mit deinen echten Regeln: … -> Gildenbank".
+   - T43NOAUCT=1 (Classify gibt immer Gildenbank, auch mit Test-Regeln): Ausweichen auf mc, dann "nicht prüfbar" mit beiden Listen.
+   - Sandbox OK in allen Läufen (die Regeln stehen danach wieder wie vorher).
+
+EIGENE TESTS (Hinweise, keine Freigabe) – Nachbildung berichte/RaidMaster/offline:
+- Forever, Era ALLE OK; enUS, ruRU ALLE OK; STOPAT 1/60 ALLE OK; Bankregeln ALLE OK; echte Daten (Desktop, Laptop) ALLE OK.
+- Lua-Syntax lupa (Lua 5.1): 65 Dateien, 0 Fehler. Gemeinsame Dateien cmp gleich mit shared/.
+- addon_check download/RaidMaster-3.0.36.zip: "RaidMaster-3.0.36.zip: OK", kein FEHLER, keine WARNUNG (EXIT 0).
+
+FÜR DEN NUTZER (nach Prüfung): Bot /update -> RaidMaster 3.0.36, /reload, /rm version (3.0.36), dann /rm testroutine alles.

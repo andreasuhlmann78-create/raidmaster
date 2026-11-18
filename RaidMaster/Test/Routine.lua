@@ -1661,6 +1661,13 @@ local function AreaB(t, G)
 			-- 3.0.31 (Ingametest 17.11.: "Beute geladen 10/26"): bis 30 s warten (alle 0,5 s nachfragen; GET_ITEM_INFO_RECEIVED
 			-- kommt in dieser Zeit an), früher aufhören, wenn alles da ist oder 8 s lang nichts Neues mehr kam (Items, die es in
 			-- diesem Client nicht gibt, laden nie)
+			-- 3.0.36 (Supervisor 09:47, Ingame zweimal "versteigerbar 0"): die ECHTEN Beute-Regeln des Nutzers versteigern Onyxia-
+			-- Beute nicht (Classify liest RM.db.config.rules). T43 prüft das Werkzeug, nicht die Regeln (das tun T21 …): für seinen
+			-- Durchlauf eigene Test-Regeln "Versteigerung" für alle Arten, danach zurück (Swap/Undo; config liegt zusätzlich in der
+			-- Sandbox des Testmodus). Vorher die Einstufung mit den echten Regeln festhalten – fürs Ergebnis.
+			local realRules = T.DescribeLoot and T.DescribeLoot(T.pool, 12) or {}
+			local rules = RM.db.config.rules
+			for _, kind in ipairs({ "epic", "blue", "recipe", "mats" }) do Swap(u, rules, kind, "auction") end
 			local known, total, auct = 0, 0, 0
 			if T.PreloadLoot then
 				known, total, auct = T.PreloadLoot(T.pool)
@@ -1672,10 +1679,27 @@ local function AreaB(t, G)
 				end
 			end
 			auct = auct or 0
+			-- 3.0.36: Messung mit den echten Daten des Nutzers zeigt "Episch -> Versteigerung" – die Regeln waren es also nicht allein.
+			-- Bleibt Onyxia ohne versteigerbares Item (z. B. nur Quest-/Taschen-Items geladen), nimmt T43 den Geschmolzenen Kern
+			-- (fast nur epische Rüstung/Waffen) – eigener Topf, ebenfalls nur mit geladenen Items.
+			if auct == 0 and not R.long and T.PreloadLoot then
+				local onyText = table.concat(T.DescribeLoot and T.DescribeLoot(T.pool, 12) or {}, ", ")
+				Swap(u, T, "pool", "mc")
+				known, total, auct = T.PreloadLoot("mc")
+				local w = 0
+				while (auct or 0) == 0 and known < total and w < 15 do
+					Wait(0.5); w = w + 0.5
+					known, total, auct = T.PreloadLoot("mc")
+				end
+				auct = auct or 0
+				realRules = T.DescribeLoot and T.DescribeLoot("mc", 12) or realRules
+				realRules[#realRules + 1] = "(Onyxia: " .. onyText .. ")"
+			end
 			-- 3.0.35 (Ingametest 18.11.: 3 gezogene Items, alle "andere Regel"): ohne ein einziges versteigerbares geladenes Item
 			-- kann diese Prüfung nichts vergeben -> nicht prüfbar mit Zahl, nie FEHLER aus Zufall
 			if auct == 0 then
-				return ASYNC_SKIP, string.format("Beute geladen %d/%d, davon versteigerbar 0 – beim nächsten Lauf wieder", known, total)
+				return ASYNC_SKIP, string.format("Beute (%s) geladen %d/%d, auch mit Test-Regeln versteigerbar 0; mit Test-Regeln: %s; echte Regeln: %s – beim nächsten Lauf wieder",
+					tostring(T.pool), known, total, table.concat(T.DescribeLoot and T.DescribeLoot(T.pool, 12) or {}, ", "), table.concat(realRules, ", "))
 			end
 			Swap(u, T, "preferAuction", true)               -- der Durchlauf zieht nur versteigerbare Items (Test/Test.lua Pick)
 			local since = RM.Now() - 1
@@ -1723,10 +1747,10 @@ local function AreaB(t, G)
 			-- 3.0.32: gezählt wird, was DIESER Durchlauf vergeben hat (st.awarded). Die Zählung im Log (n) nahm auch Items aus früheren
 			-- Prüfungen mit (Nachbau: "2 Items vergeben" ohne eine einzige geladene Ony-Beute) – sie steht nur noch als Zusatz da.
 			if (st.awarded or 0) < 1 then
-				local detail = string.format("Beute geladen %d/%d (versteigerbar %d); im Durchlauf %d Items behandelt (%d Versteigerung, %d andere Regel), %d ohne Daten; "
-					.. "Versteigerungen gestartet %d, Start nicht möglich %d, vergeben %d, ohne Gebot %d; Regeln: %s",
+				local detail = string.format("Beute geladen %d/%d (mit Test-Regeln versteigerbar %d); im Durchlauf %d Items behandelt (%d Versteigerung, %d andere Regel), %d ohne Daten; "
+					.. "Versteigerungen gestartet %d, Start nicht möglich %d, vergeben %d, ohne Gebot %d; Regeln: %s; mit deinen echten Regeln: %s",
 					known, total, auct, st.handled or 0, st.auction or 0, st.other or 0, st.noInfo or 0,
-					st.started or 0, st.startFail or 0, st.awarded or 0, st.noBid or 0, table.concat(st.items or {}, ", "))
+					st.started or 0, st.startFail or 0, st.awarded or 0, st.noBid or 0, table.concat(st.items or {}, ", "), table.concat(realRules, ", "))
 				-- 3.0.32 (Supervisor 19:42): "nicht prüfbar" NUR, wenn belegt ist, dass die Daten fehlen – kein einziges Item hatte
 				-- Daten (behandelt 0 und Beute nicht geladen bzw. Items ohne Daten). Alles andere ist FEHLER, mit allen Zahlen.
 				if (st.handled or 0) == 0 and (known == 0 or (st.noInfo or 0) > 0) then
@@ -1735,8 +1759,8 @@ local function AreaB(t, G)
 				return false, "kein Item vergeben (" .. detail .. "; im Log seit Start " .. n .. ")", ">= 1"
 			end
 			if RM.db.testMode and RM.db.testMode.post then return false, "testMode.post gesetzt", "nil" end
-			return true, string.format("%d Items vergeben in %d s (Beute geladen %d/%d, versteigerbar %d; behandelt %d, Versteigerung %d, ohne Gebot %d; Regeln: %s)%s",
-				st.awarded, waited, known, total, auct, st.handled or 0, st.auction or 0, st.noBid or 0, table.concat(st.items or {}, ", "), stress)
+			return true, string.format("%d Items vergeben in %d s (Beute geladen %d/%d, mit Test-Regeln versteigerbar %d; behandelt %d, Versteigerung %d, ohne Gebot %d; Regeln: %s; mit deinen echten Regeln: %s)%s",
+				st.awarded, waited, known, total, auct, st.handled or 0, st.auction or 0, st.noBid or 0, table.concat(st.items or {}, ", "), table.concat(realRules, ", "), stress)
 		end, function() Undo(u); if T.IsRunning() then T.StopRun() end; T.SetTimeOffset(0); T.FillRoster(); RM.Loot.pendingBoss = nil end)
 	end)
 

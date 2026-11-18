@@ -88,6 +88,8 @@ RaidMasterDB.gsTest.errors = {}
 
 -- T43NOAUCT=1: Gegenprobe T43 – kein geladenes Item ist versteigerbar (alle "Gildenbank")
 if os.getenv("T43NOAUCT") == "1" then RM.Loot.Classify = function() return "bank" end end
+-- T43BANKRULES=1: Gegenprobe 3.0.36 – die echten Beute-Regeln des Nutzers schicken alles zur Gildenbank (wie im Spiel 18.11.)
+if os.getenv("T43BANKRULES") == "1" then for _, k in ipairs({ "epic", "blue", "recipe", "mats" }) do RM.db.config.rules[k] = "bank" end end
 local R = RM.TestRoutine
 local only = ROUTINE_AREA or os.getenv("AREA")
 R.Run(only)

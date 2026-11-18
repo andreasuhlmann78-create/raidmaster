@@ -23,6 +23,10 @@ MAIN FEATURES
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
 
+WHAT'S NEW IN 3.0.36 – test routine (developer only)
+- The test run (T43) uses its own loot rules ("auction") and restores yours afterwards – so it can always be checked, whatever
+  your loot rules are. The result shows how your real rules classify the items.
+
 WHAT'S NEW IN 3.0.35 – main window opens without stutter
 - On first open the main window builds only the visible page; the other pages are built afterwards in the background, one per
   frame (never in combat). Before, all pages were built at once (measured in game: 47.6 ms in one frame).

@@ -19,8 +19,8 @@ RM.GLOBAL = setmetatable({}, {
 })
 RaidMaster = RM.GLOBAL
 
-RM.VERSION = "3.0.35"
-RM.VERSION_NUM = 30035
+RM.VERSION = "3.0.36"
+RM.VERSION_NUM = 30036
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------

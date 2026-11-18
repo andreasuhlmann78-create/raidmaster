@@ -1050,6 +1050,28 @@ function T.PreloadLoot(poolKey)
 	return known, total, auct
 end
 
+-- 3.0.36 (Supervisor 09:47): geladene Items mit Qualität und Regel, wie RM.Loot.Classify sie JETZT einstuft (höchstens max)
+function T.DescribeLoot(poolKey, max)
+	local def = RM.Data.Pools[poolKey or T.pool]
+	local lt = LootTable(def)
+	local out, seen = {}, {}
+	for _, b in ipairs(lt or {}) do
+		for _, id in ipairs(b.i or {}) do
+			if not seen[id] and #out < (max or 12) then
+				seen[id] = true
+				local name, link, quality = GetItemInfo(id)
+				if link then
+					local ok, action = pcall(RM.Loot.Classify, link, quality)
+					local classID = select(6, RM.GetItemInfoInstant(link))
+					out[#out + 1] = string.format("%s (Q%s, Klasse %s) -> %s", tostring(name), tostring(quality), tostring(classID),
+						ok and ((T.RULE_NAMES or {})[action] or tostring(action)) or "Fehler")
+				end
+			end
+		end
+	end
+	return out
+end
+
 -- n zufällige Items, die das Spiel schon kennt (sonst beim nächsten Mal)
 -- 3.0.35 (Ingametest 18.11. T43): mit T.preferAuction nur Items, die RM.Loot.Classify sicher versteigert – sonst hängt die
 -- Prüfung vom Zufall ab (3 gezogene Items, alle "andere Regel"). Ohne den Schalter wie bisher (normaler Test-Durchlauf).
@@ -1083,6 +1105,7 @@ end
 
 local RULE_NAMES = { auction = "Versteigerung", bank = "Gildenbank", de = "Entzauberer", crafter = "Handwerker",
 	manual = "von Hand verteilen", notify = "Hinweis (legendär) – nie automatisch", roll = "Würfeln" }
+T.RULE_NAMES = RULE_NAMES
 
 -- ein Item wie im echten Raid behandeln: Regel prüfen, versteigern oder zuteilen
 -- 3.0.31: Zähler je Durchlauf (für die Testroutine T43: warum wurde nichts vergeben?)

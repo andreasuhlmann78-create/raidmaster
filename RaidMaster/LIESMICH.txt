@@ -11,6 +11,10 @@ INSTALLATION
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
 
+NEU IN 3.0.36 – Testroutine (nur Entwickler)
+- Der Test-Durchlauf (T43) setzt für sich eigene Beute-Regeln ("Versteigerung") und stellt danach deine Regeln zurück – so ist er
+  immer prüfbar, egal wie deine Beute-Regeln eingestellt sind. Im Ergebnis steht, wie deine echten Regeln die Items einstufen.
+
 NEU IN 3.0.35 – Hauptfenster öffnet ohne Ruckeln
 - Das Hauptfenster baut beim ersten Öffnen nur die sichtbare Seite; die übrigen Seiten entstehen danach im Hintergrund, eine je Bild
   (nie im Kampf). Vorher wurden alle Seiten auf einmal gebaut (im Spiel gemessen: 47,6 ms am Stück).

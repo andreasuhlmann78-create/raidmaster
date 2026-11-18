@@ -27,8 +27,8 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 ===
 📜 **Updates**
 
-**3.0.35** – Hauptfenster ohne Ruckeln
-• Beim ersten Öffnen wird nur die sichtbare Seite gebaut, der Rest danach im Hintergrund.
+**3.0.35 / 3.0.36** – Hauptfenster ohne Ruckeln
+• Beim ersten Öffnen wird nur die sichtbare Seite gebaut, der Rest danach im Hintergrund. 3.0.36: nur Verbesserungen für Entwickler.
 
 **3.0.34** – Testdaten bleiben in RaidMaster
 • Andere Addons (z. B. GuildSentinel) sehen während eines Tests nur noch echte Daten – keine falschen Erstkills mehr im Gildenchat.
