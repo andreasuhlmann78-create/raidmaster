@@ -1,0 +1,60 @@
+BuffSentinel – Bericht an die Prüf-Sitzung · 0.9.58-opt-alle-umbau
+Datum: 18.11.2026, 10:42 (aus date)
+
+Stand: OPT-ALLE Schritt 2 (Umbau a–i) – umgesetzt, zur Prüfung (0.9.58). Schritt 1 (Bestandsaufnahme) im Bericht 10:33.
+
+VERÖFFENTLICHT
+- download/BuffSentinel-0.9.58.zip, README, announce (+ Zip), 0.9.57 entfernt; auf origin/main nachgeprüft. addon_check OK (1 Warnung:
+  Lua-Syntax nicht geprüft, lupa fehlt). Gemeinsame Dateien byte-gleich. Offline-Routine auf der Zip: 8 × PASS (T48 jetzt auch im Nachbau
+  grün – aus der Liste "nur Nachbau" genommen).
+
+UMBAU (Options.lua, eigener Code; AHSentinel 0.65.265 UI_Main.lua nur gelesen)
+(a) Links: zuerst die Listen (Skillung, Procs, Buffs, Cooldowns, Reinigen), dann Überschrift "Optionen" mit fünf Bereichen – Wo aktiv,
+    Töne, Anzeige, Hilfen, Teilen & Lernen –, zuletzt der Recorder. Rechts nur die Zeilen des Bereichs, EINE Spalte, höchstens 12 Zeilen
+    (Hauptzeilen je Bereich: 7 / 9 / 10 / 5 / 5), kein Bildlauf nötig. Bereiche nach dem Bestand, Begriffe des Spielers.
+(b) Suchfeld oben über allen Seiten: Tippen zeigt die Treffer aus allen Bereichen (Beschriftung, Tooltip-Text, Bereichsname) mit dem
+    Bereichsnamen in der Zeile; Esc/leer -> zurück zur vorigen Seite. Höchstens 12 Treffer, sonst "… n weitere Treffer".
+(c) Jede Zeile: kurze Beschriftung (höchstens 28 Zeichen, kein Umbruch; zu lang -> kleinere Schrift), rechts die Bedienung, Erklärung im
+    Tooltip. Gleiche Art überall: an/aus = EIN Knopf ("an"/"aus"); Auswahl = Knopf mit Wert (Klick = nächster); Grösse = – Wert +;
+    Ton = an/aus + Ton + Anhören.
+(d) Häufiges zuerst; selten/Entwickler unter "Weitere (n)" (eingeklappt): Töne auf alle Skillungen, Skillung zurücksetzen; Testmodus und
+    "Alles testen" (nur Entwickler). "Standard"-Knopf je Bereich (Auslieferungswerte; Töne: SoundResetAll + Hupe 5 s + Kanal Master;
+    Anzeige: Grössen 100 %, Restzeit an, Reinigungsleiste an, Minimap-Knopf an).
+(e) Optionen am Ort: Seite Reinigen -> Knöpfe "Optionen: Anzeige" / "Optionen: Töne"; Recorder -> "Optionen: Teilen & Lernen";
+    Nachkaufen-Knopf beim Händler: Rechtsklick öffnet "Hilfen" (Tooltip sagt es). BS:OpenOptions(bereich). Minimap-Linksklick wie bisher.
+(f) Alle Schlüssel unverändert (Liste unten). Alte Seitennamen "opt"/"zones" zeigen den ersten Bereich.
+(g) Sprachen: BuffSentinel hat deDE und enUS (andere Clients -> enUS). T260 prüft in BEIDEN Tabellen jede OPT-Beschriftung ≤ 28 Zeichen.
+    Klassisch/Modern-Design gibt es in BuffSentinel nicht. 130 %: Fenster 800 × 560 bleibt (bei 1,3 = 1040 × 728, passt auf 1080p) –
+    Verdacht, im Spiel anzusehen (T142 "ganz im Bildschirm" prüft es im Client).
+(h) Prüfliste: Punkt "OPT Optionen am Bild" (von Hand, 10 Zeilen). Platz: HEXER und SOULSTONE zu EINEM Punkt "Hexer: Vorrat und
+    Seelenstein" zusammengelegt (mein Vorschlag 10:33, noch ohne Antwort) – erledigt erst, wenn BEIDE Teile im Spiel erschienen sind
+    (BS.PRUEF_PARTS HEXER_A/HEXER_B); T245 prüft: nach Teil A offen, nach Teil B erledigt. Weiter 14 Punkte. Falls anders gewünscht: Bescheid.
+(i) Nur die gezeigte Seite wird gebaut (Widget-Pool je Seite). T261: langsamster Bereich 0,1 ms im Nachbau (Grenze 16 ms) – Spielwert offen.
+
+LISTE ALT -> NEU (n alt = 35 = n neu; Schlüssel gleich)
+Wo aktiv: zones.world/dungeon/raid/pvp/resting/sanctuary (alt Optionen "Wo soll …"), cdWorldCombatOnly (alt "Cooldowns & Reinigen").
+Töne: soundBase/soundSpecs horn, buff, proc, cooldown, dispel, dispel_imp, bell (alt Optionen "Warntöne"; dispel war zusätzlich auf der
+  Seite Reinigen – dort jetzt nur Anzeige + Knopf), hornEvery, soundChannel.
+Anzeige: scale, groupScale.proc/buff/cd/dispel (alt "Anzeige & Anordnen"), cdTimer (alt "Cooldowns & Reinigen"), dispel.friendly (alt
+  zweimal: Optionen + Reinigen), minimap.hide (alt ohne Überschrift).
+Hilfen: readyCheck, rfHint (nur Paladin), restock, restockLimit, cmdHint (alt alle ohne Überschrift).
+Teilen & Lernen: auto.enabled, auto.share (alt zweimal: Optionen + Recorder), shareNames, shareServer (alt "Namen teilen"), Marktdaten
+  teilen (GoldSentinelMarkt gsMarktAus; alt ohne Überschrift).
+Recorder (Seite bleibt): recorder.enabled + Listen.
+Aktionen: Töne auf alle Skillungen / Skillung zurücksetzen (Töne, Weitere), Alle Töne zurücksetzen (= Standard Töne), Anordnen,
+  Positionen zurücksetzen (Anzeige), Grössen zurücksetzen (= Standard Anzeige), Testmodus/Alles testen (Anzeige, Weitere, nur Entwickler),
+  Spenden (Kopfzeile, wie bisher), Liste leeren / Entfernte wieder zulassen (Recorder), Spezialisierung neu lesen (Skillung).
+
+TESTS (eigene, keine Freigabe)
+- T259 NEU: Liste der 34 alten Schlüssel (unabhängig von BS.OPT_AREAS) – jeder genau EINMAL in den Bereichen, + Recorder = 35; WIRKUNG: jede
+  Zeile ändert denselben gespeicherten Wert wie früher und wieder zurück (Marktdaten nur Ort, weil die gemeinsame Datei nicht in der
+  Sandbox liegt); Gegenprobe: ohne die erste Zeile meldet die Prüfung "zones.world fehlt". Nachbau: "34 (+ Recorder = 35) · fehlt: - ·
+  doppelt: - · ohne Wirkung: - · Gegenprobe: ja". Zuerst FEHLER gefunden: drei Ton-Namen > 28 Zeichen -> kurze Beschriftungen.
+- T260 NEU: je Bereich ≤ 12 Hauptzeilen, Beschriftungen ≤ 28 Zeichen (beide Sprachen), Suche "Knopf an der Minikarte" findet 1 Treffer.
+- T261 NEU: Aufbauzeit je Bereich ≤ 16 ms.
+- T47 (alle Seiten), T48 (jeder Schalter an/aus in den fünf Bereichen), T114 (Fehler auf einer Optionen-Seite) auf die neuen Seiten umgestellt.
+- run25m OK 207 (nur noch die bekannten Nachbau-FEHLER); Lua-5.1-Prüfer 49 099 Abgaben, 0 Verletzungen; Portionen: längstes Bild 6,6 ms.
+
+IM SPIEL ANSEHEN (Prüfliste OPT): jeden Bereich, Suchfeld "Händler", Tooltips, nichts überlappt/abgeschnitten, 130 %.
+NICHT GETAN: Alte lange Locale-Texte, die jetzt nur noch Tooltips sind, bleiben (sie sind die Tooltips); unbenutzte alte Schlüssel
+(z. B. Überschriften der alten Seite) räume ich mit der nächsten Version auf, wenn die Prüfung den Umbau angenommen hat.
