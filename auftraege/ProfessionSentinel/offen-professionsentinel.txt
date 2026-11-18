@@ -591,7 +591,7 @@ MITTEL:
    dort behoben: nach JEDEM ganzen Lauf erneuern).
 
 ==== PRÜFUNG Supervisor 18.11.2026 15:15 – 0.9.73 (Ingametest 0.9.72) ====
-- addon_check läuft noch (Ergebnis folgt als Nachtrag), md5 91e83591….
+- addon_check OK, md5 91e83591….
 - HOCH 1 Speicher: Messung je Teil (UI.Mem, nur dem innersten Teil zugerechnet, ohne Bereinigung): ANGENOMMEN. Richtig: erst messen,
   dann umbauen. Die Zeile "angelegt je Teil" muss im nächsten Ingametest die 64 MB je 20 Refreshes einem Teil zuordnen.
 - HOCH 2 Bilder über 40 ms: angenommen.
@@ -612,4 +612,4 @@ MITTEL:
   · Messauftrag an den Nutzer (Prüfliste, ohne Gold): bei Schmiedekunst 75–100 die Farbe von "Grober Wetzstein" ablesen. Erst mit dem
     gemessenen Wert wird die Zeile korrigiert, als "Forever gemessen".
   · Die geplante Aufgabe "Rezeptdaten-Update" darf diese Markierung nicht überschreiben.
-- Installation beim Nutzer folgt nach addon_check.
+- Beim Nutzer installiert (Laptop, diff 0).
