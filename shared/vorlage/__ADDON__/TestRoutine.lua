@@ -9,6 +9,13 @@
 --   * Aktionen mit Folgen laufen über ns.Act und werden im Test nur mitgeschrieben (ns.testing = true).
 --   * Echte Daten (Sandbox): vorher kopieren, im Test eine Kopie benutzen, nachher vergleichen.
 --   * Nur ausserhalb des Kampfes starten.
+--   * Leistung: Die Routine läuft als Aufgabe von GoldSentinelTakt (Portionen, kein Bild über 40 ms). Zwischen zwei Fällen
+--     gibt sie ab. Testdaten (Sandbox, ns.testing) gelten NUR während ihrer Portionen (Takt.Sliced) – in den Bildern
+--     dazwischen sieht der übrige Code (Ereignisse, andere Addons) die echten Daten. Ein einzelner Fall läuft am Stück
+--     (run:Check benutzt pcall): schwere Fälle in mehrere Fälle teilen.
+--   * Absichtliche Testfehler NIE über den Fehler-Handler des Spiels (geterrorhandler) – sonst öffnet sich beim Spieler
+--     das Fehlerfenster. Immer über ns.Try (zählt selbst) und danach aus dem Bericht entfernen (siehe T80).
+--   * Für andere Addons sichtbar: __ADDON__API.TestRunning() ist während des ganzen Laufs true.
 --
 -- Neue Funktionen des Addons bekommen hier eigene Fälle (Bereich B), jeder Befund der Prüf-Sitzung einen Fall in J.
 -- Aufruf: /__SLASH__ test        alles
@@ -56,10 +63,17 @@ local function Same(a, b)
     return true
 end
 
--- echte Daten ohne den Testbericht selbst (gsTest ändert sich durch den Bericht absichtlich)
+-- Felder, die sich während des Laufs von selbst ändern dürfen (Bericht, Protokoll, Zähler, Marktdaten-Netz, Prüfliste).
+-- Sie werden weder kopiert noch verglichen – sonst hiesse jede Änderung zwischen zwei Portionen "Sandbox FEHLER", und
+-- grosse Marktdaten zu kopieren kostete ein langes Bild.
+ns.VOLATILE_KEYS = { gsTest = true, diag = true, diagExport = true, cmdUse = true, gsMarkt = true, pruefliste = true }
+
+-- echte Daten ohne die Felder oben
 local function DataOnly(db)
-    local c = DeepCopy(db or {})
-    c.gsTest = nil
+    local c = {}
+    for k, v in pairs(db or {}) do
+        if not ns.VOLATILE_KEYS[k] then c[k] = DeepCopy(v) end
+    end
     return c
 end
 
@@ -75,7 +89,8 @@ local SECRET = setmetatable({}, { __tostring = function() return "<geschützt>" 
 -- Testfälle
 ---------------------------------------------------------------------------------------------------------------------
 local CASES = {}
-local function Case(id, area, name, fn) CASES[#CASES + 1] = { id = id, area = area, name = name, fn = fn } end
+-- wait (optional): vor dem Fall warten, bis wait() true liefert (höchstens 10 s, ohne zu rechnen) – z. B. auf eine Aufgabe
+local function Case(id, area, name, fn, wait) CASES[#CASES + 1] = { id = id, area = area, name = name, fn = fn, wait = wait } end
 
 -- A. Laden und Erkennung -------------------------------------------------------------------------------------------
 Case("T01", "A", "Version in .toc = Code", function()
@@ -121,14 +136,83 @@ Case("T11", "B", "Hauptfenster öffnen und schliessen", function()
     return shown and hidden, tostring(shown) .. "/" .. tostring(hidden), "true/true"
 end)
 
-Case("T12", "B", "Optionen: jede einmal an und aus", function()
-    for key, cb in pairs(ns.options) do
-        local old = ns.db[key]
-        cb:SetChecked(not old); cb:GetScript("OnClick")(cb)
-        if ns.db[key] == old then return false, key .. " unverändert", key .. " umgeschaltet" end
-        cb:SetChecked(old); cb:GetScript("OnClick")(cb)
+Case("T12", "B", "Optionen: jede Option in ihrem Bereich erreichbar, an/aus wirkt, zurück wie vorher", function()
+    if not ns.optionsWindow then return false, "kein Optionen-Fenster", ADDON .. "OptionsFrame" end
+    local seen, n = {}, 0
+    for _, sec in ipairs(ns.OPTION_SECTIONS) do
+        ns.ShowOptionSectionAll(sec.id)
+        for key, ctl in pairs(ns.options) do
+            seen[key] = true
+            local o = ns.OptionByKey(key)
+            if o and o.kind == "toggle" then
+                local old = ns.db[key]
+                ctl:SetChecked(not old); ctl:GetScript("OnClick")(ctl)
+                if ns.db[key] == old then return false, key .. " unverändert", key .. " umgeschaltet" end
+                ctl:SetChecked(old and true or false); ctl:GetScript("OnClick")(ctl)
+                if (ns.db[key] and true or false) ~= (old and true or false) then return false, key .. " nicht zurück", "wie vorher" end
+                n = n + 1
+            end
+        end
     end
-    return true
+    ns.CloseOptions()
+    local missing = {}
+    for _, o in ipairs(ns.OPTIONS) do if not seen[o.key] then missing[#missing + 1] = o.key end end
+    return #missing == 0, n .. " umgeschaltet, fehlt: " .. (#missing == 0 and "nichts" or table.concat(missing, ",")), "alle erreichbar"
+end)
+
+Case("T24", "B", "Optionen: jede genau einmal, Standardwert, Bereich, Text ≤ Grenze in allen Sprachen, ≤ Zeilen je Bereich", function()
+    local bad, keys, perSec, secs = {}, {}, {}, {}
+    for _, sec in ipairs(ns.OPTION_SECTIONS) do secs[sec.id] = true end
+    for _, o in ipairs(ns.OPTIONS) do
+        if keys[o.key] then bad[#bad + 1] = o.key .. " doppelt" end
+        keys[o.key] = true
+        if ns.DEFAULTS[o.key] == nil then bad[#bad + 1] = o.key .. " ohne Standardwert" end
+        if not secs[o.section] then bad[#bad + 1] = o.key .. " Bereich " .. tostring(o.section) end
+        perSec[o.section] = (perSec[o.section] or 0) + 1
+        for code, t in pairs(ns.LOCALES) do
+            local txt = t[o.label] or ns.LOCALES.enUS[o.label]
+            local len = txt and #txt:gsub("[\128-\191]", "") or 0          -- Zeichen, nicht Bytes (UTF-8)
+            if not txt then bad[#bad + 1] = o.key .. " ohne Text"
+            elseif len > ns.OPT_MAX_LABEL then bad[#bad + 1] = code .. ":" .. o.key .. " " .. len .. " Zeichen" end
+        end
+        for _, code in ipairs({ "enUS", "deDE" }) do
+            if not ns.LOCALES[code][o.label .. "_TIP"] then bad[#bad + 1] = code .. ":" .. o.key .. " ohne Tooltip" end
+        end
+    end
+    for id, cnt in pairs(perSec) do
+        if cnt + 1 > ns.OPT_MAX_ROWS then bad[#bad + 1] = id .. " " .. cnt .. " Zeilen" end   -- +1 für "Weitere"
+    end
+    for _, sec in ipairs(ns.OPTION_SECTIONS) do
+        if not perSec[sec.id] then bad[#bad + 1] = sec.id .. " leer" end
+    end
+    return #bad == 0, #ns.OPTIONS .. " Optionen in " .. #ns.OPTION_SECTIONS .. " Bereichen · " ..
+        (#bad == 0 and "ok" or table.concat(bad, "; ")), "jede genau einmal, alles vorhanden"
+end)
+
+Case("T25", "B", "Optionen: Suche über alle Bereiche, Gegenprobe ohne Treffer", function()
+    local hit = ns.FindOptions(ns.LOCALES[ns.locale] and ns.LOCALES[ns.locale].OPT_MARKET or L.OPT_MARKET)
+    local byKey = ns.FindOptions("minimapbutton")
+    local none = ns.FindOptions("xqzxqz")
+    local empty = ns.FindOptions("")
+    local ok = #hit >= 1 and hit[1].key == "marketShare" and #byKey == 1 and #none == 0 and #empty == 0
+    return ok, string.format("Text %d (%s), Schlüssel %d, Unsinn %d, leer %d", #hit, hit[1] and hit[1].key or "-",
+        #byKey, #none, #empty), "1+ marketShare, 1, 0, 0"
+end)
+
+Case("T26", "B", "Optionen: Standard setzt NUR den eigenen Bereich zurück; Weitere eingeklappt", function()
+    local d, g = ns.DEFAULTS
+    ns.SetOption("chat", not d.chat)
+    ns.SetOption("marketShare", not d.marketShare)
+    ns.ResetSection("general")
+    local back = ns.db.chat == d.chat
+    local other = ns.db.marketShare == (not d.marketShare)
+    ns.SetOption("marketShare", d.marketShare)
+    local closed = ns.VisibleOptions("data", "", false)
+    local open = ns.VisibleOptions("data", "", true)
+    local hasMore = closed[#closed] and closed[#closed].more == true
+    return back and other and hasMore and #open == #closed + 1,
+        string.format("zurück %s, anderer Bereich bleibt %s, Weitere %s, auf %d/zu %d", tostring(back), tostring(other),
+        tostring(hasMore), #open, #closed), "true, true, true, auf = zu + 1"
 end)
 
 Case("T14", "B", "Minimap-Button: da, aus- und einblenden, Winkel bleibt", function()
@@ -150,7 +234,7 @@ Case("T16", "B", "Diagnose-Protokoll: Einträge, Zähler statt Schleife, Export 
     ns.db.diag = nil
     ns.Diag("KLICK", "Testeintrag", 12.4)
     for _ = 1, 50 do ns.Diag("FEHLER", "gleicher Fehler") end
-    ns.Timed("Test langsam", function() local t = (debugprofilestop and debugprofilestop() or 0) + 20
+    ns.Timed("Test langsam", function() local t = (debugprofilestop and debugprofilestop() or 0) + 17   -- knapp über 16 ms
         while debugprofilestop and debugprofilestop() < t do end end)
     if ns.GT then Swap(ns.GT, "Error", function() end) end   -- absichtlicher Fehler nicht in den echten Fehlerbericht
     ns.Try("T16 absichtlich", function() error("Testfehler (absichtlich)") end)
@@ -268,7 +352,48 @@ Case("T60", "G", "Eigenes Global zeigt auf den Namensraum", function()
     return _G[ADDON] == ns
 end)
 
+Case("T61", "G", "Testdaten-Regel: eigener Test sichtbar, fremder Test erkannt (Gegenprobe)", function()
+    local api = _G[ADDON .. "API"]
+    local mine = api and api.TestRunning and api.TestRunning()
+    local fake = ADDON .. "FremdTestAPI"                   -- eigener Name, kein Blizzard-Global
+    rawset(_G, fake, { TestRunning = function() return true end })
+    local foreign = ns.ForeignTestRunning(ADDON .. "FremdTest")
+    rawset(_G, fake, { TestRunning = function() return false end })
+    local idle = ns.ForeignTestRunning(ADDON .. "FremdTest")
+    rawset(_G, fake, nil)
+    local none = ns.ForeignTestRunning("GibtEsNicht")
+    return mine == true and foreign and not idle and not none,
+        string.format("eigen %s, fremd läuft %s, fremd ruht %s, unbekannt %s", tostring(mine), tostring(foreign),
+        tostring(idle), tostring(none)), "true, true, false, false"
+end)
+
+Case("T62", "G", "Gemeinsame Bausteine geladen (Game, Test, Sync, Dev, Prüfliste, Markt, Takt, Befehlsliste)", function()
+    local miss = {}
+    local want = { GoldSentinelGame = "version", GoldSentinelTest = "version", GoldSentinelSync = "version",
+        GoldSentinelDev = "version", GoldSentinelPruefliste = "version", GoldSentinelMarkt = "VERSION",
+        GoldSentinelTakt = "VERSION", GoldSentinelCmdHint = "VERSION" }
+    for name, field in pairs(want) do
+        local t = rawget(_G, name)
+        if type(t) ~= "table" then miss[#miss + 1] = name end
+    end
+    table.sort(miss)
+    return #miss == 0, #miss == 0 and "alle 8" or ("fehlt: " .. table.concat(miss, ", ")), "alle 8"
+end)
+
 -- H. Leistung ------------------------------------------------------------------------------------------------------
+-- T71/T72: ns.Job rechnet in Portionen. T71 startet eine Aufgabe, T72 (läuft einige Bilder später) prüft das Ergebnis.
+local jobProbe
+Case("T71", "H", "ns.Job: Aufgabe startet (GoldSentinelTakt)", function()
+    if not (ns.Takt and ns.Takt.Start) then return false, "kein GoldSentinelTakt", "Takt" end
+    jobProbe = { sum = 0 }
+    jobProbe.job = ns.Job("Testaufgabe", function()
+        for i = 1, 2000 do
+            jobProbe.sum = jobProbe.sum + i
+            if i % 100 == 0 then ns.Check("T71 Schleife") end
+        end
+    end, { budget = 1, timeout = 30 })
+    return jobProbe.job ~= nil, jobProbe.job and tostring(jobProbe.job.state) or "nil", "Aufgabe angelegt"
+end)
 Case("T70", "H", "Statuszeile < 2 ms je Aufruf", function()
     if not debugprofilestop then return true, "keine Zeitmessung" end
     local t = debugprofilestop()
@@ -276,6 +401,15 @@ Case("T70", "H", "Statuszeile < 2 ms je Aufruf", function()
     local per = (debugprofilestop() - t) / 50
     return per < 2, string.format("%.3f ms", per), "< 2 ms"
 end)
+
+Case("T72", "H", "ns.Job: Aufgabe fertig, richtiges Ergebnis, Messwerte vorhanden", function()
+    if not (jobProbe and jobProbe.job) then return false, "T71 lief nicht", "T71 zuerst" end
+    local j = jobProbe.job
+    local st = j.stats or {}
+    return j.state == "fertig" and jobProbe.sum == 2001000 and (st.frames or 0) >= 1,
+        string.format("%s, Summe %d, Bilder %s", tostring(j.state), jobProbe.sum, tostring(st.frames)),
+        "fertig, Summe 2001000, Bilder >= 1"
+end, function() return not (jobProbe and jobProbe.job) or jobProbe.job.state ~= "laeuft" end)
 
 -- I. Fehlerzählung -------------------------------------------------------------------------------------------------
 Case("T80", "I", "Absichtlicher Fehler wird gezählt und gemeldet", function()
@@ -300,23 +434,15 @@ end)
 ---------------------------------------------------------------------------------------------------------------------
 -- Ablauf
 ---------------------------------------------------------------------------------------------------------------------
-function ns.RunTests(filter)
-    if G.InCombat() then ns.Print(L.IN_COMBAT); return end
-    filter = (filter or ""):upper():match("^%a?") or ""
-    local real = ns.db
-    ns.realDB = real
-    local before = DataOnly(real)
-
-    -- Sandbox: Testkopie statt echter Daten, Aktionen nur mitschreiben
-    ns.testing = true
-    ns.printLog = {}
-    ns.db = DeepCopy(before)
-
-    local run = GT.Begin(ADDON, ns.VERSION, real)
+-- Ein Lauf: alle Fälle (gefiltert), Oberfläche, Hinweise für den echten Client. Läuft in Portionen (Takt.Sliced).
+local function Body(run, filter)
     for _, c in ipairs(CASES) do
         if filter == "" or c.area == filter then
+            if c.wait and ns.Takt and ns.Takt.WaitFor then ns.Takt.WaitFor(c.wait, 10) end
+            if ns.Takt and ns.Takt.Label then ns.Takt.Label(c.id) end   -- Etikett: lange Bilder nennen den Fall
             run:Check(c.id, c.area, c.name, c.fn)
             Undo()                                   -- falls ein Fall abgebrochen ist
+            ns.Check(c.id)                           -- Abgabe zwischen zwei Fällen, wenn das Budget verbraucht ist
         end
     end
     -- Oberfläche im echten Client (UICheck.lua): ohne echten Client ehrlich übersprungen, nie als OK gezählt
@@ -326,12 +452,12 @@ function ns.RunTests(filter)
         if ns.window and not wasShown and ns.ToggleWindow then ns.ToggleWindow() end   -- eigenes Fenster zum Prüfen öffnen
         local function List(problems) return #problems == 0 and "keine" or table.concat(problems, "; ") end
         local ui = {
-            { "T18", "Eigene Tooltips verdecken keine Knöpfe", U.TooltipsCoverNothing },
-            { "T19", "Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern", U.WindowsOverlapNothing },
-            { "T20", "Fenster ganz im Bildschirm", U.InsideScreen },
-            { "T21", "Beschriftungen von Knöpfen nicht abgeschnitten", U.TextFits },
-            { "T22", "Angezeigte Spielwerte plausibel", U.ValuesPlausible, true },
-            { "T23", "Keine Fehlerschleife (gleiche Meldung > 10×)", U.NoErrorLoops, true },
+            { "TK18", "Eigene Tooltips verdecken keine Knöpfe", U.TooltipsCoverNothing },
+            { "TK19", "Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern", U.WindowsOverlapNothing },
+            { "TK20", "Fenster ganz im Bildschirm", U.InsideScreen },
+            { "TK21", "Beschriftungen von Knöpfen nicht abgeschnitten", U.TextFits },
+            { "TK22", "Angezeigte Spielwerte plausibel", U.ValuesPlausible, true },
+            { "TK23", "Keine Fehlerschleife (gleiche Meldung > 10×)", U.NoErrorLoops, true },
         }
         for _, c in ipairs(ui) do
             if not c[4] and not U.Available() then
@@ -344,6 +470,7 @@ function ns.RunTests(filter)
                     return #problems == 0, info, "keine"
                 end)
             end
+            ns.Check(c[1])
         end
         if ns.window and not wasShown and ns.window:IsShown() and ns.ToggleWindow then ns.ToggleWindow() end
     end
@@ -353,23 +480,73 @@ function ns.RunTests(filter)
             "/__SLASH__ protokoll öffnet ein Fenster mit markierbarem Text; nach /reload liegt __ADDON__DB.diagExport (beginnt mit GSDIAG1) in den SavedVariables")
         run:Client("T15", "B", "Minimap-Button im Spiel",
             "Button an der Minimap sichtbar, Tooltip in der Sprache des Clients, Ziehen verschiebt ihn, nach /reload am selben Ort")
+        run:Client("T27", "B", "Optionen am Bild",
+            "/__SLASH__ config: jeden Bereich anklicken, Suche ausprobieren, nichts überlappt, nichts abgeschnitten (Prüfliste OPT)")
     end
     if filter == "" or filter == "C" then
         run:Client("T29", "C", "Geschützte Werte im echten Kampf",
             "In WoW Forever einen Kampf mit Ziel führen, danach /__SLASH__ status: Fehler = 0")
     end
+end
 
-    -- Sandbox zurück und vergleichen
-    ns.db = real
-    ns.testing = false
-    ns.realDB = nil
-    local sandbox = Same(before, DataOnly(real)) and "OK" or "FEHLER – echte Daten wurden verändert"
+function ns.RunTests(filter)
+    if G.InCombat() then ns.Print(L.IN_COMBAT); return end
+    if ns.testRunning then ns.Print(L.TEST_BUSY); return end
+    filter = (filter or ""):upper():match("^%a?") or ""
+    local real = ns.db
+    local before = DataOnly(real)
+    local sandbox = DeepCopy(before)
+    for k in pairs(ns.VOLATILE_KEYS) do sandbox[k] = DeepCopy(real[k]) end   -- Tests dürfen sie benutzen (nur Kopie)
+    sandbox.gsMarkt = nil                                                     -- Marktdaten nie kopieren (gross)
 
-    local text, rep = run:Finish({ sandbox = sandbox, filter = filter ~= "" and filter or "alle" })
-    local c = rep and rep.counts or run.counts
-    ns.lastReport = rep
-    ns.Print(L.TEST_DONE:format(c.ok, c.fehler, c.uebersprungen, c.client))
-    ns.Print(L.TEST_RELOAD)
-    if ns.ShowCopy then ns.ShowCopy(text) end
-    return rep
+    ns.realDB = real
+    ns.testRunning = true
+    ns.printLog = {}
+    local run = GT.Begin(ADDON, ns.VERSION, real)
+
+    -- Testdaten nur während der eigenen Portionen; dazwischen sieht der übrige Code die echten Daten
+    local function Enter() ns.testing = true; ns.db = sandbox end
+    local function Leave() ns.testing = false; ns.db = real end
+
+    local function Done(job)
+        Leave()
+        ns.testRunning = false
+        ns.realDB = nil
+        local sb = Same(before, DataOnly(real)) and "OK" or "FEHLER – echte Daten wurden verändert"
+        local extra = { sandbox = sb, filter = filter ~= "" and filter or "alle" }
+        local takt = job and ns.Takt and ns.Takt.Summary and ns.Takt.Summary(job) or nil
+        if takt then extra.takt = takt end
+        if job and job.state ~= "fertig" then extra.abbruch = tostring(job.state) .. ": " .. tostring(job.err) end
+        local text, rep = run:Finish(extra)
+        if takt then text = text .. "\nTakt: " .. takt end
+        if extra.abbruch then text = text .. "\nABBRUCH: " .. extra.abbruch end
+        local c = rep and rep.counts or run.counts
+        ns.lastReport = rep
+        ns.testJob = nil
+        if ns.pruefliste and ns.pruefliste.Hit and job and job.stats and job.stats.over and job.stats.over[3] == 0 then
+            ns.pruefliste:Hit("TEST", takt)
+        end
+        ns.Print(L.TEST_DONE:format(c.ok, c.fehler, c.uebersprungen, c.client))
+        ns.Print(L.TEST_RELOAD)
+        if ns.ShowCopy then ns.ShowCopy(text) end
+    end
+
+    local T = ns.Takt
+    if T and T.Start and T.Sliced then
+        ns.Print(L.TEST_RUNNING)
+        ns.testJob = T.Start({
+            name = "Testroutine", owner = ADDON, budget = 4, timeout = 600,
+            fn = function()
+                local ok, err = T.Sliced(Body, Enter, Leave, run, filter)
+                if ok == false then error(err, 0) end                  -- Abbruch im Bericht (ABBRUCH), nie still
+            end,
+            onDone = function(job) ns.Try("Testroutine Ende", Done, job) end,
+        })
+    else
+        -- ohne GoldSentinelTakt (sollte nie vorkommen): am Stück
+        Enter()
+        ns.Try("Testroutine", Body, run, filter)
+        Done(nil)
+    end
+    return ns.testJob
 end

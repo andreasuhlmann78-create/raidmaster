@@ -10,9 +10,14 @@
 ## X-License: All Rights Reserved (c) GoldSentinel
 
 # Gemeinsame Dateien zuerst (unverändert aus raidmaster/shared/ kopieren, nie selbst ändern)
+GoldSentinelDev.lua
+GoldSentinelPruefliste.lua
 GoldSentinelGame.lua
 GoldSentinelSync.lua
 GoldSentinelTest.lua
+GoldSentinelMarkt.lua
+GoldSentinelTakt.lua
+GoldSentinelCmdHint.lua
 
 # Eigene Dateien
 Locales.lua

@@ -1,4 +1,4 @@
--- __ADDON__ – Prüfung der Oberfläche im echten Client (Testfälle T18–T23)
+-- __ADDON__ – Prüfung der Oberfläche im echten Client (Testfälle TK18–TK23)
 -- Copyright (c) 2026 GoldSentinel. All Rights Reserved.
 --
 -- Anlass (Live-Test 5. Nov. 2026): eigene Tooltips verdeckten Knöpfe, Fenster lagen übereinander, Anzeigen rechneten
@@ -10,14 +10,14 @@
 --   ns.RegisterUI(frame, "Name", "hud")          -- frei verschiebbare Kampfanzeige (Leisten, Symbole, Anker): wird
 --                                                   selbst geprüft, kommt aber NICHT in die gemeinsame Liste – andere
 --                                                   Addons sollen sich nicht an Kampfanzeigen stossen (wie ThreatSentinel)
---   ns.Plausible("Fertigkeit", function() return skill > 0, skill, "> 0" end)   -- Spielwert-Prüfung für T22
--- Andere GoldSentinel-Addons melden ihre Fenster in der globalen Liste GoldSentinelUIFrames an (T19 prüft gegeneinander).
+--   ns.Plausible("Fertigkeit", function() return skill > 0, skill, "> 0" end)   -- Spielwert-Prüfung für TK22
+-- Andere GoldSentinel-Addons melden ihre Fenster in der globalen Liste GoldSentinelUIFrames an (TK19 prüft gegeneinander).
 
 local ADDON, ns = ...
 
 ns.uiFrames = ns.uiFrames or {}
 ns.plausible = ns.plausible or {}
-ns.UI_LOOP_LIMIT = 10                       -- dieselbe Fehlermeldung öfter -> Fehlerschleife (T23)
+ns.UI_LOOP_LIMIT = 10                       -- dieselbe Fehlermeldung öfter -> Fehlerschleife (TK23)
 
 -- Blizzard-Fenster, an die GoldSentinel-Addons andocken (dürfen nicht überdeckt werden)
 ns.UI_BLIZZARD = { "ProfessionsFrame", "TradeSkillFrame", "CraftFrame", "MerchantFrame", "AuctionHouseFrame",
@@ -89,7 +89,7 @@ local function IsControl(f)
         or f:IsObjectType("Slider")) and true or false
 end
 
--- T18: kein eigener Tooltip verdeckt einen Knopf desselben Fensters
+-- TK18: kein eigener Tooltip verdeckt einen Knopf desselben Fensters
 function U.TooltipsCoverNothing()
     local problems, tested = {}, 0
     for _, e in ipairs(ns.uiFrames) do
@@ -119,7 +119,7 @@ function U.TooltipsCoverNothing()
     return problems, tested
 end
 
--- T19: eigene sichtbare Fenster überdecken weder Blizzard-Fenster noch Fenster anderer GoldSentinel-Addons
+-- TK19: eigene sichtbare Fenster überdecken weder Blizzard-Fenster noch Fenster anderer GoldSentinel-Addons
 function U.WindowsOverlapNothing()
     local problems, tested = {}, 0
     for _, e in ipairs(ns.uiFrames) do
@@ -145,7 +145,7 @@ function U.WindowsOverlapNothing()
     return problems, tested
 end
 
--- T20: sichtbare Fenster liegen ganz im Bildschirm
+-- TK20: sichtbare Fenster liegen ganz im Bildschirm
 function U.InsideScreen()
     local problems, tested, screen = {}, 0, U.Rect(UIParent)
     for _, e in ipairs(ns.uiFrames) do
@@ -160,7 +160,7 @@ function U.InsideScreen()
     return problems, tested
 end
 
--- T21: Beschriftungen von Knöpfen sind nicht abgeschnitten (andere Texte nur als Hinweis)
+-- TK21: Beschriftungen von Knöpfen sind nicht abgeschnitten (andere Texte nur als Hinweis)
 function U.TextFits()
     local problems, hints, tested = {}, {}, 0
     for _, e in ipairs(ns.uiFrames) do
@@ -183,7 +183,7 @@ function U.TextFits()
     return problems, tested, hints
 end
 
--- T22: angezeigte Spielwerte plausibel (Prüfungen meldet das Addon mit ns.Plausible an)
+-- TK22: angezeigte Spielwerte plausibel (Prüfungen meldet das Addon mit ns.Plausible an)
 function U.ValuesPlausible()
     local problems = {}
     for _, p in ipairs(ns.plausible) do
@@ -194,7 +194,7 @@ function U.ValuesPlausible()
     return problems, #ns.plausible
 end
 
--- T23: keine Fehlerschleife – dieselbe Meldung höchstens UI_LOOP_LIMIT× (Diagnose-Protokoll der echten Daten)
+-- TK23: keine Fehlerschleife – dieselbe Meldung höchstens UI_LOOP_LIMIT× (Diagnose-Protokoll der echten Daten)
 function U.NoErrorLoops()
     local problems = {}
     local db = ns.realDB or ns.db
@@ -207,7 +207,7 @@ function U.NoErrorLoops()
     return problems, #entries
 end
 
--- Beispiel für T22 (ein Wert, den jedes Addon hat): Stufe des Charakters
+-- Beispiel für TK22 (ein Wert, den jedes Addon hat): Stufe des Charakters
 ns.Plausible("Stufe des Charakters", function()
     local lvl = UnitLevel and UnitLevel("player")
     if type(lvl) ~= "number" or (ns.G and ns.G.IsSecret and ns.G.IsSecret(lvl)) then return true, "nicht lesbar" end

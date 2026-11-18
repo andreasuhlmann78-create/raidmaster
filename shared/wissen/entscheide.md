@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 18.11.2026 10:28 | OPT-ALLE gilt auch für alle neuen Addons und das Skelett; "bei skelett alles nützliche mit einbauen was so ein rohmodell brauchen kann" | Prüf-Sitzung baut shared/vorlage um: Optionen nach OPT-1, alle gemeinsamen Bausteine (Dev, Prüfliste, Game, Sync, Test, Markt, Takt, CmdHint), ns.Job, Testroutine im Takt, TestRunning-API, kein Fehlerfenster, Nachbau wie Forever; Vorlage-Test 113/113 |
 | 18.11.2026 10:27 | "bei allen addons ausser ahs prüfen und ändern...nach vorbild ahs" (Optionen-Menüs übersichtlich wie AHSentinel OPT-1) | OPT-ALLE: auftraege/anweisung-optionen-nach-ahs-2026-11-18.txt an RM, GS, PS, BS, TS, LP |
 | 18.11.2026 10:24 | Weltkarte: beim Drüberfahren mit der Maus über ein Questgebiet (Fläche) der angenommenen Quest Questname und Stand zeigen ("ja wäre cool"; "!" zeigt Name/Stufe schon) | LevelPilot: Auftrag KARTE-TT1 in offen-levelpilot.txt |
 | 18.11.2026 06:56 | "wenn es neue versionen der addons gibt bitte direkt in den richtigen ordner legen" | Prüf-Sitzung installiert geprüfte neue Versionen direkt in den AddOns-Ordner des verbundenen Rechners (_forever_/Interface/AddOns), nur nach eigener Prüfung (addon_check OK), keine anderen Dateien auf dem Gerät liegen lassen (Ausnahme zur Regel "nichts auf den Geräten ablegen") |

@@ -19,28 +19,43 @@ Das Skript:
 - prüft Name, Befehl und Farbe
 - lehnt einen Namen ab, der schon in `download/` oder `announce/` veröffentlicht ist
 - kopiert die Vorlage und ersetzt alle Platzhalter (und bricht ab, wenn einer übrig bleibt)
-- legt `GoldSentinelGame.lua` und `GoldSentinelTest.lua` unverändert aus `shared/` dazu
+- legt alle gemeinsamen Bausteine unverändert aus `shared/` dazu: `GoldSentinelDev`, `GoldSentinelPruefliste`,
+  `GoldSentinelGame`, `GoldSentinelSync`, `GoldSentinelTest`, `GoldSentinelMarkt`, `GoldSentinelTakt`, `GoldSentinelCmdHint`
 - baut mit `--zip` die ZIP im Aufbau von `download/`
 
-Das fertige Addon lädt sofort im Spiel. Mit `/ls test` läuft die eingebaute Testroutine.
+Das fertige Addon lädt sofort im Spiel. Mit `/ls test` läuft die eingebaute Testroutine (in Portionen, ohne Ruckeln).
 
 ## Was drin ist
 
 | Datei | Inhalt |
 |---|---|
-| `<Name>.toc` | alle Clients (Era, Forever 16001, TBC, Wrath, Titan, Cata, Mists, Retail), gemeinsame Dateien zuerst, SavedVariables `<Name>DB`, Beschreibung EN/DE |
+| `<Name>.toc` | alle Clients (Era, Forever 16001, TBC, Wrath, Titan, Cata, Mists, Retail), gemeinsame Dateien zuerst (Dev, Prüfliste, Game, Sync, Test, Markt, Takt, CmdHint), SavedVariables `<Name>DB`, Beschreibung EN/DE |
 | `Locales.lua` | Texte als Schlüssel (`L.TITEL`): Englisch als Standard, Deutsch Pflicht, Blöcke für alle weiteren Sprachen |
-| `Core.lua` | Namensraum, Version aus der .toc, Einstellungen mit Standardwerten und Migrationen, Ereignisse (`ns:On`), Fehler abfangen und melden (`ns.Try`), Kampfsperre (`ns.WhenOutOfCombat`), Befehl `/<befehl>` mit `help`, `config`, `status`, `test` |
+| `Core.lua` | Namensraum, Version aus der .toc, Einstellungen mit Standardwerten und Migrationen, Ereignisse (`ns:On`), Fehler abfangen und melden (`ns.Try`), Kampfsperre (`ns.WhenOutOfCombat`), schwere Arbeit in Portionen (`ns.Job`, `ns.Check`, `ns.PCall` über GoldSentinelTakt), Testdaten-Regel (`<Name>API.TestRunning()`, `ns.ForeignTestRunning(addon)`), Marktdaten-Netz (`ns.AttachMarket`, Schalter „Marktdaten teilen“), Entwicklermodus (`ns.IsDev`), Prüfliste im Spiel (`/<befehl> prüfliste`, nur Entwickler; Punkte OPT und TEST), Befehlsliste beim Tippen (`ns.CMD_LIST`), Befehl `/<befehl>` mit `help`, `config`, `status`, `minimap`, `protokoll`, `test` |
 | `API.lua` | `ns.API`: jede Blizzard-Funktion einmal ausgewählt (modern zuerst, alt als Rückfall), `ns.SafeUnitName` (geschützte Namen), `ns.Act`: einzige Stelle für Aktionen mit Folgen |
-| `Options.lua` | Seite im Einstellungsfenster (Settings-API, Rückfall InterfaceOptions), Beispiel-Optionen |
+| `Options.lua` | Optionen nach Vorbild AHSentinel OPT-1 (Entscheid 18.11.2026 10:27): eigenes Fenster, links Bereiche, rechts eine Spalte (höchstens 12 Zeilen), Suchfeld über alle Bereiche, „Weitere“ eingeklappt, „Standard“ je Bereich, Erklärung im Tooltip. Alles aus einer Liste `ns.OPTIONS` (jede Option genau einmal) und `ns.OPTION_SECTIONS`. Im Einstellungsfenster des Spiels nur ein Knopf „Optionen öffnen“ |
 | `UI.lua` | Hauptfenster (verschiebbar, Position gespeichert, Esc schliesst, Inhaltsbereich `ns.content`), Kopierfenster |
 | `Minimap.lua` | Button an der Minimap wie bei allen GoldSentinel-Addons: Linksklick Fenster, Rechtsklick Optionen, Ziehen verschiebt; Option und `/<befehl> minimap` zum Ausblenden |
 | `Diag.lua` | Diagnose-Protokoll wie bei LevelPilot: `ns.Diag(Art, Text, ms)`, `ns.Timed(Name, fn)` (über 16 ms -> LANGSAM), Fehler aus `ns.Try` automatisch als FEHLER (gleiche nur gezählt); `/<befehl> protokoll` zum Kopieren; beim Ausloggen `GSDIAG1`-Zeichenkette in `<Addon>DB.diagExport` für den Uploader; keine Namen. Testfälle T16/T17 |
-| `UICheck.lua` | Oberfläche im echten Client prüfen (Testfälle T18–T23, Bereich K): eigene Tooltips verdecken keine Knöpfe, kein Überlappen mit Blizzard- oder anderen GoldSentinel-Fenstern, Fenster im Bildschirm, Knopf-Beschriftungen nicht abgeschnitten, Spielwerte plausibel (`ns.Plausible(Name, fn)`), keine Fehlerschleife (> 10×). Eigene Fenster mit `ns.RegisterUI(frame, Name)` anmelden. Ohne echten Client ehrlich übersprungen. Test: `shared/tests/test_uicheck.py` |
-| `TestRoutine.lua` | Testroutine nach der Vorgabe der Prüf-Sitzung (Bereiche A–J), Sandbox, Bericht über GoldSentinelTest |
+| `UICheck.lua` | Oberfläche im echten Client prüfen (Testfälle TK18–TK23, Bereich K; eigene Kennungen, damit sie nicht mit T20–T23 aus Bereich C zusammenfallen): eigene Tooltips verdecken keine Knöpfe, kein Überlappen mit Blizzard- oder anderen GoldSentinel-Fenstern, Fenster im Bildschirm, Knopf-Beschriftungen nicht abgeschnitten, Spielwerte plausibel (`ns.Plausible(Name, fn)`), keine Fehlerschleife (> 10×). Eigene Fenster mit `ns.RegisterUI(frame, Name)` anmelden. Ohne echten Client ehrlich übersprungen. Test: `shared/tests/test_uicheck.py` |
+| `TestRoutine.lua` | Testroutine nach der Vorgabe der Prüf-Sitzung (Bereiche A–K), läuft als Takt-Aufgabe in Portionen (Testdaten nur während der eigenen Portionen, `Takt.Sliced`), Sandbox (ohne sich selbst ändernde Felder `ns.VOLATILE_KEYS`), Bericht über GoldSentinelTest mit Zeile „Takt“ (Bilder, längstes Bild, über 5/16/40 ms). Optionen-Prüfungen T12, T24–T26, Testdaten-Regel T61, Bausteine T62, Aufgabe T71/T72 |
 | `CHANGELOG.md`, `CHANGELOG.de.md`, `LICENSE.txt` | Änderungen Englisch und Deutsch, Lizenz «All Rights Reserved (c) GoldSentinel» |
 
 ## Regeln, die die Vorlage schon einhält, und die beim Ausbauen gelten
+
+- **Optionen (OPT-ALLE):** Jede neue Einstellung: Standardwert in `ns.DEFAULTS`, EINE Zeile in `ns.OPTIONS` (Bereich, Art
+  toggle/choice/number, `advanced = true` für Seltenes), Texte `OPT_<NAME>` (höchstens 28 Zeichen, jede Sprache) und
+  `OPT_<NAME>_TIP` (Englisch + Deutsch). Mehr als 11 Optionen in einem Bereich -> neuen Bereich anlegen. Gespeicherte
+  Schlüssel nie umbenennen (sonst Migration). T24 prüft das alles.
+- **Leistung (shared/wissen/leistung.md):** kein Bild über 40 ms, Ziel ≤ 5 ms. Alles, was über viele Einträge läuft,
+  als `ns.Job("Name", fn)` mit `ns.Check("Etikett")` in der Schleife; statt `pcall` in einer Aufgabe `ns.PCall`. Nie
+  abgeben in `sort`/`gsub`-Funktionen, Metamethoden, for-in-Iteratoren. Fenster und Bereiche erst beim Zeigen bauen.
+- **Testroutine:** schwere Fälle in mehrere Fälle teilen (ein Fall läuft am Stück). Absichtliche Testfehler nur über
+  `ns.Try`, NIE über `geterrorhandler()` (öffnet beim Spieler das Fehlerfenster) – der Vorlage-Test zählt das (0 verlangt).
+- **Testdaten-Regel (18.11.):** Daten eines anderen GoldSentinel-Addons nie lesen, speichern oder melden, solange
+  `ns.ForeignTestRunning("<Addon>")` true ist. Der eigene Test ist über `<Name>API.TestRunning()` sichtbar.
+- **Nachbau wie Forever (E-Regel 18.11. 10:30):** Im Forever-Client gibt es die alten globalen Funktionen (GetItemInfo,
+  UnitAura, GetSpellInfo, GetAddOnMetadata …) nicht – immer über `ns.API`/C_*. Der Vorlage-Test bildet Forever genau so nach.
 
 - **Spielversion** nur über `GoldSentinelGame` (`G.IsModern`, `G.IsForever` …). WoW Forever ist der moderne Client und
   darf nie wie Classic Era behandelt werden.

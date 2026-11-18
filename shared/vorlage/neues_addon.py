@@ -8,7 +8,7 @@ Aufruf (im raidmaster-Repo):
         [--ziel <Ordner>] [--zip]
 
 Ergebnis: <ziel>/<Name>/ mit allen Dateien der Vorlage, Platzhaltern ersetzt und den gemeinsamen Dateien
-(GoldSentinelGame.lua, GoldSentinelTest.lua) unverändert aus shared/. Mit --zip zusätzlich <ziel>/<Name>-0.1.0.zip
+(alle Dateien in COMMON) unverändert aus shared/. Mit --zip zusätzlich <ziel>/<Name>-0.1.0.zip
 im Aufbau wie download/ (ein Ordner <Name> in der ZIP).
 
 Danach immer: python3 addon-check/addon_check.py <ziel>/<Name>-0.1.0.zip  -> kein FEHLER.
@@ -24,7 +24,8 @@ HERE = Path(__file__).resolve().parent
 TEMPLATE = HERE / "__ADDON__"
 SHARED = HERE.parent
 ROOT = SHARED.parent
-COMMON = ["GoldSentinelGame.lua", "GoldSentinelSync.lua", "GoldSentinelTest.lua"]
+COMMON = ["GoldSentinelDev.lua", "GoldSentinelPruefliste.lua", "GoldSentinelGame.lua", "GoldSentinelSync.lua",
+          "GoldSentinelTest.lua", "GoldSentinelMarkt.lua", "GoldSentinelTakt.lua", "GoldSentinelCmdHint.lua"]
 TEXT_SUFFIXES = {".lua", ".toc", ".md", ".txt", ".xml"}
 LEFTOVER = re.compile(r"__[A-Z][A-Z_]*__")
 

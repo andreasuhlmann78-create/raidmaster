@@ -93,15 +93,19 @@ time = os.time
 date = os.date
 local clock = 0
 function debugprofilestop() clock = clock + 0.01; return clock end
+-- Spielzeit: jeder Aufruf rückt 50 ms vor (im Spiel steht sie je Bild; hier reicht "läuft vorwärts" für Sleep/WaitFor/Zeitlimit)
+local gt = 1000
+function GetTime() gt = gt + 0.05; return gt end
 function debugstack() return "Interface/AddOns/X/Core.lua:1" end
-local handler = function() end
+-- Fehler-Handler des Spiels: jeder Aufruf hiesse im echten Spiel "Fehlerfenster geht auf" (soll im Test 0 bleiben)
+ERRWIN = 0
+local handler = function() ERRWIN = ERRWIN + 1 end
 function geterrorhandler() return handler end
 function seterrorhandler(f) handler = f end
 function InCombatLockdown() return false end
 function UnitName(u) return "Tester", nil end
 function UnitClass() return "Krieger", "WARRIOR" end
 function UnitLevel() return 23 end
-function GetItemInfo(id) return "Item" .. tostring(id) end
 """
 
 FOREVER = r"""
@@ -109,7 +113,8 @@ function GetBuildInfo() return "1.60.1", "70753", "Nov 3 2026", 16001 end
 WOW_PROJECT_CAMELOT = 99; WOW_PROJECT_ID = 99; WOW_PROJECT_MAINLINE = 1
 function issecretvalue(v) return false end
 C_AddOns = { GetAddOnMetadata = function(a, k) return TOC_META[k] end }
-C_Item = { GetItemInfo = GetItemInfo }
+-- Forever kennt die alten globalen Funktionen NICHT (Nachbau darf nicht mehr können als das Spiel, E-Regel 18.11. 10:30)
+C_Item = { GetItemInfo = function(id) return "Item" .. tostring(id) end }
 C_UnitAuras = { GetAuraDataByIndex = function() return nil end }
 C_ChatInfo = { SendChatMessage = function(...) SENT[#SENT + 1] = {...} end }
 Settings = { RegisterCanvasLayoutCategory = function(p, n) return { ID = 7, GetID = function() return 7 end } end,
@@ -120,6 +125,7 @@ ERA = r"""
 function GetBuildInfo() return "1.15.8", "65000", "Oct 1 2026", 11508 end
 WOW_PROJECT_CLASSIC = 2; WOW_PROJECT_ID = 2; WOW_PROJECT_MAINLINE = 1
 function GetAddOnMetadata(a, k) return TOC_META[k] end
+function GetItemInfo(id) return "Item" .. tostring(id) end
 function UnitAura() return nil end
 function SendChatMessage(...) SENT[#SENT + 1] = {...} end
 function InterfaceOptions_AddCategory() end
@@ -197,7 +203,21 @@ with tempfile.TemporaryDirectory() as d:
             check(f"{tag}: keine Fehler beim Laden", ns.errorCount == 0, ns.errorCount)
             check(f"{tag}: Ladehinweis im Chat", any("0.1.0" in str(m) for m in g.CHAT.values()))
             before = dump(lua, g.ProbeSentinelDB)
+            g.ERRWIN = 0
+            pump = lua.eval("""function(ns, n)
+              local T = GoldSentinelTakt
+              local i = 0
+              while ns.testRunning and i < n do T.Tick(); i = i + 1 end
+              return i
+            end""")
             g.SlashCmdList[key]("test")
+            check(f"{tag}: Testroutine läuft als Aufgabe (Takt)", ns.testRunning is True and ns.testJob is not None)
+            same = lua.eval("function(a, b) return rawequal(a, b) end")
+            check(f"{tag}: zwischen den Portionen echte Daten, kein Testmodus", ns.testing is not True and same(ns.db, g.ProbeSentinelDB))
+            check(f"{tag}: TestRunning() für andere Addons", g.ProbeSentinelAPI.TestRunning() is True)
+            frames = pump(ns, 20000)
+            check(f"{tag}: Testroutine fertig (Bilder {frames})", ns.testRunning is False and frames > 1, frames)
+            check(f"{tag}: kein Fehlerfenster (Handler des Spiels nie aufgerufen)", g.ERRWIN == 0, g.ERRWIN)
             rep = ns.lastReport
             check(f"{tag}: Bericht erstellt", rep is not None)
             if rep is None:
@@ -214,12 +234,21 @@ with tempfile.TemporaryDirectory() as d:
                 data = json.loads(reports[0][len("GSTEST1"):])
                 check(f"{tag}: Bericht lesbar (JSON)", data.get("addon") == "ProbeSentinel" and data["counts"]["fehler"] == 0)
                 check(f"{tag}: absichtlicher Testfehler nicht im Bericht", not data.get("errors"), data.get("errors"))
-            check(f"{tag}: echte Daten unverändert", dump(lua, g.ProbeSentinelDB) == before)
+            after = dump(lua, g.ProbeSentinelDB)
+            # einzige erlaubte Änderung: der Spieler hat "/ps2 test" getippt -> Zähler der Befehlsliste +1 (echte Benutzung)
+            exp = dict(before.get("cmdUse") or {}); exp["test"] = exp.get("test", 0) + 1
+            check(f"{tag}: Befehlsliste zählt nur den getippten Befehl", (after.get("cmdUse") or {}) == exp, after.get("cmdUse"))
+            after = dict(after); after["cmdUse"] = before.get("cmdUse")
+            diff = sorted(k for k in set(before) | set(after) if before.get(k) != after.get(k))
+            check(f"{tag}: echte Daten unverändert", after == before, diff)
             check(f"{tag}: keine echte Chat-Nachricht", len(g.SENT) == 0, len(g.SENT))
-            check(f"{tag}: Testmodus wieder aus", not ns.testing)
+            check(f"{tag}: Testmodus wieder aus", not ns.testing and g.ProbeSentinelAPI.TestRunning() is False)
+            check(f"{tag}: Takt-Zeile im Bericht", rep.takt is not None and "Portionen" in str(rep.takt), rep.takt)
+            check(f"{tag}: kein Abbruch", rep.abbruch is None, rep.abbruch)
             check(f"{tag}: Kopierfenster gezeigt", g.ProbeSentinelCopyFrame is not None and g.ProbeSentinelCopyFrame.IsShown(g.ProbeSentinelCopyFrame))
             # Einzelbereich
             g.SlashCmdList[key]("test f")
+            pump(ns, 20000)
             check(f"{tag}: Einzelbereich F", ns.lastReport.counts.fehler == 0 and ns.lastReport.counts.ok == 3,
                   ns.lastReport.counts.ok)
 
