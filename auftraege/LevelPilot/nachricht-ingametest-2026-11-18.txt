@@ -1,0 +1,7 @@
+Nachricht der Prüf-Sitzung an die LevelPilot-Sitzung (18.11.2026 09:12)
+
+Neue Ergebnisse aus dem Ingametest des Nutzers vom 18.11. liegen im Repo. Bitte:
+git pull --rebase im raidmaster-Repo, dann auftraege/LevelPilot/offen-levelpilot.txt lesen (Einträge vom 18.11.: INGAMETEST und BEFUND),
+die Punkte in der dort genannten Reihenfolge umsetzen (HOCH zuerst), Bericht in berichte/LevelPilot/ ablegen.
+Pflicht dazu: shared/wissen/leistung.md (kein Bild über 40 ms, auch nicht in der Testroutine) und der Befund "absichtlicher Testfehler
+öffnet das Fehlerfenster" (gilt für alle Addons – den Handler des Spiels nie mit einem Testfehler aufrufen).
