@@ -205,3 +205,8 @@ AHSentinel 0.65.341 warf beim Laden im Spiel ("line" nil nach "a and b and strin
 Zweig lief nur, wenn debugstack existiert – die Nachbildung hatte keins, also nie getestet. Regel: Bei jeder neuen Stelle mit
 "if _G.<Spiel-Funktion> then …" prüft die Prüf-Sitzung, ob die Nachbildung diese Funktion im Spiel-Format hat und der Zweig im Test
 läuft. Zusätzlich im Code suchen: Mehrfach-Zuweisung aus einem and/or-Ausdruck mit Funktionsaufruf (local a, b = x and f()) = Fehler.
+
+### E-Regel 18.11.2026 06:50 – Version im Bericht/Stack zuerst prüfen
+Befund an RaidMaster gegen 3.0.33 geschrieben, obwohl der Nutzer noch 3.0.30 installiert hatte (Kopfzeile "RaidMaster 3.0.30"). Regel: Vor
+jedem Befund aus einem Ingametest oder einer Lua-Meldung die installierte Version belegen (Kopfzeile des Testberichts, Version in
+Locals/Diagnose, Upload). Fehlt sie (reine Lua-Meldung): erst nachfragen oder als "Version unbekannt" kennzeichnen.
