@@ -1128,3 +1128,17 @@ Weiter offen: Befund 09:07 (T142 Fehlerfenster), "Daten sichern" mit grossen Dat
 
 ==== HINWEIS 18.11.2026 10:30 – NACHBAU WIE FOREVER ====
 auftraege/hinweis-nachbau-wie-forever-2026-11-18.txt umsetzen (nackte globale Spiel-Funktionen suchen; Nachbildung ohne Funktionen, die Forever nicht hat).
+
+==== INGAMETEST 18.11.2026 10:10 – LevelPilot 3.12.94 "/lp testroutine alles" (Laptop, Krieger 24) ====
+OK 289 · FEHLER 2 · übersprungen 9 · im Client 53 · 410 s · Sandbox OK · echte Aktionen 0 · Fehlerzähler 0.
+Längstes Bild 302,7 -> 102,5 ms; Bilder über 40 ms 33 -> 26; "Abgabe nicht möglich" 47 -> 35 (nur noch T26/T31 graph, T290 svc, T353).
+Kein Fehlerfenster gemeldet (T142). Fortschritt bestätigt.
+HOCH:
+1. T261 Einloggen – je Aufrufer jetzt sichtbar (gut): graph 2340 ms in 2347 Aufrufen, max 36 ms · start 113 ms/31×, max 85 ms · route 241/152×.
+   Damit belegt: 83 % der Einlog-Rechenzeit ist der Aufbau des Wegnetzes (graph). (a) Portionen bis 36 ms -> die Abgabe im Graph-Aufbau
+   greift nicht fein genug (Budget 4 ms!) – Stellen ohne Check finden. (b) "start" 85 ms in EINEM Aufruf -> teilen. (c) Verdacht, zu messen:
+   das Netz wird bei jedem Einloggen neu gebaut, obwohl es sich zwischen zwei Sitzungen kaum ändert – Fingerabdruck gibt es schon
+   (3.12.92 "byte-gleich"): fertiges Netz (oder die teuren Teile) bei gleichem Fingerabdruck wiederverwenden statt neu bauen.
+2. Restliche Bilder über 40 ms: T136 Zentrale ~86–102 ms (6×, Sprachwechsel – Reiter am Stück), T129 svc 102, T21 /lp protokoll 91–93, T275 92.
+   T275 nach Entscheid 10:25 (Spielversion im Wechsel). /lp protokoll ist ein Befehl des SPIELERS – 93 ms beim Spieler: in Portionen bauen.
+MITTEL: T155 Planung je Reiseschritt 31,2 ms (57×) – (3.12.93: 28,5).
