@@ -108,3 +108,11 @@ B6 shared/GoldSentinelTakt.lua Version 1 (Prüf-Sitzung, 17.11.2026, Entscheid d
    - Verdacht, zu messen (im Spiel): Format von debugstack in Forever (Eichung deckt angehängte Zeilen ab). Erster Ingametest
      eines Addons mit dem Takt: "Abgabe nicht möglich" muss auf normalen Wegen 0 sein.
    - BELEGT IM SPIEL 18.11.2026 06:39 (GuildSentinel 0.9.55): Takt gibt im Forever-Client ab, 814 Bilder, "Abgabe nicht möglich" 0.
+
+## GoldSentinelTakt 2 (18.11.2026 19:55) – Umgebung und ganze Bilder
+- Anlass: Ingametests in Unterstadt mit vielen Spielern und Server-Lag (Hinweis des Nutzers 19:30).
+- Ganze Bilder werden zusätzlich zur eigenen Portion gemessen. Ein langes ganzes Bild bei eigener Portion ≤ 16 ms gilt als
+  "Spiel/Umgebung", kein FEHLER des Addons.
+- EnvMeasure/EnvLine: Ort, Namensplaketten in Sicht, Ping, Bilder/s, Bildzeit in Ruhe, Speicherbereinigungen. Jede Testroutine misst
+  das vor dem Lauf (env = 10) und schreibt die Zeile in den Bericht.
+- Vergleiche zwischen Testläufen nur bei ähnlicher Umgebung (gleicher Ort, ähnliche Ruhe-Bildzeit), sonst "nicht vergleichbar".

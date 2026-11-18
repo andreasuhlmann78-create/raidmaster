@@ -62,7 +62,7 @@ def run(lua, code):
 
 # ---------------------------------------------------------------- 1 Grundlagen
 lua = fresh()
-check("1a geladen, Version 1, global", run(lua, "return GoldSentinelTakt and GoldSentinelTakt.VERSION") == 1)
+check("1a geladen, Version 2, global", run(lua, "return GoldSentinelTakt and GoldSentinelTakt.VERSION") == 2)
 check("1b ohne Aufgabe schläft der Treiber", run(lua, "return AWAKE()") is False)
 check("1c Check ausserhalb einer Aufgabe: false, kein Fehler", run(lua, "return GoldSentinelTakt.Check('x')") is False)
 check("1d Sleep ausserhalb: false", run(lua, "return GoldSentinelTakt.Sleep(1)") is False)
@@ -376,9 +376,10 @@ check("7e Selbst-Abbruch in der Arbeit: endet sofort, kein Ergebnis", r[6] == "a
 check("7f zweites Cancel = false; am Ende keine Aufgaben", r[9] is False and r[10] == 0 and r[5] == "abgebrochen", r[9:])
 
 # ---------------------------------------------------------------- 8 Fassungen
-NEWER = SRC.replace("local VERSION = 1\n", "local VERSION = 2\n", 1)
-assert NEWER != SRC
-lua = fresh()
+OLD = (ROOT / "shared/tests/variants/GoldSentinelTakt-v1.lua").read_text(encoding="utf-8")
+NEWER = SRC
+assert "local VERSION = 1\n" in OLD and "local VERSION = 2\n" in SRC
+lua = fresh(OLD)
 r = run(lua, r"""
 local cached = GoldSentinelTakt          -- ein Addon hat sich den Takt gemerkt
 local n = 0
@@ -392,9 +393,9 @@ local T = GoldSentinelTakt
 for _ = 1, 40 do FRAME() end
 return T == CACHED, T.VERSION, JOB.state, JOB.result[1], NBEFORE
 """)
-check("8a neuere Fassung: gleiche Tabelle (gemerkte Verweise gültig), Version 2", r[0] is True and r[1] == 2, r[:2])
+check("8a neuere Fassung (v1 -> v2): gleiche Tabelle (gemerkte Verweise gültig), Version 2", r[0] is True and r[1] == 2, r[:2])
 check("8b laufende Aufgabe übernommen und zu Ende geführt", r[2] == "fertig" and r[3] == "durch" and r[4] == 3, r[2:])
-lua.execute(SRC)
+lua.execute(OLD)
 check("8c ältere Fassung danach ändert nichts", run(lua, "return GoldSentinelTakt.VERSION") == 2)
 check("8d nur ein Treiber-Rahmen (kein zweiter)", run(lua, "return #FRAMES") == 1)
 
@@ -533,6 +534,87 @@ step = mn / 400
 check("11a Gegenprobe: Arbeit am Stück ist ein langes Bild (Median > 20 ms)", mn > 20, f"{mn:.1f} ms")
 check("11b mit Takt: längstes Bild ≤ Budget + ein Schritt + 2 ms (Median aus 3)", mt <= 2 + step + 2,
       f"{mt:.2f} ms (Schritt {step:.2f} ms)")
+
+# ---------------------------------------------------------------- 12 Version 2: ganze Bilder und Umgebung
+lua = fresh()
+r = run(lua, r"""
+local T = GoldSentinelTakt
+-- Bilder: eigene Portion 3 ms; ganze Bilder: 20, 80 (Spiel), 60 (Spiel), 30
+local wholes = { 0.020, 0.080, 0.060, 0.030 }
+local i = 0
+local job = T.Start({ name = "ganz", fn = function() for k = 1, 5 do WORK(3); T.Check("k" .. k) end end })
+local f = T.frame.scripts.OnUpdate
+for _ = 1, 10 do i = i + 1; f(T.frame, wholes[i] or 0.016) end
+return job.stats.whole, job.stats.wholeOver, job.stats.wholeForeign, job.stats.wholeMax, T.Summary(job)
+""")
+check("12a ganze Bilder gezählt: über 40 ms 2, beide Spiel/Umgebung (eigene 3 ms)", r[1] == 2 and r[2] == 2, r[:4])
+check("12b längstes ganzes Bild 80 ms", abs(r[3] - 80) < 0.01, r[3])
+check("12c Zusammenfassung nennt es", "ganze Bilder über 40 ms: 2, davon durch Spiel/Umgebung" in r[4], r[4])
+r = run(lua, r"""
+local T = GoldSentinelTakt
+-- Gegenprobe: eigene Portion 45 ms, ganzes Bild 60 ms -> nicht Spiel/Umgebung
+local job = T.Start({ name = "selbst", fn = function() WORK(45); T.Check("x"); WORK(1) end })
+local f = T.frame.scripts.OnUpdate
+f(T.frame, 0.016); f(T.frame, 0.060); f(T.frame, 0.016)
+return job.stats.wholeOver, job.stats.wholeForeign
+""")
+check("12d Gegenprobe: eigene Portion 45 ms -> ganzes Bild zählt NICHT als Umgebung", r[0] == 1 and r[1] == 0, r)
+r = run(lua, r"""
+local T = GoldSentinelTakt
+local job = T.Start({ name = "ohne", fn = function() WORK(1) end })
+for _ = 1, 3 do FRAME() end
+return job.stats.wholeOver, string.find(T.Summary(job), "ganze Bilder", 1, true) == nil
+""")
+check("12e ohne lange ganze Bilder: keine Zeile", r[0] == 0 and r[1] is True, r)
+
+lua = fresh()
+r = run(lua, r"""
+function GetNetStats() return 1, 2, 180.4, 95.6 end
+function GetFramerate() return 30 end
+PLATES = 0
+C_NamePlate = { GetNamePlates = function() local t = {} for k = 1, PLATES do t[k] = k end return t end }
+function GetRealZoneText() return "Unterstadt" end
+function GetSubZoneText() return "Handelsviertel" end
+local T = GoldSentinelTakt
+T.api.mem = function() return MEM end
+MEM = 1000
+local got
+T.EnvMeasure(2, function(e) got = e end)
+local f = T.envFrame.scripts.OnUpdate
+local steps = { 0.030, 0.034, 0.120, 0.033 }
+for k = 1, 4 do PLATES = 10 * k; if k == 3 then MEM = 500 end; f(T.envFrame, steps[k]); NOW = NOW + 0.5 end
+NOW = NOW + 1; f(T.envFrame, 0.032)
+return got ~= nil, T.env and T.env.plates, T.env and T.env.n, T.env and T.env.max, T.env and T.env.gc, T.EnvLine(),
+       T.envFrame.scripts.OnUpdate == nil
+""")
+check("12f Umgebung gemessen und Rückruf", r[0] is True, r)
+check("12g Spieler in Sicht = Höchstwert 40, 5 Bilder, längstes 120 ms, 1 Bereinigung", r[1] == 40 and r[2] == 5 and abs(r[3] - 120) < 0.01 and r[4] == 1, r[1:5])
+check("12h Zeile: Ort, Ping, Ruhe-Bildzeit", "Umgebung: Unterstadt (Handelsviertel)" in r[5] and "Ping Realm 180 ms / Welt 96 ms" in r[5]
+      and "Bild in Ruhe Median" in r[5] and "40 Namensplaketten" in r[5], r[5])
+check("12i Messrahmen schläft danach", r[6] is True)
+lua = fresh()
+check("12j ohne Messung: Zeile leer", run(lua, "return GoldSentinelTakt.EnvLine()") == "")
+r = run(lua, r"""
+local T = GoldSentinelTakt
+local ran = false
+local job = T.Start({ name = "mitenv", env = 1, fn = function() ran = true end })
+for _ = 1, 3 do FRAME() end
+local before = ran
+NOW = NOW + 2
+for _ = 1, 10 do NOW = NOW + 0.5; FRAME() end
+return before, ran, job.state, T.env ~= nil
+""")
+check("12k Start mit env: Arbeit erst nach der Messung", r[0] is False and r[1] is True and r[2] == "fertig" and r[3] is True, r)
+r = run(lua, r"""
+local G = {}
+for k, v in pairs(_G) do G[k] = v end
+GoldSentinelTakt.EnvMeasure(1); NOW = NOW + 2; FRAME()
+local changed = {}
+for _, k in ipairs({ "GetNetStats", "GetFramerate", "C_NamePlate", "GetRealZoneText", "CreateFrame" }) do
+  if rawget(_G, k) ~= G[k] then changed[#changed + 1] = k end end
+return #changed
+""")
+check("12l keine Blizzard-Globale beschrieben", r == 0, r)
 
 # ---------------------------------------------------------------- Ergebnis
 bad = [n for n, ok, _ in results if not ok]

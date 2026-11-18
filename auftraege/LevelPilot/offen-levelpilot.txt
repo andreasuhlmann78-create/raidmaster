@@ -1279,3 +1279,6 @@ FEHLER:
 
 ==== HINWEIS 18.11.2026 19:30 – TESTORT UND LAG ====
 auftraege/hinweis-testort-2026-11-18.txt: Ort im Bericht, eigene Rechenzeit je langem Bild, FEHLER nur bei eigener Arbeit über der Grenze.
+
+==== HINWEIS 18.11.2026 19:55 – GoldSentinelTakt 2 IN shared/ ====
+auftraege/hinweis-testort-2026-11-18.txt NACHTRAG 19:55: Takt 2 mit der nächsten Version kopieren (nur wer Takt nutzt), Testroutine mit env = 10, EnvLine() in den Bericht.

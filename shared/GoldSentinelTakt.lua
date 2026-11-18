@@ -46,8 +46,16 @@
 -- GRENZEN (Entscheide des Nutzers): kein Bild ueber 40 ms; Ziel <= 5 ms. Gemessen und in job.stats/Summary ausgewiesen:
 -- Bilder, laengstes Bild mit Etikett, Bilder ueber 5/16/40 ms, eigene Rechenzeit, Dauer, Abgaben nicht moeglich.
 -- Keine Sperre ohne Zeitlimit: jede Aufgabe endet spaetestens nach timeout Sekunden.
+--
+-- VERSION 2 (18.11.2026, Hinweis des Nutzers: Tests in Unterstadt mit vielen Spielern und Server-Lag):
+--   - Ganze Bilder: Der Takt misst zusaetzlich die Dauer des GANZEN Bildes (OnUpdate elapsed) nach jeder Portion. In job.stats
+--     und Summary: "ganze Bilder ueber 40 ms: n, davon durch Spiel/Umgebung m" (m = eigene Portion in diesem Bild <= 16 ms).
+--   - Umgebung: GoldSentinelTakt.EnvMeasure(sek, fertig) misst sek Sekunden lang (Standard 10) OHNE eigene Arbeit: Ort, Spieler
+--     in Sicht (Namensplaketten), Ping Realm/Welt, Bildrate, Bildzeit in Ruhe (Median/95 %/laengstes), Speicherbereinigungen.
+--     GoldSentinelTakt.EnvLine() -> eine Zeile fuer den Testbericht (leer, wenn nichts gemessen). Testroutinen rufen EnvMeasure
+--     vor dem Lauf auf (oder Start mit opts.env = 10: misst vor der Arbeit) und schreiben EnvLine in den Bericht.
 
-local VERSION = 1
+local VERSION = 2
 
 local existing = _G.GoldSentinelTakt
 if type(existing) == "table" and (tonumber(existing.VERSION) or 0) >= VERSION then return end
@@ -64,6 +72,10 @@ T.TIMEOUT = 300          -- Standard-Zeitlimit (Sekunden)
 T.TIMEOUT_MAX = 3600
 T.WORST_MAX = 10         -- so viele laengste Bilder je Aufgabe mit Etikett
 T.LIMITS = { 5, 16, 40 } -- gezaehlte Grenzen (ms)
+T.WHOLE_LIMIT = 40       -- ganzes Bild: ab hier gezaehlt
+T.FOREIGN_OWN = 16       -- eigene Portion bis hier: langes ganzes Bild zaehlt als "Spiel/Umgebung"
+T.ENV_SEC = 10           -- Standard-Dauer der Umgebungsmessung
+T.ENV_MAX_SAMPLES = 3000
 
 -- Zugang zu Spiel-Funktionen (in Tests ersetzbar; nie Blizzard-Globale beschreiben)
 T.api = {
@@ -83,6 +95,31 @@ T.api = {
     end,
     -- Stapel der laufenden Coroutine als Text, ab dem Aufrufer dieser Funktion (direkt aufgerufen, ohne pcall: ein pcall
     -- haette selbst eine Zeile "[C]" im Stapel). Unsere eigenen Ebenen (stack, CBoundary, Check) sind Lua, ohne "[C]".
+    net = function()   -- Ping Realm, Ping Welt (ms) oder nil
+        local f = _G.GetNetStats
+        if type(f) ~= "function" then return nil end
+        local ok, _, _, home, world = pcall(f)
+        if not ok then return nil end
+        return tonumber(home), tonumber(world)
+    end,
+    fps = function()
+        local f = _G.GetFramerate
+        if type(f) ~= "function" then return nil end
+        local ok, v = pcall(f)
+        return ok and tonumber(v) or nil
+    end,
+    plates = function()   -- sichtbare Namensplaketten (ungefaehr Spieler/Figuren in Sicht) oder nil
+        local np = _G.C_NamePlate
+        if type(np) ~= "table" or type(np.GetNamePlates) ~= "function" then return nil end
+        local ok, t = pcall(np.GetNamePlates)
+        return ok and type(t) == "table" and #t or nil
+    end,
+    zone = function()
+        local z = type(_G.GetRealZoneText) == "function" and _G.GetRealZoneText() or nil
+        local s = type(_G.GetSubZoneText) == "function" and _G.GetSubZoneText() or nil
+        return z, s
+    end,
+    mem = function() return collectgarbage("count") end,
     stack = function()
         local d = _G.debugstack
         if type(d) == "function" then
@@ -344,13 +381,22 @@ function T.Start(opts)
         started = T.api.now(),
         noYield = 0,
         stats = { frames = 0, ownMs = 0, maxMs = 0, maxAt = nil, over = { 0, 0, 0 }, worst = {},
-                  blocked = 0, yieldFailed = 0, combatFrames = 0, sleepFrames = 0 },
+                  blocked = 0, yieldFailed = 0, combatFrames = 0, sleepFrames = 0, whole = 0, wholeMax = 0,
+                  wholeOver = 0, wholeForeign = 0 },
     }
     local a = type(opts.args) == "table" and opts.args or {}
     local an = tonumber(a.n) or #a
     local args = { n = an, unpack(a, 1, an) }
     local fn = opts.fn
-    job.co = coroutine.create(function() T.Calibrate(); return fn(unpack(args, 1, args.n)) end)
+    local envSec = tonumber(opts.env)
+    job.co = coroutine.create(function()
+        if envSec and envSec > 0 then
+            local done = false
+            T.EnvMeasure(envSec, function() done = true end)
+            T.WaitFor(function() return done end, envSec + 5)
+        end
+        T.Calibrate(); return fn(unpack(args, 1, args.n))
+    end)
     T.byCo[job.co] = job
     T.jobs[#T.jobs + 1] = job
     T.stats.started = T.stats.started + 1
@@ -422,6 +468,7 @@ local function RunSlice(job)
     local ms = T.api.ms() - job.frameStart
     if ms < 0 then ms = 0 end
     Record(job, ms, labelFrom, job.label)
+    T.lastJob, T.lastOwn = job, ms
     local status = coroutine.status(job.co)
     if status == "dead" and job.pending then
         Note(job, "yieldFailed", job.pending); job.pending = nil
@@ -448,7 +495,24 @@ local function RunSlice(job)
     end
 end
 
-function T.Tick()
+-- elapsed (Sekunden) = Dauer des letzten ganzen Bildes; gehoert zur Portion, die im letzten Bild lief
+local function Whole(elapsed)
+    local job, own = T.lastJob, T.lastOwn
+    T.lastJob, T.lastOwn = nil, nil
+    local ms = tonumber(elapsed)
+    if not job or not ms or type(job.stats) ~= "table" then return end
+    ms = ms * 1000
+    local st = job.stats
+    st.whole = (st.whole or 0) + 1
+    if ms > (st.wholeMax or 0) then st.wholeMax = ms end
+    if ms > T.WHOLE_LIMIT then
+        st.wholeOver = (st.wholeOver or 0) + 1
+        if (own or 0) <= T.FOREIGN_OWN then st.wholeForeign = (st.wholeForeign or 0) + 1 end
+    end
+end
+
+function T.Tick(elapsed)
+    Whole(elapsed)
     local n = #T.jobs
     if n == 0 then T.Sleepy() return end
     T.rr = T.rr % n + 1
@@ -471,7 +535,7 @@ function T.Wake()
         if not cf then return end
         T.frame = cf("Frame")
     end
-    T.frame:SetScript("OnUpdate", function() _G.GoldSentinelTakt.Tick() end)
+    T.frame:SetScript("OnUpdate", function(_, elapsed) _G.GoldSentinelTakt.Tick(elapsed) end)
     T.awake = true
 end
 
@@ -497,8 +561,101 @@ function T.Summary(job)
         if #w > 0 then parts[#parts + 1] = "längste: " .. table.concat(w, ", ") end
     end
     parts[#parts + 1] = string.format("eigene Rechenzeit %s ms · Dauer %s s", Fmt(st.ownMs), Fmt(st.wallSec or (T.api.now() - job.started)))
+    if (st.wholeOver or 0) > 0 then
+        parts[#parts + 1] = string.format("ganze Bilder über 40 ms: %d, davon durch Spiel/Umgebung (eigene Portion ≤ %d ms): %d · längstes ganzes Bild %s ms",
+            st.wholeOver, T.FOREIGN_OWN, st.wholeForeign or 0, Fmt(st.wholeMax))
+    end
     if st.blocked > 0 then parts[#parts + 1] = string.format("Abgabe nicht möglich: %d (%s)", st.blocked, table.concat(st.blockedAt or {}, ", ")) end
     if st.yieldFailed > 0 then parts[#parts + 1] = string.format("Abgabe gescheitert: %d (%s)", st.yieldFailed, table.concat(st.yieldFailedAt or {}, ", ")) end
     if job.state ~= "laeuft" and job.state ~= "fertig" then parts[#parts + 1] = "Ende: " .. job.state .. (job.err and (" – " .. tostring(job.err)) or "") end
+    return table.concat(parts, " · ")
+end
+
+------------------------------------------------------------------------
+-- Umgebung (Version 2): Ort, Spieler in Sicht, Ping, Bildzeit in Ruhe
+------------------------------------------------------------------------
+-- Misst sek Sekunden lang mit einem eigenen Rahmen (keine Arbeit), dann fertig(env). Laeuft schon eine Messung: nur
+-- fertig anhaengen. Ergebnis in T.env (bleibt bis zur naechsten Messung).
+function T.EnvMeasure(sek, fertig)
+    sek = Clamp(sek, 1, 60, T.ENV_SEC)
+    T.envWaiters = type(T.envWaiters) == "table" and T.envWaiters or {}
+    if type(fertig) == "function" then T.envWaiters[#T.envWaiters + 1] = fertig end
+    if T.envRun then return end
+    local cf = _G.CreateFrame
+    if not cf then
+        T.env = nil
+        local w = T.envWaiters; T.envWaiters = {}
+        for _, f in ipairs(w) do pcall(f, nil) end
+        return
+    end
+    local run = { started = T.api.now(), sek = sek, samples = {}, plates = 0, gc = 0, fpsSum = 0, fpsN = 0,
+                  mem = T.api.mem() }
+    T.envRun = run
+    T.envFrame = T.envFrame or cf("Frame")
+    T.envFrame:SetScript("OnUpdate", function(_, elapsed)
+        local ok, e = pcall(T.EnvStep, elapsed)
+        if not ok then T.stats.cbErrors = T.stats.cbErrors + 1; T.EnvFinish("Fehler: " .. tostring(e)) end
+    end)
+end
+
+function T.EnvStep(elapsed)
+    local run = T.envRun
+    if not run then return end
+    local ms = tonumber(elapsed)
+    if ms and #run.samples < T.ENV_MAX_SAMPLES then run.samples[#run.samples + 1] = ms * 1000 end
+    local p = T.api.plates()
+    if p and p > run.plates then run.plates = p end
+    if p then run.platesSeen = true end
+    local f = T.api.fps()
+    if f then run.fpsSum = run.fpsSum + f; run.fpsN = run.fpsN + 1 end
+    local m = T.api.mem()
+    if m < run.mem then run.gc = run.gc + 1 end
+    run.mem = m
+    if T.api.now() - run.started >= run.sek then T.EnvFinish() end
+end
+
+function T.EnvFinish(err)
+    local run = T.envRun
+    T.envRun = nil
+    if T.envFrame then T.envFrame:SetScript("OnUpdate", nil) end
+    if not run then return end
+    local s = {}
+    for i, v in ipairs(run.samples) do s[i] = v end
+    table.sort(s)
+    local function At(q) if #s == 0 then return nil end return s[math.max(1, math.min(#s, math.floor(q * #s + 0.5)))] end
+    local home, world = T.api.net()
+    local z, sub = T.api.zone()
+    T.env = {
+        t = T.api.now(), sek = run.sek, n = #s, zone = z, sub = sub,
+        plates = run.platesSeen and run.plates or nil,
+        home = home, world = world,
+        fps = run.fpsN > 0 and run.fpsSum / run.fpsN or nil,
+        median = At(0.5), p95 = At(0.95), max = s[#s], gc = run.gc, err = err,
+    }
+    local w = T.envWaiters or {}
+    T.envWaiters = {}
+    for _, f in ipairs(w) do pcall(f, T.env) end
+end
+
+-- Eine Zeile fuer den Testbericht; leer, wenn noch nicht gemessen
+function T.EnvLine()
+    local e = T.env
+    if type(e) ~= "table" then return "" end
+    local parts = {}
+    local ort = e.zone and e.zone ~= "" and e.zone or "?"
+    if e.sub and e.sub ~= "" and e.sub ~= e.zone then ort = ort .. " (" .. e.sub .. ")" end
+    parts[#parts + 1] = "Umgebung: " .. ort
+    if e.plates then parts[#parts + 1] = string.format("in Sicht %d Namensplaketten", e.plates) end
+    if e.home or e.world then
+        parts[#parts + 1] = string.format("Ping Realm %s ms / Welt %s ms", e.home and tostring(math.floor(e.home + 0.5)) or "?",
+            e.world and tostring(math.floor(e.world + 0.5)) or "?")
+    end
+    if e.fps then parts[#parts + 1] = string.format("%.0f Bilder/s", e.fps) end
+    if e.median then
+        parts[#parts + 1] = string.format("Bild in Ruhe Median %s ms, 95 %% %s ms, längstes %s ms (%d Bilder in %d s)",
+            Fmt(e.median), Fmt(e.p95), Fmt(e.max), e.n, e.sek)
+    end
+    parts[#parts + 1] = string.format("Speicherbereinigungen %d", e.gc or 0)
+    if e.err then parts[#parts + 1] = "Messung abgebrochen: " .. tostring(e.err) end
     return table.concat(parts, " · ")
 end

@@ -7,3 +7,18 @@ Ab der nächsten Version:
    "eigene Arbeit Ø/höchstens").
 3. FEHLER nur, wenn die eigene Arbeit die Grenze reisst. Ist nur das ganze Bild lang: "Spiel/Umgebung – Verdacht, zu messen", kein FEHLER.
 Regel: shared/wissen/pruef-ablauf.md, E-Regel 18.11. 19:30. Kein eigenes Release nur dafür.
+
+NACHTRAG 19:55 – GoldSentinelTakt 2 liegt in shared/ (Wunsch des Nutzers "ein Mini-Addon, das die Lags misst", Entscheid 19:32)
+Statt eines eigenen Addons misst der gemeinsame Takt jetzt selbst:
+1. Ganze Bilder: Nach jeder Portion wird die Dauer des GANZEN Bildes erfasst. In der Zusammenfassung erscheint "ganze Bilder über 40 ms: n,
+   davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): m · längstes ganzes Bild x ms".
+2. Umgebung: GoldSentinelTakt.EnvMeasure(sek, fertig), oder Start({... env = 10 ...}), misst vor dem Lauf sek Sekunden ohne eigene
+   Arbeit: Ort (Zone/Subzone), Namensplaketten in Sicht, Ping Realm/Welt (GetNetStats), Bilder/s, Bildzeit in Ruhe (Median/95 %/längstes),
+   Speicherbereinigungen. GoldSentinelTakt.EnvLine() liefert die Zeile für den Bericht.
+Tests: test_goldsentineltakt 82/82 mit Gegenproben (12d, 12g), Übernahme v1 -> v2 mit laufender Aufgabe. Vorlage 113/113 (die Vorlage
+nutzt env = 10 und EnvLine). Kopien von Takt 1 = WARNUNG, kein FEHLER (geprüft mit BuffSentinel 0.9.60).
+AUFTRAG (mit der nächsten Version, kein eigenes Release nur dafür):
+a) shared/GoldSentinelTakt.lua unverändert kopieren.
+b) Die eigene Testroutine startet mit env = 10 (oder ruft EnvMeasure vorher auf) und schreibt EnvLine() in den Bericht.
+c) Die Bewertung "Bild über 40 ms" stützt sich auf die EIGENE Portion. Die ganzen Bilder sind nur Auskunft (E-Regel 19:30).
+Die neueste geladene Fassung gewinnt: Sobald ein Addon Takt 2 mitbringt, messen alle Takt-Aufgaben die ganzen Bilder.

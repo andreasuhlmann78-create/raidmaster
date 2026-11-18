@@ -519,6 +519,8 @@ function ns.RunTests(filter)
         if job and job.state ~= "fertig" then extra.abbruch = tostring(job.state) .. ": " .. tostring(job.err) end
         local text, rep = run:Finish(extra)
         if takt then text = text .. "\nTakt: " .. takt end
+        local env = ns.Takt and ns.Takt.EnvLine and ns.Takt.EnvLine() or ""
+        if env ~= "" then text = text .. "\n" .. env end          -- Ort, Spieler in Sicht, Ping, Bildzeit in Ruhe (Takt v2)
         if extra.abbruch then text = text .. "\nABBRUCH: " .. extra.abbruch end
         local c = rep and rep.counts or run.counts
         ns.lastReport = rep
@@ -536,6 +538,7 @@ function ns.RunTests(filter)
         ns.Print(L.TEST_RUNNING)
         ns.testJob = T.Start({
             name = "Testroutine", owner = ADDON, budget = 4, timeout = 600,
+            env = 10,                                                   -- erst 10 s Umgebung messen (Takt v2; v1: ohne Wirkung)
             fn = function()
                 local ok, err = T.Sliced(Body, Enter, Leave, run, filter)
                 if ok == false then error(err, 0) end                  -- Abbruch im Bericht (ABBRUCH), nie still
