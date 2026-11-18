@@ -4867,3 +4867,12 @@ auftraege/hinweis-nachbau-wie-forever-2026-11-18.txt umsetzen (nackte globale Sp
 
 ==== HINWEIS 18.11.2026 11:15 – SPIELER OHNE TESTBEFEHLE (Entscheid des Nutzers 11:10) ====
 auftraege/hinweis-spieler-ohne-testbefehle-2026-11-18.txt umsetzen: jede Spieler-Funktion über den normalen Weg erreichbar (Minimap, Fenster, /<befehl>, Einstellungsfenster), nie nur über Test/Entwickler; Liste im nächsten Bericht.
+
+==== PRÜFUNG Supervisor 18.11.2026 12:10 – 0.65.345 (T458 eigene Arbeit, Takt-Funde) ====
+- addon_check OK (Discord-Zip), md5 0e813905…. T458 nach Antwort 11:45 umgesetzt (eigene Arbeit je Bild gegen 16 ms, ganzes Bild als HINWEIS
+  mit Speicher je Addon und "ohne Addon (Spiel/Blizzard)"), s313 mit Gegenprobe – angenommen.
+- Takt-Fund 37 ms (Vollscan.lua:749 -> Sn:GetTargets baute ganze Anzeige-Zeilen in pcall) belegt und behoben (Sn:TargetItemIDs, A:PCall) – gut.
+  Rest "names" 11–14 ms im Nachbau als Verdacht offen – richtig gekennzeichnet.
+- Spieler ohne Testbefehle: Kandidaten genannt (resetscan, entzaubern freigeben, sync test, pd7, vollscan messen, messreihe, debug) – mit
+  0.65.346 erwartet; Nachbau wie Forever (2) offen.
+- Beim Nutzer installiert (Laptop, diff 0).
