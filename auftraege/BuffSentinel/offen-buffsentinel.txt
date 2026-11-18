@@ -380,3 +380,10 @@ auftraege/hinweis-testdaten-fremde-addons-2026-11-18.txt umsetzen (<Addon>API.Te
 ==== PRÜFUNG Supervisor 18.11.2026 07:30 – 0.9.54 (TestRunning) ====
 - addon_check OK. BuffSentinelAPI.TestRunning(), T256, keine fremden Lesestellen (Liste) – angenommen. Beim Nutzer installiert.
 - Hinweis zu Regel 2 in shared/ (GoldSentinelMarkt nimmt Feeds von AHSentinel): Sache der Prüf-Sitzung – übernommen (Markt v11 prüft).
+
+==== BEFUND MITTEL 18.11.2026 08:15 – Testroutine öffnet das Blizzard-Fehlerfenster (0.9.54 belegt installiert, Nutzer 08:11) ====
+"Interface/AddOns/BuffSentinel/SelfTest.lua:1: TEST:absichtlich (Testroutine BuffSentinel, bitte ignorieren)", Stack
+Blizzard_ScriptErrors.lua:59/72 <- pcall <- SelfTest.lua:3012. Der absichtliche Testfehler geht über den Fehler-Handler des Spiels und
+öffnet beim Nutzer das Fehlerfenster – er hält es für einen Fehler (gleicher Befund wie RaidMaster RM-TF-1). Auftrag: den absichtlichen
+Fehler NIE über geterrorhandler()/den Handler des Spiels schicken; die eigene Zählfunktion direkt aufrufen (wie ThreatSentinel T147).
+Nachbau: Blizzard_ScriptErrors-Attrappe zählt Aufrufe -> 0; Gegenprobe 0.9.54 = 1 mit diesem Stack.
