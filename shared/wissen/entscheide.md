@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 18.11.2026 06:56 | "wenn es neue versionen der addons gibt bitte direkt in den richtigen ordner legen" | Prüf-Sitzung installiert geprüfte neue Versionen direkt in den AddOns-Ordner des verbundenen Rechners (_forever_/Interface/AddOns), nur nach eigener Prüfung (addon_check OK), keine anderen Dateien auf dem Gerät liegen lassen (Ausnahme zur Regel "nichts auf den Geräten ablegen") |
 | 18.11.2026 06:32 | Addons künftig gesammelt in EINEM Ordner/Paket liefern ("von jetzt an stelle mir die addons in einem ordner zur verfügung") | Prüf-Sitzung liefert ein Paket AddOns/ mit allen Addon-Ordnern |
 | 18.11.2026 06:34 | Bei jedem Test den Entwickler-Befehl mitliefern | /gsdev vor jedem /<addon> testroutine alles |
 | 17.11.2026 20:42 | Gemeinsamer Takt-Baustein: "genau go … und mach ja keinen Fehler" | Prüf-Sitzung baut shared/GoldSentinelTakt.lua aus den bewährten Mustern (leistung.md Abschnitt 6: ThreatSentinel, BuffSentinel, GoldSentinelMarkt) mit vollständigen Tests in Lua 5.1 und Gegenproben; erst nach eigenen Tests an die Projekte (Hinweis), addon_check-Regel "exact" |
