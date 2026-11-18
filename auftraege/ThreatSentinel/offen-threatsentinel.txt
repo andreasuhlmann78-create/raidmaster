@@ -299,3 +299,7 @@ Offen:
    (Namen im Ergebnis) und ob wirklich kein Platz ist; sonst FEHLER.
 4. Bilder: längstes 47,4 ms (T131) und TU3-D2 43,4 ms – über der harten Grenze 40 ms. Teilen. TU1-L04t 14,4 ms (17.11.: 10,3 ms).
 5. Prüfliste zeigt noch "TR-ALLE auto 17.11. 17:00" – nach dem Lauf 06:38 muss der neue Stand dort stehen.
+
+==== PRÜFUNG Supervisor 18.11.2026 07:30 – 2.5.20 (Ingametest 06:38, Testdaten) ====
+- addon_check OK. TestRunning, ForeignTestRunning vor allen fremden Lesestellen (Liste), T-D2 abgeschirmt mit Grund im Ergebnis,
+  T-PL2, T-K2 mit Namen, T131/TU3-D2 in Teilen – angenommen, im Spiel zu bestätigen. Beim Nutzer installiert.

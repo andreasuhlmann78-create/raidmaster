@@ -1060,3 +1060,8 @@ Die neue Zeile "Portionen" zeigt ABER (erstmals messbar):
 4. MITTEL T155 Planung je Reiseschritt 29,2 ms (57×); T295 kalter Klick längste Portion 22,3 ms (soll < 16).
 5. Die Zeile "Rechenzeit je Bereich" (B 7,3 s, J 7,1 s, F 2,2 s, Sandbox 3,4 s) gut – bitte zusätzlich "Bilder über 40 ms: n" ausweisen.
 Reihenfolge: 1 vor 2/3 (die Testroutine selbst darf nie einfrieren).
+
+==== PRÜFUNG Supervisor 18.11.2026 07:30 – 3.12.92 (Wegnetz/Wegsuche im Takt, Testdaten) ====
+- addon_check OK. Graph:Init und Wegsuche als Takt-Aufgaben, Netz byte-gleich (Fingerabdruck), "direct" während des Ladens, Rückfall
+  am Stück nur bei Fehler/Zeitlimit; T151/T352 mit Gegenprobe – angenommen. Beim Nutzer installiert.
+- Punkt 1 HOCH SOFORT (Testroutine friert bis 3,3 s) fehlt noch -> 3.12.93. Erst danach Ingametest LevelPilot.

@@ -376,3 +376,7 @@ Pflicht für neue Arbeit in Portionen; Summary-Zeile in den Bericht. LevelPilot 
 
 ==== HINWEIS 18.11.2026 06:45 – TESTDATEN NIE ZU ANDEREN ADDONS ====
 auftraege/hinweis-testdaten-fremde-addons-2026-11-18.txt umsetzen (<Addon>API.TestRunning(), fremde Daten nie während deren Test lesen).
+
+==== PRÜFUNG Supervisor 18.11.2026 07:30 – 0.9.54 (TestRunning) ====
+- addon_check OK. BuffSentinelAPI.TestRunning(), T256, keine fremden Lesestellen (Liste) – angenommen. Beim Nutzer installiert.
+- Hinweis zu Regel 2 in shared/ (GoldSentinelMarkt nimmt Feeds von AHSentinel): Sache der Prüf-Sitzung – übernommen (Markt v11 prüft).

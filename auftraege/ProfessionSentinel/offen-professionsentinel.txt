@@ -483,3 +483,10 @@ Der alte Weg über A:RealValue soll bei vorhandener API ganz entfallen.
 
 ==== HINWEIS 18.11.2026 06:45 – TESTDATEN NIE ZU ANDEREN ADDONS ====
 auftraege/hinweis-testdaten-fremde-addons-2026-11-18.txt umsetzen (<Addon>API.TestRunning(), fremde Daten nie während deren Test lesen).
+
+==== PRÜFUNG Supervisor 18.11.2026 07:30 – 0.9.68 (API-TAB-1-Kopie, nil von der API, DisenchantDeals, Testdaten) ====
+- addon_check OK. Kopie beim Behalten (T291 + Gegenprobe 0.9.67), RealValue nie bei vorhandener API – angenommen.
+- Abweichungen mit Grund ANGENOMMEN: nil -> eigene Formel mit Händler-Untergrenze und Kennzeichen pending (wie ohne AHSentinel); nil 5 s
+  behalten, verworfen bei jeder AHSentinel-Meldung. Gold-Sicherheit: Gold-Klicks fragen frisch (FreshPrices) – bleibt so.
+- FRAGE API.Pending(): an AHSentinel gegeben (Vertrag additiv). Bis dahin keine Ladezeile – richtig.
+- Beim Nutzer installiert. Ingametest frei, sobald AHSentinel ohne Ladefehler da ist (zusammen testen).

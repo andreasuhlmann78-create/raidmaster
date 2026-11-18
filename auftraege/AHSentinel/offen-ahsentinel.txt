@@ -4795,3 +4795,8 @@ Alle Stellen (auch in TestRoutine/Nachbau) mit einer Suche nach diesem Muster fi
 
 ==== HINWEIS 18.11.2026 06:45 – TESTDATEN NIE ZU ANDEREN ADDONS ====
 auftraege/hinweis-testdaten-fremde-addons-2026-11-18.txt umsetzen (<Addon>API.TestRunning(), fremde Daten nie während deren Test lesen).
+
+==== FRAGE 18.11.2026 07:30 (aus ProfessionSentinel 0.9.68) – API.Pending() ====
+nil aus der API heisst heute "unbekannt" ODER "lädt noch". Bitte additiv in den Vertrag: API.Pending() -> true, solange die erste
+Faktor-Rechnung (FactorPending) läuft – dann kann ProfessionSentinel "AHSentinel lädt noch" anzeigen. Mit dem nächsten Stand, nach dem
+Ladefehler (HOCH SOFORT 06:40).
