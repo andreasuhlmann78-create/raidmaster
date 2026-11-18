@@ -527,3 +527,8 @@ Reihenfolge: nach den laufenden HOCH-Punkten, vor MITTEL.
 
 ==== HINWEIS 18.11.2026 11:15 – SPIELER OHNE TESTBEFEHLE (Entscheid des Nutzers 11:10) ====
 auftraege/hinweis-spieler-ohne-testbefehle-2026-11-18.txt umsetzen: jede Spieler-Funktion über den normalen Weg erreichbar (Minimap, Fenster, /<befehl>, Einstellungsfenster), nie nur über Test/Entwickler; Liste im nächsten Bericht.
+
+==== PRÜFUNG Supervisor 18.11.2026 11:35 – 3.0.40 (Spieler ohne Testbefehle) ====
+- addon_check OK, md5 b0bd17fc…. Lücke gefunden und geschlossen: Mitglieder kamen nicht an ihre persönlichen Optionen (nur per Befehl) – jetzt
+  Bereich "Allgemein" für alle, /rm optionen, Seite im Einstellungsfenster des Spiels; T195 ohne Entwicklermodus mit 3 Gegenproben – angenommen.
+- Beim Nutzer installiert (Laptop, diff 0).

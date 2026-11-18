@@ -343,3 +343,8 @@ Reihenfolge: nach den laufenden HOCH-Punkten, vor MITTEL.
 
 ==== HINWEIS 18.11.2026 11:15 – SPIELER OHNE TESTBEFEHLE (Entscheid des Nutzers 11:10) ====
 auftraege/hinweis-spieler-ohne-testbefehle-2026-11-18.txt umsetzen: jede Spieler-Funktion über den normalen Weg erreichbar (Minimap, Fenster, /<befehl>, Einstellungsfenster), nie nur über Test/Entwickler; Liste im nächsten Bericht.
+
+==== PRÜFUNG Supervisor 18.11.2026 11:35 – 2.5.23 (Spieler ohne Testbefehle) ====
+- addon_check OK, download = announce byte-gleich, md5 ef360432…. Liste der normalen Wege vollständig; Lücke "Vorschau nur über Testzentrale"
+  geschlossen (Einstellungen > Plaketten > Vorschau), Anmelde-Meldung ohne Testbefehl, Seite im Spielmenü; T-SP1/T-SP2 mit Gegenprobe – angenommen.
+- Beim Nutzer installiert (Laptop, diff 0).

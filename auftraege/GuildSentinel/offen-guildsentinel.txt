@@ -567,3 +567,8 @@ Reihenfolge: nach den laufenden HOCH-Punkten, vor MITTEL.
 
 ==== HINWEIS 18.11.2026 11:15 – SPIELER OHNE TESTBEFEHLE (Entscheid des Nutzers 11:10) ====
 auftraege/hinweis-spieler-ohne-testbefehle-2026-11-18.txt umsetzen: jede Spieler-Funktion über den normalen Weg erreichbar (Minimap, Fenster, /<befehl>, Einstellungsfenster), nie nur über Test/Entwickler; Liste im nächsten Bericht.
+
+==== PRÜFUNG Supervisor 18.11.2026 11:35 – 0.9.57 (OPT-ALLE, Nachbau wie Forever, T306) ====
+- addon_check OK (Discord-Zip), md5 49e278eb…. Bestandsaufnahme n alt 54 (Rolle doppelt) mit Liste, Umbau nach Vorbild, /gs optionen, Seite im
+  Einstellungsfenster des Spiels; kein nackter Aufruf alter Funktionen, Nachbildung ohne globales GetItemInfo, T306 misst den Rest – angenommen.
+- download/ unverändert (CurseForge 0.9.52 um 18:00) – richtig. Beim Nutzer installiert (Laptop, diff 0). Abnahme am Bild: Prüfliste OPT.

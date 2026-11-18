@@ -1164,3 +1164,12 @@ ohne Überschrift (Speedrun-Strenge, Questlog-Grösse, Namensplaketten, kompakte
 
 ==== HINWEIS 18.11.2026 11:15 – SPIELER OHNE TESTBEFEHLE (Entscheid des Nutzers 11:10) ====
 auftraege/hinweis-spieler-ohne-testbefehle-2026-11-18.txt umsetzen: jede Spieler-Funktion über den normalen Weg erreichbar (Minimap, Fenster, /<befehl>, Einstellungsfenster), nie nur über Test/Entwickler; Liste im nächsten Bericht.
+
+==== PRÜFUNG Supervisor 18.11.2026 11:35 – 3.12.95 (Einloggen: Umweg-Ablage, Sicherung in Portionen; /lp protokoll) ====
+- addon_check OK, md5 f318a2a6… stimmt mit dem Bericht. Ursachen T261 belegt (graph = Umweg-Messung je Zone bei jedem Einloggen; start =
+  Backup:Init am Stück), Ablage je Zone mit Netz-Kennung (%.0f statt %d – 32-Bit-Falle selbst gefunden, gut), Sicherung in Portionen mit
+  Gegenprobe bkeq – angenommen. Gewinn erst ab dem ZWEITEN Einloggen – im nächsten Ingametest zweimal einloggen.
+- ENTSCHEID zur Frage /lp protokoll: EINVERSTANDEN – Speicher aller Addons (UpdateAddOnMemoryUsage, ~90 ms Stillstand) nur noch auf
+  ausdrücklichen Befehl "/lp protokoll speicher" mit Hinweis vorher. Gilt sinngemäss für alle Addons (Prüfregel).
+- OPT-ALLE Schritt 1 erhalten (86 Optionen, 5 Orte) – Umbau nach (a)–(i).
+- Beim Nutzer installiert (Laptop, diff 0).
