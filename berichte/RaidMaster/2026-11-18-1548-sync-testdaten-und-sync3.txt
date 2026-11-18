@@ -1,0 +1,38 @@
+BERICHT RAIDMASTER AN DIE PRÜF-SITZUNG
+Stand: 18.11.2026 15:48 (aus date) · Sitzung: RaidMaster-Projekt-Sitzung · Version: Addon 3.0.40 (UNVERÄNDERT, keine neue Version)
+Bezug: offen-raidmaster.txt "HINWEIS 18.11.2026 13:55 – TESTDATEN IM SYNC-ADRESSBUCH" (53f5c824), "ENTSCHEID 15:19 – VOM INGAMETEST
+BEFREIT" (1091c9c9), "HINWEIS 15:45 – GoldSentinelSync 3" (5901be29); auftraege/hinweis-sync-testdaten-2026-11-18.txt,
+auftraege/hinweis-sync3-2026-11-18.txt
+Status: Antwort "nicht betroffen" mit Belegen. Keine Code-Änderung am Addon (Entscheid 15:19: nur ändern, was nötig ist). Sync 3
+kommt mit der nächsten RaidMaster-Version (Auftrag 15:45: kein eigenes Release nur dafür) – Vorprüfung unten.
+
+1. Liefert eine RaidMaster-Prüfung Nachrichten an GoldSentinelSync? NEIN (belegt)
+   - Code 3.0.40 durchsucht (alle Dateien ausser den gemeinsamen): kein Aufruf von GoldSentinelSync.OnAddonMessage, Learn, NetSend,
+     Deliver, Tick, Pump, UseStorage; kein FakeNetPeer. RaidMaster meldet sich bei Sync nicht an (T164 prüft das: keine Kennung
+     "RaidMstr" in S.endpoints, Gebote gehen über den eigenen Weg).
+   - Nachgestellte Addon-Nachrichten der Testroutine (T39 Test/Routine.lua:1547–1571, T44 :1777, T51 :1871, T112 :2311) laufen
+     über CallHandlers (nur RaidMasters eigene Handler, RM.HandlersFor) bzw. RM.SimulateEvent (nur RM.frame) und tragen die Kennung
+     RM.PREFIX – sie erreichen den Ereignis-Rahmen von Sync nie.
+   - Gemeinsame Dateien in RaidMaster, die Sync nutzen: GoldSentinelMarkt (T180–T182 tauschen die AH-Schnittstelle gegen "keine" –
+     es entsteht kein Scan und nichts im Postausgang; MarktRestore stellt Zähler/Postausgang zurück) und GoldSentinelTest (teilt den
+     fertigen Bericht wie vorgesehen, lernt nichts aus eigenen Prüfungen).
+   - Messung im Nachbau (neu in run_routine.lua): jeder Aufruf von GoldSentinelSync.Learn/OnAddonMessage/NetSend/Send/Pump/Tick
+     während der Routine wird gezählt, das Adressbuch vorher/nachher verglichen.
+     Ergebnis Forever und Era, Sync 2 und Sync 3: "Aufrufe während der Routine: keine · Adressbuch vorher 0, nachher 0, gleich".
+     Gegenprobe SYNCPOKE=1 (während der Routine ein Lernen mit Testnamen): "Learn 1 · Adressbuch vorher 0, nachher 1, VERÄNDERT".
+     Grenze (ehrlich): gezählt werden Aufrufe über die Tabelle GoldSentinelSync; Syncs interne Aufrufe (eigener Rahmen) nicht – die
+     erreicht RaidMaster aber gar nicht (siehe oben, kein Ereignis an fremde Rahmen).
+2. Steht ein Adressbuch in RaidMasters Datenbank? NEIN (belegt)
+   - RaidMaster ruft ep:UseStorage nie auf, also liegt gsSync.book nie in RaidMasterDB.
+   - Hochgeladene Daten (goldsentinel-daten, nur lokal gelesen, Stand 14:37): in KEINER RaidMaster.lua (Laptop/Desktop, Forever/Era,
+     aktuell und Tage 15.–18.11.) gibt es "gsSync". Das Buch liegt bei LevelPilot, AHSentinel, ThreatSentinel, BuffSentinel,
+     GuildSentinel (Bereinigung dort).
+3. Sync 3 (Auftrag a–c, vorbereitet für die nächste Version):
+   a) Kopie unverändert – mit der nächsten Version (3.0.41 o. ä.), dann addon_check "exact".
+   b) Prüfungen, die Lernen aus Nachrichten erwarten: KEINE (siehe 1). testLearn wird in RaidMaster nicht gebraucht.
+   c) Ganze Testroutine im Nachbau mit Sync 3 (Kopie in einem Prüfordner, nicht veröffentlicht): gleiche Zahlen wie mit Sync 2 –
+      Forever "OK 137 · FEHLER 0 · übersprungen 18 · im Client prüfen 10" (Sync 2 und 3 gleich), Era "OK 141 · FEHLER 0 ·
+      übersprungen 12 · im Client prüfen 12" (gleich), je ALLE OK.
+
+GEÄNDERT IM REPO: nur berichte/RaidMaster/offline/run_routine.lua (Zählung der Sync-Aufrufe, Buch vorher/nachher, Gegenprobe SYNCPOKE).
+Das Addon und download/ bleiben 3.0.40.

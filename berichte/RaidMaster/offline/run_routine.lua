@@ -134,9 +134,30 @@ end
 if os.getenv("CMDDEV") == "1" then
 	for _, c in ipairs(RM.COMMANDS) do if c[1] == "bereit" then c.dev = true end end
 end
+-- 18.11. Hinweis Sync-Testdaten: zählt jeden Aufruf von GoldSentinelSync (Lernen, Eingang, Netz, Senden) während der Routine und
+-- vergleicht das Adressbuch vorher/nachher. Gegenprobe SYNCPOKE=1: eine Testnachricht mit Lebenszeichen geht an Sync.OnAddonMessage.
+local SY = _G.GoldSentinelSync
+local syncCalls = {}
+local function BookSig()
+	local b = SY and SY.book
+	local l = {}
+	for k, v in pairs(type(b) == "table" and b or {}) do l[#l + 1] = tostring(k) end
+	table.sort(l)
+	return table.concat(l, ","), #l
+end
+local book0, bookN0 = BookSig()
+if SY then
+	for _, fn in ipairs({ "Learn", "OnAddonMessage", "NetSend", "Send", "Pump", "Tick" }) do
+		local orig = SY[fn]
+		if type(orig) == "function" then
+			SY[fn] = function(...) if RM.TestRoutine.running then syncCalls[fn] = (syncCalls[fn] or 0) + 1 end return orig(...) end
+		end
+	end
+end
 local R = RM.TestRoutine
 local only = ROUTINE_AREA or os.getenv("AREA")
 R.Run(only)
+if os.getenv("SYNCPOKE") == "1" and SY and SY.Learn then pcall(SY.Learn, "Gegenprobe-Test", "guild") end
 local waited = 0
 -- STOPAT=<Sekunden>: "/rm testroutine stop" nach so vielen Sekunden (Abbruch muss alles zurückstellen)
 local stopAt = tonumber(os.getenv("STOPAT") or "")
@@ -159,6 +180,15 @@ while R.running and waited < 400 do
 	if stopAt and waited >= stopAt and R.running then SlashCmdList["RAIDMASTER"]("testroutine stop"); stopAt = nil end
 end
 Advance(15)
+do
+	local book1, bookN1 = BookSig()
+	local parts = {}
+	for k, v in pairs(syncCalls) do parts[#parts + 1] = k .. " " .. v end
+	table.sort(parts)
+	print(string.format("SYNC: Version %s · Aufrufe während der Routine: %s · Adressbuch vorher %d, nachher %d, %s",
+		tostring(SY and SY.VERSION), #parts > 0 and table.concat(parts, ", ") or "keine", bookN0, bookN1,
+		book0 == book1 and "gleich" or "VERÄNDERT"))
+end
 -- 3.0.38: Ergebnisse des Hauptlaufs merken (SHOWALL zeigt sonst nur den letzten Lauf); SHOWID=T194,T13 zeigt einzelne
 local MAIN_RESULTS = {}
 for i, e in ipairs(R.t and R.t.results or {}) do MAIN_RESULTS[i] = e end
