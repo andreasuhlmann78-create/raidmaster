@@ -1,0 +1,41 @@
+BERICHT THREATSENTINEL 2.5.23 – Hinweis "Spieler ohne Testbefehle" (Entscheid des Nutzers 18.11. 11:10)
+Stand: umgesetzt, zur Prüfung (keine Selbst-Freigabe). Dazu: Prüfung 2.5.22 (11:25) gelesen – OPT ersetzt TSMESS: einverstanden, danke.
+Veröffentlicht: download/ThreatSentinel-2.5.23.zip (addon_check "## ThreatSentinel-2.5.23.zip: OK"),
+announce/threatsentinel__threatsentinel-2.5.23.md. Gemeinsame Dateien cmp gleich mit shared/.
+Offline ("alles", veröffentlichte ZIP): Forever OK 304 · FEHLER 6 · übersprungen 19 · im Client 16; Era OK 308 · FEHLER 6 ·
+übersprungen 13 · im Client 17; je "FEHLER ausserhalb der Nachbildungs-Liste: 0"; mit TS_FRAME_MS=0 ebenso.
+
+1. FUNKTIONEN FÜR SPIELER UND IHR NORMALER WEG (ohne Entwicklermodus)
+| Funktion | normaler Weg |
+| Einstellungen | Minimap-Knopf Links- UND Rechtsklick (Rechtsklick = Testzentrale nur für Entwickler); /ts; /ts einstellungen | optionen | config;
+|               | NEU: Spielmenü > Optionen > AddOns > ThreatSentinel > Knopf "ThreatSentinel-Einstellungen öffnen" (Settings-API, alte Clients InterfaceOptions) |
+| Anzeigen verschieben (HUD, Aggrometer, DD-Ansicht, Meter) | /ts verschieben; Einstellungen > Anzeigen > "Fenster verschieben" |
+| Positionen zurücksetzen | Einstellungen > Anzeigen > "Positionen zurücksetzen" |
+| Spott-/Flächenspott-Taste belegen | Einstellungen > Tasten; Hinweis-Fenster "Jetzt belegen" öffnet direkt "Tasten" |
+| Vorschau, wie Plaketten/Meldungen aussehen | NEU Einstellungen > Plaketten > "Vorschau (Beispiel-Mobs)" – vorher NUR Testzentrale (Entwickler) |
+| Töne anhören / wählen | Einstellungen > Töne (Knopf "Test" je Ton) |
+| Meldung in der Mitte ansehen | Einstellungen > Meldungen & Hilfen > "Mitte: Beispiel" |
+| Bedrohung prüfen (was darf das Addon lesen) | /ts bedrohung; Einstellungen > Allgemein > Weitere > "Bedrohung prüfen" |
+| Diagnose-Protokoll ansehen | /ts protokoll; Einstellungen > Allgemein > Weitere > "Diagnose-Protokoll" |
+| Wer hat ThreatSentinel (Sync) | Einstellungen > Tank-Sync > "Spieler mit ThreatSentinel" (Liste im Tooltip), "Spielerliste"; /ts sync test |
+| Erkannte Rollen / Zauber | Einstellungen > Gruppe > "Erkannte Rollen"; Allgemein > Weitere > "Erkannte Zauber" (Tooltip) |
+| Voreinstellung dezent/standard/laut, Profil für alle | Einstellungen > Allgemein (Profil unter Weitere) |
+| Addon unterstützen | /ts spenden; Einstellungen > Allgemein > "Addon unterstützen" |
+| Befehlsliste | /ts tippen (Liste erscheint), Schalter Einstellungen > Allgemein |
+| Anzeigen selbst (Plaketten, HUD, Aggrometer, DD-Ansicht, Schadensmeter, Meldungen) | laufen von selbst; Schalter in den Einstellungen |
+Nur Entwickler (bleiben dort): Testzentrale (/ts test, Minimap-Rechtsklick), Testassistent (/ts assistent), Testprotokoll (/ts log …),
+Testroutine, Prüfliste, Ini-Prüfung – keine davon braucht ein Spieler.
+
+2. TEXTE: Anmelde-Meldung nannte allen Spielern "Testzentrale: Rechtsklick oder /ts test" -> jetzt nur "Einstellungen: Minimap-Knopf,
+   /ts oder Spielmenü > Optionen > AddOns"; der Teil zur Testzentrale nur im Entwicklermodus (L.LOADED_DEV). Durchgesehen (grep "/ts "
+   in Locales EN/DE): alle übrigen Texte mit Testbefehlen erscheinen nur in Entwickler-Funktionen (Testprotokoll SUM_*/LOG_STATUS,
+   Ini-Prüfung DG_DONE, Testassistent GUIDE_PAUSED, Testroutine TR_*, Prüfliste); ERR_NOTICE nennt /ts bedrohung (Spieler-Befehl).
+   Minimap-Tooltip: "Rechtsklick: Testzentrale" schon bisher nur für den Entwickler.
+
+3. TESTS: T-SP1 – ohne Entwicklermodus: /ts einstellungen, optionen, config, bedrohung, verschieben, protokoll, spenden, sync test
+   gefunden und nicht dev; Einstellungs-Zeilen move, resetPos, threatCheck, diagShow, donate, keyTaunt, keyAoe, preview, centerTest,
+   soundDD, syncUsers, preset, sharedProfile sichtbar; Testzentrale unsichtbar; Anmelde-Meldung ohne "/ts test". Gegenprobe mit
+   Entwicklermodus: Testzentrale sichtbar, Meldung nennt den Test. Dazu Seite im Spielmenü mit Knopf.
+   T-SP2: Vorschau aus den Einstellungen ist nach dem Schliessen wieder aus (Aufrufe true,false) – im Kampf schliesst das Fenster,
+   damit endet auch die Vorschau (echte Warnungen nie verdeckt).
+   T163 prüft jetzt die Seite im Spielmenü (Settings-API im modernen Client). T-OPT1: 103 alt + 1 neu (Vorschau) = 104, mit Grund.
