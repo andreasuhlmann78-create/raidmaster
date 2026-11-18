@@ -1,12 +1,12 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-18 13:21 UTC
+Ausgewertet: 2026-11-18 14:33 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
 | Addon | letzter Testlauf | Version | Client | OK | FEHLER | übersprungen | im Client prüfen | Fehler im Spiel (7 Tage) |
 |---|---|---|---|---|---|---|---|---|
-| AHSentinel | 18.11.2026 12:49 UTC | 0.65.345 | forever 1.60.1 (Interface 16001) | 10 | 0 | 1 | 0 | 63 |
+| AHSentinel | 18.11.2026 13:35 UTC | 0.65.345 | forever 1.60.1 (Interface 16001) | 2 | 4 | 3 | 0 | 63 |
 | BuffSentinel | 18.11.2026 12:42 UTC | 0.9.59 | forever 1.60.1 (Interface 16001) | 220 | 0 | 11 | 10 | 307 |
 | GuildSentinel | 18.11.2026 12:44 UTC | 0.9.57 | forever 1.60.1 (Interface 16001) | 326 | 1 | 23 | 8 | 5 |
 | LevelPilot | 18.11.2026 13:05 UTC | 3.12.95 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 15 |
@@ -18,20 +18,20 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 168 | `testberichte/diagnose/AHSentinel/0.65.345-a586318808db.txt` |
-| BuffSentinel | 58 | `testberichte/diagnose/BuffSentinel/0.9.59-b6b5fc4aa702.txt` |
-| GSMesstest | 11 | `testberichte/diagnose/GSMesstest/5.1-e71680805b41.txt` |
+| AHSentinel | 169 | `testberichte/diagnose/AHSentinel/0.65.345-a586318808db.txt` |
+| BuffSentinel | 59 | `testberichte/diagnose/BuffSentinel/0.9.59-c385ec947a7e.txt` |
+| GSMesstest | 12 | `testberichte/diagnose/GSMesstest/5.1-e71680805b41.txt` |
 | GSSniperLog | 20 | `testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt` |
-| GuildSentinel | 169 | `testberichte/diagnose/GuildSentinel/0.9.57-378a0069d0d2.txt` |
-| LevelPilot | 64 | `testberichte/diagnose/LevelPilot/3.12.95-83602fb46706.txt` |
-| ProfessionSentinel | 149 | `testberichte/diagnose/ProfessionSentinel/0.9.72-ed9a87d8c909.txt` |
-| ThreatSentinel | 144 | `testberichte/diagnose/ThreatSentinel/2.5.23-e61faba6e4d4.txt` |
+| GuildSentinel | 170 | `testberichte/diagnose/GuildSentinel/0.9.57-378a0069d0d2.txt` |
+| LevelPilot | 65 | `testberichte/diagnose/LevelPilot/3.12.95-83602fb46706.txt` |
+| ProfessionSentinel | 150 | `testberichte/diagnose/ProfessionSentinel/0.9.72-ed9a87d8c909.txt` |
+| ThreatSentinel | 145 | `testberichte/diagnose/ThreatSentinel/2.5.23-e61faba6e4d4.txt` |
 
 ## Wegdaten (GSWEGE1)
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| LevelPilot | 225 | `testberichte/wege/LevelPilot/LevelPilot-wege-1795007448-a8a20f.json` |
+| LevelPilot | 226 | `testberichte/wege/LevelPilot/LevelPilot-wege-1795009020-41e7f2.json` |
 
 ## AHSentinel
 
@@ -62,8 +62,14 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 - [SKIP] ALLES-8 ALLES – Prüfungen am Berufsfenster (grund:   8. Prüfungen am Berufsfenster: noch offen – passiert von selbst beim nächsten Öffnen eines Berufsfensters)
 - [SKIP] ALLES-9 ALLES – Prüfungen am Händler (grund:   9. Prüfungen am Händler: noch offen – passiert von selbst beim nächsten Händler-Besuch)
 
-**Testlauf 0.65.345 · forever 1.60.1 (Interface 16001) · 18.11.2026 12:49 UTC** – OK 10 · FEHLER 0 · übersprungen 1 · im Client prüfen 0 · Sandbox OK
-- [SKIP] T99 D – Alte Berufe-API (grund: nur im alten Client (Classic Era, TBC))
+**Testlauf 0.65.345 · forever 1.60.1 (Interface 16001) · 18.11.2026 13:35 UTC** – OK 2 · FEHLER 4 · übersprungen 3 · im Client prüfen 0
+- [FEHLER] ALLES-1 ALLES – Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1) (ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 947 OK, 2 FEHLER, 29 übersprungen, Sandbox OK)
+- [FEHLER] ALLES-2 ALLES – Oberflächen-Prüfung (alle Reiter) (ergebnis:   2. Oberflächen-Prüfung (alle Reiter): FEHLER – 5 OK, 1 FEHLER, 0 übersprungen, Sandbox OK)
+- [FEHLER] ALLES-5 ALLES – Wächter 10 Min.: Rechenzeit je Bild und Hürden (WAECHTER-LAST, WAECHTER-FUND) (ergebnis:   5. Wächter 10 Min.: Rechenzeit je Bild und Hürden (WAECHTER-LAST, WAECHTER-FUND): FEHLER – 175 Runden in 10 Min. · längste Wächter-Rechenzeit je Bild 58 ms (≤ 50) · längstes ganzes Bild 109 ms (Auskunft) · Hürden: Letzte Runde: 277 Angebote – 0 unter 30 % des Marktwerts – bei 30 %…)
+- [FEHLER] ALLES-6 ALLES – Prüfungen am offenen Auktionshaus (ergebnis:   6. Prüfungen am offenen Auktionshaus: FEHLER – 62 OK, 4 FEHLER, 3 übersprungen, Sandbox OK)
+- [SKIP] ALLES-7 ALLES – Vollscan zweimal: bleibender Speicher und längste Lücke (VOLLSCAN) (grund:   7. Vollscan zweimal: bleibender Speicher und längste Lücke (VOLLSCAN): noch offen – passiert von selbst beim nächsten Schnell-Vollscan (Entwicklermodus) (Server-Abstand noch 14 Min.))
+- [SKIP] ALLES-8 ALLES – Prüfungen am Berufsfenster (grund:   8. Prüfungen am Berufsfenster: noch offen – passiert von selbst beim nächsten Öffnen eines Berufsfensters)
+- [SKIP] ALLES-9 ALLES – Prüfungen am Händler (grund:   9. Prüfungen am Händler: noch offen – passiert von selbst beim nächsten Händler-Besuch)
 
 **Fehler im Spiel (letzte 7 Tage)**
 - 25× `ADDON_ACTION_BLOCKED`: UNKNOWN() – Version 0.65.182, 0.65.189, 0.65.194, 0.65.196, 0.65.203 · forever 1.60.1 (Interface 16001) · zuletzt 15.11.2026 18:13 UTC

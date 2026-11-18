@@ -215,11 +215,12 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Desolace (1443)
 
-- Wegstücke 545, Knoten 1204, zusammenhängende Teile 2
+- Wegstücke 604, Knoten 1246, zusammenhängende Teile 2
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 1086 Knoten, Bereich 22–77 / 16–97
+  - Teil 1: 1128 Knoten, Bereich 20–77 / 16–97
   - Teil 2: 118 Knoten, Bereich 30–36 / 9–32
 - **Ausreisser:** Wegstück 542: Sprung 5.1 % von 25.7,77.1 nach 22.3,73.3
+- **Ausreisser:** Wegstück 580: Sprung 4.3 % von 25.7,77.1 nach 22.7,74.0
 - **Widerspruch:** gesperrt (FEST) bei 69.1,71.9, aber 10× gelaufen
 - Gesperrte Wegstücke: 1
 
@@ -239,7 +240,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Orgrimmar (1454)
 
-- Wegstücke 995, Knoten 886, zusammenhängende Teile 5
+- Wegstücke 999, Knoten 886, zusammenhängende Teile 5
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 878 Knoten, Bereich 22–82 / 19–95
   - Teil 2: 3 Knoten, Bereich 38–40 / 28–30
@@ -266,7 +267,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 - **Ausreisser:** Wegstück 12: Sprung 11.1 % von 51.7,76.7 nach 52.6,87.8
 - **Ausreisser:** Wegstück 14: Sprung 5.9 % von 52.0,68.2 nach 52.0,74.1
 - **Ausreisser:** Wegstück 15: Sprung 5.9 % von 52.0,68.2 nach 54.7,63.0
-- **Widerspruch:** gesperrt (FEST) bei 52.2,64.5, aber 345× gelaufen
+- **Widerspruch:** gesperrt (FEST) bei 52.2,64.5, aber 346× gelaufen
 - Gesperrte Wegstücke: 1
 
 ## Thunder Bluff (1456)

@@ -1,21 +1,62 @@
 {
- "ausgewertet": "2026-11-18T13:21:50Z",
+ "ausgewertet": "2026-11-18T14:33:49Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
-   "berichte": 83,
+   "berichte": 88,
    "letzter_test": {
-    "id": "AHSentinel-1795006178-53408c-2",
+    "id": "AHSentinel-1795008948-7032d5-5",
     "version": "0.65.345",
-    "time": 1795006176,
+    "time": 1795008948,
     "counts": {
      "client": 0,
-     "fehler": 0,
-     "ok": 10,
-     "uebersprungen": 1
+     "fehler": 4,
+     "ok": 2,
+     "uebersprungen": 3
     }
    },
-   "fehler_tests": [],
+   "fehler_tests": [
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.345",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "ALLES-1",
+     "name": "Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1)",
+     "detail": "ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 947 OK, 2 FEHLER, 29 übersprungen, Sandbox OK",
+     "bericht": "AHSentinel-1795008948-7032d5-5"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.345",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "ALLES-2",
+     "name": "Oberflächen-Prüfung (alle Reiter)",
+     "detail": "ergebnis:   2. Oberflächen-Prüfung (alle Reiter): FEHLER – 5 OK, 1 FEHLER, 0 übersprungen, Sandbox OK",
+     "bericht": "AHSentinel-1795008948-7032d5-5"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.345",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "ALLES-5",
+     "name": "Wächter 10 Min.: Rechenzeit je Bild und Hürden (WAECHTER-LAST, WAECHTER-FUND)",
+     "detail": "ergebnis:   5. Wächter 10 Min.: Rechenzeit je Bild und Hürden (WAECHTER-LAST, WAECHTER-FUND): FEHLER – 175 Runden in 10 Min. · längste Wächter-Rechenzeit je Bild 58 ms (≤ 50) · längstes ganzes Bild 109 ms (Auskunft) · Hürden: Letzte Runde: 277 Angebote – 0 unter 30 % des Marktwerts – bei 30 %…",
+     "bericht": "AHSentinel-1795008948-7032d5-5"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.345",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "ALLES-6",
+     "name": "Prüfungen am offenen Auktionshaus",
+     "detail": "ergebnis:   6. Prüfungen am offenen Auktionshaus: FEHLER – 62 OK, 4 FEHLER, 3 übersprungen, Sandbox OK",
+     "bericht": "AHSentinel-1795008948-7032d5-5"
+    }
+   ],
    "fehler_spiel": [
     {
      "addon": "AHSentinel",
@@ -480,6 +521,46 @@
  "offen": [
   {
    "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.345",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "ALLES-1",
+   "name": "Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1)",
+   "detail": "ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 947 OK, 2 FEHLER, 29 übersprungen, Sandbox OK",
+   "bericht": "AHSentinel-1795008948-7032d5-5"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.345",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "ALLES-2",
+   "name": "Oberflächen-Prüfung (alle Reiter)",
+   "detail": "ergebnis:   2. Oberflächen-Prüfung (alle Reiter): FEHLER – 5 OK, 1 FEHLER, 0 übersprungen, Sandbox OK",
+   "bericht": "AHSentinel-1795008948-7032d5-5"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.345",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "ALLES-5",
+   "name": "Wächter 10 Min.: Rechenzeit je Bild und Hürden (WAECHTER-LAST, WAECHTER-FUND)",
+   "detail": "ergebnis:   5. Wächter 10 Min.: Rechenzeit je Bild und Hürden (WAECHTER-LAST, WAECHTER-FUND): FEHLER – 175 Runden in 10 Min. · längste Wächter-Rechenzeit je Bild 58 ms (≤ 50) · längstes ganzes Bild 109 ms (Auskunft) · Hürden: Letzte Runde: 277 Angebote – 0 unter 30 % des Marktwerts – bei 30 %…",
+   "bericht": "AHSentinel-1795008948-7032d5-5"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.345",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "ALLES-6",
+   "name": "Prüfungen am offenen Auktionshaus",
+   "detail": "ergebnis:   6. Prüfungen am offenen Auktionshaus: FEHLER – 62 OK, 4 FEHLER, 3 übersprungen, Sandbox OK",
+   "bericht": "AHSentinel-1795008948-7032d5-5"
+  },
+  {
+   "addon": "AHSentinel",
    "art": "spiel",
    "wo": "ADDON_ACTION_BLOCKED",
    "msg": "UNKNOWN()",
@@ -835,15 +916,15 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 168,
+    "anzahl": 169,
     "neueste": "testberichte/diagnose/AHSentinel/0.65.345-a586318808db.txt"
    },
    "BuffSentinel": {
-    "anzahl": 58,
-    "neueste": "testberichte/diagnose/BuffSentinel/0.9.59-b6b5fc4aa702.txt"
+    "anzahl": 59,
+    "neueste": "testberichte/diagnose/BuffSentinel/0.9.59-c385ec947a7e.txt"
    },
    "GSMesstest": {
-    "anzahl": 11,
+    "anzahl": 12,
     "neueste": "testberichte/diagnose/GSMesstest/5.1-e71680805b41.txt"
    },
    "GSSniperLog": {
@@ -851,26 +932,26 @@
     "neueste": "testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt"
    },
    "GuildSentinel": {
-    "anzahl": 169,
+    "anzahl": 170,
     "neueste": "testberichte/diagnose/GuildSentinel/0.9.57-378a0069d0d2.txt"
    },
    "LevelPilot": {
-    "anzahl": 64,
+    "anzahl": 65,
     "neueste": "testberichte/diagnose/LevelPilot/3.12.95-83602fb46706.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 149,
+    "anzahl": 150,
     "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.72-ed9a87d8c909.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 144,
+    "anzahl": 145,
     "neueste": "testberichte/diagnose/ThreatSentinel/2.5.23-e61faba6e4d4.txt"
    }
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 225,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1795007448-a8a20f.json"
+    "anzahl": 226,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1795009020-41e7f2.json"
    }
   }
  }
