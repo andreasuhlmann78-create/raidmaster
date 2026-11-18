@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-18T09:12:17Z",
+ "ausgewertet": "2026-11-18T10:12:47Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -220,30 +220,19 @@
    ]
   },
   "BuffSentinel": {
-   "berichte": 7,
+   "berichte": 8,
    "letzter_test": {
-    "id": "BuffSentinel-1794991410-35a47d-1",
-    "version": "0.9.55",
-    "time": 1794991394,
+    "id": "BuffSentinel-1794993026-810b29-1",
+    "version": "0.9.56",
+    "time": 1794993010,
     "counts": {
      "client": 10,
-     "fehler": 1,
-     "ok": 213,
+     "fehler": 0,
+     "ok": 214,
      "uebersprungen": 11
     }
    },
-   "fehler_tests": [
-    {
-     "addon": "BuffSentinel",
-     "art": "test",
-     "version": "0.9.55",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T110",
-     "name": "Speicher",
-     "detail": "ergebnis: Müll je Aufruf: Refresh 0.00 KB, RefreshGroup 0.16 KB, ScanPlayerAuras 8.33 KB (Grenzen 2/4/2 KB)",
-     "bericht": "BuffSentinel-1794991410-35a47d-1"
-    }
-   ],
+   "fehler_tests": [],
    "fehler_spiel": [
     {
      "addon": "BuffSentinel",
@@ -349,11 +338,11 @@
    ]
   },
   "LevelPilot": {
-   "berichte": 31,
+   "berichte": 35,
    "letzter_test": {
-    "id": "LevelPilot-1794991249-e42e96-3",
-    "version": "3.12.93",
-    "time": 1794991249,
+    "id": "LevelPilot-1794993402-9d85d0-3",
+    "version": "3.12.94",
+    "time": 1794993402,
     "counts": {
      "client": 0,
      "fehler": 0,
@@ -464,19 +453,30 @@
    ]
   },
   "RaidMaster": {
-   "berichte": 9,
+   "berichte": 11,
    "letzter_test": {
-    "id": "RaidMaster-1794991559-f7361f-1",
-    "version": "3.0.35",
-    "time": 1794991476,
+    "id": "RaidMaster-1794992925-b936e7-1",
+    "version": "3.0.36",
+    "time": 1794992838,
     "counts": {
      "client": 10,
-     "fehler": 0,
+     "fehler": 1,
      "ok": 138,
-     "uebersprungen": 15
+     "uebersprungen": 14
     }
    },
-   "fehler_tests": [],
+   "fehler_tests": [
+    {
+     "addon": "RaidMaster",
+     "art": "test",
+     "version": "3.0.36",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T43",
+     "name": "Test-Werkzeug selbst (ony)",
+     "detail": "lua: Interface/AddOns/RaidMaster/Test/Test.lua:1062: attempt to call a nil value",
+     "bericht": "RaidMaster-1794992925-b936e7-1"
+    }
+   ],
    "fehler_spiel": []
   },
   "ThreatSentinel": {
@@ -698,16 +698,6 @@
   },
   {
    "addon": "BuffSentinel",
-   "art": "test",
-   "version": "0.9.55",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T110",
-   "name": "Speicher",
-   "detail": "ergebnis: Müll je Aufruf: Refresh 0.00 KB, RefreshGroup 0.16 KB, ScanPlayerAuras 8.33 KB (Grenzen 2/4/2 KB)",
-   "bericht": "BuffSentinel-1794991410-35a47d-1"
-  },
-  {
-   "addon": "BuffSentinel",
    "art": "spiel",
    "wo": "Gruppe",
    "msg": "GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'\nLua Taint: BuffSentinel",
@@ -869,17 +859,27 @@
     "forever 1.60.1 (Interface 16001)"
    ],
    "stack": "[C]: in function 'pcall'\n[Interface/AddOns/ProfessionSentinel/Core.lua]:180: in function 'CountError'\n[Interface/AddOns/ProfessionSentinel/Jobs.lua]:153: in function <Interface/AddOns/ProfessionSentinel/Jobs.lua:149>\n[Interface/AddOns/ProfessionSentinel/Jobs.lua]:177: in function <Interface/AddOns/ProfessionSentinel/Jobs.lua:161>\n[Interface/AddOns/ProfessionSentinel/Jobs.lua]:203: in function <Interface/AddOns/ProfessionSentinel/Jobs.lua:182>\n[tail call]: ?\n..."
+  },
+  {
+   "addon": "RaidMaster",
+   "art": "test",
+   "version": "3.0.36",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T43",
+   "name": "Test-Werkzeug selbst (ony)",
+   "detail": "lua: Interface/AddOns/RaidMaster/Test/Test.lua:1062: attempt to call a nil value",
+   "bericht": "RaidMaster-1794992925-b936e7-1"
   }
  ],
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 165,
+    "anzahl": 166,
     "neueste": "testberichte/diagnose/AHSentinel/0.65.343-ff200e1c4d9b.txt"
    },
    "BuffSentinel": {
-    "anzahl": 55,
-    "neueste": "testberichte/diagnose/BuffSentinel/0.9.55-d3c260ecc11f.txt"
+    "anzahl": 56,
+    "neueste": "testberichte/diagnose/BuffSentinel/0.9.56-dd42a591c54e.txt"
    },
    "GSMesstest": {
     "anzahl": 11,
@@ -890,19 +890,19 @@
     "neueste": "testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt"
    },
    "GuildSentinel": {
-    "anzahl": 165,
+    "anzahl": 166,
     "neueste": "testberichte/diagnose/GuildSentinel/0.9.56-e9c08c401f87.txt"
    },
    "LevelPilot": {
-    "anzahl": 60,
-    "neueste": "testberichte/diagnose/LevelPilot/3.12.93-9331c37a2e5f.txt"
+    "anzahl": 61,
+    "neueste": "testberichte/diagnose/LevelPilot/3.12.94-300a7d932a26.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 145,
+    "anzahl": 146,
     "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.68-f6b623bc89a4.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 140,
+    "anzahl": 141,
     "neueste": "testberichte/diagnose/ThreatSentinel/2.5.21-66c8d12f9365.txt"
    }
   },
