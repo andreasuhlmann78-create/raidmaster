@@ -1,0 +1,12 @@
+AHSentinel 0.65.347 – GoldSentinelSync 3 übernommen – umgesetzt, zur Prüfung
+Bezug: auftraege/hinweis-sync3-2026-11-18.txt
+
+a) GoldSentinelSync.lua unverändert aus shared/ kopiert (VERSION 3). Neu: AHSentinelAPI.TestRunning() (true während der
+   AHSentinel-Testroutine), API.md ergänzt.
+b) Prüfungen, die das Lernen aus Nachrichten brauchen (testLearn): keine. T277 ruft GSS.Learn direkt auf (bleibt laut
+   Sync 3 unverändert), T81/T-SY erwarten kein Lernen. Angepasst: T277 N1 prüft jetzt VERSION >= 2 statt == 2
+   (sonst FAIL mit Sync 3; im Vollauf zuerst 5 Szenarien rot: s272, s318, s42, s42b, s88 – Ursache belegt, behoben).
+c) Neues Szenario s319_sync3_testrunning: 8/8; Gegenprobe mit 0.65.346 (Sync 2) schlägt fehl.
+   Vollauf 0.65.347: 393 bestanden, 0 fehlgeschlagen (vorher 392 + s319).
+Discord veröffentlicht, Release v0.65.347 auf GitHub. CurseForge nicht (erst nach Ingametest).
+Hinweis: Ingametest-Auswertung 0.65.346 (1c2a3605, 17:14) kam während der Arbeit; wird als Nächstes gelesen.
