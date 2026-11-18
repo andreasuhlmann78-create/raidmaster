@@ -4879,3 +4879,44 @@ auftraege/hinweis-spieler-ohne-testbefehle-2026-11-18.txt umsetzen: jede Spieler
 
 ==== HINWEIS 18.11.2026 13:55 – TESTDATEN IM SYNC-ADRESSBUCH ====
 auftraege/hinweis-sync-testdaten-2026-11-18.txt prüfen und im nächsten Bericht beantworten (auch "nicht betroffen" mit Beleg).
+
+==== INGAMETEST 18.11.2026 14:40 – AHSentinel 0.65.345 "/ahs testroutine alles" (Laptop, Priester 10, AH offen; Bericht 14:29) ====
+Gesamt: 1039 OK · 7 FEHLER · 38 übersprungen. Vergleich 0.65.343 um 09:29: 1031 OK · 11 FEHLER · 42 übersprungen.
+Teile: 1 (2 FEHLER) · 2 (1 FEHLER) · 5 Wächter FEHLER · 6 (4 FEHLER) · 3/4 bestanden · 7/8/9 vorgemerkt. Sandbox überall OK. TU6 58/58.
+Die Einzelbefunde der Teile 1 und 2 kommen mit dem Upload. Im Bericht für jeden FEHLER Ursache und Behebung angeben.
+GUT: T21 ist nicht mehr unter den Schritten über 16 ms (09:29: 716 ms). Silberrute (T72) und T49 erscheinen nicht mehr als FEHLER.
+SK1-r "Heute tun" ist stimmig.
+HOCH:
+1. T40 Sniper-Suche und T45 Wächter-Runde: Zeitüberschreitung nach 45 s bzw. 120 s. Zustand bei Abbruch: "Warteschlange = false, Suche =
+   false, Einkauf loading = nil". Es lief also KEINE Suche, und es wartete auch keine. Ursache belegen. Ging die Anfrage nie raus? Blieb eine
+   Sperre stehen, etwa vom Schnell-Vollscan kurz davor (Server-Abstand 14 Min.)? Wurde die Antwort einem anderen Auftrag zugeordnet?
+   Regel (Erste Direktive): keine Sperre ohne Zeitlimit. Muss die Prüfung wegen einer Server-Sperre warten, meldet sie "nicht prüfbar:
+   <Grund>" statt FEHLER, nach Bauart von Teil 7. Gegenprobe: Ein echtes Ausbleiben der Antwort bleibt FEHLER.
+2. Wächter 10 Min.: Die längste Wächter-Rechenzeit je Bild ist von 54 ms (09:29) auf 58 ms gestiegen, Grenze ≤ 50. Längstes ganzes Bild
+   109 ms (Auskunft). Die Behebung von HOCH 3 aus 0.65.344 (Rundenende als Aufgabe) wirkt im Spiel nicht. Belegen, welches Etikett die 58 ms
+   hatte, und in Portionen teilen.
+3. T459 Vollscan-Speicher (3. Scan der Sitzung): eigener neuer Speicher ohne gelesene Auktionen 27 237 KB, Grenze ≤ 10 240 KB.
+   Im Nachbau meldete 0.65.344 12,96 MB, im Spiel sind es 27 MB. Den Unterschied zwischen Nachbau und Spiel belegen.
+   Aufteilung im Spiel: Einlesen 22 164 KB · Verdichtung 10 683 · Preisverlauf+Neuaufbau 8 710 · Verfolgung V4 6 278 · Nachlauf 563.
+   Die Zeile "Bilder über 40 ms mit Bereinigung" ist im Bericht abgeschnitten. Bitte vollständig ausweisen.
+MITTEL:
+4. T126 Scan-Auswertung: Mittel der 3 längsten Portionen 23,5 ms (09:29: 21,4), längste 26,7 ms. Soll ≤ 8 ms, längste ≤ 16 ms.
+   Wird mit jeder Version schlechter. Die Täter nennt der Bericht selbst:
+   - cache:today:10 27 ms bis UI_MarketView.lua:693
+   - sync-send 23 ms bis Sync.lua:191
+   - ui:overview-movers 16 ms
+   Diese drei in Portionen teilen.
+5. Vollscan-Messung: Längster Frame beim Einlesen 804 ms (09:29: 722). Eigene Arbeit je Bild im Schnitt 3,1 ms, höchstens 9 ms. Damit
+   gilt die Antwort vom 11:45: kein FEHLER von AHSentinel, aber der Täter muss genannt werden (Speicher je Addon vor und nach der Lücke).
+   Im Bericht steht diese Zuordnung noch nicht. Bitte mit der Zahl je Addon nachliefern, damit die Prüf-Sitzung den Verdacht auf
+   GoldSentinelMarkt prüfen kann.
+6. Schritte über 16 ms: 5 -> 7 (T126 118, T26a 114, T32 55, S28 49, T26b 31, T25j 28, T25c 16). T26a ist von 47 auf 114 gestiegen.
+   Ursache belegen.
+7. SK1-m "Herstellen ohne Rezept: Zauber 3100 (Schmiedekunst)" um 13:49. Das war der Ingametest von ProfessionSentinel: Der Nutzer hat dabei
+   das Berufsfenster geöffnet. 3100 ist der Rang-Zauber von Schmiedekunst. Ihn zu wirken ÖFFNET das Berufsfenster, das ist kein Herstellen.
+   Verdacht, zu messen: Die Behebung aus 0.65.344 ("nur bei offenem Berufsfenster") lässt genau den Zauber durch, der das Fenster öffnet.
+   Berufs-Rang-Zauber (Fenster öffnen) nie als Herstellen buchen. Test mit Gegenprobe: Rang-Zauber -> nichts gebucht, echtes Rezept ->
+   gebucht. Klären, ob ProfessionSentinelAPI.TestRunning() um 13:49 true war.
+8. PRÜFLISTE TR-ALLES zeigt weiter den Lauf von 09:31 (1031 OK, 11 FEHLER). Der Lauf von 14:29 wurde nicht eingetragen.
+   (Derselbe Befund steht heute auch bei ProfessionSentinel.) Belegen, warum, und beheben.
+Alte Fälle unverändert (Masterplan): SK1-e Tagesbilanz 14./15.11., SK1-f Lager (279972, 2589, 7048), SK1-n Verkaufsdauer.
