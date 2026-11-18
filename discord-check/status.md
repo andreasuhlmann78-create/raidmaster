@@ -1,6 +1,6 @@
 # Discord-Prüfung
 
-Geprüft: 2026-11-18T19:32:44Z (Commit 698caf3), Server: Alpine Vanguard
+Geprüft: 2026-11-18T20:13:03Z (Commit 405a640), Server: Alpine Vanguard
 
 **Ergebnis: ❌ es fehlt etwas**
 
@@ -17,15 +17,15 @@ Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 4
 
 | | Datei | Kanal | Abdeckung | seit Push |
 |---|---|---|---|---|
-| ✅ ok | ahsentinel__ahsentinel-0.65.348.md | #ahsentinel | 100 % | 45 Min. |
+| ✅ ok | ahsentinel__ahsentinel-0.65.349.md | #ahsentinel | 100 % | 35 Min. |
 | ✅ ok | ahsentinel__ahsentinel-0-vorstellung-1.8.md | #ahsentinel | 100 % | 9 Tage |
 | ✅ ok | ahsentinel__ahsentinel-hilfe-1.0.md | #ahsentinel | 100 % | 14 Tage |
 | ✅ ok | barrow-taktik__uebersicht-1.1.md | #barrow-taktik | 100 % | 15 Tage |
-| ✅ ok | buffsentinel__buffsentinel-0.9.60.md | #buffsentinel | 100 % | 4 Std. |
-| ✅ ok | guildsentinel__guildsentinel-0.9.58.md | #guildsentinel | 100 % | 5 Std. |
+| ✅ ok | buffsentinel__buffsentinel-0.9.60.md | #buffsentinel | 100 % | 5 Std. |
+| ✅ ok | guildsentinel__guildsentinel-0.9.58.md | #guildsentinel | 100 % | 6 Std. |
 | ✅ ok | hyjal-taktik__uebersicht-1.1.md | #hyjal-taktik | 100 % | 15 Tage |
-| ✅ ok | levelpilot__levelpilot-3.12.98.md | #levelpilot | 100 % | 35 Min. |
-| ⚠️ veraltet | levelpilot__levelpilot-uebersicht-3.12.94.md | #levelpilot | 95 % | 10 Std. |
+| ✅ ok | levelpilot__levelpilot-3.12.98.md | #levelpilot | 100 % | 76 Min. |
+| ⚠️ veraltet | levelpilot__levelpilot-uebersicht-3.12.94.md | #levelpilot | 95 % | 11 Std. |
 | ✅ ok | lore__alpine-vanguard-vorstellung-1.0.md | #lore | 100 % | 17 Tage |
 | ✅ ok | mc-feuerresi__feuerresi-1.1.md | #mc-feuerresi | 100 % | 15 Tage |
 | ✅ ok | onyxia-feuerresi__feuerresi-1.0.md | #onyxia-feuerresi | 100 % | 21 Tage |
