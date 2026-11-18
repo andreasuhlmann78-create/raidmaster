@@ -1,0 +1,45 @@
+BuffSentinel – Bericht an die Prüf-Sitzung · 0.9.60-sync3-testdaten
+Datum: 18.11.2026, 15:53 (aus date)
+
+Version 0.9.60 (download/BuffSentinel-0.9.60.zip, md5 e469d421…, download = announce byte-gleich, addon_check OK, einzige
+Warnung wie immer "Lua-Syntax nicht geprüft"; Offline 8/8 PASS). Umgesetzt, zur Prüfung. Änderungen nur das Nötige (Entscheid 15:19):
+GoldSentinelSync.lua = shared/ Version 3 (byte-gleich), T155 in SelfTest.lua, ein neuer Text (T155_RESULT). Sonst kein Code geändert.
+
+(1) ANTWORT HINWEIS 13:55 (Testdaten im Sync-Adressbuch) – BuffSentinel ist BETROFFEN (T155)
+Suche in SelfTest.lua nach OnAddonMessage / Learn / NetSend / Tick / Pump / CHAT_MSG_ADDON / book:
+- T155 (T-N2): S.OnAddonMessage("BuffSentinel", "#S1:…", "WHISPER", "Testa Beispiel") -> Sync lernt "Testa Beispiel" ins ECHTE
+  gemeinsame Buch. Der alte T155 löschte den Eintrag nur, wenn er vorher NICHT da war. War er schon da (z. B. von LevelPilot oder einem
+  abgebrochenen Lauf), setzte T155 ihn auf v = 2, src = "net", fail = 0, pause = 0 und LIESS IHN SO STEHEN – ein aktives Ziel des
+  Flüster-Netzes. Ausserdem stieg S.stats.net.learned dauerhaft.
+  Beleg (Nachbau, Buch vorher mit { fail 3, pause 9, src guild, v 0 } für "Testa Beispiel"):
+    alter T155 mit Sync 2: nachher fail 0 pause 0 src net v 2 seen <jetzt>   <- falsch
+    alter T155 mit Sync 3: nachher fail 0 pause 0 src net v 2                <- auch mit Sync 3 falsch (direkte Änderung im Test)
+    neuer T155:            nachher fail 3 pause 9 src guild v 0 seen 5      <- genau wie vorher
+  "Testa Beispiel" ist BuffSentinels TEST_PEER (SelfTest.lua); die Einträge im Laptop-Buch mit src "guild" und seen 14:05:34 passen zur
+  LevelPilot-Routine, BuffSentinel kann sie aber am Leben gehalten haben. Verdacht, zu messen: ob BuffSentinels Lauf 13:42 den Eintrag
+  verändert hat, lässt sich aus den Laptop-Daten nur mit dem Stand VOR 13:42 klären.
+- T151: OnAddonMessage mit Absender nil -> Sync lernt nichts (Learn(nil) bricht ab); S.peers wird zurückgestellt. Nicht betroffen.
+- T150/T153/T156: Senden nur über WithSyncApi (ersetztes S.api.send, Warteschlangen und Zähler getauscht und zurück). Nicht betroffen.
+- T41/T42/T64/T108: BS:CHAT_MSG_ADDON ist BuffSentinels eigener Empfang (Names.lua), nicht Sync; kein Buch. Nicht betroffen.
+- T178–T180 (GoldSentinelMarkt): GM.ep und GM.api ersetzt, nichts geht an Sync. Nicht betroffen.
+Punkt 2 (eigenes gsSync.book): BuffSentinel lädt beim Nutzer nicht zuerst (Laptop-Buch liegt in ThreatSentinel.lua, Ingametest 18.11.
+"Speicher: geteilt"). In BuffSentinelDB.gsSync stehen darum keine aktuellen Einträge; die hochgeladenen Daten habe ich nicht (Uploader),
+bitte bei der nächsten Prüfung in BuffSentinel.lua nach "Testa Beispiel" schauen.
+
+Neuer T155:
+- Buch (DeepCopy) und S.stats.net.learned vorher sichern; Test läuft in Sliced (fängt Fehler OHNE pcall, Lua-5.1-Regel); danach Buch
+  GENAU wiederherstellen (neue Schlüssel weg, alte Einträge zurück), Zähler zurück, S.peers[sid] weg – auch wenn der Test fehlschlägt.
+- Prüfung "Adressbuch vor/nach gleich" (FirstDiff in beide Richtungen) mit Gegenprobe "der Test hat das Buch verändert" (sonst prüft der
+  Vergleich nichts). Ergebnis Nachbau: "gespeichert ja · Flüstern ohne/mit Netz 0/1 · Adressbuch vor/nach gleich ja · Gegenprobe ja".
+
+(2) HINWEIS 15:45 – GoldSentinelSync 3
+a) shared/GoldSentinelSync.lua byte-gleich kopiert (cmp vor dem Packen, addon_check).
+b) Prüfungen, die das Lernen aus einer Nachricht brauchen: NUR T155. Sie setzt GoldSentinelSync.testLearn = true über With(…, S) –
+   nur in den Bildern dieses Tests, danach wieder der alte Wert. Keine weiteren.
+   Gegenprobe: ohne testLearn mit Sync 3 -> T155 FEHLER "gespeichert nein · 0/0" (Sync 3 lernt während der Testroutine nicht,
+   BuffSentinelAPI.TestRunning() = true) – der Schutz greift also auch für BuffSentinels Lauf.
+c) Ganze Testroutine im Nachbau, Sync 2 gegen Sync 3 (gleicher Code sonst): alle 8 Läufe (forever/era/tbc/retail × deDE/enUS) gleiche
+   Zahlen: forever 241 Prüfungen, sonst 240 · TU-FEHLER 0 · Nachbau-Abweichungen 6 (alle erwartet) · Fehlerfenster 0 · PASS.
+   T154 zeigt "GoldSentinelSync 3 · GoldSentinelTest 2", T156 (Diagnose NETZ) OK.
+
+Ingametest: 0.9.60 hat eine Code-Änderung (T155 + Sync 3) und braucht nach dem Entscheid 15:19 wieder eine Runde.
