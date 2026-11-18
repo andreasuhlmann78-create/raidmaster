@@ -624,3 +624,19 @@ auftraege/hinweis-nutzung-sparen-2026-11-18.txt: keine automatischen Runden und 
 - addon_check OK, md5 b0b73147…. Umsetzung des Entscheids angenommen: 16 Forever-Zeilen markiert, ns.ColorsUnknown/ColorsMeasured, T258 mit Gegenprobe.
 - ENTSCHEID zur Frage Era/Retail: JA, dieselbe Regel für alle Spielversionen. Eine unmögliche Farbstufe ist überall unmöglich. Mit der nächsten Version, kein eigenes Release nur dafür.
 - Beim Nutzer installiert (Laptop, diff 0).
+
+==== INGAMETEST 18.11.2026 19:30 – ProfessionSentinel 0.9.74 "/ps testroutine alles" (PC zu Hause, Priester 10, Berufsfenster offen; Bericht 19:21) ====
+OK 249 · FEHLER 2 · übersprungen 18 · im Client 10 · Sandbox OK · 173 s · Abgabe nicht möglich 2 (vorher mehr).
+GUT: Die Messung je Teil wirkt. Der Speicher-Täter ist belegt: "Liste recipes" mit 53 407 KB bei 20 Refreshes. Alle anderen Teile
+zusammen unter 2,2 MB.
+FEHLER:
+1. HOCH – Speicher "Liste recipes" 53 MB bei 20 Refreshes, also etwa 2,7 MB je Refresh. Jetzt, wo der Täter belegt ist: die Liste nicht
+   neu anlegen, sondern Tabellen wiederverwenden (leistung.md). Ziel ist nahe 0 KB je Refresh ohne Änderung. Test mit Gegenprobe.
+2. MITTEL – T192 "20 Ereignisse in 1 s -> höchstens 3 Neuaufbauten": "Zwischenspeicher: 2× gerechnet". Dazu T259 (Regression
+   N0.9.22-a/T192) als Folge. Ursache belegen. Hängt es mit dem offenen Berufsfenster bzw. diesem Rechner zusammen?
+3. HOCH – Bilder über 40 ms: 11, mit ungewöhnlich langen Fällen: T38 541 ms (!), T292 283 ms, T46 222 ms, T240 103 ms, T243 97 ms,
+   T246 78 ms, T210 75 ms, T255 65 ms, T192 61 ms, T258 52 ms, T256 43 ms.
+   T38 mit über einer halben Sekunde ist neu: Ursache belegen. Das Berufsfenster war offen, eventuell gab es einen Neuaufbau der
+   Berufsdaten im Test. Auch "Aufgabe heute" hat einen Teil mit 22,7 ms, Grenze 16 ms.
+4. MITTEL – PRÜFLISTE TR zeigt weiter "17.11. 20:23 – 225 bestanden, 23 Fehler", der Lauf von 19:21 ist nicht eingetragen. In 0.9.73
+   als behoben gemeldet (T285). Im Spiel auf diesem Rechner nicht wirksam. Belegen, warum T285 das nicht fängt.
