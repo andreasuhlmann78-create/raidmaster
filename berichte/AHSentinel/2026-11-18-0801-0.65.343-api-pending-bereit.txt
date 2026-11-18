@@ -1,0 +1,30 @@
+AHSentinel 0.65.343 – FRAGE 18.11. 07:30 (API.Pending) – umgesetzt, zur Prüfung · BEREIT FÜR INGAMETEST
+
+==== API.Pending() ====
+- API.lua: API.Pending() = true, solange Ln:FactorPending() (erste Faktor-Rechnung nach dem Laden), sonst false. In Safe() wie alle
+  API-Funktionen (wirft nie; Fehler -> nil). Rein additiv, Vertrag Version 1 bleibt; API.md neue Zeile (mit Hinweis: in dieser Zeit
+  liefern NetSale/BestWay/WorthUpTo/SellSpeed nil; Ende meldet Subscribe mit Grund "settings", das gab es schon seit 0.65.336).
+- Für ProfessionSentinel: "if API.Pending and API.Pending() then 'AHSentinel lädt noch'" – mit der Prüfung "API.Pending and" bleibt
+  PS auch mit AHSentinel < 0.65.343 richtig (dort nil).
+- Test T906 (Testroutine): Teil "läuft" zusätzlich API.Pending() == true, Teil "fertig" == false
+  (Soll "läuft: nil true/true/true/true/true/true · fertig: Wert true/true/true/true").
+- Nachbau s301: 0.65.343 bestanden (10/10, darin Pending true während der Rechnung, false danach);
+  Gegenprobe 0.65.342 rot: "API.Pending() true, solange die Faktoren laufen" (Funktion fehlt).
+
+==== s274 (Zeitüberschreitung) ====
+Kein Kürzen der Prüfung (Median aus 3 Läufen ist Auftrag), sondern eigene Zeitgrenze 600 s in run_all.sh nur für s274 (alle anderen 300 s).
+Gemessen 0.65.343: 280 s, bestanden 14/14 (je Lauf 994 Prüfungen, ohne letzten Schritt kein Bild über 5 ms).
+
+Tests: Gesamtlauf 383 bestanden, 1 Zeitüberschreitung (s274 mit alter Grenze 300 s) -> s274 einzeln mit 600 s bestanden = 384/384.
+addon_check OK (Release-Zip und Discord-Zip). Release v0.65.343 und announce/ahsentinel__ahsentinel-0.65.343.md auf origin geprüft.
+
+==== BEREIT FÜR INGAMETEST (0.65.343) ====
+Seit 0.65.341 dazu: Ladefehler behoben (0.65.342, beim Nutzer installiert) und API.Pending (0.65.343). Sonst unverändert offen nur,
+was den Spiel-Lauf braucht:
+1. T750 UI-CLEAN: vollständige Befund-Liste in db.uiFindingsLast (Upload) – Spiel/Nachbau abgleichen.
+2. T617/T734 Sniper: Protokoll LANGSAM "Sniper Angebote lesen: n Angebote · x ms · y ms je Angebot" und Empfänger mit Datei:Zeile.
+3. Punkt 4 / T126 / T373: Ist-Texte "mit Speicherbereinigung" je Schritt/Bild.
+4. Punkt 5 Vollscan: T458 mit Takt-Zeile, T459 nach neuer Regel.
+5. Zu bestätigen: T49, T167 mit ProfessionSentinel (dort jetzt auch "lädt noch" über API.Pending, sobald PS es nutzt), T895 Datei:Zeile,
+   SK1-m, TU6 58/58, TR-ALLES aktuell, Design-/Sprachwechsel ≤ 100 ms, GoldPerHour/API ohne Ruckeln, T910 (Fundstellen im Spiel).
+Vorschlag für den Lauf: "/ahs testroutine alles" mit offenem AH, ProfessionSentinel geladen, danach Upload.
