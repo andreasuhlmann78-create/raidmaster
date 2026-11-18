@@ -1,0 +1,157 @@
+BERICHT THREATSENTINEL 2.5.22 – OPT-ALLE: Optionen nach Vorbild AHSentinel (auftraege/anweisung-optionen-nach-ahs-2026-11-18.txt)
+Stand: umgesetzt, zur Prüfung (keine Selbst-Freigabe). Laufende HOCH-Punkte: keine (2.5.21 im Spiel 301/301, ohne Befund).
+Veröffentlicht: download/ThreatSentinel-2.5.22.zip (addon_check "## ThreatSentinel-2.5.22.zip: OK"),
+announce/threatsentinel__threatsentinel-2.5.22.md. Gemeinsame Dateien cmp gleich mit shared/.
+Offline ("alles", veröffentlichte ZIP): Forever OK 302 · FEHLER 6 · übersprungen 19 · im Client 16; Era OK 306 · FEHLER 6 ·
+übersprungen 13 · im Client 17; je "FEHLER ausserhalb der Nachbildungs-Liste: 0" (6 = bekannte Fälle der Nachbildung).
+Vorbild angesehen: download/AHSentinel-0.65.265.zip, UI_Main.lua (OPT-1) – nur gelesen, eigener Code geschrieben.
+
+SCHRITT 1 – BESTANDSAUFNAHME (vor dem Umbau, Stand 2.5.21)
+Fenster 780×540, 8 Seiten mit je ZWEI Spalten (COL2 = 300), Bedienelemente unterschiedlich (Haken, Regler mit -/+/Feld,
+Durchschalt-Knopf, Farbfeld, Ton-Knopf, Textfeld, Tasten-Knopf, Knopfreihe), Erklärungen als lange Beschriftung bzw. Textblöcke
+(O_SOUND_HELP 143, O_KEY_HELP 312, O_GROUP_HELP 244 Zeichen). Überschriften (H_*) je Gruppe vorhanden; Donate doppelt
+(Titelleiste UND Seite 1 – jetzt nur noch als Zeile). n alt = 103 Bedienelemente (Seite 1: 22, 2: 23, 3: 10, 4: 14, 5: 2, 6: 4, 7: 18, 8: 10).
+Beschriftungen über 28 Zeichen (DE/EN): 52 (u. a. O_AUTONP 51, O_DIAG 56, O_MEMBERVIEW 70, O_DUNGEON 68, O_REGAINTEXT 59).
+Abgeschnitten/überdeckt: im Spiel nur für die gerade offene Seite geprüft (T183 TextFits) – keine Meldung in den letzten Läufen;
+alle Seiten einzeln wurden nie geprüft (jetzt T-OPT7).
+
+Liste alt -> neu (jede Option genau einmal; Schlüssel in ns.db unverändert):
+Nr | Schlüssel/Id | alter Ort (Seite) | alte Beschriftung (lang) | neuer Bereich | Weitere? | neue Beschriftung
+  1 | enabled | Allgemein | Addon aktiviert | Allgemein | - | Addon aktiv
+  2 | activeOnlyTank | Allgemein | Nur in Tank-Haltung / -Gestalt aktiv | Allgemein | - | Nur in Tank-Haltung
+  3 | activeSolo | Allgemein | Auch ohne Gruppe aktiv | Allgemein | - | Auch ohne Gruppe
+  4 | autoEnableNameplates | Allgemein | Gegnerische Namensplaketten automatisch einschalten | Allgemein | - | Gegner-Plaketten einschalten
+  5 | myRole | Allgemein | Meine Rolle, wenn ich nicht tanke | Allgemein | - | Meine Rolle (nicht Tank)
+  6 | preset | Allgemein | Setzt mehrere Optionen auf einmal: dezent, Standard oder lau | Allgemein | - | Voreinstellung
+  7 | minimapShow | Anzeigen | Minimap-Knopf anzeigen | Allgemein | - | Minimap-Knopf
+  8 | cmdHint | Allgemein | Befehlsliste beim Tippen von /ts im Chat | Allgemein | - | Befehlsliste im Chat
+  9 | donate | Allgemein | ThreatSentinel mit einer Spende unterstützen (PayPal). | Allgemein | - | Addon unterstützen
+ 10 | sharedProfile | Allgemein | Gemeinsames Profil für alle Charaktere (lädt neu) | Allgemein | ja | Ein Profil für alle Chars
+ 11 | tauntOverride | Allgemein | Name des Spott-Zaubers (leer = automatisch) | Allgemein | ja | Name des Spott-Zaubers
+ 12 | detected | Allgemein | Erkannt - Spott: %s, Flächenspott: %s | Allgemein | ja | Erkannte Zauber
+ 13 | threatMode | Allgemein | WoW Forever: Automatisch = volle Anzeige, wo das Spiel es er | Allgemein | ja | Bedrohungsmodus
+ 14 | blizzThreat | Allgemein | Modus Anzeige: Blizzards Bedrohungsanzeigen einschalten | Allgemein | ja | Blizzards Bedrohungsanzeige
+ 15 | threatCheck | Allgemein | Prüft, was das Spiel ThreatSentinel lesen lässt, und zeigt e | Allgemein | ja | Bedrohung prüfen
+ 16 | diagSend | Allgemein | Diagnose-Protokoll automatisch senden (mit dem Uploader) | Allgemein | ja | Diagnose automatisch senden
+ 17 | diagShow | Allgemein | Diagnose-Protokoll zeigen | Allgemein | ja | Diagnose-Protokoll
+ 18 | marketShare | Allgemein | Marktdaten teilen (anonym, nur Preise) | Allgemein | ja | Marktdaten teilen
+ 19 | testCenter | Allgemein | Testzentrale öffnen | Entwickler | - | Testzentrale
+ 20 | dungeonCheck | Allgemein | Automatisch prüfen, wenn ich eine Ini tanke (Bericht beim Ve | Entwickler | - | Ini-Prüfung automatisch
+ 21 | dungeonCheckRaid | Allgemein | Auch im Schlachtzug | Entwickler | - | Auch im Schlachtzug
+ 22 | dungeonShots | Allgemein | Bilder während der Prüfung | Entwickler | - | Bilder während der Prüfung
+ 23 | dungeonLast | Allgemein | Letzten Bericht zeigen | Entwickler | - | Letzter Ini-Bericht
+ 24 | heldPlateAlpha | Plaketten | Deckkraft gehaltener Plaketten | Plaketten | - | Gehaltene: Deckkraft
+ 25 | heldHealthAlpha | Plaketten | Deckkraft ihres Lebensbalkens | Plaketten | - | Gehaltene: Lebensbalken
+ 26 | heldScale | Plaketten | Grösse gehaltener Plaketten | Plaketten | - | Gehaltene: Grösse
+ 27 | warnThreshold | Plaketten | Vorwarnung ab DD-Bedrohung von | Plaketten | - | Vorwarnung ab DD-Bedrohung
+ 28 | warnBlink | Plaketten | Bald Aggro: Plakette voll sichtbar, Rahmen blinkt | Plaketten | - | Bald Aggro: Rahmen blinkt
+ 29 | loosePulse | Plaketten | Rahmen pulsiert | Plaketten | - | Lose: Rahmen pulsiert
+ 30 | looseFire | Plaketten | Lose Mobs brennen (Flammen um die Plakette) | Plaketten | - | Lose: Flammen
+ 31 | looseScale | Plaketten | Vergrösserung loser Plaketten | Plaketten | - | Lose: Vergrösserung
+ 32 | showHints | Plaketten | Hinweise unter der Plakette | Plaketten | - | Hinweise unter der Plakette
+ 33 | effectGlow | Plaketten | Leuchten und Druckwelle (bald Aggro / Aggro weg) | Plaketten | - | Leuchten und Druckwelle
+ 34 | outOfCombatMode | Plaketten | Mobs ausserhalb des Kampfs | Plaketten | ja | Mobs ausserhalb des Kampfs
+ 35 | borderSize | Plaketten | Rahmenstärke | Plaketten | ja | Rahmenstärke
+ 36 | deficitThreshold | Plaketten | „%s“ ab eigener Bedrohung von | Plaketten | ja | Bedrohungs-Hinweis ab
+ 37 | showSunder | Plaketten | Rüstung-zerreissen-Stapel anzeigen (Krieger) | Plaketten | ja | Rüstung-zerreissen-Stapel
+ 38 | showTankStripe | Plaketten | Tank-Farbstrich anzeigen | Plaketten | ja | Tank-Farbstrich
+ 39 | ignoreCC | Plaketten | Kontrollierte Mobs ignorieren | Plaketten | ja | Kontrollierte ignorieren
+ 40 | petsSafe | Plaketten | Mobs auf Begleitern gelten als sicher | Plaketten | ja | Mobs auf Begleitern sicher
+ 41 | effectStrength | Plaketten | Stärke der Effekte (Flammen, Leuchten) | Plaketten | ja | Stärke der Effekte
+ 42 | colorDD | Plaketten | Klicken, um die Farbe zu wählen. | Farben | - | DD angegriffen
+ 43 | colorHealer | Plaketten | Klicken, um die Farbe zu wählen. | Farben | - | Heiler angegriffen
+ 44 | colorWarn | Plaketten | Klicken, um die Farbe zu wählen. | Farben | - | Vorwarnung
+ 45 | colorRegain | Plaketten | Klicken, um die Farbe zu wählen. | Farben | - | Aggro zurück
+ 46 | colorClaimed | Plaketten | Klicken, um die Farbe zu wählen. | Farben | - | Von anderem Tank übernommen
+ 47 | sound | Töne | Töne aktiv | Töne | - | Töne aktiv
+ 48 | soundDD | Töne | Klicken, um den Ton zu wählen; „Test“ spielt ihn ab. | Töne | - | DD angegriffen
+ 49 | soundHealer | Töne | Klicken, um den Ton zu wählen; „Test“ spielt ihn ab. | Töne | - | Heiler angegriffen
+ 50 | soundWarn | Töne | Vorwarnung (gelber Rand) | Töne | - | Vorwarnung
+ 51 | soundResist | Töne | Klicken, um den Ton zu wählen; „Test“ spielt ihn ab. | Töne | - | Spott widerstanden
+ 52 | regainSound | Töne | Ton, wenn die Aggro zurück ist | Töne | - | Ton bei „Aggro zurück“
+ 53 | soundRegain | Töne | Klicken, um den Ton zu wählen; „Test“ spielt ihn ab. | Töne | - | Aggro zurück
+ 54 | soundEmergency | Töne | Klicken, um den Ton zu wählen; „Test“ spielt ihn ab. | Töne | - | Notfall / Tank betäubt
+ 55 | soundDDWarn | Töne | DD-Ansicht: du ziehst gleich | Töne | - | DD-Ansicht: gleich Aggro
+ 56 | soundChannel | Töne | Über welche Lautstärke des Spiels die Töne laufen (Gesamt, E | Töne | - | Tonkanal
+ 57 | chatChannel | Meldungen | Wohin ThreatSentinel seine Chat-Meldungen schickt (widerstan | Meldungen & Hilfen | - | Meldungen senden an
+ 58 | announceResist | Meldungen | Widerstandenen Spott melden | Meldungen & Hilfen | - | Widerstandenen Spott melden
+ 59 | announceCC | Meldungen | Melden, wenn ich kontrolliert bin | Meldungen & Hilfen | - | Kontrolle melden
+ 60 | regainText | Meldungen | Text bei „Aggro zurück“ (sonst nur Aufblitzen der Plakette) | Meldungen & Hilfen | - | Text bei „Aggro zurück“
+ 61 | centerSize | Meldungen | Die Meldung in der Bildschirmmitte (z. B. „Aggro weg“). | Meldungen & Hilfen | - | Mitte: Schriftgrösse
+ 62 | centerY | Meldungen | Höhe (0 = Bildschirmmitte) | Meldungen & Hilfen | - | Mitte: Höhe
+ 63 | centerTest | Meldungen | Die Meldung in der Bildschirmmitte (z. B. „Aggro weg“). | Meldungen & Hilfen | - | Mitte: Beispiel
+ 64 | aoeHint | Meldungen | Flächenspott-Hinweis | Meldungen & Hilfen | - | Flächenspott-Hinweis
+ 65 | healerRange | Meldungen | Warnen, wenn ein Heiler ausser Reichweite ist | Meldungen & Hilfen | - | Heiler ausser Reichweite
+ 66 | emergency | Meldungen | Notfall-Hinweis (Verteidigungs-Cooldown) | Meldungen & Hilfen | - | Notfall-Hinweis
+ 67 | ccMinDuration | Meldungen | Nur Effekte länger als (Sek.) | Meldungen & Hilfen | ja | Kontrolle: mindestens (Sek.)
+ 68 | aoeThreshold | Meldungen | Ab losen Mobs | Meldungen & Hilfen | ja | Flächenspott ab losen Mobs
+ 69 | emergencyHP | Meldungen | Bei Leben unter (%) | Meldungen & Hilfen | ja | Notfall bei Leben unter
+ 70 | healerHeuristic | Meldungen | Heiler anhand der Klasse erraten | Meldungen & Hilfen | ja | Heiler nach Klasse erraten
+ 71 | hud | Anzeigen | Kleines HUD anzeigen | Anzeigen | - | Kleines HUD
+ 72 | hudHealer | Anzeigen | Auch als Heiler: wer hat Aggro (zuerst heilen) | Anzeigen | - | HUD auch als Heiler
+ 73 | meter | Anzeigen | Aggrometer anzeigen | Anzeigen | - | Aggrometer
+ 74 | meterOnlyTank | Anzeigen | Nur wenn ich tanke | Anzeigen | - | Aggrometer nur als Tank
+ 75 | meterOnlyCombat | Anzeigen | Nur im Kampf | Anzeigen | - | Aggrometer nur im Kampf
+ 76 | ddView | Anzeigen | DD-Ansicht, wenn ich nicht tanke | Anzeigen | - | DD-Ansicht (nicht Tank)
+ 77 | ddSound | Anzeigen | Ton bei DD-Warnung | Anzeigen | - | Ton bei DD-Warnung
+ 78 | move | Anzeigen | Fenster verschieben / Grösse ändern | Anzeigen | - | Fenster verschieben
+ 79 | resetPos | Anzeigen | Positionen zurücksetzen | Anzeigen | - | Positionen zurücksetzen
+ 80 | hudScale | Anzeigen | HUD-Grösse | Anzeigen | ja | HUD-Grösse
+ 81 | hudMaxRows | Anzeigen | Max. Zeilen | Anzeigen | ja | HUD: max. Zeilen
+ 82 | meterRows | Anzeigen | Max. Zeilen | Anzeigen | ja | Aggrometer: max. Zeilen
+ 83 | meterScale | Anzeigen | Aggrometer-Grösse | Anzeigen | ja | Aggrometer-Grösse
+ 84 | meterWidth | Anzeigen | Aggrometer-Breite | Anzeigen | ja | Aggrometer-Breite
+ 85 | ddScale | Anzeigen | DD-Ansicht-Grösse | Anzeigen | ja | DD-Ansicht-Grösse
+ 86 | ddWidth | Anzeigen | DD-Ansicht-Breite | Anzeigen | ja | DD-Ansicht-Breite
+ 87 | ddWarn | Anzeigen | DD-Warnung ab (%) | Anzeigen | ja | DD-Warnung ab (%)
+ 88 | memberView | Gruppe | Gefahr auf den Plaketten zeigen (bald Aggro = orange, Aggro  | Gruppe | - | Gefahr auf den Plaketten
+ 89 | memberSelfWarn | Gruppe | Warnton und Meldung, wenn ich selbst Aggro habe | Gruppe | - | Warnung bei eigener Aggro
+ 90 | specCheck | Gruppe | Skillung der Mitspieler prüfen (Rolle aus den Talenten) | Gruppe | - | Skillung prüfen
+ 91 | roles | Gruppe | Erkannte Rollen | Gruppe | - | Erkannte Rollen
+ 92 | dmgMeter | Gruppe | DD: Schadensmeter - Heiler: Heilmeter | Gruppe | - | Schadens-/Heilmeter
+ 93 | dmgMeterGroupOnly | Gruppe | Nur in einer Gruppe | Gruppe | - | Meter nur in der Gruppe
+ 94 | dmgMeterTank | Gruppe | Schadensmeter auch als Tank | Gruppe | - | Schadensmeter auch als Tank
+ 95 | dmgRows | Gruppe | Zeilen | Gruppe | ja | Meter: Zeilen
+ 96 | dmgScale | Gruppe | Meter-Grösse | Gruppe | ja | Meter-Grösse
+ 97 | dmgWidth | Gruppe | Meter-Breite | Gruppe | ja | Meter-Breite
+ 98 | keyTaunt | Tasten | Fahre mit der Maus über einen leuchtenden Mob und drücke die | Tasten | - | Spott auf Mauszeiger
+ 99 | keyAoe | Tasten | Fahre mit der Maus über einen leuchtenden Mob und drücke die | Tasten | - | Flächenspott
+100 | sync | Tank-Sync | Tanks mit ThreatSentinel tauschen Spotts, Abklingzeiten und  | Tank-Sync | - | Tank-Sync aktiv
+101 | ownerGrace | Tank-Sync | Zuständiger Tank hat Vorrang für (Sek.) | Tank-Sync | - | Vorrang zuständiger Tank
+102 | syncUsers | Tank-Sync | Spieler mit ThreatSentinel in deiner Gruppe: | Tank-Sync | - | Spieler mit ThreatSentinel
+103 | syncRefresh | Tank-Sync | Spieler mit ThreatSentinel in deiner Gruppe: | Tank-Sync | - | Spielerliste
+Summe neu: 103 alt: 103
+
+SCHRITT 2 – UMBAU (a)–(i)
+(a) Links Bereiche (Reihenfolge häufig zuerst): Allgemein, Plaketten, Meldungen & Hilfen, Töne, Anzeigen, Gruppe, Tasten, Tank-Sync,
+    Farben, Entwickler (nur im Entwicklermodus). Rechts EINE Spalte, höchstens 11 Zeilen + "Weitere", kein Scrollen.
+    Zeilen je Ansicht (schlechtester Fall Entwickler/Krieger/Forever): Allgemein 9 + Weitere 9, Plaketten 10 + 8, Meldungen 10 + 4,
+    Töne 10, Anzeigen 9 + 8, Gruppe 7 + 3, Tasten 2, Tank-Sync 4, Farben 5, Entwickler 5. n alt 103 = n neu 103 (T-OPT1).
+(b) Suchfeld oben: filtert über Beschriftung, Erklärung, Knopftexte und Bereichsname aller Bereiche; Treffer mit Bereichs-Überschrift,
+    Trefferzahl auch an den Bereichsknöpfen; "Nichts gefunden." (T-OPT4).
+(c) Jede Zeile: kurze Beschriftung ≤ 28 Zeichen (DE und EN, T-OPT2 + Prüfskript), ohne Umbruch (zu lang -> kleinere Schrift),
+    rechts Schalter/Wert, Erklärung nur im Tooltip (Zeile und Schalter). an/aus = EIN Knopf ("An" grün / "Aus" grau),
+    Auswahl = Knopfreihe (gewählt gold): Meine Rolle, Bedrohungsmodus, Ausserhalb des Kampfs, Tonkanal, Meldungen senden an
+    (kurze Knopftexte, langer Text im Tooltip). Info-Zeilen (Erkannte Zauber/Rollen, Spieler mit ThreatSentinel) zeigen den kurzen
+    Wert, die ganze Liste im Tooltip. Hilfe-Texte der alten Seiten am "?" des Bereichs.
+(d) Häufig zuerst, Seltenes/Experten unter "Weitere (n) >" (eingeklappt, "< Zurück"). "Standard"-Knopf je Bereich setzt nur dessen
+    Werte zurück (Tasten und Profil-Wahl ausgenommen), T-OPT5 mit Gegenprobe (anderer Bereich unverändert).
+(e) Optionen-Knöpfe öffnen den passenden Bereich: O:OpenSection(id); alte Seiten-Nummern (Tasten-Hinweis Alerts.lua, Testassistent
+    Guide.lua: OpenPage(5) -> "Tasten") werden umgesetzt (T-OPT6).
+(f) Alte Spielstände: nur die Anzeige ist neu, alle Schlüssel (ns.db.*) und Standardwerte gleich; TU3-D3/D4 (Regler-Bereich,
+    Eingabe) laufen jetzt auf derselben Liste ohne Fenster (O:BuildSpecs).
+(g) Kein Klassisch/Modern-Design und keine Fenstergrösse in ThreatSentinel (nur ein Aussehen) – geprüft wird DE/EN (nur diese zwei
+    Sprachen hat ThreatSentinel): T-OPT2 (Länge), T-OPT7 im Spiel (jede Ansicht inkl. "Weitere": nichts ausserhalb des Fensters,
+    keine Zeile überdeckt eine andere, Beschriftung ≤ Spaltenbreite, U.TextFits ohne Problem). Jede alte Option erreichbar und
+    wirksam: T-OPT3-<Bereich> (Schalter/Regler/Auswahl ändern ns.db wirklich – Gegenprobe – und werden zurückgestellt);
+    Offline: "103 von 103 sichtbaren erreicht, 73 wirken (Gegenprobe)".
+(h) Prüfliste-Punkt "OPT – Optionen am Bild: übersichtlich?" (Spieler sagt OK/Nicht OK). Die Prüfliste hat höchstens 14 Zeilen:
+    OPT ersetzt TSMESS (die TSMess-Messung führt die Prüf-Sitzung eigens, auftraege "ERLEDIGT – wartet auf die Messung").
+    Bitte bestätigen oder einen anderen Punkt zum Tausch nennen.
+(i) Leistung: Fenster baut beim ersten Öffnen nur Rahmen, Bereichsknöpfe, Suche und die Zeilen des ersten Bereichs; jeder weitere
+    Bereich entsteht beim ersten Zeigen. Nachbau (echte Uhr): längster Bereichsaufbau 0,6–1,0 ms. VERDACHT, ZU MESSEN: im Spiel
+    (Faktor ≈ 1,5–2,4) deutlich unter 16 ms – T-OPT3 meldet den Wert.
+Testroutine: T-OPT3 läuft je Bereich (kein langes Bild); "alles" im Nachbau: längstes Bild 12,5 ms, keine Prüfung über 16 ms.
+
+Texte der Prüfliste angepasst: HEILER-HUD, METER-KAMPF, SYNC-ROLLE nennen jetzt Bereich und Zeile des neuen Fensters.
+Psychologie: weniger auf einmal (≤ 11 Zeilen), Begriffe des Spielers ("Gehaltene: Deckkraft", "Lose: Flammen", "Meine Rolle (nicht Tank)").
