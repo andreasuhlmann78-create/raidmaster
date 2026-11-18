@@ -199,3 +199,9 @@ AHSentinel 0.65.334 gab zum Sparen eine wiederverwendete Rückgabe-Tabelle zurü
 Zutaten eines anderen Items. Regel: Ändert ein Addon an einer Schnittstelle (API.lua, Rückgabewerte, Tabellen, Zeitpunkt), prüft die
 Prüf-Sitzung im Code JEDES Abnehmers (grep nach dem Funktionsnamen in allen Addon-Repos), wie er die Rückgabe benutzt (behält er sie?
 ändert er sie? kopiert er?). Rückgabe-Tabellen sind unveränderlich (Vertrag schnittstelle-ahsentinel-api.md). Bedeutungsänderung = Bruch.
+
+### E-Regel 18.11.2026 06:40 – Nachbau braucht die Spiel-Funktionen, die der Code im Spiel-Zweig benutzt (AHS 0.65.341 Ladefehler)
+AHSentinel 0.65.341 warf beim Laden im Spiel ("line" nil nach "a and b and string.match" – Lua 5.1 nimmt nur den ersten Wert). Der
+Zweig lief nur, wenn debugstack existiert – die Nachbildung hatte keins, also nie getestet. Regel: Bei jeder neuen Stelle mit
+"if _G.<Spiel-Funktion> then …" prüft die Prüf-Sitzung, ob die Nachbildung diese Funktion im Spiel-Format hat und der Zweig im Test
+läuft. Zusätzlich im Code suchen: Mehrfach-Zuweisung aus einem and/or-Ausdruck mit Funktionsaufruf (local a, b = x and f()) = Fehler.

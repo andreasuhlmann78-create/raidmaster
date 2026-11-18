@@ -4769,3 +4769,19 @@ Journal-Einträge ausser dem Kürzen (Bereinigung, Prognose-Abschluss, Verdichtu
 Danach entscheidet der Supervisor, wie das Prüfsystem (addon-check/marktanalyse/markt_tabellen.py merge_journals) Stände
 zusammenführt: echte Käufe aus älteren Ständen behalten, bewusst entfernte Doppel NICHT zurückholen. Bis dahin bleibt die
 Tabelle auf dem Stand 16.11. (richtig: lieber alt als falsch). Antwort im nächsten Bericht (kein Code nötig, wenn nur Auskunft).
+
+==== BEFUND HOCH SOFORT 18.11.2026 06:40 – LADEFEHLER 0.65.341 im Spiel (Nutzer 06:33) – AHSentinel lädt nicht vollständig ====
+Lua-Fehler beim Laden: "AHAnalyzerPro.lua:161: attempt to concatenate local 'line' (a nil value)", Stack A:On <- AHAnalyzerPro.lua:1527
+(main chunk). debugstack im Spiel liefert "[Interface/AddOns/AHSentinel/AHAnalyzerPro.lua]:159: in function 'On'".
+Ursache (im Code belegt, Lua 5.1): Z. 160
+    local file, line = ok and type(txt) == "string" and txt:match("([%w_]+%.lua)\"?%]?:(%d+)")
+Ein "and"-Ausdruck liefert nur den ERSTEN Wert von match -> file gesetzt, line IMMER nil -> Z. 161 file .. ":" .. line wirft. Der Fehler
+im Hauptteil bricht das Laden von AHAnalyzerPro.lua ab Z. 1527 ab (alles danach fehlt). Betrifft jede Version mit SN-EIGEN-2 (seit
+0.65.335). Im Nachbau unsichtbar, weil die Nachbildung kein debugstack hat (Zweig nie ausgeführt).
+Auftrag (vor allem anderen):
+1. Z. 160 richtig: if ok and type(txt)=="string" then local f, l = txt:match(...) if f and l then … end end – und A:On darf nie werfen
+   (pcall um die ganze Fundstellen-Merkung).
+2. Nachbildung: debugstack wie im Spiel (Format oben, auch "[string \"@Interface/…\"]:n:" und "[C]: ?") – in allen Nachbauten. Test: A:On
+   mit diesem debugstack -> listenerAt "AHAnalyzerPro.lua:159"; Gegenprobe 0.65.341 wirft genau die Meldung des Nutzers.
+3. Alle anderen Stellen mit debugstack/Stapel-Auswertung (Takt-Erkennung C-Grenze, SN-EIGEN, Diag) mit demselben Spiel-Format testen.
+4. Sofort neue Version; dem Nutzer: 0.65.341 nicht benutzen. Danach erneut BEREIT FÜR INGAMETEST.
