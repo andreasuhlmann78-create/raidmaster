@@ -489,109 +489,52 @@ UI.AddPage("loot", L["Loot"], function(page)
 	local cfg = function() return RM.db.config end
 	local refreshers = {}
 
+	-- 3.0.38 (OPT-ALLE): Regeln, Empfänger, Plündermeister und Ansagen stehen jetzt in den Einstellungen (je genau einmal);
+	-- hier die Übersicht der aktuellen Werte und Knöpfe, die den passenden Bereich öffnen
+	local RULE_NAMES = { auction = L["Versteigerung"], manual = L["Manuell"], de = L["Entzauberer"], bank = L["Gildenbank"], crafter = L["Handwerker"] }
 	Section(page, L["Loot-Regeln"], 0, 0)
-	local rules = {
-		{ key = "epic", label = L["Epische Ausrüstung"], opts = { { "auction", L["Versteigerung"] }, { "manual", L["Manuell"] } } },
-		{ key = "blue", label = L["Blaue Ausrüstung"], opts = { { "auction", L["Versteigerung"] }, { "de", L["Entzauberer"] }, { "bank", L["Gildenbank"] }, { "manual", L["Manuell"] } } },
-		{ key = "recipe", label = L["Rezepte und Pläne"], opts = { { "bank", L["Gildenbank"] }, { "crafter", L["Handwerker"] }, { "auction", L["Versteigerung"] }, { "manual", L["Manuell"] } } },
-		{ key = "mats", label = L["Handwerksmaterialien"], opts = { { "bank", L["Gildenbank"] }, { "crafter", L["Handwerker"] }, { "auction", L["Versteigerung"] }, { "manual", L["Manuell"] } } },
-	}
-	local y = -28
-	for _, r in ipairs(rules) do
-		Label(page, r.label, 0, y - 5)
-		local cyc = UI.Cycle(page, 150, r.opts, function() return cfg().rules[r.key] end, function(v) cfg().rules[r.key] = v end)
-		Place(cyc, page, 170, y)
-		refreshers[#refreshers + 1] = cyc
-		y = y - 30
-	end
-	Label(page, L["Legendäre Items"], 0, y - 5)
-	Label(page, L["immer nur Hinweis"], 170, y - 5, 12, true)
-	y = y - 30
-	Label(page, L["Keine Gebote"], 0, y - 5)
-	local fb = UI.Cycle(page, 150, { { "de", L["Entzauberer"] }, { "bank", L["Gildenbank"] }, { "manual", L["Manuell"] } },
-		function() return cfg().fallback end, function(v) cfg().fallback = v end)
-	Place(fb, page, 170, y)
-	refreshers[#refreshers + 1] = fb
-	y = y - 40
+	local rulesText = Label(page, "", 0, -28, 12)
+	rulesText:SetWidth(330)
+	local rulesBtn = UI.OptionsButton(page, "beute", 160, 26, L["Regeln ändern"])
+	Place(rulesBtn, page, 0, -170)
 
-	Section(page, L["Empfänger"], 0, y)
-	y = y - 28
-	local function NameField(label, key, yy)
-		Label(page, label, 0, yy - 5)
-		local e = UI.EditBox(page, 150, 24)
-		Place(e, page, 170, yy)
-		e:SetScript("OnTextChanged", function(self, user) if user then cfg()[key] = CapName(self:GetText()) end end)
-		e:SetScript("OnEditFocusLost", function(self)
-			self:SetBackdropBorderColor(unpack(COLORS.border))
-			self:SetText(cfg()[key] or "")
-		end)
-		refreshers[#refreshers + 1] = { Refresh = function() if not e:HasFocus() then e:SetText(cfg()[key] or "") end end }
-		return e
-	end
-	NameField(L["Gildenbank-Charakter"], "bankChar", y); y = y - 30
-	-- Entzauberer und Handwerker per Menü aus dem Raid wählen (wie der Plündermeister)
-	local function RecipientDrop(label, key, yy, tip)
-		Label(page, label, 0, yy - 5)
-		local d = UI.Dropdown(page, 150, function() return RM.Loot.RecipientChoices(key) end,
-			function() return cfg()[key] or "" end, function(v) cfg()[key] = v; UI.RefreshCurrent() end, tip)
-		Place(d, page, 170, yy)
-		refreshers[#refreshers + 1] = d
-	end
-	RecipientDrop(L["Entzauberer"], "deChar", y, L["Bekommt Items, auf die niemand bietet (wenn eingestellt), und blaue Items mit Regel Entzauberer."]); y = y - 30
-	RecipientDrop(L["Handwerker"], "crafterChar", y, L["Bekommt Rezepte und Materialien mit Regel Handwerker."]); y = y - 40
-
-	Section(page, L["Plündermeister"], 0, y)
-	y = y - 28
-	Label(page, L["Plündermeister"], 0, y - 5)
-	local mlDrop = UI.Dropdown(page, 150, function() return RM.Loot.MasterChoices() end,
-		function() return cfg().lootMaster or "" end, function(v) RM.Loot.SetMaster(v) end,
-		L["Plündermeister wählen – als Raidleiter wird die Plündermethode im Spiel sofort umgestellt."])
-	Place(mlDrop, page, 170, y)
-	refreshers[#refreshers + 1] = mlDrop
-	y = y - 30
-	Label(page, L["Plünderschwelle"], 0, y - 5)
-	local th = UI.Cycle(page, 150, { { 2, L["Selten (grün)"] }, { 3, L["Rar (blau)"] }, { 4, L["Episch (lila)"] } },
-		function() return cfg().lootThreshold end, function(v) RM.Loot.SetThreshold(v) end,
-		L["Empfohlen: Selten (grün) – der Plündermeister verteilt dann schon grüne Items, Kerne und Rezepte sowieso."])
-	Place(th, page, 170, y)
-	refreshers[#refreshers + 1] = th
-	y = y - 32
+	Section(page, L["Plündermeister"], 0, -214)
+	local pmText = Label(page, "", 0, -242, 12)
+	pmText:SetWidth(330)
+	local pmBtn = UI.OptionsButton(page, "pm", 160, 26, L["Plündermeister ändern"])
+	Place(pmBtn, page, 0, -290)
 	local applyBtn = UI.Button(page, L["Jetzt anwenden"], 150, 26, function() RM.Loot.ApplySettings() end, L["Setzt Plündermeister und Schwelle (nur Raidleiter)."])
-	Place(applyBtn, page, 170, y)
-	y = y - 30
-	local autoLootCheck = UI.Check(page, L["Vergessenen Plündermeister automatisch setzen"], function() return cfg().autoLoot end,
-		function(v) cfg().autoLoot = v; if v then RM.Loot.EnsureSettings() end end,
-		L["Als Raidleiter: steht die Plündermethode nicht auf Plündermeister, setzt RaidMaster den gespeicherten Plündermeister und die Schwelle."])
-	Place(autoLootCheck, page, 0, y)
-	refreshers[#refreshers + 1] = autoLootCheck
+	Place(applyBtn, page, 170, -290)
 
-	-- Optionen
+	Section(page, L["Ansagen im Chat"], 0, -334)
+	local annBtn = UI.OptionsButton(page, "ansagen", 160, 26, L["Ansagen ändern"])
+	Place(annBtn, page, 0, -362)
+
+	refreshers[#refreshers + 1] = { Refresh = function()
+		local c = cfg()
+		local function R(k) return RULE_NAMES[c.rules[k]] or tostring(c.rules[k]) end
+		local lines = {
+			L["Epische Ausrüstung"] .. ": |cffffd200" .. R("epic") .. "|r",
+			L["Blaue Ausrüstung"] .. ": |cffffd200" .. R("blue") .. "|r",
+			L["Rezepte und Pläne"] .. ": |cffffd200" .. R("recipe") .. "|r",
+			L["Handwerksmaterialien"] .. ": |cffffd200" .. R("mats") .. "|r",
+			L["Legendäre Items"] .. ": " .. L["immer nur Hinweis"],
+			L["Keine Gebote"] .. ": |cffffd200" .. (RULE_NAMES[c.fallback] or tostring(c.fallback)) .. "|r",
+		}
+		rulesText:SetText(table.concat(lines, "\n"))
+		local th = RM.Raid and RM.Raid.THRESHOLD_NAMES and RM.Raid.THRESHOLD_NAMES[c.lootThreshold] or tostring(c.lootThreshold)
+		pmText:SetText(L["Plündermeister"] .. ": |cffffd200" .. ((c.lootMaster and c.lootMaster ~= "") and c.lootMaster or "–") .. "|r\n"
+			.. L["Plünderschwelle"] .. ": |cffffd200" .. tostring(th) .. "|r")
+	end }
+
 	local ox = 350
-	Section(page, L["Optionen"], ox, 0)
-	local checks = {
-		{ "setLootOnStart", L["Loot-Einstellungen bei Raidstart setzen"] },
-		{ "autoDistribute", L["Mats/Rezepte/Blaues automatisch zuteilen"] },
-		{ "announceLoot", L["Loot gesammelt im Raidchat ansagen"] },
-		{ "announceBids", L["Gebote im Raidchat ansagen"] },
-		{ "unlootedReminder", L["Erinnern, wenn Boss nicht geplündert"] },
-		{ "tradeFallback", L["Bei Abwesenheit an mich + Handelsliste"] },
-		{ "whisperReplies", L["Auf !dkp-Flüstern antworten"] },
-	}
-	local cy = -30
-	for _, c in ipairs(checks) do
-		local cb = UI.Check(page, c[2], function() return cfg()[c[1]] end, function(v) cfg()[c[1]] = v end)
-		Place(cb, page, ox, cy)
-		refreshers[#refreshers + 1] = cb
-		cy = cy - 26
-	end
-
-	Section(page, L["Offene Zuteilungen und Handel"], ox, -248)
+	Section(page, L["Offene Zuteilungen und Handel"], ox, 0)
 	local openList = UI.List(page, 440, 160, {
 		{ title = L["Item"], width = 200 },
 		{ title = L["Spieler"], width = 90 },
 		{ title = L["Art"], width = 120 },
 	}, { emptyText = L["Nichts offen."] })
-	Place(openList, page, ox, -274)
+	Place(openList, page, ox, -26)
 	local removeOpen = UI.Button(page, L["Entfernen"], 100, 24, function()
 		local d = openList:Selected()
 		if not d then return end
@@ -603,11 +546,11 @@ UI.AddPage("loot", L["Loot"], function(page)
 		end
 		openList:ClearSelection()
 	end)
-	Place(removeOpen, page, ox, -440)
-	Label(page, L["Handel: Öffne einfach ein Handelsfenster mit dem Spieler – seine Items werden automatisch eingelegt."], ox + 108, -440, 11, true):SetWidth(330)
+	Place(removeOpen, page, ox, -192)
+	Label(page, L["Handel: Öffne einfach ein Handelsfenster mit dem Spieler – seine Items werden automatisch eingelegt."], ox + 108, -192, 11, true):SetWidth(330)
 
-	Section(page, L["Aktuelles Lootfenster"], ox, -480)
-	local lootInfo = Label(page, "", ox, -504, 11, true)
+	Section(page, L["Aktuelles Lootfenster"], ox, -240)
+	local lootInfo = Label(page, "", ox, -264, 11, true)
 	lootInfo:SetWidth(440)
 
 	return function()
@@ -794,29 +737,13 @@ UI.AddPage("raid", L["Raid"], function(page)
 		if RM.Timer.Running("pull") then RM.Timer.Cancel() else RM.Timer.Pull() end
 	end, L["Pull-Timer mit Countdown – auch für Deadly Boss Mods und BigWigs. Nochmal klicken bricht ab."])
 	Place(pullBtn, page, 156, -418)
-	local pullSec = UI.Cycle(page, 80, { { 5, "5 s" }, { 8, "8 s" }, { 10, "10 s" }, { 15, "15 s" }, { 20, "20 s" } },
-		function() return cfg().pullSeconds or 10 end, function(v) cfg().pullSeconds = v; RM.Fire("TIMER_CHANGED") end)
-	Place(pullSec, page, 262, -418)
-	-- Pausen: Knöpfe rechts unter "Pause" (gehen jetzt auch an DBM/BigWigs); Boss-Leiste: "Pause" = so viele Minuten
-	local breakMin = UI.Cycle(page, 150, { { 3, L["Leiste: Pause 3 min"] }, { 5, L["Leiste: Pause 5 min"] }, { 10, L["Leiste: Pause 10 min"] }, { 15, L["Leiste: Pause 15 min"] } },
-		function() return cfg().breakMinutes or 5 end, function(v) cfg().breakMinutes = v; RM.Fire("TIMER_CHANGED") end)
-	Place(breakMin, page, 0, -450)
-	local addons = UI.Cycle(page, 140, { { "both", L["DBM + BigWigs"] }, { "dbm", L["nur DBM"] }, { "bigwigs", L["nur BigWigs"] }, { "none", L["ohne Boss-Addons"] } },
-		function() return cfg().timerAddons or "both" end, function(v) cfg().timerAddons = v end,
-		L["An welche Boss-Addons die Timer gehen (Pull und Pause)."])
-	Place(addons, page, 156, -450)
-	local chatCheck = UI.Check(page, L["Countdown 5-4-3-2-1 im Raidchat"], function() return cfg().pullCountdownChat ~= false end,
-		function(v) cfg().pullCountdownChat = v end)
-	Place(chatCheck, page, 0, -482)
-	local welcomeCheck = UI.Check(page, L["Begrüßung beim Raidstart"], function() return cfg().welcome ~= false end,
-		function(v) cfg().welcome = v end,
-		L["Begrüßt den Raid im Raidchat, passend zur Raidzone. Gäste und Spieler von der Ersatzbank werden mit Namen begrüßt."])
-	Place(welcomeCheck, page, 0, -510)
-	local frCycle = UI.Cycle(page, 150, { { 0, L["Feuerwid. egal"] }, { 100, L["Feuerwid. ab 100"] }, { 150, L["Feuerwid. ab 150"] },
-		{ 200, L["Feuerwid. ab 200"] }, { 250, L["Feuerwid. ab 250"] } },
-		function() return tonumber(cfg().fireResMin) or 0 end, function(v) cfg().fireResMin = v end,
-		L["Ab wie viel Feuerwiderstand der Bereitschafts-Check zufrieden ist (z. B. für Ragnaros)."])
-	Place(frCycle, page, 240, -482)
+	-- 3.0.38 (OPT-ALLE): Pull-Sekunden, Pause, Boss-Addons, Feuerwiderstand, Countdown, Begrüßung -> Einstellungen
+	local timerOpt = UI.OptionsButton(page, "raid", 110, 26)
+	Place(timerOpt, page, 262, -418)
+	local annOpt = UI.OptionsButton(page, "ansagen", 150, 26, L["Ansagen im Chat"])
+	Place(annOpt, page, 0, -452)
+	local timerState = Label(page, "", 0, -486, 11, true)
+	timerState:SetWidth(390)
 
 	-- rechte Spalte
 	local rx = 410
@@ -860,20 +787,14 @@ UI.AddPage("raid", L["Raid"], function(page)
 		UI.Confirm(string.format(L["Wöchentlichen Decay anwenden?\nAlle positiven DKP in allen Raid-Töpfen werden um %d %% reduziert."], pct), function() RM.DKP.ApplyDecay() end)
 	end)
 	Place(decayBtn, page, rx, -416)
-	local autoDecay = UI.Check(page, L["Automatisch jeden Mittwoch (Raid-Reset)"], function() return RM.db.data.settings.autoDecay ~= false end,
-		function(v)
-			if not NeedOfficer() then return end
-			RM.db.data.settings.autoDecay = v
-			RM.DKP.SettingsChanged()
-		end, L["Einmal pro Woche nach dem Raid-Reset bucht der erste Offizier, der online ist, den Verfall auf alle Raids – nie während eines Raids."])
-	Place(autoDecay, page, rx + 150, -420)
+	local decayOpt = UI.OptionsButton(page, "dkp", 110, 26)       -- 3.0.38: "Decay jeden Mittwoch" -> Einstellungen
+	Place(decayOpt, page, rx + 150, -416)
 
 	Section(page, L["Kernhunde"], rx, -462)
 	local houndCheck
 	if RM.Caps.combatLog then
-		houndCheck = UI.Check(page, L["Kürschner ansagen, wenn ein Kernhund stirbt"],
-			function() return RM.db.config.coreHound end, function(v) RM.db.config.coreHound = v end,
-			L["Der Raidleiter sagt die Kürschner mit Addon im Raid an (nach Skill sortiert)."])
+		-- 3.0.38: der Haken steht in den Einstellungen (Ansagen im Chat)
+		houndCheck = UI.OptionsButton(page, "ansagen", 170, 24, L["Kürschner-Ansage …"])
 		Place(houndCheck, page, rx, -488)
 	else
 		-- WoW Forever / Midnight: Addons sehen keine Kämpfe → per Klick
@@ -929,10 +850,17 @@ UI.AddPage("raid", L["Raid"], function(page)
 		else
 			decayText:SetText(string.format(L["Noch kein Decay angewendet. Einstellung: %d %% pro Anwendung."], pct) .. nextText)
 		end
-		autoDecay:Refresh(); chatCheck:Refresh(); welcomeCheck:Refresh(); pullSec:Refresh(); breakMin:Refresh(); addons:Refresh(); frCycle:Refresh()
+		do   -- 3.0.38: aktuelle Timer-Optionen als Übersicht (ändern über "Optionen")
+			local c = cfg()
+			local TA = { both = L["DBM + BigWigs"], dbm = L["nur DBM"], bigwigs = L["nur BigWigs"], none = L["ohne Boss-Addons"] }
+			local fr = tonumber(c.fireResMin) or 0
+			timerState:SetText(L["Pull-Timer"] .. " " .. (c.pullSeconds or 10) .. " s · " .. L["Pause der Boss-Leiste"] .. " " .. (c.breakMinutes or 5)
+				.. " min · " .. (TA[c.timerAddons or "both"] or tostring(c.timerAddons)) .. "\n" .. L["Feuerwiderstand ab"] .. " "
+				.. (fr > 0 and tostring(fr) or L["egal"]) .. " · " .. L["Countdown im Raidchat"] .. ": " .. (c.pullCountdownChat ~= false and L["An"] or L["Aus"])
+				.. " · " .. L["Begrüßung beim Raidstart"] .. ": " .. (c.welcome ~= false and L["An"] or L["Aus"]))
+		end
 		pullBtn:SetText(RM.Timer.Running("pull") and L["Pull abbrechen"] or L["Pull-Timer"])
-		if RM.CanEdit() then decayBtn:Enable() else decayBtn:Disable() end
-		if houndCheck then houndCheck:Refresh() end
+		if RM.CanEdit() then decayBtn:Enable(); decayOpt:Show() else decayBtn:Disable(); decayOpt:Hide() end
 	end
 end)
 
@@ -1005,17 +933,9 @@ UI.AddPage("signup", L["Anmeldungen"], function(page)
 		L["Übernimmt die Gruppen aus Discord (/raid aufstellung). Wer nicht in der Aufstellung steht, kommt auf den Platz\neines Fehlenden derselben Art (Heiler für Heiler, Magier für Magier). Ohne Aufstellung: dieselbe Classic-Einteilung\nwie im Discord. Main-/Offtank immer in Gruppe 1. Nur außerhalb des Kampfes."])
 	Place(groupBtn, page, rx, -422)
 
-	local autoInv = UI.Check(page, L["Auto-Einladung"], function() return RM.db.config.autoInvite end,
-		function(v) RM.db.config.autoInvite = v; UI.RefreshCurrent() end,
-		L["Lädt automatisch alle Aufgestellten ein, sobald der Raid öffnet, und Nachzügler bis 30 Min. nach Beginn.\nDein Spiel muss dafür laufen."])
-	Place(autoInv, page, rx, -458)
-	local minutes = UI.Cycle(page, 90, { { 5, L["5 Min."] }, { 10, L["10 Min."] }, { 15, L["15 Min."] }, { 20, L["20 Min."] }, { 30, L["30 Min."] } },
-		function() return RM.db.config.autoInviteMinutes or 15 end, function(v) RM.db.config.autoInviteMinutes = v; UI.RefreshCurrent() end,
-		L["So viele Minuten vor Raidbeginn öffnet der Raid."])
-	Place(minutes, page, rx + 150, -454)
-	local autoGrp = UI.Check(page, L["Gruppen automatisch sortieren"], function() return RM.db.config.autoGroups end,
-		function(v) RM.db.config.autoGroups = v end, L["Jeder, der dem Raid beitritt, kommt sofort in seine feste Gruppe."])
-	Place(autoGrp, page, rx, -486)
+	-- 3.0.38 (OPT-ALLE): Auto-Einladung, Minuten und Gruppen sortieren -> Einstellungen (Einladen & Werbung)
+	local inviteOpt = UI.OptionsButton(page, "einladen", 245, 26, L["Auto-Einladung …"])
+	Place(inviteOpt, page, rx, -458)
 	local autoState = Label(page, "", rx, -512, 11, true)
 	autoState:SetWidth(245)
 
@@ -1087,9 +1007,6 @@ UI.AddPage("signup", L["Anmeldungen"], function(page)
 		end
 		if inviting then stopBtn:Enable() else stopBtn:Disable() end
 		if next(RM.Signup.WantedGroups()) then groupBtn:Enable() else groupBtn:Disable() end
-		autoInv:Refresh()
-		autoGrp:Refresh()
-		minutes:Refresh()
 		autoState:SetText(L["Auto-Einladung: "] .. RM.Signup.AutoInviteState())
 	end
 end)
@@ -1164,20 +1081,12 @@ UI.AddPage("ad", L["Werbung"], function(page)
 	Label(page, L["Den PUG-Link gibt es im Discord mit /pug-einladung. Beim Import eines PUG-Raids wird er automatisch übernommen."], 0, -86, 11, true):SetWidth(780)
 
 	Label(page, L["Kanal"], 0, -120)
-	local targets = {}
-	local function RebuildTargets()
-		wipe(targets)
-		for _, t in ipairs(Ad.Targets()) do targets[#targets + 1] = t end
-		local cur = Ad.Target()
-		local found = false
-		for _, t in ipairs(targets) do if t[1] == cur then found = true end end
-		if not found then targets[#targets + 1] = { cur, Ad.TargetLabel(cur) } end
-	end
-	RebuildTargets()
-	local chanCycle = UI.Cycle(page, 260, targets, function() return Ad.Target() end,
-		function(v) cfg().adChannel = v; UI.RefreshCurrent() end,
-		L["Kanäle, denen du beigetreten bist. Einem Kanal beitreten: /join Name"])
-	Place(chanCycle, page, 110, -116)
+	-- 3.0.38 (OPT-ALLE): Kanal wählen und "inv"-Einladung -> Einstellungen (Einladen & Werbung)
+	local chanText = Label(page, "", 110, -120, 12)
+	chanText:SetWidth(260)
+	chanText:SetWordWrap(false)
+	local chanOpt = UI.OptionsButton(page, "einladen", 150, 24, L["Kanal wählen …"])
+	Place(chanOpt, page, 380, -116)
 
 	Label(page, L["Text"], 0, -158)
 	local textBox = UI.EditBox(page, 670, 24)
@@ -1206,10 +1115,8 @@ UI.AddPage("ad", L["Werbung"], function(page)
 	postBtn:SetAccent(true)
 	local cdText = Label(page, "", 214, -360, 11, true)
 
-	local invCheck = UI.Check(page, L["Auf geflüstertes \"inv\" automatisch einladen (30 Minuten nach der Werbung)"],
-		function() return cfg().adAutoInvite end, function(v) cfg().adAutoInvite = v end,
-		L["Spieler flüstern dir \"inv\" – RaidMaster lädt sie ein, solange der Raid nicht voll ist.\nAus einer Gruppe wird automatisch ein Schlachtzug."])
-	Place(invCheck, page, 0, -400)
+	local invText = Label(page, "", 0, -400, 11, true)
+	invText:SetWidth(780)
 
 	page.elapsed = 0
 	page:SetScript("OnUpdate", function(self, el)
@@ -1222,8 +1129,7 @@ UI.AddPage("ad", L["Werbung"], function(page)
 		if not textBox:HasFocus() then
 			textBox:SetText((cfg().adText and cfg().adText ~= "") and cfg().adText or Ad.DEFAULT_TEXT)
 		end
-		RebuildTargets()
-		chanCycle:Refresh()
+		chanText:SetText("|cffffd200" .. tostring(Ad.TargetLabel(Ad.Target())) .. "|r")
 		local text = Ad.Build()
 		preview:SetText(text)
 		lenText:SetText(string.format("%d / 255 Zeichen", #text))
@@ -1238,7 +1144,7 @@ UI.AddPage("ad", L["Werbung"], function(page)
 		if (cfg().adLink or "") == "" then
 			lenText:SetText(lenText:GetText() .. L["  ·  |cffff6040Kein Discord-Link eingetragen|r"])
 		end
-		invCheck:Refresh()
+		invText:SetText(L["Auf „inv“ einladen"] .. ": " .. (cfg().adAutoInvite and L["An"] or L["Aus"]))
 	end
 end)
 
@@ -1439,48 +1345,19 @@ local function BuildLeaderBosses(page)
 	-- Markierungen
 	Section(page, L["Schlachtzugsymbole"], 0, -412)
 	Label(page, L["Vorlage für 'Auto'"], 0, -442)
-	local tmplOpts = {}
-	local function RebuildTemplates()
-		wipe(tmplOpts)
-		local seen = {}
-		local function add(t) if t and not seen[t.id] then seen[t.id] = true; tmplOpts[#tmplOpts + 1] = { t.id, t.name } end end
-		add(Data.GetTemplate("standard"))
-		local def = Raid()
-		for _, e in ipairs(def and def.view or {}) do if e.template then add(Data.GetTemplate(e.template)) end end
-		add(Data.GetTemplate(RM.db.config.markerTemplate))
-	end
-	RebuildTemplates()
-	local tmpl = UI.Cycle(page, 170, tmplOpts, function() return RM.db.config.markerTemplate end, function(v)
-		RM.db.config.markerTemplate = v
-		RM.Markers.ResetUsed()
-		RM.Fire("CONFIG_CHANGED")
-	end)
-	Place(tmpl, page, 130, -437)
+	-- 3.0.38 (OPT-ALLE): Vorlage, Markierungsleiste, fixieren, Auto-Vorlage und Boss-Leiste -> Einstellungen (Symbole & Leisten)
+	local tmplText = Label(page, "", 130, -442, 12)
+	tmplText:SetWidth(170)
+	tmplText:SetWordWrap(false)
 	local note = Label(page, "", 310, -442, 11, true)
 	note:SetWidth(460)
 
-	local barCheck = UI.Check(page, L["Markierungsleiste anzeigen"], function() return RM.db.config.markerBar end, function(v)
-		RM.db.config.markerBar = v
-		RM.Fire("CONFIG_CHANGED")
-	end)
-	Place(barCheck, page, 0, -472)
-	local lockCheck = UI.Check(page, L["Leiste fixieren"], function() return RM.db.config.markerLocked end, function(v) RM.db.config.markerLocked = v end)
-	Place(lockCheck, page, 230, -472)
-	local autoCheck = UI.Check(page, L["Vorlage beim Bosskampf automatisch wählen"], function() return RM.db.config.autoTemplate end,
-		function(v) RM.db.config.autoTemplate = v end)
-	Place(autoCheck, page, 420, -472)
-
+	local markOpt = UI.OptionsButton(page, "symbole", 220, 24, L["Symbole & Leisten …"])
+	Place(markOpt, page, 0, -470)
 	local clearBtn = UI.Button(page, L["Alle Symbole entfernen"], 180, 26, function() RM.Markers.ClearAll() end)
 	Place(clearBtn, page, 0, -502)
 	local markHint = Label(page, "", 190, -497, 11, true)
 	markHint:SetWidth(580)
-
-	-- Boss-Leiste: erscheint, sobald die Raidleitung einen Boss ins Ziel nimmt (Ansage + Symbole per Klick)
-	local bossBarCheck = UI.Check(page, L["Boss-Leiste, sobald ein Boss im Ziel ist (Ansage + Symbole per Klick)"],
-		function() return RM.db.config.bossBar ~= false end,
-		function(v) RM.db.config.bossBar = v; RM.Fire("CONFIG_CHANGED") end,
-		L["Nimmt der Raidleiter oder ein Assistent einen Boss ins Ziel, erscheint eine Leiste: ein Klick sagt die Taktik als Schlachtzugwarnung an und setzt die Symbole wie im Automatikmodus."])
-	Place(bossBarCheck, page, 0, -532)
 
 	return function()
 		if not Raid() then SelectRaid(DefaultRaid()) end
@@ -1528,14 +1405,9 @@ local function BuildLeaderBosses(page)
 		else
 			tq:Hide()
 		end
-		RebuildTemplates()
-		tmpl:Refresh()
+		tmplText:SetText("|cffffd200" .. tostring(Data.GetTemplate(RM.db.config.markerTemplate).name) .. "|r")
 		local t = Data.GetTemplate(RM.db.config.markerTemplate)
 		note:SetText(t.note or "")
-		barCheck:Refresh()
-		bossBarCheck:Refresh()
-		lockCheck:Refresh()
-		autoCheck:Refresh()
 		local lead = RM.Markers.IsMarkerLead() or not (RM.InRaid() or (IsInGroup and IsInGroup()))
 		for _, b in ipairs({ addsBtn, clearBtn }) do if lead then b:Enable() else b:Disable() end end
 		markHint:SetText(lead and "" or ("|cffff5544" .. L["Nur Raidleiter und Co-Raidleiter (Assistenten) können Schlachtzugsymbole setzen."] .. "|r " .. L["Die Symbolleiste erscheint nur bei ihnen."]))
@@ -1572,13 +1444,9 @@ local function BuildLeaderRaid(page)
 
 	local rx = 410
 	Section(page, L["Plündermeister"], rx, 0)
-	local mlDrop = UI.Dropdown(page, 180, function() return RM.Loot.MasterChoices() end,
-		function() return RM.db.config.lootMaster or "" end, function(v) RM.Loot.SetMaster(v) end,
-		L["Plündermeister wählen – als Raidleiter wird die Plündermethode im Spiel sofort umgestellt."])
-	Place(mlDrop, page, rx, -26)
-	local th = UI.Cycle(page, 170, { { 2, L["Selten (grün)"] }, { 3, L["Rar (blau)"] }, { 4, L["Episch (lila)"] } },
-		function() return RM.db.config.lootThreshold end, function(v) RM.Loot.SetThreshold(v) end, L["Plünderschwelle"])
-	Place(th, page, rx + 190, -26)
+	-- 3.0.38 (OPT-ALLE): Plündermeister und Schwelle stehen nur noch in den Einstellungen (vorher doppelt: Loot + hier)
+	local mlOpt = UI.OptionsButton(page, "pm", 180, 24, L["Plündermeister ändern"])
+	Place(mlOpt, page, rx, -26)
 	local lootState = Label(page, "", rx, -58, 11)
 	lootState:SetWidth(380)
 	local checkBtn = UI.Button(page, L["Raid-Check"], 120, 26, function() RM.Raid.RunCheck(); UI.RefreshCurrent() end,
@@ -1636,7 +1504,7 @@ local function BuildLeaderRaid(page)
 			if RM.CanEdit() then startBtn:Enable() else startBtn:Disable() end
 			endBtn:Disable()
 		end
-		raidPool:Refresh(); mlDrop:Refresh(); th:Refresh()
+		raidPool:Refresh()
 		local problems = RM.Loot.Problems and RM.Loot.Problems() or {}
 		if #problems > 0 then
 			lootState:SetText("|cffff5544" .. table.concat(problems, "\n") .. "|r")
@@ -1726,10 +1594,9 @@ UI.AddPage("specs", L["Skillungen"], function(page)
 		RM.Print(L["Deine Skillung wurde an Gilde und Raid gesendet."])
 	end)
 	UI.PlaceBottom(sendBtn, page, 150, -456)
-	local autoCheck = UI.Check(page, L["Als Raidleiter automatisch alle 5 Minuten scannen"],
-		function() return RM.db.config.specScan end, function(v) RM.db.config.specScan = v end,
-		L["Nur für Raidleiter, Assistenten und Offiziere."])
-	UI.PlaceBottom(autoCheck, page, 340, -460)
+	-- 3.0.38 (OPT-ALLE): "alle 5 Minuten scannen" -> Einstellungen (Raid & Timer)
+	local autoCheck = UI.OptionsButton(page, "raid", 160, 28, L["Auto-Scan …"])
+	UI.PlaceBottom(autoCheck, page, 340, -456)
 	local status = Label(page, "", 0, -496, 11, true)
 	UI.PlaceBottom(status, page, 0, -496)
 	status:SetWidth(580)
@@ -1768,7 +1635,6 @@ UI.AddPage("specs", L["Skillungen"], function(page)
 		end
 		scanBtn:SetText(Spec.scan.running and L["Scan stoppen"] or L["Raid scannen"])
 		if Spec.CanScan() then scanBtn:Enable() else scanBtn:Disable() end
-		autoCheck:Refresh()
 		if Spec.inspectUnsupported then
 			status:SetText(L["Dieser Spielclient liefert beim Betrachten keine Talente – Skillungen kommen nur von Spielern mit RaidMaster."])
 		elseif Spec.scan.running then
@@ -1783,174 +1649,8 @@ end)
 ---------------------------------------------------------------------------
 -- Seite: Einstellungen
 ---------------------------------------------------------------------------
-UI.AddPage("settings", L["Einstellungen"], function(page)
-	local fields = {}
-	local function S() return RM.db.data.settings end
-
-	local function NumField(label, x, y, getter, setter, tooltip)
-		local fs = Label(page, label, x, y - 5)
-		fs:SetWidth(170)
-		local e = UI.EditBox(page, 60, 24, true)
-		Place(e, page, x + 175, y)
-		if tooltip then
-			e:SetScript("OnEnter", function(self) UI.ShowTip(self, function(tt) tt:AddLine(tooltip, 1, 1, 1, true) end) end)
-			e:SetScript("OnLeave", function() GameTooltip:Hide() end)
-		end
-		fields[#fields + 1] = { edit = e, get = getter, set = setter }
-		return e
-	end
-
-	Section(page, L["DKP-Vergabe"], 0, 0)
-	local y = -28
-	NumField(L["Pünktlich zum Raidstart"], 0, y, function() return S().dkpStart end, function(v) S().dkpStart = v end); y = y - 28
-	NumField(L["Raid bis zum Ende"], 0, y, function() return S().dkpEnd end, function(v) S().dkpEnd = v end); y = y - 28
-	NumField(L["Ersatzbank beim Raidstart"], 0, y, function() return S().standbyStartDKP or 10 end, function(v) S().standbyStartDKP = math.max(0, v) end,
-		L["Spieler auf der Ersatzbank bekommen beim Raidstart einmalig diese DKP – danach keine Boss- oder Endpunkte."]); y = y - 28
-	NumField(L["Andere Bosse (Standard)"], 0, y, function() return S().defaultBossDKP end, function(v) S().defaultBossDKP = v end); y = y - 36
-
-	-- Boss-DKP je Raid-Topf (neue Bosse erscheinen nach dem ersten Kill)
-	Section(page, L["Bosse"], 0, y)
-	local settingsPool = "mc"
-	local spCycle = UI.Dropdown(page, 190, function() return UI.PoolGroups(RM.db.data) end, function() return settingsPool end, function(v)
-		settingsPool = v
-		UI.RefreshCurrent()
-	end, L["Raid wählen, dessen Boss-DKP du einstellen willst."])
-	Place(spCycle, page, 60, y + 4)
-	y = y - 28
-	local bossRows = {}
-	local bossNote = Label(page, "", 0, y - 5, 11, true)
-	bossNote:SetWidth(270)
-	for i = 1, 16 do
-		local row = {}
-		row.label = Label(page, "", 0, y - 5)
-		row.label:SetWidth(170)
-		row.edit = UI.EditBox(page, 60, 21, true)
-		Place(row.edit, page, 175, y)
-		bossRows[i] = row
-		fields[#fields + 1] = {
-			edit = row.edit,
-			get = function()
-				if not row.id then return nil end
-				local b = RM.Data.Bosses[row.id]
-				return S().bossDKP[row.id] or (b and b.dkp) or S().defaultBossDKP
-			end,
-			set = function(v) if row.id then S().bossDKP[row.id] = v end end,
-		}
-		y = y - 23
-	end
-
-	local function UpdateBossRows()
-		spCycle:Refresh()
-		local list = RM.Data.BossesForPool(settingsPool, RM.db.data)
-		for i, row in ipairs(bossRows) do
-			local b = list[i]
-			row.id = b and b.id or nil
-			if b then
-				row.label:SetText(b.name)
-				row.label:Show()
-				row.edit:Show()
-			else
-				row.label:Hide()
-				row.edit:Hide()
-			end
-		end
-		if #list == 0 then
-			bossNote:SetText(L["Die Bosse dieses Raids werden beim ersten Kill automatisch erkannt. Bis dahin gilt der Standardwert."])
-			bossNote:Show()
-		else
-			bossNote:Hide()
-		end
-	end
-
-	local x2 = 290
-	Section(page, L["Gebote"], x2, 0)
-	local y2 = -28
-	NumField(L["Mindestgebot"], x2, y2, function() return S().minBid end, function(v) S().minBid = math.max(0, v) end); y2 = y2 - 28
-	NumField(L["Gebotsschritt"], x2, y2, function() return S().bidIncrement end, function(v) S().bidIncrement = math.max(1, v) end); y2 = y2 - 28
-	NumField(L["Dauer (Sekunden)"], x2, y2, function() return S().auctionTime end, function(v) S().auctionTime = math.max(10, math.min(120, v)) end); y2 = y2 - 36
-
-	Section(page, L["System"], x2, y2)
-	y2 = y2 - 28
-	NumField(L["Decay in %"], x2, y2, function() return S().decayPct end, function(v) S().decayPct = math.max(0, math.min(100, v)) end); y2 = y2 - 28
-	NumField(L["Offiziersränge bis Index"], x2, y2, function() return S().officerRank end, function(v) S().officerRank = math.max(0, math.min(9, v)) end,
-		L["Gildenrang-Index: 0 = Gildenmeister, 1 = nächster Rang usw. Alle Ränge bis zu diesem Index dürfen DKP ändern."]); y2 = y2 - 36
-
-	local checks = {}
-	local function SCheck(label, key, tooltip)
-		local cb = UI.Check(page, label, function() return S()[key] end, function(v) S()[key] = v end, tooltip)
-		Place(cb, page, x2, y2)
-		checks[#checks + 1] = cb
-		y2 = y2 - 26
-	end
-	SCheck(L["Erstkill zählt doppelt"], "firstKillDouble")
-	SCheck(L["Verlängern bei späten Geboten (5 Sek.)"], "antiSnipe", L["Kommt in den letzten 5 Sekunden ein Gebot, wird auf 5 Sekunden verlängert."])
-	SCheck(L["Negative DKP erlauben"], "allowNegative", L["Spieler dürfen mehr bieten, als sie haben."])
-	SCheck(L["Nur Spieler online erhalten DKP"], "onlyOnline")
-	SCheck(L["Ersatzbank erhält DKP (nur beim Raidstart)"], "standbyGetsDKP")
-	SCheck(L["Main vor Twink"], "mainBeforeTwink", L["Twinks gewinnen eine Versteigerung nur, wenn kein Main bietet.\nEin Main übernimmt ein Twink-Gebot schon ab dem Mindestgebot."])
-
-	local saveBtn = UI.Button(page, L["Speichern und an die Gilde verteilen"], 300, 30, function()
-		if not NeedOfficer() then return end
-		for _, f in ipairs(fields) do
-			local v = tonumber(f.edit:GetText())
-			if v and f.edit:IsShown() then f.set(math.floor(v)) end
-		end
-		RM.DKP.SettingsChanged()
-	end)
-	Place(saveBtn, page, x2, y2 - 10)
-	saveBtn:SetAccent(true)
-
-	local revertBtn = UI.Button(page, L["Verwerfen"], 100, 30, function()
-		for _, f in ipairs(fields) do f.edit:SetText(tostring(f.get() or 0)) end
-		for _, c in ipairs(checks) do c:Refresh() end
-	end)
-	Place(revertBtn, page, x2 + 306, y2 - 10)
-
-	local note = Label(page, L["Diese Werte gelten für die ganze Gilde und werden mit allen Addon-Nutzern abgeglichen. "]
-		.. L["Häkchen werden sofort lokal übernommen und beim Speichern verteilt."], x2, y2 - 52, 11, true)
-	note:SetWidth(480)
-
-	local mmCheck = UI.Check(page, L["Minimap-Knopf ausblenden"], function() return RM.db.config.minimap.hide end, function(v)
-		RM.db.config.minimap.hide = v
-		local b = _G["RaidMasterMinimapButton"]
-		if b then if v then b:Hide() else b:Show() end end
-	end)
-	Place(mmCheck, page, x2, y2 - 100)
-	local ttCheck = UI.Check(page, L["Item-Tooltip ergänzen (Droprate, letzter Preis)"], function() return RM.db.config.itemTooltip ~= false end,
-		function(v) RM.db.config.itemTooltip = v end, L["Zeigt im Item-Tooltip, wie oft das Item bei euch gedroppt ist und wofür es zuletzt versteigert wurde."])
-	Place(ttCheck, page, x2, y2 - 126)
-	local bankCheck = UI.Check(page, L["Bank-Charakter (Bestand an Discord)"], function() return RM.db.config.bankScan end,
-		function(v) RM.db.config.bankScan = v end,
-		L["Beim Öffnen von Bank, Briefkasten (und Gildenbank, falls vorhanden) liest RaidMaster den Bestand aus.\nDer Uploader schickt ihn an Discord (#gildenbank, /bank).\nAuf diesem Charakter erscheint dann der Bereich Gildenbank."])
-	Place(bankCheck, page, x2 + 250, y2 - 100)
-	local recCheck = UI.Check(page, L["Erstkill-Feier und Bestzeiten"], function() return RM.db.config.records ~= false end,
-		function(v) RM.db.config.records = v end,
-		L["Erstkill: Fanfare, Schlachtzugwarnung und Screenshot für Discord. Bestzeiten: 'Neuer Rekord!' bei schnelleren Kills."])
-	Place(recCheck, page, x2 + 250, y2 - 126)
-	-- 3.0.25 (MN2): Marktdaten-Netz – Standard an, hier ausschaltbar
-	local marktCheck = UI.Check(page, L["Marktdaten teilen (anonym, nur Preise)"],
-		function() return RM.db.config.marktTeilen ~= false end,
-		function(v) RM.MarktShareFromUI(v) end,
-		L["Liest Auktionshaus-Scans mit, die ohnehin gemacht werden (z. B. von AHSentinel), und teilt nur Preise und Mengen – ohne Namen. Aus = nichts lesen, nichts senden."])
-	Place(marktCheck, page, x2, y2 - 152)
-	-- Addon unterstützen (PayPal) – nur auf Klick, wie oben in der Titelleiste
-	local donateLabel = Label(page, L["Addon unterstützen"], x2, y2 - 189)
-	donateLabel:SetWidth(170)
-	donateLabel:SetWordWrap(false)
-	local donateBtn = RM.Donate.CreateButton(page, 120, 24)
-	Place(donateBtn, page, x2 + 175, y2 - 184)
-
-	return function()
-		UpdateBossRows()
-		for _, f in ipairs(fields) do
-			if not f.edit:HasFocus() then f.edit:SetText(tostring(f.get() or 0)) end
-		end
-		for _, c in ipairs(checks) do c:Refresh() end
-		mmCheck:Refresh()
-		ttCheck:Refresh(); bankCheck:Refresh(); recCheck:Refresh(); marktCheck:Refresh()
-		if RM.CanEdit() then saveBtn:Enable() else saveBtn:Disable() end
-	end
-end)
+-- 3.0.38 (OPT-ALLE): alle Optionen in einem Fenster mit Bereichen und Suche – Options.lua
+UI.AddPage("settings", L["Einstellungen"], function(page) return RM.Opt.Build(page) end)
 
 ---------------------------------------------------------------------------
 -- Seite: Gildenbank (nur auf dem Bank-Charakter sichtbar)
@@ -1986,9 +1686,8 @@ UI.AddPage("bank", L["Gildenbank"], function(page)
 		if query == "" then shint:Show() else shint:Hide() end
 		UI.RefreshCurrent()
 	end)
-	local check = UI.Check(page, L["Dieser Charakter ist der Bank-Charakter"], function() return RM.db.config.bankScan end,
-		function(v) RM.db.config.bankScan = v; UI.RefreshCurrent() end,
-		L["Ausschalten, wenn das nicht mehr der Bank-Charakter ist – der Bereich Gildenbank verschwindet dann."])
+	-- 3.0.38 (OPT-ALLE): "Bank-Charakter" steht nur noch in den Einstellungen (vorher doppelt: Einstellungen + hier)
+	local check = UI.OptionsButton(page, "allgemein", 200, 24, L["Bank-Charakter …"])
 	Place(check, page, 220, -76)
 
 	local list = UI.List(page, 790, 400, {
@@ -2011,7 +1710,6 @@ UI.AddPage("bank", L["Gildenbank"], function(page)
 	end
 
 	return function()
-		check:Refresh()
 		local b = RM.db.bank
 		local rows, total = {}, 0
 		if b and b.i then

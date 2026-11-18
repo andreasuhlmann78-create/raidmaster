@@ -39,23 +39,28 @@ RM.PRUEFPUNKTE = {
 		todo = Todo("irgendwo, nach Punkt TR",
 			"Klicke im Fenster mit dem Testbericht auf den Knopf 'Neu laden und melden' (oder tippe /reload).",
 			"Öffne in Discord den Kanal #testberichte."),
-		expect = Expect("In #testberichte steht innert etwa 1 Minute ein Bericht 'RaidMaster 3.0.37' ohne das Wort FEHLER. Dann hier auf 'OK' klicken.",
+		expect = Expect("In #testberichte steht innert etwa 1 Minute ein Bericht 'RaidMaster 3.0.38' ohne das Wort FEHLER. Dann hier auf 'OK' klicken.",
 			"kein Gold, ca. 2 Minuten") },
-	{ id = "MN2", title = "Haken 'Marktdaten teilen'", since = "3.0.25",
-		todo = Todo("irgendwo",
+	-- 3.0.38 (OPT-ALLE h): ersetzt MN2 – der Schalter "Marktdaten teilen" steht jetzt im Optionen-Fenster (Bereich Allgemein)
+	{ id = "OPT", title = "Optionen am Bild", since = "3.0.38",
+		todo = Todo("irgendwo, nicht im Kampf",
 			"Tippe in den Chat: /rm",
-			"Klicke oben auf den Reiter 'Einstellungen'.",
-			"Klicke rechts auf den Haken 'Marktdaten teilen (anonym, nur Preise)' (Haken geht weg).",
-			"Klicke noch einmal darauf (Haken wieder da).",
-			"Halte die Maus kurz über den Haken."),
-		expect = Expect("Der Haken steht in einer eigenen Zeile über 'Addon unterstützen', nichts überdeckt ihn; ein Hinweis erklärt ihn ('Liest Auktionshaus-Scans mit …'). Dieser Punkt wird beim Klick von selbst grün.",
-			"kein Gold, 1 Minute") },
-	{ id = "MN2B", title = "Haken 'Marktdaten teilen' bleibt nach /reload aus", since = "3.0.25",
+			"Klicke links auf 'Einstellungen' (Zahnrad).",
+			"Klicke links nacheinander auf jeden Bereich (Allgemein, DKP-Vergabe, Gebote, Boss-DKP, Beute-Regeln, Plündermeister, Ansagen im Chat, Raid & Timer, Einladen & Werbung, Symbole & Leisten).",
+			"Klicke im Bereich 'DKP-Vergabe' auf 'Weitere (1)'.",
+			"Klicke im Bereich 'Allgemein' bei 'Marktdaten teilen' rechts auf 'An' (wird 'Aus') und noch einmal (wieder 'An'). Halte die Maus kurz über die Zeile.",
+			"Tippe oben links ins Suchfeld: pull",
+			"Klicke auf den Treffer 'Pull-Timer'.",
+			"Ziehe das Fenster unten rechts grösser und kleiner (z. B. ein Drittel grösser) und schau die Bereiche noch einmal an.",
+			"Klicke auf der Seite Beute > Loot auf 'Regeln ändern'."),
+		expect = Expect("Jeder Bereich wechselt sofort; rechts eine Spalte mit höchstens 12 Zeilen, nichts überlappt, kein Text abgeschnitten, keine Bildlaufleiste; jede Zeile hat rechts 'An/Aus', eine Knopfreihe, ein Menü oder ein Zahlenfeld; der Tooltip erklärt die Zeile. Die Suche zeigt 'Suche: … Treffer' mit dem Bereichsnamen, der Klick öffnet 'Raid & Timer' und die Zeile leuchtet kurz. 'Regeln ändern' öffnet 'Beute-Regeln'. Dann hier auf 'OK' klicken (sonst 'Nicht OK' und kurz sagen, was nicht stimmt).",
+			"kein Gold, ca. 3 Minuten") },
+	{ id = "MN2B", title = "'Marktdaten teilen' bleibt nach /reload aus", since = "3.0.25",
 		todo = Todo("irgendwo",
-			"Tippe /rm, Reiter 'Einstellungen', Haken 'Marktdaten teilen (anonym, nur Preise)' ausschalten.",
+			"Tippe /rm, links 'Einstellungen', Bereich 'Allgemein': bei 'Marktdaten teilen' auf 'An' klicken (zeigt dann 'Aus').",
 			"Tippe in den Chat: /reload",
-			"Nach dem Laden: /rm, Reiter 'Einstellungen' – der Haken ist weiter aus. Schalte ihn wieder ein."),
-		expect = Expect("Nach dem /reload ist der Haken aus. Dieser Punkt wird nach dem Laden von selbst grün.", "kein Gold, 2 Minuten") },
+			"Nach dem Laden: /rm, 'Einstellungen', 'Allgemein' – 'Marktdaten teilen' zeigt weiter 'Aus'. Klicke wieder auf 'An'."),
+		expect = Expect("Nach dem /reload steht 'Marktdaten teilen' auf 'Aus'. Dieser Punkt wird nach dem Laden von selbst grün.", "kein Gold, 2 Minuten") },
 	{ id = "MN1", title = "Auktionshaus-Scan wird mitgelesen", since = "3.0.25",
 		todo = Todo("Auktionshaus offen (beim Auktionator), AHSentinel geladen, Haken 'Marktdaten teilen' an",
 			"Starte in AHSentinel einen vollständigen Scan (wie gewohnt).",
@@ -182,10 +187,10 @@ function RM.PLFail(id, note)
 	return pl:Set(id, "fehler", note) and true or false
 end
 
--- Haken "Marktdaten teilen" in den Einstellungen (Pages.lua) -> schalten und Punkt MN2
+-- Schalter "Marktdaten teilen" im Optionen-Fenster (Options.lua, Bereich Allgemein). 3.0.38: Punkt MN2 ist in OPT aufgegangen
+-- (OPT sagt der Nutzer selbst – darum hier kein Hit mehr)
 function RM.MarktShareFromUI(v)
 	RM.SetMarktShare(v)
-	RM.PLHit("MN2", v and "an" or "aus")
 end
 
 -- Beim Einloggen: was nur hier messbar ist

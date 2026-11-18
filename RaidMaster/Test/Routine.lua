@@ -2580,9 +2580,10 @@ local function AreaJ(t, G)
 	t:Client("T133b", "J", "Mouseover-Tasten und Symbol-Leiste im echten Kampf", "Forever: Mob im Kampf per RaidMaster-Taste (Mouseover) und per Klick auf die Symbol-Leiste markieren, Rechtsklick entfernt, 'Alle aus' – Symbol da, Fehlerliste leer, kein 'Aktion blockiert'?")
 	t:Check("T134", "J", "Kernhunde-Hilfe ohne Kampflog", function()
 		local L = RM.L
+		-- 3.0.38: der Haken steht im Optionen-Fenster (Ansagen im Chat) und erscheint nur mit Kampflog
 		local check = false
-		for _, e in ipairs(RM.UI.registry or {}) do
-			if e.label == L["Kürschner ansagen, wenn ein Kernhund stirbt"] then check = true end
+		for _, d in ipairs(RM.Opt and RM.Opt.DEFS or {}) do
+			if d.key == "coreHound" and (not d.cond or d.cond()) then check = true end
 		end
 		if RM.IsModern then
 			if RM.Caps.combatLog then return false, "Kampflog an", "aus (moderner Client)" end
@@ -2590,7 +2591,7 @@ local function AreaJ(t, G)
 			if type(RM.Raid.AnnounceSkinners) ~= "function" then return false, "AnnounceSkinners fehlt", "Funktion" end
 			return true, "Knopf (Seite Raid)"
 		end
-		if RM.Caps.combatLog and not check and RM.UI.pages.raid and RM.UI.pages.raid.frame then
+		if RM.Caps.combatLog and not check then
 			return false, "Haken fehlt", "Haken (alter Client)"
 		end
 		return true, "alter Client: Haken"
@@ -2994,7 +2995,6 @@ local function AreaJ(t, G)
 				if st ~= "auto" and st ~= "fehler" then error(id .. " nicht ausgelöst (" .. tostring(st) .. ")", 0) end
 			end
 			hit("BL", function() RM.CmdHint.run("version") end)                       -- Klick in der Befehlsliste
-			hit("MN2", function() RM.MarktShareFromUI(savedShare ~= false) end)       -- Haken in den Einstellungen
 			hit("MN2B", function() cfg.marktTeilen = false; RM.PLLoginChecks(); cfg.marktTeilen = savedShare end)
 			hit("RT", function() RM.Markers.NoteSuggest(2) end)                        -- Vorschlag in Forever
 			hit("SS", function() RM.Records.NoteShot("Testboss") end)                  -- Erstkill-Screenshot
@@ -3022,7 +3022,7 @@ local function AreaJ(t, G)
 			if list:State("BL") ~= "offen" then error("Hit während der Routine gezählt", 0) end
 			local lines = list:ReportLines()
 			if #lines ~= #pts + 1 then error("ReportLines " .. #lines, 0) end
-			why = (#pts) .. " Punkte; Hit-Stellen BL, MN2, MN2B, RT, SS, TR, MNT, auto SP; ohne Dev wirkungslos"
+			why = (#pts) .. " Punkte; Hit-Stellen BL, MN2B, RT, SS, TR, MNT, auto SP; OPT sagt der Nutzer; ohne Dev wirkungslos"
 		end)
 		D.IsDev, RM.PL, RM.plTest = savedIsDev, savedPL, savedTest
 		cfg.marktTeilen = savedShare
@@ -3355,6 +3355,214 @@ local function AreaJ(t, G)
 		if G.db.data == RM.db.data then return false, "RaidMaster.db.data = Testdaten", "echte Daten" end
 		if G.UI ~= RM.UI or G.VERSION ~= RM.VERSION then return false, "Durchreiche unvollständig", "wie RM" end
 		return true, "RaidMaster.db = Schnappschuss vom Start, TestRunning() true, Funktionen wie RM"
+	end)
+
+	-- 3.0.38 (OPT-ALLE, Entscheid des Nutzers 18.11. 10:27): neues Optionen-Fenster. Jede alte Option genau einmal (n alt = n neu),
+	-- erreichbar mit denselben Rechten wie auf ihrer alten Seite, wirkt auf DENSELBEN Schlüssel wie vorher (Gegenprobe: gelesen wird
+	-- direkt in RaidMasterDB, nicht über die Option), höchstens 12 Zeilen je Bereich, Suche findet jede Option, Optionen-Knöpfe öffnen
+	-- den Bereich, "Standard" setzt die Standardwerte, Beschriftungen passen, Aufbau je Bereich unter 16 ms.
+	-- Alte Liste = Bestandsaufnahme Schritt 1 (Bericht 18.11. 10:29): Schlüssel -> alte Seite (Rechte); nil = vorher ohne Schalter
+	local OPT_OLD = {
+		{ "settings.dkpStart", "settings" }, { "settings.dkpEnd", "settings" }, { "settings.standbyStartDKP", "settings" },
+		{ "settings.defaultBossDKP", "settings" }, { "settings.bossDKP", "settings" }, { "settings.minBid", "settings" },
+		{ "settings.bidIncrement", "settings" }, { "settings.auctionTime", "settings" }, { "settings.decayPct", "settings" },
+		{ "settings.officerRank", "settings" }, { "settings.firstKillDouble", "settings" }, { "settings.antiSnipe", "settings" },
+		{ "settings.allowNegative", "settings" }, { "settings.onlyOnline", "settings" }, { "settings.standbyGetsDKP", "settings" },
+		{ "settings.mainBeforeTwink", "settings" }, { "settings.autoDecay", "raid", officer = true },
+		{ "minimap.hide", "settings" }, { "itemTooltip", "settings" }, { "bankScan", "settings+bank" }, { "records", "settings" },
+		{ "marktTeilen", "settings" },
+		{ "rules.epic", "loot" }, { "rules.blue", "loot" }, { "rules.recipe", "loot" }, { "rules.mats", "loot" }, { "fallback", "loot" },
+		{ "bankChar", "loot" }, { "deChar", "loot" }, { "crafterChar", "loot" }, { "lootMaster", "loot" }, { "lootThreshold", "loot" },
+		{ "autoLoot", "loot" }, { "setLootOnStart", "loot" }, { "autoDistribute", "loot" }, { "announceLoot", "loot" },
+		{ "announceBids", "loot" }, { "unlootedReminder", "loot" }, { "tradeFallback", "loot" }, { "whisperReplies", "loot" },
+		{ "pullSeconds", "raid" }, { "breakMinutes", "raid" }, { "timerAddons", "raid" }, { "pullCountdownChat", "raid" },
+		{ "welcome", "raid" }, { "fireResMin", "raid" }, { "coreHound", "raid" },
+		{ "autoInvite", "signup" }, { "autoInviteMinutes", "signup" }, { "autoGroups", "signup" },
+		{ "adChannel", "ad" }, { "adAutoInvite", "ad" },
+		{ "markerTemplate", "lboss" }, { "markerBar", "lboss" }, { "markerLocked", "lboss" }, { "autoTemplate", "lboss" }, { "bossBar", "lboss" },
+		{ "specScan", "specs" },
+		{ "cmdHint" }, { "readyCheckGame" }, { "firstKillScreenshot" },
+	}
+	R.OPT_OLD = OPT_OLD
+	local function OptPath(key)
+		local base, path = RM.db.config, key
+		if key:find("^settings%.") then base, path = RM.db.data.settings, key:sub(10) end
+		return base, path
+	end
+	local function OptRaw(key)
+		local t, path = OptPath(key)
+		for part in path:gmatch("[^%.]+") do
+			if type(t) ~= "table" then return nil end
+			t = t[part]
+		end
+		return t
+	end
+	local function OptSetRaw(key, v)
+		local t, path = OptPath(key)
+		local parts = {}
+		for part in path:gmatch("[^%.]+") do parts[#parts + 1] = part end
+		for i = 1, #parts - 1 do t = t[parts[i]] end
+		t[parts[#parts]] = v
+	end
+	local function Click(b)
+		local f = b and b.GetScript and b:GetScript("OnClick")
+		if type(f) ~= "function" then error("Knopf ohne OnClick") end
+		f(b, "LeftButton")
+	end
+	local function OldVisible(page)
+		local A = RM.UI.AccessOK
+		if page == "settings+bank" then return A("leader") or A("bank") end
+		return A(RM.UI.PAGE_ACCESS[page] or "lead")
+	end
+	AsyncCheck(t, "T194", "J", "OPT: Optionen-Fenster – jede alte Option genau einmal, wirkt wie vorher", function()
+		local O, UI, T = RM.Opt, RM.UI, RM.Test
+		if not (O and O.DEFS and UI.OpenOptions) then return false, "Options.lua fehlt", "RM.Opt" end
+		TestRaid()
+		local u = {}
+		local bad = {}
+		local function Bad(s) if #bad < 12 then bad[#bad + 1] = s end end
+		local saved = 0
+		local wasShown = Shown(MainFrame())
+		local wasPage = UI.main and UI.main.current
+		return Guard(function()
+			-- (a) n alt = n neu, jede Option genau einmal
+			local count, oldPage = {}, {}
+			local officerOnly = {}
+			for _, o in ipairs(OPT_OLD) do oldPage[o[1]] = o[2] or false; officerOnly[o[1]] = o.officer end
+			local nNew = 0
+			for _, d in ipairs(O.DEFS) do
+				if d.key then
+					nNew = nNew + 1
+					count[d.key] = (count[d.key] or 0) + 1
+					if oldPage[d.key] == nil then Bad("neu, nicht in der alten Liste: " .. d.key) end
+				end
+			end
+			for _, o in ipairs(OPT_OLD) do
+				local c = count[o[1]] or 0
+				if c ~= 1 then Bad(o[1] .. " " .. c .. "x") end
+			end
+			if nNew ~= #OPT_OLD then Bad("n neu " .. nNew .. " ≠ n alt " .. #OPT_OLD) end
+			-- Rechte wie auf der alten Seite (je Rolle)
+			local roleOld = T.role
+			for _, role in ipairs({ "member", "lead", "looter", "raidlead" }) do
+				T.role = role
+				for _, d in ipairs(O.DEFS) do
+					local pg = d.key and oldPage[d.key]
+					if pg then
+						-- officer: Schalter war für alle der Seite sichtbar, schalten durften nur Offiziere (NeedOfficer) -> wer
+						-- ihn bedienen konnte, sieht ihn jetzt (autoDecay auf der Seite Raid)
+						local want = OldVisible(pg) and not (d.cond and not d.cond()) and (not officerOnly[d.key] or RM.UI.AccessOK("leader"))
+						if O.Visible(d) ~= want then Bad(role .. "/" .. d.key .. " sichtbar " .. tostring(O.Visible(d)) .. " (vorher " .. tostring(want) .. ")") end
+					end
+				end
+			end
+			T.role = roleOld
+			-- gegen SettingsChanged (verteilt sonst an die Gilde – im Testmodus ohnehin zurückgehalten)
+			Swap(u, RM.DKP, "SettingsChanged", function() saved = saved + 1 end)
+			UI.Open("settings")
+			local perArea, skipped = {}, {}
+			for _, a in ipairs(O.AREAS) do
+				R.Breathe(R.PRE_MS)
+				-- (e) Optionen-Knopf öffnet den Bereich
+				UI.OpenOptions(a.id)
+				if O.current ~= a.id or not (UI.main and UI.main.current == "settings") then Bad("Knopf öffnet nicht " .. a.id) end
+				a.expanded = true
+				O.RefreshArea()
+				if (a.lineCount or 99) > O.MAX_ROWS then Bad(a.id .. ": " .. tostring(a.lineCount) .. " Zeilen") end
+				perArea[#perArea + 1] = a.id .. " " .. tostring(a.lineCount)
+				if (O.buildMs[a.id] or 0) > 16 then Bad(string.format("Aufbau %s %.1f ms", a.id, O.buildMs[a.id])) end
+				for _, d in ipairs(a.defs) do
+					R.Breathe(R.PRE_MS)
+					if not O.Visible(d) then
+						skipped[#skipped + 1] = d.key or d.label
+					elseif d.kind ~= "donate" then
+						local row = O.RowOf(d) or (d.kind == "bosses" and a.rows[1])
+						local ctrl = row and rawget(row, "ctrl")
+						if not (row and row:IsShown() and ctrl) then Bad(tostring(d.key) .. ": Zeile nicht sichtbar")
+						else
+							-- Beschriftung passt (eine Zeile, Breite gemessen)
+							local w = row.label.GetStringWidth and row.label:GetStringWidth() or 0
+							if type(w) == "number" and w > O.LABEL_W - 8 + 0.5 then Bad(d.key .. ": Text " .. math.floor(w) .. " px") end
+							-- Suche findet die Option
+							local found = false
+							for _, h in ipairs(O.Search(d.label)) do if h == d then found = true end end
+							if not found then Bad(d.key .. ": Suche findet sie nicht") end
+							-- Wirkung auf den alten Schlüssel (direkt gelesen)
+							local raw0 = OptRaw(d.key)
+							local ok, err = pcall(function()
+								if d.kind == "toggle" then
+									local g0 = d.get() and true or false
+									Click(ctrl)
+									local r1 = OptRaw(d.key)
+									if (r1 and true or false) ~= (not g0) or (r1 == nil) then Bad(d.key .. ": Schlüssel " .. tostring(raw0) .. " -> " .. tostring(r1)) end
+									Click(ctrl)
+									if (d.get() and true or false) ~= g0 then Bad(d.key .. ": zweiter Klick nicht zurück") end
+								elseif d.kind == "choice" then
+									for _, b in ipairs(ctrl.buttons) do
+										Click(b)
+										if OptRaw(d.key) ~= b.value then Bad(d.key .. "=" .. tostring(b.value) .. ": Schlüssel " .. tostring(OptRaw(d.key))) break end
+									end
+								elseif d.kind == "drop" then
+									local item
+									for _, g in ipairs(ctrl.build()) do for _, it in ipairs(g.items) do if it[1] ~= raw0 and it[1] ~= "" then item = item or it end end end
+									if item then
+										ctrl.setter(item[1])
+										if OptRaw(d.key) ~= item[1] then Bad(d.key .. ": Schlüssel " .. tostring(OptRaw(d.key)) .. " statt " .. tostring(item[1])) end
+									end
+								elseif d.kind == "name" then
+									ctrl:SetText("testbank")
+									ctrl:GetScript("OnTextChanged")(ctrl, true)
+									if OptRaw(d.key) == raw0 or OptRaw(d.key) ~= d.get() then Bad(d.key .. ": Schlüssel " .. tostring(OptRaw(d.key))) end
+								elseif d.kind == "num" then
+									local n0 = saved
+									ctrl:SetText(tostring((tonumber(raw0) or 0) + 1))
+									O.SaveGuild()
+									if OptRaw(d.key) == raw0 then Bad(d.key .. ": Schlüssel unverändert " .. tostring(raw0)) end
+									if saved ~= n0 + 1 then Bad(d.key .. ": nicht verteilt") end
+								elseif d.kind == "bosses" then
+									local st = a.bossState
+									st.pool, st.page = "mc", 1
+									O.RefreshArea()
+									local br = st.rows[1]
+									if not br.bossId then Bad("Boss-DKP: keine Bosse (mc)") else
+										local id = br.bossId
+										local b0 = RM.db.data.settings.bossDKP[id]
+										br.ctrl:SetText("37")
+										br.ctrl:GetScript("OnTextChanged")(br.ctrl, true)
+										O.SaveGuild()
+										if RM.db.data.settings.bossDKP[id] ~= 37 then Bad("Boss-DKP: " .. tostring(RM.db.data.settings.bossDKP[id])) end
+										RM.db.data.settings.bossDKP[id] = b0
+									end
+								end
+							end)
+							if not ok then Bad(tostring(d.key) .. ": " .. tostring(err)) end
+							if d.kind ~= "bosses" then OptSetRaw(d.key, raw0) end
+						end
+					end
+				end
+				a.expanded = nil
+				O.RefreshArea()
+			end
+			-- (d) Standard: Wert verstellen, "Standard" -> Standardwert
+			RM.db.config.pullSeconds = 20
+			RM.db.config.readyCheckGame = false
+			O.ResetArea("raid")
+			if RM.db.config.pullSeconds ~= RM.DEFAULT_CONFIG.pullSeconds or RM.db.config.readyCheckGame ~= true then
+				Bad("Standard: Pull " .. tostring(RM.db.config.pullSeconds) .. ", Bereitschaft " .. tostring(RM.db.config.readyCheckGame))
+			end
+			if #bad > 0 then return false, #bad .. ": " .. table.concat(bad, " | "):sub(1, 300), "jede Option genau einmal, wirkt auf ihren Schlüssel" end
+			local maxMs = 0
+			for _, v in pairs(O.buildMs) do if v > maxMs then maxMs = v end end
+			return true, string.format("n alt %d = n neu %d, %d Bereiche (%s), Aufbau je Bereich höchstens %.1f ms, nicht für diesen Client: %s",
+				#OPT_OLD, nNew, #O.AREAS, table.concat(perArea, ", "), maxMs, #skipped > 0 and table.concat(skipped, ", ") or "–")
+		end, function()
+			Undo(u)
+			T.role = "raidlead"
+			if UI.main then
+				if wasPage then pcall(UI.ShowPage, wasPage) end
+				if not wasShown then UI.main:Hide() end
+			end
+		end)
 	end)
 
 	-- 3.0.24 (BL): Befehlsliste beim Tippen – eine Tabelle für Handler und Liste (T-BL1 … T-BL6)
@@ -4006,6 +4214,7 @@ local function AreaL(t, G)
 			{ "Prüfliste im Spiel", "T185" }, { "RM-DIAG-1 Fehlerflut", "T186" },
 			{ "RM-DIAG-1 Fehlerquellen", "T187" }, { "RM-API-RAIDS", "T188" },
 			{ "TR-ALLE Sicherung", "T189" }, { "Tooltip-Platzierung (Ingame T155)", "T190" }, { "HUD-Ausnahme (Ingame T156)", "T191" }, { "Beschriftungen passen (Ingame T158)", "T192" }, { "Testdaten nie für andere Addons", "T193" },
+			{ "OPT-ALLE Optionen-Fenster", "T194" },
 			{ "RM-TF-1 kein Fehlerfenster", "T120" }, { "T-BL4 echtes Eingabefeld", "T169" } }
 		local only = R.only
 		local have, missing = 0, {}
@@ -4349,6 +4558,16 @@ function R.Run(only)
 					coroutine.yield("wait", 0)
 					R.current = "Aufbau " .. id
 					pcall(UI.ShowPage, id)
+				end
+			end
+			-- 3.0.38 (OPT-ALLE i): jeder Bereich des Optionen-Fensters in einem eigenen Bild, einzeln gemessen
+			if RM.Opt and UI.pages.settings and UI.pages.settings.built then
+				for _, a in ipairs(RM.Opt.AREAS) do
+					if RM.Opt.AreaVisible(a) and not RM.Opt.built[a.id] and not RM.InCombat() then
+						coroutine.yield("wait", 0)
+						R.current = "Aufbau Optionen " .. a.id
+						pcall(UI.OpenOptions, a.id)
+					end
 				end
 			end
 			coroutine.yield("wait", 0)

@@ -27,6 +27,9 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 ===
 📜 **Updates**
 
+**3.0.38** – Alle Einstellungen in einem Fenster
+• /rm > Einstellungen: links die Bereiche, rechts nur deren Optionen, oben ein Suchfeld. Knöpfe auf den Seiten führen direkt hin. Deine Werte bleiben.
+
 **3.0.35 – 3.0.37** – Hauptfenster ohne Ruckeln
 • Beim ersten Öffnen wird nur die sichtbare Seite gebaut, der Rest danach im Hintergrund. 3.0.36/3.0.37: nur Verbesserungen für Entwickler.
 
@@ -53,8 +56,5 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 • Beim Tippen von `/rm` erscheint eine Befehlsliste zum Auswählen (`/rm befehlsliste` schaltet sie aus).
 • Marktdaten-Netz: Auktionshaus-Scans werden mit der Gilde geteilt (Schalter „Marktdaten teilen“ im Fenster).
 • Abgleich zwischen PC und Laptop über den Uploader, Fehlerberichte nur mit deiner Zustimmung.
-
-**3.0.19** – Symbole in WoW Forever
-• Symbol-Leiste und RaidMaster-Tasten funktionieren in WoW Forever wieder ohne „Aktion blockiert“ – auch im Kampf. „Adds markieren“ zeigt dort einen Vorschlag.
 
 Ältere Neuerungen stehen im Addon in der Datei LIESMICH.txt.

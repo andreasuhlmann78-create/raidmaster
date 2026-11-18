@@ -23,6 +23,18 @@ MAIN FEATURES
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
 
+WHAT'S NEW IN 3.0.38 – settings in one window
+- All options are now in ONE place: /rm > Settings. Sections on the left (General, DKP awards, Bids, Boss DKP, Loot rules,
+  Master looter, Chat announcements, Raid & timers, Invites & ads, Markers & bars), on the right only that section's
+  options – one column, short names, explanation in the tooltip. A search box at the top left (e.g. "pull").
+- On/off is an "On/Off" button everywhere, a choice is a row of buttons. Rarely used options under "More", a "Default"
+  button per section.
+- On the pages (Loot, Raid, Sign-ups, Ad, Bosses & markers, Specs, Guild bank) a button opens the matching section.
+  Before, the options were spread over seven pages, three of them twice.
+- Newly adjustable: "Also start game ready check", "Screenshot on first kill" and "Command list while typing".
+- All saved values stay as they are. Rights as before (guild values officers only, loot for the master looter, raid
+  options for the raid leaders).
+
 WHAT'S NEW IN 3.0.37 – test routine (developer only)
 - Fixed: the test run (T43) stopped with a Lua error in WoW Forever (it called an item function Forever no longer has). It now
   uses the C_Item switch like the rest of the code.

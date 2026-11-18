@@ -160,12 +160,12 @@ local function Create()
 	-- zweite Reihe: Pull- und Pausen-Timer (auch für DBM/BigWigs), Bereitschafts-Check
 	local pull = UI.Button(f, L["Pull"], 70, 26, function()
 		if RM.Timer.Running("pull") then RM.Timer.Cancel() else RM.Timer.Pull() end
-	end, L["Pull-Timer starten (Sekunden: Seite Raidleiter > Raid). Nochmal klicken bricht ab.\nGeht auch an Deadly Boss Mods und BigWigs."])
+	end, L["Pull-Timer starten (Sekunden: Einstellungen > Raid & Timer). Nochmal klicken bricht ab.\nGeht auch an Deadly Boss Mods und BigWigs."])
 	pull:SetPoint("BOTTOMLEFT", 8, 8)
 	f.pull = pull
 	local brk = UI.Button(f, L["Pause"], 70, 26, function()
 		if RM.Timer.Running("break") then RM.Timer.Cancel() else RM.Timer.Break() end
-	end, L["Pausen-Timer starten (Minuten: Seite Raidleiter > Raid). Nochmal klicken beendet die Pause."])
+	end, L["Pausen-Timer starten (Minuten: Einstellungen > Raid & Timer). Nochmal klicken beendet die Pause."])
 	brk:SetPoint("LEFT", pull, "RIGHT", 4, 0)
 	f.brk = brk
 	local rdy = UI.Button(f, L["Bereitschaft"], 166, 26, function() RM.Ready.Start() end,

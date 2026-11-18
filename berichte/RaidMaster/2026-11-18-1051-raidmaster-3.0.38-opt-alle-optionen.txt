@@ -1,0 +1,90 @@
+BERICHT RAIDMASTER AN DIE PRÜF-SITZUNG
+Stand: 18.11.2026 10:51 (aus date) · Sitzung: RaidMaster-Projekt-Sitzung · Version: Addon 3.0.38 (Uploader unverändert 2.3.14)
+Commit: dieser Push · Bezug: auftraege/anweisung-optionen-nach-ahs-2026-11-18.txt (OPT-ALLE, 30d6b305), Schritt 1 = Bericht 10:29 (cdf80a7f)
+Status: umgesetzt, zur Prüfung.
+
+1. NEUES OPTIONEN-FENSTER (Options.lua, neu; Seite "Einstellungen")
+ (a) Links Suchfeld + 10 Bereiche, rechts EINE Spalte nur mit den Optionen des Bereichs, höchstens 12 Zeilen, kein Scrollen.
+     Zeilen je Bereich (mit "Weitere" aufgeklappt, gemessen in T194): Allgemein 9, DKP-Vergabe 11, Gebote 6, Boss-DKP 11 (Raid-Wahl +
+     höchstens 10 Bosse je Bild, mehr Bosse -> Knopf "Weitere: Bosse 11–n" statt Scrollen), Beute-Regeln 10, Plündermeister 4,
+     Ansagen im Chat 7 (Era 8, Kernhunde nur mit Kampflog wie bisher), Raid & Timer 6, Einladen & Werbung 5, Symbole & Leisten 5.
+ (b) Suchfeld oben links: sucht in Beschriftung, Tooltip und Bereichsname aller Bereiche (nur Optionen, die der Spieler sehen darf),
+     zeigt "Suche: n Treffer" mit Bereichsname; Klick (oder Enter = erster Treffer) öffnet den Bereich, klappt "Weitere" auf, die Zeile
+     leuchtet 1,5 s.
+ (c) Kurze Beschriftung links (Deutsch alle ≤ 28 Zeichen, längste 28), Wert rechts immer ab derselben Stelle; Erklärung nur im
+     Tooltip (alte lange Beschriftung + alter Tooltip). Gleiche Art überall: an/aus = ein Knopf "An/Aus" (an = orange), Auswahl =
+     Knopfreihe, Namen = Menü, Zahlen = Feld. Beschriftungen und Knöpfe passen ihre Schrift an (UI.FitText, eine Zeile).
+ (d) Häufiges zuerst; "Weitere (n)" eingeklappt (Offiziersränge, Screenshot beim Erstkill, Gildenbank-Charakter/Entzauberer/
+     Handwerker). Knopf "Standard" je Bereich (mit Rückfrage; Gilden-Bereiche: nur Offiziere, sofort verteilt wie "Speichern").
+ (e) Optionen-Knöpfe auf den Seiten öffnen direkt den Bereich: Loot ("Regeln ändern", "Plündermeister ändern", "Ansagen ändern" +
+     Übersicht der aktuellen Werte), Raid ("Optionen" Timer, "Ansagen im Chat", Decay "Optionen" nur für Offiziere, MC "Kürschner-
+     Ansage …"), Anmeldungen ("Auto-Einladung …"), Werbung ("Kanal wählen …" + angezeigter Kanal), Bosse & Symbole ("Symbole &
+     Leisten …" + angezeigte Vorlage), Gruppen ("Plündermeister ändern"), Skillungen ("Auto-Scan …"), Gildenbank ("Bank-Charakter …").
+ (f) Alle Schlüssel unverändert (RM.db.config.*, RM.db.data.settings.*). Gilden-Werte weiter mit "Speichern und an die Gilde
+     verteilen" / "Verwerfen" unten in den drei Gilden-Bereichen; Häkchen sofort lokal wie bisher.
+ (g) Rechte je Option wie auf ihrer alten Seite (UI.AccessOK, neu ausgelagert aus UI.CanSeePage): Einstellungen = Offiziere, Loot =
+     Plündermeister/Raidleitung, Raid/Anmeldungen/Werbung/Bosse & Symbole/Skillungen = Raidleitung, Bank-Charakter = Offiziere ODER
+     Bank-Charakter. Die Seite "Einstellungen" ist sichtbar, sobald mindestens eine Option für den Spieler da ist (Mitglied: keine,
+     wie bisher – T12 prüft das). Ausnahme bewusst: "Decay jeden Mittwoch" war auf der Seite Raid für die Raidleitung sichtbar,
+     schalten durften aber nur Offiziere (NeedOfficer) – jetzt sehen ihn nur Offiziere (T194 prüft: "wer ihn bedienen konnte").
+     Design: RaidMaster hat kein Klassisch/Modern und keinen 130-%-Schalter; das Fenster skaliert über seine Grösse – das prüft der
+     neue Prüflisten-Punkt OPT (grösser/kleiner ziehen).
+ (i) Leistung: die Seite baut nur Suchfeld + Bereichsknöpfe, jeder Bereich wird erst beim ersten Zeigen gebaut. Die Testroutine baut
+     im Schritt "Aufbau" jeden Bereich in einem eigenen Bild ("Aufbau Optionen <Bereich>", einzeln gemessen). Nachbau: höchstens
+     0,4–0,7 ms je Bereich (T194, Messung O.buildMs). Mit dem Faktor Spiel/Nachbau ~7,4 erwartet ≤ 5 ms – Verdacht, zu messen
+     (nächster Ingametest, Portionen-Zeile).
+
+2. LISTE ALT -> NEU (n alt = 61 = n neu; Nummern wie im Bericht 10:29)
+   Allgemein:          18 minimap.hide ("Minimap-Knopf", An = sichtbar), 19 itemTooltip ("Infos im Item-Tooltip"), 21 records,
+                       22 marktTeilen, 20 bankScan ("Bank-Charakter", vorher doppelt), 59 cmdHint (neu bedienbar, Befehl bleibt),
+                       Weitere: 61 firstKillScreenshot (neu bedienbar); dazu "Addon unterstützen" (Knopf, kein Schlüssel)
+   DKP-Vergabe:        1 dkpStart, 2 dkpEnd, 4 defaultBossDKP, 11 firstKillDouble, 14 onlyOnline, 3 standbyStartDKP, 15 standbyGetsDKP,
+                       9 decayPct, 17 autoDecay (vorher Seite Raid), Weitere: 10 officerRank
+   Gebote:             6 minBid, 7 bidIncrement, 8 auctionTime, 12 antiSnipe, 16 mainBeforeTwink, 13 allowNegative
+   Boss-DKP:           5 bossDKP[Boss] (Raid-Wahl + Boss-Zeilen; Eingaben bleiben beim Blättern erhalten bis Speichern/Verwerfen)
+   Beute-Regeln:       23–26 rules.epic/blue/recipe/mats, 27 fallback ("Ohne Gebot an"), 35 autoDistribute,
+                       Weitere: 28 bankChar, 29 deChar, 30 crafterChar
+   Plündermeister:     31 lootMaster, 32 lootThreshold (beide vorher doppelt: Loot + Gruppen), 34 setLootOnStart, 33 autoLoot
+   Ansagen im Chat:    36 announceLoot, 37 announceBids, 45 welcome, 44 pullCountdownChat, 40 whisperReplies, 38 unlootedReminder,
+                       39 tradeFallback, 47 coreHound (nur mit Kampflog)
+   Raid & Timer:       41 pullSeconds, 42 breakMinutes, 43 timerAddons, 46 fireResMin, 60 readyCheckGame (neu bedienbar), 58 specScan
+   Einladen & Werbung: 48 autoInvite, 49 autoInviteMinutes, 50 autoGroups, 52 adAutoInvite, 51 adChannel
+   Symbole & Leisten:  54 markerBar, 55 markerLocked, 53 markerTemplate (Menü: Standard + Vorlagen nach Raid), 56 autoTemplate, 57 bossBar
+   Doppelte (3) und unbedienbare (3) gibt es nicht mehr. Ansichtsfilter (Nur Raid, Log-Filter, Topf-/Raid-Wahl) bleiben auf ihren Seiten.
+
+3. MIT-GEÄNDERT
+ - Hinweistexte, die auf alte Orte zeigten, nennen jetzt "Einstellungen > …" (Auction.lua "Nicht vergeben", BossBar.lua Pull/Pause,
+   Loot.lua zwei Plündermeister-Hinweise) – in allen 10 Sprachen neu übersetzt.
+ - Locales: 83 neue Texte in allen 10 Sprachen (keine fehlende Übersetzung für Options/Pages/UI, T90/T184 OK in enUS, ruRU, frFR, zhCN).
+ - Prüfliste (h): neuer Punkt "OPT Optionen am Bild" (Nutzer sagt OK/Nicht OK). Er ersetzt MN2 ("Haken Marktdaten teilen … über
+   Addon unterstützen"), weil dieser Haken samt Ort nicht mehr existiert – sein Inhalt (sichtbar, nichts überdeckt, Tooltip, schaltet)
+   ist Schritt 5 von OPT. Grund: höchstens 14 Punkte. MN2B (bleibt nach /reload aus) bleibt, Text auf das neue Fenster angepasst.
+ - CHANGELOG: LIESMICH.txt (DE) und README_EN.txt (EN) "NEU IN 3.0.38"; Discord-Updates 3.0.38 (Updates-Teil 1982 Zeichen, ältester
+   Eintrag 3.0.19 entfernt); README.md Download-Link.
+
+4. TESTS (Hinweise, keine Freigabe) – Nachbildung berichte/RaidMaster/offline
+ - Neu T194 (Bereich J, im Regressionsblock): (a) jede der 61 alten Optionen genau einmal, n alt = n neu; Rechte je Rolle (Mitglied,
+   Raidleitung, Plündermeister, Raidleiter) wie auf der alten Seite; (b) Suche findet jede Option; (e) Optionen-Knopf öffnet jeden
+   Bereich; ≤ 12 Zeilen je Bereich mit "Weitere" offen; (g) jede Option per Klick auf ihr Bedienelement (An/Aus, jeder Knopf der
+   Knopfreihe, Menü, Namensfeld, Zahl + Speichern, Boss-DKP + Speichern) – Wirkung DIREKT in RaidMasterDB unter dem alten Schlüssel
+   gelesen, danach zurück; (d) "Standard" setzt Pull 20 -> 10 und Bereitschaft aus -> an; (i) Aufbau je Bereich ≤ 16 ms.
+   Ergebnis Forever: "n alt 61 = n neu 61, 10 Bereiche (…), Aufbau je Bereich höchstens 0.4 ms, nicht für diesen Client: coreHound".
+ - Gegenproben (run_routine.lua, neue Schalter): OPTBROKEN=1 (records schreibt in falschen Schlüssel) -> T194 FEHLER "records: Schlüssel
+   true -> true"; OPTDUP=1 (itemTooltip doppelt) -> FEHLER "itemTooltip 2x | n neu 62 ≠ n alt 61"; OPTRIGHTS=1 (autoInvite nur
+   Offiziere) -> FEHLER "lead/autoInvite sichtbar false (vorher true)".
+ - Angepasst: T134 (Kernhunde-Schalter jetzt im Optionen-Fenster, nur mit Kampflog), T185 (Hit-Stellen ohne MN2), T13 (registriert
+   jetzt die neuen Knöpfe: 42 An/Aus, 17 Knopfreihen). run_routine.lua: SHOWID=… zeigt einzelne Ergebnisse des Hauptlaufs.
+ - Forever, Era ALLE OK; enUS, ruRU, frFR, zhCN, koKR ALLE OK; STOPAT 1/60 ALLE OK; echte Daten (Desktop Forever/Era, Laptop Forever)
+   ALLE OK; längstes Bild 3,0–4,7 ms, über 5 ms: 0.
+ - Lua-Syntax (Lua 5.1, alle Dateien) ohne Fehler. Gemeinsame Dateien cmp gleich mit shared/.
+ - addon_check download/RaidMaster-3.0.38.zip: "RaidMaster-3.0.38.zip: OK", kein FEHLER, keine WARNUNG (EXIT 0).
+ Grenze (ehrlich): Die Nachbildung misst keine Textbreiten (GetStringWidth fehlt dort) – ob alles in FR/ES/RU ohne Überdeckung passt,
+ zeigen T158/T192 im Spiel und der Prüflisten-Punkt OPT. Längste Übersetzungen: FR 38 Zeichen (vorhandener Text "Annoncer les offres
+ dans le canal raid"), wird per FitText verkleinert (bis 9 pt, eine Zeile).
+
+5. HINWEIS (zur Kenntnis, nicht geändert): Normale Mitglieder sehen weiterhin keine Optionen (auch nicht Minimap-Knopf, Item-Tooltip,
+   Marktdaten teilen) – das war schon vorher so (Seite Einstellungen nur für Offiziere). Soll "Allgemein" für alle sichtbar werden,
+   bitte als Auftrag; die Rechte stehen je Option in Options.lua (access).
+
+FÜR DEN NUTZER (nach Prüfung): Bot /update -> RaidMaster 3.0.38, /reload, /rm version (3.0.38), /rm testroutine alles, dann
+/rm prüfliste -> Punkt "OPT Optionen am Bild".

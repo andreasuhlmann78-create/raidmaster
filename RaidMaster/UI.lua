@@ -848,8 +848,14 @@ function UI.IsRaidLead()
 	return grouped and RM.IsAssist() and true or false
 end
 
+-- 3.0.38: Rechte-Stufe einzeln prüfbar (die Optionen behalten je Option die Rechte der Seite, wo sie vorher stand)
 function UI.CanSeePage(id)
-	local access = UI.PAGE_ACCESS[id] or "lead"
+	-- Einstellungen: sichtbar, sobald mindestens eine Option für diesen Spieler da ist (Options.lua)
+	if id == "settings" then return RM.Opt and RM.Opt.AnyVisible() or false end
+	return UI.AccessOK(UI.PAGE_ACCESS[id] or "lead")
+end
+
+function UI.AccessOK(access)
 	if access == "all" then return true end
 	-- Gildenbank: nur der Bank-Charakter sieht sie (auch nicht der Raidleiter)
 	if access == "bank" then return RM.Bank and RM.Bank.IsBankChar() or false end

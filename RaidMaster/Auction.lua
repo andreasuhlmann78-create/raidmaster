@@ -237,7 +237,7 @@ local function AwardFrame()
 	award:SetPoint("BOTTOMLEFT", 14, 12)
 	award:SetAccent(true)
 	local no = UI.Button(f, L["Nicht vergeben"], 130, 28, function() A.NoAward() end,
-		L["Geht wie bei keinen Geboten an Entzauberer bzw. Gildenbank (Einstellung auf der Seite Loot)."])
+		L["Geht wie bei keinen Geboten an Entzauberer bzw. Gildenbank (Einstellungen > Beute-Regeln)."])
 	no:SetPoint("LEFT", award, "RIGHT", 8, 0)
 	local again = UI.Button(f, L["Neu versteigern"], 130, 28, function() A.CancelAward() end,
 		L["Das Item kommt wieder vorne in die Warteschlange."])

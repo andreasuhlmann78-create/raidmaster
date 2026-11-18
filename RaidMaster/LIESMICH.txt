@@ -11,6 +11,18 @@ INSTALLATION
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
 
+NEU IN 3.0.38 – Einstellungen in einem Fenster
+- Alle Optionen stehen jetzt an EINER Stelle: /rm > Einstellungen. Links die Bereiche (Allgemein, DKP-Vergabe, Gebote,
+  Boss-DKP, Beute-Regeln, Plündermeister, Ansagen im Chat, Raid & Timer, Einladen & Werbung, Symbole & Leisten), rechts
+  nur die Optionen dieses Bereichs – eine Spalte, kurze Namen, Erklärung im Tooltip. Oben links ein Suchfeld (z. B. "pull").
+- An/aus ist überall ein Knopf "An/Aus", eine Auswahl eine Knopfreihe. Selten Gebrauchtes unter "Weitere", je Bereich
+  ein Knopf "Standard".
+- Auf den Seiten (Loot, Raid, Anmeldungen, Werbung, Bosse & Symbole, Skillungen, Gildenbank) öffnet ein Knopf direkt den
+  passenden Bereich. Vorher standen die Optionen auf sieben Seiten verteilt, drei doppelt.
+- Neu bedienbar: "Bereitschaft auch im Spiel", "Screenshot beim Erstkill" und "Befehlsliste beim Tippen".
+- Alle gespeicherten Werte bleiben, wie sie sind. Rechte wie bisher (Gilden-Werte nur Offiziere, Beute für den
+  Plündermeister, Raid-Optionen für die Raidleitung).
+
 NEU IN 3.0.37 – Testroutine (nur Entwickler)
 - Behoben: Der Test-Durchlauf (T43) brach in WoW Forever mit einem Lua-Fehler ab (er rief eine Item-Funktion auf, die es in Forever
   nicht mehr gibt). Er nutzt jetzt wie der übrige Code die Weiche über C_Item.

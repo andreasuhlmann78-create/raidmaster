@@ -329,7 +329,7 @@ function Loot.ExplainNoQueue()
 	if not RM.Caps.masterLoot then
 		why = L["Diese Spielversion hat keinen Plündermeister – Items kommen nicht automatisch in die Warteschlange (Item per Shift-Klick auf der Seite Versteigerung hinzufügen)."]
 	elseif RM.GetLootMethod() ~= "master" then
-		why = L["Plündermethode ist nicht Plündermeister – die Items kommen nicht in die Warteschlange. Plündermeister auf der Seite Loot oder Raidleiter setzen."]
+		why = L["Plündermethode ist nicht Plündermeister – die Items kommen nicht in die Warteschlange. Plündermeister unter Einstellungen > Plündermeister setzen."]
 	else
 		why = string.format(L["Nur der Plündermeister (%s) stellt die Items in die Warteschlange – öffnet er die Beute, siehst du sie hier auch."], RM.MasterLooterName() or "?")
 	end
@@ -504,7 +504,7 @@ function Loot.Warn(force)
 	if not (RM.IsLeader() or RM.IsMainLeader()) then return end
 	if RM.Caps.masterLoot and not hintShown and (not C().lootMaster or C().lootMaster == "") then
 		hintShown = true
-		RM.Print("|cffffcc00" .. L["Achtung: "] .. "|r" .. L["Im Addon ist kein Plündermeister angegeben – es wird der Raidleiter genommen. Auswahl: Loot oder Raidleiter."])
+		RM.Print("|cffffcc00" .. L["Achtung: "] .. "|r" .. L["Im Addon ist kein Plündermeister angegeben – es wird der Raidleiter genommen. Auswahl: Einstellungen > Plündermeister."])
 	end
 	local p = Loot.Problems()
 	local serious = #p

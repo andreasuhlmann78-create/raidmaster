@@ -90,6 +90,27 @@ RaidMasterDB.gsTest.errors = {}
 if os.getenv("T43NOAUCT") == "1" then RM.Loot.Classify = function() return "bank" end end
 -- T43BANKRULES=1: Gegenprobe 3.0.36 – die echten Beute-Regeln des Nutzers schicken alles zur Gildenbank (wie im Spiel 18.11.)
 if os.getenv("T43BANKRULES") == "1" then for _, k in ipairs({ "epic", "blue", "recipe", "mats" }) do RM.db.config.rules[k] = "bank" end end
+-- 3.0.38 Gegenproben T194 (Optionen-Fenster):
+--  OPTBROKEN=1: Option "records" schreibt in einen falschen Schlüssel -> T194 muss FEHLER melden
+--  OPTDUP=1:    Option "itemTooltip" steht zweimal im Fenster        -> FEHLER (n neu ≠ n alt)
+--  OPTRIGHTS=1: Option "autoInvite" nur noch für Offiziere            -> FEHLER (Rechte anders als vorher)
+if os.getenv("OPTBROKEN") == "1" or os.getenv("OPTDUP") == "1" or os.getenv("OPTRIGHTS") == "1" then
+	for _, d in ipairs(RM.Opt.DEFS) do
+		if os.getenv("OPTBROKEN") == "1" and d.key == "records" then d.set = function(v) RM.db.config.recordsX = v end end
+		if os.getenv("OPTRIGHTS") == "1" and d.key == "autoInvite" then d.access = "leader" end
+	end
+	if os.getenv("OPTDUP") == "1" then
+		for _, d in ipairs(RM.Opt.DEFS) do
+			if d.key == "itemTooltip" then
+				local c = {}
+				for k, v in pairs(d) do c[k] = v end
+				c.area = "raid"
+				table.insert(RM.Opt.DEFS, c); table.insert(RM.Opt.AREA.raid.defs, c)
+				break
+			end
+		end
+	end
+end
 local R = RM.TestRoutine
 local only = ROUTINE_AREA or os.getenv("AREA")
 R.Run(only)
@@ -115,6 +136,16 @@ while R.running and waited < 400 do
 	if stopAt and waited >= stopAt and R.running then SlashCmdList["RAIDMASTER"]("testroutine stop"); stopAt = nil end
 end
 Advance(15)
+-- 3.0.38: Ergebnisse des Hauptlaufs merken (SHOWALL zeigt sonst nur den letzten Lauf); SHOWID=T194,T13 zeigt einzelne
+local MAIN_RESULTS = {}
+for i, e in ipairs(R.t and R.t.results or {}) do MAIN_RESULTS[i] = e end
+if os.getenv("SHOWID") then
+	for id in os.getenv("SHOWID"):gmatch("[^,]+") do
+		for _, e in ipairs(MAIN_RESULTS) do
+			if e.id == id then print(string.format("ERGEBNIS %-6s %-8s %s %s", e.id, e.status, e.name, e.ergebnis and ("| " .. e.ergebnis) or "")) end
+		end
+	end
+end
 
 local fails = 0
 local function check(c, msg) if not c then fails = fails + 1; print("FAIL: " .. msg) else print("ok: " .. msg) end end
