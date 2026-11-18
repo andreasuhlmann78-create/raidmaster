@@ -1,0 +1,32 @@
+{
+ "addon": "ProfessionSentinel",
+ "counts": {},
+ "env": {
+  "build": "70959",
+  "class": "WARRIOR",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 24,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [
+  {
+   "count": 5,
+   "first": 1794980009,
+   "last": 1794980009,
+   "msg": "Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:161: attempt to concatenate local 'line' (a nil value)",
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/ProfessionSentinel/Core.lua]:180: in function 'CountError'\n[Interface/AddOns/ProfessionSentinel/Alerts.lua]:144: in function <Interface/AddOns/ProfessionSentinel/Alerts.lua:140>\n",
+   "version": "0.9.67",
+   "wo": "AHSentinel:On"
+  }
+ ],
+ "f": 1,
+ "id": "ProfessionSentinel-1794980918-f4dc1f-25",
+ "kind": "fehler",
+ "time": 1794980918,
+ "version": "0.9.67"
+}
