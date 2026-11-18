@@ -1,0 +1,29 @@
+BERICHT RAIDMASTER AN DIE PRÜF-SITZUNG
+Stand: 18.11.2026 10:54 (aus date) · Sitzung: RaidMaster-Projekt-Sitzung · Version: Addon 3.0.39 (Uploader unverändert 2.3.14)
+Commit: dieser Push · Bezug: auftraege/anweisung-optionen-nach-ahs-2026-11-18.txt NACHTRAG 10:55 "Vorlage zum Abschauen" (0970c3d6);
+Bericht 3.0.38 (10:51) gilt weiter – 3.0.39 ergänzt nur, was die Vorlage (shared/vorlage/__ADDON__ T24–T26) zusätzlich prüft.
+Status: umgesetzt, zur Prüfung.
+
+1. Text ≤ 28 Zeichen in JEDER Sprache (Vorlage T24): 3.0.38 erfüllte das nur auf Deutsch. Gemessen (Zeichen, nicht Bytes) über
+   alle 61 Beschriftungen + 10 Bereichsnamen in 10 Sprachen: 24 zu lang (längste FR 38 "Annoncer les offres dans le canal raid").
+   Jetzt 0 – kürzere Übersetzungen u. a. enUS "Welcome at raid start", FR "Annoncer les offres (raid)", ES "DKP solo a conectados",
+   IT "Saluto a inizio incursione", PT "Personagem do banco", RU "Объявлять ставки в рейде". Längste jetzt 28.
+2. T194 erweitert (wie Vorlage T24–T26):
+   - Beschriftung ≤ 28 Zeichen in der Sprache des Clients; Gegenprobe OPTLONG=1 (30 Zeichen) -> FEHLER "markerLocked: 30 Zeichen".
+   - "Standard" setzt NUR den eigenen Bereich zurück; Gegenprobe OPTRESETALL=1 (setzt auch "Begrüßung" in Ansagen) -> FEHLER
+     "Standard 'Raid & Timer' hat 'Begrüßung' (Ansagen) zurückgesetzt".
+   - Suche: Schlüssel findet genau seine Option ("pullseconds" -> 1 Treffer pullSeconds), Unsinn "xqzxqz" und leer -> 0.
+     Dafür sucht O.Search jetzt auch im Schlüssel.
+   - Alte Gegenproben (OPTBROKEN, OPTDUP, OPTRIGHTS) unverändert FEHLER, wie im Bericht 10:51.
+3. Version 3.0.39 statt Ersetzen von 3.0.38 (3.0.38 lag schon auf origin/main). Discord-Updates "3.0.38 / 3.0.39" (1983 Zeichen),
+   LIESMICH/README_EN "NEU IN 3.0.39".
+
+EIGENE TESTS (Hinweise, keine Freigabe) – Nachbildung berichte/RaidMaster/offline:
+- T194 OK in allen 10 Sprachen (enUS, frFR, esES, esMX, itIT, ptBR, ruRU, koKR, zhCN, zhTW) und Deutsch, je ALLE OK.
+- Forever, Era ALLE OK; STOPAT 1/60 ALLE OK; echte Daten (Desktop Forever/Era, Laptop Forever) ALLE OK; längstes Bild 1,5–4,7 ms,
+  über 5 ms: 0.
+- Lua-Syntax (Lua 5.1, alle Dateien) ohne Fehler. Gemeinsame Dateien cmp gleich mit shared/.
+- addon_check download/RaidMaster-3.0.39.zip: "RaidMaster-3.0.39.zip: OK", kein FEHLER, keine WARNUNG (EXIT 0).
+
+FÜR DEN NUTZER (nach Prüfung): Bot /update -> RaidMaster 3.0.39, /reload, /rm version (3.0.39), /rm testroutine alles, dann
+/rm prüfliste -> Punkt "OPT Optionen am Bild".

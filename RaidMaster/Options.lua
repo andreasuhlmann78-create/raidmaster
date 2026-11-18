@@ -738,7 +738,7 @@ function O.Jump(d)
 	Flash(O.RowOf(d) or (a.rows and a.rows[1]))
 end
 
--- Suche über alle Bereiche (Beschriftung, Erklärung, Bereichsname)
+-- Suche über alle Bereiche (Beschriftung, Erklärung, Bereichsname, Schlüssel)
 local function Low(s) return tostring(s or ""):lower() end
 function O.Search(q)
 	q = Low(q):gsub("^%s+", ""):gsub("%s+$", "")
@@ -747,7 +747,7 @@ function O.Search(q)
 	for _, d in ipairs(O.DEFS) do
 		if O.Visible(d) then
 			local a = O.AREA[d.area]
-			local hay = Low(d.label) .. "\n" .. Low(d.tip) .. "\n" .. Low(a.title)
+			local hay = Low(d.label) .. "\n" .. Low(d.tip) .. "\n" .. Low(a.title) .. "\n" .. Low(d.key)
 			if hay:find(q, 1, true) then hits[#hits + 1] = d end
 		end
 	end

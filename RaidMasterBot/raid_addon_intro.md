@@ -27,8 +27,8 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 ===
 📜 **Updates**
 
-**3.0.38** – Alle Einstellungen in einem Fenster
-• /rm > Einstellungen: links die Bereiche, rechts nur deren Optionen, oben ein Suchfeld. Knöpfe auf den Seiten führen direkt hin. Deine Werte bleiben.
+**3.0.38 / 3.0.39** – Alle Einstellungen in einem Fenster
+• /rm > Einstellungen: links Bereiche, rechts deren Optionen, oben ein Suchfeld. Knöpfe auf den Seiten führen direkt hin; deine Werte bleiben.
 
 **3.0.35 – 3.0.37** – Hauptfenster ohne Ruckeln
 • Beim ersten Öffnen wird nur die sichtbare Seite gebaut, der Rest danach im Hintergrund. 3.0.36/3.0.37: nur Verbesserungen für Entwickler.

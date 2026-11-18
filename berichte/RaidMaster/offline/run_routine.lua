@@ -111,6 +111,15 @@ if os.getenv("OPTBROKEN") == "1" or os.getenv("OPTDUP") == "1" or os.getenv("OPT
 		end
 	end
 end
+--  OPTLONG=1:   Beschriftung "Leiste fixieren" 30 Zeichen lang          -> FEHLER (≤ 28 Zeichen)
+--  OPTRESETALL=1: "Standard" setzt auch fremde Bereiche zurück         -> FEHLER (nur eigener Bereich)
+if os.getenv("OPTLONG") == "1" then
+	for _, d in ipairs(RM.Opt.DEFS) do if d.key == "markerLocked" then d.label = "Leiste fixieren und festhalten" end end
+end
+if os.getenv("OPTRESETALL") == "1" then
+	local orig = RM.Opt.ResetArea
+	RM.Opt.ResetArea = function(id) local r = orig(id); RM.db.config.welcome = true; return r end
+end
 local R = RM.TestRoutine
 local only = ROUTINE_AREA or os.getenv("AREA")
 R.Run(only)

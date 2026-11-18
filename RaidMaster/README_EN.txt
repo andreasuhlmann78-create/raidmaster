@@ -23,6 +23,10 @@ MAIN FEATURES
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
 
+WHAT'S NEW IN 3.0.39
+- Short option names in the options window in English, French, Spanish, Italian, Portuguese and Russian too (at most 28
+  characters). The search also finds an option by its internal name (e.g. "pullseconds").
+
 WHAT'S NEW IN 3.0.38 – settings in one window
 - All options are now in ONE place: /rm > Settings. Sections on the left (General, DKP awards, Bids, Boss DKP, Loot rules,
   Master looter, Chat announcements, Raid & timers, Invites & ads, Markers & bars), on the right only that section's

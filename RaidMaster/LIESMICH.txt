@@ -11,6 +11,10 @@ INSTALLATION
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
 
+NEU IN 3.0.39
+- Kurze Namen im Optionen-Fenster auch auf Englisch, Französisch, Spanisch, Italienisch, Portugiesisch und Russisch (höchstens 28
+  Zeichen). Die Suche findet eine Option auch über ihren internen Namen (z. B. "pullseconds").
+
 NEU IN 3.0.38 – Einstellungen in einem Fenster
 - Alle Optionen stehen jetzt an EINER Stelle: /rm > Einstellungen. Links die Bereiche (Allgemein, DKP-Vergabe, Gebote,
   Boss-DKP, Beute-Regeln, Plündermeister, Ansagen im Chat, Raid & Timer, Einladen & Werbung, Symbole & Leisten), rechts

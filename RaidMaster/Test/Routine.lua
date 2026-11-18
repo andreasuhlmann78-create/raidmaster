@@ -3480,6 +3480,9 @@ local function AreaJ(t, G)
 						local ctrl = row and rawget(row, "ctrl")
 						if not (row and row:IsShown() and ctrl) then Bad(tostring(d.key) .. ": Zeile nicht sichtbar")
 						else
+							-- (c) kurze Beschriftung: höchstens 28 Zeichen in der Sprache des Clients (UTF-8: Zeichen, nicht Bytes)
+							local chars = #(tostring(d.label):gsub("[\128-\191]", ""))
+							if chars > 28 then Bad(d.key .. ": " .. chars .. " Zeichen") end
 							-- Beschriftung passt (eine Zeile, Breite gemessen)
 							local w = row.label.GetStringWidth and row.label:GetStringWidth() or 0
 							if type(w) == "number" and w > O.LABEL_W - 8 + 0.5 then Bad(d.key .. ": Text " .. math.floor(w) .. " px") end
@@ -3543,13 +3546,21 @@ local function AreaJ(t, G)
 				a.expanded = nil
 				O.RefreshArea()
 			end
-			-- (d) Standard: Wert verstellen, "Standard" -> Standardwert
+			-- (d) Standard: Wert verstellen, "Standard" -> Standardwert; NUR der eigene Bereich (Gegenprobe: Ansagen bleibt verstellt)
+			local wel0 = RM.db.config.welcome
 			RM.db.config.pullSeconds = 20
 			RM.db.config.readyCheckGame = false
+			RM.db.config.welcome = false
 			O.ResetArea("raid")
 			if RM.db.config.pullSeconds ~= RM.DEFAULT_CONFIG.pullSeconds or RM.db.config.readyCheckGame ~= true then
 				Bad("Standard: Pull " .. tostring(RM.db.config.pullSeconds) .. ", Bereitschaft " .. tostring(RM.db.config.readyCheckGame))
 			end
+			if RM.db.config.welcome ~= false then Bad("Standard 'Raid & Timer' hat 'Begrüßung' (Ansagen) zurückgesetzt") end
+			RM.db.config.welcome = wel0
+			-- (b) Suche: Schlüssel findet genau seine Option, Unsinn und leer finden nichts
+			local byKey = O.Search("pullseconds")
+			if not (#byKey == 1 and byKey[1].key == "pullSeconds") then Bad("Suche 'pullseconds': " .. #byKey .. " Treffer") end
+			if #O.Search("xqzxqz") ~= 0 or #O.Search("") ~= 0 then Bad("Suche Unsinn/leer findet etwas") end
 			if #bad > 0 then return false, #bad .. ": " .. table.concat(bad, " | "):sub(1, 300), "jede Option genau einmal, wirkt auf ihren Schlüssel" end
 			local maxMs = 0
 			for _, v in pairs(O.buildMs) do if v > maxMs then maxMs = v end end

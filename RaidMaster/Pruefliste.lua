@@ -39,7 +39,7 @@ RM.PRUEFPUNKTE = {
 		todo = Todo("irgendwo, nach Punkt TR",
 			"Klicke im Fenster mit dem Testbericht auf den Knopf 'Neu laden und melden' (oder tippe /reload).",
 			"Öffne in Discord den Kanal #testberichte."),
-		expect = Expect("In #testberichte steht innert etwa 1 Minute ein Bericht 'RaidMaster 3.0.38' ohne das Wort FEHLER. Dann hier auf 'OK' klicken.",
+		expect = Expect("In #testberichte steht innert etwa 1 Minute ein Bericht 'RaidMaster 3.0.39' ohne das Wort FEHLER. Dann hier auf 'OK' klicken.",
 			"kein Gold, ca. 2 Minuten") },
 	-- 3.0.38 (OPT-ALLE h): ersetzt MN2 – der Schalter "Marktdaten teilen" steht jetzt im Optionen-Fenster (Bereich Allgemein)
 	{ id = "OPT", title = "Optionen am Bild", since = "3.0.38",
