@@ -1,0 +1,61 @@
+{
+ "addon": "LevelPilot",
+ "blocked": [],
+ "env": {
+  "build": "70959",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 10,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "f": 1,
+ "fest": [],
+ "id": "LevelPilot-wege-1795005848-02807b",
+ "kind": "wege",
+ "npc": [],
+ "time": 1795005848,
+ "version": "3.12.95",
+ "zones": [
+  {
+   "edges": [
+    {
+     "n": 1,
+     "p": [
+      72.1,
+      78.2,
+      71.7,
+      78.2,
+      71.5,
+      78.4,
+      71.2,
+      78.6,
+      70.9,
+      78.7,
+      70.6,
+      78.7,
+      70.3,
+      78.8,
+      70,
+      78.9,
+      69.7,
+      79,
+      69.4,
+      78.9,
+      69.3,
+      78.5,
+      69.3,
+      78.1
+     ],
+     "src": "geteilt"
+    }
+   ],
+   "map": 1443,
+   "name": "Desolace"
+  }
+ ]
+}

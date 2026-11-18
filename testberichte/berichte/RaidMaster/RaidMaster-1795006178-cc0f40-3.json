@@ -1,0 +1,42 @@
+{
+ "addon": "RaidMaster",
+ "bereich": "nachgeholt",
+ "counts": {
+  "client": 0,
+  "fehler": 1,
+  "ok": 0,
+  "uebersprungen": 0
+ },
+ "dur_ms": 0,
+ "env": {
+  "build": "70959",
+  "class": "WARRIOR",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 24,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [],
+ "f": 1,
+ "id": "RaidMaster-1795006178-cc0f40-3",
+ "kind": "test",
+ "lauf": "18.11.2026 13:48",
+ "nachgeholt": "T35b",
+ "results": [
+  {
+   "bereich": "B",
+   "ergebnis": "nach dem Öffnen nicht eingelesen",
+   "erwartet": "Berufe-Daten neu",
+   "id": "T35b",
+   "ms": "0.0",
+   "name": "Berufe: Fenster wird eingelesen (nachgeholt)",
+   "status": "FEHLER"
+  }
+ ],
+ "time": 1795006178,
+ "version": "3.0.40"
+}

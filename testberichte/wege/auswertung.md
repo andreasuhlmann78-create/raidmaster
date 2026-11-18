@@ -215,10 +215,11 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Desolace (1443)
 
-- Wegstücke 526, Knoten 1120, zusammenhängende Teile 2
+- Wegstücke 545, Knoten 1204, zusammenhängende Teile 2
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 1002 Knoten, Bereich 22–77 / 16–97
+  - Teil 1: 1086 Knoten, Bereich 22–77 / 16–97
   - Teil 2: 118 Knoten, Bereich 30–36 / 9–32
+- **Ausreisser:** Wegstück 542: Sprung 5.1 % von 25.7,77.1 nach 22.3,73.3
 - **Widerspruch:** gesperrt (FEST) bei 69.1,71.9, aber 10× gelaufen
 - Gesperrte Wegstücke: 1
 
