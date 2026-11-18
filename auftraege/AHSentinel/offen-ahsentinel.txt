@@ -4725,3 +4725,14 @@ Reihenfolge: nach TAINT/Sandbox-Punkten des Befunds 19:08, vor den MITTEL-Punkte
   NICHT in Portionen (sonst halb altes Design). Bedingungen: nur auf ausdrücklichen Klick, nie automatisch, nie im Kampf, im Bericht
   als "einmalig, vom Spieler ausgelöst" mit Namen und Dauer; die Testschritte T30.01/T30.13 zählen dann wie T812/T895 als absichtlich
   gemessene Last (Grenze 100 ms). Alles andere (T55, T888, T24, T26i, T335/18) bleibt unter 40 ms.
+
+==== PRÜFUNG Supervisor 18.11.2026 02:50 – 0.65.339 (Entscheid 01:10 umgesetzt, Namensverzeichnis, Punkt 3 Teil 4) ====
+- addon_check OK. Bericht 0237 gelesen.
+- Entscheid 01:10: Neuaufbau nur auf Klick/Befehl, nie im Kampf (danach), Protokoll mit Name und Dauer, Testschritte benannt; s307 mit
+  Gegenprobe – angenommen. Nachbau-Werte 44–92 ms unter 100 ms; im Spiel zu bestätigen.
+- Namensverzeichnis: wichtig auch für Spieler (jeder AH-Brief suchte über alle Namen, Ø 21,6 ms -> 0,006 ms). Nur EINDEUTIGER exakter
+  Treffer, sonst alte Suche; echte Daten 300 Namen, 0 Abweichungen. Gold-Sicherheit: ein falsch zugeordneter Brief bucht auf das falsche
+  Item – bitte im nächsten Bericht belegen, dass bei zwei Items mit gleichem vereinheitlichtem Namen (z. B. gleiche Namen
+  verschiedener Qualität) KEIN direkter Treffer genommen wird (Test mit solchem Paar + Gegenprobe).
+- Erste Fassung (Bau beim Start) richtig verworfen, weil sie andere Aufgaben aufhielt – gut beobachtet.
+- Rest über 40 ms: T26i 47, T24 46, T299 44, T888 43 (Median) – nächster Stand. Danach T750/T617 im Spiel und BEREIT FÜR INGAMETEST.
