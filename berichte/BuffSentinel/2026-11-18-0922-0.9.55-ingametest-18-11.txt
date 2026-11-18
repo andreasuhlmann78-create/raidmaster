@@ -1,0 +1,75 @@
+BuffSentinel – Bericht an die Prüf-Sitzung · 0.9.55-ingametest-18-11
+Datum: 18.11.2026, 09:22 (aus date)
+
+Stand: INGAMETEST 18.11. 08:11 (Punkte 1–8) und BEFUND MITTEL 08:15 (Fehlerfenster) – umgesetzt, zur Prüfung (0.9.55)
+Quelle: testberichte/berichte/BuffSentinel/BuffSentinel-1794985881-f1a084-1.json (vollständig gelesen, alle FEHLER/SKIP/CLIENT).
+
+VERÖFFENTLICHT
+- download/BuffSentinel-0.9.55.zip, README, announce (+ Zip), 0.9.54 entfernt; auf origin/main nachgeprüft. addon_check OK (1 Warnung: Lua-Syntax
+  nicht geprüft, lupa fehlt). Gemeinsame Dateien byte-gleich. Offline-Routine (mit neuer Fehler-Handler-Attrappe) auf der Zip: 8 × PASS.
+
+HOCH 1 + 2 – T136 "echte Aktionen: 3" und T158 0/0/0: EINE Ursache, EIGEN, behoben
+- Ursache: Selftest:Enter sperrte das Senden nur 15 s (BS.testCommUntil = GetTime() + 15). Bis 0.9.47 lief die Routine am Stück (< 1 s).
+  Seit 0.9.48 läuft sie in Portionen – im Spiel 18,5 s (Bericht dur_ms 18469). Bereich Q (T158) kommt am Ende, nach Ablauf der Sperre:
+  BS:SendName ging den echten Weg (GoldSentinelSync, Gilde/Gruppe) statt in BS.testSink -> T158 zählte 0/0/0, die Haken zählten die
+  echten Addon-Nachrichten (Präfix BuffSentinel) = 3. Mein Fehler aus 0.9.48.
+- Beleg (Nachbau mit Uhr, die je Bild 0,1 s weiterläuft, Lauf = 32 s): 0.9.54 -> T158 "0/0/0" (genau wie im Spiel); 0.9.55 -> "0/2/4".
+  (T136 zählt im Nachbau 0, weil die Nachbau-Sendefunktion nicht dieselbe ist, die der Haken überwacht – die Zahl 3 kommt nur im Spiel.)
+- Gesendet wurde: "S;6603;TestReggroup|sync|both" an Gilde/Gruppe. Folgen bei Empfängern: keine – Names.lua übernimmt eine "S"-Nachricht
+  nur, wenn der Name in nameIndex.spells (englische Namen aus den Klassendaten) steht; "TestReg…" steht dort nie (Code Names.lua 504–507).
+- Behebung: Sperre für den ganzen Lauf (GetTime() + 600, Zeitlimit 10 Min.); Leave und OnLogout (/reload) heben sie sofort auf.
+- NEU T257 (Bereich Q): im Lauf gesperrt UND noch mindestens 300 s Sperre. Regressionseinträge "0.9.55 Senden im ganzen Lauf gesperrt"
+  (T257, T158) und "0.9.55 Testfehler nie über den Handler" (T116).
+- T136 nennt jetzt je echte Aktion (höchstens 5): Art (Addon-Nachricht/Chat/Kanal verlassen), Präfix/Weg bzw. Chat-Art und Quelle
+  (erste Zeile aus Interface/AddOns ausserhalb SelfTest.lua, aus debugstack) – so sieht man auch fremde Addons.
+
+HOCH 3 – T34 "Magie nil …" und T62: Test, nicht Produkt
+- Ursache (Code): die Tests geben Testauren über BS.API, aber BS:AuraBlocked prüft ECHTE Sperren des Clients: C_Secrets.ShouldAurasBeSecret,
+  Kampf des echten Ziels (UnitAffectingCombat("target")), Pause nach einem verweigerten Zugriff (auraHoldUntil, 2 s – wird durch frühere
+  Prüfungen mit geschützten Werten ausgelöst; im Lauf in Portionen vergehen echte Sekunden). Ist eine davon an, liest ForEachAura nichts ->
+  "nil". Welche Quelle im Spiel sperrt: Verdacht ShouldAurasBeSecret oder die Pause – zu messen.
+- Behebung: WithAuraFree für T34/T62 (Pause 0, testAuraBlock aus, C_Secrets ohne ShouldAurasBeSecret, Ziel nicht im Kampf). Sperren selbst
+  prüfen weiter T60–T64/T117 mit eigenen Werten.
+- Messung für den nächsten Ingametest: T34 hängt "Locked=… ShouldAurasBeSecret=… Pause=…s Sperre(Ziel)=…" (ECHTE Werte) ans Ergebnis.
+- Produkt: Ist die Sperre im Spiel ausserhalb des Kampfes an, zeigt die Gegner-Entzauber-Anzeige NICHTS (ForEachAura liest nicht) – nie
+  etwas Falsches. Ob sie dann im Spiel überhaupt etwas anzeigen kann, sagt die neue Messung.
+
+MITTEL 4 – ROGUE poisonstock B1: Erwartung falsch, nicht das Addon
+- Gift-Vorrat hat minLevel = 20 (Data/Rogue.lua). Das Addon prüft API.UnitLevel("player") (Display.lua 1358–1360). Der Test-Charakter war
+  Priester Stufe 10 -> keine Erinnerung (richtig). BuffExpect kannte die Mindeststufe nicht. Im Nachbau ist UnitLevel 60 -> grün.
+- Behebung: BuffExpect wendet minLevel mit der echten Stufe an (Getränke minLevel 10 ebenso).
+
+MITTEL 5 – T100: mein Fehler aus 0.9.48
+- T100 verlangte GoldSentinelDev.version == 1; seit 0.9.48 ist Version 2 dabei. Im Nachbau stand T100 auf der Liste "nur Nachbau" und hat
+  das verdeckt. Jetzt: Dev ≥ 2, Abgriff über Handler ODER BugGrabber, jede Bedingung im Ergebnis
+  ("GoldSentinelGame v3, GoldSentinelDev v2, GoldSentinelTest v2, angemeldet: ja, Fehler-Abgriff: ja").
+
+MITTEL 6 – T250 45,3 ms (T146): T146 (Diagnose-Protokoll, 50 + DIAG_MAX+20 Einträge, Text und Export) in Portionen – Abgabe alle 10 Einträge
+  und zwischen Text und Export; das Test-Protokoll gilt nur, solange die Prüfung rechnet (With tauscht BS.gdb.diag beim Bildwechsel, echte
+  Diagnose-Zeilen dazwischen gehen ins echte Protokoll). T48 (18,4 ms) gibt je Schalter ab. Gesamtdauer T25 179/T92 104/T27 103 ms bleibt (auf
+  viele Bilder verteilt). Nachbau: längstes Bild 6,1 ms (T218). Spielwert: nächster Ingametest.
+
+MITTEL 7 – T141 LevelPilot-Pfeil: nach Entscheid Supervisor (RaidMaster T156) – UICheck.lua BS.UI_FOREIGN_HUD (gleiche Liste wie RM.UI_HUD:
+  LevelPilot "Pfeil"; ThreatSentinel HUD, Aggrometer, DD-Ansicht, Schadens-/Heilmeter, Spott-Knopf, Flächenspott-Knopf, Minimap-Knopf) ->
+  zählt als geprüft, erscheint als Hinweis "… liegt über … – HUD, erlaubt", kein FEHLER. Echte Fenster bleiben in der Prüfung.
+
+MITTEL 8 – T162: folgte aus 1/2 (T136, T158) und "UI Oberfläche im Client" (T141).
+
+DAZU – T155 "nein · 0/1"
+- Ursache (Code GoldSentinelSync.UseStorage): der gemeinsame Sync-Speicher ist die Tabelle des ZUERST geladenen GoldSentinel-Addons. Mit 7
+  Addons ist das nicht BuffSentinels gsSync -> "real == S.store" falsch. Jetzt: Speicher da, Mitspieler im Buch, Speicher nicht die Sandbox;
+  Ergebnis nennt "Speicher: BuffSentinels eigener / der des zuerst geladenen GoldSentinel-Addons".
+
+BEFUND MITTEL 08:15 – Fehlerfenster
+- T116 rief geterrorhandler() mit dem Testfehler auf -> Blizzards Fehlerfenster. Jetzt NIE: T116 prüft, dass der gemeinsame Abgriff eingebaut
+  ist (GoldSentinelTestHooked oder BugGrabber), und zählt über GoldSentinelTest.Error (dieselbe Ablage "Lua"); CleanTestErrors entfernt ihn.
+- Alle anderen absichtlichen Fehler (T112–T114, T158 …) gehen durch BuffSentinels eigenes pcall (OnEvent/OnUpdate) – nie zum Spiel.
+- Nachbau: Blizzard_ScriptErrors-Attrappe in mock_wow.lua (geterrorhandler/seterrorhandler zählen Aufrufe), run_offline.lua verlangt 0.
+  0.9.55: "Fehlerfenster: 0", 8 × PASS. Gegenprobe 0.9.54: "Fehlerfenster: 1" -> RESULT FAIL. T100/T116 laufen mit der Attrappe jetzt
+  auch im Nachbau grün (aus der Liste "nur Nachbau" genommen).
+
+Belege (eigene Tests, keine Freigabe)
+- run25m: OK 200, die bekannten Nachbau-FEHLER. Lua-5.1-Prüfer mit Abgabe an jeder Stelle: 49 013 Abgaben, 0 Verletzungen.
+- Abbruchwege (stopp, /reload) und Händler-Vormerkung D2–D6 erneut wie vorher.
+
+OFFEN / IM SPIEL ZU MESSEN: T34-Sperrwerte (welche Quelle), längstes Bild, T136 = 0, T158 0/2/4, T155 "ja", T100 grün, kein Fehlerfenster.
