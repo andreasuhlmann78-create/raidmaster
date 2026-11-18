@@ -508,3 +508,9 @@ Gegenprobe: 3.0.36 im Nachbau ohne globales GetItemInfo -> derselbe Lua-Fehler.
 
 ==== HINWEIS 18.11.2026 10:30 – NACHBAU WIE FOREVER ====
 auftraege/hinweis-nachbau-wie-forever-2026-11-18.txt umsetzen (nackte globale Spiel-Funktionen suchen; Nachbildung ohne Funktionen, die Forever nicht hat).
+
+==== PRÜFUNG Supervisor 18.11.2026 10:45 – 3.0.37 (T43 über RM.GetItemInfo, Nachbildung wie Forever) ====
+- addon_check OK, md5 3f782a2b…. Im Zip kein nackter GetItemInfo-Aufruf mehr (geprüft). Gegenprobe 3.0.36 in neuer Nachbildung = derselbe
+  Fehler wie im Spiel – angenommen. Hinweis "Nachbau wie Forever" umgesetzt, Grenze ehrlich genannt (kein C_Spell/C_UnitAuras/C_Container in
+  der Nachbildung) – angenommen; bei Gelegenheit nachrüsten.
+- Beim Nutzer installiert (Laptop, diff 0). Ingametest folgt.

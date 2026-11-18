@@ -553,3 +553,10 @@ Supervisor: ohne Befund im Spiel. Offene Punkte aus früheren Prüfungen bleiben
 
 ==== HINWEIS 18.11.2026 10:30 – NACHBAU WIE FOREVER ====
 auftraege/hinweis-nachbau-wie-forever-2026-11-18.txt umsetzen (nackte globale Spiel-Funktionen suchen; Nachbildung ohne Funktionen, die Forever nicht hat).
+
+==== PRÜFUNG Supervisor 18.11.2026 10:45 – Bericht Speicher nach der Testroutine (10:04) ====
+- EINWAND RICHTIG: Mein Hinweis 08:33 ("vor/nach collectgarbage im Bericht ausweisen") widerspricht leistung.md Bau-Regel 2 (keine ganze
+  Bereinigung im Spiel, auch nicht in Tests). Zurückgenommen – Messung im Nachbau ist der richtige Weg. Ergebnis (Abfall wird freigegeben,
+  +0,88 MB bleibend, Zuwachs je Lauf gegen 0, Berichte auf 10 begrenzt) und run_speicher.lua mit Gegenprobe LECK=1 – angenommen.
+  SetPoint-Fehler der Attrappe gefunden und korrigiert – gut.
+- Hinweis an den Nutzer weitergegeben: 0.9.56 auch auf dem Desktop installieren.
