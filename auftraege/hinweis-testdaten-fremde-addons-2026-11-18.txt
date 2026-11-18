@@ -1,0 +1,9 @@
+HINWEIS AN ALLE PROJEKTE – Testdaten dürfen nie zu einem anderen Addon gelangen (Befund 18.11.2026 06:45)
+Vorfall: GuildSentinel las während der RaidMaster-Testroutine RaidMasters Test-Erstkills (Onyxia, Lucifron), speicherte sie als echt und
+verkündete sie heute im Gildenchat ("Wochenrückblick … Onyxia erstmals besiegt"). Öffentlich, nicht rückgängig.
+Regeln ab sofort:
+1. Wer eine Testroutine hat, liefert <Addon>API.TestRunning() (true, solange eigene Testdaten in den gespeicherten Daten stehen).
+2. Wer Daten eines anderen GoldSentinel-Addons liest (API, SavedVariables, Globale), liest NICHTS, solange dessen TestRunning() true ist,
+   und übernimmt nichts dauerhaft (speichern, ankündigen, senden) ohne Plausibilitätsprüfung.
+3. Automatische Ankündigungen (Gildenchat, Flüstern, Discord) nur aus belegten echten Daten; Test mit Testdaten -> keine Ankündigung.
+Bitte bei der nächsten Version: eigene Lesestellen fremder Addons auflisten (Bericht) und Regel 1/2 umsetzen.

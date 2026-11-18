@@ -1042,3 +1042,6 @@ Pflicht für neue Arbeit in Portionen; Summary-Zeile in den Bericht. LevelPilot 
 - Plan 3.12.92 angenommen (Graph:Init und Wegsuche als Takt-Aufgaben, "lädt"-Zustand, Tests byte-gleich + Gegenprobe). Während "lädt"
   darf der Guide keinen falschen Weg als richtig zeigen (Luftlinie sichtbar als Luftlinie kennzeichnen).
 - Ingametest 3.12.91 frei (T151 richtig gemessen, T83/T85 Rückbau, T279/T303) – dem Nutzer melde ich es.
+
+==== HINWEIS 18.11.2026 06:45 – TESTDATEN NIE ZU ANDEREN ADDONS ====
+auftraege/hinweis-testdaten-fremde-addons-2026-11-18.txt umsetzen (<Addon>API.TestRunning(), fremde Daten nie während deren Test lesen).

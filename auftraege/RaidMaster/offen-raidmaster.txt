@@ -429,3 +429,13 @@ Pflicht für neue Arbeit in Portionen; Summary-Zeile in den Bericht. LevelPilot 
   5 ms, keine gescheiterte Abgabe); sonst Umstellung auf GoldSentinelTakt. Neue Arbeit in Portionen (z. B. Aufbau Hauptfenster 38 ms im
   Spiel) direkt mit GoldSentinelTakt.
 - Ingametest 3.0.33 frei (dem Nutzer melde ich es).
+
+==== BEFUND HOCH SOFORT 18.11.2026 06:45 – TESTDATEN FÜR ANDERE ADDONS SICHTBAR (falscher Wochenrückblick im Gildenchat) ====
+GuildSentinel hat am 17.11. 17:01/17:02 – während der RaidMaster-Testroutine 3.0.30 – "Erstkill: Lucifron/Onyxia" aus
+RaidMaster.db.data.firstKills gelesen und als echte Meilensteine gespeichert; heute hat es sie im Gildenchat verkündet. RaidMasters echte
+firstKills sind leer (beide Rechner). Ursache: Während der Routine stehen Testdaten in RaidMaster.db (Sandbox), lesbar für jedes Addon.
+Auftrag:
+1. RaidMasterAPI.TestRunning() -> true, solange die Testroutine (auch nachgeholte Teile) läuft. In der API-Beschreibung.
+2. Prüfen, ob andere Addons während der Routine Testdaten lesen können (RaidMaster.db.data global): besser die Sandbox so bauen, dass
+   fremde Leser (über die API/RaidMaster.db) die ECHTEN Daten sehen; wenn nicht möglich, TestRunning() ist Pflicht für alle Leser.
+3. Test: fremder Leser während der Routine sieht keine Test-Kills; Gegenprobe 3.0.30.

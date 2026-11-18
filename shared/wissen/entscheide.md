@@ -11,6 +11,8 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 18.11.2026 06:32 | Addons künftig gesammelt in EINEM Ordner/Paket liefern ("von jetzt an stelle mir die addons in einem ordner zur verfügung") | Prüf-Sitzung liefert ein Paket AddOns/ mit allen Addon-Ordnern |
+| 18.11.2026 06:34 | Bei jedem Test den Entwickler-Befehl mitliefern | /gsdev vor jedem /<addon> testroutine alles |
 | 17.11.2026 20:42 | Gemeinsamer Takt-Baustein: "genau go … und mach ja keinen Fehler" | Prüf-Sitzung baut shared/GoldSentinelTakt.lua aus den bewährten Mustern (leistung.md Abschnitt 6: ThreatSentinel, BuffSentinel, GoldSentinelMarkt) mit vollständigen Tests in Lua 5.1 und Gegenproben; erst nach eigenen Tests an die Projekte (Hinweis), addon_check-Regel "exact" |
 | 17.11.2026 20:39 | Ruckeln: "Wir sammeln die Daten und stellen im Detail fest, wie man es von Anfang an verhindern kann" | Neu shared/wissen/leistung.md (Fälle, Muster, Bau-Regeln, Nachbau-Pflicht mit echten Daten); Pflicht in CLAUDE.md; hinweis-leistung-2026-11-17.txt an alle Projekte |
 | 17.11.2026 16:58 | GuildSentinel: "Korrektur machen und uploaden" – 0.9.51 nicht um 18:00 auf CurseForge; erst GS-RANG-1 (Gildenmeister darf nicht befördern) + Roster-Fehler beheben, dann die korrigierte, kurz im Spiel bestätigte Version hochladen (18:00, sonst nächster Tag) | offen-guildsentinel.txt |

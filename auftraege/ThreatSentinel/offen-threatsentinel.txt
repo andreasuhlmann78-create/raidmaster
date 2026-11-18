@@ -283,3 +283,6 @@ Pflicht für neue Arbeit in Portionen; Summary-Zeile in den Bericht. LevelPilot 
 - addon_check OK. Bericht 2054: ehrlich (ein geeichtes Paar, Faktor 2,4; Rest "Verdacht"), keine ganze Bereinigung mehr, Tabellen
   wiederverwendet, Bild/Bereich/Gesamtdauer getrennt – angenommen. Kein Ruckler über 40 ms bekannt. Nächster Ingametest liefert die
   Spielwerte (TU1-L04t nach 2.5.17, T140 Speicher je Durchlauf ohne Nachbau-Anteil).
+
+==== HINWEIS 18.11.2026 06:45 – TESTDATEN NIE ZU ANDEREN ADDONS ====
+auftraege/hinweis-testdaten-fremde-addons-2026-11-18.txt umsetzen (<Addon>API.TestRunning(), fremde Daten nie während deren Test lesen).

@@ -500,3 +500,23 @@ Pflicht für neue Arbeit in Portionen; Summary-Zeile in den Bericht. LevelPilot 
   Sitzung mit add_repo hinzufügen (nur lokal lesen, nichts daraus ins öffentliche Repo) – bitte für den nächsten Schritt, damit T188/T198
   (44/43 ms im Spiel, Nachbau < 2 ms) geeicht werden.
 - Ingametest: 0.9.55 statt 0.9.54 (dem Nutzer melde ich es). CurseForge morgen 18:00 bleibt 0.9.52.
+
+==== BEFUND HOCH SOFORT 18.11.2026 06:45 – FALSCHER WOCHENRÜCKBLICK IM GILDENCHAT (Nutzer 06:38, Bildschirmfoto) ====
+Im Gildenchat stand (vom Charakter des Nutzers gesendet): "Wochenrückblick: 28 Stufen, 1 neue Mitglieder, Onyxia erstmals besiegt,
+Lucifron erstmals besiegt." Die Gilde hat Onyxia und Lucifron NIE besiegt.
+Ursache (vom Supervisor in den echten Daten belegt, goldsentinel-daten aktuell/…/forever):
+- GuildSentinel.lua: miles ["kill:1084"] = 1794931358 (17.11. 17:02), ["kill:663"] = 1794931276 (17.11. 17:01), milesText "Erstkill: Onyxia/Lucifron".
+- RaidMaster.lua (beide Rechner): firstKills = {} (leer) – echte Erstkills gibt es nicht.
+- 17.11. 17:01 lief die RaidMaster-Testroutine 3.0.30 (Ingametest des Nutzers). Links.lua K:FirstKills liest RaidMaster.db.data.firstKills
+  LIVE und prüft nur ns.Test:Active() (die EIGENE Testroutine). Während der RaidMaster-Routine standen dort Testdaten -> Goals hat sie
+  als echte Meilensteine gespeichert; heute (Reset Mittwoch) hat CheckReview sie verkündet.
+Auftrag:
+1. Nie Daten eines anderen Addons übernehmen, während DESSEN Testroutine läuft (RaidMaster liefert dafür RaidMasterAPI.TestRunning(),
+   Auftrag an RaidMaster 06:45; bis dahin zusätzlich: Erstkill nur, wenn der Boss auch in RaidMasters gespeicherten Kills/Raid-Protokoll
+   mit Datum steht). Gilt für alle Lesestellen fremder Addons (Links.lua u. a.) – Liste im Bericht.
+2. Einmalige Bereinigung der echten Daten mit Kennzeichen: Meilensteine "kill:<id>", deren Boss nicht in RaidMasters echten firstKills
+   steht, entfernen (miles + milesText); im Protokoll mit Datum. Beide Rechner.
+3. Ankündigungen im Gildenchat sind öffentlich und nicht rückgängig zu machen: vor jeder automatischen Ankündigung prüfen, ob die Quelle
+   plausibel ist (Kill ohne Raid-Protokoll = nicht ankündigen). Test + Gegenprobe (Erstkill aus Testdaten -> keine Ankündigung).
+4. Grammatik: "1 neue Mitglieder" -> Einzahl/Mehrzahl ("1 neues Mitglied") in allen Sprachen; dasselbe für "%d Stufen" (1 Stufe) prüfen.
+5. Test, der genau den Fall nachstellt: RaidMaster-Testroutine aktiv (Attrappe) + GuildSentinel-Meilensteine laufen -> nichts gespeichert.

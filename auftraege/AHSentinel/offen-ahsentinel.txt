@@ -4792,3 +4792,6 @@ Nachtrag 06:50 – dasselbe Muster an weiteren Stellen (Supervisor, Suche im Cod
 - Diag.lua:109  local _, class = UnitClass and UnitClass("player")  -> Klasse im Sitzungsprotokoll immer "?".
 - Disenchant.lua:840  local _, n = GetContainerItemInfo and GetContainerItemInfo(bag, slot)  -> Menge immer 1 (nur alter Client).
 Alle Stellen (auch in TestRoutine/Nachbau) mit einer Suche nach diesem Muster finden und je mit Test + Gegenprobe beheben.
+
+==== HINWEIS 18.11.2026 06:45 – TESTDATEN NIE ZU ANDEREN ADDONS ====
+auftraege/hinweis-testdaten-fremde-addons-2026-11-18.txt umsetzen (<Addon>API.TestRunning(), fremde Daten nie während deren Test lesen).
