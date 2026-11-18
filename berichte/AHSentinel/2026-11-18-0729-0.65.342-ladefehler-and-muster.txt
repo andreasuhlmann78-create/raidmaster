@@ -1,0 +1,42 @@
+AHSentinel 0.65.342 – BEFUND HOCH SOFORT 06:40 (Ladefehler) + Nachtrag 06:50 (and-Muster) – umgesetzt, zur Prüfung
+
+==== 1. Ladefehler A:On ====
+Ursache wie im Befund (Lua 5.1: "local file, line = ok and … and txt:match()" -> line immer nil, Z. 161 wirft beim Laden).
+Behebung: match nur in einem if, beide Werte geprüft, ganze Fundstellen-Merkung in pcall – A:On wirft nie. Dazu Stufe richtig:
+im pcall ist Stufe 1 die eigene Funktion, 2 pcall [C], 3 A:On, 4 der Aufrufer -> debugstack(4, 1, 0) = Fundstelle des Empfängers
+(vorher hätte auch ohne Fehler jede Fundstelle auf A:On selbst gezeigt). Naht A.debugstackTest für die Prüfung (keine Blizzard-Globale).
+Test T910: A:On mit debugstack im Spiel-Format ("[Interface/AddOns/AHSentinel/Names.lua]:646: in main chunk", "[string \"@…Kern.lua\"]:12:",
+"[C]: ?", leer, Zahl) -> "ok:Names.lua:646 · ok:Kern.lua:12 · ok:nil · ok:nil · ok:nil".
+
+==== 2. Nachbildung mit debugstack wie im Spiel ====
+tests/wowsim/wowsim.lua: debugstack([thread,] start, count1, count2) im Spiel-Format ("[Interface/AddOns/AHSentinel/<Datei>]:<Zeile>: in
+function `x'", "[C]: ?" / "[C]: in function `pcall'", Stufe 1 = Aufrufer, count1 oben / count2 unten), gilt für alle Nachbauten.
+Nachbau s309: 0.65.342 bestanden (Laden ohne Fehler, READY-Empfänger "Names.lua:646", keine Fundstelle auf A:On, Takt erkennt pcall);
+Gegenprobe 0.65.341: genau die Meldung des Nutzers "AHAnalyzerPro.lua:161: attempt to concatenate local 'line' (a nil value)" beim
+Laden jeder Datei (48 Fehler).
+
+==== 3. Andere Stellen mit Stapel-Auswertung ====
+Takt-Erkennung C-Grenze (CCount/TaktStack) und StepWhere: im Gesamtlauf jetzt mit debugstack im Spiel-Format ausgeführt (s303 Takt,
+s302 Abgabe an jeder Stelle, s309 pcall-Erkennung) – bestanden. GoldSentinelTest.lua (gemeinsam, unverändert) nutzt debugstack nur für
+den Bericht.
+
+==== Nachtrag 06:50 – and-Muster ====
+Suche mit einem Prüfskript über alle .lua (Mehrfach-Zuweisung mit EINEM Ausdruck, and/or auf oberster Ebene, endet mit Aufruf),
+auch Nachbau und gemeinsame Dateien: 5 Fundstellen, alle behoben; danach 0.
+- Learn.lua:566 (seit 0.65.74, 10.11.): Zusammenfassung der aus dem Ringpuffer gefallenen Käufe floss nie ein. Echte Daten (real_buystats):
+  Weg d vorher n 983 / Treffer 262 (0,27) -> jetzt n 1207 / 396 (0,33); Weg e vorher n 1 / 0 -> jetzt n 10 / 2 (0,20).
+  Auswirkung: Margin (Median der Verhältnisse) unverändert (d: Marge 0,100, e: unter 20 Fällen -> Startmarge 0,200, wie vorher);
+  Kauf-Budget: Trefferquote d 0,27 -> 0,33, beide unter 0,60 -> Budget gilt weiter wie bisher. Keine Kaufentscheidung ändert sich
+  in diesen Daten.
+- Diag.lua:109: Klasse im Sitzungsprotokoll immer "?" -> jetzt die Klasse.
+- Disenchant.lua:840: Menge immer 1 (nur alter Client ohne C_Container).
+- TestRoutine.lua:8247: ungenutzte Variable entfernt.
+Nachbau s310: 0.65.342 bestanden (BuyStats e mit Zusammenfassung n 30 / 21, Klasse WARRIOR); Gegenprobe 0.65.341 (mit behobenem Laden):
+"BuyStats e: n 0, Treffer 0", "Sitzung Klasse: ?".
+
+Tests: Gesamtlauf (mit der neuen Nachbildung) 382 bestanden, 2 fehlgeschlagen – s289 "Blizzard-Globale beschrieben: debugstack @
+TestRoutine" (T910 ersetzte _G.debugstack -> Naht A.debugstackTest, danach bestanden); s274 Zeitüberschreitung (300 s): gemessen allein
+273 s mit, 276 s ohne neue Nachbildung, 0.65.341 jetzt ebenso 267 s – die Umgebung ist seit dem Neustart langsamer (0.65.333: 152 s),
+keine Regression; Szenario wird gekürzt. addon_check OK.
+Dem Nutzer gemeldet: 0.65.341 nicht benutzen, 0.65.342 sofort.
+Weiter: FRAGE 07:30 API.Pending() (nächster Stand), dann erneut BEREIT FÜR INGAMETEST.
