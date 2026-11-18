@@ -1,0 +1,31 @@
+BERICHT THREATSENTINEL 2.5.21 – Ingametest 18.11. 08:26 (Punkte 1–3), Befund "Testfehler öffnet Fehlerfenster", leistung.md
+Stand: umgesetzt, zur Prüfung (keine Selbst-Freigabe).
+Veröffentlicht: download/ThreatSentinel-2.5.21.zip (addon_check "## ThreatSentinel-2.5.21.zip: OK"),
+announce/threatsentinel__threatsentinel-2.5.21.md. Gemeinsame Dateien cmp gleich mit shared/.
+Offline (veröffentlichte ZIP, "alles"): Forever OK 286 · FEHLER 6 · übersprungen 18 · im Client 16; Era OK 290 · FEHLER 6 ·
+übersprungen 12 · im Client 17; je "FEHLER ausserhalb der Nachbildungs-Liste: 0"; mit TS_FRAME_MS=0 ebenso.
+Belege aus dem hochgeladenen Bericht testberichte/berichte/ThreatSentinel/ThreatSentinel-1794986819-a77da5-1.json (08:26).
+
+1. T-D2 "T186=false (Testzentrale überdeckt ThreatSentinelTestSpielfenster · geprüft 2)" – Ursache belegt (Fehler der Prüfung):
+   Das Test-"Spielfenster" war 300×300 in der Bildschirmmitte. Mit den Massen aus dem Bericht (Bildschirm 1461×767, Testzentrale
+   765×440) bleibt daneben links 580, rechts 581 Breite (< 765), darüber 234, darunter 233 Höhe (< 440): KEIN freier Platz – die
+   Prüfung konnte nur scheitern. Neu: Testzentrale oben links, Testfenster R.K2_FAKE_W × R.K2_FAKE_H = 120×80 über ihrer Ecke;
+   Testzentrale danach wieder an ihrer alten Stelle. Weiterhin abgeschirmt (nur das Testfenster zählt).
+2. T-K2 SKIP "kein freier Platz … durch TS-Testfenster (TSFremdTest)" – dieselbe Ursache: Testfenster 200×120 mitten auf der
+   Testzentrale. Nachgerechnet (Testzentrale in Bildschirmmitte): kein Platz. Neu: gleiche Anordnung wie T-D2 (oben links, 120×80
+   über der Ecke), abgeschirmt, Ergebnis OK oder FEHLER – das SKIP ist entfernt. Das Ergebnis nennt "vorher überdeckt n" (die
+   Prüfung beweist, dass wirklich ausgewichen werden musste), Rest, Namen, Bildschirm, Testzentrale.
+   T-K2d rechnet beide Anordnungen mit den Massen vom 18.11. nach: "T-K2 neu: Lage 128, Überdeckung 0 · alt: Überdeckung true".
+3. Prüfliste weiter "TR-ALLE auto 17.11. 17:00" – Ursache belegt: Im Lauf 08:26 war T186 "wartet auf ein Spielfenster" (SKIP im
+   Bericht). 2.5.20 erneuerte TR-ALLE nur, wenn keine Fenster-Prüfung wartete (if not self.waitWindow) – also gar nicht. (Im Lauf 06:38
+   mit 2.5.19 erneuerte Hit einen erledigten Punkt nie.) Neu R:PLRunResult: TR-ALLE (bzw. ERA-TBC) wird nach JEDEM ganzen Lauf mit
+   Zeit und Ergebnis erneuert; wartet die Fenster-Prüfung, steht in der Notiz "Fenster-Prüfung wartet (läuft von selbst)"; das
+   Nachholen erneuert den Punkt noch einmal. "OK"/"Nicht OK" des Spielers bleiben. T-PL2 prüft das ("wartend true true true").
+
+BEFUND (alle Addons) "absichtlicher Testfehler öffnet das Fehlerfenster": ThreatSentinel geprüft (grep über alle eigenen Dateien):
+kein Aufruf von geterrorhandler/seterrorhandler, kein error() in einem Zeitgeber. Absichtliche Testfehler (T-Selbsttest, Handler-Test,
+DD-Tick, WithAPI-Fehler) laufen alle in pcall bzw. über ns:ReportError, das während des Selbsttests (ns.routineSelfTest) nur zählt und
+nichts an GoldSentinelTest.Error, die Diagnose oder das Spiel weitergibt. Im Lauf 08:26: "fehlerzaehler 0", kein Fehlerfenster gemeldet.
+
+leistung.md: Lauf 08:26 längstes Bild 20,0 ms (T133), Prüfungen über 16 ms: T89 16,1, T133 18,0, TU7-S1 19,2 ms – kein Bild über 40 ms
+(vorher 47,4 ms). Gesamtdauer 2,96 s; Rechenzeit je Bereich im Bericht ("U 243,0 ms/76 Bilder" usw.).
