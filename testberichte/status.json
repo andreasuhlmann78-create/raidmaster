@@ -1,17 +1,17 @@
 {
- "ausgewertet": "2026-11-18T16:42:51Z",
+ "ausgewertet": "2026-11-18T19:41:54Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
-   "berichte": 93,
+   "berichte": 99,
    "letzter_test": {
-    "id": "AHSentinel-1795018048-d25e75-5",
-    "version": "0.65.346",
-    "time": 1795018048,
+    "id": "AHSentinel-1795027774-316ef5-5",
+    "version": "0.65.347",
+    "time": 1795027774,
     "counts": {
      "client": 0,
-     "fehler": 5,
-     "ok": 1,
+     "fehler": 4,
+     "ok": 2,
      "uebersprungen": 3
     }
    },
@@ -19,52 +19,42 @@
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.346",
+     "version": "0.65.347",
      "client": "forever 1.60.1 (Interface 16001)",
      "id": "ALLES-1",
      "name": "Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1)",
-     "detail": "ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 943 OK, 4 FEHLER, 32 übersprungen, Sandbox OK",
-     "bericht": "AHSentinel-1795018048-d25e75-5"
+     "detail": "ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 949 OK, 1 FEHLER, 29 übersprungen, Sandbox OK",
+     "bericht": "AHSentinel-1795027774-316ef5-5"
     },
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.346",
+     "version": "0.65.347",
      "client": "forever 1.60.1 (Interface 16001)",
      "id": "ALLES-2",
      "name": "Oberflächen-Prüfung (alle Reiter)",
-     "detail": "ergebnis:   2. Oberflächen-Prüfung (alle Reiter): FEHLER – 5 OK, 2 FEHLER, 0 übersprungen, Sandbox OK",
-     "bericht": "AHSentinel-1795018048-d25e75-5"
+     "detail": "ergebnis:   2. Oberflächen-Prüfung (alle Reiter): FEHLER – 6 OK, 1 FEHLER, 0 übersprungen, Sandbox OK",
+     "bericht": "AHSentinel-1795027774-316ef5-5"
     },
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.346",
+     "version": "0.65.347",
      "client": "forever 1.60.1 (Interface 16001)",
      "id": "ALLES-4",
      "name": "Sniper-Testroutine S1–S13 (ohne echten Kauf)",
-     "detail": "ergebnis:   4. Sniper-Testroutine S1–S13 (ohne echten Kauf): FEHLER – 27 OK, 3 FEHLER, 2 übersprungen, Sandbox OK",
-     "bericht": "AHSentinel-1795018048-d25e75-5"
+     "detail": "ergebnis:   4. Sniper-Testroutine S1–S13 (ohne echten Kauf): FEHLER – 29 OK, 2 FEHLER, 1 übersprungen, Sandbox OK",
+     "bericht": "AHSentinel-1795027774-316ef5-5"
     },
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.346",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "ALLES-5",
-     "name": "Wächter 10 Min.: Rechenzeit je Bild und Hürden (WAECHTER-LAST, WAECHTER-FUND)",
-     "detail": "ergebnis:   5. Wächter 10 Min.: Rechenzeit je Bild und Hürden (WAECHTER-LAST, WAECHTER-FUND): FEHLER – 168 Runden in 10 Min. · längste Wächter-Rechenzeit je Bild 56 ms (≤ 50; Wächter-Takt (Tick)) · längstes ganzes Bild 115 ms (Auskunft) · Hürden: Letzte Runde: 278 Angebote – 0 Marktwert ab Min…",
-     "bericht": "AHSentinel-1795018048-d25e75-5"
-    },
-    {
-     "addon": "AHSentinel",
-     "art": "test",
-     "version": "0.65.346",
+     "version": "0.65.347",
      "client": "forever 1.60.1 (Interface 16001)",
      "id": "ALLES-6",
      "name": "Prüfungen am offenen Auktionshaus",
-     "detail": "ergebnis:   6. Prüfungen am offenen Auktionshaus: FEHLER – 61 OK, 6 FEHLER, 3 übersprungen, Sandbox OK",
-     "bericht": "AHSentinel-1795018048-d25e75-5"
+     "detail": "ergebnis:   6. Prüfungen am offenen Auktionshaus: FEHLER – 63 OK, 4 FEHLER, 3 übersprungen, Sandbox OK",
+     "bericht": "AHSentinel-1795027774-316ef5-5"
     }
    ],
    "fehler_spiel": [
@@ -201,19 +191,40 @@
    ]
   },
   "BuffSentinel": {
-   "berichte": 9,
+   "berichte": 10,
    "letzter_test": {
-    "id": "BuffSentinel-1795005791-5efddb-1",
-    "version": "0.9.59",
-    "time": 1795005774,
+    "id": "BuffSentinel-1795025980-87d2e0-1",
+    "version": "0.9.60",
+    "time": 1795025972,
     "counts": {
      "client": 10,
-     "fehler": 0,
-     "ok": 220,
+     "fehler": 2,
+     "ok": 218,
      "uebersprungen": 11
     }
    },
-   "fehler_tests": [],
+   "fehler_tests": [
+    {
+     "addon": "BuffSentinel",
+     "art": "test",
+     "version": "0.9.60",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T149",
+     "name": "Schwebende Anzeigen nicht in der gemeinsamen Fensterliste, leere Anker klein",
+     "detail": "ergebnis: ja/ja/ja/ja/nein",
+     "bericht": "BuffSentinel-1795025980-87d2e0-1"
+    },
+    {
+     "addon": "BuffSentinel",
+     "art": "test",
+     "version": "0.9.60",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T162",
+     "name": "Regressionen: jeder Befund hat einen Test, der gelaufen ist",
+     "detail": "ergebnis: Regressionen: 30 von 30 vorhanden · FEHLER: ANK Anker A1-A3 (10.11.)",
+     "bericht": "BuffSentinel-1795025980-87d2e0-1"
+    }
+   ],
    "fehler_spiel": [
     {
      "addon": "BuffSentinel",
@@ -274,30 +285,19 @@
    ]
   },
   "GuildSentinel": {
-   "berichte": 12,
+   "berichte": 13,
    "letzter_test": {
-    "id": "GuildSentinel-1795005911-dab819-1",
-    "version": "0.9.57",
-    "time": 1795005887,
+    "id": "GuildSentinel-1795026045-a76bf8-1",
+    "version": "0.9.58",
+    "time": 1795026026,
     "counts": {
      "client": 8,
-     "fehler": 1,
-     "ok": 326,
-     "uebersprungen": 23
+     "fehler": 0,
+     "ok": 329,
+     "uebersprungen": 24
     }
    },
-   "fehler_tests": [
-    {
-     "addon": "GuildSentinel",
-     "art": "test",
-     "version": "0.9.57",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T138",
-     "name": "Roster:Scan mit 500 Mitgliedern",
-     "detail": "ergebnis: 16.2 ms | erwartet: < 16 ms",
-     "bericht": "GuildSentinel-1795005911-dab819-1"
-    }
-   ],
+   "fehler_tests": [],
    "fehler_spiel": [
     {
      "addon": "GuildSentinel",
@@ -330,11 +330,11 @@
    ]
   },
   "LevelPilot": {
-   "berichte": 39,
+   "berichte": 43,
    "letzter_test": {
-    "id": "LevelPilot-1795007102-eafe54-3",
-    "version": "3.12.95",
-    "time": 1795007102,
+    "id": "LevelPilot-1795025504-ed3403-3",
+    "version": "3.12.97",
+    "time": 1795025504,
     "counts": {
      "client": 0,
      "fehler": 0,
@@ -361,11 +361,11 @@
    ]
   },
   "ProfessionSentinel": {
-   "berichte": 9,
+   "berichte": 11,
    "letzter_test": {
-    "id": "ProfessionSentinel-1795006565-a022e2-8",
-    "version": "0.9.72",
-    "time": 1795006565,
+    "id": "ProfessionSentinel-1795026194-1ea902-7",
+    "version": "0.9.74",
+    "time": 1795026194,
     "counts": {
      "client": 0,
      "fehler": 1,
@@ -377,12 +377,12 @@
     {
      "addon": "ProfessionSentinel",
      "art": "test",
-     "version": "0.9.72",
+     "version": "0.9.74",
      "client": "forever 1.60.1 (Interface 16001)",
      "id": "S2",
      "name": "Fertigkeit und Plan-Start",
      "detail": "ergebnis: Fertigkeit 0 | erwartet: > 0",
-     "bericht": "ProfessionSentinel-1795006565-a022e2-8"
+     "bericht": "ProfessionSentinel-1795026194-1ea902-7"
     }
    ],
    "fehler_spiel": [
@@ -445,11 +445,11 @@
    ]
   },
   "RaidMaster": {
-   "berichte": 13,
+   "berichte": 14,
    "letzter_test": {
-    "id": "RaidMaster-1795006178-cc0f40-3",
+    "id": "RaidMaster-1795026088-db14ae-1",
     "version": "3.0.40",
-    "time": 1795006178,
+    "time": 1795026088,
     "counts": {
      "client": 0,
      "fehler": 1,
@@ -466,7 +466,7 @@
      "id": "T35b",
      "name": "Berufe: Fenster wird eingelesen (nachgeholt)",
      "detail": "ergebnis: nach dem Öffnen nicht eingelesen | erwartet: Berufe-Daten neu",
-     "bericht": "RaidMaster-1795006178-cc0f40-3"
+     "bericht": "RaidMaster-1795026088-db14ae-1"
     }
    ],
    "fehler_spiel": []
@@ -503,52 +503,42 @@
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.346",
+   "version": "0.65.347",
    "client": "forever 1.60.1 (Interface 16001)",
    "id": "ALLES-1",
    "name": "Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1)",
-   "detail": "ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 943 OK, 4 FEHLER, 32 übersprungen, Sandbox OK",
-   "bericht": "AHSentinel-1795018048-d25e75-5"
+   "detail": "ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 949 OK, 1 FEHLER, 29 übersprungen, Sandbox OK",
+   "bericht": "AHSentinel-1795027774-316ef5-5"
   },
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.346",
+   "version": "0.65.347",
    "client": "forever 1.60.1 (Interface 16001)",
    "id": "ALLES-2",
    "name": "Oberflächen-Prüfung (alle Reiter)",
-   "detail": "ergebnis:   2. Oberflächen-Prüfung (alle Reiter): FEHLER – 5 OK, 2 FEHLER, 0 übersprungen, Sandbox OK",
-   "bericht": "AHSentinel-1795018048-d25e75-5"
+   "detail": "ergebnis:   2. Oberflächen-Prüfung (alle Reiter): FEHLER – 6 OK, 1 FEHLER, 0 übersprungen, Sandbox OK",
+   "bericht": "AHSentinel-1795027774-316ef5-5"
   },
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.346",
+   "version": "0.65.347",
    "client": "forever 1.60.1 (Interface 16001)",
    "id": "ALLES-4",
    "name": "Sniper-Testroutine S1–S13 (ohne echten Kauf)",
-   "detail": "ergebnis:   4. Sniper-Testroutine S1–S13 (ohne echten Kauf): FEHLER – 27 OK, 3 FEHLER, 2 übersprungen, Sandbox OK",
-   "bericht": "AHSentinel-1795018048-d25e75-5"
+   "detail": "ergebnis:   4. Sniper-Testroutine S1–S13 (ohne echten Kauf): FEHLER – 29 OK, 2 FEHLER, 1 übersprungen, Sandbox OK",
+   "bericht": "AHSentinel-1795027774-316ef5-5"
   },
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.346",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "ALLES-5",
-   "name": "Wächter 10 Min.: Rechenzeit je Bild und Hürden (WAECHTER-LAST, WAECHTER-FUND)",
-   "detail": "ergebnis:   5. Wächter 10 Min.: Rechenzeit je Bild und Hürden (WAECHTER-LAST, WAECHTER-FUND): FEHLER – 168 Runden in 10 Min. · längste Wächter-Rechenzeit je Bild 56 ms (≤ 50; Wächter-Takt (Tick)) · längstes ganzes Bild 115 ms (Auskunft) · Hürden: Letzte Runde: 278 Angebote – 0 Marktwert ab Min…",
-   "bericht": "AHSentinel-1795018048-d25e75-5"
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "test",
-   "version": "0.65.346",
+   "version": "0.65.347",
    "client": "forever 1.60.1 (Interface 16001)",
    "id": "ALLES-6",
    "name": "Prüfungen am offenen Auktionshaus",
-   "detail": "ergebnis:   6. Prüfungen am offenen Auktionshaus: FEHLER – 61 OK, 6 FEHLER, 3 übersprungen, Sandbox OK",
-   "bericht": "AHSentinel-1795018048-d25e75-5"
+   "detail": "ergebnis:   6. Prüfungen am offenen Auktionshaus: FEHLER – 63 OK, 4 FEHLER, 3 übersprungen, Sandbox OK",
+   "bericht": "AHSentinel-1795027774-316ef5-5"
   },
   {
    "addon": "AHSentinel",
@@ -682,6 +672,26 @@
   },
   {
    "addon": "BuffSentinel",
+   "art": "test",
+   "version": "0.9.60",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T149",
+   "name": "Schwebende Anzeigen nicht in der gemeinsamen Fensterliste, leere Anker klein",
+   "detail": "ergebnis: ja/ja/ja/ja/nein",
+   "bericht": "BuffSentinel-1795025980-87d2e0-1"
+  },
+  {
+   "addon": "BuffSentinel",
+   "art": "test",
+   "version": "0.9.60",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T162",
+   "name": "Regressionen: jeder Befund hat einen Test, der gelaufen ist",
+   "detail": "ergebnis: Regressionen: 30 von 30 vorhanden · FEHLER: ANK Anker A1-A3 (10.11.)",
+   "bericht": "BuffSentinel-1795025980-87d2e0-1"
+  },
+  {
+   "addon": "BuffSentinel",
    "art": "spiel",
    "wo": "Gruppe",
    "msg": "GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'\nLua Taint: BuffSentinel",
@@ -738,16 +748,6 @@
   },
   {
    "addon": "GuildSentinel",
-   "art": "test",
-   "version": "0.9.57",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T138",
-   "name": "Roster:Scan mit 500 Mitgliedern",
-   "detail": "ergebnis: 16.2 ms | erwartet: < 16 ms",
-   "bericht": "GuildSentinel-1795005911-dab819-1"
-  },
-  {
-   "addon": "GuildSentinel",
    "art": "spiel",
    "wo": "GS_APPS",
    "msg": "Interface/AddOns/GuildSentinel/Roster.lua:124: attempt to index field 'alts' (a nil value)",
@@ -791,12 +791,12 @@
   {
    "addon": "ProfessionSentinel",
    "art": "test",
-   "version": "0.9.72",
+   "version": "0.9.74",
    "client": "forever 1.60.1 (Interface 16001)",
    "id": "S2",
    "name": "Fertigkeit und Plan-Start",
    "detail": "ergebnis: Fertigkeit 0 | erwartet: > 0",
-   "bericht": "ProfessionSentinel-1795006565-a022e2-8"
+   "bericht": "ProfessionSentinel-1795026194-1ea902-7"
   },
   {
    "addon": "ProfessionSentinel",
@@ -862,7 +862,7 @@
    "id": "T35b",
    "name": "Berufe: Fenster wird eingelesen (nachgeholt)",
    "detail": "ergebnis: nach dem Öffnen nicht eingelesen | erwartet: Berufe-Daten neu",
-   "bericht": "RaidMaster-1795006178-cc0f40-3"
+   "bericht": "RaidMaster-1795026088-db14ae-1"
   },
   {
    "addon": "ThreatSentinel",
@@ -878,42 +878,42 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 170,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.346-7d2ba996c1fb.txt"
+    "anzahl": 172,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.347-882b6ef409c7.txt"
    },
    "BuffSentinel": {
-    "anzahl": 60,
-    "neueste": "testberichte/diagnose/BuffSentinel/0.9.60-7290739f2b3a.txt"
+    "anzahl": 62,
+    "neueste": "testberichte/diagnose/BuffSentinel/0.9.60-9aba5d99b4e9.txt"
    },
    "GSMesstest": {
     "anzahl": 13,
     "neueste": "testberichte/diagnose/GSMesstest/5.1-e71680805b41.txt"
    },
    "GSSniperLog": {
-    "anzahl": 20,
+    "anzahl": 22,
     "neueste": "testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt"
    },
    "GuildSentinel": {
-    "anzahl": 171,
+    "anzahl": 173,
     "neueste": "testberichte/diagnose/GuildSentinel/0.9.58-e52bcbc311ff.txt"
    },
    "LevelPilot": {
-    "anzahl": 66,
-    "neueste": "testberichte/diagnose/LevelPilot/3.12.96-65c5d839091f.txt"
+    "anzahl": 68,
+    "neueste": "testberichte/diagnose/LevelPilot/3.12.97-7d750181e365.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 151,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.74-c776193e5ace.txt"
+    "anzahl": 153,
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.74-e8fcba77e8cd.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 146,
+    "anzahl": 148,
     "neueste": "testberichte/diagnose/ThreatSentinel/2.5.23-e61faba6e4d4.txt"
    }
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 227,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1795018447-7b9bc8.json"
+    "anzahl": 231,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1795027845-f910be.json"
    }
   }
  }

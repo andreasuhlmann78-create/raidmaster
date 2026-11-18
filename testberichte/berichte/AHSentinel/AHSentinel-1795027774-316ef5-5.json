@@ -1,0 +1,97 @@
+{
+ "abgebrochen": "nein",
+ "addon": "AHSentinel",
+ "counts": {
+  "client": 0,
+  "fehler": 4,
+  "ok": 2,
+  "uebersprungen": 3
+ },
+ "dur_ms": 0,
+ "env": {
+  "build": "70959",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 10,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [],
+ "f": 1,
+ "id": "AHSentinel-1795027774-316ef5-5",
+ "kind": "test",
+ "pruefliste_tr_alles": "fehler · 18.11. 19:49 · Testroutine alles: 2 von 9 bestanden, 4 FEHLER, 0 nicht prüfbar (Prüfungen: 1047 OK, 8 FEHLER, 33 übersprungen) · noch offen: 3 (laufen von selbst, sobald das Fenster offen ist)",
+ "results": [
+  {
+   "bereich": "ALLES",
+   "ergebnis": "  1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 949 OK, 1 FEHLER, 29 übersprungen, Sandbox OK",
+   "id": "ALLES-1",
+   "name": "Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1)",
+   "status": "FEHLER"
+  },
+  {
+   "bereich": "ALLES",
+   "ergebnis": "  2. Oberflächen-Prüfung (alle Reiter): FEHLER – 6 OK, 1 FEHLER, 0 übersprungen, Sandbox OK",
+   "id": "ALLES-2",
+   "name": "Oberflächen-Prüfung (alle Reiter)",
+   "status": "FEHLER"
+  },
+  {
+   "bereich": "ALLES",
+   "ergebnis": "  3. Befehlsliste in Gruppen (HILFE-GRP): bestanden – deutsch 4 Gruppen, 41 Befehle, 0 doppelt · englisch 4 Gruppen, 41 Befehle, 0 doppelt · einstellungen -> optionen",
+   "id": "ALLES-3",
+   "name": "Befehlsliste in Gruppen (HILFE-GRP)",
+   "status": "OK"
+  },
+  {
+   "bereich": "ALLES",
+   "ergebnis": "  4. Sniper-Testroutine S1–S13 (ohne echten Kauf): FEHLER – 29 OK, 2 FEHLER, 1 übersprungen, Sandbox OK",
+   "id": "ALLES-4",
+   "name": "Sniper-Testroutine S1–S13 (ohne echten Kauf)",
+   "status": "FEHLER"
+  },
+  {
+   "bereich": "ALLES",
+   "ergebnis": "  5. Wächter 10 Min.: Rechenzeit je Bild und Hürden (WAECHTER-LAST, WAECHTER-FUND): bestanden – 175 Runden in 10 Min. · längste Wächter-Rechenzeit je Bild 47 ms (≤ 50; Wächter-Takt (Tick)) · längstes ganzes Bild 83 ms (Auskunft) · Hürden: Letzte Runde: 277 Angebote – 0 unter 30 % des…",
+   "id": "ALLES-5",
+   "name": "Wächter 10 Min.: Rechenzeit je Bild und Hürden (WAECHTER-LAST, WAECHTER-FUND)",
+   "status": "OK"
+  },
+  {
+   "bereich": "ALLES",
+   "ergebnis": "  6. Prüfungen am offenen Auktionshaus: FEHLER – 63 OK, 4 FEHLER, 3 übersprungen, Sandbox OK",
+   "id": "ALLES-6",
+   "name": "Prüfungen am offenen Auktionshaus",
+   "status": "FEHLER"
+  },
+  {
+   "bereich": "ALLES",
+   "grund": "  7. Vollscan zweimal: bleibender Speicher und längste Lücke (VOLLSCAN): noch offen – passiert von selbst beim nächsten Schnell-Vollscan (Entwicklermodus) (Server-Abstand noch 14 Min.)",
+   "id": "ALLES-7",
+   "name": "Vollscan zweimal: bleibender Speicher und längste Lücke (VOLLSCAN)",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "ALLES",
+   "grund": "  8. Prüfungen am Berufsfenster: noch offen – passiert von selbst beim nächsten Öffnen eines Berufsfensters",
+   "id": "ALLES-8",
+   "name": "Prüfungen am Berufsfenster",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "ALLES",
+   "grund": "  9. Prüfungen am Händler: noch offen – passiert von selbst beim nächsten Händler-Besuch",
+   "id": "ALLES-9",
+   "name": "Prüfungen am Händler",
+   "status": "SKIP"
+  }
+ ],
+ "teil": "alles",
+ "time": 1795027774,
+ "version": "0.65.347",
+ "zusammenfassung": "Testroutine alles: 2 von 9 bestanden, 4 FEHLER, 0 nicht prüfbar (Prüfungen: 1047 OK, 8 FEHLER, 33 übersprungen) · noch offen: 3 (laufen von selbst, sobald das Fenster offen ist)"
+}

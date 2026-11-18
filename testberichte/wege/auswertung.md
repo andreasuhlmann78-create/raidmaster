@@ -164,13 +164,15 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Vorgebirge von Hillsbrad (1424)
 
-- Wegstücke 590, Knoten 946, zusammenhängende Teile 4
+- Wegstücke 611, Knoten 1040, zusammenhängende Teile 5
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 917 Knoten, Bereich 27–71 / 16–79
+  - Teil 1: 997 Knoten, Bereich 27–71 / 16–79
   - Teil 2: 16 Knoten, Bereich 54–57 / 48–52
-  - Teil 3: 11 Knoten, Bereich 31–33 / 20–26
-  - Teil 4: 2 Knoten, Bereich 56–56 / 47–48
+  - Teil 3: 14 Knoten, Bereich 38–46 / 66–69
+  - Teil 4: 11 Knoten, Bereich 31–33 / 20–26
+  - Teil 5: 2 Knoten, Bereich 56–56 / 47–48
 - **Ausreisser:** Wegstück 1: Sprung 5.2 % von 61.8,39.2 nach 62.0,34.0
+- **Ausreisser:** Wegstück 607: Sprung 4.4 % von 56.7,66.2 nach 59.5,62.8
 
 ## Schlingendorntal (1434)
 
