@@ -1,0 +1,24 @@
+BERICHT LevelPilot an die Prüf-Sitzung – 3.12.98 – umgesetzt, zur Prüfung (kurz, Nutzung sparen)
+Zip: announce/levelpilot__levelpilot-3.12.98.LevelPilot.zip, md5 7cfe97455d697eca28528facbda91ed9. Anlass: Ingametest 3.12.97 (19:20).
+
+1. HOCH T261 erstes Einloggen 2914 ms. Belegt (Login-Nachbau mit PC-Daten, erstes Einloggen): 3.12.97 nicht teurer als 3.12.96
+   (graph 673 / 731 ms, route 177 / 192 ms) – es ist die Umweg-Messung bei leerer Ablage. Neu: fehlt eine Zone in der Ablage, wird in
+   den ersten 60 s nicht gemessen, sondern danach (je Zone 3 s versetzt); bis dahin gilt 1,25 wie bisher während einer Messung. Die
+   Prüfung der Ablage (billig) läuft sofort -> T261 nennt weiter erstes/zweites Einloggen, jetzt mit "n Zonen erst nach 60 s gemessen".
+   Nachbau PC-Daten erstes Einloggen: graph in den ersten 60 s 731 -> 71 ms. Zwei Sitzungen (erste 150 s): Sitzung 1 misst 3 Zonen nach
+   60 s, Sitzung 2 übernimmt 3 (beide Rechner). (Punkt d war seit 3.12.97 umgesetzt: T261 "Einloggen: erstes/zweites …".)
+2. T155 längste Planung 294,56 ms: belegt (Profil der längsten Planung im Nachbau) – der Ausreisser ist NICHT die Planung, sondern die
+   Wegsuche der Navigation mit Gelände-Verfeinerung (Terrain:Refine), die PLAN_CHANGED in der Planung auslöst; in der Testroutine läuft
+   sie am Stück und wurde mitgezählt. Die virtuelle Reise hält die Neuberechnung jetzt während der gemessenen Planung zurück und holt sie
+   direkt danach nach (gleiche Arbeit; Sperre wird bei Fehler, Ende und Abbruch gelöst). T155 nennt die 3 längsten Planungen (Nummer,
+   Stufe, Zone, KB). Nachbau Stufe 24: längste 44,0 -> 18,1 ms, Mittel 8,59 -> 8,01, KB je Planung 330 -> 274.
+3. T150 Replan(true) Median 19 ms: 3.12.97 nicht teurer (Nachbau Stufe 10: 3.12.96 10,41 / 3.12.97 8,06 ms). Profil: SpeedFilter/HubSize
+   32 % (jede Annahme mit jeder). Jetzt Raster aus 250-yd-Zellen, gleiche Bedingung -> gleiche Zahlen (T361: 153 Punkte inkl. Grenzfälle
+   genau 250 yd, andere Ebene, ohne Ort: abweichend 0). Neuplanung im Profil 34,1 -> 24,3 ms.
+4. "Abgabe nicht möglich" 388: im Nachbau 1 (die absichtliche Gegenprobe T353) – dort wird die Abgabe erst über Budget versucht. pcall auf
+   dem Weg zur Wegsuche auf LP.PCall umgestellt (= pcall ausserhalb der Testroutine): Planner (Ruhestein-Reiseplan, Wegprüfung), Navigation
+   (Recalc nach Hängenbleiben, Gefahr). Verdacht, zu messen: Zahl sinkt im Spiel. Die Takt-Zeile mit den Etiketten (…(pcall)) aus dem
+   Bericht 19:07 lag mir nicht vor (noch nicht im Repo) – bei weiteren Stellen bitte die Etiketten nennen.
+5. Eigene neue Prüfungen ohne lange Bilder: T360 (Sammeln alle 10 Quests, Schritte getrennt), T361 (150 statt 300 Punkte).
+Tests: Testroutine Nachbau OK 284 · FEHLER 8 (bekannte Grenzen) · über 40 ms 0 (längstes 29,1 ms) · Sync-Adressbuch danach leer;
+Offline 40/40; Regression 35/36 (test29 bekannt); addon_check OK; 87 Dateien geladen.
