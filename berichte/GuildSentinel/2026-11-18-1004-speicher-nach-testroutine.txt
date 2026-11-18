@@ -1,0 +1,38 @@
+BERICHT GuildSentinel – Prüfung 18.11. 08:33, Hinweis "ob das nach dem Lauf freigegeben wird" (keine neue Version)
+Von: GuildSentinel-Sitzung · 18.11.2026 10:04 (Zeit aus date, Europe/Zurich) · Quellcode e433f96 (nur Tests)
+Status: umgesetzt, zur Prüfung. Am Addon nichts geändert (bleibt 0.9.56). CurseForge: unverändert 0.9.52 am 18.11. 18:00.
+
+1. EINWAND ZUR MESSART: "Lua-Speicher vor/nach collectgarbage im Bericht ausweisen" verlangt im Spiel eine ganze Bereinigung –
+   leistung.md Bau-Regel 2 verbietet sie im Spiel ausdrücklich, "auch nicht in Tests" (Fall G2 ProfessionSentinel: Einfrieren).
+   Deshalb NICHT in die Testroutine eingebaut. Gemessen wird die Frage stattdessen im Nachbau (Lua 5.1 ausserhalb des Spiels, wo
+   eine Bereinigung niemandem schadet). Soll es trotzdem einen Spiel-Wert geben, bitte als Entscheid des Nutzers (Ausnahme von Regel 2).
+
+2. ERGEBNIS IM NACHBAU MIT ECHTEN DATEN (goldsentinel-daten, Laptop Forever 18.11. 09:52, dazu echter Marktspeicher 6816 Items;
+   nur lokal gelesen, nichts davon im öffentlichen Repo):
+   - Fenster wie ein Spieler ganz öffnen (alle Seiten und Reiter, ohne Testroutine): bleibt +6,35 MB bis /reload.
+   - Danach Testroutine: ohne Bereinigung +9,2 MB, nach Bereinigung bleiben +0,88 MB (davon gespeicherte Berichte +30 KB).
+     -> der Abfall wird freigegeben; was bleibt, sind die gebauten Fenster-Seiten (die das Öffnen genauso baut) und knapp 0,9 MB.
+   - 14 Läufe hintereinander: Zuwachs je Lauf geht gegen 0 (Lauf 5 -> 14: +1368 -> +1399 KB, zuletzt 0–2 KB je Lauf).
+     Bis Lauf 5 wächst nur GuildSentinelDB.gsTest.reports (auf 10 Berichte begrenzt; alte kleinere Berichte werden durch Berichte
+     von je ~51 KB ersetzt) – danach SavedVariables gleich (+213 KB).
+   - Ganz am Anfang sah es nach einem Leck von ~130 KB je Lauf aus. Ursache belegt: die Attrappe (wowmock) hängte jedes SetPoint
+     an eine Liste an (im Spiel ersetzt SetPoint mit demselben Ankerpunkt den alten) – 967 neue Punkt-Tabellen in 2 Läufen, alle
+     an Rahmen, die die Testroutine neu ausrichtet. Kein neuer Rahmen in Lauf 3–5 (CreateFrame gezählt). Attrappe korrigiert.
+
+3. NEUER TEST test/run_speicher.lua (künstliche Gilde mit 121 Mitgliedern, keine echten Daten): Fenster ganz öffnen, dann 13 Läufe
+   mit Bereinigung NUR im Nachbau. Prüft: nach Lauf 1 bleiben < 2 MB (Nachbau: +490 KB), Abfall wird freigegeben (ohne Bereinigung
+   +10,8 MB), Berichte auf 10 begrenzt, Zuwachs je Lauf in den letzten 3 Läufen < 16 KB (Nachbau: ≤ 0,8 KB).
+   Gegenprobe der Prüfung selbst: LECK=1 hängt je Lauf 1000 Einträge an eine Addon-Tabelle -> "kein Leck" rot (78,6 KB je Lauf).
+   Aufzeichnungen der Attrappe (Chat-Ausgaben ~88 je Lauf) werden vor jedem Lauf geleert – sie gehören nicht zum Addon.
+
+4. AUS DEN HOCHGELADENEN DATEN (Laptop, 18.11. 09:52) ZUM PRÜFAUFTRAG "im Spiel zu bestätigen":
+   - Protokoll: "Erstkill-Prüfung einmalig: 2 entfernt", "MEILENSTEIN entfernt kill:663 (Erstkill ohne Beleg in RaidMaster), war
+     17.11.2026 17:01", dasselbe für kill:1084 (17:02). miles/milesText ohne kill:-Einträge, Grabsteine in milesBad, killFix gesetzt.
+   - T305a/b/c im Bericht 0.9.56: OK.
+   - DESKTOP (Daten 07:01, also vor der Installation von 0.9.56) hat die beiden falschen Meilensteine noch. Sie werden beim ersten
+     Einloggen mit 0.9.56 auf dem Desktop entfernt (eigene Prüfung) bzw. beim Abgleich mit dem Laptop über die Grabsteine.
+     Bitte 0.9.56 auch auf dem Desktop installieren.
+
+TESTS (eigene Tests, Hinweise, keine Freigabe)
+- run_alle.sh: 188 Läufe, 0 rot, 14735 Einzelprüfungen. Abgleich mit 0.9.56 (185 / 14681): +3 Läufe run_speicher, +54 = 3 × 18.
+  Alle anderen Läufe Lauf für Lauf mit gleicher Zahl (auch nach der SetPoint-Korrektur der Attrappe).
