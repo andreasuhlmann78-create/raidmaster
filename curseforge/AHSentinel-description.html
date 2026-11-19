@@ -7,6 +7,10 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.351</h3>
+<ul>
+<li><strong>Sniper test routine:</strong> a throttled frame rate (WoW in the background, or a frame-rate cap of 33 or less) is now detected up to 10 % above the limit; smoothness and pace are then reported as "not measurable" instead of as errors. The sniper itself is unchanged.</li>
+</ul>
 <h3>Version 0.65.350</h3>
 <ul>
 <li><strong>Less memory during the full scan in the test routine:</strong> the check "is this a commodity?" now also uses its cache for real items during the test routine (before, it asked the game twice per item), so the test measures the scan like it runs for players.</li>
@@ -30,14 +34,7 @@
 <li><strong>GoldSentinel communication (version 3):</strong> during a test routine of any GoldSentinel addon, no addresses are learned from test messages and no real whispers are sent; a "player not online" message is recognised more reliably.</li>
 <li><strong>For other addons:</strong> <code>AHSentinelAPI.TestRunning()</code> tells whether AHSentinel's test routine is running.</li>
 </ul>
-<h3>Version 0.65.346</h3>
-<ul>
-<li><strong>Less stutter while the auction house updates:</strong> disenchant deals, the overview movers, the ledger tab, price sharing with guild mates and long list sorting now work in small steps.</li>
-<li><strong>Price history window:</strong> draws the area under the price line with half as many pieces and no longer retries an unsupported colour function for every piece.</li>
-<li><strong>Crafting detection:</strong> casting a profession's rank spell (it opens the profession window) no longer counts as crafting; only recipes from the profession window count.</li>
-<li><strong>Test routine:</strong> sniper and watcher checks name what blocked a search ("not testable" when the server blocks); the shared GoldSentinel address book is now left exactly as it was (a test name of another addon no longer breaks the check); more detail for full-scan memory and watcher frame times.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

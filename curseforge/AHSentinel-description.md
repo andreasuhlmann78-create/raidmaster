@@ -12,6 +12,10 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.351
+
+- **Sniper test routine:** a throttled frame rate (WoW in the background, or a frame-rate cap of 33 or less) is now detected up to 10 % above the limit; smoothness and pace are then reported as "not measurable" instead of as errors. The sniper itself is unchanged.
+
 ### Version 0.65.350
 
 - **Less memory during the full scan in the test routine:** the check "is this a commodity?" now also uses its cache for real items during the test routine (before, it asked the game twice per item), so the test measures the scan like it runs for players.
@@ -34,13 +38,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 - **GoldSentinel communication (version 3):** during a test routine of any GoldSentinel addon, no addresses are learned from test messages and no real whispers are sent; a "player not online" message is recognised more reliably.
 - **For other addons:** `AHSentinelAPI.TestRunning()` tells whether AHSentinel's test routine is running.
-
-### Version 0.65.346
-
-- **Less stutter while the auction house updates:** disenchant deals, the overview movers, the ledger tab, price sharing with guild mates and long list sorting now work in small steps.
-- **Price history window:** draws the area under the price line with half as many pieces and no longer retries an unsupported colour function for every piece.
-- **Crafting detection:** casting a profession's rank spell (it opens the profession window) no longer counts as crafting; only recipes from the profession window count.
-- **Test routine:** sniper and watcher checks name what blocked a search ("not testable" when the server blocks); the shared GoldSentinel address book is now left exactly as it was (a test name of another addon no longer breaks the check); more detail for full-scan memory and watcher frame times.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
