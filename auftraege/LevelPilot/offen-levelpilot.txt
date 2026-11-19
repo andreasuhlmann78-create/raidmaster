@@ -1387,3 +1387,9 @@ Nutzer 10:59 "der spieler muss keine zustimmung geben, es ist ja zum wohle von a
   überschreiben – nur "nie gefragt" wird zu AN).
 - CHANGELOG EN/DE und Beschreibung (CurseForge/Discord) nennen es in einem Satz.
 Tests mit Gegenproben: neu -> an + eine Zeile; zweiter Start -> keine Zeile; bisher aus -> bleibt aus, keine Versand; aus -> nichts gesendet.
+
+==== EINGANG 19.11.2026 12:02 – LevelPilot 3.13.2 (Bericht 11:44; 3.13.1 dazwischen) ====
+addon_check OK (md5 d3d7bab573ed08dced5e21ec414ba151). Auf dem Laptop abgelegt. Ingametest folgt.
+Notiert: Opt-out bestand schon seit 3.12.12 – nur die einmalige Chatzeile ist neu (angenommen; Ort "Zentrale > Austausch" richtig).
+Notiert: seit 3.12.88 kommen Wegdaten nur von den Charakteren des Nutzers -> Lücken-Messung bringt erst mit weiteren Spielern viel.
+T150 laut Bericht nach dem nächsten Ingametest – bleibt MITTEL offen.
