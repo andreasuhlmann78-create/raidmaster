@@ -1,0 +1,35 @@
+AHSentinel 0.65.354 – AUFTRAG SOFORT 19.11. 19:17 (Kaufgrenze 0.90 + CF-AHS-5) – umgesetzt, zur Prüfung
+Veröffentlicht: GitHub v0.65.354, Discord, CurseForge (uploaded.json 0.65.354; download/ addon_check OK). Vollauf 408 bestanden,
+1 fehlgeschlagen: s313 (Vollscan eigene Arbeit ≤ 16 ms, names-Aufgabe 15,6–16,6 ms echte Uhr) – bekannter Grenzfall, mit 0.65.352
+ebenso; einzeln 1× bestanden, 1× nicht. Nicht durch diese Änderungen (Kern.lua/Seller.lua).
+
+1. KAUFGRENZE 0.90 (INGAMETEST 16:50 P1)
+ a) Wo: Kern.lua K:BuyShareCap(minGain) -> MarketCore.lua MK:LimitFromNet (Deckel "Anteil am Netto-Wert") = DE-"Lohnt bis" für Sniper/Wächter
+    (DELimit), Markt-Zeile (DEOffer), "Heute tun" (Entzaubern). Wirkt auf Käufe: ja (nur Entzaubern; Flippen nutzt FlipLimitFromNet ohne Deckel).
+ b) Warum 0.90: Nachbau mit den Uploads 11:59 und 16:40 (echte Zählung db.kern) ergibt beide 0.80 (≤0,9: n 598, +17,5 % < 20 %). Der
+    Zwischenspeicher buyCapCache (5 Min.) galt für JEDE Datenquelle: Prüfungen setzen kurz K.testDB (leere Ersatz-Zählung, z. B. T697 mit
+    A:Pause in RebuildBuys) – rechnet in dieser Zeit etwas ein "Lohnt bis" (Hintergrund-Aufgabe), liegt 0.90 aus den Ersatz-Daten im Speicher
+    und gilt bis 5 Min. für die echten Zahlen (und für die Bericht-Zeile). Welcher Prüfschritt es im Spiel war: Verdacht (Mechanismus belegt).
+ c) Regel: Grenze nie über der höchsten Stufe, deren Gewinn den Mindestgewinn hält – K:BuyShareCap tat das schon (erste Stufe mit Gewinn <
+    Mindestgewinn und ≥ 10 eigenen Fällen -> Grenze darunter); falsch war nur der Zwischenspeicher. Behebung: er gilt nur für dieselbe Zählung
+    (K:Store()) und dieselbe Tabelle (tablesOverride).
+ Test s333: echte Zählung 0.80 -> Ersatz-Zählung 0.90 -> danach 0.80; "Lohnt bis" aus 1000 Netto (Mindestgewinn 20 %, Marge 10 %) 800.
+   Regel-Fälle: ≤0,9 +23,5 % -> 0.90; ≤0,8 +6,7 % -> 0.70. Gegenprobe 0.65.353: danach 0.90 und "Lohnt bis" 833 (+4 %).
+ Wirkung im Spiel: "Lohnt bis" Entzaubern bis 4 % zu hoch, nur für Gruppen mit Mindestgewinn 20 % und gelernter Marge < 20 %, bis 5 Min.
+
+2. CF-AHS-5 (Verkaufen-Reiter 15c statt 3s 40c)
+ Ursache belegt im Nachbau s334 (klassisches AH, Name "Shredder Operating Manual - Page 1", ein Angebot 3s 40c, frühere Scans 15c):
+   (b) "Preis prüfen" FINDET das Angebot (genaue Namenssuche, nicht Page 10; lowestOther 340).
+   (a) die 15c kommen aus der Ausreisser-Regel TU1 (Seller.lua SuggestRaw): einzelnes Angebot ≥ 1,5 × Marktwert -> Vorschlag = Marktwert
+       (15c), Grund "Marktwert – einzelnes teures Angebot (Ausreisser)". "Preis prüfen" ändert den Marktwert nicht (Median über die Tage).
+   (c) keine Warnung: WarnRule warnte bei frischer Leiter nur mit voller Leiter (≥ 3 Angebote/≥ 5 Stück); Marktwert-Regel greift nicht
+       (Preis = Marktwert). Gegenprobe 0.65.353: Vorschlag 15, Warnung bei 15c nil – genau wie der Spieler es beschreibt.
+   Ob beim Spieler wirklich ein alter Marktwert 15c dahinterstand (oder "zuletzt benutzter Preis"): Verdacht – seine Daten fehlen.
+ Behebung: Ausreisser-Regel nur, solange der Marktwert ≥ 50 % des günstigsten fremden Angebots ist (sonst knapp darunter, Regel
+   wirtschaft-forever §3 "Rechenwert = günstigstes Angebot"); dünne frische Leiter: unter 50 % des günstigsten Angebots warnt immer;
+   ohne jede Preisinfo (keine frische Preisprüfung, kein Marktwert, kein Händler-/Einkaufs-/Entzauberwert) deutliche Warnung "keine
+   Preisdaten", einstellen nur mit Klick ("Preis anpassen" bestätigt den Preis, FixConfirmed – keine Schleife).
+ Tests: s334 (Nachbau, Gegenprobe 0.65.353 3 FAIL); neue Prüfung T916 in der Testroutine (Vorschlag 2s statt 15c, 15c warnt, 3s nicht,
+   ohne Daten warnt). Angepasst: T517 L-AUSREISSER und T548 jetzt mit Angebot 1,8 × Marktwert (Regel gilt dort weiter); der Fall 5 × steht
+   in T916. Texte EN + 9 Sprachen (T110 vollständig).
+ Hinweis: Serien/Neu-Einstellen ohne jede Preisinfo werden jetzt mit dieser Warnung angehalten (Gold-Sicherheit).
