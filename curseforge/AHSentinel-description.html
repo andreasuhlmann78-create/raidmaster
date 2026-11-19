@@ -7,33 +7,37 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
-<h3>Version 0.65.265</h3>
+<h3>Version 0.65.350</h3>
 <ul>
-<li><strong>Options:</strong> the area buttons on the left now switch areas (in 0.65.263/264 only the search worked). The selected area is shown in gold.</li>
-<li><strong>Options – Buying &amp; sniper:</strong> one line "Sniper buys with: Mouse wheel / Own key / Button only" instead of two similar lines.</li>
+<li><strong>Less memory during the full scan in the test routine:</strong> the check "is this a commodity?" now also uses its cache for real items during the test routine (before, it asked the game twice per item), so the test measures the scan like it runs for players.</li>
 </ul>
-<h3>Version 0.65.264</h3>
+<h3>Version 0.65.349</h3>
 <ul>
-<li><strong>Market tab header in plain words:</strong> instead of "measuring 0/5" per level band it now says "Market direction per level: not enough data yet (2 of 5 days)", and once a band is measured "1–25: prices falling · 26–45: prices steady …". The hint line is shorter and no longer runs under the "n entries" counter.</li>
-<li><strong>Shopping list from a recipe – also with ProfessionSentinel:</strong> with the profession window open and a recipe selected, <code>/ahs material</code> puts all materials on a shopping list and <code>/ahs missing</code> (German <code>/ahs fehlt</code>) only what you are missing.</li>
+<li><strong>"Today" sell prices:</strong> an offer list from an older full scan is no longer used unchanged when a newer scan has a different price (a sell suggestion of 1s 25c was compared with a 58c offer from the day before). Cheaper steps that are gone are dropped; a newer, lower price comes first.</li>
+<li><strong>Smoother watcher:</strong> while a round is running, the watcher only reads the result list when the game reports new results (or once per second) instead of ten times per second.</li>
+<li><strong>Test routine:</strong> the report names the test location (zone, nameplates in view, ping); the longest frame shows AHSentinel's own work next to it; a separate line shows the longest full-scan frame with own work, the rest and memory per addon.</li>
 </ul>
-<h3>Version 0.65.263</h3>
+<h3>Version 0.65.348</h3>
 <ul>
-<li><strong>Options – clear at last:</strong> areas on the left (General, Display &amp; tooltip, Selling, Buying &amp; sniper, Market &amp; suggestions, Data &amp; learning), on the right only the options of that area in one column – no scrolling. A search box at the top finds every option across all areas (e.g. "wheel", "fee"). All your settings stay as they are.</li>
-<li>The Options button opens the area that fits the tab you are on (sniper -&gt; Buying &amp; sniper).</li>
-<li>Fixed: the "Price guard when posting" button showed no value – it shared its name with the "Warning guard" button.</li>
+<li><strong>Watcher no longer waits for minutes:</strong> after a market scan, up to 60 suspiciously cheap offers are re-checked; the watcher now gets a round after 45 seconds at the latest instead of waiting for the whole list.</li>
+<li><strong>Your own auctions first:</strong> these re-checks now run in the background list, so "Check undercuts" and clicked items are no longer stuck behind them.</li>
+<li><strong>One "Worth up to" everywhere:</strong> a temporary price store of the disenchant check was also used by the tooltip and the market while the check paused, which could show two different values for one item. It is now only used by the check itself.</li>
+<li><strong>Less memory during a full scan:</strong> the "Today" list and the forecast wait until the full scan is done (at most 5 minutes).</li>
+<li><strong>Test routine:</strong> shows the length of the price check lists when a search is blocked; the address book check names the changed fields; the full-scan memory shows the share of each task first.</li>
 </ul>
-<h3>Version 0.65.262</h3>
+<h3>Version 0.65.347</h3>
 <ul>
-<li><strong>Sell – "Adjust price":</strong> the price the price guard suggests is now accepted as your decision – posting it no longer asks a second time ("Check the price! Click again …"). Only for exactly this price and item, for 2 minutes.</li>
-<li><strong>"Post anyway":</strong> the chat now says that this confirmation holds for 30 seconds (same item, same price) – a second post right after it does not warn again.</li>
+<li><strong>GoldSentinel communication (version 3):</strong> during a test routine of any GoldSentinel addon, no addresses are learned from test messages and no real whispers are sent; a "player not online" message is recognised more reliably.</li>
+<li><strong>For other addons:</strong> <code>AHSentinelAPI.TestRunning()</code> tells whether AHSentinel's test routine is running.</li>
 </ul>
-<h3>Version 0.65.261</h3>
+<h3>Version 0.65.346</h3>
 <ul>
-<li><strong>Gold safety – sniper "button only":</strong> with "Buy with: button only" the mouse wheel and your own key no longer buy anything – before, the wheel over an AHSentinel window (or a key binding) could still buy a waiting hit.</li>
-<li><strong>Sniper:</strong> the "Mouse wheel" button next to "Sniper mode" now switches it: green = the wheel buys, grey = only the "Buy" button buys (the same setting as in the options). When the "Buy" button is grey, the reason is shown in the line below.</li>
+<li><strong>Less stutter while the auction house updates:</strong> disenchant deals, the overview movers, the ledger tab, price sharing with guild mates and long list sorting now work in small steps.</li>
+<li><strong>Price history window:</strong> draws the area under the price line with half as many pieces and no longer retries an unsupported colour function for every piece.</li>
+<li><strong>Crafting detection:</strong> casting a profession's rank spell (it opens the profession window) no longer counts as crafting; only recipes from the profession window count.</li>
+<li><strong>Test routine:</strong> sniper and watcher checks name what blocked a search ("not testable" when the server blocks); the shared GoldSentinel address book is now left exactly as it was (a test name of another addon no longer breaks the check); more detail for full-scan memory and watcher frame times.</li>
 </ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
