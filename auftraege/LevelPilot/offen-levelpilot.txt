@@ -1374,3 +1374,16 @@ nur gelaufene Wege und Laufzeit-API, nichts aus Spieldateien.
    e) Tests mit Gegenproben: Lücke durchlaufen -> aufgezeichnet; bekannte Strecke -> nichts; ohne Zustimmung -> nichts; Flug/Tod -> nichts;
       Obergrenze greift; keine Namen in den Daten; eigene Rechenzeit gemessen.
 Ziel: Anteil "ohne Weg" je Version messbar senken. Reihenfolge: nach T150 und den Bildern über 40 ms (INGAMETEST 10:25).
+
+==== ENTSCHEID 19.11.2026 11:00 – ZUSTIMMUNG WEGDATEN (ändert AUFTRAG 11:00 Punkt 1 und 2b) ====
+Nutzer 10:59 "der spieler muss keine zustimmung geben, es ist ja zum wohle von allen", nach Hinweis Datenschutz/CurseForge 11:00
+"ok dann machen wir das minimum um den spieler zu informieren":
+- Aufzeichnen der Wege (lokal): ohne Zustimmung, immer.
+- Versand der Wegdaten (inkl. Lücken-Messung und Questfolge f=2): STANDARD AN (Opt-out statt Opt-in). Keine Namen wie bisher.
+- Minimum an Information: beim ersten Laden dieser Version EINMAL eine Chatzeile (alle Sprachen), z. B. deDE:
+  "LevelPilot teilt gelaufene Wege ohne Namen, damit die Routen für alle besser werden. Ausschalten: Einstellungen > Daten."
+  Gemerkt je Konto, danach nie wieder. Kein Fenster, keine Frage.
+- Schalter in den Einstellungen bleibt; aus = nichts mehr senden. Wer bisher ausdrücklich AUS gewählt hat, bleibt AUS (alte Wahl nie
+  überschreiben – nur "nie gefragt" wird zu AN).
+- CHANGELOG EN/DE und Beschreibung (CurseForge/Discord) nennen es in einem Satz.
+Tests mit Gegenproben: neu -> an + eine Zeile; zweiter Start -> keine Zeile; bisher aus -> bleibt aus, keine Versand; aus -> nichts gesendet.
