@@ -5182,3 +5182,9 @@ STATUS ANTWORTEN (19.11.2026 19:10, Zeiten laut CurseForge-API, Zürich):
     Until it's fixed, please compare with the auction house before posting."
     (Discord-Entwurf Nr. 1 verworfen: Fix 0.65.349 betrifft "Today", nicht den Verkaufen-Reiter.)
   NACHFASSEN: CF-AHS-6, sobald der Schalter da ist ("option added in 0.65.x"); CF-AHS-5/7 nach Antwort der Spieler.
+
+==== SUPERVISOR 19.11.2026 19:20 – Vorrang und CF-AHS-5 ====
+Vorrang: (1) Kaufgrenze 0.90 (INGAMETEST 16:50 P1, nachricht-kaufgrenze-2026-11-19.txt), (2) CF-AHS-5 (Verkaufspreis 15c statt 3s 40c).
+Beide Gold -> Behebung sofort CurseForge. CF-AHS-5 zusätzlich: WarnRule (Seller.lua:682) greift ohne frische Leiter/Marktwert/Händler-
+/Einkaufspreis gar nicht -> für "keine Daten" muss der Spieler deutlich gewarnt werden, statt still zu einem Fantasiepreis einzustellen.
+Gegenprobe: Item ohne jede Preisinfo, Vorschlag weit unter dem AH -> Warnung. Prüfung: berichte/Supervisor/2026-11-19-1920-pruefung-cf-ahs-5-6-7.txt

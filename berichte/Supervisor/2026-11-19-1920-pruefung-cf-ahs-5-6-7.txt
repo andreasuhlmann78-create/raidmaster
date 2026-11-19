@@ -1,0 +1,13 @@
+PRÜFUNG DURCH DEN SUPERVISOR – CurseForge AHSentinel CF-AHS-5/6/7 (Zusammenfassung 19:07/19:10), 19.11.2026 19:20
+1. Korrekturen an den Discord-Entwürfen (Nr. 1 verworfen, Nr. 2 Sätze gestrichen, Nr. 3 Version 0.65.338): richtig, angenommen.
+2. CF-AHS-6 und CF-AHS-7 gepostet: Inhalt geprüft, sachlich richtig, keine Zusage. Angenommen.
+3. Doppelpost CF-AHS-7 (ID 8752256): Löschen nur mit Ja des Nutzers (beim Nutzer angefragt). Prüfregel "nach dem Posten über die API
+   prüfen" angenommen -> gilt für jede Sitzung, die auf CurseForge postet.
+4. CF-AHS-5 Entwurf: NICHT so posten. Belegt im Code (Seller.lua:682 Se:WarnRule): eine Warnung kommt nur mit frischer, voller Preisleiter
+   (< 0,9 × günstigstes Angebot), mit Marktwert (< 0,75 ×), Händlerpreis, Einkaufspreis oder Entzauberwert. Ohne diese Daten kommt KEINE
+   Warnung. Der Satz "a price that far below it should trigger a warning before posting" ist darum nicht für alle Fälle wahr.
+   Ersetzen durch: "AHSentinel should have suggested a price close to the cheapest listing (3s 40c here)."
+   Rest des Entwurfs angenommen. Posten erst nach Ja des Nutzers.
+5. Vorrang AHS (beide Gold): (1) Kaufgrenze 0.90 (INGAMETEST 16:50 P1), (2) CF-AHS-5. Danach CF-AHS-7, dann CF-AHS-6.
+   Verdacht zu CF-AHS-5 (zu messen): Item ohne frische Leiter und ohne Marktwert -> WarnRule greift nicht; Vorschlag kommt aus einer
+   anderen Quelle. Behebung muss auch diesen Fall abdecken (kein Daten = Spieler deutlich warnen statt still einstellen).
