@@ -1,0 +1,46 @@
+BERICHT LevelPilot an die Prüf-Sitzung – 19.11.2026 12:49
+Version 3.13.3 – umgesetzt, zur Prüfung
+Zip: announce/levelpilot__levelpilot-3.13.3.LevelPilot.zip, md5 12506bce045d3f07c913156e900a0e32. Datenpaket 1.6.4 (unverändert). Dateiliste wie 3.13.2.
+Anlass: INGAMETEST 19.11. 12:40 (3.13.2) mit Nachtrag 12:38, vom Nutzer 12:37 angestossen ("repo").
+
+==== PUNKT 2: TESTDAUER 473 s GEGEN 140 s – URSACHE BELEGT (kein Fehler im Code) ====
+Aus den gespeicherten Berichten des Laptops (LevelPilotDB.gsTest.reports) verglichen:
+  3.12.99 (08:38): 447,3 s · 11069 Bilder · T84/T180/T183 OK ("Normal 139,4 h · Speedrun 130,5 h")
+  3.13.0  (10:17): 140,5 s ·  3966 Bilder · T84/T180/T183 SKIP – Grund im Bericht: "nur mit /lp testroutine reise (Reise 1–60 in beiden
+                   Modi, dauert einige Minuten)"
+  3.13.2  (12:25): 473,3 s · 11282 Bilder · T84/T180/T183 OK ("Normal 143,2 h · Speedrun 135,1 h")
+Der Lauf 3.13.0 war ohne die langen Reisen (anderer Befehl). Mit den Reisen dauern 3.12.99 und 3.13.2 gleich lang (447 / 473 s, +6 %),
+Bilder 11069 / 11282 (+2 %). Die 7300 zusätzlichen Bilder sind das Warten auf die zwei Reisen 1–60 (Bereich "Reisen": die Routine gibt
+jedes Bild ab, bis die Reise fertig ist – eigene Arbeit fast null, darum eigene Rechenzeit fast gleich). Nachbau Unterstadt mit gleichen
+Eingaben: Bilder je Bereich 3.13.0 gegen 3.13.2 gleich (Reisen 3140 / 2744, J 610 / 632, B 492 / 474).
+Bitte bei Vergleichen denselben Befehl verwenden (alles mit oder ohne "reise").
+
+==== PUNKT 1: T150 (MITTEL) ====
+Im Nachbau mit GLEICHEN Eingaben (Unterstadt Priester 10, Laptop-Daten; je 5x20 Neuplanungen, Median):
+  3.12.99 11,66 · 3.13.0 11,33 · 3.13.1 5,24 · 3.13.2 6,17 ms (Durotar: 7,33 · 6,43 · 5,36 · 5,61) -> der Code wurde NICHT langsamer.
+Im Spiel 18,77 -> 19,35 -> 20,72 ms. Belegt NICHT, warum das Spiel davon abweicht: im Nachbau fehlt der Zustand des Charakters
+(Questlog, erledigte Quests – LevelPilotCharDB liegt nicht in den Daten); Neuplanung mit Meldung an Anzeige/Navigation/Karte im Nachbau:
+Planung 5,21 von 5,23 ms, Navigation 0,23, Anzeige 0,08.
+Neu, damit der nächste Ingametest es zeigt: T150 hängt eine Aufteilung an (3 weitere Neuplanungen mit Zeitmessern, Ersatz nur je
+Neuplanung, dazwischen sichere Stelle): gesamt, Planung (Aufgaben, darin Gefahrenprüfung mit Treffern des Zwischenspeichers, Reihenfolge),
+Navigation, Anzeige, Zahl der Kandidaten und Schritte. Nachbau: "gesamt 5,23, Planung 5,21 (Aufgaben 2,26, darin Gefahr 0,16
+[Zwischenspeicher 276/276], Reihenfolge 2,33), Navigation 0,23, Anzeige 0,08 ms · Kandidaten 202, Aufgaben im Plan 12".
+Verdacht, zu messen: im Spiel trägt ein anderer Teil (Reihenfolge mit mehr Kandidaten aus dem echten Questlog, oder Anzeige/Navigation
+mit echtem Fenster/Karte) – die Aufteilung zeigt es.
+
+==== PUNKT 3: BILDER ÜBER 40 ms ====
+- T294–T295 96,8 ms: T294 rechnete Ticker, Diagnose-Text und Messung in einer Hülle; T295 liess ALLE Portionen der kalten Planung in einem
+  Bild der Testroutine laufen (Schleife über J.Step ohne Abgabe). Jetzt T294 in drei Hüllen mit sicherer Stelle dazwischen; T295 nach jeder
+  Portion eine sichere Stelle (Guard "clean": J.sync = false ist der Wert beim normalen Spielen, kein Ersatz). Nachbau Unterstadt: T295 5
+  Portionen, längste 5,29 ms, T294–T295 nicht mehr in der Liste.
+- T124–T128 69,7 ms: sichere Stelle am Anfang von T128 (T124–T127 nicht mehr mit der ersten Hülle von T128 zusammen).
+- NICHT bearbeitet: T136 60 ms (Speicherbereinigung -91 MB), T296 48 (Speicherbereinigung), T221 52, Start 51, T266 46, T246 46, T268 45.
+- Nachbau Unterstadt 3.13.3: über 40 ms 0, längstes 36,8 ms (T32). Laptop-Daten: 1 (T69–T72 61,6 ms = T72 58,8 ms: Tooltips baut beim
+  ersten Aufruf von ObjectLines einen Zwischenspeicher; T72 schwankt zwischen Läufen 2,7–58,8 ms je nach Vorlauf – Verdacht, zu messen;
+  im Spiel nicht in der Liste).
+
+==== EIGENE TESTS (Hinweise, keine Freigabe) ====
+- addon_check OK (1 Warnung lupa); alle .lua mit Lua 5.1 geladen; GoldSentinel*.lua byte-gleich mit shared/.
+- Testroutine Nachbau Unterstadt: OK 291 · FEHLER 6 (bekannte); Laptop-Daten (Sync-Adressbuch fremd): OK 288 · FEHLER 8 (bekannte),
+  Adressbuch leer.
+- Offline-Routine 40/40 ohne FEHLER. Regression 35/36 (test29 wie bekannt).
