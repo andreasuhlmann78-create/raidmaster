@@ -1,0 +1,53 @@
+BERICHT LevelPilot an die Prüf-Sitzung – 19.11.2026 17:01
+Version 3.13.5 – umgesetzt, zur Prüfung
+Zip: announce/levelpilot__levelpilot-3.13.5.LevelPilot.zip, md5 7be51698863fb7fca3667eaf7d558989. Datenpaket 1.6.4 (unverändert). Dateiliste wie 3.13.2–3.13.4.
+Anlass: AUFTRAG 19.11. 12:42 (Wegqualität, "wichtig"), Ingametest 16:30 (Auskunft "wiederholt"), Eingang 13:00 (Reise +3 %); vom Nutzer
+16:37 angestossen ("repo").
+
+==== AUFTRAG 12:42: GELAUFENE WEGE SIND NICHT IMMER GUTE WEGE ====
+1. Stillstand/AFK (Recorder.lua, Abtastung alle 0,5 s): Stillstand = UnitIsAFK, Auktionshaus/Bank/Briefkasten/Händler offen (Ereignisse
+   AUCTION_HOUSE_SHOW/CLOSED, BANKFRAME_OPENED/CLOSED, MAIL_SHOW/CLOSED, MERCHANT_SHOW/CLOSED; Ladebild leert) oder 30 s ohne Ortswechsel
+   (unter 3 yd); beim Erreichen der 30 s zählen diese 30 s mit. Folgen: Abschnitt endet (das Stück davor wird geprüft, während Stillstand
+   nichts), laufende Lücken-Messung bricht ab, Zeit kommt in LevelPilotCharDB.levelIdle. "Ausgeruht in Stadt/Gasthaus" allein zählt NICHT
+   als Stillstand (in Städten gelaufene Wege sind gute Wege); Stillstand dort greift über die 30 s. Händler offen unter 30 s: Weg endet,
+   Stufenzeit zählt aber weiter nur über die Regeln oben (Händler ist ein Fenster -> Stillstand).
+2. Umwege (R.TrailOK beim Übernehmen jedes Abschnitts ab 60 yd): gelaufen/Luftlinie über 2,5 -> verworfen (Kreis, Hin-und-her); ab 100 yd
+   mit Ziel der Navigation am Anfang des Abschnitts: Annäherung ans Ziel / gelaufen unter 0,5 -> verworfen (abseits, Gegner jagen,
+   Herumlaufen in der Stadt). Ohne Navi-Ziel nur die 2,5-Regel. Lücken-Messung: Umweg-Grenze 4x+200 yd -> 2,5x.
+3. Mehrere Läufe: jede Lücke zweimal messen, der schnellste Lauf bleibt (lueckenRuns[Lücke].best), ein langsamerer ersetzt ihn nie; erst
+   nach 2 Läufen aus der Liste. Wegnetz: ein längerer neuer Weg ersetzt keinen kürzeren – die Wegsuche nimmt immer den kürzesten, und die
+   Navigation behält den alten Weg, wenn der neue nicht deutlich kürzer ist (R3 KeepOld). Bestes Drittel/Median über viele Läufe je
+   Kante: NICHT umgesetzt (das Wegnetz speichert je Kante keine Läufe) – Vorschlag für einen eigenen Auftrag.
+   BEIM BAUEN GEFUNDEN (Fehler seit 3.13.2): nach einer Lücken-Messung begann sofort eine zweite in Gegenrichtung (Spieler noch am Ende);
+   beim nächsten Erscheinen am anderen Ende zählte sie die ganze Wartezeit mit (Nachbau: 880 s statt 48 s). Behoben: nach einer Messung
+   erst wieder suchen, wenn der Spieler den Endpunkt verlassen hat; mehr als 5 s zwischen zwei Abtastungen -> Messung verworfen.
+4. Stufenzeiten (Comfort, PLAYER_LEVEL_UP): levelTimes = Wanduhr minus Stillstand; Wanduhr in levelWall; Stufen mit mehr als der Hälfte
+   Stillstand in levelIdleHigh -> nicht im Vergleich echt/virtuell (Calib:CompareLevelTimes).
+5. Je Version (LevelPilotDB.trailStats[Version]): aufgezeichnet, verworfen Stillstand/AFK, Umweg, abseits vom Ziel, Stillstand in Minuten;
+   als Zeile "Wegabschnitte <Version>: …" im Testbericht (Feld "wege", alle Sprachen).
+   Während der Testroutine schreibt das nichts in die echten Speicherdaten (nur vorgemerkt, nach dem Lauf übernommen) – sonst stellte die
+   Sandbox es zurück (Nachbau: Bild "Sandbox und Bericht" 228 ms beim Zurückschreiben am Stück, Stillstand der Testzeit verloren).
+6. T368 (mit Gegenproben): während Testroutine nur vorgemerkt, danach übernommen · 8 Std. AH: alles Stillstand, 0 Laufzeit · Stehen: erst
+   nach 30 s, dann mit · AFK 40 s im Lauf abgezogen · gerade übernommen · Kreis verworfen · Hin-und-her verworfen · abseits vom Ziel
+   verworfen · ohne Ziel gerade übernommen · Zahlen je Version. T366: schlechterer 2. Lauf ersetzt nicht · besserer ersetzt (96 -> 48 s).
+
+==== INGAMETEST 16:30: "wiederholt" ====
+Bedeutung (TR.Diff, seit 3.12.93): nach dem Zurückschreiben werden die echten Daten verglichen. Weicht ein Schlüssel ab, wird er EINMAL
+am Stück neu zurückgeschrieben und verglichen; stimmt er dann, steht er unter "wiederholt" (sonst FEHLER). Ursache ist Code, der in einer
+Pause der Testroutine echte Daten schrieb – KEINE Prüfung: "net" = Zähler des Austauschs (Comm: gesendete/empfangene Nachrichten,
+LevelPilotDB.net), "detourCache" = Umweg-Messung des Wegnetzes, die nach dem Einloggen zeitversetzt läuft (Graph, 3.12.98). Beide
+schreibt das Spiel selbst; die Sandbox setzt sie auf den Stand vor dem Lauf zurück (die Werte aus der Testzeit werden später neu
+gezählt/gemessen). 3.13.5 schreibt Stillstand/Wegzahlen während der Testroutine nicht mehr (siehe Punkt 5), damit kommt nichts dazu.
+
+==== EINGANG 13:00: VIRTUELLE REISE +2,7 % / +3,5 % ====
+Belegt: Code gleich – Nachbau mit GLEICHEN Eingaben (Untote Priester, Reise 1–60, im Spiel gemessene Kartenrahmen): 3.12.99 Normal
+189 h 12 min, Speedrun 180 h 03 min; 3.13.4 Normal 189 h 12 min, Speedrun 180 h 03 min; die Berichte sind bis auf Kopf und Dauer
+zeilengleich. Der Unterschied im Spiel (08:38 gegen 12:25) kommt aus den Daten des Spielers, die sich zwischen den Läufen ändern
+(gelernte Wege, Umweg-Ablage, gemessene Tempi/EP – die Reise rechnet mit ihnen). Verdacht, zu messen: welcher Teil; dafür bräuchte ich
+die Speicherdaten von beiden Zeitpunkten.
+
+==== EIGENE TESTS (Hinweise, keine Freigabe) ====
+- addon_check OK (1 Warnung lupa); alle .lua mit Lua 5.1 geladen; GoldSentinel*.lua byte-gleich mit shared/.
+- Testroutine Nachbau Laptop-Daten (Sync-Adressbuch fremd): OK 289 · FEHLER 8 (bekannte), Sandbox OK ohne "wiederholt", über 40 ms 0,
+  Adressbuch leer. Unterstadt: OK 293 · FEHLER 6 (bekannte), über 40 ms 1 (T118–T128 43,2 ms).
+- Offline-Routine 40/40 ohne FEHLER. Regression 35/36 (test29 wie bekannt).
