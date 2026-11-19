@@ -1,0 +1,18 @@
+AHSentinel 0.65.350 – Entscheid 19.11. 06:45 (nur Wichtiges, dann CurseForge) – umgesetzt, zur Prüfung
+Daten: goldsentinel-daten c7fb67c (Laptop 06:43). Vollauf 402 bestanden, 0 fehlgeschlagen (+ s328). Veröffentlicht: GitHub v0.65.350,
+Discord, CurseForge (uploaded.json 0.65.350; Freigabe vom Nutzer im Chat 19.11. bestätigt).
+
+Teil 1/2 – je Befund wichtig ja/nein:
+- T373 (Teil 1) cache:today:10 16,7 ms: nein – Leistung, kein Gold/Daten/Lua-Fehler.
+- T750 (Teil 1 und 2) UI-CLEAN 39/36 Befunde (abgeschnitten/überlappt/veraltet): nein – Darstellung, kein Gold/Daten/Lua-Fehler.
+- T126 (Teil 6) 8,4 ms: nein (laut Entscheid bleibt so).
+T459 Vollscan-Speicher 28,9 MB (eigener 46,5 MB, gelesen 17,5 MB):
+- Belegt: in der Testroutine war der Zwischenspeicher von A:IsCommodityItem für ALLE Items aus -> je Aufruf GetItemInfo, im Vollscan 2× je
+  Item (Digest + Zählung). Nachbau mit echten Daten (06:43, 306 684 Auktionen, 3. Scan, Testroutine an): 971 KB nur dafür; Verdichtung
+  4 358 -> 3 409 KB, eigener Speicher 15 657 -> 14 692 KB. Jetzt aus nur für Test-Items (ab 900000000) und bei A.apiOverride. s328
+  (Gegenprobe 0.65.349 FAIL). Im Spiel mit Text-Rückgaben (Link, Name) vermutlich mehr – Verdacht, zu messen.
+- Nachbau gesamt danach: angelegt ohne gelesene ~7,4 MB (≤ 10). Im Spiel 28,9 MB: Verdichtung 11,9 (Nachbau 3,4), Preisverlauf+Neuaufbau
+  8,5 (Nachbau 3,6), Nachlauf 4,9 (cache:today 4,6 nach Scan-Ende). Der Unterschied Spiel/Nachbau ist Verdacht, zu messen
+  (Rückgaben der Spiel-Schnittstellen erzeugen im Spiel Texte, im Nachbau nicht). RecordPrice legt im Nachbau ~400 B je Item an
+  (ein Preis-Eintrag mehr je Item und Scan – gespeicherte Daten, kein Müll).
+Ob T459 im Spiel unter 10 MB fällt, zeigt erst der nächste Ingametest.
