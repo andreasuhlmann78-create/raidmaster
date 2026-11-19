@@ -1393,3 +1393,17 @@ addon_check OK (md5 d3d7bab573ed08dced5e21ec414ba151). Auf dem Laptop abgelegt. 
 Notiert: Opt-out bestand schon seit 3.12.12 – nur die einmalige Chatzeile ist neu (angenommen; Ort "Zentrale > Austausch" richtig).
 Notiert: seit 3.12.88 kommen Wegdaten nur von den Charakteren des Nutzers -> Lücken-Messung bringt erst mit weiteren Spielern viel.
 T150 laut Bericht nach dem nächsten Ingametest – bleibt MITTEL offen.
+
+==== INGAMETEST 19.11.2026 12:40 – LevelPilot 3.13.2 (Laptop, Undercity, WoW im Hintergrund, Bericht 12:25) ====
+OK 301 · FEHLER 1 · übersprungen 9 · im Client 55. Fehlerzähler 0, Sandbox OK, echte Aktionen 0, Regressionen 84/84.
+BESSER: längstes Bild in Portionen 96,8 ms (3.13.0: 137,9), Bilder über 40 ms 11 (12). Punkt 3a erledigt: Abgabe-Stellen jetzt 2 = Summe 2.
+OFFEN:
+1. MITTEL – T150 Replan: Median 20,72 ms (3.12.99 18,77 -> 3.13.0 19,35 -> 3.13.2 20,72). Wird mit jeder Version langsamer. Ursache je
+   Version belegen (was kam in Replan dazu?), Ziel < 16 ms.
+2. NEU, MITTEL – Testdauer 473,3 s (3.13.0: 140,5 s), Bilder 11282 (3966), eigene Rechenzeit fast gleich (19,4 s / 18,2 s). Der Test dauert
+   3,4× so lang bei gleicher Arbeit. Belegen: kleinere Portionen? Wartezeiten? Lücken-Aufzeichnung? (Fensterwechsel des Nutzers? – bei LP
+   nicht gemeldet). Wenn gewollt, im Bericht begründen.
+3. Bilder über 40 ms (11): T294–T295 97 ms, T124–T128 70, T136 60 (Speicherbereinigung -91 MB), T221 52, Start 51, T296 48 (GC), T266 46,
+   T246 46, T268 45 – weiter in Portionen.
+4. NIEDRIG – Portionen-Zeilen gehen jetzt auf (11282 = 11282). Erledigt aus 3b.
+T261 Einloggen 807 ms bestanden.
