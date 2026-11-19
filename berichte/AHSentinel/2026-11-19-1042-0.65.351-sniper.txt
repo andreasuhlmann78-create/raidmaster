@@ -1,0 +1,18 @@
+AHSentinel 0.65.351 – INGAMETEST 19.11. 10:00 Punkt 1 (Sniper-Teil 3 FEHLER) – umgesetzt, zur Prüfung
+Daten: goldsentinel-daten b4fa573 (Laptop 10:03). Vollauf 403 bestanden, 0 fehlgeschlagen (+ s329). GitHub v0.65.351, Discord.
+CurseForge NICHT: laut Entscheid 10:07 erst nach Freigabe der Prüf-Sitzung nach dem Ingametest.
+
+Befund: keine Rückwärts-Entwicklung und kein Kaufentscheid betroffen. Belegt aus den Uploads:
+- 06:35 (0.65.349) waren T617, T729, T734 NICHT bestanden, sondern SKIP: "WoW lief vermutlich im Hintergrund (Ø 30 Bilder/s,
+  Hintergrund-Grenze 30)". "29 OK, 0 FEHLER" zählte die SKIP nicht mit.
+- 10:00 (0.65.350): gleicher Ort (Testort "Undercity / Undercity · 30 Bilder/s", beide Male), Ø 31 / min 23 Bilder/s – der Schnitt lag 1
+  über der Grenze (Toleranz war 0,5) -> die drei Prüfungen wurden bewertet und schlugen fehl:
+  T617/T734 Ruckeln: 1193 Bilder > 33 ms, davon 1126 fremd (bei 30 Bilder/s ist jedes Bild ~33 ms); T729 reihum: eine Lücke 8,2 s (T728
+  "Abstand max 8,2 s", Warten auf Server 92 %, Freigabe/Drossel 75 %), alle 5 Ziele um dieselbe Lücke verschoben.
+- Kaufentscheid-Prüfungen des Sniper-Teils (Max-Preis, Treffer, Kauf, Reservierung) 10:00 alle OK/SKIP wie 06:35.
+Behebung (SN-BG2, nur Testroutine): Ø bis 10 % über maxFPSBk gilt als gedrosselt (30 -> 33,5); zusätzlich Vordergrund-Grenze maxFPS ≤ 33 ->
+  "Bildrate begrenzt, nicht bewertbar". Neue Prüfung T915, Szenario s329 (Gegenprobe 0.65.350: 31/30 nicht erkannt). Mit den 10:00-Werten
+  (Ø 31, Grenze 30) wären T617/T729/T734 SKIP -> Sniper-Teil 0 FEHLER (eigene Rechnung, Freigabe durch die Prüf-Sitzung).
+Verdacht, zu messen: AHSentinel-eigene Bilder "Kern/ITEM_SEARCH_RESULTS_UPDATED ×67 (bis 53 ms)" – Bildlänge, nicht Handler-Zeit; bei 30
+  Bilder/s nicht trennbar. Mit WoW im Vordergrund wiederholen.
+Punkt 2 (T459 22 MB) und 3 (Teil 1/2 je 1 FEHLER = T750 UI-CLEAN, Darstellung): nicht wichtig nach Entscheid 06:45 (kein Gold/Daten/Lua).
