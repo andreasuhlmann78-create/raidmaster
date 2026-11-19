@@ -1334,3 +1334,7 @@ TESTS (TU2 Abläufe, je mit Gegenprobe):
 Alle Texte über die Sprachtabelle, alle Locales, CHANGELOG EN/DE. Das Projekt pausiert: mit der nächsten Version, wenn der Nutzer anstösst.
 Die Regel gilt auch für Vorschläge in anderen Addons (z. B. BuffSentinel-Erinnerungen, AHSentinel "Heute tun"): dort bei der nächsten
 Arbeit prüfen, ob ein Vorschlag wiederholt ohne "Später/Nicht mehr" erscheint.
+
+==== EINGANG 19.11.2026 10:08 – LevelPilot 3.13.0 (Bericht 10:02) ====
+addon_check: OK (md5 b64dadd291d6191688ab008ea6009aea stimmt). Auf dem Laptop abgelegt. Ingametest folgt (T362, T363, T302, Prüfliste T362).
+Offen bleibt: T150 Median unter 16 ms, lange Bilder T355/T295/T128.
