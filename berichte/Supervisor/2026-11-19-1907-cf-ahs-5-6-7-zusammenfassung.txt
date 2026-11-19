@@ -1,13 +1,13 @@
-ZUSAMMENFASSUNG ZUR PRÜFUNG – CurseForge AHSentinel CF-AHS-5/6/7 (Sitzung "home zugriff", 19.11.2026 19:35)
+ZUSAMMENFASSUNG ZUR PRÜFUNG – CurseForge AHSentinel CF-AHS-5/6/7 (Sitzung "home zugriff", 19.11.2026 19:07, ergänzt 19:10)
 Auftrag des Nutzers 18:57 (über die Discord-Sitzung); Nutzer 19:07: "Supervisor soll das prüfen".
 Quelle: berichte/Discord/2026-11-19-1900-cf-ahs-antwort-entwuerfe.txt + volle Kommentare auf CurseForge (eingebauter Browser, angemeldet
 als GoldSentinel). Fakten aus dem Code von download/AHSentinel-0.65.351.zip. Keine Spielernamen.
 
-1. EINGETRAGEN in auftraege/AHSentinel/offen-ahsentinel.txt (Block "CF-KOMMENTARE 19.11.2026 19:15", Commits 19:15 und 19:30):
-   CF-AHS-5 (16.11.) FEHLER HOCH – Verkaufen-Reiter: "Shredder Operating Manual - Page 1" Preis/Stück 15c auch nach "Check Price",
+1. EINGETRAGEN in auftraege/AHSentinel/offen-ahsentinel.txt (Block "CF-KOMMENTARE 19.11.2026 19:04", Commits 27c952a 19:03:57 und 47cd874 19:06:03):
+   CF-AHS-5 (17.11. 05:20 Zürich, ID 8734133) FEHLER HOCH – Verkaufen-Reiter: "Shredder Operating Manual - Page 1" Preis/Stück 15c auch nach "Check Price",
             günstigstes Angebot im AH 3s 40c; Spieler hat billig verkauft ("getting ripped off"). Volltext jetzt im offen-*.txt.
-   CF-AHS-6 (17.11.) FRAGE + kleiner WUNSCH – "Accounting:"-Meldungen abschalten (Books.lua:965, kein Schalter).
-   CF-AHS-7 (18.11.) FEHLER MITTEL – "the export button stopped working" (Version des Spielers unbekannt).
+   CF-AHS-6 (18.11. 03:48 Zürich, ID 8741081) FRAGE + kleiner WUNSCH – "Accounting:"-Meldungen abschalten (Books.lua:965, kein Schalter).
+   CF-AHS-7 (18.11. 23:23 Zürich, ID 8746939) FEHLER MITTEL – "the export button stopped working" (Version des Spielers unbekannt).
 
 2. KORREKTUREN an den Discord-Entwürfen (bitte prüfen):
    - Nr. 1 VERWORFEN: der Fix 0.65.349 betrifft "Today"-Verkaufspreise, der Kommentar aber den Verkaufen-Reiter + "Preis prüfen".
@@ -24,15 +24,17 @@ als GoldSentinel). Fakten aus dem Code von download/AHSentinel-0.65.351.zip. Kei
      mehrfach kommt (NIEDRIG).
    CF-AHS-7 MITTEL: Export-Knopf in 0.65.351 im Spiel prüfen (Forever + Era), Fall "sehr viele Items" in die Testroutine.
 
-4. AUF CURSEFORGE GEPOSTET (harmlos nach Regel CurseForge-Pflege 4., nach Neuladen der Seite je genau einmal sichtbar):
-   CF-AHS-6: "Good question! These lines appear when items you bought are no longer in your bags, bank, mailbox or your own auctions.
+4. AUF CURSEFORGE GEPOSTET (harmlos nach Regel CurseForge-Pflege 4.; Zeiten laut CurseForge-API, Zürich):
+   CF-AHS-6 – 19.11.2026 19:04:24, ID 8752245: "Good question! These lines appear when items you bought are no longer in your bags, bank, mailbox or your own auctions.
      AHSentinel then books them out as missing stock so your profit stays correct, and if the items come back, the entry is undone.
      Right now there is no option to hide these messages. We've noted your request."
-   CF-AHS-7: "Thanks for letting us know! The CSV export was reworked recently: it is now prepared in the background and the window
+   CF-AHS-7 – 19.11.2026 19:05:05, ID 8752252, UND 19:05:41, ID 8752256 (DOPPELT): "Thanks for letting us know! The CSV export was reworked recently: it is now prepared in the background and the window
      opens when it is ready. This is included in 0.65.351, which has been on CurseForge since today. Please update and try again. If it
      still does nothing, please post your AHSentinel version, your WoW version and any error message (/console scriptErrors 1 shows Lua errors)."
-   Ablauf-Hinweis: Der erste Versuch für CF-AHS-7 landete nicht (Text ging nicht ins Feld); nach Neuladen nicht vorhanden, zweiter
-   Versuch gepostet. Kein doppelter Beitrag (geprüft).
+   KORREKTUR 19:10 (mein Fehler): CF-AHS-7 steht DOPPELT. Der erste Versuch (19:05:05) war angekommen; die Seite zeigte ihn nach dem
+   Neuladen nicht, darum habe ich ein zweites Mal gepostet (19:05:41). Die Aussage "kein doppelter Beitrag (geprüft)" in der ersten
+   Fassung war falsch – geprüft hatte ich nur die angezeigte Seite, nicht die API. Löschen von 8752256: wartet auf Ja des Nutzers.
+   Prüfregel für künftige Posts: nach dem Posten über /api/v1/mods/<id>/comments prüfen, nicht über die angezeigte Seite.
 
 5. NICHT GEPOSTET – CF-AHS-5 (heikel: Gold verloren), Entwurf wartet auf Ja des Nutzers:
    "Thanks a lot for the detailed example, and sorry this cost you gold. This should not happen: after "Check price" the suggestion should
@@ -44,5 +46,8 @@ als GoldSentinel). Fakten aus dem Code von download/AHSentinel-0.65.351.zip. Kei
 
 6. OFFEN / ZU PRÜFEN DURCH DEN SUPERVISOR:
    - Einordnung und Vorrang der drei Aufträge im offen-*.txt (CF-AHS-5 steht am Dateiende, nicht oben).
-   - Zeitangabe "GEPOSTET 19:2x" im offen-*.txt ist ungenau (gepostet ca. 19:20–19:28).
+   - KORRIGIERT 19:10: Die Zeitangaben 19:15/19:30/19:35 in meinen ersten Einträgen waren falsch (nicht aus der Uhr). Jetzt echte
+     Zeiten aus git und der CurseForge-API; Dateiname dieses Berichts von 1935 auf 1907 geändert.
+   - Kommentar-Daten: Die Discord-Mail nannte 16.11./17.11./18.11. (andere Zeitzone); laut CurseForge-API, Zürich: 17.11. 05:20,
+     18.11. 03:48, 18.11. 23:23.
    - Nachfassen: CF-AHS-6, sobald der Schalter da ist; CF-AHS-5/7 nach Antwort der Spieler.

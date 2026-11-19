@@ -5126,10 +5126,10 @@ Teile 1–3 gelaufen, Teile 4–9 (Sniper, Wächter, AH, Vollscan, Beruf, Händl
    der Testroutine auch so? Wenn ja: Ruckeln -> in Portionen.
 4. T750 UI: 48 Befunde (abgeschnitten 44, veraltet 4) – Darstellung, nach Entscheid 06:45 nicht wichtig; bleibt offen.
 
-==== CF-KOMMENTARE 19.11.2026 19:15 – CF-AHS-5/6/7 (Auftrag des Nutzers 18:57; Quelle: Entwürfe Discord 19:00, volle Texte auf CurseForge gelesen) ====
+==== CF-KOMMENTARE 19.11.2026 19:04 – CF-AHS-5/6/7 (Auftrag des Nutzers 18:57; Quelle: Entwürfe Discord 19:00, volle Texte auf CurseForge gelesen) ====
 Keine Spielernamen (Regel CurseForge-Pflege). Auf CurseForge seit 19.11.: 0.65.351.
 
-CF-AHS-5 – CF-KOMMENTAR 16.11.2026 (2 Tage alt) – FEHLER, HOCH (Gold-Sicherheit: Spieler verkauft weit unter Preis)
+CF-AHS-5 – CF-KOMMENTAR 17.11.2026 05:20 (Zeit Zürich, laut CurseForge-API; Discord-Mail nannte 16.11. 20:20) – FEHLER, HOCH (Gold-Sicherheit: Spieler verkauft weit unter Preis)
   Wortlaut (voll): "When posting things to sell, the prices shown are not even close to the actual available ones. So it leads to me posting
   things really cheaply and getting ripped off. The check price doesn't change anything. For example, I am posting a Shredder Operating
   Manual - Page 1, it shows "Price/each = 15c" on the sell tab even after clicking Check Price. I right click the item and search on auction
@@ -5147,7 +5147,7 @@ CF-AHS-5 – CF-KOMMENTAR 16.11.2026 (2 Tage alt) – FEHLER, HOCH (Gold-Sicherh
    Gegenprobe in die Testroutine (Item mit Bindestrich/Zusatz im Namen). Behebung = Gold-Sicherheit -> sofort CurseForge (Entscheid 10:07).
   ANTWORT: heikel (Gold verloren, Kritik) -> NICHT selbst gepostet, Entwurf liegt beim Nutzer (Status: ENTWURF, wartet auf Ja des Nutzers).
 
-CF-AHS-6 – CF-KOMMENTAR 17.11.2026 – FRAGE + kleiner WUNSCH
+CF-AHS-6 – CF-KOMMENTAR 18.11.2026 03:48 (Zürich; Mail: 17.11. 18:48) – FRAGE + kleiner WUNSCH
   Wortlaut: "How do I turn off the "Accounting:" messages in chat?"
   Fakt 0.65.351: Books.lua:965 – EN "Accounting: N× <Item> are gone …" = Lager-Abgleich bucht gekaufte Ware aus, die nicht mehr in Taschen,
   Bank, Briefkasten oder eigenen Auktionen ist. Kein Schalter (A:Print ohne Einstellung). Die übrigen Buchhaltungs-Meldungen heissen EN "Ledger:".
@@ -5156,7 +5156,7 @@ CF-AHS-6 – CF-KOMMENTAR 17.11.2026 – FRAGE + kleiner WUNSCH
   Prüfauftrag nebenbei (NIEDRIG): erscheint die Meldung für dieselbe Ware mehrfach (z. B. bei jedem Abgleich)? Wenn ja: Befund.
   ANTWORT: harmlos (Erklärung, keine Zusage) -> vom Supervisor gepostet (Status siehe unten).
 
-CF-AHS-7 – CF-KOMMENTAR 18.11.2026 – FEHLER (Version des Spielers unbekannt; CurseForge am 18.11.: 0.65.265)
+CF-AHS-7 – CF-KOMMENTAR 18.11.2026 23:23 (Zürich; Mail: 18.11. 14:23) – FEHLER (Version des Spielers unbekannt; CurseForge am 18.11.: 0.65.265)
   Wortlaut: "the export button stopped working"
   Fakt: CSV-Export in 0.65.338 umgebaut (im Hintergrund vorbereitet, Fenster öffnet sich, wenn fertig); auf CurseForge erst seit 0.65.351.
   Ob der gemeldete Fehler damit behoben ist: NICHT belegt.
@@ -5164,12 +5164,14 @@ CF-AHS-7 – CF-KOMMENTAR 18.11.2026 – FEHLER (Version des Spielers unbekannt;
   Fall "sehr viele Items" (Zeitlimit, kein Fenster ohne Meldung) in die Testroutine.
   ANTWORT: harmlos (Rückfrage nach Version/Fehlertext) -> vom Supervisor gepostet (Status siehe unten).
 
-STATUS ANTWORTEN (19.11.2026 19:30, auf CurseForge nach Neuladen geprüft):
-  CF-AHS-6 GEPOSTET 19:2x (Supervisor, harmlos): "Good question! These lines appear when items you bought are no longer in your bags, bank,
+STATUS ANTWORTEN (19.11.2026 19:10, Zeiten laut CurseForge-API, Zürich):
+  CF-AHS-6 GEPOSTET 19.11. 19:04:24 (Kommentar-ID 8752245, Supervisor, harmlos): "Good question! These lines appear when items you bought are no longer in your bags, bank,
     mailbox or your own auctions. AHSentinel then books them out as missing stock so your profit stays correct, and if the items come back,
     the entry is undone. Right now there is no option to hide these messages. We've noted your request."
     (Satz "It usually stops once your stock has been matched" aus dem Discord-Entwurf gestrichen: nicht belegt. Keine Zusage.)
-  CF-AHS-7 GEPOSTET 19:2x (Supervisor, harmlos): "Thanks for letting us know! The CSV export was reworked recently: it is now prepared in the
+  CF-AHS-7 GEPOSTET 19.11. 19:05:05 (ID 8752252) – UND DOPPELT 19:05:41 (ID 8752256, gleicher Text): Der erste Versuch war
+    angekommen, die Seite zeigte ihn nach dem Neuladen aber nicht; darum zweiter Post. Doppelten Beitrag 8752256 löschen: wartet auf Ja des Nutzers.
+    Text (Supervisor, harmlos): "Thanks for letting us know! The CSV export was reworked recently: it is now prepared in the
     background and the window opens when it is ready. This is included in 0.65.351, which has been on CurseForge since today. Please update
     and try again. If it still does nothing, please post your AHSentinel version, your WoW version and any error message (/console
     scriptErrors 1 shows Lua errors)."  (Discord-Entwurf "reworked in 0.65.351" korrigiert: umgebaut in 0.65.338, auf CurseForge mit 0.65.351.)
