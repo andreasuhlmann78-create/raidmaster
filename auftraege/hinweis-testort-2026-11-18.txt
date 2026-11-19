@@ -28,3 +28,7 @@ Takt 2 zählte jede kleine Abnahme des Speichers als "Speicherbereinigung". Lua 
 (LevelPilot 3.12.99). Takt 3 zählt nur Bereinigungen, bei denen der Speicher in einem Bild um mehr als 1 MB fällt (T.ENV_GC_KB).
 Test 12g mit Gegenprobe. Sonst unverändert. Takt 2 ist eine offizielle alte Fassung (WARNUNG, kein FEHLER).
 Wer Takt 2 schon hat (LevelPilot 3.12.99), kopiert Takt 3 mit der nächsten Version. Kein eigenes Release nur dafür.
+
+NACHTRAG 19.11.2026 10:55 – Entscheid des Nutzers 10:49/10:50: Auf dem Laptop läuft WoW beim Test IMMER im Hintergrund (Bildrate ~30/s).
+Tempo-/Ruckel-Prüfungen messen deshalb die eigene Rechenzeit (GoldSentinelTakt), nicht die Bildlänge, und werden auch im Hintergrund bewertet.
+Ein SKIP "WoW im Hintergrund" ist nur erlaubt, wo die Bildrate selbst gemessen werden muss – und dann mit Begründung im Bericht.
