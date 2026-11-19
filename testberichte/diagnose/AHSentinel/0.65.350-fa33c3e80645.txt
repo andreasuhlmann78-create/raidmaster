@@ -1,0 +1,225 @@
+AHSentinel-Protokoll v0.65.350 · 19.11. 10:22:36
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  19.11. 10:17:02 L10 PRIEST v0.65.350
+  19.11. 09:34:08 L10 PRIEST v0.65.350
+  19.11. 08:57:43 L24 WARRIOR v0.65.350
+  19.11. 08:35:31 L10 PRIEST v0.65.349
+  19.11. 08:35:16 L10 PRIEST v0.65.349
+  19.11. 08:35:06 L10 PRIEST v0.65.349
+  19.11. 06:42:50 L10 PRIEST v0.65.349
+  19.11. 06:16:36 L10 PRIEST v0.65.349
+  18.11. 19:50:50 L10 PRIEST v0.65.347
+  18.11. 19:26:10 L10 PRIEST v0.65.347
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 28 Min., 7306 Items, Preis-Sync an
+  SYNC GoldSentinelSync 3 · Wege: keiner · Mitspieler (1 Std.): AHSentinel 0, BuffSentinel 0, GoldSentinelMarkt 0, GoldSentinelTest 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0, ThreatSentinel 0
+  SYNC gesendet 29 · empfangen 4 · verworfen: nopath 2, secret 2 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 4 (mit Sync 2: 4, pausiert 3) · gesendet 3 · weitergegeben 0 · offline 3 · Listen 2 · Warteschlange 0 · gespeichert ja · im Test angehalten 0
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Einstellungen geändert: cmdHint=true, fastScan=true, helpSeen=true, marketExpert=false, minimapAngle=199, priceGuard=20, sniperSignal=true, theme=modern, tooltipDEDetail=true, vendorButton=false, vendorFlipMin=500
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0
+
+== Einträge (200, neueste zuerst)
+[19.11. 10:17:20] ABSATZ Item 118 · Q 1069 (scan, Q gesamt) · S 656.9 (measured) · S roh 656.9 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 1.6 · N 2.0
+[19.11. 10:17:19] ITEMINFO neue Item-Anfragen 200 (zurückgestellt 0) · je Aufgabe: cache:warm 53, cache:warm-today 134, names 13
+[19.11. 10:17:19] ABSATZ-UNPLAUSIBEL Item 15086 · 10.1/Tag · Quelle geschätzt
+[19.11. 10:17:19] ABSATZ-UNPLAUSIBEL Item 10028 · 9.9/Tag · Quelle geschätzt
+[19.11. 10:17:19] ABSATZ-UNPLAUSIBEL Item 9313 · 132.3/Tag · Quelle geschätzt
+[19.11. 10:17:18] ABSATZ-UNPLAUSIBEL Item 13129 · 7.8/Tag · Quelle geschätzt
+[19.11. 10:17:18] ABSATZ-UNPLAUSIBEL Item 1793 · 12.5/Tag · Quelle geschätzt
+[19.11. 10:17:18] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[19.11. 10:17:08] SYNC Weg=GUILD
+[19.11. 10:17:06] LANGSAM Hintergrund-Aufgabe cache:warm · 0 Schritte · längster Schritt 19 ms bis Names.lua:228 · 24 ms
+[19.11. 10:17:06] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[19.11. 10:17:06] ABSATZ-UNPLAUSIBEL Item 8151 · 835.7/Tag · Quelle geschätzt
+[19.11. 10:17:05] ABSATZ-UNPLAUSIBEL Item 2457 · 885.6/Tag · Quelle gemessen
+[19.11. 10:17:05] ABSATZ-UNPLAUSIBEL Item 2317 · 111.4/Tag · Quelle gemessen
+[19.11. 10:17:05] ABSATZ-UNPLAUSIBEL Item 3472 · 35.9/Tag · Quelle geschätzt
+[19.11. 10:17:05] ABSATZ-UNPLAUSIBEL Item 6470 · 1049.9/Tag · Quelle geschätzt
+[19.11. 10:17:05] ABSATZ-UNPLAUSIBEL Item 6326 · 62.9/Tag · Quelle geschätzt
+[19.11. 10:17:05] ABSATZ-UNPLAUSIBEL Item 10644 · 29.2/Tag · Quelle geschätzt
+[19.11. 10:17:05] ABSATZ-UNPLAUSIBEL Item 5963 · 84.3/Tag · Quelle gemessen
+[19.11. 10:17:05] ABSATZ-UNPLAUSIBEL Item 5507 · 39.1/Tag · Quelle geschätzt
+[19.11. 10:17:05] ABSATZ-UNPLAUSIBEL Item 13856 · 63.2/Tag · Quelle geschätzt
+[19.11. 10:17:05] ABSATZ-UNPLAUSIBEL Item 6338 · 131.8/Tag · Quelle geschätzt
+[19.11. 10:17:04] ABSATZ-UNPLAUSIBEL Item 3821 · 1499.9/Tag · Quelle geschätzt
+[19.11. 09:58:41] ABSATZ Item 6338 · Q 2 (search) · S ? (-, unsicher) · S roh - · Deckel - · eigene Quote - · Laufzeit 24 Std. · W ? · N 1.0
+[19.11. 09:54:55] ABSATZ-UNPLAUSIBEL Item 4539 · 128.0/Tag · Quelle geschätzt
+[19.11. 09:52:14] WAECHTER-HUERDEN ×7 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 252 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 7 unter 50 %
+[19.11. 09:51:41] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 35 ms
+[19.11. 09:51:36] WAECHTER-HUERDEN ×13 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 252 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 8 unter 50 %
+[19.11. 09:50:48] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 29 ms
+[19.11. 09:50:45] WAECHTER-HUERDEN ×15 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 252 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 8 unter 50 %
+[19.11. 09:49:54] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 28 ms
+[19.11. 09:49:50] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 252 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 8 unter 50 %
+[19.11. 09:49:47] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 252 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 9 unter 50 %
+[19.11. 09:49:44] WAECHTER-HUERDEN ×14 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 252 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 8 unter 50 %
+[19.11. 09:48:58] LANGSAM Empfänger Watcher.lua:917 von QUERY_READY · 18 ms
+[19.11. 09:48:57] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 42 ms
+[19.11. 09:48:57] LANGSAM Empfänger Watcher.lua:917 von QUERY_READY · 25 ms
+[19.11. 09:48:56] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 21 ms
+[19.11. 09:48:49] WAECHTER-HUERDEN ×4 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 252 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 8 unter 50 %
+[19.11. 09:48:28] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 16 ms
+[19.11. 09:48:27] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 23 ms
+[19.11. 09:48:26] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 25 ms
+[19.11. 09:48:23] WAECHTER-HUERDEN ×3 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 252 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 8 unter 50 %
+[19.11. 09:48:00] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 252 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 9 unter 50 %
+[19.11. 09:47:57] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 35 ms
+[19.11. 09:47:56] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 19 ms
+[19.11. 09:47:53] WAECHTER-HUERDEN ×4 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 252 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 8 unter 50 %
+[19.11. 09:47:27] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 20 ms
+[19.11. 09:47:26] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 32 ms
+[19.11. 09:47:26] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 19 ms
+[19.11. 09:47:22] WAECHTER-HUERDEN ×4 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 252 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 8 unter 50 %
+[19.11. 09:46:58] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 20 ms
+[19.11. 09:46:57] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 45 ms
+[19.11. 09:46:56] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 34 ms
+[19.11. 09:46:51] WAECHTER-HUERDEN ×4 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 252 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 8 unter 50 %
+[19.11. 09:46:27] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 34 ms
+[19.11. 09:46:26] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 28 ms
+[19.11. 09:46:21] WAECHTER-HUERDEN ×4 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 252 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 8 unter 50 %
+[19.11. 09:45:56] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 32 ms
+[19.11. 09:45:50] WAECHTER-HUERDEN ×4 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 252 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 8 unter 50 %
+[19.11. 09:45:26] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 30 ms
+[19.11. 09:45:19] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 252 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 1 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 9 unter 50 %
+[19.11. 09:45:12] WAECHTER-HUERDEN ×9 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 252 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 8 unter 50 %
+[19.11. 09:44:08] SYNC gesendet 4, empfangen 2, verworfen nopath 1 · Kanal verweigert 0
+[19.11. 09:44:04] WAECHTER-HUERDEN ×2 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 252 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 8 unter 50 %
+[19.11. 09:43:48] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 252 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 1 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 9 unter 50 %
+[19.11. 09:43:41] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 252 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 8 unter 50 %
+[19.11. 09:43:33] WAECHTER-HUERDEN ×5 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 252 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 7 unter 50 %
+[19.11. 09:42:58] LANGSAM ×2 Empfänger Watcher.lua:914 von BROWSE_RESULTS · 17 ms
+[19.11. 09:42:55] WAECHTER-HUERDEN ×6 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 252 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 7 unter 50 %
+[19.11. 09:42:16] FLIP-WIDERSPRUCH Item 6338 · Liste bis 864 / 1137 · Detail sell bis nil / nil
+[19.11. 09:42:15] SUCHEN Grenze erreicht: 80 in 60 s (max je Minute = 90)
+[19.11. 09:34:31] ABSATZ Item 118 · Q 1450 (scan, Q gesamt) · S 656.9 (measured) · S roh 656.9 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 2.2 · N 7.0
+[19.11. 09:34:24] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[19.11. 09:34:23] ABSATZ-UNPLAUSIBEL Item 9313 · 130.9/Tag · Quelle geschätzt
+[19.11. 09:34:23] ABSATZ-UNPLAUSIBEL Item 21217 · 821.0/Tag · Quelle geschätzt
+[19.11. 09:34:23] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 2.9 Std., 10940: 2.9 Std., 11082: 2.9 Std. · 10 frisch geholt
+[19.11. 09:34:23] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[19.11. 09:34:14] SYNC Weg=GUILD
+[19.11. 09:34:12] ABSATZ-UNPLAUSIBEL Item 4320 · 30.9/Tag · Quelle geschätzt
+[19.11. 09:34:10] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[19.11. 09:34:10] LANGSAM Hintergrund-Aufgabe learn:factor · 0 Schritte · längster Schritt 19 ms bis Learn.lua:250 · 23 ms
+[19.11. 09:34:10] ABSATZ-UNPLAUSIBEL Item 2457 · 885.6/Tag · Quelle gemessen
+[19.11. 09:34:10] ABSATZ-UNPLAUSIBEL Item 3464 · 15968.9/Tag · Quelle geschätzt
+[19.11. 09:34:10] ABSATZ-UNPLAUSIBEL Item 211786 · 104.0/Tag · Quelle geschätzt
+[19.11. 09:34:10] ABSATZ-UNPLAUSIBEL Item 16083 · 101.9/Tag · Quelle gemessen
+[19.11. 09:34:10] ABSATZ-UNPLAUSIBEL Item 6211 · 62.0/Tag · Quelle gemessen
+[19.11. 09:34:10] ABSATZ-UNPLAUSIBEL Item 3858 · 3767.9/Tag · Quelle geschätzt
+[19.11. 09:34:10] ABSATZ-UNPLAUSIBEL Item 5507 · 41.3/Tag · Quelle geschätzt
+[19.11. 09:34:09] ABSATZ-UNPLAUSIBEL Item 4233 · 1393.6/Tag · Quelle gemessen
+[19.11. 09:31:25] SYNC ×2 gesendet 2, empfangen 0, verworfen 0 · Kanal verweigert 0
+[19.11. 08:58:50] ENTZAUBERWERT Item 15445 · Tabelle · 10978 100% × 1.00 à 399 · brutto 457 · netto 385
+[19.11. 08:58:45] ABSATZ Item 858 · Q 1281 (vollscan) · S 231.0 (measured) · S roh 231.0 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 5.5 · N 6.0
+[19.11. 08:58:44] ABSATZ Item 6256 · Q 37 (scan, Q gesamt) · S 11.3 (market, gelernt) · S roh 19.9 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 3.4 · N 4.0
+[19.11. 08:58:44] ENTZAUBERWERT Item 6220 · Tabelle · 11084 100% × 1.00 à 5734 · brutto 5835 · netto 5534
+[19.11. 08:58:44] DE-CHANCEN Gruppe 3:2 · Tabelle 11084 100% · echt 11084 - (0)
+[19.11. 08:58:44] ENTZAUBERWERT Item 6472 · Tabelle · 10978 100% × 1.00 à 399 · brutto 457 · netto 385
+[19.11. 08:58:44] DE-CHANCEN Gruppe 3:1 · Tabelle 10978 100% · echt 10978 - (0)
+[19.11. 08:58:44] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[19.11. 08:57:58] ABSATZ-UNPLAUSIBEL Item 21217 · 821.0/Tag · Quelle geschätzt
+[19.11. 08:57:58] ABSATZ-UNPLAUSIBEL Item 9313 · 130.9/Tag · Quelle geschätzt
+[19.11. 08:57:48] SYNC Weg=GUILD
+[19.11. 08:57:45] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[19.11. 08:57:45] ABSATZ-UNPLAUSIBEL Item 2457 · 885.6/Tag · Quelle gemessen
+[19.11. 08:57:45] ABSATZ-UNPLAUSIBEL Item 3464 · 15968.9/Tag · Quelle geschätzt
+[19.11. 08:57:45] ABSATZ-UNPLAUSIBEL Item 211786 · 104.0/Tag · Quelle geschätzt
+[19.11. 08:57:45] ABSATZ-UNPLAUSIBEL Item 16083 · 101.9/Tag · Quelle gemessen
+[19.11. 08:57:45] ABSATZ-UNPLAUSIBEL Item 6211 · 62.0/Tag · Quelle gemessen
+[19.11. 08:57:45] ABSATZ-UNPLAUSIBEL Item 3858 · 3767.9/Tag · Quelle geschätzt
+[19.11. 08:57:45] ABSATZ-UNPLAUSIBEL Item 5507 · 41.3/Tag · Quelle geschätzt
+[19.11. 08:57:44] ABSATZ-UNPLAUSIBEL Item 4233 · 1393.6/Tag · Quelle gemessen
+[19.11. 08:45:30] SYNC gesendet 2, empfangen 0, verworfen 0 · Kanal verweigert 0
+[19.11. 08:37:00] PD7 Preisverlauf verdichtet: 308542 -> 308533 Zeilen (~12655 -> ~12654 KB)
+[19.11. 08:35:46] ABSATZ-UNPLAUSIBEL Item 9313 · 130.9/Tag · Quelle geschätzt
+[19.11. 08:35:46] ABSATZ-UNPLAUSIBEL Item 21217 · 821.0/Tag · Quelle geschätzt
+[19.11. 08:35:46] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[19.11. 08:35:36] SYNC Weg=GUILD
+[19.11. 08:35:34] ABSATZ-UNPLAUSIBEL Item 4320 · 30.9/Tag · Quelle geschätzt
+[19.11. 08:35:34] ITEMINFO neue Item-Anfragen 200 (zurückgestellt 0) · je Aufgabe: cache:warm 200
+[19.11. 08:35:32] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[19.11. 08:35:32] ABSATZ-UNPLAUSIBEL Item 2457 · 885.6/Tag · Quelle gemessen
+[19.11. 08:35:32] ABSATZ-UNPLAUSIBEL Item 3464 · 15968.9/Tag · Quelle geschätzt
+[19.11. 08:35:31] ABSATZ-UNPLAUSIBEL Item 211786 · 104.0/Tag · Quelle geschätzt
+[19.11. 08:35:31] ABSATZ-UNPLAUSIBEL Item 16083 · 101.9/Tag · Quelle gemessen
+[19.11. 08:35:31] ABSATZ-UNPLAUSIBEL Item 6211 · 62.0/Tag · Quelle gemessen
+[19.11. 08:35:31] ABSATZ-UNPLAUSIBEL Item 3858 · 3767.9/Tag · Quelle geschätzt
+[19.11. 08:35:31] ABSATZ-UNPLAUSIBEL Item 5507 · 41.3/Tag · Quelle geschätzt
+[19.11. 08:35:31] ABSATZ-UNPLAUSIBEL Item 4233 · 1393.6/Tag · Quelle gemessen
+[19.11. 08:35:21] SYNC Weg=GUILD
+[19.11. 08:35:20] ABSATZ-UNPLAUSIBEL Item 4320 · 30.9/Tag · Quelle geschätzt
+[19.11. 08:35:17] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[19.11. 08:35:17] ABSATZ-UNPLAUSIBEL Item 2457 · 885.6/Tag · Quelle gemessen
+[19.11. 08:35:17] ABSATZ-UNPLAUSIBEL Item 3464 · 15968.9/Tag · Quelle geschätzt
+[19.11. 08:35:17] ABSATZ-UNPLAUSIBEL Item 211786 · 104.0/Tag · Quelle geschätzt
+[19.11. 08:35:17] ABSATZ-UNPLAUSIBEL Item 16083 · 101.9/Tag · Quelle gemessen
+[19.11. 08:35:17] ABSATZ-UNPLAUSIBEL Item 6211 · 62.0/Tag · Quelle gemessen
+[19.11. 08:35:17] ABSATZ-UNPLAUSIBEL Item 3858 · 3767.9/Tag · Quelle geschätzt
+[19.11. 08:35:17] ABSATZ-UNPLAUSIBEL Item 5507 · 41.3/Tag · Quelle geschätzt
+[19.11. 08:35:17] ABSATZ-UNPLAUSIBEL Item 4233 · 1393.6/Tag · Quelle gemessen
+[19.11. 08:35:10] ABSATZ-UNPLAUSIBEL Item 4320 · 30.9/Tag · Quelle geschätzt
+[19.11. 08:35:08] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[19.11. 08:35:08] LANGSAM Hintergrund-Aufgabe learn:factor · 0 Schritte · längster Schritt 19 ms bis Learn.lua:250 · 23 ms
+[19.11. 08:35:08] ABSATZ-UNPLAUSIBEL Item 2457 · 885.6/Tag · Quelle gemessen
+[19.11. 08:35:08] ABSATZ-UNPLAUSIBEL Item 3464 · 15968.9/Tag · Quelle geschätzt
+[19.11. 08:35:08] ABSATZ-UNPLAUSIBEL Item 211786 · 104.0/Tag · Quelle geschätzt
+[19.11. 08:35:08] ABSATZ-UNPLAUSIBEL Item 16083 · 101.9/Tag · Quelle gemessen
+[19.11. 08:35:08] ABSATZ-UNPLAUSIBEL Item 6211 · 62.0/Tag · Quelle gemessen
+[19.11. 08:35:08] ABSATZ-UNPLAUSIBEL Item 3858 · 3767.9/Tag · Quelle geschätzt
+[19.11. 08:35:08] ABSATZ-UNPLAUSIBEL Item 5507 · 41.3/Tag · Quelle geschätzt
+[19.11. 08:35:07] ABSATZ-UNPLAUSIBEL Item 4233 · 1393.6/Tag · Quelle gemessen
+[19.11. 07:12:49] SYNC ×3 gesendet 2, empfangen 0, verworfen 0 · Kanal verweigert 0
+[19.11. 06:44:34] ABSATZ Item 118 · Q 1450 (scan, Q gesamt) · S 656.9 (measured) · S roh 656.9 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 2.2 · N 3.0
+[19.11. 06:44:24] PD7 Preisverlauf verdichtet: 314010 -> 308542 Zeilen (~12879 -> ~12655 KB)
+[19.11. 06:43:06] ITEMINFO neue Item-Anfragen 200 (zurückgestellt 0) · je Aufgabe: cache:warm 138, cache:warm-today 41, names 21
+[19.11. 06:43:06] ABSATZ-UNPLAUSIBEL Item 21217 · 821.0/Tag · Quelle geschätzt
+[19.11. 06:43:06] ABSATZ-UNPLAUSIBEL Item 9313 · 130.9/Tag · Quelle geschätzt
+[19.11. 06:43:05] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[19.11. 06:42:55] SYNC Weg=GUILD
+[19.11. 06:42:53] ABSATZ-UNPLAUSIBEL Item 4320 · 30.9/Tag · Quelle geschätzt
+[19.11. 06:42:51] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[19.11. 06:42:51] ABSATZ-UNPLAUSIBEL Item 2457 · 885.6/Tag · Quelle gemessen
+[19.11. 06:42:51] ABSATZ-UNPLAUSIBEL Item 3464 · 15968.9/Tag · Quelle geschätzt
+[19.11. 06:42:51] ABSATZ-UNPLAUSIBEL Item 211786 · 104.0/Tag · Quelle geschätzt
+[19.11. 06:42:51] ABSATZ-UNPLAUSIBEL Item 16083 · 101.9/Tag · Quelle gemessen
+[19.11. 06:42:51] ABSATZ-UNPLAUSIBEL Item 6211 · 62.0/Tag · Quelle gemessen
+[19.11. 06:42:50] ABSATZ-UNPLAUSIBEL Item 3858 · 3767.9/Tag · Quelle geschätzt
+[19.11. 06:42:50] ABSATZ-UNPLAUSIBEL Item 5507 · 41.3/Tag · Quelle geschätzt
+[19.11. 06:42:50] ABSATZ-UNPLAUSIBEL Item 4233 · 1393.6/Tag · Quelle gemessen
+[19.11. 06:42:40] ABSATZ Item 4245 · Q 8 (vollscan) · S 148.4 (measured) · S roh 148.4 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.1 · N 1.0
+[19.11. 06:42:30] ITEMINFO neue Item-Anfragen 6809 (zurückgestellt 46965) · je Aufgabe: act:report:30 7, ahs-test-error 186, cache:itemlist 273, cache:profit:de:20:0 11, cache:profit:vendor:20:0 31, cache:today:10 2340, cache:warm 75, forecast-eval 314, market:crowded
+[19.11. 06:38:19] ABSATZ-UNPLAUSIBEL Item 279965 · 280.2/Tag · Quelle geschätzt
+[19.11. 06:38:19] ABSATZ-UNPLAUSIBEL Item 9206 · 234.2/Tag · Quelle geschätzt
+[19.11. 06:38:19] ABSATZ-UNPLAUSIBEL Item 10841 · 926.7/Tag · Quelle geschätzt
+[19.11. 06:38:19] ABSATZ-UNPLAUSIBEL Item 8985 · 44.3/Tag · Quelle geschätzt
+[19.11. 06:38:19] ABSATZ-UNPLAUSIBEL Item 12607 · 23.6/Tag · Quelle geschätzt
+[19.11. 06:38:19] ABSATZ-UNPLAUSIBEL Item 250065 · 447.1/Tag · Quelle geschätzt
+[19.11. 06:38:19] ABSATZ-UNPLAUSIBEL Item 873 · 6.1/Tag · Quelle geschätzt
+[19.11. 06:38:19] ABSATZ-UNPLAUSIBEL Item 6950 · 289.3/Tag · Quelle geschätzt
+[19.11. 06:38:19] ABSATZ-UNPLAUSIBEL Item 17036 · 44.4/Tag · Quelle geschätzt
+[19.11. 06:38:19] ABSATZ-UNPLAUSIBEL Item 6050 · 117.0/Tag · Quelle geschätzt
+[19.11. 06:38:19] ABSATZ-UNPLAUSIBEL Item 3647 · 7.5/Tag · Quelle geschätzt
+[19.11. 06:38:19] ABSATZ-UNPLAUSIBEL Item 8949 · 551.3/Tag · Quelle geschätzt
+[19.11. 06:38:18] ABSATZ-UNPLAUSIBEL Item 2457 · 885.6/Tag · Quelle gemessen
+[19.11. 06:38:18] ABSATZ-UNPLAUSIBEL Item 6211 · 62.0/Tag · Quelle gemessen
+[19.11. 06:38:18] ABSATZ-UNPLAUSIBEL Item 3858 · 3767.9/Tag · Quelle geschätzt
+[19.11. 06:38:18] ABSATZ-UNPLAUSIBEL Item 4233 · 1393.6/Tag · Quelle gemessen
+[19.11. 06:34:56] WAECHTER-HUERDEN ×6 275 Angebote · 267 Waren (Handwerkswaren & Co., keine Ausrüstung) · 267 mit Marktwert · 254 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 1 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 13 unter 50 %
+[19.11. 06:34:26] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 16 ms
+[19.11. 06:34:26] LANGSAM Empfänger Watcher.lua:917 von QUERY_READY · 22 ms
+[19.11. 06:34:25] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 34 ms
+[19.11. 06:34:25] LANGSAM Empfänger Watcher.lua:917 von QUERY_READY · 29 ms
+[19.11. 06:34:17] WAECHTER-HUERDEN 275 Angebote · 267 Waren (Handwerkswaren & Co., keine Ausrüstung) · 267 mit Marktwert · 254 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 1 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 13 unter 50 %
+[19.11. 06:34:10] WAECHTER-HUERDEN ×4 275 Angebote · 267 Waren (Handwerkswaren & Co., keine Ausrüstung) · 267 mit Marktwert · 254 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 1 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 14 unter 50 %
+[19.11. 06:33:49] LANGSAM ×2 Empfänger Watcher.lua:914 von BROWSE_RESULTS · 17 ms
+[19.11. 06:33:48] LANGSAM Empfänger Watcher.lua:917 von QUERY_READY · 31 ms
+[19.11. 06:33:47] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 16 ms
+[19.11. 06:33:42] WAECHTER-HUERDEN ×6 275 Angebote · 267 Waren (Handwerkswaren & Co., keine Ausrüstung) · 267 mit Marktwert · 254 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 1 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 14 unter 50 %
+[19.11. 06:33:09] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 16 ms
+[19.11. 06:33:04] WAECHTER-HUERDEN ×5 275 Angebote · 267 Waren (Handwerkswaren & Co., keine Ausrüstung) · 267 mit Marktwert · 254 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 1 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 15 unter 50 %
+[19.11. 06:32:47] WAECHTER-HUERDEN 275 Angebote · 267 Waren (Handwerkswaren & Co., keine Ausrüstung) · 267 mit Marktwert · 254 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 1 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 14 unter 50 %
