@@ -1,0 +1,18 @@
+AHSentinel 0.65.351 CurseForge + 0.65.352 Sniper-Tempoprüfungen nach eigener Rechenzeit – umgesetzt, zur Prüfung
+1. CurseForge 0.65.351 (Freigabe 10:55, Nutzer im Chat bestätigt): download/AHSentinel-0.65.351.zip = geprüfte ZIP (cmp gleich wie announce),
+   addon_check OK, curseforge/uploaded.json AHSentinel letzter Eintrag 0.65.351.
+2. 0.65.352 (GitHub v0.65.352, Discord; CurseForge nicht – nur Testroutine geändert):
+   - T617/T734: Massstab ist die eigene Rechenzeit je Bild aus A.frameOwn (Aufgaben, gemessene Ereignisse wie Kern/ITEM_SEARCH_RESULTS_UPDATED,
+     Skripte, Zeitgeber), während der Beobachtung eingeschaltet (nur wenn keine Vollscan-Messung läuft) und danach wieder aus. FEHLER nur
+     wenn eigene Arbeit > 50 ms (T617) bzw. > 33 ms (T734); Bildlänge, Bilder/s und Ursachen stehen zur Auskunft dabei; Ø Bilder/s ≥ 30 nur im
+     Vordergrund bewertet. Ohne Messung (kein debugprofilestop) wie bisher mit Hintergrund-SKIP.
+   - T729: Wartezeit auf den Server (Antwort offen bzw. Freigabe/Drossel, aktive Zeit) je Suche mitgeschrieben; bewertet wird die eigene
+     Lücke = Lücke − Server-Anteil; Ergebnis je Ziel "n×/Lücke s (eigen x, Server y)". Hintergrund-SKIP nur noch ohne Server-Messung.
+   - Gegenproben: s330 (Teil sniper im Nachbau, Hintergrund 30 Bilder/s): T617/T734/T729 bewertet, PASS, eigene Arbeit max 0,2 ms.
+     s330b (künstlicher eigener Schritt 60 ms je Bild): T617 und T734 FEHLER (eigene Arbeit max 60,7 ms, 294 Bilder > 33 ms); 0.65.351: kein
+     FEHLER (SKIP). s331 Reihum: Lücke 8,2 s mit 7,6 s Server-Warten -> bestanden (eigen 1,0 s), ohne Server-Warten -> FEHLER; 0.65.351 FEHLER.
+   - Absicherung: RunJobs zählt Speicher je Aufgabe nur, solange A.frameOwn besteht (die Beobachtung kann die Zählung in einer Aufgabe beenden).
+   Vollauf 405 bestanden, 1 fehlgeschlagen: s313_vs_own_memory Prüfung "fremdes langes Bild zählt nicht als eigene Arbeit (≤ 16 ms)".
+   Belegt lastabhängig (echte Uhr): 4 gleichzeitige Läufe -> 0.65.352 1×, 0.65.351 2× FEHLER; einzeln beide bestanden. Nicht durch diese
+   Änderung (Sniper-Beobachtung läuft in s313 nicht).
+Der Verdacht "ITEM_SEARCH_RESULTS_UPDATED ×67 bis 53 ms" wird mit dem nächsten Ingametest als eigene Zeit messbar.
