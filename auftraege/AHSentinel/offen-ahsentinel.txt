@@ -5175,7 +5175,13 @@ STATUS ANTWORTEN (19.11.2026 19:10, Zeiten laut CurseForge-API, Zürich):
     background and the window opens when it is ready. This is included in 0.65.351, which has been on CurseForge since today. Please update
     and try again. If it still does nothing, please post your AHSentinel version, your WoW version and any error message (/console
     scriptErrors 1 shows Lua errors)."  (Discord-Entwurf "reworked in 0.65.351" korrigiert: umgebaut in 0.65.338, auf CurseForge mit 0.65.351.)
-  CF-AHS-5 ENTWURF – WARTET AUF JA DES NUTZERS (heikel: Gold verloren):
+  CF-AHS-5 GEPOSTET 19.11. 19:14:33 (ID 8752307), freigegeben vom Supervisor 19:16 nach Ja des Nutzers 19:12, mit Korrektur Punkt 4.
+    Geposteter Text: "Thanks a lot for the detailed example, and sorry this cost you gold. This should not happen: AHSentinel should have
+    suggested a price close to the cheapest listing (3s 40c here). We're looking into it. Could you tell us your AHSentinel version (top of
+    the window) and which WoW version you play (Classic Era, Forever, Anniversary …)? Until it's fixed, please compare with the auction house
+    before posting."  Über die API geprüft: genau eine Antwort.
+  DOPPELPOST CF-AHS-7 ID 8752256 GELÖSCHT 19.11. ca. 19:13 (DELETE -> 200, Nutzer-Ja 19:12); über die API geprüft: nur noch 8752252.
+  Frühere Entwurfs-Fassung CF-AHS-5 (überholt, nicht gepostet):
     "Thanks a lot for the detailed example, and sorry this cost you gold. This should not happen: after "Check price" the suggestion should
     follow the cheapest listing (3s 40c here), and a price that far below it should trigger a warning before posting. We're looking into it.
     Could you tell us your AHSentinel version (top of the window) and which WoW version you play (Classic Era, Forever, Anniversary …)?
