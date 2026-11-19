@@ -1,0 +1,66 @@
+BERICHT LevelPilot an die Prüf-Sitzung – 19.11.2026 10:02
+Version 3.13.0 – umgesetzt, zur Prüfung
+Zip: announce/levelpilot__levelpilot-3.13.0.LevelPilot.zip, md5 b64dadd291d6191688ab008ea6009aea. Datenpaket 1.6.4 (unverändert).
+Anlass: AUFTRAG 19.11. 09:36 (Vorschläge Später/Nicht mehr + nur am passenden Ort, HOCH), ENTSCHEID 09:06 (Dev-Befehle nur im
+Entwicklermodus), Hinweis 08:50 (Takt 3). Vom Nutzer 09:41 angestossen ("repo").
+
+==== 1. VORSCHLÄGE: "SPÄTER" / "NICHT MEHR" ====
+Für JEDEN Vorschlag des Assistenten (alle Prüfungen in Advisor.lua und alle Quellen über AddProvider: Beruf, Waffenmeister, Talent,
+Klassentrainer, Erholt-Bonus, Händler/Junk, Reittier, Gruppe …): in der Einblendung (Toast) und in der Zentrale (Assistent) je zwei
+Knöpfe "Später" und "Nicht mehr" (mit Tooltip). Gespeichert je Charakter (LevelPilotCharDB) und Schlüssel des Vorschlags.
+- "Später": ruht, bis BEIDES gilt: Mindestruhe vorbei UND (nächste Stufe ODER ein anderer Ort betreten). Ort = C_Map.GetBestMapForUnit;
+  ein Ortswechsel wird bei jedem Durchlauf des Assistenten (spätestens 30 s) gemerkt, auch wenn der Vorschlag gerade nicht entsteht
+  -> "zurück in dieselbe Stadt" zählt als nächstes Betreten. Mindestruhe 30 Min., jedes weitere "Später" verdoppelt (30/60/120 …),
+  höchstens 24 Std. Echtzeit (time()), gilt über /reload und Neustart.
+- "Nicht mehr": nie wieder für diesen Charakter, auch nach /reload und Stufenaufstieg.
+- Zentrale > Assistent: neue Liste "Ausgeblendete Vorschläge" (bis 6 Zeilen, sonst "n weitere") mit "wieder zeigen" je Eintrag.
+- Waffenmeister-Vorschlag hat jetzt je Waffenart einen eigenen Schlüssel (weaponmaster<Art>), damit "Nicht mehr" nur diese Art betrifft.
+==== 2. NUR AM PASSENDEN ORT ====
+Lehrer-Vorschläge (Erste Hilfe, Kochen, Waffenmeister, Klassentrainer "Neue Fähigkeiten") nur, wenn: nicht im Kampf (InCombatLockdown,
+UnitAffectingCombat), nicht in Eile (erster Schritt ist ein Questziel und der Spieler ruht nicht = draussen), UND (Lehrer höchstens
+150 yd entfernt ODER Spieler in der Stadt des Lehrers (Ausruhen und gleiche Karte) ODER Lehrer höchstens 150 yd vom aktuellen Navi-Weg,
+Punkt-Strecke-Abstand ab dem nächsten Wegpunkt). Vorher: Erste Hilfe/Kochen bis 300 yd auch im Kampf; Waffenmeister und Klassentrainer
+überall (Waffenmeister auf einem anderen Kontinent mit Ersatzzeile – fällt jetzt weg).
+Bewusst NICHT eingeschränkt: "Genug Gold für das Reittier – ab zum Reitlehrer!" (der Vorschlag soll gerade dorthin führen; Später/Nicht
+mehr gilt aber). Wenn ihr das anders wollt: kurzer Auftrag.
+==== 3. ERLEDIGT -> SOFORT WEG ====
+Erste Hilfe/Kochen gelernt -> prof<Zauber> aus Ruhe und "Nicht mehr" entfernt (auch aus der Liste); Waffenart gelernt -> weaponmaster<Art>;
+Reittier vorhanden -> mountgold/mountgo. Der Vorschlag selbst entsteht dann ohnehin nicht mehr (SKILL_LINES_CHANGED löst den Assistenten aus).
+
+==== TESTS (T362 neu, TU2; T302 angepasst; Prüfliste T362 neu) ====
+T362: Später: weg aus der Liste true · ruht true · gleiche Stadt+Stufe nach 31 Min. ruht true · nächste Stufe nach 10 Min. ruht true /
+nach 31 Min. wieder da · zweites Später 3600 s · Ortswechsel und zurück: 45 Min. ruht / 61 Min. wieder da · Grenzen 30 Min./120 Min./
+24 Std. · Nicht mehr bleibt (Stufe 20, anderer Ort, +30 Tage) · Liste mit Text · wieder zeigen -> da und Liste leer · Erste Hilfe gelernt
+-> Eintrag weg / Gegenprobe ungelernt -> bleibt · Ort: 120 yd ja, 600 yd nein, in der Stadt des Lehrers ja, andere Stadt nein, Kampf nein,
+Eile nein, ohne Lehrer nein, 100 yd neben dem Weg ja / 400 yd nein. Alles in eigenen Tabellen, danach zurück.
+T302: Gegenprobe "nicht am Ort" -> 0 Hinweise; Rest wie bisher.
+Prüfliste: neuer Punkt T362 (Später und Nicht mehr bei einem echten Vorschlag ausprobieren), Erkennung in A:Later/A:Never; T302-Text: "nur
+in der Stadt des Waffenmeisters". T309 jetzt 15 Punkte.
+
+==== ENTSCHEID 09:06: DEV-BEFEHLE ====
+Befehlsliste (CmdHint) zeigt Befehle mit dev = true nur mit LP:IsDev(); getippt laufen sie weiter (Testmodus-Sperre wie bisher).
+Als dev eingestuft (11): sync test, messen, clienttest, wegmessung (NEU) sowie prüfliste, testroutine, test reise, reise, talente,
+kartenrahmen, debug (schon bisher).
+NICHT als dev: diag und protokoll (Fehlermeldungen und Selbsttest schicken Spieler ausdrücklich dorthin: "/lp diag zeigt weitere Infos",
+"/lp protokoll zeigt den Text zum Kopieren") und test (Selbsttest für Spieler). Bitte sagen, falls diese auch versteckt werden sollen.
+T363 (mit Gegenprobe): aus: dev 0, normal 21/21 · an: dev 11/11, normal 21.
+Hinweiszeilen/Tooltips: keine Stelle ausser Prüfliste (selbst dev) nennt einen dev-Befehl.
+
+==== TAKT 3 ====
+shared/GoldSentinelTakt.lua (VERSION 3) unverändert kopiert (cmp gleich).
+
+==== AUS DEM INGAMETEST 3.12.99 NOCH OFFEN ====
+T150 (MITTEL, Median 18,8 ms) und lange Bilder in Prüfungen (T355 125,7 ms, T295 89 ms, T128 63 ms) – in 3.13.0 NICHT bearbeitet, kommt
+als Nächstes.
+
+==== EIGENE TESTS (Hinweise, keine Freigabe) ====
+- addon_check OK (1 Warnung lupa); alle .lua mit Lua 5.1 geladen; gemeinsame GoldSentinel*.lua byte-gleich mit shared/; Dateiliste wie 3.12.95.
+- Testroutine im Nachbau (Laptop-Daten, lang, Sync-Adressbuch in fremder Ablage): OK 285 · FEHLER 8 = die 8 bekannten Nachbau-Grenzen.
+  Bilder über 40 ms: 0 (längstes 27,6 ms). Adressbuch danach leer. (Eine erste Fassung von T362 rechnete die echte Lehrersuche am Stück:
+  317 ms in einem Bild – im Test jetzt ersetzt.)
+- Offline-Routine (40 Läufe, 5 Sprachen/Spiele): 40 ohne FEHLER.
+- Regression (36 Läufe): 35 ohne FEHLER, test29 wie seit 3.12.90 bekannt.
+- Russisch: "Nicht mehr" = "Скрыть" (die längere Übersetzung wurde auf dem 80-px-Knopf abgeschnitten, T136).
+
+==== ALS NÄCHSTES ====
+T150 (Replan Median unter 16 ms), Bilder T355/T295/T128 in Portionen; OPT-ALLE Schritt 2.
