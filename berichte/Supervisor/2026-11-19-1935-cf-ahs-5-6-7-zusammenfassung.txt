@@ -1,0 +1,48 @@
+ZUSAMMENFASSUNG ZUR PRÜFUNG – CurseForge AHSentinel CF-AHS-5/6/7 (Sitzung "home zugriff", 19.11.2026 19:35)
+Auftrag des Nutzers 18:57 (über die Discord-Sitzung); Nutzer 19:07: "Supervisor soll das prüfen".
+Quelle: berichte/Discord/2026-11-19-1900-cf-ahs-antwort-entwuerfe.txt + volle Kommentare auf CurseForge (eingebauter Browser, angemeldet
+als GoldSentinel). Fakten aus dem Code von download/AHSentinel-0.65.351.zip. Keine Spielernamen.
+
+1. EINGETRAGEN in auftraege/AHSentinel/offen-ahsentinel.txt (Block "CF-KOMMENTARE 19.11.2026 19:15", Commits 19:15 und 19:30):
+   CF-AHS-5 (16.11.) FEHLER HOCH – Verkaufen-Reiter: "Shredder Operating Manual - Page 1" Preis/Stück 15c auch nach "Check Price",
+            günstigstes Angebot im AH 3s 40c; Spieler hat billig verkauft ("getting ripped off"). Volltext jetzt im offen-*.txt.
+   CF-AHS-6 (17.11.) FRAGE + kleiner WUNSCH – "Accounting:"-Meldungen abschalten (Books.lua:965, kein Schalter).
+   CF-AHS-7 (18.11.) FEHLER MITTEL – "the export button stopped working" (Version des Spielers unbekannt).
+
+2. KORREKTUREN an den Discord-Entwürfen (bitte prüfen):
+   - Nr. 1 VERWORFEN: der Fix 0.65.349 betrifft "Today"-Verkaufspreise, der Kommentar aber den Verkaufen-Reiter + "Preis prüfen".
+     Ausserdem stimmte "0.65.351 changed where sell prices come from" nicht (0.65.351 ändert nur die Sniper-Testroutine, CHANGELOG).
+   - Nr. 2: Satz "It usually stops once your stock has been matched" gestrichen (nicht belegt); "I'll reply when an option is available"
+     gestrichen (wäre eine Zusage).
+   - Nr. 3: "reworked in 0.65.351" korrigiert -> umgebaut in 0.65.338 (CHANGELOG), auf CurseForge erst mit 0.65.351.
+
+3. AUFTRÄGE an AHSentinel (im offen-*.txt):
+   CF-AHS-5 HOCH: Ursache belegen (a) woher die 15c kommen, (b) warum "Preis prüfen" 3s 40c nicht findet (Name mit " - Page 1",
+     Legacy-Suche), (c) warum der Preisschutz nicht warnt (Seller.lua WarnRule greift nur mit Marktwert/frischer Preisleiter).
+     Nachstellen in Era UND Forever, Gegenprobe in die Testroutine, Behebung = Gold-Sicherheit -> sofort CurseForge.
+   CF-AHS-6 klein: Einstellung "Buchhaltungs-Hinweise im Chat" an/aus (Standard an), Buchung unverändert; prüfen, ob dieselbe Meldung
+     mehrfach kommt (NIEDRIG).
+   CF-AHS-7 MITTEL: Export-Knopf in 0.65.351 im Spiel prüfen (Forever + Era), Fall "sehr viele Items" in die Testroutine.
+
+4. AUF CURSEFORGE GEPOSTET (harmlos nach Regel CurseForge-Pflege 4., nach Neuladen der Seite je genau einmal sichtbar):
+   CF-AHS-6: "Good question! These lines appear when items you bought are no longer in your bags, bank, mailbox or your own auctions.
+     AHSentinel then books them out as missing stock so your profit stays correct, and if the items come back, the entry is undone.
+     Right now there is no option to hide these messages. We've noted your request."
+   CF-AHS-7: "Thanks for letting us know! The CSV export was reworked recently: it is now prepared in the background and the window
+     opens when it is ready. This is included in 0.65.351, which has been on CurseForge since today. Please update and try again. If it
+     still does nothing, please post your AHSentinel version, your WoW version and any error message (/console scriptErrors 1 shows Lua errors)."
+   Ablauf-Hinweis: Der erste Versuch für CF-AHS-7 landete nicht (Text ging nicht ins Feld); nach Neuladen nicht vorhanden, zweiter
+   Versuch gepostet. Kein doppelter Beitrag (geprüft).
+
+5. NICHT GEPOSTET – CF-AHS-5 (heikel: Gold verloren), Entwurf wartet auf Ja des Nutzers:
+   "Thanks a lot for the detailed example, and sorry this cost you gold. This should not happen: after "Check price" the suggestion should
+   follow the cheapest listing (3s 40c here), and a price that far below it should trigger a warning before posting. We're looking into it.
+   Could you tell us your AHSentinel version (top of the window) and which WoW version you play (Classic Era, Forever, Anniversary …)?
+   Until it's fixed, please compare with the auction house before posting."
+   Zu prüfen: Stimmt die Aussage "a price that far below it should trigger a warning" für alle Spielversionen (WarnRule: < 0,75 × Marktwert
+   oder frische Preisleiter; ohne Daten keine Warnung)?
+
+6. OFFEN / ZU PRÜFEN DURCH DEN SUPERVISOR:
+   - Einordnung und Vorrang der drei Aufträge im offen-*.txt (CF-AHS-5 steht am Dateiende, nicht oben).
+   - Zeitangabe "GEPOSTET 19:2x" im offen-*.txt ist ungenau (gepostet ca. 19:20–19:28).
+   - Nachfassen: CF-AHS-6, sobald der Schalter da ist; CF-AHS-5/7 nach Antwort der Spieler.
