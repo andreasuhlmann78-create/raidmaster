@@ -1,0 +1,162 @@
+LevelPilot-Protokoll v3.13.4 · 19.11.2026 16:31
+Client deDE 1.60.1 · Sprache de · modern
+Charakter L10 Scourge PRIEST Horde
+Datenpaket: v1.6.4, 3920 Quests
+Sitzungen: 40 · aktiv gespielt 2h 49min · Lua gesamt max 556.8 MB
+  19.11. 08:35 L10»10 PRIEST 9min · Pause 0min · Lua gesamt 456»507 MB, max 557
+  19.11. 08:57 L24»24 WARRIOR 5min · Pause 18h 46min · Lua gesamt 448»486 MB, max 486
+  19.11. 09:34 L10»10 PRIEST 10min · Pause 46min · Lua gesamt 507»742 MB, max 802
+  19.11. 10:17 L10»10 PRIEST 5min · Pause 13min · Lua gesamt 481»505 MB, max 519
+  19.11. 11:40 L10»10 PRIEST 7min · Pause 1h 17min · Lua gesamt 511»772 MB, max 785
+  19.11. 12:21 L10»10 PRIEST 0min · Pause 0min · Lua gesamt 484»528 MB, max 573
+  19.11. 12:35 L10»10 PRIEST 0min · Pause 0min · Lua gesamt 427»427 MB, max 427
+  19.11. 13:00 L10»10 PRIEST 5min · Pause 25min · Lua gesamt 511»514 MB, max 551
+  19.11. 13:08 L10»10 PRIEST 0min · Pause 0min · Lua gesamt 474»476 MB, max 476
+  19.11. 16:13 L10»10 PRIEST 5min · Pause 3h 04min · Lua gesamt 440»544 MB, max 557
+Einstellungen geändert: minimapAngle=-140.63425062719, shareSeed=true, shareSeedAsked=true
+
+== Diagnose
+  Version 3.13.4 · Client: modern · Server: WoW Forever
+  Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+  Zustand: ok · Fokus: Tirisfal
+  Position: Undercity (1458) 64.3, 52.4
+  Datenpaket: v1.6.4, 3920 Quests
+  QuestieDB: nicht benötigt (Datenpaket aktiv)
+  Quests: Paket 3920, Questie 0, Startdatenbank 0, eigene 147, andere 208
+  Level 10 · passende Quests 202 · Aufgaben 78 · Schritte 14
+  Questlog: 12/40 (automatisch)
+  Modus: Normal
+  Dungeons: an, Lauf ab 2 Quests, Monster-EP 36 %, Quest-EP 150 %
+  Höhlen und Tunnel bekannt: 3 (selbst gelernt 10, von anderen 2)
+  Geländeführung: an (Geländekarte dieser Zone vorhanden)
+  Sprachpakete: deDE geladen
+  Kills pro Minute: 2.15 (165 Messungen) · Quest-EP-Faktor: Annahme (0 Quests)
+EP je Kill: gemessen 306 · grün 84 %
+  Letzter Fehler: keiner
+  SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, BuffSentinel 0, GoldSentinelMarkt 1, GoldSentinelTest 1, GuildSentinel 1, LevelPilot 1, LevelPilotG 1, ThreatSentinel 0
+  SYNC gesendet 36 · empfangen 124 · verworfen: nopath 2, secret 2 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 4 (mit Sync 2: 4, pausiert 1) · gesendet 5 · weitergegeben 0 · offline 2 · Listen 4 · Warteschlange 0 · gespeichert ja · im Test angehalten 73
+  CLIENTTEST: noch nicht gelaufen (/lp clienttest)
+  STRASSEN keine (seit 3.12.88 entfernt – Wegnetz aus gelaufenen Wegen)
+  UMWEG je Zone (bekannter Weg/Luftlinie): Silberwald 1,80 (12 Paare) · Tirisfal 1,24 (12 Paare) · Undercity 1,37 (12 Paare)
+  LAUFWEG (seit 3.12.52): Schritte 2 (angekommen 0) · Umweg gelaufen/Luftlinie – · Zeit Weg 0:00 / am Ziel 0:00 (Weg-Anteil 100 %) · Leerlauf 0:00
+  LAUFWEG Pfad während des Wegs: Netz 0 % · Gelände 0 % · Luftlinie 0 % · unbekannt 37 % · ohne Pfad 63 %
+  LAUFWEG Neuplanungen mit Zielwechsel 9, davon Richtungswechsel über 90° 0
+  LAUFWEG je Zone (Umweg, Schritte, Weg-Anteil): Undercity – (2, Weg 100 %)
+  EP/h je Level (aktive Zeit): 10: 0 (1:41 h)
+  REISE letzter Flugvergleich: Laufen 1726 s · Fliegen 649 s (Flugzeit gemessen) -> Flug · Tempo 7,0 yd/s (zu Fuss)
+  PRÜFLISTE LevelPilot: 3 von 15 erledigt
+    T344 auto 17.11. 20:12 – 54 Karten
+    CT-1 offen
+    T300 offen
+    T304 offen
+    T305 offen
+    T362 auto 19.11. 11:40 – Nicht mehr
+    T302 offen
+    T301 offen
+    T303 offen
+    GR1-K offen
+    UC-W1 auto 17.11. 16:34 – Weg bekannt, 198 Yards
+    WM offen
+    LAG1 offen
+    PF-A offen
+    SP1-M offen
+  MELDUNGEN: an · unterdrückt 0 · durchgerutscht 0
+  MARKT-NETZ: v10 · an (LevelPilot an) · Scans mitgelesen 0 · gesendet 0 · empfangen 0 · Speicher 6816 Items, 525 KB
+  MARKT-NETZ v10 · an · Addons: AHSentinel, BuffSentinel, GuildSentinel, LevelPilot, ProfessionSentinel, RaidMaster, ThreatSentinel
+  MARKT-NETZ Scans 0 (davon vom Host übergeben 0; zuletzt 0 Auktionen, 0 Items, 0 ms in 0 Bildern) · Vergleiche 0 · abgebrochen 0
+  MARKT-NETZ Items 6816 (eigen 6816, Netz 0, Absatz gemessen 463) · gesendet 0 · empfangen 0 · angenommen 0 · Warteschlange 0
+  MARKT-NETZ verworfen: nichts
+  MARKT-NETZ Test-IDs entfernt: 0
+  SPEICHER Lua gesamt (alle Addons, alle 5 Min.) nach dem Einloggen 440.3 MB · aktuell 547.9 MB · Höchstwert 556.8 MB
+  SPEICHER LevelPilot (gemessen beim Öffnen des Protokolls) aktuell 1.0 MB · Höchstwert 1.0 MB · Speicher-Messung 0 ms
+  SPEICHER angelegt je Modul seit dem Einloggen (Summe 3160.9 MB): Navigation 2269.4 MB · Questauswertung 416.0 MB · Routenberechnung 389.2 MB · Assistent 46.7 MB · Wegsuche 21.1 MB · Wegnetz 5.4 MB · plan 4.7 MB · Netz-Empfang 3.3 MB · Aufzeichnung 3.3 MB · Anzeige 1.4 MB · Protokoll 0.4 MB
+  SPEICHER Bestand: Wegpunkte 19555 · Luftlinien-Nachbarn 767 · Geländeprüfungen 38129 · Gefahren-Strecken 11145 · Quests entschlüsselt 4003 · Aufgaben 78 · Questlog 12
+  ZEIT Navigation 93268 ms/27693× max 1564 (über 16 ms) · Wegsuche 84693 ms/4443× max 436 (über 16 ms) · Routenberechnung 30245 ms/738× max 2633 (über 16 ms) · Questauswertung 4029 ms/166× max 270 (über 16 ms) · Assistent 2031 ms/297× max 132 (über 16 ms) · Wegnetz 2017 ms/157× max 512 (über 16 ms) · Aufzeichnung 347 ms/2187× max 1 · Netz-Empfang 124 ms/648× max 1 · Anzeige 59 ms/6707× max 1 · plan 51 ms/23× max 4 · Start 32 ms/32× max 18 (über 16 ms) · Protokoll 17 ms/667× max 0 · Sicherung 0 ms/1× max 0
+  ZEIT erste 60 s nach dem Einloggen: Navigation 21 ms max 0 · Wegsuche 102 ms max 4 · Routenberechnung 323 ms max 7 · Questauswertung 11 ms max 11 · Assistent 52 ms max 18 (über 16 ms) · Wegnetz 168 ms max 3 · Aufzeichnung 9 ms max 0 · Netz-Empfang 0 ms max 0 · Anzeige 0 ms max 0 · plan 51 ms max 4 · Start 32 ms max 18 (über 16 ms) · Protokoll 0 ms max 0
+  ZEIT in Pausen verworfen: lpt262a 1
+  ZEIT Notbremse 1× · pausiert: nichts · Hintergrund-Arbeit: 0 laufend, 170 fertig, längste Portion 18 ms
+
+== Einträge (50, neueste zuerst)
+[19.11. 16:23] SYNC ×120 L10 Undercity(1458) 64.3,52.4 | SYNC Stand | Spiel: Undercity / Undercity
+      Schritt ACCEPT:9265
+      SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, BuffSentinel 0, GoldSentinelMarkt 1, GoldSentinelTest 1, GuildSentinel 1, LevelPilot 1, LevelPilotG 1, ThreatSentinel 0
+      SYNC gesendet 32 · empfangen 89 · verworfen: nopath 2, secret 2 · Warteschlange 0 · Kanal verweigert 0
+      NETZ an · bekannt 4 (mit Sync 2: 4, pausiert 1) · gesendet 3 · weitergegeben 0 · offline 1 · Listen 2 · Warteschlange 0 · gespeichert ja · im Test angehalten 73
+[19.11. 16:13] perf L10 Undercity(1458) 64.3,52.4 | Wegnetz laden: Portionen: 17 Bilder, längstes Bild 4.5 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 69.8 ms · Dauer 2.9 s · ganze Bilder über 40 ms: 12, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 12 · längstes ganzes Bild 465.0 ms | Spiel: Undercity / Undercity
+[19.11. 13:08] perf L10 Undercity(1458) 64.3,52.4 | Wegnetz laden: Portionen: 18 Bilder, längstes Bild 4.8 ms (Knoten–Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 72.6 ms · Dauer 1.9 s · ganze Bilder über 40 ms: 7, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 7 · längstes ganzes Bild 1176.0 ms | Spiel: Undercity / Undercity
+[19.11. 13:00] perf L10 Undercity(1458) 64.3,52.4 | Wegnetz laden: Portionen: 18 Bilder, längstes Bild 4.6 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 76.5 ms · Dauer 3.2 s · ganze Bilder über 40 ms: 13, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 13 · längstes ganzes Bild 455.0 ms | Spiel: Undercity / Undercity
+[19.11. 12:35] perf L10 Undercity(1458) 64.3,52.4 | Wegnetz laden: Portionen: 17 Bilder, längstes Bild 4.3 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 68.1 ms · Dauer 1.8 s · ganze Bilder über 40 ms: 6, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 6 · längstes ganzes Bild 1114.0 ms | Spiel: Undercity / Undercity
+[19.11. 12:22] SYNC ×8 L10 Undercity(1458) 64.3,52.4 | SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, BuffSentinel 0, GoldSentinelMarkt 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0, ThreatSentinel 0 | Spiel: Undercity / Undercity
+      Schritt ACCEPT:9265 · v3.13.2
+[19.11. 12:21] perf L10 Undercity(1458) 64.3,52.4 | Wegnetz laden: Portionen: 19 Bilder, längstes Bild 5.2 ms (Kanten) · über 5 ms: 1 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 79.6 ms · Dauer 2.7 s · ganze Bilder über 40 ms: 5, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 5 · längstes ganzes Bild 1908.0 ms | Spiel: Undercity / Undercity
+[19.11. 11:40] perf L10 Undercity(1458) 64.3,52.3 | Wegnetz laden: Portionen: 17 Bilder, längstes Bild 4.6 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 69.9 ms · Dauer 3.0 s · ganze Bilder über 40 ms: 10, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 10 · längstes ganzes Bild 444.0 ms | Spiel: Undercity / Undercity
+[19.11. 10:17] perf L10 Undercity(1458) 64.3,52.3 | Wegnetz laden: Portionen: 17 Bilder, längstes Bild 4.5 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 70.6 ms · Dauer 2.9 s · ganze Bilder über 40 ms: 14, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 14 · längstes ganzes Bild 480.0 ms | Spiel: Undercity / Undercity
+[19.11. 09:34] perf L10 Undercity(1458) 64.2,52.4 | Wegnetz laden: Portionen: 17 Bilder, längstes Bild 4.4 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 67.8 ms · Dauer 2.2 s · ganze Bilder über 40 ms: 15, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 15 · längstes ganzes Bild 252.0 ms | Spiel: Undercity / Undercity
+[19.11. 08:57] perf L24 Das Brachland(1413) 52.0,29.9 | Wegnetz laden: Portionen: 17 Bilder, längstes Bild 4.4 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 68.6 ms · Dauer 2.6 s · ganze Bilder über 40 ms: 8, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 8 · längstes ganzes Bild 615.0 ms | Spiel: Brachland / Crossroads
+[19.11. 08:35] perf L10 Undercity(1458) 64.2,52.4 | Wegnetz laden: Portionen: 16 Bilder, längstes Bild 8.6 ms (Knoten) · über 5 ms: 1 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 67.5 ms · Dauer 1.6 s · ganze Bilder über 40 ms: 5, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 5 · längstes ganzes Bild 1048.0 ms | Spiel: Undercity / Undercity
+[19.11. 08:35] perf L10 Undercity(1458) 64.2,52.4 | Wegnetz laden: Portionen: 17 Bilder, längstes Bild 4.4 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 70.5 ms · Dauer 1.6 s · ganze Bilder über 40 ms: 4, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 4 · längstes ganzes Bild 1018.0 ms | Spiel: Undercity / Undercity
+[19.11. 08:35] perf L10 Undercity(1458) 64.2,52.4 | Wegnetz laden: Portionen: 16 Bilder, längstes Bild 4.4 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 66.4 ms · Dauer 2.7 s · ganze Bilder über 40 ms: 13, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 13 · längstes ganzes Bild 391.0 ms | Spiel: Undercity / Undercity
+[19.11. 06:42] perf L10 Undercity(1458) 64.2,52.4 | Wegnetz laden: Portionen: 17 Bilder, längstes Bild 7.5 ms (Knoten) · über 5 ms: 1 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 73.9 ms · Dauer 1.7 s | Spiel: Undercity / Undercity
+[19.11. 06:16] perf L10 Undercity(1458) 64.2,52.4 | Wegnetz laden: Portionen: 19 Bilder, längstes Bild 9.0 ms (Knoten) · über 5 ms: 1 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 82.2 ms · Dauer 2.7 s | Spiel: Undercity / Undercity
+[18.11. 19:50] perf L10 Undercity(1458) 64.2,52.4 | Wegnetz laden: Portionen: 15 Bilder, längstes Bild 4.4 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 62.4 ms · Dauer 1.6 s | Spiel: Undercity / Undercity
+[18.11. 19:27] SYNC ×3 L10 Undercity(1458) 64.2,52.4 | SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, BuffSentinel 0, GoldSentinelMarkt 0, GuildSentinel 1, LevelPilot 1, LevelPilotG 0, ThreatSentinel 0 | Spiel: Undercity / Undercity
+      Schritt ACCEPT:9265 · v3.12.97
+[18.11. 19:26] perf L10 Undercity(1458) 64.2,52.4 | Wegnetz laden: Portionen: 15 Bilder, längstes Bild 4.3 ms (Knoten–Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 61.6 ms · Dauer 1.5 s | Spiel: Undercity / Undercity
+[18.11. 19:21] perf L10 Undercity(1458) 64.2,52.4 | Wegnetz laden: Portionen: 15 Bilder, längstes Bild 4.3 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 60.8 ms · Dauer 1.5 s | Spiel: Undercity / Undercity
+[18.11. 19:20] perf L10 Undercity(1458) 64.2,52.4 | Wegnetz laden: Portionen: 15 Bilder, längstes Bild 4.3 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 59.6 ms · Dauer 1.5 s | Spiel: Undercity / Undercity
+[18.11. 19:19] perf L10 Undercity(1458) 64.2,52.4 | Wegnetz laden: Portionen: 16 Bilder, längstes Bild 4.3 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 64.9 ms · Dauer 2.6 s | Spiel: Undercity / Undercity
+[18.11. 19:12] LANGSAM L10 Undercity(1458) 64.2,52.4 | Planung dauerte bis zu 2725 ms | Spiel: Undercity / Undercity
+      Schritt ACCEPT:9265 · v3.12.97
+[18.11. 19:06] perf L10 Undercity(1458) 64.2,52.4 | Wegnetz laden: Portionen: 16 Bilder, längstes Bild 4.3 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 62.7 ms · Dauer 2.4 s | Spiel: Undercity / Undercity
+[18.11. 19:06] SYNC L10 Östliche Königreiche(1415) 44.7,25.2 | Sync-Adressbuch bereinigt: 3 Testnamen
+[17.11. 20:29] SYNC ×12 L24 Das Brachland(1413) 52.0,29.9 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, GoldSentinelMarkt 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0, ThreatSentinel 0 | Spiel: Brachland / Crossroads
+      Schritt ACCEPT:95774 · v3.12.89
+[17.11. 17:02] SYNC ×14 L24 Das Brachland(1413) 52.0,29.9 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, BuffSentinel 0, GoldSentinelMarkt 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0, ThreatSentinel 0 | Spiel: Brachland / Crossroads
+      Schritt ACCEPT:95774 · v3.12.87
+[16.11. 19:20] SYNC L10 Undercity(1458) 64.4,35.6 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, GoldSentinelMarkt 1, GuildSentinel 1, LevelPilot 1, LevelPilotG 1, ThreatSentinel 0 | Spiel: Undercity / Die Kanäle
+      Schritt TURNIN:405 · v3.12.30
+[15.11. 19:04] SYNC ×5 L10 Undercity(1458) 64.2,35.9 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, GoldSentinelMarkt 0, GuildSentinel 1, LevelPilot 0, LevelPilotG 0, ThreatSentinel 0 | Spiel: Undercity / Die Kanäle
+      Schritt TURNIN:405 · v3.12.30
+[15.11. 18:53] SYNC L10 Undercity(1458) 64.2,35.8 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, GoldSentinelMarkt 0, GuildSentinel 1, LevelPilot 0, LevelPilotG 0, ThreatSentinel 0 | Spiel: Undercity / Die Kanäle
+      Schritt TURNIN:405 · v3.12.30
+[15.11. 18:15] SYNC ×7 L10 Undercity(1458) 64.3,35.7 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, GoldSentinelMarkt 0, GuildSentinel 2, LevelPilot 1, LevelPilotG 0, ThreatSentinel 0 | Spiel: Undercity / Die Kanäle
+      Schritt TURNIN:405 · v3.12.30
+[15.11. 18:10] SYNC ×18 L10 Undercity(1458) 64.3,35.7 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, GoldSentinelMarkt 0, GuildSentinel 2, LevelPilot 1, LevelPilotG 0, ThreatSentinel 0 | Spiel: Undercity / Die Kanäle
+      Schritt TURNIN:405 · v3.12.30
+[15.11. 16:56] SYNC ×6 L10 Undercity(1458) 62.4,36.8 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 2, GoldSentinelMarkt 0, GuildSentinel 2, LevelPilot 1, LevelPilotG 0, ThreatSentinel 0 | Spiel: Undercity / Die Kanäle
+      Schritt TURNIN:405 · v3.12.30
+[15.11. 15:56] SYNC L10 Undercity(1458) 64.2,35.8 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, GoldSentinelMarkt 1, GuildSentinel 2, LevelPilot 1, LevelPilotG 0, ThreatSentinel 0 | Spiel: Undercity / Die Kanäle
+      Schritt TURNIN:405 · v3.12.30
+[15.11. 14:38] SYNC L10 Undercity(1458) 64.0,35.8 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, GoldSentinelMarkt 1, GuildSentinel 2, LevelPilot 2, LevelPilotG 0, ThreatSentinel 0 | Spiel: Undercity / Die Kanäle
+      Schritt TURNIN:405 · v3.12.30
+[15.11. 13:20] SYNC L10 Undercity(1458) 64.3,35.8 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 2, GoldSentinelMarkt 2, GuildSentinel 2, LevelPilot 1, LevelPilotG 1, ThreatSentinel 0 | Spiel: Undercity / Die Kanäle
+      Schritt TURNIN:405 · v3.12.30
+[15.11. 10:22] SYNC L10 Undercity(1458) 64.2,35.7 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, GoldSentinelMarkt 1, GuildSentinel 1, LevelPilot 0, LevelPilotG 0, ThreatSentinel 0 | Spiel: Undercity / Die Kanäle
+      Schritt TURNIN:405 · v3.12.30
+[15.11. 09:11] FEST L10 Undercity(1458) 75.5,33.5 | Seit 4 min nicht näher an „TURNIN:405“ (noch 131 Yards, Weg: graph) | Spiel: Undercity / Das Magieviertel
+      Schritt TURNIN:405 · v3.12.30
+[15.11. 08:18] SCHRITT L10 Undercity(1458) 64.3,52.4 | Schritt seit 34 min aktiv: Abgeben: Der abtrünnige Lich [8]  365 Yards / bei Bethor Iceshard | Spiel: Undercity / Undercity
+      Schritt TURNIN:405 · v3.12.30
+[15.11. 07:35] SCHRITT L10 Undercity(1458) 64.5,52.4 | Schritt seit 38 min aktiv: Abgeben: Der abtrünnige Lich [8]  376 Yards / bei Bethor Iceshard | Spiel: Undercity / Undercity
+      Schritt TURNIN:405 · v3.12.30
+[15.11. 01:19] SYNC ×2 L10 Undercity(1458) 64.3,52.5 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, GoldSentinelMarkt 0, GuildSentinel 1, LevelPilot 1, LevelPilotG 0, ThreatSentinel 0 | Spiel: Undercity / Undercity
+      Schritt TURNIN:405 · v3.12.30
+[15.11. 00:57] SYNC L10 Undercity(1458) 64.2,52.3 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, GoldSentinelMarkt 0, GuildSentinel 1, LevelPilot 1, LevelPilotG 0, ThreatSentinel 0 | Spiel: Undercity / Undercity
+      Schritt TURNIN:405 · v3.12.30
+[14.11. 17:10] SYNC L10 Undercity(1458) 64.3,52.5 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, GoldSentinelMarkt 1, GuildSentinel 2, LevelPilot 1, LevelPilotG 1, ThreatSentinel 0 | Spiel: Undercity / Undercity
+      Schritt TURNIN:405 · v3.12.30
+[13.11. 16:57] GRUNDREGEL ×11 L10 Undercity(1458) 64.3,52.6 | GRUNDREGEL VERLETZT Quest 445 fertig, aber kein Abgabe-Schritt | Spiel: Undercity / Undercity
+      Schritt TURNIN:405 · v3.12.27
+[13.11. 16:48] SYNC ×3 L10 Undercity(1458) 64.3,52.6 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0 | Spiel: Undercity / Undercity
+      Schritt TURNIN:405 · v3.12.27
+[13.11. 16:20] SYNC ×2 L10 Undercity(1458) 64.3,52.6 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, GuildSentinel 1, LevelPilot 1, LevelPilotG 1 | Spiel: Undercity / Undercity
+      Schritt TURNIN:405 · v3.12.27
+[13.11. 15:50] SYNC ×6 L10 Undercity(1458) 64.3,52.6 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, GuildSentinel 1, LevelPilot 1, LevelPilotG 0 | Spiel: Undercity / Undercity
+      Schritt TURNIN:405 · v3.12.27
+[13.11. 15:25] SYNC ×2 L10 Undercity(1458) 64.3,52.6 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, GuildSentinel 1, LevelPilot 1, LevelPilotG 0 | Spiel: Undercity / Undercity
+      Schritt TURNIN:405 · v3.12.27
+[13.11. 13:21] SCHRITT L10 Undercity(1458) 64.2,52.6 | Schritt seit 25 min aktiv: Abgeben: Der abtrünnige Lich [8]  344 Yards / bei Bethor Iceshard | Spiel: Undercity / Undercity
+      Schritt TURNIN:405 · v3.12.27
+[11.11. 15:51] SCHRITT L10 Undercity(1458) 64.1,51.9 | Schritt seit 25 min aktiv: Abgeben: Der abtrünnige Lich [8]  341 Yards / bei Bethor Iceshard | Spiel: Undercity / Undercity
+      Schritt TURNIN:405 · v3.12.13

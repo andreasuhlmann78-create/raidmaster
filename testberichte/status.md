@@ -1,15 +1,15 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-19 13:56 UTC
+Ausgewertet: 2026-11-19 16:09 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
 | Addon | letzter Testlauf | Version | Client | OK | FEHLER | übersprungen | im Client prüfen | Fehler im Spiel (7 Tage) |
 |---|---|---|---|---|---|---|---|---|
-| AHSentinel | 19.11.2026 11:02 UTC | 0.65.352 | forever 1.60.1 (Interface 16001) | 2 | 4 | 3 | 0 | 33 |
+| AHSentinel | 19.11.2026 15:42 UTC | 0.65.353 | forever 1.60.1 (Interface 16001) | 1 | 2 | 6 | 0 | 33 |
 | BuffSentinel | 18.11.2026 18:19 UTC | 0.9.60 | forever 1.60.1 (Interface 16001) | 218 | 2 | 11 | 10 | 307 |
 | GuildSentinel | 18.11.2026 18:20 UTC | 0.9.58 | forever 1.60.1 (Interface 16001) | 329 | 0 | 24 | 8 | 5 |
-| LevelPilot | 19.11.2026 12:07 UTC | 3.13.3 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 15 |
+| LevelPilot | 19.11.2026 15:19 UTC | 3.13.4 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 15 |
 | ProfessionSentinel | 18.11.2026 18:23 UTC | 0.9.74 | forever 1.60.1 (Interface 16001) | 1 | 1 | 8 | 0 | 8 |
 | RaidMaster | 18.11.2026 18:21 UTC | 3.0.40 | forever 1.60.1 (Interface 16001) | 0 | 1 | 0 | 0 | 0 |
 | ThreatSentinel | 18.11.2026 12:49 UTC | 2.5.23 | forever 1.60.1 (Interface 16001) | 0 | 1 | 0 | 0 | 0 |
@@ -18,14 +18,14 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 180 | `testberichte/diagnose/AHSentinel/0.65.353-0aa0e698742b.txt` |
-| BuffSentinel | 70 | `testberichte/diagnose/BuffSentinel/0.9.60-a204f1e818b5.txt` |
+| AHSentinel | 182 | `testberichte/diagnose/AHSentinel/0.65.353-cfda48c108d2.txt` |
+| BuffSentinel | 72 | `testberichte/diagnose/BuffSentinel/0.9.60-aac4d1280dc0.txt` |
 | GSMesstest | 16 | `testberichte/diagnose/GSMesstest/5.1-ed1f13494643.txt` |
 | GSSniperLog | 22 | `testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt` |
-| GuildSentinel | 182 | `testberichte/diagnose/GuildSentinel/0.9.58-e52bcbc311ff.txt` |
-| LevelPilot | 77 | `testberichte/diagnose/LevelPilot/3.13.3-02db967dd73c.txt` |
-| ProfessionSentinel | 162 | `testberichte/diagnose/ProfessionSentinel/0.9.74-e8fcba77e8cd.txt` |
-| ThreatSentinel | 157 | `testberichte/diagnose/ThreatSentinel/2.5.23-e61faba6e4d4.txt` |
+| GuildSentinel | 184 | `testberichte/diagnose/GuildSentinel/0.9.58-e52bcbc311ff.txt` |
+| LevelPilot | 79 | `testberichte/diagnose/LevelPilot/3.13.4-256020cb1def.txt` |
+| ProfessionSentinel | 164 | `testberichte/diagnose/ProfessionSentinel/0.9.74-e8fcba77e8cd.txt` |
+| ThreatSentinel | 159 | `testberichte/diagnose/ThreatSentinel/2.5.23-e61faba6e4d4.txt` |
 
 ## Wegdaten (GSWEGE1)
 
@@ -34,15 +34,6 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 | LevelPilot | 238 | `testberichte/wege/LevelPilot/LevelPilot-wege-1795045209-7fd6a4.json` |
 
 ## AHSentinel
-
-**Testlauf 0.65.347 · forever 1.60.1 (Interface 16001) · 18.11.2026 18:49 UTC** – OK 2 · FEHLER 4 · übersprungen 3 · im Client prüfen 0
-- [FEHLER] ALLES-1 ALLES – Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1) (ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 949 OK, 1 FEHLER, 29 übersprungen, Sandbox OK)
-- [FEHLER] ALLES-2 ALLES – Oberflächen-Prüfung (alle Reiter) (ergebnis:   2. Oberflächen-Prüfung (alle Reiter): FEHLER – 6 OK, 1 FEHLER, 0 übersprungen, Sandbox OK)
-- [FEHLER] ALLES-4 ALLES – Sniper-Testroutine S1–S13 (ohne echten Kauf) (ergebnis:   4. Sniper-Testroutine S1–S13 (ohne echten Kauf): FEHLER – 29 OK, 2 FEHLER, 1 übersprungen, Sandbox OK)
-- [FEHLER] ALLES-6 ALLES – Prüfungen am offenen Auktionshaus (ergebnis:   6. Prüfungen am offenen Auktionshaus: FEHLER – 63 OK, 4 FEHLER, 3 übersprungen, Sandbox OK)
-- [SKIP] ALLES-7 ALLES – Vollscan zweimal: bleibender Speicher und längste Lücke (VOLLSCAN) (grund:   7. Vollscan zweimal: bleibender Speicher und längste Lücke (VOLLSCAN): noch offen – passiert von selbst beim nächsten Schnell-Vollscan (Entwicklermodus) (Server-Abstand noch 14 Min.))
-- [SKIP] ALLES-8 ALLES – Prüfungen am Berufsfenster (grund:   8. Prüfungen am Berufsfenster: noch offen – passiert von selbst beim nächsten Öffnen eines Berufsfensters)
-- [SKIP] ALLES-9 ALLES – Prüfungen am Händler (grund:   9. Prüfungen am Händler: noch offen – passiert von selbst beim nächsten Händler-Besuch)
 
 **Testlauf 0.65.349 · forever 1.60.1 (Interface 16001) · 19.11.2026 05:38 UTC** – OK 3 · FEHLER 3 · übersprungen 3 · im Client prüfen 0
 - [FEHLER] ALLES-1 ALLES – Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1) (ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 946 OK, 2 FEHLER, 31 übersprungen, Sandbox OK)
@@ -67,6 +58,16 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 - [FEHLER] ALLES-4 ALLES – Sniper-Testroutine S1–S13 (ohne echten Kauf) (ergebnis:   4. Sniper-Testroutine S1–S13 (ohne echten Kauf): FEHLER – 24 OK, 2 FEHLER, 6 übersprungen, Sandbox OK)
 - [FEHLER] ALLES-6 ALLES – Prüfungen am offenen Auktionshaus (ergebnis:   6. Prüfungen am offenen Auktionshaus: FEHLER – 67 OK, 1 FEHLER, 3 übersprungen, Sandbox OK)
 - [SKIP] ALLES-7 ALLES – Vollscan zweimal: bleibender Speicher und längste Lücke (VOLLSCAN) (grund:   7. Vollscan zweimal: bleibender Speicher und längste Lücke (VOLLSCAN): noch offen – passiert von selbst beim nächsten Schnell-Vollscan (Entwicklermodus) (Server-Abstand noch 15 Min.))
+- [SKIP] ALLES-8 ALLES – Prüfungen am Berufsfenster (grund:   8. Prüfungen am Berufsfenster: noch offen – passiert von selbst beim nächsten Öffnen eines Berufsfensters)
+- [SKIP] ALLES-9 ALLES – Prüfungen am Händler (grund:   9. Prüfungen am Händler: noch offen – passiert von selbst beim nächsten Händler-Besuch)
+
+**Testlauf 0.65.353 · forever 1.60.1 (Interface 16001) · 19.11.2026 15:42 UTC** – OK 1 · FEHLER 2 · übersprungen 6 · im Client prüfen 0
+- [FEHLER] ALLES-1 ALLES – Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1) (ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 933 OK, 1 FEHLER, 46 übersprungen, Sandbox OK)
+- [FEHLER] ALLES-2 ALLES – Oberflächen-Prüfung (alle Reiter) (ergebnis:   2. Oberflächen-Prüfung (alle Reiter): FEHLER – 6 OK, 1 FEHLER, 0 übersprungen, Sandbox OK)
+- [SKIP] ALLES-4 ALLES – Sniper-Testroutine S1–S13 (ohne echten Kauf) (grund:   4. Sniper-Testroutine S1–S13 (ohne echten Kauf): noch offen – passiert von selbst beim nächsten Öffnen des Auktionshauses)
+- [SKIP] ALLES-5 ALLES – Wächter 10 Min.: Rechenzeit je Bild und Hürden (WAECHTER-LAST, WAECHTER-FUND) (grund:   5. Wächter 10 Min.: Rechenzeit je Bild und Hürden (WAECHTER-LAST, WAECHTER-FUND): noch offen – passiert von selbst beim nächsten Öffnen des Auktionshauses)
+- [SKIP] ALLES-6 ALLES – Prüfungen am offenen Auktionshaus (grund:   6. Prüfungen am offenen Auktionshaus: noch offen – passiert von selbst beim nächsten Öffnen des Auktionshauses)
+- [SKIP] ALLES-7 ALLES – Vollscan zweimal: bleibender Speicher und längste Lücke (VOLLSCAN) (grund:   7. Vollscan zweimal: bleibender Speicher und längste Lücke (VOLLSCAN): noch offen – passiert von selbst beim nächsten Schnell-Vollscan (Entwicklermodus))
 - [SKIP] ALLES-8 ALLES – Prüfungen am Berufsfenster (grund:   8. Prüfungen am Berufsfenster: noch offen – passiert von selbst beim nächsten Öffnen eines Berufsfensters)
 - [SKIP] ALLES-9 ALLES – Prüfungen am Händler (grund:   9. Prüfungen am Händler: noch offen – passiert von selbst beim nächsten Händler-Besuch)
 
@@ -330,13 +331,13 @@ Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) ·
 
 ## LevelPilot
 
-**Testlauf 3.12.99 · forever 1.60.1 (Interface 16001) · 19.11.2026 07:44 UTC** – OK 11 · FEHLER 0 · übersprungen 0 · im Client prüfen 0
-
 **Testlauf 3.13.0 · forever 1.60.1 (Interface 16001) · 19.11.2026 10:40 UTC** – OK 1 · FEHLER 0 · übersprungen 0 · im Client prüfen 0
 
 **Testlauf 3.13.2 · forever 1.60.1 (Interface 16001) · 19.11.2026 11:32 UTC** – OK 11 · FEHLER 0 · übersprungen 0 · im Client prüfen 0
 
 **Testlauf 3.13.3 · forever 1.60.1 (Interface 16001) · 19.11.2026 12:07 UTC** – OK 11 · FEHLER 0 · übersprungen 0 · im Client prüfen 0
+
+**Testlauf 3.13.4 · forever 1.60.1 (Interface 16001) · 19.11.2026 15:19 UTC** – OK 11 · FEHLER 0 · übersprungen 0 · im Client prüfen 0
 
 **Fehler im Spiel (letzte 7 Tage)**
 - 15× `Reise`: Fehler in der Reise: Interface/AddOns/LevelPilot/Virtual.lua:135: attempt to perform indexed assignment on field '?' (a boolean value) – Version 3.12.89 · forever 1.60.1 (Interface 16001) · zuletzt 17.11.2026 19:02 UTC
