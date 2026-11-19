@@ -1,0 +1,84 @@
+BERICHT LevelPilot an die Prüf-Sitzung – 19.11.2026 11:44
+Version 3.13.2 – umgesetzt, zur Prüfung
+Zip: announce/levelpilot__levelpilot-3.13.2.LevelPilot.zip, md5 d3d7bab573ed08dced5e21ec414ba151. Datenpaket 1.6.4 (unverändert). NEUE DATEI: LevelPilot/Luecken.lua
+(Dateiliste sonst wie 3.12.95; in der .toc nach Recorder.lua).
+Anlass: AUFTRAG 19.11. 11:00 (Wegnetz-Lücken) und ENTSCHEID 11:00 (Zustimmung Wegdaten), vom Nutzer 11:17 angestossen ("repo").
+
+==== ENTSCHEID 11:00: WEGDATEN OPT-OUT MIT EINMALIGER INFORMATION ====
+Befund: Der Schalter "Wegdaten automatisch senden" (LP.db.wegeAuto) ist seit 3.12.12 ab Werk AN (Core DEFAULTS, CHANGELOG 3.12.12 "ab
+Werk an"). In der Speicherdatei steht false nur nach einem ausdrücklichen Aus -> alte Wahl bleibt automatisch erhalten, nichts zu ändern.
+Neu: LP:WegeInfoOnce() nach dem Laden: EINMAL je Konto (LevelPilotDB.wegeInfoShown) eine Chatzeile, nur wenn das Senden an ist:
+"LevelPilot teilt gelaufene Wege ohne Namen, damit die Routen für alle besser werden. Ausschalten: Zentrale > Austausch > „Wegdaten
+automatisch senden“." (alle Sprachen, mit den echten Beschriftungen der Sprache; zh/ko "控制中心"/"제어 센터", weil T["Zentrale"] dort
+"居中"/"중앙" = Ausrichtung heisst). Kein Fenster, keine Frage. Die Questfolge (f=2) und die Lücken-Messungen gehen unter demselben Schalter.
+Hinweis: Der Ort heisst im Spiel "Zentrale > Austausch", nicht "Einstellungen > Daten" wie im Beispiel des Entscheids.
+Aufzeichnen lokal: wie bisher immer (Schalter "recordPaths" des Spielers bleibt, er betrifft nur die eigene Aufzeichnung).
+T365: neu -> Zeile + gemerkt · zweiter Start -> keine Zeile · bisher aus -> bleibt aus, keine Zeile · aus -> WegeExport legt nichts bereit ·
+Standard an. CHANGELOG EN/DE und Ankündigung nennen es in einem Satz.
+
+==== AUFTRAG 11:00 PUNKT 1: WEGE VON SPIELERN ====
+Ausgezählt testberichte/wege/LevelPilot (231 Sendungen insgesamt): seit 3.12.88 13 Sendungen (3.12.95: 8, 3.12.96: 1, 3.12.97: 4), 137
+Wegstücke in 4 Zonen, alle am 18.11. Absender: die Sendungen tragen absichtlich keine Kennung (keine Namen); nach Klasse/Sprache/Spiel
+nur 2 verschiedene (Priester deDE Forever, Krieger deDE Forever) = sehr wahrscheinlich nur die Charaktere des Nutzers.
+Folgerung: Von anderen Spielern kommt derzeit nichts an. Ab 3.13.2 sagt die Chatzeile allen, dass es läuft (es war schon an).
+Messgrösse je Version (NEU im Bericht der virtuellen Reise: "Anteil der Strecke ohne bekannten Weg"), Nachbau mit den im Spiel gemessenen
+Kartenrahmen, Reise 1–60, Stand 3.13.2:
+  Horde Normal 66,9 % · Horde Speedrun 66,9 % · Allianz Normal 84,4 % · Allianz Speedrun 80,0 %
+  (gleiche Grössenordnung wie die Messung vom 16.11.: Orc Krieger 66,1 %). Zonenübergänge zählen nicht mit.
+
+==== AUFTRAG 11:00 PUNKT 2: LÜCKEN AUTOMATISCH MESSEN ====
+a) Lückenliste: Virtual.lua zählt (nur im Nachbau, V.gapStats) jede Luftlinie ab 300 Yards ohne bekannten Weg mit Anfang/Ende
+   (100-Yard-Zellen, Richtung egal), Länge, Häufigkeit. 4 Reisen 1–60 (Horde/Allianz x Normal/Speedrun), mit den im Spiel gemessenen
+   Kartenrahmen (sim/kartenrahmen_forever.lua): 1790 verschiedene Lücken, Länge Median 793 yd, höchstens 4081 yd. Sortiert nach Häufigkeit
+   x Länge (= Strecke ohne Weg, die sie verursachen). Die ersten 300 stehen in Luecken.lua (Zonenkoordinaten, damit sie im Spiel mit den
+   Kartenrahmen des Clients gelten; Umrechnung Welt -> Zone -> Welt für alle 1790 geprüft: Abweichung < 1 yd) und decken 61,9 % dieser
+   Strecke ab.
+   ERSTE 20 (Karte, von -> nach in Zonenkoordinaten, Länge, Häufigkeit in den 4 Reisen):
+    1. Karte 1426 (1426)             53.2, 35.0 ->  84.6, 50.7  1630 yd  68×
+    2. Karte 1448 (1448)             52.5, 91.5 ->  64.5,  7.5  3293 yd  23×
+    3. Karte 1422 (1422)             65.5, 32.5 ->  27.5, 57.5  1784 yd  35×
+    4. Karte 1429 (1429)             93.5, 72.5 ->  31.5, 48.5  2222 yd  27×
+    5. Karte 1440 (1440)             70.5, 86.0 ->  53.5, 27.5  2453 yd  23×
+    6. Karte 1432 (1432)             25.5,  1.5 ->  21.0, 76.0  1376 yd  41×
+    7. Karte 1453 (1453)             73.5, 91.5 ->  64.0,  8.0   981 yd  56×
+    8. Karte 1421 (1421)             67.0, 77.5 ->  67.5,  4.5  2044 yd  26×
+    9. Karte 1431 (1431)             19.6, 18.0 ->  45.0, 88.5  1442 yd  33×
+   10. Karte 1417 (1417)             43.5, 91.5 ->  20.5, 29.5  1703 yd  26×
+   11. Karte 1446 (1446)             33.5, 34.5 ->  52.5, 21.5  1441 yd  29×
+   12. Karte 1437 (1437)             51.0, 10.0 ->  55.5, 85.5  2089 yd  20×
+   13. Karte 1443 (1443)             54.5,  3.5 ->  42.5, 97.5  2869 yd  14×
+   14. Karte 1424 (1424)             82.5, 57.5 ->  13.5, 46.5  2220 yd  17×
+   15. Karte 1433 (1433)              2.5, 71.5 ->  41.5,  7.5  1255 yd  29×
+   16. Karte 1440 (1440)             29.0, 13.0 ->  70.5, 86.0  3688 yd   9×
+   17. Karte 1445 (1445)             28.5, 47.5 ->  71.5, 56.5  2279 yd  14×
+   18. Karte 1429 (1429)             31.5, 48.5 ->  32.8, 85.6   860 yd  35×
+   19. Karte 1439 (1439)             43.5, 92.0 ->  32.5, 43.8  2225 yd  13×
+   20. Karte 1437 (1437)             55.5, 85.5 ->   4.6, 57.0  2247 yd  12×
+   (Karten: 1426 Dun Morogh, 1448 Teufelswald, 1422 Westliche Pestländer, 1429 Wald von Elwynn, 1440 Eschental, 1432 Loch Modan,
+   1453 Sturmwind, 1421 Silberwald, 1431 Dämmerwald, 1417 Arathihochland, 1446 Tanaris, 1437 Sumpfland, 1443 Desolace,
+   1424 Vorgebirge des Hügellands, 1433 Rotkammgebirge, 1445 Düstermarschen, 1439 Dunkelküste – Namen aus der Karten-ID, im Nachbau
+   ohne Namen.)
+b) Messung beim normalen Spielen (Luecken.lua, aus Recorder:SamplePath alle 0,5 s, gleiche Bedingungen wie die Weg-Aufzeichnung:
+   Zonenkarte, kein Flug, kein Tod/Geist, kein Fahrzeug, keine Instanz, keine virtuelle Reise): Spieler höchstens 60 yd an einem Ende
+   einer offenen Lücke -> Messung beginnt; Sprung über 80 yd/s (Schiff, Zeppelin, Teleport, Ruhestein, Ladebild) -> verworfen; wieder am
+   Anfang -> neu beginnen; mehr als 4x Luftlinie + 200 yd oder über 15 Min. -> verworfen; am anderen Ende -> gemessen: gelaufene Strecke,
+   Zeit, Luftlinie zwischen erstem und letztem Punkt, Umweg-Faktor, Zahl der Punkte, Version, Zeit. Keine Namen, kein Fenster, keine
+   Chatzeile. Die Punkte selbst legt die Weg-Aufzeichnung wie jeden gelaufenen Weg ins Wegnetz (alle 12 yd, an Richtungswechseln).
+c) Gemessen -> aus der Liste (LevelPilotDB.lueckenDone); Messung in LevelPilotDB.lueckenMess, mit den Wegdaten als Feld "lu" (seit dem
+   letzten Versand, wegeSent.lu). Format f bleibt 1/2 (zusätzliches Feld).
+d) Leistung: je Abtastung höchstens 25 Umrechnungen (nur bis alle 300 umgerechnet sind) und ein Vergleich mit den Lücken desselben
+   Kontinents, keine Neuplanung. Nachbau: Ø 0,040 ms, höchstens 0,085 ms je Abtastung (300 Lücken, 4000 Abtastungen); Faktor 7 fürs
+   Spiel -> unter 1 ms. Speicher: höchstens 400 Punkte je Messung (nur gezählt), 200 Messungen, 2000 gemerkte Lücken (älteste zuerst weg).
+e) T366 (mit Gegenproben, eigene Liste/Ablage): durchlaufen -> gemessen und aus der Liste, Umweg-Faktor 1,00 · keine Namen · zweimal ->
+   eine Messung · bekannte Strecke -> nichts · Flug/Tod -> nichts · Sprung -> nichts · Umweg -> nichts · Obergrenze · Versand nur Neues ·
+   aus -> nichts · Rechenzeit gemessen. T01 und test2 (Offline) kennen das neue Modul (36).
+
+==== EIGENE TESTS (Hinweise, keine Freigabe) ====
+- addon_check OK (1 Warnung lupa); alle .lua mit Lua 5.1 geladen; GoldSentinel*.lua byte-gleich mit shared/.
+- Testroutine Nachbau Laptop-Daten (lang, Sync-Adressbuch fremd): OK 288 · FEHLER 8 (die 8 bekannten Nachbau-Grenzen), Adressbuch leer.
+  Bilder über 40 ms schwanken zwischen Läufen derselben Fassung (0 bis 3, je andere Prüfung: T358–T360, T129, T70–T72). Gleiche
+  Bedingungen nacheinander: 3.13.1 0 · 3.13.2 0 (längstes 28,2 / 33,2 ms). Verdacht, zu messen: Nachbau-Rauschen (Speicherbereinigung).
+- Offline-Routine 40/40 ohne FEHLER (test2 in berichte/LevelPilot/offline um das Modul ergänzt). Regression 35/36 (test29 wie bekannt).
+
+==== ALS NÄCHSTES ====
+Rest der Bilder über 40 ms aus dem Ingametest 3.13.0 (T62–T63, T221, T136, T295, T246, Start); T150 nach dem nächsten Ingametest.

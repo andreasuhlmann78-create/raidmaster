@@ -25,7 +25,7 @@ local withQuestie = (arg[2] or "1") == "1"
 print("== Start (Questie " .. (withQuestie and "an" or "aus") .. ", " .. (FOREVER and "Forever-Client" or "Classic-Client") .. ")")
 local e0 = errorsInChat()
 check(#e0 == 0, "keine Fehler beim Start " .. table.concat(e0, " | "))
-local want = 31 + (LP.ClientTest and 1 or 0) + (LP.WegMessung and 1 or 0) + (LP.Pruefliste and 1 or 0) + (LP.Laufweg and 1 or 0)
+local want = 31 + (LP.ClientTest and 1 or 0) + (LP.WegMessung and 1 or 0) + (LP.Pruefliste and 1 or 0) + (LP.Laufweg and 1 or 0) + (LP.Luecken and 1 or 0)
 check(#LP.modules == want and LP.API ~= nil and LP.Seed ~= nil, want .. " Module geladen (" .. #LP.modules .. ")")
 check(LP.QuestDB.questie == withQuestie, "Questie-Erkennung: " .. LP.QuestDB.questieInfo)
 
