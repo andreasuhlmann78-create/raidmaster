@@ -1,0 +1,41 @@
+{
+ "addon": "LevelPilot",
+ "bereich": "pruefliste",
+ "counts": {
+  "client": 0,
+  "fehler": 0,
+  "ok": 1,
+  "uebersprungen": 0
+ },
+ "dur_ms": 0,
+ "env": {
+  "build": "70959",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 10,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "erkannt": "beim Spielen",
+ "errors": [],
+ "f": 1,
+ "id": "LevelPilot-1795084839-41735f-1",
+ "kind": "test",
+ "punkt": "T362",
+ "results": [
+  {
+   "bereich": "Prüfliste",
+   "ergebnis": "Nicht mehr",
+   "erkannt": "beim Spielen",
+   "id": "T362",
+   "name": "Vorschläge: Später und Nicht mehr",
+   "status": "OK"
+  }
+ ],
+ "time": 1795084839,
+ "version": "3.13.0"
+}
