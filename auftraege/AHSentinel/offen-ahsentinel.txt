@@ -5034,3 +5034,7 @@ Prüfliste zeigt erwartungsgemäss den Lauf davor (18.11. 19:49). Reihenfolge wi
 NIEDRIG, NICHT vor CurseForge nötig (Entscheid 06:45): UI_Main.lua:4209 zeigt dauerhaft "Chat-Befehle: /ahs, /ahs scan, /ahs sniper,
 /ahs design, /ahs debug". Spieler sollen nichts über Befehle aufrufen müssen (Entscheid 18.11. 11:10), und "debug" gehört nicht vor
 Spieler. Lösung: Zeile entfernen oder ins "?"/Hilfe-Tooltip verschieben, ohne debug. Mit einer späteren Version.
+
+==== KORREKTUR 19.11.2026 09:06 – BEFUND 09:10 "BEFEHLSLISTE IM FENSTER" ZURÜCKGEZOGEN ====
+Nutzer: "die Spieler sollen das schon sehen, im Chatfenster, dafür ist dies ja". Die Zeile "Chat-Befehle: /ahs …" BLEIBT. Der Entscheid vom
+18.11. 11:10 betrifft nur Testbefehle (Spieler müssen nie über eine Testroutine etwas aufrufen), nicht normale Chat-Befehle. Nichts ändern.
