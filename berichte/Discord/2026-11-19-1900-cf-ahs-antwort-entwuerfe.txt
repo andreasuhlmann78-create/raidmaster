@@ -1,0 +1,38 @@
+BERICHT DISCORD – CurseForge AHSentinel: 3 unbeantwortete Kommentare, Antwort-Entwürfe (Auftrag des Nutzers im Chat 19.11. 18:57)
+Zeit: 19.11.2026 19:00 (aus date)
+
+Quelle: CurseForge-Benachrichtigungen im Gmail des Nutzers (18.11., 19.11.). Die Kommentarseite selbst lädt ohne Anmeldung nicht
+(Web-Abruf zeigt keine Kommentare). In auftraege/AHSentinel und berichte/AHSentinel stehen diese drei noch nicht. Keine Spielernamen.
+Stand CurseForge: 0.65.265 (16.11.), 0.65.350 und 0.65.351 (19.11.). Fakten aus dem Code von 0.65.351 (download/AHSentinel-0.65.351.zip).
+NICHTS GEPOSTET: Diese Sitzung hat keinen Zugang zu CurseForge (kein Browser, keine Anmeldung); öffentliche Antworten nur mit Ja des
+Nutzers je Antwort. Einordnung und Weitergabe an das AHSentinel-Projekt: Sache des Supervisors (auftraege/ schreibt nur er).
+
+1. 16.11. 20:20 – Frage/Fehler (Text in der Mail abgeschnitten): "When posting things to sell, the prices shown are not even close to
+   the actual available ones. So..."
+   Fakten: 0.65.349/0.65.350 – "Today"-Verkaufspreise nehmen keine ältere Angebotsliste mehr, wenn ein neuerer Scan einen anderen Preis
+   hat. Ob das den Fall trifft, ist ohne den vollen Text NICHT belegt -> Antwort fragt nach.
+   Entwurf (EN, 63 Wörter):
+   "Thanks for the report! Version 0.65.351 (on CurseForge since today) changed where sell prices come from: an older scan is no longer
+   used when a newer one shows a different price. Please update and try again. If prices are still far off, please tell us one item,
+   the price AHSentinel suggests and the cheapest price on the AH, and when you last ran a full scan."
+
+2. 17.11. 18:48 – Frage: "How do I turn off the "Accounting:" messages in chat?"
+   Fakten (Books.lua:965): "Accounting: N× <Item> are gone … booked out as missing stock" erscheint, wenn gekaufte Ware nicht mehr in
+   Taschen, Bank, Briefkasten oder eigenen Auktionen ist (Lager-Abgleich). Es gibt KEINEN Schalter dafür (A:Print ohne Einstellung).
+   Ein Schalter wäre ein kleiner Wunsch (eine Einstellung) – umsetzen darf das AHSentinel-Projekt; Zusage nur nach Entscheid.
+   Entwurf (EN, 66 Wörter, ohne Zusage):
+   "Good question! These lines appear when items you bought are no longer in your bags, bank, mailbox or your own auctions – AHSentinel
+   then books them out so your profit stays correct. Right now there is no option to hide them. We have noted it as a wish; I'll reply
+   here when an option is available. It usually stops once your stock has been matched."
+   ACHTUNG letzter Satz "It usually stops …" ist NICHT belegt -> streichen, wenn nicht bestätigt (dann 56 Wörter).
+
+3. 18.11. 14:23 – Fehler: "the export button stopped working"
+   Fakten: Auf CurseForge war am 18.11. noch 0.65.265. Der CSV-Export wurde in 0.65.338 umgebaut (wird im Hintergrund vorbereitet,
+   Fenster öffnet sich, wenn er fertig ist). Ob der gemeldete Fehler damit behoben ist: NICHT belegt.
+   Entwurf (EN, 52 Wörter, Rückfrage – harmlos):
+   "Thanks for letting us know! The CSV export was reworked in 0.65.351 (on CurseForge since today): it is prepared in the background and
+   the window opens when it is ready. Please update and try again. If it still does nothing, please post your WoW version and any error
+   message (/console scriptErrors 1)."
+
+Vorschlag an den Supervisor: 1–3 als CF-KOMMENTAR CF-AHS-5/6/7 in offen-ahsentinel.txt; 2 (Schalter "Chat-Hinweise Buchhaltung aus") als
+kleiner Wunsch, 3 als Fehler zum Prüfen im Spiel.
