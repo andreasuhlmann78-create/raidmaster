@@ -5029,3 +5029,8 @@ Prüfliste zeigt erwartungsgemäss den Lauf davor (18.11. 19:49). Reihenfolge wi
 ==== PRÜFUNG Supervisor 19.11.2026 08:45 – 0.65.350 (CurseForge, Entscheid 06:45) – KURZ ====
 - addon_check OK, md5 e3284344… (download/ und announce/ gleich). GitHub: Addon-Prüfung success, CurseForge-Upload success (07:38 UTC).
 - Beim Nutzer installiert (Laptop, diff 0). Ob der Vollscan-Speicher (T459) im Spiel unter 10 MB liegt, zeigt der nächste Ingametest.
+
+==== BEFUND SUPERVISOR 19.11.2026 09:10 – BEFEHLSLISTE IM FENSTER (Anzeige, im Sinn von Nutzer 09:00 "hässlich") ====
+NIEDRIG, NICHT vor CurseForge nötig (Entscheid 06:45): UI_Main.lua:4209 zeigt dauerhaft "Chat-Befehle: /ahs, /ahs scan, /ahs sniper,
+/ahs design, /ahs debug". Spieler sollen nichts über Befehle aufrufen müssen (Entscheid 18.11. 11:10), und "debug" gehört nicht vor
+Spieler. Lösung: Zeile entfernen oder ins "?"/Hilfe-Tooltip verschieben, ohne debug. Mit einer späteren Version.

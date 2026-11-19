@@ -569,3 +569,8 @@ auftraege/hinweis-testort-2026-11-18.txt NACHTRAG 19:55: Takt 2 mit der nächste
 
 ==== ENTSCHEID DES NUTZERS 18.11.2026 19:53 – PAUSE ====
 Nur AHSentinel arbeitet weiter. Dieses Projekt pausiert, bis der Nutzer es wieder anstösst. Die offenen Punkte oben bleiben gültig.
+
+==== BEFUND SUPERVISOR 19.11.2026 09:10 – SICHTBARE PLATZHALTER-LISTE (wie GuildSentinel, Nutzer "sieht hässlich aus") ====
+MITTEL (Anzeige): Pages.lua:1097 zeigt dauerhaft das Label "Platzhalter: {raid} Raidname · {zeit} Datum/Uhrzeit · {frei} freie Plätze ·
+{softres} softres.it-Link · {link} Discord-Link · {name} dein Name". Gleiche Lösung wie bei GuildSentinel (offen-guildsentinel 19.11. 09:00):
+kleines "?" mit Tooltip, Platzhalter mit Bedeutung nur dort. Das Projekt pausiert, mit der nächsten Version.
