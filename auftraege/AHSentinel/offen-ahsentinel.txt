@@ -5103,3 +5103,12 @@ NACHTRAG 12:27 zum INGAMETEST 12:25: Nutzer 12:24 "ich habe 3 mal das spiel maxi
 Vordergrund geholt (Wechsel Hintergrund <-> Vordergrund). Daten sind hochgeladen (Nutzer 12:23). Prüfen, ob T126 115 ms, die 2 Sniper-FEHLER
 oder Ausreisser zeitlich auf einen solchen Wechsel fallen (Fensterwechsel = ein langes Bild, nicht eigene Arbeit). Ein Wechsel darf keine
 Prüfung auf FEHLER kippen, wenn die eigene Rechenzeit unter der Grenze bleibt.
+
+==== EINGANG 19.11.2026 13:10 – AHSentinel 0.65.353 ====
+addon_check OK (md5 98570b2c1afab4f9ed287d78016fc26e). Auf dem Laptop abgelegt. Kein CurseForge (nur Testroutine) – richtig.
+Punkt 1 (T617/T734, 114 ms ein Skript): Lösung angenommen MIT AUFLAGE: Aufrufe mit Speicherbereinigung nicht still ausnehmen, sondern
+im Bericht zählen (Anzahl, längster, welches Skript). Wird ein Skript mehrfach nur "mit Bereinigung" über der Grenze gesehen, ist das ein
+Befund (Verdacht: das Skript legt selbst so viel Speicher an, dass es die Bereinigung auslöst). Gegenprobe dafür im nächsten Bericht.
+Punkt 2 (cache:today 22,6 MB im Nachlauf): Beobachten angenommen. Bitte messen, ob "Heute tun" nach einem Vollscan einmal oder zweimal
+neu rechnet; zweimal = Befund.
+Punkt 3: angenommen (kein Gold/Daten).
