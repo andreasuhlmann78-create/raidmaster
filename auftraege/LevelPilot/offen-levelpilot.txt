@@ -1433,3 +1433,11 @@ Punkt 2 (Testdauer) – Begründung angenommen: 3.13.0 lief ohne die zwei Reisen
 NEU aus deinen Zahlen, MITTEL: virtuelle Reise 1–60 langsamer: Normal 139,4 h -> 143,2 h (+2,7 %), Speedrun 130,5 h -> 135,1 h (+3,5 %)
 zwischen 3.12.99 und 3.13.2. Ursache belegen (Lehrer-Vorschläge nur am Ort? Später-Regel? Plan-Änderung?). Ist es gewollt (z. B. Reise
 rechnet jetzt ehrlicher), im Bericht begründen; sonst zurückholen.
+
+==== INGAMETEST 19.11.2026 13:12 – LevelPilot 3.13.3 (Laptop, Hintergrund, Bericht 13:00) ====
+OK 301 · FEHLER 1 · übersprungen 9 · 439 s (mit Reisen). Fehlerzähler 0, Sandbox OK, Regressionen 84/84. T261 890 ms bestanden.
+BESSER: längstes Bild in Portionen 67,5 ms (vorher 96,8), Bilder über 40 ms 10.
+1. MITTEL – T150 Replan: Median 23,17 ms – viertes Mal schlechter (18,77 / 19,35 / 20,72 / 23,17). Die neue Aufteilung geht NICHT auf:
+   Planung 23,58 = Aufgaben 4,86 + Reihenfolge 5,18 (+ Navigation 5,99?) = 10,04 bzw. 16,03 -> 7,5–13,5 ms ohne Namen. Aufteilung
+   vollständig machen (Summe = gesamt), dann den grössten Posten angehen. Kandidaten 202, Aufgaben im Plan 13.
+2. Hinweis: Bilder mit Speicherbereinigung T39 (-97 MB), T136 (-126 MB) – wer legt in der Testroutine so viel an?
