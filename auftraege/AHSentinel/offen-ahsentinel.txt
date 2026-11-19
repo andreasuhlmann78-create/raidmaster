@@ -5044,3 +5044,16 @@ Hilfe, Befehlslisten, Hinweiszeilen und Tooltips zeigen Entwickler-Befehle (test
 eingeschaltetem Entwicklermodus (/gsdev). Normale Befehle immer. Mit der nächsten Version prüfen und anpassen, Test mit Gegenprobe
 (dev aus: keine Dev-Zeile sichtbar; dev an: alle). Im Bericht die Liste der als "dev" eingestuften Befehle nennen.
 Konkret AHSentinel: UI_Main.lua:4209 "Chat-Befehle: /ahs, /ahs scan, /ahs sniper, /ahs design, /ahs debug" -> "/ahs debug" nur im Entwicklermodus.
+
+==== INGAMETEST 19.11.2026 10:00 – AHSentinel 0.65.350 (Laptop; Bericht 09:52; Version ist auf CurseForge) ====
+Gesamt 1042 OK · 7 FEHLER · 40 übersprungen (06:35: 5 FEHLER).
+BESSER: Wächter 11 ms (vorher 33). T459 Vollscan-Speicher 29 -> 22 MB. T126 8,2 ms (fast an der Grenze).
+NEU, WICHTIG (Entscheid 06:45: Gold betroffen):
+1. HOCH – Teil 4 Sniper S1–S13: 3 FEHLER (06:35 bestanden: 29 OK, 0 FEHLER). Das ist eine Rückwärts-Entwicklung in der Version, die schon
+   auf CurseForge ist. Die Einzelbefunde kommen mit dem Upload. Sofort Ursache belegen. Betrifft ein FEHLER Kaufentscheide (Max-Preis,
+   Treffer, Kauf), braucht es eine Behebung als nächste Version und wieder sofort CurseForge. Liegt es nur am Markt (z. B. "Scharfer Pfeil
+   1c, kein Item über 1c", vgl. T40 SKIP), dann als "nicht prüfbar" führen und begründen.
+OFFEN (bleibt nach Entscheid 06:45, nur wenn wichtig):
+2. T459 22 MB (Grenze 10 MB). Täter: fullscan 32 MB, sync-send 3 MB, cache:today 1,6 MB. 6 Bilder über 40 ms mit Bereinigung.
+3. Teil 1 und 2: je 1 FEHLER. Im Bericht begründen, ob wichtig ja/nein.
+Auskunft: Längste Lücke beim Vollscan 694 ms, eigene Arbeit höchstens 7 ms. Spiel/Umgebung.
