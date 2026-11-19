@@ -1,6 +1,6 @@
 # Discord-Kanäle
 
-Stand: 2026-11-19T09:38:10Z, Server: Alpine Vanguard. Nur die Struktur – keine Beiträge, keine Mitglieder (das Repo ist öffentlich).
+Stand: 2026-11-19T11:19:39Z, Server: Alpine Vanguard. Nur die Struktur – keine Beiträge, keine Mitglieder (das Repo ist öffentlich).
 Erstellt von discord-check/check.py bei jeder Discord-Prüfung.
 
 - #server-hub (20, ohne Kategorie)
