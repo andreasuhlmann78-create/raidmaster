@@ -1,0 +1,40 @@
+BERICHT LevelPilot an die Prüf-Sitzung – 19.11.2026 13:20
+Version 3.13.4 – umgesetzt, zur Prüfung
+Zip: announce/levelpilot__levelpilot-3.13.4.LevelPilot.zip, md5 2597495175b5c7c0c4467d27e8ea2012. Datenpaket 1.6.4 (unverändert). Dateiliste wie 3.13.2/3.13.3.
+Anlass: INGAMETEST 19.11. 13:12 (3.13.3), vom Nutzer 13:09 angestossen.
+
+==== 1. T150: AUFTEILUNG GING NICHT AUF – URSACHE UND VOLLSTÄNDIGE AUFTEILUNG ====
+Warum 3.13.3 nicht aufging (belegt im Code): "Planung" (P:DoReplan) enthält am Ende LP:Fire("PLAN_CHANGED") -> darin N:Recalc
+(Navigation) und UI:Refresh (Anzeige). Navigation 5,99 und Anzeige 0,01 lagen also INNERHALB der 23,58 ms Planung, nicht daneben.
+23,58 = Aufgaben 4,86 + Reihenfolge 5,18 + Meldung (darin Navigation 5,99, Anzeige 0,01) + ~7,5 ms in Teilen ohne Zeitmesser.
+Neu (3.13.4): JEDER direkte Teil von DoReplan hat einen Zeitmesser (Kandidaten, Zonenbänder, Dienste, Aufgaben, Startregel, Fokus,
+Questlog, Reihenfolge, erster Weg, Flugpunkt, Binden, Ruhestein, Reise, am Weg, nach Entfernung, nahe Abgaben, nahe Annahmen, Annahmen am
+Weg, Vorrang, Bündel-Index, Bündel, später abgeben) + "Meldung" (PLAN_CHANGED) + "Rest" (eigene Zeilen in DoReplan). Teile, die in
+einem anderen Teil laufen, zählen dort (nicht doppelt). Summe = Planung; gesamt = Planung + Aufruf.
+Nachbau Unterstadt: "gesamt 5,55 = Planung 5,54 + Aufruf 0,01 · Planung = aufgaben 2,58 + reihenfolge 2,43 + meldung 0,15 + ersterweg
+0,10 + rest 0,07 + annahmenamweg 0,06 + fokus 0,05 + kleine Teile 0,09" (Summe 5,53).
+
+==== 1b. GRÖSSTER POSTEN, DEN DAS SPIEL SCHON ZEIGT: NAVIGATION IN JEDER NEUPLANUNG ====
+Belegt: der Hörer PLAN_CHANGED rief N:Recalc(true) – erzwungene Wegsuche bei JEDER Neuplanung, auch mit demselben ersten Ziel und
+ohne Bewegung (Ticker alle 15 s im Stehen). In der Testroutine (Aufträge synchron) läuft sie in der Planung mit: 5,99 von 23,58 ms.
+Neu: N.PlanNeedsForce() – erzwungen nur bei anderem ersten Ziel, ohne Weg oder neuer Stufe. Sonst entscheidet die übliche Prüfung der
+Navigation (abseits des Weges, 25 yd bewegt, RECALC_SECS, GRAPH_CHANGED setzt lastCalc zurück). Gesperrter/unbekannter Weg zum selben
+Ziel erzwingt nichts mehr (ohne Bewegung oder neue Wegdaten käme dasselbe heraus) – in Unterstadt ist der Weg "gesperrt", darum wichtig.
+T367 (mit Gegenproben): gleiches Ziel nein · unbekannt nein · gesperrt nein · neue Stufe ja · anderes Ziel ja · zurück nein. T152/T197
+(Drosselung abseits des Weges) weiter OK. Verdacht, zu messen: T150 im Spiel sinkt um etwa die 6 ms Navigation.
+
+==== 2. SPEICHERBEREINIGUNG T39 (-97 MB), T136 (-126 MB): WER LEGT SO VIEL AN ====
+Gemessen im Nachbau Unterstadt (Speicherbereinigung ausgeschaltet, Zuwachs je Prüfung): T31 80 MB (74 Schalter: jeder Schalter löst
+ApplySettings/Neuplanung aus), T136 70 MB (10 Sprachen: Texte, Schriften, Neuplanung je Sprache), T32 59 MB (12 Stepper), T221 28 MB
+(Wegdaten-Text 95 000 Zeichen + Kodierung), T263 25 MB, T150 24 MB (11 Neuplanungen), T34 23 MB. Die Bereinigung fällt dort an, wo der
+Zähler die Schwelle erreicht: T39 räumt den Abfall von T31/T32/T34 (zusammen ~160 MB), T136 seinen eigenen. Kein Leck (T157: Zuwachs
+negativ). Nicht geändert in 3.13.4 – Vorschlag: T31/T32 ohne Neuplanung je Schalter (Neuplanung einmal am Ende); auf Wunsch.
+
+==== EIGENE TESTS (Hinweise, keine Freigabe) ====
+- addon_check OK (1 Warnung lupa); alle .lua mit Lua 5.1 geladen; GoldSentinel*.lua byte-gleich mit shared/.
+- Testroutine Nachbau Unterstadt: OK 292 · FEHLER 6 (bekannte); Laptop-Daten (Sync-Adressbuch fremd): OK 288 · FEHLER 8 (bekannte),
+  Adressbuch leer, über 40 ms 0. Unterstadt: 1 Bild über 40 ms (T136 mit Speicherbereinigung, 77,9 ms).
+- Offline-Routine 40/40 ohne FEHLER. Regression 35/36 (test29 wie bekannt).
+
+==== ALS NÄCHSTES ====
+Auftrag 12:42 "Gelaufene Wege sind nicht immer gute Wege" (Stillstand/Umwege nicht als Weg lernen); T150 nach dem nächsten Ingametest.
