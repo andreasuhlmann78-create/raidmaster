@@ -1441,3 +1441,7 @@ BESSER: längstes Bild in Portionen 67,5 ms (vorher 96,8), Bilder über 40 ms 10
    Planung 23,58 = Aufgaben 4,86 + Reihenfolge 5,18 (+ Navigation 5,99?) = 10,04 bzw. 16,03 -> 7,5–13,5 ms ohne Namen. Aufteilung
    vollständig machen (Summe = gesamt), dann den grössten Posten angehen. Kandidaten 202, Aufgaben im Plan 13.
 2. Hinweis: Bilder mit Speicherbereinigung T39 (-97 MB), T136 (-126 MB) – wer legt in der Testroutine so viel an?
+
+==== EINGANG 19.11.2026 16:05 – LevelPilot 3.13.4 (Bericht 13:20) ====
+addon_check OK (md5 2597495175b5c7c0c4467d27e8ea2012). Auf dem Laptop abgelegt. Erklärung zur Aufteilung T150 angenommen (Navigation lag
+innerhalb "Planung"). Erzwungene Wegsuche nur noch bei Zielwechsel/neuer Stufe – Wirkung im Ingametest messen.
