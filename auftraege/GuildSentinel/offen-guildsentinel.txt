@@ -629,3 +629,14 @@ auftraege/hinweis-testort-2026-11-18.txt NACHTRAG 19:55: Takt 2 mit der nächste
 
 ==== ENTSCHEID DES NUTZERS 18.11.2026 19:53 – PAUSE ====
 Nur AHSentinel arbeitet weiter. Dieses Projekt pausiert, bis der Nutzer es wieder anstösst. Die offenen Punkte oben bleiben gültig.
+
+==== BEFUND NUTZER 19.11.2026 09:00 – PLATZHALTER-TEXT ÜBER "VORSCHLAG WÄHLEN" (Bild beim Supervisor, nicht im Repo) ====
+Titelleiste: vom Nutzer gutgeheissen ("der Rest ist gut"). Prüflisten-Punkt OPT für die Titelleiste damit erledigt.
+MITTEL (Anzeige): Über dem Knopf "Vorschlag wählen" steht ein weisser Textblock, der unschön ist: "Platzhalter: {gilde} {fraktion} {name}
+{discord} {tag} {mitglieder} {online} {gesucht} {phase} {berufe}  Leer lassen = Standardtext". Für Spieler wirkt das wie Technik.
+Lösung:
+- Die Liste nicht dauerhaft zeigen. Stattdessen ein kleines "?" bzw. "Platzhalter" neben dem Eingabefeld, die Liste nur im Tooltip.
+- Im Tooltip jeden Platzhalter mit Bedeutung auf Deutsch, z. B. "{online} – Mitglieder gerade online".
+- "Leer lassen = Standardtext" als graue Hilfszeile im leeren Feld.
+- Gilt für alle Seiten mit solchen Listen. Test mit Gegenprobe: Text ist nicht mehr dauerhaft sichtbar, Tooltip vollständig in allen Sprachen.
+Das Projekt pausiert (Entscheid 18.11. 19:53). Mit der nächsten Version.
