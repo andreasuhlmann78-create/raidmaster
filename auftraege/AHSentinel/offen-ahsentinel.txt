@@ -5017,3 +5017,11 @@ OFFEN:
 2. NIEDRIG – T126 8,4 ms (Grenze ≤ 8, längste 9,0 ≤ 16). Knapp darüber, Täter ui:chartlist 9 ms, ui:overview-movers 8 ms.
 Auskunft: Längste Lücke beim Vollscan 701 ms (Einlesen), eigene Arbeit höchstens 7 ms. Das ist Spiel/Umgebung, kein FEHLER (E-Regel 19:30).
 Prüfliste zeigt erwartungsgemäss den Lauf davor (18.11. 19:49). Reihenfolge wie 06:15 beschrieben.
+
+==== ENTSCHEID DES NUTZERS 19.11.2026 06:45 – NUR NOCH WICHTIGES, DANN SOFORT CURSEFORGE ====
+"wir werden nur noch die Punkte erledigen, die wichtig sind, den Rest lassen wir so sein, dann release Curse sofort".
+1. Wichtig (zu erledigen): T459 Vollscan-Speicher (Ruckeln beim Vollscan). Dazu die FEHLER aus Teil 1/2 des Laufs 06:35, aber nur, wenn sie
+   Gold, Daten oder Lua-Fehler betreffen (im Bericht je Befund begründen: wichtig ja/nein).
+2. Bleibt so (nicht mehr bearbeiten): T126 (8,4 ms), Prüfliste-Reihenfolge, alte SK1-Fälle, alle MITTEL/NIEDRIG ohne Wirkung auf Gold oder Daten.
+3. Danach SOFORT auf CurseForge, nicht erst um 18:00 (Ausnahme vom Entscheid 15.11. 13:16 für diese Version). Vorher addon_check ohne FEHLER
+   und Bericht in berichte/AHSentinel/. Die Prüfung durch den Supervisor kommt danach, wenn der Nutzer schreibt.
