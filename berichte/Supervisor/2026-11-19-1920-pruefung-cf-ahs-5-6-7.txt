@@ -11,3 +11,5 @@ PRÜFUNG DURCH DEN SUPERVISOR – CurseForge AHSentinel CF-AHS-5/6/7 (Zusammenfa
 5. Vorrang AHS (beide Gold): (1) Kaufgrenze 0.90 (INGAMETEST 16:50 P1), (2) CF-AHS-5. Danach CF-AHS-7, dann CF-AHS-6.
    Verdacht zu CF-AHS-5 (zu messen): Item ohne frische Leiter und ohne Marktwert -> WarnRule greift nicht; Vorschlag kommt aus einer
    anderen Quelle. Behebung muss auch diesen Fall abdecken (kein Daten = Spieler deutlich warnen statt still einstellen).
+NACHTRAG 19:14: Nutzer 19:12 "ja" -> Doppelpost CF-AHS-7 ID 8752256 löschen (die Sitzung, die gepostet hat). ID 8752252 bleibt.
+Danach über /api/v1/mods/<id>/comments prüfen, dass nur noch eine Antwort steht.
