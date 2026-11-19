@@ -1445,3 +1445,10 @@ BESSER: längstes Bild in Portionen 67,5 ms (vorher 96,8), Bilder über 40 ms 10
 ==== EINGANG 19.11.2026 16:05 – LevelPilot 3.13.4 (Bericht 13:20) ====
 addon_check OK (md5 2597495175b5c7c0c4467d27e8ea2012). Auf dem Laptop abgelegt. Erklärung zur Aufteilung T150 angenommen (Navigation lag
 innerhalb "Planung"). Erzwungene Wegsuche nur noch bei Zielwechsel/neuer Stufe – Wirkung im Ingametest messen.
+
+==== INGAMETEST 19.11.2026 16:30 – LevelPilot 3.13.4 (Laptop, Hintergrund, Bericht 16:13) ====
+OK 303 · FEHLER 0 · übersprungen 9 · im Client 55 · 451,6 s. Fehlerzähler 0, Regressionen 85/85, T261 774 ms.
+T150 BESTANDEN (Navigation nur bei Zielwechsel wirkt). Längstes Bild in Portionen 64,7 ms, Bilder über 40 ms 10 (bleibt offen, NIEDRIG).
+Auskunft gewünscht (NIEDRIG): "Sandbox OK (wiederholt: detourCache, net)" und "echte Daten unverändert: OK (wiederholt: …)" ist neu –
+was heisst "wiederholt"? Musste die Sandbox detourCache/net nachträglich zurücksetzen? Wenn ja: welche Prüfung schrieb echte Daten?
+Weiter: Aufträge 11:00 (Lücken), 12:42 (Wegqualität), 13:00 (virtuelle Reise +3 %).
