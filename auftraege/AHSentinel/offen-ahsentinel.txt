@@ -5081,3 +5081,8 @@ Damit gilt: Ein Test im Vordergrund kommt nicht. Der Vorbehalt von 10:50 entfäl
    eigene Lücke werten, aber im Bericht ausweisen. Damit wird auch der Verdacht "ITEM_SEARCH_RESULTS_UPDATED ×67 bis 53 ms" messbar.
    Gegenprobe: ein künstlich langer Handler (> Grenze) muss bei 30 Bildern/s FEHLER geben.
    Die SKIP-Regel "Hintergrund" bleibt nur noch für Prüfungen, die wirklich die Bildrate brauchen.
+
+==== EINGANG 19.11.2026 11:36 – AHSentinel 0.65.352 (Bericht 11:29) ====
+addon_check OK (md5 56027d5e51f1d62c9a2555d04f4dc3f4). Auf dem Laptop abgelegt. CurseForge 0.65.351 laut Bericht hochgeladen.
+Umbau T617/T734/T729 auf eigene Rechenzeit mit Gegenproben (s330b 60 ms -> FEHLER, s331 ohne Server-Warten -> FEHLER) – Ingametest folgt
+(Laptop, WoW im Hintergrund). Hinweis: s313 lastabhängig (echte Uhr) – Prüfung auf Messung statt Uhr umstellen, wenn Zeit ist (NIEDRIG).
