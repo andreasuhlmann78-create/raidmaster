@@ -1,0 +1,27 @@
+AHSentinel 0.65.353 – INGAMETEST 19.11. 12:25 mit Nachtrag – umgesetzt, zur Prüfung
+Daten: goldsentinel-daten be5aea1 (Laptop 12:21, 0.65.352). Vollauf 407 bestanden, 0 fehlgeschlagen (+ s332). GitHub v0.65.353, Discord.
+CurseForge nicht: kein Kaufentscheid betroffen, nur Testroutine.
+
+1. Sniper 2 FEHLER = T617 und T734 (beide gleiche Ursache). Kaufentscheide (T613/T730/T731) nicht betroffen. Werte aus dem Upload:
+   "eigene Arbeit je Bild max 114.3 ms (Aufgaben 0, Ereignisse 0, Skripte 114) · Bilder mit eigener Arbeit > 33 ms: 41 · Ø 29 / min 22
+   Bilder/s · längster Frame 115 ms". Server-Anteil: T728/T729 bestanden.
+   Ursache – Verdacht, zu messen: ein eigenes Skript (OnUpdate/Zeitgeber) mit 114 ms in einem 115-ms-Bild. Wahrscheinlich lief darin die
+   Lua-Speicherbereinigung (Laptop, Lua-Speicher bis 808 MB) bzw. ein Fensterwechsel (Nachtrag: 3× maximiert) – beides steckt in der
+   gemessenen Zeit des gerade laufenden Aufrufs. Zeitpunkte je Bild lagen im Upload nicht vor (nur das Maximum).
+   Behebung (Prüfung war falsch gebaut): eigene Aufrufe, in denen der Lua-Speicher fiel (= Bereinigung lief), zählen in fo.gc und werden
+   von der bewerteten eigenen Rechenzeit abgezogen; ausgewiesen als "n Bilder mit Speicherbereinigung in eigenem Aufruf (bis x ms;
+   eigener Anteil darin nicht trennbar, nicht bewertet)". Gilt für Sniper T617/T734 und Vollscan T458. Neu: das langsamste eigene Skript
+   (> 16 ms) wird mit Datei:Zeile genannt (debug.getinfo; fehlt es im Spiel, "?"). Gegenproben: s332 (Bereinigung + 80 ms im eigenen
+   Zeitgeber): 0.65.353 PASS, 0.65.352 FAIL (eigene Arbeit 133 ms); s330b (60 ms ohne Bereinigung) weiter FEHLER.
+   Grenze der Methode: ein langsames eigenes Skript, in dem zufällig auch eine Bereinigung läuft, wird nicht bewertet (ausgewiesen).
+   Fensterwechsel ohne Bereinigung bleibt messbar als eigene Zeit, wenn er mitten in einem eigenen Aufruf liegt – zu messen mit dem
+   nächsten Test (langsamstes Skript + Bereinigungs-Zähler).
+2. T459 39 MB: belegt aus "je Schritt Nachlauf 22 676 KB" ≈ "cache:today 22 581 KB": "Heute tun" rechnet nach dem Scan-Ende im Nachlauf
+   neu (seit 0.65.348 wartet es während des Scans). 06:35 waren es 4 631 KB (Nachlauf 4 892). Ob es 1 oder 2 Neuberechnungen waren
+   (Nachbau: ~11 MB je Berechnung): Verdacht, zu messen. Eigener Scan-Anteil fullscan 34 043 KB (06:35: 41 567). Keine Änderung
+   (Entscheid 06:45), beobachten.
+3. Teil 1: T908 CSV-Export "längster Schritt 19.6 ms bis Ende csv:export" (Grenze 16) – Schluss-Stück = Text ins Fenster setzen (ein
+   Aufruf, nicht teilbar); T750 UI-CLEAN 52 Befunde. Teil 2: T750 66 Befunde. Wichtig nein (kein Gold/Daten/Lua-Fehler).
+Auskunft T126 115 ms: im Upload nur als Schritt-Zeit; zeitlich gleiches Muster wie oben (Fensterwechsel/Bereinigung) – Verdacht.
+Hinweis Nachbau: s313 (Vollscan eigene Arbeit ≤ 16 ms) fiel nach Neustart des Arbeitsrechners auch mit 0.65.352 einzeln (names-Aufgabe
+  12–19 ms je Bild, echte Uhr); im Vollauf 0.65.353 bestanden. Zu beobachten.
