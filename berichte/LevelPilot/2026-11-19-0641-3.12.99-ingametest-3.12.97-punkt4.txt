@@ -1,0 +1,52 @@
+BERICHT LevelPilot an die Prüf-Sitzung – 19.11.2026 06:41
+Version 3.12.99 – umgesetzt, zur Prüfung
+Zip: announce/levelpilot__levelpilot-3.12.99.LevelPilot.zip, md5 2743598e9645d38dcbc6017b8f33c7e4. Datenpaket 1.6.4 (unverändert).
+Anlass: INGAMETEST 18.11. 19:20 (3.12.97), vom Nutzer am 19.11. 06:17 wieder angestossen; dazu HINWEIS 19:30 und NACHTRAG 19:55 (Takt 2).
+
+==== PUNKT 4: "ABGABE NICHT MÖGLICH" 40 -> 388, BILDER "GRUNDREGELN" 61/59/59 ms, "T22 graph–T25" 61,9 ms ====
+Ursache der langen Bilder (belegt im Code):
+- "Grundregeln" (TU4, TR:Invariants): jeder 40. Fall rechnet eine echte Wegsuche Gr.Path bis 400 Yards, aufgerufen mit pcall(Gr.Path …)
+  innerhalb von pcall(case, k). Die Wegsuche gibt in der Testroutine nur in einer freigegebenen Rechnung (TR.Coop) ab – hier nicht, also
+  lief jede Wegsuche am Stück (im Spiel 59–61 ms, 25 Wegsuchen).
+  Neu: PCallY(case, k) und darin PCallY(Coop, Gr.Path, …) – echte Wegsuche ohne Ersatz, darf abgeben.
+- "T22 graph–T25": T23/T24 sind kurz (Spiel 0,2/1,3 ms); T25 lief im Spiel 58,1 ms am Stück (2× Toggle, 7× ApplySettings+Refresh,
+  Guard mit pcall). Neu: Guard "clean" (echte Einstellungen des Spielers, kein Ersatz), jeder Schritt als Coop, dazwischen TR.Safe.
+- T18: Wiederherstellung "pcall(P.Replan, P)" -> PCallY(Coop, P.Replan, P).
+- Spielcode (gleiches Verhalten ausserhalb der Testroutine, LP.PCall = pcall, wenn keine freigegebene Rechnung läuft):
+  Ereignis-Verteilung Core.lua (OnEvent) und P:ChooseFocus -> ZoneBands jetzt über LP.PCall statt pcall.
+Die 388 selbst: NICHT belegt. Die Stellen-Liste der Takt-Zeile war im Bericht abgeschnitten (Feld takt endet nach ~300 Zeichen mit "…").
+  Im Nachbau (Laptop-Daten, Stufe 1 Durotar und Stufe 24 Brachland, Budget 0,3 ms statt 4 – damit fast jede Stelle über Budget ist)
+  erscheinen nur 3 Stellen: T154 Messung (Guard mit Ersatz, absichtlich), T290 Zentrale (Ersatz-Ausgabe, absichtlich), T353 Gegenprobe
+  (absichtlich). Auch mit Frame-Skripten über eine C-Grenze wie im Spiel (OnShow/OnClick über xpcall, Schalter im Nachbau) keine graph-Stelle.
+  Verdacht, zu messen: im Spiel kommt graph-Arbeit in T17/T18/T21/T22/T26 dazu, die im Nachbau aus der Ablage kommt (erstes Einloggen
+  nach DETOUR_CACHE_VER 2), und sie läuft dort unter einer C-Grenze, die der Nachbau nicht hat.
+  Damit der nächste Ingametest es zeigt: neue Zeile/Feld "gesperrt" im Bericht – "Abgabe nicht möglich, Stellen (n): <Prüfung Etikett>
+  @<Datei:Zeile des Aufrufers der C-Grenze> (<C-Funktion>) n×", die 8 häufigsten, eigenes Feld (nicht in der abgeschnittenen Takt-Zeile).
+  Gezählt höchstens 1× je ms (gleiche Drossel wie TR.Safe), nur wenn über Budget und keine Sperre (TR.hold/noYield). Alle Sprachen.
+  Nachbau-Beleg: "Abgabe nicht möglich, Stellen (2): T154 Messung @TestRoutine:583 (pcall) 1×, T353 Gegenprobe @TestRoutine:9156 (pcall) 1×".
+
+==== HINWEIS 19:30 / NACHTRAG 19:55 (TAKT 2) ====
+a) shared/GoldSentinelTakt.lua (Takt 2) unverändert kopiert (cmp gleich).
+b) Testroutine startet mit env = 10 (TR.ENV_SEC), EnvLine() als Zeile/Feld "umgebung" im Bericht. Nachbau: "Umgebung: Durotar · Bild in
+   Ruhe Median 50.0 ms … (202 Bilder in 10 s) · Speicherbereinigungen 0" (50 ms = feste Bildzeit des Nachbaus).
+c) "Bilder über 40 ms" zählt die EIGENE Portion (onPortion liefert die Dauer der Portion; T7/T353 prüfen das). Die ganzen Bilder stehen nur
+   als Auskunft in der Takt-Zeile (Takt 2).
+
+==== PUNKTE 1–3 ====
+In 3.12.98 umgesetzt (Bericht 18.11. 19:57): T261 Umweg-Messung beim ersten Einloggen nach den ersten 60 s, T155 nur Planung + 3 längste,
+T150 Neuplanung ~30 % schneller (HubCounts im Raster). Zur Prüfung im nächsten Ingametest (erstes UND zweites Einloggen).
+Punkt 2 "Tabellen wiederverwenden" (1055 KB je Planung): in 3.12.99 NICHT umgesetzt – Verdacht, zu messen, welche Tabellen den Speicher
+erzeugen; kommt mit OPT-ALLE Schritt 2.
+
+==== TESTS (eigene, Hinweise, keine Freigabe) ====
+- addon_check OK (1 Warnung: lupa hier nicht installierbar); alle .lua mit Lua 5.1 geladen. Gemeinsame GoldSentinel*.lua byte-gleich mit
+  shared/. Dateiliste wie 3.12.95.
+- Testroutine im Nachbau (Laptop-Daten, lang, Sync-Adressbuch in fremder Ablage): OK 284 · FEHLER 8 – dieselben 8 bekannten Nachbau-Grenzen
+  (T84/T180/T183/T261/T262/T268/T303/T309). Bilder über 40 ms: 0, längstes 37,6 ms (T360). Adressbuch vorher 0, nachher 0.
+- Budget 0,3 ms, Stufe 24 Brachland, vorher/nachher: FEHLER gleich (6 bekannte); Bilder über 40 ms 4 -> 1 (bleibt: T130–T131, nur im
+  Nachbau, im Spiel T130 1,5 ms); T25 4,5 -> 3,3 ms, T26 78,6 -> 67,5 ms.
+- Offline-Routine (40 Läufe): 40 ohne FEHLER.
+- Regression (36 Läufe): 35 ohne FEHLER, test29 1 FEHLER wie seit 3.12.90 bekannt.
+
+==== ALS NÄCHSTES ====
+Ingametest 3.12.99 (erstes + zweites Einloggen) mit der neuen Stellen-Zeile; dann OPT-ALLE Schritt 2 (Speicher je Planung).
