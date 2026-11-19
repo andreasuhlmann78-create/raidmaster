@@ -13,3 +13,6 @@ PRÜFUNG DURCH DEN SUPERVISOR – CurseForge AHSentinel CF-AHS-5/6/7 (Zusammenfa
    anderen Quelle. Behebung muss auch diesen Fall abdecken (kein Daten = Spieler deutlich warnen statt still einstellen).
 NACHTRAG 19:14: Nutzer 19:12 "ja" -> Doppelpost CF-AHS-7 ID 8752256 löschen (die Sitzung, die gepostet hat). ID 8752252 bleibt.
 Danach über /api/v1/mods/<id>/comments prüfen, dass nur noch eine Antwort steht.
+NACHTRAG 19:16: Nutzer 19:12 "warum nicht" auf die Frage, ob der korrigierte Entwurf CF-AHS-5 gepostet werden darf -> FREIGEGEBEN, mit der
+Korrektur aus Punkt 4 (Satz zur Warnung ersetzt durch "AHSentinel should have suggested a price close to the cheapest listing (3s 40c here).").
+Einmal posten, danach über die API prüfen (kein Doppelpost).
