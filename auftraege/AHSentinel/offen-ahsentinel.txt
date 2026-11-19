@@ -5188,3 +5188,11 @@ Vorrang: (1) Kaufgrenze 0.90 (INGAMETEST 16:50 P1, nachricht-kaufgrenze-2026-11-
 Beide Gold -> Behebung sofort CurseForge. CF-AHS-5 zusätzlich: WarnRule (Seller.lua:682) greift ohne frische Leiter/Marktwert/Händler-
 /Einkaufspreis gar nicht -> für "keine Daten" muss der Spieler deutlich gewarnt werden, statt still zu einem Fantasiepreis einzustellen.
 Gegenprobe: Item ohne jede Preisinfo, Vorschlag weit unter dem AH -> Warnung. Prüfung: berichte/Supervisor/2026-11-19-1920-pruefung-cf-ahs-5-6-7.txt
+
+==== AUFTRAG SOFORT 19.11.2026 19:17 (Nutzer 19:15: "sofort beheben und zwar beides") – VOR ALLEM ANDEREN ====
+1. Kaufgrenze 0.90 (INGAMETEST 16:50 P1, nachricht-kaufgrenze-2026-11-19.txt): Ursache belegen und beheben. Regel: Grenze nie über der
+   höchsten Stufe, deren realisierter Gewinn den Mindestgewinn erreicht. Test + Gegenprobe.
+2. CF-AHS-5 Verkaufspreis 15c statt 3s 40c: Ursache belegen (Quelle der 15c, "Preis prüfen" findet das Angebot nicht, WarnRule greift ohne
+   Daten nicht) und beheben. Ohne Preisdaten nie still einstellen: deutlich warnen. Gegenprobe: Item ohne jede Preisinfo, Vorschlag weit
+   unter dem AH -> Warnung; Item mit " - Page 1" im Namen -> "Preis prüfen" findet das Angebot.
+Beides in EINER Version, addon_check ohne FEHLER, dann SOFORT CurseForge (Gold-Sicherheit, Ausnahme zu 18:00). Bericht mit Belegen.
