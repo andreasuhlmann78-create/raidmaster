@@ -1,0 +1,225 @@
+AHSentinel-Protokoll v0.65.349 · 19.11. 06:42:44
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  19.11. 06:16:36 L10 PRIEST v0.65.349
+  18.11. 19:50:50 L10 PRIEST v0.65.347
+  18.11. 19:26:10 L10 PRIEST v0.65.347
+  18.11. 19:21:10 L10 PRIEST v0.65.347
+  18.11. 19:20:04 L10 PRIEST v0.65.347
+  18.11. 19:19:09 L10 PRIEST v0.65.347
+  18.11. 19:06:34 L10 PRIEST v0.65.347
+  17.11. 20:28:48 L24 ? v0.65.328
+  17.11. 20:14:50 L24 ? v0.65.328
+  17.11. 20:13:00 L24 ? v0.65.328
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 5 Min., 7302 Items, Preis-Sync an
+  SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, BuffSentinel 0, GoldSentinelMarkt 0, GoldSentinelTest 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0, ThreatSentinel 0
+  SYNC gesendet 360 · empfangen 2 · verworfen: nopath 2, secret 1 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 4 (mit Sync 2: 4, pausiert 2) · gesendet 5 · weitergegeben 0 · offline 5 · Listen 4 · Warteschlange 0 · gespeichert ja · im Test angehalten 0
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Einstellungen geändert: cmdHint=true, fastScan=true, helpSeen=true, marketExpert=false, minimapAngle=199, priceGuard=20, sniperSignal=true, theme=modern, tooltipDEDetail=true, vendorButton=false, vendorFlipMin=500
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0 (dazu 3 in der Testroutine, nur in deren Protokoll)
+
+== Einträge (200, neueste zuerst)
+[19.11. 06:42:40] ABSATZ Item 4245 · Q 8 (vollscan) · S 148.4 (measured) · S roh 148.4 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.1 · N 1.0
+[19.11. 06:42:30] ITEMINFO neue Item-Anfragen 6809 (zurückgestellt 46965) · je Aufgabe: act:report:30 7, ahs-test-error 186, cache:itemlist 273, cache:profit:de:20:0 11, cache:profit:vendor:20:0 31, cache:today:10 2340, cache:warm 75, forecast-eval 314, market:crowded
+[19.11. 06:38:19] ABSATZ-UNPLAUSIBEL Item 279965 · 280.2/Tag · Quelle geschätzt
+[19.11. 06:38:19] ABSATZ-UNPLAUSIBEL Item 9206 · 234.2/Tag · Quelle geschätzt
+[19.11. 06:38:19] ABSATZ-UNPLAUSIBEL Item 10841 · 926.7/Tag · Quelle geschätzt
+[19.11. 06:38:19] ABSATZ-UNPLAUSIBEL Item 8985 · 44.3/Tag · Quelle geschätzt
+[19.11. 06:38:19] ABSATZ-UNPLAUSIBEL Item 12607 · 23.6/Tag · Quelle geschätzt
+[19.11. 06:38:19] ABSATZ-UNPLAUSIBEL Item 250065 · 447.1/Tag · Quelle geschätzt
+[19.11. 06:38:19] ABSATZ-UNPLAUSIBEL Item 873 · 6.1/Tag · Quelle geschätzt
+[19.11. 06:38:19] ABSATZ-UNPLAUSIBEL Item 6950 · 289.3/Tag · Quelle geschätzt
+[19.11. 06:38:19] ABSATZ-UNPLAUSIBEL Item 17036 · 44.4/Tag · Quelle geschätzt
+[19.11. 06:38:19] ABSATZ-UNPLAUSIBEL Item 6050 · 117.0/Tag · Quelle geschätzt
+[19.11. 06:38:19] ABSATZ-UNPLAUSIBEL Item 3647 · 7.5/Tag · Quelle geschätzt
+[19.11. 06:38:19] ABSATZ-UNPLAUSIBEL Item 8949 · 551.3/Tag · Quelle geschätzt
+[19.11. 06:38:18] ABSATZ-UNPLAUSIBEL Item 2457 · 885.6/Tag · Quelle gemessen
+[19.11. 06:38:18] ABSATZ-UNPLAUSIBEL Item 6211 · 62.0/Tag · Quelle gemessen
+[19.11. 06:38:18] ABSATZ-UNPLAUSIBEL Item 3858 · 3767.9/Tag · Quelle geschätzt
+[19.11. 06:38:18] ABSATZ-UNPLAUSIBEL Item 4233 · 1393.6/Tag · Quelle gemessen
+[19.11. 06:34:56] WAECHTER-HUERDEN ×6 275 Angebote · 267 Waren (Handwerkswaren & Co., keine Ausrüstung) · 267 mit Marktwert · 254 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 1 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 13 unter 50 %
+[19.11. 06:34:26] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 16 ms
+[19.11. 06:34:26] LANGSAM Empfänger Watcher.lua:917 von QUERY_READY · 22 ms
+[19.11. 06:34:25] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 34 ms
+[19.11. 06:34:25] LANGSAM Empfänger Watcher.lua:917 von QUERY_READY · 29 ms
+[19.11. 06:34:17] WAECHTER-HUERDEN 275 Angebote · 267 Waren (Handwerkswaren & Co., keine Ausrüstung) · 267 mit Marktwert · 254 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 1 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 13 unter 50 %
+[19.11. 06:34:10] WAECHTER-HUERDEN ×4 275 Angebote · 267 Waren (Handwerkswaren & Co., keine Ausrüstung) · 267 mit Marktwert · 254 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 1 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 14 unter 50 %
+[19.11. 06:33:49] LANGSAM ×2 Empfänger Watcher.lua:914 von BROWSE_RESULTS · 17 ms
+[19.11. 06:33:48] LANGSAM Empfänger Watcher.lua:917 von QUERY_READY · 31 ms
+[19.11. 06:33:47] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 16 ms
+[19.11. 06:33:42] WAECHTER-HUERDEN ×6 275 Angebote · 267 Waren (Handwerkswaren & Co., keine Ausrüstung) · 267 mit Marktwert · 254 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 1 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 14 unter 50 %
+[19.11. 06:33:09] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 16 ms
+[19.11. 06:33:04] WAECHTER-HUERDEN ×5 275 Angebote · 267 Waren (Handwerkswaren & Co., keine Ausrüstung) · 267 mit Marktwert · 254 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 1 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 15 unter 50 %
+[19.11. 06:32:47] WAECHTER-HUERDEN 275 Angebote · 267 Waren (Handwerkswaren & Co., keine Ausrüstung) · 267 mit Marktwert · 254 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 1 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 14 unter 50 %
+[19.11. 06:32:39] WAECHTER-HUERDEN 275 Angebote · 267 Waren (Handwerkswaren & Co., keine Ausrüstung) · 267 mit Marktwert · 254 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 1 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 15 unter 50 %
+[19.11. 06:32:28] WAECHTER-HUERDEN ×9 275 Angebote · 267 Waren (Handwerkswaren & Co., keine Ausrüstung) · 267 mit Marktwert · 254 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 1 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 14 unter 50 %
+[19.11. 06:31:45] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 24 ms
+[19.11. 06:31:44] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 22 ms
+[19.11. 06:31:37] WAECHTER-HUERDEN ×13 275 Angebote · 267 Waren (Handwerkswaren & Co., keine Ausrüstung) · 267 mit Marktwert · 254 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 1 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 14 unter 50 %
+[19.11. 06:30:52] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 42 ms
+[19.11. 06:30:52] LANGSAM Empfänger Watcher.lua:917 von QUERY_READY · 25 ms
+[19.11. 06:30:43] WAECHTER-HUERDEN ×9 275 Angebote · 267 Waren (Handwerkswaren & Co., keine Ausrüstung) · 267 mit Marktwert · 254 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 1 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 15 unter 50 %
+[19.11. 06:30:03] WAECHTER-HUERDEN ×4 275 Angebote · 267 Waren (Handwerkswaren & Co., keine Ausrüstung) · 267 mit Marktwert · 254 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 1 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 16 unter 50 %
+[19.11. 06:29:31] WAECHTER-HUERDEN ×2 275 Angebote · 267 Waren (Handwerkswaren & Co., keine Ausrüstung) · 267 mit Marktwert · 254 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 1 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 15 unter 50 %
+[19.11. 06:29:25] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 20 ms
+[19.11. 06:29:25] LANGSAM Empfänger Watcher.lua:917 von QUERY_READY · 16 ms
+[19.11. 06:29:20] WAECHTER-HUERDEN ×5 275 Angebote · 267 Waren (Handwerkswaren & Co., keine Ausrüstung) · 267 mit Marktwert · 254 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 1 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 15 unter 50 %
+[19.11. 06:28:52] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 18 ms
+[19.11. 06:28:48] WAECHTER-HUERDEN ×4 275 Angebote · 267 Waren (Handwerkswaren & Co., keine Ausrüstung) · 267 mit Marktwert · 254 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 1 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 15 unter 50 %
+[19.11. 06:28:31] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 41 ms
+[19.11. 06:28:30] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 17 ms
+[19.11. 06:28:26] WAECHTER-HUERDEN ×2 275 Angebote · 267 Waren (Handwerkswaren & Co., keine Ausrüstung) · 267 mit Marktwert · 254 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 1 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 15 unter 50 %
+[19.11. 06:28:14] WAECHTER-HUERDEN ×2 275 Angebote · 267 Waren (Handwerkswaren & Co., keine Ausrüstung) · 267 mit Marktwert · 254 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 1 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 14 unter 50 %
+[19.11. 06:28:08] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 33 ms
+[19.11. 06:28:03] WAECHTER-HUERDEN ×4 275 Angebote · 267 Waren (Handwerkswaren & Co., keine Ausrüstung) · 267 mit Marktwert · 254 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 1 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 14 unter 50 %
+[19.11. 06:27:45] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 31 ms
+[19.11. 06:27:40] WAECHTER-HUERDEN ×4 275 Angebote · 267 Waren (Handwerkswaren & Co., keine Ausrüstung) · 267 mit Marktwert · 254 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 1 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 14 unter 50 %
+[19.11. 06:27:22] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 41 ms
+[19.11. 06:27:22] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 34 ms
+[19.11. 06:27:18] WAECHTER-HUERDEN ×4 275 Angebote · 267 Waren (Handwerkswaren & Co., keine Ausrüstung) · 267 mit Marktwert · 254 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 1 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 14 unter 50 %
+[19.11. 06:27:00] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 35 ms
+[19.11. 06:27:00] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 29 ms
+[19.11. 06:26:55] WAECHTER-HUERDEN ×4 275 Angebote · 267 Waren (Handwerkswaren & Co., keine Ausrüstung) · 267 mit Marktwert · 254 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 1 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 14 unter 50 %
+[19.11. 06:26:38] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 18 ms
+[19.11. 06:26:37] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 34 ms
+[19.11. 06:26:37] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 22 ms
+[19.11. 06:26:36] SYNC gesendet 4, empfangen 2, verworfen nopath 1 · Kanal verweigert 0
+[19.11. 06:26:34] WAECHTER-HUERDEN ×4 275 Angebote · 267 Waren (Handwerkswaren & Co., keine Ausrüstung) · 267 mit Marktwert · 254 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 1 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 14 unter 50 %
+[19.11. 06:26:15] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 18 ms
+[19.11. 06:26:14] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 26 ms
+[19.11. 06:26:14] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 19 ms
+[19.11. 06:26:11] WAECHTER-HUERDEN ×4 275 Angebote · 267 Waren (Handwerkswaren & Co., keine Ausrüstung) · 267 mit Marktwert · 254 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 1 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 14 unter 50 %
+[19.11. 06:25:53] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 19 ms
+[19.11. 06:25:52] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 26 ms
+[19.11. 06:25:52] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 19 ms
+[19.11. 06:25:49] WAECHTER-HUERDEN ×4 275 Angebote · 267 Waren (Handwerkswaren & Co., keine Ausrüstung) · 267 mit Marktwert · 254 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 1 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 14 unter 50 %
+[19.11. 06:25:29] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 27 ms
+[19.11. 06:25:27] WAECHTER-HUERDEN ×4 275 Angebote · 267 Waren (Handwerkswaren & Co., keine Ausrüstung) · 267 mit Marktwert · 254 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 1 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 14 unter 50 %
+[19.11. 06:25:07] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 17 ms
+[19.11. 06:25:05] WAECHTER-HUERDEN ×2 275 Angebote · 267 Waren (Handwerkswaren & Co., keine Ausrüstung) · 267 mit Marktwert · 254 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 1 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 14 unter 50 %
+[19.11. 06:17:00] ABSATZ Item 11134 · Q 41 (vollscan) · S 200.3 (measured) · S roh 200.3 · Deckel - · eigene Quote 0/4 · Laufzeit 24 Std. · W 0.2 · N 7.0
+[19.11. 06:17:00] ENTZAUBERWERT Item 4251 · eigene Ø aus 1391 · 11083 75% × 1.53 à 484, 11082 20% × 1.50 à 1370, 11084 5% × 1.00 à 3762 · brutto 1227 · netto 1166
+[19.11. 06:17:00] DE-CHANCEN Gruppe 2:4:a · Tabelle 11083 75%/11082 20%/11084 5% · echt 11083 75%/11082 20%/11084 5% (1391)
+[19.11. 06:17:00] ABSATZ Item 4251 · Q 7 (vollscan) · S 67.6 (measured) · S roh 67.6 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.1 · N 2.0
+[19.11. 06:16:51] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[19.11. 06:16:47] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 10.5 Std., 10940: 10.5 Std., 11082: 10.5 Std. · 10 frisch geholt
+[19.11. 06:16:47] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[19.11. 06:16:41] SYNC Weg=GUILD
+[19.11. 06:16:40] MARKTWERT-CHECK Item 10978: Scan 1600 seit 35 Std. über 150 % des Marktwerts 364
+[19.11. 06:16:39] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[19.11. 06:16:39] ABSATZ-UNPLAUSIBEL Item 2633 · 376.5/Tag · Quelle geschätzt
+[19.11. 06:16:38] ABSATZ-UNPLAUSIBEL Item 7277 · 71.1/Tag · Quelle geschätzt
+[19.11. 06:16:38] ABSATZ-UNPLAUSIBEL Item 4373 · 130.0/Tag · Quelle gemessen
+[19.11. 06:16:38] ABSATZ-UNPLAUSIBEL Item 281017 · 65.3/Tag · Quelle geschätzt
+[18.11. 19:52:25] PD7 Preisverlauf verdichtet: 307181 -> 300555 Zeilen (~12599 -> ~12327 KB)
+[18.11. 19:51:06] MARKTWERT-CHECK Item 10978: Scan 1600 seit 25 Std. über 150 % des Marktwerts 365
+[18.11. 19:51:06] ITEMINFO neue Item-Anfragen 200 (zurückgestellt 0) · je Aufgabe: cache:warm 161, cache:warm-today 13, names 26
+[18.11. 19:51:06] ABSATZ-UNPLAUSIBEL Item 4814 · 6.4/Tag · Quelle geschätzt
+[18.11. 19:51:05] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[18.11. 19:50:55] SYNC Weg=GUILD
+[18.11. 19:50:51] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[18.11. 19:50:51] ABSATZ-UNPLAUSIBEL Item 2633 · 376.9/Tag · Quelle geschätzt
+[18.11. 19:50:51] ABSATZ-UNPLAUSIBEL Item 7277 · 71.1/Tag · Quelle geschätzt
+[18.11. 19:50:51] ABSATZ-UNPLAUSIBEL Item 4373 · 130.0/Tag · Quelle gemessen
+[18.11. 19:50:50] ABSATZ-UNPLAUSIBEL Item 281017 · 66.0/Tag · Quelle geschätzt
+[18.11. 19:49:30] ABSATZ-UNPLAUSIBEL Item 17037 · 27.1/Tag · Quelle geschätzt
+[18.11. 19:49:30] ABSATZ-UNPLAUSIBEL Item 10562 · 193.5/Tag · Quelle geschätzt
+[18.11. 19:49:30] ABSATZ-UNPLAUSIBEL Item 3382 · 146.5/Tag · Quelle geschätzt
+[18.11. 19:49:30] ABSATZ-UNPLAUSIBEL Item 260803 · 36.4/Tag · Quelle geschätzt
+[18.11. 19:49:30] ABSATZ-UNPLAUSIBEL Item 2965 · 10.5/Tag · Quelle geschätzt
+[18.11. 19:49:30] ABSATZ-UNPLAUSIBEL Item 264113 · 28.2/Tag · Quelle geschätzt
+[18.11. 19:49:30] ABSATZ-UNPLAUSIBEL Item 2633 · 376.9/Tag · Quelle geschätzt
+[18.11. 19:44:05] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 14 unter 50 %
+[18.11. 19:43:58] WAECHTER-HUERDEN ×3 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 15 unter 50 %
+[18.11. 19:43:53] LANGSAM Empfänger Watcher.lua:880 von BROWSE_RESULTS · 17 ms
+[18.11. 19:43:53] LANGSAM Empfänger Watcher.lua:883 von QUERY_READY · 17 ms
+[18.11. 19:43:47] WAECHTER-HUERDEN ×7 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 14 unter 50 %
+[18.11. 19:43:17] LANGSAM Empfänger Watcher.lua:880 von BROWSE_RESULTS · 20 ms
+[18.11. 19:43:14] WAECHTER-HUERDEN ×6 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 14 unter 50 %
+[18.11. 19:42:54] LANGSAM Empfänger Watcher.lua:883 von QUERY_READY · 24 ms
+[18.11. 19:42:48] WAECHTER-HUERDEN ×3 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 15 unter 50 %
+[18.11. 19:42:40] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 16 unter 50 %
+[18.11. 19:42:35] WAECHTER-HUERDEN ×4 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 15 unter 50 %
+[18.11. 19:42:18] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 14 unter 50 %
+[18.11. 19:42:16] LANGSAM Empfänger Watcher.lua:883 von QUERY_READY · 31 ms
+[18.11. 19:42:12] LANGSAM Empfänger Watcher.lua:883 von QUERY_READY · 21 ms
+[18.11. 19:42:09] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 14 unter 50 %
+[18.11. 19:42:06] LANGSAM Empfänger Watcher.lua:880 von BROWSE_RESULTS · 19 ms
+[18.11. 19:42:01] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 14 unter 50 %
+[18.11. 19:41:59] LANGSAM Empfänger Watcher.lua:883 von QUERY_READY · 16 ms
+[18.11. 19:41:53] WAECHTER-HUERDEN ×2 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 14 unter 50 %
+[18.11. 19:41:41] LANGSAM Empfänger Watcher.lua:883 von QUERY_READY · 30 ms
+[18.11. 19:41:37] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 14 unter 50 %
+[18.11. 19:41:29] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 15 unter 50 %
+[18.11. 19:41:27] LANGSAM Empfänger Watcher.lua:880 von BROWSE_RESULTS · 43 ms
+[18.11. 19:41:23] LANGSAM Empfänger Watcher.lua:880 von BROWSE_RESULTS · 18 ms
+[18.11. 19:41:21] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 16 unter 50 %
+[18.11. 19:41:17] LANGSAM Empfänger Watcher.lua:880 von BROWSE_RESULTS · 26 ms
+[18.11. 19:41:13] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 16 unter 50 %
+[18.11. 19:41:10] LANGSAM Empfänger Watcher.lua:883 von QUERY_READY · 27 ms
+[18.11. 19:41:05] WAECHTER-HUERDEN ×2 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 15 unter 50 %
+[18.11. 19:40:52] LANGSAM Empfänger Watcher.lua:883 von QUERY_READY · 18 ms
+[18.11. 19:40:49] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 15 unter 50 %
+[18.11. 19:40:46] LANGSAM Empfänger Watcher.lua:880 von BROWSE_RESULTS · 24 ms
+[18.11. 19:40:46] LANGSAM Empfänger Watcher.lua:883 von QUERY_READY · 17 ms
+[18.11. 19:40:41] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 15 unter 50 %
+[18.11. 19:40:39] LANGSAM Empfänger Watcher.lua:883 von QUERY_READY · 32 ms
+[18.11. 19:40:33] WAECHTER-HUERDEN ×2 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 15 unter 50 %
+[18.11. 19:40:24] LANGSAM Empfänger Watcher.lua:883 von QUERY_READY · 22 ms
+[18.11. 19:40:22] LANGSAM Empfänger Watcher.lua:883 von QUERY_READY · 26 ms
+[18.11. 19:40:17] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 16 unter 50 %
+[18.11. 19:40:09] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 14 unter 50 %
+[18.11. 19:40:08] LANGSAM Empfänger Watcher.lua:880 von BROWSE_RESULTS · 41 ms
+[18.11. 19:40:01] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 13 unter 50 %
+[18.11. 19:39:57] LANGSAM Empfänger Watcher.lua:880 von BROWSE_RESULTS · 30 ms
+[18.11. 19:39:53] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 13 unter 50 %
+[18.11. 19:39:51] LANGSAM Empfänger Watcher.lua:880 von BROWSE_RESULTS · 31 ms
+[18.11. 19:39:45] WAECHTER-HUERDEN ×2 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 14 unter 50 %
+[18.11. 19:39:30] WAECHTER-HUERDEN ×2 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 13 unter 50 %
+[18.11. 19:39:20] LANGSAM Empfänger Watcher.lua:880 von BROWSE_RESULTS · 21 ms
+[18.11. 19:39:20] LANGSAM Empfänger Watcher.lua:883 von QUERY_READY · 26 ms
+[18.11. 19:39:14] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 13 unter 50 %
+[18.11. 19:39:06] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 13 unter 50 %
+[18.11. 19:39:02] LANGSAM Empfänger Watcher.lua:880 von BROWSE_RESULTS · 16 ms
+[18.11. 19:38:58] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 13 unter 50 %
+[18.11. 19:38:55] LANGSAM Empfänger Watcher.lua:880 von BROWSE_RESULTS · 21 ms
+[18.11. 19:38:50] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 14 unter 50 %
+[18.11. 19:38:42] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 13 unter 50 %
+[18.11. 19:38:42] LANGSAM Empfänger Watcher.lua:880 von BROWSE_RESULTS · 19 ms
+[18.11. 19:38:35] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 13 unter 50 %
+[18.11. 19:38:27] WAECHTER-HUERDEN ×2 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 14 unter 50 %
+[18.11. 19:38:18] WÄCHTER Entzaubern lohnt · 1 Teile · ab 30 %
+[18.11. 19:38:18] LANGSAM Empfänger Watcher.lua:880 von BROWSE_RESULTS · 26 ms
+[18.11. 19:38:17] LANGSAM Empfänger Watcher.lua:883 von QUERY_READY · 21 ms
+[18.11. 19:38:11] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 13 unter 50 %
+[18.11. 19:38:07] LANGSAM Empfänger Watcher.lua:883 von QUERY_READY · 20 ms
+[18.11. 19:38:03] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 13 unter 50 %
+[18.11. 19:38:00] LANGSAM Empfänger Watcher.lua:880 von BROWSE_RESULTS · 20 ms
+[18.11. 19:38:00] LANGSAM Empfänger Watcher.lua:883 von QUERY_READY · 19 ms
+[18.11. 19:37:55] WAECHTER-HUERDEN ×2 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 14 unter 50 %
+[18.11. 19:37:47] LANGSAM Empfänger Watcher.lua:883 von QUERY_READY · 27 ms
+[18.11. 19:37:43] LANGSAM Empfänger Watcher.lua:883 von QUERY_READY · 18 ms
+[18.11. 19:37:40] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 2 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 14 unter 50 %
+[18.11. 19:37:36] LANGSAM Empfänger Watcher.lua:880 von BROWSE_RESULTS · 20 ms
+[18.11. 19:37:32] WAECHTER-HUERDEN ×2 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 2 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 13 unter 50 %
+[18.11. 19:37:23] LANGSAM Empfänger Watcher.lua:880 von BROWSE_RESULTS · 37 ms
+[18.11. 19:37:16] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 2 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 13 unter 50 %
+[18.11. 19:37:12] LANGSAM Empfänger Watcher.lua:880 von BROWSE_RESULTS · 17 ms
+[18.11. 19:37:08] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 2 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 13 unter 50 %
+[18.11. 19:37:05] LANGSAM Empfänger Watcher.lua:883 von QUERY_READY · 20 ms
+[18.11. 19:37:00] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 2 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 14 unter 50 %
+[18.11. 19:36:53] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 2 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 13 unter 50 %
+[18.11. 19:36:52] LANGSAM Empfänger Watcher.lua:883 von QUERY_READY · 27 ms
+[18.11. 19:36:48] LANGSAM Empfänger Watcher.lua:880 von BROWSE_RESULTS · 22 ms
+[18.11. 19:36:45] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 2 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 15 unter 50 %
+[18.11. 19:36:41] LANGSAM Empfänger Watcher.lua:880 von BROWSE_RESULTS · 18 ms
+[18.11. 19:36:37] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 2 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 13 unter 50 %
+[18.11. 19:36:29] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 13 unter 50 %
+[18.11. 19:36:28] LANGSAM Empfänger Watcher.lua:880 von BROWSE_RESULTS · 18 ms
+[18.11. 19:36:21] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 14 unter 50 %
+[18.11. 19:36:17] LANGSAM Empfänger Watcher.lua:880 von BROWSE_RESULTS · 16 ms
+[18.11. 19:36:13] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 250 mit belastbarem Marktwert · 1 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 15 unter 50 %
