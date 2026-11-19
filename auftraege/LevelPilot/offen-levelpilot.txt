@@ -1410,3 +1410,19 @@ T261 Einloggen 807 ms bestanden.
 NACHTRAG 12:38 zum INGAMETEST 12:40 Punkt 2: Nutzer 12:36 – WoW lief bewusst die ganze Zeit im Hintergrund, nur beim Start ca. 10 s im
 Vordergrund. Fensterwechsel erklären die 3,4-fache Testdauer also NICHT. Ursache im Code belegen (3.13.0 lief unter denselben Bedingungen
 in 140 s).
+
+==== AUFTRAG 19.11.2026 12:42 – GELAUFENE WEGE SIND NICHT IMMER GUTE WEGE (Nutzer 12:39, "wichtig") ====
+"die spieler laufen nicht immer die optimalen wege ... oder stehen so wie ich einen ganzen tag lang im ah". Gilt für Wegnetz, Lücken-Messung
+(AUFTRAG 11:00), Umweg je Zone, Laufzeiten, EP/h und Bestzeiten je Stufe.
+1. Stillstand/AFK nie als Weg oder Laufzeit werten: AFK-Status, ausgeruht in Stadt/Gasthaus, Auktionshaus/Bank/Briefkasten/Händler offen,
+   kein Ortswechsel über eine Grenze (z. B. 30 s) -> Abschnitt endet, Zeit zählt nicht. Ein Tag im AH = 0 Wegdaten, 0 Laufzeit.
+2. Umwege nicht als Weg lernen: Abschnitt nur, wenn der Spieler sich dem nächsten Ziel nähert (Fortschritt zum Ziel / gelaufene Strecke
+   über einer Grenze, z. B. 0,5); Kreise, Hin-und-her, Herumlaufen in der Stadt, Gegner jagen abseits -> verwerfen. Gelaufen/Luftlinie
+   über einer Grenze (z. B. 2,5) ohne bekanntes Hindernis -> verwerfen.
+3. Ein Lauf ist nie die Wahrheit: für dieselbe Strecke mehrere Läufe sammeln, den schnellen Teil nehmen (z. B. bestes Drittel/Median der
+   besten), Ausreisser weg. Ein neuer Weg ersetzt einen bekannten nur, wenn er nachweislich kürzer/schneller ist (wie R3 "Weg springt nicht").
+4. Bestzeiten/EP/h je Stufe: Zeiten mit AFK/Stillstand-Anteil abziehen bzw. Stufen mit viel Stillstand nicht als Bestzeit werten.
+5. Im Bericht je Version: wie viele Abschnitte aufgezeichnet, wie viele verworfen (je Grund: AFK/Stillstand, Umweg, Ausreisser).
+6. Tests mit Gegenproben: 8 Std. im AH -> 0 Abschnitte, 0 Laufzeit; Kreis laufen -> verworfen; gerader Weg -> übernommen; schlechter zweiter
+   Lauf ersetzt guten nicht; besserer ersetzt; AFK mitten im Lauf -> Zeit ohne AFK.
+Reihenfolge: zusammen mit dem Lücken-Auftrag 11:00 (gleiche Aufzeichnung).
