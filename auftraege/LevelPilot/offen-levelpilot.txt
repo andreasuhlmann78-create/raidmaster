@@ -1355,3 +1355,22 @@ OFFEN:
    b) Kopfzeile "Portionen: 3968 Bilder, längstes 137.9 ms (T355)" gegen Takt-Zeile "3966 Bilder … (T354 graph–T355)". Beide Zeilen
       sollen dieselbe Zählung zeigen oder sagen, was sie verschieden zählen.
 T261 Einloggen: 816 ms (< 1000) bestanden.
+
+==== AUFTRAG 19.11.2026 11:00 – WEGNETZ-LÜCKEN SCHLIESSEN (Nutzer 10:56: "1 und 2 aber bei zwei automatisch messen") ====
+Ausgangslage: virtuelle Reise 1–60 läuft rund 66 % der Strecke "ohne bekannten Weg" (Bericht 16.11. 14:33). EULA bleibt (Entscheid 17.11.):
+nur gelaufene Wege und Laufzeit-API, nichts aus Spieldateien.
+1. MEHR WEGE VON SPIELERN: Wegdaten-Versand (mit Zustimmung, GSWEGE) beibehalten; im Bericht zeigen, wie viele Spieler/Strecken
+   seit 3.12.88 angekommen sind und wie der Anteil "ohne Weg" damit sinkt (Messgrösse je Version).
+2. LÜCKEN AUTOMATISCH MESSEN (statt /lp wegmessung von Hand):
+   a) Lückenliste: aus Route/Plan die Abschnitte bestimmen, die ohne bekannten Weg geplant werden, gewichtet nach Häufigkeit in der
+      virtuellen Reise 1–60 (beide Fraktionen, beide Modi). Ergebnis: Rangliste der wichtigsten Lücken (Zone, Start-/Endpunkt, Länge,
+      Häufigkeit) – im Bericht die ersten 20.
+   b) Läuft der Spieler beim normalen Spielen durch eine solche Lücke, zeichnet LevelPilot diesen Abschnitt automatisch und genauer auf
+      (dichtere Punkte, Zeit je Abschnitt, Hindernis = Umweg gegenüber Luftlinie), ohne Fenster und ohne Chatzeile. Nur mit derselben
+      Zustimmung wie die Wegdaten, keine Namen. Abschnitte mit Flug, Tod/Geist, Schiff/Zeppelin, Teleport, Reittier-Sprung nicht werten.
+   c) Gemessene Lücke -> aus der Lückenliste raus, Weg ins Netz (wie gelaufene Wege bisher), mit den Wegdaten versandt.
+   d) Leistung (leistung.md, Takt 3): Aufzeichnung in kleinen Portionen, eigene Arbeit je Bild < 1 ms, Speicher begrenzt (Obergrenze
+      je Abschnitt und gesamt, älteste/schon gemessene zuerst weg). Keine Neuplanung pro Punkt.
+   e) Tests mit Gegenproben: Lücke durchlaufen -> aufgezeichnet; bekannte Strecke -> nichts; ohne Zustimmung -> nichts; Flug/Tod -> nichts;
+      Obergrenze greift; keine Namen in den Daten; eigene Rechenzeit gemessen.
+Ziel: Anteil "ohne Weg" je Version messbar senken. Reihenfolge: nach T150 und den Bildern über 40 ms (INGAMETEST 10:25).
