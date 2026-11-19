@@ -50,12 +50,14 @@
 -- VERSION 2 (18.11.2026, Hinweis des Nutzers: Tests in Unterstadt mit vielen Spielern und Server-Lag):
 --   - Ganze Bilder: Der Takt misst zusaetzlich die Dauer des GANZEN Bildes (OnUpdate elapsed) nach jeder Portion. In job.stats
 --     und Summary: "ganze Bilder ueber 40 ms: n, davon durch Spiel/Umgebung m" (m = eigene Portion in diesem Bild <= 16 ms).
+--   VERSION 3 (19.11.2026): Speicherbereinigung nur gezaehlt, wenn der Speicher in einem Bild um mehr als 1 MB faellt (v2 zaehlte
+--     jeden kleinen Schritt der schrittweisen Bereinigung: im Spiel 254 in 10 s).
 --   - Umgebung: GoldSentinelTakt.EnvMeasure(sek, fertig) misst sek Sekunden lang (Standard 10) OHNE eigene Arbeit: Ort, Spieler
 --     in Sicht (Namensplaketten), Ping Realm/Welt, Bildrate, Bildzeit in Ruhe (Median/95 %/laengstes), Speicherbereinigungen.
 --     GoldSentinelTakt.EnvLine() -> eine Zeile fuer den Testbericht (leer, wenn nichts gemessen). Testroutinen rufen EnvMeasure
 --     vor dem Lauf auf (oder Start mit opts.env = 10: misst vor der Arbeit) und schreiben EnvLine in den Bericht.
 
-local VERSION = 2
+local VERSION = 3
 
 local existing = _G.GoldSentinelTakt
 if type(existing) == "table" and (tonumber(existing.VERSION) or 0) >= VERSION then return end
@@ -76,6 +78,7 @@ T.WHOLE_LIMIT = 40       -- ganzes Bild: ab hier gezaehlt
 T.FOREIGN_OWN = 16       -- eigene Portion bis hier: langes ganzes Bild zaehlt als "Spiel/Umgebung"
 T.ENV_SEC = 10           -- Standard-Dauer der Umgebungsmessung
 T.ENV_MAX_SAMPLES = 3000
+T.ENV_GC_KB = 1024       -- Speicher faellt um mehr als so viele KB in einem Bild = eine Bereinigung
 
 -- Zugang zu Spiel-Funktionen (in Tests ersetzbar; nie Blizzard-Globale beschreiben)
 T.api = {
@@ -609,7 +612,7 @@ function T.EnvStep(elapsed)
     local f = T.api.fps()
     if f then run.fpsSum = run.fpsSum + f; run.fpsN = run.fpsN + 1 end
     local m = T.api.mem()
-    if m < run.mem then run.gc = run.gc + 1 end
+    if m < run.mem - T.ENV_GC_KB then run.gc = run.gc + 1 end   -- nur echte Bereinigung (Abfall > 1 MB weg), nicht jeder kleine Schritt
     run.mem = m
     if T.api.now() - run.started >= run.sek then T.EnvFinish() end
 end

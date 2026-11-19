@@ -22,3 +22,9 @@ a) shared/GoldSentinelTakt.lua unverändert kopieren.
 b) Die eigene Testroutine startet mit env = 10 (oder ruft EnvMeasure vorher auf) und schreibt EnvLine() in den Bericht.
 c) Die Bewertung "Bild über 40 ms" stützt sich auf die EIGENE Portion. Die ganzen Bilder sind nur Auskunft (E-Regel 19:30).
 Die neueste geladene Fassung gewinnt: Sobald ein Addon Takt 2 mitbringt, messen alle Takt-Aufgaben die ganzen Bilder.
+
+NACHTRAG 19.11.2026 08:50 – GoldSentinelTakt 3 (Korrektur des Supervisors)
+Takt 2 zählte jede kleine Abnahme des Speichers als "Speicherbereinigung". Lua räumt schrittweise auf, darum standen im Spiel 254 in 10 s
+(LevelPilot 3.12.99). Takt 3 zählt nur Bereinigungen, bei denen der Speicher in einem Bild um mehr als 1 MB fällt (T.ENV_GC_KB).
+Test 12g mit Gegenprobe. Sonst unverändert. Takt 2 ist eine offizielle alte Fassung (WARNUNG, kein FEHLER).
+Wer Takt 2 schon hat (LevelPilot 3.12.99), kopiert Takt 3 mit der nächsten Version. Kein eigenes Release nur dafür.

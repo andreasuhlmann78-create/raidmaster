@@ -1290,3 +1290,18 @@ Nur AHSentinel arbeitet weiter. Dieses Projekt pausiert, bis der Nutzer es wiede
 - addon_check OK, md5 2743598e…. Bericht gelesen. Ursachen der langen Bilder belegt (Grundregeln: Wegsuche in pcall; T25 am Stück), behoben über PCallY/Coop.
 - Die 388 "Abgabe nicht möglich" sind ehrlich als nicht belegt gekennzeichnet. Das neue Feld "gesperrt" mit Datei:Zeile zeigt es im nächsten Ingametest. Angenommen.
 - Beim Nutzer installiert (Laptop, diff 0).
+
+==== INGAMETEST 19.11.2026 08:50 – LevelPilot 3.12.99 (Laptop, Priester 10, Unterstadt; Bericht 08:38) ====
+OK 297 · FEHLER 1 · Sandbox OK · echte Aktionen 0 · Fehlerzähler 0 · Regressionen 79/79. Sehr gut.
+Umgebung (Takt 2, erste Messung im Spiel, funktioniert): Unterstadt, Ping 15/17 ms (Server ruhig), 54 Bilder/s, Bild in Ruhe Median 17 ms.
+"Speicherbereinigungen 254" war ein Messfehler im Takt 2 des Supervisors (jeder kleine Schritt gezählt). Behoben in Takt 3, siehe Hinweis.
+BEHOBEN (im Spiel bestätigt):
+- T261 Einloggen 791 ms (< 1000), längster Aufruf 17 ms.
+- T155 bestanden.
+- "Abgabe nicht möglich" 388 -> 2. Beide absichtlich: T290 Zentrale, T353 Gegenprobe.
+- Ganze Bilder über 40 ms: 1296, davon 1266 durch Spiel/Umgebung. Die neue Trennung wirkt.
+OFFEN:
+1. MITTEL – T150 Replan(true): Median 18,77 ms (soll < 16), Höchstwert 19,04 ms (< 33 erfüllt).
+2. NIEDRIG – 14 eigene Portionen über 40 ms, längste T355 125,7 ms (graph am Stück in der Prüfung), T295 89 ms, T128 63 ms.
+   Diese laufen in der Testroutine, nicht beim Spielen. Bei Gelegenheit in Portionen teilen.
+Hinweis: LevelPilot 3.12.99 hat Takt 2. Mit der nächsten Version Takt 3 kopieren (siehe Hinweis 19.11. 08:50).

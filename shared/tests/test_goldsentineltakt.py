@@ -62,7 +62,7 @@ def run(lua, code):
 
 # ---------------------------------------------------------------- 1 Grundlagen
 lua = fresh()
-check("1a geladen, Version 2, global", run(lua, "return GoldSentinelTakt and GoldSentinelTakt.VERSION") == 2)
+check("1a geladen, Version 3, global", run(lua, "return GoldSentinelTakt and GoldSentinelTakt.VERSION") == 3)
 check("1b ohne Aufgabe schläft der Treiber", run(lua, "return AWAKE()") is False)
 check("1c Check ausserhalb einer Aufgabe: false, kein Fehler", run(lua, "return GoldSentinelTakt.Check('x')") is False)
 check("1d Sleep ausserhalb: false", run(lua, "return GoldSentinelTakt.Sleep(1)") is False)
@@ -376,9 +376,9 @@ check("7e Selbst-Abbruch in der Arbeit: endet sofort, kein Ergebnis", r[6] == "a
 check("7f zweites Cancel = false; am Ende keine Aufgaben", r[9] is False and r[10] == 0 and r[5] == "abgebrochen", r[9:])
 
 # ---------------------------------------------------------------- 8 Fassungen
-OLD = (ROOT / "shared/tests/variants/GoldSentinelTakt-v1.lua").read_text(encoding="utf-8")
+OLD = (ROOT / "shared/tests/variants/GoldSentinelTakt-v2.lua").read_text(encoding="utf-8")
 NEWER = SRC
-assert "local VERSION = 1\n" in OLD and "local VERSION = 2\n" in SRC
+assert "local VERSION = 2\n" in OLD and "local VERSION = 3\n" in SRC
 lua = fresh(OLD)
 r = run(lua, r"""
 local cached = GoldSentinelTakt          -- ein Addon hat sich den Takt gemerkt
@@ -393,10 +393,10 @@ local T = GoldSentinelTakt
 for _ = 1, 40 do FRAME() end
 return T == CACHED, T.VERSION, JOB.state, JOB.result[1], NBEFORE
 """)
-check("8a neuere Fassung (v1 -> v2): gleiche Tabelle (gemerkte Verweise gültig), Version 2", r[0] is True and r[1] == 2, r[:2])
+check("8a neuere Fassung (v2 -> v3): gleiche Tabelle (gemerkte Verweise gültig), Version 3", r[0] is True and r[1] == 3, r[:2])
 check("8b laufende Aufgabe übernommen und zu Ende geführt", r[2] == "fertig" and r[3] == "durch" and r[4] == 3, r[2:])
 lua.execute(OLD)
-check("8c ältere Fassung danach ändert nichts", run(lua, "return GoldSentinelTakt.VERSION") == 2)
+check("8c ältere Fassung danach ändert nichts", run(lua, "return GoldSentinelTakt.VERSION") == 3)
 check("8d nur ein Treiber-Rahmen (kein zweiter)", run(lua, "return #FRAMES") == 1)
 
 # ---------------------------------------------------------------- 9 Messwerte und Zusammenfassung
@@ -582,13 +582,13 @@ local got
 T.EnvMeasure(2, function(e) got = e end)
 local f = T.envFrame.scripts.OnUpdate
 local steps = { 0.030, 0.034, 0.120, 0.033 }
-for k = 1, 4 do PLATES = 10 * k; if k == 3 then MEM = 500 end; f(T.envFrame, steps[k]); NOW = NOW + 0.5 end
+for k = 1, 4 do PLATES = 10 * k; if k == 2 then MEM = 600 end; if k == 3 then MEM = -2000 end; f(T.envFrame, steps[k]); NOW = NOW + 0.5 end
 NOW = NOW + 1; f(T.envFrame, 0.032)
 return got ~= nil, T.env and T.env.plates, T.env and T.env.n, T.env and T.env.max, T.env and T.env.gc, T.EnvLine(),
        T.envFrame.scripts.OnUpdate == nil
 """)
 check("12f Umgebung gemessen und Rückruf", r[0] is True, r)
-check("12g Spieler in Sicht = Höchstwert 40, 5 Bilder, längstes 120 ms, 1 Bereinigung", r[1] == 40 and r[2] == 5 and abs(r[3] - 120) < 0.01 and r[4] == 1, r[1:5])
+check("12g Spieler in Sicht = Höchstwert 40, 5 Bilder, längstes 120 ms, 1 Bereinigung (400 KB weniger zählt nicht, 2,6 MB schon)", r[1] == 40 and r[2] == 5 and abs(r[3] - 120) < 0.01 and r[4] == 1, r[1:5])
 check("12h Zeile: Ort, Ping, Ruhe-Bildzeit", "Umgebung: Unterstadt (Handelsviertel)" in r[5] and "Ping Realm 180 ms / Welt 96 ms" in r[5]
       and "Bild in Ruhe Median" in r[5] and "40 Namensplaketten" in r[5], r[5])
 check("12i Messrahmen schläft danach", r[6] is True)
