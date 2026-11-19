@@ -1310,3 +1310,27 @@ Hinweis: LevelPilot 3.12.99 hat Takt 2. Mit der nächsten Version Takt 3 kopiere
 Hilfe, Befehlslisten, Hinweiszeilen und Tooltips zeigen Entwickler-Befehle (testroutine, prüfliste, debug, Diagnose-Export …) nur bei
 eingeschaltetem Entwicklermodus (/gsdev). Normale Befehle immer. Mit der nächsten Version prüfen und anpassen, Test mit Gegenprobe
 (dev aus: keine Dev-Zeile sichtbar; dev an: alle). Im Bericht die Liste der als "dev" eingestuften Befehle nennen.
+
+==== AUFTRAG (Entscheid des Nutzers 19.11.2026 09:36) – VORSCHLÄGE NICHT MEHR NERVEN: "SPÄTER / NICHT MEHR" + "NUR AM PASSENDEN ORT" ====
+Anlass (Nutzer 09:35): Vorschläge wie "Erste Hilfe lernen" kommen immer und immer wieder. Das nervt gewisse Spieler sehr.
+HOCH (Spielgefühl, psychologie.md: helfen, nie bedrängen):
+1. Jeder Vorschlag des Assistenten (Beruf lernen, Waffenmeister, Talent, Erholt-Bonus, Händler …) bekommt zwei Knöpfe:
+   - "Später": Der Vorschlag ruht bis zur nächsten Stufe ODER bis zum nächsten Betreten einer Stadt bzw. eines Orts mit dem passenden
+     Lehrer, mindestens 30 Min. Jedes weitere "Später" für denselben Vorschlag verdoppelt die Mindestruhe (30 -> 60 -> 120 Min. …,
+     höchstens 24 Std.).
+   - "Nicht mehr": Dieser Vorschlag kommt für diesen Charakter nie wieder. Gespeichert je Charakter und Vorschlags-Art.
+   - In den Optionen eine Liste "Ausgeblendete Vorschläge" mit "wieder zeigen" je Eintrag (OPT-Modell, Abschnitt Assistent).
+2. Nur am passenden Ort: Vorschläge, die einen Lehrer/NPC brauchen (Erste Hilfe, Berufe, Waffenmeister), erscheinen nur, wenn der Spieler
+   in einer Stadt bzw. einem Ort mit diesem Lehrer ist oder der Lehrer auf dem aktuellen Weg höchstens etwa 150 yd entfernt liegt.
+   Nie im Kampf, nie während eines Navi-Ziels mit Eile (Questziel draussen).
+3. Erledigt sich ein Vorschlag (Erste Hilfe gelernt), verschwindet er sofort, auch aus der Liste.
+TESTS (TU2 Abläufe, je mit Gegenprobe):
+- "Später" -> in derselben Stadt und Stufe kein erneuter Vorschlag. Nächste Stufe/Stadt nach 30 Min. -> wieder da.
+  Zweimal "Später" -> 60 Min.
+- "Nicht mehr" -> nie wieder, auch nach /reload und Stufenaufstieg. "Wieder zeigen" in den Optionen -> wieder da.
+- Ausserhalb der Stadt / im Kampf / fern vom Lehrer -> kein Lehrer-Vorschlag. In der Stadt mit Lehrer -> Vorschlag.
+- Gelernt -> sofort weg.
+- Prüflisten-Punkt für den Nutzer (ohne Testbefehl): "Später" und "Nicht mehr" bei einem echten Vorschlag ausprobieren.
+Alle Texte über die Sprachtabelle, alle Locales, CHANGELOG EN/DE. Das Projekt pausiert: mit der nächsten Version, wenn der Nutzer anstösst.
+Die Regel gilt auch für Vorschläge in anderen Addons (z. B. BuffSentinel-Erinnerungen, AHSentinel "Heute tun"): dort bei der nächsten
+Arbeit prüfen, ob ein Vorschlag wiederholt ohne "Später/Nicht mehr" erscheint.
