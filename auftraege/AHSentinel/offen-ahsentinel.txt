@@ -4995,3 +4995,10 @@ NEU bzw. wieder da:
   Silberrute (0.65.343). Eine Empfehlung über dem Doppelten des günstigsten Angebots kostet Gold. Ursache belegen. Gilt die Regel aus
   der Silberrute-Behebung nur für bestimmte Fälle?
 - MITTEL: Prüfliste TR-ALLES zeigt auf diesem Rechner "17.11. 19:11", der Lauf von 19:44 ist nicht eingetragen (Befund 8 besteht).
+
+==== PRÜFUNG Supervisor 19.11.2026 06:15 – 0.65.349 (Ingametest 19:55) – KURZ ====
+- addon_check OK, md5 1f961456…. Bericht gelesen.
+- T72 Fraktionsbanner: Ursache belegt (Silberrute-Regel galt nur für die Einzelsuche, die Vollscan-Leiter blieb 2 Tage gültig). Behebung HT-ALT2 für alle Leitern, mit s325 und Gegenprobe. Angenommen.
+- T459: Schwankung teils belegt (Hintergrund-Aufgaben warten seit 0.65.348; Speicher wächst mit der Marktgrösse), Rest ehrlich als Verdacht. Angenommen. Grenze ≤ 10 MB bleibt, Messung im nächsten Ingametest.
+- Befund 8 (Prüfliste) – Begründung ANGENOMMEN, Befund war falsch: Die Anzeige "17.11. 19:11" stand in der vom Nutzer kopierten Textfassung des Berichts von 19:44. Der Bericht druckt die Prüfliste, BEVOR der laufende Lauf eingetragen wird (t = 19:49 > 19:44). Bitte nur die Reihenfolge ändern: zuerst TR-ALLES eintragen, dann die Prüfliste in den Bericht schreiben. Dasselbe vermutlich bei ProfessionSentinel.
+- Beim Nutzer installiert (Laptop, diff 0).
