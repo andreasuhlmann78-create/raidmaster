@@ -5086,3 +5086,16 @@ Damit gilt: Ein Test im Vordergrund kommt nicht. Der Vorbehalt von 10:50 entfäl
 addon_check OK (md5 56027d5e51f1d62c9a2555d04f4dc3f4). Auf dem Laptop abgelegt. CurseForge 0.65.351 laut Bericht hochgeladen.
 Umbau T617/T734/T729 auf eigene Rechenzeit mit Gegenproben (s330b 60 ms -> FEHLER, s331 ohne Server-Warten -> FEHLER) – Ingametest folgt
 (Laptop, WoW im Hintergrund). Hinweis: s313 lastabhängig (echte Uhr) – Prüfung auf Messung statt Uhr umstellen, wenn Zeit ist (NIEDRIG).
+
+==== INGAMETEST 19.11.2026 12:25 – AHSentinel 0.65.352 (Laptop, WoW im Hintergrund, Bericht 11:59) ====
+Gesamt 1044 OK · 6 FEHLER · 40 übersprungen (0.65.350: 7 FEHLER).
+1. HOCH – Teil 4 Sniper S1–S13: 24 OK, 2 FEHLER, 6 übersprungen (0.65.350: 3 FEHLER). Der Umbau auf eigene Rechenzeit wirkt (weniger
+   SKIP/FEHLER), aber 2 FEHLER bleiben. Einzelbefunde stehen nur im Upload, nicht im Chat-Bericht. Zuerst belegen: welche Prüfungen, eigene
+   Arbeit in ms, Server-Anteil. Kaufentscheid betroffen? Falls ja: Behebung + sofort CurseForge (Entscheid 10:07). Falls nur Tempo und eigene
+   Arbeit unter der Grenze: Prüfung ist falsch gebaut -> korrigieren.
+2. T459 Vollscan-Speicher: 39 MB angelegt ohne gelesene Auktionen (3. Scan der Sitzung, Grenze 10 MB; 0.65.350: 22 MB). Täter fullscan 34 MB,
+   cache:today 22,6 MB (vorher 1,6 MB!). cache:today ist neu der zweitgrösste Posten – Ursache belegen. Nach Entscheid 06:45 nur wenn wichtig;
+   wächst es weiter, ist es wichtig (Lua-Speicher 808 MB Spitze).
+3. Teil 1 (2 FEHLER), Teil 2 (1 FEHLER): Einzelbefunde im Upload, bitte im Bericht nennen.
+Gut: Wächter 7 ms (vorher 11). Vollscan: eigene Arbeit in Bildern über 33 ms Ø 2,9 ms / höchstens 10 ms, Rest = Spiel/Umgebung.
+Auskunft: Schritte über 16 ms: T126 115 ms (vorher 8,2!), T32 52, T26a 46, S28 41, T26b 23 – T126 belegen (Ausreisser oder neu).
