@@ -1,0 +1,55 @@
+BERICHT LevelPilot an die Prüf-Sitzung – 19.11.2026 11:00
+Version 3.13.1 – umgesetzt, zur Prüfung
+Zip: announce/levelpilot__levelpilot-3.13.1.LevelPilot.zip, md5 3d97a948122e9cd2f43c618341274ea0. Datenpaket 1.6.4 (unverändert).
+Anlass: INGAMETEST 19.11. 10:25 (3.13.0), vom Nutzer 10:27 angestossen.
+
+==== 1. T150 NEUPLANUNG (MITTEL) ====
+Ursache (gemessen, Nachbau Untote Priester Stufe 10 Unterstadt, Laptop-Daten): Danger:Route = 65 % der Neuplanung. CollectTasks prüft je
+Aufgabe die GERADE Strecke Spieler -> Ziel auf zu starke Gegner (Messpunkte alle 50 yd). In Unterstadt liegen die Ziele bis 60 km weit:
+92 Strecken, Länge Median 48,7 km, ~61 000 Messpunkte je Neuplanung (in Durotar/Brachland viel kürzer – darum dort kleiner).
+Umsetzung (Danger.lua):
+a) Blöcke: höchstes Level je Block aus 16 x 16 Zellen (1600 yd), beim Aufbau der Gefahrenkarte mitgeführt. Route springt über Blöcke,
+   deren Höchstwert das Ergebnis nicht ändern kann (<= bisheriges Maximum; mit Grenze: < Grenze). Sprung zum ersten Messpunkt ausserhalb
+   des Blocks, berechnet mit derselben Formel wie jeder Messpunkt (Block je Achse monoton im Index -> Messpunkte eines Blocks am Stück;
+   Schätzung + Nachprüfung in beide Richtungen). Ergebnis exakt gleich.
+   Beleg: 4 Orte x 6000 Zufallsstrecken (bis 120 km, achsparallele, skip 0/37,5/150/300, Grenzen 1–60) gegen die Rechnung je Messpunkt:
+   Abweichung 0, Abweichung mit Grenze 0. T291 (2000 Strecken) weiter 0/0.
+   Blockgrösse gemessen: alt 10,30 ms · 4: – · 8: 7,72 · 16: 6,42 · 32: 6,89 ms -> 16.
+b) Zwischenspeicher je genauen Eingaben (Ort, Ziel, skip, Grenze; Schlüssel %.17g = jede Zahl exakt; Gefahrenkarte gleich = D.gen),
+   höchstens 4000 Einträge. Trifft bei jeder Neuplanung am selben Ort (Ticker alle 15 s im Stehen) – und in T150 (5× am selben Ort).
+   Offen gesagt: T150 misst genau diesen Fall; die erste Planung an einem neuen Ort hat nur (a). Neue Prüfung T364 (gleich -> gespeichert,
+   1/1000 yd / andere Grenze / ohne Grenze / geleert -> neu, gleiches Ergebnis).
+Zahlen (Nachbau, je Median):
+- eigene Messung 20 Neuplanungen am selben Ort: Unterstadt St. 10 alt 10,21 -> nur (a) 6,42–6,99 -> (a)+(b) 5,06 ms; Durotar St. 10
+  6,56 -> 5,53; Brachland St. 12 4,01 -> 3,99 (a); Brachland St. 24 6,37 -> 4,81 (a).
+- T150 in der ganzen Testroutine Unterstadt: 3.13.0 7,56 ms -> 3.13.1 5,88 ms (-22 %).
+Verdacht, zu messen: im Spiel 19,35 ms x 0,78 = etwa 15 ms – knapp unter 16. Reicht es nicht, ist das Nächste "Order" (32 % des Rests:
+TwoOpt + ExactOrder) bzw. CollectTasks/SpeedFilter.
+
+==== 2. BILDER ÜBER 40 ms IN PORTIONEN (MITTEL) ====
+Belegt und geteilt:
+- T354 graph–T355 137,9 ms: die fünf Protokoll-Befehle von T355 liefen in EINER Hülle (Ersatz-Messfunktion + Ersatz-Antwort). Jetzt jeder
+  Befehl in seiner eigenen Hülle, dazwischen TR.Safe (kein Ersatz aktiv).
+- T123–T128 69 ms: T128 lud die alte Fassung einmal und rechnete vier Funktionen (u. a. Replan) in der Hülle am Stück. Jetzt je Funktion
+  eine frisch geladene alte Fassung in eigener Hülle, dazwischen TR.Safe. Nachbau Unterstadt: T123–T128 42,7 ms -> nicht mehr in der Liste
+  (T112–T128 29,8 ms).
+- T263–T264 52 ms: Protokoll-Text, Export, Schreibversuch je in einem eigenen Bild.
+- Neuplanung schneller (Punkt 1) verkürzt alle Bilder mit Replan.
+NICHT bearbeitet (zur nächsten Version): T62–T63 78 ms (T62: Comm-Warteschlange mit Test-Nachrichten in Guard – eine Abgabe liesse
+SendNext echte Nachrichten senden, braucht einen Umbau), T221 wege 53, T136 51, T295 47, T246 46, Start 45 ms.
+Nachbau Unterstadt (lang): 3.13.0 über 40 ms 1 (T123–T128 42,7) -> 3.13.1 0, längstes 34,1 ms (T292–T295).
+
+==== 3. ZAHLEN, DIE NICHT AUFGINGEN (NIEDRIG) ====
+a) Belegt: TR.Safe sieht nur Abgaben, die es selbst versucht. T290 scheitert in einer VERSCHACHTELTEN Rechnung (LP.PCall -> Takt Sliced in
+   einem pcall) – das zählt nur der Takt (Note in Sliced). Jetzt nimmt die Stellen-Zeile die Takt-Zählung dazu: Etiketten ohne eigene
+   Stelle als "@verschachtelt", Summe = Takt-Zahl. Nachbau: "Abgabe nicht möglich: 2 (T290 Zentrale (pcall), T353 Gegenprobe (pcall))" und
+   "Stellen (2): T290 Zentrale (pcall) @verschachtelt 1×, T353 Gegenprobe @TestRoutine:9389 (pcall) 1×".
+b) Belegt: die Takt-Zusammenfassung wurde gebildet, die Kopfzeile erst zwei Portionen später (zwei yield() dazwischen) -> 3968 gegen 3966.
+   Jetzt beide im selben Augenblick. Längstes Bild der Kopfzeile wie im Takt "von Prüfung–bis Prüfung". Nachbau: Kopfzeile "4388 Bilder,
+   längstes 34.1 ms (T292–T295)", Takt "4388 Bilder, längstes Bild 34.1 ms (T292–T295)"; Laptop 4064/4064 (T360/T360). T349 weiter OK.
+
+==== EIGENE TESTS (Hinweise, keine Freigabe) ====
+- addon_check OK (1 Warnung lupa); alle .lua mit Lua 5.1 geladen; GoldSentinel*.lua byte-gleich mit shared/; Dateiliste wie 3.12.95.
+- Testroutine Nachbau Laptop-Daten (lang, Sync-Adressbuch fremd): OK 286 · FEHLER 8 (die 8 bekannten Nachbau-Grenzen), über 40 ms 0,
+  Adressbuch danach leer. Unterstadt Priester 10: OK 289 · FEHLER 6 (bekannte), über 40 ms 0.
+- Offline-Routine 40/40 ohne FEHLER. Regression 35/36 (test29 wie bekannt).
