@@ -5125,3 +5125,43 @@ Teile 1–3 gelaufen, Teile 4–9 (Sniper, Wächter, AH, Vollscan, Beruf, Händl
 3. MITTEL – "Schritte über 16 ms": T157 240 / 225 / 185 / 179 ms (11 Schritte, alle T157). Was ist T157, läuft das im Spiel ausserhalb
    der Testroutine auch so? Wenn ja: Ruckeln -> in Portionen.
 4. T750 UI: 48 Befunde (abgeschnitten 44, veraltet 4) – Darstellung, nach Entscheid 06:45 nicht wichtig; bleibt offen.
+
+==== CF-KOMMENTARE 19.11.2026 19:15 – CF-AHS-5/6/7 (Auftrag des Nutzers 18:57; Quelle: Entwürfe Discord 19:00, volle Texte auf CurseForge gelesen) ====
+Keine Spielernamen (Regel CurseForge-Pflege). Auf CurseForge seit 19.11.: 0.65.351.
+
+CF-AHS-5 – CF-KOMMENTAR 16.11.2026 (2 Tage alt) – FEHLER, HOCH (Gold-Sicherheit: Spieler verkauft weit unter Preis)
+  Wortlaut (voll): "When posting things to sell, the prices shown are not even close to the actual available ones. So it leads to me posting
+  things really cheaply and getting ripped off. The check price doesn't change anything. For example, I am posting a Shredder Operating
+  Manual - Page 1, it shows "Price/each = 15c" on the sell tab even after clicking Check Price. I right click the item and search on auction
+  house, the cheapest one is 3s 40c."
+  Version des Spielers: unbekannt (CurseForge am 16.11.: 0.65.265 bzw. älter). Spielversion unbekannt.
+  Einordnung Supervisor: Verkaufen-Reiter + "Preis prüfen", NICHT "Heute tun" -> der Fix 0.65.349 ("Today"-Verkaufspreise) trifft diesen Fall
+  NICHT (Entwurf Discord Nr. 1 dazu korrigiert). Auffällig: Preis prüfen ändert nichts, Vorschlag 15c, günstigstes Angebot 3s 40c (≈ 4 % davon);
+  die Warnung "zu billig" (Seller.lua WarnRule: < 0,75 × Marktwert bzw. frische Preisleiter) hätte bei richtigen Daten greifen müssen.
+  AUFTRAG an AHSentinel (HOCH, vor Darstellung/Tempo): Ursache belegen, nicht vermuten:
+   (a) Woher kommen die 15c im Feld Preis/Stück (Marktwert, Vorschlag, Mindestpreis, Händlerpreis)? Mit diesem Item (Gnomeregan-Buchseite,
+       "Shredder Operating Manual - Page 1") im Spiel nachstellen, in Classic Era UND Forever (Legacy-AH).
+   (b) Warum findet "Preis prüfen" das Angebot 3s 40c nicht (Suchschlüssel/Name mit " - Page 1", Item-Varianten, Legacy-Suche)?
+   (c) Warum warnt der Preisschutz nicht (fehlende/alte Preisleiter -> keine Warnung)? Regel: Ohne frischen Preis darf ein Vorschlag nie still
+       weit unter dem Marktwert stehen.
+   Gegenprobe in die Testroutine (Item mit Bindestrich/Zusatz im Namen). Behebung = Gold-Sicherheit -> sofort CurseForge (Entscheid 10:07).
+  ANTWORT: heikel (Gold verloren, Kritik) -> NICHT selbst gepostet, Entwurf liegt beim Nutzer (Status: ENTWURF, wartet auf Ja des Nutzers).
+
+CF-AHS-6 – CF-KOMMENTAR 17.11.2026 – FRAGE + kleiner WUNSCH
+  Wortlaut: "How do I turn off the "Accounting:" messages in chat?"
+  Fakt 0.65.351: Books.lua:965 – EN "Accounting: N× <Item> are gone …" = Lager-Abgleich bucht gekaufte Ware aus, die nicht mehr in Taschen,
+  Bank, Briefkasten oder eigenen Auktionen ist. Kein Schalter (A:Print ohne Einstellung). Die übrigen Buchhaltungs-Meldungen heissen EN "Ledger:".
+  WUNSCH an AHSentinel (klein, darf umgesetzt werden – Regel CurseForge-Pflege 2.): Einstellung "Buchhaltungs-Hinweise im Chat" (an/aus,
+  Standard an); aus = Meldung nur noch im Buchhaltungs-Protokoll/Diagnose, Buchung unverändert. Gegenprobe in der Testroutine.
+  Prüfauftrag nebenbei (NIEDRIG): erscheint die Meldung für dieselbe Ware mehrfach (z. B. bei jedem Abgleich)? Wenn ja: Befund.
+  ANTWORT: harmlos (Erklärung, keine Zusage) -> vom Supervisor gepostet (Status siehe unten).
+
+CF-AHS-7 – CF-KOMMENTAR 18.11.2026 – FEHLER (Version des Spielers unbekannt; CurseForge am 18.11.: 0.65.265)
+  Wortlaut: "the export button stopped working"
+  Fakt: CSV-Export in 0.65.338 umgebaut (im Hintergrund vorbereitet, Fenster öffnet sich, wenn fertig); auf CurseForge erst seit 0.65.351.
+  Ob der gemeldete Fehler damit behoben ist: NICHT belegt.
+  AUFTRAG an AHSentinel (MITTEL): Export-Knopf (Optionen > Daten > CSV-Export und /ahs export) in 0.65.351 im Spiel prüfen, Forever + Era;
+  Fall "sehr viele Items" (Zeitlimit, kein Fenster ohne Meldung) in die Testroutine.
+  ANTWORT: harmlos (Rückfrage nach Version/Fehlertext) -> vom Supervisor gepostet (Status siehe unten).
+
+STATUS ANTWORTEN: CF-AHS-5 ENTWURF beim Nutzer · CF-AHS-6 ENTWURF · CF-AHS-7 ENTWURF
