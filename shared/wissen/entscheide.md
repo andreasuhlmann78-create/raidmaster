@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 19.11.2026 09:06 | "sie sollen nur keine Befehle sehen, die für den Dev-Modus sind ... nur wenn Dev-Modus eingeschaltet, sollen die zusätzlichen Befehlszeilen auch sichtbar sein" | Alle Addons: Hilfe, Befehlslisten, Hinweiszeilen und Tooltips zeigen Entwickler-Befehle (testroutine, prüfliste, debug, diag-Export usw.) NUR bei eingeschaltetem Entwicklermodus (/gsdev). Normale Befehle immer. Test mit Gegenprobe (dev aus: keine Dev-Zeile; dev an: alle). |
 | 19.11.2026 09:05 | "die Spieler sollen das schon sehen im Chatfenster, dafür ist dies ja" (Befehlsliste) | Klarstellung zu 18.11. 11:10: Nur TESTbefehle dürfen nie nötig sein. Normale Chat-Befehle dürfen und sollen Spieler sehen (Hinweiszeile, Hilfe). Befund AHSentinel 09:10 zurückgezogen. |
 | 19.11.2026 06:45 | "nur noch die Punkte erledigen, die wichtig sind, den Rest lassen wir so sein, dann release Curse sofort" | AHSentinel: nur T459 und echte Gold-/Daten-/Lua-Fehler aus Teil 1/2; Rest bleibt. Danach sofort CurseForge (Ausnahme von 18:00 für diese Version). |
 | 18.11.2026 19:53 | "ich lasse als einziger ahs weiter arbeiten...der rest scheint harmlos" | Bis auf Weiteres arbeitet nur AHSentinel (HOCH zuerst: Fraktionsbanner-Preis T72, T45, T52, T459). Alle anderen Projekte pausieren; ihre offenen Punkte bleiben in den offen-Dateien und werden später abgearbeitet. |
