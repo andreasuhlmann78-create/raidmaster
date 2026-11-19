@@ -1407,3 +1407,6 @@ OFFEN:
    T246 46, T268 45 – weiter in Portionen.
 4. NIEDRIG – Portionen-Zeilen gehen jetzt auf (11282 = 11282). Erledigt aus 3b.
 T261 Einloggen 807 ms bestanden.
+NACHTRAG 12:38 zum INGAMETEST 12:40 Punkt 2: Nutzer 12:36 – WoW lief bewusst die ganze Zeit im Hintergrund, nur beim Start ca. 10 s im
+Vordergrund. Fensterwechsel erklären die 3,4-fache Testdauer also NICHT. Ursache im Code belegen (3.13.0 lief unter denselben Bedingungen
+in 140 s).
