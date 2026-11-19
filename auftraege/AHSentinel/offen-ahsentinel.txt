@@ -5002,3 +5002,18 @@ NEU bzw. wieder da:
 - T459: Schwankung teils belegt (Hintergrund-Aufgaben warten seit 0.65.348; Speicher wächst mit der Marktgrösse), Rest ehrlich als Verdacht. Angenommen. Grenze ≤ 10 MB bleibt, Messung im nächsten Ingametest.
 - Befund 8 (Prüfliste) – Begründung ANGENOMMEN, Befund war falsch: Die Anzeige "17.11. 19:11" stand in der vom Nutzer kopierten Textfassung des Berichts von 19:44. Der Bericht druckt die Prüfliste, BEVOR der laufende Lauf eingetragen wird (t = 19:49 > 19:44). Bitte nur die Reihenfolge ändern: zuerst TR-ALLES eintragen, dann die Prüfliste in den Bericht schreiben. Dasselbe vermutlich bei ProfessionSentinel.
 - Beim Nutzer installiert (Laptop, diff 0).
+
+==== INGAMETEST 19.11.2026 06:45 – AHSentinel 0.65.349 (Laptop, Priester 10; Bericht 06:35) ====
+Gesamt 1041 OK · 5 FEHLER · 43 übersprungen. Vergleich: Laptop 17:01 15 FEHLER, PC 19:44 8 FEHLER. Deutlich besser.
+BEHOBEN (im Spiel bestätigt):
+- T72 Fraktionsbanner, T45 Wächter-Runde, T52 Unterboten, S28 "ein Lohnt bis": alle bestanden.
+- Teil 4 Sniper bestanden.
+- Teil 5 Wächter: 33 ms (vorher 56 bzw. 47).
+- Teil 1 und 2: je 1–2 FEHLER, die Einzelbefunde kommen mit dem Upload. Je Befund Ursache und Behebung.
+OFFEN:
+1. HOCH – T459 Vollscan-Speicher 28 938 KB (Grenze ≤ 10 240). Laptop 58 -> 29 MB. Der Posten "Warten auf Server" ist weg (die Aufgaben
+   warten jetzt), die Behebung wirkt. Neu ausgewiesen: fullscan 41 567 KB, cache:today 4 631 KB. Zwei Bilder über 40 ms mit Bereinigung.
+   Der Rest steckt im Vollscan selbst (Einlesen/Verdichtung/V4). Tabellen wiederverwenden, mit Messung je Schritt.
+2. NIEDRIG – T126 8,4 ms (Grenze ≤ 8, längste 9,0 ≤ 16). Knapp darüber, Täter ui:chartlist 9 ms, ui:overview-movers 8 ms.
+Auskunft: Längste Lücke beim Vollscan 701 ms (Einlesen), eigene Arbeit höchstens 7 ms. Das ist Spiel/Umgebung, kein FEHLER (E-Regel 19:30).
+Prüfliste zeigt erwartungsgemäss den Lauf davor (18.11. 19:49). Reihenfolge wie 06:15 beschrieben.
