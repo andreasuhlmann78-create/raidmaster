@@ -5164,4 +5164,19 @@ CF-AHS-7 – CF-KOMMENTAR 18.11.2026 – FEHLER (Version des Spielers unbekannt;
   Fall "sehr viele Items" (Zeitlimit, kein Fenster ohne Meldung) in die Testroutine.
   ANTWORT: harmlos (Rückfrage nach Version/Fehlertext) -> vom Supervisor gepostet (Status siehe unten).
 
-STATUS ANTWORTEN: CF-AHS-5 ENTWURF beim Nutzer · CF-AHS-6 ENTWURF · CF-AHS-7 ENTWURF
+STATUS ANTWORTEN (19.11.2026 19:30, auf CurseForge nach Neuladen geprüft):
+  CF-AHS-6 GEPOSTET 19:2x (Supervisor, harmlos): "Good question! These lines appear when items you bought are no longer in your bags, bank,
+    mailbox or your own auctions. AHSentinel then books them out as missing stock so your profit stays correct, and if the items come back,
+    the entry is undone. Right now there is no option to hide these messages. We've noted your request."
+    (Satz "It usually stops once your stock has been matched" aus dem Discord-Entwurf gestrichen: nicht belegt. Keine Zusage.)
+  CF-AHS-7 GEPOSTET 19:2x (Supervisor, harmlos): "Thanks for letting us know! The CSV export was reworked recently: it is now prepared in the
+    background and the window opens when it is ready. This is included in 0.65.351, which has been on CurseForge since today. Please update
+    and try again. If it still does nothing, please post your AHSentinel version, your WoW version and any error message (/console
+    scriptErrors 1 shows Lua errors)."  (Discord-Entwurf "reworked in 0.65.351" korrigiert: umgebaut in 0.65.338, auf CurseForge mit 0.65.351.)
+  CF-AHS-5 ENTWURF – WARTET AUF JA DES NUTZERS (heikel: Gold verloren):
+    "Thanks a lot for the detailed example, and sorry this cost you gold. This should not happen: after "Check price" the suggestion should
+    follow the cheapest listing (3s 40c here), and a price that far below it should trigger a warning before posting. We're looking into it.
+    Could you tell us your AHSentinel version (top of the window) and which WoW version you play (Classic Era, Forever, Anniversary …)?
+    Until it's fixed, please compare with the auction house before posting."
+    (Discord-Entwurf Nr. 1 verworfen: Fix 0.65.349 betrifft "Today", nicht den Verkaufen-Reiter.)
+  NACHFASSEN: CF-AHS-6, sobald der Schalter da ist ("option added in 0.65.x"); CF-AHS-5/7 nach Antwort der Spieler.
