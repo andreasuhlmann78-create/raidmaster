@@ -5025,3 +5025,7 @@ Prüfliste zeigt erwartungsgemäss den Lauf davor (18.11. 19:49). Reihenfolge wi
 2. Bleibt so (nicht mehr bearbeiten): T126 (8,4 ms), Prüfliste-Reihenfolge, alte SK1-Fälle, alle MITTEL/NIEDRIG ohne Wirkung auf Gold oder Daten.
 3. Danach SOFORT auf CurseForge, nicht erst um 18:00 (Ausnahme vom Entscheid 15.11. 13:16 für diese Version). Vorher addon_check ohne FEHLER
    und Bericht in berichte/AHSentinel/. Die Prüfung durch den Supervisor kommt danach, wenn der Nutzer schreibt.
+
+==== PRÜFUNG Supervisor 19.11.2026 08:45 – 0.65.350 (CurseForge, Entscheid 06:45) – KURZ ====
+- addon_check OK, md5 e3284344… (download/ und announce/ gleich). GitHub: Addon-Prüfung success, CurseForge-Upload success (07:38 UTC).
+- Beim Nutzer installiert (Laptop, diff 0). Ob der Vollscan-Speicher (T459) im Spiel unter 10 MB liegt, zeigt der nächste Ingametest.
