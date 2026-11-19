@@ -5069,3 +5069,15 @@ Befund 10:00 Punkt 1 – Begründung nachgerechnet und angenommen: 06:35 waren T
 Schnitt mit 31 Bildern/s 1 über der Grenze 30 -> bewertet -> FEHLER. Keine Kaufentscheid-Prüfung betroffen. Also keine Rückwärts-Entwicklung.
 ABER: Mit der Toleranz werden die drei Prüfungen wieder SKIP – geprüft sind sie damit nicht. Freigabe für CurseForge (Entscheid 10:07) erst
 nach einem Ingametest mit WoW IM VORDERGRUND (Bildrate nicht begrenzt), in dem T617/T729/T734 bewertet werden und bestehen und T915 OK ist.
+
+==== FREIGABE + AUFTRAG 19.11.2026 10:55 (Nutzer 10:49: "ich lasse wow immer im hintergrund laufen da ich am arbeiten bin") ====
+Damit gilt: Ein Test im Vordergrund kommt nicht. Der Vorbehalt von 10:50 entfällt.
+1. FREIGABE CurseForge 0.65.351 (Entscheid 10:07): Alle Kaufentscheid-Prüfungen des Sniper-Teils OK/SKIP wie 06:35, 0.65.351 ändert nur
+   die Testroutine. Sofort nach CurseForge hochladen, Upload belegen (Bericht).
+2. AUFTRAG HOCH (E-Regel 18.11. 19:30 "eigene Rechenzeit vom ganzen Bild trennen"): T617, T729, T734 so umbauen, dass sie auch bei
+   WoW im Hintergrund (30 Bilder/s) BEWERTET werden: Massstab ist die eigene Rechenzeit von AHSentinel je Bild (Handler-Zeit, z. B. über
+   GoldSentinelTakt/debugprofilestop um ITEM_SEARCH_RESULTS_UPDATED und die Sniper-Schritte), nicht die Bildlänge. FEHLER nur, wenn die
+   eigene Arbeit die Grenze überschreitet. T729 (reihum): Lücken, die nachweislich aus "Warten auf Server/Drossel" kommen, nicht als
+   eigene Lücke werten, aber im Bericht ausweisen. Damit wird auch der Verdacht "ITEM_SEARCH_RESULTS_UPDATED ×67 bis 53 ms" messbar.
+   Gegenprobe: ein künstlich langer Handler (> Grenze) muss bei 30 Bildern/s FEHLER geben.
+   Die SKIP-Regel "Hintergrund" bleibt nur noch für Prüfungen, die wirklich die Bildrate brauchen.
