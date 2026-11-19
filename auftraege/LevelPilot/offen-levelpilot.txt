@@ -1285,3 +1285,8 @@ auftraege/hinweis-testort-2026-11-18.txt NACHTRAG 19:55: Takt 2 mit der nächste
 
 ==== ENTSCHEID DES NUTZERS 18.11.2026 19:53 – PAUSE ====
 Nur AHSentinel arbeitet weiter. Dieses Projekt pausiert, bis der Nutzer es wieder anstösst. Die offenen Punkte oben bleiben gültig.
+
+==== PRÜFUNG Supervisor 19.11.2026 07:05 – 3.12.99 (Ingametest 3.12.97 Punkt 4) – KURZ ====
+- addon_check OK, md5 2743598e…. Bericht gelesen. Ursachen der langen Bilder belegt (Grundregeln: Wegsuche in pcall; T25 am Stück), behoben über PCallY/Coop.
+- Die 388 "Abgabe nicht möglich" sind ehrlich als nicht belegt gekennzeichnet. Das neue Feld "gesperrt" mit Datei:Zeile zeigt es im nächsten Ingametest. Angenommen.
+- Beim Nutzer installiert (Laptop, diff 0).
