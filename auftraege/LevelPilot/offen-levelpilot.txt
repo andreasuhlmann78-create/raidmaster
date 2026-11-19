@@ -1338,3 +1338,20 @@ Arbeit prüfen, ob ein Vorschlag wiederholt ohne "Später/Nicht mehr" erscheint.
 ==== EINGANG 19.11.2026 10:08 – LevelPilot 3.13.0 (Bericht 10:02) ====
 addon_check: OK (md5 b64dadd291d6191688ab008ea6009aea stimmt). Auf dem Laptop abgelegt. Ingametest folgt (T362, T363, T302, Prüfliste T362).
 Offen bleibt: T150 Median unter 16 ms, lange Bilder T355/T295/T128.
+
+==== INGAMETEST 19.11.2026 10:25 – LevelPilot 3.13.0 (Laptop, Undercity, Bericht 10:17) ====
+OK 295 · FEHLER 1 · übersprungen 12 · im Client 55 · 140,5 s. Fehlerzähler 0, Sandbox OK, echte Aktionen 0, Regressionen 81/81.
+NEU BESTANDEN (automatischer Teil): T362 Später/Nicht mehr/Ort (alle Gegenproben richtig), T302 "nicht am Ort 0", T309 15 Punkte.
+Takt 3 wirkt: Umgebungszeile mit "Speicherbereinigungen 0" (vorher 254 falsch gezählt). Umgebung: Undercity, Bild in Ruhe Median 33 ms,
+43 Bilder/s, Ping 15 ms.
+OFFEN:
+1. MITTEL – T150 Replan: Median 19,35 ms (3.12.99: 18,77 ms), Soll < 16 ms. Schlechter statt besser. Wie angekündigt als Nächstes.
+2. MITTEL – Bilder über 40 ms in Portionen: 12 (längstes T354 graph–T355 137,9 ms, vorher 125,7; T62–T63 78 ms; T123–T128 69 ms;
+   T221 wege 53 ms; T263–T264 52 ms; T136 51 ms; T295 47 ms; T246 46 ms; Start 45 ms). Ganze Bilder über 40 ms: 48, davon 16 durch Umgebung
+   -> 32 mit eigener Portion über 16 ms. In Portionen aufteilen.
+3. NIEDRIG – Zahlen gehen nicht auf (Belegen und richtigstellen):
+   a) "Abgabe nicht möglich: 2 (T290 Zentrale (pcall), T353 Gegenprobe (pcall))", aber "Abgabe nicht möglich, Stellen (1): T353 … 1×".
+      T290 fehlt in der Stellenliste.
+   b) Kopfzeile "Portionen: 3968 Bilder, längstes 137.9 ms (T355)" gegen Takt-Zeile "3966 Bilder … (T354 graph–T355)". Beide Zeilen
+      sollen dieselbe Zählung zeigen oder sagen, was sie verschieden zählen.
+T261 Einloggen: 816 ms (< 1000) bestanden.
