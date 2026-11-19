@@ -1,0 +1,8 @@
+Lies deine offen-Datei, INGAMETEST 19.11. 16:50, nur Punkt 1 (Kaufgrenze). Der Rest wartet bis morgen/Montag.
+
+Im Bericht 16:40 (0.65.353) steht "Grenze bei Mindestgewinn 20/25/30 %: 0.90/0.90/0.90 × Wert", um 11:59 stand 0.80/0.80/0.80.
+Laut derselben Zeile bringt die Stufe ≤0.9 nur +18 % realisiert – unter dem Mindestgewinn 20 %.
+1. Belege, wo die Grenze gerechnet wird und ob sie auf Sniper-Max, Kaufvorschläge oder "Heute tun" wirkt.
+2. Belege, warum sie von 0.80 auf 0.90 sprang (0.65.353 hat nur die Testroutine geändert).
+3. Regel: Die Grenze darf nie über der höchsten Stufe liegen, deren realisierter Gewinn den Mindestgewinn erreicht. Mit Test und Gegenprobe.
+4. Wirkt sie auf Käufe: Behebung als neue Version und sofort auf CurseForge (Entscheid 10:07). Sonst im Bericht begründen.
