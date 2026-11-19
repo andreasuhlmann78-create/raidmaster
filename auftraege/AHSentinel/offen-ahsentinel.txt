@@ -5062,3 +5062,10 @@ Auskunft: Längste Lücke beim Vollscan 694 ms, eigene Arbeit höchstens 7 ms. S
 "wenn bei ahs nacher mit dem sniper alles in ordung ist...nochmals auf curse pushen": Die Version mit der Sniper-Behebung (INGAMETEST 10:00
 Punkt 1) geht sofort nach CurseForge (Ausnahme zu 18:00 wie Entscheid 06:45). Vorher: Sniper-Teil 0 FEHLER mit eigenem Test belegen;
 die Prüf-Sitzung gibt nach dem Ingametest frei.
+
+==== EINGANG 19.11.2026 10:50 – AHSentinel 0.65.351 (Bericht 10:42) ====
+addon_check OK (md5 0a244a62e7e10e01897b56a574d01689). Auf dem Laptop abgelegt.
+Befund 10:00 Punkt 1 – Begründung nachgerechnet und angenommen: 06:35 waren T617/T729/T734 SKIP (Hintergrund), nicht OK; 10:00 lag der
+Schnitt mit 31 Bildern/s 1 über der Grenze 30 -> bewertet -> FEHLER. Keine Kaufentscheid-Prüfung betroffen. Also keine Rückwärts-Entwicklung.
+ABER: Mit der Toleranz werden die drei Prüfungen wieder SKIP – geprüft sind sie damit nicht. Freigabe für CurseForge (Entscheid 10:07) erst
+nach einem Ingametest mit WoW IM VORDERGRUND (Bildrate nicht begrenzt), in dem T617/T729/T734 bewertet werden und bestehen und T915 OK ist.
