@@ -5099,3 +5099,7 @@ Gesamt 1044 OK · 6 FEHLER · 40 übersprungen (0.65.350: 7 FEHLER).
 3. Teil 1 (2 FEHLER), Teil 2 (1 FEHLER): Einzelbefunde im Upload, bitte im Bericht nennen.
 Gut: Wächter 7 ms (vorher 11). Vollscan: eigene Arbeit in Bildern über 33 ms Ø 2,9 ms / höchstens 10 ms, Rest = Spiel/Umgebung.
 Auskunft: Schritte über 16 ms: T126 115 ms (vorher 8,2!), T32 52, T26a 46, S28 41, T26b 23 – T126 belegen (Ausreisser oder neu).
+NACHTRAG 12:27 zum INGAMETEST 12:25: Nutzer 12:24 "ich habe 3 mal das spiel maximiert" – während des Tests wurde WoW 3× in den
+Vordergrund geholt (Wechsel Hintergrund <-> Vordergrund). Daten sind hochgeladen (Nutzer 12:23). Prüfen, ob T126 115 ms, die 2 Sniper-FEHLER
+oder Ausreisser zeitlich auf einen solchen Wechsel fallen (Fensterwechsel = ein langes Bild, nicht eigene Arbeit). Ein Wechsel darf keine
+Prüfung auf FEHLER kippen, wenn die eigene Rechenzeit unter der Grenze bleibt.
