@@ -7,6 +7,19 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.354</h3>
+<ul>
+<li><strong>Disenchant buy limit ("Worth up to") corrected:</strong> the price-step limit (how much of the value you may pay) was kept for 5 minutes regardless of which data it came from. A value calculated from the empty replacement data of the test routine (0.90) could then apply to your real data (0.80) – "Worth up to" for disenchanting was up to 4 % too high for groups with 20 % minimum gain. The stored value now only applies to the data it was calculated from.</li>
+<li><strong>Sell tab: no more far-too-cheap suggestions:</strong> with a single other offer (e.g. 3s 40c) and an old low market value (e.g. 15c), the suggestion fell to the market value without a warning. The market value is now only used up to half of the cheapest other offer, and a price below half of it always warns – also with only one or two offers. Without any price data (no price check, no market value) AHSentinel now warns clearly before posting.</li>
+</ul>
+<h3>Version 0.65.353</h3>
+<ul>
+<li><strong>Test routine (sniper, full scan):</strong> calls of AHSentinel during which Lua's memory cleanup ran are counted separately (their own share cannot be separated) instead of as AHSentinel's own work; the slowest own script is named. The sniper itself is unchanged.</li>
+</ul>
+<h3>Version 0.65.352</h3>
+<ul>
+<li><strong>Sniper test routine also in the background:</strong> smoothness is now judged by AHSentinel's own work per frame (not by the frame length, which is always about 33 ms at 30 frames/s); the "in turn" check no longer counts waiting for the server as its own gap and shows both. The sniper itself is unchanged.</li>
+</ul>
 <h3>Version 0.65.351</h3>
 <ul>
 <li><strong>Sniper test routine:</strong> a throttled frame rate (WoW in the background, or a frame-rate cap of 33 or less) is now detected up to 10 % above the limit; smoothness and pace are then reported as "not measurable" instead of as errors. The sniper itself is unchanged.</li>
@@ -15,26 +28,7 @@
 <ul>
 <li><strong>Less memory during the full scan in the test routine:</strong> the check "is this a commodity?" now also uses its cache for real items during the test routine (before, it asked the game twice per item), so the test measures the scan like it runs for players.</li>
 </ul>
-<h3>Version 0.65.349</h3>
-<ul>
-<li><strong>"Today" sell prices:</strong> an offer list from an older full scan is no longer used unchanged when a newer scan has a different price (a sell suggestion of 1s 25c was compared with a 58c offer from the day before). Cheaper steps that are gone are dropped; a newer, lower price comes first.</li>
-<li><strong>Smoother watcher:</strong> while a round is running, the watcher only reads the result list when the game reports new results (or once per second) instead of ten times per second.</li>
-<li><strong>Test routine:</strong> the report names the test location (zone, nameplates in view, ping); the longest frame shows AHSentinel's own work next to it; a separate line shows the longest full-scan frame with own work, the rest and memory per addon.</li>
-</ul>
-<h3>Version 0.65.348</h3>
-<ul>
-<li><strong>Watcher no longer waits for minutes:</strong> after a market scan, up to 60 suspiciously cheap offers are re-checked; the watcher now gets a round after 45 seconds at the latest instead of waiting for the whole list.</li>
-<li><strong>Your own auctions first:</strong> these re-checks now run in the background list, so "Check undercuts" and clicked items are no longer stuck behind them.</li>
-<li><strong>One "Worth up to" everywhere:</strong> a temporary price store of the disenchant check was also used by the tooltip and the market while the check paused, which could show two different values for one item. It is now only used by the check itself.</li>
-<li><strong>Less memory during a full scan:</strong> the "Today" list and the forecast wait until the full scan is done (at most 5 minutes).</li>
-<li><strong>Test routine:</strong> shows the length of the price check lists when a search is blocked; the address book check names the changed fields; the full-scan memory shows the share of each task first.</li>
-</ul>
-<h3>Version 0.65.347</h3>
-<ul>
-<li><strong>GoldSentinel communication (version 3):</strong> during a test routine of any GoldSentinel addon, no addresses are learned from test messages and no real whispers are sent; a "player not online" message is recognised more reliably.</li>
-<li><strong>For other addons:</strong> <code>AHSentinelAPI.TestRunning()</code> tells whether AHSentinel's test routine is running.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

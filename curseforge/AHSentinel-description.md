@@ -12,6 +12,19 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.354
+
+- **Disenchant buy limit ("Worth up to") corrected:** the price-step limit (how much of the value you may pay) was kept for 5 minutes regardless of which data it came from. A value calculated from the empty replacement data of the test routine (0.90) could then apply to your real data (0.80) – "Worth up to" for disenchanting was up to 4 % too high for groups with 20 % minimum gain. The stored value now only applies to the data it was calculated from.
+- **Sell tab: no more far-too-cheap suggestions:** with a single other offer (e.g. 3s 40c) and an old low market value (e.g. 15c), the suggestion fell to the market value without a warning. The market value is now only used up to half of the cheapest other offer, and a price below half of it always warns – also with only one or two offers. Without any price data (no price check, no market value) AHSentinel now warns clearly before posting.
+
+### Version 0.65.353
+
+- **Test routine (sniper, full scan):** calls of AHSentinel during which Lua's memory cleanup ran are counted separately (their own share cannot be separated) instead of as AHSentinel's own work; the slowest own script is named. The sniper itself is unchanged.
+
+### Version 0.65.352
+
+- **Sniper test routine also in the background:** smoothness is now judged by AHSentinel's own work per frame (not by the frame length, which is always about 33 ms at 30 frames/s); the "in turn" check no longer counts waiting for the server as its own gap and shows both. The sniper itself is unchanged.
+
 ### Version 0.65.351
 
 - **Sniper test routine:** a throttled frame rate (WoW in the background, or a frame-rate cap of 33 or less) is now detected up to 10 % above the limit; smoothness and pace are then reported as "not measurable" instead of as errors. The sniper itself is unchanged.
@@ -19,25 +32,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 ### Version 0.65.350
 
 - **Less memory during the full scan in the test routine:** the check "is this a commodity?" now also uses its cache for real items during the test routine (before, it asked the game twice per item), so the test measures the scan like it runs for players.
-
-### Version 0.65.349
-
-- **"Today" sell prices:** an offer list from an older full scan is no longer used unchanged when a newer scan has a different price (a sell suggestion of 1s 25c was compared with a 58c offer from the day before). Cheaper steps that are gone are dropped; a newer, lower price comes first.
-- **Smoother watcher:** while a round is running, the watcher only reads the result list when the game reports new results (or once per second) instead of ten times per second.
-- **Test routine:** the report names the test location (zone, nameplates in view, ping); the longest frame shows AHSentinel's own work next to it; a separate line shows the longest full-scan frame with own work, the rest and memory per addon.
-
-### Version 0.65.348
-
-- **Watcher no longer waits for minutes:** after a market scan, up to 60 suspiciously cheap offers are re-checked; the watcher now gets a round after 45 seconds at the latest instead of waiting for the whole list.
-- **Your own auctions first:** these re-checks now run in the background list, so "Check undercuts" and clicked items are no longer stuck behind them.
-- **One "Worth up to" everywhere:** a temporary price store of the disenchant check was also used by the tooltip and the market while the check paused, which could show two different values for one item. It is now only used by the check itself.
-- **Less memory during a full scan:** the "Today" list and the forecast wait until the full scan is done (at most 5 minutes).
-- **Test routine:** shows the length of the price check lists when a search is blocked; the address book check names the changed fields; the full-scan memory shows the share of each task first.
-
-### Version 0.65.347
-
-- **GoldSentinel communication (version 3):** during a test routine of any GoldSentinel addon, no addresses are learned from test messages and no real whispers are sent; a "player not online" message is recognised more reliably.
-- **For other addons:** `AHSentinelAPI.TestRunning()` tells whether AHSentinel's test routine is running.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
