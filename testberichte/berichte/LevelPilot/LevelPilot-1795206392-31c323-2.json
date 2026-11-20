@@ -1,0 +1,41 @@
+{
+ "addon": "LevelPilot",
+ "bereich": "pruefliste",
+ "counts": {
+  "client": 0,
+  "fehler": 0,
+  "ok": 1,
+  "uebersprungen": 0
+ },
+ "dur_ms": 0,
+ "env": {
+  "build": "70959",
+  "class": "WARRIOR",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 24,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "erkannt": "beim Spielen",
+ "errors": [],
+ "f": 1,
+ "id": "LevelPilot-1795206392-31c323-2",
+ "kind": "test",
+ "punkt": "T303",
+ "results": [
+  {
+   "bereich": "Prüfliste",
+   "ergebnis": "nach 3 Min., nächste Stelle 357 Yards",
+   "erkannt": "beim Spielen",
+   "id": "T303",
+   "name": "Abgegraste Stelle",
+   "status": "OK"
+  }
+ ],
+ "time": 1795206392,
+ "version": "3.13.6"
+}

@@ -1,17 +1,17 @@
 {
- "ausgewertet": "2026-11-20T20:28:03Z",
+ "ausgewertet": "2026-11-20T22:27:05Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
-   "berichte": 130,
+   "berichte": 131,
    "letzter_test": {
-    "id": "AHSentinel-1795202198-c7960f-2",
+    "id": "AHSentinel-1795203363-5bd747-1",
     "version": "0.65.355",
-    "time": 1795202195,
+    "time": 1795203361,
     "counts": {
      "client": 0,
      "fehler": 0,
-     "ok": 9,
+     "ok": 11,
      "uebersprungen": 1
     }
    },
@@ -197,11 +197,11 @@
    ]
   },
   "LevelPilot": {
-   "berichte": 69,
+   "berichte": 70,
    "letzter_test": {
-    "id": "LevelPilot-1795202198-5de305-3",
+    "id": "LevelPilot-1795206392-31c323-2",
     "version": "3.13.6",
-    "time": 1795202198,
+    "time": 1795206392,
     "counts": {
      "client": 0,
      "fehler": 0,
@@ -615,11 +615,11 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 189,
+    "anzahl": 190,
     "neueste": "testberichte/diagnose/AHSentinel/0.65.355-e067eb4b643c.txt"
    },
    "BuffSentinel": {
-    "anzahl": 83,
+    "anzahl": 84,
     "neueste": "testberichte/diagnose/BuffSentinel/0.9.60-fb522145c40a.txt"
    },
    "GSMesstest": {
@@ -627,30 +627,30 @@
     "neueste": "testberichte/diagnose/GSMesstest/5.1-f65d607ab777.txt"
    },
    "GSSniperLog": {
-    "anzahl": 24,
+    "anzahl": 25,
     "neueste": "testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt"
    },
    "GuildSentinel": {
-    "anzahl": 196,
+    "anzahl": 197,
     "neueste": "testberichte/diagnose/GuildSentinel/0.9.58-e52bcbc311ff.txt"
    },
    "LevelPilot": {
-    "anzahl": 89,
+    "anzahl": 90,
     "neueste": "testberichte/diagnose/LevelPilot/3.13.6-ff554f99e167.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 175,
+    "anzahl": 176,
     "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.74-f850c0c0007b.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 167,
+    "anzahl": 168,
     "neueste": "testberichte/diagnose/ThreatSentinel/2.5.23-e61faba6e4d4.txt"
    }
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 249,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1795205698-c7eaeb.json"
+    "anzahl": 250,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1795213044-f12a3c.json"
    }
   }
  }

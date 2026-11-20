@@ -1,15 +1,15 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-20 20:28 UTC
+Ausgewertet: 2026-11-20 22:27 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
 | Addon | letzter Testlauf | Version | Client | OK | FEHLER | übersprungen | im Client prüfen | Fehler im Spiel (7 Tage) |
 |---|---|---|---|---|---|---|---|---|
-| AHSentinel | 20.11.2026 19:16 UTC | 0.65.355 | forever 1.60.1 (Interface 16001) | 9 | 0 | 1 | 0 | 33 |
+| AHSentinel | 20.11.2026 19:36 UTC | 0.65.355 | forever 1.60.1 (Interface 16001) | 11 | 0 | 1 | 0 | 33 |
 | BuffSentinel | 20.11.2026 19:16 UTC | 0.9.60 | forever 1.60.1 (Interface 16001) | 1 | 0 | 0 | 0 | 0 |
 | GuildSentinel | 18.11.2026 18:20 UTC | 0.9.58 | forever 1.60.1 (Interface 16001) | 329 | 0 | 24 | 8 | 4 |
-| LevelPilot | 20.11.2026 19:16 UTC | 3.13.6 | forever 1.60.1 (Interface 16001) | 1 | 0 | 0 | 0 | 15 |
+| LevelPilot | 20.11.2026 20:26 UTC | 3.13.6 | forever 1.60.1 (Interface 16001) | 1 | 0 | 0 | 0 | 15 |
 | ProfessionSentinel | 18.11.2026 18:23 UTC | 0.9.74 | forever 1.60.1 (Interface 16001) | 1 | 1 | 8 | 0 | 8 |
 | RaidMaster | 18.11.2026 18:21 UTC | 3.0.40 | forever 1.60.1 (Interface 16001) | 0 | 1 | 0 | 0 | 0 |
 | ThreatSentinel | 18.11.2026 12:49 UTC | 2.5.23 | forever 1.60.1 (Interface 16001) | 0 | 1 | 0 | 0 | 0 |
@@ -18,20 +18,20 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 189 | `testberichte/diagnose/AHSentinel/0.65.355-e067eb4b643c.txt` |
-| BuffSentinel | 83 | `testberichte/diagnose/BuffSentinel/0.9.60-fb522145c40a.txt` |
+| AHSentinel | 190 | `testberichte/diagnose/AHSentinel/0.65.355-e067eb4b643c.txt` |
+| BuffSentinel | 84 | `testberichte/diagnose/BuffSentinel/0.9.60-fb522145c40a.txt` |
 | GSMesstest | 20 | `testberichte/diagnose/GSMesstest/5.1-f65d607ab777.txt` |
-| GSSniperLog | 24 | `testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt` |
-| GuildSentinel | 196 | `testberichte/diagnose/GuildSentinel/0.9.58-e52bcbc311ff.txt` |
-| LevelPilot | 89 | `testberichte/diagnose/LevelPilot/3.13.6-ff554f99e167.txt` |
-| ProfessionSentinel | 175 | `testberichte/diagnose/ProfessionSentinel/0.9.74-f850c0c0007b.txt` |
-| ThreatSentinel | 167 | `testberichte/diagnose/ThreatSentinel/2.5.23-e61faba6e4d4.txt` |
+| GSSniperLog | 25 | `testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt` |
+| GuildSentinel | 197 | `testberichte/diagnose/GuildSentinel/0.9.58-e52bcbc311ff.txt` |
+| LevelPilot | 90 | `testberichte/diagnose/LevelPilot/3.13.6-ff554f99e167.txt` |
+| ProfessionSentinel | 176 | `testberichte/diagnose/ProfessionSentinel/0.9.74-f850c0c0007b.txt` |
+| ThreatSentinel | 168 | `testberichte/diagnose/ThreatSentinel/2.5.23-e61faba6e4d4.txt` |
 
 ## Wegdaten (GSWEGE1)
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| LevelPilot | 249 | `testberichte/wege/LevelPilot/LevelPilot-wege-1795205698-c7eaeb.json` |
+| LevelPilot | 250 | `testberichte/wege/LevelPilot/LevelPilot-wege-1795213044-f12a3c.json` |
 
 ## AHSentinel
 
@@ -63,8 +63,8 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 - [SKIP] ALLES-8 ALLES – Prüfungen am Berufsfenster (grund:   8. Prüfungen am Berufsfenster: noch offen – passiert von selbst beim nächsten Öffnen eines Berufsfensters)
 - [SKIP] ALLES-9 ALLES – Prüfungen am Händler (grund:   9. Prüfungen am Händler: noch offen – passiert von selbst beim nächsten Händler-Besuch)
 
-**Testlauf 0.65.355 · forever 1.60.1 (Interface 16001) · 20.11.2026 19:16 UTC** – OK 9 · FEHLER 0 · übersprungen 1 · im Client prüfen 0 · Sandbox OK
-- [SKIP] T100 D – Alter Händler-Weg (grund: nur im alten Client (Classic Era, TBC))
+**Testlauf 0.65.355 · forever 1.60.1 (Interface 16001) · 20.11.2026 19:36 UTC** – OK 11 · FEHLER 0 · übersprungen 1 · im Client prüfen 0 · Sandbox OK
+- [SKIP] T99 D – Alte Berufe-API (grund: nur im alten Client (Classic Era, TBC))
 
 **Fehler im Spiel (letzte 7 Tage)**
 - 25× `ADDON_ACTION_BLOCKED`: UNKNOWN() – Version 0.65.182, 0.65.189, 0.65.194, 0.65.196, 0.65.203 · forever 1.60.1 (Interface 16001) · zuletzt 15.11.2026 18:13 UTC
@@ -298,7 +298,7 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 **Testlauf 3.13.5 · forever 1.60.1 (Interface 16001) · 20.11.2026 06:31 UTC** – OK 11 · FEHLER 0 · übersprungen 0 · im Client prüfen 0
 
-**Testlauf 3.13.6 · forever 1.60.1 (Interface 16001) · 20.11.2026 19:16 UTC** – OK 1 · FEHLER 0 · übersprungen 0 · im Client prüfen 0
+**Testlauf 3.13.6 · forever 1.60.1 (Interface 16001) · 20.11.2026 20:26 UTC** – OK 1 · FEHLER 0 · übersprungen 0 · im Client prüfen 0
 
 **Fehler im Spiel (letzte 7 Tage)**
 - 15× `Reise`: Fehler in der Reise: Interface/AddOns/LevelPilot/Virtual.lua:135: attempt to perform indexed assignment on field '?' (a boolean value) – Version 3.12.89 · forever 1.60.1 (Interface 16001) · zuletzt 17.11.2026 19:02 UTC
