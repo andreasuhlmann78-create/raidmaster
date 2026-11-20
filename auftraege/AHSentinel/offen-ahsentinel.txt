@@ -5267,3 +5267,9 @@ Mit UI-Prüfung (T750) und Kontrast-Prüfung (Gegenprobe: dunkelgraue Zahl -> Be
    ("über 30 % Rendite") auf Grund eines nur aktuell erhöhten Preises. Gewinn beim späteren Verkauf bleibt willkommen (Preis steigt = gut
    für den Verkauf), aber der Einkauf darf nicht darauf bauen. Test + Gegenprobe (Preis +50 % frisch -> Kaufgrenze nach Median).
 Gold-relevant (Punkt 4): mit der nächsten Version, CurseForge sofort.
+ÄNDERUNG 13:40 zu AUFTRAG TOOLTIP ENTZAUBERN Punkt 4 (Nutzer 13:35/13:36 – ersetzt die MIN-Regel):
+Verkaufspreis der Materialien = echter Preis aus dem letzten Scan (günstigstes fremdes Angebot, abzüglich Unterbieten und Gebühr) – nicht
+schätzen. Begründung aus deinen eigenen Daten: Staub/Essenz verkaufen sich schnell (Median 0,0–0,4 Std. bis Verkauf), der Scanpreis ist
+also fast der Verkaufspreis. Vorsicht NUR, wenn der Scan alt ist (z. B. > 1 Std.): dann deutlich "Scan alt – Preis vom …" zeigen und keinen
+Kaufhinweis ("über 30 % Rendite") geben, bis ein frischer Scan da ist. "Preis frisch gestiegen" am Scan-Abstand messen (Punkt 3).
+Mitzählen, ob der Verkaufspreis beim echten Verkauf gehalten hat (vorhergesagt/erzielt je Material); im Bericht zeigen.
