@@ -177,7 +177,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Schlingendorntal (1434)
 
-- Wegstücke 164, Knoten 291, zusammenhängende Teile 1
+- Wegstücke 168, Knoten 308, zusammenhängende Teile 1
 
 ## Sümpfe des Elends (1435)
 

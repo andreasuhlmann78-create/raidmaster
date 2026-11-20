@@ -1,6 +1,6 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-20 16:38 UTC
+Ausgewertet: 2026-11-20 18:37 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
@@ -18,20 +18,20 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 187 | `testberichte/diagnose/AHSentinel/0.65.355-91d1d0846660.txt` |
-| BuffSentinel | 79 | `testberichte/diagnose/BuffSentinel/0.9.60-fb522145c40a.txt` |
+| AHSentinel | 188 | `testberichte/diagnose/AHSentinel/0.65.355-e067eb4b643c.txt` |
+| BuffSentinel | 80 | `testberichte/diagnose/BuffSentinel/0.9.60-fb522145c40a.txt` |
 | GSMesstest | 20 | `testberichte/diagnose/GSMesstest/5.1-f65d607ab777.txt` |
-| GSSniperLog | 22 | `testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt` |
-| GuildSentinel | 192 | `testberichte/diagnose/GuildSentinel/0.9.58-e52bcbc311ff.txt` |
-| LevelPilot | 86 | `testberichte/diagnose/LevelPilot/3.13.6-c9e0a5d8b2da.txt` |
-| ProfessionSentinel | 171 | `testberichte/diagnose/ProfessionSentinel/0.9.74-f850c0c0007b.txt` |
-| ThreatSentinel | 165 | `testberichte/diagnose/ThreatSentinel/2.5.23-e61faba6e4d4.txt` |
+| GSSniperLog | 23 | `testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt` |
+| GuildSentinel | 193 | `testberichte/diagnose/GuildSentinel/0.9.58-e52bcbc311ff.txt` |
+| LevelPilot | 87 | `testberichte/diagnose/LevelPilot/3.13.6-c9e0a5d8b2da.txt` |
+| ProfessionSentinel | 172 | `testberichte/diagnose/ProfessionSentinel/0.9.74-f850c0c0007b.txt` |
+| ThreatSentinel | 166 | `testberichte/diagnose/ThreatSentinel/2.5.23-e61faba6e4d4.txt` |
 
 ## Wegdaten (GSWEGE1)
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| LevelPilot | 246 | `testberichte/wege/LevelPilot/LevelPilot-wege-1795190036-c407b7.json` |
+| LevelPilot | 247 | `testberichte/wege/LevelPilot/LevelPilot-wege-1795197858-4672c3.json` |
 
 ## AHSentinel
 
