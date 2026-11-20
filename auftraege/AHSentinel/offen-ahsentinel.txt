@@ -5360,3 +5360,24 @@ K18 Verkaufsschutz A ändert sichtbar das Verhalten (mehr Bestätigungen, "warte
    erklären es in 2–3 Sätzen für Spieler; alle Texte (Warnung, Gründe) in allen Sprachen (T110 vollständig).
 K19 Zusammenspiel mit "Preis anpassen" (FixConfirmed, PF-1): eine Bestätigung gilt nur für genau dieses Item, diesen Preis und 120 s; eine
    neue Untergrenze aus A2/A3 darf keine Bestätigungs-Schleife erzeugen (Test: anpassen -> einstellen ohne zweite Sperre).
+
+==== VIERTE PRÜFUNG – WIRTSCHAFT UND BUCHHALTUNG – KORREKTUREN 14:40 (Nutzer 14:31) ====
+Geprüft gegen shared/wissen/wirtschaft-forever.md (§1, §3, §4, §8.3, §8.4) und buchhaltung.md (Kostenbasis, Kuppelprodukte, Umbuchung).
+K20 ZURÜCKGENOMMEN: K9 und K15 (Materialwert = MIN(Scanpreis, Median 14 Tage)). Sie widersprechen dem Entscheid des Nutzers in
+   wirtschaft-forever §3: "Rechenwert = günstigstes Angebot aus dem letzten Scan. Kein Abzug, keine Deckelung auf den Median. Der Spieler
+   scannt bewusst oft." Und heute 13:36: "den Preis muss er nicht schätzen". Es gilt: EIN Kaufwert je Item (K15 bleibt in diesem Punkt),
+   gerechnet mit dem Scanpreis (§3, inkl. Schutz: offensichtlicher Ausreisser -> nächstes Angebot; Item nicht im Scan -> Median).
+   Schutz gegen Spitzen und alte Daten = Scan-Alter (SCAN-WARNUNG, A1, K1, K8), nicht der Median.
+K21 (ÄNDERUNG 13:40 / C2): Kein Abzug "Unterbieten" im Rechenwert (§3). Netto = Scanpreis − 5 % Gebühr (abgerundet) − Einzahlungsrisiko
+   (§4). Unterbieten nur beim echten Einstellen: um 1c, nie tiefer (§8.3) – A4 "≤ 2 %" gestrichen.
+K22 (K12) Formel korrigiert nach §1: erwartete Kosten je Verkauf = 5 % × Preis + Einzahlung × (1 − p) / p (p = Verkaufschance je
+   Einstellung; Wiedereinstellen nach Ablauf). Einzahlung immer über die Blizzard-API, nie fest (Mindest-Einzahlung 1s -> 1c angekündigt
+   17./18.11. – Stand im Spiel messen).
+K23 (A2, Buchhaltung): Eigener Einstand ist versunkene Kosten – für die Marktentscheidung zählt der Netto-Wert jetzt. Unter Einstand
+   verkaufen bleibt mit Bestätigung möglich (K2); die Anzeige nennt den Verlust zum Einstand. Bei Material aus Entzaubern ist der Einstand
+   der umgebuchte Anteil nach relativem Verkaufswert im Moment des Entzauberns (buchhaltung.md 3.), nicht 0.
+K24 (A2/§3): Händlerpreis als Untergrenze netto vergleichen: AH netto (nach 5 % und Einzahlungsrisiko) gegen Händlerpreis (ohne Gebühr).
+K25 Regelwerk §8.3 "Höchstpreis: Konkurrenz weit über Median -> zum Normalpreis einstellen" hat CF-AHS-5 verursacht (Median 15c, einziges
+   Angebot 3s40). 0.65.354 weicht bewusst ab (Median < 50 % des günstigsten Angebots -> knapp darunter). Regelwerk wird angepasst
+   (siehe wirtschaft-forever §6/§8.3, 20.11.); Code und Regelwerk müssen gleich sein.
+Reihenfolge unverändert: A (Verkaufsschutz, mit K1/K2/K21–K24) zuerst.

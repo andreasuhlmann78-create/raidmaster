@@ -132,6 +132,9 @@ die **Menge**, bid den **Gesamtpreis** (Rohzeile unten), `count` ist die Menge o
 | 9.11. | Negative Einnahmen als "doppelte Gebühr" erklärt und Reparatur beauftragt | Ursache war die Feldlage; erst Zahlen exakt aufgehen lassen, dann Ursache benennen |
 | 9.11. | Eigener Ø-Verkaufspreis als Rechenwert | nur Statistik; Rechenwert = letzter Scan |
 
+| 20.11. | Regel "Konkurrenz weit über Median -> Normalpreis" ohne Prüfung, ob der Median belastbar ist | Spieler verkaufte zu 15c statt 3s 40c (CF-AHS-5); Ausnahme in §8.3, Behebung 0.65.354 |
+| 20.11. | Prüf-Sitzung beauftragte MIN(Scanpreis, Median) als Kaufwert | widerspricht Entscheid §3 (Rechenwert = Scan, keine Median-Deckelung); zurückgenommen (K20) |
+
 ## 7. Pflicht-Checkliste vor jeder Anweisung mit Geld
 
 - [ ] Steht die Regel in diesem Dokument als **belegt**? Wenn nein: Messauftrag statt Regel.
@@ -177,6 +180,9 @@ Spieler leveln noch). Jede Strategie mit der Frage: Was muss AHSentinel/Professi
 - **Normalpreis:** ohne Konkurrenz am Median (oder etwas darüber), nicht ins Blaue.
 - **Unterbieten um 1c**, nie tiefer (verhindert Preiskrieg und verschenkt nichts).
 - **Höchstpreis:** Konkurrenz weit über Median -> zum Normalpreis einstellen, nicht hinterherziehen.
+  **Ausnahme (20.11.2026, Fall CF-AHS-5):** Ist der Median nicht belastbar (wenige Scans mit Angeboten, seltenes Item) oder liegt er
+  unter 50 % des günstigsten frischen Angebots, gilt er nicht als Normalpreis: knapp unter dem Angebot einstellen und warnen.
+  Ein alter/dünner Median hat einen Spieler Gold gekostet (15c statt 3s 40c).
 - **Ablaufgrenze:** Nach mehreren Abläufen ohne Verkauf nicht stur neu einstellen (Einzahlung wird verbrannt) –
   billiger einstellen, liegen lassen oder an den Händler.
 - **Neu einstellen höher:** Ist die billige Konkurrenz weg, Auktion abbrechen und höher einstellen nur, wenn der
