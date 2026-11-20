@@ -16,3 +16,10 @@ Danach über /api/v1/mods/<id>/comments prüfen, dass nur noch eine Antwort steh
 NACHTRAG 19:16: Nutzer 19:12 "warum nicht" auf die Frage, ob der korrigierte Entwurf CF-AHS-5 gepostet werden darf -> FREIGEGEBEN, mit der
 Korrektur aus Punkt 4 (Satz zur Warnung ersetzt durch "AHSentinel should have suggested a price close to the cheapest listing (3s 40c here).").
 Einmal posten, danach über die API prüfen (kein Doppelpost).
+NACHTRAG 20.11.2026 07:40 (Supervisor): Auf CurseForge geprüft über die API: Doppelpost 8752256 ist weg (nur 8752252), Antwort CF-AHS-5
+8752307 steht. Spieler antwortete 20.11. 00:16 "v0.65.354 and Forever." (ID 8754080). Nach Ingametest 0.65.354 (Kaufgrenze 0.80, Teil 1
+nur T750 FEHLER, T916 nicht unter den FEHLERN) auf Wunsch des Nutzers (06:27 "als behoben") gepostet: ID 8755960 (einmal, API geprüft):
+"Thanks! This is fixed in 0.65.354: when the only other listing is far above the market value (like your 3s 40c vs. 15c), AHSentinel now
+suggests a price just below that listing instead of the old market value, and it warns before posting a price far below the cheapest
+listing or when it has no price data at all. If you still see a suggestion far below the auction house, please tell us the item and both prices."
+CF-AHS-7 (Export) und CF-AHS-6 (Wunsch): nichts gepostet – Export im Spiel nicht bestätigt, Wunsch nicht umgesetzt.

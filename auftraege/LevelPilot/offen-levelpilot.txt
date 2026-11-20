@@ -1455,3 +1455,11 @@ Weiter: Aufträge 11:00 (Lücken), 12:42 (Wegqualität), 13:00 (virtuelle Reise 
 
 ==== EINGANG 20.11.2026 06:25 – LevelPilot 3.13.5 (Bericht 19.11. 17:01) ====
 addon_check OK. Auf dem Laptop abgelegt. Ingametest folgt.
+
+==== INGAMETEST 20.11.2026 07:40 – LevelPilot 3.13.5 (Laptop, Undercity, Bericht 07:25) ====
+OK 302 · FEHLER 2 · übersprungen 9. Fehlerzähler 0, Sandbox OK, Regressionen 86/86, T261 837 ms, längstes Bild 60,3 ms.
+1. HOCH (Rückschritt) – T259 Wegaufzeichnung: "nach 70-Yards-Lücke Spur 0 Punkt(e) · gelaufen 0 Punkte | soll 1, 0 · 5". Bis 3.13.4
+   bestanden. Der neue Stillstand-/Umweg-Filter (3.13.5) lässt im Test gar keine Punkte mehr durch. Im Bericht unten: "Wegabschnitte
+   aufgezeichnet 0 · verworfen Stillstand/AFK 3". Belegen, ob auch beim echten Laufen nichts mehr aufgezeichnet wird (dann nimmt das
+   Wegnetz nichts mehr auf!). Beheben, Gegenprobe: echter gerader Lauf -> Punkte und Abschnitt da.
+2. MITTEL – T368 Wegqualität (neu): ein Teil "false" (Text abgeschnitten: "Stehen: erst nach 30 s, dann mit false"). Ursache belegen.
