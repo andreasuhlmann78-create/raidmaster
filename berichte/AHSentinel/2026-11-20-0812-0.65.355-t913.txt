@@ -1,0 +1,24 @@
+AHSentinel 0.65.355 – INGAMETEST 20.11. 07:10 Punkt 1 (T913 SYNC-BUCH) – umgesetzt, zur Prüfung
+Daten: goldsentinel-daten 3494d17 (07:39). Vollauf 410 bestanden, 0 fehlgeschlagen (+ s335). GitHub v0.65.355, Discord. CurseForge nicht
+(kein Gold/Kauf betroffen).
+
+Belegt aus dem Code (GoldSentinelSync 3, unverändert aus shared/):
+- fail/pause setzt NUR S.OnSystemMessage: "Spieler nicht gefunden" bis 5 s nach einem Flüstern an genau diesen Namen (S.whispered),
+  dann fail+1, pause = GetTime() + OFFLINE_PAUSE (900 s). "+594701" ist GetTime() = Laufzeit des Rechners (~6,9 Tage) + 900, also eine
+  Pause von 15 Minuten, keine 7 Tage. Beim Laden setzt UseStorage pause = 0. -> Kein Gildenpartner wird 7 Tage gesperrt.
+- Die Testroutine flüstert selbst nicht über den echten Weg: Sync 3 hält jedes echte Flüstern an (TestHeld, AHSentinelAPI.TestRunning),
+  T277/T272 senden über eine Ersatz-Funktion (S.whispered wird dort zwar gesetzt, aber es geht nichts hinaus -> keine Offline-Meldung).
+- Damit kommt die Änderung wahrscheinlich von echtem Verkehr von VOR dem Start (Flüstern kurz vor /ahs testroutine, Meldung kam im Lauf)
+  – Verdacht, zu messen: der Upload enthält keine Zeitpunkte. Hinweis: der Zähler "Nichts wirklich ausgeführt" zählt nur den Präfix AHAP1,
+  nicht die GoldSentinelSync-Nachrichten – ein Flüstern im Lauf wäre dort nicht zu sehen gewesen.
+Behebung/Messung:
+- TR.SyncWatchStart (beim Start jedes Teils): Netz-Zähler (gesendet, angehalten, offline) und Flüstern < 10 s alt; GoldSentinelSync.
+  OnSystemMessage wird während der Testroutine umhüllt (Datei unverändert): je Offline-Meldung Zeitpunkt des Flüsterns relativ zum Start
+  (ohne Namen). Flüstern IM LAUF (darf nie sein) -> fail/pause des Eintrags zurückgesetzt -> der Test ändert echte Sync-Daten nie.
+- T913: zeigt "Netz im Lauf: gesendet +x, im Test angehalten +y, Offline-Meldungen +z · Offline-Meldungen: n nach Flüstern VOR dem Start
+  (… s davor), m nach Flüstern im Lauf (k zurückgesetzt)". Bestanden nur, wenn sich ausschliesslich fail/pause geändert haben, kein Flüstern
+  im Lauf war und die Zahl der geänderten Einträge durch Offline-Meldungen nach Flüstern vor dem Start erklärt ist; sonst FEHLER.
+- Gegenprobe s335: Flüstern 2 s vor dem Start -> gezählt (echter Verkehr, im Text belegt); Flüstern im Lauf -> zurückgesetzt. 0.65.354: keine
+  Messung, Eintrag bleibt verändert (3 FAIL).
+Punkt 2 (T734 33,5 ms, 109 Bilder mit Bereinigung) und 3 (T459 37 MB) folgen; Hinweis zu 2: im 07:21-Upload fehlt "langsamstes Skript" in
+T617 ("Skripte 107") – die 107 ms sind also keine einzelne Hülle > 16 ms, sondern viele Aufrufe in einem Bild (zu messen).
