@@ -1,62 +1,21 @@
 {
- "ausgewertet": "2026-11-20T18:37:35Z",
+ "ausgewertet": "2026-11-20T19:42:32Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
-   "berichte": 129,
+   "berichte": 130,
    "letzter_test": {
-    "id": "AHSentinel-1795161188-e28f2c-5",
+    "id": "AHSentinel-1795202198-c7960f-2",
     "version": "0.65.355",
-    "time": 1795161188,
+    "time": 1795202195,
     "counts": {
      "client": 0,
-     "fehler": 4,
-     "ok": 2,
-     "uebersprungen": 3
+     "fehler": 0,
+     "ok": 9,
+     "uebersprungen": 1
     }
    },
-   "fehler_tests": [
-    {
-     "addon": "AHSentinel",
-     "art": "test",
-     "version": "0.65.355",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "ALLES-1",
-     "name": "Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1)",
-     "detail": "ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 949 OK, 1 FEHLER, 31 übersprungen, Sandbox OK",
-     "bericht": "AHSentinel-1795161188-e28f2c-5"
-    },
-    {
-     "addon": "AHSentinel",
-     "art": "test",
-     "version": "0.65.355",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "ALLES-2",
-     "name": "Oberflächen-Prüfung (alle Reiter)",
-     "detail": "ergebnis:   2. Oberflächen-Prüfung (alle Reiter): FEHLER – 6 OK, 1 FEHLER, 0 übersprungen, Sandbox OK",
-     "bericht": "AHSentinel-1795161188-e28f2c-5"
-    },
-    {
-     "addon": "AHSentinel",
-     "art": "test",
-     "version": "0.65.355",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "ALLES-4",
-     "name": "Sniper-Testroutine S1–S13 (ohne echten Kauf)",
-     "detail": "ergebnis:   4. Sniper-Testroutine S1–S13 (ohne echten Kauf): FEHLER – 24 OK, 2 FEHLER, 6 übersprungen, Sandbox OK",
-     "bericht": "AHSentinel-1795161188-e28f2c-5"
-    },
-    {
-     "addon": "AHSentinel",
-     "art": "test",
-     "version": "0.65.355",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "ALLES-6",
-     "name": "Prüfungen am offenen Auktionshaus",
-     "detail": "ergebnis:   6. Prüfungen am offenen Auktionshaus: FEHLER – 65 OK, 2 FEHLER, 4 übersprungen, Sandbox OK",
-     "bericht": "AHSentinel-1795161188-e28f2c-5"
-    }
-   ],
+   "fehler_tests": [],
    "fehler_spiel": [
     {
      "addon": "AHSentinel",
@@ -191,40 +150,19 @@
    ]
   },
   "BuffSentinel": {
-   "berichte": 10,
+   "berichte": 11,
    "letzter_test": {
-    "id": "BuffSentinel-1795025980-87d2e0-1",
+    "id": "BuffSentinel-1795202195-fc6b0f-1",
     "version": "0.9.60",
-    "time": 1795025972,
+    "time": 1795202195,
     "counts": {
-     "client": 10,
-     "fehler": 2,
-     "ok": 218,
-     "uebersprungen": 11
+     "client": 0,
+     "fehler": 0,
+     "ok": 1,
+     "uebersprungen": 0
     }
    },
-   "fehler_tests": [
-    {
-     "addon": "BuffSentinel",
-     "art": "test",
-     "version": "0.9.60",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T149",
-     "name": "Schwebende Anzeigen nicht in der gemeinsamen Fensterliste, leere Anker klein",
-     "detail": "ergebnis: ja/ja/ja/ja/nein",
-     "bericht": "BuffSentinel-1795025980-87d2e0-1"
-    },
-    {
-     "addon": "BuffSentinel",
-     "art": "test",
-     "version": "0.9.60",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T162",
-     "name": "Regressionen: jeder Befund hat einen Test, der gelaufen ist",
-     "detail": "ergebnis: Regressionen: 30 von 30 vorhanden · FEHLER: ANK Anker A1-A3 (10.11.)",
-     "bericht": "BuffSentinel-1795025980-87d2e0-1"
-    }
-   ],
+   "fehler_tests": [],
    "fehler_spiel": [
     {
      "addon": "BuffSentinel",
@@ -316,15 +254,15 @@
    ]
   },
   "LevelPilot": {
-   "berichte": 68,
+   "berichte": 69,
    "letzter_test": {
-    "id": "LevelPilot-1795156315-e3c944-3",
-    "version": "3.13.5",
-    "time": 1795156315,
+    "id": "LevelPilot-1795202198-5de305-3",
+    "version": "3.13.6",
+    "time": 1795202198,
     "counts": {
      "client": 0,
      "fehler": 0,
-     "ok": 11,
+     "ok": 1,
      "uebersprungen": 0
     }
    },
@@ -488,46 +426,6 @@
  "offen": [
   {
    "addon": "AHSentinel",
-   "art": "test",
-   "version": "0.65.355",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "ALLES-1",
-   "name": "Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1)",
-   "detail": "ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 949 OK, 1 FEHLER, 31 übersprungen, Sandbox OK",
-   "bericht": "AHSentinel-1795161188-e28f2c-5"
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "test",
-   "version": "0.65.355",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "ALLES-2",
-   "name": "Oberflächen-Prüfung (alle Reiter)",
-   "detail": "ergebnis:   2. Oberflächen-Prüfung (alle Reiter): FEHLER – 6 OK, 1 FEHLER, 0 übersprungen, Sandbox OK",
-   "bericht": "AHSentinel-1795161188-e28f2c-5"
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "test",
-   "version": "0.65.355",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "ALLES-4",
-   "name": "Sniper-Testroutine S1–S13 (ohne echten Kauf)",
-   "detail": "ergebnis:   4. Sniper-Testroutine S1–S13 (ohne echten Kauf): FEHLER – 24 OK, 2 FEHLER, 6 übersprungen, Sandbox OK",
-   "bericht": "AHSentinel-1795161188-e28f2c-5"
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "test",
-   "version": "0.65.355",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "ALLES-6",
-   "name": "Prüfungen am offenen Auktionshaus",
-   "detail": "ergebnis:   6. Prüfungen am offenen Auktionshaus: FEHLER – 65 OK, 2 FEHLER, 4 übersprungen, Sandbox OK",
-   "bericht": "AHSentinel-1795161188-e28f2c-5"
-  },
-  {
-   "addon": "AHSentinel",
    "art": "spiel",
    "wo": "ADDON_ACTION_BLOCKED",
    "msg": "UNKNOWN()",
@@ -655,26 +553,6 @@
     "forever 1.60.1 (Interface 16001)"
    ],
    "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[tail call]: ?\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/UI_Main.lua]:1298: in function 'Render'\n..."
-  },
-  {
-   "addon": "BuffSentinel",
-   "art": "test",
-   "version": "0.9.60",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T149",
-   "name": "Schwebende Anzeigen nicht in der gemeinsamen Fensterliste, leere Anker klein",
-   "detail": "ergebnis: ja/ja/ja/ja/nein",
-   "bericht": "BuffSentinel-1795025980-87d2e0-1"
-  },
-  {
-   "addon": "BuffSentinel",
-   "art": "test",
-   "version": "0.9.60",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T162",
-   "name": "Regressionen: jeder Befund hat einen Test, der gelaufen ist",
-   "detail": "ergebnis: Regressionen: 30 von 30 vorhanden · FEHLER: ANK Anker A1-A3 (10.11.)",
-   "bericht": "BuffSentinel-1795025980-87d2e0-1"
   },
   {
    "addon": "BuffSentinel",
@@ -850,11 +728,11 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 188,
+    "anzahl": 189,
     "neueste": "testberichte/diagnose/AHSentinel/0.65.355-e067eb4b643c.txt"
    },
    "BuffSentinel": {
-    "anzahl": 80,
+    "anzahl": 82,
     "neueste": "testberichte/diagnose/BuffSentinel/0.9.60-fb522145c40a.txt"
    },
    "GSMesstest": {
@@ -862,30 +740,30 @@
     "neueste": "testberichte/diagnose/GSMesstest/5.1-f65d607ab777.txt"
    },
    "GSSniperLog": {
-    "anzahl": 23,
+    "anzahl": 24,
     "neueste": "testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt"
    },
    "GuildSentinel": {
-    "anzahl": 193,
+    "anzahl": 195,
     "neueste": "testberichte/diagnose/GuildSentinel/0.9.58-e52bcbc311ff.txt"
    },
    "LevelPilot": {
-    "anzahl": 87,
-    "neueste": "testberichte/diagnose/LevelPilot/3.13.6-c9e0a5d8b2da.txt"
+    "anzahl": 88,
+    "neueste": "testberichte/diagnose/LevelPilot/3.13.6-ff554f99e167.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 172,
+    "anzahl": 174,
     "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.74-f850c0c0007b.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 166,
+    "anzahl": 167,
     "neueste": "testberichte/diagnose/ThreatSentinel/2.5.23-e61faba6e4d4.txt"
    }
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 247,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1795197858-4672c3.json"
+    "anzahl": 248,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1795202217-c58e01.json"
    }
   }
  }
