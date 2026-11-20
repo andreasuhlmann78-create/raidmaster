@@ -238,3 +238,9 @@ die es dort gibt.
   4. Datenlage: auf wie vielen Fällen beruht die Annahme? Unter Mindestzahl -> Messauftrag statt Regel.
   5. Widerspruch zu früheren Aufträgen? Dann den alten Auftrag ausdrücklich ersetzen, nicht anhängen.
   Erst Entwurf, dann diesen Check, dann eintragen – nicht während des Gesprächs Stück für Stück.
+
+- E-Regel 20.11.2026 17:02 (Nutzer: "du stellst sicher, dass es auch eingehalten wird") – GRUNDZIEL Markt (markt-strategie.md):
+  Bei jeder Abnahme von AHSentinel (und jedem Addon mit Preisen/Absatz/Prognosen) für jede Zahl, die eine Kauf-, Verkaufs- oder
+  Mengenentscheidung beeinflusst, prüfen: Woher stammt sie (gemessen/geschätzt/Annahme)? Auf wie vielen Fällen beruht sie (n)? Ist
+  sie im Spiel sichtbar so gekennzeichnet? Geschätzte Werte ohne laufende Messung = Befund. Neue Rechenregel ohne Messbeleg an echten
+  Daten = keine Freigabe. Im Prüfbericht eine Zeile "Grundziel Markt: geprüft – gemessen x / geschätzt y / Befunde z".
