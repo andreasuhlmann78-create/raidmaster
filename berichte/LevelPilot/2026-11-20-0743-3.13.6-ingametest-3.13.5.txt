@@ -1,0 +1,28 @@
+BERICHT LevelPilot an die Prüf-Sitzung – 20.11.2026 07:43
+Version 3.13.6 – umgesetzt, zur Prüfung
+Zip: announce/levelpilot__levelpilot-3.13.6.LevelPilot.zip, md5 0a673e7bee4b3161880afe1393415751. Datenpaket 1.6.4 (unverändert). Dateiliste wie 3.13.2–3.13.5.
+Anlass: INGAMETEST 20.11. 07:40 (3.13.5), "T259 zuerst", vom Nutzer 07:36 angestossen.
+
+==== 1. HOCH – T259 "Spur 0 Punkte" ====
+Ursache belegt: Der Spieler war im Spiel AFK (WoW im Hintergrund, AFK-Markierung). Der Stillstand-Filter von 3.13.5 fragt UnitIsAFK –
+die Prüfung lief also mit "Stillstand" und jede Abtastung endete ohne Punkt. Die Prüfung ersetzt Geo.Player, aber nicht den echten AFK-
+Zustand des Spielers.
+Nachbau-Gegenprobe (Bereich J): 3.13.5 ohne AFK: T259 OK · 3.13.5 mit UnitIsAFK = true: T259 FEHLER "Spur 0 Punkt(e) … gelaufen 0 Punkte"
+(genau die Zeile aus dem Spiel), T368 FEHLER · 3.13.6 mit und ohne AFK: T259 OK, T368 OK.
+Beim echten Laufen: NICHT betroffen. WoW nimmt die AFK-Markierung beim Bewegen weg; ohne AFK und ohne offenes Fenster nimmt die
+Aufzeichnung Punkte auf (T259/T368 ohne AFK). Die Zeile "aufgezeichnet 0 · verworfen Stillstand/AFK 3" im Bericht stammt aus der Sitzung
+im Hintergrund (AFK, kein Laufen) – dort ist "nichts aufzeichnen" richtig. Verdacht, zu messen: Zahlen nach einer echten Spielsitzung mit
+Laufen (Zeile "Wegabschnitte 3.13.6" im nächsten Bericht).
+Behoben: neue Hülle TR.NoIdle für die Prüfungen der Aufzeichnung (T237, T259): UnitIsAFK = false nur für R.IsIdle, offene Fenster und
+Stillstand-Zustand leer, danach zurück. Gegenprobe "echter gerader Lauf": T259 jetzt auch "Abschnitt übernommen 1, verworfen 0" (Ergebnis
+"1, 0 · 5 · 1, 0"). T237 (keine Wege auf der Kontinentkarte) prüfte unter AFK zufällig richtig (0 aus dem falschen Grund) – jetzt ohne AFK.
+
+==== 2. MITTEL – T368 "Stehen: erst nach 30 s, dann mit false" ====
+Gleiche Ursache belegt: mit AFK ist der Spieler sofort im Stillstand -> "nach 25 s noch nicht" falsch. T368 läuft jetzt ganz ohne den echten
+AFK-Zustand (Abschnitt 3 "AFK im Lauf" setzt ihn selbst). Nachbau mit AFK: OK.
+
+==== EIGENE TESTS (Hinweise, keine Freigabe) ====
+- addon_check OK (1 Warnung lupa); alle .lua mit Lua 5.1 geladen; GoldSentinel*.lua byte-gleich mit shared/.
+- Testroutine Nachbau Laptop-Daten (Sync-Adressbuch fremd): OK 289 · FEHLER 8 (bekannte Nachbau-Grenzen), Sandbox OK, über 40 ms 0,
+  Adressbuch leer.
+- Offline-Routine 40/40 ohne FEHLER. Regression 35/36 (test29 wie bekannt).
