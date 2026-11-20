@@ -226,3 +226,5 @@ RaidMaster 3.0.36 rief in der Testroutine das globale GetItemInfo – im Forever
 nach nackten Aufrufen alter globaler Spiel-Funktionen suchen (GetItemInfo, GetItemInfoInstant, UnitBuff, GetSpellInfo …) und gegen die
 Weiche des Addons (RM.GetItemInfo, C_Item …) prüfen. Die Nachbildungen der Projekte bilden den Forever-Client nach: nur die Funktionen,
 die es dort gibt.
+
+- E-Regel 20.11.2026 13:44 (Nutzer): Bei jeder Abnahme Screenshots/Berichte auch auf Lesbarkeit prüfen (L1–L8 aus auftraege/hinweis-ui-lesbarkeit-2026-11-20.txt). Fehlt eine dieser Prüfungen in der Testroutine eines Projekts: Befund.

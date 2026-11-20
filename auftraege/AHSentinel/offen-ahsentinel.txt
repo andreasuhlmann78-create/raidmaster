@@ -5280,3 +5280,6 @@ z. B. deDE "AHSentinel: Daten älter als 30 Min. – bitte zuerst scannen." Nur 
 nächsten Öffnen wieder). Dazu im AHS-Fenster ein Knopf "Jetzt scannen" (achtet die Server-Wartezeit des Vollscans; sonst Restzeit zeigen).
 Solange die Daten alt sind: in Liste/Tooltip "Scan alt" und keine Kaufhinweise mit Rendite (siehe ÄNDERUNG 13:40).
 Tests mit Gegenproben: alt + AH auf -> 1 Warnung; zweites Öffnen-Ereignis ohne Schliessen -> keine; frisch -> keine; ausserhalb AH -> keine.
+
+==== HINWEIS 20.11.2026 13:50 – Lesbarkeit L1–L8 in der Testroutine (Nutzer 13:44) ====
+Siehe auftraege/hinweis-ui-lesbarkeit-2026-11-20.txt. Mit der nächsten Version umsetzen.

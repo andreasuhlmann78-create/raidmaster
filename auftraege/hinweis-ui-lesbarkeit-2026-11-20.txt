@@ -1,0 +1,16 @@
+HINWEIS AN ALLE PROJEKTE – 20.11.2026 13:50 (Entscheid des Nutzers 13:44)
+"Die Ingame-Tests sollen von jetzt an auf solche hässlichen, unübersichtlichen Dinge grundsätzlich achten."
+Anlass: AHSentinel Schnäppchen/Tooltip (auftraege/AHSentinel/bilder/2026-11-20-1325-schnaeppchen.png): dunkelgraue Zahlen, versetzter Preis,
+zwei verschiedene Gewinnzahlen, unerklärte Spalten.
+Neue Prüfungen in jeder Testroutine (Oberflächen-Teil, zusätzlich zu "abgeschnitten/überlappt"):
+L1 Kontrast: jede sichtbare Zahl/Schrift hat genug Kontrast zum Hintergrund (Helligkeitsabstand messen, Grenze festlegen und belegen);
+   Zahlen, nach denen man entscheidet, nie grau. Gegenprobe: dunkelgraue Zahl -> Befund.
+L2 Ausrichtung: Geldbeträge in Listen und Tooltips rechtsbündig in derselben Spalte; kein Betrag mitten in einer Textzeile.
+L3 Gleiche Zahl überall: derselbe Wert (Gewinn, Preis, Chance) zeigt in Liste, Tooltip, Chat und Markt-Reiter dieselbe Zahl.
+L4 Summen gehen auf: "gesamt" = je Stück × Menge, Spalten- und Kopfsummen = Summe der Zeilen.
+L5 Eine Hauptzahl: jeder Tooltip/jede Zeile hat oben die eine Zahl, nach der man entscheidet; Nebensachen darunter.
+L6 Beschriftet: jede Zahl/Spalte hat eine verständliche Beschriftung (z. B. "bei dir (765 Mal)" statt "(765)"); Farbe von Beschriftung
+   und Wert passen zusammen.
+L7 Unsicher/alt: als unsicher oder veraltet markierte Werte erzeugen keine Kauf-/Verkaufsempfehlung.
+L8 Schriftgrösse: keine Schrift kleiner als die Standard-Schrift des Spiels (GameFontNormalSmall) bei 100 % Skalierung.
+Befunde L1–L8 als FEHLER zählen, im Bericht mit Ansicht und Text. Umsetzung mit der nächsten Version jedes Projekts.
