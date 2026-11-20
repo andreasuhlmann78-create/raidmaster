@@ -5202,3 +5202,10 @@ Gegenprobe: Item ohne jede Preisinfo, Vorschlag weit unter dem AH -> Warnung. Pr
    Daten nicht) und beheben. Ohne Preisdaten nie still einstellen: deutlich warnen. Gegenprobe: Item ohne jede Preisinfo, Vorschlag weit
    unter dem AH -> Warnung; Item mit " - Page 1" im Namen -> "Preis prüfen" findet das Angebot.
 Beides in EINER Version, addon_check ohne FEHLER, dann SOFORT CurseForge (Gold-Sicherheit, Ausnahme zu 18:00). Bericht mit Belegen.
+
+==== EINGANG 20.11.2026 06:25 – AHSentinel 0.65.354 (Bericht 19.11. 20:29) ====
+addon_check OK (md5 a1ab42c746d04f7ed165dd002af74ea3, download = announce). Auf dem Laptop abgelegt. CurseForge laut uploaded.json 0.65.354.
+Ursachen angenommen: (1) Zwischenspeicher buyCapCache galt auch für die Ersatz-Zählung der Testroutine -> 0.90; Wirkung im Spiel bis
+5 Min. "Lohnt bis" Entzaubern bis 4 % zu hoch. (2) CF-AHS-5: Ausreisser-Regel setzte Vorschlag = alter Marktwert 15c, WarnRule griff
+bei dünner Leiter nicht. Behebung und Gegenproben (s333, s334, T916) plausibel. Ingametest folgt (Kaufgrenze-Zeile muss 0.80 zeigen,
+T916 OK). Folgefrage (MITTEL): Kann die Testroutine noch an anderer Stelle mit K.testDB echte Zwischenspeicher füllen? Alle Caches prüfen.
