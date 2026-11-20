@@ -1,15 +1,15 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-20 06:39 UTC
+Ausgewertet: 2026-11-20 07:56 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
 | Addon | letzter Testlauf | Version | Client | OK | FEHLER | übersprungen | im Client prüfen | Fehler im Spiel (7 Tage) |
 |---|---|---|---|---|---|---|---|---|
-| AHSentinel | 20.11.2026 05:39 UTC | 0.65.354 | forever 1.60.1 (Interface 16001) | 65 | 2 | 4 | 0 | 33 |
+| AHSentinel | 20.11.2026 06:23 UTC | 0.65.354 | forever 1.60.1 (Interface 16001) | 2 | 4 | 3 | 0 | 33 |
 | BuffSentinel | 18.11.2026 18:19 UTC | 0.9.60 | forever 1.60.1 (Interface 16001) | 218 | 2 | 11 | 10 | 307 |
 | GuildSentinel | 18.11.2026 18:20 UTC | 0.9.58 | forever 1.60.1 (Interface 16001) | 329 | 0 | 24 | 8 | 4 |
-| LevelPilot | 19.11.2026 15:19 UTC | 3.13.4 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 15 |
+| LevelPilot | 20.11.2026 06:31 UTC | 3.13.5 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 15 |
 | ProfessionSentinel | 18.11.2026 18:23 UTC | 0.9.74 | forever 1.60.1 (Interface 16001) | 1 | 1 | 8 | 0 | 8 |
 | RaidMaster | 18.11.2026 18:21 UTC | 3.0.40 | forever 1.60.1 (Interface 16001) | 0 | 1 | 0 | 0 | 0 |
 | ThreatSentinel | 18.11.2026 12:49 UTC | 2.5.23 | forever 1.60.1 (Interface 16001) | 0 | 1 | 0 | 0 | 0 |
@@ -18,14 +18,14 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 183 | `testberichte/diagnose/AHSentinel/0.65.354-fd27d3f01bcd.txt` |
-| BuffSentinel | 73 | `testberichte/diagnose/BuffSentinel/0.9.60-aac4d1280dc0.txt` |
-| GSMesstest | 17 | `testberichte/diagnose/GSMesstest/5.1-ed1f13494643.txt` |
+| AHSentinel | 184 | `testberichte/diagnose/AHSentinel/0.65.354-fd27d3f01bcd.txt` |
+| BuffSentinel | 74 | `testberichte/diagnose/BuffSentinel/0.9.60-fb522145c40a.txt` |
+| GSMesstest | 18 | `testberichte/diagnose/GSMesstest/5.1-f65d607ab777.txt` |
 | GSSniperLog | 22 | `testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt` |
-| GuildSentinel | 185 | `testberichte/diagnose/GuildSentinel/0.9.58-e52bcbc311ff.txt` |
-| LevelPilot | 80 | `testberichte/diagnose/LevelPilot/3.13.5-d4f2b2428fc0.txt` |
-| ProfessionSentinel | 165 | `testberichte/diagnose/ProfessionSentinel/0.9.74-e8fcba77e8cd.txt` |
-| ThreatSentinel | 160 | `testberichte/diagnose/ThreatSentinel/2.5.23-e61faba6e4d4.txt` |
+| GuildSentinel | 186 | `testberichte/diagnose/GuildSentinel/0.9.58-e52bcbc311ff.txt` |
+| LevelPilot | 81 | `testberichte/diagnose/LevelPilot/3.13.5-d4f2b2428fc0.txt` |
+| ProfessionSentinel | 166 | `testberichte/diagnose/ProfessionSentinel/0.9.74-e8fcba77e8cd.txt` |
+| ThreatSentinel | 161 | `testberichte/diagnose/ThreatSentinel/2.5.23-e61faba6e4d4.txt` |
 
 ## Wegdaten (GSWEGE1)
 
@@ -63,13 +63,14 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 - [SKIP] ALLES-8 ALLES – Prüfungen am Berufsfenster (grund:   8. Prüfungen am Berufsfenster: noch offen – passiert von selbst beim nächsten Öffnen eines Berufsfensters)
 - [SKIP] ALLES-9 ALLES – Prüfungen am Händler (grund:   9. Prüfungen am Händler: noch offen – passiert von selbst beim nächsten Händler-Besuch)
 
-**Testlauf 0.65.354 · forever 1.60.1 (Interface 16001) · 20.11.2026 05:39 UTC** – OK 65 · FEHLER 2 · übersprungen 4 · im Client prüfen 0 · Sandbox OK
-- [SKIP] T40 B – Server: Sniper: Suche (kauft nichts) (grund: Scharfer Pfeil: günstigstes Angebot 1c je Stück - kein Item über 1c, Treffer bei Max 1c wäre richtig)
-- [SKIP] T36 B – Handel (simuliert): Gebot (grund: Waren haben keine Gebote)
-- [SKIP] T27 B – Einbindung ins Auktionshaus (grund: Einbindung in den Optionen aus)
-- [FEHLER] T459 H – T-VF2 Vollscan-Speicher: angelegt ohne gelesene Auktionen ≤ 30 MB (erster Scan der Sitzung) bzw. ≤ 10 MB (ab dem zwe… (ergebnis: 1. Vollscan der Sitzung · angelegt 37329 KB ohne gelesene Auktionen (gelesen 12675 KB) · Bilder über 40 ms mit Bereinigung 2 · Bereinigungen 44 · eigener neuer Speicher 50004 KB · je Aufgabe fullscan 33285 · cache:today 16466 · ui-refresh 33 · ausserhalb von Aufgaben 219 · je Schritt Nachl… | erwartet: ≤ 30720 KB · 0 Bilder über 40 ms mit Bereinigung)
-- [SKIP] T98 D – Server-Wege altes AH (grund: nur im alten Client (Classic Era, TBC))
-- [FEHLER] T913 I – SYNC-BUCH: gemeinsames Adressbuch von GoldSentinelSync nach dem Lauf genau wie vorher (keine Testnamen, kein geändertes… (ergebnis: 0 neu, 0 weg, 1 geändert (Namen nicht im Bericht) · Felder: fail 1 (grösste Änderung +1) · pause 1 (grösste Änderung +594701) | erwartet: gleich)
+**Testlauf 0.65.354 · forever 1.60.1 (Interface 16001) · 20.11.2026 06:23 UTC** – OK 2 · FEHLER 4 · übersprungen 3 · im Client prüfen 0
+- [FEHLER] ALLES-1 ALLES – Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1) (ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 949 OK, 1 FEHLER, 31 übersprungen, Sandbox OK)
+- [FEHLER] ALLES-2 ALLES – Oberflächen-Prüfung (alle Reiter) (ergebnis:   2. Oberflächen-Prüfung (alle Reiter): FEHLER – 5 OK, 2 FEHLER, 0 übersprungen, Sandbox OK)
+- [FEHLER] ALLES-4 ALLES – Sniper-Testroutine S1–S13 (ohne echten Kauf) (ergebnis:   4. Sniper-Testroutine S1–S13 (ohne echten Kauf): FEHLER – 24 OK, 2 FEHLER, 6 übersprungen, Sandbox OK)
+- [FEHLER] ALLES-6 ALLES – Prüfungen am offenen Auktionshaus (ergebnis:   6. Prüfungen am offenen Auktionshaus: FEHLER – 65 OK, 2 FEHLER, 4 übersprungen, Sandbox OK)
+- [SKIP] ALLES-7 ALLES – Vollscan zweimal: bleibender Speicher und längste Lücke (VOLLSCAN) (grund:   7. Vollscan zweimal: bleibender Speicher und längste Lücke (VOLLSCAN): noch offen – passiert von selbst beim nächsten Schnell-Vollscan (Entwicklermodus) (Server-Abstand noch 15 Min.))
+- [SKIP] ALLES-8 ALLES – Prüfungen am Berufsfenster (grund:   8. Prüfungen am Berufsfenster: noch offen – passiert von selbst beim nächsten Öffnen eines Berufsfensters)
+- [SKIP] ALLES-9 ALLES – Prüfungen am Händler (grund:   9. Prüfungen am Händler: noch offen – passiert von selbst beim nächsten Händler-Besuch)
 
 **Fehler im Spiel (letzte 7 Tage)**
 - 25× `ADDON_ACTION_BLOCKED`: UNKNOWN() – Version 0.65.182, 0.65.189, 0.65.194, 0.65.196, 0.65.203 · forever 1.60.1 (Interface 16001) · zuletzt 15.11.2026 18:13 UTC
@@ -330,13 +331,13 @@ Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) ·
 
 ## LevelPilot
 
-**Testlauf 3.13.0 · forever 1.60.1 (Interface 16001) · 19.11.2026 10:40 UTC** – OK 1 · FEHLER 0 · übersprungen 0 · im Client prüfen 0
-
 **Testlauf 3.13.2 · forever 1.60.1 (Interface 16001) · 19.11.2026 11:32 UTC** – OK 11 · FEHLER 0 · übersprungen 0 · im Client prüfen 0
 
 **Testlauf 3.13.3 · forever 1.60.1 (Interface 16001) · 19.11.2026 12:07 UTC** – OK 11 · FEHLER 0 · übersprungen 0 · im Client prüfen 0
 
 **Testlauf 3.13.4 · forever 1.60.1 (Interface 16001) · 19.11.2026 15:19 UTC** – OK 11 · FEHLER 0 · übersprungen 0 · im Client prüfen 0
+
+**Testlauf 3.13.5 · forever 1.60.1 (Interface 16001) · 20.11.2026 06:31 UTC** – OK 11 · FEHLER 0 · übersprungen 0 · im Client prüfen 0
 
 **Fehler im Spiel (letzte 7 Tage)**
 - 15× `Reise`: Fehler in der Reise: Interface/AddOns/LevelPilot/Virtual.lua:135: attempt to perform indexed assignment on field '?' (a boolean value) – Version 3.12.89 · forever 1.60.1 (Interface 16001) · zuletzt 17.11.2026 19:02 UTC

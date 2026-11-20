@@ -1,18 +1,18 @@
 {
- "ausgewertet": "2026-11-20T06:39:16Z",
+ "ausgewertet": "2026-11-20T07:56:05Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
-   "berichte": 119,
+   "berichte": 124,
    "letzter_test": {
-    "id": "AHSentinel-1795153327-353825-2",
+    "id": "AHSentinel-1795155838-7b33fd-5",
     "version": "0.65.354",
-    "time": 1795153166,
+    "time": 1795155838,
     "counts": {
      "client": 0,
-     "fehler": 2,
-     "ok": 65,
-     "uebersprungen": 4
+     "fehler": 4,
+     "ok": 2,
+     "uebersprungen": 3
     }
    },
    "fehler_tests": [
@@ -21,20 +21,40 @@
      "art": "test",
      "version": "0.65.354",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T459",
-     "name": "T-VF2 Vollscan-Speicher: angelegt ohne gelesene Auktionen ≤ 30 MB (erster Scan der Sitzung) bzw. ≤ 10 MB (ab dem zwe…",
-     "detail": "ergebnis: 1. Vollscan der Sitzung · angelegt 37329 KB ohne gelesene Auktionen (gelesen 12675 KB) · Bilder über 40 ms mit Bereinigung 2 · Bereinigungen 44 · eigener neuer Speicher 50004 KB · je Aufgabe fullscan 33285 · cache:today 16466 · ui-refresh 33 · ausserhalb von Aufgaben 219 · je Schritt Nachl… | erwartet: ≤ 30720 KB · 0 Bilder über 40 ms mit Bereinigung",
-     "bericht": "AHSentinel-1795153327-353825-2"
+     "id": "ALLES-1",
+     "name": "Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1)",
+     "detail": "ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 949 OK, 1 FEHLER, 31 übersprungen, Sandbox OK",
+     "bericht": "AHSentinel-1795155838-7b33fd-5"
     },
     {
      "addon": "AHSentinel",
      "art": "test",
      "version": "0.65.354",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T913",
-     "name": "SYNC-BUCH: gemeinsames Adressbuch von GoldSentinelSync nach dem Lauf genau wie vorher (keine Testnamen, kein geändertes…",
-     "detail": "ergebnis: 0 neu, 0 weg, 1 geändert (Namen nicht im Bericht) · Felder: fail 1 (grösste Änderung +1) · pause 1 (grösste Änderung +594701) | erwartet: gleich",
-     "bericht": "AHSentinel-1795153327-353825-2"
+     "id": "ALLES-2",
+     "name": "Oberflächen-Prüfung (alle Reiter)",
+     "detail": "ergebnis:   2. Oberflächen-Prüfung (alle Reiter): FEHLER – 5 OK, 2 FEHLER, 0 übersprungen, Sandbox OK",
+     "bericht": "AHSentinel-1795155838-7b33fd-5"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.354",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "ALLES-4",
+     "name": "Sniper-Testroutine S1–S13 (ohne echten Kauf)",
+     "detail": "ergebnis:   4. Sniper-Testroutine S1–S13 (ohne echten Kauf): FEHLER – 24 OK, 2 FEHLER, 6 übersprungen, Sandbox OK",
+     "bericht": "AHSentinel-1795155838-7b33fd-5"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.354",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "ALLES-6",
+     "name": "Prüfungen am offenen Auktionshaus",
+     "detail": "ergebnis:   6. Prüfungen am offenen Auktionshaus: FEHLER – 65 OK, 2 FEHLER, 4 übersprungen, Sandbox OK",
+     "bericht": "AHSentinel-1795155838-7b33fd-5"
     }
    ],
    "fehler_spiel": [
@@ -296,11 +316,11 @@
    ]
   },
   "LevelPilot": {
-   "berichte": 64,
+   "berichte": 68,
    "letzter_test": {
-    "id": "LevelPilot-1795101598-434924-3",
-    "version": "3.13.4",
-    "time": 1795101597,
+    "id": "LevelPilot-1795156315-e3c944-3",
+    "version": "3.13.5",
+    "time": 1795156315,
     "counts": {
      "client": 0,
      "fehler": 0,
@@ -471,20 +491,40 @@
    "art": "test",
    "version": "0.65.354",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T459",
-   "name": "T-VF2 Vollscan-Speicher: angelegt ohne gelesene Auktionen ≤ 30 MB (erster Scan der Sitzung) bzw. ≤ 10 MB (ab dem zwe…",
-   "detail": "ergebnis: 1. Vollscan der Sitzung · angelegt 37329 KB ohne gelesene Auktionen (gelesen 12675 KB) · Bilder über 40 ms mit Bereinigung 2 · Bereinigungen 44 · eigener neuer Speicher 50004 KB · je Aufgabe fullscan 33285 · cache:today 16466 · ui-refresh 33 · ausserhalb von Aufgaben 219 · je Schritt Nachl… | erwartet: ≤ 30720 KB · 0 Bilder über 40 ms mit Bereinigung",
-   "bericht": "AHSentinel-1795153327-353825-2"
+   "id": "ALLES-1",
+   "name": "Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1)",
+   "detail": "ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 949 OK, 1 FEHLER, 31 übersprungen, Sandbox OK",
+   "bericht": "AHSentinel-1795155838-7b33fd-5"
   },
   {
    "addon": "AHSentinel",
    "art": "test",
    "version": "0.65.354",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T913",
-   "name": "SYNC-BUCH: gemeinsames Adressbuch von GoldSentinelSync nach dem Lauf genau wie vorher (keine Testnamen, kein geändertes…",
-   "detail": "ergebnis: 0 neu, 0 weg, 1 geändert (Namen nicht im Bericht) · Felder: fail 1 (grösste Änderung +1) · pause 1 (grösste Änderung +594701) | erwartet: gleich",
-   "bericht": "AHSentinel-1795153327-353825-2"
+   "id": "ALLES-2",
+   "name": "Oberflächen-Prüfung (alle Reiter)",
+   "detail": "ergebnis:   2. Oberflächen-Prüfung (alle Reiter): FEHLER – 5 OK, 2 FEHLER, 0 übersprungen, Sandbox OK",
+   "bericht": "AHSentinel-1795155838-7b33fd-5"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.354",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "ALLES-4",
+   "name": "Sniper-Testroutine S1–S13 (ohne echten Kauf)",
+   "detail": "ergebnis:   4. Sniper-Testroutine S1–S13 (ohne echten Kauf): FEHLER – 24 OK, 2 FEHLER, 6 übersprungen, Sandbox OK",
+   "bericht": "AHSentinel-1795155838-7b33fd-5"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.354",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "ALLES-6",
+   "name": "Prüfungen am offenen Auktionshaus",
+   "detail": "ergebnis:   6. Prüfungen am offenen Auktionshaus: FEHLER – 65 OK, 2 FEHLER, 4 übersprungen, Sandbox OK",
+   "bericht": "AHSentinel-1795155838-7b33fd-5"
   },
   {
    "addon": "AHSentinel",
@@ -810,35 +850,35 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 183,
+    "anzahl": 184,
     "neueste": "testberichte/diagnose/AHSentinel/0.65.354-fd27d3f01bcd.txt"
    },
    "BuffSentinel": {
-    "anzahl": 73,
-    "neueste": "testberichte/diagnose/BuffSentinel/0.9.60-aac4d1280dc0.txt"
+    "anzahl": 74,
+    "neueste": "testberichte/diagnose/BuffSentinel/0.9.60-fb522145c40a.txt"
    },
    "GSMesstest": {
-    "anzahl": 17,
-    "neueste": "testberichte/diagnose/GSMesstest/5.1-ed1f13494643.txt"
+    "anzahl": 18,
+    "neueste": "testberichte/diagnose/GSMesstest/5.1-f65d607ab777.txt"
    },
    "GSSniperLog": {
     "anzahl": 22,
     "neueste": "testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt"
    },
    "GuildSentinel": {
-    "anzahl": 185,
+    "anzahl": 186,
     "neueste": "testberichte/diagnose/GuildSentinel/0.9.58-e52bcbc311ff.txt"
    },
    "LevelPilot": {
-    "anzahl": 80,
+    "anzahl": 81,
     "neueste": "testberichte/diagnose/LevelPilot/3.13.5-d4f2b2428fc0.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 165,
+    "anzahl": 166,
     "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.74-e8fcba77e8cd.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 160,
+    "anzahl": 161,
     "neueste": "testberichte/diagnose/ThreatSentinel/2.5.23-e61faba6e4d4.txt"
    }
   },
