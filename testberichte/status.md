@@ -1,13 +1,13 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-20 19:42 UTC
+Ausgewertet: 2026-11-20 20:28 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
 | Addon | letzter Testlauf | Version | Client | OK | FEHLER | übersprungen | im Client prüfen | Fehler im Spiel (7 Tage) |
 |---|---|---|---|---|---|---|---|---|
 | AHSentinel | 20.11.2026 19:16 UTC | 0.65.355 | forever 1.60.1 (Interface 16001) | 9 | 0 | 1 | 0 | 33 |
-| BuffSentinel | 20.11.2026 19:16 UTC | 0.9.60 | forever 1.60.1 (Interface 16001) | 1 | 0 | 0 | 0 | 307 |
+| BuffSentinel | 20.11.2026 19:16 UTC | 0.9.60 | forever 1.60.1 (Interface 16001) | 1 | 0 | 0 | 0 | 0 |
 | GuildSentinel | 18.11.2026 18:20 UTC | 0.9.58 | forever 1.60.1 (Interface 16001) | 329 | 0 | 24 | 8 | 4 |
 | LevelPilot | 20.11.2026 19:16 UTC | 3.13.6 | forever 1.60.1 (Interface 16001) | 1 | 0 | 0 | 0 | 15 |
 | ProfessionSentinel | 18.11.2026 18:23 UTC | 0.9.74 | forever 1.60.1 (Interface 16001) | 1 | 1 | 8 | 0 | 8 |
@@ -19,19 +19,19 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
 | AHSentinel | 189 | `testberichte/diagnose/AHSentinel/0.65.355-e067eb4b643c.txt` |
-| BuffSentinel | 82 | `testberichte/diagnose/BuffSentinel/0.9.60-fb522145c40a.txt` |
+| BuffSentinel | 83 | `testberichte/diagnose/BuffSentinel/0.9.60-fb522145c40a.txt` |
 | GSMesstest | 20 | `testberichte/diagnose/GSMesstest/5.1-f65d607ab777.txt` |
 | GSSniperLog | 24 | `testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt` |
-| GuildSentinel | 195 | `testberichte/diagnose/GuildSentinel/0.9.58-e52bcbc311ff.txt` |
-| LevelPilot | 88 | `testberichte/diagnose/LevelPilot/3.13.6-ff554f99e167.txt` |
-| ProfessionSentinel | 174 | `testberichte/diagnose/ProfessionSentinel/0.9.74-f850c0c0007b.txt` |
+| GuildSentinel | 196 | `testberichte/diagnose/GuildSentinel/0.9.58-e52bcbc311ff.txt` |
+| LevelPilot | 89 | `testberichte/diagnose/LevelPilot/3.13.6-ff554f99e167.txt` |
+| ProfessionSentinel | 175 | `testberichte/diagnose/ProfessionSentinel/0.9.74-f850c0c0007b.txt` |
 | ThreatSentinel | 167 | `testberichte/diagnose/ThreatSentinel/2.5.23-e61faba6e4d4.txt` |
 
 ## Wegdaten (GSWEGE1)
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| LevelPilot | 248 | `testberichte/wege/LevelPilot/LevelPilot-wege-1795202217-c58e01.json` |
+| LevelPilot | 249 | `testberichte/wege/LevelPilot/LevelPilot-wege-1795205698-c7eaeb.json` |
 
 ## AHSentinel
 
@@ -150,16 +150,6 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 - [CLIENT] T135 J – Gegenprobe alter Client (anleitung: Classic Era oder TBC Anniversary: Proc im Kampf, Execute unter 20 %, Dispel im Kampf, Cooldown beim Pull – alles wie vorher; /bsen fehler 'Sperren: nein')
 
 **Testlauf 0.9.60 · forever 1.60.1 (Interface 16001) · 20.11.2026 19:16 UTC** – OK 1 · FEHLER 0 · übersprungen 0 · im Client prüfen 0
-
-**Fehler im Spiel (letzte 7 Tage)**
-- 293× `Gruppe`: GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'
-Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) · zuletzt 06.11.2026 18:25 UTC
-- 9× `Event UNIT_AURA`: GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'
-Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) · zuletzt 07.11.2026 19:30 UTC
-- 3× `Event PLAYER_REGEN_ENABLED`: GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'
-Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) · zuletzt 10.11.2026 14:10 UTC
-- 2× `Scan`: GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'
-Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) · zuletzt 11.11.2026 15:09 UTC
 
 ## GuildSentinel
 
