@@ -5285,3 +5285,25 @@ Tests mit Gegenproben: alt + AH auf -> 1 Warnung; zweites Öffnen-Ereignis ohne 
 Siehe auftraege/hinweis-ui-lesbarkeit-2026-11-20.txt. Mit der nächsten Version umsetzen.
 
 NACHTRAG 13:50 zu AUFTRAG TOOLTIP ENTZAUBERN (Nutzer 13:46): "Marktwert" ist laut Code der Median der letzten 14 Tage (A.MARKET_DAYS = 14), der Preisverlauf zeigt 7 Tage. Im Tooltip je Material beide Zahlen beschriften: "jetzt (Scan hh:mm)" und "Median 14 Tage". Beschriftung "Marktwert" überall um "(Median 14 Tage)" ergänzen.
+
+==== AUFTRAG MARKTWERT UND VERKAUFSSCHUTZ 20.11.2026 13:55 (Nutzer 13:47–13:51) ====
+Vorrang des Nutzers: "Ich will nicht wieder den Fall, dass Spieler beim Verkaufen Gold verlieren" (vgl. CF-AHS-5). Verkaufsschutz geht
+vor jeder Verbesserung der Preise.
+A) VERKAUFSSCHUTZ (Pflicht, Gold):
+ A1 Kein Verkaufsvorschlag ohne frischen Scan (≤ 30 Min.) – sonst "Scan alt", kein Preis vorausgefüllt (siehe SCAN-WARNUNG 13:42).
+ A2 Untergrenze, ohne Bestätigung nie darunter: höchster Wert aus Händlerpreis (netto), eigenem Einstand (netto) und Entzauberwert.
+ A3 Nie mehr als 10 % unter dem günstigsten fremden Angebot (frischer Scan) ohne Bestätigung; nie unter 50 % des Medians ohne Bestätigung.
+ A4 Unterbieten in kleinen Schritten (1c bzw. ≤ 2 %); fällt das günstigste Angebot in kurzer Zeit stark (Unterbieten-Krieg, z. B. > 15 %
+    in 1 Std.), nicht nachlaufen, sondern "warten" vorschlagen.
+ A5 Serien/mehrere Stapel: jeder Stapel einzeln geprüft; bei einer Warnung hält die Serie an.
+ A6 Selbstkontrolle: eingestellter Preis vs. günstigstes Angebot beim Einstellen mitschreiben; Abweichung > 10 % = SK-Fall im Bericht.
+ Tests mit Gegenproben für A1–A6, CF-AHS-5 als Regression.
+B) MESSAUFTRAG DURCHSCHNITT (vor jeder Umstellung messen, wirtschaft-forever §0):
+ Rückwirkend mit den eigenen Fällen (vorhergesagt/erzielt) vergleichen, welcher Wert den echten Verkaufspreis am besten trifft: Median
+ 3/7/14 Tage, gewichtet (Halbwertszeit 2–3 Tage), Median der VERKAUFTEN Preise. Je Warengruppe (schnell: Staub/Essenz/Stoff; langsam:
+ Ausrüstung/selten). Ergebnis im Bericht; erst danach umstellen (Nutzer entscheidet).
+C) GENAUER RECHNEN (nach B):
+ C1 Markttiefe: Verkaufswert nach der Menge, die der Spieler verkaufen will (Angebotsleiter), nicht nur nach dem besten Preis.
+ C2 Rechenwert = knapp unter dem günstigsten Angebot (unterbotene verkaufen nur zu 3 %, M-WL1).
+ C3 Gewinn je Stunde (Kapitalbindung, Dauer bis Verkauf) als Zusatzzahl neben dem Gewinn je Kauf.
+Reihenfolge: A zuerst (Gold), dann B, dann C. A mit der nächsten Version und sofort CurseForge.
