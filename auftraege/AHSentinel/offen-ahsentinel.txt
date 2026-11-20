@@ -5346,3 +5346,17 @@ K13 (Messauftrag B): Verkaufsfälle "Einstellen" sind wenige (100). Ergebnis je 
    und nichts umstellen.
 K14 Jede Änderung, die einen Kauf- oder Verkaufspreis verschiebt (A2/A3, K9, ÄNDERUNG 13:40), zeigt im Bericht die Wirkung an echten
    Daten: wie viele Items, um wie viel Gold, Beispiele. Ohne diesen Beleg keine Freigabe.
+
+==== DRITTE PRÜFUNG – KORREKTUREN 14:10 (Nutzer 14:00 "ganz genau") ====
+K15 (Widerspruch K9 <-> ÄNDERUNG 13:40 <-> L3/S3 "ein Wert über alle Wege"): Es gibt genau EINEN Kaufwert "Lohnt bis" je Item und er gilt
+   überall gleich (Sniper, Schnäppchen-Liste, Tooltip-Hauptzahl, Chat-Hinweis "x Teile mit über 30 %"). Er rechnet die Materialien mit
+   MIN(Scanpreis, Median 14 Tage) (K9), bis Messauftrag B anderes belegt. Der Scanpreis allein erscheint nur als beschriftete Nebenzahl
+   ("Materialwert heute (Scan hh:mm)") und für den VERKAUF der Materialien (A, ÄNDERUNG 13:40). Ein Item zeigt also nie zwei Kaufgewinne.
+K16 (SCAN-WARNUNG auf Clients ohne Vollscan, altes AH): dort keine 30-Min-Warnung beim Öffnen (es gibt nichts zu scannen); Frische nur je
+   Item über "Preis prüfen" (K1). Gegenprobe: altes AH -> keine Warnung.
+K17 Bestehende Prüfungen, die sich durch die neue Preisgrundlage ändern (u. a. T517, T548, T916, s333, s334, Kaufgrenze-Zeile): nie still
+   anpassen – im Bericht je Prüfung alter/neuer Sollwert und Grund. Die CF-AHS-5-Gegenprobe (3s40 vs 15c) muss unverändert bestehen.
+K18 Verkaufsschutz A ändert sichtbar das Verhalten (mehr Bestätigungen, "warten", "Scan alt"): CHANGELOG EN/DE und CurseForge-Beschreibung
+   erklären es in 2–3 Sätzen für Spieler; alle Texte (Warnung, Gründe) in allen Sprachen (T110 vollständig).
+K19 Zusammenspiel mit "Preis anpassen" (FixConfirmed, PF-1): eine Bestätigung gilt nur für genau dieses Item, diesen Preis und 120 s; eine
+   neue Untergrenze aus A2/A3 darf keine Bestätigungs-Schleife erzeugen (Test: anpassen -> einstellen ohne zweite Sperre).
