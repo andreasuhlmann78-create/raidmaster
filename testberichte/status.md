@@ -1,6 +1,6 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-19 16:09 UTC
+Ausgewertet: 2026-11-20 05:42 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
@@ -8,7 +8,7 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 |---|---|---|---|---|---|---|---|---|
 | AHSentinel | 19.11.2026 15:42 UTC | 0.65.353 | forever 1.60.1 (Interface 16001) | 1 | 2 | 6 | 0 | 33 |
 | BuffSentinel | 18.11.2026 18:19 UTC | 0.9.60 | forever 1.60.1 (Interface 16001) | 218 | 2 | 11 | 10 | 307 |
-| GuildSentinel | 18.11.2026 18:20 UTC | 0.9.58 | forever 1.60.1 (Interface 16001) | 329 | 0 | 24 | 8 | 5 |
+| GuildSentinel | 18.11.2026 18:20 UTC | 0.9.58 | forever 1.60.1 (Interface 16001) | 329 | 0 | 24 | 8 | 4 |
 | LevelPilot | 19.11.2026 15:19 UTC | 3.13.4 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 15 |
 | ProfessionSentinel | 18.11.2026 18:23 UTC | 0.9.74 | forever 1.60.1 (Interface 16001) | 1 | 1 | 8 | 0 | 8 |
 | RaidMaster | 18.11.2026 18:21 UTC | 3.0.40 | forever 1.60.1 (Interface 16001) | 0 | 1 | 0 | 0 | 0 |
@@ -327,7 +327,6 @@ Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) ·
 
 **Fehler im Spiel (letzte 7 Tage)**
 - 4× `GS_APPS`: Interface/AddOns/GuildSentinel/Roster.lua:124: attempt to index field 'alts' (a nil value) – Version 0.9.51 · forever 1.60.1 (Interface 16001) · zuletzt 17.11.2026 15:47 UTC
-- 1× `ADDON_ACTION_FORBIDDEN`: fn() – Version 0.9.28 · forever 1.60.1 (Interface 16001) · zuletzt 13.11.2026 04:43 UTC
 
 ## LevelPilot
 

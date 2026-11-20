@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-19T16:09:07Z",
+ "ausgewertet": "2026-11-20T05:42:18Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -292,20 +292,6 @@
       "forever 1.60.1 (Interface 16001)"
      ],
      "stack": "[C]: in function 'pcall'\n[Interface/AddOns/GuildSentinel/Core.lua]:317: in function 'CountError'\n[Interface/AddOns/GuildSentinel/Core.lua]:349: in function 'Fire'\n[Interface/AddOns/GuildSentinel/Recruit.lua]:1087: in function <Interface/AddOns/GuildSentinel/Recruit.lua:1071>\n[tail call]: ?\n[tail call]: ?\n..."
-    },
-    {
-     "addon": "GuildSentinel",
-     "art": "spiel",
-     "wo": "ADDON_ACTION_FORBIDDEN",
-     "msg": "fn()",
-     "anzahl": 1,
-     "versionen": [
-      "0.9.28"
-     ],
-     "clients": [
-      "forever 1.60.1 (Interface 16001)"
-     ],
-     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:407: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:400>\n[C]: in function 'fn'\n[Interface/AddOns/GuildSentinel/Core.lua]:198: in function 'Act'\n[Interface/AddOns/GuildSentinel/Recruit.lua]:492: in function 'Invite'\n[Interface/AddOns/GuildSentinel/Pages.lua]:983: in function <Interface/AddOns/GuildSentinel/Pages.lua:983>\n[Interface/AddOns/GuildSentinel/UI.lua]:61: in function <Interface/AddOns/GuildSentinel/UI.lua:61>\n"
     }
    ]
   },
@@ -719,20 +705,6 @@
     "forever 1.60.1 (Interface 16001)"
    ],
    "stack": "[C]: in function 'pcall'\n[Interface/AddOns/GuildSentinel/Core.lua]:317: in function 'CountError'\n[Interface/AddOns/GuildSentinel/Core.lua]:349: in function 'Fire'\n[Interface/AddOns/GuildSentinel/Recruit.lua]:1087: in function <Interface/AddOns/GuildSentinel/Recruit.lua:1071>\n[tail call]: ?\n[tail call]: ?\n..."
-  },
-  {
-   "addon": "GuildSentinel",
-   "art": "spiel",
-   "wo": "ADDON_ACTION_FORBIDDEN",
-   "msg": "fn()",
-   "anzahl": 1,
-   "versionen": [
-    "0.9.28"
-   ],
-   "clients": [
-    "forever 1.60.1 (Interface 16001)"
-   ],
-   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:407: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:400>\n[C]: in function 'fn'\n[Interface/AddOns/GuildSentinel/Core.lua]:198: in function 'Act'\n[Interface/AddOns/GuildSentinel/Recruit.lua]:492: in function 'Invite'\n[Interface/AddOns/GuildSentinel/Pages.lua]:983: in function <Interface/AddOns/GuildSentinel/Pages.lua:983>\n[Interface/AddOns/GuildSentinel/UI.lua]:61: in function <Interface/AddOns/GuildSentinel/UI.lua:61>\n"
   },
   {
    "addon": "LevelPilot",
