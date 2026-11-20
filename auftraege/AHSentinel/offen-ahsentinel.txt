@@ -5307,3 +5307,23 @@ C) GENAUER RECHNEN (nach B):
  C2 Rechenwert = knapp unter dem günstigsten Angebot (unterbotene verkaufen nur zu 3 %, M-WL1).
  C3 Gewinn je Stunde (Kapitalbindung, Dauer bis Verkauf) als Zusatzzahl neben dem Gewinn je Kauf.
 Reihenfolge: A zuerst (Gold), dann B, dann C. A mit der nächsten Version und sofort CurseForge.
+
+==== PRÜFUNG DER AUFTRÄGE VOM 20.11. DURCH DEN SUPERVISOR – KORREKTUREN 14:00 (Nutzer 13:53 "ganz sicher sein") ====
+Die Aufträge 13:25–13:55 wurden gegeneinander und gegen Code/Daten geprüft. Diese Korrekturen gelten VOR dem jeweiligen Text:
+K1 (A1, SCAN-WARNUNG, ÄNDERUNG 13:40): "frisch" heisst: Vollscan ≤ 30 Min. ODER frische Einzelpreis-Prüfung des Items ("Preis prüfen",
+   Suche im AH). Sonst könnten Spieler ohne Vollscan (altes AH, Classic Era/TBC, Drosselung) gar nicht mehr verkaufen. Die Warnung
+   "bitte zuerst scannen" nennt beide Wege.
+K2 (A2): Entzauberwert zählt als Untergrenze nur, wenn dieser Charakter das Item entzaubern kann (Verzauberkunst, Stufe reicht) und das
+   Item entzauberbar ist. Eigener Einstand: Verkauf darunter bleibt möglich (Verlust begrenzen), aber nur mit Bestätigung und mit Anzeige
+   "unter deinem Einkaufspreis (−x)".
+K3 (AUFTRAG TOOLTIP Punkt 4): Die MIN-Regel ist durch ÄNDERUNG 13:40 ERSETZT – nicht beides umsetzen.
+K4 (ÄNDERUNG 13:40): "verkaufen sich schnell" stützt sich auf wenige Verkäufe (je Material 4–13, Splitter 10978 nur 1 mit 0,7 Std.).
+   Die Scanpreis-Regel gilt je Material nur, wenn die gemessene Dauer bis Verkauf auf ≥ 10 Verkäufen beruht und der Median ≤ 1 Std. ist;
+   sonst wie langsame Ware (Median, Messauftrag B).
+K5 (C2/A3): Zusammenspiel klar halten: Rechenwert = knapp unter dem günstigsten Angebot (1c bzw. ≤ 2 %, A4); Warnung erst ab 10 % darunter
+   (A3, wie WarnRule 0,9). Beides an EINER Stelle im Code (keine zwei Grenzen).
+K6 (L4/BEFUND 13:25 P1): "Menge" = Anzahl, die der Spieler zu diesem Preis wirklich kaufen kann (Stück in dieser Auktion), nicht geplante
+   Menge eines Sniper-Ziels.
+K7 Alle Zahlen gelten für WoW Forever (5 % Gebühr, Einzahlung zurück, laut Bericht). Für andere Clients die dortigen Regeln (A:CutPct)
+   – nie 5 % fest im Code.
+Reihenfolge bleibt: A (Verkaufsschutz) mit K1/K2 zuerst, sofort CurseForge; dann BEFUND 13:25 P1/P2; dann B; dann C, Tooltip, Darstellung.
