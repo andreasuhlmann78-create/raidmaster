@@ -5232,3 +5232,15 @@ addon_check OK (md5 6da068ff11649451bc7d733ee138bbd3). Auf dem Laptop abgelegt. 
 
 ==== HINWEIS 20.11.2026 08:40 – Test ändert nie Livedaten (Nutzer 08:39) ====
 Siehe auftraege/hinweis-test-keine-livedaten-2026-11-20.txt. Mit der nächsten Version umsetzen.
+
+==== BEFUND 20.11.2026 13:25 – Screenshot Kaufen > Schnäppchen (0.65.355, vom Nutzer) ====
+1. HOCH – "Gewinn gesamt" passt nicht zu "Gewinn/Stück": Kupferner Kettengürtel 73c / 80s17, Kupferne Kettenhose 72c / 77s59,
+   Verstärktes Leinencape 86c / 67s11 (≈ 110×). Ausrüstung meist 1 Stück. Zeigt viel zu grossen Gewinn -> verleitet zu Käufen. Belegen
+   (welche Menge wird multipliziert?) und beheben; Test mit Gegenprobe (1 Stück -> gesamt = je Stück).
+2. HOCH – Kupferne Kettenhose: Liste 72c Gewinn/Stück, Tooltip "Gewinn: +83c/Stück" (= 2s62 − 1s79, ohne Gebühr/Marge?). Eine Zahl je
+   Item über alle Ansichten (S3-Regel), oder klar beschriften.
+3. MITTEL – Tooltip "Entzaubern: unsicher" und "Preis frisch gestiegen (seit 1 Std.), unsicher", trotzdem Hinweis "3 Teile mit über 30 %
+   Rendite verfügbar". Unsichere Werte nicht als Kaufempfehlung zählen (oder deutlich als unsicher kennzeichnen).
+4. Verdacht, zu messen – Ausgefranste Hose (Verkaufspreis 1c, Marktwert 18s): "Verkaufen: 36s41" = 2× Marktwert. Woher?
+Nicht wichtig (Nutzer 13:24): grosse Meldung in der Bildmitte.
+Screenshot enthält Namen -> nicht ins Repo.
