@@ -5209,3 +5209,14 @@ Ursachen angenommen: (1) Zwischenspeicher buyCapCache galt auch für die Ersatz-
 5 Min. "Lohnt bis" Entzaubern bis 4 % zu hoch. (2) CF-AHS-5: Ausreisser-Regel setzte Vorschlag = alter Marktwert 15c, WarnRule griff
 bei dünner Leiter nicht. Behebung und Gegenproben (s333, s334, T916) plausibel. Ingametest folgt (Kaufgrenze-Zeile muss 0.80 zeigen,
 T916 OK). Folgefrage (MITTEL): Kann die Testroutine noch an anderer Stelle mit K.testDB echte Zwischenspeicher füllen? Alle Caches prüfen.
+
+==== INGAMETEST 20.11.2026 07:10 – AHSentinel 0.65.354 (Laptop, Upload 06:57; nur Teile "sniper" und "server" im Upload) ====
+Sniper: 25 OK, 1 FEHLER, 6 SKIP. Server/AH: 65 OK, 2 FEHLER, 4 SKIP. Teil 1 (T916, Kaufgrenze-Zeile) ist NICHT im Upload -> CF-AHS-5 und
+Kaufgrenze im Spiel noch nicht bestätigt.
+1. HOCH (Daten) – T913 SYNC-BUCH FEHLER: das gemeinsame Adressbuch von GoldSentinelSync ist nach dem Lauf NICHT wie vorher: "1 geändert ·
+   Felder: fail +1 · pause +594701". Die Testroutine schreibt echte Sync-Daten (Fehlzähler und Pause eines Eintrags; Pause ~6,9 Tage!).
+   Belegen, welcher Schritt; Sync 3 hält den Versand im Test an (TestHeld), aber direkter S.Learn/Fehlerpfad ist ungeschützt. Beheben, damit
+   der Test echte Sync-Daten nie ändert; Gegenprobe. Prüfen, ob dadurch ein echter Gildenpartner 7 Tage lang nicht mehr angefunkt wird.
+2. MITTEL – T734 Ruckeln: eigene Arbeit max 33,5 ms (Grenze 33; Skripte 18, Ereignisse 11, Aufgaben 5). Knapp – welches Skript?
+   Dazu 109 Bilder mit Speicherbereinigung im eigenen Aufruf (bis 18 ms) -> Auflage 13:10: das ist viel; wer legt so viel an?
+3. T459: 37 MB beim 1. Vollscan (Grenze 30 MB); cache:today 16,5 MB. Bleibt offen (nur wenn wichtig).
