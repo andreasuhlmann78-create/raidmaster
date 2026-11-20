@@ -1,0 +1,25 @@
+ENTWURF – NOCH NICHT AN AHS (Nutzer 15:04 "noch nicht posten, wir sind noch nicht fertig"). Wird erst nach dem Check (pruef-ablauf E-Regel
+20.11. 14:05) in EINEM Stück in auftraege/AHSentinel/ übertragen.
+
+T1 Erklär-Tooltips für fremde Spieler: kurz, konkrete Zahlen, kein Theorie-Text. Hauptzeile nur Ergebnis; Rechnung erst beim Darüberfahren
+   über die Zahl (kein Shift). Prozent nur mit Bezug ("32 % unter dem Marktwert").
+T2 Item-Tooltip (Entwurf v3, Kupferne Kettenhose):
+     AHSentinel
+     Gewinn 72c                         grün, etwas grösser (nicht riesig); Hover: Staub+Essenz 2s62 − Kaufpreis 1s79 = ≈ 72c
+     Marktwert (Median 14 Tage)  1s 54c
+     Marktwert (Scan 13:16)      1s 71c  (ersetzt "Verkaufen")
+     Materialien  Vorgabe  Ø  Preis    Vorgabe-Werte in Farbe der Beschriftung; Ø = eigene Entzauber-Ergebnisse (ohne "765")
+     Hinweis "…-Preis seit dem letzten Scan gestiegen" gelb, eigene Zeile; Preise rechtsbündig.
+   Hauptzahl = REALER Wert: eigene Entzauber-Anteile (Vorgabe nur bei zu wenigen eigenen), Scanpreise, nach 5 % Gebühr und
+   Einzahlungsrisiko, minus Kaufpreis. 72c vs 83c klärt AHS (BEFUND 13:25 P2).
+T3 Marktwert unsicher: Zeile "Marktwert  nicht bekannt"; Hover: "Zu wenig Preise in den letzten 14 Tagen (nur n, ältester vom …)".
+   Belegt im Code A:GetMarketValue: <3 Preise in 14 Tagen -> nimmt die 3 neuesten egal wie alt. Solcher Wert rechnet nirgends mit.
+T4 Zeitraum des Medians: 14 Tage hinkt im schnellen Markt (Index +18 %/7 T.). Eigene Messung 20.11. (Upload 07:25): Kettenhose,
+   Kettengürtel, Leinencape, Wollcape je 42 Preise in 14 T. / 21 in 3 T. an 13 Tagen – fast wie Staub (47/25). Kürzerer Zeitraum ist
+   machbar. Länge je Warengruppe nach Messung (B).
+M5 Absatz Staub: gemessen ~1'330/Tag (Faktor 0,56, 5× unplausibel). Nutzer: "ich glaube, es ist viel mehr". Gründe für Unterschätzung:
+   Verkäufe zwischen weit auseinanderliegenden Scans unsichtbar; Plausibilitätsgrenze verwirft hohe Werte; Faktor aus 16 Fällen.
+   Messung: 1 Std. alle 15 Min. scannen; Plausibilitätsgrenze prüfen.
+M6 Marktgrösse: je Vollscan Zahl der verschiedenen Verkäufer (nur Anzahl, keine Namen speichern) + Auktionen je Scan als Trend.
+   Kein /who-Zählen.
+M1 herabgestuft (Nutzer 15:21): 200 Staub ≈ 3 % von ~5'900 im AH – bewegt den Markt kaum; nur Hinweis Markttiefe beim Verkauf.
