@@ -5273,3 +5273,10 @@ schätzen. Begründung aus deinen eigenen Daten: Staub/Essenz verkaufen sich sch
 also fast der Verkaufspreis. Vorsicht NUR, wenn der Scan alt ist (z. B. > 1 Std.): dann deutlich "Scan alt – Preis vom …" zeigen und keinen
 Kaufhinweis ("über 30 % Rendite") geben, bis ein frischer Scan da ist. "Preis frisch gestiegen" am Scan-Abstand messen (Punkt 3).
 Mitzählen, ob der Verkaufspreis beim echten Verkauf gehalten hat (vorhergesagt/erzielt je Material); im Bericht zeigen.
+
+==== AUFTRAG SCAN-WARNUNG 20.11.2026 13:42 (Nutzer 13:38) ====
+Beim Öffnen des Auktionshauses: Sind die Scan-Daten älter als 30 Min., EINMAL eine Schlachtzugswarnung (RaidWarning-Stil, alle Sprachen),
+z. B. deDE "AHSentinel: Daten älter als 30 Min. – bitte zuerst scannen." Nur am Auktionshaus, nie in der Welt, nicht wiederholt (erst beim
+nächsten Öffnen wieder). Dazu im AHS-Fenster ein Knopf "Jetzt scannen" (achtet die Server-Wartezeit des Vollscans; sonst Restzeit zeigen).
+Solange die Daten alt sind: in Liste/Tooltip "Scan alt" und keine Kaufhinweise mit Rendite (siehe ÄNDERUNG 13:40).
+Tests mit Gegenproben: alt + AH auf -> 1 Warnung; zweites Öffnen-Ereignis ohne Schliessen -> keine; frisch -> keine; ausserhalb AH -> keine.
