@@ -5254,3 +5254,16 @@ Nutzer: "die graue Schrift finde ich schrecklich" und "den Versatz der 3s 48c fi
    gestiegen …" – der Preis 3s 48c steht versetzt mitten in der Zeile statt rechtsbündig in der Preisspalte wie 1s 24c und 2s 62c.
    Preise immer rechtsbündig in derselben Spalte; der Hinweis "Preis frisch gestiegen … unsicher" in eine eigene Zeile darunter.
 Mit UI-Prüfung (T750) und Kontrast-Prüfung (Gegenprobe: dunkelgraue Zahl -> Befund). Nicht dringend, mit der nächsten Version.
+
+==== AUFTRAG TOOLTIP ENTZAUBERN 20.11.2026 13:35 (Nutzer 13:31/13:33, Bild bilder/2026-11-20-1325-schnaeppchen.png) ====
+1. Wichtigste Zahl zuoberst und gross: durchschnittlicher Gewinn je Kauf (netto nach Gebühren, über alle Entzauber-Ergebnisse) – dieselbe
+   Zahl wie in der Schnäppchen-Liste (siehe BEFUND 13:25 Punkt 2).
+2. Spalte "Vorgabe" bleibt. Die Vorgabe-Werte (z. B. 80 % / 20 %) in derselben Farbe wie die Beschriftung "Vorgabe". Spalte "bei dir (765)"
+   klar beschriften (765 = eigene Entzauberungen dieser Gruppe), Werte in deren Farbe. Preise rechtsbündig (AUFTRAG DARSTELLUNG 13:30).
+3. Verdacht, zu messen: "Preis frisch gestiegen (seit 1 Std.)" entsteht, weil zwischen zwei Vollscans Stunden lagen (z. B. 89 / 1119 Min.)
+   und jede Änderung als Sprung der letzten Stunde gilt. Belegen; "seit" am Abstand der Scans messen, nicht an der Uhr.
+4. Regel (Nutzer: "wir wissen nicht, ob es eine Spitze ist oder nicht"): Weil eine Spitze nicht erkennbar ist, rechnet der Kaufentscheid bei
+   gestiegenem Materialpreis vorsichtig: Wert = MIN(Median 7 Tage, aktueller Preis). Beide Werte im Tooltip zeigen. Kein Kaufhinweis
+   ("über 30 % Rendite") auf Grund eines nur aktuell erhöhten Preises. Gewinn beim späteren Verkauf bleibt willkommen (Preis steigt = gut
+   für den Verkauf), aber der Einkauf darf nicht darauf bauen. Test + Gegenprobe (Preis +50 % frisch -> Kaufgrenze nach Median).
+Gold-relevant (Punkt 4): mit der nächsten Version, CurseForge sofort.
