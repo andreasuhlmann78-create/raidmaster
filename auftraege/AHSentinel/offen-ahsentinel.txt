@@ -5220,3 +5220,9 @@ Kaufgrenze im Spiel noch nicht bestätigt.
 2. MITTEL – T734 Ruckeln: eigene Arbeit max 33,5 ms (Grenze 33; Skripte 18, Ereignisse 11, Aufgaben 5). Knapp – welches Skript?
    Dazu 109 Bilder mit Speicherbereinigung im eigenen Aufruf (bis 18 ms) -> Auflage 13:10: das ist viel; wer legt so viel an?
 3. T459: 37 MB beim 1. Vollscan (Grenze 30 MB); cache:today 16,5 MB. Bleibt offen (nur wenn wichtig).
+
+==== INGAMETEST 20.11.2026 07:28 – AHSentinel 0.65.354 "alles" (Bericht 07:21, AH offen) ====
+1043 OK · 7 FEHLER · 41 SKIP. Teil 1: 1 FEHLER, Teil 2: 2, Teil 4 Sniper: 2, Teil 6: 2 (T126 9,6 ms, T459 26,9 MB 3. Scan).
+BESTÄTIGT: Kaufgrenze "0.80/0.80/0.80 × Wert" (Punkt 1 der Sofort-Behebung wirkt). "Lohnt bis" wieder ah 37 / haendler 23 (16:40-Wert
+ah 2 / haendler 57 war Folge der Ersatz-Daten). Wächter 14 ms.
+NOCH NICHT BESTÄTIGT: T916 (CF-AHS-5) – Einzelbefunde von Teil 1 fehlen im Chat-Bericht; Upload nach /reload abwarten.
