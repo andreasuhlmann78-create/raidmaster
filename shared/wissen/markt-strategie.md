@@ -1,5 +1,8 @@
 # Marktstrategie und Prognose – Wissensbasis für AHSentinel
 
+## GRUNDZIEL (Nutzer 20.11.2026 17:00 – gilt vor allem anderen in dieser Datei)
+AHSentinel kennt den echten Markt, statt zu schätzen: wie viele Spieler handeln (Verkäufer je Scan, nur Anzahl), wie viel wirklich verkauft wird (Absatz je Tag, gemessen mit kurzen Scan-Abständen) und wie schnell. Daraus: (1) wie viel ein Spieler kaufen/verkaufen kann, ohne den Preis zu drücken, (2) ob Verkaufschance, Dauer und Gewinnprognose stimmen, (3) was passiert, wenn viele Spieler AHS nutzen. Zweck: ehrliche, richtige Empfehlungen; kein Spieler verliert Gold.
+
 Gepflegt von der Prüf-Sitzung. Stand: 10. November 2026. Ergänzt `wirtschaft-forever.md` (Gebühren, Regeln) – diese
 Datei behandelt **Strategie, Vorhersagen und Lernen**. Wer an Preisen, Absatz, Empfehlungen, "Heute tun", Markt-Reiter
 oder Testroutine-Prognosen arbeitet oder Aufträge dazu schreibt, liest sie vorher. Regeln wie in `wirtschaft-forever.md`
