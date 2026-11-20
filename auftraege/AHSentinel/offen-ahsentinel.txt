@@ -5327,3 +5327,22 @@ K6 (L4/BEFUND 13:25 P1): "Menge" = Anzahl, die der Spieler zu diesem Preis wirkl
 K7 Alle Zahlen gelten für WoW Forever (5 % Gebühr, Einzahlung zurück, laut Bericht). Für andere Clients die dortigen Regeln (A:CutPct)
    – nie 5 % fest im Code.
 Reihenfolge bleibt: A (Verkaufsschutz) mit K1/K2 zuerst, sofort CurseForge; dann BEFUND 13:25 P1/P2; dann B; dann C, Tooltip, Darstellung.
+
+==== ZWEITE PRÜFUNG – KORREKTUREN 14:05 (Nutzer 13:55 "noch genauer") ====
+K8 (SCAN-WARNUNG/A1 "keine Kaufhinweise bei altem Scan"): gilt NUR für Hinweise aus Scan-Daten (Schnäppchen-Liste, Tooltip-Rendite,
+   Chat-/Bildschirm-Hinweis "x Teile mit über 30 %"). Der Sniper sucht live und arbeitet mit frischen Suchergebnissen – er wird davon
+   NICHT gesperrt. Gegenprobe: Scan alt -> Liste ohne Hinweis, Sniper findet und meldet weiter.
+K9 (ÄNDERUNG 13:40 -> Sniper): Wenn der Entzauberwert neu auf dem aktuellen Scanpreis der Materialien beruht, ändert sich auch "Lohnt bis"
+   und damit der Sniper-Höchstpreis (Kaufgrenze 0,80 × Wert). Eine Preisspitze hebt dann den Höchstpreis. Pflicht: im Bericht für die
+   20 meistgekauften Items "Lohnt bis" alt/neu zeigen; der Sniper-Höchstpreis darf höchstens auf Basis MIN(Scanpreis, Median 14 Tage)
+   steigen, bis Messauftrag B das Gegenteil belegt. (Verkaufsseite = Scanpreis; Einkaufsgrenze = vorsichtig.)
+K10 ("Jetzt scannen" und 30-Min-Warnung): Ein Vollscan friert das Bild bis ~730 ms ein (eigene Messung "Einlesen"). Die Warnung darf
+   nicht zu häufigeren Vollscans drängen als nötig: Knopf und Warnung erst ab 30 Min., Server-Wartezeit achten, Hinweis "kurzes Stocken".
+K11 (A4 "Unterbieten-Krieg > 15 % in 1 Std."): braucht zwei Preisstände innerhalb einer Stunde. Fehlen sie, gilt A4 nicht (kein Raten);
+   dann nur A3. Im Tooltip sagen, warum "warten" vorgeschlagen wird.
+K12 (Hauptzahl Gewinn je Kauf): netto = Σ (Chance × Menge × Verkaufswert netto) − Kaufpreis − erwarteter Einzahlungsverlust
+   (Einzahlung × (1 − Verkaufschance)). Auf Forever kommt die Einzahlung beim Verkauf zurück – beim Ablauf nicht.
+K13 (Messauftrag B): Verkaufsfälle "Einstellen" sind wenige (100). Ergebnis je Gruppe nur, wenn n ≥ 30; sonst "zu wenig Daten" melden
+   und nichts umstellen.
+K14 Jede Änderung, die einen Kauf- oder Verkaufspreis verschiebt (A2/A3, K9, ÄNDERUNG 13:40), zeigt im Bericht die Wirkung an echten
+   Daten: wie viele Items, um wie viel Gold, Beispiele. Ohne diesen Beleg keine Freigabe.
