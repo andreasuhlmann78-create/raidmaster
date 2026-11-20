@@ -5392,3 +5392,13 @@ M3 Junger Server (Start 4.11.): Preise haben Trend (Markt-Index 7 Tage +18 % bzw
    nach (im steigenden Markt zu tief, im fallenden zu hoch). Gehört in Messauftrag B (Trend je Gruppe).
 M4 Angebot ≠ Verkauf: Der Scan zeigt Wünsche der Verkäufer, keine Abschlüsse. Messen, wie oft ein Material zum Scanpreis wirklich
    verkauft (eigene Verkäufe: erzielt/Scanpreis beim Einstellen).
+
+==== SECHSTE PRÜFUNG 15:05 – Blizzard-Regeln und Risiko (Nutzer 14:59) ====
+R1 Blizzard-Regeln (Kauf nur durch Klick/Taste des Spielers): im Code belegt – Sniper Reserve() prüft HardwareOK, InstantEnabled() = false,
+   Vorab-Reservierung ohne Taste in Forever gesperrt (AutoReserveBlocked). OFFEN, zu belegen: Today.lua:193 B:PlaceBid/BuyItem ("Heute tun")
+   – nachweisen, dass dieser Aufruf nur aus einem Klick-Handler kommt (Aufrufkette im Bericht). Neue Funktionen der Aufträge vom 20.11.
+   (Knopf "Jetzt scannen", Warnung) dürfen keinen Kauf/Verkauf ohne Klick auslösen – Test.
+R2 Risiko/Kapital: Kapitalschutz 25 % (MarketCapitalPct) und Tagesbudget für Flip/Händler vorhanden. Entzaubern bewusst ohne Tagesbudget
+   (DE30b). Zahlen: 1207 Entzauber-Käufe, Einzelkauf mit Gewinn nur 33 %, Gruppe gesamt +26 %/+20 % – also Gewinn über die Menge,
+   Einzelfälle zufällig (Nebeninfo Zufallsbeute). Messen und im Bericht zeigen: grösster Tagesverlust Entzaubern der letzten 14 Tage und
+   Anteil des Golds, der zugleich in Entzauber-Ware steckt. Liegt das über dem Kapitalschutz: dem Nutzer vorlegen (kein eigener Umbau).
