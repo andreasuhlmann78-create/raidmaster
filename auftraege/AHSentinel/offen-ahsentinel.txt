@@ -5244,3 +5244,13 @@ Siehe auftraege/hinweis-test-keine-livedaten-2026-11-20.txt. Mit der nächsten V
 4. Verdacht, zu messen – Ausgefranste Hose (Verkaufspreis 1c, Marktwert 18s): "Verkaufen: 36s41" = 2× Marktwert. Woher?
 Nicht wichtig (Nutzer 13:24): grosse Meldung in der Bildmitte.
 Screenshot (Namen unkenntlich gemacht): auftraege/AHSentinel/bilder/2026-11-20-1325-schnaeppchen.png – bitte ansehen (Nutzer 13:25).
+
+==== AUFTRAG DARSTELLUNG 20.11.2026 13:30 (Nutzer 13:26/13:27, Bild bilder/2026-11-20-1325-schnaeppchen.png) ====
+Nutzer: "die graue Schrift finde ich schrecklich" und "den Versatz der 3s 48c finde ich nicht toll".
+1. Schnäppchen-Liste: Zahlen, nach denen man entscheidet (Sofortkauf, Entzauberwert, darunter, Gewinn/Stück, Gewinn gesamt), hell
+   (weiss/gold), Gewinn grün, Verlust rot. Grau nur für Spaltenköpfe/Nebenhinweise und dann ein helleres Grau mit genug Kontrast.
+2. Rechner links: Beschriftungen lesbar (helleres Grau, etwas grössere Schrift).
+3. Tooltip: graue Zeilen ("Vorgabe", "unsicher", Prozente) heller; Zeile "1-2 Geringe Magieessenz 20 % · 21 % · 3s 48c · Preis frisch
+   gestiegen …" – der Preis 3s 48c steht versetzt mitten in der Zeile statt rechtsbündig in der Preisspalte wie 1s 24c und 2s 62c.
+   Preise immer rechtsbündig in derselben Spalte; der Hinweis "Preis frisch gestiegen … unsicher" in eine eigene Zeile darunter.
+Mit UI-Prüfung (T750) und Kontrast-Prüfung (Gegenprobe: dunkelgraue Zahl -> Befund). Nicht dringend, mit der nächsten Version.
