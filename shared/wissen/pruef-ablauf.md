@@ -228,3 +228,13 @@ Weiche des Addons (RM.GetItemInfo, C_Item …) prüfen. Die Nachbildungen der Pr
 die es dort gibt.
 
 - E-Regel 20.11.2026 13:44 (Nutzer): Bei jeder Abnahme Screenshots/Berichte auch auf Lesbarkeit prüfen (L1–L8 aus auftraege/hinweis-ui-lesbarkeit-2026-11-20.txt). Fehlt eine dieser Prüfungen in der Testroutine eines Projekts: Befund.
+
+- E-Regel 20.11.2026 14:05 (aus eigenem Fehler der Prüf-Sitzung): Aufträge zu Preisen/Kauf/Verkauf vor dem Eintragen prüfen, nicht danach.
+  Am 20.11. wurden 13:25–13:55 Aufträge Stück für Stück aus dem Gespräch eingetragen; drei Prüfrunden fanden danach 19 Lücken (u. a.
+  Sniper wäre gesperrt worden, zwei Kaufwerte je Item, Verkaufen ohne Vollscan unmöglich). Pflicht-Check vor jedem solchen Auftrag:
+  1. Wirkung auf ALLE Wege (Sniper, Wächter, Liste, Tooltip, Chat, Heute tun, Verkaufen) – wer liest diesen Wert noch?
+  2. Gegen bestehende Regeln: S3/L3 "ein Wert überall", WarnRule, FixConfirmed, Kaufgrenze, wirtschaft-forever.
+  3. Alle Clients (Forever, Era, TBC, altes AH ohne Vollscan) und Gebühren aus A:CutPct.
+  4. Datenlage: auf wie vielen Fällen beruht die Annahme? Unter Mindestzahl -> Messauftrag statt Regel.
+  5. Widerspruch zu früheren Aufträgen? Dann den alten Auftrag ausdrücklich ersetzen, nicht anhängen.
+  Erst Entwurf, dann diesen Check, dann eintragen – nicht während des Gesprächs Stück für Stück.
