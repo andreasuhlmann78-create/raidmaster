@@ -536,3 +536,6 @@ Nur AHSentinel arbeitet weiter. Dieses Projekt pausiert, bis der Nutzer es wiede
 Hilfe, Befehlslisten, Hinweiszeilen und Tooltips zeigen Entwickler-Befehle (testroutine, prüfliste, debug, Diagnose-Export …) nur bei
 eingeschaltetem Entwicklermodus (/gsdev). Normale Befehle immer. Mit der nächsten Version prüfen und anpassen, Test mit Gegenprobe
 (dev aus: keine Dev-Zeile sichtbar; dev an: alle). Im Bericht die Liste der als "dev" eingestuften Befehle nennen.
+
+==== HINWEIS 20.11.2026 08:40 – Test ändert nie Livedaten (Nutzer 08:39) ====
+Siehe auftraege/hinweis-test-keine-livedaten-2026-11-20.txt. Mit der nächsten Version umsetzen.

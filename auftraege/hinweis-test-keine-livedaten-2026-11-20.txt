@@ -1,0 +1,10 @@
+HINWEIS AN ALLE PROJEKTE – 20.11.2026 08:40 (Entscheid des Nutzers 08:39)
+"So etwas wie bei AHS darf nicht mehr passieren, dass der Ingame-Test Livedaten verändert."
+Anlass: AHSentinel 0.65.354 T913 – die Testroutine änderte das echte GoldSentinelSync-Adressbuch (Fehlzähler, Pause ~7 Tage).
+Regel für jede Testroutine (AHS, GS, LP, PS, BS, TS, RM):
+1. Vor dem Lauf eine Prüfsumme/Kopie ALLER gespeicherten Tabellen: eigene SavedVariables UND gemeinsame (GoldSentinelSync-Adressbuch,
+   geteilte Zähler, alles, was andere Addons lesen).
+2. Nach dem Lauf vergleichen. Jede Abweichung = FEHLER mit Tabelle/Feld/Stelle, Daten zurücksetzen.
+3. Netz/Sync im Test nur über Ersatz (Sync 3 TestHeld); kein direkter Aufruf, der echte Einträge schreibt (S.Learn, Fehlzähler, Pause).
+4. Gegenprobe: ein Test, der absichtlich ein echtes Feld ändert, muss FEHLER geben.
+Umsetzung mit der nächsten Version jedes Projekts. Prüf-Sitzung kontrolliert es bei jeder Abnahme.

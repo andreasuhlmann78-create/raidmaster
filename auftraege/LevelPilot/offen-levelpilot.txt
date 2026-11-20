@@ -1468,3 +1468,6 @@ OK 302 · FEHLER 2 · übersprungen 9. Fehlerzähler 0, Sandbox OK, Regressionen
 addon_check OK (md5 0a673e7bee4b3161880afe1393415751). Auf dem Laptop abgelegt. Ursache T259/T368 (echter AFK-Zustand im Test, WoW im
 Hintergrund) angenommen – passt zum Entscheid 19.11. 10:49 (Laptop-Tests immer im Hintergrund). Auflage: im nächsten Bericht die Zeile
 "Wegabschnitte" nach einer echten Spielsitzung mit Laufen (aufgezeichnet > 0) als Beleg, dass das Wegnetz weiter lernt.
+
+==== HINWEIS 20.11.2026 08:40 – Test ändert nie Livedaten (Nutzer 08:39) ====
+Siehe auftraege/hinweis-test-keine-livedaten-2026-11-20.txt. Mit der nächsten Version umsetzen.
