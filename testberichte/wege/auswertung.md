@@ -4,9 +4,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Durotar (1411)
 
-- Wegstücke 813, Knoten 807, zusammenhängende Teile 8
+- Wegstücke 842, Knoten 830, zusammenhängende Teile 8
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 737 Knoten, Bereich 35–66 / 8–69
+  - Teil 1: 760 Knoten, Bereich 35–66 / 8–69
   - Teil 2: 45 Knoten, Bereich 46–59 / 84–98
   - Teil 3: 8 Knoten, Bereich 34–37 / 42–44
   - Teil 4: 5 Knoten, Bereich 46–48 / 44–44
@@ -597,3 +597,8 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 | 2519 | 1434 | 32.3,27.7 -> 32.3,27.8 | 0.1 % | klein |
 | 5814 | 1434 | 31.5,29.8 -> 31.5,29.7 | 0.1 % | klein |
 | 269166 | 1434 | kein Ort im Datenpaket -> 32.8,28.4 | - | fehlt im Datenpaket |
+| 3145 | 1411 | 42.9,69.2 -> 42.9,69.1 | 0.1 % | klein |
+| 3157 | 1411 | 42.4,69.0 -> 42.5,68.9 | 0.1 % | klein |
+| 3287 | 1411 | 40.6,62.6 -> 40.7,62.6 | 0.1 % | klein |
+| 9796 | 1411 | 42.7,67.2 -> 42.7,67.3 | 0.1 % | klein |
+| 11378 | 1411 | 44.6,68.7 -> 44.6,68.7 | 0.0 % | klein |

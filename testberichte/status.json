@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-20T13:20:49Z",
+ "ausgewertet": "2026-11-20T16:38:30Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -854,7 +854,7 @@
     "neueste": "testberichte/diagnose/AHSentinel/0.65.355-91d1d0846660.txt"
    },
    "BuffSentinel": {
-    "anzahl": 77,
+    "anzahl": 79,
     "neueste": "testberichte/diagnose/BuffSentinel/0.9.60-fb522145c40a.txt"
    },
    "GSMesstest": {
@@ -866,15 +866,15 @@
     "neueste": "testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt"
    },
    "GuildSentinel": {
-    "anzahl": 190,
+    "anzahl": 192,
     "neueste": "testberichte/diagnose/GuildSentinel/0.9.58-e52bcbc311ff.txt"
    },
    "LevelPilot": {
-    "anzahl": 85,
+    "anzahl": 86,
     "neueste": "testberichte/diagnose/LevelPilot/3.13.6-c9e0a5d8b2da.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 170,
+    "anzahl": 171,
     "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.74-f850c0c0007b.txt"
    },
    "ThreatSentinel": {
@@ -884,8 +884,8 @@
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 245,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1795133423-f323ef.json"
+    "anzahl": 246,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1795190036-c407b7.json"
    }
   }
  }
