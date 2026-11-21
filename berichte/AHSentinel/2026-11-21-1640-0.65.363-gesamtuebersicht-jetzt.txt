@@ -1,0 +1,40 @@
+Bericht AHSentinel 0.65.363 – GESAMTÜBERSICHT 21.11. 16:05 "JETZT" a)–d), umgesetzt, zur Prüfung
+Veröffentlicht: Discord, GitHub-Release v0.65.363. Nicht CurseForge. addon_check OK. Tests T939–T941 eingebaut, nicht laufen gelassen.
+Entscheid W1 (16:00) ist für den Montag-Teil Verkaufsschutz/A5 notiert (Serie hält nicht an, je Item/Preis Schlachtzugswarnung) – nicht angefasst.
+
+c) P13 (Tooltip.lua TT:AddHeadBlock): "Scan alt – Preis vom hh:mm" genau EINE Zeile oben (ältester Preis der Rechnung bzw. des Items);
+   "Marktwert (Scan hh:mm)" darunter immer mit normaler Beschriftung. T939.
+a) Punkt 8 (KORREKTUR 15:38): TT:IsEnchanter() = Fertigkeit dieses Charakters > 0; Fertigkeit noch unbekannt (nil) -> wie Verzauberer (F4).
+   Verzauberer: Tooltip wie 0.65.360 (einzige Änderung: P13). Nicht-Verzauberer: statt Gewinn/Rechnung/Materialtabelle EINE Zeile
+   "Entzauberwert x" = TT:RealCalc net (TT1: Mengen, Scanpreise, − 5 % Gebühr abgerundet, − Einzahlungsrisiko; kein Kaufpreis), Zusatz
+   "Händler bringt mehr (y)" wenn Händlerpreis > x, mit Twink (Konto-Fertigkeit > 0) zusätzlich "Entzaubern über deinen Twink: +z"
+   (z = x − Scanpreis × 95 %, nur wenn > 0). Materialpreis fehlt -> "Entzauberwert  nicht bekannt". Alter Scan -> Wert bleibt, Zeile
+   "Scan alt" oben (P13). Seelengebunden: TT:AddBoundLines zeigt jetzt dieselbe Zeile (vorher "~3s74 (T)" aus D:DealValue) – gilt auch
+   für Verzauberer, weil das der "~"/"(T)"-Fehler aus dem Befund war. Weiss/grau: D:Prior liefert nichts (Qualität < 2) -> keine Zeile. T940.
+b) Punkt 9 Post-Scan (Mailer.lua, Dauerregel im Code-Kommentar): M:NoteMail(i) liest jeden Brief VOR dem ersten Leeren (Step) –
+   Art (Rechnung seller/buyer, abgelaufen, abgebrochen, überboten, Nachnahme, sonst Post von Absender), Gold, Items mit Menge
+   (GetInboxItem), Rechnung (Gebot/Sofortkauf, Gebühr) – und schreibt EINE Chatzeile. Verkauf: "für Brutto – erhalten M (Gebühr G)";
+   weicht M von Brutto − Gebühr ab, steht der Rest ausdrücklich da (" + Anzahlung zurück D" bzw. " − weitere Abzüge"), so geht jede Zeile
+   exakt auf. Nachnahme-Briefe beim Start einmal "Nachnahme liegen gelassen: … für x" (nie bezahlt). Am Ende "Summe Post: S aus n Briefen"
+   (S = Summe der genommenen Beträge = Summe der Zeilen); ist die Golddifferenz noch kleiner (Gutschrift kommt nach), steht sie dabei.
+   Buchung (F3): unverändert über Ledger:ScanInbox / Books:OnTakeMoney / NoteInboxMail / Extras:NoteReturned – der Post-Scan bucht
+   nichts selbst, also keine zweite Buchung und keine doppelte Messung. Offen/Verdacht: "Meine Auktionen als verkauft/zurück markieren"
+   läuft wie bisher über Ledger/Extras – keine neue Markierung gebaut. Dauerregel-Eintrag in entscheide.md/buchhaltung.md: shared/ ändert
+   nur die Prüf-Sitzung – bitte dort eintragen. 10 Sprachen. T941.
+d) Folgenprüfung:
+ F1 belegt + behoben: Books.FlowContext ordnete Briefkasten-Geld als "post" (Handel) ein; Spielergold käme damit in die Abstimmung TB138-2
+    als Handel ohne Buchung (falsche Lücke). Jetzt: OnMailMoney merkt Gold aus Post ohne Rechnung vor (otherPending); die folgende(n)
+    Gutschrift(en) im Briefkasten bis zu diesem Betrag zählen als "spielerpost" (FLOW_GAME = erklärt, kein Handel); Rest beim Schliessen
+    gelöscht; Testbericht listet "spielerpost". Vorher/nachher-Messung: im nächsten Testbericht (Lücke je Tag).
+ F2 belegt: M:TryAuto prüft M:AutoEnabled() (Einstellung autoCollect) und Shift; volle Taschen -> Step hält (FreeSlots/UI-Fehler) mit Meldung.
+ F3 belegt (siehe b): keine zweite Buchung.
+ F4 belegt: Fertigkeit unbekannt -> Verzauberer-Ansicht; Sniper-/Schnäppchen-/Kaufen-Tooltips nutzen dieselbe Funktion, nur der
+    Kopf-/Materialblock unterscheidet nach IsEnchanter.
+ F5 belegt im Code: Serie (Se:BatchStep) -> Se:Suggest nil -> BatchSkip "kein Preis", weiter mit dem nächsten; nie Marktwert.
+ F6 belegt im Code: P4 änderte nur MV:Advice (Anzeige rechts); Sniper-Grenze (MK:DELimit/LimitFromNet) unverändert. 5 echte Items
+    vorher/nachher: nicht möglich ohne Spiel – da kein Rechenweg geändert, sind die Grenzen identisch.
+ F7 behoben: 0.65.361 hatte die Menge auf 4 Stellen gerundet (Wert konnte sich um 1c ändern). Jetzt rechnet die Zeile wieder mit der
+    genauen Menge (Wert identisch zu 0.65.360) und zeigt den kürzesten Faktor (2–8 Stellen), der genau diesen Wert ergibt (1,125 bleibt 1,125).
+ F8 Tests mit evtl. geänderten Erwartungen (nicht laufen gelassen, nicht angepasst): T56 T158 T220 T223 T248 T266 T273 T596 T601 T603 T637
+    T789 T878 T920 T933 T938 (Mailer Start(true)/AH-Post-Knopf, Seller-Ersatzvorschlag Marktwert/zuletzt benutzt/Normalpreis, Tooltip
+    "Verkaufen:"/Wege-Zeilen/Entzauberungswert, Preisverlauf).
