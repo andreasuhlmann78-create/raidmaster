@@ -5615,3 +5615,15 @@ Neuaufbau; Laden hängt -> nach Zeitlimit Hinweis statt Dauer-"geladen".
     Marktwert und einmal anstelle der Beschriftung "Marktwert (Scan …)". Nutzer: "Scan alt muss nicht zweimal stehen, eine Zeile reicht."
     Soll: EINE Zeile "Scan alt – Preis vom hh:mm" (oben); darunter wie gewohnt "Marktwert (Median 14 Tage)" und "Marktwert (Scan hh:mm)".
     Test: Scan 31 Min. alt -> Text "Scan alt" genau 1× im Tooltip.
+
+>>> AUFTRAG 21.11. 15:38 (Nutzer 15:36 "für gleich") – Punkt 8 der Reihenfolge (ENTSCHEID 14:53), direkt nach Punkt 7 (Post), selbe Version:
+    ENTZAUBERWERT IM TOOLTIP FÜR ALLE CHARAKTERE (auch ohne Verzauberkunst, auch ohne Twink).
+    Befund (Bild 15:30, nicht im Repo): Tooltip "Raue bronzene Gamaschen" zeigt die Material-Tabelle, aber KEINE Wertzeile; bei
+    "Gamaschen des Giftzahns" steht "Entzauberungswert  Händler bringt mehr  ~3s74 (T)" – also uneinheitlich und mit "~" (Schätzzeichen).
+    Soll: Jedes entzauberbare Item (grün/blau/lila Rüstung und Waffen, auch seelengebunden) zeigt im Tooltip EINE Zeile
+    "Entzauberwert  x" = derselbe reale Wert wie in TT1 (eigene Anteile bzw. Vorgabe, Scanpreise, nach 5 % Gebühr und Einzahlungsrisiko),
+    ohne Kaufpreis-Abzug, wenn das Item nicht aus dem AH-Angebot kommt. Ist der Händlerpreis höher: Zusatz "Händler bringt mehr (y)".
+    Kein "~" und kein "(T)" ohne Erklärung; bei unsicherem Materialpreis "nicht bekannt" (TT3), bei altem Scan gilt P13/TT4.
+    Gilt unabhängig vom Beruf: V1f sperrt nur FUNKTIONEN (Entzauber-Wege, Kaufhinweise), nie diese Information.
+    Tests (gebaut, nicht laufen lassen): Char ohne Verzauberkunst, grünes Item -> Zeile da; seelengebunden -> Zeile da; Händler > Wert
+    -> Zusatz; Material unbekannt -> "nicht bekannt"; weisses Item -> keine Zeile.
