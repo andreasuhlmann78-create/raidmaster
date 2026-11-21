@@ -1,0 +1,21 @@
+Bericht AHSentinel 0.65.373 – AUFTRAG 21.11. 19:48 SN-T1–T3 (Sniper-Takt messen), umgesetzt, zur Prüfung
+Veröffentlicht: Discord, GitHub-Release v0.65.373. Nicht CurseForge. addon_check OK. Test T971 eingebaut, nicht laufen gelassen.
+SN-T3: am Takt NICHTS geändert (keine Konstante, keine Bedingung). Sn:Tick ruft unverändert den bisherigen Ablauf (jetzt Sn:TickInner)
+  und misst nur davor/danach.
+SN-T1 (Sniper.lua): jeder Tick ordnet die Zeit seit dem vorigen Tick dem Grund zu, der am Ende des vorigen Ticks galt (Sn:TaktReason):
+  a Server nicht bereit (A:QueryReady = IsThrottledMessageSystemReady false) · b eigene Wartezeit NAME_WAIT (Suche wartet nach leerer
+  Antwort auf die Drossel, S5) · c eigene Bremse/Abstand (pace-Abstand nach Fehler mit Fehlerart pace.errWhy, Suchen je Minute,
+  Abstand zur letzten Anfrage, retryAfter P190-1) · d Intervall-Einstellung · e Warten auf die Antwort des Servers · n eigener Nachlauf
+  nach der Antwort (Liste 0,75 s ruhig bzw. mind. 1 s) · h Treffer-Halt HIT_HOLD · o andere Arbeit (Scan, Kauf, Preisprüfung, Wächter,
+  Spieler; mit Namen der Sperre) · r bereit (nur Tick-Abstand). Jede gesendete Suche (Sn:Search, nach dem Senden) schreibt GENAU EINE
+  Zeile: Abstand zur vorigen Suche, Sekunden je Grund, Fehlerart, Intervall-Einstellung, pace-Abstand.
+  Ablage: db.sniper.takt (300 Suchen, mit den Spieldaten zur Prüfung). Abweichung vom Wortlaut, begründet: ins allgemeine Protokoll
+  (Diag, nur 200 Einträge insgesamt) gehen nur Suchen mit Abstand >= 2 s, höchstens 30 je Sitzung – bei 20–60 Suchen je Minute hätte
+  jede Suche als Diag-Eintrag alle anderen Protokoll-Einträge in Minuten verdrängt (D.MAX = 200, Diag.lua). Testroutine schreibt nie
+  ins echte Takt-Protokoll.
+SN-T2: /ahs protokoll, Abschnitt "Sniper-Takt (SN-T2)": Anzahl Suchen (Hinweis unter 100), Abstand Median/Min/Max, je Grund Median/
+  Min/Max Sekunden je Suche. Zahlen gibt es erst nach >= 100 Suchen im Spiel – dann folgt der Bericht mit Beleg.
+Vorab aus dem Code (Verdacht, zu messen – nichts geändert): feste eigene Wartezeiten von 3 s gibt es zwei: HIT_HOLD = 3 s (nach einem
+  Treffer keine neue Suche, damit die Drossel für die Raste frei ist; bei Waren RESULT_FRESH_COMMODITY − 1) und NAME_WAIT = 3 s (nach
+  leerer Antwort bis 3 s auf den Server warten, dann Suche per Name). Hat ein Ziel gerade einen gehaltenen Treffer, sind ~3 s zwischen
+  den Suchen genau HIT_HOLD (Grund "h"); sonst wird die Messung zeigen, ob a (Server) oder e (Antwort) die Zeit nimmt.
