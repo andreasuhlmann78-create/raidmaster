@@ -1,0 +1,16 @@
+Bericht AHSentinel 0.65.366 – AUFTRAG HEUTE G10 Teil B, G13, umgesetzt, zur Prüfung
+Veröffentlicht: Discord, GitHub-Release v0.65.366. Nicht CurseForge. addon_check OK. Tests T946, T947 eingebaut, nicht laufen gelassen.
+G13 – Befund im Code (belegt): D:BroadcastStats schickt die KONTO-Zahlen (A.db.deStats gilt für das ganze Konto); der Empfänger führte
+  sie je CHARAKTER-Kennung (D:SenderKey). Spielt ein Offizier mit zwei Charakteren, standen dieselben Zahlen zweimal in deShared und
+  D:Combined zählte sie doppelt. Behebung: zufällige Konto-Kennung db.accountId (keine Namen) als "@id;" vorn in jeder E-Nachricht;
+  der Empfänger führt sie unter "@id" (ersetzt, nie addiert) und löscht den alten Charakter-Eintrag dieses Absenders; eigene Konto-
+  Kennung (anderer Rechner) wird nie dazugezählt. Ältere Versionen lesen "@id" als ungültiges Teilstück und überspringen es.
+  Upload-/Rechner-Daten: Merge.lua nimmt je Kennung den grösseren Stand (kein Addieren) – unverändert.
+G10 B (SaleOutcome.lua): Nachricht "V:<Zeit>:<Markt-Tag>:@konto;id,Gruppe,Fälle,verkauft;…" (letzte 30 Tage, verdichtet je Item und
+  Abstands-Gruppe, ohne Namen, ohne Preise einzelner Auktionen). Gesendet nach dem Post-Abholen mit neuen Briefen und auf Anfrage (Q).
+  Empfang nur bei gleichem Markt-Tag, je Konto ersetzt (neuere Sendezeit gewinnt, gleiche Zeit ergänzt Teilstücke), 30 Tage gültig.
+  SO:Stats: Gilden-Fälle zählen zur Mindestzahl 5 und zu "v von n verkauft"; "meist nach ~x Std." nur aus eigenen Fällen (Dauer wird
+  nicht geteilt – nichts geschätzt). Anzeige "(davon Gilde n)".
+  Eichung CancelFactor/MeasuredRate: weiterhin NICHT umgestellt – Vorschlag für die Prüf-Sitzung, sobald je Gruppe ≥ 30 Fälle vorliegen
+  (gold-relevant, Entscheid nötig).
+Nächster Schritt laut Plan: 0.65.367 G4, G16, G15, G6/G11, G14.
