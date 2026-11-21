@@ -5630,4 +5630,5 @@ Neuaufbau; Laden hängt -> nach Zeitlimit Hinweis statt Dauer-"geladen".
     Kein "~" und kein "(T)" ohne Erklärung; bei unsicherem Materialpreis "nicht bekannt" (TT3), bei altem Scan gilt P13/TT4.
     Gilt unabhängig vom Beruf: V1f sperrt nur FUNKTIONEN (Entzauber-Wege, Kaufhinweise), nie diese Information.
     Tests (gebaut, nicht laufen lassen): Char ohne Verzauberkunst, grünes Item -> Zeile da; seelengebunden -> Zeile da; Händler > Wert
-    -> Zusatz; Material unbekannt -> "nicht bekannt"; weisses Item -> keine Zeile.
+    -> Zusatz; Material unbekannt -> "nicht bekannt"; weisses Item -> keine Zeile; graues Item -> keine Zeile.
+    BELEGT (Nutzer 15:39): In WoW Forever sind weisse und graue Items NICHT entzauberbar – nirgends Entzauberwert, Gewinn oder Kaufhinweis.
