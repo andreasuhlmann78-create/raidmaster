@@ -5427,4 +5427,4 @@ S4 HOCH (Nutzer 06:32): "Wenn man ein Ziel setzt und der Sniper an ist, sucht er
    Sniper an -> sofort suchen; eigene Aktionen in AHS nie als Spielersuche werten; letzte Treffer bleiben sichtbar.
    Gegenproben: Ziel setzen -> Suche innerhalb 1 s; echte Suche im Blizzard-AH -> Pause; danach automatisch weiter.
 
-NACHTRAG 06:37 (Nutzer 06:36, Guthaben sparen): Für BEFUND 21.11. 06:35 S1–S4 keine eigenen Tests/Testroutinen bauen – der Nutzer prüft im Spiel. Nur beheben, addon_check, kurzer Bericht.
+NACHTRAG 06:37 (Nutzer 06:36, korrigiert 06:36): Tests für S1–S4 in die Testroutine EINBAUEN, aber nicht selbst laufen lassen (kein Nachbau, keine Testläufe) – der Nutzer testet im Spiel. Beheben, Tests einbauen, addon_check, kurzer Bericht.
