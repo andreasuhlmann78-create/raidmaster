@@ -1477,3 +1477,13 @@ Siehe auftraege/hinweis-ui-lesbarkeit-2026-11-20.txt. Mit der nächsten Version 
 
 ==== HINWEIS 21.11.2026 06:47 – Schätzen verboten (Nutzer) ====
 Siehe auftraege/hinweis-schaetzen-verboten-2026-11-21.txt.
+
+>>> AUFTRAG FÜR MONTAG 23.11. (Nutzer 21.11. 08:57) – BERUFS-HINWEISE NUR NACH PRÜFUNG
+    Befund (Ingame 3.13.6, 08:56, Brachland, Lvl 25): LevelPilot zeigt "Kochen kannst du hier lernen: Zamja (187 Yards)
+    [Hinführen/Später/Nicht mehr]". Laut Nutzer hat der Charakter bereits Erste Hilfe gelernt; der Hinweis kam ohne Prüfung
+    der gelernten Berufe. (Bild nicht im Repo: Spielernamen.)
+    Regel: Vor JEDEM Berufs-/Lehrer-Vorschlag die gelernten Berufe und Stufen des Charakters auslesen (Classic:
+    GetNumSkillLines/GetSkillLineInfo, bei SKILL_LINES_CHANGED neu). Kein Vorschlag für Gelerntes. Lehrer-Hinweis nur, wenn
+    die nächste Stufe (Lehrling/Geselle/Experte/Fachmann) jetzt wirklich lernbar ist (Skill und Level reichen). Kein Hinweis, solange
+    die Skill-Liste noch nicht geladen ist. Gilt für Haupt- und Nebenberufe (Kochen, Erste Hilfe, Angeln).
+    Tests in der Testroutine bauen (gelernt -> kein Hinweis; Stufe voll -> Hinweis auf nächste Stufe; Liste leer -> kein Hinweis).
