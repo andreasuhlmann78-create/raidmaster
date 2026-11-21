@@ -5442,3 +5442,14 @@ S5 HOCH: "Es sind Angebote da, aber er zeigt trotzdem keine Ergebnisse im rechte
    Verdacht, zu messen: Ausrüstung mit Zufalls-Endung/Varianten ("… des Adlers" u. a.) oder anderer itemKey – die Suche fragt nur die
    Grund-ID/den exakten Namen ab und findet die Varianten nicht. Belegen (welche Suchanfrage, welche Antwort vom Server).
    Soll: alle Angebote des Items anzeigen, auch über Max (markiert "zu teuer"), wie bei Wächterhandschuhe.
+S6 HOCH (Nutzer 06:59, Bild bilder/2026-11-21-0659-sniper-veraltet.png; Chat-Text abgeschrieben): Goldene Schuppenarmschienen, Max 17s55,
+   139 Angebote, 9 Zeilen 17s55 "kaufbar". Chat: "Gekauft: 1x … für 17s55" / "Ihr habt eine Auktion gewonnen" / "Kauf fehlgeschlagen
+   (Angebot weg oder nicht genug Gold) – nicht gezählt (Code 4 nicht mehr da)" / "Sniper: 3 Käufe beim gleichen Item gescheitert – Item
+   10 Min. pausiert". Fenster: "Ergebnis ist veraltet – in dieser Suche gekauft: 0 Stück für 0 · verpasst 1 – neue Suche nötig", Ziel
+   "Pause bis 07:09 · 3 Fehlkäufe" – und trotzdem steht der grosse Knopf "Kaufen: 1× … für 17s55" da.
+   Widersprüche: (a) Chat "gekauft 1" vs Fenster "in dieser Suche gekauft 0". (b) Liste bleibt nach Kauf/Fehlkauf stehen und zeigt
+   veraltete Zeilen als "kaufbar" -> die nächsten Raste treffen schon verkaufte Angebote (Code 4) -> 3 Fehlkäufe -> 10 Min. Pause, obwohl
+   noch Angebote zu 17s55 da sind. (c) Kauf-Knopf aktiv, während das Item pausiert und die Liste veraltet ist.
+   Soll: nach jedem Kauf/Fehlkauf die Zeile entfernen bzw. neu suchen, bevor der nächste Kauf angeboten wird; "Code 4 (nicht mehr da)"
+   ist kein echter Fehlkauf (Angebot war weg) – zählt nicht zur 3er-Pause, löst stattdessen neue Suche aus; Knopf aus, solange pausiert
+   oder veraltet; Zähler in Chat und Fenster gleich.
