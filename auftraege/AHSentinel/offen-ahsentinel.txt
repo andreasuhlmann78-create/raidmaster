@@ -5563,3 +5563,16 @@ Neuaufbau; Laden hängt -> nach Zeitlimit Hinweis statt Dauer-"geladen".
     Kopfstücke, Gürtel: "100 %" Markt). Wenn das ein einzelner Verkäufer mit Einheitspreis ist, besteht der Median 14 Tage (80s) nur aus
     dessen Angeboten und "% Markt" sagt nichts. Messen: je Item Anzahl verschiedener Verkäufer und Preise in 14 Tagen; im Bericht zeigen.
     Bei nur einem Verkäufer im Tooltip/Hover kenntlich machen ("nur 1 Anbieter").
+
+>>> BEFUND 21.11. 12:55 (Supervisor, Ingame 0.65.360 12:48, Markt > Entzaubern, Geprägte Lederhandschuhe; Bild nicht im Repo) – FÜR GLEICH
+    (Nutzer 12:48 "für gleich": zusammen mit P1–P3 von 12:50 umsetzen, danach wie gehabt nur Discord).
+    Nachgerechnet und richtig: Wert 0,787×1,5×1s31 + 0,213×1,56×1s59 = 2s07 brutto, −5 % = 1s97; 95 × 1s97 − 1g45s83 = 41s32 (28,3 %);
+    ≈112 Staub, ≈32 Essenz.
+ P4 HOCH (EIN Kaufwert je Item, K15): Links "95x bis 1s64", "lohnt bis 1s64", "Wert 1s97" – rechts "kaufen bis 1s65", "erwarteter
+    Netto-Wert 1s98". 1s97/1,2 = 1s64, 1s98/1,2 = 1s65: zwei verschiedene Netto-Werte. Überall dieselbe Zahl aus derselben Funktion.
+ P5 HOCH: "Stufe ?" – Itemstufe unbekannt, trotzdem Gruppe (Seltsamer Staub/Geringe Magieessenz), Wert, Gewinn und Knopf "Kaufen".
+    Die Gruppe hängt an der Itemstufe. Stufe auflösen (GetItemInfo, ggf. nachladen); solange unbekannt: kein Wert, kein Kaufhinweis.
+ P6 MITTEL: Kopfzeile "Zahlen nur geschätzt" (10 von 20 Fällen) und gleichzeitig Kaufempfehlung mit Knopf. Entweder echte Zahl mit Beleg
+    oder kein Kaufhinweis (Entscheid 21.11. "schätzen verboten"; Wert beruht hier auf 766 eigenen Ergebnissen – dann nicht "geschätzt").
+ P7 NIEDRIG (Lesbarkeit L1–L8): abgeschnittene Texte ("Gewi…", "Chanc…", "(2…"), Dezimalpunkt statt Komma ("78.7 %", "1.50"),
+    Preisverlauf-Grafik rechts fast leer (zwei Striche ohne Achsen/Werte).
