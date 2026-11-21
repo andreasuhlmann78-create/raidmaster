@@ -5458,3 +5458,19 @@ S7 MITTEL (07:00, Bild bilder/2026-11-21-0700-sniper-pause.png): Neue Suche: 101
    "Pause bis 07:09 · 3 Fehlkäufe" (sucht er oder pausiert er?); "gesucht vor 5 Sek." und zugleich "Ergebnis ist veraltet – neue Suche
    nötig"; Kopf "noch 1000 Stück, 5g Budget" statt vorher "noch 983 Stück" (Zähler nach "Ziel aktualisiert" zurückgesetzt? Gewollt?
    Dann sagen). Eine Aussage je Zustand, Zahlen müssen aufgehen.
+
+==== AUFTRAG PRIO 2 – VERKAUFSPREIS V1 (Nutzer 21.11. 08:23–08:28) – direkt nach dem Sniper, Rest bis Montag ====
+Reihenfolge jetzt: 1. Sniper S1–S7, 2. dieser Punkt V1, dann veröffentlichen (nur Discord) und beenden. Alles andere ruht bis Montag.
+V1 ersetzt aus dem Verkaufsschutz A2, A3, A4 (Sperren/Bestätigungen); A1 (frischer Scan), A5, A6 bleiben für Montag.
+1. Preisvorschlag automatisch = günstigstes FREMDES Angebot (frischer Scan/Preis prüfen) minus 1c.
+2. Liegen zum günstigsten Preis nur 1–5 STÜCK (Summe über alle Angebote dieser Preisstufe): diese Stufe überspringen, nächste Preisstufe
+   nehmen (minus 1c). Gibt es keine Stufe mit mehr als 5 Stück: günstigste Stufe nehmen.
+3. Ausnahme: liegt der so gewählte Preis unter 20c -> gleicher Preis, NICHT 1c darunter.
+4. "Nie bevormunden" (Nutzer): keine Sperre, keine Bestätigung, kein zweiter Klick. Hinweise wie "Jetzt nicht verkaufen – besser um 15 Uhr"
+   bleiben als Vorschlag.
+5. Setzt der Spieler selbst einen Preis tiefer als das günstigste fremde Angebot: EIN deutlicher Satz als Schlachtzugswarnung, z. B.
+   "Stopp – tiefer als alle anderen Angebote!" (alle Sprachen). Einstellen bleibt möglich.
+Beispiel Bild 08:22 (Roher Stoppelfühlerwels): Leiter 20c×19, 26c×276 … -> 20c hat 19 Stück (> 5) -> Vorschlag 19c? Nein: 20c−1c = 19c
+liegt unter 20c -> Regel 3 -> 20c.
+Tests einbauen (nicht selbst laufen lassen): 1–5 Stück überspringen, > 5 nicht, keine Stufe > 5, unter 20c gleicher Preis, Warnung bei
+eigenem tieferem Preis, keine Sperre/Bestätigung.

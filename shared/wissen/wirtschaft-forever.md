@@ -179,6 +179,7 @@ Spieler leveln noch). Jede Strategie mit der Frage: Was muss AHSentinel/Professi
   darunter: nicht einstellen und warten (Markt erholt sich) statt Preiskampf.
 - **Normalpreis:** ohne Konkurrenz am Median (oder etwas darüber), nicht ins Blaue.
 - **Unterbieten um 1c**, nie tiefer (verhindert Preiskrieg und verschenkt nichts).
+- **Entscheid 21.11.2026 08:23–08:28 (geht vor):** Vorschlag = günstigstes fremdes Angebot − 1c; liegen dort nur 1–5 Stück, nächste Preisstufe; unter 20c gleicher Preis statt 1c darunter; nie sperren oder Bestätigung verlangen, nur deutlicher Hinweis ("Stopp – tiefer als alle anderen Angebote!").
 - **Höchstpreis:** Konkurrenz weit über Median -> zum Normalpreis einstellen, nicht hinterherziehen.
   **Ausnahme (20.11.2026, Fall CF-AHS-5):** Ist der Median nicht belastbar (wenige Scans mit Angeboten, seltenes Item) oder liegt er
   unter 50 % des günstigsten frischen Angebots, gilt er nicht als Normalpreis: knapp unter dem Angebot einstellen und warnen.
