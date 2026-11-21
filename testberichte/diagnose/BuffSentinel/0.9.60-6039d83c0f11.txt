@@ -1,0 +1,38 @@
+BuffSentinel-Protokoll v0.9.60 · 21.11. 12:22
+Client deDE · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  21.11. 11:52 L39 PRIEST v0.9.60 forever
+  21.11. 11:38 L39 PRIEST v0.9.60 forever
+  21.11. 11:30 L39 PRIEST v0.9.60 forever
+  21.11. 10:55 L39 PRIEST v0.9.12 forever
+  21.11. 00:42 L39 PRIEST v0.9.12 forever
+  20.11. 23:01 L38 PRIEST v0.9.12 forever
+  20.11. 22:09 L38 PRIEST v0.9.12 forever
+  20.11. 21:11 L38 PRIEST v0.9.12 forever
+  20.11. 20:31 L38 PRIEST v0.9.12 forever
+  20.11. 19:09 L38 PRIEST v0.9.12 forever
+
+== Diagnose
+  Fehler in dieser Sitzung: 0
+  Version forever · Sperren: ja · Kampflog: nein · Aurenzugriff verweigert: 0
+  Leistung: noch kein Kampf gemessen
+  Vorrat je Taschen-Ereignis: 7 Ereignisse, Mittel 0.56 ms, höchstens 0.88 ms
+  MARKT-NETZ: v10 · an · Scans mitgelesen 0 · gesendet/empfangen 0/92 · gespeicherte Items 0
+  MARKT-NETZ v10 · an · Addons: AHSentinel, BuffSentinel, GuildSentinel, LevelPilot, ProfessionSentinel, RaidMaster, ThreatSentinel
+  MARKT-NETZ Scans 0 (davon vom Host übergeben 0; zuletzt 0 Auktionen, 0 Items, 0 ms in 0 Bildern) · Vergleiche 0 · abgebrochen 0
+  MARKT-NETZ Items 6855 (eigen 6029, Netz 826, Absatz gemessen 393) · gesendet 0 · empfangen 92 · angenommen 826 · Warteschlange 0
+  MARKT-NETZ verworfen: ausreisser 2
+  MARKT-NETZ Test-IDs entfernt: 0
+  SYNC GoldSentinelSync 3 · Wege: keiner · Mitspieler (1 Std.): AHSentinel 1, BuffSentinel 1, GoldSentinelMarkt 1, GoldSentinelTest 1, GuildSentinel 1, LevelPilot 1, LevelPilotG 1, ThreatSentinel 0
+  SYNC gesendet 347 · empfangen 476 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 5 (mit Sync 2: 4, pausiert 2) · gesendet 7 · weitergegeben 0 · offline 5 · Listen 5 · Warteschlange 0 · gespeichert ja · im Test angehalten 0
+  SYNC BuffSentinel gesendet 7 · empfangen 17
+
+== Einträge (7, neueste zuerst)
+[21.11. 12:22] SYNC gesendet 7, empfangen 17, verworfen 0
+[21.11. 12:12] SYNC ×2 gesendet 4, empfangen 8, verworfen 0
+[21.11. 11:52] SYNC Weg=GoldSentinelSync 3 (Gilde/Gruppe/Netz)
+[21.11. 11:48] SYNC gesendet 4, empfangen 8, verworfen 0
+[21.11. 11:38] SYNC Weg=GoldSentinelSync 3 (Gilde/Gruppe/Netz)
+[21.11. 11:30] SYNC alter Kanal verlassen
+[21.11. 11:30] SYNC Weg=GoldSentinelSync 3 (Gilde/Gruppe/Netz)

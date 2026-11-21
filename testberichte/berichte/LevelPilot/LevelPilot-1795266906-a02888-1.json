@@ -1,0 +1,41 @@
+{
+ "addon": "LevelPilot",
+ "bereich": "pruefliste",
+ "counts": {
+  "client": 0,
+  "fehler": 0,
+  "ok": 1,
+  "uebersprungen": 0
+ },
+ "dur_ms": 0,
+ "env": {
+  "build": "71037",
+  "class": "WARRIOR",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 26,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "erkannt": "beim Spielen",
+ "errors": [],
+ "f": 1,
+ "id": "LevelPilot-1795266906-a02888-1",
+ "kind": "test",
+ "punkt": "T300",
+ "results": [
+  {
+   "bereich": "Prüfliste",
+   "ergebnis": "mit Knopf Hinführen",
+   "erkannt": "beim Spielen",
+   "id": "T300",
+   "name": "Hinweis Erholt-Bonus bei Pause",
+   "status": "OK"
+  }
+ ],
+ "time": 1795266906,
+ "version": "3.13.6"
+}
