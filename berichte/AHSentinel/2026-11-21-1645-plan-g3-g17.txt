@@ -1,0 +1,15 @@
+Bericht AHSentinel 21.11. 16:45 – Eingang AUFTRAG HEUTE 16:35 (G10–G17) und Plan für G3–G17
+Stand: 0.65.364 (G1, G2, G8) veröffentlicht (Discord), Bericht 17:15.
+G5 belegt im Code (kein Umbau nötig): "verkauft" (VS:UpdateSold -> MeasuredRate) entsteht nur in VS:Track, und VS:Track läuft nur am
+   Ende eines vollständigen Vollscans (Vollscan.lua, nach "M1d … Auktionen gelesen", nur mit echtem Speicher st) – nie aus Teil- oder
+   Einzelsuchen. Fremde Vollscans (Gilde) fliessen bisher nicht in MeasuredRate ein (nur eigene Scan-Paare); "egal von wem" heisst
+   Fremd-Scans erst nach G3 (Herkunft je Paket) zuzulassen.
+Reihenfolge (je eine Version, nur Discord, Tests bauen, nicht laufen lassen):
+ 1. 0.65.365: G10 Teil A (eigene Post-Scan-Ergebnisse als Verkaufschance je Item/Preisabstand speichern, Anzeige erst ab Mindestzahl),
+    G3 (Herkunft je Scan-Paket: Tag/Uhrzeit, eigen/Gilde-Kennung ohne Namen), G7 (Abdeckung x/24 Std., eigen/Gilde).
+ 2. 0.65.366: G10 Teil B (verdichtete Post-Scan-Zahlen der Gilde über Sync.lua, ohne Namen, eine Quelle), G13 (DE-Daten eine Quelle).
+ 3. 0.65.367: G4 (ein Gewicht je Stunde und Item im Marktwert), G16 (Ausreisser nicht gegen die Mehrheit, "nur 1 Anbieter"),
+    G15, G6/G11 (Trend herausrechnen, dann Stunde/Wochentag, nur mit Fallzahl), G14 (Schnäppchen-Zeiten, nur Anzeige).
+ 4. G12 (Hinweis "Gildenmitglied bietet zu x", ohne Preisänderung), G17 (Rechnungen/Händlerpreise verdichtet).
+Begründung der Aufteilung: G4/G16/G6 ändern Marktwert-Rechnung (gold-relevant, G9) – erst nach geprüfter Zusammenführung (0.65.364)
+und mit Vorher/Nachher-Zahlen; G10 B/G13 erweitern das Sync-Protokoll (kommunikation-forever.md: nur GUILD/WHISPER).
