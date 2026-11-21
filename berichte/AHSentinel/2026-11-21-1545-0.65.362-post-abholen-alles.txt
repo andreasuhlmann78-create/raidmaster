@@ -1,0 +1,14 @@
+Bericht AHSentinel 0.65.362 – AUFTRAG 21.11. 14:58 "Post abholen = alles" (Punkt 7), umgesetzt, zur Prüfung
+Veröffentlicht: Discord, GitHub-Release v0.65.362. Nicht CurseForge. addon_check OK. Test T938 eingebaut, nicht laufen gelassen.
+Kam nach 0.65.361 ins Repo (14:58), daher eigene Version statt "dieselbe Version".
+Mailer.lua:
+ - M:TryAuto (beim Öffnen, 1,5 s / MAIL_INBOX_UPDATE): startet M:Start(false) = alle Post, wenn M:HasAnyMail() (NextMail ohne
+   Auktions-Filter) etwas findet; vorher Start(true) nur bei M:HasAHMail(). Shift beim Öffnen = kein Auto (unverändert).
+ - EIN Knopf "Post abholen" (alle 10 Sprachen), Klick = Start(false); Tooltip "Holt alle Post mit Gold und Gegenständen. Nachnahme wird
+   nie bezahlt."; zweiter Knopf "Alles abholen" ausgeblendet.
+ - Unverändert und belegt im Code: NextMail nimmt nur Post ohne Nachnahme (cod == 0) mit Gold oder Anhang -> COD und reine Textbriefe
+   bleiben (nichts gelöscht); Step hält bei vollen Taschen (FreeSlots == 0 bzw. UI-Fehler "voll") mit Meldung; Ledger:ScanInbox liest
+   vor dem Abholen die Rechnungen (nur Rechnungs-Art seller/buyer); Books:OnTakeMoney bucht Post-Geld nur bei Rechnungs-Art "seller"
+   -> Spieler-/Händler-Gold wird nicht als Auktionsverkauf gebucht.
+Test T938: Briefkasten mit Nachnahme-Post, Textbrief, Spieler-Gold -> nächste = Spieler-Gold, Auto startet "alles"; Gegenprobe nur
+Nachnahme + Text -> nichts abzuholen, kein Auto. Volle Taschen / Buchhaltung: im Spiel zu prüfen (nicht im Test nachgebaut).
