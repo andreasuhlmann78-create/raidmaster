@@ -5867,3 +5867,16 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     Großer leuchtender Splitter 1 à 24s (Ø 5 %), Kauf 18s94 -> mit 1,5 Stück: brutto 20s17, netto 19s16, Gewinn +22c (Vorgabe: −12c).
     Angezeigt +57c (brutto nötig 20s54). Rechnungs-Zeilen des Falls im Bericht zeigen; rechnet AHS mit gemessenen Mengen statt 1,5,
     muss die Tabelle diese Menge zeigen (z. B. "Ø 1,62"), sonst passt die Anzeige nicht zur Rechnung (TT2).
+
+>>> BEFUND 21.11. 20:08 (Nutzer 20:04 "der Sniper sucht nur noch 1 Item, obwohl ich zwei drin habe"; Ingame 0.65.374, 2 Bilder, nicht im Repo)
+ SN-Z1 HOCH (Ursache im Code belegt): Ziele "Goldene Schuppenarmschienen" (Max 18s95) und "Twilighthandschuhe" (Max 20s40). Für die
+    Schuppenarmschienen liegen 864 Angebote, fast alle bei 18s94/18s95 = "kaufbar" -> JEDE Suche ist ein Treffer. Sn:TargetWeight gibt
+    Zielen mit Treffern im Fenster das Gewicht 1 + n (n = Treffer), Zielen ohne Treffer 1/3; Sn:PickTarget verteilt danach. Bei z. B.
+    n = 20 bekommt das zweite Ziel nur 1/3 : 21,3 ≈ 1,6 % der Suchen -> praktisch nie gesucht. Dazu HIT_HOLD = 3 s nach jedem Treffer
+    (das sind auch die "~3 s" aus SN-T, Nutzer 19:46). Soll: jedes aktive Ziel wird garantiert gesucht – höchstens alle N Suchen bzw.
+    alle X s (Werte mit SN-T-Messung begründen, nicht raten), Treffer-Gewichtung nur innerhalb dieser Garantie. Test: Ziel A mit
+    Dauertreffer, Ziel B ohne -> B mindestens 1× je N Suchen. SN-T2 zusätzlich: Anteil Suchen je Ziel.
+ SN-Z2 MITTEL: Anzeige "Nichts bis zu deinem Max-Preis (18s95). Günstigstes: 18s94" obwohl die Liste 18s94 "kaufbar" zeigt und der
+    Knopf "Kaufen 1× … für 18s94" anbietet – Widerspruch. Ursache belegen (bait/used/gone-Markierung? Rundung?) und Text korrigieren.
+ SN-Z3 FRAGE AN DEN NUTZER (nicht ändern): Twilighthandschuhe Max 20s40 liegt über dem Verkaufswert ("jeder Kauf verliert ca. 1s45/Stück").
+    Warnung bleibt (nie bevormunden); das Ziel bleibt aktiv.
