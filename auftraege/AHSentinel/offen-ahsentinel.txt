@@ -5618,6 +5618,10 @@ Neuaufbau; Laden hängt -> nach Zeitlimit Hinweis statt Dauer-"geladen".
 
 >>> AUFTRAG 21.11. 15:38 (Nutzer 15:36 "für gleich") – Punkt 8 der Reihenfolge (ENTSCHEID 14:53), direkt nach Punkt 7 (Post), selbe Version:
     ENTZAUBERWERT IM TOOLTIP FÜR ALLE CHARAKTERE (auch ohne Verzauberkunst, auch ohne Twink).
+    KORREKTUR 15:38 (Nutzer): "Die Ansicht im Tooltip bleibt für Verzauberer so wie sie ist – diese Anpassung gilt nur für
+    Nicht-Verzauberer." -> Verzauberer (Verzauberkunst gelernt) sehen den Tooltip UNVERÄNDERT. Nicht-Verzauberer sehen statt
+    Material-Tabelle/Gewinn nur die EINE Zeile "Entzauberwert x" (+ ggf. "Händler bringt mehr (y)"). Twink eingestellt = wie
+    Nicht-Verzauberer plus die V1f-Zeile "Entzaubern über deinen Twink: +x". Test zusätzlich: Verzauberer -> Tooltip identisch zu 0.65.360.
     Befund (Bild 15:30, nicht im Repo): Tooltip "Raue bronzene Gamaschen" zeigt die Material-Tabelle, aber KEINE Wertzeile; bei
     "Gamaschen des Giftzahns" steht "Entzauberungswert  Händler bringt mehr  ~3s74 (T)" – also uneinheitlich und mit "~" (Schätzzeichen).
     Soll: Jedes entzauberbare Item (grün/blau/lila Rüstung und Waffen, auch seelengebunden) zeigt im Tooltip EINE Zeile
