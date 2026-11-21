@@ -173,9 +173,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Vorgebirge von Hillsbrad (1424)
 
-- Wegstücke 679, Knoten 1157, zusammenhängende Teile 4
+- Wegstücke 789, Knoten 1187, zusammenhängende Teile 4
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 1128 Knoten, Bereich 27–71 / 16–79
+  - Teil 1: 1158 Knoten, Bereich 27–71 / 16–79
   - Teil 2: 16 Knoten, Bereich 54–57 / 48–52
   - Teil 3: 11 Knoten, Bereich 31–33 / 20–26
   - Teil 4: 2 Knoten, Bereich 56–56 / 47–48
@@ -315,7 +315,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Undercity (1458)
 
-- Wegstücke 2518, Knoten 969, zusammenhängende Teile 3
+- Wegstücke 2521, Knoten 969, zusammenhängende Teile 3
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 967 Knoten, Bereich 44–86 / 1–96
   - Teil 2: 1 Knoten, Bereich 59–59 / 25–25
