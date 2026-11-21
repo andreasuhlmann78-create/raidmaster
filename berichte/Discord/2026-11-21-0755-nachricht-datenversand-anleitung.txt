@@ -1,0 +1,31 @@
+NACHRICHT ZUM EINFÜGEN – an eine Claude-Sitzung mit Zugang zum Computer des Nutzers (Discord-Sitzung, 21.11.2026)
+
+AUFGABE: daten_config.json per Discord-Bot an die Offiziere schicken (Bot 1.5.187, Befehl /uploader-daten-senden).
+Du hast das noch nie gemacht – halte dich genau an diese Schritte.
+
+SICHERHEIT (unbedingt):
+- daten_config.json enthält einen Zugangsschlüssel. Öffne sie NIE, gib ihren Inhalt NIE aus (kein type/cat/Get-Content, kein
+  Einfügen in Chat, Datei oder Repo). Nur kopieren und prüfen, ob sie da ist.
+- Den Klick auf "Senden" macht der Nutzer selbst, nachdem er die Empfängerliste gesehen hat. Du klickst NICHT "Senden".
+
+1. ORDNER FINDEN (auf dem Computer des Nutzers):
+   a) Bot-Ordner: enthält bot.py, launcher.py, VERSION und datenversand_bot.py (nach dem Update). Heisst meist RaidMasterBot.
+   b) Uploader-Ordner: enthält RaidMasterUploader.exe oder uploader.py und daten_config.json (von Daten-Repo-einrichten.bat).
+   Beide Pfade dem Nutzer nennen. Findest du daten_config.json nicht: anhalten und den Nutzer fragen.
+
+2. BOT AKTUALISIEREN: Der Nutzer gibt in Discord /update ein (Gildenleitung). Warten, bis in #bot-log steht
+   "✅ Update installiert – RaidMaster-Bot 1.5.187 läuft." (oder die Datei VERSION im Bot-Ordner zeigt 1.5.187).
+
+3. DATEI KOPIEREN (nicht verschieben – der Uploader braucht sie weiter):
+   Windows: copy "<Uploader-Ordner>\daten_config.json" "<Bot-Ordner>\daten_config.json"
+   Prüfen nur mit: dir "<Bot-Ordner>\daten_config.json"  (Grösse ein paar hundert Bytes, Inhalt NICHT anzeigen)
+   Kein Neustart nötig – der Bot liest die Datei erst beim Befehl.
+
+4. DER NUTZER gibt in Discord ein: /uploader-daten-senden
+   - Der Bot zeigt (nur ihm sichtbar) die Liste der Offiziere. Der Nutzer prüft sie und drückt "Senden" (oder "Abbrechen").
+   - Meldet der Bot "Datei nicht gefunden": der Pfad steht in der Meldung – Schritt 3 mit genau diesem Pfad wiederholen.
+   - Meldet er "nicht zustellbar": diese Offiziere müssen Direktnachrichten vom Server erlauben, danach den Befehl wiederholen
+     (ohne "erneut" – Belieferte bekommen sie nicht doppelt).
+
+5. ABSCHLUSS: Dem Nutzer melden, an wie viele gesendet wurde (steht in der Bot-Antwort und in #bot-log). KEINE Namen und KEIN
+   Inhalt in Berichte oder ins Repo. Die Kopie im Bot-Ordner darf bleiben (steht in .gitignore, wird nie hochgeladen).
