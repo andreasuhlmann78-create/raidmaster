@@ -1,0 +1,24 @@
+Bericht AHSentinel 0.65.358 – AUFTRAG PRIO 2 Verkaufspreis V1 (Nutzer 21.11. 08:23–08:28), umgesetzt, zur Prüfung
+Veröffentlicht: Discord (announce/), GitHub-Release v0.65.358 (Workflow). Nicht CurseForge. Sniper S1–S7 waren schon in 0.65.356/0.65.357.
+addon_check: AHSentinel-0.65.358.zip OK (keine FEHLER). Tests T924, T925 in die Testroutine eingebaut, nicht selbst laufen gelassen.
+
+Umsetzung (Seller.lua Se:V1Price, Se:SuggestRaw, Se:SuggestRaw2, Se:V1BelowAll, Se:RaidWarn; UI_Sell.lua p:Post/UpdateSummary):
+1. Vorschlag = günstigste fremde Preisstufe − 1c (frische Preisprüfung). Eigene Angebote zählen nicht (qty − ownQty).
+2. Stufe = Summe aller fremden Stück zu genau diesem Preis; 1–5 Stück -> überspringen, erste Stufe mit > 5 Stück; keine -> günstigste.
+   Lockangebote zählen als fremde Angebote mit (Regel 2 überspringt sie ohnehin, solange ≤ 5 Stück).
+3. Stufe − 1c < 20c -> Stufenpreis. Beispiel Bild 08:22 (20c×19, 26c×276) -> 20c (T924 Fall 1).
+   Einzelstücke (nur ganze Silber, F2): die nächste ganze Silberstufe darunter, mindestens 1s.
+4. Keine Sperre/Bestätigung/kein zweiter Klick im Verkaufen-Fenster: WS1/WS2-Bestätigungsfenster und zweiter Klick ("Trotzdem
+   einstellen") entfernt; Warnungen bleiben als Hinweis. Automatische Untergrenzen (Händler/Einstand/gelernt, H5/A2) heben den
+   Vorschlag nicht mehr an, sie stehen nur als Hinweis ("Verkauf zurzeit mit Verlust …"). Vorrang alter Sonderwege (Aufkauf AB4c,
+   gelerntes Maximum L4, Ausreisser L-AUSREISSER/CF-AHS-5) gilt nur noch, wenn keine fremde Preisstufe vorhanden ist.
+5. Eigener Preis unter dem günstigsten fremden Angebot UND unter dem Vorschlag -> rote Zeile + Schlachtzugswarnung
+   "Stopp – tiefer als alle anderen Angebote!" (RaidNotice, Ton), einmal je Item und Preis, alle 10 Sprachen. Einstellen bleibt möglich.
+Bewusst NICHT geändert (Fragen an Prüf-Sitzung/Nutzer):
+ - Ein von Hand gesetzter Mindestpreis (Se:GetFloor) bleibt Vorschlag, wenn er über dem Markt liegt (eigene Einstellung des Spielers).
+ - Se:Post selbst prüft für Serie, "Neu einstellen" u. a. weiter Se:SellWarning und hält an (A5, laut Auftrag Montag).
+ - Gebühren-Rückfrage (zweiter Klick bei Einstellgebühr > x %) gilt im Fenster nicht (UI ruft Se:Post mit feeConfirmed), in anderen
+   Wegen weiter – nicht Teil von A2–A4. Soll sie auch weg ("nie bevormunden")?
+ - Einstellung "Unterbieten 1 %/5 %" wirkt nicht mehr auf den Vorschlag, solange V1 greift (Regel: 1c).
+Verdacht, zu messen: bestehende Testroutine-Fälle, die Se:Suggest/SuggestRaw oder das Bestätigungsfenster prüfen, können wegen V1
+andere Ergebnisse zeigen: T158 T261 T490 T525 T528 T788 T878 T916 (nicht laufen gelassen, daher nicht angepasst).
