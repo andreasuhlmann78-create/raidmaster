@@ -1,0 +1,229 @@
+GuildSentinel-Protokoll v0.9.58 · 21.11. 18:21
+Client deDE · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  21.11. 18:12 L39 ? v0.9.58 forever
+  21.11. 14:48 L39 ? v0.9.58 forever
+  21.11. 11:52 L39 ? v0.9.58 forever
+  21.11. 11:38 L39 ? v0.9.58 forever
+  21.11. 11:30 L39 ? v0.9.58 forever
+  21.11. 10:55 L39 ? v0.9.39 forever
+  21.11. 00:42 L39 ? v0.9.39 forever
+  20.11. 23:01 L38 ? v0.9.39 forever
+  20.11. 22:09 L38 ? v0.9.39 forever
+  20.11. 21:11 L38 ? v0.9.39 forever
+
+== Diagnose
+  Fehler in dieser Sitzung: 0
+  Gildenliste: 8 Einträge · Sprache de · Testmodus false
+  SYNC GoldSentinelSync 3 · Wege: keiner · Mitspieler (1 Std.): AHSentinel 1, BuffSentinel 1, GoldSentinelMarkt 1, GoldSentinelTest 1, GuildSentinel 1, LevelPilot 1, LevelPilotG 1, ThreatSentinel 0
+  SYNC gesendet 69 · empfangen 96 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 5 (mit Sync 2: 4, pausiert 3) · gesendet 3 · weitergegeben 0 · offline 3 · Listen 2 · Warteschlange 0 · gespeichert ja · im Test angehalten 0
+  MARKT-NETZ v10 · an · Addons: AHSentinel, BuffSentinel, GuildSentinel, LevelPilot, ProfessionSentinel, RaidMaster, ThreatSentinel
+  MARKT-NETZ Scans 0 (davon vom Host übergeben 0; zuletzt 0 Auktionen, 0 Items, 0 ms in 0 Bildern) · Vergleiche 0 · abgebrochen 0
+  MARKT-NETZ Items 7070 (eigen 6979, Netz 91, Absatz gemessen 474) · gesendet 0 · empfangen 0 · angenommen 0 · Warteschlange 0
+  MARKT-NETZ verworfen: nichts
+  MARKT-NETZ Test-IDs entfernt: 0
+  MARKT-NETZ Speicher 36 KB
+  Berufe: 5 Einträge im Speicher, davon 3 mit Rezepten, 1 nur Stufe (Spiel)
+
+== Einträge (200, neueste zuerst)
+[21.11. 18:14] GILDENREZEPTE Weg=QueryGuildMembersForRecipe ohne Klick=ja · Berufe 1 · Abfragen 5 · Einträge 0
+[21.11. 18:13] REZEPTPROBE Weg=IsPlayerSpell Probe=zu wenig Daten · gefunden 0
+[21.11. 18:13] BERUFE empfangen: 1 Einträge, angenommen 1, älter verworfen 0, Name unbekannt 0
+[21.11. 18:13] SYNC gesendet 21 · empfangen 56 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+[21.11. 18:13] SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, BuffSentinel 1, GoldSentinelMarkt 1, GuildSentinel 1, LevelPilot 1, LevelPilotG 1, ThreatSentinel 0
+[21.11. 18:12] BERUFE gesendet: eigene=nein (unverändert, gesendet vor weniger als 24 h)
+[21.11. 18:12] BERUFE Gilden-Berufsliste: 14 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 10 aufgeklappt (1-mal), offline eingeblendet: nein (schon an (true)), 4 Einträge, 2 Mitglieder
+[21.11. 18:12] BERUFE gesendet: eigene=ja (gesendet, RaidMaster aktiv)
+[21.11. 18:12] BERUFE umgeschlüsselt: 1 Einträge (Name wie in der Gildenliste)
+[21.11. 18:10] BERUFE gesendet: eigene=ja (gesendet, RaidMaster aktiv)
+[21.11. 18:09] BERUFE eingelesen: Schneiderei 61 Rezepte
+[21.11. 18:09] BERUFE gesendet: eigene=ja (gesendet, RaidMaster aktiv)
+[21.11. 18:09] BERUFE neues Rezept: Schneiderei, jetzt 61 Rezepte
+[21.11. 18:09] BERUFE neues Rezept: Schneiderei, jetzt 60 Rezepte
+[21.11. 18:08] BERUFE gesendet: eigene=ja (gesendet, RaidMaster aktiv)
+[21.11. 18:08] SYNC gesendet 13253 · empfangen 8278 · verworfen: duplicate 418, nopath 4 · Warteschlange 0 · Kanal verweigert 0
+[21.11. 18:08] BERUFE gesendet: eigene=ja (gesendet, RaidMaster aktiv)
+[21.11. 17:58] SYNC gesendet 13153 · empfangen 8216 · verworfen: duplicate 418, nopath 4 · Warteschlange 0 · Kanal verweigert 0
+[21.11. 17:48] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (33-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 17:48] SYNC gesendet 13097 · empfangen 8146 · verworfen: duplicate 418, nopath 4 · Warteschlange 0 · Kanal verweigert 0
+[21.11. 17:48] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (33-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 17:46] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (32-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 17:46] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (32-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 17:45] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (32-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 17:44] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (32-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 17:44] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (32-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 17:43] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (32-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 17:42] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (32-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 17:42] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (32-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 17:41] BERUFE Gilden-Berufsliste: 14 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 10 aufgeklappt (32-mal), offline eingeblendet: nein (schon an (true)), 4 Einträge, 2 Mitglieder
+[21.11. 17:40] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (31-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 17:38] SYNC gesendet 11789 · empfangen 7523 · verworfen: duplicate 371, nopath 4 · Warteschlange 0 · Kanal verweigert 0
+[21.11. 17:38] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (31-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 17:37] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (31-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 17:36] BERUFE Gilden-Berufsliste: 14 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 10 aufgeklappt (31-mal), offline eingeblendet: nein (schon an (true)), 4 Einträge, 2 Mitglieder
+[21.11. 17:33] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (30-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 17:32] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (30-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 17:32] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (30-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 17:31] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (30-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 17:30] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (30-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 17:29] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (30-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 17:29] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (30-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 17:28] SYNC gesendet 10742 · empfangen 7081 · verworfen: duplicate 344, nopath 4 · Warteschlange 0 · Kanal verweigert 0
+[21.11. 17:27] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (29-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 17:26] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (29-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 17:26] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (29-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 17:24] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (29-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 17:21] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (28-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 17:20] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (28-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 17:20] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (28-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 17:19] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (28-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 17:19] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (28-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 17:18] SYNC gesendet 9418 · empfangen 6453 · verworfen: duplicate 301, nopath 4 · Warteschlange 2 · Kanal verweigert 0
+[21.11. 17:18] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (28-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 17:17] BERUFE Gilden-Berufsliste: 14 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 10 aufgeklappt (28-mal), offline eingeblendet: nein (schon an (true)), 4 Einträge, 2 Mitglieder
+[21.11. 17:14] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (27-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 17:14] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (27-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 17:13] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (27-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 17:13] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (27-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 17:12] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (27-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 17:11] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (27-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 17:11] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (27-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 17:10] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (27-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 17:10] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (27-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 17:09] BERUFE Gilden-Berufsliste: 14 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 10 aufgeklappt (27-mal), offline eingeblendet: nein (schon an (true)), 4 Einträge, 2 Mitglieder
+[21.11. 17:08] SYNC gesendet 8037 · empfangen 5783 · verworfen: duplicate 254, nopath 4 · Warteschlange 0 · Kanal verweigert 0
+[21.11. 17:08] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (26-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 17:07] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (26-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 17:07] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (26-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 17:06] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (26-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 17:05] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (26-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 17:04] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (26-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 17:03] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (26-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 17:02] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (25-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 16:59] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (25-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 16:58] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (25-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 16:58] SYNC gesendet 6660 · empfangen 5114 · verworfen: duplicate 209, nopath 4 · Warteschlange 4 · Kanal verweigert 0
+[21.11. 16:58] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (25-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 16:57] BERUFE Gilden-Berufsliste: 14 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 10 aufgeklappt (25-mal), offline eingeblendet: nein (schon an (true)), 4 Einträge, 2 Mitglieder
+[21.11. 16:55] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (24-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 16:53] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (24-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 16:52] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (24-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 16:50] BERUFE Gilden-Berufsliste: 14 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 10 aufgeklappt (24-mal), offline eingeblendet: nein (schon an (true)), 4 Einträge, 2 Mitglieder
+[21.11. 16:50] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (23-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 16:49] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (23-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 16:48] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (23-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 16:48] SYNC gesendet 5387 · empfangen 4534 · verworfen: duplicate 166, nopath 4 · Warteschlange 4 · Kanal verweigert 0
+[21.11. 16:47] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (23-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 16:46] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (23-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 16:45] BERUFE Gilden-Berufsliste: 16 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 10 aufgeklappt (23-mal), offline eingeblendet: nein (schon an (true)), 6 Einträge, 3 Mitglieder
+[21.11. 16:45] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (22-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 16:42] BERUFE gesendet: eigene=ja (gesendet, RaidMaster aktiv)
+[21.11. 16:40] BERUFE Gilden-Berufsliste: 16 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 10 aufgeklappt (22-mal), offline eingeblendet: nein (schon an (true)), 6 Einträge, 3 Mitglieder
+[21.11. 16:40] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (21-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 16:38] SYNC gesendet 3896 · empfangen 3745 · verworfen: duplicate 100, nopath 4 · Warteschlange 0 · Kanal verweigert 0
+[21.11. 16:37] BERUFE gesendet: eigene=ja (gesendet, RaidMaster aktiv)
+[21.11. 16:34] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (20-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 16:33] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (20-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 16:30] BERUFE gesendet: eigene=ja (gesendet, RaidMaster aktiv)
+[21.11. 16:28] SYNC gesendet 2352 · empfangen 2890 · verworfen: duplicate 24, nopath 4 · Warteschlange 0 · Kanal verweigert 0
+[21.11. 16:26] BERUFE ×2 gesendet: eigene=ja (gesendet, RaidMaster aktiv)
+[21.11. 16:25] BERUFE Gilden-Berufsliste: 16 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 10 aufgeklappt (19-mal), offline eingeblendet: nein (schon an (true)), 6 Einträge, 3 Mitglieder
+[21.11. 16:24] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (18-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 16:20] BERUFE gesendet: eigene=nein (nicht in einer Gilde)
+[21.11. 16:20] BERUFE ×2 gesendet: eigene=ja (gesendet, RaidMaster aktiv)
+[21.11. 16:19] BERUFE eingelesen: Schneiderei 59 Rezepte
+[21.11. 16:18] SYNC gesendet 1447 · empfangen 2247 · verworfen: nopath 4 · Warteschlange 1 · Kanal verweigert 0
+[21.11. 16:08] SYNC gesendet 1334 · empfangen 2127 · verworfen: nopath 2 · Warteschlange 0 · Kanal verweigert 0
+[21.11. 15:59] BERUFE ×2 gesendet: eigene=ja (gesendet, RaidMaster aktiv)
+[21.11. 15:59] BERUFE eingelesen: Verzauberkunst 47 Rezepte
+[21.11. 15:58] SYNC gesendet 1166 · empfangen 1999 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+[21.11. 15:55] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (13-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 15:54] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (13-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 15:54] BERUFE Gilden-Berufsliste: 16 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 10 aufgeklappt (13-mal), offline eingeblendet: nein (schon an (true)), 6 Einträge, 3 Mitglieder
+[21.11. 15:52] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (12-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 15:51] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (12-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 15:50] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (12-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 15:48] SYNC gesendet 1106 · empfangen 1779 · verworfen: 0 · Warteschlange 2 · Kanal verweigert 0
+[21.11. 15:38] SYNC gesendet 1055 · empfangen 1603 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+[21.11. 15:30] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (8-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 15:29] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (8-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 15:28] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (8-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 15:28] SYNC gesendet 451 · empfangen 1112 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+[21.11. 15:27] BERUFE empfangen: 1 Einträge, angenommen 1, älter verworfen 0, Name unbekannt 0
+[21.11. 15:27] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (8-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 15:26] BERUFE Gilden-Berufsliste: 16 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 10 aufgeklappt (8-mal), offline eingeblendet: nein (schon an (true)), 6 Einträge, 3 Mitglieder
+[21.11. 15:25] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (7-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 15:24] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (7-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 15:23] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (7-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 15:22] BERUFE empfangen: 1 Einträge, angenommen 1, älter verworfen 0, Name unbekannt 0
+[21.11. 15:20] BERUFE Gilden-Berufsliste: 16 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 10 aufgeklappt (7-mal), offline eingeblendet: nein (schon an (true)), 6 Einträge, 3 Mitglieder
+[21.11. 15:20] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (6-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 15:19] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (6-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 15:18] SYNC gesendet 323 · empfangen 938 · verworfen: 0 · Warteschlange 2 · Kanal verweigert 0
+[21.11. 15:17] BERUFE empfangen: 1 Einträge, angenommen 1, älter verworfen 0, Name unbekannt 0
+[21.11. 15:17] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (6-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 15:17] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (6-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 15:16] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (6-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 15:15] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (5-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 15:12] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (5-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 15:10] BERUFE Gilden-Berufsliste: 16 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 10 aufgeklappt (5-mal), offline eingeblendet: nein (schon an (true)), 6 Einträge, 3 Mitglieder
+[21.11. 15:10] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (4-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 15:09] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (4-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 15:08] SYNC gesendet 263 · empfangen 802 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+[21.11. 15:08] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (4-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 15:07] BERUFE empfangen: 1 Einträge, angenommen 1, älter verworfen 0, Name unbekannt 0
+[21.11. 15:07] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (4-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 15:07] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (4-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 15:05] BERUFE empfangen: 1 Einträge, angenommen 1, älter verworfen 0, Name unbekannt 0
+[21.11. 15:05] BERUFE Gilden-Berufsliste: 16 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 10 aufgeklappt (4-mal), offline eingeblendet: nein (schon an (true)), 6 Einträge, 3 Mitglieder
+[21.11. 15:03] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (3-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 15:03] BERUFE empfangen: 1 Einträge, angenommen 1, älter verworfen 0, Name unbekannt 0
+[21.11. 15:02] BERUFE empfangen: 2 Einträge, angenommen 2, älter verworfen 0, Name unbekannt 0
+[21.11. 15:02] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (3-mal), offline eingeblendet: nein (schon an (true)), 0 Einträge, 0 Mitglieder
+[21.11. 15:01] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (3-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 15:00] BERUFE empfangen: 1 Einträge, angenommen 1, älter verworfen 0, Name unbekannt 0
+[21.11. 14:59] BERUFE Gilden-Berufsliste: 16 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 10 aufgeklappt (3-mal), offline eingeblendet: nein (schon an (true)), 6 Einträge, 3 Mitglieder
+[21.11. 14:59] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (2-mal), offline eingeblendet: nein (Kampf), 0 Einträge, 0 Mitglieder
+[21.11. 14:58] BERUFE empfangen: 1 Einträge, angenommen 1, älter verworfen 0, Name unbekannt 0
+[21.11. 14:58] SYNC gesendet 202 · empfangen 607 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+[21.11. 14:56] BERUFE ×2 empfangen: 1 Einträge, angenommen 1, älter verworfen 0, Name unbekannt 0
+[21.11. 14:50] GILDENREZEPTE Weg=QueryGuildMembersForRecipe ohne Klick=ja · Berufe 1 · Abfragen 2 · Einträge 0
+[21.11. 14:49] BERUFE gesendet: eigene=ja (gesendet, RaidMaster aktiv)
+[21.11. 14:49] REZEPTPROBE Weg=IsPlayerSpell Probe=ok · gefunden 1
+[21.11. 14:49] BERUFE empfangen: 2 Einträge, angenommen 2, älter verworfen 0, Name unbekannt 0
+[21.11. 14:49] SYNC gesendet 20 · empfangen 110 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+[21.11. 14:49] SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, BuffSentinel 1, GoldSentinelMarkt 1, GuildSentinel 1, LevelPilot 1, LevelPilotG 1, ThreatSentinel 0
+[21.11. 14:48] BERUFE gesendet: eigene=nein (unverändert, gesendet vor weniger als 24 h)
+[21.11. 14:48] BERUFE Gilden-Berufsliste: 14 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 10 aufgeklappt (1-mal), offline eingeblendet: nein (schon an (true)), 4 Einträge, 2 Mitglieder
+[21.11. 12:22] SYNC gesendet 343 · empfangen 463 · verworfen: 0 · Warteschlange 1 · Kanal verweigert 0
+[21.11. 12:12] SYNC gesendet 292 · empfangen 275 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+[21.11. 12:02] SYNC gesendet 230 · empfangen 170 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+[21.11. 11:53] BERUFE gesendet: eigene=ja (gesendet, RaidMaster aktiv)
+[21.11. 11:53] REZEPTPROBE Weg=IsPlayerSpell Probe=ok · gefunden 0
+[21.11. 11:53] BERUFE empfangen: 1 Einträge, angenommen 1, älter verworfen 0, Name unbekannt 0
+[21.11. 11:53] SYNC gesendet 98 · empfangen 49 · verworfen: 0 · Warteschlange 20 · Kanal verweigert 0
+[21.11. 11:53] SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, BuffSentinel 1, GoldSentinelMarkt 1, GuildSentinel 1, LevelPilot 1, LevelPilotG 1, ThreatSentinel 0
+[21.11. 11:53] BERUFE gesendet: eigene=ja (gesendet, RaidMaster aktiv)
+[21.11. 11:53] BERUFE eingelesen: Verzauberkunst 47 Rezepte
+[21.11. 11:52] BERUFE gesendet: eigene=ja (gesendet, RaidMaster aktiv)
+[21.11. 11:52] BERUFE eingelesen: Schneiderei 59 Rezepte
+[21.11. 11:52] BERUFE Gilden-Berufsliste: 14 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 10 aufgeklappt (1-mal), offline eingeblendet: nein (schon an (true)), 4 Einträge, 2 Mitglieder
+[21.11. 11:50] BERUFE gesendet: eigene=ja (gesendet, RaidMaster aktiv)
+[21.11. 11:49] BERUFE eingelesen: Verzauberkunst 47 Rezepte
+[21.11. 11:48] SYNC gesendet 168 · empfangen 112 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+[21.11. 11:47] BERUFE ×2 gesendet: eigene=ja (gesendet, RaidMaster aktiv)
+[21.11. 11:45] BERUFE eingelesen: Schneiderei 59 Rezepte
+[21.11. 11:39] REZEPTPROBE Weg=IsPlayerSpell Probe=ok · gefunden 0
+[21.11. 11:39] BERUFE empfangen: 1 Einträge, angenommen 1, älter verworfen 0, Name unbekannt 0
+[21.11. 11:39] SYNC gesendet 21 · empfangen 53 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+[21.11. 11:39] SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, BuffSentinel 1, GoldSentinelMarkt 0, GuildSentinel 1, LevelPilot 1, LevelPilotG 0, ThreatSentinel 0
+[21.11. 11:38] BERUFE gesendet: eigene=nein (unverändert, gesendet vor weniger als 24 h)
+[21.11. 11:38] BERUFE Gilden-Berufsliste: 14 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 10 aufgeklappt (1-mal), offline eingeblendet: nein (schon an (true)), 4 Einträge, 2 Mitglieder
+[21.11. 11:32] BERUFE ×2 gesendet: eigene=ja (gesendet, RaidMaster aktiv)
+[21.11. 11:31] BERUFE eingelesen: Erste Hilfe 5 Rezepte
+[21.11. 11:31] BERUFE Anzeige: 4 Einträge im Speicher, 4 angezeigt, 0 aussortiert (Name nicht in Gildenliste)
+[21.11. 11:31] BERUFE gesendet: eigene=ja (gesendet, RaidMaster aktiv)
+[21.11. 11:31] REZEPTPROBE Weg=IsPlayerSpell Probe=ok · gefunden 0
+[21.11. 11:31] SYNC gesendet 105 · empfangen 22 · verworfen: 0 · Warteschlange 22 · Kanal verweigert 0
+[21.11. 11:31] SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, BuffSentinel 1, GoldSentinelMarkt 1, GuildSentinel 1, LevelPilot 1, LevelPilotG 1, ThreatSentinel 0

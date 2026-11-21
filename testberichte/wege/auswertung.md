@@ -4,9 +4,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Durotar (1411)
 
-- Wegstücke 952, Knoten 916, zusammenhängende Teile 8
+- Wegstücke 974, Knoten 918, zusammenhängende Teile 8
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 828 Knoten, Bereich 35–66 / 8–69
+  - Teil 1: 830 Knoten, Bereich 35–66 / 8–69
   - Teil 2: 63 Knoten, Bereich 46–60 / 84–98
   - Teil 3: 8 Knoten, Bereich 34–37 / 42–44
   - Teil 4: 5 Knoten, Bereich 46–48 / 44–44
@@ -37,10 +37,10 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Mulgore (1412)
 
-- Wegstücke 607, Knoten 1318, zusammenhängende Teile 21
+- Wegstücke 703, Knoten 1344, zusammenhängende Teile 21
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 578 Knoten, Bereich 33–64 / 41–82
-  - Teil 2: 334 Knoten, Bereich 32–55 / 7–36
+  - Teil 2: 360 Knoten, Bereich 32–55 / 7–36
   - Teil 3: 103 Knoten, Bereich 43–60 / 18–47
   - Teil 4: 88 Knoten, Bereich 42–60 / 78–90
   - Teil 5: 46 Knoten, Bereich 44–49 / 77–88
@@ -102,13 +102,13 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Arathihochland (1417)
 
-- Wegstücke 781, Knoten 1183, zusammenhängende Teile 4
+- Wegstücke 813, Knoten 1188, zusammenhängende Teile 4
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 1068 Knoten, Bereich 21–87 / 23–92
+  - Teil 1: 1070 Knoten, Bereich 21–87 / 23–92
   - Teil 2: 59 Knoten, Bereich 51–58 / 69–82
-  - Teil 3: 38 Knoten, Bereich 67–71 / 47–56
+  - Teil 3: 41 Knoten, Bereich 67–72 / 47–56
   - Teil 4: 18 Knoten, Bereich 48–51 / 73–80
-- **Widerspruch:** gesperrt (FEST) bei 74.4,37.1, aber 85× gelaufen
+- **Widerspruch:** gesperrt (FEST) bei 74.4,37.1, aber 106× gelaufen
 - Gesperrte Wegstücke: 1
 
 ## Tirisfal (1420)
@@ -173,7 +173,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Vorgebirge von Hillsbrad (1424)
 
-- Wegstücke 919, Knoten 1295, zusammenhängende Teile 3
+- Wegstücke 920, Knoten 1295, zusammenhängende Teile 3
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 1282 Knoten, Bereich 27–71 / 10–79
   - Teil 2: 11 Knoten, Bereich 31–33 / 20–26
@@ -193,9 +193,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Schlingendorntal (1434)
 
-- Wegstücke 1685, Knoten 912, zusammenhängende Teile 1
-- **Widerspruch:** gesperrt (FEST) bei 39.9,36.9, aber 73× gelaufen
-- **Widerspruch:** gesperrt (FEST) bei 34.2,14.7, aber 132× gelaufen
+- Wegstücke 2017, Knoten 923, zusammenhängende Teile 1
+- **Widerspruch:** gesperrt (FEST) bei 39.9,36.9, aber 83× gelaufen
+- **Widerspruch:** gesperrt (FEST) bei 34.2,14.7, aber 150× gelaufen
 - Gesperrte Wegstücke: 2
 
 ## Sümpfe des Elends (1435)
@@ -259,11 +259,11 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Tanaris (1446)
 
-- Wegstücke 90, Knoten 144, zusammenhängende Teile 1
+- Wegstücke 91, Knoten 144, zusammenhängende Teile 1
 
 ## Orgrimmar (1454)
 
-- Wegstücke 1218, Knoten 951, zusammenhängende Teile 4
+- Wegstücke 1222, Knoten 951, zusammenhängende Teile 4
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 945 Knoten, Bereich 22–82 / 19–95
   - Teil 2: 3 Knoten, Bereich 38–40 / 28–30
@@ -289,14 +289,14 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 - **Ausreisser:** Wegstück 12: Sprung 11.1 % von 51.7,76.7 nach 52.6,87.8
 - **Ausreisser:** Wegstück 14: Sprung 5.9 % von 52.0,68.2 nach 52.0,74.1
 - **Ausreisser:** Wegstück 15: Sprung 5.9 % von 52.0,68.2 nach 54.7,63.0
-- **Widerspruch:** gesperrt (FEST) bei 52.2,64.5, aber 427× gelaufen
+- **Widerspruch:** gesperrt (FEST) bei 52.2,64.5, aber 439× gelaufen
 - Gesperrte Wegstücke: 1
 
 ## Thunder Bluff (1456)
 
-- Wegstücke 681, Knoten 711, zusammenhängende Teile 7
+- Wegstücke 696, Knoten 727, zusammenhängende Teile 7
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 674 Knoten, Bereich 23–78 / 12–87
+  - Teil 1: 690 Knoten, Bereich 23–78 / 12–87
   - Teil 2: 16 Knoten, Bereich 11–21 / 17–35
   - Teil 3: 7 Knoten, Bereich 18–24 / 3–6
   - Teil 4: 5 Knoten, Bereich 26–31 / 2–4
@@ -354,7 +354,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Flusslande (2548)
 
-- Wegstücke 30, Knoten 162, zusammenhängende Teile 1
+- Wegstücke 31, Knoten 170, zusammenhängende Teile 1
 
 ## Korrigierte Ziele (NPC-Orte)
 
@@ -671,3 +671,11 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 | 217300 | 1417 | kein Ort im Datenpaket -> 57.6,74.6 | - | fehlt im Datenpaket |
 | 269166 | 1434 | kein Ort im Datenpaket -> 32.8,28.4 | - | fehlt im Datenpaket |
 | 1387 | 1434 | 32.5,29.4 -> 32.5,29.3 | 0.1 % | klein |
+| 2703 | 1417 | 73.8,34.0 -> 73.8,33.9 | 0.1 % | klein |
+| 2706 | 1417 | 74.7,36.3 -> 74.7,36.4 | 0.1 % | klein |
+| 2771 | 1417 | 74.2,33.9 -> 74.2,33.8 | 0.1 % | klein |
+| 2792 | 1417 | 72.6,33.9 -> 72.7,34.0 | 0.1 % | klein |
+| 12920 | 1417 | 73.4,36.9 -> 73.4,36.8 | 0.1 % | klein |
+| 2832 | 1434 | 27.0,77.2 -> 27.1,77.3 | 0.1 % | klein |
+| 264074 | 1412 | kein Ort im Datenpaket -> 32.5,20.7 | - | fehlt im Datenpaket |
+| 264078 | 1412 | kein Ort im Datenpaket -> 34.5,22.9 | - | fehlt im Datenpaket |
