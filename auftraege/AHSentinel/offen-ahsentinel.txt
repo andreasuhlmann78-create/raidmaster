@@ -5841,3 +5841,9 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     Netz, angenommen / verworfen, seit Login und 7 Tage). Keine Namen, nur Kürzel/Anzahl.
  Tests: 1 fremder Absender mit 10× Preis -> verworfen; 3 Absender + eigener Scan -> Median; eigener Scan im Fenster -> Vorrang;
  Zähler zählt je Weg; V1 nie aus fremden Daten.
+ S6 (Nutzer 18:52 "wenn Scans stark abweichen, ist zu klären warum"): Jede S2-Verwerfung wird protokolliert (ohne Namen): Item,
+    eigener Preis + Alter, fremder Preis + Alter, Weg (Gilde/Gruppe/Netz), Absender-Kürzel, Scan-Art (Voll/Teil/Einzelsuche), Menge,
+    Stückpreis/Stapelpreis, Item-Variante (Zufallssuffix "… des Bären" usw.), Version des Absenders. Ursache je Fall einordnen:
+    Teil-Scan · alte Version/anderer Markt-Tag · Markt hat sich bewegt (Zeitabstand) · Stapel- statt Stückpreis · andere Variante ·
+    unbekannt. "unbekannt" nie stehen lassen: Fälle im Bericht zeigen. Auswertung im Protokoll (/ahs protokoll) und als Abschnitt im
+    Bericht: Anzahl je Ursache, 5 Beispiele. Findet sich ein Fehler bei uns (z. B. Stapelpreis), wird er behoben, nicht nur verworfen.
