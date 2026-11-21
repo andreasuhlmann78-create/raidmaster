@@ -1,0 +1,225 @@
+AHSentinel-Protokoll v0.65.360 · 21.11. 12:51:20
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  21.11. 12:41:31 L10 PRIEST v0.65.360
+  21.11. 12:39:53 L10 PRIEST v0.65.359
+  21.11. 09:03:53 L10 PRIEST v0.65.359
+  21.11. 08:56:03 L25 WARRIOR v0.65.358
+  21.11. 08:50:03 L10 PRIEST v0.65.358
+  21.11. 08:38:00 L10 PRIEST v0.65.358
+  21.11. 08:37:11 L25 WARRIOR v0.65.358
+  21.11. 08:10:50 L25 WARRIOR v0.65.357
+  21.11. 08:08:13 L1 WARRIOR v0.65.357
+  21.11. 08:03:58 L10 PRIEST v0.65.357
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 10 Min., 7028 Items, Preis-Sync an
+  SYNC GoldSentinelSync 3 · Wege: keiner · Mitspieler (1 Std.): AHSentinel 1, BuffSentinel 1, GoldSentinelMarkt 1, GoldSentinelTest 0, GuildSentinel 1, LevelPilot 1, LevelPilotG 0, ThreatSentinel 0
+  SYNC gesendet 20 · empfangen 451 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 5 (mit Sync 2: 5, pausiert 2) · gesendet 2 · weitergegeben 0 · offline 2 · Listen 1 · Warteschlange 0 · gespeichert ja · im Test angehalten 0
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Einstellungen geändert: cmdHint=true, fastScan=true, helpSeen=true, marketExpert=false, minimapAngle=199, priceGuard=20, psHintHidden=true, sniperSignal=true, theme=modern, tooltipDEDetail=true, vendorButton=false, vendorFlipMin=500
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0
+
+== Einträge (200, neueste zuerst)
+[21.11. 12:51:18] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 29 ms bis Comfort.lua:846 · 30 ms
+[21.11. 12:51:16] SNIPER-RUHE Ruhemodus aus nach 378 s
+[21.11. 12:51:11] ITEMINFO neue Item-Anfragen 4245 (zurückgestellt 41481) · je Aufgabe: cache:warm 71, cache:warm-today 446, forecast-eval 38, hist:flat 2, market:de 1752, market:lager 50, names 180, names:exact 29, pd7 200, ui-refresh 1308, ui:overview-movers 89, wat
+[21.11. 12:51:08] ENTZAUBERWERT Item 2303 · eigene Ø aus 766 · 10940 79% × 1.50 à 124, 10938 21% × 1.56 à 151 · brutto 208 · netto 198
+[21.11. 12:51:08] ABSATZ Item 2303 · Q 47 (scan, Q gesamt) · S 27.1 (measured) · S roh 27.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.8 · N 7.0
+[21.11. 12:51:06] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 265 ms
+[21.11. 12:51:06] LANGSAM ×2 Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 37 ms
+[21.11. 12:51:05] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 122 ms
+[21.11. 12:51:05] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 35 ms
+[21.11. 12:51:04] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 119 ms
+[21.11. 12:51:04] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 33 ms
+[21.11. 12:51:03] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 115 ms
+[21.11. 12:51:03] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 33 ms
+[21.11. 12:51:02] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 106 ms
+[21.11. 12:51:02] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 31 ms
+[21.11. 12:51:01] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 91 ms
+[21.11. 12:51:01] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 29 ms
+[21.11. 12:51:01] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 86 ms
+[21.11. 12:51:01] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 30 ms
+[21.11. 12:51:00] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 71 ms
+[21.11. 12:50:59] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 60 ms
+[21.11. 12:50:58] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 50 ms
+[21.11. 12:50:58] SNIPER-RUHE Speicher 650913 KB (-26890 KB in 60 s) · Suchen 0
+[21.11. 12:50:58] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 45 ms
+[21.11. 12:50:57] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 36 ms
+[21.11. 12:50:56] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 28 ms
+[21.11. 12:50:56] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 22 ms
+[21.11. 12:50:55] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 18 ms
+[21.11. 12:50:52] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 36 ms
+[21.11. 12:50:52] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 195 ms
+[21.11. 12:50:52] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 39 ms
+[21.11. 12:50:51] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 111 ms
+[21.11. 12:50:51] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 25 ms
+[21.11. 12:50:50] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 104 ms
+[21.11. 12:50:50] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 26 ms
+[21.11. 12:50:49] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 90 ms
+[21.11. 12:50:49] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 23 ms
+[21.11. 12:50:48] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 101 ms
+[21.11. 12:50:48] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 27 ms
+[21.11. 12:50:47] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 94 ms
+[21.11. 12:50:47] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 36 ms
+[21.11. 12:50:47] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 73 ms
+[21.11. 12:50:47] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 21 ms
+[21.11. 12:50:46] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 61 ms
+[21.11. 12:50:46] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 20 ms
+[21.11. 12:50:45] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 56 ms
+[21.11. 12:50:45] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 22 ms
+[21.11. 12:50:44] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 47 ms
+[21.11. 12:50:44] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 19 ms
+[21.11. 12:50:44] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 51 ms
+[21.11. 12:50:44] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 21 ms
+[21.11. 12:50:43] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 34 ms
+[21.11. 12:50:43] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 17 ms
+[21.11. 12:50:42] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 26 ms
+[21.11. 12:50:42] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 18 ms
+[21.11. 12:50:42] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 16 ms
+[21.11. 12:50:42] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 17 ms
+[21.11. 12:50:42] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 26 ms
+[21.11. 12:50:41] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 122 ms
+[21.11. 12:50:41] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 28 ms
+[21.11. 12:50:41] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 118 ms
+[21.11. 12:50:41] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 37 ms
+[21.11. 12:50:40] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 101 ms
+[21.11. 12:50:40] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 31 ms
+[21.11. 12:50:39] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 104 ms
+[21.11. 12:50:39] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 30 ms
+[21.11. 12:50:38] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 94 ms
+[21.11. 12:50:38] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 29 ms
+[21.11. 12:50:37] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 83 ms
+[21.11. 12:50:37] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 28 ms
+[21.11. 12:50:37] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 73 ms
+[21.11. 12:50:37] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 27 ms
+[21.11. 12:50:36] ENTZAUBERWERT Item 14097 · eigene Ø aus 766 · 10940 79% × 1.50 à 124, 10938 21% × 1.56 à 151 · brutto 208 · netto 198
+[21.11. 12:50:36] ABSATZ Item 14097 · Q 78 (scan, Q gesamt) · S 2.3 (market, gelernt) · S roh 4.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 34.5 · N 7.0 · kaum
+[21.11. 12:50:36] ENTZAUBERWERT Item 10047 · eigene Ø aus 766 · 10940 79% × 1.50 à 124, 10938 21% × 1.56 à 151 · brutto 208 · netto 198
+[21.11. 12:50:36] ABSATZ Item 10047 · Q 4 (vollscan) · S 66.2 (measured) · S roh 66.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.1 · N 1.0
+[21.11. 12:50:36] ENTZAUBERWERT Item 4307 · eigene Ø aus 766 · 10940 79% × 1.50 à 124, 10938 21% × 1.56 à 151 · brutto 208 · netto 198
+[21.11. 12:50:36] ENTZAUBERWERT Item 2569 · eigene Ø aus 766 · 10940 79% × 1.50 à 124, 10938 21% × 1.56 à 151 · brutto 208 · netto 198
+[21.11. 12:50:36] ABSATZ Item 2569 · Q 35 (scan, Q gesamt) · S 30.4 (measured) · S roh 30.4 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.2 · N 7.0
+[21.11. 12:50:36] ENTZAUBERWERT Item 2310 · eigene Ø aus 766 · 10940 79% × 1.50 à 124, 10938 21% × 1.56 à 151 · brutto 208 · netto 198
+[21.11. 12:50:36] ABSATZ Item 2310 · Q 47 (scan, Q gesamt) · S 25.2 (measured) · S roh 25.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.9 · N 7.0
+[21.11. 12:50:36] ENTZAUBERWERT Item 3472 · eigene Ø aus 766 · 10940 79% × 1.50 à 124, 10938 21% × 1.56 à 151 · brutto 208 · netto 198
+[21.11. 12:50:36] ABSATZ Item 3472 · Q 44 (scan, Q gesamt) · S 11.8 (measured) · S roh 11.8 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 3.8 · N 7.0
+[21.11. 12:50:36] ENTZAUBERWERT Item 2852 · eigene Ø aus 766 · 10940 79% × 1.50 à 124, 10938 21% × 1.56 à 151 · brutto 208 · netto 198
+[21.11. 12:50:36] ABSATZ Item 2852 · Q 110 (scan, Q gesamt) · S 63.4 (measured) · S roh 63.4 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.8 · N 7.0
+[21.11. 12:50:36] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 63 ms
+[21.11. 12:50:36] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 25 ms
+[21.11. 12:50:35] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 63 ms
+[21.11. 12:50:35] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 24 ms
+[21.11. 12:50:34] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 54 ms
+[21.11. 12:50:34] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 24 ms
+[21.11. 12:50:33] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 45 ms
+[21.11. 12:50:33] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 22 ms
+[21.11. 12:50:33] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 37 ms
+[21.11. 12:50:33] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 22 ms
+[21.11. 12:50:32] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 30 ms
+[21.11. 12:50:32] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 22 ms
+[21.11. 12:50:32] LANGSAM Empfänger Buy.lua:1117 von QUERY_READY · 21 ms
+[21.11. 12:50:32] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 21 ms
+[21.11. 12:50:31] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 20 ms
+[21.11. 12:50:31] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 38 ms
+[21.11. 12:50:31] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 22 ms
+[21.11. 12:50:30] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 30 ms
+[21.11. 12:50:30] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 22 ms
+[21.11. 12:50:30] LANGSAM Empfänger Buy.lua:1117 von QUERY_READY · 21 ms
+[21.11. 12:50:30] LANGSAM ×2 Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 21 ms
+[21.11. 12:50:29] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 58 ms
+[21.11. 12:50:29] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 24 ms
+[21.11. 12:50:28] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 50 ms
+[21.11. 12:50:28] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 23 ms
+[21.11. 12:50:28] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 44 ms
+[21.11. 12:50:28] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 22 ms
+[21.11. 12:50:27] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 37 ms
+[21.11. 12:50:27] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 22 ms
+[21.11. 12:50:26] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 34 ms
+[21.11. 12:50:26] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 23 ms
+[21.11. 12:50:26] LANGSAM ×2 Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 30 ms
+[21.11. 12:50:24] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 26 ms
+[21.11. 12:50:23] DETAIL-LEER Item 9796 · itemKey Scan 27/0 · Detail 27/0 · Treffer 0
+[21.11. 12:50:21] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 62 ms
+[21.11. 12:50:21] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 25 ms
+[21.11. 12:50:21] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 54 ms
+[21.11. 12:50:21] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 25 ms
+[21.11. 12:50:20] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 44 ms
+[21.11. 12:50:20] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 22 ms
+[21.11. 12:50:19] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 37 ms
+[21.11. 12:50:19] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 22 ms
+[21.11. 12:50:19] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 30 ms
+[21.11. 12:50:19] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 21 ms
+[21.11. 12:50:18] LANGSAM Empfänger Buy.lua:1117 von QUERY_READY · 21 ms
+[21.11. 12:50:18] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 20 ms
+[21.11. 12:50:18] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 21 ms
+[21.11. 12:50:17] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 37 ms
+[21.11. 12:50:17] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 22 ms
+[21.11. 12:50:16] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 29 ms
+[21.11. 12:50:16] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 21 ms
+[21.11. 12:50:16] LANGSAM ×2 Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 20 ms
+[21.11. 12:50:12] ENTZAUBERWERT Item 6611 · eigene Ø aus 1409 · 11083 75% × 1.53 à 403, 11082 20% × 1.51 à 2276, 11084 6% × 1.00 à 5881 · brutto 1544 · netto 1467
+[21.11. 12:50:12] ABSATZ Item 6611 · Q 44 (scan, Q gesamt) · S 3.9 (measured) · S roh 3.9 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 11.6 · N 7.0 · kaum
+[21.11. 12:50:12] ENTZAUBERWERT Item 14755 · eigene Ø aus 1409 · 11083 75% × 1.53 à 403, 11082 20% × 1.51 à 2276, 11084 6% × 1.00 à 5881 · brutto 1544 · netto 1467
+[21.11. 12:50:12] ABSATZ Item 14755 · Q 15 (scan, Q gesamt) · S 2.6 (market, gelernt) · S roh 4.6 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 6.1 · N 7.0
+[21.11. 12:50:12] ENTZAUBERWERT Item 9831 · eigene Ø aus 1409 · 11083 75% × 1.53 à 403, 11082 20% × 1.51 à 2276, 11084 6% × 1.00 à 5881 · brutto 1544 · netto 1467
+[21.11. 12:50:12] ABSATZ Item 9831 · Q 42 (scan, Q gesamt) · S 2.3 (market, gelernt) · S roh 4.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 18.8 · N 7.0 · kaum
+[21.11. 12:50:12] ENTZAUBERWERT Item 4715 · eigene Ø aus 1409 · 11083 75% × 1.53 à 403, 11082 20% × 1.51 à 2276, 11084 6% × 1.00 à 5881 · brutto 1544 · netto 1467
+[21.11. 12:50:12] ABSATZ Item 4715 · Q 31 (scan, Q gesamt) · S 4.5 (market, gelernt) · S roh 7.8 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 7.2 · N 7.0 · kaum
+[21.11. 12:50:12] ENTZAUBERWERT Item 14578 · eigene Ø aus 1409 · 11083 75% × 1.53 à 403, 11082 20% × 1.51 à 2276, 11084 6% × 1.00 à 5881 · brutto 1544 · netto 1467
+[21.11. 12:50:12] ABSATZ Item 14578 · Q 3 (vollscan) · S 3.0 (measured) · S roh 3.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.3 · N 7.0
+[21.11. 12:50:12] ENTZAUBERWERT Item 6608 · eigene Ø aus 1409 · 11083 75% × 1.53 à 403, 11082 20% × 1.51 à 2276, 11084 6% × 1.00 à 5881 · brutto 1544 · netto 1467
+[21.11. 12:50:12] ABSATZ Item 6608 · Q 10 (scan, Q gesamt) · S 1.4 (market, gelernt) · S roh 2.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 7.7 · N 7.0 · kaum
+[21.11. 12:50:12] ENTZAUBERWERT Item 6387 · eigene Ø aus 1409 · 11083 75% × 1.53 à 403, 11082 20% × 1.51 à 2276, 11084 6% × 1.00 à 5881 · brutto 1544 · netto 1467
+[21.11. 12:50:12] ABSATZ Item 6387 · Q 29 (scan, Q gesamt) · S 6.7 (market, gelernt) · S roh 11.6 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 4.5 · N 7.0
+[21.11. 12:50:12] ENTZAUBERWERT Item 4711 · eigene Ø aus 1409 · 11083 75% × 1.53 à 403, 11082 20% × 1.51 à 2276, 11084 6% × 1.00 à 5881 · brutto 1544 · netto 1467
+[21.11. 12:50:12] ABSATZ Item 4711 · Q 8 (scan, Q gesamt) · S 0.3 (market, gelernt) · S roh 0.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 31.4 · N 7.0 · kaum
+[21.11. 12:50:12] ENTZAUBERWERT Item 4829 · eigene Ø aus 1409 · 11083 75% × 1.53 à 403, 11082 20% × 1.51 à 2276, 11084 6% × 1.00 à 5881 · brutto 1544 · netto 1467
+[21.11. 12:50:12] ABSATZ Item 4829 · Q 6 (scan, Q gesamt) · S 0.6 (market, gelernt, unsicher) · S roh 1.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 12.2 · N 7.0 · kaum
+[21.11. 12:50:12] ENTZAUBERWERT Item 15135 · eigene Ø aus 1409 · 11083 75% × 1.53 à 403, 11082 20% × 1.51 à 2276, 11084 6% × 1.00 à 5881 · brutto 1544 · netto 1467
+[21.11. 12:50:12] ABSATZ Item 15135 · Q 36 (scan, Q gesamt) · S 2.3 (market, gelernt) · S roh 4.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 16.2 · N 7.0 · kaum
+[21.11. 12:50:09] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 36 ms
+[21.11. 12:50:02] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 34 ms
+[21.11. 12:50:02] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 188 ms
+[21.11. 12:50:02] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 36 ms
+[21.11. 12:50:02] ENTZAUBERWERT Item 9796 · eigene Ø aus 1409 · 11083 75% × 1.53 à 403, 11082 20% × 1.51 à 2276, 11084 6% × 1.00 à 5881 · brutto 1544 · netto 1467
+[21.11. 12:50:02] ABSATZ Item 9796 · Q 40 (scan, Q gesamt) · S 2.3 (market, gelernt) · S roh 4.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 17.9 · N 7.0 · kaum
+[21.11. 12:50:01] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 118 ms
+[21.11. 12:50:01] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 33 ms
+[21.11. 12:50:00] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 106 ms
+[21.11. 12:50:00] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 31 ms
+[21.11. 12:49:59] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 98 ms
+[21.11. 12:49:59] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 30 ms
+[21.11. 12:49:59] ENTZAUBERWERT Item 4049 · eigene Ø aus 1409 · 11083 75% × 1.53 à 403, 11082 20% × 1.51 à 2276, 11084 6% × 1.00 à 5881 · brutto 1544 · netto 1467
+[21.11. 12:49:59] ABSATZ Item 4049 · Q 21 (scan, Q gesamt) · S 1.5 (market, gelernt) · S roh 2.6 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 15.0 · N 7.0 · kaum
+[21.11. 12:49:59] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 99 ms
+[21.11. 12:49:59] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 32 ms
+[21.11. 12:49:58] SNIPER-RUHE Speicher 677803 KB (+51809 KB in 60 s) · Suchen 0
+[21.11. 12:49:58] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 87 ms
+[21.11. 12:49:58] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 29 ms
+[21.11. 12:49:57] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 77 ms
+[21.11. 12:49:57] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 27 ms
+[21.11. 12:49:56] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 67 ms
+[21.11. 12:49:56] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 26 ms
+[21.11. 12:49:55] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 58 ms
+[21.11. 12:49:55] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 24 ms
+[21.11. 12:49:55] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 53 ms
+[21.11. 12:49:55] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 23 ms
+[21.11. 12:49:54] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 65 ms
+[21.11. 12:49:54] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 25 ms
+[21.11. 12:49:53] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 37 ms
+[21.11. 12:49:53] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 21 ms
+[21.11. 12:49:53] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 29 ms
+[21.11. 12:49:53] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 21 ms
+[21.11. 12:49:52] LANGSAM Empfänger Buy.lua:1117 von QUERY_READY · 21 ms
+[21.11. 12:49:52] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 20 ms
+[21.11. 12:49:52] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 21 ms
+[21.11. 12:49:52] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 72 ms
+[21.11. 12:49:52] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 27 ms
+[21.11. 12:49:51] LANGSAM Empfänger UI_Buy.lua:1015 von ITEMINFO_LOADED · 25 ms
+[21.11. 12:49:51] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 62 ms
+[21.11. 12:49:51] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 25 ms
+[21.11. 12:49:51] LANGSAM Empfänger UI_Buy.lua:1015 von ITEMINFO_LOADED · 23 ms
+[21.11. 12:49:50] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 52 ms

@@ -4,7 +4,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Durotar (1411)
 
-- Wegstücke 876, Knoten 855, zusammenhängende Teile 8
+- Wegstücke 877, Knoten 855, zusammenhängende Teile 8
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 767 Knoten, Bereich 35–66 / 8–69
   - Teil 2: 63 Knoten, Bereich 46–60 / 84–98
@@ -58,7 +58,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Das Brachland (1413)
 
-- Wegstücke 2898, Knoten 1381, zusammenhängende Teile 25
+- Wegstücke 2900, Knoten 1381, zusammenhängende Teile 25
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 1319 Knoten, Bereich 34–69 / 3–91
   - Teil 2: 12 Knoten, Bereich 52–54 / 52–54
@@ -182,12 +182,13 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 - **Widerspruch:** gesperrt (FEST) bei 44.7,27.9, aber 111× gelaufen
 - Gesperrte Wegstücke: 1
 
+## Dämmerwald (1431)
+
+- Wegstücke 1, Knoten 3, zusammenhängende Teile 1
+
 ## Schlingendorntal (1434)
 
-- Wegstücke 999, Knoten 706, zusammenhängende Teile 2
-- **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 705 Knoten, Bereich 17–42 / 9–78
-  - Teil 2: 1 Knoten, Bereich 33–33 / 26–26
+- Wegstücke 1021, Knoten 742, zusammenhängende Teile 1
 - **Widerspruch:** gesperrt (FEST) bei 39.9,36.9, aber 62× gelaufen
 - Gesperrte Wegstücke: 1
 
@@ -319,7 +320,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Undercity (1458)
 
-- Wegstücke 2626, Knoten 1044, zusammenhängende Teile 3
+- Wegstücke 2628, Knoten 1044, zusammenhängende Teile 3
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 1042 Knoten, Bereich 44–86 / 1–96
   - Teil 2: 1 Knoten, Bereich 59–59 / 25–25
