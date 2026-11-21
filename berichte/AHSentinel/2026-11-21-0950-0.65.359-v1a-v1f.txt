@@ -1,0 +1,33 @@
+Bericht AHSentinel 0.65.359 – BEFUND 21.11. 08:45 V1a–V1f (gegen 0.65.358), umgesetzt, zur Prüfung
+Veröffentlicht: Discord (announce/), GitHub-Release v0.65.359 (Workflow). Nicht CurseForge. addon_check: OK (keine FEHLER).
+Tests T926–T928 eingebaut (T925 angepasst: Warnung nur mit Handpreis), nicht selbst laufen gelassen (Entscheid 08:54).
+
+V1a (Warnung beim eigenen Vorschlag) – Ursache im Code belegt: UpdateSummary läuft bei JEDEM Tastendruck im Preisfeld (MoneyInput
+  onChange); Zwischenstände wie "39s 7" (= 39s07) lagen unter dem günstigsten Angebot -> Schlachtzugswarnung, obwohl der Endpreis
+  39s74 = Regelpreis war (Bild: Cursor im Feld). Behebung: Warnung zählt nur bei einem vom Spieler gesetzten Preis (Se.handPrice:
+  eingetippt/Zeile angeklickt) unter dem Regelpreis; die Schlachtzugswarnung kommt erst beim Klick auf "Einstellen" (Einstellen geht
+  weiter), live nur die rote Zeile.
+V1b/V1c (14s statt 14s58, 1s statt 7c) – Ursache: Regel F2 "Einzelstücke nur ganze Silber, mindestens 1s" (Se:SilverOnly/RoundPrice,
+  meine V1-Umsetzung 0.65.358). Hinweis an die Prüf-Sitzung: F2 beruht auf Messung 10.11. (199c -> "Interner Auktion-Fehler", 200c ok)
+  und Entscheid des Nutzers 10.11. ("bleibt bei ganzen Silbern"), siehe shared/wissen/wirtschaft-forever.md Zeile 50 – der NACHTRAG
+  09:30 "kein Entscheid" stimmt so nicht. Nutzer heute 09:0x im Chat gefragt, Antwort: "Immer exakt mit Kupfer". Umgesetzt:
+  Se:SilverOnly = false überall (Vorschlag, Unterbieten, Einstellen). Verdacht, zu messen: nimmt der Server Kupfer bei Ausrüstung
+  jetzt an? -> Protokoll AHS-POST/BLIZZARD-POST beim ersten Einstellen der Kapuze zu 14s58. Händlerpreis nur Hinweis (V1c).
+V1d (Widersprüche) – Rechnung belegt aus den Spieldaten (goldsentinel-daten Stand 21.11. 06:51, Timing-Speicher):
+  Essenz (11135) "üblich" 8 Uhr = Median der Stundenwerte 23s96/24s69/19s06 = 23s96; 39s74/23s96 − 1 = +65,9 % -> "+66 %".
+  Silberrute (6338) 22 Uhr Werte 3s96/4s00, Tageswerte 3s12–7s49 (Stand 06:51); 7c -> "+5614 %" (= Median 22 Uhr ≈ 4s / 7c).
+  Die Prozente rechnen also richtig gegen die gespeicherten Scanpreise; widersprüchlich ist die Quelle: der Marktwert (39s85 bzw. 6c)
+  zeigt das Gegenteil. Behebung: Zeitpunkt-Signal nur, wenn seine Richtung zum Marktwert passt (teuer -> Preis über Marktwert;
+  günstig/später/abwarten -> Preis unter Marktwert), sonst kein Signal (TM:Consistent, in TM:Signal: Tooltip und Fenster).
+  Offen (Verdacht, zu messen): warum Scan-Stundenwerte (Silberrute heute 3s77 im Tagesmittel) und Preisprüfung (7c×44) so weit
+  auseinanderliegen – braucht neuere Spieldaten.
+  "5× abgelaufen – billiger einstellen (Vorschlag 35s76)" war 90 % des Feldpreises; jetzt derselbe Vorschlag wie das Preisfeld (Se:Suggest)
+  und nur, wenn er tiefer ist; sonst "5× abgelaufen – Händler zahlt x. Bisher verloren: y".
+V1e: Text jetzt "Entzaubern: +2s 71c mehr" (Differenz Entzauberwert netto − Verkauf netto je Stück).
+V1f: D:DEWho(itemID) -> "self"/"twink"/nil (Fertigkeit dieses Charakters, sonst Konto über Characters c.enchant, gleicher Server/Fraktion).
+  Forever: Fertigkeit ab 1 reicht für alles (D:RequiredSkill = 1 auf Forever).
+  Ohne eigenen Verzauberer: keine Verkaufs-Empfehlung Entzaubern (Se:DEBetter), kein Kauf-zum-Entzaubern (DEB:Value -> nil: Schnäppchen,
+  "x Teile mit über 30 %"), Entzaubern-Fenster öffnet nicht (Meldung). "Lohnt bis" über Entzaubern, Markt, Herstellen waren schon über
+  D:WayDE gesperrt. Nur Twink: "Entzaubern über deinen Twink: +x". Tooltip bleibt Information für alle (KORREKTUR 08:44).
+  NICHT umgesetzt (offen): KORREKTUR 2 (b) "stattdessen Informationen/Vorschläge zu den Berufen, die der Charakter hat" – braucht Klärung,
+  welche Vorschläge je Beruf gemeint sind.
