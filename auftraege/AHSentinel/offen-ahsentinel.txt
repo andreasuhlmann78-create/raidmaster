@@ -5592,3 +5592,8 @@ Neuaufbau; Laden hängt -> nach Zeitlimit Hinweis statt Dauer-"geladen".
     Ebenso "0,16 × 7s36 = 1s17" bei Ø 11 % × 1,5 = 0,165 (= 1s21). Faktoren ungerundet zeigen, sodass jede Zeile exakt aufgeht.
  P12 FRAGE: Bank-Char Stufe 1 bekommt "Entzaubern lohnt: 7 Teile …" (V1f: nur mit Verzauberkunst oder eingestelltem Twink).
     Belegen, dass hier ein Twink eingestellt ist – sonst V1f-Fehler.
+
+>>> ENTSCHEID 21.11. 14:53 (Nutzer "er soll das Wichtige erledigen") – JETZT in dieser Reihenfolge:
+    1. P8 (Preisprüfung 0 Angebote -> kein Preis, Gold)  2. P9 (Marktwert 19s belegen / "nicht bekannt")  3. P10 (Warnung VOR dem
+    Einstellen)  4. P4 (ein Kaufwert je Item)  5. P5 ("Stufe ?" -> kein Kaufhinweis)  6. P1 + P11 (Faktoren ungerundet, Zeilen exakt).
+    MONTAG 23.11.: P2, P3, P6, P7, P12 und alles andere. Danach addon_check, nur Discord, Tests bauen, nicht laufen lassen, Bericht.

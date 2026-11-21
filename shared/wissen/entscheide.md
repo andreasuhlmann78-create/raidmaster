@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 21.11. 14:53 | AHS soll das Wichtige jetzt erledigen: P8, P9, P10, P4, P5, P1/P11; Rest Montag. | offen-ahsentinel ENTSCHEID 14:53. |
 | 21.11. 09:20 | Tooltip: Auftrag an AHS jetzt (nach V1a–V1f), Preisverlauf nicht im Tooltip (09:18). Für die Prüf-Sitzung bis auf Weiteres erledigt. | offen-ahsentinel AUFTRAG TOOLTIP 09:20 (TT1–TT7). |
 | 21.11. 08:54 | AHS: jetzt nur V1a–V1f umsetzen, Rest liegen lassen bis Montag. | offen-ahsentinel ENTSCHEID 08:54, nur Discord. |
 | 21.11.2026 08:23–08:28 | Verkaufspreis: günstigstes Angebot übernehmen, bei nur 1–5 Stück nächste Stufe, unter 20c gleicher Preis, sonst 1c darunter; "nie die Spieler auf irgendeine Art bevormunden" – nur deutlicher Hinweis als Schlachtzugswarnung | AHSentinel Prio 2 nach Sniper (V1); ersetzt Bestätigungen A2–A4 |
