@@ -1,0 +1,256 @@
+{
+ "addon": "LevelPilot",
+ "blocked": [],
+ "env": {
+  "build": "71037",
+  "class": "WARRIOR",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 27,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "f": 2,
+ "fest": [],
+ "id": "LevelPilot-wege-1795299519-afc9f8",
+ "kind": "wege",
+ "npc": [
+  {
+   "id": 2798,
+   "map": 1456,
+   "new": [
+    29.6,
+    21.5
+   ],
+   "old": [
+    29.7,
+    21.2
+   ],
+   "t": 1795299334
+  },
+  {
+   "id": 3024,
+   "map": 1456,
+   "new": [
+    54,
+    47.4
+   ],
+   "nopack": true,
+   "t": 1795299142
+  },
+  {
+   "id": 3084,
+   "map": 1456,
+   "new": [
+    57.8,
+    47.1
+   ],
+   "nopack": true,
+   "t": 1795299270
+  },
+  {
+   "id": 9087,
+   "map": 1456,
+   "new": [
+    71,
+    34
+   ],
+   "old": [
+    71.1,
+    34.2
+   ],
+   "t": 1795299174
+  },
+  {
+   "id": 12736,
+   "map": 1440,
+   "new": [
+    11.6,
+    34.3
+   ],
+   "old": [
+    11.6,
+    34.3
+   ],
+   "t": 1795298540
+  }
+ ],
+ "qo": [
+  {
+   "a": "T",
+   "l": 27,
+   "m": 1440,
+   "q": 6563,
+   "t": 1795298540
+  },
+  {
+   "a": "T",
+   "l": 27,
+   "m": 1440,
+   "q": 6922,
+   "t": 1795298548
+  },
+  {
+   "a": "A",
+   "l": 27,
+   "m": 1456,
+   "q": 97538,
+   "t": 1795299142
+  },
+  {
+   "a": "T",
+   "l": 27,
+   "m": 1456,
+   "q": 6561,
+   "t": 1795299192
+  }
+ ],
+ "time": 1795299519,
+ "version": "3.13.6",
+ "zones": [
+  {
+   "edges": [
+    {
+     "lv": [
+      "1440|o|Splintertreeposten",
+      "1440|o|Splintertreeposten",
+      "1440|o|Splintertreeposten"
+     ],
+     "n": 1,
+     "p": [
+      73.6,
+      61.1,
+      73.4,
+      61.3,
+      73.3,
+      61
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1440|o|Splintertreeposten",
+      "1440|o|Splintertreeposten",
+      "1440|o|Splintertreeposten"
+     ],
+     "n": 2,
+     "p": [
+      73.5,
+      60.4,
+      73.4,
+      60.7,
+      73.3,
+      61
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1440|o|Splintertreeposten",
+      "1440|o|Splintertreeposten"
+     ],
+     "n": 1,
+     "p": [
+      73.2,
+      61.5,
+      73.3,
+      61
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1440|o|Zoram'gar-Außenposten",
+      "1440|o|Zoram'gar-Außenposten",
+      "1440|o|Zoram'gar-Außenposten",
+      "1440|o|Zoram'gar-Außenposten"
+     ],
+     "n": 2,
+     "p": [
+      11.6,
+      34.3,
+      11.8,
+      34.3,
+      12,
+      34.3,
+      12.1,
+      33.9
+     ],
+     "src": "selbst"
+    }
+   ],
+   "map": 1440,
+   "name": "Ashenvale"
+  },
+  {
+   "edges": [
+    {
+     "lv": [
+      "1456|o|Die Anhöhe der Geister",
+      "1456|o|Die Anhöhe der Geister",
+      "1456|o|Die Anhöhe der Geister",
+      "1456|o|Die Anhöhe der Geister"
+     ],
+     "n": 1,
+     "p": [
+      27.3,
+      25.4,
+      27.1,
+      23.8,
+      28,
+      23.4,
+      29.1,
+      21.5
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1456|o|",
+      "1456|o|",
+      "1456|o|",
+      "1456|o|",
+      "1456|o|",
+      "1456|o|",
+      "1456|o|"
+     ],
+     "n": 3,
+     "p": [
+      58,
+      47.4,
+      56.2,
+      48.6,
+      54.9,
+      48.7,
+      53.4,
+      49.3,
+      52,
+      49.4,
+      50.8,
+      49.9,
+      51.9,
+      49.3
+     ],
+     "src": "selbst"
+    },
+    {
+     "n": 1,
+     "p": [
+      43.9,
+      58,
+      44,
+      56.2,
+      45.1,
+      56.2
+     ],
+     "src": "geteilt"
+    }
+   ],
+   "map": 1456,
+   "name": "Thunder Bluff"
+  }
+ ]
+}
