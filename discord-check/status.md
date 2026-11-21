@@ -1,6 +1,6 @@
 # Discord-Prüfung
 
-Geprüft: 2026-11-21T18:16:13Z (Commit 196ae8f), Server: Alpine Vanguard
+Geprüft: 2026-11-21T19:45:43Z (Commit a24b335), Server: Alpine Vanguard
 
 **Ergebnis: ❌ es fehlt etwas**
 
@@ -10,21 +10,21 @@ Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 4
 
 | | Addon | Version | Kanal | Gepostet | seit Push |
 |---|---|---|---|---|---|
-| ✅ ok | AHSentinel | 0.65.354 | #ahsentinel | 2026-11-19 19:53 UTC | 46 Std. |
+| ✅ ok | AHSentinel | 0.65.354 | #ahsentinel | 2026-11-19 19:53 UTC | 2 Tage |
 | ✅ ok | RaidMaster | 3.0.40 | #raid-addon | 2026-11-18 10:20 UTC | 3 Tage |
 
 ## Ankündigungen (announce/, neueste Fassung je Reihe)
 
 | | Datei | Kanal | Abdeckung | seit Push |
 |---|---|---|---|---|
-| ⏳ wartet | ahsentinel__ahsentinel-0.65.371.md | #ahsentinel | 16 % | 16 Min. |
+| ✅ ok | ahsentinel__ahsentinel-0.65.375.md | #ahsentinel | 100 % | 35 Min. |
 | ✅ ok | ahsentinel__ahsentinel-0-vorstellung-1.8.md | #ahsentinel | 100 % | 12 Tage |
 | ✅ ok | ahsentinel__ahsentinel-hilfe-1.0.md | #ahsentinel | 100 % | 17 Tage |
 | ✅ ok | barrow-taktik__uebersicht-1.1.md | #barrow-taktik | 100 % | 18 Tage |
 | ✅ ok | buffsentinel__buffsentinel-0.9.60.md | #buffsentinel | 100 % | 3 Tage |
 | ✅ ok | guildsentinel__guildsentinel-0.9.58.md | #guildsentinel | 100 % | 3 Tage |
 | ✅ ok | hyjal-taktik__uebersicht-1.1.md | #hyjal-taktik | 100 % | 18 Tage |
-| ✅ ok | levelpilot__levelpilot-3.13.6.md | #levelpilot | 100 % | 35 Std. |
+| ✅ ok | levelpilot__levelpilot-3.13.6.md | #levelpilot | 100 % | 37 Std. |
 | ⚠️ veraltet | levelpilot__levelpilot-uebersicht-3.12.94.md | #levelpilot | 95 % | 3 Tage |
 | ✅ ok | lore__alpine-vanguard-vorstellung-1.0.md | #lore | 100 % | 20 Tage |
 | ✅ ok | mc-feuerresi__feuerresi-1.1.md | #mc-feuerresi | 100 % | 18 Tage |
@@ -37,13 +37,6 @@ Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 4
 | ✅ ok | buffsentinel__buffsentinel-0-vorstellung-12.md | #buffsentinel | 100 % | 17 Tage |
 | ✅ ok | guildsentinel__guildsentinel-0-vorstellung-19.md | #guildsentinel | 100 % | 9 Tage |
 | ✅ ok | levelpilot__levelpilot-uebersicht.md | #levelpilot | 100 % | 26 Tage |
-
-**announce/ahsentinel__ahsentinel-0.65.371.md** – fehlt im Discord:
-- `📦 **AHSentinel 0.65.371** – Marktdaten aus Gilde, Gruppe und Netz, abgesichert`
-- `• **Jeder Spieler zählt je Item und Stunde nur einmal.** Ein fremder Preis, der mehr als doppelt bzw. halb so hoch ist wie dein eigener Scan der letzten 24 Std.`
-- `• **Verkaufsvorschlag** weiter nur aus deinem eigenen frischen Angebots-Scan.`
-- `• **Statuszeile:** „Empfangen: x Daten von y Spielern“, mit der Maus je Weg (Gilde / Gruppe / Netz), angenommen und verworfen. Keine Namen.`
-- `• **Verworfene Preise** stehen mit Ursache im Protokoll (/ahs protokoll).`
 
 **announce/levelpilot__levelpilot-uebersicht-3.12.94.md** – fehlt im Discord:
 - `• Möglichst lange in einer Zone: erst weiter, wenn dort fast nichts mehr zu tun ist, keine weiten Reisen für eine einzelne Quest, Abgaben werden gesammelt – Hau`
