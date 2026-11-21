@@ -1,0 +1,13 @@
+BERICHT DISCORD – Bot 1.5.187: daten_config.json an die Offiziere (Auftrag 21.11. 07:42) – umgesetzt, zur Prüfung
+Zeit: 21.11.2026 07:45 (aus date). Commit 16dec7a8 auf origin/main, CI Bot-Tests: 16dec7a8 completed success
+
+- /uploader-daten-senden (nur Gildenchef, is_chef). Datei nur lokal: config "daten_config_path", sonst daten_config.json neben
+  bot.py (neu in .gitignore). Fehlt sie oder ist sie kein JSON mit repo+token: nichts senden, Hinweis mit dem Pfad.
+- Ablauf: Empfängerliste (Rolle Offizier, ohne Bots, ohne Absender) nur für den Gildenchef sichtbar -> Knopf "Senden" (nur er,
+  5 Min., kein Doppelversand) -> Direktnachricht mit Anhang + Anleitung (Uploader-Ordner, neu starten, nicht weitergeben).
+  Jeder einmal (state.json), "erneut:True" für nochmals; geschlossene Direktnachrichten werden genannt, nicht gemerkt.
+- Inhalt nie in Antworten, Protokoll, #bot-log (Test). #bot-log/Protokoll nur Anzahlen.
+- Tests: test_datenversand.py 7 Tests (T-DATENVERSAND), 9 Gegenproben alle rot. 460 Tests OK, jede Datei einzeln -I OK,
+  REGRESSIONEN 79/79. Betrieb nachgestellt (Update 1.5.186, Start, ohne config.json Exit 3, Neustart 42). Befehle 59 -> 60.
+- Versand: NOCH NICHT – braucht /update beim Nutzer, die Datei neben bot.py und sein Klick auf "Senden" nach Sicht der Liste.
+  Anzahl gesendet folgt im nächsten Bericht (ohne Namen).
