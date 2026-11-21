@@ -677,3 +677,8 @@ Quelle für Berufsdaten (Nutzer): https://classic.goldgoblin.net/berufe/ – fü
 3. Die heute sichtbaren Prozentzahlen ausblenden; nur beim Darüberfahren über das "Barometer" im Tooltip zeigen.
 Tests (gebaut, nicht laufen lassen): Reihenfolge mit 3 orangen (5/12/2 bis gelb) -> 12,5,2; graues Rezept fehlt; Skill +1 ->
 Zahlen und Reihenfolge aktualisiert; fehlende Grenze -> "Grenze unbekannt" am Gruppenende; Prozent nur im Tooltip.
+4. (Nutzer 15:12, gleicher Auftrag) Noch nicht gelernte Rezepte, die man beim Lehrer lernen kann: statt des "merkwürdigen Vierecks"
+   immer den nötigen Skill zeigen, z. B. "Skill 125" (rot, solange zu tief; normal, sobald lernbar). Ursache des Vierecks belegen
+   (vermutlich ein Zeichen/Symbol, das die Spielschrift nicht kennt – Verdacht, zu messen) und kein solches Zeichen mehr verwenden.
+   Nötiger Skill nur aus belegten Daten (Lehrer-/Rezeptdaten, Quelle goldgoblin); fehlt er: "Skill ?" statt Viereck.
+   Test: ungelerntes Lehrer-Rezept -> "Skill n"; kein Zeichen ausserhalb der Spielschrift in den Texten (Prüfung über alle Locales).
