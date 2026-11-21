@@ -1,0 +1,32 @@
+Bericht AHSentinel 0.65.357 – BEFUND 21.11.2026 07:00 (S5–S7), umgesetzt, zur Prüfung
+Veröffentlicht: Discord (announce/), GitHub-Release v0.65.357 (Workflow). NICHT CurseForge (wie 0.65.356, Nachtrag 06:45).
+addon_check: AHSentinel-0.65.357.zip OK (keine FEHLER). Tests T921–T923 in die Testroutine eingebaut, nicht selbst laufen gelassen (Nachtrag 06:37).
+Spieldaten: goldsentinel-daten Stand 21.11. 06:51 enthält nur 0.65.355 (205 Einträge), keine Zeile SNIPER-NAME -> S5 im Spiel nicht belegbar.
+
+S5 HOCH (Twilighthandschuhe "0 Angebote" mit 0.65.356):
+  Zwei Code-Wege in 0.65.356 enden mit "0 Angebote" (im Code belegt; welcher im Spiel lief: Verdacht, zu messen – Protokoll SNIPER-NAME):
+  (1) Nach der leeren Suche mit allgemeinem Schlüssel startete die Namenssuche nur, wenn A:QueryReady() im SELBEN Takt wahr war;
+      sonst FinishSearch mit 0. (2) Die Namenssuche nahm nur Varianten mit Mindestpreis ≤ Max (Filter aus der Suchwort-Suche);
+      liegen alle über Max, 0 Kandidaten -> FinishSearch mit 0, keine Liste.
+  Behebung: (1) bis NAME_WAIT = 3 s auf die Drossel warten, dann per Name; (2) bei Namenssuche jede Variante desselben Items, auch
+  über Max; gesucht wird die günstigste, die Liste zeigt "zu teuer", gekauft nur ≤ Max (PlanNext/PriceOK unverändert).
+  Protokoll SNIPER-NAME: Anfrage (Name, Wartezeit), Antwort (Anzahl Ergebnisse, Varianten Stufe/Suffix mit Mindestpreis, höchstens 5),
+  oder "Namenssuche nicht möglich". Test T921 (warten, dann Name, Variante über Max; Gegenprobe: Wartezeit vorbei -> fertig ohne Anfrage).
+  Offen: mehrere Varianten -> nur die günstigste wird einzeln gelesen (jede weitere = eine Server-Anfrage mehr).
+S6 HOCH:
+  (a) Ursache im Code: Fenster-Zahl (ResultBought) zählte gekaufte Zeilen der GEZEIGTEN Liste; nach dem Kauf ersetzt die vom Server
+      geschickte neue Liste die alte (GSL6-2) ohne die gekaufte Zeile -> 0, Chat sagte 1. Jetzt: je Ziel gezählte Käufe seit Sn:Search
+      (dieselben, die "Gekauft:" im Chat meldet), auch zurückgenommene Käufe (P186-1) abgezogen.
+  (b) Ursache im Code: ItemPurchaseFailed -> MarkDead zählte jeden Fehler, auch "Code 4 (nicht mehr da)", zu PAUSE_FAILS (3) -> 10 Min.
+      Pause. Jetzt: Code 4 zählt nicht zur Pause; Liste veraltet (stale, bleibt sichtbar), sofort neue Suche (lastSearch -100),
+      Meldung "Angebot war schon verkauft – der Sniper sucht neu.", Protokoll SNIPER.
+  (c) Ursache im Code: der gehaltene Treffer (SN-BTN1-2, btnHit) prüfte weder Pause noch veraltete Liste. Jetzt frei bei "pausiert"
+      oder "veraltet"; nach Code 4 sofort gelöscht.
+  Test T922 (3 × Code 4: keine Pause, veraltet, neue Suche, kein Knopf, Fenster "gekauft 1"; Gegenprobe 3 echte Fehler: Pause, kein Knopf).
+S7 MITTEL:
+  - "sucht weiter" neben "Pause": Sammelmeldung (FlushFails) nennt bei pausiertem Item jetzt die Pause ("… schon weg – Item pausiert bis HH:MM").
+  - "veraltet – neue Suche nötig" bei pausiertem Item: jetzt eine Aussage "Item pausiert bis HH:MM – keine Suche, kein Kauf (…)".
+  - "noch 1000 Stück" nach "Ziel aktualisiert": so gebaut (SetTarget legt ein neues Ziel an, Zähler 0 – Grundlage auch für S1).
+    Jetzt gesagt: "Zähler neu – vorher n Stück für x gekauft". Soll das anders sein (Zähler behalten), bitte Entscheid.
+  Test T923.
+Dateien: Sniper.lua, UI_Sniper.lua, TestRoutine.lua (T921–T923), Locale*.lua (4 neue Texte in allen 10), CHANGELOG EN/DE, toc, A.version.
