@@ -11,6 +11,9 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 21.11. 15:44 | DAUERREGEL (unveränderlich): AHS scannt jeden Brief beim Abholen, verwertet ihn (Buchhaltung, Lager, Markt, Meine Auktionen) und zeigt ihn im Chat exakt an. | offen-ahsentinel AUFTRAG 15:44 (Punkt 9); buchhaltung.md. |
+| 21.11. 15:39 | Weisse und graue Items sind in Forever nicht entzauberbar. | Kein Entzauberwert/Kaufhinweis dafür. |
+| 21.11. 15:38 | Tooltip für Verzauberer bleibt; Nicht-Verzauberer sehen nur "Entzauberwert x". | offen-ahsentinel Punkt 8. |
 | 21.11. 15:13 | classic.goldgoblin.net ist ab jetzt die Referenzseite für Berufe und alles zu WoW Forever. | shared/wissen/referenz-goldgoblin.md; CLAUDE.md-Hinweis für alle. |
 | 21.11. 14:53 | AHS soll das Wichtige jetzt erledigen: P8, P9, P10, P4, P5, P1/P11; Rest Montag. | offen-ahsentinel ENTSCHEID 14:53. |
 | 21.11. 09:20 | Tooltip: Auftrag an AHS jetzt (nach V1a–V1f), Preisverlauf nicht im Tooltip (09:18). Für die Prüf-Sitzung bis auf Weiteres erledigt. | offen-ahsentinel AUFTRAG TOOLTIP 09:20 (TT1–TT7). |

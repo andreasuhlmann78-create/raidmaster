@@ -178,3 +178,9 @@ Kassenbuch je Item ab (Stück und Erlös) – Unterschied = Befund.
 - [TSM Addon: Ledger](https://support.tradeskillmaster.com/tsm-addon-documentation/tsm-addon-ledger)
 - [Engadget: A one-hour delay on AH winnings in 2.2](https://www.engadget.com/2007/09/25/a-one-hour-delay-on-ah-winnings-in-2-2/)
 - [Joint and by-product costing (relative sales value method)](https://app.achievable.me/study/cma-part-1/learn/cost-management-measurement-concepts-joint-and-by-product-costing-2)
+
+
+## DAUERREGEL POST-SCAN (Nutzer 21.11.2026 15:41 – "gilt für immer und darf nicht verändert werden")
+AHSentinel liest beim Abholen jeden Brief vor dem Leeren aus (Art, Inhalt, Auktionsrechnung), verwertet ihn (nur echte Auktionsverkäufe
+sind Verkäufe; Spieler-/Händlergold nie als Auktionsgewinn; Lager; Markt-Messung; Meine Auktionen) und zeigt je Brief eine exakte
+Chatzeile plus Summe (Summe = Golddifferenz auf den Kupfer). Nachnahme nie bezahlen. Keine Sitzung entfernt oder schwächt diese Regel.

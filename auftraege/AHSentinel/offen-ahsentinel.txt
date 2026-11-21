@@ -5632,3 +5632,19 @@ Neuaufbau; Laden hängt -> nach Zeitlimit Hinweis statt Dauer-"geladen".
     Tests (gebaut, nicht laufen lassen): Char ohne Verzauberkunst, grünes Item -> Zeile da; seelengebunden -> Zeile da; Händler > Wert
     -> Zusatz; Material unbekannt -> "nicht bekannt"; weisses Item -> keine Zeile; graues Item -> keine Zeile.
     BELEGT (Nutzer 15:39): In WoW Forever sind weisse und graue Items NICHT entzauberbar – nirgends Entzauberwert, Gewinn oder Kaufhinweis.
+
+>>> AUFTRAG 21.11. 15:44 (Nutzer 15:41/15:44, DAUERREGEL – "gilt für immer und darf nicht verändert werden") – Punkt 9 der Reihenfolge
+    (ENTSCHEID 14:53), direkt nach Punkt 8, selbe Version. Zusammen mit Punkt 7 (Post abholen = alles) umsetzen.
+    POST-SCAN:
+    1. Scannen: Beim Abholen JEDEN Brief vor dem Leeren auslesen: Art (Auktion verkauft, Auktion gekauft, abgelaufen/zurück,
+       überboten mit Rückzahlung, abgebrochen, Spieler-/Händlerpost, Nachnahme), Inhalt (Gold, Items + Menge), bei Auktionen die
+       Rechnung (GetInboxInvoiceInfo: Gebot/Sofortkauf, Einzahlung, Gebühr, Erlös).
+    2. Verwerten: Buchhaltung (nur echte Verkäufe als Verkauf; Kauf mit Einstand; Spieler-/Händlergold nie als Auktionsgewinn), Lager,
+       gemessene Verkäufe für den Markt (Vollscan/MeasuredRate), eigene Auktionen als verkauft/zurück markieren ("Meine Auktionen").
+    3. Chat: je Brief EINE klare Zeile mit exakten Zahlen, z. B. "Verkauft: 1× Korallenband für 36s99 – erhalten 35s14 (Gebühr 1s85)",
+       "Zurück (abgelaufen): 4× Seelenstaub", "Gekauft: …", "Post von Spieler: 5g"; am Ende eine Summe. Jede Zahl geht exakt auf
+       (Brutto − Gebühr = erhalten; Summe = Gold vorher/nachher). Alle 10 Sprachen. Nachnahme wird nie bezahlt (Zeile "Nachnahme liegen
+       gelassen: …").
+    4. Dauerregel: steht in shared/wissen/entscheide.md und shared/wissen/buchhaltung.md; keine Sitzung entfernt oder schwächt das.
+    Tests (gebaut, nicht laufen lassen): AH-Verkauf -> Chatzeile + Buchung + Auktion "verkauft"; Spielergold -> nicht als Verkauf;
+    abgelaufen -> Lager +n, Auktion "zurück"; Summe Chat = Golddifferenz auf den Kupfer; COD -> liegen, Zeile, kein Gold weg.
