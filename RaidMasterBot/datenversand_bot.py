@@ -4,7 +4,8 @@ Der Gildenchef schickt seine daten_config.json (Zugang zum privaten Daten-Repo) 
 Rolle "Offizier", damit ihr RaidMaster-Uploader die Addon-Daten ebenfalls hochlädt (Entscheid des Nutzers 07:39).
 
 SICHERHEIT: Die Datei liest der Bot nur lokal (config "daten_config_path", sonst daten_config.json neben bot.py – beide nie im
-Repo, .gitignore). Ihr Inhalt erscheint nirgends: nicht im Chat, nicht im Protokoll, nicht in #bot-log – nur als Anhang der
+Repo, .gitignore). Ab 1.5.188 kann der Gildenchef sie direkt im Befehl anhängen (Option "datei"); der Bot prüft sie und legt sie
+dort ab (der Bot läuft meist auf einem Server, nicht auf dem PC mit dem Uploader). Ihr Inhalt erscheint nirgends: nicht im Chat, nicht im Protokoll, nicht in #bot-log – nur als Anhang der
 Direktnachricht. Vor dem Versand sieht der Gildenchef die Empfängerliste und muss "Senden" drücken. Jeder Offizier bekommt
 die Datei einmal (gemerkt in state.json "daten_config_sent"); "erneut" schickt sie auch an die schon Belieferten.
 bot.py importiert dieses Modul nach "grund.bot = bot" (/uploader-daten-senden wird beim Import angemeldet).
@@ -41,18 +42,36 @@ def read_config() -> tuple[bytes | None, str]:
     """(Inhalt, Fehlertext). Prüft nur, dass es lesbares JSON mit "repo" und "token" ist – gibt nichts davon aus."""
     path = config_path()
     if not os.path.isfile(path):
-        return None, f"Datei nicht gefunden. Lege daten_config.json hierhin: `{path}` (oder trage den Pfad in config.json als \"daten_config_path\" ein)."
+        return None, ("Ich habe noch keine daten_config.json. Gib den Befehl nochmals ein und hänge die Datei bei `datei` an "
+                      "(sie liegt im Ordner deines RaidMaster-Uploaders).")
     if os.path.getsize(path) > MAX_BYTES:
         return None, "Die Datei ist zu gross für eine daten_config.json – bitte die richtige Datei nehmen."
     with open(path, "rb") as f:
         raw = f.read()
+    err = check_bytes(raw)
+    return (None, err) if err else (raw, "")
+
+
+def check_bytes(raw: bytes) -> str:
+    """Leer = gültige daten_config.json (JSON mit "repo" und "token"); sonst der Fehlertext. Gibt nichts vom Inhalt aus."""
+    if len(raw) > MAX_BYTES:
+        return "Die Datei ist zu gross für eine daten_config.json – bitte die richtige Datei nehmen."
     try:
         data = json.loads(raw.decode("utf-8-sig"))
     except (UnicodeDecodeError, ValueError):
-        return None, "Die Datei ist kein gültiges JSON – bitte mit Daten-Repo-einrichten.bat neu erstellen."
+        return "Die Datei ist kein gültiges JSON – bitte mit Daten-Repo-einrichten.bat neu erstellen."
     if not isinstance(data, dict) or not data.get("repo") or not data.get("token"):
-        return None, "In der Datei fehlen \"repo\" oder \"token\" – bitte mit Daten-Repo-einrichten.bat neu erstellen."
-    return raw, ""
+        return "In der Datei fehlen \"repo\" oder \"token\" – bitte mit Daten-Repo-einrichten.bat neu erstellen."
+    return ""
+
+
+def store_config(raw: bytes):
+    """Hochgeladene Datei neben bot.py ablegen (bzw. daten_config_path) – atomar, nur auf dem Server, nie im Repo."""
+    path = config_path()
+    tmp = path + ".tmp"
+    with open(tmp, "wb") as f:
+        f.write(raw)
+    os.replace(tmp, path)
 
 
 def officers(guild, sender_id: int, again: bool) -> list:
@@ -121,11 +140,27 @@ class ConfirmView(discord.ui.View):
 
 @bot.tree.command(name="uploader-daten-senden",
                   description="daten_config.json per Direktnachricht an die Offiziere senden (nur Gildenchef)")
-@app_commands.describe(erneut="auch an Offiziere, die sie schon bekommen haben")
-async def send_daten_config(inter: discord.Interaction, erneut: bool = False):
+@app_commands.describe(datei="daten_config.json aus dem Ordner deines RaidMaster-Uploaders (nur beim ersten Mal nötig)",
+                       erneut="auch an Offiziere, die sie schon bekommen haben")
+async def send_daten_config(inter: discord.Interaction, datei: discord.Attachment | None = None, erneut: bool = False):
     if not is_chef(inter.user):
         await inter.response.send_message("Das darf nur der Gildenchef.", ephemeral=True)
         return
+    if datei is not None:                          # ab 1.5.188: Datei direkt im Befehl (Bot läuft auf einem anderen Rechner)
+        if datei.size > MAX_BYTES:
+            await inter.response.send_message("Die Datei ist zu gross für eine daten_config.json.", ephemeral=True)
+            return
+        try:
+            raw = await datei.read()
+        except discord.HTTPException:
+            await inter.response.send_message("Die Datei konnte nicht gelesen werden – bitte nochmals anhängen.", ephemeral=True)
+            return
+        err = check_bytes(raw)
+        if err:
+            await inter.response.send_message(err, ephemeral=True)
+            return
+        store_config(raw)
+        log.info("daten_config.json im Befehl erhalten und abgelegt (%d Bytes)", len(raw))
     raw, err = read_config()
     if raw is None:
         await inter.response.send_message(err, ephemeral=True)

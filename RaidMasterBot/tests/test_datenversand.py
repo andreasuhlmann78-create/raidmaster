@@ -95,9 +95,9 @@ class Versand(unittest.TestCase):
         with open(self.path, "wb") as f:
             f.write(raw if raw is not None else json.dumps(data).encode())
 
-    def befehl(self, erneut=False, user=None):
+    def befehl(self, erneut=False, user=None, datei=None):
         i = N(user=user or self.chef, guild=N(members=self.members), response=Antwort())
-        asyncio.run(self.m.send_daten_config.callback(i, erneut))
+        asyncio.run(self.m.send_daten_config.callback(i, datei, erneut))
         return i.response
 
     def klick(self, view, which="confirm", user=None):
@@ -124,7 +124,7 @@ class Versand(unittest.TestCase):
 
     def test_datei_pruefungen(self):
         os.remove(self.path)
-        self.assertIn("Datei nicht gefunden", self.befehl().messages[0])
+        self.assertIn("noch keine daten_config.json", self.befehl().messages[0])
         self.write(None, raw=b"{kaputt")
         self.assertIn("kein gültiges JSON", self.befehl().messages[0])
         self.write({"repo": "owner/daten"})
@@ -173,8 +173,35 @@ class Versand(unittest.TestCase):
         view = self.befehl().views[0]
         os.remove(self.path)
         r = self.klick(view)
-        self.assertIn("Nicht gesendet: Datei nicht gefunden", r.edits[0])
+        self.assertIn("Nicht gesendet: Ich habe noch keine daten_config.json", r.edits[0])
         self.assertEqual(sum(len(m.got) for m in self.members), 0)
+
+    def test_datei_im_befehl(self):
+        """ab 1.5.188: Bot läuft auf einem Server – der Gildenchef hängt die Datei im Befehl an."""
+        os.remove(self.path)
+
+        class Anhang:
+            def __init__(self, raw):
+                self.raw, self.size = raw, len(raw)
+
+            async def read(self):
+                return self.raw
+        for raw, text in ((b"{kaputt", "kein gültiges JSON"), (json.dumps({"repo": "o/d"}).encode(), "fehlen"),
+                          (b"x" * (self.m.MAX_BYTES + 1), "zu gross")):
+            self.assertIn(text, self.befehl(datei=Anhang(raw)).messages[0])
+            self.assertFalse(os.path.exists(self.path))                  # Ungültiges wird nie abgelegt
+        gut = json.dumps({"repo": "o/d", "token": GEHEIM}).encode()
+        r = self.befehl(datei=Anhang(gut))
+        self.assertIn("an diese 3 Offiziere", r.messages[0])
+        with open(self.path, "rb") as f:
+            self.assertEqual(f.read(), gut)                               # abgelegt für spätere Aufrufe
+        self.klick(r.views[0])
+        self.assertEqual(json.loads(self.members[1].got[0][2])["token"], GEHEIM)
+        self.assertGeheim(*r.messages, *self.blog)
+        self.m.is_chef = lambda u: False
+        os.remove(self.path)
+        self.assertIn("nur der Gildenchef", self.befehl(datei=Anhang(gut)).messages[0])
+        self.assertFalse(os.path.exists(self.path))                      # Fremde legen nichts ab
 
     def test_ohne_mitgliederliste(self):
         self.m.bot._connection._intents.members = False
