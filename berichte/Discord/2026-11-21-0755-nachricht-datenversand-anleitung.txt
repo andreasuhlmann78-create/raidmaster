@@ -6,7 +6,8 @@ Du hast das noch nie gemacht – halte dich genau an diese Schritte.
 SICHERHEIT (unbedingt):
 - daten_config.json enthält einen Zugangsschlüssel. Öffne sie NIE, gib ihren Inhalt NIE aus (kein type/cat/Get-Content, kein
   Einfügen in Chat, Datei oder Repo). Nur kopieren und prüfen, ob sie da ist.
-- Den Klick auf "Senden" macht der Nutzer selbst, nachdem er die Empfängerliste gesehen hat. Du klickst NICHT "Senden".
+- Du bedienst Discord für den Nutzer (Auftrag des Nutzers 21.11. 08:05: "dem Bot sagen, dass er meinen Offizieren das
+  schicken soll"). Vor "Senden" zeigst du ihm die Empfängerliste und klickst erst nach seinem Ja.
 
 1. ORDNER FINDEN (auf dem Computer des Nutzers):
    a) Bot-Ordner: enthält bot.py, launcher.py, VERSION und datenversand_bot.py (nach dem Update). Heisst meist RaidMasterBot.
@@ -21,8 +22,10 @@ SICHERHEIT (unbedingt):
    Prüfen nur mit: dir "<Bot-Ordner>\daten_config.json"  (Grösse ein paar hundert Bytes, Inhalt NICHT anzeigen)
    Kein Neustart nötig – der Bot liest die Datei erst beim Befehl.
 
-4. DER NUTZER gibt in Discord ein: /uploader-daten-senden
-   - Der Bot zeigt (nur ihm sichtbar) die Liste der Offiziere. Der Nutzer prüft sie und drückt "Senden" (oder "Abbrechen").
+4. DU gibst in Discord (Konto des Nutzers, Server der Gilde, ein beliebiger Kanal, z. B. #bot-log) ein: /uploader-daten-senden
+   und wählst den Befehl des RaidMaster-Bots aus der Vorschlagsliste, dann Enter.
+   - Der Bot zeigt (nur dem Nutzer sichtbar) die Liste der Offiziere. Lies sie dem Nutzer vor; nach seinem Ja klickst du
+     "Senden" (bei Nein "Abbrechen").
    - Meldet der Bot "Datei nicht gefunden": der Pfad steht in der Meldung – Schritt 3 mit genau diesem Pfad wiederholen.
    - Meldet er "nicht zustellbar": diese Offiziere müssen Direktnachrichten vom Server erlauben, danach den Befehl wiederholen
      (ohne "erneut" – Belieferte bekommen sie nicht doppelt).
