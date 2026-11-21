@@ -1,0 +1,32 @@
+{
+ "addon": "LevelPilot",
+ "counts": {},
+ "env": {
+  "build": "70959",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 38,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [
+  {
+   "count": 1,
+   "first": 1795202006,
+   "last": 1795202006,
+   "msg": "Interface/AddOns/LevelPilot/Comm.lua:488: attempt to index field 'Caves' (a nil value)",
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:318: in function 'Report'\n[Interface/AddOns/LevelPilot/Comm.lua]:595: in function <Interface/AddOns/LevelPilot/Comm.lua:590>\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelSync.lua]:603: in function <Interface/AddOns/AHSentinel/GoldSentinelSync.lua:557>\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelSync.lua]:750: in function <Interface/AddOns/AHSentinel/GoldSentinelSync.lua:748>\n",
+   "version": "3.12.24",
+   "wo": "Comm-Empfang"
+  }
+ ],
+ "f": 1,
+ "id": "LevelPilot-1795203071-dc387b-1",
+ "kind": "fehler",
+ "time": 1795203071,
+ "version": "3.12.24"
+}

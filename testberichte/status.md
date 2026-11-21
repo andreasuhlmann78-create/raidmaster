@@ -1,6 +1,6 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-21 09:29 UTC
+Ausgewertet: 2026-11-21 10:28 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
@@ -9,7 +9,7 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 | AHSentinel | 20.11.2026 19:36 UTC | 0.65.355 | forever 1.60.1 (Interface 16001) | 11 | 0 | 1 | 0 | 32 |
 | BuffSentinel | 20.11.2026 19:16 UTC | 0.9.60 | forever 1.60.1 (Interface 16001) | 1 | 0 | 0 | 0 | 0 |
 | GuildSentinel | 18.11.2026 18:20 UTC | 0.9.58 | forever 1.60.1 (Interface 16001) | 329 | 0 | 24 | 8 | 4 |
-| LevelPilot | 20.11.2026 20:26 UTC | 3.13.6 | forever 1.60.1 (Interface 16001) | 1 | 0 | 0 | 0 | 15 |
+| LevelPilot | 20.11.2026 20:26 UTC | 3.13.6 | forever 1.60.1 (Interface 16001) | 1 | 0 | 0 | 0 | 16 |
 | ProfessionSentinel | 18.11.2026 18:23 UTC | 0.9.74 | forever 1.60.1 (Interface 16001) | 1 | 1 | 8 | 0 | 8 |
 | RaidMaster | 18.11.2026 18:21 UTC | 3.0.40 | forever 1.60.1 (Interface 16001) | 0 | 1 | 0 | 0 | 0 |
 | ThreatSentinel | 18.11.2026 12:49 UTC | 2.5.23 | forever 1.60.1 (Interface 16001) | 0 | 1 | 0 | 0 | 0 |
@@ -22,16 +22,16 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 | BuffSentinel | 91 | `testberichte/diagnose/BuffSentinel/0.9.60-fb522145c40a.txt` |
 | GSMesstest | 20 | `testberichte/diagnose/GSMesstest/5.1-f65d607ab777.txt` |
 | GSSniperLog | 32 | `testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt` |
-| GuildSentinel | 204 | `testberichte/diagnose/GuildSentinel/0.9.58-e52bcbc311ff.txt` |
-| LevelPilot | 97 | `testberichte/diagnose/LevelPilot/3.13.6-ff554f99e167.txt` |
-| ProfessionSentinel | 183 | `testberichte/diagnose/ProfessionSentinel/0.9.74-ff706b85d2e7.txt` |
-| ThreatSentinel | 175 | `testberichte/diagnose/ThreatSentinel/2.5.23-e61faba6e4d4.txt` |
+| GuildSentinel | 205 | `testberichte/diagnose/GuildSentinel/0.9.58-e52bcbc311ff.txt` |
+| LevelPilot | 98 | `testberichte/diagnose/LevelPilot/3.13.6-ff554f99e167.txt` |
+| ProfessionSentinel | 184 | `testberichte/diagnose/ProfessionSentinel/0.9.74-ff706b85d2e7.txt` |
+| ThreatSentinel | 176 | `testberichte/diagnose/ThreatSentinel/2.5.23-e61faba6e4d4.txt` |
 
 ## Wegdaten (GSWEGE1)
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| LevelPilot | 258 | `testberichte/wege/LevelPilot/LevelPilot-wege-1795251096-c79f28.json` |
+| LevelPilot | 265 | `testberichte/wege/LevelPilot/LevelPilot-wege-1795251096-c79f28.json` |
 
 ## AHSentinel
 
@@ -301,6 +301,7 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 **Fehler im Spiel (letzte 7 Tage)**
 - 15× `Reise`: Fehler in der Reise: Interface/AddOns/LevelPilot/Virtual.lua:135: attempt to perform indexed assignment on field '?' (a boolean value) – Version 3.12.89 · forever 1.60.1 (Interface 16001) · zuletzt 17.11.2026 19:02 UTC
+- 1× `Comm-Empfang`: Interface/AddOns/LevelPilot/Comm.lua:488: attempt to index field 'Caves' (a nil value) – Version 3.12.24 · forever 1.60.1 (Interface 16001) · zuletzt 20.11.2026 19:13 UTC
 
 ## ProfessionSentinel
 

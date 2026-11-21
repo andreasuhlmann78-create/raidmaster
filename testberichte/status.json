@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-21T09:29:00Z",
+ "ausgewertet": "2026-11-21T10:28:59Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -183,7 +183,7 @@
    ]
   },
   "LevelPilot": {
-   "berichte": 70,
+   "berichte": 71,
    "letzter_test": {
     "id": "LevelPilot-1795206392-31c323-2",
     "version": "3.13.6",
@@ -210,6 +210,20 @@
       "forever 1.60.1 (Interface 16001)"
      ],
      "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:469: in function 'Report'\n[Interface/AddOns/LevelPilot/Virtual.lua]:189: in function <Interface/AddOns/LevelPilot/Virtual.lua:183>\n[Interface/AddOns/LevelPilot/Virtual.lua]:814: in function <Interface/AddOns/LevelPilot/Virtual.lua:801>\n[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:495: in function 'Safe'\n[Interface/AddOns/LevelPilot/Virtual.lua]:801: in function <Interface/AddOns/LevelPilot/Virtual.lua:801>\n"
+    },
+    {
+     "addon": "LevelPilot",
+     "art": "spiel",
+     "wo": "Comm-Empfang",
+     "msg": "Interface/AddOns/LevelPilot/Comm.lua:488: attempt to index field 'Caves' (a nil value)",
+     "anzahl": 1,
+     "versionen": [
+      "3.12.24"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:318: in function 'Report'\n[Interface/AddOns/LevelPilot/Comm.lua]:595: in function <Interface/AddOns/LevelPilot/Comm.lua:590>\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelSync.lua]:603: in function <Interface/AddOns/AHSentinel/GoldSentinelSync.lua:557>\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelSync.lua]:750: in function <Interface/AddOns/AHSentinel/GoldSentinelSync.lua:748>\n"
     }
    ]
   },
@@ -498,6 +512,20 @@
    "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:469: in function 'Report'\n[Interface/AddOns/LevelPilot/Virtual.lua]:189: in function <Interface/AddOns/LevelPilot/Virtual.lua:183>\n[Interface/AddOns/LevelPilot/Virtual.lua]:814: in function <Interface/AddOns/LevelPilot/Virtual.lua:801>\n[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:495: in function 'Safe'\n[Interface/AddOns/LevelPilot/Virtual.lua]:801: in function <Interface/AddOns/LevelPilot/Virtual.lua:801>\n"
   },
   {
+   "addon": "LevelPilot",
+   "art": "spiel",
+   "wo": "Comm-Empfang",
+   "msg": "Interface/AddOns/LevelPilot/Comm.lua:488: attempt to index field 'Caves' (a nil value)",
+   "anzahl": 1,
+   "versionen": [
+    "3.12.24"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:318: in function 'Report'\n[Interface/AddOns/LevelPilot/Comm.lua]:595: in function <Interface/AddOns/LevelPilot/Comm.lua:590>\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelSync.lua]:603: in function <Interface/AddOns/AHSentinel/GoldSentinelSync.lua:557>\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelSync.lua]:750: in function <Interface/AddOns/AHSentinel/GoldSentinelSync.lua:748>\n"
+  },
+  {
    "addon": "ProfessionSentinel",
    "art": "test",
    "version": "0.9.74",
@@ -603,25 +631,25 @@
     "neueste": "testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt"
    },
    "GuildSentinel": {
-    "anzahl": 204,
+    "anzahl": 205,
     "neueste": "testberichte/diagnose/GuildSentinel/0.9.58-e52bcbc311ff.txt"
    },
    "LevelPilot": {
-    "anzahl": 97,
+    "anzahl": 98,
     "neueste": "testberichte/diagnose/LevelPilot/3.13.6-ff554f99e167.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 183,
+    "anzahl": 184,
     "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.74-ff706b85d2e7.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 175,
+    "anzahl": 176,
     "neueste": "testberichte/diagnose/ThreatSentinel/2.5.23-e61faba6e4d4.txt"
    }
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 258,
+    "anzahl": 265,
     "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1795251096-c79f28.json"
    }
   }
