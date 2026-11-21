@@ -1,0 +1,31 @@
+Bericht AHSentinel 0.65.368 – AUFTRAG HEUTE G12, G14 (Gilden-Teil), G17, umgesetzt, zur Prüfung
+Veröffentlicht: Discord, GitHub-Release v0.65.368. Nicht CurseForge. addon_check OK. Tests T953–T956 eingebaut, nicht laufen gelassen.
+Alle neuen Sync-Nachrichten: Markt-Tag (G8) Pflicht, Konto-Kennung "@id" statt Namen, eigenes Konto nie gezählt, ältere Versionen
+  ignorieren die neuen Arten (fallen im Empfang durch, kein Fehler). Gemeinsame GoldSentinel*.lua unverändert.
+G12 (SaleOutcome.lua): Nachricht "O:<Zeit>:<Tag>:@konto;id,Stückpreis,Stück,Restsekunden;…" - je Item die günstigste eigene laufende
+  Auktion und die Stück zusammen, aus Se:ReadOwned (verkaufte und Selbsttest-Auktionen nie; Testroutine/Testmodus sendet nie). Leere
+  Liste wird auch gesendet (Hinweis verschwindet). Gedrosselt: nur bei Änderung, höchstens 1×/Min. (ein Zeitgeber holt nach), auf
+  Anfrage (Q) immer. Empfang je Konto ersetzt (neuere Sendezeit), läuft mit der Restzeit ab, 48 Std. höchstens. Anzeige im
+  Verkaufen-Fenster: "Gildenmitglied bietet hier zu x (n Stück, Stand vor y Min.) – Preis bleibt dein Entscheid". KEINE Änderung an
+  V1-Vorschlag, Unterbieten, Warnungen (Entscheid "gleicher Preis wie das Gildenmitglied ok?" steht aus). T953.
+G14 Gilde (Sniper.lua): "B:<Zeit>:<Tag>:@konto;Zeit,Item,Dauer+1;…" (Dauer 0 = unbekannt). Nach neuem Fall höchstens alle 10 Min. (ein
+  Zeitgeber holt nach) und auf Q. Empfang je Konto als Menge (dieselbe Nachricht zweimal zählt einmal). Auswertung zählt eigene + Gilde,
+  Text "(davon Gilde n)". Mindestzahlen unverändert (5 Fälle, 5 mit Dauer). T954.
+G17 Teil 1 (Mailer.lua): je Verkaufs-Rechnung "Ankunft;Gesamt;Gebühr;Einzahlung;Menge" (Gesamt = bid, Menge = count oder buyout, wie
+  wirtschaft-forever §2 belegt). Kein Item, keine Namen. Derselbe Brief in einer späteren Sitzung nur 1× (gleiche Zahlen, Ankunft ±15
+  Min.). Geteilt "I:…" nach dem Post-Abholen (nur bei Neuem, höchstens alle 10 Min.) und auf Q. /ahs gebuehren (en: fees):
+  "Gebührenregel aus n Rechnungen (eigene a, Gilde b): 5 Prozent abgerundet exakt x, 15 Prozent abgerundet exakt y, anders z (Beispiele)".
+  15 Prozent nur mitgezählt für das neutrale AH (vermutet, eigener Markt-Tag). T955 mit den 4 belegten Rechnungen aus §1/§2.
+  Einzahlungs-Erstattung (offen in §1): die Rechnung enthält die zurückgezahlte Einzahlung, nicht die gezahlte - für den Beleg der
+  Teilverkaufs-Regel fehlt die gezahlte Einzahlung je Auktion. Vorschlag (nicht gebaut): beim Einstellen die abgezogene Einzahlung
+  mit SaleOutcome:NotePosted speichern und mit der Rechnung paaren. Entscheid der Prüf-Sitzung.
+G17 Teil 2 (AHAnalyzerPro.lua A:GetVendorPrice): Reihenfolge jetzt 1. eigener Spielwert (GetItemInfo), 2. Wert der Gilde (im Spiel
+  gelesen), 3. mitgelieferte Tabelle. Begründung für 2 vor 3: die Tabelle kann seit dem Hotfix 10.11. veraltet sein (§1), der
+  Gildenwert ist im Spiel gelesen. Geteilt "W:<Zeit>:<Tag>;id,Preis;…" nur Werte, die von der Tabelle abweichen oder darin fehlen,
+  nur neue seit dem letzten Senden, höchstens alle 10 Min. (nach Vollscan, Q). Empfang nie für Items, die der eigene Client selbst
+  gelesen hat. G9: Händler-Werte ändern sich nur dort, wo der eigene Client das Item nicht kennt und die Tabelle vom Spielwert eines
+  Gildenmitglieds abweicht - durch mehr (gemessene) Daten. T956.
+Nebenbei behoben: die Beschreibung von "/ahs markt" (0.65.364) fehlte in allen 10 Sprachdateien (Englisch zeigte Deutsch) - ergänzt.
+  Prüfskript: alle L["…"] im Code gegen Locale.lua - jetzt keine Lücke.
+Damit ist AUFTRAG HEUTE G1–G17 vollständig umgesetzt (offen nur: G16 "nur 1 Anbieter" -> P3 Montag, Messauftrag; G10 Eichung
+  CancelFactor -> Entscheid). Montag-Punkte unberührt.
