@@ -5552,3 +5552,14 @@ Soll: Die Seite aktualisiert sich selbst, solange sie offen ist – bei AUCTION_
 "Werden geladen …" verschwindet, sobald die Daten da sind (mit Zeitlimit; danach Hinweis + Knopf). Knopf "Aktualisieren" bleibt.
 Tests (gebaut, nicht laufen lassen): Verkauf-Ereignis -> Liste neu ohne Klick; 10 Ereignisse in 0,2 s -> 1 Neuaufbau; Reiter zu -> kein
 Neuaufbau; Laden hängt -> nach Zeitlimit Hinweis statt Dauer-"geladen".
+
+>>> BEFUND 21.11. 12:50 (Supervisor, Ingame 0.65.360 12:46, 2 Bilder, nicht im Repo wegen Spielernamen) – TOOLTIP TT2
+ P1 HOCH (TT2 "jede Zeile geht exakt auf"): "1.12 × Traumstaub à 23s88 = 26s87" – 1,12 × 23s88 = 26s75, nicht 26s87. Gerechnet wird
+    mit 1,125 (1–2 Stück = 1,5 × 75 %), angezeigt gerundet 1,12. Faktor ungerundet zeigen ("1,125 ×"), Dezimalkomma im deDE ("0,30",
+    "0,05"). Übrige Zeilen nachgerechnet und richtig: 0,30 × 1g47s78 = 44s33, 0,05 × 1g68s47 = 8s42, Summe 79s62, Gebühr 3s98,
+    75s64 − 79s00 = −3s36 bzw. 75s64 − 79s99 = −4s35.
+ P2 MITTEL: Negativer Gewinn ("Gewinn −3s36") steht in derselben Farbe wie ein positiver; negativ rot.
+ P3 VERDACHT, ZU MESSEN: In der Liste stehen fast alle grünen Rüstungen Stufe 42–44 bei ~80s je Stück (Schärpen, Stiefel, Hosen,
+    Kopfstücke, Gürtel: "100 %" Markt). Wenn das ein einzelner Verkäufer mit Einheitspreis ist, besteht der Median 14 Tage (80s) nur aus
+    dessen Angeboten und "% Markt" sagt nichts. Messen: je Item Anzahl verschiedener Verkäufer und Preise in 14 Tagen; im Bericht zeigen.
+    Bei nur einem Verkäufer im Tooltip/Hover kenntlich machen ("nur 1 Anbieter").
