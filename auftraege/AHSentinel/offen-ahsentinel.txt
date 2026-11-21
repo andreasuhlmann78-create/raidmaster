@@ -5474,3 +5474,20 @@ Beispiel Bild 08:22 (Roher Stoppelfühlerwels): Leiter 20c×19, 26c×276 … -> 
 liegt unter 20c -> Regel 3 -> 20c.
 Tests einbauen (nicht selbst laufen lassen): 1–5 Stück überspringen, > 5 nicht, keine Stufe > 5, unter 20c gleicher Preis, Warnung bei
 eigenem tieferem Preis, keine Sperre/Bestätigung.
+
+==== BEFUND 21.11.2026 08:45 – V1 Verkaufspreis in 0.65.358 (Nutzer 08:39 "läuft noch nicht sauber") ====
+Bilder: bilder/2026-11-21-0838-v1-essenz.png, -kapuze.png, -silberrute.png
+V1a HOCH – Warnung bei eigenem Vorschlag: Grosse Mystikeressenz, Leiter 39s75×11, 39s76×57 … -> Vorschlag 39s74 richtig. Aber die
+   Schlachtzugswarnung "Stopp – tiefer als alle anderen Angebote!" erscheint dabei. Sie darf nur kommen, wenn der SPIELER selbst unter den
+   Regelpreis geht (unter Vorschlag), nicht beim Regelpreis (1c darunter ist gewollt).
+V1b HOCH (Gold) – Azurblaue Seidenkapuze: Leiter 14s59 (viele Angebote zu je 1 Stück, 886 Angebote) -> Regel: 14s58. Feld zeigt "14s"
+   (= 14s 00c, 59c zu tief). Belegen, woher 14s kommt (Rundung auf Silber? alter Wert?).
+V1c HOCH (Gold) – Silberrute: Leiter 7c×44, 14c×27 … -> Regel: 7c (44 > 5 Stück, unter 20c gleicher Preis). Feld zeigt "1s". Händler zahlt
+   1s25, "Gewinn erwartet −2s15". Ist AH unter Händlerpreis, Vorschlag = Händler (nicht 1s im AH). Belegen, woher 1s kommt.
+V1d MITTEL – Widersprüche in denselben Fenstern: Essenz "Jetzt teuer – verkaufen (+66 % über üblich)" bei Preis 39s74 vs Marktwert 39s85;
+   "5× abgelaufen – billiger einstellen (Vorschlag: 35s76)" widerspricht dem Vorschlag 39s74. Silberrute "besser um 22 Uhr (+5614 %)" und
+   Tooltip "Jetzt günstig – kaufen (−98 % unter üblich)" bei Preis 7c / Marktwert 6c. Diese Prozentzahlen sind unmöglich – Rechnung
+   belegen (Schätzen verboten, Zahlen müssen aufgehen).
+V1e Kapuze: "Entzaubern lohnt mehr (≈16s1c statt 13s30) – nicht einstellen" – als Hinweis ok, aber nicht als Befehl formulieren
+   ("Entzaubern bringt mehr: 16s1c statt 13s30").
+Gehört zu PRIO 2 (V1); danach wie vereinbart nur Discord, dann beenden.
