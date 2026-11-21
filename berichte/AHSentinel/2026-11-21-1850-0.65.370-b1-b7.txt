@@ -1,0 +1,37 @@
+Bericht AHSentinel 0.65.370 – BEFUND 21.11. 18:45 B1–B5, B6, B7 (P2 mit), umgesetzt, zur Prüfung
+Veröffentlicht: Discord, GitHub-Release v0.65.370. Nicht CurseForge. addon_check OK. Tests T959–T964 eingebaut (T931/T939 an B7
+  angepasst), nicht laufen gelassen.
+B1 (Tooltip.lua TT:DECompare/AddDECompare): Verzauberer-Ansicht ohne Kaufpreis (c.gain nil, c.net da): Zeile "Entzaubern statt
+  verkaufen +y/−y/±0" (grün/rot/neutral), y = Entzauberwert (c.net, derselbe Wert wie Punkt 8/TT1) − max(AH-Scanpreis − abgerundete
+  Gebühr A:CutPct, Händlerpreis); darunter "Entzauberwert x". Ohne AH- und Händlerpreis keine Vergleichszeile (nichts geschätzt).
+  Rest der Verzauberer-Ansicht unverändert (mit Kaufpreis: "Gewinn" wie bisher). T959.
+B2/P2: Gewinn im Kopf und in der Rechnung (Kasten) + grün / − rot. Ursache der gleichen Farbe (P2) - Verdacht, im Spiel zu messen:
+  TT:ApplyBig setzt die Gewinn-Zeile per SetFontObject(GameTooltipHeaderText) auf die grössere Schrift; SetFontObject übernimmt die
+  Farbe des Font-Objekts. Jetzt wird die Gewinn-Farbe danach ausdrücklich wieder gesetzt (TT.bigColor). B6-Test T964.
+B6: "Gewinn ±x" bzw. B1 "Entzaubern statt verkaufen ±y" immer als erste Zeile unter "AHSentinel" (bzw. unter der Alters-Zeile), gleiche
+  grosse Schrift (ApplyBig), links; Entzauberwert darunter. T964: Gewinn und Verlust -> beide Zeile 2.
+B3 (Ledger.lua SellSpeedText): kein "~" mehr. Warteschlangen-Dauer nur mit Grundlage (Le.QueueBasis: "gemessen n Tage" /
+  "alle Spieler (mind. n), m Tage" / "deine Verkäufe"); Absatz aus Schätzung/Deckel/Faktor -> nur das Wort ("schnell"). Eigene
+  Verkaufsgeschichte: Median mit "n Verkäufe". T960.
+B4 (Disenchant.lua): D:EnchantSkill liefert bei lesbaren Fertigkeiten ohne Verzauberkunst 0 (belegt, T961). NEU belegt im Code:
+  ein EINGEKLAPPTER Kopf im Fertigkeiten-Fenster versteckt die Berufe -> vorher still 0 (Verzauberer sah die Nicht-Verzauberer-
+  Ansicht); jetzt nil mit Grund. D:EnchanterView: nil gilt höchstens 10 s nach PLAYER_ENTERING_WORLD/SKILL_LINES_CHANGED als
+  Verzauberer (F4), danach Nicht-Verzauberer-Ansicht und einmal Protokoll "BERUF Beruf nicht lesbar: GetNumSkillLines=n
+  (Kopf eingeklappt)". Test-Ersatz D.testSkillAPI (Blizzard-Funktionen werden nicht ersetzt).
+B5 (Mailer.lua NoteMail) – Ursache belegt: der Schlüssel "Absender|Betreff|Minute" ist für GLEICHE Briefe gleich; jeder weitere
+  gleiche Brief (z. B. mehrere "Auktion abgelaufen: Seelenstaub" aus derselben Minute) bekam keine Zeile und zählte nicht in
+  "aus n Briefen" (passt zu "3 Briefe, 34 Items"). Jetzt: derselbe Brief = gleicher Platz + gleicher Schlüssel + gleiche Anzahl
+  Briefe im Kasten. Fehlgeschlagene Beschreibung -> Ersatzzeile "Brief n: nicht lesbar" + Protokoll POST-ZEILE (vorher still).
+  Protokoll POST-ZEILEN "Briefe/Zeilen/Items" je Abholen. Ob im Spiel auch die Zeilen verschiedener Briefe fehlten: Verdacht,
+  zu messen (POST-ZEILEN zeigt es).
+  Chat-Text eines Abholens (Nachbau mit Mailer.lua 0.65.370 und Ersatz-Briefkasten, 5 Briefe, davon 3 gleiche):
+    Verkauft: 18× Leinenstoff für 80s 82c – erhalten 77s 78c (Gebühr 4s 4c) + Anzahlung zurück 1s
+    Zurück (abgelaufen): 20× Seelenstaub
+    Zurück (abgelaufen): 20× Seelenstaub
+    Zurück (abgelaufen): 20× Seelenstaub
+    Post von Spieler: 12× Kupfererz, 5× Zinnerz
+  Derselbe Nachbau mit 0.65.369: nur 3 Zeilen (eine "Seelenstaub"), "aus 3 Briefen". T962.
+B7 (ersetzt die Datums-Anzeige, die nie veröffentlicht wurde): TT:AgeCase - a) letzter Vollscan (db.lastScanTime) älter als 30 Min.
+  -> "Scan alt – vor x" (Alter des Scans); b) Scan aktuell, Preis älter und vor dem Scan -> "Zurzeit nicht im Angebot – letzter Preis
+  vor x" (Material: "Material zurzeit nicht im Angebot …"), Marktwert-Zeile "Marktwert (letztes Angebot vor x)"; sonst "Marktwert
+  (Scan vor x)". Keine Uhrzeit/kein Datum für das Alter. x: Min. unter 1 Std., Std. unter 48 Std., sonst Tage. T963, T931, T939.
