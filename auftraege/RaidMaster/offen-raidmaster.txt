@@ -588,3 +588,16 @@ Siehe auftraege/hinweis-ui-lesbarkeit-2026-11-20.txt. Mit der nächsten Version 
 
 ==== HINWEIS 21.11.2026 06:47 – Schätzen verboten (Nutzer) ====
 Siehe auftraege/hinweis-schaetzen-verboten-2026-11-21.txt.
+
+==== PRÜFAUFTRAG 21.11.2026 16:30 – REALM-SCHLÜSSEL (Nutzer 16:21 "für die anderen Addons und Daten auch richtig zusammenführen") ====
+Uploads 21.11.: dieses Addon speichert nur Charakter-Schlüssel "Name-Realm" (bzw. keine Realm-Schlüssel) – das ist richtig und bleibt.
+Prüfen und im Bericht belegen: gibt es Daten oder Sync, die für die Gilde/den Server gemeinsam gelten und trotzdem nach
+GetRealmName getrennt werden (Schlüssel, Sync-Kennung, Vergleich "gleicher Realm")? Wenn ja: wie GuildSentinel-Auftrag 16:30 umstellen.
+Wenn nein: im Bericht "keine realm-getrennten Gemeinschaftsdaten" mit Fundstellen (grep GetRealmName).
+Grund: Der Nutzer und seine Offiziere spielen auf DEMSELBEN Server und in derselben Gilde, GetRealmName liefert aber je Charakter einen
+anderen Heimat-Realm ("CAMWOW EU4 Realm 6 PvP", "CAMWOW EU4 Realm 2 PvP", "CAMWOW EU5 Realm 8 PvP"; belegt in den Uploads 21.11. 15:31,
+Entscheid 16:08 "dasselbe Auktionshaus, keine Vermutungen"). Daten, die für die GANZE Gilde bzw. den ganzen Server gelten, dürfen
+deshalb NICHT nach Realm getrennt werden. Charakter-Schlüssel "Name-Realm" bleiben (Identität, gleiche Namen auf zwei Realms möglich).
+Regeln: alte Einträge einmalig zusammenführen (Sicherung vorher, nichts doppelt, Zahlen vorher/nachher im Bericht); alte Clients nicht
+brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignoriert statt gemischt); gemeinsame Dateien (shared/) nicht
+ändern – reicht der eigene Code nicht, Bericht an die Prüf-Sitzung. Tests bauen; Projekt-Testregeln wie gewohnt.

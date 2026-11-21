@@ -654,3 +654,17 @@ Siehe auftraege/hinweis-ui-lesbarkeit-2026-11-20.txt. Mit der nächsten Version 
 
 ==== HINWEIS 21.11.2026 06:47 – Schätzen verboten (Nutzer) ====
 Siehe auftraege/hinweis-schaetzen-verboten-2026-11-21.txt.
+
+==== AUFTRAG 21.11.2026 16:30 – GILDEN-DATEN OHNE REALM ZUSAMMENFÜHREN (Nutzer 16:21 "für die anderen Addons und Daten auch richtig
+     zusammenführen") – heute, sonst sofort in der nächsten Sitzung ====
+Befund: Core.lua:811 (und MyWeek.lua Key) bilden den Gildenschlüssel als "Realm|Gilde". Uploads zeigen dieselbe Gilde unter drei
+Schlüsseln ("CAMWOW EU4 Realm 6 PvP|<Gilde>", "…EU4 Realm 2…|<Gilde>", "…EU5 Realm 8…|<Gilde>") -> Gildendaten je Mitglied getrennt,
+Abgleich passt nicht. Soll: Gildenschlüssel = Gilde (+ Fraktion), ohne Realm; Charakter-Schlüssel (MyWeek, Bank-Chars) bleiben
+"Realm|Name" bzw. "Name-Realm". Sync-Kennung ohne Realm.
+Grund: Der Nutzer und seine Offiziere spielen auf DEMSELBEN Server und in derselben Gilde, GetRealmName liefert aber je Charakter einen
+anderen Heimat-Realm ("CAMWOW EU4 Realm 6 PvP", "CAMWOW EU4 Realm 2 PvP", "CAMWOW EU5 Realm 8 PvP"; belegt in den Uploads 21.11. 15:31,
+Entscheid 16:08 "dasselbe Auktionshaus, keine Vermutungen"). Daten, die für die GANZE Gilde bzw. den ganzen Server gelten, dürfen
+deshalb NICHT nach Realm getrennt werden. Charakter-Schlüssel "Name-Realm" bleiben (Identität, gleiche Namen auf zwei Realms möglich).
+Regeln: alte Einträge einmalig zusammenführen (Sicherung vorher, nichts doppelt, Zahlen vorher/nachher im Bericht); alte Clients nicht
+brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignoriert statt gemischt); gemeinsame Dateien (shared/) nicht
+ändern – reicht der eigene Code nicht, Bericht an die Prüf-Sitzung. Tests bauen; Projekt-Testregeln wie gewohnt.

@@ -682,3 +682,15 @@ Zahlen und Reihenfolge aktualisiert; fehlende Grenze -> "Grenze unbekannt" am Gr
    (vermutlich ein Zeichen/Symbol, das die Spielschrift nicht kennt – Verdacht, zu messen) und kein solches Zeichen mehr verwenden.
    Nötiger Skill nur aus belegten Daten (Lehrer-/Rezeptdaten, Quelle goldgoblin); fehlt er: "Skill ?" statt Viereck.
    Test: ungelerntes Lehrer-Rezept -> "Skill n"; kein Zeichen ausserhalb der Spielschrift in den Texten (Prüfung über alle Locales).
+
+==== AUFTRAG 21.11.2026 16:30 – GILDEN-REZEPTE OHNE REALM ZUSAMMENFÜHREN (Nutzer 16:21) – heute, sonst nächste Sitzung ====
+Befund: Guild.lua:19 bildet den Gildenschlüssel "Realm|Gilde" -> Rezepte/Hersteller der Gilde je Mitglied getrennt (gleiche Gilde,
+drei Realm-Namen). Soll: Gildenschlüssel ohne Realm (Gilde + Fraktion); Charakter-Schlüssel (CharKeyFrom Name+Realm) bleiben.
+Sync-Kennung ohne Realm. Preise aus AHSentinel: nach AHS-Umstellung G1 (ein Markt je Fraktion) nichts realm-gebunden lesen.
+Grund: Der Nutzer und seine Offiziere spielen auf DEMSELBEN Server und in derselben Gilde, GetRealmName liefert aber je Charakter einen
+anderen Heimat-Realm ("CAMWOW EU4 Realm 6 PvP", "CAMWOW EU4 Realm 2 PvP", "CAMWOW EU5 Realm 8 PvP"; belegt in den Uploads 21.11. 15:31,
+Entscheid 16:08 "dasselbe Auktionshaus, keine Vermutungen"). Daten, die für die GANZE Gilde bzw. den ganzen Server gelten, dürfen
+deshalb NICHT nach Realm getrennt werden. Charakter-Schlüssel "Name-Realm" bleiben (Identität, gleiche Namen auf zwei Realms möglich).
+Regeln: alte Einträge einmalig zusammenführen (Sicherung vorher, nichts doppelt, Zahlen vorher/nachher im Bericht); alte Clients nicht
+brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignoriert statt gemischt); gemeinsame Dateien (shared/) nicht
+ändern – reicht der eigene Code nicht, Bericht an die Prüf-Sitzung. Tests bauen; Projekt-Testregeln wie gewohnt.
