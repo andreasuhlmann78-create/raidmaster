@@ -5609,3 +5609,9 @@ Neuaufbau; Laden hängt -> nach Zeitlimit Hinweis statt Dauer-"geladen".
     durch fremde Post nicht verfälscht werden: Spieler-/Händler-Post nicht als Auktionsverkauf buchen). Shift beim Öffnen = kein Auto.
     Tests (gebaut, nicht laufen lassen): nur Spieler-Post mit Gold -> wird abgeholt; COD -> bleibt, kein Gold weg; Textbrief -> bleibt;
     AH-Verkauf -> Buchhaltung wie bisher; Spieler-Gold -> nicht als Verkauf gebucht; volle Taschen -> Halt.
+
+>>> BEFUND 21.11. 15:35 (Nutzer 15:32, Ingame 0.65.360 15:30, Bild nicht im Repo) – MONTAG, zu TT4
+ P13 NIEDRIG: Im Item-Tooltip (Raue bronzene Gamaschen) steht "Scan alt – Preis vom 14:46" ZWEIMAL: einmal als eigene Zeile über dem
+    Marktwert und einmal anstelle der Beschriftung "Marktwert (Scan …)". Nutzer: "Scan alt muss nicht zweimal stehen, eine Zeile reicht."
+    Soll: EINE Zeile "Scan alt – Preis vom hh:mm" (oben); darunter wie gewohnt "Marktwert (Median 14 Tage)" und "Marktwert (Scan hh:mm)".
+    Test: Scan 31 Min. alt -> Text "Scan alt" genau 1× im Tooltip.
