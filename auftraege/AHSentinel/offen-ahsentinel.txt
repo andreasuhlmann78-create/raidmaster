@@ -5434,3 +5434,11 @@ NACHTRAG 06:45 (Nutzer 06:44 "Aufgabe nach Sniper beenden und freigeben"): Nach 
 
 ==== HINWEIS 21.11.2026 06:47 – Schätzen verboten (Nutzer) ====
 Siehe auftraege/hinweis-schaetzen-verboten-2026-11-21.txt.
+
+==== BEFUND 21.11.2026 07:00 – Sniper 0.65.356 (Nutzer 06:58) – gehört zu BEFUND 06:35 S2 ====
+S5 HOCH: "Es sind Angebote da, aber er zeigt trotzdem keine Ergebnisse im rechten Fenster – selbst wenn die Angebote zu hoch sind, müsste
+   er sie anzeigen." Bild bilder/2026-11-21-0657-sniper-0-angebote.png: Ziel Twilighthandschuhe, "gesucht vor 0 Sek. | 0 Angebote",
+   "Keine Angebote gefunden", Ruhemodus 0 pausiert. Bei Wächterhandschuhe (06:29) kamen 157 Angebote – dort geht es.
+   Verdacht, zu messen: Ausrüstung mit Zufalls-Endung/Varianten ("… des Adlers" u. a.) oder anderer itemKey – die Suche fragt nur die
+   Grund-ID/den exakten Namen ab und findet die Varianten nicht. Belegen (welche Suchanfrage, welche Antwort vom Server).
+   Soll: alle Angebote des Items anzeigen, auch über Max (markiert "zu teuer"), wie bei Wächterhandschuhe.
