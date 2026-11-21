@@ -5903,3 +5903,14 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     "Verbraucht (essen/trinken/benutzen)". Tests: essen -> Eigenverbrauch; verkaufen beim Händler -> Händlerverkauf; Item zerstören ->
     Fehlbestand; zwei Items gleichzeitig -> richtige Zuordnung.
  BK-ESS2 (Nutzer 21:10 "beim Zerstören kommt die Abfrage \"Wollt Ihr das wirklich zerstören?\" – das könnte man messen, dann ist es klar"): Zerstören als eigene Art erkennen statt Fehlbestand: Bestätigung erfassen (Ereignis DELETE_ITEM_CONFIRM bzw. StaticPopup "DELETE_ITEM"/"DELETE_GOOD_ITEM" sichtbar, und/oder hooksecurefunc("DeleteCursorItem") – nur Haken, nichts ersetzen) + Taschen-Abgang desselben Items innert 2 s -> Buchung "Zerstört" (Einstand als Abgang, kein Handelsverlust, eigene Zeile). Zuerst im Forever-Client belegen, welcher Weg existiert und feuert (Protokollzeile), nicht annehmen. Danach bleibt "Fehlbestand" nur für wirklich Ungeklärtes. Test: Zerstören -> "Zerstört"; Abbruch der Abfrage -> nichts gebucht.
+
+>>> BEFUND 21.11. 21:30 (Nutzer 21:26 "bin nicht sicher, ob da alles stimmt – Buchhaltung"; Ingame 0.65.375, Reiter Buchhaltung > Heute, Bild nicht im Repo)
+ BH1 HOCH (Zahl geht nicht auf): Kopf und Rechnungs-Tooltip zeigen Erlös 57g91s96, Eingesetzt −39g38s19, Gebühren −1s17, Gewinn 20g78s61.
+    579'196c − 393'819c − 117c = 185'260c = 18g52s60, nicht 20g78s61 – Differenz 2g26s01 (22'601c). Ursache belegen (fehlt eine
+    Zeile, z. B. Händlerverkäufe, Erstattungen, Entzauber-Umbuchung, "Herkunft unbekannt" 4g25s69?). Jede Komponente des Gewinns muss als
+    eigene Zeile im Tooltip stehen und die Summe exakt aufgehen (wirtschaft-forever §0). Test: Summe der Zeilen = Gewinn auf den Kupfer.
+ BH2 MITTEL: "Rendite –" im Kopf, obwohl 39g38s19 eingesetzt sind. Rendite = Gewinn aus Posten MIT Einsatz / Einsatz (Posten ohne
+    Einkauf getrennt ausweisen, nicht als 100 % mitrechnen); nur "–" wenn kein Einsatz.
+ BH3 PRÜFEN: Zeilen sind in sich richtig (nachgerechnet: Entzaubern 36–45: 40g86s92 − 31g15s55 = 9g71s37; 26–35: 9g94s80 − 6g75s65 =
+    3g19s15, 47 %). Posten ohne Einkauf (Kostenbasis 0, buchhaltung.md §5.2) stehen mit "Gewinn = Erlös" – im Tooltip als "ohne Einkauf"
+    ausweisen (Regel), Summe dieser Posten = "Herkunft unbekannt" im Kopf? Belegen.
