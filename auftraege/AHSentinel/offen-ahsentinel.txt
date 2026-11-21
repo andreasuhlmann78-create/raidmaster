@@ -5731,3 +5731,9 @@ WIDERSPRÜCHE (geklärt bzw. offen beim Nutzer):
     belegter Gleichheit Markt-Schlüssel auf den gemeinsamen AH-Bereich umstellen (alte Daten zusammenführen ohne Doppelzählung,
     Migration, Gegenprobe). Bei Unterschied: getrennt lassen und im Sync klar anzeigen "anderer Markt".
     Entzauber-Ergebnisse (deLog) sind realm-unabhängig und dürfen schon jetzt über alle zusammen gezählt werden (deShared).
+>>> KORREKTUR 21.11. 16:10 zu M7 – BELEGT (Nutzer 16:08): "Das Auktionshaus ist für alle dasselbe, mit denselben Items." KEINE Messung
+    nötig, kein Verdacht mehr. Auftrag (Montag): Markt-Schlüssel und Sync-Tag NICHT mehr nach GetRealmName (Heimat-Realm) bilden,
+    sondern EIN gemeinsamer Markt je Fraktion (Horde / Neutral bleiben getrennt: eigenes AH). Bestehende Märkte "CAMWOW … Realm n|Horde"
+    und "|Horde" (ohne Realm) zu einem zusammenführen: gleiche Beobachtung (Item, Zeit, Preis, Menge) nur 1× (keine Doppelzählung),
+    Migration einmalig mit Sicherung, Zahlen vorher/nachher im Bericht. Gilden-Sync danach zwischen allen Mitgliedern. Tests: zwei
+    Realm-Namen -> derselbe Markt-Tag; doppelte Beobachtung -> 1×; Neutral getrennt.

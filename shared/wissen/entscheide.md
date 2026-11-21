@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 21.11. 16:08 | Das Auktionshaus ist für alle Spieler dasselbe (unabhängig vom Realm-Namen). Keine Vermutungen mehr. | AHS M7: ein Markt je Fraktion, Sync für alle (Montag). |
 | 21.11. 16:00 | Verkaufsschutz: nur Hinweis + Schlachtzugswarnung, keine Bestätigung; Serie läuft weiter, warnt je Item. | offen-ahsentinel ENTSCHEID 16:00 (W1). |
 | 21.11. 15:44 | DAUERREGEL (unveränderlich): AHS scannt jeden Brief beim Abholen, verwertet ihn (Buchhaltung, Lager, Markt, Meine Auktionen) und zeigt ihn im Chat exakt an. | offen-ahsentinel AUFTRAG 15:44 (Punkt 9); buchhaltung.md. |
 | 21.11. 15:39 | Weisse und graue Items sind in Forever nicht entzauberbar. | Kein Entzauberwert/Kaufhinweis dafür. |
