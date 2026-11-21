@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 21.11. 08:54 | AHS: jetzt nur V1a–V1f umsetzen, Rest liegen lassen bis Montag. | offen-ahsentinel ENTSCHEID 08:54, nur Discord. |
 | 21.11.2026 08:23–08:28 | Verkaufspreis: günstigstes Angebot übernehmen, bei nur 1–5 Stück nächste Stufe, unter 20c gleicher Preis, sonst 1c darunter; "nie die Spieler auf irgendeine Art bevormunden" – nur deutlicher Hinweis als Schlachtzugswarnung | AHSentinel Prio 2 nach Sniper (V1); ersetzt Bestätigungen A2–A4 |
 | 21.11.2026 06:47 | "Wenn die Projekte an etwas arbeiten, ist von jetzt an Schätzen verboten – immer mit genauen Zahlen belegen." | ALLE Projekte und die Prüf-Sitzung: keine geschätzten Zahlen in Code, Berichten oder Aufträgen. Jede Zahl mit Quelle (Messung, Daten, Code-Stelle) und n. Fehlt die Messung: zuerst messen; im Spiel sichtbar als "noch nicht gemessen", nie eine geschätzte Zahl zeigen. |
 | 20.11.2026 17:00 | Grundziel ("ich dachte immer, dies sei ohnehin klar"): AHSentinel soll den ECHTEN Markt kennen statt schätzen – wie viele Spieler handeln, wie viel wirklich verkauft wird und wie schnell | Jede Preis-/Absatz-/Prognose-Arbeit misst zuerst (Absatz, Marktgrösse, Verkäufer je Scan) und rechnet dann. Ziel: wie viel ein Spieler kaufen/verkaufen kann ohne Preisdruck, richtige Prognosen, Wirkung vieler AHS-Nutzer; ehrliche Empfehlungen, kein Goldverlust. Siehe markt-strategie.md Grundziel. |
