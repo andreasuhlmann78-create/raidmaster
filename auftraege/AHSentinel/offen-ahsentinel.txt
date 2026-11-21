@@ -5491,3 +5491,8 @@ V1d MITTEL – Widersprüche in denselben Fenstern: Essenz "Jetzt teuer – verk
 V1e Kapuze: "Entzaubern lohnt mehr (≈16s1c statt 13s30) – nicht einstellen" – als Hinweis ok, aber nicht als Befehl formulieren
    ("Entzaubern bringt mehr: 16s1c statt 13s30").
 Gehört zu PRIO 2 (V1); danach wie vereinbart nur Discord, dann beenden.
+V1e geändert (Nutzer 08:43): Text = "Entzaubern: +2s 71c mehr" (kurz, Differenz).
+V1f MITTEL (Nutzer 08:43): Entzauber-Vorschläge, -Gewinne und -Zeilen erscheinen auch bei Charakteren ohne Verzauberkunst. AHS liest die
+   Berufe des Charakters aus (Laufzeit-API) und zeigt Entzauber-Hinweise nur, wenn dieser Charakter Verzauberkunst hat und die Stufe für das
+   Item reicht. Sonst stattdessen den passenden Weg (AH oder Händler). Gilt für Verkaufen, Tooltip, Schnäppchen und Kaufhinweise.
+   Test mit Gegenprobe (Charakter ohne Verzauberkunst -> keine Entzauber-Zeile).
