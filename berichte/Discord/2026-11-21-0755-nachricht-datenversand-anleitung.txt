@@ -12,6 +12,10 @@ SICHERHEIT (unbedingt):
 1. ORDNER FINDEN (auf dem Computer des Nutzers):
    a) Bot-Ordner: enthält bot.py, launcher.py, VERSION und datenversand_bot.py (nach dem Update). Heisst meist RaidMasterBot.
    b) Uploader-Ordner: enthält RaidMasterUploader.exe oder uploader.py und daten_config.json (von Daten-Repo-einrichten.bat).
+   SUCHEN (nur Dateinamen, nie Inhalt), PowerShell auf dem Computer des Nutzers:
+     Get-ChildItem -Path $HOME, C:\, D:\ -Recurse -Filter daten_config.json -ErrorAction SilentlyContinue | Select-Object FullName
+     Get-ChildItem -Path $HOME, C:\, D:\ -Recurse -Filter launcher.py -ErrorAction SilentlyContinue | Select-Object FullName
+   (launcher.py liegt im Bot-Ordner; gibt es mehrere Treffer, den Ordner nehmen, in dem auch bot.py und VERSION liegen.)
    Beide Pfade dem Nutzer nennen. Findest du daten_config.json nicht: anhalten und den Nutzer fragen.
 
 2. BOT AKTUALISIEREN: Der Nutzer gibt in Discord /update ein (Gildenleitung). Warten, bis in #bot-log steht
