@@ -5402,3 +5402,18 @@ R2 Risiko/Kapital: Kapitalschutz 25 % (MarketCapitalPct) und Tagesbudget für Fl
    (DE30b). Zahlen: 1207 Entzauber-Käufe, Einzelkauf mit Gewinn nur 33 %, Gruppe gesamt +26 %/+20 % – also Gewinn über die Menge,
    Einzelfälle zufällig (Nebeninfo Zufallsbeute). Messen und im Bericht zeigen: grösster Tagesverlust Entzaubern der letzten 14 Tage und
    Anteil des Golds, der zugleich in Entzauber-Ware steckt. Liegt das über dem Kapitalschutz: dem Nutzer vorlegen (kein eigener Umbau).
+
+==== BEFUND 21.11.2026 06:35 – SNIPER (0.65.354, Nutzer 06:30 "der Sniper funktioniert nicht richtig") – VOR ALLEM ANDEREN ====
+Bilder (Namen unkenntlich): bilder/2026-11-21-0629-sniper-waechter.png, -sniper-twilight.png, -tooltips.png
+S1 HOCH – Wächterhandschuhe: Ziel Max 17s54, Budget 5g. Angebote 17s52 (100 %) liegen UNTER Max und weit unter dem Budget, sind aber mit
+   "über Budget" markiert. Status: "Budget von 5g ist aufgebraucht (0 Stück gekauft)", Ziel-Zeile "0/1000 · Budget 5g aufgebraucht",
+   Knopf "Budget auffüllen?", gleichzeitig "gekauft 28". Der Sniper kauft nichts, obwohl er müsste. Ursache belegen (Verdacht, zu messen:
+   ausgegebenes Budget eines früheren Ziels/des Tages wird diesem Ziel angerechnet, oder Budget mit Gesamtmenge × Preis verglichen).
+   Zahlen müssen aufgehen: gekauft 28 vs 0 Stück. Behebung + Gegenprobe (Budget 5g, Angebot 17s52 ≤ Max -> kaufbar).
+S2 MITTEL – Twilighthandschuhe: Ziel Max 17s50, "0 Angebote · Keine Angebote gefunden", Tooltip zeigt aber "Preis 17s50" (Preisverlauf
+   nur 21.11.). Belegen: lag wirklich keins im AH, oder findet die Suche das Item per Name nicht? "Ruhemodus: 1 Aufgaben pausiert" /
+   "Scan wartet: Sniper-Ruhemodus" – hat der Ruhemodus die Suche verhindert?
+S3 MITTEL – Seelengebundene Schwere Leinenhandschuhe (hergestellt, angelegt): Tooltip rät "Jetzt teuer – verkaufen (+37 % über üblich)"
+   und zeigt AH-Gewinn/Verkaufen. Seelengebundenes kann nicht ins AH. Bei seelengebundenen Items keine AH-Verkaufs- und Gewinnzeilen
+   (höchstens Händlerpreis/Entzaubern). Test + Gegenprobe.
+Gold: S1 verhindert Käufe (kein Goldverlust, aber Sniper unbrauchbar). Behebung in der nächsten Version; CurseForge nach Freigabe.
