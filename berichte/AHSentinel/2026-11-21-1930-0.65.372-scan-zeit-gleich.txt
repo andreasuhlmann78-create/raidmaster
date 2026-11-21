@@ -1,0 +1,9 @@
+Bericht AHSentinel 0.65.372 – Nutzer 21.11. 19:26/19:28 (Bild Bronzene Stiefel mit Versilberung), umgesetzt, zur Prüfung
+Veröffentlicht: Discord, GitHub-Release v0.65.372. Nicht CurseForge. addon_check OK. Test T970 eingebaut, nicht laufen gelassen.
+Befund (Bild 19:25, 0.65.37x): "Scan alt – vor 34 Min." über "Marktwert (Scan vor 32 Min.)" – derselbe Scan, zwei Zeiten. Ursache belegt:
+  TT:AgeCase (B7 Fall a) zählte ab db.lastScanTime = START des Vollscans, die Marktwert-Zeile ab der Zeit des gespeicherten Preises
+  (ProcessBest, Ende der Auswertung, hier ~2 Min. später). Jetzt: stammt der Preis aus dem letzten Scan (Zeit >= Scan-Start), zählt in
+  beiden Zeilen die Zeit des Preises; nur ein Preis, der älter ist als der letzte Scan, zeigt das Alter des Scans. T970: Start vor
+  34 Min., Preis vor 32 Min. -> beide Zeilen "32 Min.", "34 Min." nirgends. T931/T939/T963 unverändert gültig.
+Frage des Nutzers "wo ist der Median und der AHS-Preis": beide standen im Bild ("Marktwert (Median 14 Tage) 11s 80c",
+  "Marktwert (Scan vor 32 Min.) 12s 63c") – beantwortet, keine Änderung nötig.
