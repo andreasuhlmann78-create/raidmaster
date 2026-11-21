@@ -1,0 +1,19 @@
+Bericht AHSentinel 0.65.374 – BEFUND 21.11. 19:55 B8 (Rechnungs-Box verdeckt), B9 (Gewinn +57c nachweisen), umgesetzt, zur Prüfung
+Veröffentlicht: Discord, GitHub-Release v0.65.374. Nicht CurseForge. addon_check OK. Tests T972, T973 eingebaut, nicht laufen gelassen.
+B8 (Tooltip.lua TT.CalcPlace/PlaceCalc): belegt sind der Tooltip und sichtbare ShoppingTooltip1/2. Box rechts neben dem äussersten
+  Rahmen, wenn sie bis zum Bildschirmrand passt; sonst links neben dem innersten; sonst unter dem Tooltip. Reine Pixel-Rechnung
+  (GetLeft/GetRight × EffectiveScale). Weil die Vergleichs-Tooltips oft erst NACH der Box erscheinen, prüft die Box solange sichtbar
+  alle 0,1 s den Platz (HookScript, OnUpdate der Tooltip-Vorlage bleibt) und setzt Anker nur bei Änderung. T972: Tooltip 500–800,
+  Vergleich 800–1100, Box 300 breit, Bildschirm 1920 -> rechts am Vergleich, Box 1102–1402 (keine Überlappung); Vergleich versteckt ->
+  rechts am Tooltip; Bildschirm 1300 -> links; Vergleich auch links -> unter dem Tooltip.
+B9 – Nachrechnung belegt (Spieldaten DESKTOP-NVITMSE 21.11. 18:26, deStats Schlüssel 2:6:a): n = 302 eigene Entzauberungen;
+  Visionenstaub 223× / 334 Stück, Große Mystikeressenz 64× / 99, Großer leuchtender Splitter 15× / 15. AHS rechnet seit 0.65.360 mit
+  der gemessenen Menge JE Entzauberung = Stück / n (nicht Anteil × Mitte "1–2" = 1,5):
+    1,10596 × Visionenstaub à 8s02 = 8s87 (334/302 × 802 = 886,98)
+    0,32781 × Große Mystikeressenz à 31s95 = 10s47 (99/302 × 3195 = 1047,36)
+    0,04967 × Großer leuchtender Splitter à 24s = 1s19 (15/302 × 2400 = 119,21)
+    Summe Materialien 20s53 · Gebühr 5 % −1s02 (abgerundet 102,65) · Einzahlungsrisiko 0 · Wert 19s51 · Kauf −18s94 · Gewinn +57c
+  = genau die Anzeige. Die Prüf-Nachrechnung (+22c) nahm 1,5 Stück je Treffer; gemessen sind 1,498 (Staub) und 1,547 (Essenz).
+  Ursache der Unklarheit: die Tabelle zeigte nur den Anteil ("Ø 74 %") und die Vorgabe-Spanne "1–2", die Rechnungs-Box lag verdeckt
+  (B8). Jetzt Spalte Ø = "Anteil × gemessene Menge je Treffer" ("74 % × 1,50", "21 % × 1,55", "5 % × 1,00"); Anteil × Menge = Faktor
+  der Rechnung (Box zeigt ihn exakt). T973 rechnet den Fall nach (brutto 2053, Gewinn 2053 − Gebühr − 1894).
