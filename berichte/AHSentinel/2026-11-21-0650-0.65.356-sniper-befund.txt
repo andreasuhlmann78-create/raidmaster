@@ -25,7 +25,7 @@ S4 HOCH ("du suchst gerade", Ziel setzen sucht nicht, Liste leer) – Ursache im
   Test T918 (eigene Suche keine Pause, Blizzard-Suche 30 s, danach weiter, Ziel setzen -> gesucht, Treffer sichtbar, nicht kaufbar).
   Im Spiel zu prüfen: echte Suche im Blizzard-AH -> Statuszeile "du suchst gerade", nach 30 s weiter.
 S2 MITTEL (Twilighthandschuhe 0 Angebote): Verdacht, zu messen (nicht belegt, Daten von 05:38 enthalten das Ziel noch nicht).
-  Der Scan führte Item 7433 mit 46–48 Stück je Scan. Der Sniper sucht Items mit dem allgemeinen Schlüssel (Suffix 0, Stufe 0);
+  Der Scan führte Item 7433 mit 48, 46, 48 Stück (Quelle: SavedVariables Stand 21.11. 05:38, Preisverlauf, letzte n=3 Einträge). Der Sniper sucht Items mit dem allgemeinen Schlüssel (Suffix 0, Stufe 0);
   grüne Items mit Zufalls-Suffix stehen im neuen AH unter eigenem Schlüssel -> Suche leer (Einkauf hat dafür schon K6/DETAIL-LEER).
   Ruhemodus verhindert keine Suche (kalte Ziele höchstens alle 30 s, keines fällt heraus).
   Behebung: leere Item-Suche mit allgemeinem Schlüssel -> Suche per Name (Browse), nur dieselbe Item-ID, günstigste Variante; danach
