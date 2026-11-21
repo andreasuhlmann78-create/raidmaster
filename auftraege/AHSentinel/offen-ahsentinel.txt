@@ -5803,3 +5803,19 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
      Bericht: je umgestellter Gruppe 5 echte Items vorher/nachher (Verkaufschance, Vorschlag, Lohnt-bis). Test: 29 Fälle -> alt, 30 -> neu.
  G12 NEIN: kein "gleicher Preis wie Gildenmitglied". Nutzer: "sinnlos". Auch den Hinweis "Gildenmitglied bietet hier zu x" aus 0.65.368
      wieder entfernen (Code, Locales, Tests), Vorschlag V1 unverändert.
+
+>>> BEFUND 21.11. 18:45 (Nutzer 18:39/18:41, Ingame 0.65.368, Bild nicht im Repo) – JETZT, nächste Version, nur Discord
+ B1 Verzauberer-Ansicht, eigenes Item (kein AH-Angebot, z. B. "Raue bronzene Gamaschen" in der Tasche): Es steht KEIN Wert –
+    weder "Gewinn" (c.gain fehlt ohne Kaufpreis) noch "Entzauberwert". Nutzer: "Wert Verzauberungen fehlt". Soll (zusätzlich, Rest
+    der Verzauberer-Ansicht unverändert): Zeile "Entzauberwert x" (derselbe Wert wie Punkt 8/TT1) und darunter der Vergleich
+    "Entzaubern statt verkaufen: +y" GRÜN bzw. "−y" ROT, y = Entzauberwert − bester Verkaufsweg (AH-Scanpreis nach 5 % Gebühr bzw.
+    Händlerpreis, der höhere). Vorzeichen immer zeigen; 0 -> "±0" neutral.
+ B2 Farben allgemein (Nutzer "+ grün und − rot"): jeder Gewinn/Vergleich im Tooltip positiv grün, negativ rot (auch "Gewinn" TT1, P2).
+    P2 damit HEUTE statt Montag.
+ B3 "Verkauft sich: schnell (~7 Std.)": "~" entfernen (Schätzzeichen); Zahl nur mit Fallzahl/Grundlage oder gar nicht (G10-Regel).
+ B4 PRÜFEN UND BELEGEN: D:EnchantSkill() – liefert es für Charaktere OHNE Verzauberkunst sicher 0 (nicht nil)? nil -> Verzauberer-
+    Ansicht (F4) darf nur kurz nach dem Login gelten: nach SKILL_LINES_CHANGED bzw. spätestens 10 s nach PLAYER_ENTERING_WORLD neu lesen;
+    bleibt es nil, Protokoll-Zeile "Beruf nicht lesbar: GetNumSkillLines=n" statt still Verzauberer-Ansicht. Test: Char ohne VZ -> 0.
+ B5 PRÜFEN: Post-Chat zeigte nur "Summe Post: 0c aus 3 Briefen" / "Post abgeholt: 0c, 34 Items" – je Brief eine Zeile (Dauerregel
+    Punkt 9) muss sichtbar sein, auch bei Briefen nur mit Items (z. B. "Post von Spieler: 12 Items"); im Bericht Chat-Text eines
+    Abholens mit 3 Briefen zeigen.
