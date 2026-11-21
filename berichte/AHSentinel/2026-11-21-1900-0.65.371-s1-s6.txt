@@ -1,0 +1,35 @@
+Bericht AHSentinel 0.65.371 – ENTSCHEID 21.11. 18:52 S1–S6 (Daten aus allen Wegen mit Absicherung), umgesetzt, zur Prüfung
+Veröffentlicht: Discord, GitHub-Release v0.65.371. Nicht CurseForge. addon_check OK. Tests T965–T969 eingebaut, nicht laufen gelassen.
+BEFUND 18:45 B1–B7 -> 0.65.370 (Bericht 2026-11-21-1850), ENTSCHEID 18:28 G10/G12 -> 0.65.369 (Bericht 2026-11-21-1840).
+Wege: Preis-Pakete (G/P) kommen über GoldSentinelSync aus Gilde (GUILD/OFFICER), Gruppe (PARTY/RAID/INSTANCE_CHAT) und Netz (WHISPER);
+  alle werden angenommen (Einstellung "nur Gilde" des Spielers bleibt als Wahl bestehen, Standard aus). Markt-Tag (G8) weiter Pflicht.
+S1 (Sync.lua S:HandleData): je Absender-Kürzel, Item und Stunde des Scans genau eine Stimme (S.votes); weitere Preise desselben Absenders
+  in derselben Stunde zählen nicht. Der Wert je Stunde ist der Median der Stimmen (A:GetMarketValue, G4), eigene eingeschlossen.
+S2: Vergleich mit dem EIGENEN letzten bestätigten Preis (kein Sync) des Items, höchstens 24 Std. alt (S:OwnLast); Faktor > 2 nach oben
+  oder unten -> verworfen (Zähler + S6). Ohne eigenen Scan: S:Judge – erst ein zweiter, anderer Absender mit ≤ 30 % Abstand bestätigt;
+  bis dahin "unbestätigt" gespeichert (zählt nirgends). Die alte Grenze Faktor 20 gegen den aktuellen Preis entfällt.
+  Begründung Faktor 2 mit echten Daten (goldsentinel-daten, forever, Markt "…|Horde" vor 0.65.364, Preisverlauf-Zeilen, eigene
+  bestätigte Preise, aufeinanderfolgende Paare ≤ 24 Std., Verhältnis grösser/kleiner):
+    DESKTOP-NVITMSE (Stand 21.11. 18:54): 7157 Items, 48 053 Paare – Median 1,00 · 90 % 1,26 · 99 % 3,81 · über 1,5: 2684 (5,6 %),
+      über 2: 1341 (2,8 %), über 3: 667 (1,4 %)
+    AUSPLUSLAPTOP (Stand 21.11. 06:34): 7168 Items, 66 267 Paare – Median 1,00 · 90 % 1,33 · 99 % 4,63 · über 2: 2512 (3,8 %),
+      über 3: 1242 (1,9 %)
+  Folgerung: Faktor 2 liegt über dem 90 %-Wert der eigenen Schwankung (1,26–1,33), verwirft aber auch 2,8–3,8 % echter Bewegungen
+  (eigene Scans springen so stark). Diese Fälle stehen mit Ursache im Protokoll (S6); ob Faktor 2 bleibt, entscheidet die
+  Prüf-Sitzung mit den ersten S6-Auswertungen. Sync-Preise in den Dateien: 0 (diese Clients hatten noch keine angenommenen
+  Sync-Preise), deshalb noch kein Vergleich fremd/eigen.
+S3: A:GetMarketValue – enthält eine Stunde einen eigenen Preis, zählen die fremden dieser Stunde nicht; A:GetCurrent – ist der neueste
+  Preis fremd und ein eigener aus derselben Stunde da, gilt der eigene.
+S4: Sniper-Grenze, Lohnt bis, Warnungen lesen Marktwert/aktuellen Preis -> nur über S1–S3. V1 (Se:SuggestRaw) braucht weiter den
+  eigenen frischen Angebots-Scan (P8); T968: nur fremde Preise im Verlauf -> kein Vorschlag.
+S5: Statuszeile "Empfangen: x Daten von y Spielern" (angenommen seit Login, Spieler = Kürzel) links neben "Sync über …"; die Zeile reicht
+  jetzt nur bis zum Scan-Knopf und bricht um (statt darunter zu laufen). Hover: je Weg Gilde/Gruppe/Netz angenommen/verworfen, seit
+  Login und 7 Tage (db.sync.recv je Tag, 7 Tage). Pakete mit fremdem Markt-Tag zählen als verworfen.
+S6: jede S2-Verwerfung -> Protokoll SYNC-ABWEICHUNG (Item, eigener Preis + Alter, fremder Preis + Alter, Weg, Absender-Kürzel,
+  Voll-/Teil-Scan, Menge, Stück-/Stapelpreis, Variante, Version) und db.sync.dev (200 Fälle). Ursache: Stapelpreis (Preis/Menge ≈ eigener
+  Stückpreis ±25 %) · Teil-Scan (Paket nicht vollständig empfangen) · Variante (Ausrüstung: gleiche Item-ID, Zufallssuffix nicht
+  übertragen) · Markt bewegt (> 6 Std. Abstand) · sonst unbekannt. Fremder Markt-Tag (alte Version / anderer Markt) wird gezählt.
+  /ahs protokoll: Abschnitt "Sync-Abweichungen (S6)" mit Anzahl je Ursache und 5 Beispielen. Grenzen ehrlich: die Version des Absenders
+  kommt im Paket nicht mit (GoldSentinelSync gibt sie dem Empfänger nicht weiter – gemeinsame Datei nicht geändert), die Item-Variante
+  auch nicht (Paket trägt nur die Item-ID). Eigene Seite geprüft: gesendet wird der Stückpreis (Vollscan s.min = Stückpreis, alter Scan
+  minPrice = Stückpreis) – kein Stapelpreis-Fehler bei uns gefunden.
