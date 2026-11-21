@@ -5820,3 +5820,9 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     Punkt 9) muss sichtbar sein, auch bei Briefen nur mit Items (z. B. "Post von Spieler: 12 Items"); im Bericht Chat-Text eines
     Abholens mit 3 Briefen zeigen.
  B6 (Nutzer 18:43 "+ Gewinn und − Verlust wieder an dieselbe Stelle setzen, optisch"): Gewinn und Verlust stehen IMMER an derselben Stelle im Tooltip (direkt unter "AHSentinel" bzw. unter "Scan alt"), gleiche Schriftgrösse und Ausrichtung – nur Vorzeichen und Farbe ändern sich (+ grün, − rot). Gilt auch für die neue Zeile aus B1. Test: Item mit Gewinn und Item mit Verlust -> Zeile an derselben Position (Zeilennummer im Tooltip gleich).
+ B7 (Nutzer 18:45 zu "Scan alt – Preis vom 20.11. 22:18": "das ist verwirrend") – ERSETZT die geplante Datums-Anzeige:
+    Zwei Fälle sauber trennen:
+    a) Der letzte Vollscan selbst ist älter als 30 Min. -> "Scan alt – vor x Std." (bzw. "vor x Min.", "vor x Tagen"), relativ statt Uhrzeit/Datum.
+    b) Der Scan ist aktuell, aber das Item war darin NICHT im Angebot -> NICHT "Scan alt", sondern "Zurzeit nicht im Angebot – letzter
+       Preis vor x Std." (Marktwert-Zeile entsprechend "Marktwert (letztes Angebot vor x Std.)").
+    Keine Uhrzeiten/Daten im Tooltip für das Alter. Test: Scan 5 Min. alt, Item fehlt seit 20 Std. -> Fall b; Scan 3 Std. alt -> Fall a.
