@@ -5417,3 +5417,12 @@ S3 MITTEL – Seelengebundene Schwere Leinenhandschuhe (hergestellt, angelegt): 
    und zeigt AH-Gewinn/Verkaufen. Seelengebundenes kann nicht ins AH. Bei seelengebundenen Items keine AH-Verkaufs- und Gewinnzeilen
    (höchstens Händlerpreis/Entzaubern). Test + Gegenprobe.
 Gold: S1 verhindert Käufe (kein Goldverlust, aber Sniper unbrauchbar). Behebung in der nächsten Version; CurseForge nach Freigabe.
+S4 HOCH (Nutzer 06:32): "Wenn man ein Ziel setzt und der Sniper an ist, sucht er trotzdem nicht – man muss oft das Item im Fenster
+   an-/abklicken, damit überhaupt etwas passiert." Bild bilder/2026-11-21-0631-sniper-pausiert.png: "Sniper-Modus an · 1 Ziel aktiv ·
+   Sniper pausiert – du suchst gerade (weiter in 20 s) · zuletzt vor 13 s: 6 Treffer", "Ruhemodus: 1 Aufgaben pausiert", Liste leer,
+   "Kein Treffer". Nach Aus/An: "Noch nichts gesucht" (bilder/…-0631-sniper-aus.png).
+   Verdacht, zu messen: Die Erkennung "du suchst gerade" schlägt an, obwohl der Spieler nicht selbst sucht (z. B. eigene Sniper-Suche,
+   "Ziel setzen" oder Klick in der Ziel-Liste zählt als Spielersuche) und pausiert den Sniper immer wieder; ausserdem zeigt die Liste
+   die 6 Treffer der letzten Suche nicht. Belegen mit Protokoll (wer löst "du suchst gerade" aus, wie oft). Soll: Ziel setzen bei
+   Sniper an -> sofort suchen; eigene Aktionen in AHS nie als Spielersuche werten; letzte Treffer bleiben sichtbar.
+   Gegenproben: Ziel setzen -> Suche innerhalb 1 s; echte Suche im Blizzard-AH -> Pause; danach automatisch weiter.
