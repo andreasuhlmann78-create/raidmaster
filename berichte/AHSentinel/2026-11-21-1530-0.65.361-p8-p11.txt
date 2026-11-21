@@ -1,0 +1,35 @@
+Bericht AHSentinel 0.65.361 – Entscheid 21.11. 14:53 (P8, P9, P10, P4, P5, P1+P11), umgesetzt, zur Prüfung
+Veröffentlicht: Discord (announce/), GitHub-Release v0.65.361 (Workflow). Nicht CurseForge. addon_check: OK (keine FEHLER).
+Tests T934–T937 eingebaut, nicht selbst laufen gelassen. MONTAG: P2, P3, P6, P7, P12 (nicht angefasst).
+
+P8 SEHR HOCH (Korallenband 0 Angebote, Vorschlag 19s = Marktwert):
+  Woher die 19s kamen – im Code belegt: Se:SuggestRaw fiel bei frischer Prüfung ohne Angebote durch (kein lowestOther/lowestOwn,
+  kein gelernter Normalpreis) auf "Marktwert (keine aktuelle Preisprüfung)" = A:GetMarketValue zurück.
+  Warum 0 Angebote: Verdacht, zu messen – Se:StartNext suchte mit MakeItemKey(itemID) (Stufe 0, Suffix 0). Items mit Varianten (Suffix,
+  eigene Itemstufe) stehen unter eigenem Schlüssel (gleicher Mechanismus wie Sniper S2/S5). Kaufen > Suche sucht per Name und fand 19.
+  Behebung: (1) Liegt das Item in der Tasche, sucht die Prüfung mit dem Schlüssel genau dieses Items (C_AuctionHouse.GetItemKeyFromItem);
+  Protokoll PREISPRUEFUNG: Item, Schlüssel (tasche/allgemein, Stufe, Suffix), Anzahl Angebote, Scan-Stückzahl -> belegt im Spiel die
+  Ursache. (2) Regel: Prüfung mit 0 Angeboten -> KEIN Vorschlag; zeigt der Scan Angebote: "Preisprüfung fand 0 Angebote, der Scan n –
+  erneut prüfen", sonst "keine Angebote – Preis selbst eingeben". Ohne frische Prüfung: "Preis nicht geprüft – erneut prüfen" – nie
+  Marktwert, nie zuletzt benutzter Preis, nie gelernter Normalpreis als Ersatz. Ohne Preis kein "Gewinn erwartet".
+  Hängen ("Angebote werden geladen …" 1 Min.): Zeitlimit SEARCH_TIMEOUT unverändert; mit (1) erwartet, im Spiel zu prüfen.
+  Folge: "Heute tun" (Today.lua) bekommt ohne frische Prüfung keinen Preis aus Se:Suggest mehr.
+P9 HOCH – gemessen (goldsentinel-daten Stand 21.11. 14:51, Item 11994 Korallenband): 42 Preise im Verlauf, 40 davon in 14 Tagen,
+  Median roh 17s50, min 15s00, max 39s38, z. B. 15.11. 16:01 18s00 (74 Stück), 15.11. 19:01 17s00 (76), 16.11. 19:37 15s70 (42),
+  17.11. 19:10 19s70 (68); Verlauf "history" 20.11. 08:51 19s50 (21), 20.11. 13:17 17s98 (19). Die 19s sind also ein echter Median
+  aus 40 Preisen (TT3 greift nicht). Die heutigen 36s99–2g10 liegen weit darüber: Verdacht, zu messen – Markt seit 20.11. gestiegen
+  oder der Scan (Browse-Mindestpreis über alle Varianten) und die Suche sehen verschiedene Angebote; PREISPRUEFUNG-Zeile + nächster Scan.
+P10 MITTEL: Zu 0.65.360: die Warnung kam im selben Klick wie "Einstellen" (p:Post vor Se:Post) – sie gehörte daher zum gerade
+  eingestellten Item (Borstenlederkniehosen 21s98); Beleg im Protokoll war nicht möglich (keine Zeile). Jetzt: Protokoll WARNUNG-TIEF
+  (Item, Name, Preis, günstigstes fremdes Angebot); Warnung VOR dem Einstellen, sobald der eigene Preis steht (Feld verlassen, Enter,
+  Zeile angeklickt; nicht beim Tippen), je Item und Preis einmal; nur falls noch nicht gewarnt beim Klick auf Einstellen (vor Se:Post).
+P4 HOCH: links MV:DEOffer (D:PlannedValue mit geplanter Menge 95, LimitFromNet), rechts MV:Advice mit Fc:BuyPrediction (anderer
+  Netto-Wert) und MK:DELimit -> 1s97/1s64 gegen 1s98/1s65. Jetzt nimmt rechts für "entzaubern" genau Wert und Grenze der Zeile links
+  (MV.deShown); ohne Zeile dieselbe Funktion MV:DEOffer für 1 Stück. Schnäppchen (DEB:Value) und Sniper: Montag mit TT1.
+P5 HOCH: MV:DEOffer prüft jetzt zuerst die Itemstufe (GetItemInfo); unbekannt -> Item-Infos anfordern, kein Wert, kein Kaufhinweis
+  ("Stufe unbekannt"). Warum Gruppe/Wert trotzdem kamen: Verdacht, zu messen – D:Prior aus dem Zwischenspeicher (MatCache) eines
+  früheren Aufrufs, als die Stufe bekannt war.
+P1/P11 HOCH: Faktor wird auf 4 Stellen festgelegt, genau damit gerechnet und ohne Rundung gezeigt (Dezimalkomma deDE, mind. 2 Stellen):
+  "1,125 × Traumstaub à 23s88 = 26s87" (T937). P11 "0,11 × 3s99 = 45c": eigene Daten -> Menge je Entzauberung = Summe/Anzahl (z. B.
+  0,1128), jetzt sichtbar als "0,1128 × …" und die Zeile geht auf. "0,16 × 7s36" ist die gemessene Menge je Entzauberung
+  (Summe/Anzahl), nicht Ø-Anteil × 1,5 – beide Wege messen Verschiedenes; die Rechnung nimmt die Menge.
