@@ -135,6 +135,8 @@ die **Menge**, bid den **Gesamtpreis** (Rohzeile unten), `count` ist die Menge o
 | 20.11. | Regel "Konkurrenz weit über Median -> Normalpreis" ohne Prüfung, ob der Median belastbar ist | Spieler verkaufte zu 15c statt 3s 40c (CF-AHS-5); Ausnahme in §8.3, Behebung 0.65.354 |
 | 20.11. | Prüf-Sitzung beauftragte MIN(Scanpreis, Median) als Kaufwert | widerspricht Entscheid §3 (Rechenwert = Scan, keine Median-Deckelung); zurückgenommen (K20) |
 
+**Entzaubern in WoW Forever (Nutzer 21.11.2026 08:47):** Mit Verzauberkunst kann man ab Skill 1 alles entzaubern – keine Skill-Grenze je Item.
+
 ## 7. Pflicht-Checkliste vor jeder Anweisung mit Geld
 
 - [ ] Steht die Regel in diesem Dokument als **belegt**? Wenn nein: Messauftrag statt Regel.
