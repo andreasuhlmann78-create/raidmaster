@@ -5914,3 +5914,13 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
  BH3 PRÜFEN: Zeilen sind in sich richtig (nachgerechnet: Entzaubern 36–45: 40g86s92 − 31g15s55 = 9g71s37; 26–35: 9g94s80 − 6g75s65 =
     3g19s15, 47 %). Posten ohne Einkauf (Kostenbasis 0, buchhaltung.md §5.2) stehen mit "Gewinn = Erlös" – im Tooltip als "ohne Einkauf"
     ausweisen (Regel), Summe dieser Posten = "Herkunft unbekannt" im Kopf? Belegen.
+
+>>> BEFUND 21.11. 23:25 (Ingame 0.65.375, 23:20, Verkaufen > "Schriftrolle: WUBBA WUBBA", Bild nicht im Repo) – nächste Version, nur Discord
+ VK1 HOCH (Gold): Preisprüfung: 67 Angebote ab 4c (40× 4c, 35× 5c, 25× 6c …), Vorschlag 4c (V1, unter 20c gleicher Preis – richtig),
+    "Gewinn erwartet −2c". Der Händler zahlt 15c je Stück – fast 4× mehr. Soll (nie bevormunden): liegt der Erlös nach Gebühren unter dem
+    Händlerpreis, deutlicher roter Hinweis direkt über "Einstellen": "Händler zahlt 15c – mehr als hier (4c)", und in "Serie: alle mit
+    Preis" solche Items mit Hinweis kennzeichnen. Kein Sperren, keine Rückfrage.
+ VK2 HOCH (Zahlen widersprechen sich): Item-Tooltip "Marktwert (Scan vor 2 Min.) 1s20", Preisprüfung 0 Sek. vorher günstigstes 4c bei
+    67 Angeboten; "Marktwert (Median 14 Tage) 2s70", Liste "% Markt 1–3 %". Ursache belegen (Scan-Wert = Median statt günstigstes? alte
+    Ausreisser im 14-Tage-Median, P9/TT3? andere Item-Variante gleichen Namens?). "Preisschutz: 99 % unter dem Marktwert (2s70)" darf
+    nicht auf einem unbelegten Marktwert beruhen (TT3 -> "nicht bekannt"). Test mit diesem Fall.
