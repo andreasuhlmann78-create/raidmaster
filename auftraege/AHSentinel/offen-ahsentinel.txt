@@ -5768,3 +5768,29 @@ G9 SCHUTZ (wie F1–F8): Sniper-, Wächter-, "Lohnt bis"-, Verkaufspreis- und Bu
    Code nicht, Bericht an die Prüf-Sitzung statt Änderung.
 Tests: zwei Realm-Namen -> 1 Markt; Allianz/Horde getrennt; Neutral beider Fraktionen -> 1 Markt; Migration ohne Doppelte; gleichzeitige
 Scans A+B -> 1 Gewicht je Stunde; Teil-Scan -> kein "verkauft"; Quelle ohne Namen; alter Sync-Tag -> ignoriert.
+
+==== AUFTRAG HEUTE 21.11.2026 16:35 – GILDEN-DATEN NUTZEN G10–G17 (Nutzer 16:31 "packe das alles zu den offenen Punkten von heute") ====
+Reihenfolge: NACH G1–G9 (gemeinsamer Markt ist Voraussetzung). Selbe Regeln: eine Version, nur Discord, Tests bauen, nicht laufen
+lassen, G9-Schutz gilt für jeden Punkt, keine Namen fremder Spieler speichern/anzeigen, Fremddaten nur verdichtet (je Stunde/Item),
+nur Daten aus der eigenen Gilde, ältere Daten geringer gewichtet, Uhrzeit-Abweichung der PCs (Minuten) tolerieren. Nichts schätzen:
+zu wenig Daten -> "zu wenig Daten".
+G10 ECHTE VERKAUFSCHANCE (Prio 1): Quelle = Post-Scan (Punkt 9) – jeder Brief sagt sicher verkauft / abgelaufen / abgebrochen. Aus den
+    Post-Scans ALLER Gildenmitglieder (verdichtet, ohne Namen) je Item bzw. Item-Gruppe: Anteil verkauft, Zeit bis Verkauf je
+    Preisabstand zum günstigsten Angebot. Damit CancelFactor/MeasuredRate eichen (heute 0,56 aus nur 16 eigenen Auktionen).
+    "Verschwunden" aus Scans ist NICHT "verkauft". Anzeige z. B. "bei 36s99: meist in ~x Std. verkauft (n Fälle)" erst ab Mindestzahl.
+G11 WANN KAUFEN/VERKAUFEN (Prio 2): Preis/Angebot je Stunde und Wochentag – zuerst den Trend über die Tage herausrechnen (junger Server,
+    Preise fallen), dann Stunden vergleichen; nur mit genug Scans je Stunde. Hinweis nur mit Zahl und Fallzahl.
+G12 GILDE UNTERBIETET SICH NICHT (Prio 3): Gildenauktionen nur über den Abgleich der eigenen Auktionen erkennbar (Forever-AH zeigt keine
+    Verkäufer). Bis der Nutzer entscheidet ("gleicher Preis wie das Gildenmitglied ok?"): NUR Hinweis "Gildenmitglied bietet hier zu x"
+    im Verkaufen-Fenster, keine automatische Preisänderung. Vorschlag V1 bleibt.
+G13 ENTZAUBER-ERGEBNISSE GEMEINSAM (Prio 4): AHS teilt DE-Daten schon (deShared). EINE Quelle, keine Doppelzählung (Upload-Daten nicht
+    zusätzlich addieren). Realm-unabhängig.
+G14 SCHNÄPPCHEN-ZEITEN (Information): aus Scans/Sniper-Treffern aller: wann tauchen Schnäppchen auf, wie lange bleiben sie (n Fälle).
+    Nur Anzeige; Sniper/Wächter laufen weiter nur bei offenem AH und echtem Klick (unverändert).
+G15 LEERE ZEITFENSTER: "kein Angebot zur Stunde h" nur, wenn zu dieser Stunde genug Scans vorliegen.
+G16 AUSREISSER: Preise, die nur ein Scan sah, NICHT löschen (oft echte Schnäppchen), aber nicht in Marktwert/Median-Grundlage gegen
+    die Mehrheit; Median bleibt robust. Märkte mit nur 1 Anbieter kenntlich machen (P3).
+G17 GEBÜHREN UND HÄNDLERPREISE: Rechnungen aller (verdichtet, ohne Namen) zum exakten Beleg der Gebühren-/Einzahlungsregeln
+    (wirtschaft-forever §0/§1); Händlerpreise aus allen Clients nur ergänzen, wo der eigene Client das Item noch nicht kennt.
+(Idee ohne Auftrag, nur Information: Merkliste der Gilde – ein Offizier am AH sieht, dass ein Schnäppchen auf der Liste eines anderen
+steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutzer es will.)
