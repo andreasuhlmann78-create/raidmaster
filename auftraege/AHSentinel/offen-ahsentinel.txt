@@ -5670,3 +5670,25 @@ Neuaufbau; Laden hängt -> nach Zeitlimit Hinweis statt Dauer-"geladen".
  F7 (P1/P11): Nur die ANZEIGE der Faktoren ändert sich, die Rechnung nicht – Gewinnwerte vorher/nachher identisch (Test).
  F8 Allgemein: Vor dem Push die gesamte Testroutine nicht laufen lassen (Nutzer), aber alle T-Fälle, die Mailer/Books/Ledger/Tooltip/
     Sniper/Seller betreffen, auf Erwartungen prüfen, die durch diese Punkte ändern, und im Bericht auflisten (wie Bericht 09:15).
+
+==== AUFTRAG FÜR MONTAG 23.11. – ALLE REITER AKTUALISIEREN SICH SELBST (Nutzer 21.11. 15:50/15:51; ERSETZT/ERWEITERT den Auftrag
+     "MEINE AUKTIONEN AKTUALISIERT SICH SELBST" 09:21) ====
+Nutzer: jedes AHS-Fenster aktualisiert sich selbst, aber nur wenn der Reiter offen ist; nicht für Sniper und Wächter. Umsetzung nach
+Vorschlag Supervisor (Nutzer einverstanden): ereignisgesteuert statt Dauer-Abfrage.
+Code-Stand (0.65.362, gelesen): Es gibt schon den richtigen Weg – UI:RefreshLater() -> Hintergrund-Job "ui-refresh", nur aktiver Reiter,
+höchstens 1× je Sekunde, in Portionen (UI_Main.lua ~2009–2032). Ausgelöst wird er aber NUR von DATA_CHANGED (UI_Main.lua:5116) und
+CACHE_UPDATED. Eigene Auktionen (AUCTION_OWNED_LIST_UPDATE), Post (MAIL_INBOX_UPDATE/abgeholt), Taschen (BAG_UPDATE_DELAYED), Gold
+(PLAYER_MONEY), Verkauf/Kauf-Systemmeldungen und Preisprüfung lösen KEINEN Neuaufbau aus -> deshalb blieb "Meine Auktionen" stehen.
+Soll:
+ R1 Diese Ereignisse rufen UI:RefreshLater() auf (keinen eigenen Zeitgeber, kein OnUpdate-Polling, keine zweite Mechanik).
+ R2 Nur der sichtbare Reiter UND sein sichtbarer Unterreiter werden neu aufgebaut (Verkaufen > Einstellen / Meine Auktionen usw.).
+    Beim Öffnen eines Reiters immer frisch.
+ R3 Sniper und Wächter: unverändert (eigene Drossel RefreshAuto bleibt; keine neuen Auslöser dorthin).
+ R4 Nie stören: Scroll-Position, Auswahl, offener Tooltip, Seite (1/142) bleiben; Eingabefelder mit Fokus (Preis, Menge, Suche) werden
+    nie überschrieben (RefreshBox(keepQtyText) als Muster); laufende Serie/Einstellen wird nicht neu aufgebaut, bis sie fertig ist.
+ R5 "Werden geladen …" mit Zeitlimit; danach Hinweis + Knopf (aus Auftrag 09:21).
+ R6 Unten "Stand hh:mm" je Reiter.
+ R7 Leistung (leistung.md): Nachbau mit echten Daten (7'000 Items, Kaufen 2'500 Einträge): Neuaufbau in Portionen, keine Spitze > Grenze
+    aus leistung.md; 20 Ereignisse in 1 s -> 1 Neuaufbau.
+Tests (gebaut, nicht laufen lassen): je Ereignis R1 -> Neuaufbau nur im sichtbaren Reiter; Reiter zu -> keiner; Sniper/Wächter -> keiner
+zusätzlich; Fokus im Preisfeld -> Text bleibt; Scroll/Auswahl bleiben; 20 Ereignisse -> 1 Neuaufbau; Laden hängt -> Hinweis nach Zeitlimit.
