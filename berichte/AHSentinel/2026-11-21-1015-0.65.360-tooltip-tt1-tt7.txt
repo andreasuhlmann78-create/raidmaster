@@ -1,0 +1,31 @@
+Bericht AHSentinel 0.65.360 – AUFTRAG TOOLTIP 21.11. 09:20 (TT1–TT7), umgesetzt, zur Prüfung
+Veröffentlicht: Discord (announce/), GitHub-Release v0.65.360 (Workflow). Nicht CurseForge. addon_check: OK (neu: Media/blank.tga,
+unsichtbarer Abstandhalter für die Spalten). Tests T929–T933 eingebaut, nicht selbst laufen gelassen.
+Entscheide des Nutzers heute 09:2x im Chat (bitte in entscheide.md übernehmen):
+ - TT2/TT3 "beim Darüberfahren": in WoW nimmt ein Item-Tooltip keine Maus an -> Rechnung als Kasten rechts am Tooltip, ohne Shift.
+ - TT1 "dieselbe Zahl wie Schnäppchen/Sniper": jetzt NUR der Tooltip rechnet nach TT1; Schnäppchen und Sniper ziehen Montag nach
+   (eigener Auftrag, ändert Käufe). Bis dahin können Tooltip-Gewinn und Schnäppchen-Gewinn verschieden sein.
+Umsetzung (Tooltip.lua TT:RealCalc, TT:AddHeadBlock, TT:ShowCalc, TT:AddMaterialBlock, TT:RiseText; AHAnalyzerPro.lua A:GetMarketValue, A:MarketValueInfo):
+TT1 Gewinn je Entzauberung = Σ (erwartete Menge × günstigstes Angebot im letzten Scan) − floor(Summe × 5 %) − Einzahlungsrisiko
+    (Forever: A:ExpectedDepositLoss je Stück, wie A:FeePerPiece) − Kaufpreis (Angebot unter der Maus / Händler / sonst Scanpreis des
+    Items). Mengen: eigene Entzauberungen ab 30 (sonst Gilde ab 30, sonst Vorgabe Chance × Ø-Menge). Kein Unterbieten-Abzug, kein
+    Korrekturfaktor, kein Mindestgewinn. Kopfzeile "Gewinn +x" grün (Verlust rot), Schrift des Item-Namens (GameTooltipHeaderText),
+    beim Leeren zurückgesetzt. Kein Ø und keine Anzahl in der Zeile.
+TT2 Kasten rechts: "Rechnung je Entzauberung (Vorgabe/bei dir n/Gilde n)", je Material "1,20 × Name à Preis = Wert" (ganze Kupfer),
+    Summe Materialien, Gebühr 5 %, Einzahlungsrisiko, Wert nach Gebühren, Kaufpreis, Gewinn. Summe geht auf den Kupfer auf (T929).
+TT3 A:GetMarketValue: < 3 Preise in 14 Tagen -> nil (vorher die 3 neuesten egal wie alt) – wirkt überall (Vorschlag, Warnung, Gewinn,
+    Sniper, Markt). Tooltip: "Marktwert (Median 14 Tage)  nicht bekannt", im Kasten "Zu wenig Preise … (nur n, ältester vom TT.MM.)".
+TT4 Ein Preis der Rechnung (Material oder Item) älter als 30 Min. -> "Scan alt – Preis vom hh:mm", kein Gewinn; Zeile
+    "Marktwert (Scan hh:mm)" wird bei altem Scan zu "Scan alt – Preis vom hh:mm".
+TT5 Eigene gelbe Zeile "<Material>-Preis seit dem letzten Scan gestiegen" (erst der letzte Scan hoch) bzw. "seit dem Scan vom
+    TT.MM. hh:mm" (Scan-Zeitpunkt, nie Stunden nach der Uhr).
+TT6 Beschriftungen hellgrau (bfbfbf), Vorgabe-Werte in der Farbe von "Vorgabe" (9fc5e8), Ø und Preise weiss; Spalten rechtsbündig
+    mit gemessener Breite (unsichtbarer Abstandhalter) – im Spiel zu prüfen. Prozent nur unter "Vorgabe" bzw. "Ø". Preis = Scanpreis
+    (wie in der Rechnung), nicht mehr netto.
+TT7 Kein Preisverlauf im Tooltip (TT:ShowChart wird im Tooltip nicht mehr aufgerufen); Fenster unverändert.
+Ohne Shift fallen weg: Wege-Zeilen "Entzaubern:/Verkaufen:", "Ø je Entzauberung netto", "Verkaufen:"-Zeile. Mit Shift bleiben die
+Einzelheiten (Wege, Quellen, Shift-Zeilen) wie bisher.
+Bildschirm-Text der Kettenhose mit echten Zahlen: nicht möglich ohne Spiel (Cloud-Sitzung) – bitte im Spiel ablesen; die Rechnung
+zeigt der Kasten rechts Zeile für Zeile.
+Verdacht, zu messen: bestehende Tests, die die alten Tooltip-Zeilen ("Preis …", "Verkaufen:", Wege-Zeilen, Ø je Entzauberung) oder den
+alten Marktwert-Rückfall (3 neueste Preise) erwarten, können jetzt rot sein – nicht laufen gelassen, daher nicht angepasst.
