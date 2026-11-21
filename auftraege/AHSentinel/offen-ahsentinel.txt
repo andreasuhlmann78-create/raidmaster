@@ -5542,3 +5542,13 @@ TT7 [Preisverlauf 7 Tage] NICHT im Tooltip (Nutzer 21.11. 09:18). Im Fenster und
 Tests (gebaut, nicht laufen lassen): TT2 Summe = Gewinn auf den Kupfer; TT3 2 Preise alt -> "nicht bekannt" und Gewinn ohne diesen Wert;
 TT4 Scan 31 Min. -> "Scan alt", kein Kaufhinweis; TT5 Scan-Abstand 18 Std. -> kein "seit 1 Std."; TT7 kein Preisverlauf im Tooltip.
 Bericht: Bildschirm-Text des Tooltips der Kettenhose mit echten Zahlen und die Zeilen der Rechnung.
+
+==== AUFTRAG FÜR MONTAG 23.11. – "MEINE AUKTIONEN" AKTUALISIERT SICH SELBST (Nutzer 21.11. 09:21) ====
+Befund (Ingame 0.65.359, 09:21, Bild nicht im Repo wegen Spielernamen): Reiter Verkaufen > Meine Auktionen zeigt "Eigene Auktionen
+werden geladen …"; Chat meldet "Käufer gefunden: Große Mystikeressenz", die Liste ändert sich erst nach Klick auf "Aktualisieren".
+Soll: Die Seite aktualisiert sich selbst, solange sie offen ist – bei AUCTION_OWNED_LIST_UPDATE, nach Verkauf (Systemmeldung
+"Käufer gefunden"), nach eigenem Einstellen/Abbrechen und beim Öffnen des Reiters. Kein Dauer-Abfragen: nur auf Ereignisse, gebündelt
+(höchstens 1 Neuaufbau je ~1 s), nur wenn der Reiter sichtbar ist, Server-Abfragen nur im erlaubten Takt (leistung.md, kein Ruckeln).
+"Werden geladen …" verschwindet, sobald die Daten da sind (mit Zeitlimit; danach Hinweis + Knopf). Knopf "Aktualisieren" bleibt.
+Tests (gebaut, nicht laufen lassen): Verkauf-Ereignis -> Liste neu ohne Klick; 10 Ereignisse in 0,2 s -> 1 Neuaufbau; Reiter zu -> kein
+Neuaufbau; Laden hängt -> nach Zeitlimit Hinweis statt Dauer-"geladen".
