@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-21T18:19:50Z",
+ "ausgewertet": "2026-11-21T19:29:32Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -643,11 +643,11 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 201,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.368-12baeffb5c50.txt"
+    "anzahl": 204,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.375-4b183aedda60.txt"
    },
    "BuffSentinel": {
-    "anzahl": 101,
+    "anzahl": 104,
     "neueste": "testberichte/diagnose/BuffSentinel/0.9.60-fb522145c40a.txt"
    },
    "GSMesstest": {
@@ -655,30 +655,30 @@
     "neueste": "testberichte/diagnose/GSMesstest/5.1-f65d607ab777.txt"
    },
    "GSSniperLog": {
-    "anzahl": 36,
+    "anzahl": 39,
     "neueste": "testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt"
    },
    "GuildSentinel": {
-    "anzahl": 215,
+    "anzahl": 218,
     "neueste": "testberichte/diagnose/GuildSentinel/0.9.58-e52bcbc311ff.txt"
    },
    "LevelPilot": {
-    "anzahl": 108,
+    "anzahl": 111,
     "neueste": "testberichte/diagnose/LevelPilot/3.13.6-ff90860598d3.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 194,
+    "anzahl": 197,
     "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.74-ff706b85d2e7.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 182,
+    "anzahl": 185,
     "neueste": "testberichte/diagnose/ThreatSentinel/2.5.23-ee663a070dfa.txt"
    }
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 283,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1795284213-ef5c0a.json"
+    "anzahl": 289,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1795289170-91b561.json"
    }
   }
  }
