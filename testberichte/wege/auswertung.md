@@ -4,7 +4,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Durotar (1411)
 
-- Wegstücke 934, Knoten 916, zusammenhängende Teile 8
+- Wegstücke 952, Knoten 916, zusammenhängende Teile 8
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 828 Knoten, Bereich 35–66 / 8–69
   - Teil 2: 63 Knoten, Bereich 46–60 / 84–98
@@ -58,7 +58,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Das Brachland (1413)
 
-- Wegstücke 3237, Knoten 1455, zusammenhängende Teile 27
+- Wegstücke 3238, Knoten 1455, zusammenhängende Teile 27
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 1387 Knoten, Bereich 34–69 / 3–91
   - Teil 2: 12 Knoten, Bereich 52–54 / 52–54
@@ -102,13 +102,13 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Arathihochland (1417)
 
-- Wegstücke 750, Knoten 1182, zusammenhängende Teile 4
+- Wegstücke 781, Knoten 1183, zusammenhängende Teile 4
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 1067 Knoten, Bereich 21–87 / 23–92
+  - Teil 1: 1068 Knoten, Bereich 21–87 / 23–92
   - Teil 2: 59 Knoten, Bereich 51–58 / 69–82
   - Teil 3: 38 Knoten, Bereich 67–71 / 47–56
   - Teil 4: 18 Knoten, Bereich 48–51 / 73–80
-- **Widerspruch:** gesperrt (FEST) bei 74.4,37.1, aber 76× gelaufen
+- **Widerspruch:** gesperrt (FEST) bei 74.4,37.1, aber 85× gelaufen
 - Gesperrte Wegstücke: 1
 
 ## Tirisfal (1420)
@@ -193,9 +193,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Schlingendorntal (1434)
 
-- Wegstücke 1497, Knoten 904, zusammenhängende Teile 1
-- **Widerspruch:** gesperrt (FEST) bei 39.9,36.9, aber 67× gelaufen
-- **Widerspruch:** gesperrt (FEST) bei 34.2,14.7, aber 95× gelaufen
+- Wegstücke 1685, Knoten 912, zusammenhängende Teile 1
+- **Widerspruch:** gesperrt (FEST) bei 39.9,36.9, aber 73× gelaufen
+- **Widerspruch:** gesperrt (FEST) bei 34.2,14.7, aber 132× gelaufen
 - Gesperrte Wegstücke: 2
 
 ## Sümpfe des Elends (1435)
@@ -263,7 +263,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Orgrimmar (1454)
 
-- Wegstücke 1211, Knoten 951, zusammenhängende Teile 4
+- Wegstücke 1218, Knoten 951, zusammenhängende Teile 4
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 945 Knoten, Bereich 22–82 / 19–95
   - Teil 2: 3 Knoten, Bereich 38–40 / 28–30

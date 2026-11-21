@@ -1,0 +1,225 @@
+AHSentinel-Protokoll v0.65.360 · 21.11. 16:48:51
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  21.11. 14:57:11 L26 WARRIOR v0.65.360
+  21.11. 14:51:15 L10 PRIEST v0.65.360
+  21.11. 14:45:38 L1 WARRIOR v0.65.360
+  21.11. 12:52:00 L25 WARRIOR v0.65.360
+  21.11. 12:41:31 L10 PRIEST v0.65.360
+  21.11. 12:39:53 L10 PRIEST v0.65.359
+  21.11. 09:03:53 L10 PRIEST v0.65.359
+  21.11. 08:56:03 L25 WARRIOR v0.65.358
+  21.11. 08:50:03 L10 PRIEST v0.65.358
+  21.11. 08:38:00 L10 PRIEST v0.65.358
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 1 Std., 7078 Items, Preis-Sync an
+  SYNC GoldSentinelSync 3 · Wege: keiner · Mitspieler (1 Std.): AHSentinel 2, BuffSentinel 4, GoldSentinelMarkt 4, GoldSentinelTest 4, GuildSentinel 4, LevelPilot 4, LevelPilotG 4, ThreatSentinel 1
+  SYNC gesendet 3388 · empfangen 1900 · verworfen: duplicate 1 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 8 (mit Sync 2: 8, pausiert 4) · gesendet 35 · weitergegeben 1 · offline 21 · Listen 24 · Warteschlange 0 · gespeichert ja · im Test angehalten 0
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Einstellungen geändert: cmdHint=true, fastScan=true, helpSeen=true, marketExpert=false, minimapAngle=199, priceGuard=20, psHintHidden=true, sniperSignal=true, theme=modern, tooltipDEDetail=true, vendorButton=false, vendorFlipMin=500
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0
+
+== Einträge (200, neueste zuerst)
+[21.11. 16:47:10] SYNC ×2 gesendet 727, empfangen 7, verworfen 0 · Kanal verweigert 0
+[21.11. 16:27:10] SYNC gesendet 601, empfangen 7, verworfen 0 · Kanal verweigert 0
+[21.11. 16:17:10] SYNC ×3 gesendet 366, empfangen 0, verworfen 0 · Kanal verweigert 0
+[21.11. 15:56:34] ABSATZ Item 249410 · Q 76 (vollscan) · S 97.2 (measured) · S roh 97.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.8 · N 7.0
+[21.11. 15:51:44] ITEMINFO neue Item-Anfragen 2921 (zurückgestellt 46093) · je Aufgabe: act:report:30 76, cache:itemlist 287, cache:today:10 234, cache:warm 228, cache:warm-today 200, core:realcheck 76, forecast-eval 494, fullscan 173, ma4 12, names 8, pd7 4, sync-sen
+[21.11. 15:47:10] SYNC gesendet 366, empfangen 0, verworfen 0 · Kanal verweigert 0
+[21.11. 15:40:08] ABBRECHEN AUCTION_CANCELED auctionID 0 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:40:08] KAUF-DOPPELT Kauf-Ereignis ohne passende eigene Kaufmeldung (Buchung über die Rechnung)
+[21.11. 15:39:37] LANGSAM Empfänger UI_Buy.lua:1015 von ITEMINFO_LOADED · 509 ms
+[21.11. 15:39:36] LANGSAM Empfänger UI_Buy.lua:1015 von ITEMINFO_LOADED · 988 ms
+[21.11. 15:39:35] ITEMINFO neue Item-Anfragen 2154 (zurückgestellt 12158) · je Aufgabe: act:report:30 75, cache:itemlist 287, cache:today:10 234, cache:warm 228, cache:warm-today 200, core:realcheck 76, forecast-eval 494, fullscan 173, ma4 12, names 8, pd7 4, sync-sen
+[21.11. 15:39:33] ENTZAUBERWERT Item 4239 · eigene Ø aus 766 · 10940 79% × 1.50 à 121, 10938 21% × 1.56 à 135 · brutto 197 · netto 187
+[21.11. 15:39:33] ABSATZ Item 4239 · Q 29 (vollscan) · S 106.6 (measured) · S roh 106.6 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.3 · N 4.0
+[21.11. 15:39:31] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 0 mit belastbarem Marktwert · 0 unter 70 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[21.11. 15:39:30] LANGSAM Empfänger UI_Buy.lua:1015 von ITEMINFO_LOADED · 27 ms
+[21.11. 15:39:25] ENTZAUBERWERT Item 14097 · eigene Ø aus 766 · 10940 79% × 1.50 à 121, 10938 21% × 1.56 à 135 · brutto 197 · netto 187
+[21.11. 15:39:25] ABSATZ Item 14097 · Q 3 (vollscan) · S 5.6 (market, gelernt) · S roh 4.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.7 · N 7.0
+[21.11. 15:39:25] ENTZAUBERWERT Item 4343 · eigene Ø aus 766 · 10940 79% × 1.50 à 121, 10938 21% × 1.56 à 135 · brutto 197 · netto 187
+[21.11. 15:39:25] ABSATZ Item 4343 · Q 3 (vollscan) · S 19.3 (measured) · S roh 19.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.2 · N 3.0
+[21.11. 15:39:25] ENTZAUBERWERT Item 6238 · eigene Ø aus 766 · 10940 79% × 1.50 à 121, 10938 21% × 1.56 à 135 · brutto 197 · netto 187
+[21.11. 15:39:25] ABSATZ Item 6238 · Q 14 (vollscan) · S 11.4 (measured) · S roh 11.4 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.3 · N 7.0
+[21.11. 15:39:25] ENTZAUBERWERT Item 2310 · eigene Ø aus 766 · 10940 79% × 1.50 à 121, 10938 21% × 1.56 à 135 · brutto 197 · netto 187
+[21.11. 15:39:25] ABSATZ Item 2310 · Q 16 (vollscan) · S 25.2 (measured) · S roh 25.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.7 · N 7.0
+[21.11. 15:39:25] ENTZAUBERWERT Item 4309 · eigene Ø aus 766 · 10940 79% × 1.50 à 121, 10938 21% × 1.56 à 135 · brutto 197 · netto 187
+[21.11. 15:39:25] ABSATZ Item 4309 · Q 3 (vollscan) · S 9.2 (measured) · S roh 9.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.4 · N 6.0
+[21.11. 15:39:24] ENTZAUBERWERT Item 2958 · eigene Ø aus 766 · 10940 79% × 1.50 à 121, 10938 21% × 1.56 à 135 · brutto 197 · netto 187
+[21.11. 15:39:24] ABSATZ Item 2958 · Q 6 (vollscan) · S 10.6 (market, gelernt) · S roh 8.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.7 · N 7.0
+[21.11. 15:39:24] ENTZAUBERWERT Item 6240 · eigene Ø aus 766 · 10940 79% × 1.50 à 121, 10938 21% × 1.56 à 135 · brutto 197 · netto 187
+[21.11. 15:39:24] ABSATZ Item 6240 · Q 1 (vollscan) · S 5.6 (market, gelernt) · S roh 4.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.4 · N 5.0
+[21.11. 15:39:07] WAECHTER-HUERDEN ×2 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 0 mit belastbarem Marktwert · 0 unter 70 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[21.11. 15:38:27] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 24 ms bis UI_Main.lua:2025 · 27 ms
+[21.11. 15:38:18] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 0 mit belastbarem Marktwert · 0 unter 70 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[21.11. 15:38:07] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 35 ms
+[21.11. 15:38:07] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 26 ms
+[21.11. 15:37:55] WAECHTER-HUERDEN ×2 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 0 mit belastbarem Marktwert · 0 unter 70 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[21.11. 15:37:10] SYNC gesendet 112, empfangen 0, verworfen 0 · Kanal verweigert 0
+[21.11. 15:36:59] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 0 mit belastbarem Marktwert · 0 unter 70 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[21.11. 15:36:52] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 15 ms bis Comfort.lua:846 · 18 ms
+[21.11. 15:36:51] LANGSAM Empfänger UI_Buy.lua:1015 von ITEMINFO_LOADED · 85 ms
+[21.11. 15:36:51] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 28 ms
+[21.11. 15:36:50] LANGSAM Empfänger UI_Buy.lua:1015 von ITEMINFO_LOADED · 37 ms
+[21.11. 15:36:50] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 156 ms
+[21.11. 15:36:50] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 28 ms
+[21.11. 15:36:49] LANGSAM Hintergrund-Aufgabe core:realcheck · 0 Schritte · längster Schritt 27 ms bis MarketCore.lua:939 · 27 ms
+[21.11. 15:36:49] LANGSAM Empfänger UI_Buy.lua:1015 von ITEMINFO_LOADED · 42 ms
+[21.11. 15:36:49] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 104 ms
+[21.11. 15:36:49] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 27 ms
+[21.11. 15:36:48] LANGSAM Empfänger UI_Buy.lua:1015 von ITEMINFO_LOADED · 45 ms
+[21.11. 15:36:48] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 134 ms
+[21.11. 15:36:48] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 38 ms
+[21.11. 15:36:47] LANGSAM Empfänger UI_Buy.lua:1015 von ITEMINFO_LOADED · 48 ms
+[21.11. 15:36:47] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 103 ms
+[21.11. 15:36:47] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 30 ms
+[21.11. 15:36:47] MATERIAL-PREIS Item 11176 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 15:36:47] MATERIAL-PREIS Item 16202 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 15:36:47] MATERIAL-PREIS Item 11175 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 15:36:47] MATERIAL-PREIS Item 10978 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 15:36:47] MATERIAL-PREIS Item 10939 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 15:36:47] MATERIAL-PREIS Item 11177 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 15:36:47] MATERIAL-PREIS Item 16203 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 15:36:47] MATERIAL-PREIS Item 14344 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 15:36:47] MATERIAL-PREIS Item 10938 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 15:36:47] MATERIAL-PREIS Item 11178 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 15:36:47] MATERIAL-PREIS Item 11139 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 15:36:47] MATERIAL-PREIS Item 11084 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 15:36:47] MATERIAL-PREIS Item 11138 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 15:36:47] MATERIAL-PREIS Item 20725 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 15:36:47] MATERIAL-PREIS Item 10998 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 15:36:47] MATERIAL-PREIS Item 11083 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 15:36:47] MATERIAL-PREIS Item 11137 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 15:36:47] MATERIAL-PREIS Item 11082 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 15:36:47] MATERIAL-PREIS Item 16204 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 15:36:47] MATERIAL-PREIS Item 11174 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 15:36:47] MATERIAL-PREIS Item 11135 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 15:36:47] MATERIAL-PREIS Item 14343 · Quelle ah · Alter 0 Min. · unsicher: Scan 9842 / Marktwert 6299
+[21.11. 15:36:47] MATERIAL-PREIS Item 11134 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 15:36:47] MATERIAL-PREIS Item 10940 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 15:36:47] LANGSAM Empfänger UI_Buy.lua:1015 von ITEMINFO_LOADED · 39 ms
+[21.11. 15:36:46] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 93 ms
+[21.11. 15:36:46] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 25 ms
+[21.11. 15:36:46] LANGSAM Empfänger UI_Buy.lua:1015 von ITEMINFO_LOADED · 100 ms
+[21.11. 15:36:46] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 72 ms
+[21.11. 15:36:45] VOLLSCAN Messung 319246 Auktionen · 6932 Items · Lücke 576 ms (Warten auf Server: Speicherbereinigung nein · Ereignis keins (> 16 ms) · Aufgaben keine · Bild: eigene Arbeit 4 ms (Aufgaben 0, davon Lesen beim Server 0.0, Ereignisse 4 in 4004 Aufrufen, Skripte/Zeitgeber 0) · Rest 572 ms (Spiel/andere Addons) · Item-Antworten 2004 · Speicher 565776 -> 580290 KB (+14514, davon eigener 0 KB) · danach bereinigt 0 KB) · Speicher 677877->622241 KB (tiefster 543082) · GC 46 · Warten auf Server 25227/576; Ereignis-Aufruf 0/1; Einlesen 33255/81; Verdichtung 771/61; Verfolgung V4 8885/53; Preisverlauf+Neuaufbau 2578/157; Nachlauf 0/162 · neu je Schritt Einlesen 127298 · Warten auf Server 118847 · Nachlauf 115570 · Preisverlauf+Neuaufbau 64992 · Verdichtung 64147 (46 Bilder mit Bereinigung nicht zählbar) · davon eigener neuer Speicher 239804 KB · je Aufgabe fullscan 49841 · forecast-eval 3509 · learn:factor 3256 · cache:itemlist 845 · ausserhalb von Aufgaben 182353 · je Schritt Nachlauf 80953 · Einlesen 67144 · Verdichtung 31371 · Verfolgung V4 28647 · Preisverlauf+Neuaufbau 24557, 65 eigene Aufrufe mit Bereinigung nicht zählbar · Takt: 1670 Bilder · längstes 12.3 ms (fullscan bis Vollscan.lua:1543) · über 5/16/40 ms: 103/0/0 · Abgabe nicht möglich 0 · gescheitert 0
+[21.11. 15:36:45] PREIS-ALT nach Scan · letzter Scan Vollscan · Waren im Vollscan 1050 · Hauptmaterialien 11083: 0.0 Std., 10940: 0.0 Std., 11082: 0.0 Std. · 0 frisch geholt
+[21.11. 15:36:45] LANGSAM Empfänger UI_Buy.lua:1015 von ITEMINFO_LOADED · 57 ms
+[21.11. 15:36:44] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 59 ms
+[21.11. 15:36:44] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 21 ms
+[21.11. 15:36:44] LANGSAM Empfänger UI_Buy.lua:1015 von ITEMINFO_LOADED · 33 ms
+[21.11. 15:36:44] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 58 ms
+[21.11. 15:36:44] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 20 ms
+[21.11. 15:36:44] ITEMINFO neue Item-Anfragen 1546 (zurückgestellt 6486) · je Aufgabe: act:report:30 75, cache:itemlist 1, cache:warm 228, cache:warm-today 200, forecast-eval 494, fullscan 173, ma4 12, names 1, pd7 4, watcher:round 358
+[21.11. 15:36:43] LANGSAM Empfänger UI_Buy.lua:1015 von ITEMINFO_LOADED · 26 ms
+[21.11. 15:36:43] ABSATZ-UNPLAUSIBEL Item 11370 · 694.2/Tag · Quelle geschätzt
+[21.11. 15:36:43] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 49 ms
+[21.11. 15:36:43] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 19 ms
+[21.11. 15:36:43] LANGSAM Empfänger UI_Buy.lua:1015 von ITEMINFO_LOADED · 42 ms
+[21.11. 15:36:42] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 37 ms
+[21.11. 15:36:42] LANGSAM Empfänger UI_Buy.lua:1015 von ITEMINFO_LOADED · 35 ms
+[21.11. 15:36:41] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 29 ms
+[21.11. 15:36:41] LANGSAM Empfänger UI_Buy.lua:1015 von ITEMINFO_LOADED · 28 ms
+[21.11. 15:36:41] LANGSAM Empfänger Buy.lua:1111 von BROWSE_RESULTS · 21 ms
+[21.11. 15:36:41] LANGSAM Empfänger UI_Buy.lua:1003 von BUY_CHANGED · 21 ms
+[21.11. 15:36:38] LANGSAM Empfänger UI_Buy.lua:1015 von ITEMINFO_LOADED · 19 ms
+[21.11. 15:36:31] VOLLSCAN M1d 319246 Auktionen gelesen (319241 gültig) · 3495 ms in 1115 Portionen · längster Frame 3.6 ms · 6932 Items
+[21.11. 15:36:25] LANGSAM Empfänger UI_Buy.lua:1015 von ITEMINFO_LOADED · 18 ms
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198180114 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198179995 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198179853 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198179530 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198179383 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198179374 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198179240 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198179065 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198179037 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198178956 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198178933 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198178907 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198178875 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198178862 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198178816 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198178724 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198178704 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198178642 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198178403 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198178331 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198178247 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198178240 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198178216 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198178152 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198178077 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198177981 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198177968 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198177898 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198177868 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198177838 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198177708 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198177658 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198177636 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198177607 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198177596 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198177457 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198177361 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198177288 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198177229 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198177226 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198177211 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198177172 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198177075 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198176952 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198176934 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198176919 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198176723 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198176677 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198176607 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198176594 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198176569 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198176134 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198175925 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198175913 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198175857 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198175837 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198175811 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198175786 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198175525 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198175463 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198175299 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198175277 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198175242 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198175006 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198174985 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198174910 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198174652 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:08] ABBRECHEN AUCTION_CANCELED auctionID 198174641 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 15:36:05] LANGSAM Empfänger UI_Buy.lua:1015 von ITEMINFO_LOADED · 20 ms
+[21.11. 15:35:56] ENTZAUBERWERT Item 4246 · Tabelle · 10940 83% × 2.46 à 167, 10939 13% × 1.50 à 392, 10978 3% × 1.00 à 392 · brutto 452 · netto 429
+[21.11. 15:35:56] ABSATZ Item 4246 · Q 86 (vollscan) · S 86.7 (measured) · S roh 86.7 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.0 · N 7.0
+[21.11. 15:35:56] ENTZAUBERWERT Item 2984 · Tabelle · 10940 83% × 2.46 à 167, 10939 13% × 1.50 à 392, 10978 3% × 1.00 à 392 · brutto 452 · netto 429
+[21.11. 15:35:56] ABSATZ Item 2984 · Q 71 (scan, Q gesamt) · S 23.2 (market, gelernt) · S roh 17.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 3.1 · N 7.0
+[21.11. 15:35:56] ENTZAUBERWERT Item 4312 · Tabelle · 10940 83% × 2.46 à 167, 10939 13% × 1.50 à 392, 10978 3% × 1.00 à 392 · brutto 452 · netto 429
+[21.11. 15:35:56] ABSATZ Item 4312 · Q 28 (vollscan) · S 9.9 (measured) · S roh 9.9 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 2.9 · N 7.0
+[21.11. 15:35:56] ENTZAUBERWERT Item 15309 · eigene Ø aus 766 · 10940 79% × 1.50 à 167, 10938 21% × 1.56 à 147 · brutto 259 · netto 246
+[21.11. 15:35:56] ABSATZ Item 15309 · Q 15 (scan, Q gesamt) · S 10.6 (market, gelernt) · S roh 8.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.5 · N 7.0
+[21.11. 15:35:56] ENTZAUBERWERT Item 2854 · Tabelle · 10940 83% × 2.46 à 167, 10939 13% × 1.50 à 392, 10978 3% × 1.00 à 392 · brutto 452 · netto 429
+[21.11. 15:35:56] DE-CHANCEN Gruppe 2:2:a · Tabelle 10940 75%/10939 20%/10978 5% · echt 10940 100%/10939 -/10978 - (5)
+[21.11. 15:35:56] ABSATZ Item 2854 · Q 166 (vollscan) · S 18.9 (measured) · S roh 18.9 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 8.8 · N 7.0 · kaum
+[21.11. 15:35:56] ENTZAUBERWERT Item 4237 · eigene Ø aus 766 · 10940 79% × 1.50 à 167, 10938 21% × 1.56 à 147 · brutto 259 · netto 246
+[21.11. 15:35:56] ABSATZ Item 4237 · Q 53 (scan, Q gesamt) · S 9.9 (measured) · S roh 9.9 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 5.5 · N 7.0
+[21.11. 15:35:56] ENTZAUBERWERT Item 6512 · eigene Ø aus 766 · 10940 79% × 1.50 à 167, 10938 21% × 1.56 à 147 · brutto 259 · netto 246
+[21.11. 15:35:56] ABSATZ Item 6512 · Q 18 (scan, Q gesamt) · S 1.3 (market, gelernt) · S roh 1.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 14.3 · N 7.0 · kaum
+[21.11. 15:35:56] ENTZAUBERWERT Item 6527 · eigene Ø aus 766 · 10940 79% × 1.50 à 167, 10938 21% × 1.56 à 147 · brutto 259 · netto 246
+[21.11. 15:35:56] ABSATZ Item 6527 · Q 36 (scan, Q gesamt) · S 6.6 (market, gelernt) · S roh 5.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 5.6 · N 7.0
+[21.11. 15:35:56] ENTZAUBERWERT Item 4308 · eigene Ø aus 766 · 10940 79% × 1.50 à 167, 10938 21% × 1.56 à 147 · brutto 259 · netto 246
+[21.11. 15:35:56] ABSATZ Item 4308 · Q 70 (scan, Q gesamt) · S 35.8 (measured) · S roh 35.8 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 2.0 · N 7.0
+[21.11. 15:35:56] ENTZAUBERWERT Item 14365 · eigene Ø aus 766 · 10940 79% × 1.50 à 167, 10938 21% × 1.56 à 147 · brutto 259 · netto 246
+[21.11. 15:35:56] ABSATZ Item 14365 · Q 55 (scan, Q gesamt) · S 24.6 (market, gelernt) · S roh 18.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 2.3 · N 7.0
+[21.11. 15:35:56] ENTZAUBERWERT Item 3308 · eigene Ø aus 766 · 10940 79% × 1.50 à 167, 10938 21% × 1.56 à 147 · brutto 259 · netto 246
+[21.11. 15:35:56] ABSATZ Item 3308 · Q 38 (scan, Q gesamt) · S 5.3 (market, gelernt) · S roh 4.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 7.3 · N 7.0 · kaum
+[21.11. 15:35:56] ENTZAUBERWERT Item 10047 · eigene Ø aus 766 · 10940 79% × 1.50 à 167, 10938 21% × 1.56 à 147 · brutto 259 · netto 246
+[21.11. 15:35:56] ABSATZ Item 10047 · Q 136 (vollscan) · S 66.2 (measured) · S roh 66.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 2.1 · N 7.0
+[21.11. 15:35:53] ABBRECHEN AUCTION_CANCELED auctionID 194229175 (erwartet nil) -> unerwartet, nichts geändert

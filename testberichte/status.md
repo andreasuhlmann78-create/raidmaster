@@ -1,6 +1,6 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-21 15:26 UTC
+Ausgewertet: 2026-11-21 16:24 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
@@ -18,20 +18,20 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 199 | `testberichte/diagnose/AHSentinel/0.65.360-a6cf3b15da03.txt` |
-| BuffSentinel | 97 | `testberichte/diagnose/BuffSentinel/0.9.60-fb522145c40a.txt` |
+| AHSentinel | 200 | `testberichte/diagnose/AHSentinel/0.65.360-a6cf3b15da03.txt` |
+| BuffSentinel | 98 | `testberichte/diagnose/BuffSentinel/0.9.60-fb522145c40a.txt` |
 | GSMesstest | 20 | `testberichte/diagnose/GSMesstest/5.1-f65d607ab777.txt` |
-| GSSniperLog | 34 | `testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt` |
-| GuildSentinel | 211 | `testberichte/diagnose/GuildSentinel/0.9.58-e52bcbc311ff.txt` |
-| LevelPilot | 104 | `testberichte/diagnose/LevelPilot/3.13.6-ff90860598d3.txt` |
-| ProfessionSentinel | 190 | `testberichte/diagnose/ProfessionSentinel/0.9.74-ff706b85d2e7.txt` |
-| ThreatSentinel | 179 | `testberichte/diagnose/ThreatSentinel/2.5.23-ee663a070dfa.txt` |
+| GSSniperLog | 35 | `testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt` |
+| GuildSentinel | 212 | `testberichte/diagnose/GuildSentinel/0.9.58-e52bcbc311ff.txt` |
+| LevelPilot | 105 | `testberichte/diagnose/LevelPilot/3.13.6-ff90860598d3.txt` |
+| ProfessionSentinel | 191 | `testberichte/diagnose/ProfessionSentinel/0.9.74-ff706b85d2e7.txt` |
+| ThreatSentinel | 180 | `testberichte/diagnose/ThreatSentinel/2.5.23-ee663a070dfa.txt` |
 
 ## Wegdaten (GSWEGE1)
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| LevelPilot | 277 | `testberichte/wege/LevelPilot/LevelPilot-wege-1795273818-433f1e.json` |
+| LevelPilot | 278 | `testberichte/wege/LevelPilot/LevelPilot-wege-1795276132-709886.json` |
 
 ## AHSentinel
 
