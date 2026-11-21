@@ -1,0 +1,21 @@
+forever 1.60.1 71037|16001|2026-11-21 15:31
+ProfessionSentinel 0.9.32 – Diagnose-Protokoll · 21.11.2026 15:31
+Client forever 1.60.1 (71037) · Interface 16001 · Sprache deDE
+Sitzungen: 80 (seit 06.11.2026)
+Geänderte Einstellungen: minimapAngle=11.201885831801, panelMode=trainers, panelOpen=false
+
+== Diagnose
+  Preisquelle: AHSentinel
+  Panel offen: nein
+  Angedockt an: –
+  Neuaufbauten: 56 angefragt, 35 ausgeführt
+  Lua-Fehler des Addons seit dem letzten Bericht: 0
+  Berichte, die noch gemeldet werden: 0
+
+== Einträge (6, neueste zuerst, höchstens 200)
+[21.11. 14:18:04] AUFBAU ×461 TRADE_SKILL_SHOW · 1500 Anfragen · 15.4 ms
+[21.11. 13:02:52] AUFBAU ×213 Scan · 214 Anfragen · 6.9 ms
+[10.11. 10:02:39] AUFBAU Herstellen fertig · 1 Anfragen · 0.1 ms
+[09.11. 17:00:49] AUFBAU ×779 TRADE_SKILL_LIST_UPDATE · 1110 Anfragen · 12.9 ms
+[08.11. 19:35:52] AUFBAU ×2 TRADE_SKILL_DATA_SOURCE_CHANGED · 6 Anfragen · 0.5 ms
+[08.11. 19:09:53] LANGSAM ×2 UI:Refresh · 19.5 ms

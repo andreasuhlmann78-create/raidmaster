@@ -1,9 +1,9 @@
 {
- "ausgewertet": "2026-11-21T14:29:16Z",
+ "ausgewertet": "2026-11-21T15:26:11Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
-   "berichte": 131,
+   "berichte": 132,
    "letzter_test": {
     "id": "AHSentinel-1795203363-5bd747-1",
     "version": "0.65.355",
@@ -34,6 +34,20 @@
       "forever 1.60.1 (Interface 16001)"
      ],
      "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:407: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:400>\n[C]: ?\n[C]: ?\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/Seller.lua]:983: in function <Interface/AddOns/AHSentinel/Seller.lua:908>\n..."
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "spiel",
+     "wo": "ADDON_ACTION_FORBIDDEN",
+     "msg": "UNKNOWN()",
+     "anzahl": 4,
+     "versionen": [
+      "0.65.354"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": null
     },
     {
      "addon": "AHSentinel",
@@ -388,6 +402,20 @@
   {
    "addon": "AHSentinel",
    "art": "spiel",
+   "wo": "ADDON_ACTION_FORBIDDEN",
+   "msg": "UNKNOWN()",
+   "anzahl": 4,
+   "versionen": [
+    "0.65.354"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": null
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "spiel",
    "wo": "Lua",
    "msg": "Interface/AddOns/AHSentinel/UI_Main.lua:1303: script ran too long",
    "anzahl": 1,
@@ -619,7 +647,7 @@
     "neueste": "testberichte/diagnose/AHSentinel/0.65.360-a6cf3b15da03.txt"
    },
    "BuffSentinel": {
-    "anzahl": 95,
+    "anzahl": 97,
     "neueste": "testberichte/diagnose/BuffSentinel/0.9.60-fb522145c40a.txt"
    },
    "GSMesstest": {
@@ -631,15 +659,15 @@
     "neueste": "testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt"
    },
    "GuildSentinel": {
-    "anzahl": 209,
+    "anzahl": 211,
     "neueste": "testberichte/diagnose/GuildSentinel/0.9.58-e52bcbc311ff.txt"
    },
    "LevelPilot": {
-    "anzahl": 102,
+    "anzahl": 104,
     "neueste": "testberichte/diagnose/LevelPilot/3.13.6-ff90860598d3.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 188,
+    "anzahl": 190,
     "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.74-ff706b85d2e7.txt"
    },
    "ThreatSentinel": {
@@ -649,8 +677,8 @@
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 275,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1795269418-85583b.json"
+    "anzahl": 277,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1795273818-433f1e.json"
    }
   }
  }
