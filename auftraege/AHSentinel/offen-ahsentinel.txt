@@ -5847,3 +5847,12 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     Teil-Scan · alte Version/anderer Markt-Tag · Markt hat sich bewegt (Zeitabstand) · Stapel- statt Stückpreis · andere Variante ·
     unbekannt. "unbekannt" nie stehen lassen: Fälle im Bericht zeigen. Auswertung im Protokoll (/ahs protokoll) und als Abschnitt im
     Bericht: Anzahl je Ursache, 5 Beispiele. Findet sich ein Fehler bei uns (z. B. Stapelpreis), wird er behoben, nicht nur verworfen.
+
+>>> AUFTRAG 21.11. 19:48 (Nutzer 19:46 "der Sniper braucht ~3 s, bis er wieder sucht – normal?", 19:47 "ja bitte") – MESSEN, nächste Version
+ SN-T1 Je Sniper-Suche protokollieren (Diag "SNIPER-TAKT", ohne Namen): Zeit seit der letzten Suche und WER gewartet hat:
+       (a) Server nicht bereit (IsThrottledMessageSystemReady=false, Dauer bis "bereit"), (b) eigene Wartezeit NAME_WAIT (S5),
+       (c) eigene Bremse nach Fehler (pace-Abstand, Fehlerart), (d) Intervall-Einstellung, (e) Warten auf Antwort des Servers.
+ SN-T2 Auswertung im Protokoll (/ahs protokoll) und im Bericht: über ≥ 100 Suchen Median/Min/Max der Abstände je Grund.
+       Ziel: belegen, ob die ~3 s vom Server kommen (nicht änderbar) oder von AHS (dann Vorschlag mit Zahlen, wie es schneller geht,
+       ohne Fehler/Sperren – keine Änderung ohne Auftrag).
+ SN-T3 Nichts am Takt ändern, nur messen. Test: jede Suche erzeugt genau eine SNIPER-TAKT-Zeile mit Grund.
