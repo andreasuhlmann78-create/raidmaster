@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 21.11. 18:28 | G10: nur ein Wert, je Item-Gruppe Umstellung auf echte Verkäufe ab 30 Fällen. G12: kein Gilden-Preisabgleich, Hinweis entfernen. | offen-ahsentinel ENTSCHEID 18:28. |
 | 21.11. 16:21 | Daten aller Addons richtig zusammenführen: Gemeinschaftsdaten (Gilde/Server/Markt) nie nach Realm-Namen trennen; Charakter-Schlüssel bleiben. | Aufträge 16:30 an GS, PS (umstellen) und BS, TS, LP, RM (prüfen). |
 | 21.11. 16:12 | Gemeinsamer Markt (Horde/Allianz/Neutral) und Ergänzung durch Gilden-Daten zu anderen Zeiten – heute noch. | offen-ahsentinel AUFTRAG HEUTE 16:25 (G1–G9). |
 | 21.11. 16:08 | Das Auktionshaus ist für alle Spieler dasselbe (unabhängig vom Realm-Namen). Keine Vermutungen mehr. | AHS M7: ein Markt je Fraktion, Sync für alle (Montag). |

@@ -5796,3 +5796,10 @@ G17 GEBÜHREN UND HÄNDLERPREISE: Rechnungen aller (verdichtet, ohne Namen) zum 
 steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutzer es will.)
 
 >>> ENTSCHEID 21.11. 18:26 zu G16 (Nutzer "ok"): Ein-Anbieter-Erkennung nicht bauen (AH in Forever liefert keine Verkäufer, Ableitung aus Preismuster wäre geschätzt). Wird am Montag Messauftrag unter P3. G10-Eichung und G12 "gleicher Preis": Entscheid des Nutzers offen – bis dahin wie gebaut (beide Werte zeigen / nur Hinweis).
+
+>>> ENTSCHEID 21.11. 18:28 (Nutzer) zu G10 und G12 – umsetzen in der nächsten Version, nur Discord:
+ G10 Eichung: NUR EIN Wert sichtbar (kein Nebeneinander "gemessen"/"aus echten Verkäufen"). Je Item-Gruppe rechnet AHS wie heute, bis
+     ≥ 30 echte Fälle (Post-Scan, Gilde verdichtet) vorliegen; dann stellt genau diese Gruppe auf den Wert aus echten Verkäufen um.
+     Bericht: je umgestellter Gruppe 5 echte Items vorher/nachher (Verkaufschance, Vorschlag, Lohnt-bis). Test: 29 Fälle -> alt, 30 -> neu.
+ G12 NEIN: kein "gleicher Preis wie Gildenmitglied". Nutzer: "sinnlos". Auch den Hinweis "Gildenmitglied bietet hier zu x" aus 0.65.368
+     wieder entfernen (Code, Locales, Tests), Vorschlag V1 unverändert.
