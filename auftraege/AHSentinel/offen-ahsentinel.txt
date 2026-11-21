@@ -5597,3 +5597,15 @@ Neuaufbau; Laden hängt -> nach Zeitlimit Hinweis statt Dauer-"geladen".
     1. P8 (Preisprüfung 0 Angebote -> kein Preis, Gold)  2. P9 (Marktwert 19s belegen / "nicht bekannt")  3. P10 (Warnung VOR dem
     Einstellen)  4. P4 (ein Kaufwert je Item)  5. P5 ("Stufe ?" -> kein Kaufhinweis)  6. P1 + P11 (Faktoren ungerundet, Zeilen exakt).
     MONTAG 23.11.: P2, P3, P6, P7, P12 und alles andere. Danach addon_check, nur Discord, Tests bauen, nicht laufen lassen, Bericht.
+
+>>> AUFTRAG 21.11. 14:58 (Nutzer 14:57 "AH-Post abholen soll nicht nur AH-Post abholen, sondern alles"; 14:58 "wichtig, gleich nach den
+    anderen Punkten") – Punkt 7 der Reihenfolge aus ENTSCHEID 14:53, direkt nach P1/P11, in derselben Version:
+    Befund im Code (Mailer.lua): automatisches Abholen beim Öffnen des Briefkastens (M:TryAuto) ruft M:Start(true) = nur Auktionspost und
+    startet nur bei M:HasAHMail(). Der Knopf "AH-Post abholen" ebenfalls nur AH; "Alles abholen" gibt es als zweiten Knopf.
+    Soll: Abholen holt ALLE Post mit Gold oder Gegenständen (Auktionen, Händler, Spieler, Rücksendungen, abgelaufene) – automatisch beim
+    Öffnen und per Knopf. EIN Knopf "Post abholen" (alle Sprachen); Tooltip sagt "Holt alle Post mit Gold und Gegenständen. Nachnahme
+    wird nie bezahlt." Bleibt: Nachnahme (COD) wird NIE bezahlt und nie angefasst; Briefe nur mit Text bleiben liegen (nicht löschen);
+    volle Taschen -> anhalten mit Meldung; Auktions-Rechnungen werden vorher für die Buchhaltung gelesen wie bisher (Buchhaltung darf
+    durch fremde Post nicht verfälscht werden: Spieler-/Händler-Post nicht als Auktionsverkauf buchen). Shift beim Öffnen = kein Auto.
+    Tests (gebaut, nicht laufen lassen): nur Spieler-Post mit Gold -> wird abgeholt; COD -> bleibt, kein Gold weg; Textbrief -> bleibt;
+    AH-Verkauf -> Buchhaltung wie bisher; Spieler-Gold -> nicht als Verkauf gebucht; volle Taschen -> Halt.
