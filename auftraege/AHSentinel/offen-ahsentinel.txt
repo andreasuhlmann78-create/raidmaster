@@ -5499,3 +5499,9 @@ V1f MITTEL (Nutzer 08:43): Entzauber-Vorschläge, -Gewinne und -Zeilen erscheine
 V1f KORREKTUR (Nutzer 08:44): Im Tooltip DÜRFEN die Entzauber-Angaben für alle stehen bleiben (Information). Abgleich mit dem Beruf des Charakters nur für die FUNKTIONEN: Entzauber-Vorschläge beim Verkaufen ("Entzaubern: +x mehr"), Kauf-zum-Entzaubern (Schnäppchen, Sniper-Ziele aus Entzauberwert, Hinweis "x Teile mit über 30 %"), Entzaubern-Fenster/Knopf, "Lohnt bis" über den Weg Entzaubern. Ohne Verzauberkunst (oder Stufe zu tief) diese Funktionen aus bzw. nicht als Weg werten.
 V1f ERGÄNZUNG (Nutzer 08:45/08:46): Hat dieser Charakter keine Verzauberkunst, aber ein anderer Charakter auf dem Konto (AHS kennt die Charaktere), dann Funktionen nicht abschalten, sondern als Weg anbieten: "Entzaubern über deinen Twink: +2s 71c" (ohne Stufe anzeigen; Stufe trotzdem intern prüfen). Nur wenn KEIN Charakter auf dem Konto Verzauberkunst hat, fallen die Entzauber-Funktionen weg.
 V1f KORREKTUR 2 (Nutzer 08:47): (a) In WoW Forever kann man mit Verzauberkunst ab Skill 1 ALLES entzaubern – keine Stufen-Prüfung auf Forever (Spielversion abfragen; Era/TBC wie dort üblich). (b) Fallen Entzauber-Funktionen weg, zeigt AHS stattdessen Informationen/Vorschläge zu den Berufen, die der Charakter (bzw. Twinks) wirklich hat.
+
+>>> NACHTRAG 21.11. 09:30 (Supervisor) zu V1b/V1c: Die Screenshots 08:38 zeigen bereits v0.65.358 – V1a–V1f gelten GEGEN 0.65.358.
+    Ursache V1b (Kapuze 14s statt 14s58) und V1c (Silberrute 1s statt 7c, Händlerpreis 1s25): eure Regel aus dem Bericht 09:15
+    "Einzelstücke (nur ganze Silber, F2), mindestens 1s". Kein Entscheid des Nutzers dazu (nicht in entscheide.md). V1 gilt ohne
+    Ausnahme: günstigster fremder Preis (1–5 Stück übersprungen) minus 1c, unter 20c gleicher Preis. "Nur ganze Silber" und
+    "mindestens 1s" für V1 entfernen. Händlerpreis nur als Hinweis (nie bevormunden).
