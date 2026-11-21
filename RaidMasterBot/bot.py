@@ -467,6 +467,7 @@ from upload_bot import (  # noqa: E402
 import einrichten_bot  # noqa: E402,F401 – D-3 Schritt 35: Server-Einrichtung (meldet /raidmaster-einrichten an)
 import abwesend_bot  # noqa: E402,F401 – D-N1 (1.5.184): Abwesenheit (meldet /abwesend an)
 from wiederkehrend_bot import recurring_loop  # noqa: E402 – D-N1 W3 (1.5.186): /raid wiederkehrend, Schleife
+import datenversand_bot  # noqa: E402,F401 – Auftrag 21.11. (1.5.187): /uploader-daten-senden
 
 # ---------------------------------------------------------------------------
 # Hilfen

@@ -40,6 +40,7 @@ COMMAND_INFO = {
     "raid wiederkehrend liste": ("Gildenleitung", "Raids"),
     "raid wiederkehrend pausieren": ("Gildenleitung", "Raids"),
     "raid wiederkehrend loeschen": ("Gildenleitung", "Raids"),
+    "uploader-daten-senden": ("Gildenchef", "Server"),
     "pug-einladung": ("Gildenleitung", "Raids"),
     "einladung": ("Gildenleitung", "Server"),
     "mitgliederbereich einrichten": ("Gildenleitung", "Server"),
