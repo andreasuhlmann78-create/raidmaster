@@ -5892,3 +5892,13 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     Funktionen darauf ersetzt (nur hooksecurefunc/Callback erlaubt), (b) Nachbau: Rezept wählen/herstellen mit nur EINEM Addon aktiv
     (Testroutine bzw. Anleitung für den Nutzer: /reload mit nur PS, dann nur AHS), (c) Fehler weg? -> welcher Teil. Keine Änderung an
     Blizzard-Rahmen; was man nicht beweisen kann, als "Verdacht, zu messen" melden.
+
+>>> BEFUND FÜR MONTAG 23.11. (Nutzer 21.11. 21:05 "AHS muss merken, wann man isst oder trinkt, um Leben/Mana zurückzubekommen"; Bild nicht im Repo)
+ BK-ESS Chat: "Buchhaltung: 1× Langzahniger Matschschnapper sind nicht mehr da (Taschen, Bank, Briefkasten, Auktionen) – als Fehlbestand
+    ausgebucht (Einstand 12c …)". Das Item wurde GEGESSEN. Soll: Verbrauch durch Essen/Trinken (auch Tränke, Verbände, Bufffood,
+    Quest-Verbrauch durch Benutzen) erkennen und als "Eigenverbrauch" buchen (Einstand -> Verbrauch, kein Fehlbestand, keine Fehlbestand-
+    Meldung). Erkennung belegen, nicht raten: Taschen-Abgang desselben Items im selben Moment wie UNIT_SPELLCAST_SUCCEEDED("player") bzw.
+    Aura "Essen"/"Trinken"/"Erfrischung" (Zeitfenster ≤ 2 s, gleiche Menge). Nur wenn das nicht passt: Fehlbestand wie bisher.
+    Buchhaltung (buchhaltung.md): Eigenverbrauch mindert den Lagerwert, ist kein Handelsverlust; im Reiter Buchhaltung eigene Zeile
+    "Verbraucht (essen/trinken/benutzen)". Tests: essen -> Eigenverbrauch; verkaufen beim Händler -> Händlerverkauf; Item zerstören ->
+    Fehlbestand; zwei Items gleichzeitig -> richtige Zuordnung.
