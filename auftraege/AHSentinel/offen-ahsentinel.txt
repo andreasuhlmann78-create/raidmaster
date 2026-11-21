@@ -5509,3 +5509,36 @@ V1f KORREKTUR 2 (Nutzer 08:47): (a) In WoW Forever kann man mit Verzauberkunst a
 >>> ENTSCHEID 21.11. 08:54 (Nutzer): JETZT NUR V1a–V1f (Befund 08:45 inkl. Korrekturen, Twink, Forever ab Skill 1, NACHTRAG 09:30
     "ganze Silber" weg). Danach addon_check, NUR Discord (CurseForge nicht), sauber beenden, Bericht. Tests bauen, nicht laufen
     lassen (Nutzer testet ingame). ALLES ANDERE bleibt liegen bis Montag 23.11. (auch die Fragen aus eurem Bericht 09:15).
+
+==== AUFTRAG TOOLTIP 21.11.2026 09:20 (Nutzer 09:20 "Auftrag schreiben nur für den Tooltip") ====
+Reihenfolge: direkt nach V1a–V1f (0.65.359). Alles andere bleibt bis Montag liegen (ENTSCHEID 08:54). Nur Discord, CurseForge nicht.
+Tests bauen, nicht laufen lassen (Nutzer testet ingame). Dieser Auftrag FASST ZUSAMMEN und ERSETZT für den Tooltip: AUFTRAG TOOLTIP
+ENTZAUBERN 20.11. 13:35 Punkt 1–3, ÄNDERUNG 13:40, NACHTRAG 13:50, K3/K15/K21 (soweit Tooltip). Die MIN-Regel (Punkt 4) gilt NICHT.
+
+Soll-Bild (Item-Tooltip, Beispiel Kupferne Kettenhose, Zahlen nur Beispiel):
+     AHSentinel
+     Gewinn 72c                              grün, etwas grösser (nicht riesig)
+     Marktwert (Median 14 Tage)    1s 54c
+     Marktwert (Scan 13:16)        1s 71c    (ersetzt die Zeile "Verkaufen"; Uhrzeit = Zeit des Scans)
+     Materialien        Vorgabe    Ø      Preis
+     1–2 Seltsamer Staub  80 %     79 %   1s 24c
+     1–2 Geringe Essenz   20 %     21 %   3s 48c
+     Essenz-Preis seit dem letzten Scan gestiegen     (gelb, eigene Zeile)
+
+TT1 Gewinn = REALER Wert, dieselbe Zahl wie in der Schnäppchen-Liste und im Sniper (EIN Wert je Item, K15): eigene Entzauber-Anteile
+    (Vorgabe nur, wenn zu wenig eigene), Materialpreise aus dem letzten Scan (günstigstes fremdes Angebot), minus 5 % Gebühr (abgerundet)
+    und Einzahlungsrisiko, minus Kaufpreis. KEIN Abzug "Unterbieten" (§3, K21). Ohne "Ø"-Zeichen und ohne Anzahl (kein "765").
+TT2 Beim Darüberfahren über den Gewinn die Rechnung, JEDE Zeile einzeln, Summe geht EXAKT auf (heute: 2s62 − 1s79 = 83c, gezeigt 72c –
+    Differenz mit Zeilen belegen, z. B. "Gebühr 5 % −xc", "Einzahlungsrisiko −yc"). Kein Shift nötig. Kein Theorie-Text.
+TT3 Marktwert unsicher (A:GetMarketValue: < 3 Preise in 14 Tagen -> nimmt die 3 neuesten egal wie alt): Zeile "Marktwert  nicht bekannt",
+    Hover "Zu wenig Preise in den letzten 14 Tagen (nur n, ältester vom TT.MM.)". Ein solcher Wert rechnet NIRGENDS mit (Vorschlag,
+    Warnung, Gewinn).
+TT4 Scan älter als 30 Min.: im Tooltip "Scan alt – Preis vom hh:mm", keine Kaufhinweise mit Rendite.
+TT5 "…-Preis seit dem letzten Scan gestiegen": am Abstand der Scans messen, nicht an der Uhr (kein "seit 1 Std.", wenn Scans Stunden
+    auseinander lagen).
+TT6 Darstellung: Vorgabe-Werte in der Farbe der Beschriftung "Vorgabe"; Beschriftungen hellgrau statt dunkelgrau; Ø und Preise weiss,
+    rechtsbündig untereinander, kein Versatz; Prozent nur mit Bezug.
+TT7 [Preisverlauf 7 Tage] NICHT im Tooltip (Nutzer 21.11. 09:18). Im Fenster und überall sonst bleibt er.
+Tests (gebaut, nicht laufen lassen): TT2 Summe = Gewinn auf den Kupfer; TT3 2 Preise alt -> "nicht bekannt" und Gewinn ohne diesen Wert;
+TT4 Scan 31 Min. -> "Scan alt", kein Kaufhinweis; TT5 Scan-Abstand 18 Std. -> kein "seit 1 Std."; TT7 kein Preisverlauf im Tooltip.
+Bericht: Bildschirm-Text des Tooltips der Kettenhose mit echten Zahlen und die Zeilen der Rechnung.
