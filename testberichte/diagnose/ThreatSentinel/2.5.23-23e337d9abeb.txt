@@ -1,0 +1,228 @@
+ThreatSentinel-Protokoll v2.5.23 · 21.11. 21:47
+Client deDE · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  21.11. 18:36 L39 PRIEST forever v2.5.23
+  21.11. 18:12 L39 PRIEST forever v2.5.23
+  21.11. 14:48 L39 PRIEST forever v2.5.23
+  21.11. 11:52 L39 PRIEST forever v2.5.23
+  21.11. 11:38 L39 PRIEST forever v2.5.23
+  21.11. 11:30 L39 PRIEST forever v2.5.23
+  21.11. 10:55 L39 PRIEST forever v2.5.6
+  21.11. 00:42 L39 PRIEST forever v2.5.6
+  20.11. 23:01 L38 PRIEST forever v2.5.6
+  20.11. 22:09 L38 PRIEST forever v2.5.6
+
+== Diagnose
+  Fehler in dieser Sitzung: 0
+  Bedrohung: secret · Modus DISPLAY · gespeichert secret 2026-11-21 21:40 1.60.1 (71037)
+  Rolle HEALER · Tankhaltung false · Gruppe 2 Spieler + 0 Begleiter · Spott nein (nil)
+  Funktionen: threatValues=fallback combatlog=fallback guid=ok sync=ok
+  Gesperrte Aktionen: 0
+  Leistung im letzten Kampf: Kampf: längster Rahmen durch ThreatSentinel 0.1 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 231 Rahmen
+  Sync (Gruppe/Schlachtzug): gesendet 452, empfangen 391, nachgeholt 51, ohne Gruppe 0, verworfen 0
+  SYNC GoldSentinelSync 3 · Wege: GUILD+PARTY · Mitspieler (1 Std.): AHSentinel 8, BuffSentinel 8, GoldSentinelMarkt 8, GoldSentinelTest 6, GuildSentinel 8, LevelPilot 8, LevelPilotG 8, ThreatSentinel 6
+  SYNC gesendet 24378 · empfangen 14024 · verworfen: duplicate 1159 · Warteschlange 42 · Kanal verweigert 0
+  NETZ an · bekannt 7 (mit Sync 2: 6, pausiert 4) · gesendet 62 · weitergegeben 0 · offline 42 · Listen 40 · Warteschlange 0 · gespeichert ja · im Test angehalten 0
+  MARKT-NETZ: v10, an, mitgelesene Scans 1, gesendet 772 / empfangen 667, Speicher 0 KB
+
+== Einträge (200, neueste zuerst)
+[21.11. 21:46] SYNC gesendet 447, empfangen 384, nachgeholt 51, ohne Gruppe 0, verworfen 0
+[21.11. 21:40] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.1 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 231 Rahmen
+[21.11. 21:40] LESBAR-PLAKETTEN Plaketten 1 (im Kampf 1) · du: isTanking lesbar 0/1, Stufe lesbar 0/1, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/1, Stufe lesbar 0/1
+[21.11. 21:40] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 21:39] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.6 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 793 Rahmen
+[21.11. 21:39] LESBAR-PLAKETTEN Plaketten 1 (im Kampf 1) · du: isTanking lesbar 0/1, Stufe lesbar 0/1, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/1, Stufe lesbar 0/1
+[21.11. 21:39] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[21.11. 21:39] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 21:38] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.5 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 1930 Rahmen
+[21.11. 21:37] LESBAR-PLAKETTEN Plaketten 1 (im Kampf 1) · du: isTanking lesbar 0/1, Stufe lesbar 0/1, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/1, Stufe lesbar 0/1
+[21.11. 21:37] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[21.11. 21:37] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 21:37] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.5 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 745 Rahmen
+[21.11. 21:36] LESBAR-PLAKETTEN Plaketten 3 (im Kampf 3) · du: isTanking lesbar 0/3, Stufe lesbar 0/3, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/3, Stufe lesbar 0/3
+[21.11. 21:36] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[21.11. 21:36] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 21:36] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.5 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 1004 Rahmen
+[21.11. 21:36] SYNC gesendet 413, empfangen 355, nachgeholt 47, ohne Gruppe 0, verworfen 0
+[21.11. 21:35] LESBAR-PLAKETTEN Plaketten 4 (im Kampf 4) · du: isTanking lesbar 0/4, Stufe lesbar 0/4, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/4, Stufe lesbar 0/4
+[21.11. 21:35] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[21.11. 21:35] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 21:35] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.4 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 830 Rahmen
+[21.11. 21:35] LESBAR-PLAKETTEN Plaketten 11 (im Kampf 4) · du: isTanking lesbar 0/11, Stufe lesbar 0/11, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/11, Stufe lesbar 0/11
+[21.11. 21:35] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[21.11. 21:35] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 21:34] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.2 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 160 Rahmen
+[21.11. 21:34] LESBAR-PLAKETTEN Plaketten 1 (im Kampf 1) · du: isTanking lesbar 0/1, Stufe lesbar 0/1, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/1, Stufe lesbar 0/1
+[21.11. 21:34] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 21:34] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.4 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 1395 Rahmen
+[21.11. 21:33] LESBAR-PLAKETTEN Plaketten 6 (im Kampf 3) · du: isTanking lesbar 0/6, Stufe lesbar 0/6, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/6, Stufe lesbar 0/6
+[21.11. 21:33] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[21.11. 21:33] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 21:33] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.5 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 787 Rahmen
+[21.11. 21:32] LESBAR-PLAKETTEN Plaketten 5 (im Kampf 3) · du: isTanking lesbar 0/5, Stufe lesbar 0/5, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/5, Stufe lesbar 0/5
+[21.11. 21:32] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[21.11. 21:32] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 21:32] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.4 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 409 Rahmen
+[21.11. 21:32] LESBAR-PLAKETTEN Plaketten 3 (im Kampf 2) · du: isTanking lesbar 0/3, Stufe lesbar 0/3, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/3, Stufe lesbar 0/3
+[21.11. 21:32] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[21.11. 21:32] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 21:32] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 1.2 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 937 Rahmen
+[21.11. 21:31] LESBAR-PLAKETTEN Plaketten 2 (im Kampf 2) · du: isTanking lesbar 0/2, Stufe lesbar 0/2, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/2, Stufe lesbar 0/2
+[21.11. 21:31] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[21.11. 21:31] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 21:30] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.4 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 2393 Rahmen
+[21.11. 21:28] LESBAR-PLAKETTEN Plaketten 3 (im Kampf 2) · du: isTanking lesbar 0/3, Stufe lesbar 0/3, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/3, Stufe lesbar 0/3
+[21.11. 21:28] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[21.11. 21:28] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 21:28] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.6 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 1512 Rahmen
+[21.11. 21:27] LESBAR-PLAKETTEN Plaketten 2 (im Kampf 2) · du: isTanking lesbar 0/2, Stufe lesbar 0/2, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/2, Stufe lesbar 0/2
+[21.11. 21:27] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[21.11. 21:27] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 21:27] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.4 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 1240 Rahmen
+[21.11. 21:26] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[21.11. 21:26] LESBAR-PLAKETTEN Plaketten 5 (im Kampf 5) · du: isTanking lesbar 0/5, Stufe lesbar 0/5, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/5, Stufe lesbar 0/5
+[21.11. 21:26] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 21:26] SYNC gesendet 397, empfangen 344, nachgeholt 39, ohne Gruppe 0, verworfen 0
+[21.11. 21:25] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.4 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 1698 Rahmen
+[21.11. 21:24] LESBAR-PLAKETTEN Plaketten 2 (im Kampf 2) · du: isTanking lesbar 0/2, Stufe lesbar 0/2, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/2, Stufe lesbar 0/2
+[21.11. 21:24] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[21.11. 21:24] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 21:24] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.6 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 1693 Rahmen
+[21.11. 21:23] LESBAR-PLAKETTEN Plaketten 4 (im Kampf 2) · du: isTanking lesbar 0/4, Stufe lesbar 0/4, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/4, Stufe lesbar 0/4
+[21.11. 21:23] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[21.11. 21:23] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 21:16] SYNC gesendet 366, empfangen 315, nachgeholt 37, ohne Gruppe 0, verworfen 0
+[21.11. 21:13] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.4 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 1061 Rahmen
+[21.11. 21:12] LESBAR-PLAKETTEN Plaketten 1 (im Kampf 1) · du: isTanking lesbar 0/1, Stufe lesbar 0/1, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/1, Stufe lesbar 0/1
+[21.11. 21:12] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[21.11. 21:12] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 21:12] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.5 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 441 Rahmen
+[21.11. 21:12] LESBAR-PLAKETTEN Plaketten 2 (im Kampf 2) · du: isTanking lesbar 0/2, Stufe lesbar 0/2, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/2, Stufe lesbar 0/2
+[21.11. 21:12] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[21.11. 21:12] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 21:12] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.5 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 585 Rahmen
+[21.11. 21:11] LESBAR-PLAKETTEN Plaketten 5 (im Kampf 3) · du: isTanking lesbar 0/5, Stufe lesbar 0/5, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/5, Stufe lesbar 0/5
+[21.11. 21:11] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[21.11. 21:11] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 21:11] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.5 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 1802 Rahmen
+[21.11. 21:10] LESBAR-PLAKETTEN Plaketten 4 (im Kampf 2) · du: isTanking lesbar 0/4, Stufe lesbar 0/4, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/4, Stufe lesbar 0/4
+[21.11. 21:10] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[21.11. 21:10] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 21:10] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.4 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 186 Rahmen
+[21.11. 21:10] LESBAR-PLAKETTEN Plaketten 1 (im Kampf 1) · du: isTanking lesbar 0/1, Stufe lesbar 0/1, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/1, Stufe lesbar 0/1
+[21.11. 21:09] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[21.11. 21:09] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 21:09] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.6 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 225 Rahmen
+[21.11. 21:09] LESBAR-PLAKETTEN Plaketten 1 (im Kampf 1) · du: isTanking lesbar 0/1, Stufe lesbar 0/1, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/1, Stufe lesbar 0/1
+[21.11. 21:09] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[21.11. 21:09] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 21:09] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.4 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 495 Rahmen
+[21.11. 21:09] LESBAR-PLAKETTEN Plaketten 3 (im Kampf 2) · du: isTanking lesbar 0/3, Stufe lesbar 0/3, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/3, Stufe lesbar 0/3
+[21.11. 21:09] LESBAR Ziel-des-Mobs=ja · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=kein Ziel
+[21.11. 21:09] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 21:09] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.5 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 275 Rahmen
+[21.11. 21:09] LESBAR-PLAKETTEN Plaketten 3 (im Kampf 2) · du: isTanking lesbar 0/3, Stufe lesbar 0/3, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/3, Stufe lesbar 0/3
+[21.11. 21:09] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[21.11. 21:09] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 21:08] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.4 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 1256 Rahmen
+[21.11. 21:07] LESBAR-PLAKETTEN Plaketten 2 (im Kampf 2) · du: isTanking lesbar 0/2, Stufe lesbar 0/2, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/2, Stufe lesbar 0/2
+[21.11. 21:07] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[21.11. 21:07] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 21:07] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.4 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 1379 Rahmen
+[21.11. 21:06] LESBAR-PLAKETTEN Plaketten 4 (im Kampf 3) · du: isTanking lesbar 0/4, Stufe lesbar 0/4, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/4, Stufe lesbar 0/4
+[21.11. 21:06] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[21.11. 21:06] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 21:06] SYNC gesendet 339, empfangen 299, nachgeholt 30, ohne Gruppe 0, verworfen 0
+[21.11. 21:06] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.5 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 885 Rahmen
+[21.11. 21:05] LESBAR-PLAKETTEN Plaketten 2 (im Kampf 2) · du: isTanking lesbar 0/2, Stufe lesbar 0/2, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/2, Stufe lesbar 0/2
+[21.11. 21:05] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[21.11. 21:05] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 21:04] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.6 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 1113 Rahmen
+[21.11. 21:04] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[21.11. 21:04] LESBAR-PLAKETTEN Plaketten 2 (im Kampf 2) · du: isTanking lesbar 0/2, Stufe lesbar 0/2, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/2, Stufe lesbar 0/2
+[21.11. 21:04] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 21:04] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.4 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 875 Rahmen
+[21.11. 21:03] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[21.11. 21:03] LESBAR-PLAKETTEN Plaketten 1 (im Kampf 1) · du: isTanking lesbar 0/1, Stufe lesbar 0/1, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/1, Stufe lesbar 0/1
+[21.11. 21:03] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 21:03] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.5 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 1047 Rahmen
+[21.11. 21:02] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[21.11. 21:02] LESBAR-PLAKETTEN Plaketten 7 (im Kampf 3) · du: isTanking lesbar 0/7, Stufe lesbar 0/7, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/7, Stufe lesbar 0/7
+[21.11. 21:02] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 21:02] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.2 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 460 Rahmen
+[21.11. 21:01] LESBAR-PLAKETTEN Plaketten 3 (im Kampf 2) · du: isTanking lesbar 0/3, Stufe lesbar 0/3, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/3, Stufe lesbar 0/3
+[21.11. 21:01] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 21:01] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.5 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 936 Rahmen
+[21.11. 21:01] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[21.11. 21:01] LESBAR-PLAKETTEN Plaketten 2 (im Kampf 2) · du: isTanking lesbar 0/2, Stufe lesbar 0/2, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/2, Stufe lesbar 0/2
+[21.11. 21:01] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 21:00] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.4 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 951 Rahmen
+[21.11. 20:59] LESBAR-PLAKETTEN Plaketten 4 (im Kampf 4) · du: isTanking lesbar 0/4, Stufe lesbar 0/4, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/4, Stufe lesbar 0/4
+[21.11. 20:59] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[21.11. 20:59] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 20:59] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.7 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 2705 Rahmen
+[21.11. 20:57] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[21.11. 20:57] LESBAR-PLAKETTEN Plaketten 3 (im Kampf 2) · du: isTanking lesbar 0/3, Stufe lesbar 0/3, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/3, Stufe lesbar 0/3
+[21.11. 20:57] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 20:57] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.1 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 547 Rahmen
+[21.11. 20:56] LESBAR-PLAKETTEN Plaketten 4 (im Kampf 3) · du: isTanking lesbar 0/4, Stufe lesbar 0/4, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/4, Stufe lesbar 0/4
+[21.11. 20:56] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 20:56] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.8 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 1761 Rahmen
+[21.11. 20:56] SYNC gesendet 320, empfangen 282, nachgeholt 20, ohne Gruppe 0, verworfen 0
+[21.11. 20:55] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[21.11. 20:55] LESBAR-PLAKETTEN Plaketten 7 (im Kampf 5) · du: isTanking lesbar 0/7, Stufe lesbar 0/7, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/7, Stufe lesbar 0/7
+[21.11. 20:55] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 20:46] SYNC gesendet 288, empfangen 252, nachgeholt 20, ohne Gruppe 0, verworfen 0
+[21.11. 20:36] SYNC gesendet 257, empfangen 222, nachgeholt 20, ohne Gruppe 0, verworfen 0
+[21.11. 20:26] SYNC gesendet 227, empfangen 192, nachgeholt 20, ohne Gruppe 0, verworfen 0
+[21.11. 20:16] SYNC gesendet 197, empfangen 164, nachgeholt 20, ohne Gruppe 0, verworfen 0
+[21.11. 20:06] SYNC gesendet 165, empfangen 144, nachgeholt 20, ohne Gruppe 0, verworfen 0
+[21.11. 19:56] SYNC gesendet 132, empfangen 111, nachgeholt 20, ohne Gruppe 0, verworfen 0
+[21.11. 19:51] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.4 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 1254 Rahmen
+[21.11. 19:50] LESBAR-PLAKETTEN Plaketten 2 (im Kampf 2) · du: isTanking lesbar 0/2, Stufe lesbar 0/2, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/2, Stufe lesbar 0/2
+[21.11. 19:50] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=nein
+[21.11. 19:50] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 19:49] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.3 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 536 Rahmen
+[21.11. 19:48] LESBAR-PLAKETTEN Plaketten 2 (im Kampf 2) · du: isTanking lesbar 0/2, Stufe lesbar 0/2, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/2, Stufe lesbar 0/2
+[21.11. 19:48] LESBAR Ziel-des-Mobs=ja · Halter-in-Gruppe=ja · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=ja
+[21.11. 19:48] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 19:48] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.3 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 163 Rahmen
+[21.11. 19:48] LESBAR-PLAKETTEN Plaketten 3 (im Kampf 2) · du: isTanking lesbar 0/3, Stufe lesbar 0/3, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/3, Stufe lesbar 0/3
+[21.11. 19:48] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=nein
+[21.11. 19:48] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 19:48] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.3 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 74 Rahmen
+[21.11. 19:47] LESBAR-PLAKETTEN Plaketten 2 (im Kampf 2) · du: isTanking lesbar 0/2, Stufe lesbar 0/2, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/2, Stufe lesbar 0/2
+[21.11. 19:47] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=nein
+[21.11. 19:47] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 19:47] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.4 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 97 Rahmen
+[21.11. 19:47] LESBAR-PLAKETTEN Plaketten 2 (im Kampf 2) · du: isTanking lesbar 0/2, Stufe lesbar 0/2, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/2, Stufe lesbar 0/2
+[21.11. 19:47] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=nein
+[21.11. 19:47] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 19:47] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.3 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 185 Rahmen
+[21.11. 19:47] LESBAR-PLAKETTEN Plaketten 2 (im Kampf 2) · du: isTanking lesbar 0/2, Stufe lesbar 0/2, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/2, Stufe lesbar 0/2
+[21.11. 19:46] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=nein
+[21.11. 19:46] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 19:46] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.3 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 222 Rahmen
+[21.11. 19:46] LESBAR-PLAKETTEN Plaketten 2 (im Kampf 2) · du: isTanking lesbar 0/2, Stufe lesbar 0/2, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/2, Stufe lesbar 0/2
+[21.11. 19:46] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=nein
+[21.11. 19:46] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 19:46] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.3 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 207 Rahmen
+[21.11. 19:46] LESBAR-PLAKETTEN Plaketten 2 (im Kampf 2) · du: isTanking lesbar 0/2, Stufe lesbar 0/2, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/2, Stufe lesbar 0/2
+[21.11. 19:46] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=nein
+[21.11. 19:46] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 19:46] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.5 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 191 Rahmen
+[21.11. 19:46] SYNC gesendet 104, empfangen 86, nachgeholt 15, ohne Gruppe 0, verworfen 0
+[21.11. 19:46] LESBAR-PLAKETTEN Plaketten 2 (im Kampf 2) · du: isTanking lesbar 0/2, Stufe lesbar 0/2, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/2, Stufe lesbar 0/2
+[21.11. 19:46] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=nein
+[21.11. 19:46] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 19:45] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.4 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 156 Rahmen
+[21.11. 19:45] LESBAR-PLAKETTEN Plaketten 2 (im Kampf 2) · du: isTanking lesbar 0/2, Stufe lesbar 0/2, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/2, Stufe lesbar 0/2
+[21.11. 19:45] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=nein
+[21.11. 19:45] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 19:45] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.3 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 428 Rahmen
+[21.11. 19:45] LESBAR-PLAKETTEN Plaketten 2 (im Kampf 2) · du: isTanking lesbar 0/2, Stufe lesbar 0/2, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/2, Stufe lesbar 0/2
+[21.11. 19:45] LESBAR Ziel-des-Mobs=ja · Halter-in-Gruppe=ja · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=ja
+[21.11. 19:45] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[21.11. 19:44] LEISTUNG Kampf: längster Rahmen durch ThreatSentinel 0.4 ms (Durchlauf (T:Tick)), über 16 ms: 0 von 192 Rahmen
+[21.11. 19:44] LESBAR-PLAKETTEN Plaketten 2 (im Kampf 2) · du: isTanking lesbar 0/2, Stufe lesbar 0/2, Aggro bei dir 0 · Gruppe: isTanking lesbar 0/2, Stufe lesbar 0/2
+[21.11. 19:44] LESBAR Ziel-des-Mobs=ja · Halter-in-Gruppe=ja · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=ja
