@@ -1,0 +1,26 @@
+Bericht AHSentinel 0.65.364 – AUFTRAG HEUTE 21.11. 16:25, Teil 1: G1, G2, G8 (+ G9 soweit betroffen), umgesetzt, zur Prüfung
+Veröffentlicht: Discord, GitHub-Release v0.65.364. Nicht CurseForge. addon_check OK. Tests T942, T943 eingebaut, nicht laufen gelassen.
+Teil 2 (G3–G7) folgt in der nächsten Version (siehe unten) – bewusst getrennt, weil G4/G5 den Marktwert und die Verkaufsgeschwindigkeit
+umrechnen (gold-relevant) und erst mit den zusammengeführten Daten geprüft werden sollen.
+
+G1 A:MarketKey: Schlüssel "Alle|<Horde|Alliance|Neutral>" – GetRealmName fällt weg, Fraktion/Neutral-Erkennung unverändert (npc-Fraktion
+   oder Neutral-Karte). Kern.lua liest die Fraktion weiter über "|(%a+)$"; A:CutPct (Neutral 15 %) über das Suffix "|Neutral" – unverändert.
+G2 A:StartUniteMarkets / A:UniteMarkets: beim Aktivieren des gemeinsamen Markts werden alle alten Märkte mit derselben Fraktions-Endung
+   ("<Realm>|Horde", "|Horde") EINMAL übernommen (Hintergrund-Aufgabe "markt:vereinen", Portionen à 40 Items, wartet bis PD7 entpackt hat).
+   Gleiche Beobachtung = gleiche (Zeit, Preis, Menge) -> nur 1× (zählt "doppelt"). Neue Items als eigene Kopie. Sicherung: die alten Märkte
+   bleiben unverändert in db.markets (nur mergedInto/mergedAt gesetzt); "/ahs markt sicherung löschen" entfernt sie erst auf Wunsch.
+   Zahlen vorher/nachher je Markt in db.marketsUnited[Schlüssel] (Items, Einträge, Zeitraum, neue Items, +Preise, doppelt), Protokoll
+   MARKT-VEREINT und Chatmeldung; "/ahs markt" zeigt sie. Die echten Zahlen (Offiziers-Dateien) liefert der erste Login mit 0.65.364 –
+   bitte aus dem Protokoll übernehmen (Cloud-Sitzung, kein Spiel).
+   Verdacht, zu messen (leistung.md): solange die Sicherung da ist, stehen die Preise doppelt in der Datei (alte + gemeinsame) -> Datei-
+   grösse und Lade-/Ausloggzeit steigen bis zum Löschen der Sicherung (Offizier heute 14 MB). Vorschlag: Sicherung nach geprüftem
+   Ergebnis löschen (Entscheid Nutzer/Supervisor).
+G8 Sync-Tag = Hash des Markt-Schlüssels -> jetzt je Fraktion/Neutral ohne Realm. Ältere Versionen senden den alten Tag; Sync.lua verwirft
+   fremde Tags (foreignDropped) ohne Fehler und ohne Mischen. CHANGELOG/Discord: "Alle Gildenmitglieder bitte auf 0.65.364 aktualisieren".
+G9 Buchhaltung/Ledger/Lager unverändert je Charakter (nur Preis-Märkte zusammengeführt). Werte (Sniper, Wächter, Lohnt bis, Verkaufspreis)
+   ändern sich nur durch die zusätzlichen Preise der anderen Realm-Namen (gleiches AH, belegt durch den Nutzer). 5 echte Items
+   vorher/nachher: nur im Spiel möglich – Werte vor dem Login notieren (Tooltip "Marktwert (Median 14 Tage)") und nach "Marktdaten
+   zusammengeführt" vergleichen. Gemeinsame Dateien (GoldSentinelSync usw.) nicht geändert.
+NOCH OFFEN (Teil 2): G3 Herkunft je Beobachtung – heute schon im Kennzeichen jedes Preises: "Sync" (Gilde) vs. eigen (Flag 2); Kennung des
+   Absenders und Tag/Uhrzeit je Scan-Paket fehlen noch. G4 Gewicht je Stunde (zwei gleichzeitige Scans nicht doppelt), G5 "verkauft" nur
+   aus zwei Vollscans, G6 Stunde/Wochentag, G7 Abdeckung im Markt-Reiter.
