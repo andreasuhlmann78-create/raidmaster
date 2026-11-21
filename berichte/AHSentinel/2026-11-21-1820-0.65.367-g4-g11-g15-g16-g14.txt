@@ -1,0 +1,40 @@
+Bericht AHSentinel 0.65.367 – AUFTRAG HEUTE G4, G6/G11, G14, G15, G16 (G9-Schutz), umgesetzt, zur Prüfung
+Veröffentlicht: Discord, GitHub-Release v0.65.367. Nicht CurseForge. addon_check OK. Tests T948–T952 eingebaut, nicht laufen gelassen.
+G4 (AHAnalyzerPro.lua A:GetMarketValue): bestätigte Preise der 14 Tage werden je Stunde (math.floor(t/3600)) zu EINEM Wert gebündelt
+  = unterer Median der Preise dieser Stunde; Zeitpunkt = neuester Preis der Stunde, Menge = die des Median-Preises. Danach die bisherige
+  Rechnung (Mondpreise, Lockangebote, Median) unverändert auf diesen Stundenwerten. A:MarketValueInfo zählt Stunden; unter 3 Stunden
+  in 14 Tagen bleibt der Marktwert unbekannt (TT3 jetzt auf Stunden). Ältere Preise sind ab 7 Tagen ohnehin je Tag verdichtet
+  (A.COMPACT_HOURLY) - dort ändert sich nichts. Vergleichsschalter A.mvPerPrice = alte Rechnung je Preis (nur T948/T952, schreibt
+  keinen Cache). T948: drei gleichzeitige Scans in einer Stunde = gleicher Marktwert wie ein Preis je Stunde, 3 Stunden gezählt.
+G16: einzelne Ausreisser werden NICHT gelöscht (Preisverlauf unverändert); sie zählen über G4 als eine Stunde, der Median bleibt
+  robust. "Märkte mit nur 1 Anbieter kenntlich machen": Forever-AH liefert keine Besitzer (Vollscan ohne Owner, M1). Die Zahl der
+  Auktionen ist kein Ersatz (1 Anbieter kann 10 Auktionen haben). Bleibt bei P3 (Montag) - Messauftrag, nicht gebaut, nicht geschätzt.
+G11 (Timing.lua TM:HourValues, TM.TREND = true): jeder Stundenwert wird durch den Tageswert SEINES Tages geteilt und mit dem neuesten
+  Tageswert multipliziert; ohne Tageswert für diesen Tag bleibt er unverändert. Gilt für "Jetzt nicht verkaufen - besser um x Uhr",
+  "üblich" im Kauf/Verkauf-Signal und die neue Tageszeit-Anzeige. Mindestzahl unverändert 3 Werte je Stunde (MIN_HOUR_VALUES), sonst
+  kein Signal. T949: Wert von gestern bei doppeltem Tagespreis -> auf heutiges Niveau, TREND=false unverändert.
+  G9-Hinweis: dadurch können "notnow"/"buy"/"wait"-Signale anders ausfallen - Grund ist die verlangte Trendbereinigung, keine
+  Rechenänderung sonst. Sniper-Max, Wächter, "Lohnt bis", Verkaufspreis V1 und Buchhaltung benutzen TM:HourValues nicht.
+G6: Tageszeit-Anzeige TM:HourProfileText: günstigste und teuerste Stunde (trendbereinigt, je mit Anzahl Werte), erst ab 7 Tagen Daten
+  und mind. 2 Stunden mit je 3 Werten, sonst "Tageszeit: zu wenig Daten (k von 24 Std. mit mind. 3 Werten)". Wochentag: bleibt die
+  bestehende Rhythmus-Auswertung (Learn, erst nach RHYTHM_DAYS und nur bei stabilen beiden Wochen-Hälften) - je Wochentag gibt es
+  keine Fallzahl, daher keine neue Wochentags-Zahl (nicht geschätzt).
+G15 (A:HourOffer/HourOfferText): "Um h Uhr kein Angebot (in n Vollscans, 7 Tage)" nur ab 3 EIGENEN Vollscans zu dieser Stunde
+  (je Tag+Stunde einmal). Gilden-Pakete zählen nicht: sie sind Preislisten, kein Vollscan - fehlt ein Item darin, heisst das nichts.
+  Fenster 7 Tage, weil ältere Preise je Tag verdichtet sind (Stunde unbekannt). Gesehen = Preis in derselben oder vorherigen Stunde des
+  Scans (Scan wird am Ende vermerkt; Uhrzeit-Abweichung). Vollscan-Lockangebote zählen dort nicht - ein Item, das nur als Lockangebot
+  da war, gilt als "kein Angebot" (wie im Preisverlauf). T950.
+G14 (Sniper.lua Sn:NoteBargain/BargainStats/BargainText): je Sniper-Treffer ein Fall "Zeit;Item;Dauer" in db.sniper.bargains (300 Fälle,
+  30 Tage). Dauer nur, wenn der Treffer als "weg" endete (eigene Suche fand ihn nicht mehr / COMMODITY_PRICE_UNAVAILABLE); gekauft,
+  Preis gestiegen, Fehler, abgelaufen oder von einem anderen Treffer abgelöst -> Dauer unbekannt, nie geschätzt. Anzeige erst ab 5
+  Fällen (häufigste Stunde mit Fallzahl), Median-Dauer erst ab 5 Fällen mit Dauer. Sniper/Wächter unverändert (nur offenes AH, echter
+  Klick); Sandbox: in der Testroutine wird nichts in die echten Fälle geschrieben. T951.
+  OFFEN in G14: "Sniper-Treffer ALLER" - zurzeit nur eigene Fälle. Teilen mit der Gilde folgt in der nächsten Version (verdichtet je
+  Item und Stunde, ohne Namen, wie V/E).
+Anzeige G6/G15/G14: Markt-Reiter, Maus über Verlauf und Zeilen im Detailbereich -> Tooltip "Zeiten (nur Information)". Nicht in die
+  8 Detailzeilen, weil diese nicht umbrechen und schon bis zu 8 Zeilen belegt sind (sonst abgeschnitten).
+G9 (T952, Bericht aus echten Daten im Spiel): die 5 Items mit dem längsten Verlauf, Marktwert alt (je Preis) gegen neu (je Stunde);
+  jede Abweichung muss den Grund "x Stunden mit mehreren Preisen" haben, sonst FEHLER. Werte entstehen erst im Spiel (die echten
+  SavedVariables liegen nicht hier) - bitte T952 im Testbericht ansehen. Buchhaltung/Ledger: unverändert je Charakter. Gemeinsame
+  GoldSentinel*.lua: unverändert.
+Nächster Schritt: G12 (nur Hinweis "Gildenmitglied bietet hier zu x"), G14 Gilden-Teil, G17.
