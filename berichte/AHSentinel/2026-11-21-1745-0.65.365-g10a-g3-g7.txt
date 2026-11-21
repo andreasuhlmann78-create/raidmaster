@@ -1,0 +1,17 @@
+Bericht AHSentinel 0.65.365 – AUFTRAG HEUTE G10 Teil A, G3, G7, umgesetzt, zur Prüfung
+Veröffentlicht: Discord, GitHub-Release v0.65.365. Nicht CurseForge. addon_check OK (neue Datei SaleOutcome.lua, in der TOC nach Mailer.lua).
+Tests T944, T945 eingebaut, nicht laufen gelassen.
+G10 A (SaleOutcome.lua): Se:Post merkt bei Erfolg {Zeit, Stückpreis, Menge, günstigstes fremdes Angebot der frischen Prüfung}
+  (db.saleObs.pending, nach 4 Tagen ohne Brief verworfen). Der Post-Scan (Mailer:DescribeMail) meldet je Brief "sold" (Rechnung
+  seller: Stückpreis = Gebot/Menge), "expired" bzw. "cancelled" (Anhänge mit Item-ID) -> Zuordnung zum ältesten passenden Einstellen
+  (verkauft: gleicher Stückpreis ±1c; zurück: ältestes). Gespeichert je Item höchstens 60 Ergebnisse als kurze Zeichenkette (Zeit, Art,
+  Menge, Preisabstand %, Dauer bis zum Brief, Stückpreis). Auswertung je Abstands-Gruppe (≤0 %, 1–5 %, 6–15 %, >15 %) erst ab 5 Fällen:
+  "Bisher bei …: v von n verkauft, meist nach ~h Std." (Median der Dauer der Verkauften). Verschwunden aus Scans zählt nie.
+  Verdacht, zu messen: "Dauer" = Brief-Zeit − Einstell-Zeit; in Forever kommt das Gold teils verzögert (TB168-10) – die Rechnung trägt
+  ggf. die Verkaufszeit; im nächsten Schritt messen. CancelFactor/MeasuredRate werden NOCH NICHT umgeeicht (gold-relevant, erst mit
+  genug Fällen; Teil B zusammen mit den Gilden-Daten).
+G3 A:NoteScan: je Scan-Paket (nicht je Preis) "Zeit;Quelle;Kennung;Anzahl" im aktiven Markt (m.scans, max. 2000 / 30 Tage).
+  Eigen: am Ende jedes vollständigen Vollscans (VS:Finish). Gilde: Sync:HandleData bei angenommenen Preisen, Kennung = Hash des
+  Absender-Schlüssels (A:MarketTag("w:"..), NIE Namen). Gleiches Paket nur 1×. Speicher: ~40 Byte je Paket.
+G7 A:Coverage/A:CoverageText im Markt-Reiter (Lage-Zeile): "Abdeckung 7 Tage: x von 24 Std. (eigene a, Gilde b)".
+Nächste Schritte laut Plan 16:45: G10 B + G13 (0.65.366), danach G4/G16/G6/G11/G15/G14 (0.65.367), G12/G17.
