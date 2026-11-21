@@ -1,0 +1,21 @@
+Bericht AHSentinel 0.65.375 – BEFUND 21.11. 20:08 SN-Z1–Z3, umgesetzt (Z1, Z2), Z3 Frage an den Nutzer, zur Prüfung
+Veröffentlicht: Discord, GitHub-Release v0.65.375. Nicht CurseForge. addon_check OK. Tests T974, T975 eingebaut, nicht laufen gelassen.
+SN-Z1 – Befund teilweise FALSCH begründet, Ursache anders belegt: Sn:TargetWeight gibt seit SN-ALLE1 IMMER 1 zurück (Sn.ROUND_ROBIN =
+  true, Sniper.lua) – die Gewichtung 1 + n / 1/3 ist abgeschaltet, PickTarget wechselt gleichmässig. Die echte Ursache ist der
+  Ruhemodus (SN-RUHE1 e, Standard AN: db.sniper.quiet = nil, auch in den Spieldaten DESKTOP 18:26): ein Ziel ohne Treffer ≤ Max seit
+  COLD_AFTER = 600 s ist "kalt" und kommt höchstens alle COLD_GAP = 30 s dran; das Ziel mit Dauertreffer ist immer "warm". Twilight-
+  handschuhe (keine Treffer) also alle 30 s, Schuppenarmschienen bei jeder Suche (nach HIT_HOLD 3 s) -> "sucht nur noch 1 Item".
+  Behebung: Garantie GUARANTEE_N = 4 – jedes aktive Ziel, das 4 Suchen lang übergangen wurde, ist fällig und wird als nächstes gesucht
+  (Sn:DueTarget, das am längsten übergangene zuerst; Zähler Sn:NoteSkips bei jeder gesendeten Suche). Ruhemodus-Regel bleibt sonst.
+  Begründung 4 (vorläufig, bis SN-T ≥ 100 Suchen): letzte gemessene Sitzung (db.sniper.lastSession) 85 Suchen in 108 s = Ø 47/Min.
+  (1,3 s je Suche) -> kaltes Ziel spätestens nach 4 × 1,3 s ≈ 5 s ohne Treffer-Halt bzw. 4 × 3 s = 12 s Pause mit Dauertreffer
+  (HIT_HOLD), also alle 5 Suchen (Nachbau: A Dauertreffer, B kalt, 60 Suchen -> ABAAAAB…, B 12×, grösster Abstand 5 Suchen; T974).
+  SN-T2 ergänzt: /ahs protokoll "Suchen je Ziel" (Anzahl und Anteil je Ziel aus dem Takt-Protokoll).
+SN-Z2 – Ursache belegt (UI_Sniper.lua, seit mindestens 0.65.329): nach "Sn:PlanNext() -- Status der Angebote aktualisieren" wurde das
+  Ergebnis nicht gemerkt; die Kopfzeile prüfte "elseif plan then" mit einer NIE gesetzten globalen Variablen (luac: GETGLOBAL plan,
+  Zeilen 759/760, sonst nirgends) -> immer nil -> bei kaufbarem Angebot "Nichts bis zu deinem Max-Preis (18s95). Günstigstes: 18s94",
+  während Liste ("kaufbar") und Knopf ("Kaufen 1× … für 18s94") richtig waren. Jetzt "local plan = Sn:PlanNext()" -> "Nächster Kauf".
+  Zusätzlich Sn:NothingText: gibt es freie passende Angebote, die nicht kaufbar sind, nennt die Zeile den häufigsten Status
+  ("Passend bis 18s95: 2 Angebote – nicht kaufbar: über Budget") statt "Nichts bis …". T975. Prüfung aller Dateien mit luac auf
+  weitere solche Globals: keine.
+SN-Z3: nichts geändert (Warnung bleibt, Ziel aktiv) – Frage an den Nutzer im Chat gestellt.
