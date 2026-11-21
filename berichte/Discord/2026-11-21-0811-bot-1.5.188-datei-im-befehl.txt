@@ -1,5 +1,5 @@
 BERICHT DISCORD – Bot 1.5.188: /uploader-daten-senden mit Datei im Befehl – umgesetzt, zur Prüfung
-Zeit: 21.11.2026 08:11 (aus date). CI Bot-Tests: 16dec7a8 completed success
+Zeit: 21.11.2026 08:11 (aus date). CI Bot-Tests 9d9d5bb7: success (BERICHTIGT: zuerst stand hier der Lauf von 1.5.187)
 - Grund: Bot läuft auf dem Server, daten_config.json liegt auf dem PC (Befund der Sitzung des Nutzers 08:10).
 - Option "datei": prüfen (JSON repo+token, <=64 KB), nur auf dem Server ablegen (.gitignore), dann Liste + "Senden".
 - Test test_datei_im_befehl, 2 neue Gegenproben rot; 461 Tests OK, jede Datei einzeln -I OK; Betrieb nachgestellt.
