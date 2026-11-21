@@ -1,0 +1,37 @@
+Bericht AHSentinel 0.65.356 – BEFUND 21.11.2026 06:35 (S1–S4), umgesetzt, zur Prüfung
+Veröffentlicht: Discord (announce/), GitHub-Release v0.65.356. NICHT CurseForge (Nachtrag 06:45 "curse nicht").
+addon_check: AHSentinel-0.65.356.zip OK (keine FEHLER). Tests laut Nachtrag 06:37 eingebaut, nicht selbst laufen gelassen
+(Ausnahme vor dem Nachtrag: Nachbau s336 für S1 – 0.65.356 bestanden, Gegenprobe 0.65.355 durchgefallen: Budget 24s statt 5g).
+
+S1 HOCH (Budget "aufgebraucht", 0 Stück, "gekauft 28") – Ursache im Code belegt:
+  Sn.goldStart[Schlüssel] (Gold-Sicherung SN-B10) blieb für die Sitzung stehen. SetTarget legt ein neues Ziel an (bought/spent 0), die
+  Sicherung des FRÜHEREN Ziels desselben Items (gleiches Budget 5g) blieb aber gültig; Sn:Remaining zog den Gold-Abgang von dessen
+  28 Käufen vom neuen Budget ab -> Rest < Max -> "aufgebraucht", Angebote "über Budget". "gekauft 28" = Zähler des früheren Ziels.
+  Behebung: SetTarget löscht die Sicherung; Sicherung merkt ihr Ziel (tref), eine fremde wird in Remaining/NoteGoldStart ignoriert.
+  Test T917: neues Ziel Budget 5g voll, nicht aufgebraucht, 17s52 ≤ Max kaufbar; Gegenprobe: Sicherung des neuen Ziels zählt
+  eigenen Kauf + fremden Gold-Abgang (Rest 5g − 17s52 − 1g, nicht zuordenbar 1g).
+S4 HOCH ("du suchst gerade", Ziel setzen sucht nicht, Liste leer) – Ursache im Code belegt:
+  Einzige Quelle für "suchen" war Buy:Search (Einkauf-Suche in AHS, NoteUserAH) -> 30 s Pause nach jeder Einkauf-Suche/Aktualisieren.
+  Wer ein Item im Einkauf sucht und dort das Ziel setzt, hatte 30 s Pause. Zusätzlich löschte SetTarget das Ergebnis desselben Items
+  (Liste leer, "zuletzt: 6 Treffer"). Klick in der Ziel-Liste ruft Sn:Search direkt (ohne Pause) – darum half "an-/abklicken".
+  Echte Suchen im Blizzard-Fenster wurden bisher GAR NICHT erkannt.
+  Behebung: Einkauf-Suche zählt nicht mehr (Sniper wartet während sie läuft ohnehin "Einkauf sucht"). Neu: hooksecurefunc an
+  C_AuctionHouse.SendBrowseQuery/SendSearchQuery/SearchForItemKeys (suchen) und SendSellSearchQuery (verkaufen), alter Client
+  QueryAuctionItems; eigene Aufrufe am Aufrufstapel erkannt (Datei im Ordner AddOns/AHSentinel). SearchForFavorites zählt nicht
+  (Verdacht, zu messen: Blizzard schickt sie beim Öffnen von selbst). Protokoll SNIPER-SUCHE "Spieler-Suche ausserhalb AHS".
+  Ziel setzen bei Sniper an: Pause aufgehoben, Ziel im nächsten Takt (0,1 s) zuerst gesucht, soweit die Server-Drossel frei ist
+  (innerhalb 1 s nur, wenn der Server bereit ist – Drossel wird nie übergangen). Altes Ergebnis bleibt sichtbar, ist aber nicht mehr
+  kaufbar (stale), gekauft wird nur aus der neuen Suche mit dem neuen Max.
+  Test T918 (eigene Suche keine Pause, Blizzard-Suche 30 s, danach weiter, Ziel setzen -> gesucht, Treffer sichtbar, nicht kaufbar).
+  Im Spiel zu prüfen: echte Suche im Blizzard-AH -> Statuszeile "du suchst gerade", nach 30 s weiter.
+S2 MITTEL (Twilighthandschuhe 0 Angebote): Verdacht, zu messen (nicht belegt, Daten von 05:38 enthalten das Ziel noch nicht).
+  Der Scan führte Item 7433 mit 46–48 Stück je Scan. Der Sniper sucht Items mit dem allgemeinen Schlüssel (Suffix 0, Stufe 0);
+  grüne Items mit Zufalls-Suffix stehen im neuen AH unter eigenem Schlüssel -> Suche leer (Einkauf hat dafür schon K6/DETAIL-LEER).
+  Ruhemodus verhindert keine Suche (kalte Ziele höchstens alle 30 s, keines fällt heraus).
+  Behebung: leere Item-Suche mit allgemeinem Schlüssel -> Suche per Name (Browse), nur dieselbe Item-ID, günstigste Variante; danach
+  dieses Item gleich per Name. Protokoll SNIPER-NAME belegt im Spiel, ob es so war. Test T919 (+ Gegenprobe: Schlüssel mit Suffix -> keine 2. Suche).
+S3 MITTEL (seelengebunden im Tooltip): Tooltip mit Zeile ITEM_SOULBOUND/ITEM_ACCOUNTBOUND -> nur Hinweis "Seelengebunden – nicht im
+  AH verkaufbar", Händlerpreis, Entzauberungswert (mit Vergleich zum Händler); keine Preis-/Verkaufen-/Gewinn-/Zeitpunkt-Zeilen.
+  Zwischenspeicher-Schlüssel enthält "gebunden". Test T920 + Gegenprobe (ohne Zeile wie bisher mit Preis). Locales: neuer Text in allen 10.
+Dateien: Sniper.lua, AHAnalyzerPro.lua, Buy.lua, Tooltip.lua, TestRoutine.lua (T917–T920), Locale*.lua, CHANGELOG EN/DE, toc.
+Arbeit danach beendet (Nachtrag 06:45). Ruhend: INGAMETEST 20.11. Punkt 2 (T734) und Punkt 3 (T459).
