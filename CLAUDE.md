@@ -170,6 +170,11 @@ Wer Code baut, prüft oder beauftragt, der im Spiel rechnet (Scan, Route, Panel,
 Wer Anzeigen, Empfehlungen oder Meldungen baut, prüft oder beauftragt, liest vorher `shared/wissen/psychologie.md`
 (Nutzen, Verlustaversion, Einzelfall statt Summe, Gier – helfen, nie manipulieren).
 
+## Referenzseite (Pflicht, Nutzer 21.11.2026 15:13)
+
+Für Berufe, Rezepte, Reisen, Leveln, Gold und alles zu WoW Forever ist https://classic.goldgoblin.net/ die Referenz.
+Vorher `shared/wissen/referenz-goldgoblin.md` lesen (Auszug, Lücken, wie zitieren). Fehlt etwas dort: messen, nicht raten.
+
 ## Immer
 
 - Das Repo ist öffentlich: nie Tokens, Webhook-URLs, Passwörter oder Spielernamen in Dateien oder Commits.
