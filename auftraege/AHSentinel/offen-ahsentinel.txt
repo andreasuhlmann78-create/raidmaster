@@ -5819,3 +5819,4 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
  B5 PRÜFEN: Post-Chat zeigte nur "Summe Post: 0c aus 3 Briefen" / "Post abgeholt: 0c, 34 Items" – je Brief eine Zeile (Dauerregel
     Punkt 9) muss sichtbar sein, auch bei Briefen nur mit Items (z. B. "Post von Spieler: 12 Items"); im Bericht Chat-Text eines
     Abholens mit 3 Briefen zeigen.
+ B6 (Nutzer 18:43 "+ Gewinn und − Verlust wieder an dieselbe Stelle setzen, optisch"): Gewinn und Verlust stehen IMMER an derselben Stelle im Tooltip (direkt unter "AHSentinel" bzw. unter "Scan alt"), gleiche Schriftgrösse und Ausrichtung – nur Vorzeichen und Farbe ändern sich (+ grün, − rot). Gilt auch für die neue Zeile aus B1. Test: Item mit Gewinn und Item mit Verlust -> Zeile an derselben Position (Zeilennummer im Tooltip gleich).
