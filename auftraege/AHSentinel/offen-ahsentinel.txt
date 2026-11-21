@@ -5743,3 +5743,28 @@ WIDERSPRÜCHE (geklärt bzw. offen beim Nutzer):
     Allianz-Daten nie in den Horde-Markt und umgekehrt; Neutral-Daten von Horde- UND Allianz-Spielern gehören in denselben Neutral-Markt.
     Sync/Marktdaten-Netz: Tag = Fraktion bzw. Neutral (ohne Realm). Tests zusätzlich: Allianz-Realm A + Allianz-Realm B -> ein Markt;
     Allianz vs. Horde -> getrennt; Neutral von beiden -> ein Markt. Migration auch für Allianz-Spieler (alte "Realm|Alliance"-Märkte).
+
+==== AUFTRAG HEUTE 21.11.2026 16:25 – GEMEINSAMER MARKT UND DATEN DER GILDE (Nutzer 16:11/16:12 "heute noch") – ZIEHT M7 VON MONTAG VOR ====
+Stand: 0.65.363 (Punkt 8, 9, P13, F1–F8 laut Bericht 16:40 umgesetzt, zur Prüfung). Jetzt in EINER Version, nur Discord, Tests bauen,
+nicht laufen lassen. Nutzer: "Meine Offiziere spielen oft zu anderen Zeiten -> mehr Daten zu unterschiedlichen Zeiten; AHS soll messen,
+von welcher Uhrzeit und welchem Tag die Daten sind, und sie zu meinen ergänzen – das gibt ein besseres Bild des Marktes."
+G1 Ein Markt je Fraktion (M7 + KORREKTUR 16:10 + NACHTRAG 16:12): Horde, Allianz, Neutral – ohne Realm-Namen. Neutral-Erkennung wie heute.
+G2 Migration: alle "…Realm n|Fraktion"- und "|Fraktion"-Märkte zusammenführen, einmalig, vorher Sicherung (zurückholbar), Zahlen
+   vorher/nachher (Items, Preise, Zeitraum) im Bericht. Gleiche Beobachtung nur 1×.
+G3 Herkunft je Beobachtung: Tag + Uhrzeit (Serverzeit) + Quelle "eigen" (eigenes Konto inkl. Twinks) / "Gilde" (Kennung, NIE Namen).
+   Speicher sparsam: Quelle je Scan/Paket, nicht je Einzelpreis; Dateigrösse und Ladezeit vorher/nachher messen (leistung.md; die
+   Datei eines Offiziers hat heute schon 14 MB).
+G4 Ergänzen ohne Doppelzählung: Werte (Median, Marktwert) über Zeit-Fenster (z. B. je Stunde EIN Wert je Item), damit zwei
+   gleichzeitige Scans nicht doppelt Gewicht haben.
+G5 Verkaufsgeschwindigkeit (MeasuredRate): "verkauft" nur aus zwei aufeinanderfolgenden VOLLSCANS (egal von wem), nie aus Teil- oder
+   Einzelsuchen; eigene Auktionen/CancelFactor wie bisher.
+G6 Tageszeit/Wochentag: Preis und Angebot je Stunde/Wochentag, sobald genug Daten (sonst "zu wenig Daten", nicht schätzen).
+G7 Anzeige (Markt-Reiter): Abdeckung "x von 24 Std. in den letzten 7 Tagen – eigene / Gilde".
+G8 Sync: Tag = Fraktion bzw. Neutral (ohne Realm). Alte Versionen senden den alten Tag -> werden ignoriert (kein Fehler, kein Mischen);
+   CHANGELOG/Discord: "Alle Gildenmitglieder bitte auf 0.65.36x aktualisieren, sonst kein Marktabgleich."
+G9 SCHUTZ (wie F1–F8): Sniper-, Wächter-, "Lohnt bis"-, Verkaufspreis- und Buchhaltungs-Werte ändern sich NUR durch mehr Daten,
+   nicht durch Rechenfehler: 5 echte Items vorher/nachher mit Begründung je Abweichung. Buchhaltung/Ledger/Lager bleiben je Charakter
+   (keine fremden Verkäufe in die eigene Buchhaltung). Gemeinsame Dateien (GoldSentinelSync/Markt …) NICHT ändern; reicht AHS-eigener
+   Code nicht, Bericht an die Prüf-Sitzung statt Änderung.
+Tests: zwei Realm-Namen -> 1 Markt; Allianz/Horde getrennt; Neutral beider Fraktionen -> 1 Markt; Migration ohne Doppelte; gleichzeitige
+Scans A+B -> 1 Gewicht je Stunde; Teil-Scan -> kein "verkauft"; Quelle ohne Namen; alter Sync-Tag -> ignoriert.
