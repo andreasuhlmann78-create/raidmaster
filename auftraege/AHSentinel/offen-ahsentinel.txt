@@ -5826,3 +5826,18 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     b) Der Scan ist aktuell, aber das Item war darin NICHT im Angebot -> NICHT "Scan alt", sondern "Zurzeit nicht im Angebot – letzter
        Preis vor x Std." (Marktwert-Zeile entsprechend "Marktwert (letztes Angebot vor x Std.)").
     Keine Uhrzeiten/Daten im Tooltip für das Alter. Test: Scan 5 Min. alt, Item fehlt seit 20 Std. -> Fall b; Scan 3 Std. alt -> Fall a.
+
+>>> ENTSCHEID 21.11. 18:52 (Nutzer) – DATEN AUS ALLEN WEGEN, MIT ABSICHERUNG – nächste Version, nur Discord. ERSETZT in G3–G17 die
+    Regel "nur Daten aus der eigenen Gilde": Marktdaten aus Gilde, Gruppe/Schlachtzug UND Netz werden angenommen (dasselbe AH).
+ S1 Ein Absender = höchstens EINE Stimme je Item und Stunden-Fenster (G4); Wert je Fenster = Median über die Absender, eigene Scans
+    eingeschlossen. Ein einzelner fremder Absender kann den Wert nur bestimmen, wenn er die einzige Quelle ist – dann gilt S2.
+ S2 Plausibilität: fremder Preis, der vom eigenen letzten Scan desselben Items (≤ 24 Std.) um mehr als den Faktor 2 nach oben oder
+    unten abweicht, zählt nicht (Zähler "verworfen"). Ohne eigenen Scan: nur mit mindestens 2 verschiedenen fremden Absendern.
+    Den Faktor im Bericht mit echten Daten begründen (Streuung der eigenen Scans), nicht raten; änderbar nur per Auftrag.
+ S3 Eigene Scans haben Vorrang: liegt im selben Stunden-Fenster ein eigener Vollscan vor, ersetzen fremde Daten ihn nie.
+ S4 Gold-Funktionen (Sniper-Grenze, Lohnt-bis, Verkaufsvorschlag V1, Kauf-/Verkaufswarnungen) nutzen fremde Daten nur über S1–S3;
+    V1-Vorschlag bleibt am EIGENEN frischen Angebots-Scan (P8) – fremde Daten nie als Verkaufspreis.
+ S5 Zähler (Nutzer): in der Statuszeile LINKS neben "Sync über Gilde: …": "Empfangen: x Daten von y Spielern" (Hover: Gilde / Gruppe /
+    Netz, angenommen / verworfen, seit Login und 7 Tage). Keine Namen, nur Kürzel/Anzahl.
+ Tests: 1 fremder Absender mit 10× Preis -> verworfen; 3 Absender + eigener Scan -> Median; eigener Scan im Fenster -> Vorrang;
+ Zähler zählt je Weg; V1 nie aus fremden Daten.
