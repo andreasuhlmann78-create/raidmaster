@@ -5576,3 +5576,19 @@ Neuaufbau; Laden hängt -> nach Zeitlimit Hinweis statt Dauer-"geladen".
     oder kein Kaufhinweis (Entscheid 21.11. "schätzen verboten"; Wert beruht hier auf 766 eigenen Ergebnissen – dann nicht "geschätzt").
  P7 NIEDRIG (Lesbarkeit L1–L8): abgeschnittene Texte ("Gewi…", "Chanc…", "(2…"), Dezimalpunkt statt Komma ("78.7 %", "1.50"),
     Preisverlauf-Grafik rechts fast leer (zwei Striche ohne Achsen/Werte).
+
+>>> BEFUND 21.11. 14:55 (Supervisor, Ingame 0.65.360 14:47–14:48, Korallenband, 3 Bilder nicht im Repo) – GOLD, SOFORT mit P1–P7
+ P8 SEHR HOCH (Verkaufsschutz A1/V1, Fall wie CF-AHS-5): Verkaufen > Korallenband: "Preis prüfen – geprüft vor 1 Sek.: 0 Angebote,
+    0 eigene", 1 Min. später "Angebote werden geladen …" hängt. Gleichzeitig zeigt Kaufen > Suche "Korallenband" 19 fremde Angebote,
+    günstigstes 36s99. Vorausgefüllt wird 19s (= Marktwert) – fast die Hälfte unter dem günstigsten Angebot; "Gewinn erwartet +17s40".
+    Ursache belegen (Preisprüfung findet 0, obwohl 19 da sind: Suchname/Filter/Seite/Ereignis?). Regel: Liefert die Preisprüfung
+    nichts oder hängt sie, KEIN Preis vorausgefüllt und kein "Gewinn erwartet", sondern "Preis nicht geprüft – erneut prüfen".
+    Nie den Marktwert als Ersatz-Vorschlag. Test mit Gegenprobe (19 Angebote im Scan, Prüfung 0 -> kein Preis).
+ P9 HOCH, VERDACHT ZU MESSEN: Marktwert (Median 14 Tage) 19s, aber alle 19 aktuellen Angebote 36s99–2g10 (Liste "% Markt" 195–1105 %).
+    Prüfen, aus wie vielen und wie alten Preisen die 19s stammen (TT3: < 3 Preise -> "nicht bekannt", rechnet nirgends mit).
+ P10 MITTEL: "Stopp – tiefer als alle anderen Angebote!" kam 14:47 direkt nach "Eingestellt: 1x Borstenlederkniehosen für 21s98".
+    Im Protokoll belegen, zu welchem Item und Preis die Warnung gehörte; sie muss VOR dem Einstellen kommen, nicht danach.
+ P11 HOCH (TT2, wie P1): Rechnung Korallenband "0,11 × Kleiner gleißender Splitter à 3s99 = 45c" – 0,11 × 3s99 = 44c (43,9c).
+    Ebenso "0,16 × 7s36 = 1s17" bei Ø 11 % × 1,5 = 0,165 (= 1s21). Faktoren ungerundet zeigen, sodass jede Zeile exakt aufgeht.
+ P12 FRAGE: Bank-Char Stufe 1 bekommt "Entzaubern lohnt: 7 Teile …" (V1f: nur mit Verzauberkunst oder eingestelltem Twink).
+    Belegen, dass hier ein Twink eingestellt ist – sonst V1f-Fehler.
