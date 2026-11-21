@@ -5718,3 +5718,16 @@ WIDERSPRÜCHE (geklärt bzw. offen beim Nutzer):
 >>> ENTSCHEID 21.11. 16:00 zu W1 (Nutzer: "korrekt, es soll immer noch eine Raidwarnung geben"): Verkaufsschutz = Hinweis +
     Schlachtzugswarnung, KEINE Bestätigung, KEINE Sperre. A5 Serie: hält NICHT an; je betroffenem Item/Preis eine Schlachtzugswarnung
     (einmal je Item und Preis, wie V1), Zeile im Chat. Gilt für Montag-Teil Verkaufsschutz.
+
+>>> BEFUND 21.11. 16:15 (Supervisor; Daten-Repo, erste Uploads der Offiziere 21.11. 15:31) – MONTAG, VERDACHT ZU MESSEN, HOCH (Gilden-Sync)
+ M7 Der Nutzer und seine Offiziere spielen auf DEMSELBEN Server (Nutzer 16:06, "evtl. auf anderen Layern"), GetRealmName liefert aber
+    verschiedene Namen: Nutzer "CAMWOW EU4 Realm 6 PvP", Offizier A "CAMWOW EU4 Realm 2 PvP", Offizier B "CAMWOW EU5 Realm 8 PvP"
+    (Charakterschlüssel "Name-CAMWOW EU5 Realm 8 PvP" -> Heimat-Realm des Charakters, verbundene Realms, nicht Layer).
+    A:MarketKey = Realm|Fraktion, A:MarketTag = Hash davon -> (1) jeder hat einen eigenen Markt, obwohl es vermutlich DASSELBE
+    Auktionshaus ist; (2) Gilden-Sync (Sync.lua, Markt-Tag) passt zwischen ihnen nie zusammen; (3) beide Offiziere haben zusätzlich
+    einen Markt "|Horde" OHNE Realm-Namen (~7'000 Items) – Herkunft und Mischung belegen.
+    Messen (Pflicht, bevor etwas geändert wird): gleicher Zeitpunkt (±10 Min.), Vollscan bei zwei Spielern verschiedener "Realms":
+    Anzahl Auktionen je Item, günstigste Preise, gleiche Einzelauktionen (Preis+Menge+Restzeit) -> Übereinstimmung in %. Nur bei
+    belegter Gleichheit Markt-Schlüssel auf den gemeinsamen AH-Bereich umstellen (alte Daten zusammenführen ohne Doppelzählung,
+    Migration, Gegenprobe). Bei Unterschied: getrennt lassen und im Sync klar anzeigen "anderer Markt".
+    Entzauber-Ergebnisse (deLog) sind realm-unabhängig und dürfen schon jetzt über alle zusammen gezählt werden (deShared).
