@@ -663,3 +663,17 @@ Siehe auftraege/hinweis-ui-lesbarkeit-2026-11-20.txt. Mit der nächsten Version 
 
 ==== HINWEIS 21.11.2026 06:47 – Schätzen verboten (Nutzer) ====
 Siehe auftraege/hinweis-schaetzen-verboten-2026-11-21.txt.
+
+==== AUFTRAG FÜR MONTAG 23.11. – HANDWERKSBUCH: SORTIERUNG NACH SKILL-WEG (Nutzer 21.11. 15:07/15:10) ====
+Quelle für Berufsdaten (Nutzer): https://classic.goldgoblin.net/berufe/ – für Forever die Guides "<beruf>-forever/".
+1. Sortierung: zuoberst ORANGE, absteigend nach "noch x Mal bis gelb" (meiste zuerst, dann das zweitbeste usw.); danach GELB absteigend
+   nach Restweg bis grün; danach GRÜN absteigend nach Restweg bis grau. GRAUE Rezepte nicht listen.
+2. Je Rezept im Handwerksbuch: orange -> "noch x× bis gelb" (exakt: Gelb-Grenze − aktueller Skill, jede orange Herstellung gibt
+   1 Punkt); gelb -> "noch x Punkte bis grün"; grün -> "noch x Punkte bis grau". KEINE geschätzte Anzahl Herstellungen bei gelb/grün:
+   Laut Quelle (Alchemie-Forever-Guide) "kann ein Versuch ohne Punkt enden", eine Chance wird nicht genannt, und in Forever erhöht
+   "Working Overtime" die Chance um bis zu 20 % (Verbot "schätzen", Nutzer 21.11.).
+   Farbgrenzen je Rezept nur aus belegten Daten (Rezeptdaten/Quelle); fehlt eine Grenze: "Grenze unbekannt", nicht raten, ans Ende der
+   Farbgruppe sortieren.
+3. Die heute sichtbaren Prozentzahlen ausblenden; nur beim Darüberfahren über das "Barometer" im Tooltip zeigen.
+Tests (gebaut, nicht laufen lassen): Reihenfolge mit 3 orangen (5/12/2 bis gelb) -> 12,5,2; graues Rezept fehlt; Skill +1 ->
+Zahlen und Reihenfolge aktualisiert; fehlende Grenze -> "Grenze unbekannt" am Gruppenende; Prozent nur im Tooltip.
