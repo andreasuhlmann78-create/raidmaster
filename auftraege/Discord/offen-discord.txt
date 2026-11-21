@@ -324,3 +324,16 @@ Pflicht für neue Arbeit in Portionen; Summary-Zeile in den Bericht. LevelPilot 
 
 ==== HINWEIS 18.11.2026 16:15 – NUTZUNG SPAREN BIS MONTAG 23.11. 05:00 (Entscheid des Nutzers 16:13) ====
 auftraege/hinweis-nutzung-sparen-2026-11-18.txt: keine automatischen Runden und Wecker, nur auf Nachricht des Nutzers arbeiten, kurz halten.
+
+==== AUFTRAG 21.11.2026 07:42 (Nutzer 07:40: "sag dem Discord-Bot, er soll das machen und ihnen diese Datei senden") ====
+Ziel: Die Offiziere (Discord-Rolle der Offiziere – keine Namen ins Repo) bekommen die Datei daten_config.json des Nutzers als
+Direktnachricht vom Bot, damit ihr RaidMaster-Uploader auch die Addon-Daten in das private Daten-Repo hochlädt. Entscheid des Nutzers
+07:39: die Offiziere sind vertrauenswürdig; gleiche Datei wie beim Nutzer.
+SICHERHEIT (Pflicht, Repo ist öffentlich):
+- Der Inhalt von daten_config.json (Zugangsschlüssel) kommt NIE ins Repo, in Logs, Commit-Nachrichten, Berichte oder öffentliche Kanäle.
+- Der Bot liest die Datei nur lokal auf dem Rechner, auf dem er läuft (Pfad in seiner lokalen, nicht versionierten Konfiguration).
+  Fehlt sie dort: nichts senden, dem Nutzer melden, wohin er sie legen muss.
+- Versand nur als Direktnachricht (Anhang) an Mitglieder mit der Offiziersrolle, einmalig, mit kurzer Anleitung: "Datei in den Ordner
+  des RaidMaster-Uploaders legen (neben RaidMasterUploader.exe/.py), Uploader neu starten. Nicht weitergeben."
+- Vor dem Versand dem Nutzer die Empfängerliste zeigen und sein Ja abwarten (Nachricht in seinem Namen).
+- Danach im Bericht nur: an wie viele gesendet, wann – keine Namen, kein Inhalt.
