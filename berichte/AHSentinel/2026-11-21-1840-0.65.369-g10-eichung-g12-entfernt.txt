@@ -1,0 +1,17 @@
+Bericht AHSentinel 0.65.369 – ENTSCHEID 21.11. 18:28 G10 (Eichung) und G12 (nein), umgesetzt, zur Prüfung
+Veröffentlicht: Discord, GitHub-Release v0.65.369. Nicht CurseForge. addon_check OK. Tests T957, T958 eingebaut, nicht laufen gelassen.
+G12 entfernt: Code (SaleOutcome OwnSummary/BroadcastOwned/HandleOwned/GuildOffer/GuildOfferText, Seller-Aufruf in ReadOwned,
+  UI_Sell-Hinweis, Q-Antwort), Locale-Schlüssel in allen 10 Sprachdateien, Test T953 und Index-Eintrag. Nachrichten "O" von 0.65.368
+  werden still verworfen; db.guildAuctions wird beim Laden gelöscht. V1-Vorschlag unverändert (nie berührt).
+G10 Eichung, EIN Wert: VS:CancelFactor(itemID, g) - mit Item/Gruppe gilt ab SO.CAL_MIN = 30 echten Fällen der Gruppe (Fc:Group:
+  de/cloth/leather/metal/herb/consum/gear2/gear3/misc) der Wert verkauft/(verkauft+abgebrochen) aus dem Post-Scan (je Brief ein
+  Fall, letzte 30 Tage, eigene + Gilde), Grenzen 0,2..1 wie bisher; darunter unverändert der alte Wert (eigene Auktionen aus den
+  Vollscans). Kein Nebeneinander: MeasuredRate, SalesRateRaw (Mischung mit "alle") und Kern:Calibration (f0 je Gruppe) nehmen
+  denselben einen Wert. Abgelaufen zählt nicht: der Faktor beschreibt nur "vorzeitig weg" (abgelaufen ist nie vorzeitig weg).
+  Gilde: "C:<Zeit>:<Tag>:@konto;Gruppe,verkauft,abgebrochen;…" mit dem V-Senden (Post abgeholt, Q); je Konto ersetzt, keine Namen,
+  keine Items. Fall = ein Brief = eine Auktion (die geteilten V-Zahlen zählen Stück, deshalb eigene Zähler).
+  Vollscan-Bericht: neue Zeile "Abbruch-Faktor aus echten Verkäufen … ersetzt den Wert oben" je umgestellter Gruppe.
+  T957: 29 Fälle (20 eigene + 9 Gilde, 5 abgelaufene nicht gezählt) -> wie bisher; 30 -> 20/30 = 0,667 "echt".
+  T958 (Bericht aus echten Daten im Spiel): je umgestellter Gruppe 5 verfolgte Items vorher (SO.CAL_OFF) / nachher: Absatz je Tag,
+  Vorschlag (Se:Suggest), Lohnt bis (MV:LimitFor). Ohne Gruppe mit 30 Fällen: "nichts umgestellt". Die Zahlen gibt es erst im Spiel.
+  G9: Werte ändern sich nur in Gruppen mit >= 30 echten Fällen, durch mehr (gemessene) Daten. Buchhaltung unberührt.
