@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-20T22:27:05Z",
+ "ausgewertet": "2026-11-21T07:17:16Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -34,20 +34,6 @@
       "forever 1.60.1 (Interface 16001)"
      ],
      "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:407: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:400>\n[C]: ?\n[C]: ?\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/Seller.lua]:983: in function <Interface/AddOns/AHSentinel/Seller.lua:908>\n..."
-    },
-    {
-     "addon": "AHSentinel",
-     "art": "spiel",
-     "wo": "Job:craft-top",
-     "msg": "Interface/AddOns/AHSentinel/Crafting.lua:515: attempt to index field '?' (a nil value)",
-     "anzahl": 1,
-     "versionen": [
-      "0.65.138"
-     ],
-     "clients": [
-      "forever 1.60.1 (Interface 16001)"
-     ],
-     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/AHAnalyzerPro.lua]:52: in function <Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:50>\n[tail call]: ?\n[Interface/AddOns/AHSentinel/AHAnalyzerPro.lua]:350: in function <Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:331>\n[Interface/AddOns/AHSentinel/AHAnalyzerPro.lua]:299: in function <Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:297>\n"
     },
     {
      "addon": "AHSentinel",
@@ -388,20 +374,6 @@
   {
    "addon": "AHSentinel",
    "art": "spiel",
-   "wo": "Job:craft-top",
-   "msg": "Interface/AddOns/AHSentinel/Crafting.lua:515: attempt to index field '?' (a nil value)",
-   "anzahl": 1,
-   "versionen": [
-    "0.65.138"
-   ],
-   "clients": [
-    "forever 1.60.1 (Interface 16001)"
-   ],
-   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/AHAnalyzerPro.lua]:52: in function <Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:50>\n[tail call]: ?\n[Interface/AddOns/AHSentinel/AHAnalyzerPro.lua]:350: in function <Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:331>\n[Interface/AddOns/AHSentinel/AHAnalyzerPro.lua]:299: in function <Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:297>\n"
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "spiel",
    "wo": "Lua",
    "msg": "Interface/AddOns/AHSentinel/UI_Main.lua:1303: script ran too long",
    "anzahl": 1,
@@ -615,11 +587,11 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 190,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.355-e067eb4b643c.txt"
+    "anzahl": 194,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.357-e2b04e9f4639.txt"
    },
    "BuffSentinel": {
-    "anzahl": 84,
+    "anzahl": 88,
     "neueste": "testberichte/diagnose/BuffSentinel/0.9.60-fb522145c40a.txt"
    },
    "GSMesstest": {
@@ -627,30 +599,30 @@
     "neueste": "testberichte/diagnose/GSMesstest/5.1-f65d607ab777.txt"
    },
    "GSSniperLog": {
-    "anzahl": 25,
+    "anzahl": 29,
     "neueste": "testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt"
    },
    "GuildSentinel": {
-    "anzahl": 197,
+    "anzahl": 201,
     "neueste": "testberichte/diagnose/GuildSentinel/0.9.58-e52bcbc311ff.txt"
    },
    "LevelPilot": {
-    "anzahl": 90,
+    "anzahl": 94,
     "neueste": "testberichte/diagnose/LevelPilot/3.13.6-ff554f99e167.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 176,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.74-f850c0c0007b.txt"
+    "anzahl": 180,
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.74-ff706b85d2e7.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 168,
+    "anzahl": 172,
     "neueste": "testberichte/diagnose/ThreatSentinel/2.5.23-e61faba6e4d4.txt"
    }
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 250,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1795213044-f12a3c.json"
+    "anzahl": 255,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1795244880-44bd03.json"
    }
   }
  }

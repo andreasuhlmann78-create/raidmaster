@@ -4,9 +4,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Durotar (1411)
 
-- Wegstücke 848, Knoten 848, zusammenhängende Teile 8
+- Wegstücke 849, Knoten 854, zusammenhängende Teile 8
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 760 Knoten, Bereich 35–66 / 8–69
+  - Teil 1: 766 Knoten, Bereich 35–66 / 8–69
   - Teil 2: 63 Knoten, Bereich 46–59 / 84–98
   - Teil 3: 8 Knoten, Bereich 34–37 / 42–44
   - Teil 4: 5 Knoten, Bereich 46–48 / 44–44
@@ -58,7 +58,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Das Brachland (1413)
 
-- Wegstücke 2722, Knoten 1379, zusammenhängende Teile 25
+- Wegstücke 2724, Knoten 1379, zusammenhängende Teile 25
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 1317 Knoten, Bereich 34–69 / 3–91
   - Teil 2: 12 Knoten, Bereich 52–54 / 52–54
@@ -184,7 +184,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Schlingendorntal (1434)
 
-- Wegstücke 542, Knoten 573, zusammenhängende Teile 1
+- Wegstücke 543, Knoten 573, zusammenhängende Teile 1
 
 ## Sümpfe des Elends (1435)
 
@@ -250,7 +250,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Orgrimmar (1454)
 
-- Wegstücke 1105, Knoten 925, zusammenhängende Teile 5
+- Wegstücke 1106, Knoten 925, zusammenhängende Teile 5
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 917 Knoten, Bereich 22–82 / 19–95
   - Teil 2: 3 Knoten, Bereich 38–40 / 28–30
@@ -315,7 +315,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Undercity (1458)
 
-- Wegstücke 2515, Knoten 969, zusammenhängende Teile 3
+- Wegstücke 2518, Knoten 969, zusammenhängende Teile 3
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 967 Knoten, Bereich 44–86 / 1–96
   - Teil 2: 1 Knoten, Bereich 59–59 / 25–25

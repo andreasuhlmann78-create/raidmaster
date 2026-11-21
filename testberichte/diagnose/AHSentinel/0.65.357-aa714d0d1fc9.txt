@@ -1,0 +1,225 @@
+AHSentinel-Protokoll v0.65.357 · 21.11. 07:20:57
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  21.11. 07:11:04 L10 PRIEST v0.65.357
+  21.11. 06:50:37 L10 PRIEST v0.65.356
+  21.11. 05:40:03 L10 PRIEST v0.65.354
+  20.11. 20:17:02 L24 WARRIOR v0.65.355
+  20.11. 19:04:32 L24 WARRIOR v0.65.355
+  20.11. 18:56:57 L10 PRIEST v0.65.355
+  20.11. 13:15:10 L10 PRIEST v0.65.355
+  20.11. 09:01:20 L10 PRIEST v0.65.355
+  20.11. 08:32:02 L10 PRIEST v0.65.355
+  20.11. 07:25:15 L10 PRIEST v0.65.354
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 1 Min., 6895 Items, Preis-Sync an
+  SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, BuffSentinel 0, GoldSentinelMarkt 0, GoldSentinelTest 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0, ThreatSentinel 0
+  SYNC gesendet 243 · empfangen 0 · verworfen: 0 · Warteschlange 10 · Kanal verweigert 0
+  NETZ an · bekannt 4 (mit Sync 2: 4, pausiert 1) · gesendet 2 · weitergegeben 0 · offline 1 · Listen 2 · Warteschlange 0 · gespeichert ja · im Test angehalten 0
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Einstellungen geändert: cmdHint=true, fastScan=true, helpSeen=true, marketExpert=false, minimapAngle=199, priceGuard=20, psHintHidden=true, sniperSignal=true, theme=modern, tooltipDEDetail=true, vendorButton=false, vendorFlipMin=500
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0
+
+== Einträge (200, neueste zuerst)
+[21.11. 07:20:52] WAECHTER-HUERDEN ×3 276 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 0 mit belastbarem Marktwert · 0 unter 70 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[21.11. 07:20:39] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 30 ms
+[21.11. 07:20:39] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 18 ms
+[21.11. 07:20:35] WAECHTER-HUERDEN ×3 276 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 0 mit belastbarem Marktwert · 0 unter 70 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[21.11. 07:20:21] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 22 ms
+[21.11. 07:20:17] WAECHTER-HUERDEN 276 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 0 mit belastbarem Marktwert · 0 unter 70 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[21.11. 07:20:17] ITEMINFO neue Item-Anfragen 3738 (zurückgestellt 32299) · je Aufgabe: act:report:30 30, cache:itemlist 598, cache:today:10 645, cache:warm 376, cache:warm-today 200, forecast-eval 66, fullscan 209, market:de 277, names 221, sync-send 3, ui-refresh 48
+[21.11. 07:20:15] VOLLSCAN Messung 220258 Auktionen · 6805 Items · Lücke 178 ms (Nachlauf: Speicherbereinigung nein · Ereignis keins (> 16 ms) · Aufgaben 12 ms (cache:today:10, 0 Schritte) · Bild: eigene Arbeit 14 ms (Aufgaben 12, davon Lesen beim Server 0.0, Ereignisse 2 in 2002 Aufrufen, Skripte/Zeitgeber 0) · Rest 164 ms (Spiel/andere Addons) · Item-Antworten 1001 · Speicher 559843 -> 564663 KB (+4820, davon eigener 312 KB) · danach bereinigt 0 KB) · Speicher 546387->580393 KB (tiefster 472823) · GC 38 · Warten auf Server 11489/15; Ereignis-Aufruf 0/1; Einlesen 7396/26; Verdichtung 441/26; Verfolgung V4 1706/17; Preisverlauf+Neuaufbau 1629/170; Nachlauf 0/178 · neu je Schritt Nachlauf 85607 · Preisverlauf+Neuaufbau 47376 · Verdichtung 34313 · Einlesen 33055 · Warten auf Server 20373 (38 Bilder mit Bereinigung nicht zählbar) · davon eigener neuer Speicher 75758 KB · je Aufgabe fullscan 43480 · forecast-eval 3466 · sync-send 3377 · learn:factor 3128 · core:realcheck 2753 · ausserhalb von Aufgaben 12610 · je Schritt Nachlauf 31345 · Einlesen 18544 · Verdichtung 12592 · Preisverlauf+Neuaufbau 6963 · Verfolgung V4 6128, 56 eigene Aufrufe mit Bereinigung nicht zählbar · Takt: 1050 Bilder · längstes 13.6 ms (fullscan bis AHAnalyzerPro.lua:4860) · über 5/16/40 ms: 107/0/0 · Abgabe nicht möglich 0 · gescheitert 0
+[21.11. 07:20:15] PREIS-ALT nach Scan · letzter Scan Vollscan · Waren im Vollscan 943 · Hauptmaterialien 11083: 0.0 Std., 10940: 0.0 Std., 11082: 0.0 Std. · 0 frisch geholt
+[21.11. 07:20:14] MATERIAL-PREIS Item 11176 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:20:14] MATERIAL-PREIS Item 16202 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:20:14] MATERIAL-PREIS Item 11175 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:20:14] MATERIAL-PREIS Item 10978 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:20:14] MATERIAL-PREIS Item 10939 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:20:14] MATERIAL-PREIS Item 11177 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:20:14] MATERIAL-PREIS Item 16203 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:20:14] MATERIAL-PREIS Item 14344 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:20:14] MATERIAL-PREIS Item 10938 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:20:14] MATERIAL-PREIS Item 11178 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:20:14] MATERIAL-PREIS Item 11139 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:20:14] MATERIAL-PREIS Item 11084 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:20:14] MATERIAL-PREIS Item 11138 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:20:14] MATERIAL-PREIS Item 20725 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:20:14] MATERIAL-PREIS Item 10998 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:20:14] MATERIAL-PREIS Item 11083 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:20:14] MATERIAL-PREIS Item 11137 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:20:14] MATERIAL-PREIS Item 11082 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:20:14] MATERIAL-PREIS Item 16204 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:20:14] MATERIAL-PREIS Item 11174 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:20:14] MATERIAL-PREIS Item 11135 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:20:14] MATERIAL-PREIS Item 14343 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:20:14] MATERIAL-PREIS Item 11134 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:20:14] MATERIAL-PREIS Item 10940 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:20:12] WAECHTER-HUERDEN 276 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 0 mit belastbarem Marktwert · 0 unter 70 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[21.11. 07:20:12] ABSATZ-UNPLAUSIBEL Item 4359 · 2389.8/Tag · Quelle gemessen
+[21.11. 07:20:12] ABSATZ-UNPLAUSIBEL Item 5051 · 234.9/Tag · Quelle gemessen
+[21.11. 07:20:12] ABBRECHEN AUCTION_CANCELED auctionID 194148441 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 07:20:09] VOLLSCAN M1d 220258 Auktionen gelesen (220252 gültig) · 2009 ms in 646 Portionen · längster Frame 5.2 ms · 6805 Items
+[21.11. 07:20:01] ABBRECHEN AUCTION_CANCELED auctionID 190055677 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 07:20:01] ABBRECHEN AUCTION_CANCELED auctionID 190055644 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 07:20:01] ABBRECHEN AUCTION_CANCELED auctionID 190055469 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 07:20:01] ABBRECHEN AUCTION_CANCELED auctionID 190055424 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 07:20:01] ABBRECHEN AUCTION_CANCELED auctionID 190055418 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 07:20:01] ABBRECHEN AUCTION_CANCELED auctionID 190055293 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 07:20:01] ABBRECHEN AUCTION_CANCELED auctionID 190055215 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 07:20:01] ABBRECHEN AUCTION_CANCELED auctionID 190054363 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 07:19:59] ABBRECHEN AUCTION_CANCELED auctionID 177823218 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 07:19:59] VOLLSCAN M1c Abstand 948 s · neue Liste · 220258 Auktionen · Antwort nach 11.5 s
+[21.11. 07:19:54] ABBRECHEN AUCTION_CANCELED auctionID 194148441 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 07:19:48] SCAN-START schnell · Weg Klick/Befehl · Sniper-Modus false · Ruhemodus false · AH offen true
+[21.11. 07:19:46] WAECHTER-HUERDEN ×2 276 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 0 mit belastbarem Marktwert · 0 unter 70 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[21.11. 07:19:38] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 0.3 Std., 10940: 0.3 Std., 11082: 0.0 Std. · 0 frisch geholt
+[21.11. 07:19:36] LANGSAM Empfänger Watcher.lua:914 von BROWSE_RESULTS · 18 ms
+[21.11. 07:19:33] LANGSAM Empfänger UI_Buy.lua:1008 von BUY_CATEGORIES_CHANGED · 18 ms
+[21.11. 07:19:19] ABBRECHEN AUCTION_CANCELED auctionID 194148655 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 07:19:17] ITEMINFO neue Item-Anfragen 2567 (zurückgestellt 25145) · je Aufgabe: cache:itemlist 204, cache:today:10 323, cache:warm 376, cache:warm-today 200, forecast-eval 66, market:de 277, names 24, ui-refresh 480, ui:overview-movers 17, watcher:de-check 399
+[21.11. 07:18:48] ABSATZ Item 5572 · Q 62 (scan, Q gesamt) · S 3.3 (measured) · S roh 3.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 19.2 · N 7.0 · kaum
+[21.11. 07:18:42] ENTZAUBERWERT Item 7048 · eigene Ø aus 1407 · 11083 74% × 1.53 à 383, 11082 20% × 1.51 à 2689, 11084 6% × 1.00 à 6637 · brutto 1696 · netto 1611
+[21.11. 07:18:42] DE-CHANCEN Gruppe 2:4:a · Tabelle 11083 75%/11082 20%/11084 5% · echt 11083 74%/11082 20%/11084 6% (1407)
+[21.11. 07:18:42] ABSATZ Item 7048 · Q 7 (vollscan) · S 56.0 (measured) · S roh 56.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.1 · N 2.0
+[21.11. 07:18:38] ABSATZ Item 4496 · Q 15 (vollscan) · S 15.2 (measured) · S roh 15.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.1 · N 7.0
+[21.11. 07:18:38] ABSATZ Item 159 · Q 2049 (scan, Q gesamt) · S 231.4 (market, gelernt, unsicher) · S roh 181.5 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 8.9 · N 7.0 · kaum
+[21.11. 07:18:38] ABSATZ Item 4604 · Q 532 (scan, Q gesamt) · S 45.9 (market, gelernt, unsicher) · S roh 36.0 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 11.6 · N 7.0 · kaum
+[21.11. 07:18:38] ABSATZ Item 4536 · Q 3119 (scan, Q gesamt) · S 541.8 (market, gelernt, unsicher) · S roh 425.0 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 5.8 · N 6.0
+[21.11. 07:18:33] ABSATZ Item 6662 · Q 40 (vollscan) · S 10.2 (market, gelernt, unsicher) · S roh 8.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 4.0 · N 7.0
+[21.11. 07:18:33] ABSATZ Item 4238 · Q 103 (vollscan) · S 67.9 (measured) · S roh 67.9 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.5 · N 7.0
+[21.11. 07:18:28] ABSATZ Item 2455 · Q 42 (vollscan) · S 121.2 (measured) · S roh 121.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.4 · N 5.0
+[21.11. 07:18:27] ABSATZ Item 2592 · Q 1176 (vollscan) · S 1398.2 (measured) · S roh 1398.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.8 · N 7.0
+[21.11. 07:18:27] ABSATZ Item 5571 · Q 87 (scan, Q gesamt) · S 15.6 (measured) · S roh 15.6 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 5.6 · N 7.0
+[21.11. 07:18:07] WAECHTER-HUERDEN ×2 275 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 0 mit belastbarem Marktwert · 0 unter 70 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[21.11. 07:17:56] ABBRECHEN AUCTION_CANCELED auctionID 194149234 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 07:17:53] WAECHTER-HUERDEN 275 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 0 mit belastbarem Marktwert · 0 unter 70 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[21.11. 07:17:52] MINDESTEINZAHLUNG gemessen=1 je Auktion · Formel=1 · Minimum jetzt 1
+[21.11. 07:17:52] EINSTELLEN Item 11137 · Menge 24 · Auktionen 1 · Laufzeit 1 · Preis 837/Stück, 20088 gesamt · Gebühr erwartet 1, abgezogen 1 (0.00 % vom Preis) · Günstigstes 838 · Mindestpreis 3 (learned)
+[21.11. 07:17:51] AHS-POST PostCommodity: arg2=1 arg3=24 arg4=837 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/6
+[21.11. 07:17:48] VERKAUFEN-KLICK Zeile Item 11137 · vorher 11139 · nachher 11137 · Fehler 0 · Titel Visionenstaub
+[21.11. 07:17:47] MINDESTEINZAHLUNG gemessen=1 je Auktion · Formel=0 · Minimum jetzt 1
+[21.11. 07:17:47] EINSTELLEN Item 11139 · Menge 1 · Auktionen 1 · Laufzeit 1 · Preis 2584/Stück, 2584 gesamt · Gebühr erwartet 1, abgezogen 1 (0.04 % vom Preis) · Günstigstes 2585 · Mindestpreis 2 (vendor)
+[21.11. 07:17:47] AHS-POST PostCommodity: arg2=1 arg3=1 arg4=2584 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/5
+[21.11. 07:17:45] VERKAUFEN-KLICK Zeile Item 11139 · vorher 11082 · nachher 11139 · Fehler 0 · Titel Großer leuchtender Splitter
+[21.11. 07:17:44] ITEMINFO neue Item-Anfragen 2557 (zurückgestellt 25145) · je Aufgabe: cache:itemlist 204, cache:today:10 323, cache:warm 376, cache:warm-today 200, forecast-eval 66, market:de 277, names 24, ui-refresh 471, ui:overview-movers 17, watcher:de-check 399
+[21.11. 07:17:44] MINDESTEINZAHLUNG gemessen=1 je Auktion · Formel=0 · Minimum jetzt 1
+[21.11. 07:17:44] EINSTELLEN Item 11082 · Menge 7 · Auktionen 1 · Laufzeit 1 · Preis 2829/Stück, 19803 gesamt · Gebühr erwartet 1, abgezogen 1 (0.01 % vom Preis) · Günstigstes 2830 · Mindestpreis 2 (vendor)
+[21.11. 07:17:43] AHS-POST PostCommodity: arg2=1 arg3=7 arg4=2829 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/9
+[21.11. 07:17:41] VERKAUFEN-KLICK Zeile Item 11082 · vorher 11135 · nachher 11082 · Fehler 0 · Titel Große Astralessenz
+[21.11. 07:17:41] ABSATZ Item 279972 · Q 100 (vollscan) · S 116.0 (measured) · S roh 116.0 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.9 · N 1.0
+[21.11. 07:17:40] MINDESTEINZAHLUNG gemessen=2 je Auktion · Formel=2 · Minimum jetzt 1
+[21.11. 07:17:40] EINSTELLEN Item 11135 · Menge 48 · Auktionen 1 · Laufzeit 1 · Preis 3985/Stück, 191280 gesamt · Gebühr erwartet 2, abgezogen 2 (0.00 % vom Preis) · Günstigstes 3985 · Mindestpreis 3 (learned)
+[21.11. 07:17:40] ABSATZ Item 6338 · Q 0 (vollscan) · S 81.3 (measured) · S roh 81.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.0 · N 1.0
+[21.11. 07:17:40] ABSATZ Item 2515 · Q 135296 (vollscan) · S 7444.9 (measured) · S roh 7444.9 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 18.2 · N 7.0 · kaum
+[21.11. 07:17:40] AHS-POST PostCommodity: arg2=1 arg3=48 arg4=3985 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/4
+[21.11. 07:17:39] WAECHTER-HUERDEN 275 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 0 mit belastbarem Marktwert · 0 unter 70 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[21.11. 07:17:37] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 0.2 Std., 10940: 0.2 Std., 11082: 0.0 Std. · 0 frisch geholt
+[21.11. 07:17:37] ABSATZ Item 2997 · Q 37 (vollscan) · S 120.0 (measured) · S roh 120.0 · Deckel - · eigene Quote 3/3 · Laufzeit 2 Std. · W 0.3 · N 1.0
+[21.11. 07:17:36] ABSATZ Item 11139 · Q 0 (vollscan) · S 22.6 (measured) · S roh 22.6 · Deckel - · eigene Quote 5/6 · Laufzeit 24 Std. · W 0.0 · N 1.2
+[21.11. 07:17:36] VERKAUFEN-KLICK Zeile Item 11135 · vorher nil · nachher 11135 · Fehler 0 · Titel Große Mystikeressenz
+[21.11. 07:17:33] WAECHTER-HUERDEN 275 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 0 mit belastbarem Marktwert · 0 unter 70 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[21.11. 07:17:32] LANGSAM Empfänger UI_Buy.lua:1008 von BUY_CATEGORIES_CHANGED · 18 ms
+[21.11. 07:17:28] ABSATZ Item 2657 · Q 58 (scan, Q gesamt) · S 14.5 (market, gelernt, unsicher) · S roh 7.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 4.1 · N 7.0
+[21.11. 07:17:28] ABSATZ Item 4245 · Q 11 (vollscan) · S 130.6 (measured) · S roh 130.6 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.1 · N 2.0
+[21.11. 07:17:27] ABSATZ Item 4240 · Q 2 (vollscan) · S 67.9 (measured) · S roh 67.9 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.0 · N 1.0
+[21.11. 07:17:26] POST-ÜBERSPRUNGEN Post 1 · Betreff-Länge 3 · Muster nein · Rechnung - · Anzahl 3 · Gold 0 · Absender leer nein
+[21.11. 07:17:21] WAECHTER-HUERDEN 275 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 0 mit belastbarem Marktwert · 0 unter 70 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[21.11. 07:17:20] ABBRECHEN Fehlermeldung des Servers: 4
+[21.11. 07:17:20] ABBRECHEN CancelAuction aufgerufen, warte auf AUCTION_CANCELED
+[21.11. 07:17:20] ABBRECHEN Blizzard-Abbruch auctionID 194092870 · Item 11082
+[21.11. 07:17:20] ABBRECHEN Klick: Zeile auctionID 194092870 · Item 11082 · Menge 7 · Status liegen · Preis 2837
+[21.11. 07:17:20] ABBRECHEN Fehlermeldung des Servers: 4
+[21.11. 07:17:20] ABBRECHEN CancelAuction aufgerufen, warte auf AUCTION_CANCELED
+[21.11. 07:17:20] ABBRECHEN Klick: Zeile auctionID 194063703 · Item 11135 · Menge 4 · Status liegen · Preis 3986
+[21.11. 07:17:20] ABBRECHEN AUCTION_CANCELED auctionID 113 (erwartet 193946241) -> fremd, nichts geändert
+[21.11. 07:17:19] ABBRECHEN CancelAuction aufgerufen, warte auf AUCTION_CANCELED
+[21.11. 07:17:19] ABBRECHEN Blizzard-Abbruch auctionID 193946241 · Item 11135
+[21.11. 07:17:19] ABBRECHEN Klick: Zeile auctionID 193946241 · Item 11135 · Menge 26 · Status liegen · Preis 3987
+[21.11. 07:17:19] ABBRECHEN Fehlermeldung des Servers: 4
+[21.11. 07:17:19] ABBRECHEN CancelAuction aufgerufen, warte auf AUCTION_CANCELED
+[21.11. 07:17:19] ABBRECHEN Klick: Zeile auctionID 194090108 · Item 11135 · Menge 10 · Status gleich · Preis 3985
+[21.11. 07:17:18] WAECHTER-HUERDEN 275 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 0 mit belastbarem Marktwert · 0 unter 70 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[21.11. 07:17:17] ABBRECHEN AUCTION_CANCELED auctionID 113 (erwartet 194090108) -> fremd, nichts geändert
+[21.11. 07:17:17] ABBRECHEN CancelAuction aufgerufen, warte auf AUCTION_CANCELED
+[21.11. 07:17:17] ABBRECHEN Klick: Zeile auctionID 194090108 · Item 11135 · Menge 10 · Status gleich · Preis 3985
+[21.11. 07:17:17] ABBRECHEN AUCTION_CANCELED auctionID 113 (erwartet 193946241) -> fremd, nichts geändert
+[21.11. 07:17:17] ABBRECHEN CancelAuction aufgerufen, warte auf AUCTION_CANCELED
+[21.11. 07:17:17] ABBRECHEN Klick: Zeile auctionID 193946241 · Item 11135 · Menge 26 · Status liegen · Preis 3987
+[21.11. 07:17:16] ABBRECHEN AUCTION_CANCELED auctionID 113 (erwartet 194063703) -> fremd, nichts geändert
+[21.11. 07:17:16] ABBRECHEN CancelAuction aufgerufen, warte auf AUCTION_CANCELED
+[21.11. 07:17:16] ABBRECHEN Klick: Zeile auctionID 194063703 · Item 11135 · Menge 4 · Status liegen · Preis 3986
+[21.11. 07:17:16] ABBRECHEN CancelAuction aufgerufen, warte auf AUCTION_CANCELED
+[21.11. 07:17:16] ABBRECHEN Blizzard-Abbruch auctionID 194092870 · Item 11082
+[21.11. 07:17:16] ABBRECHEN Klick: Zeile auctionID 194092870 · Item 11082 · Menge 7 · Status liegen · Preis 2837
+[21.11. 07:17:13] WAECHTER-HUERDEN 275 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 0 mit belastbarem Marktwert · 0 unter 70 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[21.11. 07:17:10] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 0.2 Std., 10940: 0.2 Std., 11082: 0.1 Std. · 0 frisch geholt
+[21.11. 07:17:06] WAECHTER-HUERDEN 275 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 0 mit belastbarem Marktwert · 0 unter 70 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[21.11. 07:17:05] LANGSAM Empfänger UI_Buy.lua:1008 von BUY_CATEGORIES_CHANGED · 19 ms
+[21.11. 07:16:51] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 0.2 Std., 10940: 0.2 Std., 11082: 0.1 Std. · 0 frisch geholt
+[21.11. 07:16:49] WAECHTER-HUERDEN 275 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 0 mit belastbarem Marktwert · 0 unter 70 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[21.11. 07:16:49] SNIPER-RUHE Ruhemodus aus nach 2 s
+[21.11. 07:16:46] SNIPER-SUCHE Ziel 5966 · Angebote 122 · Treffer ≤ Max 0 · gekauft 19 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[21.11. 07:16:46] LANGSAM Empfänger UI_Buy.lua:1008 von BUY_CATEGORIES_CHANGED · 18 ms
+[21.11. 07:16:46] LANGSAM Empfänger UI_Main.lua:5145 von AH_STATE · 26 ms
+[21.11. 07:16:46] SNIPER-RUHE Ruhemodus an
+[21.11. 07:16:28] DE-GEZÄHLT Item 5966 · Itemstufe 38 · Gruppe 2:6:a · Weg Fenster · Beute 11137×1
+[21.11. 07:16:28] ENTZ-VERTEILUNG Teil 5966 (1700, erwartet netto 2340): 11137×1 Einstand 570 (netto 784) · Ausbeute -1130
+[21.11. 07:16:23] DE-GEZÄHLT Item 5966 · Itemstufe 38 · Gruppe 2:6:a · Weg Fenster · Beute 11135×2
+[21.11. 07:16:23] ENTZ-VERTEILUNG Teil 5966 (1700, erwartet netto 2346): 11135×2 Einstand 5487 (netto 3785) · Ausbeute +3787
+[21.11. 07:16:19] DE-GEZÄHLT Item 5966 · Itemstufe 38 · Gruppe 2:6:a · Weg Fenster · Beute 11137×2
+[21.11. 07:16:19] ENTZ-VERTEILUNG Teil 5966 (1700, erwartet netto 2324): 11137×2 Einstand 1148 (netto 784) · Ausbeute -552
+[21.11. 07:16:15] DE-GEZÄHLT Item 5966 · Itemstufe 38 · Gruppe 2:6:a · Weg Fenster · Beute 11137×2
+[21.11. 07:16:15] ENTZ-VERTEILUNG Teil 5966 (1700, erwartet netto 2327): 11137×2 Einstand 1146 (netto 784) · Ausbeute -554
+[21.11. 07:16:11] DE-GEZÄHLT Item 5966 · Itemstufe 38 · Gruppe 2:6:a · Weg Fenster · Beute 11137×2
+[21.11. 07:16:11] ENTZ-VERTEILUNG Teil 5966 (1700, erwartet netto 2331): 11137×2 Einstand 1145 (netto 784) · Ausbeute -555
+[21.11. 07:16:06] DE-GEZÄHLT Item 5966 · Itemstufe 38 · Gruppe 2:6:a · Weg Fenster · Beute 11137×2
+[21.11. 07:16:06] ENTZ-VERTEILUNG Teil 5966 (1700, erwartet netto 2334): 11137×2 Einstand 1143 (netto 784) · Ausbeute -557
+[21.11. 07:16:05] ABSATZ Item 11137 · Q 34 (vollscan) · S 439.5 (measured) · S roh 439.5 · Deckel - · eigene Quote 6/11 · Laufzeit 24 Std. · W 0.1 · N 1.8
+[21.11. 07:16:02] DE-GEZÄHLT Item 5966 · Itemstufe 38 · Gruppe 2:6:a · Weg Fenster · Beute 11137×2
+[21.11. 07:16:02] ENTZ-VERTEILUNG Teil 5966 (1700, erwartet netto 2337): 11137×2 Einstand 1142 (netto 784) · Ausbeute -558
+[21.11. 07:15:58] DE-GEZÄHLT Item 5966 · Itemstufe 38 · Gruppe 2:6:a · Weg Fenster · Beute 11137×2
+[21.11. 07:15:58] ENTZ-VERTEILUNG Teil 5966 (1700, erwartet netto 2340): 11137×2 Einstand 1140 (netto 784) · Ausbeute -560
+[21.11. 07:15:54] DE-GEZÄHLT Item 5966 · Itemstufe 38 · Gruppe 2:6:a · Weg Fenster · Beute 11137×1
+[21.11. 07:15:54] ENTZ-VERTEILUNG Teil 5966 (1700, erwartet netto 2344): 11137×1 Einstand 569 (netto 784) · Ausbeute -1131
+[21.11. 07:15:50] DE-GEZÄHLT Item 5966 · Itemstufe 38 · Gruppe 2:6:a · Weg Fenster · Beute 11137×2
+[21.11. 07:15:50] ENTZ-VERTEILUNG Teil 5966 (1700, erwartet netto 2350): 11137×2 Einstand 1135 (netto 784) · Ausbeute -565
+[21.11. 07:15:45] DE-GEZÄHLT Item 5966 · Itemstufe 38 · Gruppe 2:6:a · Weg Fenster · Beute 11137×2
+[21.11. 07:15:45] ENTZ-VERTEILUNG Teil 5966 (1700, erwartet netto 2354): 11137×2 Einstand 1133 (netto 784) · Ausbeute -567
+[21.11. 07:15:42] DE-GEZÄHLT Item 5966 · Itemstufe 38 · Gruppe 2:6:a · Weg Fenster · Beute 11135×2
+[21.11. 07:15:42] ENTZ-VERTEILUNG Teil 5966 (1700, erwartet netto 2357): 11135×2 Einstand 5461 (netto 3785) · Ausbeute +3761
+[21.11. 07:15:37] DE-GEZÄHLT Item 5966 · Itemstufe 38 · Gruppe 2:6:a · Weg Fenster · Beute 11139×1
+[21.11. 07:15:37] ENTZ-VERTEILUNG Teil 5966 (1700, erwartet netto 2334): 11139×1 Einstand 1787 (netto 2453) · Ausbeute +87
+[21.11. 07:15:33] DE-GEZÄHLT Item 5966 · Itemstufe 38 · Gruppe 2:6:a · Weg Fenster · Beute 11137×1
+[21.11. 07:15:33] ENTZ-VERTEILUNG Teil 5966 (1700, erwartet netto 2334): 11137×1 Einstand 572 (netto 784) · Ausbeute -1128
+[21.11. 07:15:29] DE-GEZÄHLT Item 5966 · Itemstufe 38 · Gruppe 2:6:a · Weg Fenster · Beute 11135×2
+[21.11. 07:15:29] ENTZ-VERTEILUNG Teil 5966 (1700, erwartet netto 2341): 11135×2 Einstand 5499 (netto 3785) · Ausbeute +3799
+[21.11. 07:15:25] DE-GEZÄHLT Item 5966 · Itemstufe 38 · Gruppe 2:6:a · Weg Fenster · Beute 11137×1
+[21.11. 07:15:25] ENTZ-VERTEILUNG Teil 5966 (1700, erwartet netto 2317): 11137×1 Einstand 576 (netto 784) · Ausbeute -1124
+[21.11. 07:15:21] DE-GEZÄHLT Item 5966 · Itemstufe 38 · Gruppe 2:6:a · Weg Fenster · Beute 11137×2
+[21.11. 07:15:21] ENTZ-VERTEILUNG Teil 5966 (1700, erwartet netto 2324): 11137×2 Einstand 1148 (netto 784) · Ausbeute -552
+[21.11. 07:15:16] DE-GEZÄHLT Item 5966 · Itemstufe 38 · Gruppe 2:6:a · Weg Fenster · Beute 11135×2
+[21.11. 07:15:16] ENTZ-VERTEILUNG Teil 5966 (1700, erwartet netto 2328): 11135×2 Einstand 5530 (netto 3785) · Ausbeute +3830
+[21.11. 07:15:15] SNIPER Treffer 18 · gekauft 18 · Ø Suche>Treffer 0 ms, Treffer>Reserv. 1649 ms, Reserv.>bereit 0 ms, bereit>bestätigt 0 ms
+[21.11. 07:15:12] DE-GEZÄHLT Item 5966 · Itemstufe 38 · Gruppe 2:6:a · Weg Fenster · Beute 11137×2
+[21.11. 07:15:12] ENTZ-VERTEILUNG Teil 5966 (1700, erwartet netto 2304): 11137×2 Einstand 1158 (netto 784) · Ausbeute -542
+[21.11. 07:15:08] KLICK Entzaubern-Knopf -> Fenster offen ja
+[21.11. 07:15:05] POST-ÜBERSPRUNGEN Post 1 · Betreff-Länge 3 · Muster nein · Rechnung - · Anzahl 3 · Gold 0 · Absender leer nein
+[21.11. 07:14:54] ITEMINFO neue Item-Anfragen 2491 (zurückgestellt 25145) · je Aufgabe: cache:itemlist 204, cache:today:10 323, cache:warm 376, cache:warm-today 200, forecast-eval 1, market:de 277, names 24, ui-refresh 470, ui:overview-movers 17, watcher:de-check 399,
+[21.11. 07:14:53] SNIPER-RUHE Ruhemodus aus nach 87 s
+[21.11. 07:14:50] ABBRECHEN AUCTION_CANCELED auctionID 194068439 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 07:14:49] KAUF gesendet · Angebot 194068439 · offen 0
+[21.11. 07:14:48] SNIPER-RAD Mausrad über AHAnalyzerProWindow.content.235fa16a9f0.236dbae2450.236dbae4b60.236dbaebf30 · Kaufen mit both · nicht gekauft
+[21.11. 07:14:48] ABBRECHEN AUCTION_CANCELED auctionID 194070948 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 07:14:48] KAUF gesendet · Angebot 194070948 · offen 0
+[21.11. 07:14:46] SNIPER-RAD Mausrad über AHAnalyzerProWindow.content.235fa16a9f0.236dbae2450.236dbae4b60.236dbaebf30 · Kaufen mit both · nicht gekauft
+[21.11. 07:14:45] ABBRECHEN AUCTION_CANCELED auctionID 194071083 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 07:14:45] KAUF gesendet · Angebot 194071083 · offen 0
+[21.11. 07:14:44] SNIPER-RAD Mausrad über AHAnalyzerProWindow.content.235fa16a9f0.236dbae2450.236dbae4b60.236dbaebf30 · Kaufen mit both · nicht gekauft
+[21.11. 07:14:44] LANGSAM Empfänger UI_Sniper.lua:811 von SNIPER_CHANGED · 20 ms
+[21.11. 07:14:44] ABBRECHEN AUCTION_CANCELED auctionID 194071201 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 07:14:43] KAUF gesendet · Angebot 194071201 · offen 0
+[21.11. 07:14:42] ABBRECHEN AUCTION_CANCELED auctionID 194071324 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 07:14:42] SNIPER-RAD Mausrad über AHAnalyzerProWindow.content.235fa16a9f0.236dbae2450.236dbae4b60.236dbaebf30 · Kaufen mit both · gekauft
+[21.11. 07:14:42] KAUF gesendet · Angebot 194071324 · offen 0

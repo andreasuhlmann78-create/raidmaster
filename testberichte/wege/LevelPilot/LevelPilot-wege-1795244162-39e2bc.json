@@ -1,0 +1,129 @@
+{
+ "addon": "LevelPilot",
+ "blocked": [],
+ "env": {
+  "build": "71037",
+  "class": "WARRIOR",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 25,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "f": 1,
+ "fest": [],
+ "id": "LevelPilot-wege-1795244162-39e2bc",
+ "kind": "wege",
+ "npc": [],
+ "time": 1795244162,
+ "version": "3.13.6",
+ "zones": [
+  {
+   "edges": [
+    {
+     "lv": [
+      "1413|o|Crossroads",
+      "1413|o|Crossroads",
+      "1413|o|Crossroads",
+      "1413|o|Crossroads",
+      "1413|d|Crossroads",
+      "1413|d|Crossroads"
+     ],
+     "n": 6,
+     "p": [
+      51.7,
+      30.1,
+      51.8,
+      30.3,
+      51.9,
+      30.5,
+      52,
+      30.3,
+      52,
+      30.2,
+      52,
+      29.9
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1413|o|Crossroads",
+      "1413|o|Crossroads"
+     ],
+     "n": 1,
+     "p": [
+      51.6,
+      30,
+      51.6,
+      30.1
+     ],
+     "src": "selbst"
+    }
+   ],
+   "map": 1413,
+   "name": "Das Brachland"
+  },
+  {
+   "edges": [
+    {
+     "lv": [
+      "1434|o|Booty Bay",
+      "1434|d|Booty Bay"
+     ],
+     "n": 6,
+     "p": [
+      27.6,
+      76.9,
+      27.4,
+      77.1
+     ],
+     "src": "selbst"
+    }
+   ],
+   "map": 1434,
+   "name": "Schlingendorntal"
+  },
+  {
+   "edges": [
+    {
+     "lv": [
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke"
+     ],
+     "n": 3,
+     "p": [
+      51.1,
+      69.4,
+      50.8,
+      68.3,
+      50,
+      67.1,
+      49.1,
+      66.1,
+      48.5,
+      66.5,
+      47.4,
+      65.1,
+      46.5,
+      64.3,
+      45.7,
+      63.8
+     ],
+     "src": "selbst"
+    }
+   ],
+   "map": 1454,
+   "name": "Orgrimmar"
+  }
+ ]
+}

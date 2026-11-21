@@ -1,0 +1,225 @@
+AHSentinel-Protokoll v0.65.357 · 21.11. 08:10:37
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  21.11. 08:08:13 L1 WARRIOR v0.65.357
+  21.11. 08:03:58 L10 PRIEST v0.65.357
+  21.11. 07:56:44 L1 WARRIOR v0.65.357
+  21.11. 07:33:19 L25 WARRIOR v0.65.357
+  21.11. 07:21:02 L10 PRIEST v0.65.357
+  21.11. 07:11:04 L10 PRIEST v0.65.357
+  21.11. 06:50:37 L10 PRIEST v0.65.356
+  21.11. 05:40:03 L10 PRIEST v0.65.354
+  20.11. 20:17:02 L24 WARRIOR v0.65.355
+  20.11. 19:04:32 L24 WARRIOR v0.65.355
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 15 Min., 6912 Items, Preis-Sync an
+  SYNC GoldSentinelSync 3 · Wege: keiner · Mitspieler (1 Std.): AHSentinel 0, BuffSentinel 0, GoldSentinelMarkt 0, GoldSentinelTest 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0, ThreatSentinel 0
+  SYNC gesendet 4 · empfangen 0 · verworfen: nopath 9 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 4 (mit Sync 2: 4, pausiert 4) · gesendet 4 · weitergegeben 0 · offline 4 · Listen 0 · Warteschlange 0 · gespeichert ja · im Test angehalten 0
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Einstellungen geändert: cmdHint=true, fastScan=true, helpSeen=true, marketExpert=false, minimapAngle=199, priceGuard=20, psHintHidden=true, sniperSignal=true, theme=modern, tooltipDEDetail=true, vendorButton=false, vendorFlipMin=500
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0
+
+== Einträge (200, neueste zuerst)
+[21.11. 08:10:28] ABSATZ Item 4496 · Q 4 (vollscan) · S 17.0 (measured) · S roh 17.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.3 · N 4.0
+[21.11. 08:10:28] ABSATZ Item 4238 · Q 109 (vollscan) · S 76.2 (measured) · S roh 76.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.4 · N 7.0
+[21.11. 08:10:27] ABSATZ Item 2657 · Q 39 (scan, Q gesamt) · S 26.9 (market, gelernt) · S roh 16.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.5 · N 7.0
+[21.11. 08:10:27] ABSATZ Item 4240 · Q 12 (vollscan) · S 76.2 (measured) · S roh 76.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.2 · N 3.0
+[21.11. 08:08:28] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[21.11. 08:08:19] SYNC Weg=kein Weg
+[21.11. 08:08:15] ITEMINFO neue Item-Anfragen 200 (zurückgestellt 0) · je Aufgabe: cache:warm 200
+[21.11. 08:08:15] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[21.11. 08:08:15] ABSATZ-UNPLAUSIBEL Item 6303 · 2323.1/Tag · Quelle gemessen
+[21.11. 08:08:15] ABSATZ-UNPLAUSIBEL Item 4359 · 2683.3/Tag · Quelle gemessen
+[21.11. 08:08:15] ABSATZ-UNPLAUSIBEL Item 4322 · 68.8/Tag · Quelle gemessen
+[21.11. 08:08:15] ABSATZ-UNPLAUSIBEL Item 211855 · 104.2/Tag · Quelle gemessen
+[21.11. 08:08:15] ABSATZ-UNPLAUSIBEL Item 3464 · 24049.5/Tag · Quelle gemessen
+[21.11. 08:08:15] ABSATZ-UNPLAUSIBEL Item 21099 · 49.4/Tag · Quelle gemessen
+[21.11. 08:08:15] ABSATZ-UNPLAUSIBEL Item 11225 · 92.4/Tag · Quelle gemessen
+[21.11. 08:08:15] ABSATZ-UNPLAUSIBEL Item 7933 · 67.8/Tag · Quelle gemessen
+[21.11. 08:08:14] ABSATZ-UNPLAUSIBEL Item 10008 · 152.5/Tag · Quelle gemessen
+[21.11. 08:08:14] ABSATZ-UNPLAUSIBEL Item 4382 · 957.5/Tag · Quelle gemessen
+[21.11. 08:08:14] ABSATZ-UNPLAUSIBEL Item 4310 · 67.8/Tag · Quelle gemessen
+[21.11. 08:08:14] ABSATZ-UNPLAUSIBEL Item 3859 · 4132.3/Tag · Quelle gemessen
+[21.11. 08:08:14] ABSATZ-UNPLAUSIBEL Item 17062 · 91.9/Tag · Quelle gemessen
+[21.11. 08:08:14] ABSATZ-UNPLAUSIBEL Item 211784 · 84.0/Tag · Quelle gemessen
+[21.11. 08:08:14] ABSATZ-UNPLAUSIBEL Item 1708 · 326.1/Tag · Quelle gemessen
+[21.11. 08:08:14] ABSATZ-UNPLAUSIBEL Item 3726 · 1385.8/Tag · Quelle gemessen
+[21.11. 08:08:14] ABSATZ-UNPLAUSIBEL Item 5051 · 263.8/Tag · Quelle gemessen
+[21.11. 08:08:14] ABSATZ-UNPLAUSIBEL Item 730 · 645.1/Tag · Quelle geschätzt
+[21.11. 08:08:14] ABSATZ-UNPLAUSIBEL Item 279968 · 1849.9/Tag · Quelle gemessen
+[21.11. 08:08:14] ABSATZ-UNPLAUSIBEL Item 10592 · 1229.8/Tag · Quelle gemessen
+[21.11. 08:08:14] ABSATZ-UNPLAUSIBEL Item 4362 · 80.7/Tag · Quelle gemessen
+[21.11. 08:08:14] ABSATZ-UNPLAUSIBEL Item 6361 · 908.4/Tag · Quelle gemessen
+[21.11. 08:08:14] ABSATZ-UNPLAUSIBEL Item 3485 · 100.2/Tag · Quelle gemessen
+[21.11. 08:08:14] ABSATZ-UNPLAUSIBEL Item 3465 · 32308.0/Tag · Quelle gemessen
+[21.11. 08:08:14] ABSATZ-UNPLAUSIBEL Item 8175 · 40.6/Tag · Quelle gemessen
+[21.11. 08:07:29] ABSATZ Item 5572 · Q 68 (scan, Q gesamt) · S 3.7 (measured) · S roh 3.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 18.8 · N 7.0 · kaum
+[21.11. 08:07:28] ABSATZ Item 4496 · Q 4 (vollscan) · S 17.0 (measured) · S roh 15.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.3 · N 4.0
+[21.11. 08:07:27] ABSATZ Item 2455 · Q 93 (vollscan) · S 136.1 (measured) · S roh 121.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.7 · N 7.0
+[21.11. 08:07:26] ABSATZ Item 4238 · Q 109 (vollscan) · S 76.2 (measured) · S roh 67.9 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.4 · N 7.0
+[21.11. 08:07:24] ABSATZ Item 2657 · Q 39 (scan, Q gesamt) · S 20.2 (market, gelernt) · S roh 16.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 2.0 · N 7.0
+[21.11. 08:07:23] ABBRECHEN AUCTION_CANCELED auctionID 194391243 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 08:07:23] ABSATZ Item 4240 · Q 12 (vollscan) · S 76.2 (measured) · S roh 67.9 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.2 · N 3.0
+[21.11. 08:07:03] MINDESTEINZAHLUNG gemessen=1 je Auktion · Formel=0 · Minimum jetzt 1
+[21.11. 08:07:03] EINSTELLEN Item 11139 · Menge 1 · Auktionen 1 · Laufzeit 1 · Preis 2529/Stück, 2529 gesamt · Gebühr erwartet 1, abgezogen 1 (0.04 % vom Preis) · Günstigstes 2530 · Mindestpreis 2 (vendor)
+[21.11. 08:07:02] AHS-POST PostCommodity: arg2=1 arg3=1 arg4=2529 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/6
+[21.11. 08:07:02] WAECHTER-HUERDEN 275 Angebote · 267 Waren (Handwerkswaren & Co., keine Ausrüstung) · 267 mit Marktwert · 0 mit belastbarem Marktwert · 0 unter 70 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[21.11. 08:06:59] VERKAUFEN-KLICK Zeile Item 11139 · vorher 11082 · nachher 11139 · Fehler 0 · Titel Großer leuchtender Splitter
+[21.11. 08:06:58] ITEMINFO neue Item-Anfragen 1164 (zurückgestellt 24038) · je Aufgabe: cache:warm 407, cache:warm-today 417, forecast-eval 136, pd7 200, watcher:de-check 4
+[21.11. 08:06:57] MINDESTEINZAHLUNG gemessen=1 je Auktion · Formel=0 · Minimum jetzt 1
+[21.11. 08:06:57] EINSTELLEN Item 11082 · Menge 5 · Auktionen 1 · Laufzeit 1 · Preis 2826/Stück, 14130 gesamt · Gebühr erwartet 1, abgezogen 1 (0.01 % vom Preis) · Günstigstes 2827 · Mindestpreis 2 (vendor)
+[21.11. 08:06:57] AHS-POST PostCommodity: arg2=1 arg3=5 arg4=2826 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/7
+[21.11. 08:06:55] VERKAUFEN-KLICK Zeile Item 11082 · vorher 11135 · nachher 11082 · Fehler 0 · Titel Große Astralessenz
+[21.11. 08:06:54] MINDESTEINZAHLUNG gemessen=2 je Auktion · Formel=2 · Minimum jetzt 1
+[21.11. 08:06:54] EINSTELLEN Item 11135 · Menge 43 · Auktionen 1 · Laufzeit 1 · Preis 3978/Stück, 171054 gesamt · Gebühr erwartet 2, abgezogen 2 (0.00 % vom Preis) · Günstigstes 3979 · Mindestpreis 3 (learned)
+[21.11. 08:06:54] AHS-POST PostCommodity: arg2=1 arg3=43 arg4=3978 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/8
+[21.11. 08:06:53] ABSATZ Item 2515 · Q 138212 (vollscan) · S 8359.2 (measured) · S roh 7444.9 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 16.5 · N 7.0 · kaum
+[21.11. 08:06:53] ABSATZ Item 6338 · Q 64 (vollscan) · S 91.3 (measured) · S roh 81.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.5 · N 6.0
+[21.11. 08:06:53] ABSATZ Item 2589 · Q 267 (vollscan) · S 759.0 (measured) · S roh 676.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.4 · N 5.0
+[21.11. 08:06:53] ABSATZ Item 279972 · Q 119 (vollscan) · S 130.2 (measured) · S roh 116.0 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.9 · N 1.0
+[21.11. 08:06:53] ABSATZ Item 2997 · Q 67 (vollscan) · S 134.7 (measured) · S roh 120.0 · Deckel - · eigene Quote 3/3 · Laufzeit 2 Std. · W 0.5 · N 1.0
+[21.11. 08:06:53] ENTZAUBERWERT Item 7048 · eigene Ø aus 1407 · 11083 74% × 1.53 à 392, 11082 20% × 1.51 à 2686, 11084 6% × 1.00 à 6635 · brutto 1706 · netto 1621
+[21.11. 08:06:53] DE-CHANCEN Gruppe 2:4:a · Tabelle 11083 75%/11082 20%/11084 5% · echt 11083 74%/11082 20%/11084 6% (1407)
+[21.11. 08:06:53] ABSATZ Item 7048 · Q 60 (vollscan) · S 62.9 (measured) · S roh 56.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.0 · N 7.0
+[21.11. 08:06:52] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 0.2 Std., 10940: 0.2 Std., 11082: 0.0 Std. · 0 frisch geholt
+[21.11. 08:06:52] WAECHTER-HUERDEN 275 Angebote · 267 Waren (Handwerkswaren & Co., keine Ausrüstung) · 267 mit Marktwert · 0 mit belastbarem Marktwert · 0 unter 70 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[21.11. 08:06:51] VERKAUFEN-KLICK Zeile Item 11135 · vorher nil · nachher 11135 · Fehler 0 · Titel Große Mystikeressenz
+[21.11. 08:06:48] WAECHTER-HUERDEN 275 Angebote · 267 Waren (Handwerkswaren & Co., keine Ausrüstung) · 267 mit Marktwert · 0 mit belastbarem Marktwert · 0 unter 70 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[21.11. 08:06:34] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 0.2 Std., 10940: 0.2 Std., 11082: 0.0 Std. · 0 frisch geholt
+[21.11. 08:06:32] ABBRECHEN AUCTION_CANCELED auctionID 113 (erwartet 194148441) -> fremd, nichts geändert
+[21.11. 08:06:32] ABBRECHEN CancelAuction aufgerufen, warte auf AUCTION_CANCELED
+[21.11. 08:06:32] ABBRECHEN Blizzard-Abbruch auctionID 194148441 · Item 11135
+[21.11. 08:06:32] ABBRECHEN Klick: Zeile auctionID 194148441 · Item 11135 · Menge 43 · Status liegen · Preis 3985
+[21.11. 08:06:31] WAECHTER-HUERDEN ×2 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 0 mit belastbarem Marktwert · 0 unter 70 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[21.11. 08:06:22] ABBRECHEN Fehlermeldung des Servers: 4
+[21.11. 08:06:22] ABBRECHEN CancelAuction aufgerufen, warte auf AUCTION_CANCELED
+[21.11. 08:06:22] ABBRECHEN Blizzard-Abbruch auctionID 194148893 · Item 11139
+[21.11. 08:06:22] ABBRECHEN Klick: Zeile auctionID 194148893 · Item 11139 · Menge 1 · Status liegen · Preis 2584
+[21.11. 08:06:21] ABBRECHEN Fehlermeldung des Servers: 4
+[21.11. 08:06:21] ABBRECHEN CancelAuction aufgerufen, warte auf AUCTION_CANCELED
+[21.11. 08:06:21] ABBRECHEN Blizzard-Abbruch auctionID 194148893 · Item 11139
+[21.11. 08:06:21] ABBRECHEN Klick: Zeile auctionID 194148893 · Item 11139 · Menge 1 · Status liegen · Preis 2584
+[21.11. 08:06:21] ABBRECHEN Fehlermeldung des Servers: 4
+[21.11. 08:06:21] ABBRECHEN CancelAuction aufgerufen, warte auf AUCTION_CANCELED
+[21.11. 08:06:21] ABBRECHEN Klick: Zeile auctionID 194148441 · Item 11135 · Menge 43 · Status liegen · Preis 3985
+[21.11. 08:06:20] ABBRECHEN CancelAuction aufgerufen, warte auf AUCTION_CANCELED
+[21.11. 08:06:20] ABBRECHEN Klick: Zeile auctionID 194148655 · Item 11082 · Menge 5 · Status liegen · Preis 2829
+[21.11. 08:06:19] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 0 mit belastbarem Marktwert · 0 unter 70 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[21.11. 08:06:19] ABBRECHEN AUCTION_CANCELED auctionID 113 (erwartet 194148893) -> fremd, nichts geändert
+[21.11. 08:06:18] ABBRECHEN CancelAuction aufgerufen, warte auf AUCTION_CANCELED
+[21.11. 08:06:18] ABBRECHEN Klick: Zeile auctionID 194148893 · Item 11139 · Menge 1 · Status liegen · Preis 2584
+[21.11. 08:06:18] ABBRECHEN AUCTION_CANCELED auctionID 113 (erwartet 194148441) -> fremd, nichts geändert
+[21.11. 08:06:18] ABBRECHEN CancelAuction aufgerufen, warte auf AUCTION_CANCELED
+[21.11. 08:06:18] ABBRECHEN Klick: Zeile auctionID 194148441 · Item 11135 · Menge 43 · Status liegen · Preis 3985
+[21.11. 08:06:17] ABBRECHEN CancelAuction aufgerufen, warte auf AUCTION_CANCELED
+[21.11. 08:06:17] ABBRECHEN Blizzard-Abbruch auctionID 194148655 · Item 11082
+[21.11. 08:06:17] ABBRECHEN Klick: Zeile auctionID 194148655 · Item 11082 · Menge 5 · Status liegen · Preis 2829
+[21.11. 08:06:12] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 0 mit belastbarem Marktwert · 0 unter 70 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[21.11. 08:06:05] ABSATZ Item 11139 · Q 12 (vollscan) · S 22.6 (measured) · S roh 22.6 · Deckel - · eigene Quote 6/6 · Laufzeit 24 Std. · W 0.6 · N 1.0
+[21.11. 08:06:05] ABSATZ Item 11135 · Q 52 (vollscan) · S 86.7 (measured) · S roh 86.7 · Deckel - · eigene Quote 8/13 · Laufzeit 24 Std. · W 0.6 · N 1.6
+[21.11. 08:06:05] ABSATZ Item 11082 · Q 4 (vollscan) · S 85.3 (measured) · S roh 85.3 · Deckel - · eigene Quote 37/49 · Laufzeit 24 Std. · W 0.1 · N 1.3
+[21.11. 08:06:04] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 0 mit belastbarem Marktwert · 0 unter 70 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[21.11. 08:06:03] WÄCHTER Entzaubern lohnt · 4 Teile · ab 30 %
+[21.11. 08:06:01] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 0.2 Std., 10940: 0.2 Std., 11082: 0.2 Std. · 0 frisch geholt
+[21.11. 08:05:57] EIGENE Ware Item 11082 · buyout 2829 · Menge 5 · als Stückpreis gelesen
+[21.11. 08:05:56] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 0 mit belastbarem Marktwert · 0 unter 70 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[21.11. 08:05:56] ABSATZ-UNPLAUSIBEL Item 248823 · 216.4/Tag · Quelle geschätzt
+[21.11. 08:05:56] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[21.11. 08:05:53] ABSATZ Item 4245 · Q 12 (vollscan) · S 146.7 (measured) · S roh 130.6 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.1 · N 2.0
+[21.11. 08:05:49] RECHNUNG Item 11139 · Menge 1 (Feld 5 1, Feld 11 1) · Feld 4 2583 · consignment 129 · deposit 0 · Post-Gold 2454 · gesamt 2583 · Stück 2583 · Feld 4 = Gesamt: ja
+[21.11. 08:05:49] WERT Gruppe 7 · Item 11139 · vorhergesagt 1 · echt 2583 · Abweichung -100 %
+[21.11. 08:05:49] RECHNUNG Item 11137 · Menge 8 (Feld 5 8, Feld 11 8) · Feld 4 6528 · consignment 326 · deposit 0 · Post-Gold 6202 · gesamt 6528 · Stück 816 · Feld 4 = Gesamt: ja
+[21.11. 08:05:49] WERT Gruppe 7 · Item 11137 · vorhergesagt 1 · echt 816 · Abweichung -100 %
+[21.11. 08:05:49] RECHNUNG Item 11134 · Menge 12 (Feld 5 12, Feld 11 12) · Feld 4 10920 · consignment 546 · deposit 0 · Post-Gold 10374 · gesamt 10920 · Stück 910 · Feld 4 = Gesamt: ja
+[21.11. 08:05:49] WERT Gruppe 7 · Item 11134 · vorhergesagt 1 · echt 910 · Abweichung -100 %
+[21.11. 08:05:49] RECHNUNG Item 11083 · Menge 107 (Feld 5 107, Feld 11 107) · Feld 4 43121 · consignment 2156 · deposit 3 · Post-Gold 40968 · gesamt 43121 · Stück 403 · Feld 4 = Gesamt: ja
+[21.11. 08:05:49] WERT Gruppe 7 · Item 11083 · vorhergesagt 9 · echt 403 · Abweichung -98 %
+[21.11. 08:05:49] RECHNUNG Item 11137 · Menge 15 (Feld 5 15, Feld 11 15) · Feld 4 12375 · consignment 618 · deposit 0 · Post-Gold 11757 · gesamt 12375 · Stück 825 · Feld 4 = Gesamt: ja
+[21.11. 08:05:49] WERT Gruppe 7 · Item 11137 · vorhergesagt 1 · echt 825 · Abweichung -100 %
+[21.11. 08:05:49] ITEMINFO neue Item-Anfragen 825 (zurückgestellt 6428) · je Aufgabe: cache:warm 407, cache:warm-today 417, pd7 1
+[21.11. 08:05:49] RECHNUNG-ROH 1=seller, 2=Visionenstaub, 4=12375, 5=15, 6=0, 7=618, 8=0, 9=0, 10=0, 11=15, 12=false
+[21.11. 08:04:13] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[21.11. 08:04:03] SYNC Weg=GUILD
+[21.11. 08:04:00] ITEMINFO neue Item-Anfragen 200 (zurückgestellt 0) · je Aufgabe: cache:warm 200
+[21.11. 08:03:59] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[21.11. 08:03:59] ABSATZ-UNPLAUSIBEL Item 4322 · 61.3/Tag · Quelle gemessen
+[21.11. 08:03:59] ABSATZ-UNPLAUSIBEL Item 4359 · 2389.8/Tag · Quelle gemessen
+[21.11. 08:03:59] ABSATZ-UNPLAUSIBEL Item 6303 · 2069.0/Tag · Quelle gemessen
+[21.11. 08:03:59] ABSATZ-UNPLAUSIBEL Item 211855 · 92.8/Tag · Quelle gemessen
+[21.11. 08:03:59] ABSATZ-UNPLAUSIBEL Item 3464 · 21419.1/Tag · Quelle gemessen
+[21.11. 08:03:59] ABSATZ-UNPLAUSIBEL Item 21099 · 44.0/Tag · Quelle gemessen
+[21.11. 08:03:59] ABSATZ-UNPLAUSIBEL Item 11225 · 82.3/Tag · Quelle gemessen
+[21.11. 08:03:59] ABSATZ-UNPLAUSIBEL Item 7933 · 60.4/Tag · Quelle gemessen
+[21.11. 08:03:59] ABSATZ-UNPLAUSIBEL Item 10008 · 135.8/Tag · Quelle gemessen
+[21.11. 08:03:59] ABSATZ-UNPLAUSIBEL Item 4382 · 852.8/Tag · Quelle gemessen
+[21.11. 08:03:59] ABSATZ-UNPLAUSIBEL Item 4310 · 60.3/Tag · Quelle gemessen
+[21.11. 08:03:59] ABSATZ-UNPLAUSIBEL Item 3859 · 3680.3/Tag · Quelle gemessen
+[21.11. 08:03:59] ABSATZ-UNPLAUSIBEL Item 17062 · 81.9/Tag · Quelle gemessen
+[21.11. 08:03:59] ABSATZ-UNPLAUSIBEL Item 211784 · 74.8/Tag · Quelle gemessen
+[21.11. 08:03:59] ABSATZ-UNPLAUSIBEL Item 3726 · 1234.3/Tag · Quelle gemessen
+[21.11. 08:03:59] ABSATZ-UNPLAUSIBEL Item 5051 · 234.9/Tag · Quelle gemessen
+[21.11. 08:03:59] ABSATZ-UNPLAUSIBEL Item 730 · 645.1/Tag · Quelle geschätzt
+[21.11. 08:03:59] ABSATZ-UNPLAUSIBEL Item 279968 · 1647.5/Tag · Quelle gemessen
+[21.11. 08:03:59] ABSATZ-UNPLAUSIBEL Item 4362 · 71.9/Tag · Quelle gemessen
+[21.11. 08:03:59] ABSATZ-UNPLAUSIBEL Item 6361 · 809.0/Tag · Quelle gemessen
+[21.11. 08:03:59] ABSATZ-UNPLAUSIBEL Item 3485 · 89.3/Tag · Quelle gemessen
+[21.11. 08:03:59] ABSATZ-UNPLAUSIBEL Item 3465 · 28774.3/Tag · Quelle gemessen
+[21.11. 08:00:54] ABSATZ Item 117 · Q 90 (scan, Q gesamt) · S 122.9 (market, gelernt, unsicher) · S roh 114.8 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.7 · N 1.0
+[21.11. 07:56:59] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[21.11. 07:56:50] SYNC Weg=kein Weg
+[21.11. 07:56:49] ITEMINFO neue Item-Anfragen 200 (zurückgestellt 0) · je Aufgabe: cache:warm 200
+[21.11. 07:56:48] PD7 PD7 geladen: 7184 Items, 252246 Einträge geprüft, 0 Fehler · Zustand active
+[21.11. 07:56:46] ABSATZ-UNPLAUSIBEL Item 6303 · 2069.0/Tag · Quelle gemessen
+[21.11. 07:56:46] ABSATZ-UNPLAUSIBEL Item 4359 · 2389.8/Tag · Quelle gemessen
+[21.11. 07:56:46] ABSATZ-UNPLAUSIBEL Item 4322 · 61.3/Tag · Quelle gemessen
+[21.11. 07:56:46] ABSATZ-UNPLAUSIBEL Item 211855 · 92.8/Tag · Quelle gemessen
+[21.11. 07:56:46] ABSATZ-UNPLAUSIBEL Item 3464 · 21419.1/Tag · Quelle gemessen
+[21.11. 07:56:46] ABSATZ-UNPLAUSIBEL Item 21099 · 44.0/Tag · Quelle gemessen
+[21.11. 07:56:46] ABSATZ-UNPLAUSIBEL Item 11225 · 82.3/Tag · Quelle gemessen
+[21.11. 07:56:46] ABSATZ-UNPLAUSIBEL Item 7933 · 60.4/Tag · Quelle gemessen
+[21.11. 07:56:46] ABSATZ-UNPLAUSIBEL Item 10008 · 135.8/Tag · Quelle gemessen
+[21.11. 07:56:46] ABSATZ-UNPLAUSIBEL Item 4382 · 852.8/Tag · Quelle gemessen
+[21.11. 07:56:46] ABSATZ-UNPLAUSIBEL Item 4310 · 60.3/Tag · Quelle gemessen
+[21.11. 07:56:46] ABSATZ-UNPLAUSIBEL Item 3859 · 3680.3/Tag · Quelle gemessen
+[21.11. 07:56:46] ABSATZ-UNPLAUSIBEL Item 17062 · 81.9/Tag · Quelle gemessen
+[21.11. 07:56:46] ABSATZ-UNPLAUSIBEL Item 211784 · 74.8/Tag · Quelle gemessen
+[21.11. 07:56:45] ABSATZ-UNPLAUSIBEL Item 3726 · 1234.3/Tag · Quelle gemessen
+[21.11. 07:56:45] ABSATZ-UNPLAUSIBEL Item 5051 · 234.9/Tag · Quelle gemessen
+[21.11. 07:56:45] ABSATZ-UNPLAUSIBEL Item 730 · 645.1/Tag · Quelle geschätzt
+[21.11. 07:56:45] ABSATZ-UNPLAUSIBEL Item 279968 · 1647.5/Tag · Quelle gemessen
+[21.11. 07:56:45] ABSATZ-UNPLAUSIBEL Item 4362 · 71.9/Tag · Quelle gemessen
+[21.11. 07:56:45] ABSATZ-UNPLAUSIBEL Item 6361 · 809.0/Tag · Quelle gemessen
+[21.11. 07:56:45] ABSATZ-UNPLAUSIBEL Item 3485 · 89.3/Tag · Quelle gemessen
+[21.11. 07:56:45] ABSATZ-UNPLAUSIBEL Item 3465 · 28774.3/Tag · Quelle gemessen
+[21.11. 07:55:52] VOLLSCAN Messung 212946 Auktionen · 6798 Items · Lücke 148 ms (Nachlauf: Speicherbereinigung nein · Ereignis keins (> 16 ms) · Aufgaben 6 ms (cache:today:10, 0 Schritte) · Bild: eigene Arbeit 8 ms (Aufgaben 6, davon Lesen beim Server 0.0, Ereignisse 2 in 1760 Aufrufen, Skripte/Zeitgeber 0) · Rest 140 ms (Spiel/andere Addons) · Item-Antworten 880 · Speicher 608363 -> 612447 KB (+4084, davon eigener 80 KB) · danach bereinigt 0 KB) · Speicher 582886->728600 KB (tiefster 566385) · GC 4 · Warten auf Server 12123/24; Ereignis-Aufruf 0/1; Einlesen 9267/24; Verdichtung 431/30; Verfolgung V4 2135/19; Preisverlauf+Neuaufbau 1674/122; Nachlauf 0/148 · neu je Schritt Nachlauf 61017 · Preisverlauf+Neuaufbau 39839 · Verdichtung 36970 · Warten auf Server 32467 · Einlesen 29124 (4 Bilder mit Bereinigung nicht zählbar) · davon eigener neuer Speicher 33882 KB · je Aufgabe fullscan 20139 · sync-send 3227 · learn:factor 3017 · core:realcheck 2856 · learn:rhythm 671 · ausserhalb von Aufgaben 2060 · je Schritt Nachlauf 13839 · Verdichtung 12281 · Verfolgung V4 5060 · Einlesen 1615 · Preisverlauf+Neuaufbau 1049, 15 eigene Aufrufe mit Bereinigung nicht zählbar · Takt: 993 Bilder · längstes 8.7 ms (fullscan) · über 5/16/40 ms: 90/0/0 · Abgabe nicht möglich 0 · gescheitert 0
+[21.11. 07:55:51] ABSATZ-UNPLAUSIBEL Item 17062 · 81.9/Tag · Quelle gemessen
+[21.11. 07:55:51] ABSATZ-UNPLAUSIBEL Item 730 · 645.1/Tag · Quelle geschätzt
+[21.11. 07:55:51] MATERIAL-PREIS Item 11176 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:55:51] MATERIAL-PREIS Item 16202 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:55:51] MATERIAL-PREIS Item 11175 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:55:51] MATERIAL-PREIS Item 10978 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:55:51] MATERIAL-PREIS Item 10939 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:55:51] MATERIAL-PREIS Item 11177 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:55:51] MATERIAL-PREIS Item 16203 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:55:51] MATERIAL-PREIS Item 14344 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:55:51] MATERIAL-PREIS Item 10938 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:55:51] MATERIAL-PREIS Item 11178 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:55:51] MATERIAL-PREIS Item 11139 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:55:51] MATERIAL-PREIS Item 11084 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:55:51] MATERIAL-PREIS Item 11138 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:55:51] MATERIAL-PREIS Item 20725 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:55:51] MATERIAL-PREIS Item 10998 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:55:51] MATERIAL-PREIS Item 11083 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:55:51] MATERIAL-PREIS Item 11137 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:55:51] MATERIAL-PREIS Item 11082 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:55:51] MATERIAL-PREIS Item 16204 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:55:51] MATERIAL-PREIS Item 11174 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:55:51] MATERIAL-PREIS Item 11135 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:55:51] MATERIAL-PREIS Item 14343 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:55:51] MATERIAL-PREIS Item 11134 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:55:51] MATERIAL-PREIS Item 10940 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 07:55:45] VOLLSCAN M1d 212946 Auktionen gelesen (212941 gültig) · 1898 ms in 611 Portionen · längster Frame 3.4 ms · 6798 Items
+[21.11. 07:55:43] ABSATZ Item 10424 · Q 5 (vollscan) · S 5.6 (market, gelernt, unsicher) · S roh 3.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.1 · N 7.0
