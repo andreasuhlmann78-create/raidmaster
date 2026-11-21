@@ -5496,3 +5496,4 @@ V1f MITTEL (Nutzer 08:43): Entzauber-Vorschläge, -Gewinne und -Zeilen erscheine
    Berufe des Charakters aus (Laufzeit-API) und zeigt Entzauber-Hinweise nur, wenn dieser Charakter Verzauberkunst hat und die Stufe für das
    Item reicht. Sonst stattdessen den passenden Weg (AH oder Händler). Gilt für Verkaufen, Tooltip, Schnäppchen und Kaufhinweise.
    Test mit Gegenprobe (Charakter ohne Verzauberkunst -> keine Entzauber-Zeile).
+V1f KORREKTUR (Nutzer 08:44): Im Tooltip DÜRFEN die Entzauber-Angaben für alle stehen bleiben (Information). Abgleich mit dem Beruf des Charakters nur für die FUNKTIONEN: Entzauber-Vorschläge beim Verkaufen ("Entzaubern: +x mehr"), Kauf-zum-Entzaubern (Schnäppchen, Sniper-Ziele aus Entzauberwert, Hinweis "x Teile mit über 30 %"), Entzaubern-Fenster/Knopf, "Lohnt bis" über den Weg Entzaubern. Ohne Verzauberkunst (oder Stufe zu tief) diese Funktionen aus bzw. nicht als Weg werten.
