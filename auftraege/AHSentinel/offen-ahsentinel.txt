@@ -5648,3 +5648,25 @@ Neuaufbau; Laden hängt -> nach Zeitlimit Hinweis statt Dauer-"geladen".
     4. Dauerregel: steht in shared/wissen/entscheide.md und shared/wissen/buchhaltung.md; keine Sitzung entfernt oder schwächt das.
     Tests (gebaut, nicht laufen lassen): AH-Verkauf -> Chatzeile + Buchung + Auktion "verkauft"; Spielergold -> nicht als Verkauf;
     abgelaufen -> Lager +n, Auktion "zurück"; Summe Chat = Golddifferenz auf den Kupfer; COD -> liegen, Zeile, kein Gold weg.
+
+>>> FOLGENPRÜFUNG 21.11. 15:55 (Supervisor, Nutzer 15:46 "Konsequenzen für funktionierende Bestandteile ausschliessen")
+    Code gelesen: 0.65.362 (Mailer.lua TryAuto/HasAnyMail/Knopf), Books.lua OnMailMoney/Flow, Ledger:ScanInbox, Locales.
+    In 0.65.362 belegt in Ordnung: COD nie (NextMail cod==0), Textbriefe bleiben (money/itemCount 0), Spielergold = "ohne-rechnung",
+    nicht als AH-Verkauf gebucht (OnTakeMoney nur itype "seller"), SelfCheck kennt "ohne-rechnung", "Post abholen" in 10/10 Locales,
+    Knopf-Name f.ah bleibt (wowsim-Szenarien klicken buttons.ah weiter). PFLICHT-SCHUTZ für die offenen Punkte (im Bericht je Punkt belegen):
+ F1 (Punkt 7, Verdacht zu messen): Abstimmung TB138-2 zählt "post" als Handels-Geldfluss. Spielergold per Post wird jetzt automatisch
+    abgeholt -> darf in der Abstimmung keine falsche "Lücke" erzeugen. Belegen (Testbericht vorher/nachher) oder Spieler-/Händlerpost
+    als erklärten Fluss führen (wie Lehrer/Flug).
+ F2 (Punkt 7): Briefkasten als Lager: Auto-Abholen füllt die Taschen mit Twink-/Spielerpost. Halt bei vollen Taschen mit klarer Meldung
+    (bestehend) – und Einstellung "Automatisch abholen" (autoCollect) muss weiter wirken; Shift unverändert.
+ F3 (Punkt 9): Post-Scan baut AUF der bestehenden Buchung auf (Ledger:ScanInbox, BK:OnMailMoney) – keine zweite Buchung. Test: ein
+    AH-Verkauf -> genau 1 Buchung, 1 Chatzeile. Verkäufe aus Post dürfen die Vollscan-Messung (MeasuredRate) nicht doppelt zählen.
+ F4 (Punkt 8): "Verzauberer" erst entscheiden, wenn die Skill-Liste geladen ist; solange unbekannt: Tooltip wie bisher (kein Wechsel
+    hin und her). Tooltip-Code von Sniper/Schnäppchen/Kaufen-Liste unverändert (Vergleich 0.65.360 vs. neu je Ansicht).
+ F5 (P8, 0.65.361): Serie, "Neu einstellen" und automatisches Neu-Einstellen: liefert die Preisprüfung nichts -> Item überspringen
+    mit Meldung, weiter mit dem nächsten; nie hängen, nie zum Marktwert einstellen (Zeitlimit).
+ F6 (P4, 0.65.361): Der eine Kaufwert ändert die Sniper-Grenze. Im Bericht 5 echte Items: Grenze vorher/nachher; Sniper kauft nur
+    darunter (Test mit Gegenprobe).
+ F7 (P1/P11): Nur die ANZEIGE der Faktoren ändert sich, die Rechnung nicht – Gewinnwerte vorher/nachher identisch (Test).
+ F8 Allgemein: Vor dem Push die gesamte Testroutine nicht laufen lassen (Nutzer), aber alle T-Fälle, die Mailer/Books/Ledger/Tooltip/
+    Sniper/Seller betreffen, auf Erwartungen prüfen, die durch diese Punkte ändern, und im Bericht auflisten (wie Bericht 09:15).
