@@ -5692,3 +5692,26 @@ Soll:
     aus leistung.md; 20 Ereignisse in 1 s -> 1 Neuaufbau.
 Tests (gebaut, nicht laufen lassen): je Ereignis R1 -> Neuaufbau nur im sichtbaren Reiter; Reiter zu -> keiner; Sniper/Wächter -> keiner
 zusätzlich; Fokus im Preisfeld -> Text bleibt; Scroll/Auswahl bleiben; 20 Ereignisse -> 1 Neuaufbau; Laden hängt -> Hinweis nach Zeitlimit.
+
+==== GESAMTÜBERSICHT AHSentinel 21.11.2026 16:05 (Supervisor, Nutzer 15:55 "nimm alles zusammen, schau dass alles stimmt") ====
+Massgeblich ist diese Übersicht; Einzelheiten in den genannten Einträgen. Neuere Entscheide gehen älteren vor.
+ERLEDIGT LAUT BERICHT (zur Prüfung, Ingame-Test durch Nutzer): Sniper S1–S7 (0.65.356/357), V1 (0.65.358), V1a–V1f (0.65.359),
+  Tooltip TT1–TT7 (0.65.360), P8 P9 P10 P4 P5 P1/P11 (0.65.361), Punkt 7 Post abholen = alles (0.65.362).
+JETZT (eine Version, nur Discord, Tests bauen, nicht laufen lassen):
+  a) Punkt 8 Entzauberwert für Nicht-Verzauberer (AUFTRAG 15:38 inkl. KORREKTUR 15:38, weiss/grau nie).
+  b) Punkt 9 Post-Scan, DAUERREGEL (AUFTRAG 15:44).
+  c) P13 "Scan alt" nur einmal (BEFUND 15:35) – VORGEZOGEN, weil Punkt 8 darauf verweist (sonst steht im neuen Tooltip wieder 2×).
+  d) Folgenprüfung F1–F8 (15:55) für 0.65.361/362 und a)–c), im Bericht je Punkt belegen.
+MONTAG 23.11.: P2, P3, P6, P7, P12; Reiter aktualisieren sich selbst R1–R7 (15:55; ersetzt "Meine Auktionen" 09:21); Verkaufsschutz-Rest
+  (13:55 A/B/C, siehe W1); Schnäppchen "Gewinn gesamt" (BEFUND 20.11. 13:25); Scan-Warnung (20.11. 13:42); Darstellung/L1–L8;
+  Messaufträge; Fragen aus Bericht 09:15.
+WIDERSPRÜCHE (geklärt bzw. offen beim Nutzer):
+ W1 Verkaufsschutz 20.11. 13:55 A2/A3 ("ohne Bestätigung nie darunter") widerspricht V1 21.11. ("nie bevormunden", Bestätigungen
+    entfernt, nur Warnung). Neuerer Entscheid gilt: A2/A3 = Hinweis + Schlachtzugswarnung, KEINE Bestätigung/Sperre. OFFEN beim Nutzer:
+    A5 "bei einer Warnung hält die Serie an" – bleibt das (Serie = mehrere Stapel automatisch) oder nur Warnung? Bis zur Antwort Montag-Teil.
+ W2 Gebühren-Rückfrage (zweiter Klick bei hoher Einstellgebühr) in anderen Wegen als dem Fenster – Frage aus Bericht 09:15 an den Nutzer offen.
+ W3 Punkt 9 "je Brief eine Chatzeile": bei vielen Briefen (z. B. 50 Verkäufe) viele Zeilen. Dauerregel gilt wörtlich; Vorschlag an den
+    Nutzer offen (gleiche Items zusammenfassen "Verkauft: 12× Seelenstaub …"). Bis zur Antwort: je Brief eine Zeile + Summe.
+ W4 HINWEIS 06:47 "schätzen verboten" vs. heutige Anzeige "Zahlen nur geschätzt" (P6, Montag) – bis Montag sichtbar, kein Kaufhinweis
+    darf darauf beruhen (P5/P8 decken die Gold-Fälle ab).
+ W5 20.11. 13:35 Punkt 4 "Gold-relevant: CurseForge sofort" ist ÜBERHOLT durch 21.11. "Curse nicht" – nur Discord.
