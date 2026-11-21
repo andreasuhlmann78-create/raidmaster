@@ -5856,3 +5856,14 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
        Ziel: belegen, ob die ~3 s vom Server kommen (nicht änderbar) oder von AHS (dann Vorschlag mit Zahlen, wie es schneller geht,
        ohne Fehler/Sperren – keine Änderung ohne Auftrag).
  SN-T3 Nichts am Takt ändern, nur messen. Test: jede Suche erzeugt genau eine SNIPER-TAKT-Zeile mit Grund.
+
+>>> BEFUND 21.11. 19:55 (Nutzer 19:49/19:51, Ingame 0.65.371, Bild nicht im Repo) – nächste Version, nur Discord
+ B8 Die Rechnungs-Box (TT:ShowCalc, rechts neben dem Tooltip, TOPRIGHT) liegt UNTER dem Vergleichs-Tooltip "Ausgerüstet" (ShoppingTooltip)
+    und ist nicht lesbar (Goldene Schuppenarmschienen: "Gewinn +57c" nicht nachprüfbar). Ein Tooltip kann man nicht mit der Maus
+    berühren – die Rechnung muss ohne Hover sichtbar sein. Soll: Box dort platzieren, wo kein Vergleichs-Tooltip liegt (sind
+    ShoppingTooltip1/2 sichtbar: rechts NEBEN diese bzw. unter den Tooltip; am Bildschirmrand auf die andere Seite), nie überdeckt.
+    Test: Rüstungsteil mit Vergleich -> Rechnungs-Box vollständig sichtbar, keine Überlappung (Rahmen-Koordinaten).
+ B9 Nachrechnung (Prüf-Sitzung): Tooltip zeigt Visionenstaub 1–2 à 8s02 (Ø 74 %), Große Mystikeressenz 1–2 à 31s95 (Ø 21 %),
+    Großer leuchtender Splitter 1 à 24s (Ø 5 %), Kauf 18s94 -> mit 1,5 Stück: brutto 20s17, netto 19s16, Gewinn +22c (Vorgabe: −12c).
+    Angezeigt +57c (brutto nötig 20s54). Rechnungs-Zeilen des Falls im Bericht zeigen; rechnet AHS mit gemessenen Mengen statt 1,5,
+    muss die Tabelle diese Menge zeigen (z. B. "Ø 1,62"), sonst passt die Anzeige nicht zur Rechnung (TT2).
