@@ -5962,3 +5962,22 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
      der GESAMTpreis eines Angebots in der Liste (3× zu 1s40) – Verdacht: Median aus Stapel-Gesamtpreisen statt Stückpreisen (wie S6
      "Stapel- statt Stückpreis", VK2 Schriftrolle). Belegen (Rohdaten der 14-Tage-Preise dieses Items), beheben, falsche Werte bereinigen;
      bis dahin keine "kaufen"-Empfehlung aus diesem Median. Test: Angebote 3× zu 4s19 gesamt -> Stückpreis 1s40 im Median.
+
+>>> BEFUND 22.11. 09:00 (Nutzer 08:49 "für gleich", 08:53 "wichtig: AHS soll prüfen, wo der Fehler sonst noch der Fall ist und woher der
+    vorgeschlagene Preis kommt"; Ingame 0.65.375, 3 Bilder Verkaufen "Schredderanleitung – Seite 9/11/12", nicht im Repo) – SOFORT mit PM1/ST2
+ ST3 BELEG für ST2 (Stapel- statt Stückpreis), jetzt drei Fälle:
+     Seite 11: "Marktwert (Scan vor 1 Min.) 10s45", Preisprüfung günstigstes 18c (57 Stück); Angebote 1s16 × 9 = 10s44, 1s49 × 7 = 10s43.
+     Seite 12: "Marktwert (Scan) 17s90", günstigstes 54c (33 Stück); Angebot 1s19 × 15 = 17s85; Kopf "Jetzt teuer – verkaufen (+109 % über üblich)".
+     Seite 9:  "Marktwert (Median 14 Tage) 4s19", günstigstes 7c (55 Stück); Angebot 1s40 × 3 = 4s20.
+     -> Der Scan-Wert und der 14-Tage-Median enthalten GESAMTPREISE ganzer Angebote. Gilt vermutlich für alle nicht stapelbaren
+     Angebote mit Menge > 1 (Item-Auktionen, keine Waren).
+ ST4 PFLICHT "wo ist der Fehler sonst noch" – jede Stelle belegen und im Bericht als Liste (Datei:Zeile, betroffen ja/nein, Beleg):
+     Vollscan/Scan-Speicher (Preis je Stück?), Marktwert-Verlauf (14 Tage, verdichtete Werte, 90 Tage), Marktwert (Scan) im Tooltip,
+     Liste Kaufen/Verkaufen "% Markt", Schnäppchen, Wächter, Sniper-Grenzen, "Lohnt bis", "jetzt teuer/günstig", Preisschutz, Buchhaltung
+     (Einstand/Erlös je Stück), Entzauber-Werte, Gilden-Sync/Marktdaten-Netz (gesendete und empfangene Preise), Uploads, Verkaufsgeschwindigkeit.
+     Falsche gespeicherte Werte bereinigen (Zahlen vorher/nachher), falsche Daten nicht weiter senden; empfangene fremde Gesamtpreise
+     (S2/S6) als Ursache "Stapel- statt Stückpreis" verwerfen.
+ ST5 HERKUNFT DES VORSCHLAGS sichtbar machen: neben "Vorschlag" in einer Zeile die Rechnung, z. B. "Vorschlag 53c = günstigstes fremdes
+     Angebot 54c (33 Stück) − 1c" bzw. "= gleicher Preis (unter 20c)" bzw. "1–5 Stück übersprungen". Im Bericht für die drei Fälle belegen.
+ ST6 = VK1 GILT HIER: Händler zahlt 62c; Vorschlag 7c (Seite 9) bzw. 18c (Seite 11) bzw. 53c (Seite 12) liegt darunter ("Gewinn erwartet
+     −18c"/"−20c"). Roter Hinweis "Händler zahlt 62c – mehr als hier", nie bevormunden. Test mit diesen drei Fällen.
