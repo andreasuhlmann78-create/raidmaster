@@ -5981,3 +5981,22 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
      Angebot 54c (33 Stück) − 1c" bzw. "= gleicher Preis (unter 20c)" bzw. "1–5 Stück übersprungen". Im Bericht für die drei Fälle belegen.
  ST6 = VK1 GILT HIER: Händler zahlt 62c; Vorschlag 7c (Seite 9) bzw. 18c (Seite 11) bzw. 53c (Seite 12) liegt darunter ("Gewinn erwartet
      −18c"/"−20c"). Roter Hinweis "Händler zahlt 62c – mehr als hier", nie bevormunden. Test mit diesen drei Fällen.
+
+>>> EINORDNUNG 22.11. 09:10 (Supervisor) – CurseForge-Probleme aus berichte/Supervisor/2026-11-22-0905-curseforge-neue-probleme.txt
+ CF1 = CF-AHS-5 WIEDER OFFEN (HOCH, Gold): Spieler A, 0.65.354 Forever, 21.11. 02:09/02:11 (IDs 8761704, 8761709): Verkaufspreis weiter
+     weit unter AH, MEHRERE Items, kann nicht verkaufen. Unsere Antwort "fixed" (8755960) war verfrüht. Einordnung: gehört in den
+     Block PM1/ST1–ST6 (Stapel- statt Stückpreis, Marktwert falsch) + V1 (0.65.358). Spielerbilder (imgur 1ghwKFj, 1Pi4Das) im Bericht
+     auswerten (Item, Menge je Angebot, angezeigte Preise) und belegen, dass der Fall mit der neuen Version behoben ist.
+     CurseForge: nach Prüfung durch die Prüf-Sitzung und Entscheid des Nutzers (zurzeit "Curse nicht") – erst dann Antwort an Spieler A.
+ CF2 NEU (HOCH, Spieler hat deinstalliert): Spieler B, 21.11. 03:25/03:51 (IDs 8762108, 8762228): "Accounting"-Chatmeldung nach JEDEM
+     Kampf ("… arrows are gone"). Verbrauchte Munition (Pfeile/Kugeln) wird als Fehlbestand ausgebucht und gemeldet. SOFORT, vor BK-ESS
+     (Montag), aber als Teil davon: Munition = Eigenverbrauch (Abgang im Munitionsplatz/Taschen während Kampf bzw. Auto-Schuss), KEINE
+     Chatmeldung; allgemein: Fehlbestand-Meldungen höchstens EINE Sammelzeile je Sitzung und abschaltbar (CF-AHS-6), Standard für
+     Verbrauchsgüter (Munition, Essen, Trinken, Tränke, Reagenzien, Verbände): still als Eigenverbrauch buchen.
+     Test: 200 Pfeile verschossen -> keine Chatzeile, Buchung "Verbraucht"; echter Fehlbestand -> 1 Sammelzeile.
+     Wunsch Spieler B: beim Öffnen eines Berufs kein Fenster/Dialog von selbst – belegen, ob das AHS ist (Entzaubern-Fenster/DEButton)
+     oder ProfessionSentinel (Eintrag auch dort); Standard: nichts öffnet sich von selbst, nur auf Klick (alte Einstellung respektieren).
+ CF3 NEU (MITTEL): Spieler C, 20.11. 14:33 (ID 8757629): CSV-Export "integer overflow attempting to store 99999999999". Wert steht nicht
+     wörtlich im Code – Quelle belegen (Platzhalter "unbegrenzt"/math.huge, z. B. MarkGone qty = math.huge, oder Daten in SavedVariables)
+     und Ausgabe ohne %d-Überlauf (große Zahlen als Text, unbegrenzt als leer). Test: Datensatz mit math.huge und 99999999999 -> Export ok.
+ Reihenfolge JETZT: PM1, ST1–ST6 (inkl. CF1), CF2, BH1–BH3, VK1/VK2, CF3, dann VL1–VL3. Nur Discord, Tests bauen, nicht laufen lassen.
