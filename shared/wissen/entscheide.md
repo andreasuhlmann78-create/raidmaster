@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 22.11. 16:57 | LevelPilot: alle Wegsperren aufheben, nie mehr Wege sperren. | offen-levelpilot ENTSCHEID 16:57. |
 | 21.11. 18:52 | AHS nimmt Marktdaten aus allen Wegen (Gilde, Gruppe, Netz) an – abgesichert (eine Stimme je Absender, Plausibilität, eigene Scans Vorrang); Zähler links neben der Sync-Zeile. | offen-ahsentinel ENTSCHEID 18:52 (S1–S5). |
 | 21.11. 18:28 | G10: nur ein Wert, je Item-Gruppe Umstellung auf echte Verkäufe ab 30 Fällen. G12: kein Gilden-Preisabgleich, Hinweis entfernen. | offen-ahsentinel ENTSCHEID 18:28. |
 | 21.11. 16:21 | Daten aller Addons richtig zusammenführen: Gemeinschaftsdaten (Gilde/Server/Markt) nie nach Realm-Namen trennen; Charakter-Schlüssel bleiben. | Aufträge 16:30 an GS, PS (umstellen) und BS, TS, LP, RM (prüfen). |

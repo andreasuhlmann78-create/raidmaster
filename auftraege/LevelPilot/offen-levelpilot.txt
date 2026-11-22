@@ -1552,3 +1552,11 @@ in berichte/LevelPilot/ ("umgesetzt, zur Prüfung", mit Belegen).
     bei Kampf, bei Questarbeit im Zielgebiet, bei Zielwechsel, bei langsamer Bewegung; Sperren nur bei echtem Festhängen (Position
     bewegt sich kaum trotz Laufen / Sprung-Schleife), Text im Spiel "stecken geblieben" nur dann. Tests: 4 Min. Kämpfen am Ort -> keine
     Sperre; Laufen gegen Wand -> Sperre.
+
+>>> ENTSCHEID 22.11. 16:57 (Nutzer): "Alle Sperren aufheben und keine Wege mehr sperren." – ERSETZT den Befund 16:05 (FEST-Sperren).
+    Nächste Version, nur Discord, Tests bauen, nicht laufen lassen:
+    1. Beim Laden einmalig ALLE Sperren löschen (G.blocked leeren, Zahl vorher im Protokoll), ebenso gesperrte Einträge in den Wegdaten.
+    2. Nie mehr eine Kante sperren: N:OnStuck ruft Graph:Block nicht mehr auf; Graph:Block bleibt ohne Aufrufer (oder entfernt).
+    3. Empfangene Sperren anderer Spieler (alte Versionen, GSWEGE1 "blocked") ignorieren und nicht weitergeben; selbst keine senden.
+    4. Wegsuche ohne Sperren. Was bei "FEST" sonst passiert (Hinweis, Pfeil statt Linie), bleibt nur, wenn es keine Sperre braucht.
+    Tests: alte Daten mit 20 Sperren -> nach Laden 0; 4 Min. ohne Annäherung -> keine Sperre; empfangene Sperre -> ignoriert.
