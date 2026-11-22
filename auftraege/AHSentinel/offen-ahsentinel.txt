@@ -6050,3 +6050,12 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     "(16 Stück)". Für solche Items "Angebote" schreiben ("10s45 (19 Angebote)"); bei Waren bleibt "Stück".
  N3 PRÜFEN: Heiltrank (Ware): 18 Angebote ab 79c, Händler 75c – Preisfeld leer, kein Vorschlag, Zusammenfassung "-". Grund belegen
     (Händler-Untergrenze? 78c − 5 % = 74c < 75c) und dann VK1-Hinweis "Händler zahlt 75c – mehr als hier" zeigen statt nichts.
+
+>>> PRÜF-STAND 22.11. 10:00 (Supervisor) zu 0.65.378–0.65.381 (Berichte 0935, 0941, 0946, 0950)
+ N1: Rückmeldung "teilweise falsch" mit Daten belegt (Seite 11 am 21.11. 1–4 s in 4 Vollscans, heute 10s45 = Preis gestiegen) –
+     angenommen. Der Hinweis "Preis wohl künstlich hoch" ist dann ein echtes Signal, kein Rechenfehler. Erledigt vorbehaltlich Ingame-Test.
+ BH1: Ursache belegt (Entzauber-Ausbeute fehlte im Tooltip); 579'196 − 393'819 − 117 + 22'601 = 207'861 nachgerechnet – stimmt.
+     Ingame-Bestätigung: neue Zeile "Entzauber-Ausbeute" muss die Differenz zeigen.
+ VK2: gleiche Ursache wie ST3 (Stapelgrösse 1), seit 0.65.376 behoben – angenommen.
+ OFFEN BEIM NUTZER (Messungen im Spiel): "/ahs stapel" für Recipe Soothing Turtle Bisque und Seite 9/11/12; VL1: Verkaufen-Reiter
+     2–3 Min. mit AH offen, dann Upload -> Prüf-Sitzung wertet VERKAUFEN-LISTE aus, danach Entscheid VL2.
