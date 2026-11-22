@@ -1,0 +1,18 @@
+Bericht AHSentinel 0.65.377 – EINORDNUNG 22.11. 09:10 CF1 (Stand), CF2 umgesetzt, zur Prüfung
+Veröffentlicht: Discord, GitHub-Release v0.65.377. Nicht CurseForge. addon_check OK. Tests T982, T983 eingebaut, nicht laufen gelassen.
+CF2 Munition (Books.lua BK:CorrectStock): Ursache belegt – Abgänge ohne Händler-Einkauf (bt ~= "vendor") wurden als "fehlt" gebucht und
+  JE Item und Abgleich mit A:Print gemeldet ("… sind nicht mehr da …"); verschossene Pfeile (z. B. gelootet/aus der Post) nach jedem
+  Kampf. Jetzt BK:IsConsumable (GetItemInfo-Klasse 0 Verbrauchbar = Essen/Trinken/Tränke/Verbände, 5 Reagenz, 6 Projektil = Munition)
+  -> Buchung "verbraucht" (Eigenbedarf, Zeile "Verbraucht/Eigenbedarf" im Reiter), keine Meldung. Echter Fehlbestand: BK:NoteMissingChat –
+  höchstens EINE Sammelzeile je Sitzung, abschaltbar mit /ahs fehlbestand (settings.missingChat = false, CF-AHS-6); Protokoll und
+  Reparaturzeile wie bisher. T982 (Pfeil 2512 Verbrauchsgut; 3 Fehlbestände -> 1 Zeile; aus -> 0).
+CF2 Berufsfenster (Korrektur 09:05: es ist AHS): belegt – Crafting.lua Ereignis TRADE_SKILL_SHOW/CRAFT_SHOW -> Cr:Open öffnete das
+  Gewinn-Fenster (rechts am Berufsfenster) von selbst, solange settings.craftPanel ~= false. Jetzt Standard: nur ein kleiner Knopf
+  "AHS" am Berufsfenster, das Fenster erst auf Klick; settings.craftAutoOpen (Standard aus, /ahs gewinnfenster auto) öffnet wie früher;
+  craftPanel == false (alte Einstellung) gilt weiter: kein Fenster, kein Knopf. Nach dem Schliessen des Berufs wieder nur der Knopf.
+  DEButton (Entzaubern-Knopf, DEButton.lua TRADE_SKILL_SHOW) ist nur ein Knopf, kein Fenster – unverändert. T983.
+CF1: Die Spielerbilder (imgur 1ghwKFj, 1Pi4Das) sind von hier nicht erreichbar (Seite gesperrt) – Auswertung nicht möglich; bitte als
+  Datei ins Repo legen. Einordnung: passt zu ST2–ST4 (0.65.376): geteilte Stückpreise bei zusammengefassten Angeboten nicht stapelbarer
+  Items führten zu viel zu tiefen "günstigsten" Preisen und damit zu Vorschlägen weit unter dem Markt. Ob Spieler A genau diesen Fall
+  hat, belegen die Bilder (Item stapelbar? Menge je Zeile?). Antwort auf CurseForge erst nach Prüfung und Entscheid des Nutzers.
+Weiter laut Reihenfolge: BH1–BH3, VK2, CF3, VL1–VL3.
