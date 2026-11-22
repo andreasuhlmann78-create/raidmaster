@@ -1560,3 +1560,10 @@ in berichte/LevelPilot/ ("umgesetzt, zur Prüfung", mit Belegen).
     3. Empfangene Sperren anderer Spieler (alte Versionen, GSWEGE1 "blocked") ignorieren und nicht weitergeben; selbst keine senden.
     4. Wegsuche ohne Sperren. Was bei "FEST" sonst passiert (Hinweis, Pfeil statt Linie), bleibt nur, wenn es keine Sperre braucht.
     Tests: alte Daten mit 20 Sperren -> nach Laden 0; 4 Min. ohne Annäherung -> keine Sperre; empfangene Sperre -> ignoriert.
+>>> NACHTRAG 22.11. 16:58 zum ENTSCHEID 16:57 (Nutzer): "ausser sie führen durch Dörfer oder Städte der anderen Fraktion."
+    Einzige Ausnahme: Wege durch Dörfer/Städte der GEGNERISCHEN Fraktion werden gemieden (für Horde: Allianz-Orte, für Allianz: Horde-Orte).
+    Neutrale Orte (z. B. Beutebucht, Ratschet, Gadgetzan, Everlook) sind erlaubt. Das ist KEINE "FEST"-Sperre, sondern eine feste
+    Ortsliste je Fraktion: Name des Ortes (Unterzone) + Karte + Mittelpunkt/Radius, aus belegten Daten (Referenz goldgoblin/Spieldaten:
+    GetSubZoneText beim Aufzeichnen, Wachen-Fraktion) – nicht raten; fehlt ein Ort, im Bericht als Lücke melden. Gilt für die Wegsuche
+    jedes Charakters nach SEINER Fraktion; die Wegdaten selbst bleiben vollständig (Allianz-Spieler brauchen dieselben Wege).
+    Tests: Horde-Ziel hinter einem Allianz-Dorf -> Weg aussen herum; Allianz-Charakter durch dasselbe Dorf -> erlaubt; neutrale Stadt -> erlaubt.
