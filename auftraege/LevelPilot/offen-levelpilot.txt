@@ -1567,3 +1567,5 @@ in berichte/LevelPilot/ ("umgesetzt, zur Prüfung", mit Belegen).
     GetSubZoneText beim Aufzeichnen, Wachen-Fraktion) – nicht raten; fehlt ein Ort, im Bericht als Lücke melden. Gilt für die Wegsuche
     jedes Charakters nach SEINER Fraktion; die Wegdaten selbst bleiben vollständig (Allianz-Spieler brauchen dieselben Wege).
     Tests: Horde-Ziel hinter einem Allianz-Dorf -> Weg aussen herum; Allianz-Charakter durch dasselbe Dorf -> erlaubt; neutrale Stadt -> erlaubt.
+
+>>> BEFUND 22.11. 17:05 (Ingame 3.13.6, Donnerfels, Tausend Nadeln als Ziel): Chat "Routenberechnung pausiert (zu aufwendig) – weiter in 60 Sekunden" und "Das Fehler-Protokoll hat 5 neue Auffälligkeiten". Montag: Ursache belegen (welche Route, Knotenzahl, Rechenzeit; leistung.md), 60 s Pause nur mit Zeitlimit und Hinweis was passiert; die 5 Auffälligkeiten aus dem nächsten Upload im Bericht auswerten.

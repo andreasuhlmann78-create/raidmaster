@@ -6092,3 +6092,10 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
      Die ItemKey-Vermutung (Stufe/Suffix) erklärt Waren nicht. Zusätzlich belegen: Preisprüfung während/kurz nach dem Vollscan
      (Drossel/Antwort vom Scan verbraucht? COMMODITY_SEARCH_RESULTS_UPDATED vs. ITEM_SEARCH_RESULTS_UPDATED abgefangen?).
      Protokoll je Prüfung mit Ereignissen und Zeiten; Test: Prüfung direkt nach Vollscan-Ende -> Angebote da.
+
+>>> PRÜFUNG IM SPIEL 22.11. 17:05 (0.65.382, Zinnerz, Donnerfels, Bild nicht im Repo)
+    RICHTIG: 46 Angebote gefunden (PP1 bei Waren jetzt ok); Vorschlag 1s32 = günstigstes 1s33 (194 Stück) − 1c, "Preisstufen mit 1–5 Stück
+    übersprungen" (1s11 × 5); 2 × 1s32 = 2s64, Gebühr 13c (5 % von 264c = 13,2c), Erlös 2s51; Spalte "Günstigstes" links gefüllt.
+ Z1 NIEDRIG (TT2-Regel, jede Zeile geht auf): "Gewinn erwartet +2s41" – aus den sichtbaren Zeilen folgt 2s51 − 2c Einstellgebühr = 2s49.
+    Die 8c Differenz (Einstand? Einzahlungsrisiko?) stehen in keiner Zeile. Fehlende Zeile ergänzen (z. B. "Einstand −8c"), Summe exakt.
+ HINWEIS LevelPilot (eingetragen dort): Chat "Routenberechnung pausiert (zu aufwendig) – weiter in 60 Sekunden", "5 neue Auffälligkeiten".
