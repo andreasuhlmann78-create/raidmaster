@@ -1,0 +1,38 @@
+AHSentinel 0.65.380 – VK2 (BEFUND 21.11. 23:25) und CF3 (EINORDNUNG 22.11. 09:10) – umgesetzt, zur Prüfung
+Nur Discord, kein CurseForge. Tests gebaut, nicht laufen lassen. addon_check: OK (keine FEHLER). Dateiliste ZIP gleich wie 0.65.379.
+
+VK2 – Schriftrolle: WUBBA WUBBA (Item 211784): Preisprüfung "günstigstes 4c" (67 Angebote, 40× 4c, 35× 5c, 25× 6c), Scan 1s20, Median 2s70
+  Ursache belegt (Daten-Repo, 4 Rechner, Stand 21.11. 18:54):
+   a) Das Item ist NICHT stapelbar: db.stackMem merkt jede Stapelgrösse > 1, sobald das Item geladen ist (AHAnalyzerPro.lua 3073–3075);
+      211784 wird auf allen 4 Rechnern im Vollscan erfasst (fullScan.ladder/sigs), steht aber auf keinem in stackMem (NVITMSE: 1068
+      Einträge, alle ≥ 5). Der Vollscan sieht jede Auktion mit Menge 1 (sigs NVITMSE 21.11. 15:36: "1:435:3:3,1:435:4:1,1:439:4:1,
+      1:440:3:5,…" – alle Menge 1).
+   b) Damit derselbe Fehler wie ST3 (Schredderanleitung): die Einzelsuche fasst gleiche Einzel-Auktionen in eine Zeile zusammen
+      (Menge = Anzahl Auktionen, buyoutAmount = Preis je Auktion); 0.65.375 rechnete buyoutAmount / Menge -> "4c" bei 40 Auktionen.
+      Seit 0.65.376 (A:RowUnit, Stapelgrösse 1 -> Stückpreis = buyoutAmount) behoben. Die Zahlen passen zu Preisen je Auktion von
+      etwa 1s50–2s (z. B. 1s60/40 = 4c, 1s75/35 = 5c, 1s50/25 = 6c) und zum Scan 1s20 – genaue Zeilen: Bild nicht im Repo ->
+      "Verdacht, im Spiel zu messen" (Protokoll STAPEL-ROH für 211784 zeigt Menge und buyoutAmount einer Zeile).
+   c) Scan 1s20 und Median 2s70 widersprechen sich nicht: Scan = günstigstes Einzelangebot aus dem Vollscan (per Auktion, richtig);
+      Median 14 Tage aus Scan-Preisen 20.–21.11. von 2s00 bis 5s95 (NVITMSE history: 4s50, 3s48, 2s00, 2s90, 2s28, 3s35, 2s70, 3s00,
+      4s80, 4s73, 3s42 …) – der Markt ist gefallen. Geteilte Preisprüfungs-Werte (vor 0.65.376) im Median: 0.65.378 setzt sie auf
+      "unbestätigt" (CleanDivided Regel 1/2, N1).
+   d) Preisschutz: Se:PriceRisks rechnet nur mit A:GetMarketValue; das gibt seit TT3 unter 3 Preisen in 14 Tagen nil zurück (keine
+      %-Warnung) und lässt unbestätigte Preise weg. Im Bild war die Warnung "99 % unter 2s70" der Sache nach richtig – falsch war
+      der Vorschlag 4c (geteilter Preis), nicht der Marktwert. Keine Code-Änderung am Preisschutz nötig.
+  Test T987 (neu): Stapelgrösse 1, Zeilen 1s60×40 / 1s75×35 / 1s50×25 -> Stückpreise 1s60/1s75/1s50; Preisschutz 4c bei Marktwert
+  2s70 -> 1 Warnung, 1s60 -> keine, ohne Marktwert (TT3) -> keine.
+
+CF3 – CSV-Export "integer overflow attempting to store 99999999999" (Spieler C, 20.11.)
+  Quelle belegt: 99'999'999'999c = 9'999'999g 99s 99c ist der Höchstpreis im Auktionshaus. Ein Angebot zu diesem Preis steht so im
+  Preisverlauf (Daten-Repo MININT-M6UO3AL, markets["CAMWOW EU5 Realm 8 PvP|Horde"].data[3973].history[4].p = 99999999999; sonst
+  auf keinem Rechner ein ganzzahliger Preis > 2'147'483'647). A:BuildCSV schrieb Preis und Menge mit "%d" -> im Spiel Überlauf.
+  MarkGone qty = math.huge (Buy.lua 362/822) geht nicht in die Item-Liste (nur Angebotslisten) – trotzdem abgesichert.
+  Geändert: AHAnalyzerPro.lua A.CsvInt (ganze Zahl als Text "%.0f", nil/math.huge/NaN -> leer, Bruchteile wie bisher tostring);
+  BuildCSV nutzt sie für ItemID, Preis, Menge, Marktwert, Händlerpreis; Prozent-/Gold-Spalten ohne inf/NaN. Spalten und
+  Reihenfolge unverändert.
+  Test T988 (neu): Preis 99999999999, Menge math.huge, Marktwert NaN, Prozent math.huge -> kein Fehler,
+  "990009724;Test,Max;99999999999;10000000.00;;;;;;;;;15"; normale Zeile unverändert "990009725;Test Normal;435;0.04;3;-2.50;;;;;270;161.11;"
+  (Formatlogik ausserhalb des Spiels mit lua5.1 nachgerechnet: beide Zeilen genau so).
+  CurseForge-Antwort an Spieler C: wartet auf Prüf-Sitzung und Entscheid des Nutzers ("Curse nicht").
+
+Weiter laut Reihenfolge: VL1–VL3 (Verkaufen-Liste messen).
