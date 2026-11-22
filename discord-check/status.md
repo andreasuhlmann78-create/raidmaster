@@ -1,6 +1,6 @@
 # Discord-Prüfung
 
-Geprüft: 2026-11-22T06:30:53Z (Commit 924473d), Server: Alpine Vanguard
+Geprüft: 2026-11-22T09:26:22Z (Commit dddb64d), Server: Alpine Vanguard
 
 **Ergebnis: ❌ es fehlt etwas**
 
@@ -17,25 +17,25 @@ Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 4
 
 | | Datei | Kanal | Abdeckung | seit Push |
 |---|---|---|---|---|
-| ✅ ok | ahsentinel__ahsentinel-0.65.375.md | #ahsentinel | 100 % | 11 Std. |
+| ✅ ok | ahsentinel__ahsentinel-0.65.381.md | #ahsentinel | 100 % | 35 Min. |
 | ✅ ok | ahsentinel__ahsentinel-0-vorstellung-1.8.md | #ahsentinel | 100 % | 13 Tage |
 | ✅ ok | ahsentinel__ahsentinel-hilfe-1.0.md | #ahsentinel | 100 % | 18 Tage |
 | ✅ ok | barrow-taktik__uebersicht-1.1.md | #barrow-taktik | 100 % | 18 Tage |
 | ✅ ok | buffsentinel__buffsentinel-0.9.60.md | #buffsentinel | 100 % | 3 Tage |
 | ✅ ok | guildsentinel__guildsentinel-0.9.58.md | #guildsentinel | 100 % | 3 Tage |
 | ✅ ok | hyjal-taktik__uebersicht-1.1.md | #hyjal-taktik | 100 % | 18 Tage |
-| ✅ ok | levelpilot__levelpilot-3.13.6.md | #levelpilot | 100 % | 47 Std. |
-| ⚠️ veraltet | levelpilot__levelpilot-uebersicht-3.12.94.md | #levelpilot | 95 % | 3 Tage |
+| ✅ ok | levelpilot__levelpilot-3.13.6.md | #levelpilot | 100 % | 2 Tage |
+| ⚠️ veraltet | levelpilot__levelpilot-uebersicht-3.12.94.md | #levelpilot | 95 % | 4 Tage |
 | ✅ ok | lore__alpine-vanguard-vorstellung-1.0.md | #lore | 100 % | 21 Tage |
 | ✅ ok | mc-feuerresi__feuerresi-1.1.md | #mc-feuerresi | 100 % | 18 Tage |
-| ✅ ok | onyxia-feuerresi__feuerresi-1.0.md | #onyxia-feuerresi | 100 % | 24 Tage |
-| ✅ ok | onyxia-taktik__onyxia-video-1.0.md | #onyxia-taktik | 100 % | 25 Tage |
+| ✅ ok | onyxia-feuerresi__feuerresi-1.0.md | #onyxia-feuerresi | 100 % | 25 Tage |
+| ✅ ok | onyxia-taktik__onyxia-video-1.0.md | #onyxia-taktik | 100 % | 26 Tage |
 | ✅ ok | professionsentinel__professionsentinel-0.9.74.md | #professionsentinel | 100 % | 3 Tage |
 | ✅ ok | professionsentinel__professionsentinel-0-vorstellung-1.27.md | #professionsentinel | 100 % | 9 Tage |
 | ✅ ok | threatsentinel__threatsentinel-2.5.23.md | #threatsentinel | 100 % | 3 Tage |
 | ✅ ok | threatsentinel__threatsentinel-0-vorstellung-2.2.md | #threatsentinel | 100 % | 19 Tage |
 | ✅ ok | buffsentinel__buffsentinel-0-vorstellung-12.md | #buffsentinel | 100 % | 18 Tage |
-| ✅ ok | guildsentinel__guildsentinel-0-vorstellung-19.md | #guildsentinel | 100 % | 9 Tage |
+| ✅ ok | guildsentinel__guildsentinel-0-vorstellung-19.md | #guildsentinel | 100 % | 10 Tage |
 | ✅ ok | levelpilot__levelpilot-uebersicht.md | #levelpilot | 100 % | 26 Tage |
 
 **announce/levelpilot__levelpilot-uebersicht-3.12.94.md** – fehlt im Discord:
