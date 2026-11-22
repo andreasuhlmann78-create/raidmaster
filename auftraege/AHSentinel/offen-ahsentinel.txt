@@ -6004,3 +6004,14 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
 >>> KORREKTUR 22.11. 09:05 zu CF2 (Nutzer): ProfessionSentinel ist nicht auf CurseForge -> das Fenster beim Öffnen eines Berufs kommt von
     AHSentinel (Spieler B hat nur AHS). AHS belegt, welches Fenster es ist (Crafting/DEButton/Entzaubern-Fenster, Ereignis TRADE_SKILL_SHOW/
     CRAFT_SHOW) und stellt um: Standard = nichts öffnet sich von selbst, nur auf Klick; Einstellung "beim Beruf automatisch öffnen" (aus).
+
+>>> BELEG 22.11. 09:20 zu CF1 (Spielerbild imgur 1ghwKFj, vom Nutzer eingefügt, nicht im Repo) – 0.65.354, englischer Client, Forever
+    Item "Recipe: Soothing Turtle Bisque" (Rezept, nicht stapelbar). Blizzard-AH (Browse): Sofortkauf je Angebot 5g60 … 12g00
+    (z. B. 5g60, 5g70, 5g75, 5g79, 5g80, 5g99, 6g00, 6g09 …), daneben Anzahlen 2/30/6/5/17/2.
+    AHS-Fenster Sell zur selben Zeit: "Market value 19s", Angebotsliste mit Stückpreisen um 10s … 2g75 und % Markt bis 1427 %,
+    Feld Preis/Stück ca. "6s" -> Vorschlag rund 5g50 UNTER dem günstigsten echten Angebot.
+    Nachgerechnet: 5g70 / 30 = 19s = "Market value". VERDACHT (zu belegen, ergänzt ST3): AHS teilt bei Item-Angeboten den Preis durch
+    die Anzahl GLEICHER ANGEBOTE (bzw. totalQuantity der Gruppe) statt durch die Menge EINES Angebots – das Gegenstück zum Stapelfehler
+    ST3 (dort Gesamtpreis statt Stückpreis). Beides kommt aus derselben Stelle "Stückpreis = Preis / Menge" mit der falschen Menge.
+    In ST4 aufnehmen: Gruppe (Anzahl Angebote) vs. Menge je Angebot an JEDER Stelle prüfen; Test mit 30 Rezepten zu je 5g70 ->
+    Stückpreis 5g70, Vorschlag 5g69. Zweites Spielerbild (imgur 1Pi4Das) liegt nicht vor – Nutzer/Spieler fragen, falls nötig.
