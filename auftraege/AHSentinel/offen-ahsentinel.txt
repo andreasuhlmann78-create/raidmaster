@@ -6036,3 +6036,17 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     AHS bremst nicht zusätzlich; bei diesem Takt 0 AH-Fehler in 300 Suchen. Schneller ist nicht möglich (Server-Drossel). Keine Änderung nötig.
     Die "~3 s" (Nutzer 21.11. 19:46) = Treffer-Halt HIT_HOLD bei Treffern – gewollt (Drossel frei für den Kauf-Klick).
     BEDINGUNGEN (Nutzer 09:23): Messung in vollem Orgrimmar/AH (viele Spieler) und mit zeitweise minimiertem Spiel. Minimiert läuft WoW mit wenigen Bildern je Sekunde -> erklärt die Ausreisser "bereit (Tick)" bis 26 s und Max 30 s (kein Fehler, kein Server). Die 0,73 s gelten für Hochbetrieb; ob der Server bei wenig Betrieb anders drosselt, ist offen -> zweite Messung bei ruhigem AH, Spiel im Vordergrund (SN-T2 je Messung mit Uhrzeit und "minimiert ja/nein"-Anteil ausweisen).
+
+>>> PRÜFUNG IM SPIEL 22.11. 09:30 (Nutzer 09:27 "nach der Korrektur", 0.65.377, 5 Bilder Verkaufen, nicht im Repo)
+    RICHTIG (nachgerechnet): Seite 11 Liste 10s45/10s46/10s47 je Seite, Vorschlag 10s44 = 10s45 − 1c; Seite 9 Vorschlag 2s59 = 2s60 − 1c,
+    "Unter deinem Einkaufspreis (Ø 3s88)" stimmt jetzt (gekauft 1 Seite für 3s88); Spitzhacke 18c = gleicher Preis (unter 20c);
+    Pikantes Deviat-Supreme (Ware) 6 × 4s19 = 25s14, Gebühr 1s25, Erlös 23s89; Gesetzlosensäbel "Händler bringt mehr (65s22)".
+ N1 HOCH: Der 14-Tage-Median enthält noch die ALTEN falschen Stückpreise: Seite 11 Median 2s99 bei echten 10s45 -> "% Markt 349–351 %"
+    und Tooltip "Preis wohl künstlich hoch (Aufkauf-Leiter) – eigene Bestände jetzt verkaufen?" = Fehlschluss aus alten Daten. Seite 9
+    Median 4s20 bei echten 2s60. ST4 verlangte die Bereinigung gespeicherter falscher Werte – nicht erfolgt bzw. nicht wirksam. Belegen
+    (Zahlen vorher/nachher je Item), bereinigen (alte Item-Preise mit Stapelgrösse 1 und Menge > 1 neu rechnen oder verwerfen); bis dahin
+    keine Aufkauf-/Teuer-/Günstig-Schlüsse aus diesem Median.
+ N2 MITTEL: Bei Stapelgrösse 1 ist die Zahl die ANZAHL ANGEBOTE – Spalte heisst aber "Menge" und der Vorschlag sagt "(19 Stück)",
+    "(16 Stück)". Für solche Items "Angebote" schreiben ("10s45 (19 Angebote)"); bei Waren bleibt "Stück".
+ N3 PRÜFEN: Heiltrank (Ware): 18 Angebote ab 79c, Händler 75c – Preisfeld leer, kein Vorschlag, Zusammenfassung "-". Grund belegen
+    (Händler-Untergrenze? 78c − 5 % = 74c < 75c) und dann VK1-Hinweis "Händler zahlt 75c – mehr als hier" zeigen statt nichts.
