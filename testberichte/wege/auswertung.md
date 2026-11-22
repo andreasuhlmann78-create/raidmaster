@@ -283,9 +283,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Orgrimmar (1454)
 
-- Wegstücke 1678, Knoten 1012, zusammenhängende Teile 3
+- Wegstücke 1697, Knoten 1018, zusammenhängende Teile 3
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 1007 Knoten, Bereich 22–82 / 19–95
+  - Teil 1: 1013 Knoten, Bereich 22–82 / 19–95
   - Teil 2: 3 Knoten, Bereich 38–40 / 28–30
   - Teil 3: 2 Knoten, Bereich 42–44 / 30–30
 - **Ausreisser:** Wegstück 1: Sprung 4.3 % von 72.1,31.0 nach 70.9,35.1
@@ -308,7 +308,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 - **Ausreisser:** Wegstück 12: Sprung 11.1 % von 51.7,76.7 nach 52.6,87.8
 - **Ausreisser:** Wegstück 14: Sprung 5.9 % von 52.0,68.2 nach 52.0,74.1
 - **Ausreisser:** Wegstück 15: Sprung 5.9 % von 52.0,68.2 nach 54.7,63.0
-- **Widerspruch:** gesperrt (FEST) bei 52.2,64.5, aber 632× gelaufen
+- **Widerspruch:** gesperrt (FEST) bei 52.2,64.5, aber 646× gelaufen
 - Gesperrte Wegstücke: 1
 
 ## Thunder Bluff (1456)
@@ -838,3 +838,10 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 | 256655 | 2548 | kein Ort im Datenpaket -> 58.7,44.7 | - | fehlt im Datenpaket |
 | 260231 | 2548 | kein Ort im Datenpaket -> 79.9,52.5 | - | fehlt im Datenpaket |
 | 8115 | 1444 | 74.4,43.4 -> 74.4,43.4 | 0.0 % | klein |
+| 3296 | 1454 | kein Ort im Datenpaket -> 67.5,39.1 | - | fehlt im Datenpaket |
+| 3355 | 1454 | 82.4,23.0 -> 82.3,23.0 | 0.1 % | klein |
+| 3412 | 1454 | 76.0,25.4 -> 75.9,25.3 | 0.1 % | klein |
+| 7230 | 1454 | 80.2,23.4 -> 80.6,23.3 | 0.4 % | klein |
+| 10266 | 1454 | 80.8,23.7 -> 80.6,23.5 | 0.3 % | klein |
+| 10924 | 1448 | 51.0,81.6 -> 51.0,81.7 | 0.1 % | klein |
+| 11900 | 1448 | 34.4,54.0 -> 34.4,53.8 | 0.2 % | klein |

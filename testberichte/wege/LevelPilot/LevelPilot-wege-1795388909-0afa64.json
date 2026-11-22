@@ -1,0 +1,567 @@
+{
+ "addon": "LevelPilot",
+ "blocked": [],
+ "env": {
+  "build": "71037",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 42,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "f": 2,
+ "fest": [],
+ "id": "LevelPilot-wege-1795388909-0afa64",
+ "kind": "wege",
+ "npc": [
+  {
+   "id": 3296,
+   "map": 1454,
+   "new": [
+    67.5,
+    39.1
+   ],
+   "nopack": true,
+   "t": 1795388755
+  },
+  {
+   "id": 3355,
+   "map": 1454,
+   "new": [
+    82.3,
+    23
+   ],
+   "old": [
+    82.4,
+    23
+   ],
+   "t": 1795388475
+  },
+  {
+   "id": 3412,
+   "map": 1454,
+   "new": [
+    75.9,
+    25.3
+   ],
+   "old": [
+    76,
+    25.4
+   ],
+   "t": 1795388393
+  },
+  {
+   "id": 7230,
+   "map": 1454,
+   "new": [
+    80.6,
+    23.3
+   ],
+   "old": [
+    80.2,
+    23.4
+   ],
+   "t": 1795388500
+  },
+  {
+   "id": 10266,
+   "map": 1454,
+   "new": [
+    80.6,
+    23.5
+   ],
+   "old": [
+    80.8,
+    23.7
+   ],
+   "t": 1795388496
+  },
+  {
+   "id": 10924,
+   "map": 1448,
+   "new": [
+    51,
+    81.7
+   ],
+   "old": [
+    51,
+    81.6
+   ],
+   "t": 1795387446
+  },
+  {
+   "id": 11900,
+   "map": 1448,
+   "new": [
+    34.4,
+    53.8
+   ],
+   "old": [
+    34.4,
+    54
+   ],
+   "t": 1795387670
+  }
+ ],
+ "qo": [
+  {
+   "a": "T",
+   "l": 42,
+   "m": 1448,
+   "q": 94295,
+   "t": 1795387447
+  },
+  {
+   "a": "T",
+   "l": 42,
+   "m": 1454,
+   "q": 3121,
+   "t": 1795387860
+  },
+  {
+   "a": "A",
+   "l": 42,
+   "m": 1454,
+   "q": 3122,
+   "t": 1795387860
+  },
+  {
+   "a": "A",
+   "l": 42,
+   "m": 1454,
+   "q": 2981,
+   "t": 1795388272
+  },
+  {
+   "a": "A",
+   "l": 42,
+   "m": 1454,
+   "q": 2841,
+   "t": 1795388406
+  }
+ ],
+ "time": 1795388909,
+ "version": "3.13.6",
+ "zones": [
+  {
+   "edges": [
+    {
+     "lv": [
+      "1454|d|Das Tal der Stärke",
+      "1454|d|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke"
+     ],
+     "n": 14,
+     "p": [
+      55.7,
+      63.1,
+      54.7,
+      63,
+      53.6,
+      64.6,
+      53.2,
+      65.6,
+      52.1,
+      66.6,
+      51.9,
+      68,
+      51.1,
+      69.4
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1454|d|Das Tal der Ehre",
+      "1454|o|Das Tal der Ehre",
+      "1454|o|Das Tal der Ehre"
+     ],
+     "n": 3,
+     "p": [
+      81.8,
+      23.1,
+      80.2,
+      23.2,
+      81.2,
+      22.3
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1454|d|Das Tal der Ehre",
+      "1454|o|Das Tal der Ehre"
+     ],
+     "n": 2,
+     "p": [
+      81.8,
+      23.1,
+      81.2,
+      22.3
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1454|d|Das Tal der Ehre",
+      "1454|d|Das Tal der Ehre",
+      "1454|o|Das Tal der Ehre"
+     ],
+     "n": 2,
+     "p": [
+      81.8,
+      23.1,
+      82.4,
+      24.1,
+      81.2,
+      22.3
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1454|o|Die Gasse",
+      "1454|o|Die Gasse",
+      "1454|o|Die Gasse"
+     ],
+     "n": 4,
+     "p": [
+      61.5,
+      50.4,
+      60.9,
+      48.9,
+      60.5,
+      48.1
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1454|o|Die Gasse",
+      "1454|o|Die Gasse",
+      "1454|o|Die Gasse",
+      "1454|o|Die Gasse",
+      "1454|o|Die Gasse",
+      "1454|o|Die Gasse",
+      "1454|o|Die Gasse",
+      "1454|o|Die Gasse",
+      "1454|o|Die Gasse",
+      "1454|o|Die Gasse",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke"
+     ],
+     "n": 22,
+     "p": [
+      61.5,
+      50.4,
+      60.7,
+      51.4,
+      60.4,
+      52.7,
+      59.8,
+      53.8,
+      59.4,
+      55.1,
+      57.9,
+      56.1,
+      57.1,
+      56.2,
+      55.4,
+      57.8,
+      54.9,
+      57.4,
+      53.2,
+      57.2,
+      52.1,
+      57.8,
+      50.5,
+      58.1,
+      49.7,
+      58.4,
+      48,
+      58.7,
+      47.6,
+      58.1,
+      46.3,
+      59,
+      45.6,
+      59,
+      44.4,
+      60.3,
+      43.2,
+      61.6,
+      42.8,
+      62.7,
+      41.8,
+      64.4,
+      41.1,
+      65.3,
+      42.2,
+      65.7,
+      41.6,
+      68.1,
+      41.8,
+      69.2,
+      41.6,
+      71.5
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1454|o|Die Gasse",
+      "1454|d|Die Gasse",
+      "1454|d|Die Gasse",
+      "1454|d|Die Gasse",
+      "1454|o|Die Gasse"
+     ],
+     "n": 14,
+     "p": [
+      61.5,
+      50.4,
+      62.4,
+      50.4,
+      63.1,
+      49.6,
+      63.3,
+      51,
+      61.5,
+      50.4
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1454|o|Das Tal der Ehre",
+      "1454|o|Das Tal der Ehre",
+      "1454|o|Das Tal der Ehre"
+     ],
+     "n": 1,
+     "p": [
+      81.2,
+      22.3,
+      80.8,
+      19.9,
+      79.5,
+      21.5
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1454|o|Das Tal der Ehre",
+      "1454|o|Das Tal der Ehre"
+     ],
+     "n": 1,
+     "p": [
+      81.2,
+      22.3,
+      79.5,
+      21.5
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1454|d|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke"
+     ],
+     "n": 12,
+     "p": [
+      54.3,
+      68.4,
+      54,
+      69.6
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1454|o|Orgrimmar",
+      "1454|o|Orgrimmar"
+     ],
+     "n": 2,
+     "p": [
+      38.2,
+      56.6,
+      38.9,
+      58.7
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1454|o|Das Tal der Geister",
+      "1454|o|Das Tal der Geister",
+      "1454|o|Das Tal der Geister",
+      "1454|o|Das Tal der Geister",
+      "1454|o|Das Tal der Geister"
+     ],
+     "n": 3,
+     "p": [
+      37,
+      80.3,
+      36.5,
+      82.2,
+      36.5,
+      84.3,
+      36.5,
+      85.6,
+      35.8,
+      87.7
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1454|o|Das Tal der Geister",
+      "1454|o|Das Tal der Geister",
+      "1454|o|Das Tal der Geister",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke"
+     ],
+     "n": 4,
+     "p": [
+      37.8,
+      79.7,
+      38.7,
+      77.3,
+      39.5,
+      75.4,
+      40.2,
+      72.7,
+      41.6,
+      71.5
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1454|o|Das Tal der Ehre",
+      "1454|o|Das Tal der Ehre",
+      "1454|o|Das Tal der Ehre",
+      "1454|o|Das Tal der Ehre",
+      "1454|o|Das Tal der Ehre"
+     ],
+     "n": 3,
+     "p": [
+      75.2,
+      23.2,
+      75.9,
+      22.5,
+      77.5,
+      22.3,
+      78.6,
+      22.1,
+      79.5,
+      21.5
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1454|d|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke"
+     ],
+     "n": 14,
+     "p": [
+      49.9,
+      70.2,
+      50.5,
+      70.8,
+      51.4,
+      70.8,
+      52.5,
+      70.9,
+      53.6,
+      70.7
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1454|o|Das Tal der Stärke",
+      ""
+     ],
+     "n": 1,
+     "p": [
+      41.6,
+      71.5,
+      38.6,
+      74.7
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1454|o|Das Tal der Stärke",
+      ""
+     ],
+     "n": 1,
+     "p": [
+      41.6,
+      71.5,
+      41.4,
+      70.2
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1454|o|Das Tal der Ehre",
+      "1454|d|Das Tal der Ehre"
+     ],
+     "n": 2,
+     "p": [
+      74.6,
+      24.6,
+      75.9,
+      25
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1454|o|Die Gasse",
+      "1454|o|Die Gasse"
+     ],
+     "n": 1,
+     "p": [
+      57.9,
+      56.1,
+      56.1,
+      58.1
+     ],
+     "src": "geteilt"
+    }
+   ],
+   "map": 1454,
+   "name": "Orgrimmar"
+  }
+ ]
+}
