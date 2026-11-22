@@ -5924,3 +5924,17 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     67 Angeboten; "Marktwert (Median 14 Tage) 2s70", Liste "% Markt 1–3 %". Ursache belegen (Scan-Wert = Median statt günstigstes? alte
     Ausreisser im 14-Tage-Median, P9/TT3? andere Item-Variante gleichen Namens?). "Preisschutz: 99 % unter dem Marktwert (2s70)" darf
     nicht auf einem unbelegten Marktwert beruhen (TT3 -> "nicht bekannt"). Test mit diesem Fall.
+
+>>> AUFTRAG 22.11. 08:35 (Nutzer 08:31 "das müsste schneller aufbauen – aber keine Fehler machen, der Rest bleibt unberührt";
+    gemeint: Liste links im Reiter Verkaufen > Einstellen) – nächste Version, nur Discord, Tests bauen, nicht laufen lassen
+ VL1 ZUERST MESSEN (debugprofilestop, Diag "VERKAUFEN-LISTE"): Dauer von p:Refresh (UI_Sell.lua) aufgeteilt in RefreshBatch ->
+     Se:BatchCandidates -> Se:GetBagItems(true), Se:GetBagItems() (voll), bagTable:SetData, Rest; Anzahl Aufrufe je Minute (R1-Auslöser).
+     Werte (42 Einträge wie im Bild, AH offen) in den Bericht.
+ VL2 Code-Befund der Prüf-Sitzung (Verdacht, durch VL1 zu belegen): Jeder Refresh liest die Taschen ZWEIMAL ganz (BatchCandidates ruft
+     GetBagItems(true), danach GetBagItems()); bei offenem AH je Taschenplatz pcall(C_AuctionHouse.IsSellItemValid) und je Item IsCommodity.
+     Soll (nur wenn VL1 es belegt): EIN Taschen-Lesen je Refresh, Ergebnis bis zur nächsten Taschenänderung (BAG_UPDATE_DELAYED/
+     InvalidateBags) wiederverwenden; IsSellItemValid/IsCommodity je Platz bzw. Item zwischenspeichern, Ungültigmachen bei Taschenänderung
+     und beim Öffnen des AH; sichtbare Zeilen zuerst zeichnen.
+ VL3 NICHTS SONST ÄNDERN: Inhalt, Reihenfolge, Werte (Marktwert, Günstigstes, Anzahl), Serie-Zahl, Auswahl, Einstellen bleiben gleich.
+     Test: Liste vor/nach der Änderung mit denselben Taschen identisch (alle Felder); Item einstellen -> Liste aktualisiert (Zwischenspeicher
+     verfällt); AH schliessen/öffnen -> gültige Items wie vorher. Bericht: Dauer vorher/nachher je Schritt.
