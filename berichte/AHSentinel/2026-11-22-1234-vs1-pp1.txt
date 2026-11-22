@@ -30,11 +30,11 @@ VS1 – Preisfeld 6s91, Vorschlag 3s99 (Schredderanleitung – Seite 6, Item 166
     Tippen -> nicht von Hand, mit Tippen -> von Hand.
 
 PP1 – Preisprüfung findet Angebote nicht, die der Scan kennt
-  Belegt (alle 70 PREISPRUEFUNG-Zeilen vom 22.11. im Upload ausgewertet):
+  Belegt (alle 71 PREISPRUEFUNG-Zeilen vom 22.11. im Upload ausgewertet):
    a) Schlüssel mit Itemstufe 0: 16 Prüfungen (15 "allgemein", 1 "tasche"), ALLE 0 Angebote, obwohl der Scan das Item führt (z. B.
       11082 Scan 2628, 11137 Scan 5281, 11754 Scan 2718). Beweis am selben Item: 12:17:38 15241 "tasche (Stufe 0, Suffix 0)" 0 Angebote,
       12:17:40 15241 "tasche (Stufe 26, Suffix 14326)" 1 Angebot -> GetItemKeyFromItem/MakeItemKey liefern Stufe 0, solange die
-      Iteminfo nicht geladen ist; mit Stufe 0 findet der Forever-Server nichts. Schlüssel mit Stufe > 0: 44 von 52 mit Angeboten.
+      Iteminfo nicht geladen ist; mit Stufe 0 findet der Forever-Server nichts. Schlüssel mit Stufe > 0: 47 von 55 mit Angeboten.
    b) Zufalls-Zusatz ("… des Affen"): Suffix im Schlüssel wirkt: 15222 "tasche (19, 14315)" 9 Angebote, aber "allgemein (19, 0)"
       0 Angebote. 15517 Stachelkettengelenkbänder "tasche (25, 14338)" 3× 0 Angebote bei Scan 36; 9780 "tasche (20, 14305)" 3× 0 bei
       Scan 16. Der Scan zählt alle Varianten einer Item-ID; ob genau diese Variante im AH steht, zeigt erst die neue Probe
