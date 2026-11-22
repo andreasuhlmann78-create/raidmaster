@@ -5938,3 +5938,18 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
  VL3 NICHTS SONST ÄNDERN: Inhalt, Reihenfolge, Werte (Marktwert, Günstigstes, Anzahl), Serie-Zahl, Auswahl, Einstellen bleiben gleich.
      Test: Liste vor/nach der Änderung mit denselben Taschen identisch (alle Felder); Item einstellen -> Liste aktualisiert (Zwischenspeicher
      verfällt); AH schliessen/öffnen -> gültige Items wie vorher. Bericht: Dauer vorher/nachher je Schritt.
+
+>>> BEFUND 22.11. 08:50 (Nutzer 08:43, Ingame 0.65.375, Bilder nicht im Repo) – SOFORT, Daten-Fehler, nächste Version, nur Discord
+ PM1 HOCH (Ursache im Code belegt): Chat "Gekauft: 36× Schredderanleitung – Seite 6 für 1s", später "Gekauft: 0× … für 1s" – gekauft
+     wurde 1 Stück. Mailer.lua:164 (M:DescribeMail) und Mailer.lua:678 (M:NoteInvoiceMail) lesen die Menge als 10. Rückgabewert von
+     GetInboxInvoiceInfo: `okI, itype, itemName, _, bid, buyout, deposit, consignment, _, _, count` -> count = Feld 10 = etaMin (Minuten).
+     Laut API (warcraft.wiki.gg) ist Feld 10 etaMin, Feld 11 count; für Forever belegt (wirtschaft-forever §2, Ledger.lua:196 ff.):
+     Feld 4 bid = Gesamt, Feld 5 buyout = MENGE, Feld 11 = Menge oder 0. Folge: falsche Mengen in den Chatzeilen (Verkauft/Gekauft,
+     Dauerregel Punkt 9), in SaleOutcome (G10 – echte Verkaufsfälle!) und in NoteInvoiceMail (n = etaMin, wenn > 0).
+     Soll: EINE Funktion für die Menge (wie Ledger: Feld 11 > 0, sonst Feld 5), überall verwenden; Ledger.lua:144 (count = Feld 10)
+     ebenfalls prüfen. Bereits gespeicherte falsche Mengen seit 0.65.363 (saleObs/saleShared, invoices) bereinigen oder verwerfen –
+     Zahlen im Bericht; geteilte Gilden-Daten mit falscher Menge nicht weiter senden. Tests: Rechnung mit etaMin 36, Menge 1 -> "1×";
+     Feld 11 = 0, buyout 5 -> "5×"; Verkauf und Kauf.
+ PM2 ANTWORT AN DEN NUTZER (geprüft, kein Auftrag): Einzeln UND stapelweise kaufen geht schon: Waren (stapelbar, gemeinsames Angebot) mit
+     Mengenfeld; einzelne Angebote ganz (Spielregel: ein Angebot wird immer komplett gekauft), mehrere per Shift-Klick, Knopf
+     "Einzelne Angebote anzeigen"/"Zusammengefasst anzeigen" (UI_Buy.lua 863–913).
