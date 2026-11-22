@@ -1,0 +1,64 @@
+AHSentinel 0.65.382 – VS1 (BEFUND 22.11. 12:28) und PP1 (BEFUND 22.11. 12:25) – umgesetzt, zur Prüfung
+Nur Discord, kein CurseForge. Tests gebaut, nicht laufen lassen. addon_check: OK (keine FEHLER). Dateiliste ZIP gleich wie 0.65.381.
+Datenquelle für die Belege: goldsentinel-daten, Upload DESKTOP-NVITMSE 22.11. 12:24 (Protokoll mit Version 0.65.381).
+
+VS1 – Preisfeld 6s91, Vorschlag 3s99 (Schredderanleitung – Seite 6, Item 16650)
+  Herkunft belegt (Protokoll, chronologisch):
+    12:19:16 PREISPRUEFUNG 16650 · 21 Angebote; STAPEL-ROH 16650 "Zeile: Menge 2, buyoutAmount 400" -> auf 4s lagen damals nur 2 Angebote.
+    12:22:39 VERKAUFEN-KLICK 16650 (vorher Seite 12). Die Prüfung von 12:19:16 war 203 s alt, also noch "frisch" (PRICE_FRESH 300 s).
+             p:Select -> ApplySuggestion -> Se:Suggest mit dieser alten Prüfung: V1 überspringt Preisstufen mit 1–5 Stück (Seller.lua
+             V1Price, V1_THIN 5) -> die 4s-Stufe (2 Stück) und die nächsten dünnen Stufen fielen weg -> Vorschlag 6s91 ins Feld.
+    12:22:39 PREISPRUEFUNG 16650 · 20 Angebote (neu; 4s jetzt 9 Angebote -> V1 = 3s99).
+             Die Erklärzeile (UI_Sell, ST5 V1Explain) rechnet IMMER mit der neusten Prüfung -> "Vorschlag 3s99 = … 4s (9 Angebote) − 1c".
+             Das Feld wurde nicht neu gesetzt: Neu-Setzen geschah nur im Ereignis SELLER_CHANGED unter Bedingungen (pr.stamp ≠ lastStamp,
+             Prüfung < 2 s alt, Se:AutoApplyAllowed = nicht "von Hand"). Welche davon hier nicht griff, ist nicht protokolliert ->
+             Verdacht, zu messen: "von Hand" wurde bei JEDEM OnTextChanged ohne p.applying gesetzt; feuert OnTextChanged nach SetText erst
+             im nächsten Bild, galt der eigene Vorschlag als "von Hand" und sperrte das Neu-Setzen.
+    12:22:46 Wechsel zu Seite 5 (nichts eingestellt). 12:22:57 erneut Seite 6: Prüfung von 12:22:39 frisch -> Feld 3s99;
+    12:23:00 EINSTELLEN 16650 Preis 399 (Mindestpreis 127 cost). -> Mit 6s91 wurde NICHTS eingestellt (Protokoll).
+  Kein Aufkauf-Preis im Feld: Die Zeile "Aufkauf – jetzt teuer verkaufen …" ist ein eigener Hinweis (UI_Sell, Se:HighMarket, Rang 4),
+    der Vorschlag kommt aus V1 (SuggestRaw), nicht aus dem Aufkauf-Weg.
+  Geändert (UI_Sell.lua):
+    - p:SyncSuggestion(id) bei JEDER Aktualisierung: nicht von Hand, Feld nicht im Fokus, Feld ≠ Se:Suggest -> Feld = Vorschlag
+      (ApplySuggestion), Protokoll VORSCHLAG-FELD "Feld x -> Vorschlag y · Preisprüfung vor n s" (höchstens 30 je Sitzung).
+      Ersetzt die 2-s-/Stempel-Bedingung als einzigen Weg (der alte Weg bleibt, schadet nicht).
+    - "Von Hand" nur noch, wenn der SPIELER tippt (userInput von OnTextChanged), eine Angebotszeile anklickt oder "Preis anpassen"
+      bestätigt; Setzen durch AHSentinel (Vorschlag, Lockangebot-Klick = Vorschlag, Runden beim Einstellen) nie.
+    - Erklärzeile = genau Se:Suggest: entspricht er V1 -> V1Explain wie bisher; sonst "Vorschlag x: <Begründung von Se:Suggest>"
+      (Mindestpreis, gelernter Normalpreis, Lernen +5 % …) - nie still. Von Hand anderer Preis -> Zeile "dein Preis x, Vorschlag y".
+  Test T990: Feld vom Addon auf 6s91, Vorschlag 3s99, nicht von Hand -> Feld 3s99; von Hand 6s91 -> bleibt 6s91; OnTextChanged ohne
+    Tippen -> nicht von Hand, mit Tippen -> von Hand.
+
+PP1 – Preisprüfung findet Angebote nicht, die der Scan kennt
+  Belegt (alle 70 PREISPRUEFUNG-Zeilen vom 22.11. im Upload ausgewertet):
+   a) Schlüssel mit Itemstufe 0: 16 Prüfungen (15 "allgemein", 1 "tasche"), ALLE 0 Angebote, obwohl der Scan das Item führt (z. B.
+      11082 Scan 2628, 11137 Scan 5281, 11754 Scan 2718). Beweis am selben Item: 12:17:38 15241 "tasche (Stufe 0, Suffix 0)" 0 Angebote,
+      12:17:40 15241 "tasche (Stufe 26, Suffix 14326)" 1 Angebot -> GetItemKeyFromItem/MakeItemKey liefern Stufe 0, solange die
+      Iteminfo nicht geladen ist; mit Stufe 0 findet der Forever-Server nichts. Schlüssel mit Stufe > 0: 44 von 52 mit Angeboten.
+   b) Zufalls-Zusatz ("… des Affen"): Suffix im Schlüssel wirkt: 15222 "tasche (19, 14315)" 9 Angebote, aber "allgemein (19, 0)"
+      0 Angebote. 15517 Stachelkettengelenkbänder "tasche (25, 14338)" 3× 0 Angebote bei Scan 36; 9780 "tasche (20, 14305)" 3× 0 bei
+      Scan 16. Der Scan zählt alle Varianten einer Item-ID; ob genau diese Variante im AH steht, zeigt erst die neue Probe
+      (Verdacht, zu messen: diese Varianten waren nicht im AH).
+   c) "wird aktualisiert …" = Item steht in der Warteschlange (Se:IsQueued) ohne Zeitlimit; der Grund ist im Protokoll nicht sichtbar
+      -> jetzt PREISPRUEFUNG-WARTET mit Grund (Se:WaitReason).
+  Geändert (Seller.lua, UI_Sell.lua):
+   - KeyFor: Stufe 0 -> Itemstufe aus GetItemInfo (Se.ItemLevelOf); Quelle "…+stufe". Fehlt die Iteminfo: RequestLoadItemDataByID,
+     Prüfung bleibt vorne in ihrer Liste, höchstens INFO_WAIT 2 s, danach mit Stufe 0 (Quelle "…+stufe0", im Protokoll sichtbar).
+   - Probe (derselbe Weg wie Kaufen > Suche, Buy.lua S8): 0 Angebote, Scan > 0, Item in der Tasche oder angeklickt, höchstens einmal je
+     Item und Minute -> SendBrowseQuery(Name) -> alle Schlüssel dieser Item-ID. Gleicher Suffix (zuerst exakt Stufe+Suffix) mit
+     anderem Schlüssel -> neu suchen mit diesem Schlüssel (Quelle "browse", 5 Min. gültig, keine zweite Probe). Kein gleicher Suffix ->
+     0 Angebote, Vorschlag-Text "Diese Variante ist nicht im AH – andere Varianten: n ab x". Protokoll VARIANTE-PROBE mit allen
+     Schlüsseln (Stufe/Suffix ab Preis (Menge)). Zeitlimits: Freigabe 6 s, Antwort 4 s.
+   - PREISPRUEFUNG-Zeile zusätzlich: Haustier-Art, Dauer, "Antwort"/"Zeitlimit"/"Liste fertig".
+   - "wird aktualisiert …" höchstens 20 s (QUEUE_LIMIT), danach orange "Preisprüfung ohne Antwort (<Grund>) – erneut prüfen".
+   - Spalte "Günstigstes" links: ohne frische Prüfung grau der Preis aus A:GetCurrent (letzter Scan) statt "-"; Sortierung danach.
+  Test T991: Stufe 0 + Itemstufe 26 -> Schlüssel Stufe 26 ("allgemein+stufe"); ohne Itemstufe -> warten; Probe mit nur anderen
+    Suffixen -> 2 Varianten ab 8s47, fertig mit 0; gleiche Variante andere Stufe -> neu suchen mit Stufe 24, Quelle "browse";
+    Vorschlag-Text Variante; Wartezeit 25 s > Zeitlimit.
+  Im Spiel prüfen: Stachelkettengelenkbänder und Banditen-Handschuhe anklicken; Protokoll PREISPRUEFUNG (Stufe ≠ 0), VARIANTE-PROBE
+    (welche Varianten im AH), ggf. PREISPRUEFUNG-WARTET. Bericht mit diesen Zeilen vorher/nachher folgt nach dem Upload.
+  Risiko, zu messen: Die Browse-Probe läuft nur, wenn kein Sniper/Wächter/Kaufen sucht (gleiche Sperre wie jede Preisprüfung).
+
+Weiter offen bei mir: VL2 wartet auf die Auswertung VERKAUFEN-LISTE (im Upload 12:24 vorhanden: 12:19:49 Ø 5,2 ms/max 8,3 ms je
+Aufbau bei 49 Aufrufen/54 s; 12:23:32 Ø 3,7/max 11,1 ms bei 114 Aufrufen/33 s, Auslöser SELLER_CHANGED 81) – Auswertung durch die
+Prüf-Sitzung.
