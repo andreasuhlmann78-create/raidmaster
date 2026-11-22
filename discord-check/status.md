@@ -1,6 +1,6 @@
 # Discord-Prüfung
 
-Geprüft: 2026-11-22T09:26:22Z (Commit dddb64d), Server: Alpine Vanguard
+Geprüft: 2026-11-22T12:09:35Z (Commit 880ee57), Server: Alpine Vanguard
 
 **Ergebnis: ❌ es fehlt etwas**
 
@@ -11,13 +11,13 @@ Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 4
 | | Addon | Version | Kanal | Gepostet | seit Push |
 |---|---|---|---|---|---|
 | ✅ ok | AHSentinel | 0.65.354 | #ahsentinel | 2026-11-19 19:53 UTC | 2 Tage |
-| ✅ ok | RaidMaster | 3.0.40 | #raid-addon | 2026-11-18 10:20 UTC | 3 Tage |
+| ✅ ok | RaidMaster | 3.0.40 | #raid-addon | 2026-11-18 10:20 UTC | 4 Tage |
 
 ## Ankündigungen (announce/, neueste Fassung je Reihe)
 
 | | Datei | Kanal | Abdeckung | seit Push |
 |---|---|---|---|---|
-| ✅ ok | ahsentinel__ahsentinel-0.65.381.md | #ahsentinel | 100 % | 35 Min. |
+| ✅ ok | ahsentinel__ahsentinel-0.65.382.md | #ahsentinel | 100 % | 35 Min. |
 | ✅ ok | ahsentinel__ahsentinel-0-vorstellung-1.8.md | #ahsentinel | 100 % | 13 Tage |
 | ✅ ok | ahsentinel__ahsentinel-hilfe-1.0.md | #ahsentinel | 100 % | 18 Tage |
 | ✅ ok | barrow-taktik__uebersicht-1.1.md | #barrow-taktik | 100 % | 18 Tage |
@@ -32,7 +32,7 @@ Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 4
 | ✅ ok | onyxia-taktik__onyxia-video-1.0.md | #onyxia-taktik | 100 % | 26 Tage |
 | ✅ ok | professionsentinel__professionsentinel-0.9.74.md | #professionsentinel | 100 % | 3 Tage |
 | ✅ ok | professionsentinel__professionsentinel-0-vorstellung-1.27.md | #professionsentinel | 100 % | 9 Tage |
-| ✅ ok | threatsentinel__threatsentinel-2.5.23.md | #threatsentinel | 100 % | 3 Tage |
+| ✅ ok | threatsentinel__threatsentinel-2.5.23.md | #threatsentinel | 100 % | 4 Tage |
 | ✅ ok | threatsentinel__threatsentinel-0-vorstellung-2.2.md | #threatsentinel | 100 % | 19 Tage |
 | ✅ ok | buffsentinel__buffsentinel-0-vorstellung-12.md | #buffsentinel | 100 % | 18 Tage |
 | ✅ ok | guildsentinel__guildsentinel-0-vorstellung-19.md | #guildsentinel | 100 % | 10 Tage |
