@@ -6015,3 +6015,16 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     ST3 (dort Gesamtpreis statt Stückpreis). Beides kommt aus derselben Stelle "Stückpreis = Preis / Menge" mit der falschen Menge.
     In ST4 aufnehmen: Gruppe (Anzahl Angebote) vs. Menge je Angebot an JEDER Stelle prüfen; Test mit 30 Rezepten zu je 5g70 ->
     Stückpreis 5g70, Vorschlag 5g69. Zweites Spielerbild (imgur 1Pi4Das) liegt nicht vor – Nutzer/Spieler fragen, falls nötig.
+
+>>> KORREKTUR/PRÄZISIERUNG 22.11. 09:25 (Supervisor) zu ST3 und BELEG 09:20 – zweites, scharfes Spielerbild (vom Nutzer, nicht im Repo):
+    Blizzard-AH "Recipe: Soothing Turtle Bisque", 67 Available, Zeilen Sofortkauf/Zahl: 5s50/2 · 5s60 · 5s70/30 · 5s75/6 · 5s78 · 5s79/5 ·
+    5s99 · 6s00/17 · 7s79 · 8s25/2 · 12s00 (Silber, nicht Gold – Korrektur zu 09:20). Summe der Zahlen (+1 je Zeile ohne Zahl) = 67.
+    AHS 0.65.354 daneben: Preis/Stück 19c (30), 35c (17), 95c (6), 1s15 (5), 2s75 (2) = jeweils Zeilenpreis ÷ Zahl (5s70/30 = 19c,
+    6s00/17 = 35c, 5s75/6 = 96c, 5s79/5 = 1s16, 5s50/2 = 2s75). Market value 19c, Händler 5s50, Vorschlag 6s.
+    ENTSCHEIDENDE FRAGE (belegen, nicht annehmen): Ist die Zahl die MENGE EINES Angebots (Stapel) oder die ANZAHL GLEICHER ANGEBOTE?
+    Rezepte stapeln in Classic nicht (Stapelgrösse 1) -> dann sind es 30 Angebote zu je 5s70, der Stückpreis ist 5s70, und AHS teilt
+    fälschlich durch die Anzahl Angebote (CF1-Ursache). Dasselbe kann für die Schredderanleitung-Seiten gelten: dann wäre bei ST3 die
+    LISTE falsch (1s16 = 10s44 ÷ 9 Angebote) und "Marktwert (Scan) 10s45" richtig – ST3 also umgekehrt.
+    Pflicht: Stapelgrösse je Item aus GetItemInfo (itemStackCount) bzw. C_Item; ist sie 1, ist eine Zahl > 1 IMMER die Anzahl Angebote,
+    Stückpreis = Preis je Angebot. Für Waren (stapelbar) Stückpreis = unitPrice der API. Alle Stellen aus ST4 nach DIESER Regel prüfen.
+    Im Bericht: itemStackCount von Rezept "Soothing Turtle Bisque" und von "Schredderanleitung – Seite 9/11/12" mit Beleg.
