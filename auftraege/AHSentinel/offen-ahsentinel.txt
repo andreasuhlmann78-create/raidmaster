@@ -6000,3 +6000,7 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
      wörtlich im Code – Quelle belegen (Platzhalter "unbegrenzt"/math.huge, z. B. MarkGone qty = math.huge, oder Daten in SavedVariables)
      und Ausgabe ohne %d-Überlauf (große Zahlen als Text, unbegrenzt als leer). Test: Datensatz mit math.huge und 99999999999 -> Export ok.
  Reihenfolge JETZT: PM1, ST1–ST6 (inkl. CF1), CF2, BH1–BH3, VK1/VK2, CF3, dann VL1–VL3. Nur Discord, Tests bauen, nicht laufen lassen.
+
+>>> KORREKTUR 22.11. 09:05 zu CF2 (Nutzer): ProfessionSentinel ist nicht auf CurseForge -> das Fenster beim Öffnen eines Berufs kommt von
+    AHSentinel (Spieler B hat nur AHS). AHS belegt, welches Fenster es ist (Crafting/DEButton/Entzaubern-Fenster, Ereignis TRADE_SKILL_SHOW/
+    CRAFT_SHOW) und stellt um: Standard = nichts öffnet sich von selbst, nur auf Klick; Einstellung "beim Beruf automatisch öffnen" (aus).
