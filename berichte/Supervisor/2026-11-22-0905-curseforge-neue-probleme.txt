@@ -1,0 +1,41 @@
+CURSEFORGE – NEUE PROBLEME DER SPIELER (ausgelesen 22.11.2026 ~09:00 über die CurseForge-API, Sitzung "home zugriff")
+Für den Supervisor zur Prüfung und Einordnung. Keine Spielernamen (Spieler A/B/C). Zeiten Zürich.
+AHSentinel (Projekt 1757594): 6 neue Spieler-Antworten seit 19.11. 19:15. GuildSentinel (1771789): keine Kommentare.
+Stand Versionen: CurseForge 0.65.354 (download/), Discord/Repo 0.65.375.
+Noch NICHT im Repo erfasst (grep offen-ahsentinel.txt: nichts zu overflow/Munition/den Kommentar-IDs).
+
+1. CF-AHS-5 NICHT BEHOBEN – Verkaufspreis weit unter AH (HOCH, Gold) – Spieler A (der vom 17.11.)
+   20.11. 00:16 (ID 8754080): "v0.65.354 and Forever."  (Antwort auf unsere Rückfrage)
+   20.11. 07:34 (ID 8755960, GoldSentinel): Antwort "fixed in 0.65.354 … suggests a price just below that listing … warns …"
+   21.11. 02:09 (ID 8761704): "Unfortunately, that's not the case. The bug I pointed out is not fixed. There is still the ongoing issue
+     with this specific item." Bild: https://i.imgur.com/1ghwKFj.png
+   21.11. 02:11 (ID 8761709): "In fact this is happening with several items. Until this is fixed, I can't use your addon to sell anything…"
+     Bild: https://i.imgur.com/1Pi4Das.png
+   -> Die Antwort vom 20.11. 07:34 ("fixed in 0.65.354") war verfrüht. Spieler nutzt 0.65.354 auf Forever, Fehler bei MEHREREN Items.
+   Bilder nicht angesehen (imgur verlangt je Aufruf eine eigene Freigabe im Browser) – Supervisor/AHS bitte selbst öffnen.
+   Zu prüfen: ist der Fall in 0.65.355–0.65.375 behoben (CHANGELOG zeigt nichts Eindeutiges)? Kommt das auf CurseForge?
+
+2. NEU – "Accounting:"-Meldung nach JEDEM Kampf, Munition (HOCH, Spieler hat deinstalliert) – Spieler B (der vom 18.11.)
+   21.11. 03:25 (ID 8762108): "now I'm getting the "accounting" message after every combat as it reports how many #$%T@ arrows are gone,
+     etc. Unusable this way." Ausserdem: "I'd prefer if the scanning and tooltip side of this were shared with an "auction admin" addon
+     because I do not need 90% of what is provided." und "I also want a way to have it _not_ show a dialog by default every time I open
+     a profession."
+   21.11. 03:51 (ID 8762228): "Even going back one version it's continuing. Uninstalled until/unless that changes. Sorry"
+   Verdacht (zu belegen): Der Lager-Abgleich (Books.lua, "Accounting: N× … are gone") bucht VERBRAUCHTE Ware (Pfeile/Munition, evtl. auch
+   Tränke, Essen, Reagenzien) als "fehlende Ware" aus und meldet das bei jedem Abgleich. Verbrauch ist kein Fehlbestand.
+   Unsere Antwort vom 19.11. (CF-AHS-6) erklärte die Meldung als Ausbuchung fehlender Ware – für Verbrauch passt das nicht.
+   Wünsche: (a) Meldung abschaltbar (CF-AHS-6, schon Wunsch), (b) beim Öffnen eines Berufs keinen Dialog/kein Fenster von selbst
+   (vermutlich ProfessionSentinel- oder AHS-Fenster am Berufsfenster – welches, ist zu klären), (c) Grundsatz-Kritik: zu viel Umfang.
+
+3. NEU – CSV-Export: Lua-Fehler (MITTEL) – Spieler C (der vom 18.11.)
+   20.11. 14:33 (ID 8757629): "[AHSentinel] Error in CSV-Export: integer overflow attempting to store 99999999999 its newest version
+     of the addon and newest wow version as well its wow forever"
+   -> Der Export (umgebaut 0.65.338) läuft jetzt los, bricht aber mit einem Zahlen-Überlauf ab (Wert 99999999999 = vermutlich ein
+   Platzhalter "kein Wert/unbegrenzt", der in eine Ganzzahl-Formatierung geht). "Newest version" = vermutlich 0.65.354 (CurseForge).
+   Im Lua-Code von 0.65.375 steht die Zahl nicht wörtlich (grep) – Quelle ist zu suchen (Daten in SavedVariables oder berechnet).
+
+4. Hinweis zur Seite: Der gelöschte Doppelpost 8752256 erscheint in der API noch als leerer Eintrag (Text leer). Auf der Seite nicht
+   sichtbar. Kein Handlungsbedarf.
+
+VORSCHLAG Vorrang: (1) CF-AHS-5 Verkaufspreis (Gold, Spieler kann nicht verkaufen), (2) Munition/Accounting nach jedem Kampf
+(Spieler verloren), (3) CSV-Overflow. Antworten auf CurseForge erst nach belegter Behebung – keine weitere "fixed"-Aussage ohne Prüfung.
