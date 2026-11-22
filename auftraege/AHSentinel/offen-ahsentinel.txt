@@ -6086,3 +6086,9 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     Eingabe?) – im Code belegen. Regel: Feld = angezeigter Vorschlag, ausser der Nutzer hat selbst getippt (dann Vorschlag-Zeile
     "dein Preis 6s91, Vorschlag 3s99"). Eine andere Logik (Aufkauf-Preis) nur MIT eigener Erklärzeile im Vorschlag-Text, nie still.
     Test: Item auswählen ohne Eingabe -> Feld = Vorschlag; eigene Eingabe -> bleibt und wird so benannt.
+ PP1-NACHTRAG 22.11. 17:05 (Ingame 0.65.381, 16:56/16:57, Donnerfels): Betrifft auch WAREN, nicht nur Items mit Stufe/Suffix –
+     "Zinnerz: geprüft vor 8 Sek.: 0 Angebote, 0 eigene" (Marktwert 1s33, Händler 25c) direkt nach "Scan fertig: 355336 Einträge … (46,8 Sek.)";
+     "Wollstoff: wird aktualisiert …" während "Scan läuft …"; Spalte "Günstigstes" "-" u. a. bei Wollstoff, Raptorei, Zinnerz, Spinnenseide.
+     Die ItemKey-Vermutung (Stufe/Suffix) erklärt Waren nicht. Zusätzlich belegen: Preisprüfung während/kurz nach dem Vollscan
+     (Drossel/Antwort vom Scan verbraucht? COMMODITY_SEARCH_RESULTS_UPDATED vs. ITEM_SEARCH_RESULTS_UPDATED abgefangen?).
+     Protokoll je Prüfung mit Ereignissen und Zeiten; Test: Prüfung direkt nach Vollscan-Ende -> Angebote da.
