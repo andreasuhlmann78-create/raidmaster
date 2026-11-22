@@ -1,0 +1,28 @@
+AHSentinel 0.65.381 – VL1 und VL3 (AUFTRAG 22.11. 08:35, Verkaufen-Liste) – umgesetzt, zur Prüfung; VL2 wartet auf die Messung
+Nur Discord, kein CurseForge. Tests gebaut, nicht laufen lassen. addon_check: OK (keine FEHLER). Dateiliste ZIP gleich wie 0.65.380.
+
+VL1 ZUERST MESSEN – gebaut, Werte kommen aus dem Spiel (hier keine Spielumgebung -> keine erfundenen Zahlen)
+  UI_Sell.lua: p:Refresh misst jetzt (debugprofilestop) und ruft den unveränderten Inhalt als p:RefreshInner auf. Schritte je Aufruf:
+    gesamt · Serie = RefreshBatch · darin Kandidaten = Se:BatchCandidates · darin Taschen leicht = Se:GetBagItems(true)
+    (Seller.lua misst nur diesen Aufruf, Se.vlLightMs) · Taschen voll = Se:GetBagItems() · SetData = bagTable:SetData ·
+    Rest = gesamt − Serie − Taschen voll − SetData (rechte Seite: Titel, Info, Angebote, Zusammenfassung).
+  Auslöser je Aufruf: A.firing = das gerade laufende interne Ereignis (A:Fire und A:FireSpread setzen es nur während des Empfängers
+    und stellen es danach zurück; bei FireSpread ohne Pause dazwischen), sonst "direkt" (Klick, Zeitgeber, Spiel-Ereignis ohne A:Fire).
+  Protokoll "VERKAUFEN-LISTE": erster Aufbau der Sitzung sofort, danach EINE Zeile je Minute mit Aufrufen (= Aufrufe je Minute),
+    den 5 häufigsten Auslösern, Einträgen, AH offen, Ø/max ms je Schritt; höchstens 30 Zeilen je Sitzung (D.MAX 200 nicht fluten).
+  In der Testroutine wird nicht gemessen (ausser T989 mit vlTest).
+  Bitte im Spiel: AH offen, Reiter Verkaufen, Taschen wie im Bild (42 Einträge), 2–3 Minuten normal arbeiten (Item wählen, einstellen),
+  dann das Protokoll (Diag) – Zeilen VERKAUFEN-LISTE – in den Bericht. Daraus folgt, ob VL2 (ein Taschen-Lesen je Refresh,
+  Zwischenspeicher bis BAG_UPDATE_DELAYED/AH öffnen) belegt ist.
+
+VL2 – NICHT umgesetzt (Auftrag: "nur wenn VL1 es belegt"). Code-Befund der Prüf-Sitzung bestätigt im Code: je Refresh zwei volle
+  Taschen-Durchläufe (BatchCandidates -> GetBagItems(true), danach GetBagItems()); ob das die Zeit ist, zeigt erst die Messung.
+
+VL3 NICHTS SONST ÄNDERN: Inhalt von Refresh unverändert (nur in RefreshInner verschoben, Messpunkte dazwischen); Reihenfolge, Werte,
+  Serie-Zahl, Auswahl, Einstellen gleich. Messung kostet je Aufruf 6 Zeitstempel und eine kleine Tabelle.
+  Test T989 (neu): erster Aufbau -> genau eine Zeile "erster Aufbau: 1 Aufrufe in 0 s (SELLER_CHANGED 1) · Einträge 42 · … gesamt
+  20.0/20.0, Serie 9.0/9.0 (Kandidaten 8.0/8.0, davon Taschen leicht 7.0/7.0), Taschen voll 6.0/6.0, SetData 2.0/2.0, Rest 3.0/3.0";
+  zweiter Aufruf -> keine Zeile (Minutenfenster); Liste (ItemID:Anzahl in Reihenfolge) mit Messung = ohne Messung.
+
+Stand Reihenfolge 22.11. 09:10: PM1, ST1–ST6, CF2, BH1–BH3, VK1/VK2, CF3 umgesetzt (zur Prüfung); VL1/VL3 gebaut, VL2 wartet auf
+Messwerte aus dem Spiel. Offen ausserhalb: CF1-Antwort (CurseForge, Entscheid Nutzer), SN-Z3 (Frage an Nutzer), Montags-Punkte.
