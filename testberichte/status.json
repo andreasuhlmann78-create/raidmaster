@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-22T14:29:40Z",
+ "ausgewertet": "2026-11-22T15:26:53Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -22,9 +22,8 @@
      "art": "spiel",
      "wo": "ADDON_ACTION_BLOCKED",
      "msg": "UNKNOWN()",
-     "anzahl": 18,
+     "anzahl": 13,
      "versionen": [
-      "0.65.194",
       "0.65.196",
       "0.65.203"
      ],
@@ -384,9 +383,8 @@
    "art": "spiel",
    "wo": "ADDON_ACTION_BLOCKED",
    "msg": "UNKNOWN()",
-   "anzahl": 18,
+   "anzahl": 13,
    "versionen": [
-    "0.65.194",
     "0.65.196",
     "0.65.203"
    ],
@@ -639,11 +637,11 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 213,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.381-1013172fa56b.txt"
+    "anzahl": 214,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.381-93ee1eb37797.txt"
    },
    "BuffSentinel": {
-    "anzahl": 122,
+    "anzahl": 124,
     "neueste": "testberichte/diagnose/BuffSentinel/0.9.60-fb522145c40a.txt"
    },
    "GSMesstest": {
@@ -651,30 +649,30 @@
     "neueste": "testberichte/diagnose/GSMesstest/5.1-f65d607ab777.txt"
    },
    "GSSniperLog": {
-    "anzahl": 48,
+    "anzahl": 49,
     "neueste": "testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt"
    },
    "GuildSentinel": {
-    "anzahl": 236,
+    "anzahl": 238,
     "neueste": "testberichte/diagnose/GuildSentinel/0.9.58-fa602fb8b08c.txt"
    },
    "LevelPilot": {
-    "anzahl": 129,
+    "anzahl": 131,
     "neueste": "testberichte/diagnose/LevelPilot/3.13.6-ff90860598d3.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 214,
+    "anzahl": 216,
     "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.74-ff706b85d2e7.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 199,
+    "anzahl": 201,
     "neueste": "testberichte/diagnose/ThreatSentinel/2.5.23-ee663a070dfa.txt"
    }
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 311,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1795356627-a0fbec.json"
+    "anzahl": 314,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1795358025-c136c5.json"
    }
   }
  }

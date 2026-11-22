@@ -1,0 +1,472 @@
+LevelPilot-Protokoll v3.13.6 · 22.11.2026 15:33
+Client deDE 1.60.1 · Sprache de · modern
+Charakter L41 Scourge PRIEST Horde
+Datenpaket: v1.6.4, 3920 Quests
+Sitzungen: 40 · aktiv gespielt 35h 10min · Lua gesamt max 753.5 MB
+  21.11. 18:36 L39»40 PRIEST 2h 57min · Pause 14min · Lua gesamt 665»769 MB, max 849
+  21.11. 21:47 L40»39 PRIEST 1h 17min · Pause 0min · Lua gesamt 637»647 MB, max 775
+  22.11. 00:05 L40»41 PRIEST 56min · Pause 29min · Lua gesamt 656»813 MB, max 813
+  22.11. 01:02 L41»40 PRIEST 0min · Pause 0min · Lua gesamt 554»554 MB, max 554
+  22.11. 11:30 L41»41 PRIEST 43min · Pause 10h 27min · Lua gesamt 595»585 MB, max 662
+  22.11. 12:18 L41»41 PRIEST 2h 33min · Pause 0min · Lua gesamt 633»720 MB, max 756
+  22.11. 14:58 L41»41 PRIEST 0min · Pause 0min · Lua gesamt 569»581 MB, max 581
+  22.11. 14:59 L41»41 PRIEST 11min · Pause 0min · Lua gesamt 667»708 MB, max 711
+  22.11. 15:10 L41»41 PRIEST 12min · Pause 0min · Lua gesamt 668»652 MB, max 668
+  22.11. 15:22 L41»41 PRIEST 10min · Pause 0min · Lua gesamt 653»676 MB, max 753
+Einstellungen geändert: autoEquipRewards=true, autoFly=false, minimapAngle=18.086938373556, restockAmmo=false, restockFood=false, restockPetFood=false, restockWater=false, shareSeed=true, shareSeedAsked=true, showArrow=false
+
+== Diagnose
+  Version 3.13.6 · Client: modern · Server: WoW Forever
+  Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+  Zustand: instance · Fokus: –
+  Position: unbekannt, Karte nil
+  Datenpaket: v1.6.4, 3920 Quests
+  QuestieDB: nicht benötigt (Datenpaket aktiv)
+  Quests: Paket 3920, Questie 0, Startdatenbank 0, eigene 446, andere 101
+  Level 41 · passende Quests 480 · Aufgaben 18 · Schritte 19
+  Questlog: 37/40 (automatisch)
+  Modus: Normal
+  Dungeons: an, Lauf ab 2 Quests, Monster-EP 36 %, Quest-EP 150 % · im Dungeon 796
+  Höhlen und Tunnel bekannt: 8 (selbst gelernt 4, von anderen 1)
+  Geländeführung: keine Geländekarte für diese Zone
+  Sprachpakete: deDE geladen
+  Kills pro Minute: 2.95 (320 Messungen) · Quest-EP-Faktor: 1.00 (275 Quests)
+EP je Kill: gemessen 768 · grün 87 %
+  Letzter Fehler: keiner
+  SYNC GoldSentinelSync 3 · Wege: PARTY · Mitspieler (1 Std.): AHSentinel 2, BuffSentinel 2, GoldSentinelMarkt 1, GoldSentinelTest 1, GuildSentinel 2, LevelPilot 2, LevelPilotG 1, ThreatSentinel 0
+  SYNC gesendet 1770 · empfangen 883 · verworfen: duplicate 86 · Warteschlange 4 · Kanal verweigert 0
+  NETZ an · bekannt 6 (mit Sync 2: 5, pausiert 3) · gesendet 4 · weitergegeben 0 · offline 3 · Listen 2 · Warteschlange 0 · gespeichert ja · im Test angehalten 0
+  CLIENTTEST: noch nicht gelaufen (/lp clienttest)
+  STRASSEN keine (seit 3.12.88 entfernt – Wegnetz aus gelaufenen Wegen)
+  UMWEG je Zone (bekannter Weg/Luftlinie): Alteracgebirge 1,80 (12 Paare) · Arathihochland 1,30 (12 Paare) · Desolace 1,27 (12 Paare) · Durotar 1,47 (12 Paare) · Dämmerwald 1,25 (Annahme, 0 Knoten) · Feralas 1,15 (12 Paare) · Flusslande 1,69 (12 Paare) · Hinterland 1,25 (Annahme, 0 Knoten) · Marschen von Dustwallow 1,37 (12 Paare) · Mulgore 1,23 (12 Paare) · Orgrimmar 1,22 (12 Paare) · Schlingendorntal 1,45 (12 Paare) · Shen'dralas 1,31 (12 Paare) · Sümpfe des Elends 1,05 (12 Paare) · Tanaris 1,19 (12 Paare) · Tausend Nadeln 1,33 (12 Paare) · Thunder Bluff 1,23 (12 Paare) · Tirisfal 1,36 (12 Paare) · Undercity 1,25 (12 Paare) · Vorgebirge von Hillsbrad 1,36 (12 Paare) · Ödland 1,25 (Annahme, 0 Knoten)
+  LAUFWEG (seit 3.13.6): Schritte 139 (angekommen 47) · Umweg gelaufen/Luftlinie 1,23 · Zeit Weg 3:45 / am Ziel 1:44 (Weg-Anteil 68 %) · Leerlauf 2:11
+  LAUFWEG Pfad während des Wegs: Netz 41 % · Gelände 0 % · Luftlinie 0 % · unbekannt 59 % · ohne Pfad 0 %
+  LAUFWEG Neuplanungen mit Zielwechsel 107, davon Richtungswechsel über 90° 40
+  LAUFWEG je Zone (Umweg, Schritte, Weg-Anteil): Flusslande 2,10 (32, Weg 64 %) · Arathihochland 0,54 (28, Weg 39 %) · Schlingendorntal 2,25 (21, Weg 63 %) · Desolace 0,59 (11, Weg 51 %) · Das Brachland 1,77 (10, Weg 99 %) · Sümpfe des Elends 0,41 (6, Weg 41 %) · Durotar 0,01 (5, Weg 98 %) · Shen'dralas 0,20 (5, Weg 27 %)
+  EP/h je Level (aktive Zeit): 39: 127720 (2:49 h) · 40: 128448 (2:44 h) · 41: 100433 (2:52 h)
+  REISE noch kein Flugvergleich · Tempo 11,2 yd/s (Reittier gemessen)
+  MELDUNGEN: an · unterdrückt 0 · durchgerutscht 0
+  MARKT-NETZ: v10 · an (LevelPilot an) · Scans mitgelesen 0 · gesendet 0 · empfangen 0 · Speicher 7200 Items, 557 KB
+  MARKT-NETZ v10 · an · Addons: AHSentinel, BuffSentinel, GuildSentinel, LevelPilot, ProfessionSentinel, RaidMaster, ThreatSentinel
+  MARKT-NETZ Scans 0 (davon vom Host übergeben 0; zuletzt 0 Auktionen, 0 Items, 0 ms in 0 Bildern) · Vergleiche 0 · abgebrochen 0
+  MARKT-NETZ Items 7200 (eigen 865, Netz 6335, Absatz gemessen 602) · gesendet 0 · empfangen 0 · angenommen 0 · Warteschlange 0
+  MARKT-NETZ verworfen: nichts
+  MARKT-NETZ Test-IDs entfernt: 0
+  SPEICHER Lua gesamt (alle Addons, alle 5 Min.) nach dem Einloggen 653.5 MB · aktuell 679.7 MB · Höchstwert 753.5 MB
+  SPEICHER LevelPilot (gemessen beim Öffnen des Protokolls) aktuell ? · Höchstwert ? · Speicher-Messung noch keine
+  SPEICHER angelegt je Modul seit dem Einloggen (Summe 577.7 MB): Routenberechnung 401.8 MB · Wegnetz 61.9 MB · Assistent 38.6 MB · Sicherung 38.3 MB · Navigation 20.6 MB · Questauswertung 10.2 MB · Aufzeichnung 3.5 MB · plan 1.3 MB · Protokoll 1.2 MB · Netz-Empfang 0.2 MB · Anzeige 0.1 MB
+  SPEICHER Bestand: Wegpunkte 29859 · Luftlinien-Nachbarn 771 · Geländeprüfungen 2519 · Gefahren-Strecken 41503 · Quests entschlüsselt 4074 · Aufgaben 52 · Questlog 37
+  ZEIT Routenberechnung 3765 ms/1929× max 10 · Wegnetz 2155 ms/1436× max 4 · Navigation 498 ms/13745× max 4 · Assistent 394 ms/131× max 55 (über 16 ms) · Sicherung 204 ms/49× max 6 · Aufzeichnung 117 ms/1287× max 5 · Wegsuche 38 ms/10× max 4 · Start 28 ms/32× max 13 · Protokoll 20 ms/387× max 6 · plan 16 ms/9× max 8 · Netz-Empfang 10 ms/103× max 1 · Questauswertung 9 ms/1× max 9 · Anzeige 8 ms/2166× max 0
+  ZEIT erste 60 s nach dem Einloggen: Routenberechnung 566 ms max 10 · Wegnetz 163 ms max 3 · Navigation 42 ms max 0 · Assistent 138 ms max 55 (über 16 ms) · Aufzeichnung 15 ms max 1 · Start 28 ms max 13 · Protokoll 7 ms max 6 · plan 16 ms max 8 · Netz-Empfang 1 ms max 0 · Questauswertung 9 ms max 9 · Anzeige 0 ms max 0
+  ZEIT in Pausen verworfen: nichts
+  ZEIT Notbremse 0× · pausiert: nichts · Hintergrund-Arbeit: 0 laufend, 650 fertig, längste Portion 55 ms
+
+== Einträge (300, neueste zuerst)
+[22.11. 15:32] SYNC ×83 L41 Tirisfal(1420) 84.4,32.2 | SYNC Stand | Spiel: Tirisfal / Das Große Vestibül
+      Schritt COMPLETE:95119
+      SYNC GoldSentinelSync 3 · Wege: GUILD+PARTY · Mitspieler (1 Std.): AHSentinel 2, BuffSentinel 2, GoldSentinelMarkt 1, GoldSentinelTest 1, GuildSentinel 2, LevelPilot 2, LevelPilotG 1, ThreatSentinel 0
+      SYNC gesendet 1647 · empfangen 819 · verworfen: duplicate 78 · Warteschlange 2 · Kanal verweigert 0
+      NETZ an · bekannt 6 (mit Sync 2: 5, pausiert 3) · gesendet 4 · weitergegeben 0 · offline 3 · Listen 2 · Warteschlange 0 · gespeichert ja · im Test angehalten 0
+[22.11. 15:24] FOKUS ×2 L41 Durotar(1411) 45.5,12.7 | Planung in Marschen von Dustwallow, obwohl 1 Aufgabe(n) in Durotar warten | Spiel: Durotar
+      Schritt COMPLETE:95119
+[22.11. 15:23] SYNC L41 Durotar(1411) 45.5,12.7 | SYNC GoldSentinelSync 3 · Wege: GUILD+PARTY · Mitspieler (1 Std.): AHSentinel 2, BuffSentinel 2, GoldSentinelMarkt 0, GuildSentinel 2, LevelPilot 2, LevelPilotG 1, ThreatSentinel 0 | Spiel: Durotar
+      Schritt COMPLETE:95119
+[22.11. 15:23] FOKUS ×4 L41 Orgrimmar(1454) 53.1,78.9 | Planung in Marschen von Dustwallow, obwohl 1 Aufgabe(n) in Orgrimmar warten | Spiel: Orgrimmar / Das Tal der Stärke
+      Schritt COMPLETE:95119
+[22.11. 15:22] perf L41 Orgrimmar(1454) 54.7,74.2 | Wegnetz laden: Portionen: 22 Bilder, längstes Bild 4.3 ms (Knoten–Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 88.0 ms · Dauer 1.9 s · ganze Bilder über 40 ms: 9, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 9 · längstes ganzes Bild 988.0 ms | Spiel: Orgrimmar / Das Tal der Stärke
+[22.11. 15:22] SYNC L41 Orgrimmar(1454) 54.7,74.2 | Sync-Adressbuch bereinigt: 1 Testnamen | Spiel: Orgrimmar / Das Tal der Stärke
+[22.11. 15:16] TOD ×2 L41 Shen'dralas(2652) 71.7,23.0 | Tod bei „Energie für die Pylonen“ | Spiel: Shen'dralas / Rückzugsort der Borstennacken
+      Schritt COMPLETE:96018
+[22.11. 15:11] SYNC L41 Shen'dralas(2652) 43.8,35.9 | SYNC GoldSentinelSync 3 · Wege: GUILD+PARTY · Mitspieler (1 Std.): AHSentinel 2, BuffSentinel 2, GoldSentinelMarkt 1, GuildSentinel 2, LevelPilot 2, LevelPilotG 2, ThreatSentinel 0 | Spiel: Shen'dralas / Tal der Knochen
+      Schritt COMPLETE:96018
+[22.11. 15:10] perf L41 Shen'dralas(2652) 44.6,34.8 | Wegnetz laden: Portionen: 24 Bilder, längstes Bild 4.4 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 97.1 ms · Dauer 1.4 s · ganze Bilder über 40 ms: 3, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 3 · längstes ganzes Bild 729.0 ms | Spiel: Shen'dralas / Tal der Knochen
+[22.11. 15:10] SYNC L41 Shen'dralas(2652) 44.6,34.8 | Sync-Adressbuch bereinigt: 1 Testnamen | Spiel: Shen'dralas / Tal der Knochen
+[22.11. 15:00] SYNC L41 Shen'dralas(2652) 45.0,36.8 | SYNC GoldSentinelSync 3 · Wege: GUILD+PARTY · Mitspieler (1 Std.): AHSentinel 2, BuffSentinel 0, GoldSentinelMarkt 0, GuildSentinel 2, LevelPilot 2, LevelPilotG 1, ThreatSentinel 0 | Spiel: Shen'dralas / Tal der Knochen
+      Schritt ACCEPT:5943
+[22.11. 14:59] perf L41 Shen'dralas(2652) 45.1,36.7 | Wegnetz laden: Portionen: 23 Bilder, längstes Bild 4.4 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 94.8 ms · Dauer 1.8 s · ganze Bilder über 40 ms: 9, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 9 · längstes ganzes Bild 931.0 ms | Spiel: Shen'dralas / Tal der Knochen
+[22.11. 14:59] SYNC L41 Shen'dralas(2652) 45.1,36.7 | Sync-Adressbuch bereinigt: 1 Testnamen | Spiel: Shen'dralas / Tal der Knochen
+[22.11. 14:58] perf L41 Shen'dralas(2652) 43.8,34.8 | Wegnetz laden: Portionen: 21 Bilder, längstes Bild 5.0 ms (Knoten) · über 5 ms: 1 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 85.4 ms · Dauer 2.1 s · ganze Bilder über 40 ms: 8, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 8 · längstes ganzes Bild 1282.0 ms | Spiel: Shen'dralas / Tal der Knochen
+[22.11. 14:58] SYNC L41 Shen'dralas(2652) 43.8,34.8 | Sync-Adressbuch bereinigt: 1 Testnamen | Spiel: Shen'dralas / Tal der Knochen
+[22.11. 14:52] TOD L41 Shen'dralas(2652) 45.7,43.2 | Tod bei „Gizeltons Karawane“ | Spiel: Shen'dralas
+      Schritt ACCEPT:5943
+[22.11. 14:51] FEST L41 Shen'dralas(2652) 25.8,26.8 | Seit 4 min nicht näher an „ACCEPT:5943“ (noch 835 Yards, Weg: graph – gesperrt) | Spiel: Shen'dralas / Tal der Knochen
+      Schritt ACCEPT:5943
+[22.11. 14:37] TOD ×2 L41 Shen'dralas(2652) 69.1,36.7 | Tod bei „Seltsame Pylonen“ | Spiel: Shen'dralas / Rückzugsort der Borstennacken
+      Schritt COMPLETE:92914
+[22.11. 12:19] SYNC L41 Schlingendorntal(1434) 29.5,25.9 | SYNC GoldSentinelSync 3 · Wege: GUILD+PARTY · Mitspieler (1 Std.): AHSentinel 3, BuffSentinel 3, GoldSentinelMarkt 3, GuildSentinel 3, LevelPilot 3, LevelPilotG 4, ThreatSentinel 1 | Spiel: Schlingendorntal / Die ungezähmte Küste
+      Schritt COMPLETE:1107
+[22.11. 12:18] perf L41 Schlingendorntal(1434) 29.6,23.8 | Wegnetz laden: Portionen: 22 Bilder, längstes Bild 8.2 ms (Kanten) · über 5 ms: 2 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 94.2 ms · Dauer 2.5 s · ganze Bilder über 40 ms: 5, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 5 · längstes ganzes Bild 1705.0 ms | Spiel: Schlingendorntal / Die ungezähmte Küste
+[22.11. 12:18] SYNC L41 Schlingendorntal(1434) 29.6,23.8 | Sync-Adressbuch bereinigt: 1 Testnamen | Spiel: Schlingendorntal / Die ungezähmte Küste
+[22.11. 11:31] SYNC L41 Undercity(1458) 67.9,42.5 | SYNC GoldSentinelSync 3 · Wege: GUILD+PARTY · Mitspieler (1 Std.): AHSentinel 2, BuffSentinel 2, GoldSentinelMarkt 2, GuildSentinel 2, LevelPilot 2, LevelPilotG 2, ThreatSentinel 1 | Spiel: Undercity / Das Handwerksviertel
+      Schritt COMPLETE:95119
+[22.11. 11:30] perf L41 Undercity(1458) 68.0,36.0 | Wegnetz laden: Portionen: 22 Bilder, längstes Bild 4.5 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 88.3 ms · Dauer 3.0 s · ganze Bilder über 40 ms: 19, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 19 · längstes ganzes Bild 499.0 ms | Spiel: Undercity / Die Kanäle
+[22.11. 11:30] SYNC L41 Östliche Königreiche(1415) 44.8,24.8 | Sync-Adressbuch bereinigt: 1 Testnamen
+[22.11. 01:02] perf L41 Undercity(1458) 68.0,36.0 | Wegnetz laden: Portionen: 20 Bilder, längstes Bild 4.8 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 84.4 ms · Dauer 2.7 s · ganze Bilder über 40 ms: 15, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 15 · längstes ganzes Bild 1623.0 ms | Spiel: Undercity / Die Kanäle
+[22.11. 01:02] SYNC L41 Undercity(1458) 68.0,36.0 | Sync-Adressbuch bereinigt: 1 Testnamen | Spiel: Undercity / Die Kanäle
+[22.11. 00:06] SYNC ×2 L40 Orgrimmar(1454) 54.6,67.9 | SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, BuffSentinel 0, GoldSentinelMarkt 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0, ThreatSentinel 0 | Spiel: Orgrimmar / Das Tal der Stärke
+      Schritt TURNIN:95033
+[22.11. 00:05] perf L40 Orgrimmar(1454) 54.6,67.9 | Wegnetz laden: Portionen: 21 Bilder, längstes Bild 4.4 ms (Knoten–Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 84.0 ms · Dauer 2.7 s · ganze Bilder über 40 ms: 16, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 16 · längstes ganzes Bild 192.0 ms | Spiel: Orgrimmar / Das Tal der Stärke
+[22.11. 00:05] SYNC L40 Kalimdor(1414) 58.5,45.5 | Sync-Adressbuch bereinigt: 1 Testnamen
+[21.11. 21:48] SYNC L40 Orgrimmar(1454) 34.2,69.6 | SYNC GoldSentinelSync 3 · Wege: GUILD+PARTY · Mitspieler (1 Std.): AHSentinel 2, BuffSentinel 1, GoldSentinelMarkt 1, GuildSentinel 2, LevelPilot 2, LevelPilotG 1, ThreatSentinel 0 | Spiel: Orgrimmar / Orgrimmar
+      Schritt TURNIN:95033
+[21.11. 21:47] perf L40 Orgrimmar(1454) 55.7,63.0 | Wegnetz laden: Portionen: 21 Bilder, längstes Bild 4.3 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 82.6 ms · Dauer 2.1 s · ganze Bilder über 40 ms: 15, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 15 · längstes ganzes Bild 994.0 ms | Spiel: Orgrimmar / Das Tal der Stärke
+[21.11. 21:47] SYNC L40 Orgrimmar(1454) 55.7,63.0 | Sync-Adressbuch bereinigt: 1 Testnamen | Spiel: Orgrimmar / Das Tal der Stärke
+[21.11. 19:02] KEINWEG L40 Flusslande(2548) 80.4,54.5 | Kein Weg zu „PRIO:TRAIN:40“ (PRIO:TRAIN:40) | Spiel: Flusslande / Hafen von Powderfuse
+      Schritt PRIO:TRAIN:40
+[21.11. 18:57] FEST L40 Tanaris(1446) 65.5,24.6 | Seit 4 min nicht näher an „PRIO:TRAIN:40“ (noch 7810 Yards, Weg: graph) | Spiel: Tanaris / Steamwheedle
+      Schritt PRIO:TRAIN:40
+[21.11. 18:37] FOKUS ×3 L39 Thunder Bluff(1456) 38.5,36.1 | Planung in Desolace, obwohl 1 Aufgabe(n) in Thunder Bluff warten | Spiel: Thunder Bluff
+      Schritt ACCEPT:5821
+[21.11. 18:36] perf L39 Thunder Bluff(1456) 46.7,49.9 | Wegnetz laden: Portionen: 20 Bilder, längstes Bild 4.4 ms (Knoten–Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 82.9 ms · Dauer 2.8 s · ganze Bilder über 40 ms: 18, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 18 · längstes ganzes Bild 206.0 ms | Spiel: Thunder Bluff
+[21.11. 18:36] SYNC L39 Kalimdor(1414) 46.3,57.1 | Sync-Adressbuch bereinigt: 1 Testnamen
+[21.11. 18:13] SYNC ×4 L39 Orgrimmar(1454) 55.7,62.7 | SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, BuffSentinel 1, GoldSentinelMarkt 1, GuildSentinel 1, LevelPilot 1, LevelPilotG 1, ThreatSentinel 0 | Spiel: Orgrimmar / Das Tal der Stärke
+      Schritt TURNIN:95143
+[21.11. 18:12] perf L39 Orgrimmar(1454) 55.7,62.7 | Wegnetz laden: Portionen: 19 Bilder, längstes Bild 4.3 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 75.5 ms · Dauer 2.8 s · ganze Bilder über 40 ms: 17, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 17 · längstes ganzes Bild 1575.0 ms | Spiel: Orgrimmar / Das Tal der Stärke
+[21.11. 18:12] SYNC L39 Orgrimmar(1454) 55.7,62.7 | Sync-Adressbuch bereinigt: 1 Testnamen | Spiel: Orgrimmar / Das Tal der Stärke
+[21.11. 16:34] TOD L39 Schlingendorntal(1434) 23.6,18.1 | Tod bei „Kopfjägerei“ | Spiel: Schlingendorntal / Die ungezähmte Küste
+      Schritt COMPLETE:582
+[21.11. 16:32] TOD L39 Schlingendorntal(1434) 25.4,19.2 | Tod bei „Verkrustete Schwanzflossen“ | Spiel: Schlingendorntal / Die ungezähmte Küste
+      Schritt COMPLETE:1107
+[21.11. 15:30] TOD L39 Arathihochland(1417) 56.7,34.8 | Tod bei „Von Dieben stehlen“ | Spiel: Arathihochland / Bauernhof der Dabyries
+      Schritt COMPLETE:1164
+[21.11. 14:48] perf L39 Vorgebirge von Hillsbrad(1424) 62.6,19.3 | Wegnetz laden: Portionen: 19 Bilder, längstes Bild 4.5 ms (-–Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 77.8 ms · Dauer 2.8 s · ganze Bilder über 40 ms: 14, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 14 · längstes ganzes Bild 517.0 ms | Spiel: Vorgebirge von Hillsbrad / Tarrens Mühle
+[21.11. 14:48] SYNC L39 Östliche Königreiche(1415) 48.1,31.9 | Sync-Adressbuch bereinigt: 1 Testnamen
+[21.11. 12:00] TOD L39 Tirisfal(1420) 59.2,61.8 | Tod bei „Zwielichtige Salzseher“ | Spiel: Tirisfal
+      Schritt COMPLETE:95789
+[21.11. 11:52] perf L39 Orgrimmar(1454) 55.7,63.1 | Wegnetz laden: Portionen: 21 Bilder, längstes Bild 4.4 ms (Knoten–Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 85.2 ms · Dauer 2.2 s · ganze Bilder über 40 ms: 19, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 19 · längstes ganzes Bild 954.0 ms | Spiel: Orgrimmar / Das Tal der Stärke
+[21.11. 11:52] SYNC L39 Orgrimmar(1454) 55.7,63.1 | Sync-Adressbuch bereinigt: 1 Testnamen | Spiel: Orgrimmar / Das Tal der Stärke
+[21.11. 11:39] SYNC L39 Sümpfe des Elends(1435) 35.0,57.9 | SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, BuffSentinel 1, GoldSentinelMarkt 0, GuildSentinel 1, LevelPilot 1, LevelPilotG 0, ThreatSentinel 0 | Spiel: Sümpfe des Elends
+      Schritt ACCEPT:698
+[21.11. 11:38] perf L39 Sümpfe des Elends(1435) 35.6,60.5 | Wegnetz laden: Portionen: 19 Bilder, längstes Bild 4.4 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 76.1 ms · Dauer 1.6 s · ganze Bilder über 40 ms: 5, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 5 · längstes ganzes Bild 977.0 ms | Spiel: Sümpfe des Elends
+[21.11. 11:38] SYNC L39 Sümpfe des Elends(1435) 35.6,60.5 | Sync-Adressbuch bereinigt: 1 Testnamen | Spiel: Sümpfe des Elends
+[21.11. 11:30] perf L39 Sümpfe des Elends(1435) 46.1,54.7 | Wegnetz laden: Portionen: 18 Bilder, längstes Bild 4.6 ms (-–Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 75.3 ms · Dauer 2.2 s · ganze Bilder über 40 ms: 4, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 4 · längstes ganzes Bild 1644.0 ms | Spiel: Sümpfe des Elends / Stonard
+[21.11. 11:30] SYNC L39 Sümpfe des Elends(1435) 46.1,54.7 | Sync-Adressbuch bereinigt: 1 Testnamen | Spiel: Sümpfe des Elends / Stonard
+[21.11. 11:25] LANGSAM L39 Schlingendorntal(1434) 31.3,34.1 | Routenberechnung 113 ms · Aufgaben 63 · Kandidaten 388 · Questlog 33 · Wegpunkte 25521 · Zone ? · Pause 60 s | Spiel: Schlingendorntal / Das Finstere Riff
+      Schritt BIND:1434 · v3.12.24
+[21.11. 11:17] LANGSAM L39 Das Brachland(1413) 66.8,40.1 | Routenberechnung 60 ms · Aufgaben 64 · Kandidaten 388 · Questlog 34 · Wegpunkte 25463 · Zone ? · Pause 60 s | Spiel: Brachland / Die Händlerküste
+      Schritt COMPLETE:1177 · v3.12.24
+[21.11. 11:16] LANGSAM L39 Das Brachland(1413) 63.8,38.6 | Routenberechnung 57 ms · Aufgaben 64 · Kandidaten 388 · Questlog 34 · Wegpunkte 25462 · Zone ? · Pause 60 s | Spiel: Brachland / Ratchet
+      Schritt COMPLETE:1177 · v3.12.24
+[21.11. 11:15] LANGSAM L39 Das Brachland(1413) 62.6,38.6 | Routenberechnung 60 ms · Aufgaben 64 · Kandidaten 388 · Questlog 34 · Wegpunkte 25462 · Zone ? · Pause 60 s | Spiel: Brachland / Ratchet
+      Schritt COMPLETE:1177 · v3.12.24
+[21.11. 11:14] LANGSAM L39 Das Brachland(1413) 63.1,37.1 | Routenberechnung 144 ms · Aufgaben 64 · Kandidaten 388 · Questlog 34 · Wegpunkte 25453 · Zone ? · Pause 60 s | Spiel: Brachland / Ratchet
+      Schritt COMPLETE:1177 · v3.12.24
+[21.11. 11:13] LANGSAM L39 Das Brachland(1413) 63.1,37.1 | Routenberechnung 141 ms · Aufgaben 64 · Kandidaten 388 · Questlog 34 · Wegpunkte 25424 · Zone ? · Pause 60 s | Spiel: Brachland / Ratchet
+      Schritt COMPLETE:1177 · v3.12.24
+[21.11. 11:11] LANGSAM L39 Das Brachland(1413) 63.1,37.1 | Routenberechnung 139 ms · Aufgaben 64 · Kandidaten 388 · Questlog 34 · Wegpunkte 25407 · Zone ? · Pause 60 s | Spiel: Brachland / Ratchet
+      Schritt COMPLETE:1177 · v3.12.24
+[21.11. 11:10] LANGSAM L39 Das Brachland(1413) 63.1,37.1 | Routenberechnung 207 ms · Aufgaben 64 · Kandidaten 388 · Questlog 34 · Wegpunkte 25400 · Zone ? · Pause 60 s | Spiel: Brachland / Ratchet
+      Schritt COMPLETE:1177 · v3.12.24
+[21.11. 11:09] LANGSAM ×2 L39 Das Brachland(1413) 63.1,37.1 | Routenberechnung 58 ms · Aufgaben 63 · Kandidaten 387 · Questlog 34 · Wegpunkte 25388 · Zone ? · Pause 60 s | Spiel: Brachland / Ratchet
+      Schritt COMPLETE:1177 · v3.12.24
+[21.11. 11:06] LANGSAM L39 Das Brachland(1413) 63.1,37.1 | Routenberechnung 59 ms · Aufgaben 63 · Kandidaten 387 · Questlog 34 · Wegpunkte 25388 · Zone ? · Pause 60 s | Spiel: Brachland / Ratchet
+      Schritt COMPLETE:1177 · v3.12.24
+[21.11. 11:05] LANGSAM L39 Das Brachland(1413) 63.1,37.1 | Routenberechnung 60 ms · Aufgaben 63 · Kandidaten 387 · Questlog 34 · Wegpunkte 25388 · Zone ? · Pause 60 s | Spiel: Brachland / Ratchet
+      Schritt COMPLETE:1177 · v3.12.24
+[21.11. 11:04] LANGSAM L39 Das Brachland(1413) 63.1,37.1 | Routenberechnung 158 ms · Aufgaben 63 · Kandidaten 387 · Questlog 34 · Wegpunkte 25388 · Zone ? · Pause 60 s | Spiel: Brachland / Ratchet
+      Schritt COMPLETE:1177 · v3.12.24
+[21.11. 11:03] LANGSAM L39 Das Brachland(1413) 63.1,37.1 | Routenberechnung 61 ms · Aufgaben 63 · Kandidaten 387 · Questlog 34 · Wegpunkte 25383 · Zone ? · Pause 60 s | Spiel: Brachland / Ratchet
+      Schritt COMPLETE:1177 · v3.12.24
+[21.11. 11:01] LANGSAM L39 Das Brachland(1413) 58.9,39.2 | Routenberechnung 79 ms · Aufgaben 63 · Kandidaten 387 · Questlog 34 · Wegpunkte 25380 · Zone ? · Pause 60 s | Spiel: Brachland
+      Schritt COMPLETE:1177 · v3.12.24
+[21.11. 11:00] LANGSAM L39 Das Brachland(1413) 57.0,15.4 | Routenberechnung 77 ms · Aufgaben 63 · Kandidaten 387 · Questlog 34 · Wegpunkte 25380 · Zone ? · Pause 60 s | Spiel: Brachland
+      Schritt COMPLETE:1177 · v3.12.24
+[21.11. 10:59] LANGSAM L39 Orgrimmar(1454) 46.7,64.8 | Routenberechnung 69 ms · Aufgaben 63 · Kandidaten 387 · Questlog 34 · Wegpunkte 25380 · Zone ? · Pause 60 s | Spiel: Orgrimmar / Das Tal der Stärke
+      Schritt COMPLETE:1177 · v3.12.24
+[21.11. 10:58] LANGSAM L39 Orgrimmar(1454) 50.5,71.6 | Routenberechnung 242 ms · Aufgaben 63 · Kandidaten 387 · Questlog 34 · Wegpunkte 25380 · Zone ? · Pause 60 s | Spiel: Orgrimmar / Das Tal der Stärke
+      Schritt COMPLETE:1177 · v3.12.24
+[21.11. 10:56] LANGSAM L39 Orgrimmar(1454) 54.6,68.0 | Routenberechnung 89 ms · Aufgaben 63 · Kandidaten 387 · Questlog 34 · Wegpunkte 25379 · Zone ? · Pause 60 s | Spiel: Orgrimmar / Das Tal der Stärke
+      Schritt COMPLETE:1177 · v3.12.24
+[21.11. 10:56] SYNC L39 Orgrimmar(1454) 54.6,68.0 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, GoldSentinelMarkt 1, GuildSentinel 1, LevelPilot 1, LevelPilotG 1 | Spiel: Orgrimmar / Das Tal der Stärke
+      Schritt COMPLETE:1177 · v3.12.24
+[21.11. 10:55] LANGSAM L39 Orgrimmar(1454) 54.6,68.0 | Routenberechnung 400 ms · Aufgaben 63 · Kandidaten 387 · Questlog 35 · Wegpunkte 25379 · Zone ? · Pause 60 s | Spiel: Orgrimmar / Das Tal der Stärke
+      Schritt COMPLETE:1177 · v3.12.24
+[21.11. 00:49] LANGSAM ×2 L39 Orgrimmar(1454) 51.6,70.7 | Routenberechnung 70 ms · Aufgaben 63 · Kandidaten 387 · Questlog 35 · Wegpunkte 25379 · Zone ? · Pause 60 s | Spiel: Orgrimmar / Das Tal der Stärke
+      Schritt COMPLETE:1177 · v3.12.24
+[21.11. 00:48] LANGSAM L39 Orgrimmar(1454) 55.7,63.0 | Routenberechnung 69 ms · Aufgaben 63 · Kandidaten 387 · Questlog 35 · Wegpunkte 25379 · Zone ? · Pause 60 s | Spiel: Orgrimmar / Das Tal der Stärke
+      Schritt COMPLETE:1177 · v3.12.24
+[21.11. 00:46] LANGSAM ×2 L39 Orgrimmar(1454) 49.5,69.1 | Routenberechnung 68 ms · Aufgaben 63 · Kandidaten 387 · Questlog 35 · Wegpunkte 25379 · Zone ? · Pause 60 s | Spiel: Orgrimmar / Das Tal der Stärke
+      Schritt COMPLETE:1177 · v3.12.24
+[21.11. 00:43] LANGSAM L39 Orgrimmar(1454) 51.4,68.6 | Routenberechnung 71 ms · Aufgaben 63 · Kandidaten 387 · Questlog 35 · Wegpunkte 25379 · Zone ? · Pause 60 s | Spiel: Orgrimmar / Das Tal der Stärke
+      Schritt COMPLETE:1177 · v3.12.24
+[21.11. 00:43] SYNC ×2 L39 Orgrimmar(1454) 55.7,62.8 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, GoldSentinelMarkt 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0 | Spiel: Orgrimmar / Das Tal der Stärke
+      Schritt COMPLETE:1177 · v3.12.24
+[21.11. 00:42] LANGSAM L39 Orgrimmar(1454) 55.7,62.8 | Routenberechnung 347 ms · Aufgaben 63 · Kandidaten 387 · Questlog 35 · Wegpunkte 25379 · Zone ? · Pause 60 s | Spiel: Orgrimmar / Das Tal der Stärke
+      Schritt COMPLETE:1177 · v3.12.24
+[21.11. 00:35] TOD ×6 L39 ? | Tod bei „Die Versunkene Stadt“ | Spiel: Die Versunkene Stadt / Ewiges Amphitheater
+      Schritt DGIN · v3.12.24
+[20.11. 23:02] SYNC ×2 L38 Schlingendorntal(1434) 31.3,29.2 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, GoldSentinelMarkt 0, GuildSentinel 1, LevelPilot 1, LevelPilotG 0 | Spiel: Schlingendorntal / Das Basislager von Grom'gol
+      Schritt BIND:1434 · v3.12.24
+[20.11. 23:01] LANGSAM L38 Schlingendorntal(1434) 31.4,29.7 | Routenberechnung 61 ms · Aufgaben 60 · Kandidaten 372 · Questlog 34 · Wegpunkte 25271 · Zone ? · Pause 60 s | Spiel: Schlingendorntal / Das Basislager von Grom'gol
+      Schritt BIND:1434 · v3.12.24
+[20.11. 22:09] LANGSAM L38 Schlingendorntal(1434) 31.5,29.7 | Routenberechnung 62 ms · Aufgaben 60 · Kandidaten 372 · Questlog 34 · Wegpunkte 25241 · Zone ? · Pause 60 s | Spiel: Schlingendorntal / Das Basislager von Grom'gol
+      Schritt BIND:1434 · v3.12.24
+[20.11. 22:03] LANGSAM L38 Schlingendorntal(1434) 31.5,28.0 | Routenberechnung 80 ms · Aufgaben 60 · Kandidaten 372 · Questlog 34 · Wegpunkte 25240 · Zone ? · Pause 60 s | Spiel: Schlingendorntal / Das Basislager von Grom'gol
+      Schritt BIND:1434 · v3.12.24
+[20.11. 21:36] SCHRITT L38 Schlingendorntal(1434) 32.9,29.8 | Schritt seit 25 min aktiv: Abgeben: Die Verteidigung von Grom'gol [37]  59 Yards / bei Kommandant Aggro'gosh | Spiel: Schlingendorntal / Das Basislager von Grom'gol
+      Schritt TURNIN:569 · v3.12.24
+[20.11. 21:12] SYNC L38 Schlingendorntal(1434) 36.7,35.7 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 2, GoldSentinelMarkt 0, GuildSentinel 2, LevelPilot 2, LevelPilotG 0 | Spiel: Schlingendorntal
+      Schritt TURNIN:569 · v3.12.24
+[20.11. 21:11] LANGSAM L38 Schlingendorntal(1434) 36.9,35.5 | Routenberechnung 61 ms · Aufgaben 61 · Kandidaten 372 · Questlog 34 · Wegpunkte 24935 · Zone ? · Pause 60 s | Spiel: Schlingendorntal
+      Schritt TURNIN:569 · v3.12.24
+[20.11. 20:56] SCHRITT L38 Schlingendorntal(1434) 39.8,37.4 | Schritt seit 25 min aktiv: Abgeben: Die Verteidigung von Grom'gol [37]  698 Yards / bei Kommandant Aggro'gosh | Spiel: Schlingendorntal
+      Schritt TURNIN:569 · v3.12.24
+[20.11. 20:32] SYNC L38 Schlingendorntal(1434) 40.9,39.1 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, GoldSentinelMarkt 0, GuildSentinel 2, LevelPilot 2, LevelPilotG 0 | Spiel: Schlingendorntal
+      Schritt TURNIN:569 · v3.12.24
+[20.11. 20:31] LANGSAM L38 Schlingendorntal(1434) 40.7,38.9 | Routenberechnung 64 ms · Aufgaben 61 · Kandidaten 372 · Questlog 34 · Wegpunkte 24357 · Zone ? · Pause 60 s | Spiel: Schlingendorntal
+      Schritt TURNIN:569 · v3.12.24
+[20.11. 20:29] FEST L38 Schlingendorntal(1434) 39.8,37.5 | Seit 4 min nicht näher an „TURNIN:569“ (noch 605 Yards, Weg: graph – gesperrt) | Spiel: Schlingendorntal
+      Schritt TURNIN:569 · v3.12.24
+[20.11. 19:35] LANGSAM L38 Schlingendorntal(1434) 26.9,77.0 | Routenberechnung 90 ms · Aufgaben 63 · Kandidaten 372 · Questlog 35 · Wegpunkte 24042 · Zone ? · Pause 60 s | Spiel: Schlingendorntal / Booty Bay
+      Schritt FP:Gringer:1434 · v3.12.24
+[20.11. 19:10] SYNC L38 Orgrimmar(1454) 55.7,63.0 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, GoldSentinelMarkt 0, GuildSentinel 2, LevelPilot 1, LevelPilotG 0 | Spiel: Orgrimmar / Das Tal der Stärke
+      Schritt TURNIN:97328 · v3.12.24
+[20.11. 19:09] LANGSAM L38 Orgrimmar(1454) 55.7,63.0 | Routenberechnung 60 ms · Aufgaben 65 · Kandidaten 372 · Questlog 37 · Wegpunkte 23918 · Zone ? · Pause 60 s | Spiel: Orgrimmar / Das Tal der Stärke
+      Schritt TURNIN:97328 · v3.12.24
+[20.11. 18:42] FEST L38 Schlingendorntal(1434) 24.0,26.3 | Seit 4 min nicht näher an „BIND:1434“ (noch 499 Yards, Weg: graph) | Spiel: Schlingendorntal / Das Finstere Riff
+      Schritt BIND:1434 · v3.12.24
+[20.11. 18:18] LANGSAM L38 Schlingendorntal(1434) 32.7,29.2 | Routenberechnung 124 ms · Aufgaben 66 · Kandidaten 370 · Questlog 37 · Wegpunkte 23783 · Zone ? · Pause 60 s | Spiel: Schlingendorntal / Das Basislager von Grom'gol
+      Schritt TURNIN:97453 · v3.12.24
+[20.11. 18:04] TOD L38 Schlingendorntal(1434) 25.7,10.5 | Tod bei „Die Suche nach Yenniku“ | Spiel: Schlingendorntal / Ruinen von Zul'Kunda
+      Schritt TURNIN:581 · v3.12.24
+[20.11. 17:41] FEST L38 Schlingendorntal(1434) 23.7,11.2 | Seit 4 min nicht näher an „TURNIN:581“ (noch 888 Yards, Weg: graph) | Spiel: Schlingendorntal / Ruinen von Zul'Kunda
+      Schritt TURNIN:581 · v3.12.24
+[20.11. 17:27] TOD L38 Schlingendorntal(1434) 32.9,13.9 | Tod bei „Blutige Knochenhalskette“ | Spiel: Schlingendorntal / Ruinen von Tkashi
+      Schritt COMPLETE:596 · v3.12.24
+[20.11. 17:18] SYNC L38 Schlingendorntal(1434) 31.5,28.4 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, GoldSentinelMarkt 1, GuildSentinel 1, LevelPilot 0, LevelPilotG 0 | Spiel: Schlingendorntal / Das Basislager von Grom'gol
+      Schritt BIND:1434 · v3.12.24
+[20.11. 17:17] LANGSAM L38 Schlingendorntal(1434) 31.5,29.7 | Routenberechnung 63 ms · Aufgaben 64 · Kandidaten 367 · Questlog 35 · Wegpunkte 23495 · Zone ? · Pause 60 s | Spiel: Schlingendorntal / Das Basislager von Grom'gol
+      Schritt BIND:1434 · v3.12.24
+[20.11. 01:09] LANGSAM L38 Schlingendorntal(1434) 31.5,29.7 | Routenberechnung 62 ms · Aufgaben 64 · Kandidaten 367 · Questlog 35 · Wegpunkte 23495 · Zone ? · Pause 60 s | Spiel: Schlingendorntal / Das Basislager von Grom'gol
+      Schritt BIND:1434 · v3.12.24
+[20.11. 00:53] LANGSAM L38 Schlingendorntal(1434) 35.7,10.5 | Routenberechnung 77 ms · Aufgaben 65 · Kandidaten 366 · Questlog 35 · Wegpunkte 23381 · Zone ? · Pause 60 s | Spiel: Schlingendorntal / Nesingwarys Expedition
+      Schritt COMPLETE:596 · v3.12.24
+[20.11. 00:51] LANGSAM L38 Schlingendorntal(1434) 35.6,10.8 | Routenberechnung 93 ms · Aufgaben 67 · Kandidaten 366 · Questlog 37 · Wegpunkte 23367 · Zone ? · Pause 60 s | Spiel: Schlingendorntal / Nesingwarys Expedition
+      Schritt TURNIN:5763 · v3.12.24
+[20.11. 00:40] LANGSAM L38 Schlingendorntal(1434) 32.1,29.2 | Routenberechnung 98 ms · Aufgaben 67 · Kandidaten 366 · Questlog 32 · Wegpunkte 23312 · Zone ? · Pause 60 s | Spiel: Schlingendorntal / Das Basislager von Grom'gol
+      Schritt TURNIN:5763 · v3.12.24
+[20.11. 00:32] LANGSAM L38 Schlingendorntal(1434) 33.6,52.1 | Routenberechnung 278 ms · Aufgaben 65 · Kandidaten 364 · Questlog 28 · Wegpunkte 23156 · Zone ? · Pause 60 s | Spiel: Schlingendorntal / Die Arena der Gurubashi
+      Schritt FP:Thysta:1434 · v3.12.24
+[20.11. 00:24] LANGSAM L38 Das Brachland(1413) 63.6,38.7 | Routenberechnung 60 ms · Aufgaben 65 · Kandidaten 364 · Questlog 28 · Wegpunkte 23095 · Zone ? · Pause 60 s | Spiel: Brachland / Ratchet
+      Schritt ACCEPT:5501 · v3.12.24
+[20.11. 00:23] TOD L38 Das Brachland(1413) 63.8,38.6 | Tod bei „Knochensammler“ | Spiel: Brachland / Ratchet
+      Schritt ACCEPT:5501 · v3.12.24
+[20.11. 00:23] LANGSAM L38 Das Brachland(1413) 63.8,38.6 | Routenberechnung 61 ms · Aufgaben 65 · Kandidaten 364 · Questlog 28 · Wegpunkte 23095 · Zone ? · Pause 60 s | Spiel: Brachland / Ratchet
+      Schritt ACCEPT:5501 · v3.12.24
+[20.11. 00:22] LANGSAM L38 Das Brachland(1413) 63.6,38.7 | Routenberechnung 62 ms · Aufgaben 65 · Kandidaten 364 · Questlog 28 · Wegpunkte 23095 · Zone ? · Pause 60 s | Spiel: Brachland / Ratchet
+      Schritt ACCEPT:5501 · v3.12.24
+[20.11. 00:20] LANGSAM L38 Das Brachland(1413) 63.6,38.7 | Routenberechnung 59 ms · Aufgaben 65 · Kandidaten 364 · Questlog 28 · Wegpunkte 23095 · Zone ? · Pause 60 s | Spiel: Brachland / Ratchet
+      Schritt ACCEPT:5501 · v3.12.24
+[20.11. 00:19] LANGSAM L38 Das Brachland(1413) 63.6,38.7 | Routenberechnung 64 ms · Aufgaben 65 · Kandidaten 364 · Questlog 28 · Wegpunkte 23095 · Zone ? · Pause 60 s | Spiel: Brachland / Ratchet
+      Schritt ACCEPT:5501 · v3.12.24
+[20.11. 00:18] LANGSAM L38 Das Brachland(1413) 63.0,38.4 | Routenberechnung 110 ms · Aufgaben 65 · Kandidaten 364 · Questlog 28 · Wegpunkte 23095 · Zone ? · Pause 60 s | Spiel: Brachland / Ratchet
+      Schritt FPGO:Ratchet, Brachland · v3.12.24
+[20.11. 00:17] LANGSAM L38 Das Brachland(1413) 47.2,38.2 | Routenberechnung 74 ms · Aufgaben 65 · Kandidaten 364 · Questlog 28 · Wegpunkte 23095 · Zone ? · Pause 60 s | Spiel: Brachland / Die Blühende Oase
+      Schritt ACCEPT:5501 · v3.12.24
+[20.11. 00:16] LANGSAM L38 Das Brachland(1413) 41.1,57.6 | Routenberechnung 73 ms · Aufgaben 65 · Kandidaten 364 · Questlog 28 · Wegpunkte 23095 · Zone ? · Pause 60 s | Spiel: Brachland / Südliches Brachland
+      Schritt ACCEPT:5501 · v3.12.24
+[20.11. 00:14] LANGSAM L38 Thunder Bluff(1456) 62.0,70.9 | Routenberechnung 152 ms · Aufgaben 65 · Kandidaten 364 · Questlog 28 · Wegpunkte 23095 · Zone ? · Pause 60 s | Spiel: Thunder Bluff / Die Anhöhe der Jäger
+      Schritt ACCEPT:5501 · v3.12.24
+[20.11. 00:13] LANGSAM L38 Thunder Bluff(1456) 56.3,25.5 | Routenberechnung 62 ms · Aufgaben 65 · Kandidaten 364 · Questlog 28 · Wegpunkte 23074 · Zone ? · Pause 60 s | Spiel: Thunder Bluff
+      Schritt ACCEPT:5501 · v3.12.24
+[20.11. 00:12] LANGSAM L38 Mulgore(1412) 36.5,23.8 | Routenberechnung 63 ms · Aufgaben 65 · Kandidaten 364 · Questlog 28 · Wegpunkte 23054 · Zone ? · Pause 60 s | Spiel: Mulgore
+      Schritt ACCEPT:5501 · v3.12.24
+[20.11. 00:11] LANGSAM L38 Mulgore(1412) 32.5,20.7 | Routenberechnung 148 ms · Aufgaben 64 · Kandidaten 364 · Questlog 27 · Wegpunkte 23050 · Zone ? · Pause 60 s | Spiel: Mulgore / Lager Gev'rek
+      Schritt ACCEPT:5821 · v3.12.24
+[20.11. 00:10] FOKUS L38 Mulgore(1412) 38.5,15.7 | Planung in Desolace, obwohl 1 Aufgabe(n) in Mulgore warten | Spiel: Mulgore / Himmelsschauerplateau
+      Schritt ACCEPT:5501 · v3.12.24
+[20.11. 00:09] LANGSAM L38 Mulgore(1412) 39.1,21.5 | Routenberechnung 149 ms · Aufgaben 65 · Kandidaten 364 · Questlog 27 · Wegpunkte 22997 · Zone ? · Pause 60 s | Spiel: Mulgore
+      Schritt ACCEPT:5501 · v3.12.24
+[20.11. 00:07] LANGSAM L38 Thunder Bluff(1456) 19.1,35.8 | Routenberechnung 61 ms · Aufgaben 65 · Kandidaten 364 · Questlog 27 · Wegpunkte 22967 · Zone ? · Pause 60 s | Spiel: Thunder Bluff / Die Anhöhe der Geister
+      Schritt ACCEPT:5501 · v3.12.24
+[20.11. 00:06] LANGSAM L38 Thunder Bluff(1456) 42.3,57.5 | Routenberechnung 57 ms · Aufgaben 65 · Kandidaten 364 · Questlog 27 · Wegpunkte 22966 · Zone ? · Pause 60 s | Spiel: Thunder Bluff
+      Schritt ACCEPT:5501 · v3.12.24
+[19.11. 23:59] LANGSAM L38 Undercity(1458) 67.2,50.3 | Routenberechnung 61 ms · Aufgaben 65 · Kandidaten 364 · Questlog 27 · Wegpunkte 22966 · Zone ? · Pause 60 s | Spiel: Undercity / Das Handwerksviertel
+      Schritt TURNIN:94895 · v3.12.24
+[19.11. 23:41] LANGSAM L38 Undercity(1458) 64.2,52.3 | Routenberechnung 59 ms · Aufgaben 65 · Kandidaten 364 · Questlog 27 · Wegpunkte 22966 · Zone ? · Pause 60 s | Spiel: Undercity / Undercity
+      Schritt TURNIN:94895 · v3.12.24
+[19.11. 23:40] LANGSAM L38 Undercity(1458) 64.2,52.3 | Routenberechnung 205 ms · Aufgaben 65 · Kandidaten 364 · Questlog 27 · Wegpunkte 22966 · Zone ? · Pause 60 s | Spiel: Undercity / Undercity
+      Schritt COMPLETE:1164 · v3.12.24
+[19.11. 23:39] LANGSAM L38 Undercity(1458) 54.2,52.7 | Routenberechnung 70 ms · Aufgaben 65 · Kandidaten 364 · Questlog 27 · Wegpunkte 22963 · Zone ? · Pause 60 s | Spiel: Undercity / Das Apothekarium
+      Schritt FPGO:Undercity, Tirisfal · v3.12.24
+[19.11. 23:38] LANGSAM ×3 L38 Undercity(1458) 49.5,15.5 | Routenberechnung 61 ms · Aufgaben 65 · Kandidaten 364 · Questlog 27 · Wegpunkte 22963 · Zone ? · Pause 60 s | Spiel: Undercity / Das Kriegsviertel
+      Schritt FPGO:Undercity, Tirisfal · v3.12.24
+[19.11. 23:37] LANGSAM L38 Undercity(1458) 49.5,15.5 | Routenberechnung 71 ms · Aufgaben 65 · Kandidaten 364 · Questlog 27 · Wegpunkte 22963 · Zone ? · Pause 60 s | Spiel: Undercity / Das Kriegsviertel
+      Schritt FPGO:Undercity, Tirisfal · v3.12.24
+[19.11. 23:33] LANGSAM ×2 L38 Undercity(1458) 64.2,50.3 | Routenberechnung 60 ms · Aufgaben 65 · Kandidaten 364 · Questlog 27 · Wegpunkte 22963 · Zone ? · Pause 60 s | Spiel: Undercity / Das Handwerksviertel
+      Schritt PRIO:TRAIN:38 · v3.12.24
+[19.11. 23:31] LANGSAM L38 Undercity(1458) 64.2,50.3 | Routenberechnung 59 ms · Aufgaben 65 · Kandidaten 364 · Questlog 27 · Wegpunkte 22963 · Zone ? · Pause 60 s | Spiel: Undercity / Das Handwerksviertel
+      Schritt PRIO:TRAIN:38 · v3.12.24
+[19.11. 23:29] LANGSAM L38 Undercity(1458) 64.2,50.3 | Routenberechnung 63 ms · Aufgaben 65 · Kandidaten 364 · Questlog 27 · Wegpunkte 22963 · Zone ? · Pause 60 s | Spiel: Undercity / Das Handwerksviertel
+      Schritt PRIO:TRAIN:38 · v3.12.24
+[19.11. 23:28] LANGSAM L38 Undercity(1458) 67.5,54.9 | Routenberechnung 208 ms · Aufgaben 65 · Kandidaten 364 · Questlog 27 · Wegpunkte 22963 · Zone ? · Pause 60 s | Spiel: Undercity / Das Handwerksviertel
+      Schritt PRIO:TRAIN:38 · v3.12.24
+[19.11. 23:27] LANGSAM L38 Tirisfal(1420) 61.8,64.7 | Routenberechnung 214 ms · Aufgaben 65 · Kandidaten 364 · Questlog 27 · Wegpunkte 22960 · Zone ? · Pause 60 s | Spiel: Tirisfal / Ruinen von Lordaeron
+      Schritt PRIO:TRAIN:38 · v3.12.24
+[19.11. 23:26] LANGSAM L38 Tirisfal(1420) 70.7,56.1 | Routenberechnung 90 ms · Aufgaben 65 · Kandidaten 364 · Questlog 27 · Wegpunkte 22957 · Zone ? · Pause 60 s | Spiel: Tirisfal
+      Schritt FPGO:Undercity, Tirisfal · v3.12.24
+[19.11. 23:24] LANGSAM L38 Tirisfal(1420) 79.7,46.2 | Routenberechnung 393 ms · Aufgaben 65 · Kandidaten 364 · Questlog 27 · Wegpunkte 22957 · Zone ? · Pause 60 s | Spiel: Tirisfal
+      Schritt FPGO:Undercity, Tirisfal · v3.12.24
+[19.11. 22:37] LANGSAM L37 Tirisfal(1420) 85.7,31.8 | Routenberechnung 147 ms · Aufgaben 48 · Kandidaten 353 · Questlog 27 · Wegpunkte 22955 · Zone ? · Pause 60 s | Spiel: Tirisfal
+      Schritt TURNIN:1164 · v3.12.24
+[19.11. 22:02] SYNC ×2 L37 Tirisfal(1420) 85.3,31.9 | SYNC GoldSentinelSync 2 · Wege: GUILD+PARTY · Mitspieler (1 Std.): AHSentinel 0, GoldSentinelMarkt 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0 | Spiel: Tirisfal / Das Große Vestibül
+      Schritt TURNIN:94895 · v3.12.24
+[19.11. 22:01] LANGSAM L37 Tirisfal(1420) 85.3,31.9 | Routenberechnung 60 ms · Aufgaben 63 · Kandidaten 353 · Questlog 27 · Wegpunkte 22955 · Zone ? · Pause 60 s | Spiel: Tirisfal / Das Große Vestibül
+      Schritt TURNIN:94895 · v3.12.24
+[19.11. 20:23] LANGSAM L37 Durotar(1411) 50.3,14.1 | Routenberechnung 64 ms · Aufgaben 63 · Kandidaten 353 · Questlog 27 · Wegpunkte 22918 · Zone ? · Pause 60 s | Spiel: Durotar / Scheckeneberhof
+      Schritt ACCEPT:1270 · v3.12.24
+[19.11. 20:22] LANGSAM L37 Durotar(1411) 50.7,13.7 | Routenberechnung 233 ms · Aufgaben 63 · Kandidaten 353 · Questlog 27 · Wegpunkte 22918 · Zone ? · Pause 60 s | Spiel: Durotar
+      Schritt ACCEPT:1270 · v3.12.24
+[19.11. 20:21] LANGSAM L37 Durotar(1411) 48.5,13.7 | Routenberechnung 64 ms · Aufgaben 63 · Kandidaten 353 · Questlog 27 · Wegpunkte 22917 · Zone ? · Pause 60 s | Spiel: Durotar
+      Schritt ACCEPT:1270 · v3.12.24
+[19.11. 20:19] LANGSAM L37 Durotar(1411) 45.6,12.9 | Routenberechnung 228 ms · Aufgaben 63 · Kandidaten 353 · Questlog 27 · Wegpunkte 22917 · Zone ? · Pause 60 s | Spiel: Durotar
+      Schritt ACCEPT:1270 · v3.12.24
+[19.11. 20:18] LANGSAM L37 Orgrimmar(1454) 50.4,66.8 | Routenberechnung 77 ms · Aufgaben 63 · Kandidaten 353 · Questlog 27 · Wegpunkte 22916 · Zone ? · Pause 60 s | Spiel: Orgrimmar / Das Tal der Stärke
+      Schritt ACCEPT:1270 · v3.12.24
+[19.11. 20:17] LANGSAM L37 Orgrimmar(1454) 59.5,54.9 | Routenberechnung 66 ms · Aufgaben 63 · Kandidaten 353 · Questlog 27 · Wegpunkte 22916 · Zone ? · Pause 60 s | Spiel: Orgrimmar / Die Gasse
+      Schritt ACCEPT:1270 · v3.12.24
+[19.11. 20:16] LANGSAM ×2 L37 Orgrimmar(1454) 63.1,51.4 | Routenberechnung 67 ms · Aufgaben 63 · Kandidaten 353 · Questlog 27 · Wegpunkte 22916 · Zone ? · Pause 60 s | Spiel: Orgrimmar / Die Gasse
+      Schritt ACCEPT:1270 · v3.12.24
+[19.11. 20:14] LANGSAM L37 Orgrimmar(1454) 63.1,51.4 | Routenberechnung 68 ms · Aufgaben 63 · Kandidaten 353 · Questlog 27 · Wegpunkte 22916 · Zone ? · Pause 60 s | Spiel: Orgrimmar / Die Gasse
+      Schritt ACCEPT:1270 · v3.12.24
+[19.11. 20:12] LANGSAM L37 Orgrimmar(1454) 53.2,68.8 | Routenberechnung 355 ms · Aufgaben 63 · Kandidaten 353 · Questlog 27 · Wegpunkte 22916 · Zone ? · Pause 60 s | Spiel: Orgrimmar / Das Tal der Stärke
+      Schritt ACCEPT:1270 · v3.12.24
+[19.11. 19:10] LANGSAM L37 Tirisfal(1420) 82.1,37.6 | Routenberechnung 403 ms · Aufgaben 63 · Kandidaten 353 · Questlog 27 · Wegpunkte 22916 · Zone ? · Pause 60 s | Spiel: Tirisfal
+      Schritt FPGO:Undercity, Tirisfal · v3.12.24
+[19.11. 18:51] TOD L37 ? | Tod bei „Das Scharlachrote Kloster“ | Spiel: Das Scharlachrote Kloster / Der Kreuzgang des Jägers
+      Schritt DGIN · v3.12.24
+[19.11. 17:55] LANGSAM L37 Undercity(1458) 65.9,45.3 | Routenberechnung 66 ms · Aufgaben 63 · Kandidaten 353 · Questlog 27 · Wegpunkte 22880 · Zone ? · Pause 60 s | Spiel: Undercity / Das Handwerksviertel
+      Schritt TURNIN:94895 · v3.12.24
+[19.11. 17:14] LANGSAM L37 Undercity(1458) 63.9,49.5 | Routenberechnung 107 ms · Aufgaben 63 · Kandidaten 353 · Questlog 26 · Wegpunkte 22880 · Zone ? · Pause 60 s | Spiel: Undercity / Das Handwerksviertel
+      Schritt TURNIN:94895 · v3.12.24
+[19.11. 15:35] FOKUS ×2 L37 Tirisfal(1420) 70.3,58.7 | Planung in Schlingendorntal, obwohl 1 Aufgabe(n) in Tirisfal warten | Spiel: Tirisfal
+      Schritt TURNIN:94895 · v3.12.24
+[19.11. 15:27] LANGSAM L37 Undercity(1458) 70.7,30.4 | Routenberechnung 96 ms · Aufgaben 63 · Kandidaten 353 · Questlog 25 · Wegpunkte 22819 · Zone ? · Pause 60 s | Spiel: Undercity / Das Magieviertel
+      Schritt ACCEPT:1164 · v3.12.24
+[19.11. 15:18] LANGSAM L37 Undercity(1458) 64.2,52.3 | Routenberechnung 62 ms · Aufgaben 64 · Kandidaten 353 · Questlog 26 · Wegpunkte 22802 · Zone ? · Pause 60 s | Spiel: Undercity / Undercity
+      Schritt TURNIN:1048 · v3.12.24
+[19.11. 15:15] LANGSAM L37 Undercity(1458) 68.2,51.6 | Routenberechnung 61 ms · Aufgaben 64 · Kandidaten 353 · Questlog 26 · Wegpunkte 22802 · Zone ? · Pause 60 s | Spiel: Undercity / Das Handwerksviertel
+      Schritt TURNIN:1048 · v3.12.24
+[19.11. 00:37] LANGSAM L37 Tirisfal(1420) 46.0,58.2 | Routenberechnung 59 ms · Aufgaben 64 · Kandidaten 353 · Questlog 26 · Wegpunkte 22796 · Zone ? · Pause 60 s | Spiel: Tirisfal / Alptraumtal
+      Schritt TURNIN:1048 · v3.12.24
+[19.11. 00:36] LANGSAM ×2 L37 Durotar(1411) 48.8,15.2 | Routenberechnung 62 ms · Aufgaben 64 · Kandidaten 353 · Questlog 26 · Wegpunkte 22796 · Zone ? · Pause 60 s | Spiel: Durotar / Scheckeneberhof
+      Schritt ACCEPT:1270 · v3.12.24
+[19.11. 00:34] LANGSAM L37 Durotar(1411) 50.8,14.1 | Routenberechnung 64 ms · Aufgaben 64 · Kandidaten 353 · Questlog 26 · Wegpunkte 22796 · Zone ? · Pause 60 s | Spiel: Durotar
+      Schritt ACCEPT:1270 · v3.12.24
+[19.11. 00:32] LANGSAM L37 Durotar(1411) 49.3,13.7 | Routenberechnung 76 ms · Aufgaben 64 · Kandidaten 353 · Questlog 26 · Wegpunkte 22796 · Zone ? · Pause 60 s | Spiel: Durotar / Scheckeneberhof
+      Schritt ACCEPT:1270 · v3.12.24
+[19.11. 00:31] LANGSAM ×2 L37 Orgrimmar(1454) 50.8,66.5 | Routenberechnung 67 ms · Aufgaben 64 · Kandidaten 353 · Questlog 26 · Wegpunkte 22795 · Zone ? · Pause 60 s | Spiel: Orgrimmar / Das Tal der Stärke
+      Schritt ACCEPT:1270 · v3.12.24
+[19.11. 00:29] LANGSAM L37 Orgrimmar(1454) 63.5,50.0 | Routenberechnung 64 ms · Aufgaben 64 · Kandidaten 353 · Questlog 26 · Wegpunkte 22795 · Zone ? · Pause 60 s | Spiel: Orgrimmar / Die Gasse
+      Schritt ACCEPT:1270 · v3.12.24
+[19.11. 00:28] LANGSAM L37 Orgrimmar(1454) 62.9,51.2 | Routenberechnung 63 ms · Aufgaben 64 · Kandidaten 353 · Questlog 26 · Wegpunkte 22795 · Zone ? · Pause 60 s | Spiel: Orgrimmar / Die Gasse
+      Schritt ACCEPT:1270 · v3.12.24
+[19.11. 00:27] LANGSAM ×2 L37 Orgrimmar(1454) 62.9,51.2 | Routenberechnung 65 ms · Aufgaben 64 · Kandidaten 353 · Questlog 26 · Wegpunkte 22795 · Zone ? · Pause 60 s | Spiel: Orgrimmar / Die Gasse
+      Schritt ACCEPT:1270 · v3.12.24
+[19.11. 00:25] LANGSAM L37 Orgrimmar(1454) 55.7,63.0 | Routenberechnung 351 ms · Aufgaben 64 · Kandidaten 353 · Questlog 26 · Wegpunkte 22795 · Zone ? · Pause 60 s | Spiel: Orgrimmar / Das Tal der Stärke
+      Schritt ACCEPT:1270 · v3.12.24
+[19.11. 00:23] LANGSAM L37 Orgrimmar(1454) 54.2,64.4 | Routenberechnung 68 ms · Aufgaben 64 · Kandidaten 353 · Questlog 26 · Wegpunkte 22795 · Zone ? · Pause 60 s | Spiel: Orgrimmar / Das Tal der Stärke
+      Schritt ACCEPT:1270 · v3.12.24
+[19.11. 00:22] LANGSAM L37 Orgrimmar(1454) 50.6,71.3 | Routenberechnung 79 ms · Aufgaben 64 · Kandidaten 353 · Questlog 26 · Wegpunkte 22795 · Zone ? · Pause 60 s | Spiel: Orgrimmar / Das Tal der Stärke
+      Schritt ACCEPT:1270 · v3.12.24
+[19.11. 00:21] LANGSAM L37 Orgrimmar(1454) 49.5,69.1 | Routenberechnung 70 ms · Aufgaben 64 · Kandidaten 353 · Questlog 26 · Wegpunkte 22795 · Zone ? · Pause 60 s | Spiel: Orgrimmar / Das Tal der Stärke
+      Schritt ACCEPT:1270 · v3.12.24
+[19.11. 00:20] LANGSAM L37 Orgrimmar(1454) 51.0,70.6 | Routenberechnung 69 ms · Aufgaben 64 · Kandidaten 353 · Questlog 26 · Wegpunkte 22795 · Zone ? · Pause 60 s | Spiel: Orgrimmar / Das Tal der Stärke
+      Schritt ACCEPT:1270 · v3.12.24
+[19.11. 00:18] LANGSAM L37 Orgrimmar(1454) 53.3,69.4 | Routenberechnung 72 ms · Aufgaben 64 · Kandidaten 353 · Questlog 26 · Wegpunkte 22795 · Zone ? · Pause 60 s | Spiel: Orgrimmar / Das Tal der Stärke
+      Schritt ACCEPT:1270 · v3.12.24
+[19.11. 00:17] LANGSAM L37 Orgrimmar(1454) 54.3,68.2 | Routenberechnung 315 ms · Aufgaben 64 · Kandidaten 353 · Questlog 26 · Wegpunkte 22795 · Zone ? · Pause 60 s | Spiel: Orgrimmar / Das Tal der Stärke
+      Schritt ACCEPT:1270 · v3.12.24
+[18.11. 23:24] LANGSAM L36 Undercity(1458) 63.1,48.3 | Routenberechnung 61 ms · Aufgaben 60 · Kandidaten 346 · Questlog 26 · Wegpunkte 22732 · Zone ? · Pause 60 s | Spiel: Undercity / Das Handwerksviertel
+      Schritt ACCEPT:1164 · v3.12.24
+[18.11. 19:34] LANGSAM L36 Undercity(1458) 15.0,33.4 | Routenberechnung 207 ms · Aufgaben 60 · Kandidaten 346 · Questlog 26 · Wegpunkte 22732 · Zone ? · Pause 60 s | Spiel: Undercity / Die Abwasserkanäle
+      Schritt TURNIN:94895 · v3.12.24
+[18.11. 19:33] LANGSAM L36 Alteracgebirge(1416) 37.1,29.7 | Routenberechnung 116 ms · Aufgaben 60 · Kandidaten 346 · Questlog 26 · Wegpunkte 22732 · Zone ? · Pause 60 s | Spiel: Alteracgebirge / Das Oberland
+      Schritt COMPLETE:518 · v3.12.24
+[18.11. 19:30] LANGSAM L36 Vorgebirge von Hillsbrad(1424) 60.5,26.2 | Routenberechnung 78 ms · Aufgaben 60 · Kandidaten 346 · Questlog 26 · Wegpunkte 22732 · Zone ? · Pause 60 s | Spiel: Vorgebirge von Hillsbrad / Tarrens Mühle
+      Schritt COMPLETE:515 · v3.12.24
+[18.11. 19:10] SCHRITT L36 Vorgebirge von Hillsbrad(1424) 56.1,68.4 | Schritt seit 25 min aktiv: Erledigen: Elixier der Pein [30]  84 Yards | Spiel: Vorgebirge von Hillsbrad / Oststrand
+      Schritt COMPLETE:515 · v3.12.24
+[18.11. 18:45] LANGSAM L36 Vorgebirge von Hillsbrad(1424) 62.6,20.4 | Routenberechnung 99 ms · Aufgaben 59 · Kandidaten 346 · Questlog 26 · Wegpunkte 22501 · Zone ? · Pause 60 s | Spiel: Vorgebirge von Hillsbrad / Tarrens Mühle
+      Schritt COMPLETE:515 · v3.12.24
+[18.11. 18:44] LANGSAM L36 Vorgebirge von Hillsbrad(1424) 62.7,18.9 | Routenberechnung 89 ms · Aufgaben 60 · Kandidaten 346 · Questlog 26 · Wegpunkte 22501 · Zone ? · Pause 60 s | Spiel: Vorgebirge von Hillsbrad / Tarrens Mühle
+      Schritt TURNIN:1051 · v3.12.24
+[18.11. 18:42] LANGSAM L36 Silberwald(1421) 67.5,13.0 | Routenberechnung 234 ms · Aufgaben 60 · Kandidaten 346 · Questlog 26 · Wegpunkte 22501 · Zone ? · Pause 60 s | Spiel: Silberwald / Der Leuchtende Strand
+      Schritt FPGO:Undercity, Tirisfal · v3.12.24
+[18.11. 18:41] LANGSAM L36 Undercity(1458) 63.1,48.7 | Routenberechnung 438 ms · Aufgaben 60 · Kandidaten 346 · Questlog 26 · Wegpunkte 22501 · Zone ? · Pause 60 s | Spiel: Undercity / Das Handwerksviertel
+      Schritt FLY:Hammerfall, Arathi · v3.12.24
+[18.11. 18:37] FEST L36 Undercity(1458) 53.5,76.2 | Seit 4 min nicht näher an „TURNIN:513“ (noch 63 Yards, Weg: graph) | Spiel: Undercity / Das Apothekarium
+      Schritt TURNIN:513 · v3.12.24
+[18.11. 18:32] LANGSAM L36 Silberwald(1421) 75.4,14.3 | Routenberechnung 75 ms · Aufgaben 61 · Kandidaten 346 · Questlog 26 · Wegpunkte 22488 · Zone ? · Pause 60 s | Spiel: Silberwald / Der Lordameresee
+      Schritt TURNIN:513 · v3.12.24
+[18.11. 18:31] LANGSAM L36 Silberwald(1421) 79.8,22.6 | Routenberechnung 59 ms · Aufgaben 61 · Kandidaten 346 · Questlog 26 · Wegpunkte 22461 · Zone ? · Pause 60 s | Spiel: Silberwald / Die Morgeninseln
+      Schritt FPGO:Undercity, Tirisfal · v3.12.24
+[18.11. 18:30] LANGSAM L36 Alteracgebirge(1416) 29.5,31.8 | Routenberechnung 329 ms · Aufgaben 61 · Kandidaten 346 · Questlog 26 · Wegpunkte 22461 · Zone ? · Pause 60 s | Spiel: Alteracgebirge / Der Lordameresee
+      Schritt FPGO:Undercity, Tirisfal · v3.12.24
+[18.11. 18:26] LANGSAM L36 Alteracgebirge(1416) 18.5,13.7 | Routenberechnung 206 ms · Aufgaben 61 · Kandidaten 346 · Questlog 26 · Wegpunkte 22406 · Zone ? · Pause 60 s | Spiel: Alteracgebirge / Der Lordameresee
+      Schritt TURNIN:513 · v3.12.24
+[18.11. 18:22] LANGSAM L36 Tirisfal(1420) 30.3,32.3 | Routenberechnung 245 ms · Aufgaben 61 · Kandidaten 346 · Questlog 26 · Wegpunkte 22376 · Zone ? · Pause 60 s | Spiel: Tirisfal / Die stille Küste
+      Schritt TURNIN:513 · v3.12.24
+[18.11. 18:21] SCHRITT L36 Durotar(1411) 50.8,14.0 | Schritt seit 25 min aktiv: Abgeben: Die verlorene Transportkiste [38] [NEU] | Spiel: Durotar
+      Schritt TURNIN:94895 · v3.12.24
+[18.11. 17:52] LANGSAM L36 Orgrimmar(1454) 14.7,63.0 | Routenberechnung 112 ms · Aufgaben 62 · Kandidaten 346 · Questlog 27 · Wegpunkte 22371 · Zone ? · Pause 60 s | Spiel: Orgrimmar / Orgrimmar
+      Schritt TURNIN:1184 · v3.12.24
+[18.11. 17:51] LANGSAM L36 Das Brachland(1413) 61.9,25.7 | Routenberechnung 122 ms · Aufgaben 62 · Kandidaten 346 · Questlog 27 · Wegpunkte 22371 · Zone ? · Pause 60 s | Spiel: Brachland
+      Schritt FPGO:Ratchet, Brachland · v3.12.24
+[18.11. 17:50] LANGSAM L36 Das Brachland(1413) 51.1,29.6 | Routenberechnung 172 ms · Aufgaben 62 · Kandidaten 346 · Questlog 27 · Wegpunkte 22371 · Zone ? · Pause 60 s | Spiel: Brachland / Crossroads
+      Schritt FPGO:Crossroads, Brachland · v3.12.24
+[18.11. 17:49] LANGSAM L36 Das Brachland(1413) 51.1,29.6 | Routenberechnung 219 ms · Aufgaben 62 · Kandidaten 346 · Questlog 27 · Wegpunkte 22354 · Zone ? · Pause 60 s | Spiel: Brachland / Crossroads
+      Schritt FPGO:Crossroads, Brachland · v3.12.24
+[18.11. 17:44] LANGSAM L36 Das Brachland(1413) 45.1,57.7 | Routenberechnung 84 ms · Aufgaben 62 · Kandidaten 346 · Questlog 27 · Wegpunkte 22258 · Zone ? · Pause 60 s | Spiel: Brachland / Camp Taurajo
+      Schritt TURNIN:1148 · v3.12.24
+[18.11. 17:20] LANGSAM L36 Tausend Nadeln(1441) 31.6,26.9 | Routenberechnung 56 ms · Aufgaben 64 · Kandidaten 346 · Questlog 28 · Wegpunkte 22258 · Zone ? · Pause 60 s | Spiel: Tausend Nadeln / Düsterwolkengipfel
+      Schritt ACCEPT:1269 · v3.12.24
+[18.11. 17:19] LANGSAM L36 Tausend Nadeln(1441) 47.1,48.8 | Routenberechnung 211 ms · Aufgaben 64 · Kandidaten 346 · Questlog 28 · Wegpunkte 22258 · Zone ? · Pause 60 s | Spiel: Tausend Nadeln / Freiwindposten
+      Schritt ACCEPT:1269 · v3.12.24
+[18.11. 17:18] LANGSAM L36 Tausend Nadeln(1441) 45.6,40.4 | Routenberechnung 53 ms · Aufgaben 64 · Kandidaten 346 · Questlog 28 · Wegpunkte 22251 · Zone ? · Pause 60 s | Spiel: Tausend Nadeln
+      Schritt ACCEPT:6626 · v3.12.24
+[18.11. 17:17] LANGSAM L36 Tausend Nadeln(1441) 37.9,37.9 | Routenberechnung 61 ms · Aufgaben 64 · Kandidaten 346 · Questlog 28 · Wegpunkte 22238 · Zone ? · Pause 60 s | Spiel: Tausend Nadeln / Düsterwolkengipfel
+      Schritt ACCEPT:6626 · v3.12.24
+[18.11. 17:15] LANGSAM L36 Tausend Nadeln(1441) 45.4,40.5 | Routenberechnung 143 ms · Aufgaben 65 · Kandidaten 346 · Questlog 29 · Wegpunkte 22210 · Zone ? · Pause 60 s | Spiel: Tausend Nadeln / Spalthufklippe
+      Schritt ACCEPT:6626 · v3.12.24
+[18.11. 17:12] LANGSAM L36 Tausend Nadeln(1441) 63.0,60.5 | Routenberechnung 84 ms · Aufgaben 65 · Kandidaten 346 · Questlog 29 · Wegpunkte 22182 · Zone ? · Pause 60 s | Spiel: Tausend Nadeln
+      Schritt COMPLETE:5088 · v3.12.24
+[18.11. 16:50] TOD L36 Tausend Nadeln(1441) 66.6,86.3 | Tod bei „Der Schwarm wächst“ | Spiel: Tausend Nadeln / Die Rustmaul-Grabungsstätte
+      Schritt COMPLETE:1147 · v3.12.24
+[18.11. 16:40] LANGSAM L36 Tausend Nadeln(1441) 67.6,64.0 | Routenberechnung 86 ms · Aufgaben 65 · Kandidaten 346 · Questlog 29 · Wegpunkte 22018 · Zone ? · Pause 60 s | Spiel: Tausend Nadeln / Eisensteinlager
+      Schritt TURNIN:1146 · v3.12.24
+[18.11. 16:37] LANGSAM L36 Tausend Nadeln(1441) 75.5,97.7 | Routenberechnung 87 ms · Aufgaben 65 · Kandidaten 346 · Questlog 29 · Wegpunkte 21970 · Zone ? · Pause 60 s | Spiel: Tausend Nadeln / Die Schimmernde Ebene
+      Schritt TURNIN:1146 · v3.12.24
+[18.11. 16:31] LANGSAM L36 Tanaris(1446) 52.0,29.6 | Routenberechnung 58 ms · Aufgaben 65 · Kandidaten 346 · Questlog 30 · Wegpunkte 21969 · Zone ? · Pause 60 s | Spiel: Tanaris / Gadgetzan
+      Schritt TURNIN:94895 · v3.12.24
+[18.11. 16:29] LANGSAM L36 Tanaris(1446) 52.5,28.0 | Routenberechnung 59 ms · Aufgaben 65 · Kandidaten 346 · Questlog 30 · Wegpunkte 21966 · Zone ? · Pause 60 s | Spiel: Tanaris / Gadgetzan
+      Schritt TURNIN:94895 · v3.12.24
+[18.11. 15:03] LANGSAM L36 Tanaris(1446) 52.6,28.1 | Routenberechnung 136 ms · Aufgaben 65 · Kandidaten 345 · Questlog 29 · Wegpunkte 21965 · Zone ? · Pause 60 s | Spiel: Tanaris / Gadgetzan
+      Schritt TURNIN:6611 · v3.12.24
+[18.11. 14:46] LANGSAM L36 Tausend Nadeln(1441) 78.4,77.9 | Routenberechnung 57 ms · Aufgaben 66 · Kandidaten 345 · Questlog 29 · Wegpunkte 21965 · Zone ? · Pause 60 s | Spiel: Tausend Nadeln / Illusionenrennbahn
+      Schritt TURNIN:1146 · v3.12.24
+[18.11. 14:44] LANGSAM L36 Das Brachland(1413) 44.3,91.4 | Routenberechnung 72 ms · Aufgaben 66 · Kandidaten 345 · Questlog 29 · Wegpunkte 21965 · Zone ? · Pause 60 s | Spiel: Brachland / Südliche Goldstraße
+      Schritt ACCEPT:1269 · v3.12.24
+[18.11. 14:43] LANGSAM L36 Das Brachland(1413) 52.2,55.0 | Routenberechnung 105 ms · Aufgaben 65 · Kandidaten 345 · Questlog 29 · Wegpunkte 21965 · Zone ? · Pause 60 s | Spiel: Brachland / Dornennarbe
+      Schritt ACCEPT:1270 · v3.12.24
+[18.11. 14:42] LANGSAM L36 Durotar(1411) 41.2,73.8 | Routenberechnung 55 ms · Aufgaben 65 · Kandidaten 345 · Questlog 29 · Wegpunkte 21965 · Zone ? · Pause 60 s | Spiel: Durotar / Verborgener Pfad
+      Schritt COMPLETE:1177 · v3.12.24
+[18.11. 14:40] LANGSAM L36 Durotar(1411) 56.9,26.9 | Routenberechnung 63 ms · Aufgaben 65 · Kandidaten 345 · Questlog 29 · Wegpunkte 21965 · Zone ? · Pause 60 s | Spiel: Durotar
+      Schritt COMPLETE:1177 · v3.12.24
+[18.11. 14:39] LANGSAM L36 Orgrimmar(1454) 46.5,64.1 | Routenberechnung 75 ms · Aufgaben 65 · Kandidaten 345 · Questlog 29 · Wegpunkte 21965 · Zone ? · Pause 60 s | Spiel: Orgrimmar / Das Tal der Stärke
+      Schritt ACCEPT:1270 · v3.12.24
+[18.11. 14:38] LANGSAM L36 Orgrimmar(1454) 55.1,62.1 | Routenberechnung 65 ms · Aufgaben 65 · Kandidaten 345 · Questlog 29 · Wegpunkte 21965 · Zone ? · Pause 60 s | Spiel: Orgrimmar / Das Tal der Stärke
+      Schritt ACCEPT:1270 · v3.12.24
+[18.11. 14:37] LANGSAM L36 Orgrimmar(1454) 55.1,62.1 | Routenberechnung 338 ms · Aufgaben 65 · Kandidaten 345 · Questlog 29 · Wegpunkte 21965 · Zone ? · Pause 60 s | Spiel: Orgrimmar / Das Tal der Stärke
+      Schritt ACCEPT:1270 · v3.12.24
+[18.11. 14:20] FEST L36 Desolace(1443) 20.7,75.4 | Seit 4 min nicht näher an „BIND:1443“ (noch 263 Yards, Weg: graph) | Spiel: Desolace / Sar'theris-Strand
+      Schritt BIND:1443 · v3.12.24
+[18.11. 14:19] SCHRITT L36 Desolace(1443) 21.9,72.9 | Schritt seit 25 min aktiv: Ruhestein binden: Desolace  204 Yards | Spiel: Desolace / Shadowprey
+      Schritt BIND:1443 · v3.12.24
+[18.11. 13:21] LANGSAM L36 Desolace(1443) 24.3,68.4 | Routenberechnung 60 ms · Aufgaben 66 · Kandidaten 345 · Questlog 32 · Wegpunkte 21666 · Zone ? · Pause 60 s | Spiel: Desolace / Shadowprey
+      Schritt BIND:1443 · v3.12.24
+[18.11. 13:01] LANGSAM L36 Mulgore(1412) 34.7,60.8 | Routenberechnung 98 ms · Aufgaben 67 · Kandidaten 344 · Questlog 33 · Wegpunkte 21666 · Zone ? · Pause 60 s | Spiel: Mulgore
+      Schritt COMPLETE:1370 · v3.12.24
+[18.11. 12:59] LANGSAM L36 Mulgore(1412) 48.8,39.0 | Routenberechnung 151 ms · Aufgaben 67 · Kandidaten 344 · Questlog 33 · Wegpunkte 21666 · Zone ? · Pause 60 s | Spiel: Mulgore / Die Goldenen Ebenen
+      Schritt COMPLETE:1370 · v3.12.24
+[18.11. 12:58] LANGSAM L36 Das Brachland(1413) 42.8,20.0 | Routenberechnung 102 ms · Aufgaben 67 · Kandidaten 344 · Questlog 33 · Wegpunkte 21666 · Zone ? · Pause 
