@@ -1,0 +1,29 @@
+Bericht AHSentinel 0.65.378 – PRÜFUNG IM SPIEL 22.11. 09:30 N1–N3, BELEG/PRÄZISIERUNG 09:20/09:25 (CF1), AUSWERTUNG SN-T 09:30, zur Prüfung
+Veröffentlicht: Discord, GitHub-Release v0.65.378. Nicht CurseForge. addon_check OK. Tests T984, T985 eingebaut (T971/T980 angepasst),
+nicht laufen gelassen.
+CF1/Präzisierung 09:25: Die Regel der Prüf-Sitzung ("Stapelgrösse 1 -> Zahl = Anzahl Angebote, Stückpreis = Preis je Angebot") ist
+  seit 0.65.376 umgesetzt (A:RowUnit an allen Item-Suchstellen, ST4-Liste im Bericht 0910). Test T984: 30 Rezepte zu je 5s70 ->
+  Stückpreis 5s70, Vorschlag 5s69. itemStackCount: in den Spieldaten nicht direkt gespeichert (db.stackMem merkt nur Stapel > 1;
+  Rezept 3737 und Seiten 16653/16655/16656 auf keinem der 4 Rechner darin, Leinenstoff/Wollstoff = 20). Direkter Beleg im Spiel: NEU
+  "/ahs stapel <Item-Link>" (zeigt GetItemInfo itemStackCount, Protokoll STAPEL-ROH) und STAPEL-ROH beim ersten zusammengefassten
+  Angebot je Item. Bitte für "Recipe: Soothing Turtle Bisque" und Seite 9/11/12 ausführen.
+N1 – Befund geprüft, teilweise FALSCH: Spieldaten DESKTOP-NVITMSE (Stand 21.11. 18:26, Markt "|Horde"): Seite 11 (16655) hat 10 eigene
+  Preise, ALLE aus Scans (Zeit = db.scanLog-Zeit), Median 1s95 (min 1s32, max 12s30), KEINEN Preis aus der Einzelsuche; Seite 9
+  (16653) 10 Scan-Preise, Median 38s89 (7s49–69s54), ebenfalls keine Einzelsuche. Der Vollscan liest je Auktion (Menge 1) - diese Werte
+  sind keine geteilten Preise. Der Median 2s99 (Seite 11) bzw. 4s20 (Seite 9) am 22.11. besteht also überwiegend aus ECHTEN früheren
+  Marktpreisen: Seite 11 lag am 21.11. bei 1–4s (Vollscan-Signaturen 4 Rechner: ab 99c/3s48/3s95), heute 10s45 = Preis gestiegen;
+  "Aufkauf-Leiter" ist dann kein Fehlschluss aus falschen Daten, sondern aus echtem Anstieg (Verdacht, im Spiel zu prüfen: Verlauf
+  der Seite 11 im Markt-Reiter). Seite 9 fiel von 7s49+ (21.11.) auf 2s60.
+  Trotzdem verschärft (falls nach 18:26 geteilte Preise gespeichert wurden): A:CleanDivided zusätzlich – jeder Preis aus der
+  Einzelsuche (Zeit ≠ Scan-Zeit aus db.scanLog) VOR der Korrektur (db.stFixAt, erstes Laden ab 0.65.378), der höchstens 60 % des
+  nächsten Scan-Preises (±24 Std.) beträgt, wird "unbestätigt". Zahlen je Item im Protokoll STAPEL-BEREINIGT. T985.
+N2: Liste Verkaufen: Spalte "Menge" zeigt bei zusammengefassten Angeboten (Stapelgrösse 1) "19 Angebote"; Vorschlagszeile
+  "(19 Angebote)" statt "(19 Stück)"; Waren bleiben "Stück" (Schlüssel jetzt mit %s, alle 10 Sprachen). T985, T980 angepasst.
+N3: Ursache ohne Bild nicht belegbar - jetzt messbar: bleibt das Preisfeld leer, schreibt AHS einmal je Item Protokoll VORSCHLAG-LEER
+  (Vorschlag, Grund, Preisprüfung frisch, günstigstes fremdes, eigenes, Hand-Preis). Code-Wege zu "leer": keine frische Preisprüfung
+  (P8), Preisprüfung mit 0 Angeboten, oder eigenes Angebot = günstigstes (dann aber Preis gesetzt). Die Händler-Untergrenze (75c/0,95 =
+  79c) leert das Feld NICHT (V1 liefert den Marktpreis mit Verlust-Hinweis). Zusätzlich ohne Preis: VK1-Hinweis "Händler zahlt 75c –
+  mehr als hier (75c)" wenn der Händler mehr zahlt als das günstigste fremde Angebot nach Gebühr (79c − 3c = 76c -> hier nicht; ab 78c
+  ja). Bitte VORSCHLAG-LEER im nächsten Protokoll.
+SN-T (Auswertung 09:30): keine Änderung am Takt. Für die zweite Messung: SN-T2 nennt jetzt Zeitraum und Anteil "minimiert/Hintergrund"
+  (unter 15 Bilder/s beim Senden, je Suche gespeichert).
