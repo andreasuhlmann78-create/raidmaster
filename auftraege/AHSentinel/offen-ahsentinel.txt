@@ -6076,3 +6076,13 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
      -> nach Zeitlimit Hinweis. Bericht: die beiden Items mit Protokollzeilen vorher/nachher.
  HINWEIS (kein Auftrag): Statuszeile "Empfangen: 0 Daten von 1 Spielern" bei "Sync über Gilde: 3–4" – erwartet, solange die Offiziere
      0.65.354/0.65.360 haben (alter Markt-Tag wird nach G8 ignoriert). Nach deren Update erneut prüfen.
+
+>>> BEFUND 22.11. 12:28 (Ingame 0.65.381, 12:22, Verkaufen "Schredderanleitung – Seite 6", Bild nicht im Repo)
+    RICHTIG: Liste "4s (9 Angebote), 4s98 (4 Angebote), 5s (2 Angebote) …" (N2 umgesetzt); Text "Vorschlag 3s99 = günstigstes fremdes
+    Angebot 4s (9 Angebote) − 1c" stimmt.
+ VS1 HOCH (Widerspruch): Das Preisfeld enthält aber "6s 91c" und die Zusammenfassung rechnet damit (brutto 6s91, Gebühr 34c, Erlös 6s57,
+    Gewinn +6s51) – nicht mit dem Vorschlag 3s99. Klick auf "Einstellen" stellt 6s91 ein, obwohl der Vorschlag 3s99 lautet. Daneben
+    "Aufkauf – jetzt teuer verkaufen. Preis fällt meist bald (2 Std.)". Woher kommen 6s91 (gemerkter eigener Preis? Aufkauf-Logik? letzte
+    Eingabe?) – im Code belegen. Regel: Feld = angezeigter Vorschlag, ausser der Nutzer hat selbst getippt (dann Vorschlag-Zeile
+    "dein Preis 6s91, Vorschlag 3s99"). Eine andere Logik (Aufkauf-Preis) nur MIT eigener Erklärzeile im Vorschlag-Text, nie still.
+    Test: Item auswählen ohne Eingabe -> Feld = Vorschlag; eigene Eingabe -> bleibt und wird so benannt.
