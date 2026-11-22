@@ -1,0 +1,65 @@
+Bericht AHSentinel 0.65.376 – BEFUNDE 22.11. 08:50 PM1, 08:55 ST1/ST2, 09:00 ST3–ST6 (mit VK1), umgesetzt, zur Prüfung
+Veröffentlicht: Discord, GitHub-Release v0.65.376. Nicht CurseForge. addon_check OK. Tests T976–T981 eingebaut (T250 an die richtige
+Feldlage angepasst), nicht laufen gelassen.
+
+ST2/ST3 – URSACHE BELEGT, ABER UMGEKEHRT ALS IM BEFUND: nicht der Scan-Wert enthält Gesamtpreise, sondern die Preisprüfung/Sniper/
+Einkauf TEILTEN den Preis je Auktion durch die Zahl zusammengefasster Auktionen.
+  Belege (goldsentinel-daten, 4 Rechner, Stand 21.11. 18:54):
+  1) GetItemInfo-Stapelgrösse der Schredderanleitungs-Seiten 16645–16656 ist auf KEINEM Rechner > 1 gemerkt (db.stackMem 462/468/
+     748/1069 Einträge; Leinenstoff 2589 und Wollstoff 2592 = 20 auf allen) -> die Seiten sind nicht stapelbar.
+  2) Der Vollscan (GetReplicateItemInfo, je Auktion Menge + Sofortkauf) sieht jede Seiten-Auktion mit Menge 1 (fullScan.sigs: Seite 9,
+     11, 12 auf 4 Rechnern ausnahmslos "1:Preis:Stufe:Anzahl", z. B. Seite 11 MININT 21.11. 19:31: 10× 3s95, 19× 4s00 …), während
+     dieselben Signaturen bei Leinenstoff Mengen 1–62 zeigen (Feldlage stimmt).
+  3) Die Item-Suche (GetItemSearchResultInfo) liefert für diese Seiten Zeilen mit quantity 3/9/15/33/55/57: das sind gleiche
+     Einzel-Auktionen, vom Forever-Server zu EINER Zeile zusammengefasst, buyoutAmount = Preis JE AUKTION (= je Seite). ReadListings
+     (Seller.lua:303, Sniper.lua:1472, Buy.lua:687) rechnete buyoutAmount / quantity -> "1s16" statt 10s44, "18c" statt 10s26, "54c"
+     statt 17s82, "7c" statt 3s85. Darum stimmt die Gleichung des Befunds (Scan-Wert = Menge × angezeigter Stückpreis) - nur in die
+     andere Richtung. Der Median 4s19 (Seite 9) war richtig; falsch war das "günstigste 7c" -> "jetzt günstig – kaufen (−98 %)".
+  Messung im Spiel (zur Bestätigung): Protokoll STAPEL-ROH je Item einmal je Sitzung: Stapelgrösse, Menge, buyoutAmount, auctionID.
+  Behebung: A:RowUnit (AHAnalyzerPro.lua) = EINE Stelle für den Stückpreis jeder Item-Suchzeile: Stapelgrösse 1 und Menge > 1 ->
+  Stückpreis = buyoutAmount, ein Kauf = 1 Stück (Sniper/Einkauf planen Menge 1, Betrag je Auktion); Stapelgrösse > 1 -> buyoutAmount /
+  Menge (echter Stapel, gerundet ST1); Stapelgrösse unbekannt -> wie bisher, im Protokoll gemeldet.
+  GOLD-RISIKO (behoben, im Spiel zu prüfen): der Sniper verglich den geteilten Preis mit dem Max ("12c" ≤ Max) und kaufte dann eine
+  Auktion zum vollen Preis (z. B. 10s44). Ab jetzt vergleicht er den echten Preis je Auktion.
+Bereinigung (A:CleanDivided, beim ersten Beleg je Item, Protokoll STAPEL-BEREINIGT): eigene bestätigte Preise der letzten 14 Tage
+  unter einem Drittel des Medians aller eigenen Preise -> "unbestätigt" (bleiben gespeichert, zählen nicht); Käufe aus Sniper/Einkauf
+  mit Menge > 1 -> Menge 1 (Sicherung e.oldST). Neue Preise aus der Einzelsuche tragen jetzt Kennzeichen 8 ("nachgeprüft").
+  Zahlen vorher/nachher entstehen erst im Spiel (STAPEL-BEREINIGT je Item: "n von m Preisen", "Käufe Menge -> 1: k").
+
+ST4 – Liste (Datei:Zeile, betroffen, Beleg):
+  Vollscan.lua:618–630/729 Scan-Speicher (Menge je Auktion, Stückpreis = Sofortkauf/Menge) – NEIN (Beleg 2: Seiten Menge 1 je Auktion).
+  Seller.lua:303 Preisprüfung ReadListings – JA, behoben (RowUnit).
+  Sniper.lua:1472 Sniper-Ergebnis – JA, behoben (RowUnit, Menge je Kauf 1).
+  Buy.lua:687 Einkauf – JA, behoben (RowUnit, Menge je Kauf 1; Gebote NoteBid jetzt je Auktion).
+  AHAnalyzerPro.lua A:VerifyPrice (aus Seller.lua:533, Sniper.lua:2330, Buy.lua:829) – JA (schrieb die geteilten Preise in den Verlauf),
+    Ursache behoben, Daten über CleanDivided.
+  Marktwert 14 Tage / verdichtet / 90 Tage (A:GetMarketValue, PD7) – nur über den Verlauf; bereinigt.
+  Tooltip "Marktwert (Scan …)" (A:GetCurrent) – nur über den Verlauf; Vollscan-Werte waren richtig.
+  Kaufen/Verkaufen "% Markt" – Buy.lua:523/533 Browse minPrice (je Auktion) NEIN; Item-Zeilen JA, behoben.
+  Schnäppchen DEBuy.lua:136 (Browse-Preis) – NEIN. Wächter Watcher.lua:443 (Browse minPrice) – NEIN.
+  Sniper-Grenzen (l.price ≤ Max) – JA, behoben (Gold-Risiko oben).
+  "Lohnt bis" (MV:LimitFor), "jetzt teuer/günstig", Preisschutz (Se:PriceRisks) – nur über Marktwert/aktuellen Preis; bereinigt.
+  Buchhaltung Ledger.lua:513 (Kauf mit Zeilen-Menge) – JA, bereinigt (Menge 1); Verkäufe aus Rechnungen siehe PM1.
+  Entzauber-Werte (Materialpreise, stapelbare Waren) – NEIN.
+  Gilden-Sync gesendet (Sync.lua BroadcastScan: nur Scan-Preise lastOwnScan) – NEIN; empfangen: S2/S6 Ursache "stapel" bleibt.
+  Uploads (SavedVariables) – die bereinigten Preise tragen "unbestätigt" und zählen nicht.
+  Verkaufsgeschwindigkeit (Vollscan-Verfolgung) und Kern-Batch Vollscan.lua:1069/1089 – NEIN (Scan-Daten).
+  Bieten AHAnalyzerPro.lua:1393/1436 (NoteBid aus Einkauf) – JA (Menge), behoben über Buy.lua.
+  Gefahr für fremde Gesamtpreise: unverändert durch S2 (Faktor 2) verworfen, Ursache "Stapel- statt Stückpreis".
+
+ST1: EINE Regel (kaufmännisch gerundet, A.UnitRound) in RowUnit, Einkauf-Tabelle und Kopf; Anzeige unter 1s mit Bruchteil (A:UnitText:
+  3s88/56 -> "6,9c", 7s76/20 -> "38,8c"), Kopf "günstigstes" zeigt denselben Text wie die Tabelle. T979.
+ST5: Se:V1Explain – Zeile im Verkaufen-Fenster (nur mit frischer Preisprüfung): "Vorschlag 53c = günstigstes fremdes Angebot 54c
+  (33 Stück) − 1c" / "= gleicher Preis … (unter 20c)" / "· n Preisstufen mit 1–5 Stück übersprungen". T980 mit den drei Fällen.
+  Hinweis: mit RowUnit sind die drei Fälle im Spiel andere Zahlen (Preis je Seite statt geteilt).
+ST6 = VK1: Hinweis ohne Schwelle (vorher erst ab 1s und 10 % Unterschied -> bei 62c/53c nie): roter Hinweis Rang 1 "Händler zahlt 62c –
+  mehr als hier (x)", Einstellen ohne Sperre/Rückfrage; Serie überspringt wie bisher, jetzt mit beiden Zahlen. T981 (7c/18c/53c).
+PM1 – belegt: Mailer.lua:164 (DescribeMail), Mailer.lua:678 (NoteInvoiceMail) UND Ledger.lua:144 (ScanInbox) lasen "count" aus Feld 10
+  (etaMin). Ledger: Verkauf Forever nur als Rückfall (Feld 11 < 1), Kauf-Rechnungen aber IMMER zuerst (qty = count) -> Kauf-Mengen in
+  der Buchhaltung konnten Minuten sein; nicht-Forever ebenfalls. Jetzt EINE Funktion Le:InvoiceQty (Feld 11 ≥ 1, sonst Forever Feld 5
+  plausibel, sonst 1 ungefähr) in Mailer (beide Stellen); Ledger liest count aus Feld 11.
+  Bereinigung einmalig (Le:FixPM1, Protokoll PM1-BEREINIGT mit Zahlen): Verkäufe mit Menge = Feld 10 (aus inv.count, inv.field11 < 1)
+  -> Menge neu; Kauf-Rechnungen aus der Post mit Menge > 1 -> "ungefähr" (Rohfelder wurden nicht gespeichert); Verkaufsfälle
+  "verkauft" (SaleOutcome, Menge aus Feld 10) verworfen; Gilden-Verkaufsdaten (saleShared) verworfen; G17-Rechnungen Menge -> 0
+  (Gebühren-Prüfung nutzt sie nicht); invoiceShared verworfen. Neue Daten werden mit richtiger Menge gesendet. Die Zahlen stehen nach
+  dem ersten Laden im Protokoll (hier keine aktuellen Spieldaten mit 0.65.36x). T976.
