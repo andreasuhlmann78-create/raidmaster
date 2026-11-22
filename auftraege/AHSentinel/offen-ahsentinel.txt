@@ -6035,3 +6035,4 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     Suchen je Ziel 35 % / 29 % / 36 % -> SN-Z1 (Garantie) wirkt. ERGEBNIS: Der Takt wird vom Server bestimmt (~0,7 s je Suche, ~80/Min.),
     AHS bremst nicht zusätzlich; bei diesem Takt 0 AH-Fehler in 300 Suchen. Schneller ist nicht möglich (Server-Drossel). Keine Änderung nötig.
     Die "~3 s" (Nutzer 21.11. 19:46) = Treffer-Halt HIT_HOLD bei Treffern – gewollt (Drossel frei für den Kauf-Klick).
+    BEDINGUNGEN (Nutzer 09:23): Messung in vollem Orgrimmar/AH (viele Spieler) und mit zeitweise minimiertem Spiel. Minimiert läuft WoW mit wenigen Bildern je Sekunde -> erklärt die Ausreisser "bereit (Tick)" bis 26 s und Max 30 s (kein Fehler, kein Server). Die 0,73 s gelten für Hochbetrieb; ob der Server bei wenig Betrieb anders drosselt, ist offen -> zweite Messung bei ruhigem AH, Spiel im Vordergrund (SN-T2 je Messung mit Uhrzeit und "minimiert ja/nein"-Anteil ausweisen).
