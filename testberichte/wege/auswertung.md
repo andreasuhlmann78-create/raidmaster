@@ -4,9 +4,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Durotar (1411)
 
-- Wegstücke 1074, Knoten 918, zusammenhängende Teile 8
+- Wegstücke 1116, Knoten 992, zusammenhängende Teile 8
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 830 Knoten, Bereich 35–66 / 8–69
+  - Teil 1: 904 Knoten, Bereich 35–67 / 8–75
   - Teil 2: 63 Knoten, Bereich 46–60 / 84–98
   - Teil 3: 8 Knoten, Bereich 34–37 / 42–44
   - Teil 4: 5 Knoten, Bereich 46–48 / 44–44
@@ -37,10 +37,10 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Mulgore (1412)
 
-- Wegstücke 759, Knoten 1346, zusammenhängende Teile 21
+- Wegstücke 776, Knoten 1354, zusammenhängende Teile 21
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 578 Knoten, Bereich 33–64 / 41–82
-  - Teil 2: 362 Knoten, Bereich 32–55 / 7–36
+  - Teil 2: 370 Knoten, Bereich 32–55 / 7–36
   - Teil 3: 103 Knoten, Bereich 43–60 / 18–47
   - Teil 4: 88 Knoten, Bereich 42–60 / 78–90
   - Teil 5: 46 Knoten, Bereich 44–49 / 77–88
@@ -113,7 +113,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Tirisfal (1420)
 
-- Wegstücke 1680, Knoten 1202, zusammenhängende Teile 19
+- Wegstücke 1735, Knoten 1202, zusammenhängende Teile 19
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 1157 Knoten, Bereich 25–86 / 20–78
   - Teil 2: 8 Knoten, Bereich 56–59 / 41–43
@@ -269,9 +269,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Orgrimmar (1454)
 
-- Wegstücke 1310, Knoten 970, zusammenhängende Teile 3
+- Wegstücke 1313, Knoten 972, zusammenhängende Teile 3
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 965 Knoten, Bereich 22–82 / 19–95
+  - Teil 1: 967 Knoten, Bereich 22–82 / 19–95
   - Teil 2: 3 Knoten, Bereich 38–40 / 28–30
   - Teil 3: 2 Knoten, Bereich 42–44 / 30–30
 - **Ausreisser:** Wegstück 1: Sprung 4.3 % von 72.1,31.0 nach 70.9,35.1
@@ -299,14 +299,14 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Thunder Bluff (1456)
 
-- Wegstücke 854, Knoten 758, zusammenhängende Teile 8
+- Wegstücke 866, Knoten 775, zusammenhängende Teile 8
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 719 Knoten, Bereich 23–78 / 12–87
+  - Teil 1: 727 Knoten, Bereich 23–78 / 12–87
   - Teil 2: 16 Knoten, Bereich 11–21 / 17–35
-  - Teil 3: 7 Knoten, Bereich 18–24 / 3–6
-  - Teil 4: 5 Knoten, Bereich 26–31 / 2–4
-  - Teil 5: 4 Knoten, Bereich 11–12 / 25–31
-  - Teil 6: 3 Knoten, Bereich 11–13 / 24–29
+  - Teil 3: 12 Knoten, Bereich 11–17 / 24–35
+  - Teil 4: 8 Knoten, Bereich 18–24 / 3–6
+  - Teil 5: 5 Knoten, Bereich 26–31 / 2–4
+  - Teil 6: 3 Knoten, Bereich 34–37 / 3–6
   - Teil 7: 2 Knoten, Bereich 47–48 / 34–36
   - Teil 8: 2 Knoten, Bereich 50–51 / 71–73
 - **Ausreisser:** Wegstück 1: Sprung 4.7 % von 43.3,54.1 nach 46.8,50.9
@@ -332,9 +332,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Undercity (1458)
 
-- Wegstücke 2960, Knoten 1104, zusammenhängende Teile 3
+- Wegstücke 2985, Knoten 1108, zusammenhängende Teile 3
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 1102 Knoten, Bereich 44–86 / 0–98
+  - Teil 1: 1106 Knoten, Bereich 44–86 / 0–98
   - Teil 2: 1 Knoten, Bereich 59–59 / 25–25
   - Teil 3: 1 Knoten, Bereich 76–76 / 32–32
 - **Ausreisser:** Wegstück 1: Sprung 10.6 % von 46.4,72.8 nach 52.8,64.4
@@ -752,6 +752,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 | 12736 | 1440 | 11.6,34.3 -> 11.6,34.3 | 0.0 % | klein |
 | 3341 | 1413 | 45.9,77.0 -> 46.1,75.6 | 1.4 % | klein |
 | 12866 | 1413 | 49.0,94.9 -> 49.0,94.9 | 0.0 % | klein |
+| 2425 | 1458 | 56.3,92.2 -> 56.1,92.0 | 0.3 % | klein |
+| 2995 | 1456 | 47.0,49.8 -> 46.8,49.4 | 0.4 % | klein |
+| 3188 | 1411 | 56.0,74.7 -> 55.9,74.7 | 0.1 % | klein |
 | 12818 | 1440 | 41.5,34.5 -> 41.4,34.5 | 0.1 % | klein |
 | 12858 | 1440 | 68.3,75.3 -> 68.4,75.3 | 0.1 % | klein |
 | 12877 | 1440 | 73.0,62.5 -> 73.0,62.5 | 0.0 % | klein |
