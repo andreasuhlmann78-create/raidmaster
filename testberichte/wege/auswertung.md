@@ -212,12 +212,16 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Ashenvale (1440)
 
-- Wegstücke 103, Knoten 230, zusammenhängende Teile 4
+- Wegstücke 214, Knoten 383, zusammenhängende Teile 13
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 165 Knoten, Bereich 43–77 / 58–77
+  - Teil 1: 219 Knoten, Bereich 43–77 / 58–77
   - Teil 2: 42 Knoten, Bereich 12–16 / 15–34
-  - Teil 3: 20 Knoten, Bereich 18–25 / 32–38
-  - Teil 4: 3 Knoten, Bereich 73–74 / 60–61
+  - Teil 3: 40 Knoten, Bereich 35–41 / 30–37
+  - Teil 4: 20 Knoten, Bereich 18–25 / 32–38
+  - Teil 5: 20 Knoten, Bereich 30–34 / 38–42
+  - Teil 6: 15 Knoten, Bereich 49–52 / 69–72
+  - Teil 7: 7 Knoten, Bereich 74–76 / 69–71
+  - Teil 8: 6 Knoten, Bereich 56–57 / 64–65
 - **Widerspruch:** gesperrt (FEST) bei 76.1,75.5, aber 61× gelaufen
 - Gesperrte Wegstücke: 1
 
@@ -295,7 +299,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Thunder Bluff (1456)
 
-- Wegstücke 804, Knoten 730, zusammenhängende Teile 7
+- Wegstücke 805, Knoten 730, zusammenhängende Teile 7
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 693 Knoten, Bereich 23–78 / 12–87
   - Teil 2: 16 Knoten, Bereich 11–21 / 17–35
@@ -747,3 +751,6 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 | 12736 | 1440 | 11.6,34.3 -> 11.6,34.3 | 0.0 % | klein |
 | 3341 | 1413 | 45.9,77.0 -> 46.1,75.6 | 1.4 % | klein |
 | 12866 | 1413 | 49.0,94.9 -> 49.0,94.9 | 0.0 % | klein |
+| 12818 | 1440 | 41.5,34.5 -> 41.4,34.5 | 0.1 % | klein |
+| 12858 | 1440 | 68.3,75.3 -> 68.4,75.3 | 0.1 % | klein |
+| 12877 | 1440 | 73.0,62.5 -> 73.0,62.5 | 0.0 % | klein |
