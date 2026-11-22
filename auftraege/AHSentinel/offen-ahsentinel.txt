@@ -6028,3 +6028,10 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     Pflicht: Stapelgrösse je Item aus GetItemInfo (itemStackCount) bzw. C_Item; ist sie 1, ist eine Zahl > 1 IMMER die Anzahl Angebote,
     Stückpreis = Preis je Angebot. Für Waren (stapelbar) Stückpreis = unitPrice der API. Alle Stellen aus ST4 nach DIESER Regel prüfen.
     Im Bericht: itemStackCount von Rezept "Soothing Turtle Bisque" und von "Schredderanleitung – Seite 9/11/12" mit Beleg.
+
+>>> AUSWERTUNG 22.11. 09:30 (Supervisor) SN-T – Upload DESKTOP-NVITMSE 09:21, 0.65.375, Protokoll "Sniper-Takt (SN-T2)":
+    300 Suchen, Abstand Median 0,73 s (Min 0,70 s); davon Server nicht bereit Median 0,50 s, Antwort Median 0,20 s, eigene Bremse Median 0,00 s
+    (Max 0,24 s), Treffer-Halt nur bei Treffern (Max 3,31 s); Fehler in der Sitzung: 0. Ausreisser bis 30 s = Ruhemodus/Tick, keine Fehler.
+    Suchen je Ziel 35 % / 29 % / 36 % -> SN-Z1 (Garantie) wirkt. ERGEBNIS: Der Takt wird vom Server bestimmt (~0,7 s je Suche, ~80/Min.),
+    AHS bremst nicht zusätzlich; bei diesem Takt 0 AH-Fehler in 300 Suchen. Schneller ist nicht möglich (Server-Drossel). Keine Änderung nötig.
+    Die "~3 s" (Nutzer 21.11. 19:46) = Treffer-Halt HIT_HOLD bei Treffern – gewollt (Drossel frei für den Kauf-Klick).
