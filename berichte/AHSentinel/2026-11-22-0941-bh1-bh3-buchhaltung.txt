@@ -1,0 +1,36 @@
+AHSentinel 0.65.379 – BH1–BH3 (BEFUND 21.11. 21:30) – umgesetzt, zur Prüfung
+Nur Discord, kein CurseForge. Tests gebaut, nicht laufen lassen. addon_check: OK (keine FEHLER). Dateiliste ZIP gleich wie 0.65.378.
+
+BH1 (Zahl geht nicht auf: 57g91s96 − 39g38s19 − 1s17 = 18g52s60, gezeigt 20g78s61, Differenz 2g26s01 = 22'601c)
+  Ursache belegt im Code: Books.lua BK:Summary rechnet
+     s.profit = s.rev − s.cost − s.fees + (s.deYield or 0)      (DE-AUFT1: Glück/Pech beim Entzaubern gehört zum Handel)
+  Der Gewinn hat genau diese vier Glieder, keines sonst. UI_Ledger p:ProfitTooltip zeigte nur Erlös, Eingesetzt, Gebühren, Gewinn –
+  die Entzauber-Ausbeute (Buchungen k="dey") stand in keiner Zeile, auch nicht im Kopf. Damit ist die Differenz 22'601c zwingend die
+  Entzauber-Ausbeute des Tages (s.deYield) zum Zeitpunkt des Bildes.
+  Daten-Gegenprobe (goldsentinel-daten, DESKTOP-NVITMSE, Stand 21.11. 18:54, also 2½ Std. VOR dem Bild 21:26): Entzauber-Ausbeute 21.11.
+  = +25'712c aus 226 Buchungen. Nicht dieselbe Zahl (Daten enden 18:54; spätere Buchungen können negativ sein) -> Betrag 22'601c
+  "Verdacht, im Spiel zu messen": die neue Tooltip-Zeile zeigt ihn direkt.
+  Geändert: UI_Ledger.lua ProfitTooltip – Zeile "Entzauber-Ausbeute ±x" (wenn ≠ 0) vor "Gewinn"; Kopf-Unterzeile ergänzt um
+  "Entzauber-Ausbeute ±x". Erlös − Eingesetzt − Gebühren ± Ausbeute = Gewinn auf den Kupfer (gleiche Variablen wie BK:Summary).
+  Mit den Zahlen des Befunds: 579'196 − 393'819 − 117 + 22'601 = 207'861 = 20g78s61.
+
+BH2 (Rendite –)
+  Ursache belegt: Books.lua s.roi war nil, sobald im Zeitraum ein Stück ohne Einkauf lag (Regel BH-ANZ-S4, Supervisor 17.11.).
+  Neu (Befund ersetzt BH-ANZ-S4): s.roi = s.boughtProfit / s.cost × 100, nur wenn s.cost > 0; s.boughtProfit = Gewinn − Erlös ohne
+  Einkauf (gab es schon, BE1/BE3). "–" nur ohne Einsatz.
+  Weitere Nutzer von s.roi geprüft: Books.lua 1641 RoiText (Anzeige), 2246 Plausibilität "Rendite > 100 % beim Entzaubern" (rechnet
+  jetzt mit Posten mit Einkauf – richtig, weil Posten ohne Einkauf dort sonst 100 % aufblähen würden), 1602 Kopf (unverändert).
+
+BH3 (Posten ohne Einkauf, Summe = "Herkunft unbekannt"?)
+  Belegt im Code: Kopf "Herkunft unbekannt: x" = s.freeRev (UI_Ledger 597). s.freeRev ist die Summe der freeRev je Verkauf
+  (Books.lua 551–555: Erlös × freie Stück / Menge), dieselbe Grösse, die die Zeilen als "Gewinn = Erlös" führen -> gleich per Bau.
+  Neu im Tooltip: "davon Erlös ohne Einkauf (Kostenbasis 0): x = "Herkunft unbekannt"" (grau, wenn > 0).
+
+Tests (gebaut, nicht laufen lassen):
+  T986 neu: Tooltip mit Befund-Zahlen (Erlös 579196, Eingesetzt 393819, Gebühren 117, Ausbeute 22601, Gewinn 207861, ohne Einkauf
+        42569) -> 6 Zeilen mit diesen Beträgen, Summe = 207861; ohne Ausbeute und ohne Einkauf weiter 4 Zeilen (T389 bleibt gültig).
+  T465 angepasst (BH2 ersetzt BH-ANZ-S4): Beute 120 ohne Einkauf + Handel 100 auf 500 -> "Rendite 20 %" statt "Rendite –".
+  Index: BH1-BH3 -> T986, T465.
+Im Spiel prüfen: Buchhaltung > Heute, Tooltip Gewinn – Zeile Entzauber-Ausbeute, Summe geht auf; Rendite mit Zahl.
+
+Weiter laut Reihenfolge: VK2, CF3, VL1–VL3.
