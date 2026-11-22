@@ -4,9 +4,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Durotar (1411)
 
-- Wegstücke 1137, Knoten 992, zusammenhängende Teile 8
+- Wegstücke 1180, Knoten 1055, zusammenhängende Teile 8
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 904 Knoten, Bereich 35–67 / 8–75
+  - Teil 1: 967 Knoten, Bereich 35–67 / 8–75
   - Teil 2: 63 Knoten, Bereich 46–60 / 84–98
   - Teil 3: 8 Knoten, Bereich 34–37 / 42–44
   - Teil 4: 5 Knoten, Bereich 46–48 / 44–44
@@ -113,7 +113,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Tirisfal (1420)
 
-- Wegstücke 1780, Knoten 1232, zusammenhängende Teile 18
+- Wegstücke 1809, Knoten 1232, zusammenhängende Teile 18
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 1189 Knoten, Bereich 25–86 / 20–78
   - Teil 2: 8 Knoten, Bereich 56–59 / 41–43
@@ -193,7 +193,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Schlingendorntal (1434)
 
-- Wegstücke 2390, Knoten 1086, zusammenhängende Teile 1
+- Wegstücke 2430, Knoten 1125, zusammenhängende Teile 1
 - **Widerspruch:** gesperrt (FEST) bei 39.9,36.9, aber 83× gelaufen
 - **Widerspruch:** gesperrt (FEST) bei 34.2,14.7, aber 150× gelaufen
 - Gesperrte Wegstücke: 2
@@ -212,7 +212,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Sumpfland (1437)
 
-- Wegstücke 14, Knoten 133, zusammenhängende Teile 1
+- Wegstücke 20, Knoten 135, zusammenhängende Teile 1
 
 ## Ashenvale (1440)
 
@@ -248,9 +248,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Desolace (1443)
 
-- Wegstücke 939, Knoten 1395, zusammenhängende Teile 2
+- Wegstücke 1023, Knoten 1543, zusammenhängende Teile 2
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 1277 Knoten, Bereich 20–77 / 16–97
+  - Teil 1: 1425 Knoten, Bereich 20–77 / 16–97
   - Teil 2: 118 Knoten, Bereich 30–36 / 9–32
 - **Ausreisser:** Wegstück 546: Sprung 5.1 % von 25.7,77.1 nach 22.3,73.3
 - **Ausreisser:** Wegstück 584: Sprung 4.3 % von 25.7,77.1 nach 22.7,74.0
@@ -273,7 +273,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Orgrimmar (1454)
 
-- Wegstücke 1330, Knoten 972, zusammenhängende Teile 3
+- Wegstücke 1348, Knoten 972, zusammenhängende Teile 3
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 967 Knoten, Bereich 22–82 / 19–95
   - Teil 2: 3 Knoten, Bereich 38–40 / 28–30
@@ -298,7 +298,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 - **Ausreisser:** Wegstück 12: Sprung 11.1 % von 51.7,76.7 nach 52.6,87.8
 - **Ausreisser:** Wegstück 14: Sprung 5.9 % von 52.0,68.2 nach 52.0,74.1
 - **Ausreisser:** Wegstück 15: Sprung 5.9 % von 52.0,68.2 nach 54.7,63.0
-- **Widerspruch:** gesperrt (FEST) bei 52.2,64.5, aber 550× gelaufen
+- **Widerspruch:** gesperrt (FEST) bei 52.2,64.5, aber 577× gelaufen
 - Gesperrte Wegstücke: 1
 
 ## Thunder Bluff (1456)
@@ -336,9 +336,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Undercity (1458)
 
-- Wegstücke 3074, Knoten 1136, zusammenhängende Teile 3
+- Wegstücke 3085, Knoten 1137, zusammenhängende Teile 3
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 1134 Knoten, Bereich 44–86 / 0–98
+  - Teil 1: 1135 Knoten, Bereich 44–86 / 0–98
   - Teil 2: 1 Knoten, Bereich 59–59 / 25–25
   - Teil 3: 1 Knoten, Bereich 76–76 / 32–32
 - **Ausreisser:** Wegstück 1: Sprung 10.6 % von 46.4,72.8 nach 52.8,64.4
@@ -368,7 +368,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Shen'dralas (2652)
 
-- Wegstücke 52, Knoten 171, zusammenhängende Teile 1
+- Wegstücke 173, Knoten 454, zusammenhängende Teile 1
+- **Widerspruch:** gesperrt (FEST) bei 24.0,25.8, aber 6× gelaufen
+- Gesperrte Wegstücke: 1
 
 ## Korrigierte Ziele (NPC-Orte)
 
@@ -776,3 +778,6 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 | 1387 | 1434 | 32.5,29.4 -> 32.5,29.3 | 0.1 % | klein |
 | 3368 | 1454 | 57.2,53.3 -> 57.4,53.5 | 0.3 % | klein |
 | 4451 | 1456 | 36.0,59.9 -> 36.3,59.8 | 0.3 % | klein |
+| 6491 | 2652 | kein Ort im Datenpaket -> 34.6,47.7 | - | fehlt im Datenpaket |
+| 13717 | 1443 | 50.4,86.7 -> 44.7,86.0 | 5.7 % | deutlich falsch |
+| 253471 | 2652 | kein Ort im Datenpaket -> 35.1,46.3 | - | fehlt im Datenpaket |
