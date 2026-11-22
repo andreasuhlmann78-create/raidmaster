@@ -5953,3 +5953,12 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
  PM2 ANTWORT AN DEN NUTZER (geprüft, kein Auftrag): Einzeln UND stapelweise kaufen geht schon: Waren (stapelbar, gemeinsames Angebot) mit
      Mengenfeld; einzelne Angebote ganz (Spielregel: ein Angebot wird immer komplett gekauft), mehrere per Shift-Klick, Knopf
      "Einzelne Angebote anzeigen"/"Zusammengefasst anzeigen" (UI_Buy.lua 863–913).
+
+>>> BEFUND 22.11. 08:55 (Nutzer 08:45 "für gleich – da stimmt doch der Stückpreis nicht", Einkauf "Schredderanleitung – Seite 9", 0.65.375)
+ ST1 Tabelle nachgerechnet: alle 15 Zeilen Stückpreis = Gesamt/Menge (gerundet) richtig (z. B. 3s88/56 = 6,93c -> "7c", 7s76/20 = 38,8c -> "39c").
+     ABER Kopf "günstigstes 6c" (abgerundet) vs. Tabelle "7c" (gerundet) – EINE Rundungsregel überall; Stückpreis mit Bruchteil zeigen,
+     wenn < 1s (z. B. "6,9c") oder exakt "56 Stück für 3s88".
+ ST2 HOCH (Verdacht, zu messen): Kopf "Marktwert (Median 14 Tage) 4s19" und "jetzt günstig – kaufen (−98 % unter üblich)". 4s19 ist genau
+     der GESAMTpreis eines Angebots in der Liste (3× zu 1s40) – Verdacht: Median aus Stapel-Gesamtpreisen statt Stückpreisen (wie S6
+     "Stapel- statt Stückpreis", VK2 Schriftrolle). Belegen (Rohdaten der 14-Tage-Preise dieses Items), beheben, falsche Werte bereinigen;
+     bis dahin keine "kaufen"-Empfehlung aus diesem Median. Test: Angebote 3× zu 4s19 gesamt -> Stückpreis 1s40 im Median.
