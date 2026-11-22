@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-22T15:26:53Z",
+ "ausgewertet": "2026-11-22T16:26:56Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -22,9 +22,8 @@
      "art": "spiel",
      "wo": "ADDON_ACTION_BLOCKED",
      "msg": "UNKNOWN()",
-     "anzahl": 13,
+     "anzahl": 7,
      "versionen": [
-      "0.65.196",
       "0.65.203"
      ],
      "clients": [
@@ -383,9 +382,8 @@
    "art": "spiel",
    "wo": "ADDON_ACTION_BLOCKED",
    "msg": "UNKNOWN()",
-   "anzahl": 13,
+   "anzahl": 7,
    "versionen": [
-    "0.65.196",
     "0.65.203"
    ],
    "clients": [
@@ -637,11 +635,11 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 214,
+    "anzahl": 215,
     "neueste": "testberichte/diagnose/AHSentinel/0.65.381-93ee1eb37797.txt"
    },
    "BuffSentinel": {
-    "anzahl": 124,
+    "anzahl": 126,
     "neueste": "testberichte/diagnose/BuffSentinel/0.9.60-fb522145c40a.txt"
    },
    "GSMesstest": {
@@ -649,30 +647,30 @@
     "neueste": "testberichte/diagnose/GSMesstest/5.1-f65d607ab777.txt"
    },
    "GSSniperLog": {
-    "anzahl": 49,
+    "anzahl": 50,
     "neueste": "testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt"
    },
    "GuildSentinel": {
-    "anzahl": 238,
+    "anzahl": 240,
     "neueste": "testberichte/diagnose/GuildSentinel/0.9.58-fa602fb8b08c.txt"
    },
    "LevelPilot": {
-    "anzahl": 131,
+    "anzahl": 133,
     "neueste": "testberichte/diagnose/LevelPilot/3.13.6-ff90860598d3.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 216,
+    "anzahl": 218,
     "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.74-ff706b85d2e7.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 201,
+    "anzahl": 202,
     "neueste": "testberichte/diagnose/ThreatSentinel/2.5.23-ee663a070dfa.txt"
    }
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 314,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1795358025-c136c5.json"
+    "anzahl": 316,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1795363282-1dbef2.json"
    }
   }
  }
