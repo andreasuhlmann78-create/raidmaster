@@ -1541,3 +1541,14 @@ LP-M3 (NIEDRIG, Grundsatz nachvollziehbar / psychologie.md) FENSTERTITEL IST NIC
 
 Reihenfolge Montag: zuerst der Auftrag "Berufs-Hinweise nur nach Prüfung" (oben), dann LP-M1, LP-M2, LP-M3. Bericht wie immer
 in berichte/LevelPilot/ ("umgesetzt, zur Prüfung", mit Belegen).
+
+>>> BEFUND FÜR MONTAG 23.11. (Supervisor 22.11. 16:05, Nutzer: "meine Offiziere sind nirgends stecken geblieben") – SPERREN "FEST"
+    Uploads 22.11.: graph.blocked = 2 (Laptop) / 2 (Desktop) / 6 und 20 (Offiziere), Export "why":"FEST" 3×. Code 3.13.6:
+    Navigation.lua:110 N.STUCK_MOVE_SECS = 240 – "FEST" heisst NICHT stecken geblieben, sondern: 240 s in Bewegung ohne 15 Yards
+    Annäherung ans Ziel (Kämpfen/Sammeln/Questen im Gebiet, Umweg, AFK-Laufen). Dann sperrt N:OnStuck die gerade befahrene Kante
+    (Graph:Block), bis sie wieder gelaufen wird (Graph.lua:1225), und teilt sie über die Wegdaten (7 Tage).
+    Verdacht, zu messen: Ein grosser Teil der Sperren sind Fehlalarme und nehmen gute Wege aus dem Netz (auch bei anderen Spielern).
+    Belegen: je Sperre Lage, Ziel, was der Spieler in den 240 s tat (Kampf? Questziel in der Nähe? Ziel gewechselt?). Soll: keine Sperre
+    bei Kampf, bei Questarbeit im Zielgebiet, bei Zielwechsel, bei langsamer Bewegung; Sperren nur bei echtem Festhängen (Position
+    bewegt sich kaum trotz Laufen / Sprung-Schleife), Text im Spiel "stecken geblieben" nur dann. Tests: 4 Min. Kämpfen am Ort -> keine
+    Sperre; Laufen gegen Wand -> Sperre.
