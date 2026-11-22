@@ -6059,3 +6059,20 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
  VK2: gleiche Ursache wie ST3 (Stapelgrösse 1), seit 0.65.376 behoben – angenommen.
  OFFEN BEIM NUTZER (Messungen im Spiel): "/ahs stapel" für Recipe Soothing Turtle Bisque und Seite 9/11/12; VL1: Verkaufen-Reiter
      2–3 Min. mit AH offen, dann Upload -> Prüf-Sitzung wertet VERKAUFEN-LISTE aus, danach Entscheid VL2.
+
+>>> BEFUND 22.11. 12:25 (Nutzer 12:19 "AHS zeigt immer noch nicht alles an", Ingame 0.65.381, 3 Bilder, nicht im Repo) – SOFORT, HOCH
+ PP1 Preisprüfung findet Angebote nicht, die der Scan kennt:
+     - Stachelkettengelenkbänder (grün, Stufe 25): "geprüft vor 12 Sek.: 0 Angebote, 0 eigene", Tabelle "Noch nicht geprüft", kein
+       Vorschlag – aber Tooltip "Marktwert (Scan vor 1 Min.) 8s47".
+     - Banditen-Handschuhe (grün, Stufe 20): "wird aktualisiert …" bleibt stehen, Tabelle leer – Scan vor 1 Min. 15s99.
+     - Liste links: Spalte "Günstigstes" bei vielen Items "-" (Banditen-Handschuhe, Schwerer Stein, Schredderanleitung …), obwohl
+       Marktwert/Scan vorhanden.
+     Das ist der seit P8 (21.11.) offene Teil "Warum 0 Angebote – Verdacht, zu messen: Se:StartNext sucht mit MakeItemKey(itemID)
+     (Stufe 0, Suffix 0)". Jetzt BELEGEN (Protokoll je Prüfung: verwendeter ItemKey itemID/itemLevel/itemSuffix/battlePetSpeciesID,
+     Anzahl Treffer, Ereignis/Zeit) und beheben: ItemKey aus dem Taschen-Item selbst (C_AuctionHouse.GetItemKeyFromItem(ItemLocation))
+     bzw. derselbe Weg wie Kaufen > Suche/Vollscan, der die Angebote findet. "wird aktualisiert …" mit Zeitlimit (F5) – danach Hinweis
+     "Preisprüfung ohne Antwort – erneut prüfen" statt Dauer-Text.
+     Tests: grünes Item mit Itemstufe ≠ Grundstufe -> Angebote gefunden; Item mit Zufallssuffix -> richtige Variante; keine Antwort
+     -> nach Zeitlimit Hinweis. Bericht: die beiden Items mit Protokollzeilen vorher/nachher.
+ HINWEIS (kein Auftrag): Statuszeile "Empfangen: 0 Daten von 1 Spielern" bei "Sync über Gilde: 3–4" – erwartet, solange die Offiziere
+     0.65.354/0.65.360 haben (alter Markt-Tag wird nach G8 ignoriert). Nach deren Update erneut prüfen.
