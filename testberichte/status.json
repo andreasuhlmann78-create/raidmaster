@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-22T17:25:50Z",
+ "ausgewertet": "2026-11-22T18:21:00Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -17,20 +17,6 @@
    },
    "fehler_tests": [],
    "fehler_spiel": [
-    {
-     "addon": "AHSentinel",
-     "art": "spiel",
-     "wo": "ADDON_ACTION_BLOCKED",
-     "msg": "UNKNOWN()",
-     "anzahl": 7,
-     "versionen": [
-      "0.65.203"
-     ],
-     "clients": [
-      "forever 1.60.1 (Interface 16001)"
-     ],
-     "stack": null
-    },
     {
      "addon": "AHSentinel",
      "art": "spiel",
@@ -380,20 +366,6 @@
   {
    "addon": "AHSentinel",
    "art": "spiel",
-   "wo": "ADDON_ACTION_BLOCKED",
-   "msg": "UNKNOWN()",
-   "anzahl": 7,
-   "versionen": [
-    "0.65.203"
-   ],
-   "clients": [
-    "forever 1.60.1 (Interface 16001)"
-   ],
-   "stack": null
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "spiel",
    "wo": "ADDON_ACTION_FORBIDDEN",
    "msg": "UNKNOWN()",
    "anzahl": 4,
@@ -639,7 +611,7 @@
     "neueste": "testberichte/diagnose/AHSentinel/0.65.382-f4feba6b01fb.txt"
    },
    "BuffSentinel": {
-    "anzahl": 129,
+    "anzahl": 130,
     "neueste": "testberichte/diagnose/BuffSentinel/0.9.60-fb522145c40a.txt"
    },
    "GSMesstest": {
@@ -651,15 +623,15 @@
     "neueste": "testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt"
    },
    "GuildSentinel": {
-    "anzahl": 243,
+    "anzahl": 244,
     "neueste": "testberichte/diagnose/GuildSentinel/0.9.58-fa602fb8b08c.txt"
    },
    "LevelPilot": {
-    "anzahl": 136,
+    "anzahl": 137,
     "neueste": "testberichte/diagnose/LevelPilot/3.13.6-ff90860598d3.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 221,
+    "anzahl": 222,
     "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.74-ff706b85d2e7.txt"
    },
    "ThreatSentinel": {
@@ -669,8 +641,8 @@
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 319,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1795367419-cdfa9e.json"
+    "anzahl": 320,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1795368133-092fe9.json"
    }
   }
  }
