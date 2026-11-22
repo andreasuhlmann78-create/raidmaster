@@ -1,6 +1,6 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-22 09:28 UTC
+Ausgewertet: 2026-11-22 10:29 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
@@ -18,20 +18,20 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 211 | `testberichte/diagnose/AHSentinel/0.65.375-ed005250c650.txt` |
-| BuffSentinel | 116 | `testberichte/diagnose/BuffSentinel/0.9.60-fb522145c40a.txt` |
+| AHSentinel | 212 | `testberichte/diagnose/AHSentinel/0.65.377-7d6c5405df38.txt` |
+| BuffSentinel | 117 | `testberichte/diagnose/BuffSentinel/0.9.60-fb522145c40a.txt` |
 | GSMesstest | 20 | `testberichte/diagnose/GSMesstest/5.1-f65d607ab777.txt` |
-| GSSniperLog | 46 | `testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt` |
-| GuildSentinel | 230 | `testberichte/diagnose/GuildSentinel/0.9.58-f066d6f49567.txt` |
-| LevelPilot | 123 | `testberichte/diagnose/LevelPilot/3.13.6-ff90860598d3.txt` |
-| ProfessionSentinel | 208 | `testberichte/diagnose/ProfessionSentinel/0.9.74-ff706b85d2e7.txt` |
-| ThreatSentinel | 194 | `testberichte/diagnose/ThreatSentinel/2.5.23-ee663a070dfa.txt` |
+| GSSniperLog | 47 | `testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt` |
+| GuildSentinel | 231 | `testberichte/diagnose/GuildSentinel/0.9.58-f066d6f49567.txt` |
+| LevelPilot | 124 | `testberichte/diagnose/LevelPilot/3.13.6-ff90860598d3.txt` |
+| ProfessionSentinel | 209 | `testberichte/diagnose/ProfessionSentinel/0.9.74-ff706b85d2e7.txt` |
+| ThreatSentinel | 195 | `testberichte/diagnose/ThreatSentinel/2.5.23-ee663a070dfa.txt` |
 
 ## Wegdaten (GSWEGE1)
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| LevelPilot | 303 | `testberichte/wege/LevelPilot/LevelPilot-wege-1795337989-59272c.json` |
+| LevelPilot | 304 | `testberichte/wege/LevelPilot/LevelPilot-wege-1795341773-aae20a.json` |
 
 ## AHSentinel
 

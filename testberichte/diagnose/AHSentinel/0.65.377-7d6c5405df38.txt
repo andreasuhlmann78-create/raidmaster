@@ -1,0 +1,234 @@
+AHSentinel-Protokoll v0.65.377 · 22.11. 11:02:52
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  22.11. 09:24:52 L28 WARRIOR v0.65.377
+  22.11. 09:21:14 L28 WARRIOR v0.65.375
+  22.11. 07:57:07 L28 WARRIOR v0.65.375
+  22.11. 06:25:08 L27 WARRIOR v0.65.375
+  22.11. 06:24:15 L1 WARRIOR v0.65.375
+  22.11. 06:19:58 L10 PRIEST v0.65.375
+  21.11. 23:29:14 L10 PRIEST v0.65.375
+  21.11. 23:23:57 L10 PRIEST v0.65.375
+  21.11. 23:18:46 L27 WARRIOR v0.65.375
+  21.11. 22:51:26 L27 WARRIOR v0.65.375
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 1 Std., 7445 Items, Preis-Sync an
+  SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, BuffSentinel 1, GoldSentinelMarkt 1, GoldSentinelTest 1, GuildSentinel 1, LevelPilot 1, LevelPilotG 1, ThreatSentinel 0
+  SYNC gesendet 2973 · empfangen 886 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 5 (mit Sync 2: 5, pausiert 1) · gesendet 19 · weitergegeben 0 · offline 10 · Listen 19 · Warteschlange 0 · gespeichert ja · im Test angehalten 0
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Sniper-Takt (SN-T2): 299 Suchen · Abstand Median 0.73 s, Min 0.70 s, Max 30.42 s
+    Server nicht bereit: Median 0.50 s, Min 0.00 s, Max 3.02 s je Suche
+    eigene Bremse/Abstand: Median 0.00 s, Min 0.00 s, Max 0.24 s je Suche
+    Antwort des Servers: Median 0.20 s, Min 0.10 s, Max 0.60 s je Suche
+    Treffer-Halt: Median 0.00 s, Min 0.00 s, Max 3.31 s je Suche
+    andere Arbeit: Median 0.00 s, Min 0.00 s, Max 0.73 s je Suche
+    bereit (Tick): Median 0.00 s, Min 0.00 s, Max 26.24 s je Suche
+    Suchen je Ziel: Purpurrote Seidenweste 106 (35 %) · Thalliumreifen 88 (29 %) · Wächterhandschuhe 106 (35 %)
+  Sync-Abweichungen (S6): 0 Fälle, Markt-Tag fremd 132 (alte Version / anderer Markt)
+  Einstellungen geändert: cmdHint=true, fastScan=true, helpSeen=true, marketExpert=false, minimapAngle=199, priceGuard=20, psHintHidden=true, sniperSignal=true, theme=modern, tooltipDEDetail=true, vendorButton=false, vendorFlipMin=500
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0
+
+== Einträge (200, neueste zuerst)
+[22.11. 11:02:52] ITEMINFO neue Item-Anfragen 1585 (zurückgestellt 16461) · je Aufgabe: books:open 200, cache:itemlist 200, cache:today:10 200, cache:warm 145, cache:warm-today 200, core:realcheck 200, forecast-eval 222, fullscan 9, learn:factor 1, ma4 4, ui-refresh 2
+[22.11. 10:57:55] ABSATZ Item 248687 · Q 22 (vollscan) · S 117.7 (measured) · S roh 117.7 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.2 · N 1.0
+[22.11. 10:54:51] SYNC gesendet 427, empfangen 162, verworfen 0 · Kanal verweigert 0
+[22.11. 10:54:27] BUCHHALTUNG ×2 Fehlbestand ausgebucht: Item 3531 × 1, Einstand 0 · nicht in Taschen, Bank, Briefkasten (Abbild 22.11. 08:46) und eigenen Auktionen; letzter Zugang -
+[22.11. 10:44:51] SYNC gesendet 427, empfangen 159, verworfen 0 · Kanal verweigert 0
+[22.11. 10:41:23] ENTZAUBERWERT Item 7133 · Tabelle · 11084 100% × 1.00 à 4643 · brutto 4808 · netto 4568
+[22.11. 10:41:20] ENTZAUBERWERT Item 6695 · Tabelle · 11138 100% × 1.00 à 1213 · brutto 1256 · netto 1193
+[22.11. 10:41:20] ENTZAUBERWERT Item 6697 · Tabelle · 11138 100% × 1.00 à 1213 · brutto 1256 · netto 1193
+[22.11. 10:41:20] ENTZAUBERWERT Item 6696 · Tabelle · 11138 100% × 1.00 à 1213 · brutto 1256 · netto 1193
+[22.11. 10:41:20] ITEMINFO neue Item-Anfragen 1581 (zurückgestellt 16461) · je Aufgabe: books:open 200, cache:itemlist 200, cache:today:10 200, cache:warm 145, cache:warm-today 200, core:realcheck 200, forecast-eval 219, fullscan 9, ma4 4, ui-refresh 204
+[22.11. 10:41:20] ENTZAUBERWERT Item 274161 · Tabelle · 11138 100% × 1.00 à 1213 · brutto 1256 · netto 1193
+[22.11. 10:41:20] ENTZAUBERWERT Item 6686 · Tabelle · 11138 100% × 1.00 à 1213 · brutto 1256 · netto 1193
+[22.11. 10:41:20] ENTZAUBERWERT Item 6687 · Tabelle · 11138 100% × 1.00 à 1213 · brutto 1256 · netto 1193
+[22.11. 10:41:05] ENTZAUBERWERT Item 274160 · Tabelle · 11139 100% × 1.00 à 2373 · brutto 2458 · netto 2335
+[22.11. 10:41:05] DE-CHANCEN Gruppe 3:4 · Tabelle 11139 100% · echt 11139 100% (2)
+[22.11. 10:40:28] ENTZAUBERWERT Item 250498 · Tabelle · 11084 100% × 1.00 à 4643 · brutto 4808 · netto 4568
+[22.11. 10:40:24] ENTZAUBERWERT Item 6688 · Tabelle · 11138 100% × 1.00 à 1213 · brutto 1256 · netto 1193
+[22.11. 10:40:24] DE-CHANCEN Gruppe 3:3 · Tabelle 11138 100% · echt 11138 100% (3)
+[22.11. 10:40:23] ENTZAUBERWERT Item 250499 · Tabelle · 11084 100% × 1.00 à 4643 · brutto 4808 · netto 4568
+[22.11. 10:40:12] ENTZAUBERWERT Item 250501 · Tabelle · 11084 100% × 1.00 à 4643 · brutto 4808 · netto 4568
+[22.11. 10:40:12] ENTZAUBERWERT Item 252513 · Tabelle · 11084 100% × 1.00 à 4643 · brutto 4808 · netto 4568
+[22.11. 10:40:12] ENTZAUBERWERT Item 252512 · Tabelle · 11084 100% × 1.00 à 4643 · brutto 4808 · netto 4568
+[22.11. 10:40:12] ABSATZ Item 252815 · Q 3 (vollscan) · S 5.6 (market, gelernt) · S roh 13.8 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.7 · N 7.0
+[22.11. 10:40:12] ENTZAUBERWERT Item 250500 · Tabelle · 11084 100% × 1.00 à 4643 · brutto 4808 · netto 4568
+[22.11. 10:40:11] ABSATZ Item 252814 · Q 1 (vollscan) · S 3.1 (market, gelernt) · S roh 7.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.7 · N 7.0
+[22.11. 10:40:10] ENTZAUBERWERT Item 250502 · Tabelle · 11084 100% × 1.00 à 4643 · brutto 4808 · netto 4568
+[22.11. 10:40:10] DE-CHANCEN Gruppe 3:2 · Tabelle 11084 100% · echt 11084 100% (1)
+[22.11. 10:40:10] ITEMINFO neue Item-Anfragen 1567 (zurückgestellt 16461) · je Aufgabe: books:open 200, cache:itemlist 200, cache:today:10 200, cache:warm 145, cache:warm-today 200, core:realcheck 200, forecast-eval 209, fullscan 9, ui-refresh 204
+[22.11. 10:36:21] ABBRECHEN AUCTION_CANCELED auctionID 212817447 (erwartet nil) -> unerwartet, nichts geändert
+[22.11. 10:36:01] ABBRECHEN AUCTION_CANCELED auctionID 212815227 (erwartet nil) -> unerwartet, nichts geändert
+[22.11. 10:35:14] BUCHHALTUNG Fehlbestand ausgebucht: Item 3531 × 1, Einstand 0 · nicht in Taschen, Bank, Briefkasten (Abbild 22.11. 08:46) und eigenen Auktionen; letzter Zugang -
+[22.11. 10:34:51] SYNC gesendet 427, empfangen 159, verworfen 0 · Kanal verweigert 0
+[22.11. 10:33:55] ABBRECHEN AUCTION_CANCELED auctionID 212800390 (erwartet nil) -> unerwartet, nichts geändert
+[22.11. 10:30:46] BUCHHALTUNG ×2 Fehlbestand ausgebucht: Item 3531 × 1, Einstand 0 · nicht in Taschen, Bank, Briefkasten (Abbild 22.11. 08:46) und eigenen Auktionen; letzter Zugang -
+[22.11. 10:24:51] SYNC gesendet 427, empfangen 159, verworfen 0 · Kanal verweigert 0
+[22.11. 10:23:11] BUCHHALTUNG Fehlbestand ausgebucht: Item 3531 × 1, Einstand 0 · nicht in Taschen, Bank, Briefkasten (Abbild 22.11. 08:46) und eigenen Auktionen; letzter Zugang -
+[22.11. 10:22:18] BUCHHALTUNG ×2 Fehlbestand ausgebucht: Item 4592 × 1, Einstand 12 · nicht in Taschen, Bank, Briefkasten (Abbild 22.11. 08:46) und eigenen Auktionen; letzter Zugang -
+[22.11. 10:18:02] ABSATZ Item 1782 · Q 5 (vollscan) · S 1.9 (market, gelernt) · S roh 2.8 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 3.2 · N 7.0
+[22.11. 10:16:41] ABBRECHEN AUCTION_CANCELED auctionID 212812498 (erwartet nil) -> unerwartet, nichts geändert
+[22.11. 10:14:51] SYNC gesendet 427, empfangen 159, verworfen 0 · Kanal verweigert 0
+[22.11. 10:14:24] BUCHHALTUNG Fehlbestand ausgebucht: Item 4592 × 1, Einstand 12 · nicht in Taschen, Bank, Briefkasten (Abbild 22.11. 08:46) und eigenen Auktionen; letzter Zugang -
+[22.11. 10:13:24] BUCHHALTUNG Fehlbestand ausgebucht: Item 3531 × 1, Einstand 0 · nicht in Taschen, Bank, Briefkasten (Abbild 22.11. 08:46) und eigenen Auktionen; letzter Zugang -
+[22.11. 10:13:21] ABSATZ Item 3770 · Q 894 (vollscan) · S 146.9 (measured) · S roh 146.9 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 6.1 · N 7.0
+[22.11. 10:13:11] ENTZAUBERWERT Item 6472 · Tabelle · 10978 100% × 1.00 à 357 · brutto 370 · netto 351
+[22.11. 10:13:11] DE-CHANCEN Gruppe 3:1 · Tabelle 10978 100% · echt 10978 - (0)
+[22.11. 10:09:40] BUCHHALTUNG Fehlbestand ausgebucht: Item 4592 × 1, Einstand 12 · nicht in Taschen, Bank, Briefkasten (Abbild 22.11. 08:46) und eigenen Auktionen; letzter Zugang -
+[22.11. 10:08:38] ITEMINFO neue Item-Anfragen 1367 (zurückgestellt 16416) · je Aufgabe: books:open 200, cache:itemlist 200, cache:today:10 200, cache:warm 145, cache:warm-today 200, core:realcheck 200, forecast-eval 9, fullscan 9, ui-refresh 204
+[22.11. 10:08:34] BUCHHALTUNG Fehlbestand ausgebucht: Item 3531 × 1, Einstand 0 · nicht in Taschen, Bank, Briefkasten (Abbild 22.11. 08:46) und eigenen Auktionen; letzter Zugang -
+[22.11. 10:08:13] ABSATZ Item 2592 · Q 340 (vollscan) · S 1276.8 (measured) · S roh 1276.8 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.3 · N 4.0
+[22.11. 10:07:29] BUCHHALTUNG Fehlbestand ausgebucht: Item 3531 × 1, Einstand 0 · nicht in Taschen, Bank, Briefkasten (Abbild 22.11. 08:46) und eigenen Auktionen; letzter Zugang -
+[22.11. 10:06:18] BUCHHALTUNG Fehlbestand ausgebucht: Item 4592 × 1, Einstand 12 · nicht in Taschen, Bank, Briefkasten (Abbild 22.11. 08:46) und eigenen Auktionen; letzter Zugang -
+[22.11. 10:04:51] BUCHHALTUNG Fehlbestand ausgebucht: Item 3531 × 1, Einstand 0 · nicht in Taschen, Bank, Briefkasten (Abbild 22.11. 08:46) und eigenen Auktionen; letzter Zugang -
+[22.11. 10:04:51] SYNC gesendet 427, empfangen 159, verworfen 0 · Kanal verweigert 0
+[22.11. 10:00:42] BUCHHALTUNG Fehlbestand ausgebucht: Item 3531 × 1, Einstand 0 · nicht in Taschen, Bank, Briefkasten (Abbild 22.11. 08:46) und eigenen Auktionen; letzter Zugang -
+[22.11. 09:56:28] ABSATZ Item 7071 · Q 16 (vollscan) · S 515.3 (measured) · S roh 515.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.0 · N 1.0
+[22.11. 09:56:28] ABSATZ Item 279960 · Q 21 (vollscan) · S 146.7 (market, gelernt) · S roh 416.3 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.1 · N 1.0
+[22.11. 09:56:28] ABSATZ Item 6338 · Q 49 (vollscan) · S 89.3 (measured) · S roh 89.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.3 · N 4.0
+[22.11. 09:56:27] ITEMINFO neue Item-Anfragen 1359 (zurückgestellt 16416) · je Aufgabe: books:open 200, cache:itemlist 200, cache:today:10 200, cache:warm 145, cache:warm-today 200, core:realcheck 200, forecast-eval 1, fullscan 9, ui-refresh 204
+[22.11. 09:55:38] ENTZAUBERWERT Item 16740 · eigene Ø aus 46 · 11083 80% × 3.92 à 443, 11134 17% × 1.75 à 804, 11138 2% × 1.00 à 1213 · brutto 1754 · netto 1666
+[22.11. 09:55:38] ENTZAUBERWERT Item 16741 · eigene Ø aus 46 · 11083 80% × 3.92 à 443, 11134 17% × 1.75 à 804, 11138 2% × 1.00 à 1213 · brutto 1754 · netto 1666
+[22.11. 09:55:38] DE-CHANCEN Gruppe 2:5:a · Tabelle 11083 75%/11134 20%/11138 5% · echt 11083 80%/11134 17%/11138 2% (46)
+[22.11. 09:54:51] SYNC gesendet 384, empfangen 141, verworfen 0 · Kanal verweigert 0
+[22.11. 09:52:54] ABSATZ Item 6125 · Q 1 (vollscan) · S 3.2 (market, gelernt) · S roh 4.8 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.6 · N 1.0
+[22.11. 09:44:51] SYNC gesendet 384, empfangen 66, verworfen 0 · Kanal verweigert 0
+[22.11. 09:34:51] SYNC gesendet 356, empfangen 0, verworfen 0 · Kanal verweigert 0
+[22.11. 09:31:33] ABSATZ Item 2835 · Q 4013 (vollscan) · S 1665.6 (measured) · S roh 1665.6 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 2.4 · N 3.0
+[22.11. 09:30:28] ABSATZ Item 1822 · Q 1 (vollscan) · S 2.1 (market, gelernt) · S roh 3.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.9 · N 7.0
+[22.11. 09:30:13] ABSATZ Item 12363 · Q 17 (vollscan) · S 101.0 (measured, unsicher) · S roh 101.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.2 · N 3.0
+[22.11. 09:30:13] ITEMINFO neue Item-Anfragen 1355 (zurückgestellt 16416) · je Aufgabe: books:open 200, cache:itemlist 200, cache:today:10 200, cache:warm 145, cache:warm-today 200, core:realcheck 200, fullscan 9, ui-refresh 201
+[22.11. 09:30:12] ABBRECHEN AUCTION_CANCELED auctionID 213265811 (erwartet nil) -> unerwartet, nichts geändert
+[22.11. 09:30:11] ABBRECHEN AUCTION_CANCELED auctionID 213266785 (erwartet nil) -> unerwartet, nichts geändert
+[22.11. 09:29:46] ABSATZ Item 4245 · Q 78 (vollscan) · S 131.6 (measured) · S roh 131.6 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.6 · N 7.0
+[22.11. 09:29:39] PREISPRUEFUNG Item 211784 · Schlüssel allgemein (Stufe 20, Suffix 0) · 17 Angebote · Scan 100 Stück
+[22.11. 09:29:38] MINDESTEINZAHLUNG gemessen=1 je Auktion · Formel=0 · Minimum jetzt 1
+[22.11. 09:29:38] EINSTELLEN Item 211784 · Menge 1 · Auktionen 1 · Laufzeit 1 · Preis 444/Stück, 444 gesamt · Gebühr erwartet 1, abgezogen 1 (0.23 % vom Preis) · Günstigstes 445 · Mindestpreis 16 (vendor)
+[22.11. 09:29:37] AHS-POST PostItem: arg2=1 arg3=1 arg4=nil arg5=444, ItemLocation gültig ja, Bag/Slot 0/10
+[22.11. 09:29:33] PREISPRUEFUNG Item 211784 · Schlüssel tasche (Stufe 20, Suffix 0) · 16 Angebote · Scan 100 Stück
+[22.11. 09:29:33] VERKAUFEN-KLICK Zeile Item 211784 · vorher 211784 · nachher 211784 · Fehler 0 · Titel Schriftrolle: WUBBA WUBBA
+[22.11. 09:29:33] PREISPRUEFUNG Item 211784 · Schlüssel tasche (Stufe 20, Suffix 0) · 16 Angebote · Scan 100 Stück
+[22.11. 09:29:32] MINDESTEINZAHLUNG gemessen=1 je Auktion · Formel=0 · Minimum jetzt 1
+[22.11. 09:29:32] EINSTELLEN Item 211784 · Menge 1 · Auktionen 1 · Laufzeit 1 · Preis 444/Stück, 444 gesamt · Gebühr erwartet 1, abgezogen 1 (0.23 % vom Preis) · Günstigstes 445 · Mindestpreis 16 (vendor)
+[22.11. 09:29:31] AHS-POST PostItem: arg2=1 arg3=1 arg4=nil arg5=444, ItemLocation gültig ja, Bag/Slot 0/9
+[22.11. 09:29:29] PREISPRUEFUNG Item 211784 · Schlüssel tasche (Stufe 20, Suffix 0) · 15 Angebote · Scan 107 Stück
+[22.11. 09:29:29] VERKAUFEN-KLICK Zeile Item 211784 · vorher 929 · nachher 211784 · Fehler 0 · Titel Schriftrolle: WUBBA WUBBA
+[22.11. 09:28:22] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[22.11. 09:28:08] ABBRECHEN AUCTION_CANCELED auctionID 213251003 (erwartet nil) -> unerwartet, nichts geändert
+[22.11. 09:28:04] PREISPRUEFUNG Item 929 · Schlüssel tasche (Stufe 22, Suffix 0) · 18 Angebote · Scan 424 Stück
+[22.11. 09:28:03] VERKAUFEN-KLICK Zeile Item 929 · vorher 16649 · nachher 929 · Fehler 0 · Titel Heiltrank
+[22.11. 09:28:03] PREISPRUEFUNG Item 16649 · Schlüssel allgemein (Stufe 1, Suffix 0) · 46 Angebote · Scan 162 Stück
+[22.11. 09:28:02] MINDESTEINZAHLUNG gemessen=3 je Auktion · Formel=3 · Minimum jetzt 1
+[22.11. 09:28:02] EINSTELLEN Item 16649 · Menge 1 · Auktionen 1 · Laufzeit 1 · Preis 108/Stück, 108 gesamt · Gebühr erwartet 3, abgezogen 3 (2.78 % vom Preis) · Günstigstes 109 · Mindestpreis 66 (vendor)
+[22.11. 09:28:01] AHS-POST PostItem: arg2=1 arg3=1 arg4=nil arg5=108, ItemLocation gültig ja, Bag/Slot 2/2
+[22.11. 09:28:00] PREISPRUEFUNG Item 16649 · Schlüssel tasche (Stufe 1, Suffix 0) · 45 Angebote · Scan 163 Stück
+[22.11. 09:27:59] VERKAUFEN-KLICK Zeile Item 16649 · vorher 16656 · nachher 16649 · Fehler 0 · Titel Schredderanleitung - Seite 5
+[22.11. 09:27:57] PREISPRUEFUNG Item 16656 · Schlüssel allgemein (Stufe 1, Suffix 0) · 68 Angebote · Scan 164 Stück
+[22.11. 09:27:57] ABBRECHEN AUCTION_CANCELED auctionID 213249493 (erwartet nil) -> unerwartet, nichts geändert
+[22.11. 09:27:57] MINDESTEINZAHLUNG gemessen=3 je Auktion · Formel=3 · Minimum jetzt 1
+[22.11. 09:27:57] EINSTELLEN Item 16656 · Menge 1 · Auktionen 1 · Laufzeit 1 · Preis 999/Stück, 999 gesamt · Gebühr erwartet 3, abgezogen 3 (0.30 % vom Preis) · Günstigstes 898 · Mindestpreis 2273 (cost)
+[22.11. 09:27:56] AHS-POST PostItem: arg2=1 arg3=1 arg4=nil arg5=999, ItemLocation gültig ja, Bag/Slot 1/9
+[22.11. 09:27:55] ABBRECHEN AUCTION_CANCELED auctionID 213248756 (erwartet nil) -> unerwartet, nichts geändert
+[22.11. 09:27:53] PREISPRUEFUNG Item 16655 · Schlüssel allgemein (Stufe 1, Suffix 0) · 49 Angebote · Scan 205 Stück
+[22.11. 09:27:53] PREISPRUEFUNG Item 16656 · Schlüssel tasche (Stufe 1, Suffix 0) · 67 Angebote · Scan 168 Stück
+[22.11. 09:27:52] VERKAUFEN-KLICK Zeile Item 16656 · vorher 16655 · nachher 16656 · Fehler 0 · Titel Schredderanleitung - Seite 12
+[22.11. 09:27:52] MINDESTEINZAHLUNG gemessen=3 je Auktion · Formel=3 · Minimum jetzt 1
+[22.11. 09:27:52] EINSTELLEN Item 16655 · Menge 1 · Auktionen 1 · Laufzeit 1 · Preis 1044/Stück, 1044 gesamt · Gebühr erwartet 3, abgezogen 3 (0.29 % vom Preis) · Günstigstes 1045 · Mindestpreis 66 (vendor)
+[22.11. 09:27:51] AHS-POST PostItem: arg2=1 arg3=1 arg4=nil arg5=1044, ItemLocation gültig ja, Bag/Slot 1/10
+[22.11. 09:27:50] ITEMINFO neue Item-Anfragen 1155 (zurückgestellt 16318) · je Aufgabe: books:open 200, cache:itemlist 200, cache:today:10 200, cache:warm 145, cache:warm-today 200, core:realcheck 200, fullscan 9, ui-refresh 1
+[22.11. 09:27:49] PREISPRUEFUNG Item 16655 · Schlüssel tasche (Stufe 1, Suffix 0) · 48 Angebote · Scan 209 Stück
+[22.11. 09:27:49] VERKAUFEN-KLICK Zeile Item 16655 · vorher 16653 · nachher 16655 · Fehler 0 · Titel Schredderanleitung - Seite 11
+[22.11. 09:27:48] PREISPRUEFUNG Item 16653 · Schlüssel allgemein (Stufe 1, Suffix 0) · 45 Angebote · Scan 199 Stück
+[22.11. 09:27:47] MINDESTEINZAHLUNG gemessen=3 je Auktion · Formel=3 · Minimum jetzt 1
+[22.11. 09:27:47] EINSTELLEN Item 16653 · Menge 1 · Auktionen 1 · Laufzeit 1 · Preis 250/Stück, 250 gesamt · Gebühr erwartet 3, abgezogen 3 (1.20 % vom Preis) · Günstigstes 250 · Mindestpreis 491 (cost)
+[22.11. 09:27:46] AHS-POST PostItem: arg2=1 arg3=1 arg4=nil arg5=250, ItemLocation gültig ja, Bag/Slot 2/1
+[22.11. 09:27:33] PREISPRUEFUNG Item 16653 · Schlüssel tasche (Stufe 1, Suffix 0) · 44 Angebote · Scan 204 Stück
+[22.11. 09:27:32] VERKAUFEN-KLICK Zeile Item 16653 · vorher 6657 · nachher 16653 · Fehler 0 · Titel Schredderanleitung - Seite 9
+[22.11. 09:26:11] PREISPRUEFUNG Item 3531 · Schlüssel tasche (Stufe 1, Suffix 0) · 1 Angebote · Scan 2550 Stück
+[22.11. 09:26:10] PREISPRUEFUNG Item 6657 · Schlüssel tasche (Stufe 10, Suffix 0) · 15 Angebote · Scan 5499 Stück
+[22.11. 09:26:10] VERKAUFEN-KLICK Zeile Item 6657 · vorher 2901 · nachher 6657 · Fehler 0 · Titel Pikantes Deviat-Supreme
+[22.11. 09:26:10] PREISPRUEFUNG Item 4470 · Schlüssel tasche (Stufe 5, Suffix 0) · 3 Angebote · Scan 1226 Stück
+[22.11. 09:26:08] PREISPRUEFUNG Item 279981 · Schlüssel tasche (Stufe 4, Suffix 0) · 25 Angebote · Scan 2278 Stück
+[22.11. 09:26:08] ABSATZ Item 279981 · Q 54 (vollscan) · S 305.4 (market, gelernt) · S roh 866.7 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.2 · N 1.0
+[22.11. 09:26:08] PREISPRUEFUNG Item 4471 · Schlüssel tasche (Stufe 5, Suffix 0) · 11 Angebote · Scan 75 Stück
+[22.11. 09:26:08] STAPEL-BEREINIGT Item 4471 · 2 von 51 eigenen Preisen unbestätigt (Median 100 aus 51 Preisen) · Käufe Menge -> 1: 0
+[22.11. 09:26:08] STAPEL-ROH Item 4471 · Stapelgrösse 1 · Zeile: Menge 4, buyoutAmount 42, auctionID 213232772 -> Stückpreis = buyoutAmount (zusammengefasste Auktionen)
+[22.11. 09:26:07] PREISPRUEFUNG Item 2901 · Schlüssel tasche (Stufe 4, Suffix 0) · 95 Angebote · Scan 95 Stück
+[22.11. 09:26:07] VERKAUFEN-KLICK Zeile Item 2901 · vorher 929 · nachher 2901 · Fehler 0 · Titel Spitzhacke
+[22.11. 09:26:07] ABSATZ Item 2901 · Q 16 (vollscan) · S 42.2 (measured) · S roh 42.2 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.4 · N 1.0
+[22.11. 09:26:06] ABSATZ Item 4471 · Q 3 (vollscan) · S 40.2 (measured) · S roh 40.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.1 · N 2.0
+[22.11. 09:26:06] PREISPRUEFUNG Item 4538 · Schlüssel tasche (Stufe 25, Suffix 0) · 0 Angebote · Scan 245 Stück
+[22.11. 09:26:05] PREISPRUEFUNG Item 6256 · Schlüssel tasche (Stufe 1, Suffix 0) · 26 Angebote · Scan 26 Stück
+[22.11. 09:26:04] PREISPRUEFUNG Item 929 · Schlüssel tasche (Stufe 22, Suffix 0) · 18 Angebote · Scan 424 Stück
+[22.11. 09:26:03] VERKAUFEN-KLICK Zeile Item 929 · vorher 16653 · nachher 929 · Fehler 0 · Titel Heiltrank
+[22.11. 09:26:03] PREISPRUEFUNG Item 5956 · Schlüssel tasche (Stufe 1, Suffix 0) · 45 Angebote · Scan 45 Stück
+[22.11. 09:26:03] ABSATZ Item 4538 · Q 237 (vollscan) · S 36.5 (measured) · S roh 36.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 6.5 · N 7.0
+[22.11. 09:26:03] ABSATZ Item 929 · Q 17 (vollscan) · S 187.2 (measured) · S roh 187.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.1 · N 2.0
+[22.11. 09:26:03] ABSATZ Item 6256 · Q 6 (vollscan) · S 8.9 (market, gelernt) · S roh 13.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.8 · N 7.0
+[22.11. 09:26:03] ABSATZ Item 5956 · Q 4 (vollscan) · S 10.6 (market, gelernt) · S roh 16.1 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.5 · N 1.0
+[22.11. 09:26:02] PREISPRUEFUNG Item 16653 · Schlüssel tasche (Stufe 1, Suffix 0) · 43 Angebote · Scan 204 Stück
+[22.11. 09:26:02] VERKAUFEN-KLICK Zeile Item 16653 · vorher 16655 · nachher 16653 · Fehler 0 · Titel Schredderanleitung - Seite 9
+[22.11. 09:26:00] PREISPRUEFUNG Item 16655 · Schlüssel tasche (Stufe 1, Suffix 0) · 49 Angebote · Scan 209 Stück
+[22.11. 09:26:00] VERKAUFEN-KLICK Zeile Item 16655 · vorher 16656 · nachher 16655 · Fehler 0 · Titel Schredderanleitung - Seite 11
+[22.11. 09:25:56] PREIS-ALT AH offen · letzter Scan Vollscan · Waren im Vollscan 1097 · Hauptmaterialien 11083: 0.0 Std., 10940: 0.0 Std., 11082: 0.0 Std. · 0 frisch geholt
+[22.11. 09:25:55] PREISPRUEFUNG Item 211784 · Schlüssel tasche (Stufe 20, Suffix 0) · 16 Angebote · Scan 107 Stück
+[22.11. 09:25:55] STAPEL-BEREINIGT Item 211784 · 4 von 52 eigenen Preisen unbestätigt (Median 228 aus 52 Preisen) · Käufe Menge -> 1: 0
+[22.11. 09:25:55] STAPEL-ROH Item 211784 · Stapelgrösse 1 · Zeile: Menge 4, buyoutAmount 400, auctionID 213226603 -> Stückpreis = buyoutAmount (zusammengefasste Auktionen)
+[22.11. 09:25:54] PREISPRUEFUNG Item 16655 · Schlüssel tasche (Stufe 1, Suffix 0) · 49 Angebote · Scan 209 Stück
+[22.11. 09:25:54] STAPEL-BEREINIGT Item 16655 · 1 von 49 eigenen Preisen unbestätigt (Median 270 aus 49 Preisen) · Käufe Menge -> 1: 0
+[22.11. 09:25:54] STAPEL-ROH Item 16655 · Stapelgrösse 1 · Zeile: Menge 19, buyoutAmount 1045, auctionID 213228668 -> Stückpreis = buyoutAmount (zusammengefasste Auktionen)
+[22.11. 09:25:53] PREISPRUEFUNG Item 16656 · Schlüssel tasche (Stufe 1, Suffix 0) · 66 Angebote · Scan 168 Stück
+[22.11. 09:25:53] STAPEL-BEREINIGT Item 16656 · 1 von 50 eigenen Preisen unbestätigt (Median 293 aus 50 Preisen) · Käufe Menge -> 1: 1
+[22.11. 09:25:53] STAPEL-ROH Item 16656 · Stapelgrösse 1 · Zeile: Menge 7, buyoutAmount 1000, auctionID 213217968 -> Stückpreis = buyoutAmount (zusammengefasste Auktionen)
+[22.11. 09:25:53] PREISPRUEFUNG Item 16649 · Schlüssel tasche (Stufe 1, Suffix 0) · 46 Angebote · Scan 163 Stück
+[22.11. 09:25:53] STAPEL-BEREINIGT Item 16649 · 1 von 50 eigenen Preisen unbestätigt (Median 269 aus 50 Preisen) · Käufe Menge -> 1: 0
+[22.11. 09:25:53] STAPEL-ROH Item 16649 · Stapelgrösse 1 · Zeile: Menge 10, buyoutAmount 109, auctionID 213218658 -> Stückpreis = buyoutAmount (zusammengefasste Auktionen)
+[22.11. 09:25:53] VERKAUFEN-KLICK Zeile Item 16656 · vorher 16653 · nachher 16656 · Fehler 0 · Titel Schredderanleitung - Seite 12
+[22.11. 09:25:49] PREISPRUEFUNG Item 16656 · Schlüssel tasche (Stufe 0, Suffix 0) · 0 Angebote · Scan 168 Stück
+[22.11. 09:25:47] MATERIAL-PREIS Item 11176 · Quelle ah · Alter 0 Min. · sicher
+[22.11. 09:25:47] MATERIAL-PREIS Item 16202 · Quelle ah · Alter 0 Min. · sicher
+[22.11. 09:25:47] MATERIAL-PREIS Item 11175 · Quelle ah · Alter 0 Min. · sicher
+[22.11. 09:25:47] MATERIAL-PREIS Item 10978 · Quelle ah · Alter 0 Min. · sicher
+[22.11. 09:25:47] MATERIAL-PREIS Item 10939 · Quelle ah · Alter 0 Min. · sicher
+[22.11. 09:25:47] MATERIAL-PREIS Item 11177 · Quelle ah · Alter 0 Min. · sicher
+[22.11. 09:25:47] MATERIAL-PREIS Item 16203 · Quelle ah · Alter 0 Min. · sicher
+[22.11. 09:25:47] MATERIAL-PREIS Item 14344 · Quelle ah · Alter 0 Min. · sicher
+[22.11. 09:25:47] MATERIAL-PREIS Item 10938 · Quelle ah · Alter 0 Min. · sicher
+[22.11. 09:25:47] MATERIAL-PREIS Item 11178 · Quelle ah · Alter 0 Min. · sicher
+[22.11. 09:25:47] MATERIAL-PREIS Item 11139 · Quelle ah · Alter 0 Min. · sicher
+[22.11. 09:25:47] MATERIAL-PREIS Item 11084 · Quelle ah · Alter 0 Min. · sicher
+[22.11. 09:25:47] MATERIAL-PREIS Item 11138 · Quelle ah · Alter 0 Min. · sicher
+[22.11. 09:25:47] MATERIAL-PREIS Item 20725 · Quelle ah · Alter 0 Min. · sicher
+[22.11. 09:25:47] MATERIAL-PREIS Item 10998 · Quelle ah · Alter 0 Min. · sicher
+[22.11. 09:25:47] MATERIAL-PREIS Item 11083 · Quelle ah · Alter 0 Min. · sicher
+[22.11. 09:25:47] MATERIAL-PREIS Item 11137 · Quelle ah · Alter 0 Min. · sicher
+[22.11. 09:25:47] MATERIAL-PREIS Item 11082 · Quelle ah · Alter 0 Min. · sicher
+[22.11. 09:25:47] MATERIAL-PREIS Item 16204 · Quelle ah · Alter 0 Min. · sicher
+[22.11. 09:25:47] MATERIAL-PREIS Item 11174 · Quelle ah · Alter 0 Min. · sicher
+[22.11. 09:25:47] MATERIAL-PREIS Item 11135 · Quelle ah · Alter 0 Min. · sicher
+[22.11. 09:25:47] MATERIAL-PREIS Item 14343 · Quelle ah · Alter 0 Min. · sicher
+[22.11. 09:25:47] MATERIAL-PREIS Item 11134 · Quelle ah · Alter 0 Min. · sicher
+[22.11. 09:25:47] MATERIAL-PREIS Item 10940 · Quelle ah · Alter 0 Min. · sicher
+[22.11. 09:25:46] VOLLSCAN Messung 208571 Auktionen · 6861 Items · Lücke 111 ms (Preisverlauf+Neuaufbau: Speicherbereinigung nein · Ereignis keins (> 16 ms) · Aufgaben 4 ms (fullscan, 0 Schritte) · Bild: eigene Arbeit 5 ms (Aufgaben 4, davon Lesen beim Server 0.0, Ereignisse 1 in 1224 Aufrufen, Skripte/Zeitgeber 0) · Rest 105 ms (Spiel/andere Addons) · Item-Antworten 612 · Speicher 802312 -> 804922 KB (+2610, davon eigener 53 KB) · danach bereinigt 0 KB) · Speicher 805992->823293 KB (tiefster 634216) · GC 31 · Warten auf Server 13454/50; Ereignis-Aufruf 0/1; Einlesen 10048/47; Verdichtung 420/45; Verfolgung V4 2385/22; Preisverlauf+Neuaufbau 1957/111; Nachlauf 0/63 · neu je Schritt Warten auf Server 86245 · Einlesen 74017 · Verdichtung 54449 · Preisverlauf+Neuaufbau 54403 · Nachlauf 25869 (31 Bilder mit Bereinigung nicht zählbar) · davon eigener neuer Speicher 51660 KB · je Aufgabe fullscan 45965 · learn:factor 2495 · cache:itemlist 530 · ui-refresh 242 · hist:flat 0 · ausserhalb von Aufgaben 2427 · je Schritt Einlesen 17461 · Verdichtung 12551 · Preisverlauf+Neuaufbau 9787 · Verfolgung V4 6049 · Nachlauf 5262, 34 eigene Aufrufe mit Bereinigung nicht zählbar · Takt: 1046 Bilder · längstes 6.9 ms (fullscan) · über 5/16/40 ms: 138/0/0 · Abgabe nicht möglich 0 · gescheitert 0
+[22.11. 09:25:46] PREIS-ALT nach Scan · letzter Scan Vollscan · Waren im Vollscan 1097 · Hauptmaterialien 11083: 0.0 Std., 10940: 0.0 Std., 11082: 0.0 Std. · 0 frisch geholt
+[22.11. 09:25:45] ABSATZ-UNPLAUSIBEL Item 279944 · 204.1/Tag · Quelle geschätzt
+[22.11. 09:25:43] ABSATZ-UNPLAUSIBEL Item 255645 · 98.1/Tag · Quelle geschätzt
+[22.11. 09:25:43] ABSATZ-UNPLAUSIBEL Item 8154 · 493.2/Tag · Quelle geschätzt
+[22.11. 09:25:43] ABSATZ-UNPLAUSIBEL Item 268417 · 119.3/Tag · Quelle geschätzt
+[22.11. 09:25:43] ABSATZ-UNPLAUSIBEL Item 4359 · 2223.0/Tag · Quelle gemessen
+[22.11. 09:25:43] ABSATZ-UNPLAUSIBEL Item 2572 · 20.6/Tag · Quelle geschätzt
+[22.11. 09:25:43] ABSATZ-UNPLAUSIBEL Item 4254 · 60.7/Tag · Quelle gemessen
+[22.11. 09:25:43] ABSATZ-UNPLAUSIBEL Item 5957 · 63.3/Tag · Quelle geschätzt
+[22.11. 09:25:43] ABSATZ-UNPLAUSIBEL Item 21153 · 709.1/Tag · Quelle geschätzt
+[22.11. 09:25:43] ABSATZ-UNPLAUSIBEL Item 6211 · 59.4/Tag · Quelle gemessen
+[22.11. 09:25:43] ABSATZ-UNPLAUSIBEL Item 3726 · 1181.5/Tag · Quelle gemessen
+[22.11. 09:25:43] ABSATZ-UNPLAUSIBEL Item 8483 · 592.1/Tag · Quelle geschätzt
+[22.11. 09:25:43] ABSATZ-UNPLAUSIBEL Item 3825 · 270.6/Tag · Quelle geschätzt
+[22.11. 09:25:43] ABSATZ-UNPLAUSIBEL Item 4361 · 507.0/Tag · Quelle geschätzt
+[22.11. 09:25:40] VOLLSCAN Absatz unplausibel: Item 10309 · 499/Tag bei Ø 243 im AH (6.1 Std.)
+[22.11. 09:25:39] VOLLSCAN Absatz unplausibel: Item 10306 · 434/Tag bei Ø 153 im AH (6.5 Std.)
+[21.11. 18:58:46] FEHLER Märkte vereinen: Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:5416: attempt to compare two table values
+[21.11. 18:38:52] FEHLER Märkte vereinen: Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:5416: attempt to compare number with table
