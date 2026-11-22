@@ -1503,3 +1503,41 @@ deshalb NICHT nach Realm getrennt werden. Charakter-Schlüssel "Name-Realm" blei
 Regeln: alte Einträge einmalig zusammenführen (Sicherung vorher, nichts doppelt, Zahlen vorher/nachher im Bericht); alte Clients nicht
 brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignoriert statt gemischt); gemeinsame Dateien (shared/) nicht
 ändern – reicht der eigene Code nicht, Bericht an die Prüf-Sitzung. Tests bauen; Projekt-Testregeln wie gewohnt.
+
+
+>>> FÜR MONTAG 23.11. (Nutzer 22.11. 09:43 "etwas für LevelPilot am Montag"): 2 Ingame-Bilder vom 22.11. (Lvl 28, Horde)
+    in bilder/2026-11-22-0926-montag-1.jpg (Orgrimmar, Tal der Stärke) und bilder/2026-11-22-0943-montag-2.jpg (Donnerfels,
+    Anhöhe der Jäger). Ausschnitte: nur LevelPilot-Fenster und Ortsanzeige der Minikarte. Sichtung Supervisor 22.11. 09:55 gegen
+    announce/levelpilot__levelpilot-3.13.6 (Stand des Repos; welche Version im Spiel lief, ist auf den Bildern nicht zu sehen –
+    im Bericht angeben, ob 3.13.6 oder neuer):
+
+LP-M1 (MITTEL) ABGABE OHNE ORT. Bild 2, Zeile 4: "Abgeben: ... und diese Notiz, die Ihr gefunden habt. [22] [NEU]" – als
+   einzige Zeile ohne Entfernung, ohne Zone, ohne NPC. Die Zeilen darüber haben alle drei.
+   Belegt (Code 3.13.6): UI:StepText (UI.lua 226–246) hängt "bei <NPC>" nur mit s.npc und die Zone nur mit s.map an;
+   DistText (UI.lua 206–214) gibt ohne s.map/x "" zurück. Der Hinweis "Ort unbekannt – Questbeschreibung lesen" kommt nur bei
+   COMPLETE (UI.lua 246), nicht bei TURNIN/ACCEPT. Der Titel steht nicht in LevelPilot_Data/Data/Names_deDE.lua (Suche nach
+   "und diese" ohne Treffer). Verdacht, zu messen: Quest fehlt in Quests.lua bzw. hat keinen Abgabe-NPC (Forever-Quest oder
+   falsche questID).
+   Auftrag: (a) questID aus dem Questlog belegen (Diagnose/Protokoll), in Quests.lua prüfen; Abgabe-NPC und Ort ergänzen
+   (Quelle: QuestieDB, Referenz classic.goldgoblin.net laut shared/wissen/referenz-goldgoblin.md; nichts raten). (b) Jede
+   ACCEPT/TURNIN-Zeile ohne Ort zeigt wie COMPLETE "Ort unbekannt – Questbeschreibung lesen" (Locales alle Sprachen).
+   (c) Planer: Schritt ohne Ort nicht als nahe Aufgabe einreihen (prüfen, wo er jetzt landet, und im Bericht belegen).
+   (d) Testroutine: Abgabe ohne Ort -> Hinweistext; Abgabe mit Ort -> Entfernung + Zone; Gegenprobe COMPLETE unverändert.
+   (e) Liste aller Quests in Quests.lua ohne Abgabe-Ort (Anzahl im Bericht), damit es nicht nur diese eine ist.
+
+LP-M2 (NIEDRIG, Perfektion "jede Zahl geht auf") ZWEI ENTFERNUNGEN FÜR DENSELBEN WEG. Bild 2, Zeile 1: Kopf "36 Yards",
+   darunter "Reise ~0:05: 35 Yards laufen (0:05)". Kopf kommt aus DistText -> LP.Nav:RemainingDistance (UI.lua 210), die
+   Reisezeile aus Session:EtaText. Verdacht, zu messen: zwei Quellen bzw. verschiedene Rundung. Eine Zahl für denselben Weg
+   (gleiche Quelle, gleiche Rundung), die Zeit nur einmal ("Reise ~0:05: 35 Yards laufen"). Test: gleiche Zahl im Kopf und in
+   der Reisezeile bei 3 Entfernungen (Yards, km-Grenze, Flug).
+
+LP-M3 (NIEDRIG, Grundsatz nachvollziehbar / psychologie.md) FENSTERTITEL IST NICHT DER ORT. Bild 1: Spieler in Orgrimmar,
+   Titel "Steinkrallengebirge"; Bild 2: Spieler in Donnerfels, nächster Schritt in Donnerfels (36 Yards), Titel "Das Brachland".
+   Belegt: UI:Refresh (UI.lua 699) setzt den Titel auf die Fokus-Zone des Planers (Geo:MapName(focus)), nicht auf den
+   aktuellen Ort. Das ist so gebaut, steht aber nirgends – man liest es als "du bist hier" und hält es für falsch.
+   Vorschlag (einfach, kein neues Fenster): Titel "Ziel: Das Brachland" (oder "Levelgebiet: …") und Tooltip beim Titel mit
+   einem Satz, wie das Gebiet gewählt wird. Steht der Spieler im Fokusgebiet, bleibt der Titel ohne Zusatz. Test: Titel in
+   Fokuszone / ausserhalb / ohne Fokus (noquests) / Fehlerzustände unverändert.
+
+Reihenfolge Montag: zuerst der Auftrag "Berufs-Hinweise nur nach Prüfung" (oben), dann LP-M1, LP-M2, LP-M3. Bericht wie immer
+in berichte/LevelPilot/ ("umgesetzt, zur Prüfung", mit Belegen).
