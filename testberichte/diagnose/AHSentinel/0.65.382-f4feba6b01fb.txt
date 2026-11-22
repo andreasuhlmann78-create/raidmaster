@@ -1,0 +1,235 @@
+AHSentinel-Protokoll v0.65.382 · 22.11. 18:10:18
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  22.11. 18:09:26 L30 WARRIOR v0.65.382
+  22.11. 17:01:28 L30 WARRIOR v0.65.382
+  22.11. 15:36:55 L29 WARRIOR v0.65.381
+  22.11. 12:25:50 L29 WARRIOR v0.65.381
+  22.11. 12:24:33 L10 PRIEST v0.65.381
+  22.11. 11:02:59 L29 WARRIOR v0.65.381
+  22.11. 09:24:52 L28 WARRIOR v0.65.377
+  22.11. 09:21:14 L28 WARRIOR v0.65.375
+  22.11. 07:57:07 L28 WARRIOR v0.65.375
+  22.11. 06:25:08 L27 WARRIOR v0.65.375
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 1 Std., 7455 Items, Preis-Sync an
+  SYNC GoldSentinelSync 3 · Wege: keiner · Mitspieler (1 Std.): AHSentinel 2, BuffSentinel 2, GoldSentinelMarkt 0, GuildSentinel 1, LevelPilot 2, LevelPilotG 0, ThreatSentinel 0
+  SYNC gesendet 71 · empfangen 58 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 5 (mit Sync 2: 5, pausiert 0) · gesendet 0 · weitergegeben 0 · offline 0 · Listen 0 · Warteschlange 0 · gespeichert ja · im Test angehalten 0
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Sniper-Takt (SN-T2): 299 Suchen · Abstand Median 0.73 s, Min 0.70 s, Max 30.42 s
+    Zeitraum 22.11. 09:12–09:24 · minimiert/Hintergrund (unter 15 Bilder/s): nicht gemessen
+    Server nicht bereit: Median 0.50 s, Min 0.00 s, Max 3.02 s je Suche
+    eigene Bremse/Abstand: Median 0.00 s, Min 0.00 s, Max 0.24 s je Suche
+    Antwort des Servers: Median 0.20 s, Min 0.10 s, Max 0.60 s je Suche
+    Treffer-Halt: Median 0.00 s, Min 0.00 s, Max 3.31 s je Suche
+    andere Arbeit: Median 0.00 s, Min 0.00 s, Max 0.73 s je Suche
+    bereit (Tick): Median 0.00 s, Min 0.00 s, Max 26.24 s je Suche
+    Suchen je Ziel: i:11986 88 (29 %) · i:5966 106 (35 %) · i:7058 106 (35 %)
+  Sync-Abweichungen (S6): 0 Fälle, Markt-Tag fremd 0 (alte Version / anderer Markt)
+  Einstellungen geändert: cmdHint=true, fastScan=true, helpSeen=true, learnExplore=false, marketExpert=false, minimapAngle=199, priceGuard=20, psHintHidden=true, sniperSignal=true, theme=modern, tooltipDEDetail=true, vendorButton=false, vendorFlipMin=500, vsBudget=2
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0
+
+== Einträge (200, neueste zuerst)
+[22.11. 18:09:45] ENTZAUBERWERT Item 250500 · Tabelle · 11084 100% × 1.00 à 4418 · brutto 4575 · netto 4346
+[22.11. 18:09:45] DE-CHANCEN Gruppe 3:2 · Tabelle 11084 100% · echt 11084 100% (2)
+[22.11. 18:09:45] ABSATZ Item 279944 · Q 176 (scan, Q gesamt) · S 61.2 (market, gelernt) · S roh 196.9 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 2.9 · N 3.0
+[22.11. 18:09:45] ABSATZ Item 279960 · Q 753 (scan, Q gesamt) · S 124.0 (market, gelernt) · S roh 399.2 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 6.1 · N 7.0
+[22.11. 18:09:45] ABSATZ Item 279968 · Q 177 (scan, Q gesamt) · S 70.1 (market, gelernt) · S roh 225.6 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 2.5 · N 3.0
+[22.11. 18:09:45] ABSATZ Item 3478 · Q 399 (vollscan) · S 687.2 (measured) · S roh 687.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.6 · N 7.0
+[22.11. 18:09:45] ABSATZ Item 4592 · Q 551 (vollscan) · S 1598.4 (measured) · S roh 1598.4 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.3 · N 1.0
+[22.11. 18:09:43] ITEMINFO neue Item-Anfragen 200 (zurückgestellt 0) · je Aufgabe: - 6, cache:warm 73, cache:warm-today 118, names 3
+[22.11. 18:09:42] ABSATZ-UNPLAUSIBEL Item 4323 · 16.8/Tag · Quelle geschätzt
+[22.11. 18:09:38] ABSATZ Item 3665 · Q 638 (scan, Q gesamt) · S 53.4 (market, gelernt) · S roh 172.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 12.0 · N 7.0 · kaum
+[22.11. 18:09:38] ABSATZ Item 2515 · Q 125973 (vollscan) · S 13701.8 (measured) · S roh 13701.8 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 6.4 · N 7.0
+[22.11. 18:09:38] ABSATZ Item 4306 · Q 0 (vollscan) · S 1438.2 (measured) · S roh 1438.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.0 · N 1.0
+[22.11. 18:09:38] ABSATZ Item 264055 · Q 53 (scan, Q gesamt) · S 4.9 (market, gelernt) · S roh 15.9 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 10.9 · N 7.0 · kaum
+[22.11. 18:09:32] ABSATZ-UNPLAUSIBEL Item 10841 · 562.1/Tag · Quelle geschätzt
+[22.11. 18:09:32] SYNC Weg=GUILD
+[22.11. 18:09:32] ABSATZ-UNPLAUSIBEL Item 1082 · 6.3/Tag · Quelle geschätzt
+[22.11. 18:09:30] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[22.11. 18:09:30] ABSATZ-UNPLAUSIBEL Item 5500 · 276.9/Tag · Quelle geschätzt
+[22.11. 18:09:30] ABSATZ-UNPLAUSIBEL Item 6471 · 98.9/Tag · Quelle geschätzt
+[22.11. 18:09:30] ABSATZ-UNPLAUSIBEL Item 3864 · 319.2/Tag · Quelle geschätzt
+[22.11. 18:09:29] ABSATZ-UNPLAUSIBEL Item 7374 · 63.4/Tag · Quelle gemessen
+[22.11. 18:09:28] ABSATZ-UNPLAUSIBEL Item 8483 · 575.2/Tag · Quelle geschätzt
+[22.11. 18:09:28] ABSATZ-UNPLAUSIBEL Item 279968 · 1322.7/Tag · Quelle gemessen
+[22.11. 17:37:45] ITEMINFO neue Item-Anfragen 1405 (zurückgestellt 20310) · je Aufgabe: - 6, act:report:30 51, cache:warm 4, cache:warm-today 200, forecast-eval 233, hist:flat 200, names 3, pd7:load 44, ui-refresh 664
+[22.11. 17:36:42] ITEMINFO neue Item-Anfragen 1403 (zurückgestellt 20310) · je Aufgabe: - 6, act:report:30 50, cache:warm 4, cache:warm-today 200, forecast-eval 232, hist:flat 200, names 3, pd7:load 44, ui-refresh 664
+[22.11. 17:35:02] ITEMINFO neue Item-Anfragen 1401 (zurückgestellt 20310) · je Aufgabe: - 6, act:report:30 50, cache:warm 4, cache:warm-today 200, forecast-eval 230, hist:flat 200, names 3, pd7:load 44, ui-refresh 664
+[22.11. 17:33:10] ITEMINFO neue Item-Anfragen 1397 (zurückgestellt 20310) · je Aufgabe: - 6, act:report:30 50, cache:warm 4, cache:warm-today 200, forecast-eval 226, hist:flat 200, names 3, pd7:load 44, ui-refresh 664
+[22.11. 17:31:41] ITEMINFO neue Item-Anfragen 1395 (zurückgestellt 20310) · je Aufgabe: - 6, act:report:30 50, cache:warm 4, cache:warm-today 200, forecast-eval 224, hist:flat 200, names 3, pd7:load 44, ui-refresh 664
+[22.11. 17:31:28] SYNC gesendet 5, empfangen 17, verworfen duplicate 1 · Kanal verweigert 0
+[22.11. 17:30:17] ITEMINFO neue Item-Anfragen 1393 (zurückgestellt 20310) · je Aufgabe: - 6, act:report:30 49, cache:warm 4, cache:warm-today 200, forecast-eval 223, hist:flat 200, names 3, pd7:load 44, ui-refresh 664
+[22.11. 17:29:15] ITEMINFO neue Item-Anfragen 1391 (zurückgestellt 20310) · je Aufgabe: - 6, act:report:30 47, cache:warm 4, cache:warm-today 200, forecast-eval 223, hist:flat 200, names 3, pd7:load 44, ui-refresh 664
+[22.11. 17:27:38] ITEMINFO neue Item-Anfragen 1389 (zurückgestellt 20310) · je Aufgabe: - 6, act:report:30 46, cache:warm 4, cache:warm-today 200, forecast-eval 222, hist:flat 200, names 3, pd7:load 44, ui-refresh 664
+[22.11. 17:25:48] ITEMINFO neue Item-Anfragen 1387 (zurückgestellt 20310) · je Aufgabe: - 6, act:report:30 46, cache:warm 4, cache:warm-today 200, forecast-eval 220, hist:flat 200, names 3, pd7:load 44, ui-refresh 664
+[22.11. 17:24:28] ITEMINFO neue Item-Anfragen 1385 (zurückgestellt 20310) · je Aufgabe: - 6, act:report:30 46, cache:warm 4, cache:warm-today 200, forecast-eval 218, hist:flat 200, names 3, pd7:load 44, ui-refresh 664
+[22.11. 17:23:31] ABBRECHEN AUCTION_CANCELED auctionID 220644028 (erwartet nil) -> unerwartet, nichts geändert
+[22.11. 17:23:15] ITEMINFO neue Item-Anfragen 1383 (zurückgestellt 20310) · je Aufgabe: - 6, act:report:30 46, cache:warm 4, cache:warm-today 200, forecast-eval 216, hist:flat 200, names 3, pd7:load 44, ui-refresh 664
+[22.11. 17:22:06] ITEMINFO neue Item-Anfragen 1381 (zurückgestellt 20310) · je Aufgabe: - 6, act:report:30 46, cache:warm 4, cache:warm-today 200, forecast-eval 214, hist:flat 200, names 3, pd7:load 44, ui-refresh 664
+[22.11. 17:21:28] SYNC gesendet 5, empfangen 17, verworfen duplicate 1 · Kanal verweigert 0
+[22.11. 17:20:42] ITEMINFO neue Item-Anfragen 1379 (zurückgestellt 20310) · je Aufgabe: - 6, act:report:30 45, cache:warm 4, cache:warm-today 200, forecast-eval 213, hist:flat 200, names 3, pd7:load 44, ui-refresh 664
+[22.11. 17:18:43] ITEMINFO neue Item-Anfragen 1377 (zurückgestellt 20310) · je Aufgabe: - 6, act:report:30 43, cache:warm 4, cache:warm-today 200, forecast-eval 213, hist:flat 200, names 3, pd7:load 44, ui-refresh 664
+[22.11. 17:17:38] ITEMINFO neue Item-Anfragen 1375 (zurückgestellt 20310) · je Aufgabe: - 6, act:report:30 41, cache:warm 4, cache:warm-today 200, forecast-eval 213, hist:flat 200, names 3, pd7:load 44, ui-refresh 664
+[22.11. 17:16:20] ITEMINFO neue Item-Anfragen 1373 (zurückgestellt 20310) · je Aufgabe: - 6, act:report:30 40, cache:warm 4, cache:warm-today 200, forecast-eval 212, hist:flat 200, names 3, pd7:load 44, ui-refresh 664
+[22.11. 17:14:10] ITEMINFO neue Item-Anfragen 1369 (zurückgestellt 20310) · je Aufgabe: - 6, act:report:30 40, cache:warm 4, cache:warm-today 200, forecast-eval 208, hist:flat 200, names 3, pd7:load 44, ui-refresh 664
+[22.11. 17:12:50] ITEMINFO neue Item-Anfragen 1367 (zurückgestellt 20310) · je Aufgabe: - 6, act:report:30 40, cache:warm 4, cache:warm-today 200, forecast-eval 206, hist:flat 200, names 3, pd7:load 44, ui-refresh 664
+[22.11. 17:11:28] SYNC gesendet 5, empfangen 17, verworfen duplicate 1 · Kanal verweigert 0
+[22.11. 17:11:12] ITEMINFO neue Item-Anfragen 1365 (zurückgestellt 20310) · je Aufgabe: - 6, act:report:30 40, cache:warm 4, cache:warm-today 200, forecast-eval 204, hist:flat 200, names 3, pd7:load 44, ui-refresh 664
+[22.11. 17:09:57] ABSATZ-UNPLAUSIBEL Item 10841 · 562.1/Tag · Quelle geschätzt
+[22.11. 17:09:03] ITEMINFO neue Item-Anfragen 1361 (zurückgestellt 20310) · je Aufgabe: - 6, act:report:30 40, cache:warm 4, cache:warm-today 200, forecast-eval 200, hist:flat 200, names 3, pd7:load 44, ui-refresh 664
+[22.11. 17:07:54] ITEMINFO neue Item-Anfragen 1357 (zurückgestellt 20310) · je Aufgabe: - 6, act:report:30 40, cache:warm 4, cache:warm-today 200, forecast-eval 196, hist:flat 200, names 3, pd7:load 44, ui-refresh 664
+[22.11. 17:07:36] ABSATZ Item 3665 · Q 638 (scan, Q gesamt) · S 58.1 (market, gelernt) · S roh 172.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 11.0 · N 7.0 · kaum
+[22.11. 17:06:52] POST-ZEILEN Briefe 1 · Zeilen 1 · Items 3
+[22.11. 17:06:23] ITEMINFO neue Item-Anfragen 1162 (zurückgestellt 20310) · je Aufgabe: - 6, act:report:30 40, cache:warm 4, cache:warm-today 200, forecast-eval 1, hist:flat 200, names 3, pd7:load 44, ui-refresh 664
+[22.11. 17:05:46] ABSATZ Item 2692 · Q 9053 (scan, Q gesamt) · S 785.4 (market, gelernt) · S roh 2314.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 8.1 · N 7.0 · kaum
+[22.11. 17:05:45] ABBRECHEN AUCTION_CANCELED auctionID 220634859 (erwartet nil) -> unerwartet, nichts geändert
+[22.11. 17:05:44] ABBRECHEN AUCTION_CANCELED auctionID 0 (erwartet nil) -> unerwartet, nichts geändert
+[22.11. 17:05:44] KAUF-DOPPELT Kauf-Ereignis ohne passende eigene Kaufmeldung (Buchung über die Rechnung)
+[22.11. 17:05:39] M2 Ware: auctionID:n,containsAccountItem:b,containsOwnerItem:b,itemID:n,numOwnerItems:n,owners,quantity:n,timeLeftSeconds:n,totalNumberOfOwners:n,unitPrice:n
+[22.11. 17:05:38] ABSATZ Item 5342 · Q 588 (scan, Q gesamt) · S 70.3 (measured) · S roh 70.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 8.4 · N 7.0 · kaum
+[22.11. 17:05:36] VERKAUFEN-LISTE 1 Min.: 106 Aufrufe in 56 s (SELLER_CHANGED 73, direkt 33) · Einträge 17 · AH offen ja · Ø/max ms: gesamt 4.4/13.0, Serie 1.2/1.9 (Kandidaten 1.2/1.9, davon Taschen leicht 1.2/1.9), Taschen voll 1.3/6.7, SetData 0.6/1.0, Rest 1.3/9.4 · 13 ms
+[22.11. 17:05:31] PREISPRUEFUNG Item 4306 · Schlüssel tasche (Stufe 30, Suffix 0, Haustier 0) · 117 Angebote · Scan 39922 Stück · 0.1 s · Antwort
+[22.11. 17:05:31] PREISPRUEFUNG Item 264055 · Schlüssel tasche (Stufe 1, Suffix 0, Haustier 0) · 20 Angebote · Scan 88 Stück · 0.1 s · Antwort
+[22.11. 17:05:31] STAPEL-BEREINIGT Item 264055 · 1 von 43 eigenen Preisen unbestätigt (Median 3100 aus 43 Preisen) · Käufe Menge -> 1: 0
+[22.11. 17:05:31] STAPEL-ROH Item 264055 · Stapelgrösse 1 · Zeile: Menge 6, buyoutAmount 1101, auctionID 220626041 -> Stückpreis = buyoutAmount (zusammengefasste Auktionen)
+[22.11. 17:05:30] PREISPRUEFUNG Item 4245 · Schlüssel tasche (Stufe 25, Suffix 0, Haustier 0) · 35 Angebote · Scan 317 Stück · 0.1 s · Antwort
+[22.11. 17:05:30] STAPEL-BEREINIGT Item 4245 · 1 von 46 eigenen Preisen unbestätigt (Median 2040 aus 46 Preisen) · Käufe Menge -> 1: 0
+[22.11. 17:05:30] STAPEL-ROH Item 4245 · Stapelgrösse 1 · Zeile: Menge 7, buyoutAmount 2074, auctionID 220587365 -> Stückpreis = buyoutAmount (zusammengefasste Auktionen)
+[22.11. 17:05:30] ABSATZ Item 4306 · Q 0 (vollscan) · S 1438.2 (measured) · S roh 1438.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.0 · N 1.0
+[22.11. 17:05:30] ABSATZ Item 264055 · Q 51 (scan, Q gesamt) · S 5.4 (market, gelernt) · S roh 15.9 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 9.7 · N 7.0 · kaum
+[22.11. 17:05:30] ABSATZ Item 4245 · Q 26 (vollscan) · S 105.4 (measured) · S roh 105.4 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.2 · N 3.0
+[22.11. 17:05:18] ITEMINFO neue Item-Anfragen 458 (zurückgestellt 5161) · je Aufgabe: - 6, cache:warm 4, cache:warm-today 200, hist:flat 200, names 3, pd7:load 44, ui-refresh 1
+[22.11. 17:05:16] ENTZAUBERWERT Item 6472 · Tabelle · 10978 100% × 1.00 à 475 · brutto 492 · netto 467
+[22.11. 17:05:16] DE-CHANCEN Gruppe 3:1 · Tabelle 10978 100% · echt 10978 - (0)
+[22.11. 17:05:10] PREISPRUEFUNG Item 1475 · Schlüssel allgemein (Stufe 1, Suffix 0, Haustier 0) · 74 Angebote · Scan 836 Stück · 0.2 s · Antwort
+[22.11. 17:05:10] MINDESTEINZAHLUNG gemessen=4 je Auktion · Formel=4 · Minimum jetzt 1
+[22.11. 17:05:10] EINSTELLEN Item 1475 · Menge 1 · Auktionen 1 · Laufzeit 1 · Preis 138/Stück, 138 gesamt · Gebühr erwartet 4, abgezogen 4 (2.90 % vom Preis) · Günstigstes 128 · Mindestpreis 87 (vendor)
+[22.11. 17:05:09] AHS-POST PostCommodity: arg2=1 arg3=1 arg4=138 arg5=nil, ItemLocation gültig ja, Bag/Slot 3/9
+[22.11. 17:05:08] ABBRECHEN AUCTION_CANCELED auctionID 220642033 (erwartet nil) -> unerwartet, nichts geändert
+[22.11. 17:05:08] VORSCHLAG-FELD Item 1475 · Feld 139 -> Vorschlag 138 · Preisprüfung vor 0 s
+[22.11. 17:05:08] PREISPRUEFUNG Item 1475 · Schlüssel tasche (Stufe 1, Suffix 0, Haustier 0) · 73 Angebote · Scan 814 Stück · 0.1 s · Antwort
+[22.11. 17:05:08] VERKAUFEN-KLICK Zeile Item 1475 · vorher 2515 · nachher 1475 · Fehler 0 · Titel Kleiner Giftbeutel
+[22.11. 17:05:07] PREISPRUEFUNG Item 2515 · Schlüssel tasche (Stufe 15, Suffix 0, Haustier 0) · 2 Angebote · Scan 196699 Stück · 0.1 s · Antwort
+[22.11. 17:05:07] VERKAUFEN-KLICK Zeile Item 2515 · vorher 2592 · nachher 2515 · Fehler 0 · Titel Scharfer Pfeil
+[22.11. 17:05:07] VORSCHLAG-FELD Item 2592 · Feld 200 -> Vorschlag 199 · Preisprüfung vor 0 s
+[22.11. 17:05:07] PREISPRUEFUNG Item 2592 · Schlüssel tasche (Stufe 15, Suffix 0, Haustier 0) · 95 Angebote · Scan 27525 Stück · 0.1 s · Antwort
+[22.11. 17:05:07] VERKAUFEN-KLICK Zeile Item 2592 · vorher 2771 · nachher 2592 · Fehler 0 · Titel Wollstoff
+[22.11. 17:05:06] VORSCHLAG-FELD Item 2771 · Feld 119 -> Vorschlag 138 · Preisprüfung vor 0 s
+[22.11. 17:05:06] PREISPRUEFUNG Item 2771 · Schlüssel tasche (Stufe 20, Suffix 0, Haustier 0) · 42 Angebote · Scan 9493 Stück · 0.1 s · Antwort
+[22.11. 17:05:06] VERKAUFEN-KLICK Zeile Item 2771 · vorher 3685 · nachher 2771 · Fehler 0 · Titel Zinnerz
+[22.11. 17:05:05] PREISPRUEFUNG Item 3685 · Schlüssel tasche (Stufe 22, Suffix 0, Haustier 0) · 44 Angebote · Scan 2274 Stück · 0.2 s · Antwort
+[22.11. 17:05:05] VERKAUFEN-KLICK Zeile Item 3685 · vorher 12037 · nachher 3685 · Fehler 0 · Titel Raptorei
+[22.11. 17:05:04] PREISPRUEFUNG Item 12037 · Schlüssel allgemein (Stufe 30, Suffix 0, Haustier 0) · 36 Angebote · Scan 1464 Stück · 0.1 s · Antwort
+[22.11. 17:05:04] MINDESTEINZAHLUNG gemessen=4 je Auktion · Formel=4 · Minimum jetzt 1
+[22.11. 17:05:04] EINSTELLEN Item 12037 · Menge 1 · Auktionen 1 · Laufzeit 1 · Preis 299/Stück, 299 gesamt · Gebühr erwartet 4, abgezogen 4 (1.34 % vom Preis) · Günstigstes 300 · Mindestpreis 92 (vendor)
+[22.11. 17:05:03] AHS-POST PostCommodity: arg2=1 arg3=1 arg4=299 arg5=nil, ItemLocation gültig ja, Bag/Slot 4/2
+[22.11. 17:05:00] VORSCHLAG-FELD Item 12037 · Feld 304 -> Vorschlag 299 · Preisprüfung vor 0 s
+[22.11. 17:05:00] PREISPRUEFUNG Item 12037 · Schlüssel tasche (Stufe 30, Suffix 0, Haustier 0) · 35 Angebote · Scan 1464 Stück · 0.2 s · Antwort
+[22.11. 17:05:00] VERKAUFEN-KLICK Zeile Item 12037 · vorher 12037 · nachher 12037 · Fehler 0 · Titel Eigenartiges Fleisch
+[22.11. 17:04:53] VORSCHLAG-FELD Item 12037 · Feld 268 -> Vorschlag 304 · Preisprüfung vor 0 s
+[22.11. 17:04:53] PREISPRUEFUNG Item 12037 · Schlüssel tasche (Stufe 30, Suffix 0, Haustier 0) · 36 Angebote · Scan 1043 Stück · 0.1 s · Antwort
+[22.11. 17:04:53] VERKAUFEN-KLICK Zeile Item 12037 · vorher 3685 · nachher 12037 · Fehler 0 · Titel Eigenartiges Fleisch
+[22.11. 17:04:51] ABBRECHEN AUCTION_CANCELED auctionID 220636062 (erwartet nil) -> unerwartet, nichts geändert
+[22.11. 17:04:49] VORSCHLAG-FELD Item 3685 · Feld 119 -> Vorschlag 99 · Preisprüfung vor 0 s
+[22.11. 17:04:49] PREISPRUEFUNG Item 3685 · Schlüssel tasche (Stufe 22, Suffix 0, Haustier 0) · 44 Angebote · Scan 2388 Stück · 0.1 s · Antwort
+[22.11. 17:04:49] VERKAUFEN-KLICK Zeile Item 3685 · vorher 3182 · nachher 3685 · Fehler 0 · Titel Raptorei
+[22.11. 17:04:46] PREISPRUEFUNG Item 3182 · Schlüssel allgemein (Stufe 20, Suffix 0, Haustier 0) · 69 Angebote · Scan 734 Stück · 0.1 s · Antwort
+[22.11. 17:04:45] MINDESTEINZAHLUNG gemessen=19 je Auktion · Formel=19 · Minimum jetzt 1
+[22.11. 17:04:45] EINSTELLEN Item 3182 · Menge 1 · Auktionen 1 · Laufzeit 1 · Preis 1394/Stück, 1394 gesamt · Gebühr erwartet 19, abgezogen 19 (1.36 % vom Preis) · Günstigstes 1395 · Mindestpreis 408 (vendor)
+[22.11. 17:04:44] AHS-POST PostCommodity: arg2=1 arg3=1 arg4=1394 arg5=nil, ItemLocation gültig ja, Bag/Slot 3/10
+[22.11. 17:04:42] VORSCHLAG-FELD Item 3182 · Feld 1398 -> Vorschlag 1394 · Preisprüfung vor 0 s
+[22.11. 17:04:42] PREISPRUEFUNG Item 3182 · Schlüssel tasche (Stufe 20, Suffix 0, Haustier 0) · 68 Angebote · Scan 722 Stück · 0.0 s · Antwort
+[22.11. 17:04:42] VERKAUFEN-KLICK Zeile Item 3182 · vorher 14569 · nachher 3182 · Fehler 0 · Titel Spinnenseide
+[22.11. 17:04:42] PREISPRUEFUNG Item 14569 · Schlüssel allgemein (Stufe 22, Suffix 0, Haustier 0) · 5 Angebote · Scan 4 Stück · 0.1 s · Antwort
+[22.11. 17:04:41] MINDESTEINZAHLUNG gemessen=23 je Auktion · Formel=23 · Minimum jetzt 1
+[22.11. 17:04:41] EINSTELLEN Item 14569 · Menge 1 · Auktionen 1 · Laufzeit 1 · Preis 1494/Stück, 1494 gesamt · Gebühr erwartet 23, abgezogen 23 (1.54 % vom Preis) · Günstigstes 1495 · Mindestpreis 497 (vendor)
+[22.11. 17:04:40] AHS-POST PostItem: arg2=1 arg3=1 arg4=nil arg5=1494, ItemLocation gültig ja, Bag/Slot 4/1
+[22.11. 17:04:38] PREISPRUEFUNG Item 858 · Schlüssel tasche (Stufe 13, Suffix 0, Haustier 0) · 14 Angebote · Scan 2390 Stück · 0.2 s · Antwort
+[22.11. 17:04:36] PREISPRUEFUNG Item 14569 · Schlüssel tasche (Stufe 22, Suffix 0, Haustier 0) · 4 Angebote · Scan 4 Stück · 0.1 s · Antwort
+[22.11. 17:04:36] VERKAUFEN-KLICK Zeile Item 14569 · vorher 3182 · nachher 14569 · Fehler 0 · Titel Borstenlederbindungen
+[22.11. 17:04:36] PREISPRUEFUNG Item 14569 · Schlüssel tasche (Stufe 22, Suffix 0, Haustier 0) · 4 Angebote · Scan 5 Stück · 0.2 s · Antwort
+[22.11. 17:04:17] VERKAUFEN-LISTE 1 Min.: 44 Aufrufe in 11 s (SELLER_CHANGED 27, direkt 17) · Einträge 21 · AH offen ja · Ø/max ms: gesamt 4.4/8.7, Serie 1.2/1.6 (Kandidaten 1.2/1.6, davon Taschen leicht 1.2/1.5), Taschen voll 1.3/3.6, SetData 0.6/0.7, Rest 1.3/3.3 · 9 ms
+[22.11. 17:03:26] VORSCHLAG-FELD Item 3182 · Feld 1413 -> Vorschlag 1398 · Preisprüfung vor 0 s
+[22.11. 17:03:26] PREISPRUEFUNG Item 3182 · Schlüssel tasche (Stufe 20, Suffix 0, Haustier 0) · 67 Angebote · Scan 722 Stück · 0.1 s · Antwort
+[22.11. 17:03:26] VERKAUFEN-KLICK Zeile Item 3182 · vorher 3685 · nachher 3182 · Fehler 0 · Titel Spinnenseide
+[22.11. 17:03:25] PREISPRUEFUNG Item 3685 · Schlüssel tasche (Stufe 22, Suffix 0, Haustier 0) · 42 Angebote · Scan 2388 Stück · 0.1 s · Antwort
+[22.11. 17:03:25] VERKAUFEN-KLICK Zeile Item 3685 · vorher 6256 · nachher 3685 · Fehler 0 · Titel Raptorei
+[22.11. 17:03:24] PREISPRUEFUNG Item 6256 · Schlüssel tasche (Stufe 1, Suffix 0, Haustier 0) · 28 Angebote · Scan 28 Stück · 0.1 s · Antwort
+[22.11. 17:03:24] VERKAUFEN-KLICK Zeile Item 6256 · vorher 3685 · nachher 6256 · Fehler 0 · Titel Angel
+[22.11. 17:03:22] PREISPRUEFUNG Item 3685 · Schlüssel tasche (Stufe 22, Suffix 0, Haustier 0) · 42 Angebote · Scan 2388 Stück · 0.1 s · Antwort
+[22.11. 17:03:22] VERKAUFEN-KLICK Zeile Item 3685 · vorher 3685 · nachher 3685 · Fehler 0 · Titel Raptorei
+[22.11. 17:03:21] VORSCHLAG-FELD Item 3685 · Feld 95 -> Vorschlag 119 · Preisprüfung vor 0 s
+[22.11. 17:03:21] PREISPRUEFUNG Item 3685 · Schlüssel tasche (Stufe 22, Suffix 0, Haustier 0) · 42 Angebote · Scan 2388 Stück · 0.1 s · Antwort
+[22.11. 17:03:21] VERKAUFEN-KLICK Zeile Item 3685 · vorher 2592 · nachher 3685 · Fehler 0 · Titel Raptorei
+[22.11. 17:03:19] VORSCHLAG-FELD Item 2592 · Feld 184 -> Vorschlag 200 · Preisprüfung vor 0 s
+[22.11. 17:03:19] PREISPRUEFUNG Item 2592 · Schlüssel tasche (Stufe 15, Suffix 0, Haustier 0) · 94 Angebote · Scan 27525 Stück · 0.1 s · Antwort
+[22.11. 17:03:19] VERKAUFEN-KLICK Zeile Item 2592 · vorher 2771 · nachher 2592 · Fehler 0 · Titel Wollstoff
+[22.11. 17:03:18] PREISPRUEFUNG Item 2771 · Schlüssel tasche (Stufe 20, Suffix 0, Haustier 0) · 47 Angebote · Scan 9493 Stück · 0.2 s · Antwort
+[22.11. 17:03:18] VERKAUFEN-KLICK Zeile Item 2771 · vorher 2771 · nachher 2771 · Fehler 0 · Titel Zinnerz
+[22.11. 17:03:17] VORSCHLAG-FELD Item 2771 · Feld 132 -> Vorschlag 119 · Preisprüfung vor 0 s
+[22.11. 17:03:17] PREISPRUEFUNG Item 2771 · Schlüssel tasche (Stufe 20, Suffix 0, Haustier 0) · 46 Angebote · Scan 9493 Stück · 0.1 s · Antwort
+[22.11. 17:03:17] VERKAUFEN-KLICK Zeile Item 2771 · vorher 2771 · nachher 2771 · Fehler 0 · Titel Zinnerz
+[22.11. 17:03:16] PREISPRUEFUNG Item 279981 · Schlüssel tasche (Stufe 4, Suffix 0, Haustier 0) · 27 Angebote · Scan 3191 Stück · 0.1 s · Antwort
+[22.11. 17:03:16] ABSATZ Item 279981 · Q 3191 (scan, Q gesamt) · S 319.6 (market, gelernt) · S roh 946.1 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 10.0 · N 7.0 · kaum
+[22.11. 17:03:03] PD7 Preisverlauf verdichtet: 325869 -> 312840 Zeilen (~13365 -> ~12831 KB)
+[22.11. 17:02:31] VERKAUFEN-LISTE 1 Min.: 59 Aufrufe in 55 s (SELLER_CHANGED 47, direkt 12) · Einträge 21 · AH offen ja · Ø/max ms: gesamt 3.7/5.3, Serie 1.3/1.8 (Kandidaten 1.3/1.8, davon Taschen leicht 1.3/1.7), Taschen voll 1.3/1.9, SetData 0.6/0.9, Rest 0.4/2.0 · 5 ms
+[22.11. 17:02:29] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[22.11. 17:02:24] PREISPRUEFUNG Item 2901 · Schlüssel tasche (Stufe 4, Suffix 0, Haustier 0) · 78 Angebote · Scan 88 Stück · 0.1 s · Antwort
+[22.11. 17:02:24] PREISPRUEFUNG Item 4471 · Schlüssel tasche (Stufe 5, Suffix 0, Haustier 0) · 7 Angebote · Scan 133 Stück · 0.1 s · Antwort
+[22.11. 17:02:24] STAPEL-BEREINIGT Item 4471 · 0 von 48 eigenen Preisen unbestätigt (Median 79 aus 48 Preisen) · Käufe Menge -> 1: 0
+[22.11. 17:02:24] STAPEL-ROH Item 4471 · Stapelgrösse 1 · Zeile: Menge 57, buyoutAmount 39, auctionID 220577761 -> Stückpreis = buyoutAmount (zusammengefasste Auktionen)
+[22.11. 17:02:23] PREISPRUEFUNG Item 4593 · Schlüssel tasche (Stufe 25, Suffix 0, Haustier 0) · 57 Angebote · Scan 12041 Stück · 0.2 s · Antwort
+[22.11. 17:02:23] ABSATZ Item 858 · Q 2252 (vollscan) · S 161.1 (measured) · S roh 161.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 14.0 · N 7.0 · kaum
+[22.11. 17:02:23] ABSATZ Item 2901 · Q 88 (scan, Q gesamt) · S 35.4 (measured) · S roh 35.4 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 2.5 · N 3.0
+[22.11. 17:02:23] ABSATZ Item 4471 · Q 133 (scan, Q gesamt) · S 33.7 (measured) · S roh 33.7 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 2.8 · N 7.0
+[22.11. 17:02:15] PREISPRUEFUNG Item 2771 · Schlüssel tasche (Stufe 20, Suffix 0, Haustier 0) · 46 Angebote · Scan 9493 Stück · 0.1 s · Antwort
+[22.11. 17:02:15] VERKAUFEN-KLICK Zeile Item 2771 · vorher nil · nachher 2771 · Fehler 0 · Titel Zinnerz
+[22.11. 17:02:14] PREISPRUEFUNG Item 3182 · Schlüssel tasche (Stufe 20, Suffix 0, Haustier 0) · 68 Angebote · Scan 552 Stück · 0.1 s · Antwort
+[22.11. 17:02:13] PREISPRUEFUNG Item 3531 · Schlüssel tasche (Stufe 1, Suffix 0, Haustier 0) · 2 Angebote · Scan 5619 Stück · 0.1 s · Antwort
+[22.11. 17:02:12] PREISPRUEFUNG Item 4470 · Schlüssel tasche (Stufe 5, Suffix 0, Haustier 0) · 15 Angebote · Scan 4493 Stück · 0.1 s · Antwort
+[22.11. 17:02:12] ENTZAUBERWERT Item 14569 · eigene Ø aus 68 · 10940 84% × 5.00 à 119, 10998 10% × 1.57 à 557, 10978 6% × 1.00 à 475 · brutto 648 · netto 616
+[22.11. 17:02:12] DE-CHANCEN Gruppe 2:3:a · Tabelle 10940 75%/10998 20%/10978 5% · echt 10940 84%/10998 10%/10978 6% (68)
+[22.11. 17:02:12] ABSATZ Item 14569 · Q 1 (vollscan) · S 6.6 (market, gelernt) · S roh 8.7 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.3 · N 4.0
+[22.11. 17:02:12] ABSATZ Item 3182 · Q 36 (vollscan) · S 98.8 (measured) · S roh 98.8 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.4 · N 5.0
+[22.11. 17:02:12] ABSATZ Item 3531 · Q 5569 (vollscan) · S 29.2 (measured) · S roh 29.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 190.7 · N 7.0 · kaum
+[22.11. 17:02:11] PREISPRUEFUNG Item 3685 · Schlüssel tasche (Stufe 22, Suffix 0, Haustier 0) · 45 Angebote · Scan 2434 Stück · 0.1 s · Antwort
+[22.11. 17:02:11] ABSATZ Item 4470 · Q 1191 (vollscan) · S 249.7 (measured) · S roh 249.7 · Deckel - · eigene Quote 2/3 · Laufzeit 2 Std. · W 4.8 · N 1.5
+[22.11. 17:01:45] ITEMINFO neue Item-Anfragen 200 (zurückgestellt 0) · je Aufgabe: - 6, cache:warm 4, cache:warm-today 143, names 3, pd7:load 44
+[22.11. 17:01:44] ABSATZ-UNPLAUSIBEL Item 1082 · 6.3/Tag · Quelle geschätzt
+[22.11. 17:01:44] ABSATZ-UNPLAUSIBEL Item 4323 · 16.7/Tag · Quelle geschätzt
+[22.11. 17:01:37] PREISPRUEFUNG Item 2592 · Schlüssel tasche (Stufe 15, Suffix 0, Haustier 0) · 99 Angebote · Scan 23621 Stück · 0.2 s · Antwort
+[22.11. 17:01:36] PREISPRUEFUNG Item 2771 · Schlüssel tasche (Stufe 20, Suffix 0, Haustier 0) · 45 Angebote · Scan 8818 Stück · 0.1 s · Antwort
+[22.11. 17:01:35] PREISPRUEFUNG Item 12037 · Schlüssel tasche (Stufe 30, Suffix 0, Haustier 0) · 31 Angebote · Scan 1370 Stück · 0.1 s · Antwort
+[22.11. 17:01:35] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 0.1 Std., 10940: 0.1 Std., 11082: 0.1 Std. · 0 frisch geholt
+[22.11. 17:01:35] PD7 PD7 geladen: 13560 Items, 430295 Einträge geprüft, 0 Fehler · Zustand active
+[22.11. 17:01:35] ABSATZ Item 4593 · Q 12 (vollscan) · S 1564.6 (measured) · S roh 1564.6 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.0 · N 1.0
+[22.11. 17:01:34] PREISPRUEFUNG Item 2515 · Schlüssel tasche (Stufe 15, Suffix 0, Haustier 0) · 2 Angebote · Scan 127002 Stück · 0.1 s · Antwort
+[22.11. 17:01:34] PREISPRUEFUNG Item 1475 · Schlüssel tasche (Stufe 1, Suffix 0, Haustier 0) · 71 Angebote · Scan 771 Stück · 0.1 s · Antwort
+[22.11. 17:01:34] SYNC Weg=GUILD
+[22.11. 17:01:33] PREISPRUEFUNG Item 2836 · Schlüssel tasche (Stufe 15, Suffix 0, Haustier 0) · 27 Angebote · Scan 4523 Stück · 0.1 s · Antwort
+[22.11. 17:01:33] ABSATZ Item 3685 · Q 90 (vollscan) · S 451.8 (measured) · S roh 451.8 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.1 · N 2.0
+[22.11. 17:01:32] ABSATZ Item 12037 · Q 141 (vollscan) · S 85.6 (measured) · S roh 85.6 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.2 · N 7.0
+[22.11. 17:01:32] ABSATZ Item 2771 · Q 99 (vollscan) · S 453.6 (measured) · S roh 453.6 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.2 · N 3.0
+[22.11. 17:01:32] ABSATZ Item 2592 · Q 96 (vollscan) · S 1055.1 (measured) · S roh 1055.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.1 · N 2.0
+[22.11. 17:01:32] ABSATZ Item 2515 · Q 125973 (vollscan) · S 13701.8 (measured) · S roh 13701.8 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 6.4 · N 7.0
+[22.11. 17:01:32] PREISPRUEFUNG Item 6256 · Schlüssel tasche (Stufe 1, Suffix 0, Haustier 0) · 28 Angebote · Scan 28 Stück · 0.1 s · Antwort
+[22.11. 17:01:32] ABSATZ Item 1475 · Q 15 (vollscan) · S 125.3 (measured) · S roh 125.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.1 · N 2.0
+[22.11. 17:01:32] ABSATZ Item 2836 · Q 283 (vollscan) · S 641.6 (measured) · S roh 641.6 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.4 · N 6.0
+[22.11. 17:01:32] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[22.11. 17:01:32] ABSATZ Item 6256 · Q 28 (scan, Q gesamt) · S 9.3 (market, gelernt) · S roh 12.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 3.1 · N 7.0
+[22.11. 17:01:30] ABSATZ-UNPLAUSIBEL Item 5500 · 283.8/Tag · Quelle geschätzt
+[22.11. 17:01:30] ABSATZ-UNPLAUSIBEL Item 6471 · 105.5/Tag · Quelle geschätzt
+[22.11. 17:01:30] LANGSAM Empfänger UI_Main.lua:5166 von AH_STATE · 16 ms
+[22.11. 17:01:30] VERKAUFEN-LISTE erster Aufbau: 1 Aufrufe in 0 s (AH_STATE 1) · Einträge 21 · AH offen ja · Ø/max ms: gesamt 7.4/7.4, Serie 1.2/1.2 (Kandidaten 1.2/1.2, davon Taschen leicht 1.1/1.1), Taschen voll 3.6/3.6, SetData 2.6/2.6, Rest 0.1/0.1 · 7 ms
+[22.11. 17:01:30] ABSATZ-UNPLAUSIBEL Item 3864 · 318.6/Tag · Quelle geschätzt
+[22.11. 17:01:30] ABSATZ-UNPLAUSIBEL Item 7374 · 63.4/Tag · Quelle gemessen
+[22.11. 17:01:30] ABSATZ-UNPLAUSIBEL Item 8483 · 571.5/Tag · Quelle geschätzt
+[22.11. 17:01:29] ABSATZ-UNPLAUSIBEL Item 279968 · 1322.7/Tag · Quelle gemessen
+[22.11. 16:59:46] VERKAUFEN-LISTE 1 Min.: 14 Aufrufe in 33 s (SELLER_CHANGED 9, direkt 5) · Einträge 21 · AH offen ja · Ø/max ms: gesamt 4.0/4.7, Serie 1.5/2.2 (Kandidaten 1.5/2.2, davon Taschen leicht 1.4/2.2), Taschen voll 1.3/1.6, SetData 0.6/0.9, Rest 0.5/0.6 · 5 ms
+[22.11. 16:59:17] PREISPRUEFUNG Item 18253 · Schlüssel allgemein (Stufe 0, Suffix 0) · 0 Angebote · Scan 103 Stück
+[21.11. 18:58:46] FEHLER Märkte vereinen: Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:5416: attempt to compare two table values
+[21.11. 18:38:52] FEHLER Märkte vereinen: Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:5416: attempt to compare number with table

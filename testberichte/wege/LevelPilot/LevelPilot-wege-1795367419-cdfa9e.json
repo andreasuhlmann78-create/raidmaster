@@ -1,0 +1,296 @@
+{
+ "addon": "LevelPilot",
+ "blocked": [],
+ "env": {
+  "build": "71037",
+  "class": "WARRIOR",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 30,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "f": 1,
+ "fest": [],
+ "id": "LevelPilot-wege-1795367419-cdfa9e",
+ "kind": "wege",
+ "npc": [],
+ "time": 1795367419,
+ "version": "3.13.6",
+ "zones": [
+  {
+   "edges": [
+    {
+     "lv": [
+      "1434|o|Das Finstere Riff",
+      "1434|o|Das Finstere Riff",
+      "1434|o|Das Finstere Riff",
+      "1434|o|Das Finstere Riff",
+      "1434|o|Das Finstere Riff",
+      "1434|o|Das Finstere Riff",
+      "1434|o|Das Finstere Riff",
+      "1434|o|Das Finstere Riff",
+      "1434|o|Das Finstere Riff"
+     ],
+     "n": 4,
+     "p": [
+      26.2,
+      29.6,
+      26.4,
+      29.6,
+      26.6,
+      29.6,
+      26.8,
+      29.5,
+      27,
+      29.5,
+      27.2,
+      29.5,
+      27.6,
+      29.5,
+      27.9,
+      29.5,
+      28.2,
+      29.5
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1434|o|Das Basislager von Grom'gol",
+      "1434|o|Das Finstere Riff",
+      "1434|o|Das Basislager von Grom'gol",
+      "1434|o|Das Finstere Riff",
+      "1434|o|Das Finstere Riff",
+      "1434|o|Das Finstere Riff"
+     ],
+     "n": 4,
+     "p": [
+      30.6,
+      30,
+      30.4,
+      29.8,
+      30.2,
+      29.8,
+      30,
+      29.7,
+      29.7,
+      29.6,
+      29.4,
+      29.6
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1434|o|Das Basislager von Grom'gol",
+      "1434|o|Das Basislager von Grom'gol"
+     ],
+     "n": 4,
+     "p": [
+      32.5,
+      29.3,
+      32.3,
+      29.1
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1434|o|Das Finstere Riff",
+      "1434|o|Das Finstere Riff"
+     ],
+     "n": 5,
+     "p": [
+      28.5,
+      29.5,
+      28.8,
+      29.5
+     ],
+     "src": "selbst"
+    },
+    {
+     "n": 1,
+     "p": [
+      30.8,
+      29.1,
+      30.9,
+      29.2
+     ],
+     "src": "geteilt"
+    },
+    {
+     "lv": [
+      "1434|o|Das Finstere Riff",
+      "",
+      "1434|o|Das Finstere Riff"
+     ],
+     "n": 2,
+     "p": [
+      29.4,
+      29.6,
+      29,
+      29.4,
+      28.8,
+      29.5
+     ],
+     "src": "geteilt"
+    },
+    {
+     "lv": [
+      "1434|o|Das Basislager von Grom'gol",
+      "",
+      ""
+     ],
+     "n": 1,
+     "p": [
+      30.6,
+      30,
+      31,
+      29.5,
+      30.9,
+      29.2
+     ],
+     "src": "geteilt"
+    },
+    {
+     "n": 1,
+     "p": [
+      30.8,
+      29.5,
+      30.9,
+      29.2
+     ],
+     "src": "geteilt"
+    },
+    {
+     "lv": [
+      "1434|o|Das Basislager von Grom'gol",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+     ],
+     "n": 10,
+     "p": [
+      32.3,
+      29.1,
+      32,
+      28.9,
+      31.9,
+      28.6,
+      31.5,
+      28.5,
+      31.3,
+      28.4,
+      31.1,
+      28.4,
+      30.9,
+      29.2
+     ],
+     "src": "geteilt"
+    }
+   ],
+   "map": 1434,
+   "name": "Schlingendorntal"
+  },
+  {
+   "edges": [
+    {
+     "n": 2,
+     "p": [
+      61,
+      46.9,
+      62,
+      45.4
+     ],
+     "src": "selbst"
+    },
+    {
+     "n": 4,
+     "p": [
+      59.2,
+      44,
+      60.8,
+      44
+     ],
+     "src": "selbst"
+    },
+    {
+     "n": 2,
+     "p": [
+      69.8,
+      50.5,
+      68.8,
+      48
+     ],
+     "src": "selbst"
+    },
+    {
+     "n": 1,
+     "p": [
+      59.2,
+      44,
+      59.3,
+      46.5,
+      61,
+      46.9
+     ],
+     "src": "geteilt"
+    },
+    {
+     "n": 1,
+     "p": [
+      69.8,
+      50.5,
+      71.4,
+      50.5
+     ],
+     "src": "geteilt"
+    },
+    {
+     "lv": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "1458|o|Die Ruinen von Lordaeron",
+      "",
+      "",
+      ""
+     ],
+     "n": 1,
+     "p": [
+      68.8,
+      48,
+      67.8,
+      45.6,
+      66.8,
+      44.1,
+      66.2,
+      41.9,
+      65.9,
+      39.9,
+      64.7,
+      38.7,
+      63,
+      40.1,
+      62.1,
+      43,
+      62,
+      45.4
+     ],
+     "src": "geteilt"
+    }
+   ],
+   "map": 1458,
+   "name": "Undercity"
+  }
+ ]
+}
