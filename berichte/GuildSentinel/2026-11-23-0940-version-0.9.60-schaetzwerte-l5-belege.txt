@@ -1,0 +1,54 @@
+BERICHT GuildSentinel 0.9.60 – GS-S1, GS-S2, L5 (T317), Nachtrag Belege Gilde ohne Realm
+Von: GuildSentinel-Sitzung · 23.11.2026 09:40 (Zeit aus date, Europe/Zurich) · Quellcode 8ec7e58
+Status: umgesetzt, zur Prüfung (Antworten Supervisor 23.11. 09:27). download/ (CurseForge) nicht angefasst – nach Ingametest.
+
+A) GS-S1 "raidfähig in n Wochen" (RaidReady.lua RP:Estimate / ProgressText)
+- Text jetzt "raidfähig in n Wochen (aus x Spielern, y Tage gemessen)", ohne "~". Unter 3 Spielern mit gemessenem Tempo oder unter 7 Tagen
+  Messung "noch zu wenig Daten" (RP.MIN_PLAYERS = 3, RP.MIN_DAYS = 7). Dann auch keine Wochenzahl in raidReady.wochen (Discord-Bericht).
+- Dabei gefunden und behoben:
+  1. Das Tempo wurde immer durch 14 geteilt, auch wenn erst 7–13 Tage gemessen waren (Wochen zu hoch). Jetzt durch die gemessenen Tage
+     (höchstens 14). Test: 10 Tage, langsamster Spieler 2 Stufen -> von Hand gerechnet; die alte Rechnung (durch 14) ergibt eine andere Zahl.
+  2. Race:Gain zählte bei einem neuen Mitglied die Beitritts-Stufe als Aufstieg (Roster.lua legt sie mit Beitrittszeit an). Jetzt zählt die
+     niedrigste bekannte Stufe nie. Betrifft auch die Rangliste "Stufen in den letzten 7 Tagen".
+  3. Beim Bau gefunden (T270/T304c, Lua-Fehler): "genug Aktive, es fehlen nur Rollen" lieferte 0 ohne Grundlage. Jetzt keine Wochenzahl
+     (vorher stand "~0 Wochen").
+B) GS-S2 "Erster auf Höchststufe" (PagesMore.lua): Datum nur aus der Mitgliederliste (Race:First60 mit guess) -> "spätestens am <Tag>";
+   mit eigenem Ereignis (race.first60) wie bisher das genaue Datum.
+- Test run_schaetzen.lua (6 Läufe: 3 Spielversionen, deDE/ruRU/zhTW/enUS, je 12): a) 4 fehlen, 3 Spieler: nicht absehbar; Wochen von Hand
+  nachgerechnet, Text mit Grundlage, kein "~", Gegenprobe alte Rechnung; b) 2 Spieler -> "noch zu wenig Daten"; c) 5 Tage -> dasselbe;
+  e) nur Rollen fehlen -> keine Wochenzahl, kein Fehler; d) Beitritt zählt nicht, echter Aufstieg = 1; S2 Ereignis -> genaues Datum,
+  nur Mitgliederliste -> "spätestens am".
+
+C) L5 – Hauptzahl oben (Antwort 1). Hinweis zur Nummer: T187 ist "keine Fehlerschleifen"; L5 läuft als T317 (Bereich K, im
+   Durchgang von T182, der jeden Tooltip zeigt). Regel: in jedem Tooltip mit Zahlen steht die erste Zahl in Zeile 1 oder 2.
+- Tooltips mit Zahlen (Nachbau deDE, Testgilde; im Spiel je nach Daten mehr): 48, auf members>list (Zeile 2 von 3), members>online
+  (12 Stunden-Balken, Zeile 1), group>search (Zeile 2 von 6), events (Zeile 2 von 2), board>offer/want (Zeile 1), prof>req/gaps
+  (Zeile 1), recruit>apps, settings (Optionen mit Zahl in der Erklärung, Zeile 2 von 2).
+- Befund behoben: Bewerber-Tooltip hatte die Zahl ("Erstmals: Datum") in Zeile 6 von 8 -> jetzt Zeile 2.
+- Gildenbank, Raid-Bereitschaft, Ziele: im Nachbau zeigt dort kein Element einen Tooltip mit Zahl (Texte stehen auf der Seite); die
+  Prüfung erfasst im Spiel jeden Tooltip, der dort erscheint.
+- run_lesbar.lua: Gegenprobe Tooltip mit Zahl erst in Zeile 4 -> T317 FEHLER mit genau diesem Element; sauberer Lauf T317 OK.
+
+D) NACHTRAG BELEGE GILDE OHNE REALM (Daten 23.11., nur lokal gelesen; Skript liest die alten Schlüssel vor dem Zusammenführen)
+  Rechner     vorher = je alter Schlüssel   gleicher Schlüssel   gleicher Listeneintrag   ältere ganze Tabelle   Probe = nachher
+  Laptop      572 = 572                     0                    0                        0                      572 = 572
+  JD5         802 = 479 + 323               216                  0                        4                      802-216-4 = 582
+  NVITMSE     822 = 219 + 603               112                  0                        4                      822-112-4 = 706
+  MININT      844 = 592 + 252               152                  0                        4                      844-152-4 = 688
+  "gleicher Schlüssel" = derselbe Eintrag (z. B. dasselbe Mitglied) in beiden alten Schlüsseln: innen vereint, bei Zeitstempel gilt der
+  neuere Stand – kein Mitglied, kein Tag, keine Stufe geht verloren. "ältere ganze Tabelle" = Tabellen mit Zeit (Regeln, Probezeit,
+  Wochenziel): die neuere gilt, die ältere bleibt in guildsOld. Jede Zeile geht auf.
+- Das Protokoll nennt das jetzt selbst: "Einträge vorher 802 (= 479 + 323), nachher 582 (zusammengefasst 220 …)".
+
+TESTS (eigene Tests, Hinweise, keine Freigabe)
+- run_alle.sh: 229 Läufe, 0 rot, 16947 Einzelprüfungen. Abgleich mit 0.9.59 (223 / 16853, Lauf für Lauf): +6 run_schaetzen (6 × 12 = 72),
+  run_lesbar 5 × +1 (Gegenprobe T317) = 5, run_routine 17 Läufe mit Lage je +1 (T317 OK statt SKIP) = 17. 72 + 5 + 17 = 94 = 16947 − 16853.
+- Gemeinsame Dateien unverändert (cmp). Locales: 3 neue Texte in 10 Sprachen, fehlend 0; 2 alte ("~%d Wochen", "messe noch") nicht mehr benutzt.
+- addon_check: siehe ADDON_CHECK am Ende.
+
+ADDON_CHECK (addon-check/addon_check.py, Ausgabe unverändert):
+  Vorlage shared/GoldSentinelGame.lua: Version 3
+  Vorlage shared/GoldSentinelTest.lua: Version 2
+  Tests der gemeinsamen Datei: nicht ausgeführt – lupa fehlt (pip install lupa); im GitHub-Lauf werden sie ausgeführt
+  Lua-Syntaxprüfung mit: luac5.1 (Lua 5.1)
+  ## GuildSentinel-0.9.60.zip: OK
