@@ -1,0 +1,46 @@
+BERICHT DISCORD – Bot 1.5.189: D-MITGL1 Kanäle der Gildenmitglieder – umgesetzt, zur Prüfung
+Zeit: 23.11.2026 09:26 (aus date). Commit 8a98a0d9 auf origin/main, CI Bot-Tests: success
+
+URSACHE "in 💬 ALLGEMEIN fehlen #handwerk-und-handel, #gruppensuche, #befehle, 🔊 Gildenhalle, 🔊 AFK" (Befund Supervisor 09:20)
+- BELEGT aus dem Code: Beim Start legt der Bot nur an: aufgelistete Raid-Kategorien, Einteilungs- und Zusatz-Kanäle, 🗝️ DUNGEONS
+  (deshalb sind Dungeon 1–4 da) und seit 1.5.122 🔊 Gildenhalle. #handwerk-und-handel, #gruppensuche, #befehle und AFK entstehen
+  NUR mit /raidmaster-einrichten (server_setup.run_setup); den Sprachkanal AFK verschiebt der Start nur, wenn es ihn gibt.
+  -> Diese vier fehlen, weil /raidmaster-einrichten auf dem Server nicht (mehr) gelaufen ist, seit sie dazukamen – oder sie wurden
+  gelöscht. Was davon zutrifft: Verdacht, zu messen (Bot-Protokoll des Servers; hier nicht erreichbar).
+- 🔊 Gildenhalle hätte der Start seit 1.5.122 anlegen müssen (Bedingung: Bot hat "Kanäle verwalten" – hat er, sonst gäbe es
+  🗝️ DUNGEONS nicht). Verdacht, zu messen: Bot läuft dort mit < 1.5.122, oder der Kanal wurde nach dem letzten Start gelöscht, oder
+  der Start brach vorher ab (Fehler im Protokoll "Sprachkanal Gildenhalle konnte nicht angelegt werden"). MESSUNG ab 1.5.189: der
+  Start meldet in #bot-log "💬 …" jeden angelegten Kanal und jede gesetzte Berechtigung.
+- #Allgemein: Der Bot legt es seit 1.5.95 nicht mehr an; "allgemein" stand noch in UNUSED_CHANNELS (einmaliges Entfernen, Merker
+  in state.json). Ging state.json verloren, hätte der Bot #Allgemein gelöscht -> Liste ab 1.5.189 leer (Test).
+- Angelegt werden laut Auftrag nur die vier Mitglieder-Kanäle; die übrigen fehlenden nicht (kommen mit /raidmaster-einrichten).
+
+UMSETZUNG
+- server_setup: ALLGEMEIN erhält #mitglieder-chat, #offtopic, 🔊 Offtopic-Talk, 🔊 Gildenhalle mit neuen Modi members_chat /
+  members_voice. ensure_member_channels beim Start (ersetzt den Gildenhalle-Schritt): fehlende anlegen (gleicher Name irgendwo =
+  übernehmen, nichts doppelt), Rechte nur setzen, wo sie abweichen.
+- Rechte: @everyone: nicht sehen (Sprache: nicht verbinden). Mitglied, Raider, Gast: sehen, schreiben, Verlauf, Reaktionen, Links,
+  Dateien; Sprache: verbinden, sprechen, Sprachaktivierung, Stream. Raidleitung, Offizier: dazu Nachrichten verwalten (anheften);
+  Sprache: auch Kanal verwalten, stummschalten, taub schalten, verschieben.
+  ABWEICHUNG vom Wortlaut 09:18, bitte bestätigen: Die Rolle MITGLIED hat dieselben Rechte wie Raider. Der Wunsch heisst "für normale
+  Mitglieder", und normale Mitglieder tragen seit 1.5.115 die Rolle Mitglied (Mitglieder-Bereich). Ohne sie sähen sie die Kanäle
+  nicht. Weglassen = eine Zeile (MEMBERS_WRITE_ROLES).
+- Bot (Nachtrag 09:20): je Kanal LEADER_TEXT bzw. LEADER_VOICE = sehen, schreiben, Verlauf, Reaktionen, Links, Dateien, Nachrichten
+  verwalten, Kanal verwalten, Berechtigungen verwalten; Sprache dazu verbinden, sprechen, stummschalten, taub schalten, verschieben.
+  "Gildenchef" ist eine Person (meist Server-Besitzer mit allen Rechten), keine Rolle -> diese Liste ist der Massstab (Test prüft sie
+  unabhängig von der Konstante).
+- Discord-Grenzen (Nachtrag): Fehlt dem Bot eines dieser Rechte server-weit (ohne Administrator), ändert er NICHTS und meldet in
+  #bot-log, welche Rechte seiner Rolle fehlen. Steht Raider/Gast/Mitglied/Raidleitung/Offizier gleich hoch oder über der Bot-Rolle,
+  meldet er das (stummschalten/verschieben ginge dort nicht). Ob das auf dem Server zutrifft, ist HIER NICHT BELEGT (kein Zugriff)
+  -> zeigt die erste #bot-log-Meldung nach /update.
+- Gast wird in diesen vier Kanälen nicht ausgeblendet (_hide_from_guests überspringt members_*). Mitglieder-Bereich fasst sie nicht
+  an (@everyone sieht sie nicht).
+
+TESTS: test_mitglieder_kanaele.py (8 Tests, T-D-MITGL1), nachgebauter Server: Rechte je Rolle, Bot = Gildenchef, zweiter Lauf 0
+  Änderungen, vorhandene Gildenhalle übernommen, #Allgemein unberührt, fehlende Bot-Rechte -> nichts, Administrator ok, Rollen über
+  dem Bot gemeldet, Gast nicht ausgeblendet. Gegenproben 9, alle rot (Bot ohne "Berechtigungen verwalten" erst nach Verschärfen).
+  469 Tests OK, jede Datei einzeln -I OK, REGRESSIONEN 80/80. Betrieb nachgestellt (Update 1.5.188, Start, ohne config.json Exit 3,
+  Neustart 42; Befehle und Ereignisse gleich).
+
+IM SERVER (nach /update und Neustart): #bot-log "💬 ✅ #mitglieder-chat angelegt; … 🔐 … Rechte gesetzt" oder eine ⚠️-Meldung zu
+  fehlenden Rechten/Rollen-Reihenfolge. Dann Sichtprüfung durch den Supervisor.
