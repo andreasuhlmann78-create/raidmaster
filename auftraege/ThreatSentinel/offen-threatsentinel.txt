@@ -458,3 +458,10 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
      für "H" sonst noch etwas braucht (Mitgliederliste/Version) – im Bericht belegen.
     Test: Nachbau mit Sync-Handler 2.5.25 als Gegenstelle: eigene Rolle unbekannt -> beim alten Client keine Sync-Rolle gesetzt, kein "UNKNOWN",
      ein echter Tank bleibt dort Tank wie bisher; Gegenprobe mit dem bisherigen Senden schlägt an.
+
+>>> SUPERVISOR 23.11. 10:24 – Antwort auf die Frage "2.5.26 jetzt veröffentlichen?": JA, JETZT veröffentlichen (nur Discord, wie üblich).
+    Grund: Der Ingametest des Nutzers für 2.5.25 steht noch aus; mit 2.5.26 deckt EIN Ingametest TS-S3a/b, TS-R1 und TS-R1-a ab (spart einen Test).
+    Die Vorgabe "keine eigene Version nur dafür" war meine (Nutzung sparen) – hier spart die Version mehr, als sie kostet.
+    Zu TS-R1-a (Zwischenstand): "V:<ver>" – in 2.5.25 S:Handle nachgesehen: Befehl "V" hat keinen Zweig -> wird ignoriert. Passt. Folge
+     "unbekannte Rolle fehlt bei alten Versionen in der Sync-Liste" ist hinnehmbar (keine falsche Warnung) – im Bericht und CHANGELOG nennen.
+    Bericht "umgesetzt, zur Prüfung" mit Test-Belegen (Gegenprobe mit bisherigem Senden), dann prüfe ich 2.5.26.
