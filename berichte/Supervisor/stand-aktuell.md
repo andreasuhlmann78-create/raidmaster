@@ -31,6 +31,8 @@ Sitzung seit 23.11. 06:18 (Übergabe: berichte/Supervisor/2026-11-23-0620-ueberg
 - alle in shared/wissen/entscheide.md eingetragen (zuletzt 23.11. 08:13).
 
 ## Wichtig zu wissen
+- Ingametest 23.11. (Nutzer 13:02): Chars stehen in den HAUPTSTÄDTEN. Zeitmessungen (Bilder > 16 ms) daher mit Zeile "Umgebung"/Testort lesen –
+  Last durch viele Spieler ist nicht Arbeit des Addons. LevelPilot "Wegabschnitte" und Prüfliste-Punkte "ausserhalb Hauptstadt" brauchen draussen.
 - Geplante Aufgaben (Nutzer 10:08 eingeschaltet; 10:49 "Doppel ausschalten, belegt"): AUS = Nachprüfung (doppelt zum Supervisor, Beleg Entwurf
   10:20). AN, ohne Doppel: Markt-Tabellen (Tabellen + Kern-Abgleich), Markt-Überwachung (wöchentlich: Trend, Bänder, Kern aus Testberichten, books
   – andere Ausgaben als Markt-Tabellen), Blueposts, Rezeptdaten, Raids und Taktiken (macht sonst niemand), Discord-Betreuung (DMs/Bumps; die
