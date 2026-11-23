@@ -711,3 +711,15 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
 
 >>> NEU 2026-11-23 11:38 (Supervisor): Entscheid des Nutzers 11:36 – in announce/ NICHTS mehr löschen (neue Datei dazu, alte bleibt).
     auftraege/hinweis-announce-nicht-loeschen-2026-11-23.txt lesen.
+
+>>> INGAMETEST 0.9.60 – 23.11. 13:25 (Bericht vom Nutzer im Chat, Supervisor 13:26): Forever 1.60.1, Krieger 30, Donnerfels (Umgebung: Bild in Ruhe
+    Median 17,0 ms, 57 Bilder/s, Ping 16 ms). OK 335 · FEHLER 4 · Sandbox OK · echte Sendungen 0 · geteilte Daten unverändert OK · Fehlerzähler 0.
+    Leistung: längstes Bild 25,8 ms (T269), 15 Bilder über 16 ms, 0 über 40 ms -> harte Grenze eingehalten; Ziel <= 2 ms verfehlt (GS-P1 NIEDRIG:
+    T269, T09, T21–T22, T295g je Ursache nennen; Spielbetrieb ja/nein). Speicher: von den Prüfungen angelegt >= 17 191 KB (grösste T61 1 438 KB).
+ GS-K1 MITTEL – T183: GuildSentinelFrame überdeckt LevelPilotFrame (soll 0; angedockt nebeneinander erlaubt). BuffSentinel meldet dasselbe mit dem
+    LevelPilot-Fenster (BS-K1) -> Ausweichen wie bei den anderen GoldSentinel-Fenstern; Test mit offenem LevelPilot-Fenster.
+ GS-K2 MITTEL – T319: Seite Gruppe > Suche, Knopf "Elite-Quest (LevelPilot)" liegt AUSSERHALB des Hauptfensters (1 von 1559). Ins Fenster legen.
+ GS-L1 MITTEL – T311 Kontrast: 9 Texte unter 4,5:1, schwächster 3,7:1 – Mitglieder > Liste (Name (Hauptchar)) 3,7:1, Mitglieder > Wo 3,9:1,
+    Mitglieder > Zusammensetzung Klassenknöpfe (z. B. "Schamane") u. a. Klassenfarben auf dunklem Grund aufhellen oder Hintergrund ändern, bis >= 4,5:1.
+ GS-L5 NIEDRIG – T317: 8 Tooltips mit Zahlen haben die Hauptzahl nicht oben (Brett > Angebot/Gesuch, z. B. "Runenstoff (passt!)": erste Zahl in Zeile 3
+    von 12). Hauptzahl (Menge/Preis) in die erste oder zweite Zeile.

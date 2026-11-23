@@ -1653,3 +1653,7 @@ in berichte/LevelPilot/ ("umgesetzt, zur Prüfung", mit Belegen).
     LP-T2-a ERLEDIGT (alle Messungen + KB sichtbar, Spiel = erste Messung; grösste Portion 188 statt 1035 KB). Im Spiel bestätigen (Ingametest).
     LP-T2 (T295): bleibt offen, bis ein Rot mit Mitschrift kommt oder der Ingametest 3.13.10 T295 grün zeigt.
     Weiter offen: Routenpause 22.11. 17:05 (Upload des Nutzers), Zeile "Wegabschnitte" (Spielsitzung).
+
+>>> HINWEIS SUPERVISOR 23.11. 13:26 (Ingametests BuffSentinel 0.9.61, GuildSentinel 0.9.60): beide melden Überlappen mit dem LevelPilot-Fenster
+    (BS T141 "BuffSentinelOptions überdeckt Guide (LevelPilot)", GS T183 "GuildSentinelFrame / LevelPilotFrame"). Die Projekte weichen aus (BS-K1, GS-K1).
+ LP-K1 NIEDRIG: Prüfen, ob LevelPilot selbst den anderen GoldSentinel-Fenstern ausweicht (gleiche Regel); Ergebnis im Bericht, Test mit offenem GS/BS-Fenster.

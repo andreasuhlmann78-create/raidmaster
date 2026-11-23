@@ -544,3 +544,4 @@ JJJJ-MM-TT HH:MM | Projekt | Version oder Anlass | Sitzung (Chat / Nachprüfung 
 2026-11-23 13:03 | ThreatSentinel | Ingametest 13:02 lief mit 2.5.23 (alt): 0 FEHLER, 3 Bilder > 16 ms; TS-U1 Umgebungsmessung | Chat (Supervisor) | ThreatSentinel/offen-threatsentinel.txt | -
 2026-11-23 13:05 | BuffSentinel | Ingametest 13:04 lief mit 0.9.60 (alt): 6 FEHLER (u. a. T136 echte Gilden-Nachricht); BS-I1 | Chat (Supervisor) | BuffSentinel/offen-buffsentinel.txt | -
 2026-11-23 13:20 | BuffSentinel | Ingametest 0.9.61: 3 FEHLER (BS-K1 T141, BS-L1 Kontrast, T162), BS-P1 27,5 ms; BS-I1 erledigt | Chat (Supervisor) | BuffSentinel/offen-buffsentinel.txt | -
+2026-11-23 13:26 | GuildSentinel/LevelPilot | Ingametest GS 0.9.60: 4 FEHLER -> GS-K1, GS-K2, GS-L1, GS-L5, GS-P1; LP-K1 Hinweis | Chat (Supervisor) | GuildSentinel/offen-guildsentinel.txt, LevelPilot/offen-levelpilot.txt | -
