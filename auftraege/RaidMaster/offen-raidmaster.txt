@@ -641,3 +641,15 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     Diff daten.py: fetch ausserhalb des try (Ladefehler -> Lieferung bricht ab, nichts gemerkt), Filterfehler -> weglassen + merken, svfilter fehlt ->
      weglassen ohne merken. Tests (Supervisor): 116 OK. download/RaidMasterUploader.zip: alle 12 Dateien byte-gleich mit RaidMasterUploader/, VERSION 2.3.16.
     Für den Nutzer: Update eilt nicht (2.3.15 lässt eher zu viel weg). Bei Gelegenheit zusammen mit dem Entpacken von 2.3.15 auf PC/Offiziere.
+
+>>> BEFUND SUPERVISOR 23.11. 14:03 – UP-422 HOCH (Uploader-Fenster des Nutzers, Laptop, Bild 14:02):
+    "Prüfung: GitHub antwortet 422 – nichts geliefert" alle 5 Min.; "zuletzt geliefert 20.11. 13:59 (18 Dateien) · Repo 149,2 MB · FEHLER: GitHub antwortet 422".
+    Belegt im Daten-Repo (stand.json "zeit"): AUSPLUSLAPTOP 20.11. 13:59 · DESKTOP-NVITMSE 22.11. 17:01 · DESKTOP-JD5SLR5 22.11. 20:25 · MININT-M6UO3AL 23.11. 13:49.
+     Die Daten des Laptops fehlen seit 3 Tagen (Markt-Tabellen, Buchhaltung, Testdaten). Die Geschichte des Daten-Repos hat heute nur noch 1 Commit
+     (API commits: einziger 23.11. 12:50 UTC, MININT) – die Geschichte wurde ersetzt.
+    Verdacht, zu messen: Das Neuschreiben der Geschichte (Bewerber-Daten entfernen, UP-DS2?) hat Commits/Bäume entfernt, auf die ältere Uploader
+     (Laptop: Version unbekannt, noch nicht 2.3.15/2.3.16) aufbauen -> 422 beim Anlegen des Baums oder beim Setzen von main. Die Abholung an #testberichte
+     (Discord) läuft dagegen.
+    Soll: (1) Ursache mit der genauen GitHub-Fehlermeldung belegen (Text der 422-Antwort ins Fenster/Protokoll, ohne Token); (2) Uploader erholt sich
+     selbst: bei 422 neu vom aktuellen main aufbauen (kein Datenverlust, keine Doppel); (3) Test mit Gegenprobe (main mit ersetzter Geschichte);
+     (4) dem Nutzer sagen, ob ein Update auf 2.3.16 genügt. Wer hat die Geschichte ersetzt und warum? Im Bericht belegen.

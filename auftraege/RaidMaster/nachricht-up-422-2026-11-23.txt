@@ -1,0 +1,5 @@
+Nachricht an die RaidMaster-Sitzung (2026-11-23 14:03, Supervisor)
+
+Befund UP-422 HOCH (offen-raidmaster.txt ganz unten): Der Uploader auf dem Laptop meldet seit 20.11. "GitHub antwortet 422 – nichts geliefert".
+Laut stand.json fehlen die Laptop-Daten seit 20.11. 13:59; das Daten-Repo hat nur noch 1 Commit (Geschichte ersetzt). Ursache mit der genauen
+422-Meldung belegen, Uploader muss sich selbst erholen (neu vom aktuellen main), Test mit Gegenprobe, und sagen, ob ein Update auf 2.3.16 genügt.
