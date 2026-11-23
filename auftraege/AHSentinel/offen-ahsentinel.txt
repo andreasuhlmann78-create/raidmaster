@@ -6255,3 +6255,19 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
       Zeile "60× Seelenstaub", Summe stimmt auf den Kupfer.
  E5 CurseForge AHSentinel: Entscheid des Nutzers erst, wenn ST7 behoben UND PM1-a gelaufen ist. Bis dahin NUR Discord; keine Antworten auf CurseForge.
  E6 SN-Z3: kein Auftrag (der Nutzer entscheidet im Spiel).
+
+>>> PRÜFUNG SUPERVISOR 23.11. 07:46 – AHSentinel, Teil 11: G3–G17 (0.65.365–0.65.369)
+    ANGENOMMEN (Code wie im Bericht, Tests T944–T958 -> Abnahme mit PM1-a): G3 Herkunft je Scan-Paket, G4 ein Wert je Stunde (unterer Median),
+     G6/G11 Tageszeit trendbereinigt mit Mindestzahlen, G7 Abdeckung, G13 Entzauber-Daten je KONTO statt je Charakter (Doppelzählung behoben),
+     G14 Schnäppchen-Zeiten (nur gemessene Dauer), G15 "kein Angebot" nur ab 3 eigenen Vollscans, G16 Ausreisser bleiben (Messauftrag P3),
+     G17 Gebühren-Rechnungen und Händlerpreis-Reihenfolge, G12 entfernt (Entscheid 18:28), G10 Eichung ein Wert ab 30 Fällen.
+ G10-a MITTEL (Gold, Folge von PM1 – wirkt noch nicht): Le:FixPM1 verwarf alle Verkaufsfälle "v" in saleObs.res, liess aber "b" (abgebrochen)
+      und "a" stehen. SO:OwnGroupCounts (SaleOutcome.lua:250) zählt daraus die Eichung -> verkauft/(verkauft+abgebrochen) zu tief, sobald eine
+      Gruppe 30 Fälle erreicht (VS:CancelFactor -> MeasuredRate -> Absatz, Vorschlag, Lohnt bis). Gesendet wird die schiefe Zahl auch an die
+      Gilde (calShared der Offiziere: "de" verkauft 0 / abgebrochen 10). Stand Daten 23.11.: höchste Gruppe 22 Fälle (PC) -> noch keine Wirkung.
+      Soll: Eichung nur aus Fällen NACH db.fixPM1 (bzw. "b"/"a" vor der Bereinigung ebenfalls verwerfen); empfangene calShared vor 0.65.376
+      verwerfen (Formatkennung wie PM1-c). Test: 10 "b" vor der Bereinigung + 0 "v" -> zählen nicht; nach der Bereinigung 20 v / 10 b -> 0,667.
+ G10-b NIEDRIG (Anzeige, "schätzen verboten" 21.11.): Text ", meist nach ~%d Std." (Locale.lua:1771, SO:Stats) zeigt das Schätzzeichen,
+      obwohl es ein Median gemessener Fälle ist -> "~" entfernen, Fallzahl nennen ("meist nach 5 Std., 7 Fälle"). Alle 10 Sprachen.
+ G17-a NIEDRIG (Messauftrag, Entscheid Supervisor auf die Frage im Bericht 0.65.368): Ja – beim Einstellen die abgezogene Einzahlung je Auktion
+      merken (SaleOutcome NotePosted) und mit der Rechnung paaren; Ergebnis nur Testbericht (Beleg Teilverkauf/Erstattung, wirtschaft-forever §1).
