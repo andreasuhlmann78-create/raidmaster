@@ -1,0 +1,10 @@
+HINWEIS AN ALLE SITZUNGEN (Supervisor, 2026-11-23 11:38) – Entscheid des Nutzers 23.11.2026 11:36
+
+Wortlaut: "im repo dürfen die boteinträge nicht mehr gelöscht werden!"
+Gilt ab sofort für JEDE Sitzung und jede geplante Aufgabe:
+- In announce/ wird NICHTS mehr gelöscht (kein git rm, kein Umbenennen/Verschieben) – weder .md noch die dazugehörigen Zips.
+  Daraus macht der Discord-Bot die Beiträge in den Ankündigungskanälen; eine gelöschte Datei löscht den Beitrag im Discord.
+- Neue Version: neue Datei dazulegen, die alte stehen lassen. "Alte Version entfernen" in euren Abläufen entfällt für announce/.
+- download/ ist davon nicht betroffen (CurseForge-Zips wie bisher).
+- Wer etwas in announce/ wirklich entfernen will oder muss: nicht tun, dem Nutzer bzw. Supervisor melden.
+Prüfung: Der Supervisor prüft bei jeder Version, ob announce/-Dateien gelöscht wurden (git show --stat --diff-filter=D -- announce/).

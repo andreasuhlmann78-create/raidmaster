@@ -409,3 +409,14 @@ SICHERHEIT (Pflicht, Repo ist öffentlich):
      6. /update ausführen, #bot-log lesen: Warnung "Rollen über dem Bot" muss weg sein; Rechte in #mitglieder-chat/Gildenhalle unverändert.
      7. Hat die Discord-Sitzung keinen Zugang zur Discord-Oberfläche als Eigentümer: NICHTS versuchen, im Bericht melden (Supervisor/Nutzer übernehmen).
     Bericht: berichte/Discord/<Zeit>-d-mitgl1-r.txt mit Reihenfolge vorher/nachher und Bot-Log-Zeile, "umgesetzt, zur Prüfung". stand-aktuell.md nachführen.
+
+>>> NEU 2026-11-23 11:38 (Supervisor): Entscheid des Nutzers 11:36 – in announce/ NICHTS mehr löschen (neue Datei dazu, alte bleibt).
+    auftraege/hinweis-announce-nicht-loeschen-2026-11-23.txt lesen.
+ D-ANN1 MITTEL (Entscheid 11:36, Bitte aus deinem Bericht 11:37 – Auftrag):
+    a) Bot löscht im Discord NIE mehr eigene Ankündigungs-Beiträge, nur weil die Datei im Repo fehlt – nur in #bot-log melden (einmal je Datei).
+    b) Prüfung im Workflow (z. B. discord-check.yml oder eigener Schritt): ein Push, der announce/*.md oder announce/*.zip löscht/umbenennt, wird ROT
+       gemeldet (Dateiliste). Tests mit Gegenprobe.
+    c) Beleg vorab, ohne etwas zu tun: Was passiert, wenn alte Ankündigungen NICHT mehr gelöscht werden (mehrere Versionen derselben Reihe in announce/)?
+       Postet/ersetzt der Bot richtig (announce_series, "ältere Version einer Reihe")? Und: Würde das Wiederherstellen der 34 gelöschten Dateien aus der
+       Git-Geschichte doppelte Beiträge erzeugen (state "announced"/"announce_msgs")? Ergebnis im Bericht – der Nutzer entscheidet danach über das
+       Wiederherstellen. Bis dahin NICHTS wiederherstellen.

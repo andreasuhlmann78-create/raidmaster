@@ -257,3 +257,5 @@ die es dort gibt.
 - E-Regel 23.11.2026 10:42 (Fehler Supervisor, PS 0.9.76): Bei eigenen Nachläufen der Offline-Tests JEDE Lage (forever/era/retail/tbc …) bis zur
   Ergebniszeile lesen – nie mit head abschneiden. Eine Lage ohne Ergebniszeile/Bericht ist kein OK, sondern ein Befund ("kein Lauf"); Zahlen im
   Bericht des Projekts für diese Lage dann als falsch melden. (0.9.76 hatte ich TBC abgeschnitten und den falschen Wert "tbc 251/0" übersehen.)
+- E-Regel 23.11.2026 11:38 (Entscheid 11:36): Bei JEDER Version prüfen, ob announce/-Dateien gelöscht/umbenannt wurden
+  (git show --stat --diff-filter=DR <commit> -- announce/). Jede Löschung = Befund HOCH an das Projekt.

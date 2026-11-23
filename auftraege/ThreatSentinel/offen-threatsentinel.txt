@@ -465,3 +465,6 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     Zu TS-R1-a (Zwischenstand): "V:<ver>" – in 2.5.25 S:Handle nachgesehen: Befehl "V" hat keinen Zweig -> wird ignoriert. Passt. Folge
      "unbekannte Rolle fehlt bei alten Versionen in der Sync-Liste" ist hinnehmbar (keine falsche Warnung) – im Bericht und CHANGELOG nennen.
     Bericht "umgesetzt, zur Prüfung" mit Test-Belegen (Gegenprobe mit bisherigem Senden), dann prüfe ich 2.5.26.
+
+>>> NEU 2026-11-23 11:38 (Supervisor): Entscheid des Nutzers 11:36 – in announce/ NICHTS mehr löschen (neue Datei dazu, alte bleibt).
+    auftraege/hinweis-announce-nicht-loeschen-2026-11-23.txt lesen.

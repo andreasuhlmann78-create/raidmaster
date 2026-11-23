@@ -6280,3 +6280,6 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
 >>> HINWEIS SUPERVISOR 23.11. 09:30 (zum Montag-Befund Lua-Fehler RecipeList/SetCraftableCount, gemeinsam mit ProfessionSentinel): VERDACHT, zu messen –
     Crafting.lua:242 ruft list:SelectRecipe (Blizzard-Rezeptliste) aus AHS-Code auf; der Fehler kam aus dem Rückruf nach der Rezeptwahl. Im nächsten
     Bericht bewerten, ob der Weg über C_TradeSkillUI.OpenRecipe allein genügt. Messung durch den Nutzer: nur AHS aktiv -> Fehler ja/nein.
+
+>>> NEU 2026-11-23 11:38 (Supervisor): Entscheid des Nutzers 11:36 – in announce/ NICHTS mehr löschen (neue Datei dazu, alte bleibt).
+    auftraege/hinweis-announce-nicht-loeschen-2026-11-23.txt lesen.

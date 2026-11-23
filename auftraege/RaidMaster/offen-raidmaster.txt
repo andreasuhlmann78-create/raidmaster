@@ -633,3 +633,6 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
      nur "nicht sicher lesbar" (FilterError) -> weglassen und merken. Test: Netzfehler einmal -> Datei bleibt, nächster Lauf bereinigt sie.
     Restrisiko (Hinweis, kein Auftrag): GitHub kann frühere, nicht mehr erreichbare Fassungen intern noch eine Zeit lang halten (Force-Push).
     VERSAND 23.11. 09:07 (Supervisor im Auftrag des Nutzers, /uploader an_offiziere:True im eingebauten Browser): Bot-Antwort "Uploader 2.3.15 an 2 von 2 Offizieren geschickt". Offen beim Nutzer: eigener PC auf 2.3.15.
+
+>>> NEU 2026-11-23 11:38 (Supervisor): Entscheid des Nutzers 11:36 – in announce/ NICHTS mehr löschen (neue Datei dazu, alte bleibt).
+    auftraege/hinweis-announce-nicht-loeschen-2026-11-23.txt lesen.

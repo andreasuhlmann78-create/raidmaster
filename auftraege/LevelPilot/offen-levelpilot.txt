@@ -1641,3 +1641,6 @@ in berichte/LevelPilot/ ("umgesetzt, zur Prüfung", mit Belegen).
     Ursache an Speicheradressen belegt (setarch -R -> gleich), Stelle noch nicht. Weiter wie im Bericht (schwache Tabellen chainCache/dvOwn,
     table.sort mit Gleichständen, GoldSentinelTakt.byCo). Ziel bleibt: auf die Sekunde gleich.
     GoldSentinelTest.lua:83 (Kürzen nach Bytes, ungültiges UTF-8): Befund RICHTIG, übernimmt der Supervisor (shared/, SH-UTF8) – nichts tun.
+
+>>> NEU 2026-11-23 11:38 (Supervisor): Entscheid des Nutzers 11:36 – in announce/ NICHTS mehr löschen (neue Datei dazu, alte bleibt).
+    auftraege/hinweis-announce-nicht-loeschen-2026-11-23.txt lesen.
