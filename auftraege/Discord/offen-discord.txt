@@ -351,3 +351,20 @@ SICHERHEIT (Pflicht, Repo ist öffentlich):
      Nur melden, wenn der Nutzer die Tafeln immer zuunterst will.
 
 >>> NEU 23.11. 08:13 (Supervisor 08:14): Stand sichern in berichte/<dein Projekt>/stand-aktuell.md – auftraege/hinweis-stand-sichern-2026-11-23.txt.
+
+>>> AUFTRAG D-MITGL1 MITTEL (Entscheid des Nutzers 23.11. 09:16/09:18, Supervisor 09:19) – KANÄLE FÜR DIE GILDENMITGLIEDER
+    Wunsch: "Der Bot soll für normale Mitglieder einen eigenen Text- und Sprachkanal bauen, inkl. Offtopic."
+    Kanäle (Annahme Supervisor, Nutzer hat die Auswahl offen gelassen – "schlank"), in der Kategorie 💬 ALLGEMEIN:
+      #mitglieder-chat (Text) · #offtopic (Text) · 🔊 Gildenhalle (Sprache) · 🔊 Offtopic-Talk (Sprache)
+    Rechte (Wortlaut Nutzer 09:18):
+      - Raidleitung und Offizier: lesen, schreiben und ÄNDERN (Nachrichten verwalten/anheften; Sprachkanal: auch verwalten/stummschalten/verschieben).
+      - Raider und Gast: lesen und schreiben; Sprachkanal betreten und sprechen. Nicht verwalten.
+      - Alle anderen (@everyone ohne diese Rollen): nicht sehen.
+    BEFUND dazu (Sichtprüfung Supervisor 09:20 im Server): server_setup.py sieht in 💬 ALLGEMEIN #handwerk-und-handel, #gruppensuche,
+      #befehle, 🔊 Gildenhalle und 🔊 AFK vor – im Server steht dort aber NUR #Allgemein (begrenzt). 🗝️ DUNGEONS hat Dungeon 1–4 (begrenzt).
+      Ursache belegen (gelöscht? /setup nicht gelaufen? anderer Kanalname?) und im Bericht nennen. NICHTS doppelt anlegen: vorhandene Kanäle
+      gleichen Namens übernehmen und nur die Rechte setzen; #Allgemein bleibt, wie es ist (nicht umbenennen, nicht löschen).
+    Umsetzung: in server_setup.py (idempotent wie die übrigen Kategorien, neuer Modus für die Rechte oben), über /setup bzw. den üblichen
+      Abgleich anlegen; keine Server-IDs, Namen oder Links in Dateien. Tests: Rechte je Rolle (Offizier/Raidleitung verwalten, Raider/Gast
+      schreiben+sprechen, @everyone unsichtbar), zweiter Lauf legt nichts doppelt an. Bericht "umgesetzt, zur Prüfung"; nach dem Anlegen
+      prüft der Supervisor im Server nach. stand-aktuell.md nachführen.
