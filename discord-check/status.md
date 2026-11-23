@@ -1,6 +1,6 @@
 # Discord-Prüfung
 
-Geprüft: 2026-11-23T13:49:39Z (Commit 9024dbf), Server: Alpine Vanguard
+Geprüft: 2026-11-23T14:53:24Z (Commit c4a89f3), Server: Alpine Vanguard
 
 **Ergebnis: ❌ es fehlt etwas**
 
@@ -17,52 +17,52 @@ Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 4
 
 | | Datei | Kanal | Abdeckung | seit Push |
 |---|---|---|---|---|
-| ✅ ok | addon-hilfe__ahanalyzerpro-hilfe-0.65.3.md | #addon-hilfe | 100 % | 2 Std. |
-| ✅ ok | ahsentinel__ahsentinel-0.65.385.md | #ahsentinel | 100 % | 2 Std. |
+| ✅ ok | addon-hilfe__ahanalyzerpro-hilfe-0.65.3.md | #addon-hilfe | 100 % | 3 Std. |
+| ✅ ok | ahsentinel__ahsentinel-0.65.385.md | #ahsentinel | 100 % | 3 Std. |
 | ✅ ok | ahsentinel__ahsentinel-0-vorstellung-1.8.md | #ahsentinel | 100 % | 14 Tage |
 | ✅ ok | ahsentinel__ahsentinel-hilfe-1.0.md | #ahsentinel | 100 % | 19 Tage |
 | ✅ ok | barrow-taktik__uebersicht-1.1.md | #barrow-taktik | 100 % | 19 Tage |
-| ✅ ok | buffsentinel__buffsentinel-0.9.61.md | #buffsentinel | 100 % | 6 Std. |
-| ✅ ok | guildsentinel__guildsentinel-0.9.60.md | #guildsentinel | 100 % | 5 Std. |
+| ✅ ok | buffsentinel__buffsentinel-0.9.61.md | #buffsentinel | 100 % | 7 Std. |
+| ✅ ok | guildsentinel__guildsentinel-0.9.60.md | #guildsentinel | 100 % | 6 Std. |
 | ✅ ok | hyjal-taktik__uebersicht-1.1.md | #hyjal-taktik | 100 % | 19 Tage |
-| ✅ ok | levelpilot__levelpilot-3.13.10.md | #levelpilot | 100 % | 2 Std. |
+| ✅ ok | levelpilot__levelpilot-3.13.10.md | #levelpilot | 100 % | 3 Std. |
 | ⚠️ veraltet | levelpilot__levelpilot-uebersicht-3.12.94.md | #levelpilot | 95 % | 5 Tage |
 | ✅ ok | lore__alpine-vanguard-vorstellung-1.0.md | #lore | 100 % | 22 Tage |
 | ✅ ok | mc-feuerresi__feuerresi-1.1.md | #mc-feuerresi | 100 % | 19 Tage |
 | ✅ ok | onyxia-feuerresi__feuerresi-1.0.md | #onyxia-feuerresi | 100 % | 26 Tage |
 | ✅ ok | onyxia-taktik__onyxia-video-1.0.md | #onyxia-taktik | 100 % | 27 Tage |
-| ✅ ok | professionsentinel__professionsentinel-0.9.79.md | #professionsentinel | 100 % | 48 Min. |
+| ✅ ok | professionsentinel__professionsentinel-0.9.79.md | #professionsentinel | 100 % | 112 Min. |
 | ✅ ok | professionsentinel__professionsentinel-0-vorstellung-1.27.md | #professionsentinel | 100 % | 10 Tage |
-| ✅ ok | threatsentinel__threatsentinel-2.5.26.md | #threatsentinel | 100 % | 4 Std. |
+| ✅ ok | threatsentinel__threatsentinel-2.5.26.md | #threatsentinel | 100 % | 5 Std. |
 | ✅ ok | threatsentinel__threatsentinel-0-vorstellung-2.2.md | #threatsentinel | 100 % | 20 Tage |
-| ⚠️ veraltet | buffsentinel__buffsentinel-0-vorstellung-10.md | #buffsentinel | 94 % | 2 Std. |
-| ✅ ok | buffsentinel__buffsentinel-0-vorstellung-11.md | #buffsentinel | 100 % | 2 Std. |
-| ⚠️ veraltet | buffsentinel__buffsentinel-0-vorstellung-2.md | #buffsentinel | 68 % | 2 Std. |
-| ⚠️ veraltet | buffsentinel__buffsentinel-0-vorstellung-3.md | #buffsentinel | 75 % | 2 Std. |
-| ⚠️ veraltet | buffsentinel__buffsentinel-0-vorstellung-4.md | #buffsentinel | 73 % | 2 Std. |
-| ⚠️ veraltet | buffsentinel__buffsentinel-0-vorstellung-5.md | #buffsentinel | 72 % | 2 Std. |
-| ⚠️ veraltet | buffsentinel__buffsentinel-0-vorstellung-6.md | #buffsentinel | 90 % | 2 Std. |
-| ⚠️ veraltet | buffsentinel__buffsentinel-0-vorstellung-7.md | #buffsentinel | 88 % | 2 Std. |
-| ⚠️ veraltet | buffsentinel__buffsentinel-0-vorstellung-8.md | #buffsentinel | 88 % | 2 Std. |
-| ⚠️ veraltet | buffsentinel__buffsentinel-0-vorstellung-9.md | #buffsentinel | 90 % | 2 Std. |
-| ⚠️ veraltet | buffsentinel__buffsentinel-0-vorstellung.md | #buffsentinel | 61 % | 2 Std. |
-| ⚠️ veraltet | guildsentinel__guildsentinel-0-vorstellung-10.md | #guildsentinel | 98 % | 2 Std. |
-| ⚠️ veraltet | guildsentinel__guildsentinel-0-vorstellung-11.md | #guildsentinel | 97 % | 2 Std. |
-| ⚠️ veraltet | guildsentinel__guildsentinel-0-vorstellung-12.md | #guildsentinel | 96 % | 2 Std. |
-| ⚠️ veraltet | guildsentinel__guildsentinel-0-vorstellung-13.md | #guildsentinel | 95 % | 2 Std. |
-| ⚠️ veraltet | guildsentinel__guildsentinel-0-vorstellung-14.md | #guildsentinel | 95 % | 2 Std. |
-| ⚠️ veraltet | guildsentinel__guildsentinel-0-vorstellung-15.md | #guildsentinel | 94 % | 2 Std. |
-| ⚠️ veraltet | guildsentinel__guildsentinel-0-vorstellung-16.md | #guildsentinel | 94 % | 2 Std. |
-| ⚠️ veraltet | guildsentinel__guildsentinel-0-vorstellung-17.md | #guildsentinel | 93 % | 2 Std. |
-| ⚠️ veraltet | guildsentinel__guildsentinel-0-vorstellung-18.md | #guildsentinel | 92 % | 2 Std. |
-| ⚠️ veraltet | guildsentinel__guildsentinel-0-vorstellung-2.md | #guildsentinel | 80 % | 2 Std. |
-| ⚠️ veraltet | guildsentinel__guildsentinel-0-vorstellung-3.md | #guildsentinel | 92 % | 2 Std. |
-| ⚠️ veraltet | guildsentinel__guildsentinel-0-vorstellung-4.md | #guildsentinel | 94 % | 2 Std. |
-| ⚠️ veraltet | guildsentinel__guildsentinel-0-vorstellung-6.md | #guildsentinel | 98 % | 2 Std. |
-| ⚠️ veraltet | guildsentinel__guildsentinel-0-vorstellung-7.md | #guildsentinel | 98 % | 2 Std. |
-| ✅ ok | guildsentinel__guildsentinel-0-vorstellung-8.md | #guildsentinel | 100 % | 2 Std. |
-| ✅ ok | guildsentinel__guildsentinel-0-vorstellung-9.md | #guildsentinel | 100 % | 2 Std. |
-| ⚠️ veraltet | guildsentinel__guildsentinel-0-vorstellung.md | #guildsentinel | 73 % | 2 Std. |
+| ⚠️ veraltet | buffsentinel__buffsentinel-0-vorstellung-10.md | #buffsentinel | 94 % | 3 Std. |
+| ✅ ok | buffsentinel__buffsentinel-0-vorstellung-11.md | #buffsentinel | 100 % | 3 Std. |
+| ⚠️ veraltet | buffsentinel__buffsentinel-0-vorstellung-2.md | #buffsentinel | 68 % | 3 Std. |
+| ⚠️ veraltet | buffsentinel__buffsentinel-0-vorstellung-3.md | #buffsentinel | 75 % | 3 Std. |
+| ⚠️ veraltet | buffsentinel__buffsentinel-0-vorstellung-4.md | #buffsentinel | 73 % | 3 Std. |
+| ⚠️ veraltet | buffsentinel__buffsentinel-0-vorstellung-5.md | #buffsentinel | 72 % | 3 Std. |
+| ⚠️ veraltet | buffsentinel__buffsentinel-0-vorstellung-6.md | #buffsentinel | 90 % | 3 Std. |
+| ⚠️ veraltet | buffsentinel__buffsentinel-0-vorstellung-7.md | #buffsentinel | 88 % | 3 Std. |
+| ⚠️ veraltet | buffsentinel__buffsentinel-0-vorstellung-8.md | #buffsentinel | 88 % | 3 Std. |
+| ⚠️ veraltet | buffsentinel__buffsentinel-0-vorstellung-9.md | #buffsentinel | 90 % | 3 Std. |
+| ⚠️ veraltet | buffsentinel__buffsentinel-0-vorstellung.md | #buffsentinel | 61 % | 3 Std. |
+| ⚠️ veraltet | guildsentinel__guildsentinel-0-vorstellung-10.md | #guildsentinel | 98 % | 3 Std. |
+| ⚠️ veraltet | guildsentinel__guildsentinel-0-vorstellung-11.md | #guildsentinel | 97 % | 3 Std. |
+| ⚠️ veraltet | guildsentinel__guildsentinel-0-vorstellung-12.md | #guildsentinel | 96 % | 3 Std. |
+| ⚠️ veraltet | guildsentinel__guildsentinel-0-vorstellung-13.md | #guildsentinel | 95 % | 3 Std. |
+| ⚠️ veraltet | guildsentinel__guildsentinel-0-vorstellung-14.md | #guildsentinel | 95 % | 3 Std. |
+| ⚠️ veraltet | guildsentinel__guildsentinel-0-vorstellung-15.md | #guildsentinel | 94 % | 3 Std. |
+| ⚠️ veraltet | guildsentinel__guildsentinel-0-vorstellung-16.md | #guildsentinel | 94 % | 3 Std. |
+| ⚠️ veraltet | guildsentinel__guildsentinel-0-vorstellung-17.md | #guildsentinel | 93 % | 3 Std. |
+| ⚠️ veraltet | guildsentinel__guildsentinel-0-vorstellung-18.md | #guildsentinel | 92 % | 3 Std. |
+| ⚠️ veraltet | guildsentinel__guildsentinel-0-vorstellung-2.md | #guildsentinel | 80 % | 3 Std. |
+| ⚠️ veraltet | guildsentinel__guildsentinel-0-vorstellung-3.md | #guildsentinel | 92 % | 3 Std. |
+| ⚠️ veraltet | guildsentinel__guildsentinel-0-vorstellung-4.md | #guildsentinel | 94 % | 3 Std. |
+| ⚠️ veraltet | guildsentinel__guildsentinel-0-vorstellung-6.md | #guildsentinel | 98 % | 3 Std. |
+| ⚠️ veraltet | guildsentinel__guildsentinel-0-vorstellung-7.md | #guildsentinel | 98 % | 3 Std. |
+| ✅ ok | guildsentinel__guildsentinel-0-vorstellung-8.md | #guildsentinel | 100 % | 3 Std. |
+| ✅ ok | guildsentinel__guildsentinel-0-vorstellung-9.md | #guildsentinel | 100 % | 3 Std. |
+| ⚠️ veraltet | guildsentinel__guildsentinel-0-vorstellung.md | #guildsentinel | 73 % | 3 Std. |
 | ✅ ok | levelpilot__levelpilot-uebersicht.md | #levelpilot | 100 % | 27 Tage |
 
 **announce/levelpilot__levelpilot-uebersicht-3.12.94.md** – fehlt im Discord:
