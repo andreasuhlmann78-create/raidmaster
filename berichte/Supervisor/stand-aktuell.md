@@ -27,6 +27,10 @@ Sitzung seit 23.11. 06:18 (Übergabe: berichte/Supervisor/2026-11-23-0620-ueberg
 - alle in shared/wissen/entscheide.md eingetragen (zuletzt 23.11. 08:13).
 
 ## Wichtig zu wissen
+- Geplante Aufgaben (Nutzer 10:08 eingeschaltet; 10:49 "Doppel ausschalten, belegt"): AUS = Nachprüfung (doppelt zum Supervisor, Beleg Entwurf
+  10:20). AN, ohne Doppel: Markt-Tabellen (Tabellen + Kern-Abgleich), Markt-Überwachung (wöchentlich: Trend, Bänder, Kern aus Testberichten, books
+  – andere Ausgaben als Markt-Tabellen), Blueposts, Rezeptdaten, Raids und Taktiken (macht sonst niemand), Discord-Betreuung (DMs/Bumps; die
+  Discord-Sitzung baut nur den Bot), Gmail-Aufräumen. Ihre Entwürfe prüft der Supervisor.
 - LevelPilot-Offline: python3 berichte/LevelPilot/offline/run_offline.py <zip> --nur testroutine (~35 s, lupa). Forever deDE = "Ashenvale".
 - Discord-Sichtprüfung: Kategorien aufklappen (E-Regel 23.11.); Befund 09:20 "Kanäle fehlen" war falsch, korrigiert.
 - Prüfung AHS 0.65.376–382: offen-ahsentinel Teil 1–11; Prüfregeln neu in shared/wissen/pruef-ablauf.md Abschnitt E (23.11.).

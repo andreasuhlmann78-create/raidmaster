@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 10:49 | Geplante Aufgaben hat der Nutzer um 10:08 selbst wieder eingeschaltet. "Wenn es doppelt läuft, bitte das Doppel ausschalten … aber sicherstellen, dass es so ist … wir schätzen nicht mehr." | Supervisor 10:49: nur "Nachprüfung neuer Addon-Versionen" ausgeschaltet – belegt doppelt (Entwurf 10:20 prüfte AHS 0.65.383/384 und PS 0.9.76, dieselben Versionen wie der Supervisor; PS 0.9.76 von beiden). Übrige laufen: keine andere Sitzung macht ihre Arbeit (Belege in berichte/Supervisor/stand-aktuell.md). |
 | 10:32 | Bot-Rolle bleibt unter Raidleitung, über Offizier: "wir belassen das so … Raidleitung bin sowieso auch ich" (Rückfrage Discord-Sitzung) | D-MITGL1-R so belassen; #bot-log meldet nur noch Raidleitung über dem Bot |
 | 10:16 | Gäste (PUG) dürfen in die 4 Mitglieder-Kanäle: "Ja, so lassen" (Rückfrage Discord-Sitzung) | keine Änderung an den Gast-Rechten |
 | 09:59 | Bot-Rolle über Mitglied/Raider/Gast/Raidleitung/Offizier: "Die Discord-Sitzung soll das selber machen, aber sehr vorsichtig sein und keine Fehler machen." | Auftrag D-MITGL1-R (offen-discord), nur über Discord-Oberfläche, nur Bot-Rolle bewegen, vorher/nachher belegen |
