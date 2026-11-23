@@ -380,3 +380,16 @@ SICHERHEIT (Pflicht, Repo ist öffentlich):
      /raidmaster-einrichten (nicht beim Start); Gildenhalle unklar -> nach /update #bot-log lesen.
     Offen beim Nutzer: Rolle "Mitglied" wie Raider (Frage der Discord-Sitzung); /update; danach Sichtprüfung Rechte je Rolle durch den Supervisor.
     ENTSCHEID DES NUTZERS 23.11. 09:50: Rolle "Mitglied" in den Mitglieder-Kanälen wie Raider (lesen, schreiben, sprechen) – JA. (Supervisor 09:51)
+
+>>> SICHTPRÜFUNG SUPERVISOR 23.11. 09:57 nach /update (Bot-Log 09:54) – D-MITGL1 ERLEDIGT (Kanäle + Zugriff), ein Punkt beim Nutzer
+    Im Server (Kategorie 💬 ALLGEMEIN aufgeklappt): Allgemein, handwerk-und-handel, gruppensuche-für-dungeons, befehle, mitglieder-chat, offtopic,
+     AFK, Gildenhalle, Offtopic-Talk. #mitglieder-chat ist privat; Zugriff: Offizier, Raidleitung, Raider, Gast, Mitglied, Bot-Rolle, Servereigentümer.
+     Bot-Log: #mitglieder-chat, #offtopic, Offtopic-Talk angelegt, Gildenhalle Rechte gesetzt (7). Nichts doppelt.
+    KORREKTUR SUPERVISOR: Mein BEFUND 09:20 ("im Server steht in ALLGEMEIN nur #Allgemein") war FALSCH – die Kategorie war zugeklappt, Discord
+     zeigt dann nur den gerade gewählten Kanal. handwerk-und-handel, gruppensuche, befehle, AFK, Gildenhalle bestanden schon. Kein Auftrag mehr dazu.
+     Prüfregel E ergänzt (zugeklappte Kategorien).
+    OFFEN BEIM NUTZER (D-MITGL1-R): Bot meldet "Rollen über dem Bot: Mitglied, Raider, Gast, Raidleitung, Offizier". Damit kann der Bot diese
+     Mitglieder nicht stummschalten/verschieben (Nachtrag 09:20 "Bot darf alles wie Rokan" nicht voll erfüllt). Nutzer: Server-Einstellungen ->
+     Rollen -> Bot-Rolle über diese Rollen ziehen. Danach /update; Supervisor liest #bot-log (Warnung muss weg sein).
+    HINWEIS (kein Fehler): Bot meldet 36 im Repo gelöschte Ankündigungen (u. a. *-vorstellung-*.md) und löscht die Discord-Beiträge absichtlich
+     NICHT (Schutz announce_delete_max). Gewollt so lassen, ausser der Nutzer will die alten Beiträge entfernen.

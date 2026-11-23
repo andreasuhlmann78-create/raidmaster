@@ -251,3 +251,6 @@ die es dort gibt.
   Mengenentscheidung beeinflusst, prüfen: Woher stammt sie (gemessen/geschätzt/Annahme)? Auf wie vielen Fällen beruht sie (n)? Ist
   sie im Spiel sichtbar so gekennzeichnet? Geschätzte Werte ohne laufende Messung = Befund. Neue Rechenregel ohne Messbeleg an echten
   Daten = keine Freigabe. Im Prüfbericht eine Zeile "Grundziel Markt: geprüft – gemessen x / geschätzt y / Befunde z".
+- E-Regel 23.11.2026 09:57 (Fehler Supervisor, D-MITGL1): Discord-Sichtprüfung nur mit AUFGEKLAPPTEN Kategorien. Eine zugeklappte Kategorie zeigt
+  nur den gewählten Kanal – daraus "Kanal fehlt" zu schliessen ist falsch. Vor jedem Befund "fehlt": Kategorie aufklappen (aria-expanded=true)
+  oder Kanalliste über die Kanal-Einstellungen/Bot-Log belegen; danach den alten Zustand wiederherstellen.
