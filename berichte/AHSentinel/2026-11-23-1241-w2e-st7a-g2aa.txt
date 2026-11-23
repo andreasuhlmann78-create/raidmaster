@@ -1,0 +1,33 @@
+AHSentinel 0.65.385 – AHS-W2E-a, W2E-b, ST7-a, G2a-a (PRÜFUNG SUPERVISOR 23.11. 12:05) – umgesetzt, zur Prüfung
+Nur Discord, kein CurseForge. Tests gebaut, nicht laufen lassen. addon_check: OK (keine FEHLER). Dateiliste ZIP gleich wie 0.65.384.
+announce/: nichts gelöscht (Entscheid 11:36). Mein Veröffentlichungs-Skript hat bis 0.65.384 die jeweils vorige announce-Datei entfernt
+(0.65.382 um 08:40, 0.65.383 um 08:50 – vor dem Entscheid); die Zeile ist gestrichen. Gelöschtes wird laut Zusatz 12:03 NICHT wiederhergestellt.
+
+AHS-W2E-a MITTEL – Befund bestätigt (SilverTest.lua MR:Step: r.i = r.i + 1 vor der Rückfrage).
+  Geändert: bei Rückfrage r.i = r.i − 1 vor "return false, ask" -> Plan-Schritt, Protokoll (r.rows), Teil-Zählung (r.used) unverändert; der
+  zweite Klick holt denselben Eintrag (gleicher Schlüssel Item/Preis/Laufzeit) und stellt ein. FeeAsk läuft jetzt auch in der Testroutine
+  (Einzahlung dort MR.testDeposit; ohne testDeposit wie bisher keine Rückfrage -> T340–T342 unverändert).
+  Test T1000: Einzahlung weit über der Schwelle -> 1. Klick: false + Rückfrage, r.i 0, Protokoll 0, Aufrufe 0; 2. Klick: PLAN[1] eingestellt
+  (post:<Preis>:<Gebot> bzw. postc:<Preis>). Gegenprobe (alte Zeile ohne r.i − 1): r.i = 1 nach dem 1. Klick, 2. Klick stellt PLAN[2] ein -> rot.
+
+AHS-W2E-b NIEDRIG – Test je Verkaufsweg T1001 mit ECHTEM Se:Post (Einstellen nachgestellt: AH offen, Taschenplatz, C.PostItem zählt,
+  Einzahlung 5s bei Preis 10s, Schwelle 10 %): Verkaufen-Fenster (p:Post), Serie (Se:BatchStep), Neu einstellen (BatchStep repost, e.left),
+  Heute tun (T:Post) -> je "1. Klick: nicht eingestellt (0 Aufrufe), 2. Klick: eingestellt (1 Aufruf)". Messreihe: T1000. Alle Ersatzteile werden
+  zurückgesetzt (auch A.db.seller.items[Test-ID] und duration).
+
+AHS-ST7-a NIEDRIG (Messung): A:StackMemSize (Einträge, davon Stapelgrösse 1, Zeichen in der Spieldaten-Datei berechnet aus "\t[id] = n,\n");
+  A:NoteStackMem beim Login und nach jedem Vollscan (VS:Finish) -> db.stackMemLog (letzte 6 Stände). Testbericht T1002 gibt alles aus.
+  Grössenordnung zum Vergleich (berechnet, nicht gemessen): 7 400 Einträge × ~16 Zeichen ≈ 120 000 Zeichen.
+
+AHS-G2a-a NIEDRIG: A:BackfillUnited läuft jetzt als Hintergrund-Aufgabe ("markt:nachtragen", A:Job, einmal je Sitzung) mit Pause vor jedem
+  Markt; MARKT-VEREINT "nachgetragen" nennt die reine Rechenzeit (Summe der MarketStats-Blöcke) und den längsten Block in ms. Ein einzelner
+  MarketStats-Block (ein Markt, ~7 400 Items) ist nicht weiter teilbar ohne Umbau; ist der längste Block > 16 ms, melde ich es mit der Zahl.
+  T993 (ohne Pause) unverändert.
+
+HINWEIS 09:30 RecipeList/SetCraftableCount (Bewertung, Verdacht, zu messen): Crafting.lua select (Z. 234–246) ruft list:SelectRecipe(info, true)
+  der Blizzard-Rezeptliste aus Addon-Code auf; der Rückruf nach der Wahl läuft dann im Addon-Kontext (Taint möglich), der Fehler kam aus diesem
+  Rückruf. C_TradeSkillUI.OpenRecipe(id) wählt das Rezept über die Spiel-Schnittstelle, ohne Blizzard-Rahmen anzufassen; Nachteil laut Kommentar
+  im Code: Liste scrollt evtl. nicht mit. Vorschlag: nur OpenRecipe (Liste nicht mehr direkt). Erst nach der Messung des Nutzers (nur AHS aktiv
+  -> Fehler ja/nein) umsetzen; keine Änderung in dieser Version.
+
+Offen: PM1-a (Testlauf im Spiel, T976–T1002) beim Nutzer; S6-b nach BROWSE-ROH; N3 Messpunkt.

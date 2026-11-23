@@ -1,26 +1,26 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 23.11.2026 08:50 · Version 0.65.384
+## Stand 23.11.2026 12:41 · Version 0.65.385
 Repos: ahanalyzerpro (Code, schreiben), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur lesen).
-Arbeitskopie /home/claude/AHSentinel; Veröffentlichen mit /tmp/claude-0/bin/pub.sh (nur Discord).
+Arbeitskopie /home/claude/AHSentinel; Veröffentlichen mit /tmp/claude-0/bin/pub.sh (nur Discord, löscht NICHTS in announce/).
 
 ## Gerade in Arbeit
-- nichts Laufendes. Reihenfolge E1 (23.11. 07:41) abgearbeitet: 0.65.383 (ST7, G2-a, PM1-b/c, BH3-a, G10-a), 0.65.384 (NIEDRIG, W2-E, W3-E).
+- nichts Laufendes (0.65.385: W2E-a, W2E-b, ST7-a, G2a-a).
 
-## Nächste Schritte
+## Nächste Schritte (Reihenfolge)
 1. Neue Aufträge in auftraege/AHSentinel/offen-ahsentinel.txt (bei jeder Nutzer-Nachricht prüfen).
-2. S6-b: nach Messung BROWSE-ROH ggf. Teil-Scan-Preise nicht stapelbarer Items (Entscheid Prüf-Sitzung).
-3. N3 Heiltrank: nur Messpunkt (VORSCHLAG-LEER).
+2. RecipeList: nach Messung des Nutzers (nur AHS aktiv) ggf. nur C_TradeSkillUI.OpenRecipe.
+3. S6-b: Entscheid Supervisor nach BROWSE-ROH; N3 Heiltrank Messpunkt.
 
 ## Offen beim Nutzer
-- PM1-a: Testroutine im Spiel (T976–T999), Testbericht über den Uploader.
-- CurseForge-Entscheid erst nach ST7 + PM1-a (E5); keine Antworten auf CurseForge.
+- PM1-a: Testroutine im Spiel (T976–T1002), Testbericht über den Uploader.
+- Messung RecipeList-Fehler mit nur AHS aktiv.
+- CurseForge-Entscheid erst nach PM1-a (E5).
 
 ## Entscheide des Nutzers seit letztem Stand
-- keine neuen.
+- 23.11. 11:36 announce/ nichts löschen; 12:03 alte Versionen nicht wiederherstellen (vom Supervisor übermittelt, umgesetzt in pub.sh).
 
 ## Wichtig zu wissen
-- Tests nur bauen, nicht laufen lassen; Berichte "umgesetzt, zur Prüfung". Letzter Test T999 (nächster: T1000).
+- Tests nur bauen, nicht laufen lassen; Berichte "umgesetzt, zur Prüfung". Letzter Test T1002 (nächster T1003).
 - Neue Tests vor dem Anker "-- CF-AHS-5 (CurseForge 17.11. …"; Index vor { "BEFUND-S5", .
 - Neue Locale-Schlüssel in alle 10 Locale*.lua nach der Zeile "Seelengebunden – nicht im AH verkaufbar".
-- W2-E: Verkaufen-Fenster fragt jetzt bei hoher Gebühr (Umgehung feeConfirmed entfernt) – Entscheid 07:41 vor V1.
