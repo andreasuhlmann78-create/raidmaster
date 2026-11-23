@@ -657,3 +657,10 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
      für HEUTE: Der Uploader läuft seit dem Spielen heute (Abgleich 13:26/13:51 hochgeladen) und liefert ins Daten-Repo weiter nichts (422) – die
      heutigen Laptop-Daten fehlen. Schwere bleibt HOCH, bis belegt ist, ob 2.3.16 das behebt.
     -> Ausführlich: auftraege/RaidMaster/anweisung-up-422-2026-11-23.txt (14:05).
+
+>>> PRÜFUNG SUPERVISOR 23.11. 15:36 – Uploader 2.3.17 + 2.3.18 (Berichte 14:13, 15:17): ANGENOMMEN. UP-422 / UP-422b umgesetzt, zur Abnahme im Betrieb.
+    Ursache belegt (GitHub-Text "your input was too large to process", POST /git/blobs, AHSentinel.lua Forever des Laptops) – mein Verdacht
+     "ersetzte Geschichte" war FALSCH (Bericht 14:13 DU6). Tests (Supervisor): alle Uploader-Tests OK; download/RaidMasterUploader.zip byte-gleich, VERSION 2.3.18.
+    Daten-Repo 15:40: Laptop "uploader": "2.3.17" -> die grosse AHSentinel.lua (Forever) fehlt dort weiter, bis 2.3.18 auf dem Laptop läuft (Nutzer).
+    Leser angepasst (Supervisor): addon-check/marktanalyse/* lesen .lua.gz (sv_lesen), Test addon-check/test_sv_gz.py (6/6, Gegenprobe),
+     geplante Aufgabe Markt-Tabellen sucht AHSentinel.lua UND .lua.gz. Abnahme: stand.json Laptop "uploader": "2.3.18", "gepackt": true.
