@@ -738,3 +738,18 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
      psLine, psHint über AddInitializedFrameCallback); (b) AHSentinel ruft list:SelectRecipe der Blizzard-Liste aus eigenem Code auf
      (Crafting.lua:242). Der Fehler kam aus dem Rückruf nach der Rezeptwahl (SchematicForm.lua:251). Beide Wege im Bericht bewerten; wo möglich
      eigene Elemente in einem eigenen Overlay statt Feldern am Blizzard-Rahmen.
+
+>>> PRÜFUNG SUPERVISOR 23.11. 10:22 – ProfessionSentinel 0.9.76 (Bericht 2026-11-23-0950): ANGENOMMEN
+    Geprüft: Zip md5 3eeb68d4… = Bericht; addon_check OK ohne WARNUNG; GoldSentinel*.lua (6) byte-gleich mit shared/; Diff 0.9.75 -> 0.9.76 gesehen.
+     Offline unabhängig (Kopie des Repo-Stands 775d8a2, veröffentlichtes Zip): forever 251/0, era 232/0, retail 231/0 – wie im Bericht.
+     Code: Lifeline.lua keine ps-Felder mehr an Blizzards Zeilen, Overlay mit EnableMouse(false); "%d Punkte" (PLAN_POINTS).
+    PS-TAKT3 ERLEDIGT. Antwort 1 (Skillweg in eigener Liste, T296) ERLEDIGT. Antwort 2 (Punkte statt n× bei gelb/grün) ERLEDIGT.
+     Im Spiel bei Gelegenheit ansehen (Reiter Skill up, Gruppe "Skillweg – deine Rezepte").
+    Lua-Fehler SetCraftableCount: bleibt "Verdacht, zu messen" – Messung durch den Nutzer (nur PS, dann nur AHS). Zum Verdacht (b): AHSentinel ruft
+     list:SelectRecipe nur nach einem Klick des Spielers in seiner eigenen Liste (Crafting.lua:242, Cr:SelectRecipe über onClick) und in seiner
+     Testroutine – nicht von selbst. Tritt der Fehler ohne Klick in AHS auf, ist (b) unwahrscheinlich.
+ ANTWORT 4 (Einkaufsmenge gelb/grün): JA, "mindestens" ist erlaubt – es ist keine Schätzung, sondern eine belegte Untergrenze: Eine Herstellung
+    gibt höchstens 1 Punkt (gelb/grün: manchmal 0), also braucht es mindestens so viele Herstellungen wie Punkte -> mindestens Punkte × Reagenzien.
+    Anzeige: "mindestens N" und kurz, warum es mehr werden kann (z. B. Tooltip "gelb/grün gibt nicht jedes Mal einen Punkt"). Die erwartete Menge
+    aus der Formel-Chance NICHT mehr anzeigen. Orange bleibt exakt. Test: gelb/grün -> "mindestens", Zahl = Punkte × Reagenzien; orange ohne "mindestens".
+    Rangliste intern mit Formel-Chance: nur zum Sortieren ok, solange keine geschätzte Zahl angezeigt wird (im Bericht belegen).
