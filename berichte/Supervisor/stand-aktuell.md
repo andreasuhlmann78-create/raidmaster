@@ -8,8 +8,10 @@ Sitzung seit 23.11. 06:18 (Übergabe: berichte/Supervisor/2026-11-23-0620-ueberg
 - nichts Laufendes.
 
 ## Nächste Schritte (Reihenfolge)
+0. SH-UTF8 NIEDRIG (eigene Aufgabe, shared/): GoldSentinelTest.lua:83 kürzt nach Bytes -> ungültiges UTF-8 in Berichten (LP-Fund 3.13.9).
+   Mit der nächsten ohnehin nötigen Änderung an GoldSentinelTest.lua bündeln (neue Version zwingt alle Addons zum Kopieren).
 1. Eingegangen, noch zu prüfen: AHSentinel 0.65.383/384. ProfessionSentinel 0.9.77 geprüft 10:42 (angenommen; PS-TBC, PS-L9) – vorher 0.9.76 geprüft 10:22 (angenommen). ThreatSentinel: TS-R1-a vor 2.5.26.
-   LevelPilot 3.13.8 geprüft 10:09 (angenommen; LP-T2 neu, LP-T1-R offen).
+   LevelPilot 3.13.9 geprüft 11:03 (angenommen; LP-T2-a neu, LP-T2/LP-T1-R offen). Vorher: LevelPilot 3.13.8 geprüft 10:09 (angenommen; LP-T2 neu, LP-T1-R offen).
 1. Neue Berichte/Versionen prüfen, sobald sie kommen (zuerst AHSentinel: ST7, G2-a, PM1-a …; RaidMaster: UP-DS2; GuildSentinel: G-4a).
    LevelPilot 3.13.7 geprüft 23.11. (LP-T1, LP-B1–B4, LP-O1 offen); Bilder 21.11./22.11. gesichtet.
 2. Erster Lauf Markt-Tabellen 24.11. 05:37: Bericht berichte/Pruef-Sitzung/…-markt-tabellen.txt prüfen.

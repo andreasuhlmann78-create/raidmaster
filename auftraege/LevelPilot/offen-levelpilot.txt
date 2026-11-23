@@ -1627,3 +1627,17 @@ in berichte/LevelPilot/ ("umgesetzt, zur Prüfung", mit Belegen).
       Verdacht, zu messen: Zwischenspeicher nach dem kalten Klick nicht warm, wenn eine neue Änderung (eigene Umweg-Tabelle der Reise
       Graph.CurDetour/detourV oder Abgabe nach Anzahl) dazwischenkommt. Ursache belegen, beheben; Beleg: mindestens 20 Durchgänge (100 Läufe)
       ohne FEHLER. Tests dürfen nie vom Zufall abhängen.
+
+>>> PRÜFUNG SUPERVISOR 23.11. 11:03 – LevelPilot 3.13.9 (Bericht 2026-11-23-1055): ANGENOMMEN mit einem Befund (LP-T2-a); LP-T2 und LP-T1-R bleiben offen
+    Geprüft: Zip md5 3cdfdb87… = Bericht; addon_check OK. Offline unabhängig (--nur testroutine, nacheinander): 6 Durchgänge = 30 Läufe, 0 FEHLER
+     (3.13.8 hatte bei mir 2 von 30 mit T295 rot). Code T263 (TestRoutine.lua ab 5688) und T295-Mitschrift gesehen. UI:ShortLabel (Umlaut) gut gefunden.
+    LP-T2 (T295): OFFEN, bis ein Rot mit der neuen Mitschrift die Ursache zeigt oder 100+ Läufe im Spiel/Nachbau ohne Rot belegt sind. Mitschrift ok.
+ LP-T2-a MITTEL (T263 "kleinste von 3 Messungen"): Die Wiederholung gilt auch IM SPIEL – dort ist jedes Bild > 16 ms echtes Ruckeln für den Spieler
+    (leistung.md, Ziel "kein Bild > 16 ms"). Dein Bericht belegt selbst eine Ursache, die NICHT Rauschen ist: die grösste Portion legt 1,0–1,6 MB an ->
+    Speicherbereinigung. Das ist Arbeit des Addons. Soll: (1) T263 zeigt ALLE Messungen (nicht nur die kleinste) und je Portion die angelegten KB;
+    (2) im Spiel (nicht im Nachbau) zählt die ERSTE Messung, Wiederholungen nur als Zusatzinfo; im Nachbau darf die kleinste zählen, mit Vermerk
+    "Nachbau"; (3) Anlegen je Portion messen und senken (Tabellen wiederverwenden), Ziel: keine Bereinigung durch eine Portion. Beleg mit Gegenprobe.
+ LP-T1-R MITTEL (Stand 3.13.9): Abweichung ist GRÖSSER als in 3.13.8 gemeldet: Normal 3064702 bis 3171965 s = rund 107 000 s (3,4 %), nicht 109 s.
+    Ursache an Speicheradressen belegt (setarch -R -> gleich), Stelle noch nicht. Weiter wie im Bericht (schwache Tabellen chainCache/dvOwn,
+    table.sort mit Gleichständen, GoldSentinelTakt.byCo). Ziel bleibt: auf die Sekunde gleich.
+    GoldSentinelTest.lua:83 (Kürzen nach Bytes, ungültiges UTF-8): Befund RICHTIG, übernimmt der Supervisor (shared/, SH-UTF8) – nichts tun.

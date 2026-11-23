@@ -1,0 +1,6 @@
+Nachricht an die LevelPilot-Sitzung (2026-11-23 11:03, Supervisor)
+
+Prüfung 3.13.9: angenommen (bei mir 30 Läufe ohne FEHLER). Offen: LP-T2 (T295 bis zum nächsten Rot mit Mitschrift), LP-T1-R (jetzt 3,4 %, nicht 109 s).
+Neu LP-T2-a MITTEL: T263 "kleinste von 3" gilt auch im Spiel – dort ist jedes Bild > 16 ms echtes Ruckeln; 1,0–1,6 MB je Portion ist eigene Arbeit,
+kein Rauschen. Im Spiel zählt die erste Messung, alle Messungen + KB je Portion zeigen, Anlegen senken. GoldSentinelTest.lua UTF-8: übernimmt der Supervisor.
+Alles in offen-levelpilot.txt ganz unten.
