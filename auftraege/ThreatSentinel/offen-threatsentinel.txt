@@ -475,3 +475,11 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     (GuildSentinel/LevelPilot: 10 s, Zeile "Umgebung") – in der Hauptstadt ist Last durch andere Spieler sonst nicht von eigener Arbeit zu trennen.
  TS-U1 NIEDRIG: Umgebungsmessung wie GuildSentinel (GoldSentinelTakt.EnvMeasure, 10 s, Zeile "Umgebung" im Bericht) mit der nächsten Version; dann
     T-OPT7/TU7-S1/T133 erneut bewerten (eigene Rechenzeit je Bild ausweisen).
+
+>>> INGAMETEST 2.5.26 – 23.11. 15:37 (Bericht vom Nutzer im Chat, Supervisor 15:38): Forever 1.60.1, Krieger 30, Donnerfels. OK 326 · FEHLER 3 ·
+    Sandbox OK · Livedaten unverändert · echte Aktionen 0 · gesperrte Aktionen 0. Ganze Bilder > 40 ms: 0 (längstes 38,0 ms, eigene Portion 22,7 ms).
+    TS-R1/TS-R1-a: im Spiel keine FEHLER dazu – Abnahme im Gruppenspiel (SYNC-ROLLE mit Mitspieler älterer Version) bleibt in der Prüfliste.
+ TS-L3 MITTEL – T-L3 "gleiche Zahl überall": Aggrometer rundet ,5 auf (0,5 -> 1; 2,5 -> 3; 72,5 -> 73), DD-Ansicht und Spiel ab/anders (0; 2; 72).
+    Der Spieler sieht für dieselbe Bedrohung zwei Zahlen. Eine Rundung für alle Anzeigen (wie das Spiel), T-L3 grün; TU6-R1 wird damit grün.
+ TS-L6 NIEDRIG – T187 L6: Testzentrale "Client: 1.60.1 (71037)" – Zahl in Klammern ohne Wort -> "Build 71037".
+ TS-U1 bleibt: Zeile "Ort/Ping" ist da, es fehlt "Bild in Ruhe" (Median/95 %, 10 s) wie bei GuildSentinel/ProfessionSentinel.
