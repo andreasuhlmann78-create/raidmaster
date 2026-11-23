@@ -1,0 +1,54 @@
+Bericht ProfessionSentinel 0.9.75 – 23.11.2026 08:57 – umgesetzt, zur Prüfung
+
+Release v0.9.75 (Commit 5fcb670), download/ProfessionSentinel-0.9.75.zip, Announce. Tests: run_offline forever 250 OK / 0 FEHLER,
+era 231 / 0, retail 230 / 0, tbc 250 / 0 (Rest Client/SKIP); --lua51 forever 0 FEHLER; yield_check OK; check_actions OK;
+qloader-Test OK; addon_check OK (1 WARNUNG: GoldSentinelTakt Version 1 statt 3 – kommt mit Punkt "Takt 2"), md5 3028d2d7…; Smoketest gleich wie 0.9.74 (Mock-Grenzen, FEHLER-Zahl unverändert 29/26/26, OK +2 = T294/T295).
+
+1. Handwerksbuch (Auftrag 21.11.)
+ Punkt 2 Texte (Lifeline.SpurNumber): orange "n× bis gelb" (bzw. "n× bis grau", wenn gelb >= grau), gelb "n bis grün",
+   grün "n bis grau", Daten ohne Farbstufen (ns.ColorsUnknown) "Grenze unbekannt". Exakt aus Grenze minus Skill, ohne Cache
+   (Skill +1 sofort). Test T239: 90 -> "10× bis gelb", 110 -> "10 bis grün", 130 -> "10 bis grau", 91 -> "9× bis gelb",
+   gelb ohne Grün-Grenze -> "20 bis grau", "Grenze unbekannt" mit Gegenprobe (ohne Markierung keine Angabe), kein %/~.
+ Punkt 3 Prozent nur im Tooltip und nur gemessen: Zeile zeigt nie Prozent (T240 "Zeile ohne Prozent"). Tooltip der Spur:
+   gemessen ab 30 Fällen "…%", sonst "noch nicht gemessen (n von 30 …)" ohne Prozent (T240 mit Gegenprobe Band q3).
+   Dazu entfernt (Schätzen verboten): Rezept-Tooltip "~n×" bis Grün/Grau, "Chance x %" und "Gewinn je Punkt" aus der Formel.
+   Beide zeigen jetzt nur bekannte Chancen (orange 100 %, ab gelb nur gemessen; UI.KnownChance). T28/Selbsttest angepasst.
+ Punkt 4 "Skill n" statt Viereck: Ursache belegt – "●" (U+25CF) fehlt in der Spielschrift. Ungelerntes Rezept zeigt
+   "Skill 125" (rot solange Skill < 125, weiss sobald lernbar), "Skill ?" ohne Lernstufe (UI.SkillNeedText). Die Kopfzeile der
+   Zeile wird je Zeile ausgerichtet (UI.FitRowTop: Markierung links der Skill-Spalte, Name endet davor – kein Überlappen).
+   Alle Zeichen ausserhalb Windows-1252 in eigenen Dateien ersetzt (● -> •, ✓ -> OK, ★ -> *, → -> ->, ≤ ≥ ≠ ≈ − -> <= >= != ~ -).
+   Gemeinsame Dateien (GoldSentinelGame/Dev) unverändert: dort stehen ruRU/koKR/zhCN-Texte, die Schrift dieser Clients hat sie.
+   Test T295: Skill 125 rot / normal / Skill ?, alle Texte der Sprache auf Spielschrift, Zeilentexte, Gegenprobe (● erkannt,
+   • und "Grün ×" erlaubt). Offline-Prüfung über die ganze Locales.lua (EN+DE): 0 fremde Zeichen.
+ Punkt 1 Sortierung der Blizzard-Liste: nicht umsetzbar ohne Änderung an Blizzard-Rahmen (Regel: nur hooksecurefunc/Callback;
+   die Liste sortiert Blizzards Datenanbieter). FRAGE: Sortierung (12, 5, 2 …, "Grenze unbekannt" am Ende der Gruppe) stattdessen
+   in der eigenen PS-Liste (Reiter Skill up)? Bis zur Antwort nicht gebaut.
+
+2. Lehrer-Ränge (Befund Snarl/Saru) – Forever
+ Rang kommt jetzt (1) aus dem Lehrerfenster (TRAINER_SHOW, gemessen, gewinnt), (2) aus der Referenz goldgoblin <beruf>-forever
+ (pipeline/lehrer_forever.json -> Data_TrainerRef.lua, neu reproduzierbar mit pipeline/lehrer_ref.py in update.sh), sonst
+ "Rang unbekannt" – nicht mehr aus dem Titel. Test T294: Snarl 2, Saru 3, nächster Experte Orgrimmar = Saru, Makaru 1–4,
+ Messung gewinnt (Saru -> 2), unbekannt = 0.
+ Abweichungen Daten <-> Referenz (Namensabgleich): gedeckt 130, Lehrer in den Daten ohne Referenz 132 (zeigen "Rang unbekannt",
+ bis gemessen), Referenz ohne Datenzeile 16 (129: 4, 185: 4, 356: 3, 393: 5). Je Beruf Daten ohne Referenz: 129: 6, 164: 12,
+ 165: 13, 171: 14, 182: 22, 185: 18, 186: 9, 197: 9, 202: 11, 333: 2, 356: 7, 393: 9. Era/Retail: keine Referenz, unverändert.
+
+3. Farbstufen Era/Retail (Entscheid 18.11. 16:45): farbstufen.py gilt für alle Versionen. Markiert: Era 2, Retail 251,
+ Forever 16 (unverändert). T258 führt sie als bekannte Datenfehler (HINWEIS), neue Verletzung bleibt FEHLER.
+
+4. Lua-Fehler RecipeList SetCraftableCount (Befund Montag) – Verdacht, zu messen
+ (a) PS ersetzt keine Blizzard-Funktion: ScrollUtil.AddInitializedFrameCallback, eigene Felder psLine/psHint/psRecipe/psRank an
+ den Zeilen, HookScript OnEnter. (b) Messung beim Nutzer: alle Addons ausser PS aus, /reload, Berufsfenster öffnen und Liste
+ scrollen; dann nur AHS. Fehler nur mit PS -> PS; nur mit AHS -> AHS. (c) Bis zur Messung keine Zuordnung.
+
+5. Bestehende Schätzungen (Pflicht seit 21.11.) – noch im Addon
+ - Advisor/Plan (Reiter Skill up): Chance gelb/grün aus der Formel (grau-Skill)/(grau-gelb) für Rangliste und Planschritte;
+   die Zeile zeigt "n×" für einen Planschritt = erwartete Herstellungen (Summe 1/p) – bei gelb/grün eine Schätzung.
+   Vorschlag nächste Version: Planschritte gelb/grün als "n Punkte" statt "n×", Herstellungen nur orange bzw. gemessen.
+ - Lifeline.ExpectedCrafts: nicht mehr angezeigt (nur noch definiert).
+ - build_library 'rq': geschätzte Lernstufe für Rezepte ohne Angabe (Forever: Era-Abstand, sonst gelb-20); nur Filter.
+ - Händlergunst-Kosten mit src "estimate" (Feld fe) und Kisten mit "estimate" (est) – in den Daten als Schätzung markiert.
+
+Noch offen (Reihenfolge nächste Version): HOCH 1 Speicher Liste, HOCH 3 Bilder > 40 ms, Gilden-Rezepte ohne Realm,
+MITTEL 2/4, Entwickler-Befehle nur im Entwicklermodus, Hinweis Testort/Livedaten, Lesbarkeit L1–L8, Takt 2, Planschritte ohne
+Schätzung (Punkt 5).
