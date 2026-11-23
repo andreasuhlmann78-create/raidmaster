@@ -883,6 +883,35 @@ class UPDS2(ZweiRechner):
         self.drive(pc, T0 + 101, T0 + 130)
         self.assertTrue(any(b"Bewerber" in v for v in self.gh.files().values()))
 
+    def test_ds2a_netzfehler_wird_nicht_gemerkt(self):
+        # UP-DS2-a: Ladefehler beim Nachfiltern -> nichts geliefert, nichts gemerkt, Datei bleibt; nächster Lauf bereinigt sie
+        k = "123456789#1"
+        lap, lr = self.old_uploader("Laptop", k)
+        self.put(lr["_forever_/" + k], "GuildSentinel.lua", GS_SV, T0)
+        self.drive(lap, T0 + 1, T0 + 20)
+        pc, pr, logs = self.new_uploader("PC", [k])
+        real = pc.api.blob_text
+        calls = {"n": 0}
+        def flaky(sha):                                                          # nur das Laden der GuildSentinel.lua fällt einmal aus
+            data = real(sha)
+            if b"GuildSentinelDB" in data:
+                calls["n"] += 1
+                if calls["n"] == 1:
+                    raise daten.GitHubError("keine Verbindung")
+            return data
+        pc.api.blob_text = flaky
+        self.put(pr["_forever_/" + k], "AHSentinel.lua", "AHSentinelDB = { 'pc' }\n", T0 + 100)
+        n0 = self.gh.commit_count()
+        self.drive(pc, T0 + 101, T0 + 130)
+        self.assertEqual(calls["n"], 1)                                           # genau ein (fehlgeschlagener) Ladeversuch
+        self.assertEqual(self.gh.commit_count(), n0)                              # nichts geliefert
+        self.assertEqual(pc.d.get("ds2", {}), {})                                 # nichts gemerkt
+        self.assertTrue(any(p.endswith("/GuildSentinel.lua") for p in self.gh.files()))   # Datei bleibt (noch ungefiltert)
+        self.drive(pc, T0 + 400, T0 + 700)                                        # nächster Versuch
+        gs = {p: v for p, v in self.gh.files().items() if p.endswith("/GuildSentinel.lua")}
+        self.assertEqual(len(gs), 2)
+        self.assertFalse(any(b"Bewerber" in v for v in gs.values()))
+
     def test_ds2_gegenprobe_neuer_rechner_kein_hinweis(self):
         # Gegenprobe zum Hinweis: der andere Rechner hat dieselbe Version -> keine Meldung
         k = "123456789#1"

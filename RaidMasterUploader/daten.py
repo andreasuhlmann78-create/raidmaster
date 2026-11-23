@@ -477,12 +477,14 @@ class Daten:
                 return None
             if ns == sha or ns in fblobs or ns in self._have:
                 return ns
+        if svfilter is None:                           # svfilter.py fehlt -> weglassen, aber nicht merken (später wieder prüfen)
+            return None
+        # UP-DS2-a: Ladefehler (Netz/GitHub) NICHT merken – Ausnahme geht an deliver, diese Lieferung bricht ab und wird später
+        # wiederholt; die Datei des anderen Rechners bleibt so lange unverändert im Repo (kein dauerhaftes Weglassen).
+        data = fetch(sha)
         try:
-            data = fetch(sha)
-            new, _n = svfilter.filter_guildsentinel(data) if svfilter is not None else (None, 0)
-            if new is None:
-                raise ValueError("svfilter fehlt")
-        except Exception:                            # jeder Fehler -> weglassen, nie ungefiltert (kein Text der Ausnahme)
+            new, _n = svfilter.filter_guildsentinel(data)
+        except Exception:                            # nicht sicher lesbar -> weglassen und merken, nie ungefiltert
             memo[sha] = ""
             return None
         ns = git_blob_sha(new)

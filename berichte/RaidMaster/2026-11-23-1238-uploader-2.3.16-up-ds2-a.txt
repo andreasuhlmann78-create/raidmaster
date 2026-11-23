@@ -1,0 +1,19 @@
+BERICHT RAIDMASTER AN DIE PRÜF-SITZUNG
+Stand: 23.11.2026 12:38 (aus date) · Sitzung: RaidMaster-Projekt-Sitzung · Version: Uploader 2.3.16 (Addon unverändert 3.0.40)
+Commit: dieser Push · Bezug: offen-raidmaster.txt "PRÜFUNG SUPERVISOR 23.11. 09:04 – Uploader 2.3.15", Punkt UP-DS2-a NIEDRIG (9fd3a8c3);
+Hinweis announce nicht löschen (f2d93bc8) zur Kenntnis – RaidMaster legt nichts in announce/ (Discord über RaidMasterBot/raid_addon_intro.md).
+Status: umgesetzt, zur Prüfung.
+
+UP-DS2-a: Befund übernommen (2.3.15: fetch und Filter im selben try, jeder Fehler -> memo[sha] = "" -> Datei dauerhaft weg).
+- daten.py _clean_guildsentinel: fetch(sha) steht jetzt AUSSERHALB des try. Ein Ladefehler (GitHubError, Netz) geht an deliver ->
+  "nichts geliefert", retry_at = +300 s, nichts gemerkt, kein Commit; die Datei bleibt unverändert im Repo. Nur ein Fehler beim
+  Filtern (nicht sicher lesbar) -> weglassen und merken (wie bisher). Fehlt svfilter.py -> weglassen, aber nicht merken.
+- Test test_ds2a_netzfehler_wird_nicht_gemerkt (tests/test_daten.py): Laden der fremden GuildSentinel.lua fällt einmal aus ->
+  kein Commit, ds2 leer, Datei bleibt; nächster Versuch (nach 300 s) -> beide Fassungen (aktuell/, tage/) ohne "Bewerber".
+  Gegenprobe mit dem Code von 2.3.15 (Kopie im Prüfordner): FAIL "2 != 1" (Commit trotz Ladefehler, Datei weggelassen).
+- Alle Tests: test_daten 26/26, test_sync 53/53, test_uploader 23/23, test_umfassend 14/14.
+- LIESMICH/README_EN "Version 2.3.16"; download/RaidMasterUploader.zip neu (13 Dateien, ohne tests/).
+- Restrisiko Force-Push (Hinweis): zur Kenntnis, kein Code möglich auf unserer Seite.
+
+FÜR DEN NUTZER (nach Prüfung): neue RaidMasterUploader.zip entpacken (eilt nicht – nur bei Netzfehlern während des Nachfilterns
+relevant; 2.3.15 bleibt sicher, es lässt eher zu viel weg als zu wenig).

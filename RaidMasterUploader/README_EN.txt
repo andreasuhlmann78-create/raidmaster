@@ -253,6 +253,10 @@ Version 2.3.13 – privacy in the data repo (UP-DS1):
 - If the file cannot be read safely, it is not delivered at all, with one notice "GuildSentinel-Daten nicht geliefert: …".
 - New file svfilter.py – always extract the whole RaidMasterUploader.zip.
 
+Version 2.3.16 – network errors while re-filtering (UP-DS2-a):
+- If the connection fails while re-filtering another computer's GuildSentinel.lua, the uploader delivers nothing this time and
+  tries again later. The file is no longer dropped permanently; only files that cannot be read safely are left out.
+
 Version 2.3.15 – privacy for older deliveries too (UP-DS2):
 - The uploader now filters EVERY GuildSentinel.lua in the data repo, including those of other computers and of earlier days
   (applicants and ban list are emptied). A file that cannot be read safely is dropped. The old state is cleaned after the

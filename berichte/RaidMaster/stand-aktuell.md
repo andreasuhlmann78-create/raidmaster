@@ -1,11 +1,12 @@
 # Stand RaidMaster-Sitzung
 
-## Stand 23.11.2026 08:35 · Addon 3.0.40 · Uploader 2.3.15
+## Stand 23.11.2026 12:38 · Addon 3.0.40 · Uploader 2.3.16
 - Addon 3.0.40 im Spiel ohne Fehler (Ingametest 18.11.), vom Ingametest befreit (Entscheid 18.11. 15:19).
-- Uploader 2.3.15 (UP-DS2 HOCH) gepusht, Bericht 2026-11-23-0835-uploader-2.3.15-up-ds2.txt – zur Prüfung.
+- Uploader 2.3.15 (UP-DS2) angenommen (Supervisor 09:04), an die Offiziere verschickt.
+- Uploader 2.3.16 (UP-DS2-a NIEDRIG, Netzfehler nicht merken) gepusht, Bericht 2026-11-23-1238 – zur Prüfung.
 
 ## Gerade in Arbeit
-- nichts (UP-DS2 abgeschlossen, wartet auf Prüfung)
+- nichts (2.3.16 wartet auf Prüfung)
 
 ## Nächste Schritte (Reihenfolge)
 1. Addon 3.0.41 – offene Punkte aus offen-raidmaster.txt gebündelt (Nutzung sparen, eine Version):
@@ -18,11 +19,12 @@
 2. Danach Ingametest-Runde (neue Version) und Bericht.
 
 ## Offen beim Nutzer
-- Uploader 2.3.15 auf PC und bei beiden Offizieren entpacken (nach Prüfung).
+- Uploader 2.3.16 entpacken (nach Prüfung, eilt nicht).
 
 ## Entscheide des Nutzers seit letztem Stand
 - 23.11. 07:50: Pause aufgehoben, Nutzung sparen ohne Qualitätsverlust.
 - 23.11. 08:13: Stand je Sitzung in dieser Datei sichern.
+- 23.11. 11:36/12:03: in announce/ nichts löschen, alte Versionen nie neu posten (RaidMaster nutzt announce/ nicht).
 
 ## Wichtig zu wissen
 - Arbeitskopie Addon: Repo-Ordner RaidMaster/ (die frühere Kopie /home/claude/RaidMaster gibt es in dieser Umgebung nicht mehr).
