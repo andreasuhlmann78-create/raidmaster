@@ -1,0 +1,43 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+
+Geplante Aufgabe "Blueposts", Lauf 23.11.2026 21:40 MEZ (20:40 UTC). Letzter Stand: 23.11.2026 10:17 MEZ.
+Blizzard-Tracker US und EU direkt gelesen (groups/blizzard-tracker/posts.json), beide neuen Threads direkt gelesen.
+Kein neuer Hotfix-Post (#15) im Thread 2403040. Keine Schwere HOCH oder MITTEL. Zwei Hinweise NIEDRIG.
+
+NEUE BLUE-POSTS
+A) Kaivax, "Lockbox exploit and economy hold heuristic", 23.11.2026 16:26 UTC (EU-Fassung im Thread "Another exploit")
+   https://us.forums.blizzard.com/en/wow/t/lockbox-exploit-and-economy-hold-heuristic/2426335/4  (direkt gelesen)
+   https://eu.forums.blizzard.com/en/wow/t/another-exploit/645296/2
+   In eigenen Worten: Seit 22.11.2026 18:55 MEZ (09:55 PST) ist das Verhalten von Schliesskassetten vorübergehend
+   geändert (man kann nicht mehr hineinschauen bzw. sie nur teilweise plündern). Grund: Kassetten gaben je nach
+   Betrachter unterschiedliche Beute. Ein richtiger Fix, der Hineinschauen und Teilplündern wieder erlaubt, ist in
+   Arbeit; Termin offen, Blizzard meldet sich.
+   NICHT von Blizzard bestätigt (nur Spieler im Thread): "economy hold" (Kontosperre der Wirtschaft) nach dem
+   Verschicken gesperrter Kassetten per Post an Twinks. Kaivax beantwortet die Frage nach der Logik NICHT.
+   -> Verdacht, zu beobachten; keine Regel.
+   Bewertung:
+   - AHSentinel / ProfessionSentinel – NIEDRIG (Hinweis BP-2026-11-23-3, kein Auftrag): Schliesskassetten/Schrottkisten
+     (Schlossknacken) – Inhalt bis zum Fix nicht vorab sichtbar; ein Kassetten-Wert darf nicht aus "Hineinschauen"
+     kommen. Marktpreise für Kassetten 22.11.–Fix evtl. verzerrt (wie BP-2026-11-18-1 Blackmaw). Hinweis an Nutzer
+     (Psychologie: Verlustaversion): Massenversand von Kassetten per Post zwischen eigenen Figuren könnte laut
+     Spielern eine Sperre auslösen – unbestätigt, nicht als Regel ins Gehirn.
+   - Gehirn (Vorschlag an Supervisor): wirtschaft-forever.md, Zeile "Schliesskassetten: Hineinschauen/Teilplündern
+     vorübergehend aus seit 22.11. 18:55 MEZ – aktiv, Fix angekündigt (ohne Termin)". Quelle oben.
+
+B) Kaivax, "Epic Mount Riding Skill", 23.11.2026 18:55 UTC (EU "Epic Mount - Bug Riding Skill" #11)
+   https://us.forums.blizzard.com/en/wow/t/epic-mount-riding-skill/2424420/2  (direkt gelesen)
+   https://eu.forums.blizzard.com/en/wow/t/epic-mount-bug-riding-skill/642667/11
+   In eigenen Worten: Nach der epischen Klassen-Reittier-Questreihe (Paladin, vermutlich auch Hexenmeister) erhält man
+   die höhere Reitfertigkeit nicht; nur das Klassenreittier läuft 100 %. Bug gefunden, Fix in "ein bis zwei Tagen".
+   Bewertung: LevelPilot – NIEDRIG (Hinweis, kein Auftrag): falls LevelPilot Reittempo/Reitfertigkeit für Routen
+   oder Zeitschätzung nutzt, bis zum Fix nicht aus der Klassen-Questreihe ableiten. Kein Addon-Fehler.
+   BuffSentinel/ThreatSentinel: nichts.
+
+NICHT RELEVANT: keine weiteren Blue-Posts seit 21.11. 00:18 UTC ausser schon bearbeiteten.
+
+TERMINE / OFFEN
+- Mindest-Einzahlung 1c: weiter in keinem Blue-Post als aktiv gemeldet (Messauftrag aus Entwurf 10:17 bleibt).
+- Schliesskassetten-Fix: nach Blizzard-Post "done" suchen; dann AHSentinel/ProfessionSentinel "wieder normal".
+- Reitfertigkeit-Fix Paladin/Hexenmeister: "1–2 Tage" -> ab 25.11. prüfen.
+
+Nichts selbst in auftraege/ geschrieben, nichts veröffentlicht (Regel 14.11.: erst Supervisor).
