@@ -1,0 +1,91 @@
+BERICHT GuildSentinel 0.9.59 – Gilde ohne Realm, G-4a, Platzhalter, Dev-Befehle, Livedaten, Lesbarkeit L1–L8, Takt 3/Sync 3
+Von: GuildSentinel-Sitzung · 23.11.2026 08:42 (Zeit aus date, Europe/Zurich) · Quellcode 4a464a3
+Status: umgesetzt, zur Prüfung (gebündelt nach hinweis-nutzung-sparen-2026-11-23.txt). download/ (CurseForge) nicht angefasst.
+
+A) GILDEN-DATEN OHNE REALM (Auftrag 21.11. 16:30)
+- Schlüssel jetzt "@Fraktion|Gilde" (Core.lua ns.GuildKey). Charakter-Schlüssel bleiben "Realm|Name" (Meine Woche, Bank-Charakter).
+- Einmaliges Zusammenführen beim Einloggen (ns.MergeOldGuildKeys): alte Schlüssel "Realm|G", "|G", "@?|G". Listen ohne Doppel
+  (Vergleich über ns.Canon, unabhängig von der Reihenfolge), Protokoll bleibt neueste zuerst; firstSeen/levels/miles = frühere Zeit;
+  Einträge mit Zeit (t/seen/at) = neuerer Stand. Sicherung unverändert in GuildSentinelDB.guildsOld; Verwaltung (Zugriff vereint,
+  Passwort) und "begrüsst" übernommen; Diag-Zeile "GILDE Gildendaten ohne Realm zusammengeführt: n Schlüssel, vorher/nachher".
+- Meine Woche: Charaktere aller Heimat-Realms; "|Name" ohne Realm nur, wenn es ihn sonst nicht gibt; leerer Realm speichert nichts.
+- Sync/Comm: Gildenkanal ohne Realm-Kennung (GetRealmName nur in Bank/MyWeek/Links/GRM-Import) – nichts zu ändern.
+- Zahlen mit echten Daten (goldsentinel-daten 23.11., nur lokal gelesen, Nachbau test/ + Skript): Laptop 1 Schlüssel 572 -> 572;
+  Desktop JD5 2 Schlüssel 802 -> 582; Desktop NVITMSE 2 Schlüssel 822 -> 706; MININT 2 Schlüssel 844 -> 688 (n = 4 Konten Forever).
+- Test run_realm.lua (3 Spielversionen, je 24): drei alte Schlüssel -> 3 Schlüssel, 32 -> 14 Einträge, alle Regeln oben, zweites Einloggen
+  ändert nichts, anderer Heimat-Realm = dieselbe Gilde. Gegenprobe: alter Schlüssel trennte die Gilde.
+
+B) G-4a SEITE MITGLIEDER (Auftrag 23.11. 07:52)
+- Ursache belegt (Nachbau): erstes Anwählen = Aufbau + Füllen im selben Bild; Roster:Stats bis 3× je Anwählen (OnShow im Nachbau korrigiert,
+  im Spiel 1× durch SelectNow + Refresh). Die 17–22 ms der Diagnose (9 Mitglieder) sind "Seite members" inkl. "Seite bauen members".
+- Umbau: Seite wird nach dem Öffnen des Fensters in einem eigenen Bild vorgebaut (Takt-Aufgabe "Seiten vorbauen", T.Sleep(0) dann am
+  Stück unsichtbar); Stats je Anwählen einmal (Memo); UI:Select misst selbst, LANGSAM nennt die Teile.
+- Nachbau (run_members.lua, os.clock): 1000 Mitglieder Vorbauen 1,3–1,6 ms, erstes Anwählen 3,5–3,8 ms (lesen/filtern/sortieren 1,6–1,8,
+  Zeilen setzen 1,5–1,7, Zahlen 0,3–0,4); 9 Mitglieder Vorbauen 1,8–2,0 ms, Anwählen 0,6–0,7 ms (je 3 Spielversionen, n = 1 Lauf je Wert).
+  Gleiche Zeilen wie ohne Vorbauen; Gegenprobe ohne Vorbauen: Aufbau im ersten Anwählen. Im Spiel bitte /gs protokoll ansehen.
+
+C) PLATZHALTER (Befund Nutzer 19.11. 09:00) – Knopf "Platzhalter (?)" bei Werbung, automatischer Antwort, Begrüssung, Absage; Tooltip
+   mit jedem Platzhalter und Bedeutung (12 Texte, 10 Sprachen); "Leer lassen = Standardtext" grau im leeren Werbefeld.
+   run_placeholder.lua (13 Läufe): keine Platzhalter-Liste als sichtbare Beschriftung, Tooltips vollständig und übersetzt.
+   Gegenprobe: der alte Block wird gefunden.
+
+D) DEV-BEFEHLE NUR IM ENTWICKLERMODUS (Entscheid 19.11. 09:06) – als Entwickler eingestuft: test, testroutine, prüfliste (dev, gesperrt);
+   sync test, protokoll, clienttest, debug (devShow: funktionieren, stehen aber nur im Entwicklermodus in Hilfe/Befehlsliste).
+   T310: ohne Entwicklermodus keine Dev-Zeile in Hilfe und Befehlsliste, mit Entwicklermodus alle 7. Gegenprobe: "Hilfe nennt debug" -> FEHLER.
+
+E) TEST ÄNDERT NIE LIVEDATEN (Hinweis 20.11. 08:40)
+- Zusätzlich zur Datenbank (SANDBOX) vergleicht die Routine jetzt die GETEILTEN Tabellen vor/nach (SHARED): Sync-Adressbuch
+  (wo immer es liegt), Sync-Speicher, GuildSentinelDB.gsSync, Markt-Speicher jedes Addons. Abweichung = FEHLER mit Fundstelle, zurückgesetzt.
+  Markt-Speicher mit echtem Eingang (Zähler scans/fed/received/accepted gestiegen) = Auskunft, nicht zurückgesetzt.
+- GEFUNDEN damit: T293 rief GM.Get auf den ECHTEN Marktspeicher – Fac() legt ein leeres Fach der Fraktion an (Markt GuildSentinel.f).
+  Jetzt Ersatz-Speicher. Gegenprobe: vor der Behebung SHARED FEHLER "Markt GuildSentinel.f".
+- run_syncbook.lua (je 13): echte Nachricht während der Routine wird nicht gelernt (Sync 3); Gegenproben Testname neu, Testname erneuert,
+  echter Name direkt ins Buch, Markt ohne Eingang -> jeweils FEHLER und zurückgesetzt.
+
+F) LESBARKEIT L1–L8 (Hinweis 20.11. 13:50), Bereich K, Seite für Seite (52 Ansichten)
+- T311 L1 Kontrast nach WCAG 2.1, 1.4.3: ≥ 4,5:1 (ab 18 Punkt 3:1), deaktivierte Bedienelemente ausgenommen; Farbe aus GetTextColor
+  und |c-Farben, Hintergrund aus GetBackdropColor plus Flächen .bg/.sel. T312 L8: nichts kleiner als GameFontNormalSmall.
+  T313 L2: Geldbeträge in Listen rechtsbündig. T314 L6: jede Spalte beschriftet. T315 L3: Mitglieder/online/Spieler online gleich in
+  Mitglieder-Seite, Werbetext, "Wo", Aktivität. T316 L4: Zonen-Köpfe = Zeilen, Mitgliederliste = Zahlen.
+  T317 L5 und T318 L7: übersprungen mit Grund (keine Entscheidungs-Zahl in Tooltips, keine Kauf-/Verkaufsempfehlung) – bitte bestätigen.
+- Neu T319: jedes Bedienelement liegt im Hauptfenster (T184 prüfte nur ganze Fenster).
+- GEFUNDEN und behoben (Nachbau mit Lage): Versionsnummer 808080 4,3:1 -> 9aa0a6; gewählte Zeile (Akzent 22 %) grau 3,7:1 -> Fläche 6 %
+  + Akzentstreifen (grau 4,6:1, rot 4,6:1 mit Streifen); 3 Spalten ohne Überschrift; Absage-Platzhalterknopf ragte aus dem Fenster;
+  "Frei melden"/"Nicht mehr frei" ragten in 6 von 10 Sprachen hinaus (eigene Zeile); "Optionen" der Rekrutierung unten hinaus in esMX.
+- GEFUNDEN: "return nil, Grund" zählte die Routine als OK (GoldSentinelTest Run:Check). Jetzt SKIP mit Grund (eigener Check-Weg in
+  TestRoutine, gemeinsame Datei unverändert). Gegenprobe: ohne Lage stehen T311–T314 jetzt als SKIP statt OK.
+- run_lesbar.lua (5 Läufe, je 21): sauberer Lauf OK; Gegenproben in einem Lauf: dunkelgraue Zahl, gewählte Zeile mit alter Fläche,
+  Schrift 8, Geldbetrag linksbündig, Spalte ohne Überschrift, fehlende Zeile in "Wo" (T315 und T316), Knopf ausserhalb -> je FEHLER
+  mit genau diesem Element. Hinweis: Schriftbreiten im Nachbau sind Näherung (geom.lua) – massgeblich ist der Lauf im Spiel.
+
+G) TAKT 3 / SYNC 3 – beide unverändert aus shared/ (cmp). Die Routine misst vor dem Lauf 10 s die Umgebung (GoldSentinelTakt.EnvMeasure,
+   eigene Messung; Abbruch beendet sie sofort) und schreibt EnvLine() als Zeile "Umgebung: …" in den Bericht. Bewertet wird nur
+   die eigene Rechenzeit (Portionen, Prüfungen); ganze Bilder sind Auskunft (E-Regel 19:30). Keine GS-Prüfung bewertet ganze Bilder.
+
+H) SCHÄTZEN VERBOTEN (Hinweis 21.11.) – bestehende Schätzwerte im Code:
+1. RaidReady RP:Estimate "beim jetzigen Tempo in ~n Wochen": Quelle = gemessene Stufen der letzten 14 Tage je Main (ns.Race:Gain),
+   n = Anzahl Mains mit Zuwachs; unter 7 Tagen Daten "Schätzung: messe noch". Plan: n im Text nennen ("aus n Spielern") – Vorschlag,
+   bitte entscheiden.
+2. Comp-Rolle "geschätzt nach Klasse" (Priester/Druide/Schamane/Paladin = Heiler): keine Zahl, sondern Zuordnung; angezeigt als
+   "(n geschätzt)". Quelle: Klasse; besser: eigene Wahl/RaidMaster-Skillung (schon vorrangig). Plan: keine Änderung ohne Entscheid.
+3. Progress Race:First60 ohne gemerkten Ersten: frühester gesehener Zeitpunkt aus der Liste (Feld guess = true). Plan: in der Anzeige
+   als "laut Mitgliederliste" kennzeichnen – Vorschlag.
+4. Test-Nachbau geom.lua: Schriftbreite genähert (geeicht 1,12, Sicherheitsabstand 1,3) – nur Nachbau, nie im Addon.
+testLearn: keine GS-Prüfung liefert #S-Nachrichten an das echte Buch (T226–T228 Ersatz-Buch).
+
+TESTS (eigene Tests, Hinweise, keine Freigabe)
+- run_alle.sh: 223 Läufe, 0 rot, 16853 Einzelprüfungen. Abgleich mit 0.9.58 (199 Läufe / 15835, Datei ro_058 Lauf für Lauf):
+  +3 run_realm (3 × 24 = 72) · +3 run_members (3 × 20 = 60) · +13 run_placeholder (3 × 24 + 10 × 43 = 502) · +5 run_lesbar (5 × 21 = 105)
+  · run_syncbook 3 × +8 = 24 · run_routine 17 Läufe ohne Lage je +2 Datei +3 Routine (SHARED, T315, T316) = 85 · 17 Läufe mit Lage
+  je +2 +8 (SHARED, T311–T316, T319) = 170. 72 + 60 + 502 + 105 + 24 + 85 + 170 = 1018 = 16853 − 15835. Sonst jede Zahl gleich.
+  (Die Läufe-Zahl 223 enthält check_act.py; 222 Lua-Läufe.)
+- Gemeinsame Dateien unverändert aus shared/ (cmp, 7 Dateien). Locales: 18 neue Texte in 10 Sprachen, fehlend 0 (tools/loc/check.py).
+- addon_check: siehe ADDON_CHECK am Ende.
+- Im Spiel bitte: /gs testroutine alles (Zeile "Umgebung", SHARED, T311–T319); Platzhalter-Knopf und gewählte Zeile am Bild.
+
+ADDON_CHECK (addon-check/addon_check.py, Ausgabe unverändert):
+  Vorlage shared/GoldSentinelGame.lua: Version 3
+  Vorlage shared/GoldSentinelTest.lua: Version 2
+  Tests der gemeinsamen Datei: nicht ausgeführt – lupa fehlt (pip install lupa); im GitHub-Lauf werden sie ausgeführt
+  Lua-Syntaxprüfung mit: luac5.1 (Lua 5.1)
+  ## GuildSentinel-0.9.59.zip: OK
