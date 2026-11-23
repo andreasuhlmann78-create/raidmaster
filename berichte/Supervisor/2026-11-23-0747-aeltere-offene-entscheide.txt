@@ -1,0 +1,16 @@
+ÄLTERE OFFENE ENTSCHEIDE DES NUTZERS – gesammelt vom Supervisor 23.11.2026 (Auftrag des Nutzers 07:46, "nicht dringend")
+
+1. Uploader-Altstände bereinigen (RaidMaster, 16.11.): im Repo (auftraege/RaidMaster, entscheide.md, berichte/) KEIN Eintrag dazu gefunden.
+   Offen beim Nutzer: was genau gemeint ist (alte Uploader-Versionen auf den Rechnern? alte Tages-Stände im Daten-Repo?).
+2. GuildSentinel G-4 (Ruckeln): Messhilfe seit 0.9.42. MESSUNG LIEGT JETZT VOR (Diagnose GuildSentinel 0.9.58, 22.11.):
+   "LANGSAM Seite members" 84× mit 17–22 ms (über 16 ms = ein Bild). Der Verdacht "erstes Öffnen des Fensters" ist damit NICHT die Ursache;
+   es ist die Seite "Mitglieder" bei jedem Aufbau. Vorschlag Supervisor: Auftrag an GuildSentinel (Seite Mitglieder in Portionen bzw. nur
+   Geändertes neu zeichnen, Ziel ≤ 16 ms). Entscheid: Auftrag jetzt oder erst, wenn GuildSentinel wieder an der Reihe ist (Pause 18.11. 19:53).
+3. Discord #ruhmeshalle / Rekorde (15.11.): Entscheid 15.11. 16:05 "Raids sind Raids und Dungeons sind Dungeons", Raids unten – laut Bericht
+   Bot 1.5.139 umgesetzt. Von keiner Prüfung bestätigt; nicht in entscheide.md. Offen: Sichtprüfung im Discord (#ruhmeshalle) durch den Nutzer
+   bzw. Prüfung durch den Supervisor, sobald das Discord-Projekt wieder dran ist.
+4. AHSentinel "kleine KI aus dem Rechenkern" (14.11. 08:02): weiterhin OFFEN. Vorschlag Supervisor (unverändert): lernende Statistik im Spiel,
+   schwere Rechnung ausserhalb (Markt-Tabellen), ein Modell erst bei vielen Fällen und nur, wenn es nachweislich besser ist als die Grundlinie.
+   Empfehlung: erst nach ST7/PM1-a und genug Fällen aus dem Post-Scan (G10) entscheiden.
+5. (zusätzlich gefunden) Pause der anderen Projekte (Entscheid 18.11. 19:53 "nur AHS arbeitet weiter"): gilt sie noch? Die Übergabe nennt
+   Montag-Aufträge für LevelPilot, ProfessionSentinel, GuildSentinel, BuffSentinel, ThreatSentinel und RaidMaster.
