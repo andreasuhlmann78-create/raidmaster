@@ -6218,3 +6218,14 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
       (Ziel Reiter ≤ 50 ms); Taschen voll Ø 1,1–1,3 ms. VL2 (Taschen doppelt lesen) als Ursache WIDERLEGT – keine Änderung. VL2/VL3 damit
       geschlossen. Langsamer Aufbau war die Preisprüfung: 0.65.381 während des Scans ~8 s je Item; 0.65.382 ab 17:01 ~1 je Sekunde.
       Wenn der Nutzer den Aufbau noch langsam findet: neu melden.
+
+>>> PRÜFUNG SUPERVISOR 23.11. 06:38 – AHSentinel, Teil 9: S1–S6 (0.65.371) an echten Daten (Daten-Repo 23.11. 06:23, Tag 22.11.)
+    WIRKT: Offiziere (0.65.381) Gilde angenommen 4169 / 4453, verworfen 198 / 252, Gruppe angenommen 196; S6-Protokoll db.sync.dev 198 / 200
+     Fälle, Ursache "teil" 195, "stapel" 5 (MININT). Beispiel: Item 4481 eigener Preis 8895 vs. fremd 2479 (Teil-Scan) -> verworfen (richtig).
+    MESSPUNKT (kein Auftrag): PC des Nutzers am 22.11. Gilde angenommen 0, verworfen 379, S6-Fälle 0 -> Verwerfung nicht durch S2, sondern
+     vermutlich fremder Markt-Tag (Absender noch alte Version). Nach dem nächsten gemeinsamen Spielabend erneut auswerten; bleibt "angenommen 0"
+     bei Absendern mit 0.65.381+, ist es ein Befund.
+ S6-a NIEDRIG: db.sync.dev ist nach EINEM Tag voll (200 von 200, MININT) -> ältere Fälle fallen heraus, Auswertung je Ursache unvollständig.
+     Zusätzlich Zähler je Ursache und Tag in db.sync.recv (wie a/r) führen; Beispiele dürfen rollen.
+ S6-b PRÜFEN: 5 Fälle "stapel" (fremder Preis ≈ Stapelpreis) bei Absendern mit neuer Version – Absender-Kürzel und Item in den 5 Fällen
+     ansehen: sendet ein Client noch Stapelpreise (z. B. Item-Suchzeilen vor RowUnit)? Im Bericht belegen.
