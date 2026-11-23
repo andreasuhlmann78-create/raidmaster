@@ -1,0 +1,34 @@
+Bericht ProfessionSentinel 0.9.76 – 23.11.2026 09:50 – umgesetzt, zur Prüfung (Antworten Supervisor 09:30)
+
+Release v0.9.76 (Commit 775d8a2), download/ProfessionSentinel-0.9.76.zip (md5 3eeb68d4…), Announce.
+Tests: run_offline forever 251 OK / 0 FEHLER, era 232 / 0, retail 231 / 0, tbc 251 / 0; --lua51 forever 0 FEHLER;
+yield_check OK; check_actions OK; Smoketest FEHLER-Zahl wie 0.9.74/0.9.75 (Mock-Grenzen 29/26/26), OK +1 (T296).
+addon_check: OK, keine WARNUNG.
+
+1. PS-TAKT3: GoldSentinelTakt.lua byte-gleich aus shared/ (Version 3, cmp ohne Unterschied). Testroutine misst vor dem Lauf
+   TR.ENV_SEC = 10 s die Umgebung (GoldSentinelTakt.EnvMeasure, ohne eigene Arbeit; Chat-Hinweis "bitte stehen bleiben"), der Bericht
+   hat die Zeile EnvLine() ("Umgebung: Ort · Namensplaketten · Ping · Bilder/s · Bild in Ruhe Median/95 %/längstes · Bereinigungen"),
+   sonst "Umgebung: nicht gemessen". Offline belegt: "Umgebung: ? · Bild in Ruhe Median 16.7 ms … (601 Bilder in 10 s)".
+   Smoketest-Mock treibt keine fremden OnUpdate -> dort ENV_SEC = 0 (nur im Test).
+2. Sortierung (Antwort 1): neue Gruppe "Skillweg – deine Rezepte" zuoberst im Reiter Skill up (eigene Liste; Blizzard unverändert).
+   Orange absteigend nach Herstellungen bis gelb, dann gelb nach Punkten bis grün, dann grün nach Punkten bis grau, grau fehlt,
+   "Grenze unbekannt" am Ende; jede Zeile zeigt die Zahl der Skillspur. Gleiche Werte: nach Zauber-ID (feste Reihenfolge).
+   Test T296: Skill 100 -> 12,5,2 (orange), 10 (gelb), 3 (grün), unbekannt am Ende, grau fehlt; Skill 101 -> 11,4,1,9,2;
+   Gegenprobe Filter "nur gelernte".
+3. Planschritte (Antwort 2): Schritt, in dem jede Herstellung einen Punkt gibt (orange) -> "n×" (exakt), sonst "n Punkte"
+   (UI.PlanStepText, Advisor Schritt.sure). Auch die Karte "Nächster Skillpunkt" im Reiter Jetzt. T296 + T276 (soll-Text je Schritt).
+   Bleibt geschätzt (zur Info): die Einkaufsmenge des Plans (Reagenzien × erwartete Herstellungen) und die Rangliste nutzen intern
+   weiter die Formel-Chance – ohne Messung gibt es keine andere Zahl. Vorschlag: Einkaufsmenge bei gelb/grün als "mindestens"
+   (Punkte × Reagenzien) kennzeichnen – Entscheid erbeten.
+4. Verdacht RecipeList (Antwort 3) – bewertet, Ursache weiter "Verdacht, zu messen":
+   (a) PS: Felder psRecipe/psRank/psLine/psHint an Blizzards Zeilen ENTFERNT. Zustand jetzt in einer Seitentabelle mit schwachen
+   Schlüsseln (Lifeline.rows), Linie und Zahl auf einem eigenen Overlay-Rahmen (Kind der Zeile, ohne Maus). Bleibt: HookScript
+   OnEnter und ScrollUtil.AddInitializedFrameCallback (nur Lesen von Daten der Zeile). T239 prüft: keine ps-Felder an der Zeile,
+   Overlay vorhanden und nimmt keine Klicks.
+   Bewertung: Ein Feld an der Zeile kann SetCraftableCount nur stören, wenn Blizzard denselben Namen nutzt – ps* nutzt Blizzard nicht.
+   Wahrscheinlicher ist (b): ein Aufruf von SelectRecipe aus fremdem Code löst den Rückruf aus, während die Zeile neu belegt wird
+   (Elementdaten nil). Das ist AHSentinel-Code – nur Hinweis, nicht geändert. Messung des Nutzers (nur PS / nur AHS) entscheidet.
+
+Noch offen (nächste Version): HOCH 1 Speicher Liste, HOCH 3 Bilder > 40 ms, Gilden-Rezepte ohne Realm, MITTEL 2/4,
+Entwickler-Befehle nur im Entwicklermodus, Hinweis Livedaten/Testort (Rechenzeit je langem Bild, FEHLER nur für eigene Arbeit),
+Lesbarkeit L1–L8.
