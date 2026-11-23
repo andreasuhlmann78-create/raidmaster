@@ -1,0 +1,14 @@
+BERICHT DISCORD – D-MITGL1-R Bot-Rolle hochgestuft (vom Nutzer selbst gezogen) – umgesetzt, zur Prüfung
+Zeit: 23.11.2026 10:32 (aus date)
+
+- Ziehen im Browser durch die Sitzung ging nicht (2 Versuche, nichts gespeichert, siehe Bericht 10:07). Der Nutzer hat selbst gezogen.
+- Reihenfolge VORHER (10:04, oben -> unten): Offizier · Raidleitung · Raider · Gast · Krieger · DISBOARD.org · Server Booster ·
+  Mitglied · Raidmaster tool · Hexenmeister
+- Reihenfolge NACHHER (10:31, gespeichert – keine Leiste "ungespeicherte Änderungen"): Raidleitung · Raidmaster tool · Offizier ·
+  Raider · Krieger · Mitglied · Hexenmeister · DISBOARD.org · Server Booster · Gast · @everyone
+- Vergleich (Regel 5): NICHT nur die Bot-Rolle verschoben – auch Raidleitung (über Offizier), Mitglied und Hexenmeister (über DISBOARD.org/
+  Server Booster), Gast (nach unten). Dem Nutzer gezeigt.
+- ENTSCHEID DES NUTZERS 23.11. 10:32: "wir belassen das so … Raidleitung bin sowieso auch ich" – Reihenfolge bleibt.
+- Folge: Bot steht über Offizier, Raider, Mitglied, Gast (kann diese Rollen vergeben). Unter Raidleitung -> die Bot-Warnung nennt nach dem
+  nächsten Start weiter "Raidleitung" (gewollt, kein Fehler).
+- #bot-log: Die Warnung wird erst beim nächsten Start neu berechnet (/update oder Neustart). Erwartet: "Rollen über dem Bot: Raidleitung".
