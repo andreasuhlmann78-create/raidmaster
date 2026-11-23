@@ -6153,3 +6153,19 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
       (und löst die Sammelzeile aus). Bei unbekannter Klasse diesen Abgleich für das Item zurückstellen (nächster Abgleich), nie "fehlt".
       Test: Klasse unbekannt -> keine Buchung; danach Klasse 6 -> "verbraucht".
     Abnahme CF2 = erledigt mit PM1-a; Antwort an Spieler B erst nach Entscheid des Nutzers zu CurseForge.
+
+>>> PRÜFUNG SUPERVISOR 23.11. 06:30 – AHSentinel 0.65.376–0.65.382, Teil 4: BH1–BH3
+    ANGENOMMEN:
+     BH1 Ursache belegt (BK:Summary: Gewinn = Erlös − Eingesetzt − Gebühren + Entzauber-Ausbeute; Ausbeute stand in keiner Zeile).
+      Neue Zeile "Entzauber-Ausbeute ±x" (UI_Ledger.lua:137, nur wenn ≠ 0); 579'196 − 393'819 − 117 + 22'601 = 207'861 = 20g78s61 nachgerechnet.
+     BH2 Rendite = Gewinn aus Posten mit Einkauf / Einsatz, "–" nur ohne Einsatz. Andere Nutzer von s.roi im Bericht nachvollzogen.
+     Plausibilität (Prüf-Ablauf 0d.2, buchhaltung_plausi.py auf allen drei Forever-Ständen 23.11. 06:23): seit 16.11. keine Warnung;
+      Warnungen nur 14./15.11. (bekannte alte Verteilung, Entzauber-Ergebnisse werden nicht angefasst – kein Auftrag).
+    NICHT ANGENOMMEN:
+ BH3-a MITTEL (Anzeige, Entscheid BH-TT1 / E-Regel 14.11. 17:14): Die neue 6. Zeile im Gewinn-Tooltip
+      "davon Erlös ohne Einkauf (Kostenbasis 0): x = \"Herkunft unbekannt\"" (UI_Ledger.lua:140) ist Prüf-Sprache und Rechenweg – genau das,
+      was BH-TT1 aus dem Tooltip verbannt hat ("Kostenbasis", "ohne Einkauf"). Der Kopf zeigt "Herkunft unbekannt: x" schon.
+      Soll: Zeile ersatzlos streichen (Wert bleibt im Kopf und im Testbericht). Tooltip = Erlös, Eingesetzt, Gebühren, [Entzauber-Ausbeute],
+      Gewinn – höchstens 5 Zeilen, Summe auf den Kupfer. Die Anweisung BH3 ("im Tooltip als ohne Einkauf ausweisen") war ein Fehler der
+      Prüf-Sitzung – hiermit zurückgenommen. Test T986 anpassen (ohne 6. Zeile).
+    Abnahme BH1/BH2 = erledigt mit PM1-a (Testlauf T986/T465); BH3 erledigt mit BH3-a.

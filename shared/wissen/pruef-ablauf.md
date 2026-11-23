@@ -105,6 +105,10 @@ dann Messauftrag statt Regel.
   ergänzen (Abschnitt E), damit er nicht wieder durchrutscht.
 
 ## E. Prüfregeln aus Fehlern (fortlaufend)
+- 23.11. Eigenes Werkzeug buchhaltung_plausi.py P1 verglich ALLE Verkäufe mit Einstand (auch billig gekauften Fisch/Leder/Stoff) mit dem
+  Entzauber-Tagesmittel -> falsche Warnungen. Behoben (nur bt = "de"). REGEL: Jede Prüfung eines Werkzeugs auf genau den Gegenstand
+  beschränken, den sie prüfen soll (Herkunftsfeld), und vor dem Weitergeben einer WARNUNG drei Fälle von Hand gegen die Rohdaten prüfen.
+  Und: Supervisor-Aufträge zu Anzeigen vor dem Schreiben gegen die Anzeige-Entscheide prüfen (BH3 verlangte eine verbotene Tooltip-Zeile).
 
 E-Regel (18.11.2026 19:30, Hinweis des Nutzers "ich stehe in Undercity, da hat es viele Leute und der Server laggt zum Teil auch von
 ganz alleine"): Die Ingametests laufen meist in Unterstadt, also mit vielen Spielern und mit Server-Lag. Ganze Bildzeiten (Bilder über 40 ms,

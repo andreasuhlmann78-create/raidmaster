@@ -2,7 +2,7 @@
 
 Aufruf:  python3 -I buchhaltung_plausi.py <AHSentinel.lua>
 Prüft ohne Namen, nur Item-IDs und Zahlen:
-  P1 Verteilung beim Entzaubern: Faktor Einstand/Markt je Material gegen das Tagesmittel aller verkauften Materialien;
+  P1 Verteilung beim Entzaubern: Faktor Einstand/Markt je Material (nur Verkäufe mit Herkunft bt = "de") gegen das Tagesmittel;
      ×1,33 darüber oder ×0,75 darunter = WARNUNG (Beispiel 14.11.: Seelenstaub Faktor 1,65, Essenzen 0,3–0,5).
   P2 Entzaubern: Summe der Material-Einstände je Tag = Summe der Einstände der entzauberten Teile (Umbuchung verliert nichts).
   P3 Gewinn je Gruppe = Summe Erlös − Summe Einsatz (keine Teil-Zahl mit anderem Vorzeichen ohne Hinweis).
@@ -62,7 +62,9 @@ def main():
             continue
         if e.k == "de":
             de_days["all"].append(day(e.t))
-        if e.k == "sale" and e.id and (e.cost or 0) > 0 and (e.q or 0) > 0:
+        # Nur Material aus dem Entzaubern (bt = "de"): gekaufte/hergestellte Ware hat ihren eigenen Einstand und gehört nicht in
+        # den Vergleich der Verteilung (Korrektur Supervisor 23.11.: vorher falsche Warnungen bei billig gekauftem Fisch/Leder/Stoff).
+        if e.k == "sale" and e.id and e.bt == "de" and (e.cost or 0) > 0 and (e.q or 0) > 0:
             paid = (e.q or 0) - (e.free or 0)          # Stücke ohne Einkauf (Kosten 0) nicht mitteln
             if paid <= 0:
                 continue
