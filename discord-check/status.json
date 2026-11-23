@@ -1,70 +1,77 @@
 {
-  "geprueft": "2026-11-23T10:31:06Z",
-  "commit": "9729da4",
+  "geprueft": "2026-11-23T12:17:23Z",
+  "commit": "a85ad25",
   "ok": false,
   "fehler": null,
   "hinweis": "Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 45 Minuten.",
   "ankuendigungen": [
     {
-      "datei": "announce/ahsentinel__ahsentinel-0.65.384.md",
+      "datei": "announce/addon-hilfe__ahanalyzerpro-hilfe-0.65.3.md",
+      "kanal": "addon-hilfe",
+      "seit_push_min": 83,
+      "abdeckung": 1.0,
+      "status": "ok"
+    },
+    {
+      "datei": "announce/ahsentinel__ahsentinel-0.65.385.md",
       "kanal": "ahsentinel",
-      "seit_push_min": 160,
+      "seit_push_min": 35,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/ahsentinel__ahsentinel-0-vorstellung-1.8.md",
       "kanal": "ahsentinel",
-      "seit_push_min": 20484,
+      "seit_push_min": 20590,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/ahsentinel__ahsentinel-hilfe-1.0.md",
       "kanal": "ahsentinel",
-      "seit_push_min": 27681,
+      "seit_push_min": 27788,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/barrow-taktik__uebersicht-1.1.md",
       "kanal": "barrow-taktik",
-      "seit_push_min": 28512,
+      "seit_push_min": 28618,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/buffsentinel__buffsentinel-0.9.61.md",
       "kanal": "buffsentinel",
-      "seit_push_min": 168,
+      "seit_push_min": 274,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/guildsentinel__guildsentinel-0.9.60.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 108,
+      "seit_push_min": 215,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/hyjal-taktik__uebersicht-1.1.md",
       "kanal": "hyjal-taktik",
-      "seit_push_min": 28512,
+      "seit_push_min": 28618,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
-      "datei": "announce/levelpilot__levelpilot-3.13.9.md",
+      "datei": "announce/levelpilot__levelpilot-3.13.10.md",
       "kanal": "levelpilot",
-      "seit_push_min": 35,
+      "seit_push_min": 52,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/levelpilot__levelpilot-uebersicht-3.12.94.md",
       "kanal": "levelpilot",
-      "seit_push_min": 7288,
+      "seit_push_min": 7394,
       "abdeckung": 0.952,
       "status": "veraltet",
       "fehlende_zeilen": [
@@ -76,77 +83,412 @@
     {
       "datei": "announce/lore__alpine-vanguard-vorstellung-1.0.md",
       "kanal": "lore",
-      "seit_push_min": 32235,
+      "seit_push_min": 32341,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/mc-feuerresi__feuerresi-1.1.md",
       "kanal": "mc-feuerresi",
-      "seit_push_min": 28512,
+      "seit_push_min": 28618,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/onyxia-feuerresi__feuerresi-1.0.md",
       "kanal": "onyxia-feuerresi",
-      "seit_push_min": 37653,
+      "seit_push_min": 37760,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/onyxia-taktik__onyxia-video-1.0.md",
       "kanal": "onyxia-taktik",
-      "seit_push_min": 39078,
+      "seit_push_min": 39184,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/professionsentinel__professionsentinel-0.9.78.md",
       "kanal": "professionsentinel",
-      "seit_push_min": 36,
+      "seit_push_min": 143,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/professionsentinel__professionsentinel-0-vorstellung-1.27.md",
       "kanal": "professionsentinel",
-      "seit_push_min": 14760,
+      "seit_push_min": 14866,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/threatsentinel__threatsentinel-2.5.26.md",
       "kanal": "threatsentinel",
-      "seit_push_min": 62,
+      "seit_push_min": 168,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/threatsentinel__threatsentinel-0-vorstellung-2.2.md",
       "kanal": "threatsentinel",
-      "seit_push_min": 29940,
+      "seit_push_min": 30046,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
-      "datei": "announce/buffsentinel__buffsentinel-0-vorstellung-12.md",
+      "datei": "announce/buffsentinel__buffsentinel-0-vorstellung-10.md",
       "kanal": "buffsentinel",
-      "seit_push_min": 27631,
+      "seit_push_min": 83,
+      "abdeckung": 0.945,
+      "status": "veraltet",
+      "fehlende_zeilen": [
+        "• Classic Era / SoD / Hardcore, **WoW Forever**, TBC, Wrath, Titan Reforged, Cataclysm und MoP Classic – mit vollem Umfang",
+        "• Retail (Midnight): nur Buff-Erinnerungen ausserhalb des Kampfes, weil Blizzard dort Buffs, Debuffs und Cooldowns im Kampf für Addons sperrt",
+        "• Trifft BuffSentinel auf einen **neuen Proc** oder eine **neue Fähigkeit**, die noch nicht in seinen Daten steht (z. B. Neuheiten in **WoW Forever**), nimmt es"
+      ]
+    },
+    {
+      "datei": "announce/buffsentinel__buffsentinel-0-vorstellung-11.md",
+      "kanal": "buffsentinel",
+      "seit_push_min": 83,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
-      "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-19.md",
+      "datei": "announce/buffsentinel__buffsentinel-0-vorstellung-2.md",
+      "kanal": "buffsentinel",
+      "seit_push_min": 83,
+      "abdeckung": 0.688,
+      "status": "veraltet",
+      "fehlende_zeilen": [
+        "• Wird eine Fähigkeit plötzlich nutzbar (z. B. **Überwältigen**, **Rache**, **Hinrichten**, Freizauber, Hot Streak), erscheint sofort ein leuchtender Button – m",
+        "**🧪 Testmodus**",
+        "• Alle Buttons mit Beispielwerten ansehen – ganz ohne Kampf",
+        "• **Jede Klasse und Skillung durchschalten**, ohne den Charakter zu wechseln, und alle Warntöne anhören",
+        "• Starten: **Shift + Linksklick** auf den Minimap-Button, Knopf „Testmodus“ im Fenster oder `/bsen test`"
+      ]
+    },
+    {
+      "datei": "announce/buffsentinel__buffsentinel-0-vorstellung-3.md",
+      "kanal": "buffsentinel",
+      "seit_push_min": 83,
+      "abdeckung": 0.75,
+      "status": "veraltet",
+      "fehlende_zeilen": [
+        "• Wird eine Fähigkeit plötzlich nutzbar (z. B. **Überwältigen**, **Rache**, **Hinrichten**, Freizauber, Hot Streak), erscheint sofort ein leuchtender Button – m",
+        "**🧪 Testmodus**",
+        "• Alle Buttons mit Beispielwerten ansehen – ganz ohne Kampf",
+        "• **Jede Klasse und Skillung durchschalten**, ohne den Charakter zu wechseln, und alle Warntöne anhören",
+        "• Starten: **Shift + Linksklick** auf den Minimap-Button, Knopf „Testmodus“ im Fenster oder `/bsen test`"
+      ]
+    },
+    {
+      "datei": "announce/buffsentinel__buffsentinel-0-vorstellung-4.md",
+      "kanal": "buffsentinel",
+      "seit_push_min": 83,
+      "abdeckung": 0.736,
+      "status": "veraltet",
+      "fehlende_zeilen": [
+        "• Wird eine Fähigkeit plötzlich nutzbar (z. B. **Überwältigen**, **Rache**, **Hinrichten**, Freizauber, Hot Streak), erscheint sofort ein leuchtender Button – m",
+        "**🧪 Testmodus**",
+        "• Alle Buttons mit Beispielwerten ansehen – ganz ohne Kampf",
+        "• **Jede Klasse und Skillung durchschalten**, ohne den Charakter zu wechseln, und alle Warntöne anhören",
+        "• Starten: **Shift + Linksklick** auf den Minimap-Button, Knopf „Testmodus“ im Fenster oder `/bsen test`"
+      ]
+    },
+    {
+      "datei": "announce/buffsentinel__buffsentinel-0-vorstellung-5.md",
+      "kanal": "buffsentinel",
+      "seit_push_min": 83,
+      "abdeckung": 0.722,
+      "status": "veraltet",
+      "fehlende_zeilen": [
+        "• Wird eine Fähigkeit plötzlich nutzbar (z. B. **Überwältigen**, **Rache**, **Hinrichten**, Freizauber, Hot Streak), erscheint sofort ein leuchtender Button – m",
+        "**🧪 Testmodus**",
+        "• Alle Buttons mit Beispielwerten ansehen – ganz ohne Kampf",
+        "• **Jede Klasse und Skillung durchschalten**, ohne den Charakter zu wechseln, und alle Warntöne anhören",
+        "• Starten: **Shift + Linksklick** auf den Minimap-Button, Knopf „Testmodus“ im Fenster oder `/bsen test`"
+      ]
+    },
+    {
+      "datei": "announce/buffsentinel__buffsentinel-0-vorstellung-6.md",
+      "kanal": "buffsentinel",
+      "seit_push_min": 83,
+      "abdeckung": 0.902,
+      "status": "veraltet",
+      "fehlende_zeilen": [
+        "• Wird eine Fähigkeit plötzlich nutzbar (z. B. **Überwältigen**, **Rache**, **Hinrichten**, Freizauber, Hot Streak), erscheint sofort ein leuchtender Button – m",
+        "• Classic Era / SoD / Hardcore, **WoW Forever**, TBC, Wrath, Titan Reforged, Cataclysm und MoP Classic – mit vollem Umfang",
+        "• Retail (Midnight): nur Buff-Erinnerungen ausserhalb des Kampfes, weil Blizzard dort Buffs, Debuffs und Cooldowns im Kampf für Addons sperrt",
+        "• Trifft BuffSentinel auf einen **neuen Proc** oder eine **neue Fähigkeit**, die noch nicht in seinen Daten steht (z. B. Neuheiten in **WoW Forever**), nimmt es",
+        "• Komplett per Maus: Minimap-Button → Einstellungsfenster mit Seiten für Skillung, Procs, Buffs, Cooldowns, Reinigen, Zonen & Anzeige und Aufnahme"
+      ]
+    },
+    {
+      "datei": "announce/buffsentinel__buffsentinel-0-vorstellung-7.md",
+      "kanal": "buffsentinel",
+      "seit_push_min": 83,
+      "abdeckung": 0.889,
+      "status": "veraltet",
+      "fehlende_zeilen": [
+        "• Töne sind standardmässig aus – nur ein fehlender **Schlachtruf** klingelt",
+        "• Jeder Proc, Buff und Cooldown kann eine eigene Klingel bekommen (Knopf „Ton“), allgemeine Töne lassen sich unter „Zonen & Anzeige“ einschalten",
+        "• Classic Era / SoD / Hardcore, **WoW Forever**, TBC, Wrath, Titan Reforged, Cataclysm und MoP Classic – mit vollem Umfang",
+        "• Retail (Midnight): nur Buff-Erinnerungen ausserhalb des Kampfes, weil Blizzard dort Buffs, Debuffs und Cooldowns im Kampf für Addons sperrt",
+        "• Trifft BuffSentinel auf einen **neuen Proc** oder eine **neue Fähigkeit**, die noch nicht in seinen Daten steht (z. B. Neuheiten in **WoW Forever**), nimmt es"
+      ]
+    },
+    {
+      "datei": "announce/buffsentinel__buffsentinel-0-vorstellung-8.md",
+      "kanal": "buffsentinel",
+      "seit_push_min": 83,
+      "abdeckung": 0.889,
+      "status": "veraltet",
+      "fehlende_zeilen": [
+        "• Töne sind standardmässig aus – ausser wenn ein **eigener Buff ausläuft**: Dann hupt BuffSentinel, bis du nachgebufft hast (ein fehlender **Schlachtruf** kling",
+        "• Jeder Proc, Buff und Cooldown kann eine eigene Klingel bekommen (Knopf „Ton“), allgemeine Töne lassen sich unter „Zonen & Anzeige“ einschalten",
+        "• Classic Era / SoD / Hardcore, **WoW Forever**, TBC, Wrath, Titan Reforged, Cataclysm und MoP Classic – mit vollem Umfang",
+        "• Retail (Midnight): nur Buff-Erinnerungen ausserhalb des Kampfes, weil Blizzard dort Buffs, Debuffs und Cooldowns im Kampf für Addons sperrt",
+        "• Trifft BuffSentinel auf einen **neuen Proc** oder eine **neue Fähigkeit**, die noch nicht in seinen Daten steht (z. B. Neuheiten in **WoW Forever**), nimmt es"
+      ]
+    },
+    {
+      "datei": "announce/buffsentinel__buffsentinel-0-vorstellung-9.md",
+      "kanal": "buffsentinel",
+      "seit_push_min": 83,
+      "abdeckung": 0.907,
+      "status": "veraltet",
+      "fehlende_zeilen": [
+        "• Jeder Proc, Buff und Cooldown kann eine eigene Klingel bekommen (Knopf „Ton“), allgemeine Töne lassen sich unter „Zonen & Anzeige“ einschalten",
+        "• Classic Era / SoD / Hardcore, **WoW Forever**, TBC, Wrath, Titan Reforged, Cataclysm und MoP Classic – mit vollem Umfang",
+        "• Retail (Midnight): nur Buff-Erinnerungen ausserhalb des Kampfes, weil Blizzard dort Buffs, Debuffs und Cooldowns im Kampf für Addons sperrt",
+        "• Trifft BuffSentinel auf einen **neuen Proc** oder eine **neue Fähigkeit**, die noch nicht in seinen Daten steht (z. B. Neuheiten in **WoW Forever**), nimmt es",
+        "• Komplett per Maus: Minimap-Button → Einstellungsfenster mit Seiten für Skillung, Procs, Buffs, Cooldowns, Reinigen, Zonen & Anzeige und Aufnahme"
+      ]
+    },
+    {
+      "datei": "announce/buffsentinel__buffsentinel-0-vorstellung.md",
+      "kanal": "buffsentinel",
+      "seit_push_min": 83,
+      "abdeckung": 0.611,
+      "status": "veraltet",
+      "fehlende_zeilen": [
+        "BuffSentinel ist dein Klassen-Helfer für den Kampf: Es meldet sich genau dann, wenn du etwas tun musst – und du löst es mit **einem Klick** direkt auf dem Butto",
+        "• Wird eine Fähigkeit plötzlich nutzbar (z. B. **Überwältigen**, **Rache**, **Hinrichten**, Freizauber, Hot Streak), erscheint sofort ein leuchtender Button in ",
+        "• Restzeit und Stapel werden direkt auf dem Button angezeigt",
+        "• Gifte und Waffenverzauberungen: Klick legt das beste Gift aus deinen Taschen auf die Waffe",
+        "• Deine wichtigsten Abklingzeiten auf einen Blick, sie leuchten kurz auf, sobald sie bereit sind"
+      ]
+    },
+    {
+      "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-10.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 16011,
+      "seit_push_min": 83,
+      "abdeckung": 0.989,
+      "status": "veraltet",
+      "fehlende_zeilen": [
+        "GuildSentinel bringt alles rund um die Gilde in ein Fenster: **wer ist wer** (mit Twinks), **wer ist wo**, **wer sucht eine Gruppe**, **wer bietet gerade Portal"
+      ]
+    },
+    {
+      "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-11.md",
+      "kanal": "guildsentinel",
+      "seit_push_min": 83,
+      "abdeckung": 0.977,
+      "status": "veraltet",
+      "fehlende_zeilen": [
+        "GuildSentinel bringt alles rund um die Gilde in ein Fenster: **wer ist wer** (mit Twinks), **wer ist wo**, **wer sucht eine Gruppe**, **wer bietet gerade Portal",
+        "• Die Stufen der Berufe liest GuildSentinel automatisch (wo das Spiel die Gilden-Berufsliste kennt, für alle Mitglieder – auch ohne Addon). Jeder öffnet seine B"
+      ]
+    },
+    {
+      "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-12.md",
+      "kanal": "guildsentinel",
+      "seit_push_min": 83,
+      "abdeckung": 0.966,
+      "status": "veraltet",
+      "fehlende_zeilen": [
+        "GuildSentinel bringt alles rund um die Gilde in ein Fenster: **wer ist wer** (mit Twinks), **wer ist wo**, **wer sucht eine Gruppe**, **wer bietet gerade Portal",
+        "• **Gildenverwaltung**: Knopf „Verwaltung (GuildSentinel)“ neben dem Gildenfenster (J) – einladen, befördern, degradieren, rauswerfen mit Rückfrage; Gildenleitu",
+        "• Die Stufen der Berufe liest GuildSentinel automatisch (wo das Spiel die Gilden-Berufsliste kennt, für alle Mitglieder – auch ohne Addon). Jeder öffnet seine B"
+      ]
+    },
+    {
+      "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-13.md",
+      "kanal": "guildsentinel",
+      "seit_push_min": 83,
+      "abdeckung": 0.955,
+      "status": "veraltet",
+      "fehlende_zeilen": [
+        "GuildSentinel bringt alles rund um die Gilde in ein Fenster: **wer ist wer** (mit Twinks), **wer ist wo**, **wer sucht eine Gruppe**, **wer bietet gerade Portal",
+        "• Twinks erkennt das Addon an der Notiz („Twink von Testa“, auf WoW Forever auch mit Vor- und Nachnamen) oder ihr legt sie fest",
+        "• **Gildenverwaltung**: Knopf „Verwaltung (GuildSentinel)“ neben dem Gildenfenster (J) – einladen, befördern, degradieren, rauswerfen mit Rückfrage; Gildenleitu",
+        "• Die Stufen der Berufe liest GuildSentinel automatisch (wo das Spiel die Gilden-Berufsliste kennt, für alle Mitglieder – auch ohne Addon; zugeklappte Berufe kl"
+      ]
+    },
+    {
+      "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-14.md",
+      "kanal": "guildsentinel",
+      "seit_push_min": 83,
+      "abdeckung": 0.955,
+      "status": "veraltet",
+      "fehlende_zeilen": [
+        "GuildSentinel bringt alles rund um die Gilde in ein Fenster: **wer ist wer** (mit Twinks), **wer ist wo**, **wer sucht eine Gruppe**, **wer bietet gerade Portal",
+        "• Twinks erkennt das Addon an der Notiz („Twink von Testa“, auf WoW Forever auch mit Vor- und Nachnamen) oder ihr legt sie fest",
+        "• **Gildenverwaltung**: Knopf „Verwaltung (GuildSentinel)“ neben dem Gildenfenster (J) – einladen, befördern, degradieren, rauswerfen mit Rückfrage; Gildenleitu",
+        "• Die Stufen der Berufe liest GuildSentinel automatisch (wo das Spiel die Gilden-Berufsliste kennt, für alle Mitglieder – auch ohne Addon; zugeklappte Berufe kl"
+      ]
+    },
+    {
+      "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-15.md",
+      "kanal": "guildsentinel",
+      "seit_push_min": 83,
+      "abdeckung": 0.943,
+      "status": "veraltet",
+      "fehlende_zeilen": [
+        "GuildSentinel bringt alles rund um die Gilde in ein Fenster: **wer ist wer** (mit Twinks), **wer ist wo**, **wer sucht eine Gruppe**, **wer bietet gerade Portal",
+        "• Twinks erkennt das Addon an der Notiz („Twink von Testa“, auf WoW Forever auch mit Vor- und Nachnamen) oder ihr legt sie fest",
+        "• **Nur Gilde oder Gilde und Gruppe**: Auf Wunsch geht deine Suche auch an deine Gruppe bzw. deinen Raid – auch an Spieler anderer Gilden",
+        "• **Gildenverwaltung**: Knopf „Verwaltung (GuildSentinel)“ neben dem Gildenfenster (J) – einladen, befördern, degradieren, rauswerfen mit Rückfrage; Gildenleitu",
+        "• Die Stufen der Berufe liest GuildSentinel automatisch (wo das Spiel die Gilden-Berufsliste kennt, für alle Mitglieder – auch ohne Addon; zugeklappte Berufe kl"
+      ]
+    },
+    {
+      "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-16.md",
+      "kanal": "guildsentinel",
+      "seit_push_min": 83,
+      "abdeckung": 0.943,
+      "status": "veraltet",
+      "fehlende_zeilen": [
+        "GuildSentinel bringt alles rund um die Gilde in ein Fenster: **wer ist wer** (mit Twinks), **wer ist wo**, **wer sucht eine Gruppe**, **wer bietet gerade Portal",
+        "• Twinks erkennt das Addon an der Notiz („Twink von Testa“, auf WoW Forever auch mit Vor- und Nachnamen) oder ihr legt sie fest",
+        "• **Nur Gilde oder ganzer Server**: Auf Wunsch geht deine Suche an Gilde, Gruppe und über das Flüster-Netz der GoldSentinel-Addons auch an Spieler anderer Gilde",
+        "• **Gildenverwaltung**: Knopf „Verwaltung (GuildSentinel)“ neben dem Gildenfenster (J) – einladen, befördern, degradieren, rauswerfen mit Rückfrage; Gildenleitu",
+        "• Die Stufen der Berufe liest GuildSentinel automatisch (wo das Spiel die Gilden-Berufsliste kennt, für alle Mitglieder – auch ohne Addon; zugeklappte Berufe kl"
+      ]
+    },
+    {
+      "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-17.md",
+      "kanal": "guildsentinel",
+      "seit_push_min": 83,
+      "abdeckung": 0.933,
+      "status": "veraltet",
+      "fehlende_zeilen": [
+        "GuildSentinel bringt alles rund um die Gilde in ein Fenster: **wer ist wer** (mit Twinks), **wer ist wo**, **wer sucht eine Gruppe**, **wer bietet gerade Portal",
+        "• Twinks erkennt das Addon an der Notiz („Twink von Testa“, auf WoW Forever auch mit Vor- und Nachnamen) oder ihr legt sie fest",
+        "• **Nur Gilde oder ganzer Server**: Auf Wunsch geht deine Suche an Gilde, Gruppe und über das Flüster-Netz der GoldSentinel-Addons auch an Spieler anderer Gilde",
+        "• **Gildenverwaltung**: Knopf „Verwaltung (GuildSentinel)“ neben dem Gildenfenster (J) – einladen, befördern, degradieren, rauswerfen mit Rückfrage; Gildenleitu",
+        "• **Rezepte je Mitglied**: Klick auf ein Mitglied zeigt, welche Rezepte es kann – mit Filter nach Art (Schmied: Kopf, Brust, Hände, Waffen …; Alchemie: Elixiere"
+      ]
+    },
+    {
+      "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-18.md",
+      "kanal": "guildsentinel",
+      "seit_push_min": 83,
+      "abdeckung": 0.921,
+      "status": "veraltet",
+      "fehlende_zeilen": [
+        "GuildSentinel bringt alles rund um die Gilde in ein Fenster: **wer ist wer** (mit Twinks), **wer ist wo**, **wer sucht eine Gruppe**, **wer bietet gerade Portal",
+        "• Twinks erkennt das Addon an der Notiz („Twink von Testa“, auf WoW Forever auch mit Vor- und Nachnamen) oder ihr legt sie fest",
+        "• **Nur Gilde oder ganzer Server**: Auf Wunsch geht deine Suche an Gilde, Gruppe und über das Flüster-Netz der GoldSentinel-Addons auch an Spieler anderer Gilde",
+        "• **Gildenverwaltung**: Knopf „Verwaltung (GuildSentinel)“ neben dem Gildenfenster (J) – einladen, befördern, degradieren, rauswerfen mit Rückfrage; Gildenleitu",
+        "• Werbetext mit Vorschau – jeder Klick legt ihn für den nächsten Kanal in die Chat-Eingabe (Gruppensuche, Handel …), du sendest mit Enter"
+      ]
+    },
+    {
+      "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-2.md",
+      "kanal": "guildsentinel",
+      "seit_push_min": 83,
+      "abdeckung": 0.809,
+      "status": "veraltet",
+      "fehlende_zeilen": [
+        "GuildSentinel bringt alles rund um die Gilde in ein Fenster: **wer ist wer** (mit Twinks), **wer sucht eine Gruppe**, **wer levelt am schnellsten**, **wer hat w",
+        "• Twinks erkennt das Addon an der Notiz („Twink von Rokan“) oder ihr legt sie fest",
+        "• „Ich komme mit“ – ein Klick, und der Suchende sieht dich in seiner Liste und lädt dich mit einem Klick ein",
+        "• Ansagen im Gildenchat: Stufe 10, 20, 30, **40 (Reittier!)**, 50, 60 und **das erste Gildenmitglied auf 60**",
+        "• **Raid-Zugänge**: Obere Schwarzfelsspitze, Geschmolzener Kern, Onyxias Hort und Pechschwingenhort – auf einen Blick, wem noch was fehlt"
+      ]
+    },
+    {
+      "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-3.md",
+      "kanal": "guildsentinel",
+      "seit_push_min": 83,
+      "abdeckung": 0.924,
+      "status": "veraltet",
+      "fehlende_zeilen": [
+        "GuildSentinel bringt alles rund um die Gilde in ein Fenster: **wer ist wer** (mit Twinks), **wer ist wo**, **wer sucht eine Gruppe**, **wer bietet gerade Portal",
+        "• Twinks erkennt das Addon an der Notiz („Twink von Rokan“) oder ihr legt sie fest",
+        "• „Ich komme mit“ – ein Klick, und der Suchende sieht dich in seiner Liste und lädt dich mit einem Klick ein",
+        "• Ansagen im Gildenchat: Stufe 10, 20, 30, **40 (Reittier!)**, 50, 60 und **das erste Gildenmitglied auf 60**",
+        "• **AH Analyzer Pro**: Marktwert beim Brett und bei den Abklingzeiten"
+      ]
+    },
+    {
+      "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-4.md",
+      "kanal": "guildsentinel",
+      "seit_push_min": 83,
+      "abdeckung": 0.948,
+      "status": "veraltet",
+      "fehlende_zeilen": [
+        "• Twinks erkennt das Addon an der Notiz („Twink von Rokan“) oder ihr legt sie fest",
+        "• „Ich komme mit“ – ein Klick, und der Suchende sieht dich in seiner Liste und lädt dich mit einem Klick ein",
+        "• Ansagen im Gildenchat: Stufe 10, 20, 30, **40 (Reittier!)**, 50, 60 und **das erste Gildenmitglied auf 60**",
+        "• **AH Analyzer Pro**: Marktwert beim Brett und bei den Abklingzeiten"
+      ]
+    },
+    {
+      "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-6.md",
+      "kanal": "guildsentinel",
+      "seit_push_min": 83,
+      "abdeckung": 0.988,
+      "status": "veraltet",
+      "fehlende_zeilen": [
+        "• Twinks erkennt das Addon an der Notiz („Twink von Rokan“) oder ihr legt sie fest"
+      ]
+    },
+    {
+      "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-7.md",
+      "kanal": "guildsentinel",
+      "seit_push_min": 83,
+      "abdeckung": 0.988,
+      "status": "veraltet",
+      "fehlende_zeilen": [
+        "• Twinks erkennt das Addon an der Notiz („Twink von Rokan“) oder ihr legt sie fest"
+      ]
+    },
+    {
+      "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-8.md",
+      "kanal": "guildsentinel",
+      "seit_push_min": 83,
       "abdeckung": 1.0,
       "status": "ok"
+    },
+    {
+      "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-9.md",
+      "kanal": "guildsentinel",
+      "seit_push_min": 83,
+      "abdeckung": 1.0,
+      "status": "ok"
+    },
+    {
+      "datei": "announce/guildsentinel__guildsentinel-0-vorstellung.md",
+      "kanal": "guildsentinel",
+      "seit_push_min": 83,
+      "abdeckung": 0.737,
+      "status": "veraltet",
+      "fehlende_zeilen": [
+        "GuildSentinel bringt alles rund um die Gilde in ein Fenster: **wer ist wer** (mit Twinks), **wer sucht eine Gruppe**, **wer levelt am schnellsten**, **wer hat w",
+        "• Twinks erkennt das Addon an der Notiz („Twink von Rokan“) oder ihr legt sie fest",
+        "• „Ich komme mit“ – ein Klick, und der Suchende sieht dich in seiner Liste und lädt dich mit einem Klick ein",
+        "• Ansagen im Gildenchat: Stufe 10, 20, 30, **40 (Reittier!)**, 50, 60 und **das erste Gildenmitglied auf 60**",
+        "• **Raid-Zugänge**: Obere Schwarzfelsspitze, Geschmolzener Kern, Onyxias Hort und Pechschwingenhort – auf einen Blick, wem noch was fehlt"
+      ]
     },
     {
       "datei": "announce/levelpilot__levelpilot-uebersicht.md",
       "kanal": "levelpilot",
-      "seit_push_min": 39903,
+      "seit_push_min": 40010,
       "abdeckung": 1.0,
       "status": "ok"
     }
@@ -157,7 +499,7 @@
       "version": "0.65.354",
       "datei": "download/AHSentinel-0.65.354.zip",
       "kanal": "ahsentinel",
-      "seit_push_min": 5223,
+      "seit_push_min": 5330,
       "status": "ok",
       "gepostet": "2026-11-19 19:53 UTC",
       "anhang": [
@@ -169,7 +511,7 @@
       "version": "3.0.40",
       "datei": "RaidMaster/RaidMaster.toc",
       "kanal": "raid-addon",
-      "seit_push_min": 7213,
+      "seit_push_min": 7319,
       "status": "ok",
       "gepostet": "2026-11-18 10:20 UTC",
       "anhang": [
@@ -179,9 +521,47 @@
   ],
   "info": [
     {
+      "datei": "announce/buffsentinel__buffsentinel-0-vorstellung-12.md",
+      "kanal": "buffsentinel",
+      "seit_push_min": 27737,
+      "abdeckung": 1.0,
+      "status": "ok",
+      "nur_info": "ersetzt durch buffsentinel__buffsentinel-0-vorstellung-10.md"
+    },
+    {
+      "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-19.md",
+      "kanal": "guildsentinel",
+      "seit_push_min": 16117,
+      "abdeckung": 0.9,
+      "status": "veraltet",
+      "fehlende_zeilen": [
+        "GuildSentinel bringt alles rund um die Gilde in ein Fenster: **wer ist wer** (mit Twinks), **wer ist wo**, **wer sucht eine Gruppe**, **wer bietet gerade Portal",
+        "• Twinks erkennt das Addon an der Notiz („Twink von Testa“, auf WoW Forever auch mit Vor- und Nachnamen) oder ihr legt sie fest",
+        "• **Nur Gilde oder ganzer Server**: Auf Wunsch geht deine Suche an Gilde, Gruppe und über das Flüster-Netz der GoldSentinel-Addons auch an Spieler anderer Gilde",
+        "• **Gildenverwaltung**: Knopf „Verwaltung (GuildSentinel)“ neben dem Gildenfenster (J) – einladen, befördern, degradieren, rauswerfen mit Rückfrage; Gildenleitu",
+        "• Werbetext mit Vorschau – jeder Klick legt ihn für den nächsten Kanal in die Chat-Eingabe (Gruppensuche, Handel …), du sendest mit Enter"
+      ],
+      "nur_info": "ersetzt durch guildsentinel__guildsentinel-0-vorstellung-10.md"
+    },
+    {
+      "datei": "announce/raid-addon-zusammenfassung-3.0.0.md",
+      "kanal": "raid-addon",
+      "seit_push_min": 83,
+      "abdeckung": 0.353,
+      "status": "veraltet",
+      "fehlende_zeilen": [
+        "📢 **RaidMaster 3.0.0 – Zusammenfassung der Neuerungen**",
+        "Addon **3.0.0** · Discord-Bot **1.5.51** · Uploader **1.6.0**. Die Datei lädst du hier im Kanal herunter. Den alten Ordner **RaidMaster** ersetzen und `/reload`",
+        "**🧭 Aufgeräumtes Fenster (3.0.0)**",
+        "Statt 13 Knöpfen gibt es nur noch 6 Bereiche mit Reitern oben:",
+        "• **DKP**: Stände | Log"
+      ],
+      "nur_info": "alte Datei ohne Kanalnamen"
+    },
+    {
       "datei": "announce/threatsentinel__threatsentinel-0-vorstellung.md",
       "kanal": "threatsentinel",
-      "seit_push_min": 38718,
+      "seit_push_min": 38824,
       "abdeckung": 1.0,
       "status": "ok",
       "nur_info": "ersetzt durch threatsentinel__threatsentinel-0-vorstellung-2.2.md"
