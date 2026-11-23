@@ -1,0 +1,15 @@
+BERICHT DISCORD – Bot 1.5.190: Recht "Nachrichten anpinnen", Warntext Rangfolge – umgesetzt, zur Prüfung; im Server installiert
+Zeit: 23.11.2026 10:44 (aus date). Commit 8839de94 auf origin/main, CI Bot-Tests: success. Auftrag des Nutzers 10:38 ("mach das … und /update
+den Bot selber").
+
+- Code: Raidleitung, Offizier und Bot erhalten in den 4 Mitglieder-Kanälen zusätzlich pin_messages (nur wenn discord.py es kennt –
+  hasattr-Schutz). Warntext "Rollen über dem Bot" nennt jetzt Rollen vergeben/entziehen, kicken/umbenennen (belegt) statt
+  stummschalten/verschieben. Tests ergänzt (Gegenprobe rot), 469 Tests OK, jede Datei einzeln -I OK, Betrieb nachgestellt.
+- /update durch die Discord-Sitzung (eingebauter Browser, Konto des Nutzers, #bot-befehle) um 10:40.
+- Bot-Meldungen in #bot-befehle (wörtlich, gekürzt):
+  10:40/10:42 "Bot: 1.5.189 → 1.5.190 · geändert: server_setup.py, tests, VERSION – Der Bot startet in wenigen Sekunden neu."
+  10:42 "#mitglieder-chat: Rechte gesetzt (3); #offtopic: Rechte gesetzt (3); Gildenhalle: Rechte gesetzt (3); Offtopic-Talk: Rechte
+  gesetzt (3); Rollen über dem Bot: Raidleitung – diese Rollen kann der Bot nicht vergeben oder entziehen …"
+  -> je Kanal genau 3 Rechte-Einträge neu (Raidleitung, Offizier, Bot: Anpinnen dazu). Damit ist belegt: discord.py auf dem Server kennt
+  pin_messages. Warnung nennt nur noch Raidleitung (Entscheid des Nutzers 10:32: so belassen).
+- Offen zur Messung: Anpinnen als Offizier in #mitglieder-chat; nächster Start soll keine "Rechte gesetzt" mehr melden (zweiter Lauf).

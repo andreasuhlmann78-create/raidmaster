@@ -1,6 +1,6 @@
 # Stand Discord-Sitzung
 
-## Stand 23.11.2026 10:32 · Bot 1.5.189 (origin/main, CI grün; Code vom Supervisor angenommen 09:49)
+## Stand 23.11.2026 10:44 · Bot 1.5.190 (origin/main, CI grün, im Server installiert 10:42)
 
 ## Gerade in Arbeit
 - nichts – D-MITGL1 umgesetzt, zur Prüfung (Bericht 2026-11-23-0926-bot-1.5.189-mitglieder-kanaele.txt).
@@ -26,7 +26,8 @@
 - 23.11. 10:32: Rollen-Reihenfolge so belassen (Raidleitung über Bot und Offizier; Raidleitung = Nutzer).
 
 ## Wichtig zu wissen
-- Befunde offen (Bericht 10:07): Warntext Rang (Rollen-Vergabe statt Stummschalten), eigenes Recht "Nachrichten anpinnen" – messen.
+- 1.5.190: Anpinnen-Recht und Warntext umgesetzt; Bot meldete 10:42 je Kanal 3 Rechte gesetzt, Warnung nur Raidleitung.
+- /update kann die Sitzung selbst im eingebauten Browser (Konto des Nutzers, #bot-befehle) – Bot-Meldungen stehen dort.
 - Bot läuft auf dem Infomaniak-Server, nicht auf dem PC des Nutzers; diese Sitzung hat keinen Zugriff auf Server/Discord.
 - Nutzung sparen gilt (Supervisor 23.11. 07:50): keine Wecker, kurze Berichte.
 - Werkzeuge im Scratchpad (betrieb.sh, befehle_dump.py) gehen beim Neustart verloren – Ablauf steht in den Berichten.
