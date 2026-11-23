@@ -1574,3 +1574,31 @@ in berichte/LevelPilot/ ("umgesetzt, zur Prüfung", mit Belegen).
     Qualität nie vernachlässigen: auftraege/hinweis-nutzung-sparen-2026-11-23.txt lesen.
 
 >>> NEU 23.11. 08:13 (Supervisor 08:14): Stand sichern in berichte/<dein Projekt>/stand-aktuell.md – auftraege/hinweis-stand-sichern-2026-11-23.txt.
+
+>>> PRÜFUNG SUPERVISOR 23.11. 08:41 – LevelPilot 3.13.7 (Bericht 2026-11-23-0835-3.13.7-montag.txt) + Sichtung der 3 Bilder 21.11. 12:53
+    addon_check 3.13.7: OK. ANGENOMMEN (Code/Tests laut Bericht, im Spiel noch nicht gesehen): Berufs-Hinweise nach gelernten Berufen (T369),
+     LP-M1 (Quest 79007, "Ort unbekannt – Questbeschreibung lesen"), LP-M2 (eine Entfernung), LP-M3 ("Ziel: <Gebiet>"), ENTSCHEID 22.11. 16:57
+     (alle Sperren gelöscht, keine neuen, keine gesendet; nur gegnerische Orte gemieden, T370/T371), Realm-Prüfung (keine realm-getrennten Daten).
+    BEFUNDE (nächste Version, gebündelt – Nutzung sparen):
+ LP-T1 MITTEL (Prüfung prüft nichts): T84/T180/T183 (virtuelle Reise 1–60) geben bei GLEICHEM Code verschiedene Zeiten (Bericht: Speedrun 537–666 Std.).
+      Eine Testroutine muss wiederholbar sein. Ursache belegen (Reihenfolge von pairs()? Zeit-/Bild-abhängige Portionen? Zufall?) und
+      beheben (feste Reihenfolge/Startwert); Test: 3 Läufe gleicher Code -> gleiche Zeit auf die Sekunde. Erst dann kann eine Version zeigen,
+      ob sie die Levelzeit ändert. Die 5 übrigen FEHLER (T174, T262, T268, T303, T309 "Grenzen des Nachbaus") im Bericht je mit Ursache belegen
+      oder den Nachbau ergänzen – ein dauerhaft roter Test ohne Beleg verdeckt neue Fehler.
+ LP-B1 MITTEL (Bilder 1–3: Flug über dem Brachland, Stufe 25): Während des Flugs (UnitOnTaxi) zeigt das Fenster unverändert das Laufziel
+      "Erledigen: Blaulaubknollen 1.1 km … ca. 11 min", der Pfeil im Bild zeigt "1.2 km" – die Entfernung wächst, während der Spieler nichts tun
+      kann. Session.lua:165–167 rechnet den Restweg mit festen 7 Yards/s auch im Flug. Navigation kennt den Flug schon (Navigation.lua:122 "flug").
+      Soll: im Flug eine Zeile "Im Flug nach <Flugziel>" (Name des Ziels, falls bekannt), Laufziel darunter ohne Laufzeit, Pfeil/Entfernung
+      ausblenden bis zur Landung. Test: UnitOnTaxi true -> keine Laufzeit, keine wachsende Entfernung; Landung -> normal.
+ LP-B2 MITTEL (Hinweis "Schätzen verboten" 21.11. 06:47): "ca. 11 min" (EtaText: Restweg / 7 bzw. 11 Yards/s, Session.lua:166) und "Zone ca. 38 min"
+      (ZoneETA: + 30 s je Annahme/Abgabe, Session.lua:145) sind feste Annahmen. Im Bericht je Zahl Quelle und Fallzahl nennen; ohne Messung
+      "noch nicht gemessen" statt "ca." (oder aus den eigenen Laufweg-/Quest-Daten messen). Gilt auch für Hints.lua:170 ("ca. " bei guessed).
+ LP-B3 NIEDRIG (Anzeige, deDE): "Später abgeben: … Die Jagd in Ashenvale (Ashenvale), … Reise in das Vorgebirge von Hillsbrad (Vorgebirge von
+      Hillsbrad)": (a) Gebiet in Klammern weglassen, wenn der Questname es schon enthält; (b) "(Ashenvale)" ist der englische Gebietsname – im
+      deutschen Client "Eschental" (Gebietsname aus der Spielwelt bzw. Locale, nie fest englisch). Test deDE/enUS.
+ LP-B4 NIEDRIG (Spieler-Bild, psychologie.md): Chat bei JEDEM Spieler 30 s nach dem Laden "Das Fehler-Protokoll hat n neue Auffälligkeit(en) …
+      bitte an GoldSentinel schicken" (Protocol.lua:755, nur abschaltbar über protocol=false). Normale Spieler können damit nichts tun.
+      Soll: nur im Entwicklermodus zeigen; beim Nutzer gehen die Daten ohnehin über den Uploader. Test: ohne Entwicklermodus keine Chatzeile.
+ LP-O1 NIEDRIG: drei gegnerische Orte fehlen (Steinkrallengipfel, Thalanaar – Allianz; Valormok – Horde). Mit Beleg ergänzen (Questdaten/Referenz
+      goldgoblin), sonst im Bericht "nicht belegt".
+    Weiter offen laut Bericht: Routenpause (wartet auf Upload), L1–L8 Lesbarkeit, Zeile "Wegabschnitte".
