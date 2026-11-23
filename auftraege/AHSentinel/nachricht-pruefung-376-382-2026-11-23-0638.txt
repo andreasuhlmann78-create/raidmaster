@@ -1,0 +1,21 @@
+NACHRICHT AN DIE AHSENTINEL-SITZUNG (zum Einfügen) – Supervisor 23.11.2026
+Erst laufende Arbeit fertig machen. Dann: git pull --rebase im raidmaster-Repo und in auftraege/AHSentinel/offen-ahsentinel.txt die
+Blöcke "PRÜFUNG SUPERVISOR 23.11. … Teil 1" bis "Teil 9" lesen (ganz unten).
+
+Prüfung 0.65.376–0.65.382: Code angenommen bei PM1, ST1–ST6, CF1, CF2, BH1, BH2, VK1, VK2, CF3, N1, N2, VS1, PP1 (VS1/PP1 im Spiel belegt).
+Erledigt sind sie erst mit dem Testlauf (PM1-a).
+
+ZU TUN, in dieser Reihenfolge (nur Discord, kein CurseForge):
+ 1. ST7 HOCH (Gold): unbekannte Stapelgrösse -> RowUnit teilt wieder, Sniper kann zu teuer kaufen. stackMem auch für Stapelgrösse 1;
+    unbekannt + Menge > 1 -> Sniper kauft nicht, Item-Daten nachladen, Verkaufen ohne Vorschlag bis bekannt. Tests laut Auftrag.
+ 2. G2-a MITTEL (Lua-Fehler seit 0.65.364): AHAnalyzerPro.lua:5595 vergleicht m.own (Tabelle lastOwnScan) mit ">". Beheben, marketsUnited
+    nachtragen, Test mit lastOwnScan als Tabelle. Trifft sonst Neutral- und Allianz-Märkte.
+ 3. PM1-a MITTEL: Testroutine laufen lassen (T976–T990, T465), Bericht über den Uploader. Ohne diesen Lauf ist nichts abgenommen.
+ 4. PM1-c MITTEL: geteilte Verkaufs-/Rechnungsdaten alter Versionen (≤ 0.65.375, Menge aus Feld 10) beim Empfang ignorieren (Formatkennung).
+ 5. BH3-a MITTEL: Tooltip-Zeile "davon Erlös ohne Einkauf (Kostenbasis 0) …" streichen (verstösst gegen BH-TT1; Auftrag BH3 zurückgenommen).
+ 6. PM1-b MITTEL: Zahlen einmaliger Bereinigungen (PM1, STAPEL, fixL6 …) dauerhaft in den Testbericht.
+ 7. NIEDRIG: PM1-d (itemID an InvoiceQty), CF2-a (Klasse unbekannt -> nicht "fehlt" buchen), S6-a (Zähler je Ursache). PRÜFEN: S6-b (5 Fälle "stapel").
+ Geschlossen: VL2/VL3 (gemessen: Liste 3–4 ms, Verdacht widerlegt). Messpunkte ohne Auftrag: N3 Heiltrank, Sync PC "angenommen 0".
+
+Jeder Punkt: Test in der Testroutine (auch mit falschem Fall), Selbstkontrolle wo messbar, Bericht "umgesetzt, zur Prüfung" in
+berichte/AHSentinel/. Vor dem Push python3 addon-check/addon_check.py <ZIP> -> kein FEHLER. Ist ein Befund falsch, begründet zurückmelden.
