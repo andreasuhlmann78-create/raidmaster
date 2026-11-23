@@ -22,6 +22,7 @@
 - 23.11. 09:16/09:18/09:20: D-MITGL1 Mitglieder-Kanäle, Rechte je Rolle, Bot = Rechte des Gildenchefs.
 - 23.11. 09:50: Rolle Mitglied wie Raider – JA (so in 1.5.189).
 - 23.11. 09:59: D-MITGL1-R selbst machen, sehr vorsichtig (Regeln 1–7 in offen-discord.txt).
+- 23.11. 10:16: Gast (PUG) darf in die 4 Mitglieder-Kanäle – so lassen.
 
 ## Wichtig zu wissen
 - Bot läuft auf dem Infomaniak-Server, nicht auf dem PC des Nutzers; diese Sitzung hat keinen Zugriff auf Server/Discord.

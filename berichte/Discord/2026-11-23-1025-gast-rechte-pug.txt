@@ -1,0 +1,11 @@
+BERICHT DISCORD – Rechte der Rolle Gast (PUG-Spieler) geprüft; Entscheid des Nutzers
+Zeit: 23.11.2026 10:25 (aus date)
+
+- Anlass: Nutzer 10:14 "es wird auch PUG-Raids geben, die Leute sind ganz normale Gast – bitte prüfen, dass die nur Rechte in den
+  allgemeinen Kanälen haben".
+- Gelesen (Discord-Oberfläche, Rolle Gast -> Berechtigungen): KEIN Serverrecht an. Gast hat nur, was @everyone hat, plus die Freigaben
+  einzelner Kanäle.
+- Laut Code: Gast sieht INFO, REGELN, PUG, RAID-ADDON, BEWERBUNG (Kategorien mit "guest"); alle übrigen Kategorien und Kanäle blendet
+  der Bot für Gast aus (_hide_from_guests). Ausnahme seit 1.5.189: die 4 Mitglieder-Kanäle (#mitglieder-chat, #offtopic, Gildenhalle,
+  Offtopic-Talk) – Gast lesen/schreiben/sprechen, nicht verwalten (Vorgabe 09:18).
+- ENTSCHEID DES NUTZERS 23.11. 10:16 (Rückfrage der Discord-Sitzung): Gäste dürfen in diese 4 Kanäle – "Ja, so lassen". Keine Änderung.
