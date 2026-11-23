@@ -368,3 +368,8 @@ SICHERHEIT (Pflicht, Repo ist öffentlich):
       Abgleich anlegen; keine Server-IDs, Namen oder Links in Dateien. Tests: Rechte je Rolle (Offizier/Raidleitung verwalten, Raider/Gast
       schreiben+sprechen, @everyone unsichtbar), zweiter Lauf legt nichts doppelt an. Bericht "umgesetzt, zur Prüfung"; nach dem Anlegen
       prüft der Supervisor im Server nach. stand-aktuell.md nachführen.
+>>> NACHTRAG D-MITGL1 (Nutzer 09:20, Supervisor 09:20): "Der Bot darf natürlich alles, was Rokan (Gildenchef) auch kann."
+    In den neuen Kanälen bekommt der Bot dieselben Rechte wie der Gildenchef: sehen, schreiben, Nachrichten verwalten/anheften, Kanal verwalten
+    (Name, Thema, Rechte), im Sprachkanal sprechen, stummschalten, taub schalten, verschieben. Hinweis: Discord erlaubt dem Bot nur Rechte, die
+    seine eigene Rolle hat, und nur gegenüber Rollen UNTER seiner Rolle – im Bericht belegen, dass das zutrifft (sonst dem Nutzer melden, was er
+    an der Rollen-Reihenfolge ändern muss, nichts selbst umgehen). Test: Bot-Rechte = Gildenchef-Rechte je Kanal.
