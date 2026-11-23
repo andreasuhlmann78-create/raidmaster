@@ -1,0 +1,12 @@
+BERICHT DISCORD – D-MITGL1-R (Bot-Rolle über die fünf Rollen): NICHT AUSGEFÜHRT – kein Zugang (Vorsicht-Regel 7)
+Zeit: 23.11.2026 10:00 (aus date)
+
+- Versuch: eingebauter Browser der Claude-App auf dem Computer des Nutzers, discord.com geöffnet.
+  Ergebnis: Discord zeigt "Account auswählen" – beide gespeicherten Konten verlangen "Bitte melde dich erneut an". Kein Konto ist
+  angemeldet, also kein Zugang zur Discord-Oberfläche als Eigentümer.
+- Anmelden mit Passwort darf diese Sitzung nicht (Sicherheitsregel: keine Passwörter eingeben). Darum NICHTS versucht, nichts geklickt,
+  keine Rolle angesehen oder bewegt. Tab wieder geschlossen.
+- Rollenreihenfolge vorher/nachher: nicht festgehalten (kein Zugang).
+- Weiter: Der Nutzer meldet sich im eingebauten Browser der Claude-App (oder in seinem Chrome) mit dem Eigentümer-Konto bei Discord an;
+  danach führt die Discord-Sitzung Regeln 1–6 aus (vorher/nachher-Liste, nur Bot-Rolle bewegen, Vorschau = genau eine Rolle, speichern,
+  /update, #bot-log). Oder der Nutzer zieht die Rolle selbst (Server-Einstellungen -> Rollen -> Bot-Rolle direkt über Offizier).
