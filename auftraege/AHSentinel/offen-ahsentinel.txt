@@ -6283,3 +6283,24 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
 
 >>> NEU 2026-11-23 11:38 (Supervisor): Entscheid des Nutzers 11:36 – in announce/ NICHTS mehr löschen (neue Datei dazu, alte bleibt).
     auftraege/hinweis-announce-nicht-loeschen-2026-11-23.txt lesen.
+
+>>> PRÜFUNG SUPERVISOR 23.11. 12:05 – AHSentinel 0.65.383 + 0.65.384 (Berichte 08:40, 08:50): ANGENOMMEN, 1 Befund MITTEL, 3 NIEDRIG
+    Grundlage: Entwurf der Nachprüfung 10:20 (berichte/Nachpruefung/2026-11-23-1020-entwurf-nachpruefung.txt), vom Supervisor NACHGEPRÜFT, nicht
+     übernommen ohne Beleg. addon_check 0.65.384 OK. Code gelesen: SilverTest.lua 115–165, A:MaxStack (AHAnalyzerPro.lua 2949), MarketStats/BackfillUnited.
+    UMGESETZT, zur Abnahme im Testlauf PM1-a (T992–T999): ST7, G2-a, PM1-b, PM1-c, BH3-a, W2-E, W3-E, Z1, PM1-d, CF2-a, S6-a, G10-b, G17-a.
+    G10-a: Abweichung ANGENOMMEN (calFrom statt "nach fixPM1" – fixPM1 hat keinen Zeitpunkt; Begründung schlüssig).
+    S6-b: Messung BROWSE-ROH ok. Entscheid über "Teil-Scan-Preise nicht stapelbarer Items mit Menge > 1 als unbestätigt" erst NACH der Messung (Zahlen).
+ AHS-W2E-a MITTEL (belegt): Messreihe verliert bei der Gebühren-Rückfrage ihren Schritt. SilverTest.lua: "r.i = r.i + 1" (Zeile ~126) steht VOR der
+    Rückfrage "if ask then return false, ask end" (~157). Der zweite Klick holt den NÄCHSTEN Plan-Eintrag (anderer Preis) -> anderer FeeAsk-Schlüssel
+    -> fragt wieder. Bei Gebühr über der Schwelle wird jeder Schritt übersprungen bis "Messreihe fertig" – Messung S1 fällt still aus (kein Goldverlust).
+    Zudem läuft FeeAsk nur "if not self.testItems" -> die Testroutine kann den Fehler nicht sehen.
+    Soll: Rückfrage VOR dem Weiterzählen (oder r.i bei "ask" zurücksetzen); Test MIT FeeAsk (nachgestelltes Se:Deposit), 1. Klick fragt, 2. Klick
+    stellt DENSELBEN Plan-Eintrag ein, r.i/rows nach dem 1. Klick unverändert; Gegenprobe rot.
+ AHS-W2E-b NIEDRIG: T998 prüft nur Se:FeeAsk direkt. Entscheid W2 verlangt "jeder Verkaufsweg mit hoher Gebühr": je Weg (Verkaufen-Fenster, Serie/
+    BatchStep, Neu einstellen, Heute tun, Messreihe) mit nachgestelltem Einstellen: 1. Aufruf fragt, 2. stellt ein.
+ AHS-ST7-a NIEDRIG (Messauftrag): db.stackMem merkt jetzt jede Stapelgrösse (auch 1) -> nach Vollscans ein Eintrag je Item im AH (heute rund 7 400 Items
+    im Markt Alle|Horde eines Offiziers). Im Testbericht: Zahl der Einträge und Grösse vor/nach Vollscan. Nur handeln, wenn messbar gross.
+ AHS-G2a-a NIEDRIG (Messauftrag): A:BackfillUnited läuft beim Aktivieren in einem Bild. Gemessen (Supervisor, Daten eines Offiziers, Stand heute):
+    MarketStats zählt je ITEM (nicht je Eintrag): 3 Märkte mit 7 449 / 7 368 / 7 189 Items. Dauer im Protokoll MARKT-VEREINT "nachgetragen" (ms) ausgeben;
+    über 16 ms -> in die Hintergrund-Aufgabe wie StartUniteMarkets.
+    Reihenfolge nächste Version: AHS-W2E-a, dann W2E-b, ST7-a, G2a-a. Nur Discord. announce/: nichts löschen (Entscheid 11:36).
