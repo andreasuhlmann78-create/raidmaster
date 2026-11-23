@@ -11,6 +11,7 @@
 3. Versand daten_config.json (1.5.187/1.5.188): erfolgt durch den Nutzer bzw. seine Sitzung mit Discord-Zugang; Anzahl melden.
 
 ## Offen beim Nutzer
+- daten_config.json: schon bei allen Offizieren (Bot 11:34 "Keine Empfänger"), nichts zu tun.
 - D-MITGL1-R: Nutzer hat Bot-Rolle selbst gezogen (unter Raidleitung, über Offizier) – so belassen. Nächster Start: #bot-log
   soll nur noch "Rollen über dem Bot: Raidleitung" melden.
 - /update auf 1.5.189 und ggf. Bot-Rolle (Rechte/Reihenfolge) nach #bot-log-Meldung anpassen.
@@ -24,6 +25,7 @@
 - 23.11. 09:59: D-MITGL1-R selbst machen, sehr vorsichtig (Regeln 1–7 in offen-discord.txt).
 - 23.11. 10:16: Gast (PUG) darf in die 4 Mitglieder-Kanäle – so lassen.
 - 23.11. 10:32: Rollen-Reihenfolge so belassen (Raidleitung über Bot und Offizier; Raidleitung = Nutzer).
+- 23.11. 11:36: Ankündigungen (announce/*.md) im Repo nicht mehr löschen – an Supervisor gemeldet (Bericht 11:36).
 
 ## Wichtig zu wissen
 - 1.5.190: Anpinnen-Recht und Warntext umgesetzt; Bot meldete 10:42 je Kanal 3 Rechte gesetzt, Warnung nur Raidleitung.

@@ -1,0 +1,18 @@
+BERICHT DISCORD – ENTSCHEID DES NUTZERS 23.11.2026 11:36: Ankündigungen im Repo nicht mehr löschen
+Zeit: 23.11.2026 11:37 (aus date)
+
+Wortlaut: "im repo dürfen die boteinträge nicht mehr gelöscht werden!"
+Gemeint (Zusammenhang: Frage nach den "alten Beiträgen"): Dateien in announce/ (daraus macht der Bot die Beiträge in den
+Discord-Ankündigungskanälen) dürfen von KEINER Sitzung mehr gelöscht werden.
+
+Hintergrund (gemessen 23.11., Bot-Meldungen in #bot-befehle): 34–36 Ankündigungen wurden im Repo gelöscht (u. a.
+buffsentinel/guildsentinel "-vorstellung-2…-18", aktionshaus-0.59/0.60, ahanalyzerpro-hilfe-0.65.3). Der Bot löscht deren
+Discord-Beiträge wegen der Sperre announce_delete_max (mehr als 5 auf einmal) NICHT und meldet das bei jedem Update.
+Einzelne Löschungen (≤ 5, z. B. professionsentinel-0.9.74/75/76, guildsentinel-0.9.59) entfernt der Bot dagegen im Discord.
+
+BITTE AN DEN SUPERVISOR:
+1. Entscheid in shared/wissen/entscheide.md eintragen und allen Projekten weitergeben (wer announce/ schreibt: ersetzen statt löschen).
+2. Wunsch an die Discord-Sitzung (Vorschlag, nicht umgesetzt): a) Bot löscht im Discord NIE mehr Beiträge, deren Datei im Repo fehlt
+   (nur melden) – passt zum Entscheid; b) Prüfung im Workflow, die einen Push mit gelöschten announce/*.md ablehnt bzw. rot meldet.
+   Beides ändert gemeinsame Abläufe -> erst nach Auftrag.
+3. Offen: Sollen die 34 im Repo gelöschten Dateien wiederhergestellt werden (aus der Git-Geschichte)? Ihre Discord-Beiträge stehen noch.
