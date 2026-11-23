@@ -154,6 +154,7 @@ C_Map = {
 Enum = { UIMapType = { Continent = 2 }, FlightPathState = { Current = 0, Reachable = 1, Unreachable = 2 } }
 
 -- Frames
+NACHBAU = true          -- 23.11.2026 (LevelPilot 3.13.10 LP-T2-a): Testroutine erkennt den Nachbau (Zeitmessungen)
 UPDATERS = {}
 SEQ = 0
 function Ordered(set)

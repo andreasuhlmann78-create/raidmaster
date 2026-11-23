@@ -1,0 +1,44 @@
+BERICHT LevelPilot an die Prüf-Sitzung – 23.11.2026 12:24
+Version 3.13.10 – umgesetzt, zur Prüfung (Prüfung Supervisor 23.11. 11:03: LP-T2-a, LP-T1-R; LP-T2 Stand)
+Zip: announce/levelpilot__levelpilot-3.13.10.LevelPilot.zip, md5 840ab00f5e6d4ffa85a80008616e5bf1. Datenpaket 1.6.4. Dateiliste gleich 3.13.9. Hinweis "announce/
+nicht löschen" gelesen – nichts gelöscht.
+
+==== LP-T1-R MITTEL – Rest mit den Wegdaten des Nutzers ====
+Ursache belegt: Der Trainerbesuch (PRIO:TRAIN) kam in der Reise vom 30-s-Ticker des Assistenten (Hints TrainerHints, Uhrzeit des Spiels).
+Die Reise startete je Lauf zu einer anderen Spielzeit (Mitschrift: Start bei GetTime 1021,05 bzw. 1020,30 – das Warten auf Hintergrund-
+Aufträge davor dauert je nach Rechner unterschiedlich viele Bilder), also traf der Ticker eine andere Stelle der Reise. Die Speicher-
+adressen spielten nur über diese Wartezeit mit (setarch -R: gleich lang).
+Behoben: Hints.TrainerVisit – in der Reise prüft jeder Reiseschritt den Trainerbesuch selbst (gleiche Bedingung wie vorher: Stufe gerade,
+Trainer <= 400 yd, noch nicht besucht); der Ticker plant in der Reise keinen Besuch mehr.
+Beleg (je 3 Läufe parallel, gleicher Code): mit Wegdaten des Nutzers 3× "Normal 3172087 s, Speedrun 2273671 s"; ohne Nutzerdaten 3×
+"Normal 3273938 s, Speedrun 1911243 s" – auf die Sekunde gleich. (Die Werte ohne Nutzerdaten ändern sich gegenüber 3.13.8, weil der
+Trainerbesuch jetzt je Schritt geprüft wird; mit Nutzerdaten gleich wie mit 3.13.9+Fix.) T84 mit gemessenen Kartenrahmen: OK.
+
+==== LP-T2-a MITTEL – T263 und Anlegen je Portion ====
+(1) T263 zeigt alle Messungen, je Messung die längste Portion mit den darin angelegten KB und die meisten KB einer Portion, z. B.
+    "unerreichbar: 263 Portionen, längste 4,5 ms [4,5 ms/12 KB (max 188 KB)]".
+(2) Im Spiel zählt die ERSTE Messung (Wiederholung nur, wenn sie über 16 ms liegt, und nur als Zusatz); im Nachbau (_G.NACHBAU, gesetzt
+    von mock2.lua) die kleinste, mit Vermerk "Nachbau: kleinste Messung zählt". Gleiche Regel für alle Zeitmessungen über Bench (T146,
+    T147, T150 …: im Nachbau bis 3 Messreihen, kleinster Median) und T347 (schnellere von 2 Bericht-Messungen) – im Spiel unverändert.
+    Belegt: T150 Median einzeln 5,6–8,9 ms, unter Last bei gleichem Code 19,6 ms; T347 1,95 ms in 1 von 100 Läufen.
+(3) Anlegen gesenkt – Ursachen gemessen (Nachbau, Rückgabe-Haken je Funktion, Speicherbereinigung an):
+    a) Geländekarten: je Zone ~310–340 KB beim Entpacken, nur 6 im Speicher -> bei Suchen über viele Zonen immer wieder. Jetzt liest
+       das Gitter jede Zelle direkt aus dem gepackten Text (Terrain.lua Grid, gleiche Werte wie T.DecodeInto, T383: 30006 Zellen, 0
+       Abweichungen; 40 Geländeprüfungen in 8 Zonen: 6 KB, Gegenprobe einmal entpacken: 340 KB).
+    b) Zwischenspeicher-Schlüssel als Text ("inst:n1:w1:n2:w2", "a:b") -> je Prüfung ein neuer Text, die Texttabelle wuchs in einer
+       Portion um ~1 MB. Jetzt Zahlen-Schlüssel (Danger Segment zweistufig, exakt auf 1 Yard wie bisher; Gelände-Prüfung ka·1e8+kb).
+       T291 (2000 Strecken gegen Messpunkt-Rechnung): Abweichung 0.
+    c) Grössen: Danger-Segmente 50000 -> 8192, Gelände 60000 -> 8192, Luftlinien-Nachbarn mit wipe statt neuer Tabelle.
+    d) Heap der Wegsuche als zwei Listen (keine Tabelle je Eintrag, gleiche Reihenfolge – T383), Arbeitstabellen der Suche aus einem
+       Vorrat (2 Sätze, geleert in Portionen).
+    Ergebnis T263 (Nachbau, 3 Läufe): unerreichbare Suche grösste Portion 1025–1035 KB / 6,9–9,8 ms (3.13.9) -> 187–188 KB / 4,5 ms.
+    Erreichbar: max 177–179 KB. Reine Suchen (alloc-Messung ohne Testpunkte): unerreichbar gesamt 12 833 KB -> 2 009 KB.
+    Gegenprobe: 3.13.9 mit derselben Prüfung 1032 KB (Bericht 3.13.9-Messung), T383 Entpacken 340 KB.
+
+==== LP-T2 (T295) ====
+Seit 3.13.9: 40 Durchgänge = 200 Testroutine-Läufe ohne T295-Rot (3.13.9: 20, 3.13.10: 20); die Mitschrift ist drin.
+
+==== EIGENE TESTS (Hinweise, keine Freigabe) ====
+- addon_check OK; GoldSentinel*.lua byte-gleich mit shared/.
+- Offline-Routine --nur testroutine mit 3.13.10 (Endstand): 20 Durchgänge = 100 Läufe, 0 mit FEHLER. Ganze Offline-Routine 40/40.
+- Ganze Testroutine Nachbau (BRAKE=1): OK 305 · FEHLER 0 · Sandbox OK. Neue Prüfung T383 OK.
