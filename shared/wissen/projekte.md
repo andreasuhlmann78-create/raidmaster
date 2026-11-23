@@ -143,6 +143,7 @@ etwas für die Gilde. Prüffrage: schnell, schlicht, verlässlich – und macht 
 
 ## LevelPilot (Leveln/Wegführung)
 
+- Stand 23.11. 10:09: 3.13.8 angenommen (Supervisor). Offen: LP-T2 (T295 sporadisch rot), LP-T1-R (109 s Rest Reise), Routenpause 22.11., Zeile "Wegabschnitte".
 - Stand: 3.12.29 (Markt v2, MK1). Wartet nicht mehr: Anweisung 23:25 -> 3.12.30 = GR1 (a)+(b), SP1 messen, TU9.
 - Danach wartend: Wegpunkte (Wegdaten-Exporte), Punkt 15 nur auf Kommando. Später: CH-G.
 

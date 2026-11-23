@@ -1602,3 +1602,28 @@ in berichte/LevelPilot/ ("umgesetzt, zur Prüfung", mit Belegen).
  LP-O1 NIEDRIG: drei gegnerische Orte fehlen (Steinkrallengipfel, Thalanaar – Allianz; Valormok – Horde). Mit Beleg ergänzen (Questdaten/Referenz
       goldgoblin), sonst im Bericht "nicht belegt".
     Weiter offen laut Bericht: Routenpause (wartet auf Upload), L1–L8 Lesbarkeit, Zeile "Wegabschnitte".
+
+>>> PRÜFUNG SUPERVISOR 23.11. 10:09 – LevelPilot 3.13.8 (Bericht 2026-11-23-0953): ANGENOMMEN, ein neuer Befund (LP-T2)
+    Geprüft: Zip md5 e52c053f… = Bericht; addon_check OK; GoldSentinel*.lua (7 Dateien) byte-gleich mit shared/; Diff 3.13.7 -> 3.13.8 gesehen
+     (23 Dateien, Locales in allen Sprachen nachgeführt). Code-Stichproben: LP-B1 N.InFlight + hooksecurefunc("TakeTaxiNode"), Pfeil aus im Flug;
+     LP-B2 Hints.lua: geschätzte Trainerkosten (72 × Stufe²) werden verworfen (guessed -> keine Zahl), einziger weiterer Aufruf nur in der
+     Testroutine; "Zeit/Zone: noch nicht gemessen" in allen Locales; LP-B4 Pr.LoginNotice nur mit LP:IsDev(); LP-T1 V.SLICE_CALLS nur bei
+     laufender Testroutine.
+    LP-T1: 5 Ursachen belegt und behoben – angenommen. ERLEDIGT bis auf LP-T1-R (unten).
+    LP-B1, LP-B2, LP-B4, LP-O1 (D.PLACE_MIN 5, Liste 3.13.8 mit Beleg), L1/L8 (T380): ERLEDIGT (im Spiel bei Gelegenheit ansehen: Flug, Farben).
+    L2–L7: Begründungen angenommen.
+    LP-B3 (a) ERLEDIGT. (b) RÜCKMELDUNG RICHTIG, MEIN BEFUND WAR FALSCH: unabhängig im Daten-Repo nachgezählt – "Eschental" steht nur in
+     Dateien des Anniversary-Clients (anniversary/…/AHSentinel.lua, GuildSentinel.lua); in ALLEN 4 Forever-LevelPilot-Dateien "Ashenvale"
+     (["z"] 9×, Flugpunkte "Splintertreeposten, Ashenvale"/"Zoram'gar-Außenposten, Ashenvale", Quest "Die Jagd in Ashenvale"). WoW Forever
+     deDE nennt das Gebiet "Ashenvale". (Deine Zahl ["z"] 21× konnte ich mit dem heutigen Stand nicht nachvollziehen – heute 9×; ändert nichts.)
+    T84/T180/T183: Ursache Ersatzwelt angenommen (mit gemessenen Kartenrahmen 185,1 h). Im Spiel prüfen wie bisher.
+
+ LP-T1-R MITTEL (Rest, "Verdacht, zu messen"): mit Wegdaten des Nutzers Normal bis 109 s Abweichung (erste Abweichung bei PRIO:TRAIN:12 vom
+      Assistenten). Ursache belegen; Ziel: auf die Sekunde gleich wie ohne Nutzerdaten.
+ LP-T2 MITTEL (NEU, Supervisor-Messung 10:09): T295 [T-PF-A2] ist SPORADISCH ROT. Offline-Routine mit dem veröffentlichten Zip, --nur testroutine:
+      3.13.8: 6 Durchgänge = 30 Läufe, 2 mit FEHLER (TBC deDE 1×, Forever enUS 1×), beide gleich: "danach warm false · warmer Klick sofort false"
+      (kalt erkannt true, in Portionen true, längste 7,16 bzw. 4,19 ms). 3.13.7: 4 Durchgänge = 20 Läufe, 0 FEHLER.
+      Dein Bericht "40/40 ohne FEHLER" widerspricht dem nicht (zufällig), zeigt aber: die Prüfung ist nicht wiederholbar.
+      Verdacht, zu messen: Zwischenspeicher nach dem kalten Klick nicht warm, wenn eine neue Änderung (eigene Umweg-Tabelle der Reise
+      Graph.CurDetour/detourV oder Abgabe nach Anzahl) dazwischenkommt. Ursache belegen, beheben; Beleg: mindestens 20 Durchgänge (100 Läufe)
+      ohne FEHLER. Tests dürfen nie vom Zufall abhängen.
