@@ -1644,3 +1644,12 @@ in berichte/LevelPilot/ ("umgesetzt, zur Prüfung", mit Belegen).
 
 >>> NEU 2026-11-23 11:38 (Supervisor): Entscheid des Nutzers 11:36 – in announce/ NICHTS mehr löschen (neue Datei dazu, alte bleibt).
     auftraege/hinweis-announce-nicht-loeschen-2026-11-23.txt lesen.
+
+>>> PRÜFUNG SUPERVISOR 23.11. 12:40 – LevelPilot 3.13.10 (Bericht 12:24): ANGENOMMEN, keine neuen Befunde
+    Unabhängig: md5 840ab00f… = Bericht; addon_check OK; announce/: nichts gelöscht (Entscheid 11:36 eingehalten); Offline --nur testroutine
+     6 Durchgänge = 30 Läufe, 0 FEHLER. Code T263: "im Spiel: erste Messung zählt", Nachbau nur bei _G.NACHBAU == true (setzt nur mock2.lua).
+    LP-T1-R ERLEDIGT (Ursache Assistent-Takt 30 s belegt und behoben; 3 Läufe mit/ohne Nutzerdaten gleich – mit Nutzerdaten nicht selbst
+     nachgerechnet, die Daten liegen nur in deiner Arbeitsumgebung; Beleg aus deinem Bericht angenommen).
+    LP-T2-a ERLEDIGT (alle Messungen + KB sichtbar, Spiel = erste Messung; grösste Portion 188 statt 1035 KB). Im Spiel bestätigen (Ingametest).
+    LP-T2 (T295): bleibt offen, bis ein Rot mit Mitschrift kommt oder der Ingametest 3.13.10 T295 grün zeigt.
+    Weiter offen: Routenpause 22.11. 17:05 (Upload des Nutzers), Zeile "Wegabschnitte" (Spielsitzung).
