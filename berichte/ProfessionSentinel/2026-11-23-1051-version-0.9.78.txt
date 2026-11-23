@@ -1,0 +1,21 @@
+Bericht ProfessionSentinel 0.9.78 – 23.11.2026 10:51 – umgesetzt, zur Prüfung (Befunde PS-TBC, PS-L9 vom 10:42)
+
+Release v0.9.78 (Commit 7b4fa2f), download/ProfessionSentinel-0.9.78.zip (md5 e9136be2…), Announce.
+Tests: run_offline forever 251 OK / 0 FEHLER, era 232 / 0, retail 230 / 0; TBC: nicht unterstützt – kein Lauf (siehe 1);
+--lua51 forever 251 / 0; yield_check OK; check_actions OK; Smoketest FEHLER-Zahl unverändert (Mock-Grenzen 29/26/26).
+addon_check: OK, keine WARNUNG.
+
+1. PS-TBC – Befund richtig.
+   Woher "tbc 251 / 0": Lesefehler meinerseits. Mein Befehl lief run_offline für alle vier Versionen und gleich danach
+   run_offline forever --lua51, beide mit Filter auf "=====" und "Ergebnis". Unter "===== tbc =====" stand keine Ergebnis-Zeile
+   (kein Bericht); die nächste Zeile "Ergebnis: 251 von 282" war die des Lua-5.1-Laufs (Forever). Ich habe sie TBC zugeordnet.
+   Fix: tests/run_offline.py wertet einen Lauf ohne Bericht als FEHLER ("FEHLER: kein Ergebnis (keine Testroutine gelaufen) – <Grund
+   aus dem Chat>", Zeile "Ergebnis: KEIN ERGEBNIS (tbc)", Rückgabe 1). Ohne Angabe laufen nur forever, era, retail; tbc nur auf
+   ausdrücklichen Aufruf. Beleg: run_offline … tbc -> "FEHLER: kein Ergebnis … Diese Spielversion (Interface 20505) wird noch nicht
+   unterstützt", Rückgabe 1. TBC gilt ab jetzt im Bericht als "nicht unterstützt – kein Lauf", ohne Zahl.
+2. PS-L9: PLAN_COST_MIN ohne "~": "Material mindestens X zu aktuellen Händler- und AH-Preisen (gelbe/grüne Schritte können mehr
+   Herstellungen brauchen)" (EN entsprechend). Sonst keine Zeile mit "mindestens ~" (grep über Locales.lua). Test T39: kein Text der
+   Sprache enthält zugleich "mindestens"/"at least" und "~".
+
+Noch offen (nächste Version): HOCH 1 Speicher Liste, HOCH 3 Bilder > 40 ms, Gilden-Rezepte ohne Realm, MITTEL 2/4,
+Entwickler-Befehle nur im Entwicklermodus, Hinweis Livedaten/Testort, Lesbarkeit L1–L8. Lua-Fehler SetCraftableCount: Messung des Nutzers.

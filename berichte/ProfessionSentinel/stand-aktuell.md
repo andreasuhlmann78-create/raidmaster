@@ -1,7 +1,7 @@
-# Stand 23.11.2026 10:33 · Version 0.9.77
+# Stand 23.11.2026 10:51 · Version 0.9.78
 
 ## Gerade in Arbeit
-- 0.9.77 veröffentlicht (Release v0.9.77, download/, announce/), Bericht 2026-11-23-1033-version-0.9.77.txt – zur Prüfung.
+- 0.9.78 veröffentlicht (Release v0.9.78, download/, announce/), Bericht 2026-11-23-1051-version-0.9.78.txt – zur Prüfung (PS-TBC, PS-L9).
 
 ## Nächste Schritte (Reihenfolge)
 1. HOCH 1: Speicher "Liste recipes" (offline ~4,7 MB / 20 Refreshes, Spiel 53 MB) – Tabellen in RefreshRecipes wiederverwenden, Ziel ~0 KB, Test mit Gegenprobe.
@@ -14,13 +14,14 @@
 - Lua-Fehler SetCraftableCount: Messung (nur PS aktiv, /reload, Berufsfenster, Rezept wählen; dann nur AHS).
 
 ## Entscheide des Nutzers seit letztem Stand
+- Supervisor 23.11. 10:42: 0.9.77 angenommen, Befunde PS-TBC/PS-L9 (umgesetzt in 0.9.78).
 - Supervisor 23.11. 10:22: 0.9.76 angenommen; Einkaufsmenge gelb/grün "mindestens" erlaubt (umgesetzt in 0.9.77); Formel-Chance nur zum Sortieren.
 
 ## Wichtig zu wissen
 - PS-Repo: Push mit TOC-Versionssprung baut das Release; Asset per REST (gh api …/releases/assets/<id>, Accept octet-stream).
 - PS-Remote ohne origin/main-Ref: Push mit `git ls-remote origin refs/heads/main` prüfen.
 - Veröffentlichen: download/ProfessionSentinel-<V>.zip, announce/professionsentinel__professionsentinel-<V>.md + .ProfessionSentinel.zip (git mv), alte entfernen.
-- Tests: run_offline.py ProfessionSentinel [Versionen] [--lua51], run_smoketest.py (FEHLER 29/26/26 = Mock-Grenzen), yield_check.py ProfessionSentinel, check_actions.py, gen_locale_keys.py.
+- Tests: run_offline.py ProfessionSentinel [Versionen] [--lua51] (Standard forever/era/retail; TBC = nicht unterstützt, kein Lauf -> "KEIN ERGEBNIS"), run_smoketest.py (FEHLER 29/26/26 = Mock-Grenzen), yield_check.py ProfessionSentinel, check_actions.py, gen_locale_keys.py.
 - Keine geschätzte Zahl auf dem Bildschirm: Zahl je Punkt nur orange (e.exact / e.matExact), Plan gelb/grün = Punkte / "mindestens".
 - Testroutine misst zuerst 10 s Umgebung (TR.ENV_SEC); Lifeline-Zeilenzustand in LL.rows, Overlay statt Felder.
 - Nur Zeichen aus Windows-1252 in Texten (T295). Skillweg: UI.SkillPath (T296).
