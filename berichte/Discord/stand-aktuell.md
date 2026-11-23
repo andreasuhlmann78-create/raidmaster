@@ -1,6 +1,6 @@
 # Stand Discord-Sitzung
 
-## Stand 23.11.2026 10:44 · Bot 1.5.190 (origin/main, CI grün, im Server installiert 10:42)
+## Stand 23.11.2026 11:56 · Bot 1.5.191 (origin/main, CI grün, im Server installiert 11:52)
 
 ## Gerade in Arbeit
 - nichts – D-MITGL1 umgesetzt, zur Prüfung (Bericht 2026-11-23-0926-bot-1.5.189-mitglieder-kanaele.txt).
@@ -26,8 +26,10 @@
 - 23.11. 10:16: Gast (PUG) darf in die 4 Mitglieder-Kanäle – so lassen.
 - 23.11. 10:32: Rollen-Reihenfolge so belassen (Raidleitung über Bot und Offizier; Raidleitung = Nutzer).
 - 23.11. 11:36: Ankündigungen (announce/*.md) im Repo nicht mehr löschen – an Supervisor gemeldet (Bericht 11:36).
+- 23.11. 11:45: die gelöschten Ankündigungen wiederherstellen – erledigt: 33 Dateien (Bot 1.5.191), keine Discord-Beiträge gelöscht.
 
 ## Wichtig zu wissen
+- Klon war flach: für alte Dateien zuerst git fetch --unshallow. post_bot_log kürzt bei 1990 Zeichen (Vorschlag: aufteilen).
 - 1.5.190: Anpinnen-Recht und Warntext umgesetzt; Bot meldete 10:42 je Kanal 3 Rechte gesetzt, Warnung nur Raidleitung.
 - /update kann die Sitzung selbst im eingebauten Browser (Konto des Nutzers, #bot-befehle) – Bot-Meldungen stehen dort.
 - Bot läuft auf dem Infomaniak-Server, nicht auf dem PC des Nutzers; diese Sitzung hat keinen Zugriff auf Server/Discord.

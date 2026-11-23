@@ -1,0 +1,18 @@
+BERICHT DISCORD – Bot 1.5.191 + 33 Ankündigungen wiederhergestellt (Entscheid des Nutzers 23.11. 11:36/11:45) – umgesetzt, zur Prüfung
+Zeit: 23.11.2026 11:56 (aus date). Commits bdf02442 (Bot 1.5.191, CI success) und 89006f4 (announce/), beide auf origin/main.
+
+1. Bot 1.5.191 (ankuendigung_bot.remove_deleted_announcements): Datei wieder in announce/ -> Kopie in announce_entfernt/ weg, nichts im
+   Discord löschen, kein neues Posten (bleibt in "announced"). Warnung nennt ALLE Namen (bis 1.5.190 nur 30, "__" von Discord verschluckt),
+   in Teilen < 2000 Zeichen, nach dem Update einmal neu. test_announce_restore.py (4 Tests, T-ANN-RESTORE). /update 11:51 durch die
+   Discord-Sitzung; 11:52 "Update installiert – 1.5.191"; vollständige Liste: 33 Dateien (nicht 34).
+   Nebenbefund: Dieser Start meldete KEIN "Rechte gesetzt" für die Mitglieder-Kanäle -> zweiter Lauf ändert nichts (im Server belegt).
+2. Wiederhergestellt: genau diese 33 .md (+ 3 Bilder aktionshaus-0.60.0-uebersicht.*) mit der letzten Fassung vor dem Löschen. Dafür
+   war der Klon flach (shallow) – 17 Dateien erst nach "git fetch --unshallow" gefunden.
+3. /update 11:54; 11:55 Bot: "Update (GitHub · 89006f4) … Bot unverändert" und "Im Repo gelöschte Ankündigungen auch im Discord entfernt:
+   … (0 Nachrichten) …". Sichtbar 34 Einträge, alle 0 Nachrichten (Meldung bei 1990 Zeichen abgeschnitten – post_bot_log kürzt).
+   BELEGT aus dem Code, dass KEIN Beitrag gelöscht wurde: Nach dem Wiederherstellen waren 0 Einträge "live" (alle 33 mit Beiträgen sind
+   zurück); gelöscht wird nur über gespeicherte Nachrichten (= live) oder die neueste Fassung einer Reihe (= live). Der Bot hat damit nur
+   die alten Kopien in announce_entfernt/ aufgeräumt (ältere, längst ersetzte Fassungen).
+4. Keine Warnung "mehr als 5 auf einmal" mehr erwartet.
+OFFEN (Vorschlag an den Supervisor, Bericht 11:36): Workflow-Prüfung gegen gelöschte announce/*.md; Bot nie mehr im Discord löschen.
+Nebenbefund: post_bot_log schneidet lange Meldungen bei 1990 Zeichen ab (Aufräum-Meldung unvollständig) – Vorschlag: in Teile aufteilen.
