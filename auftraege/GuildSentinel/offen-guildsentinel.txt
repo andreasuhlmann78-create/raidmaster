@@ -684,3 +684,5 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     Tests: Nachbau 1000 Mitglieder -> SelectNow("members") jeder Schritt ≤ 16 ms; Ergebnis-Liste identisch mit vorher (gleiche Reihenfolge,
      gleiche Zeilen); kleine Gilde unverändert. Selbstkontrolle bleibt: LANGSAM-Eintrag > 16 ms im Protokoll. Nutzung sparen
      (hinweis-nutzung-sparen-2026-11-23.txt): in EINER Version mit anderen offenen Punkten bündeln. Bericht "umgesetzt, zur Prüfung".
+
+>>> NEU 23.11. 08:13 (Supervisor 08:14): Stand sichern in berichte/<dein Projekt>/stand-aktuell.md – auftraege/hinweis-stand-sichern-2026-11-23.txt.

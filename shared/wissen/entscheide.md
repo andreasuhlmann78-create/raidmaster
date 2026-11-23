@@ -12,6 +12,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
 | 15.11. 16:05 (nachgetragen 23.11.) | Discord #ruhmeshalle: "Raids sind Raids und Dungeons sind Dungeons" – getrennt, Raids immer unten. | Bot 1.5.139: Dungeon-Teil im Discord geprüft 23.11. (richtig); "Raids unten" erst prüfbar beim ersten Raid-Rekord (offen-discord). |
+| 23.11. 08:13 | Gegen Verlust beim Zusammenfassen: jede Sitzung sichert ihren Stand selbst in berichte/<Projekt>/stand-aktuell.md (kein Wächter-Projekt – kann fremden Kontext nicht sehen). "Es muss sicher sein, dass keine Fehler oder Überschneidungen passieren." | CLAUDE.md "STAND JE SITZUNG SICHERN"; Hinweis an alle. |
 | 23.11. 07:50 | Pause der anderen Projekte (18.11. 19:53 "nur AHS arbeitet weiter") gilt NICHT mehr – alle Projekte arbeiten wieder. "Es wird alles unternommen, um Nutzung zu sparen, ohne die Qualität zu vernachlässigen." | auftraege/hinweis-nutzung-sparen-2026-11-23.txt; Verweis in allen offen-*.txt. |
 | 23.11. 07:41 | SN-Z3 (Sniper-Ziel Twilighthandschuhe, Max 20s40 über dem Verkaufswert): "entscheide ich selbst im Spiel". | Kein Auftrag an AHSentinel; Warnung bleibt wie gebaut. |
 | 23.11. 07:41 | CurseForge AHSentinel: Entscheid erst, wenn ST7 behoben UND Testlauf PM1-a gelaufen ist; bis dahin nur Discord. Antworten an Spieler A/B/C erst danach. | offen-ahsentinel ENTSCHEID 23.11. 07:41 (E5). |

@@ -619,3 +619,5 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     Tests: Baum mit ungefilterter GuildSentinel.lua eines anderen Rechners -> nach _build apps/ban leer; nicht lesbar -> weggelassen; stand.json
      enthält die Version; Gegenprobe mit altem _build -> Test rot. Bericht "umgesetzt, zur Prüfung". Keine Namen in Bericht oder Commit.
     Beim Nutzer (nicht Teil dieses Auftrags): Uploader auf PC und bei beiden Offizieren auf die neue Version bringen.
+
+>>> NEU 23.11. 08:13 (Supervisor 08:14): Stand sichern in berichte/<dein Projekt>/stand-aktuell.md – auftraege/hinweis-stand-sichern-2026-11-23.txt.

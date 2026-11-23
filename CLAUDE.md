@@ -105,6 +105,23 @@ Gilt für alle Projekt-Sitzungen. Aufträge der Prüf-Sitzung können jederzeit 
 - immer direkt vor jedem Push und jeder Veröffentlichung.
 Ist etwas Neues da: laufende Arbeit fertig machen, dann den Auftrag lesen und dem Nutzer kurz melden.
 
+## STAND JE SITZUNG SICHERN (Entscheid des Nutzers 23.11.2026 08:13 – gegen Verlust beim Zusammenfassen des Kontexts)
+
+Jede Sitzung (Projekt-Sitzungen und Supervisor) führt GENAU EINE eigene Datei: `berichte/<Projekt>/stand-aktuell.md`
+(Supervisor: `berichte/Supervisor/stand-aktuell.md`). Damit macht eine neue oder zusammengefasste Sitzung nahtlos weiter.
+- NUR die eigene Sitzung schreibt ihre Datei (eine Sitzung je Addon) – nie die Datei eines anderen Projekts. So gibt es keine
+  Überschneidung. Geplante Aufgaben schreiben KEINE stand-aktuell.md (sie bleiben bei ihrem Entwurf).
+- WANN: nach jedem erledigten Schritt (Version gepusht, Bericht abgelegt, Entscheid des Nutzers erhalten, Arbeit unterbrochen) – nicht
+  laufend dazwischen (Nutzung sparen). Beim Start einer Sitzung ZUERST diese Datei lesen.
+- WIE: die Datei jedes Mal GANZ neu schreiben (nicht anhängen), höchstens 60 Zeilen, Deutsch, Zeit aus `TZ=Europe/Zurich date`.
+  Vorher `git pull --rebase`; mit der eigenen Arbeit committen; push; danach `git fetch -q && git show origin/main:<Datei> | head -3`
+  prüfen (Direktive "nie vergessen, ins Repo zu laden"). Konflikt nur bei Regelverstoss (zwei Sitzungen am selben Projekt) -> anhalten
+  und dem Nutzer melden, nichts überschreiben.
+- INHALT (feste Abschnitte): "Stand <Datum Zeit> · Version" / "Gerade in Arbeit" / "Nächste Schritte (Reihenfolge)" / "Offen beim Nutzer"
+  / "Entscheide des Nutzers seit letztem Stand" (die Prüf-Sitzung überträgt sie in shared/wissen/entscheide.md) / "Wichtig zu wissen".
+- Die Datei ersetzt NICHTS: Aufträge bleiben in auftraege/<Projekt>/offen-*.txt, Berichte in berichte/<Projekt>/<Zeit>-<thema>.txt.
+- Repo ist öffentlich: keine Namen, Tokens, Links mit Geheimnissen.
+
 ## Bericht an die Prüf-Sitzung (Entscheid des Nutzers, 12. November 2026)
 
 Alle Projekt-Sitzungen und alle anderen Prüf-Sitzungen (auch die geplante Nachprüfung) erstatten der Prüf-Sitzung
