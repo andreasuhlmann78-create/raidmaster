@@ -1,6 +1,6 @@
 # BuffSentinel – Stand der Sitzung
 
-## Stand 23.11.2026 12:45 · Version 0.9.61
+## Stand 23.11.2026 12:37 · Version 0.9.61
 Veröffentlicht (download/, announce/, Discord). Bericht: berichte/BuffSentinel/2026-11-23-0843-0.9.61-livedaten-lesbarkeit.txt
 
 ## Gerade in Arbeit
