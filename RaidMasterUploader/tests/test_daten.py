@@ -45,6 +45,13 @@ class FakeGitHub:
         self.calls, self.n = [], 0
         self.token_ok = True
         self.fail, self.contexts, self.before_patch = None, [], None
+        self.reject_blob = None          # UP-422: data -> Text, wenn GitHub die Datei mit 422 ablehnen soll
+        self.ref_422 = None              # UP-422: Text, wenn GitHub das Setzen des Zweigs mit 422 ablehnen soll
+
+    def err422(self, url, message, errors=None):
+        body = json.dumps({"message": message, "errors": errors or [],
+                           "documentation_url": "https://docs.github.com/rest"}).encode()
+        return daten.urllib.error.HTTPError(url, 422, "Unprocessable Entity", {}, io.BytesIO(body))
 
     def _id(self):
         self.n += 1
@@ -92,17 +99,21 @@ class FakeGitHub:
             return Resp({"tree": {"sha": self.commits[m.group(1)]["tree"]}})
         m = re.match(r"/git/trees/(\w+)\?recursive=1$", path)
         if m:
-            return Resp({"tree": [{"path": p, "type": "blob", "sha": s, "size": len(self.blobs[s])}
+            return Resp({"tree": [{"path": p, "type": "blob", "sha": s, "size": len(self.blobs.get(s, b""))}
                                   for p, s in self.trees[m.group(1)].items()]})
         if path == "/git/blobs" and method == "POST":
             data = base64.b64decode(body["content"])
+            if self.reject_blob and self.reject_blob(data):
+                raise self.err422(url, "Validation Failed", [{"resource": "Blob", "code": "custom",
+                                                              "message": self.reject_blob(data)}])
             sha = daten.git_blob_sha(data)
             self.blobs[sha] = data
             return Resp({"sha": sha})
         if path == "/git/trees" and method == "POST":
             assert "base_tree" not in body
-            for e in body["tree"]:
-                assert e["sha"] in self.blobs, e["path"]
+            for e in body["tree"]:                       # wie GitHub: fehlendes Objekt -> 422 (Text nachgebildet)
+                if e["sha"] not in self.blobs:
+                    raise self.err422(url, "GitRPC::BadObjectState", [f"tree.sha {e['sha']} is not a valid blob"])
             t = self._id()
             self.trees[t] = {e["path"]: e["sha"] for e in body["tree"]}
             return Resp({"sha": t})
@@ -112,6 +123,8 @@ class FakeGitHub:
             return Resp({"sha": c})
         if path == "/git/refs/heads/main" and method == "PATCH":
             assert body["force"] is True
+            if self.ref_422:
+                raise self.err422(url, self.ref_422)
             if self.before_patch:
                 f, self.before_patch = self.before_patch, None
                 f()
@@ -923,6 +936,108 @@ class UPDS2(ZweiRechner):
         self.drive(pc, T0 + 101, T0 + 130)
         self.assertFalse(any("alten Uploader" in l for l in logs), logs)
         self.assertEqual(json.loads(self.gh.files()["stand.json"])["Laptop"]["uploader"], "2.3.15")
+
+
+class UP422(ZweiRechner):
+    """2.3.17 UP-422 (HOCH 23.11.): GitHub lehnt die Lieferung mit 422 ab. Der Uploader zeigt Aufruf + Text von GitHub und
+    erholt sich: einmal vom aktuellen main neu aufbauen (alles neu schicken, fehlende Objekte nicht mehr verwenden); lehnt
+    GitHub eine eigene Datei ab, bleibt deren vorige Fassung und der Rest wird geliefert."""
+
+    K = "123456789#1"
+    old_uploader = UPDS2.old_uploader
+    new_uploader = UPDS2.new_uploader
+
+    def ausgangslage(self):
+        # Laptop liefert (2.3.15+), danach PC mit GuildSentinel (Bewerber) über alten Uploader
+        lap, lr, lap_logs = self.new_uploader("Laptop", [self.K])
+        self.put(lr["_forever_/" + self.K], "AHSentinel.lua", "AHSentinelDB = { 'lap1' }\n", T0)
+        self.put(lr["_forever_/" + self.K], "LevelPilot.lua", "LevelPilotDB = { 'lap1' }\n", T0)
+        self.drive(lap, T0 + 1, T0 + 20)
+        pc, pr = self.old_uploader("PC", self.K)
+        self.put(pr["_forever_/" + self.K], "GuildSentinel.lua", GS_SV, T0 + 30)
+        self.put(pr["_forever_/" + self.K], "AHSentinel.lua", "AHSentinelDB = { 'pc' }\n", T0 + 30)
+        self.drive(pc, T0 + 31, T0 + 100)
+        return lap, lr, lap_logs
+
+    def purge(self, pred):
+        """Objekte verschwinden bei GitHub (z. B. nach Ersetzen der Geschichte), der Baum nennt sie noch."""
+        files = self.gh.trees[self.gh.commits[self.gh.ref]["tree"]]
+        gone = [s for p, s in files.items() if pred(p)]
+        for sha in gone:
+            self.gh.blobs.pop(sha, None)
+        return gone
+
+    def test_up422_fehlende_objekte_zweiter_versuch(self):
+        lap, lr, logs = self.ausgangslage()
+        before = dict(self.gh.trees[self.gh.commits[self.gh.ref]["tree"]])
+        # eine fremde Tages-Datei UND eine unveränderte eigene Datei fehlen bei GitHub
+        gone = self.purge(lambda p: (p.startswith("tage/") and "/PC/" in p and p.endswith("AHSentinel.lua"))
+                          or (p.startswith("aktuell/Laptop/") and p.endswith("LevelPilot.lua")))
+        self.assertEqual(len(gone), 2)
+        self.put(lr["_forever_/" + self.K], "AHSentinel.lua", "AHSentinelDB = { 'lap2' }\n", T0 + 200)
+        n0 = self.gh.commit_count()
+        self.drive(lap, T0 + 201, T0 + 240)
+        self.assertEqual(self.gh.commit_count(), n0 + 1)                         # in EINER Lieferung (2. Versuch) geliefert
+        files = self.gh.files()
+        self.assertIn(b"lap2", files[f"aktuell/Laptop/forever/{daten.konto_id(self.K)}/AHSentinel.lua"])
+        lp = [p for p in files if p.startswith("aktuell/Laptop/") and p.endswith("LevelPilot.lua")]
+        self.assertEqual(len(lp), 1)                                              # eigene Datei neu geschickt, nicht verloren
+        # (c) fremde Dateien unverändert – nur der Eintrag ohne Objekt fehlt
+        for p, sha in before.items():
+            if "/PC/" in p and not p.endswith("GuildSentinel.lua"):
+                if sha in gone:
+                    self.assertNotIn(p, files)
+                else:
+                    self.assertEqual(daten.git_blob_sha(files[p]), sha, p)
+        # (d) GuildSentinel des PCs weiter gefiltert
+        gs = [v for p, v in files.items() if p.endswith("/GuildSentinel.lua")]
+        self.assertTrue(gs)
+        self.assertFalse(any(b"Bewerber" in v for v in gs))
+        # (2) Meldung mit Aufruf und Text von GitHub, ohne Token
+        hit = [l for l in logs if "baue vom aktuellen Stand" in l]
+        self.assertEqual(len(hit), 1, logs)
+        self.assertIn("GitHub antwortet 422 (Baum anlegen: GitRPC::BadObjectState", hit[0])
+        self.assertNotIn(TOKEN, " ".join(logs))
+        self.assertTrue(any("nicht mehr übernommen" in l for l in logs), logs)
+        self.assertEqual(lap.last_error, "")
+
+    def test_up422_eigene_datei_abgelehnt_rest_geliefert(self):
+        lap, lr, logs = self.ausgangslage()
+        konto = daten.konto_id(self.K)
+        old_ah = self.gh.files()[f"aktuell/Laptop/forever/{konto}/AHSentinel.lua"]
+        self.gh.reject_blob = lambda d: "Testsperre (nachgebildet)" if b"SPERRE" in d else None
+        self.put(lr["_forever_/" + self.K], "AHSentinel.lua", "AHSentinelDB = { 'SPERRE' }\n", T0 + 200)
+        self.put(lr["_forever_/" + self.K], "LevelPilot.lua", "LevelPilotDB = { 'lap2' }\n", T0 + 200)
+        self.drive(lap, T0 + 201, T0 + 240)
+        files = self.gh.files()
+        self.assertEqual(files[f"aktuell/Laptop/forever/{konto}/AHSentinel.lua"], old_ah)   # vorige Fassung bleibt
+        self.assertIn(b"lap2", files[f"aktuell/Laptop/forever/{konto}/LevelPilot.lua"])    # Rest geliefert
+        self.assertFalse(any(b"SPERRE" in v for v in files.values()))
+        self.assertTrue(any(f"GitHub lehnt forever/{konto}/AHSentinel.lua ab (Validation Failed – Blob custom Testsperre"
+                            in l for l in logs), logs)
+        self.assertEqual(lap.last_error, "")
+
+    def test_up422_dauerhaft_mit_text_im_fenster(self):
+        # lehnt GitHub auch den 2. Versuch ab (z. B. Regel am Zweig): nichts geliefert, Text von GitHub im Fenster, später neu
+        lap, lr, logs = self.ausgangslage()
+        self.gh.ref_422 = "Repository rule violations found"
+        self.put(lr["_forever_/" + self.K], "AHSentinel.lua", "AHSentinelDB = { 'lap3' }\n", T0 + 200)
+        n0 = self.gh.ref
+        self.drive(lap, T0 + 201, T0 + 240)
+        self.assertEqual(self.gh.ref, n0)
+        self.assertIn("GitHub antwortet 422 (Zweig setzen: Repository rule violations found)", lap.last_error)
+        self.assertIn("FEHLER: GitHub antwortet 422 (Zweig setzen: Repository rule violations found)", lap.status_line())
+        self.gh.ref_422 = None                                                    # Regel weg -> nächster Versuch liefert
+        self.drive(lap, T0 + 600, T0 + 700)
+        self.assertIn(b"lap3", self.gh.files()[f"aktuell/Laptop/forever/{daten.konto_id(self.K)}/AHSentinel.lua"])
+
+    def test_github_detail_ohne_token(self):
+        raw = json.dumps({"message": "Bad " + TOKEN, "errors": [{"code": "x", "message": "y ghp_ABCDEFGHIJKLMNOPQRSTUV"}]}).encode()
+        d = daten.github_detail(raw, TOKEN)
+        self.assertNotIn(TOKEN, d)
+        self.assertNotIn("ghp_ABC", d)
+        self.assertLessEqual(len(daten.github_detail(b'{"message": "' + b"a" * 500 + b'"}')), 200)
+        self.assertEqual(daten.github_detail(b"kein json"), "")
 
 if __name__ == "__main__":
     unittest.main()

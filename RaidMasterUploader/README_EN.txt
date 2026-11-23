@@ -253,6 +253,14 @@ Version 2.3.13 – privacy in the data repo (UP-DS1):
 - If the file cannot be read safely, it is not delivered at all, with one notice "GuildSentinel-Daten nicht geliefert: …".
 - New file svfilter.py – always extract the whole RaidMasterUploader.zip.
 
+Version 2.3.17 – "GitHub antwortet 422" (UP-422):
+- If GitHub rejects a delivery, the window now shows WHICH step was rejected (create file, create tree, create commit,
+  set branch) and GitHub's text – instead of only "GitHub antwortet 422".
+- The uploader recovers by itself: it rebuilds once from the current state of the data repo and sends all its own files
+  again. Entries whose file is missing at GitHub are no longer taken over. If GitHub rejects one of its own files, the
+  previous version stays there and everything else is delivered. Other computers' files stay unchanged, GuildSentinel stays
+  filtered.
+
 Version 2.3.16 – network errors while re-filtering (UP-DS2-a):
 - If the connection fails while re-filtering another computer's GuildSentinel.lua, the uploader delivers nothing this time and
   tries again later. The file is no longer dropped permanently; only files that cannot be read safely are left out.

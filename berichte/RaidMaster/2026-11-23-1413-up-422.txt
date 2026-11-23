@@ -1,0 +1,58 @@
+BERICHT RAIDMASTER AN DIE PRÜF-SITZUNG
+Stand: 23.11.2026 14:13 (aus date) · Sitzung: RaidMaster-Projekt-Sitzung · Version: Uploader 2.3.17 (Addon unverändert 3.0.40)
+Commit: dieser Push · Bezug: offen-raidmaster.txt "BEFUND UP-422 HOCH" (14:03, Nachtrag 14:04), auftraege/RaidMaster/anweisung-up-422-2026-11-23.txt
+Status: umgesetzt, zur Prüfung. Ursache NUR TEILWEISE belegt (siehe 1) – ehrlich: der Text der 422-Antwort vom Laptop fehlt.
+
+1. URSACHE
+   Belegt:
+   a) Woher die Zeile kommt: daten.py 2.3.16 _req (Zeile 297) machte aus JEDEM HTTP-Fehler ausser 401/403/404/409/429 nur
+      "GitHub antwortet <Code>" – ohne Aufruf, ohne Text von GitHub. Welcher der vier Schreib-Aufrufe (Datei anlegen, Baum anlegen,
+      Stand anlegen, Zweig setzen) 422 lieferte, war darum nicht sichtbar. Jede Lieferung bricht dann ganz ab (nichts geliefert),
+      retry_at +300 s -> genau das Bild des Nutzers: alle 5 Min. "Prüfung: GitHub antwortet 422 – nichts geliefert".
+   b) "Die Geschichte wurde ersetzt" ist der NORMALE Betrieb, kein Eingriff: seit 2.3.0 ersetzt JEDE Lieferung jedes Rechners den
+      Zweig durch einen einzigen Commit ohne Vorgänger (daten.py Kopf DU6, Zeilen 27–32: "Orphan-Commit + Force-Push, damit ältere
+      Fassungen wirklich aus dem Repo verschwinden"; commit() mit "parents": [] Zeile 341, set_ref mit force). Der eine Commit vom
+      23.11. 12:50 UTC (MININT) ist schlicht dessen letzte Lieferung (auch im Daten-Repo 13:49 Ortszeit wieder ein einziger Commit).
+      Kein Uploader, kein Werkzeug, kein Hand-Eingriff hat "die Geschichte ersetzt"; der Verdacht "Bewerber-Daten entfernen" trifft
+      nicht zu – UP-DS2 filtert nur Dateien, es ändert die Art der Lieferung nicht. Regel "nie Geschichte ersetzen ohne Entscheid"
+      greift darum nicht; DU6 war die Absicht (alte Fassungen sollen verschwinden). Der Uploader baut auf KEINEN alten Commit auf
+      (kein base_tree, kein parent, nichts Gemerktes über Objekte in uploader_state.json – geprüft: nur sig_done, last, last_try, ds2).
+   c) Nachbau (FakeGitHub in tests/test_daten.py): nennt der aktuelle Baum ein Objekt, das GitHub nicht (mehr) hat, lehnt "Baum
+      anlegen" mit 422 ab. Mit dem Code von 2.3.16: 10 Versuche in 45 Min., 0 Lieferungen, Fenster "FEHLER: GitHub antwortet 422"
+      – dasselbe Bild wie beim Nutzer. Ebenso 422, wenn GitHub eine eigene Datei ablehnt ("Datei anlegen").
+   Nicht belegt (Verdacht, zu messen): WELCHER dieser Fälle auf dem Laptop vorliegt. Ohne den Text der 422-Antwort geht das von hier
+   nicht (kein API-Zugang zum Daten-Repo; im Daten-Repo selbst keine Spur, der Laptop hat seit 20.11. nichts geliefert). Gemessen:
+   die übrigen Rechner liefern (Grösse/Regeln am Zweig also nicht allgemein), Laptop-Dateien 20.11. klein (grösste 14 MB), kein
+   Schlüssel-/Webhook-Muster in den gelieferten Dateien. 2.3.17 zeigt den Text – bleibt ein Fehler, steht er in der Zeile.
+2. FEHLERMELDUNG: GitHubError trägt Code, Aufruf und Text von GitHub ("message" + "errors", ohne Token, Token-Muster ***, höchstens
+   200 Zeichen). Fenster und Protokoll: "GitHub antwortet 422 (Baum anlegen: <Text von GitHub>)".
+3. SELBST ERHOLEN (deliver): bei 422 EINMAL vom aktuellen main neu aufbauen – gemerkte Prüfwerte (ds2) verworfen, ALLE eigenen Dateien
+   neu geschickt (nicht auf "liegt schon dort" vertrauen), Prüfwerte, die GitHub als fehlend nennt, nicht mehr übernommen (nur fremde;
+   GitHub nennt je Antwort eines -> weiter, solange neue genannt werden, höchstens 12 Runden). Lehnt GitHub eine EIGENE Datei ab:
+   vorige Fassung bleibt (aktuell/), Rest wird geliefert, Zeile "GitHub lehnt <Datei> ab (<Text>)". Fremde Dateien werden nie ersetzt
+   (nur übernommen oder – wenn ihr Objekt fehlt – weggelassen), GuildSentinel weiter gefiltert (UP-DS2), Rechner-Namen nicht in Meldungen.
+4. TESTS (Klasse UP422, tests/test_daten.py):
+   (a) fehlende Objekte (eine fremde Tages-Datei, eine unveränderte eigene Datei): Lieferung gelingt in DERSELBEN Lieferung im 2. Versuch,
+       eigene Datei neu geschickt, Zeile mit "GitHub antwortet 422 (Baum anlegen: GitRPC::BadObjectState …" (Text nachgebildet), kein Token.
+   (b) Gegenprobe alter Code (daten.py 2.3.16): 3 FAIL + 1 ERROR (u. a. "2 != 3" – kein Commit; Meldung nur "GitHub antwortet 422");
+       Dauerlauf 45 Min.: 10× 422, 0 Lieferungen.
+   (c) Dateien des anderen Rechners unverändert (Prüfwert je Datei), nur der Eintrag ohne Objekt fehlt.
+   (d) GuildSentinel des anderen Rechners im Ergebnis ohne "Bewerber".
+   Dazu: eigene Datei abgelehnt -> vorige Fassung bleibt, Rest geliefert; 422 auch im 2. Versuch (Regel am Zweig) -> nichts geliefert,
+   Fenster "FEHLER: GitHub antwortet 422 (Zweig setzen: Repository rule violations found)", nach Wegfall liefert der nächste Versuch;
+   github_detail ohne Token, ≤ 200 Zeichen, kein JSON -> leer.
+   Alle Tests: test_daten 31/31, test_sync 53/53, test_uploader 23/23, test_umfassend 14/14.
+5. Version 2.3.17, download/RaidMasterUploader.zip (13 Dateien, ohne tests/), LIESMICH/README_EN "Version 2.3.17".
+
+HINWEIS DATENSCHUTZ (gemessen im Daten-Repo 23.11. 13:49): stand.json hat bei KEINEM Rechner das Feld "uploader" – kein Rechner liefert
+bisher mit 2.3.15+. Darum stehen in 10 GuildSentinel.lua (aktuell/ und tage/ von PC, DESKTOP-JD5SLR5, MININT) noch Bewerber/Sperrliste.
+Die Bereinigung geschieht bei der ersten Lieferung eines Rechners mit 2.3.15+ – mit 2.3.17 auf dem Laptop also gleich mit.
+
+FÜR DEN NUTZER (Laptop, jetzt):
+1. download/RaidMasterUploader.zip (2.3.17) laden, in den Uploader-Ordner entpacken, ALLE Dateien ersetzen
+   (daten_config.json, sync_config.json, uploader_config.json bleiben – sie sind nicht in der Zip).
+2. Uploader schliessen und neu starten (Fenster zeigt oben 2.3.17).
+3. Woran man sieht, dass es geht: nach ein paar Minuten "Prüfung: geliefert (… Dateien, Repo … MB)" und in der Statuszeile
+   "Prüfung: zuletzt geliefert 23.11. <Uhrzeit> …" OHNE "FEHLER". Steht doch noch "FEHLER: GitHub antwortet 422 (…)": die ganze Zeile
+   (mit dem Text in Klammern) als Bild schicken – dann ist die Ursache belegt.
+Danach prüft der Supervisor stand.json "zeit" (und neu "uploader": "2.3.17") für AUSPLUSLAPTOP.

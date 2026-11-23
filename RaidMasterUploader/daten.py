@@ -252,7 +252,46 @@ def describe_error(e: BaseException) -> str:
 
 
 class GitHubError(Exception):
-    pass
+    """code = HTTP-Status (oder None), call = welcher Aufruf (Datei/Baum/Stand/Zweig/Abfrage), detail = Text von GitHub."""
+
+    def __init__(self, text: str, code: int | None = None, call: str = "", detail: str = ""):
+        super().__init__(text)
+        self.code, self.call, self.detail = code, call, detail
+
+
+def _call_name(method: str, path: str) -> str:
+    """UP-422 (2): welcher Aufruf – für die Meldung im Fenster."""
+    if "/git/blobs" in path:
+        return "Datei anlegen" if method == "POST" else "Datei lesen"
+    if "/git/trees" in path:
+        return "Baum anlegen" if method == "POST" else "Baum lesen"
+    if "/git/commits" in path:
+        return "Stand anlegen" if method == "POST" else "Stand lesen"
+    if "/git/ref" in path:
+        return "Zweig setzen" if method == "PATCH" else "Zweig lesen"
+    return "Abfrage"
+
+
+def github_detail(raw: bytes, token: str = "") -> str:
+    """UP-422 (2): Meldungstext aus der Fehlerantwort von GitHub ("message" + "errors"), ohne Token, höchstens 200 Zeichen."""
+    try:
+        res = json.loads((raw or b"").decode("utf-8", "replace"))
+    except ValueError:
+        res = {}
+    parts = []
+    if isinstance(res, dict):
+        if res.get("message"):
+            parts.append(str(res["message"]))
+        for e in res.get("errors") or []:
+            if isinstance(e, dict):
+                parts.append(" ".join(str(e.get(k)) for k in ("resource", "field", "code", "message") if e.get(k)))
+            else:
+                parts.append(str(e))
+    text = " – ".join(p for p in parts if p)
+    if token:
+        text = text.replace(token, "***")
+    text = re.sub(r"(github_pat_|ghp_)[A-Za-z0-9_]+", "***", text)
+    return re.sub(r"\s+", " ", text).strip()[:200]
 
 
 class GitHubAPI:
@@ -283,6 +322,11 @@ class GitHubAPI:
         except urllib.error.HTTPError as e:
             code = e.code
             remaining = str((getattr(e, "headers", None) or {}).get("X-RateLimit-Remaining") or "")
+            try:
+                detail = github_detail(e.read(), self._token)
+            except Exception:  # noqa: BLE001
+                detail = ""
+            call = _call_name(method, path)
             if ok404 and code in (404, 409):
                 return None
             if code == 401:
@@ -294,7 +338,9 @@ class GitHubAPI:
                                   "write)") from None
             if code == 409:
                 raise GitHubError("Repo ist leer") from None
-            raise GitHubError(f"GitHub antwortet {code}") from None
+            # UP-422 (2): Status, Aufruf und Text von GitHub (ohne Token) – statt nur "GitHub antwortet 422"
+            raise GitHubError(f"GitHub antwortet {code} ({call}" + (f": {detail}" if detail else "") + ")",
+                              code=code, call=call, detail=detail) from None
         except (urllib.error.URLError, OSError, ValueError, ssl.SSLError) as e:
             if "certificate_verify_failed" in str(getattr(e, "reason", e)).lower():
                 self._ctx = None                       # nach einer certifi-Installation neu aufbauen
@@ -506,6 +552,11 @@ class Daten:
             entries[f"aktuell/{me}/{rel}"] = s
             entries[f"tage/{today}/{me}/{rel}"] = s
             sizes[s] = len(data)
+        for rel in getattr(self, "_keep_old", {}):        # UP-422: von GitHub abgelehnte eigene Datei -> vorige Fassung bleibt
+            p = f"aktuell/{me}/{rel}"
+            if p in old:
+                entries[p] = old[p]["sha"]
+                sizes.setdefault(old[p]["sha"], int(old[p].get("size") or 0))
         # andere Rechner (Form 2.3.1: aktuell/<rechner>/<spielversion>/<konto>/<Datei>)
         for p, e in old.items():
             parts = p.split("/")
@@ -521,6 +572,13 @@ class Daten:
             if parts[1] in keep or (parts[1] == today and parts[2] != me):
                 entries[p] = e["sha"]
                 sizes.setdefault(e["sha"], int(e.get("size") or 0))
+        missing = getattr(self, "_missing", set())         # UP-422: Prüfwerte, die GitHub als fehlend meldet, nie wieder verwenden
+        self.missing_dropped = 0
+        if missing:
+            mine_s = {cs for _, cs in cur.values()}           # eigene werden ja neu geschickt – nur fremde fallen weg
+            for p in [p for p, s in entries.items() if s in missing and s not in mine_s]:
+                del entries[p]
+                self.missing_dropped += 1
         dropped = []
         while sum(sizes.get(s, 0) for s in set(entries.values())) > REPO_MAX and keep:
             gone = keep.pop(0)
@@ -584,58 +642,101 @@ class Daten:
         self.old_uploaders = n
 
     def deliver(self, now: float, files: dict[str, str], sig: list) -> bool:
+        """UP-422 (ab 2.3.17): lehnt GitHub einen Aufruf mit 422 ab, baut der Uploader EINMAL vom aktuellen main neu auf
+        (gemerkte Prüfwerte verworfen, alle Dateien neu geschickt, Prüfwerte, die GitHub als fehlend nennt, nicht mehr
+        verwendet); lehnt GitHub eine eigene Datei ab, bleibt deren vorige Fassung und der Rest wird geliefert."""
         self.d["last_try"] = now
+        self._keep_old: dict[str, str] = {}          # eigene Dateien, die GitHub ablehnt -> vorige Fassung bleibt
+        self._missing: set[str] = set()              # Prüfwerte, die GitHub als fehlend meldet
         try:
             info = self.api.repo_info()
             if info.get("private") is not True:
                 raise GitHubError(f"{self.api.repo} ist nicht privat – aus Sicherheitsgründen nichts geliefert")
             branch = str(info.get("default_branch") or "main")
-            cur = self._read_files(files)
-            for attempt in range(2):
-                head = self.api.head(branch)
-                if head is None:
-                    self.api.init_empty(branch)
+            cur_all = self._read_files(files)
+            strict, head_retried, rounds = False, False, 0
+            while True:
+                rounds += 1
+                if rounds > 12:
+                    raise GitHubError("Daten-Repo änderte sich bei jedem Versuch")
+                cur = {rel: v for rel, v in cur_all.items() if rel not in self._keep_old}
+                try:
                     head = self.api.head(branch)
-                old = {e["path"]: e for e in self.api.tree(head)} if head else {}
-                mine = {p: e.get("sha") for p, e in old.items() if p.startswith(f"aktuell/{self.folder}/")}
-                memo = self.d.get("ds2") or {}
-                dirty = any(p.endswith("/GuildSentinel.lua") and memo.get(e.get("sha")) != e.get("sha")
-                            for p, e in old.items() if not p.startswith(f"aktuell/{self.folder}/"))
-                if not dirty and mine == {f"aktuell/{self.folder}/{rel}": s for rel, (_, s) in cur.items()}:
-                    self.d["sig_done"] = sig                 # nichts geändert -> nie ein Commit
-                    self.last_error = ""
-                    self.save()
-                    return True
-                stand_old = {}
-                if "stand.json" in old:
-                    try:
-                        stand_old = json.loads(self.api.blob_text(old["stand.json"]["sha"]).decode("utf-8"))
-                    except (ValueError, UnicodeDecodeError):
-                        stand_old = {}
-                self._hint_old_uploaders(stand_old)
-                entries, sizes, extra, dropped = self._build(now, old, cur, stand_old, fetch=self.api.blob_text)
-                # Prüfwerte merken, die nicht mehr im Repo stehen, vergessen (Zustand klein halten)
-                live = {e.get("sha") for e in old.values()} | set(entries.values())
-                self.d["ds2"] = {k: v for k, v in (self.d.get("ds2") or {}).items() if k in live}
-                have = {e.get("sha") for e in old.values()}
-                blobs = {s: d for d, s in cur.values()}
-                blobs.update({git_blob_sha(d): d for d in extra.values()})
-                blobs.update(self.fblobs)
-                order = sorted(blobs, key=lambda s: 0 if any(s == cs and r.endswith("/AHSentinel.lua")
-                                                              for r, (_, cs) in cur.items()) else 1)
-                for s in order:                              # AHSentinel zuerst
-                    if s in have:
+                    if head is None:
+                        self.api.init_empty(branch)
+                        head = self.api.head(branch)
+                    old = {e["path"]: e for e in self.api.tree(head)} if head else {}
+                    mine = {p: e.get("sha") for p, e in old.items() if p.startswith(f"aktuell/{self.folder}/")}
+                    memo = self.d.get("ds2") or {}
+                    dirty = any(p.endswith("/GuildSentinel.lua") and memo.get(e.get("sha")) != e.get("sha")
+                                for p, e in old.items() if not p.startswith(f"aktuell/{self.folder}/"))
+                    if (not strict and not dirty and not self._keep_old
+                            and mine == {f"aktuell/{self.folder}/{rel}": s for rel, (_, s) in cur.items()}):
+                        self.d["sig_done"] = sig                 # nichts geändert -> nie ein Commit
+                        self.last_error = ""
+                        self.save()
+                        return True
+                    stand_old = {}
+                    if "stand.json" in old:
+                        try:
+                            stand_old = json.loads(self.api.blob_text(old["stand.json"]["sha"]).decode("utf-8"))
+                        except (ValueError, UnicodeDecodeError):
+                            stand_old = {}
+                    self._hint_old_uploaders(stand_old)
+                    entries, sizes, extra, dropped = self._build(now, old, cur, stand_old, fetch=self.api.blob_text)
+                    # Prüfwerte merken, die nicht mehr im Repo stehen, vergessen (Zustand klein halten)
+                    live = {e.get("sha") for e in old.values()} | set(entries.values())
+                    self.d["ds2"] = {k: v for k, v in (self.d.get("ds2") or {}).items() if k in live}
+                    have = set() if strict else {e.get("sha") for e in old.values()}   # strikt: alles neu schicken
+                    blobs = {s: d for d, s in cur.values()}
+                    blobs.update({git_blob_sha(d): d for d in extra.values()})
+                    blobs.update(self.fblobs)
+                    own_rel = {}
+                    for r, (_, cs) in cur.items():
+                        own_rel.setdefault(cs, []).append(r)
+                    order = sorted(blobs, key=lambda s: 0 if any(r.endswith("/AHSentinel.lua") for r in own_rel.get(s, []))
+                                   else 1)
+                    for s in order:                              # AHSentinel zuerst
+                        if s in have:
+                            continue
+                        try:
+                            got = self.api.blob(blobs[s])
+                        except GitHubError as e:
+                            if e.code == 422 and s in own_rel:   # eigene Datei abgelehnt -> ohne sie neu bauen
+                                for r in own_rel[s]:
+                                    self._keep_old[r] = e.detail or "abgelehnt"
+                                continue_outer = True
+                                break
+                            raise
+                        if got != s:
+                            raise GitHubError("GitHub hat eine Datei nicht richtig angenommen")
+                    else:
+                        continue_outer = False
+                    if continue_outer:
                         continue
-                    if self.api.blob(blobs[s]) != s:
-                        raise GitHubError("GitHub hat eine Datei nicht richtig angenommen")
-                tree = self.api.make_tree(entries)
-                commit = self.api.commit(f"Daten {self.me} {fmt_time(now)}", tree)
-                if not tree or not commit:
-                    raise GitHubError("GitHub hat den Stand nicht bestätigt")
-                # hat der andere Rechner inzwischen geliefert? Dann seinen Stand einbeziehen (einmal neu)
-                if attempt == 0 and self.api.head(branch) != head:
-                    continue
-                self.api.set_ref(branch, commit)
+                    tree = self.api.make_tree(entries)
+                    commit = self.api.commit(f"Daten {self.me} {fmt_time(now)}", tree)
+                    if not tree or not commit:
+                        raise GitHubError("GitHub hat den Stand nicht bestätigt")
+                    # hat der andere Rechner inzwischen geliefert? Dann seinen Stand einbeziehen (einmal neu)
+                    if not head_retried and self.api.head(branch) != head:
+                        head_retried = True
+                        continue
+                    self.api.set_ref(branch, commit)
+                except GitHubError as e:
+                    named = set(re.findall(r"\b[0-9a-f]{40}\b", e.detail or ""))
+                    if e.code == 422 and not strict:
+                        # UP-422 (3): einmal vom AKTUELLEN main neu aufbauen – nichts Gemerktes mehr verwenden
+                        strict = True
+                        self.d["ds2"] = {}
+                        self._missing |= named
+                        self.log(f"Prüfung: {e} – baue vom aktuellen Stand im Daten-Repo neu auf und versuche es sofort erneut.")
+                        continue
+                    if e.code == 422 and e.call == "Baum anlegen" and named - self._missing:
+                        # GitHub nennt je Antwort nur EIN fehlendes Objekt -> so lange weiter, wie neue genannt werden
+                        self._missing |= named
+                        continue
+                    raise
                 # U1 (ab 2.3.2): nur "geliefert", wenn der Kopf danach wirklich unser Commit ist – sonst hat der andere
                 # Rechner gleichzeitig ersetzt; dann gilt nichts als erledigt und es folgt ein neuer Versuch
                 if self.api.head(branch) != commit:
@@ -644,8 +745,6 @@ class Daten:
                     self.log("Prüfung: anderer Rechner lieferte gleichzeitig – neuer Versuch in 1 Minute.")
                     return False
                 break
-            else:
-                raise GitHubError("Daten-Repo änderte sich bei jedem Versuch")
         except GitHubError as e:
             self.last_error = str(e)
             self.retry_at = now + RETRY_SECONDS
@@ -662,6 +761,10 @@ class Daten:
         if self.fblobs or self.ds2_dropped:
             self.log(f"Prüfung: Datenschutz – {len(self.fblobs)} ältere GuildSentinel-Datei(en) bereinigt"
                      + (f", {self.ds2_dropped} nicht lesbare weggelassen" if self.ds2_dropped else "") + ".")
+        for rel, why in sorted(self._keep_old.items()):
+            self.log(f"Prüfung: GitHub lehnt {rel} ab ({why}) – dort bleibt die vorige Fassung, der Rest ist geliefert.")
+        if self.missing_dropped:
+            self.log(f"Prüfung: {self.missing_dropped} Eintrag/Einträge, deren Datei bei GitHub fehlt, nicht mehr übernommen.")
         self.log(f"Prüfung: geliefert ({len(cur)} Dateien, Repo {fmt_mb(total)}).")
         return True
 

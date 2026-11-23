@@ -1,12 +1,13 @@
 # Stand RaidMaster-Sitzung
 
-## Stand 23.11.2026 12:38 · Addon 3.0.40 · Uploader 2.3.16
+## Stand 23.11.2026 14:13 · Addon 3.0.40 · Uploader 2.3.17
 - Addon 3.0.40 im Spiel ohne Fehler (Ingametest 18.11.), vom Ingametest befreit (Entscheid 18.11. 15:19).
 - Uploader 2.3.15 (UP-DS2) angenommen (Supervisor 09:04), an die Offiziere verschickt.
 - Uploader 2.3.16 (UP-DS2-a NIEDRIG, Netzfehler nicht merken) gepusht, Bericht 2026-11-23-1238 – zur Prüfung.
+- Uploader 2.3.17 (UP-422 HOCH: Text von GitHub im Fenster, Selbsterholung bei 422) gepusht, Bericht 2026-11-23-1413-up-422 – zur Prüfung.
 
 ## Gerade in Arbeit
-- nichts (2.3.16 wartet auf Prüfung)
+- nichts (2.3.16/2.3.17 warten auf Prüfung; Ursache 422 erst mit dem Text vom Laptop belegbar)
 
 ## Nächste Schritte (Reihenfolge)
 1. Addon 3.0.41 – offene Punkte aus offen-raidmaster.txt gebündelt (Nutzung sparen, eine Version):
@@ -19,7 +20,7 @@
 2. Danach Ingametest-Runde (neue Version) und Bericht.
 
 ## Offen beim Nutzer
-- Uploader 2.3.16 entpacken (nach Prüfung, eilt nicht).
+- Laptop: Uploader 2.3.17 entpacken + neu starten; Zeile "zuletzt geliefert 23.11. … ohne FEHLER" prüfen, sonst Bild der Zeile.
 
 ## Entscheide des Nutzers seit letztem Stand
 - 23.11. 07:50: Pause aufgehoben, Nutzung sparen ohne Qualitätsverlust.

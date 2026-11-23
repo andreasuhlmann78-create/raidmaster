@@ -283,6 +283,13 @@ Version 2.3.13 – Datenschutz im Daten-Repo (UP-DS1):
 - Kann er die Datei nicht sicher lesen, liefert er sie gar nicht und meldet einmal "GuildSentinel-Daten nicht geliefert: …".
 - Neue Datei svfilter.py – bitte immer die ganze RaidMasterUploader.zip entpacken.
 
+Version 2.3.17 – "GitHub antwortet 422" (UP-422):
+- Lehnt GitHub eine Lieferung ab, steht jetzt im Fenster, WELCHER Schritt abgelehnt wurde (Datei anlegen, Baum anlegen,
+  Stand anlegen, Zweig setzen) und der Text von GitHub – statt nur "GitHub antwortet 422".
+- Der Uploader erholt sich selbst: Er baut einmal vom aktuellen Stand im Daten-Repo neu auf und schickt alle eigenen Dateien
+  neu. Einträge, deren Datei bei GitHub fehlt, übernimmt er nicht mehr. Lehnt GitHub eine eigene Datei ab, bleibt dort die
+  vorige Fassung und alles andere wird geliefert. Dateien der anderen Rechner bleiben unverändert, GuildSentinel bleibt gefiltert.
+
 Version 2.3.16 – Netzfehler beim Nachfiltern (UP-DS2-a):
 - Bricht beim Nachfiltern einer GuildSentinel.lua eines anderen Rechners die Verbindung ab, liefert der Uploader dieses Mal nichts
   und versucht es später wieder. Die Datei fällt nicht mehr dauerhaft weg; weggelassen wird nur, was nicht sicher lesbar ist.
