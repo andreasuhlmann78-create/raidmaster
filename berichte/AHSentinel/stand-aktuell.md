@@ -1,26 +1,24 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 23.11.2026 12:41 · Version 0.65.385
-Repos: ahanalyzerpro (Code, schreiben), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur lesen).
+## Stand 23.11.2026 16:11 · Version 0.65.386
+Repos: ahanalyzerpro (Code, schreiben; tests/run_offline.sh = Nachbau mit Testroutine), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur lesen).
 Arbeitskopie /home/claude/AHSentinel; Veröffentlichen mit /tmp/claude-0/bin/pub.sh (nur Discord, löscht NICHTS in announce/).
+Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /home/claude/AHSentinel (~70 s). Bisektion: /tmp/claude-0/bis/run1.sh <commit> <ver>.
 
 ## Gerade in Arbeit
-- nichts Laufendes (0.65.385: W2E-a, W2E-b, ST7-a, G2a-a).
+- AHS-I2: veraltete Tests umschreiben (V1/P8: T509 T514–T519 T521 T522 T525 T545 T788 T290 T875 T891; TT: T215 T228 T248 T273 T467–T470 T743 T789 T888 T287;
+  T225 T255), Echtdaten-Isolation (T285 T289 T291 T292, T875), T397/T579 belegen, T750/T191 UI.
 
-## Nächste Schritte (Reihenfolge)
-1. Neue Aufträge in auftraege/AHSentinel/offen-ahsentinel.txt (bei jeder Nutzer-Nachricht prüfen).
-2. RecipeList: nach Messung des Nutzers (nur AHS aktiv) ggf. nur C_TradeSkillUI.OpenRecipe.
-3. S6-b: Entscheid Supervisor nach BROWSE-ROH; N3 Heiltrank Messpunkt.
+## Nächste Schritte (Reihenfolge Supervisor)
+1. AHS-I2 Rest (oben). 2. AHS-I4 712-ms-Lücke beim Vollscan belegen. 3. AHS-I3 (T126 8,5 ms, T459 Speicher).
 
 ## Offen beim Nutzer
-- PM1-a: Testroutine im Spiel (T976–T1002), Testbericht über den Uploader.
+- Neuer Testlauf nach den Test-Anpassungen; CurseForge gesperrt (E5).
 - Messung RecipeList-Fehler mit nur AHS aktiv.
-- CurseForge-Entscheid erst nach PM1-a (E5).
 
 ## Entscheide des Nutzers seit letztem Stand
-- 23.11. 11:36 announce/ nichts löschen; 12:03 alte Versionen nicht wiederherstellen (vom Supervisor übermittelt, umgesetzt in pub.sh).
+- keine neuen.
 
 ## Wichtig zu wissen
-- Tests nur bauen, nicht laufen lassen; Berichte "umgesetzt, zur Prüfung". Letzter Test T1002 (nächster T1003).
-- Neue Tests vor dem Anker "-- CF-AHS-5 (CurseForge 17.11. …"; Index vor { "BEFUND-S5", .
-- Neue Locale-Schlüssel in alle 10 Locale*.lua nach der Zeile "Seelengebunden – nicht im AH verkaufbar".
+- Nachbau zeigt 41 der 49 Ingame-FEHLER ohne Spielerdaten -> Sandbox-Verdacht widerlegt; Bisektion: V1 0.65.358/359, TT 0.65.360, P5/P8 0.65.361.
+- Letzter Test T1002. Neue Tests vor "-- CF-AHS-5 (CurseForge 17.11. …"; Index vor { "BEFUND-S5", .

@@ -1,0 +1,78 @@
+AHSentinel 0.65.386 – AHS-I1 und AHS-I2 (INGAMETEST PM1-a + NACHTRAG 23.11. 15:42) – I1 umgesetzt, I2 alle 49 zugeordnet, 12 behoben, zur Prüfung
+Nur Discord, kein CurseForge (bleibt gesperrt). addon_check: OK. Dateiliste ZIP gleich wie 0.65.385. Tests gebaut; NACHBAU gelaufen (s.u.).
+
+WERKZEUG (neu genutzt, kein Raten): Nachbau tests/run_offline.sh (Repo AHAnalyzerPro, nachgebautes Spiel tests/wowsim, Testroutine "auto"
+und "server") – gleiche Testroutine wie im Spiel, eigene Nachbau-Daten (NICHT die Spielerdaten). Ergebnis Teil auto mit 0.65.385: 42 FEHLER,
+davon 41 identisch mit dem Ingametest -> der Verdacht "gemeinsamer Grund Sandbox/echte Daten" ist für diese 41 WIDERLEGT (der Nachbau hat
+keine Spielerdaten und zeigt dieselben FEHLER). Bisektion im Nachbau über 20 Versionen (0.65.352 … 0.65.385): 0.65.352 = 0 FEHLER; je Prüfung
+die Version, ab der sie rot ist (unten "seit"). Damit ist jede Ursache einer Änderung und einem Entscheid zugeordnet.
+
+AHS-I1 HOCH – Sandbox (Ursache belegt)
+  Schreiber: Sniper.lua Sn:BargainStore liefert in der Testroutine die echte Liste db.sniper.bargains, sobald Sn.testMeter gesetzt ist.
+  Der Mess-Test SN8 (TestRoutine.lua ~8798: Sn.testMeter = true, MeterEnd("gekauft") / MeterEnd("weg")) ruft über Sn:MeterEnd -> NoteBargain
+  (Sniper.lua 2463) -> 2 echte Einträge; die Liste stand beim Spieler auf 300 (BARGAIN_KEEP) -> Kürzen von vorn verschiebt ALLE Plätze ->
+  200 Pfade (Diff hört bei 200 auf), daher "sniper.bargains.1 … .12".
+  Im Nachbau dazu belegt (Sandbox-Gegenprobe 0.65.385: "4 Pfade: sniper.bargains, sync.dev, sync.recv, accountId"): S1–S6 (0.65.371) schreiben
+  in der Routine db.sync.recv/db.sync.dev (Sync.lua RecvDay/DevStore), D:AccountId legt db.accountId erst beim ersten Aufruf an.
+  Behoben: BargainStore in der Testroutine nie die echte Liste (auch nicht mit testMeter); RecvDay/DevStore in der Routine Wegwerf-Speicher;
+  accountId beim Login (READY) angelegt, in der Routine nie; Sandbox wiederholt das Zurückschreiben bis sauber (höchstens 5 Durchgänge) und
+  meldet "in n Durchgängen (vollständig)" bzw. "(NICHT vollständig: k Pfade bleiben)" – bisher stand "nicht vollständig", sobald ein 2. Durchgang
+  nötig war, ohne nachzuprüfen.
+  Gegenprobe Nachbau 0.65.386: Sandbox-Gegenprobe (AH zu) OK (0.65.385: FEHLER 4 Pfade).
+  Ist die echte Liste beschädigt? NEIN – belegt mit dem Upload AUSPLUSLAPTOP 23.11. 15:55 (nach dem Test 13:45): db.sniper.bargains 300 Einträge,
+  Zeiten aufsteigend, keine doppelten, letzter Eintrag 22.11. 09:21, kein Eintrag vom 23.11. (die Test-Einträge sind wieder weg). Der Nutzer muss
+  NICHTS tun. Zusatzbefund (G14, MITTEL, zur Kenntnis): die 300 Einträge stammen alle aus 12 Minuten (22.11. 09:09–09:21, Items 5966/7058,
+  Dauer -1) – der Sniper legt je erneutem Treffer desselben Angebots einen Fall an; die Liste reicht so nur 12 Minuten. Vorschlag: je Item und
+  Angebot nur ein Fall (Entscheid Supervisor).
+
+AHS-I2 – alle 49 FEHLER einzeln (seit = erste Version, in der die Prüfung im Nachbau rot ist; Zuordnung: ADDON = echter Fehler im Addon,
+VERALTET = Test prüft eine vom Nutzer ersetzte Regel, TEST = Fehler im Test, ECHTDATEN = Test liest echte Spielerdaten, UI = nur im Spiel messbar)
+ d) T435 TEST/VERALTET seit 0.65.361 (P5 Befund 21.11. 12:55: ohne Itemstufe keine Entzauber-Zeile) – DEOffer liefert nil, der Test indizierte
+    r ohne Prüfung -> Lua-Fehler 12052. BEHOBEN (Test an P5, nil abgesichert). Nachbau 386: grün.
+ a) Tooltip/Entzaubern – alle VERALTET durch AUFTRAG TOOLTIP TT1–TT7 (Nutzer 21.11. 09:20, 0.65.360: Soll-Bild "Gewinn mit Rechnung, Marktwert
+    unbekannt, Scan alt, Materialtabelle bündig, kein Preisverlauf", ersetzt Variante A/Materialblock/Lohnt bis):
+    T215, T228, T248, T273, T467, T468, T469, T470, T743, T789 seit 0.65.360; T888 seit 0.65.359 (V1) + 0.65.360 (TT). OFFEN: Tests auf das
+    TT-Soll-Bild umschreiben (nächste Version).
+ b) Marktlagen-Vorschlag – VERALTET durch V1 (Nutzer 21.11. 08:23–08:28 + NACHTRAG 09:30 "ganze Silber" und "mindestens 1s" weg):
+    seit 0.65.358 (V1): T509, T515, T516, T517, T545, T875; seit 0.65.359 (V1a–V1f): T514, T518, T519, T522, T788 (Mindestpreis nicht mehr auf
+    ganze Silber aufgerundet), T290 (Einzelstücke nicht mehr ganze Silber); seit 0.65.361 (P8 "kein Preis ohne Preisprüfung"): T521, T525, T891.
+    Geprüft gegen V1 (günstigstes fremdes Angebot, Stufen mit 1–5 Stück übersprungen, −1c, unter 20c gleich): alle "ist"-Werte entsprechen V1
+    (z. B. L-NORMAL 999 = 1000 − 1c, L-AUSREISSER 1799 = Ausreisser 1 Stück übersprungen, 1800 − 1c, L-HAENDLER 199 = 200 − 1c). T509 liest
+    KEINE Einstellung mehr (V1 kennt kein Unterbieten in %) – die Frage des Supervisors ist damit beantwortet.
+    T875 zusätzlich ECHTDATEN (Verdacht, zu messen): Spiel 980/1782/2870 gegen Nachbau 989/1799/2898 bei "Lernen true" -> gelernte Werte des Spielers.
+    OFFEN: Tests auf V1/P8 umschreiben (nächste Version).
+ c) Gilde/Sync – alle TEST (Fehler im Test, meine Versionen):
+    T947 seit 0.65.383, T955 seit 0.65.383: Testsendungen ohne Formatkennung "f2" (PM1-c), der Empfänger verwirft sie richtig. BEHOBEN.
+    T965, T966 seit 0.65.371 (noch nie grün): Test-IDs 990009690+ – Sync.lua HandleData nimmt nur Item-IDs < 10 000 000, die Testdaten wurden still
+    verworfen. BEHOBEN (IDs 99096xx). Nachbau 386: alle vier grün.
+ e) Einzelne:
+    T181 ECHTDATEN (nur im Spiel rot): las die beim Spieler gemessene Mindest-Einzahlung db.minDeposit = 1 (Upload AUSPLUSLAPTOP) statt 1s. BEHOBEN.
+    T240 ECHTDATEN (nur im Spiel): dieselbe Ursache, minDeposit wurde erst nach dem 2. Wert fest gesetzt (9499 = 9500 − 1c). BEHOBEN.
+    T225 VERALTET seit 0.65.364 (G1/G2/G8 ein Markt je Fraktion, Sync-Tag je Fraktion) – OFFEN (nächste Version, Soll prüfen).
+    T255 VERALTET seit 0.65.376 (PM1, belegt: Menge aus Feld 11, nicht Feld 5) – Test erwartet die alte Feld-5-Regel. OFFEN.
+    T285, T289, T291, T292 ECHTDATEN (nur im Spiel, Nachbau grün): Absatz/Angebot (AB1–AB11) und Auktionsgrösse lesen gelernte Werte des Spielers
+      (T292 "9 je Auktion (learned)") – Verdacht, zu messen; OFFEN: Lernen im Test aus (Learn.forceOff) und eigene Tabellen.
+    T287 VERALTET seit 0.65.360 (TT "Scan alt" statt "(alt)"-Kennzeichen, B7 0.65.370). OFFEN.
+    T396 VERALTET seit 0.65.359 (V1f KORREKTUR 2: Forever ab Fertigkeit 1, RequiredSkill = 1) – Texte waren gleich, rot machte die Stufen-Tabelle
+      30 -> 50 / 60 -> 200. BEHOBEN (Forever 1/1, sonst Tabelle). Nachbau 386: grün.
+    T397 seit 0.65.361 (P4/P5) – Verdacht, zu messen: DEOffer mit 20 % liefert nil (Itemstufe des Test-Items bzw. Mindestgewinn je Gruppe DE30b).
+      OFFEN, wird im Nachbau Schritt für Schritt belegt.
+    T472 VERALTET seit 0.65.361 (P5 prüft zuerst die Itemstufe -> "Stufe unbekannt" statt "Preise veraltet"). BEHOBEN (Test-Item mit Stufe 20).
+    T565 ADDON seit 0.65.377 (CF2, mein Fehler): neuer Befehl "fehlbestand" bekam das englische Wort "missing", das schon "fehlt" (Rezept) gehört.
+      BEHOBEN: englisch "shortage". Nachbau 386: grün.
+    T579 seit 0.65.361 (P4 "ein Wert je Item"): "marktzeile=nil" bei allen 80 – Verdacht, zu messen: Markt-Zeile verlangt jetzt Itemstufe (P5) bzw.
+      frische Preise. OFFEN.
+    T987 TEST (meiner, 0.65.380): 1s60 liegt 41 % unter 2s70, Schwelle 40 % -> Warnung ist RICHTIG, meine Erwartung war falsch. BEHOBEN (1s70).
+    T988 TEST (meiner, 0.65.380): BuildCSV sortiert nach Name ("Test Normal" vor "Test,Max"). BEHOBEN.
+    T750, T191 UI (nur im Spiel, echtes Fenster): 104 Befunde (abgeschnitten 88, überlappt 12; Markt > Überfüllt 52) bzw. Frame verdeckt Knopf –
+      nicht im Nachbau messbar; OFFEN, eigene Version mit den Befund-Listen.
+ Nur im Nachbau rot (nicht im Spiel): T21 (Nachbau hat < 3 Preise je Item -> TT3 "Marktwert unbekannt"), T52 Teil server – Nachbau-Daten, kein
+ Befund im Spiel; werden mit den Test-Anpassungen geprüft.
+
+ZÄHLUNG: 49 = BEHOBEN 12 (T435, T472, T947, T955, T965, T966, T181, T240, T396, T565, T987, T988) + VERALTET offen 28 (a 11, b 15 ohne T875-Echtdaten-
+Teil, T225, T255, T287) + ECHTDATEN offen 4 (T285, T289, T291, T292) + Verdacht offen 2 (T397, T579) + UI offen 2 (T750, T191) + T875 (VERALTET+ECHTDATEN)
+= 12 + 11 + 14 + 3 + 4 + 2 + 2 + 1 = 49. (b ohne T875: T509, T515, T516, T517, T545, T514, T518, T519, T522, T788, T290, T521, T525, T891 = 14.)
+Nachbau 0.65.386 Teil auto: 31 rot (alle unter "OFFEN"), Sandbox OK.
+
+NÄCHSTE SCHRITTE (Reihenfolge Supervisor): VERALTETE Tests auf V1/P8/TT umschreiben (je Test das neue Soll aus dem Entscheid), ECHTDATEN-Tests
+isolieren, T397/T579 belegen -> dann I4 (712-ms-Lücke) -> I3.
