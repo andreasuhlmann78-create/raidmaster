@@ -6099,3 +6099,24 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
  Z1 NIEDRIG (TT2-Regel, jede Zeile geht auf): "Gewinn erwartet +2s41" – aus den sichtbaren Zeilen folgt 2s51 − 2c Einstellgebühr = 2s49.
     Die 8c Differenz (Einstand? Einzahlungsrisiko?) stehen in keiner Zeile. Fehlende Zeile ergänzen (z. B. "Einstand −8c"), Summe exakt.
  HINWEIS LevelPilot (eingetragen dort): Chat "Routenberechnung pausiert (zu aufwendig) – weiter in 60 Sekunden", "5 neue Auffälligkeiten".
+
+>>> PRÜFUNG SUPERVISOR 23.11. 06:26 – AHSentinel 0.65.376–0.65.382 (Prüf-Ablauf A), Teil 1: PM1
+    addon_check 0.65.382 (mit Lua-Syntax): OK, keine Warnung.
+    PM1 CODE ANGENOMMEN (dreifach gelesen: Abruf -> Rechnung -> Speicher): alle Rechnungs-Lesestellen nehmen die Menge aus Feld 11, nie
+      mehr aus Feld 10 (etaMin): Mailer.lua:165/684 über Le:InvoiceQty, Ledger.lua:145 (count = Feld 11), Ledger.lua:202/247
+      (select(12, pcall(...)) = Feld 11); Books.lua liest keine Menge. Le:InvoiceQty: Feld 11 ≥ 1, sonst Forever Feld 5 (QtyFromField5),
+      sonst 1 "ungefähr" – wie beauftragt. Tests vorhanden (TestRoutine.lua:21613 etaMin 36/Menge 1 -> 1×; :21615 Feld 11 = 0, Feld 5 = 5 -> 5×).
+    BELEGT (Daten-Repo, Stand 23.11. 06:23): Bereinigung lief auf allen drei Rechnern mit 0.65.381+ (fixPM1 = 1: DESKTOP-NVITMSE,
+      DESKTOP-JD5SLR5, MININT-M6UO3AL); Kauf-Rechnungen als "ungefähr" markiert 6 / 9 / 6; Verkaufsmengen korrigiert 0 (keine
+      Verkaufsbuchung hatte Menge = Feld 10). Geteilte Verkaufsdaten danach nur von EINEM Konto, gesendet 22.11. 17:06 mit 0.65.382
+      (eigenes Konto des Nutzers) -> keine falschen Mengen im Umlauf. Laptop (AUSPLUSLAPTOP) noch 0.65.355, nicht bereinigt.
+    NICHT ERLEDIGT – fehlt noch:
+ PM1-a MITTEL: T976–T981 laufen lassen (Bericht 0.65.376: "nicht laufen gelassen"); Testbericht über den Uploader ins Repo.
+ PM1-b MITTEL: Die Zeile PM1-BEREINIGT steht in keiner Diagnose (Protokoll hält ~230 Zeilen, ältester Eintrag 22.11. 09:25:39, Bereinigung
+      lief beim Login 09:24). Einmalige Bereinigungen (PM1, STAPEL, fixL6 …) ihre Zahlen zusätzlich dauerhaft im Testbericht führen.
+ PM1-c MITTEL (Daten der Gilde): SO:HandleShared (SaleOutcome.lua:176) und der Empfang der Rechnungen nehmen Sendungen jeder Version an.
+      Versionen ≤ 0.65.375 senden Verkaufsfälle mit Menge aus Feld 10 (falscher Stückpreis -> falsche Zuordnung). Sendungen mit einer
+      Formatkennung versehen und ältere ignorieren (wie G8: kein Fehler, kein Mischen). Test: alte Sendung -> 0 übernommen; neue -> übernommen.
+ PM1-d NIEDRIG: Mailer.lua:170 und :689 rufen Le:InvoiceQty mit itemID = nil auf -> Stapel-/Marktwert-Plausibilität von QtyFromField5
+      entfällt (Ledger hat sie). itemID aus dem Brief bzw. dem Namen mitgeben. Test: Feld 11 = 0, Feld 5 = Preis ≠ bid -> nicht als Menge.
+    Abnahme PM1 = erledigt, wenn PM1-a bis PM1-c belegt sind.
