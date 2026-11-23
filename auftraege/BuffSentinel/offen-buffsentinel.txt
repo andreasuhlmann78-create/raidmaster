@@ -566,3 +566,10 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
 
 >>> NEU 2026-11-23 11:38 (Supervisor): Entscheid des Nutzers 11:36 – in announce/ NICHTS mehr löschen (neue Datei dazu, alte bleibt).
     auftraege/hinweis-announce-nicht-loeschen-2026-11-23.txt lesen.
+
+>>> INGAMETEST 23.11. 13:04 (Bericht vom Nutzer im Chat, Supervisor 13:05): lief mit der ALTEN Version 0.9.60 (Forever, Krieger 30, Hauptstadt).
+    OK 214 · FEHLER 6: T141 (Optionen überdecken LevelPilot-Guide), T41, T72, T132 (=T72), T136 (echte Aktionen 1: "Addon-Nachricht BuffSentinel/GUILD
+     @ AHSentinel/GoldSentinelSync.lua:100" – eine ECHTE Gilden-Nachricht während des Tests, gesendet über die geladene Kopie der gemeinsamen Sync-Datei),
+     T162 (Regressionen). Längstes Bild 28,6 ms (T156); Schritte > 16 ms u. a. T25 300, T92 134, T27 109.
+    Zählt NICHT als Abnahme von 0.9.61 – Nutzer installiert 0.9.61 und wiederholt. Bitte prüfen, ob 0.9.61 (T264 "Test ändert nie Livedaten") T136
+     und T41/T72 abdeckt; sonst Ursache belegen (BS-I1 MITTEL: echte Gilden-Nachricht im Test darf nie vorkommen).
