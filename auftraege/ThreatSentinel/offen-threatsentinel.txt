@@ -432,3 +432,15 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
      Fälle n. Wieder einschalten in Forever erst mit Supervisor + Entscheid des Nutzers, weil Era-Werte für Forever nicht belegt sind.
  Nachbau: die 6 bekannten Nachbildungs-Fälle (T02, T09, T20, T34, T39, T133) bleiben je mit Ursache in der Liste; neue Fälle ausserhalb: 0 – angenommen.
  Offen beim Nutzer: Ingametest /ts testroutine alles (Entwicklermodus prüfen mit /gsdev).
+
+>>> PRÜFUNG + ENTSCHEID SUPERVISOR 23.11. 09:41 – ThreatSentinel 2.5.25
+    addon_check (Supervisor): OK. TS-S3a/TS-S3b ANGENOMMEN (Formel weg, kein "~", T-A3/T-A4 mit Gegenprobe gegen 2.5.24; Messung nur Era/TBC im
+     Testbericht). Auslegung richtig: Stufe 1 (wer hat die Aggro) und Stufe 2 (Bedrohungsstufe) sind echte Spielwerte und bleiben.
+ TS-R1 MITTEL – ANTWORT auf die Frage "Rolle aus der Klasse geraten" (Entscheid "Schätzen verboten" 21.11.):
+    - Als Rolle gilt nur, was das Spiel oder der Spieler sagt: zugewiesene Gruppenrolle, Hauptpanzer, Sync von ThreatSentinel, eigene Wahl in den
+      Einstellungen, und sichtbare Spielzustände (z. B. Bärengestalt, Zorn der Gerechtigkeit als Aura). Die Klasse ALLEIN ist keine Rolle ->
+      "Rolle unbekannt" statt "(geschätzt)".
+    - Mob "lose": nur gegenüber GESICHERTEN Tanks werten. Ist in der Gruppe kein Tank gesichert bekannt: keine Lose-Warnung, dafür EINMAL je Gruppe
+      ein Hinweis "Kein Tank bekannt – Rolle im Gruppenfenster oder in ThreatSentinel setzen". Ein Spieler mit unbekannter Rolle gilt nicht als Tank.
+    - Tests: nur Klasse Krieger -> "Rolle unbekannt", keine Lose-Warnung ohne gesicherten Tank, genau 1 Hinweis; zugewiesener Tank -> Warnung wie bisher;
+      Bärengestalt sichtbar -> Tank. Mit dem nächsten Bündel (keine eigene Version nur dafür – Nutzung sparen), Ingametest danach.
