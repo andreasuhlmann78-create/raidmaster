@@ -1657,3 +1657,19 @@ in berichte/LevelPilot/ ("umgesetzt, zur Prüfung", mit Belegen).
 >>> HINWEIS SUPERVISOR 23.11. 13:26 (Ingametests BuffSentinel 0.9.61, GuildSentinel 0.9.60): beide melden Überlappen mit dem LevelPilot-Fenster
     (BS T141 "BuffSentinelOptions überdeckt Guide (LevelPilot)", GS T183 "GuildSentinelFrame / LevelPilotFrame"). Die Projekte weichen aus (BS-K1, GS-K1).
  LP-K1 NIEDRIG: Prüfen, ob LevelPilot selbst den anderen GoldSentinel-Fenstern ausweicht (gleiche Regel); Ergebnis im Bericht, Test mit offenem GS/BS-Fenster.
+
+>>> INGAMETEST 3.13.10 – 23.11. 15:38 (Bericht vom Nutzer im Chat, Supervisor 15:54): Forever 1.60.1, Krieger 30, Donnerfels (Umgebung: Bild in Ruhe
+    Median 33,0 ms, 95 % 34 ms, 37 Bilder/s – starke Last). OK 314 · FEHLER 6 · Sandbox OK (wiederholt: detourCache) · echte Aktionen 0 · Fehlerzähler 0.
+    LP-T2 (T295) ERLEDIGT: im Spiel grün. Dauer 771 s.
+ LP-I1 HOCH (leistung.md, harte Grenze 40 ms) – EIGENE Portionen über 40 ms: 32. Längste: T371–T375 1 074,6 ms (Speicher -46 MB), T136 advisor–T144
+    714,8 ms, T146–T148 416,2 ms, T383 273,8 ms (-106 MB), T271–T275 121 ms, T221 wege 119/106/105/105 ms, Start 112,6 ms. "Abgabe nicht möglich: 2
+    (T290 Zentrale pcall verschachtelt, T353 Gegenprobe TestRoutine:10576 pcall)" – Portionen in pcall können nicht abgeben -> sehr lange Bilder.
+    Je Fall: Spielbetrieb ja/nein; was im Spielbetrieb vorkommt, in Portionen teilen (auch innerhalb pcall), Testroutine selbst ebenfalls. Gegenprobe.
+ LP-I2 HOCH – T261 Einloggen ohne Lag: erste 60 s 1 245 ms Rechenzeit in 528 Aufrufen (soll < 1 000), längster 269 ms (advisor 270, route 269).
+    Spieler-Ruckeln beim Einloggen. Ursache je Aufrufer belegen, advisor/route beim Start teilen.
+ LP-I3 MITTEL – T150 Replan Median 16,84 ms (soll < 16; ersterweg 7,6 + reihenfolge 4,9 + aufgaben 3,5). T155 Planung je Reiseschritt Ø 18,75 ms,
+    längste 207,2 ms (#3 Stufe 30, +2 858 KB). T263 (im Spiel erste Messung): unerreichbares Ziel, Portion 45,0 ms / 1 153 KB.
+ LP-I4 MITTEL – T372 LP-M1: "mit Ort -> Entfernung + Zone" false (übrige 6 Teile true). Ursache, Fix, Test.
+ LP-I5 NIEDRIG – T221 Wegdaten: "danach ohne Neues false" – nach "alles drin" wird weiter gesendet bzw. Prüfung falsch. Belegen.
+    "Wegabschnitte 3.13.10: aufgezeichnet 0 · verworfen Stillstand/AFK 8 · Stillstand 57 min" – erwartet (Nutzer stand in der Hauptstadt); bleibt offen
+    bis eine Sitzung mit Laufen.

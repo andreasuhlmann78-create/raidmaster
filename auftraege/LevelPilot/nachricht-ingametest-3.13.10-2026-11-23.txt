@@ -1,0 +1,5 @@
+Nachricht an die LevelPilot-Sitzung (2026-11-23 15:54, Supervisor)
+
+Erst laufende Arbeit fertig machen. Ingametest 3.13.10 (Donnerfels, 15:38): 314 OK, 6 FEHLER, LP-T2 (T295) erledigt. Neu in offen-levelpilot.txt ganz unten:
+LP-I1 HOCH 32 eigene Portionen > 40 ms (längste T371–T375 1 075 ms, Abgabe in pcall nicht möglich), LP-I2 HOCH Einloggen 1 245 ms (advisor/route bis 270 ms),
+LP-I3 MITTEL T150/T155/T263, LP-I4 MITTEL T372, LP-I5 NIEDRIG T221. Bericht kommt auch über den Uploader nach testberichte/.
