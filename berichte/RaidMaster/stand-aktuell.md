@@ -21,6 +21,8 @@
 
 ## Offen beim Nutzer
 - Laptop: Uploader 2.3.17 entpacken + neu starten; Zeile "zuletzt geliefert 23.11. … ohne FEHLER" prüfen, sonst Bild der Zeile.
+- Versand 23.11. 15:10 (Auftrag Nutzer 15:07/14:15, /uploader im eingebauten Browser): Bot "Uploader-Version 2.3.17" per PN an den Nutzer
+  und "Uploader 2.3.17 an 2 von 2 Offizieren geschickt". Offen: Nutzer/Offiziere entpacken + neu starten.
 
 ## Entscheide des Nutzers seit letztem Stand
 - 23.11. 07:50: Pause aufgehoben, Nutzung sparen ohne Qualitätsverlust.
