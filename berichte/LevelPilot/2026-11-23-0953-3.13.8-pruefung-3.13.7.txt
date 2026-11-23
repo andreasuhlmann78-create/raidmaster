@@ -1,0 +1,98 @@
+BERICHT LevelPilot an die Prüf-Sitzung – 23.11.2026 09:53
+Version 3.13.8 – umgesetzt, zur Prüfung (Prüfung Supervisor 23.11. 08:41: LP-T1, LP-B1–B4, LP-O1, dazu Lesbarkeit L1–L8 – eine Version)
+Zip: announce/levelpilot__levelpilot-3.13.8.LevelPilot.zip, md5 e52c053fa716662178a6823ed20b4581. Datenpaket 1.6.4 (unverändert). Dateiliste gleich 3.13.7.
+
+==== LP-T1 MITTEL – virtuelle Reise nicht wiederholbar ====
+Fünf Ursachen belegt und behoben (Nachbau, jeweils gleicher Code, mehrere Läufe):
+1. Abgabe nach Uhr: Core.lua LP:Yield gab in der Reise nach 8 ms ab, dazwischen läuft anderer Code. 3.13.7: 3 Läufe Speedrun 666,4 /
+   537,5 / 548,1 h; gleicher Code ohne Abgaben in der Reise: 2 Läufe gleich (743,1 / 530,7 h). Jetzt in der Testroutine nach fester
+   ANZAHL erlaubter Abgabestellen (V.SLICE_CALLS = 16; Messung: 20 Stellen -> Median 10,0 ms je Portion, 50 -> 21,9 ms), sonst wie bisher.
+2. TR.Safe in der Reise: LP:Yield rief in der Testroutine zusätzlich TR.Safe (gibt nach Uhr ab) – in der Reise jetzt nie.
+3. Vorrang-Ziel des echten Charakters: Bei Stufe 6 (Offline-Routine) war PRIO:TRAIN:6 beim Start der ersten Reise gesetzt und wurde von
+   ihr verbraucht; die zweite Reise startete ohne (Lauf 1: 31 Schritte 3228 s, Lauf 2: 29 Schritte 3217 s). Die Reise startet jetzt ohne
+   priority/exhausted/mobSkip/safeSkip des echten Charakters und gibt sie danach zurück. Danach: beide 29 Schritte, 3217 s.
+4. Umweg-Faktoren: Die Reise teilte Graph.detour mit der echten Sitzung; deren zeitversetzte Messungen nach dem Einloggen wurden je nach
+   Rechnertempo an anderer Stelle der Reise fertig (mit den Wegdaten des Nutzers Normal 2869749 / 2857149 s). Jetzt eigene Tabelle der
+   Reise (Graph.CurDetour/detourV), Messung sofort, nie "nach 60 s".
+5. Nachbau selbst: mock2.lua rief OnUpdate-Rahmen und Ereignisse in der Reihenfolge von pairs() über Rahmen-Tabellen auf (Speicher-
+   adressen, je Lauf anders) -> feste Anmelde-Reihenfolge (berichte/LevelPilot/offline/lua/mock2.lua).
+Beleg: ohne Nutzerdaten 3 Läufe (LONG, parallel) "Normal 743,1 h · Speedrun 531,1 h [2675329 s, 1911989 s]" – auf die Sekunde gleich.
+T381 (dieselbe kurze Reise zweimal) OK, auch in allen 5 Testroutine-Läufen der Offline-Routine.
+Rest, Verdacht, zu messen: Mit den Wegdaten des Nutzers (Desktop-Upload 22.11.) Speedrun in allen Läufen gleich (2288241 s), Normal
+3171856 / 3171856 / 3171965 s (ohne Adress-Zufall "setarch -R": 3× 3171880 s) – Abweichung höchstens 109 s von 3,17 Mio. s (0,003 %).
+Die erste Abweichung liegt bei einem Trainer-Vorrangziel (PRIO:TRAIN:12, vom Assistenten). Eine Schleife über Tabellen mit Tabellen-
+oder Adress-Schlüsseln in der Reise gibt es nicht (Nachbau: pairs() während der Reise überwacht, 0 Fundstellen im Addon). Weiter messen.
+T84/T180/T183 im Nachbau rot ("beide 50–400 h", Normal 743,1 h): Ursache belegt = Ersatzwelt des Nachbaus (erfundene
+Kartenrahmen, Wege zu lang). Mit den im Spiel gemessenen Kartenrahmen (WORLDHOOK/KARTENRAHMEN der Offline-Routine): T84 OK "Normal 185,1 h ·
+Speedrun 175,9 h". Im Spiel bisher OK (3.13.2: 143,2 / 135,1 h). Der Nachbau mit Ersatzwelt bleibt dafür ungeeignet; Prüfung mit echten
+Kartenrahmen.
+Die 5 übrigen roten Nachbau-Tests – Ursache je Test belegt:
+- T262, T268: Der Nachbau schaltet die Notbremse ab (mock2.lua: BRAKE_MS = 1e9 ohne BRAKE=1). Mit BRAKE=1: T262 OK, T268 OK.
+  Nachbau ab jetzt immer mit BRAKE=1 (stand-aktuell.md).
+- T303: Der Testcharakter im Nachbau ist Stufe 1; die Ausweichstelle (Durotar 60/60) galt als zu gefährlich (SafePoints), kein Hinweis.
+  Nachbau Stufe 25: OK. Behoben in der Prüfung selbst (Stufe 60 vorgegeben) -> unabhängig von der Stufe.
+- T309: folgte aus T303 (Prüflisten-Punkt T303 nicht ausgelöst). Jetzt OK.
+- T174: Speedrun-Reise Stufe 1–6 ohne Weg-Kills. Neu gezählt (Virtual/Danger.WayKills): 8 Wege geprüft, 8 Monster im Stufenband am Weg,
+  aber alle 8 Wege kürzer als 120 Yards (höchstens 1 Kill je 120 Yards, Virtual.lua WAY_KILL_YARDS) -> "EP je Kill" nicht prüfbar.
+  T174 meldet das jetzt als "nicht prüfbar" mit diesem Grund; FEHLER bleibt, wenn kein Weg geprüft wurde oder Monster im Band waren und
+  trotzdem keiner zählt (Rechenfehler).
+Ganze Testroutine Nachbau 3.13.8 (BRAKE=1, ohne lange Reise): OK 304 · FEHLER 0 · Sandbox OK.
+
+==== LP-B1 MITTEL – im Flug ====
+Navigation.lua N.InFlight (UnitOnTaxi) + Flugziel über hooksecurefunc("TakeTaxiNode") (TaxiNodeName, nur der Ortsname; gilt bis zur
+Landung). Im Flug: Zeile "Im Flug nach <Ziel>" (Ziel unbekannt: "Im Flug") im aktuellen Schritt, keine Entfernung (DistText), keine
+Laufzeit (Session:EtaText), keine Reisezeile, Pfeil aus. Nach der Landung wieder normal. Test T376 (6 Fälle) OK.
+
+==== LP-B2 MITTEL – "ca."-Zeiten ====
+Quellen und Fallzahlen (Code):
+- EtaText je Ziel: KIND_UNIT 40/55/30 s (Monster/Gegenstand/Objekt), sonst 45 s – Vorgabe, n = 0. Eigenes Tempo, sobald in der Sitzung
+  ein Fortschritt am Ziel gemessen ist (n >= 1 je Ziel). Jetzt: ohne Messung "Zeit: noch nicht gemessen", mit Messung "ca. …".
+- Weg dorthin: vorher fest 7 bzw. 11 Yards/s ab Stufe 40 (11 nicht gemessen). Jetzt P.GroundYps: gemessenes Reittier-Tempo
+  (LP.char.mountYps), sonst 7 Yards/s (Grundtempo Laufen in WoW).
+- ZoneETA: + 30 s je Annahme/Abgabe = Vorgabe, n = 0 -> mit Annahmen/Abgaben "Zone: noch nicht gemessen"; nur gemessene Ziele -> "Zone ca.".
+- Hints.lua Trainerkosten: 72 × Stufe² Kupfer = Schätzung -> kein Hinweis mehr, bis die Kosten beim Trainer gelesen sind.
+Plan zur Messung: Zeit je Annahme/Abgabe aus den Aufzeichnungen (Annahme bis nächster Schritt), dann Zonenzeit wieder mit Zahl.
+Test T377 (5 Fälle) OK.
+
+==== LP-B3 NIEDRIG – "Ashenvale (Ashenvale)" ====
+(a) umgesetzt: P.LaterPart – Gebiet in Klammern fehlt, wenn der Questname es enthält (Gross-/Kleinschreibung egal). Test T378.
+(b) BEFUND FALSCH, begründet: Im deutschen WoW-Forever-Client heisst das Gebiet "Ashenvale", nicht "Eschental". Beleg Uploads:
+    LevelPilot-Protokoll ["z"] (GetRealZoneText, Spiel deDE 1.60.1) = "Ashenvale" 21× (Desktop des Nutzers und Offizier), Flugpunkte
+    "Splintertreeposten, Ashenvale" / "Zoram'gar-Außenposten, Ashenvale" (19× je). "Eschental" nur in GuildSentinel-Daten des
+    Anniversary-Clients (4×). LevelPilot nimmt den Namen aus dem Spiel (Geo:MapName -> C_Map.GetMapInfo), nie fest englisch;
+    T378 prüft "Gebietsname = Name des Spiels".
+
+==== LP-B4 NIEDRIG – Chat "Fehler-Protokoll … Auffälligkeiten" ====
+Protocol.lua Pr.LoginNotice: nur im Entwicklermodus (LP:IsDev). Test T379: ohne Entwicklermodus keine Zeile; mit -> Zeile; 0 neue -> keine;
+Protokoll aus -> keine.
+
+==== LP-O1 NIEDRIG – drei Orte ====
+Belegt aus dem Datenpaket: je 5 ortsfeste NPCs der Fraktion – Steinkrallengipfel (Steinkrallengebirge 35.5–37.1/5.7–8.1: Keeper Albagorm,
+Chylina, Illyanie, Teloren, Innkeeper Faralia), Thalanaar (Feralas 89.0–89.6/45.9–46.6: Rendow, Falfindel Waywarder, Thyssiana, Brienna
+Starglow, Caryssia Moonhunter), Valormok (Azshara 21.8–22.6/49.6–52.1: Kurll, Ag'tor Bloodfist, Jediga, Kroum, Gruul Darkblade).
+Die Regel verlangte 6 Punkte -> D.PLACE_MIN = 5. Dadurch neu (alle aus ortsfesten NPCs der Fraktion): Allianz 54 -> 68, Horde 46 -> 51
+(Liste: berichte/LevelPilot/offline/orte-andere-fraktion-3.13.8.txt). Neutrale Städte weiter frei (T371). Test T382 OK.
+
+==== LESBARKEIT L1–L8 ====
+L1 umgesetzt + Prüfung T380: Grenze 4,5:1 (WCAG 2 AA) für jede Farbe in den Zeilen auf der hellsten Zeilenfarbe (rowCur), Entscheidungs-
+   zahlen (Entfernung, Zeit) >= 7:1 (AAA) und nicht grau (Spanne der Farbkanäle < 0,1 und Helligkeit < 0,85). Geändert: Entfernung und
+   Zeit in Schriftfarbe f0ede6 (12,4:1, vorher grau 9c9ea6), Stufenfarbe rot ff1919 -> ff5555 (3,7 -> 4,6:1), grau 808080 -> 909090
+   (3,7 -> 4,5:1; grau bleibt der Farbcode des Spiels für graue Quests). Gegenprobe 555555 erkannt. Nachbau: 45 Farben, keine unter 4,5:1.
+L8 umgesetzt + T380: keine Schrift im Fenster kleiner als GameFontNormalSmall (10). Geändert: EP-Leiste 9 -> 10; Knopf-Beschriftungen
+   schrumpften bei langen Wörtern bis 7 (UI.FitLabel) – jetzt höchstens bis 10, sonst wird der Knopf breiter. Nachbau: 47 Schriften, keine < 10.
+L2 (Geldbeträge rechtsbündig): LevelPilot hat keine Geld-Listen; der Flugpreis steht im Satz der Reisezeile ("Flug nach X, 1s 20c") – kein
+   Listenwert. Nicht anwendbar.
+L3 (gleiche Zahl überall): Entfernung Kopf = Reisezeile (3.13.7 LP-M2, T373).
+L4 (Summen): Kopfzeile "Questlog n/max (k fertig)" zählt dieselbe Liste wie der Planer (inLog); keine weiteren Summen. Keine eigene Prüfung.
+L5 (eine Hauptzahl): je Zeile eine Entfernung rechts vom Namen; Nebensachen darunter (Zone, Ziele, Zeit). Unverändert.
+L6 (beschriftet): Entfernungen mit Einheit (Yards/km), Zeiten mit "ca."/"noch nicht gemessen"; die Stufe in eckigen Klammern [17] ist die
+   übliche Schreibweise der Quest-Addons und farbig nach Schwierigkeit – unverändert.
+L7 (unsicher -> keine Empfehlung): nicht gemessene Zeiten/Kosten zeigen keine Zahl (LP-B2, T377).
+
+==== EIGENE TESTS (Hinweise, keine Freigabe) ====
+- addon_check: OK. GoldSentinel*.lua byte-gleich mit shared/. Dateiliste gleich 3.13.7.
+- Nachbau ganze Testroutine (BRAKE=1): OK 304 · FEHLER 0 · übersprungen 23 · Sandbox OK. Neu: T376–T382 OK.
+- Lange Reise 3× gleich auf die Sekunde (siehe LP-T1). Mit den Wegdaten des Nutzers siehe LP-T1 (Rest 0,003 %).
+- Offline-Routine mit dem veröffentlichten Zip: 40 Läufe, 40 ohne FEHLER (T381 in allen 5 Testroutine-Läufen OK).
+- Ganze Testroutine Nachbau mit langer Reise (BRAKE=1): OK 304 · FEHLER 3 (T84/T180/T183 nur Ersatzwelt, siehe LP-T1) · Sandbox OK.
+- Offen wie gemeldet: Routenpause 22.11. 17:05 (wartet auf den Upload des Nutzers), Zeile "Wegabschnitte" (echte Spielsitzung).

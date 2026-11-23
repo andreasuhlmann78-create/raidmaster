@@ -43,7 +43,9 @@ function Advance(secs, step)
         for _, tk in ipairs(TICKERS) do
             if tk.next <= NOW then tk.next = NOW + tk.d tk.fn() end
         end
-        for f in pairs(UPDATERS) do local sc = rawget(f, "_scripts") if sc and sc.OnUpdate then sc.OnUpdate(f, step) end end
+        -- 23.11.2026 (LevelPilot 3.13.8 LP-T1): feste Reihenfolge (Anmelde-Nummer) statt pairs() über Rahmen-Tabellen – die Reihenfolge
+        -- von pairs() hängt an Speicheradressen und war je Lauf anders (virtuelle Reise nicht wiederholbar)
+        for _, f in ipairs(Ordered(UPDATERS)) do local sc = rawget(f, "_scripts") if sc and sc.OnUpdate then sc.OnUpdate(f, step) end end
     end
 end
 
@@ -153,6 +155,14 @@ Enum = { UIMapType = { Continent = 2 }, FlightPathState = { Current = 0, Reachab
 
 -- Frames
 UPDATERS = {}
+SEQ = 0
+function Ordered(set)
+    local l = {}
+    for f, n in pairs(set) do l[#l + 1] = { f, type(n) == "number" and n or 0 } end
+    table.sort(l, function(a, b) return a[2] < b[2] end)
+    for i = 1, #l do l[i] = l[i][1] end
+    return l
+end
 local frameMT = {}
 frameMT.__index = function(self, k)
     if k == "GetHeight" then return function(s) return rawget(s, "_h") or 300 end end
@@ -193,12 +203,12 @@ frameMT.__index = function(self, k)
     if k == "GetMapID" then return function() return P.map end end
     if k == "SetScript" then return function(s, ev, fn)
         local sc = rawget(s, "_scripts") or {} sc[ev] = fn rawset(s, "_scripts", sc)
-        if ev == "OnUpdate" then UPDATERS[s] = fn and true or nil end
+        if ev == "OnUpdate" then if fn then if not UPDATERS[s] then SEQ = SEQ + 1 UPDATERS[s] = SEQ end else UPDATERS[s] = nil end end
     end end
     if k == "GetScript" then return function(s, ev) local sc = rawget(s, "_scripts") return sc and sc[ev] end end
     if k == "Click" then return function(s, ...) local sc = rawget(s, "_scripts") if sc and sc.OnClick then sc.OnClick(s, "LeftButton") end end end
-    if k == "HookScript" then return function(s, ev, fn) local sc = rawget(s, "_scripts") or {} sc[ev] = fn rawset(s, "_scripts", sc) if ev == "OnUpdate" then UPDATERS[s] = true end end end
-    if k == "RegisterEvent" then return function(s, ev) EVENTFRAMES = EVENTFRAMES or {} EVENTFRAMES[s] = true
+    if k == "HookScript" then return function(s, ev, fn) local sc = rawget(s, "_scripts") or {} sc[ev] = fn rawset(s, "_scripts", sc) if ev == "OnUpdate" and not UPDATERS[s] then SEQ = SEQ + 1 UPDATERS[s] = SEQ end end end
+    if k == "RegisterEvent" then return function(s, ev) EVENTFRAMES = EVENTFRAMES or {} if not EVENTFRAMES[s] then SEQ = SEQ + 1 EVENTFRAMES[s] = SEQ end
         local r = rawget(s, "_events") or {} if ev then r[ev] = true end rawset(s, "_events", r) end end
     if k == "UnregisterEvent" then return function(s, ev) local r = rawget(s, "_events") if r and ev then r[ev] = nil end end end
     if k == "IsEventRegistered" then return function(s, ev) local r = rawget(s, "_events") return r and r[ev] or false end end
@@ -223,7 +233,7 @@ WorldMapFrame.ScrollContainer.Child = CreateFrame("Frame")
 WorldMapFrame:Hide()
 
 function FireEvent(ev, ...)
-    for f in pairs(EVENTFRAMES or {}) do
+    for _, f in ipairs(Ordered(EVENTFRAMES or {})) do
         local sc = rawget(f, "_scripts")
         if sc and sc.OnEvent then sc.OnEvent(f, ev, ...) end
     end
