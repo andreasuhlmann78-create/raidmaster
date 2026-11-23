@@ -6142,3 +6142,14 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
       danach neu bewerten; Verkaufen zeigt keinen Vorschlag, bis bekannt; (3) Protokoll STAPEL-ROH "unbekannt" bleibt.
       Tests: Stapelgrösse unbekannt, 30 Auktionen zu 5g70, Max 25s, Menge 50 -> kein Kauf; stackMem = 1 ohne Item-Info -> Stückpreis 5g70.
     Abnahme ST1–ST6 = erledigt, wenn PM1-a (Testlauf) belegt ist; ST7 neu offen (vor CurseForge).
+
+>>> PRÜFUNG SUPERVISOR 23.11. 06:28 – AHSentinel 0.65.376–0.65.382, Teil 3: CF2
+    ANGENOMMEN (Code): Munition/Verbrauchsgüter: BK:IsConsumable (Books.lua:941, GetItemInfo Feld 12 = Klasse 0/5/6, Feldlage geprüft) ->
+      Buchung "verbraucht", keine Meldung (Books.lua:979 ff.). Echter Fehlbestand: höchstens EINE Sammelzeile je Sitzung, /ahs fehlbestand
+      schaltet ab (BK:NoteMissingChat, Books.lua:931). Berufsfenster: Cr:Open (Crafting.lua:1371) zeigt ohne Klick nur den Knopf "AHS";
+      craftAutoOpen Standard aus; userOpened wird beim Schliessen zurückgesetzt (Crafting.lua:1404); craftPanel == false gilt weiter.
+      Tests T982/T983 nicht gelaufen -> PM1-a.
+ CF2-a NIEDRIG (Buchhaltung): Ist die Item-Info noch nicht geladen, liefert IsConsumable false -> Verbrauchsgut wird als "fehlt" gebucht
+      (und löst die Sammelzeile aus). Bei unbekannter Klasse diesen Abgleich für das Item zurückstellen (nächster Abgleich), nie "fehlt".
+      Test: Klasse unbekannt -> keine Buchung; danach Klasse 6 -> "verbraucht".
+    Abnahme CF2 = erledigt mit PM1-a; Antwort an Spieler B erst nach Entscheid des Nutzers zu CurseForge.
