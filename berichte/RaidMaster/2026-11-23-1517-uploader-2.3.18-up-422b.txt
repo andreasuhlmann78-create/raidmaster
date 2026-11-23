@@ -29,7 +29,8 @@ Status: umgesetzt, zur Prüfung.
    wieder klein -> ungepackt, .gz weg. Auch gepackt zu gross -> vorige Fassung bleibt, keine Zeile "gepackt geliefert".
    Gegenprobe Code 2.3.17: FAIL (alte .lua bleibt, nichts gepackt). Alle Tests: test_daten 34/34, test_sync 53/53, test_uploader 23/23,
    test_umfassend 14/14. LIESMICH/README_EN "Version 2.3.18", download/RaidMasterUploader.zip neu.
-5. VERSAND 23.11. 15:10: 2.3.17 per Bot an den Nutzer (PN) und "an 2 von 2 Offizieren" (Auftrag Nutzer). 2.3.18: siehe unten.
+5. VERSAND 23.11. 15:10: 2.3.17 per Bot an den Nutzer (PN) und "an 2 von 2 Offizieren" (Auftrag Nutzer). 15:19: 2.3.18 per Bot
+   an den Nutzer (PN, Bot-Antwort "Uploader-Version 2.3.18"). An die Offiziere nicht erneut (ihre Dateien sind klein; auf Wunsch des Nutzers).
 
 FÜR DEN NUTZER: Laptop auf 2.3.18 (ZIP entpacken, alle Dateien ersetzen, Uploader neu starten). Erwartet: "… AHSentinel.lua ist für
 GitHub zu gross (x MB) – gepackt geliefert (… .gz)" und "Prüfung: geliefert (18 Dateien …)" ohne FEHLER.
