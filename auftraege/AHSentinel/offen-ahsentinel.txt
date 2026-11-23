@@ -6179,3 +6179,14 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
      CF3 Quelle belegt (Höchstpreis 99'999'999'999c im Preisverlauf, Daten MININT); A.CsvInt (AHAnalyzerPro.lua:5179) "%.0f", nil/inf/NaN
       -> leer; BuildCSV ohne %d (geprüft: nur %s und pct "%.2f" mit inf/NaN-Schutz). T988.
     Abnahme VK1/VK2/CF3 = erledigt mit PM1-a (Testlauf T981/T987/T988). Antwort an Spieler C erst nach Entscheid des Nutzers zu CurseForge.
+
+>>> PRÜFUNG SUPERVISOR 23.11. 06:31 – AHSentinel 0.65.376–0.65.382, Teil 6: N1–N3
+    ANGENOMMEN:
+     N1 Rückmeldung "teilweise falsch" mit Daten belegt (Prüf-Stand 22.11. 10:00); Verschärfung CleanDivided (Einzelsuche vor db.stFixAt,
+      ≤ 60 % des nächsten Scan-Preises -> unbestätigt) im Code nachvollzogen. T985.
+     N2 IM SPIEL BESTÄTIGT (22.11. 12:28: "4s (9 Angebote) …", Vorschlag "(9 Angebote)").
+    TEILWEISE:
+ N3 Protokoll VORSCHLAG-LEER wirkt: 22.11. 16:56 zwei Fälle (Item 1475, Item 2771 Zinnerz) mit Grund "Preis nicht geprüft" während
+      des Vollscans = PP1, behoben in 0.65.382 (Zinnerz im Spiel 17:05 richtig). Der Heiltrank-Fall (Händler 75c, ab 79c) ist noch nicht
+      gemessen -> bleibt offen als Messpunkt (kein Code-Auftrag): beim nächsten Heiltrank im Verkaufen-Reiter VORSCHLAG-LEER bzw. Feld prüfen.
+    Abnahme N1/N2 = erledigt mit PM1-a (Testlauf T984/T985).
