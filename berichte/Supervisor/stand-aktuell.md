@@ -31,6 +31,7 @@ Sitzung seit 23.11. 06:18 (Übergabe: berichte/Supervisor/2026-11-23-0620-ueberg
 - alle in shared/wissen/entscheide.md eingetragen (zuletzt 23.11. 08:13).
 
 ## Wichtig zu wissen
+- Nutzer 23.11. 14:04: unter der Woche meist am Laptop (AUSPLUSLAPTOP), am Wochenende am PC (DESKTOP-NVITMSE). UP-422 trifft also den Haupt-Rechner unter der Woche.
 - 23.11. 13:10 Laptop (Forever, AddOns): installiert TS 2.5.26, BS 0.9.61, GS 0.9.60, AHS 0.65.385, LP 3.13.10 (+Data 1.6.4), PS 0.9.78 – 441 Dateien
   gegen die Zips geprüft (0 Abweichung). Alte Ordner in AddOns/_GoldSentinel_Update_2026-11-23/alt/ (kein Löschrecht). RaidMaster 3.0.40 war aktuell.
 - Ingametest 23.11. (Nutzer 13:02): Chars stehen in den HAUPTSTÄDTEN. Zeitmessungen (Bilder > 16 ms) daher mit Zeile "Umgebung"/Testort lesen –
