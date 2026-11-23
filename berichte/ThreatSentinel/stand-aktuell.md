@@ -1,6 +1,6 @@
 # Stand ThreatSentinel
 
-## Stand 23.11.2026 10:35 · Version 2.5.26
+## Stand 23.11.2026 12:40 · Version 2.5.26
 Veröffentlicht (download/, announce/), addon_check OK ohne WARNUNG. Bericht: berichte/ThreatSentinel/2026-11-23-1035-version-2.5.26-rollen.txt.
 
 ## Gerade in Arbeit
@@ -17,7 +17,8 @@ Nichts. TS-R1 und TS-R1-a in 2.5.26 umgesetzt, zur Prüfung (Freigabe zur Veröf
 - Prüfliste OPT: OK/Nicht OK.
 
 ## Entscheide des Nutzers seit letztem Stand
-- Keine direkten. Supervisor 23.11. 09:23: Stufe 3 aus (TS-S3a/b) – in 2.5.25; 09:41: TS-R1 – im Bauordner (2.5.26).
+- 11:36/12:03: in announce/ nie etwas löschen, keine alte Version neu hineinlegen. Geprüft: Publish-Skript löscht nur die alte Zip in
+  download/ (git rm download/…), in announce/ nur neue Dateien dazu. Einzige Löschung in announce/threatsentinel* war am 02.11. (vor der Regel).
 
 ## Wichtig zu wissen
 - Bauordner: /home/claude/build/v245/ThreatSentinel (nicht im Repo). Veröffentlichen mit dem Publish-Skript der Sitzung.
