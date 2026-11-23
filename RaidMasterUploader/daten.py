@@ -41,6 +41,7 @@ Offline testbar: alle Netzaufrufe laufen über urllib.request.urlopen (im Test e
 from __future__ import annotations
 
 import base64
+import gzip
 import hashlib
 import json
 import os
@@ -73,6 +74,7 @@ MIN_GAP = 60                         # höchstens 1 Commit je Minute
 RETRY_SECONDS = 300                  # nach einem Fehler spätestens dann neu (oder bei der nächsten Änderung)
 DAYS_KEEP = 7
 REPO_MAX = 200 * 1024 * 1024
+TOO_LARGE = re.compile(r"too large", re.I)        # UP-422b: "Sorry, your input was too large to process."
 REPO_RE = re.compile(r"^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$")
 TOKEN_RE = re.compile(r"^(github_pat_|ghp_)[A-Za-z0-9_]+$")
 LIESMICH = ("# GoldSentinel-Daten (privat)\n\n"
@@ -81,6 +83,7 @@ LIESMICH = ("# GoldSentinel-Daten (privat)\n\n"
             "- `tage/<Datum>/<rechner>/` – letzter Stand der letzten 7 Spieltage je Rechner\n"
             "- `stand.json` – je Rechner: Zeit und Dateien\n\n"
             "Die Konto-Kennung (konto-xxxxxxxx) ist auf allen Rechnern gleich; der Kontoname steht hier nie.\n"
+            "Ist eine Datei für GitHub zu gross, liegt sie gepackt als `<Datei>.lua.gz` da (gzip; die ungepackte .lua fehlt dann).\n"
             "Jede Lieferung ersetzt den Verlauf (ein einziger Commit) – ältere Fassungen gibt es hier nicht.\n")
 QUOTES = str.maketrans({"„": '"', "“": '"', "”": '"', "«": '"', "»": '"', "‘": "'",
                         "’": "'"})
@@ -553,10 +556,11 @@ class Daten:
             entries[f"tage/{today}/{me}/{rel}"] = s
             sizes[s] = len(data)
         for rel in getattr(self, "_keep_old", {}):        # UP-422: von GitHub abgelehnte eigene Datei -> vorige Fassung bleibt
-            p = f"aktuell/{me}/{rel}"
-            if p in old:
-                entries[p] = old[p]["sha"]
-                sizes.setdefault(old[p]["sha"], int(old[p].get("size") or 0))
+            for r in {rel, rel[:-3] if rel.endswith(".lua.gz") else rel + ".gz"}:   # gepackt oder ungepackt, was da ist
+                p = f"aktuell/{me}/{r}"
+                if p in old and p not in entries:
+                    entries[p] = old[p]["sha"]
+                    sizes.setdefault(old[p]["sha"], int(old[p].get("size") or 0))
         # andere Rechner (Form 2.3.1: aktuell/<rechner>/<spielversion>/<konto>/<Datei>)
         for p, e in old.items():
             parts = p.split("/")
@@ -604,7 +608,14 @@ class Daten:
         self.ds2_dropped = gone_ds2
         stand = {k: v for k, v in stand_old.items() if isinstance(v, dict) and k != me
                  and any(p.startswith(f"aktuell/{k}/") for p in entries)}
-        stand[me] = {"zeit": int(now), "dateien": {rel: {"bytes": len(d), "sha": s} for rel, (d, s) in cur.items()},
+        raw = getattr(self, "_raw_sizes", {})
+        files = {}
+        for rel, (d, s) in cur.items():
+            files[rel] = {"bytes": len(d), "sha": s}
+            if rel.endswith(".lua.gz"):
+                files[rel]["gepackt"] = True                # UP-422b: gzip; ungepackte Grösse dazu
+                files[rel]["bytes_ungepackt"] = int(raw.get(rel[:-3], 0))
+        stand[me] = {"zeit": int(now), "dateien": files,
                      "grundregeln": list(self.d.get("grundregeln") or []),      # TU5: Verletzungen (ohne Namen)
                      "uploader": self.version or "unbekannt"}                   # UP-DS2 (1)
         extra = {"LIESMICH.md": LIESMICH.encode("utf-8"),
@@ -616,6 +627,22 @@ class Daten:
             sizes[ns] = len(data)
         self.fblobs = fblobs
         return entries, sizes, extra, dropped
+
+    def _pack_known(self, cur: dict[str, tuple[bytes, str]]) -> dict[str, tuple[bytes, str]]:
+        """UP-422b: Dateien, die GitHub schon einmal als zu gross abgelehnt hat, gleich gepackt liefern (solange sie
+        mindestens 80 % der damaligen Grösse haben) – spart den vergeblichen Versuch."""
+        self._raw_sizes = {rel: len(d) for rel, (d, _) in cur.items()}
+        known = self.d.get("gz") or {}
+        out = {}
+        for rel, (data, sha) in cur.items():
+            if rel in known and len(data) >= 0.8 * int(known[rel] or 0) > 0:
+                packed = gzip.compress(data, compresslevel=9, mtime=0)
+                out[rel + ".gz"] = (packed, git_blob_sha(packed))
+            else:
+                out[rel] = (data, sha)
+                if rel in known:
+                    known.pop(rel)                     # wieder klein genug -> ungepackt
+        return out
 
     @staticmethod
     def _older(v: str, mine: str) -> bool:
@@ -646,6 +673,7 @@ class Daten:
         (gemerkte Prüfwerte verworfen, alle Dateien neu geschickt, Prüfwerte, die GitHub als fehlend nennt, nicht mehr
         verwendet); lehnt GitHub eine eigene Datei ab, bleibt deren vorige Fassung und der Rest wird geliefert."""
         self.d["last_try"] = now
+        self._packed: list[str] = []                 # UP-422b: diesmal gepackt geliefert
         self._keep_old: dict[str, str] = {}          # eigene Dateien, die GitHub ablehnt -> vorige Fassung bleibt
         self._missing: set[str] = set()              # Prüfwerte, die GitHub als fehlend meldet
         try:
@@ -653,7 +681,7 @@ class Daten:
             if info.get("private") is not True:
                 raise GitHubError(f"{self.api.repo} ist nicht privat – aus Sicherheitsgründen nichts geliefert")
             branch = str(info.get("default_branch") or "main")
-            cur_all = self._read_files(files)
+            cur_all = self._pack_known(self._read_files(files))
             strict, head_retried, rounds = False, False, 0
             while True:
                 rounds += 1
@@ -704,7 +732,17 @@ class Daten:
                         except GitHubError as e:
                             if e.code == 422 and s in own_rel:   # eigene Datei abgelehnt -> ohne sie neu bauen
                                 for r in own_rel[s]:
-                                    self._keep_old[r] = e.detail or "abgelehnt"
+                                    if TOO_LARGE.search(e.detail or "") and not r.endswith(".gz"):
+                                        # UP-422b: zu gross für GitHub -> gepackt liefern (<Datei>.lua.gz), gemerkt
+                                        packed = gzip.compress(cur_all[r][0], compresslevel=9, mtime=0)
+                                        cur_all.pop(r)
+                                        cur_all[r + ".gz"] = (packed, git_blob_sha(packed))
+                                        self.d.setdefault("gz", {})[r] = int(self._raw_sizes.get(r, 0))
+                                        self._packed.append(r)
+                                    else:
+                                        self._keep_old[r] = e.detail or "abgelehnt"
+                                        if r.endswith(".gz") and r[:-3] in self._packed:
+                                            self._packed.remove(r[:-3])  # auch gepackt zu gross -> nicht "gepackt geliefert"
                                 continue_outer = True
                                 break
                             raise
@@ -761,6 +799,9 @@ class Daten:
         if self.fblobs or self.ds2_dropped:
             self.log(f"Prüfung: Datenschutz – {len(self.fblobs)} ältere GuildSentinel-Datei(en) bereinigt"
                      + (f", {self.ds2_dropped} nicht lesbare weggelassen" if self.ds2_dropped else "") + ".")
+        for rel in self._packed:
+            self.log(f"Prüfung: {rel} ist für GitHub zu gross ({fmt_mb(self._raw_sizes.get(rel, 0))}) – gepackt geliefert "
+                     f"({rel}.gz).")
         for rel, why in sorted(self._keep_old.items()):
             self.log(f"Prüfung: GitHub lehnt {rel} ab ({why}) – dort bleibt die vorige Fassung, der Rest ist geliefert.")
         if self.missing_dropped:

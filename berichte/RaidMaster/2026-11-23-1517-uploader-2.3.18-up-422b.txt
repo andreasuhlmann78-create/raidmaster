@@ -1,0 +1,35 @@
+BERICHT RAIDMASTER AN DIE PRÜF-SITZUNG
+Stand: 23.11.2026 15:17 (aus date) · Sitzung: RaidMaster-Projekt-Sitzung · Version: Uploader 2.3.18 (Addon unverändert 3.0.40)
+Commit: dieser Push · Bezug: UP-422 HOCH (Anweisung 14:05), Bericht 14:13; Fenster des Nutzers 23.11. 15:13 (Laptop mit 2.3.17)
+Status: umgesetzt, zur Prüfung.
+
+1. URSACHE JETZT BELEGT (Text von GitHub, dank 2.3.17 im Fenster des Laptops, 15:13:43):
+   "Prüfung: GitHub lehnt forever/konto-5cb3d536/AHSentinel.lua ab (Sorry, your input was too large to process. Consider creating
+   the blob in a local clone of the repository and then pushing it to GitHub.) – dort bleibt die vorige Fassung, der Rest ist geliefert."
+   -> Aufruf "Datei anlegen" (POST /git/blobs): die AHSentinel.lua (Forever) des Laptops ist für die Schnittstelle zu gross. 2.3.16 und
+   älter brachen daran die GANZE Lieferung ab ("GitHub antwortet 422") – darum seit heute keine Laptop-Daten. Mit 2.3.17 ist der Rest
+   geliefert (Daten-Repo 15:13: "Daten AUSPLUSLAPTOP 23.11. 15:13", stand.json Laptop "uploader": "2.3.17", 17 Dateien; dabei
+   "Datenschutz – 7 ältere GuildSentinel-Datei(en) bereinigt", Hinweis "3 andere Rechner … alten Uploader").
+   Die Grenze selbst ist nicht dokumentiert/gemessen: 31,3 MB (Desktop, 22.11.) gingen noch; die neue Laptop-Datei ist grösser
+   (genaue Grösse zeigt 2.3.18 in der Zeile "… ist für GitHub zu gross (x MB)"). Verdacht, zu messen: Grenze zwischen 31 und ~40 MB.
+   Die Geschichte des Daten-Repos war NICHT die Ursache (siehe Bericht 14:13, DU6).
+2. BEHEBUNG 2.3.18 (UP-422b): lehnt GitHub eine eigene Datei mit "too large" ab, liefert der Uploader sie sofort gepackt als
+   <Datei>.lua.gz (gzip Stufe 9, mtime 0 -> gleicher Inhalt = gleicher Prüfwert) unter aktuell/ und tage/; die veraltete ungepackte .lua
+   des eigenen Rechners fällt dann weg (sonst läge eine alte Fassung als scheinbar aktuell da). Gemerkt (uploader_state "gz"): beim
+   nächsten Mal gleich gepackt (solange ≥ 80 % der damaligen Grösse), wieder klein -> ungepackt, .gz fällt weg. Auch gepackt zu gross ->
+   vorige Fassung bleibt (wie 2.3.17). stand.json: "gepackt": true, "bytes_ungepackt". LIESMICH.md im Daten-Repo nennt .lua.gz.
+   Packrate gemessen an den AHSentinel.lua (Forever) im Daten-Repo: 14,3 -> 3,1 MB, 14,1 -> 2,0, 31,3 -> 5,9, 17,7 -> 3,7 MB.
+   GuildSentinel: gepackt wird die schon gefilterte Fassung; ältere Uploader erzeugen nie .gz.
+3. WICHTIG FÜR DIE LESER DES DATEN-REPOS (Prüf-Sitzung, Markt-Tabellen, Buchhaltung, Auswertungen): eine Datei kann jetzt als
+   aktuell/<rechner>/<spiel>/<konto>/<Addon>.lua.gz liegen (statt .lua). Lesen: gzip.open(pfad).read() (Python) bzw. `zcat`.
+   Bitte die Leser anpassen – sonst fehlt z. B. die Laptop-AHSentinel.lua (Forever), bis sie dort .gz verstehen.
+4. TESTS (Klasse UP422b, tests/test_daten.py; Grenze der Nachbildung 20 kB, Text von GitHub wörtlich vom Fenster des Nutzers):
+   zu grosse Datei -> .lua.gz in aktuell/ und tage/, entpackt = genau die Datei, alte .lua weg, Rest geliefert, stand.json gepackt +
+   ungepackte Grösse, Zeile "zu gross … gepackt geliefert", LIESMICH nennt .gz; nächste Änderung ohne vergeblichen Versuch gleich gepackt;
+   wieder klein -> ungepackt, .gz weg. Auch gepackt zu gross -> vorige Fassung bleibt, keine Zeile "gepackt geliefert".
+   Gegenprobe Code 2.3.17: FAIL (alte .lua bleibt, nichts gepackt). Alle Tests: test_daten 34/34, test_sync 53/53, test_uploader 23/23,
+   test_umfassend 14/14. LIESMICH/README_EN "Version 2.3.18", download/RaidMasterUploader.zip neu.
+5. VERSAND 23.11. 15:10: 2.3.17 per Bot an den Nutzer (PN) und "an 2 von 2 Offizieren" (Auftrag Nutzer). 2.3.18: siehe unten.
+
+FÜR DEN NUTZER: Laptop auf 2.3.18 (ZIP entpacken, alle Dateien ersetzen, Uploader neu starten). Erwartet: "… AHSentinel.lua ist für
+GitHub zu gross (x MB) – gepackt geliefert (… .gz)" und "Prüfung: geliefert (18 Dateien …)" ohne FEHLER.

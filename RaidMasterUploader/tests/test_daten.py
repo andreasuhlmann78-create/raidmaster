@@ -1039,5 +1039,66 @@ class UP422(ZweiRechner):
         self.assertLessEqual(len(daten.github_detail(b'{"message": "' + b"a" * 500 + b'"}')), 200)
         self.assertEqual(daten.github_detail(b"kein json"), "")
 
+
+class UP422b(ZweiRechner):
+    """2.3.18 UP-422b (Laptop 23.11. 15:13, Text von GitHub belegt): "Sorry, your input was too large to process." für
+    forever/…/AHSentinel.lua. Zu grosse Dateien gehen gepackt als <Datei>.lua.gz ins Daten-Repo; die veraltete .lua fällt weg."""
+
+    K = "123456789#1"
+    new_uploader = UPDS2.new_uploader
+    TEXT = ("Sorry, your input was too large to process. Consider creating the blob in a local clone of the repository "
+            "and then pushing it to GitHub.")
+
+    def test_up422b_zu_gross_wird_gepackt(self):
+        import gzip as gz
+        lap, lr, logs = self.new_uploader("Laptop", [self.K])
+        konto = daten.konto_id(self.K)
+        self.put(lr["_forever_/" + self.K], "AHSentinel.lua", "AHSentinelDB = { 'klein' }\n", T0)
+        self.drive(lap, T0 + 1, T0 + 20)
+        self.gh.reject_blob = lambda d: self.TEXT if len(d) > 20000 else None   # Grenze der Nachbildung: 20 kB
+        big = "AHSentinelDB = {\n" + "".join(f'  ["item{i % 50}"] = {{ 12345, 67890 }},\n' for i in range(3000)) + "}\n"
+        self.assertGreater(len(big), 20000)
+        self.put(lr["_forever_/" + self.K], "AHSentinel.lua", big, T0 + 200)
+        self.put(lr["_forever_/" + self.K], "LevelPilot.lua", "LevelPilotDB = { 'lp' }\n", T0 + 200)
+        self.drive(lap, T0 + 201, T0 + 240)
+        files = self.gh.files()
+        p = f"aktuell/Laptop/forever/{konto}/AHSentinel.lua"
+        self.assertNotIn(p, files)                                                  # veraltete ungepackte Fassung weg
+        self.assertEqual(gz.decompress(files[p + ".gz"]).decode(), big)            # gepackt = genau die Datei
+        self.assertTrue(any(k.startswith("tage/") and k.endswith("AHSentinel.lua.gz") for k in files))
+        self.assertIn(b"lp", files[f"aktuell/Laptop/forever/{konto}/LevelPilot.lua"])
+        st = json.loads(files["stand.json"])["Laptop"]["dateien"][f"forever/{konto}/AHSentinel.lua.gz"]
+        self.assertTrue(st["gepackt"])
+        self.assertEqual(st["bytes_ungepackt"], len(big.encode()))
+        self.assertTrue(any("zu gross" in l and "gepackt geliefert" in l for l in logs), logs)
+        self.assertIn("gepackt", files["LIESMICH.md"].decode())
+        # nächste Änderung: gleich gepackt, kein vergeblicher Versuch mehr
+        tries = []
+        self.gh.reject_blob = lambda d: (tries.append(len(d)), self.TEXT if len(d) > 20000 else None)[1]
+        self.put(lr["_forever_/" + self.K], "AHSentinel.lua", big + "-- neu\n", T0 + 600)
+        self.drive(lap, T0 + 601, T0 + 640)
+        self.assertFalse([n for n in tries if n > 20000])
+        self.assertEqual(gz.decompress(self.gh.files()[p + ".gz"]).decode(), big + "-- neu\n")
+        # wieder klein -> ungepackt, .gz fällt weg
+        self.put(lr["_forever_/" + self.K], "AHSentinel.lua", "AHSentinelDB = { 'klein2' }\n", T0 + 900)
+        self.drive(lap, T0 + 901, T0 + 940)
+        files = self.gh.files()
+        self.assertIn(b"klein2", files[p])
+        self.assertNotIn(p + ".gz", files)
+
+    def test_up422b_auch_gepackt_zu_gross_vorige_fassung_bleibt(self):
+        lap, lr, logs = self.new_uploader("Laptop", [self.K])
+        konto = daten.konto_id(self.K)
+        self.put(lr["_forever_/" + self.K], "AHSentinel.lua", "AHSentinelDB = { 'klein' }\n", T0)
+        self.drive(lap, T0 + 1, T0 + 20)
+        self.gh.reject_blob = lambda d: self.TEXT if len(d) > 2000 else None
+        big = os.urandom(30000).hex()                                             # lässt sich kaum packen
+        self.put(lr["_forever_/" + self.K], "AHSentinel.lua", big, T0 + 200)
+        self.drive(lap, T0 + 201, T0 + 240)
+        files = self.gh.files()
+        self.assertIn(b"klein", files[f"aktuell/Laptop/forever/{konto}/AHSentinel.lua"])  # vorige Fassung bleibt
+        self.assertFalse(any("gepackt geliefert" in l for l in logs), logs)
+        self.assertTrue(any("dort bleibt die vorige Fassung" in l for l in logs), logs)
+
 if __name__ == "__main__":
     unittest.main()

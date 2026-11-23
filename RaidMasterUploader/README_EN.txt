@@ -253,6 +253,13 @@ Version 2.3.13 – privacy in the data repo (UP-DS1):
 - If the file cannot be read safely, it is not delivered at all, with one notice "GuildSentinel-Daten nicht geliefert: …".
 - New file svfilter.py – always extract the whole RaidMasterUploader.zip.
 
+Version 2.3.18 – deliver files that are too large packed (UP-422b):
+- GitHub only accepts a single file through the API up to a certain size ("Sorry, your input was too large to process").
+  If a file is too large (e.g. a big AHSentinel.lua), the uploader delivers it packed as <file>.lua.gz (gzip, about a fifth
+  of the size); the outdated unpacked version is then removed from the data repo. The uploader remembers this and packs
+  the file right away next time; once it is small again, it goes unpacked.
+- stand.json marks packed files ("gepackt") with their unpacked size.
+
 Version 2.3.17 – "GitHub antwortet 422" (UP-422):
 - If GitHub rejects a delivery, the window now shows WHICH step was rejected (create file, create tree, create commit,
   set branch) and GitHub's text – instead of only "GitHub antwortet 422".

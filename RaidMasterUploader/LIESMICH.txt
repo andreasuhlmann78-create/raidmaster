@@ -283,6 +283,13 @@ Version 2.3.13 – Datenschutz im Daten-Repo (UP-DS1):
 - Kann er die Datei nicht sicher lesen, liefert er sie gar nicht und meldet einmal "GuildSentinel-Daten nicht geliefert: …".
 - Neue Datei svfilter.py – bitte immer die ganze RaidMasterUploader.zip entpacken.
 
+Version 2.3.18 – zu grosse Dateien gepackt liefern (UP-422b):
+- GitHub nimmt eine einzelne Datei über die Schnittstelle nur bis zu einer Grösse an ("Sorry, your input was too large to
+  process"). Ist eine Datei zu gross (z. B. eine grosse AHSentinel.lua), liefert der Uploader sie gepackt als
+  <Datei>.lua.gz (gzip, etwa ein Fünftel der Grösse); die veraltete ungepackte Fassung fällt dann im Daten-Repo weg.
+  Der Uploader merkt sich das und packt die Datei beim nächsten Mal gleich; wird sie wieder klein, geht sie ungepackt.
+- stand.json nennt bei gepackten Dateien "gepackt" und die ungepackte Grösse.
+
 Version 2.3.17 – "GitHub antwortet 422" (UP-422):
 - Lehnt GitHub eine Lieferung ab, steht jetzt im Fenster, WELCHER Schritt abgelehnt wurde (Datei anlegen, Baum anlegen,
   Stand anlegen, Zweig setzen) und der Text von GitHub – statt nur "GitHub antwortet 422".

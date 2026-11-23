@@ -1,10 +1,12 @@
 # Stand RaidMaster-Sitzung
 
-## Stand 23.11.2026 14:13 · Addon 3.0.40 · Uploader 2.3.17
+## Stand 23.11.2026 15:17 · Addon 3.0.40 · Uploader 2.3.18
 - Addon 3.0.40 im Spiel ohne Fehler (Ingametest 18.11.), vom Ingametest befreit (Entscheid 18.11. 15:19).
 - Uploader 2.3.15 (UP-DS2) angenommen (Supervisor 09:04), an die Offiziere verschickt.
 - Uploader 2.3.16 (UP-DS2-a NIEDRIG, Netzfehler nicht merken) gepusht, Bericht 2026-11-23-1238 – zur Prüfung.
 - Uploader 2.3.17 (UP-422 HOCH: Text von GitHub im Fenster, Selbsterholung bei 422) gepusht, Bericht 2026-11-23-1413-up-422 – zur Prüfung.
+- UP-422 Ursache belegt (Laptop 15:13 mit 2.3.17): AHSentinel.lua (Forever) für GitHub zu gross. Rest geliefert.
+- Uploader 2.3.18 (UP-422b: zu grosse Datei gepackt als .lua.gz) gepusht, Bericht 2026-11-23-1517 – zur Prüfung. Leser des Daten-Repos müssen .gz lesen.
 
 ## Gerade in Arbeit
 - nichts (2.3.16/2.3.17 warten auf Prüfung; Ursache 422 erst mit dem Text vom Laptop belegbar)
@@ -20,7 +22,7 @@
 2. Danach Ingametest-Runde (neue Version) und Bericht.
 
 ## Offen beim Nutzer
-- Laptop: Uploader 2.3.17 entpacken + neu starten; Zeile "zuletzt geliefert 23.11. … ohne FEHLER" prüfen, sonst Bild der Zeile.
+- Laptop: Uploader 2.3.18 entpacken + neu starten; erwartet "… zu gross – gepackt geliefert" und "geliefert (18 Dateien …)".
 - Versand 23.11. 15:10 (Auftrag Nutzer 15:07/14:15, /uploader im eingebauten Browser): Bot "Uploader-Version 2.3.17" per PN an den Nutzer
   und "Uploader 2.3.17 an 2 von 2 Offizieren geschickt". Offen: Nutzer/Offiziere entpacken + neu starten.
 
