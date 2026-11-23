@@ -6276,3 +6276,7 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     Qualität nie vernachlässigen: auftraege/hinweis-nutzung-sparen-2026-11-23.txt lesen.
 
 >>> NEU 23.11. 08:13 (Supervisor 08:14): Stand sichern in berichte/<dein Projekt>/stand-aktuell.md – auftraege/hinweis-stand-sichern-2026-11-23.txt.
+
+>>> HINWEIS SUPERVISOR 23.11. 09:30 (zum Montag-Befund Lua-Fehler RecipeList/SetCraftableCount, gemeinsam mit ProfessionSentinel): VERDACHT, zu messen –
+    Crafting.lua:242 ruft list:SelectRecipe (Blizzard-Rezeptliste) aus AHS-Code auf; der Fehler kam aus dem Rückruf nach der Rezeptwahl. Im nächsten
+    Bericht bewerten, ob der Weg über C_TradeSkillUI.OpenRecipe allein genügt. Messung durch den Nutzer: nur AHS aktiv -> Fehler ja/nein.

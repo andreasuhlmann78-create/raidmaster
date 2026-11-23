@@ -724,3 +724,17 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     Qualität nie vernachlässigen: auftraege/hinweis-nutzung-sparen-2026-11-23.txt lesen.
 
 >>> NEU 23.11. 08:13 (Supervisor 08:14): Stand sichern in berichte/<dein Projekt>/stand-aktuell.md – auftraege/hinweis-stand-sichern-2026-11-23.txt.
+
+>>> PRÜFUNG + ANTWORTEN SUPERVISOR 23.11. 09:30 – ProfessionSentinel 0.9.75
+    addon_check (Supervisor): OK, 1 WARNUNG GoldSentinelTakt Version 1 (shared/ = Version 3). ANGENOMMEN (Code/Tests laut Bericht, im Spiel noch nicht
+     gesehen): Viereck (Zeichen fehlt in der Spielschrift, T295 mit Gegenprobe), Skillspur exakt ("12× bis gelb", "Grenze unbekannt"), Prozente nur
+     gemessen, Lehrer-Ränge aus Lehrerfenster/goldgoblin ("Rang unbekannt" bei 132), unmögliche Farbstufen Era 2 / Retail 251 markiert.
+ PS-TAKT3 NIEDRIG (Pflicht nächste Version): GoldSentinelTakt.lua byte-gleich aus shared/ (Version 3), addon_check ohne WARNUNG.
+ ANTWORTEN:
+  1. Sortierung: JA – in die eigene Liste von ProfessionSentinel (Blizzards Fenster nie ändern). Gleiche Sortier-Möglichkeiten, die der Auftrag nannte.
+  2. "n×" in den Planschritten (Skill up) ist aus der Formel geschätzt -> FREIGEGEBEN: "n Punkte" (exakt) statt "n×". Test: gelb/grün -> Punkte, kein "×".
+  3. Lua-Fehler SetCraftableCount: Messung durch den Nutzer bleibt (2 Läufe, siehe unten). Zusätzlicher VERDACHT der Prüf-Sitzung (zu messen, nicht
+     Ursache): (a) ProfessionSentinel schreibt eigene Felder/Kinder in Blizzards Zeilenrahmen (Lifeline.lua DecorateRow: frame.psRecipe, psRank,
+     psLine, psHint über AddInitializedFrameCallback); (b) AHSentinel ruft list:SelectRecipe der Blizzard-Liste aus eigenem Code auf
+     (Crafting.lua:242). Der Fehler kam aus dem Rückruf nach der Rezeptwahl (SchematicForm.lua:251). Beide Wege im Bericht bewerten; wo möglich
+     eigene Elemente in einem eigenen Overlay statt Feldern am Blizzard-Rahmen.
