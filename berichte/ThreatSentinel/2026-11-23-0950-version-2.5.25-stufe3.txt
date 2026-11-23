@@ -1,0 +1,35 @@
+BERICHT THREATSENTINEL 2.5.25 – TS-S3a/TS-S3b (Entscheid Supervisor 23.11. 09:23)
+Stand 23.11.2026 09:50 · download/ThreatSentinel-2.5.25.zip, addon_check: OK, 0 WARNUNG
+Status: umgesetzt, zur Prüfung.
+
+TS-S3a – Stufe 3 (Formel-Reihenfolge) aus
+- Meter.lua M:OrderDisplay: Berechnung e.est, Formel-Vergleich, "~"-Markierung (e.estimated, lastEstimated, EST_MARGIN) entfernt.
+  Bleiben: Stufe 1 (wer die Aggro hat: Ziel des Mobs bzw. isTanking, nur lesbar) und Stufe 2 (Bedrohungsstufe, nur lesbar) – beides echte
+  Spielwerte, Kopf "Reihenfolge: sicher". Ohne sie: feste Sortierung Tank (Rolle) zuerst, dann Gruppe in Gruppenfolge, Kopf
+  "Reihenfolge: geschützt" (EN "Order: protected"; vorher "Tank zuerst"). Text METER_ORDER_EST entfernt.
+  Auslegung: "keine Bedrohungs-Reihenfolge" bezieht sich auf die Formel; Stufe 1/2 sind gemessen, nicht geschätzt, und bleiben. Falls
+  die Prüf-Sitzung auch Stufe 1/2 ausschalten will: bitte als Auftrag.
+- Kopfzeile kurz gehalten (22 Zeichen, vorher 24), damit T-A7 (nicht abgeschnitten bei 160 px) im Client hält.
+- Tests: T-A3 neu (gleiche Lage mit/ohne Schadensdaten -> gleiche Reihenfolge, Art "role", kein "~", Kopf "geschützt"),
+  T-A4 neu (Schaden/Heilung ändern die Reihenfolge nie, drei Fälle). Gegenprobe mit Meter.lua/Locales.lua aus 2.5.24: T-A3 FEHLER
+  (Art est, Zeichen "~~~~"), T-A4 FEHLER (Reihenfolge wechselt). T-A1, T-A2, T-A5, T-A6, T-A8 unverändert OK.
+- Offen (Bedrohung lesbar, Modus VOLL): unverändert (T-A5).
+
+TS-S3b – Formel nur als Messung
+- Meter.lua M:MeasureS3: nur im Entwicklermodus, nur auf dem Weg mit lesbarer Bedrohung (Era/TBC), nur im Kampf, höchstens 1× je s:
+  Formel-Reihenfolge (Schaden × Faktor + Heilung × 0,5 / Gegner) gegen die echte Reihenfolge (Bedrohung), nur Spieler, ab 2 Spielern.
+  Am Kampfende (PLAYER_REGEN_ENABLED) zählt M:S3FightEnd den letzten Vergleich in ThreatSentinelDB.s3mess {fights, top1, full}.
+- Testbericht: Zeile "Messung Reihenfolge-Formel (Stufe 3, im Aggrometer aus): n Kämpfe, Platz 1 richtig a, ganze Reihenfolge richtig b"
+  bzw. "noch kein Kampf gemessen".
+- Test T-S3b: drei Kämpfe (gleich / Platz 1 richtig, Rest vertauscht / Platz 1 falsch) -> true/true, true/false, false/false; Gegenprobe
+  ohne Entwicklermodus -> keine Messung; Zähler 3 Kämpfe, Platz 1 2, ganz 1. Zähler danach zurückgestellt.
+- Wieder einschalten in Forever nur mit Supervisor und Entscheid des Nutzers (steht im Code-Kommentar).
+
+Nachtrag zu "Schätzen verboten" (Bericht 08:50 Punkt 7 ergänzt): Die Rolle eines Mitspielers ohne Sync, Hauptpanzer, Skillung oder
+zugewiesene Rolle kommt aus ns:GuessRole (Core.lua:916) und steht in Einstellungen > Gruppe als "(geschätzt)". Sie entscheidet z. B.,
+ob ein Mob "lose" ist (greift keinen Tank an). Quelle: Klasse/Form, eigene Fälle n = 0. Frage an die Prüf-Sitzung, ob auch hier ein
+Auftrag kommt (z. B. ohne gesicherte Rolle keine Warnung).
+
+TESTS (Nachbau, Lua 5.1): Forever OK 311 · FEHLER 6 · übersprungen 20 · Client 16; Era OK 315 · FEHLER 6 · übersprungen 14 · Client 17;
+"alles" (TS_FRAME_MS=0) ok. Die 6 FEHLER = bekannte Nachbildungs-Fälle; ausserhalb der Liste 0.
+Im Spiel: Ingametest 2.5.25 (/ts testroutine alles) – ersetzt die Runde für 2.5.24.
