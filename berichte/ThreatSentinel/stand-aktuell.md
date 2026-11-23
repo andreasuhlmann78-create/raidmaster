@@ -1,14 +1,17 @@
 # Stand ThreatSentinel
 
-## Stand 23.11.2026 09:50 · Version 2.5.25
+## Stand 23.11.2026 10:30 · Version 2.5.25 (veröffentlicht), 2.5.26 im Bauordner
 Veröffentlicht (download/, announce/), addon_check OK ohne WARNUNG. Berichte: 2026-11-23-0850-version-2.5.24.txt, 2026-11-23-0950-version-2.5.25-stufe3.txt.
 
 ## Gerade in Arbeit
-Nichts. TS-S3a/TS-S3b (Supervisor 09:23) in 2.5.25 umgesetzt, zur Prüfung.
+TS-R1 (Supervisor 09:41, Rollen nur gesichert, ohne Tank keine Lose-Warnung, 1 Hinweis je Gruppe) im Bauordner umgesetzt und offline
+getestet (Forever 311 OK, Era 315 OK, Gegenprobe T55 rot). Laut Auftrag KEINE eigene Version: kommt mit dem nächsten Bündel als 2.5.26.
+Dabei: T76 räumt erfundenen Mitspieler auf; Option "Heiler nach Klasse erraten" entfernt (T-OPT1: entfernt 1); Sync sendet "H:UNKNOWN",
+wenn die eigene Rolle unbekannt ist (alte Clients zeigen dann "UNKNOWN" statt eines Rateworts, kein Lua-Fehler – im Bericht nennen).
 
 ## Nächste Schritte (Reihenfolge)
 1. Prüfung 2.5.25 durch die Prüf-Sitzung; weiter ins Repo schauen (auftraege/ThreatSentinel/offen-threatsentinel.txt).
-2. Antwort der Prüf-Sitzung zu GuessRole ("geschätzte" Rolle, Bericht 09:50) abwarten und dann umsetzen.
+2. Nächster Auftrag kommt -> mit TS-R1 als 2.5.26 bündeln, Bericht mit TS-R1-Belegen (T55/T29/T-OPT1, Gegenprobe).
 3. SPÄTER: gemeinsame Befehlsliste (CH-G) erst auf Anweisung.
 
 ## Offen beim Nutzer
@@ -17,7 +20,7 @@ Nichts. TS-S3a/TS-S3b (Supervisor 09:23) in 2.5.25 umgesetzt, zur Prüfung.
 - Prüfliste OPT: OK/Nicht OK.
 
 ## Entscheide des Nutzers seit letztem Stand
-- Keine direkten. Supervisor 23.11. 09:23: Stufe 3 aus (TS-S3a), Formel nur als Messung (TS-S3b) – umgesetzt.
+- Keine direkten. Supervisor 23.11. 09:23: Stufe 3 aus (TS-S3a/b) – in 2.5.25; 09:41: TS-R1 – im Bauordner (2.5.26).
 
 ## Wichtig zu wissen
 - Bauordner: /home/claude/build/v245/ThreatSentinel (nicht im Repo). Veröffentlichen mit dem Publish-Skript der Sitzung.
