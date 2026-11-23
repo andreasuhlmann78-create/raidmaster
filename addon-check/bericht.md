@@ -16,8 +16,7 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 - **WARNUNG** GuildSentinel/GoldSentinelDev.lua: veraltet (Version 1, eine andere Kopie hat 2)
 - **WARNUNG** GuildSentinel/GoldSentinelSync.lua: veraltete offizielle Fassung (Version 2) – auf shared/GoldSentinelSync.lua Version 3 aktualisieren
 
-## ProfessionSentinel-0.9.75.zip: OK (1 Warnungen)
-- **WARNUNG** ProfessionSentinel/GoldSentinelTakt.lua: veraltete offizielle Fassung (Version 1) – auf shared/GoldSentinelTakt.lua Version 3 aktualisieren
+## ProfessionSentinel-0.9.76.zip: OK
 
 ## RaidMaster-3.0.40.zip: OK (1 Warnungen)
 - **WARNUNG** RaidMaster/GoldSentinelSync.lua: veraltete offizielle Fassung (Version 2) – auf shared/GoldSentinelSync.lua Version 3 aktualisieren
@@ -28,5 +27,5 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## guildsentinel__guildsentinel-0.9.60.GuildSentinel.zip: OK
 
-## levelpilot__levelpilot-3.13.7.LevelPilot.zip: OK
+## levelpilot__levelpilot-3.13.8.LevelPilot.zip: OK
 
