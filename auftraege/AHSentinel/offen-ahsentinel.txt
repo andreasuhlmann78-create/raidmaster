@@ -6328,3 +6328,21 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
  Zur Kenntnis (bekannt, kein neuer Auftrag): SK1-e Tagesbilanz 7 Abweichungen (Geldfluss-Lücke 3,2 % vom Umsatz, Ziel <= 1 %), SK1-n Verkaufsdauer
     89 von 293 abweichend, Prognose 80–100 %: vorhergesagt 97 % / verkauft 33 % (Anzeige grau "lernt noch" – richtig so).
     CurseForge (E5): NICHT freigegeben, solange AHS-I1 offen ist.
+
+>>> NACHTRAG SUPERVISOR 2026-11-23 15:42 – vollständiger Testbericht PM1-a ist im Repo: testberichte/berichte/AHSentinel/AHSentinel-1795437122-dd5b13-2.json
+    (Teil auto, 983 OK / 49 FEHLER), -7fbc2e-3 (ui), -66f9a2-4 (sniper), -cc03af-5 (server), -07a527-6 (alles). Vergleich: 0.65.352 (19.11.) hatte
+    in Teil 1 nur 2 FEHLER -> 47 neue FEHLER zwischen 0.65.352 und 0.65.385.
+ AHS-I2 HOCH – Teil 1, 49 FEHLER. Gruppen (Felder "ergebnis"/"erwartet" im Bericht):
+    a) Tooltip/Entzaubern: T215, T273, T743, T228, T248, T467, T468, T469, T470, T789, T888 (Materialblock/Urteil/Gewinnzeile fehlen oder anders).
+    b) Marktlagen-Vorschlag: T509, T514–T519, T521, T522, T545, T875, T525 – Vorschlag "unterbietet das günstigste Angebot" mit EINEM Preis statt
+       der erwarteten Spanne, L-ALT "Preis nicht geprüft". T509 nennt "Unterbieten-EINSTELLUNG" -> liest der Test die ECHTEN Einstellungen des Spielers?
+    c) Gilde/Sync: T947 (G10 Teil B: Fälle nil), T955 (G17 Rechnungen Gilde -1), T965/T966 (S1–S6 Stimmen 0).
+    d) Lua-Fehler IN DER TESTROUTINE: T435 "TestRoutine.lua:12052: attempt to index local 'r' (a nil value)".
+    e) Einzelne: T181 Gebühren (Era-Werte 40/160/480 statt 100/160/480), T225, T240 (9499 statt 9400), T255, T285, T287, T289–T292, T396, T397,
+       T472, T565 (Wort "missing"), T579 (80/80 abweichend: marktzeile=nil, kern=63429), T987, T988 (CSV-Reihenfolge), T788, T750 (104 Befunde:
+       abgeschnitten 88, überlappt 12; Markt > Überfüllt 52), T191 (Frame verdeckt Knopf).
+    Verdacht, zu messen: ein gemeinsamer Grund – die Sandbox war in diesem Lauf kaputt (AHS-I1: 200 Pfade, nicht vollständig wiederhergestellt);
+     dann rechnen die Prüfungen mit ECHTEN Einstellungen/Daten des Spielers. Zuerst AHS-I1 belegen und beheben, dann die Testroutine im Nachbau mit
+     dem echten Datenstand des Nutzers (Daten-Repo, AUSPLUSLAPTOP, jetzt .lua.gz) laufen lassen und JEDEN der 49 Punkte einzeln zuordnen:
+     echter Fehler im Addon / Test veraltet (dann begründen) / Folge der Sandbox. Nichts pauschal als "Testproblem" abtun.
+    Reihenfolge: AHS-I1 -> AHS-I2 d) -> a)–e) -> I4 -> I3. CurseForge bleibt gesperrt.
