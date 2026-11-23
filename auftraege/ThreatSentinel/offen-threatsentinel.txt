@@ -468,3 +468,10 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
 
 >>> NEU 2026-11-23 11:38 (Supervisor): Entscheid des Nutzers 11:36 – in announce/ NICHTS mehr löschen (neue Datei dazu, alte bleibt).
     auftraege/hinweis-announce-nicht-loeschen-2026-11-23.txt lesen.
+
+>>> INGAMETEST 23.11. 13:02 (Bericht vom Nutzer im Chat, Supervisor 13:03): lief mit der ALTEN Version 2.5.23 (Client 1.60.1, Forever, Krieger 30,
+    Hauptstadt). OK 320 · FEHLER 0 · Sandbox OK · echte Aktionen 0. Bilder über 16 ms: T-OPT7 27.7 ms, TU7-S1 19.8 ms, T133 17.6 ms (längstes Bild 28.1 ms).
+    Zählt NICHT als Abnahme von 2.5.24–2.5.26 – Nutzer installiert 2.5.26 und wiederholt. Hinweis für 2.5.26: Die Testroutine hat keine Umgebungsmessung
+    (GuildSentinel/LevelPilot: 10 s, Zeile "Umgebung") – in der Hauptstadt ist Last durch andere Spieler sonst nicht von eigener Arbeit zu trennen.
+ TS-U1 NIEDRIG: Umgebungsmessung wie GuildSentinel (GoldSentinelTakt.EnvMeasure, 10 s, Zeile "Umgebung" im Bericht) mit der nächsten Version; dann
+    T-OPT7/TU7-S1/T133 erneut bewerten (eigene Rechenzeit je Bild ausweisen).
