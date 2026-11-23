@@ -1,0 +1,56 @@
+AHSentinel 0.65.384 – NIEDRIG (PM1-d, CF2-a, S6-a, S6-b, Z1, G10-b, G17-a) und W2-E, W3-E (Reihenfolge E1 23.11. 07:41) – umgesetzt, zur Prüfung
+Nur Discord, kein CurseForge (E5). Tests gebaut, nicht laufen lassen. addon_check: OK (keine FEHLER). Dateiliste ZIP gleich wie 0.65.383.
+
+W2-E Gebühren-Rückfrage in ALLEN Verkaufswegen – EINE Funktion Se:FeeAsk (Seller.lua:1273), gleiche Schwelle (Se:FeeTooHigh/FeeWarnPercent),
+  gleicher Text ("Achtung: Die Einstellgebühr … Nochmals klicken …"), zweiter Klick innert 15 s mit gleichem Item/Preis/Laufzeit stellt ein,
+  keine Sperre. Liste aller Wege, die eine Auktion einstellen (C.PostItem/C.PostCommodity werden nur an diesen Stellen aufgerufen):
+   - Se:Post (Seller.lua:1461 ruft FeeAsk)                                          ja
+   - Verkaufen-Fenster, Knopf "Einstellen" (UI_Sell.lua:779 -> Se:Post)            ja – NEU: bisher feeConfirmed = true (Umgehung, V1 21.11.);
+       der Entscheid 23.11. 07:41 gilt vor V1 -> Umgehung entfernt (erster Klick zeigt die Rückfrage im Meldungsfeld, zweiter stellt ein)
+   - Serie (Seller.lua:1652 BatchStep -> Se:Post; UI_Sell.lua:79)                   ja (Serie bleibt beim Item, der nächste Klick bestätigt)
+   - Neu einstellen (Extras.lua:431 -> BatchStep -> Se:Post)                        ja
+   - Heute tun (Today.lua:267 -> Se:Post)                                           ja
+   - Messreihe Ausrüstung (SilverTest.lua:156, ruft C.PostItem direkt)               ja – NEU: FeeAsk vor dem Einstellen (Laufzeit 1, Einzahlung
+       Se:Deposit); das Teil wird erst nach bestandener Rückfrage als verwendet gezählt (sonst wählte der zweite Klick ein anderes Teil)
+   - SelfTest/TestRoutine: nur nachgestellte Aufrufe (kein echtes Einstellen)        –
+  Test T998: Schwelle 10 %, Gebühr 50 % -> 1. Klick fragt, 2. stellt ein; anderes Item dazwischen fragt neu; 5 % -> sofort.
+
+W3-E Post-Chat zusammengefasst (Mailer.lua M:AddGroup/GroupLine/FlushGroups): DescribeMail liefert zusätzlich Bausteine je Art und Item
+  (Verkauft v | Gekauft g | Zurück abgelaufen a | Zurück abgebrochen b | Überboten u | Post von Spieler p, je Absender mit Gold und Items).
+  NoteMail sammelt (jeder Brief zählt weiter: nLetters), M:Stop druckt die Zeilen VOR "Summe Post" (Reihenfolge = erstes Auftreten).
+  Beträge/Mengen = exakte Summen der Briefe (brutto, erhalten, Gebühr, Anzahlung zurück, weitere Abzüge getrennt). Nachnahme-Briefe weiter
+  sofort. Nicht lesbarer Brief bleibt eigene Zeile. POST-ZEILEN zählt Briefe und Zeilen (Zeilen = zusammengefasste Zeilen).
+  Tests: T997 (3× "Auktion abgelaufen" 20× Seelenstaub + 2 Verkäufe Leinenstoff -> "Zurück (abgelaufen): 60× Seelenstaub", "Verkauft: 2× Leinenstoff
+  für 1g30s82 – erhalten 1g26s28 (Gebühr 6s54) + Anzahlung zurück 2s"; 5 Briefe, 2 Zeilen); T962 angepasst (5 Briefe, 3 Zeilen).
+
+Z1 (TT2): "Gewinn erwartet" = Erlös nach Gebühren − erwartet verlorene Einstellgebühr − Einstand (Se:ExpectedProfit, unverändert). Die Abzüge
+  stehen jetzt in der Beschriftung der Zeile: "Gewinn erwartet (− 8c Einstand, − 2c Einstellrisiko)" (nur Abzüge ≠ 0) -> Erlös − Abzüge = Gewinn
+  auf den Kupfer. Ursache der 10c im Befund (2s51 -> 2s41): genau diese zwei Abzüge (nicht die volle Einstellgebühr 2c, die bei Verkauf zurückkommt).
+  Keine neue Zeile (Layout UI-V3 unverändert). Test T999 (Beschriftung).
+
+PM1-d: Mailer.lua DescribeMail und NoteInvoiceMail geben die Item-ID (Le.ResolveName aus dem Rechnungsnamen) an Le:InvoiceQty -> Stapel-/
+  Marktwert-Plausibilität von QtyFromField5 greift. Test T999: Feld 11 = 0, Feld 5 = 2500 (Preis), bid 2600, nicht stapelbar -> "Verkauft: 1×".
+
+CF2-a: BK:IsConsumable liefert nil bei unbekannter Klasse (Iteminfo anfordern); BK:CorrectStock stellt das Item dann zurück (gone = 0, keine
+  Buchung, keine Meldung) – nur Händlerware ("vendor") wird wie bisher gebucht. Test T996: unbekannt -> 0 ausgebucht, Lager 25; danach Klasse 6
+  -> 25 "verbraucht", Fehlbestand 0, keine Chatzeile. Ältere Abgleich-Tests (WithBooks) behalten "unbekannt = kein Verbrauchsgut".
+
+S6-a: Sync.lua NoteDeviation zählt je Tag und Ursache in db.sync.recv[Tag].dev (7 Tage wie a/r); DevSummary: "7 Tage je Ursache (vollständig)".
+
+S6-b BELEGT (Daten-Repo 23.11. 08:42, MININT 5 Fälle, JD5SLR5 3 Fälle, NVITMSE 0): alle 8 "stapel"-Fälle vom selben Absender (#1ufdp16), Weg
+  Gilde, "Teil"-Scan (Browse), 22.11. ~17:00. Alle Items NICHT stapelbar (Muster: Aschenstoffhose 14490, Kunstvoll gefertigte
+  Lederschulterklappen 252887, Geladene Skorpidstulpen 252930; Ausgefranste Armschienen 3365; Astralkugel 15987; 5485, 9486).
+  Fremder Preis ÷ Menge ≈ eigener Stückpreis in allen 8 Fällen: 159000/7 = 22714 (eigen 23999), 99999/4 = 25000 (33000), 19999/4 = 5000 (5000
+  bzw. 4999), 20887/3 = 6962 (6999), 1555/2 = 778 (666), 140000/8 = 17500 (15000), 95600/2 = 47800 (40000).
+  -> NICHT Item-Suchzeilen vor RowUnit (die gehen nicht in den Sync), sondern A:ProcessScan (Teil-Scan per Browse): price = r.minPrice. Verdacht,
+  zu messen: minPrice einer Browse-Zeile ist in Forever bei zusammengefassten Einzel-Auktionen die SUMME (z. B. 19999 = 3 × 5000 + 4999).
+  Das trifft JEDEN Teil-Scan, unabhängig von der Version des Absenders (Code seit jeher gleich), auch den eigenen.
+  Gebaut (nur Messung): Protokoll BROWSE-ROH (AHAnalyzerPro.lua ProcessScan) je nicht stapelbarem Item mit totalQuantity > 1 einmal je Sitzung
+  (höchstens 30): minPrice, totalQuantity, minPrice/Menge, eigener Scan-Preis. Vorschlag nach der Messung (nicht umgesetzt, Entscheid Prüf-Sitzung):
+  Teil-Scan-Preise nicht stapelbarer Items mit Menge > 1 als unbestätigt speichern bzw. nicht senden.
+
+G10-b: ", meist nach %d Std. (%d Fälle)" ohne "~", Fallzahl = Zahl gemessener Verkaufsdauern (SO:Stats hoursN), alle 10 Sprachen.
+G17-a: SO:NotePosted merkt die Einzahlung (gesamt, Auktionen, Menge), SO:NoteResult paart sie mit der Einzahlung der Verkaufs-Rechnung
+  (db.saleObs.depPairs, höchstens 200); Testbericht über SO:DepPairLines ("gleich je Auktion / anteilig / anders" mit Beispielen). T999.
+
+Offen: PM1-a (Testlauf im Spiel, T976–T999) beim Nutzer; N3 Heiltrank nur Messpunkt.
