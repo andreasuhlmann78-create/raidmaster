@@ -22,7 +22,7 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 ## RaidMaster-3.0.40.zip: OK (1 Warnungen)
 - **WARNUNG** RaidMaster/GoldSentinelSync.lua: veraltete offizielle Fassung (Version 2) – auf shared/GoldSentinelSync.lua Version 3 aktualisieren
 
-## ThreatSentinel-2.5.24.zip: OK
+## ThreatSentinel-2.5.25.zip: OK
 
 ## ahsentinel__ahsentinel-0.65.384.AHSentinel.zip: OK
 
