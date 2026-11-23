@@ -11,7 +11,7 @@ Sitzung seit 23.11. 06:18 (Übergabe: berichte/Supervisor/2026-11-23-0620-ueberg
 0. SH-UTF8 NIEDRIG (eigene Aufgabe, shared/): GoldSentinelTest.lua:83 kürzt nach Bytes -> ungültiges UTF-8 in Berichten (LP-Fund 3.13.9).
    Mit der nächsten ohnehin nötigen Änderung an GoldSentinelTest.lua bündeln (neue Version zwingt alle Addons zum Kopieren).
 1. Noch zu prüfen: ThreatSentinel 2.5.26, BuffSentinel 0.9.61 (Entwurf Nachprüfung 10:20 Teil 3 nachprüfen), Entwürfe Markt-Überwachung/Blueposts 10:17–10:20.
-   AHSentinel 0.65.383/384 geprüft 12:05 (angenommen, AHS-W2E-a). ProfessionSentinel 0.9.78 geprüft 11:40 (angenommen) – davor 0.9.77 geprüft 10:42 (angenommen; PS-TBC, PS-L9) – vorher 0.9.76 geprüft 10:22 (angenommen). ThreatSentinel: TS-R1-a vor 2.5.26.
+   AHS 0.65.385, Uploader 2.3.16, Bot 1.5.192 geprüft 12:45 (angenommen). Davor AHSentinel 0.65.383/384 geprüft 12:05 (angenommen, AHS-W2E-a). ProfessionSentinel 0.9.78 geprüft 11:40 (angenommen) – davor 0.9.77 geprüft 10:42 (angenommen; PS-TBC, PS-L9) – vorher 0.9.76 geprüft 10:22 (angenommen). ThreatSentinel: TS-R1-a vor 2.5.26.
    LevelPilot 3.13.10 geprüft 12:40 (angenommen, LP-T1-R/LP-T2-a erledigt). Davor LevelPilot 3.13.9 geprüft 11:03 (angenommen; LP-T2-a neu, LP-T2/LP-T1-R offen). Vorher: LevelPilot 3.13.8 geprüft 10:09 (angenommen; LP-T2 neu, LP-T1-R offen).
 1. Neue Berichte/Versionen prüfen, sobald sie kommen (zuerst AHSentinel: ST7, G2-a, PM1-a …; RaidMaster: UP-DS2; GuildSentinel: G-4a).
    LevelPilot 3.13.7 geprüft 23.11. (LP-T1, LP-B1–B4, LP-O1 offen); Bilder 21.11./22.11. gesichtet.

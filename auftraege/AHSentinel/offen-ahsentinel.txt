@@ -6304,3 +6304,8 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     MarketStats zählt je ITEM (nicht je Eintrag): 3 Märkte mit 7 449 / 7 368 / 7 189 Items. Dauer im Protokoll MARKT-VEREINT "nachgetragen" (ms) ausgeben;
     über 16 ms -> in die Hintergrund-Aufgabe wie StartUniteMarkets.
     Reihenfolge nächste Version: AHS-W2E-a, dann W2E-b, ST7-a, G2a-a. Nur Discord. announce/: nichts löschen (Entscheid 11:36).
+
+>>> PRÜFUNG SUPERVISOR 23.11. 12:45 – AHSentinel 0.65.385 (Bericht 12:41): ANGENOMMEN, keine neuen Befunde
+    addon_check OK; announce/: nichts gelöscht. Code: SilverTest.lua 161 "r.i = r.i - 1" vor der Rückfrage, FeeAsk auch im Test (testDeposit); T1000/T1001/
+     T1002 vorhanden, kein T:Skip("noch nicht"). AHS-W2E-a, W2E-b ERLEDIGT (Abnahme im Testlauf PM1-a). ST7-a, G2a-a: Messung gebaut – Zahlen aus dem
+     Testbericht abwarten (T1002, MARKT-VEREINT "nachgetragen" ms). Hinweis RecipeList: Bewertung ok; Vorschlag OpenRecipe erst nach der Messung des Nutzers.

@@ -636,3 +636,8 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
 
 >>> NEU 2026-11-23 11:38 (Supervisor): Entscheid des Nutzers 11:36 – in announce/ NICHTS mehr löschen (neue Datei dazu, alte bleibt).
     auftraege/hinweis-announce-nicht-loeschen-2026-11-23.txt lesen.
+
+>>> PRÜFUNG SUPERVISOR 23.11. 12:45 – Uploader 2.3.16 (Bericht 12:38, UP-DS2-a): ANGENOMMEN, UP-DS2-a ERLEDIGT
+    Diff daten.py: fetch ausserhalb des try (Ladefehler -> Lieferung bricht ab, nichts gemerkt), Filterfehler -> weglassen + merken, svfilter fehlt ->
+     weglassen ohne merken. Tests (Supervisor): 116 OK. download/RaidMasterUploader.zip: alle 12 Dateien byte-gleich mit RaidMasterUploader/, VERSION 2.3.16.
+    Für den Nutzer: Update eilt nicht (2.3.15 lässt eher zu viel weg). Bei Gelegenheit zusammen mit dem Entpacken von 2.3.15 auf PC/Offiziere.
