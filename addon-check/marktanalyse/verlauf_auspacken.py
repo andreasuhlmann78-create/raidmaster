@@ -1,8 +1,21 @@
 import sys, re, json, statistics as st, collections
 from datetime import datetime, timezone, timedelta
 from lupa.lua51 import LuaRuntime
+
+
+def sv_lesen(pfad):
+    """SavedVariables lesen; seit Uploader 2.3.18 auch gepackt als .lua.gz (UP-422b)."""
+    import gzip
+    pfad = str(pfad)
+    if pfad.endswith(".gz"):
+        with gzip.open(pfad, "rt", encoding="utf-8", errors="replace") as fh:
+            return fh.read()
+    with open(pfad, encoding="utf-8", errors="replace") as fh:
+        return fh.read()
+
+
 lua = LuaRuntime(unpack_returned_tuples=True)
-lua.execute(open(sys.argv[1], encoding="utf-8", errors="replace").read())
+lua.execute(sv_lesen(sys.argv[1]))
 DB = lua.globals().AHSentinelDB
 rx = re.compile(r"(\d+),([\d.e+\-]+),([\d.e+\-]*),(\d*),(\d*)")
 series = {}

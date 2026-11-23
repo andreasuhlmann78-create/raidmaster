@@ -1,7 +1,17 @@
 import sys, json, collections, statistics as st, bisect
+def sv_lesen(pfad):
+    """SavedVariables lesen; seit Uploader 2.3.18 auch gepackt als .lua.gz (UP-422b)."""
+    import gzip
+    pfad = str(pfad)
+    if pfad.endswith(".gz"):
+        with gzip.open(pfad, "rt", encoding="utf-8", errors="replace") as fh:
+            return fh.read()
+    with open(pfad, encoding="utf-8", errors="replace") as fh:
+        return fh.read()
+
 from lupa.lua51 import LuaRuntime
 lua=LuaRuntime(unpack_returned_tuples=True)
-lua.execute(open(sys.argv[1],encoding='utf-8',errors='replace').read())
+lua.execute(sv_lesen(sys.argv[1]))
 DB=lua.globals().AHSentinelDB
 BASE=None
 F=["t","id","q","a","pr","rel","d","Q","qs","S","ss","u","p","W","N","net","v","g","r","sq","sh","sp","x","ex","rs"]
@@ -18,6 +28,8 @@ for i in range(1,len(L)+1):
     rows.append(dict(tm=n('t'),id=int(e['id']),q=n('q') or 1,pr=n('pr'),r=e['r'],sq=n('sq') or 0,sh=n('sh')))
 # Zeitbasis des Journals: t in Minuten seit BASE -> aus Forecast.lua
 import re
+
+
 src=open('/home/claude/ahanalyzerpro/Forecast.lua',encoding='utf-8').read()
 m=re.search(r'local BASE\s*=\s*(\d+)',src); BASE=int(m.group(1))
 for r in rows: r['t']=BASE+int(r['tm'])*60

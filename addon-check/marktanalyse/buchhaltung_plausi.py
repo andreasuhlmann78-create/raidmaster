@@ -12,9 +12,22 @@ import sys, re, collections, datetime, statistics as st
 from lupa.lua51 import LuaRuntime
 
 
+def sv_lesen(pfad):
+    """SavedVariables lesen; seit Uploader 2.3.18 auch gepackt als .lua.gz (UP-422b)."""
+    import gzip
+    pfad = str(pfad)
+    if pfad.endswith(".gz"):
+        with gzip.open(pfad, "rt", encoding="utf-8", errors="replace") as fh:
+            return fh.read()
+    with open(pfad, encoding="utf-8", errors="replace") as fh:
+        return fh.read()
+
+
+
+
 def load(path):
     lua = LuaRuntime(unpack_returned_tuples=True)
-    lua.execute(open(path, encoding="utf-8", errors="replace").read())
+    lua.execute(sv_lesen(path))
     return lua.globals().AHSentinelDB
 
 

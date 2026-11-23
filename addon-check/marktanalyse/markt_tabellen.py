@@ -19,6 +19,19 @@ from lupa.lua51 import LuaRuntime
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import kern_daten  # noqa: E402  (Teil "kern": Austausch mit dem MARKT-KERN, Nutzer 16.11.2026 04:51)
 
+
+def sv_lesen(pfad):
+    """SavedVariables lesen; seit Uploader 2.3.18 auch gepackt als .lua.gz (UP-422b)."""
+    import gzip
+    pfad = str(pfad)
+    if pfad.endswith(".gz"):
+        with gzip.open(pfad, "rt", encoding="utf-8", errors="replace") as fh:
+            return fh.read()
+    with open(pfad, encoding="utf-8", errors="replace") as fh:
+        return fh.read()
+
+
+
 Z = ZoneInfo("Europe/Zurich")
 BANDS = [("5-25", [10940, 10938, 10939, 10998, 10978]), ("26-35", [11083, 11082, 11134, 11084, 11138]),
          ("36-45", [11137, 11135, 11174, 11139, 11177]), ("46-55", [11176, 11175, 16202, 11178, 14343]),
@@ -46,7 +59,7 @@ def decode(s, fields):
 
 def load(path):
     lua = LuaRuntime(unpack_returned_tuples=True)
-    lua.execute(open(path, encoding="utf-8", errors="replace").read())
+    lua.execute(sv_lesen(path))
     return lua.globals().AHSentinelDB
 
 

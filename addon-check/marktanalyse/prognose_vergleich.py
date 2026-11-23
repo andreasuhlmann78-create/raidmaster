@@ -1,7 +1,17 @@
 import sys, math
+def sv_lesen(pfad):
+    """SavedVariables lesen; seit Uploader 2.3.18 auch gepackt als .lua.gz (UP-422b)."""
+    import gzip
+    pfad = str(pfad)
+    if pfad.endswith(".gz"):
+        with gzip.open(pfad, "rt", encoding="utf-8", errors="replace") as fh:
+            return fh.read()
+    with open(pfad, encoding="utf-8", errors="replace") as fh:
+        return fh.read()
+
 from lupa.lua51 import LuaRuntime
 lua=LuaRuntime(unpack_returned_tuples=True)
-lua.execute(open(sys.argv[1],encoding='utf-8',errors='replace').read())
+lua.execute(sv_lesen(sys.argv[1]))
 DB=lua.globals().AHSentinelDB
 F=["t","id","q","a","pr","rel","d","Q","qs","S","ss","u","p","W","N","net","v","g","r","sq","sh","sp","x","ex","rs","cr"]
 rows=[]
@@ -46,6 +56,8 @@ def qb(r):
 pq=loo(qb)
 print("Schlange (ohne eigenen Fall) Brier %.3f Treffer %.0f%%"%(brier(pq),100*acc(pq)))
 import collections
+
+
 c=collections.defaultdict(lambda:[0,0])
 for r in rows: c[qb(r)][0]+=1; c[qb(r)][1]+=r['sold']
 print("Schlange/Bedarf in Laufzeit:",{k:f"{v[1]}/{v[0]}" for k,v in sorted(c.items(),key=lambda x:str(x[0]))})

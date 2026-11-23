@@ -259,3 +259,5 @@ die es dort gibt.
   Bericht des Projekts für diese Lage dann als falsch melden. (0.9.76 hatte ich TBC abgeschnitten und den falschen Wert "tbc 251/0" übersehen.)
 - E-Regel 23.11.2026 11:38 (Entscheid 11:36): Bei JEDER Version prüfen, ob announce/-Dateien gelöscht/umbenannt wurden
   (git show --stat --diff-filter=DR <commit> -- announce/). Jede Löschung = Befund HOCH an das Projekt.
+- E-Regel 23.11.2026  (UP-422b): Daten-Repo-Dateien können als <Addon>.lua.gz liegen (Uploader 2.3.18). Jedes Werkzeug, das SavedVariables
+  liest, nutzt sv_lesen bzw. gzip; bei fehlender .lua eines Rechners zuerst nach .lua.gz suchen, nie "Daten fehlen" melden ohne diesen Blick.

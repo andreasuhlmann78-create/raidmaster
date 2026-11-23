@@ -1,7 +1,20 @@
 import sys, json, bisect, collections, re
 from lupa.lua51 import LuaRuntime
+
+
+def sv_lesen(pfad):
+    """SavedVariables lesen; seit Uploader 2.3.18 auch gepackt als .lua.gz (UP-422b)."""
+    import gzip
+    pfad = str(pfad)
+    if pfad.endswith(".gz"):
+        with gzip.open(pfad, "rt", encoding="utf-8", errors="replace") as fh:
+            return fh.read()
+    with open(pfad, encoding="utf-8", errors="replace") as fh:
+        return fh.read()
+
+
 lua=LuaRuntime(unpack_returned_tuples=True)
-lua.execute(open(sys.argv[1],encoding='utf-8',errors='replace').read())
+lua.execute(sv_lesen(sys.argv[1]))
 DB=lua.globals().AHSentinelDB
 BASE=int(re.search(r'local BASE\s*=\s*(\d+)',open('/home/claude/ahanalyzerpro/Forecast.lua').read()).group(1))
 F=["t","id","q","a","pr","rel","d","Q","qs","S","ss","u","p","W","N","net","v","g","r","sq","sh","sp","x","ex","rs","cr"]
