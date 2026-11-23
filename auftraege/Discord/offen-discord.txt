@@ -420,3 +420,11 @@ SICHERHEIT (Pflicht, Repo ist öffentlich):
        Postet/ersetzt der Bot richtig (announce_series, "ältere Version einer Reihe")? Und: Würde das Wiederherstellen der 34 gelöschten Dateien aus der
        Git-Geschichte doppelte Beiträge erzeugen (state "announced"/"announce_msgs")? Ergebnis im Bericht – der Nutzer entscheidet danach über das
        Wiederherstellen. Bis dahin NICHTS wiederherstellen.
+
+>>> PRÜFUNG SUPERVISOR 23.11. 11:59 – Bot 1.5.191 + 33 wiederhergestellte Ankündigungen (Bericht 11:56): ANGENOMMEN
+    Bot-Tests (Supervisor): 473 OK. Code remove_deleted_announcements: wieder vorhandene Datei -> Kopie in announce_entfernt/ weg, nichts gelöscht,
+     nicht neu gepostet; Warnung mit allen Namen in Teilen < 1900 Zeichen. Begründung "0 Beiträge gelöscht" (nur nicht-live Einträge aufgeräumt) nachvollzogen.
+    D-ANN1 c) ERLEDIGT (Wiederherstellen auf Entscheid 11:45). D-ANN1 a) und b) BLEIBEN OFFEN und sind jetzt DRINGEND: Der Bot löscht bei <= 5
+     gelöschten Dateien weiterhin Discord-Beiträge (so heute 9 Beiträge: ahsentinel 0.65.382/383, buffsentinel 0.9.60, guildsentinel 0.9.58/0.9.59,
+     professionsentinel 0.9.74–0.9.77 – alle vor 11:36 gelöscht, ihre Beiträge sind weg). Ein Versehen einer Projekt-Sitzung würde wieder Beiträge löschen.
+    Nebenbefund post_bot_log kürzt bei 1990 Zeichen: D-LOG1 NIEDRIG – lange Meldungen in Teile aufteilen (wie die Warnung), Test.
