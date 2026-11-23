@@ -1,37 +1,37 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-23 14:40 UTC
+Ausgewertet: 2026-11-23 23:50 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
 | Addon | letzter Testlauf | Version | Client | OK | FEHLER | übersprungen | im Client prüfen | Fehler im Spiel (7 Tage) |
 |---|---|---|---|---|---|---|---|---|
-| AHSentinel | 23.11.2026 12:49 UTC | 0.65.385 | forever 1.60.1 (Interface 16001) | 1 | 5 | 3 | 0 | 10 |
+| AHSentinel | 23.11.2026 12:49 UTC | 0.65.385 | forever 1.60.1 (Interface 16001) | 1 | 5 | 3 | 0 | 5 |
 | BuffSentinel | 23.11.2026 12:19 UTC | 0.9.61 | forever 1.60.1 (Interface 16001) | 220 | 3 | 11 | 10 | 0 |
 | GuildSentinel | 23.11.2026 12:25 UTC | 0.9.60 | forever 1.60.1 (Interface 16001) | 335 | 4 | 24 | 8 | 4 |
-| LevelPilot | 21.11.2026 13:15 UTC | 3.13.6 | forever 1.60.1 (Interface 16001) | 1 | 0 | 0 | 0 | 16 |
-| ProfessionSentinel | 23.11.2026 13:12 UTC | 0.9.78 | forever 1.60.1 (Interface 16001) | 1 | 1 | 8 | 0 | 12 |
+| LevelPilot | 23.11.2026 14:48 UTC | 3.13.10 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 16 |
+| ProfessionSentinel | 23.11.2026 14:29 UTC | 0.9.78 | forever 1.60.1 (Interface 16001) | 1 | 1 | 8 | 0 | 16 |
 | RaidMaster | 18.11.2026 18:21 UTC | 3.0.40 | forever 1.60.1 (Interface 16001) | 0 | 1 | 0 | 0 | 0 |
-| ThreatSentinel | 23.11.2026 12:28 UTC | 2.5.26 | forever 1.60.1 (Interface 16001) | 1 | 0 | 0 | 0 | 0 |
+| ThreatSentinel | 23.11.2026 14:37 UTC | 2.5.26 | forever 1.60.1 (Interface 16001) | 326 | 3 | 11 | 14 | 0 |
 
 ## Diagnose-Protokolle (GSDIAG1)
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 221 | `testberichte/diagnose/AHSentinel/0.65.385-e7be8ca504a5.txt` |
-| BuffSentinel | 142 | `testberichte/diagnose/BuffSentinel/0.9.61-ad8210618a6a.txt` |
+| AHSentinel | 223 | `testberichte/diagnose/AHSentinel/0.65.385-eecaffc75d55.txt` |
+| BuffSentinel | 148 | `testberichte/diagnose/BuffSentinel/0.9.61-ad8210618a6a.txt` |
 | GSMesstest | 21 | `testberichte/diagnose/GSMesstest/5.1-f65d607ab777.txt` |
 | GSSniperLog | 52 | `testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt` |
-| GuildSentinel | 256 | `testberichte/diagnose/GuildSentinel/0.9.60-daab7035423f.txt` |
-| LevelPilot | 149 | `testberichte/diagnose/LevelPilot/3.13.10-e118d5733280.txt` |
-| ProfessionSentinel | 234 | `testberichte/diagnose/ProfessionSentinel/0.9.78-94870285cc78.txt` |
-| ThreatSentinel | 215 | `testberichte/diagnose/ThreatSentinel/2.5.26-c8bd92671cee.txt` |
+| GuildSentinel | 262 | `testberichte/diagnose/GuildSentinel/0.9.60-f2c6eb95199b.txt` |
+| LevelPilot | 155 | `testberichte/diagnose/LevelPilot/3.13.10-fefd6f1bb01a.txt` |
+| ProfessionSentinel | 240 | `testberichte/diagnose/ProfessionSentinel/0.9.78-ed947f5a2f03.txt` |
+| ThreatSentinel | 220 | `testberichte/diagnose/ThreatSentinel/2.5.26-cbab32c409ad.txt` |
 
 ## Wegdaten (GSWEGE1)
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| LevelPilot | 329 | `testberichte/wege/LevelPilot/LevelPilot-wege-1795443122-3ae750.json` |
+| LevelPilot | 334 | `testberichte/wege/LevelPilot/LevelPilot-wege-1795462971-85a848.json` |
 
 ## AHSentinel
 
@@ -69,11 +69,6 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 **Fehler im Spiel (letzte 7 Tage)**
 - 4× `ADDON_ACTION_FORBIDDEN`: UNKNOWN() – Version 0.65.354 · forever 1.60.1 (Interface 16001) · zuletzt 21.11.2026 14:31 UTC
-- 1× `Lua`: Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:1400: script ran too long – Version 0.65.278 · forever 1.60.1 (Interface 16001) · zuletzt 16.11.2026 18:43 UTC
-- 1× `Lua`: Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:1402: script ran too long – Version 0.65.278 · forever 1.60.1 (Interface 16001) · zuletzt 16.11.2026 18:44 UTC
-- 1× `Lua`: Interface/AddOns/AHSentinel/Ledger.lua:1686: script ran too long – Version 0.65.278 · forever 1.60.1 (Interface 16001) · zuletzt 16.11.2026 18:44 UTC
-- 1× `Lua`: Interface/AddOns/AHSentinel/Disenchant.lua:327: script ran too long – Version 0.65.278 · forever 1.60.1 (Interface 16001) · zuletzt 16.11.2026 18:45 UTC
-- 1× `Lua`: Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:1801: script ran too long – Version 0.65.278 · forever 1.60.1 (Interface 16001) · zuletzt 16.11.2026 18:43 UTC
 - 1× `Lua`: Interface/AddOns/AHSentinel/UI_Main.lua:1298: script ran too long – Version 0.65.315 · forever 1.60.1 (Interface 16001) · zuletzt 17.11.2026 11:24 UTC
 
 ## BuffSentinel
@@ -325,13 +320,13 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 ## LevelPilot
 
-**Testlauf 3.13.3 · forever 1.60.1 (Interface 16001) · 19.11.2026 12:07 UTC** – OK 11 · FEHLER 0 · übersprungen 0 · im Client prüfen 0
-
 **Testlauf 3.13.4 · forever 1.60.1 (Interface 16001) · 19.11.2026 15:19 UTC** – OK 11 · FEHLER 0 · übersprungen 0 · im Client prüfen 0
 
 **Testlauf 3.13.5 · forever 1.60.1 (Interface 16001) · 20.11.2026 06:31 UTC** – OK 11 · FEHLER 0 · übersprungen 0 · im Client prüfen 0
 
 **Testlauf 3.13.6 · forever 1.60.1 (Interface 16001) · 21.11.2026 13:15 UTC** – OK 1 · FEHLER 0 · übersprungen 0 · im Client prüfen 0
+
+**Testlauf 3.13.10 · forever 1.60.1 (Interface 16001) · 23.11.2026 14:48 UTC** – OK 11 · FEHLER 0 · übersprungen 0 · im Client prüfen 0
 
 **Fehler im Spiel (letzte 7 Tage)**
 - 15× `Reise`: Fehler in der Reise: Interface/AddOns/LevelPilot/Virtual.lua:135: attempt to perform indexed assignment on field '?' (a boolean value) – Version 3.12.89 · forever 1.60.1 (Interface 16001) · zuletzt 17.11.2026 19:02 UTC
@@ -372,7 +367,7 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 - [SKIP] S9 S – Gekaufte Menge = eingegebene Menge (grund: beim Händler: in der Einkaufsliste eine Menge eingeben und „Kaufen“ klicken)
 - [SKIP] S10 S – Shift+Klick öffnet das Mengenfenster (grund: beim Händler: Shift+Klick auf eine Ware, dann noch einmal mit offener Chat-Eingabe)
 
-**Testlauf 0.9.78 · forever 1.60.1 (Interface 16001) · 23.11.2026 13:12 UTC** – OK 1 · FEHLER 1 · übersprungen 8 · im Client prüfen 0
+**Testlauf 0.9.78 · forever 1.60.1 (Interface 16001) · 23.11.2026 14:29 UTC** – OK 1 · FEHLER 1 · übersprungen 8 · im Client prüfen 0
 - [FEHLER] S2 S – Fertigkeit und Plan-Start (ergebnis: Fertigkeit 0 | erwartet: > 0)
 - [SKIP] S3 S – Zähler sinkt nach einem Skillpunkt (grund: herstellen, bis ein Skillpunkt kommt)
 - [SKIP] S4 S – Andocken ohne Überlappen (grund: Rezept wählen, damit das AHSentinel-Gewinn-Fenster erscheint)
@@ -384,8 +379,8 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 - [SKIP] S10 S – Shift+Klick öffnet das Mengenfenster (grund: beim Händler: Shift+Klick auf eine Ware, dann noch einmal mit offener Chat-Eingabe)
 
 **Fehler im Spiel (letzte 7 Tage)**
+- 8× `ADDON_ACTION_BLOCKED`: resume() – Version 0.9.78 · forever 1.60.1 (Interface 16001) · zuletzt 23.11.2026 14:28 UTC
 - 5× `AHSentinel:On`: Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:161: attempt to concatenate local 'line' (a nil value) – Version 0.9.67 · forever 1.60.1 (Interface 16001) · zuletzt 18.11.2026 05:33 UTC
-- 4× `ADDON_ACTION_BLOCKED`: resume() – Version 0.9.78 · forever 1.60.1 (Interface 16001) · zuletzt 23.11.2026 13:11 UTC
 - 1× `Aufgabe t279`: attempt to yield across metamethod/C-call boundary – Version 0.9.66 · forever 1.60.1 (Interface 16001) · zuletzt 17.11.2026 19:23 UTC
 - 1× `ADDON_ACTION_BLOCKED`: UNKNOWN() – Version 0.9.66 · forever 1.60.1 (Interface 16001) · zuletzt 17.11.2026 19:18 UTC
 - 1× `Aufgabe t143`: attempt to yield across metamethod/C-call boundary – Version 0.9.66 · forever 1.60.1 (Interface 16001) · zuletzt 17.11.2026 19:22 UTC
@@ -511,4 +506,32 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 - [SKIP] T178 J – Lua-Syntaxprüfung (grund: vor dem Push mit addon_check.py (manuell))
 - [SKIP] T186 K – Oberfläche mit offenen Blizzard-Fenstern (grund: wartet auf ein Spielfenster – läuft nach dem Lauf von selbst (siehe Zusammenfassung))
 
-**Testlauf 2.5.26 · forever 1.60.1 (Interface 16001) · 23.11.2026 12:28 UTC** – OK 1 · FEHLER 0 · übersprungen 0 · im Client prüfen 0
+**Testlauf 2.5.26 · forever 1.60.1 (Interface 16001) · 23.11.2026 14:37 UTC** – OK 326 · FEHLER 3 · übersprungen 11 · im Client prüfen 14 · Sandbox OK
+- [CLIENT] T11 A – Interface-Nummer des Clients in der .toc (anleitung: Interface steht in der Kopfzeile des Berichts; die Prüf-Sitzung vergleicht sie mit ## Interface (am Launch-Tag /dump select(4, GetBuildInfo())))
+- [CLIENT] T46 B – Bedrohung prüfen – im Kampf (anleitung: Mob angreifen, im Kampf /ts bedrohung: Status und Prozent (oder 'geschützt') erscheinen, kein Lua-Fehler)
+- [CLIENT] T109 C – Keine geschützten Aktionen im Kampf (anleitung: Im Kampf: Einstellungen öffnen (Hinweis 'nicht im Kampf'), /ts move (verweigert); danach /ts test > Bericht: Blocked: none)
+- [CLIENT] T110 C – Plaketten im Kampf in ANZEIGE/AUS (anleitung: Forever, Modus ANZEIGE: Pull mit 3+ Mobs – nichts leuchtet, Plaketten unverändert; nach dem Kampf wieder normal)
+- [SKIP] T112 D – Alter Client (grund: nur Classic Era / TBC)
+- [SKIP] T113 D – Alter Client (grund: nur Classic Era / TBC)
+- [SKIP] T114 D – Alter Client (grund: nur Classic Era / TBC)
+- [SKIP] T115 D – Alter Client (grund: nur Classic Era / TBC)
+- [SKIP] T116 D – Alter Client (grund: nur Classic Era / TBC)
+- [SKIP] T117 D – Gegenprobe im echten Spiel (grund: nur Classic Era / TBC)
+- [SKIP] T126 F – Im Code benutzte Schlüssel (grund: vor dem Push per Skript geprüft (manuell))
+- [CLIENT] T128 F – Andere Sprache aktivieren (anleitung: /ts testroutine sprache, dann /reload, dann /ts testroutine f (Popups und Tastenbelegungs-Namen bleiben in der Spielsprache))
+- [SKIP] T134 G – Schnittstellen zu den anderen Addons (grund: keine Schnittstelle)
+- [CLIENT] T135 G – Mehrere GoldSentinel-Addons gleichzeitig (anleitung: Mit RaidMaster, GuildSentinel, BuffSentinel, ProfessionSentinel laden, /reload, /gsgame: eine Zeile, Version 3; /ts testroutine g)
+- [CLIENT] T188 I – Diagnose-Protokoll im Spiel (anleitung: /ts protokoll öffnet ein Fenster mit markierbarem Text; nach /reload liegt ThreatSentinelDB.diagExport (beginnt mit GSDIAG1) in den SavedVariables und geht mit dem Uploader nach #testberichte)
+- [SKIP] T147 I – Lua-Fehler ausserhalb von pcall (grund: würde einen echten Fehler im Fehlerfenster/BugSack des Spielers auslösen; GoldSentinelTest.TrackErrors ist angemeldet (siehe Core.lua))
+- [CLIENT] T148 J – Kein Ersatz über das Ziel des Mobs (modern) (anleitung: Forever: Mob ohne Bedrohungsdaten bleibt IDLE (Diagnose 'Bedrohung am Ziel'), kein Leuchten)
+- [CLIENT] T149 J – Kein stilles IDLE bei geschützten Werten (anleitung: Forever, erster Kampf: /ts bedrohung zeigt 'geschützt', Hinweis 1x)
+- [CLIENT] T154 J – Taint im Modus VOLL (anleitung: Pull mit 3+ Mobs im Modus VOLL, danach /ts test > Bericht: 'Blocked: none'; kein 'ThreatSentinel hat eine Aktion blockiert')
+- [CLIENT] T157 J – Erkennung einmal pro Kampf, Zustand gespeichert (anleitung: Forever: zwei Kämpfe hintereinander, danach /ts bedrohung: 'zuletzt erkannt' mit Datum und Build)
+- [CLIENT] T174 J – UnitIsUnit nur über ns:SameUnit (anleitung: Forever, Gruppe im Kampf: kein Lua-Fehler (Testzentrale-Diagnose 'Fehler: 0'))
+- [CLIENT] T176b J – Alter Client: Kampf in der Gruppe (anleitung: Classic Era und TBC Anniversary: Schadens-/Heilmeter zählt, widerstandener Spott wird gemeldet, kein 'Addon geblockt' – Ergebnis dem Nutzer melden)
+- [CLIENT] T177 J – Launch-Tag: Interface-Nummer und erster Kampf (anleitung: /dump select(4, GetBuildInfo()); im ersten Kampf /ts bedrohung -> Modus im Bericht)
+- [SKIP] T178 J – Lua-Syntaxprüfung (grund: vor dem Push mit addon_check.py (manuell))
+- [FEHLER] T187 K – Lesbarkeit: Kontrast, keine grauen Zahlen, Geldbeträge rechtsbündig, Klammerzahlen beschriftet, Schriftgrösse (L1/L2/… (ergebnis: Testzentrale: L6 Zahl in Klammern ohne Wort 'Client: 1.60.1 (71037) - Inter' · geprüft 80 | erwartet: keine)
+- [SKIP] T186 K – Oberfläche mit offenen Blizzard-Fenstern (grund: wartet auf ein Spielfenster – läuft nach dem Lauf von selbst (siehe Zusammenfassung))
+- [FEHLER] T-L3 U – Gleiche Zahl überall (L3): Aggrometer, DD-Ansicht und geschützter Weg runden gleich (auch bei ,5) (ergebnis: 0.5: Aggrometer 1, DD 0, Spiel 0; 2.5: Aggrometer 3, DD 2, Spiel 2; 72.5: Aggrometer 73, DD 72, Spiel 72 | erwartet: 6 Werte gleich)
+- [FEHLER] TU6-R1 U – TU6 Regressionen: jeder Befund hat seinen Test, der Test lief (ergebnis: Regressionen: 62 von 62 vorhanden, nur im Client: T110 T128, Test FEHLER: 20.11. 13:44 Lesbarkeit L1–L8 (Kontrast, gleiche Zahl, Summen, Beschriftung) | erwartet: alle vorhanden, alle OK)

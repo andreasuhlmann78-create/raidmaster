@@ -1,0 +1,60 @@
+{
+ "addon": "LevelPilot",
+ "blocked": [],
+ "env": {
+  "build": "71037",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 42,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "f": 1,
+ "fest": [],
+ "id": "LevelPilot-wege-1795445377-6744bf",
+ "kind": "wege",
+ "npc": [],
+ "time": 1795445377,
+ "version": "3.13.6",
+ "zones": [
+  {
+   "edges": [
+    {
+     "lv": [
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|d|Das Tal der Stärke",
+      "1454|d|Das Tal der Stärke"
+     ],
+     "n": 12,
+     "p": [
+      51.1,
+      69.4,
+      51.4,
+      67.3,
+      52.1,
+      66.3,
+      52.2,
+      65,
+      53.6,
+      64.6,
+      54.5,
+      64.5,
+      55.4,
+      64.5
+     ],
+     "src": "selbst"
+    }
+   ],
+   "map": 1454,
+   "name": "Orgrimmar"
+  }
+ ]
+}

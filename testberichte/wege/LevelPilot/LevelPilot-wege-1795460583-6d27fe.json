@@ -1,0 +1,398 @@
+{
+ "addon": "LevelPilot",
+ "blocked": [],
+ "env": {
+  "build": "71037",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 42,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "f": 2,
+ "fest": [],
+ "id": "LevelPilot-wege-1795460583-6d27fe",
+ "kind": "wege",
+ "npc": [],
+ "qo": [
+  {
+   "a": "T",
+   "l": 42,
+   "m": 1443,
+   "q": 5581,
+   "t": 1795460522
+  }
+ ],
+ "time": 1795460583,
+ "version": "3.13.6",
+ "zones": [
+  {
+   "edges": [
+    {
+     "lv": [
+      "1443|o|Shadowprey",
+      "1443|o|Shadowprey",
+      "1443|o|Shadowprey"
+     ],
+     "n": 5,
+     "p": [
+      25.1,
+      71.8,
+      25.1,
+      71.3,
+      25.5,
+      70.8
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1443|o|Shadowprey",
+      "1443|o|Shadowprey"
+     ],
+     "n": 2,
+     "p": [
+      25.5,
+      70.8,
+      25.6,
+      70.5
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1443|o|Shadowprey",
+      "1443|o|Shadowprey"
+     ],
+     "n": 1,
+     "p": [
+      25.5,
+      70.8,
+      25.8,
+      71
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1443|o|Shadowprey",
+      "1443|o|Shadowprey",
+      "1443|o|Shadowprey",
+      "1443|o|Shadowprey",
+      "1443|o|Shadowprey",
+      "1443|o|Shadowprey",
+      "1443|o|Shadowprey",
+      "1443|o|Shadowprey",
+      "1443|o|Sar'theris-Strand",
+      "1443|o|Sar'theris-Strand",
+      "1443|o|Sar'theris-Strand",
+      "1443|o|Sar'theris-Strand"
+     ],
+     "n": 10,
+     "p": [
+      25.5,
+      70.8,
+      25.3,
+      71.3,
+      25.3,
+      72,
+      25.3,
+      72.5,
+      25.4,
+      73.1,
+      25.7,
+      73.8,
+      25.9,
+      74.2,
+      26.1,
+      74.5,
+      26.3,
+      75.1,
+      26.3,
+      75.6,
+      26.2,
+      75.9,
+      26.2,
+      76.4
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1443|o|Shadowprey",
+      "1443|o|Shadowprey",
+      "1443|o|Shadowprey"
+     ],
+     "n": 3,
+     "p": [
+      25.6,
+      70.5,
+      25.4,
+      69.9,
+      25.5,
+      69.5
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1443|o|Shadowprey",
+      "1443|o|Shadowprey"
+     ],
+     "n": 1,
+     "p": [
+      25.6,
+      70.5,
+      25.5,
+      69.5
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "",
+      "1443|o|Dorf der Gelkis"
+     ],
+     "n": 2,
+     "p": [
+      35.3,
+      86.7,
+      35,
+      86.9
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis"
+     ],
+     "n": 3,
+     "p": [
+      35.6,
+      91.3,
+      35.7,
+      91.8,
+      35.7,
+      92.2
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1443|o|Sar'theris-Strand",
+      "1443|o|Sar'theris-Strand",
+      "1443|o|Sar'theris-Strand",
+      "1443|o|Sar'theris-Strand",
+      "1443|o|Sar'theris-Strand",
+      "1443|o|Sar'theris-Strand",
+      "1443|o|Sar'theris-Strand",
+      "1443|o|Sar'theris-Strand",
+      "1443|o|Sar'theris-Strand",
+      "1443|o|Sar'theris-Strand",
+      "1443|o|",
+      "1443|o|",
+      "1443|o|",
+      "1443|o|",
+      "1443|o|",
+      "1443|o|",
+      "1443|o|",
+      "1443|o|",
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis"
+     ],
+     "n": 7,
+     "p": [
+      29.9,
+      74.3,
+      29.6,
+      74.6,
+      29.9,
+      74.9,
+      30.4,
+      75.2,
+      30.7,
+      75.3,
+      31.3,
+      75.5,
+      31.5,
+      75.7,
+      31.7,
+      75.9,
+      32,
+      76.3,
+      32.3,
+      76.6,
+      32.8,
+      77.1,
+      33.1,
+      77.2,
+      33.4,
+      77.3,
+      33.7,
+      77.8,
+      33.9,
+      78,
+      34.3,
+      78.3,
+      34.4,
+      78.9,
+      34.3,
+      79.4,
+      34.3,
+      80,
+      34.6,
+      80.3,
+      34.9,
+      80.7,
+      34.9,
+      81.2,
+      34.9,
+      81.8,
+      35,
+      82.3,
+      35,
+      82.9,
+      35,
+      83.5,
+      35,
+      84,
+      34.8,
+      84.8,
+      34.9,
+      85.2,
+      35,
+      85.7,
+      35,
+      86.2,
+      35,
+      86.9
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis"
+     ],
+     "n": 1,
+     "p": [
+      35,
+      86.9,
+      35.1,
+      87.4,
+      35.1,
+      88,
+      35.1,
+      88.5,
+      35.1,
+      89.1,
+      35.1,
+      89.7,
+      35.2,
+      90.2,
+      35.4,
+      90.7,
+      35.6,
+      90.9
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1443|o|Dorf der Gelkis",
+      ""
+     ],
+     "n": 2,
+     "p": [
+      35,
+      86.9,
+      35.3,
+      87.2
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1443|o|Shadowprey",
+      "1443|o|Shadowprey",
+      "1443|o|Shadowprey"
+     ],
+     "n": 2,
+     "p": [
+      25.7,
+      68.7,
+      25.7,
+      69.1,
+      25.5,
+      69.5
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1443|o|Shadowprey",
+      "1443|o|Shadowprey",
+      "1443|o|Shadowprey",
+      "1443|o|Shadowprey"
+     ],
+     "n": 2,
+     "p": [
+      25.5,
+      69.5,
+      25.3,
+      68.9,
+      25.4,
+      68.1,
+      25.7,
+      68.2
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "",
+      "1443|o|",
+      ""
+     ],
+     "n": 1,
+     "p": [
+      34.2,
+      78,
+      34.3,
+      78.3,
+      34.5,
+      78
+     ],
+     "src": "geteilt"
+    }
+   ],
+   "map": 1443,
+   "name": "Desolace"
+  }
+ ]
+}

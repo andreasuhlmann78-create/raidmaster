@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-23T14:40:32Z",
+ "ausgewertet": "2026-11-23T23:50:48Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -81,76 +81,6 @@
       "forever 1.60.1 (Interface 16001)"
      ],
      "stack": null
-    },
-    {
-     "addon": "AHSentinel",
-     "art": "spiel",
-     "wo": "Lua",
-     "msg": "Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:1400: script ran too long",
-     "anzahl": 1,
-     "versionen": [
-      "0.65.278"
-     ],
-     "clients": [
-      "forever 1.60.1 (Interface 16001)"
-     ],
-     "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[tail call]: ?\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/AHAnalyzerPro.lua]:1400: in function 'HF'\n..."
-    },
-    {
-     "addon": "AHSentinel",
-     "art": "spiel",
-     "wo": "Lua",
-     "msg": "Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:1402: script ran too long",
-     "anzahl": 1,
-     "versionen": [
-      "0.65.278"
-     ],
-     "clients": [
-      "forever 1.60.1 (Interface 16001)"
-     ],
-     "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[tail call]: ?\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/AHAnalyzerPro.lua]:1402: in function 'HF'\n..."
-    },
-    {
-     "addon": "AHSentinel",
-     "art": "spiel",
-     "wo": "Lua",
-     "msg": "Interface/AddOns/AHSentinel/Ledger.lua:1686: script ran too long",
-     "anzahl": 1,
-     "versionen": [
-      "0.65.278"
-     ],
-     "clients": [
-      "forever 1.60.1 (Interface 16001)"
-     ],
-     "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[tail call]: ?\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/Ledger.lua]:1686: in function '?'\n..."
-    },
-    {
-     "addon": "AHSentinel",
-     "art": "spiel",
-     "wo": "Lua",
-     "msg": "Interface/AddOns/AHSentinel/Disenchant.lua:327: script ran too long",
-     "anzahl": 1,
-     "versionen": [
-      "0.65.278"
-     ],
-     "clients": [
-      "forever 1.60.1 (Interface 16001)"
-     ],
-     "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[tail call]: ?\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/Disenchant.lua]:327: in function 'add'\n..."
-    },
-    {
-     "addon": "AHSentinel",
-     "art": "spiel",
-     "wo": "Lua",
-     "msg": "Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:1801: script ran too long",
-     "anzahl": 1,
-     "versionen": [
-      "0.65.278"
-     ],
-     "clients": [
-      "forever 1.60.1 (Interface 16001)"
-     ],
-     "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[tail call]: ?\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/AHAnalyzerPro.lua]:1801: in function 'PriceInfo'\n..."
     },
     {
      "addon": "AHSentinel",
@@ -288,15 +218,15 @@
    ]
   },
   "LevelPilot": {
-   "berichte": 72,
+   "berichte": 76,
    "letzter_test": {
-    "id": "LevelPilot-1795266906-a02888-1",
-    "version": "3.13.6",
-    "time": 1795266906,
+    "id": "LevelPilot-1795445330-17c6ed-3",
+    "version": "3.13.10",
+    "time": 1795445330,
     "counts": {
      "client": 0,
      "fehler": 0,
-     "ok": 1,
+     "ok": 11,
      "uebersprungen": 0
     }
    },
@@ -333,11 +263,11 @@
    ]
   },
   "ProfessionSentinel": {
-   "berichte": 13,
+   "berichte": 15,
    "letzter_test": {
-    "id": "ProfessionSentinel-1795439544-733a60-5",
+    "id": "ProfessionSentinel-1795444157-2c4e8f-5",
     "version": "0.9.78",
-    "time": 1795439544,
+    "time": 1795444157,
     "counts": {
      "client": 0,
      "fehler": 1,
@@ -354,10 +284,24 @@
      "id": "S2",
      "name": "Fertigkeit und Plan-Start",
      "detail": "ergebnis: Fertigkeit 0 | erwartet: > 0",
-     "bericht": "ProfessionSentinel-1795439544-733a60-5"
+     "bericht": "ProfessionSentinel-1795444157-2c4e8f-5"
     }
    ],
    "fehler_spiel": [
+    {
+     "addon": "ProfessionSentinel",
+     "art": "spiel",
+     "wo": "ADDON_ACTION_BLOCKED",
+     "msg": "resume()",
+     "anzahl": 8,
+     "versionen": [
+      "0.9.78"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/ProfessionSentinel/GoldSentinelTest.lua]:407: in function <...rface/AddOns/ProfessionSentinel/GoldSentinelTest.lua:400>\n[C]: in function 'resume'\n[Interface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua]:470: in function <...rface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua:453>\n[C]: in function 'pcall'\n[Interface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua]:524: in function 'Tick'\n[Interface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua]:541: in function <...rface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua:541>\n"
+    },
     {
      "addon": "ProfessionSentinel",
      "art": "spiel",
@@ -371,20 +315,6 @@
       "forever 1.60.1 (Interface 16001)"
      ],
      "stack": "[C]: in function 'pcall'\n[Interface/AddOns/ProfessionSentinel/Core.lua]:180: in function 'CountError'\n[Interface/AddOns/ProfessionSentinel/Alerts.lua]:144: in function <Interface/AddOns/ProfessionSentinel/Alerts.lua:140>\n"
-    },
-    {
-     "addon": "ProfessionSentinel",
-     "art": "spiel",
-     "wo": "ADDON_ACTION_BLOCKED",
-     "msg": "resume()",
-     "anzahl": 4,
-     "versionen": [
-      "0.9.78"
-     ],
-     "clients": [
-      "forever 1.60.1 (Interface 16001)"
-     ],
-     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/ProfessionSentinel/GoldSentinelTest.lua]:407: in function <...rface/AddOns/ProfessionSentinel/GoldSentinelTest.lua:400>\n[C]: in function 'resume'\n[Interface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua]:470: in function <...rface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua:453>\n[C]: in function 'pcall'\n[Interface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua]:524: in function 'Tick'\n[Interface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua]:541: in function <...rface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua:541>\n"
     },
     {
      "addon": "ProfessionSentinel",
@@ -458,19 +388,50 @@
    "fehler_spiel": []
   },
   "ThreatSentinel": {
-   "berichte": 22,
+   "berichte": 23,
    "letzter_test": {
-    "id": "ThreatSentinel-1795436897-be7289-1",
+    "id": "ThreatSentinel-1795444659-4c28df-1",
     "version": "2.5.26",
-    "time": 1795436897,
+    "time": 1795444656,
     "counts": {
-     "client": 0,
-     "fehler": 0,
-     "ok": 1,
-     "uebersprungen": 0
+     "client": 14,
+     "fehler": 3,
+     "ok": 326,
+     "uebersprungen": 11
     }
    },
-   "fehler_tests": [],
+   "fehler_tests": [
+    {
+     "addon": "ThreatSentinel",
+     "art": "test",
+     "version": "2.5.26",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T187",
+     "name": "Lesbarkeit: Kontrast, keine grauen Zahlen, Geldbeträge rechtsbündig, Klammerzahlen beschriftet, Schriftgrösse (L1/L2/…",
+     "detail": "ergebnis: Testzentrale: L6 Zahl in Klammern ohne Wort 'Client: 1.60.1 (71037) - Inter' · geprüft 80 | erwartet: keine",
+     "bericht": "ThreatSentinel-1795444659-4c28df-1"
+    },
+    {
+     "addon": "ThreatSentinel",
+     "art": "test",
+     "version": "2.5.26",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T-L3",
+     "name": "Gleiche Zahl überall (L3): Aggrometer, DD-Ansicht und geschützter Weg runden gleich (auch bei ,5)",
+     "detail": "ergebnis: 0.5: Aggrometer 1, DD 0, Spiel 0; 2.5: Aggrometer 3, DD 2, Spiel 2; 72.5: Aggrometer 73, DD 72, Spiel 72 | erwartet: 6 Werte gleich",
+     "bericht": "ThreatSentinel-1795444659-4c28df-1"
+    },
+    {
+     "addon": "ThreatSentinel",
+     "art": "test",
+     "version": "2.5.26",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "TU6-R1",
+     "name": "TU6 Regressionen: jeder Befund hat seinen Test, der Test lief",
+     "detail": "ergebnis: Regressionen: 62 von 62 vorhanden, nur im Client: T110 T128, Test FEHLER: 20.11. 13:44 Lesbarkeit L1–L8 (Kontrast, gleiche Zahl, Summen, Beschriftung) | erwartet: alle vorhanden, alle OK",
+     "bericht": "ThreatSentinel-1795444659-4c28df-1"
+    }
+   ],
    "fehler_spiel": []
   }
  },
@@ -538,76 +499,6 @@
     "forever 1.60.1 (Interface 16001)"
    ],
    "stack": null
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "spiel",
-   "wo": "Lua",
-   "msg": "Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:1400: script ran too long",
-   "anzahl": 1,
-   "versionen": [
-    "0.65.278"
-   ],
-   "clients": [
-    "forever 1.60.1 (Interface 16001)"
-   ],
-   "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[tail call]: ?\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/AHAnalyzerPro.lua]:1400: in function 'HF'\n..."
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "spiel",
-   "wo": "Lua",
-   "msg": "Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:1402: script ran too long",
-   "anzahl": 1,
-   "versionen": [
-    "0.65.278"
-   ],
-   "clients": [
-    "forever 1.60.1 (Interface 16001)"
-   ],
-   "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[tail call]: ?\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/AHAnalyzerPro.lua]:1402: in function 'HF'\n..."
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "spiel",
-   "wo": "Lua",
-   "msg": "Interface/AddOns/AHSentinel/Ledger.lua:1686: script ran too long",
-   "anzahl": 1,
-   "versionen": [
-    "0.65.278"
-   ],
-   "clients": [
-    "forever 1.60.1 (Interface 16001)"
-   ],
-   "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[tail call]: ?\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/Ledger.lua]:1686: in function '?'\n..."
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "spiel",
-   "wo": "Lua",
-   "msg": "Interface/AddOns/AHSentinel/Disenchant.lua:327: script ran too long",
-   "anzahl": 1,
-   "versionen": [
-    "0.65.278"
-   ],
-   "clients": [
-    "forever 1.60.1 (Interface 16001)"
-   ],
-   "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[tail call]: ?\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/Disenchant.lua]:327: in function 'add'\n..."
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "spiel",
-   "wo": "Lua",
-   "msg": "Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:1801: script ran too long",
-   "anzahl": 1,
-   "versionen": [
-    "0.65.278"
-   ],
-   "clients": [
-    "forever 1.60.1 (Interface 16001)"
-   ],
-   "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[tail call]: ?\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/AHAnalyzerPro.lua]:1801: in function 'PriceInfo'\n..."
   },
   {
    "addon": "AHSentinel",
@@ -743,7 +634,21 @@
    "id": "S2",
    "name": "Fertigkeit und Plan-Start",
    "detail": "ergebnis: Fertigkeit 0 | erwartet: > 0",
-   "bericht": "ProfessionSentinel-1795439544-733a60-5"
+   "bericht": "ProfessionSentinel-1795444157-2c4e8f-5"
+  },
+  {
+   "addon": "ProfessionSentinel",
+   "art": "spiel",
+   "wo": "ADDON_ACTION_BLOCKED",
+   "msg": "resume()",
+   "anzahl": 8,
+   "versionen": [
+    "0.9.78"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/ProfessionSentinel/GoldSentinelTest.lua]:407: in function <...rface/AddOns/ProfessionSentinel/GoldSentinelTest.lua:400>\n[C]: in function 'resume'\n[Interface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua]:470: in function <...rface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua:453>\n[C]: in function 'pcall'\n[Interface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua]:524: in function 'Tick'\n[Interface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua]:541: in function <...rface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua:541>\n"
   },
   {
    "addon": "ProfessionSentinel",
@@ -758,20 +663,6 @@
     "forever 1.60.1 (Interface 16001)"
    ],
    "stack": "[C]: in function 'pcall'\n[Interface/AddOns/ProfessionSentinel/Core.lua]:180: in function 'CountError'\n[Interface/AddOns/ProfessionSentinel/Alerts.lua]:144: in function <Interface/AddOns/ProfessionSentinel/Alerts.lua:140>\n"
-  },
-  {
-   "addon": "ProfessionSentinel",
-   "art": "spiel",
-   "wo": "ADDON_ACTION_BLOCKED",
-   "msg": "resume()",
-   "anzahl": 4,
-   "versionen": [
-    "0.9.78"
-   ],
-   "clients": [
-    "forever 1.60.1 (Interface 16001)"
-   ],
-   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/ProfessionSentinel/GoldSentinelTest.lua]:407: in function <...rface/AddOns/ProfessionSentinel/GoldSentinelTest.lua:400>\n[C]: in function 'resume'\n[Interface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua]:470: in function <...rface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua:453>\n[C]: in function 'pcall'\n[Interface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua]:524: in function 'Tick'\n[Interface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua]:541: in function <...rface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua:541>\n"
   },
   {
    "addon": "ProfessionSentinel",
@@ -824,16 +715,46 @@
    "name": "Berufe: Fenster wird eingelesen (nachgeholt)",
    "detail": "ergebnis: nach dem Öffnen nicht eingelesen | erwartet: Berufe-Daten neu",
    "bericht": "RaidMaster-1795026088-db14ae-1"
+  },
+  {
+   "addon": "ThreatSentinel",
+   "art": "test",
+   "version": "2.5.26",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T187",
+   "name": "Lesbarkeit: Kontrast, keine grauen Zahlen, Geldbeträge rechtsbündig, Klammerzahlen beschriftet, Schriftgrösse (L1/L2/…",
+   "detail": "ergebnis: Testzentrale: L6 Zahl in Klammern ohne Wort 'Client: 1.60.1 (71037) - Inter' · geprüft 80 | erwartet: keine",
+   "bericht": "ThreatSentinel-1795444659-4c28df-1"
+  },
+  {
+   "addon": "ThreatSentinel",
+   "art": "test",
+   "version": "2.5.26",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T-L3",
+   "name": "Gleiche Zahl überall (L3): Aggrometer, DD-Ansicht und geschützter Weg runden gleich (auch bei ,5)",
+   "detail": "ergebnis: 0.5: Aggrometer 1, DD 0, Spiel 0; 2.5: Aggrometer 3, DD 2, Spiel 2; 72.5: Aggrometer 73, DD 72, Spiel 72 | erwartet: 6 Werte gleich",
+   "bericht": "ThreatSentinel-1795444659-4c28df-1"
+  },
+  {
+   "addon": "ThreatSentinel",
+   "art": "test",
+   "version": "2.5.26",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "TU6-R1",
+   "name": "TU6 Regressionen: jeder Befund hat seinen Test, der Test lief",
+   "detail": "ergebnis: Regressionen: 62 von 62 vorhanden, nur im Client: T110 T128, Test FEHLER: 20.11. 13:44 Lesbarkeit L1–L8 (Kontrast, gleiche Zahl, Summen, Beschriftung) | erwartet: alle vorhanden, alle OK",
+   "bericht": "ThreatSentinel-1795444659-4c28df-1"
   }
  ],
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 221,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.385-e7be8ca504a5.txt"
+    "anzahl": 223,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.385-eecaffc75d55.txt"
    },
    "BuffSentinel": {
-    "anzahl": 142,
+    "anzahl": 148,
     "neueste": "testberichte/diagnose/BuffSentinel/0.9.61-ad8210618a6a.txt"
    },
    "GSMesstest": {
@@ -845,26 +766,26 @@
     "neueste": "testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt"
    },
    "GuildSentinel": {
-    "anzahl": 256,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.60-daab7035423f.txt"
+    "anzahl": 262,
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.60-f2c6eb95199b.txt"
    },
    "LevelPilot": {
-    "anzahl": 149,
-    "neueste": "testberichte/diagnose/LevelPilot/3.13.10-e118d5733280.txt"
+    "anzahl": 155,
+    "neueste": "testberichte/diagnose/LevelPilot/3.13.10-fefd6f1bb01a.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 234,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.78-94870285cc78.txt"
+    "anzahl": 240,
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.78-ed947f5a2f03.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 215,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.26-c8bd92671cee.txt"
+    "anzahl": 220,
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.26-cbab32c409ad.txt"
    }
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 329,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1795443122-3ae750.json"
+    "anzahl": 334,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1795462971-85a848.json"
    }
   }
  }

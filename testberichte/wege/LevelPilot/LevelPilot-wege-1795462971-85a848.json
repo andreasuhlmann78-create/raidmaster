@@ -1,0 +1,486 @@
+{
+ "addon": "LevelPilot",
+ "blocked": [],
+ "env": {
+  "build": "71037",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 42,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "f": 2,
+ "fest": [],
+ "id": "LevelPilot-wege-1795462971-85a848",
+ "kind": "wege",
+ "npc": [
+  {
+   "id": 13717,
+   "map": 1443,
+   "new": [
+    44.2,
+    85.4
+   ],
+   "old": [
+    50.4,
+    86.7
+   ],
+   "t": 1795462086
+  }
+ ],
+ "qo": [
+  {
+   "a": "T",
+   "l": 42,
+   "m": 2652,
+   "q": 93034,
+   "t": 1795462180
+  },
+  {
+   "a": "A",
+   "l": 42,
+   "m": 2652,
+   "q": 93035,
+   "t": 1795462180
+  },
+  {
+   "a": "A",
+   "l": 42,
+   "m": 2652,
+   "q": 93037,
+   "t": 1795462181
+  },
+  {
+   "a": "T",
+   "l": 42,
+   "m": 2652,
+   "q": 93035,
+   "t": 1795462672
+  }
+ ],
+ "time": 1795462971,
+ "version": "3.13.6",
+ "zones": [
+  {
+   "edges": [
+    {
+     "lv": [
+      "1443|o|Sar'theris-Strand",
+      "1443|o|Sar'theris-Strand"
+     ],
+     "n": 1,
+     "p": [
+      26.2,
+      76.4,
+      26.5,
+      76.5
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1443|o|Sar'theris-Strand",
+      "1443|o|Sar'theris-Strand",
+      "1443|o|Sar'theris-Strand",
+      "1443|o|Shadowprey",
+      "1443|o|Shadowprey",
+      "1443|o|Shadowprey",
+      "1443|o|Shadowprey",
+      "1443|o|Shadowprey",
+      "1443|o|Shadowprey",
+      "1443|o|Shadowprey",
+      "1443|o|Shadowprey",
+      "1443|o|Shadowprey",
+      "1443|o|Shadowprey",
+      "1443|o|Shadowprey",
+      "1443|o|Shadowprey"
+     ],
+     "n": 13,
+     "p": [
+      26.2,
+      76.4,
+      26.3,
+      75.6,
+      26.3,
+      75.1,
+      26.2,
+      74.7,
+      25.9,
+      74.2,
+      25.7,
+      73.8,
+      25.6,
+      73.4,
+      25.4,
+      73.1,
+      25.3,
+      72.5,
+      25.3,
+      72,
+      25.3,
+      71.3,
+      25.2,
+      70.5,
+      25.4,
+      69.9,
+      25,
+      69.7,
+      24.9,
+      69.2
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1443|o|Sar'theris-Strand",
+      "1443|o|Sar'theris-Strand"
+     ],
+     "n": 14,
+     "p": [
+      26.2,
+      76.4,
+      26.1,
+      76.8
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1443|o|Sar'theris-Strand",
+      "1443|o|Sar'theris-Strand"
+     ],
+     "n": 1,
+     "p": [
+      26.1,
+      76.8,
+      26.5,
+      76.5
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1443|o|Sar'theris-Strand",
+      "1443|o|Sar'theris-Strand",
+      "1443|o|Sar'theris-Strand"
+     ],
+     "n": 11,
+     "p": [
+      26.1,
+      76.8,
+      26,
+      77.2,
+      25.8,
+      77.5
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1443|d|Shadowprey",
+      "1443|o|Shadowprey",
+      "1443|o|Shadowprey"
+     ],
+     "n": 8,
+     "p": [
+      24.3,
+      68.4,
+      24.5,
+      68.7,
+      24.9,
+      69.2
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis",
+      "1443|o|Dorf der Gelkis",
+      "1443|o|",
+      "1443|o|",
+      "1443|o|",
+      "1443|o|",
+      "1443|o|",
+      "1443|o|",
+      "1443|o|",
+      "1443|o|Sar'theris-Strand",
+      "1443|o|Sar'theris-Strand",
+      "1443|o|Sar'theris-Strand",
+      "1443|o|Sar'theris-Strand",
+      "1443|o|Sar'theris-Strand",
+      "1443|o|Sar'theris-Strand",
+      "1443|o|Sar'theris-Strand",
+      "1443|o|Sar'theris-Strand",
+      "1443|o|Sar'theris-Strand",
+      "1443|o|Sar'theris-Strand",
+      "1443|o|Sar'theris-Strand",
+      "1443|o|Sar'theris-Strand",
+      "1443|o|Sar'theris-Strand",
+      "1443|o|Sar'theris-Strand"
+     ],
+     "n": 3,
+     "p": [
+      38.9,
+      82.3,
+      38.6,
+      82,
+      38.2,
+      81.5,
+      37.9,
+      81.2,
+      37.5,
+      81,
+      37.1,
+      80.9,
+      36.8,
+      80.9,
+      36.2,
+      80.8,
+      35.7,
+      80.6,
+      35.4,
+      80.4,
+      35.1,
+      80.3,
+      34.6,
+      80.3,
+      34.3,
+      80,
+      34,
+      80,
+      33.7,
+      79.8,
+      33.3,
+      79.5,
+      33,
+      79.3,
+      32.6,
+      79.4,
+      32.3,
+      79.2,
+      32,
+      79,
+      31.5,
+      78.5,
+      31.1,
+      78.7,
+      30.8,
+      78.6,
+      30.4,
+      78.6,
+      30.1,
+      78.4,
+      29.8,
+      78,
+      29.6,
+      77.6,
+      29.6,
+      77.1,
+      29.3,
+      77,
+      28.8,
+      76.7,
+      28.3,
+      76.7,
+      28.1,
+      76.3,
+      27.7,
+      76.5,
+      27.3,
+      76.5,
+      26.9,
+      76.5,
+      26.5,
+      76.5
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "",
+      "1443|o|Shadowprey"
+     ],
+     "n": 1,
+     "p": [
+      24.3,
+      69.2,
+      24.9,
+      69.2
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1443|o|Shadowprey",
+      "1443|o|Shadowprey"
+     ],
+     "n": 1,
+     "p": [
+      25.1,
+      69.3,
+      24.9,
+      69.2
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1443|o|Sar'theris-Strand",
+      ""
+     ],
+     "n": 1,
+     "p": [
+      26.5,
+      76.5,
+      26.8,
+      76.2
+     ],
+     "src": "selbst"
+    }
+   ],
+   "map": 1443,
+   "name": "Desolace"
+  },
+  {
+   "edges": [
+    {
+     "lv": [
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|d|Das Tal der Stärke"
+     ],
+     "n": 47,
+     "p": [
+      51.4,
+      70.8,
+      53,
+      69.9,
+      53.4,
+      69,
+      54.3,
+      68.4
+     ],
+     "src": "selbst"
+    }
+   ],
+   "map": 1454,
+   "name": "Orgrimmar"
+  },
+  {
+   "edges": [
+    {
+     "lv": [
+      "2652|o|Tal der Knochen",
+      "2652|o|Tal der Knochen",
+      "2652|o|Tal der Knochen",
+      "2652|o|Tal der Knochen",
+      "2652|o|Tal der Knochen",
+      "2652|o|Tal der Knochen",
+      "2652|o|Tal der Knochen",
+      "2652|o|Tal der Knochen",
+      "2652|o|Tal der Knochen",
+      "2652|o|Tal der Knochen",
+      "2652|o|Tal der Knochen"
+     ],
+     "n": 4,
+     "p": [
+      26.9,
+      27.4,
+      26.2,
+      27.4,
+      25.7,
+      28.1,
+      25.4,
+      27,
+      24.7,
+      26.3,
+      24,
+      26.6,
+      23.4,
+      25,
+      22.8,
+      24.2,
+      22.1,
+      23.4,
+      21.7,
+      23.6,
+      21,
+      23
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "2652|o|Tal der Knochen",
+      "2652|o|Tal der Knochen"
+     ],
+     "n": 1,
+     "p": [
+      27.2,
+      28.3,
+      27.7,
+      27.7
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "2652|o|Tal der Knochen",
+      "2652|o|Tal der Knochen",
+      "2652|o|Tal der Knochen",
+      "2652|o|Tal der Knochen"
+     ],
+     "n": 3,
+     "p": [
+      31,
+      30.4,
+      31.2,
+      29.4,
+      30.8,
+      28,
+      30.1,
+      27.4
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "",
+      "2652|o|Tal der Knochen",
+      ""
+     ],
+     "n": 1,
+     "p": [
+      27.5,
+      26.9,
+      27.7,
+      27.7,
+      28.3,
+      27.4
+     ],
+     "src": "geteilt"
+    }
+   ],
+   "map": 2652,
+   "name": "Shen'dralas"
+  }
+ ]
+}
