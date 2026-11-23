@@ -190,7 +190,7 @@ class RaidAusKanal(unittest.TestCase):
 class Gildenhalle(unittest.TestCase):
     def test_sprachkanal_in_allgemein(self):
         general = next(c for c in server_setup.BASE_BOTTOM if c["name"] == server_setup.GENERAL)
-        self.assertIn(("voice", "Gildenhalle", None, None), general["channels"])
+        self.assertIn(("voice", "Gildenhalle", None, "members_voice"), general["channels"])   # ab 1.5.189 mit Rechten (D-MITGL1)
 
     def test_vorhandener_sprachkanal_bleibt(self):
         from types import SimpleNamespace as N

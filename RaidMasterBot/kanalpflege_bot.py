@@ -231,7 +231,7 @@ async def ensure_new_raid_categories():
 # Kanäle, die der Bot früher angelegt hat und die nicht mehr gebraucht werden. Gelöscht wird einmal und nur, wenn
 # darin ausschließlich Bot-Beiträge stehen (keine Nachricht eines Mitglieds, kein Thread) und der Kanal nirgends
 # eingetragen ist. Sonst bleibt er und der Bot meldet den Grund in #bot-befehle.
-UNUSED_CHANNELS = ("allgemein",)
+UNUSED_CHANNELS = ()   # ab 1.5.189 leer: #Allgemein bleibt (D-MITGL1, Nutzer 23.11.) – auch wenn state.json verloren geht
 
 
 async def clear_channels_once() -> list[str]:

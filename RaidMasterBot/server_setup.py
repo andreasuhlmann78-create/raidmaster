@@ -191,7 +191,11 @@ BASE_BOTTOM = [
             ("text", "befehle", MEMBER_COMMANDS_TOPIC, "botonly"),        # ab Bot 1.5.106: Befehle für Mitglieder
             # ab Bot 1.5.99: AFK hier statt in der Kategorie 🔊 SPRACHE (die mit "Allgemein"/"Raid" entfallen ist)
             # ab Bot 1.5.122: Sprachkanal für die Gildenmitglieder (Wunsch des Nutzers 13.11.); Text = #Allgemein
-            ("voice", "Gildenhalle", None, None),
+            # ab Bot 1.5.189 (D-MITGL1, Nutzer 23.11. 09:16/09:18/09:20): eigene Kanäle der Mitglieder mit Rechten je Rolle
+            ("text", "mitglieder-chat", "Für alle Gildenmitglieder", "members_chat"),
+            ("text", "offtopic", "Alles, was nicht zum Spiel gehört", "members_chat"),
+            ("voice", "Gildenhalle", None, "members_voice"),
+            ("voice", "Offtopic-Talk", None, "members_voice"),
             ("voice", "AFK", None, None),
         ],
     },
@@ -364,6 +368,8 @@ def _overwrites(mode: str | None, guild: discord.Guild, roles: dict) -> dict | N
                 ow[r] = discord.PermissionOverwrite(view_channel=True, send_messages=False, add_reactions=False,
                                                     create_public_threads=False, create_private_threads=False,
                                                     send_messages_in_threads=False)
+    elif mode in ("members_chat", "members_voice"):
+        return members_overwrites(mode, guild, roles)
     elif mode == "officers":
         ow[everyone] = discord.PermissionOverwrite(view_channel=False, connect=False)
         if roles.get("Raidleitung"):
@@ -371,6 +377,104 @@ def _overwrites(mode: str | None, guild: discord.Guild, roles: dict) -> dict | N
         if roles.get("Offizier"):
             ow[roles["Offizier"]] = discord.PermissionOverwrite(view_channel=True, connect=True, speak=True)
     return ow
+
+
+# ---------------------------------------------------------------------------
+# D-MITGL1 (ab Bot 1.5.189): Kanäle der Gildenmitglieder in 💬 ALLGEMEIN – #mitglieder-chat, #offtopic, 🔊 Gildenhalle,
+# 🔊 Offtopic-Talk. Rechte (Nutzer 23.11. 09:18): Raidleitung + Offizier lesen, schreiben, ändern (Nachrichten verwalten;
+# Sprache: auch Kanal verwalten, stummschalten, taub schalten, verschieben); Raider + Gast (+ Mitglied, siehe Bericht)
+# lesen, schreiben, sprechen; alle anderen sehen die Kanäle nicht. Der Bot bekommt dieselben Rechte wie der Gildenchef
+# (Nutzer 09:20). #Allgemein bleibt, wie es ist.
+# ---------------------------------------------------------------------------
+MEMBER_CHANNELS = ("mitglieder-chat", "offtopic", "Gildenhalle", "Offtopic-Talk")
+MEMBERS_WRITE_ROLES = ("Mitglied", "Raider", "Gast")
+MEMBERS_MANAGE_ROLES = ("Raidleitung", "Offizier")
+_TEXT_WRITE = dict(view_channel=True, send_messages=True, read_message_history=True, add_reactions=True,
+                   embed_links=True, attach_files=True)
+_VOICE_WRITE = dict(view_channel=True, connect=True, speak=True, use_voice_activation=True, stream=True,
+                    send_messages=True, read_message_history=True)
+TEXT_MANAGE = {**_TEXT_WRITE, "manage_messages": True}
+VOICE_MANAGE = {**_VOICE_WRITE, "manage_messages": True, "manage_channels": True, "mute_members": True,
+                "deafen_members": True, "move_members": True}
+# Rechte des Gildenchefs je Kanal = Rechte des Bots (Nutzer 09:20: "Der Bot darf alles, was der Gildenchef kann")
+LEADER_TEXT = {**TEXT_MANAGE, "manage_channels": True, "manage_roles": True}
+LEADER_VOICE = {**VOICE_MANAGE, "manage_roles": True}
+
+
+def members_overwrites(mode: str, guild: discord.Guild, roles: dict) -> dict:
+    """Rechte für "members_chat" (Text) und "members_voice" (Sprache) – siehe Kasten oben."""
+    voice = mode == "members_voice"
+    everyone = discord.PermissionOverwrite(view_channel=False, connect=False) if voice \
+        else discord.PermissionOverwrite(view_channel=False)
+    ow = {guild.default_role: everyone,
+          guild.me: discord.PermissionOverwrite(**(LEADER_VOICE if voice else LEADER_TEXT))}
+    for name in MEMBERS_WRITE_ROLES:
+        r = roles.get(name) or _find(guild.roles, name)
+        if r:
+            ow[r] = discord.PermissionOverwrite(**(_VOICE_WRITE if voice else _TEXT_WRITE))
+    for name in MEMBERS_MANAGE_ROLES:
+        r = roles.get(name) or _find(guild.roles, name)
+        if r:
+            ow[r] = discord.PermissionOverwrite(**(VOICE_MANAGE if voice else TEXT_MANAGE))
+    return ow
+
+
+def bot_missing_permissions(guild: discord.Guild) -> list[str]:
+    """Rechte, die der Bot server-weit haben muss, um sie in den Mitglieder-Kanälen zu vergeben (Discord erlaubt nur
+    eigene Rechte). Leer = alles da (oder Administrator)."""
+    perms = guild.me.guild_permissions
+    if perms.administrator:
+        return []
+    need = set(LEADER_TEXT) | set(LEADER_VOICE)
+    return sorted(p for p in need if not getattr(perms, p, False))
+
+
+def roles_above_bot(guild: discord.Guild) -> list[str]:
+    """Rollen der Mitglieder-Kanäle, die über der höchsten Rolle des Bots stehen – deren Mitglieder kann der Bot nicht
+    stummschalten/verschieben (Discord-Regel)."""
+    top = guild.me.top_role
+    out = []
+    for name in MEMBERS_WRITE_ROLES + MEMBERS_MANAGE_ROLES:
+        r = _find(guild.roles, name)
+        if r is not None and r.position >= top.position:
+            out.append(name)
+    return out
+
+
+async def ensure_member_channels(guild: discord.Guild) -> list[str]:
+    """Die vier Mitglieder-Kanäle anlegen (nur wenn es sie nirgends gibt) und ihre Rechte setzen – nur, wo sie abweichen.
+    Zweiter Lauf: keine Änderung. Fehlen dem Bot Rechte: nichts ändern, nur melden. Wird beim Start aufgerufen."""
+    reason = "RaidMaster: Kanäle der Gildenmitglieder"
+    missing = bot_missing_permissions(guild)
+    if missing:
+        return ["⚠️ Mitglieder-Kanäle: dem Bot fehlen Server-Rechte (" + ", ".join(missing) + ") – bitte der Rolle des "
+                "Bots geben (Server-Einstellungen → Rollen), dann den Bot neu starten. Nichts geändert."]
+    report: list[str] = []
+    roles = _known_roles(guild)
+    cat_def = next(c for c in BASE_BOTTOM if c["name"] == GENERAL)
+    for kind, name, topic, mode in cat_def["channels"]:
+        if name not in MEMBER_CHANNELS:
+            continue
+        pool = guild.voice_channels if kind == "voice" else guild.text_channels
+        channel = _find(pool, name)
+        if channel is None:
+            channel, rep = await ensure_channel_if_missing(guild, GENERAL, name, reason)
+            report += rep
+            if channel is None:
+                continue
+        want = _overwrites(mode, guild, roles)
+        changed = 0
+        for target, ow in want.items():
+            if channel.overwrites_for(target) != ow:
+                await channel.set_permissions(target, overwrite=ow, reason=reason)
+                changed += 1
+        if changed:
+            report.append(f"🔐 {'#' if kind == 'text' else '🔊 '}{name}: Rechte gesetzt ({changed})")
+    above = roles_above_bot(guild)
+    if above:
+        report.append("⚠️ Rollen über dem Bot: " + ", ".join(above) + " – diese Mitglieder kann der Bot nicht stummschalten "
+                      "oder verschieben. Rolle des Bots in den Server-Einstellungen darüber ziehen.")
+    return report
 
 
 def _known_roles(guild: discord.Guild) -> dict:
@@ -462,8 +566,8 @@ async def _hide_from_guests(guild, cat_def: dict, roles: dict, created: dict, re
     category = _find(guild.categories, cat_def["name"])
     if category:
         targets.append(category)
-    for _, name, _, _ in cat_def["channels"]:
-        if name in created:
+    for _, name, _, mode in cat_def["channels"]:
+        if name in created and not str(mode or "").startswith("members_"):   # ab 1.5.189: Gast darf dort rein
             targets.append(created[name])
     changed = 0
     for t in targets:

@@ -241,12 +241,12 @@ class RaidBot(discord.Client):
             try:
                 guild0 = bot_guild()
                 if guild0 is not None and guild0.me.guild_permissions.manage_channels:
-                    _, rep = await server_setup.ensure_channel_if_missing(guild0, server_setup.GENERAL, "Gildenhalle",
-                                                                          "RaidMaster: Sprachkanal für Gildenmitglieder")
+                    # ab 1.5.189 (D-MITGL1): alle vier Mitglieder-Kanäle samt Rechten (vorher nur 🔊 Gildenhalle)
+                    rep = await server_setup.ensure_member_channels(guild0)
                     if rep:
-                        await post_bot_log("🔊 " + "; ".join(rep))
+                        await post_bot_log("💬 " + "; ".join(rep))
             except Exception:
-                log.exception("Sprachkanal Gildenhalle konnte nicht angelegt werden")
+                log.exception("Kanäle der Gildenmitglieder konnten nicht angelegt werden")
             try:
                 rep = await maintain_member_area()
                 if rep:
