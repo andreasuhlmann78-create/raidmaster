@@ -1,0 +1,35 @@
+BERICHT LevelPilot an die Prüf-Sitzung – 23.11.2026 10:55
+Version 3.13.9 – umgesetzt, zur Prüfung (Prüfung Supervisor 23.11. 10:09: LP-T2, LP-T1-R)
+Zip: announce/levelpilot__levelpilot-3.13.9.LevelPilot.zip, md5 3cdfdb87938d1537f0576483dff9fb74. Datenpaket 1.6.4. Dateiliste gleich 3.13.8.
+
+==== LP-T2 MITTEL – sporadisch rote Prüfungen ====
+Nachbau 3.13.8 (eigene Messung): T295 in 190 Läufen nie rot (80 ganze Testroutinen + 60 Bereich J + 50 Offline-Läufe). Dafür war eine
+andere Prüfung sporadisch rot: T263 (Portionen der Wegsuche <= 16 ms) – 10 von 140 Läufen und 2 von 50 Offline-Läufen; gleicher Code,
+längste Portion der unerreichbaren Suche 4,7 bis 47,4 ms. Die Zahl der Portionen schwankte ebenfalls (68–136): die Messung (Rechenzeit
+je Portion) hängt an der Last des Rechners (5 Testroutinen parallel auf 2 Kernen) und an der Speicherbereinigung (die grösste Portion legt
+im Nachbau 1,0–1,6 MB an). Verdacht für T295 ("danach warm false"): gleicher Mechanismus oder Code, der in einer Abgabe-Pause die
+Zwischenspeicher leert – nicht nachgestellt.
+Umgesetzt:
+- T263: liegt die längste Portion über 16 ms, wird bis zu dreimal gemessen; es zählt die kleinste. Eine echte Überschreitung (zu viel Arbeit
+  in einer Portion) kommt in jeder Messung wieder, Rauschen nicht. Anzahl Messungen steht im Ergebnis.
+- T295: schreibt jetzt im Fenster zwischen kaltem Klick und Prüfung jeden Aufruf von InvalidateServices/InvalidateCandidates und die
+  Ereignisse QDB_CHANGED/QUEST_RECORDED mit Datei:Zeile mit, und P:Cold() nennt den Grund ("Kandidaten Stufe x, Spieler y" / "Dienste
+  leer"). Ein nächstes Rot zeigt damit die Ursache.
+Beleg: Offline-Routine --nur testroutine mit 3.13.9: 20 Durchgänge = 100 Läufe, 0 mit FEHLER. Ganze Offline-Routine: 40/40 ohne FEHLER.
+Fund am Rand (gemeinsame Datei, nicht von mir zu ändern): GoldSentinelTest.lua:83 kürzt Texte mit s:sub(1, max) .. "…" nach Bytes –
+im Bericht stand dadurch ungültiges UTF-8 (z. B. "T270" + halbes "–", 4 von 60 Berichten). Vorschlag: an der Zeichengrenze kürzen
+(Folgebytes 0x80–0xBF nicht abschneiden). In LevelPilot selbst gleich behoben: UI:ShortLabel (Name am Pfeil, vorher sub(1, 48)).
+
+==== LP-T1-R MITTEL – Rest mit den Wegdaten des Nutzers ====
+Weiter eingegrenzt, Ursache noch NICHT belegt (Verdacht, zu messen):
+- Speedrun in allen Läufen gleich (2288241 s); Normal: 3171856 / 3171856 / 3171965 / 3171899 / 3064702 s.
+- Ohne Adress-Zufall (setarch -R, PYTHONHASHSEED=0): 3 Läufe gleich (3171880 s). Nur PYTHONHASHSEED=0 (Adress-Zufall an): 3 Läufe
+  verschieden (3064702 / 3171965 / 3171856 s) -> es hängt an den Speicheradressen, nicht an Python.
+- Überwachung von pairs() während der Reise: keine Schleife über Tabellen mit Tabellen-, Funktions- oder Adress-Text-Schlüsseln im Addon
+  (nur die Ersatzfunktion des Nachbaus); "for … in next" gibt es im Addon nicht; LP:On/Listen sind Listen.
+- Erste Abweichung jeweils beim Trainer-Vorrangziel des Assistenten (PRIO:TRAIN:12).
+Nächster Schritt: Reihenfolge-abhängige Stellen ausserhalb von pairs() suchen (Speicherbereinigung schwacher Tabellen chainCache/dvOwn,
+table.sort mit Gleichständen, GoldSentinelTakt.byCo).
+
+==== EIGENE TESTS (Hinweise, keine Freigabe) ====
+- addon_check OK; GoldSentinel*.lua byte-gleich mit shared/; Offline-Routine 40/40; 100 Testroutine-Läufe ohne FEHLER.

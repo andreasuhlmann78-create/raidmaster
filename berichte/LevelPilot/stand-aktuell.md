@@ -1,9 +1,9 @@
 # LevelPilot – Stand der Sitzung
 
-## Stand 23.11.2026 09:53 · Version 3.13.8 (veröffentlicht, Discord)
+## Stand 23.11.2026 10:55 · Version 3.13.9 (veröffentlicht, Discord)
 
 ## Gerade in Arbeit
-- Nichts (3.13.8 gepusht, Bericht berichte/LevelPilot/2026-11-23-0953-3.13.8-pruefung-3.13.7.txt).
+- Nichts (3.13.9 gepusht, Bericht berichte/LevelPilot/2026-11-23-1055-3.13.9-lp-t2.txt). 3.13.8 angenommen (Supervisor 10:09).
 
 ## Nächste Schritte (Reihenfolge)
 1. Auf die Prüfung von 3.13.8 durch die Prüf-Sitzung achten (offen-levelpilot.txt).
