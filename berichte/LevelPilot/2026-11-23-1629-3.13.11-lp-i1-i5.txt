@@ -1,0 +1,132 @@
+LevelPilot 3.13.11 – Bericht an die Prüf-Sitzung (LP-I1 bis LP-I5 aus dem Ingametest 3.13.10)
+Stand 23.11.2026 16:29 · umgesetzt, zur Prüfung
+Zip: announce/levelpilot__levelpilot-3.13.11.LevelPilot.zip (md5 10a6f286289957654611767f4a6392ce, 2 812 744 Bytes)
+
+Daten für den Nachbau: der Ingametest 3.13.10 (Bericht-Zeit 1795444684) stammt aus der Ablage von MININT-M6UO3AL
+(goldsentinel-daten, konto-36a99f17, Stand 16:01). Alle Belege unten sind mit diesen Daten gerechnet (Spieler in Donnerfels,
+Karte 1456, Stufe 30, Krieger, echte Kartenrahmen).
+
+Prüfungen vor dem Push
+- addon_check: OK.
+- Offline-Routine: 40 von 40 Läufen ohne FEHLER. Testroutine in 5 Formen (Forever deDE/enUS Horde, Forever Allianz, Era, TBC):
+  5 von 5 ohne FEHLER.
+- Nachbau ganze Routine mit den Daten des PCs: OK, FEHLER 0. Gemeinsame Dateien GoldSentinel*.lua mit cmp gleich shared/.
+
+LP-I5 (T221 "danach ohne Neues false") – Ursache belegt, Fehler im Addon (nicht in der Prüfung)
+- Mit den Daten dieses PCs ist Zone 1420 (Tirisfal, 2252 Ketten) kodiert allein 216 565 Zeichen gross. Die Grenze je Bericht liegt
+  bei 200 704 Zeichen. Der alte Ablauf hörte bei der ersten Zone auf, die nicht mehr passte. Eine Zone, die allein zu gross ist,
+  passt nie.
+- Folge mit dem alten Code im Nachbau: Versand 1 hat 101 256 Zeichen. Die Versände 2 bis 14 haben je 415 Zeichen und sind leer.
+  "Neues" bleibt für immer stehen, und die Zonen 1421–2548 kamen nie an. Das betraf auch jedes echte Ausloggen auf diesem PC.
+- Neu: Passt eine Zone nicht ganz, füllt ihr erster Teil (ganze Ketten) den Rest des Berichts. Als versandt gilt nur, was im
+  Bericht steht (Kanten der Ketten).
+- Nachbau neu: 4 Versände mit 200 613 / 200 672 / 200 665 / 173 612 Zeichen, danach nichts Neues (false). Zone 1420 kam in
+  2 Teilen (1124 + 1128 Ketten).
+- Text je Zone in Ketten kodiert, verglichen mit GT.Encode der ganzen Zone: 14 von 14 Zonen (Daten dieses PCs) und 13 von 13
+  (Laptop) zeichengleich. Die Längen-Gegenprobe im Code bleibt (Fallback 0×).
+- T221 neu: 40 eigene Ketten bei einer kleinen Grenze kommen in Teilen an (40/40 Ketten, 2 Versände, höchstens 1758 von
+  5896 Zeichen). Gegenprobe ohne Teilen: nach 6 Versänden immer noch offen (true).
+
+LP-I4 (T372 "mit Ort -> Entfernung + Zone false") – Ursache belegt, Fehler in der Prüfung
+- Die Prüfung nahm als "anderen Ort" Westfall (1436). Vom Spieler in Donnerfels (Kalimdor) liegt Westfall auf einem anderen
+  Kontinent. Geo:DistToMapPoint gibt dann nil zurück (andere Welt-Instanz, so gebaut), also steht keine Entfernung da.
+- Nachgestellt im Nachbau (Mulgore, echte Kartenrahmen): vorher false, jetzt true.
+- Die Anzeige bleibt so: Eine Luftlinie über das Meer wäre falsch.
+- T372 nimmt jetzt eine Zone auf demselben Kontinent (dieselbe Welt-Instanz wie DistToMapPoint). Neu ist die Gegenprobe
+  "anderer Kontinent -> Zone ohne Entfernung".
+- Ergebnis im Nachbau (Donnerfels und Durotar mit echten Rahmen, Ersatzwelt): true ×8.
+
+LP-I2 (Einloggen 1245 ms, advisor/route bis 270 ms) – Ursache belegt
+- Beleg im Nachbau beim Einloggen in Donnerfels, Aufträge wie im Spiel in Portionen (ASYNC):
+  - Hints.TrainerVisit -> Navigate -> P:Replan() läuft INNERHALB des Auftrags "advisor".
+  - Dort ist Jobs.Current() gesetzt, also plante Replan bisher am Stück in der Portion des Assistenten (Nachbau 44 ms; Stapel im
+    Testprotokoll: Hints.lua:32 <- Hints.lua:192 <- Advisor.lua:814).
+  - Krieger Stufe 30 in Donnerfels: Klassentrainer nah, neue Fähigkeiten -> Trainerbesuch wird eingeplant.
+  - Darum sind die längsten Portionen advisor 270 und route 269 dieselbe Rechnung. Die Summe in T261 zählt sie doppelt:
+    advisor misst die Portion, route misst Replan darin.
+- Kommt im normalen Spiel vor: ja, bei jedem Einloggen bzw. Assistenten-Lauf mit nahem Trainer und neuer Stufe.
+- Neu (Planner.lua P:Replan): Eine Neuplanung ohne Klick aus einem anderen Auftrag heraus kommt als eigener Auftrag im nächsten Bild
+  (in Portionen).
+- Unverändert bleiben: Klick (verbose), virtuelle Reise, Testumgebung am Stück (Jobs.sync) und der Auftrag "replan" selbst.
+- Neue Prüfung T384: Im Auftrag plant Replan() ohne Klick 0× sofort und merkt 1× vor. Gegenprobe Klick: 1× sofort.
+- Erwartung im Spiel (zu messen): Die 270 ms in einer Portion fallen weg. Die Summe der ersten 60 s sinkt um die doppelt gezählte
+  Neuplanung, also ungefähr 1245 - 270 = 975 ms.
+- Nicht belegt: ob weitere Messungen ineinander liegen (nav/path). Das ist ein Verdacht, zu messen.
+- Neu im Bericht: Feld "einloggen". Darin steht jeder Aufrufer mit allen Aufträgen/Schlüsseln, ungekürzt. Die Zeile von T261 wird
+  im Bericht nach 300 Zeichen abgeschnitten, deshalb stand dort "aufgeschlüsselt: advisor…".
+
+LP-I1 (32 eigene Portionen > 40 ms) – je Fall
+1) T371–T375 1074,6 ms (-46 MB). Ursachen (Code):
+   - T375 machte drei ganze Kopien der Charakterdaten und zwei Vergleiche am Stück (TR.CopyP/SameP ohne check).
+   - T371 und T382 riefen D.BuildPlaces ausserhalb einer freigegebenen Rechnung auf. Dort gibt LP:Yield in der Testroutine nie ab.
+   Im Spiel: nein, beides nur in der Testroutine. BuildPlaces läuft im Spiel im Auftrag "orte"; Nachbau beim Einloggen 16 Portionen,
+   höchstens 3,9 ms.
+   Neu:
+   - T375 kopiert und vergleicht mit TR.Safe alle 256 Einträge (wie die Sandbox) und versucht es bei einer Änderung in der Pause
+     höchstens 3 Mal.
+   - T371 und T382 rufen BuildPlaces über Coop auf.
+   Nachbau mit den PC-Daten: 639,2 ms -> nicht mehr über 40 ms.
+2) T136 advisor–T144 714,8 ms: im Nachbau nicht nachgestellt (T136–T144 je unter 10 ms). Verdacht, zu messen: ein Teil, den es nur
+   im Spiel gibt (Fensteraufbau je Sprache, Neuplanung bei T144 im Ersatz). Neu im Bericht: Feld "bilder40" teilt jedes Bild über
+   40 ms nach Prüfungen auf ("715 ms: T136 x · T137 y · … · T144 z"). Dazu kommt Feld "stuecke" mit dem längsten Stück je Prüfung.
+   Damit ist der nächste Ingametest der Beleg.
+3) T146 Messung–T148 416,2 ms. Ursache (Code): T148 trieb alle Portionen der Wegsuche hintereinander an, ohne Abgabe. Jede Portion
+   war gemessen, die ganze Suche lag aber in einem Bild.
+   Im Spiel: nein. Dort treibt der Treiber eine Portion je Bild.
+   Neu: TR.Safe nach jeder Portion. In der Routine ruht der Treiber (Jobs.manual), die Suche läuft nur dort weiter.
+4) T383 273,8 ms (-106 MB). Ursache: collectgarbage("collect") am Stück. Nur Testroutine.
+   Neu: TR.FullGC in Portionen. Nachbau: 425,7 ms -> längstes Stück 18–25 ms.
+5) T271–T275 121,3 ms. Verdacht T275: Kandidaten, Planung und Anzeige der fremden Spielversion liefen in EINEM WithFlavor (Ersatz,
+   kein Abgeben). Nur Testroutine, denn im Spiel wechselt die Spielversion nie.
+   Neu: drei Bilder, je WithFlavor + Hold, die Pausen in einer freigegebenen Rechnung (Neuplanung von anderem Code ruht). Dazu
+   kommt je Sprache (de/en) eine Abgabe. Welche der fünf Prüfungen es war, zeigt "bilder40".
+6) T221 wege 119/106/105/105 ms. Ursachen (Nachbau mit den PC-Daten belegt):
+   - pairs über ALLE Kanten am Stück in WegeData und WegeExport (je bis 62 ms im Nachbau),
+   - GT.Encode einer ganzen Zone (2252 Ketten) am Stück.
+   Im Spiel: WegeExport nur beim Ausloggen/Reload, /lp wege nur auf Befehl, nicht beim Spielen.
+   Neu:
+   - Graph.EdgeKeys sammelt die Schlüssel in Stücken zu 2000. Graph.edgeGen zählt jede neue oder entfernte Kante; ändert sich das
+     Netz in der Pause, beginnt die Sammlung neu, nach 3 Neuanfängen kommt der Rest am Stück.
+   - Ketten werden einzeln kodiert, mit Abgabe alle 50 Ketten.
+   - Die Gegenprobe in T221 macht 6 Versände (vorher 30).
+   Nachbau: T221 64,9 ms -> nicht mehr über 40 ms.
+7) Start 112,6 ms: nicht geändert. Verdacht, zu messen: die Sicherung sammelt die Schlüssel grosser Tabellen (Wegnetz) am Stück
+   (Keys() in CopyP). Ein Sammeln in Stücken ist nur sicher, wenn man erkennt, ob die Tabelle in der Pause wuchs. Für das Wegnetz geht
+   das jetzt (edgeGen), für beliebige Tabellen nicht. Zuerst messen ("stuecke": Start).
+8) Weitere, im Nachbau gefunden und geteilt:
+   - T377 536 ms (Nachbau Donnerfels): TrainerHints plante über H.TrainerVisit einen echten Trainerbesuch ein (P.priority und
+     Neuplanung am Stück im Ersatz). Jetzt ist der Besuch im Test ersetzt.
+   - T39: BuildCandidates + Replan(true) jetzt über Coop.
+   - T63: OnMessage plante über LP:Throttle("group_plan") sofort neu. Die Neuplanung ruht jetzt im Test; im Spiel ist sie
+     unverändert ein Auftrag.
+   - T237: WegeData nach dem Ersatz, über Coop.
+9) "Abgabe nicht möglich":
+   - T290 Zentrale (pcall, verschachtelt): Der Schalter in der Zentrale wurde innerhalb des Ersatzes (LP.sink, pcall) gesucht. Jetzt
+     geschieht das vorher und in Portionen. Der Assistent beim Zurückstellen läuft jetzt als freigegebene Rechnung (vorher pcall).
+   - T353 Gegenprobe: bleibt absichtlich. Sie prüft, dass TR.Safe in einem pcall NICHT abgibt.
+   Nachbau mit den PC-Daten: Abgabe nicht möglich 1 (nur T353 Gegenprobe).
+Gesamt Nachbau mit den Daten des PCs (Donnerfels): Bilder über 40 ms 7 -> 1, längstes 639,2 ms -> 57,4 ms.
+- Das letzte Bild über 40 ms ist "Grundregeln", der erste Zufallsfall (55,5 ms). Das ist ein Verdacht: Ereignis-Handler im Ersatz.
+  Es ist noch offen und kommt als Nächstes.
+- Im Spiel ist der Faktor zum Nachbau 3–7. Stücke von 25–38 ms im Nachbau (T265, T266, T348, T296, T260) können im Spiel über
+  40 ms liegen; der nächste Ingametest zeigt es mit "stuecke".
+
+LP-I3 (T150/T155/T263) – nicht in dieser Version, offen
+- Daran arbeite ich als Nächstes:
+  - T150: der Teil ersterweg (7,6 ms),
+  - T155: die Spitzen je Reiseschritt (#3 207 ms, Stufe 30, Zone 1456, +2858 KB),
+  - T263: die erste Messung im Spiel, 45 ms / 1153 KB.
+- Keine Schätzung: zuerst mit den Daten dieses PCs nachstellen.
+
+Weiter offen
+- Zeile "Wegabschnitte 3.13.11: …" erst nach einer Spielsitzung mit Laufen.
+- Notbremse "Routenberechnung" 22.11. 17:05: wartet auf den Upload.
+- T84 im Nachbau nur mit echten Kartenrahmen aussagekräftig.
+
+Geänderte Dateien
+- Graph.lua: WegeExport in Teilen, EdgeKeys, edgeGen, Ketten-Schlüssel.
+- Planner.lua: Replan aus einem Auftrag kommt als eigener Auftrag.
+- TestRoutine.lua: T148, T221, T237, T275, T290, T371, T372, T375, T377, T382, T383, T39, T63; neu T384; Bericht mit "bilder40",
+  "stuecke", "einloggen"; Regression eingetragen.
+- Core.lua und .toc: Version.
+- CHANGELOG DE/EN.
