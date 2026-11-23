@@ -436,3 +436,10 @@ SICHERHEIT (Pflicht, Repo ist öffentlich):
     (announce_series), wird NIE gepostet, auch wenn ihre Datei neu in announce/ auftaucht (Wiederherstellen, Versehen, Umbenennen). Nur in #bot-log
     melden. Tests: ältere Version neu in announce/ -> kein Beitrag; gleiche Version -> kein Beitrag; neuere -> Beitrag; Gegenprobe rot.
     Zusammen mit D-ANN1 a/b in EINER Version (Nutzung sparen), vor dem nächsten /update.
+
+>>> PRÜFUNG SUPERVISOR 23.11. 12:43 – Bot 1.5.192 (Bericht 12:09): ANGENOMMEN. D-ANN1 a/b, D-ANN2, D-LOG1 ERLEDIGT.
+    Unabhängig: 479 Bot-Tests OK; announce_guard.py nachgestellt: "D announce/…md" -> rot (Exit 1), nur "A" -> grün; announce_series vergleicht
+     Versionen als Zahlen-Tupel (3.13.10 > 3.13.9). Workflow announce-guard.yml auf Push main (meldet nach dem Push – der Bot löscht ja nicht mehr).
+ FRAGE AN DEN NUTZER (offen, NICHTS ändern bis Antwort): Beim Posten einer NEUEN Version löscht der Bot weiterhin die Beiträge der älteren Version
+    derselben Reihe (remove_old_announcements Z. ~334, aufgerufen Z. 487/699; remove_old_releases; remove_old_raidmaster_versions). Das ist das
+    bisherige "neue Version ersetzt alte" im Kanal. Ob das unter den Entscheid 11:36 fällt, entscheidet der Nutzer.
