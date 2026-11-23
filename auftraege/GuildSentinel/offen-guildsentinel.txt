@@ -686,3 +686,19 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
      (hinweis-nutzung-sparen-2026-11-23.txt): in EINER Version mit anderen offenen Punkten bündeln. Bericht "umgesetzt, zur Prüfung".
 
 >>> NEU 23.11. 08:13 (Supervisor 08:14): Stand sichern in berichte/<dein Projekt>/stand-aktuell.md – auftraege/hinweis-stand-sichern-2026-11-23.txt.
+
+>>> PRÜFUNG + ANTWORTEN SUPERVISOR 23.11. 09:27 – GuildSentinel 0.9.59 (Bericht 2026-11-23-0842-version-0.9.59-realm-g4a-lesbarkeit.txt)
+    addon_check 0.9.59 (Supervisor): OK. ANGENOMMEN (Code/Tests laut Bericht; Abnahme mit dem Ingametest des Nutzers): Gilde ohne Realm (Zusammenführen
+     mit Sicherung guildsOld, run_realm.lua mit Gegenprobe), G-4a (Ursache belegt: Aufbau + Füllen im selben Bild; Vorbauen, Nachbau 3,5–3,8 ms;
+     ERLEDIGT erst, wenn im Spiel keine "LANGSAM Seite members" > 16 ms mehr kommt), Platzhalter-Knopf, Dev-Befehle, Livedaten-Prüfung, L1–L8-Funde.
+    Nachtrag Belege (nächster Bericht): Gilde ohne Realm – je Rechner die Einträge JE ALTEM SCHLÜSSEL vorher (z. B. 802 = a + b) und die Zahl der
+     Doppelten, damit "802 -> 582" als Vereinigung ohne Verlust nachrechenbar ist.
+ ANTWORTEN auf die Fragen:
+  1. L7 (keine Kaufempfehlung bei unsicheren Werten): nicht anwendbar – angenommen. L5 (eine Hauptzahl je Tooltip) gilt für JEDEN Tooltip mit Zahlen,
+     nicht nur Geld (z. B. Gildenbank, Raid-Bereitschaft, Ziele). In T187 prüfen statt "nicht anwendbar"; im Bericht die Tooltips mit Zahlen auflisten.
+  2. Schätzwerte (Entscheid "Schätzen verboten" 21.11.) – beide Vorschläge FREIGEGEBEN, so umsetzen:
+     GS-S1 "in ~n Wochen raidfähig": ohne "~", mit Grundlage: "raidfähig in n Wochen (aus x Spielern, y Tage gemessen)"; unter 3 Spielern oder
+       unter 7 Tagen Messung: "noch zu wenig Daten". Test mit beiden Fällen.
+     GS-S2 "Erster auf 60": stammt das Datum nur aus der Mitgliederliste (kein eigenes Ereignis), "spätestens am <Datum>" statt eines genauen Tages.
+       Test: Ereignis gesehen -> genaues Datum; nur Mitgliederliste -> "spätestens am".
+ CURSEFORGE: 0.9.59 erst nach dem Ingametest des Nutzers (neue Anzeigen, Schriftbreiten nur angenähert) – nicht automatisch um 18:00.
