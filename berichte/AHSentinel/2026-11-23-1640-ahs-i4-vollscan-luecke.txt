@@ -1,0 +1,24 @@
+AHSentinel – AHS-I4 (Vollscan-Messung "längste Lücke 712 ms") – Auswertung aus dem Testbericht, zur Prüfung
+Quelle: testberichte/berichte/AHSentinel/AHSentinel-1795438168-cc03af-5.json (0.65.385, Teil server, Felder vollscan_*). Kein Code geändert.
+
+ANTEILE IM LANGEN BILD (712 ms, Phase Einlesen) – gemessen, nicht geschätzt (Felder vollscan_luecke / _2):
+  eigene Arbeit      2 ms   (Aufgabe fullscan 2 ms, davon Lesen beim Server 1,0 ms; Ereignisse 0 ms in 311 Aufrufen; Skripte/Zeitgeber 0)
+  Speicherbereinigung 0 ms  ("Speicherbereinigung nein", danach 0 KB bereinigt)
+  Spiel/andere       710 ms ("Rest")
+  Item-Antworten     0 in diesem Bild (die 11 151 verteilen sich auf andere Bilder)
+  -> Die 712 ms sind NICHT eigene Arbeit und KEINE Speicherbereinigung. Grenze 40 ms (leistung.md) gilt für eigene Arbeit: eingehalten (2 ms).
+ÜBER DEN GANZEN SCAN (vollscan_bild): 2151 von 3443 Bildern über 33 ms; eigene Arbeit darin Ø 1,8 ms, höchstens 7 ms; Rest Ø 33,2 ms (Spiel).
+  Eigene Lese-Portion höchstens 1,6 ms (vollscan_m1d). 37 Bilder mit Bereinigung (64 Bereinigungen, die Bilder sind nicht zählbar).
+
+AUFFÄLLIG im langen Bild: Lua-Speicher 803 654 -> 908 560 KB (+104 907 KB in EINEM Bild), davon AHSentinel 8 KB, die anderen Addons 0.
+  Den Lua-Speicher hat also Code ausserhalb der Addons angelegt (Blizzard-Oberfläche/Client). Verdacht, zu messen: das Spiel baut beim Einlesen
+  die Replikat-Liste bzw. deren Lua-Tabellen auf einen Schlag auf (ReplicateItems liefert ~240 000 Auktionen, vollscan_m1d 243 786).
+  Nicht belegt, welcher Teil des Spiels es ist – mit den vorhandenen Feldern nicht unterscheidbar.
+
+ZUR "202 383 KB angelegt beim Einlesen" (vollscan_neu): das ist die Summe über alle 76 s Einlesen (alle Bilder, alle Addons + Spiel), nicht
+  ein Bild; im 712-ms-Bild selbst war keine Bereinigung. Der Verdacht "Bereinigung durch 202 MB" ist damit für DIESES Bild widerlegt.
+
+VORSCHLAG (nächste Version, nur Messung, kein Eingriff): im Vollscan im längsten Bild zusätzlich festhalten (a) welche Spiel-Ereignisse in
+  diesem Bild kamen (Zählframe mit RegisterAllEvents nur während Einlesen, Namen + Anzahl, ohne Spielernamen), (b) ob das Blizzard-AH-Fenster
+  offen war, (c) Index der gelesenen Auktion beim Bildwechsel (wird die Lücke beim ersten GetReplicateItemInfo nach dem Ereignis oder
+  mitten im Lesen fällig?). Damit lässt sich Spiel-Ereignis gegen Client-intern trennen. Bitte Entscheid Supervisor, ob gewünscht.
