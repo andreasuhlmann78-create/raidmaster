@@ -1,0 +1,106 @@
+LevelPilot 3.13.7 – Orte der anderen Fraktion (Danger.BuildPlaces, Nachbau mit Datenpaket 1.6.4) – 23.11.2026
+Spalten: Fraktion der NPCs | Karte (uiMapID) Mitte x/y | verschiedene NPCs | Spawnpunkte | Radius | ein NPC des Ortes (Datenpaket, englisch)
+A = Allianz-Ort (meidet die Horde), H = Horde-Ort (meidet die Allianz). Lücken: Steinkrallengipfel, Thalanaar (A), Valormok (H).
+
+== Allianz-Orte (meidet die Horde): 54
+A | Brachland (1413) 48.3/83.1 | 9 NPCs | 10 Punkte | Radius 107 yd | z. B. Bael'dun Soldier
+A | Arathihochland (1417) 46.0/46.9 | 12 NPCs | 12 Punkte | Radius 74 yd | z. B. Drovnar Strongbrew
+A | Verwüstete Lande (1419) 65.9/19.4 | 9 NPCs | 10 Punkte | Radius 139 yd | z. B. Nethergarde Soldier
+A | Westliche Pestländer (1422) 43.1/84.3 | 8 NPCs | 8 Punkte | Radius 55 yd | z. B. Leonard Porter
+A | Vorgebirge des Hügellands (1424) 33.3/43.4 | 6 NPCs | 7 Punkte | Radius 122 yd | z. B. Hillsbrad Footman
+A | Vorgebirge des Hügellands (1424) 50.6/57.9 | 24 NPCs | 24 Punkte | Radius 154 yd | z. B. Loremaster Dibbs
+A | Hinterland (1425) 13.0/44.1 | 10 NPCs | 10 Punkte | Radius 105 yd | z. B. Harggan
+A | Dun Morogh (1426) 29.5/68.4 | 17 NPCs | 17 Punkte | Radius 155 yd | z. B. Bromos Grummner
+A | Dun Morogh (1426) 29.9/45.2 | 7 NPCs | 7 Punkte | Radius 134 yd | z. B. Burdrak Harglhelm
+A | Dun Morogh (1426) 47.3/51.7 | 34 NPCs | 34 Punkte | Radius 122 yd | z. B. Magis Sparkmantle
+A | Dun Morogh (1426) 68.8/55.5 | 6 NPCs | 6 Punkte | Radius 61 yd | z. B. Dank Drizzlecut
+A | Brennende Steppe (1428) 84.9/68.8 | 8 NPCs | 8 Punkte | Radius 68 yd | z. B. Marshal Maxwell
+A | Wald von Elwynn (1429) 43.6/65.7 | 27 NPCs | 27 Punkte | Radius 145 yd | z. B. Michelle Belle
+A | Wald von Elwynn (1429) 49.2/41.2 | 17 NPCs | 17 Punkte | Radius 87 yd | z. B. Marshal McBride
+A | Wald von Elwynn (1429) 81.1/68.0 | 10 NPCs | 10 Punkte | Radius 204 yd | z. B. Sara Timberlain
+A | Dämmerwald (1431) 75.0/46.5 | 34 NPCs | 34 Punkte | Radius 139 yd | z. B. Watchmaster Sorigal
+A | Loch Modan (1432) 35.5/47.7 | 17 NPCs | 17 Punkte | Radius 124 yd | z. B. Innkeeper Hearthstove
+A | Loch Modan (1432) 82.6/63.4 | 9 NPCs | 9 Punkte | Radius 86 yd | z. B. Xandar Goodbeard
+A | Rotkammgebirge (1433) 21.9/45.8 | 33 NPCs | 33 Punkte | Radius 184 yd | z. B. Kimberly Hiett
+A | Schlingendorntal (1434) 37.9/3.4 | 7 NPCs | 7 Punkte | Radius 51 yd | z. B. Sergeant Yohwa
+A | Westfall (1436) 55.5/53.4 | 7 NPCs | 7 Punkte | Radius 107 yd | z. B. Thor
+A | Sumpfland (1437) 10.1/58.4 | 34 NPCs | 34 Punkte | Radius 166 yd | z. B. Red Jack Flint
+A | Teldrassil (1438) 56.3/59.2 | 28 NPCs | 28 Punkte | Radius 142 yd | z. B. Kyra Windblade
+A | Teldrassil (1438) 59.2/41.3 | 19 NPCs | 19 Punkte | Radius 172 yd | z. B. Keina
+A | Dunkelküste (1439) 37.6/42.5 | 33 NPCs | 33 Punkte | Radius 107 yd | z. B. Archaeologist Hollee
+A | Eschental (1440) 35.6/50.0 | 18 NPCs | 18 Punkte | Radius 89 yd | z. B. Sentinel Thenysil
+A | Eschental (1440) 50.2/67.2 | 10 NPCs | 10 Punkte | Radius 56 yd | z. B. Bhaldaran Ravenshade
+A | Desolace (1443) 66.6/9.0 | 11 NPCs | 11 Punkte | Radius 96 yd | z. B. Kreldig Ungor
+A | Feralas (1444) 31.3/44.2 | 22 NPCs | 22 Punkte | Radius 95 yd | z. B. Xylinnia Starshine
+A | Düstermarschen (1445) 66.6/48.5 | 30 NPCs | 30 Punkte | Radius 107 yd | z. B. Lady Jaina Proudmoore
+A | Teufelswald (1448) 62.2/24.7 | 6 NPCs | 6 Punkte | Radius 62 yd | z. B. Nalesette Wildbringer
+A | Sturmwind (1453) 34.9/65.1 | 6 NPCs | 6 Punkte | Radius 124 yd | z. B. Maldryn
+A | Sturmwind (1453) 48.6/84.6 | 32 NPCs | 32 Punkte | Radius 228 yd | z. B. Jennea Cannon
+A | Sturmwind (1453) 50.9/47.5 | 19 NPCs | 19 Punkte | Radius 223 yd | z. B. Duthorian Rall
+A | Sturmwind (1453) 60.8/72.8 | 51 NPCs | 51 Punkte | Radius 244 yd | z. B. Auctioneer Chilton
+A | Sturmwind (1453) 66.3/35.9 | 27 NPCs | 27 Punkte | Radius 321 yd | z. B. Einris Brightspear
+A | Sturmwind (1453) 76.4/60.1 | 34 NPCs | 34 Punkte | Radius 369 yd | z. B. Osric Strang
+A | Eisenschmiede (1455) 25.2/7.8 | 14 NPCs | 14 Punkte | Radius 139 yd | z. B. High Priest Rohan
+A | Eisenschmiede (1455) 34.8/60.7 | 15 NPCs | 15 Punkte | Radius 211 yd | z. B. Bailey Stonemantle
+A | Eisenschmiede (1455) 43.6/30.0 | 12 NPCs | 12 Punkte | Radius 214 yd | z. B. Jormund Stonebrow
+A | Eisenschmiede (1455) 49.3/6.8 | 9 NPCs | 9 Punkte | Radius 126 yd | z. B. Alexander Calder
+A | Eisenschmiede (1455) 51.2/42.4 | 8 NPCs | 8 Punkte | Radius 92 yd | z. B. Thurgrum Deepforge
+A | Eisenschmiede (1455) 59.8/73.3 | 17 NPCs | 17 Punkte | Radius 260 yd | z. B. Gnomeregan Commendation Officer
+A | Eisenschmiede (1455) 67.0/89.0 | 16 NPCs | 16 Punkte | Radius 190 yd | z. B. Kelstrum Stonebreaker
+A | Eisenschmiede (1455) 69.4/49.2 | 16 NPCs | 17 Punkte | Radius 184 yd | z. B. High Tinker Mekkatorque
+A | Eisenschmiede (1455) 71.9/70.8 | 10 NPCs | 10 Punkte | Radius 164 yd | z. B. Master Nightsong
+A | Eisenschmiede (1455) 73.8/13.8 | 8 NPCs | 8 Punkte | Radius 207 yd | z. B. Librarian Mae Paledust
+A | Darnassus (1457) 34.0/8.5 | 6 NPCs | 6 Punkte | Radius 90 yd | z. B. Fylerian Nightwing
+A | Darnassus (1457) 35.2/21.0 | 7 NPCs | 7 Punkte | Radius 147 yd | z. B. Syurna
+A | Darnassus (1457) 39.3/83.6 | 8 NPCs | 8 Punkte | Radius 144 yd | z. B. Jandria
+A | Darnassus (1457) 59.3/41.0 | 9 NPCs | 9 Punkte | Radius 174 yd | z. B. Sildanair
+A | Darnassus (1457) 62.7/19.8 | 14 NPCs | 14 Punkte | Radius 202 yd | z. B. Trianna
+A | Alteractal (1459) 43.0/15.7 | 26 NPCs | 26 Punkte | Radius 104 yd | z. B. Stormpike Defender
+A | Alteractal (1459) 49.7/38.1 | 8 NPCs | 8 Punkte | Radius 165 yd | z. B. Alliance Sentinel
+== Horde-Orte (meidet die Allianz): 46
+H | Durotar (1411) 42.1/68.4 | 20 NPCs | 20 Punkte | Radius 89 yd | z. B. Gornek
+H | Durotar (1411) 52.7/42.2 | 27 NPCs | 27 Punkte | Radius 126 yd | z. B. Flakk
+H | Durotar (1411) 55.9/74.2 | 15 NPCs | 15 Punkte | Radius 69 yd | z. B. Master Vornal
+H | Mulgore (1412) 44.2/77.1 | 13 NPCs | 13 Punkte | Radius 61 yd | z. B. Brave Windfeather
+H | Mulgore (1412) 46.2/62.3 | 28 NPCs | 28 Punkte | Radius 104 yd | z. B. Var'jun
+H | Brachland (1413) 44.9/59.1 | 14 NPCs | 14 Punkte | Radius 68 yd | z. B. Jorn Skyseer
+H | Brachland (1413) 52.3/30.5 | 29 NPCs | 29 Punkte | Radius 137 yd | z. B. Moorane Hearthgrain
+H | Arathihochland (1417) 73.7/33.7 | 18 NPCs | 18 Punkte | Radius 119 yd | z. B. Zengu
+H | Ödland (1418) 3.9/47.0 | 14 NPCs | 14 Punkte | Radius 91 yd | z. B. Sranda
+H | Tirisfal (1420) 31.7/66.0 | 15 NPCs | 15 Punkte | Radius 62 yd | z. B. Deathguard Saltain
+H | Tirisfal (1420) 60.8/51.8 | 31 NPCs | 31 Punkte | Radius 151 yd | z. B. Executor Zygand
+H | Tirisfal (1420) 83.2/70.6 | 6 NPCs | 6 Punkte | Radius 74 yd | z. B. Werg Thickblade
+H | Silberwald (1421) 43.8/40.7 | 18 NPCs | 18 Punkte | Radius 92 yd | z. B. Shadow Priest Allister
+H | Vorgebirge des Hügellands (1424) 62.2/19.8 | 22 NPCs | 22 Punkte | Radius 88 yd | z. B. Deathguard Samsa
+H | Hinterland (1425) 78.9/80.5 | 9 NPCs | 9 Punkte | Radius 102 yd | z. B. Primal Torntusk
+H | Schlingendorntal (1434) 32.0/28.6 | 17 NPCs | 17 Punkte | Radius 65 yd | z. B. Grom'gol Grunt
+H | Sümpfe des Elends (1435) 46.5/54.7 | 22 NPCs | 22 Punkte | Radius 130 yd | z. B. Breyk
+H | Eschental (1440) 11.8/34.3 | 9 NPCs | 9 Punkte | Radius 63 yd | z. B. Je'neu Sancrea
+H | Eschental (1440) 73.6/61.1 | 8 NPCs | 8 Punkte | Radius 69 yd | z. B. Senani Thunderheart
+H | Tausend Nadeln (1441) 45.5/50.8 | 12 NPCs | 12 Punkte | Radius 79 yd | z. B. Cliffwatcher Longhorn
+H | Steinkrallengebirge (1442) 46.7/60.3 | 13 NPCs | 13 Punkte | Radius 120 yd | z. B. Braelyn Firehand
+H | Desolace (1443) 23.9/71.2 | 14 NPCs | 14 Punkte | Radius 113 yd | z. B. Lah'Mawhani
+H | Desolace (1443) 54.0/55.8 | 9 NPCs | 9 Punkte | Radius 129 yd | z. B. Narv Hidecrafter
+H | Feralas (1444) 75.2/43.6 | 20 NPCs | 20 Punkte | Radius 82 yd | z. B. Loorana
+H | Düstermarschen (1445) 36.2/31.2 | 13 NPCs | 13 Punkte | Radius 81 yd | z. B. Overlord Mok'Morokk
+H | Teufelswald (1448) 34.6/53.0 | 6 NPCs | 6 Punkte | Radius 59 yd | z. B. Trull Failbane
+H | Orgrimmar (1454) 30.8/69.8 | 11 NPCs | 11 Punkte | Radius 130 yd | z. B. Darkspear Commendation Officer
+H | Orgrimmar (1454) 37.0/85.8 | 11 NPCs | 11 Punkte | Radius 175 yd | z. B. Pephredo
+H | Orgrimmar (1454) 43.5/45.9 | 32 NPCs | 32 Punkte | Radius 342 yd | z. B. Muragus
+H | Orgrimmar (1454) 51.5/69.1 | 23 NPCs | 23 Punkte | Radius 240 yd | z. B. Alowicious Czervik
+H | Orgrimmar (1454) 55.9/36.5 | 11 NPCs | 11 Punkte | Radius 115 yd | z. B. Kor'geld
+H | Orgrimmar (1454) 61.2/49.1 | 16 NPCs | 16 Punkte | Radius 164 yd | z. B. Felika
+H | Orgrimmar (1454) 78.6/23.2 | 28 NPCs | 28 Punkte | Radius 257 yd | z. B. Borgosh Corebender
+H | Donnerfels (1456) 24.6/19.4 | 14 NPCs | 14 Punkte | Radius 153 yd | z. B. Tigor Skychaser
+H | Donnerfels (1456) 40.9/58.0 | 28 NPCs | 28 Punkte | Radius 206 yd | z. B. Officer Thunderstrider
+H | Donnerfels (1456) 48.2/45.6 | 38 NPCs | 38 Punkte | Radius 313 yd | z. B. Kuna Thunderhorn
+H | Donnerfels (1456) 56.9/86.5 | 8 NPCs | 8 Punkte | Radius 167 yd | z. B. Torm Ragetotem
+H | Unterstadt (1458) 48.1/16.5 | 6 NPCs | 6 Punkte | Radius 88 yd | z. B. Angela Curthas
+H | Unterstadt (1458) 49.6/72.6 | 10 NPCs | 10 Punkte | Radius 167 yd | z. B. Chemist Cuely
+H | Unterstadt (1458) 59.0/32.5 | 12 NPCs | 12 Punkte | Radius 192 yd | z. B. Francis Eliot
+H | Unterstadt (1458) 65.0/43.9 | 37 NPCs | 37 Punkte | Radius 217 yd | z. B. Ophelia Montague
+H | Unterstadt (1458) 72.0/30.9 | 14 NPCs | 14 Punkte | Radius 239 yd | z. B. Josef Gregorian
+H | Unterstadt (1458) 72.4/55.8 | 10 NPCs | 10 Punkte | Radius 200 yd | z. B. Mary Edras
+H | Unterstadt (1458) 85.3/14.9 | 11 NPCs | 11 Punkte | Radius 139 yd | z. B. Godrick Farsan
+H | Alteractal (1459) 45.5/70.3 | 8 NPCs | 13 Punkte | Radius 123 yd | z. B. Coldmine Peon
+H | Alteractal (1459) 48.8/84.1 | 26 NPCs | 27 Punkte | Radius 119 yd | z. B. Frostwolf Guardian

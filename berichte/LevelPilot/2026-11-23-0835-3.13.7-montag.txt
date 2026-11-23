@@ -1,0 +1,129 @@
+BERICHT LevelPilot an die Prüf-Sitzung – 23.11.2026 08:35
+Version 3.13.7 – umgesetzt, zur Prüfung (Aufträge Montag 23.11., gebündelt in EINER Version – Hinweis "Nutzung sparen")
+Zip: announce/levelpilot__levelpilot-3.13.7.LevelPilot.zip, md5 b10c89f4c721838dbc6be7ad1268be68. Datenpaket 1.6.4 (unverändert). Dateiliste gleich 3.13.6.
+Im Spiel lief auf den Bildern vom 22.11. die 3.13.6 (letzte veröffentlichte Version; Upload Desktop 22.11. 17:01: "v3.13.6").
+
+==== 1. AUFTRAG Berufs-Hinweise nur nach Prüfung ====
+Ursache (Code 3.13.6, Hints.lua belegt): Der Hinweis hing nur an Known(Berufszauber) – keine Prüfung der gelernten Berufe. Warum Known
+im Spiel "nicht bekannt" lieferte, obwohl Kochen gelernt war: Verdacht, zu messen (Zauber-ID je Rang). Jetzt (H.SkillLines/H.ProfTier):
+- Zuerst GetNumSkillLines/GetSkillLineInfo (bei SKILL_LINES_CHANGED neu). Liste leer/nicht lesbar -> KEIN Hinweis.
+- Beruf in der Liste -> kein Lehrling-Hinweis. "(Geselle) kannst du hier lernen" nur bei Höchstwert 75, Fertigkeit >= 50, Stufe >= 10
+  (Referenz goldgoblin laut shared/wissen/referenz-goldgoblin.md: Geselle ab Skill 50 + Stufe 10).
+- Experte/Fachmann: KEIN Hinweis – die Bedingungen sind in der Referenz nicht belegt (Lücke, nicht geraten).
+- Gilt für Kochen und Erste Hilfe (die beiden Berufe, für die LevelPilot Hinweise gibt). Angeln: LevelPilot gibt dafür keinen Hinweis
+  (auch vorher nicht) – kein neuer Hinweis eingebaut.
+Tests: T369 (gelernt 30/75 Stufe 25 -> keiner; 55/75 Stufe 12 -> Geselle; 49 -> keiner; Stufe 9 -> keiner; 60/150 -> keiner;
+Liste leer -> keiner; nicht gelernt -> Lehrling; Zauber bekannt -> keiner; Name unbekannt -> keiner) – Nachbau OK. T362 angepasst.
+
+==== 2. LP-M1 Abgabe ohne Ort ====
+(a) questID belegt: 79007 "... und diese Notiz, die Ihr gefunden habt." (Uploads 21./22.11., LevelPilotDB.qdb[79007]: Start Brachland
+    46.3–46.4/73.9, "item" = true, KEIN "e"). Nicht im Datenpaket (Questie Classic; die Quest ist eine Season-of-Discovery-Quest).
+    Quelle Abgabe: warcraft.wiki.gg "...and that note you found (Horde)", ID 79007: Start Burned-Out Remains Brachland 46.4/73.9 (= unsere
+    Aufzeichnung), Ende Burned-Out Remains Westfall 37.5/50.7. Eingetragen als QDB.EXTRA_ENDS[79007] = {1436, 37.5, 50.7} (ohne NPC-Name:
+    der deutsche Objektname ist nicht belegt). Westfall = 1436 belegt über Gryan Stoutmantle (Npcs.lua, 1436 56.3/47.5).
+(b) UI.lua: TURNIN/ACCEPT ohne Ort zeigt "Ort unbekannt – Questbeschreibung lesen" (in jeder Zeile, nicht nur im aktuellen Schritt;
+    Schlüssel gab es schon in allen Sprachen). "Questgeber an dieser Stelle" nur noch mit Ort.
+(c) Ursache belegt (Planner.lua P:Order): Aufgabe ohne Ort hatte feste Kosten 5000 (wie 5000 Yards Weg) -> sie stand vor jeder Aufgabe
+    ab ~4,5 km (Bild: hinter "Blaulaubknollen 3.3 km", vor allem Weiteren). Jetzt P.NO_PLACE_COST = 29000: hinter allen Aufgaben dieses
+    Kontinents, vor anderen Kontinenten (30000). 2-opt/ExactOrder fassen Aufgaben ohne Ort nicht an (nur der Anfang mit Ort, Code geprüft).
+(d) T372: Abgabe ohne Ort -> Hinweis; Annahme ohne Ort -> Hinweis; mit Ort -> Entfernung + Zone; Erledigen unverändert (Hinweis nur im
+    aktuellen Schritt wie bisher); 79007 -> Westfall 37.5/50.7; ohne Ort hinter 6,6/8,8 km (Platz 3 von 3); Gegenprobe alte Kosten
+    5000 -> Platz 1. Nachbau OK.
+(e) Quests.lua (3920 Quests): 5 ohne Abgabe-NPC/-Objekt (7361, 7362, 7363, 7366, 7424 – Alteractal, Stufe 60) und 232 mit Abgabe-ID,
+    deren NPC/Objekt keinen Fundort hat = 237 ohne Abgabe-Ort. Davon unter Stufe 50: 24 (264, 361, 524, 553, 941, 1089, 1098, 1144,
+    1198, 1393, 2200, 2201, 2278, 2284, 2398, 2882, 2945, 2951, 2952, 2953, 3523, 3525, 4295, 5722); der Rest Stufe 50–60 (AQ, Naxx,
+    Feiertage). Diese zeigen jetzt den Hinweis und stehen nie vorn. Aufgezeichnete Quests ausserhalb des Datenpakets ohne "e": nicht
+    gezählt (je Spieler verschieden).
+
+==== 3. LP-M2 eine Entfernung ====
+Ursache belegt: Kopf = LP.Nav:RemainingDistance (laufend), Reisezeile = navText, beim Planen EINMAL geschrieben (Comfort.PlanNavi) –
+zwei Zeitpunkte, daher 36 gegen 35. Die Zeit stand doppelt, weil PlanText jeden Abschnitt mit "(Zeit)" schrieb, auch den einzigen.
+Jetzt: reiner Fussweg (ein Abschnitt) -> Reisezeile wird bei jeder Anzeige mit DERSELBEN Zahl wie der Kopf neu geschrieben (UI.StepDist,
+gleiche Rundung LP:FormatDist), Zeit im gleichen Verhältnis, nur einmal: "Reise ~0:05: 36 Yards laufen". Mehrere Abschnitte (Flug,
+Schiff, Ruhestein) bleiben wie geplant (Zeit je Abschnitt + gesamt). T373: 36 Yards (×2 im Text, 1 Zeit), km-Grenze 999,6 -> "0.9 km"
+(×2, 1 Zeit), Flug unverändert. Nachbau OK.
+
+==== 4. LP-M3 Fenstertitel ====
+UI.TitleText: Spieler im Levelgebiet (auch Hauptstadt der Zone, P.ZoneOf) -> Name; sonst "Ziel: <Gebiet>"; ohne Fokus -> Ort des Spielers;
+Fehlerzustände unverändert. Tooltip am Titel (eigene Fläche nur so breit wie der Text, Ziehen bewegt weiter das Fenster): ein Satz, wie
+gewählt wird (automatisch: Zone mit offenen Quests, wo du stehst -> bisherige Zone bis fast leer -> lohnendste Zone für deine Stufe;
+bzw. "von dir in der Zentrale gewählt"). Locales alle Sprachen. T374 Nachbau OK (Bild 2: Donnerfels + Fokus Brachland -> "Ziel: Das Brachland").
+
+==== 5. ENTSCHEID 22.11. 16:57 – keine Wegsperren ====
+1. Graph:Init -> Graph.ClearBlocks: alle G.blocked gelöscht, "gesperrt" in festLog entfernt; Anzahl ins Protokoll (neue Art "WEGE",
+   kein Problem, zählt nicht als Auffälligkeit).
+2. N:OnStuck ruft Graph:Block nicht mehr auf; Graph:Block sperrt nichts mehr (liefert false, für alte Aufrufer).
+3. Empfangen: Es gibt keinen Empfangsweg für Sperren (grep "blocked" in Comm.lua/GoldSentinelSync.lua: 0 Treffer; Sperren gingen nur über
+   Graph:WegeData in den GSWEGE1-Bericht). WegeData sendet keine mehr (Liste leer, Format gleich).
+4. Wegsuche (PathRaw) und MarkOwnInner lesen G.blocked nicht mehr. "FEST" bleibt: Protokoll, Wegdaten-Eintrag, Pfeil statt Linie.
+Tests: T370 (20 Sperren -> 0, FEST 2 -> 0, Protokoll "wege:20/2"; FEST 4 Min. -> Graph:Block 0×; alte/empfangene Sperre -> Weg nimmt
+die Kante; 0 gesendet). T219 angepasst: die alte Prüfung "danach gemieden" war immer wahr (Nachbau 3.13.6: Weg ohne Zone ist nur eine
+Luftlinie, mit und ohne Sperre); jetzt mit Zone: 3.13.6 gesperrt -> nur Luftlinie, 3.13.7 -> Kante.
+NACHTRAG 16:58 (Orte der anderen Fraktion): Danger.lua D.BuildPlaces – feste Ortsliste je Fraktion aus dem Datenpaket (Questie): Häufung
+ortsfester NPCs (höchstens 2 Spawnpunkte, Kette 100 yd, mindestens 6 Punkte von 4 NPCs) mit f = "A" bzw. "H" (nur der anderen
+Fraktion freundlich; neutrale Orte haben f = "AH"). Mitte = Schwerpunkt, Radius = weitester NPC + 40 yd. Gilt NUR für Wege
+(D:Segment -> Wegsuche x25, D:Route, D:PathDanger), nicht für Ziele (D:At unverändert). Start-/Zielort zählt bei Route/PathDanger nicht
+(hinein und heraus erlaubt, nur nicht hindurch). Keine Sperre: gibt es keinen anderen Weg, führt er hindurch (wie jedes Sperrgebiet).
+Gegnerlager mit vielen Spawns (Kul-Tiras-Matrosen Durotar, Bauern von Hillsbrad, Bael'dun-Grabungsstätte) sind Questgebiete, keine Orte
+(ausgeschlossen über die Spawnzahl; die erste Fassung ohne diese Regel hatte 72 Allianz-Orte, darunter solche Lager).
+Liste (Nachbau): 54 Allianz-Orte (meidet die Horde), 46 Horde-Orte (meidet die Allianz) – vollständig in
+berichte/LevelPilot/offline/orte-andere-fraktion-3.13.7.txt (Karte, Mitte, NPCs, Radius, Beispiel-NPC).
+LÜCKEN (in der Liste nicht gefunden, zu wenige ortsfeste NPCs im Datenpaket): Allianz: Steinkrallengipfel (Steinkrallengebirge),
+Thalanaar (Feralas). Horde: Valormok (Azshara). Namen der Orte: nicht aus Spieldaten (EULA); in der Liste stehen Karte + Mitte + ein
+NPC des Ortes. Fraglich als "Ort": Bael'dun-Festung (Brachland 48.3/83.1, 9 Soldaten) – feindliche Festung, für Wege richtig gemieden.
+Tests T371 (Horde, Morgan's Vigil 84.9/68.8, 8 NPCs, Radius 68 yd): hindurch -> Sperrgebiet; aussen herum frei; Route hindurch -> D.TOWN;
+Ziel im Ort erlaubt; Wegkosten hindurch x25; andere Fraktion (Horde-Liste) enthält den Ort nicht -> Allianz darf hindurch; Beutebucht,
+Ratschet, Gadgetzan, Everlook in keiner Liste. Nachbau OK. T291 (Gefahr auf Strecken exakt) rechnet die Orte mit: 2000 Strecken,
+Abweichung 0.
+
+==== 6. BEFUND 22.11. 17:05 "Routenberechnung pausiert" ====
+Was die Meldung ist (Code belegt, Perf.lua): Notbremse; eine Portion der Planung (zwischen zwei Abgaben an das Spiel) dauerte über
+BRAKE_MS = 50 ms (Planner.lua: Perf.CheckSlice mit der längsten Portion). Pause 60 s mit Zeitlimit (Perf.BRAKE_PAUSE), danach plant
+LevelPilot von selbst einmal neu (Perf.after.route); die bisherige Route bleibt stehen.
+Daten: Der Upload des Nutzers (Desktop) ist von 22.11. 17:01 – VOR dem Ereignis 17:05; die 5 Auffälligkeiten sind noch nicht im Repo
+(Laptop-Upload 20.11.). Auswertung mit dem nächsten Upload. Offizier (3.13.6, Orgrimmar, Stufe 42): 1 gleiche Notbremse 22.11. 20:41,
+"Routenberechnung 172 ms · Aufgaben 81 · Kandidaten 488 · Questlog 37 · Wegpunkte 30786" – in der Minute des Einloggens.
+Nachbau mit seinen Wegdaten (30 790 Knoten, Orgrimmar 55.6/63, Stufe 42, Questlog leer – Charakterdaten sind nicht im Upload):
+längste Portion der Planung 4,0 ms (3.13.6) bzw. 6,6 ms (3.13.7), keine über 50 ms -> NICHT nachgestellt.
+Verdacht, zu messen: Speicherbereinigung (GC) des Spiels in der Portion (Routenberechnung legte in seiner Sitzung 506,8 MB an, Lua bis
+805 MB) oder ein Abschnitt, der im Spiel nicht abgeben kann (pcall) und im Nachbau mit leerem Questlog nicht läuft. Belegen mit dem
+nächsten Upload (Protokoll-Einträge mit Zeit/Zone, ZEIT-Zeilen).
+Geändert: Text sagt jetzt, was passiert: "Routenberechnung pausiert (zu aufwendig): die bisherige Route bleibt, neue Berechnung von
+selbst in 60 Sekunden." (alle Sprachen).
+Eigener Befund dabei: Die neue Ortsliste (Punkt 5) rechnete im ersten Entwurf 189 ms am Stück (Kette jeder mit jedem) – vor der
+Veröffentlichung auf ein Gitter umgebaut, Nachbau: längster Abschnitt ohne Abgabe 7,0 ms.
+
+==== 7. PRÜFAUFTRAG Realm-Schlüssel ====
+keine realm-getrennten Gemeinschaftsdaten. Beleg: grep "GetRealmName|GetNormalizedRealmName" in LevelPilot/*.lua (inkl. GoldSentinel*.lua):
+1 Treffer, TestRoutine.lua:2388 (T169 baut einen Testabsender "Name-Realm"). Kein Schlüssel, keine Sync-Kennung, kein Vergleich nach Realm.
+
+==== 8. HINWEISE ====
+- Test ändert nie Livedaten: Sandbox (Kopie ALLER Schlüssel von LevelPilotDB und LevelPilotCharDB vor dem Lauf, Rückschreiben, Vergleich
+  -> "echte Daten unverändert") + Sync-Adressbuch in fremder Ablage (T357 Hülle + Gegenprobe, Sicherheitsnetz nach jeder Prüfung). NEU
+  T375: Gegenprobe des Vergleichs nur an Kopien (zusätzliches/geändertes Feld wird erkannt, echte Daten unberührt).
+- Lesbarkeit L1–L8: NICHT in 3.13.7. Plan: eigene Prüfung der Fensterzeilen (Kontrast der Zahlen gegen den Hintergrund, Schriftgrösse
+  >= GameFontNormalSmall) mit der nächsten Version. Auffällig schon jetzt: Entfernungen stehen grau (MUTED 9c9ea6) – L1-Kandidat.
+- Schätzen verboten – vorhandene Schätzwerte (Quelle, n, Plan):
+  Session.lua KIND_UNIT 40/55/30 s je Ziel (Monster/Gegenstand/Objekt), Vorgabe 45 s; 30 s je Annahme/Abgabe; Weg 7 bzw. 11 yd/s
+  (n = 0, Vorgabe; eigenes Tempo ersetzt KIND_UNIT, sobald Fortschritt gemessen ist) – Plan: je Art Zeit pro Ziel aus Aufzeichnungen.
+  Planner.lua P.TRAVEL run 7 yd/s, detour 1.25, fpHandling 15 s, margin 30 s, flyYps 32, flyDetour 1.3, flyStart 30 s (Vorgaben;
+  Reittier wird gemessen: LP.char.mountYps) – Plan: Flugzeiten aus den aufgezeichneten Flügen.
+  Planner.lua DROP_DEFAULT 0,5 Stück je Kill bis gemessen; Planner.lua:1015 Dungeon-EP-Faktor 0,36 (Beta-Schätzung, ersetzt durch Calib).
+  Hints.lua:156 Trainerkosten 72 × Stufe² Kupfer, wenn nicht beim Trainer gelernt. Calib.lua KXP_MIN 20 Messungen je Stufe.
+  Center.lua "Bis Level 60 (Schätzung)". Alle sind im Code als Vorgabe markiert; n je Wert folgt mit den Messungen.
+
+==== 9. AUFLAGE Wegabschnitte ====
+Noch keine echte Spielsitzung mit 3.13.6/3.13.7 im Repo nach dem Laufen (Laptop-Upload 20.11. 13:59). Folgt im nächsten Bericht.
+
+==== EIGENE TESTS (Hinweise, keine Freigabe) ====
+- addon_check: OK. GoldSentinel*.lua byte-gleich mit shared/ (7 Dateien). Dateiliste gleich 3.13.6.
+- Nachbau Bereich J: 3.13.6 FEHLER 5 / 3.13.7 FEHLER 5 – dieselben (T174, T262, T268, T303, T309: Grenzen des Nachbaus nur mit Bereich J).
+  Neu OK: T369, T370, T371, T372, T373, T374, T375; angepasst OK: T219, T291.
+- Lange Testroutine Nachbau (Orc Krieger, Forever, LONG=1): 3.13.6 OK 288 · FEHLER 8 / 3.13.7 OK 295 · FEHLER 8 – dieselben 8 (T84, T174,
+  T180, T183, T262, T268, T303, T309), Sandbox OK beide. T150 Nachbau: Median 0,53 ms (3.13.6) / 0,68 ms (3.13.7), Gefahr 0,01 -> 0,10 ms
+  (Ortsprüfung, D:RoutePlaces).
+- T84/T180/T183 (virtuelle Reise 1–60): die Zeiten sind im Nachbau NICHT wiederholbar – gleicher Code 3.13.7 dreimal: Normal 827,1 /
+  866,7 / 865,5 h, Speedrun 666,4 / 537,5 / 548,1 h (erster Lauf parallel zu anderen Läufen). 3.13.6 einmal: 775,0 / 546,9 h. Gegenproben
+  3.13.7 ohne Ortsliste: 904,7 / 539,9 h; mit alten Kosten 5000: 850,3 / 552,6 h. Eine Wirkung der Änderungen auf die Reisezeit ist
+  innerhalb dieser Streuung nicht belegt – Verdacht, zu messen (Ursache der Streuung: Entscheidungen hängen an Takt/Portionen).
+- Offline-Routine mit dem veröffentlichten Zip: 40 Läufe, 40 ohne FEHLER.
