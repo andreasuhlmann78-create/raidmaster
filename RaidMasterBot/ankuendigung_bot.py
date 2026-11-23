@@ -561,20 +561,47 @@ async def remove_deleted_announcements():
         return
     files = sorted(fn for fn in os.listdir(ANNOUNCE_REMOVED_DIR)
                    if fn.lower().endswith(".md") and os.path.isfile(os.path.join(ANNOUNCE_REMOVED_DIR, fn)))
+    # ab 1.5.191 (Entscheid des Nutzers 23.11. 11:36/11:45: gelöschte Ankündigungen im Repo wiederherstellen): Liegt eine Datei
+    # wieder in announce/, ist sie zurück – ihre Kopie in announce_entfernt/ weg, Beiträge und "announced" bleiben (kein Löschen,
+    # kein neues Posten).
+    back = [fn for fn in files if os.path.isfile(os.path.join(ANNOUNCE_DIR, fn))]
+    for fn in back:
+        stem = fn[:-3]
+        for x in os.listdir(ANNOUNCE_REMOVED_DIR):
+            if x == fn or x.startswith(stem + "."):
+                try:
+                    os.remove(os.path.join(ANNOUNCE_REMOVED_DIR, x))
+                except OSError:
+                    pass
+    if back:
+        log.info("Wiederhergestellte Ankündigungen: %d (Beiträge bleiben)", len(back))
+        files = [fn for fn in files if fn not in back]
+        if state.data.get("announce_delete_warned"):
+            state.data.pop("announce_delete_warned", None)
+            state.save()
     if not files or bot_guild() is None:
         return
     limit = int(cfg.get("announce_delete_max", 5) or 0)
     live = updater.announce_live(files, state.data.get("announced") or [], state.data.get("announce_msgs") or {},
                                  announce_series)
     if len(live) > limit:
-        if state.data.get("announce_delete_warned") != files:
-            state.data["announce_delete_warned"] = files
+        warned = {"v": 2, "files": files}      # ab 1.5.191 mit Fassung: die vollständige Liste kommt einmal neu
+        if state.data.get("announce_delete_warned") != warned:
+            state.data["announce_delete_warned"] = warned
             state.save()
-            await post_bot_log(f"⚠️ **{len(live)} Ankündigungen** mit Beiträgen im Discord wurden im Repo gelöscht – mehr "
-                               f"als {limit} auf einmal, darum lösche ich ihre Beiträge im Discord NICHT von selbst:\n"
-                               + "\n".join(f"• {fn}" for fn in live[:30])
-                               + "\nWenn das so gewollt ist: in config.json `\"announce_delete_max\"` erhöhen und den Bot "
-                               "neu starten.")
+            # ab 1.5.191: ALLE Namen (roh, in `…`), auf Nachrichten unter 2000 Zeichen verteilt (bis 1.5.190 nur die ersten 30)
+            parts, cur = [], (f"⚠️ **{len(live)} Ankündigungen** mit Beiträgen im Discord wurden im Repo gelöscht – mehr als "
+                              f"{limit} auf einmal, darum lösche ich ihre Beiträge im Discord NICHT von selbst:")
+            for fn in live:
+                line = f"\n• `{fn}`"
+                if len(cur) + len(line) > 1900:
+                    parts.append(cur)
+                    cur = "(Fortsetzung)"
+                cur += line
+            parts.append(cur + "\nWenn das so gewollt ist: in config.json `\"announce_delete_max\"` erhöhen und den Bot neu "
+                                "starten. Wiederhergestellte Dateien (wieder in announce/) zählen nicht mehr.")
+            for p in parts:
+                await post_bot_log(p)
         return
     rec = state.data.setdefault("announce_msgs", {})
     announced = state.data.setdefault("announced", [])

@@ -401,6 +401,7 @@ REGRESSIONEN = {
     "T-D-N1-W3": ("test_wiederkehrend", "Bot", "test_kein_doppel_auch_nach_neustart"),
     "T-DATENVERSAND": ("test_datenversand", "Versand", "test_liste_dann_senden"),
     "T-D-MITGL1": ("test_mitglieder_kanaele", "Kanaele", "test_anlegen_rechte_je_rolle"),
+    "T-ANN-RESTORE": ("test_announce_restore", "Wiederherstellen", "test_alle_wiederhergestellt"),
     "T-D3-BEFEHLE": ("test_befehle_liste", "BefehleListe", "test_gleiche_befehle"),
     "T-D-MN8b": ("test_market", "BotAblauf", "test_T_D_MN8b_aenderung_erst_nach_senden_merken"),
     "T-D-GS1b": ("test_market", "BotAblauf", "test_T_D_GS1b_grosse_guildsentinel_datei"),
