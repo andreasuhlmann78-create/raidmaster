@@ -1,0 +1,30 @@
+Bericht ProfessionSentinel 0.9.79 – 23.11.2026 13:57 – umgesetzt, zur Prüfung (HOCH 1 Speicher "Liste recipes")
+
+Release v0.9.79 (Commit 63f3d9c), download/ProfessionSentinel-0.9.79.zip (md5 0c48f9be…), Announce (neue Datei, in announce/ nichts
+gelöscht – Entscheid 11:36). Tests: run_offline forever 252 OK / 0 FEHLER, era 233 / 0, retail 231 / 0, TBC nicht unterstützt –
+kein Lauf; --lua51 forever 252 / 0; yield_check OK; check_actions OK; Smoketest FEHLER-Zahl unverändert (Mock-Grenzen 29/26/26).
+addon_check: OK, keine WARNUNG.
+
+1. Messung zuerst (Nachbau echt: AHSentinel 0.65.354 + echte gespeicherte Daten, Rezepte-Ansicht, Sim Skill 150; tests/nachbau_echt.py
+   --only-open misst jetzt 20 Refreshes, je Refresh Bereinigung gestoppt, angelegt je Teil über UI.Mem):
+   - Messfehler im ersten Nachbau-Versuch belegt: 200000 gepumpte Bilder schoben die Mock-Uhr ~3300 s je Refresh vor; die behaltenen
+     Rezeptpreise (60 s) verfielen jedes Mal ("Rezeptpreis rechnen" 70 MB). Jetzt nur bis der Refresh fertig ist (0,6 s, wie im Spiel).
+   - Ergebnis 0.9.78 (20 Refreshes ohne Änderung): "Liste recipes" offline nur ~16 KB je Refresh (330 KB/20); Spiel 53 407 KB/20.
+     Der Unterschied liegt in dem, was der Mock nicht nachbaut: Blizzards TreeDataProvider (Knoten, Rückrufe) und ScrollBox:SetDataProvider
+     (Flachlegen, Ausdehnungen) – beides lief bei JEDEM Refresh mit einer NEUEN Liste. Verdacht, zu messen (Ingametest T145).
+2. Umbau: die Rezeptliste wird zuerst in einen leichten Baum aus wiederverwendeten Knoten aufgezeichnet (UI.Recorder, Knoten-Pool).
+   Nur wenn er sich von der Liste im Fenster unterscheidet, wird ein neuer DataProvider gebaut und gesetzt (UI.CommitList); sonst
+   behält das Fenster seine Liste und nur die sichtbaren Zeilen werden neu gefüllt (Preise, Anzahlen – wie vorher beim Setzen).
+   Zeilendaten je Rezept und der Top 10 werden wiederverwendet, solange sie gleich sind (schwache Schlüssel). Vergleich Feld für Feld;
+   Klick-Funktionen gelten als gleich, wenn der Rest der Zeile gleich ist (sie handeln mit den Daten der Zeile).
+   Nebenbefund behoben: UpdateVisibleRows setzte unter der Testsimulation den gescannten statt des simulierten Skills (Zeilen wichen ab).
+3. Ergebnis Nachbau echt 0.9.79, 20 Refreshes ohne Änderung: Liste behalten 19, neu 1 (der erste nach Preisablauf). Angelegt je Teil:
+   Liste: übernehmen 315 KB (davon Zeilen neu füllen), Aufbau sonst 75 KB, Liste: Gruppen 32 KB, Rangliste 21 KB, Liste recipes 8 KB,
+   Top 10 8 KB, Alarm und Taschen 4 KB – zusammen ~23 KB je Refresh, und KEIN Blizzard-DataProvider mehr.
+   Offline-Testroutine T145: vorher "Liste recipes 4948 KB", jetzt Teile zusammen ~300 KB; "Liste behalten 20, neu 0".
+4. Tests: T297 neu – unverändert: dieselbe Blizzard-Liste, als behalten gezählt; Gegenprobe Skill 151 -> neue Liste; Knoten-Pool wächst
+   nicht. T145 zeigt jetzt "Liste behalten x, neu y" und die Teile "Liste: …". Ingametest: T145 "angelegt je Teil" zeigt, ob die 53 MB weg sind.
+
+Noch offen (nächste Version): HOCH 3 Bilder > 40 ms, Gilden-Rezepte ohne Realm, MITTEL 2/4, Entwickler-Befehle nur im
+Entwicklermodus, Hinweis Livedaten/Testort, Lesbarkeit L1–L8. Gleiche Liste-behalten-Technik für die anderen Reiter, falls der
+Ingametest sie dort als Täter zeigt. Lua-Fehler SetCraftableCount: Messung des Nutzers.
