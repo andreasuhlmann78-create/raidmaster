@@ -1,12 +1,12 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-22 23:25 UTC
+Ausgewertet: 2026-11-23 08:43 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
 | Addon | letzter Testlauf | Version | Client | OK | FEHLER | übersprungen | im Client prüfen | Fehler im Spiel (7 Tage) |
 |---|---|---|---|---|---|---|---|---|
-| AHSentinel | 20.11.2026 19:36 UTC | 0.65.355 | forever 1.60.1 (Interface 16001) | 11 | 0 | 1 | 0 | 11 |
+| AHSentinel | 20.11.2026 19:36 UTC | 0.65.355 | forever 1.60.1 (Interface 16001) | 11 | 0 | 1 | 0 | 10 |
 | BuffSentinel | 20.11.2026 19:16 UTC | 0.9.60 | forever 1.60.1 (Interface 16001) | 1 | 0 | 0 | 0 | 0 |
 | GuildSentinel | 18.11.2026 18:20 UTC | 0.9.58 | forever 1.60.1 (Interface 16001) | 329 | 0 | 24 | 8 | 4 |
 | LevelPilot | 21.11.2026 13:15 UTC | 3.13.6 | forever 1.60.1 (Interface 16001) | 1 | 0 | 0 | 0 | 16 |
@@ -68,7 +68,6 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 **Fehler im Spiel (letzte 7 Tage)**
 - 4× `ADDON_ACTION_FORBIDDEN`: UNKNOWN() – Version 0.65.354 · forever 1.60.1 (Interface 16001) · zuletzt 21.11.2026 14:31 UTC
-- 1× `Lua`: Interface/AddOns/AHSentinel/UI_Main.lua:1303: script ran too long – Version 0.65.260 · forever 1.60.1 (Interface 16001) · zuletzt 16.11.2026 07:18 UTC
 - 1× `Lua`: Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:1400: script ran too long – Version 0.65.278 · forever 1.60.1 (Interface 16001) · zuletzt 16.11.2026 18:43 UTC
 - 1× `Lua`: Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:1402: script ran too long – Version 0.65.278 · forever 1.60.1 (Interface 16001) · zuletzt 16.11.2026 18:44 UTC
 - 1× `Lua`: Interface/AddOns/AHSentinel/Ledger.lua:1686: script ran too long – Version 0.65.278 · forever 1.60.1 (Interface 16001) · zuletzt 16.11.2026 18:44 UTC
