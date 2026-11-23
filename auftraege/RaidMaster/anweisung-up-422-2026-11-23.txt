@@ -1,0 +1,38 @@
+ANWEISUNG AN DIE RAIDMASTER-SITZUNG (Uploader) – UP-422 HOCH
+Stand: 2026-11-23 14:05 (Supervisor). Gehört zu offen-raidmaster.txt, Befund "UP-422 HOCH" (ganz unten, mit Nachtrag).
+Vorher: git pull --rebase, CLAUDE.md, offen-raidmaster.txt, berichte/RaidMaster/stand-aktuell.md lesen. Erst laufende Arbeit fertig machen.
+
+WARUM DRINGEND
+- Der Laptop (AUSPLUSLAPTOP) ist unter der Woche der Hauptrechner des Nutzers (Wochenende: PC DESKTOP-NVITMSE).
+- Sein Uploader liefert heute NICHTS ins Daten-Repo: alle 5 Min. "Prüfung: GitHub antwortet 422 – nichts geliefert";
+  "zuletzt geliefert 20.11. 13:59 (18 Dateien) · Repo 149,2 MB · FEHLER: GitHub antwortet 422" (Bild des Nutzers 23.11. 14:02).
+- Abgleich ("Stand 185/186 hochgeladen") und #testberichte (Discord) laufen – nur die Lieferung ins Daten-Repo scheitert.
+- Folge: Die Spieldaten des Laptops fehlen für Markt-Tabellen, Buchhaltung, Auswertungen.
+
+BELEGT (Supervisor)
+- stand.json "zeit": AUSPLUSLAPTOP 20.11. 13:59 · DESKTOP-NVITMSE 22.11. 17:01 · DESKTOP-JD5SLR5 22.11. 20:25 · MININT-M6UO3AL 23.11. 13:49.
+  (20.–22.11. ohne Laptop ist normal – Nutzer hat nicht gespielt. Heute ist der Fehler.)
+- Die Geschichte des Daten-Repos hat nur noch 1 Commit (API /commits: einziger 23.11. 12:50 UTC von MININT) – sie wurde ersetzt.
+- Version des Uploaders auf dem Laptop: unbekannt (2.3.15/2.3.16 sind dort noch nicht installiert).
+
+VERDACHT, ZU MESSEN (nicht als Ursache übernehmen)
+- Das Ersetzen der Geschichte (z. B. beim Entfernen der Bewerber-Daten, UP-DS2) hat Commits/Bäume entfernt, auf die der Laptop-Uploader
+  aufbaut -> 422 beim Anlegen des Baums (base_tree) oder beim Setzen von main.
+
+ZU TUN (in dieser Reihenfolge)
+1. Ursache BELEGEN: genaue 422-Antwort von GitHub (Meldungstext, welcher Aufruf: blob/tree/commit/ref) – im Nachbau mit einem Repo, dessen
+   Geschichte ersetzt wurde, und im Code (daten.py _req, deliver). Wer/was hat die Geschichte ersetzt und wann? (Uploader-Code, Werkzeuge,
+   Hand-Eingriff) – im Bericht mit Beleg; falls ein Uploader das tut: Regel "nie Geschichte ersetzen ohne Entscheid des Nutzers".
+2. Fehlermeldung verbessern: bei GitHub-Fehlern den Meldungstext (ohne Token, ohne Namen) im Fenster und Protokoll zeigen, nicht nur "422".
+3. Selbst erholen: bei 422 (oder fehlender Basis) den gemerkten Stand verwerfen, vom AKTUELLEN main neu aufbauen und erneut liefern –
+   ohne Datenverlust, ohne Doppel, nie fremde Dateien anderer Rechner überschreiben, nie ungefilterte Bewerber-Daten (UP-DS2 bleibt).
+4. Tests mit Gegenprobe: (a) main mit ersetzter Geschichte -> Lieferung gelingt im 2. Versuch; (b) alter Code -> 422 dauerhaft (rot);
+   (c) andere Rechner-Dateien unverändert; (d) GuildSentinel weiter gefiltert.
+5. Neue Uploader-Version (2.3.17), download/RaidMasterUploader.zip, LIESMICH/README_EN. Alle Uploader-Tests grün.
+6. Dem Nutzer klar sagen: was er auf dem Laptop tun muss (Zip entpacken, Uploader neu starten) und woran er sieht, dass es wieder geht
+   (Zeile "Prüfung: zuletzt geliefert <heute> …" ohne FEHLER). Danach prüft der Supervisor stand.json "zeit" für AUSPLUSLAPTOP.
+
+REGELN
+- Repo öffentlich: keine Tokens, keine Spielernamen, keine Pfade mit Benutzernamen. config.json/uploader_config.json nie anfassen.
+- announce/: nichts löschen (Entscheid 23.11. 11:36). Projekte prüfen sich nicht selbst: Bericht "umgesetzt, zur Prüfung" mit Belegen in
+  berichte/RaidMaster/<JJJJ-MM-TT>-<HHMM>-up-422.txt; stand-aktuell.md nachführen; nach dem Push auf origin/main nachprüfen.
