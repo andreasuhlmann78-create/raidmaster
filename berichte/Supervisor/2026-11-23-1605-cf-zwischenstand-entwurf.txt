@@ -1,0 +1,22 @@
+ENTWURF – CurseForge-Zwischenstand AHSentinel (Supervisor 2026-11-23 16:05) – wartet auf OK des Nutzers, NICHTS gepostet
+Grundlage: CF1/CF2/CF3 (offen-ahsentinel.txt, Einordnung 22.11. 09:10); Berichte AHSentinel 22.11. (CF2 in 0.65.377, CF3 in 0.65.380, CF1 im Block
+PM1/ST, 0.65.38x); Ingametest 23.11. 13:45 (0.65.385): 54 FEHLER, u. a. T988 CSV rot -> NICHT "fixed" schreiben. CurseForge: weiter "Curse nicht".
+Keine Spielernamen im Repo. Je Antwort als Antwort unter den jeweiligen Kommentar.
+
+CF1 (Spieler A – Verkaufspreis weit unter dem AH, mehrere Items), EN, 64 Wörter:
+"Thanks for your patience and the screenshots – you are right, this is not fixed yet, and our earlier "fixed" was too early. Sorry!
+We are working on how the price per item is calculated for these listings, and the fix is currently in testing. Until it is on
+CurseForge, please compare the suggested price with the auction house before posting. I'll reply here when the update is out."
+
+CF2 (Spieler B – "Accounting"-Meldungen nach jedem Kampf, deinstalliert), EN, 63 Wörter:
+"Sorry for the trouble, and thanks for telling us. The messages came from used arrows/ammo being counted as missing stock. We have
+changed that: used ammo is booked quietly, and the addon no longer opens a window by itself when you open a profession. The change
+is still in testing and not on CurseForge yet – I'll post here when it is, in case you want to try again."
+
+CF3 (Spieler C – CSV-Export "integer overflow"), EN, 47 Wörter:
+"Thanks for the error text, that helped a lot. The export failed on a very large placeholder price. We have changed the export so
+large values no longer break it. The fix is still in testing and not on CurseForge yet – I'll reply here once it is."
+
+Belege für die Sätze: CF2 Munition + Fenster: berichte/AHSentinel/2026-11-22-0915-0.65.377-cf2.txt (Ursache belegt, umgesetzt). CF3:
+berichte/AHSentinel/2026-11-22-0946-vk2-cf3.txt. CF1: Ursache noch "Verdacht, zu belegen" -> Antwort nennt KEINE Ursache als sicher.
+"in testing" stimmt: Ingametest 23.11. noch nicht bestanden.
