@@ -6120,3 +6120,25 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
  PM1-d NIEDRIG: Mailer.lua:170 und :689 rufen Le:InvoiceQty mit itemID = nil auf -> Stapel-/Marktwert-Plausibilität von QtyFromField5
       entfällt (Ledger hat sie). itemID aus dem Brief bzw. dem Namen mitgeben. Test: Feld 11 = 0, Feld 5 = Preis ≠ bid -> nicht als Menge.
     Abnahme PM1 = erledigt, wenn PM1-a bis PM1-c belegt sind.
+
+>>> PRÜFUNG SUPERVISOR 23.11. 06:27 – AHSentinel 0.65.376–0.65.382, Teil 2: ST1–ST6 (mit CF1)
+    ANGENOMMEN (Code, dreifach gelesen):
+     ST2/ST3 Ursache wie im Bericht 0.65.376 belegt (umgekehrt zum Befund: Preisprüfung/Sniper/Einkauf teilten den Preis je Auktion durch
+      die Zahl zusammengefasster Auktionen). EINE Stelle A:RowUnit (AHAnalyzerPro.lua:2957), genutzt von Seller.lua:332, Sniper.lua:1475,
+      Buy.lua:696. Stapelgrösse 1 + Menge > 1 -> Stückpreis = buyoutAmount, Kauf = 1 Stück. Deckt auch CF1 (30 Rezepte zu je 5g70 -> 5g70).
+      Rest-Verunreinigung des 14-Tage-Medians = N1 (eigener Punkt, Teil 4).
+     ST1 EINE Rundung (A.UnitRound, kaufmännisch), Anzeige unter 1s mit Bruchteil (A:UnitText, deDE "6,9c"). T979.
+     ST4 Liste "wo sonst noch" im Bericht vollständig (Datei:Zeile, ja/nein, Beleg) – nachvollzogen; Ausnahme siehe ST7.
+     ST5 Im Spiel bestätigt (22.11. 12:28, Seite 6: "Vorschlag 3s99 = günstigstes fremdes Angebot 4s (9 Angebote) − 1c"). T980.
+     ST6 Händler-Hinweis ohne Schwelle (Seller.lua:1618, Serie überspringt mit beiden Zahlen). T981. Im Spiel noch nicht gesehen.
+    Tests T976–T981 nicht gelaufen -> siehe PM1-a (gleicher Testlauf).
+ ST7 HOCH (Gold, Code-Lücke belegt; im Spiel bisher 0 von 9 Fällen): A:MaxStack (AHAnalyzerPro.lua:2945) liefert nil, wenn die Item-Info nicht
+      im Zwischenspeicher ist – und db.stackMem hilft bei nicht stapelbaren Items NIE: gespeichert wird nur Stapelgrösse > 1
+      (AHAnalyzerPro.lua:3079/3803), gelesen nur m > 1 (:2952). Daten des Nutzers: stackMem 1137 Einträge, davon 0 mit Stapelgrösse 1.
+      Folge bei unbekannter Stapelgrösse: RowUnit teilt wieder (alter Fehler). Sniper (Sniper.lua:3101 ff.): l.price = 5g70/30 = 19s ≤ Max
+      -> "kaufbar", wenn Zielmenge ≥ 30 und Budget ≥ 5g70 -> kauft EINE Auktion zu 5g70 (Max z. B. 25s). Verkaufen: Vorschlag 19s statt 5g69.
+      Soll: (1) Stapelgrösse 1 ebenfalls merken und lesen (stackMem[id] = 1); (2) unbekannte Stapelgrösse bei Item-Suchzeilen mit Menge > 1:
+      Sniper kauft NICHT (Status "Stapel unbekannt"), Item-Daten anfordern (C_Item.RequestLoadItemDataByID bzw. GetItemInfo-Nachladen),
+      danach neu bewerten; Verkaufen zeigt keinen Vorschlag, bis bekannt; (3) Protokoll STAPEL-ROH "unbekannt" bleibt.
+      Tests: Stapelgrösse unbekannt, 30 Auktionen zu 5g70, Max 25s, Menge 50 -> kein Kauf; stackMem = 1 ohne Item-Info -> Stückpreis 5g70.
+    Abnahme ST1–ST6 = erledigt, wenn PM1-a (Testlauf) belegt ist; ST7 neu offen (vor CurseForge).
