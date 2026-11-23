@@ -573,3 +573,13 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
      T162 (Regressionen). Längstes Bild 28,6 ms (T156); Schritte > 16 ms u. a. T25 300, T92 134, T27 109.
     Zählt NICHT als Abnahme von 0.9.61 – Nutzer installiert 0.9.61 und wiederholt. Bitte prüfen, ob 0.9.61 (T264 "Test ändert nie Livedaten") T136
      und T41/T72 abdeckt; sonst Ursache belegen (BS-I1 MITTEL: echte Gilden-Nachricht im Test darf nie vorkommen).
+
+>>> INGAMETEST 0.9.61 – 23.11. 13:19 (Bericht vom Nutzer im Chat, Supervisor 13:20): Forever 1.60.1, Krieger 30, Hauptstadt.
+    OK 220 · FEHLER 3 · Sandbox OK · ECHTE AKTIONEN 0. -> BS-I1 ERLEDIGT (T136 grün), T41/T72/T132 grün. T264 Livedaten ok.
+ BS-K1 MITTEL – T141 weiter rot: "BuffSentinelOptions überdeckt Guide (LevelPilot)" (auch schon 0.9.60). Optionen müssen dem LevelPilot-Fenster ausweichen
+    wie den anderen; T162 ("UI Oberfläche im Client 5.11.") hängt daran – nach dem Fix beide grün belegen.
+ BS-L1 MITTEL – T266 Lesbarkeit: Kontrast unter 4,5:1 – Hinweistexte "Rechtsklick auf de…" 4,37:1 und Platzhalter "Suchen (z. B. Ton, …" 4,32:1 auf den
+    Seiten skill/proc/buff (und weitere, Zeile gekürzt). Farbe heller, bis alle Texte >= 4,5:1; T266 grün.
+ BS-P1 MITTEL – Leistung: längste EIGENE Rechenzeit in einem Bild 27,5 ms (T156) – eigene Arbeit, nicht die Hauptstadt (Ziel: kein Bild > 16 ms).
+    Weitere Schritte über 16 ms gesamt: T25 285, T92 127, T27 108, T259 36, T18 28, T156 26, T179 24, T48 23. Je Fall Ursache belegen; was im
+    Spielbetrieb vorkommt (nicht nur Testaufbau), in Portionen teilen. Im Bericht je Test: Spielbetrieb ja/nein.
