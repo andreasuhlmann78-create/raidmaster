@@ -191,7 +191,7 @@ end
 -- Tooltips, Töne, Optionen-Fenster, Minimap, Texte der gemeinsamen Dateien, Lua-Fehler-Zähler). Für ALLE Spielversionen
 -- gleich (gemessen 0.9.33: forever/era/tbc/retail × deDE/enUS). Neue Abweichung oder fehlende erwartete -> FEHLER, damit
 -- nichts still dazukommt oder die Liste veraltet. Retail-Lücken in TU1–TU7: RETAIL_TU_LUECKEN (zurzeit keine).
-local NACHBAU_ERWARTET = { T13 = true, T23 = true, T28 = true, T45 = true, T51 = true, T95 = true }   -- 0.9.58: T48 (neue Optionen-Zeilen) grün   -- 0.9.55: T100/T116 laufen mit der Fehler-Handler-Attrappe
+local NACHBAU_ERWARTET = { T13 = true, T23 = true, T28 = true, T45 = true, T51 = true, T95 = true, T266 = true }   -- 0.9.61: T266 Lesbarkeit braucht echte Schriften/Regionen (Nachbau hat keine)   -- 0.9.58: T48 (neue Optionen-Zeilen) grün   -- 0.9.55: T100/T116 laufen mit der Fehler-Handler-Attrappe
 local mock, seen, extra = 0, {}, 0
 for _, r in ipairs(results) do
     if r.st == "FEHLER" and not TU[r.area] then
