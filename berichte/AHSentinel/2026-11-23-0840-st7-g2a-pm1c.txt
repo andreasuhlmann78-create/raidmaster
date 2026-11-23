@@ -1,0 +1,46 @@
+AHSentinel 0.65.383 – ST7, G2-a, PM1-b, PM1-c, BH3-a, G10-a (PRÜFUNG 23.11. Teil 1–11, Reihenfolge E1 07:41) – umgesetzt, zur Prüfung
+Nur Discord, kein CurseForge (E5). Tests gebaut, nicht laufen lassen. addon_check: OK (keine FEHLER). Dateiliste ZIP gleich wie 0.65.382.
+
+ST7 HOCH (Stapelgrösse unbekannt -> RowUnit teilte wieder)
+  - A:MaxStack merkt jetzt jede Stapelgrösse aus GetItemInfo (auch 1) in db.stackMem und liest gemerkte Werte ≥ 1; A:IsCommodity merkt
+    ebenfalls ≥ 1 (Vollscan sieht jedes Item im AH -> nach dem ersten Vollscan sind die Stapelgrössen bekannt). Andere Leser (IsCommodity
+    "m > 1", StackSize "m > 1 sonst 1", ~3897 "m > 1") liefern mit m = 1 dasselbe wie bisher.
+  - A:RowUnit: Stapelgrösse unbekannt UND Menge > 1 -> 5. Rückgabe true, Iteminfo anfordern (A:RequestItemInfo, C_Item.RequestLoadItemDataByID,
+    einmal je Item/Minute). Stückpreis wie bisher geteilt, aber gekennzeichnet (stackUnknown) an allen drei Nutzern:
+    Sniper.lua PlanNext: Status "Stapel unbekannt" vor allen Kauf-Prüfungen -> nie geplant/gekauft; die nächste Suche bewertet neu.
+    Seller.lua: info.stackUnknown -> SuggestRaw/SuggestRaw2 ohne Vorschlag ("Stapelgrösse noch unbekannt – Preis wird neu geprüft"), kein
+      Mindestpreis-Ausweg; nach 3 s erneute Prüfung, sobald MaxStack bekannt (höchstens 3×).
+    Alle drei (Seller, Sniper, Buy) schreiben bei unbekannter Stapelgrösse KEINEN bestätigten Preis (VerifyPrice).
+    Buy.lua: Zeile gekennzeichnet; Kauf im Einkauf kauft eine Auktion zum angezeigten buyoutAmount (unverändert).
+  Test T992: unbekannt, 30 × 5g70, Max 25s, Menge 50 -> Stückpreis-Rechnung 19s gekennzeichnet, Sniper kein Plan, Status "Stapel unbekannt";
+    Verkaufen ohne Vorschlag mit Grund; stackMem = 1 ohne Iteminfo -> Stückpreis 5g70, Kauf 1 Stück.
+
+G2-a MITTEL (Lua-Fehler Märkte vereinen)
+  - Ursache wie im Befund: (m.own or 0) > (tm.own or 0) mit m.own = db.lastOwnScan (Tabelle). Jetzt Vergleich über OwnScanT(o) = o.t
+    (Tabelle) bzw. Zahl (alter Stand). Der neuere eigene Scan wird übernommen.
+  - A:BackfillUnited (beim Aktivieren eines Marktes, nicht in der Testroutine): für jeden Ziel-Markt mit vereinten alten Märkten ohne
+    db.marketsUnited einmal nachtragen: je alter Markt Items/Einträge/mergedAt, "Alle|…" nachher; nachgetragen = true ("vorher" ist nicht
+    mehr bekannt); Protokoll MARKT-VEREINT "nachgetragen". Danach läuft StartUniteMarkets wie bisher (Neutral/Allianz ohne Fehler).
+  Test T993: lastOwnScan als TABELLE in zwei alten Märkten -> beide in EINEM Lauf vereint (2 Quellen, beide mergedInto), neuerer eigener
+    Scan übernommen, kein Fehler; Nachtrag: 2 Quellen, nachgetragen, Alle 3 Items.
+
+PM1-c MITTEL (Gilden-Daten alter Versionen) + G10-a MITTEL (Eichung)
+  - Formatkennung "f2" als erster Teil jeder Sendung V (Verkaufsfälle), C (Eichung), I (Rechnungen). Alte Clients überspringen den Teil
+    (passt in keines ihrer Muster: V "^(%w+),(%d),(%w+),(%w+)$", C "^(%a[%w]*),(%w+),(%w+)$", I 5 Felder) -> kein Fehler, alte Clients
+    empfangen weiter. Neue Clients verwerfen Sendungen OHNE Kennung (SO.HasFmt; HandleShared 0, HandleCal/HandleInvoices -1).
+  - Einmalig beim ersten Start (db.fixPM1c): gespeicherte saleShared/calShared/invoiceShared ohne Kennung verwerfen; Protokoll PM1C-BEREINIGT.
+  - G10-a: db.calFrom = erster Start ab 0.65.383 (nach PM1); SO:OwnGroupCounts zählt nur Fälle ab calFrom - ALLE Arten gleich ("v" und
+    "b"), nichts gelöscht. Warum nicht "nur b/a vor der PM1-Bereinigung verwerfen": db.fixPM1 = 1 hat keinen Zeitpunkt; mit calFrom ab jetzt
+    ist die Eichung auf jeden Fall frei von den alten "b" ohne Gegenstück; Kosten: Fälle 22.–23.11. zählen nicht (höchste Gruppe hatte 22,
+    Eichung wirkte noch nirgends).
+  Test T995: V/C/I ohne Kennung 0/-1/-1, mit Kennung je 1 übernommen; Eichung: 10 "b" vor calFrom -> 0; danach 20 v / 10 b -> 0,667.
+  T957 an die Kennung angepasst.
+
+BH3-a: Tooltip-Zeile "davon Erlös ohne Einkauf (Kostenbasis 0) …" ersatzlos gestrichen (Code und alle 10 Sprachen). Tooltip = Erlös,
+  Eingesetzt, Gebühren, [Entzauber-Ausbeute], Gewinn. T986 angepasst (5 Zeilen, Summe 207861).
+
+PM1-b: A:NoteFix schreibt die Zahlen einmaliger Bereinigungen dauerhaft nach db.fixLog: PM1 (FixPM1), L6 (FixL6), STAPEL (CleanDivided,
+  Summen über alle Items), PM1c. PM1 lief bei allen schon -> Le:BackfillFixLog trägt nach, was noch zählbar ist (Verkäufe mit oldPM1, Käufe
+  mit pm1Unsure); verworfene Fälle/Gilden-Daten/Rechnungen sind nicht mehr zählbar (so im Text). Testbericht: T994 gibt alle Zeilen aus.
+
+PM1-a (Testlauf): liegt beim Nutzer – alle Tests T976–T995 sind gebaut. Nächste Version: PM1-d, CF2-a, S6-a, S6-b, Z1, G10-b, G17-a, W2-E, W3-E.
