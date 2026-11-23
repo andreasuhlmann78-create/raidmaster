@@ -6229,3 +6229,15 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
      Zusätzlich Zähler je Ursache und Tag in db.sync.recv (wie a/r) führen; Beispiele dürfen rollen.
  S6-b PRÜFEN: 5 Fälle "stapel" (fremder Preis ≈ Stapelpreis) bei Absendern mit neuer Version – Absender-Kürzel und Item in den 5 Fällen
      ansehen: sendet ein Client noch Stapelpreise (z. B. Item-Suchzeilen vor RowUnit)? Im Bericht belegen.
+
+>>> PRÜFUNG SUPERVISOR 23.11. 07:05 – AHSentinel, Teil 10: B1–B9 (0.65.370/374), SN-Z1–Z3 (0.65.375), SN-T
+    ANGENOMMEN:
+     B5 IM SPIEL BELEGT: Protokoll POST-ZEILEN 21.11. 20:23–21:27, 8 Abholungen, jedes Mal Zeilen = Briefe (13/13, 10/10, 6/6 …).
+     B9 nachgerechnet: 334/302 × 802 + 99/302 × 3195 + 15/302 × 2400 = 2053,6c -> 20s53; − Gebühr 1s02 = 19s51; − Kauf 18s94 = +57c = Anzeige.
+     B1–B4, B6–B8 Code wie im Bericht (Tooltip.lua DECompare/ApplyBig/AgeCase/CalcPlace, Ledger SellSpeedText ohne "~", Disenchant EnchantSkill).
+      Im Spiel noch nicht gesehen: B6 (Zeile an gleicher Stelle) und B8 (Box neben Vergleichs-Tooltip) -> beim nächsten Rüstungsteil achten.
+     SN-Z2 Ursache belegt (nie gesetzte globale Variable plan) und behoben. SN-Z1 Garantie GUARANTEE_N = 4 (Code); SN-T misst (23 Zeilen
+      SNIPER-TAKT 22.11.: Abstände ~3,4 s = Treffer-Halt 3 s + Server 0,1–0,2 s; lange Abstände = "andere Arbeit: Einkauf"). Kein Befund.
+     SN-Z3 ist keine offene Frage mehr im Sinne eines Auftrags: Warnung bleibt, Ziel aktiv (Nutzer-Sache im Spiel).
+    OFFEN: Z1 (Gewinnzeile +2s41 vs. 2s49, NIEDRIG) unverändert – noch keine Version danach.
+    Abnahme B/SN = erledigt mit PM1-a (Testlauf T959–T964, T972–T975).
