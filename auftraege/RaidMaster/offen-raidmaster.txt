@@ -621,3 +621,14 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     Beim Nutzer (nicht Teil dieses Auftrags): Uploader auf PC und bei beiden Offizieren auf die neue Version bringen.
 
 >>> NEU 23.11. 08:13 (Supervisor 08:14): Stand sichern in berichte/<dein Projekt>/stand-aktuell.md – auftraege/hinweis-stand-sichern-2026-11-23.txt.
+
+>>> PRÜFUNG SUPERVISOR 23.11. 09:04 – Uploader 2.3.15 (UP-DS2) – ANGENOMMEN, ERLEDIGT nach der ersten Lieferung mit 2.3.15 (Beleg im Daten-Repo)
+    Code (daten.py, Commit cf9e95d) dreifach gelesen: _clean_guildsentinel filtert jede fremde/ältere GuildSentinel.lua, nicht lesbar -> weggelassen,
+     Ergebnis je Prüfwert gemerkt (nur einmal laden); "dirty"-Prüfung erzwingt einen neuen Stand, solange ungefilterte Dateien im Repo liegen;
+     stand.json "uploader"; Hinweis auf alte Uploader ohne Namen. Tests: test_daten/test_sync/test_uploader OK, test_umfassend OK (TU7 SKIP wie bisher).
+    Unabhängig nachgerechnet (Supervisor, svfilter 2.3.15 auf alle 19 GuildSentinel.lua im Daten-Repo 23.11.): 19 lesbar, 10 bereinigt, zweites Filtern
+     ändert nichts – deckt sich mit dem Bericht. Bericht und Commit ohne Namen.
+ UP-DS2-a NIEDRIG: Ein vorübergehender Ladefehler (Netz) in fetch(sha) setzt memo[sha] = "" -> die Datei eines anderen Rechners fällt DAUERHAFT weg
+     (bis dieser Rechner neu liefert). Unterscheiden: Netzfehler -> nicht merken, diese Lieferung ohne Nachfiltern abbrechen und später erneut;
+     nur "nicht sicher lesbar" (FilterError) -> weglassen und merken. Test: Netzfehler einmal -> Datei bleibt, nächster Lauf bereinigt sie.
+    Restrisiko (Hinweis, kein Auftrag): GitHub kann frühere, nicht mehr erreichbare Fassungen intern noch eine Zeit lang halten (Force-Push).
