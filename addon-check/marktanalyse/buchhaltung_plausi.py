@@ -27,7 +27,8 @@ def prices(db):
     out = collections.defaultdict(lambda: collections.defaultdict(list))
     for mk in db.markets.keys():
         m = db.markets[mk]
-        if not m.data:
+        # G1/G2 (AHSentinel 0.65.364): alte Märkte mit mergedInto sind nur Sicherung des gemeinsamen Markts "Alle|<Fraktion>" -> überspringen (sonst doppelt)
+        if not m.data or m.mergedInto:
             continue
         for i in m.data.keys():
             d = m.data[i]

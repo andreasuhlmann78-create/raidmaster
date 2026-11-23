@@ -10,7 +10,8 @@ mk_names=[]
 for mk in DB.markets.keys():
     mk_names.append(mk)
     m = DB.markets[mk]
-    if not m.data: continue
+    # G1/G2 (AHSentinel 0.65.364): alte Märkte mit mergedInto sind nur Sicherung des gemeinsamen Markts "Alle|<Fraktion>" -> überspringen (sonst doppelt)
+    if not m.data or m.mergedInto: continue
     for id in m.data.keys():
         d = m.data[id]; pts=[]
         if d.hz:

@@ -3,7 +3,8 @@ from lupa import LuaRuntime
 lua=LuaRuntime(unpack_returned_tuples=True)
 lua.execute(open('/home/claude/goldsentinel-daten/aktuell/DESKTOP-NVITMSE/forever/konto-5cb3d536/AHSentinel.lua',encoding='utf-8',errors='replace').read())
 db=lua.globals().AHSentinelDB; T=lua.eval('type')
-M=db.markets['CAMWOW EU4 Realm 6 PvP|Horde'].data
+# G1 (0.65.364): gemeinsamer Markt je Fraktion; ältere Stände ohne "Alle|Horde" -> alter Realm-Markt
+M=(db.markets['Alle|Horde'] or db.markets['CAMWOW EU4 Realm 6 PvP|Horde']).data
 def ah(i):
     e=M[i]
     if e is None or e.history is None: return None

@@ -85,5 +85,17 @@ with tempfile.TemporaryDirectory() as d:
     c = mt.alle(d, keep=1)
     check("keep=1 -> nur neuester Tag", c["tage"] == 1 and 2589 not in c.get("H", {}))
 
+# G1/G2 (Supervisor 23.11.2026): alte Märkte mit mergedInto (Sicherung) nicht doppelt zählen
+_lua = LuaRuntime(unpack_returned_tuples=True)
+_db = _lua.eval("""{ markets = {
+  ["Alle|Horde"] = { data = { [2589] = { history = { { t = 100, p = 50 }, { t = 200, p = 60 } } } } },
+  ["CAMWOW EU4 Realm 6 PvP|Horde"] = { mergedInto = "Alle|Horde", mergedAt = 1, data = { [2589] = { history = { { t = 100, p = 50 } } } } },
+  ["|Horde"] = { mergedInto = "Alle|Horde", data = { [2592] = { history = { { t = 100, p = 9 } } } } },
+  ["Alter Realm|Horde"] = { data = { [2592] = { history = { { t = 150, p = 11 } } } } },
+} }""")
+_s = mt.series_of(_db)
+check("Sicherungsmarkt (mergedInto) nicht doppelt: 2589 hat 2 Preise", len(_s[2589]) == 2)
+check("Sicherungsmarkt übersprungen, nicht vereinter Altmarkt gelesen: 2592 nur 11", _s[2592] == [(150, 11.0)])
+
 print(f"{ok}/{ok + fail} Prüfungen bestanden")
 sys.exit(1 if fail else 0)
