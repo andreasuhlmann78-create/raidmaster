@@ -1,17 +1,20 @@
 # Stand ThreatSentinel
 
-## Stand 23.11.2026 10:30 · Version 2.5.25 (veröffentlicht), 2.5.26 im Bauordner
+## Stand 23.11.2026 10:45 · Version 2.5.25 (veröffentlicht), 2.5.26 im Bauordner
 Veröffentlicht (download/, announce/), addon_check OK ohne WARNUNG. Berichte: 2026-11-23-0850-version-2.5.24.txt, 2026-11-23-0950-version-2.5.25-stufe3.txt.
 
 ## Gerade in Arbeit
-TS-R1 (Supervisor 09:41, Rollen nur gesichert, ohne Tank keine Lose-Warnung, 1 Hinweis je Gruppe) im Bauordner umgesetzt und offline
-getestet (Forever 311 OK, Era 315 OK, Gegenprobe T55 rot). Laut Auftrag KEINE eigene Version: kommt mit dem nächsten Bündel als 2.5.26.
-Dabei: T76 räumt erfundenen Mitspieler auf; Option "Heiler nach Klasse erraten" entfernt (T-OPT1: entfernt 1); Sync sendet "H:UNKNOWN",
-wenn die eigene Rolle unbekannt ist (alte Clients zeigen dann "UNKNOWN" statt eines Rateworts, kein Lua-Fehler – im Bericht nennen).
+Im Bauordner fertig, noch nicht veröffentlicht (laut Auftrag mit dem nächsten Bündel):
+- TS-R1 (09:41): Rolle nur gesichert, ohne Tank kein "lose" + 1 Hinweis je Gruppe (T55, T29, T-OPT1; Gegenprobe rot).
+- TS-R1-a (10:19): unbekannte eigene Rolle -> "V:<Version>" statt "H:UNKNOWN" (alte Versionen ignorieren V; Beleg 2.5.25 Sync.lua
+  S:Handle ohne else-Zweig). Neue Clients merken Version, Rolle bleibt unbekannt, überdeckt keine Gruppenrolle. Test T-R1a mit
+  Gegenstelle 2.5.25 (wörtlicher Zweig "H"), Gegenprobe altes Senden rot. Specs: Sync "unbekannt" ersetzt das Lesen der Skillung nicht.
+  Folge für alte Clients: Spieler mit unbekannter Rolle stehen dort nicht in der Sync-Nutzerliste (S:Users 2.5.25, Sync.lua:264).
+Offline: Forever 312 OK, Era 316 OK, 6 bekannte Nachbildungs-FEHLER.
 
 ## Nächste Schritte (Reihenfolge)
 1. Prüfung 2.5.25 durch die Prüf-Sitzung; weiter ins Repo schauen (auftraege/ThreatSentinel/offen-threatsentinel.txt).
-2. Nächster Auftrag kommt -> mit TS-R1 als 2.5.26 bündeln, Bericht mit TS-R1-Belegen (T55/T29/T-OPT1, Gegenprobe).
+2. 2.5.26 veröffentlichen, sobald das Bündel steht (oder Nutzer/Supervisor es freigibt); Bericht mit TS-R1/TS-R1-a-Belegen.
 3. SPÄTER: gemeinsame Befehlsliste (CH-G) erst auf Anweisung.
 
 ## Offen beim Nutzer
