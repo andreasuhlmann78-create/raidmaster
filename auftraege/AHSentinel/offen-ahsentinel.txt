@@ -6199,3 +6199,22 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
       Waren (Nachtrag) im Spiel 17:05 richtig (Zinnerz 46 Angebote). VARIANTE-PROBE und PREISPRUEFUNG-WARTET noch nie ausgelöst -> im Spiel
       noch nicht gesehen (kein Auftrag; beim nächsten Item mit Zufalls-Zusatz achten).
     Abnahme VS1/PP1 = erledigt mit PM1-a (Testlauf T990 und PP1-Tests).
+
+>>> PRÜFUNG SUPERVISOR 23.11. 06:37 – AHSentinel, Teil 8: G1/G2/G8 (0.65.364) und VL1–VL3 (Messung)
+ G2-a MITTEL (Lua-Fehler, belegt, seit 0.65.364 unverändert, in 0.65.382 AHAnalyzerPro.lua:5595):
+      "if (m.own or 0) > (tm.own or 0)" – m.own ist db.lastOwnScan (TABELLE, siehe :5455), kein Zähler. Protokoll: 17× "FEHLER Märkte vereinen:
+      …:5416: attempt to compare number with table" und 17× "… compare two table values" (u. a. 21.11. 18:38:52 und 18:58:46, 0.65.368).
+      Ablauf: die Item-Schleife läuft fertig, mergedInto/mergedAt wird gesetzt, DANN der Fehler -> je Lauf genau EIN alter Markt; danach fehlen
+      db.marketsUnited (Zahlen vorher/nachher, G2-Pflicht), Protokoll MARKT-VEREINT, Chatmeldung, ClearPriceCaches/DATA_CHANGED.
+      BELEGT unschädlich für die Preise: auf DESKTOP-NVITMSE, DESKTOP-JD5SLR5 und MININT-M6UO3AL fehlt in "Alle|Horde" kein Item der alten Märkte
+      (je 2 alte Märkte, alle mit mergedAt). db.marketsUnited fehlt auf allen 4 Rechnern.
+      Noch ausstehend: Neutral (MININT: Markt "…Realm 8 PvP|Neutral" 4523 Items, noch kein "Alle|Neutral") und jeder Allianz-Spieler -> trifft
+      denselben Fehler.
+      Soll: Vergleich über den Zeitstempel (z. B. (m.own and m.own.t or 0) > (tm.own and tm.own.t or 0)) bzw. die Form von lastOwnScan; einmalig
+      für schon vereinte Märkte db.marketsUnited aus dem heutigen Stand nachtragen (Items/Einträge je alter Markt und "Alle|…"). Test mit
+      lastOwnScan als TABELLE (T942/T943 nutzten offenbar eine Zahl – darum nicht gefunden): zwei alte Märkte -> beide in EINEM Lauf, kein
+      FEHLER, marketsUnited gesetzt.
+ VL1 GEMESSEN (Protokoll VERKAUFEN-LISTE 22.11. 16:56–16:59, 0.65.381/382, AH offen, 12–21 Einträge): p:Refresh Ø 3,2–4,0 ms, max 7,9 ms
+      (Ziel Reiter ≤ 50 ms); Taschen voll Ø 1,1–1,3 ms. VL2 (Taschen doppelt lesen) als Ursache WIDERLEGT – keine Änderung. VL2/VL3 damit
+      geschlossen. Langsamer Aufbau war die Preisprüfung: 0.65.381 während des Scans ~8 s je Item; 0.65.382 ab 17:01 ~1 je Sekunde.
+      Wenn der Nutzer den Aufbau noch langsam findet: neu melden.

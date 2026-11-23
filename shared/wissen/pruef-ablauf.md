@@ -105,6 +105,9 @@ dann Messauftrag statt Regel.
   ergänzen (Abschnitt E), damit er nicht wieder durchrutscht.
 
 ## E. Prüfregeln aus Fehlern (fortlaufend)
+- 23.11. Lua-Fehler "Märkte vereinen" (G2) lief seit 21.11. 34× im Protokoll, ohne dass eine Prüfung ihn meldete. REGEL: bei JEDER Prüfung
+  alle FEHLER-Zeilen aller Diagnosen seit der letzten geprüften Version zählen (grep " FEHLER "), jede Art einem Auftrag zuordnen.
+  Testdaten müssen die echte Form der Daten haben (hier lastOwnScan = Tabelle, nicht Zahl) – im Bericht prüfen, womit getestet wurde.
 - 23.11. Eigenes Werkzeug buchhaltung_plausi.py P1 verglich ALLE Verkäufe mit Einstand (auch billig gekauften Fisch/Leder/Stoff) mit dem
   Entzauber-Tagesmittel -> falsche Warnungen. Behoben (nur bt = "de"). REGEL: Jede Prüfung eines Werkzeugs auf genau den Gegenstand
   beschränken, den sie prüfen soll (Herkunftsfeld), und vor dem Weitergeben einer WARNUNG drei Fälle von Hand gegen die Rohdaten prüfen.
