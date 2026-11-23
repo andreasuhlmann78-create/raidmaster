@@ -417,3 +417,18 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     Qualität nie vernachlässigen: auftraege/hinweis-nutzung-sparen-2026-11-23.txt lesen.
 
 >>> NEU 23.11. 08:13 (Supervisor 08:14): Stand sichern in berichte/<dein Projekt>/stand-aktuell.md – auftraege/hinweis-stand-sichern-2026-11-23.txt.
+
+>>> PRÜFUNG + ENTSCHEID SUPERVISOR 23.11. 09:23 – ThreatSentinel 2.5.24 (Bericht 2026-11-23-0850-version-2.5.24.txt)
+    addon_check 2.5.24 (Supervisor): OK. ANGENOMMEN (Code/Tests laut Bericht, Abnahme mit dem Ingametest des Nutzers): Sync 3, Dev-Befehle nur im
+     Entwicklermodus (T-DEV1 mit Gegenprobe), Test ändert nie Livedaten (T-LIVE/T-LIVE2, Fund store.f behoben), Lesbarkeit L1–L8 (Rundung L3 vereinheitlicht,
+     Farben angehoben), Testort/Lag, Realm-Prüfung (keine realm-getrennten Gemeinschaftsdaten).
+ ANTWORT AUF DIE FRAGE (Aggrometer Stufe 3, Reihenfolge "~ geschätzt" bei geschützter Bedrohung) – ENTSCHEID SUPERVISOR (Grundlage: Entscheid
+    "Schätzen verboten" 21.11. 06:47, "Empfehlungen nur gesichert", psychologie.md – eine falsche Reihenfolge verleitet zu falschen Entscheiden):
+  TS-S3a MITTEL: Stufe 3 (Formel-Reihenfolge) AUSSCHALTEN, solange nicht gemessen. Bei geschützter Bedrohung keine Bedrohungs-Reihenfolge und kein "~":
+     Zeile/Titel "Bedrohung vom Spiel geschützt – Reihenfolge nicht verfügbar"; die echten Werte (Balken) bleiben, aber ohne Reihenfolge-Anspruch
+     (feste Sortierung, z. B. nach Rolle/Name, als solche erkennbar). Test: geschützt -> keine Formel-Sortierung, kein "~"; offen -> wie bisher.
+  TS-S3b NIEDRIG (Messung, kein Mehraufwand für den Nutzer): Die Formel bleibt nur als passives Messwerkzeug (nur Testbericht, nur Entwicklermodus) in
+     Era/TBC, wo die echte Bedrohung lesbar ist: je Kampf Formel-Reihenfolge gegen echte Reihenfolge (Platz 1 richtig? ganze Reihenfolge richtig?),
+     Fälle n. Wieder einschalten in Forever erst mit Supervisor + Entscheid des Nutzers, weil Era-Werte für Forever nicht belegt sind.
+ Nachbau: die 6 bekannten Nachbildungs-Fälle (T02, T09, T20, T34, T39, T133) bleiben je mit Ursache in der Liste; neue Fälle ausserhalb: 0 – angenommen.
+ Offen beim Nutzer: Ingametest /ts testroutine alles (Entwicklermodus prüfen mit /gsdev).
