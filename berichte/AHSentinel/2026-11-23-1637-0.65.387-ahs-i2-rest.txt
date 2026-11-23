@@ -1,0 +1,54 @@
+AHSentinel 0.65.387 – AHS-I2 Rest (INGAMETEST PM1-a, 49 FEHLER) – umgesetzt, zur Prüfung
+Nur Discord, kein CurseForge (bleibt gesperrt). addon_check: OK. Dateiliste ZIP gleich wie 0.65.386. Tests gebaut; im Spiel NICHT laufen gelassen.
+Nachbau (tests/run_offline.sh, gleiche Testroutine, eigene Nachbau-Daten): Teil auto 0 FEHLER, Teil server 0 FEHLER (0.65.386: 31 + 1 + T21).
+
+NEUER BEFUND (HOCH, betrifft die gemeinsame Datei – nur gemeldet, NICHT geändert): GoldSentinelTest.lua Run:Check wertet nur "false" als
+FEHLER. Eine Prüfung, die nil liefert (typisch "return r and …, …" ohne Ergebnis), zählt still als OK.
+  Belegt im Nachbau: T392 lieferte nil (P5 "Stufe unbekannt" -> keine Zeile) und stand als PASS. Mit nil = FEHLER (nur in der eigenen
+  TestRoutine.lua, TR:Check: "Prüfung lieferte nil statt true (zählte bisher als OK)") wurden 15 weitere verdeckte FEHLER sichtbar:
+  T13, T309, T351, T352, T392, T394, T395, T398, T431, T432, T433, T434, T437, T478, T523. Alle unten zugeordnet und behoben.
+  Vorschlag an die Prüf-Sitzung: in shared/GoldSentinelTest.lua nil wie false werten (betrifft ALLE Addons; Prüfungen mit nil könnten
+  dort ebenfalls still OK sein). Bis dahin fängt AHSentinel es selbst ab.
+
+AHS-I2 – Zuordnung der restlichen Punkte (Ursache je Punkt; "seit" = Bisektion aus dem Bericht 16:11)
+ ADDON (echte Fehler, behoben):
+  T891 seit 0.65.361 – MV:Advice (Markt-Reiter, Detail) nahm bei fehlendem Vorschlag A:RealPrice (Marktwert) als Ersatz: "L-ALT: einstellen
+       für 9s 90c" ohne Preisprüfung. Verstoss gegen P8 ("nie den Marktwert als Ersatz-Vorschlag"). Jetzt "liegen lassen"-Art mit
+       "Preis nicht geprüft – erneut prüfen" (+ Grund). UI_MarketView.lua MV:Advice.
+  T875 – Ln:RelistHigher nahm den neuen Preis aus Se:Undercut mit der Unterbieten-Einstellung des Spielers (Spiel 980/1782/2870 statt
+       989/1799/2898). Jetzt genau der Verkaufen-Vorschlag (V1). Learn.lua. Damit war T875 kein Echtdaten-, sondern ein Addon-Fehler.
+  T21 (nur Nachbau) – SelfTest "Marktdaten plausibel" war FEHLER, sobald kein Item einen Marktwert hat; seit G4/TT3 ist das bei einem jungen
+       Markt (< 3 Stundenwerte) richtig. Jetzt FEHLER nur, wenn Items 3 Stundenwerte haben und trotzdem keiner einen Marktwert bekommt.
+ VERALTET (Soll auf den Entscheid umgeschrieben):
+  TT (AUFTRAG TOOLTIP 21.11. 09:20, B1/B6/B7/B9, Punkt 8): T215, T228, T248, T273, T287, T467, T468, T469, T470, T743, T789, T888.
+   T467–T470 prüfen jetzt das neue Bild: EIN Gewinn oben (TT1), ohne Kaufpreis "Entzaubern statt verkaufen +x" (B1), Nicht-Verzauberer
+   nur "Entzauberwert" (Punkt 8), alter Materialpreis -> "Material zurzeit nicht im Angebot – letzter Preis vor 25 Std." ohne Gewinn (TT4/B7),
+   Option aus -> nichts vom Entzauber-Teil. T888: "Marktwert (Scan vor x)" statt Preis/Verkaufen:, "(läuft oft ab)" genau wenn
+   Se:ExpiryOffer netto < Realer Wert; die Regel "Ausrüstung ganze Silber 855" ist durch V1 aufgehoben.
+  V1/P8 (Nutzer 21.11. 08:23–08:28, NACHTRAG 09:30): T509 (28s98, Aufkauf nur Hinweis), T545 (29s99), T290 (199 bleibt 199, Knopf 1 Kupfer),
+   T788 (Mindestpreis 1141 genau), T514–T519/T521/T522/T525 (LAGEN, schon in 0.65.386 vorbereitet), T891 (s. ADDON).
+  T225 – G1/G2 (0.65.364): ein Markt je Fraktion über alle Server ("Alle|Horde"). T255 – PM1: Menge aus Feld 11 (Ersatz liefert Feld 11).
+  T13 – G4 (je Stunde ein Wert) + TT3 (3 Werte): Testpreise lagen in EINER Stunde -> 3 verschiedene Stunden.
+  T478, T523 – G11 (Trend herausgerechnet, "üblich" = heutiges Niveau 8s80): 8s20 lag nur 6,8 % darunter (< 10 %) -> "normal" ist richtig;
+   Testpreis 7s80 (11,4 % darunter, fallend) -> "Fällt – abwarten".
+ TEST (Fehler im Test, behoben):
+  T397, T392–T398, T431–T437, T579 – P5 (0.65.361, ohne Itemstufe kein Wert): die Test-IDs haben kein GetItemInfo -> MV:DEOffer nil.
+   Belegt im Nachbau ("ilvl nil", "Stufe unbekannt"). Test-Items bekommen Stufe 20 (T435 prüft weiter "Stufe unbekannt" mit ilvl = false).
+  T351, T352 – MP2/AB5: Test-Materialien ohne Scan-Zeit -> D:StaleMain "veraltet" -> kein Urteil. Materialpreise im Test frisch.
+  T309 – nur Nachbau: time() liefert dort Bruchteile, der eingesetzte Zeitstempel passte nicht zum Speicherformat (%d+). Ganze Sekunden.
+  T52 (Teil server, nur Nachbau) – Erwartung kannte den Status "teurer" (Stufe 2 L6) nicht; folgt jetzt derselben Regel (Ln:RelistHigher).
+ ECHTDATEN (nur im Spiel rot, isoliert):
+  T285, T289, T291 – lasen dazu gelernten Dauer-Faktor (Ln:Corr), "alle Spieler"-Absatz (VS:SalesRate) und die Standard-Laufzeit des
+   Spielers (A:EvalHours). Im Test jetzt Lernen aus, kein geteilter Absatz, Laufzeit 24 Std. (Verdacht belegt durch Code, Nachbau grün).
+  T292 – las die echten Einstellgrössen (Ledger:PostSizes: Leinenstoff 9 je Auktion). Im Test ohne eigene/gelernte Grösse.
+ UI (OFFEN, eigene Version): T750 (104 Befunde, davon Markt > Überfüllt 52), T191 (Frame verdeckt Knopf) – nur im echten Fenster messbar.
+
+ZÄHLUNG der 49: in 0.65.386 behoben 12. Jetzt umgesetzt 35 = TT 12 (T215 T228 T248 T273 T287 T467 T468 T469 T470 T743 T789 T888)
+ + V1/P8 15 (T509 T514 T515 T516 T517 T518 T519 T521 T522 T525 T545 T788 T290 T875 T891) + T225 T255 (2) + T397 T579 (2)
+ + Echtdaten T285 T289 T291 T292 (4). Offen 2 (T750, T191 UI). 12 + 35 + 2 = 49. Dazu 15 bisher verdeckte (nil) und T21/T52 (nur Nachbau).
+
+VERDACHT, ZU MESSEN (Gold-Sicherheit, unverändert seit 0.65.359): wirtschaft-forever.md "Ausrüstung nur ganze Silber (199c -> Interner
+ Auktion-Fehler)" gegen Entscheid 21.11. 08:54 ("ganze Silber weg"). AHS stellt Ausrüstung jetzt mit Kupfer ein (z. B. 14s57). Bitte im
+ Spiel einmal Ausrüstung mit Kupfer-Preis einstellen und das Ergebnis melden (Protokoll AHS-POST). Bei Fehler: Regel zurück nur fürs Einstellen.
+
+NÄCHSTE SCHRITTE: AHS-I4 (712-ms-Lücke beim Vollscan, Ursache je langem Bild belegen) -> AHS-I3 (T126, T459) -> G14-Vorschlag -> T750/T191 UI.
