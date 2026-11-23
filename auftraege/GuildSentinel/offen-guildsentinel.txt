@@ -671,3 +671,16 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
 
 >>> ENTSCHEID DES NUTZERS 23.11. 07:50 (Supervisor 07:50): Pause vom 18.11. aufgehoben – weiterarbeiten an dieser Datei. Nutzung sparen,
     Qualität nie vernachlässigen: auftraege/hinweis-nutzung-sparen-2026-11-23.txt lesen.
+
+>>> AUFTRAG G-4a MITTEL (Supervisor 23.11. 07:52, Freigabe des Nutzers 07:51) – Ruckeln Seite "Mitglieder" – GEMESSEN (G-4 Messhilfe 0.9.42 wirkt)
+    Beleg (Diagnose GuildSentinel 0.9.58, deDE, Forever, verschiedene Ereignisse 17.–22.11.): 7× "LANGSAM Seite members" mit 17, 17, 18, 18, 20,
+     20, 22 ms (Grenze ein Bild = 16 ms). Gemessen wird in UI.lua:1229 (ns.Timed("Seite " .. key, ns.Roster.Memo, … SelectNow …)) = Anwählen/
+     Aktualisieren der Seite, NICHT der erste Aufbau ("Seite bauen members", UI.lua:1258, nie über 16 ms). Der Verdacht "erstes Öffnen des
+     Fensters" (G-4) ist damit widerlegt; Ursache = Füllen/Aktualisieren der Mitgliederliste.
+    Soll: (1) Zuerst im Bericht belegen, welcher Teil von SelectNow("members") die Zeit braucht (Mitglieder lesen/sortieren/filtern vs. Zeilen
+     setzen) – mit ns.Timed-Unterteilung, Zahlen aus dem Nachbau mit 1000 Mitgliedern UND einer kleinen Gilde. (2) Dann so umbauen, dass kein
+     Schritt über 16 ms liegt: nur sichtbare Zeilen setzen (Scroll-Liste), Sortierung/Filter nur bei Änderung neu rechnen, Rest in Portionen
+     über mehrere Bilder (ohne sichtbares Flackern, ohne leere Liste). (3) Anzeige, Reihenfolge, Filter und Werte bleiben gleich.
+    Tests: Nachbau 1000 Mitglieder -> SelectNow("members") jeder Schritt ≤ 16 ms; Ergebnis-Liste identisch mit vorher (gleiche Reihenfolge,
+     gleiche Zeilen); kleine Gilde unverändert. Selbstkontrolle bleibt: LANGSAM-Eintrag > 16 ms im Protokoll. Nutzung sparen
+     (hinweis-nutzung-sparen-2026-11-23.txt): in EINER Version mit anderen offenen Punkten bündeln. Bericht "umgesetzt, zur Prüfung".

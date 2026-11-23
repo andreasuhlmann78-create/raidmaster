@@ -1,0 +1,6 @@
+NACHRICHT AN DIE GUILDSENTINEL-SITZUNG (zum Einfügen) – Supervisor 23.11.2026
+Erst laufende Arbeit fertig machen. git pull --rebase im raidmaster-Repo, auftraege/GuildSentinel/offen-guildsentinel.txt ganz unten lesen:
+Pause vom 18.11. ist aufgehoben (Nutzung sparen, Qualität bleibt). Neu: G-4a MITTEL – Seite "Mitglieder" braucht beim Anwählen 17–22 ms
+(7 Messungen 17.–22.11., UI.lua:1229), mehr als ein Bild. Erst belegen, welcher Teil die Zeit braucht, dann jeden Schritt ≤ 16 ms (nur sichtbare
+Zeilen, Sortierung nur bei Änderung, Rest in Portionen). Anzeige bleibt gleich. Tests laut Auftrag, mit anderen offenen Punkten in EINER Version,
+addon_check ohne FEHLER, Bericht in berichte/GuildSentinel/. Ist der Befund falsch, begründet zurückmelden.

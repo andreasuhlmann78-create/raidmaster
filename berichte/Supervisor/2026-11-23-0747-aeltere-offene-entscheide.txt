@@ -3,7 +3,7 @@
 1. Uploader-Altstände bereinigen (RaidMaster, 16.11.): im Repo (auftraege/RaidMaster, entscheide.md, berichte/) KEIN Eintrag dazu gefunden.
    Offen beim Nutzer: was genau gemeint ist (alte Uploader-Versionen auf den Rechnern? alte Tages-Stände im Daten-Repo?).
 2. GuildSentinel G-4 (Ruckeln): Messhilfe seit 0.9.42. MESSUNG LIEGT JETZT VOR (Diagnose GuildSentinel 0.9.58, 22.11.):
-   "LANGSAM Seite members" 84× mit 17–22 ms (über 16 ms = ein Bild). Der Verdacht "erstes Öffnen des Fensters" ist damit NICHT die Ursache;
+   "LANGSAM Seite members" 7 verschiedene Ereignisse (17.–22.11.) mit 17–22 ms (KORREKTUR 23.11.: die zuerst genannten 84 waren Mehrfach-Uploads derselben Zeilen) (über 16 ms = ein Bild). Der Verdacht "erstes Öffnen des Fensters" ist damit NICHT die Ursache;
    es ist die Seite "Mitglieder" bei jedem Aufbau. Vorschlag Supervisor: Auftrag an GuildSentinel (Seite Mitglieder in Portionen bzw. nur
    Geändertes neu zeichnen, Ziel ≤ 16 ms). Entscheid: Auftrag jetzt oder erst, wenn GuildSentinel wieder an der Reihe ist (Pause 18.11. 19:53).
 3. Discord #ruhmeshalle / Rekorde (15.11.): Entscheid 15.11. 16:05 "Raids sind Raids und Dungeons sind Dungeons", Raids unten – laut Bericht
@@ -14,3 +14,5 @@
    Empfehlung: erst nach ST7/PM1-a und genug Fällen aus dem Post-Scan (G10) entscheiden.
 5. (zusätzlich gefunden) Pause der anderen Projekte (Entscheid 18.11. 19:53 "nur AHS arbeitet weiter"): gilt sie noch? Die Übergabe nennt
    Montag-Aufträge für LevelPilot, ProfessionSentinel, GuildSentinel, BuffSentinel, ThreatSentinel und RaidMaster.
+
+ERLEDIGT 23.11.: Nr. 2 -> Auftrag G-4a an GuildSentinel (Freigabe 07:51). Nr. 3 -> Sichtprüfung #ruhmeshalle (offen-discord). Nr. 5 -> Entscheid 07:50.
