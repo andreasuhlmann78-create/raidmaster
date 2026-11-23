@@ -1,0 +1,52 @@
+BuffSentinel – Bericht an die Prüf-Sitzung · 0.9.61-livedaten-lesbarkeit
+Datum: 23.11.2026, 08:43 (aus date)
+
+Version 0.9.61 (md5 9e8d3ba4…, download = announce byte-gleich, addon_check OK – einzige Warnung wie immer "Lua-Syntax nicht geprüft";
+Offline 8/8 PASS, Fehlerfenster 0). Umgesetzt, zur Prüfung. Gebündelt (Nutzung sparen).
+
+1) INGAMETEST 18.11. 19:25 – T149/T162 "leere Anker klein: nein" (PC zu Hause)
+   Ursache NICHT belegt: Die Desktop-Daten (Daten-Repo) konnte ich nicht lesen – der Zugriff auf das Repo wurde in dieser Sitzung
+   verweigert (Nutzer gefragt). Im Code finde ich keinen Weg, auf dem SetSize(1,1) nicht wirkt (ein Ankerpunkt je Anker,
+   ApplyPositions; keine Grössengrenzen). Verdacht, zu messen: zweiter Ankerpunkt durch ein anderes Addon, oder Pixel-Rundung bei
+   anderer UI-Skalierung.
+   Darum T149 jetzt: alle vier Anker (buff, proc, cd, dispel) statt nur cd, je Anker "Breite×Höhe (3 Stellen) P<Ankerpunkte>
+   S<wirksame Skalierung>" in der Zeile. Nachbau: "buff ok 1.000×1.000 P-1 S1.000; …" (Nachbau kennt GetNumPoints nicht -> -1).
+   Der nächste Lauf auf dem PC zu Hause belegt die Ursache; Behebung danach mit Test genau dieser Lage.
+2) TEST ÄNDERT NIE LIVEDATEN (Hinweis 20.11.) – T264 neu
+   - Eigene SavedVariables (BuffSentinelDB): wie bisher Sandbox + Vergleich vorher/nachher (Leave).
+   - Gemeinsame Tabellen: GoldSentinelSync.store (Adressbuch) und GoldSentinelMarkt.store – Kopie in Portionen (alle 200 Knoten
+     Selftest.Slice) zu Beginn des Laufs, Vergleich am Ende (vor TU4) und Sync-Buch noch einmal nach TU4. Abweichung = FEHLER mit
+     Tabelle.Pfad, Daten an Ort und Stelle zurückgesetzt (Tabelle bleibt dieselbe). Abbruch und /reload: zurücksetzen ohne Bewertung.
+     Namen im Adressbuch erscheinen als <name>.
+   - Gegenprobe im Test: geänderte Kopie wird erkannt. Gegenprobe im Nachbau (Zusatztest, der Sync-Buch und Marktspeicher ändert):
+     T264 FEHLER "GoldSentinelSync.store.book.<…>, GoldSentinelMarkt.store.probe (zurückgesetzt)", danach eigene Daten unverändert.
+   - Gefunden: M.DiagLines (GoldSentinelMarkt, gemeinsame Datei) legt beim LESEN leere Grundtabellen store.f[Fraktion] an; T156 ruft
+     DiagText auf. Dasselbe tut BuffSentinel im normalen Spiel bei jedem Ausloggen (PLAYER_LOGOUT -> DiagExport -> DiagText).
+     Darum wird dieser Lesevorgang einmal VOR dem Schnappschuss gemacht (vor Enter, weil der Marktspeicher BuffSentinelDB.gsMarkt
+     sein kann). Nur bei leerem Speicher wirksam. Netz/Sync im Test: nur T155 (Ersatz + testLearn, 0.9.60).
+3) DEV-BEFEHLE NUR IM ENTWICKLERMODUS (Entscheid 19.11.) – T265 neu
+   Als dev eingestuft (7): test, selbsttest, testroutine, prüfliste, testroutine kampf, testroutine alles, testroutine stopp.
+   Normal (11): optionen, anordnen, fehler, protokoll, protokoll aus/an, sync test, befehlsliste aus/an, spenden, hilfe.
+   /bsen hilfe ohne Dev: Entwickler 0, normale 11; mit Dev: 7/11 (Gegenprobe). Befehlsliste beim Tippen: T174 (0 ohne/alle mit Dev).
+   Optionen: Entwickler-Zeilen ohne Dev 0, mit Dev 2 (T262). Spielertexte ohne Entwicklerwörter (T262).
+4) TESTORT UND LAG (Hinweis 18.11.): BuffSentinel nutzt GoldSentinelTakt nicht (eigener Treiber) -> Takt nicht kopiert.
+   Die Bildzahlen der Testroutine SIND die eigene Rechenzeit (Clock um jede Portion, SelfTest.lua Selftest.Drive); Texte jetzt so
+   beschriftet ("längste eigene Rechenzeit"). T250 bewertet nur diese. Neu im Bericht: "ort" = Zone / Subzone · Namensplaketten in Sicht.
+5) LESBARKEIT L1–L8 – T266 neu (Bereich K)
+   - L8: jede sichtbare Schrift aller Optionsseiten ≥ Grösse von GameFontNormalSmall.
+   - L1: Kontrast ≥ 4,5:1 (WCAG 2.1, 1.4.3) gegen den hellsten Hintergrund im Fenster (Zeile 0.10/0.11/0.13).
+   - L2/L5/L1 Nachkaufen-Tooltip: vorher Betrag mitten im grauen Text ("nie mehr als X je Kauf"). Jetzt: oben "Kosten dieses Kaufs
+     (n Stück)" | Betrag, dann "Höchstens je Kauf" | Betrag, "Bleibt immer übrig" | 1g – rechtsbündig, weiss; Text ohne Betrag.
+     Gegenproben: dunkelgrau 0.4 und Betrag im Text werden erkannt.
+   - L3/L4/L6/L7: BuffSentinel hat keine Listen mit Beträgen/Summen, keine Kauf-/Verkaufsempfehlung; einzige Geldanzeige ist Nachkaufen
+     (Knopf und Tooltip zeigen dieselbe Zahl plan.cost = Pakete × Preis).
+   - Nachbau hat keine Schriften/Regionen -> T266 dort erwartet (Liste ergänzt). Ergebnis kommt mit dem Ingametest.
+6) REALM-SCHLÜSSEL (Prüfauftrag 21.11.): keine realm-getrennten Gemeinschaftsdaten. Fundstellen GetRealmName: Core.lua:572 ProfileKey
+   ("Name-Realm", Charakter-Profil – bleibt), Names.lua:418 IsMe (eigener Charakter als Absender). Sync/Markt: gemeinsame Dateien
+   (nicht geändert; Markt nach Fraktion, nicht Realm).
+7) SCHÄTZEN VERBOTEN (21.11.): Prüfliste hatte 14× "ca. N Min." (geschätzt) -> "Dauer nicht gemessen". Weitere Annahmen im Code:
+   - T249: Zeilenzahl der Prüfliste nach Annahme "95 Zeichen je Zeile" (Quelle: keine Messung, n = 0). Plan: im Spiel mit
+     FontString:GetNumLines() messen, sobald die Prüfliste angezeigt wird.
+   - SelfTest.lua TU4: Kommentar "~6 ms mit Speicherbereinigung" (Messung 0.9.21, n nicht notiert) – nur Kommentar, keine Regel.
+   Keine geschätzten Zahlen in Anzeigen für Spieler.
+Offen: Prüfliste von Hand, T247 Händler, T149-Ursache (nächster Lauf PC zu Hause), Takt nicht nötig.
