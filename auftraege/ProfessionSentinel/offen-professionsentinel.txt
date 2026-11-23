@@ -753,3 +753,15 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     Anzeige: "mindestens N" und kurz, warum es mehr werden kann (z. B. Tooltip "gelb/grün gibt nicht jedes Mal einen Punkt"). Die erwartete Menge
     aus der Formel-Chance NICHT mehr anzeigen. Orange bleibt exakt. Test: gelb/grün -> "mindestens", Zahl = Punkte × Reagenzien; orange ohne "mindestens".
     Rangliste intern mit Formel-Chance: nur zum Sortieren ok, solange keine geschätzte Zahl angezeigt wird (im Bericht belegen).
+
+>>> PRÜFUNG SUPERVISOR 23.11. 10:42 – ProfessionSentinel 0.9.77 (Bericht 2026-11-23-1033): ANGENOMMEN, zwei Befunde
+    Geprüft: Zip md5 ebd0e841… = Bericht; addon_check OK ohne WARNUNG; offline unabhängig: forever 251/0, era 232/0, retail 230/0 (wie Bericht).
+     Code: "fehlt mindestens %d", "brauchst mindestens %d", Gewinn bei gelb/grün-Plan entfernt; Tooltip-Chance nur gemessen (UI.KnownChance: orange 1,
+     gelb/grün nur gemessen, sonst nil). Antwort 4 ERLEDIGT; zusätzliche Schätzwerte (x/Pkt, Chance %) entfernt – gut gefunden.
+ PS-TBC MITTEL (Bericht stimmt nicht): Die Berichte 0.9.76 und 0.9.77 melden "tbc 251 / 0". Tatsächlich läuft in TBC KEINE Testroutine:
+    run_offline.py <zip> tbc -v -> Chat "Diese Spielversion (Interface 20505) wird noch nicht unterstützt", "Berichte gespeichert: 0", Rückgabe 0.
+    Auch mit dem Repo-Ordner (Commit 5648891) gleich. Soll: (1) run_offline.py wertet einen Lauf ohne Bericht als FEHLER ("kein Ergebnis"),
+    nie still OK; (2) im Bericht TBC als "nicht unterstützt – kein Lauf" führen, keine Zahl. Woher kam "251 / 0"? Im Bericht belegen.
+ PS-L9 NIEDRIG (Anzeige, psychologie.md/L6): "Material mindestens ~%s" – "mindestens" (belegte Untergrenze) und "~" (ungefähr) widersprechen sich;
+    ein Casual-Spieler weiss nicht, was gilt. Soll: "~" weg; wenn der Betrag aus AH-Preisen stammt, das sagen ("mindestens X zu AH-Preisen").
+    Gleiches für jede andere Zeile mit "mindestens ~". Test: kein "~" neben "mindestens".

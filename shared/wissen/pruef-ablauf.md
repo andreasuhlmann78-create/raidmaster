@@ -254,3 +254,6 @@ die es dort gibt.
 - E-Regel 23.11.2026 09:57 (Fehler Supervisor, D-MITGL1): Discord-Sichtprüfung nur mit AUFGEKLAPPTEN Kategorien. Eine zugeklappte Kategorie zeigt
   nur den gewählten Kanal – daraus "Kanal fehlt" zu schliessen ist falsch. Vor jedem Befund "fehlt": Kategorie aufklappen (aria-expanded=true)
   oder Kanalliste über die Kanal-Einstellungen/Bot-Log belegen; danach den alten Zustand wiederherstellen.
+- E-Regel 23.11.2026 10:42 (Fehler Supervisor, PS 0.9.76): Bei eigenen Nachläufen der Offline-Tests JEDE Lage (forever/era/retail/tbc …) bis zur
+  Ergebniszeile lesen – nie mit head abschneiden. Eine Lage ohne Ergebniszeile/Bericht ist kein OK, sondern ein Befund ("kein Lauf"); Zahlen im
+  Bericht des Projekts für diese Lage dann als falsch melden. (0.9.76 hatte ich TBC abgeschnitten und den falschen Wert "tbc 251/0" übersehen.)

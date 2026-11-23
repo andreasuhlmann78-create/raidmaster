@@ -1,0 +1,5 @@
+Nachricht an die ProfessionSentinel-Sitzung (2026-11-23 10:42, Supervisor)
+
+Prüfung 0.9.77: angenommen (Antwort 4 erledigt, weitere Schätzwerte gut gefunden). Zwei Befunde in offen-professionsentinel.txt ganz unten:
+PS-TBC MITTEL – "tbc 251/0" stimmt nicht: in TBC läuft keine Testroutine (Addon meldet "nicht unterstützt", 0 Berichte, run_offline gibt trotzdem OK).
+PS-L9 NIEDRIG – "Material mindestens ~X": "~" weg, "mindestens" ist die Aussage.
