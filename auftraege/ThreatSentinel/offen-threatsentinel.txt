@@ -444,3 +444,17 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
       ein Hinweis "Kein Tank bekannt – Rolle im Gruppenfenster oder in ThreatSentinel setzen". Ein Spieler mit unbekannter Rolle gilt nicht als Tank.
     - Tests: nur Klasse Krieger -> "Rolle unbekannt", keine Lose-Warnung ohne gesicherten Tank, genau 1 Hinweis; zugewiesener Tank -> Warnung wie bisher;
       Bärengestalt sichtbar -> Tank. Mit dem nächsten Bündel (keine eigene Version nur dafür – Nutzung sparen), Ingametest danach.
+
+>>> SUPERVISOR 23.11. 10:19 – Zwischenstand TS-R1 (Bauordner, noch nicht veröffentlicht, kommt mit 2.5.26): Umsetzung wie beschrieben passt zum
+    Auftrag. EIN PUNKT VOR DER VERÖFFENTLICHUNG (alte Clients nie brechen):
+ TS-R1-a MITTEL – "H:UNKNOWN" an ältere Versionen NICHT senden. Beleg im Code 2.5.25 (= das, was ältere Mitspieler haben):
+    - Sync.lua S:Handle: "H:<ROLLE>:<ver>" -> ns.syncRoles[name].role = "UNKNOWN" (jedes %u+-Wort wird übernommen).
+    - Core.lua ns:GetRole: die Sync-Rolle steht an ERSTER Stelle (vor Hauptpanzer, Skillung, Gruppenrolle, LooksLikeTank). Ein echter Tank mit
+      unbekannter Rolle (Krieger ohne zugewiesene Gruppenrolle – der häufigste Fall) wird beim alten Mitspieler damit zum Nicht-Tank ->
+      IsSafeUnit false -> FALSCHE "lose"-Warnungen für jeden Mob, den dieser Tank hält. Heute errät die alte Version ihn als Tank.
+    - Anzeige: L["UNKNOWN"] fällt über die Locale-Metatabelle auf den Schlüssel zurück -> englisches "UNKNOWN" (Specs.lua Rollenliste).
+    Soll: Bei unbekannter eigener Rolle KEIN "H:<ROLLE>" senden. Alte Clients ignorieren unbekannte Befehle (S:Handle hat keinen else-Zweig);
+     Version/Herzschlag für neue Clients über einen neuen Befehl (z. B. "V:<ver>" oder "H" nur mit gesicherter Rolle). Prüfen, ob die alte Version
+     für "H" sonst noch etwas braucht (Mitgliederliste/Version) – im Bericht belegen.
+    Test: Nachbau mit Sync-Handler 2.5.25 als Gegenstelle: eigene Rolle unbekannt -> beim alten Client keine Sync-Rolle gesetzt, kein "UNKNOWN",
+     ein echter Tank bleibt dort Tank wie bisher; Gegenprobe mit dem bisherigen Senden schlägt an.

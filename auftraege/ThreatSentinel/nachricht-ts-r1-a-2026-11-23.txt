@@ -1,0 +1,5 @@
+Nachricht an die ThreatSentinel-Sitzung (2026-11-23 10:19, Supervisor)
+
+TS-R1 im Bauordner passt. Vor 2.5.26 bitte TS-R1-a (offen-threatsentinel.txt ganz unten): "H:UNKNOWN" nicht an ältere Versionen senden.
+In 2.5.25 steht die Sync-Rolle in GetRole an erster Stelle – ein echter Tank mit unbekannter Rolle wird beim alten Mitspieler zum Nicht-Tank
+(falsche Lose-Warnungen) und erscheint als englisches "UNKNOWN". Unbekannte Rolle: kein H mit Rolle senden; Version über einen neuen Befehl.
