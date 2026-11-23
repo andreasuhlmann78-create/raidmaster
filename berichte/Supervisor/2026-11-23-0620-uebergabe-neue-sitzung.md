@@ -53,3 +53,8 @@ Für die neue Sitzung im Projekt «Addonprüfer». Alles Massgebliche steht im R
 4. **CurseForge-Antworten** an Spieler gingen bisher über Claude in Chrome. Nichts posten ohne OK des Nutzers.
 5. **SavedVariables auswerten:** Dateien sind Lua; mit `lua5.1` laden (`dofile`) und `AHSentinelDB` bzw. `LevelPilotDB` lesen – schneller
    als Python-Parser. (In dieser Sitzung ist lua5.1 nicht installierbar; Ersatz: lupa = Lua 5.1 in Python, gleiche Wirkung.)
+6. **Nutzung sparen** (Entscheid 18.11. 16:13, bis 23.11. 05:00: keine automatischen Runden) ist abgelaufen. Ob die geplanten Aufgaben
+   wieder laufen, entscheidet der Nutzer – vorher fragen (gefragt 23.11. 06:34).
+7. **Projekt Rohauszug** (`auftraege/Rohauszug/offen-rohauszug.txt`): geprüft 23.11. – die Datei steht zuoberst auf
+   "ERLEDIGT / EINGESTELLT (17.11. 06:30)": Entscheid des Nutzers 17.11. 06:22 "an die EULA halten", kein Auszug mehr, Werkzeuge und Daten
+   entfernt. Kein Ordnerzugriff nötig, solange der Nutzer das nicht neu entscheidet.
