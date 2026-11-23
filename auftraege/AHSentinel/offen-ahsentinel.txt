@@ -6309,3 +6309,22 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     addon_check OK; announce/: nichts gelöscht. Code: SilverTest.lua 161 "r.i = r.i - 1" vor der Rückfrage, FeeAsk auch im Test (testDeposit); T1000/T1001/
      T1002 vorhanden, kein T:Skip("noch nicht"). AHS-W2E-a, W2E-b ERLEDIGT (Abnahme im Testlauf PM1-a). ST7-a, G2a-a: Messung gebaut – Zahlen aus dem
      Testbericht abwarten (T1002, MARKT-VEREINT "nachgetragen" ms). Hinweis RecipeList: Bewertung ok; Vorschlag OpenRecipe erst nach der Messung des Nutzers.
+
+>>> INGAMETEST PM1-a – AHSentinel 0.65.385, 23.11. 13:45 (Bericht vom Nutzer im Chat, Supervisor 13:51): "testroutine alles" 9 Teile: 1 bestanden,
+    5 FEHLER, 3 offen (Vollscan, Berufsfenster, Händler – laufen von selbst). Prüfungen gesamt 1079 OK · 54 FEHLER · 43 übersprungen.
+    Im Chat lag nur die Zusammenfassung + Bericht Teil 6; Einzelheiten Teil 1–4 fehlen (Testberichte im Repo zuletzt 21.11. – Uploader liefert nicht?).
+ AHS-I1 HOCH – Teil 1 "Sandbox FEHLER: 200 Pfade, wiederhergestellt (nicht vollständig): sniper.bargains.1 … .12" -> die Testroutine hat ECHTE Daten
+    (Sniper-Schnäppchenliste) verändert und nicht vollständig zurückgestellt. Gilt als Verstoss gegen "Test ändert nie Livedaten". Ursache belegen
+    (welche Prüfung schreibt db.sniper.bargains ausserhalb des Sandbox-Abbilds?), beheben, Test mit Gegenprobe. Danach: ist die echte Liste beim
+    Nutzer jetzt beschädigt? Im Bericht sagen, was der Nutzer tun muss (z. B. nichts / Liste neu aufbauen lassen).
+ AHS-I2 – Teil 1: 49 FEHLER (983 OK) – Einzelheiten nachreichen lassen (Nutzer/Uploader); bis dahin keine Bewertung.
+ AHS-I3 MITTEL – Teil 6 am AH: T126 Scan-Auswertung mittlere der 3 längsten Portionen 8,5 ms (soll <= 8; ui:overview-movers 10 ms, names 9 ms);
+    T459 Vollscan-Speicher 3. Scan der Sitzung: 20 609 KB ohne gelesene Auktionen (soll <= 10 240 KB), 1 Bild > 40 ms mit Bereinigung, 64 Bereinigungen.
+ AHS-I4 HOCH (Messung) – Vollscan-Messung: "Einlesen 76 731 ms, längster Frame 712 ms", "längste Lücke zwischen zwei Frames 712 ms". Eigene Lese-Portion
+    höchstens 1,6 ms (M1d) – die 712 ms sind also NICHT als eigene Arbeit gemessen. Ursache belegen (Speicherbereinigung durch 202 383 KB angelegt beim
+    Einlesen? GetReplicateItemInfo/Item-Antworten 11 151?). Harte Grenze 40 ms (leistung.md) – im Bericht Anteil eigene Arbeit/Bereinigung/Spiel je
+    langem Bild ausweisen.
+ Teil 3 HILFE-GRP NIEDRIG: englisch 1 Befehl doppelt ("einstellungen -> optionen"). Teil 2 UI: 1 FEHLER, Teil 4 Sniper S1–S13: 2 FEHLER – Einzelheiten fehlen.
+ Zur Kenntnis (bekannt, kein neuer Auftrag): SK1-e Tagesbilanz 7 Abweichungen (Geldfluss-Lücke 3,2 % vom Umsatz, Ziel <= 1 %), SK1-n Verkaufsdauer
+    89 von 293 abweichend, Prognose 80–100 %: vorhergesagt 97 % / verkauft 33 % (Anzeige grau "lernt noch" – richtig so).
+    CurseForge (E5): NICHT freigegeben, solange AHS-I1 offen ist.
