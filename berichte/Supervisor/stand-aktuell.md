@@ -10,7 +10,7 @@ Sitzung seit 23.11. 06:18 (Übergabe: berichte/Supervisor/2026-11-23-0620-ueberg
 ## Nächste Schritte (Reihenfolge)
 0. SH-UTF8 NIEDRIG (eigene Aufgabe, shared/): GoldSentinelTest.lua:83 kürzt nach Bytes -> ungültiges UTF-8 in Berichten (LP-Fund 3.13.9).
    Mit der nächsten ohnehin nötigen Änderung an GoldSentinelTest.lua bündeln (neue Version zwingt alle Addons zum Kopieren).
-1. Eingegangen, noch zu prüfen: AHSentinel 0.65.383/384. ProfessionSentinel 0.9.77 geprüft 10:42 (angenommen; PS-TBC, PS-L9) – vorher 0.9.76 geprüft 10:22 (angenommen). ThreatSentinel: TS-R1-a vor 2.5.26.
+1. Eingegangen, noch zu prüfen: AHSentinel 0.65.383/384. ProfessionSentinel 0.9.78 geprüft 11:40 (angenommen) – davor 0.9.77 geprüft 10:42 (angenommen; PS-TBC, PS-L9) – vorher 0.9.76 geprüft 10:22 (angenommen). ThreatSentinel: TS-R1-a vor 2.5.26.
    LevelPilot 3.13.9 geprüft 11:03 (angenommen; LP-T2-a neu, LP-T2/LP-T1-R offen). Vorher: LevelPilot 3.13.8 geprüft 10:09 (angenommen; LP-T2 neu, LP-T1-R offen).
 1. Neue Berichte/Versionen prüfen, sobald sie kommen (zuerst AHSentinel: ST7, G2-a, PM1-a …; RaidMaster: UP-DS2; GuildSentinel: G-4a).
    LevelPilot 3.13.7 geprüft 23.11. (LP-T1, LP-B1–B4, LP-O1 offen); Bilder 21.11./22.11. gesichtet.
@@ -25,6 +25,7 @@ Sitzung seit 23.11. 06:18 (Übergabe: berichte/Supervisor/2026-11-23-0620-ueberg
 - Offen: "kleine KI" AHS (14.11.), Erstkill-Meldungen unter den Rekord-Tafeln gewollt?
 
 ## Entscheide des Nutzers seit letztem Stand
+- 23.11. 11:36 announce/ nichts mehr löschen (an alle, D-ANN1); 10:49 Doppel der geplanten Aufgaben aus (Nachprüfung aus). In entscheide.md.
 - 23.11. 09:59: Bot-Rolle hochziehen macht die Discord-Sitzung selbst, sehr vorsichtig (Auftrag D-MITGL1-R). In entscheide.md eingetragen.
 - alle in shared/wissen/entscheide.md eingetragen (zuletzt 23.11. 08:13).
 

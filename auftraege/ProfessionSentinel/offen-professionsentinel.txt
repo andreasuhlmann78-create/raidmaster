@@ -768,3 +768,8 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
 
 >>> NEU 2026-11-23 11:38 (Supervisor): Entscheid des Nutzers 11:36 – in announce/ NICHTS mehr löschen (neue Datei dazu, alte bleibt).
     auftraege/hinweis-announce-nicht-loeschen-2026-11-23.txt lesen.
+
+>>> PRÜFUNG SUPERVISOR 23.11. 11:40 – ProfessionSentinel 0.9.78 (Bericht 10:51): ANGENOMMEN, keine Befunde. PS-TBC und PS-L9 ERLEDIGT.
+    Unabhängig: md5 e9136be2… = Bericht; addon_check OK ohne WARNUNG; run_offline (Repo 7b4fa2f, veröffentlichtes Zip): forever 251/0, era 232/0,
+    retail 230/0, Rückgabe 0; "tbc" ausdrücklich -> "FEHLER: kein Ergebnis … nicht unterstützt", Rückgabe 1. PLAN_COST_MIN ohne "~" (DE/EN).
+    Ehrliche Erklärung zur falschen TBC-Zahl – danke. (0.9.78 wurde vor dem Entscheid 11:36 veröffentlicht; ab jetzt announce/ nichts löschen.)
