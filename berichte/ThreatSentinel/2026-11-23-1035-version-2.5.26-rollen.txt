@@ -1,0 +1,36 @@
+BERICHT THREATSENTINEL 2.5.26 – TS-R1 (Supervisor 09:41) und TS-R1-a (10:19), veröffentlicht auf Freigabe 10:24
+Stand 23.11.2026 10:35 · download/ThreatSentinel-2.5.26.zip, addon_check: OK, 0 WARNUNG
+Status: umgesetzt, zur Prüfung.
+
+TS-R1 – Rolle nur gesichert
+- Core.lua ns:GetRole: Reihenfolge Sync (nur gesicherte Rolle, "UNKNOWN" überdeckt nichts) -> Hauptpanzer -> Skillung (gelesen, specCheck)
+  -> zugewiesene Gruppenrolle -> sichtbare Aura (Bärengestalt 5487/9634, Rechtschaffener Zorn 25780) -> sonst ns.ROLE_UNKNOWN.
+  ns:GuessRole (Klasse + Mana) entfernt. ns:MyRole: Haltung -> eigene Wahl -> Skillung -> NEU zugewiesene Gruppenrolle/Hauptpanzer -> unbekannt.
+- ns:LooksLikeTank nur noch sichtbare Aura; der Weg "hält die meisten Mobs" (ns.aggroLeader, Threat.lua UpdateAggroLeader, ns:CouldTank) entfernt.
+- Lose-Wertung (Threat.lua): Hält ein Nicht-Tank den Mob und ist KEIN Tank gesichert (ns:SecuredTank: du in Tank-Haltung, Begleiter als
+  Tank im Live-Test oder ein Mitspieler mit Rolle TANK), Zustand "NOTANK" (keine Plaketten-Effekte, keine Warnung) und einmal je Gruppe
+  ns:NoTankHint "Kein Tank bekannt – Rolle im Gruppenfenster oder in ThreatSentinel setzen. Bis dahin gilt kein Mob als lose."
+  Zurückgesetzt beim Verlassen der Gruppe (GROUP_ROSTER_UPDATE). Während der Testroutine nur gezählt (ns.noTankHintN), nicht im Chat;
+  noTankHinted/noTankHintN in der Sandbox.
+- Option "Heiler nach Klasse erraten" (healerHeuristic) entfernt; T-OPT1 führt sie als entfernt (alt 103 - entfernt 1 + neu 1 = 103).
+- Anzeige: "Rolle unbekannt" (L.UNKNOWN) statt "(geschätzt)" in Einstellungen > Gruppe; Zeile ohne Quellen-Klammer.
+- Tests: T55 (neu): nur Klasse Krieger -> UNKNOWN; ohne Tank NOTANK/NOTANK, Hinweise 1, Warnungen 0; zugewiesener Tank -> LOOSE,
+  Warnungen 2; Bärengestalt sichtbar -> TANK. Gegenprobe (Lose-Wertung und Raten wie 2.5.25) -> T55 FEHLER ("Krieger DAMAGER … LOOSE").
+  T29: alter Anführer-Weg zählt nicht mehr (Gegenprobe im Test).
+- Nebenbefund: T76 liess den erfundenen Mitspieler "Grimbar" als Sync-Tank stehen (fiel in T55 auf) -> wird jetzt entfernt.
+
+TS-R1-a – kein "H:UNKNOWN" an ältere Versionen
+- Sync.lua S:Hello: Rolle unbekannt -> "V:<Version>", sonst wie bisher "H:<Rolle>:<Version>". QUEUE_KINDS um V ergänzt (Kampf-Nachholen).
+  S:Handle "V": Sync-Eintrag mit Rolle UNKNOWN und Version (für Nutzerliste/Version), GetRole überspringt ihn.
+  Specs.lua: ein Sync-Eintrag "unbekannt" ersetzt das Lesen der Skillung nicht.
+- Beleg 2.5.25 (Zip): Sync.lua S:Handle kennt nur H, T, R, X, kein else -> "V" wird ignoriert. "H" wird in 2.5.25 genutzt für: Sync-Rolle
+  in GetRole (Core.lua:904, an erster Stelle), Tanks/OtherTankReady (Sync.lua:191, 224), Nutzerliste S:Users (Sync.lua:264) und
+  Specs (146/236: Skillung nicht lesen, solange Sync frisch). Ohne "H" behandelt 2.5.25 uns wie einen Spieler ohne ThreatSentinel
+  (liest Skillung, Gruppenrolle). Folge: in der Nutzerliste älterer Versionen fehlen Spieler mit unbekannter Rolle (CHANGELOG/Announce genannt).
+- Test T-R1a: Gegenstelle = Zweig "H" aus 2.5.25 wörtlich. Unbekannt sendet "V:2.5.26", Tank "H:TANK:2.5.26"; alte Gegenstelle: keine
+  Sync-Rolle; Gegenprobe "H:UNKNOWN" -> dort Rolle UNKNOWN; neue Gegenstelle: Rolle UNKNOWN, Version gemerkt, GetRole mit
+  Gruppenrolle TANK bleibt TANK. Gegenprobe mit dem bisherigen Senden -> T-R1a FEHLER ("unbekannt sendet H:UNKNOWN…").
+
+TESTS (Nachbau, Lua 5.1): Forever OK 312 · FEHLER 6 · übersprungen 20 · Client 16; Era OK 316 · FEHLER 6 · übersprungen 14 · Client 17;
+"alles" (TS_FRAME_MS=0) ok. Die 6 FEHLER = bekannte Nachbildungs-Fälle; ausserhalb der Liste 0. Regressionen: 2 neue Einträge.
+Im Spiel: ein Ingametest 2.5.26 deckt TS-S3a/b (2.5.25), TS-R1 und TS-R1-a ab.

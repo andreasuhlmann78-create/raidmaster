@@ -1,24 +1,18 @@
 # Stand ThreatSentinel
 
-## Stand 23.11.2026 10:45 · Version 2.5.25 (veröffentlicht), 2.5.26 im Bauordner
-Veröffentlicht (download/, announce/), addon_check OK ohne WARNUNG. Berichte: 2026-11-23-0850-version-2.5.24.txt, 2026-11-23-0950-version-2.5.25-stufe3.txt.
+## Stand 23.11.2026 10:35 · Version 2.5.26
+Veröffentlicht (download/, announce/), addon_check OK ohne WARNUNG. Bericht: berichte/ThreatSentinel/2026-11-23-1035-version-2.5.26-rollen.txt.
 
 ## Gerade in Arbeit
-Im Bauordner fertig, noch nicht veröffentlicht (laut Auftrag mit dem nächsten Bündel):
-- TS-R1 (09:41): Rolle nur gesichert, ohne Tank kein "lose" + 1 Hinweis je Gruppe (T55, T29, T-OPT1; Gegenprobe rot).
-- TS-R1-a (10:19): unbekannte eigene Rolle -> "V:<Version>" statt "H:UNKNOWN" (alte Versionen ignorieren V; Beleg 2.5.25 Sync.lua
-  S:Handle ohne else-Zweig). Neue Clients merken Version, Rolle bleibt unbekannt, überdeckt keine Gruppenrolle. Test T-R1a mit
-  Gegenstelle 2.5.25 (wörtlicher Zweig "H"), Gegenprobe altes Senden rot. Specs: Sync "unbekannt" ersetzt das Lesen der Skillung nicht.
-  Folge für alte Clients: Spieler mit unbekannter Rolle stehen dort nicht in der Sync-Nutzerliste (S:Users 2.5.25, Sync.lua:264).
-Offline: Forever 312 OK, Era 316 OK, 6 bekannte Nachbildungs-FEHLER.
+Nichts. TS-R1 und TS-R1-a in 2.5.26 umgesetzt, zur Prüfung (Freigabe zur Veröffentlichung: Supervisor 10:24).
 
 ## Nächste Schritte (Reihenfolge)
 1. Prüfung 2.5.25 durch die Prüf-Sitzung; weiter ins Repo schauen (auftraege/ThreatSentinel/offen-threatsentinel.txt).
-2. 2.5.26 veröffentlichen, sobald das Bündel steht (oder Nutzer/Supervisor es freigibt); Bericht mit TS-R1/TS-R1-a-Belegen.
+2. Ergebnis des Ingametests 2.5.26 auswerten, sobald es im Repo liegt.
 3. SPÄTER: gemeinsame Befehlsliste (CH-G) erst auf Anweisung.
 
 ## Offen beim Nutzer
-- Ingametest 2.5.25: /ts testroutine alles (Entwicklermodus /gsdev). Neu: T187 Lesbarkeit, T-LIVE Livedaten, Ort im Bericht.
+- Ingametest 2.5.26 (deckt 2.5.24–2.5.26 ab): /ts testroutine alles (Entwicklermodus /gsdev). Neu: T187 Lesbarkeit, T-LIVE Livedaten, Ort im Bericht.
 - Messung Stufe 3 sammelt sich nur in Era/TBC mit Entwicklermodus im Kampf (Zeile im Testbericht).
 - Prüfliste OPT: OK/Nicht OK.
 
