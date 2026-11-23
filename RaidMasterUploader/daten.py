@@ -363,8 +363,9 @@ def test_connection(conf: dict, log=print) -> bool:
 class Daten:
     """Lieferung an das private Daten-Repo. Zustand in st["daten"] (uploader_state.json)."""
 
-    def __init__(self, api: GitHubAPI, roots: dict[str, str], st: dict, save, machine: str, log):
+    def __init__(self, api: GitHubAPI, roots: dict[str, str], st: dict, save, machine: str, log, version: str = ""):
         self.api, self.roots, self.save, self.log = api, dict(roots), save, log
+        self.version = str(version or "")             # UP-DS2 (1): steht je Rechner in stand.json ("uploader")
         self.me = machine
         self.folder = path_name(machine)
         d = st.setdefault("daten", {})
@@ -375,6 +376,7 @@ class Daten:
         self.last_error = ""
         self.warned_big: set[str] = set()
         self.warned_filter: set[str] = set()       # DS1: "nicht geliefert" je Datei-Stand nur einmal melden
+        self.warned_old = None                     # UP-DS2 (3): Hinweis "anderer Rechner mit altem Uploader" je Anzahl einmal
 
     # -- welche Dateien (DU2, T-DU10)
     def files(self) -> dict[str, str]:
@@ -465,8 +467,35 @@ class Daten:
             cur[rel] = (data, git_blob_sha(data))
         return cur
 
-    def _build(self, now: float, old: dict[str, dict], cur: dict[str, tuple[bytes, str]], stand_old: dict):
-        """Neuer Baum: eigener Rechner neu, andere Rechner unverändert, 7 Tage, höchstens 200 MB."""
+    def _clean_guildsentinel(self, sha: str, fetch, fblobs: dict[str, bytes]) -> str | None:
+        """UP-DS2: Datei mit Prüfwert sha filtern. Rückgabe neuer Prüfwert (gleich = war schon sauber) oder None (nicht lesbar).
+        Merkt sich das Ergebnis je Prüfwert in st["daten"]["ds2"], damit jede Datei nur einmal geladen wird."""
+        memo = self.d.setdefault("ds2", {})
+        if sha in memo:
+            ns = memo[sha]
+            if ns == "":
+                return None
+            if ns == sha or ns in fblobs or ns in self._have:
+                return ns
+        try:
+            data = fetch(sha)
+            new, _n = svfilter.filter_guildsentinel(data) if svfilter is not None else (None, 0)
+            if new is None:
+                raise ValueError("svfilter fehlt")
+        except Exception:                            # jeder Fehler -> weglassen, nie ungefiltert (kein Text der Ausnahme)
+            memo[sha] = ""
+            return None
+        ns = git_blob_sha(new)
+        if ns != sha:
+            fblobs[ns] = new
+            memo[ns] = ns                              # das gefilterte Ergebnis ist sauber (Filter ändert es nicht mehr)
+        memo[sha] = ns
+        return ns
+
+    def _build(self, now: float, old: dict[str, dict], cur: dict[str, tuple[bytes, str]], stand_old: dict, fetch=None):
+        """Neuer Baum: eigener Rechner neu, andere Rechner unverändert (GuildSentinel.lua gefiltert), 7 Tage, höchstens
+        200 MB. fetch(sha) -> bytes lädt eine Datei aus dem Repo (UP-DS2); ohne fetch kein Nachfiltern."""
+        self._have = {e.get("sha") for e in old.values()}
         me = self.folder
         today = time.strftime("%Y-%m-%d", time.localtime(now))
         entries: dict[str, str] = {}
@@ -495,16 +524,62 @@ class Daten:
             gone = keep.pop(0)
             dropped.append(gone)
             entries = {p: s for p, s in entries.items() if not p.startswith(f"tage/{gone}/")}
+        # UP-DS2 (2): JEDE GuildSentinel.lua im neuen Baum (andere Rechner, ältere Tage, aktuell/ und tage/) durch den Filter;
+        # nicht sicher lesbar -> weglassen (nie ungefiltert). Eigene neue Dateien sind schon in _read_files gefiltert.
+        fblobs: dict[str, bytes] = {}
+        own = {s for _, s in cur.values()}
+        gone_ds2 = 0
+        if fetch is not None:
+            for p in sorted(entries):
+                if not p.endswith("/GuildSentinel.lua") or entries[p] in own:
+                    continue
+                ns = self._clean_guildsentinel(entries[p], fetch, fblobs)
+                if ns is None:
+                    del entries[p]
+                    gone_ds2 += 1
+                else:
+                    if ns != entries[p]:
+                        sizes.setdefault(ns, len(fblobs.get(ns, b"")))
+                    entries[p] = ns
+        self.ds2_dropped = gone_ds2
         stand = {k: v for k, v in stand_old.items() if isinstance(v, dict) and k != me
                  and any(p.startswith(f"aktuell/{k}/") for p in entries)}
         stand[me] = {"zeit": int(now), "dateien": {rel: {"bytes": len(d), "sha": s} for rel, (d, s) in cur.items()},
-                     "grundregeln": list(self.d.get("grundregeln") or [])}       # TU5: Verletzungen (ohne Namen)
+                     "grundregeln": list(self.d.get("grundregeln") or []),      # TU5: Verletzungen (ohne Namen)
+                     "uploader": self.version or "unbekannt"}                   # UP-DS2 (1)
         extra = {"LIESMICH.md": LIESMICH.encode("utf-8"),
                  "stand.json": json.dumps(stand, ensure_ascii=False, indent=1, sort_keys=True).encode("utf-8")}
         for p, data in extra.items():
             entries[p] = git_blob_sha(data)
             sizes[entries[p]] = len(data)
+        for ns, data in fblobs.items():
+            sizes[ns] = len(data)
+        self.fblobs = fblobs
         return entries, sizes, extra, dropped
+
+    @staticmethod
+    def _older(v: str, mine: str) -> bool:
+        def key(x):
+            try:
+                return tuple(int(p) for p in str(x).split("."))
+            except ValueError:
+                return ()
+        return key(v) < key(mine) if key(mine) else False
+
+    def _hint_old_uploaders(self, stand_old: dict):
+        """UP-DS2 (3): liefert ein anderer Rechner ohne Versionsangabe oder mit älterem Uploader? Einmal melden, ohne Namen."""
+        n = 0
+        for k, v in stand_old.items():
+            if k == self.me or k == self.folder or not isinstance(v, dict):
+                continue
+            ver = v.get("uploader")
+            if not ver or ver == "unbekannt" or self._older(ver, self.version):
+                n += 1
+        if n and n != self.warned_old:
+            self.log(f"Prüfung: {n} andere(r) Rechner liefert noch mit einem alten Uploader (ohne Datenschutz-Filter) – "
+                     f"dort den Uploader auf {self.version or 'die neue Version'} bringen.")
+        self.warned_old = n
+        self.old_uploaders = n
 
     def deliver(self, now: float, files: dict[str, str], sig: list) -> bool:
         self.d["last_try"] = now
@@ -521,7 +596,10 @@ class Daten:
                     head = self.api.head(branch)
                 old = {e["path"]: e for e in self.api.tree(head)} if head else {}
                 mine = {p: e.get("sha") for p, e in old.items() if p.startswith(f"aktuell/{self.folder}/")}
-                if mine == {f"aktuell/{self.folder}/{rel}": s for rel, (_, s) in cur.items()}:
+                memo = self.d.get("ds2") or {}
+                dirty = any(p.endswith("/GuildSentinel.lua") and memo.get(e.get("sha")) != e.get("sha")
+                            for p, e in old.items() if not p.startswith(f"aktuell/{self.folder}/"))
+                if not dirty and mine == {f"aktuell/{self.folder}/{rel}": s for rel, (_, s) in cur.items()}:
                     self.d["sig_done"] = sig                 # nichts geändert -> nie ein Commit
                     self.last_error = ""
                     self.save()
@@ -532,10 +610,15 @@ class Daten:
                         stand_old = json.loads(self.api.blob_text(old["stand.json"]["sha"]).decode("utf-8"))
                     except (ValueError, UnicodeDecodeError):
                         stand_old = {}
-                entries, sizes, extra, dropped = self._build(now, old, cur, stand_old)
+                self._hint_old_uploaders(stand_old)
+                entries, sizes, extra, dropped = self._build(now, old, cur, stand_old, fetch=self.api.blob_text)
+                # Prüfwerte merken, die nicht mehr im Repo stehen, vergessen (Zustand klein halten)
+                live = {e.get("sha") for e in old.values()} | set(entries.values())
+                self.d["ds2"] = {k: v for k, v in (self.d.get("ds2") or {}).items() if k in live}
                 have = {e.get("sha") for e in old.values()}
                 blobs = {s: d for d, s in cur.values()}
                 blobs.update({git_blob_sha(d): d for d in extra.values()})
+                blobs.update(self.fblobs)
                 order = sorted(blobs, key=lambda s: 0 if any(s == cs and r.endswith("/AHSentinel.lua")
                                                               for r, (_, cs) in cur.items()) else 1)
                 for s in order:                              # AHSentinel zuerst
@@ -574,6 +657,9 @@ class Daten:
         self.save()
         if dropped:
             self.log(f"Prüfung: Repo über {fmt_mb(REPO_MAX)} – ältere Tages-Stände gelöscht ({', '.join(dropped)}).")
+        if self.fblobs or self.ds2_dropped:
+            self.log(f"Prüfung: Datenschutz – {len(self.fblobs)} ältere GuildSentinel-Datei(en) bereinigt"
+                     + (f", {self.ds2_dropped} nicht lesbare weggelassen" if self.ds2_dropped else "") + ".")
         self.log(f"Prüfung: geliefert ({len(cur)} Dateien, Repo {fmt_mb(total)}).")
         return True
 

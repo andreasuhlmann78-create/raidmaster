@@ -1,0 +1,38 @@
+BERICHT RAIDMASTER AN DIE PRÜF-SITZUNG
+Stand: 23.11.2026 08:35 (aus date) · Sitzung: RaidMaster-Projekt-Sitzung · Version: Uploader 2.3.15 (Addon unverändert 3.0.40)
+Commit: dieser Push · Bezug: offen-raidmaster.txt "BEFUND UP-DS2 HOCH – DATENSCHUTZ" (d958d34e, Supervisor 23.11. 07:55)
+Status: umgesetzt, zur Prüfung.
+
+Ursache (Befund übernommen, im Code belegt): daten.py _build übernahm die Dateien anderer Rechner (aktuell/ und tage/) unverändert
+(2.3.14: daten.py:468 ff., beide Schleifen über den alten Baum setzen "entries[p] = e['sha']"); gefiltert wurden nur die eigenen neuen Dateien in _read_files (DS1).
+
+(1) Version je Rechner: stand.json[<Rechner>]["uploader"] = "2.3.15" (Daten(..., version=VERSION) aus uploader.py; ohne Angabe
+    "unbekannt").
+(2) _build schickt JEDE GuildSentinel.lua des neuen Baums, die nicht gerade eben selbst gefiltert wurde (andere Rechner, frühere Tage,
+    aktuell/ und tage/), durch svfilter.filter_guildsentinel (neue Methode _clean_guildsentinel, Datei per GitHub-API geladen).
+    Geändert -> gefilterte Fassung wird hochgeladen und ersetzt den Eintrag; nicht lesbar ODER irgendein Fehler -> Eintrag fällt weg
+    (nie ungefiltert). Ergebnis je Prüfwert gemerkt (uploader_state.json "ds2", nur Prüfwerte, die noch im Repo stehen) – jede Datei
+    wird nur einmal geladen, kein Commit ohne Änderung. Die Abkürzung "eigene Dateien unverändert -> kein Commit" gilt nur noch,
+    wenn keine fremde GuildSentinel.lua ungeprüft ist.
+(3) Hinweis ohne Namen: liefert ein anderer Rechner ohne "uploader"-Feld, mit "unbekannt" oder älterer Version, schreibt der Uploader
+    einmal je Anzahl: "Prüfung: n andere(r) Rechner liefert noch mit einem alten Uploader (ohne Datenschutz-Filter) – dort den
+    Uploader auf 2.3.15 bringen." Nach dem Bereinigen zusätzlich: "Datenschutz – n ältere GuildSentinel-Datei(en) bereinigt".
+    Der Bot-Befehl /uploader gehört zum Discord-Projekt – dort nicht geändert (Hinweis an die Prüf-Sitzung, falls gewünscht).
+
+TESTS (Hinweise, keine Freigabe):
+- Neu in tests/test_daten.py, Klasse UPDS2 (Nachbildung GitHub wie bisher, zwei Rechner):
+  · ein Rechner mit altem Verhalten (ohne Filter) liefert GuildSentinel.lua mit Bewerbern/Sperrliste; danach liefert ein Rechner mit
+    2.3.15 nur AHSentinel.lua -> beide GuildSentinel.lua des alten Rechners (aktuell/ und tage/) bleiben, ohne "Bewerber"/"Gesperrt",
+    Rest der Datei erhalten; stand.json: PC "2.3.15", alter Rechner "unbekannt"; genau 1 Hinweiszeile, ohne Rechnernamen; zweiter
+    Durchlauf: kein weiterer Commit, keine Datei erneut geladen.
+  · nicht lesbare GuildSentinel.lua (GuildSentinelDB zweimal) des alten Rechners -> fällt aus aktuell/ und tage/ weg, Zeile "nicht
+    lesbare weggelassen".
+  · Gegenprobe alter _build (ohne Nachfiltern, wie 2.3.14) -> "Bewerber" bleibt im Repo (der Test oben wäre rot).
+  · Gegenprobe Hinweis: anderer Rechner mit 2.3.15 -> keine Meldung, stand.json "2.3.15".
+- Alle Tests: test_daten 25/25, test_sync 53/53, test_uploader 23/23, test_umfassend 14/14 (TU1–TU7 FEHLER 0).
+- Echte Daten (goldsentinel-daten, nur lokal gelesen, Stand 23.11. 06:23): 19 GuildSentinel.lua, davon 10 mit Bewerbern/Sperrliste
+  (= 5 + 4 + 1 wie im Befund), 0 nicht lesbar; jede gefilterte Fassung ein zweites Mal gefiltert = unverändert (kein Dauer-Commit).
+- download/RaidMasterUploader.zip neu gebaut (13 Dateien, ohne tests/).
+
+FÜR DEN NUTZER (nach Prüfung): RaidMasterUploader.zip auf dem PC und bei beiden Offizieren ganz entpacken (alle Dateien ersetzen),
+Uploader neu starten. Nach der ersten Lieferung eines Rechners mit 2.3.15 ist der alte Stand im Daten-Repo bereinigt.

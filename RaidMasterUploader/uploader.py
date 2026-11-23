@@ -69,7 +69,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import sync  # noqa: E402  (Abgleich PC/Laptop, ab 2.1.0)
 import daten  # noqa: E402  (Daten für die Prüf-Sitzung, ab 2.3.0)
 
-VERSION = "2.3.14"
+VERSION = "2.3.15"
 SHOT_WINDOW = (-30, 180)          # Bild darf so viele Sekunden vor/nach der gemerkten Zeit entstanden sein
 SHOT_MAX_BYTES = 9 * 1024 * 1024
 SHOT_MAX_AGE = 14 * 86400
@@ -1053,7 +1053,7 @@ def make_daten(st: dict, path: str, syncer=None) -> "daten.Daten | None":
         sync.find_roots() or {"wow/" + os.path.basename(sync.account_dir(path)): sync.account_dir(path)})
     log("Prüfung: liefert nach jedem /reload und Ausloggen an das private Daten-Repo.")
     return daten.Daten(daten.GitHubAPI(conf["repo"], conf["token"]), roots, st, lambda: save_state(st),
-                       sync.machine_name(sync.load_sync_config(HERE)), log)
+                       sync.machine_name(sync.load_sync_config(HERE)), log, version=VERSION)
 
 
 def wow_start():

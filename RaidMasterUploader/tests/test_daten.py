@@ -797,5 +797,103 @@ class Gleichzeitig(ZweiRechner):
         self.assertEqual(files[f"aktuell/Laptop/forever/{k}/AHSentinel.lua"], b"AHSentinelDB = { 'laptop1' }\n")
 
 
+class UPDS2(ZweiRechner):
+    """2.3.15 UP-DS2 (Befund HOCH 23.11.): ein Rechner mit ALTEM Uploader (ohne Filter) legt ungefilterte GuildSentinel.lua ins
+    Repo; der aktuelle Uploader filtert beim Bauen JEDE GuildSentinel.lua (andere Rechner, aktuell/ und tage/), lässt nicht
+    lesbare weg, schreibt seine Version in stand.json und meldet alte Uploader ohne Namen."""
+
+    BAD = ('GuildSentinelDB = {\n\t["guilds"] = {\n\t\t["R|G"] = {\n\t\t\t["apps"] = {\n'
+           '\t\t\t\t["Bewerber"] = 1,\n\t\t\t},\n\t\t},\n\t},\n}\nGuildSentinelDB = {\n}\n')   # zweimal DB -> nicht lesbar
+
+    def old_uploader(self, name, konto):
+        dl, roots = self.machine(name, [konto])
+        def raw(files):                                     # Verhalten vor 2.3.13: keine Filterung
+            out = {}
+            for rel, fn in files.items():
+                with open(fn, "rb") as f:
+                    data = f.read()
+                out[rel] = (data, daten.git_blob_sha(data))
+            return out
+        dl._read_files = raw
+        return dl, roots
+
+    def new_uploader(self, name, konten):
+        dl, roots = self.machine(name, konten)
+        dl.version = "2.3.15"
+        logs = []
+        dl.log = logs.append
+        return dl, roots, logs
+
+    def test_ds2_fremde_ungefilterte_dateien_werden_bereinigt(self):
+        k = "123456789#1"
+        lap, lr = self.old_uploader("Laptop", k)
+        self.put(lr["_forever_/" + k], "GuildSentinel.lua", GS_SV, T0)
+        self.drive(lap, T0 + 1, T0 + 20)
+        before = self.gh.files()
+        self.assertTrue(any(b"Bewerber" in v for v in before.values()))          # Ausgangslage: ungefiltert im Repo
+        pc, pr, logs = self.new_uploader("PC", [k])
+        self.put(pr["_forever_/" + k], "AHSentinel.lua", "AHSentinelDB = { 'pc' }\n", T0 + 100)
+        self.drive(pc, T0 + 101, T0 + 130)
+        files = self.gh.files()
+        gs = {p: v for p, v in files.items() if p.endswith("/GuildSentinel.lua")}
+        self.assertEqual(len(gs), 2, sorted(gs))                                  # aktuell/ und tage/ des Laptops bleiben
+        self.assertTrue(all(p.split("/")[0] in ("aktuell", "tage") and "/Laptop/" in p for p in gs))
+        for p, v in gs.items():
+            self.assertNotIn(b"Bewerber", v, p)
+            self.assertNotIn(b"Gesperrt", v, p)
+            self.assertIn(b"Testa", v, p)                                         # Rest der Datei bleibt
+        stand = json.loads(files["stand.json"])
+        self.assertEqual(stand["PC"]["uploader"], "2.3.15")
+        self.assertEqual(stand["Laptop"]["uploader"], "unbekannt")
+        hint = [l for l in logs if "alten Uploader" in l]
+        self.assertEqual(len(hint), 1, logs)
+        self.assertNotIn("Laptop", hint[0])                                       # ohne Namen
+        self.assertTrue(any("bereinigt" in l for l in logs))
+        # gemerkt: neue Lieferung ohne Änderung -> kein weiterer Commit, Datei nicht erneut geladen
+        n0 = self.gh.commit_count()
+        gets0 = sum(1 for m, u, _ in self.gh.calls if m == "GET" and "/git/blobs/" in u)
+        self.drive(pc, T0 + 131, T0 + 300)
+        self.assertEqual(self.gh.commit_count(), n0)
+        self.assertEqual(sum(1 for m, u, _ in self.gh.calls if m == "GET" and "/git/blobs/" in u), gets0)
+
+    def test_ds2_nicht_lesbar_wird_weggelassen(self):
+        k = "123456789#1"
+        lap, lr = self.old_uploader("Laptop", k)
+        self.put(lr["_forever_/" + k], "GuildSentinel.lua", self.BAD, T0)
+        self.drive(lap, T0 + 1, T0 + 20)
+        self.assertTrue(any(b"Bewerber" in v for v in self.gh.files().values()))
+        pc, pr, logs = self.new_uploader("PC", [k])
+        self.put(pr["_forever_/" + k], "AHSentinel.lua", "AHSentinelDB = { 'pc' }\n", T0 + 100)
+        self.drive(pc, T0 + 101, T0 + 130)
+        files = self.gh.files()
+        self.assertFalse(any(p.endswith("/GuildSentinel.lua") for p in files), sorted(files))
+        self.assertFalse(any(b"Bewerber" in v for v in files.values()))
+        self.assertTrue(any("nicht lesbare weggelassen" in l for l in logs), logs)
+
+    def test_ds2_gegenprobe_alter_build_laesst_bewerber_stehen(self):
+        # Gegenprobe: _build ohne Nachfiltern (wie 2.3.14) -> Bewerber bleiben im Repo; der Test oben wäre rot
+        k = "123456789#1"
+        lap, lr = self.old_uploader("Laptop", k)
+        self.put(lr["_forever_/" + k], "GuildSentinel.lua", GS_SV, T0)
+        self.drive(lap, T0 + 1, T0 + 20)
+        pc, pr, logs = self.new_uploader("PC", [k])
+        orig = pc._build
+        pc._build = lambda now, old, cur, stand_old, fetch=None: orig(now, old, cur, stand_old, fetch=None)
+        self.put(pr["_forever_/" + k], "AHSentinel.lua", "AHSentinelDB = { 'pc' }\n", T0 + 100)
+        self.drive(pc, T0 + 101, T0 + 130)
+        self.assertTrue(any(b"Bewerber" in v for v in self.gh.files().values()))
+
+    def test_ds2_gegenprobe_neuer_rechner_kein_hinweis(self):
+        # Gegenprobe zum Hinweis: der andere Rechner hat dieselbe Version -> keine Meldung
+        k = "123456789#1"
+        lap, lr, _ = self.new_uploader("Laptop", [k])
+        self.put(lr["_forever_/" + k], "AHSentinel.lua", "AHSentinelDB = { 'lap' }\n", T0)
+        self.drive(lap, T0 + 1, T0 + 20)
+        pc, pr, logs = self.new_uploader("PC", [k])
+        self.put(pr["_forever_/" + k], "AHSentinel.lua", "AHSentinelDB = { 'pc' }\n", T0 + 100)
+        self.drive(pc, T0 + 101, T0 + 130)
+        self.assertFalse(any("alten Uploader" in l for l in logs), logs)
+        self.assertEqual(json.loads(self.gh.files()["stand.json"])["Laptop"]["uploader"], "2.3.15")
+
 if __name__ == "__main__":
     unittest.main()
