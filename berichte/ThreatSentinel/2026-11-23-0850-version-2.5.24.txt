@@ -1,0 +1,69 @@
+BERICHT THREATSENTINEL 2.5.24 – Aufträge 18.–23.11. gebündelt (Nutzung sparen: eine Version)
+Stand 23.11.2026 08:50 · download/ThreatSentinel-2.5.24.zip, addon_check: OK, 0 WARNUNG (Datei check-2.5.24, Zeile "## ThreatSentinel-2.5.24.zip: OK")
+Status: umgesetzt, zur Prüfung.
+
+1. SYNC 3 (Hinweis 18.11. 15:45) – shared/GoldSentinelSync.lua Version 3 byte-gleich (cmp). testLearn: keine Prüfung braucht es (Bericht 18.11. 15:50, angenommen 16:00).
+
+2. DEV-BEFEHLE NUR IM ENTWICKLERMODUS SICHTBAR (Entscheid 19.11. 09:06)
+   Als "dev" eingestuft (27 Einträge in ns.COMMANDS, Core.lua): assistent/guide, test, log, log an, log aus, log bericht, log bilder,
+   log leeren, testroutine, testroutine halb, sprache, letzte, alles, stop, testroutine a … k und u (12), prüfliste.
+   Für Spieler (6): einstellungen, bedrohung, verschieben, protokoll (Diagnose-Protokoll = Spieler-Funktion nach Entscheid 18.11. 11:10,
+   damit Spieler Probleme melden können), spenden, sync test.
+   Schon vorher gefiltert: Befehlsliste (CmdHint.lua:97), Minimap-Tipp (Options.lua:1092), Anmelde-Meldung (Core.lua:1292), Bereich
+   "Entwickler" der Einstellungen (Options.lua:215). Neu T-DEV1 mit Gegenprobe: dev aus -> 6 Befehle, 0 Entwickler, keine Testwörter in
+   Befehls- und Einstellungs-Erklärungen, Meldung/Bereich/Minimap-Tipp ohne Test; dev an -> 33 Befehle, 27 Entwickler, alles sichtbar.
+   Gegenprobe gemessen: Anmelde-Meldung mit Testbefehl auch für Spieler -> T-DEV1 FEHLER ("Meldung true").
+
+3. TEST ÄNDERT NIE LIVEDATEN (Entscheid 20.11. 08:39)
+   Vorher: Sandbox deckte ThreatSentinelDB ohne gs*-Schlüssel ab. Neu (TestRoutine.lua, R.LiveTables/LiveSnap/LiveCheck): Kopie vor dem
+   Lauf von GoldSentinelSync.book (auch wenn es in einer fremden Datenbank liegt), GoldSentinelMarkt.store und jedem gs*-Schlüssel von
+   ThreatSentinelDB (ausgenommen gsTest = Ablage des Testberichts selbst). Nach dem Lauf Vergleich: jede Abweichung = FEHLER T-LIVE mit
+   Tabelle und Feld (Spielernamen im Adressbuch als <Name>), Daten werden zurückgesetzt. Echter Marktempfang während des Laufs (Zähler
+   "angenommen" steigt) wird als Hinweis genannt, nicht als Teständerung. Netz: Sync 3 TestHeld (Punkt 1).
+   GEFUNDEN (belegt): T-MN2 liess eine leere Tabelle GoldSentinelMarkt.store.f zurück, wenn store.f vorher fehlte (GM.OnMessage legt sie
+   an, das Zurücksetzen entfernte nur store.f[Fraktion]). Offline Forever und Era: T-LIVE FEHLER "GoldSentinelMarkt.store.f". Behoben
+   (TestRoutineTU.lua, hadFT), danach T-LIVE OK.
+   Gegenprobe T-LIVE2: absichtlich Eintrag ins echte Adressbuch -> erkannt "GoldSentinelSync.book.<Name>", zurückgesetzt, danach 0 Abweichungen.
+
+4. LESBARKEIT L1–L8 (Entscheid 20.11. 13:44)
+   Grenzen: L1 Kontrast >= 4,5:1 nach WCAG 2.1, Erfolgskriterium 1.4.3 (AA, normaler Text). Hintergrund = Backdrops des Fensters; deckende
+   Fenster (Deckkraft >= 0,9) über Schwarz UND Weiss gerechnet (schlechterer Wert zählt), durchsichtige Anzeigen brauchen Kontur oder Schatten.
+   Graue Zahl = Kanäle höchstens 0,10 auseinander und hellster unter 0,75. L8 = mindestens Schriftgrösse von GameFontNormalSmall.
+   - T187 (Bereich K, nur im Client): alle sichtbaren eigenen Texte, dazu Aggrometer, Schadensmesser und DD-Ansicht mit Beispielwerten.
+   - T-L1: 14 Regel-Fälle mit Gegenproben (dunkelgraue Zahl, graue Zahl im Farbcode, alte Versionsfarbe, Klammerzahl, kleine Schrift,
+     durchsichtig ohne Kontur, Geld linksbündig) – alle wie erwartet.
+   - L3 GEFUNDEN (belegt): Aggrometer rundete geschützte Werte mit "%.0f" (Spielrundung), ungeschützte und die DD-Ansicht mit floor(x+0,5).
+     Gemessen mit der alten Rundung: 0,5 -> Aggrometer 0, DD 1; 2,5 -> 2/3; 72,5 -> 72/73. Jetzt überall "%.0f" (Meter.lua, DDView.lua,
+     METER_LEAD/DD_THREAT); T-L3 prüft 6 Werte gleich, Gegenprobe mit alter Rundung -> FEHLER.
+   - L4/L6 Schadensmesser: Zeile "42.1k (702)" -> "42.1k (702/s)"; sind Zeilen ausgeblendet, sagt der Titel "alle n" (Summe oben zählt
+     alle Spieler). T-L4 prüft Summe = Summe aller Zeilen, "alle 5" nur bei 3 von 5 Zeilen; Gegenprobe alte Zeile -> FEHLER.
+   - L1 aus der Rechnung gefunden: Versionsnummer im Einstellungsfenster #808080 auf Titelleiste: 4,3:1 und graue Zahl -> jetzt #9fc8ff.
+     Nicht gewählte Auswahlknöpfe #a0a0a0 -> #c0c0c0; Testzentrale Datum/Grund #aaaaaa -> #cccccc.
+   - L2: ThreatSentinel zeigt keine Geldbeträge (keine Geldformatierung im Code); die Regel ist in T187 trotzdem aktiv.
+   - L5: jede Zeile hat eine Hauptzahl (Aggrometer: Prozent; DD: eigene Bedrohung; Schadensmesser: Menge, dann pro Sekunde).
+   - L7: Die "~"-Reihenfolge (geschätzt) löst keine Meldung aus: "estimated" wird nur in Meter.lua 276–308 (Sortierung) und 479 (Zeichen
+     "~") gelesen, keine Warnung/Meldung nutzt es (grep).
+
+5. TESTORT UND LAG (Hinweis 18.11. 19:30) – Bericht zeigt "Ort: Zone / Unterzone · Namensplaketten in Sicht n (Spieler m) · Ping".
+   Zusammenfassung: "ganze Bilder über 40 ms: n, davon Spiel/Umgebung (eigene Portion ≤ 16 ms): m · längstes ganzes Bild x ms (eigene
+   Portion y ms)" – nur Auskunft; bewertet wird wie bisher die eigene Portion. GoldSentinelTakt nutzt ThreatSentinel nicht -> Takt 2/3 nicht kopiert.
+
+6. REALM-SCHLÜSSEL (Prüfauftrag 21.11. 16:30): keine realm-getrennten Gemeinschaftsdaten.
+   Fundstellen: Core.lua:935 charKey "Name - Realm" = Profil je Charakter (Identität, bleibt). Core.lua:441–466 ns:PlayerRealm/FullName:
+   nur Anzeige ("Name-Realm" bei fremdem Realm). Sync-Rollen: Absender wird ohne Realm gespeichert (Sync.lua S:OnReceive). Markt: gemeinsame
+   Datei, Schlüssel je Fraktion (store.f[Fraktion]), nicht je Realm. Keine weiteren Aufrufe von GetRealmName (grep, ausser API.lua:46 Liste).
+
+7. SCHÄTZWERTE (Entscheid 21.11. 06:47) – keine angezeigte Zahl ist geschätzt. Bestehende Formel-Werte:
+   - Aggrometer Stufe 3, nur wenn die Bedrohung geschützt ist: Reihenfolge aus Schaden × Faktor + Heilung × 0,5 / Gegner (Meter.lua:255–262),
+     Faktoren Schurke 0,71, Krieger Verteidigung/Bär 1,3, Paladin Zorn der Gerechtigkeit 1,6 ("grob", Meter.lua:161–173). Quelle: bekannte
+     Classic-Bedrohungsregeln, eigene Fälle n = 0. Angezeigt nur als Reihenfolge mit "~ geschätzt", die Balken zeigen echte Werte.
+     Plan zur Messung: in Era/TBC (Bedrohung offen) die Stufe-3-Reihenfolge gegen die echte Reihenfolge zählen (Treffer/Fälle), Ergebnis im
+     nächsten Bericht. Frage an die Prüf-Sitzung: Soll Stufe 3 bis zur Messung ausgeschaltet werden ("noch nicht gemessen")?
+   - Pull-Grenzen 110 % / 130 % (Meter.lua:126–131) = Spielregel, keine Schätzung.
+
+TESTS (Nachbau addon-check/ladetest, Lua 5.1):
+  Forever: OK 310 · FEHLER 6 · übersprungen 20 · im Client 16; Era: OK 314 · FEHLER 6 · übersprungen 14 · im Client 17.
+  Die 6 FEHLER = bekannte Nachbildungs-Fälle (T02, T09, T20, T34, T39, T133); "ausserhalb der Nachbildungs-Liste: 0" in beiden und im Lauf
+  "alles" (TS_FRAME_MS=0). Echte Uhr (Lua 5.1): 105 Bilder, längstes 13,8 ms (TU1-L04t), keine Prüfung über 16 ms.
+  Neu: T-DEV1, T-LIVE, T-LIVE2, T-L1, T-L3, T-L4, T187 (Client). Regressionen-Liste: 3 neue Einträge.
+Im Spiel: neue Ingametest-Runde nötig (Code-Änderung). Ort steht dann im Bericht.
