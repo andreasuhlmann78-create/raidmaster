@@ -1,0 +1,53 @@
+EINFÜHRUNG FÜR DIE NEUE SITZUNG «STAND SICHERN» – vom Supervisor (Prüf-Sitzung, Projekt «Addonprüfer»), 23.11.2026
+Bitte ganz lesen, bevor du etwas tust. Antworte dem Nutzer immer auf Deutsch, kurz und klar.
+
+1. WORUM ES GEHT
+Der Nutzer will verhindern, dass Wissen verloren geht, wenn eine Claude-Sitzung ihren Kontext zusammenfasst. Geprüft am 23.11.:
+- Keine Sitzung kann den Kontext-Füllstand einer ANDEREN Sitzung sehen.
+- Keine Sitzung kann eine andere laufende Sitzung direkt anweisen (Nachrichten-Werkzeug reicht nur innerhalb der eigenen Sitzung;
+  geplante Aufgaben starten neue Sitzungen oder melden in die eigene zurück). Projekt-Sitzungen lesen das Repo nur, wenn der Nutzer sie anstösst.
+Darum gilt seit 23.11. 08:13 (Entscheid des Nutzers): JEDE Sitzung sichert ihren Stand SELBST – Regel "STAND JE SITZUNG SICHERN" in
+raidmaster/CLAUDE.md. Jede Sitzung führt genau eine Datei berichte/<Projekt>/stand-aktuell.md, schreibt sie nach jedem erledigten Schritt
+ganz neu (≤ 60 Zeilen, feste Abschnitte) und liest sie beim Start zuerst.
+
+2. DEINE AUFGABE (Vorschlag des Supervisors – mit dem Nutzer bestätigen)
+Kontrolle, ob die Regel eingehalten wird – NICHT den Kontext anderer messen (geht nicht).
+- Je Projekt vergleichen: letzter Commit des Projekts (download/, announce/, berichte/<Projekt>/) gegen die Zeit in
+  berichte/<Projekt>/stand-aktuell.md. Fehlt die Datei oder ist sie älter als die letzte Arbeit des Projekts -> "Stand fehlt/veraltet".
+- Prüfen: feste Abschnitte vorhanden, ≤ 60 Zeilen, keine Namen/Tokens, "Entscheide des Nutzers seit letztem Stand" gefüllt?
+- Ergebnis: EIN kurzer Bericht berichte/Stand-Kontrolle/<JJJJ-MM-TT>-<HHMM>-stand-kontrolle.txt (Liste je Projekt: ok / fehlt / veraltet seit …)
+  und eine kurze Meldung an den Nutzer, welche Sitzung er anstossen soll ("Repo prüfen – Stand sichern").
+- Takt: nur wenn der Nutzer es verlangt oder als geplante Aufgabe, die ER entscheidet (keine eigenen Wecker, keine Aufgaben anlegen ohne
+  seine Einwilligung). Nutzung sparen: nur git log/Dateizeiten lesen, keine grossen Dateien.
+
+3. REPOS (nur was du brauchst)
+- andreasuhlmann78-create/raidmaster – öffentlich; Schreiben NUR in berichte/Stand-Kontrolle/ und deine eigene
+  berichte/Stand-Kontrolle/stand-aktuell.md. add_repo mit access "push", vorher nicht mit curl/gh prüfen, klonen, register_repo_root.
+- Die Code-Repos (AHAnalyzerPro, ProfessionSentinel, GuildSentinel), goldsentinel-daten und das Arbeits-Repo Schreiner-Plus-und-Kuechenrenovator
+  brauchst du NICHT. Nicht hinzufügen (goldsentinel-daten enthält private Spielerdaten).
+
+4. GRENZEN – damit es keine Fehler und Überschneidungen gibt
+- NIE schreiben: auftraege/** (nur der Supervisor), shared/**, addon-check/**, download/, announce/, CLAUDE.md, fremde stand-aktuell.md,
+  Code-Repos. Nichts veröffentlichen, nichts an Addons ändern.
+- Entscheide des Nutzers, die du erfährst: in deinem Bericht unter "Entscheide für den Supervisor" aufschreiben – der Supervisor trägt sie
+  in shared/wissen/entscheide.md ein (nur er).
+- Vor jedem Schreiben git pull --rebase; nach jedem Push git fetch -q && git show origin/main:<Datei> | head -3 (Direktive "nie vergessen,
+  ins Repo zu laden"). Zeiten immer aus TZ=Europe/Zurich date, nie schätzen.
+- Repo ist öffentlich: keine Spielernamen, Tokens, Webhooks, Server-IDs.
+
+5. DIREKTIVEN DES NUTZERS (gelten für alle Sitzungen, Einzelheiten in raidmaster/CLAUDE.md)
+Perfektion zuerst (belegt statt vermutet, Vermutungen als "Verdacht, zu messen"); nicht warten; nur Deutsch; alles ins Repo und Ankunft prüfen;
+Nutzung sparen ohne die Qualität zu vernachlässigen (auftraege/hinweis-nutzung-sparen-2026-11-23.txt); keine Aktionen, die die Einwilligung
+des Nutzers brauchen, ohne sein OK.
+
+6. ZUERST LESEN
+raidmaster/CLAUDE.md (vor allem "STAND JE SITZUNG SICHERN"), auftraege/hinweis-stand-sichern-2026-11-23.txt,
+berichte/Supervisor/stand-aktuell.md (Beispiel einer Stand-Datei), shared/wissen/entscheide.md (oberster Block 23.11.).
+
+7. PROJEKTE, die eine stand-aktuell.md führen sollen
+AHSentinel, BuffSentinel, Discord, GuildSentinel, LevelPilot, ProfessionSentinel, RaidMaster, Reddit, ThreatSentinel, Ingametest, Supervisor.
+(Rohauszug ist eingestellt; geplante Aufgaben schreiben keine.)
+
+8. ERSTER SCHRITT
+Repo hinzufügen und klonen, Abschnitt 6 lesen, dem Nutzer in 3–5 Sätzen bestätigen, was du tust und was nicht – und fragen, ob er die
+Kontrolle auf Zuruf oder als geplante Aufgabe will. Erst danach die erste Kontrolle.
