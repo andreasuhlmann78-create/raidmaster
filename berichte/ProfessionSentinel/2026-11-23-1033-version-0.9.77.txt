@@ -1,0 +1,23 @@
+Bericht ProfessionSentinel 0.9.77 – 23.11.2026 10:33 – umgesetzt, zur Prüfung (Antwort 4 vom 10:22)
+
+Release v0.9.77 (Commit 5648891), download/ProfessionSentinel-0.9.77.zip (md5 ebd0e841…), Announce.
+Tests: run_offline forever 251 OK / 0 FEHLER, era 232 / 0, retail 230 / 0, tbc 251 / 0; --lua51 forever 0 FEHLER; yield_check OK;
+check_actions OK; Smoketest FEHLER-Zahl unverändert (Mock-Grenzen 29/26/26). addon_check: OK, keine WARNUNG.
+
+1. Einkaufsmenge "mindestens" (Antwort 4)
+   Advisor.Plan: orange Schritt -> Herstellungen exakt; gelb/grün Schritt -> mindestens ceil(Punkte / skillUps) Herstellungen,
+   Reagenzien = Herstellungen × Menge, markiert (plan.min, plan.minIds, Einkaufszeile .min – auch für Zwischenprodukte, die als
+   Material gekauft werden). Die Formel-Menge (Summe 1/p) wird nicht mehr verwendet.
+   Anzeige: "fehlt mindestens N", "brauchst mindestens N", Tooltip "gelbe und grüne Rezepte geben nicht jedes Mal einen Punkt – es
+   können mehr werden". Zusammenfassung: "Material mindestens ~X" statt Kosten/Wert/Gewinn (Gewinn wäre geschätzt).
+   Test T39: orange 90->100 = 10× / 10 Stück, fehlt 6, ohne "mindestens" (Gegenprobe); gelb 100->110 (2 Reagenzien) = mindestens 10
+   Herstellungen, 20 Stück, bei 5 im Lager "fehlt mindestens 15".
+2. Rangliste: Formel-Chance nur zum Sortieren (Beleg)
+   Gefunden und entfernt: auf dem Bildschirm standen bei gelb/grün Zahlen aus der Formel – "x/Pkt" (Gewinn oder Material je Punkt)
+   in Rangliste, Reiter Skill up, Rezept-Tooltip, Plan-Kopf, dazu "Chance %" im langen Grund. Jetzt: Zahl je Punkt nur bei orange
+   (exakt: jede Herstellung = skillUps Punkte); gelb/grün zeigen Gewinn bzw. Material JE HERSTELLUNG (exakt aus Preisen/Rezept),
+   ohne Prozent. Intern bleiben Chance/levelScore/matKey/perPoint nur für die Reihenfolge (AD.Evaluate e.exact, MatRanking e.matExact).
+   Test T296 (erweitert): orange "Mat./Pkt" + "100 %", gelb "Mat./Herst." ohne "/Pkt" und ohne "%".
+
+Noch offen (nächste Version): HOCH 1 Speicher Liste, HOCH 3 Bilder > 40 ms, Gilden-Rezepte ohne Realm, MITTEL 2/4,
+Entwickler-Befehle nur im Entwicklermodus, Hinweis Livedaten/Testort, Lesbarkeit L1–L8. Lua-Fehler SetCraftableCount: Messung des Nutzers.
