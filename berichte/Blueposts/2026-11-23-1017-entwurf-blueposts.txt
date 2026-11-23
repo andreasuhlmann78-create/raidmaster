@@ -1,0 +1,83 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+
+Geplante Aufgabe "Blueposts", Lauf 23.11.2026 10:17 MEZ (09:17 UTC). Letzter Stand: 18.11.2026 07:45 MEZ (Lücke 5 Tage,
+dazwischen keine Läufe im Repo). Blizzard-Foren direkt gelesen (US-Thread 2403040 Posts #12–#14, WoW-Weekly-Post).
+Keine Schwere HOCH. Zwei Punkte MITTEL (AHSentinel/ProfessionSentinel: Mote nicht mehr handelbar; AHSentinel:
+Mindest-Einzahlung – Messdaten widersprüchlich). Rest NIEDRIG (Hinweise, keine Aufträge).
+
+NEUE BLUE-POSTS
+A) Kaivax #13, "WoW: Forever Hotfixes – November 19, 2026", 20.11.2026 04:00 UTC
+   https://us.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-20-2026/2403040/13  (direkt gelesen)
+   In eigenen Worten:
+   - Camping: Samen-Hybridisierer wieder an; neue Werte und Fehlschlag-Chance beim Kombinieren; "Scarce Herb Seeds"
+     nicht mehr verwendbar.
+   - Paladin Vergeltung: Zweihandwaffen-Spezialisierung erhöht jetzt allen Heiligschaden mit Zweihänder.
+   - Dungeons: Dalaran (Schemen des Erzmagiers verschwindet nicht mehr bei Kampfbeginn), Shaper's Terrace (Vitrix
+     Giftschock schwächer).
+   - Gegenstände: "Motes of Unstable Magic" jetzt SEELENGEBUNDEN. Squall-breaker's Potion löschbar.
+   - Gegner: Mosh'gra (Riverglades) lässt wieder seltene Beute fallen; Silithid-Drohne Shimmering Flats.
+   - Quests: Rix Xizzix/Rift Away, Ensorcelled Parchment ersetzbar, "Hunting for Ectoplasm".
+   - Völker: Skyborne erhalten den Rabatt 10 % (wohlwollend) auf Reiten (Lehrling/Geselle) bei Genn Fairweather,
+     Zephras Isle. Tauren: Kultivierung zuverlässiger bei Kräutern mit genug Skill; Fix mit Lila Lotus.
+   Nichts zu AH, Einzahlung, Post, Entzaubern, Addon-API, Chat, Gilde, Raids, Wartung.
+
+B) Kaivax #14, "WoW: Forever Hotfixes – November 20, 2026", 21.11.2026 00:18 UTC
+   https://us.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-20-2026/2403040/14  (direkt gelesen)
+   - Schurke Kampf: Klingenwirbel trifft mit Shank ein zusätzliches Ziel.
+   - Hexenmeister Dämonologie: Demonic Aegis wurde in Dämonenrüstung/-haut "eingefroren" und blieb nach dem Verlernen;
+     Demonic Aegis und Dämonenhaut werden jetzt beim Verlernen der Talente entfernt.
+   - Dungeons: höchstens 5 Instanz-Eintritte/Resets pro Stunde (vorher 10). Schwarzfelsspitze: Säule sperrt nicht mehr ein.
+   - Gegenstände: Sturmschleier-Rüstung 3 Teile: 3 % statt 4 %, 18 statt 30 Energie.
+   - Berufe: Toron Rockhoof, Summit of Eternity: Schmiede und Amboss wieder nutzbar (Schmieden, Verhütten).
+   - Quests: Hinterland (Ti'ik), Feralas (Perfektes Yetifell), Tanaris (Gor'marok), Riverglades (Dunston Willis).
+   - Oberfläche: Gruppensuche zeigte zu wenige Gruppen – behoben.
+   Nichts zu AH, Händlerpreisen, Entzaubern, Addon-API, Chat, Gilde, Raid-Öffnung/Sperren, Wartung.
+
+C) Blizzard Entertainment, "WoW: Forever Class Design, Echoes of the Worldcore, and More in WoW Weekly", 20.11. 18:00 UTC
+   https://us.forums.blizzard.com/en/wow/t/wow-forever-class-design-echoes-of-the-worldcore-and-more-in-wow-weekly/2423714/1
+   Nur Überschriften-Teaser (Podcast Klassendesign; "Echoes of the Worldcore" 1.12. ist Retail/Midnight, kein Forever-Raid-
+   Termin). Kein Inhalt für unsere Projekte. Podcast Ep. 8 (19.11., 2422535) nur Titel, nicht gelesen.
+
+NUR ZWEITQUELLEN (keine Blizzard-Notizen, NICHT als Regel – "Verdacht, zu messen")
+- foreverchanges.pro (inoffiziell): 21.11. stiller Hotfix: Gustberry Juice Händler-Kaufpreis 1s25 (vorher 25c),
+  Verkauf an Händler 6c (vorher 5c). 22.11.: Schliesskassetten, Plunderkisten, Dunkelmond-Preise, Edelsteinsäcke legen den
+  Inhalt beim Öffnen direkt in die Taschen (Wowhead 22.11.: "Lockbox-Spähen" als Exploit behoben). Build 1.60.1.71037 (20.11.).
+- Wowhead 22.11.: "World Buffs Removed on Any Loading Screen in WoW: Forever"; "Uldaman Boss No Longer Drops Loot".
+  Beides ohne Blizzard-Post gefunden.
+
+AH-ÄNDERUNG (Mindest-Einzahlung 1c, Termin 17./18.11.)
+- In keinem Blizzard-Post 18.–23.11. als "aktiv" gemeldet, auch nicht in den Hotfix-Listen #13/#14.
+- Unsere Daten (goldsentinel-daten, Stand 23.11.) sind WIDERSPRÜCHLICH: DESKTOP-NVITMSE konto-5cb3d536 (Tag 22.11.):
+  db.minDeposit = 1 (AHSentinel Se:MeasureMinDeposit setzt 1 nur, wenn beim Einstellen unter 1s je Auktion abgezogen
+  wurde). Aber dasselbe Konto auf AUSPLUSLAPTOP und MININT-M6UO3AL konto-36a99f17 (21.–23.11.): db.minDeposit = 100.
+  Diag-Zeile "MINDESTEINZAHLUNG gemessen=…" ist in keinem Export mehr vorhanden (Ringpuffer), Zeitpunkt der Messung
+  unbekannt. -> Verdacht "1c aktiv", NICHT belegt.
+
+VORSCHLÄGE AN DEN SUPERVISOR
+1) AHSentinel BP-2026-11-23-1 (MITTEL, Messauftrag): Mindest-Einzahlung jetzt messen. Ein Einzelstück mit Händlerpreis
+   unter ca. 10c (z. B. Seltsamer Staub, 2 Std.) einstellen, Diag MINDESTEINZAHLUNG mit Zeit und Region melden; klären,
+   warum dasselbe Konto auf zwei Rechnern 1 bzw. 100 hat (letzter Wert gewinnt? veralteter Export?). Danach
+   wirtschaft-forever.md Zeile 39 auf "aktiv seit <Datum> (gemessen)" oder "weiter 1s". 1c nicht fest einbauen.
+   Test T-BP-1123-1: Se:MeasureMinDeposit mit gemessen=1 und =100 -> db.minDeposit 1 bzw. 100, Diag-Zeile mit Zeitstempel.
+2) AHSentinel + ProfessionSentinel BP-2026-11-23-2 (MITTEL): "Motes of Unstable Magic" sind seit Hotfix 19.11. seelengebunden
+   -> nicht mehr im AH handelbar. Prüfen: steht der Gegenstand in Marktlisten, Empfehlungen ("Heute tun", Sniper,
+   Entzauber-/Herstellungs-Gewinn) oder Markt-Tabellen (shared/markt-tabellen)? Wenn ja: als nicht handelbar führen
+   (Bindung aus dem Client lesen, nicht fest), keine Verkaufs-Empfehlung, Wert = 0 bzw. nur Eigenbedarf.
+   Item-ID im Daten-Export nachschlagen (nicht geraten). Test T-BP-1123-2: seelengebundener Gegenstand erscheint nie
+   als Verkaufs-/Kauf-Empfehlung.
+3) LevelPilot BP-2026-11-23-3 (NIEDRIG, Hinweis): Instanz-Eintritte max. 5 pro Stunde (vorher 10) – falls LevelPilot
+   Dungeon-Farm-Runden oder EP/Stunde in Dungeons schätzt, Grenze 5/h berücksichtigen. Skyborne-Reitrabatt (nur Info).
+4) BuffSentinel BP-2026-11-23-4 (NIEDRIG, Hinweis): Hexenmeister – Demonic Aegis/Dämonenhaut werden beim Verlernen entfernt
+   (falls Dämonenrüstung/-haut überwacht wird, kein Einfluss erwartet). Zweitquelle: Weltbuffs gehen bei jedem
+   Ladebildschirm verloren – nur Wowhead, nicht belegt; falls BuffSentinel Weltbuffs anzeigt/warnt: messen
+   (Ladebildschirm -> Buff weg?), nicht fest einbauen.
+5) ThreatSentinel BP-2026-11-23-5 (NIEDRIG, Hinweis): Paladin Vergeltung 2H-Spezialisierung auf allen Heiligschaden;
+   Schurke Klingenwirbel + Shank. Nur relevant, falls Bedrohung aus Schaden je Fähigkeit geschätzt wird.
+6) ProfessionSentinel BP-2026-11-23-6 (NIEDRIG, Hinweis): Schmiede/Amboss Summit of Eternity wieder nutzbar; Kultivierung
+   (Tauren) zuverlässiger, Lila Lotus; Samen-Hybridisierer wieder an mit Fehlschlag-Chance. Zweitquelle: Gustberry Juice
+   Händlerpreis 1s25 / Verkauf 6c (Händlerpreise immer aus dem Client, nie fest – wirtschaft-forever.md).
+Nichts für GuildSentinel, RaidMaster, Discord (keine Raid-Termine, Sperren, Wartungen gemeldet).
+
+VORGEMERKT
+- Mindest-Einzahlung 1c: weiter offen (siehe oben) – nächster Lauf: Blizzard-Bestätigung + Messung.
+- Raid-Öffnung 9.12.: kein neuer Blue-Post; Sache der Aufgabe "Raids und Taktiken".
