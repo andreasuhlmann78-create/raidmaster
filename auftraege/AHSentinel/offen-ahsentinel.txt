@@ -6190,3 +6190,12 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
       des Vollscans = PP1, behoben in 0.65.382 (Zinnerz im Spiel 17:05 richtig). Der Heiltrank-Fall (Händler 75c, ab 79c) ist noch nicht
       gemessen -> bleibt offen als Messpunkt (kein Code-Auftrag): beim nächsten Heiltrank im Verkaufen-Reiter VORSCHLAG-LEER bzw. Feld prüfen.
     Abnahme N1/N2 = erledigt mit PM1-a (Testlauf T984/T985).
+
+>>> PRÜFUNG SUPERVISOR 23.11. 06:35 – AHSentinel 0.65.376–0.65.382, Teil 7: VS1, PP1 (+Nachtrag Waren)
+    ANGENOMMEN, IM SPIEL BELEGT (Diagnosen 0.65.382, 22.11. ab Sitzungsstart 17:01):
+     VS1 Protokoll VORSCHLAG-FELD 11× (z. B. 17:03:17 Item 2771 "Feld 132 -> Vorschlag 119", 17:03:26 Item 3182 "1413 -> 1398"): das Feld folgt
+      dem Vorschlag, sobald nicht von Hand getippt. Herkunft 6s91 im Bericht belegt (alte, noch frische Prüfung + V1-Dünnstufen). T990.
+     PP1 Ab 17:01 (0.65.382) 43 von 43 Preisprüfungen mit Angeboten; vor dem Update (0.65.381, 16:57) 17 Prüfungen "Stufe 0" mit 0 Angeboten.
+      Waren (Nachtrag) im Spiel 17:05 richtig (Zinnerz 46 Angebote). VARIANTE-PROBE und PREISPRUEFUNG-WARTET noch nie ausgelöst -> im Spiel
+      noch nicht gesehen (kein Auftrag; beim nächsten Item mit Zufalls-Zusatz achten).
+    Abnahme VS1/PP1 = erledigt mit PM1-a (Testlauf T990 und PP1-Tests).
