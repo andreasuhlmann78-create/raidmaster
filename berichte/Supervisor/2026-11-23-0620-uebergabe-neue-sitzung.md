@@ -35,3 +35,21 @@ Für die neue Sitzung im Projekt «Addonprüfer». Alles Massgebliche steht im R
 - Zu jedem Auftrag ein kurzer Text zum Einfügen für die Projekt-Sitzung.
 - Daten-Repo `goldsentinel-daten` (Uploads: AUSPLUSLAPTOP, DESKTOP-NVITMSE = Nutzer; DESKTOP-JD5SLR5, MININT-M6UO3AL = Offiziere).
   Alle spielen auf demselben Server, das AH ist für alle dasselbe (Entscheid 21.11. 16:08).
+
+## Ergänzung des Nutzers 23.11. 06:31 (vom alten Supervisor) – mit Prüfung durch die neue Sitzung (06:32)
+1. **Geplante Aufgaben:** seit 18.11. ALLE pausiert (Guthaben). Geprüft 23.11. (list_triggers): pausiert sind Nachprüfung neuer Versionen,
+   Markt-Tabellen täglich, Markt-Überwachung wöchentlich, Blueposts, ProfessionSentinel Rezeptdaten-Update, Raids und Taktiken,
+   Discord und Zenial Betreuung, Gmail Werbung aufräumen. Wieder einschalten NUR auf Entscheid des Nutzers. Vorher Anleitung gegen
+   die neuen Regeln prüfen. Bereits gefunden:
+   - Markt-Tabellen: `addon-check/marktanalyse/markt_tabellen.py` (series_of) liest ALLE Märkte. Seit G1 (0.65.36x) heisst der Markt
+     `Alle|Horde`; die alten Märkte (`CAMWOW … Realm n|Horde`, `|Horde`) liegen in den Daten noch daneben -> Doppelzählung.
+     Vor dem Einschalten: nur `Alle|<Fraktion>` lesen (bzw. alte nur, wo `Alle|…` fehlt), Daten der Offiziere einbeziehen
+     (Anleitung spricht noch von "beide Rechner"; es sind 4: AUSPLUSLAPTOP, DESKTOP-NVITMSE, DESKTOP-JD5SLR5, MININT-M6UO3AL).
+   - `de_ketten_lehrer.py` Zeile 6 fest auf `CAMWOW EU4 Realm 6 PvP|Horde` -> auf `Alle|Horde` umstellen.
+   - Nachprüfung: Anleitung nennt GuildSentinel/ProfessionSentinel-Repos mit Schreibzugriff-Wegen; Code-Repos sind nur zum Lesen.
+2. **Code-Repos zum Lesen** (access "read"): ahanalyzerpro, professionsentinel, guildsentinel – nur lesen, nie ändern. ERLEDIGT 23.11.
+3. **Installieren** geprüfter Versionen in den AddOns-Ordner des Nutzers nur, wenn die Sitzung mit seinem Computer verbunden ist
+   (Desktop-App).
+4. **CurseForge-Antworten** an Spieler gingen bisher über Claude in Chrome. Nichts posten ohne OK des Nutzers.
+5. **SavedVariables auswerten:** Dateien sind Lua; mit `lua5.1` laden (`dofile`) und `AHSentinelDB` bzw. `LevelPilotDB` lesen – schneller
+   als Python-Parser. (In dieser Sitzung ist lua5.1 nicht installierbar; Ersatz: lupa = Lua 5.1 in Python, gleiche Wirkung.)
