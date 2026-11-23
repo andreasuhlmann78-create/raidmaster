@@ -581,85 +581,23 @@ async def remove_deleted_announcements():
             state.save()
     if not files or bot_guild() is None:
         return
-    limit = int(cfg.get("announce_delete_max", 5) or 0)
-    live = updater.announce_live(files, state.data.get("announced") or [], state.data.get("announce_msgs") or {},
-                                 announce_series)
-    if len(live) > limit:
-        warned = {"v": 2, "files": files}      # ab 1.5.191 mit Fassung: die vollständige Liste kommt einmal neu
-        if state.data.get("announce_delete_warned") != warned:
-            state.data["announce_delete_warned"] = warned
+    # ab 1.5.192 (D-ANN1 a, Entscheid des Nutzers 23.11. 11:36): Der Bot löscht im Discord NIE mehr Beiträge, nur weil ihre Datei
+    # im Repo fehlt. Er meldet jede solche Datei EINMAL in #bot-log; Beiträge, "announced" und gespeicherte Nachrichten bleiben
+    # (so kann die Datei später wiederhergestellt werden, ohne neu gepostet zu werden). announce_delete_max gilt nicht mehr.
+    reported = state.data.setdefault("announce_removed_reported", [])
+    new = [fn for fn in files if fn not in reported]
+    reported[:] = [fn for fn in reported if fn in files] + new      # Merker nur für Dateien, die noch fehlen
+    if not new:
+        if state.data.pop("announce_delete_warned", None) is not None:
             state.save()
-            # ab 1.5.191: ALLE Namen (roh, in `…`), auf Nachrichten unter 2000 Zeichen verteilt (bis 1.5.190 nur die ersten 30)
-            parts, cur = [], (f"⚠️ **{len(live)} Ankündigungen** mit Beiträgen im Discord wurden im Repo gelöscht – mehr als "
-                              f"{limit} auf einmal, darum lösche ich ihre Beiträge im Discord NICHT von selbst:")
-            for fn in live:
-                line = f"\n• `{fn}`"
-                if len(cur) + len(line) > 1900:
-                    parts.append(cur)
-                    cur = "(Fortsetzung)"
-                cur += line
-            parts.append(cur + "\nWenn das so gewollt ist: in config.json `\"announce_delete_max\"` erhöhen und den Bot neu "
-                                "starten. Wiederhergestellte Dateien (wieder in announce/) zählen nicht mehr.")
-            for p in parts:
-                await post_bot_log(p)
         return
-    rec = state.data.setdefault("announce_msgs", {})
-    announced = state.data.setdefault("announced", [])
-    newest = {}
-    for fn0 in announced:
-        s_, v_ = announce_series(fn0)
-        if s_ and (s_ not in newest or v_ > newest[s_]):
-            newest[s_] = v_
-    keep_ids = [mid for k, r in rec.items() if k not in files for mid in r.get("ids", [])]
-    report = []
-    for fn in files:
-        removed = 0
-        r = rec.get(fn)
-        if r and r.get("ids"):
-            ch = await channel_by_id(r.get("ch"))
-            for mid in r["ids"]:
-                try:
-                    m = await ch.fetch_message(mid)
-                    if m.author == bot.user:
-                        await m.delete()
-                        removed += 1
-                except discord.NotFound:
-                    pass
-                except (discord.HTTPException, AttributeError) as e:
-                    log.warning("Beitrag %s zu %s nicht gelöscht: %s", mid, fn, e)
-        elif fn in announced:
-            # vor Bot 1.5.95 gepostet (ohne gespeicherte Nachrichten): über die erste Zeile finden.
-            # Ältere Version einer Reihe, deren neuere schon gepostet ist: deren Beitrag ist längst ersetzt.
-            series, ver = announce_series(fn)
-            ch = _announce_channel_quiet(fn)
-            if ch and not (series and newest.get(series, ver) > ver):
-                try:
-                    with open(os.path.join(ANNOUNCE_REMOVED_DIR, fn), "r", encoding="utf-8") as f:
-                        text, _ = await resolve_announce_text(f.read().strip())
-                    title = text.split("\n", 1)[0].strip()
-                    removed = await remove_same_title(ch, title, keep_ids)
-                except OSError:
-                    pass
-        rec.pop(fn, None)
-        if fn in announced:
-            announced.remove(fn)
-        warned = state.data.get("announce_warned") or []
-        if fn in warned:
-            warned.remove(fn)
-        stem = fn[:-3]
-        for x in os.listdir(ANNOUNCE_REMOVED_DIR):
-            if x == fn or x.startswith(stem + "."):
-                try:
-                    os.remove(os.path.join(ANNOUNCE_REMOVED_DIR, x))
-                except OSError:
-                    pass
-        state.save()
-        log.info("Ankündigung %s aus dem Repo entfernt: %d Nachricht(en) im Discord gelöscht.", fn, removed)
-        report.append(f"{fn} ({removed} Nachricht{'en' if removed != 1 else ''})")
+    live = set(updater.announce_live(new, state.data.get("announced") or [], state.data.get("announce_msgs") or {},
+                                     announce_series))
     state.data.pop("announce_delete_warned", None)
     state.save()
-    if report:
-        await post_bot_log("🗑️ Im Repo gelöschte Ankündigungen auch im Discord entfernt: " + "; ".join(report))
+    await post_bot_log(f"ℹ️ **{len(new)} Ankündigung{'en' if len(new) != 1 else ''}** im Repo gelöscht – ich lösche im Discord "
+                       "NICHTS (Entscheid 23.11.). Ihre Beiträge bleiben stehen; wieder in announce/ = wiederhergestellt:\n"
+                       + "\n".join(f"• `{fn}`" + (" – Beitrag steht noch" if fn in live else "") for fn in new))
 
 
 async def check_announcements():
@@ -671,8 +609,24 @@ async def check_announcements():
         await remove_deleted_announcements()
     except Exception as e:      # Aufräumen darf das Posten nie stören
         log.warning("Entfernte Ankündigungen nicht aufgeräumt: %s", e)
+    # ab 1.5.192 (D-ANN2, Entscheid des Nutzers 23.11. 12:03 "alte Addon-Versionen auf keinen Fall wieder posten"): neueste
+    # schon gepostete Version je Reihe; eine ältere oder gleiche Version wird nie gepostet, auch wenn ihre Datei neu auftaucht.
+    newest = {}
+    for fn0 in done:
+        s0, v0 = announce_series(fn0)
+        if s0 and (s0 not in newest or v0 > newest[s0]):
+            newest[s0] = v0
     for fn in sorted(os.listdir(ANNOUNCE_DIR)):
         if not fn.lower().endswith(".md") or fn in done:
+            continue
+        s1, v1 = announce_series(fn)
+        if s1 and s1 in newest and v1 <= newest[s1]:
+            skipped = state.data.setdefault("announce_old_skipped", [])
+            if fn not in skipped:
+                skipped.append(fn)
+                state.save()
+                await post_bot_log(f"⏭️ Ankündigung `{fn}` NICHT gepostet: Version {'.'.join(map(str, v1))} ist nicht neuer als die "
+                                   f"schon gepostete {'.'.join(map(str, newest[s1]))} (Entscheid 23.11.: alte Versionen nie wieder posten).")
             continue
         ch = await announce_target(fn)
         if not ch:
@@ -712,6 +666,8 @@ async def check_announcements():
                 rec.pop(old_fn, None)
                 rec[fn] = {"ch": ch.id, "ids": ids, "series": series, "ver": list(ver)}
                 done.append(fn)
+                if series not in newest or ver > newest[series]:
+                    newest[series] = ver
                 state.save()
                 log.info("Ankündigung %s: Beitrag von %s bearbeitet (%d Nachricht(en) geändert).", fn, old_fn, changed)
                 continue
@@ -728,6 +684,8 @@ async def check_announcements():
             log.warning("Ankündigung %s nicht gepostet: %s", fn, e)
             continue
         done.append(fn)
+        if series and (series not in newest or ver > newest[series]):
+            newest[series] = ver
         # ab Bot 1.5.95 auch ohne Versionsnummer speichern: so kann der Bot den Beitrag wieder löschen,
         # wenn die Datei aus announce/ entfernt wird (remove_deleted_announcements)
         state.data.setdefault("announce_msgs", {})[fn] = {"ch": ch.id, "ids": sent, "series": series,

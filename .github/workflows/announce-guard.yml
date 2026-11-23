@@ -1,0 +1,31 @@
+name: Ankündigungen-Wächter
+
+# D-ANN1 b (Entscheid des Nutzers 23.11.2026 11:36): Ankündigungen (announce/*.md, announce/*.zip) dürfen im Repo nicht gelöscht
+# oder umbenannt werden. Jeder Push, der das tut, wird ROT gemeldet (mit Dateiliste). Gepflegt von der Discord-Sitzung.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "announce/**"
+      - "RaidMasterBot/tools/announce_guard.py"
+      - ".github/workflows/announce-guard.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Gelöschte oder umbenannte Ankündigungen?
+        env:
+          BEFORE: ${{ github.event.before }}
+        run: |
+          if [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ] || ! git cat-file -e "$BEFORE" 2>/dev/null; then
+            BEFORE=$(git rev-parse HEAD~1)
+          fi
+          git diff --name-status -M "$BEFORE" HEAD -- announce/ | python3 -I RaidMasterBot/tools/announce_guard.py

@@ -60,11 +60,33 @@ async def channel_by_id(channel_id) -> discord.abc.Messageable | None:
         log.warning("Kanal %s nicht erreichbar: %s", channel_id, e)
         return None
 
+def split_log(text: str, limit: int = 1990) -> list[str]:
+    """D-LOG1 (ab 1.5.192): lange Meldung an Zeilenumbrüchen in Teile <= limit Zeichen teilen (bis 1.5.191 abgeschnitten).
+    Eine einzelne zu lange Zeile wird hart geteilt. Nichts geht verloren."""
+    parts, cur = [], ""
+    for line in text.split("\n"):
+        while len(line) > limit:
+            if cur:
+                parts.append(cur)
+                cur = ""
+            parts.append(line[:limit])
+            line = line[limit:]
+        if cur and len(cur) + 1 + len(line) > limit:
+            parts.append(cur)
+            cur = line
+        else:
+            cur = f"{cur}\n{line}" if cur else line
+    if cur or not parts:
+        parts.append(cur)
+    return parts
+
+
 async def post_bot_log(text: str):
     ch = await channel_by_id(cfg.get("botcmd_channel_id") or cfg.get("officer_channel_id"))
     if ch:
         try:
-            await ch.send(text[:1990])
+            for part in split_log(text):
+                await ch.send(part)
         except discord.HTTPException:
             pass
 

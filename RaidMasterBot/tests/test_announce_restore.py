@@ -29,7 +29,7 @@ class Wiederherstellen(unittest.TestCase):
         os.makedirs(self.ann)
         os.makedirs(self.rem)
         self.saved = (m.ANNOUNCE_DIR, m.ANNOUNCE_REMOVED_DIR, m.bot_guild, m.post_bot_log, m.state.save,
-                      {k: m.state.data.get(k) for k in ("announced", "announce_msgs", "announce_delete_warned")},
+                      {k: m.state.data.get(k) for k in ("announced", "announce_msgs", "announce_delete_warned", "announce_removed_reported")},
                       m.channel_by_id)
         m.ANNOUNCE_DIR, m.ANNOUNCE_REMOVED_DIR = self.ann, self.rem
         m.bot_guild = lambda: object()
@@ -51,6 +51,7 @@ class Wiederherstellen(unittest.TestCase):
         m.state.data["announced"] = list(self.names)
         m.state.data["announce_msgs"] = {n: {"ch": 5, "ids": [100 + i]} for i, n in enumerate(self.names)}
         m.state.data.pop("announce_delete_warned", None)
+        m.state.data.pop("announce_removed_reported", None)
 
     def tearDown(self):
         m = self.m
@@ -71,23 +72,32 @@ class Wiederherstellen(unittest.TestCase):
     def run_(self):
         asyncio.run(self.m.remove_deleted_announcements())
 
-    def test_warnung_nennt_alle(self):
+    def test_meldung_einmal_nie_loeschen(self):
+        """ab 1.5.192 (D-ANN1 a): nie im Discord löschen, jede Datei einmal melden – auch bei wenigen (<= 5) Dateien."""
         self.run_()
-        text = "\n".join(self.logs)
+        self.assertEqual(len(self.logs), 1)
         self.assertIn("**34 Ankündigungen**", self.logs[0])
+        self.assertIn("lösche im Discord NICHTS", self.logs[0])
         for n in self.names:
-            self.assertIn(f"`{n}`", text)                                   # alle, roh (keine __-Formatierung)
-        self.assertTrue(all(len(p) <= 2000 for p in self.logs))
-        self.assertGreater(len(self.logs), 1)
+            self.assertIn(f"`{n}` – Beitrag steht noch", self.logs[0])
         self.assertEqual(self.fetched, [])                                  # nichts gelöscht
-
-    def test_einmal_auch_nach_alter_fassung(self):
-        self.m.state.data["announce_delete_warned"] = sorted(self.names)      # Merker von 1.5.190 (nur Liste)
+        self.assertEqual(self.m.state.data["announced"], self.names)        # bleibt angekündigt
+        self.assertEqual(len(self.m.state.data["announce_msgs"]), 34)
         self.run_()
-        n = len(self.logs)
-        self.assertGreater(n, 0)                                            # neue Fassung -> einmal melden
+        self.assertEqual(len(self.logs), 1)                                 # nicht wiederholen
+        for n in self.names[:3]:                                            # Rest weg -> nur noch 3 im Ordner
+            pass
+        for n in self.names[3:]:
+            os.remove(os.path.join(self.rem, n))
         self.run_()
-        self.assertEqual(len(self.logs), n)                                 # danach nicht wiederholen
+        self.assertEqual(len(self.logs), 1)
+        self.assertEqual(sorted(self.m.state.data["announce_removed_reported"]), sorted(self.names[:3]))
+        with open(os.path.join(self.rem, "x__neu-1.0.md"), "w", encoding="utf-8") as f:   # eine einzelne neue Löschung
+            f.write("x")
+        self.m.state.data["announce_msgs"]["x__neu-1.0.md"] = {"ch": 5, "ids": [1]}
+        self.run_()
+        self.assertIn("**1 Ankündigung**", self.logs[-1])
+        self.assertEqual(self.fetched, [])                                  # auch eine einzelne: nichts gelöscht
 
     def test_teilweise_wiederhergestellt(self):
         self.restore(self.names[:2])
