@@ -393,3 +393,19 @@ SICHERHEIT (Pflicht, Repo ist öffentlich):
      Rollen -> Bot-Rolle über diese Rollen ziehen. Danach /update; Supervisor liest #bot-log (Warnung muss weg sein).
     HINWEIS (kein Fehler): Bot meldet 36 im Repo gelöschte Ankündigungen (u. a. *-vorstellung-*.md) und löscht die Discord-Beiträge absichtlich
      NICHT (Schutz announce_delete_max). Gewollt so lassen, ausser der Nutzer will die alten Beiträge entfernen.
+
+>>> AUFTRAG D-MITGL1-R (Entscheid des Nutzers 23.11. 09:59, Supervisor 09:59): "Die Discord-Sitzung soll das selber machen, aber sehr vorsichtig
+    sein und keine Fehler machen." -> Die Bot-Rolle (Raidmaster tool) über Mitglied, Raider, Gast, Raidleitung, Offizier bringen.
+    WICHTIG (belegt, Discord-Rollenhierarchie): Ein Bot kann seine EIGENE Rolle nicht höher schieben und keine Rollen über seiner höchsten Rolle
+     verschieben – auch nicht mit Administrator. Per Bot-Code/API geht das also NICHT. Keinen Umweg bauen (keine neue Rolle mit mehr Rechten,
+     keine Rollen herunterstufen, keine Rechte ändern).
+    Weg: nur in der Discord-Oberfläche als Servereigentümer (Server-Einstellungen -> Rollen -> Bot-Rolle per Ziehen über die fünf Rollen).
+    Vorsicht-Regeln (Pflicht):
+     1. VORHER Rollenreihenfolge vollständig festhalten (Liste von oben nach unten, nur Rollennamen, KEINE IDs/Spielernamen ins Repo).
+     2. NUR die Bot-Rolle bewegen. Keine andere Rolle verschieben, keine Rechte/Farben/Namen ändern, nichts löschen.
+     3. Ziel: Bot-Rolle direkt ÜBER Offizier (der höchsten der fünf). Ist eine Admin-/Eigentümer-Rolle darüber: unverändert darüber lassen.
+     4. Speichern (Discord fragt bei ungespeicherten Änderungen nach) – nur wenn die Vorschau genau EINE verschobene Rolle zeigt; sonst "Zurücksetzen".
+     5. NACHHER Reihenfolge erneut festhalten und mit Schritt 1 vergleichen: einziger Unterschied = Position der Bot-Rolle.
+     6. /update ausführen, #bot-log lesen: Warnung "Rollen über dem Bot" muss weg sein; Rechte in #mitglieder-chat/Gildenhalle unverändert.
+     7. Hat die Discord-Sitzung keinen Zugang zur Discord-Oberfläche als Eigentümer: NICHTS versuchen, im Bericht melden (Supervisor/Nutzer übernehmen).
+    Bericht: berichte/Discord/<Zeit>-d-mitgl1-r.txt mit Reihenfolge vorher/nachher und Bot-Log-Zeile, "umgesetzt, zur Prüfung". stand-aktuell.md nachführen.

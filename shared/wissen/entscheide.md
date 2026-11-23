@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 09:59 | Bot-Rolle über Mitglied/Raider/Gast/Raidleitung/Offizier: "Die Discord-Sitzung soll das selber machen, aber sehr vorsichtig sein und keine Fehler machen." | Auftrag D-MITGL1-R (offen-discord), nur über Discord-Oberfläche, nur Bot-Rolle bewegen, vorher/nachher belegen |
 | 15.11. 16:05 (nachgetragen 23.11.) | Discord #ruhmeshalle: "Raids sind Raids und Dungeons sind Dungeons" – getrennt, Raids immer unten. | Bot 1.5.139: Dungeon-Teil im Discord geprüft 23.11. (richtig); "Raids unten" erst prüfbar beim ersten Raid-Rekord (offen-discord). |
 | 23.11. 09:50 | Discord D-MITGL1: Rolle "Mitglied" erhält in den Mitglieder-Kanälen dieselben Rechte wie Raider (lesen, schreiben, sprechen). | offen-discord (Bot 1.5.189 so gebaut). |
 | 23.11. 09:20 | Discord D-MITGL1: "Der Bot darf natürlich alles, was Rokan (ich) auch kann" – in den neuen Mitglieder-Kanälen Rechte wie der Gildenchef. | offen-discord NACHTRAG D-MITGL1. |

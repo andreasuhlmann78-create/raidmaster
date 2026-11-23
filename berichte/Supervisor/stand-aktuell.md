@@ -15,13 +15,13 @@ Sitzung seit 23.11. 06:18 (Übergabe: berichte/Supervisor/2026-11-23-0620-ueberg
 3. Montag-Aufträge der anderen Projekte erst prüfen, wenn deren Version/Bericht kommt (Nutzung sparen).
 
 ## Offen beim Nutzer
-- Discord: Bot-Rolle über Mitglied/Raider/Gast/Raidleitung/Offizier ziehen, dann /update (D-MITGL1-R). D-MITGL1 sonst erledigt.
 - Uploader auf PC und bei beiden Offizieren aktualisieren (UP-DS2, Bewerbernamen im Daten-Repo); RaidMaster-Sitzung anstossen.
 - AHSentinel- und GuildSentinel-Nachricht einfügen (falls noch nicht); CurseForge-Entscheid nach ST7 + PM1-a.
 - Nachprüfung (geplante Aufgabe) wieder einschalten: Supervisor fragt, wenn die Sitzung gut läuft.
 - Offen: "kleine KI" AHS (14.11.), Erstkill-Meldungen unter den Rekord-Tafeln gewollt?
 
 ## Entscheide des Nutzers seit letztem Stand
+- 23.11. 09:59: Bot-Rolle hochziehen macht die Discord-Sitzung selbst, sehr vorsichtig (Auftrag D-MITGL1-R). In entscheide.md eingetragen.
 - alle in shared/wissen/entscheide.md eingetragen (zuletzt 23.11. 08:13).
 
 ## Wichtig zu wissen
