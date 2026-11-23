@@ -1,6 +1,6 @@
 # Stand Discord-Sitzung
 
-## Stand 23.11.2026 11:56 · Bot 1.5.191 (origin/main, CI grün, im Server installiert 11:52)
+## Stand 23.11.2026 12:09 · Bot 1.5.192 (origin/main, CI grün; im Server noch 1.5.191 bis zum nächsten Update)
 
 ## Gerade in Arbeit
 - nichts – D-MITGL1 umgesetzt, zur Prüfung (Bericht 2026-11-23-0926-bot-1.5.189-mitglieder-kanaele.txt).
@@ -27,6 +27,7 @@
 - 23.11. 10:32: Rollen-Reihenfolge so belassen (Raidleitung über Bot und Offizier; Raidleitung = Nutzer).
 - 23.11. 11:36: Ankündigungen (announce/*.md) im Repo nicht mehr löschen – an Supervisor gemeldet (Bericht 11:36).
 - 23.11. 11:45: die gelöschten Ankündigungen wiederherstellen – erledigt: 33 Dateien (Bot 1.5.191), keine Discord-Beiträge gelöscht.
+- 23.11. 12:03: alte Addon-Versionen nie wieder posten; die 9 vor 11:36 gelöschten bleiben weg (D-ANN2, 1.5.192).
 
 ## Wichtig zu wissen
 - Klon war flach: für alte Dateien zuerst git fetch --unshallow. post_bot_log kürzt bei 1990 Zeichen (Vorschlag: aufteilen).

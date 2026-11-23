@@ -1,0 +1,20 @@
+BERICHT DISCORD – Bot 1.5.192: D-ANN1 a/b, D-ANN2, D-LOG1 – umgesetzt, zur Prüfung
+Zeit: 23.11.2026 12:09 (aus date). Commit 4441f84f auf origin/main; CI Bot-Tests success; Workflow announce-guard (Push) success.
+
+- D-ANN1 a: remove_deleted_announcements löscht nie mehr Discord-Beiträge (auch <= 5). Jede fehlende Datei einmal in #bot-log
+  ("… – Beitrag steht noch" bei Dateien mit Beitrag); Merker state "announce_removed_reported" (nur noch fehlende); "announced" und
+  announce_msgs bleiben -> Wiederherstellen postet nicht neu. announce_delete_max wird nicht mehr gelesen.
+- D-ANN2: check_announcements – neueste gepostete Version je Reihe (announce_series aus "announced"); ältere ODER gleiche Version wird
+  nie gepostet, auch neu aufgetaucht; einmal melden (state "announce_old_skipped"); im selben Lauf nachgeführt (0.65.39 nach 0.65.385).
+  Dateien ohne Versionsnummer (z. B. "-vorstellung-18") wie bisher.
+  Die 9 heute vor 11:36 gelöschten Ankündigungen NICHT wiederhergestellt (Entscheid 12:03).
+- D-ANN1 b: .github/workflows/announce-guard.yml + RaidMasterBot/tools/announce_guard.py: git diff --name-status -M vorher..nachher
+  -- announce/; D oder R bei .md/.zip -> Exit 1 (rot) mit Liste. Gegen echte Commits: Löschung professionsentinel-0.9.77 -> ROT;
+  Wiederherstellung 89006f4 -> OK.
+- D-LOG1: grund.split_log/post_bot_log – Teile <= 1990 Zeichen, an Zeilen, nichts verloren (Test vergleicht zusammengesetzt = Original).
+- Tests: test_announce_d_ann2.py 8 Tests (T-D-ANN2, T-D-ANN1B, T-D-LOG1), test_announce_restore (T-D-ANN1A) angepasst und Test-Isolation
+  korrigiert. Gegenproben: D-ANN2 weg, gleich erlaubt, Melden wiederholt -> rot; "newest nicht nachgeführt" und "abschneiden statt
+  teilen" erst nach Verschärfen rot. 479 Tests OK, jede Datei einzeln -I OK, REGRESSIONEN 85/85.
+- Betrieb nachgestellt (Kopie): Update vom Stand 1.5.191 kopiert VERSION, ankuendigung_bot.py, grund.py, tests, tools; config/state
+  unverändert; Start wie launcher (LoginFailure), ohne config.json Exit 3, Neustart 42, Befehle/Ereignisse gleich.
+- Kein /update durch mich (Auftrag: fertig vor dem nächsten /update). Der Bot holt GitHub-Änderungen auch selbst ab.
