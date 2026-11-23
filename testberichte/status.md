@@ -1,48 +1,39 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-23 12:54 UTC
+Ausgewertet: 2026-11-23 14:40 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
 | Addon | letzter Testlauf | Version | Client | OK | FEHLER | übersprungen | im Client prüfen | Fehler im Spiel (7 Tage) |
 |---|---|---|---|---|---|---|---|---|
-| AHSentinel | 20.11.2026 19:36 UTC | 0.65.355 | forever 1.60.1 (Interface 16001) | 11 | 0 | 1 | 0 | 10 |
+| AHSentinel | 23.11.2026 12:49 UTC | 0.65.385 | forever 1.60.1 (Interface 16001) | 1 | 5 | 3 | 0 | 10 |
 | BuffSentinel | 23.11.2026 12:19 UTC | 0.9.61 | forever 1.60.1 (Interface 16001) | 220 | 3 | 11 | 10 | 0 |
 | GuildSentinel | 23.11.2026 12:25 UTC | 0.9.60 | forever 1.60.1 (Interface 16001) | 335 | 4 | 24 | 8 | 4 |
 | LevelPilot | 21.11.2026 13:15 UTC | 3.13.6 | forever 1.60.1 (Interface 16001) | 1 | 0 | 0 | 0 | 16 |
-| ProfessionSentinel | 18.11.2026 18:23 UTC | 0.9.74 | forever 1.60.1 (Interface 16001) | 1 | 1 | 8 | 0 | 8 |
+| ProfessionSentinel | 23.11.2026 13:12 UTC | 0.9.78 | forever 1.60.1 (Interface 16001) | 1 | 1 | 8 | 0 | 12 |
 | RaidMaster | 18.11.2026 18:21 UTC | 3.0.40 | forever 1.60.1 (Interface 16001) | 0 | 1 | 0 | 0 | 0 |
-| ThreatSentinel | 23.11.2026 12:11 UTC | 2.5.23 | forever 1.60.1 (Interface 16001) | 320 | 0 | 11 | 14 | 0 |
+| ThreatSentinel | 23.11.2026 12:28 UTC | 2.5.26 | forever 1.60.1 (Interface 16001) | 1 | 0 | 0 | 0 | 0 |
 
 ## Diagnose-Protokolle (GSDIAG1)
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 219 | `testberichte/diagnose/AHSentinel/0.65.385-e7be8ca504a5.txt` |
-| BuffSentinel | 138 | `testberichte/diagnose/BuffSentinel/0.9.61-ad8210618a6a.txt` |
-| GSMesstest | 20 | `testberichte/diagnose/GSMesstest/5.1-f65d607ab777.txt` |
+| AHSentinel | 221 | `testberichte/diagnose/AHSentinel/0.65.385-e7be8ca504a5.txt` |
+| BuffSentinel | 142 | `testberichte/diagnose/BuffSentinel/0.9.61-ad8210618a6a.txt` |
+| GSMesstest | 21 | `testberichte/diagnose/GSMesstest/5.1-f65d607ab777.txt` |
 | GSSniperLog | 52 | `testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt` |
-| GuildSentinel | 252 | `testberichte/diagnose/GuildSentinel/0.9.60-c50d2bd094a5.txt` |
-| LevelPilot | 145 | `testberichte/diagnose/LevelPilot/3.13.10-a77bb44cf40d.txt` |
-| ProfessionSentinel | 229 | `testberichte/diagnose/ProfessionSentinel/0.9.78-94870285cc78.txt` |
-| ThreatSentinel | 211 | `testberichte/diagnose/ThreatSentinel/2.5.26-7538d679994c.txt` |
+| GuildSentinel | 256 | `testberichte/diagnose/GuildSentinel/0.9.60-daab7035423f.txt` |
+| LevelPilot | 149 | `testberichte/diagnose/LevelPilot/3.13.10-e118d5733280.txt` |
+| ProfessionSentinel | 234 | `testberichte/diagnose/ProfessionSentinel/0.9.78-94870285cc78.txt` |
+| ThreatSentinel | 215 | `testberichte/diagnose/ThreatSentinel/2.5.26-c8bd92671cee.txt` |
 
 ## Wegdaten (GSWEGE1)
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| LevelPilot | 326 | `testberichte/wege/LevelPilot/LevelPilot-wege-1795436809-dbcfb7.json` |
+| LevelPilot | 329 | `testberichte/wege/LevelPilot/LevelPilot-wege-1795443122-3ae750.json` |
 
 ## AHSentinel
-
-**Testlauf 0.65.352 · forever 1.60.1 (Interface 16001) · 19.11.2026 11:02 UTC** – OK 2 · FEHLER 4 · übersprungen 3 · im Client prüfen 0
-- [FEHLER] ALLES-1 ALLES – Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1) (ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 947 OK, 2 FEHLER, 31 übersprungen, Sandbox OK)
-- [FEHLER] ALLES-2 ALLES – Oberflächen-Prüfung (alle Reiter) (ergebnis:   2. Oberflächen-Prüfung (alle Reiter): FEHLER – 6 OK, 1 FEHLER, 0 übersprungen, Sandbox OK)
-- [FEHLER] ALLES-4 ALLES – Sniper-Testroutine S1–S13 (ohne echten Kauf) (ergebnis:   4. Sniper-Testroutine S1–S13 (ohne echten Kauf): FEHLER – 24 OK, 2 FEHLER, 6 übersprungen, Sandbox OK)
-- [FEHLER] ALLES-6 ALLES – Prüfungen am offenen Auktionshaus (ergebnis:   6. Prüfungen am offenen Auktionshaus: FEHLER – 67 OK, 1 FEHLER, 3 übersprungen, Sandbox OK)
-- [SKIP] ALLES-7 ALLES – Vollscan zweimal: bleibender Speicher und längste Lücke (VOLLSCAN) (grund:   7. Vollscan zweimal: bleibender Speicher und längste Lücke (VOLLSCAN): noch offen – passiert von selbst beim nächsten Schnell-Vollscan (Entwicklermodus) (Server-Abstand noch 15 Min.))
-- [SKIP] ALLES-8 ALLES – Prüfungen am Berufsfenster (grund:   8. Prüfungen am Berufsfenster: noch offen – passiert von selbst beim nächsten Öffnen eines Berufsfensters)
-- [SKIP] ALLES-9 ALLES – Prüfungen am Händler (grund:   9. Prüfungen am Händler: noch offen – passiert von selbst beim nächsten Händler-Besuch)
 
 **Testlauf 0.65.353 · forever 1.60.1 (Interface 16001) · 19.11.2026 15:42 UTC** – OK 1 · FEHLER 2 · übersprungen 6 · im Client prüfen 0
 - [FEHLER] ALLES-1 ALLES – Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1) (ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 933 OK, 1 FEHLER, 46 übersprungen, Sandbox OK)
@@ -65,6 +56,16 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 **Testlauf 0.65.355 · forever 1.60.1 (Interface 16001) · 20.11.2026 19:36 UTC** – OK 11 · FEHLER 0 · übersprungen 1 · im Client prüfen 0 · Sandbox OK
 - [SKIP] T99 D – Alte Berufe-API (grund: nur im alten Client (Classic Era, TBC))
+
+**Testlauf 0.65.385 · forever 1.60.1 (Interface 16001) · 23.11.2026 12:49 UTC** – OK 1 · FEHLER 5 · übersprungen 3 · im Client prüfen 0
+- [FEHLER] ALLES-1 ALLES – Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1) (ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 983 OK, 49 FEHLER, 34 übersprungen, Sandbox FEHLER: 200 Pfade, wiederhergestellt (nicht vollständig): sniper.bargains.1, sniper.bargains.2, sniper.bargains.3, sniper.bargains.4, sniper.bargains.5, sniper.bargains.6, sniper.b…)
+- [FEHLER] ALLES-2 ALLES – Oberflächen-Prüfung (alle Reiter) (ergebnis:   2. Oberflächen-Prüfung (alle Reiter): FEHLER – 6 OK, 1 FEHLER, 0 übersprungen, Sandbox OK)
+- [FEHLER] ALLES-3 ALLES – Befehlsliste in Gruppen (HILFE-GRP) (ergebnis:   3. Befehlsliste in Gruppen (HILFE-GRP): FEHLER – deutsch 4 Gruppen, 46 Befehle, 0 doppelt · englisch 4 Gruppen, 46 Befehle, 1 doppelt · einstellungen -> optionen)
+- [FEHLER] ALLES-4 ALLES – Sniper-Testroutine S1–S13 (ohne echten Kauf) (ergebnis:   4. Sniper-Testroutine S1–S13 (ohne echten Kauf): FEHLER – 24 OK, 2 FEHLER, 6 übersprungen, Sandbox OK)
+- [FEHLER] ALLES-6 ALLES – Prüfungen am offenen Auktionshaus (ergebnis:   6. Prüfungen am offenen Auktionshaus: FEHLER – 66 OK, 2 FEHLER, 3 übersprungen, Sandbox OK)
+- [SKIP] ALLES-7 ALLES – Vollscan zweimal: bleibender Speicher und längste Lücke (VOLLSCAN) (grund:   7. Vollscan zweimal: bleibender Speicher und längste Lücke (VOLLSCAN): noch offen – passiert von selbst beim nächsten Schnell-Vollscan (Entwicklermodus) (Server-Abstand noch 13 Min.))
+- [SKIP] ALLES-8 ALLES – Prüfungen am Berufsfenster (grund:   8. Prüfungen am Berufsfenster: noch offen – passiert von selbst beim nächsten Öffnen eines Berufsfensters)
+- [SKIP] ALLES-9 ALLES – Prüfungen am Händler (grund:   9. Prüfungen am Händler: noch offen – passiert von selbst beim nächsten Händler-Besuch)
 
 **Fehler im Spiel (letzte 7 Tage)**
 - 4× `ADDON_ACTION_FORBIDDEN`: UNKNOWN() – Version 0.65.354 · forever 1.60.1 (Interface 16001) · zuletzt 21.11.2026 14:31 UTC
@@ -338,17 +339,6 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 ## ProfessionSentinel
 
-**Testlauf 0.9.66 · forever 1.60.1 (Interface 16001) · 17.11.2026 19:22 UTC** – OK 1 · FEHLER 1 · übersprungen 8 · im Client prüfen 0
-- [FEHLER] S2 S – Fertigkeit und Plan-Start (ergebnis: Fertigkeit 0 | erwartet: > 0)
-- [SKIP] S3 S – Zähler sinkt nach einem Skillpunkt (grund: herstellen, bis ein Skillpunkt kommt)
-- [SKIP] S4 S – Andocken ohne Überlappen (grund: Rezept wählen, damit das AHSentinel-Gewinn-Fenster erscheint)
-- [SKIP] S5 S – Gleiche AH-Gebühr wie AHSentinel (grund: 5 Rezepte im Panel anklicken (Berufsfenster offen))
-- [SKIP] S6 S – Rangliste Leveln sortiert (grund: Reiter „Rangliste“ öffnen)
-- [SKIP] S7 S – Kein Neuaufbau-Sturm beim Herstellen (grund: 5 Gegenstände hintereinander herstellen)
-- [SKIP] S8 S – Oberflächen-Prüfung (Bereich K) (grund: Berufsfenster mit Panel öffnen)
-- [SKIP] S9 S – Gekaufte Menge = eingegebene Menge (grund: beim Händler: in der Einkaufsliste eine Menge eingeben und „Kaufen“ klicken)
-- [SKIP] S10 S – Shift+Klick öffnet das Mengenfenster (grund: beim Händler: Shift+Klick auf eine Ware, dann noch einmal mit offener Chat-Eingabe)
-
 **Testlauf 0.9.68 · forever 1.60.1 (Interface 16001) · 18.11.2026 07:50 UTC** – OK 1 · FEHLER 1 · übersprungen 8 · im Client prüfen 0
 - [FEHLER] S2 S – Fertigkeit und Plan-Start (ergebnis: Fertigkeit 0 | erwartet: > 0)
 - [SKIP] S3 S – Zähler sinkt nach einem Skillpunkt (grund: herstellen, bis ein Skillpunkt kommt)
@@ -382,8 +372,20 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 - [SKIP] S9 S – Gekaufte Menge = eingegebene Menge (grund: beim Händler: in der Einkaufsliste eine Menge eingeben und „Kaufen“ klicken)
 - [SKIP] S10 S – Shift+Klick öffnet das Mengenfenster (grund: beim Händler: Shift+Klick auf eine Ware, dann noch einmal mit offener Chat-Eingabe)
 
+**Testlauf 0.9.78 · forever 1.60.1 (Interface 16001) · 23.11.2026 13:12 UTC** – OK 1 · FEHLER 1 · übersprungen 8 · im Client prüfen 0
+- [FEHLER] S2 S – Fertigkeit und Plan-Start (ergebnis: Fertigkeit 0 | erwartet: > 0)
+- [SKIP] S3 S – Zähler sinkt nach einem Skillpunkt (grund: herstellen, bis ein Skillpunkt kommt)
+- [SKIP] S4 S – Andocken ohne Überlappen (grund: Rezept wählen, damit das AHSentinel-Gewinn-Fenster erscheint)
+- [SKIP] S5 S – Gleiche AH-Gebühr wie AHSentinel (grund: 5 Rezepte im Panel anklicken (Berufsfenster offen))
+- [SKIP] S6 S – Rangliste Leveln sortiert (grund: Reiter „Rangliste“ öffnen)
+- [SKIP] S7 S – Kein Neuaufbau-Sturm beim Herstellen (grund: 5 Gegenstände hintereinander herstellen)
+- [SKIP] S8 S – Oberflächen-Prüfung (Bereich K) (grund: Berufsfenster mit Panel öffnen)
+- [SKIP] S9 S – Gekaufte Menge = eingegebene Menge (grund: beim Händler: in der Einkaufsliste eine Menge eingeben und „Kaufen“ klicken)
+- [SKIP] S10 S – Shift+Klick öffnet das Mengenfenster (grund: beim Händler: Shift+Klick auf eine Ware, dann noch einmal mit offener Chat-Eingabe)
+
 **Fehler im Spiel (letzte 7 Tage)**
 - 5× `AHSentinel:On`: Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:161: attempt to concatenate local 'line' (a nil value) – Version 0.9.67 · forever 1.60.1 (Interface 16001) · zuletzt 18.11.2026 05:33 UTC
+- 4× `ADDON_ACTION_BLOCKED`: resume() – Version 0.9.78 · forever 1.60.1 (Interface 16001) · zuletzt 23.11.2026 13:11 UTC
 - 1× `Aufgabe t279`: attempt to yield across metamethod/C-call boundary – Version 0.9.66 · forever 1.60.1 (Interface 16001) · zuletzt 17.11.2026 19:23 UTC
 - 1× `ADDON_ACTION_BLOCKED`: UNKNOWN() – Version 0.9.66 · forever 1.60.1 (Interface 16001) · zuletzt 17.11.2026 19:18 UTC
 - 1× `Aufgabe t143`: attempt to yield across metamethod/C-call boundary – Version 0.9.66 · forever 1.60.1 (Interface 16001) · zuletzt 17.11.2026 19:22 UTC
@@ -452,9 +454,6 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 ## ThreatSentinel
 
-**Testlauf 2.5.19 · forever 1.60.1 (Interface 16001) · 18.11.2026 05:48 UTC** – OK 0 · FEHLER 1 · übersprungen 0 · im Client prüfen 0
-- [FEHLER] T186 K – Oberfläche mit offenen Blizzard-Fenstern (nachgeholt bei CharacterFrame) (ergebnis: Testzentrale überdeckt Kopierfenster (LevelPilot); Einstellungen überdeckt Kopierfenster (LevelPilot) · geprüft 4 | erwartet: keine, geprüft > 0)
-
 **Testlauf 2.5.20 · forever 1.60.1 (Interface 16001) · 18.11.2026 07:46 UTC** – OK 0 · FEHLER 1 · übersprungen 0 · im Client prüfen 0
 - [FEHLER] T186 K – Oberfläche mit offenen Blizzard-Fenstern (nachgeholt bei ProfessionsFrame) (ergebnis: Testzentrale überdeckt ProfessionSentinel-Panel (ProfessionSentinel); Testzentrale überdeckt AHAnalyzerProSelfTest (AHSentinel); Einstellungen überdeckt ProfessionSentinel-Panel (ProfessionSentinel); Einstellungen überdeckt AHAnalyzerProSelfTest (AHSentinel) · geprüft 6 | erwartet: keine, geprüft > 0)
 
@@ -511,3 +510,5 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 - [CLIENT] T177 J – Launch-Tag: Interface-Nummer und erster Kampf (anleitung: /dump select(4, GetBuildInfo()); im ersten Kampf /ts bedrohung -> Modus im Bericht)
 - [SKIP] T178 J – Lua-Syntaxprüfung (grund: vor dem Push mit addon_check.py (manuell))
 - [SKIP] T186 K – Oberfläche mit offenen Blizzard-Fenstern (grund: wartet auf ein Spielfenster – läuft nach dem Lauf von selbst (siehe Zusammenfassung))
+
+**Testlauf 2.5.26 · forever 1.60.1 (Interface 16001) · 23.11.2026 12:28 UTC** – OK 1 · FEHLER 0 · übersprungen 0 · im Client prüfen 0

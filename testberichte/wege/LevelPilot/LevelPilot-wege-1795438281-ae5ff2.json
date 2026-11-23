@@ -1,0 +1,55 @@
+{
+ "addon": "LevelPilot",
+ "blocked": [],
+ "env": {
+  "build": "71037",
+  "class": "WARRIOR",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 30,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "f": 1,
+ "fest": [],
+ "id": "LevelPilot-wege-1795438281-ae5ff2",
+ "kind": "wege",
+ "npc": [],
+ "time": 1795438281,
+ "version": "3.13.10",
+ "zones": [
+  {
+   "edges": [
+    {
+     "n": 6,
+     "p": [
+      45,
+      57.4,
+      45,
+      56.6,
+      45.2,
+      55.7,
+      45.6,
+      54.6,
+      46.2,
+      54.1,
+      46.8,
+      54,
+      47.4,
+      54.6,
+      47.8,
+      55.2,
+      48.4,
+      55.6
+     ],
+     "src": "geteilt"
+    }
+   ],
+   "map": 1435,
+   "name": "Sümpfe des Elends"
+  }
+ ]
+}

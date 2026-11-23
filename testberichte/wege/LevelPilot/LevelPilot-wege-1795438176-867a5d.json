@@ -1,0 +1,145 @@
+{
+ "addon": "LevelPilot",
+ "blocked": [],
+ "env": {
+  "build": "71037",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 42,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "f": 2,
+ "fest": [],
+ "id": "LevelPilot-wege-1795438176-867a5d",
+ "kind": "wege",
+ "npc": [],
+ "qo": [
+  {
+   "a": "T",
+   "l": 42,
+   "m": 1435,
+   "q": 1420,
+   "t": 1795438098
+  }
+ ],
+ "time": 1795438176,
+ "version": "3.13.6",
+ "zones": [
+  {
+   "edges": [
+    {
+     "lv": [
+      "1435|d|Stonard",
+      "1435|d|Stonard",
+      "1435|d|Stonard",
+      "1435|o|Stonard"
+     ],
+     "n": 5,
+     "p": [
+      48.6,
+      55.4,
+      47.9,
+      55.2,
+      47.5,
+      54.6,
+      47,
+      54.1
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Stonard",
+      "1435|o|Stonard"
+     ],
+     "n": 4,
+     "p": [
+      46,
+      54.1,
+      46.2,
+      54.7
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Stonard",
+      "1435|o|Stonard",
+      "1435|d|Stonard",
+      "1435|d|Stonard",
+      "1435|d|Stonard"
+     ],
+     "n": 1,
+     "p": [
+      46,
+      54.1,
+      45.3,
+      54.9,
+      45.2,
+      55.7,
+      45.1,
+      56.6,
+      45,
+      57.4
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Stonard",
+      "1435|o|Stonard",
+      "1435|o|Stonard"
+     ],
+     "n": 4,
+     "p": [
+      46,
+      54.1,
+      46.1,
+      53.2,
+      47,
+      54.1
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Stonard",
+      "1435|o|Stonard"
+     ],
+     "n": 1,
+     "p": [
+      46.4,
+      53.9,
+      47,
+      54.1
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Stonard",
+      "1435|o|Stonard",
+      "1435|o|Stonard"
+     ],
+     "n": 1,
+     "p": [
+      46.2,
+      54.7,
+      46.4,
+      53.9,
+      46.1,
+      53.2
+     ],
+     "src": "geteilt"
+    }
+   ],
+   "map": 1435,
+   "name": "Sümpfe des Elends"
+  }
+ ]
+}

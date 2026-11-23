@@ -1,21 +1,72 @@
 {
- "ausgewertet": "2026-11-23T12:54:53Z",
+ "ausgewertet": "2026-11-23T14:40:32Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
-   "berichte": 132,
+   "berichte": 137,
    "letzter_test": {
-    "id": "AHSentinel-1795203363-5bd747-1",
-    "version": "0.65.355",
-    "time": 1795203361,
+    "id": "AHSentinel-1795438172-07a527-6",
+    "version": "0.65.385",
+    "time": 1795438172,
     "counts": {
      "client": 0,
-     "fehler": 0,
-     "ok": 11,
-     "uebersprungen": 1
+     "fehler": 5,
+     "ok": 1,
+     "uebersprungen": 3
     }
    },
-   "fehler_tests": [],
+   "fehler_tests": [
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.385",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "ALLES-1",
+     "name": "Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1)",
+     "detail": "ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 983 OK, 49 FEHLER, 34 übersprungen, Sandbox FEHLER: 200 Pfade, wiederhergestellt (nicht vollständig): sniper.bargains.1, sniper.bargains.2, sniper.bargains.3, sniper.bargains.4, sniper.bargains.5, sniper.bargains.6, sniper.b…",
+     "bericht": "AHSentinel-1795438172-07a527-6"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.385",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "ALLES-2",
+     "name": "Oberflächen-Prüfung (alle Reiter)",
+     "detail": "ergebnis:   2. Oberflächen-Prüfung (alle Reiter): FEHLER – 6 OK, 1 FEHLER, 0 übersprungen, Sandbox OK",
+     "bericht": "AHSentinel-1795438172-07a527-6"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.385",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "ALLES-3",
+     "name": "Befehlsliste in Gruppen (HILFE-GRP)",
+     "detail": "ergebnis:   3. Befehlsliste in Gruppen (HILFE-GRP): FEHLER – deutsch 4 Gruppen, 46 Befehle, 0 doppelt · englisch 4 Gruppen, 46 Befehle, 1 doppelt · einstellungen -> optionen",
+     "bericht": "AHSentinel-1795438172-07a527-6"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.385",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "ALLES-4",
+     "name": "Sniper-Testroutine S1–S13 (ohne echten Kauf)",
+     "detail": "ergebnis:   4. Sniper-Testroutine S1–S13 (ohne echten Kauf): FEHLER – 24 OK, 2 FEHLER, 6 übersprungen, Sandbox OK",
+     "bericht": "AHSentinel-1795438172-07a527-6"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.385",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "ALLES-6",
+     "name": "Prüfungen am offenen Auktionshaus",
+     "detail": "ergebnis:   6. Prüfungen am offenen Auktionshaus: FEHLER – 66 OK, 2 FEHLER, 3 übersprungen, Sandbox OK",
+     "bericht": "AHSentinel-1795438172-07a527-6"
+    }
+   ],
    "fehler_spiel": [
     {
      "addon": "AHSentinel",
@@ -282,11 +333,11 @@
    ]
   },
   "ProfessionSentinel": {
-   "berichte": 11,
+   "berichte": 13,
    "letzter_test": {
-    "id": "ProfessionSentinel-1795026194-1ea902-7",
-    "version": "0.9.74",
-    "time": 1795026194,
+    "id": "ProfessionSentinel-1795439544-733a60-5",
+    "version": "0.9.78",
+    "time": 1795439544,
     "counts": {
      "client": 0,
      "fehler": 1,
@@ -298,12 +349,12 @@
     {
      "addon": "ProfessionSentinel",
      "art": "test",
-     "version": "0.9.74",
+     "version": "0.9.78",
      "client": "forever 1.60.1 (Interface 16001)",
      "id": "S2",
      "name": "Fertigkeit und Plan-Start",
      "detail": "ergebnis: Fertigkeit 0 | erwartet: > 0",
-     "bericht": "ProfessionSentinel-1795026194-1ea902-7"
+     "bericht": "ProfessionSentinel-1795439544-733a60-5"
     }
    ],
    "fehler_spiel": [
@@ -320,6 +371,20 @@
       "forever 1.60.1 (Interface 16001)"
      ],
      "stack": "[C]: in function 'pcall'\n[Interface/AddOns/ProfessionSentinel/Core.lua]:180: in function 'CountError'\n[Interface/AddOns/ProfessionSentinel/Alerts.lua]:144: in function <Interface/AddOns/ProfessionSentinel/Alerts.lua:140>\n"
+    },
+    {
+     "addon": "ProfessionSentinel",
+     "art": "spiel",
+     "wo": "ADDON_ACTION_BLOCKED",
+     "msg": "resume()",
+     "anzahl": 4,
+     "versionen": [
+      "0.9.78"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/ProfessionSentinel/GoldSentinelTest.lua]:407: in function <...rface/AddOns/ProfessionSentinel/GoldSentinelTest.lua:400>\n[C]: in function 'resume'\n[Interface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua]:470: in function <...rface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua:453>\n[C]: in function 'pcall'\n[Interface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua]:524: in function 'Tick'\n[Interface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua]:541: in function <...rface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua:541>\n"
     },
     {
      "addon": "ProfessionSentinel",
@@ -393,16 +458,16 @@
    "fehler_spiel": []
   },
   "ThreatSentinel": {
-   "berichte": 21,
+   "berichte": 22,
    "letzter_test": {
-    "id": "ThreatSentinel-1795435871-02b118-1",
-    "version": "2.5.23",
-    "time": 1795435868,
+    "id": "ThreatSentinel-1795436897-be7289-1",
+    "version": "2.5.26",
+    "time": 1795436897,
     "counts": {
-     "client": 14,
+     "client": 0,
      "fehler": 0,
-     "ok": 320,
-     "uebersprungen": 11
+     "ok": 1,
+     "uebersprungen": 0
     }
    },
    "fehler_tests": [],
@@ -410,6 +475,56 @@
   }
  },
  "offen": [
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.385",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "ALLES-1",
+   "name": "Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1)",
+   "detail": "ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 983 OK, 49 FEHLER, 34 übersprungen, Sandbox FEHLER: 200 Pfade, wiederhergestellt (nicht vollständig): sniper.bargains.1, sniper.bargains.2, sniper.bargains.3, sniper.bargains.4, sniper.bargains.5, sniper.bargains.6, sniper.b…",
+   "bericht": "AHSentinel-1795438172-07a527-6"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.385",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "ALLES-2",
+   "name": "Oberflächen-Prüfung (alle Reiter)",
+   "detail": "ergebnis:   2. Oberflächen-Prüfung (alle Reiter): FEHLER – 6 OK, 1 FEHLER, 0 übersprungen, Sandbox OK",
+   "bericht": "AHSentinel-1795438172-07a527-6"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.385",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "ALLES-3",
+   "name": "Befehlsliste in Gruppen (HILFE-GRP)",
+   "detail": "ergebnis:   3. Befehlsliste in Gruppen (HILFE-GRP): FEHLER – deutsch 4 Gruppen, 46 Befehle, 0 doppelt · englisch 4 Gruppen, 46 Befehle, 1 doppelt · einstellungen -> optionen",
+   "bericht": "AHSentinel-1795438172-07a527-6"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.385",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "ALLES-4",
+   "name": "Sniper-Testroutine S1–S13 (ohne echten Kauf)",
+   "detail": "ergebnis:   4. Sniper-Testroutine S1–S13 (ohne echten Kauf): FEHLER – 24 OK, 2 FEHLER, 6 übersprungen, Sandbox OK",
+   "bericht": "AHSentinel-1795438172-07a527-6"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.385",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "ALLES-6",
+   "name": "Prüfungen am offenen Auktionshaus",
+   "detail": "ergebnis:   6. Prüfungen am offenen Auktionshaus: FEHLER – 66 OK, 2 FEHLER, 3 übersprungen, Sandbox OK",
+   "bericht": "AHSentinel-1795438172-07a527-6"
+  },
   {
    "addon": "AHSentinel",
    "art": "spiel",
@@ -623,12 +738,12 @@
   {
    "addon": "ProfessionSentinel",
    "art": "test",
-   "version": "0.9.74",
+   "version": "0.9.78",
    "client": "forever 1.60.1 (Interface 16001)",
    "id": "S2",
    "name": "Fertigkeit und Plan-Start",
    "detail": "ergebnis: Fertigkeit 0 | erwartet: > 0",
-   "bericht": "ProfessionSentinel-1795026194-1ea902-7"
+   "bericht": "ProfessionSentinel-1795439544-733a60-5"
   },
   {
    "addon": "ProfessionSentinel",
@@ -643,6 +758,20 @@
     "forever 1.60.1 (Interface 16001)"
    ],
    "stack": "[C]: in function 'pcall'\n[Interface/AddOns/ProfessionSentinel/Core.lua]:180: in function 'CountError'\n[Interface/AddOns/ProfessionSentinel/Alerts.lua]:144: in function <Interface/AddOns/ProfessionSentinel/Alerts.lua:140>\n"
+  },
+  {
+   "addon": "ProfessionSentinel",
+   "art": "spiel",
+   "wo": "ADDON_ACTION_BLOCKED",
+   "msg": "resume()",
+   "anzahl": 4,
+   "versionen": [
+    "0.9.78"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/ProfessionSentinel/GoldSentinelTest.lua]:407: in function <...rface/AddOns/ProfessionSentinel/GoldSentinelTest.lua:400>\n[C]: in function 'resume'\n[Interface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua]:470: in function <...rface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua:453>\n[C]: in function 'pcall'\n[Interface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua]:524: in function 'Tick'\n[Interface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua]:541: in function <...rface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua:541>\n"
   },
   {
    "addon": "ProfessionSentinel",
@@ -700,15 +829,15 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 219,
+    "anzahl": 221,
     "neueste": "testberichte/diagnose/AHSentinel/0.65.385-e7be8ca504a5.txt"
    },
    "BuffSentinel": {
-    "anzahl": 138,
+    "anzahl": 142,
     "neueste": "testberichte/diagnose/BuffSentinel/0.9.61-ad8210618a6a.txt"
    },
    "GSMesstest": {
-    "anzahl": 20,
+    "anzahl": 21,
     "neueste": "testberichte/diagnose/GSMesstest/5.1-f65d607ab777.txt"
    },
    "GSSniperLog": {
@@ -716,26 +845,26 @@
     "neueste": "testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt"
    },
    "GuildSentinel": {
-    "anzahl": 252,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.60-c50d2bd094a5.txt"
+    "anzahl": 256,
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.60-daab7035423f.txt"
    },
    "LevelPilot": {
-    "anzahl": 145,
-    "neueste": "testberichte/diagnose/LevelPilot/3.13.10-a77bb44cf40d.txt"
+    "anzahl": 149,
+    "neueste": "testberichte/diagnose/LevelPilot/3.13.10-e118d5733280.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 229,
+    "anzahl": 234,
     "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.78-94870285cc78.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 211,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.26-7538d679994c.txt"
+    "anzahl": 215,
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.26-c8bd92671cee.txt"
    }
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 326,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1795436809-dbcfb7.json"
+    "anzahl": 329,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1795443122-3ae750.json"
    }
   }
  }

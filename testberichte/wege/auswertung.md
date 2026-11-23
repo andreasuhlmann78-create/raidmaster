@@ -227,12 +227,14 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Sümpfe des Elends (1435)
 
-- Wegstücke 50, Knoten 301, zusammenhängende Teile 4
+- Wegstücke 136, Knoten 464, zusammenhängende Teile 6
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 180 Knoten, Bereich 5–84 / 9–61
-  - Teil 2: 79 Knoten, Bereich 50–74 / 0–41
-  - Teil 3: 33 Knoten, Bereich 78–86 / 0–9
-  - Teil 4: 9 Knoten, Bereich 33–36 / 60–67
+  - Teil 1: 185 Knoten, Bereich 5–84 / 9–61
+  - Teil 2: 155 Knoten, Bereich 25–66 / 17–40
+  - Teil 3: 79 Knoten, Bereich 50–74 / 0–41
+  - Teil 4: 33 Knoten, Bereich 78–86 / 0–9
+  - Teil 5: 9 Knoten, Bereich 33–36 / 60–67
+  - Teil 6: 3 Knoten, Bereich 45–46 / 38–39
 
 ## Westfall (1436)
 
@@ -301,7 +303,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Orgrimmar (1454)
 
-- Wegstücke 1698, Knoten 1018, zusammenhängende Teile 3
+- Wegstücke 1699, Knoten 1018, zusammenhängende Teile 3
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 1013 Knoten, Bereich 22–82 / 19–95
   - Teil 2: 3 Knoten, Bereich 38–40 / 28–30
@@ -873,3 +875,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 | 14628 | 1427 | kein Ort im Datenpaket -> 38.5,27.8 | - | fehlt im Datenpaket |
 | 14740 | 1425 | 80.3,81.5 -> 80.3,81.4 | 0.1 % | klein |
 | 262388 | 1425 | kein Ort im Datenpaket -> 80.1,55.4 | - | fehlt im Datenpaket |
+| 1776 | 1435 | 26.0,31.4 -> 26.1,31.5 | 0.1 % | klein |
+| 5391 | 1435 | 65.5,18.2 -> 65.4,18.3 | 0.1 % | klein |
+| 254770 | 1435 | kein Ort im Datenpaket -> 26.5,30.6 | - | fehlt im Datenpaket |
+| 254775 | 1435 | kein Ort im Datenpaket -> 25.3,32.4 | - | fehlt im Datenpaket |

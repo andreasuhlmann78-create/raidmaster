@@ -1,0 +1,1620 @@
+{
+ "addon": "LevelPilot",
+ "blocked": [],
+ "env": {
+  "build": "71037",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 42,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "f": 2,
+ "fest": [],
+ "id": "LevelPilot-wege-1795443122-3ae750",
+ "kind": "wege",
+ "npc": [
+  {
+   "id": 1776,
+   "map": 1435,
+   "new": [
+    26.1,
+    31.5
+   ],
+   "old": [
+    26,
+    31.4
+   ],
+   "t": 1795441476
+  },
+  {
+   "id": 5391,
+   "map": 1435,
+   "new": [
+    65.4,
+    18.3
+   ],
+   "old": [
+    65.5,
+    18.2
+   ],
+   "t": 1795440288
+  },
+  {
+   "id": 254770,
+   "map": 1435,
+   "new": [
+    26.5,
+    30.6
+   ],
+   "nopack": true,
+   "t": 1795441579
+  },
+  {
+   "id": 254775,
+   "map": 1435,
+   "new": [
+    25.3,
+    32.4
+   ],
+   "nopack": true,
+   "t": 1795441593
+  }
+ ],
+ "qo": [
+  {
+   "a": "A",
+   "l": 42,
+   "m": 1435,
+   "q": 1393,
+   "t": 1795440288
+  },
+  {
+   "a": "A",
+   "l": 42,
+   "m": 1435,
+   "q": 1393,
+   "t": 1795440614
+  },
+  {
+   "a": "T",
+   "l": 42,
+   "m": 1435,
+   "q": 1393,
+   "t": 1795441158
+  },
+  {
+   "a": "A",
+   "l": 42,
+   "m": 1435,
+   "q": 1392,
+   "t": 1795441418
+  },
+  {
+   "a": "T",
+   "l": 42,
+   "m": 1435,
+   "q": 1392,
+   "t": 1795441477
+  },
+  {
+   "a": "A",
+   "l": 42,
+   "m": 1435,
+   "q": 1389,
+   "t": 1795441478
+  },
+  {
+   "a": "A",
+   "l": 42,
+   "m": 1435,
+   "q": 93430,
+   "t": 1795441580
+  },
+  {
+   "a": "A",
+   "l": 42,
+   "m": 1435,
+   "q": 93429,
+   "t": 1795441594
+  },
+  {
+   "a": "T",
+   "l": 42,
+   "m": 1435,
+   "q": 93430,
+   "t": 1795441730
+  },
+  {
+   "a": "T",
+   "l": 42,
+   "m": 1435,
+   "q": 1389,
+   "t": 1795442482
+  },
+  {
+   "a": "A",
+   "l": 42,
+   "m": 1435,
+   "q": 93464,
+   "t": 1795442482
+  },
+  {
+   "a": "T",
+   "l": 42,
+   "m": 1435,
+   "q": 93429,
+   "t": 1795442487
+  }
+ ],
+ "time": 1795443122,
+ "version": "3.13.6",
+ "zones": [
+  {
+   "edges": [
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 1,
+     "p": [
+      62.7,
+      21.5,
+      62.1,
+      21.7,
+      61.3,
+      22.6
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 1,
+     "p": [
+      55.8,
+      27,
+      56.2,
+      27.6,
+      56.4,
+      27
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 1,
+     "p": [
+      55.8,
+      27,
+      55.6,
+      27.7
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 1,
+     "p": [
+      55.8,
+      27,
+      55.2,
+      28
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 1,
+     "p": [
+      55.8,
+      27,
+      56.4,
+      27
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Der Sichere Hafen",
+      "1435|o|Der Sichere Hafen",
+      "1435|o|Der Sichere Hafen",
+      "1435|o|Der Sichere Hafen"
+     ],
+     "n": 3,
+     "p": [
+      24.9,
+      32.4,
+      25.5,
+      31.9,
+      26.2,
+      31.6,
+      26.5,
+      32.3
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|d|Stonard",
+      "1435|d|Stonard"
+     ],
+     "n": 2,
+     "p": [
+      45.1,
+      56.6,
+      45.2,
+      55.7
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|",
+      "1435|o|"
+     ],
+     "n": 1,
+     "p": [
+      65.5,
+      23.9,
+      65.5,
+      23.1
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|",
+      "1435|o|"
+     ],
+     "n": 1,
+     "p": [
+      65.5,
+      23.9,
+      64.8,
+      23.5
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|",
+      "1435|o|",
+      "1435|o|",
+      "1435|o|"
+     ],
+     "n": 1,
+     "p": [
+      65.5,
+      23.9,
+      66.2,
+      23.6,
+      66.4,
+      22.7,
+      65.7,
+      21.6
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|",
+      "1435|o|",
+      "1435|o|",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 3,
+     "p": [
+      65.5,
+      23.9,
+      65,
+      24.4,
+      64.5,
+      25.1,
+      63.8,
+      25.3
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 2,
+     "p": [
+      64.7,
+      20.4,
+      64.2,
+      19.9
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|",
+      "1435|o|"
+     ],
+     "n": 1,
+     "p": [
+      64.7,
+      20.4,
+      65.6,
+      20
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|",
+      "1435|o|"
+     ],
+     "n": 1,
+     "p": [
+      64.7,
+      20.4,
+      65.5,
+      19.1
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|",
+      "1435|o|",
+      "1435|o|"
+     ],
+     "n": 3,
+     "p": [
+      64.7,
+      20.4,
+      64.9,
+      21,
+      65.2,
+      21.8
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|",
+      "1435|o|"
+     ],
+     "n": 3,
+     "p": [
+      64.7,
+      20.4,
+      65.5,
+      20.7
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|",
+      "1435|o|"
+     ],
+     "n": 1,
+     "p": [
+      65.3,
+      18.4,
+      64.6,
+      19.3
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|",
+      "1435|o|"
+     ],
+     "n": 1,
+     "p": [
+      65.3,
+      18.4,
+      65.5,
+      19.1
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|",
+      "1435|o|"
+     ],
+     "n": 2,
+     "p": [
+      65.3,
+      18.4,
+      65.7,
+      17.4
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|",
+      "1435|o|"
+     ],
+     "n": 1,
+     "p": [
+      65.5,
+      23.1,
+      65.6,
+      22.4
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|",
+      "1435|o|",
+      "1435|o|"
+     ],
+     "n": 4,
+     "p": [
+      65.5,
+      23.1,
+      65,
+      22.7,
+      65.2,
+      21.8
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 2,
+     "p": [
+      61.9,
+      26.4,
+      62.4,
+      26.1,
+      63.1,
+      25.6,
+      63.8,
+      25.3
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 1,
+     "p": [
+      61.9,
+      26.4,
+      61,
+      26.6
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 1,
+     "p": [
+      61.9,
+      26.4,
+      61.5,
+      26.3,
+      61,
+      26.6
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 1,
+     "p": [
+      59.4,
+      26.2,
+      58.1,
+      26.6
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 2,
+     "p": [
+      59.4,
+      26.2,
+      59.9,
+      26.8,
+      60.5,
+      26.8
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 2,
+     "p": [
+      59.4,
+      26.2,
+      58.6,
+      25.9
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 1,
+     "p": [
+      59.4,
+      26.2,
+      60.5,
+      26.8
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Der Wabersumpf",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 3,
+     "p": [
+      54.1,
+      28.6,
+      54.6,
+      28.3
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf"
+     ],
+     "n": 2,
+     "p": [
+      54.1,
+      28.6,
+      53.5,
+      29
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf"
+     ],
+     "n": 1,
+     "p": [
+      54.1,
+      28.6,
+      53.1,
+      29.6
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 2,
+     "p": [
+      57.8,
+      27.2,
+      58.1,
+      26.6
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 1,
+     "p": [
+      57.8,
+      27.2,
+      57.3,
+      27.2,
+      56.8,
+      27.5
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 1,
+     "p": [
+      57.8,
+      27.2,
+      56.8,
+      27.5
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 1,
+     "p": [
+      60,
+      24.1,
+      59.5,
+      24.7,
+      59.1,
+      25.3,
+      58.6,
+      25.9
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 1,
+     "p": [
+      60,
+      24.1,
+      59.2,
+      23.8
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 1,
+     "p": [
+      60,
+      24.1,
+      60.4,
+      24.8,
+      60.9,
+      25.3,
+      61.6,
+      25.2
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 1,
+     "p": [
+      60,
+      24.1,
+      59,
+      24.4
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 1,
+     "p": [
+      60,
+      24.1,
+      60.2,
+      23
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 2,
+     "p": [
+      62,
+      23.9,
+      61.6,
+      25.2
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 1,
+     "p": [
+      56.8,
+      25,
+      57.3,
+      24.6,
+      57.2,
+      25.8
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 1,
+     "p": [
+      59.2,
+      23.8,
+      59,
+      24.4
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 1,
+     "p": [
+      59.2,
+      23.8,
+      59.6,
+      23.2,
+      60.2,
+      23
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 1,
+     "p": [
+      61.3,
+      22.6,
+      61.9,
+      22.6,
+      62.4,
+      22.2
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 2,
+     "p": [
+      61.3,
+      22.6,
+      60.7,
+      22.6,
+      60.2,
+      23
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 1,
+     "p": [
+      63.8,
+      25.3,
+      63.4,
+      24.7,
+      62.9,
+      24.3
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|",
+      "1435|o|"
+     ],
+     "n": 3,
+     "p": [
+      65.6,
+      22.4,
+      65.7,
+      21.6
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|",
+      "1435|o|"
+     ],
+     "n": 1,
+     "p": [
+      65.6,
+      22.4,
+      65.2,
+      21.8
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|",
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 1,
+     "p": [
+      64.6,
+      19.3,
+      64.1,
+      19.3,
+      63.6,
+      19.9
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|",
+      "1435|o|"
+     ],
+     "n": 1,
+     "p": [
+      64.6,
+      19.3,
+      65.5,
+      19.1
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 2,
+     "p": [
+      61,
+      26.6,
+      60.5,
+      26.8
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 1,
+     "p": [
+      58.1,
+      26.6,
+      57.9,
+      26
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 2,
+     "p": [
+      58.1,
+      26.6,
+      58.6,
+      25.9
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 2,
+     "p": [
+      55.6,
+      27.7,
+      56.4,
+      27
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 2,
+     "p": [
+      55.6,
+      27.7,
+      55.2,
+      28
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf"
+     ],
+     "n": 3,
+     "p": [
+      53.5,
+      29,
+      53.1,
+      29.6
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Der Wabersumpf",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 1,
+     "p": [
+      53.5,
+      29,
+      54.6,
+      28.3
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 1,
+     "p": [
+      58.6,
+      25.9,
+      57.9,
+      26
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf"
+     ],
+     "n": 1,
+     "p": [
+      45.4,
+      38.1,
+      46,
+      38.1,
+      46.4,
+      38.7
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 1,
+     "p": [
+      59,
+      24.4,
+      58.3,
+      25,
+      57.9,
+      26
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 1,
+     "p": [
+      59,
+      24.4,
+      58.5,
+      23.9,
+      57.9,
+      24.1
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Der Sichere Hafen",
+      "1435|o|Der Sichere Hafen",
+      "1435|o|Der Sichere Hafen",
+      "1435|o|Der Sichere Hafen",
+      "1435|o|Der Sichere Hafen",
+      "1435|o|Der Sichere Hafen",
+      "1435|o|Der Sichere Hafen",
+      "1435|o|Der Sichere Hafen",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf"
+     ],
+     "n": 2,
+     "p": [
+      26.5,
+      32.3,
+      26.9,
+      31.9,
+      27.5,
+      31.8,
+      28.2,
+      32.1,
+      28.9,
+      32.2,
+      29.5,
+      32.4,
+      30.1,
+      32.5,
+      30.8,
+      32.6,
+      31.5,
+      32.8,
+      32,
+      33.5,
+      32.5,
+      34,
+      33.2,
+      33.5,
+      33.9,
+      33.4,
+      34.6,
+      33.2,
+      35.1,
+      32.4,
+      35.5,
+      31.8,
+      36.2,
+      32,
+      36.8,
+      32.2,
+      37.5,
+      32.4,
+      38.3,
+      32.3,
+      39,
+      32.3
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Der Sichere Hafen",
+      "1435|o|Der Sichere Hafen",
+      "1435|o|Der Sichere Hafen",
+      "1435|o|Der Sichere Hafen",
+      "1435|o|Der Sichere Hafen",
+      "1435|o|Der Sichere Hafen",
+      "1435|o|Der Sichere Hafen",
+      "1435|o|Der Sichere Hafen",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf"
+     ],
+     "n": 1,
+     "p": [
+      26.5,
+      32.3,
+      26.9,
+      33.1,
+      27.6,
+      33.5,
+      28.2,
+      34.1,
+      28.8,
+      34.8,
+      29.4,
+      35.4,
+      30.1,
+      36,
+      30.7,
+      36.7,
+      31.3,
+      37.2,
+      32,
+      37,
+      32.7,
+      36.6,
+      33.4,
+      36.2,
+      34.1,
+      35.8,
+      34.8,
+      35.4,
+      35.4,
+      35,
+      36.1,
+      34.5,
+      36.8,
+      34.1,
+      37.5,
+      33.7,
+      38.2,
+      33.3,
+      39,
+      32.3
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Stonard",
+      "1435|o|Stonard"
+     ],
+     "n": 1,
+     "p": [
+      45.3,
+      54.9,
+      44.7,
+      54.3
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|",
+      "1435|o|"
+     ],
+     "n": 2,
+     "p": [
+      65.7,
+      21.6,
+      65.2,
+      21.8
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|",
+      "1435|o|",
+      "1435|o|"
+     ],
+     "n": 2,
+     "p": [
+      65.7,
+      21.6,
+      66.1,
+      20.7,
+      65.5,
+      20.7
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|",
+      "1435|o|"
+     ],
+     "n": 2,
+     "p": [
+      65.7,
+      21.6,
+      65.5,
+      20.7
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|",
+      "1435|o|"
+     ],
+     "n": 2,
+     "p": [
+      65.6,
+      20,
+      65.5,
+      20.7
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|",
+      "1435|o|"
+     ],
+     "n": 3,
+     "p": [
+      65.6,
+      20,
+      65.5,
+      19.1
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 1,
+     "p": [
+      60.5,
+      26.8,
+      61.2,
+      25.7,
+      61.6,
+      25.2
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 4,
+     "p": [
+      55.2,
+      28,
+      54.6,
+      28.3
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf"
+     ],
+     "n": 1,
+     "p": [
+      53.1,
+      29.6,
+      52.5,
+      30.2,
+      51.9,
+      30.8,
+      51.4,
+      31.6,
+      51,
+      32.4,
+      50.3,
+      32.7,
+      49.6,
+      32.9,
+      48.9,
+      33.1,
+      48.3,
+      33.7,
+      48.1,
+      34.7,
+      48.1,
+      35.8,
+      48.1,
+      36.9,
+      47.9,
+      37.9,
+      47.7,
+      38.9,
+      47.4,
+      40.3
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf"
+     ],
+     "n": 1,
+     "p": [
+      53.1,
+      29.6,
+      52.5,
+      29.5,
+      51.8,
+      29.9,
+      51.1,
+      30.2,
+      50.4,
+      30.6,
+      49.7,
+      31,
+      49,
+      31.2,
+      48.4,
+      30.5,
+      47.8,
+      30.3,
+      47,
+      30.3,
+      46.3,
+      30.5,
+      45.6,
+      30.9,
+      44.9,
+      31.2,
+      44.2,
+      31.6,
+      43.5,
+      32,
+      42.8,
+      32.3,
+      42.1,
+      32.7,
+      41.4,
+      33.1,
+      40.7,
+      33.4,
+      40.2,
+      33,
+      39.7,
+      32.4
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 3,
+     "p": [
+      57.9,
+      26,
+      57.2,
+      25.8
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf"
+     ],
+     "n": 1,
+     "p": [
+      45,
+      29.1,
+      44.4,
+      29.6,
+      43.7,
+      30.1,
+      43.1,
+      30.6,
+      42.4,
+      30.7,
+      41.7,
+      30.9,
+      40.9,
+      31.1,
+      40.3,
+      31.7,
+      39.7,
+      32.4
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Der Wabersumpf",
+      "1435|o|Der Wabersumpf"
+     ],
+     "n": 2,
+     "p": [
+      39.7,
+      32.4,
+      39,
+      32.3
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 2,
+     "p": [
+      56.8,
+      27.5,
+      56.4,
+      27
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 1,
+     "p": [
+      56.4,
+      27,
+      57.2,
+      25.8
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten",
+      "1435|o|Zuflucht der Verirrten"
+     ],
+     "n": 2,
+     "p": [
+      56.4,
+      27,
+      56.5,
+      25.9,
+      57.2,
+      25.8
+     ],
+     "src": "selbst"
+    }
+   ],
+   "map": 1435,
+   "name": "Sümpfe des Elends"
+  },
+  {
+   "edges": [
+    {
+     "lv": [
+      "1454|d|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke"
+     ],
+     "n": 13,
+     "p": [
+      54.3,
+      68.4,
+      54,
+      69.6,
+      53,
+      69.9,
+      52.5,
+      70.9,
+      51.4,
+      70.8
+     ],
+     "src": "selbst"
+    }
+   ],
+   "map": 1454,
+   "name": "Orgrimmar"
+  }
+ ]
+}
