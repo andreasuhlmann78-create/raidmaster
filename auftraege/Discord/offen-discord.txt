@@ -443,3 +443,5 @@ SICHERHEIT (Pflicht, Repo ist öffentlich):
  FRAGE AN DEN NUTZER (offen, NICHTS ändern bis Antwort): Beim Posten einer NEUEN Version löscht der Bot weiterhin die Beiträge der älteren Version
     derselben Reihe (remove_old_announcements Z. ~334, aufgerufen Z. 487/699; remove_old_releases; remove_old_raidmaster_versions). Das ist das
     bisherige "neue Version ersetzt alte" im Kanal. Ob das unter den Entscheid 11:36 fällt, entscheidet der Nutzer.
+    ENTSCHEID DES NUTZERS 23.11. 12:43: "Ersetzen wie bisher" – beim Posten einer neuen Version löscht der Bot den Beitrag der vorherigen Version
+     derselben Reihe (im Kanal steht je Addon nur die aktuelle). Nichts ändern. Frage erledigt.

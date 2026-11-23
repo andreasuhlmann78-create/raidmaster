@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 12:43 | Neue Version ersetzt im Discord den Beitrag der vorherigen Version (wie bisher) – Antwort auf Frage des Supervisors | Bot unverändert; Entscheid 11:36 betrifft nur das Löschen von Dateien in announce/ und das Löschen von Beiträgen, deren Datei fehlt |
 | 12:03 | "Der Bot soll alte Addon-Versionen auf keinen Fall wieder posten." | Die 9 heute vor 11:36 gelöschten alten Ankündigungen bleiben weg; Auftrag D-ANN2 HOCH (Bot postet nie eine ältere/gleiche Version einer Reihe) |
 | 11:45 | Die im Repo gelöschten Ankündigungen wiederherstellen (an die Discord-Sitzung) | erledigt 11:54: 33 Dateien zurück, Bot 1.5.191, keine Discord-Beiträge gelöscht oder neu gepostet |
 | 11:36 | "im repo dürfen die boteinträge nicht mehr gelöscht werden!" (an die Discord-Sitzung) | announce/: nichts mehr löschen, neue Datei dazu (hinweis-announce-nicht-loeschen); Auftrag D-ANN1 (Bot löscht nie, Workflow meldet Löschung rot, Beleg zum Wiederherstellen der 34 Dateien) |
