@@ -1,0 +1,11 @@
+BERICHT RAIDMASTER AN DIE PRÜF-SITZUNG – WEITERLEITUNG (nicht umgesetzt: Zuständigkeit Discord-Sitzung)
+Stand: 23.11.2026 15:58 · Auftrag des Nutzers 15:57 an die RaidMaster-Sitzung, betrifft aber den Discord-Bot (Raidmaster tool) ->
+Projekt Discord/ (eine Sitzung je Projekt; die Discord-Sitzung arbeitet heute am Bot, 1.5.192). Bitte als Auftrag nach
+auftraege/Discord/ übertragen.
+
+Wortlaut des Nutzers (15:57):
+"Auftrag Bot (Raidmaster tool), Bewerbungen aufräumen: Sobald ein Offizier in einem Bewerbungs-Thread unter #bewerbung auf „Aufnehmen“
+oder „Ablehnen“ klickt, löscht der Bot diesen Thread automatisch. Vorher schreibt er eine kurze Zeile in #offiziere mit Name, Charakter,
+Klasse, Stufe, Entscheidung, Offizier und Datum, damit nichts verloren geht. Damit ein Fehlklick nicht sofort alles löscht, wird der
+Thread erst nach etwa 5 Minuten gelöscht, und bis dahin gibt es einen „Rückgängig“-Knopf. Der Bot braucht dafür die Berechtigung
+„Threads verwalten“ in #bewerbung."
