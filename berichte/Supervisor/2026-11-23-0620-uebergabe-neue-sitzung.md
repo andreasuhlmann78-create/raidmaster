@@ -58,3 +58,9 @@ Für die neue Sitzung im Projekt «Addonprüfer». Alles Massgebliche steht im R
 7. **Projekt Rohauszug** (`auftraege/Rohauszug/offen-rohauszug.txt`): geprüft 23.11. – die Datei steht zuoberst auf
    "ERLEDIGT / EINGESTELLT (17.11. 06:30)": Entscheid des Nutzers 17.11. 06:22 "an die EULA halten", kein Auszug mehr, Werkzeuge und Daten
    entfernt. Kein Ordnerzugriff nötig, solange der Nutzer das nicht neu entscheidet.
+
+## Stand geplante Aufgaben 23.11. 07:44 (Entscheid des Nutzers 07:41)
+- "Markt-Tabellen täglich (AHSentinel)" EINGESCHALTET, Anleitung angepasst (4 Rechner, "Alle|<Fraktion>", Sicherungsmärkte mergedInto
+  werden übersprungen, Tests test_kern_daten 20/20 und test_markt_tabellen_alle 22/22). Erster Lauf 24.11. 05:37 (Sofort-Lauf aus dieser
+  Sitzung nicht erlaubt). Werkzeuge angepasst: markt_tabellen.py, buchhaltung_plausi.py, verlauf_auspacken.py, de_ketten_lehrer.py.
+- Nachprüfung: aus, bis die Sitzung gut läuft – dann den Nutzer fragen. Alle anderen: aus.
