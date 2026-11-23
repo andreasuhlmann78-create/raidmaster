@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-23T11:14:15Z",
+ "ausgewertet": "2026-11-23T12:54:53Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -118,35 +118,107 @@
    ]
   },
   "BuffSentinel": {
-   "berichte": 11,
+   "berichte": 13,
    "letzter_test": {
-    "id": "BuffSentinel-1795202195-fc6b0f-1",
-    "version": "0.9.60",
-    "time": 1795202195,
+    "id": "BuffSentinel-1795436401-ee22f3-1",
+    "version": "0.9.61",
+    "time": 1795436385,
     "counts": {
-     "client": 0,
-     "fehler": 0,
-     "ok": 1,
-     "uebersprungen": 0
+     "client": 10,
+     "fehler": 3,
+     "ok": 220,
+     "uebersprungen": 11
     }
    },
-   "fehler_tests": [],
+   "fehler_tests": [
+    {
+     "addon": "BuffSentinel",
+     "art": "test",
+     "version": "0.9.61",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T141",
+     "name": "Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern",
+     "detail": "ergebnis: BuffSentinelOptions überdeckt Guide (LevelPilot) · geprüft 1 | erwartet: keine",
+     "bericht": "BuffSentinel-1795436401-ee22f3-1"
+    },
+    {
+     "addon": "BuffSentinel",
+     "art": "test",
+     "version": "0.9.61",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T266",
+     "name": "Lesbarkeit L1–L8: Schriftgrösse, Kontrast, Beträge im Nachkaufen-Tooltip",
+     "detail": "ergebnis: 476 Texte geprüft · kleinste erlaubte Grösse 10.0 · schwächster Kontrast 4.32:1 · Befunde: L1 skill \"Rechtsklick auf de\" 4.37:1; L1 skill \"Suchen (z. B. Ton,\" 4.32:1; L1 proc \"Rechtsklick auf de\" 4.37:1; L1 proc \"Suchen (z. B. Ton,\" 4.32:1; L1 buff \"Rechtsklick auf de\" 4.37:1; L1 buff \"Suchen …",
+     "bericht": "BuffSentinel-1795436401-ee22f3-1"
+    },
+    {
+     "addon": "BuffSentinel",
+     "art": "test",
+     "version": "0.9.61",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T162",
+     "name": "Regressionen: jeder Befund hat einen Test, der gelaufen ist",
+     "detail": "ergebnis: Regressionen: 30 von 30 vorhanden · FEHLER: UI Oberfläche im Client (5.11.)",
+     "bericht": "BuffSentinel-1795436401-ee22f3-1"
+    }
+   ],
    "fehler_spiel": []
   },
   "GuildSentinel": {
-   "berichte": 13,
+   "berichte": 14,
    "letzter_test": {
-    "id": "GuildSentinel-1795026045-a76bf8-1",
-    "version": "0.9.58",
-    "time": 1795026026,
+    "id": "GuildSentinel-1795436758-7ede56-1",
+    "version": "0.9.60",
+    "time": 1795436715,
     "counts": {
      "client": 8,
-     "fehler": 0,
-     "ok": 329,
+     "fehler": 4,
+     "ok": 335,
      "uebersprungen": 24
     }
    },
-   "fehler_tests": [],
+   "fehler_tests": [
+    {
+     "addon": "GuildSentinel",
+     "art": "test",
+     "version": "0.9.60",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T183",
+     "name": "kein Überlappen mit anderen Fenstern",
+     "detail": "ergebnis: GuildSentinelFrame / LevelPilotFrame | erwartet: 0 (angedockt nebeneinander ist erlaubt)",
+     "bericht": "GuildSentinel-1795436758-7ede56-1"
+    },
+    {
+     "addon": "GuildSentinel",
+     "art": "test",
+     "version": "0.9.60",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T319",
+     "name": "Bedienelemente jeder Seite liegen im Hauptfenster",
+     "detail": "ergebnis: 1559 Bedienelemente · ausserhalb 1: group>search: Button \"Elite-Quest (LevelPilot)\" | erwartet: ausserhalb 0",
+     "bericht": "GuildSentinel-1795436758-7ede56-1"
+    },
+    {
+     "addon": "GuildSentinel",
+     "art": "test",
+     "version": "0.9.60",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T311",
+     "name": "L1 Kontrast: jeder Text mindestens 4,5:1 zum Hintergrund (WCAG 2.1, 1.4.3)",
+     "detail": "ergebnis: 3138 Texte (3056 bewertet) auf 52 Ansichten, schwächster 3.7:1, ohne bekannten Hintergrund 0, deaktiviert 55 · zu schwach 9: members>list: Button \"<Name> (<Name>)\" / \"<Name> (<Name>)\" (3.7:1 < 4.5:1); members>where: Button \"<Name>\" / \"<Name>\" (3.9:1 < 4.5:1); members>comp: Button \"Schamane\" / \"Sch… | erwartet: zu schwach 0",
+     "bericht": "GuildSentinel-1795436758-7ede56-1"
+    },
+    {
+     "addon": "GuildSentinel",
+     "art": "test",
+     "version": "0.9.60",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T317",
+     "name": "L5 eine Hauptzahl oben in jedem Tooltip mit Zahlen",
+     "detail": "ergebnis: 54 Tooltips mit Zahlen · Hauptzahl nicht oben 8: board>offer: Button \"Runenstoff (passt!)\" erste Zahl in Zeile 3 von 12; board>offer: Button \"Runenstoff – gratis für G\" erste Zahl in Zeile 3 von 13; board>offer: Button \"Goldener Sansam – VB\" erste Zahl in Zeile 3 von 11; board>want: Button \"Ru… | erwartet: Hauptzahl nicht oben 0",
+     "bericht": "GuildSentinel-1795436758-7ede56-1"
+    }
+   ],
    "fehler_spiel": [
     {
      "addon": "GuildSentinel",
@@ -321,30 +393,19 @@
    "fehler_spiel": []
   },
   "ThreatSentinel": {
-   "berichte": 19,
+   "berichte": 21,
    "letzter_test": {
-    "id": "ThreatSentinel-1795006175-353e8b-1",
+    "id": "ThreatSentinel-1795435871-02b118-1",
     "version": "2.5.23",
-    "time": 1795006175,
+    "time": 1795435868,
     "counts": {
-     "client": 0,
-     "fehler": 1,
-     "ok": 0,
-     "uebersprungen": 0
+     "client": 14,
+     "fehler": 0,
+     "ok": 320,
+     "uebersprungen": 11
     }
    },
-   "fehler_tests": [
-    {
-     "addon": "ThreatSentinel",
-     "art": "test",
-     "version": "2.5.23",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T186",
-     "name": "Oberfläche mit offenen Blizzard-Fenstern (nachgeholt bei ProfessionsFrame)",
-     "detail": "ergebnis: Testzentrale überdeckt ProfessionSentinel-Panel (ProfessionSentinel); Einstellungen überdeckt ProfessionSentinel-Panel (ProfessionSentinel) · geprüft 4 | erwartet: keine, geprüft > 0",
-     "bericht": "ThreatSentinel-1795006175-353e8b-1"
-    }
-   ],
+   "fehler_tests": [],
    "fehler_spiel": []
   }
  },
@@ -446,6 +507,76 @@
     "forever 1.60.1 (Interface 16001)"
    ],
    "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[tail call]: ?\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/UI_Main.lua]:1298: in function 'Render'\n..."
+  },
+  {
+   "addon": "BuffSentinel",
+   "art": "test",
+   "version": "0.9.61",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T141",
+   "name": "Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern",
+   "detail": "ergebnis: BuffSentinelOptions überdeckt Guide (LevelPilot) · geprüft 1 | erwartet: keine",
+   "bericht": "BuffSentinel-1795436401-ee22f3-1"
+  },
+  {
+   "addon": "BuffSentinel",
+   "art": "test",
+   "version": "0.9.61",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T266",
+   "name": "Lesbarkeit L1–L8: Schriftgrösse, Kontrast, Beträge im Nachkaufen-Tooltip",
+   "detail": "ergebnis: 476 Texte geprüft · kleinste erlaubte Grösse 10.0 · schwächster Kontrast 4.32:1 · Befunde: L1 skill \"Rechtsklick auf de\" 4.37:1; L1 skill \"Suchen (z. B. Ton,\" 4.32:1; L1 proc \"Rechtsklick auf de\" 4.37:1; L1 proc \"Suchen (z. B. Ton,\" 4.32:1; L1 buff \"Rechtsklick auf de\" 4.37:1; L1 buff \"Suchen …",
+   "bericht": "BuffSentinel-1795436401-ee22f3-1"
+  },
+  {
+   "addon": "BuffSentinel",
+   "art": "test",
+   "version": "0.9.61",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T162",
+   "name": "Regressionen: jeder Befund hat einen Test, der gelaufen ist",
+   "detail": "ergebnis: Regressionen: 30 von 30 vorhanden · FEHLER: UI Oberfläche im Client (5.11.)",
+   "bericht": "BuffSentinel-1795436401-ee22f3-1"
+  },
+  {
+   "addon": "GuildSentinel",
+   "art": "test",
+   "version": "0.9.60",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T183",
+   "name": "kein Überlappen mit anderen Fenstern",
+   "detail": "ergebnis: GuildSentinelFrame / LevelPilotFrame | erwartet: 0 (angedockt nebeneinander ist erlaubt)",
+   "bericht": "GuildSentinel-1795436758-7ede56-1"
+  },
+  {
+   "addon": "GuildSentinel",
+   "art": "test",
+   "version": "0.9.60",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T319",
+   "name": "Bedienelemente jeder Seite liegen im Hauptfenster",
+   "detail": "ergebnis: 1559 Bedienelemente · ausserhalb 1: group>search: Button \"Elite-Quest (LevelPilot)\" | erwartet: ausserhalb 0",
+   "bericht": "GuildSentinel-1795436758-7ede56-1"
+  },
+  {
+   "addon": "GuildSentinel",
+   "art": "test",
+   "version": "0.9.60",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T311",
+   "name": "L1 Kontrast: jeder Text mindestens 4,5:1 zum Hintergrund (WCAG 2.1, 1.4.3)",
+   "detail": "ergebnis: 3138 Texte (3056 bewertet) auf 52 Ansichten, schwächster 3.7:1, ohne bekannten Hintergrund 0, deaktiviert 55 · zu schwach 9: members>list: Button \"<Name> (<Name>)\" / \"<Name> (<Name>)\" (3.7:1 < 4.5:1); members>where: Button \"<Name>\" / \"<Name>\" (3.9:1 < 4.5:1); members>comp: Button \"Schamane\" / \"Sch… | erwartet: zu schwach 0",
+   "bericht": "GuildSentinel-1795436758-7ede56-1"
+  },
+  {
+   "addon": "GuildSentinel",
+   "art": "test",
+   "version": "0.9.60",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T317",
+   "name": "L5 eine Hauptzahl oben in jedem Tooltip mit Zahlen",
+   "detail": "ergebnis: 54 Tooltips mit Zahlen · Hauptzahl nicht oben 8: board>offer: Button \"Runenstoff (passt!)\" erste Zahl in Zeile 3 von 12; board>offer: Button \"Runenstoff – gratis für G\" erste Zahl in Zeile 3 von 13; board>offer: Button \"Goldener Sansam – VB\" erste Zahl in Zeile 3 von 11; board>want: Button \"Ru… | erwartet: Hauptzahl nicht oben 0",
+   "bericht": "GuildSentinel-1795436758-7ede56-1"
   },
   {
    "addon": "GuildSentinel",
@@ -564,27 +695,17 @@
    "name": "Berufe: Fenster wird eingelesen (nachgeholt)",
    "detail": "ergebnis: nach dem Öffnen nicht eingelesen | erwartet: Berufe-Daten neu",
    "bericht": "RaidMaster-1795026088-db14ae-1"
-  },
-  {
-   "addon": "ThreatSentinel",
-   "art": "test",
-   "version": "2.5.23",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T186",
-   "name": "Oberfläche mit offenen Blizzard-Fenstern (nachgeholt bei ProfessionsFrame)",
-   "detail": "ergebnis: Testzentrale überdeckt ProfessionSentinel-Panel (ProfessionSentinel); Einstellungen überdeckt ProfessionSentinel-Panel (ProfessionSentinel) · geprüft 4 | erwartet: keine, geprüft > 0",
-   "bericht": "ThreatSentinel-1795006175-353e8b-1"
   }
  ],
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 217,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.382-f4feba6b01fb.txt"
+    "anzahl": 219,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.385-e7be8ca504a5.txt"
    },
    "BuffSentinel": {
-    "anzahl": 135,
-    "neueste": "testberichte/diagnose/BuffSentinel/0.9.60-fb522145c40a.txt"
+    "anzahl": 138,
+    "neueste": "testberichte/diagnose/BuffSentinel/0.9.61-ad8210618a6a.txt"
    },
    "GSMesstest": {
     "anzahl": 20,
@@ -595,26 +716,26 @@
     "neueste": "testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt"
    },
    "GuildSentinel": {
-    "anzahl": 249,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.58-fa602fb8b08c.txt"
+    "anzahl": 252,
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.60-c50d2bd094a5.txt"
    },
    "LevelPilot": {
-    "anzahl": 142,
-    "neueste": "testberichte/diagnose/LevelPilot/3.13.6-ff90860598d3.txt"
+    "anzahl": 145,
+    "neueste": "testberichte/diagnose/LevelPilot/3.13.10-a77bb44cf40d.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 226,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.74-ff706b85d2e7.txt"
+    "anzahl": 229,
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.78-94870285cc78.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 208,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.23-ee663a070dfa.txt"
+    "anzahl": 211,
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.26-7538d679994c.txt"
    }
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 325,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1795391915-89fc89.json"
+    "anzahl": 326,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1795436809-dbcfb7.json"
    }
   }
  }

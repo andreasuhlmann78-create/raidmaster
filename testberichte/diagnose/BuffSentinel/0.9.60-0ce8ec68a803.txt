@@ -1,0 +1,231 @@
+BuffSentinel-Protokoll v0.9.60 · 23.11. 13:26
+Client deDE · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  23.11. 11:32 L42 PRIEST v0.9.60 forever
+  23.11. 00:08 L42 PRIEST v0.9.60 forever
+  22.11. 22:47 L42 PRIEST v0.9.60 forever
+  22.11. 20:41 L42 PRIEST v0.9.60 forever
+  22.11. 15:40 L41 PRIEST v0.9.60 forever
+  22.11. 15:22 L41 PRIEST v0.9.60 forever
+  22.11. 15:10 L41 PRIEST v0.9.60 forever
+  22.11. 14:59 L41 PRIEST v0.9.60 forever
+  22.11. 14:58 L41 PRIEST v0.9.60 forever
+  22.11. 12:18 L41 PRIEST v0.9.60 forever
+
+== Diagnose
+  Fehler in dieser Sitzung: 0
+  Version forever · Sperren: ja · Kampflog: nein · Aurenzugriff verweigert: 0
+  Leistung im letzten Kampf: Kampf: längster Rahmen durch BuffSentinel 0.2 ms (Refresh), über 16 ms: 0 von 170 Rahmen
+  Vorrat je Taschen-Ereignis: 20 Ereignisse, Mittel 0.56 ms, höchstens 1.27 ms
+  MARKT-NETZ: v10 · an · Scans mitgelesen 0 · gesendet/empfangen 782/0 · gespeicherte Items 0
+  MARKT-NETZ v10 · an · Addons: AHSentinel, BuffSentinel, GuildSentinel, LevelPilot, ProfessionSentinel, RaidMaster, ThreatSentinel
+  MARKT-NETZ Scans 0 (davon vom Host übergeben 0; zuletzt 0 Auktionen, 0 Items, 0 ms in 0 Bildern) · Vergleiche 0 · abgebrochen 0
+  MARKT-NETZ Items 7265 (eigen 7200, Netz 65, Absatz gemessen 707) · gesendet 782 · empfangen 0 · angenommen 0 · Warteschlange 0
+  MARKT-NETZ verworfen: nichts
+  MARKT-NETZ Test-IDs entfernt: 0
+  SYNC GoldSentinelSync 3 · Wege: keiner · Mitspieler (1 Std.): AHSentinel 6, BuffSentinel 6, GoldSentinelMarkt 6, GoldSentinelTest 4, GuildSentinel 6, LevelPilot 6, LevelPilotG 6, ThreatSentinel 6
+  SYNC gesendet 1591 · empfangen 225 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 6 (mit Sync 2: 5, pausiert 3) · gesendet 23 · weitergegeben 0 · offline 23 · Listen 18 · Warteschlange 0 · gespeichert ja · im Test angehalten 0
+  SYNC BuffSentinel gesendet 25 · empfangen 36
+
+== Einträge (200, neueste zuerst)
+[23.11. 13:22] SYNC gesendet 21, empfangen 30, verworfen 0
+[23.11. 13:12] SYNC gesendet 17, empfangen 24, verworfen 0
+[23.11. 13:02] SYNC gesendet 9, empfangen 6, verworfen 0
+[23.11. 12:53] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (Refresh), über 16 ms: 0 von 170 Rahmen
+[23.11. 12:52] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (Refresh), über 16 ms: 0 von 479 Rahmen
+[23.11. 12:52] SYNC gesendet 5, empfangen 0, verworfen 0
+[23.11. 12:51] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 156 Rahmen
+[23.11. 12:42] SYNC ×2 gesendet 5, empfangen 0, verworfen 0
+[23.11. 12:22] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 66 Rahmen
+[23.11. 12:22] SYNC gesendet 5, empfangen 0, verworfen 0
+[23.11. 12:22] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (Refresh), über 16 ms: 0 von 186 Rahmen
+[23.11. 12:20] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 53 Rahmen
+[23.11. 12:20] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 179 Rahmen
+[23.11. 12:19] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 244 Rahmen
+[23.11. 12:16] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 202 Rahmen
+[23.11. 12:16] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (Refresh), über 16 ms: 0 von 335 Rahmen
+[23.11. 12:12] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (Refresh), über 16 ms: 0 von 482 Rahmen
+[23.11. 12:12] SYNC gesendet 5, empfangen 0, verworfen 0
+[23.11. 12:09] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 35 Rahmen
+[23.11. 12:09] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 418 Rahmen
+[23.11. 12:07] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 241 Rahmen
+[23.11. 12:02] SYNC gesendet 5, empfangen 0, verworfen 0
+[23.11. 11:57] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (Refresh), über 16 ms: 0 von 185 Rahmen
+[23.11. 11:56] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 184 Rahmen
+[23.11. 11:52] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (UPDATE_INVENTORY_DURABILITY), über 16 ms: 0 von 11 Rahmen
+[23.11. 11:52] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 112 Rahmen
+[23.11. 11:52] SYNC gesendet 5, empfangen 0, verworfen 0
+[23.11. 11:50] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (UPDATE_INVENTORY_DURABILITY), über 16 ms: 0 von 9 Rahmen
+[23.11. 11:50] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 52 Rahmen
+[23.11. 11:47] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (UPDATE_INVENTORY_DURABILITY), über 16 ms: 0 von 13 Rahmen
+[23.11. 11:47] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (Refresh), über 16 ms: 0 von 174 Rahmen
+[23.11. 11:42] SYNC gesendet 5, empfangen 0, verworfen 0
+[23.11. 11:42] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 56 Rahmen
+[23.11. 11:32] SYNC Weg=GoldSentinelSync 3 (Gilde/Gruppe/Netz)
+[23.11. 00:53] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (UPDATE_INVENTORY_DURABILITY), über 16 ms: 0 von 11 Rahmen
+[23.11. 00:53] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (Refresh), über 16 ms: 0 von 1223 Rahmen
+[23.11. 00:50] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 254 Rahmen
+[23.11. 00:50] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 144 Rahmen
+[23.11. 00:49] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 375 Rahmen
+[23.11. 00:48] SYNC gesendet 5, empfangen 0, verworfen 0
+[23.11. 00:42] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 316 Rahmen
+[23.11. 00:41] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (Refresh), über 16 ms: 0 von 187 Rahmen
+[23.11. 00:38] SYNC gesendet 5, empfangen 0, verworfen 0
+[23.11. 00:38] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 436 Rahmen
+[23.11. 00:37] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 295 Rahmen
+[23.11. 00:36] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (Refresh), über 16 ms: 0 von 47 Rahmen
+[23.11. 00:28] SYNC ×2 gesendet 5, empfangen 0, verworfen 0
+[23.11. 00:08] SYNC Weg=GoldSentinelSync 3 (Gilde/Gruppe/Netz)
+[23.11. 00:07] SYNC ×4 gesendet 5, empfangen 0, verworfen 0
+[22.11. 23:37] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 4 Rahmen
+[22.11. 23:37] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (Refresh), über 16 ms: 0 von 527 Rahmen
+[22.11. 23:27] SYNC ×4 gesendet 5, empfangen 0, verworfen 0
+[22.11. 22:47] SYNC Weg=GoldSentinelSync 3 (Gilde/Gruppe/Netz)
+[22.11. 22:41] SYNC gesendet 5, empfangen 0, verworfen 0
+[22.11. 22:34] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (Refresh), über 16 ms: 0 von 183 Rahmen
+[22.11. 22:34] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 269 Rahmen
+[22.11. 22:33] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 122 Rahmen
+[22.11. 22:33] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 130 Rahmen
+[22.11. 22:31] SYNC gesendet 5, empfangen 0, verworfen 0
+[22.11. 22:28] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.7 ms (BAG_UPDATE_DELAYED), über 16 ms: 0 von 580 Rahmen
+[22.11. 22:22] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 116 Rahmen
+[22.11. 22:21] SYNC gesendet 5, empfangen 0, verworfen 0
+[22.11. 22:20] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 261 Rahmen
+[22.11. 22:17] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 238 Rahmen
+[22.11. 22:16] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 175 Rahmen
+[22.11. 22:16] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (UNIT_SPELLCAST_SUCCEEDED), über 16 ms: 0 von 251 Rahmen
+[22.11. 22:15] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 131 Rahmen
+[22.11. 22:13] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 101 Rahmen
+[22.11. 22:13] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (Refresh), über 16 ms: 0 von 186 Rahmen
+[22.11. 22:11] SYNC ×2 gesendet 5, empfangen 0, verworfen 0
+[22.11. 21:59] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (Refresh), über 16 ms: 0 von 734 Rahmen
+[22.11. 21:57] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 124 Rahmen
+[22.11. 21:51] SYNC gesendet 5, empfangen 0, verworfen 0
+[22.11. 21:50] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 397 Rahmen
+[22.11. 21:41] SYNC ×6 gesendet 5, empfangen 0, verworfen 0
+[22.11. 20:41] SYNC Weg=GoldSentinelSync 3 (Gilde/Gruppe/Netz)
+[22.11. 20:40] SYNC gesendet 124, empfangen 158, verworfen 82 (duplicate 82)
+[22.11. 20:34] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (Refresh), über 16 ms: 0 von 155 Rahmen
+[22.11. 20:33] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 130 Rahmen
+[22.11. 20:31] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 141 Rahmen
+[22.11. 20:30] SYNC gesendet 124, empfangen 158, verworfen 82 (duplicate 82)
+[22.11. 20:28] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (Refresh), über 16 ms: 0 von 991 Rahmen
+[22.11. 20:26] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (Refresh), über 16 ms: 0 von 231 Rahmen
+[22.11. 20:22] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 241 Rahmen
+[22.11. 20:21] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (UNIT_SPELLCAST_SUCCEEDED), über 16 ms: 0 von 422 Rahmen
+[22.11. 20:21] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (UNIT_SPELLCAST_SUCCEEDED), über 16 ms: 0 von 895 Rahmen
+[22.11. 20:20] SYNC gesendet 124, empfangen 158, verworfen 82 (duplicate 82)
+[22.11. 20:19] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 166 Rahmen
+[22.11. 20:19] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 92 Rahmen
+[22.11. 20:19] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (UNIT_SPELLCAST_SUCCEEDED), über 16 ms: 0 von 203 Rahmen
+[22.11. 20:18] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (UNIT_SPELLCAST_SUCCEEDED), über 16 ms: 0 von 438 Rahmen
+[22.11. 20:17] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (UNIT_SPELLCAST_SUCCEEDED), über 16 ms: 0 von 833 Rahmen
+[22.11. 20:16] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (Refresh), über 16 ms: 0 von 232 Rahmen
+[22.11. 20:16] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 142 Rahmen
+[22.11. 20:15] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (Refresh), über 16 ms: 0 von 618 Rahmen
+[22.11. 20:14] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 170 Rahmen
+[22.11. 20:13] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 47 Rahmen
+[22.11. 20:12] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 276 Rahmen
+[22.11. 20:10] SYNC gesendet 114, empfangen 151, verworfen 76 (duplicate 76)
+[22.11. 20:06] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (UNIT_SPELLCAST_SUCCEEDED), über 16 ms: 0 von 449 Rahmen
+[22.11. 20:05] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (UNIT_SPELLCAST_SUCCEEDED), über 16 ms: 0 von 546 Rahmen
+[22.11. 20:04] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (UNIT_SPELLCAST_SUCCEEDED), über 16 ms: 0 von 493 Rahmen
+[22.11. 20:03] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (UNIT_SPELLCAST_SUCCEEDED), über 16 ms: 0 von 204 Rahmen
+[22.11. 20:03] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (Refresh), über 16 ms: 0 von 535 Rahmen
+[22.11. 20:02] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 689 Rahmen
+[22.11. 20:01] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 142 Rahmen
+[22.11. 20:00] SYNC gesendet 114, empfangen 151, verworfen 76 (duplicate 76)
+[22.11. 19:58] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 1.5 ms (UNIT_INVENTORY_CHANGED), über 16 ms: 0 von 687 Rahmen
+[22.11. 19:56] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 27 Rahmen
+[22.11. 19:56] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 1.6 ms (UNIT_INVENTORY_CHANGED), über 16 ms: 0 von 513 Rahmen
+[22.11. 19:55] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 75 Rahmen
+[22.11. 19:55] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 90 Rahmen
+[22.11. 19:54] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 124 Rahmen
+[22.11. 19:54] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (UNIT_SPELLCAST_SUCCEEDED), über 16 ms: 0 von 78 Rahmen
+[22.11. 19:54] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (UNIT_SPELLCAST_SUCCEEDED), über 16 ms: 0 von 197 Rahmen
+[22.11. 19:53] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (UNIT_SPELLCAST_SUCCEEDED), über 16 ms: 0 von 87 Rahmen
+[22.11. 19:53] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 110 Rahmen
+[22.11. 19:53] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 92 Rahmen
+[22.11. 19:53] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (UNIT_SPELLCAST_SUCCEEDED), über 16 ms: 0 von 125 Rahmen
+[22.11. 19:52] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (Refresh), über 16 ms: 0 von 99 Rahmen
+[22.11. 19:52] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 82 Rahmen
+[22.11. 19:52] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 11 Rahmen
+[22.11. 19:52] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 95 Rahmen
+[22.11. 19:51] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 84 Rahmen
+[22.11. 19:51] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 110 Rahmen
+[22.11. 19:51] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 99 Rahmen
+[22.11. 19:50] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (Refresh), über 16 ms: 0 von 369 Rahmen
+[22.11. 19:50] SYNC gesendet 114, empfangen 151, verworfen 76 (duplicate 76)
+[22.11. 19:49] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (Refresh), über 16 ms: 0 von 702 Rahmen
+[22.11. 19:47] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 417 Rahmen
+[22.11. 19:46] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (UNIT_SPELLCAST_SUCCEEDED), über 16 ms: 0 von 641 Rahmen
+[22.11. 19:45] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 442 Rahmen
+[22.11. 19:44] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 84 Rahmen
+[22.11. 19:44] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 328 Rahmen
+[22.11. 19:43] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (Refresh), über 16 ms: 0 von 269 Rahmen
+[22.11. 19:42] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 164 Rahmen
+[22.11. 19:42] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 34 Rahmen
+[22.11. 19:41] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 104 Rahmen
+[22.11. 19:41] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 181 Rahmen
+[22.11. 19:40] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 358 Rahmen
+[22.11. 19:40] SYNC gesendet 114, empfangen 151, verworfen 76 (duplicate 76)
+[22.11. 19:40] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.7 ms (BAG_UPDATE_DELAYED), über 16 ms: 0 von 199 Rahmen
+[22.11. 19:39] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (UNIT_SPELLCAST_SUCCEEDED), über 16 ms: 0 von 397 Rahmen
+[22.11. 19:38] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (UNIT_SPELLCAST_SUCCEEDED), über 16 ms: 0 von 498 Rahmen
+[22.11. 19:37] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.8 ms (UNIT_INVENTORY_CHANGED), über 16 ms: 0 von 1154 Rahmen
+[22.11. 19:35] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (Refresh), über 16 ms: 0 von 958 Rahmen
+[22.11. 19:34] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 1.4 ms (UNIT_INVENTORY_CHANGED), über 16 ms: 0 von 1048 Rahmen
+[22.11. 19:32] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (UNIT_SPELLCAST_SUCCEEDED), über 16 ms: 0 von 244 Rahmen
+[22.11. 19:32] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.7 ms (BAG_UPDATE_DELAYED), über 16 ms: 0 von 799 Rahmen
+[22.11. 19:30] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 609 Rahmen
+[22.11. 19:30] SYNC gesendet 114, empfangen 151, verworfen 76 (duplicate 76)
+[22.11. 19:29] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 117 Rahmen
+[22.11. 19:29] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.6 ms (BAG_UPDATE_DELAYED), über 16 ms: 0 von 1006 Rahmen
+[22.11. 19:28] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (Refresh), über 16 ms: 0 von 412 Rahmen
+[22.11. 19:27] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (UNIT_SPELLCAST_SUCCEEDED), über 16 ms: 0 von 45 Rahmen
+[22.11. 19:26] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (UNIT_SPELLCAST_SUCCEEDED), über 16 ms: 0 von 704 Rahmen
+[22.11. 19:25] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 121 Rahmen
+[22.11. 19:25] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (UNIT_SPELLCAST_SUCCEEDED), über 16 ms: 0 von 318 Rahmen
+[22.11. 19:20] SYNC gesendet 114, empfangen 151, verworfen 76 (duplicate 76)
+[22.11. 19:14] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 353 Rahmen
+[22.11. 19:10] SYNC gesendet 114, empfangen 151, verworfen 76 (duplicate 76)
+[22.11. 19:08] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (UPDATE_INVENTORY_DURABILITY), über 16 ms: 0 von 15 Rahmen
+[22.11. 19:08] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 194 Rahmen
+[22.11. 19:08] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 218 Rahmen
+[22.11. 19:06] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 68 Rahmen
+[22.11. 19:00] SYNC ×3 gesendet 106, empfangen 136, verworfen 66 (duplicate 66)
+[22.11. 18:35] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 117 Rahmen
+[22.11. 18:30] SYNC ×3 gesendet 106, empfangen 136, verworfen 66 (duplicate 66)
+[22.11. 18:00] SYNC gesendet 98, empfangen 123, verworfen 60 (duplicate 60)
+[22.11. 17:50] SYNC gesendet 90, empfangen 115, verworfen 54 (duplicate 54)
+[22.11. 17:47] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (UNIT_SPELLCAST_SUCCEEDED), über 16 ms: 0 von 675 Rahmen
+[22.11. 17:45] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (UNIT_SPELLCAST_SUCCEEDED), über 16 ms: 0 von 500 Rahmen
+[22.11. 17:44] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 226 Rahmen
+[22.11. 17:44] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 388 Rahmen
+[22.11. 17:43] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (Refresh), über 16 ms: 0 von 659 Rahmen
+[22.11. 17:43] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (UNIT_SPELLCAST_SUCCEEDED), über 16 ms: 0 von 399 Rahmen
+[22.11. 17:42] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 483 Rahmen
+[22.11. 17:41] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 225 Rahmen
+[22.11. 17:41] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 468 Rahmen
+[22.11. 17:40] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (UNIT_SPELLCAST_SUCCEEDED), über 16 ms: 0 von 321 Rahmen
+[22.11. 17:40] SYNC gesendet 90, empfangen 115, verworfen 54 (duplicate 54)
+[22.11. 17:39] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 416 Rahmen
+[22.11. 17:38] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 505 Rahmen
+[22.11. 17:38] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (UNIT_SPELLCAST_SUCCEEDED), über 16 ms: 0 von 485 Rahmen
+[22.11. 17:37] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 124 Rahmen
+[22.11. 17:37] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 2.0 ms (UNIT_INVENTORY_CHANGED), über 16 ms: 0 von 1065 Rahmen
+[22.11. 17:35] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 418 Rahmen
+[22.11. 17:35] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 1.4 ms (UNIT_INVENTORY_CHANGED), über 16 ms: 0 von 599 Rahmen
+[22.11. 17:34] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 417 Rahmen
+[22.11. 17:33] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.2 ms (Refresh), über 16 ms: 0 von 375 Rahmen
+[22.11. 17:33] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 153 Rahmen
+[22.11. 17:32] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 402 Rahmen
+[22.11. 17:32] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 334 Rahmen
+[22.11. 17:31] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 393 Rahmen
+[22.11. 17:30] SYNC gesendet 90, empfangen 115, verworfen 54 (duplicate 54)
+[22.11. 17:30] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.6 ms (UNIT_AURA), über 16 ms: 0 von 343 Rahmen
+[22.11. 17:28] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.6 ms (BAG_UPDATE_DELAYED), über 16 ms: 0 von 663 Rahmen
+[22.11. 17:27] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 232 Rahmen
+[22.11. 17:26] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.1 ms (Refresh), über 16 ms: 0 von 236 Rahmen
+[22.11. 17:26] LEISTUNG Kampf: längster Rahmen durch BuffSentinel 0.7 ms (BAG_UPDATE_DELAYED), über 16 ms: 0 von 422 Rahmen

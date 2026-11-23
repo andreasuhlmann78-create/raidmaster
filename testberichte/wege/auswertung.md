@@ -189,7 +189,14 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Östliche Pestländer (1423)
 
-- Wegstücke 3, Knoten 20, zusammenhängende Teile 1
+- Wegstücke 13, Knoten 136, zusammenhängende Teile 6
+- **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
+  - Teil 1: 55 Knoten, Bereich 25–49 / 60–74
+  - Teil 2: 48 Knoten, Bereich 55–71 / 44–49
+  - Teil 3: 20 Knoten, Bereich 19–24 / 74–77
+  - Teil 4: 8 Knoten, Bereich 55–55 / 50–54
+  - Teil 5: 3 Knoten, Bereich 54–55 / 55–56
+  - Teil 6: 2 Knoten, Bereich 53–53 / 57–57
 
 ## Vorgebirge von Hillsbrad (1424)
 
@@ -858,3 +865,11 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 | 11900 | 1448 | 34.4,54.0 -> 34.4,53.8 | 0.2 % | klein |
 | 257281 | 1416 | kein Ort im Datenpaket -> 38.5,61.2 | - | fehlt im Datenpaket |
 | 257282 | 1416 | kein Ort im Datenpaket -> 30.5,60.9 | - | fehlt im Datenpaket |
+| 3305 | 1427 | 34.8,30.9 -> 34.9,30.9 | 0.1 % | klein |
+| 4314 | 1425 | 81.7,81.8 -> 81.7,81.8 | 0.0 % | klein |
+| 12636 | 1423 | 70.5,47.6 -> 70.6,47.7 | 0.1 % | klein |
+| 14626 | 1427 | kein Ort im Datenpaket -> 38.8,27.7 | - | fehlt im Datenpaket |
+| 14627 | 1427 | 38.6,27.8 -> 38.7,27.8 | 0.1 % | klein |
+| 14628 | 1427 | kein Ort im Datenpaket -> 38.5,27.8 | - | fehlt im Datenpaket |
+| 14740 | 1425 | 80.3,81.5 -> 80.3,81.4 | 0.1 % | klein |
+| 262388 | 1425 | kein Ort im Datenpaket -> 80.1,55.4 | - | fehlt im Datenpaket |
