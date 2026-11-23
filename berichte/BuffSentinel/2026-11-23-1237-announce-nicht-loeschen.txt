@@ -1,0 +1,17 @@
+BuffSentinel – Bericht an die Prüf-Sitzung · announce-nicht-loeschen
+Datum: 23.11.2026, 12:37 (aus date)
+
+Hinweis 23.11. 11:38 (Entscheid 11:36, Zusatz 12:03) gelesen. Umgesetzt, zur Prüfung.
+
+Mein Veröffentlichungs-Skript hat bisher bei jeder neuen Version die alte Ankündigung gelöscht
+(git rm announce/buffsentinel__buffsentinel-<alt>.md und .BuffSentinel.zip). Belegt mit
+git log --diff-filter=D -- 'announce/buffsentinel*': zuletzt 290de626 (23.11. 08:42, 0.9.60 gelöscht bei 0.9.61), davor
+a9de6d29, 631ada41, d715c2c7, 358ec95a u. a. – alle VOR dem Entscheid 11:36.
+
+Geändert (Skript im Arbeitsordner der Sitzung):
+- Bei einer neuen Version wird nur noch download/BuffSentinel-<alt>.zip ersetzt; in announce/ kommen die zwei neuen Dateien dazu,
+  nichts wird gelöscht.
+- Sicherung: vor dem Commit bricht das Skript ab, wenn eine Löschung in announce/ vorgemerkt ist
+  (git diff --cached --diff-filter=D -- announce/).
+Nach dem Zusatz 12:03 stelle ich keine gelöschte alte Ankündigung wieder her und lege keine alte Version neu in announce/.
+Kein neues Release nötig (kein Code geändert). Stand: 0.9.61 wartet auf Prüfung/Ingametest.
