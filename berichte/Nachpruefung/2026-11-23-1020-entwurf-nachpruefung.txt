@@ -1,0 +1,156 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+
+Nachprüfung (geplante Aufgabe) · 23.11.2026 10:20 (Europe/Zurich) · Grundlage origin/main 1fe03bc7
+Nichts in auftraege/**, nachrichten-log.txt oder nachpruefung-stand.json geschrieben, keine Nachrichten verschickt (Vorrang-Regel 14.11.).
+
+======================================================================================================================
+0. UMFANG
+======================================================================================================================
+Stand laut addon-check/nachpruefung-stand.json (07:46): AHS 0.65.382, BS 0.9.59, GS 0.9.60, LP 3.13.8, PS 0.9.75, RM 3.0.40,
+TS 2.5.25, Bot 1.5.186, Uploader 2.3.15.
+
+Neu und von mir geprüft:
+  - AHSentinel 0.65.383 und 0.65.384 (announce/ahsentinel__ahsentinel-0.65.384.AHSentinel.zip; CurseForge-Zip in download/ bleibt 0.65.354, E5)
+  - BuffSentinel 0.9.61 (download/ und announce/; Vorgänger 0.9.60 aus Commit cda4e96c, 0.9.59 ist nach dem Zusammenlegen der Geschichte
+    nicht mehr im Repo -> Diff nur 0.9.60 -> 0.9.61; 0.9.60 wurde laut Log nie einzeln nachgeprüft, Bericht 2026-11-18-1553 liegt vor)
+  - ProfessionSentinel 0.9.76
+
+Nur erwähnt (Supervisor hat schon geprüft, laut nachrichten-log.txt): LevelPilot 3.13.8 (10:09), GuildSentinel 0.9.60 (09:46),
+ThreatSentinel 2.5.25 (09:41), Bot 1.5.189 (09:49, 469 Tests; 1.5.187/1.5.188 im Log nicht einzeln genannt, in 1.5.189 enthalten),
+Uploader 2.3.15 (09:04). RaidMaster 3.0.40 unverändert.
+Supervisor-Stand (stand-aktuell.md 09:57) nennt AHS 0.65.383/384 und PS 0.9.76 als "noch zu prüfen" -> dieser Entwurf soll dabei helfen.
+
+Testberichte: Seit dem letzten Stand nur Commit a02542fc (08:43 UTC) – KEIN neuer Bericht, nur das 7-Tage-Fenster "Fehler im Spiel" ist
+weitergerückt (AHS 11 -> 10). Kein AHS-Abschnitt MARKT-KERN neu -> keine Grenzwert-Prüfung Ü2 möglich.
+Hinweis Prüfsystem: "testberichte_bis": "bc105907" in nachpruefung-stand.json zeigt auf einen Commit, den es nach dem Zusammenlegen
+der Geschichte nicht mehr gibt (git: bad revision). Vorschlag: auf a02542fc setzen.
+
+======================================================================================================================
+1. ADDON-PRÜFUNG (python3 addon-check/addon_check.py, mit lupa -> Lua-Syntax, Ladetest, Sprachtest)
+======================================================================================================================
+  ahsentinel__ahsentinel-0.65.384.AHSentinel.zip   OK, 0 FEHLER, 0 WARNUNG
+  BuffSentinel-0.9.61 (announce-Zip)                 OK, 0 FEHLER, 0 WARNUNG
+  ProfessionSentinel-0.9.76.zip                      OK, 0 FEHLER, 0 WARNUNG
+Gemeinsame Dateien byte-gleich mit shared/ (cmp): AHS GoldSentinelCmdHint/Dev/Game/Markt/Pruefliste/Sync/Test; BS Dev/Game/Markt/
+Pruefliste/Sync/Test; PS Dev/Game/Markt/Pruefliste/Takt/Test (PS-TAKT3: GoldSentinelTakt.lua = shared/, belegt).
+(AHS GoldSentinelMarktTabellen.lua hat kein Gegenstück in shared/ – wie bisher.)
+
+======================================================================================================================
+2. AHSENTINEL 0.65.383 + 0.65.384  ->  Ergebnis: umgesetzt wie berichtet, 1 Befund MITTEL, 3 NIEDRIG
+======================================================================================================================
+Berichte gelesen: berichte/AHSentinel/2026-11-23-0840-st7-g2a-pm1c.txt, 2026-11-23-0850-niedrig-w2-w3.txt.
+Diff 0.65.382 -> 0.65.383 -> 0.65.384 ganz gelesen (ohne Locale_*/CHANGELOG im Detail; Locale-Schlüssel in allen 10 Dateien laut
+Sprachtest vorhanden). Tests T992–T999 je 1× vorhanden, kein T:Skip/"noch nicht" neu.
+
+Im Code belegt (Datei:Zeile 0.65.384):
+  ST7 HOCH   – A:MaxStack (AHAnalyzerPro.lua:2949) merkt jede Stapelgrösse ≥ 1 in db.stackMem (2957, nicht in der Testroutine), liest ≥ 1;
+               A:IsCommodity merkt ≥ 1 (3106). A:RowUnit: unbekannt + Menge > 1 -> 5. Rückgabe true + A:RequestItemInfo (1×/Item/Minute).
+               Sniper.lua: Status "Stapel unbekannt" vor "zu teuer"/Mengenprüfung (~3103) -> nie geplant; kein VerifyPrice bei unbekannt
+               (Sniper ~2328, Buy.lua ~829, Seller.lua ~677). Seller: SuggestRaw/SuggestRaw2 ohne Vorschlag mit Grund, Neuprüfung nach 3 s,
+               höchstens 3×. Wie berichtet. -> zur Abnahme mit PM1-a (T992).
+  G2-a MITTEL – UniteMarkets vergleicht über OwnScanT (Tabelle .t bzw. Zahl) statt Tabelle > Zahl; A:BackfillUnited (5640) trägt
+               marketsUnited einmal nach ("nachgetragen = true"). Wie berichtet (T993).
+  PM1-c MITTEL – Kennung "f2" als eigener Teil in V/C/I (SaleOutcome.lua, Mailer.lua). Alte Clients: V-Teile "^(%w+),(%d),(%w+),(%w+)$",
+               C "^(%a[%w]*),(%w+),(%w+)$", I 5 Felder mit Komma -> "f2" passt in keines, wird übersprungen (nachgelesen in 0.65.382
+               Mailer.lua HandleInvoices: Teile durch ";" getrennt, Felder durch "," -> keine Verschiebung). Neue Clients verwerfen ohne
+               Kennung; einmalige Bereinigung db.fixPM1c beim READY. Belegt. Folge (gewollt): Daten von Gildenmitgliedern mit ≤ 0.65.382
+               kommen erst nach deren Update wieder an.
+  G10-a MITTEL – db.calFrom beim ersten Start ab 0.65.383; SO:OwnGroupCounts zählt ab max(30 Tage, calFrom); HandleCal verwirft ohne
+               Kennung. Weicht von der Soll-Formulierung ab ("nur Fälle NACH db.fixPM1") – Begründung im Bericht schlüssig (fixPM1 hat
+               keine Zeit). Supervisor: Abweichung annehmen?
+  BH3-a      – Tooltip-Zeile "davon Erlös ohne Einkauf" in Code (UI_Ledger.lua ~139) und allen Sprachen entfernt. Belegt.
+  PM1-b      – A:NoteFix/FixLogLines, db.fixLog für PM1, L6, STAPEL, PM1c; Le:BackfillFixLog. Belegt.
+  W2-E       – EINE Funktion Se:FeeAsk (Seller.lua:1273); Se:Post ruft sie (1459–1462); Verkaufen-Fenster ohne Umgehung
+               (UI_Sell.lua:779 ruft Se.Post ohne feeConfirmed); Serie/Neu einstellen über BatchStep -> Se:Post; Heute tun -> Se:Post;
+               Messreihe SilverTest.lua:153–158. Siehe Befund AHS-W2E-a.
+  W3-E       – M:AddGroup/GroupLine/FlushGroups (Mailer.lua), Ausgabe in M:Stop vor "Summe Post"; Nachnahme sofort; nicht lesbarer Brief
+               eigene Zeile; POST-ZEILEN zählt Briefe/Zeilen. M:Stop läuft auch bei MAIL_CLOSED/Taschen voll -> keine Zeilen verloren. Belegt.
+  Z1, PM1-d, CF2-a, S6-a, S6-b (nur Messung BROWSE-ROH), G10-b, G17-a – wie berichtet im Code. S6-a: day.dev in db.sync.recv[Tag];
+               S:RecvLines liest nur g/p/n/s -> das neue Feld stört dort nicht (Sync.lua ~725). Z1: sProfitLabel existiert (UI_Sell.lua:293).
+
+BEFUNDE (Vorschlag für offen-ahsentinel.txt):
+ AHS-W2E-a MITTEL – Messreihe verliert bei der Gebühren-Rückfrage ihren Schritt.
+    SilverTest.lua:126 erhöht r.i (nächster PLAN-Eintrag) BEVOR die Rückfrage SilverTest.lua:157 "return false, ask" zurückgibt. Der zweite
+    Klick holt deshalb den NÄCHSTEN Plan-Eintrag (anderer Preis, z. B. 100c -> 101c) -> anderer FeeAsk-Schlüssel -> fragt erneut. Bei
+    Gebühr über der Schwelle (Standard 10 %, Preise 1s–2s) wird so jeder Schritt übersprungen, ohne dass etwas eingestellt wird, bis
+    "Messreihe fertig" – die Messung S1 fällt still aus. Kein Goldverlust.
+    Lösung: Rückfrage VOR "r.i = r.i + 1" prüfen (bzw. bei "ask" r.i wieder zurücksetzen), Test: Messreihe mit hoher Gebühr -> 1. Klick
+    fragt, 2. Klick stellt denselben Plan-Eintrag ein, r.i/rows unverändert nach dem 1. Klick.
+ AHS-W2E-b NIEDRIG – Test zu W2-E deckt die Wege nicht ab, die der Entscheid verlangt ("Test: jeder Verkaufsweg mit hoher Gebühr").
+    T998 (TestRoutine.lua:22182) prüft nur Se:FeeAsk direkt; "Verkaufen-Fenster ohne Umgehung" steht im Titel, wird aber nicht geprüft
+    (nur ob der Reiter aufgebaut ist). Lösung: je Weg (Verkaufen-Fenster p:Post, BatchStep, Heute tun, Messreihe) mit nachgestelltem
+    Se:Post/C.PostItem: 1. Aufruf fragt, 2. stellt ein.
+ AHS-ST7-a NIEDRIG (Verdacht, zu messen) – db.stackMem wächst: A:MaxStack schreibt jetzt für JEDES Item mit geladener Iteminfo die
+    Stapelgrösse (auch 1, AHAnalyzerPro.lua:2957), nicht nur bei Stapeln > 1. Nach Vollscans = alle Items im AH. Messauftrag: Zahl der
+    Einträge und Grösse von AHSentinelDB vor/nach einem Vollscan im Testbericht; bei Bedarf nur Items merken, die im AH mit Menge > 1 vorkamen.
+ AHS-G2a-a NIEDRIG (Verdacht, zu messen) – A:BackfillUnited (5640) rechnet beim Aktivieren eines Marktes MarketStats über alle vereinten
+    alten Märkte in EINEM Bild (nicht in Portionen, leistung.md). Läuft nur einmal je Ziel-Markt. Messauftrag: Dauer im Protokoll
+    MARKT-VEREINT nachgetragen (ms); über 40 ms -> in die Hintergrund-Aufgabe wie StartUniteMarkets.
+
+Weiter offen (aus offen-ahsentinel.txt, nicht verlieren): PM1-a Testlauf T976–T999 im Spiel (Nutzer), Hinweis 09:30 RecipeList/
+SelectRecipe (Crafting.lua:242) – in 0.65.383/384 noch nicht bewertet (kam nach den Berichten 08:40/08:50); S6-b Folgeentscheid nach
+BROWSE-ROH-Messung (Teil-Scan-Preise nicht stapelbarer Items mit Menge > 1 als unbestätigt) – Entscheid Prüf-Sitzung erbeten im Bericht.
+
+MARKT-KERN (2b): keine neuen Testberichte -> keine Zahlen gegen Ü2. Im Diff kein neuer zweiter "Lohnt bis"-Weg; ST7 sperrt Kauf und
+Vorschlag bei unbekannter Stapelgrösse (grau/kein Wert statt erfundener Zahl) – passt zu "grau lernt noch".
+
+IM CLIENT PRÜFEN (AHS): T992–T999 im Testlauf PM1-a; Verkaufen-Fenster mit hoher Gebühr (1. Klick Meldung, 2. stellt ein); Post-Chat
+zusammengefasst vor "Summe Post"; Protokoll BROWSE-ROH (Teil-Scan) mit Zahlen für S6-b.
+
+======================================================================================================================
+3. BUFFSENTINEL 0.9.61  ->  Ergebnis: umgesetzt wie berichtet, keine neuen Befunde
+======================================================================================================================
+Bericht gelesen: berichte/BuffSentinel/2026-11-23-0843-0.9.61-livedaten-lesbarkeit.txt.
+Offline-Nachbau (berichte/BuffSentinel/offline/run_offline.py download/BuffSentinel-0.9.61.zip): 243 Prüfungen, TU-FEHLER 0,
+7 Nachbau-Abweichungen (alle erwartet, 0 unerwartet), Fehlerfenster 0, RESULT PASS, alle Kombinationen PASS.
+Belegt im Code:
+  - T264 (Test ändert nie Livedaten, auch GoldSentinelSync.store / GoldSentinelMarkt.store), T265 (Dev-Befehle), T266 (Lesbarkeit L1–L8)
+    je 1× in SelfTest.lua.
+  - Nachkaufen-Tooltip (Restock.lua:164–175): oben "Kosten dieses Kaufs (n Stück)" mit plan.cost, n = plan.count = units × batch (Stück,
+    Restock.lua:104/107) – Zahl und Einheit stimmen; "Höchstens je Kauf", "Bleibt immer übrig" (RESTOCK_MIN_GOLD_AFTER = 10000 = 1g)
+    rechtsbündig weiss; Text ohne Betrag. Schlüssel EN/DE vorhanden (Locales.lua:1249–1252, 2485–2488).
+  - Prüfliste.lua: alle 14 "ca. N Min." -> "Dauer nicht gemessen" (Schätzen verboten).
+Offen (laut Bericht, übernehmen): T149/T162 Ursache "leere Anker klein: nein" (Messung PC zu Hause mit neuer T149-Zeile), T249
+Zeilenzahl nach Annahme 95 Zeichen (im Spiel messen), Prüfliste von Hand, T247 Händler. Der Bericht meldet: Zugriff auf das Daten-Repo
+in der BS-Sitzung verweigert -> Supervisor/Nutzer: soll die BS-Sitzung Lesezugriff bekommen?
+IM CLIENT PRÜFEN: T266 (Nachbau hat keine Schriften), T149 mit Grösse je Anker, Nachkaufen-Tooltip beim Händler.
+
+======================================================================================================================
+4. PROFESSIONSENTINEL 0.9.76  ->  Ergebnis: umgesetzt wie berichtet, keine neuen Befunde
+======================================================================================================================
+Bericht gelesen: berichte/ProfessionSentinel/2026-11-23-0950-version-0.9.76.txt. Repo ProfessionSentinel = Zip (diff -rq leer).
+python3 -I tests/run_offline.py ProfessionSentinel: forever OK 251 / FEHLER 0; era OK 233 / 0 (Bericht nennt 232); retail OK 231 / 0;
+tbc Fehlerfenster 0. Zeitmessungen zählen nicht.
+Belegt im Code:
+  - Skillweg eigene Liste: UI.SkillPath (UI.lua ~2066) – orange nach Herstellungen bis gelb (bzw. grau, wenn gelb ≥ grau), gelb nach
+    Punkten bis grün, grün bis grau, grau fehlt (SpurNumber nil), "Grenze unbekannt" Gruppe 4 am Ende, gleiche Werte nach Zauber-ID;
+    Grenzen identisch mit LL.Calc/LL.SpurNumber (Lifeline.lua). Blizzard-Liste unverändert.
+  - Planschritte: Advisor.lua ~653 sure = Chance ≥ 1 (orange); UI.PlanStepText (UI.lua:1223) "n×" nur bei sure, sonst "n Punkte";
+    Karte "Nächster Skillpunkt": crafts nur aus LL.Calc (nur orange gesetzt) bzw. first.sure. Keine geschätzte Herstellungszahl sichtbar.
+  - RecipeList: keine ps*-Felder mehr an Blizzard-Zeilen; Zustand in LL.rows (schwache Schlüssel), Linie/Zahl auf eigenem Overlay ohne
+    Maus; bleibt HookScript OnEnter (erlaubt). T239/T296 vorhanden.
+  - PS-TAKT3: GoldSentinelTakt.lua byte-gleich shared/; Umgebungsmessung 10 s vor der Testroutine (Locale TR_ENV EN/DE).
+Fragen aus dem Bericht an Supervisor/Nutzer (nicht verlieren):
+  (1) Einkaufsmenge des Plans bei gelb/grün als "mindestens" (Punkte × Reagenzien) kennzeichnen? Entscheid erbeten.
+  (2) Verdacht RecipeList: PS bewertet Ursache (b) SelectRecipe aus AHS-Code (Crafting.lua:242) – deckt sich mit dem Hinweis 09:30 an AHS;
+      Messung des Nutzers (nur PS / nur AHS aktiv) entscheidet.
+Weiter offen laut Bericht: HOCH 1 Speicher Liste, HOCH 3 Bilder > 40 ms, Gilden-Rezepte ohne Realm, MITTEL 2/4, Dev-Befehle nur im
+Entwicklermodus, Livedaten/Testort, Lesbarkeit L1–L8.
+IM CLIENT PRÜFEN: Skillweg-Gruppe im Reiter Skill up, Overlay im Blizzard-Berufsfenster (Klicks gehen durch), Umgebungszeile im Testbericht.
+
+======================================================================================================================
+5. VORSCHLÄGE FÜR DEN SUPERVISOR (er überträgt selbst)
+======================================================================================================================
+ a) auftraege/AHSentinel/offen-ahsentinel.txt: Abschnitt "PRÜFUNG 0.65.383/384" mit AHS-W2E-a MITTEL, AHS-W2E-b, AHS-ST7-a, AHS-G2a-a NIEDRIG;
+    ST7, G2-a, PM1-b, PM1-c, BH3-a, G10-a, Z1, PM1-d, CF2-a, S6-a, G10-b, G17-a, W2-E (bis auf W2E-a/b), W3-E "Code angenommen, Abnahme mit PM1-a".
+ b) BuffSentinel/ProfessionSentinel: 0.9.61 bzw. 0.9.76 "Code angenommen", offene Punkte wie oben unverändert.
+ c) nachpruefung-stand.json: AHSentinel 0.65.384, BuffSentinel 0.9.61, ProfessionSentinel 0.9.76, RaidMasterBot 1.5.189 (Supervisor),
+    testberichte_bis a02542fc.
+ d) Nachricht an die AHSentinel-Sitzung (Entwurf, nur falls der Supervisor sie schicken will):
+    "NACHRICHT AN DIE AHSENTINEL-SITZUNG (zum Einfügen) – Erst laufende Arbeit fertig machen. Nachprüfung 0.65.383/384: Code wie berichtet.
+     ZU TUN: (1) AHS-W2E-a MITTEL: SilverTest.lua:126/157 – Gebühren-Rückfrage vor r.i = r.i + 1, sonst überspringt der 2. Klick den
+     Plan-Eintrag; Test dazu. (2) AHS-W2E-b NIEDRIG: T998 je Verkaufsweg (Fenster, Serie, Heute tun, Messreihe). (3) AHS-ST7-a / AHS-G2a-a
+     NIEDRIG: messen (stackMem-Grösse, Dauer BackfillUnited). Danach Hinweis 09:30 RecipeList bewerten. git pull --rebase und
+     auftraege/AHSentinel/offen-ahsentinel.txt lesen; Bericht in berichte/AHSentinel/. Nächste Version 0.65.385, komplette Dateien, alte
+     Clients nie brechen, alle Locale-Dateien, CHANGELOG EN/DE, vor dem Push addon_check -> kein FEHLER. Ist ein Befund falsch, bitte
+     begründet zurückmelden."
