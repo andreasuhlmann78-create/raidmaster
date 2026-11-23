@@ -83,7 +83,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Alteracgebirge (1416)
 
-- Wegstücke 257, Knoten 571, zusammenhängende Teile 9
+- Wegstücke 258, Knoten 574, zusammenhängende Teile 10
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 417 Knoten, Bereich 9–58 / 50–87
   - Teil 2: 48 Knoten, Bereich 22–31 / 20–33
@@ -92,7 +92,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
   - Teil 5: 11 Knoten, Bereich 30–34 / 28–38
   - Teil 6: 7 Knoten, Bereich 19–21 / 14–18
   - Teil 7: 5 Knoten, Bereich 23–25 / 88–89
-  - Teil 8: 2 Knoten, Bereich 9–9 / 60–60
+  - Teil 8: 3 Knoten, Bereich 51–52 / 68–69
 - **Ausreisser:** Wegstück 1: Sprung 4.9 % von 30.8,35.9 nach 32.0,31.2
 - **Ausreisser:** Wegstück 1: Sprung 4.1 % von 32.0,31.2 nach 34.4,27.9
 - **Ausreisser:** Wegstück 2: Sprung 4.6 % von 21.2,10.8 nach 25.8,10.3
@@ -122,7 +122,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Tirisfal (1420)
 
-- Wegstücke 2101, Knoten 1243, zusammenhängende Teile 18
+- Wegstücke 2104, Knoten 1243, zusammenhängende Teile 18
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 1200 Knoten, Bereich 25–86 / 20–78
   - Teil 2: 8 Knoten, Bereich 56–59 / 41–43
@@ -180,11 +180,22 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 - **Ausreisser:** Wegstück 100: Sprung 6.7 % von 74.9,34.6 nach 77.4,28.4
 - **Ausreisser:** Wegstück 112: Sprung 8.2 % von 48.5,50.0 nach 45.5,42.4
 
+## Westliche Pestländer (1422)
+
+- Wegstücke 2, Knoten 11, zusammenhängende Teile 2
+- **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
+  - Teil 1: 6 Knoten, Bereich 59–61 / 84–86
+  - Teil 2: 5 Knoten, Bereich 62–63 / 84–84
+
+## Östliche Pestländer (1423)
+
+- Wegstücke 3, Knoten 20, zusammenhängende Teile 1
+
 ## Vorgebirge von Hillsbrad (1424)
 
-- Wegstücke 920, Knoten 1295, zusammenhängende Teile 3
+- Wegstücke 922, Knoten 1306, zusammenhängende Teile 3
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 1282 Knoten, Bereich 27–71 / 10–79
+  - Teil 1: 1293 Knoten, Bereich 27–71 / 10–79
   - Teil 2: 11 Knoten, Bereich 31–33 / 20–26
   - Teil 3: 2 Knoten, Bereich 56–56 / 47–48
 - **Ausreisser:** Wegstück 1: Sprung 5.2 % von 61.8,39.2 nach 62.0,34.0
@@ -283,7 +294,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Orgrimmar (1454)
 
-- Wegstücke 1697, Knoten 1018, zusammenhängende Teile 3
+- Wegstücke 1698, Knoten 1018, zusammenhängende Teile 3
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 1013 Knoten, Bereich 22–82 / 19–95
   - Teil 2: 3 Knoten, Bereich 38–40 / 28–30
@@ -346,7 +357,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Undercity (1458)
 
-- Wegstücke 3164, Knoten 1142, zusammenhängende Teile 3
+- Wegstücke 3165, Knoten 1142, zusammenhängende Teile 3
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 1140 Knoten, Bereich 44–86 / 0–98
   - Teil 2: 1 Knoten, Bereich 59–59 / 25–25
@@ -845,3 +856,5 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 | 10266 | 1454 | 80.8,23.7 -> 80.6,23.5 | 0.3 % | klein |
 | 10924 | 1448 | 51.0,81.6 -> 51.0,81.7 | 0.1 % | klein |
 | 11900 | 1448 | 34.4,54.0 -> 34.4,53.8 | 0.2 % | klein |
+| 257281 | 1416 | kein Ort im Datenpaket -> 38.5,61.2 | - | fehlt im Datenpaket |
+| 257282 | 1416 | kein Ort im Datenpaket -> 30.5,60.9 | - | fehlt im Datenpaket |
