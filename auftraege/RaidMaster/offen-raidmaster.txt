@@ -604,3 +604,18 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
 
 >>> ENTSCHEID DES NUTZERS 23.11. 07:50 (Supervisor 07:50): Pause vom 18.11. aufgehoben – weiterarbeiten an dieser Datei. Nutzung sparen,
     Qualität nie vernachlässigen: auftraege/hinweis-nutzung-sparen-2026-11-23.txt lesen.
+
+>>> BEFUND UP-DS2 HOCH – DATENSCHUTZ (Supervisor 23.11. 07:55; Entscheid des Nutzers 16.11. 07:10 "Bewerber und Sperrliste WEGLASSEN")
+    BELEGT (Daten-Repo goldsentinel-daten, Stand 23.11. 00:08): GuildSentinel.lua mit Bewerbern (apps) NICHT geleert in aktuell/ UND tage/ von
+     DESKTOP-NVITMSE (5), MININT-M6UO3AL (4), DESKTOP-JD5SLR5 (1); Sperrliste überall 0. svfilter.py (2.3.14) leert dieselbe Datei richtig
+     (Gegenprobe Supervisor: 4 -> 0). Folgerung: diese Rechner liefern mit einem Uploader VOR 2.3.13 (ohne Filter) – Verdacht, zu messen
+     (die Version steht nirgends im Daten-Repo). Zusätzlich: _build übernimmt die Dateien ANDERER Rechner unverändert (daten.py:468) – ein
+     Rechner mit altem Uploader verunreinigt so jede spätere Lieferung aller anderen.
+    Soll (eine Version Uploader 2.3.15):
+     (1) Uploader-Version je Rechner in stand.json ("uploader": "2.3.15") – damit die Prüf-Sitzung alte Uploader erkennt.
+     (2) In _build JEDE GuildSentinel.lua im neuen Baum (auch anderer Rechner, aktuell/ und tage/) durch svfilter schicken; nicht lesbar ->
+         Datei weglassen (nie ungefiltert). Damit ist der Altstand nach der ersten Lieferung eines aktuellen Uploaders bereinigt.
+     (3) Bot /uploader bzw. Startzeile: Hinweis, wenn eine andere Lieferung im Repo ohne "uploader"-Feld oder mit älterer Version kommt (ohne Namen).
+    Tests: Baum mit ungefilterter GuildSentinel.lua eines anderen Rechners -> nach _build apps/ban leer; nicht lesbar -> weggelassen; stand.json
+     enthält die Version; Gegenprobe mit altem _build -> Test rot. Bericht "umgesetzt, zur Prüfung". Keine Namen in Bericht oder Commit.
+    Beim Nutzer (nicht Teil dieses Auftrags): Uploader auf PC und bei beiden Offizieren auf die neue Version bringen.
