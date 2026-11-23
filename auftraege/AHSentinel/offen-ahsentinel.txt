@@ -6241,3 +6241,17 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
      SN-Z3 ist keine offene Frage mehr im Sinne eines Auftrags: Warnung bleibt, Ziel aktiv (Nutzer-Sache im Spiel).
     OFFEN: Z1 (Gewinnzeile +2s41 vs. 2s49, NIEDRIG) unverändert – noch keine Version danach.
     Abnahme B/SN = erledigt mit PM1-a (Testlauf T959–T964, T972–T975).
+
+>>> ENTSCHEID DES NUTZERS 23.11. 07:41 (eingetragen 07:42, Supervisor) – GILT VOR ÄLTEREN EINTRÄGEN
+ E1 REIHENFOLGE (bestätigt): ST7 -> G2-a -> PM1-a -> PM1-c -> BH3-a -> PM1-b -> NIEDRIG (PM1-d, CF2-a, S6-a, S6-b) -> W2-E -> W3-E. Nur Discord.
+ W2-E Gebühren-Rückfrage: Die Rückfrage mit zweitem Klick bei hoher Einstellgebühr gibt es in ALLEN Verkaufswegen (Verkaufen-Fenster, Serie,
+      Schnell-Einstellen, Knöpfe in anderen Reitern/Tooltips – jeder Weg, der eine Auktion einstellt), nicht nur im Verkaufsfenster. Gleiche
+      Schwelle und gleicher Text wie im Verkaufsfenster (EINE Funktion). Keine Sperre. Test: jeder Verkaufsweg mit hoher Gebühr -> erster Klick
+      fragt, zweiter stellt ein; niedrige Gebühr -> sofort. Im Bericht die Liste aller Einstell-Wege (Datei:Zeile) mit ja/nein.
+ W3-E Post-Chat: gleiche Items in EINER Zeile zusammenfassen, z. B. "Verkauft: 12× Seelenstaub für … – erhalten …", Summe am Ende ("Summe Post: …").
+      Ersetzt "je Brief eine Zeile" (B5); die Dauerregel 21.11. 15:44 gilt weiter (jeder Brief wird verwertet, Zahlen exakt): zusammengefasst wird
+      je Art (Verkauft / Zurück abgelaufen / Zurück abgebrochen / Gekauft / Post von Spieler …) und Item; Beträge und Mengen sind die exakten Summen
+      der Briefe. Protokoll POST-ZEILEN zählt weiter Briefe und Zeilen (Testbericht). Test: 5 Briefe, 3 gleiche "Zurück: 20× Seelenstaub" -> eine
+      Zeile "60× Seelenstaub", Summe stimmt auf den Kupfer.
+ E5 CurseForge AHSentinel: Entscheid des Nutzers erst, wenn ST7 behoben UND PM1-a gelaufen ist. Bis dahin NUR Discord; keine Antworten auf CurseForge.
+ E6 SN-Z3: kein Auftrag (der Nutzer entscheidet im Spiel).

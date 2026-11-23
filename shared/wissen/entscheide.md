@@ -7,6 +7,17 @@ Wortlaut kurz, Wirkung und wo er umgesetzt wird (Auftrag/Kürzel). Spätere Änd
 Ältere Entscheide (vor 13.11. abends) stehen in wirtschaft-forever.md (Abschnitte "Entscheid des Nutzers …"),
 markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelten weiter.
 
+## 23.11.2026
+
+| Zeit | Entscheid | Wirkung / Auftrag |
+|---|---|---|
+| 23.11. 07:41 | SN-Z3 (Sniper-Ziel Twilighthandschuhe, Max 20s40 über dem Verkaufswert): "entscheide ich selbst im Spiel". | Kein Auftrag an AHSentinel; Warnung bleibt wie gebaut. |
+| 23.11. 07:41 | CurseForge AHSentinel: Entscheid erst, wenn ST7 behoben UND Testlauf PM1-a gelaufen ist; bis dahin nur Discord. Antworten an Spieler A/B/C erst danach. | offen-ahsentinel ENTSCHEID 23.11. 07:41 (E5). |
+| 23.11. 07:41 | Post-Chat (W3): gleiche Items in EINER Zeile zusammenfassen ("Verkauft: 12× Seelenstaub …"), Summe am Ende. ERGÄNZT die Dauerregel 21.11. 15:44 (jeder Brief wird weiter verwertet und exakt gezeigt) und ersetzt "je Brief eine Zeile" (B5). | offen-ahsentinel ENTSCHEID 23.11. 07:41 (W3-E). |
+| 23.11. 07:41 | Gebühren-Rückfrage (W2): die Rückfrage mit zweitem Klick bei hoher Einstellgebühr gilt in ALLEN Verkaufswegen, nicht nur im Verkaufsfenster. | offen-ahsentinel ENTSCHEID 23.11. 07:41 (W2-E). |
+| 23.11. 07:41 | Geplante Aufgaben: Markt-Tabellen ab sofort wieder täglich; Nachprüfung erst, wenn die neue Supervisor-Sitzung gut läuft – dann fragt der Supervisor; alle anderen bleiben aus. Vor dem Einschalten Anweisungen an die neuen Regeln anpassen. | Supervisor: markt_tabellen.py/Anleitung auf "Alle|<Fraktion>" und 4 Rechner, dann einschalten. |
+| 23.11. 07:41 | Nachricht an AHSentinel (Prüfung 0.65.376–382) geprüft und geschickt; Reihenfolge ST7 -> G2-a -> PM1-a -> PM1-c -> BH3-a -> PM1-b -> NIEDRIG; nur Discord. | offen-ahsentinel ENTSCHEID 23.11. 07:41 (E1). |
+
 ## 14.11.2026
 
 | Zeit | Entscheid | Wirkung / Auftrag |
