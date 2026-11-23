@@ -6169,3 +6169,13 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
       Gewinn – höchstens 5 Zeilen, Summe auf den Kupfer. Die Anweisung BH3 ("im Tooltip als ohne Einkauf ausweisen") war ein Fehler der
       Prüf-Sitzung – hiermit zurückgenommen. Test T986 anpassen (ohne 6. Zeile).
     Abnahme BH1/BH2 = erledigt mit PM1-a (Testlauf T986/T465); BH3 erledigt mit BH3-a.
+
+>>> PRÜFUNG SUPERVISOR 23.11. 06:31 – AHSentinel 0.65.376–0.65.382, Teil 5: VK1, VK2, CF3
+    ANGENOMMEN:
+     VK1 = ST6 (Teil 2).
+     VK2 Ursache = ST3 (Stapelgrösse 1, zusammengefasste Auktionen), behoben über A:RowUnit. IM SPIEL BELEGT: Protokoll 22.11. 09:25:55
+      "STAPEL-ROH Item 211784 · Stapelgrösse 1 · Menge 4, buyoutAmount 400 -> Stückpreis = buyoutAmount". Preisschutz nutzt nur
+      A:GetMarketValue (TT3: unter 3 Preisen nil) – keine Änderung nötig, nachvollzogen. T987.
+     CF3 Quelle belegt (Höchstpreis 99'999'999'999c im Preisverlauf, Daten MININT); A.CsvInt (AHAnalyzerPro.lua:5179) "%.0f", nil/inf/NaN
+      -> leer; BuildCSV ohne %d (geprüft: nur %s und pct "%.2f" mit inf/NaN-Schutz). T988.
+    Abnahme VK1/VK2/CF3 = erledigt mit PM1-a (Testlauf T981/T987/T988). Antwort an Spieler C erst nach Entscheid des Nutzers zu CurseForge.
