@@ -1,6 +1,6 @@
 # BuffSentinel – Stand der Sitzung
 
-## Stand 23.11.2026 08:45 · Version 0.9.61
+## Stand 23.11.2026 12:45 · Version 0.9.61
 Veröffentlicht (download/, announce/, Discord). Bericht: berichte/BuffSentinel/2026-11-23-0843-0.9.61-livedaten-lesbarkeit.txt
 
 ## Gerade in Arbeit
@@ -20,6 +20,7 @@ Nichts. Alle offenen Punkte aus offen-buffsentinel.txt bis 23.11. 08:14 sind in 
 ## Entscheide des Nutzers seit letztem Stand
 - 23.11. 07:50: Pause aufgehoben, Nutzung sparen ohne Qualitätsverlust.
 - 23.11. 08:13: Stand je Sitzung in dieser Datei sichern.
+- 23.11. 11:36: in announce/ nie etwas löschen (Skript angepasst, bricht bei Löschung ab); 12:03: alte nicht wiederherstellen.
 
 ## Wichtig zu wissen
 - Quelle: /home/claude/BuffSentinel (kein Git), Veröffentlichung über raidmaster (Skripte rel.sh/rep.sh im Arbeitsordner der Sitzung).
