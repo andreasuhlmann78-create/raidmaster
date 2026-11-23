@@ -119,6 +119,7 @@ class Kanaele(unittest.TestCase):
                 o = c.overwrites_for(g.role(r))
                 self.assertTrue(o.view_channel and o.send_messages, (name, r))
                 self.assertIsNone(o.manage_messages, (name, r))
+                self.assertIsNone(getattr(o, "pin_messages", None), (name, r))
                 self.assertIsNone(o.manage_channels, (name, r))
                 if voice:
                     self.assertTrue(o.connect and o.speak, (name, r))
@@ -126,6 +127,8 @@ class Kanaele(unittest.TestCase):
             for r in ("Raidleitung", "Offizier"):
                 o = c.overwrites_for(g.role(r))
                 self.assertTrue(o.view_channel and o.send_messages and o.manage_messages, (name, r))
+                if hasattr(discord.Permissions, "pin_messages"):                # ab 1.5.190: Anheften ist eigenes Recht
+                    self.assertTrue(o.pin_messages, (name, r))
                 if voice:
                     self.assertTrue(o.connect and o.speak and o.mute_members and o.deafen_members and o.move_members
                                     and o.manage_channels, (name, r))
@@ -138,6 +141,8 @@ class Kanaele(unittest.TestCase):
         """Nachtrag 09:20: sehen, schreiben, Nachrichten verwalten/anheften, Kanal verwalten (Name, Thema, Rechte),
         sprechen, stummschalten, taub schalten, verschieben – unabhängig von der Konstante geprüft."""
         text = {"view_channel", "send_messages", "read_message_history", "manage_messages", "manage_channels", "manage_roles"}
+        if hasattr(discord.Permissions, "pin_messages"):
+            text.add("pin_messages")
         voice = text | {"connect", "speak", "mute_members", "deafen_members", "move_members"}
         self.assertTrue(text <= {k for k, v in ss.LEADER_TEXT.items() if v})
         self.assertTrue(voice <= {k for k, v in ss.LEADER_VOICE.items() if v})
@@ -174,6 +179,8 @@ class Kanaele(unittest.TestCase):
         g = Server(bot_pos=4)                                                            # unter Raidleitung/Offizier
         rep = run(g)
         self.assertIn("Rollen über dem Bot: Raidleitung, Offizier", rep[-1])
+        self.assertIn("nicht vergeben oder entziehen", rep[-1])
+        self.assertNotIn("stummschalten", rep[-1])
 
     def test_gast_nicht_ausgeblendet(self):
         g = Server()

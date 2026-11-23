@@ -393,8 +393,11 @@ _TEXT_WRITE = dict(view_channel=True, send_messages=True, read_message_history=T
                    embed_links=True, attach_files=True)
 _VOICE_WRITE = dict(view_channel=True, connect=True, speak=True, use_voice_activation=True, stream=True,
                     send_messages=True, read_message_history=True)
-TEXT_MANAGE = {**_TEXT_WRITE, "manage_messages": True}
-VOICE_MANAGE = {**_VOICE_WRITE, "manage_messages": True, "manage_channels": True, "mute_members": True,
+# ab 1.5.190: "Nachrichten anpinnen" ist bei Discord ein eigenes Recht (Schalter getrennt von "Nachrichten verwalten", gelesen
+# 23.11. in den Rollen-Einstellungen). Ältere discord.py kennen es nicht -> nur, wenn vorhanden (sonst TypeError beim Start).
+_PIN = {"pin_messages": True} if hasattr(discord.Permissions, "pin_messages") else {}
+TEXT_MANAGE = {**_TEXT_WRITE, "manage_messages": True, **_PIN}
+VOICE_MANAGE = {**_VOICE_WRITE, "manage_messages": True, **_PIN, "manage_channels": True, "mute_members": True,
                 "deafen_members": True, "move_members": True}
 # Rechte des Gildenchefs je Kanal = Rechte des Bots (Nutzer 09:20: "Der Bot darf alles, was der Gildenchef kann")
 LEADER_TEXT = {**TEXT_MANAGE, "manage_channels": True, "manage_roles": True}
@@ -430,8 +433,10 @@ def bot_missing_permissions(guild: discord.Guild) -> list[str]:
 
 
 def roles_above_bot(guild: discord.Guild) -> list[str]:
-    """Rollen der Mitglieder-Kanäle, die über der höchsten Rolle des Bots stehen – deren Mitglieder kann der Bot nicht
-    stummschalten/verschieben (Discord-Regel)."""
+    """Rollen der Mitglieder-Kanäle, die gleich hoch oder über der höchsten Rolle des Bots stehen. Discord-Rangfolge (gilt auch
+    mit Administrator): Solche Rollen kann der Bot nicht vergeben oder entziehen, und deren Mitglieder kann er nicht kicken,
+    bannen, in den Timeout schicken oder umbenennen. (Bis 1.5.189 nannte der Text Stummschalten/Verschieben – das ist an die
+    Rangfolge nicht belegt gebunden.)"""
     top = guild.me.top_role
     out = []
     for name in MEMBERS_WRITE_ROLES + MEMBERS_MANAGE_ROLES:
@@ -472,8 +477,9 @@ async def ensure_member_channels(guild: discord.Guild) -> list[str]:
             report.append(f"🔐 {'#' if kind == 'text' else '🔊 '}{name}: Rechte gesetzt ({changed})")
     above = roles_above_bot(guild)
     if above:
-        report.append("⚠️ Rollen über dem Bot: " + ", ".join(above) + " – diese Mitglieder kann der Bot nicht stummschalten "
-                      "oder verschieben. Rolle des Bots in den Server-Einstellungen darüber ziehen.")
+        report.append("⚠️ Rollen über dem Bot: " + ", ".join(above) + " – diese Rollen kann der Bot nicht vergeben oder entziehen "
+                      "(und ihre Mitglieder nicht kicken/umbenennen). Wenn nötig: Rolle des Bots in den Server-Einstellungen "
+                      "darüber ziehen.")
     return report
 
 
