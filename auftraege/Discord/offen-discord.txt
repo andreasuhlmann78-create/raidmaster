@@ -428,3 +428,11 @@ SICHERHEIT (Pflicht, Repo ist öffentlich):
      gelöschten Dateien weiterhin Discord-Beiträge (so heute 9 Beiträge: ahsentinel 0.65.382/383, buffsentinel 0.9.60, guildsentinel 0.9.58/0.9.59,
      professionsentinel 0.9.74–0.9.77 – alle vor 11:36 gelöscht, ihre Beiträge sind weg). Ein Versehen einer Projekt-Sitzung würde wieder Beiträge löschen.
     Nebenbefund post_bot_log kürzt bei 1990 Zeichen: D-LOG1 NIEDRIG – lange Meldungen in Teile aufteilen (wie die Warnung), Test.
+
+>>> ENTSCHEID DES NUTZERS 23.11. 12:03 (Supervisor 12:03): "Der Bot soll alte Addon-Versionen auf keinen Fall wieder posten."
+    -> Die 9 heute vor 11:36 gelöschten Ankündigungen (ahsentinel 0.65.382/383, buffsentinel 0.9.60, guildsentinel 0.9.58/0.9.59,
+       professionsentinel 0.9.74–0.9.77) NICHT wiederherstellen.
+ D-ANN2 HOCH: Sicherung im Bot – eine Ankündigung, deren Version ÄLTER oder GLEICH der neuesten schon geposteten Version derselben Reihe ist
+    (announce_series), wird NIE gepostet, auch wenn ihre Datei neu in announce/ auftaucht (Wiederherstellen, Versehen, Umbenennen). Nur in #bot-log
+    melden. Tests: ältere Version neu in announce/ -> kein Beitrag; gleiche Version -> kein Beitrag; neuere -> Beitrag; Gegenprobe rot.
+    Zusammen mit D-ANN1 a/b in EINER Version (Nutzung sparen), vor dem nächsten /update.
