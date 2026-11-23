@@ -773,3 +773,15 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     Unabhängig: md5 e9136be2… = Bericht; addon_check OK ohne WARNUNG; run_offline (Repo 7b4fa2f, veröffentlichtes Zip): forever 251/0, era 232/0,
     retail 230/0, Rückgabe 0; "tbc" ausdrücklich -> "FEHLER: kein Ergebnis … nicht unterstützt", Rückgabe 1. PLAN_COST_MIN ohne "~" (DE/EN).
     Ehrliche Erklärung zur falschen TBC-Zahl – danke. (0.9.78 wurde vor dem Entscheid 11:36 veröffentlicht; ab jetzt announce/ nichts löschen.)
+
+>>> INGAMETEST 0.9.78 – 23.11. 15:27 (Bericht vom Nutzer im Chat, Supervisor 15:34): Forever 1.60.1, Krieger 30, Donnerfels (Umgebung: Bild in Ruhe
+    Median 17,0 ms, 56 Bilder/s, Ping 17 ms). AHSentinel war NICHT geladen (T70/T135/T138/T188 übersprungen). OK 250 · FEHLER 4 · Sandbox OK.
+ PS-I1 HOCH (leistung.md, harte Grenze 40 ms): drei ganze Bilder über 40 ms – T81 53 ms, T260 52 ms, T43 49 ms (Umgebung in Ruhe 17 ms). Weitere
+    27 Schritte mit einem Bild > 16 ms. Je Fall eigene Rechenzeit vs. Rest (Spiel/Bereinigung) ausweisen; was im Spielbetrieb vorkommt, teilen.
+    T81 dazu 3 904 ms in 2 616 Bildern (längste Gesamtdauer).
+ PS-I2 MITTEL – T219 (Spieltest S7, 5× Herstellen): "zu viele Aufbauten beim Herstellen: 4" (soll höchstens 1 je 2 s). Ursache belegen.
+ PS-I3 MITTEL – T85 Andocken/Hinweis "bester Rezept": "keine Zeilen". T236 Tooltip ohne Shift "zu lang: 15 Zeilen" (Regel T-TT1).
+    T198 Diagnose-Protokoll "Fehler nicht gezählt: 4". Je Ursache belegen, beheben, Test.
+ PS-I4 NIEDRIG – Dauer 333 s (Ziel <= 300 s; B 151 s, H 123 s). "Trefferquote je Beruf: Schneiderei 0/186 (0 %)" – was wird gezählt? Erklären;
+    ist es ein Fehler der Zählung, beheben.
+    Die Messung zum Lua-Fehler SetCraftableCount (nur PS / nur AHS) steht weiter aus – Nutzer.
