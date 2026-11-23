@@ -17,6 +17,11 @@ Nicht warten (2), nie Englisch, nie vergessen ins Repo zu laden (origin/main pr�
 3. 18:00: GuildSentinel GS-W1/GS-W2 vor CurseForge prüfen (falls Version da). AHSentinel NICHT auf CurseForge vor Sniper-Abnahme.
 4. Montag: Wochenbericht/Markt (Discord-Bot), geplante Nachprüfung lesen.
 
+STAND AHSentinel 23.11.2026 07:46 (Supervisor, neue Sitzung): 0.65.376–0.65.382 vollständig geprüft (offen-ahsentinel Teil 1–11).
+  Code angenommen: PM1, ST1–ST6, CF1–CF3, BH1/BH2, VK1/VK2, N1/N2, VS1, PP1, B1–B9, SN, G1–G17, S1–S6 – erledigt erst mit Testlauf PM1-a.
+  Offen: ST7 HOCH (Gold), G2-a (Lua-Fehler Märkte vereinen), PM1-a/b/c, G10-a, BH3-a, NIEDRIG; W2-E, W3-E (Entscheide 07:41). Nur Discord;
+  CurseForge-Entscheid des Nutzers erst nach ST7 + PM1-a.
+
 ## AHSentinel – MASTERPLAN 16:31: auftraege/AHSentinel/masterplan-ahsentinel.txt (vollständig, Phasen 1–8, Datenstufen)
 Eigene Supervisor-Aufgabe daraus: markt_tabellen.py um Teil "alle" (Tages-Zusammenfassung der Bot-Sammelstelle, D-KERN1)
 erweitern, sobald die erste Tagesdatei da ist; offene Nutzer-Frage "KI aus dem Rechenkern?" (14.11. 08:02).
