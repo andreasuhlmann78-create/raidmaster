@@ -11,6 +11,7 @@
 3. Nächster Ingametest: Felder "bilder40", "stuecke", "einloggen" auswerten (T136–T144, T271–T275 belegen).
 4. Notbremse "Routenberechnung" 22.11. 17:05 beim nächsten Upload auswerten.
 5. Zeile "Wegabschnitte" nach einer Spielsitzung mit Laufen.
+6. LP-K1 NIEDRIG (Hinweis 13:26): weicht LevelPilot den anderen GoldSentinel-Fenstern aus? Prüfen, Test mit offenem GS/BS-Fenster.
 
 ## Offen beim Nutzer
 - Ingametest 3.13.11.
