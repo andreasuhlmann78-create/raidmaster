@@ -1,0 +1,30 @@
+BERICHT DISCORD – D-MITGL1-R: Rechte und Lage der Bot-Rolle gelesen (Discord-Oberfläche, Konto des Eigentümers) – nichts geändert
+Zeit: 23.11.2026 10:07 (aus date). Nutzer hat sich 10:01 im eingebauten Browser angemeldet und 10:07 die Seite der Bot-Rolle geöffnet.
+
+1. ROLLENREIHENFOLGE (Servereinstellungen -> Rollen, oben nach unten, 10 Rollen), gelesen 10:04 und 10:07, unverändert:
+   Offizier · Raidleitung · Raider · Gast · Krieger · DISBOARD.org · Server Booster · Mitglied · Raidmaster tool · Hexenmeister
+   -> Bot-Rolle steht unter Offizier, Raidleitung, Raider, Gast UND Mitglied (deckt sich mit der #bot-log-Warnung).
+2. VERSCHIEBEN: zwei Versuche per Ziehen im Browser – Discord nimmt das nachgestellte Ziehen nicht an. Reihenfolge danach
+   unverändert, keine ungespeicherte Änderung, nichts gespeichert. Kein Umweg (kein Skript, keine API mit dem Konto). Der Nutzer
+   zieht die Rolle selbst.
+3. RECHTE DER BOT-ROLLE "Raidmaster tool" (Seite "Rolle bearbeiten -> Berechtigungen", alle Schalter gelesen):
+   ALLE 50 Serverrechte an, darunter ADMINISTRATOR, Kanäle verwalten, Rollen verwalten, Nachrichten verwalten, Nachrichten anpinnen,
+   Mitglieder stummschalten / Ein- und Ausgabe deaktivieren / verschieben, Events verwalten, Mitglieder kicken/bannen/Timeout.
+   Hinweis der Seite: "Diese Rolle wird durch eine Integration verwaltet" (Bot-Rolle; Mitglieder nicht manuell zuweisbar).
+   -> Die Prüfung "fehlende Server-Rechte" in ensure_member_channels trifft nicht zu (Administrator).
+
+BEFUNDE (für Supervisor/nächste Version, nichts geändert):
+A. Rang ist das eigentliche Problem: Mit Administrator gelten Kanal-Rechte für den Bot nicht, aber die RANGFOLGE gilt weiter. Belegt
+   (Discord-Regel): Rollen VERGEBEN/ENTZIEHEN, Spitznamen ändern, kicken/bannen/Timeout geht nur für Rollen/Mitglieder UNTER der
+   höchsten Bot-Rolle. Da Mitglied, Raider, Raidleitung, Offizier, Gast darüber stehen, kann der Bot diese Rollen zurzeit NICHT vergeben
+   (z. B. Mitglied bei /mitglied aufnehmen, Klassen-/Raid-Rollen sind nicht betroffen, sofern sie unter dem Bot stehen).
+   Verdacht, zu messen: Stummschalten/Verschieben im Sprachkanal ist nach meinem Wissen NICHT an die Rangfolge gebunden – dann ist der
+   Text meiner Warnung ("kann nicht stummschalten oder verschieben") ungenau; richtig wäre "kann diese Rollen nicht vergeben".
+   Vorschlag 1.5.190: Warntext auf Rollen-Vergabe umstellen (nach Messung).
+B. "Nachrichten anpinnen" ist bei Discord inzwischen ein EIGENES Recht (Schalter getrennt von "Nachrichten verwalten"). 1.5.189 gibt
+   Raidleitung/Offizier in den Mitglieder-Kanälen nur "Nachrichten verwalten" -> Anheften (Wunsch 09:18 "verwalten/anheften") evtl.
+   nicht erlaubt. Verdacht, zu messen (Anheften als Offizier in #mitglieder-chat versuchen). discord.py 2.7.1 kennt pin_messages; auf
+   dem Server ist die Version unbekannt (requirements: >=2.5) -> nur mit hasattr-Schutz ergänzen.
+
+NÄCHSTER SCHRITT: Nutzer zieht "Raidmaster tool" über Offizier und speichert; danach vergleiche ich die Reihenfolge (einzige Änderung =
+Position der Bot-Rolle) und lese #bot-log nach /update.
