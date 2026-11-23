@@ -702,3 +702,9 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
      GS-S2 "Erster auf 60": stammt das Datum nur aus der Mitgliederliste (kein eigenes Ereignis), "spätestens am <Datum>" statt eines genauen Tages.
        Test: Ereignis gesehen -> genaues Datum; nur Mitgliederliste -> "spätestens am".
  CURSEFORGE: 0.9.59 erst nach dem Ingametest des Nutzers (neue Anzeigen, Schriftbreiten nur angenähert) – nicht automatisch um 18:00.
+
+>>> PRÜFUNG SUPERVISOR 23.11. 09:46 – GuildSentinel 0.9.60: ANGENOMMEN (erledigt nach dem Ingametest des Nutzers)
+    addon_check (Supervisor): OK. GS-S1/GS-S2 wie freigegeben; drei Funde dabei belegt und behoben (Tempo durch 14 statt gemessene Tage, Beitrittsstufe als
+     Aufstieg gezählt, Lua-Fehler nur ohne Rollen – vor der Veröffentlichung von der eigenen Testroutine gefunden). L5 in T317 (Hinweis: mein "T187"
+     war falsch, T317 ist richtig). Zusammenführen nachgerechnet: 479+323=802, 802−216−4=582; 219+603=822, 822−112−4=706; 592+252=844, 844−152−4=688;
+     Prüfzahl 72+5+17=94=16947−16853 – alles geht auf. Kein neuer Auftrag. CurseForge erst nach dem Ingametest (unverändert).
