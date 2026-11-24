@@ -594,3 +594,12 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     begründen – nie die Prüfung abschwächen. Achtung: Bringt ein anderes Addon im selben Client schon Version 3 mit, gilt sie auch für deine
     Prüfungen (höchste Version gewinnt) – nil-FEHLER können also schon vor deiner nächsten Version erscheinen.
 
+>>> INGAMETEST 0.9.62 – 24.11.2026 12:46 (Laptop, WARRIOR 30; Bericht vom Nutzer im Chat, Supervisor 12:50): OK 222 · FEHLER 2 · übersprungen 11 ·
+    im Client 10 · Sandbox OK · echte Aktionen 0 · keine nil-FEHLER mit GoldSentinelTest 3. Längste eigene Rechenzeit je Bild 30,3 ms (T179).
+    Vergleich 0.9.61 (Laptop 23.11.): T141 und T266 jetzt OK (BS-L1 Kontrast im Spiel bestanden -> ERLEDIGT).
+ BS-I1 MITTEL (neu auf dem Laptop, Rückschritt seit 0.9.61): T149 "Schwebende Anzeigen … leere Anker klein": ist ja/ja/ja/ja/NEIN ·
+    cd GROSS, dispel GROSS (je 1.000×1.000 P1 S0.773). In 0.9.61 auf demselben Laptop: alle "ok" (S0.761). Dazu T162 Regression "ANK Anker A1-A3
+    (10.11.)" rot – derselbe Befund. Widerspruch im Text: "GROSS" bei 1.000×1.000 – woran misst T149 "gross" (Anker, Kinder, Trefferfläche)?
+    Verdacht, zu messen: BS-K1 (Optionen weichen anderen Fenstern aus, 0.9.62) oder die neue Skalierung S0.773. Deine Notiz "T149 Ursache (Lauf auf
+    dem PC zu Hause)" – jetzt auch auf dem Laptop rot, also kein PC-Einzelfall. Ursache belegen, beheben, Gegenprobe.
+
