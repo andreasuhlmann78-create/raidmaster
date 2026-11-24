@@ -6684,3 +6684,8 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     ("gekürzt mit Tooltip" = kein FEHLER), damit T750 nie wieder an diesem Titel rot wird – darf in 0.65.394. SG6-a (1 Neuaufbau je Runde) in 0.65.394 – angenommen.
     Gesamtlauf "hängt an einem langen Szenario": Zeitlimit je Szenario prüfen (keine Sperre ohne Zeitlimit), notfalls Szenario einzeln mit Grund überspringen
     und im Bericht nennen.
+>>> ENTSCHEID SUPERVISOR 21:44 – Reihenfolge 0.65.393 (Gesamtlauf FULL: 156 um ~21:38, 160 um 21:44 = 4 Szenarien in ~6 Min.; 250 offen):
+    Die angekündigten "20–25 Minuten" stimmen nach dem gemessenen Tempo nicht (Schätzen verboten – Zahlen aus der Messung nennen).
+    0.65.393 darf auf Discord, sobald die geänderten Teile im Nachbau grün sind, run_offline auto + server (s42/s43) grün und addon_check OK –
+    Discord-Versionen sind Testversionen, der Nutzer kann parallel im Spiel testen. FULL läuft weiter; sein Ergebnis kommt als Nachtrag in den
+    Bericht und MUSS ohne neue FAIL sein, bevor 0.65.393 (oder eine spätere) für CurseForge infrage kommt (AHS-CF1).
