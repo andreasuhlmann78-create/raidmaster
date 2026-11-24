@@ -445,3 +445,14 @@ SICHERHEIT (Pflicht, Repo ist öffentlich):
     bisherige "neue Version ersetzt alte" im Kanal. Ob das unter den Entscheid 11:36 fällt, entscheidet der Nutzer.
     ENTSCHEID DES NUTZERS 23.11. 12:43: "Ersetzen wie bisher" – beim Posten einer neuen Version löscht der Bot den Beitrag der vorherigen Version
      derselben Reihe (im Kanal steht je Addon nur die aktuelle). Nichts ändern. Frage erledigt.
+
+>>> D-UPALT MITTEL (Supervisor 24.11. 10:05; Entscheid des Nutzers 07:22 "wenn jemand nicht die neuste version drauf hatt die daten nicht mehr
+    annehmen!"; Teil (3) aus RaidMaster-Bericht 2026-11-24-0737): Uploader ab 2.3.20 nehmen nur noch Daten der neuesten Uploader-Version an.
+    Rechner mit Uploader VOR 2.3.20 können das selbst nicht anzeigen. Der Bot soll den BESITZER eines solchen Rechners per PN informieren:
+    "Dein Daten-Uploader ist veraltet – deine Daten werden nicht mehr angenommen. Bitte /uploader holen (neueste Version x.y.z)."
+    Erkennung: stand.json im Zweig "sicherung" (bzw. main) des Daten-Repos – Feld "uploader" fehlt oder ist älter als VERSION in
+    RaidMasterUploader/uploader.py. Zuordnung Rechner -> Discord-Mitglied hat nur der Bot (Upload-Kanäle/sync-daten), nie ins Repo schreiben.
+    Höchstens 1 PN je Rechner und Uploader-Version, nie an Gäste. Stand 10:00: 3 Rechner ohne "uploader" (PC des Nutzers, 2 Offiziere) –
+    die Offiziere haben 2.3.20 um 08:37 per Bot bekommen (+ PN "Wichtig bitte installieren.." 08:38/08:39), also NICHT nochmals anschreiben,
+    solange nicht eine neuere Version erscheint. Test mit Gegenprobe, Bericht.
+
