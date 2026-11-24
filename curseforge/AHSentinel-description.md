@@ -12,26 +12,38 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
-### Version 0.65.354
+### Version 0.65.393
 
-- **Disenchant buy limit ("Worth up to") corrected:** the price-step limit (how much of the value you may pay) was kept for 5 minutes regardless of which data it came from. A value calculated from the empty replacement data of the test routine (0.90) could then apply to your real data (0.80) – "Worth up to" for disenchanting was up to 4 % too high for groups with 20 % minimum gain. The stored value now only applies to the data it was calculated from.
-- **Sell tab: no more far-too-cheap suggestions:** with a single other offer (e.g. 3s 40c) and an old low market value (e.g. 15c), the suggestion fell to the market value without a warning. The market value is now only used up to half of the cheapest other offer, and a price below half of it always warns – also with only one or two offers. Without any price data (no price check, no market value) AHSentinel now warns clearly before posting.
+- **Watcher finds are now tips:** they no longer appear in the Sniper target list on their own and are never bought by key, mouse wheel or button. Right-click the item in the Watcher, "Move to the Sniper" (or the "To the Sniper" button), turns it into a normal Sniper target with the Watcher's max price; it is then bought in the Sniper like any target. The separate Watcher key in the options is gone.
+- **Glow and raid warning in the search rhythm:** the screen edge glows and the sound plays every time a search finishes and its item is buyable – only for that item (with several targets never for another one), again on every further search while it stays buyable. Off on purchase, hit gone, AH closed and combat. No fixed interval any more.
+- **The Watcher glows too:** every check that finds a tip buyable makes the edge glow in its own color (default green, Options > Bargain alarm). Sound only for confirmed tips as before.
+- **Header:** "Sniper: on/off" shows the same as the "Sniper mode" button in the tab (before: "on" as soon as the Watcher checked something).
+- **Test routine:** the watcher step waits until a running full scan is done and counts its 3 minutes only afterwards; without a round it names the reason.
+- **Auction house:** the cover of our view now lies above all frames of the auction house, so its list no longer shows through faintly.
 
-### Version 0.65.353
+### Version 0.65.392
 
-- **Test routine (sniper, full scan):** calls of AHSentinel during which Lua's memory cleanup ran are counted separately (their own share cannot be separated) instead of as AHSentinel's own work; the slowest own script is named. The sniper itself is unchanged.
+- **Buy > Purchase:** the page bar above the results no longer sits under "X" and "Favorites"; with little room it shows the short form "< 3 / 22 >".
+- **Market tab:** the second header line only shows what fits; the rest is at the top of its tooltip. "Price dropped" rows show item and proceeds in two lines (full sentence in the tooltip). The "State" column shows "Reagents missing: n" (cost per craft in the tooltip). The detail area shows "Learned" in two lines.
+- **Watcher:** "still learning" always comes with the number of cases.
+- **Tooltips** of the market header, the way quota line, the detail times, the sync status and two sell hints open next to the window and no longer cover buttons.
+- **Test routine:** the watcher step takes 3 minutes instead of 10; at the start a tip says that an own full scan shortly before saves one scan and 15 minutes.
 
-### Version 0.65.352
+### Version 0.65.391
 
-- **Sniper test routine also in the background:** smoothness is now judged by AHSentinel's own work per frame (not by the frame length, which is always about 33 ms at 30 frames/s); the "in turn" check no longer counts waiting for the server as its own gap and shows both. The sniper itself is unchanged.
+- **Full scan:** while a scan is being summarised, the visible price ladders no longer change part by part; they change all at once at the end (0.65.390 reused the visible ladders of the last scan). Items without auctions in the scan leave their stored ladder untouched.
 
-### Version 0.65.351
+### Version 0.65.390
 
-- **Sniper test routine:** a throttled frame rate (WoW in the background, or a frame-rate cap of 33 or less) is now detected up to 10 % above the limit; smoothness and pace are then reported as "not measurable" instead of as errors. The sniper itself is unchanged.
+- **Full scan uses less memory:** the price ladders of the last scan are reused from the second scan after login on (before: only from the third, and an incomplete scan lost them). An incomplete scan is now detected before the ladders are built and changes nothing, as before.
+- **Full scan measurement (test routine only):** the per-addon memory measurement now belongs to the longest frame; the report shows how many ladders were reused.
 
-### Version 0.65.350
+### Version 0.65.389
 
-- **Less memory during the full scan in the test routine:** the check "is this a commodity?" now also uses its cache for real items during the test routine (before, it asked the game twice per item), so the test measures the scan like it runs for players.
+- **Test routine, Sniper smoothness (S13):** item-info answers were counted as milliseconds of own work ("105 ms" were 105 answers); own work is now jobs + events + scripts, answers are shown as a count. The report names the location (file:line) of the slowest own script per frame and which locations cause frames over 33 ms.
+- **Test routine, sandbox:** diagnostic entries written while the routine is finishing no longer reach the real log.
+- **Test routine, Sniper checks:** a real hit or watcher target of the player no longer affects the button and mouse-wheel checks.
+- **Full scan measurement (test routine only):** the cost of the measurement is shown per frame (maximum) and as a total.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
