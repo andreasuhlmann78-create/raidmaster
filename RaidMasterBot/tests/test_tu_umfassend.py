@@ -406,6 +406,7 @@ REGRESSIONEN = {
     "T-D-ANN2": ("test_announce_d_ann2", "AlteVersionen", "test_aelter_und_gleich_nie"),
     "T-D-ANN1B": ("test_announce_d_ann2", "Waechter", "test_geloescht_und_umbenannt"),
     "T-D-LOG1": ("test_announce_d_ann2", "LogTeilen", "test_post_bot_log_sendet_alle_teile"),
+    "T-D-UPALT": ("test_uploader_alt", "Ablauf", "test_neue_version_je_rechner_einmal"),
     "T-D3-BEFEHLE": ("test_befehle_liste", "BefehleListe", "test_gleiche_befehle"),
     "T-D-MN8b": ("test_market", "BotAblauf", "test_T_D_MN8b_aenderung_erst_nach_senden_merken"),
     "T-D-GS1b": ("test_market", "BotAblauf", "test_T_D_GS1b_grosse_guildsentinel_datei"),

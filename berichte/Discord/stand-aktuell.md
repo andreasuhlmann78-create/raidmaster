@@ -1,13 +1,14 @@
 # Stand Discord-Sitzung
 
-## Stand 24.11.2026 06:41 · Bot 1.5.192 (origin/main; Supervisor-Prüfung 23.11. 12:43 ANGENOMMEN)
+## Stand 24.11.2026 10:11 · Bot 1.5.193 (D-UPALT umgesetzt, zur Prüfung; 1.5.192 am 23.11. 12:43 angenommen)
 
 ## Gerade in Arbeit
-- nichts. Keine offenen Aufträge in auftraege/Discord/offen-discord.txt (D-MITGL1, D-ANN1 a/b, D-ANN2, D-LOG1 angenommen).
+- nichts. D-UPALT (PN bei veraltetem Daten-Uploader) in 1.5.193 umgesetzt, Bericht berichte/Discord/2026-11-24-1011-d-upalt.txt.
 
 ## Nächste Schritte (Reihenfolge)
 1. Bei jeder Nachricht des Nutzers: git pull --rebase, auftraege/Discord/ lesen (git log --oneline -5 -- auftraege/Discord/).
-2. Neue Aufträge des Supervisors umsetzen. Sonst nichts ändern.
+2. Prüfung D-UPALT durch den Supervisor abwarten, Befunde umsetzen. Neue Aufträge umsetzen. Sonst nichts ändern.
+3. Ab Uploader 2.3.21 in #bot-log nachsehen: "Alter Daten-Uploader (neueste 2.3.21): n PN geschickt".
 
 ## Offen beim Nutzer
 - nichts.
@@ -34,5 +35,7 @@
 - Verboten: #mc-dkp leeren, "Server zurücksetzen", Rolle Mitglied automatisch vergeben, config.json, uploader_config.json,
   daten_config.json oder token.txt lesen bzw. ändern, Passwörter tippen.
 - Nutzung sparen: keine Wecker, kurze Berichte.
+- D-UPALT: state.json "upalt_pn" (Rechner->Version), "upalt_gemeldet", "uploader_geschickt" (Mitglied->Version).
+  Erster Lauf mit 2.3.20 = alle alten Rechner gelten als informiert (Offiziere 08:37 beliefert).
 - Klon ist flach: für alte Dateien zuerst git fetch --unshallow.
 - Tests: python3 -m unittest discover -s tests (in RaidMasterBot/). Befehlsliste: tests/test_befehle_liste.py --schreiben.

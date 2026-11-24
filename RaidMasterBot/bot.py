@@ -102,6 +102,7 @@ class RaidBot(discord.Client):
         test_cleanup_loop.start()
         tb_cleanup_loop.start()
         recurring_loop.start()                    # D-N1 W3 (ab 1.5.186): wiederkehrende Raids
+        uploader_alt_loop.start()                 # D-UPALT (ab 1.5.193): veralteter Daten-Uploader -> PN an den Besitzer
 
     async def on_guild_join(self, guild):
         """UP-404 (c): nach dem (Wieder-)Einladen Befehle sofort für diesen Server anmelden – ohne Neustart."""
@@ -396,6 +397,7 @@ import pn_bot  # noqa: E402,F401 – D-3 Schritt 6: /pn (meldet den Befehl beim 
 import symbole_bot  # noqa: E402,F401 – D-3 Schritt 7: Symbole, Emojis, Wowhead
 import ruhmeshalle_bot  # noqa: E402,F401 – D-3 Schritt 8: Ruhmeshalle (meldet zwei Befehle beim Import an)
 import uploader_bot  # noqa: E402,F401 – D-3 Schritt 9: Uploader-Versand (meldet /uploader beim Import an)
+from uploader_alt_bot import uploader_alt_loop  # noqa: E402 – D-UPALT (ab 1.5.193): PN bei veraltetem Daten-Uploader
 import bank_bot  # noqa: E402,F401 – D-3 Schritt 10: Gildenbank und Raidfähigkeit (meldet /bank beim Import an)
 from bank_bot import (  # noqa: E402
     post_guild_bank,

@@ -1,0 +1,291 @@
+"""D-UPALT (ab Bot 1.5.193, Auftrag Supervisor 24.11.2026 10:05; Entscheid des Nutzers 24.11. 07:22 "wenn jemand nicht die
+neuste version drauf hatt die daten nicht mehr annehmen!"): Besitzer eines Rechners mit veraltetem Daten-Uploader per PN
+informieren.
+
+Uploader ab 2.3.20 nehmen nur noch Daten der neuesten Uploader-Version an und zeigen das selbst an. Rechner mit einem Uploader
+VOR 2.3.20 können das nicht anzeigen – darum schreibt der Bot dem Besitzer:
+  "Dein Daten-Uploader ist veraltet – deine Daten werden nicht mehr angenommen. Bitte /uploader holen (neueste Version x.y.z)."
+
+Ablauf (alle 30 Minuten, uploader_alt_loop):
+1. Neueste Version = VERSION in RaidMasterUploader/uploader.py im Repo (update_repo, dieselbe Quelle wie /uploader).
+2. stand.json des Daten-Repos aus den Zweigen "sicherung" UND main (Zugang: daten_config.json auf dem Server, nur gelesen,
+   nie ausgegeben). Je Rechner zählt der Eintrag mit der grössten "zeit". Veraltet = Feld "uploader" fehlt, "unbekannt" oder
+   älter als die neueste Version.
+3. Zuordnung Rechner -> Discord-Mitglied: nur aus den privaten #sync-daten-Kanälen (cfg["sync"][Mitglied] -> Index-Nachricht
+   des Abgleichs; dort stehen die Rechnernamen). Steht ein Rechner bei zwei Mitgliedern oder bei keinem: keine PN, nur eine
+   Zahl in #bot-log (einmal je Rechner und Version, state.json "upalt_gemeldet"); die PN folgt, sobald der Besitzer
+   eindeutig ist. Nichts davon kommt ins Repo.
+4. Höchstens 1 PN je Rechner und neuester Uploader-Version (state.json "upalt_pn": {Rechner: Version}). Nie an Gäste
+   (Rolle "Gast") und Bots. Hat das Mitglied die neueste Version schon per /uploader vom Bot bekommen
+   (state.json "uploader_geschickt", ab 1.5.193 gemerkt), wird es nicht nochmals angeschrieben.
+5. Erster Lauf (state.json hat noch kein "upalt_pn") und neueste Version 2.3.20: Alle dann veralteten Rechner gelten als
+   schon informiert (Stand 24.11. 10:00: PC des Gildenchefs und 2 Offiziere; die Offiziere haben 2.3.20 um 08:37 per Bot
+   bekommen, Auftrag: NICHT nochmals anschreiben, solange keine neuere Version erscheint). Ab 2.3.21 gilt wieder Punkt 4.
+#bot-log und Protokoll nennen nur Zahlen, nie Rechner- oder Spielernamen.
+"""
+from __future__ import annotations
+
+import json
+import re
+
+import discord
+from discord.ext import tasks
+
+import grund
+import uploader_version
+from grund import bot_guild, channel_by_id, post_bot_log
+from kern import cfg, log, state
+
+bot = grund.bot
+assert bot is not None, "uploader_alt_bot erst nach grund.bot = bot importieren"
+
+SEED_VERSION = "2.3.20"            # Punkt 5: an diese Version haben die Offiziere die ZIP schon am 24.11. 08:37 bekommen
+INDEX_MARK = "GSSYNC-INDEX"        # wie RaidMasterUploader/sync.py
+GUEST_ROLE = "gast"
+BRANCHES = ("sicherung", None)     # None = Standardzweig (main)
+API = "https://api.github.com"
+VERSION_OK = re.compile(r"^\d+(?:\.\d+){1,3}$")
+PN_TEXT = ("⚠️ Dein Daten-Uploader ist veraltet – deine Daten werden nicht mehr angenommen. "
+           "Bitte /uploader holen (neueste Version {neu}).")
+
+
+def path_name(name: str) -> str:
+    """Ordnername eines Rechners im Daten-Repo – gleiche Regel wie RaidMasterUploader/daten.py path_name."""
+    return re.sub(r"[^A-Za-z0-9_.-]", "_", str(name)).strip("._") or "rechner"
+
+
+def clean_version(v) -> str | None:
+    """Gültige Versionsnummer oder None ("unbekannt", leer, fehlt)."""
+    v = str(v or "").strip()
+    return v if VERSION_OK.match(v) else None
+
+
+def is_outdated(entry: dict, newest: str) -> bool:
+    return uploader_version.is_older(clean_version(entry.get("uploader")), newest)
+
+
+def merge_stands(*stands: dict | None) -> dict:
+    """Je Rechner der Eintrag mit der grössten "zeit" aus allen gelesenen stand.json (sicherung und main)."""
+    out: dict = {}
+    for st in stands:
+        if not isinstance(st, dict):
+            continue
+        for k, v in st.items():
+            if not isinstance(v, dict):
+                continue
+            try:
+                z = int(v.get("zeit") or 0)
+            except (TypeError, ValueError):
+                z = 0
+            if k not in out or z > out[k][0]:
+                out[k] = (z, v)
+    return {k: v for k, (_, v) in out.items()}
+
+
+def outdated(stand: dict, newest: str) -> dict[str, str]:
+    """{Rechner: Version oder ""} aller Rechner mit veraltetem Uploader."""
+    return {k: (clean_version(v.get("uploader")) or "") for k, v in stand.items() if is_outdated(v, newest)}
+
+
+def machines_in_index(content: str) -> set[str]:
+    """Rechner (als Ordnername) aus der Index-Nachricht des Abgleichs (#sync-daten): "machine" und je Eintrag Feld 3."""
+    m = re.search(r"\{.*\}", content or "", re.S)
+    if not m:
+        return set()
+    try:
+        idx = json.loads(m.group(0))
+    except ValueError:
+        return set()
+    if not isinstance(idx, dict):
+        return set()
+    names = [idx.get("machine")]
+    r = idx.get("r")
+    if isinstance(r, dict):
+        names += [e[2] for e in r.values() if isinstance(e, list) and len(e) >= 3]
+    return {path_name(n) for n in names if isinstance(n, str) and n.strip()}
+
+
+def owners(index_by_member: dict[int, set[str]]) -> tuple[dict[str, int], set[str]]:
+    """({Rechner: Mitglied}, mehrdeutige Rechner). Ein Rechner bei zwei Mitgliedern bekommt keinen Besitzer."""
+    seen: dict[str, set[int]] = {}
+    for uid, machines in index_by_member.items():
+        for mach in machines:
+            seen.setdefault(mach, set()).add(uid)
+    return ({k: next(iter(v)) for k, v in seen.items() if len(v) == 1},
+            {k for k, v in seen.items() if len(v) > 1})
+
+
+def plan(old: dict[str, str], newest: str, own: dict[str, int], sent: dict[str, str], given: dict[str, str],
+         is_guest) -> dict:
+    """Was zu tun ist. Ergebnis: {"pn": {Mitglied: [Rechner]}, "skip": {Rechner: Grund}, "unknown": [Rechner]}.
+    sent: {Rechner: Version, für die schon eine PN ging}; given: {Mitglied: Version per /uploader};
+    is_guest(Mitglied) -> True/False/None (None = nicht mehr auf dem Server)."""
+    out = {"pn": {}, "skip": {}, "unknown": []}
+    for mach in sorted(old):
+        if sent.get(mach) == newest:
+            continue
+        uid = own.get(mach)
+        if uid is None:
+            out["unknown"].append(mach)
+            continue
+        if not uploader_version.is_older(clean_version(given.get(str(uid))), newest):
+            out["skip"][mach] = "per /uploader bekommen"
+            continue
+        g = is_guest(uid)
+        if g is None:
+            out["skip"][mach] = "nicht auf dem Server"
+        elif g:
+            out["skip"][mach] = "Gast"
+        else:
+            out["pn"].setdefault(uid, []).append(mach)
+    return out
+
+
+def note_given(member_id: int, version: str | None):
+    """Von /uploader aufgerufen: Mitglied hat diese Uploader-ZIP per Bot bekommen (Punkt 4)."""
+    if not clean_version(version):
+        return
+    given = state.data.setdefault("uploader_geschickt", {})
+    if uploader_version.is_older(clean_version(given.get(str(member_id))), version):
+        given[str(member_id)] = version
+        state.save()
+
+
+async def _get_text(session, url: str, what: str, headers: dict | None = None) -> str | None:
+    async with session.get(url, headers=headers or {}) as resp:
+        if resp.status != 200:
+            log.info("D-UPALT: %s – Antwort %d", what, resp.status)
+            return None
+        return await resp.text()
+
+
+async def read_stands(session, repo: str, token: str) -> list[dict]:
+    """stand.json aus "sicherung" und main. Der Zugangsschlüssel steht nie in einer Meldung."""
+    headers = {"Authorization": "Bearer " + token, "Accept": "application/vnd.github.raw+json",
+               "X-GitHub-Api-Version": "2022-11-28", "User-Agent": "RaidMasterBot"}
+    out = []
+    for ref in BRANCHES:
+        url = f"{API}/repos/{repo}/contents/stand.json" + (f"?ref={ref}" if ref else "")
+        text = await _get_text(session, url, f"stand.json ({ref or 'main'})", headers)
+        if text is None:
+            continue
+        try:
+            data = json.loads(text)
+        except ValueError:
+            continue
+        if isinstance(data, dict):
+            out.append(data)
+    return out
+
+
+async def read_indexes() -> dict[int, set[str]]:
+    """Rechner je Mitglied aus den Index-Nachrichten der privaten #sync-daten-Kanäle."""
+    out: dict[int, set[str]] = {}
+    for uid, entry in (cfg.get("sync") or {}).items():
+        if not isinstance(entry, dict) or not entry.get("channel_id") or not entry.get("index_id"):
+            continue
+        ch = await channel_by_id(entry["channel_id"])
+        if ch is None:
+            continue
+        try:
+            msg = await ch.fetch_message(int(entry["index_id"]))
+        except (discord.HTTPException, ValueError):
+            continue
+        machines = machines_in_index(msg.content or "")
+        if machines:
+            out[int(uid)] = machines
+    return out
+
+
+async def check_once() -> dict | None:
+    """Ein Lauf. Liefert das Ergebnis (für Tests/Protokoll) oder None, wenn etwas Nötiges fehlt (nächster Lauf in 30 Min)."""
+    import aiohttp
+    import datenversand_bot
+    repo = (cfg.get("update_repo") or "").strip()
+    guild = bot_guild()
+    if not repo or guild is None:
+        return None
+    raw, _err = datenversand_bot.read_config()
+    if raw is None:
+        return None
+    try:
+        conf = json.loads(raw.decode("utf-8-sig"))
+        data_repo, token = str(conf["repo"]).strip(), str(conf["token"]).strip()
+    except (ValueError, KeyError, UnicodeDecodeError):
+        return None
+    async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=30)) as session:
+        text = await _get_text(session, uploader_version.raw_url(repo, "RaidMasterUploader/uploader.py"), "uploader.py")
+        newest = clean_version(uploader_version.parse_version(text or ""))
+        if not newest:
+            return None
+        stands = await read_stands(session, data_repo, token)
+    if not stands:
+        return None
+    old = outdated(merge_stands(*stands), newest)
+    sent = state.data.get("upalt_pn")
+    if sent is None:                                   # Punkt 5: erster Lauf
+        sent = {}
+        if newest == SEED_VERSION:
+            sent = {k: newest for k in old}
+        state.data["upalt_pn"] = sent
+        state.save()
+        if sent:
+            log.info("D-UPALT: erster Lauf, %d Rechner gelten für %s als informiert", len(sent), newest)
+            await post_bot_log(f"📦 Uploader-Prüfung eingeschaltet: {len(sent)} Rechner mit altem Uploader – "
+                               f"{SEED_VERSION} wurde ihnen schon geschickt, keine PN bis zur nächsten Version.")
+    if not old:
+        return {"newest": newest, "old": 0, "pn": 0, "fail": 0, "unknown": 0}
+    own, ambiguous = owners(await read_indexes())
+
+    def is_guest(uid):
+        m = guild.get_member(uid)
+        if m is None:
+            return None
+        return bool(m.bot) or any((r.name or "").strip().casefold() == GUEST_ROLE for r in m.roles)
+
+    todo = plan(old, newest, own, sent, state.data.get("uploader_geschickt") or {}, is_guest)
+    ok = fail = 0
+    for uid, machines in todo["pn"].items():
+        member = guild.get_member(uid)
+        text = PN_TEXT.format(neu=newest) + "\nBetroffen: " + ", ".join(f"`{m}`" for m in machines)
+        try:
+            await member.send(text, allowed_mentions=discord.AllowedMentions.none())
+            ok += 1
+        except discord.HTTPException:
+            fail += 1
+        for mach in machines:                           # höchstens 1 PN (bzw. 1 Versuch) je Rechner und Version
+            sent[mach] = newest
+    for mach in todo["skip"]:
+        sent[mach] = newest
+    told = state.data.setdefault("upalt_gemeldet", {})  # ohne Besitzer: einmal je Rechner und Version in #bot-log;
+    new_unknown = [m for m in todo["unknown"] if told.get(m) != newest]   # PN folgt, sobald der Besitzer bekannt ist
+    for mach in new_unknown:
+        told[mach] = newest
+    state.data["upalt_pn"] = sent
+    state.save()
+    unknown = len(new_unknown)
+    if ok or fail or unknown:
+        parts = [f"{ok} PN geschickt"]
+        if fail:
+            parts.append(f"{fail} nicht zustellbar (Direktnachrichten geschlossen)")
+        if unknown:
+            parts.append(f"{unknown} Rechner ohne eindeutigen Besitzer"
+                         + (f" ({len(ambiguous & set(new_unknown))} bei mehreren Mitgliedern)"
+                            if ambiguous & set(new_unknown) else "")
+                         + " – keine PN")
+        log.info("D-UPALT %s: %s", newest, "; ".join(parts))
+        await post_bot_log(f"📦 Alter Daten-Uploader (neueste {newest}): " + "; ".join(parts) + ".")
+    return {"newest": newest, "old": len(old), "pn": ok, "fail": fail, "unknown": unknown}
+
+
+@tasks.loop(minutes=30)
+async def uploader_alt_loop():
+    try:
+        await check_once()
+    except Exception as e:  # noqa: BLE001 – Netz usw.; nächster Lauf in 30 Minuten
+        log.warning("D-UPALT: %s", type(e).__name__)
+
+
+@uploader_alt_loop.before_loop
+async def _before():
+    await bot.wait_until_ready()

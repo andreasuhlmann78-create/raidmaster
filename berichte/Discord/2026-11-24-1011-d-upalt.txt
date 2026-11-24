@@ -1,0 +1,37 @@
+Bericht Discord-Sitzung an die Prüf-Sitzung – 24.11.2026 10:11
+Thema: D-UPALT MITTEL (Supervisor 24.11. 10:05; Entscheid des Nutzers 07:22) – Bot 1.5.193
+Status: umgesetzt, zur Prüfung
+
+1. Umsetzung (neues Modul RaidMasterBot/uploader_alt_bot.py, Schleife alle 30 Min., gestartet in setup_hook)
+- Neueste Version: VERSION in RaidMasterUploader/uploader.py im Repo (update_repo, raw HEAD) – dieselbe Quelle wie /uploader.
+- stand.json aus Zweig "sicherung" UND main (GitHub-API, Zugang aus daten_config.json auf dem Server, nur im Speicher gelesen,
+  nie ausgegeben). Je Rechner zählt der Eintrag mit der grössten "zeit" (so wird auch eine alte Lieferung gesehen, die nur kurz
+  auf main liegt, bevor der Wächter von 2.3.20 main zurückstellt). Veraltet = "uploader" fehlt, "unbekannt" oder älter.
+- Zuordnung Rechner -> Mitglied nur im Bot: Index-Nachricht des privaten #sync-daten je Mitglied (cfg["sync"]), Rechnername
+  wie daten.py path_name (Test vergleicht beide Funktionen). Nichts davon kommt ins Repo.
+- PN (Text wie im Auftrag) + Zeile "Betroffen: <Rechner>" (nur in der PN an den Besitzer). Mehrere alte Rechner eines
+  Mitglieds -> eine PN.
+- Höchstens 1 PN (bzw. 1 Versuch) je Rechner und neuester Version: state.json "upalt_pn". Geschlossene PN: kein neuer Versuch,
+  Zahl in #bot-log.
+- Nie an Gäste (Rolle "Gast"), Bots oder Mitglieder, die nicht mehr auf dem Server sind.
+- Nicht nochmals anschreiben: /uploader (nur_programm, fuer, an_offiziere, volle Einrichtung) merkt ab 1.5.193 je Mitglied die
+  geschickte Version (state.json "uploader_geschickt"); wer die neueste so bekam, bekommt keine PN.
+- Die Sendungen von 08:37 sind nicht gemerkt (vor 1.5.193). Darum: erster Lauf mit neuester Version 2.3.20 -> alle dann
+  veralteten Rechner gelten als informiert (Stand 10:00: PC des Gildenchefs + 2 Offiziere), eine Zeile in #bot-log. Ab 2.3.21
+  bekommen sie wieder je 1 PN. Folge offen gesagt: auch der PC des Gildenchefs bekommt für 2.3.20 keine PN (er weiss es selbst).
+- Rechner ohne eindeutigen Besitzer (kein #sync-daten oder bei zwei Mitgliedern): keine PN, einmal je Rechner und Version eine
+  Zahl in #bot-log ("upalt_gemeldet"); die PN folgt, sobald der Besitzer eindeutig ist.
+- #bot-log und Protokoll: nur Zahlen, keine Rechner-/Spielernamen, kein Zugangsschlüssel, kein Repo-Name des Daten-Repos.
+- Fehlt etwas (Netz, daten_config.json, Version unlesbar): nichts tun, kein Seed, nächster Lauf in 30 Min.
+
+2. Tests
+- NEU tests/test_uploader_alt.py: 14 Tests (Logik 5, Ablauf 9), in tu_umfassend als T-D-UPALT eingetragen.
+- Gegenproben (Code verfälscht, Tests müssen rot werden): ohne "1 PN je Version" rot (3), Gast-Sperre weg rot, ohne Seed rot (2),
+  sicherung/main ohne "zeit" rot, mehrdeutige Rechner zugeordnet rot (2), /uploader-Sperre weg rot, Meldung ohne Merken rot.
+- Alle Bot-Tests: 493 OK, Regressionen 86/86. test_pn, test_sync_setup, test_lade einzeln mit -I OK. Befehlsliste unverändert
+  (kein neuer Befehl).
+
+3. Verdacht, zu messen
+- Die Regel für den Rechnernamen (path_name) war in alten Uploadern (2.3.1–2.3.19) dieselbe wie heute – nicht an allen alten
+  Fassungen geprüft (Klon flach). Weicht sie ab, erscheint der Rechner als "ohne Besitzer" (keine falsche PN).
+- Im Betrieb erst sichtbar ab 2.3.21: dann muss in #bot-log "Alter Daten-Uploader (neueste 2.3.21): n PN geschickt" stehen.

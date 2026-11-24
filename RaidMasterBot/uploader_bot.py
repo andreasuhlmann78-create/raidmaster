@@ -18,6 +18,7 @@ from discord import app_commands
 
 import grund
 import pn
+import uploader_alt_bot
 import uploader_setup
 import uploader_version
 from grund import bot_guild, channel_by_id, is_admin
@@ -96,6 +97,7 @@ async def uploader_cmd(inter: discord.Interaction, nur_programm: bool = False, f
             await target.send(f"📦 **RaidMaster-Uploader {have or ''}**. Entpacken und die alten Dateien ersetzen – "
                               "deine `uploader_config.json` im Ordner behalten.\n" + vnote,
                               file=discord.File(pkg, filename="RaidMasterUploader.zip"))
+            uploader_alt_bot.note_given(target.id, have)          # D-UPALT: keine PN "veraltet" für diese Version
             await inter.followup.send(("Ich habe " + target.mention + " den Uploader per Direktnachricht geschickt. 📬 "
                                        if other else "Ich habe dir den Uploader per Direktnachricht geschickt. 📬 ")
                                       + vnote, ephemeral=True)
@@ -157,6 +159,8 @@ async def uploader_cmd(inter: discord.Interaction, nur_programm: bool = False, f
         text = (f"✉️ **{inter.user.display_name}** (Gildenleitung) schickt dir den Daten-Uploader.\n\n" + text)
     try:
         await target.send(text, files=files())
+        if pkg:
+            uploader_alt_bot.note_given(target.id, uploader_version.file_version(pkg))   # D-UPALT
         await inter.followup.send(("Ich habe " + target.mention + " den Uploader und die Einrichtungsdateien per "
                                    "**Direktnachricht** geschickt. 📬" if other else
                                    "Ich habe dir den Uploader und die Einrichtungsdatei per **Direktnachricht** geschickt. 📬"),
@@ -196,6 +200,7 @@ async def uploader_to_officers(inter: discord.Interaction):
             await m.send(text, file=discord.File(pkg, filename="RaidMasterUploader.zip"),
                          allowed_mentions=discord.AllowedMentions.none())
             ok.append(m)
+            uploader_alt_bot.note_given(m.id, have)               # D-UPALT
         except discord.HTTPException:
             blocked.append(m)
         await asyncio.sleep(1)          # Discord: nicht zu schnell hintereinander
