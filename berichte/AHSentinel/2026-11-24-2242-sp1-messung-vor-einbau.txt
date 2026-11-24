@@ -1,0 +1,49 @@
+AHSentinel AHS-SP1 (Speicher-Lösung Vollscan) – MESSUNG VOR DEM EINBAU, Freigabe durch den Supervisor erbeten (Reihenfolge Punkt 3)
+Stand: Mess-Fassung nur in der Arbeitskopie (Schalter VS.COMPACT, aus = bisheriger Weg), NICHT veröffentlicht. Nachbau mit den echten Daten
+(ahs_sv3: 7000 Items aus fullScan.sigs/stackMem/vendorPrices, Markt 344 831 Auktionen, ZC=23520). Szenarien zz_sp1eq (Gleichheit, Grösse,
+Lesezeit) und zz_t459real (3 Vollscans je Weg; SP1C=0/1) in meiner Nachbau-Kopie; kommen mit dem Einbau ins Repo.
+
+BAU (wie Plan 19:16):
+ - Je Item keine Tabelle: Satz = vier Listen set.min / set.qty / set.auc (Zahlen) und set.lad (Text "min;qty;auc;bait;p:c,…;s1,s2,s3,s4" =
+   EncodeLadder ohne Zeitstempel). Zwei Sätze im Wechsel (cmp sichtbar, cmpSpare im Aufbau; Listen geleert, nicht neu angelegt); Austausch erst am
+   Ende von VS:Finish (AHS-I3-a: nie halb sichtbar). Stufen in wiederverwendeten Zahlen-Puffern (bufP/bufC/bufB), Text per table.concat.
+ - st.ladder (V4) = Zeitstempel .. ";" .. derselbe Text (kein zweites Kodieren). Weitergabe (FeedNetRun) liest die Zahlen-Listen.
+ - VS:Ladder packt bei Bedarf aus (DecodeBody), Zwischenspeicher je itemID, geleert bei jedem neuen Scan (memTime), BEGRENZT auf 400 Einträge
+   (dann ganz verworfen) – sonst wüchse er bei Lesern über alle Items (Forecast/Händler) wieder auf die alte Grösse. Bestpreise unverändert.
+
+(2) GLEICHHEIT alt = neu, ALLE 7000 Items (zz_sp1eq PASS, 12 Prüfungen):
+ - Verdichtung: min, qty, auc, bait, alle 46 486 Stufen (davon 11 492 Prozent-Stufen), Restzeit-Stufen: 0 abweichend.
+ - st.ladder-Text (EncodeLadder alt gegen Zeitstempel+Text neu): 0 abweichend (Zeichen für Zeichen).
+ - Leser: VS:Ladder 0 · VS:Queue (mit Preis und ohne) 0 · A:OfferLadder 0 · A:VendorSteps 0 · A:ResalePrice 0 · Weitergabe (min/qty/auc) 0.
+   Einzige Ausnahme, bewusst: das 3. Feld einer Prozent-Stufe (Merker "Grenze") fehlt im ausgepackten Neu-Wert. Der gespeicherte Text hatte es nie;
+   im Code gelesen: kein Leser von VS:Ladder liest steps[i][3] (die st[3]-Stellen in AHAnalyzerPro.lua 2679/2734/2745 betreffen die eigene
+   Liste von OfferLadder, Feld "geschätzt"). Der Vergleich der Leiter lief darum ohne dieses Feld; mit Feld 6987 Unterschiede = genau dieses Feld.
+ - Kein Leser verändert die zurückgegebene Leiter: Prüfsumme aller Leitern vor/nach allen Lesern, alt 0 und neu 0 geändert (Zwischenspeicher dafür
+   unbegrenzt, damit dieselben Tabellen geprüft werden).
+
+(1) MESSUNG:
+ a) gehaltene Grösse (alle Items einmal verdichtet, nur Ergebnis behalten, Speicherbereinigung davor/danach):
+    alt 9 693 KB = 1,385 KB je Item · neu 1 924 KB = 0,275 KB je Item (−80 %). Gehalten werden je zwei Sätze: alt ~19 MB, neu ~3,8 MB.
+    Der Verdacht "~0,2 statt ~1,3 KB" ist damit gemessen: 0,275 statt 1,385 KB.
+ b) Lesezeit aller Leser (Ladder, Queue×2, OfferLadder, VendorSteps, ResalePrice) für alle 7000 Items (Nachbau-Uhr): alt 1 760 ms · neu
+    1 556 ms (mit Auspacken) · neu zweiter Durchgang 1 580 ms – das Auspacken kostet nicht messbar mehr (Lauf davor: 2 280 / 1 669 / 1 968).
+    Das deckt Tooltip/Detail (Ladder, OfferLadder), A:VendorDeals (VendorSteps je Item) und Forecast (ResalePrice) ab.
+ c) angelegt während des Scans, ohne gelesene Auktionen (= T459-Grösse), zwei Messreihen je Weg (Werte schwanken je Lauf um ~2 MB):
+              Scan 1            Scan 2            Scan 3
+    alt   58 063 / 55 182   26 391 / 26 456   16 586 / 16 639   (Scan 3 alt: Nachbau verwendet Tabellen wieder – im Spiel nie, belegt 19:32)
+    neu   47 152 / 46 241   18 128 / 20 003   14 989 / 16 891
+    davon Schritt Verdichtung: alt 14 678 / 11 276 / 3 374 KB · neu 8 747 / 5 258 / 4 055 KB.
+    Aufgabe fullscan: Scan 2 alt 16 613–16 667 KB, neu 10 138–10 149 KB.
+ d) Bildzeiten: längstes Bild alt 145 / 173 / 202 ms, neu 130 / 142 / 216 ms – jedes Mal im Schritt "Verfolgung V4" (Vollscan.lua: VS:Track, die
+    Schleife bis zum A:Pause() nach einem grossen Item), NICHT in der Verdichtung; von SP1 nicht berührt (V4-Messung ist der nächste Auftrag).
+    Bilder über 33 ms: alt 10/6/6, neu 10/7/7.
+
+EHRLICHE EINORDNUNG: SP1 senkt die Verdichtung und den gehaltenen Speicher stark, erreicht ALLEIN das Ziel "T459 < 10 240 KB ab Scan 2" im
+Nachbau NICHT (Scan 2 neu 18–20 MB). Der Rest (Nachbau Scan 2 neu): Nachlauf 10 159 KB (u. a. forecast-eval 2 600, learn:factor 2 456,
+cache:itemlist 2 326, core:realcheck 1 253), Verdichtung 5 251 (davon Bestpreise ~ und Text-Zwischenstücke "p:c" je Stufe – Verdacht, zu messen),
+Verfolgung V4 3 116, Preisverlauf+Neuaufbau 1 203. Vorschlag für danach (Entscheid Supervisor/Nutzer): (i) Stufen-Text ohne "p:c"-Zwischenstrings
+(string.format in einen Puffer) messen, (ii) Bestpreise als Zahlen-Listen statt Tabellen (Format für Mitspieler bleibt), (iii) Nachlauf-Aufgaben
+(forecast-eval, learn:factor, cache:itemlist) je einzeln messen.
+NACH FREIGABE (Punkt 4): Schalter an und alter Weg samt memSpare entfernt; Tests T1011–T1013 (AHS-I3-a) auf die zwei Sätze umgestellt
+(Gegenproben: nie halb sichtbar, ungültiger Scan ändert nichts), Gleichheits- und Grössentest als Szenarien ins Repo, T459-Text nennt
+"kompakt", Version, Ingametest.
