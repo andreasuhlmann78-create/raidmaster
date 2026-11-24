@@ -493,3 +493,9 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     begründen – nie die Prüfung abschwächen. Achtung: Bringt ein anderes Addon im selben Client schon Version 3 mit, gilt sie auch für deine
     Prüfungen (höchste Version gewinnt) – nil-FEHLER können also schon vor deiner nächsten Version erscheinen.
 
+>>> INGAMETEST 2.5.27 – 24.11.2026 12:42 (Laptop, WARRIOR 30, Thunder Bluff; Bericht vom Nutzer im Chat, Supervisor 12:45): OK 331 · FEHLER 0 ·
+    übersprungen 11 · im Client 14 · Sandbox OK · Livedaten, CVars, Tastenbelegung unverändert · Fehlerzähler 0 · keine nil-FEHLER mit
+    GoldSentinelTest 3. Längstes eigenes Bild 23,1 ms (T-LIVE2), ganze Bilder über 40 ms: 0, längstes ganzes Bild 35,6 ms (eigene Portion 1,7 ms).
+    Umgebungsmessung (TS-U1) steht im Bericht. TS-L3, TS-L6, TS-U1: im Spiel ohne FEHLER -> ERLEDIGT. Offen nur die Hand-Punkte der Prüfliste
+    (Kampf, Era/TBC) und die Fenster-Prüfung (läuft beim nächsten Spielfenster von selbst).
+
