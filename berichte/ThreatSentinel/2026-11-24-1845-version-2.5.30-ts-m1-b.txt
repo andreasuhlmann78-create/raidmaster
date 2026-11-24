@@ -1,0 +1,56 @@
+BERICHT ThreatSentinel 2.5.30 – 24.11.2026 18:45
+Projekt: ThreatSentinel · Version 2.5.30 · Status: umgesetzt, zur Prüfung
+Veröffentlicht: Discord (announce/threatsentinel__threatsentinel-2.5.30.*), download/ThreatSentinel-2.5.30.zip. Nicht auf CurseForge.
+Auftrag: TS-M1-b HOCH (Supervisor 14:11, Entscheid des Nutzers 24.11. 14:09: normale Spieler und Offiziere liefern die Daten über den Uploader).
+
+1) Umsetzung (Messung.lua, Core.lua, Options.lua, Locales.lua, TestRoutineTU.lua)
+   - Die AUTOMATISCHE Messung (nur lesen) läuft bei JEDEM Spieler, ohne Entwicklermodus, Standard EIN. Die Ereignisse werden bei jedem
+     Spieler angemeldet (PLAYER_REGEN_DISABLED/ENABLED, PLAYER_ENTERING_WORLD, UNIT_THREAT_SITUATION_UPDATE, UNIT_THREAT_LIST_UPDATE;
+     Kampflog nur Era/TBC, in Forever/Retail nie – würde "geblockt" auslösen). Ausserhalb eines gemessenen Kampfs kostet ein Handler nur
+     einen Tabellen-Zugriff.
+   - Befehle auf Abruf ((a) Durchreichen, (c) eigene Plaketten: /ts messung kampf, /ts messung) und die Testroutine bleiben nur im
+     Entwicklermodus (ns:RequireDev).
+   - Option "Messdaten sammeln" / "Collect measurement data" (Allgemein, erweitert; Schlüssel ns.db.m1Collect, Standard true). Tooltip EN/DE:
+     was gesammelt wird, keine Namen, nichts verändert oder angezeigt, liegt in der Konto-Datei, kommt mit dem Uploader. AUS = nichts gespeichert.
+   - Unsichtbar: keine Meldung im Chat, kein Fenster (nur die Befehle melden etwas). Fehler einer Quelle: pcall, als "x" gespeichert.
+
+2) Wo die Daten stehen (für die Prüfung)
+   Datei: WTF/Account/<Konto>/SavedVariables/ThreatSentinel.lua (account-weit, SavedVariables: ThreatSentinelDB – die liefert der Uploader).
+   Schlüssel ThreatSentinelDB.m1:
+   - head = { v = Addon-Version, build = "1.60.1 · Build 71037", z = "JJJJ-MM-TT HH:MM", flavor }   (bei jeder Ablage erneuert)
+   - env  = { key = "Version|Build|Spielversion", cvars = {"name=wert",…}, cvarsAbsent = {…}, names = {"name=type",…}, z }
+            (f)/(e) nur EINMAL je Version/Build/Spielversion; bei Änderung neu, der Instanz-Durchlauf sagt "neu/geändert/wie gespeichert")
+   - runs = Ringpuffer der letzten 20 Durchläufe, neueste zuerst; jeder mit v (Version) und z (Zeit):
+       Instanz: { art, inst (Instanz-ID), flavor, envChanged, ms }
+       Kampf:   { art, mode, inst, group, role, class, mobs, ms, blocked, errors,
+                  q  = "sit=g; det=g/g/g/g/g; tank=g; st=g; sc=g; raw=g; val=g; sitP=g; lead=-; col=…; tEx=…; tMe=…; tf=TFNT=…; TFNTV=…",
+                  ev = "SITUATION_UPDATE n (Einheit …), LIST_UPDATE n (Einheit …)", k = Kampflog, p = Plakette (b) }
+       Befehl (nur Entwickler): { art, label, mode, mobs, a, c, blocked, errors, ms }
+       Kürzel: g = geschützt, - = nicht vorhanden, x = Fehler, l(Typ) = lesbar (Legende steht in jeder Ausgabe).
+   - sum  = ältere, aus dem Ringpuffer gefallene Durchläufe als Zähler: "art Kampf", "sit=g", "tMe=ja", "Plakette …" -> Anzahl
+   - cost = { max (ms), n (Durchläufe), over (Durchläufe > 1 ms) }
+   Ausserdem im Diagnose-Protokoll (GSDIAG1) Abschnitt "== Messung TS-M1" (Kopf, Legende, env, neueste 6 Durchläufe, sum).
+   Alte Versionen aussortieren (Entscheid 07:22): jeder Durchlauf trägt v, der Kopf v und Build.
+   Kampf-Durchläufe von 2.5.28/2.5.29 (Tabellen-Form, nur beim Entwickler) werden weiter gelesen und fallen mit der Zeit aus dem Puffer.
+
+3) Keine Namen
+   Gespeichert werden nur Art (g/l/-/x), Anzahlen, Instanz-ID, Rolle, Klasse, Modus, Version, Build. Die Einheit aus UNIT_THREAT_* steht nur als
+   Art (z. B. "l(string)"), nie als Token oder Name. GUIDs aus dem Kampflog nur als Art.
+
+4) Grösse
+   Kampf-Durchlauf als kurze Texte statt Tabellen (zuerst 27,9 KB bei 20 Durchläufen gemessen -> umgebaut). CVars/Namen nur einmal (env).
+   Gemessen im Nachbau, SavedVariables-Schreibweise (["Schlüssel"] = Wert, je Zeile, Einrückung): 20 Kampf-Durchläufe im ungünstigsten Fall
+   (alle Quellen "l(number)" statt "g") + env + Kopf + Zusammenfassung = 17 318 Byte ≤ 20 480 Byte (M1.SIZE_LIMIT).
+
+5) Tests (umgesetzt, zur Prüfung)
+   - T-M1b neu (Bereich U, Nachbau, geschützte Bedrohung, 4 Mobs, Entwicklermodus AUS): "Durchläufe 2, Kampf true, Kopf true, Umgebung true,
+     Namen 0, Ringpuffer 20, zusammengefasst 6+1, Grösse ≤ 20 KB true, Option AUS nichts true".
+     Namen: Suche aller Namen der Kulisse (Spieler, 3 Gruppenmitglieder, 4 Mobs) und UnitName("player") im gespeicherten Text = 0 Treffer.
+     Ringpuffer: 2 + 25 Durchläufe -> 20 bleiben, 7 zusammengefasst (6 Kampf + 1 Instanz – nachgerechnet: 27 − 20 = 7, ältester war die Instanz).
+   - T-M1 (Bit für Bit unverändert, Gegenprobe) läuft weiter, an die kurze Form angepasst ("Lage g/g").
+   - T-OPT1: neue Option m1Collect in R.OPT_NEW (mit Grund), "alt 103 - entfernt 1 + neu dazu 2 = 104"; T-OPT2 Beschriftung ≤ 28 Zeichen.
+   - Offline alles: Forever 316/322, Era 320/326 – je 6 FEHLER = die bekannten Nachbildungsfälle, ausserhalb 0.
+   - addon_check download/ThreatSentinel-2.5.30.zip: "## ThreatSentinel-2.5.30.zip: OK", kein FEHLER, keine WARNUNG. Commit e48db583.
+
+Offen beim Nutzer
+- Echte Daten aus Forever: einfach spielen (Instanz, Kämpfe); der Uploader bringt ThreatSentinel.lua. Für (a)/(c) zusätzlich Prüflisten-Punkt M1.

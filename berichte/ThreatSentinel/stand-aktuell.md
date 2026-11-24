@@ -1,17 +1,15 @@
 # Stand ThreatSentinel
 
-## Stand 24.11.2026 14:04 · Version 2.5.29
-Veröffentlicht 24.11. 14:03 (download/, announce/; Commit 4b410f1a), Discord. Nicht auf CurseForge.
-Bericht: berichte/ThreatSentinel/2026-11-24-1400-version-2.5.29-ts-m1-a.txt ("umgesetzt, zur Prüfung").
-2.5.29 = TS-M1-a: T-M1 meldet (a) mit Köderwert (userdata, vom echten Client abgelehnt) als Messwert statt FEHLER.
-Inhalt 2.5.28: TS-M1 Messung Aggro an Plaketten (Messung.lua, ns.M1) – nur Entwicklermodus, automatisch NUR LESEN (Instanz: CVars,
-Namen; Kampf: Quellen, aggroHighlight, Ereignisse, Kampflog nur Era/TBC); auf Befehl /ts messung kampf (a) Durchreichen an unsichtbaren
-Test-Rahmen, (c) eigener Rahmen an Plakette, alles im selben Bild zurück; /ts messung zeigt alles + volle CVar-Liste.
-Ingametest 2.5.28 (24.11. 13:58): OK 330 · FEHLER 2 (T-M1 "Befehl (a) false" = Testaufbau, TU6-R1) – in 2.5.29 behoben, zur Prüfung.
-2.5.28 vom Supervisor angenommen (14:00); TS-L3, TS-L6, TS-U1 ERLEDIGT.
+## Stand 24.11.2026 18:47 · Version 2.5.30
+Veröffentlicht 24.11. 18:46 (download/, announce/; Commit e48db583), Discord. Nicht auf CurseForge.
+Bericht: berichte/ThreatSentinel/2026-11-24-1845-version-2.5.30-ts-m1-b.txt ("umgesetzt, zur Prüfung").
+2.5.30 = TS-M1-b: automatische Messung (nur lesen) für ALLE Spieler, Option ns.db.m1Collect ("Messdaten sammeln", Standard EIN),
+Ablage ThreatSentinelDB.m1 = { head, env, runs (Ringpuffer 20, Kampf kurz als Texte q/ev/k/p), sum, cost }, ≤ 20 KB (gemessen 17,3 KB),
+Befehle (a)/(c) weiter nur Entwicklermodus. Test T-M1b neu.
+2.5.29 (TS-M1-a) vom Supervisor angenommen 14:15. Ingametest 2.5.28: OK 330 · FEHLER 2 (T-M1 Testaufbau, in 2.5.29 behoben).
 
 ## Gerade in Arbeit
-Nichts. Alle Aufträge bis Supervisor 24.11. 14:05 (TS-M1-a) umgesetzt.
+Nichts. Alle Aufträge bis Supervisor 24.11. 14:11 (TS-M1-b) umgesetzt.
 
 ## Nächste Schritte (Reihenfolge)
 1. Bei "repo": git pull --rebase, offen-threatsentinel.txt ganz unten lesen.
@@ -26,11 +24,12 @@ Nichts. Alle Aufträge bis Supervisor 24.11. 14:05 (TS-M1-a) umgesetzt.
 - Abnahme SYNC-ROLLE im Gruppenspiel mit älterer Version; Stufe-3-Messung (Era/TBC, Entwicklermodus, Kampf); Prüfliste OPT.
 
 ## Entscheide des Nutzers seit letztem Stand
+- 24.11. 14:09: normale Spieler und Offiziere liefern die Messdaten über den Uploader (Messung für alle, abschaltbar).
 - 24.11. 13:33–13:35 (über Supervisor): Aggro an Plaketten in Forever messen; alles messen, was möglich ist; selbst messen beim Spielen
   (Instanz/Kampf), aber nichts verändern; (a)/(c) nur auf Befehl im Entwicklermodus.
 
 ## Wichtig zu wissen
-- Bauordner: /home/claude/build/v245/ThreatSentinel (nicht im Repo; Inhalt = download/ThreatSentinel-2.5.29.zip – bei Verlust daraus entpacken).
+- Bauordner: /home/claude/build/v245/ThreatSentinel (nicht im Repo; Inhalt = download/ThreatSentinel-2.5.30.zip – bei Verlust daraus entpacken).
 - Veröffentlichen (Skript publish.sh im Scratchpad, bei Verlust so nachbauen): git fetch + reset auf origin/main; Zip aus dem Bauordner nach
   download/ThreatSentinel-<neu>.zip; addon_check (kein FEHLER); announce/threatsentinel__threatsentinel-<neu>.md + .ThreatSentinel.zip
   dazulegen (nichts in announce/ löschen); git rm download/ThreatSentinel-<alt>.zip; README-Version; Commit deutsch mit Co-Authored-By-
