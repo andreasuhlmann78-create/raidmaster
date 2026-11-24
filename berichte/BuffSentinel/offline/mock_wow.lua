@@ -39,6 +39,7 @@ function M_Show(self) self._shown = true end
 function M_Hide(self) self._shown = false end
 function M_IsShown(self) return self._shown end
 function M_SetAlpha(self, a) self._alpha = a end
+function M_GetAlpha(self) if self._alpha == nil then return 1 end return self._alpha end   -- 0.9.64 (T268)
 function M_SetAttribute(self, k, v) self._attr[k] = v end
 function M_GetAttribute(self, k) return self._attr[k] end
 function M_SetScript(self, k, f) self._scripts[k] = f end
