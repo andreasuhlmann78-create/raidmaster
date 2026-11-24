@@ -748,4 +748,8 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
  RM-I2 MITTEL (Rest): T199 noch 2 Stellen: log "Hauptfenster > Button" 3,8:1 bei einem Item-Link (item:16800 … [Test…] – Qualitätsfarbe des Items
     auf dem Knopf) und discord "Hauptfenster > '1. So funktioniert es'" 2,2:1 bei "1." (Aufzählungs-Nummer). Beide heller bzw. Qualitätsfarben wie
     die Klassenfarben über eine Stelle (RM.ClassColor-Prinzip) anheben. Geprüft 4 725 Texte.
+ NACHTRAG 10:25 (Testbericht RaidMaster-1795511935-3066a2-1): T116 "RaidMaster −28 KB · ganzes Spiel −15 KB · grösster Zuwachs anderer: LevelPilot
+    56 KB · Speicher lesen 36,9/36,0 ms". Die 15 MB vom 09:09 traten diesmal NICHT auf (kein Addon auffällig) – einmaliger Zuwachs im Spiel,
+    Ursache offen (Verdacht: Hintergrundarbeit eines anderen Addons in jenem Lauf). Kein Auftrag an ein anderes Projekt. Das Lesen je Addon kostet
+    je 36–37 ms (= das längste Bild 38 ms) – nur in der Testroutine, so lassen; nie im normalen Spiel aufrufen. T201 OK (schlechteste Klasse 4,61:1).
 
