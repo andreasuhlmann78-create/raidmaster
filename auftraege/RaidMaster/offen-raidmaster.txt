@@ -723,3 +723,8 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     Mit der nächsten Version, keine eigene Version dafür.
  Zur Kenntnis: addon-check/marktanalyse/de_ketten_lehrer.py hat der Supervisor umgestellt (Pfad als Argument, .lua.gz, kein Rechnername mehr).
 
+>>> ERLEDIGT DURCH SUPERVISOR 24.11. 08:39 – Uploader 2.3.20 verteilt (Entscheid des Nutzers 08:25): /uploader an_offiziere:True -> "2.3.20 an 2 von 2
+    Offizieren geschickt", /uploader nur_programm:True -> an den Nutzer, dazu /pn an beide Offiziere "Wichtig bitte installieren..".
+    NICHT nochmals verschicken. Deine nächsten Schritte: Daten-Repo prüfen, sobald die Rechner umgestellt sind (Zweig "sicherung").
+    Prüfung 2.3.20 durch den Supervisor folgt (Tests selbst gelaufen: alle grün).
+
