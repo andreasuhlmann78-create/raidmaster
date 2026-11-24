@@ -23,6 +23,12 @@ MAIN FEATURES
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
 
+WHAT'S NEW IN 3.0.42 – easier to read
+- Class colours in names are readable everywhere: class colours that are too dark (e.g. shaman) are lightened slightly
+  until they have a contrast of at least 4.5:1 on every button. Grey and red tones in lists and messages a bit lighter.
+- Test routine: the memory check now measures RaidMaster's own memory (before: the whole game, where other addons counted
+  too) and names the addons with the largest growth.
+
 WHAT'S NEW IN 3.0.41 – tidied up and tested more safely
 - Advertising: the list of placeholders ({raid}, {zeit}, {frei}, {softres}, {link}, {name}) is no longer shown permanently
   below the text field but in the tooltip of the small "?" next to "Text".

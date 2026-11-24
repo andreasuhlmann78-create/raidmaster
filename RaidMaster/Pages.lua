@@ -418,7 +418,7 @@ UI.AddPage("auction", L["Versteigerung"], function(page)
 			local high = cl.highName and string.format("%d DKP (%s)", cl.high, cl.highName) or L["noch keins"]
 			infoText:SetText(string.format(L["Plündermeister: %s  ·  Restzeit: %d Sek.  ·  Höchstgebot: %s"], cl.ml, rem, high))
 		else
-			itemText:SetText(L["|cff888888Keine laufende Versteigerung|r"])
+			itemText:SetText(L["|cff9a9a9aKeine laufende Versteigerung|r"])
 			infoText:SetText(RM.CanEdit() and L["Wähle ein Item aus der Warteschlange oder füge eines per Shift-Klick hinzu."] or L["Sobald der Plündermeister ein Item versteigert, öffnet sich das Gebotsfenster."])
 		end
 	end
@@ -1540,11 +1540,11 @@ local function BuildLeaderRaid(page)
 		for g = 1, 8 do
 			local box = boxes[g]
 			table.sort(groups[g], function(a, b) return a.name < b.name end)
-			box.title:SetText(string.format(L["Gruppe %d"], g) .. "  |cff888888" .. #groups[g] .. "/5|r")
+			box.title:SetText(string.format(L["Gruppe %d"], g) .. "  |cff9a9a9a" .. #groups[g] .. "/5|r")
 			for i = 1, 5 do
 				local m = groups[g][i]
 				if m then
-					box.lines[i]:SetText(roleTag(m.name) .. RM.ClassColor(m.class, m.name) .. (m.online == false and " |cff888888(offline)|r" or ""))
+					box.lines[i]:SetText(roleTag(m.name) .. RM.ClassColor(m.class, m.name) .. (m.online == false and " |cff9a9a9a(offline)|r" or ""))
 				else
 					box.lines[i]:SetText("|cff9499a8–|r")   -- 3.0.41 L1: Kontrast 2,2:1 -> wie "muted" (5,7:1)
 				end
@@ -1559,7 +1559,7 @@ local function BuildLeaderRaid(page)
 			local p = RM.db.data.players[n]
 			names[i] = roleTag(n) .. RM.ClassColor(p and p.c or (RM.guild.class and RM.guild.class[n]), n)
 		end
-		bench:SetText(#names > 0 and table.concat(names, "   ") or ("|cff888888" .. L["Niemand auf der Ersatzbank."] .. "|r"))
+		bench:SetText(#names > 0 and table.concat(names, "   ") or ("|cff9a9a9a" .. L["Niemand auf der Ersatzbank."] .. "|r"))
 	end
 end
 
@@ -1631,7 +1631,7 @@ UI.AddPage("specs", L["Skillungen"], function(page)
 				cells = {
 					RM.ClassColor(r.class, r.name),
 					ClassName(r.class),
-					r.label or (e and "?" or L["|cff888888unbekannt|r"]),
+					r.label or (e and "?" or L["|cff9a9a9aunbekannt|r"]),
 					e and Spec.PointsText(e) or "",
 					r.role and Spec.ROLE_NAMES[r.role] or "",
 					e and (SOURCES[e.s] or e.s or "") or "",

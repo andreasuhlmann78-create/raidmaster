@@ -634,7 +634,7 @@ function A.UpdateBidFrame()
 end
 
 function A.ShowBidError(msg)
-	if bidFrame then bidFrame.status:SetText("|cffff5050" .. tostring(msg) .. "|r") end
+	if bidFrame then bidFrame.status:SetText("|cffff6a6a" .. tostring(msg) .. "|r") end
 end
 
 function A.HideBidFrame()

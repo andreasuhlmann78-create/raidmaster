@@ -2404,24 +2404,69 @@ local function AreaH(t)
 		if avg >= 2 then return false, string.format("%.2f ms", avg), "< 2 ms" end
 		return true, string.format("Aufbau %.2f ms, je Tooltip %.3f ms", first, avg)
 	end)
-	-- TR-ALLE (3.0.30): Bereinigung und Last in Portionen über mehrere Bilder; der Zähler ist der des ganzen Spiels – was andere
-	-- Addons in diesen Bildern dauerhaft anlegen, zählt mit (Grenze 256 KB bleibt)
-	AsyncCheck(t, "T116", "H", "Speicher: Zuwachs < 256 KB", function()
+	-- TR-ALLE (3.0.30): Bereinigung und Last in Portionen über mehrere Bilder.
+	-- RM-I1 (3.0.42, Ingametest 3.0.41: 15 086 KB): collectgarbage("count") ist der Speicher des GANZEN Spiels; was andere
+	-- Addons in den rund 40 000 Bildern dauerhaft anlegen, zählte als Zuwachs von RaidMaster. Die Nachbildung (nur RaidMaster)
+	-- misst für 3.0.40 und 3.0.41 dasselbe (45 / 43 KB). Darum jetzt zusätzlich der Speicher JE ADDON
+	-- (UpdateAddOnMemoryUsage/GetAddOnMemoryUsage): Grenze 256 KB gilt für RaidMaster selbst; der Zuwachs des ganzen Spiels
+	-- und die drei Addons mit dem grössten Zuwachs stehen im Ergebnis (Beleg statt Vermutung). Ohne diese Funktionen gilt
+	-- wie bisher der Zähler des ganzen Spiels.
+	local function AddonMemory()
+		local upd, get = _G.UpdateAddOnMemoryUsage, _G.GetAddOnMemoryUsage
+		local num = (C_AddOns and C_AddOns.GetNumAddOns) or _G.GetNumAddOns
+		local info = (C_AddOns and C_AddOns.GetAddOnInfo) or _G.GetAddOnInfo
+		if not (upd and get and num and info) then return nil end
+		local t0 = debugprofilestop()
+		local ok = pcall(upd)
+		local ms = debugprofilestop() - t0
+		if not ok then return nil end
+		local out = {}
+		for i = 1, num() or 0 do
+			local name = info(i)
+			local kb = name and tonumber((get(i)))
+			if kb and kb > 0 then out[name] = kb end
+		end
+		return out, ms
+	end
+	R.AddonMemory = AddonMemory
+
+	AsyncCheck(t, "T116", "H", "Speicher: Zuwachs RaidMaster < 256 KB", function()
 		TestRaid()
 		local TT = RM.Tooltip
 		local fake = { GetItem = function() return "x", LINK_EPIC end, AddLine = function() end, Show = function() end }
 		R.gcStepMax, R.gcSteps = 0, 0
 		CollectInSteps()
+		local memA, msA = AddonMemory()
+		R.Breathe(0)
 		local before = collectgarbage("count")
 		for _ = 1, 100 do CallHandlers("GROUP_ROSTER_UPDATE"); R.Breathe(R.PRE_MS) end
 		for _ = 1, 100 do CallHandlers("PLAYER_TARGET_CHANGED"); R.Breathe(R.PRE_MS) end
 		for i = 1, 50 do TT.OnItem(fake); if i % 10 == 0 then R.Breathe(R.PRE_MS) end end
+		if R.leakProbe then R.leakProbe() end                -- nur Gegenprobe der Nachbildung (absichtliches Leck)
 		CollectInSteps()
 		local grow = collectgarbage("count") - before
+		R.Breathe(0)
+		local memB, msB = AddonMemory()
 		Settle(10)
 		local steps = string.format("%d Bereinigungsschritte, längster %.1f ms", R.gcSteps or 0, R.gcStepMax or 0)
-		if grow >= 256 then return false, string.format("%.0f KB; %s", grow, steps), "< 256 KB" end
-		return true, string.format("%.0f KB; %s", grow, steps)
+		if not (memA and memB and memA.RaidMaster and memB.RaidMaster) then
+			if grow >= 256 then return false, string.format("ganzes Spiel %.0f KB (Speicher je Addon nicht lesbar); %s", grow, steps), "< 256 KB" end
+			return true, string.format("ganzes Spiel %.0f KB (Speicher je Addon nicht lesbar); %s", grow, steps)
+		end
+		local own = memB.RaidMaster - memA.RaidMaster
+		local others = {}
+		for name, kb in pairs(memB) do
+			if name ~= "RaidMaster" then others[#others + 1] = { name, kb - (memA[name] or 0) } end
+		end
+		table.sort(others, function(a, b) return a[2] > b[2] end)
+		local top = {}
+		for i = 1, math.min(3, #others) do
+			if others[i][2] >= 1 then top[#top + 1] = string.format("%s %.0f KB", others[i][1], others[i][2]) end
+		end
+		local text = string.format("RaidMaster %.0f KB · ganzes Spiel %.0f KB · grösster Zuwachs anderer: %s · Speicher lesen %.1f/%.1f ms; %s",
+			own, grow, #top > 0 and table.concat(top, ", ") or "keiner", msA or 0, msB or 0, steps)
+		if own >= 256 then return false, text, "RaidMaster < 256 KB" end
+		return true, text
 	end)
 end
 
@@ -3319,6 +3364,31 @@ local function AreaJ(t, G)
 		local w = U.Contrast({ 1, 1, 1 }, { 0, 0, 0 })
 		if math.abs(w - 21) > 0.01 then return false, string.format("Weiss/Schwarz %.2f", w), "21:1" end
 		return true, "5 Fälle richtig (2 lesbar, 2 Kontrast-Befunde, 1 Schrift-Befund), Weiss/Schwarz 21:1"
+	end)
+
+	-- RM-I2 (3.0.42): Klassenfarben in Namen lesbar (ab 4,5:1 auch auf dem überfahrenen Knopf); Gegenprobe: Rohfarbe Schamane
+	t:Check("T201", "J", "Klassenfarben lesbar (ab 4,5:1 auf Knopf-Hintergrund, Gegenprobe Schamane roh)", function()
+		local C = RAID_CLASS_COLORS
+		if type(C) ~= "table" or not RM.Contrast then return false, "RAID_CLASS_COLORS/RM.Contrast fehlt", "vorhanden" end
+		local bgs = { UI_BG = { 0.12, 0.125, 0.15 }, HOVER = { 0.16, 0.165, 0.2 } }
+		local worst, wname, n = 99, "", 0
+		for class, c in pairs(C) do
+			local hex = RM.ClassColor(class, "x"):match("|cff(%x%x%x%x%x%x)")
+			if hex and c.r then
+				n = n + 1
+				local r, g, b = tonumber(hex:sub(1, 2), 16) / 255, tonumber(hex:sub(3, 4), 16) / 255, tonumber(hex:sub(5, 6), 16) / 255
+				for _, bg in pairs(bgs) do
+					local k = RM.Contrast(r, g, b, bg[1], bg[2], bg[3])
+					if k < worst then worst, wname = k, class end
+				end
+			end
+		end
+		if n == 0 then return false, "keine Klassenfarbe", "> 0" end
+		if worst < 4.5 then return false, string.format("%s %.2f:1", wname, worst), "ab 4,5:1" end
+		-- Gegenprobe: dieselbe Prüfung findet die Rohfarbe (ohne Aufhellen) des Schamanen
+		local raw = RM.Contrast(0, 0.44, 0.87, 0.16, 0.165, 0.2)
+		if raw >= 4.5 then return false, string.format("Rohfarbe Schamane %.2f:1", raw), "unter 4,5:1 (Gegenprobe)" end
+		return true, string.format("%d Klassen, schlechteste %s %.2f:1 · Gegenprobe Rohfarbe Schamane %.2f:1 erkannt", n, wname, worst, raw)
 	end)
 
 	-- 3.0.31 (Ingametest 17.11., T155): Tooltips verdecken keine Knöpfe – Platzierung neben, über, unter dem Fenster.
@@ -4484,7 +4554,7 @@ local function AreaL(t, G)
 			{ "TR-ALLE Sicherung", "T189" }, { "Tooltip-Platzierung (Ingame T155)", "T190" }, { "HUD-Ausnahme (Ingame T156)", "T191" }, { "Beschriftungen passen (Ingame T158)", "T192" }, { "Testdaten nie für andere Addons", "T193" },
 			{ "OPT-ALLE Optionen-Fenster", "T194" }, { "Spieler ohne Testbefehle", "T195" },
 			{ "DEV-SICHT Entwickler nur im Entwicklermodus", "T196" }, { "Werbung Platzhalter als ?", "T197" },
-			{ "Livedaten-Wächter Gegenprobe", "T198" }, { "Lesbarkeit L1/L8", "T199" }, { "Lesbarkeit Gegenprobe", "T200" },
+			{ "Livedaten-Wächter Gegenprobe", "T198" }, { "Lesbarkeit L1/L8", "T199" }, { "Lesbarkeit Gegenprobe", "T200" }, { "RM-I2 Klassenfarben lesbar", "T201" }, { "RM-I1 Speicher je Addon", "T116" },
 			{ "RM-TF-1 kein Fehlerfenster", "T120" }, { "T-BL4 echtes Eingabefeld", "T169" } }
 		local only = R.only
 		local have, missing = 0, {}

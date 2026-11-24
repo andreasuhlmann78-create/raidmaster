@@ -212,7 +212,7 @@ function Data.InfoGroups()
 		local items = {}
 		for _, def in ipairs(ALL_RAIDS) do
 			if def.exp == x.key and def.view and def.view[1] then
-				items[#items + 1] = { def.idx, def.name .. (def.available and "" or " |cff888888*|r") }
+				items[#items + 1] = { def.idx, def.name .. (def.available and "" or " |cff9a9a9a*|r") }
 			end
 		end
 		if items[1] then groups[#groups + 1] = { text = x.name, items = items } end

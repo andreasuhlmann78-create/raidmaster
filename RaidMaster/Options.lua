@@ -785,7 +785,7 @@ local function ShowHits(q)
 		local d = hits[i]
 		b.def = d
 		if d then
-			b:SetText(d.label .. "  |cff8c8c99· " .. O.AREA[d.area].title .. "|r")
+			b:SetText(d.label .. "  |cff9c9ca8· " .. O.AREA[d.area].title .. "|r")
 			b.tooltip = d.tip
 			b:Show()
 		else

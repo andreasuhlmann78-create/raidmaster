@@ -184,7 +184,7 @@ function G.Build(parent)
 	function ui.Refresh()
 		local doneT = RM.db.config.guideDone
 		for i, b in ipairs(buttons) do
-			b:SetText((doneT[i] and CHECK or "|cff888888" .. i .. ".|r ") .. G.STEPS[i].title)
+			b:SetText((doneT[i] and CHECK or "|cff9a9a9a" .. i .. ".|r ") .. G.STEPS[i].title)
 			if b.SetAccent then b:SetAccent(i == cur) end
 		end
 		local s = G.STEPS[cur]

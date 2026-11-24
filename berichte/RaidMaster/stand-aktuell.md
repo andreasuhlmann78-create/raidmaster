@@ -1,7 +1,9 @@
 # Stand RaidMaster-Sitzung
 
-## Stand 24.11.2026 07:59 · Addon 3.0.41 · Uploader 2.3.20
-- Addon 3.0.41 gepusht (download/RaidMaster-3.0.41.zip, -latest.zip, Discord-Text raid_addon_intro.md; der Bot postet
+## Stand 24.11.2026 10:11 · Addon 3.0.42 · Uploader 2.3.20
+- Addon 3.0.42 gepusht (RM-I1: T116 misst Speicher je Addon; RM-I2: Klassenfarben/Grau/Rot heller, T201). Bericht
+  2026-11-24-1010 – zur Prüfung. Ingametest 3.0.41 (09:09): 145 OK, 2 FEHLER (RM-I1, RM-I2) -> in 3.0.42.
+- Addon 3.0.41 (download/RaidMaster-3.0.41.zip, -latest.zip, Discord-Text raid_addon_intro.md; der Bot postet
   #raid-addon beim Update selbst). addon_check OK. Bericht 2026-11-24-0758 – zur Prüfung.
   Inhalt: SH-V3 (Test v3) + Sync aus shared/, Platzhalter "?" mit Tooltip (T197), Dev-Sicht geprüft (T196), gemeinsames
   Adressbuch im Livedaten-Wächter (SB2, Gegenprobe T198), Lesbarkeit L1/L8 (T199, Gegenprobe T200, 2 Farben heller,
@@ -13,21 +15,21 @@
 - nichts
 
 ## Nächste Schritte (Reihenfolge)
-1. Nach Freigabe des Nutzers: Uploader 2.3.20 per Bot verteilen (/uploader nur_programm:True an ihn, an_offiziere:True).
+1. Uploader 2.3.20 wurde vom Supervisor per Bot verteilt (Commit ca258023) – nichts mehr zu tun.
 2. Nach Meldung "alle Rechner umgestellt": Daten-Repo lokal prüfen (Zweig "sicherung", uploader 2.3.20 bei 4 Rechnern,
    "tage", nur .lua.gz in aktuell/, main = sicherung) – Bericht.
-3. Ingametest 3.0.41 auswerten (Testbericht in #testberichte): T199 echt gemessen, SB2 mit echtem Adressbuch, T196/T197.
+3. Ingametest 3.0.42 auswerten: T116 (Speicher je Addon), T199-Liste, T201.
 4. Nächste Addon-Version: L2–L7 als Prüfungen (L3 DKP gleich in Liste/Tooltip/!dkp, L4 Summen; L2/L5/L6 Prüfliste),
    Taktik-"ca."-Zahlen in RaidData.lua nach Entscheid der Prüf-Sitzung.
 
 ## Offen beim Nutzer
-- Freigabe: Uploader 2.3.20 per Bot an ihn und die Offiziere schicken?
 - Uploader 2.3.20 auf allen 4 liefernden Rechnern ganz entpacken + neu starten (ältere werden abgewiesen, auch 2.3.19).
-- RaidMaster 3.0.41 installieren und Ingametest: /gsdev an, /rm testroutine alles, /reload.
+- RaidMaster 3.0.42 installieren und Ingametest: /gsdev an, /rm testroutine alles, /reload.
 - Optional Uploader-Weg b) (neuer Token sperrt alte Uploader ganz aus) – Anleitung im Bericht 0737.
 - Bot: PN an Besitzer alter Uploader und Bewerbungen aufräumen liegen beim Discord-Projekt.
 
 ## Entscheide des Nutzers seit letztem Stand
+- 24.11. 10:06: "repo" – RM-I1/RM-I2 umgesetzt.
 - 24.11. 07:46: "repo" – Aufträge aus dem Repo weiter umsetzen (keine neuen; nächster Punkt = Addon 3.0.41).
 
 ## Wichtig zu wissen

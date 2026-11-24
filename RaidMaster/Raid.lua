@@ -128,7 +128,7 @@ function Raid.RunCheck()
 	local ml = RM.MasterLooterName()
 	local wantML = (cfg.lootMaster ~= "" and cfg.lootMaster) or nil
 	if method ~= "master" then
-		lines[#lines + 1] = L["|cffff4040Plündermethode ist nicht Plündermeister.|r"]
+		lines[#lines + 1] = L["|cffff6464Plündermethode ist nicht Plündermeister.|r"]
 	elseif wantML and ml ~= wantML then
 		lines[#lines + 1] = L["|cffffcc00Plündermeister ist "] .. tostring(ml) .. L[", eingestellt ist "] .. wantML .. ".|r"
 	else
@@ -143,7 +143,7 @@ function Raid.RunCheck()
 	if RM.CanEdit() then
 		lines[#lines + 1] = L["|cff40ff40Du hast Offiziersrechte (DKP-Buchungen möglich).|r"]
 	else
-		lines[#lines + 1] = L["|cffff4040Du hast keine Offiziersrechte – DKP-Buchungen nicht möglich.|r"]
+		lines[#lines + 1] = L["|cffff6464Du hast keine Offiziersrechte – DKP-Buchungen nicht möglich.|r"]
 	end
 	lines[#lines + 1] = L["Prüfe Addon-Versionen ..."]
 	RM.Fire("CHECK_DONE")

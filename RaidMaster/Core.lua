@@ -19,8 +19,8 @@ RM.GLOBAL = setmetatable({}, {
 })
 RaidMaster = RM.GLOBAL
 
-RM.VERSION = "3.0.41"
-RM.VERSION_NUM = 30041
+RM.VERSION = "3.0.42"
+RM.VERSION_NUM = 30042
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------
@@ -427,10 +427,39 @@ function RM.Print(msg)
 	DEFAULT_CHAT_FRAME:AddMessage("|cffff8c1aRaidMaster:|r " .. tostring(msg))
 end
 
+-- RM-I2 (3.0.42, Ingametest 3.0.41 T199): Klassenfarben mit zu wenig Kontrast (Schamane 0/0,44/0,87: 3,0:1 auf einem
+-- überfahrenen Knopf) werden so weit mit Weiss gemischt, bis sie auf dem hellsten Knopf-Hintergrund (buttonHover
+-- 0,16/0,165/0,2) mindestens 4,6:1 haben (Grenze 4,5:1 + Reserve). Farbton bleibt erkennbar; alle anderen Klassen
+-- liegen schon darüber und bleiben unverändert.
+local READ_BG = { 0.16, 0.165, 0.2 }
+local function Lum(r, g, b)
+	local function ch(c) return c <= 0.03928 and c / 12.92 or ((c + 0.055) / 1.055) ^ 2.4 end
+	return 0.2126 * ch(r) + 0.7152 * ch(g) + 0.0722 * ch(b)
+end
+function RM.Contrast(r1, g1, b1, r2, g2, b2)
+	local a, b = Lum(r1, g1, b1), Lum(r2, g2, b2)
+	if a < b then a, b = b, a end
+	return (a + 0.05) / (b + 0.05)
+end
+function RM.Readable(r, g, b)
+	local t = 0
+	while t < 1 and RM.Contrast(r + (1 - r) * t, g + (1 - g) * t, b + (1 - b) * t, READ_BG[1], READ_BG[2], READ_BG[3]) < 4.6 do
+		t = t + 0.01
+	end
+	return r + (1 - r) * t, g + (1 - g) * t, b + (1 - b) * t
+end
+
+local classHex = {}
 function RM.ClassColor(class, text)
 	local c = class and RAID_CLASS_COLORS and RAID_CLASS_COLORS[class]
 	if c then
-		return string.format("|cff%02x%02x%02x%s|r", c.r * 255, c.g * 255, c.b * 255, text)
+		local hex = classHex[class]
+		if not hex then
+			local r, g, b = RM.Readable(c.r, c.g, c.b)
+			hex = string.format("%02x%02x%02x", math.floor(r * 255 + 0.5), math.floor(g * 255 + 0.5), math.floor(b * 255 + 0.5))
+			classHex[class] = hex
+		end
+		return "|cff" .. hex .. text .. "|r"
 	end
 	return text
 end
@@ -548,7 +577,7 @@ function RM.RaidWarning(lines)
 		if can then
 			C_Timer.After((i - 1) * 0.3, function() RM.RaidChat(l, "RAID_WARNING") end)
 		else
-			RM.Print("|cffff4800" .. l .. "|r")
+			RM.Print("|cffff6a3a" .. l .. "|r")
 		end
 	end
 end

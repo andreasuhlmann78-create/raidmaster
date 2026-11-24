@@ -1,0 +1,42 @@
+Bericht RaidMaster-Sitzung an die Prüf-Sitzung – 24.11.2026 10:10
+Thema: Addon RaidMaster 3.0.42 – RM-I1 HOCH (T116 Speicher) und RM-I2 MITTEL (T199 Kontrast) aus dem Ingametest 3.0.41
+Status: umgesetzt, zur Prüfung. download/RaidMaster-3.0.42.zip (+ -latest), Discord-Text ergänzt (1692/1835 Zeichen),
+addon_check OK.
+
+1. RM-I1 – T116 Speicher-Zuwachs 15 086 KB
+- Ursache (belegt für den Code von RaidMaster): T116 mass collectgarbage("count") = Lua-Speicher des GANZEN Spiels. Nachbildung
+  (nur RaidMaster geladen), gleiche Prüfung, gleicher Ablauf: 3.0.40 = 45 KB, 3.0.41 = 43 KB (853 bzw. 857 Schritte). Weder SB2
+  (läuft vor dem Messfenster, einmal) noch GoldSentinelSync 3 machen in RaidMaster einen Unterschied.
+- Verdacht (b) "GetAddOnMemoryUsage zählt Sync RaidMaster zu" trifft auf 3.0.41 nicht zu: T116 las gar nicht je Addon.
+- Damit stammt der Zuwachs im Spiel von anderem Code in den rund 40 000 Bildern des Messfensters (im selben Client AHS 0.65.388,
+  PS 0.9.80). Welches Addon: Verdacht, zu messen – die neue T116 zeigt es im nächsten Ingametest selbst.
+- Änderung T116: misst zusätzlich je Addon (UpdateAddOnMemoryUsage/GetAddOnMemoryUsage, vor und nach dem Fenster, jeweils nach
+  voller Bereinigung). Grenze 256 KB gilt für RaidMaster selbst; Ergebnis nennt auch das ganze Spiel und die 3 Addons mit dem
+  grössten Zuwachs sowie die Dauer des Lesens. Fehlen die Funktionen (Forever: Verdacht, zu messen), gilt wie bisher das ganze Spiel.
+  Ist der aktive GoldSentinelSync die Kopie von RaidMaster, zählt dessen Speicher RaidMaster zu (strenger, nicht lockerer).
+- Gegenproben in der Nachbildung (Speicher je Addon nachgebildet): anderes Addon +15 000 KB, RaidMaster 42 KB -> OK, nennt
+  "AHSentinel 15000 KB"; absichtliches Leck in RaidMaster (+1,5 MB) -> FEHLER "RaidMaster 1542 KB"; ohne Funktionen je Addon und
+  Leck -> FEHLER "ganzes Spiel 1542 KB".
+- Gegenprobe "nur RaidMaster geladen vs. alle Addons" im Spiel ist mit der neuen Ausgabe nicht mehr nötig, bleibt aber möglich.
+
+2. RM-I2 – T199 Kontrast 3,8–3,9:1
+- Ursache: Klassenfarbe Schamane (0/0,44/0,87) – auf Knopf 3,4:1, auf überfahrenem Knopf 3,0:1 (nachgerechnet, WCAG).
+  Alle anderen Klassen 4,57–16,3:1.
+- RM.ClassColor (einzige Stelle für Klassenfarben in Namen, 11 Aufrufe) mischt eine Klassenfarbe so weit mit Weiss, bis sie auf dem
+  hellsten Knopf-Hintergrund (buttonHover) mindestens 4,6:1 hat. Schamane -> 0,27/0,59/0,905 (4,62:1). Andere Klassen unverändert
+  (Hexwert identisch, ausser Hexer: 4,57:1 auf buttonHover -> leicht aufgehellt).
+- Weitere Farben im Code unter 4,5:1 auf buttonHover, heller gemacht (Farbton bleibt): 888888 -> 9a9a9a (5,1:1), ff4040 -> ff6464,
+  ff5050 -> ff6a6a, ff4800 -> ff6a3a, 8c8c99 -> 9c9ca8 – 15 Stellen im Code, 80 in den 10 Übersetzungen (Schlüssel und Werte gleich
+  ersetzt; Prüfung: 4 Schlüssel mit neuer Farbe, 0 fehlen in enUS).
+- "log Hauptfenster > Button 3,8:1": vollständige Liste aus dem Testbericht lag um 10:06 nicht im Repo (testberichte/). Verdacht,
+  zu messen: Klassenname im Log (RM.ClassColor) – mit 3.0.42 behoben; sonst nennt T199 die Stelle im nächsten Ingametest.
+- T201 neu: alle Klassenfarben aus RM.ClassColor ab 4,5:1 auf Knopf und überfahrenem Knopf; Gegenprobe: Rohfarbe Schamane 2,97:1
+  wird erkannt. (Nachbildung kennt 3 Klassen, im Spiel alle.)
+- Prüfung nicht gelockert (T199 Grenze 4,5:1 unverändert).
+
+3. Tests (eigene, Hinweis – keine Freigabe)
+- Nachbildung deDE 143 OK · 0 FEHLER; ruRU/zhCN 145 OK · 0 FEHLER; Era ALLE OK. TU6 48 von 48.
+
+4. Offen
+- Ingametest 3.0.42: T116 (Speicher je Addon im Spiel lesbar? Zahlen), T199 (Liste), T201.
+- L2–L7 und Taktik-"ca."-Zahlen weiter offen (Bericht 0758).

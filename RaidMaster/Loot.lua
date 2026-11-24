@@ -92,7 +92,7 @@ function Loot.RecipientChoices(key)
 		items[#items + 1] = { n, n }
 		if n == cur then found = true end
 	end
-	if not found then items[#items + 1] = { cur, cur .. " |cff888888(" .. L["nicht in der Gruppe"] .. ")|r" } end
+	if not found then items[#items + 1] = { cur, cur .. " |cff9a9a9a(" .. L["nicht in der Gruppe"] .. ")|r" } end
 	return { { items = items } }
 end
 
@@ -115,7 +115,7 @@ function Loot.MasterChoices()
 		items[#items + 1] = { n, n }
 		if n == cur then found = true end
 	end
-	if not found and cur and cur ~= "" then items[#items + 1] = { cur, cur .. " |cff888888(" .. L["nicht in der Gruppe"] .. ")|r" } end
+	if not found and cur and cur ~= "" then items[#items + 1] = { cur, cur .. " |cff9a9a9a(" .. L["nicht in der Gruppe"] .. ")|r" } end
 	return { { items = items } }
 end
 
@@ -512,7 +512,7 @@ function Loot.Warn(force)
 	if #p == 0 then wipe(lastWarn) return end
 	if not force and lastWarn[key] and GetTime() - lastWarn[key] < 120 then return end
 	lastWarn[key] = GetTime()
-	for _, t in ipairs(p) do RM.Print("|cffff4040" .. L["Achtung: "] .. "|r" .. t) end
+	for _, t in ipairs(p) do RM.Print("|cffff6464" .. L["Achtung: "] .. "|r" .. t) end
 	if serious > 0 then
 		PlaySound(SOUNDKIT and SOUNDKIT.RAID_WARNING or 8959)
 		RaidNotice_AddMessage(RaidWarningFrame, "RaidMaster: " .. p[1], ChatTypeInfo["RAID_WARNING"])
