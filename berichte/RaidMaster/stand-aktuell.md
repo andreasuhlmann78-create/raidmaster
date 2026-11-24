@@ -45,17 +45,15 @@
 - 24.11. 20:29: "repo".
 - 24.11. 10:29: D-CHK1 – fehlt im Discord wirklich etwas, entscheidet diese Sitzung über Nachposten; ältere Fassungen soll die Prüfung
   wie der Bot überspringen; gelöscht wird nichts. -> raid-addon-zusammenfassung-3.0.0.md: NICHT nachposten (Bericht 1030).
-- 24.11. 10:22: "repo" – RM-I2 Rest umgesetzt.
-- 24.11. 10:06: "repo" – RM-I1/RM-I2 umgesetzt.
-- 24.11. 07:46: "repo" – Aufträge aus dem Repo weiter umsetzen (keine neuen; nächster Punkt = Addon 3.0.41).
+- 24.11. 07:46/10:06/10:22: "repo" – Aufträge aus dem Repo umsetzen (3.0.41–3.0.43).
 
 ## Wichtig zu wissen
 - Leser des Daten-Repos: Zweig "sicherung", nur Rechner mit stand.json "uploader" nicht älter als VERSION in
   RaidMasterUploader/uploader.py; .lua und .lua.gz lesen.
-- Uploader-Tests: test_daten 46, test_sync 53, test_uploader 23, test_umfassend 14 – grün. ZIP = Ordner (Workflow prüft).
+- Uploader-Tests: test_addons 25, test_daten 46, test_sync 53, test_uploader 23, test_umfassend 14 – grün. ZIP = Ordner (Workflow prüft).
 - Addon-Nachbildung: berichte/RaidMaster/offline (lua5.1 run_routine.lua; SHOWID=T196,T197 zeigt einzelne; ADDONDIR=…
   für Gegenproben). Lua 5.1 ggf. neu installieren (apt-get install lua5.1).
 - Bot-Versand: #gildenbank, /uploader + Tab, nur_programm:True bzw. an_offiziere:True; eingebauter Browser 1280x900, danach
   desktop. Nutzer loggt sich selbst ein.
 - Echte Daten nur lokal (goldsentinel-daten), nie Namen in Repo/Berichte.
-- Discord-Text RaidMasterBot/raid_addon_intro.md: je Teil ≤ 2000 Zeichen (jetzt 1692/1785).
+- Discord-Text RaidMasterBot/raid_addon_intro.md: je Teil ≤ 2000 Zeichen (jetzt 1692/1856).
