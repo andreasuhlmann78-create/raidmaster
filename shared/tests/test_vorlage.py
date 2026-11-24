@@ -228,6 +228,11 @@ with tempfile.TemporaryDirectory() as d:
             check(f"{tag}: 0 FEHLER in der Testroutine", c.fehler == 0, fehler)
             check(f"{tag}: Testfälle gelaufen", c.ok >= 20, c.ok)
             check(f"{tag}: Sandbox OK", rep.sandbox == "OK", rep.sandbox)
+            check(f"{tag}: Livedaten unverändert (T63)", rep.livedaten == "OK", rep.livedaten)
+            byid = {e.id: e for e in rep.results.values()}
+            for cid in ("T63", "T64", "TK26", "TK27"):
+                e = byid.get(cid)
+                check(f"{tag}: {cid} OK", e is not None and e.status == "OK", e and (e.ergebnis or e.lua))
             reports = list(g.ProbeSentinelDB.gsTest.reports.values())
             check(f"{tag}: GSTEST1-Bericht gespeichert", len(reports) == 1 and reports[0].startswith("GSTEST1"))
             if reports:
@@ -249,8 +254,22 @@ with tempfile.TemporaryDirectory() as d:
             # Einzelbereich
             g.SlashCmdList[key]("test f")
             pump(ns, 20000)
-            check(f"{tag}: Einzelbereich F", ns.lastReport.counts.fehler == 0 and ns.lastReport.counts.ok == 3,
+            # Einzelbereich: 3 Fälle aus F und T63 (Livedaten läuft bei jedem Lauf)
+            check(f"{tag}: Einzelbereich F", ns.lastReport.counts.fehler == 0 and ns.lastReport.counts.ok == 4,
                   ns.lastReport.counts.ok)
+            # Gegenprobe Livedaten (Entscheid 20.11.): ändert etwas das echte Sync-Adressbuch während des Laufs,
+            # meldet T63 FEHLER mit <Name> statt Namen und setzt es zurück
+            sync = g.GoldSentinelSync
+            g.SlashCmdList[key]("test f")
+            pump(ns, 3)
+            sync.book["Probename"] = lua.table_from({"seen": 1, "v": 0, "fail": 0, "pause": 0, "src": "test"})
+            pump(ns, 20000)
+            e = {x.id: x for x in ns.lastReport.results.values()}.get("T63")
+            erg = str(e.ergebnis) if e is not None else ""
+            check(f"{tag}: Gegenprobe Livedaten FEHLER", e is not None and e.status == "FEHLER", e and e.status)
+            check(f"{tag}: Gegenprobe ohne Namen", "book.<Name>" in erg and "Probename" not in erg, erg)
+            check(f"{tag}: Gegenprobe zurückgesetzt", sync.book["Probename"] is None)
+            check(f"{tag}: Gegenprobe im Bericht", str(ns.lastReport.livedaten).startswith("FEHLER"), ns.lastReport.livedaten)
 
     # alte Einstellungen (Migration, beschädigte Werte)
     lua, ns = load_addon(out, "forever", "deDE",

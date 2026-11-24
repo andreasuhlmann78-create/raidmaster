@@ -240,6 +240,8 @@ local function BuildWindow()
                           edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
                           tile = true, tileSize = 32, edgeSize = 32,
                           insets = { left = 8, right = 8, top = 8, bottom = 8 } })
+        -- feste dunkle Hintergrundfarbe: so misst die Lesbarkeitsprüfung (TK24, L1) den echten Kontrast
+        if win.SetBackdropColor then win:SetBackdropColor(0.06, 0.06, 0.08, 0.95) end
     end
     local title = win:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
     title:SetPoint("TOPLEFT", 18, -16)
@@ -255,7 +257,7 @@ local function BuildWindow()
     search:SetScript("OnTextChanged", function() ns.RefreshOptions() end)
     search:SetScript("OnEscapePressed", function(self) self:SetText(""); self:ClearFocus() end)
     win.search = search
-    local hint = win:CreateFontString(nil, "ARTWORK", "GameFontDisableSmall")
+    local hint = win:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")   -- L1: grau war zu dunkel (BS-L1)
     hint:SetPoint("RIGHT", search, "LEFT", -8, 0)
     hint:SetText(L.OPT_SEARCH)
 
@@ -276,7 +278,7 @@ local function BuildWindow()
     win.right = CreateFrame("Frame", nil, win)
     win.right:SetPoint("TOPLEFT", LIST_W + 16, -70)
     win.right:SetSize(WIN_W - LIST_W - 40, ns.OPT_MAX_ROWS * ROW_H)
-    win.empty = win:CreateFontString(nil, "ARTWORK", "GameFontDisable")
+    win.empty = win:CreateFontString(nil, "ARTWORK", "GameFontHighlight")         -- L1
     win.empty:SetPoint("TOPLEFT", LIST_W + 20, -74)
 
     win.defaults = CreateFrame("Button", nil, win, "UIPanelButtonTemplate")
@@ -285,7 +287,10 @@ local function BuildWindow()
     win.defaults:SetText(L.OPT_DEFAULTS)
     win.defaults:SetScript("OnClick", function() ns.ResetSection(current) end)
 
-    win:SetScript("OnShow", function() ns.RefreshOptions() end)
+    win:SetScript("OnShow", function(f)
+        ns.RefreshOptions()
+        if ns.UIAvoidOthers then ns.Try("Fenster ausweichen", ns.UIAvoidOthers, f) end   -- GS-K1/BS-K1
+    end)
     win:Hide()
     if UISpecialFrames then table.insert(UISpecialFrames, win:GetName()) end   -- Esc schliesst
     ns.optionsWindow = win

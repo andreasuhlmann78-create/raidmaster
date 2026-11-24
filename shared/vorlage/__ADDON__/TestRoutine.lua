@@ -1,13 +1,14 @@
 -- __ADDON__ – eingebaute Testroutine (/__SLASH__ test)
 -- Copyright (c) 2026 GoldSentinel. All Rights Reserved.
 --
--- Aufbau nach der Vorgabe der Prüf-Sitzung (Bereiche A–J). Der Bericht wird über GoldSentinelTest in
+-- Aufbau nach der Vorgabe der Prüf-Sitzung (Bereiche A–K). Der Bericht wird über GoldSentinelTest in
 -- __ADDON__DB.gsTest gespeichert und beim nächsten /reload oder Ausloggen an die Prüfung gemeldet.
 --
 -- Regeln im Test (die Addon-Prüfung kontrolliert sie):
 --   * Nur EIGENE Tabellen ersetzen (ns.API, ns, G-Hilfen) – nie eine Blizzard-Funktion, auch nicht kurz und nicht über Stub().
 --   * Aktionen mit Folgen laufen über ns.Act und werden im Test nur mitgeschrieben (ns.testing = true).
---   * Echte Daten (Sandbox): vorher kopieren, im Test eine Kopie benutzen, nachher vergleichen.
+--   * Echte Daten (Sandbox): vorher kopieren, im Test eine Kopie benutzen, nachher vergleichen (Feld nennen, zurücksetzen).
+--   * Livedaten (Entscheid 20.11.): auch gemeinsame Tabellen (Sync-Adressbuch, Markt, gs*) vor = nach (T63, Gegenprobe T64).
 --   * Nur ausserhalb des Kampfes starten.
 --   * Leistung: Die Routine läuft als Aufgabe von GoldSentinelTakt (Portionen, kein Bild über 40 ms). Zwischen zwei Fällen
 --     gibt sie ab. Testdaten (Sandbox, ns.testing) gelten NUR während ihrer Portionen (Takt.Sliced) – in den Bildern
@@ -55,14 +56,6 @@ local function DeepCopy(v, seen)
     return c
 end
 
-local function Same(a, b)
-    if type(a) ~= type(b) then return false end
-    if type(a) ~= "table" then return a == b end
-    for k, v in pairs(a) do if not Same(v, b[k]) then return false end end
-    for k in pairs(b) do if a[k] == nil then return false end end
-    return true
-end
-
 -- Felder, die sich während des Laufs von selbst ändern dürfen (Bericht, Protokoll, Zähler, Marktdaten-Netz, Prüfliste).
 -- Sie werden weder kopiert noch verglichen – sonst hiesse jede Änderung zwischen zwei Portionen "Sandbox FEHLER", und
 -- grosse Marktdaten zu kopieren kostete ein langes Bild.
@@ -75,6 +68,132 @@ local function DataOnly(db)
         if not ns.VOLATILE_KEYS[k] then c[k] = DeepCopy(v) end
     end
     return c
+end
+
+---------------------------------------------------------------------------------------------------------------------
+-- Livedaten (Entscheid des Nutzers 20.11.2026 08:39, auftraege/hinweis-test-keine-livedaten-2026-11-20.txt; Vorbild
+-- ThreatSentinel T-LIVE): "Der Ingame-Test darf Livedaten nie verändern."
+-- 1. Eigene Daten: die Sandbox oben (vorher Kopie, nachher Vergleich) – jetzt mit Feld und Zurücksetzen.
+-- 2. Gemeinsame Daten, die andere Addons lesen: Sync-Adressbuch (GoldSentinelSync.book), Marktspeicher
+--    (GoldSentinelMarkt.store) und jeder gs*-Schlüssel der eigenen Datenbank. Ausgenommen nur gsTest (Ausgabe dieses Tests).
+-- Jede Abweichung = FEHLER mit Tabelle und Feld, die Daten werden zurückgesetzt. Spielernamen im Adressbuch erscheinen nie
+-- im Bericht (<Name>). Marktdaten, die während des Laufs echt ankommen (Zähler "angenommen" bzw. eigene Scans steigen), sind
+-- keine Änderung durch den Test (Hinweis statt FEHLER). Sync 3 lernt während eines Tests nichts (TestHeld).
+-- Gegenprobe: T64 ändert absichtlich echte Felder und muss sie finden und zurücksetzen.
+---------------------------------------------------------------------------------------------------------------------
+ns.LIVE_SKIP = { gsTest = true }
+
+local function IsGsKey(k) return type(k) == "string" and k:sub(1, 2) == "gs" end
+
+-- erster abweichender Pfad oder nil
+local function Diff(a, b, path)
+    if type(a) ~= type(b) then return path end
+    if type(a) ~= "table" then
+        if a ~= b then return path end
+        return nil
+    end
+    for k, v in pairs(a) do
+        local d = Diff(v, b[k], path .. "." .. tostring(k))
+        if d then return d end
+    end
+    for k in pairs(b) do
+        if a[k] == nil then return path .. "." .. tostring(k) end
+    end
+    return nil
+end
+
+-- dst in-place auf den Stand von src bringen (dieselben Tabellen bleiben erhalten – andere Addons halten Verweise)
+local function RestoreInto(dst, src)
+    for k in pairs(dst) do if src[k] == nil then dst[k] = nil end end
+    for k, v in pairs(src) do
+        if type(v) == "table" and type(dst[k]) == "table" then RestoreInto(dst[k], v)
+        else dst[k] = DeepCopy(v) end
+    end
+end
+
+-- eigene Daten (ohne ns.VOLATILE_KEYS und ohne gs*-Schlüssel, die prüft LiveCheck) vergleichen; restore = zurücksetzen
+local function OwnDiff(before, real, restore)
+    local bad, keys = {}, {}
+    for k in pairs(before) do keys[k] = true end
+    for k in pairs(real) do if not ns.VOLATILE_KEYS[k] then keys[k] = true end end
+    for k in pairs(keys) do
+        if not IsGsKey(k) then
+            local d = Diff(before[k], real[k], ADDON .. "DB." .. tostring(k))
+            if d then
+                bad[#bad + 1] = d
+                if restore then
+                    if type(before[k]) == "table" and type(real[k]) == "table" then RestoreInto(real[k], before[k])
+                    else real[k] = DeepCopy(before[k]) end
+                end
+            end
+        end
+    end
+    table.sort(bad)
+    return bad
+end
+ns.OwnDiff = OwnDiff
+
+local function MarketActivity()
+    local M = rawget(_G, "GoldSentinelMarkt")
+    if type(M) ~= "table" or type(M.stats) ~= "table" then return 0 end
+    return (tonumber(M.stats.accepted) or 0) + (tonumber(M.stats.scans) or 0)
+end
+
+function ns.LiveTables()
+    local out, seen = {}, {}
+    local function add(name, t, market)
+        if type(t) == "table" and not seen[t] then seen[t] = true; out[#out + 1] = { name = name, ref = t, market = market } end
+    end
+    local S = rawget(_G, "GoldSentinelSync")
+    if type(S) == "table" then add("GoldSentinelSync.book", S.book) end
+    local M = rawget(_G, "GoldSentinelMarkt")
+    if type(M) == "table" then add("GoldSentinelMarkt.store", M.store, true) end
+    local db = ns.realDB or ns.db
+    local keys = {}
+    for k, v in pairs(db or {}) do
+        if IsGsKey(k) and not ns.LIVE_SKIP[k] and type(v) == "table" then keys[#keys + 1] = k end
+    end
+    table.sort(keys)
+    for _, k in ipairs(keys) do add(ADDON .. "DB." .. k, db[k], k:find("^gsMarkt") ~= nil) end
+    return out
+end
+
+function ns.LiveSnap()
+    local snap = { list = {}, activity = MarketActivity() }
+    for _, e in ipairs(ns.LiveTables()) do
+        snap.list[#snap.list + 1] = { name = e.name, ref = e.ref, copy = DeepCopy(e.ref), market = e.market }
+    end
+    return snap
+end
+
+-- Abweichungen ("Tabelle.Feld") und Hinweise (echter Marktempfang); restore = true setzt zurück
+function ns.LiveCheck(snap, restore)
+    local bad, notes = {}, {}
+    if not snap then return bad, notes end
+    local received = MarketActivity() - (snap.activity or 0)
+    local seen = {}
+    for _, e in ipairs(snap.list) do
+        local d = Diff(e.copy, e.ref, e.name)
+        if d then
+            if e.market and received > 0 then
+                notes[#notes + 1] = string.format("%s: echter Marktempfang/Scan (%d) – kein Test", e.name, received)
+            else
+                bad[#bad + 1] = (d:gsub("(book%.)[^%.]+", "%1<Name>"))
+                if restore then RestoreInto(e.ref, e.copy) end
+            end
+        end
+        seen[e.name] = true
+    end
+    -- neu angelegte gemeinsame Tabelle (gs*-Schlüssel, der vorher nicht da war)
+    local db = ns.realDB or ns.db
+    for _, e in ipairs(ns.LiveTables()) do
+        if not seen[e.name] then
+            bad[#bad + 1] = e.name .. " (neu)"
+            local k = e.name:match("^" .. ADDON .. "DB%.(.+)$")
+            if restore and k and db then db[k] = nil end
+        end
+    end
+    return bad, notes
 end
 
 local function CountPlaceholders(s)
@@ -380,6 +499,70 @@ Case("T62", "G", "Gemeinsame Bausteine geladen (Game, Test, Sync, Dev, Prüflist
     return #miss == 0, #miss == 0 and "alle 8" or ("fehlt: " .. table.concat(miss, ", ")), "alle 8"
 end)
 
+Case("T64", "G", "Gegenprobe Livedaten: absichtlich geänderte echte Felder werden erkannt (ohne Namen) und zurückgesetzt", function()
+    local S = rawget(_G, "GoldSentinelSync")
+    local real = ns.realDB
+    if not real then return false, "keine echten Daten", "ns.realDB" end
+    if type(S) ~= "table" or type(S.book) ~= "table" then return false, "GoldSentinelSync.book fehlt", "vorhanden" end
+    local probe = ADDON .. "LiveProbe"
+    if S.book[probe] ~= nil or real.livePruefung ~= nil then return false, "Prüfeintrag schon vorhanden", "nicht vorhanden" end
+    local snap = ns.LiveSnap()
+    local before = DataOnly(real)
+    S.book[probe] = { seen = 1, v = 0, fail = 0, pause = 0, src = "test" }   -- absichtlich ein echtes Feld ändern
+    real.livePruefung = true
+    local ok1, bad = pcall(ns.LiveCheck, snap, true)
+    local ok2, own = pcall(ns.OwnDiff, before, real, true)
+    S.book[probe] = nil; real.livePruefung = nil                               -- auf jeden Fall wieder weg
+    if not ok1 then error(bad, 0) end
+    if not ok2 then error(own, 0) end
+    local after, afterOwn = ns.LiveCheck(snap, false), ns.OwnDiff(before, real, false)
+    local got = string.format("Sync %s · eigene %s · danach %d/%d", tostring(bad[1]), tostring(own[1]), #after, #afterOwn)
+    local want = string.format("Sync GoldSentinelSync.book.<Name> · eigene %sDB.livePruefung · danach 0/0", ADDON)
+    return got == want, got, want
+end)
+
+-- K. Oberfläche: reine Rechnungen mit Gegenproben (laufen überall, auch im Nachbau) --------------------------------
+Case("TK26", "K", "Ausweichen: freier Platz neben dem Hindernis, bündig andocken, kein Platz ehrlich gemeldet", function()
+    local U = ns.UICheck
+    if not (U and U.BestPlace) then return false, "UICheck.BestPlace fehlt", "vorhanden" end
+    -- 1) Fenster 300x200 bei (100, 500) liegt auf einem Hindernis 100..500 x 300..700 -> frei mit 8 px Abstand
+    local obst = { { l = 100, r = 500, b = 300, t = 700, name = "A" } }
+    local p1, c1 = U.BestPlace(100, 500, 300, 200, 1920, 1080, obst)
+    -- 2) Bildschirm 800 breit, Hindernisse links und rechts lassen genau 300 px: nur bündig frei (Kante an Kante)
+    local two = { { l = 0, r = 250, b = 0, t = 600, name = "L" }, { l = 550, r = 800, b = 0, t = 600, name = "R" } }
+    local p2, c2 = U.BestPlace(0, 600, 300, 600, 800, 600, two)
+    -- 3) Gegenprobe: Bildschirm ganz bedeckt -> Überdeckung > 0 (kein freier Platz, nie als frei gemeldet)
+    local full = { { l = 0, r = 800, b = 0, t = 600, name = "X" } }
+    local _, c3 = U.BestPlace(0, 600, 300, 200, 800, 600, full)
+    local got = string.format("1: %d/%d frei=%s · 2: %d frei=%s · 3: frei=%s", p1.l, p1.t, tostring(c1 == 0), p2.l, tostring(c2 == 0), tostring(c3 == 0))
+    local want = "1: 508/500 frei=true · 2: 250 frei=true · 3: frei=false"
+    return got == want, got, want
+end)
+
+Case("TK27", "K", "Lesbarkeit L1/L2/L6/L8: Gegenproben (dunkle Zahl, graue Zahl, Klammerzahl, Geldbetrag, kleine Schrift)", function()
+    local U = ns.UICheck
+    if not (U and U.ReadRules) then return false, "UICheck.ReadRules fehlt", "vorhanden" end
+    local dark, white = { 0.06, 0.06, 0.08 }, { 0.107, 0.107, 0.126 }
+    local function n(t)
+        t.bg, t.bgWhite, t.opaque, t.edge = t.bg or dark, t.bgWhite or white, t.opaque ~= false, t.edge
+        t.size, t.ref, t.color = t.size or 12, 10, t.color or { 1, 1, 1 }
+        return #U.ReadRules(t)
+    end
+    local got = table.concat({
+        "gut " .. n({ text = "Gewinn 12g" .. "", justify = "LEFT" }),
+        "dunkel " .. n({ text = "|cff303030Preis 5|r" }),
+        "grau " .. n({ text = "Menge 7", color = { 0.6, 0.6, 0.6 } }),
+        "klammer " .. n({ text = "Absatz (765)" }),
+        "geld " .. n({ text = "12g 30s", justify = "LEFT" }),
+        "geld-rechts " .. n({ text = "12g 30s", justify = "RIGHT" }),
+        "klein " .. n({ text = "Hinweis", size = 8 }),
+        "durchsichtig " .. n({ text = "Text", opaque = false }),
+        "kontur " .. n({ text = "Text", opaque = false, edge = true }),
+    }, ", ")
+    local want = "gut 0, dunkel 2, grau 1, klammer 1, geld 1, geld-rechts 0, klein 1, durchsichtig 1, kontur 0"
+    return got == want, got, want
+end)
+
 -- H. Leistung ------------------------------------------------------------------------------------------------------
 -- T71/T72: ns.Job rechnet in Portionen. T71 startet eine Aufgabe, T72 (läuft einige Bilder später) prüft das Ergebnis.
 local jobProbe
@@ -458,6 +641,9 @@ local function Body(run, filter)
             { "TK21", "Beschriftungen von Knöpfen nicht abgeschnitten", U.TextFits },
             { "TK22", "Angezeigte Spielwerte plausibel", U.ValuesPlausible, true },
             { "TK23", "Keine Fehlerschleife (gleiche Meldung > 10×)", U.NoErrorLoops, true },
+            { "TK24", "Lesbarkeit L1/L2/L6/L8 aller sichtbaren eigenen Texte", U.Readable },
+            { "TK25", "Fenster weichen aus: freier Platz neben Blizzard- und GoldSentinel-Fenstern", U.AvoidWorks },
+            { "TK28", "Inhalts-Regeln L3/L4/L5/L7 (ns.ReadCheck)", U.ContentRules, true },
         }
         for _, c in ipairs(ui) do
             if not c[4] and not U.Available() then
@@ -500,6 +686,7 @@ function ns.RunTests(filter)
     sandbox.gsMarkt = nil                                                     -- Marktdaten nie kopieren (gross)
 
     ns.realDB = real
+    local live = ns.LiveSnap()                                                -- gemeinsame Tabellen vorher (Livedaten)
     ns.testRunning = true
     ns.printLog = {}
     local run = GT.Begin(ADDON, ns.VERSION, real)
@@ -512,13 +699,27 @@ function ns.RunTests(filter)
         Leave()
         ns.testRunning = false
         ns.realDB = nil
-        local sb = Same(before, DataOnly(real)) and "OK" or "FEHLER – echte Daten wurden verändert"
-        local extra = { sandbox = sb, filter = filter ~= "" and filter or "alle" }
+        -- Livedaten (Entscheid 20.11. 08:39): eigene Daten und gemeinsame Tabellen vor = nach, sonst FEHLER und zurücksetzen
+        local ownBad = OwnDiff(before, real, true)
+        local sb = #ownBad == 0 and "OK" or ("FEHLER – echte Daten verändert und zurückgesetzt: " .. table.concat(ownBad, ", "))
+        local liveBad, liveNotes = ns.LiveCheck(live, true)
+        local liveText = (#liveBad == 0 and "OK" or ("FEHLER (" .. table.concat(liveBad, ", ") .. ")"))
+            .. (#liveNotes > 0 and (" · " .. table.concat(liveNotes, "; ")) or "")
+        run:Check("T63", "G", "Test ändert keine Livedaten: eigene Daten, Sync-Adressbuch, Marktspeicher, gs*-Tabellen vor = nach", function()
+            local all = {}
+            for _, x in ipairs(ownBad) do all[#all + 1] = x end
+            for _, x in ipairs(liveBad) do all[#all + 1] = x end
+            local got = (#all == 0 and "unverändert" or ("geändert und zurückgesetzt: " .. table.concat(all, ", ")))
+                .. string.format(" · %d gemeinsame Tabellen", #live.list) .. (#liveNotes > 0 and (" · " .. table.concat(liveNotes, "; ")) or "")
+            return #all == 0, got, "unverändert"
+        end)
+        local extra = { sandbox = sb, livedaten = liveText, filter = filter ~= "" and filter or "alle" }
         local takt = job and ns.Takt and ns.Takt.Summary and ns.Takt.Summary(job) or nil
         if takt then extra.takt = takt end
         if job and job.state ~= "fertig" then extra.abbruch = tostring(job.state) .. ": " .. tostring(job.err) end
         local text, rep = run:Finish(extra)
         if takt then text = text .. "\nTakt: " .. takt end
+        text = text .. "\nLivedaten (Sync-Adressbuch, Markt, gs*) unverändert: " .. liveText
         local env = ns.Takt and ns.Takt.EnvLine and ns.Takt.EnvLine() or ""
         if env ~= "" then text = text .. "\n" .. env end          -- Ort, Spieler in Sicht, Ping, Bildzeit in Ruhe (Takt v2)
         if extra.abbruch then text = text .. "\nABBRUCH: " .. extra.abbruch end

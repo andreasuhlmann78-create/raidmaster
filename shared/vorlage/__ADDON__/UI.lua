@@ -31,6 +31,8 @@ local function Build()
                           edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
                           tile = true, tileSize = 32, edgeSize = 32,
                           insets = { left = 8, right = 8, top = 8, bottom = 8 } })
+        -- feste dunkle Hintergrundfarbe: so misst die Lesbarkeitsprüfung (TK24, L1) den echten Kontrast
+        if win.SetBackdropColor then win:SetBackdropColor(0.06, 0.06, 0.08, 0.95) end
     end
 
     local title = win:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
@@ -53,6 +55,8 @@ local function Build()
         f.status:SetText(G.FlavorName() .. " · " .. tostring(ns.VERSION))
         if ns.db then ns.db.window.shown = true end
         if ns.OnWindowShow then ns.OnWindowShow(f) end
+        -- anderen Fenstern ausweichen (GS-K1/BS-K1): nur für diese Anzeige, die gespeicherte Lage bleibt
+        if ns.UIAvoidOthers then ns.Try("Fenster ausweichen", ns.UIAvoidOthers, f) end
     end)
     win:SetScript("OnHide", function() if ns.db then ns.db.window.shown = false end end)
 
@@ -84,6 +88,7 @@ function ns.ShowCopy(text)
                                edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
                                tile = true, tileSize = 32, edgeSize = 32,
                                insets = { left = 8, right = 8, top = 8, bottom = 8 } })
+            if copy.SetBackdropColor then copy:SetBackdropColor(0.06, 0.06, 0.08, 0.95) end
         end
         local scroll = CreateFrame("ScrollFrame", nil, copy, "UIPanelScrollFrameTemplate")
         scroll:SetPoint("TOPLEFT", 16, -16)
@@ -109,6 +114,7 @@ function ns.ShowCopy(text)
     copy.edit:SetText(text or "")
     copy.edit:HighlightText()
     copy:Show()
+    if ns.UIAvoidOthers then ns.Try("Fenster ausweichen", ns.UIAvoidOthers, copy) end
 end
 
 local prevInit = ns.OnInit
