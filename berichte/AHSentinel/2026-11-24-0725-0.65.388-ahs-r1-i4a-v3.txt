@@ -1,0 +1,47 @@
+AHSentinel 0.65.388 – AHS-R1, AHS-I4-a, SH-V3/AHS-V3 – umgesetzt, zur Prüfung
+Discord: ja (announce/). CurseForge: nein (gesperrt bis Ingametest). addon_check 0.65.388: OK (keine Warnung mehr – GoldSentinelTest Version 3).
+Nachbau (Repo ahanalyzerpro, tests/run_offline.sh, mit Version 3): Teil auto OK 1003 · FEHLER 0 · übersprungen 66 · im Client 16;
+  s42_testroutine_auto PASS, s43_testroutine_server PASS. "Prüfung lieferte nil" kommt 0× vor. ZIP: gleiche 112 Dateien wie 0.65.387.
+
+1) AHS-R1 (Release-Text nur Englisch) – .github/workflows/release.yml
+   Der Release-Text kommt jetzt aus CHANGELOG.de.md ("### Deutsch") und danach CHANGELOG.md ("### English"). Fehlt der deutsche Abschnitt
+   der Version, bricht der Lauf ab (kein Release nur auf Englisch). Auszug lokal mit mawk und gawk geprüft (je 7 Zeilen für 0.65.387), YAML gültig.
+   Alte Releases nicht geändert. Beleg: das Release v0.65.388 auf GitHub.
+
+2) AHS-I4-a (Zahlen gehen nicht auf) – Klärung mit den Zahlen aus AHSentinel-1795438168-cc03af-5.json und Vollscan.lua 0.65.387
+   Welche Werte nimmt AddonMemDiff? kbA = Lua gesamt direkt nach der Messung je Addon zu Scan-Beginn (MBegin, nach memBefore = 774 216 KB);
+   kbB = Lua gesamt direkt NACH UpdateAddOnMemoryUsage, im SELBEN Aufruf von MTick wie die Lücke (addonMemWant wird dort gesetzt und am
+   Ende desselben MTick ausgeführt). Rest = kbB − kbA − Summe aller Addons.
+   Rechnung: Rest −378, Summe ≤ +2136 (die 5 gezeigten; alle weiteren ≤ 0, weil der 5. "+0" ist) -> kbB − kbA ≤ 1 758 KB.
+   kbA ≤ 774 216 KB + wenige KB (zwischen memBefore und kbA nur die kleine Tabelle der Messung; Lua wächst nur durch Anlegen).
+   -> kbB ≤ ~775 980 KB, aber im Bild kb1 = 908 560 KB. Also fiel der Speicher zwischen dem Bild und kbB um MINDESTENS 132 580 KB –
+   innerhalb desselben Aufrufs, d. h. während der Messung je Addon lief eine Speicherbereinigung. BELEGT aus den Zahlen.
+   Warum "danach bereinigt 0 KB"? Fehler meiner Messung: nach der Messung je Addon wurde m.lastKB auf den Stand NACH der Messung gesetzt;
+   die 5 Folgebilder sahen die Bereinigung darum nicht. Jetzt ausgewiesen: "während der Messung bereinigt X KB".
+   Mein Schluss im Bericht 16:40 "den Speicher hat Code ausserhalb der Addons angelegt" ist damit NICHT belegt und zurückgezogen:
+   GetAddOnMemoryUsage zeigt belegten Speicher, nicht angelegten – Müll eines Addons, der vor der Messung bereinigt wurde, erscheint
+   nicht. Wer die +104 907 KB im Bild angelegt hat: offen, Verdacht, zu messen. Ob UpdateAddOnMemoryUsage die Bereinigung auslöst oder
+   die schrittweise Bereinigung zufällig dort fertig wurde: Verdacht, zu messen (die neuen Felder zeigen beides im nächsten Ingametest).
+   vollscan_fps "Einlesen min 25": FPS() = GetFramerate() des Spiels. Ein Bild von 712 ms ergäbe 1,4 Bilder/s – GetFramerate ist also
+   ein Mittelwert des Spiels über mehrere Bilder (belegt durch genau diesen Widerspruch), kein Wert je Bild. Jetzt so beschriftet und je
+   Schritt das längste Bild daneben ("Einlesen Ø 29 / min 25 · längstes Bild 712 ms").
+   Umsetzung (Vollscan.lua): AddonMemDiff(a, b, kbA, kbB, x) zeigt "Lua gesamt: Scan-Beginn kbA (vor Messung memBefore) · im Bild · vor
+   Messung je Addon · danach kbB (s nach Beginn) · während der Messung bereinigt X KB / keine Bereinigung"; Werte je Addon heissen
+   "belegter Speicher … (nicht angelegter)". MeasureLines/Feld vollscan_fps mit "laut Spiel (Mittelwert)" und längstem Bild je Schritt.
+   Freigegebene Messung (a)(b)(c): eigener Rahmen probeFrame, RegisterAllEvents NUR in der Testroutine (m.probe nur dort angelegt) und NUR
+   während Einlesen (ProbeOn nach MSet "Einlesen", ProbeOff nach dem Lesen, im Fehlerfall und in MEnd -> spätestens MEASURE_MAX_S 30 Min.).
+   Gespeichert nur Ereignis-Name und Anzahl, keine Argumente (keine Spielernamen). Beim längsten Bild während der Messung: 10 häufigste
+   Ereignisse dieses Bilds, Anzahl, AH-Fenster offen (AuctionHouseFrame/AuctionFrame), Auktions-Index vor -> nach dem Bild von n ("vor dem
+   ersten Lesen", wenn Index vorher 0), Speicher im Bild. Kosten (Zeit in OnEvent + je Bild) gezählt und ausgegeben.
+   Neues Feld vollscan_probe, Text auch in T914 (vorne, damit nicht abgeschnitten). Im Nachbau gibt es RegisterAllEvents nicht -> Text
+   "Ereignis-Zählung nicht möglich" (ehrlich, kein Wert erfunden).
+   Tests: T1003 (Zahlen wie im Ingametest: Rest −378, bereinigt 132 586 KB; Gegenprobe ohne Bereinigung; alter Aufruf ohne Zusatz),
+   T1004 (3 Bilder: nur Ereignisse des langen Bilds, Index 1200 -> 1250 von 5000, Top-Liste mit "+1 weitere", Messung aus nach MEnd,
+   Lesestand leer), T1005 (Beschriftung Mittelwert, längstes Bild 712 ms). Alle PASS im Nachbau.
+
+3) SH-V3 / AHS-V3: shared/GoldSentinelTest.lua Version 3 unverändert kopiert (cmp gleich). T277 prüft jetzt GT.version >= 2
+   (TestRoutine.lua 9091) – PASS mit Version 3. Mein TR:Check bleibt (wertet nil schon als FEHLER). Neue nil-FEHLER im Nachbau: keine.
+
+Nächste Schritte (Reihenfolge Supervisor): AHS-I3 (T126/T459) -> G14-a -> T750/T191.
+Im Spiel zu liefern (Nutzer): "testroutine server" mit 0.65.388 -> Felder vollscan_luecke (Lua gesamt …, während der Messung …),
+  vollscan_probe, vollscan_fps.
