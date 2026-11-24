@@ -499,3 +499,21 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     Umgebungsmessung (TS-U1) steht im Bericht. TS-L3, TS-L6, TS-U1: im Spiel ohne FEHLER -> ERLEDIGT. Offen nur die Hand-Punkte der Prüfliste
     (Kampf, Era/TBC) und die Fenster-Prüfung (läuft beim nächsten Spielfenster von selbst).
 
+>>> TS-M1 MESSUNG NORMAL – Wunsch des Nutzers 24.11.2026 13:33 ("lass uns das messen"): Aggro an den Namensplaketten in Forever trotz geschützter Werte?
+    Frage des Nutzers: Blizzard-Plaketten ausblenden und eigene zeigen, damit die Aggro dargestellt wird. Stand: In Forever ist die Bedrohung im
+    Kampf "secret" (ThreatAccess -> DISPLAY); ein Addon darf damit nicht rechnen oder vergleichen – eigene Plaketten hätten dieselben Werte.
+    NUR MESSEN, nichts an der Anzeige ändern. Als neuer Schritt der Testroutine (nur Entwicklermodus) bzw. Prüflisten-Punkt mit Anleitung für den
+    Nutzer (ein Kampf gegen einen Mob in Forever), Ergebnis in den Bericht:
+    (a) Durchreichen: geschützte Rückgabewerte von UnitDetailedThreatSituation / UnitThreatSituation (Prozent, Status) unverändert an
+        StatusBar:SetValue bzw. FontString:SetText und SetFormattedText eines eigenen, unsichtbaren Test-Rahmens geben – je in pcall. Messen: geht
+        es ohne Lua-Fehler, ohne ADDON_ACTION_BLOCKED, ohne Taint (danach /ts test: Blocked none)? Zeigt der Balken/Text danach etwas Sinnvolles?
+        Gibt es im Forever-Client eine Blizzard-Funktion, die einen geschützten Wert in eine Farbe umsetzt (z. B. C_CurveUtil/ColorCurve o. ä.)?
+        Nur feststellen, ob vorhanden (type(...)), nicht raten.
+    (b) Blizzard-eigene Aggro an der Plakette: Gibt es am UnitFrame der Plakette "aggroHighlight" (bzw. ThreatIndicator o. ä.) in Forever, und wird
+        es im Kampf von Blizzard gezeigt (IsShown), wenn der Mob nicht an mir hängt? Welche CVars steuern das (z. B. ShowNamePlateLoseAggroFlash,
+        nameplateShowFriendlyThreat … – nur lesen, nicht ändern; vorhandene Namen per C_CVar.GetCVarInfo prüfen)? Wichtig: ThreatSentinel blendet
+        "aggroHighlight" bei gehaltenen Mobs heute selbst ab (HIDE_KEYS) – im Messschritt den Zustand VOR jeder eigenen Änderung lesen.
+    Ergebnis als Tabelle im Bericht (geht / geht nicht / nicht vorhanden, mit Belegzeile). Danach entscheidet der Nutzer über einen Umbau.
+    Aufwand und Folgen im Bericht kurz einschätzen: (b) einschalten, (a) Prozent-Anzeige ohne Farbentscheid, ausserhalb Forever Lebensbalken nach
+    Aggro einfärben, ganz eigene Plaketten.
+

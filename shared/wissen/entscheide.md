@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Folge |
 |---|---|---|
+| 13:33 | "lass uns das messen" (ThreatSentinel: Aggro an Namensplaketten in Forever trotz geschützter Werte; eigene statt Blizzard-Plaketten) | Messauftrag TS-M1 an ThreatSentinel (nur messen: Durchreichen geschützter Werte, Blizzard-Aggro der Plakette, CVars); Umbau-Entscheid danach beim Nutzer |
 | 10:48 | "ja bitte immer die neusten versionen installieren.." | Supervisor installiert jede neue veröffentlichte Addon-Version sofort auf dem Laptop (Forever-AddOns, Gerät verbunden), prüft jede Datei gegen die Zip und meldet /reload bzw. Neustart |
 | 08:25 | "bitte noch die neuste version des uploaders an meine offieziere senden aber bitte erst prüfen ob das schon passiert ist mit dem hinweiss: Wichtig bitte installieren.." | Geprüft: 2.3.19 ging 06:41 per Bot an die Offiziere, 2.3.20 (neueste, UP-ALT) noch an niemanden. = Freigabe zum Verteilen von 2.3.20 (RaidMaster wartete darauf). Supervisor schickt /uploader an_offiziere:True + /pn je Offizier mit dem Hinweis |
 | 07:22 | "wenn jemand nicht die neuste version drauf hatt die daten nicht mehr annehmen!" (Uploader) | Auftrag UP-ALT HOCH an RaidMaster (offen-raidmaster): alte Uploader dürfen das Daten-Repo nicht mehr ändern, Mindestversion = neueste, Meldung an Abgewiesene, Leser nur angenommene Rechner |
