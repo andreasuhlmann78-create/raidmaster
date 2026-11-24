@@ -6504,3 +6504,15 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     - Schritt "vollscan" bleibt wie er ist (zwei Scans nötig: Leck vs. normaler Zuwachs, Wiederverwendung erst ab dem 2. Scan; Spiel-Grenze 15 Min.).
       In der Anleitung/Hilfe der Testroutine einen Satz ergänzen: "Ein eigener Vollscan (Entwicklermodus) kurz vorher spart einen Scan und 15 Min."
     - Test im Nachbau: Schritt endet nach 180 s mit Bewertung wie bisher; Zeitlimit greift; Dauer der ganzen Routine vorher/nachher im Bericht.
+>>> AHS-CF1 HOCH – CurseForge zuerst. Entscheid des Nutzers 24.11.2026 19:19/19:21: "ich will erst eine gute version auf forge raus bringen" und zu T459
+    "aber bitte sei genau in deinen angben die qualität darf nicht leiden. 1 bitte" (1 = Ausnahme für T459).
+    NEUE REIHENFOLGE: (1) T750 und T191 (Oberfläche, Markt > Überfüllt; zuletzt 116 Befunde) beheben – sofort, vor allem anderen; (2) AHS-TR1
+    (Wächter 3 Min.) in dieselbe Version; (3) erst NACH der CurseForge-Veröffentlichung: V4-Messung, AHS-I3 Speicher-Umbau, G14-a.
+    T459-AUSNAHME FÜR CURSEFORGE – nur unter diesen Bedingungen (Supervisor prüft jede einzeln):
+    a) Im Ingametest der Kandidaten-Version sind ALLE Prüfungen ausser T459 ohne FEHLER (auch T750/T191, Sandbox, Teil server/berufe/händler).
+    b) Der Schritt "Vollscan zweimal" ist GRÜN: bleibender Zuwachs je Scan ≤ 10 MB (= kein Leck, gemessen, nicht angenommen).
+    c) T459 ist nicht schlechter als im letzten Ingametest vor der Ausnahme (Zahl wird aus dem Ingametest 0.65.391 übernommen) und es gibt kein Bild
+       über der harten Grenze, das dem Vollscan von AHSentinel zuzurechnen ist.
+    d) CHANGELOG EN/DE nennt nichts als "behoben", was T459 betrifft. Die Ausnahme gilt nur für T459 und nur für diese eine Veröffentlichung.
+    Speicher-Umbau (gemischte Ablage: Zahlen-Listen für Mindestpreis/Menge/Auktionen + Preisstufen als Text, Auspacken nur bei Bedarf) wird danach
+    als eigener Auftrag kommen – NICHT jetzt anfangen.

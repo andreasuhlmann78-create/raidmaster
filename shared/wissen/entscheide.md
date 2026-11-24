@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Folge |
 |---|---|---|
+| 19:21 | "ich will erst eine gute version auf forge raus bringen" + T459: "aber bitte sei genau in deinen angben die qualität darf nicht leiden. 1 bitte" | AHS-CF1: T750/T191 zuerst; CurseForge mit Ausnahme NUR für T459, wenn alles andere grün und "Vollscan zweimal" (kein Leck) gemessen grün; Speicher-Umbau erst danach. Ersetzt für T459 einmalig "CurseForge erst wenn alle Tests bestehen" |
 | 19:12 | "also 1 könnte man doch verkürzen? und 2 müssten amn son belassen" (AHS-Testroutine) | Wächter-Schritt 10 -> 3 Min. (AHS-TR1); Vollscan-Schritt bleibt (zwei Scans nötig) |
 | 14:09 | "wichtig ist das beide durch normale (spieler, meine offizeire) die daten liefern können über den uploader" (TS-M1, BS-M1) | Automatische Messung (nur lesen, billig) läuft bei allen Spielern ohne Entwicklermodus, Ablage in account-weiten SavedVariables -> Uploader; Befehle auf Abruf bleiben Entwicklermodus. Aufträge TS-M1-b, BS-M1-b (ersetzt die Wahl "nur Entwicklermodus" aus TS 2.5.28 / BS 0.9.64) |
 | 13:52 | "baue das...buffsentinel soll das prüfen...und was sonst noch möglich wäre.." (Reinigen in Forever wie Decursive) | Auftrag BS-M1 HOCH: messen (automatisch, nur lesen) + Klick-Raster für Forever bauen (sichere Knöpfe, ohne Auto-Zauber); Markierung nur wenn ohne eigenen Entscheid möglich; Raster erst nach bestandenem Ingametest standardmässig an |
