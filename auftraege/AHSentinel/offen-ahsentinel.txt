@@ -6406,3 +6406,14 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     AHS-V3 HOCH (im Nachbau belegt, 0.65.387 mit Version 3: 999 OK / 1 FEHLER): T277 prüft "GT.version == 2" (TestRoutine.lua 9089) und wird
     rot, sobald irgendein Addon Version 3 mitbringt. Auf ">= 2" ändern – in der nächsten Version, auch vor dem Kopieren. Dein TR:Check kann bleiben.
 
+>>> INGAMETEST 0.65.387 – 24.11.2026 07:48 (Laptop, Bericht vom Nutzer im Chat, Supervisor 08:15): 1128 OK · 9 FEHLER · 39 übersprungen (0.65.385: 54 FEHLER)
+    Teil 1 auto: 1029 OK, 4 FEHLER, Sandbox OK · Teil 2 UI: 6 OK, 1 FEHLER · Teil 3 Hilfe: bestanden (0 doppelt) · Teil 4 Sniper: 27 OK, 2 FEHLER ·
+    Teil 5 Wächter: bestanden (7 ms) · Teil 6 AH: T126 (9,5 ms, längste 16,2 ms) und T459 (23 214 KB) FEHLER = AHS-I3, unverändert offen ·
+    Teil 7–9 laufen von selbst. ALLE Teile "Sandbox OK".
+ AHS-I1: im Spiel bestätigt (Sandbox in allen Teilen OK) -> ERLEDIGT.
+ AHS-I2: von 49 auf 4 FEHLER in Teil 1. Einzelheiten der 4 (und Teil 2/4) fehlen noch – kommen mit dem Testbericht nach /reload (Uploader).
+    Erwartet: T750/T191 (UI, offen). Die übrigen 2 einzeln zuordnen, sobald der Bericht im Repo ist. AHS-I2 bleibt offen bis dahin.
+ AHS-I4-a dazu: Vollscan wieder 707 ms (Einlesen); Lua-Speicher 806 003 -> 999 633 KB (höchstens 1 001 942 KB) – der ganze Lua-Speicher des
+    Clients steht bei rund 1 GB. Verdacht, zu messen: welches Addon bzw. das Spiel hält ihn (Tabelle je Addon zu Beginn und Ende des Scans).
+ CurseForge bleibt gesperrt, bis die 4 FEHLER aus Teil 1 zugeordnet sind.
+
