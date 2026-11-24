@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Folge |
 |---|---|---|
+| 21:18 | "umsetzten" (Vorschlag Supervisor: Uploader-Mindestversion statt "nur neueste") | UP-MIN1 an RaidMaster: abgewiesen wird nur unter der Mindestversion; diese steigt nur bei Daten-/Format-/Prüf-/Sicherheitsänderungen. Ändert die Umsetzung von 07:22 (UP-ALT) |
 | 21:13 | Sniper/Wächter: Leuchten + Schlachtzugswarnung im Suchtakt ("so lange wie der refresh halt geht"; nur das Item, dessen Suche gerade fertig ist; "das gleiche natürlich für den wächter"; "ok pushen vor curse") | AHS-SG6 HOCH, Teil von AHS-CF1 (vor CurseForge); ersetzt SG1–SG3 vom 11.11. teilweise |
 | 20:48 | "nein der spieler darf rechtsklicke auf ein item und kann den wächter tipp so in den sniper übertragen wie vorgeschlagen. 1,2,3 und 5 sind gut" (AHSentinel Wächter/Sniper) | AHS-CF1-UI c): Wächter-Funde nur Tipps; Kauf nur nach Rechtsklick-Übernahme in den Sniper; direkter Kaufweg des Wächters kauft keine Funde mehr (ersetzt "Kaufweg bleibt" von 20:46) |
 | 20:43 | "was der wächter zeigt darf nicht automatisch im sniper fenster erscheinen...nur wenn jemand das bei item anwählt dass es so sein muss" (AHSentinel) | AHS-CF1-UI c): Wächter-Funde nie automatisch in der Sniper-Liste; nur nach ausdrücklicher Wahl am Item ein Sniper-Ziel. Kaufweg des Wächters (Knopf im Reiter Wächter, Wächter-Taste) bleibt wie heute (überdacht 20:45 auf "überdenken") |

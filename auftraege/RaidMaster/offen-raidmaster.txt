@@ -831,3 +831,15 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     FRAGE AN DEN NUTZER (offen): Jede neue Uploader-Version sperrt sofort alle älteren (UP-ALT, Entscheid 07:22) – auch bei reinen Text-Änderungen.
     Folge heute: 2.3.20 -> 2.3.21 -> 2.3.22 in 2 Std.; Laptop und Offiziere liefern nicht. Supervisor schlägt dem Nutzer vor: "Mindestversion"
     (wird nur erhöht, wenn sich Daten/Prüfung ändern) statt "neueste". Bis zum Entscheid: unverändert.
+>>> UP-MIN1 HOCH – Mindestversion statt "neueste" (Entscheid des Nutzers 24.11.2026 21:18: "umsetzten" auf den Vorschlag des Supervisors 21:17;
+    ändert die Umsetzung von UP-ALT, Entscheid 07:22 "wenn jemand nicht die neuste version drauf hat die daten nicht mehr annehmen")
+    1. Eine feste MINDESTVERSION des Uploaders (eine Stelle im Repo, z. B. RaidMasterUploader/mindestversion.txt oder Feld in daten.py), statt
+       "neueste veröffentlichte Version". Daten von Uploadern UNTER der Mindestversion werden abgewiesen wie heute (Meldung, Bot-PN wie D-UPALT).
+    2. Die Mindestversion wird NUR erhöht, wenn sich an Daten, Format, Prüfung oder Sicherheit etwas ändert (Begründung im CHANGELOG und Bericht:
+       "Mindestversion -> x, weil …"). Reine Text-/Anzeige-/Meldungs-Änderungen (wie 2.3.22 UP-MSG1) erhöhen sie NICHT.
+    3. Startwert begründen (Vorschlag: 2.3.21 = UP-AUTO1? nur wenn 2.3.20-Daten wirklich falsch/unsicher sind – sonst 2.3.20 = UP-ALT/UP-TAGE-a).
+       Belege im Bericht, welche Änderung seit welcher Version die Daten betrifft.
+    4. Meldungen anpassen: "liefert mit einem zu alten Uploader (unter x)" statt "nicht die neueste"; Hinweis "neuere Version verfügbar" bleibt
+       als Information (kein Abweisen).
+    5. Tests: unter Mindestversion -> abgewiesen; gleich/über Mindestversion, aber nicht neueste -> angenommen + Hinweis; Gegenprobe mit altem Verhalten.
+       Discord-Projekt (D-UPALT) und Supervisor-Werkzeuge, die "neueste" lesen, mit anpassen (Bericht nennt die Stellen).
