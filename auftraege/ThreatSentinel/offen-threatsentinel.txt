@@ -579,3 +579,8 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     - Alte Versionen: Daten mit Versionsnummer, damit die Prüfung alte Stände (Entscheid 07:22) aussortieren kann.
     - Tests: Nachbau ohne Entwicklermodus -> Messung läuft, Ablage in ThreatSentinelDB bzw. eure account-weite SV, keine Namen (Suche nach allen Gruppennamen im gespeicherten Text = 0 Treffer),
       Ringpuffer 20, Grösse; Option AUS -> nichts gespeichert. Im Bericht: wo genau in ThreatSentinel.lua die Daten stehen (Schlüssel), damit die Prüfung sie liest.
+>>> PRÜFUNG SUPERVISOR 24.11. 18:56 – ThreatSentinel 2.5.30 (TS-M1-b, Bericht 18:45): ANGENOMMEN, Daten aus dem Spiel offen. addon_check OK.
+    Code gelesen (Messung.lua): Sammeln an ns.db.m1Collect (Standard EIN), Befehle (a)/(c) hinter ns:RequireDev – richtig; kein UnitName/UnitGUID in
+    Messung.lua; Ablage ThreatSentinelDB.m1 (account-weit, kommt mit dem Uploader); Ringpuffer 20 nachgerechnet (27 − 20 = 7 zusammengefasst);
+    Grösse 17 318 ≤ 20 480 Byte. Zu zeigen mit echten Daten (nächste Lieferung des Uploaders): m1.cost.max ≤ 1 ms und over = 0 bei den Spielern;
+    head.v = 2.5.30 auch auf den Rechnern der Offiziere (sonst haben sie die Version nicht).

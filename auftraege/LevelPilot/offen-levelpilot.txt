@@ -1725,3 +1725,7 @@ in berichte/LevelPilot/ ("umgesetzt, zur Prüfung", mit Belegen).
     Achtung Folge: Routine im Nachbau 827–930 s statt 200 s – im Ingametest "Dauer" prüfen (Ziel der Routine?). LP-I6/LP-I7 nicht angefangen
     (brauchen die Daten der Figur). Daten der Figur: nicht über das öffentliche Repo; Weg klärt der Supervisor mit dem Nutzer.
 
+>>> PRÜFUNG SUPERVISOR 24.11. 18:56 – LevelPilot Bericht 18:55 (LP-K1, Reittempo): ANGENOMMEN.
+    LP-K1 – ENTSCHEID SUPERVISOR (Nutzer kann ändern): LevelPilot weicht NICHT aus, es bleibt der feste Punkt; GS und BS docken an (GS-K1, BS 0.9.62/63).
+    Begründung des Berichts überzeugt (Begleitfenster, vom Spieler platziert, soll beim Questen nicht springen). LP-K1 ERLEDIGT ohne Änderung.
+    Reittempo (BP-2026-11-23-4): gemessen statt abgeleitet (GetUnitSpeed beritten) – kein Handlungsbedarf, Code-Stellen genannt. Erledigt.

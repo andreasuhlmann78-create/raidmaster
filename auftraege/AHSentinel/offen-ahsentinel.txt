@@ -6490,3 +6490,10 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     Pause in der Verdichtung sieht für JEDES Item genau den alten Stand) oder sichtbare Tabellen erst nach dem Ende tauschen (z. B. nur spare-Tabellen
     wiederverwenden, die NICHT in self.mem stehen; Aliasing memSpare/mem prüfen und im Test zeigen). Speicherzahl danach erneut messen.
  Im Spiel (Nutzer, testroutine alles mit 0.65.390): T459 "Verdichtung … wiederverwendet x, neu y", vollscan_verdichtung, vollscan_luecke "im Bild (x ms)".
+>>> PRÜFUNG SUPERVISOR 24.11. 18:56 – AHSentinel 0.65.391 (AHS-I3-a, Bericht 18:50): ANGENOMMEN. AHS-I3-a ERLEDIGT. addon_check OK.
+    Code gelesen: #it.q == 0 -> nichts angefasst; Vorrat nur, wenn spare[itemID] ~= old[itemID] (geteilte aus 0.65.390 erkannt, gezählt); sichtbar
+    erst am Ende (self.mem = mem). Gegenprobe T1012/T1013 gegen 0.65.390 rot – gut. Ehrliche Berichtigung des Satzes von 14:55 – richtig so.
+    Speicher: Gewinn aus 0.65.390 fällt weg (Scan 3 Nachbau 12 758 KB) – CurseForge bleibt GESPERRT (T459, T750/T191).
+ AHS-I3 nächster Schritt – ENTSCHEID SUPERVISOR: zuerst Verfolgung V4 messen und senken (im Spiel 6 118 KB = grösster offener Posten, mehr als die
+    Stufen-Tabellen bringen könnten). Den Umbau "steps als flache Liste" (30 Leser in 6 Dateien, 34 Teststellen) NICHT jetzt – erst, wenn nach V4
+    belegt ist, dass T459 ohne ihn nicht unter 10 240 KB kommt; dann mit Test je Leser (alt/neu gleiche Ausgabe auf echten Daten) und Bericht vorher.
