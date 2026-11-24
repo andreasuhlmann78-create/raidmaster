@@ -1718,3 +1718,10 @@ in berichte/LevelPilot/ ("umgesetzt, zur Prüfung", mit Belegen).
  Wegabschnitte: aufgezeichnet 0 (Stillstand 6 min) – braucht weiter eine Sitzung draussen.
  Reihenfolge: LP-I1 -> LP-I6 -> LP-I7 -> LP-I8.
 
+>>> PRÜFUNG SUPERVISOR 24.11. 14:10 – LevelPilot 3.13.13 (Bericht 13:57): ANGENOMMEN, Abnahme im Spiel offen. addon_check OK, auf dem Laptop installiert.
+    Ursachen nachvollzogen: Wegsuche in der virtuellen Reise lief in pcall ohne Abgabe (Navigation.lua:247 aus Virtual.lua:531) und LP.yieldOK wurde
+    je Portion gelöscht – belegt; T144 kalte Neuplanung nach QDB_CHANGED – im Nachbau belegt, im Spiel über "langeStuecke" zu bestätigen; LP-I8
+    questRate gehörte nicht zur Reise – belegt, Erholungsbonus als Verdacht mit Messung in T381 – richtig gekennzeichnet.
+    Achtung Folge: Routine im Nachbau 827–930 s statt 200 s – im Ingametest "Dauer" prüfen (Ziel der Routine?). LP-I6/LP-I7 nicht angefangen
+    (brauchen die Daten der Figur). Daten der Figur: nicht über das öffentliche Repo; Weg klärt der Supervisor mit dem Nutzer.
+
