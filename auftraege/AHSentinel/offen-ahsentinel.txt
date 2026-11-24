@@ -6528,6 +6528,10 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
       Der Code des Einlesens ist zwischen 0.65.389 und 0.65.390 unverändert. Verdacht, zu messen: Speicherbereinigung innerhalb einer Lese-Portion
       (T459: 52 Bereinigungen, 1 Bild über 40 ms mit Bereinigung) oder Hintergrund-Betrieb. Gehört zu AHS-CF1 Bedingung a): ursächlich belegen
       (Bereinigung ja/nein in diesem Bild ausweisen) und, falls AHSentinel, beheben.
+      Nachtrag Nutzer 19:34: während des Laufs 5–6× kurz ins Spiel gewechselt (Fenster in den Vordergrund). Die eigene Arbeit wird mit der Uhr
+      (debugprofilestop) gemessen – wird der Prozess beim Fensterwechsel kurz angehalten, zählt das mit. Weiterer Verdacht, zu messen: zeigt T458
+      nach einem Lauf OHNE Fensterwechsel wieder ~8 ms? Bitte im Bericht T458 so ausweisen, dass ein Fensterwechsel/Fokuswechsel im Bild erkennbar ist
+      (z. B. Bild-Zeitstempel gegen Ereignisse des Fokus, falls verfügbar) – sonst Wiederholung ohne Wechsel als Beleg.
     - T459: "3. Vollscan der Sitzung · angelegt 26 303 KB ohne gelesene Auktionen · Verdichtung 7054 Items: wiederverwendet 0, neu 7054 ·
       Zusammenfassungen 8 338 KB · Bestpreise 2 260 KB". BELEG: Mit 0.65.390 hätte jede Tabelle des letzten Scans (old) wiederverwendet werden
       müssen – 0 heisst, self.mem und memSpare waren LEER. Die Zählung "3. Vollscan der Sitzung" überlebt also etwas (/reload oder gespeichert), der
