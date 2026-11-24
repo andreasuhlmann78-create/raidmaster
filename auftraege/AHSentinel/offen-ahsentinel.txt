@@ -6717,3 +6717,17 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     3. Prüfen: Workflow curseforge.yml grün, curseforge/uploaded.json enthält 0.65.393, Datei auf curseforge.com/wow/addons/ahsentinel/files sichtbar
        (kann wegen Freigabe durch CurseForge dauern), Changelog dort mit "Wichtiges Update". Bericht in berichte/AHSentinel/.
     Danach weiter: AHS-SP1 (Speicher-Lösung) als nächster Schritt (Entscheid 19:56), dann AHS-SG6-a, CF1-UI-a1, AHS-UMG1.
+>>> PRÜFUNG SUPERVISOR 24.11. 22:28 – AHS-CF2 (Commits e9667dc, 65664f5): UMGESETZT, Upload belegt – Sichtbarkeit auf curseforge.com noch offen.
+    Belegt: Workflow "CurseForge-Upload" 45490675041 grün (21:23Z, 1m33s); curseforge/uploaded.json AHSentinel = [... 0.65.354, 0.65.393];
+    download/AHSentinel-0.65.393.zip da; curseforge/AHSentinel-changelog-0.65.393.md beginnt mit "WICHTIGES UPDATE – bitte aktualisieren /
+    IMPORTANT UPDATE – please update", Deutsch zuerst, dann Englisch – wie vom Nutzer verlangt. curseforge.com konnte der Supervisor jetzt nicht öffnen
+    (Seite verweigert Abruf, Browser nicht verbunden) -> Sichtbarkeit und Changelog dort noch prüfen (Freigabe durch CurseForge kann dauern).
+    OFFEN: download/AHSentinel-0.65.354.zip erst nach belegter Sichtbarkeit entfernen (README zeigt schon 0.65.393).
+>>> AHS-SP1 JETZT STARTEN – Entscheid des Nutzers 24.11.2026 22:22: "wenn du fertig bist den speicher in angriff nehmen, so wie wir es besprochen haben".
+    CurseForge ist hochgeladen -> AHS-SP1 ist ab sofort der nächste Schritt, genau nach dem Plan oben (Prüfung 19:16): Zahlen-Listen min/qty/auc
+    (zwei Sätze im Wechsel, Austausch erst in VS:Finish), Preis-/Restzeit-Stufen als Text im EncodeLadder-Format ohne Zwischentabellen, VS:Ladder packt
+    bei Bedarf aus (Zwischenspeicher je itemID, geleert je Scan), Format von db.lastOwnScan unverändert.
+    Reihenfolge PFLICHT: (1) Nachbau mit echten Daten (7054 Items, 343 518 Auktionen) messen – Speicher Scan 1/2/3, Bildzeiten, Tooltip/Detail,
+    A:VendorDeals, Forecast; (2) Gleichheitstest alt = neu für ALLE Items (VS:Ladder, VS:Queue, A:OfferLadder, A:VendorSteps, A:ResalePrice, feedItems);
+    (3) Bericht mit den Zahlen VOR dem Einbau – der Supervisor gibt frei; (4) Einbau, Version, Ingametest. Kein Schätzen: "~0,2 KB je Item" bleibt
+    Verdacht, bis gemessen. AHS-SG6-a, CF1-UI-a1, AHS-UMG1 danach.
