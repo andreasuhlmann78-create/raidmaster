@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Folge |
 |---|---|---|
+| 14:09 | "wichtig ist das beide durch normale (spieler, meine offizeire) die daten liefern können über den uploader" (TS-M1, BS-M1) | Automatische Messung (nur lesen, billig) läuft bei allen Spielern ohne Entwicklermodus, Ablage in account-weiten SavedVariables -> Uploader; Befehle auf Abruf bleiben Entwicklermodus. Aufträge TS-M1-b, BS-M1-b (ersetzt die Wahl "nur Entwicklermodus" aus TS 2.5.28 / BS 0.9.64) |
 | 13:52 | "baue das...buffsentinel soll das prüfen...und was sonst noch möglich wäre.." (Reinigen in Forever wie Decursive) | Auftrag BS-M1 HOCH: messen (automatisch, nur lesen) + Klick-Raster für Forever bauen (sichere Knöpfe, ohne Auto-Zauber); Markierung nur wenn ohne eigenen Entscheid möglich; Raster erst nach bestandenem Ingametest standardmässig an |
 | 13:35 | "er soll selbst messen sobald ein spieler in eine instanz geht oder auch aggro hat...er darf aber nichts verändern..." (TS-M1) | Messung läuft automatisch in Instanz/Kampf, NUR LESEN; Durchreichen und eigene Plaketten nur in der Testroutine auf Befehl |
 | 13:34 | "er soll messen was möglich ist.." (TS-M1) | alle Wege für Aggro-Anzeige in Forever messen (c–f) |

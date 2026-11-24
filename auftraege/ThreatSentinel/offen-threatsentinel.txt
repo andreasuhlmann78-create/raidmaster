@@ -562,3 +562,20 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     (a) jetzt Messwert statt Prüfung – richtig (Messung ≠ Prüfung). Die Frage "geht (a) in Forever?" beantwortet nur die echte Kampfmessung –
     offen beim Nutzer. Installiert 14:15.
 
+>>> TS-M1-b HOCH – Messung auch für normale Spieler und Offiziere, Daten über den Uploader (Supervisor 24.11. 14:11)
+    Entscheid des Nutzers 24.11.2026 14:09: "wichtig ist das beide durch normale (spieler, meine offizeire) die daten liefern können über den uploader".
+    Der Bericht wählte "nur Entwicklermodus" – das widerspricht dem Entscheid und wird hiermit geändert:
+    - Die AUTOMATISCHE Messung (nur lesen) läuft bei JEDEM Spieler, ohne Entwicklermodus, standardmässig an. Befehle auf Abruf
+      ((a) Durchreichen, (c) eigene Plaketten, Testroutine) bleiben nur im Entwicklermodus.
+    - Ablage in den account-weiten SavedVariables des Addons (ThreatSentinelDB bzw. eure account-weite SV), NICHT in einer Charakter-Datei: der Uploader liefert ThreatSentinel.lua
+      (belegt: daten.py ADDONS Zeile 82; alle 4 Rechner liefern die Datei heute schon). Charakterdateien kommen nicht an.
+    - Format wie die anderen Diagnosen: Kopfzeile mit Addon-Version, Client-Build, Datum; je Messung Quelle -> vorhanden/lesbar/geschützt/nil/Fehler,
+      Kosten (max ms, Anzahl Bilder > 1 ms), Anlass (Instanz/Kampf), Instanz-ID, Gruppengrösse, Klasse/Rolle. KEINE Spieler-, Gilden- oder Mobnamen-Listen
+      von Mitspielern (Repo der Daten ist privat, aber Regel bleibt).
+    - Begrenzen: höchstens die letzten 20 Messungen (Ringpuffer), ältere zusammengefasst (Zähler je Quelle). Datei darf dadurch höchstens um 20 KB wachsen.
+    - Billig und unsichtbar: ≤ 1 ms je Bild, je Kampf/Instanz einmal je Quelle, keine Meldung im Chat, kein Fenster, nichts verändert (Bit-für-Bit-Gegenprobe
+      wie beauftragt bleibt Pflicht). Bei Fehler in einer Quelle: pcall, Fehler als Messwert speichern, nie Lua-Fehler beim Spieler.
+    - Abschaltbar: Option "Messdaten für die Entwicklung sammeln" (Standard EIN, Text EN/DE: was gesammelt wird, keine Namen, kommt mit dem Uploader).
+    - Alte Versionen: Daten mit Versionsnummer, damit die Prüfung alte Stände (Entscheid 07:22) aussortieren kann.
+    - Tests: Nachbau ohne Entwicklermodus -> Messung läuft, Ablage in ThreatSentinelDB bzw. eure account-weite SV, keine Namen (Suche nach allen Gruppennamen im gespeicherten Text = 0 Treffer),
+      Ringpuffer 20, Grösse; Option AUS -> nichts gespeichert. Im Bericht: wo genau in ThreatSentinel.lua die Daten stehen (Schlüssel), damit die Prüfung sie liest.
