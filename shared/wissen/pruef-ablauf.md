@@ -265,3 +265,5 @@ die es dort gibt.
   Deutsch muss drin sein (Entscheid 15.11. 12:38). AHSentinel hatte seit Wochen nur Englisch, keine Prüfung hat es gemeldet.
 - E-Regel 24.11.2026 07:08 (AHS-I4-a): Folgert ein Bericht aus Messfeldern eine Ursache, ALLE Zahlen desselben Felds gegeneinander rechnen
   (hier: +104 907 KB im Bild gegen "ohne Addon −378 KB seit Scan-Beginn"). Widerspruch = Befund, Schluss nur als Verdacht.
+- E-Regel 24.11.2026 10:40 (D-ANN): Bevor dem Nutzer ein Punkt als "offen" gemeldet wird, den LETZTEN Eintrag dazu in offen-*.txt lesen
+  (grep Kürzel | tail). D-ANN1/D-ANN2 waren seit 23.11. 12:43 erledigt, wurden aber aus dem eigenen Stand als offen gemeldet.

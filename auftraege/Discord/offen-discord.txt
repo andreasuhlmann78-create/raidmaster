@@ -460,5 +460,17 @@ SICHERHEIT (Pflicht, Repo ist öffentlich):
     Code gelesen: Quelle der neuesten Version = uploader.py (wie /uploader), stand.json aus sicherung UND main (grösste "zeit"), Zuordnung nur im
     Bot, Gäste/Bots nie, 1 PN je Rechner und Version (state "upalt_pn"), /uploader merkt geschickte Version, erster Lauf 2.3.20 = alle informiert
     (Sendungen 08:37). Zugang aus daten_config.json nur im Speicher, nie ausgegeben. D-UPALT: im Betrieb erst ab Uploader 2.3.21 sichtbar –
-    dann #bot-log-Zeile "Alter Daten-Uploader (neueste …): n PN geschickt" im Bericht belegen. Offen bleiben D-ANN1/D-ANN2 HOCH.
+    dann #bot-log-Zeile "Alter Daten-Uploader (neueste …): n PN geschickt" im Bericht belegen. (Korrektur 10:40: D-ANN1/D-ANN2 sind seit
+    23.11. 12:43 ERLEDIGT – die Zeile "offen" war ein Fehler des Supervisors.)
+
+>>> NACHPRÜFUNG SUPERVISOR 24.11. 10:40 – D-ANN1/D-ANN2 (Wunsch des Nutzers 10:26 "lass das prüfen"): weiter in Ordnung.
+    Tests selbst gelaufen: test_announce_d_ann2 OK, test_announce_restore OK. Code ankuendigung_bot.py: remove_deleted_announcements löscht nie
+    (nur #bot-log-Meldung einmal je Datei); check_announcements postet nie eine Version <= der neuesten geposteten derselben Reihe (Meldung in
+    #bot-log). Workflow announce-guard.yml läuft grün (zuletzt 24.11. 07:49 UTC).
+ D-CHK1 MITTEL (neu): Die Discord-Prüfung (discord-check/status.md, 08:24 UTC) ist ROT "es fehlt etwas": 26 × "veraltet" – genau die 33 am 23.11.
+    wiederhergestellten Ankündigungen (buffsentinel/guildsentinel *-0-vorstellung-*.md, levelpilot-uebersicht-3.12.94.md …), Abdeckung 61–98 %.
+    Ihre Beiträge sind im Discord nicht mehr bzw. in anderer Fassung da; D-ANN2 postet sie richtigerweise nicht wieder. Damit bleibt die Prüfung
+    dauerhaft rot und verdeckt echte Fehler. Klären und belegen: (a) welche dieser Dateien sind wirklich die NEUESTE Fassung ihrer Reihe (dann fehlt
+    echt etwas im Discord -> Entscheid des Nutzers einholen, ob nachposten), (b) welche sind ältere Fassungen (dann muss check.py sie wie der Bot
+    überspringen – gleiche Reihen-Logik announce_series, ein Ort). Nichts löschen (Entscheid 11:36), nichts nachposten ohne Entscheid.
 
