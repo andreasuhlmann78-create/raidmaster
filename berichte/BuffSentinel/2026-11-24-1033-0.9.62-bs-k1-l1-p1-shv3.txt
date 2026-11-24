@@ -1,0 +1,62 @@
+BuffSentinel – Bericht an die Prüf-Sitzung · 0.9.62-bs-k1-l1-p1-shv3
+Datum: 24.11.2026, 10:33 (aus date)
+
+Version 0.9.62 – veröffentlicht (download/BuffSentinel-0.9.62.zip, announce/ Discord). Umgesetzt, zur Prüfung.
+
+SH-V3 – GoldSentinelTest Version 3 byte-gleich aus shared/ kopiert (addon_check: "shared gleich").
+  nil-FEHLER: Nachbau 8 Läufe (forever/era/tbc/retail × deDE/enUS, 244–245 Prüfungen) mit Version 3: 0 Prüfungen liefern nil,
+  also keine bisher verdeckten Fehler im Nachbau. Eigener Wrapper (SelfTest.lua R:Check über Unwrap) gibt die Rückgabewerte
+  mit Anzahl weiter (unpack(res, 2, res.n)) – SH-NIL greift also auch für alle C(R, …)-Prüfungen. Prüfungen, die nur im
+  Client laufen (K, Teile von B/J), zeigt erst der nächste Ingametest; jeder neue Text "Prüfung lieferte nil statt true" wird
+  dann einzeln zugeordnet.
+
+BS-K1 – Optionsfenster weicht beim Öffnen aus (Ursache: es stand fest in der Bildschirmmitte, 800×560, ohne jede Prüfung auf
+  andere Fenster; T141 hat den LevelPilot-Guide dort gefunden).
+  - UICheck.lua: U.Obstacles (offene Blizzard-Fenster aus BS.UI_BLIZZARD + sichtbare Fenster anderer GoldSentinel-Addons,
+    HUD wie der LevelPilot-Pfeil zählt nicht – dieselbe Liste wie T141), U.BestPlace (gleiche Rechnung wie ThreatSentinel
+    2.5.17 T-K2: neben jedem Hindernis, dann bündig; findet sie nichts, gibt es beweisbar keinen freien Platz), BS.UIAvoidOthers.
+  - Options.lua ToggleOptions: gespeicherte Lage setzen, zeigen, dann ausweichen. Nur für dieses Öffnen, BS.db.winPos bleibt.
+  - T141 nennt bei verbleibender Überdeckung, was das Ausweichen fand (freier Platz ja/nein, Bildschirm, Fenster, Rest).
+  - Neu T267 (K): Rechnung Mitte 0, zwei Hindernisse 0, kein Platz 74451 (Gegenprobe > 0); im Client zusätzlich ein Probe-
+    Fenster eines "anderen Addons" in der Mitte: Überdeckung ohne Ausweichen > 0 (Gegenprobe), mit Ausweichen 0, gespeicherte
+    Lage gleich. Nachbau mit Rechtecken (Bildschirm 1600×900 Bildpunkte, Skalierung 0.8, Guide rechts 480×640):
+    vorher 35313 Bildpunkte überdeckt, nachher 0, ganz im Bildschirm; LevelPilot-"Pfeil" (HUD) -> nicht verschoben;
+    Bildschirm ganz belegt -> frei nein, Rest gemeldet.
+  - Regression "BS-K1" (T141, T267) in Selftest.REGRESSIONS. T141/T162 grün: im Client zu belegen.
+
+BS-L1 – Kontrast. Ursache: Fusszeile "Rechtsklick auf den Minimap-Button…" Farbe 0.5/0.5/0.55 (4,35:1, im Spiel 4,37:1) und
+  Platzhalter im Suchfeld mit GameFontDisableSmall (Grau 0.5 = 4,29:1, im Spiel 4,32:1) gegen den hellsten Hintergrund
+  0.10/0.11/0.13 (Formel wie T266). Neu BS.HINT_R/G/B = 0.62/0.62/0.66 = 6,43:1 (nachgerechnet, WCAG-Formel).
+  Gesetzt für: Fusszeile, Suchfeld-Platzhalter, Bereichsspalte der Suchtreffer (Options.lua), Befehlsliste (CmdHint.lua
+  Beschreibung + "leer"), Spendenfenster-Hinweis (Donate.lua). Statische Suche über alle SetTextColor-Werte: übrig nur
+  Group.lua:276 (Name eines Spielers, der nicht erreichbar ist, absichtlich grau im Raster, anderer Hintergrund, nicht in T266).
+  - T266 läuft ohne echten Client nicht mehr rot, sondern wird ehrlich übersprungen wie T140–T145 (im Client unverändert:
+    0 geprüfte Texte = FEHLER). Sonst wäre T162 wegen der neuen Regression "BS-L1" im Nachbau immer rot.
+    Nachbau-Liste NACHBAU_ERWARTET ohne T266 (run_offline.lua).
+  - Beim Nachbau gefunden und vor dem Veröffentlichen behoben: Donate.lua heisst den Namensraum "ns" – erste Fassung mit "BS"
+    gab in T18/T52 "attempt to index a nil value". Endstand 8/8 PASS.
+
+BS-P1 – Rechenzeit (unter der harten Grenze 40 ms; Ziel 5 ms). Je Fall, Spielbetrieb ja/nein:
+  - T156 27,5 ms in EINEM Bild (längstes Bild). Inhalt: GoldSentinelSync.DiagLines + BS.DiagText (Diagnose-Protokoll).
+    Verdacht, zu messen: GoldSentinelMarkt.DiagLines entpackt jedes gespeicherte Item (6612 im Ingametest, Muster + 8× tonumber
+    je Item). Nachbau-Messung dieser Schleife mit 6612 Items: 6,4 ms (Lua 5.4 auf dem Server; im Spiel langsamer, Faktor nicht
+    belegt). Neu: T156 misst jeden Teil (sync0, pruefliste, marktzeile, markt, sync, gesamt) und gibt nach jedem Teil ein Bild ab
+    (nur in der Testroutine, Haken BS.DiagPart, im Spiel nil). Der nächste Ingametest belegt den teuren Teil. Ist es
+    "markt": gemeinsame Datei GoldSentinelMarkt (nicht unsere) – dann Befund an den Supervisor.
+    Spielbetrieb: ja, aber nur auf Befehl (/bsen protokoll) und beim Ausloggen/Reload (PLAYER_LOGOUT), je einmal, nie im Kampf-Takt.
+  - T25 285 ms gesamt, längstes Bild 12,6 ms: 110 einzelne Klicks Grösse/Abstand, je Klick schon ein Bild. Neu: Ergebnis nennt
+    den längsten einzelnen Klick (Nachbau 1,7 ms). Spielbetrieb: ja, ein Klick in den Optionen bzw. Anordnen-Leiste – einmalig.
+  - T92 127 ms (Beschädigte Einträge a–l): nur Testaufbau. Spielbetrieb: nein (im Spiel einmal beim Laden die Prüfung der Daten).
+  - T27 108 ms (Testmodus alle Klassen, 27 Schritte, je Schritt ein Bild): nur Test. Spielbetrieb: ein Klassenwechsel im Testmodus
+    = ein Schritt.
+  - T259 36 ms (jede alte Option genau einmal): nur Test. Spielbetrieb: nein.
+  - T18 28 ms (Slash-Befehle, schon in Portionen): Spielbetrieb: ja, je Befehl einmal.
+  - T179 24 ms (MN4 ohne Auktionshaus-Schnittstelle): nur Test. Spielbetrieb: nein.
+  - T48 23 ms (18 Schalter an/aus): Spielbetrieb: je Klick ein Schalter.
+  - Bilder über 5 ms: T16 13,1 (vier Einstellungen in einem Bild) -> jetzt nach jeder Einstellung ein Bild; T35 9,7 und T37 7,7
+    -> Portionen zwischen den Schritten. Wirkung im nächsten Ingametest (T250, Zeile "über 5 ms").
+
+Noch offen (unverändert): T149 Ursache (Lauf auf dem PC zu Hause), T249 Zeilenmessung im Spiel, Prüfliste von Hand, T247/T258.
+Belege: Nachbau 8/8 PASS (245 Prüfungen forever, 244 sonst; TU-FEHLER 0; Abweichungen nur T13 T23 T28 T45 T51 T95);
+  addon_check 0.9.62 OK, 1 WARNUNG: Lua-Syntax nicht geprüft (lupa in dieser Umgebung nicht installierbar) – alle Dateien wurden
+  im Nachbau geladen und ausgeführt; die volle Prüfung macht der GitHub-Lauf.
