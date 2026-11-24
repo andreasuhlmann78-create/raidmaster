@@ -1,0 +1,46 @@
+ProfessionSentinel 0.9.81 – umgesetzt, zur Prüfung
+Bezug: offen-professionsentinel.txt – Ingametest 0.9.80 (PS-I1..I8). Neu: Nachbau mit echten Daten des Laptops + AHSentinel 0.65.388
+(tests/nachbau_echt.py, jetzt mit --area und Bericht aus db.autotest.last).
+
+PS-I5 HOCH (T297 Gegenprobe) – Ursache NICHT belegt, Verdacht, zu messen.
+ - Offline und Nachbau mit echten Daten (Bereich B): T297 grün. Offline unterscheidet sich die neue Liste in jeder Rezeptzeile
+   (Feld rank 150/151) -> neue Liste.
+ - Die Meldung nennt jetzt jeden Teil: Liste neu ja/nein, Zahl der Aufbauten, behalten, Stufe, Grund, erster Unterschied.
+   Der nächste Ingametest zeigt, welcher Teil im Spiel fehlt.
+
+PS-I1 HOCH (T134 65, T80 49/58, T258 49, T83 46, T145 44, T229 43, T260 41 ms "unser Code") – Ursache je Fall NICHT belegt.
+ - Nachbau voller Lauf mit echten Daten: T134 76 ms, T38 63 ms; Bereich G allein: T134 16 ms (hängt vom Zustand nach den
+   früheren Bereichen ab). Bereich B: längste Portionen T192 36 / T297 33 / T83 36 ms, Stapel im Moment der Überschreitung
+   Advisor (GoldRanking/SourceScore), PriceSource/Prices, UI.SlotGroup – keine Stelle ohne Abgabe gefunden.
+ - Neu: die Zeile "zerlegt" nennt im Etikett das Stück des Schritts (T134: jeder Aufruf der Liste, BuildViews: "Ansicht <Reiter>").
+   Damit ist im nächsten Ingametest belegt, welcher Aufruf die 65 ms braucht.
+
+PS-I6 MITTEL (T33 "Händlerware 10c: 9") – belegt, behoben.
+ - P.VendorBuy fragt zuerst AHSentinel (GetVendorBuyPrice = gemessener Kaufpreis). Gespeicherte Daten AHSentinel vendorBuy[2320] = 9
+   (Grobes Garn, Liste 10c, 10 % Ruf-Rabatt beim Händler). Die Rechnung selbst stimmt: mit 9c Kosten. T33 prüft unsere Rechnung mit den
+   Listenpreisen und lädt jetzt kein Preis-Addon (S.NoPriceAddons). Danach alle 6 Fälle grün.
+
+PS-I7 MITTEL (T243 "keine Top-Zeile", Regressionen N0.9.37-2/N0.9.38-3/N0.9.39-1) – belegt, behoben.
+ - Im Nachbau mit echten Daten nachgestellt (T243 identisch, dazu T276 "keine Rezeptzeilen"). Die neue Meldung zeigte: die ersten
+   19 sichtbaren Zeilen sind alle "Info" – Blöcke "Rezept-Alarm" (aktuelle Preise aus AHSentinel) und "Rezepte in deinen Taschen".
+   Sie stehen oben im Reiter Rezepte; die Tests sehen nur sichtbare Zeilen. T243 und T276 starten jetzt ohne diese zwei Blöcke
+   (S.NoAlarmBlocks). Nachbau danach: zu messen im nächsten Lauf; offline grün.
+
+PS-I2 MITTEL (T219 "nil 12,05 s") – belegt, behoben.
+ - UI.RunPendingRefresh baute auch, wenn nichts angefragt war: der Zeitgeber einer schon gebauten Anfrage (die Routine leert die
+   Warteschlange selbst) lief später noch -> Aufbau ohne Anlass. Jetzt: nichts angefragt = nichts tun. Neue Prüfung in T219:
+   kein Aufbau ohne Anlass.
+ - Retail zeigte danach "Schluss-Aufbau 11,50 s, Heute herstellen 12,00 s": der Abstand von 2 s gilt jetzt auch nach dem Aufbau,
+   der eine Herstellungsserie abschliesst (UI.StartBuild setzt gapHold; die Kette endet mit dem ersten Aufbau ausserhalb).
+
+PS-I3 MITTEL (T85 "Beruf nil") – Ursache belegt aus den gespeicherten Daten: der Krieger (Stufe 30) hat keinen Beruf
+   (profs = {}); bei offenem Fenster ist "Öffne zuerst ein Berufsfenster" die richtige Antwort. T85 prüft dann Andocken und Knopf,
+   die Zeilen nicht (im Ergebnis vermerkt). Hat der Charakter einen Beruf, bleibt "keine Zeilen" ein FEHLER mit allen Angaben.
+   Frage an den Nutzer: welches Fenster war offen?
+
+PS-I8 MITTEL (T139 19,8 ms, T269 3,0 ms, WEGE 23,3 ms) – nicht umgesetzt (nächste Version). T269 offline unter Last 5,6 ms
+   (lua51, Smoketest daneben), allein grün: der Aufruf rechnet TD.Candidates mit Taschen und Gold jedes Mal neu.
+
+Tests: run_offline forever 252/0, era 233/0, retail 231/0, forever --lua51 252/0 (allein; unter Last T257/T269 Zeitgrenzen);
+check_actions OK; yield_check OK; Smoketest forever/era/retail AUTOTEST OK (FEHLER 29/26/26 = Mock-Grenzen); addon_check OK ohne WARNUNG. Zip md5 2a0637df29a4d71880f58022aaac8c72, Repo 9664ced.
+Offen beim Nutzer: Ingametest 0.9.81; welches Fenster war bei T85 offen; Entscheid Trefferquote (A/B/C); Messung SetCraftableCount.
