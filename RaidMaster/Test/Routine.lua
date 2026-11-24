@@ -3391,6 +3391,27 @@ local function AreaJ(t, G)
 		return true, string.format("%d Klassen, schlechteste %s %.2f:1 · Gegenprobe Rohfarbe Schamane %.2f:1 erkannt", n, wname, worst, raw)
 	end)
 
+	-- RM-I2 Rest (3.0.43): Qualitätsfarben in Item-Links lesbar (nur Anzeige), Link selbst unverändert; Gegenprobe Rohfarben
+	t:Check("T202", "J", "Item-Qualitätsfarben in Anzeige lesbar, Link-Teil unverändert (Gegenprobe Episch/Selten roh)", function()
+		if not RM.ReadableText then return false, "RM.ReadableText fehlt", "vorhanden" end
+		local function C(hex) return tonumber(hex:sub(1, 2), 16) / 255, tonumber(hex:sub(3, 4), 16) / 255, tonumber(hex:sub(5, 6), 16) / 255 end
+		local worst, raw = 99, 99
+		for _, hex in ipairs({ "9d9d9d", "ffffff", "1eff00", "0070dd", "a335ee", "ff8000" }) do
+			local link = "|cff" .. hex .. "|Hitem:16800::::::::60:::::|h[Test]|h|r"
+			local out = RM.ReadableText(link)
+			if out:gsub("^|cff%x%x%x%x%x%x", "") ~= link:gsub("^|cff%x%x%x%x%x%x", "") then return false, "Link verändert: " .. out, "nur Farbe" end
+			local r, g, b = C(out:match("^|cff(%x%x%x%x%x%x)"))
+			worst = math.min(worst, RM.Contrast(r, g, b, 0.16, 0.165, 0.2), RM.Contrast(r, g, b, 0.12, 0.125, 0.15))
+			local r0, g0, b0 = C(hex)                       -- (mitten in einer Argumentliste gäbe C() nur einen Wert)
+			raw = math.min(raw, RM.Contrast(r0, g0, b0, 0.16, 0.165, 0.2))
+			if hex == "ffffff" and out ~= link then return false, "lesbare Farbe geändert", "unverändert" end
+		end
+		if worst < 4.5 then return false, string.format("schlechteste %.2f:1", worst), "ab 4,5:1" end
+		if raw >= 4.5 then return false, string.format("Rohfarben %.2f:1", raw), "unter 4,5:1 (Gegenprobe)" end
+		if RM.ReadableText("ohne Farbe") ~= "ohne Farbe" then return false, "Text ohne Farbe verändert", "unverändert" end
+		return true, string.format("6 Qualitäten, schlechteste %.2f:1 · Gegenprobe roh %.2f:1 erkannt · Link-Teil gleich", worst, raw)
+	end)
+
 	-- 3.0.31 (Ingametest 17.11., T155): Tooltips verdecken keine Knöpfe – Platzierung neben, über, unter dem Fenster.
 	-- Nachgebaute Rahmen (Bildschirm 1000 x 800, Skala 1); geprüft wird, wohin UI.PlaceTooltip den Tooltip setzt.
 	t:Check("T190", "J", "Tooltip neben/über/unter dem Fenster (nie über Knöpfen)", function()
@@ -4554,7 +4575,7 @@ local function AreaL(t, G)
 			{ "TR-ALLE Sicherung", "T189" }, { "Tooltip-Platzierung (Ingame T155)", "T190" }, { "HUD-Ausnahme (Ingame T156)", "T191" }, { "Beschriftungen passen (Ingame T158)", "T192" }, { "Testdaten nie für andere Addons", "T193" },
 			{ "OPT-ALLE Optionen-Fenster", "T194" }, { "Spieler ohne Testbefehle", "T195" },
 			{ "DEV-SICHT Entwickler nur im Entwicklermodus", "T196" }, { "Werbung Platzhalter als ?", "T197" },
-			{ "Livedaten-Wächter Gegenprobe", "T198" }, { "Lesbarkeit L1/L8", "T199" }, { "Lesbarkeit Gegenprobe", "T200" }, { "RM-I2 Klassenfarben lesbar", "T201" }, { "RM-I1 Speicher je Addon", "T116" },
+			{ "Livedaten-Wächter Gegenprobe", "T198" }, { "Lesbarkeit L1/L8", "T199" }, { "Lesbarkeit Gegenprobe", "T200" }, { "RM-I2 Klassenfarben lesbar", "T201" }, { "RM-I2 Item-Qualitätsfarben lesbar", "T202" }, { "RM-I1 Speicher je Addon", "T116" },
 			{ "RM-TF-1 kein Fehlerfenster", "T120" }, { "T-BL4 echtes Eingabefeld", "T169" } }
 		local only = R.only
 		local have, missing = 0, {}

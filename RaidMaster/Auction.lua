@@ -264,7 +264,7 @@ function A.AskAward()
 	local c = A.current
 	if not (c and c.finished and c.highName) then return end
 	local f = AwardFrame()
-	f.text:SetText(string.format(L["%s an %s für %d DKP vergeben?"], c.link, c.highName, c.high))
+	f.text:SetText(RM.ReadableText(string.format(L["%s an %s für %d DKP vergeben?"], c.link, c.highName, c.high)))
 	f:Show()
 	f:Raise()
 end
@@ -597,7 +597,7 @@ function A.ShowBidFrame()
 		tex = t
 	end
 	bidFrame.icon.tex:SetTexture(tex or "Interface\\Icons\\INV_Misc_QuestionMark")
-	bidFrame.name:SetText(cl.link)
+	bidFrame.name:SetText(RM.ReadableText(cl.link))
 	bidFrame.status:SetText("")
 	bidFrame.input:SetText("")
 	if RM.Data.CanEquip(MyClass(), cl.link) then

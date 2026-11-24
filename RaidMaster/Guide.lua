@@ -184,7 +184,9 @@ function G.Build(parent)
 	function ui.Refresh()
 		local doneT = RM.db.config.guideDone
 		for i, b in ipairs(buttons) do
-			b:SetText((doneT[i] and CHECK or "|cff9a9a9a" .. i .. ".|r ") .. G.STEPS[i].title)
+			-- RM-I2 Rest: auf dem orangen Knopf des aktuellen Schritts war die graue Nummer 2,2:1 -> dort in Schriftfarbe
+			local numText = i == cur and (i .. ". ") or ("|cff9a9a9a" .. i .. ".|r ")
+			b:SetText((doneT[i] and CHECK or numText) .. G.STEPS[i].title)
 			if b.SetAccent then b:SetAccent(i == cur) end
 		end
 		local s = G.STEPS[cur]

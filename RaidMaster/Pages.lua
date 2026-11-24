@@ -404,7 +404,7 @@ UI.AddPage("auction", L["Versteigerung"], function(page)
 		local c = RM.Auction.current
 		local cl = RM.Auction.client
 		if c then
-			itemText:SetText(c.link)
+			itemText:SetText(RM.ReadableText(c.link))
 			local rem = math.max(0, math.ceil(c.endsAt - GetTime()))
 			local high = c.highName and string.format("%d DKP (%s)", c.high, c.highName) or L["noch keins"]
 			if c.finished then
@@ -413,7 +413,7 @@ UI.AddPage("auction", L["Versteigerung"], function(page)
 				infoText:SetText(string.format(L["Restzeit: %d Sek.  ·  Mindestgebot: %d  ·  Schritt: %d  ·  Höchstgebot: %s"], rem, c.min, c.inc, high))
 			end
 		elseif cl and not cl.ended then
-			itemText:SetText(cl.link)
+			itemText:SetText(RM.ReadableText(cl.link))
 			local rem = math.max(0, math.ceil(cl.endsAt - GetTime()))
 			local high = cl.highName and string.format("%d DKP (%s)", cl.high, cl.highName) or L["noch keins"]
 			infoText:SetText(string.format(L["Plündermeister: %s  ·  Restzeit: %d Sek.  ·  Höchstgebot: %s"], cl.ml, rem, high))

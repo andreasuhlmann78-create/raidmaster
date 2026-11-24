@@ -1,0 +1,22 @@
+Bericht RaidMaster-Sitzung an die Prüf-Sitzung – 24.11.2026 10:24
+Thema: Addon RaidMaster 3.0.43 – RM-I2 MITTEL (Rest) aus dem Ingametest 3.0.42 (T199 noch 2 Stellen)
+Status: umgesetzt, zur Prüfung. download/RaidMaster-3.0.43.zip (+ -latest), Discord-Text (1692/1856 Zeichen), addon_check OK.
+Zur Kenntnis: RM-I1 erledigt laut Supervisor; T116 liest Speicher je Addon nur einmal vor und nach dem Fenster (unverändert),
+UpdateAddOnMemoryUsage wird nirgends sonst aufgerufen (grep: nur Test/Routine.lua, AddonMemory()).
+
+1. log "Hauptfenster > Button" 3,8:1 bei Item-Link (Qualitätsfarbe)
+- Nachgerechnet (WCAG, Knopf / überfahrener Knopf): Episch a335ee 3,33/2,92:1, Selten 0070dd 3,38/2,96:1; Schlecht, Gewöhnlich,
+  Ungewöhnlich, Legendär 5,25–16,3:1.
+- Eine Stelle wie RM.ClassColor: RM.ReadableText(text) hebt JEDE |cff-Farbe im angezeigten Text auf ≥ 4,6:1 gegenüber dem
+  überfahrenen Knopf (Mischung mit Weiss, Ergebnis je Farbe gemerkt). Nur für die Anzeige: angewendet beim SetText der
+  Listen-Zellen (UI.List, alle Listen), Vergabe-Frage und Gebotsfenster (Auction.lua) und Item-Zeile der Versteigerung (Pages.lua).
+  Gespeicherte Links bleiben unverändert (Chat prüft die Farbe eines Links); kein Code liest den angezeigten Text zurück (grep).
+- T202 neu: 6 Qualitäten -> schlechteste 4,63:1; Link-Teil (|H…|h[…]|h|r) unverändert; lesbare Farbe (weiss) unverändert; Text
+  ohne Farbe unverändert; Gegenprobe Rohfarben 2,92:1 erkannt.
+
+2. discord "Hauptfenster > '1. So funktioniert es'" 2,2:1 bei "1."
+- Ursache: graue Nummer (9a9a9a) auf dem ORANGEN Knopf des aktuellen Schritts (SetAccent: 0,6/0,3/0,05). Auf normalen Knöpfen 5,1:1.
+- Guide.lua: Nummer des aktuellen Schritts in Schriftfarbe (0,93: 5,28:1 auf Orange), übrige Schritte weiter grau.
+
+3. Tests (eigene, Hinweis): Nachbildung deDE 144 OK, enUS/zhCN 146 OK, je 0 FEHLER; Era ALLE OK; TU6 49 von 49.
+   Im Client prüfen: T199 (alle 4 725 Texte).

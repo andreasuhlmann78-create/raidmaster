@@ -11,6 +11,11 @@ INSTALLATION
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
 
+NEU IN 3.0.43 – Item-Farben lesbar
+- Item-Links in Listen, Versteigerung und Vergabe: Episch- und Selten-Farben werden in der Anzeige leicht aufgehellt (mindestens
+  4,5:1 Kontrast). Der Link selbst bleibt unverändert (Chat, Klick, Tooltip wie bisher).
+- Discord-Anleitung: die Nummer des aktuellen Schritts ist auf dem orangen Knopf gut lesbar.
+
 NEU IN 3.0.42 – besser lesbar
 - Klassenfarben in Namen sind überall gut lesbar: zu dunkle Klassenfarben (z. B. Schamane) werden leicht aufgehellt,
   bis sie auf jedem Knopf mindestens 4,5:1 Kontrast haben. Grau- und Rottöne in Listen und Meldungen etwas heller.

@@ -19,8 +19,8 @@ RM.GLOBAL = setmetatable({}, {
 })
 RaidMaster = RM.GLOBAL
 
-RM.VERSION = "3.0.42"
-RM.VERSION_NUM = 30042
+RM.VERSION = "3.0.43"
+RM.VERSION_NUM = 30043
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------
@@ -447,6 +447,23 @@ function RM.Readable(r, g, b)
 		t = t + 0.01
 	end
 	return r + (1 - r) * t, g + (1 - g) * t, b + (1 - b) * t
+end
+
+-- RM-I2 Rest (3.0.43, Ingametest 3.0.42 T199): auch Qualitätsfarben von Item-Links (Episch a335ee 2,9:1, Selten 0070dd
+-- 3,0:1 auf überfahrenem Knopf) und jede andere |cff-Farbe in angezeigtem Text über dieselbe Stelle anheben. Nur für die
+-- ANZEIGE (SetText); die gespeicherten Links bleiben unverändert (Chat prüft die Qualitätsfarbe eines Links).
+local readHex = {}
+function RM.ReadableText(text)
+	if type(text) ~= "string" or not text:find("|c", 1, true) then return text end
+	return (text:gsub("|c(%x%x)(%x%x%x%x%x%x)", function(alpha, hex)
+		local out = readHex[hex]
+		if not out then
+			local r, g, b = RM.Readable(tonumber(hex:sub(1, 2), 16) / 255, tonumber(hex:sub(3, 4), 16) / 255, tonumber(hex:sub(5, 6), 16) / 255)
+			out = string.format("%02x%02x%02x", math.floor(r * 255 + 0.5), math.floor(g * 255 + 0.5), math.floor(b * 255 + 0.5))
+			readHex[hex] = out
+		end
+		return "|c" .. alpha .. out
+	end))
 end
 
 local classHex = {}

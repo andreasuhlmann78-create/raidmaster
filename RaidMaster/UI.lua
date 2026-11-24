@@ -635,7 +635,7 @@ function UI.List(parent, width, height, columns, opts)
 			row.index = idx
 			if d then
 				for c, fs in ipairs(row.cells) do
-					fs:SetText(d.cells[c] or "")
+					fs:SetText(RM.ReadableText(d.cells[c] or ""))   -- RM-I2: Item-/Klassenfarben lesbar (nur Anzeige)
 					local col = d.colors and d.colors[c]
 					if col then fs:SetTextColor(col[1], col[2], col[3]) else fs:SetTextColor(unpack(COLORS.text)) end
 				end

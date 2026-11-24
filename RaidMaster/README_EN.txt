@@ -23,6 +23,11 @@ MAIN FEATURES
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
 
+WHAT'S NEW IN 3.0.43 – readable item colours
+- Item links in lists, auction and award: epic and rare colours are lightened slightly for display (contrast at least
+  4.5:1). The link itself is unchanged (chat, click, tooltip as before).
+- Discord guide: the number of the current step is readable on the orange button.
+
 WHAT'S NEW IN 3.0.42 – easier to read
 - Class colours in names are readable everywhere: class colours that are too dark (e.g. shaman) are lightened slightly
   until they have a contrast of at least 4.5:1 on every button. Grey and red tones in lists and messages a bit lighter.
