@@ -542,3 +542,10 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
       Wahl und warum.
     - Gegenprobe im Nachbau: nach einem gemessenen Kampf sind Plaketten, CVars, Fenster und gespeicherte Einstellungen Bit für Bit unverändert.
 
+>>> PRÜFUNG SUPERVISOR 24.11. 14:00 – ThreatSentinel 2.5.28 (TS-M1 Messung, Bericht 13:46): ANGENOMMEN, Ergebnis im Spiel offen. addon_check OK.
+    Automatisch nur lesen (Instanz: CVars + Namen per type(); Kampf: jede Quelle einzeln, ein Durchlauf in einem Bild, Kosten gemessen), Kampflog in
+    Forever bewusst nicht angemeldet (würde "geblockt" auslösen) – richtig. (a) und (c) nur auf Befehl /ts messung kampf im Entwicklermodus, mit
+    Rückstellung im selben Bild und Zählung gesperrter Aktionen – entspricht dem Entscheid 13:35. Nur im Entwicklermodus: Begründung nachvollzogen.
+    Auf dem Laptop installiert 14:00 (neue Datei Messung.lua -> WoW neu starten). Erwartet im nächsten Bericht: Tabelle je Weg (geht / geht nicht /
+    nicht vorhanden + Belegzeile) aus echtem Kampf in Forever, Kosten je Bild ≤ 1 ms.
+
