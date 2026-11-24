@@ -1729,3 +1729,12 @@ in berichte/LevelPilot/ ("umgesetzt, zur Prüfung", mit Belegen).
     LP-K1 – ENTSCHEID SUPERVISOR (Nutzer kann ändern): LevelPilot weicht NICHT aus, es bleibt der feste Punkt; GS und BS docken an (GS-K1, BS 0.9.62/63).
     Begründung des Berichts überzeugt (Begleitfenster, vom Spieler platziert, soll beim Questen nicht springen). LP-K1 ERLEDIGT ohne Änderung.
     Reittempo (BP-2026-11-23-4): gemessen statt abgeleitet (GetUnitSpeed beritten) – kein Handlungsbedarf, Code-Stellen genannt. Erledigt.
+>>> ENTSCHEID SUPERVISOR 24.11. 18:58 – Frage T31/T32 "einmal neu planen" (Vorschlag Bericht 19.11. 13:20): JA, mit Bedingungen (LP-T31):
+    - T31/T32 setzen die Schalter/Stepper ohne Neuplanung je Schalter; Neuplanung einmal am Ende. Gespeicherte Einstellungen danach Bit für Bit wie vorher.
+    - Was je Schalter geprüft wird, bleibt: Wert gesetzt, ApplySettings bzw. die Wirkung des Schalters gerufen (Zähler), Anzeige richtig.
+    - Neuplanung je Schalter bleibt für eine Stichprobe von 3 Schaltern, die die Planung wirklich ändern (Ergebnis vorher/nachher verschieden) – damit
+      der Weg "Schalter -> Neuplanung" weiter geprüft ist.
+    - Messen und im Bericht: Zuwachs T31/T32 (vorher 80/59 MB), längstes Bild T31/T32 (vorher bis 1 219/5 289 ms), Dauer der ganzen Routine vorher/nachher.
+    Reihenfolge: nach den laufenden HOCH-Punkten, zusammen mit "Dauer der Testroutine".
+ LP-K1: Entscheid Supervisor 18:56 (nicht ausweichen) – vom Nutzer 18:57 nicht widersprochen; bleibt so, bis der Nutzer anders entscheidet.
+ Charakterdatei (LP-I6/LP-I7): Weg wird mit dem Nutzer geklärt – NIE ins öffentliche Repo.
