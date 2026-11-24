@@ -1,0 +1,73 @@
+BuffSentinel – Bericht an die Prüf-Sitzung · 0.9.64-bs-m1-reinigen-forever
+Datum: 24.11.2026, 14:08 (aus date)
+
+Version 0.9.64 – veröffentlicht (download/, announce/ Discord). Umgesetzt, zur Prüfung. Nicht auf CurseForge (BuffSentinel nicht in projects.json).
+
+BS-M1 TEIL A – MESSEN (neue Datei Messung.lua, Muster ThreatSentinel TS-M1)
+- Nur Entwicklermodus (wie TS-M1: Ergebnisse kommen nur über das Diagnose-Protokoll des Entwicklers zur Prüfung; bei anderen Spielern
+  nur Kosten ohne Nutzen). Nie während der Testroutine (T264: keine Livedaten ändern). NUR LESEN: kein Ziel, kein Zauber, keine CVar,
+  keine Blizzard-Rahmen verändert, nichts gesendet.
+- Automatisch: (1) Instanz betreten, einmal je Instanz-ID, 2 s danach; (2) Kampf, einmal je Kampf, 3 s nach Kampfbeginn;
+  (3) UNIT_AURA im Kampf: nur zählen + EINMAL die Art von updateInfo und der Felder der ersten neuen Aura.
+- Quellen einzeln, je für "player" und ein anderes Gruppenmitglied: C_UnitAuras.GetAuraDataByIndex (HARMFUL) und (HARMFUL|RAID),
+  GetAuraSlots + GetAuraDataBySlot, GetUnitAuras, GetAuraDataByAuraInstanceID (mit einer ID aus Index/UNIT_AURA, falls lesbar),
+  AuraUtil.ForEachAura, UnitDebuff/UnitAura. Ergebnis je Quelle: fehlt / Fehler(gesperrt) / nil / Art jedes Felds (name, icon,
+  dispelName, spellId, auraInstanceID, isHarmful, expirationTime: geschützt oder lesbar(Typ)). Dazu Zustand (Kampf, Sperre,
+  C_Secrets.ShouldAurasBeSecret), Blizzard-Gruppenrahmen (CompactPartyFrameMember1–5, CompactRaidFrame1–40: gezeigt, mit Debuff,
+  mit bannbarem Debuff – nur IsShown), bei Instanz/Befehl zusätzlich vorhandene Namen (22), CVars (9, nur lesen), Rahmen (5).
+- Je Quelle ein eigenes Bild (C_Timer.After 0), Kosten je Bild gemessen und gespeichert (max, Anzahl > 1 ms).
+- Befehl /bsen reinigen messen (Entwicklermodus): alles sofort + "Anzeige ohne eigenen Entscheid": Symbol einer Aura an eine eigene,
+  nie gezeigte Test-Textur (SetTexture ok/Fehler, im selben Bild zurückgesetzt), Farbe über C_UnitAuras.GetAuraDispelTypeColor
+  falls vorhanden. Nur auf Befehl, nicht automatisch.
+- Ablage BuffSentinelDB.m1 (höchstens 12 Durchläufe), Ausgabe im Diagnose-Protokoll ("BS-M1 Messung Reinigen …", neueste 6).
+  Keine Namen: nur Einheiten-Art (player/party/raid) und Klassen-Kürzel, Gruppe als "party 3"/"raid 12".
+- Prüfung T269 (Nachbau): Quellen nachgestellt (Index wirft, RAID-Filter liefert geschützten Namen + lesbaren Typ, Slots, fehlende
+  Funktionen): "Index: ich Fehler(gesperrt) · RAID-Filter: ich name=geschützt … dispelName=lesbar(string) …", keine Namen, Kosten
+  gezählt, während der Testroutine nicht automatisch, UNIT_AURA zählt nur Gruppen-Einheiten (nameplate1 nicht).
+  Ergebnisse aus dem echten Spiel: liegen noch nicht vor – erst der Ingametest (T270) und ein Kampf in einer Gruppe liefern sie.
+
+BS-M1 TEIL B – BAUEN (Dispel.lua, Options.lua, Display.lua, Core.lua)
+- Klick-Raster für Forever (Option "Klick-Raster (Forever)" in Optionen > Anzeige, dev = true, Standard AUS – wie beauftragt erst nach
+  bestandenem Ingametest für alle). Je Gruppenmitglied ein SecureActionButton; Maustaste -> eigener Reinigungszauber der Klasse
+  (wie in Classic: Links/Rechts/Mitte). Ziel und Zauber NUR ausserhalb des Kampfes (LayoutDispel bricht bei InCombatLockdown ab);
+  im Kampf bleiben die Knöpfe stehen (HideAllForCombat lässt sie in diesem Modus stehen, Alpha 1). Kein Auto-Zauber, kein Zielwechsel.
+- Markierung: nur, wo die Auren lesbar sind (ausserhalb des Kampfes, ForEachAura mit AuraBlocked). Im Kampf: neutraler Knopf (Symbol des
+  ersten Reinigungszaubers), Zeile über dem Raster "Im Kampf: wer betroffen ist, zeigen die Blizzard-Gruppenrahmen", Tooltip erklärt es.
+  Kein Ton im Kampf (nur bei echtem Fund). Ob Teil A eine Markierung ohne eigenen Entscheid erlaubt, ist offen (Messung).
+- Namen im Kampf geschützt: der zuletzt lesbare Name bleibt stehen; ändert sich die Gruppe im Kampf, steht "?" (alter Name wäre falsch).
+- Seite Reinigen in Forever: klarer Text (was geht, was nicht, Blizzard-Einstellung "Nur bannbare Schwächungszauber anzeigen"),
+  Zustand des Rasters, eigene Reinigungszauber je Maustaste, Mausover-Makros "/cast [@mouseover,help,nodead][] <Zauber>" zum Kopieren.
+- Prüfung T268 (Nachbau, Sim "forever", Priester/Magier): Standard aus; eingeschaltet: Knopf mit unit=player, type1=spell,
+  spell1 = eigener Zauber; in der Kampfsperre ändert LayoutDispel kein Attribut; im Kampf Knopf gezeigt, Alpha 1, Hinweiszeile, kein
+  Ton; gespeicherte Daten unverändert (keine Namen); Priester 527, Magier 475 richtig; BS-T1-Texte. GEGENPROBE (Mutation in einer
+  Kopie): ohne die Kampfsperre in LayoutDispel und mit dem alten HideAllForCombat -> T268 FEHLER "lock,fight". 
+- T270 (im Client, Anleitung): Raster an, Gruppenmitglied mit Fluch/Gift/Magie, Klick im und ausserhalb des Kampfes -> Debuff weg, keine
+  Meldung "Aktion blockiert", kein Lua-Fehler; danach /bsen reinigen messen, Protokoll hochladen. Prüfliste (14 Punkte, voll) nicht ergänzt.
+- T32 angepasst (Forever mit Raster: Zauber vorhanden), T130 angepasst (Seite Reinigen hat in Forever den eigenen Text;
+  "kann nicht reinigen" nur, wenn die Klasse wirklich keinen Zauber hat). Regressionen "BS-M1 …" (T268, T269) in T162.
+
+BS-T1 – Texte (EN/DE, ein Text je Aussage)
+- NO_DISPLAY_OF_PROCS_COOLDOWNS: "Reinigen-Raster aus" ersetzt durch "beim Reinigen sieht BuffSentinel im Kampf nicht, wer betroffen ist".
+- IN_RETAIL_MIDNIGHT_DEBUFFS_ARE: Satz "gibt es nur in Classic und Forever" ersetzt durch "Darum ist das Reinigen-Raster in Retail aus."
+- DISPEL_GRID_OFF_IN_FOREVER (Grund für das Überspringen von T33) passend umformuliert. Neuer Text DISPEL_FOREVER_INFO für Forever.
+
+WAS SONST NOCH MÖGLICH WÄRE (Nutzer entscheidet; Aufwand geschätzt, Grundlage = Messung Teil A):
+1. Markierung im Kampf über den RAID-Filter oder GetAuraDataBySlot – nur falls die Messung zeigt, dass dispelName/auraInstanceID im Kampf
+   lesbar sind (Aufwand klein, 1 Version). Sonst nicht möglich.
+2. Geschütztes Symbol/Farbe an die eigenen Knöpfe durchreichen (ohne eigenen Entscheid) – nur falls "anzeige" im Befehl "SetTexture ok"
+   zeigt UND es eine Blizzard-Funktion für "hat einen bannbaren Debuff" gibt (Aufwand mittel). Ohne das zeigt ein Symbol nicht, WER.
+3. Blizzard-Raid-Rahmen ergänzen statt eigener Markierung: Hinweis/Knopf, die Einstellung "Nur bannbare Schwächungszauber" einzuschalten
+   (Nutzer klickt selbst; CVar setzen wir nicht) – Aufwand klein.
+4. Klick-Raster nach Untergruppen ordnen und Grösse/Reihenfolge wie die Blizzard-Rahmen (Aufwand klein).
+5. Tastenbelegung statt Maus (Bindings auf die Knöpfe, z. B. Shift+1–5) – Aufwand mittel, nur ausserhalb des Kampfes setzbar.
+6. Gegner entzaubern in Forever: eigener Messpunkt (Buffs auf dem Ziel im Kampf) – zurzeit wie Reinigen gesperrt; Aufwand klein für die Messung.
+
+Belege / Hinweise
+- Nachbau 8 Läufe (forever/era/tbc/retail × deDE/enUS): PASS; 248 Prüfungen forever, 247 sonst; T23 jetzt grün (Attrappe kennt GetAlpha),
+  aus der Liste der erwarteten Abweichungen genommen.
+- Flackern gefunden: T232 (TU4 Portionen < 8 ms) im Nachbau 2 von 6 Läufen rot (8,5 / 10,2 ms). Gleicher Startwert (seed 20261113):
+  0.9.63 5,8–7,9 ms, 0.9.64 4,9–7,1 ms in je 5 Läufen – also Wandzeit des Servers, keine Änderung dieser Version (Verdacht belegt durch
+  den Vergleich, Grenze 8 ms im Nachbau zu knapp). Im Spiel war T232 grün. Nicht geändert – Entscheid der Prüf-Sitzung, ob die
+  Nachbau-Grenze bleibt.
+- Beim Veröffentlichen: erste Zip ohne Messung.lua (meine Dateiliste) -> addon_check FEHLER, nichts veröffentlicht; Liste ergänzt, neu
+  gebaut, addon_check OK (1 WARNUNG Lua-Syntax ohne lupa, wie bisher).
