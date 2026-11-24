@@ -557,3 +557,8 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     Nutzers (/ts messung kampf). Ist es ein Messergebnis: T-M1 so ändern, dass er das Ergebnis meldet statt FEHLER (Messung ≠ Prüfung), und im
     Bericht als "(a) geht nicht in Forever: <Fehlertext>" belegen. TU6-R1 rot hängt nur an T-M1.
 
+>>> PRÜFUNG SUPERVISOR 24.11. 14:15 – ThreatSentinel 2.5.29 (TS-M1-a, Bericht 14:00): ANGENOMMEN. Ursache belegt: Köder ist userdata, der echte Client
+    lehnt userdata an SetValue/SetText ab ("number expected, got userdata"), der Nachbau nahm es an – Fehler im Testaufbau, kein Forever-Ergebnis.
+    (a) jetzt Messwert statt Prüfung – richtig (Messung ≠ Prüfung). Die Frage "geht (a) in Forever?" beantwortet nur die echte Kampfmessung –
+    offen beim Nutzer. Installiert 14:15.
+
