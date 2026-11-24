@@ -664,3 +664,13 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     Daten-Repo 15:40: Laptop "uploader": "2.3.17" -> die grosse AHSentinel.lua (Forever) fehlt dort weiter, bis 2.3.18 auf dem Laptop läuft (Nutzer).
     Leser angepasst (Supervisor): addon-check/marktanalyse/* lesen .lua.gz (sv_lesen), Test addon-check/test_sv_gz.py (6/6, Gegenprobe),
      geplante Aufgabe Markt-Tabellen sucht AHSentinel.lua UND .lua.gz. Abnahme: stand.json Laptop "uploader": "2.3.18", "gepackt": true.
+
+>>> BEFUND SUPERVISOR 2026-11-24 06:16 – UP-TAGE HOCH (aus Markt-Tabellen 24.11. 05:39, berichte/Pruef-Sitzung/2026-11-24-0540-markt-tabellen.txt):
+    Im Daten-Repo liegen unter tage/ nur noch 21., 22., 23.11.; die Stände 14.–20.11. fehlen. Folge: Fallzahlen der Markt-Tabellen fallen (Tabelle
+    nicht erneuert, Stand 16.11.), Kern-Abgleich 28/29/36 offene Zellen. Laut daten.py _build: höchstens DAYS_KEEP Tage UND bei mehr als REPO_MAX
+    fallen die ältesten Tage weg ("dropped"). Verdacht, zu messen: grosse AHSentinel.lua (bis 4 Rechner × 7 Tage) sprengt REPO_MAX -> Tage gestrichen;
+    oder ein älterer Uploader (stand.json "uploader" bei 3 Rechnern leer) baut den Baum ohne die Tage der anderen.
+    Soll: (1) belegen, wann und durch welchen Rechner/welche Regel 14.–20.11. verschwanden (Fenster-Protokoll "dropped", Grössen je Tag);
+    (2) Ist etwas wiederherstellbar (lokale Kopien auf den Rechnern, GitHub)? Nur melden, nichts selbst wiederherstellen; (3) Vorschlag, wie die
+    Geschichte für die Markt-Rechnung erhalten bleibt (z. B. gepackte Tage, nur die Journale je Tag, oder eine zusammengeführte Journal-Datei),
+    ohne die Grenze zu sprengen – Entscheid beim Nutzer; (4) Tests mit Gegenprobe. Bericht berichte/RaidMaster/, "umgesetzt, zur Prüfung".
