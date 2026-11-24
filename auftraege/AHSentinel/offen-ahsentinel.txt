@@ -6454,3 +6454,16 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
  Teil 4: T617/T734 unverändert 105,3 ms "Skripte" = AHS-I6 HOCH. Teil 6: T459 = AHS-I3; Sandbox FEHLER diag.entries = AHS-I7 HOCH.
  Reihenfolge bleibt: AHS-I7 -> AHS-I6 -> AHS-I4-a Rest -> AHS-I3 -> G14-a -> T750/T191. CurseForge gesperrt.
 
+>>> INGAMETEST 0.65.389 – 24.11.2026 13:21 (Laptop, PRIEST 10; Bericht vom Nutzer im Chat, Supervisor 13:30): 1139 OK · 4 FEHLER · 40 übersprungen
+    Teil 1: 2 FEHLER (T750/T191 erwartet – Einzelheiten nach /reload), Sandbox OK · Teil 2: 1 (T750) · Teil 3 Hilfe: bestanden · Teil 4 Sniper:
+    29 OK, 0 FEHLER · Teil 5 Wächter: bestanden (6 ms) · Teil 6: 1 (T459), Sandbox OK.
+ AHS-I7: Sandbox in ALLEN Teilen OK (auch Teil 6) -> ERLEDIGT.
+ AHS-I6: Teil 4 ohne FEHLER (T617/T734 bestanden) -> ERLEDIGT.
+ AHS-I4-a: "Kosten der Messung je Bild höchstens 0,20 ms, Summe 93,3 ms in 3 605 Bildern" -> Messkosten ERLEDIGT. Längstes Bild beim Einlesen jetzt
+    837 ms: 279 × REPLICATE_ITEM_LIST_UPDATE in einem Bild, AH-Fenster offen, eigene Lesung Auktion 29 225 -> 29 325 von 250 059, Speicher
+    +114 552 KB. Dritte Messung mit demselben Bild (707/710/837 ms) – stützt "Client baut die Liste auf einen Schlag". Offen bleibt nur die
+    Antwort auf die Frage −378 KB (07:08) im Bericht. Danach gilt die Ursache als belegt.
+ AHS-I3 (T459) weiter offen: 23 621 KB ohne gelesene Auktionen (soll ≤ 10 240), 5 Bilder über 40 ms mit Bereinigung.
+ CurseForge: weiter gesperrt (Entscheid: erst wenn die Tests bestehen) – offen nur noch T750/T191 (UI) und T459 (AHS-I3).
+ Reihenfolge: AHS-I3 -> AHS-I4-a Rest (−378 KB) -> G14-a -> T750/T191.
+
