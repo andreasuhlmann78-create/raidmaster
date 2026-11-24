@@ -3,7 +3,7 @@
 ## Stand 24.11.2026 20:47 · Addon 3.0.44 · Uploader 2.3.21
 - Addon 3.0.44 gepusht (RM-UMG1: Testroutine erkennt Umgebung/Bedienung, Zeile UMGEBUNG, T203; T111 bereinigt vorher).
   Bericht 2026-11-24-2046 – zur Prüfung.
-- Uploader 2.3.21 gepusht (UP-AUTO1 HOCH: installiert neue Addon-Versionen selbst, Schalter Standard aus,
+- Uploader 2.3.21 (UP-AUTO1, vom Supervisor 20:50 angenommen; an Offiziere verteilt 20:52) HOCH: installiert neue Addon-Versionen selbst, Schalter Standard aus,
   Addons-automatisch-an/-aus.bat). Bericht 2026-11-24-2037 – zur Prüfung. Addon 3.0.43 im Ingametest 0 FEHLER (RM-I2 erledigt).
 - Addon 3.0.43 gepusht (RM-I2 Rest: Item-Qualitätsfarben über RM.ReadableText lesbar, Nummer im Discord-Leitfaden;
   T202). Bericht 2026-11-24-1024 – zur Prüfung. Ingametest 3.0.42 (10:17): 147 OK, 1 FEHLER (T199) -> in 3.0.43; RM-I1 erledigt.
@@ -37,6 +37,7 @@
 - Bot: PN an Besitzer alter Uploader und Bewerbungen aufräumen liegen beim Discord-Projekt.
 
 ## Entscheide des Nutzers seit letztem Stand
+- 24.11. 20:52 Nutzer: "meine offiziere haben den neuen auch bekommen" – Uploader 2.3.21 an Offiziere verteilt.
 - 24.11. 20:49: "das discord projekt soll den offiziere das seden" – Uploader 2.3.21 an Offiziere über das Discord-Projekt
   (Bericht 2049 an den Supervisor zum Weiterleiten).
 - 24.11. 20:04 (über Supervisor): Umgebung/Bedienung in allen Testroutinen erkennen (RM-UMG1).
