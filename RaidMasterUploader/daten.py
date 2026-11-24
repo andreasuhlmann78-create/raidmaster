@@ -841,7 +841,10 @@ class Daten:
             if not ver or ver == "unbekannt" or self._older(ver, self._want or self.version):
                 n += 1
         if n and n != self.warned_old:
-            self.log(f"Prüfung: {n} andere(r) Rechner liefert noch mit einem alten Uploader – seine Daten werden nicht "
+            # UP-MSG1 (2.3.22): Einzahl/Mehrzahl je nach Zahl
+            who = "1 anderer Rechner liefert" if n == 1 else f"{n} andere Rechner liefern"
+            whose = "seine" if n == 1 else "ihre"
+            self.log(f"Prüfung: {who} noch mit einem alten Uploader – {whose} Daten werden nicht "
                      f"angenommen; dort /uploader holen ({self._want or self.version or 'die neue Version'}).")
         self.warned_old = n
         self.old_uploaders = n

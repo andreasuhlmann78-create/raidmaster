@@ -246,6 +246,31 @@ class Abgleich(unittest.TestCase):
         self.assertTrue(self.lap.sync.pull(now=T0 + 500))
         self.assertNotIn("FEHLER", self.lap.sync.status_line())
 
+    def test_up_msg1_weg_genannt_und_nachgeholt(self):
+        # UP-MSG1 (2.3.22): Meldung nennt den Weg (Discord #sync-daten), beim nächsten Gelingen "nachgeholt" – genau einmal
+        self.pc.write("SavedVariables/RaidMaster.lua", "RaidMasterDB = { 1 }\n", T0)
+        orig = self.store.write_index
+        state = {"n": 0}
+
+        def failing(index):
+            state["n"] += 1
+            raise sync.StoreError("kein Netz oder Discord nicht erreichbar")
+        self.store.write_index = failing
+        self.assertFalse(self.pc.sync.push(now=T0 + 200))
+        self.assertEqual(state["n"], 1)
+        self.assertTrue(any("Hochladen nach Discord #sync-daten nicht möglich (kein Netz" in l for l in self.pc.logs), self.pc.logs)
+        self.assertIn("FEHLER Discord #sync-daten: kein Netz", self.pc.sync.status_line())
+        self.assertFalse(any("nachgeholt" in l for l in self.pc.logs))
+        self.store.write_index = orig
+        self.pc.sync.retry_at = 0
+        self.assertTrue(self.pc.sync.push(now=T0 + 300))
+        self.assertEqual([l for l in self.pc.logs if "nachgeholt" in l], ["Abgleich: Discord #sync-daten nachgeholt."])
+        self.assertNotIn("FEHLER", self.pc.sync.status_line())
+        # Gegenprobe: gelingt es ohne vorherigen Fehler, kein "nachgeholt"
+        self.pc.write("SavedVariables/RaidMaster.lua", "RaidMasterDB = { 2 }\n", T0 + 400)
+        self.assertTrue(self.pc.sync.push(now=T0 + 500))
+        self.assertEqual(len([l for l in self.pc.logs if "nachgeholt" in l]), 1)
+
     def test_sy6_hoechstens_10_fassungen(self):
         for i in range(13):
             self.pc.write("SavedVariables/A.lua", f"A = {i}\n", T0 + i * 1000)

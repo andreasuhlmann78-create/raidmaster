@@ -1317,7 +1317,14 @@ class UPTAGE(ZweiRechner):
         self.drive(lap, T0 + 101, T0 + 130)
         hint = [l for l in logs if "alten Uploader" in l]
         self.assertEqual(len(hint), 1, logs)
-        self.assertIn("seine Daten werden nicht angenommen", hint[0])      # UP-ALT (2.3.20)
+        self.assertIn("1 anderer Rechner liefert noch mit einem alten Uploader – seine Daten werden nicht angenommen", hint[0])
+        # UP-MSG1 (2.3.22): Mehrzahl
+        logs2 = []
+        lap.log, lap.warned_old = logs2.append, None
+        lap._hint_old_uploaders({"A": {"uploader": "2.3.1"}, "B": {}, "C": {"uploader": "unbekannt"}, "Laptop": {}})
+        self.assertEqual(len(logs2), 1, logs2)
+        self.assertIn("3 andere Rechner liefern noch mit einem alten Uploader – ihre Daten werden nicht angenommen", logs2[0])
+        self.assertNotIn("andere(r)", logs2[0])
         self.assertIn("/uploader holen (2.3.19)", hint[0])
         self.assertNotIn("PC", hint[0])
 

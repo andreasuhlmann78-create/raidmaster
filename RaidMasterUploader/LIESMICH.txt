@@ -283,6 +283,13 @@ Version 2.3.13 – Datenschutz im Daten-Repo (UP-DS1):
 - Kann er die Datei nicht sicher lesen, liefert er sie gar nicht und meldet einmal "GuildSentinel-Daten nicht geliefert: …".
 - Neue Datei svfilter.py – bitte immer die ganze RaidMasterUploader.zip entpacken.
 
+Version 2.3.22 – klarere Meldungen (UP-MSG1):
+- Scheitert das Hochladen für den Abgleich PC/Laptop, nennt die Meldung jetzt den Weg: "Abgleich: Hochladen nach Discord
+  #sync-daten nicht möglich (…)"; die Statuszeile zeigt "FEHLER Discord #sync-daten: …". Klappt es beim nächsten Versuch,
+  steht einmal "Abgleich: Discord #sync-daten nachgeholt."
+- Hinweis auf andere Rechner mit altem Uploader in richtiger Einzahl/Mehrzahl ("1 anderer Rechner liefert …",
+  "3 andere Rechner liefern …").
+
 Version 2.3.21 – neue Addon-Versionen automatisch installieren (UP-AUTO1, Entscheid 24.11. 20:28):
 - Auf Wunsch holt der Uploader neue Versionen der GoldSentinel-Addons (AHSentinel, BuffSentinel, GuildSentinel, LevelPilot,
   ProfessionSentinel, RaidMaster, ThreatSentinel) selbst und legt sie in den Forever-AddOns-Ordner.

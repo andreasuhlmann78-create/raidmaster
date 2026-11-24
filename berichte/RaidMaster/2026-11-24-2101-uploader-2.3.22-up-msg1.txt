@@ -1,0 +1,20 @@
+Bericht RaidMaster-Sitzung an die Prüf-Sitzung – 24.11.2026 21:01
+Thema: UP-MSG1 NIEDRIG (Supervisor 20:57) – Meldung nennt den gescheiterten Weg, "nachgeholt", Einzahl/Mehrzahl – Uploader 2.3.22
+Status: umgesetzt, zur Prüfung. download/RaidMasterUploader.zip (16 Dateien, ZIP = Ordner).
+Zur Kenntnis: UP-AUTO1 auf dem PC abgenommen (20:55); Laptop offen.
+
+1. Welcher Weg (belegt im Code)
+- Die Meldung "Hochladen nicht möglich (kein Netz oder Discord nicht erreichbar) – neuer Versuch in 1 Minute" stammt aus dem
+  Abgleich PC/Laptop (sync.py, Sync.push, Schreiben in Discord #sync-daten über den Webhook) – nicht aus Gildenbank/#testberichte
+  (uploader.py) und nicht aus dem Daten-Repo (daten.py). "FEHLER: …" ist der Zusatz der Statuszeile des Abgleichs (Sync.status_line).
+- Neu: "Abgleich: Hochladen nach Discord #sync-daten nicht möglich (<Grund>) – neuer Versuch in 1 Minute." und in der Statuszeile
+  "· FEHLER Discord #sync-daten: <Grund>". Beim nächsten gelungenen Hochladen nach einem solchen Fehler genau einmal
+  "Abgleich: Discord #sync-daten nachgeholt." (nicht bei Erfolg ohne vorherigen Fehler).
+2. Einzahl/Mehrzahl (daten.py): "1 anderer Rechner liefert noch mit einem alten Uploader – seine Daten …" bzw.
+   "3 andere Rechner liefern noch mit einem alten Uploader – ihre Daten …"; "andere(r)" kommt nicht mehr vor.
+3. Tests (eigene, Hinweis): test_sync +1 (test_up_msg1_weg_genannt_und_nachgeholt: Weg im Text und in der Statuszeile, nachgeholt genau
+   einmal, Gegenprobe ohne Fehler kein "nachgeholt"), test_daten Hinweistest um Einzahl/Mehrzahl erweitert. Gegenprobe gegen 2.3.21:
+   beide rot. Alle grün: test_addons 25, test_daten 46, test_sync 54, test_uploader 23, test_umfassend 14 (TU6 88/88).
+4. Folge UP-ALT: 2.3.22 ist jetzt die neueste – 2.3.21-Rechner (PC, Offiziere) werden abgewiesen, bis sie 2.3.22 haben. Der PC holt die
+   Addons selbst, den Uploader aber nicht (UP-AUTO1 betrifft nur Addons). Verteilen per Bot (Discord-Projekt hat den Versand auf morgen
+   gelegt, f4fb4007).

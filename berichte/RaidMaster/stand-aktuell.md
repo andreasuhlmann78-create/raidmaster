@@ -1,6 +1,7 @@
 # Stand RaidMaster-Sitzung
 
-## Stand 24.11.2026 20:47 · Addon 3.0.44 · Uploader 2.3.21
+## Stand 24.11.2026 21:01 · Addon 3.0.44 · Uploader 2.3.22
+- Uploader 2.3.22 gepusht (UP-MSG1: Weg "Discord #sync-daten" genannt, "nachgeholt", Einzahl/Mehrzahl). Bericht 2101 – zur Prüfung.
 - Addon 3.0.44 gepusht (RM-UMG1: Testroutine erkennt Umgebung/Bedienung, Zeile UMGEBUNG, T203; T111 bereinigt vorher).
   Bericht 2026-11-24-2046 – zur Prüfung.
 - Uploader 2.3.21 (UP-AUTO1, vom Supervisor 20:50 angenommen; an Offiziere verteilt 20:52) HOCH: installiert neue Addon-Versionen selbst, Schalter Standard aus,
@@ -24,12 +25,12 @@
 1. Uploader 2.3.20 wurde vom Supervisor per Bot verteilt (Commit ca258023) – nichts mehr zu tun.
 2. Nach Meldung "alle Rechner umgestellt": Daten-Repo lokal prüfen (Zweig "sicherung", uploader 2.3.20 bei 4 Rechnern,
    "tage", nur .lua.gz in aktuell/, main = sicherung) – Bericht.
-3. Ingametest 3.0.44 auswerten: Zeile UMGEBUNG, T203; Abnahme UP-AUTO1 (PC/Laptop).
+3. Ingametest 3.0.44 auswerten: Zeile UMGEBUNG, T203; Abnahme UP-AUTO1 Laptop (PC abgenommen 20:55).
 4. Nächste Addon-Version: L2–L7 als Prüfungen (L3 DKP gleich in Liste/Tooltip/!dkp, L4 Summen; L2/L5/L6 Prüfliste),
    Taktik-"ca."-Zahlen in RaidData.lua nach Entscheid der Prüf-Sitzung.
 
 ## Offen beim Nutzer
-- Uploader 2.3.21 auf allen liefernden Rechnern (UP-ALT: 2.3.20 wird jetzt abgewiesen). Auf PC und Laptop
+- Uploader 2.3.22 auf allen liefernden Rechnern (UP-ALT: 2.3.21 wird jetzt abgewiesen; Versand per Bot morgen). Auf PC und Laptop
   Addons-automatisch-an.bat ausführen, Uploader neu starten -> Abnahme UP-AUTO1.
 - Uploader 2.3.20 auf allen 4 liefernden Rechnern ganz entpacken + neu starten (ältere werden abgewiesen, auch 2.3.19).
 - RaidMaster 3.0.44 installieren und Ingametest: /gsdev an, /rm testroutine alles, /reload.

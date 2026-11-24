@@ -71,7 +71,7 @@ import sync  # noqa: E402  (Abgleich PC/Laptop, ab 2.1.0)
 import daten  # noqa: E402  (Daten für die Prüf-Sitzung, ab 2.3.0)
 import addons  # noqa: E402  (UP-AUTO1: neue Addon-Versionen selbst installieren, ab 2.3.21, Standard aus)
 
-VERSION = "2.3.21"
+VERSION = "2.3.22"
 SHOT_WINDOW = (-30, 180)          # Bild darf so viele Sekunden vor/nach der gemerkten Zeit entstanden sein
 SHOT_MAX_BYTES = 9 * 1024 * 1024
 SHOT_MAX_AGE = 14 * 86400

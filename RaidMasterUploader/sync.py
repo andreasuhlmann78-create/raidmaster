@@ -905,6 +905,7 @@ class Sync:
         self.fail_until = 0.0                 # UP-404: Index-Fehler -> bis dahin gar nicht übers Netz (auch nicht force)
         self.said: dict[str, float] = {}      # UP-404: Fehlermeldung -> zuletzt gezeigt
         self.gone: str = ""                   # UP-404: "webhook"/"message"/"channel"/"?" – Abgleich-Ort fehlt
+        self.upload_failed = False            # UP-MSG1: letztes Hochladen nach #sync-daten scheiterte
         self._check_location()
 
     # -- Anzeige (S5)
@@ -917,7 +918,8 @@ class Sync:
                 if up else "Abgleich: noch nichts hochgeladen")
         line += f" · neuester Stand: {newest} · dieser Rechner {here}"
         if self.last_error:
-            line += f" · FEHLER: {self.last_error}"
+            # UP-MSG1 (2.3.22): welcher Weg – der Abgleich läuft über Discord #sync-daten (nicht das Daten-Repo)
+            line += f" · FEHLER Discord #sync-daten: {self.last_error}"
         if self.gone:
             line += " · in Discord /uploader ausführen, neue sync_config.json auf beide Rechner"
         bad = set(self.s.get("defekt") or [])
@@ -1493,7 +1495,9 @@ class Sync:
                 self._say_limited(f"Abgleich: {e}. {GONE_HELP.get(e.what, GONE_HELP['?'])} {GONE_TODO}", now)
             else:
                 self.retry_at = now + REMOTE_FAIL_WAIT
-                self._say_limited(f"Abgleich: Hochladen nicht möglich ({e}) – neuer Versuch in 1 Minute.", now)
+                self._say_limited(f"Abgleich: Hochladen nach Discord #sync-daten nicht möglich ({e}) – neuer Versuch in "
+                                  f"1 Minute.", now)
+            self.upload_failed = True                    # UP-MSG1: beim nächsten Gelingen "nachgeholt" melden
             return False
         self.s.setdefault("to_delete", [])
         for old in drop:
@@ -1515,6 +1519,9 @@ class Sync:
         self.delete_old(limit=len(self.s.get("to_delete") or []))
         labels = ", ".join(sorted({flavor_label(k) for k in keys})) or "–"
         self._say(f"Abgleich: Stand {seq} hochgeladen ({labels}; {changed_n} geänderte Datei(en)).")
+        if self.upload_failed:
+            self.upload_failed = False
+            self._say("Abgleich: Discord #sync-daten nachgeholt.")
         return True
 
     # -- ältere Fassungen wirklich löschen (DU6): Nachricht samt Anhang; Fehlschläge später erneut
