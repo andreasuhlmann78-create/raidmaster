@@ -496,3 +496,7 @@ SICHERHEIT (Pflicht, Repo ist öffentlich):
     2. Ergebnis aus stand.json "update" (D-UPD1 liest es): nach erfolgreichem Update optional kurze Bestätigung, nach "Update fehlgeschlagen"
        eine PN mit dem Grund und "/uploader holen". Keine Namen im Repo, nur über den Bot.
     3. Erst nach UP-UPD1 (RaidMaster) und D-UPMIN1; zusammen mit dem verschobenen Versand an die Offiziere. Tests mit Gegenprobe.
+>>> PRÜFUNG SUPERVISOR 24.11. 21:41 – Bot 1.5.195 (D-UPMIN1, Bericht 21:38): ANGENOMMEN. Bot-Tests selbst gelaufen: 510 passed. required() bildet die
+    Feinheit 2.3.20–2.3.22 richtig ab; Text "mindestens Version y" statt "Mindestversion y" – Begründung richtig (y = nötige Version), angenommen.
+    Unlesbare Mindestversion -> keine PN (gut, nie falsche PN). D-UPD1 Punkt 1 damit erfüllt; Punkte 2–3 nach UP-UPD1.
+    Offen: Versand /uploader an die Offiziere und den Nutzer – braucht den verbundenen Browser (Nutzer meldet sich an).
