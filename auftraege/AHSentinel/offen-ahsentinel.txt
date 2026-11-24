@@ -6610,7 +6610,7 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
          wie jedes Sniper-Ziel (Taste/Mausrad/Knopf des Snipers, nie ohne Tastendruck). Der direkte Kaufweg des Wächters (Knopf "Kaufen" im Reiter
          Wächter, eigene Wächter-Taste, gemeinsame Taste kind = nil) kauft KEINE Wächter-Funde mehr. Texte/Tooltips im Reiter Wächter anpassen
          ("Rechtsklick: in den Sniper übernehmen"), alte Texte "Kaufen mit Mausrad/Taste wie beim Sniper" entfernen, alle Sprachen.
-       - Tests: Wächter-Fund -> Sniper-Liste unverändert (Zeilen gleich), Kauf über den Wächter-Weg wie bisher; nach "übernehmen" genau ein Sniper-Ziel;
+       - Tests: Wächter-Fund -> Sniper-Liste unverändert (Zeilen gleich), keine Taste und kein Knopf kauft ihn; nach "übernehmen" genau ein Sniper-Ziel;
          Gegenprobe mit altem Verhalten (Zeile erscheint) = FEHLER. Bestehende "w:"-Ziele beim Laden aus der Sniper-Liste entfernen (Migration).
     d) Kopfzeile "Sniper: an" und im Reiter "Sniper-Modus: AUS" gleichzeitig (Bild 20:40) – widersprüchlich (L3). Entweder dieselbe Angabe oder
        beide klar beschriften (z. B. "Sniper eingeschaltet · sucht gerade nicht").
