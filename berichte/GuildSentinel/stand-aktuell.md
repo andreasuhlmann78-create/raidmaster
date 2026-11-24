@@ -1,7 +1,7 @@
-# Stand GuildSentinel – 24.11.2026 11:05 · Version 0.9.61 (Discord; CurseForge erst nach Ingametest)
+# Stand GuildSentinel – 24.11.2026 10:56 · Version 0.9.61 (Discord; CurseForge erst nach Ingametest)
 
 ## Gerade in Arbeit
-- Nichts. 0.9.61 veröffentlicht (Discord), Bericht berichte/GuildSentinel/2026-11-24-1100-version-0.9.61-ausweichen-kontrast-l5-leistung-shv3.txt.
+- Nichts. 0.9.61 veröffentlicht (Discord), Bericht berichte/GuildSentinel/2026-11-24-1056-version-0.9.61-ausweichen-kontrast-l5-leistung-shv3.txt.
 
 ## Nächste Schritte (Reihenfolge)
 1. Auf Prüfung des Supervisors warten – dabei weiterarbeiten: offen-guildsentinel.txt bei jedem "repo" lesen.
