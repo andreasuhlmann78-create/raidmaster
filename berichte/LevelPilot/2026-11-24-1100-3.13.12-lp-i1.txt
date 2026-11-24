@@ -1,0 +1,107 @@
+LevelPilot 3.13.12 – Bericht an die Prüf-Sitzung (LP-I1 aus dem Ingametest 3.13.11, SH-V3, Fragen 883 ms und T353)
+Stand 24.11.2026 11:00 · umgesetzt, zur Prüfung
+Zip: announce/levelpilot__levelpilot-3.13.12.LevelPilot.zip (md5 a49a693fff74c35d12a7342fdc0a2b0a, 2 821 366 Bytes)
+
+Daten für den Nachbau: Der Ingametest 3.13.11 (Laptop, PRIEST 10, Undercity) liegt in goldsentinel-daten, Zweig "sicherung",
+aktuell/AUSPLUSLAPTOP/forever/konto-5cb3d536/LevelPilot.lua.gz (Lieferung 24.11. 10:20, Uploader 2.3.20). Alle Belege unten sind mit
+diesen Daten gerechnet: Undercity, Karte 1458, Stufe 10, echte Kartenrahmen, Notbremse an (BRAKE=1). Gegenlauf mit den Daten von
+MININT-M6UO3AL (Donnerfels, Stufe 30).
+
+Prüfungen vor dem Push
+- addon_check: OK (Vorlage GoldSentinelTest Version 3).
+- Offline-Routine: 40 von 40 Läufen ohne FEHLER. Testroutine in 5 Formen (Forever deDE/enUS Horde, Forever Allianz, Era, TBC):
+  5 von 5 ohne FEHLER.
+- Nachbau ganze Routine, Laptop-Daten: zweimal OK, FEHLER 0 (OK 315, übersprungen 17, im Client 55). MININT-Daten: OK, FEHLER 0.
+- Gemeinsame Dateien GoldSentinel*.lua mit cmp gleich shared/ (alle 7).
+
+SH-V3 – umgesetzt
+- shared/GoldSentinelTest.lua (Version 3) unverändert kopiert (cmp gleich).
+- Nachbau mit Version 3: kein nil-FEHLER (SH-NIL), 0 FEHLER in allen Läufen oben.
+
+LP-I1 – Stücke über 40 ms (Ingametest 3.13.11: 12 Stück). Ursache je Stück im Nachbau mit den Laptop-Daten gemessen.
+Tabelle "längstes Stück je Prüfung", Nachbau vorher (3.13.11) -> nachher (3.13.12, zwei Läufe):
+  T296 56,0 -> unter 5,6 · T266 53,1 -> unter 5,6 · T265 43,3 -> unter 5,6 · Reisen 47,8 -> 10,2 / 11,9 · T246 37,6 -> unter 5,6
+  T348 34,6 -> unter 5,6 / 7,6 · T259 31,7 -> unter 5,6 · T260 30,4 -> unter 5,6 · T30 22,7 -> 6,7 / 7,2 · T136 20,2 -> 13,1 / 9,1
+  T51 16,0 -> 9,9 / 13,2 · T268 8,8 -> 26,7 / 27,6 (siehe unten: Speicherbereinigung) · T251, T355, T244 unter 8,4 -> unter 5,6
+Takt-Zeile Nachbau: vorher "über 40 ms: 7, längstes 56,1 ms (T295–T296)"; nachher Lauf 1 "über 40 ms: 1, längstes 40,3 ms",
+Lauf 2 "über 40 ms: 2, längstes 79,1 ms (T136 advisor–T144)". Das 79,1-ms-Bild: Stück T144 76,3 ms, im Stück fiel der Speicher um
+36,9 MB (Speicherbereinigung). Im Lauf 1 war dasselbe Stück unter 40 ms. Im Spiel 3.13.11: T144 24,4 ms.
+
+Ursachen und Änderungen (alle belegt mit Einzelmessung im Nachbau, Laptop-Daten):
+- T296: Wegsuche Auktionshaus -> Bethor (Path 21,5–29,5 ms, PathKnown 4,1 ms) am Stück. Jetzt beide Suchen als freigegebene
+  Rechnung (TR.Coop), sichere Stellen dazwischen. Kein Ersatz aktiv.
+- T266: Die Suche ohne Grenze lief ganz durch, mitten im Ersatz von Gr.PathRaw. Geprüft wird aber nur, welche Grenze die Suche
+  bekommt. Jetzt zählt bei der Suche ohne Grenze nur die Übergabe (nil), gesucht wird nur mit Grenze 1. Ergebnis unverändert
+  "1 (danach nil)".
+- T268: Die Neuplanung lief am Stück im Ersatz (Perf/Print). Jetzt ausserhalb des Ersatzes als freigegebene Rechnung. Ergebnis
+  gleich. Die Werte 26,7/27,6 ms im Nachbau sind Speicherbereinigung im Stück (Speicher fiel um 4,6 bzw. 11,9 MB). Ein dritter
+  Lauf mit Stapel-Mitschrift: längstes eigenes Bild von T268 5,6 ms.
+- T265, T260: Graph:Densify ging am Stück über alle 32 978 Kanten (21,1 ms). Densify sucht die langen Kanten jetzt mit
+  Graph.EachEdge (LP:Yield alle 2000 Kanten). Kam in einer Pause eine Kante dazu oder fiel weg (Graph.edgeGen), beginnt es von vorn,
+  nach 3 Neuanfängen der Rest am Stück. In der Routine als freigegebene Rechnung.
+- T51: Stats(true) 22,7 ms am Stück. Mit force jetzt in Stücken wie Densify, in der Routine als freigegebene Rechnung.
+- T30: Das erste Öffnen der Zentrale kostete 59,8 ms, den grössten Teil die Zählung aller Kanten in Graph:Stats() (Seite "Daten").
+  Neu: Der erste Stand entsteht beim Laden des Wegnetzes (die Schleife über alle Kanten läuft dort ohnehin). Danach rechnet
+  Stats() ohne force nie mehr am Stück: Ist der Stand veraltet, gilt der letzte Stand, und ein Auftrag "graphstats" zählt in
+  Portionen nach. In der Routine (Jobs.sync) startet kein Auftrag, es gilt der letzte Stand. Das gilt auch ausserhalb der Routine
+  (Zentrale im Spiel).
+- T259: zwei Zählungen Stats(true) im Ersatz (je 22,7 ms). Gezählt werden jetzt nur die Kanten an den Wegpunkten rund um die Lücke
+  (Umkreis 120 Yards um n+35). Dort entstünde eine Kante über die Lücke. Ergebnis gleich (Kanten über die Lücke 0).
+- T348: Das Markieren der Ketten geht über alle 27 341 Wegpunkte und lief je Lauf im Ersatz. Gilt die Einstellung ohnehin
+  (OWN_INNER nicht false), markiert jetzt eine freigegebene Rechnung vorher (MarkOwnInner("yield")). Im Ersatz bleibt nur die
+  Wegsuche. Das Markieren mit Abgabe beginnt ebenfalls von vorn, wenn sich das Netz in einer Pause ändert.
+- T246: Die Gruppen-Nachricht GOTO löst eine Neuplanung aus (19 ms, 1,9 MB). Sie läuft im Handler von GoldSentinelSync in einem
+  pcall, dort ist keine Abgabe möglich. Ein erster Versuch mit freigegebener Rechnung ergab "Abgabe nicht möglich" (T246 plan,
+  pcall) und wurde verworfen. Jetzt wird die Neuplanung gezählt (Ergebnis "angestossen 1×"), nicht gerechnet. Beleg: Comm.Receive
+  wird bei LvPilotG nicht aufgerufen (0×). Die Gruppen-Nachricht braucht also den Zähler-Ersatz nicht.
+- Reisen: Das Stück endete nach den Klicks im Fenster der Reise (T35). Anhalten und Bericht rechnen Fingerabdruck und Bericht am
+  Stück in einem pcall. Jetzt: PCallY statt pcall, Anhalten und Bericht als freigegebene Rechnung. Pause und Zuschauen laufen weiter
+  im Ersatz der Weltkarte, mit einer sicheren Stelle nach jedem Klick. Der Start jeder Reise (auch T85) läuft als freigegebene
+  Rechnung, denn der Ersatz der Reise entsteht erst in ihrer eigenen Coroutine. Der Fingerabdruck zählt Wegpunkte und Wegstücke mit
+  Abgabe. Hat sich in einer Pause etwas geändert (edgeGen, Anzahl), zählt er die Tabelle am Stück neu, die Zahl ist also immer genau.
+  T381 (Reise zweimal gleich): 756 s / 756 s, unverändert.
+- T136, T251, T355, T244 (Protokolltext): Protocol:Text kostet 9,6 ms und 380 KB je Aufruf, den grössten Teil die Einträge. Die
+  fertigen Zeilen eines Eintrags bleiben jetzt gespeichert (schwache Schlüssel), solange sich Signatur, Sprache und Version nicht
+  ändern. Die Signatur umfasst alle Felder, die in die Zeilen eingehen. Dazu LP:Yield("svc") alle 10 Einträge. In T136 läuft
+  Protocol:Show als freigegebene Rechnung. In T251/T355/T244 gilt ein Ersatz, also keine Abgabe, aber der Text kommt aus den
+  gespeicherten Zeilen.
+- T154 (neu im Nachbau, 19,8 ms und "Abgabe nicht möglich: T154 Messung"): Die empfangene Testquest löste über LP:Throttle eine
+  Neuplanung mit Ersatz-Questdaten aus. Jetzt wie in T59 mit NoReplan. Danach nicht mehr unter den Stücken, keine Sperre.
+- LP:Yield ruft TR.Safe nur noch aus einer Coroutine. Code des Spiels (Zeitgeber, Ereignis) während einer Pause der Routine kann so
+  keine falsche "Abgabe nicht möglich"-Stelle mehr eintragen.
+
+Frage "längstes ganzes Bild 883 ms – woher?"
+- Beleg aus dem Bericht 3.13.11: Die längste eigene Portion der Routine war 99,7 ms (T295–T296). Ein ganzes Bild besteht aus der
+  eigenen Portion und dem Rest. Im Bild mit 883 ms waren also höchstens 99,7 ms eigene Rechnung und mindestens 783,3 ms Spiel bzw.
+  Umgebung (andere Addons, Zeichnen, Speicherbereinigung). Welches Bild es genau war, steht im Bericht 3.13.11 nicht: Die
+  Takt-Zeile wird nach 300 Zeichen gekürzt, die Zahl kam nur im Chat.
+- Neu im Bericht (Felder ungekürzt):
+  - "ganzeBilder": Ein eigener Rahmen misst während der Routine jedes ganze Bild. Er ordnet ihm die eigene Portion dieses Bildes zu
+    (mit Prüfungen) und zeigt den Rest "Spiel/Umgebung" und den Speicher über das Bild ("Bereinigung", wenn er um mehr als 1 MB
+    fällt). Dazu eine Kopfzeile mit Anzahl, davon eigene Portion über 16 ms, mit Bereinigung, längstes. Es sind die 40 längsten.
+  - "taktTeile": die Takt-Zeile als Liste.
+  - "stuecke": jetzt mit Speicher je Stück, z. B. "T296 99.6 (+193 KB)" oder "(−7.0 MB, Bereinigung)".
+- Neue Prüfung T385: Zuordnung mit erfundenen Bildern. Bei 883 ms mit eigener Portion 5 ms ist der Rest 878,0 ms. Reihenfolge,
+  Bilder ohne eigene Portion und Kopfzeile sind geprüft. Nachbau OK.
+
+Hinweis "Abgabe nicht möglich: 1 (T353 Gegenprobe pcall)" – gewollt
+- T353 prüft, dass die Routine in einem pcall nie abgibt. Dazu ruft sie über dem Budget einmal TR.Safe in einem pcall auf. Das ergibt
+  genau diesen einen Eintrag (Ergebnis "in pcall false (Fehler nein)"). Er steht in jedem Lauf und gehört zur Gegenprobe. Jeder
+  weitere Eintrag wäre ein Befund.
+
+Neue Prüfungen
+- T385 (ganze Bilder zuordnen), T386 (Protokolltext mit gespeicherten Zeilen gleich ohne, geänderter Eintrag ×2 erscheint neu), T387
+  (EachEdge zählt genau, auch nach Neuanfang; Stats(true) gleich der Zählung; Stats() danach gleich; Ketten mit Abgabe zweimal gleich).
+- Nachbau Laptop: T387 "EachEdge 35335 von 35335 (Neuanfang 1×) · Stats 35335/35335 · Stats() gleich true · Ketten 22379 / 22379".
+
+Messrauschen im Nachbau (zur Einordnung)
+- T261 (Einloggen, erste 60 s) schwankt im Nachbau bei gleichem Code stark. Drei Läufe mit genau diesem Code: 1169 / 1174 / 863 ms.
+  Bei 1169 und 1174 steht T261 im Nachbau auf FEHLER (Grenze 1000), in den Schlussläufen auf CLIENT.
+- Die Schwankung liegt nicht am Code: Gemessen ist die Wanduhr samt Speicherbereinigung.
+- 3.13.11 im Nachbau heute: 996 / 895 ms. Im Spiel zählt der Wert aus dem Spiel (3.13.11: 662 ms, OK).
+- Stücke mit "Bereinigung" (z. B. T32 bis 59 ms bei −10 MB, T144 76 ms bei −37 MB) sind im Nachbau Speicherbereinigung im Stück.
+  Verdacht, zu messen: Im Spiel gilt das ebenso für Stücke, die viel anlegen. Das zeigt der nächste Ingametest über "stuecke" mit KB.
+
+Offen / nächste Schritte
+- LP-I3 (T155 Planung je Reiseschritt Ø 22,16 ms, längste 97,8 ms in Zone 1458) kommt als Nächstes, mit den Laptop-Daten nachgestellt.
+- Im nächsten Ingametest bitte prüfen: Felder ganzeBilder, taktTeile, stuecke (mit KB) sowie T385–T387.
