@@ -1,6 +1,6 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 24.11.2026 22:31 · Version 0.65.393 (Discord UND CurseForge seit 24.11. 22:25, Datei-ID 9799863, "Wichtiges Update")
+## Stand 24.11.2026 22:42 · Version 0.65.393 (Discord UND CurseForge seit 24.11. 22:25, Datei-ID 9799863, "Wichtiges Update")
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz – Testberichte "GSTEST1{…}", UI-Befunde db.uiFindingsLast).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
@@ -10,7 +10,10 @@ Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /h
  Eigene Szenarien /tmp/claude-0/sim/wowsim/scenarios_new.lua (zz_t459real, zz_tr1, zz_i6_sniper, zz_ui_buy).
 
 ## Gerade in Arbeit
-- AHS-SP1 beginnt (messen im Nachbau mit echten Daten, Bericht VOR Einbau).
+- AHS-SP1: Mess-Fassung in der Arbeitskopie (Vollscan.lua VS.COMPACT=false, DigestC/DecodeBody/NewSet, Ladder mit Zwischenspeicher 400,
+  Finish/Track/FeedNetRun mit Satz). Bericht "sp1-messung-vor-einbau" abgelegt – WARTET auf Freigabe Supervisor. Nachbau-Szenarien zz_sp1eq,
+  zz_t459real (SP1C=0/1, ZC=23520, REAL_SV=/tmp/claude-0/ahs_sv3.lua) in /tmp/claude-0/sim – nach Freigabe ins Repo.
+- Bis dahin: AHS-SG6-a (Reiter Wächter 1 Neuaufbau je Runde) und Titel-Tooltip (T750) für 0.65.394.
 
 ## Nächste Schritte (AHS-CF1, Entscheid des Nutzers 19:19/19:21)
 0. 0.65.394: AHS-SG6-a (Reiter Wächter 1 Neuaufbau je Runde, Ursache messen), T750-Titel: zu lange Namen kürzen + voller Name im Tooltip.

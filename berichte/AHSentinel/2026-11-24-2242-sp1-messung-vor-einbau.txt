@@ -40,7 +40,7 @@ BAU (wie Plan 19:16):
 
 EHRLICHE EINORDNUNG: SP1 senkt die Verdichtung und den gehaltenen Speicher stark, erreicht ALLEIN das Ziel "T459 < 10 240 KB ab Scan 2" im
 Nachbau NICHT (Scan 2 neu 18–20 MB). Der Rest (Nachbau Scan 2 neu): Nachlauf 10 159 KB (u. a. forecast-eval 2 600, learn:factor 2 456,
-cache:itemlist 2 326, core:realcheck 1 253), Verdichtung 5 251 (davon Bestpreise ~ und Text-Zwischenstücke "p:c" je Stufe – Verdacht, zu messen),
+cache:itemlist 2 326, core:realcheck 1 253), Verdichtung 5 251 (Anteile Bestpreis-Tabellen und Text-Zwischenstücke "p:c" je Stufe: Verdacht, zu messen),
 Verfolgung V4 3 116, Preisverlauf+Neuaufbau 1 203. Vorschlag für danach (Entscheid Supervisor/Nutzer): (i) Stufen-Text ohne "p:c"-Zwischenstrings
 (string.format in einen Puffer) messen, (ii) Bestpreise als Zahlen-Listen statt Tabellen (Format für Mitspieler bleibt), (iii) Nachlauf-Aufgaben
 (forecast-eval, learn:factor, cache:itemlist) je einzeln messen.
