@@ -1,6 +1,6 @@
 # LevelPilot – Stand der Sitzung
 
-## Stand 24.11.2026 13:57 · Version 3.13.13 (veröffentlicht, Discord, md5 e129bd88c92c04c33ba229f3cc494008)
+## Stand 24.11.2026 18:55 · Version 3.13.13 (veröffentlicht, Discord, md5 e129bd88c92c04c33ba229f3cc494008)
 
 ## Gerade in Arbeit
 - Nichts angefangen. 3.13.13 gepusht. Bericht: berichte/LevelPilot/2026-11-24-1357-3.13.13-lp-i1-i8.txt (umgesetzt, zur Prüfung).
@@ -17,7 +17,8 @@
 2. LP-I6 HOCH: Einloggen 1255 ms (nav/navplan 521 ms/133×, route 367, graph 222) – Ursache "nav" belegen.
 3. LP-I7: T150 Median 17,99 ms (ersterweg 7,82), T263 längste Portion 46,5 ms.
 4. LP-I1 Rest: T128 97, T136 59, T355 45, T29/T28 43, T251 39 – nach Ingametest 3.13.13 über langeStuecke bzw. mit den Daten der Figur.
-5. LP-K1, Blueposts Reittempo, Notbremse "Routenberechnung", Wegabschnitte (wie bisher).
+5. LP-K1 geprüft (Bericht 18:55: LevelPilot weicht nicht aus, Vorschlag: so lassen – Entscheid offen). Blueposts Reittempo geprüft:
+   gemessen, kein Handlungsbedarf. Offen: Notbremse "Routenberechnung", Wegabschnitte.
 
 ## Offen beim Nutzer
 - Datei der Testfigur: WTF\Account\<Konto>\<Realm>\<Figur>\SavedVariables\LevelPilot.lua (nur lokal, nie ins Repo).
@@ -25,7 +26,9 @@
 - Entscheid T31/T32 (einmal neu planen): keine Antwort.
 
 ## Entscheide des Nutzers seit letztem Stand
-- Keine neuen. Auftrag der Prüf-Sitzung 24.11. 13:04 (Ingametest 3.13.12): Reihenfolge LP-I1 -> LP-I6 -> LP-I7 -> LP-I8.
+- 24.11. 18:51: "bitte immer auf deutsch" (Antworten an den Nutzer immer Deutsch – Bestätigung des Entscheids 23.11. 08:36).
+- Prüf-Sitzung 24.11. 14:10: 3.13.13 angenommen, Abnahme im Spiel offen; Weg für die Daten der Figur klärt der Supervisor mit dem Nutzer.
+- Auftrag der Prüf-Sitzung 24.11. 13:04 (Ingametest 3.13.12): Reihenfolge LP-I1 -> LP-I6 -> LP-I7 -> LP-I8.
 
 ## Wichtig zu wissen
 - Daten Ingametest 3.13.12: goldsentinel-daten origin/sicherung, aktuell/AUSPLUSLAPTOP/forever/konto-5cb3d536/LevelPilot.lua.gz

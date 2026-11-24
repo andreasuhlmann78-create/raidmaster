@@ -1,0 +1,28 @@
+LevelPilot – Bericht an die Prüf-Sitzung: LP-K1 (Ausweichen) und Hinweis Blueposts BP-2026-11-23-4 (Reittempo)
+Stand 24.11.2026 18:55 · Version 3.13.13 · nur Prüfung im Code, keine Änderung
+
+LP-K1 NIEDRIG – weicht LevelPilot den anderen GoldSentinel-Fenstern aus? Ergebnis: NEIN.
+- UI.lua 494–522 (3.13.13):
+  - Das Hauptfenster LevelPilotFrame steht an der gespeicherten Lage (LP.db.framePos).
+  - Ohne gespeicherte Lage steht es an TOPRIGHT −40/−220. Es bewegt sich nur, wenn der Spieler es zieht.
+  - Kein Code verschiebt oder verkleinert es wegen eines anderen Fensters.
+- UICheck.lua 140–160 (T225) prüft nur, ob ein LevelPilot-Fenster ein anderes aus GoldSentinelUIFrames überdeckt, und meldet es.
+  Ausweichen gibt es dort nicht.
+- Test mit offenem GuildSentinel-/BuffSentinel-Fenster im Nachbau: nicht möglich, deren Code liegt nicht in meiner Arbeitsumgebung.
+  Laut GS-Bericht 0.9.61 (A, Fall A/C) und BS-Bericht 0.9.62/0.9.63 docken beide neben LevelPilot an. LevelPilot bleibt also der feste
+  Punkt.
+- Vorschlag (Entscheid bei Prüf-Sitzung/Nutzer, darum NICHT umgesetzt): LevelPilot weicht nicht aus.
+  - Es ist das kleine Begleitfenster, das ständig offen ist und dessen Platz der Spieler gewählt hat.
+  - GS und BS weichen ihm schon aus. Würde LevelPilot auch ausweichen, sprünge der Leitfaden beim Öffnen eines anderen Fensters weg.
+    Der Spieler sucht ihn dann beim Questen.
+  - Soll LevelPilot trotzdem ausweichen, baue ich es nach derselben Regel wie GS-K1: nur bei Überdeckung, andocken, die gespeicherte
+    Lage bleibt.
+
+Hinweis BP-2026-11-23-4 (kein Auftrag) – leitet LevelPilot das Reittempo aus der Reitfertigkeit ab? Ergebnis: NEIN, gemessen.
+- Laufweg.lua 141–146/160: LW.MountSpeed nimmt das höchste am Boden gemessene Tempo auf dem Reittier
+  (GetUnitSpeed("player") bei IsMounted, nicht auf dem Flug). Plausibel sind 7,5–15 Yards/s, gespeichert in LP.char.mountYps.
+- Die Reitfertigkeit liest LevelPilot nur für den Hinweis auf den Reitlehrer (Hints.lua 221–263) und für den Berater (Advisor.lua 383).
+  Ins Tempo geht sie nicht ein.
+- Einzige feste Annahme: die virtuelle Reise (Virtual.lua 440) rechnet ab Stufe 40 mit Lauftempo × 1,6. Das betrifft nur die
+  Simulation, nicht das echte Spiel. Der Bug (Klassenreittier nach der Questreihe ohne höhere Reitfertigkeit) ändert daran nichts.
+- Kein Handlungsbedarf.
