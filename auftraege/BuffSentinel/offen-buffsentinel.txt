@@ -610,3 +610,8 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     nächsten Lauf. Auf dem Laptop installiert 13:45. Abnahme: T149 und T162 im Spiel grün. BS-P1: Zeilen T156/T25/T250 liest der Supervisor
     aus dem Testbericht im Repo nach – kommt in den nächsten Nachtrag.
 
+>>> INGAMETEST 0.9.63 – 24.11.2026 13:44 (Laptop, PRIEST 10; Bericht vom Nutzer im Chat, Supervisor 13:50): OK 224 · FEHLER 0 · übersprungen 11 ·
+    im Client 10 · Sandbox OK · echte Aktionen 0. Längste eigene Rechenzeit je Bild 24,4 ms (T146). T149 und T162 grün -> BS-I2 ERLEDIGT.
+    Hinweis: anderer Charakter als 12:46 (PRIEST 10 statt WARRIOR 30) – die Gleitkomma-Breite im nächsten Lauf mit 6 Stellen nachsehen.
+    Offen: BS-P1 Auswertung (T156 20,8 ms, T179 22,1 ms, T25 8,3 ms in diesem Lauf), T249, Prüfliste von Hand.
+
