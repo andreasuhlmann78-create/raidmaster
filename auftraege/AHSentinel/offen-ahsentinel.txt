@@ -6597,10 +6597,15 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
        vorübergehendes Sniper-Ziel key "w:<id>", qty 100000 an; Sniper prüft per Einzelsuche). "0/100000" ist für Spieler unverständlich
        (L6 beschriftet / L1 Lesbarkeit): bei qty = 100000 (ohne Mengengrenze) "ohne Grenze" bzw. nur "0 gekauft" zeigen, in allen Sprachen.
        Tooltip der Zeile: "Vom Wächter gefunden, wird geprüft – verschwindet nach der Prüfung" (falls zutreffend; sonst sagen, wann sie geht).
-    c) Nutzer 20:42: "der sniper ist aus und es erscheint.." – Sniper-Modus AUS, trotzdem stehen die [Wächter]-Ziele in der Sniper-Zielliste. Für den
-       Spieler sieht das aus, als würde der Sniper selbst arbeiten. Lösung vorschlagen und umsetzen: Wächter-Prüfungen gehören in den Reiter Wächter;
-       in der Sniper-Liste höchstens als klar getrennter, eingeklappter Block "Vom Wächter geprüft (Sniper aus)". Die Prüfung selbst (Einzelsuche)
-       bleibt, nur die Anzeige ändert sich. Gold-Sicherheit: kein Kauf ohne Klick, wie bisher (im Test zeigen).
+    c) ENTSCHEID DES NUTZERS 20:43 (ersetzt den Vorschlag von 20:41 "eingeklappter Block" – "das ist nicht korrekt"): "was der wächter zeigt darf nicht
+       automatisch im sniper fenster erscheinen...nur wenn jemand das bei item anwählt dass es so sein muss". Also:
+       - Funde des Wächters erscheinen NIE von selbst in der Sniper-Zielliste (auch nicht eingeklappt, auch nicht bei Sniper an).
+       - Nur wenn der Spieler es beim Item ausdrücklich wählt (z. B. Knopf/Rechtsklick "In den Sniper übernehmen" in der Wächter-Liste bzw. am Item),
+         wird daraus ein normales Sniper-Ziel.
+       - Die interne Prüfung des Wächters (Einzelsuche) darf weiter laufen, aber unsichtbar für die Sniper-Liste (eigene Liste, nicht Sn-Ziele
+         anzeigen) – und ein Wächter-Fund darf NIE über die Sniper-Kauftaste/das Mausrad gekauft werden, solange der Spieler ihn nicht übernommen hat.
+       - Tests: Wächter-Fund -> Sniper-Liste unverändert (Zeilen gleich), Kauftaste kauft nichts davon; nach "übernehmen" genau ein Sniper-Ziel;
+         Gegenprobe mit altem Verhalten (Zeile erscheint) = FEHLER. Bestehende "w:"-Ziele beim Laden aus der Sniper-Liste entfernen (Migration).
     d) Kopfzeile "Sniper: an" und im Reiter "Sniper-Modus: AUS" gleichzeitig (Bild 20:40) – widersprüchlich (L3). Entweder dieselbe Angabe oder
        beide klar beschriften (z. B. "Sniper eingeschaltet · sucht gerade nicht").
     Beides gehört zu AHS-CF1 (Oberfläche, sieht jeder Spieler) – vor der Kandidaten-Version.
