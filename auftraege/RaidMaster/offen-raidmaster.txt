@@ -873,3 +873,8 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     sauber ("Alte Version beendet", Sperren entfernt), Hochladen nach Discord OK, Addons-Automatik aktiv. Daten-Repo: "zuletzt geliefert 20:56" –
     seit 2.3.22 (nicht neueste) nichts geliefert; erste Lieferung mit 2.3.24 nach dem nächsten /reload zu prüfen (Supervisor). UP-UPD1 (Taste j)
     erst bei der nächsten Uploader-Version abnehmbar.
+>>> Uploader 2.3.24, Bild des Nutzers 21:51 (Supervisor 21:52): Lieferung ins Daten-Repo wieder da (21:49, 21:50, 21:51; stand.json uploader 2.3.24,
+    mindestversion 2.3.20). "2 andere Rechner … unter 2.3.20" = die beiden Offiziere – stimmt.
+    UP-MSG2 NIEDRIG: Beim Start zwei Zeilen für DIESELBE PID: "alte Sperre von 2.3.24 entfernt (PID 25612 …)" und "alte Sperre von vor 2.3.2 entfernt
+    (PID 25612 …)". Die zweite stammt aus _sync.lock ohne Versionsfeld (sync.py:303/305 Rückfallwert "vor 2.3.2") und ist irreführend. Gleiche PID wie
+    die erste -> nur eine Zeile, oder Version aus der ersten Sperre übernehmen; Test mit Gegenprobe.
