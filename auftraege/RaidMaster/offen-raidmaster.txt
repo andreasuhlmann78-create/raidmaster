@@ -710,3 +710,16 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     Reihenfolge: zuerst (1) – solange PC und Offiziere alte Uploader haben, kann jede ihrer Lieferungen die Tage wieder kürzen. Bericht mit
     Belegen; bei b) zuerst den Nutzer fragen. Keine Fehler (Entscheid 06:26 "mache keine fehler").
 
+>>> PRÜFUNG SUPERVISOR 24.11. 07:40 – Uploader 2.3.19 (UP-TAGE, Bericht 06:35): ANGENOMMEN, 1 Hinweis NIEDRIG
+    Tests selbst laufen lassen: test_daten, test_sync, test_uploader, test_umfassend – alle OK. download/RaidMasterUploader.zip: VERSION 2.3.19.
+    Code gelesen: jede eigene Datei gzip Stufe 9 mit mtime=0 (gleicher Inhalt = gleiche Bytes), fremde GuildSentinel.lua(.gz) entpackt, gefiltert,
+     unverändert -> Original-Bytes, nicht lesbar -> weggelassen und gemerkt, nie ungefiltert; DAYS_KEEP 30, REPO_MAX 1 GB, Wegfall mit Meldung.
+    ECHTE LIEFERUNG belegt (Laptop, 24.11. 07:31 nach Installation durch den Nutzer): stand.json uploader 2.3.19, "tage" {4, 21.–24.11., 30, 1024};
+     aktuell/ des Laptops 18 × .lua.gz, 0 × .lua (vorher 17 .lua + 1 .gz = 18 – nichts fehlt); andere 3 Rechner unverändert (11/22/13 .lua);
+     tage/ 21., 22., 23. unverändert da, 24. neu. AHSentinel.lua.gz: Kopf-mtime 0, entpackt gültig. Repo-Ordner 331 MB (ungepackte Altstände).
+    UP-TAGE: ERLEDIGT für den Laptop. Offen bleibt die Umstellung PC + 2 Offiziere (bis dahin kürzt jede ihrer Lieferungen wieder) -> UP-ALT.
+ UP-TAGE-a NIEDRIG: Die Löschregel behält die letzten 30 GESPEICHERTEN Tage (keep = 29 Tage + heute), nicht "Tage jünger als 30". Die Meldung
+    sagt "älter als 30 Tage". Bei Lücken stimmt der Text nicht. Text an die Regel anpassen ("mehr als 30 Tages-Stände – älteste gelöscht: …").
+    Mit der nächsten Version, keine eigene Version dafür.
+ Zur Kenntnis: addon-check/marktanalyse/de_ketten_lehrer.py hat der Supervisor umgestellt (Pfad als Argument, .lua.gz, kein Rechnername mehr).
+

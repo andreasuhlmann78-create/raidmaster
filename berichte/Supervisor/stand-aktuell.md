@@ -1,13 +1,13 @@
 # Stand Supervisor (Prüf-Sitzung, Projekt «Addonprüfer»)
 
-## Stand 24.11.2026 07:21 · Versionen geprüft: AHS 0.65.387 · LP 3.13.10 · PS 0.9.78 · TS 2.5.26 (Ingame) · GS 0.9.60 · BS 0.9.61 · Uploader 2.3.18 · Bot 1.5.192
+## Stand 24.11.2026 07:40 · Versionen geprüft: AHS 0.65.387 · LP 3.13.10 · PS 0.9.78 · TS 2.5.26 (Ingame) · GS 0.9.60 · BS 0.9.61 · Uploader 2.3.19 · Bot 1.5.192
 Sitzung seit 23.11. 06:18. Repos: raidmaster, goldsentinel-daten (schreiben); ahanalyzerpro, professionsentinel, guildsentinel (lesen).
 
 ## Gerade in Arbeit
 - nichts Laufendes. Entscheid 07:04: Supervisor entwickelt NICHT an Addons, nur prüfen. Gemeinsame Dateien in shared/ pflegt der Supervisor weiter (Entscheid 07:09 "mach das").
 
 ## Nächste Schritte (Reihenfolge)
-1. Prüfen: Uploader 2.3.19 (UP-TAGE, Entscheid 06:26) -> danach Markt-Tabellen-Entscheid. AHS 0.65.386/387 ERLEDIGT 07:08 (AHS-R1, AHS-I4-a, G14-a neu).
+1. Uploader 2.3.19 ERLEDIGT 07:40 (Laptop liefert gepackt, 4 Tage). Markt-Tabellen: erst mit mehr Tagen (UP-ALT, PC/Offiziere umstellen). Ingametest AHS 0.65.387 läuft (Nutzer 07:31) – auswerten. AHS 0.65.386/387 ERLEDIGT 07:08 (AHS-R1, AHS-I4-a, G14-a neu).
 2. Prüfen: LevelPilot 3.13.11 (LP-I1, LP-I2, LP-I4, LP-I5). ProfessionSentinel 0.9.79 (liegt im Repo, noch nicht geprüft).
 3. Testberichte 23.11. 23:50 (neu im Repo) gegen die Chat-Berichte abgleichen.
 4. Warten auf: RaidMaster UP-TAGE (Tage 14.–20.11. im Daten-Repo weg) -> dann Markt-Tabellen-Entscheid (siehe unten).
