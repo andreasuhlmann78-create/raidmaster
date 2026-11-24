@@ -1687,3 +1687,17 @@ in berichte/LevelPilot/ ("umgesetzt, zur Prüfung", mit Belegen).
     begründen – nie die Prüfung abschwächen. Achtung: Bringt ein anderes Addon im selben Client schon Version 3 mit, gilt sie auch für deine
     Prüfungen (höchste Version gewinnt) – nil-FEHLER können also schon vor deiner nächsten Version erscheinen.
 
+>>> INGAMETEST 3.13.11 – 24.11.2026 09:55 (Laptop, PRIEST 10, Undercity; Bericht vom Nutzer im Chat, Supervisor 10:10): OK 319 · FEHLER 1 ·
+    übersprungen 9 · im Client 55 · Sandbox OK · echte Daten unverändert · keine nil-FEHLER mit GoldSentinelTest 3 · Fehlerzähler 0.
+    Vergleich 3.13.10 (23.11.): 6 FEHLER -> 1. Im Spiel jetzt OK: T150, T221, T261 (erste 60 s 662 ms statt 1 245 ms, längster 15 ms), T263, T372.
+    Umgebung in Ruhe: Median 33 ms, längstes 57 ms (Hauptstadt).
+ LP-I2 (T261): im Spiel bestanden – ERLEDIGT. LP-I4 (T372) und LP-I5 (T221): im Spiel bestanden – ERLEDIGT.
+ LP-I3 MITTEL (weiter offen): T155 Planung je Reiseschritt Ø 22,16 ms (vorher 18,75; soll < 16), Median 11,22 ms, längste 97,8 ms (vorher 207 ms),
+    552 KB je Planung. Längste drei alle Stufe 10, Zone 1458 (+627/+1 345/+800 KB). T150 jetzt OK.
+ LP-I1 HOCH (besser, nicht erledigt): eigene Portionen über 40 ms: 12 (vorher 32), längste T295–T296 99,7 ms (vorher 1 074,6 ms), weitere
+    T267–T268 61,9 · T265–T266 61,5 · T246–T251 58,3 (−7 MB, Bereinigung) · T355 50,2 · T136 49,8 · T346–T348 47,7 · T244–T246 46,0 ms.
+    Harte Grenze 40 ms. Dazu "längstes ganzes Bild 883 ms" – woher (Spiel oder eigene Portion)? Im Bericht zuordnen.
+ Hinweis: "Abgabe nicht möglich: 1 (T353 Gegenprobe pcall)" – erklären, ob gewollt.
+ Wegabschnitte: aufgezeichnet 0 (Stillstand/AFK 35 min in der Hauptstadt) – braucht weiter eine Sitzung draussen mit Laufen (Nutzer).
+ Reihenfolge: LP-I1 -> LP-I3.
+
