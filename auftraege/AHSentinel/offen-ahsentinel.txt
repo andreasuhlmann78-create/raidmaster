@@ -6586,3 +6586,15 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
       nächsten Lieferung (Zweig sicherung) lesen, beheben, im Bericht je Stelle nennen.
     - T191: OK (keine Meldung "verdeckt"). Bewertung erst nach dem Teil ui/K (Lage-Namen) – bisher grün.
     - Vollscan-Zeilen sind weiter die GESPEICHERTEN vom Scan mit 0.65.390 (mit GSMesstest) – Teile server/Vollscan zweimal noch ausstehend.
+>>> AHS-CF1-UI HOCH (für CurseForge, Bild des Nutzers 24.11. 20:40, 0.65.392, Kaufen > Sniper, AH offen, Forever deDE; Bild nicht im Repo – Spielernamen)
+    a) DURCHSCHEINENDER TEXT: Im rechten Teil des Sniper-Reiters (Angebotsliste "Hier erscheinen die Angebote nach einer Suche", unten) und links unter der
+       Zielliste sind blasse Zeilen einer ANDEREN Ansicht zu sehen (Itemnamen und Zahlen, z. B. "…beinschützer der Magie 69", "Deviatschuppe 2.190",
+       "Dicke Murlocschuppe", Spalte mit 3- bis 4-stelligen Zahlen, Kopf "Verfügbar"). Eine verdeckte Liste (vermutlich Einkauf/Kategorien oder
+       Wächter) bleibt sichtbar bzw. wird hinter dem halbdurchsichtigen Hintergrund weiter gezeichnet. T750/T191 fanden das nicht. Ursache belegen
+       (welcher Rahmen, warum nicht ausgeblendet), beheben, und eine Prüfung ergänzen: beim Wechsel der Unterreiter ist von den anderen Ansichten
+       NICHTS sichtbar (IsVisible aller FontStrings fremder Ansichten = false bzw. Alpha 0). Gegenprobe.
+    b) Wächter-Zeilen in der Sniper-Zielliste: "[Wächter] Lebenswurz · 2s 12c · 0/100000 · Rest 11g 66s" – so gebaut (W:AddCandidate legt ein
+       vorübergehendes Sniper-Ziel key "w:<id>", qty 100000 an; Sniper prüft per Einzelsuche). "0/100000" ist für Spieler unverständlich
+       (L6 beschriftet / L1 Lesbarkeit): bei qty = 100000 (ohne Mengengrenze) "ohne Grenze" bzw. nur "0 gekauft" zeigen, in allen Sprachen.
+       Tooltip der Zeile: "Vom Wächter gefunden, wird geprüft – verschwindet nach der Prüfung" (falls zutreffend; sonst sagen, wann sie geht).
+    Beides gehört zu AHS-CF1 (Oberfläche, sieht jeder Spieler) – vor der Kandidaten-Version.
