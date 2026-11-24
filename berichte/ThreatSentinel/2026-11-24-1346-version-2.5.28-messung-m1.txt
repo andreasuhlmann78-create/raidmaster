@@ -1,0 +1,82 @@
+BERICHT ThreatSentinel 2.5.28 – 24.11.2026 13:46
+Projekt: ThreatSentinel · Version 2.5.28 · Status: umgesetzt, zur Prüfung
+Veröffentlicht: Discord (announce/threatsentinel__threatsentinel-2.5.28.*), download/ThreatSentinel-2.5.28.zip. Nicht auf CurseForge.
+Auftrag: TS-M1 (Messauftrag 13:33, erweitert 13:34, "selbst messen, nichts verändern" 13:35). Die Anzeige ist NICHT geändert.
+
+1) Was gemessen wird – neue Datei Messung.lua (ns.M1)
+   AUTOMATISCH beim normalen Spielen, NUR LESEN:
+   - Beim Betreten einer Instanz (PLAYER_ENTERING_WORLD + 2 s, einmal je Instanz-ID und Sitzung):
+     (f) CVars der festen Liste (15 Namen rund um Plaketten/Bedrohung; fehlende stehen als "nicht vorhanden" – Messung, kein Raten),
+     (e) Namen für geschützte Werte/Bedrohung: issecretvalue, canaccessvalue, secretwrap, C_CurveUtil(.CreateColorCurve/.CreateCurve),
+         C_DurationUtil, C_StringUtil, CreateColorCurve, GetThreatStatusColor, UnitThreatPercentageOfLead, C_Console(.GetAllCommands) u. a.
+         – nur type(), nie aufgerufen.
+   - Im Kampf (PLAYER_REGEN_DISABLED + 1,5 s; ohne feindliche Plakette noch einmal nach 3 s; EIN Durchlauf in EINEM Bild):
+     (d) für den ersten feindlichen Mob mit Plakette jede Quelle einzeln: UnitThreatSituation(player, Mob), UnitDetailedThreatSituation
+         (alle 5 Rückgaben einzeln), UnitThreatSituation(player), UnitThreatPercentageOfLead, GetThreatStatusColor(Stufe), Ziel des Mobs
+         (UnitExists/UnitIsUnit "…target"), Bedrohung am Zielrahmen (TargetFrameNumericalThreat/…Value: vorhanden, gezeigt, Text geschützt?);
+         Ereignisse UNIT_THREAT_SITUATION_UPDATE / UNIT_THREAT_LIST_UPDATE gezählt, Art der Einheit;
+         Kampflog: Era/TBC je Kampf einmal Schaden (Betrag, Quell-/Ziel-GUID) und einmal SPELL_CAST_SUCCESS (Zauber-ID) – nur die Art.
+         In Forever/Retail wird das Kampflog NICHT angemeldet (schon das Anmelden löst "geblockt" aus, Alerts.lua) – steht so im Ergebnis.
+     (b) für bis zu 10 feindliche Plaketten: welche Teile es gibt (aggroHighlight, ThreatIndicator, threatIndicator, AggroFlash, aggroFlash)
+         und aggroHighlight:IsShown() je "an mir / nicht an mir / geschützt" (Ziel des Mobs). ThreatSentinel setzt an aggroHighlight nur die
+         Alpha (Nameplates.lua, nie Show/Hide) – IsShown ist also Blizzards eigener Zustand VOR/unabhängig von unserer Abschwächung.
+   - Nichts wird verändert: keine Plakette, keine Alpha/Farbe/Grösse, keine CVar, kein SetValue/SetText, kein Ziel, nichts gesendet.
+   - Kosten: je Durchlauf mit debugprofilestop gemessen; Zeile "Kosten je Bild max x ms, über 1 ms: n von m".
+   AUF BEFEHL (/ts messung kampf, Entwicklermodus; misst sofort "vor dem Kampf" und 2 s nach Beginn des nächsten Kampfs "im Kampf"):
+     (a) geschützte Werte unverändert an einen eigenen, unsichtbaren Test-Rahmen (Alpha 0, ausserhalb des Bildschirms): StatusBar:SetValue,
+         GetValue danach, FontString:SetFormattedText("%.0f%%")/SetText/SetFormattedText("%d"), GetThreatStatusColor -> SetStatusBarColor;
+         je in pcall, mit Fehlertext.
+     (c) eigener Rahmen an die Blizzard-Plakette (SetParent/SetPoint), Blizzard-Teile name/healthBar: SetAlpha(0) und Hide() – im SELBEN
+         Bild zurück auf die vorher gelesene Alpha bzw. Show(); nach 0,5 s: folgt der eigene Rahmen der Plakette (Lage gleich)?
+     Je Befehl: gesperrte Aktionen (ADDON_ACTION_BLOCKED) und Lua-Fehler vorher/nachher gezählt.
+   /ts messung: zeigt alle Ergebnisse; dazu EINMAL die vollständige CVar-Liste des Clients (C_Console.GetAllCommands, gefiltert auf
+     nameplate/threat/aggro) – nur auf Befehl, weil das für ein Bild beim Spielen zu teuer sein kann (Dauer steht in der Zeile).
+
+2) Wahl: nur im Entwicklermodus – Begründung
+   Die Ergebnisse kommen nur über das Diagnose-Protokoll (GSDIAG1) des Entwicklers mit dem Uploader zur Prüfung. Bei anderen Spielern würde
+   das Messen nur SavedVariables füllen, ohne dass jemand es liest (Kosten ohne Nutzen). Ohne Entwicklermodus wird kein Ereignis angemeldet.
+
+3) Ablage, keine Namen
+   ThreatSentinelDB.m1 (höchstens 12 Durchläufe, neueste zuerst): nur Art (geschützt / lesbar(Typ) / nil / nicht vorhanden / Fehler),
+   Anzahlen, Instanz-ID, Rolle, Klasse, Modus, Client. Diagnose-Protokoll: neuer Abschnitt "== Messung TS-M1" (neueste 6 Durchläufe).
+
+4) Gegenprobe im Nachbau (Test T-M1, Bereich U; SIMULATION, kein echter Kampf)
+   Kulisse mit 3 Mobs, geschützte Bedrohung (Köderwert), Plaketten der Testzentrale: Kampf messen, Ereignisse, Befehl (a)+(c), Kampfende.
+   Vorher/Nachher Bit für Bit: Alpha und Sichtbarkeit aller Plaketten-Teile (14 Schlüssel je Plakette), Grösse, 15 CVars, 4 Fenster,
+   ns.db (ganz) und ThreatSentinelDB.threatAccess. Ergebnis: "Kampf Mobs 3, Lage geschützt/geschützt, Ziel ist ich ja, Ereignisse 1/2,
+   Befehl (a) true, (c) true, gespeichert 2, unverändert true, Gegenprobe true".
+   Gegenprobe 1 im Test: eine echte Alpha-Änderung findet der Vergleich (true).
+   Gegenprobe 2: Messung.lua so verändert, dass (c) die Alpha NICHT zurücksetzt -> T-M1 FEHLER "unverändert false".
+   Beispiel der Ausgabe (Simulation, Werte aus dem Nachbau – im echten Spiel zu messen):
+     (d) UnitThreatSituation(player, Mob)=geschützt · UnitDetailedThreatSituation=geschützt×5 · UnitThreatPercentageOfLead=nicht vorhanden …
+     (a) SetValue(Prozent)=geht · GetValue danach … · (c) eigener Rahmen an Plakette=geht · name: SetAlpha=geht, Hide=geht …
+
+5) Ergebnis-Tabelle – wird mit den echten Messungen gefüllt (Stand jetzt: nur Simulation, im Spiel NICHT gemessen)
+   Weg                                              | Ergebnis          | Beleg (Zeile im Protokoll)
+   (a) geschützter Wert -> eigener Balken/Text       | zu messen         | "(a) …" Befehl im Kampf
+   (b) Blizzard-aggroHighlight an der Plakette       | zu messen         | "(b) Plakette: …"
+   (c) eigene Plaketten (Teile aus, eigener Rahmen)  | zu messen         | "(c) …" vor/im Kampf, gesperrt n
+   (d) Quellen einzeln                               | zu messen         | "(d) …" Zeilen
+   (e) Blizzard-Funktionen für geschützte Werte      | zu messen         | "(e) Namen: …"
+   (f) CVars                                         | zu messen         | "(f) CVars / nicht vorhanden / alle CVars"
+   Bisher belegt (frühere Messungen): Bedrohung im Kampf in Forever geschützt (ThreatAccess -> ANZEIGE); Kampflog anmelden = geblockt;
+   SetFormattedText mit geschütztem Wert zeigt die Zahl (Aggrometer im Modus ANZEIGE, Ingametest 2.5.26/2.5.27).
+   Aufwand und Folgen (Einschätzung, vor der Messung):
+   - (b) einschalten: klein (unsere Alpha an aggroHighlight weglassen bzw. CVar-Hinweis) – nur sinnvoll, wenn Blizzard es im Kampf zeigt.
+   - (a) Prozent-Anzeige ohne Farbentscheid: mittel – Zahl/Balken an unserer Plakette über SetValue/SetFormattedText, Farbe nur, wenn eine
+     Blizzard-Funktion den geschützten Wert selbst in eine Farbe umsetzt (e); keine eigene Warnung möglich (kein Vergleich erlaubt).
+   - ausserhalb Forever Lebensbalken nach Aggro einfärben: klein bis mittel (Werte dort lesbar, heute schon Rahmen/Leuchten).
+   - ganz eigene Plaketten: gross – nur, wenn (c) im Kampf ohne Sperre/Taint geht und der Rahmen folgt; Aggro-Inhalt bleibt auf (a)/(b) beschränkt.
+
+6) Prüfliste: neuer Punkt "M1" (Forever: Aggro-Messung an Plaketten) mit Anleitung: /ts messung kampf, EIN Gegner allein 5 s, dann
+   /ts messung kampf und 3+ Gegner, dann /reload. Er ersetzt "LESBAR" (die Liste zeigt höchstens 14 Zeilen, T-PL1); die Zeile
+   LESBAR-PLAKETTEN schreibt ThreatSentinel weiter von selbst ins Protokoll. Neue Befehle (nur Entwickler): /ts messung, /ts messung kampf.
+
+Belege
+- addon_check download/ThreatSentinel-2.5.28.zip: "## ThreatSentinel-2.5.28.zip: OK", kein FEHLER, keine WARNUNG. Commit 6549fa9d.
+- Offline alles: Forever 315/321, Era 319/325 – je 6 FEHLER = die bekannten Nachbildungsfälle (T02, T09, T20, T34, T39, T133), ausserhalb 0.
+  Neu: T-M1 (Bereich U), TU6-R1 mit Zeile "24.11. TS-M1".
+
+Offen beim Nutzer
+- Prüflisten-Punkt M1 in WoW Forever (zwei Kämpfe, danach /reload). Die automatische Messung läuft beim Spielen von selbst (Entwicklermodus).
+- Danach: Tabelle in Abschnitt 5 mit den echten Werten füllen (nächster Bericht), dann entscheidet der Nutzer über einen Umbau.
