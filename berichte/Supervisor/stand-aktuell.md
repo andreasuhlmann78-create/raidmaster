@@ -1,23 +1,23 @@
 # Stand Supervisor (Prüf-Sitzung, Projekt «Addonprüfer»)
 
-## Stand 24.11.2026 22:19 · Versionen geprüft: AHS 0.65.393 · PS 0.9.83 · BS 0.9.64 · TS 2.5.30 · LP 3.13.13 · RM 3.0.43 · GS 0.9.61 · Uploader 2.3.26
+## Stand 24.11.2026 22:29 · Versionen geprüft: AHS 0.65.393 (CurseForge hochgeladen) · PS 0.9.83 · BS 0.9.64 · TS 2.5.30 · LP 3.13.13 · RM 3.0.44 · GS 0.9.62 · Uploader 2.3.26
 Sitzung seit 23.11. 06:18. Repos: raidmaster, goldsentinel-daten (schreiben); ahanalyzerpro, professionsentinel, guildsentinel (lesen).
 
 ## Gerade in Arbeit
-- AHS-CF2 (Entscheid 22:17): AHSentinel 0.65.393 sofort auf CurseForge, Changelog "Wichtiges Update" DE/EN – Auftrag gepusht 22:19,
-  Umsetzung durch die AHS-Sitzung. Danach prüfen: Workflow grün, curseforge/uploaded.json, Datei + Changelog auf curseforge.com.
-- Danach: Skelett (shared/vorlage) nachführen – pausiert 20:33: (1) Test ändert nie Livedaten, (2) Lesbarkeit L1–L8, (3) Fenster
-  ausweichen/andocken (GS-K1/BS-K1), (4) README-Regeln (Schätzen verboten, Gemeinschaftsdaten nie nach Realm, Dev nur im Dev-Modus,
-  Spieler-Funktionen nur über normale Wege). UMG1 erst nach Bewährung (Entscheid 20:06). Danach Vorlage-Tests + Probe-Addon 0 FEHLER.
+- Nichts Laufendes. Erledigt seit 22:19: Skelett (shared/vorlage) nachgeführt – Livedaten T63/T64 (eigene Daten + Sync-Adressbuch + Markt + gs*,
+  Feld nennen, zurücksetzen, Gegenprobe), Lesbarkeit L1–L8 (TK24/TK27/TK28, ns.ReadCheck, feste Hintergrundfarbe, keine grauen Schriften),
+  Fenster ausweichen/andocken (ns.UIAvoidOthers, TK25/TK26), README-Regeln. Vorlage-Tests 149/149, UICheck 9/9, addon_check Probe OK.
+  Im echten Client noch nicht geprüft (TK24/TK25) – beim nächsten neuen Addon im Spiel belegen.
+- AHS-CF2: Upload belegt (Workflow grün, uploaded.json 0.65.393, Changelog "Wichtiges Update"); curseforge.com nicht erreichbar -> Sichtbarkeit offen.
+- AHS-SP1 an die AHS-Sitzung: jetzt starten (Entscheid 22:22), Bericht mit Messung VOR dem Einbau.
 
 ## Nächste Schritte (Reihenfolge)
-1. AHS-CF2 abnehmen (s. oben), Bericht der AHS-Sitzung prüfen.
-2. AHS-SP1 Speicher-Lösung direkt nach der Veröffentlichung (Entscheid 19:56), dann AHS-SG6-a (0.65.394), CF1-UI-a1, AHS-UMG1, AHS-TR1-a.
-3. Uploader: Feld "update" in stand.json nach nächster Lieferung prüfen; UP-UPD1-a (altes Fenster schliesst sich) ab Update durch 2.3.26.
-4. BS-M1-b (Version steht aus). TS-M1-b: Kampfdaten (ThreatSentinelDB.m1) auswerten, sobald vorhanden.
-5. UMG1 bei PS/LP/RM/GS. PS-I8 T269. LP-T31/LP-K1, LP-Charakterdatei.
-6. Markt-Tabellen: Entscheid 06:17 läuft 25.11. ~06:17 ab -> Nutzer fragen (Fallzahl-Regel aussetzen oder alte Tabelle behalten).
-7. Laptop: AHS/PS/TS neueste installieren, sobald verbunden (Entscheid 10:48).
+1. AHS: Sichtbarkeit 0.65.393 auf curseforge.com prüfen; danach alte Zip 0.65.354 entfernen lassen. AHS-SP1-Bericht (Messung, Gleichheitstest) prüfen.
+2. Uploader: nächste PC-Lieferung -> stand.json uploader 2.3.26, Feld "update"; Abnahme UP-UPD1-a/b beim ersten Update durch 2.3.26.
+3. BS-M1-b (Version steht aus). TS-M1-b: Kampfdaten erst nach Instanz/Gruppe des Nutzers.
+4. UMG1 bei PS/LP (Berichte fehlen noch); PS-I8 T269; LP-T31/LP-K1, LP-Charakterdatei.
+5. Markt-Tabellen: Entscheid 06:17 läuft 25.11. ~06:17 ab -> Nutzer fragen (Fallzahl-Regel aussetzen oder alte Tabelle behalten).
+6. Laptop: neueste Addons, sobald verbunden (UP-AUTO1 installiert sonst selbst).
 
 ## Offen beim Nutzer
 - Offiziere: Uploader 2.3.24 am 21:55 vom Nutzer selbst verschickt (Discord-Sitzung NICHT nochmals senden); Umstieg in stand.json beobachten.
@@ -26,6 +26,7 @@ Sitzung seit 23.11. 06:18. Repos: raidmaster, goldsentinel-daten (schreiben); ah
 
 ## Entscheide des Nutzers seit letztem Stand (alle in shared/wissen/entscheide.md)
 - 24.11.: 22:17 AHS-CF2 sofort CurseForge "Wichtiges Update" · 21:36/21:26/21:18/21:13 Uploader (Selbst-Update, Mindestversion, Fenster)
+- 24.11.: 22:22 AHS-SP1 jetzt in Angriff nehmen · 22:21 nach dem Skelett alle anderen Punkte
   · 20:47 Wächter-Funde nur Tipps, Übernahme per Rechtsklick · 20:43/20:28/20:14 Sniper/Wächter-Takt (SG6) · 20:06 Skelett erst nach Bewährung.
 
 ## Wichtig zu wissen
