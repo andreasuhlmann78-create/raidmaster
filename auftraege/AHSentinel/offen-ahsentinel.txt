@@ -6433,3 +6433,16 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
  Teil 6 (2 FEHLER): T126, T459 = AHS-I3 (unverändert offen).
  Reihenfolge neu: AHS-R1 (klein) -> AHS-I5 -> AHS-I6 -> AHS-I4-a -> AHS-I3 -> G14-a -> T750/T191. CurseForge gesperrt bis I5 und I6 zugeordnet/behoben.
 
+>>> INGAMETEST 0.65.388 – 24.11.2026 09:49 (Laptop, Bericht vom Nutzer im Chat, Supervisor 10:00): 1130 OK · 6 FEHLER · 43 übersprungen
+    Teil 1: 2 FEHLER (vorher 4 – Einzelheiten kommen nach /reload) · Teil 2: 1 (T750) · Teil 4: 2 (AHS-I6) · Teil 6: 1 (T459 = AHS-I3; T126 jetzt OK).
+ AHS-I7 HOCH (neu, Sandbox): Teil 6 "Sandbox FEHLER: 199 Pfade, wiederhergestellt in 4 Durchgängen (vollständig): diag.entries.1.k … diag.entries.4.n".
+    Kein Schaden (vollständig zurückgestellt), aber die Testroutine schreibt ins ECHTE Diagnose-Protokoll (db.diag.entries) – Regel "Test ändert nie
+    Livedaten". In 0.65.387 war Teil 6 Sandbox OK -> Verdacht: die neue I4-a-Messung (0.65.388) schreibt Diagnose-Zeilen. Belegen, in der Routine
+    Wegwerf-Speicher wie bei sync.dev, Gegenprobe. Blockiert CurseForge.
+ AHS-I4-a (Messung jetzt da, Auswertung Supervisor): längstes Bild beim Einlesen 710 ms: 270 × REPLICATE_ITEM_LIST_UPDATE in EINEM Bild, AH-Fenster
+    offen, eigene Lesung nur Auktion 25 075 -> 25 200, Speicher +108 397 KB. Das stützt "Spiel/Client baut die Liste auf einen Schlag" stark – bleibt
+    "Verdacht, belegt durch Messung", solange die Frage −378 KB (Supervisor 07:08) nicht beantwortet ist. NEU: "Kosten der Messung 67,1 ms" – die
+    Messung selbst macht ein Bild über 40 ms. Billiger machen (nur zählen, Namen erst nach dem Scan auswerten). Beschriftung Bilder/s jetzt
+    "Mittelwert, kein Einzelbild" mit längstem Bild daneben – erledigt.
+ Reihenfolge: AHS-I7 -> AHS-I5 (nach Bericht) -> AHS-I6 -> AHS-I4-a Rest -> AHS-I3 -> G14-a -> T750/T191. CurseForge gesperrt.
+

@@ -800,3 +800,23 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     PS-V3 HOCH: TestRoutine.lua 5861 "a:Ok(GT.version == 2, …)" wird rot, sobald irgendein Addon Version 3 mitbringt. Auf ">= 2" ändern –
     in der nächsten Version, auch vor dem Kopieren.
 
+>>> INGAMETEST 0.9.80 – 24.11.2026 09:26 (Laptop, WARRIOR 30, Thunder Bluff; Bericht vom Nutzer + Daten-Repo ProfessionSentinel-1795509042-428922-11),
+    Supervisor 10:00: OK 247 · FEHLER 8 · übersprungen 18 · im Client 10 · Sandbox OK. Umgebung in Ruhe: Median 33 ms, längstes 51 ms (Hauptstadt) –
+    die Zerlegung unten nennt aber "unser Code" getrennt, gilt also. Vergleich 0.9.78 (23.11.): T198 und T236 jetzt OK.
+ PS-I1 HOCH (weiter offen, schlechter): eigener Code je Bild über 40 ms: T134 65 ms, T80 49 ms, T258 49 ms, T145 40 ms (alle "unser Code", keine
+    Bereinigung). 0.9.78: 53/52/49 ms. Harte Grenze 40 ms (leistung.md) – auch in der Testroutine.
+ PS-I2 MITTEL (besser, nicht erledigt): T219 2 Aufbauten mit 0,05 s Abstand (Heute herstellen 12,00 s und "nil" 12,05 s) – vorher 4. Woher der Aufbau
+    mit Grund "nil"? Belegen.
+ PS-I3 MITTEL (weiter offen): T85 "keine Zeilen (Beruf nil, Stufe nil …)" obwohl das Berufsfenster offen war.
+ PS-I5 HOCH (neu): T297 Gegenprobe "Änderung baut keine neue Liste" – der Umbau HOCH 1 (0.9.79) erkennt eine echte Änderung nicht. Folge möglich:
+    Rezeptliste zeigt veraltete Daten. Ursache belegen, beheben, Gegenprobe grün.
+ PS-I6 MITTEL (neu, Gold): T33 Preisrechnung "Händlerware 10c: 9" – 3 von 6 Fällen falsch (1 Kupfer daneben). Rundung/Händlergunst? Jede Zahl muss
+    aufgehen (wirtschaft-forever.md Abschnitt 0).
+ PS-I7 MITTEL (neu): T243 "keine Top-Zeile im Reiter Rezepte (Rangliste 54, Zeilen 162, Fertigkeit 75)", dazu T259 Regressionen N0.9.37-2/N0.9.38-3/
+    N0.9.39-1 rot (alle über T243). Alter Befund wieder offen.
+ PS-I8 MITTEL (neu, Leistung): T139 Reiter recipes 19,8 ms (Lederverarbeitung, soll < 16); T269 TodayCrafts Aufruf 3,0 ms (soll ≤ 2), längster Aufruf
+    34,6 ms; WEGE "Aufgabe heute 23,3 ms" (×21).
+ Zur Kenntnis: Lua-Speicher während der Routine +111 744 KB (T145 nur Auskunft; "Liste: Gruppen 9 578 KB" je 20× Refresh) – Verdacht, zu messen.
+    Keine nil-FEHLER mit GoldSentinelTest 3 (PS-V3 umgesetzt). Lua-Fehler SetCraftableCount: Messung des Nutzers steht noch aus.
+ Reihenfolge: PS-I5 -> PS-I1 -> PS-I6 -> PS-I7 -> PS-I2 -> PS-I3 -> PS-I8.
+
