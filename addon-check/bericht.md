@@ -18,7 +18,7 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 - **WARNUNG** GuildSentinel/GoldSentinelTest.lua: veraltete offizielle Fassung (Version 2) – auf shared/GoldSentinelTest.lua Version 3 aktualisieren
 - **WARNUNG** GuildSentinel/GoldSentinelSync.lua: veraltete offizielle Fassung (Version 2) – auf shared/GoldSentinelSync.lua Version 3 aktualisieren
 
-## ProfessionSentinel-0.9.81.zip: OK
+## ProfessionSentinel-0.9.82.zip: OK
 
 ## RaidMaster-3.0.40.zip: FEHLER (2 Warnungen)
 - **FEHLER** Version 3.0.40 ist NIEDRIGER als schon veröffentlichte 3.0.43 (download/, download/ (Git-Geschichte)). Neue Version muss höher sein als 3.0.43, sonst bekommen Spieler das Update nicht.
