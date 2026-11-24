@@ -1,0 +1,334 @@
+"""UP-UPD1 (ab 2.3.24, Entscheid des Nutzers 24.11.2026 21:36 "ok lass die befehle raus"): Uploader-Update auf Knopfdruck mit
+Rückfrage – KEIN automatisches Selbst-Update.
+
+1. Ist eine neuere Uploader-Version veröffentlicht (VERSION in RaidMasterUploader/uploader.py im Repo raidmaster), fragt der Uploader
+   im Fenster: "Neue Uploader-Version x verfügbar – jetzt installieren? (j/n)". Ohne "j" passiert nichts (Daten werden nach UP-MIN1
+   weiter geliefert, solange nicht unter der Mindestversion). "n" = für diese Version nicht mehr fragen – bis zur nächsten Version oder
+   bis die Mindestversion steigt (uploader_state.json "selbstupdate"). Gilt für alle gleich. Die Frage blockiert nie: der Uploader
+   liefert weiter, eine Taste wird bei jedem Durchgang abgefragt.
+2. Nach "j": nur aus raidmaster (GitHub-API, HTTPS, ohne Token), download/RaidMasterUploader.zip über ihre Blob-Kennung, Prüfsumme
+   (Git-Blob-SHA) = Repo, jede Datei mit richtiger CRC, nur Dateien direkt in RaidMasterUploader/ und nur .py/.bat/.txt (nie .json –
+   so kann eine Zip die Konfiguration gar nicht berühren), VERSION in uploader.py der Zip = erwartet und neuer als die eigene.
+   Neue Dateien zuerst in den Nebenordner _update/neu, die bisherigen Programmdateien als Sicherung nach _update/alt (eine Generation),
+   dann umschalten (nur Programmdateien; uploader_config.json, uploader_state.json, sync_config.json, daten_config.json, Logs, Daten
+   bleiben unberührt).
+3. Neustart: Der alte Uploader gibt Sperre und Instanz frei, startet die neue Version mit demselben Aufruf in einem neuen Fenster und
+   wartet bis FRIST Sekunden, bis sie sich in _update/status.json als "läuft" meldet. Dann beendet er sich. Meldet sie sich nicht,
+   beendet er sie, stellt die alte Version aus _update/alt wieder her und läuft selbst weiter (Meldung im Fenster).
+4. Meldungen: "Uploader x -> y installiert, neu gestartet" bzw. "Update fehlgeschlagen (<Grund>) – alte Version x läuft weiter".
+   stand.json je Rechner (über den Zustand "daten"): "update": {"von", "nach", "ergebnis", "zeit"} – ohne Namen (für D-UPD1).
+"""
+from __future__ import annotations
+
+import io
+import json
+import os
+import re
+import shutil
+import subprocess
+import sys
+import time
+import zipfile
+
+import addons
+
+ZIP_PATH = "RaidMasterUploader.zip"            # in download/
+UPDATE_DIR = "_update"
+STATUS_FILE = "status.json"
+FRIST = 60                                       # Sekunden, bis die neue Version "läuft" melden muss
+CHECK_SECONDS = 600                              # so oft nach einer neueren Version sehen
+PROGRAM_EXT = (".py", ".bat", ".txt")
+NEVER_TOUCH = {"uploader_config.json", "uploader_state.json", "sync_config.json", "daten_config.json"}
+VERSION_RE = re.compile(rb'^VERSION\s*=\s*["\'](\d+(?:\.\d+){1,3})["\']', re.M)
+
+
+def version_key(v) -> tuple:
+    return addons.version_key(v)
+
+
+def is_older(have, want) -> bool:
+    return bool(version_key(want)) and version_key(have) < version_key(want)
+
+
+def check_zip(data: bytes, sha: str | None, expected: str, own: str) -> tuple[dict[str, bytes] | None, str]:
+    """Regel 2: ({Dateiname: Inhalt}, "") oder (None, Grund)."""
+    if not sha or addons.git_blob_sha(data) != sha:
+        return None, "Prüfsumme passt nicht zur Datei im Repo"
+    try:
+        zf = zipfile.ZipFile(io.BytesIO(data))
+        bad = zf.testzip()
+    except (zipfile.BadZipFile, OSError, RuntimeError, ValueError) as e:
+        return None, f"Zip nicht lesbar ({e.__class__.__name__})"
+    if bad:
+        return None, f"Zip beschädigt ({bad})"
+    files: dict[str, bytes] = {}
+    for info in zf.infolist():
+        n = info.filename.replace("\\", "/")
+        if n == "RaidMasterUploader/":
+            continue
+        parts = n.split("/")
+        if len(parts) != 2 or parts[0] != "RaidMasterUploader" or not parts[1] or parts[1] in (".", ".."):
+            return None, f"unerwarteter Eintrag in der Zip ({n})"
+        name = parts[1]
+        if name in NEVER_TOUCH or not name.lower().endswith(PROGRAM_EXT):
+            return None, f"Datei ist kein Programmteil ({name})"
+        files[name] = zf.read(info)
+    up = files.get("uploader.py")
+    if up is None:
+        return None, "uploader.py fehlt"
+    m = VERSION_RE.search(up)
+    got = m.group(1).decode() if m else "keine"
+    if got != expected:
+        return None, f"Version in der Zip ist {got}, erwartet {expected}"
+    if not is_older(own, got):
+        return None, f"Version {got} ist nicht neuer als {own}"
+    return files, ""
+
+
+def stage(here: str, files: dict[str, bytes]) -> list[str]:
+    """Neue Dateien nach _update/neu, bisherige Programmdateien nach _update/alt (eine Generation). Liefert die Namen der Programmdateien."""
+    base = os.path.join(here, UPDATE_DIR)
+    neu, alt = os.path.join(base, "neu"), os.path.join(base, "alt")
+    for d in (neu, alt):
+        if os.path.isdir(d):
+            shutil.rmtree(d)
+        os.makedirs(d)
+    for name, data in files.items():
+        with open(os.path.join(neu, name), "wb") as f:
+            f.write(data)
+        with open(os.path.join(neu, name), "rb") as f:
+            if f.read() != data:
+                raise OSError(f"{name}: im Nebenordner nicht gleich")
+    names = sorted(set(files) | {n for n in os.listdir(here) if os.path.isfile(os.path.join(here, n))
+                                 and n.lower().endswith(PROGRAM_EXT) and n not in NEVER_TOUCH})
+    for n in names:
+        src = os.path.join(here, n)
+        if os.path.isfile(src):
+            shutil.copy2(src, os.path.join(alt, n))
+    return names
+
+
+RUNNING_BAT = "uploader.bat"         # läuft gerade (cmd liest eine .bat beim Ausführen Zeile für Zeile nach) -> nie ersetzen
+
+
+def switch(here: str, files: dict[str, bytes]) -> list[str]:
+    """Umschalten: Programmdateien aus _update/neu über die bisherigen (je Datei über eine Zwischendatei, danach zurückgelesen).
+    Gleiche Dateien bleiben unberührt. uploader.bat wird nie ersetzt, solange sie läuft (Windows liest eine laufende .bat Stück für
+    Stück nach – eine ersetzte Datei würde mitten im Text weitergelesen); sie kommt mit dem nächsten /uploader. Liefert die
+    übergangenen Dateien."""
+    neu = os.path.join(here, UPDATE_DIR, "neu")
+    skipped = []
+    for name in sorted(files, key=lambda n: n == "uploader.py"):          # uploader.py zuletzt
+        target = os.path.join(here, name)
+        if os.path.isfile(target):
+            with open(target, "rb") as f:
+                if f.read() == files[name]:
+                    continue
+            if name == RUNNING_BAT:
+                skipped.append(name)
+                continue
+        tmp = target + ".gsneu"
+        shutil.copyfile(os.path.join(neu, name), tmp)
+        os.replace(tmp, target)
+        with open(target, "rb") as f:
+            if f.read() != files[name]:
+                raise OSError(f"{name}: nach dem Umschalten nicht gleich")
+    return skipped
+
+
+def restore(here: str) -> int:
+    """Alte Version aus _update/alt zurück (nur Programmdateien). Liefert die Zahl der Dateien."""
+    alt = os.path.join(here, UPDATE_DIR, "alt")
+    n = 0
+    for name in sorted(os.listdir(alt)):
+        if name in NEVER_TOUCH:
+            continue
+        tmp = os.path.join(here, name + ".gsalt")
+        shutil.copyfile(os.path.join(alt, name), tmp)
+        os.replace(tmp, os.path.join(here, name))
+        n += 1
+    return n
+
+
+def status_path(here: str) -> str:
+    return os.path.join(here, UPDATE_DIR, STATUS_FILE)
+
+
+def report_running(here: str, version: str):
+    """Die (neue) Version meldet "läuft" – aufgerufen beim Start, sobald sie die Instanz hat und die Konfiguration gelesen ist."""
+    p = status_path(here)
+    try:
+        with open(p, encoding="utf-8") as f:
+            st = json.load(f)
+    except (OSError, ValueError):
+        return
+    if st.get("nach") == version and not st.get("laeuft"):
+        st["laeuft"], st["pid"] = True, os.getpid()
+        with open(p + ".tmp", "w", encoding="utf-8") as f:
+            json.dump(st, f)
+        os.replace(p + ".tmp", p)
+
+
+def read_status(here: str) -> dict:
+    try:
+        with open(status_path(here), encoding="utf-8") as f:
+            return json.load(f)
+    except (OSError, ValueError):
+        return {}
+
+
+def read_key() -> str | None:
+    """Eine gedrückte Taste ohne zu warten (Windows-Konsole); sonst None. Andere Systeme: nur Zeilen aus einer Konsole."""
+    try:
+        if sys.platform == "win32":
+            import msvcrt
+            if msvcrt.kbhit():
+                return msvcrt.getwch()
+            return None
+        import select
+        if sys.stdin and sys.stdin.isatty():
+            r, _, _ = select.select([sys.stdin], [], [], 0)
+            if r:
+                return sys.stdin.readline().strip() or None
+    except Exception:  # noqa: BLE001
+        return None
+    return None
+
+
+def spawn_same(here: str):
+    """Die neue Version mit demselben Aufruf starten (neues Fenster unter Windows)."""
+    args = [sys.executable, os.path.join(here, "uploader.py")] + [a for a in sys.argv[1:]]
+    flags = getattr(subprocess, "CREATE_NEW_CONSOLE", 0)
+    return subprocess.Popen(args, cwd=here, creationflags=flags)
+
+
+class SelfUpdate:
+    def __init__(self, here: str, version: str, st: dict, save, log, *, latest=None, minimum=None, fetch_zip=None,
+                 key=read_key, spawn=spawn_same, handover=None, takeback=None, sleep=time.sleep, now=time.time):
+        self.here, self.version, self.log, self.save = here, version, log, save
+        self.s = st.setdefault("selbstupdate", {})
+        self.d = st.setdefault("daten", {})
+        self.latest, self.minimum, self.fetch_zip = latest, minimum, fetch_zip
+        self.key, self.spawn, self.handover, self.takeback = key, spawn, handover, takeback
+        self.sleep, self.now = sleep, now
+        self.next_at = 0.0
+        self.offer = ""                 # Version, nach der gerade gefragt wird
+        self.exit_now = False           # True: neue Version läuft – dieser Prozess soll sich beenden
+
+    def _declined(self, ver: str, mindest: str) -> bool:
+        a = self.s.get("abgelehnt") or {}
+        return a.get("version") == ver and not is_older(a.get("mindest") or "", mindest)
+
+    def tick(self) -> bool:
+        """Liefert True, wenn sich dieser Prozess beenden soll (neue Version läuft)."""
+        t = self.now()
+        if not self.offer and t >= self.next_at:
+            self.next_at = t + CHECK_SECONDS
+            ver = self.latest() if self.latest else None
+            mindest = (self.minimum() if self.minimum else None) or ""
+            if ver and is_older(self.version, ver) and not self._declined(ver, mindest):
+                self.offer, self.offer_min = ver, mindest
+                self.log(f"Neue Uploader-Version {ver} verfügbar – jetzt installieren? (j/n)  "
+                         f"[ohne Antwort läuft {self.version} weiter]")
+        if not self.offer:
+            return False
+        k = self.key()
+        if not k:
+            return False
+        k = k.strip().lower()                       # nur genau "j" bzw. "n" (eine Taste) – "ja?" o. ä. zählt nicht
+        if k == "n":
+            self.s["abgelehnt"] = {"version": self.offer, "mindest": self.offer_min}
+            self.save()
+            self.log(f"Update auf {self.offer} abgelehnt – keine Frage mehr bis zur nächsten Version (oder höheren Mindestversion).")
+            self.offer = ""
+            return False
+        if k != "j":
+            return False
+        ver, self.offer = self.offer, ""
+        return self.install(ver)
+
+    def _record(self, nach: str, ergebnis: str):
+        self.d["update"] = {"von": self.version, "nach": nach, "ergebnis": ergebnis, "zeit": int(self.now())}
+        self.save()
+
+    def _fail(self, nach: str, why: str) -> bool:
+        self.log(f"Update fehlgeschlagen ({why}) – alte Version {self.version} läuft weiter.")
+        self._record(nach, "fehlgeschlagen: " + why)
+        return False
+
+    def install(self, ver: str) -> bool:
+        try:
+            data, sha = self.fetch_zip()
+        except Exception as e:  # noqa: BLE001
+            return self._fail(ver, f"Laden nicht möglich ({e.__class__.__name__})")
+        files, why = check_zip(data, sha, ver, self.version)
+        if files is None:
+            return self._fail(ver, why)
+        try:
+            stage(self.here, files)
+            skipped = switch(self.here, files)
+            if skipped:
+                self.log(f"Hinweis: {', '.join(skipped)} läuft gerade und bleibt unverändert (kommt mit dem nächsten /uploader).")
+        except OSError as e:
+            try:
+                restore(self.here)
+            except OSError:
+                pass
+            return self._fail(ver, f"Schreiben nicht möglich ({e.__class__.__name__}: {e})")
+        st = {"von": self.version, "nach": ver, "zeit": int(self.now()), "laeuft": False}
+        with open(status_path(self.here), "w", encoding="utf-8") as f:
+            json.dump(st, f)
+        if self.handover:
+            self.handover()                          # Sperre und Instanz freigeben, damit die neue Version starten kann
+        proc = None
+        try:
+            proc = self.spawn(self.here)
+        except Exception as e:  # noqa: BLE001
+            return self._rollback(ver, f"Start nicht möglich ({e.__class__.__name__})", proc)
+        waited = 0.0
+        while waited < FRIST:
+            if read_status(self.here).get("laeuft"):
+                self.log(f"Uploader {self.version} -> {ver} installiert, neu gestartet.")
+                self._record(ver, "ok")
+                self.exit_now = True
+                return True
+            if proc is not None and proc.poll() is not None:
+                return self._rollback(ver, f"neue Version beendet sich sofort (Code {proc.returncode})", proc)
+            self.sleep(1)
+            waited += 1
+        return self._rollback(ver, f"neue Version meldet sich nicht innerhalb von {FRIST} s", proc)
+
+    def _rollback(self, ver: str, why: str, proc) -> bool:
+        if proc is not None and proc.poll() is None:
+            try:
+                proc.terminate()
+            except Exception:  # noqa: BLE001
+                pass
+        try:
+            restore(self.here)
+        except OSError as e:
+            why += f"; alte Dateien nicht wiederhergestellt ({e})"
+        if self.takeback:
+            self.takeback()                          # Instanz und Sperre wieder übernehmen
+        return self._fail(ver, why)
+
+
+def fetch_zip_from_repo(get=None) -> tuple[bytes, str]:
+    """download/RaidMasterUploader.zip über die GitHub-API: Wurzel -> Baum download/ -> Blob (genau diese Kennung)."""
+    get = get or (lambda url, headers=None: addons.http_get(url, headers))
+    api = f"{addons.API}/repos/{addons.REPO}"
+    st, _h, body = get(f"{api}/contents", {"Accept": "application/vnd.github+json"})
+    if st != 200:
+        raise OSError(f"HTTP {st}")
+    root = json.loads(body.decode("utf-8"))
+    tree = next((e.get("sha") for e in root if e.get("name") == "download" and e.get("type") == "dir"), None)
+    st, _h, body = get(f"{api}/git/trees/{tree}", {"Accept": "application/vnd.github+json"})
+    if st != 200:
+        raise OSError(f"HTTP {st}")
+    entry = next((e for e in json.loads(body.decode("utf-8")).get("tree") or [] if e.get("path") == ZIP_PATH), None)
+    if not entry:
+        raise OSError("RaidMasterUploader.zip fehlt im Repo")
+    st, _h, data = get(f"{api}/git/blobs/{entry['sha']}", {"Accept": "application/vnd.github.raw"})
+    if st != 200:
+        raise OSError(f"HTTP {st}")
+    return data, entry["sha"]

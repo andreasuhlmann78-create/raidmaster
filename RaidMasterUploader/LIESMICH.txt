@@ -283,6 +283,17 @@ Version 2.3.13 – Datenschutz im Daten-Repo (UP-DS1):
 - Kann er die Datei nicht sicher lesen, liefert er sie gar nicht und meldet einmal "GuildSentinel-Daten nicht geliefert: …".
 - Neue Datei svfilter.py – bitte immer die ganze RaidMasterUploader.zip entpacken.
 
+Version 2.3.24 – Update auf Knopfdruck (UP-UPD1, Entscheid 24.11. 21:36):
+- Gibt es eine neue Uploader-Version, fragt das Fenster: "Neue Uploader-Version x verfügbar – jetzt installieren? (j/n)".
+  Taste j = installieren und neu starten (neues Fenster, das alte schliessen). Taste n = für diese Version nicht mehr fragen.
+  Ohne Antwort läuft alles weiter wie bisher – nichts wird ohne j installiert.
+- Vor dem Installieren wird die Datei geprüft (nur aus dem GoldSentinel-Repo, Prüfsumme, vollständig, richtige Version, nur
+  Programmdateien). uploader_config.json, uploader_state.json, sync_config.json, daten_config.json und deine Daten bleiben
+  unberührt. Die bisherige Version liegt als Sicherung in _update\alt.
+- Startet die neue Version nicht innerhalb von 60 Sekunden, wird die alte automatisch wiederhergestellt und läuft weiter.
+- uploader.bat wird dabei nie ersetzt (sie läuft gerade); eine neue uploader.bat kommt mit dem nächsten /uploader.
+- Diese Version (2.3.24) muss jeder EINMAL von Hand installieren (ZIP entpacken), danach geht es mit j.
+
 Version 2.3.23 – Mindestversion statt "neueste" (UP-MIN1, Entscheid 24.11. 21:18):
 - Abgewiesen werden nur noch Uploader UNTER der Mindestversion (Datei RaidMasterUploader/mindestversion.txt im GoldSentinel-Repo,
   zurzeit 2.3.20). Eine neuere Version ohne Änderung an Daten/Format/Prüfung/Sicherheit sperrt niemanden mehr.

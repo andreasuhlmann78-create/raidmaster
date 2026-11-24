@@ -1,0 +1,37 @@
+Bericht RaidMaster-Sitzung an die Prüf-Sitzung – 24.11.2026 21:42
+Thema: UP-UPD1 HOCH (Entscheid des Nutzers 24.11. 21:36) – Uploader-Update auf Knopfdruck mit Rückfrage – Uploader 2.3.24
+Status: umgesetzt, zur Prüfung. download/RaidMasterUploader.zip (18 Dateien, ZIP = Ordner; neu selfupdate.py, tests/test_selfupdate.py).
+Zur Kenntnis: 2.3.23 (UP-MIN1) angenommen 21:30. Die Mindestversion bleibt 2.3.20 (2.3.24 ändert keine Daten).
+
+1. Rückfrage (Regel 1): alle 10 Min. VERSION in uploader.py (raw) – ist sie neuer: einmal im Fenster "Neue Uploader-Version x verfügbar –
+   jetzt installieren? (j/n) [ohne Antwort läuft y weiter]". Die Taste wird je Durchgang ohne Warten gelesen (Windows msvcrt.kbhit) –
+   Liefern und Abgleich laufen weiter. Nur genau "j"/"n" (gross/klein egal) zählt. "n" -> uploader_state.json "selbstupdate.abgelehnt"
+   {version, mindest}: keine Frage mehr bis zur nächsten Version oder bis die Mindestversion steigt. Gilt für alle (keine Sonderrolle).
+2. Prüfen und Nebenordner (Regel 2): download/RaidMasterUploader.zip über die GitHub-API (Wurzel -> Baum download/ -> Blob genau dieser
+   Kennung, ohne Token); Git-Blob-SHA = Repo, CRC jeder Datei, NUR Dateien direkt in RaidMasterUploader/ mit .py/.bat/.txt (eine .json
+   oder ein Unterordner in der Zip -> abgewiesen; damit kann die Zip die Konfiguration gar nicht berühren), uploader.py der Zip hat
+   VERSION = erwartet und neuer als die eigene. Neue Dateien nach _update/neu, bisherige Programmdateien nach _update/alt (eine
+   Generation), dann je Datei umschalten (Zwischendatei, zurücklesen; gleiche Dateien unberührt; uploader.py zuletzt).
+   uploader_config.json, uploader_state.json, sync_config.json, daten_config.json, Logs, Daten: nie angefasst (Test: SHA-256 gleich).
+   ABWEICHUNG (begründet): uploader.bat wird nie ersetzt, solange sie läuft – Windows (cmd) liest eine laufende .bat Stück für Stück
+   nach; nach dem Ende von Python läse cmd in der ersetzten Datei an alter Stelle weiter. Der Autostart startet uploader.bat
+   (Autostart-einrichten.bat). Eine geänderte uploader.bat kommt mit dem nächsten /uploader; Meldung im Fenster.
+3. Neustart (Regel 3): status.json in _update ("von", "nach", "laeuft": false) -> Sperre, Instanz-Datei und Mutex freigeben
+   (sync.instance_handover) -> neue Version mit demselben Aufruf in neuem Fenster (CREATE_NEW_CONSOLE) -> bis 60 s warten, bis sie
+   "laeuft" meldet (uploader.py ruft selfupdate.report_running nach Instanz und Konfiguration). Dann beendet sich die alte
+   ("Dieses Fenster wird nicht mehr gebraucht"). Beendet sich die neue sofort oder meldet sie sich nicht: beenden, alte Dateien aus
+   _update/alt zurück, Instanz und Sperre wieder übernehmen, alte läuft weiter.
+   Grenze (Verdacht, zu messen im Client): Das alte Fenster zeigt danach "pause" aus uploader.bat ("Taste drücken") – einfach schliessen.
+4. Meldungen (Regel 4): "Uploader x -> y installiert, neu gestartet." / "Update fehlgeschlagen (<Grund>) – alte Version x läuft weiter."
+   stand.json je Rechner: "update": {"von", "nach", "ergebnis" ("ok" | "fehlgeschlagen: <Grund>"), "zeit"} – ohne Namen (für D-UPD1).
+5. Tests (eigene, Hinweis): test_selfupdate 16 – j installiert (cmp gleich, Konfiguration/Daten Bit für Bit, alte als Sicherung, keine
+   .json in der Sicherung); n -> nichts, keine erneute Frage (auch nach Neustart), neue Version bzw. höhere Mindestversion -> wieder;
+   ohne j (Eingaben None/x/""/1/"ja?") nie, Gegenprobe "J" installiert; aktuell -> keine Frage; falsche Prüfsumme / kaputte Zip /
+   falsche Version / .json in der Zip / Unterordner / falscher Ordner -> nichts, Meldung; neue meldet sich nicht bzw. stürzt ab ->
+   alte zurück und läuft; laufende uploader.bat unverändert; echte Repo-Zip besteht die Prüfung; uploader.py meldet "läuft" erst nach
+   instance_acquire. Durchlauf mit ECHTEN Prozessen (Kopie des Ordners): neue startet -> "installiert, neu gestartet"; neue mit Code 3
+   -> alte zurück; neue meldet sich nie (Frist 8 s im Versuch) -> alte zurück; Konfiguration jedes Mal unverändert.
+   Alle grün: test_selfupdate 16, test_addons 25, test_daten 48, test_sync 54, test_uploader 23, test_umfassend 14 (TU6 100/100, TU3 28).
+6. WICHTIG: 2.3.24 ist die erste Version mit UP-UPD1 – jeder muss sie EINMAL von Hand installieren (ZIP entpacken, neu starten).
+   2.3.20–2.3.22 liefern ohnehin erst wieder ab 2.3.23 (Bericht 2123). Danach genügt die Taste j.
+7. Für D-UPD1 (Discord): Feld "update" in stand.json (Zweig sicherung) je Rechner; Mindestversion in RaidMasterUploader/mindestversion.txt.

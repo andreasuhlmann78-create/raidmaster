@@ -70,8 +70,9 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import sync  # noqa: E402  (Abgleich PC/Laptop, ab 2.1.0)
 import daten  # noqa: E402  (Daten für die Prüf-Sitzung, ab 2.3.0)
 import addons  # noqa: E402  (UP-AUTO1: neue Addon-Versionen selbst installieren, ab 2.3.21, Standard aus)
+import selfupdate  # noqa: E402  (UP-UPD1: Uploader-Update nur nach Rückfrage "j", ab 2.3.24)
 
-VERSION = "2.3.23"
+VERSION = "2.3.24"
 SHOT_WINDOW = (-30, 180)          # Bild darf so viele Sekunden vor/nach der gemerkten Zeit entstanden sein
 SHOT_MAX_BYTES = 9 * 1024 * 1024
 SHOT_MAX_AGE = 14 * 86400
@@ -1211,6 +1212,15 @@ def main():
             log(f"Abgleich: {e}")
         log("Abgleich läuft automatisch: nach dem Beenden von WoW hoch, neuer Stand vom anderen Rechner sofort.")
     deliverer = make_daten(reporter.st, path, syncer)
+    # UP-UPD1: diese Version meldet "läuft" (nach einem Update wartet die alte darauf), danach Rückfrage bei neuer Version
+    selfupdate.report_running(HERE, VERSION)
+    ctx = daten.ssl_context()
+    updater = selfupdate.SelfUpdate(
+        HERE, VERSION, reporter.st, lambda: save_state(reporter.st), log,
+        latest=daten.fetch_latest_version, minimum=daten.fetch_min_version,
+        fetch_zip=lambda: selfupdate.fetch_zip_from_repo(lambda url, headers=None: addons.http_get(url, headers, ctx=ctx)),
+        handover=lambda: sync.instance_handover(HERE),
+        takeback=lambda: (sync.instance_acquire(HERE, VERSION, log=log), sync.write_lock(HERE)))
     installer = None
     if cfg.get(addons.CONFIG_KEY) is True:              # UP-AUTO1: Standard aus
         roots = dict(syncer.roots) if syncer is not None else sync.find_roots()
@@ -1303,6 +1313,13 @@ def main():
                     daten_text, daten_last = line, time.time()
             except Exception as e:  # noqa: BLE001
                 log(f"Prüfung: {e}")
+        # UP-UPD1: Rückfrage "j/n" bei neuer Version; nach erfolgreichem Update beendet sich dieser Prozess
+        try:
+            if updater.tick():
+                log("Dieses Fenster wird nicht mehr gebraucht – die neue Version läuft im neuen Fenster.")
+                return
+        except Exception as e:  # noqa: BLE001
+            log(f"Update: {e}")
         # UP-AUTO1: nach dem Hochladen, im selben Ablauf (nie gleichzeitig); Fehler stören nichts anderes
         if installer is not None:
             try:

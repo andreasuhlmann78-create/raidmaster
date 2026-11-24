@@ -408,6 +408,20 @@ def kill_pid(pid: int) -> bool:
     return False
 
 
+def instance_handover(here: str):
+    """UP-UPD1 (2.3.24): vor dem Start der neuen Version Sperre, Instanz-Datei und (Windows) Mutex freigeben."""
+    remove_lock(here)
+    instance_release()
+    h = _MUTEX.get("handle")
+    if h and sys.platform == "win32":
+        try:
+            import ctypes
+            ctypes.windll.kernel32.CloseHandle(h)
+        except Exception:  # noqa: BLE001
+            pass
+    _MUTEX["handle"] = None
+
+
 def instance_release(path: str | None = None):
     info = instance_info(path)
     if info.get("pid") == os.getpid():

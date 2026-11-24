@@ -345,6 +345,8 @@ STANDARD = [
     ("Addons: Wiederholungen (Minuten)", lambda: __import__("addons").RETRY_MINUTES, (1, 2, 4, 8, 16)),
     ("Addons: Schalter", lambda: __import__("addons").CONFIG_KEY, "addons_auto_installieren"),
     ("Uploader: Mindestversion beim Bau (UP-MIN1)", lambda: daten.MIN_BUILTIN, "2.3.20"),
+    ("Update: neue Version prüfen alle (Sekunden)", lambda: __import__("selfupdate").CHECK_SECONDS, 600),        # UP-UPD1
+    ("Update: Frist bis die neue Version läuft (Sekunden)", lambda: __import__("selfupdate").FRIST, 60),
 ]
 
 
@@ -598,6 +600,14 @@ REGRESSIONEN = {
     "UP-MIN1 über Mindestversion angenommen + Hinweis": "test_daten.UPALT.test_min_ueber_mindest_aber_nicht_neueste_wird_angenommen",
     "UP-MIN1 mindestversion.txt": "test_daten.UPALT.test_min_datei_im_repo",
     "UP-MSG1 Weg genannt, nachgeholt": "test_sync.Abgleich.test_up_msg1_weg_genannt_und_nachgeholt",
+    "UP-UPD1 j installiert, Konfiguration gleich": "test_selfupdate.Rueckfrage.test_j_installiert_cmp_gleich_konfiguration_unveraendert",
+    "UP-UPD1 n keine neue Frage": "test_selfupdate.Rueckfrage.test_n_nichts_und_keine_neue_frage_bis_neue_version",
+    "UP-UPD1 ohne j kein Update": "test_selfupdate.Rueckfrage.test_ohne_j_kein_update_gegenprobe",
+    "UP-UPD1 Prüfsumme": "test_selfupdate.Abweisen.test_falsche_pruefsumme",
+    "UP-UPD1 falsche Version": "test_selfupdate.Abweisen.test_falsche_version",
+    "UP-UPD1 Konfiguration in Zip abgewiesen": "test_selfupdate.Abweisen.test_konfiguration_in_der_zip",
+    "UP-UPD1 neue startet nicht, alte zurück": "test_selfupdate.Neustart.test_neue_meldet_sich_nicht_alte_wieder_da",
+    "UP-UPD1 laufende .bat nie ersetzt": "test_selfupdate.Neustart.test_laufende_bat_wird_nie_ersetzt",
 }
 
 
