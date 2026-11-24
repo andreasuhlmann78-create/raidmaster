@@ -34,7 +34,7 @@ Sitzung seit 23.11. 06:18. Repos: raidmaster, goldsentinel-daten (schreiben); ah
   wieder posten; 12:48 neue Version ersetzt alten Discord-Beitrag (wie bisher); 14:04 Laptop unter der Woche, PC am Wochenende.
 
 ## Wichtig zu wissen
-- Entscheid 10:48: jede neue Addon-Version sofort auf dem Laptop installieren (curl aus raw.githubusercontent raidmaster/announce bzw. download, nur geänderte Dateien, danach cmp aller Dateien). Stand 10:50: AHS 0.65.389, RM 3.0.43, TS 2.5.27, BS 0.9.62, PS 0.9.80, LP 3.13.11, GS 0.9.60.
+- Entscheid 10:48: jede neue Addon-Version sofort auf dem Laptop installieren (curl aus raw.githubusercontent raidmaster/announce bzw. download, nur geänderte Dateien, danach cmp aller Dateien). Stand 12:40: AHS 0.65.389, RM 3.0.43, TS 2.5.27, BS 0.9.62, PS 0.9.81, LP 3.13.12, GS 0.9.61 (alle installiert, cmp ok). Discord-Prüfung grün (D-CHK1 Teil 2).
 - Laptop = AUSPLUSLAPTOP (Forever: C:\Program Files (x86)\World of Warcraft\_forever_\Interface\AddOns, Zugriff am 23.11. erteilt).
   Am 23.11. alle neuen Versionen dort installiert und gegen die Zips geprüft (441 Dateien).
 - Daten-Repo: jede Lieferung = 1 Commit ohne Vorgänger (DU6, so gewollt); höchstens 7 Tage + 200 MB (ältere Tage fallen weg).
