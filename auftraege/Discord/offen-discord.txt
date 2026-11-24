@@ -490,3 +490,9 @@ SICHERHEIT (Pflicht, Repo ist öffentlich):
     uploader.py; is_outdated Z. 63, outdated Z. 85). Umstellen auf die Mindestversion aus RaidMasterUploader/mindestversion.txt (erste Zeile ohne #).
     Feinheit: Rechner mit 2.3.20–2.3.22 liefern trotzdem nicht, solange es eine neuere Version gibt -> für sie weiter "liefert nicht, /uploader holen",
     bis sie 2.3.23 haben. Text "(neueste x)" -> "(Mindestversion y)". Tests mit Gegenprobe. Den verschobenen Versand an die Offiziere mit 2.3.23 machen.
+>>> D-UPD1 HOCH (Supervisor 21:36, Entscheid des Nutzers 21:36 "ok lass die befehle raus"; zu UP-UPD1/UP-MIN1):
+    1. PN an Nutzer/Offiziere NUR, wenn die Mindestversion (RaidMasterUploader/mindestversion.txt) steigt bzw. ihr Rechner darunter liegt:
+       "Neue Pflicht-Version des Uploaders – bitte im Uploader-Fenster mit j bestätigen (oder /uploader holen)". KEINE PN für jede kleine Version.
+    2. Ergebnis aus stand.json "update" (D-UPD1 liest es): nach erfolgreichem Update optional kurze Bestätigung, nach "Update fehlgeschlagen"
+       eine PN mit dem Grund und "/uploader holen". Keine Namen im Repo, nur über den Bot.
+    3. Erst nach UP-UPD1 (RaidMaster) und D-UPMIN1; zusammen mit dem verschobenen Versand an die Offiziere. Tests mit Gegenprobe.

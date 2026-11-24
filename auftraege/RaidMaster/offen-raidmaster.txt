@@ -847,3 +847,19 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     mindestversion.txt = 2.3.20 mit Begründung (erster Uploader mit Zweig "sicherung"; 2.3.21/2.3.22 ändern keine Daten) – Belege je Version
     nachvollziehbar, Startwert richtig. Grenze Punkt 4 (2.3.20–2.3.22 prüfen sich selbst noch gegen "neueste") ehrlich benannt – angenommen.
     Folge: PC, Laptop und Offiziere brauchen EINMAL noch 2.3.23; danach sperrt eine neue Version nur bei erhöhter Mindestversion.
+>>> UP-UPD1 HOCH – Uploader-Update auf Knopfdruck mit Rückfrage (Entscheid des Nutzers 24.11.2026 21:36: "ok lass die befehle raus" auf den Vorschlag
+    des Supervisors 21:35; KEIN automatisches Selbst-Update – Grund: der Uploader ist ein Programm mit vollem Zugriff auf den Rechner, ein Fehler oder
+    ein fremder Eintrag im öffentlichen Repo liefe sonst ungefragt auf den PCs der Offiziere; die Prüfsumme stammt aus demselben Repo)
+    1. Ist eine neuere Uploader-Version veröffentlicht, fragt der Uploader im Fenster: "Neue Uploader-Version x verfügbar – jetzt installieren? (j/n)".
+       Ohne "j" passiert nichts (Daten werden nach UP-MIN1 weiter geliefert, solange nicht unter der Mindestversion). "n" = für diese Version
+       nicht mehr fragen (bis zur nächsten oder bis die Mindestversion steigt). Gilt für ALLE (Nutzer und Offiziere) gleich.
+    2. Nach "j": wie UP-AUTO1 – nur aus raidmaster (HTTPS), Blob-SHA, CRC, Zip = Ordner RaidMasterUploader, VERSION in uploader.py = erwartet; neue
+       Version in einen Nebenordner, dann umschalten. NIE uploader_config.json, uploader_state.json, Logs, Daten anfassen (bleiben am Ort).
+    3. Neustart: der Uploader beendet sich und startet die neue Version (Start-.bat bzw. gleicher Aufruf). Startet die neue Version nicht oder meldet
+       sie sich nicht innerhalb einer Frist als "läuft", wird die alte automatisch wiederhergestellt und gestartet; Meldung im Fenster.
+       Alte Version bleibt als Sicherung im Nebenordner (eine Generation).
+    4. Meldungen: "Uploader x -> y installiert, neu gestartet" bzw. "Update fehlgeschlagen (<Grund>) – alte Version x läuft weiter".
+       Für den Bot (D-UPD1) in stand.json je Rechner: "update": {"von", "nach", "ergebnis", "zeit"} – ohne Namen.
+    5. Tests (Nachbau): j -> installiert, cmp gleich, Konfiguration und Daten Bit für Bit unverändert; n -> nichts, keine erneute Frage bis neue
+       Version; kaputte Zip/falsche Version/falsche Prüfsumme -> nichts; neue Version startet nicht -> alte wieder da und läuft; kein Update ohne "j"
+       (Gegenprobe). Die erste Version mit UP-UPD1 muss jeder EINMAL von Hand installieren (Bericht sagt es).

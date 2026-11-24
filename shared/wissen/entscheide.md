@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Folge |
 |---|---|---|
+| 21:36 | "ok lass die befehle raus" (Uploader-Update: kein automatisches Selbst-Update, sondern auf Knopfdruck mit Rückfrage j/n, für alle; Bot-PN nur bei steigender Mindestversion) | UP-UPD1 an RaidMaster, D-UPD1 an Discord. Addons installieren sich weiter automatisch (UP-AUTO1) |
 | 21:27 | "ok mach das aber das ist ja nicht schlimm wegen curse" (Wächter-Schritt der Testroutine wartet auf Vollscan) | AHS-TR1-a NIEDRIG, kein CurseForge-Blocker |
 | 21:18 | "umsetzten" (Vorschlag Supervisor: Uploader-Mindestversion statt "nur neueste") | UP-MIN1 an RaidMaster: abgewiesen wird nur unter der Mindestversion; diese steigt nur bei Daten-/Format-/Prüf-/Sicherheitsänderungen. Ändert die Umsetzung von 07:22 (UP-ALT) |
 | 21:13 | Sniper/Wächter: Leuchten + Schlachtzugswarnung im Suchtakt ("so lange wie der refresh halt geht"; nur das Item, dessen Suche gerade fertig ist; "das gleiche natürlich für den wächter"; "ok pushen vor curse") | AHS-SG6 HOCH, Teil von AHS-CF1 (vor CurseForge); ersetzt SG1–SG3 vom 11.11. teilweise |
