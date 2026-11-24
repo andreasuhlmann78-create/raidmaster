@@ -1,0 +1,37 @@
+AHSentinel – AHS-I4-a Rest: Antwort zur Frage "−378 KB" (Supervisor 07:08) – mit Berichtigung meiner Aussage von 07:25
+Grundlage: Ingametest 0.65.389 Teil 6 (Felder vollscan_luecke_1–3, vollscan_probe; Daten-Repo Zweig sicherung) und Vollscan.lua 0.65.389.
+
+1) Welche Werte nimmt AddonMemDiff? (Antwort auf die Frage)
+   kbA = ganzer Lua-Speicher direkt nach der Messung je Addon zu Scan-Beginn (MBegin).
+   kbB = ganzer Lua-Speicher direkt nach der Messung je Addon (UpdateAddOnMemoryUsage) – am Ende desselben MTick, in dem die Messung
+         angefordert wurde. Rest "ohne Addon" = kbB − kbA − Summe aller Addons.
+   ABER (neu gefunden, Vollscan.lua MTick): angefordert wurde die Messung nur beim ERSTEN Bild >= 250 ms ("not m.addonMem1").
+   Die Lücke im Bericht ist das LÄNGSTE Bild. Wurde später ein längeres Bild gemessen, gehören Messung je Addon und Lücke zu
+   VERSCHIEDENEN Bildern.
+
+2) Beleg aus 0.65.389 (die neuen Felder zeigen es direkt):
+   Lücke (längstes Bild 837 ms): Speicher 791 147 -> 905 699 KB (+114 552).
+   Messung je Addon: "im Bild 766 471 KB · vor Messung 766 474 · danach 766 477 KB (19,7 s nach Beginn) · während der Messung keine
+   Bereinigung". 766 471 ist nicht 905 699 -> die Messung je Addon lag bei einem früheren, kürzeren Bild (>= 250 ms).
+   Rest −20 858 KB = 766 477 − 785 877 (Scan-Beginn) − Summe der Addons (+1 885 gezeigt, übrige zusammen −427): der ganze Lua-
+   Speicher war zu diesem früheren Zeitpunkt 19,4 MB TIEFER als zu Scan-Beginn (Bereinigungen dazwischen: 13 im Scan). Das ist
+   bereinigter Müll, kein Addon – und sagt über das 837-ms-Bild nichts.
+
+3) Berichtigung meiner Aussage vom 24.11. 07:25 (Bericht 2026-11-24-0725-0.65.388-…):
+   Ich schrieb "BELEGT aus den Zahlen: während der Messung je Addon lief eine Bereinigung von mindestens 132 580 KB". Die Rechnung
+   setzte voraus, dass Messung je Addon und längstes Bild dasselbe Bild sind. Das war nicht gesichert (siehe 1) und ist durch
+   0.65.389 widerlegt. Die Aussage ist ZURÜCKGEZOGEN. Für 0.65.387 gilt dieselbe Erklärung wie in 2): −378 KB = Unterschied des
+   ganzen Lua-Speichers zwischen Scan-Beginn und einem früheren Bild >= 250 ms, minus Addons. Keine Bereinigung "in der Messung" nötig.
+
+4) Was zur Ursache der Lücke bleibt (belegt durch drei Messungen 707/710/837 ms):
+   Im längsten Bild beim Einlesen: 279 × REPLICATE_ITEM_LIST_UPDATE in EINEM Bild, AH-Fenster offen, eigene Lesung nur 100 Auktionen
+   (29 225 -> 29 325 von 250 059), eigene Arbeit 2 ms, eigener Speicher 7 KB, ganzer Lua-Speicher +114 552 KB in diesem Bild.
+   AHSentinel legt in diesem Bild 7 KB an; WER die +114 MB anlegt, zeigen die Zahlen nicht (GetAddOnMemoryUsage misst belegten,
+   nicht angelegten Speicher). Dass es der Client beim Aufbau der Liste ist, passt zu allen Werten – als Ursache "belegt" nur so weit:
+   nicht AHSentinel (eigene Arbeit 2 ms, 7 KB).
+
+5) Umsetzung für die nächste Version (umgesetzt, zur Prüfung; mit AHS-I3 veröffentlicht):
+   Messung je Addon bei JEDEM neuen längsten Bild >= 250 ms neu (je ~190 ms, nicht gezählt; wenige Male je Scan), das Bild steht im
+   Text ("im Bild (837 ms) …"), Zahl der Messungen dabei. Damit gehören Lücke und Messung je Addon zum selben Bild.
+   Test T1010: Bild 300 ms -> Messung 1, Bild 800 ms -> Messung 2 zum 800-ms-Bild, Gegenprobe kürzeres Bild 400 ms -> keine neue
+   Messung; mit dem alten Code wäre es "Messung 1" geblieben. Nachbau Teil auto: OK 1008 · FEHLER 0.
