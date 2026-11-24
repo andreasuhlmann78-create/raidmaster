@@ -1,0 +1,95 @@
+AHSentinel 0.65.393 – AHS-CF1-UI a), c), d) (b entfällt mit c), AHS-SG6 und AHS-TR1-a – umgesetzt, zur Prüfung (Kandidat für CurseForge, NICHT veröffentlicht dort)
+Discord: ja. CurseForge: nein – erst nach Ingametest, Prüfung a–e durch den Supervisor und OK des Nutzers (AHS-CF1 e).
+addon_check 0.65.393: OK. ZIP: gleiche 112 Dateien wie 0.65.392.
+Nachbau: Teil auto OK 1015 · FEHLER 0 · übersprungen 67 · im Client 16 (s42 PASS); Teil server s43 PASS. Geänderte/betroffene Szenarien PASS:
+ s272w (neu), s9_watcher_tip (neu), s11_buy_keys, s11_sniper_keeps_going, s58_sniper_messages, s266_sniper_tab_cost, s272, s272b, s272c, s272d,
+ s10_quality_picker. s9_watcher bleibt rot wie schon mit 0.65.389–0.65.392 (Wächter findet im Nachbau nichts; vorher 11, jetzt 10 Fehler).
+ FULL (alle Szenarien) läuft noch (Entscheid Supervisor 21:44: Discord vorher erlaubt, FULL ohne neue Fehler Pflicht vor CurseForge) –
+ Ergebnis kommt als eigener Bericht. Stand 254 Szenarien: einzige Abweichung zu 0.65.392 ist s272_testroutine_alles "Zeitüberschreitung"
+ (600 s) – lief, während ich parallel Teil auto/server und Einzel-Szenarien rechnete (2 Kerne); einzeln danach PASS (28 Prüfungen). Ursache
+ Rechenlast = Verdacht; wird im FULL-Bericht ohne Parallel-Last nachgerechnet.
+
+c) Wächter-Funde nur Tipps (Entscheid des Nutzers 20:43/20:48) – Code:
+ 1. Sniper.lua Sn:GetTargets(withExtra): ohne Argument nur die eigenen Ziele (Zielliste UI_Sniper Z. 639/693, Testausgabe). Die Prüf-Ziele
+    "w:<id>" des Wächters liefert nur GetTargets(true) – einziger Aufrufer GetActiveTargets (interne Einzelsuche läuft weiter, unsichtbar).
+ 2. Sn:FinishSearch: Ergebnis eines Prüf-Ziels (t.watch) -> nur W:OnVerified; Sn.result/hasPlan werden auf den Stand VOR der Suche
+    zurückgesetzt, keine Warteschlange (QueueHit), kein Treffer, keine Anzeige in der Angebotsliste. UI_Sniper: laufende Prüf-Suche zeigt
+    nicht "Suche läuft" mit Wächter-Namen.
+ 3. Kaufsperren: Sn:Buy und Sn:Reserve verweigern jedes Ziel mit t.watch ("Wächter-Funde sind Tipps – Rechtsklick im Wächter: …").
+    Sn:WheelBuy und Sn:ApplyBindings: keine Wächter-Taste mehr (w = false, wOn = false) – Mausrad bleibt frei, wenn nur der Wächter läuft.
+    Knopf "Kaufen" im Reiter Wächter entfernt; Optionszeile "Wächter kauft mit" entfernt (55 statt 56 Zeilen, T839 angepasst).
+    Hinweis "zum Suchen scrollen" nur noch im Sniper-Modus.
+ 4. Übernehmen: W:Adopt(o) -> Sn:SetTarget(itemID, Höchstpreis des Wächters, Menge = zuletzt geprüfte Menge ohne Lockangebot; Budget =
+    Menge × Max). Vorhandenes eigenes Ziel desselben Items wird NIE überschrieben ("Schon ein Sniper-Ziel – …"). Prüf-Ziel wird entfernt,
+    Status "übernommen". Wege: Rechtsklick auf das Item (Menüpunkt "In den Sniper übernehmen" statt "Als Sniper-Ziel eintragen";
+    UI:ShowItemMenu(itemID, anchor, sniperFn), Tabellen-Option menuSniper) und Knopf "In den Sniper" (gewählte Zeile).
+ 5. Migration: Sn:DropWatchTargets beim Laden (READY) – entfernt "w:"-Schlüssel und Ziele mit watch aus db.sniper.targets.
+ 6. Texte: Untertitel, Tooltip "Wächter an/aus", Zeile über der Liste ("Rechtsklick: in den Sniper übernehmen"), Alarm-Chatzeile
+    ("… – Rechtsklick im Wächter: in den Sniper übernehmen"), Zusammenfassung "Tipps: n – gekauft wird nur, was du in den Sniper
+    übernimmst." – 12 neue Schlüssel in 10 Sprachen; 9 alte Schlüssel ("Kaufen mit Mausrad / Taste wie beim Sniper", "Gleiche Wirkung wie
+    Mausrad …" ×2, "Im Sniper zeigen", "Schnäppchen! … zum Kaufen", Alarm "– %s zum Kaufen", "Wächter kauft mit" …) aus allen Sprachen entfernt.
+ Test T1014 (mit Gegenproben): Sniper-Liste gleich (Gegenprobe GetTargets(true) +1) | Buy/Reserve verweigert (echte Funktionen hinter der
+ Selbsttest-Sperre) | Prüf-Ergebnis lässt den Treffer stehen, Wächter bekommt es (Gegenprobe ohne watch: Treffer ersetzt) | Übernehmen:
+ genau ein neues Ziel (Max 100, Menge 7), Prüf-Ziel weg | zweites Übernehmen: false, nichts geändert | Migration 2 entfernt, "i:6" bleibt.
+b) "0/100000" und Tooltip: entfällt – Wächter-Zeilen erscheinen nicht mehr in der Sniper-Zielliste (Zeile [Wächter] nicht mehr erreichbar).
+d) Kopfzeile: Sn:IsArmed war wahr, sobald der Wächter ein offenes Prüf-Ziel hatte (Sniper.lua: "return self:HasExtraTargets()") – belegt
+ aus dem Code, passt zum Bild (Kopf "an", Reiter "AUS"). UI:UpdateHeaderStatus zeigt jetzt db.sniper.armed = derselbe Schalter wie der Knopf.
+ T1015: Sniper-Modus aus + Wächter-Prüfziel -> "Sniper: aus" (Gegenprobe: IsArmed dabei wahr), Modus an -> "an".
+a) Durchscheinen: Verdacht, zu messen (aus Bild und Code): unsere Reiter sind alle ausgeblendet (UI:SelectTab), die blassen Zeilen
+ ("Verfügbar", Itemnamen, Mengen) gehören zur Liste des Blizzard-Auktionshauses; deren Rahmen können eine höhere Stufe haben als unsere
+ Abdeckung (AH + 30). Jetzt UI:AHOverlayRaise beim Einrichten: Abdeckung = max(AH + 30, höchste Stufe aller AH-Rahmen + 25), höchstens 9000,
+ einmal vor dem Anlegen unserer Kinder (die erben die Stufe). T1016: kein fremder Reiter gezeigt (Gegenprobe +1); bei offenem AH:
+ UI:AHBleed listet sichtbare AH-Rahmen auf/über der Abdeckung mit Name und Stufe – erwartet 0 (Gegenprobe: Prüf-Rahmen über der Abdeckung
+ wird gefunden). Im Nachbau SKIP (kein AH) – Messung nur im Spiel: Testbericht T1016.
+AHS-SG6 (Entscheid des Nutzers 21:07–21:13, "ok pushen vor curse") – in derselben Version wie CF1-UI c:
+ 1./2. Sniper.lua: Sn:Alert wird nur noch in FinishSearch gerufen, mit dem Plan DIESER Suche (ownPlan = Plan des eben gesuchten Ziels, bevor
+    der keepHit-Vergleich einen älteren Treffer nach vorne holt). Suche ohne kaufbaren Treffer: keine Meldung (vorher Alert(plan,false) für den
+    stehenden Treffer eines anderen Ziels = Ton). Neue Sn:Pulse(plan, who, noSound): EIN Leuchten (Sn:Signal) + EIN Ton 8959 (Option "Ton bei
+    Treffern und Alarmen"; nur AH offen, nie im Kampf).
+ 3. Wiederholung = jede weitere Suche desselben, noch kaufbaren Ziels. Aus: Kauf (BUY_PURCHASE_RESULT), Treffer weg (SNIPER_CHANGED ohne
+    Treffer), AH zu, Kampf (neu: PLAYER_REGEN_DISABLED -> StopSignal; vorher nur Sperre beim Start).
+ 4. Entfallen: SIGNAL_GAP 3 s, Leuchten nur bei neuem lastAlertID, Wiederholung per Uhr (Tick/HitWaiting -> Alert, ALERT_REPEAT 4 s).
+    Chat-Zeile "Treffer: …" bleibt höchstens alle 30 s (PRINT_REPEAT). Ein neues Signal startet das Pulsieren neu (ein Rahmen).
+ 5. Anzeige: der Sniper-Reiter frischt über SNIPER_CHANGED am Ende jeder Suche auf (gedrosselt 0,5 s, unverändert; baut die sichtbaren
+    Zeilen neu – "nur geänderte Zeilen" ist NICHT umgesetzt). Messung Nachbau (2 Ziele, Leinen kaufbar, Wolle nie, 30 s, Reiter offen):
+    Suchen Leinen 10, Wolle 10 · Meldungen 10, alle Leinen, 0 nach Wolle-Suchen · Töne 10 · Anzeige 60× neu, Ø 1,30 ms, längste 7,93 ms
+    (Nachbau-Uhr). Wenn "nur geänderte Zeilen" trotzdem gewünscht ist: bitte als eigener Punkt (Umbau UI:Table).
+ 6. Wächter: W:OnVerified – jede Prüf-Suche, die den Tipp kaufbar findet, ruft Sn:Pulse(plan, "watcher") = Leuchten in eigener Farbe
+    (Sn:WatchColorKey, Standard Grün; Knopf "Wächter: Grün" in der Zeile "Schnäppchen-Alarm", Gold/Grün/Blau). Auslegung "Ende jeder
+    Wächter-Runde": gemeldet wird am Ende der Prüf-Suche des Tipps (dort ist er erst "gültig gefunden"); die Prüf-Suche wiederholt sich, solange
+    das Prüf-Ziel lebt (120 s) -> Wiederholung je Suche wie beim Sniper. TON beim Wächter nur, wenn der Tipp gesichert ist und der
+    Schnäppchen-Alarm an ist (Entscheid I5 "nicht gesichert: ohne Ton" bleibt; kein doppelter Ton, wenn W:Alarm eben klang). Frage an den
+    Supervisor: soll der Ton beim Wächter auch für nicht gesicherte Tipps kommen (I5 ändern)? Tipp weg/übernommen -> Wächter-Leuchten aus;
+    das Sniper-Ereignis "kein Treffer" beendet das Wächter-Leuchten nicht.
+ 7. Kaufen unverändert: nur Tastendruck/Klick (Alert/Pulse lösen keinen Kauf aus).
+ Tests: T1017 (5 Suchen über 3 Ziele: A meldet A; B ohne Treffer meldet nichts, obwohl A steht; C meldet C; A wieder A; B mit schlechterem
+ Abstand meldet B, nicht den vorne stehenden; Kampf-Ereignis beendet ein gezeigtes Leuchten; kein Kauf, Handelsprotokoll unverändert).
+ T1018 (Wächter grün, Ton 0 bei nicht gesichert, bleibt beim Sniper-Ereignis ohne Treffer, aus bei Tipp weg; Gegenprobe Sniper gold).
+ T452 angepasst (kein fester Abstand: 2 Signale, ein Rahmen, neu gestartet). s11_sniper_keeps_going, s58_sniper_messages, s266 PASS.
+ Texte: Tooltip Signal und Wächter-Farbe in 10 Sprachen (alter Signal-Tooltip entfernt). CHANGELOG EN/DE.
+AHS-TR1-a (NIEDRIG, kein CF-Blocker, Entscheid 21:25/21:27 – trotzdem in dieser Version, kleine Änderung nur in der Testroutine):
+ "Wächter wartete: ?" belegt aus dem Code: der Grund wurde nur EINMAL am Ende abgefragt und W:WhyWaiting war da nil. Da A:IsScanning()
+ VS.running einschliesst, lief in diesem Moment KEIN Vollscan mehr; was danach noch bremste, kennen nur YieldReason/CanStartRound
+ (Zug-Wechsel, Ruhemodus, Rundenabstand, Server-Abstand) – welcher, ist Verdacht, zu messen (der nächste Lauf nennt ihn). Neu: W:WaitText (nur
+ Auskunft, Wächter-Verhalten unverändert) nennt jeden Grund, zuerst "wartet auf den Vollscan" (A.FullScan.running). TR:AllWatcher: läuft
+ beim Start ein Vollscan, wartet der Schritt (Hinweis im Chat) und zählt die 3 Min. erst danach; Zeitlimit Warten ALL_WATCH_VS_MAX 20 Min.
+ -> "nicht prüfbar" mit Grund. Während der 3 Min. werden die Wartegründe gezählt; ohne Runde: "wartete meist: <Grund>, n von m Proben; zuletzt …".
+ Nachbau s272w_waechter_vollscan: Vollscan 120 s, dann frei -> Dauer 306 s, "bestanden – 240 Runden in 3 Min." (Gegenprobe: alter Ablauf hätte
+ die 3 Min. ab Start gezählt, Ende nach ~180 s ohne Runden); Vollscan endet nie (Limit 60 s) -> Ende nach 61 s "nicht prüfbar". Texte 10 Sprachen.
+T750 (Ingametest 0.65.392 PC, "alles" 20:5x–21:12: "abgeschnitten 3"): db.uiFindingsLast vom PC (Daten-Repo, DESKTOP-…/forever, Sicherung
+ 20:56) – die 3 sind EINE Stelle in 3 Varianten: "Markt > Markt > Flippen: 'Handwerksverfügung: Tückische Mithrilklinge' in … marketview > detail
+ (Platz 284 px, Text 289 px) – keine Tabellenzelle (3×)". = Titel des Detailbereichs (UI_MarketView d.title, eine Zeile, darunter die Balken
+ ab −30 px). Behoben (Regel L8, Supervisor 21:42): p:ShowDetail setzt GameFontNormal (12 pt); passt der Name nicht, GameFontNormalSmall
+ (10 pt) – nie kleiner. Rechnung: 289 px × 10/12 ≈ 241 px < 284 px Platz, passt. Ein Name, der auch in 10 pt nicht passt (> ~340 px in 12 pt),
+ bliebe abgeschnitten -> T750 meldet ihn im Spiel; dann zweizeilig mit verschobenen Balken (eigener Schritt).
+ Übrige 129 Zeilen = "gekürzt (Tooltip)", kein FEHLER. Pager-Überlagerung, "lernt noch",
+ Markt-Kopfzeile, "Preis gefallen", "Zutaten", "Gelernt" aus 0.65.389 sind in dieser Liste nicht mehr da.
+CF1-UI b) bestätigt: Wächter-Zeilen erscheinen nicht mehr in der Sniper-Zielliste (GetTargets ohne Prüf-Ziele, T1014). Nach "übernehmen" ist es
+ ein normales Ziel mit Menge = zuletzt geprüfte Menge (T1014: Menge 7; s9_watcher_tip: Max 5000, Menge aus der Prüfung) – nie 100000.
+SG6 Punkt 5/6 Reiter WÄCHTER (Frage des Nutzers 21:30): frischt im Takt auf – jedes WATCHER_CHANGED (Ende jeder Runde, jede Prüf-Suche) baut
+ den offenen Reiter neu, dazu der 0,5-s-Takt. Messung Nachbau (60 s, Wächter an, Reiter offen): 80 Runden · 200 WATCHER_CHANGED · Reiter 320×
+ neu, Ø 1,17 ms, längste 7,63 ms (Nachbau-Uhr) = 4,0 Neuaufbauten je Runde. Ursache (Code): UI_Watcher baut bei JEDEM WATCHER_CHANGED neu
+ (gemessen 2,5 je Runde; welche Stellen wie oft feuern – Rundenende, Prüf-Ergebnis, Aufräumen – Verdacht, beim Umbau zu messen) und zusätzlich alle 0,5 s im OnUpdate, solange der Wächter an ist. AHS-SG6-a (NIEDRIG,
+ Supervisor 21:42: "1 Neuaufbau je Runde") kommt in 0.65.394 – nicht mehr in diese Version.
+Im Spiel (Nutzer): Kaufen > Sniper bei offenem AH – keine blassen Zeilen; Wächter-Fund erscheint nicht im Sniper; Rechtsklick > "In den Sniper
+ übernehmen" -> Ziel im Sniper; "testroutine alles" (T1016 mit AH offen, T750/T191).
