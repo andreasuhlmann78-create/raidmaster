@@ -884,3 +884,8 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     einer laufenden Version bleibt das alte Fenster stehen. Ziel: das alte Fenster schliesst sich selbst (z. B. uploader.bat ohne "pause", wenn Python mit
     einem eigenen Code für "übergeben" endet; bei echtem Fehler bleibt "pause", damit man die Meldung lesen kann). Test: Übergabe -> altes Fenster zu;
     Absturz -> Fenster bleibt mit Meldung. Achtung: laufende uploader.bat nicht ersetzen (UP-UPD1 Punkt 2) – Änderung kommt mit dem nächsten /uploader.
+    NUTZER 22:01: "wir updaten über den uploader selber die neuen versionen" -> Die Lösung muss über das Update per Taste j ankommen, OHNE Handinstallation.
+    Da uploader.bat beim Update nie ersetzt wird, darf die Lösung nicht nur in uploader.bat stecken. Vorschlag (prüfen, messen): die alte Python-Instanz
+    beendet nach erfolgreicher Übergabe ihr eigenes Konsolenfenster (Elternprozess cmd der eigenen uploader.bat, nur diesen, PID belegt) statt mit
+    Code 0 in "pause" zu laufen; bei Fehler/Rückfall bleibt das Fenster. Zusätzlich: Weg, um eine geänderte uploader.bat sicher nachzuziehen
+    (z. B. neue Datei bereitlegen, beim nächsten Start der .bat austauschen), damit .bat-Änderungen nicht für immer hängen bleiben. Test mit echtem Prozess.
