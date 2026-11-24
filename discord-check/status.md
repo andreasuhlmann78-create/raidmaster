@@ -1,6 +1,6 @@
 # Discord-Prüfung
 
-Geprüft: 2026-11-24T16:20:08Z (Commit 43ce072), Server: Alpine Vanguard
+Geprüft: 2026-11-24T18:27:07Z (Commit 94e6010), Server: Alpine Vanguard
 
 **Ergebnis: ✅ alles im Discord**
 
@@ -11,32 +11,32 @@ Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 4
 | | Addon | Version | Kanal | Gepostet | seit Push |
 |---|---|---|---|---|---|
 | ✅ ok | AHSentinel | 0.65.354 | #ahsentinel | 2026-11-19 19:53 UTC | 4 Tage |
-| ✅ ok | RaidMaster | 3.0.43 | #raid-addon | 2026-11-24 09:28 UTC | 6 Std. |
+| ✅ ok | RaidMaster | 3.0.43 | #raid-addon | 2026-11-24 09:28 UTC | 9 Std. |
 
 ## Ankündigungen (announce/, neueste Fassung je Reihe)
 
 | | Datei | Kanal | Abdeckung | seit Push |
 |---|---|---|---|---|
-| ✅ ok | addon-hilfe__ahanalyzerpro-hilfe-0.65.3.md | #addon-hilfe | 100 % | 29 Std. |
+| ✅ ok | addon-hilfe__ahanalyzerpro-hilfe-0.65.3.md | #addon-hilfe | 100 % | 31 Std. |
 | ✅ ok | ahsentinel__ahsentinel-0-vorstellung-1.8.md | #ahsentinel | 100 % | 15 Tage |
-| ✅ ok | ahsentinel__ahsentinel-0.65.390.md | #ahsentinel | 100 % | 2 Std. |
+| ✅ ok | ahsentinel__ahsentinel-0.65.391.md | #ahsentinel | 100 % | 35 Min. |
 | ✅ ok | ahsentinel__ahsentinel-hilfe-1.0.md | #ahsentinel | 100 % | 20 Tage |
 | ✅ ok | barrow-taktik__uebersicht-1.1.md | #barrow-taktik | 100 % | 21 Tage |
 | ✅ ok | buffsentinel__buffsentinel-0-vorstellung-12.md | #buffsentinel | 100 % | 20 Tage |
-| ✅ ok | buffsentinel__buffsentinel-0.9.64.md | #buffsentinel | 100 % | 3 Std. |
+| ✅ ok | buffsentinel__buffsentinel-0.9.64.md | #buffsentinel | 100 % | 5 Std. |
 | ✅ ok | guildsentinel__guildsentinel-0-vorstellung-19.md | #guildsentinel | 100 % | 12 Tage |
-| ✅ ok | guildsentinel__guildsentinel-0.9.61.md | #guildsentinel | 100 % | 6 Std. |
+| ✅ ok | guildsentinel__guildsentinel-0.9.61.md | #guildsentinel | 100 % | 8 Std. |
 | ✅ ok | hyjal-taktik__uebersicht-1.1.md | #hyjal-taktik | 100 % | 21 Tage |
-| ✅ ok | levelpilot__levelpilot-3.13.13.md | #levelpilot | 100 % | 3 Std. |
+| ✅ ok | levelpilot__levelpilot-3.13.13.md | #levelpilot | 100 % | 5 Std. |
 | ✅ ok | levelpilot__levelpilot-uebersicht-3.12.94.md | #levelpilot | 100 % | 6 Tage |
 | ✅ ok | lore__alpine-vanguard-vorstellung-1.0.md | #lore | 100 % | 23 Tage |
 | ✅ ok | mc-feuerresi__feuerresi-1.1.md | #mc-feuerresi | 100 % | 21 Tage |
 | ✅ ok | onyxia-feuerresi__feuerresi-1.0.md | #onyxia-feuerresi | 100 % | 27 Tage |
 | ✅ ok | onyxia-taktik__onyxia-video-1.0.md | #onyxia-taktik | 100 % | 28 Tage |
 | ✅ ok | professionsentinel__professionsentinel-0-vorstellung-1.27.md | #professionsentinel | 100 % | 11 Tage |
-| ✅ ok | professionsentinel__professionsentinel-0.9.82.md | #professionsentinel | 100 % | 2 Std. |
+| ✅ ok | professionsentinel__professionsentinel-0.9.82.md | #professionsentinel | 100 % | 4 Std. |
 | ✅ ok | threatsentinel__threatsentinel-0-vorstellung-2.2.md | #threatsentinel | 100 % | 22 Tage |
-| ✅ ok | threatsentinel__threatsentinel-2.5.29.md | #threatsentinel | 100 % | 3 Std. |
+| ✅ ok | threatsentinel__threatsentinel-2.5.30.md | #threatsentinel | 100 % | 38 Min. |
 
 ## Bot-Funktionen (tut der Bot, was er soll?)
 
