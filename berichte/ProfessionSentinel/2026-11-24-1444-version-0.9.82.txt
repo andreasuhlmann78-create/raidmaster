@@ -1,0 +1,39 @@
+ProfessionSentinel 0.9.82 – umgesetzt, zur Prüfung
+Bezug: offen-professionsentinel.txt PS-I5 (HOCH), PS-I1 (HOCH); Ingametest 0.9.81 (24.11. 13:47, Priester 10) aus den hochgeladenen
+Daten gelesen: OK 250 · FEHLER 5 (T85, T88, T140, T219, T297).
+
+PS-I5 HOCH – T297 / Speicher je Neuaufbau – Ursache belegt, behoben.
+ - Ingametest 0.9.81: "unverändert: neue Blizzard-Liste angelegt (Inhalt anders: … entry=table/table)". Der Vergleich der
+   Rezeptliste (UI.lua SameValue) verglich die Felder einer Zeile eine Ebene tief nach Identität. Mit Preisen rechnet jeder
+   Neuaufbau die Einträge neu (AD.Evaluate, neue Preis-Tabelle) – gleicher Inhalt, neue Tabellen -> jede unveränderte Liste galt
+   als geändert, die ganze Blizzard-Liste wurde neu angelegt (der Speicher je Neuaufbau aus HOCH 1 blieb).
+ - Offline nachgestellt: T297 jetzt mit Preisen und mit neu berechneten Einträgen. Alter Code: genau die Meldung aus dem Spiel
+   ("3 Fehler: unverändert: neue Blizzard-Liste angelegt … entry=table/table"). Neuer Code: grün (5× forever).
+ - Neu: Vergleich nach Inhalt, verschachtelte Tabellen bis 6 Ebenen (tiefer = anders = Neuaufbau, nie eine veraltete Zeile).
+   Erster Unterschied als Pfad (z. B. entry.price.parts.1.via). Vergleichszeit gemessen: 0,2–0,5 ms je ganzer Liste; neue
+   Prüfung "Vergleich <= 4 ms".
+ - Gegenprobe (Stufe 151 -> neue Liste) bleibt. "behalten" jetzt ">= +1 und nichts neu gebaut": ein Neuaufbau des Spiels während
+   einer Abgabe behält die Liste ein zweites Mal (offline 1× gesehen: behalten +2, neu +0) – das ist kein Neuaufbau.
+
+PS-I1 HOCH – lange Teile – eine Ursache belegt, behoben.
+ - Neu im Bericht: wo ein Teil nicht abgeben konnte (Core ns.TaktCheck, Stapel). Offline zeigte das in T297/T243 "gehalten" in
+   Advisor/UI-Schleifen ohne pcall (noYield 0, kein Takt-Vermerk "Abgabe nicht möglich").
+ - Ursache: ns.TaktCheck las die Uhr NACH GoldSentinelTakt.Check. Lief das Budget genau zwischen beiden Ablesungen ab, hatte Check
+   zu Recht "noch nicht" gesagt – unsere Ablesung sah "über Budget" und markierte den Teil als gehalten: keine Abgabe mehr bis zum
+   Ende des Teils. In dichten Schleifen geschieht das oft. Jetzt wird die Uhr VOR Check gelesen; gehalten nur, wenn das Budget
+   schon vorher aufgebraucht war (dann hat Check es auch gesehen).
+ - Offline forever, je zwei Läufe: vorher Bilder über 16 ms 13 und 13, längstes 29 und 73 ms (T297); nachher 6 und 6, längstes
+   21 und 23 ms. Ingame-Wirkung: Verdacht, zu messen (Ingametest 0.9.82).
+ - Weiter offen in PS-I1: T255 73 ms (Speicherbereinigung 135 MB frei im Teil), T189 59 ms – im nächsten Bericht mit Etikett und
+   "gehalten"-Stelle.
+
+Ingametest 0.9.81, weitere Befunde:
+ - T88 "Verzauberer ohne Wahl: … (sell)": belegt. DE.Goal liest die gespeicherte Wahl des Charakters; der Priester ist Verzauberer
+   mit Wahl "VZ verkaufen". Der Selbsttest setzt diese Wahl für die eine Prüfung beiseite und sofort zurück (TestMode.lua).
+ - T85 "Beruf nil" beim Priester (Verzauberkunst, Schneiderei, Kochen gespeichert): Ursache NICHT belegt. Die Meldung nennt jetzt,
+   was das Fenster antwortet (ChildProfessionInfo/BaseProfessionInfo: ok, professionID, parentProfessionID). Frage an den Nutzer:
+   welches Fenster war offen?
+ - T140 18,2 ms, T219 16,9 ms (je ein Teil knapp über 16 ms): zu messen mit 0.9.82 (die Uhr-Korrektur betrifft genau solche Teile).
+
+Tests: run_offline forever 252/0 (5 Läufe), era 233/0, retail 231/0, forever --lua51 252/0; Smoketest forever/era/retail AUTOTEST OK (FEHLER 29/26/26 = Mock-Grenzen); addon_check OK ohne WARNUNG. Zip md5 9ee1427e790199f9815d840421c0ae34, Repo 0a9ee07.
+Offen beim Nutzer: Ingametest 0.9.82; welches Berufsfenster bei T85; Entscheid Trefferquote (A/B/C); Messung SetCraftableCount.
