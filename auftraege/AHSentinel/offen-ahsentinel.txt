@@ -6638,3 +6638,24 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     7. Kaufen unverändert (nur Tastendruck/Klick) – Gegenprobe im Test.
     Tests: meldet nur das eben gesuchte Ziel (2 und 3 Ziele), Wiederholung je Suche, Ende bei Kauf/weg/AH zu/Kampf, keine Meldung ohne Suche,
     Wächter mit eigener Farbe, Kaufverhalten unverändert, Bilder je Suche ≤ Grenzen. Texte alle Sprachen, CHANGELOG EN/DE.
+>>> INGAMETEST 24.11. 20:5x–21:12 mit 0.65.392 "alles" (PC, OHNE GSMesstest; Nutzer 21:19: erste Hälfte zugeschaut, zweite Hälfte Spiel im
+    Hintergrund – Vollscan-Messung "Bilder/s vorher 30", 3498 von 5824 Bildern über 33 ms) – Auswertung Supervisor 21:19
+    1145 OK · 4 FEHLER · 38 übersprungen. Sandbox OK, Entzauber-Daten unverändert, Sniper 31 OK / 0 FEHLER.
+    - T750 (auto + ui): wie Teil auto 20:26 (3 Befunde) – AHS-CF1 (1).
+    - T458: GRÜN (längste eigene Lese-Portion 2,3 ms, eigene Arbeit je Bild höchstens 10 ms). Der Wert 39,7 ms vom 19:18 war ein Ausreisser
+      (GSMesstest im Spiel / Fensterwechsel) – E-Regel bestätigt, kein Befund.
+    - T126 FEHLER 12,1 ms (längste 21,0 ms, "cache:today:10 21 ms bis UI_MarketView.lua:702"): zweite Hälfte im Hintergrund, Code an dieser Stelle
+      unverändert (702 = A:Pause() in der Schleife; Today.lua in 0.65.392 nur Texte) -> "Ausreisser, Bedienung möglich", KEIN Befund. Bewertet
+      wird der nächste Lauf im Vordergrund.
+    - WÄCHTER-SCHRITT (3 Min., AHS-TR1): "nicht prüfbar – 0 Runden in 5 Min. … keine Runde (Wächter wartete: ?)". Vorher (0.65.390) 155 Runden.
+      Befund AHS-TR1-a HOCH (für CF1 a): Ursache belegen. Verdacht, zu messen: der Vollscan des Nutzers lief in dieser Zeit (neuer Scan 382 099
+      Auktionen, "Server-Abstand noch 12 Min.") und der Wächter wartet während eines Vollscans – W:WhyWaiting kennt diesen Grund nicht ("?").
+      Verlangt: (1) WhyWaiting nennt JEDEN Wartegrund (nie "?"); (2) der Schritt wartet, bis ein laufender Vollscan fertig ist, bevor die 3 Min. zählen
+      (Zeitlimit bleibt), oder läuft vor/nach dem Vollscan-Schritt; (3) Test: Wächter-Schritt während eines laufenden Vollscans -> Runden > 0 bzw.
+      klarer Grund; Gegenprobe.
+    - T459 FEHLER: "3. Vollscan der Sitzung · angelegt 31 116 KB · wiederverwendet 0, neu 7064 · Zusammenfassungen 10 634 KB · Bestpreise 2 490 KB"
+      bei 382 099 Auktionen. Vergleich mit 19:18 (0.65.390, 343 518 Auktionen, 26 303 KB): absolut +18 %, je 1000 Auktionen 81,4 statt 76,6 KB (+6 %).
+      AHS-CF1 c) ("nicht schlechter") damit NICHT erfüllt – der Markt ist grösser, der Wert je Auktion aber auch. Supervisor legt das dem Nutzer vor;
+      Lösung ist AHS-SP1. Wieder "wiederverwendet 0" (Vorrat nie da, wie 19:32 belegt).
+    - Vollscan zweimal, Berufe, Händler: noch offen. BH-AUS-3 neu: Item 5966 "Lager 2, vorhanden 0" (SK1-f) – Verdacht, zu prüfen (Ware in Post/AH?),
+      nach CF1, kein Blocker.
