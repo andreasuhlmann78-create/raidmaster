@@ -6417,3 +6417,19 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     Clients steht bei rund 1 GB. Verdacht, zu messen: welches Addon bzw. das Spiel hält ihn (Tabelle je Addon zu Beginn und Ende des Scans).
  CurseForge bleibt gesperrt, bis die 4 FEHLER aus Teil 1 zugeordnet sind.
 
+>>> NACHTRAG SUPERVISOR 24.11. 08:25 – Einzelheiten Ingametest 0.65.387 (aus den Spieldaten im Daten-Repo, Laptop 08:09: Berichte
+    AHSentinel-1795502107-bf36eb-2 auto, -ceafb1-3 ui, -1e2c5e-4 sniper, -d5933b-5 server, -194898-6 alles)
+ Teil 1 (4 FEHLER): T750 und T191 (UI, bekannt offen) + 2 NEUE:
+ AHS-I5 MITTEL (neu seit 0.65.385 – dort im Spiel OK, im Nachbau 0.65.387 grün, also nur im Spiel rot):
+    T837 SN-RAD-1: Gegenprobe "Mausrad + Knopf" – ist "Fenster false/0", soll "Fenster true/1" (Rad löst über dem Fenster nicht aus).
+    T793 SN-BTN1: letzter Zustand ist "ask", soll "wait" (Server nicht bereit -> warten).
+    Ursache belegen: Code-Änderung 0.65.386/387 (z. B. BargainStore/Testroutine-Sperre A:InTestRoutine) oder Spielzustand beim Test
+    (AH offen/zu, Server bereit). Gold: beide in der sicheren Richtung (kein ungewollter Kauf) – trotzdem zuordnen, bevor CurseForge.
+ Teil 2 (1 FEHLER): T750 (106 Befunde, davon Markt > Überfüllt 43–44) – bekannt offen.
+ Teil 4 (2 FEHLER):
+ AHS-I6 HOCH (Leistung, harte Grenze 40 ms nach leistung.md): T617/T734 eigene Arbeit je Bild max 105,3 ms, ganz "Skripte" (Aufgaben 0,
+    Ereignisse 0), 23 Bilder über 33 ms. In 0.65.385 gleich (108,3 ms, 22 Bilder) – also kein neuer Fehler, aber seit Wochen offen (SN-TEST2-S13,
+    Umbau 18.11.). Welches Skript (Datei:Zeile) braucht 105 ms in einem Bild? Messen und beheben. Blockiert CurseForge (Tempo-Ziele).
+ Teil 6 (2 FEHLER): T126, T459 = AHS-I3 (unverändert offen).
+ Reihenfolge neu: AHS-R1 (klein) -> AHS-I5 -> AHS-I6 -> AHS-I4-a -> AHS-I3 -> G14-a -> T750/T191. CurseForge gesperrt bis I5 und I6 zugeordnet/behoben.
+
