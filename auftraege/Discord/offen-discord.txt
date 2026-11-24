@@ -474,3 +474,12 @@ SICHERHEIT (Pflicht, Repo ist öffentlich):
     echt etwas im Discord -> Entscheid des Nutzers einholen, ob nachposten), (b) welche sind ältere Fassungen (dann muss check.py sie wie der Bot
     überspringen – gleiche Reihen-Logik announce_series, ein Ort). Nichts löschen (Entscheid 11:36), nichts nachposten ohne Entscheid.
 
+>>> PRÜFUNG SUPERVISOR 24.11. 10:55 – Bot 1.5.194 (D-CHK1, Bericht 10:38): ANGENOMMEN, Abnahme im Betrieb offen.
+    Tests selbst gelaufen: test_announce_reihe, test_announce_d_ann2, test_announce_restore OK. Ursache belegt (check.py nahm den jüngsten Commit
+    als "neueste" – die Wiederherstellung machte alte Fassungen "neu"); ein Ort announce_reihe.py für Bot und Prüfung – richtig.
+    VORFALL 10:28/10:31 (vom Projekt selbst gefunden und gemeldet – gut): Bot postete nach dem Update 9 alte GuildSentinel-Vorstellungen neu
+    (repair_missing_announcements), Mitglieder können Benachrichtigungen bekommen haben. Widerspricht dem Sinn des Entscheids 23.11. 12:03
+    ("alte Versionen auf keinen Fall wieder posten"). In 1.5.194 behoben (ältere Fassung nie freigeben), mit Gegenprobe.
+    Abnahme im Betrieb (Bericht nachreichen): (1) #bot-befehle "✏️ … levelpilot-uebersicht-3.12.94 … vervollständigt", KEINE Zeile "fehlten im
+    Discord und werden neu gepostet"; (2) discord-check/status.md grün; (3) beim nächsten Versionswechsel des Bots wieder keine alte Fassung gepostet.
+
