@@ -1,46 +1,38 @@
 # Stand Supervisor (Prüf-Sitzung, Projekt «Addonprüfer»)
 
-## Stand 24.11.2026 07:40 · Versionen geprüft: AHS 0.65.387 · LP 3.13.10 · PS 0.9.78 · TS 2.5.26 (Ingame) · GS 0.9.60 · BS 0.9.61 · Uploader 2.3.19 · Bot 1.5.192
+## Stand 24.11.2026 18:34 · Versionen geprüft: AHS 0.65.390 · PS 0.9.82 · BS 0.9.64 · TS 2.5.29 · LP 3.13.13 · RM 3.0.43 · GS 0.9.61 · Uploader 2.3.20
 Sitzung seit 23.11. 06:18. Repos: raidmaster, goldsentinel-daten (schreiben); ahanalyzerpro, professionsentinel, guildsentinel (lesen).
 
 ## Gerade in Arbeit
-- nichts Laufendes. Entscheid 07:04: Supervisor entwickelt NICHT an Addons, nur prüfen. Gemeinsame Dateien in shared/ pflegt der Supervisor weiter (Entscheid 07:09 "mach das").
+- nichts Laufendes. Entscheid 07:04: Supervisor entwickelt NICHT an Addons, nur prüfen (shared/ pflegt der Supervisor, Entscheid 07:09).
 
 ## Nächste Schritte (Reihenfolge)
-1. Uploader 2.3.19 ERLEDIGT 07:40 (Laptop liefert gepackt, 4 Tage). Markt-Tabellen: erst mit mehr Tagen (UP-ALT, PC/Offiziere umstellen). Ingametest AHS 0.65.387 läuft (Nutzer 07:31) – auswerten. AHS 0.65.386/387 ERLEDIGT 07:08 (AHS-R1, AHS-I4-a, G14-a neu).
-2. Prüfen: LevelPilot 3.13.11 (LP-I1, LP-I2, LP-I4, LP-I5). ProfessionSentinel 0.9.79 (liegt im Repo, noch nicht geprüft).
-3. Testberichte 23.11. 23:50 (neu im Repo) gegen die Chat-Berichte abgleichen.
-4. Warten auf: RaidMaster UP-TAGE (Tage 14.–20.11. im Daten-Repo weg) -> dann Markt-Tabellen-Entscheid (siehe unten).
-5. SH-V3 ERLEDIGT 07:20 (GoldSentinelTest Version 3: nil = FEHLER, UTF-8). Beim Prüfen der nächsten Versionen: Kopie Version 3? AHS T277/PS 5861 ">= 2"?
-6. Prompt "Markt-Überwachung (wöchentlich)" (nächster Lauf 30.11.) auf .lua.gz hinweisen (Markt-Tabellen ist angepasst).
+1. Laptop installieren: AHS 0.65.390, PS 0.9.82 (18:34 nicht möglich – Laptop nicht mit der Brücke verbunden). Sobald verbunden: curl, cmp.
+2. TS-M1-b / BS-M1-b (Messung für alle Spieler, Daten über den Uploader, Entscheid 14:09): neue Versionen von TS und BS prüfen.
+   Prüfen: läuft ohne Entwicklermodus, Ablage in account-weiter SV (kommt mit dem Uploader), keine Namen, Ringpuffer 20, ≤ 1 ms/Bild.
+3. Ingametests auswerten: AHS 0.65.390 (T459 "wiederverwendet x, neu y", vollscan_luecke Bild-Bezug), PS 0.9.82 (T297/T140/T219/T243),
+   TS-M1 Kampfmessung, BS T270 (Raster), LP 3.13.13 ("Dauer").
+4. Antworten der Projekte auf AHS-I3-a (Verdichtung überschreibt sichtbare Tabellen) und PS-I5-a (Funktionen gelten in SameValue als gleich).
+5. LevelPilot: sicherer Weg für die Charakterdatei (LevelPilotCharDB) mit dem Nutzer klären – nicht übers öffentliche Repo.
 
 ## Offen beim Nutzer
-- AHS Kupfer-Preis-Test (Ausrüstung mit Kupfer einstellen): macht der Nutzer am Wochenende vom PC aus (Nutzer 24.11. 09:26).
-- PS-Messung Lua-Fehler SetCraftableCount (Herstellen): macht der Nutzer am Wochenende (Nutzer 24.11. 10:01).
-- CurseForge-Zwischenstand CF1–CF3 (Entwurf berichte/Supervisor/2026-11-23-1605-…): OK gegeben 24.11. 06:17, Posten scheiterte – in Chrome
-  NICHT bei CurseForge angemeldet. Nutzer meldet sich an, sagt "angemeldet", dann posten (Claude in Chrome) und Erscheinen prüfen.
-- PS-Messung Lua-Fehler SetCraftableCount (nur PS / nur AHS, Rezept wählen + herstellen; Anleitung im Chat 23.11. 16:02).
-- LevelPilot "Wegabschnitte": eine Sitzung draussen mit Laufen.
-- Uploader 2.3.18 auf PC (DESKTOP-NVITMSE) und bei beiden Offizieren (stand.json "uploader" dort leer = alt).
-- Alte Addon-Ordner auf dem Laptop löschen: AddOns/_GoldSentinel_Update_2026-11-23 (kein Löschrecht für Claude).
-- Offen alt: "kleine KI" AHS (14.11.), Erstkill-Meldungen unter Rekord-Tafeln.
+- Sitzungen ThreatSentinel und BuffSentinel mit "Repo prüfen" anstossen (TS-M1-b, BS-M1-b) – Nutzer sagte 14:11 nichts dazu.
+- Wochenende (PC): AHS Kupfer-Preis-Test; PS Herstellen/SetCraftableCount-Messung; LP Sitzung mit Laufen; PS T85: welches Berufsfenster offen war.
+- Uploader 2.3.20 auf PC und bei Offizieren (Abnahme UP-ALT).
+- BS "was sonst noch möglich wäre" (Liste 1–6 im Bericht 0.9.64): Entscheid nach den Kampfmessungen.
+- CurseForge-Zwischenstand CF1–CF3: Posten scheiterte (nicht angemeldet). Alte Ordner auf dem Laptop löschen (kein Löschrecht).
 
 ## Entscheide des Nutzers seit letztem Stand (alle in shared/wissen/entscheide.md)
-- 24.11. 07:09 "mach das": Supervisor korrigiert shared/GoldSentinelTest.lua selbst (SH-V3).
-- 24.11. 07:04 "du musst nicht selber am addon entwickeln nur prüfen".
-- 24.11. 06:17 "ok": CF-Zwischenstand posten; Markt-Tabellen warten auf UP-TAGE (höchstens 1 Tag) statt Fallzahl-Regel aussetzen.
-- 23.11.: 09:59 Bot-Rolle (Discord-Sitzung, vorsichtig) -> 10:32 so belassen; 10:16 Gäste in Mitglieder-Kanäle; 10:49 Doppel der geplanten
-  Aufgaben aus (Nachprüfung AUS); 11:36 announce/ nichts löschen; 11:45 gelöschte Ankündigungen wiederherstellen; 12:03 alte Versionen nie
-  wieder posten; 12:48 neue Version ersetzt alten Discord-Beitrag (wie bisher); 14:04 Laptop unter der Woche, PC am Wochenende.
+- 24.11. 14:09 TS-M1/BS-M1: Messung bei allen Spielern (auch Offiziere), Daten über den Uploader.
+- 24.11. 13:52 BS-M1 bauen (Reinigen wie Decursive, Klick-Raster); 13:33–13:35 TS-M1 messen, automatisch, nur lesen.
+- 24.11. 10:48 jede neue Version sofort auf dem Laptop installieren; 07:22 Daten alter Versionen nicht annehmen;
+  07:09 Supervisor korrigiert shared/GoldSentinelTest.lua; 07:04 Supervisor nur prüfen.
 
 ## Wichtig zu wissen
-- Entscheid 10:48: jede neue Addon-Version sofort auf dem Laptop installieren (curl aus raw.githubusercontent raidmaster/announce bzw. download, nur geänderte Dateien, danach cmp aller Dateien). Stand 14:15: AHS 0.65.389, RM 3.0.43, TS 2.5.29, BS 0.9.64, PS 0.9.81, LP 3.13.13, GS 0.9.61 (alle installiert, cmp ok). Discord-Prüfung grün (D-CHK1 Teil 2).
-- Laptop = AUSPLUSLAPTOP (Forever: C:\Program Files (x86)\World of Warcraft\_forever_\Interface\AddOns, Zugriff am 23.11. erteilt).
-  Am 23.11. alle neuen Versionen dort installiert und gegen die Zips geprüft (441 Dateien).
-- Daten-Repo: jede Lieferung = 1 Commit ohne Vorgänger (DU6, so gewollt); höchstens 7 Tage + 200 MB (ältere Tage fallen weg).
-  Uploader 2.3.18 packt grosse Dateien (.lua.gz). Markt-Werkzeuge lesen .gz (sv_lesen, Test addon-check/test_sv_gz.py).
-- Testberichte kommen über Discord #testberichte; Abholung per Workflow testberichte.yml (:17/:47 UTC; von Hand: gh api … dispatches).
-- Ingametests in der Hauptstadt: "Umgebung" (Bild in Ruhe) lesen, bevor Ruckeln einem Addon angerechnet wird. Harte Grenze 40 ms (leistung.md).
-- Geplante Aufgaben AN: Markt-Tabellen, Markt-Überwachung, Blueposts, Rezeptdaten, Raids, Discord-Betreuung, Gmail. AUS: Nachprüfung (doppelt).
-- CurseForge-Kommentare: Kommentarseite nur angemeldet lesbar -> Gmail-Benachrichtigungen (noreply@curseforge.com) lesen. Neueste: 22.11.
-- AHS CurseForge-Upload gesperrt (Ingametest 0.65.385: 54 FEHLER, AHS-I1 Sandbox HOCH).
+- Laptop = AUSPLUSLAPTOP (Forever-AddOns: C:\Program Files (x86)\World of Warcraft\_forever_\Interface\AddOns; device_bash $HOME/mnt/AddOns).
+  Installiert Stand 14:15: AHS 0.65.389, RM 3.0.43, TS 2.5.29, BS 0.9.64, PS 0.9.81, LP 3.13.13, GS 0.9.61 (cmp ok).
+- Uploader liefert ThreatSentinel.lua und BuffSentinel.lua von allen 4 Rechnern (daten.py ADDONS Zeile 82); Charakter-SV kommen nicht an.
+- Daten-Repo goldsentinel-daten: Branch "sicherung" massgebend, Dateien .lua.gz; GSTEST1-Berichte per Regex aus den SV.
+- AHS CurseForge GESPERRT: T459 > 10 240 KB (Nachbau 11 650), T750/T191 offen. GS ist für CurseForge 18:00 frei.
+- Testberichte kommen über Discord #testberichte (Workflow testberichte.yml :17/:47 UTC).
+- Geplante Aufgaben AN: Markt-Tabellen, Markt-Überwachung, Blueposts, Rezeptdaten, Raids, Discord-Betreuung, Gmail. AUS: Nachprüfung.
