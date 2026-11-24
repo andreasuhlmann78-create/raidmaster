@@ -1,0 +1,46 @@
+AHSentinel 0.65.390 – AHS-I3 (T459 Verdichtung) und AHS-I4-a Rest (Messung je Addon zum längsten Bild) – umgesetzt, zur Prüfung
+Discord: ja (announce/). CurseForge: nein (gesperrt). addon_check 0.65.390: OK. ZIP: gleiche 112 Dateien wie 0.65.389.
+Nachbau Teil auto: OK 1010 · FEHLER 0 · übersprungen 66 · im Client 16; s42 PASS, s43 PASS. Alle Szenarien (FULL): siehe 4.
+
+1) AHS-I3 / T459 (Ingametest 0.65.389: 3. Scan, 23 621 KB ohne gelesene Auktionen, je Schritt Einlesen 23 591 · Verdichtung 12 944 ·
+   Verfolgung V4 6 118 · Preisverlauf 810 · Nachlauf 500; gelesen 20 402 KB, nicht bewertet)
+   Nachbau mit ECHTEN Spieldaten (Laptop-Speicherstand 24.11. 13:2x, 7 000 echte Item-IDs, Stapelgrössen aus stackMem, verfolgte Items
+   aus fullScan.sigs) und einem schiefen Markt wie im Spiel (246 792 Auktionen, Zipf: grösstes Item 16 900 Auktionen), 3 Scans:
+   Verdichtung je Teil gemessen (nur im Nachbau, Speicherbereinigung gestoppt nicht nötig - Zuwachs je Aufruf):
+     ohne Vorrat (Scan 1 und 2): Zusammenfassungen 9 953 / 8 935 KB · Bestpreise 1 851 KB · IsCommodity 2 327 / 0 KB · Abgaben 482 KB
+     mit Vorrat  (Scan 3):        Zusammenfassungen 1 114 KB      · Bestpreise 1 851 KB · Abgaben 471 KB
+   -> ohne Vorrat ≈ 12,8 MB = die 12 944 KB im Spiel. Im Spiel lief der 3. Scan also OHNE Vorrat (Verdacht, zu messen: warum genau –
+   der Vorrat ging vorher in zwei Fällen verloren, beide im Code belegt):
+   a) Vorrat = Zusammenfassungen des VORLETZTEN Scans: nach dem Laden gibt es ihn erst ab dem 3. gültigen Scan (Scan 2 immer ohne).
+   b) Finish setzte memSpare vorne auf nil und belegte ihn nur bei gültigem Ende neu: ein ungültiger Scan ("Vollscan ohne Antwort") oder
+      ein Abbruch löschte ihn – der nächste gültige Scan hatte keinen.
+   Behebung (Vollscan.lua VS:Finish):
+   - Gültigkeit (PD5a/PD5c) wird VOR dem Verdichten entschieden. Gleiche Zahl wie vorher: ein Item zählt, wenn es mindestens eine gelesene
+     Auktion hat (#it.q > 0) – genau dann ist seine Menge nach dem Verdichten > 0 (jede Menge ≥ 1, Lockangebote lassen immer eine übrig).
+     Gegenprobe im Code: weicht die Zahl nach dem Verdichten ab, Eintrag VOLLSCAN "Zählung Items vorab x, nach dem Verdichten y" und die
+     Zahl nach dem Verdichten gilt. Ungültig -> sofort zurück, nichts verdichtet, nichts geändert (PD5a wie bisher; T499/T504 PASS).
+   - Gültig -> Vorrat des vorletzten Scans, sonst die Tabelle des LETZTEN Scans (self.mem wird am Ende ohnehin ersetzt; jede Tabelle ist
+     nach Digest in sich stimmig, Abgaben nur zwischen Items). memSpare wird nur am gültigen Ende ersetzt.
+   - Messung: m.verd (Items, wiederverwendet, neu; KB Zusammenfassungen/Bestpreise nur in der Testroutine) -> T459-Text direkt nach den
+     bewerteten Zahlen und Feld vollscan_verdichtung.
+   Nachbau echte Daten danach: Scan 2 Verdichtung 11 002 -> 3 277 KB (fullscan 15 177 -> 7 360), Scan 3 4 536 -> 3 409 KB;
+     ohne gelesene Auktionen Scan 2 25 034 -> 17 217 KB, Scan 3 12 756 -> 11 650 KB.
+   Noch NICHT unter 10 240 KB (Nachbau Scan 3: 11 650). Rest im Nachbau: Nachlauf 6 892 (andere Aufgaben nach dem Scan: forecast-eval 2 546,
+   learn:factor 2 352 – im Spiel nur 500), Bestpreise 1 851 (Tabellen je Item, landen in db.lastOwnScan = gespeichert und an Mitspieler
+   – Wiederverwendung dort nicht sicher, nicht angefasst). Im Spiel zusätzlich Verfolgung V4 6 118 KB (559 verfolgte Items; im Nachbau
+   kaum – Verdacht: Items mit sehr vielen Auktionen, Signaturen als Text; zu messen) und Einlesen ohne Lesen ~3 200 KB.
+   Tests: T1011 (ungültiger Scan lässt Vorrat stehen, nächster gültiger verwendet dieselbe Tabelle – alter Code: Vorrat weg), T1012 (ohne
+   Vorrat: gültig -> Tabelle des letzten Scans wiederverwendet, neuer Stückpreis 20; ungültig -> sichtbare Zusammenfassung unverändert 777).
+
+2) AHS-I4-a Rest (angenommen 13:45): Messung je Addon bei jedem neuen längsten Bild >= 250 ms, Bild im Text ("im Bild (837 ms)"),
+   Zahl der Messungen. T1010 PASS. Im Spiel zu zeigen: vollscan_luecke "im Bild (x ms)" mit demselben x wie die Lücke.
+
+3) Im Spiel zu liefern (Nutzer, "testroutine alles" mit 0.65.390): T459 mit "Verdichtung … wiederverwendet x, neu y" (sagt, ob der Vorrat
+   im Spiel ankommt), Feld vollscan_verdichtung; vollscan_luecke mit Bild-Bezug.
+
+4) Alle Szenarien (FULL=1, 410), Vergleich 0.65.389 gegen 0.65.390 auf derselben Maschine:
+   0.65.389: 334 PASS, 76 FAIL · 0.65.390: 336 PASS, 74 FAIL. Neu fehlgeschlagen in 0.65.390: KEINE. Nur in 0.65.389 rot: s92_fullscan_smooth
+   (NP152-3 Lauf 3 AHSentinel 10 541 KB > 10 240 – in 0.65.390 PASS) und s43_testroutine_server (T126 8,1 ms, Rauschen der Uhr).
+   Die übrigen 74 sind in beiden Fassungen gleich rot (alte Szenarien, nicht Teil von run_offline auto/server).
+
+Nächste Schritte: AHS-I3 weiter (Verfolgung V4 messen und senken, Bestpreise), dann G14-a, T750/T191.
