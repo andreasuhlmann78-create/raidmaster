@@ -20,6 +20,9 @@ Benutzung im Addon:
     T:Client("T03", "C", "Händler-Kosten", "/dump GetMerchantItemCostInfo")
     local text = T:Finish({ sandbox = "OK" })                -- speichert den Bericht, Text fürs Kopierfenster
 Check: die Funktion gibt ok, ergebnis, erwartet zurück. Kein Rückgabewert = OK, false = FEHLER, Lua-Fehler = FEHLER.
+Ab Version 3 (SH-NIL, Supervisor 24.11.2026): nil als erster von mehreren bzw. einziger Rückgabewert = FEHLER ("Prüfung lieferte nil
+  statt true"). Typisch "return r and x, y" ohne r – zählte bis Version 2 still als OK (AHSentinel: 15 verdeckte Fehler).
+Ab Version 3 (SH-UTF8): Texte werden nie mitten in einem UTF-8-Zeichen gekürzt.
 
 Datenschutz: Keine Spieler-, Gilden- oder Chatnamen in Berichte schreiben. Geschützte Werte ("secret values") werden
 nie gelesen, sondern als "<geschützt>" vermerkt.
@@ -34,7 +37,7 @@ Berichte anderer Spieler (ab Version 2, braucht GoldSentinelSync 2 im selben Cli
     /gstest – Stand anzeigen · /gstest teilen an|aus · /gstest sammler an|aus
 ]]
 
-local VERSION = 2
+local VERSION = 3
 
 local existing = _G.GoldSentinelTest
 if type(existing) == "table" and type(existing.version) == "number" and existing.version >= VERSION then return end
@@ -80,7 +83,15 @@ local function Str(v, max)
         s = ok and type(r) == "string" and not IsSecret(r) and r or ("<" .. tv .. ">")
     end
     max = max or T.MAX_TEXT
-    if #s > max then s = s:sub(1, max) .. "…" end
+    if #s > max then
+        -- SH-UTF8 (LevelPilot 23.11.): nach Bytes kürzen, aber nie mitten in einem UTF-8-Zeichen (Folgebytes 0x80–0xBF)
+        local cut = max
+        while cut > 0 do
+            local nb = s:byte(cut + 1)
+            if nb and nb >= 128 and nb < 192 then cut = cut - 1 else break end
+        end
+        s = s:sub(1, cut) .. "…"
+    end
     return s
 end
 T.Str = Str
@@ -229,9 +240,11 @@ function Run:Add(status, id, area, name, extra)
     self.results[#self.results + 1] = e
 end
 
+local function Pack(...) return select("#", ...), ... end
+
 function Run:Check(id, area, name, fn)
     local t = Ms()
-    local ok, a, b, c = pcall(fn)
+    local n, ok, a, b, c = Pack(pcall(fn))
     local ms = Ms() - t
     local extra = { ms = string.format("%.1f", ms) }
     if not ok then
@@ -241,6 +254,14 @@ function Run:Check(id, area, name, fn)
     end
     if a == false then
         extra.ergebnis, extra.erwartet = b, c
+        self:Add("FEHLER", id, area, name, extra)
+        return false
+    end
+    -- SH-NIL (Version 3): Rückgabe vorhanden, aber der erste Wert ist nil -> FEHLER. Ohne jeden Rückgabewert bleibt es OK (wie bisher).
+    if n > 1 and a == nil then
+        local bs = Str(b)
+        extra.ergebnis = "Prüfung lieferte nil statt true" .. (bs and (" · " .. bs) or "")
+        extra.erwartet = c
         self:Add("FEHLER", id, area, name, extra)
         return false
     end

@@ -23,6 +23,15 @@ MAIN FEATURES
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
 
+WHAT'S NEW IN 3.0.41 – tidied up and tested more safely
+- Advertising: the list of placeholders ({raid}, {zeit}, {frei}, {softres}, {link}, {name}) is no longer shown permanently
+  below the text field but in the tooltip of the small "?" next to "Text".
+- Easier to read: grey dashes in lists and the text of disabled buttons are lighter (contrast at least 4.5:1); button
+  labels never get smaller than the game's small standard font.
+- The test tool and test commands are only visible to the developer (as before, now with its own check).
+- The built-in test routine now also checks the shared address book of the GoldSentinel addons (nothing may change) and the
+  readability of all texts. Shared files GoldSentinelSync and GoldSentinelTest up to date.
+
 WHAT'S NEW IN 3.0.40 – settings for every player
 - Every player can now reach their personal settings (minimap button, item tooltip info, first kill celebration, share
   market data, command list, screenshot on first kill): /rm > Settings > General. Before, officers only.

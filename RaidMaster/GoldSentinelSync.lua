@@ -38,8 +38,16 @@
 --
 -- Version 1: erste Fassung (9. November 2026)
 -- Version 2: Fluester-Netz; Zaehler und Dubletten bei der Uebernahme mitnehmen (9. November 2026)
+-- Version 3: Schutz waehrend Testroutinen und Namensabgleich mit Realm (18. November 2026)
+--   - Laeuft bei einem GoldSentinel-Addon eine Testroutine (<Addon>API.TestRunning() == true), lernt der Sync aus
+--     eingehenden Nachrichten keine Mitspieler, tauscht keine Listen und schickt ueber die echte Sendefunktion keine
+--     Fluesternachricht (Testnamen kamen ins Adressbuch, echtes Fluestern an sie). Direkte Aufrufe von Sync.Learn,
+--     die Warteschlangen und ersetzte S.api.send bleiben fuer Pruefungen unveraendert.
+--     Eine Pruefung, die das Lernen aus Nachrichten prueft, setzt GoldSentinelSync.testLearn = true nur fuer ihre Dauer.
+--   - Die Meldung "kein Spieler ... online" wird auch erkannt, wenn der Server den Namen anders schreibt
+--     (Leerzeichen statt Bindestrich, ohne Realm, andere Gross-/Kleinschreibung).
 
-local VERSION = 2
+local VERSION = 3
 
 local existing = _G.GoldSentinelSync
 if type(existing) == "table" and (tonumber(existing.VERSION) or 0) >= VERSION then return end
@@ -62,6 +70,10 @@ S.GOSSIP_NAMES = 8           -- hoechstens so viele Namen je Liste
 S.OFFLINE_PAUSE = 900        -- Sekunden Pause fuer einen Spieler, der offline war
 S.BOOK_MAX = 400             -- hoechstens so viele bekannte Mitspieler
 S.BOOK_DAYS = 30             -- nach so vielen Tagen ohne Lebenszeichen vergessen
+S.testLearn = false          -- true: trotz laufender Testroutine lernen und ins Netz senden (nur Pruefungen des Lernens)
+-- Addons, deren Testroutine den Sync anhaelt (dazu jedes angemeldete Addon); jedes hat <Name>API.TestRunning()
+S.TEST_ADDONS = { "AHSentinel", "BuffSentinel", "GuildSentinel", "LevelPilot", "ProfessionSentinel", "RaidMaster",
+                  "ThreatSentinel" }
 
 ---------------------------------------------------------------------------
 -- Schnittstelle zum Spiel (nur ueber diese Tabelle; Tests ersetzen Eintraege hier)
@@ -106,6 +118,21 @@ S.api = {
     inCombat = function() local f = _G.InCombatLockdown; return f and f() and true or false end,
     notFound = function() return _G.ERR_CHAT_PLAYER_NOT_FOUND_S end,
     random = function(n) return math.random(n) end,
+    -- Name des Addons, dessen Testroutine gerade laeuft, sonst nil
+    testRunning = function()
+        local S = _G.GoldSentinelSync
+        local function Ask(name)
+            local api = _G[name .. "API"]
+            if type(api) == "table" and type(api.TestRunning) == "function" then
+                local ok, r = pcall(api.TestRunning)
+                if ok and r == true then return true end
+            end
+            return false
+        end
+        for _, name in ipairs(S.TEST_ADDONS or {}) do if Ask(name) then return name end end
+        for name in pairs(S.byAddon or {}) do if Ask(name) then return name end end
+        return nil
+    end,
     playerName = function()
         local f = _G.UnitName
         local n = f and f("player")
@@ -180,7 +207,7 @@ if type(existing) == "table" then
     end
 end
 S.stats.net = S.stats.net or {}
-for _, k in ipairs({ "sent", "relayed", "offline", "learned", "gossip" }) do S.stats.net[k] = S.stats.net[k] or 0 end
+for _, k in ipairs({ "sent", "relayed", "offline", "learned", "gossip", "testHeld" }) do S.stats.net[k] = S.stats.net[k] or 0 end
 _G.GoldSentinelSync = S
 
 local function Drop(reason, ep)
@@ -188,6 +215,14 @@ local function Drop(reason, ep)
     if ep then ep.stats.dropped[reason] = (ep.stats.dropped[reason] or 0) + 1 end
 end
 S.Drop = Drop
+
+-- true = eine Testroutine laeuft: nichts lernen, nichts ins Netz (ausser S.testLearn)
+local function TestHeld()
+    if S.testLearn then return false end
+    local ok, name = pcall(S.api.testRunning)
+    return ok and name ~= nil and name ~= false
+end
+S.TestHeld = TestHeld
 
 ---------------------------------------------------------------------------
 -- Senden
@@ -229,6 +264,11 @@ function S.Pump(force)
         S.stats.net.sent = S.stats.net.sent + 1
     end
     S.lastSend = now
+    if q.dist == "WHISPER" and S.api.send == S.realSend and TestHeld() then
+        Drop("test", q.ep)                               -- Testroutine laeuft: kein echtes Fluestern (v3)
+        S.stats.net.testHeld = S.stats.net.testHeld + 1
+        return true
+    end
     if q.dist == "WHISPER" and q.target then S.whispered[q.target] = now end
     if S.api.send(q.prefix, q.msg, q.dist, q.target) then
         S.stats.sent = S.stats.sent + 1
@@ -298,6 +338,13 @@ local function Learn(name, src, v)
     return e
 end
 S.Learn = Learn
+
+-- Lernen aus eingehenden Nachrichten (Absender, Lebenszeichen, Listen): waehrend einer Testroutine nicht
+local function LearnIn(name, src, v)
+    if TestHeld() then S.stats.net.testHeld = S.stats.net.testHeld + 1; return nil end
+    return Learn(name, src, v)
+end
+S.LearnIn = LearnIn
 
 -- bis zu count Ziele fuer das Netz (Sync 2, nicht pausiert, nicht ausgeschlossen; Gildenmitglieder nur ohne Gilde)
 local function NetTargets(count, exclude, includeGuild)
@@ -509,7 +556,7 @@ local function HandleControl(sid, body, dist, sender)
         local addons = ParseAddons(rest)
         S.peers[sid] = { t = S.api.now(), addons = addons }
         local v = tonumber(addons["~sync"])
-        local e = sender and Learn(sender, DistGroup(dist) == "whisper" and "whisper" or DistGroup(dist), v)
+        local e = sender and LearnIn(sender, DistGroup(dist) == "whisper" and "whisper" or DistGroup(dist), v)
         if dist == "WHISPER" then
             -- Vorstellung per Fluestern: einmal je 10 Minuten und Spieler zurueckgruessen
             if e and S.NET and (e.helloBack or -1000) < S.api.now() - 600 and (v or 0) >= 2 then
@@ -527,7 +574,7 @@ local function HandleControl(sid, body, dist, sender)
         for name in rest:gmatch("[^,]+") do
             if n >= S.GOSSIP_NAMES then break end
             n = n + 1
-            Learn(name, "gossip", 2)
+            LearnIn(name, "gossip", 2)
         end
     elseif kind == "P" then
         local nonce, addon = rest:match("^(%w+):(.*)$")
@@ -570,7 +617,7 @@ function S.OnAddonMessage(prefix, msg, dist, sender)
         if sid == S.sid then return end                      -- eigene Nachricht (Gilde/Gruppe senden zurueck)
         if sender and not IsMe(sender) then
             local src = ttl and "net" or DistGroup(dist)
-            Learn(sender, src == "other" and "whisper" or src, ttl and 2 or nil)
+            LearnIn(sender, src == "other" and "whisper" or src, ttl and 2 or nil)
         end
         if not Remember(sid .. ":" .. n .. ":" .. prefix) then Drop("duplicate", ep); return end
         local peer = S.peers[sid]
@@ -620,14 +667,35 @@ local function NotFoundName(text)
 end
 
 -- true = diese Meldung gehoert zum Netz und wird ausgeblendet
+-- Name ohne Leerzeichen/Bindestrich, klein (der Server schreibt "Name Realm" oder "Name-Realm" oder nur "Name")
+local function NameKey(n) return (n:lower():gsub("[%s%-]", "")) end
+local function BaseKey(n) return NameKey(n:match("^([^%-%s]+)") or n) end
+-- zu einem Namen aus der Meldung den angefluesterten Namen finden (genau, sonst tolerant; alte Eintraege raeumen)
+local function MatchWhispered(name, now)
+    if S.whispered[name] then return name end
+    local key, best = NameKey(name), nil
+    local hasRealm = name:find("[%s%-]") ~= nil
+    for target, t in pairs(S.whispered) do
+        if now - t > 10 then
+            S.whispered[target] = nil
+        elseif not best and (NameKey(target) == key or (not hasRealm and BaseKey(target) == key)) then
+            best = target
+        end
+    end
+    return best
+end
+S.MatchWhispered = MatchWhispered
+
 function S.OnSystemMessage(text)
-    local name = NotFoundName(text)
-    if not name then return false end
+    local shown = NotFoundName(text)
+    if not shown then return false end
     local now = S.api.now()
+    local name = MatchWhispered(shown, now) or shown
     local t = S.whispered[name]
     if t and now - t <= 5 then
         S.whispered[name] = nil
         S.hideUntil[name] = now + 2
+        S.hideUntil[shown] = now + 2
         local e = S.book[name]
         if e then
             e.fail = (e.fail or 0) + 1
@@ -640,7 +708,7 @@ function S.OnSystemMessage(text)
         end
         return true
     end
-    return S.hideUntil[name] ~= nil and now <= S.hideUntil[name]
+    return (S.hideUntil[name] ~= nil and now <= S.hideUntil[name]) or (S.hideUntil[shown] ~= nil and now <= S.hideUntil[shown])
 end
 
 -- Kanal-Hinweis des Servers (eigene alte Kanaele der Addons): "nicht erlaubt" zaehlen
@@ -673,8 +741,9 @@ function S.DiagLines()
         string.format("SYNC gesendet %d · empfangen %d · verworfen: %s · Warteschlange %d · Kanal verweigert %d",
             S.stats.sent, S.stats.received, #dr > 0 and table.concat(dr, ", ") or "0", #S.queue, S.stats.channelRefused),
         string.format("NETZ %s · bekannt %d (mit Sync 2: %d, pausiert %d) · gesendet %d · weitergegeben %d · offline %d · " ..
-            "Listen %d · Warteschlange %d · gespeichert %s", S.NET and "an" or "aus", known, v2, paused, S.stats.net.sent,
-            S.stats.net.relayed, S.stats.net.offline, S.stats.net.gossip, #S.netQueue, S.store and "ja" or "nein"),
+            "Listen %d · Warteschlange %d · gespeichert %s · im Test angehalten %d%s", S.NET and "an" or "aus", known, v2, paused,
+            S.stats.net.sent, S.stats.net.relayed, S.stats.net.offline, S.stats.net.gossip, #S.netQueue,
+            S.store and "ja" or "nein", S.stats.net.testHeld, TestHeld() and " (Test laeuft)" or ""),
     }
 end
 
@@ -686,7 +755,7 @@ function S.Tick()
     if S.helloDue or now - S.lastHello >= S.HELLO_EVERY then
         if now >= (S.helloAt or 0) then S.Hello() end
     end
-    if S.NET then S.NetTick(now) end
+    if S.NET and not TestHeld() then S.NetTick(now) end
     S.Pump()
     FinishPings(false)
 end
@@ -736,6 +805,7 @@ end
 
 S.sid = S.sid or NewSid()
 S.helloAt = S.api.now() + 10        -- erstes Lebenszeichen nach dem Laden (Gilde ist oft noch nicht bekannt)
+S.realSend = S.api.send             -- echte Sendefunktion (Pruefungen ersetzen S.api.send; dann kein Test-Halt)
 S.api.register(S.CTRL)
 
 local CF = _G.CreateFrame

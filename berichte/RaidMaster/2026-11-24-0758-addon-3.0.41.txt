@@ -1,0 +1,75 @@
+Bericht RaidMaster-Sitzung an die Prüf-Sitzung – 24.11.2026 07:58
+Thema: Addon RaidMaster 3.0.41 – offene Punkte aus offen-raidmaster.txt gebündelt
+Status: umgesetzt, zur Prüfung (L2–L7 teilweise, siehe 6). download/RaidMaster-3.0.41.zip (+ RaidMaster-latest.zip),
+Discord-Text RaidMasterBot/raid_addon_intro.md (Eintrag 3.0.41; Teile 1692/1785 Zeichen). addon_check: OK.
+
+1. Gemeinsame Dateien (SH-V3, Sync 3, Markt v3)
+- GoldSentinelTest.lua (Version 3) und GoldSentinelSync.lua unverändert aus shared/ kopiert (cmp gleich). GoldSentinelMarkt,
+  -Game, -Dev, -Pruefliste waren schon byte-gleich mit shared/.
+- SH-NIL: Nachbildung (berichte/RaidMaster/offline, deDE/enUS/ruRU/zhCN, Forever + Era) mit Version 3: 0 neue nil-FEHLER.
+  Verdacht, zu messen: Prüfungen, die nur im Client laufen, kann die Nachbildung nicht zeigen – Ingametest.
+
+2. Platzhalter-Liste Werbung (Befund 19.11. 09:10, MITTEL)
+- Pages.lua: dauerhafte Zeile "Platzhalter: {raid} …" entfernt; kleines "?" (24×24) links neben dem Textfeld, Tooltip: Titel
+  gelb + je Platzhalter eine Zeile (7 Zeilen). Text aus der vorhandenen Übersetzung (alle 11 Sprachen enthalten " · "),
+  keine neuen Sprachschlüssel. Tooltip über UI.Button (Rahmen beim Überfahren bleibt).
+- T197 neu: 0 sichtbare Platzhalter-Zeilen auf der Seite, ?-Knopf mit 7 Tooltip-Zeilen, alle 6 Platzhalter.
+  Gegenprobe gegen 3.0.40-Pages.lua: FEHLER "kein ?-Knopf".
+
+3. Entwickler-Befehle nur im Entwicklermodus (Entscheid 19.11. 09:06)
+- Befund: schon so gebaut. Als "dev" eingestuft: prüfliste, test, testroutine (Commands.lua, dev = true). Befehlsliste beim
+  Tippen filtert sie (CmdHint), Knopf "Test" im Hauptfenster nur mit Entwicklermodus oder laufendem Testmodus, Knopf
+  "Testraid leeren" nur im Testmodus, Prüfliste nur für Entwickler. Es gibt keine /rm-Hilfe-Ausgabe; keine Hinweiszeile/kein
+  Tooltip für Spieler nennt Testbefehle (grep). "diag" (Diagnose-Fenster) ist Spieler-Werkzeug (Knopf im Hauptfenster) – nicht dev.
+- T196 neu: dev aus -> 0 Entwickler-Zeilen, Test-Knopf versteckt; dev an -> prüfliste,test,testroutine, Knopf da.
+  Gegenproben (Code absichtlich verändert): Knopf immer sichtbar -> FEHLER "dev aus: Test-Knopf sichtbar"; testroutine
+  ohne dev-Kennung -> FEHLER "dev an, Liste: prüfliste,test".
+
+4. Test ändert nie Livedaten (Hinweis 20.11. 08:40)
+- Eigene SavedVariables: wie bisher Schnappschuss vor dem Lauf, Vergleich und Rücksetzen am Ende (SB), Sicherung gegen /reload.
+- NEU SB2: gemeinsames Adressbuch von GoldSentinelSync (alle GoldSentinel-Addons) – je Eintrag fail, pause, v, src vor/nach;
+  Abweichung = FEHLER mit Eintragsnummer (nie Namen) und Rücksetzen. "seen" und neue Einträge entstehen durch echte
+  Nachrichten anderer Spieler und zählen nicht. Netz im Test: Addon-Nachrichten hält der Testmodus zurück (wie bisher).
+- T198 neu (Regel 4, Gegenprobe an KOPIEN): eigene Daten 1 absichtliche Änderung -> genau 1 Befund; Adressbuch fail+pause
+  geändert -> 2 Befunde, zurückgesetzt; seen/neuer Eintrag -> 0 Befunde; Befundtext ohne Namen.
+- Nachbildung hat ein leeres Adressbuch (SB2 "0 Einträge") – im Client prüfen.
+
+5. Lesbarkeit L1–L8 (Hinweis 20.11. 13:50)
+- L1 + L8 als Prüfung T199 (Bereich K, alle sichtbaren Texte aller Seiten): Kontrast nach WCAG ab 4,5:1 (Grenze wie BS-L1/GS-L1)
+  je Farbabschnitt (|cff-Farbcodes einzeln), Hintergrund = Hintergrundfarbe des nächsten Rahmens; Schrift nicht kleiner als
+  GameFontNormalSmall. T200 Gegenprobe: dunkelgraue Zahl (0,35) und graue Zahl im Farbcode -> je 1 Befund, Schrift 8 -> 1 Befund,
+  Weiss/Gold -> 0, Weiss/Schwarz = 21:1. In der Nachbildung fehlen Farben -> T199 SKIP; im Client prüfen.
+- Vorab nachgerechnet (alle Farben im Code gegen bg/panel/button): einziger Text unter 4,5:1 war "|cff555555–" (2,2:1, Strich für eine
+  leere Zeile, Pages.lua) -> jetzt Farbe "muted" (5,7:1). Ausgegraute Knöpfe 0,4 grau (2,8:1) -> 0,55 (4,85:1).
+  "muted" selbst: 6,9 / 6,5 / 5,7:1 (bg / panel / button).
+- L8: UI.FitText verkleinerte Knopf-/Zeilentexte bis 9 (Spaltenköpfe bis 8) -> jetzt nie unter GameFontNormalSmall (im Spiel
+  gelesen, sonst 10). Nachbildung in 4 Sprachen: T158 (abgeschnitten) weiter OK – im Client prüfen.
+- L2–L7: NOCH NICHT als eigene Prüfung gebaut. Einordnung: RaidMaster zeigt keine Kauf-/Verkaufsempfehlungen (L7 trifft nicht zu),
+  Geldbeträge nur in Gildenbank/Spenden (L2), DKP-Zahlen in Liste, Tooltip, Chat-Antwort !dkp und Discord (L3/L4). Plan: mit der
+  nächsten Version Prüfungen für L3 (DKP gleich in Liste/Tooltip/!dkp) und L4 (Summen DKP-Log = Stand), L2/L5/L6 als
+  Prüflisten-Punkte im Client. Bis dahin offen.
+
+6. Schätzen verboten (Hinweis 21.11.)
+- Entfernt: 11 ungemessene Zeitangaben in der Prüfliste ("ca. 2/3/5 Minuten", "2/3 Minuten", "innert etwa 1 Minute");
+  feste Version "3.0.40" im Prüflisten-Text durch RM.VERSION ersetzt.
+- Bestehende Zahlen ohne eigene Messung (Liste wie verlangt): Taktik-Texte RaidData.lua, 24 Stellen mit "ca." (z. B. "betäubt
+  ca. 8 Sek.", "ca. 5 % Leben") – Quelle: Spielmechanik aus den Taktik-Texten, n = 0 eigene Messungen, in 11 Sprachen übersetzt.
+  Plan: Entscheid der Prüf-Sitzung – (a) "ca." mit Zahl weglassen oder (b) aus Kampflogs messen. Unverändert gelassen.
+
+7. Realm-Schlüssel (Prüfauftrag 21.11. 16:30)
+- Ergebnis: keine realm-getrennten Gemeinschaftsdaten. Beleg: grep "GetRealmName|GetNormalizedRealmName" über RaidMaster/*.lua
+  und Test/: 0 Treffer (auch in den mitgelieferten GoldSentinel*.lua 0). DKP-Daten hängen am Gildennamen (RM.MyGuild() =
+  GetGuildInfo("player"), DKP.lua:250/279/377/644), Spielernamen kurz ohne Realm (RM.Short; UICheck.lua, Plausibel-Prüfung "Eigener Name (ohne Realm)"). Nichts zusammenzuführen.
+
+8. GoldSentinelTakt 2
+- Nicht kopiert: RaidMaster nutzt Takt nicht. Beleg: RaidMaster.toc lädt kein GoldSentinelTakt.lua; grep "GoldSentinelTakt" im
+  eigenen Code: 0 Treffer. Eigener Takt (Breathe/Portionen) wie mit dem Supervisor 17.11. 21:30 vereinbart.
+
+9. Tests (eigene, Hinweis – keine Freigabe)
+- Nachbildung: deDE 142 OK · 0 FEHLER · 19 übersprungen · 10 im Client prüfen, längstes Bild 2,7 ms; enUS/ruRU/zhCN je 144 OK,
+  0 FEHLER; Era (TOC 11509) ALLE OK. TU6 Regressionen 46 von 46 (neu T196–T200).
+- Version: .toc, RM.VERSION, RM.VERSION_NUM = 3.0.41 / 30041 (T02 OK).
+
+10. Offen beim Nutzer / nächste Schritte
+- Ingametest 3.0.41 (/rm testroutine alles), besonders T199 (Kontrast/Schrift echt gemessen), SB2 (echtes Adressbuch), T197.
+- L2–L7 und Taktik-"ca."-Zahlen (Entscheid) – nächste Version.

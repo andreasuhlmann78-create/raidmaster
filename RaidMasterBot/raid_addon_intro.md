@@ -27,6 +27,9 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 ===
 📜 **Updates**
 
+**3.0.41** – Aufgeräumt
+• Werbung: Platzhalter-Liste jetzt im Tooltip des „?“ neben „Text“. Hellere graue Texte, keine zu kleine Schrift mehr auf Knöpfen.
+
 **3.0.38 – 3.0.40** – Alle Einstellungen in einem Fenster
 • `/rm optionen`: links Bereiche, rechts deren Optionen, oben ein Suchfeld; deine Werte bleiben. 3.0.40: Minimap-Knopf, Tooltip & Co. jetzt für jeden Spieler.
 

@@ -228,6 +228,128 @@ function U.TextFits()
 	return problems, tested, hints
 end
 
+-- 3.0.41 (Hinweis 20.11. 13:50, Nutzer 13:44 "hässliche, unübersichtliche Dinge"): Lesbarkeit L1 und L8.
+-- L1 Kontrast nach WCAG (relative Helligkeit, Verhältnis (hell + 0,05) / (dunkel + 0,05)); Grenze 4,5:1 wie bei
+-- BuffSentinel/GuildSentinel (Prüfregel der Prüf-Sitzung, Befunde BS-L1/GS-L1). Hintergrund = nächster Vorfahre mit
+-- Hintergrundfarbe (UI.Skin), seine Deckkraft über Schwarz verrechnet (Grundfenster des Spiels sind dunkel – Verdacht, zu messen,
+-- falls ein Fenster über hellem Spielbild liegt). Farbcodes im Text (|cffRRGGBB) zählen je Abschnitt.
+-- L8 Schriftgrösse: keine Schrift kleiner als GameFontNormalSmall (bei 100 % Skalierung).
+U.MIN_CONTRAST = 4.5
+
+local function Lum(r, g, b)
+	local function ch(c)
+		c = tonumber(c) or 0
+		return c <= 0.03928 and c / 12.92 or ((c + 0.055) / 1.055) ^ 2.4
+	end
+	return 0.2126 * ch(r) + 0.7152 * ch(g) + 0.0722 * ch(b)
+end
+
+function U.Contrast(fg, bg)
+	local a, b = Lum(fg[1], fg[2], fg[3]), Lum(bg[1], bg[2], bg[3])
+	if a < b then a, b = b, a end
+	return (a + 0.05) / (b + 0.05)
+end
+
+-- Textfarben eines FontString: Grundfarbe plus jede |cffRRGGBB-Farbe im Text (nur Abschnitte mit sichtbaren Zeichen)
+function U.TextColors(fs)
+	local out = {}
+	local text = fs and fs.GetText and fs:GetText()
+	if type(text) ~= "string" or not text:find("%S") then return out end
+	local base
+	if fs.GetTextColor then
+		local r, g, b = fs:GetTextColor()
+		if r then base = { r, g, b } end
+	end
+	local pos, cur = 1, base
+	text = text:gsub("|T.-|t", "")                           -- Symbole zählen nicht
+	while pos <= #text do
+		local s, e, hex = text:find("|c%x%x(%x%x%x%x%x%x)", pos)
+		local r1 = text:find("|r", pos, true)
+		local stop = math.min(s or #text + 1, r1 or #text + 1)
+		local seg = text:sub(pos, stop - 1)
+		if cur and seg:gsub("|.", ""):find("%S") then out[#out + 1] = { cur, seg } end
+		if not s and not r1 then break end
+		if s and (not r1 or s < r1) then
+			cur = { tonumber(hex:sub(1, 2), 16) / 255, tonumber(hex:sub(3, 4), 16) / 255, tonumber(hex:sub(5, 6), 16) / 255 }
+			pos = e + 1
+		else
+			cur = base
+			pos = r1 + 2
+		end
+	end
+	return out
+end
+
+function U.Background(f)
+	local p = f and f.GetParent and f:GetParent()
+	while p do
+		if p.GetBackdropColor then
+			local r, g, b, a = p:GetBackdropColor()
+			if r and (a or 1) >= 0.5 then
+				a = a or 1
+				return { r * a, g * a, b * a }                -- über dunklem Grund (Schwarz) verrechnet
+			end
+		end
+		p = p.GetParent and p:GetParent()
+	end
+	return { 0, 0, 0 }
+end
+
+function U.MinFontSize()
+	local f, size = _G.GameFontNormalSmall, nil
+	if f and f.GetFont then size = select(2, f:GetFont()) end   -- (and/or kürzt auf einen Wert – darum so)
+	return tonumber(size) or 10
+end
+
+-- prüft einen FontString: L1 je Farbabschnitt, L8 Grösse. Gibt Probleme (Liste) und Anzahl gemessener Werte zurück.
+function U.CheckReadable(fs, where, bg, minSize)
+	local problems, n = {}, 0
+	for _, part in ipairs(U.TextColors(fs)) do
+		n = n + 1
+		local c = U.Contrast(part[1], bg)
+		if c < U.MIN_CONTRAST then
+			local t = part[2]:gsub("|.", ""):gsub("^%s+", "")
+			problems[#problems + 1] = string.format("%s: L1 Kontrast %.1f:1 (unter %.1f:1) bei '%s'", where, c, U.MIN_CONTRAST,
+				#t > 30 and (t:sub(1, 30) .. "…") or t)
+		end
+	end
+	local size
+	if fs.GetFont then size = tonumber((select(2, fs:GetFont()))) end
+	if size and n > 0 then
+		n = n + 1
+		if size + 0.01 < minSize then
+			local t = tostring(fs:GetText() or ""):gsub("|c%x%x%x%x%x%x%x%x", ""):gsub("|r", "")
+			problems[#problems + 1] = string.format("%s: L8 Schrift %.1f (kleiner als %.1f) bei '%s'", where, size, minSize,
+				#t > 30 and (t:sub(1, 30) .. "…") or t)
+		end
+	end
+	return problems, n
+end
+
+-- Fall 7 (T199): alle sichtbaren Texte der eigenen Fenster
+function U.Readable()
+	local problems, tested = {}, 0
+	local minSize = U.MinFontSize()
+	for _, e in ipairs(RM.uiFrames) do
+		if Shown(e.frame) then
+			local list = { e.frame }
+			for _, el in ipairs(U.Descendants(e.frame)) do list[#list + 1] = el end
+			for _, el in ipairs(list) do
+				if not (el.IsObjectType and el:IsObjectType("EditBox")) then          -- Eingaben des Spielers zählen nicht
+					for _, region in ipairs(el.GetRegions and { el:GetRegions() } or {}) do
+						if region.IsObjectType and region:IsObjectType("FontString") and Shown(region) then
+							local p, n = U.CheckReadable(region, e.name .. " > " .. Name(el), U.Background(region), minSize)
+							tested = tested + n
+							for _, x in ipairs(p) do if #problems < 25 then problems[#problems + 1] = x end end
+						end
+					end
+				end
+			end
+		end
+	end
+	return problems, tested
+end
+
 -- Fall 5 (T159): angezeigte Spielwerte plausibel (Prüfungen meldet das Addon mit RM.Plausible an)
 function U.ValuesPlausible()
 	local problems, infos = {}, {}

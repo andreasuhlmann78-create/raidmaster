@@ -231,6 +231,49 @@ local function Compare(s)
 	return out
 end
 
+-- 3.0.41 (Hinweis 20.11. 08:40, Nutzer "darf nicht mehr passieren, dass der Ingame-Test Livedaten verändert"): auch das
+-- GEMEINSAME Adressbuch von GoldSentinelSync (alle GoldSentinel-Addons lesen es; Anlass AHSentinel T913: Fehlzähler/Pause).
+-- Verglichen werden je vorhandenem Eintrag fail, pause, v, src – "seen" und neue Einträge entstehen im Hintergrund (echte
+-- Nachrichten anderer Spieler) und gehören nicht der Routine. Im Bericht nur Nummern, nie Namen.
+local SYNC_FIELDS = { "fail", "pause", "v", "src" }
+local function SyncPrint(book)
+	book = book or (_G.GoldSentinelSync and _G.GoldSentinelSync.book)
+	if type(book) ~= "table" then return nil end
+	local out = {}
+	for name, e in pairs(book) do
+		if type(name) == "string" and type(e) == "table" then
+			local c = {}
+			for _, f in ipairs(SYNC_FIELDS) do c[f] = e[f] end
+			out[name] = c
+		end
+	end
+	return out
+end
+
+local function SyncDiff(before, book, restore)
+	local out = {}
+	if type(before) ~= "table" or type(book) ~= "table" then return out end
+	local names = {}
+	for name in pairs(before) do names[#names + 1] = name end
+	table.sort(names)
+	for i, name in ipairs(names) do
+		local e, b = book[name], before[name]
+		if type(e) ~= "table" then
+			out[#out + 1] = "Adressbuch Eintrag " .. i .. " fehlt"
+			if restore then book[name] = Deep(b) end
+		else
+			for _, f in ipairs(SYNC_FIELDS) do
+				if e[f] ~= b[f] then
+					out[#out + 1] = "Adressbuch Eintrag " .. i .. "." .. f
+					if restore then e[f] = b[f] end
+				end
+			end
+		end
+	end
+	return out
+end
+R.SyncPrint, R.SyncDiff = SyncPrint, SyncDiff
+
 local function RestoreSnapshot(s)
 	local db = RaidMasterDB
 	if type(db) ~= "table" then return end
@@ -3220,6 +3263,64 @@ local function AreaJ(t, G)
 		return true, "Sicherung im Lauf da; nach Abbruch: Inhalt zurück (gleiche Tabellen), Neues weg, nur einmal"
 	end)
 
+	-- 3.0.41 (Hinweis 20.11. 08:40, Regel 4): Gegenprobe – eine absichtlich geänderte Zahl MUSS erkannt werden. Nur an KOPIEN
+	-- (eigene SavedVariables und gemeinsames Adressbuch), nie an echten Daten.
+	t:Check("T198", "J", "Livedaten-Wächter: absichtlich geänderte Felder werden erkannt (Kopien)", function()
+		-- eigene SavedVariables: Schnappschuss-Vergleich
+		local saved = RaidMasterDB
+		local copy = Deep(RaidMasterDB or {})
+		copy.data = type(copy.data) == "table" and copy.data or {}
+		local fakeSnap = { db = {} }
+		for k, v in pairs(copy) do if not SB_SKIP[k] then fakeSnap.db[k] = Deep(v) end end
+		if type(fakeSnap.db.config) == "table" then fakeSnap.db.config.positions, fakeSnap.db.config.mainSize = nil, nil end   -- wie Snapshot()
+		copy.data.gegenprobe = (copy.data.gegenprobe or 0) + 1
+		RaidMasterDB = copy
+		local ok, d1 = pcall(Compare, fakeSnap)
+		RaidMasterDB = saved
+		if not ok then return false, tostring(d1), "Vergleich läuft" end
+		if #d1 ~= 1 or not tostring(d1[1]):find("gegenprobe", 1, true) then
+			return false, "eigene Daten: " .. table.concat(d1, ", "), "genau 1 Abweichung data.gegenprobe"
+		end
+		if RaidMasterDB ~= saved then return false, "RaidMasterDB vertauscht", "unverändert" end
+		-- gemeinsames Adressbuch: Kopie, ein Fehlzähler und eine Pause geändert
+		local fakeBook = { A = { fail = 0, pause = 0, v = 3, src = "RM", seen = 1 }, B = { fail = 1, pause = 0, v = 3, seen = 2 } }
+		local before = SyncPrint(fakeBook)
+		fakeBook.B.seen = 99                                    -- Hintergrund: gehört nicht der Routine -> kein Befund
+		fakeBook.C = { fail = 0, v = 3 }                        -- neuer Kontakt im Hintergrund -> kein Befund
+		if #SyncDiff(before, fakeBook) ~= 0 then return false, "seen/neuer Eintrag als Befund", "0" end
+		fakeBook.A.fail, fakeBook.B.pause = 1, 600
+		local d2 = SyncDiff(before, fakeBook, true)
+		if #d2 ~= 2 then return false, "Adressbuch: " .. table.concat(d2, ", "), "2 Abweichungen" end
+		if fakeBook.A.fail ~= 0 or fakeBook.B.pause ~= 0 then return false, "nicht zurückgesetzt", "zurückgesetzt" end
+		for _, x in ipairs(d2) do if x:find("[AB]$") or x:find(" [AB]%.") then return false, x, "ohne Namen" end end
+		return true, "eigene Daten 1/1 erkannt · Adressbuch 2/2 erkannt und zurückgesetzt, seen/neue Einträge kein Befund"
+	end)
+
+	-- 3.0.41 (L1/L8): Gegenprobe der Lesbarkeits-Prüfung mit nachgebauten Texten (dunkelgraue Zahl -> Befund)
+	t:Check("T200", "J", "Lesbarkeit: Gegenprobe – dunkelgraue Zahl, kleine Schrift werden erkannt", function()
+		local U = RM.UICheck
+		if not (U and U.CheckReadable) then return false, "UICheck fehlt", "vorhanden" end
+		local function FS(text, r, g, b, size)
+			return { GetText = function() return text end, GetTextColor = function() return r, g, b, 1 end,
+				GetFont = function() return "x", size end }
+		end
+		local bg = { 0.08, 0.08, 0.1 }
+		local cases = {
+			{ "weisse Zahl", FS("1250", 1, 1, 1, 12), 0 },
+			{ "gelb (Gold)", FS("|cffffd100Gold|r", 1, 1, 1, 12), 0 },
+			{ "dunkelgraue Zahl", FS("1250", 0.35, 0.35, 0.35, 12), 1 },
+			{ "graue Zahl im Farbcode", FS("DKP |cff555555250|r", 1, 1, 1, 12), 1 },
+			{ "Schrift 8", FS("Text", 1, 1, 1, 8), 1 },
+		}
+		for _, c in ipairs(cases) do
+			local p = U.CheckReadable(c[2], c[1], bg, 10)
+			if #p ~= c[3] then return false, c[1] .. ": " .. #p .. " Befund(e) " .. table.concat(p, "; "), c[3] .. " Befund(e)" end
+		end
+		local w = U.Contrast({ 1, 1, 1 }, { 0, 0, 0 })
+		if math.abs(w - 21) > 0.01 then return false, string.format("Weiss/Schwarz %.2f", w), "21:1" end
+		return true, "5 Fälle richtig (2 lesbar, 2 Kontrast-Befunde, 1 Schrift-Befund), Weiss/Schwarz 21:1"
+	end)
+
 	-- 3.0.31 (Ingametest 17.11., T155): Tooltips verdecken keine Knöpfe – Platzierung neben, über, unter dem Fenster.
 	-- Nachgebaute Rahmen (Bildschirm 1000 x 800, Skala 1); geprüft wird, wohin UI.PlaceTooltip den Tooltip setzt.
 	t:Check("T190", "J", "Tooltip neben/über/unter dem Fenster (nie über Knöpfen)", function()
@@ -3818,6 +3919,68 @@ local function AreaJ(t, G)
 		return true, "versteckt / für Entwickler " .. devAll
 	end)
 
+	-- 3.0.41 (Entscheid des Nutzers 19.11. 09:06): Entwickler-Befehle und -Knöpfe nur im Entwicklermodus; Gegenprobe: dev an -> alle
+	t:Check("T196", "J", "DEV-SICHT: Entwickler-Befehle/-Knopf nur im Entwicklermodus (Gegenprobe dev an)", function()
+		local f = MainFrame()
+		if not (f and f.testButton and f.testVisible and RM.Test) then return false, "Hauptfenster/Testknopf fehlt", "vorhanden" end
+		local GD = _G.GoldSentinelDev
+		if not GD then return false, "GoldSentinelDev fehlt", "vorhanden" end
+		local u, res = {}, {}
+		return Guard(function()
+			Swap(u, RM.Test, "active", false)                  -- ohne laufenden Testmodus (der Knopf bleibt sonst zum Beenden)
+			for _, dev in ipairs({ false, true }) do
+				Swap(u, GD, "IsDev", function() return dev end)
+				local H, restore = HintWith(dev, true)
+				local names = {}
+				for _, it in ipairs(H:List("")) do if it.entry.dev then names[#names + 1] = it.entry[1] end end
+				restore()
+				table.sort(names)
+				f.testVisible()
+				res[dev] = { list = table.concat(names, ","), btn = f.testButton:IsShown() and true or false }
+			end
+			if res[false].list ~= "" then return false, "dev aus, Liste: " .. res[false].list, "keine Entwickler-Zeile" end
+			if res[false].btn then return false, "dev aus: Test-Knopf sichtbar", "versteckt" end
+			if res[true].list ~= "prüfliste,test,testroutine" then return false, "dev an, Liste: " .. res[true].list, "prüfliste,test,testroutine" end
+			if not res[true].btn then return false, "dev an: Test-Knopf fehlt", "sichtbar" end
+			return true, "dev aus: 0 Zeilen, Knopf weg · dev an: prüfliste, test, testroutine, Knopf da"
+		end, function() Undo(u); f.testVisible() end)
+	end)
+
+	-- 3.0.41 (Befund 19.11. 09:10): Werbung – Platzhalter nur als "?" mit Tooltip, keine dauerhafte Zeile mehr
+	t:Check("T197", "J", "Werbung: Platzhalter als \"?\" mit Tooltip, keine sichtbare Platzhalter-Zeile", function()
+		local UI = RM.UI
+		local p = UI.pages and UI.pages.ad
+		if not (p and UI.BuildPage) then return false, "Seite Werbung fehlt", "vorhanden" end
+		if p.frame and not p.built then UI.BuildPage(p) end
+		local btn = UI.adPlaceholderHelp
+		if not btn then return false, "kein ?-Knopf", "?-Knopf" end
+		-- Gegenprobe: kein FontString der Seite zeigt die Liste der Platzhalter dauerhaft
+		local visible = 0
+		local function Scan(fr, depth)
+			if depth > 6 or not fr then return end
+			for _, r in ipairs({ fr.GetRegions and fr:GetRegions() or nil }) do
+				if r and r.GetText and r.GetObjectType and r:GetObjectType() == "FontString" then
+					local tx = r:GetText()
+					if type(tx) == "string" and tx:find("{raid}", 1, true) and tx:find("{zeit}", 1, true) then visible = visible + 1 end
+				end
+			end
+			for _, c in ipairs({ fr.GetChildren and fr:GetChildren() or nil }) do Scan(c, depth + 1) end
+		end
+		Scan(p.frame, 0)
+		if visible > 0 then return false, visible .. " Zeile(n) mit Platzhaltern sichtbar", "0" end
+		if type(btn:GetScript("OnEnter")) ~= "function" then return false, "kein Überfahren", "OnEnter" end
+		local tip = type(btn.tooltip) == "string" and btn.tooltip or ""      -- genau der Text, den UI.Button beim Überfahren zeigt
+		local all = {}
+		for line in tip:gmatch("[^\n]+") do all[#all + 1] = line end
+		local n = #all
+		local joined = table.concat(all, "\n")
+		for _, k in ipairs({ "{raid}", "{zeit}", "{frei}", "{softres}", "{link}", "{name}" }) do
+			if not joined:find(k, 1, true) then return false, "Tooltip ohne " .. k .. " (" .. n .. " Zeilen)", "alle 6 Platzhalter" end
+		end
+		if n ~= 7 then return false, n .. " Zeilen", "7 (Titel + 6 Platzhalter)" end
+		return true, "?-Knopf, Tooltip 7 Zeilen, 0 sichtbare Platzhalter-Zeilen"
+	end)
+
 	t:Check("T171", "J", "T-BL6 Beschreibungen in der Spielsprache ohne Platzhalter-Fehler", function()
 		local bad
 		for _, c in ipairs(RM.COMMANDS) do
@@ -4320,6 +4483,8 @@ local function AreaL(t, G)
 			{ "RM-DIAG-1 Fehlerquellen", "T187" }, { "RM-API-RAIDS", "T188" },
 			{ "TR-ALLE Sicherung", "T189" }, { "Tooltip-Platzierung (Ingame T155)", "T190" }, { "HUD-Ausnahme (Ingame T156)", "T191" }, { "Beschriftungen passen (Ingame T158)", "T192" }, { "Testdaten nie für andere Addons", "T193" },
 			{ "OPT-ALLE Optionen-Fenster", "T194" }, { "Spieler ohne Testbefehle", "T195" },
+			{ "DEV-SICHT Entwickler nur im Entwicklermodus", "T196" }, { "Werbung Platzhalter als ?", "T197" },
+			{ "Livedaten-Wächter Gegenprobe", "T198" }, { "Lesbarkeit L1/L8", "T199" }, { "Lesbarkeit Gegenprobe", "T200" },
 			{ "RM-TF-1 kein Fehlerfenster", "T120" }, { "T-BL4 echtes Eingabefeld", "T169" } }
 		local only = R.only
 		local have, missing = 0, {}
@@ -4374,6 +4539,7 @@ local function AreaK(t)
 		{ "T158", "Beschriftungen von Knöpfen nicht abgeschnitten", "TextFits" },
 		{ "T159", "Angezeigte Spielwerte plausibel", "ValuesPlausible", true },
 		{ "T160", "Keine Fehlerschleife (gleiche Meldung > 10×)", "NoErrorLoops", true },
+		{ "T199", "Lesbarkeit L1 Kontrast ab 4,5:1 und L8 Schrift nicht kleiner als GameFontNormalSmall", "Readable" },
 	}
 	if not U then
 		for _, c in ipairs(ui) do t:Skip(c[1], "K", c[2], "UICheck.lua fehlt") end
@@ -4581,6 +4747,7 @@ function R.Run(only)
 	local snap = Snapshot()
 	R.snap = snap
 	R.SetGuard(RaidMasterDB)            -- TR-ALLE: /reload mitten im Lauf -> beim nächsten Einloggen alles zurück
+	R.syncBefore = SyncPrint()          -- 3.0.41: gemeinsames Adressbuch (GoldSentinelSync) vor dem Lauf
 	R.only = only
 	R.testDBnilBefore = snap.testDBnil
 	R.profTable = RM.db.prof
@@ -5100,6 +5267,16 @@ function R.Finish(aborted)
 			end
 			if next(RM.API.over) or next(RM.API.hide) or RM.simCombat then return false, "RM.API/simCombat übrig", "leer" end
 			if R.profTable and RM.db.prof ~= R.profTable then return false, "RM.db.prof ersetzt", "gleiche Tabelle" end
+		end)
+		-- 3.0.41: gemeinsame Daten anderer Addons (GoldSentinelSync-Adressbuch) – Abweichung = FEHLER, zurückgesetzt
+		local book = _G.GoldSentinelSync and _G.GoldSentinelSync.book
+		local sdiff = SyncDiff(R.syncBefore, book, true)
+		t:Check("SB2", "A", "gemeinsame Daten unverändert (GoldSentinelSync-Adressbuch: fail, pause, v, src)", function()
+			if R.syncBefore == nil then return true, "kein gemeinsames Adressbuch geladen" end
+			local n = 0
+			for _ in pairs(R.syncBefore) do n = n + 1 end
+			if #sdiff > 0 then return false, table.concat(sdiff, ", ", 1, math.min(#sdiff, 5)) .. " (zurückgesetzt)", "unverändert" end
+			return true, n .. " Einträge unverändert"
 		end)
 		local realList
 		realN, realList = RealTotal()

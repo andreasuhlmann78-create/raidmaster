@@ -59,11 +59,21 @@ end
 -- minSize verkleinern; reicht das nicht und ist Platz für zwei Zeilen (maxLines 2), auf zwei Zeilen umbrechen. Gilt in allen
 -- Sprachen, weil gemessen wird (GetStringWidth), nicht geschätzt. avail = Breite, die der Text haben darf.
 local function Num(x) return type(x) == "number" and x or 0 end
+-- kleinste erlaubte Schrift (L8): Grösse von GameFontNormalSmall, im Spiel gelesen; ohne diese Schrift 10
+function UI.MinFontSize()
+	local f, size = _G.GameFontNormalSmall, nil
+	if f and f.GetFont then size = tonumber((select(2, f:GetFont()))) end
+	return size or 10
+end
+
 function UI.FitText(fs, avail, base, minSize, maxLines)
 	if not (fs and fs.GetStringWidth and fs.SetFont) then return end
 	avail = Num(avail)
 	base = type(base) == "number" and base or 12
 	minSize = type(minSize) == "number" and minSize or 9
+	-- 3.0.41 (L8, Hinweis 20.11. 13:50): nie kleiner als die Standard-Schrift des Spiels (GameFontNormalSmall); reicht der Platz
+	-- dann nicht, bricht der Text um (maxLines) bzw. meldet T158 "abgeschnitten" – lieber das als zu kleine Schrift
+	minSize = math.max(minSize, UI.MinFontSize())
 	maxLines = type(maxLines) == "number" and maxLines or 1
 	if not avail or avail <= 0 then return end
 	local font, _, flags = fs:GetFont()
@@ -202,7 +212,7 @@ function UI.Button(parent, text, w, h, onClick, tooltip)
 			self:SetBackdropColor(unpack(COLORS.button))
 		end
 	end
-	hooksecurefunc(b, "Disable", function(self) self.label:SetTextColor(0.4, 0.4, 0.4) end)
+	hooksecurefunc(b, "Disable", function(self) self.label:SetTextColor(0.55, 0.55, 0.55) end)   -- 3.0.41 L1: 0,4 gab 2,8:1, 0,55 gibt 4,85:1
 	hooksecurefunc(b, "Enable", function(self) self.label:SetTextColor(unpack(COLORS.text)) end)
 	return b
 end
@@ -1243,6 +1253,7 @@ local function CreateMain()
 		end
 		PlaceDonate()
 	end
+	f.testButton, f.testVisible = testBtn, TestVisible   -- 3.0.41: für die Testroutine (T196, Entwickler-Teile)
 	f:HookScript("OnShow", TestVisible)
 	RM.Listen("SESSION_CHANGED", TestVisible)
 	RM.Listen("CONFIG_CHANGED", TestVisible)

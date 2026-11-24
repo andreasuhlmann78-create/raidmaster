@@ -1094,7 +1094,20 @@ UI.AddPage("ad", L["Werbung"], function(page)
 	textBox:SetScript("OnTextChanged", function(self, user)
 		if user then cfg().adText = self:GetText(); UI.RefreshCurrent() end
 	end)
-	Label(page, L["Platzhalter: {raid} Raidname · {zeit} Datum/Uhrzeit · {frei} freie Plätze · {softres} softres.it-Link · {link} Discord-Link · {name} dein Name"], 110, -182, 11, true):SetWidth(670)
+	-- 3.0.41 (Befund 19.11. 09:10, Nutzer "sieht hässlich aus"): Platzhalter nicht mehr als dauerhafte Zeile, sondern als
+	-- kleines "?" mit Tooltip (wie GuildSentinel). Text aus der vorhandenen Übersetzung, je Platzhalter eine Zeile.
+	local phText = L["Platzhalter: {raid} Raidname · {zeit} Datum/Uhrzeit · {frei} freie Plätze · {softres} softres.it-Link · {link} Discord-Link · {name} dein Name"]
+	-- Tooltip über den normalen Weg von UI.Button (Rahmen beim Überfahren bleibt): Titel gelb, je Platzhalter eine Zeile
+	local phStart = phText:find("{", 1, true) or 1
+	local phHead = phText:sub(1, phStart - 1):gsub("[%s:：]+$", "")
+	local phLines = { "|cffffd100" .. (phHead ~= "" and phHead or "?") .. "|r" }
+	for part in (phText:sub(phStart) .. " · "):gmatch("(.-) · ") do
+		if part ~= "" then phLines[#phLines + 1] = part end
+	end
+	local phHelp = UI.Button(page, "?", 24, 24, nil, table.concat(phLines, "\n"))
+	Place(phHelp, page, 74, -154)
+	page.phHelp = phHelp
+	UI.adPlaceholderHelp = phHelp                       -- für die Testroutine (T196)
 	local resetBtn = UI.Button(page, L["Standardtext"], 120, 24, function()
 		cfg().adText = ""
 		textBox:SetText(Ad.DEFAULT_TEXT)
@@ -1533,7 +1546,7 @@ local function BuildLeaderRaid(page)
 				if m then
 					box.lines[i]:SetText(roleTag(m.name) .. RM.ClassColor(m.class, m.name) .. (m.online == false and " |cff888888(offline)|r" or ""))
 				else
-					box.lines[i]:SetText("|cff555555–|r")
+					box.lines[i]:SetText("|cff9499a8–|r")   -- 3.0.41 L1: Kontrast 2,2:1 -> wie "muted" (5,7:1)
 				end
 			end
 		end

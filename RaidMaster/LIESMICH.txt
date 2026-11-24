@@ -11,6 +11,15 @@ INSTALLATION
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
 
+NEU IN 3.0.41 – aufgeräumt und sicherer getestet
+- Werbung: Die Liste der Platzhalter ({raid}, {zeit}, {frei}, {softres}, {link}, {name}) steht nicht mehr dauerhaft unter dem
+  Textfeld, sondern im Tooltip des kleinen "?" neben "Text".
+- Besser lesbar: graue Striche in Listen und die Schrift ausgegrauter Knöpfe sind heller (Kontrast mindestens 4,5:1);
+  Knopf-Beschriftungen werden nie kleiner als die kleine Standard-Schrift des Spiels.
+- Test-Werkzeug und Testbefehle sieht nur der Entwickler (wie bisher, jetzt mit eigener Prüfung).
+- Die eingebaute Testroutine prüft jetzt auch das gemeinsame Adressbuch der GoldSentinel-Addons (nichts darf sich ändern)
+  und die Lesbarkeit aller Texte. Gemeinsame Dateien GoldSentinelSync und GoldSentinelTest auf dem neuesten Stand.
+
 NEU IN 3.0.40 – Einstellungen für alle Spieler
 - Jeder Spieler kommt jetzt an seine persönlichen Einstellungen (Minimap-Knopf, Infos im Item-Tooltip, Erstkill-Feier,
   Marktdaten teilen, Befehlsliste, Screenshot beim Erstkill): /rm > Einstellungen > Allgemein. Vorher nur Offiziere.
