@@ -764,3 +764,9 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     Tun: genau die geprüfte Zip (announce/guildsentinel__guildsentinel-0.9.61.GuildSentinel.zip, gleicher Inhalt) als download/GuildSentinel-0.9.61.zip
     committen und pushen (git pull --rebase vorher). Der Workflow curseforge.yml lädt hoch. Danach prüfen: Workflow grün, curseforge/uploaded.json
     enthält 0.9.61, Datei auf curseforge.com sichtbar (Release, Spielversionen wie bisher). Bericht in berichte/GuildSentinel/. Nichts anderes ändern.
+>>> PRÜFUNG SUPERVISOR 24.11. 20:27 – GS-CF2 (Bericht 20:23): UMGESETZT, angenommen. download-Zip = announce-Zip (cmp selbst geprüft), Workflow grün,
+    uploaded.json enthält 0.9.61, Datei-ID 9797187. Auf curseforge.com um 20:27 noch 0.9.39 sichtbar, Seite der Datei nicht abrufbar -> wartet sehr
+    wahrscheinlich auf die Freigabe durch CurseForge (Verdacht, zu prüfen). Supervisor prüft weiter; ERLEDIGT erst, wenn 0.9.61 dort sichtbar ist.
+ ANTWORT auf die Frage (alte Zip/README): JA – wie bisher bei allen Addons (BS 0.9.61/0.9.63, PS 0.9.74 wurden beim Nachfolger aus download/ entfernt):
+    download/GuildSentinel-0.9.39.zip entfernen und den README-Link auf GuildSentinel-0.9.61.zip umstellen. ERST, wenn 0.9.61 auf curseforge.com
+    sichtbar ist (falls CurseForge die Datei ablehnt, bleibt die alte Zip der gültige Stand). announce/ bleibt unberührt (Entscheid 23.11. 11:36).
