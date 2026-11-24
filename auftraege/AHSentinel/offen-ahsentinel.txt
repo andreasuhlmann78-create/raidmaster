@@ -6446,3 +6446,11 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     "Mittelwert, kein Einzelbild" mit längstem Bild daneben – erledigt.
  Reihenfolge: AHS-I7 -> AHS-I5 (nach Bericht) -> AHS-I6 -> AHS-I4-a Rest -> AHS-I3 -> G14-a -> T750/T191. CurseForge gesperrt.
 
+>>> NACHTRAG SUPERVISOR 24.11. 10:15 – Einzelheiten Ingametest 0.65.388 (Daten-Repo, Zweig sicherung, Laptop 10:08: AHSentinel-1795509358-d3a955-1 auto,
+    -45a24f-2 ui, -c967a3-3 sniper, -030af9-4 server, -acf17f-5 alles)
+ Teil 1 (2 FEHLER): nur noch T750 und T191 (UI, bekannt). T837 und T793 jetzt OK -> AHS-I5 im Spiel ERLEDIGT (ohne Codeänderung dafür –
+    im Bericht kurz sagen, ob 0.65.388 etwas daran geändert hat oder ob es am Spielzustand lag; kein neuer Auftrag).
+ T750 jetzt 116 Befunde (0.65.387: 106) – abgeschnitten 100 (vorher 90), Markt > Überfüllt 41–42. Leicht schlechter – mit T750/T191 angehen.
+ Teil 4: T617/T734 unverändert 105,3 ms "Skripte" = AHS-I6 HOCH. Teil 6: T459 = AHS-I3; Sandbox FEHLER diag.entries = AHS-I7 HOCH.
+ Reihenfolge bleibt: AHS-I7 -> AHS-I6 -> AHS-I4-a Rest -> AHS-I3 -> G14-a -> T750/T191. CurseForge gesperrt.
+
