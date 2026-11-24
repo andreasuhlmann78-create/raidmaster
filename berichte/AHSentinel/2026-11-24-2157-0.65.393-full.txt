@@ -1,0 +1,11 @@
+AHSentinel 0.65.393 – Gesamtlauf (FULL, alle 411 Szenarien) – Ergebnis, zur Prüfung (Bedingung vor CurseForge, Entscheid Supervisor 21:44)
+Ergebnis: 341 PASS · 70 FAIL (0.65.392: 342 PASS · 68 FAIL; neu dabei: s272w_waechter_vollscan PASS, s9_watcher_tip PASS).
+Gegenüber 0.65.392 neu rot: 2 – beide geklärt:
+ 1. s74_options_rows (4 Fehler "erwartet 56 Zeilen, bekommen 55" in deDE/frFR/esES/ruRU): gewollt – AHS-CF1-UI c entfernt die Optionszeile
+    "Wächter kauft mit". Szenario auf 55 angepasst (tests/wowsim/scenarios_new.lua, AHAnalyzerPro main) -> einzeln PASS (58 Prüfungen).
+ 2. s272_testroutine_alles "Zeitüberschreitung" (Grenze 600 s je Szenario): lief, während ich parallel Teil auto/server und Einzel-Szenarien
+    rechnete (2 Kerne). Ohne Parallel-Last danach: PASS, 28 Prüfungen, 232 s Laufzeit (< 600 s). Ursache Rechenlast damit belegt.
+ Kein Fehler von 0.65.392 ist verschwunden oder verschlechtert sich ausser diesen beiden (übrige 68 FAIL wie bei 0.65.392; s9_watcher wie
+ bisher rot – Wächter findet im Nachbau nichts, 10 statt 11 Fehler).
+Damit gilt für 0.65.393: keine neuen Fehler im Gesamtlauf. Hinweis: das Gesamtlauf-Tempo (Stunden statt ~25 Min.) kam von der Parallel-Last;
+künftig keine anderen Nachbau-Läufe neben FULL.
