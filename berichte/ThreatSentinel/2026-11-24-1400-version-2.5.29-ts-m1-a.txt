@@ -1,0 +1,33 @@
+BERICHT ThreatSentinel 2.5.29 – 24.11.2026 14:00
+Projekt: ThreatSentinel · Version 2.5.29 · Status: umgesetzt, zur Prüfung
+Veröffentlicht: Discord (announce/threatsentinel__threatsentinel-2.5.29.*), download/ThreatSentinel-2.5.29.zip. Nicht auf CurseForge.
+Auftrag: TS-M1-a MITTEL (Ingametest 2.5.28, 13:58: T-M1 "Befehl (a) false", TU6-R1 rot nur wegen T-M1).
+
+1) Ursache – Fehler im Testaufbau, KEIN Messergebnis für Forever
+   - T-M1 läuft in der Testroutine (ausser Kampf) in der Kulisse mit sc.secret = true. Die Kulisse gibt dabei für alle Bedrohungswerte
+     den Köder SECRET zurück (TestRoutine.lua NewBait: newproxy-userdata mit Fehler-Metatabelle) – KEIN echter geschützter Wert.
+   - (a) reicht diesen Köder an StatusBar:SetValue, FontString:SetText und SetFormattedText weiter. Der echte Client lehnt userdata dort
+     mit "bad argument … (number/string expected, got userdata)" ab -> PassThrough schreibt "SetValue(Prozent)=Fehler: …" -> der alte Test
+     prüfte "kein 'Fehler' im Text" -> false. Der Nachbau nahm userdata stillschweigend an -> true. Das erklärt "Nachbau true, Spiel false".
+   - Beleg (Nachbau mit Client-Verhalten): Prüfstand, dessen SetValue/SetText/SetFormattedText userdata wie der Client ablehnen:
+     2.5.28-Test -> T-M1 "Befehl (a) false" (genau das Ingame-Bild); 2.5.29 -> T-M1 bestanden, Messwert "(a) mit Köder: Werte: Prozent
+     geschützt, Stufe geschützt · SetValue(Prozent)=Fehler: bad argument #1 to 'SetValue' (number expected, got userdata) …".
+     (Der Prüfstand meldet zusätzlich T-OPT3/4/6: der Nachbau liefert GetBindingText als Tabelle – nur dort, im Spiel bestanden.)
+   - Den Fehlertext aus dem echten Lauf habe ich nicht: T-M1 stellt ThreatSentinelDB.m1 nach dem Test zurück, und der Testbericht 2.5.28
+     liegt noch nicht in testberichte/. Die Ursache steht trotzdem fest (Köder ist userdata, Code-Beleg oben); ab 2.5.29 steht der
+     Fehlertext im Testbericht hinter "Messwert (a) mit Köder:".
+   - Die Frage "geht (a) in Forever?" beantwortet NUR die echte Kampfmessung (/ts messung kampf, echte geschützte Werte) – offen.
+
+2) Änderung (nur TestRoutineTU.lua, T-M1)
+   - (a) ist eine Messung, keine Prüfung: geprüft wird nur, dass jeder Schritt von (a) durchlief und mit "geht" oder "Fehler: <Text>"
+     im Ergebnis steht ("Befehl (a) durchgelaufen true"). Das Ergebnis selbst steht als Messwert hinter der Zeile.
+   - Alle übrigen Prüfungen von T-M1 unverändert (Kampf, Ereignisse, (c), gespeichert, Bit-für-Bit unverändert, Gegenprobe).
+   - Messung.lua unverändert.
+
+Belege
+- addon_check download/ThreatSentinel-2.5.29.zip: "## ThreatSentinel-2.5.29.zip: OK", kein FEHLER, keine WARNUNG. Commit 4b410f1a.
+- Offline Bereich U: Forever 112/112, Era 111/111; FEHLER ausserhalb der Nachbildungs-Liste 0.
+
+Offen beim Nutzer
+- Prüflisten-Punkt M1 in WoW Forever: /ts messung kampf, EIN Gegner 5 s, dann /ts messung kampf + 3 oder mehr Gegner, dann /reload.
+  Erst damit gibt es die Tabelle (a)–(f) mit echten Werten.
