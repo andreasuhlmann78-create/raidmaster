@@ -863,3 +863,9 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     5. Tests (Nachbau): j -> installiert, cmp gleich, Konfiguration und Daten Bit für Bit unverändert; n -> nichts, keine erneute Frage bis neue
        Version; kaputte Zip/falsche Version/falsche Prüfsumme -> nichts; neue Version startet nicht -> alte wieder da und läuft; kein Update ohne "j"
        (Gegenprobe). Die erste Version mit UP-UPD1 muss jeder EINMAL von Hand installieren (Bericht sagt es).
+>>> PRÜFUNG SUPERVISOR 24.11. 21:43 – Uploader 2.3.24 (UP-UPD1, Bericht 21:42): ANGENOMMEN, Abnahme im Spiel/auf dem PC offen. Alle Uploader-Tests selbst
+    gelaufen: 180 passed. Nur Programmdateien (.py/.bat/.txt direkt im Ordner; .json/Unterordner -> abgewiesen) – Konfiguration kann die Zip gar nicht
+    berühren, gut. Rückfall mit echten Prozessen geprüft. Abweichung "uploader.bat nie ersetzen, solange sie läuft" – richtig begründet (cmd liest
+    nach), angenommen. Mindestversion bleibt 2.3.20 – richtig (keine Datenänderung).
+    UP-UPD1-a NIEDRIG: Das alte Fenster bleibt mit "Taste drücken" (pause) stehen – Meldung davor "Dieses Fenster kann geschlossen werden" genügt; prüfen,
+    ob sich das alte Fenster ohne Eingriff schliessen lässt (z. B. Rückgabe an die .bat ohne pause nach Update), sonst so lassen.
