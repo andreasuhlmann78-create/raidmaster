@@ -1,0 +1,54 @@
+Bericht RaidMaster-Sitzung an die Prüf-Sitzung – 24.11.2026 20:37
+Thema: UP-AUTO1 HOCH (Entscheid des Nutzers 24.11. 20:28) – Uploader installiert neue Addon-Versionen selbst – Uploader 2.3.21
+Status: umgesetzt, zur Prüfung. download/RaidMasterUploader.zip (16 Dateien, ZIP = Ordner). Neu: addons.py,
+Addons-automatisch-an.bat, Addons-automatisch-aus.bat, tests/test_addons.py. RM-UMG1 (MITTEL) kommt als Nächstes.
+
+1. Umsetzung je Regel
+1) Quelle: nur das öffentliche Repo raidmaster über die GitHub-API (HTTPS, ohne Token). Je Addon die höchste Version aus announce/
+   ("<kanal>__<reihe>-<ver>.<Addon>.zip") und download/ ("<Addon>-<ver>.zip"); gleiche Version: announce/ zuerst. Versionsvergleich
+   = Zahlen je Teil wie announce_reihe.announce_series – Test vergleicht beide für alle 300+ Zips in announce/: gleich.
+   Nur Addons, deren Ordner im AddOns-Ordner liegt; nur Namen aus diesen Zips; GSMesstest nie (Liste NEVER).
+   Liste (belegt): GitHubs Ordner-Liste "contents" hört bei 1000 Einträgen auf (announce/ hat 677). Darum: Wurzel des Repos lesen
+   (bedingte Anfrage mit ETag: unverändert = 304) -> Baum-Kennung je Ordner -> Baum nur lesen, wenn sich die Kennung geändert
+   hat. Höchstens 3 Anfragen je 5 Min. (Grenze ohne Token 60/Std.). Laden über git/blobs/<sha> = genau die Datei dieser Kennung.
+2) Nur wenn neuer als "## Version" der installierten <Addon>.toc. Vor dem Kopieren: Git-Blob-SHA der geladenen Bytes = SHA im Repo,
+   Zip lesbar und jede Datei mit richtiger CRC (testzip), Ordner = Addon-Name, <Addon>/<Addon>.toc mit Version = erwartet, keine
+   Pfade mit ".."/":"/absolut. Sonst nichts, Meldung.
+   ABWEICHUNG (begründet, bitte prüfen): "genau ein Ordner" – LevelPilot liefert in derselben Zip LevelPilot_Data und
+   LevelPilot_Data_<Sprache> mit (belegt an allen LevelPilot-Zips ab 3.x). Erlaubt sind darum nur "<Addon>" und "<Addon>_<…>";
+   jeder andere Ordner -> nichts (Test mit Gegenprobe "BuffSentinelX"). Die alten Einzel-Zips "…-3.5.0.LevelPilot_Data.zip"
+   tragen im Namen die LevelPilot-Version, in der .toc 1.5.0 – sie werden nie für sich installiert (kommen mit LevelPilot).
+3) Nur geänderte Dateien (Vergleich mit dem Inhalt), je Datei über "<Datei>.gsneu" + Ersetzen, danach zurücklesen = gleich.
+   Nur unter <AddOns>/<Addon>[_…]/ (Pfad geprüft) – nie WTF. Nichts gelöscht; Dateien, die die neue Version nicht mehr hat, im Log
+   genannt. <Addon>.toc zuletzt: bricht es ab, zeigt die .toc die alte Version -> nächster Versuch vervollständigt.
+4) Meldungen: "Addons: AHSentinel 0.65.391 -> 0.65.392 installiert (n Dateien geändert) – im Spiel /reload" bzw.
+   "– NEUSTART des Spiels nötig (neue Dateien: n)". Auslegung: ".toc ändert sich" = ausser der Zeile "## Version" (sonst hiesse
+   jede Version "Neustart"). Fehler (gesperrt, kein Schreibrecht, Prüfsumme, Netz) klar; Wiederholung nach 1/2/4/8/16 Min., danach
+   Ruhe bis zur nächsten Version bzw. zum Neustart (kein Endlos-Versuch). Netz-/Listenfehler einmal gemeldet, nicht jede Runde.
+5) Schalter "addons_auto_installieren" in uploader_config.json, Standard AUS (nur der Wert true schaltet ein). Ein/aus nur durch
+   den Nutzer: Addons-automatisch-an.bat / -aus.bat (ruft uploader.py --addons-auto an|aus). Damit ein laufender Uploader (Stand
+   vom Start) den Schalter nie überschreibt, nimmt save_config diese Schlüssel immer von der Festplatte (Test). Pfad:
+   "addons_pfad" in uploader_config.json, sonst <_forever_>/Interface/AddOns des Forever-Kontos. Claude fasst die Datei nie an.
+6) Höchstens alle 5 Min.; läuft in der Hauptschleife NACH dem Hochladen der Daten (ein Ablauf, nie gleichzeitig).
+
+2. Tests (eigene, Hinweis – keine Freigabe) – test_addons 25, alle grün; TU6 88/88, TU3 +3 Werte
+- neuere Version -> installiert, jede Datei cmp gleich, keine .gsneu übrig, WTF-Baum Bit für Bit gleich (SHA-256 über alle Dateien)
+- gleiche/ältere -> nichts, nicht einmal geladen; 2.5.9 < 2.5.30 (Zahlen); höchste aus download/ (RaidMaster-latest.zip und
+  RaidMasterUploader.zip nie); nicht installiert -> nichts; GSMesstest -> nichts
+- Schalter aus / fehlt / "ja" -> nichts, Repo nicht einmal gefragt; Gegenprobe an -> installiert
+- neue Datei -> "NEUSTART (neue Dateien: 1)", alte Datei bleibt liegen und wird genannt; .toc mit geänderter Dateiliste -> NEUSTART
+- kaputte Zip (CRC) / keine Zip / fremder Ordner / zweiter Ordner / Pfad mit .. (nichts in WTF) / falsche Version in .toc ->
+  nichts, Meldung, AddOns-Baum unverändert
+- falsche Prüfsumme -> 5 Wiederholungen (1–16 Min.), dann Ruhe; neue Version -> wieder versucht und installiert
+- gesperrte Datei (PermissionError) -> Meldung "Datei gesperrt oder kein Schreibrecht", nächste Runde installiert
+- Repo nicht erreichbar -> einmal gemeldet; Takt nie unter 5 Min.; Wurzel unverändert -> 304; nur geänderter Ordner neu gelesen
+- echte Zips im Repo: je Addon die neueste besteht die Prüfung (7 Addons)
+- Live gegen GitHub (nur lesen, ohne Token, 20:35): Liste announce 677 / download 12, neueste je Addon: AHSentinel 0.65.392,
+  BuffSentinel 0.9.64, GuildSentinel 0.9.62, LevelPilot 3.13.13, ProfessionSentinel 0.9.83, RaidMaster 3.0.43 (download/),
+  ThreatSentinel 2.5.30 – alle 7 geladen, Prüfsumme und Prüfung OK; zweiter Durchgang 304.
+- test_daten 46, test_sync 53, test_uploader 23, test_umfassend 14 – grün.
+
+3. Hinweise
+- UP-ALT gilt: mit 2.3.21 als neuester Version werden 2.3.20-Rechner (auch Offiziere) abgewiesen, bis sie 2.3.21 haben.
+- Verdacht, zu messen: Schreibrecht im AddOns-Ordner, wenn WoW unter "Program Files" liegt (dann Meldung "kein Schreibrecht").
+- Abnahme auf PC und Laptop durch den Nutzer: Addons-automatisch-an.bat, Uploader neu starten, Fensterzeile "Addons: …".

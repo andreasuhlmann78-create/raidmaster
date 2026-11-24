@@ -283,6 +283,19 @@ Version 2.3.13 – Datenschutz im Daten-Repo (UP-DS1):
 - Kann er die Datei nicht sicher lesen, liefert er sie gar nicht und meldet einmal "GuildSentinel-Daten nicht geliefert: …".
 - Neue Datei svfilter.py – bitte immer die ganze RaidMasterUploader.zip entpacken.
 
+Version 2.3.21 – neue Addon-Versionen automatisch installieren (UP-AUTO1, Entscheid 24.11. 20:28):
+- Auf Wunsch holt der Uploader neue Versionen der GoldSentinel-Addons (AHSentinel, BuffSentinel, GuildSentinel, LevelPilot,
+  ProfessionSentinel, RaidMaster, ThreatSentinel) selbst und legt sie in den Forever-AddOns-Ordner.
+- Standard: AUS. Einschalten: Addons-automatisch-an.bat doppelklicken, dann den Uploader neu starten.
+  Ausschalten: Addons-automatisch-aus.bat. (Nur für die eigenen Test-Rechner gedacht – Offiziere lassen es aus.)
+- Es werden nur Addons aktualisiert, die schon installiert sind, und nur, wenn die neue Version höher ist.
+- Quelle ist nur das GoldSentinel-Repo auf GitHub; jede Datei wird vor dem Kopieren geprüft (Prüfsumme, vollständig,
+  richtiger Ordner, richtige Version). Deine Einstellungen und Daten (WTF/SavedVariables) werden nie angefasst, nichts
+  wird gelöscht.
+- Im Fenster steht z. B. "Addons: AHSentinel 0.65.391 -> 0.65.392 installiert – im Spiel /reload" oder
+  "– NEUSTART des Spiels nötig", wenn neue Dateien dazukommen.
+- Anderer AddOns-Ordner: in uploader_config.json "addons_pfad": "D:\\WoW\\_forever_\\Interface\\AddOns" eintragen.
+
 Version 2.3.20 – nur die neueste Version liefert (UP-ALT, Entscheid 24.11. 07:22):
 - Daten eines Rechners, dessen Uploader nicht die neueste veröffentlichte Version hat, werden nicht mehr angenommen.
 - Neueste Version = die Version der RaidMasterUploader.zip, die der Bot mit /uploader schickt. Ist dein Uploader älter,

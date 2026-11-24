@@ -1,6 +1,8 @@
 # Stand RaidMaster-Sitzung
 
-## Stand 24.11.2026 10:30 · Addon 3.0.43 · Uploader 2.3.20
+## Stand 24.11.2026 20:38 · Addon 3.0.43 · Uploader 2.3.21
+- Uploader 2.3.21 gepusht (UP-AUTO1 HOCH: installiert neue Addon-Versionen selbst, Schalter Standard aus,
+  Addons-automatisch-an/-aus.bat). Bericht 2026-11-24-2037 – zur Prüfung. Addon 3.0.43 im Ingametest 0 FEHLER (RM-I2 erledigt).
 - Addon 3.0.43 gepusht (RM-I2 Rest: Item-Qualitätsfarben über RM.ReadableText lesbar, Nummer im Discord-Leitfaden;
   T202). Bericht 2026-11-24-1024 – zur Prüfung. Ingametest 3.0.42 (10:17): 147 OK, 1 FEHLER (T199) -> in 3.0.43; RM-I1 erledigt.
 - Addon 3.0.42 gepusht (RM-I1: T116 misst Speicher je Addon; RM-I2: Klassenfarben/Grau/Rot heller, T201). Bericht
@@ -14,7 +16,7 @@
   Supervisor 07:40 angenommen. 2.3.16–2.3.18 zur Prüfung.
 
 ## Gerade in Arbeit
-- nichts
+- RM-UMG1 MITTEL (Testroutine erkennt Umgebung/Bedienung) – als Nächstes
 
 ## Nächste Schritte (Reihenfolge)
 1. Uploader 2.3.20 wurde vom Supervisor per Bot verteilt (Commit ca258023) – nichts mehr zu tun.
@@ -25,12 +27,17 @@
    Taktik-"ca."-Zahlen in RaidData.lua nach Entscheid der Prüf-Sitzung.
 
 ## Offen beim Nutzer
+- Uploader 2.3.21 auf allen liefernden Rechnern (UP-ALT: 2.3.20 wird jetzt abgewiesen). Auf PC und Laptop
+  Addons-automatisch-an.bat ausführen, Uploader neu starten -> Abnahme UP-AUTO1.
 - Uploader 2.3.20 auf allen 4 liefernden Rechnern ganz entpacken + neu starten (ältere werden abgewiesen, auch 2.3.19).
 - RaidMaster 3.0.43 installieren und Ingametest: /gsdev an, /rm testroutine alles, /reload.
 - Optional Uploader-Weg b) (neuer Token sperrt alte Uploader ganz aus) – Anleitung im Bericht 0737.
 - Bot: PN an Besitzer alter Uploader und Bewerbungen aufräumen liegen beim Discord-Projekt.
 
 ## Entscheide des Nutzers seit letztem Stand
+- 24.11. 20:04 (über Supervisor): Umgebung/Bedienung in allen Testroutinen erkennen (RM-UMG1).
+- 24.11. 20:28 (über Supervisor): Uploader installiert neue Addon-Versionen selbst, PC und Laptop (UP-AUTO1).
+- 24.11. 20:29: "repo".
 - 24.11. 10:29: D-CHK1 – fehlt im Discord wirklich etwas, entscheidet diese Sitzung über Nachposten; ältere Fassungen soll die Prüfung
   wie der Bot überspringen; gelöscht wird nichts. -> raid-addon-zusammenfassung-3.0.0.md: NICHT nachposten (Bericht 1030).
 - 24.11. 10:22: "repo" – RM-I2 Rest umgesetzt.

@@ -332,6 +332,9 @@ STANDARD = [
     ("Daten-Repo: gültiger Zweig", lambda: daten.SAFE_BRANCH, "sicherung"),          # UP-ALT, Entscheid 24.11. 07:22
     ("Daten-Repo: main mit sicherung vergleichen alle (Sekunden)", lambda: daten.WATCH_SECONDS, 300),
     ("Daten-Repo: neueste Version lesen alle (Sekunden)", lambda: daten.LATEST_SECONDS, 600),
+    ("Addons: neue Versionen prüfen alle (Sekunden)", lambda: __import__("addons").CHECK_SECONDS, 300),   # UP-AUTO1
+    ("Addons: Wiederholungen (Minuten)", lambda: __import__("addons").RETRY_MINUTES, (1, 2, 4, 8, 16)),
+    ("Addons: Schalter", lambda: __import__("addons").CONFIG_KEY, "addons_auto_installieren"),
 ]
 
 
@@ -572,6 +575,15 @@ REGRESSIONEN = {
     "UP-ALT veraltet liefert nichts": "test_daten.UPALT.test_veraltet_liefert_nichts_und_sagt_es",
     "UP-ALT sicherung gleichzeitig anlegen": "test_daten.UPALT.test_zwei_aktuelle_legen_sicherung_gleichzeitig_an",
     "UP-ALT neueste Version ohne Token": "test_daten.UPALT.test_neueste_version_lesen_ohne_token",
+    "UP-AUTO1 neuere Version installiert, cmp gleich": "test_addons.Installieren.test_neuere_version_installiert_cmp_gleich",
+    "UP-AUTO1 gleiche/ältere nichts": "test_addons.Installieren.test_gleiche_und_aeltere_nichts",
+    "UP-AUTO1 Schalter aus nichts": "test_addons.Installieren.test_schalter_aus_nichts",
+    "UP-AUTO1 neue Datei Neustart, nichts gelöscht": "test_addons.Installieren.test_neue_datei_meldet_neustart_und_loescht_nichts",
+    "UP-AUTO1 kaputte Zip": "test_addons.Abweisen.test_kaputte_zip",
+    "UP-AUTO1 falsche Prüfsumme, Zeitlimit": "test_addons.Abweisen.test_falsche_pruefsumme_mit_wiederholung_und_zeitlimit",
+    "UP-AUTO1 falsche Version": "test_addons.Abweisen.test_falsche_version_in_toc",
+    "UP-AUTO1 Pfad ..": "test_addons.Abweisen.test_pfad_mit_punkt_punkt",
+    "UP-AUTO1 Schalter bleibt": "test_addons.Schalter.test_schalter_bleibt_beim_speichern_des_laufenden_uploaders",
 }
 
 

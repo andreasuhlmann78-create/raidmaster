@@ -69,8 +69,9 @@ import uuid
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import sync  # noqa: E402  (Abgleich PC/Laptop, ab 2.1.0)
 import daten  # noqa: E402  (Daten für die Prüf-Sitzung, ab 2.3.0)
+import addons  # noqa: E402  (UP-AUTO1: neue Addon-Versionen selbst installieren, ab 2.3.21, Standard aus)
 
-VERSION = "2.3.20"
+VERSION = "2.3.21"
 SHOT_WINDOW = (-30, 180)          # Bild darf so viele Sekunden vor/nach der gemerkten Zeit entstanden sein
 SHOT_MAX_BYTES = 9 * 1024 * 1024
 SHOT_MAX_AGE = 14 * 86400
@@ -125,9 +126,39 @@ def load_config() -> dict:
     return cfg
 
 
-def save_config(cfg: dict):
+USER_KEYS = ("addons_auto_installieren", "addons_pfad")   # UP-AUTO1: setzt nur der Nutzer (Datei bzw. .bat)
+
+
+def save_config(cfg: dict, keep_user_keys: bool = True):
+    """Schreibt uploader_config.json. UP-AUTO1: Schalter, die nur der Nutzer setzt, kommen immer aus der Datei auf der
+    Festplatte – ein laufender Uploader (Stand vom Start) überschreibt sie so nie."""
+    if keep_user_keys:
+        try:
+            with open(CONFIG, "r", encoding="utf-8") as f:
+                disk = json.load(f)
+        except (OSError, ValueError):
+            disk = None
+        if isinstance(disk, dict):
+            cfg = dict(cfg)
+            for k in USER_KEYS:
+                if k in disk:
+                    cfg[k] = disk[k]
+                else:
+                    cfg.pop(k, None)
     with open(CONFIG, "w", encoding="utf-8") as f:
         json.dump(cfg, f, indent=2, ensure_ascii=False)
+
+
+def addons_toggle(arg: str):
+    """UP-AUTO1 Regel 5: nur der Nutzer schaltet (Addons-automatisch-an.bat / -aus.bat)."""
+    if arg not in ("an", "aus"):
+        print("Aufruf: uploader.py --addons-auto an|aus")
+        return
+    cfg = load_config()
+    cfg[addons.CONFIG_KEY] = arg == "an"
+    save_config(cfg, keep_user_keys=False)
+    print("Neue Addon-Versionen automatisch installieren: " + ("AN" if arg == "an" else "AUS") +
+          ". Gilt ab dem nächsten Start des Uploaders (Uploader-Fenster schliessen und neu starten).")
 
 
 def find_saved_variables() -> list[str]:
@@ -1109,6 +1140,11 @@ def main():
         daten.setup_interactive(HERE)
         input("Enter zum Beenden ...")
         return
+    if "--addons-auto" in sys.argv:
+        i = sys.argv.index("--addons-auto") + 1
+        addons_toggle(sys.argv[i] if i < len(sys.argv) else "")
+        input("Enter zum Beenden ...")
+        return
     if "--daten-testen" in sys.argv:
         conf, problem = daten.read_config(HERE)
         if conf:
@@ -1175,6 +1211,13 @@ def main():
             log(f"Abgleich: {e}")
         log("Abgleich läuft automatisch: nach dem Beenden von WoW hoch, neuer Stand vom anderen Rechner sofort.")
     deliverer = make_daten(reporter.st, path, syncer)
+    installer = None
+    if cfg.get(addons.CONFIG_KEY) is True:              # UP-AUTO1: Standard aus
+        roots = dict(syncer.roots) if syncer is not None else sync.find_roots()
+        adir = addons.forever_addons_dir(cfg, roots)
+        installer = addons.AutoInstall(cfg, adir, log, ctx=daten.ssl_context())
+        log(f"Addons: neue Versionen werden automatisch installiert (alle {addons.CHECK_SECONDS // 60} Min.) in "
+            f"{adir or 'unbekannt – addons_pfad eintragen'}.")
     next_sync, last_status, status_text = time.time() + SYNC_TICK, time.time(), ""
     conf_seen = sync_config_mtime()
     next_lock = time.time() + SYNC_LOCK_EVERY
@@ -1260,6 +1303,12 @@ def main():
                     daten_text, daten_last = line, time.time()
             except Exception as e:  # noqa: BLE001
                 log(f"Prüfung: {e}")
+        # UP-AUTO1: nach dem Hochladen, im selben Ablauf (nie gleichzeitig); Fehler stören nichts anderes
+        if installer is not None:
+            try:
+                installer.tick()
+            except Exception as e:  # noqa: BLE001
+                log(f"Addons: {e}")
         time.sleep(min(interval, SYNC_TICK) if (syncer is not None or deliverer is not None) else interval)
 
 
