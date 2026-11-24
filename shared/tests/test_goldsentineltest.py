@@ -173,8 +173,61 @@ check("BugGrabber-Fehler gezählt", lua.eval("DB.gsTest.errors['Lua|Interface/Ad
 lua = new_lua("GoldSentinelTest = { version = 5, marker = 'neu' }")
 check("neuere bleibt", lua.eval("GoldSentinelTest.marker"), "neu")
 lua = new_lua("GoldSentinelTest = { version = 0, registry = { Alt = { version = '1', db = {} } } }")
-check("ältere ersetzt", lua.eval("GoldSentinelTest.version"), 2)
+check("ältere ersetzt", lua.eval("GoldSentinelTest.version"), 3)
 check("Register übernommen", lua.eval("GoldSentinelTest.registry.Alt.version"), "1")
+
+# 6b. Version 2 (offizielle ältere Fassung) und Version 3 im selben Client – in beiden Reihenfolgen gewinnt 3
+V2 = (HERE / "variants" / "GoldSentinelTest-v2.lua").read_text(encoding="utf-8")
+lua = LuaRuntime(unpack_returned_tuples=True); lua.execute(STUB); lua.execute(GAME)
+lua.execute(V2); lua.execute("DB2 = {}; GoldSentinelTest.TrackErrors('AltAddon', '9', DB2)"); lua.execute(SRC)
+check("v2 dann v3: v3 gewinnt", lua.eval("GoldSentinelTest.version"), 3)
+check("v2 dann v3: Register übernommen", lua.eval("GoldSentinelTest.registry.AltAddon ~= nil"), True)
+lua = LuaRuntime(unpack_returned_tuples=True); lua.execute(STUB); lua.execute(GAME)
+lua.execute(SRC); lua.execute(V2)
+check("v3 dann v2: v3 bleibt", lua.eval("GoldSentinelTest.version"), 3)
+
+# 6c. SH-NIL (Version 3): nil als Rückgabe = FEHLER, gar keine Rückgabe = OK (wie bisher)
+lua = new_lua()
+lua.execute(r"""DB = {}
+  local T = GoldSentinelTest.Begin('TestAddon', '3.0', DB)
+  T:Check('N1', 'A', 'return nil', function() return nil end)
+  T:Check('N2', 'A', 'r and true, Text', function() local r = nil; return r and true, 'Zeile fehlt', 'Zeile da' end)
+  T:Check('N3', 'A', 'ohne Rückgabe', function() end)
+  T:Check('N4', 'A', 'true', function() return true, 'ja' end)
+  T:Check('N5', 'A', 'nil mit geschütztem Wert', function() return nil, S end)
+  T:Check('N6', 'A', 'nil, nil', function() return nil, nil end)
+  T:Check('N7', 'A', 'Zahl', function() return 0 end)
+  RES_N = { T:Check('N8', 'A', 'Rückgabewert von Check', function() return nil end) }
+  T:Finish()""")
+rep = reports(lua)[-1]
+st = {e["id"]: e for e in rep["results"]}
+check("N1 return nil -> FEHLER", st["N1"]["status"], "FEHLER")
+check("N1 Text", st["N1"]["ergebnis"], "Prüfung lieferte nil statt true")
+check("N2 -> FEHLER mit Text und Erwartung", (st["N2"]["status"], st["N2"]["ergebnis"], st["N2"]["erwartet"]),
+      ("FEHLER", "Prüfung lieferte nil statt true · Zeile fehlt", "Zeile da"))
+check("N3 ohne Rückgabe -> OK", st["N3"]["status"], "OK")
+check("N4 true -> OK", st["N4"]["status"], "OK")
+check("N5 geschützt nie gelesen", (st["N5"]["status"], st["N5"]["ergebnis"]), ("FEHLER", "Prüfung lieferte nil statt true · <geschützt>"))
+check("N6 nil, nil -> FEHLER", st["N6"]["status"], "FEHLER")
+check("N7 Zahl 0 -> OK (nur nil und false sind FEHLER)", st["N7"]["status"], "OK")
+check("N8 Check gibt false zurück", lua.eval("RES_N[1]"), False)
+check("Zählung N1–N8", rep["counts"], {"ok": 3, "fehler": 5, "uebersprungen": 0, "client": 0})
+
+# 6d. SH-UTF8 (Version 3): nie mitten in einem UTF-8-Zeichen kürzen
+lua = new_lua()
+for label, s, mx in [("2-Byte ä", "ä" * 200, 301), ("3-Byte €", "€" * 150, 300), ("3-Byte € versetzt", "a" + "€" * 150, 300),
+                     ("4-Byte Emoji", "😀" * 100, 299), ("ASCII", "x" * 400, 300), ("genau Grenze", "ä" * 150, 300)]:
+    lua.globals().TXT = s
+    out = lua.eval(f"GoldSentinelTest.Str(TXT, {mx})")
+    b = out.encode("utf-8") if isinstance(out, str) else out
+    try:
+        dec = b.decode("utf-8"); valid = True
+    except UnicodeDecodeError:
+        dec = ""; valid = False
+    body = dec[:-1] if dec.endswith("…") and len(s.encode()) > mx else dec
+    check(f"UTF-8 gültig ({label})", valid, True)
+    check(f"UTF-8 höchstens Grenze, nur ganze Zeichen weg ({label})",
+          (len(body.encode()) <= mx, mx - len(body.encode()) < 4, s.startswith(body)), (True, True, True))
 
 # 7. ohne SavedVariables, ohne GoldSentinelGame, alter Client
 lua = LuaRuntime(unpack_returned_tuples=True)

@@ -6394,3 +6394,15 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
  Zur Kenntnis: SH-NIL – dein Befund zu shared/GoldSentinelTest.lua (Run:Check wertet nur false, nil zählt als OK) ist BESTÄTIGT (Zeile 242). Die
     gemeinsame Datei ändert nur der Supervisor; bis dahin bleibt dein TR:Check so. Gold-Messung Ausrüstung mit Kupfer-Preis (AHS-POST) geht an den Nutzer.
     Reihenfolge nächste Version: AHS-R1 (klein) -> AHS-I4-a -> AHS-I3 -> G14-a -> T750/T191. Nur Discord.
+
+>>> SH-V3 (Supervisor 24.11.2026 07:20) – shared/GoldSentinelTest.lua jetzt Version 3. Mit der nächsten Version UNVERÄNDERT kopieren
+    (bis dahin warnt addon_check "veraltete offizielle Fassung (Version 2)" – kein FEHLER).
+    (1) SH-NIL: Eine Prüfung, die nil zurückgibt (typisch "return r and x, y" ohne r), zählt jetzt als FEHLER "Prüfung lieferte nil statt true".
+        Gar keine Rückgabe bleibt OK (wie bisher). Belegt bei AHSentinel: 15 bisher verdeckte Fehler.
+    (2) SH-UTF8: Texte im Bericht werden nie mehr mitten in einem UTF-8-Zeichen gekürzt (Befund LevelPilot 23.11.).
+    Neue FEHLER mit diesem Text sind bisher verdeckte Fehler: jeden einzeln zuordnen (echter Fehler im Addon / Test falsch) und im Bericht
+    begründen – nie die Prüfung abschwächen. Achtung: Bringt ein anderes Addon im selben Client schon Version 3 mit, gilt sie auch für deine
+    Prüfungen (höchste Version gewinnt) – nil-FEHLER können also schon vor deiner nächsten Version erscheinen.
+    AHS-V3 HOCH (im Nachbau belegt, 0.65.387 mit Version 3: 999 OK / 1 FEHLER): T277 prüft "GT.version == 2" (TestRoutine.lua 9089) und wird
+    rot, sobald irgendein Addon Version 3 mitbringt. Auf ">= 2" ändern – in der nächsten Version, auch vor dem Kopieren. Dein TR:Check kann bleiben.
+
