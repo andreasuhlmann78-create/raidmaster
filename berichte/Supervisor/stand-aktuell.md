@@ -4,7 +4,12 @@
 Sitzung seit 23.11. 06:18. Repos: raidmaster, goldsentinel-daten (schreiben); ahanalyzerpro, professionsentinel, guildsentinel (lesen).
 
 ## Gerade in Arbeit
-- Nichts Laufendes. Lückenprüfung 24–48 Std. (Nutzer 20:07/20:12) abgeschlossen, Ergebnis unten bei "Offen beim Nutzer".
+- AUFTRAG des Nutzers 20:32: Skelett (shared/vorlage) nachführen – Stand 18.11., fehlt: (1) Test ändert nie Livedaten (hinweis-test-keine-
+  livedaten-2026-11-20, Vorbild ThreatSentinel "Livedaten (Sync-Adressbuch, Markt, gs*) unverändert"), (2) Lesbarkeit L1–L8 (hinweis-ui-lesbarkeit-
+  2026-11-20), (3) Fenster ausweichen/andocken (GS-K1/BS-K1), (4) README-Regeln: Schätzen verboten, Gemeinschaftsdaten nie nach Realm, Dev-Befehle
+  nur im Dev-Modus, Spieler-Funktionen nur über normale Wege. Danach Vorlage-Tests + Probe-Addon (Forever/Era, deDE/enUS) 0 FEHLER.
+- Davor unterbrochen (weiter danach): Runde 20:46 (geplante Erinnerung): GS 0.9.61 auf curseforge.com sichtbar?; AHS-Ingametest 0.65.392 (PC)
+  auswerten gegen AHS-CF1 a)–c); neue Versionen BS (BS-M1-b), RM (UP-AUTO1); ThreatSentinelDB.m1 (noch keine Kampfdaten, 20:30).
 
 ## Nächste Schritte (Reihenfolge)
 1. AHS: Rest des Ingametests 0.65.391 (PC, Vollscan OHNE GSMesstest – entfernt 19:52): T458, T459 (wiederverwendet/neu), Vollscan zweimal, Berufe, Händler.
