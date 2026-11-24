@@ -1,0 +1,29 @@
+AHSentinel 0.65.391 – AHS-I3-a (sichtbare Zusammenfassungen ändern sich nie halb) – umgesetzt, zur Prüfung
+Discord: ja. CurseForge: nein (gesperrt). addon_check 0.65.391: OK. ZIP: gleiche 112 Dateien wie 0.65.390.
+Nachbau Teil auto: OK 1011 · FEHLER 0 · übersprungen 66 · im Client 16; s42 PASS, s43 PASS.
+
+Befund AHS-I3-a ist RICHTIG – belegt im Nachbau: der neue Test T1012 gegen den Code von 0.65.390 liefert "Leser bei der Abgabe 2× gemischt"
+(Vollscan.lua 0.65.390 schrieb die sichtbare Tabelle des letzten Scans an Ort und Stelle neu, während A:Pause() abgab) und T1013 bricht ab.
+Mein Satz im Bericht 14:55 "jede Tabelle ist in sich stimmig" stimmte, war aber die falsche Frage: der Spieler sah eine Mischung aus zwei Scans.
+
+Umsetzung (Vollscan.lua VS:Finish):
+(1) Items ohne gelesene Auktion (#it.q == 0) werden gar nicht verdichtet – keine Tabelle angefasst (vorher: Digest auf Vorrat/alte Tabelle,
+    min=nil, qty=0).
+(2) Nur Vorrats-Tabellen (memSpare), die NICHT dieselbe Tabelle wie in self.mem sind. Die in 0.65.390 entstandenen geteilten Tabellen werden
+    so erkannt und nicht verwendet (Zählung "davon x sichtbar geteilt, nicht verwendet" im T459-Text); nach einem Scan ist die Teilung weg
+    (memSpare = alter Behälter mit alten Tabellen, self.mem = neue Tabellen). Die Tabelle des letzten Scans wird nie mehr verwendet.
+    Sichtbar wird alles auf einmal am Ende (self.mem = mem). Bleibt aus 0.65.390: Gültigkeit vor dem Verdichten, Vorrat nach ungültigem Scan.
+Tests: T1012 neu (ohne Vorrat: neue Tabellen; Leser bei JEDER Abgabe sieht genau den alten Stand: 0× gemischt; alte Tabelle bleibt 777;
+  ungültiger Scan ändert nichts), T1013 (geteilte Tabelle nicht verwendet, bleibt 500; ungeteilter Vorrat verwendet -> 80; Item ohne Auktion:
+  keine Tabelle, Vorrat bleibt 33). Gegenprobe mit 0.65.390: T1012 FAIL ("2× gemischt"), T1013 FAIL. T499/T504/T1011 PASS.
+
+Speicher erneut gemessen (Nachbau echte Spieldaten, 246 792 Auktionen, ohne gelesene Auktionen):
+  Scan 2: 25 036 KB (0.65.389 25 034, 0.65.390 17 217) · Scan 3: 12 758 KB (0.65.389 12 756, 0.65.390 11 650).
+  Die Einsparung von 0.65.390 in Scan 2 kam ganz aus der unzulässigen Wiederverwendung – sie fällt weg. Gewinn bleibt nur, wenn ein
+  ungültiger Scan dazwischen lag (T1011). T459 im Nachbau Scan 3 weiterhin über 10 240 KB.
+
+Vorschlag für den nächsten Schritt AHS-I3 (Entscheid Supervisor/Nutzer, nicht umgesetzt): Digest legt je Item ~1,3 KB an, meist die
+Stufen-Tabellen {Preis, Menge} (steps). Als flache Liste (Preis, Menge, Preis, Menge …) wären es zwei Tabellen statt ~10 je Item – betrifft
+30 Leser von .steps in 6 Dateien (AHAnalyzerPro, Vollscan, UI_MarketView, Seller, SelfTest, TempoTest) und 34 Stellen in Tests. Ohne diesen
+Umbau sehe ich für Scan 2 nach dem Laden keinen Weg unter 10 MB, der nichts Sichtbares halb ändert. Daneben: Verfolgung V4 (Spiel 6 118 KB)
+messen. Im Spiel bleibt die Frage offen: kommt der Vorrat an (T459 "wiederverwendet x, neu y")?
