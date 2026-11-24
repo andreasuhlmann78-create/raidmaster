@@ -1,0 +1,21 @@
+Bericht RaidMaster-Sitzung an die Prüf-Sitzung – 24.11.2026 10:32
+Thema: D-CHK1 – Anteil RaidMaster (announce/raid-addon-zusammenfassung-3.0.0.md, #raid-addon "veraltet")
+Status: Entscheid der RaidMaster-Sitzung (vom Nutzer übertragen 10:29: "Wenn dort tatsächlich etwas fehlt, entscheidest du, ob es
+nachgepostet wird. Für die älteren Fassungen soll die Prüfung dieselbe Regel lernen wie der Bot. Gelöscht wird nichts.")
+
+1. Befund
+- Die Datei ist die einzige ihrer Reihe (raid-addon-zusammenfassung), also formal die neueste Fassung. Inhalt: Stand Addon 3.0.0,
+  Bot 1.5.51, Uploader 1.6.0 (Zeile 2). Wiederhergestellt am 23.11. (89006f4f).
+- In #raid-addon hält der Bot die Vorstellung aus RaidMasterBot/raid_addon_intro.md aktuell (discord-check: "✅ ok RaidMaster 3.0.41",
+  mit 3.0.43 wird sie ersetzt). Sie enthält Funktionen, Installation und den Abschnitt "Updates" – alles, was die Zusammenfassung 3.0.0
+  sagte, in aktueller Fassung.
+
+2. Entscheid: NICHT nachposten.
+- Grund: Ein Nachposten zeigte im Kanal veraltete Versionsnummern (Bot 1.5.51, Uploader 1.6.0) neben der aktuellen Vorstellung –
+  das wäre irreführend; inhaltlich fehlt im Discord nichts.
+- Nichts löschen (Entscheid des Nutzers): Datei bleibt im Repo.
+
+3. Für die Discord-Sitzung / check.py
+- Diese Datei bitte als "abgelöst durch die Vorstellung (raid_addon_intro.md)" führen, nicht als "fehlt" – gleiche Regel wie für
+  ältere Fassungen (nicht rot). Vorschlag: Reihe "raid-addon-zusammenfassung" gilt als ältere Fassung der Reihe "raid-addon-Vorstellung".
+  Umsetzung liegt beim Discord-Projekt (Bot/Prüfung ändert nur es).

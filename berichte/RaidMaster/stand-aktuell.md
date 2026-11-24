@@ -1,6 +1,6 @@
 # Stand RaidMaster-Sitzung
 
-## Stand 24.11.2026 10:25 · Addon 3.0.43 · Uploader 2.3.20
+## Stand 24.11.2026 10:32 · Addon 3.0.43 · Uploader 2.3.20
 - Addon 3.0.43 gepusht (RM-I2 Rest: Item-Qualitätsfarben über RM.ReadableText lesbar, Nummer im Discord-Leitfaden;
   T202). Bericht 2026-11-24-1024 – zur Prüfung. Ingametest 3.0.42 (10:17): 147 OK, 1 FEHLER (T199) -> in 3.0.43; RM-I1 erledigt.
 - Addon 3.0.42 gepusht (RM-I1: T116 misst Speicher je Addon; RM-I2: Klassenfarben/Grau/Rot heller, T201). Bericht
@@ -31,6 +31,8 @@
 - Bot: PN an Besitzer alter Uploader und Bewerbungen aufräumen liegen beim Discord-Projekt.
 
 ## Entscheide des Nutzers seit letztem Stand
+- 24.11. 10:29: D-CHK1 – fehlt im Discord wirklich etwas, entscheidet diese Sitzung über Nachposten; ältere Fassungen soll die Prüfung
+  wie der Bot überspringen; gelöscht wird nichts. -> raid-addon-zusammenfassung-3.0.0.md: NICHT nachposten (Bericht 1032).
 - 24.11. 10:22: "repo" – RM-I2 Rest umgesetzt.
 - 24.11. 10:06: "repo" – RM-I1/RM-I2 umgesetzt.
 - 24.11. 07:46: "repo" – Aufträge aus dem Repo weiter umsetzen (keine neuen; nächster Punkt = Addon 3.0.41).
