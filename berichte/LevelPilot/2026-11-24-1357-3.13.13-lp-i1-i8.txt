@@ -1,0 +1,95 @@
+LevelPilot 3.13.13 – Bericht an die Prüf-Sitzung (Ingametest 3.13.12: LP-I1, LP-I8; LP-I6/LP-I7 Stand)
+Stand 24.11.2026 13:57 · umgesetzt, zur Prüfung
+Zip: announce/levelpilot__levelpilot-3.13.13.LevelPilot.zip (md5 e129bd88c92c04c33ba229f3cc494008, 2 825 364 Bytes)
+
+Daten
+- Bericht des Ingametests 3.13.12: aus der Lieferung des Laptops 24.11. 13:28, goldsentinel-daten, Zweig sicherung,
+  aktuell/AUSPLUSLAPTOP/forever/konto-5cb3d536/LevelPilot.lua.gz (GSTEST1 3.13.12, OK 320 · FEHLER 4).
+- Nachbau "Stufe 30" = genau diese Datei, Krieger 30, Donnerfels (1456), echte Kartenrahmen, BRAKE=1.
+- Gegenläufe:
+  - MININT-M6UO3AL (Donnerfels, Stufe 30)
+  - Laptop 23.11. (Priester 10, Undercity)
+- Wichtig: Die Daten der Figur (LevelPilotCharDB: Questlog, abgegebene Quests, Schritt) lädt der Uploader nicht hoch.
+  - Ohne sie stellt der Nachbau die Figur nicht nach: T150 3,6 ms statt 18 ms im Spiel, T144 8 ms statt 753 ms.
+  - Den Nutzer habe ich um die Datei der Testfigur gebeten (24.11. 13:35).
+  - Hinweis für Discord/RaidMaster (Uploader): Die Datei pro Figur fehlt in der Ablage.
+
+Prüfungen vor dem Push
+- addon_check: OK.
+- Offline-Routine: 40 von 40 Läufen ohne FEHLER. Testroutine in 5 Formen: 5 von 5 ohne FEHLER.
+- Nachbau ganze Routine:
+  - Stufe 30 Laptop: 0 FEHLER.
+  - MININT: 0 FEHLER.
+  - Priester 10: ALLE TESTS OK.
+  - Alle Läufe mit V.SLICE_CALLS 32.
+- T261 stand in einzelnen Läufen auf FEHLER (Nachbau 1006–1045 ms bei Grenze 1000). Das ist dasselbe Rauschen wie in 3.13.12 beschrieben,
+  im Schlusslauf 781 ms.
+- Gemeinsame Dateien GoldSentinel*.lua mit cmp gleich shared/.
+
+1. "Reisen": ganze Bilder 593–867 ms mit eigener Portion 0 ms (Feld ganzeBilder) – Ursache belegt, Fehler im Addon
+- Die Liste ganzeBilder aus 3.13.12 zeigt 12 Bilder von 593 bis 867 ms "bei Reisen", eigene Portion der Routine 0,0 ms. Diese Bilder
+  rechnet nicht die Routine, sondern der Zeitgeber der virtuellen Reise (Virtual.lua, eigene Coroutine).
+- Nachgestellt (Stufe 30): Portionen der Reise bis 450,5 ms (+14 286 KB), 4 Portionen über 300 ms. Abtastung der längsten Portion:
+  Navigation.lua:247 (Auftrag "navpath") -> Graph:Path. Aufgerufen aus Virtual.lua:531 (nach jedem Schritt N:Recalc) über
+  Perf.lua (LP.Jobs.Start). Während einer Reise läuft ein Auftrag sofort, bisher in pcall(fn). Darin kann die Wegsuche nicht abgeben,
+  also lief die ganze Suche in einem Bild.
+- Zweite Ursache, im Code belegt: Der Zeitgeber der Reise setzte LP.yieldOK nach jeder Portion auf nil. Eine Planung (DoReplan im
+  Schritt) gab darum nur in ihrer ersten Portion ab, den Rest rechnete sie am Stück.
+- Änderungen:
+  - Jobs.JourneyPCall (Perf.lua): Ein Auftrag in der Reise läuft in einer eigenen Coroutine. Gibt er ab (LP:Yield mit den Arten des
+    Auftrags, gezählt wie jede Abgabe der Reise), gibt die Reise im selben Moment ab. Ergebnis und Fehler wie pcall.
+  - Die Freigabe (LP.yieldOK) gilt über die Pause hinweg (V.pausedYieldOK).
+  - Der Zeitgeber der Reise läuft jedes Bild statt alle 0,05 s.
+  - V.SLICE_CALLS 16 -> 32: Mit 16 kam die kurze Reise in 240 s nur bis Schritt 19, und T381 wich auf den PC-Daten ab. Lauf 2 kam mit
+    warmen Zwischenspeichern weiter (3308 s/39 Schritte gegen 3555 s/41). Mit 32 laufen ganze Reisen, und T381 ist gleich.
+- Nachbau neu (SLICE 32, je Lauf allein):
+  - längste Portion der Reise 38,8 ms (Stufe 30) bzw. 29,9 ms (PC).
+  - T381 gleich: 6712 s/65 Schritte/1406 EP/21490 yd bzw. 4311 s/60/42630/18344.
+- Folge: Die Reisen der Routine dauern länger. Nachbau, 20 Bilder/s: Routine 827–930 s statt 200 s.
+  - Verdacht, zu messen: Im Spiel ist der Zuwachs kleiner, weil der Zeitgeber jetzt jedes Bild läuft (bei 60 Bildern/s etwa 3-mal so
+    oft wie im Nachbau). Bitte im nächsten Ingametest auf "Dauer" achten.
+- Neue Prüfung T388: Auftrag in eigener Coroutine. Er gibt 4-mal mit der Reise ab, Ergebnis 42, LP.yieldCo/Freigabe danach zurück,
+  Fehler wie pcall. Nachbau OK.
+
+2. LP-I1 T144 753,1 ms (+18 240 KB) – Ursache im Nachbau belegt, im Spiel zu bestätigen
+- Q:Reconnect -> LP:Fire("QDB_CHANGED") -> Planner: soon() -> LP:Throttle ruft P:Replan beim ersten Aufruf sofort auf.
+- Nachbau Stufe 30: Diese Neuplanung baut nach dem Verwerfen der Questdaten alles kalt neu auf, 120–143 ms und +18 820 KB (im Spiel
+  +18 240 KB). Abtastung: Planner.lua:2348/1195 Kandidaten, QuestDB:Get, Names, Calib.
+- Im Nachbau fällt diese Neuplanung nicht in T144, darum nicht nachgestellt.
+- Änderung: Beide Reconnects laufen unter NoReplan (neu: mit Abgabe, Parameter clean). Danach läuft die kalte Neuplanung ausdrücklich als
+  freigegebene Rechnung (Coop(P.Replan)). Beleg im Spiel: Feld langeStuecke (unten).
+
+3. LP-I1 übrige Stücke
+- T386 79,5 ms (+11 697 KB, meine Prüfung aus 3.13.12): Die drei Protokolltexte laufen jetzt als freigegebene Rechnung (Text gibt alle
+  10 Einträge ab).
+- T128 97,2 · T136 58,8 · T263 46,5 · T355 45,2/41,4 · T29 43,0 · T28 39,8 · T251 38,6: Im Nachbau mit Stufe 30 liegen alle unter 11 ms.
+  - Mit den Daten der Figur (siehe oben) messe ich das nach, statt zu schätzen.
+  - T28 (+109 KB) und T29 (+93 KB) legen fast nichts an. Verdacht, zu messen: Das ist Rechnung im Client (UI:ApplySettings bzw.
+    Nav:Refresh -> navplan, wie LP-I6).
+- Neu im Bericht: "langeStuecke".
+  - Jedes eigene Bild über 40 ms mit Prüfung, Speicher und der längsten Strecke ohne Aufruf von TR.Safe.
+  - Auch gesperrte oder angehaltene Aufrufe zählen als Messpunkt.
+  - Dazu Etikett davor/danach und Stapel (debugstack) am Ende der Strecke.
+  - So zeigt der nächste Ingametest die Stelle im Code auch dann, wenn sie im Nachbau nicht auftritt.
+
+4. LP-I8 (T381 450 / 452 EP) – zwei Ursachen, eine belegt, eine Verdacht
+- Belegt im Nachbau: LP.Planner.questRate gehörte nicht zur Reise.
+  - Die zweite Reise begann mit dem Wert der ersten (Spur je Schritt: Lauf 1 "questRate nil", Lauf 2 "293,55").
+  - Der Wert steuert die Monster am Weg (EP und Zeit).
+  - Jetzt wird questRate beim Einrichten der Reise gesichert und geleert und danach zurückgesetzt.
+- Verdacht, zu messen: 2 EP mehr bei gleicher Zeit, Schritten und Weg passen zum Erholungsbonus.
+  - Der Bonus wird beim Start jeder Reise vom echten Charakter gelesen (GetXPExhaustion) und wächst in Donnerfels zwischen den Läufen.
+  - Er wirkt nur auf EP (Virtual.lua: bonus = min(xp, rested)), nicht auf Zeit oder Weg.
+- Änderung: T381 liest den Bonus einmal und rechnet beide Läufe damit (opts.rested).
+  - T381 zeigt jetzt den echten Bonus vor Lauf 1 und vor Lauf 2.
+  - Weichen die beiden ab, ist der Verdacht belegt.
+  - Der Nachbau hat keinen Bonus (0/0).
+
+5. LP-I6 (T261 Einloggen 1255 ms, nav 521 ms/340×) und LP-I7 (T150 Median 17,99 ms, T263 46,5 ms) – nicht angefangen
+- Beides hängt an der Figur: navplan 133× beim Einloggen, Planung "ersterweg 7,82 ms".
+- Im Nachbau ohne die Daten der Figur: T150 3,64 ms, T263 längste Portion 4,6 ms, Einloggen nav 9 ms/13×. Das ist kein Nachbau der
+  Lage im Spiel.
+- Nächster Schritt, sobald die Datei der Figur da ist: Ursache "nav" belegen (LP-I6), dann LP-I7.
+
+Offen
+- Ingametest 3.13.13: Felder langeStuecke, ganzeBilder (Reisen), T381 (Bonus vor Lauf 1/2), T388, Dauer der Routine.
