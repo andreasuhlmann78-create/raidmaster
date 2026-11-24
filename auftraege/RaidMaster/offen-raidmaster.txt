@@ -880,3 +880,7 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     die erste -> nur eine Zeile, oder Version aus der ersten Sperre übernehmen; Test mit Gegenprobe.
 >>> 21:55: Nutzer hat Uploader 2.3.24 an die Offiziere verschickt. UP-ALT/UP-MIN1-Abnahme: sobald beide Offiziers-Rechner in stand.json mit uploader >= 2.3.23
     liefern, prüft der Supervisor (Zweig sicherung). Hinweis für LIESMICH: Zip in den ÜBERGEORDNETEN Ordner entpacken (Zip enthält RaidMasterUploader/).
+>>> UP-UPD1-a jetzt MITTEL (Nutzer 22:00: "wenn man den uploader updatet dann bleibt das alte fenster offen stehen"): Nach einem Update bzw. nach der Übernahme
+    einer laufenden Version bleibt das alte Fenster stehen. Ziel: das alte Fenster schliesst sich selbst (z. B. uploader.bat ohne "pause", wenn Python mit
+    einem eigenen Code für "übergeben" endet; bei echtem Fehler bleibt "pause", damit man die Meldung lesen kann). Test: Übergabe -> altes Fenster zu;
+    Absturz -> Fenster bleibt mit Meldung. Achtung: laufende uploader.bat nicht ersetzen (UP-UPD1 Punkt 2) – Änderung kommt mit dem nächsten /uploader.
