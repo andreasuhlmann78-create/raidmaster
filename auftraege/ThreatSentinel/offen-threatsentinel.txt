@@ -516,4 +516,16 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     Ergebnis als Tabelle im Bericht (geht / geht nicht / nicht vorhanden, mit Belegzeile). Danach entscheidet der Nutzer über einen Umbau.
     Aufwand und Folgen im Bericht kurz einschätzen: (b) einschalten, (a) Prozent-Anzeige ohne Farbentscheid, ausserhalb Forever Lebensbalken nach
     Aggro einfärben, ganz eigene Plaketten.
+ TS-M1 ERWEITERT (Nutzer 13:34 "er soll messen was möglich ist"): ALLES messen, was für Aggro-Anzeige in Forever möglich ist – nicht nur (a)/(b):
+    (c) Eigene Plaketten: eigenen Rahmen an die Blizzard-Plakette hängen und die Blizzard-Teile ausblenden (SetAlpha/Hide) – vor und IM Kampf:
+        erlaubt, blockiert, Taint? Folgt der eigene Rahmen der Plakette?
+    (d) Alle Bedrohungs-Quellen einzeln: UnitThreatSituation, UnitDetailedThreatSituation (jede Rückgabe), UnitThreatPercentageOfLead,
+        GetThreatStatusColor, Bedrohung am Zielrahmen (TargetFrame-Aggro-Anzeige), Ereignisse UNIT_THREAT_SITUATION_UPDATE /
+        UNIT_THREAT_LIST_UPDATE (kommen sie, welche Werte sind geschützt?), Kampflog (Schaden/Spott – geschützt oder lesbar?), Ziel des Mobs
+        (UnitIsUnit "nameplateN-target", "player") – je Quelle: vorhanden, im Kampf lesbar, geschützt, nil.
+    (e) Wege zur Anzeige ohne eigenen Entscheid: geschützten Wert an Blizzard-Balken/-Text/-Farbe durchreichen (siehe a), Blizzard-Funktionen für
+        geschützte Werte (Farbkurven, Schwellen in C) – nur vorhandene Namen, nichts raten.
+    (f) Blizzard-Einstellungen (CVars) rund um Plaketten und Aggro: Liste der vorhandenen Namen und Werte (nur lesen).
+    Je Weg im Bericht: geht / geht nicht / nicht vorhanden + Belegzeile + was der Spieler damit sehen könnte + Aufwand. Echte Kämpfe nur mit Anleitung
+    für den Nutzer (ein Mob allein, dann eine Gruppe von 3+ Mobs), sonst Simulation klar als Simulation kennzeichnen.
 
