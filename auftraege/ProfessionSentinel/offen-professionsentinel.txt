@@ -853,3 +853,9 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
        Gegenprobe im Nachbau: dieselbe Überschreitung ohne Hintergrund -> FEHLER; mit simuliertem Hintergrund -> HINWEIS.
     e) Kopfzeile des Berichts: "Umgebung: Vordergrund/Hintergrund (Zeitraum)", "längstes Bild je Addon: …".
     Priorität: NIEDRIG/MITTEL – nach den laufenden HOCH-Punkten; nichts an den Leistungsgrenzen selbst ändern.
+>>> PRÜFUNG SUPERVISOR 24.11. 20:09 – ProfessionSentinel 0.9.83 (PS-I5-a, Bericht 20:06): ANGENOMMEN, PS-I5-a ERLEDIGT. addon_check OK, md5 download =
+    announce (2f7f4d5b…). Code gelesen: SameValue – verschiedene Funktionen = verschieden, gleiche (x == y) = gleich; Alarm-Zeilen mit fester
+    UI.AlarmRowClick und Feld "alarm" statt Abschluss je Aufbau – richtig, sonst wäre die Liste nach der Korrektur nie mehr behalten worden.
+    Gut: die eigene Korrektur hat den versteckten Fall (alter Abschluss blieb) selbst aufgedeckt. Zu zeigen im Ingametest 0.9.83: T297 "behalten"
+    > 0 im Reiter Rezepte (sonst würde jetzt jeder Aufbau neu anlegen). T219/T269-Anpassungen (Testuhr, Zeitgeber) nur Testroutine – angenommen.
+    Weiter: PS-I8 (T269 Taschen/Gold im Zwischenspeicher) wie im Hinweis 20:01.
