@@ -889,3 +889,8 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     beendet nach erfolgreicher Übergabe ihr eigenes Konsolenfenster (Elternprozess cmd der eigenen uploader.bat, nur diesen, PID belegt) statt mit
     Code 0 in "pause" zu laufen; bei Fehler/Rückfall bleibt das Fenster. Zusätzlich: Weg, um eine geänderte uploader.bat sicher nachzuziehen
     (z. B. neue Datei bereitlegen, beim nächsten Start der .bat austauschen), damit .bat-Änderungen nicht für immer hängen bleiben. Test mit echtem Prozess.
+>>> PRÜFUNG SUPERVISOR 24.11. 22:02 – Uploader 2.3.25 (UP-MSG2, Bericht 21:59): ANGENOMMEN. Tests selbst (siehe Lauf). Eine Zeile je PID – Ursache belegt.
+    ABNAHME UP-UPD1 (PC): Bild des Nutzers 22:02 – 2.3.25 läuft im NEUEN Fenster nach Taste j (Update von 2.3.24). Das Feld stand.json "update" fehlt noch
+    (letzte Lieferung 21:50, vor dem Update) – Supervisor prüft nach der nächsten Lieferung.
+    UP-UPD1-b NIEDRIG: Das neue Fenster heisst "…\python.exe" statt "RaidMaster-Uploader" (CREATE_NEW_CONSOLE ohne Titel) – Titel setzen (z. B. title im
+    Startbefehl oder per Konsolen-Titel aus Python), damit der Spieler das Fenster erkennt.
