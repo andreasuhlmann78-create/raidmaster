@@ -15,6 +15,8 @@ Sitzung seit 23.11. 06:18. Repos: raidmaster, goldsentinel-daten (schreiben); ah
 4. Antworten der Projekte auf AHS-I3-a (Verdichtung überschreibt sichtbare Tabellen) und PS-I5-a (Funktionen gelten in SameValue als gleich).
 5. LevelPilot: sicherer Weg für die Charakterdatei (LevelPilotCharDB) mit dem Nutzer klären – nicht übers öffentliche Repo.
 
+6. SKELETT (Entscheid 20:06): UMG1 in shared/vorlage übernehmen, sobald es in PS/LP/RM/GS im Spiel belegt funktioniert. Ebenso spätere Anpassungen für alle Addons.
+
 ## Offen beim Nutzer
 - BS-M1-b: BuffSentinel angestossen 18:42, Version steht aus. TS-M1-b angenommen (2.5.30) – echte Daten mit der nächsten Uploader-Lieferung.
 - Wochenende (PC): AHS Kupfer-Preis-Test; PS Herstellen/SetCraftableCount-Messung; LP Sitzung mit Laufen; PS T85: welches Berufsfenster offen war.
