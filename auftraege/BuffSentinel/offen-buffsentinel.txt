@@ -603,3 +603,10 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     Verdacht, zu messen: BS-K1 (Optionen weichen anderen Fenstern aus, 0.9.62) oder die neue Skalierung S0.773. Deine Notiz "T149 Ursache (Lauf auf
     dem PC zu Hause)" – jetzt auch auf dem Laptop rot, also kein PC-Einzelfall. Ursache belegen, beheben, Gegenprobe.
 
+>>> PRÜFUNG SUPERVISOR 24.11. 13:45 – BuffSentinel 0.9.63 (BS-I2, Bericht 13:33): ANGENOMMEN, Abnahme im Spiel offen. addon_check OK.
+    Begründung nachvollzogen: "1.000×1.000" = %.3f, Wert knapp über 1 bei Skalierung 0,773 (0,761 am 23.11. nicht) – die Prüfung war zu streng,
+    kein Rückschritt im Addon. Toleranz 0,01 ist klein gegen einen sichtbaren Anker (Symbolgrösse) und hat eine Gegenprobe in der Prüfung selbst
+    (1,0000001 klein, 1,5×1 und 1×36 gross) – keine Abschwächung. Ursache der Gleitkomma-Breite bleibt "Verdacht, zu messen" – 6 Stellen im
+    nächsten Lauf. Auf dem Laptop installiert 13:45. Abnahme: T149 und T162 im Spiel grün. BS-P1: Zeilen T156/T25/T250 liest der Supervisor
+    aus dem Testbericht im Repo nach – kommt in den nächsten Nachtrag.
+

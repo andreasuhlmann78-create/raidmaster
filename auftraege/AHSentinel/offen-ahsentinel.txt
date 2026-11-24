@@ -6467,3 +6467,9 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
  CurseForge: weiter gesperrt (Entscheid: erst wenn die Tests bestehen) – offen nur noch T750/T191 (UI) und T459 (AHS-I3).
  Reihenfolge: AHS-I3 -> AHS-I4-a Rest (−378 KB) -> G14-a -> T750/T191.
 
+>>> PRÜFUNG SUPERVISOR 24.11. 13:45 – Antwort AHS-I4-a (−378 KB, Bericht 13:40): ANGENOMMEN. Zahlen nachgerechnet: 766 477 − 785 877 = −19 400 KB;
+    −19 400 − (1 885 − 427) = −20 858 KB – geht auf. Ursache des Widerspruchs belegt (Messung je Addon beim ERSTEN Bild ≥ 250 ms, Lücke = LÄNGSTES
+    Bild). Berichtigung der Aussage von 07:25 offen zurückgezogen – richtig so. Ursache der Vollscan-Lücke: "nicht AHSentinel" (2 ms, 7 KB) ist
+    belegt; "Client baut die Liste" bleibt die passende Erklärung, nicht mehr. AHS-I4-a ERLEDIGT, sobald die nächste Version (Messung je Addon zum
+    längsten Bild, T1010) im Spiel denselben Bild-Bezug zeigt.
+
