@@ -267,6 +267,8 @@ die es dort gibt.
   (hier: +104 907 KB im Bild gegen "ohne Addon −378 KB seit Scan-Beginn"). Widerspruch = Befund, Schluss nur als Verdacht.
 - E-Regel 24.11.2026 10:40 (D-ANN): Bevor dem Nutzer ein Punkt als "offen" gemeldet wird, den LETZTEN Eintrag dazu in offen-*.txt lesen
   (grep Kürzel | tail). D-ANN1/D-ANN2 waren seit 23.11. 12:43 erledigt, wurden aber aus dem eigenen Stand als offen gemeldet.
+- E-Regel 24.11.2026 21:32 (UP-MIN1): Ob ein Rechner liefert, gegen RaidMasterUploader/mindestversion.txt prüfen (stand.json "uploader" nicht
+  darunter), nicht mehr gegen die neueste Uploader-Version. Ausnahme bis zum Wechsel: 2.3.20–2.3.22 liefern erst mit 2.3.23.
 - E-Regel 24.11.2026 19:50 (GSMesstest): Bei jeder Leistungs-/Speicher-Auswertung die Zeile "je Addon" lesen. Steht dort ein Messwerkzeug
   (GSMesstest o. ä.) oder ein fremdes Addon mit grossem Anteil, gelten die Werte als verfälscht – kein Befund ans Projekt. Messwerkzeuge des
   Supervisors nach der Messung SOFORT beim Nutzer entfernen lassen und das im Stand vermerken (GSMesstest blieb vom 13. bis 24.11. aktiv).

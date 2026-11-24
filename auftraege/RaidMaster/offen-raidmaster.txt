@@ -843,3 +843,7 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
        als Information (kein Abweisen).
     5. Tests: unter Mindestversion -> abgewiesen; gleich/über Mindestversion, aber nicht neueste -> angenommen + Hinweis; Gegenprobe mit altem Verhalten.
        Discord-Projekt (D-UPALT) und Supervisor-Werkzeuge, die "neueste" lesen, mit anpassen (Bericht nennt die Stellen).
+>>> PRÜFUNG SUPERVISOR 24.11. 21:32 – Uploader 2.3.23 (UP-MIN1, Bericht 21:23): ANGENOMMEN. Alle Uploader-Tests selbst gelaufen: 164 passed.
+    mindestversion.txt = 2.3.20 mit Begründung (erster Uploader mit Zweig "sicherung"; 2.3.21/2.3.22 ändern keine Daten) – Belege je Version
+    nachvollziehbar, Startwert richtig. Grenze Punkt 4 (2.3.20–2.3.22 prüfen sich selbst noch gegen "neueste") ehrlich benannt – angenommen.
+    Folge: PC, Laptop und Offiziere brauchen EINMAL noch 2.3.23; danach sperrt eine neue Version nur bei erhöhter Mindestversion.

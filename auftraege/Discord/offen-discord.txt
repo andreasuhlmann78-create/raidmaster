@@ -486,3 +486,7 @@ SICHERHEIT (Pflicht, Repo ist öffentlich):
 >>> HINWEIS SUPERVISOR 21:18: UP-MIN1 (RaidMaster) – künftig gilt eine Uploader-MINDESTVERSION statt "neueste" (Entscheid des Nutzers 21:18). PN/Hinweise an alte
     Uploader (D-UPALT) dann nur unter der Mindestversion. Den auf morgen verschobenen Versand an die Offiziere mit der Version machen, die RaidMaster
     nach UP-MIN1 nennt.
+>>> D-UPMIN1 HOCH (Supervisor 21:32, aus UP-MIN1/Uploader 2.3.23): RaidMasterBot/uploader_alt_bot.py (D-UPALT) liest bisher "neueste" (Z. 218 VERSION aus
+    uploader.py; is_outdated Z. 63, outdated Z. 85). Umstellen auf die Mindestversion aus RaidMasterUploader/mindestversion.txt (erste Zeile ohne #).
+    Feinheit: Rechner mit 2.3.20–2.3.22 liefern trotzdem nicht, solange es eine neuere Version gibt -> für sie weiter "liefert nicht, /uploader holen",
+    bis sie 2.3.23 haben. Text "(neueste x)" -> "(Mindestversion y)". Tests mit Gegenprobe. Den verschobenen Versand an die Offiziere mit 2.3.23 machen.
