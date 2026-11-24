@@ -1701,3 +1701,20 @@ in berichte/LevelPilot/ ("umgesetzt, zur Prüfung", mit Belegen).
  Wegabschnitte: aufgezeichnet 0 (Stillstand/AFK 35 min in der Hauptstadt) – braucht weiter eine Sitzung draussen mit Laufen (Nutzer).
  Reihenfolge: LP-I1 -> LP-I3.
 
+>>> INGAMETEST 3.13.12 – 24.11.2026 12:49 (Laptop, WARRIOR 30, Thunder Bluff; Bericht vom Nutzer im Chat, Supervisor 13:08): OK 320 · FEHLER 4 ·
+    übersprungen 9 · im Client 54 · Sandbox OK ("wiederholt: detourCache") · echte Aktionen 0 · Fehlerzähler 0 · keine nil-FEHLER.
+    ACHTUNG Vergleich: 3.13.11 lief mit PRIEST 10 in Undercity, 3.13.12 mit WARRIOR 30 in Thunder Bluff – andere Figur, mehr Quests/Daten.
+    Jede Abweichung erst mit derselben Figur gegenprüfen (Nachbau mit Stufe 30), bevor "Rückschritt" oder "Figur" gilt.
+ LP-I3 (T155): jetzt OK -> im Spiel bestanden (mit Stufe 30).
+ LP-I1 HOCH (SCHLECHTER): längste eigene Portion 755,4 ms "T136 advisor–T144" (3.13.11: 99,7 ms), dazu T125–T128 97,6 · T383–T386 81,6 ·
+    T136 Zentrale 59,0 · T263 46,6 · T355 45,3/41,5 · T26–T28 43,3 · T28–T29 43,1 · T244–T251 40,2 ms; 10 Portionen über 40 ms.
+    Längstes ganzes Bild 1 209 ms. Was rechnet der Assistent (advisor) zwischen T136 und T144 am Stück? Belegen, aufteilen.
+ LP-I6 HOCH (neu im Spiel): T261 Einloggen ohne Lag: erste 60 s 1 255 ms (soll < 1 000; mit PRIEST 10 heute 09:55: 662 ms) –
+    nav 521 ms/340×, route 367 ms, graph 222 ms. Gleiches Bild wie 23.11. (1 245 ms). Ursache "nav" belegen.
+ LP-I7 MITTEL (neu im Spiel): T150 Replan Median 17,99 ms (soll < 16), Höchstwert 19,84 – ersterweg 7,82 + reihenfolge 4,40 + aufgaben 3,68.
+    T263 unerreichbares Ziel: längste Portion 46,5 ms (1 155 KB), soll ≤ 16. Beide mit PRIEST 10 heute OK.
+ LP-I8 MITTEL (neu, neuer Test T381): virtuelle Reise nicht wiederholbar – Lauf 1: 450 EP, Lauf 2: 452 EP (Zeit, Schritte, Weg gleich).
+    Woher die 2 EP (Zufall, Zwischenspeicher detourCache, Rundung)? Belegen.
+ Wegabschnitte: aufgezeichnet 0 (Stillstand 6 min) – braucht weiter eine Sitzung draussen.
+ Reihenfolge: LP-I1 -> LP-I6 -> LP-I7 -> LP-I8.
+
