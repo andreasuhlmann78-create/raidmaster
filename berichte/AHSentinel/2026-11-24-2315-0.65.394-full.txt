@@ -1,0 +1,8 @@
+AHSentinel 0.65.394 – Gesamtlauf (FULL, 413 Szenarien, OHNE Parallel-Last) – Ergebnis, zur Prüfung
+Ergebnis: 344 PASS · 69 FAIL (0.65.393: 341 PASS · 70 FAIL).
+Neu grün: s272_testroutine_alles (ohne Parallel-Last – bestätigt die Ursache Rechenlast vom 0.65.393-Lauf), s74_options_rows (Szenario angepasst).
+Neu dabei und grün: s9_watcher_takt, s272w_waechter_vollscan.
+Neu rot: 1 – s313_vs_own_memory, Prüfung "fremdes langes Bild zählt nicht als eigene Arbeit (T458)": längste eigene Arbeit je Bild 17,5 ms bei
+ Grenze 16 ms, im Nachlauf (Aufgabe names bis Names.lua:228). Einzeln danach zweimal PASS: 15,8 ms und 15,5 ms. = Grenzfall der Nachbau-Uhr in
+ einer Aufgabe, die 0.65.394 nicht ändert (Änderungen: UI_Watcher, UI_MarketView-Titel, TestRoutine-Tests, Vollscan nur ausgeschaltete SP1-Teile);
+ Verdacht "Streuung", zu beobachten – keine neue Fehlerursache. Die übrigen 68 FAIL wie bei 0.65.392/0.65.393.
