@@ -6569,3 +6569,13 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
 >>> AHS-UMG1 NIEDRIG – (Supervisor 20:05) Entscheid des Nutzers 20:04 (alle Addons ausser solchen wie ThreatSentinel): AHSentinel hat b) und c) schon
     (eigene Arbeit/Rest, Speicher je Addon). Es fehlen a) Hintergrund-Erkennung über den Lauf und d) Bewertung "Bedienung/Umgebung möglich" statt FEHLER
     bei Leistungsprüfungen (T458, T126, …), mit Gegenprobe. ERST NACH AHS-CF1 und AHS-SP1.
+>>> PRÜFUNG SUPERVISOR 24.11. 20:19 – AHSentinel 0.65.392 (AHS-CF1 Schritt 1+2: T750, T191, AHS-TR1; Bericht 20:15): ANGENOMMEN als CurseForge-KANDIDAT.
+    addon_check OK (gemeinsame Tests alle bestanden). Code gelesen: TR.ALL_WATCH_S/MAX/OPT = 180/300/60; UI_Main UpdatePager mit pagerAvoid
+    (UI_Buy p.favBtn) – kurze Form/keine Leiste statt Überlappung; UI_MarketView drei Tooltips auf UI:AnchorTooltip (T191). Ursachen je Art aus der
+    echten Befundliste hergeleitet – gut. T191 bleibt Verdacht, zu messen (Nachbau rechnet relative Anker nicht) – jetzt mit Lage im Namen, gut.
+    Veröffentlichungs-Fehler (Discord 8 Min. vor dem Code) selbst gefunden, Ursache belegt (&&-Kette ohne set -e), pub.sh behoben – angenommen.
+    AHS-CF1 Bedingung d) erfüllt (CHANGELOG ohne T459). Offen für CurseForge: a) b) c) aus dem Ingametest 0.65.392, e) Freigabe des Nutzers im Spiel.
+ ANTWORT auf die Frage 20:17 (WAECHTER-LAST/-FUND): (c) so lassen. Belegt: die beiden Punkte stehen seit TR-ALLE (17.11.) nicht mehr einzeln in der
+    Prüfliste, und kein Werkzeug (addon-check, testberichte, Supervisor-Listen) liest die einzelnen Haken – sie kommen im Repo nur im Schritt-Namen
+    der Testberichte vor. Der Schritt bewertet mit denselben Grenzen (≤ 50 ms je Bild, ≥ 3 Hürden-Runden). W.PL_SECONDS/W.FUND_SECONDS im Alltag NICHT
+    ändern. Im Schritt-Text weiter "(WAECHTER-LAST, WAECHTER-FUND)" nennen, damit die Berichte vergleichbar bleiben.
