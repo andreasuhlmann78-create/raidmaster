@@ -660,3 +660,7 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     - Alte Versionen: Daten mit Versionsnummer, damit die Prüfung alte Stände (Entscheid 07:22) aussortieren kann.
     - Tests: Nachbau ohne Entwicklermodus -> Messung läuft, Ablage in BuffSentinelDB bzw. eure account-weite SV, keine Namen (Suche nach allen Gruppennamen im gespeicherten Text = 0 Treffer),
       Ringpuffer 20, Grösse; Option AUS -> nichts gespeichert. Im Bericht: wo genau in BuffSentinel.lua die Daten stehen (Schlüssel), damit die Prüfung sie liest.
+>>> PRÜFUNG SUPERVISOR 24.11. 18:34 – BuffSentinel 0.9.64 (BS-M1 Teil A/B, BS-T1; Bericht 14:08): ANGENOMMEN für Teil B (Klick-Raster, Standard AUS,
+    Attribute nur ausserhalb des Kampfes, Gegenprobe T268 rot ohne Kampfsperre – gut) und BS-T1. addon_check OK.
+    Teil A (Messung) "nur Entwicklermodus" ist durch den Entscheid 14:09 überholt -> BS-M1-b (oben) zuerst umsetzen.
+    Liste "was sonst noch möglich wäre" (1–6) liegt beim Nutzer zum Entscheid, nach den Kampfmessungen.

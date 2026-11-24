@@ -6473,3 +6473,20 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     belegt; "Client baut die Liste" bleibt die passende Erklärung, nicht mehr. AHS-I4-a ERLEDIGT, sobald die nächste Version (Messung je Addon zum
     längsten Bild, T1010) im Spiel denselben Bild-Bezug zeigt.
 
+>>> PRÜFUNG SUPERVISOR 24.11. 18:34 – AHSentinel 0.65.390 (AHS-I3 Verdichtung, AHS-I4-a Rest; Bericht 14:55): ANGENOMMEN, im Spiel zu zeigen.
+    addon_check OK, Zip 112 Dateien. Code gelesen (Vollscan.lua VS:Finish): Gültigkeit vor dem Verdichten, Zählung #it.q > 0 mit Gegenprobe nach dem
+    Verdichten (Diag "Zählung Items vorab …") – richtig; ungültiger Scan ändert nichts und lässt memSpare stehen (T1011) – richtig.
+    Zahlen nachgerechnet: ohne Vorrat 9 953 + 1 851 + 482 ≈ 12 286 KB (+ IsCommodity 2 327 im 1. Scan) – passt zur Grössenordnung 12 944 im Spiel;
+    die Aussage "im Spiel lief Scan 3 ohne Vorrat" bleibt "Verdacht, zu messen" (T459-Text "wiederverwendet x, neu y" beantwortet es).
+    CurseForge bleibt GESPERRT: T459 noch über 10 240 KB (Nachbau 11 650), T750/T191 offen.
+ AHS-I3-a MITTEL (neu, Befund der Prüfung – Verdacht, zu messen): Durch "sonst die Tabelle des LETZTEN Scans" (old[itemID]) überschreibt Digest
+    jetzt die SICHTBAREN Zusammenfassungen in self.mem an Ort und Stelle, während A:Pause() zwischen den Items abgibt. Ausserdem teilt memSpare danach
+    dieselben Tabellen mit self.mem – ab dann geschieht das bei JEDEM Scan. Folge während der Verdichtung (mehrere Sekunden):
+    a) VS:Ladder / VS:Queue / Detailbereich (UI_MarketView 1173) sehen eine Mischung aus neuem und altem Scan, Alter (memTime) noch vom alten;
+    b) Items in r.items ohne gelesene Auktion (#it.q == 0) bekommen in der sichtbaren Tabelle min=nil, qty=0 – VS:Queue meldet dann "0 in der
+       Warteschlange" für ein Item, das der alte Scan noch hatte; nach Finish ist es weg (mem ohne Eintrag), aber in memSpare bleibt die Leiche.
+    Geprüfte Leser sind gegen nil geschützt (kein Lua-Fehler gefunden) – trotzdem: Daten, die der Spieler sieht, dürfen sich nie halb ändern.
+    Verlangt: (1) Items mit #it.q == 0 nie mit old/spare verdichten (Tabelle nicht anfassen); (2) entweder belegen (Test im Nachbau: Leser während
+    Pause in der Verdichtung sieht für JEDES Item genau den alten Stand) oder sichtbare Tabellen erst nach dem Ende tauschen (z. B. nur spare-Tabellen
+    wiederverwenden, die NICHT in self.mem stehen; Aliasing memSpare/mem prüfen und im Test zeigen). Speicherzahl danach erneut messen.
+ Im Spiel (Nutzer, testroutine alles mit 0.65.390): T459 "Verdichtung … wiederverwendet x, neu y", vollscan_verdichtung, vollscan_luecke "im Bild (x ms)".

@@ -820,3 +820,11 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     Keine nil-FEHLER mit GoldSentinelTest 3 (PS-V3 umgesetzt). Lua-Fehler SetCraftableCount: Messung des Nutzers steht noch aus.
  Reihenfolge: PS-I5 -> PS-I1 -> PS-I6 -> PS-I7 -> PS-I2 -> PS-I3 -> PS-I8.
 
+>>> PRÜFUNG SUPERVISOR 24.11. 18:34 – ProfessionSentinel 0.9.82 (PS-I5, PS-I1; Bericht 14:44): ANGENOMMEN, im Spiel zu zeigen. addon_check OK,
+    md5 download = announce (9ee1427e…). Code gelesen: SameValue nach Inhalt bis 6 Ebenen, tiefer = anders (nie veraltete Zeile) – richtig;
+    ns.TaktCheck liest die Uhr VOR TK.Check, gehalten nur bei schon vorher verbrauchtem Budget – Ursache plausibel und belegt im Nachbau
+    (Bilder > 16 ms 13 -> 6, längstes 29/73 -> 21/23 ms). Ingame-Wirkung: Verdacht, zu messen (Ingametest 0.9.82, T297, T140, T219, T243).
+ PS-I5-a NIEDRIG (Frage der Prüfung): SameValue wertet zwei verschiedene Funktionen immer als gleich. Hält eine Zeile einen Abschluss (Closure), der eine
+    Tabelle des alten Aufbaus festhält, bleibt nach "unverändert" der alte Abschluss stehen. Belegen, dass keine Zeile der Blizzard-Liste Funktionen
+    mit festgehaltenen Daten trägt (oder Funktionen als anders werten), mit einem Test.
+ T85 (Beruf nil): Nutzer fragen, welches Fenster offen war – steht bei "Offen beim Nutzer".
