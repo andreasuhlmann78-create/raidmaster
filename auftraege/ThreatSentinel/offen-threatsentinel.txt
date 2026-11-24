@@ -584,3 +584,9 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     Messung.lua; Ablage ThreatSentinelDB.m1 (account-weit, kommt mit dem Uploader); Ringpuffer 20 nachgerechnet (27 − 20 = 7 zusammengefasst);
     Grösse 17 318 ≤ 20 480 Byte. Zu zeigen mit echten Daten (nächste Lieferung des Uploaders): m1.cost.max ≤ 1 ms und over = 0 bei den Spielern;
     head.v = 2.5.30 auch auf den Rechnern der Offiziere (sonst haben sie die Version nicht).
+>>> INGAMETEST 24.11. 19:32 (PC, Forever deDE, Priester 10, Undercity) – Auswertung Supervisor 19:36
+    ACHTUNG: gelaufen mit 2.5.29, NICHT 2.5.30 – TS-M1-b ist damit im Spiel noch NICHT getestet.
+    OK 332 · FEHLER 0 · übersprungen 11 · im Client 14 · 6,3 s. Sandbox, echte Daten, Livedaten, CVars, Tastenbelegung unverändert; echte Aktionen 0;
+    Fehlerzähler 0; gesperrte Aktionen 0. Längstes Bild 27,4 ms (T-OPT7), Prüfungen über 16 ms: T133 17,1 · T-OPT7 26,9 · T-LIVE2 22,9 · TU7-S1 19,2 ms
+    (Umgebung: 101 Bilder/s, Bild in Ruhe Median 9,0 / 95 % 34,0 ms, 0 Bereinigungen) – unter 40 ms, kein Befund. Prüfliste 6/14 (M1, OPT offen).
+    Nächster Test mit 2.5.30: Testroutine + Instanz/Kampf in Gruppe, dann /reload (Daten in ThreatSentinelDB.m1).
