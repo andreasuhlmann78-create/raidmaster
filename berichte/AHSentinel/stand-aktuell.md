@@ -1,6 +1,6 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 24.11.2026 22:42 · Version 0.65.393 (Discord UND CurseForge seit 24.11. 22:25, Datei-ID 9799863, "Wichtiges Update")
+## Stand 24.11.2026 22:47 · Version 0.65.394 (Discord); CurseForge 0.65.393 (Datei-ID 9799863)
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz – Testberichte "GSTEST1{…}", UI-Befunde db.uiFindingsLast).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
@@ -13,10 +13,9 @@ Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /h
 - AHS-SP1: Mess-Fassung in der Arbeitskopie (Vollscan.lua VS.COMPACT=false, DigestC/DecodeBody/NewSet, Ladder mit Zwischenspeicher 400,
   Finish/Track/FeedNetRun mit Satz). Bericht "sp1-messung-vor-einbau" abgelegt – WARTET auf Freigabe Supervisor. Nachbau-Szenarien zz_sp1eq,
   zz_t459real (SP1C=0/1, ZC=23520, REAL_SV=/tmp/claude-0/ahs_sv3.lua) in /tmp/claude-0/sim – nach Freigabe ins Repo.
-- Bis dahin: AHS-SG6-a (Reiter Wächter 1 Neuaufbau je Runde) und Titel-Tooltip (T750) für 0.65.394.
+- 0.65.394 veröffentlicht (SG6-a, Detailtitel-Tooltip; SP1 enthalten aber AUS). Danach FULL 0.65.394 ohne Parallel-Last, dann CF1-UI-a1, UMG1.
 
 ## Nächste Schritte (AHS-CF1, Entscheid des Nutzers 19:19/19:21)
-0. 0.65.394: AHS-SG6-a (Reiter Wächter 1 Neuaufbau je Runde, Ursache messen), T750-Titel: zu lange Namen kürzen + voller Name im Tooltip.
 1. Ingametest 0.65.393 auswerten (Daten-Repo; PC = aktuell/DESKTOP-NVITMSE/forever/…): T1016 (Rahmen über der Abdeckung, AH offen), T750.
 2. CurseForge: 0.65.393 hochgeladen (AHS-CF2). Künftig wieder 18:00-Regel; Sichtbarkeit auf curseforge.com vom Nutzer prüfen.
 3. DANACH AHS-SP1 (HOCH, Entscheid 19:56): Speicher-Lösung Vollscan – Zahlen-Listen min/qty/auc, Stufen als Text (EncodeLadder-Format).

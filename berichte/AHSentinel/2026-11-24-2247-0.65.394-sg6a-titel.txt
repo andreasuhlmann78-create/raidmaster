@@ -1,0 +1,19 @@
+AHSentinel 0.65.394 – AHS-SG6-a und T750-Detailtitel (Supervisor 21:42/21:43) – umgesetzt, zur Prüfung (nur Discord; CurseForge-Regel 18:00 + FULL)
+addon_check 0.65.394: OK. ZIP: gleiche 112 Dateien wie 0.65.393.
+Nachbau: Teil auto OK 1017 · FEHLER 0 · übersprungen 67 · im Client 16 (s42 PASS); Teil server s43 PASS. Szenarien PASS: s9_watcher_takt (neu),
+ s9_watcher_tip, s272w_waechter_vollscan, s243_mr4_lage, s92_fullscan_smooth, s262_vs_mem. FULL läuft danach (Bericht folgt, ohne Parallel-Last).
+
+1) AHS-SG6-a Reiter Wächter 1 Neuaufbau je Runde. Ursache (Code + Messung 0.65.393): UI_Watcher baute bei JEDEM WATCHER_CHANGED neu (gemessen 2,5 je
+   Runde) und zusätzlich alle 0,5 s im OnUpdate. Jetzt: WATCHER_CHANGED merkt nur (p:MarkDirty); das OnUpdate (0,5 s) baut die Liste neu, wenn sich
+   W.stats.rounds geändert hat (Runde fertig) – sonst nur die Statuszeile (Countdown). Gemerkte Änderung ohne Runde (Wächter wartet, z. B. Vollscan)
+   spätestens nach DIRTY_MAX = 3 s (keine Sperre ohne Zeitlimit). Eigene Klicks bauen wie bisher sofort neu. Sniper-Reiter wie bisher.
+   Messung Nachbau (60 s, Reiter offen): 80 Runden · 200 WATCHER_CHANGED · Reiter 80× neu = 1,0 je Runde (vorher 320× = 4,0), Ø 0,63 ms, längste
+   2,06 ms. T1020 (Änderung ohne Runde 0 | Runde 1 | nichts 0 | Zeitlimit 1 | Gegenprobe ohne Merker 0). Szenario s9_watcher_takt (≤ Runden + 2).
+   Folge für den Spieler: ein Prüf-Ergebnis ("kaufbar") erscheint mit dem Ende der nächsten Runde bzw. spätestens nach 3 s.
+2) T750 Detailtitel (Markt): passt der Name auch in GameFontNormalSmall nicht, ist er gekürzt und zeigt beim Darüberfahren den ganzen Namen (eigener
+   unsichtbarer Rahmen über der Titelzeile, Tooltip neben dem Fenster). Prüfregel: UIA.CutCellOK erkennt einen solchen Text über fs.uiaFullTip
+   (Tooltip-Text = ganzer Text, sonst FEHLER; nur Zahl / rechtsbündig weiter FEHLER; Ziffern-Regel für den unsichtbaren Teil gilt weiter).
+   T1019 mit Gegenproben (anderer Tooltip-Text, ohne uiaFullTip, nur Zahl -> FEHLER).
+3) Hinweis: die Mess-Fassung von AHS-SP1 ist im Code enthalten, aber AUS (VS.COMPACT = false) – der bisherige Weg läuft unverändert (Leser prüfen
+   zuerst VS.cmp = nil). Einbau erst nach Freigabe (Bericht "sp1-messung-vor-einbau").
+Im Spiel (Nutzer): Reiter Wächter offen lassen – Liste ruhig, Funde mit der nächsten Runde; Markt > Flippen Detailtitel mit Maus.
