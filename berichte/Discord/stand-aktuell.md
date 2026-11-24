@@ -1,9 +1,10 @@
 # Stand Discord-Sitzung
 
-## Stand 24.11.2026 10:38 · Bot 1.5.194 (D-CHK1 umgesetzt, zur Prüfung; 1.5.193 vom Supervisor angenommen)
+## Stand 24.11.2026 20:55 · Bot 1.5.194 (D-CHK1 vom Supervisor 10:55 angenommen, Abnahme im Betrieb offen)
 
 ## Gerade in Arbeit
-- nichts. D-CHK1 in 1.5.194 + check.py umgesetzt, Bericht berichte/Discord/2026-11-24-1038-d-chk1.txt.
+- Uploader 2.3.21 per Bot schicken (Bitte RaidMaster 20:49, berichte/RaidMaster/2026-11-24-2049-…): in #bot-befehle
+  /uploader an_offiziere:True UND /uploader nur_programm:True (an den Nutzer selbst). WARTET: kein Browser verbunden (20:55).
 
 ## Nächste Schritte (Reihenfolge)
 1. Bei jeder Nachricht des Nutzers: git pull --rebase, auftraege/Discord/ lesen (git log --oneline -5 -- auftraege/Discord/).
@@ -13,9 +14,10 @@
 4. Ab Uploader 2.3.21 in #bot-befehle: "Alter Daten-Uploader (neueste 2.3.21): n PN geschickt" (D-UPALT).
 
 ## Offen beim Nutzer
-- nichts.
+- Browser verbinden (eingebauter Browser der Desktop-App oder Claude in Chrome), damit ich die 2 Befehle tippen kann.
 
 ## Entscheide des Nutzers seit letztem Stand
+- 24.11. 20:49 "das discord projekt soll den offiziere das seden" (Uploader 2.3.21); 20:51 "mir natürlich auch über den dc bot".
 - 24.11. 10:29 (D-CHK1): neueste Fassungen klären; fehlt dort etwas, entscheidet die Discord-Sitzung über Nachposten; die Prüfung
   lernt für ältere Fassungen dieselbe Regel wie der Bot; gelöscht wird nichts.
   Mein Entscheid daraus: LevelPilot-Übersicht 3.12.94 wird vervollständigt (Bearbeiten + 1 Nachricht anhängen, ohne Ping).
