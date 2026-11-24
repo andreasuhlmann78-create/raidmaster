@@ -1,6 +1,6 @@
 # Stand RaidMaster-Sitzung
 
-## Stand 24.11.2026 06:36 · Addon 3.0.40 · Uploader 2.3.19
+## Stand 24.11.2026 06:42 · Addon 3.0.40 · Uploader 2.3.19
 - Addon 3.0.40 im Spiel ohne Fehler (Ingametest 18.11.), vom Ingametest befreit (Entscheid 18.11. 15:19).
 - Uploader 2.3.16 / 2.3.17 / 2.3.18 gepusht, Berichte 2026-11-23-1238 / -1413 / -1517 – zur Prüfung.
 - UP-TAGE (Befund HOCH 24.11. 06:16): Ursache belegt (200-MB-Grenze, Platz für 3 Tage), Bericht 2026-11-24-0620-up-tage-analyse.
@@ -11,7 +11,7 @@
 - nichts (2.3.19 gepusht; wartet auf Prüfung und Verteilung an alle 4 Rechner)
 
 ## Nächste Schritte (Reihenfolge)
-1. Nutzer: 2.3.19 auf alle Rechner (Bot /uploader an ihn per PN und an die Offiziere, wenn er will).
+1. Nutzer: 2.3.19 auf alle Rechner (per Bot verschickt 24.11. 06:41).
 2. Nach Verteilung: Daten-Repo prüfen (stand.json "uploader" 2.3.19 bei allen, "tage", nur .lua.gz) und im Bericht melden.
 3. Addon 3.0.41 – offene Punkte aus offen-raidmaster.txt gebündelt (Nutzung sparen, eine Version):
    - GoldSentinelSync 3 kopieren (Vorprüfung 18.11.: gleiche Zahlen, kein testLearn nötig), GoldSentinelMarkt v3 kopieren
@@ -25,7 +25,8 @@
 ## Offen beim Nutzer
 - Uploader 2.3.19 auf JEDEM liefernden Rechner entpacken + neu starten (sonst kürzt ein alter Uploader wieder auf 7 Tage;
   3 Rechner liefern noch ohne "uploader"-Feld = vor 2.3.15).
-- Versand 23.11. 15:10: Bot schickte 2.3.17 an Nutzer und 2 Offiziere (inzwischen überholt durch 2.3.19).
+- Versand 24.11. 06:41 (Auftrag Nutzer 06:40, /uploader im eingebauten Browser): Bot "Uploader-Version 2.3.19" per PN an den Nutzer
+  und "Uploader 2.3.19 an 2 von 2 Offizieren geschickt". Offen: entpacken + neu starten auf allen liefernden Rechnern.
 
 ## Entscheide des Nutzers seit letztem Stand
 - 24.11. 06:26: "ja bau das so um aber mache keine fehler" – Uploader liefert alles gepackt (.lua.gz), Grenze 1 GB, 30 Tage.
