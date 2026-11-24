@@ -1,5 +1,6 @@
 AHSentinel 0.65.393 – Gesamtlauf (FULL, alle 411 Szenarien) – Ergebnis, zur Prüfung (Bedingung vor CurseForge, Entscheid Supervisor 21:44)
-Ergebnis: 341 PASS · 70 FAIL (0.65.392: 342 PASS · 68 FAIL; neu dabei: s272w_waechter_vollscan PASS, s9_watcher_tip PASS).
+Ergebnis: 341 PASS · 70 FAIL (0.65.392: 342 PASS · 68 FAIL; neu dabei: s9_watcher_tip PASS. s272w_waechter_vollscan kam erst während des Laufs dazu und war
+ nicht darin – einzeln PASS, 12 Prüfungen).
 Gegenüber 0.65.392 neu rot: 2 – beide geklärt:
  1. s74_options_rows (4 Fehler "erwartet 56 Zeilen, bekommen 55" in deDE/frFR/esES/ruRU): gewollt – AHS-CF1-UI c entfernt die Optionszeile
     "Wächter kauft mit". Szenario auf 55 angepasst (tests/wowsim/scenarios_new.lua, AHAnalyzerPro main) -> einzeln PASS (58 Prüfungen).
