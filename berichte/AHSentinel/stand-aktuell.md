@@ -22,7 +22,7 @@ Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /h
 3. T750 (116 UI-Befunde) und T191.
 
 ## Offen beim Nutzer
-- Ingametest mit 0.65.390 ("testroutine alles"): T459 mit "Verdichtung … wiederverwendet x, neu y", vollscan_luecke "im Bild (x ms)"
+- Ingametest mit 0.65.391 ("testroutine alles"): T459 mit "Verdichtung … wiederverwendet x, neu y", vollscan_luecke "im Bild (x ms)"
   = Lücke (AHS-I4-a gilt dann als erledigt).
 - Gold-Messung Ausrüstung mit Kupfer-Preis (AHS-POST), RecipeList-Fehler mit nur AHS aktiv.
 
