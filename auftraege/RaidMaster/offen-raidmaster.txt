@@ -894,3 +894,11 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     (letzte Lieferung 21:50, vor dem Update) – Supervisor prüft nach der nächsten Lieferung.
     UP-UPD1-b NIEDRIG: Das neue Fenster heisst "…\python.exe" statt "RaidMaster-Uploader" (CREATE_NEW_CONSOLE ohne Titel) – Titel setzen (z. B. title im
     Startbefehl oder per Konsolen-Titel aus Python), damit der Spieler das Fenster erkennt.
+>>> PRÜFUNG SUPERVISOR 24.11. 22:28 – Uploader 2.3.26 (UP-UPD1-a, Bericht 22:04) und UP-UPD1-b (Bericht 22:07): ANGENOMMEN, Abnahme im Betrieb offen.
+    Code gelesen (selfupdate.py): find_console_bat sucht höchstens 4 Stufen nach oben NUR ein cmd.exe mit "uploader.bat" in der Kommandozeile;
+    kill_one beendet genau diese PID ohne /T (Uploader läuft weiter), Rückfall kill_tree mit /T für die NEUE Version. Gegenproben im Test (anderes cmd,
+    kein cmd, keine Info) vorhanden. Selbst nachgerechnet: test_selfupdate OK, test_uploader OK. Begründung "keine 2.3.27 nur für den Titel" (jede
+    Version = Rückfrage j/n bei allen) – richtig, angenommen.
+    ABNAHME (im Betrieb, PC): beim ersten Update, das 2.3.26 selbst ausführt -> altes Fenster schliesst sich, neues heisst "RaidMaster-Uploader",
+    Daten-Repo stand.json zeigt danach die neue Version. Bis dahin UP-UPD1-a/b offen. stand.json 24.11. 21:50 (PC): uploader 2.3.24, neueste 2.3.24 –
+    die Lieferung nach dem Update auf 2.3.26 steht noch aus (Feld "update" dann ebenfalls prüfen).
