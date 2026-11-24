@@ -12,7 +12,7 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 ## BuffSentinel-0.9.64.zip: OK
 
 ## GuildSentinel-0.9.39.zip: FEHLER (4 Warnungen)
-- **FEHLER** Version 0.9.39 ist NIEDRIGER als schon veröffentlichte 0.9.61 (Discord (announce/), download/, download/ (Git-Geschichte)). Neue Version muss höher sein als 0.9.61, sonst bekommen Spieler das Update nicht.
+- **FEHLER** Version 0.9.39 ist NIEDRIGER als schon veröffentlichte 0.9.61 (CurseForge, Discord (announce/), download/, download/ (Git-Geschichte)). Neue Version muss höher sein als 0.9.61, sonst bekommen Spieler das Update nicht.
 - **WARNUNG** GuildSentinel/GoldSentinelMarkt.lua: veraltete offizielle Fassung (Version 4) – auf shared/GoldSentinelMarkt.lua Version 10 aktualisieren
 - **WARNUNG** GuildSentinel/GoldSentinelDev.lua: veraltet (Version 1, eine andere Kopie hat 2)
 - **WARNUNG** GuildSentinel/GoldSentinelTest.lua: veraltete offizielle Fassung (Version 2) – auf shared/GoldSentinelTest.lua Version 3 aktualisieren
