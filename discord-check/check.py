@@ -28,21 +28,34 @@ BOT_INTERVAL_MIN = 30          # der Bot holt Änderungen etwa alle 30 Minuten
 GRACE_MIN = 45                 # so lange nach dem Push gilt "noch nicht da" als "wartet"
 HISTORY = 300                  # so viele Nachrichten je Kanal werden gelesen
 
-# wie in bot.py
-ANNOUNCE_VER = re.compile(r"^(?P<series>.+?)[-_ ]v?(?P<ver>\d+(?:\.\d+)+)(?P<rest>.*)$")
+# Reihen und Fassungen: dieselbe Datei wie der Bot (D-CHK1, ab Bot 1.5.194) – RaidMasterBot/announce_reihe.py
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "RaidMasterBot"))
+import announce_reihe  # noqa: E402
+from announce_reihe import ANNOUNCE_VER, announce_series  # noqa: E402,F401
 ANNOUNCE_CHANNELS = {"aktionshaus": "aktionshaus", "raid-addon": "raid-addon"}   # alte Dateinamen ohne "__"
 EXTRA_ADDONS = {"ahsentinel": {"title": "AHSentinel", "channel": "ahsentinel"}}  # #aktionshaus gibt es nicht mehr  # Addons aus download/
 PLACEHOLDER = re.compile(r"\{[@#][^{}]+\}")
 
 
-def announce_series(fn):
-    stem = fn[:-3] if fn.lower().endswith(".md") else fn
-    if "__" not in stem:
-        return None, None
-    m = ANNOUNCE_VER.match(stem)
-    if not m or "__" not in m.group("series"):
-        return None, None
-    return m.group("series").lower(), tuple(int(x) for x in m.group("ver").split("."))
+def select_announcements(fns, ignore=()):
+    """(zu prüfen, Info). Zu prüfen: je Reihe die neueste Fassung (announce_reihe.neueste – auch ohne Punkt-Version,
+    "…-0-vorstellung-19.md"). Info: ältere Fassungen OHNE Punkt-Version (je Datei "ältere Fassung, neueste: …"; die mit
+    Punkt-Version wurden schon immer still übergangen), abgelöste Dateien (announce_reihe.ABGELOEST) und alte Dateien ohne
+    Kanalnamen. Bis 1.5.193 entschied das Datum des letzten Commits – seit der Wiederherstellung vom 23.11. falsch."""
+    fns = [fn for fn in fns if fn.lower().endswith(".md") and fn not in ignore]
+    top = announce_reihe.neueste(fns)
+    older = announce_reihe.aeltere(fns)
+    check = sorted(fn for fn, _ in top.values() if fn not in announce_reihe.ABGELOEST)
+    info = []
+    for fn in sorted(fns):
+        if fn in announce_reihe.ABGELOEST:
+            info.append((fn, announce_reihe.ABGELOEST[fn]))
+        elif fn in older:
+            if announce_series(fn)[0] is None:
+                info.append((fn, "ältere Fassung, neueste: " + older[fn]))
+        elif announce_reihe.fassung(fn)[0] is None:
+            info.append((fn, "alte Datei ohne Kanalnamen"))
+    return check, info
 
 
 class Discord:
@@ -144,42 +157,19 @@ def main():
             ignore = {ln.strip() for ln in f if ln.strip() and not ln.startswith("#")}
     except OSError:
         pass
-    newest, plain = {}, []
-    for fn in sorted(os.listdir(adir)):
-        if not fn.lower().endswith(".md") or fn in ignore:
-            continue
-        series, ver = announce_series(fn)
-        if series:
-            if series not in newest or ver > newest[series][1]:
-                newest[series] = (fn, ver)
-        else:
-            plain.append(fn)
-    for series, (fn, ver) in sorted(newest.items()):
+    check, info = select_announcements(os.listdir(adir), ignore)
+    for fn in check:
         channel = fn.split("__", 1)[0].lstrip("#").lower()
-        entry = check_announcement(fn, channel, bot_messages(channel))
-        report["ankuendigungen"].append(entry)
-    # ohne Versionsnummer: zählt mit, außer eine neuere Datei im selben Kanal hat dieselbe erste Zeile
-    # (dann hat der Bot sie ersetzt). Alte Dateien ohne "__" nur zur Info.
-    def title(fn):
-        with open(os.path.join(adir, fn), encoding="utf-8") as f:
-            t = next((ln.strip() for ln in f if ln.strip()), "")
-        return re.sub(r"\s*\((?:Version|v)\s*[\d.]+\)\s*$", "", t, flags=re.I)
-    def age(fn):
-        m = pushed_minutes(os.path.join("announce", fn))
-        return m if m is not None else 10 ** 9
-    current = [fn for fn, _ in newest.values()]
-    for fn in plain:
+        report["ankuendigungen"].append(check_announcement(fn, channel, bot_messages(channel)))
+    # Info: nicht geprüft (ältere Fassungen) bzw. ohne Einfluss auf das Ergebnis
+    for fn, why in info:
         low = fn.lower()
         channel = low.split("__", 1)[0] if "__" in low else next((v for k, v in ANNOUNCE_CHANNELS.items() if low.startswith(k + "-")), None)
-        if not channel:
-            continue
-        e = check_announcement(fn, channel, bot_messages(channel))
-        replaced = [x for x in current + plain if x != fn and x.lower().split("__", 1)[0] == low.split("__", 1)[0]
-                    and title(x) == title(fn) and age(x) < age(fn)]
-        if "__" in low and not replaced:
-            report["ankuendigungen"].append(e)
-        else:
-            e["nur_info"] = ("ersetzt durch " + replaced[0]) if replaced else "alte Datei ohne Kanalnamen"
+        if "__" in low or fn in announce_reihe.ABGELOEST:
+            report["info"].append({"datei": "announce/" + fn, "kanal": channel or "-", "status": "info", "nur_info": why})
+        elif channel:
+            e = check_announcement(fn, channel, bot_messages(channel))
+            e["nur_info"] = why
             report["info"].append(e)
 
     # 2) Addons, die der Bot aus download/ veröffentlicht
@@ -465,7 +455,7 @@ def settle(e):
     return e
 
 
-ICON = {"fehler": "❌", "ok": "✅", "wartet": "⏳", "veraltet": "⚠️", "fehlt": "❌", "zip_fehlt": "❌", "kanal_fehlt": "❌", "kein_zugriff": "🔒", "sichtbar": "⚠️"}
+ICON = {"info": "ℹ️", "fehler": "❌", "ok": "✅", "wartet": "⏳", "veraltet": "⚠️", "fehlt": "❌", "zip_fehlt": "❌", "kanal_fehlt": "❌", "kein_zugriff": "🔒", "sichtbar": "⚠️"}
 
 
 def finish(report):
@@ -499,9 +489,10 @@ def finish(report):
             for b in report["bot"]:
                 md.append(f"| {ICON.get(b['status'], '?')} {b['status']} | {b['pruefung']} | {b.get('detail', '')} |")
         if report["info"]:
-            md += ["", "## Nur zur Info (ohne Versionsnummer)", ""]
+            md += ["", "## Nur zur Info (zählt nicht für das Ergebnis)", ""]
             for e in report["info"]:
-                md.append(f"- {ICON.get(e['status'], '?')} {e['datei']} in #{e['kanal']}: {e['status']}")
+                md.append(f"- {ICON.get(e['status'], '?')} {e['datei']} in #{e['kanal']}: "
+                          + (e["nur_info"] if e["status"] == "info" else e["status"] + (f" ({e['nur_info']})" if e.get("nur_info") else "")))
     with open(os.path.join(OUT, "status.md"), "w", encoding="utf-8") as f:
         f.write("\n".join(md) + "\n")
     summary = os.environ.get("GITHUB_STEP_SUMMARY")

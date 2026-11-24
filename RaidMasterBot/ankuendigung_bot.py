@@ -265,18 +265,8 @@ ANNOUNCE_CHANNELS = {"raid-addon": "addon_channel_id"}
 ANNOUNCE_ATTACH = (".png", ".jpg", ".jpeg", ".gif", ".zip", ".pdf", ".txt")
 # Versionsreihen: <kanal>__<name>-<version>… (z. B. levelpilot__levelpilot-3.3.0.md). Kommt eine neuere
 # Version derselben Reihe, löscht der Bot die Nachrichten der älteren (samt Anhängen).
-ANNOUNCE_VER = re.compile(r"^(?P<series>.+?)[-_ ]v?(?P<ver>\d+(?:\.\d+)+)(?P<rest>.*)$")
-
-
-def announce_series(fn: str):
-    """Reihe und Version einer Ankündigung oder ihres Anhangs – (None, None) ohne Versionsnummer."""
-    stem = fn[:-3] if fn.lower().endswith(".md") else fn
-    if "__" not in stem:
-        return None, None
-    m = ANNOUNCE_VER.match(stem)
-    if not m or "__" not in m.group("series"):
-        return None, None
-    return m.group("series").lower(), tuple(int(x) for x in m.group("ver").split("."))
+# Reihen/Fassungen und Teilung: EIN Ort für Bot und Discord-Prüfung (D-CHK1, ab 1.5.194) – announce_reihe.py
+from announce_reihe import ANNOUNCE_VER, aeltere, announce_series, fassung, old_split, split_parts  # noqa: E402,F401
 
 
 # Reihen, deren Beitrag bei einer neuen Fassung BEARBEITET wird (statt gelöscht und neu gepostet):
@@ -611,22 +601,32 @@ async def check_announcements():
         log.warning("Entfernte Ankündigungen nicht aufgeräumt: %s", e)
     # ab 1.5.192 (D-ANN2, Entscheid des Nutzers 23.11. 12:03 "alte Addon-Versionen auf keinen Fall wieder posten"): neueste
     # schon gepostete Version je Reihe; eine ältere oder gleiche Version wird nie gepostet, auch wenn ihre Datei neu auftaucht.
+    # ab 1.5.194 (D-CHK1): Reihe/Fassung auch ohne Punkt-Version (…-0-vorstellung-19.md, announce_reihe.fassung), und eine Datei,
+    # neben der eine neuere Fassung derselben Reihe liegt, wird nie gepostet (am 24.11. 10:31 postete der Bot nach dem Update
+    # 1.5.193 die alten GuildSentinel-Vorstellungen -10 bis -18 kurz neu, jede durch die nächste ersetzt).
     newest = {}
     for fn0 in done:
-        s0, v0 = announce_series(fn0)
+        s0, v0 = fassung(fn0)
         if s0 and (s0 not in newest or v0 > newest[s0]):
             newest[s0] = v0
-    for fn in sorted(os.listdir(ANNOUNCE_DIR)):
+    listing = sorted(os.listdir(ANNOUNCE_DIR))
+    older = aeltere([x for x in listing if x.lower().endswith(".md")])
+    skipped = state.data.setdefault("announce_old_skipped", [])
+    skip_lines = []
+    for fn in listing:
         if not fn.lower().endswith(".md") or fn in done:
             continue
-        s1, v1 = announce_series(fn)
+        s1, v1 = fassung(fn)
+        why = ""
         if s1 and s1 in newest and v1 <= newest[s1]:
-            skipped = state.data.setdefault("announce_old_skipped", [])
+            why = (f"Fassung {'.'.join(map(str, v1))} ist nicht neuer als die schon gepostete "
+                   f"{'.'.join(map(str, newest[s1]))}")
+        elif fn in older and announce_series(fn)[0] is None:   # Fassung ohne Punkt-Version (…-vorstellung-N.md)
+            why = f"ältere Fassung, neueste ist `{older[fn]}`"
+        if why:
             if fn not in skipped:
                 skipped.append(fn)
-                state.save()
-                await post_bot_log(f"⏭️ Ankündigung `{fn}` NICHT gepostet: Version {'.'.join(map(str, v1))} ist nicht neuer als die "
-                                   f"schon gepostete {'.'.join(map(str, newest[s1]))} (Entscheid 23.11.: alte Versionen nie wieder posten).")
+                skip_lines.append(f"• `{fn}`: {why}")
             continue
         ch = await announce_target(fn)
         if not ch:
@@ -639,15 +639,8 @@ async def check_announcements():
         text, missing = await resolve_announce_text(text)
         if missing:
             await post_bot_log(f"📣 Ankündigung **{fn}**: nicht gefunden – " + ", ".join(missing) + " (ohne Ping gepostet).")
-        # Discord: höchstens 2000 Zeichen pro Nachricht - an Absätzen teilen
-        parts, cur = [], ""
-        for para in text.split("\n\n"):
-            if len(cur) + len(para) + 2 > 1900 and cur:
-                parts.append(cur)
-                cur = ""
-            cur = (cur + "\n\n" + para) if cur else para
-        if cur:
-            parts.append(cur)
+        # Discord: höchstens 2000 Zeichen pro Nachricht - an Absätzen teilen, zu lange Absätze an Zeilen (ab 1.5.194)
+        parts = split_parts(text)
         stem = fn[:-3]
         attach = [os.path.join(ANNOUNCE_DIR, x) for x in sorted(os.listdir(ANNOUNCE_DIR))
                   if x.startswith(stem + ".") and x.lower().endswith(ANNOUNCE_ATTACH)
@@ -709,6 +702,67 @@ async def check_announcements():
                 log.info("Ankündigung %s: %d Nachricht(en) mit gleichem Titel ersetzt.", fn, n)
         except Exception as e:
             log.warning("Ältere Beiträge mit gleichem Titel zu %s nicht gelöscht: %s", fn, e)
+    if skip_lines:                   # ab 1.5.194: eine Meldung für alle (einmal je Datei), nicht eine je Datei
+        state.save()
+        await post_bot_log("⏭️ Ankündigungen NICHT gepostet (Entscheid 23.11.: alte Fassungen nie wieder posten):\n"
+                           + "\n".join(skip_lines))
+
+
+async def repair_truncated_announcements() -> list[str]:
+    """Einmal je Bot-Version (ab 1.5.194, D-CHK1): Bis 1.5.193 wurde ein Absatz über 2000 Zeichen beim Posten/Bearbeiten
+    abgeschnitten (belegt: LevelPilot-Übersicht ab 3.12.58, in 3.12.94 fehlten 3 Zeilen im Discord). Für die NEUESTE Fassung
+    jeder Reihe, deren Beitrag so abgeschnitten wurde, werden die eigenen Nachrichten mit der neuen Teilung bearbeitet und
+    fehlende Teile angehängt. Nichts wird gelöscht, ältere Fassungen werden nie angefasst. Liefert Meldungen für #bot-log."""
+    marker = "announce_truncfix_" + updater.bot_version(BASE)
+    if state.data.get(marker) or not os.path.isdir(ANNOUNCE_DIR):
+        return []
+    present = [x for x in os.listdir(ANNOUNCE_DIR) if x.lower().endswith(".md")]
+    older = aeltere(present)
+    rec = state.data.setdefault("announce_msgs", {})
+    notes = []
+    am = discord.AllowedMentions.none()          # Nachbesserung: niemanden erneut anpingen
+    for fn, r in list(rec.items()):
+        if fn not in present or fn in older or r.get("attach") or not r.get("ids") or not r.get("ch"):
+            continue
+        try:
+            with open(os.path.join(ANNOUNCE_DIR, fn), "r", encoding="utf-8") as f:
+                raw = f.read().strip()
+        except OSError:
+            continue
+        text, _missing = await resolve_announce_text(raw)
+        if not any(len(p) > 2000 for p in old_split(text)):
+            continue
+        ch = await channel_by_id(r["ch"])
+        if ch is None:
+            continue
+        msgs = []
+        try:
+            for mid in r["ids"]:
+                msgs.append(await ch.fetch_message(int(mid)))
+        except discord.HTTPException:
+            notes.append(f"⚠️ Ankündigung `{fn}`: abgeschnitten, aber ein Teil fehlt im Discord – nicht bearbeitet.")
+            continue
+        parts = split_parts(text)
+        ids, edited, added = [], 0, 0
+        for i, part in enumerate(parts):
+            if i < len(msgs):
+                if (msgs[i].content or "") != part:
+                    await msgs[i].edit(content=part, allowed_mentions=am)
+                    edited += 1
+                ids.append(msgs[i].id)
+            else:
+                m = await ch.send(part, allowed_mentions=am)
+                ids.append(m.id)
+                added += 1
+        ids += [m.id for m in msgs[len(parts):]]          # nie löschen: überzählige Nachrichten bleiben verbunden
+        r["ids"] = ids
+        if edited or added:
+            notes.append(f"✏️ Ankündigung `{fn}`: abgeschnittener Text vervollständigt ({edited} Nachricht(en) bearbeitet, "
+                         f"{added} angehängt).")
+            log.info("Ankündigung %s: abgeschnittenen Text vervollständigt (%d bearbeitet, %d angehängt)", fn, edited, added)
+    state.data[marker] = True
+    state.save()
+    return notes
 
 
 async def remove_same_title(ch, title: str, keep_ids: list) -> int:

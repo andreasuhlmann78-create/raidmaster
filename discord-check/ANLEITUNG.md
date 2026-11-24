@@ -7,7 +7,9 @@ Für den Nutzer und für Claude in **allen** Projekten (ProfessionSentinel, AHSe
 Ein GitHub-Workflow liest mit dem Konto des RaidMaster-Bots die Discord-Kanäle. Er liest nur, er schreibt nichts in Discord. Dann vergleicht er:
 
 1. **Ankündigungen** (`announce/<kanal>__<name>-<version>.md`)
-   - Pro Reihe zählt nur die neueste Fassung.
+   - Pro Reihe zählt nur die neueste Fassung. Reihe und Fassung kommen aus `RaidMasterBot/announce_reihe.py`, derselben Datei,
+     die der Bot benutzt: `…-3.12.94.md` = Version 3.12.94, `…-vorstellung-19.md` = Fassung 19, `…-vorstellung.md` = Fassung 1.
+   - Ältere Fassungen und abgelöste Dateien (z. B. `raid-addon-zusammenfassung-3.0.0.md`) stehen nur unter „Nur zur Info“.
    - Geprüft wird, ob jede Zeile der Datei im Kanal steht, gepostet oder bearbeitet vom Bot.
    - Fehlende Zeilen werden aufgelistet. So sieht man auch, ob eine Beschreibung wirklich angepasst wurde.
 2. **Addon-Veröffentlichungen aus `download/`**, die der Bot selbst postet (zurzeit AHSentinel in #aktionshaus)

@@ -87,12 +87,14 @@ class AlteVersionen(unittest.TestCase):
         self.datei("ahsentinel__ahsentinel-0.65.384-neu.md")              # gleiche Version, anderer Name
         self.run_()
         self.assertEqual(self.ch.sent, [])
-        self.assertEqual(len(self.logs), 2)
-        self.assertIn("`ahsentinel__ahsentinel-0.65.383.md` NICHT gepostet", self.logs[0])
-        self.assertIn("nicht neuer als die schon gepostete 0.65.384", self.logs[0])
+        self.assertEqual(len(self.logs), 1)                                 # ab 1.5.194: eine Meldung für alle
+        self.assertIn("NICHT gepostet", self.logs[0])
+        self.assertIn("• `ahsentinel__ahsentinel-0.65.383.md`: Fassung 0.65.383 ist nicht neuer als die schon gepostete 0.65.384",
+                      self.logs[0])
+        self.assertIn("• `ahsentinel__ahsentinel-0.65.384-neu.md`:", self.logs[0])
         self.assertNotIn("ahsentinel__ahsentinel-0.65.383.md", self.m.state.data["announced"])
         self.run_()
-        self.assertEqual(len(self.logs), 2)                                 # nur einmal melden
+        self.assertEqual(len(self.logs), 1)                                 # nur einmal melden
         self.assertEqual(self.ch.sent, [])
 
     def test_neuer_und_ohne_version(self):
@@ -118,7 +120,7 @@ class AlteVersionen(unittest.TestCase):
         self.datei("ahsentinel__ahsentinel-0.65.39.md")                   # 0.65.39 ist älter als 0.65.385
         self.run_()
         self.assertEqual(len(self.ch.sent), 1)
-        self.assertIn("`ahsentinel__ahsentinel-0.65.39.md` NICHT gepostet", self.logs[-1])
+        self.assertIn("• `ahsentinel__ahsentinel-0.65.39.md`: Fassung 0.65.39 ist nicht neuer", self.logs[-1])
 
 
 class LogTeilen(unittest.TestCase):

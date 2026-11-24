@@ -322,6 +322,11 @@ class RaidBot(discord.Client):
                 await repair_missing_announcements()
             except Exception:
                 log.exception("Fehlende Ankündigungen nicht geprüft")
+            try:                                  # D-CHK1 (ab 1.5.194): abgeschnittene Ankündigungen vervollständigen
+                for note in await ankuendigung_bot.repair_truncated_announcements():
+                    await post_bot_log(note)
+            except Exception:
+                log.exception("Abgeschnittene Ankündigungen nicht geprüft")
             try:
                 await sync_class_roles()
             except Exception:
@@ -552,11 +557,14 @@ async def repair_missing_announcements():
     if state.data.get(marker) or not os.path.isdir(ANNOUNCE_DIR):
         return
     present = set(os.listdir(ANNOUNCE_DIR))
+    # ab 1.5.194 (D-CHK1): nur die NEUESTE Fassung einer Reihe freigeben – ältere Fassungen fehlen im Discord absichtlich
+    # (ersetzt). Bis 1.5.193 gab der Neustart nach dem Update die GuildSentinel-Vorstellungen -10 bis -18 frei (24.11. 10:28).
+    older = ankuendigung_bot.aeltere([x for x in present if x.lower().endswith(".md")])
     rec = state.data.setdefault("announce_msgs", {})
     announced = state.data.setdefault("announced", [])
     freed = []
     for fn, r in list(rec.items()):
-        if fn not in present or fn not in announced or not r.get("ids") or not r.get("ch"):
+        if fn not in present or fn in older or fn not in announced or not r.get("ids") or not r.get("ch"):
             continue
         ch = await channel_by_id(r["ch"])
         if ch is None:

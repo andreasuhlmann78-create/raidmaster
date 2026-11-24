@@ -1,0 +1,66 @@
+Bericht Discord-Sitzung an die Prüf-Sitzung – 24.11.2026 10:38
+Thema: D-CHK1 MITTEL (Supervisor 24.11. 10:40) + Vorfall 10:28/10:31 + Teil RaidMaster (Bericht 2026-11-24-1030) – Bot 1.5.194
+Status: umgesetzt, zur Prüfung
+Auftrag des Nutzers 10:29: klären, welche Texte wirklich die neueste Fassung sind; fehlt dort etwas, entscheidet die Discord-Sitzung,
+ob nachgepostet wird; für die älteren Fassungen lernt die Prüfung dieselbe Regel wie der Bot; gelöscht wird nichts.
+
+1. Befund (a) – welche Dateien sind die neueste Fassung (belegt)
+- Ursache des Rot: check.py nahm bei Dateien OHNE Punkt-Version als "neueste" die mit dem jüngsten Commit (pushed_minutes). Die
+  Wiederherstellung vom 23.11. 11:54 (89006f4f) gab den 33 alten Dateien den jüngsten Commit -> sie galten als neuer als
+  buffsentinel-0-vorstellung-12 (04.11.) und guildsentinel-0-vorstellung-19 (12.11.).
+- Erst-Hinzufüge-Datum je Datei (git log --diff-filter=A): bei BuffSentinel und GuildSentinel kam jede höhere Nummer später dazu
+  (BuffSentinel ohne Nummer 27.10. … -12 04.11.; GuildSentinel ohne Nummer 27.10. … -19 12.11.). Die Nummer im Namen ist die Fassung.
+- Neueste Fassungen: buffsentinel-0-vorstellung-12 (Discord 100 %), guildsentinel-0-vorstellung-19, threatsentinel-0-vorstellung-2.2,
+  levelpilot-uebersicht-3.12.94. Alle 25 übrigen "veraltet" (BuffSentinel ohne Nr., -2 … -10; GuildSentinel ohne Nr., -2 … -18 ausser 5)
+  sind ältere Fassungen -> im Discord absichtlich nicht mehr da (ersetzt).
+- Echte Lücke 1: levelpilot-uebersicht-3.12.94 (neueste Fassung, nicht wiederhergestellt): im Discord (#levelpilot, im Browser
+  gelesen) endet die 2. Nachricht mitten im Satz "… (z. B. Thunder Bluff zu Mulgore); off". Ursache im Bot: ein Absatz über 1900
+  Zeichen wurde nicht geteilt, sondern bei 2000 abgeschnitten (part[:2000]). Der Absatz "Route & Wegfindung" hat 2341 Zeichen.
+  Betroffen alle LevelPilot-Übersichten ab 3.12.58 (Test über alle announce/-Dateien), sonst keine Datei.
+- Echte Lücke 2: guildsentinel-0-vorstellung-19 war im Discord nur zu 90 % da (Prüfung 08:24). Siehe 2.
+- raid-addon-zusammenfassung-3.0.0.md: Entscheid der RaidMaster-Sitzung "nicht nachposten" übernommen (abgelöst durch die
+  Vorstellung in #raid-addon). Sie zählte schon bisher nicht für das Ergebnis (nur Info); jetzt mit diesem Grund geführt.
+
+2. Vorfall 24.11. 10:28/10:31 (belegt in #bot-befehle und #guildsentinel, im Browser gelesen)
+- 10:28 nach dem Update auf 1.5.193: "Diese Ankündigungen fehlten im Discord und werden neu gepostet: guildsentinel-0-vorstellung-19,
+  -10, -11 … -18". 10:31: der Bot postete sie neu; jede wurde von der nächsten ersetzt (gleicher Titel), stehen blieb -19.
+- Ursache: repair_missing_announcements (bot.py) läuft einmal je Bot-Version und gibt jede gepostete Datei frei, deren erste Nachricht
+  fehlt – auch ältere Fassungen, deren Nachrichten der Bot selbst ersetzt hat. Ausgelöst durch meinen Versionswechsel 1.5.193.
+  D-ANN2 griff nicht, weil diese Dateien keine Punkt-Version haben.
+- Folge: kurz 9 alte Fassungen in #guildsentinel (wieder ersetzt, Mitglieder können eine Benachrichtigung bekommen haben).
+  Jetzt steht dort -19 vollständig (Zeilen "Heiler, Krieger und Magier" und "Server-Tag" sichtbar = Fassung 19).
+- Ohne Korrektur wäre es beim nächsten Versionswechsel wieder passiert (die 9 Einträge zeigen auf ersetzte Nachrichten).
+
+3. Umsetzung (Bot 1.5.194)
+- NEU RaidMasterBot/announce_reihe.py – EIN Ort für Bot und Prüfung, ohne discord.py: announce_series (unverändert hierher verschoben),
+  fassung (auch ohne Punkt-Version: "<name>.md" = 1, "<name>-N.md" = N, gleiche Reihe wie die Punkt-Versionen), neueste, aeltere,
+  ABGELOEST (raid-addon-zusammenfassung-3.0.0.md), split_parts, old_split.
+- bot.py repair_missing_announcements: gibt nie eine ältere Fassung frei.
+- ankuendigung_bot.check_announcements: D-ANN2 rechnet mit fassung; eine Datei ohne Punkt-Version, neben der eine neuere Fassung liegt,
+  wird nie gepostet; Meldung in #bot-log jetzt EINE Nachricht für alle (einmal je Datei). Mit Punkt-Version unverändert.
+- Teilung: split_parts teilt zu lange Absätze an Zeilen (<= 1900); bei allen Dateien ohne so einen Absatz gleiche Teile wie bisher
+  (Test über ganz announce/) -> keine unnötigen Bearbeitungen.
+- Entscheid Nachposten (vom Nutzer übertragen): LevelPilot-Übersicht 3.12.94 WIRD vervollständigt – neueste Fassung, Inhalt fehlt
+  echt. Weg: repair_truncated_announcements, einmal je Version beim Start: nur neueste Fassungen, deren Beitrag abgeschnitten wurde;
+  eigene Nachrichten bearbeiten, fehlende Teile anhängen, niemanden anpingen, nichts löschen. Erwartet: 5 bearbeitet, 1 angehängt
+  (der Schluss "Fragen und Fehler bitte hier melden …" steht danach unter der Ankündigung 3.13.11 – Folge, offen gesagt). Meldung in
+  #bot-befehle "✏️ Ankündigung `levelpilot__levelpilot-uebersicht-3.12.94.md`: abgeschnittener Text vervollständigt (…)".
+  GuildSentinel -19: nichts nachzuposten, steht seit 10:31 vollständig.
+- discord-check/check.py: select_announcements mit announce_reihe (importiert aus RaidMasterBot/): je Reihe nur die neueste Fassung
+  prüfen; ältere Fassungen ohne Punkt-Version und abgelöste Dateien unter "Nur zur Info" mit Grund, ohne Einfluss auf das Ergebnis.
+  ANLEITUNG.md ergänzt. Nichts gelöscht (announce/ unverändert).
+
+4. Tests
+- NEU tests/test_announce_reihe.py (14 Tests): Fassung/neueste am echten announce/, Teilung über alle Dateien (gleich ausser zu langen
+  Absätzen, nichts verloren, die 3 fehlenden LevelPilot-Zeilen), Vorfall 10:28 nachgestellt (nur -19 frei) mit Gegenprobe (ohne Regel
+  alle 10 frei), ältere Fassung nie posten / neue schon, langer Absatz beim Posten vollständig, Vervollständigen (bearbeitet + angehängt,
+  nichts gelöscht, einmal je Version, danach nichts mehr), ältere Fassung nie nachbessern, fehlender Teil -> nicht bearbeiten,
+  check.py nutzt dieselbe Datei und prüft genau die neuesten.
+- Gegenproben (Code verfälscht): jede der 6 Stellen macht mindestens einen Test rot (Freigabe, Posten, Fassung -N, Teilung beim Posten,
+  Nachbessern älterer, D-ANN2 mit announce_series).
+- test_announce_d_ann2 an die eine Sammelmeldung angepasst. Alle Bot-Tests: 507 OK, Regressionen 88/88 (T-D-CHK1, T-D-CHK1-TEIL neu).
+
+5. Zu messen
+- Nach dem Update: #bot-befehle-Zeile "✏️ … 3.12.94 … vervollständigt"; keine Zeile "fehlten im Discord und werden neu gepostet".
+- Discord-Prüfung (läuft 35 Min. nach dem Push von check.py): erwartet grün; levelpilot-uebersicht-3.12.94 ok, sobald der Bot
+  neu gestartet ist.

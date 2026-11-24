@@ -1,41 +1,42 @@
 # Stand Discord-Sitzung
 
-## Stand 24.11.2026 10:11 · Bot 1.5.193 (D-UPALT umgesetzt, zur Prüfung; 1.5.192 am 23.11. 12:43 angenommen)
+## Stand 24.11.2026 10:38 · Bot 1.5.194 (D-CHK1 umgesetzt, zur Prüfung; 1.5.193 vom Supervisor angenommen)
 
 ## Gerade in Arbeit
-- nichts. D-UPALT (PN bei veraltetem Daten-Uploader) in 1.5.193 umgesetzt, Bericht berichte/Discord/2026-11-24-1011-d-upalt.txt.
+- nichts. D-CHK1 in 1.5.194 + check.py umgesetzt, Bericht berichte/Discord/2026-11-24-1038-d-chk1.txt.
 
 ## Nächste Schritte (Reihenfolge)
 1. Bei jeder Nachricht des Nutzers: git pull --rebase, auftraege/Discord/ lesen (git log --oneline -5 -- auftraege/Discord/).
-2. Prüfung D-UPALT durch den Supervisor abwarten, Befunde umsetzen. Neue Aufträge umsetzen. Sonst nichts ändern.
-3. Ab Uploader 2.3.21 in #bot-log nachsehen: "Alter Daten-Uploader (neueste 2.3.21): n PN geschickt".
+2. Nach dem Update auf 1.5.194 in #bot-befehle prüfen: "✏️ … levelpilot-uebersicht-3.12.94 … vervollständigt", KEINE Zeile
+   "fehlten im Discord und werden neu gepostet". Danach discord-check/status.md (läuft 35 Min. nach dem Push): erwartet grün.
+3. Prüfung D-CHK1 durch den Supervisor abwarten, Befunde umsetzen. Neue Aufträge umsetzen. Sonst nichts ändern.
+4. Ab Uploader 2.3.21 in #bot-befehle: "Alter Daten-Uploader (neueste 2.3.21): n PN geschickt" (D-UPALT).
 
 ## Offen beim Nutzer
 - nichts.
 
 ## Entscheide des Nutzers seit letztem Stand
-- 23.11. 12:43: "Ersetzen wie bisher" – beim Posten einer neuen Version löscht der Bot den Beitrag der vorherigen Version derselben
-  Reihe (je Addon steht nur die aktuelle). Nichts ändern. (Steht schon in offen-discord.txt.)
-- 24.11. 06:19: Mitglieder-Kanäle bleiben in 💬 ALLGEMEIN. Nicht ohne Kategorie nach oben verschieben, Bot nicht anpassen.
-  Hintergrund: Die Kanäle "verschwanden" nicht. Die Kategorie war nur in der Ansicht des Nutzers zugeklappt (das gilt je Mitglied;
-  Discord kann Zuklappen nicht verbieten). Belegt im Browser am 24.11. 06:15: alle 4 Kanäle da, keine Lösch-Meldung in #bot-befehle.
+- 24.11. 10:29 (D-CHK1): neueste Fassungen klären; fehlt dort etwas, entscheidet die Discord-Sitzung über Nachposten; die Prüfung
+  lernt für ältere Fassungen dieselbe Regel wie der Bot; gelöscht wird nichts.
+  Mein Entscheid daraus: LevelPilot-Übersicht 3.12.94 wird vervollständigt (Bearbeiten + 1 Nachricht anhängen, ohne Ping).
+  raid-addon-zusammenfassung-3.0.0: nicht nachposten (Entscheid RaidMaster-Sitzung 10:30, übernommen).
 
 ## Ältere Entscheide (schon übertragen, zur Sicherheit)
-- 21.11.: daten_config.json per Bot an die Offiziere (1.5.187/1.5.188). Am 23.11. bei allen Offizieren ("Keine Empfänger").
-- 23.11.: Mitglieder-Kanäle D-MITGL1. Rolle Mitglied wie Raider. Gast (PUG) darf in die 4 Kanäle. Rollen-Reihenfolge so belassen
-  (Raidleitung = Nutzer, über dem Bot).
-- 23.11.: announce/*.md nie löschen (11:36). 33 Dateien wiederhergestellt (11:45). Alte Versionen nie wieder posten,
-  die 9 vor 11:36 gelöschten bleiben weg (12:03).
+- 23.11. 12:43 "Ersetzen wie bisher": neue Version ersetzt den Beitrag der vorherigen derselben Reihe.
+- 24.11. 06:19: Mitglieder-Kanäle bleiben in 💬 ALLGEMEIN (Kategorie war nur zugeklappt), Bot nicht anpassen.
+- 21.11.: daten_config.json per Bot an die Offiziere (1.5.187/1.5.188), am 23.11. bei allen.
+- 23.11.: D-MITGL1 (Mitglied wie Raider, Gast in die 4 Kanäle, Rollen-Reihenfolge so).
+- 23.11.: announce/*.md nie löschen (11:36). 33 wiederhergestellt (11:45). Alte Versionen nie wieder posten (12:03).
 
 ## Wichtig zu wissen
-- Der Bot läuft auf dem Infomaniak-Server. Updates kommen automatisch von GitHub, /update geht auch.
-  Bot-Meldungen stehen in #bot-befehle.
-- Discord ist im eingebauten Browser des Nutzers erreichbar (sein Konto, eingeloggt). Nur lesen, ausser auf Auftrag.
-  Drag-and-drop geht nicht. Slash-Befehle: tippen, Return, Return.
+- Bot auf dem Infomaniak-Server, Updates automatisch von GitHub, /update geht auch. Bot-Meldungen in #bot-befehle.
+- JEDER Versionswechsel startet einmalige Läufe (repair_missing_announcements, repair_truncated_announcements, Marker je Version
+  in state.json). Am 24.11. 10:28 gab 1.5.193 so alte GuildSentinel-Vorstellungen frei (10:31 kurz neu gepostet) – ab 1.5.194 nur
+  noch neueste Fassungen.
+- Reihe/Fassung: RaidMasterBot/announce_reihe.py ist EIN Ort für Bot und discord-check/check.py ("…-N.md" = Fassung N).
+- Discord im eingebauten Browser des Nutzers (sein Konto). Nur lesen, ausser auf Auftrag. Kanal öffnen: Strg+K, Name, Return.
 - Verboten: #mc-dkp leeren, "Server zurücksetzen", Rolle Mitglied automatisch vergeben, config.json, uploader_config.json,
   daten_config.json oder token.txt lesen bzw. ändern, Passwörter tippen.
 - Nutzung sparen: keine Wecker, kurze Berichte.
-- D-UPALT: state.json "upalt_pn" (Rechner->Version), "upalt_gemeldet", "uploader_geschickt" (Mitglied->Version).
-  Erster Lauf mit 2.3.20 = alle alten Rechner gelten als informiert (Offiziere 08:37 beliefert).
-- Klon ist flach: für alte Dateien zuerst git fetch --unshallow.
+- D-UPALT: state.json "upalt_pn", "upalt_gemeldet", "uploader_geschickt"; erster Lauf mit 2.3.20 = alte Rechner gelten als informiert.
 - Tests: python3 -m unittest discover -s tests (in RaidMasterBot/). Befehlsliste: tests/test_befehle_liste.py --schreiben.
