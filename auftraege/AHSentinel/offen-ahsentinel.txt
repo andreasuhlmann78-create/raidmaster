@@ -6367,3 +6367,30 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
 
 >>> HINWEIS BLUEPOSTS (Supervisor 2026-11-24 06:15, aus Entwurf 23.11. 21:40) BP-2026-11-23-3 NIEDRIG, kein Auftrag: Schliesskassetten seit 22.11. 18:55 MEZ –
     Inhalt nicht vorab sichtbar (Blizzard, Fix ohne Termin). Kein Kassetten-Wert aus "Hineinschauen"; Kassetten-Preise ab 22.11. evtl. verzerrt.
+
+>>> PRÜFUNG SUPERVISOR 24.11. 07:08 – AHSentinel 0.65.386 + 0.65.387 (Berichte 23.11. 16:11, 16:37, 16:40): ANGENOMMEN, 3 neue Befunde
+    addon_check 0.65.387 OK (0.65.386 nur "niedriger als 0.65.387" – erwartet). announce/: nichts gelöscht. Keine neuen Testberichte seit PM1-a.
+    Nachbau SELBST laufen lassen mit dem Release-Zip 0.65.387 (Repo = Tag): Teil auto OK 1000 · FEHLER 0 · übersprungen 66 · im Client 16,
+     Sandbox OK; s42_testroutine_auto und s43_testroutine_server PASS. Zählung der 49 nachgerechnet: 12 + 35 + 2 = 49; Liste der 15 verdeckten (nil) = 15.
+    Code gelesen: AHS-I1 – BargainStore, RecvDay, DevStore und D:AccountId schreiben in der Testroutine nie echte Daten; accountId beim Login (READY);
+     Sandbox stellt bis zu 5 Durchgänge zurück und meldet ehrlich. T891 (P8 im Markt-Reiter): kein "einstellen für" ohne geprüften Preis, nie Marktwert
+     als Ersatz – richtig. T875 Ln:RelistHigher = Verkaufen-Vorschlag (V1). Gold-Sicherheit durchgedacht: nur Hinweis, nie unter dem eigenen Preis
+     (return nil), Gewinn muss Einstellgebühr + 10 % übersteigen; kann über einem günstigsten Angebot mit 1–5 Stück liegen – das ist V1 (wie Verkaufen-
+     Reiter), also gewollt. T21 Selbsttest: junger Markt kein FEHLER mehr – richtig nach TT3.
+    STATUS: AHS-I1 und AHS-I2 (47 von 49) im Nachbau grün – ERLEDIGT erst nach dem nächsten Ingametest (Teil 1 ohne FEHLER, Sandbox im Spiel OK).
+     T750/T191 (UI) bleiben offen. CurseForge bleibt gesperrt, bis der Ingametest das bestätigt.
+ AHS-R1 MITTEL (Nie Englisch, Entscheid 15.11. 12:38): Die GitHub-Release-Texte sind nur Englisch (geprüft 0.65.380, 0.65.385, 0.65.387: kein deutscher
+    Teil). Ab der nächsten Version: zuerst Deutsch, Englisch zusätzlich für englische Spieler. Alte Releases nicht nachträglich ändern.
+ AHS-I4-a MITTEL (Zahlen gehen nicht auf): Der Bericht 16:40 schliesst "den Speicher hat Code ausserhalb der Addons angelegt". Im selben Feld
+    (vollscan_luecke_2) steht aber "ohne Addon (Spiel/Blizzard) −378 KB" seit Scan-Beginn (VS:AddonMemDiff = Gesamt-Zuwachs minus Addons). Hätte das
+    Spiel im Bild +104 907 KB angelegt und wäre "danach bereinigt 0 KB" richtig, müsste der Spiel-Anteil seit Scan-Beginn rund +100 MB sein.
+    Klären und mit allen Zahlen offenlegen: welche Gesamtwerte (kbA/kbB, Zeitpunkte) nimmt AddonMemDiff, wurde zwischen Lücke und Messung bereinigt?
+    Dazu: vollscan_fps "Einlesen min 25" passt nicht zu einem Bild von 712 ms (≈ 1,4 Bilder/s) – ist das ein Mittelwert je Sekunde? Dann so
+    beschriften und das längste Bild daneben zeigen. Bis dahin gilt "Ursache Spiel" nur als Verdacht, zu messen.
+    Dein Vorschlag (a) Ereignisse im längsten Bild, (b) AH-Fenster offen, (c) Index der Auktion beim Bildwechsel: FREIGEGEBEN – nur Messung, nur in der
+    Testroutine, RegisterAllEvents nur während Einlesen, ohne Spielernamen; eigene Kosten der Messung im Bericht ausweisen.
+ G14-a MITTEL (dein Vorschlag, angenommen): Schnäppchenliste – je Item und Angebot nur EIN Fall (heute 300 Einträge aus 12 Minuten, Items 5966/7058).
+    Bestehende Liste beim Spieler nicht löschen; Doppel beim Auswerten zusammenfassen. Test mit Gegenprobe (derselbe Treffer 2× -> 1 Fall).
+ Zur Kenntnis: SH-NIL – dein Befund zu shared/GoldSentinelTest.lua (Run:Check wertet nur false, nil zählt als OK) ist BESTÄTIGT (Zeile 242). Die
+    gemeinsame Datei ändert nur der Supervisor; bis dahin bleibt dein TR:Check so. Gold-Messung Ausrüstung mit Kupfer-Preis (AHS-POST) geht an den Nutzer.
+    Reihenfolge nächste Version: AHS-R1 (klein) -> AHS-I4-a -> AHS-I3 -> G14-a -> T750/T191. Nur Discord.

@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Folge |
 |---|---|---|
+| 07:04 | "du musst nicht selber am addon entwickeln nur prüfen" (an den Supervisor) | Supervisor ändert keinen Addon-Code, nur Prüfung (Code lesen, addon_check, Nachbau laufen lassen, nachrechnen); Befunde gehen über offen-*.txt an die Projekte |
 | 06:17 | "ok" auf: (1) CurseForge-Zwischenstand CF1–CF3 posten, (2) Markt-Tabellen: warten, bis RaidMaster UP-TAGE geklärt hat (höchstens 1 Tag), statt Fallzahl-Regel auszusetzen | (1) Posten scheitert: CurseForge in Chrome nicht angemeldet (06:17) – Nutzer meldet sich an, dann posten; (2) Tabelle bleibt Stand 16.11. bis UP-TAGE |
 
 ## 23.11.2026

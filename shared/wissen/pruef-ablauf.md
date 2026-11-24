@@ -261,3 +261,7 @@ die es dort gibt.
   (git show --stat --diff-filter=DR <commit> -- announce/). Jede Löschung = Befund HOCH an das Projekt.
 - E-Regel 23.11.2026 15:36 (UP-422b): Daten-Repo-Dateien können als <Addon>.lua.gz liegen (Uploader 2.3.18). Jedes Werkzeug, das SavedVariables
   liest, nutzt sv_lesen bzw. gzip; bei fehlender .lua eines Rechners zuerst nach .lua.gz suchen, nie "Daten fehlen" melden ohne diesen Blick.
+- E-Regel 24.11.2026 07:08 (AHS-R1): Bei JEDER Version den GitHub-Release-Text ansehen (gh api repos/<owner>/<repo>/releases/tags/v<Version> -q .body):
+  Deutsch muss drin sein (Entscheid 15.11. 12:38). AHSentinel hatte seit Wochen nur Englisch, keine Prüfung hat es gemeldet.
+- E-Regel 24.11.2026 07:08 (AHS-I4-a): Folgert ein Bericht aus Messfeldern eine Ursache, ALLE Zahlen desselben Felds gegeneinander rechnen
+  (hier: +104 907 KB im Bild gegen "ohne Addon −378 KB seit Scan-Beginn"). Widerspruch = Befund, Schluss nur als Verdacht.
