@@ -1,0 +1,32 @@
+ProfessionSentinel 0.9.83 – umgesetzt, zur Prüfung
+Bezug: offen-professionsentinel.txt PS-I5-a NIEDRIG (Prüfung Supervisor 24.11. 18:34).
+
+PS-I5-a – Funktionen in Zeilendaten – Befund bestätigt, behoben.
+ - Zeilen tragen Klick-Abschlüsse, die Tabellen ihres Aufbaus festhalten (UI.lua: TD.Run(e), AL.ToSniper(f), SelectInBlizzard(r),
+   WP.Set(npc …), PL.CycleTarget …). SameValue wertete zwei verschiedene Funktionen als gleich.
+ - Jetzt: zwei verschiedene Funktionen = verschieden, dieselbe Funktion (x == y) = gleich. Eine behaltene Liste behält nie einen
+   alten Abschluss. DiffPath zeigt den Unterschied.
+ - Der Smoketest zeigte danach (forever/era/retail): "unverändert: neue Blizzard-Liste angelegt (… onClick=function/function)" –
+   die Alarm-Zeilen im Reiter Rezepte bekamen je Aufbau einen neuen Abschluss (onClick = function() AL.ToSniper(f) end); mit
+   0.9.82 wurde das als gleich gewertet (der alte Abschluss blieb). Jetzt eine feste Funktion UI.AlarmRowClick für alle Alarm-
+   Zeilen, der Alarm steht als Feld "alarm" in der Zeile; die Zeile übergibt ihre Daten an onClick/onRightClick (bestehende
+   Abschlüsse ignorieren das). Danach Smoketest T297 grün.
+ - Nur der Reiter Rezepte läuft über Recorder/CommitList (offline je Reiter zwei Neuaufbauten: Rezepte behalten +1, alle anderen
+   Reiter behalten 0 / neu 0) – nur dort zählt der Vergleich.
+ - Tests (T297): zwei verschiedene Abschlüsse = verschieden; derselbe Abschluss mit gleichem verschachteltem Inhalt = gleich;
+   verschachtelter Unterschied erkannt; Klick auf Alarm-Zeile erreicht Alerts.ToSniper mit dem Alarm der Zeile.
+
+Dazu (offline --lua51 je einmal gesehen, beide Male Testuhr/Zeitgeber):
+ - T219 "11,50 s / 12,00 s": gapHold wurde nicht gesetzt, wenn der vorige Aufbau auf einer anderen Uhr lag (lastBuildAt aus der
+   Spielzeit grösser als die Testuhr). Jetzt gilt ein vorheriger Aufbau "nach jetzt" als lange her (UI.StartBuild).
+ - T269 "neue Liste nicht übernommen": während des Wartens kann ein Zeitgeber den Advisor erneut ungültig machen (Schlüssel ändert
+   sich nochmals). Geprüft wird jetzt: Speicher neuer als vor der Änderung UND (aktueller Schlüssel ODER neue Aufgabe offen); die
+   Meldung nennt beide Schlüssel. Danach 3 Läufe --lua51 grün.
+
+Tests: run_offline forever 252/0, era 233/0, retail 231/0, forever --lua51 252/0 (3×); check_actions OK; yield_check OK;
+Smoketest forever/era/retail AUTOTEST OK (FEHLER 29/26/26 = Mock-Grenzen); addon_check OK ohne WARNUNG. Zip md5 2f7f4d5b08ba3c67529de5252a6715fe, Repo e6cf022.
+Ingametest 0.9.82: noch keiner hochgeladen (neuester Bericht in den Daten: 0.9.81).
+Offen beim Nutzer: Ingametest 0.9.83; welches Berufsfenster bei T85; Entscheid Trefferquote (A/B/C); Messung SetCraftableCount.
+
+PS-I8 (Hinweis Supervisor 20:01) gelesen: T269 wird als Nächstes im Code umgesetzt (TD.Candidates rechnet Taschen/Gold je Aufruf neu).
+T139 19,8 ms und "Aufgabe heute" 23,3 ms: nur ändern, wenn der Nachbau sie nachstellt; sonst "Ausreisser, Bedienung möglich".

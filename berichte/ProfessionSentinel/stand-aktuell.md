@@ -1,14 +1,16 @@
-# Stand 24.11.2026 14:44 · Version 0.9.82
+# Stand 24.11.2026 20:06 · Version 0.9.83
 
 ## Gerade in Arbeit
-- Nichts. 0.9.82 veröffentlicht (Discord, Release v0.9.82, Repo 0a9ee07), Bericht 2026-11-24-1444-version-0.9.82.txt – zur Prüfung.
-- Umgesetzt: PS-I5 (Rezeptliste nach Inhalt vergleichen, SAME_DEPTH 6; T297 mit Preisen stellt den Ingame-Fehler nach), PS-I1
-  (ns.TaktCheck liest die Uhr VOR GoldSentinelTakt.Check – falsch "gehaltene" Teile), T88 (echte Verzauberer-Wahl), T85 Fensterantwort.
+- Nichts. 0.9.83 veröffentlicht (Discord, Release v0.9.83, Repo e6cf022), Bericht 2026-11-24-2006-version-0.9.83.txt – zur Prüfung.
+- 0.9.82 vom Supervisor 18:34 angenommen (im Spiel zu zeigen). 0.9.83: PS-I5-a (verschiedene Funktionen = verschieden, Alarm-Zeilen
+  mit fester Funktion UI.AlarmRowClick, onClick/onRightClick bekommen die Zeilendaten), T219 gapHold bei zurückgesprungener Uhr,
+  T269-Übernahme genauer geprüft.
 
 ## Nächste Schritte (Reihenfolge)
-1. Ingametest 0.9.82 lesen (goldsentinel-daten, ProfessionSentinel.lua.gz, ["last"]): PS-I1 je Fall (Etikett + "gehalten"-Stelle),
+1. Ingametest 0.9.83 lesen (goldsentinel-daten, ProfessionSentinel.lua.gz, ["last"]): PS-I1 je Fall (Etikett + "gehalten"-Stelle),
    T255 (GC 135 MB im Teil), T189 59 ms, T140/T219 knapp über 16 ms, T85.
-2. PS-I8: T269 Aufruf <= 2 ms (TD.Candidates rechnet Taschen/Gold je Aufruf neu), T139 19,8 ms, WEGE "Aufgabe heute" 23,3 ms.
+2. PS-I8: T269 Aufruf <= 2 ms (TD.Candidates rechnet Taschen/Gold je Aufruf neu) umsetzen. T139 19,8 ms / "Aufgabe heute" 23,3 ms
+   nur ändern, wenn der Nachbau sie nachstellt (Supervisor 20:01: Ingametest 0.9.81 lief im Hintergrund, Bild in Ruhe 33 ms).
 3. Trefferquote (PM6) nach Entscheid des Nutzers (A/B/C).
 4. Gilden-Rezepte ohne Realm (Guild.lua; Sicherung, Zahlen vorher/nachher, Sync-Tag ohne Realm).
 5. MITTEL 2 (T192 Zwischenspeicher 2×, T259), MITTEL 4 (Prüfliste TR, T285).
@@ -19,7 +21,7 @@
 - ENTSCHEID Trefferquote (Schneiderei 0/186 zählt Skill-/Zwischenprodukte als Fehlschlag): A nicht verkauft = nicht zählen ·
   B nur Herstellungen ohne Skillpunkt · C wie bisher.
 - Frage: welches Berufsfenster war bei T85 offen (0.9.80 Krieger ohne Beruf, 0.9.81 Priester mit VZ/Schneiderei/Kochen)?
-- Ingametest 0.9.82 "/ps testroutine alles". Messung Lua-Fehler SetCraftableCount (nur PS / nur AHS).
+- Ingametest 0.9.83 "/ps testroutine alles" – Spiel im Vordergrund (Supervisor 20:01). Messung Lua-Fehler SetCraftableCount (nur PS / nur AHS).
 
 ## Entscheide des Nutzers seit letztem Stand
 - keine neuen.
