@@ -217,6 +217,7 @@ Spieler leveln noch). Jede Strategie mit der Frage: Was muss AHSentinel/Professi
 
 ## 9. Der Forever-Markt (aus Quellen, mit Datum)
 
+- **Schliesskassetten (aktiv seit 22.11.2026 18:55 MEZ, Blue-Post Kaivax 23.11.):** Hineinschauen/Teilplündern vorübergehend aus (unterschiedliche Beute je Betrachter); Fix angekündigt, ohne Termin. Kassetten-Werte nicht aus "Hineinschauen" ableiten; Preise ab 22.11. evtl. verzerrt. Quelle: https://us.forums.blizzard.com/en/wow/t/lockbox-exploit-and-economy-hold-heuristic/2426335/4 . "Economy hold" nach Postversand nur Spieler-Aussage – NICHT bestätigt (Supervisor 06:15, aus Entwurf Blueposts 23.11. 21:40).
 - **Start 4.11.2026**, Client 1.60.1 (Build 70862). Onyxia, Hyjal-Gipfel und Barrow Deeps öffnen am **9.12.2026**
   (Hearthproof) -> Vorräte für Raid-Verbrauchsgüter vorher anlegen.
 - **Ein Markt je Regelwerk und Region** (Normal / PvP / RP / RP-PvP), realmlos; jede Fraktion hat ihr AH, dazu

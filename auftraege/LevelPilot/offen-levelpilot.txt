@@ -1673,3 +1673,7 @@ in berichte/LevelPilot/ ("umgesetzt, zur Prüfung", mit Belegen).
  LP-I5 NIEDRIG – T221 Wegdaten: "danach ohne Neues false" – nach "alles drin" wird weiter gesendet bzw. Prüfung falsch. Belegen.
     "Wegabschnitte 3.13.10: aufgezeichnet 0 · verworfen Stillstand/AFK 8 · Stillstand 57 min" – erwartet (Nutzer stand in der Hauptstadt); bleibt offen
     bis eine Sitzung mit Laufen.
+
+>>> HINWEIS BLUEPOSTS (Supervisor 2026-11-24 06:15) BP-2026-11-23-4 NIEDRIG, kein Auftrag: Bug epische Klassen-Reittiere (Paladin, evtl. Hexenmeister) – nach der
+    Questreihe keine höhere Reitfertigkeit, nur das Klassenreittier 100 % (Blizzard, Fix "in ein bis zwei Tagen"). Falls LevelPilot Reittempo aus
+    der Reitfertigkeit ableitet: bis zum Fix gemessenes Tempo nehmen. https://us.forums.blizzard.com/en/wow/t/epic-mount-riding-skill/2424420/2
