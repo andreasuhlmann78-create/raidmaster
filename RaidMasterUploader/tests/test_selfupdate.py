@@ -103,7 +103,16 @@ class Base(unittest.TestCase):
             latest=lambda: self.latest, minimum=lambda: minimum, fetch_zip=self.fetch,
             key=lambda: self.keys.pop(0) if self.keys else None, spawn=self.spawn,
             handover=lambda: self.events.append("handover"), takeback=lambda: self.events.append("takeback"),
-            sleep=lambda s: None, now=lambda: 1000.0)
+            sleep=lambda s: None, now=lambda: 1000.0,
+            console=lambda: self.console_pid, kill_console=self.kill_console, kill=lambda p: self.events.append("kill_tree"))
+
+    console_pid = None
+    console_kill_ok = True
+
+    def kill_console(self, pid):
+        with open(os.path.join(self.d, "uploader.py"), encoding="utf-8") as f:
+            self.events.append(("kill_console", pid, "alt" if OLD in f.read() else "neu"))   # vor dem Umschalten?
+        return self.console_kill_ok
 
     def read(self, n):
         with open(os.path.join(self.d, n), encoding="utf-8") as f:
@@ -267,6 +276,84 @@ class Neustart(Base):
         with open(os.path.join(self.d, "uploader.bat"), "rb") as f:
             self.assertEqual(f.read(), b"@echo off\r\npy -3 uploader.py\r\npause\r\n")
         self.assertTrue(any("uploader.bat läuft gerade und bleibt unverändert" in l for l in self.logs))
+
+
+class Fenster(Base):
+    """UP-UPD1-a (2.3.26): eigenes Fenster (cmd.exe von uploader.bat) vor dem Umschalten beenden; dann darf uploader.bat ersetzt werden."""
+
+    def new_bat_zip(self):
+        z = io.BytesIO()
+        with zipfile.ZipFile(io.BytesIO(make_zip())) as src, zipfile.ZipFile(z, "w") as dst:
+            for i in src.infolist():
+                data = src.read(i)
+                if i.filename.endswith("uploader.bat"):
+                    data = b"@echo off\r\nrem neu\r\npy -3 uploader.py\r\nif errorlevel 1 pause\r\n"
+                dst.writestr(i, data)
+        return z.getvalue()
+
+    def bat(self):
+        with open(os.path.join(self.d, "uploader.bat"), "rb") as f:
+            return f.read()
+
+    def test_fenster_frei_bat_ersetzt(self):
+        self.zip = self.new_bat_zip()
+        self.console_pid = 4242
+        u = self.make()
+        u.tick()
+        self.keys.append("j")
+        self.assertTrue(u.tick())
+        self.assertIn(("kill_console", 4242, "alt"), self.events)                                  # vor dem Umschalten
+        self.assertIn(b"rem neu", self.bat())                                                    # ersetzt
+        self.assertFalse(any("läuft gerade" in l for l in self.logs))
+
+    def test_fenster_nicht_gefunden_bat_bleibt(self):
+        self.zip = self.new_bat_zip()
+        self.console_pid = None                                                                   # z. B. ohne uploader.bat gestartet
+        u = self.make()
+        u.tick()
+        self.keys.append("j")
+        self.assertTrue(u.tick())
+        self.assertFalse(any(isinstance(e, tuple) for e in self.events))
+        self.assertNotIn(b"rem neu", self.bat())
+        self.assertTrue(any("uploader.bat läuft gerade" in l for l in self.logs))
+
+    def test_fenster_beenden_scheitert_bat_bleibt(self):
+        self.zip = self.new_bat_zip()
+        self.console_pid, self.console_kill_ok = 4242, False
+        u = self.make()
+        u.tick()
+        self.keys.append("j")
+        self.assertTrue(u.tick())
+        self.assertNotIn(b"rem neu", self.bat())
+
+    def test_rueckfall_beendet_neue_samt_kindern_alte_bat_zurueck(self):
+        self.zip = self.new_bat_zip()
+        self.console_pid = 4242
+        self.start_ok = False
+        u = self.make()
+        u.tick()
+        self.keys.append("j")
+        self.assertFalse(u.tick())
+        self.assertIn("kill_tree", self.events)
+        self.assertEqual(self.bat(), b"@echo off\r\npy -3 uploader.py\r\npause\r\n")             # alte zurück
+
+    def test_vorfahre_cmd_mit_uploader_bat(self):
+        tree = {100: (90, "python.exe", "python uploader.py"), 90: (80, "py.exe", "py -3 uploader.py"),
+                80: (70, "cmd.exe", 'C:\\WINDOWS\\system32\\cmd.exe /c ""C:\\X\\RaidMasterUploader\\uploader.bat" "'),
+                70: (1, "explorer.exe", "explorer")}
+        self.assertEqual(selfupdate.find_console_bat(100, info=tree.get), 80)
+        tree[80] = (70, "cmd.exe", "cmd.exe /k")                                                  # Gegenprobe: anderes cmd
+        self.assertIsNone(selfupdate.find_console_bat(100, info=tree.get))
+        tree[80] = (70, "powershell.exe", "x uploader.bat")                                     # kein cmd
+        self.assertIsNone(selfupdate.find_console_bat(100, info=tree.get))
+        self.assertIsNone(selfupdate.find_console_bat(100, info=lambda p: None))
+
+    def test_process_info_echt(self):
+        if not os.path.exists("/proc/self/stat"):
+            self.skipTest("nur mit /proc")
+        got = selfupdate.process_info(os.getpid())
+        self.assertEqual(got[0], os.getppid())
+        self.assertIn("python", got[1].lower())
 
 
 class Hilfen(unittest.TestCase):

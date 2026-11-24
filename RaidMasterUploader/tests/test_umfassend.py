@@ -609,6 +609,10 @@ REGRESSIONEN = {
     "UP-UPD1 neue startet nicht, alte zurück": "test_selfupdate.Neustart.test_neue_meldet_sich_nicht_alte_wieder_da",
     "UP-UPD1 laufende .bat nie ersetzt": "test_selfupdate.Neustart.test_laufende_bat_wird_nie_ersetzt",
     "UP-MSG2 eine Sperr-Zeile je PID": "test_sync.SperreDU12.test_up_msg2_eine_zeile_je_pid",
+    "UP-UPD1-a Fenster frei, bat ersetzt": "test_selfupdate.Fenster.test_fenster_frei_bat_ersetzt",
+    "UP-UPD1-a ohne Fenster bat bleibt": "test_selfupdate.Fenster.test_fenster_nicht_gefunden_bat_bleibt",
+    "UP-UPD1-a Rückfall neue samt Kindern": "test_selfupdate.Fenster.test_rueckfall_beendet_neue_samt_kindern_alte_bat_zurueck",
+    "UP-UPD1-a Vorfahre cmd uploader.bat": "test_selfupdate.Fenster.test_vorfahre_cmd_mit_uploader_bat",
 }
 
 

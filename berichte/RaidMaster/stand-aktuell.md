@@ -1,7 +1,8 @@
 # Stand RaidMaster-Sitzung
 
-## Stand 24.11.2026 22:00 · Addon 3.0.44 · Uploader 2.3.25
-- Uploader 2.3.25 gepusht (UP-MSG2: eine Sperr-Zeile je PID; LIESMICH Entpacken). Bericht 2159 – zur Prüfung.
+## Stand 24.11.2026 22:05 · Addon 3.0.44 · Uploader 2.3.26
+- Uploader 2.3.26 gepusht (UP-UPD1-a: altes Fenster schliesst sich nach Update, uploader.bat darf mit ersetzt werden). Bericht 2204.
+- Uploader 2.3.25 (UP-MSG2: eine Sperr-Zeile je PID; LIESMICH Entpacken). Bericht 2159 – zur Prüfung.
   Damit UP-UPD1 abnehmbar: PC mit 2.3.24 fragt j/n, Taste j.
 - Uploader 2.3.24 auf PC installiert, liefert wieder; an Offiziere verschickt 21:55 (UP-UPD1: Update nur nach Taste j, Prüfung, _update/alt, Neustart mit Rückfall). Bericht 2142 – zur Prüfung.
 - Uploader 2.3.23 angenommen 21:30 (UP-MIN1: Mindestversion aus RaidMasterUploader/mindestversion.txt = 2.3.20 statt "neueste").
@@ -32,6 +33,7 @@
 - Bot: PN an Besitzer alter Uploader und Bewerbungen aufräumen liegen beim Discord-Projekt.
 
 ## Entscheide des Nutzers seit letztem Stand
+- 24.11. 22:00/22:01: altes Fenster soll sich nach Update schliessen; Updates laufen über den Uploader selbst (j) (UP-UPD1-a).
 - 24.11. 21:36 (über Supervisor): Uploader-Update nur auf Knopfdruck mit Rückfrage j/n, kein Selbst-Update (UP-UPD1).
 - 24.11. 21:18 (über Supervisor): Mindestversion statt "neueste" (UP-MIN1), nur bei Daten/Format/Prüfung/Sicherheit erhöhen.
 - 24.11. 20:52 Nutzer: "meine offiziere haben den neuen auch bekommen" – Uploader 2.3.21 an Offiziere verteilt.

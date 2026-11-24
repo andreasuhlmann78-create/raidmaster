@@ -253,6 +253,14 @@ Version 2.3.13 – privacy in the data repo (UP-DS1):
 - If the file cannot be read safely, it is not delivered at all, with one notice "GuildSentinel-Daten nicht geliefert: …".
 - New file svfilter.py – always extract the whole RaidMasterUploader.zip.
 
+Version 2.3.26 – old window closes after the update (UP-UPD1-a):
+- After "j" the new version starts in a new window; the old window now closes by itself (before it stayed open with "press a
+  key"). If the update fails, the old version keeps running in the old window.
+- If the new version crashes, ITS window stays open with the message.
+- uploader.bat can now be replaced during the update (before: never).
+- Note: this applies from the update that 2.3.26 itself performs. Updating from 2.3.24/2.3.25 to 2.3.26 still works the old way
+  (the old window stays open once – just close it).
+
 Version 2.3.25 – one line per old lock (UP-MSG2):
 - At start after an ended uploader there is only ONE line "alte Sperre von <Version> entfernt" per process.
 - Installing by hand: extract the ZIP into the folder ABOVE the uploader folder (the ZIP contains the folder

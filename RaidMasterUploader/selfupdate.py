@@ -15,6 +15,11 @@ Rückfrage – KEIN automatisches Selbst-Update.
 3. Neustart: Der alte Uploader gibt Sperre und Instanz frei, startet die neue Version mit demselben Aufruf in einem neuen Fenster und
    wartet bis FRIST Sekunden, bis sie sich in _update/status.json als "läuft" meldet. Dann beendet er sich. Meldet sie sich nicht,
    beendet er sie, stellt die alte Version aus _update/alt wieder her und läuft selbst weiter (Meldung im Fenster).
+3a. UP-UPD1-a (2.3.26, Nutzer 22:00 "das alte fenster bleibt offen stehen", 22:01 "wir updaten über den uploader selber"): vor dem
+   Umschalten beendet der alte Uploader NUR das cmd.exe seines eigenen Fensters (Vorfahre, führt uploader.bat aus; nicht dessen
+   Kinder). Python läuft im Fenster weiter; endet es nach der Übergabe, schliesst Windows das Fenster. Bei Fehler/Rückfall läuft die
+   alte Version im Fenster weiter. Weil danach niemand mehr die laufende uploader.bat liest, wird sie in diesem Fall mit ersetzt
+   (sonst wie bisher nicht). Die neue Version startet über uploader.bat in einem neuen Fenster: stürzt sie ab, bleibt dort "pause".
 4. Meldungen: "Uploader x -> y installiert, neu gestartet" bzw. "Update fehlgeschlagen (<Grund>) – alte Version x läuft weiter".
    stand.json je Rechner (über den Zustand "daten"): "update": {"von", "nach", "ergebnis", "zeit"} – ohne Namen (für D-UPD1).
 """
@@ -111,7 +116,7 @@ def stage(here: str, files: dict[str, bytes]) -> list[str]:
 RUNNING_BAT = "uploader.bat"         # läuft gerade (cmd liest eine .bat beim Ausführen Zeile für Zeile nach) -> nie ersetzen
 
 
-def switch(here: str, files: dict[str, bytes]) -> list[str]:
+def switch(here: str, files: dict[str, bytes], bat_free: bool = False) -> list[str]:
     """Umschalten: Programmdateien aus _update/neu über die bisherigen (je Datei über eine Zwischendatei, danach zurückgelesen).
     Gleiche Dateien bleiben unberührt. uploader.bat wird nie ersetzt, solange sie läuft (Windows liest eine laufende .bat Stück für
     Stück nach – eine ersetzte Datei würde mitten im Text weitergelesen); sie kommt mit dem nächsten /uploader. Liefert die
@@ -124,7 +129,7 @@ def switch(here: str, files: dict[str, bytes]) -> list[str]:
             with open(target, "rb") as f:
                 if f.read() == files[name]:
                     continue
-            if name == RUNNING_BAT:
+            if name == RUNNING_BAT and not bat_free:
                 skipped.append(name)
                 continue
         tmp = target + ".gsneu"
@@ -196,21 +201,111 @@ def read_key() -> str | None:
 
 
 def spawn_same(here: str):
-    """Die neue Version mit demselben Aufruf starten (neues Fenster unter Windows)."""
-    args = [sys.executable, os.path.join(here, "uploader.py")] + [a for a in sys.argv[1:]]
+    """Die neue Version starten: unter Windows über uploader.bat in einem neuen Fenster (wie Autostart/Doppelklick – stürzt sie ab,
+    bleibt dort "pause" mit der Meldung stehen), sonst derselbe Aufruf."""
+    bat = os.path.join(here, RUNNING_BAT)
     flags = getattr(subprocess, "CREATE_NEW_CONSOLE", 0)
+    if sys.platform == "win32" and os.path.isfile(bat):
+        return subprocess.Popen([os.environ.get("COMSPEC") or "cmd.exe", "/c", bat], cwd=here, creationflags=flags)
+    args = [sys.executable, os.path.join(here, "uploader.py")] + [a for a in sys.argv[1:]]
     return subprocess.Popen(args, cwd=here, creationflags=flags)
+
+
+# -- UP-UPD1-a (2.3.26): eigenes Fenster nach der Übergabe schliessen ------------------------------------------------------------
+# Das Fenster gehört dem cmd.exe, das uploader.bat ausführt (Autostart-Verknüpfung bzw. Doppelklick); Kette python.exe <- py.exe <-
+# cmd.exe. Wird NUR dieser cmd.exe (ohne seine Kinder) beendet, läuft Python im Fenster weiter; endet Python danach, schliesst
+# Windows das Fenster (kein Prozess mehr daran). Bei Fehler/Rückfall läuft die alte Version im Fenster weiter.
+# Zugleich liest danach niemand mehr die laufende uploader.bat -> sie darf beim Update ersetzt werden (bisher nie ersetzt).
+
+def process_info(pid: int) -> tuple[int, str, str] | None:
+    """(Eltern-PID, Name, Kommandozeile) oder None."""
+    try:
+        pid = int(pid)
+    except (TypeError, ValueError):
+        return None
+    if pid <= 0:
+        return None
+    if sys.platform == "win32":
+        try:
+            out = subprocess.run(["powershell", "-NoProfile", "-Command",
+                                  f"$p = Get-CimInstance Win32_Process -Filter 'ProcessId={pid}'; "
+                                  f"if ($p) {{ \"$($p.ParentProcessId)|$($p.Name)|$($p.CommandLine)\" }}"],
+                                 capture_output=True, text=True, timeout=15,
+                                 creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0)).stdout.strip()
+        except Exception:  # noqa: BLE001
+            return None
+        parts = out.split("|", 2)
+        if len(parts) != 3 or not parts[0].strip().isdigit():
+            return None
+        return int(parts[0]), parts[1].strip(), parts[2].strip()
+    try:
+        with open(f"/proc/{pid}/stat", "rb") as f:
+            stat = f.read().decode("utf-8", "replace")
+        name = stat[stat.index("(") + 1:stat.rindex(")")]
+        ppid = int(stat[stat.rindex(")") + 2:].split()[1])
+        with open(f"/proc/{pid}/cmdline", "rb") as f:
+            cmd = f.read().replace(b"\0", b" ").decode("utf-8", "replace").strip()
+        return ppid, name, cmd
+    except (OSError, ValueError, IndexError):
+        return None
+
+
+def find_console_bat(start: int | None = None, info=process_info, depth: int = 4) -> int | None:
+    """PID des cmd.exe, das uploader.bat ausführt und unser Vorfahre ist (höchstens 4 Stufen), sonst None."""
+    pid = os.getpid() if start is None else start
+    for _ in range(depth):
+        got = info(pid)
+        if not got:
+            return None
+        ppid = got[0]
+        if ppid <= 1:
+            return None
+        parent = info(ppid)
+        if not parent:
+            return None
+        if parent[1].lower() == "cmd.exe" and RUNNING_BAT in parent[2].lower():
+            return ppid
+        pid = ppid
+    return None
+
+
+def kill_one(pid: int) -> bool:
+    """Genau diesen Prozess beenden (NICHT seine Kinder – sonst endete auch dieser Uploader)."""
+    try:
+        if sys.platform == "win32":
+            r = subprocess.run(["taskkill", "/PID", str(int(pid)), "/F"], capture_output=True, timeout=20,
+                               creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+            return r.returncode == 0
+        import signal
+        os.kill(int(pid), signal.SIGTERM)
+        return True
+    except Exception:  # noqa: BLE001
+        return False
+
+
+def kill_tree(proc) -> None:
+    """Neue Version samt Kindern beenden (Rückfall): unter Windows cmd.exe -> py.exe -> python.exe."""
+    try:
+        if sys.platform == "win32":
+            subprocess.run(["taskkill", "/PID", str(int(proc.pid)), "/T", "/F"], capture_output=True, timeout=20,
+                           creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+        else:
+            proc.terminate()
+    except Exception:  # noqa: BLE001
+        pass
 
 
 class SelfUpdate:
     def __init__(self, here: str, version: str, st: dict, save, log, *, latest=None, minimum=None, fetch_zip=None,
-                 key=read_key, spawn=spawn_same, handover=None, takeback=None, sleep=time.sleep, now=time.time):
+                 key=read_key, spawn=spawn_same, handover=None, takeback=None, sleep=time.sleep, now=time.time,
+                 console=find_console_bat, kill_console=kill_one, kill=kill_tree):
         self.here, self.version, self.log, self.save = here, version, log, save
         self.s = st.setdefault("selbstupdate", {})
         self.d = st.setdefault("daten", {})
         self.latest, self.minimum, self.fetch_zip = latest, minimum, fetch_zip
         self.key, self.spawn, self.handover, self.takeback = key, spawn, handover, takeback
         self.sleep, self.now = sleep, now
+        self.console, self.kill_console, self.kill = console, kill_console, kill
         self.next_at = 0.0
         self.offer = ""                 # Version, nach der gerade gefragt wird
         self.exit_now = False           # True: neue Version läuft – dieser Prozess soll sich beenden
@@ -266,7 +361,15 @@ class SelfUpdate:
             return self._fail(ver, why)
         try:
             stage(self.here, files)
-            skipped = switch(self.here, files)
+            # UP-UPD1-a: das cmd.exe dieses Fensters beenden (Python läuft weiter) -> Fenster schliesst sich nach der Übergabe,
+            # und die laufende uploader.bat liest niemand mehr, darf also ersetzt werden
+            cmd = None
+            try:
+                cmd = self.console() if self.console else None
+            except Exception:  # noqa: BLE001
+                cmd = None
+            freed = bool(cmd) and bool(self.kill_console(cmd))
+            skipped = switch(self.here, files, bat_free=freed)
             if skipped:
                 self.log(f"Hinweis: {', '.join(skipped)} läuft gerade und bleibt unverändert (kommt mit dem nächsten /uploader).")
         except OSError as e:
@@ -300,10 +403,7 @@ class SelfUpdate:
 
     def _rollback(self, ver: str, why: str, proc) -> bool:
         if proc is not None and proc.poll() is None:
-            try:
-                proc.terminate()
-            except Exception:  # noqa: BLE001
-                pass
+            self.kill(proc)                          # neue Version samt Kindern beenden
         try:
             restore(self.here)
         except OSError as e:

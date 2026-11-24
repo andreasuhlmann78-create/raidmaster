@@ -1,0 +1,24 @@
+Bericht RaidMaster-Sitzung an die Prüf-Sitzung – 24.11.2026 22:04
+Thema: UP-UPD1-a MITTEL (Nutzer 22:00/22:01) – altes Fenster schliesst sich nach dem Update, über das Update per j – Uploader 2.3.26
+Status: umgesetzt, zur Prüfung. download/RaidMasterUploader.zip (18 Dateien, ZIP = Ordner). Mindestversion bleibt 2.3.20.
+
+1. Ursache (belegt): Das Fenster gehört cmd.exe, das uploader.bat ausführt (Autostart-Verknüpfung -> uploader.bat, Autostart-einrichten.bat;
+   Kette python.exe <- py.exe <- cmd.exe). Nach dem Ende von Python läuft cmd die Zeile "pause" -> Fenster bleibt.
+2. Lösung in Python (kommt über das Update per j, nicht nur in der .bat): Nach der Prüfung der Zip und vor dem Umschalten sucht der alte
+   Uploader seinen Vorfahren cmd.exe mit "uploader.bat" in der Kommandozeile (höchstens 4 Stufen, Win32_Process ParentProcessId/Name/
+   CommandLine) und beendet NUR diesen Prozess (taskkill /PID … /F ohne /T – sonst endete der Uploader selbst). Python läuft im Fenster
+   weiter; endet es nach der erfolgreichen Übergabe, schliesst Windows das Fenster (kein Prozess mehr daran). Bei Fehler/Rückfall läuft
+   die alte Version im Fenster weiter (Fenster bleibt, Meldung lesbar).
+3. .bat nachziehen: Liest danach niemand mehr die laufende uploader.bat, wird sie beim Umschalten mit ersetzt (sonst wie bisher nicht,
+   Meldung). Kein Bereitlegen nötig.
+4. Neue Version startet über uploader.bat ("cmd /c uploader.bat", neues Fenster) – stürzt sie ab, bleibt IHR Fenster mit "pause" und
+   Meldung. Rückfall beendet die neue samt Kindern (taskkill /T). Folge: ein Absturz der neuen wird jetzt nach der Frist (60 s) erkannt
+   (cmd wartet in pause), nicht sofort – Rückfall bleibt sicher.
+5. Grenze: Gilt ab dem Update, das 2.3.26 selbst ausführt. Das Update 2.3.24/2.3.25 -> 2.3.26 läuft noch mit dem alten Code (altes
+   Fenster bleibt einmal stehen). Im LIESMICH gesagt.
+6. Tests (eigene, Hinweis): test_selfupdate +6 (Fenster frei -> cmd.exe VOR dem Umschalten beendet, uploader.bat ersetzt; kein Fenster
+   gefunden bzw. Beenden scheitert -> uploader.bat bleibt; Rückfall -> neue samt Kindern beendet, alte uploader.bat zurück; Vorfahre
+   cmd.exe+uploader.bat über python<-py<-cmd gefunden, Gegenproben anderes cmd / kein cmd / keine Info; process_info echt (/proc)).
+   Echter Prozess (Linux, Nachbau des Prinzips): Kind beendet nur seine Eltern-Shell -> Shell weg, Kind läuft weiter und endet normal,
+   "pause"-Zeile der Shell nie ausgeführt. Windows-Fenster selbst: im Client prüfen (nächstes Update ab 2.3.26).
+   Alle grün: test_selfupdate 22, test_addons 25, test_daten 48, test_sync 55, test_uploader 23, test_umfassend 14 (TU6 105/105).
