@@ -608,6 +608,7 @@ REGRESSIONEN = {
     "UP-UPD1 Konfiguration in Zip abgewiesen": "test_selfupdate.Abweisen.test_konfiguration_in_der_zip",
     "UP-UPD1 neue startet nicht, alte zurück": "test_selfupdate.Neustart.test_neue_meldet_sich_nicht_alte_wieder_da",
     "UP-UPD1 laufende .bat nie ersetzt": "test_selfupdate.Neustart.test_laufende_bat_wird_nie_ersetzt",
+    "UP-MSG2 eine Sperr-Zeile je PID": "test_sync.SperreDU12.test_up_msg2_eine_zeile_je_pid",
 }
 
 

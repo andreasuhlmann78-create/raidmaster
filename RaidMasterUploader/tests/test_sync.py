@@ -1089,6 +1089,24 @@ class SperreDU12(unittest.TestCase):
         self.assertTrue(any("alte Sperre von vor 2.3.2 entfernt" in l for l in self.logs))
         self.assertFalse(os.path.exists(os.path.join(self.here, sync.LOCK_FILE)))
 
+    def test_up_msg2_eine_zeile_je_pid(self):
+        # UP-MSG2 (2.3.25): Instanz-Datei (mit Version) und _sync.lock (ohne Versionsfeld) desselben toten Prozesses -> EINE Zeile
+        with open(self.info, "w") as f:
+            json.dump({"pid": 25612, "ordner": self.here, "version": "2.3.24", "t": self.now}, f)
+        self.lock(pid=25612)
+        ok, _ = self.acquire()
+        self.assertTrue(ok)
+        lines = [l for l in self.logs if "alte Sperre" in l]
+        self.assertEqual(lines, ["Abgleich: alte Sperre von 2.3.24 entfernt (PID 25612 läuft nicht mehr als Uploader)."])
+        self.assertFalse(os.path.exists(os.path.join(self.here, sync.LOCK_FILE)))             # trotzdem entfernt
+        # Gegenprobe: verschiedene PIDs -> zwei Zeilen
+        self.logs.clear()
+        with open(self.info, "w") as f:
+            json.dump({"pid": 25613, "ordner": self.here, "version": "2.3.24", "t": self.now}, f)
+        self.lock(pid=25614)
+        ok, _ = self.acquire()
+        self.assertEqual(len([l for l in self.logs if "alte Sperre" in l]), 2, self.logs)
+
     def test_du12b_pid_tot(self):
         self.lock(pid=999999)
         ok, _ = self.acquire()
@@ -1103,7 +1121,10 @@ class SperreDU12(unittest.TestCase):
             json.dump({"pid": pid, "ordner": self.here, "version": "2.3.2"}, f)
         ok, _ = self.acquire()
         self.assertTrue(ok)
-        self.assertEqual(sum("alte Sperre" in l for l in self.logs), 2)       # Instanz-Datei und _sync.lock
+        # UP-MSG2 (2.3.25): Instanz-Datei und _sync.lock desselben Prozesses -> eine Zeile (mit der Version der Instanz-Datei)
+        self.assertEqual([l for l in self.logs if "alte Sperre" in l],
+                         [f"Abgleich: alte Sperre von 2.3.2 entfernt (PID {pid} läuft nicht mehr als Uploader)."])
+        self.assertFalse(os.path.exists(os.path.join(self.here, sync.LOCK_FILE)))
         self.assertEqual(sync.instance_info(self.info)["pid"], os.getpid())   # übernommen
 
     def test_du12d_echter_zweiter_uploader_angebot(self):

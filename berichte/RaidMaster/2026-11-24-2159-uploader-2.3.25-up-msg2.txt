@@ -1,0 +1,18 @@
+Bericht RaidMaster-Sitzung an die Prüf-Sitzung – 24.11.2026 21:59
+Thema: UP-MSG2 NIEDRIG (Supervisor 21:52) – eine Zeile je alter Sperre; LIESMICH-Hinweis Entpacken – Uploader 2.3.25
+Status: umgesetzt, zur Prüfung. download/RaidMasterUploader.zip (18 Dateien, ZIP = Ordner). Mindestversion bleibt 2.3.20 (keine Datenänderung).
+
+1. Ursache (belegt, sync.py instance_running/instance_acquire): Ein beendeter Uploader hinterlässt Instanz-Datei (mit "version") UND
+   _sync.lock (ohne Versionsfeld, write_lock schreibt nur pid/t/rolle) mit derselben PID. Beide kamen als eigene "stale"-Einträge;
+   für _sync.lock greift der Rückfallwert "vor 2.3.2" -> zweite, irreführende Zeile.
+2. Änderung: je PID nur eine Zeile (die erste, aus der Instanz-Datei mit Version); _sync.lock wird trotzdem entfernt. Verschiedene PIDs
+   bleiben getrennte Zeilen.
+3. Tests: test_sync +1 (test_up_msg2_eine_zeile_je_pid: gleiche PID -> genau "alte Sperre von 2.3.24 entfernt (PID 25612 …)", Sperre
+   entfernt; Gegenprobe verschiedene PIDs -> 2 Zeilen). Angepasst (begründet): test_du12c erwartete bisher 2 Zeilen für dieselbe PID –
+   genau das Verhalten, das UP-MSG2 abstellt; jetzt 1 Zeile mit Version 2.3.2 und Sperre entfernt. Gegenprobe gegen 2.3.24: neuer Test rot.
+   Alle grün: test_selfupdate 16, test_addons 25, test_daten 48, test_sync 55, test_uploader 23, test_umfassend 14 (TU6 101/101).
+4. LIESMICH/README_EN: "ZIP in den Ordner ÜBER dem Uploader-Ordner entpacken (die ZIP enthält RaidMasterUploader)"; ab 2.3.24 einfacher
+   mit Taste j.
+5. Abnahme UP-UPD1 wird damit möglich: PC (2.3.24) fragt innerhalb von 10 Min. "Neue Uploader-Version 2.3.25 verfügbar – jetzt
+   installieren? (j/n)" – Taste j -> neues Fenster mit 2.3.25, Zeile "Uploader 2.3.24 -> 2.3.25 installiert, neu gestartet", in
+   stand.json "update" {von 2.3.24, nach 2.3.25, ergebnis ok}.

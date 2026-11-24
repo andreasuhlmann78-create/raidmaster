@@ -1,7 +1,9 @@
 # Stand RaidMaster-Sitzung
 
-## Stand 24.11.2026 21:43 · Addon 3.0.44 · Uploader 2.3.24
-- Uploader 2.3.24 gepusht (UP-UPD1: Update nur nach Taste j, Prüfung, _update/alt, Neustart mit Rückfall). Bericht 2142 – zur Prüfung.
+## Stand 24.11.2026 22:00 · Addon 3.0.44 · Uploader 2.3.25
+- Uploader 2.3.25 gepusht (UP-MSG2: eine Sperr-Zeile je PID; LIESMICH Entpacken). Bericht 2159 – zur Prüfung.
+  Damit UP-UPD1 abnehmbar: PC mit 2.3.24 fragt j/n, Taste j.
+- Uploader 2.3.24 auf PC installiert, liefert wieder; an Offiziere verschickt 21:55 (UP-UPD1: Update nur nach Taste j, Prüfung, _update/alt, Neustart mit Rückfall). Bericht 2142 – zur Prüfung.
 - Uploader 2.3.23 angenommen 21:30 (UP-MIN1: Mindestversion aus RaidMasterUploader/mindestversion.txt = 2.3.20 statt "neueste").
   Bericht 2123 – zur Prüfung. 2.3.20–2.3.22 liefern erst nach Wechsel auf 2.3.23 (einmalig).
 - Uploader 2.3.22 (UP-MSG1) und 2.3.21 (UP-AUTO1, PC abgenommen 20:55, Laptop offen) – vom Supervisor angenommen.
@@ -22,7 +24,7 @@
    Taktik-"ca."-Zahlen in RaidData.lua nach Entscheid der Prüf-Sitzung.
 
 ## Offen beim Nutzer
-- Uploader 2.3.24 auf allen liefernden Rechnern EINMAL von Hand (ab dann Update mit Taste j; Mindestversion bleibt 2.3.20). Auf PC und Laptop
+- PC: bei der Frage im Uploader-Fenster Taste j (Abnahme UP-UPD1). Laptop: 2.3.24/2.3.25 einmal von Hand, Addons-automatisch-an.bat. Auf PC und Laptop
   Addons-automatisch-an.bat ausführen, Uploader neu starten -> Abnahme UP-AUTO1.
 - Uploader 2.3.20 auf allen 4 liefernden Rechnern ganz entpacken + neu starten (ältere werden abgewiesen, auch 2.3.19).
 - RaidMaster 3.0.44 installieren und Ingametest: /gsdev an, /rm testroutine alles, /reload.

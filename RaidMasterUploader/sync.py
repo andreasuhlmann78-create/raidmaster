@@ -326,12 +326,17 @@ def instance_acquire(here: str, version: str, path: str | None = None,
     other = instance_running(here, path, stale)
     if other:
         return False, other
+    said: dict = {}                                       # UP-MSG2 (2.3.25): je PID nur eine Zeile
     for st in stale:
         if st.get("stale") == "_sync.lock":
             try:
                 os.remove(os.path.join(here, LOCK_FILE))
             except OSError:
                 pass
+        pid = str(st.get("pid", "?"))
+        if pid in said and pid != "?":
+            continue                                      # _sync.lock desselben Prozesses (ohne Versionsfeld): schon gemeldet
+        said[pid] = True
         if log:
             log(f"Abgleich: alte Sperre von {st.get('version') or '?'} entfernt (PID {st.get('pid', '?')} läuft nicht "
                 f"mehr als Uploader).")
