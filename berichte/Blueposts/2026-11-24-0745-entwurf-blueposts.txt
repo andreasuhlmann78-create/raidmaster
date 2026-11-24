@@ -1,0 +1,61 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+
+Geplante Aufgabe "Blueposts", Lauf 24.11.2026 07:45 MEZ (06:45 UTC). Letzter Stand: 23.11.2026 21:40 MEZ.
+Hotfix-Thread 2403040 Post #15 direkt gelesen (Einzelansicht). Blizzard-Tracker posts.json diesmal NICHT lesbar
+(robots-Sperre); gegengeprüft über bluetracker.gg (EU-Thread 639885), Wowhead News 383972, Warcraft Tavern.
+Keine Schwere HOCH. Ein Punkt MITTEL (ProfessionSentinel Rezeptdaten), sonst NIEDRIG.
+Nichts zu AH, Einzahlung (1c), Post, Schliesskassetten-Fix, Addon-API, Chat, Gilde, Raid-Sperren, Wartungen.
+
+NEUER BLUE-POST
+Kaivax #15 "WoW: Forever Hotfixes – November 23, 2026", 24.11.2026 02:06 UTC (EU #14 02:07 UTC)
+https://us.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-23-2026/2403040/15  (direkt gelesen)
+https://eu.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-23-2026/639885/14
+Inhalt in eigenen Worten (alles AKTIV seit Hotfix 23.11.):
+- Kochkunst: Gekochte Muscheln, Muschelsuppe, Scharfe Muscheln nach Goblin-Art, Riesenmuschelrisotto,
+  Undermine-Muschelsuppe, Muschellinguine: richtiger "Satt"-Bonus und neu in Kategorie "Stamina Food".
+  Murlocflossensuppe: mehr Erholung und grösserer Satt-Bonus.
+- Ingenieurskunst: Goblin-/Gnom-Ingenieurs-Erneuerungsgeschenk zeigt kein Fragezeichen mehr; "Der Mörser: Wieder
+  aufgeladen" wird jetzt mit dem Goblin-Mörser-Rezept mitgelernt.
+- Lederverarbeitung: Muster "Centaur Hoofwarmers" jetzt erlernbar.
+- Zauber: manche Fähigkeiten lösten zu viele Waffen-Procs aus (behoben). Weltbuffs fallen beim Gebietswechsel NICHT
+  mehr ab, nur noch beim Betreten von Raid-Instanzen. Fengus' Wildheit und Dunkelmond-Buffs gaben doppelte Werte
+  (behoben).
+- Klassen: Druide Wildherz-4er (4 Energie/Sek. für 5 Sek.); Priester Gedankensicht ohne Procs, Dunkle Inspiration
+  durch Gedankenschinden, Züchtigung in Schattengestalt; Hexenmeister Intensität wirkt auf Verbrennen; Krieger
+  Tödlicher Stoss ohne Talent nicht mehr nutzbar.
+- Uldaman: Obsidianwächter lässt wieder Beute fallen (laut Warcraft Tavern vorher entfernt wegen Goldfarm; Behauptung
+  "Wert gesenkt" ohne Beleg -> nicht als Regel).
+- Gegenstände: Filcher's Cowl ohne Stufenanforderung. Völker: Irrwischgestalt nicht mehr auf lebende Spieler.
+- Quests Sumpfland: "For Further Study" mit Belohnung; "Uncovering the Past"/"Gleaning Our Future" mit Ruf
+  Eisenschmiede; Eskorte "Dunston Checks Out" repariert.
+
+BEWERTUNG UND VORSCHLÄGE
+1) ProfessionSentinel – MITTEL, BP-2026-11-24-1 (Rezeptdaten, falsche Kategorie)
+   Data_Forever.lua führt die Muschel-Rezepte noch unter "Alltägliche Mahlzeiten" (Feld 5, Wert 10):
+   Z.301 Muschelsuppe (6501), Z.302 Scharfe Muscheln (6500), Z.303 Gekochte Muscheln (6499), Z.337 Riesenmuschelrisotto
+   (7213), Z.1044 Undermine-Muschelsuppe (20626), Z.1509 Muschellinguine (1250158). Laut Hotfix jetzt "Stamina Food" =
+   in unseren Daten "Ausdauernahrung",15 (wie Z.120 Murlocflossensuppe).
+   Lösung: Kategorie aus dem Client lesen (Rezeptdaten-Update) und nachführen; nicht von Hand raten, wenn der Client
+   einen anderen Namen liefert. Satt-Werte (Tooltip) nicht fest im Addon.
+   Test T-BP-2026-11-24-1: alle 6 Rezepte in Data_Forever.lua mit Kategorie "Ausdauernahrung"; Abgleich mit dem
+   Client-Export (Kategorie-Name je Rezept-ID).
+   Dazu NIEDRIG: "Centaur Hoofwarmers" fehlt in Data_Forever.lua (grep ohne Treffer) – jetzt erlernbar, ins
+   Rezeptdaten-Update aufnehmen (Quelle/Herkunft messen). "Der Mörser: Wieder aufgeladen" (13240) hat schon dieselbe
+   Quelle wie Goblin-Mörser (221337) – passt zum Hotfix, nichts zu tun.
+   (Hinweis an Supervisor: die Rezeptdaten macht die geplante Aufgabe "Rezeptdaten-Update" – dorthin weitergeben.)
+2) BuffSentinel – NIEDRIG, Hinweis BP-2026-11-24-2: Weltbuffs bleiben jetzt beim Gebietswechsel (nur Raid-Eintritt
+   entfernt sie) – falls BuffSentinel Weltbuff-Verlust nach Ladebildschirm meldet/annimmt, anpassen. Fengus' Wildheit
+   und Dunkelmond-Buffs jetzt halber Wert gegenüber vorher (Werte aus dem Client lesen, nicht fest). Muschel-Essen
+   jetzt Ausdauer-Satt-Buff. Kein Addon-Fehler bekannt.
+   Gehirn: Zweitquellen-Vermerk 21./22.11. "Weltbuffs weg bei Ladebildschirm" als ÜBERHOLT markieren (Blizzard: behoben).
+3) ThreatSentinel – NIEDRIG, Hinweis: weniger Waffen-Procs bei manchen Fähigkeiten; Krieger Tödlicher Stoss nur mit
+   Talent. Nur Hinweis für Bedrohungs-Schätzung.
+4) RaidMaster/Discord – NIEDRIG, Hinweis: Weltbuffs fallen beim Raid-Eintritt weiter ab (Buff-Planung vor Raids).
+5) AHSentinel – NIEDRIG, Hinweis: Obsidianwächter-Beute (Uldaman) wieder da; Marktdaten der betroffenen Teile um den
+   22.–23.11. evtl. verzerrt (wie BP-2026-11-18-1). Muschel-Essen evtl. höhere Nachfrage (Ausdauer-Essen) – messen.
+6) LevelPilot – NIEDRIG, Hinweis: Sumpfland-Quests mit Belohnung/Ruf; Eskorte Dunston repariert.
+
+TERMINE / OFFEN
+- Mindest-Einzahlung 1c: weiter in keinem Blue-Post als aktiv gemeldet (Messauftrag bleibt).
+- Schliesskassetten-Fix: kein neuer Blue-Post.
+- Reitfertigkeit-Fix Paladin/Hexenmeister: im Hotfix 23.11. NICHT enthalten -> ab 25.11. weiter prüfen.
