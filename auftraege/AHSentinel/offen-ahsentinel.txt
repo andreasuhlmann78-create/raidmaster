@@ -6549,3 +6549,20 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     dem PC (Speicher, Bereinigungen 52, längste Bilder, evtl. T458 39,7 ms durch Bereinigung in einer AHS-Portion) VERFÄLSCHT. Keine Arbeit für
     AHSentinel daraus; der Nutzer entfernt GSMesstest. Vollscan-Werte (T458/T459/Vollscan zweimal) gelten erst aus einem Lauf OHNE GSMesstest.
     Nutzer 19:52: "GSMesstest ist weg" (PC). Ab jetzt gelten die Vollscan-Werte vom PC wieder.
+>>> AHS-SP1 HOCH – Speicher-Lösung Vollscan. Entscheid des Nutzers 24.11.2026 19:56: "bitte der nächste arbeits schritt nach veröffentlichung is
+    die lösung für den speicher". START ERST NACH der CurseForge-Veröffentlichung (AHS-CF1); dann als ERSTER Schritt, vor V4-Messung und G14-a
+    (ersetzt die Reihenfolge "V4 zuerst" vom 18:56).
+    Ziel: T459 dauerhaft unter 10 240 KB, auch beim 1. und 2. Scan nach dem Einloggen (belegt 19:32: im Testlauf ist nie ein Vorrat da).
+    Lösung (Prüfung Supervisor 19:16, am Code 0.65.391 belegt):
+    - Mindestpreis, Menge, Anzahl Auktionen je Item als ZAHLEN in Listen (memMin/memQty/memAuc o. ä.), zwei Sätze im Wechsel (sichtbar / im Aufbau),
+      Austausch erst am Ende von VS:Finish (nie halb sichtbar, AHS-I3-a bleibt erfüllt). Grund: die Weitergabe-Aufbereitung (Vollscan.lua ~1616)
+      liest bei JEDEM Scan min/qty/auc ALLER Items – das darf nichts auspacken.
+    - Preisstufen + Restzeit-Stufen je Item als kurzer TEXT im Format von EncodeLadder; ohne Zwischentabellen bauen (wiederverwendeter Puffer +
+      table.concat). Derselbe Text geht direkt nach st.ladder (heute wird dafür ein zweites Mal kodiert).
+    - VS:Ladder packt nur bei Bedarf aus, mit Zwischenspeicher je itemID, geleert bei jedem neuen Scan (memTime). Rückgabe wie heute
+      ({min, qty, auc, bait, steps, st, maxPrice}). Kein Leser darf die zurückgegebene Tabelle verändern – im Code prüfen und im Test zeigen.
+    - Bestpreise (db.lastOwnScan, geht an Mitspieler): Format NICHT ändern (alte Clients).
+    Vorgehen: (1) zuerst im Nachbau mit den echten Spieldaten (7054 Items, 343 518 Auktionen) messen: Speicher Scan 1/2/3, Rechenzeit je Bild,
+    Zeit im Tooltip/Detail und in A:VendorDeals, Forecast-Auswertung nach dem Scan; (2) Gleichheitstest: für ALLE Items liefern VS:Ladder,
+    VS:Queue, A:OfferLadder, A:VendorSteps, A:ResalePrice, Weitergabe (feedItems) alt und neu dieselben Ergebnisse; (3) Bericht mit den Zahlen
+    VOR dem Einbau, Supervisor gibt frei; (4) Einbau. Vermutete Grösse ~0,2 statt ~1,3 KB je Item = Verdacht, zu messen.
