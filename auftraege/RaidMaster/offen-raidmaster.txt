@@ -878,3 +878,5 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     UP-MSG2 NIEDRIG: Beim Start zwei Zeilen für DIESELBE PID: "alte Sperre von 2.3.24 entfernt (PID 25612 …)" und "alte Sperre von vor 2.3.2 entfernt
     (PID 25612 …)". Die zweite stammt aus _sync.lock ohne Versionsfeld (sync.py:303/305 Rückfallwert "vor 2.3.2") und ist irreführend. Gleiche PID wie
     die erste -> nur eine Zeile, oder Version aus der ersten Sperre übernehmen; Test mit Gegenprobe.
+>>> 21:55: Nutzer hat Uploader 2.3.24 an die Offiziere verschickt. UP-ALT/UP-MIN1-Abnahme: sobald beide Offiziers-Rechner in stand.json mit uploader >= 2.3.23
+    liefern, prüft der Supervisor (Zweig sicherung). Hinweis für LIESMICH: Zip in den ÜBERGEORDNETEN Ordner entpacken (Zip enthält RaidMasterUploader/).
