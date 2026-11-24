@@ -6497,3 +6497,10 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
  AHS-I3 nächster Schritt – ENTSCHEID SUPERVISOR: zuerst Verfolgung V4 messen und senken (im Spiel 6 118 KB = grösster offener Posten, mehr als die
     Stufen-Tabellen bringen könnten). Den Umbau "steps als flache Liste" (30 Leser in 6 Dateien, 34 Teststellen) NICHT jetzt – erst, wenn nach V4
     belegt ist, dass T459 ohne ihn nicht unter 10 240 KB kommt; dann mit Test je Leser (alt/neu gleiche Ausgabe auf echten Daten) und Bericht vorher.
+>>> AHS-TR1 MITTEL – Entscheid des Nutzers 24.11.2026 19:12 ("also 1 könnte man doch verkürzen? und 2 müssten amn son belassen"):
+    - Schritt "waechter" der Testroutine (TR.ALL_WATCH_S = 600) auf 180 s kürzen (ALL_WATCH_MAX passend, z. B. 300 s; Optionen weiter nach 60 s öffnen).
+      Grund: Ingametest zeigte 189 Runden in 10 Min., WAECHTER-FUND braucht ≥ 3 Runden, WAECHTER-LAST misst die längste Rechenzeit je Bild –
+      beides ist nach 3 Min. sicher belegt (~55 Runden). Name des Schritts und alle Texte EN/DE anpassen ("Wächter 3 Min.").
+    - Schritt "vollscan" bleibt wie er ist (zwei Scans nötig: Leck vs. normaler Zuwachs, Wiederverwendung erst ab dem 2. Scan; Spiel-Grenze 15 Min.).
+      In der Anleitung/Hilfe der Testroutine einen Satz ergänzen: "Ein eigener Vollscan (Entwicklermodus) kurz vorher spart einen Scan und 15 Min."
+    - Test im Nachbau: Schritt endet nach 180 s mit Bewertung wie bisher; Zeitlimit greift; Dauer der ganzen Routine vorher/nachher im Bericht.
