@@ -6597,4 +6597,10 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
        vorübergehendes Sniper-Ziel key "w:<id>", qty 100000 an; Sniper prüft per Einzelsuche). "0/100000" ist für Spieler unverständlich
        (L6 beschriftet / L1 Lesbarkeit): bei qty = 100000 (ohne Mengengrenze) "ohne Grenze" bzw. nur "0 gekauft" zeigen, in allen Sprachen.
        Tooltip der Zeile: "Vom Wächter gefunden, wird geprüft – verschwindet nach der Prüfung" (falls zutreffend; sonst sagen, wann sie geht).
+    c) Nutzer 20:42: "der sniper ist aus und es erscheint.." – Sniper-Modus AUS, trotzdem stehen die [Wächter]-Ziele in der Sniper-Zielliste. Für den
+       Spieler sieht das aus, als würde der Sniper selbst arbeiten. Lösung vorschlagen und umsetzen: Wächter-Prüfungen gehören in den Reiter Wächter;
+       in der Sniper-Liste höchstens als klar getrennter, eingeklappter Block "Vom Wächter geprüft (Sniper aus)". Die Prüfung selbst (Einzelsuche)
+       bleibt, nur die Anzeige ändert sich. Gold-Sicherheit: kein Kauf ohne Klick, wie bisher (im Test zeigen).
+    d) Kopfzeile "Sniper: an" und im Reiter "Sniper-Modus: AUS" gleichzeitig (Bild 20:40) – widersprüchlich (L3). Entweder dieselbe Angabe oder
+       beide klar beschriften (z. B. "Sniper eingeschaltet · sucht gerade nicht").
     Beides gehört zu AHS-CF1 (Oberfläche, sieht jeder Spieler) – vor der Kandidaten-Version.
