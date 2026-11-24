@@ -1,27 +1,27 @@
 # BuffSentinel – Stand der Sitzung
 
-## Stand 24.11.2026 10:34 · Version 0.9.62
-Veröffentlicht (download/, announce/, Discord). Bericht: berichte/BuffSentinel/2026-11-24-1033-0.9.62-bs-k1-l1-p1-shv3.txt.
-Umgesetzt, zur Prüfung: SH-V3 (GoldSentinelTest 3), BS-K1 (Optionen weichen aus, T267), BS-L1 (Hinweisfarbe 6,4:1),
-BS-P1 (Messungen T156 je Teil, T25 längster Klick; Portionen T16/T35/T37). Nachbau 8/8 PASS.
+## Stand 24.11.2026 13:33 · Version 0.9.63
+Veröffentlicht (download/, announce/, Discord). Bericht: berichte/BuffSentinel/2026-11-24-1333-0.9.63-bs-i2-t149.txt.
+0.9.63: BS-I2 T149 Toleranz 0,01 für leere Anker (falscher FEHLER bei Skalierung 0,773, Wert 1,000x), 6 Stellen, Gegenprobe.
+0.9.62 (Ingametest 24.11. Laptop): OK 222 · FEHLER 2 (T149, T162 = BS-I2) · keine nil-FEHLER; T141/T266 grün, BS-L1 erledigt.
 
 ## Gerade in Arbeit
 Nichts angefangen.
 
 ## Nächste Schritte (Reihenfolge)
-1. Ingametest 0.9.62 abwarten (Nutzer): T141/T162/T266/T267 grün? Neue "nil statt true"-FEHLER (SH-NIL) einzeln zuordnen.
+1. Ingametest 0.9.63: T149/T162 grün? T267 im Client? Werte T156 "Teile in ms", T25 "längster Klick" (aus 0.9.62 nicht gemeldet).
 2. BS-P1: T156-Zeile "Teile in ms" auswerten – ist "markt" (GoldSentinelMarkt.DiagLines, gemeinsame Datei) teuer -> Befund an
    Supervisor; sonst eigenen Teil teilen. T25 "längster einzelner Klick" auswerten.
-3. T149 (leere Anker, PC zu Hause): Lauf mit 0.9.61+ – Zeile je Anker Grösse/Ankerpunkte/Skalierung; Ursache belegen, Test TU1.
+3. T149 PC zu Hause: mit 0.9.63 nochmals laufen lassen (6 Stellen zeigen den genauen Wert).
 4. T249: Zeilenzahl der Prüfliste im Spiel messen (GetNumLines), nicht schätzen.
 5. Danach: Prüfliste von Hand (JAEGER, ENTZ, OPT …), T247 Händler (läuft von selbst), T258 Messung.
 
 ## Offen beim Nutzer
-- Ingametest mit 0.9.62 (Forever) und einmal auf dem PC zu Hause (T149).
+- Ingametest mit 0.9.63 (Laptop und PC zu Hause).
 - Lesezugriff auf goldsentinel-daten am 23.11. verweigert – Frage gestellt, keine Antwort.
 
 ## Entscheide des Nutzers seit letztem Stand
-- keine neuen (24.11. 10:22 nur "repo").
+- keine neuen (24.11. 13:30 nur "repo").
 
 ## Wichtig zu wissen
 - Quelle: /home/claude/BuffSentinel (kein Git). Veröffentlichen mit Skripten im Arbeitsordner der Sitzung (scratchpad):
