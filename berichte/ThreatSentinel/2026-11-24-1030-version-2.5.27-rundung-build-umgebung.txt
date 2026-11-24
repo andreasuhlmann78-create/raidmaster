@@ -1,0 +1,70 @@
+BERICHT ThreatSentinel 2.5.27 – 24.11.2026 10:30
+Projekt: ThreatSentinel · Version 2.5.27 · Status: umgesetzt, zur Prüfung
+Veröffentlicht: Discord (announce/threatsentinel__threatsentinel-2.5.27.*), download/ThreatSentinel-2.5.27.zip. Nicht auf CurseForge (nicht in projects.json).
+Aufträge: TS-L3 (MITTEL), TS-L6 (NIEDRIG), TS-U1 (NIEDRIG), SH-V3 – als EINE Version gebündelt (Nutzung sparen).
+
+1) TS-L3 – eine Rundung für alle Anzeigen (umgesetzt, zur Prüfung)
+   Ursache im Code belegt:
+   - Im Ingametest lief Forever mit geschützter Bedrohung -> ns:ThreatMode() = "DISPLAY" (ThreatAccess.lua: acc "secret" -> DISPLAY).
+     Im Modus DISPLAY setzt Meter.lua die Zahl über FontString:SetFormattedText("%.0f%%") (Formatierung des Spiels).
+   - DDView.lua D:Show, der Vorsprung (Meter.lua f.lead) und der ungeschützte Meter-Zweig nutzten Lua string.format("%.0f").
+   - Ingametest 23.11. 15:37: Aggrometer 0,5->1; 2,5->3; 72,5->73 (SetFormattedText rundet ,5 AUF), DD-Ansicht 0; 2; 72 (string.format
+     rundet halb-gerade). Damit ist belegt: zwei Formatierer, zwei Rundungen. 1,5 und 99,5 sind bei beiden gleich (2; 100) – passt zum Befund.
+   Umsetzung: Keine eigene Rundungsregel (wäre eine Vermutung je Client), sondern ALLE angezeigten Zahlen über die Formatierung des Spiels:
+   - Core.lua ns.SetGameText(fs, fmt, ...) = FontString:SetFormattedText (Ersatz string.format nur, wenn der Aufruf scheitert).
+   - Core.lua ns.GameFormat(fmt, ...) = derselbe Text über einen versteckten Mess-FontString (für Zeichenketten: Testzentrale, Diagnose;
+     nur ungeschützte Werte).
+   - Umgestellt: DDView.lua D:Show, Meter.lua Vorsprung und ungeschützter Wert, TestMode.lua Zeile "Bedrohung", Threat.lua Grundregel-Texte
+     G1/G2/G3 (Diagnose). Der geschützte Weg (Meter/DD-Ansicht im Modus ANZEIGE) war schon SetFormattedText und bleibt.
+   - Übrige "%.0f" (KB, ms-Abklingzeit, Schadens-Kurzform "k") sind keine Bedrohungsprozente und werden nirgends mit einer zweiten Anzeige
+     derselben Zahl verglichen.
+   Test T-L3 neu: "Spiel" = eigener FontString im Test (unabhängig von ns.GameFormat). Je Wert 0,5/1,5/2,5/41,49/72,5/99,5: Aggrometer in
+     beiden Modi (VOLL und ANZEIGE), Vorsprung (wo > 5), DD-Ansicht, Testzentrale, Diagnose = 35 Vergleiche.
+   Gegenprobe (Nachbildung, deren SetFormattedText wie im Client ,5 aufrundet – Messwert aus dem Ingametest):
+     - 2.5.27 mit alter DDView.lua/Meter.lua (2.5.26): T-L3 FEHLER "Aggrometer FULL 0.5: 0 statt 1; DD-Ansicht 0.5: 0 statt 1; Vorsprung 98.5:
+       98 statt 99; … 72.5: 72 statt 73" – genau das Ingame-Bild.
+     - 2.5.27: 111 von 111 (Bereich U) bestanden, T-L3 OK.
+   TU6-R1: neue Regressionszeilen "TS-L3" (T-L3), "TS-L6" (T-L6, T187), "TS-U1" (T-U1).
+
+2) TS-L6 – Build beschriftet (umgesetzt, zur Prüfung)
+   - TestMode.lua Testzentrale: "1.60.1 · Build 71037 · Interface 16001" statt "1.60.1 (71037) - Interface 16001".
+   - Gespeicherte Erkennung (ThreatSentinelDB.threatAccess.build) neu "1.60.1 · Build 71037"; alte Einträge "x (n)" werden beim Anzeigen
+     umgeschrieben (ns.BuildLabel, Diag.lua und /ts bedrohung). TA_R_LAST sagt jetzt "Client %s" (sonst "Build 1.60.1 · Build 71037").
+   - Kopf des eigenen Berichts (TM:ReportText): "(Build 71037, Interface …)".
+   - Test T-L6 (Bereich U): Client-Zeile ohne L6-Befund, mit Wort "Build", alter Speicherstand umgeschrieben, Gegenprobe "Client: 1.60.1 (71037)"
+     schlägt L6 an. T42 (gespeicherte Erkennung) prüft das neue Format. Im Client prüft T187 die sichtbaren Fenster.
+   HINWEIS AN DIE PRÜF-SITZUNG (nicht meine Datei, nicht geändert): Der Kopf des Testberichts aus shared/GoldSentinelTest.lua Zeile 297 schreibt
+     "Client %s (%s) · Interface …" -> "Client 1.60.1 (71037)". Das ist dasselbe L6-Muster; falls es dort auch gelten soll, bitte in der
+     gemeinsamen Datei ändern.
+
+3) TS-U1 – Umgebungsmessung (umgesetzt, zur Prüfung)
+   - shared/GoldSentinelTakt.lua (Version 3) unverändert kopiert und in die .toc aufgenommen (ThreatSentinel nutzt daraus nur EnvMeasure/EnvLine).
+   - /ts testroutine (alle Formen): zuerst 10 s Umgebung ohne eigene Arbeit (Meldung "Zuerst 10 s Umgebung messen …"), dann der Lauf wie bisher.
+     Zeitlimit: spätestens nach 15 s geht es weiter (C_Timer), dann steht "Messung abgebrochen: Zeitlimit" in der Zeile.
+     Während der Messung: "stop" bricht sauber ab, Kampf -> nicht starten, Ausloggen -> nichts zurückschreiben (die Sicherung eines früheren
+     Laufs wird beim Start verworfen – ohne das hätte das Ausloggen in der Wartezeit alte Daten zurückgeschrieben, Gegenprobe unten).
+   - Bericht: Zeile "Umgebung: Ort · Namensplaketten · Ping · Bilder/s · Bild in Ruhe Median x ms, 95 % y ms, längstes z ms (n Bilder in 10 s) ·
+     Speicherbereinigungen" (GoldSentinelTakt.EnvLine) unter der bisherigen Zeile "Ort/Ping". In der Zusammenfassung direkt hinter
+     "Prüfungen über 16 ms" steht "Bild in Ruhe (ohne eigene Arbeit): Median x ms, 95 % y ms".
+   - Test T-U1 (Takt ≥ 3, Zeile und Zusammenfassung aus festen Messwerten).
+   Nachbau mit angetriebener Messung (300 Bilder à 33,4 ms, jedes 50. 60 ms): Zeile "Bild in Ruhe Median 33.4 ms, 95 % 33.4 ms, längstes
+     60.0 ms (300 Bilder in 10 s)" – nachgerechnet: 6 von 300 = 2 % lange Bilder, also Median und 95 % = 33,4 ms, längstes 60,0 ms. Danach lief
+     die Routine (111/111 Bereich U). "stop" in der Wartezeit: kein Bericht, "abgebrochen", running false. Ausloggen in der Wartezeit: Sicherung
+     nil, ThreatSentinelDB unverändert. Gegenprobe ohne das Verwerfen der alten Sicherung: ThreatSentinelDB wird durch die alte ersetzt.
+   Neu-Bewertung T-OPT7 (27,7 ms), TU7-S1 (19,8 ms), T133 (17,6 ms): Die Zeiten in "Prüfungen über 16 ms" sind schon eigene Rechenzeit je
+     Prüfung (debugprofilestop um die eine Prüfung, eine Prüfung = ein Bild). Ob sie am Ort (Hauptstadt) durch fremde Last länger wurden, zeigt
+     erst der nächste Ingametest mit der neuen Zeile "Bild in Ruhe" – Verdacht, zu messen. Keine Änderung an den drei Prüfungen ohne Messwert.
+
+4) SH-V3 – shared/GoldSentinelTest.lua Version 3 unverändert kopiert (cmp gleich). Offline Forever und Era (alles, TS_FRAME_MS=0):
+   KEINE neuen FEHLER "Prüfung lieferte nil statt true" – nur die 6 bekannten Nachbildungsfälle (T02, T09, T20, T34, T39, T133).
+   Im Client können Prüfungen andere Wege nehmen; erscheint dort ein nil-FEHLER, ordne ich ihn mit dem nächsten Ingametest einzeln zu.
+
+Belege
+- addon_check download/ThreatSentinel-2.5.27.zip: "## ThreatSentinel-2.5.27.zip: OK", kein FEHLER, keine WARNUNG. Commit 2c475f5f.
+- Gemeinsame Dateien = shared/ (cmp): Dev, Pruefliste, Game, Sync, Test (3), Markt, Takt (3).
+- Offline-Routine alles: Forever 314 von 320 bestanden, 6 FEHLER = bekannte Nachbildungsfälle (vorher 312/318; +2 = T-L6, T-U1);
+  Era 318 von 324, 6 FEHLER = dieselben. FEHLER ausserhalb der Liste: 0.
+
+Offen beim Nutzer
+- Ingametest 2.5.27: /gsdev, dann /ts testroutine alles (10 s nicht bewegen). Erwartet: T-L3, T-L6, TU6-R1 grün; Zeile "Umgebung" mit Bild in Ruhe.
+- Abnahme SYNC-ROLLE im Gruppenspiel mit älterer Version, Stufe-3-Messung (Era/TBC), Prüfliste OPT – unverändert offen.
