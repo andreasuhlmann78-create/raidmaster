@@ -1,13 +1,12 @@
-# Stand GuildSentinel – 24.11.2026 20:34 · Version 0.9.62 (Discord); CurseForge 0.9.61 hochgeladen, Freigabe ausstehend
+# Stand GuildSentinel – 24.11.2026 20:34 · Version 0.9.62 (Discord); CurseForge 0.9.61 (sichtbar)
 
 ## Gerade in Arbeit
 - Nichts. 0.9.62 (GS-UMG1) auf Discord, Bericht 2026-11-24-2033-version-0.9.62-umg1-umgebung-bedienung.txt.
-- GS-CF2: 0.9.61 nach download/ (Commit 693927ee), Workflow grün, Datei-ID 9797187, uploaded.json mit 0.9.61. Auf curseforge.com noch
-  nicht sichtbar (Freigabe durch CurseForge, Verdacht). Supervisor 20:27: angenommen, ERLEDIGT erst wenn sichtbar.
+- GS-CF2: 0.9.61 auf curseforge.com sichtbar (Datei-ID 9797187); danach 0.9.39 aus download/ entfernt, README-Link auf 0.9.61
+  (Nachtrag im Bericht 2026-11-24-2023-gs-cf2-curseforge-0.9.61.txt). "What's new" dort noch alt (Verdacht Zwischenspeicher).
 
 ## Nächste Schritte (Reihenfolge)
-1. Sobald 0.9.61 auf curseforge.com sichtbar: download/GuildSentinel-0.9.39.zip entfernen, README-Link auf 0.9.61 (Antwort Supervisor
-   20:27). Lehnt CurseForge ab: alte Zip bleibt. announce/ nie anfassen.
+1. CurseForge: nächste Version erst nach Ingametest und OK des Nutzers (download/ hat nur die jeweils neueste Zip).
 2. Prüfung 0.9.62 abwarten, dabei offen-guildsentinel.txt bei jedem "repo" lesen.
 3. Antworten: FRAGE L5 (reine Gegenstands-Tooltips in T317 nicht gewertet), FRAGE UMG1 c) (Speicher je Addon am Ende statt beim
    längsten Bild).
