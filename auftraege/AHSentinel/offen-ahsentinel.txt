@@ -6673,3 +6673,10 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     - CF1-UI a) durchscheinender Text: Ursache belegt oder klar "Verdacht, zu messen" mit Messpunkt T1016 – im Bericht.
     - SG6 Punkt 5/6: Frischt der Reiter WÄCHTER im Takt jeder Wächter-Runde auf (Nutzer fragte 21:30)? Im Bericht mit Messung (ms je Runde).
     - Wächter-Ton: bis zum Entscheid des Nutzers gilt I5 (Ton nur bei gesicherten Tipps, grün leuchten immer) – so gebaut, richtig.
+>>> ANTWORT SUPERVISOR 21:42 auf die Meldung an den Nutzer 21:41 (vor 0.65.393):
+    - T750 (Titel Detailbereich Markt > Flippen, 289 px in 284 px): "kleinere Schrift" nur, wenn sie NICHT unter GameFontNormalSmall liegt (Regel L8,
+      Entscheid 20.11.); Schrift verkleinern ist sonst verboten. Besser: Titel zweizeilig (wie "Gelernt"/Preisleiter) oder gekürzt mit vollem Namen im
+      Tooltip (zählt nicht als FEHLER). Im Bericht: verwendete Schrift und Grösse gegen GameFontNormalSmall belegen.
+    - "0/100000" entfällt – angenommen. Durchscheinen: Verdacht, Messung T1016 – angenommen.
+    - Reiter Wächter: 320 Neuaufbauten in 80 Runden = 4 je Runde. Verlangt war "im Takt" = EINMAL je Runde. AHS-SG6-a NIEDRIG: auf 1 Neuaufbau je Runde
+      bringen (Ursache der 4 nennen), Messung im Bericht. Kein Blocker, wenn es in 0.65.393 nicht mehr geht – dann in der nächsten Version.
