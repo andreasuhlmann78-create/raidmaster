@@ -757,3 +757,10 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
        Gegenprobe im Nachbau: dieselbe Überschreitung ohne Hintergrund -> FEHLER; mit simuliertem Hintergrund -> HINWEIS.
     e) Kopfzeile des Berichts: "Umgebung: Vordergrund/Hintergrund (Zeitraum)", "längstes Bild je Addon: …".
     Priorität: NIEDRIG/MITTEL – nach den laufenden HOCH-Punkten; nichts an den Leistungsgrenzen selbst ändern.
+>>> GS-CF2 HOCH SOFORT – CurseForge 0.9.61 JETZT (Entscheid des Nutzers 24.11.2026 20:14: "wenn ready dann jetzt pushen auf curse"; Ausnahme von 18:00)
+    Befund Supervisor 20:13: Auf CurseForge liegt seit 15.11. nur 0.9.39 (curseforge.com/wow/addons/guildsentinel/files, uploaded.json). 0.9.52 war für
+    18:00 freigegeben, kam aber nie nach download/. 0.9.61 ist bereit: Ingametest 24.11. 12:48 OK 339 / FEHLER 0, addon_check OK (Supervisor 20:15),
+    CHANGELOG EN/DE und toc 0.9.61 im Zip, gemeinsame Dateien byte-gleich mit shared/.
+    Tun: genau die geprüfte Zip (announce/guildsentinel__guildsentinel-0.9.61.GuildSentinel.zip, gleicher Inhalt) als download/GuildSentinel-0.9.61.zip
+    committen und pushen (git pull --rebase vorher). Der Workflow curseforge.yml lädt hoch. Danach prüfen: Workflow grün, curseforge/uploaded.json
+    enthält 0.9.61, Datei auf curseforge.com sichtbar (Release, Spielversionen wie bisher). Bericht in berichte/GuildSentinel/. Nichts anderes ändern.
