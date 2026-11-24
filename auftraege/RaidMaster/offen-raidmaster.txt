@@ -869,3 +869,7 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     nach), angenommen. Mindestversion bleibt 2.3.20 – richtig (keine Datenänderung).
     UP-UPD1-a NIEDRIG: Das alte Fenster bleibt mit "Taste drücken" (pause) stehen – Meldung davor "Dieses Fenster kann geschlossen werden" genügt; prüfen,
     ob sich das alte Fenster ohne Eingriff schliessen lässt (z. B. Rückgabe an die .bat ohne pause nach Update), sonst so lassen.
+>>> Uploader 2.3.24 auf dem PC von Hand installiert (Bild des Nutzers 21:47, Supervisor 21:48): Übernahme von laufender 2.3.22 mit Rückfrage J/N
+    sauber ("Alte Version beendet", Sperren entfernt), Hochladen nach Discord OK, Addons-Automatik aktiv. Daten-Repo: "zuletzt geliefert 20:56" –
+    seit 2.3.22 (nicht neueste) nichts geliefert; erste Lieferung mit 2.3.24 nach dem nächsten /reload zu prüfen (Supervisor). UP-UPD1 (Taste j)
+    erst bei der nächsten Uploader-Version abnehmbar.
