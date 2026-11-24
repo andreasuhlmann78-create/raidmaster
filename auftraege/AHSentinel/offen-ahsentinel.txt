@@ -6689,3 +6689,12 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     0.65.393 darf auf Discord, sobald die geänderten Teile im Nachbau grün sind, run_offline auto + server (s42/s43) grün und addon_check OK –
     Discord-Versionen sind Testversionen, der Nutzer kann parallel im Spiel testen. FULL läuft weiter; sein Ergebnis kommt als Nachtrag in den
     Bericht und MUSS ohne neue FAIL sein, bevor 0.65.393 (oder eine spätere) für CurseForge infrage kommt (AHS-CF1).
+>>> PRÜFUNG SUPERVISOR 24.11. 21:58 – AHSentinel 0.65.393 (CF1-UI a/c/d, SG6, TR1-a, T750; Bericht 21:52): ANGENOMMEN als CurseForge-KANDIDAT, Ingametest offen.
+    addon_check OK. Code gelesen: Sn:Buy (Z. ~3211) und Sn:Reserve (Z. ~3293) verweigern t.watch – Gold-Sicherheit belegt; Wächter-Taste und -Knopf entfernt,
+    Übernahme überschreibt kein eigenes Ziel; Migration DropWatchTargets. Kopfzeile aus db.sniper.armed (Ursache IsArmed+HasExtraTargets belegt). SG6:
+    Alert nur in FinishSearch mit dem Plan DIESER Suche; Messung 10/10 Meldungen nur für das kaufbare Ziel. Wächter-Ton nur bei gesichertem Tipp (I5) –
+    bis zum Entscheid des Nutzers richtig. T750: Titel 12 pt -> 10 pt (GameFontNormalSmall, L8 eingehalten), 241 < 284 px.
+    AHS-CF1-UI-a1 MITTEL (Verdacht, zu messen): UI:AHOverlayRaise läuft nur EINMAL beim Einrichten. Blizzard legt Kinder des AH (z. B. Ergebnislisten)
+    teils erst beim ersten Anzeigen an – die bekommen dann eine höhere Stufe und könnten wieder durchscheinen. T1016 im Spiel misst es; falls ja:
+    beim Zeigen des AH/Reiterwechsel erneut anheben. Offen vor CurseForge: FULL ohne neue FAIL; Ingametest (T750 = 0, T1016, Vollscan zweimal,
+    T459-Entscheid des Nutzers, T126 im Vordergrund); Freigabe des Nutzers im Spiel.

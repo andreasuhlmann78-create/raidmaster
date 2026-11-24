@@ -502,3 +502,6 @@ SICHERHEIT (Pflicht, Repo ist öffentlich):
     Offen: Versand /uploader an die Offiziere und den Nutzer – braucht den verbundenen Browser (Nutzer meldet sich an).
 >>> HINWEIS SUPERVISOR 21:53: Der Nutzer verschickt den Uploader (2.3.24) an die Offiziere und an sich SELBST über die Bot-Befehle (Nutzer 21:53: "ich sende ihn denen selber").
     Den verschobenen Versand NICHT zusätzlich machen (keine doppelte PN). Danach im Bericht nur prüfen, ob #bot-log den Versand zeigt.
+>>> PRÜFUNG SUPERVISOR 24.11. 21:58 – Bot 1.5.196 (D-UPD1, Bericht 21:50): ANGENOMMEN. Bot-Tests selbst: 512 passed. Text "mit j bestätigen" erst, wenn alle Rechner
+    des Mitglieds ≥ 2.3.24 – richtig. Fehlgeschlagene Updates als PN mit Grund, ok ohne PN – gut. Versand: Nutzer hat 2.3.24 um 21:55 SELBST an die Offiziere
+    geschickt – nicht wiederholen. Die eine D-UPMIN1-PN je Rechner ("/uploader holen") darf trotzdem kommen (andere Aussage, einmal) – im Bericht zählen.
