@@ -7,6 +7,12 @@ Wortlaut kurz, Wirkung und wo er umgesetzt wird (Auftrag/Kürzel). Spätere Änd
 Ältere Entscheide (vor 13.11. abends) stehen in wirtschaft-forever.md (Abschnitte "Entscheid des Nutzers …"),
 markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelten weiter.
 
+## 24.11.2026
+
+| Zeit | Entscheid | Folge |
+|---|---|---|
+| 06:17 | "ok" auf: (1) CurseForge-Zwischenstand CF1–CF3 posten, (2) Markt-Tabellen: warten, bis RaidMaster UP-TAGE geklärt hat (höchstens 1 Tag), statt Fallzahl-Regel auszusetzen | (1) Posten scheitert: CurseForge in Chrome nicht angemeldet (06:17) – Nutzer meldet sich an, dann posten; (2) Tabelle bleibt Stand 16.11. bis UP-TAGE |
+
 ## 23.11.2026
 
 | Zeit | Entscheid | Wirkung / Auftrag |
