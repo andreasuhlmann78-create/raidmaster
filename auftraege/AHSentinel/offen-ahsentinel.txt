@@ -6619,3 +6619,22 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     HINWEIS – die Leistungsgrenzen messen nur die eigene Arbeit, der Rest ist fast immer grösser; die Regel würde echte Rückschritte verdecken
     (Begründung RaidMaster 3.0.44, angenommen). Gründe für HINWEIS sind nur: Hintergrund/Fensterwechsel-Zeitraum, Ladebildschirm, Speicherbereinigung
     im betroffenen Bild. "Speicher je Addon" einmal am Ende statt beim längsten Bild ist RICHTIG (die Abfrage selbst kostet bis ~50 ms).
+>>> AHS-SG6 HOCH – Leuchten + Schlachtzugswarnung im Suchtakt (Sniper UND Wächter). Entscheid des Nutzers 24.11.2026 21:07–21:13: "wäre es nicht cool
+    das wenn der spieler im sniper ist und sachen jagt das sich im selben takt das sicht fenster auch refresht wie es der sniper selber tut? das blinken
+    inkl raidalarm" · "das gleiche natürlich für den wächter" · "so lange wie der refresh halt geht...wenn es mehrere items im sniper befinden dann darf
+    nur das mit dem leuchten und raidwarnung melden das gerade fertig gesucht hat und diese suche geht meist 3 s" · "ok pushen vor curse".
+    GEHÖRT ZU AHS-CF1 (vor der CurseForge-Veröffentlichung). Ändert den Auftrag SG1–SG3 vom 11.11. (anweisung-sniper-signal.txt) wie folgt:
+    1. Takt = Suchtakt. Leuchten (Sn:Signal) und Ton (PlaySound 8959, Option "Ton bei Treffer") werden an der Stelle ausgelöst, an der eine Suche
+       FERTIG ist und ihr Ergebnis für IHR Ziel verarbeitet (Sniper.lua, Aufruf self:Alert(plan, true) bzw. keepHit-Weg) – kein fester Abstand.
+    2. Nur das Item, dessen Suche gerade fertig wurde, und nur wenn es dabei KAUFBAR ist, meldet. Mehrere Ziele im Sniper: nie mehrere Meldungen
+       aus einer Suche, nie Meldung für ein Ziel, das gerade nicht gesucht wurde.
+    3. Solange der Treffer kaufbar ist, wiederholt sich das bei jeder seiner Suchen. Sofort aus bei Kauf, Treffer weg, AH zu, Kampf (SG2/SG3 bleiben).
+    4. Entfällt: "nur bei neuem Treffer" (lastAlertID), SIGNAL_GAP 3 s, die Uhr-Wiederholung über HitWaiting/ALERT_REPEAT (sonst zwei Takte).
+       Chat-Zeile "Treffer: …" bleibt wie heute (PRINT_REPEAT 30 s), damit der Chat nicht vollläuft.
+    5. Liste/Anzeige frischt im selben Takt auf (nur geänderte Zeilen, kein Ruckeln; Messung im Bericht).
+    6. WÄCHTER gleich: Ende jeder Wächter-Runde -> meldet der Tipp, der in dieser Runde gültig gefunden wurde (Leuchten + Ton). EIGENE FARBE für
+       Wächter (Vorschlag Grün, Option wie SG4), damit Sniper und Wächter unterscheidbar sind. Passt zu AHS-CF1-UI c) (Wächter-Funde = Tipps,
+       Übernahme per Rechtsklick) – in derselben Version.
+    7. Kaufen unverändert (nur Tastendruck/Klick) – Gegenprobe im Test.
+    Tests: meldet nur das eben gesuchte Ziel (2 und 3 Ziele), Wiederholung je Suche, Ende bei Kauf/weg/AH zu/Kampf, keine Meldung ohne Suche,
+    Wächter mit eigener Farbe, Kaufverhalten unverändert, Bilder je Suche ≤ Grenzen. Texte alle Sprachen, CHANGELOG EN/DE.
