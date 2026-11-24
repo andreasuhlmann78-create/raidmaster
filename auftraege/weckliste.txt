@@ -3,6 +3,7 @@ Grund: Sitzungen schauen nur ins Repo, wenn sie aktiv sind; meist ist nur 1 (sel
 Reihenfolge = Dringlichkeit. Eine Nachricht "Repo prüfen" genügt – alles steht in auftraege/<Projekt>/offen-*.txt.
 
 Stand 24.11.2026 07:08 (Supervisor)
+0. RaidMaster – SEHR DRINGEND: UP-ALT (Entscheid 07:22: Daten alter Uploader nicht mehr annehmen), offen-raidmaster.txt Ende.
 1. AHSentinel – NORMAL: "Repo prüfen" – Prüfung 0.65.386/387 angenommen, neue Punkte AHS-R1, AHS-I4-a, G14-a (offen-ahsentinel.txt, Ende).
    Danach Ingametest Teil 1 (Abnahme AHS-I1/I2, entscheidet über CurseForge).
 2. ProfessionSentinel – HOCH (klein): PS-V3 (TestRoutine 5861 "version == 2" -> ">= 2"), sonst rot, sobald ein Addon GoldSentinelTest 3 hat.

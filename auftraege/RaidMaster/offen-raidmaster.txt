@@ -684,3 +684,29 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     begründen – nie die Prüfung abschwächen. Achtung: Bringt ein anderes Addon im selben Client schon Version 3 mit, gilt sie auch für deine
     Prüfungen (höchste Version gewinnt) – nil-FEHLER können also schon vor deiner nächsten Version erscheinen.
 
+>>> UP-ALT HOCH – ENTSCHEID DES NUTZERS 24.11.2026 07:22 (Supervisor 07:30): "wenn jemand nicht die neuste version drauf hatt die daten nicht
+    mehr annehmen!"
+    Gilt wörtlich: Daten eines Rechners, dessen Uploader NICHT die neueste veröffentlichte Version hat, werden nicht mehr angenommen.
+    Hintergrund (belegt in deinem Bericht 06:35): Jeder Uploader vor 2.3.19 kürzt bei seiner Lieferung tage/ auf 7 Tage (so fielen 14.–20.11.
+    weg). Stand Daten-Repo 07:21: AUSPLUSLAPTOP 2.3.18 (Nutzer hat 2.3.19 installiert, erste Lieferung steht noch aus), die 3 anderen Rechner
+    ohne Feld "uploader" (älter als 2.3.15).
+    Zu bauen (Ursache und Wirkung belegen, Gegenprobe je Weg):
+    (1) Ein alter Uploader darf das Daten-Repo nicht mehr verändern – vor allem tage/ nicht kürzen. Alte Uploader lassen sich nicht mehr
+        ändern, der Schutz muss also ausserhalb von ihnen liegen. Wege prüfen und belegen, welcher wirklich hält:
+        a) Sicherung + Rückstellung: Zweig "sicherung" (nur 2.3.19+ schreibt ihn), eine Prüfung (Workflow im raidmaster-Repo oder der 2.3.19-
+           Uploader beim nächsten Lauf) erkennt eine Lieferung eines alten Uploaders (stand.json: Rechner ohne/mit älterem "uploader") und stellt
+           main aus "sicherung" wieder her, ohne Daten der guten Rechner zu verlieren. Zeitfenster und Zusammenstösse (zwei Lieferungen
+           gleichzeitig) belegen. Ein Workflow IM Daten-Repo hilft nicht (jede alte Lieferung ist ein Commit ohne Vorgänger und ohne .github/).
+        b) Neuer Zugangsschlüssel nur für 2.3.19+: alte Uploader können gar nicht mehr schreiben. Sicherster Weg, braucht aber den Nutzer
+           (Schlüssel erstellen und auf jedem Rechner eintragen) – Claude fasst config.json/uploader_config.json und Schlüssel NIE an.
+           Nur als Vorschlag mit genauer Anleitung an den Nutzer, Entscheid beim Nutzer.
+    (2) "Neueste Version": eine Mindestversion im Repo (z. B. Datei im Daten-Repo oder raidmaster), die mit JEDER neuen Uploader-Version
+        steigt. Folge (dem Nutzer im Bericht klar sagen): nach jeder neuen Uploader-Version werden alle Rechner abgewiesen, bis sie aktualisiert
+        sind – darum neue Versionen sofort per Bot an alle verteilen.
+    (3) Wer abgewiesen wird, sieht es: im Uploader-Fenster eine klare deutsche Zeile ("Daten nicht angenommen – Uploader x.y.z ist veraltet,
+        bitte /uploader holen"), soweit der Rechner schon 2.3.19+ hat; für ältere über den Bot (PN an den Besitzer des Rechners, ohne Namen im Repo).
+    (4) Leser (addon-check, geplante Aufgaben) nehmen nur Daten von Rechnern mit angenommener Version – im Bericht sagen, woran sie das erkennen
+        (stand.json), die Prüf-Sitzung passt ihre Werkzeuge an.
+    Reihenfolge: zuerst (1) – solange PC und Offiziere alte Uploader haben, kann jede ihrer Lieferungen die Tage wieder kürzen. Bericht mit
+    Belegen; bei b) zuerst den Nutzer fragen. Keine Fehler (Entscheid 06:26 "mache keine fehler").
+

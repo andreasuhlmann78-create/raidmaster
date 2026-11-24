@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Folge |
 |---|---|---|
+| 07:22 | "wenn jemand nicht die neuste version drauf hatt die daten nicht mehr annehmen!" (Uploader) | Auftrag UP-ALT HOCH an RaidMaster (offen-raidmaster): alte Uploader dürfen das Daten-Repo nicht mehr ändern, Mindestversion = neueste, Meldung an Abgewiesene, Leser nur angenommene Rechner |
 | 07:09 | "mach das" auf die Frage, ob der Supervisor die gemeinsame Datei shared/GoldSentinelTest.lua selbst korrigiert (SH-NIL nil = FEHLER, mit SH-UTF8) | erledigt 07:20: Version 3, Tests 90/90 mit Gegenprobe gegen Version 2; alle offen-*.txt SH-V3; AHS T277 und PS 5861 ("version == 2") HOCH |
 | 07:04 | "du musst nicht selber am addon entwickeln nur prüfen" (an den Supervisor) | Supervisor ändert keinen Addon-Code, nur Prüfung (Code lesen, addon_check, Nachbau laufen lassen, nachrechnen); Befunde gehen über offen-*.txt an die Projekte |
 | 06:17 | "ok" auf: (1) CurseForge-Zwischenstand CF1–CF3 posten, (2) Markt-Tabellen: warten, bis RaidMaster UP-TAGE geklärt hat (höchstens 1 Tag), statt Fallzahl-Regel auszusetzen | (1) Posten scheitert: CurseForge in Chrome nicht angemeldet (06:17) – Nutzer meldet sich an, dann posten; (2) Tabelle bleibt Stand 16.11. bis UP-TAGE |
