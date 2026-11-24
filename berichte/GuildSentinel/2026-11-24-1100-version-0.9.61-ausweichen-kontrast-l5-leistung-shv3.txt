@@ -1,0 +1,125 @@
+BERICHT GuildSentinel 0.9.61 – GS-K1, GS-K2, GS-L1, GS-L5, GS-P1, SH-V3
+Von: GuildSentinel-Sitzung · 24.11.2026 11:00 (Zeit aus date, Europe/Zurich) · Quellcode f0f268b
+Status: umgesetzt, zur Prüfung (Ingametest 0.9.60 vom 23.11. 13:25, Auftrag SH-V3 24.11. 07:20). download/ (CurseForge) nicht angefasst –
+erst nach dem Ingametest von 0.9.61 und dem OK des Nutzers.
+
+A) GS-K1 MITTEL – T183 GuildSentinelFrame überdeckt LevelPilotFrame (UI.lua: UI:AvoidOthers, UI:AvoidPlace, UI:OtherWindows)
+- Ursache belegt: GuildSentinel hatte kein Ausweichen (Fenster 980×620 in der Mitte; LevelPilot 350×220 oben rechts -40/-220, Werte aus
+  LevelPilot 3.13.11 UI.lua). Bei 16:9 (Oberfläche 1365×768) liegt GS bei x 192–1172, LevelPilot bei x 975–1325 -> überdeckt.
+- Neu: beim Öffnen (von der gespeicherten Lage aus) und wenn eines der Fenster später aufgeht (HookScript OnShow): überdeckt GS ein Fenster
+  aus UI.AVOID (LevelPilot, AHSentinel, ProfessionSentinel, RaidMaster, ThreatSentinel, BuffSentinel, Communities/Guild/Friends,
+  TradeSkill/Professions/Craft), dockt es daneben an: rechts, links, darunter, darüber – Platz bis zum Bildschirmrand UND bis zu jedem
+  anderen Fenster auf dieser Seite; gewählt wird der grösste Massstab, dann der kürzeste Weg; ganz im Bildschirm, ohne ein anderes Fenster
+  zu überdecken. Passt es nirgends ganz, so wenig wie nötig verkleinert (SetScale), höchstens auf 95 %. Sonst bleibt es (Eintrag
+  AUSWEICHEN "kein Platz" im Protokoll, kein Fehler). Die gespeicherte Lage (framePoint) bleibt; beim Ziehen nach dem Verkleinern werden
+  die Abstände in Bildschirm-Einheiten gespeichert (vorher im verkleinerten Massstab).
+- Folge für die Schrift: bei 16:9 mit LevelPilot am Standardplatz Massstab 0,994 (= 975/980 abgerundet) -> Schrift 10 wird 9,94. Höchstens
+  95 % (Schrift 9,5). Das ist der einzige Weg ohne Überdeckung auf 1365 Punkten Breite (980 + 350 + 40 Rand > 1365). Bitte im Ingametest
+  ansehen; T312 misst die Nenngrösse (GetFont), nicht die verkleinerte.
+- Tests run_ausweichen.lua (3 Spielversionen × 26): A 1365×768 + LevelPilot: keine Überdeckung, im Bildschirm, Massstab genau 0,994,
+  angedockt (rechter Rand = linker Rand LevelPilot), ein Protokolleintrag, Lage unverändert; Gegenprobe ohne Ausweichen -> überdeckt.
+  B 1920×1080: keine Überdeckung -> bleibt Mitte, Massstab 1. C LevelPilot geht nach GS auf -> GS weicht aus; danach ohne LevelPilot
+  wieder Mitte und 100 %. D LevelPilot genau in der Mitte -> kein Platz -> bleibt + Eintrag. E zwischen AHSentinel (0–600) und LevelPilot
+  zu eng (930 < 95 % von 980) -> bleibt. F AHSentinel 0–500 -> rechts daneben x = 500, Massstab 1, obere Kante bleibt 850. G Ziehen nach
+  dem Verkleinern -> gespeicherte Lage in Bildschirm-Einheiten, beim nächsten Öffnen dieselbe Ecke. Keine Lua-Fehler.
+- Testroutine im Nachbau wie im Ingametest (1365×768, LevelPilot geladen und offen, LP=1): T183 OK; Gegenprobe AVOIDOFF=1 -> T183 FEHLER
+  "GuildSentinelFrame / LevelPilotFrame" (genau der Befund vom 23.11.).
+- Nachbau: geom.lua rechnet jetzt den Massstab ein (wirksam = eigener × Eltern; GetRect & Co. im eigenen Massstab wie im Spiel).
+- LP-K1 (LevelPilot weicht selbst aus) ist Sache der LevelPilot-Sitzung. Weichen beide aus, kann es nicht hin und her gehen: jedes Fenster
+  bewegt sich nur bei Überdeckung, nach dem ersten Ausweichen gibt es keine mehr.
+
+B) GS-K2 MITTEL – T319 Knopf "Elite-Quest (LevelPilot)" ausserhalb (PagesMore.lua: Gp:FitNote)
+- Ursache belegt (Nachbau mit geladenem LevelPilot): Notizfeld fest 330 breit ab x 985 + 8 + Knopf 170 = rechter Rand 1493, Seite endet bei
+  1438 (Fenster 470–1450). Im Nachbau fehlte LevelPilot (Knopf versteckt) – deshalb war es nicht sichtbar. Jetzt LP=1 im Nachbau.
+- Neu: mit LevelPilot wird das Notizfeld so breit, dass der Knopf bis zum Rand der Seite passt (höchstens 330; solange die Lage unbekannt
+  ist 250 = passt bis linke Kante 1010). Linke Kante je Sprache gemessen 968–1004 -> Notiz 255–292 breit, Knopf endet bei 1437/1438.
+- Test: Testroutine mit LevelPilot in deDE/enUS/frFR/ruRU/koKR/zhCN, 11508, 20505 und mit Schrift 1,3 (deDE/frFR/esMX/ruRU): T319 OK.
+  Gegenprobe: vor der Änderung mit LP=1 -> T319 FEHLER "group>search: Button Elite-Quest (LevelPilot)" (1 von 1543).
+
+C) GS-L1 MITTEL – T311 Kontrast Klassenfarben (Core.lua: ns.ClassHex, ns.ReadableColor)
+- Ursache belegt: Klassenfarbe Schamane 0070dd auf den dunklen Listen 3,7:1 (alle 9 Funde = Schamane: Mitglieder > Liste/Wo/Zusammensetzung,
+  Fortschritt > Rennen/Zugang, Leitung > Probezeit/Notizen, Regeln "noch nicht bestätigt"). Im Nachbau war jede Klasse weiss (Mock) –
+  jetzt echte Klassenfarben (RAID_CLASS_COLORS) und mit KLASSEN=1 je Klasse ein Mitglied: Nachbau zeigt genau "zu schwach 9, schwächster
+  3,7:1" wie im Spiel.
+- Neu: zu dunkle Klassenfarben werden so wenig wie nötig zu Weiss hin aufgehellt, bis >= 4,6:1 gegen einen Bezugs-Hintergrund mit
+  Leuchtdichte 0,02 (hellster Listen-Hintergrund nachgerechnet: Grund 0,05/0,06/0,08 + Zebra 2,5 % Weiss + gewählt 6 % Akzent = 0,0135).
+  Ergebnis: nur Schamane 0070dd -> 3d92e5 (24 % zu Weiss): 4,60:1 gegen Bezug, 5,07:1 gegen hellste Liste (vorher 3,44:1). Alle anderen
+  Klassen unverändert (schwächste Hexenmeister 4,80:1 / 5,29:1). Wirkt überall, wo GS Namen einfärbt (ns.Colored, 41 Aufrufe).
+- Test run_klassen.lua (3 × 38, Rechnung unabhängig nachgerechnet): je Klasse >= 4,6:1 / >= 4,5:1; unveränderte Klassen genau gleich;
+  Schamane: eine Stufe weniger (23 %) reicht nicht; unbekannte Klasse weiss; Testroutine mit allen Klassen T311 OK (schwächster 4,6:1,
+  ohne bekannten Hintergrund 0); Gegenprobe Originalfarbe -> T311 FEHLER, nennt members>list, members>where, members>comp "Schamane".
+
+D) GS-L5 NIEDRIG – T317 Brett-Tooltips (UI.lua: UI.ItemTip; PagesSocial.lua, Pages.lua, PagesExtra.lua)
+- Ursache belegt: Brett zeigte nur den Gegenstands-Tooltip des Spiels (Zahlen erst ab Zeile 3: Stapelgrösse, Verkaufspreis). Im Nachbau
+  hatte der Gegenstands-Tooltip eine Zeile ohne Zahl – jetzt mehrzeilig wie im Spiel (geom.lua) -> Nachbau zeigte den Befund.
+- Neu: Brett (Angebot/Gesuch) "×Menge · Preis" (bzw. "· VB") und Herstellungs-Wünsche "×Menge" in Zeile 1 hinter dem Namen, die Angaben
+  des Spiels darunter; Gegenstand noch nicht im Zwischenspeicher -> Hauptzahl als eigene erste Zeile.
+- FRAGE an den Supervisor: Reine Gegenstands-Tooltips ohne eigene Zahl von GuildSentinel (fehlende Rezepte, Rezepte, Beute-Wünsche) zeigen
+  nur den Tooltip des Spiels; dessen Zahlen (Stapelgrösse, Verkaufspreis, Stufe) sind keine Hauptzahl von GS und GS kann ihre Reihenfolge
+  nicht ändern. T317 zählt sie jetzt getrennt und nennt die Zahl ("reine Gegenstands-Tooltips des Spiels (nicht gewertet) n"; Nachbau 18,
+  alle prof>gaps). Erkennung über UI.ItemTip ohne Hauptzahl (UI.tipPureItem), kein Raten. Ist das richtig, oder sollen sie zählen?
+  Bis zur Antwort so; ändern ist eine Zeile.
+- Test run_l5.lua (3 × 12): T317 OK; reine gezählt (> 0); leerer Tooltip -> Hauptzahl Zeile 1; gefüllter -> Hauptzahl Zeile 1, Zeile 3 des
+  Spiels bleibt; Markierung rein/nicht rein/gelöscht; Gegenprobe alte Tooltips -> T317 FEHLER mit board>offer, board>want, prof>req.
+
+E) GS-P1 NIEDRIG – Leistung: Ursache je Prüfung, Spielbetrieb ja/nein, Speicher
+- Wichtig zur Lesart: Das Etikett "T269" im Bericht 0.9.60 war die zuletzt FERTIGE Prüfung; die Zeit lag in der Arbeit danach (Code nach
+  T269 bis zum nächsten Anhalten). Zudem kann in jedem Bild eine Speicherbereinigung von Lua laufen (Abfall aller Addons) – sie zählt in die
+  Portion mit. Deshalb jetzt in der Testroutine (R.Where, R.NotePortion, Zeile "längste Portionen (Ort, Speicher)" im Bericht):
+  "in Txx" = Prüfung läuft, "nach Txx" = zwischen Prüfungen, und je Portion der Speicher vorher/nachher – sinkt er, lief im Bild eine
+  Bereinigung ("Speicherbereinigung im Bild: n KB frei"). Der nächste Ingametest belegt so die Ursache statt sie zu vermuten.
+  Nachbau (Lua 5.1, eigene Uhr): längste 22,1 ms "nach T289f – nach T295b" mit Speicherbereinigung 14 933 KB frei; 10,9 ms mit 6 551 KB frei.
+  * T269 (25,8 ms): T269 selbst 0,1 ms (Nachbau). Danach folgt der Aufbau von TU1–TU8 (Lagen-Katalog mit erfundenen Gilden). Verdacht,
+    zu messen: Speicherbereinigung im selben Bild (die Prüfungen legen >= 17 MB an, siehe unten). Spielbetrieb: nein (nur Testroutine).
+  * T09: Portion danach = erste Seite unter simulierter Retail-Version (OpenAllPages mit Anhalten zwischen den Seiten). Erstes Öffnen
+    einer Seite baut sie (Nachbau: Mitglieder 3,8 ms, Gruppe 3,1, Berufe 3,7, Leitung 3,5; nochmal 0,1–1,9 ms). Spielbetrieb: ja, beim
+    ERSTEN Öffnen einer Seite je Sitzung (bekannt als G-4a, "LANGSAM Seite members"); sonst nein.
+  * T21–T22 (belegt und behoben): alle Seiten ohne Gilde (T21) und 14 Unterbefehle (T22) liefen in EINER Prüfung am Stück (innerhalb
+    pcall/Ersatzwerten kein Anhalten möglich), Nachbau 16,2 ms (T22) + T21. Jetzt ausserhalb der Prüfung je Seite bzw. je Befehl eine
+    Portion; die Prüfungen werten nur aus (gleiche Bedingungen, Ergebnis gleich). Nachbau danach: keine Portion "T19–T22" mehr unter den
+    längsten. Spielbetrieb: nein (ein Befehl öffnet eine Seite, siehe T09).
+  * T295g: T295g selbst 0,2 ms (CutKeepWhisper 0,02 ms je Aufruf). Portion danach = Vorbereitung G-3 (AutoRun: simulierte Flüster-
+    Gespräche in Ersatzwerten, T296a–e), Nachbau 9–16 ms, dazu T295b (14 Werbetexte, je Rc:AdText 0,21 ms + Ersatzwerte). Spielbetrieb:
+    nein – im Spiel eine Antwort bzw. ein Werbetext je Ereignis (0,21 ms).
+- Dabei gefunden und behoben: Die Bank-Prüfungen (T175–T181) liefen in einfachem pcall – Anhalten dazwischen war unmöglich ("Abgabe nicht
+  möglich (pcall)" nach T176–T181 im Nachbau). Jetzt über T.PCall des Takts (Anhalten erlaubt, Fehler wie vorher).
+- Speicher >= 17 191 KB: angelegt von den Prüfungen selbst (erfundene Gilden, Ersatzwerte, Texte in 10 Sprachen) – Nachbau >= 10 297 KB,
+  je Bereich B 8 574, K 691, F 458, E 254, C 100; grösste T296e 587, T12 583, T296d 506, T307d 480, T124 454. Wird nach dem Lauf frei
+  (Bereinigung), bleibt nicht. Ausnahme mit Folgen im Spielbetrieb: T61 1 438 KB = Activity:Grid (Seite "Online-Zeiten") baute je
+  Messung eine Tabelle (date("*t"), bis 1 680 Messungen) und lief je Anzeige zweimal (Grid + Best). Behoben: date("%w")/date("%H")
+  (kurze Texte, die Lua schon hat) und Best(3, grid). Nachbau 1 680 Messungen: 1 196 KB -> 42 KB je Aufbau; Raster Zelle für Zelle gleich
+  (168 Zellen, über das Ende der Sommerzeit 25.10.), Gegenprobe eine Messung mehr -> genau eine Zelle anders (run_grid.lua, 3 × 6).
+
+F) SH-V3 – GoldSentinelTest Version 3 unverändert kopiert (cmp mit shared/ gleich, alle 7 gemeinsamen Dateien)
+- GuildSentinel ruft Prüfungen über eine eigene Hülle (Check in TestRoutine.lua, "return nil, Grund" = SKIP seit 0.9.59). SH-NIL dort
+  gleich umgesetzt: nil als erster Rückgabewert = FEHLER "Prüfung lieferte nil statt true"; SKIP nur noch bei GENAU zwei Werten
+  (nil, Grund-Text) – "return r and x, y, z" ohne r (drei Werte) ist FEHLER, auch wenn y ein Text ist. Gar keine Rückgabe bleibt OK.
+  Gegenprobe (eingeschobene Prüfungen): "local r return r and true, x, y" -> FEHLER, "return nil" -> FEHLER, "return nil, Grund" -> SKIP,
+  keine Rückgabe -> OK.
+- Neue FEHLER durch SH-NIL: 0 in allen 229 bisherigen Läufen (Zählung Lauf für Lauf gleich, 16 947). Code durchgesehen: alle 17
+  "return nil, Grund" in Prüfungen sind gewollte SKIP (keine Gilde, Seite fehlt, nicht gemessen …); die übrigen 5 Treffer der Suche sind
+  2 Kommentare und 3 nachgebaute Spielfunktionen. Eine Stelle mit dem gefährlichen Muster
+  gefunden und vorsorglich behoben: T275 "return snap and #parts == 0, …" – ohne lesbaren Datenstand wäre das bisher still SKIP gewesen,
+  jetzt FEHLER "Datenstand nicht lesbar". Im Spiel bisher nicht aufgetreten (T275 war OK).
+- SH-UTF8: ns.CountError kürzt Fehlertexte jetzt ebenfalls nie mitten in einem UTF-8-Zeichen.
+
+G) TESTS (offline, test/run_alle.sh, RO=1 Abgleich Lauf für Lauf)
+- 253 Läufe, 0 rot · 21 386 Einzelprüfungen bestanden, 0 fehlgeschlagen.
+- Abgleich mit 0.9.60 (229 Läufe, 16 947): alle 229 alten Läufe mit gleicher Zahl wie vorher (Abweichung 0). Neu 24 Läufe = 4 439:
+  Testroutine 1365×768 + LevelPilot + alle Klassen 8 Läufe (deDE 348, enUS 348, frFR 349, ruRU 349, koKR 349, zhCN 349, 11508 353,
+  20505 353 = 2 798), dazu Schrift 1,3 4 Läufe (348 + 349 + 349 + 349 = 1 395), run_ausweichen 3 × 26 = 78, run_klassen 3 × 38 = 114,
+  run_l5 3 × 12 = 36, run_grid 3 × 6 = 18. 2 798 + 1 395 + 78 + 114 + 36 + 18 = 4 439 = 21 386 − 16 947.
+- Nachbau angepasst (keine Prüfung abgeschwächt): echte Klassenfarben und -namen (run_new.lua erwartet im Export jetzt "Jäger" statt
+  "HUNTER"), Massstab in geom.lua, mehrzeiliger Gegenstands-Tooltip, GetRect/GetLeft/GetRight ohne Lage = nil wie im Spiel.
+
+H) IM SPIEL ZU PRÜFEN (Ingametest 0.9.61)
+- Mit offenem LevelPilot GuildSentinel öffnen: steht daneben, nichts überdeckt (T183); Schrift bei 99,4 % lesbar? Andere Auflösung/UI-Grösse?
+- Gruppe > Suche mit LevelPilot: Knopf im Fenster (T319). Klassenfarben (T311 >= 4,5:1). Brett-Tooltip: Menge/Preis in Zeile 1 (T317).
+- Bericht-Zeile "längste Portionen (Ort, Speicher)" zeigt die Ursachen der langsamen Bilder (Speicherbereinigung ja/nein).
+
+ADDON_CHECK (addon-check/addon_check.py, Ausgabe unverändert):
+  Vorlage shared/GoldSentinelGame.lua: Version 3
+  Vorlage shared/GoldSentinelTest.lua: Version 3
+  Tests der gemeinsamen Datei: nicht ausgeführt – lupa fehlt (pip install lupa); im GitHub-Lauf werden sie ausgeführt
+  Lua-Syntaxprüfung mit: luac5.1 (Lua 5.1)
+  ## GuildSentinel-0.9.61.zip: OK
