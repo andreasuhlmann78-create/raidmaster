@@ -816,3 +816,8 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     HINWEIS – die Leistungsgrenzen messen nur die eigene Arbeit, der Rest ist fast immer grösser; die Regel würde echte Rückschritte verdecken
     (Begründung RaidMaster 3.0.44, angenommen). Gründe für HINWEIS sind nur: Hintergrund/Fensterwechsel-Zeitraum, Ladebildschirm, Speicherbereinigung
     im betroffenen Bild. "Speicher je Addon" einmal am Ende statt beim längsten Bild ist RICHTIG (die Abfrage selbst kostet bis ~50 ms).
+>>> ABNAHME UP-AUTO1 – PC (Bild des Nutzers 20:54, Supervisor 20:55): Uploader 2.3.21 läuft, alte Sperre von 2.3.20 sauber entfernt, Hochladen OK
+    (203 KB, gepackt 21 KB, Prüfung 22 Dateien). "Addons: neue Versionen werden automatisch installiert (alle 5 Min.)" in …\_forever_\Interface\AddOns.
+    Installiert: GuildSentinel 0.9.61 -> 0.9.62 (7 Dateien), RaidMaster 3.0.43 -> 3.0.44 (5 Dateien), je "im Spiel /reload". Schreibrecht unter
+    Program Files (x86) vorhanden (Verdacht aus dem Bericht damit für den PC widerlegt). PC: ABGENOMMEN. Laptop: offen (Laptop nicht verbunden).
+    UP-ALT: PC liefert mit 2.3.21. Offen: Laptop und Offiziere.
