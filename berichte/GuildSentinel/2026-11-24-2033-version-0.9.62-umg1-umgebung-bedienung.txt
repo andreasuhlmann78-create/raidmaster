@@ -1,0 +1,51 @@
+BERICHT GuildSentinel 0.9.62 – GS-UMG1 Umgebung und Bedienung in der Testroutine
+Von: GuildSentinel-Sitzung · 24.11.2026 20:33 (Zeit aus date, Europe/Zurich) · Quellcode 22d4232
+Status: umgesetzt, zur Prüfung (Auftrag Supervisor 20:05, Entscheid des Nutzers 20:04). download/ (CurseForge) nicht angefasst.
+Nur TestRoutine.lua (Entwicklermodus), nur lesen; Spielcode unverändert. Leistungsgrenzen unverändert.
+
+a) Umgebung vor, während und nach dem Lauf
+- vor: wie bisher GoldSentinelTakt.EnvMeasure (10 s, Zeile "Umgebung: …"), der Wert wird als R.envBefore gemerkt.
+- während: eigener Wächter-Rahmen (GuildSentinelUmgFrame, OnUpdate) misst jedes ganze Bild (elapsed des vorigen Bildes) und je 2 s ein
+  Zeitfenster (Median). Fenster = "Hintergrund/Fensterwechsel möglich", wenn sein Median an der Hintergrund-Grenze liegt (maxFPSBk,
+  Median 90–125 % von 1000/maxFPSBk, Ruhe < 60 % davon – z. B. 33 ms bei 30 Bilder/s, Ruhe 9 ms) oder mindestens doppelt so lang wie
+  in Ruhe und >= 25 ms ist ("springt"). Aufeinanderfolgende Fenster werden zu Zeiträumen (s nach Start) zusammengefasst.
+- nach: während der Wartezeit der verzögerten Fälle (R.WAIT 7,5 s, keine eigene Arbeit) 5 s EnvMeasure -> R.envAfter; danach steht in
+  GoldSentinelTakt.env wieder der Wert von vorher. Ohne Wartezeit (Abbruch, Teil-Lauf ohne B/J) "nicht gemessen".
+b) Je Bild > 40 ms: eigene Portion dieses Bildes (Takt onPortion, gleicher Bildbeginn GetTime) gegen Rest, Ladebildschirm
+   (LOADING_SCREEN_ENABLED/DISABLED) ja/nein, Speicherbereinigung im Bild (Lua-Speicher sinkt um > 1 MB) ja/nein, Ort (in/nach Txx).
+   Zählung + die 8 längsten.
+c) Speicher je Addon: einmal nach dem Lauf (nach Wächter und allen Messungen) UpdateAddOnMemoryUsage + GetAddOnMemoryUsage (C_AddOns
+   vorrangig), die 6 grössten mit Anteil, GuildSentinel eigens, Anzahl und Summe; Dauer der Abfrage getrennt genannt, zählt nirgends mit.
+   Abweichung vom Wortlaut "beim LÄNGSTEN Bild": welches Bild das längste ist, steht erst am Ende fest; eine Abfrage mitten im Lauf
+   wäre selbst ein langes Bild (Ingametest 18.11.: 51,5 ms). Deshalb einmal am Ende – Frage: so recht?
+d) Bewertung: Leistungsprüfungen mit Zeitgrenze (T138–T144, T307e). FEHLER (ohne Lua-Fehler) -> HINWEIS "Bedienung/Umgebung möglich:
+   <Grund>", wenn ihr Bild in einem Hintergrund-Zeitraum liegt (2 s Vorlauf, weil T138/T143 vor der Prüfung messen), im Bild ein
+   Ladebildschirm lief oder das Bild > 40 ms war und der Rest grösser als die eigene Portion. HINWEIS zählt nicht als FEHLER (Zahl FEHLER
+   wird um 1 kleiner), steht als [HINWEIS] im Bericht. Andere Prüfungen und Lua-Fehler werden nie umgewertet.
+   Die gemeinsame Datei GoldSentinelTest kennt keinen Status HINWEIS (unverändert gelassen) – die Umwertung geschieht in TestRoutine.lua
+   direkt vor RUN:Finish.
+e) Berichtszeilen: "Umgebung (Bedienung): Vordergrund | Hintergrund/Fensterwechsel möglich – <Zeiträume> · Ladebildschirm n×",
+   "Bild vor dem Lauf … · während: Median, längstes (Bilder, Zeitfenster) · nach dem Lauf …", "lange Bilder (> 40 ms): n, davon Rest >
+   eigene Arbeit, mit Ladebildschirm, mit Speicherbereinigung · längste: …", "Hinweise (Bedienung/Umgebung möglich, kein FEHLER): n – IDs",
+   "Speicher je Addon (einmal nach dem Lauf …): …".
+
+Tests run_umg.lua (3 Spielversionen × 36), mit vorgegebenen Bildern:
+ 1 Vordergrund 9/9 ms: kein Zeitraum; Gegenprobe Überschreitung bleibt FEHLER. 2 Hintergrund (maxFPSBk 30, Bilder 33 ms, Ruhe 9 ms):
+ Zeitraum mit Grund "Hintergrund-Grenze (30 Bilder/s …)", T139 -> HINWEIS, FEHLER 3 -> 2. 3 Sprung 30 ms bei Ruhe 9 ms ohne Einstellung
+ erkannt; Gegenprobe 17 ms (unter doppelt und unter 25 ms) kein Zeitraum. 4 Bild 85 ms mit eigener Portion 3 ms -> HINWEIS "Rest grösser
+ als eigene Arbeit (Bild 85.0 ms, eigene Portion 3.0 ms)"; Gegenprobe eigene 60 ms -> bleibt FEHLER. 5 Ladebildschirm -> HINWEIS; echte
+ Speicherbereinigung im langen Bild erkannt. 6 Lua-Fehler einer Leistungsprüfung und FEHLER anderer Prüfungen nie umgewertet.
+ 7 Speicher je Addon: Abfrage genau einmal, Reihenfolge/Anteile/Summe, nicht geladene Addons nicht gezählt, alte Funktionen und C_AddOns.
+ 8 ganze Testroutine: alle Zeilen im Bericht, "nach dem Lauf" gemessen, Wächter danach aus, Umgebung vorher bleibt, keine Lua-Fehler.
+Gesamt (test/run_alle.sh, RO=1): 256 Läufe, 0 rot · 21 494 Einzelprüfungen. Abgleich mit 0.9.61 (253 / 21 386): alle alten Läufe gleich,
+neu 3 × 36 = 108; 21 386 + 108 = 21 494.
+
+Im Spiel zu prüfen: Testroutine einmal normal (Zeile "Umgebung (Bedienung): Vordergrund") und einmal mit Alt-Tab während des Laufs
+(Zeitraum erscheint, Leistungsprüfungen in dem Zeitraum höchstens HINWEIS). Zeile "Speicher je Addon" lesen (E-Regel 19:50).
+
+ADDON_CHECK (addon-check/addon_check.py, Ausgabe unverändert):
+  Vorlage shared/GoldSentinelGame.lua: Version 3
+  Vorlage shared/GoldSentinelTest.lua: Version 3
+  Tests der gemeinsamen Datei: nicht ausgeführt – lupa fehlt (pip install lupa); im GitHub-Lauf werden sie ausgeführt
+  Lua-Syntaxprüfung mit: luac5.1 (Lua 5.1)
+  ## GuildSentinel-0.9.62.zip: OK
