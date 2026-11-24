@@ -6346,3 +6346,21 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
      dem echten Datenstand des Nutzers (Daten-Repo, AUSPLUSLAPTOP, jetzt .lua.gz) laufen lassen und JEDEN der 49 Punkte einzeln zuordnen:
      echter Fehler im Addon / Test veraltet (dann begründen) / Folge der Sandbox. Nichts pauschal als "Testproblem" abtun.
     Reihenfolge: AHS-I1 -> AHS-I2 d) -> a)–e) -> I4 -> I3. CurseForge bleibt gesperrt.
+
+>>> MT-Prüfung 24.11.2026 (geplante Aufgabe "Markt-Tabellen täglich", Lauf 05:39) – Tabelle NICHT committet, Repo-Fassung bleibt Stand 16.11.
+    Bericht: berichte/Pruef-Sitzung/2026-11-24-0540-markt-tabellen.txt. Tests 20/20, 22/22, 6/6 bestanden; neue Fassung lädt (lupa), 10 092 Bytes,
+    keine Namen, Wellen nur offen/durch, kern nur markt/gilde mit p 0..1, n >= 30 (70 Zellen) – alles ok. Abgelehnt wegen Fallzahlen:
+    - Fallzahlen fallen gegen die Repo-Fassung (16.11.): Entzaubern 2:4:a n 1279 -> 816 (nKauf 1205 -> 761), 2:1:a n 750 -> 605;
+      Kaufen bis 0.6 n 21 -> 1, bis 0.7 n 155 -> 9, bis 0.8 n 425 -> 293; Verkauf de bis 0.90 n 11 -> 2, darüber n 34 -> 21.
+    - Kaufstufe bis 0.6 mit n 1: Gewinn +12 566,7 % (ein einzelner Fall; Kern buyk dieselbe Stufe: 21 Käufe, +52,7 %).
+    - Ursache (belegt): Im Daten-Repo stehen nur noch die Tage 21.–23.11. (tage/) und aktuell/, Verlauf 1 Commit – die Stände 14.–20.11. fehlen.
+      Das Journal im Addon hält nur die neuesten Einträge (Laptop-Journal beginnt bei t 577766; der Befund vom 18.11. hatte Käufe bei t 575788).
+      Kein Rechner fehlt: alle 4 geliefert (AUSPLUSLAPTOP nur als .lua.gz, wird gelesen: D 1698, P 172, B 1130 Einträge).
+    - Zu entscheiden (Supervisor/Nutzer): ältere Stände wiederherstellen (Daten-Repo) oder die Fallzahl-Regel für diesen Neustart aussetzen.
+      Nur Befund, keine Lösung erfunden.
+
+>>> KERN-ABGLEICH 24.11.2026 (geplante Aufgabe, testberichte/markt/kern/2026-11-24.md) – harte Prüfung "Zellen, die nicht aufgehen" > 0:
+    AUSPLUSLAPTOP 28, DESKTOP-JD5SLR5 29, MININT-M6UO3AL 36 (Ziel 0; am 18.11. waren es 0). Fast alle "FEHLT IM KERN" in den Verkaufszellen
+    ausserhalb de: (Laptop: misc:1 Journal 29 / Kern 11, misc:3 26 / 1, misc:5 29 / 6, consum:1 17 / 4, herb:1–5, leather:1–5, cloth:1–3,5 Kern 0–1);
+    de:1–de:4 gehen auf, de:5 weicht ab (Journal 21 / 12,87 verkauft, Kern 26 / 16,87). Abgleich Verkauf ausserhalb 95 %: Laptop 4 (consum:1, de:5,
+    metal:5, misc:2), JD5 1, M6U 1. Nur Befund, keine Lösung.

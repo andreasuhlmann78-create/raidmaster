@@ -1,0 +1,62 @@
+Markt-Tabellen täglich – 24.11.2026 (geplante Aufgabe, Lauf 05:39 MEZ)
+=====================================================================
+Ergebnis: Tabelle NICHT committet (Schritt 4: Fallzahlen fallen). Befunde "MT-Prüfung 24.11.2026" und "KERN-ABGLEICH 24.11.2026"
+unten in auftraege/AHSentinel/offen-ahsentinel.txt, Zeile in auftraege/nachrichten-log.txt (so verlangt es die Anleitung vom 23.11.).
+Committet: testberichte/markt/kern/2026-11-24.md, dieser Bericht, die zwei Einträge oben. Repo-Tabelle bleibt Stand 16.11.
+
+Datenlage
+- Daten-Repo: neuester Commit 23.11. 23:51 MEZ (< 36 Std.). Verlauf nur 1 Commit; tage/ nur 21., 22., 23.11.
+- 11 Stände (alle 4 Rechner):
+    aktuell/  AUSPLUSLAPTOP (gepackt .lua.gz), DESKTOP-NVITMSE, DESKTOP-JD5SLR5, MININT-M6UO3AL (ungepackt)
+    tage/21.11. JD5, M6U · 22.11. JD5, NVITMSE, M6U · 23.11. AUSPLUSLAPTOP (gepackt), M6U
+- Journal je Stand (aktuell): Laptop D 1698 / P 172 / B 1130; NVITMSE D 1703 / P 168 / B 1129; JD5 P 139 / B 13; M6U D 130 / P 64 / B 28.
+  Die gepackte Laptop-Datei wird gelesen.
+- Tests: test_kern_daten.py 20/20, test_markt_tabellen_alle.py 22/22, test_sv_gz.py 6/6.
+
+Prüfung der neu gerechneten Fassung (nur im Arbeitsordner)
+- Lädt in Lua (lupa) ok · 10 092 Bytes < 50 KB ok · nur Zahlen und Schlüssel, keine Spieler- oder Realm-Namen ok ·
+  Zustände nur offen/durch ok · Teil kern: Wege markt (30 Zellen) und gilde (40 Zellen), alle p 0..1, n >= 30 ok · Teil alle: 2 Tage.
+- NICHT ok: Fallzahlen fallen (siehe unten). Ursache: Die Stände 14.–20.11. fehlen im Daten-Repo; das Journal im Addon hält nur die
+  neuesten Einträge (Laptop-Journal beginnt bei t 577766, ältere Käufe wie t 575788 vom 18.11. stehen nur in den fehlenden Ständen).
+  Kein Rechner liefert nichts: alle 4 sind dabei.
+
+Wellen je Band (Repo 16.11. -> heute gerechnet)
+  5-25   steigt 0.649 (10 T) -> offen 0.949 (10 T)
+  26-35  durch  0.149 (10 T) -> offen 0.796 (10 T)
+  36-45  offen  0.230 (10 T) -> offen 0.714 (10 T)
+  46-55  offen  0.453 (9 T)  -> durch 0.766 (10 T)
+  56-60  offen  0.449 (7 T)  -> durch 0.754 (10 T)
+
+Entzaubern (Repo -> heute; n, nKauf, Tabelle, Gewinn, Mindest)
+  2:4:a 1279/1205/0.965/0.258/0.20 -> 816/761/0.973/0.231/0.20   (n FÄLLT)
+  2:1:a 750/0/1.007/–/0.20         -> 605/0/0.992/–/0.20         (n FÄLLT)
+  2:6:a 124/62/0.950/0.199/0.30    -> 250/223/1.012/0.277/0.20   (viele neue Fälle)
+  2:3:a 20/0/0.947/–/0.20          -> 96/0/1.009/–/0.20
+  neu: 2:5:a 46/34/1.035/0.174/0.30; 2:2:a n 4, 2:7:a n 1, 3:2–3:5 n 2–3 (n < 5, nicht gewertet)
+
+Kaufstufen (Repo -> heute; n, Gewinn)
+  bis 0.6  21 +52.7 %  -> 1 +12 566.7 %   (n FÄLLT, Einzelfall unplausibel)
+  bis 0.7  155 +39.5 % -> 9 +58.1 %       (n FÄLLT)
+  bis 0.8  425 +30.7 % -> 293 +31.9 %     (n FÄLLT)
+  bis 0.9  598 +17.5 % -> 648 +22.5 %
+  darüber  15 −6.5 %   -> 70 +6.5 %
+
+Verkaufsquoten (heute; Repo in Klammern)
+  de:     bis 0.90 n 2 0.500 (11/0.298) · bis 0.97 n 23 0.435 (19/0.491) · bis 1.03 n 59 0.663 (48/0.740) · bis 1.10 n 11 0.309 (9/0.600)
+          · darüber n 21 0.613 (34/0.353)
+  misc:   n 35/14/22/16/31, Quoten 0.652/0.714/0.773/0.688/0.774 (neu)
+  consum: n 27/6/7/2/15, Quoten 0.815/1.0/0.286/0.5/0.853 (Repo nur bis 1.03 n 1)
+  neu mit kleinen n: cloth, herb, leather, gear2, gear3; metal bis 0.90 n 2 1.0, darüber n 1 1.0
+
+Teil kern: 3 Quellen (Repo 1), 70 Zellen (Repo 21). Weg markt weitergegeben (Laptop Brier 0.0234 < 0.0252, n 696 202; JD5 0.0534 < 0.0572;
+  M6U 0.0573 < 0.0581). Weg gilde: Laptop nicht besser (0.0929 gegen 0.0925), JD5 0.0930 < 0.1027, M6U 0.0895 < 0.0984 weitergegeben.
+  Weg sell: nur JD5 unter 0,20 (0.1838) – in der Tabelle nur markt/gilde.
+
+Kern-Abgleich (testberichte/markt/kern/2026-11-24.md)
+  Zellen, die nicht aufgehen: Laptop 28, JD5 29, M6U 36 (Ziel 0; 18.11.: 0). Fast alle "FEHLT IM KERN" ausserhalb de: (misc, consum, herb,
+  leather, cloth); de:1–4 gehen auf, de:5 weicht ab. Verkauf ausserhalb 95 %: Laptop 4, JD5 1, M6U 1. -> Befund KERN-ABGLEICH 24.11.
+  Kaufen Kern gegen Tabelle (Laptop): bis 0.6 21 gegen 1, bis 0.7 167 gegen 9 – gleiche Ursache wie die fehlenden Stände.
+
+Zu entscheiden: ältere Stände 14.–20.11. wiederherstellen oder die Fallzahl-Regel für diesen Neustart des Daten-Repos aussetzen.
+Hinweis Regelwerk: Die Anleitung (23.11.) verlangt Befund in offen-ahsentinel.txt und Log-Zeile; der Hinweis vom 14.11. (a) sagte "nichts in
+auftraege/ und kein Log". Diesmal nach der neueren Anleitung gehandelt – bitte bestätigen oder zurücknehmen.
