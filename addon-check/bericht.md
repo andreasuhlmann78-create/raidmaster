@@ -33,7 +33,7 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## RaidMaster-3.0.43.zip: OK
 
-## ThreatSentinel-2.5.27.zip: OK
+## ThreatSentinel-2.5.28.zip: OK
 
 ## ahsentinel__ahsentinel-0.65.389.AHSentinel.zip: OK
 
