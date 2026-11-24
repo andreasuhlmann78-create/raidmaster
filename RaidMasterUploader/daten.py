@@ -68,22 +68,24 @@ DATEN_CONFIG = "daten_config.json"
 API = "https://api.github.com"
 ADDONS = ("AHSentinel", "GuildSentinel", "ProfessionSentinel", "LevelPilot", "ThreatSentinel", "BuffSentinel",
           "RaidMaster")
-MAX_FILE = 50 * 1024 * 1024          # GitHub-Grenze 100 MB je Datei; darüber überspringen
+MAX_FILE = 50 * 1024 * 1024          # gepackt je Datei (GitHub lehnt grosse Dateien ab); darüber überspringen
+MAX_RAW = 400 * 1024 * 1024          # UP-TAGE (2.3.19): ungepackt höchstens so viel einlesen (Speicher)
 STABLE_SECONDS = 10                  # Grösse/Zeit so lange unverändert -> WoW hat fertig geschrieben
 MIN_GAP = 60                         # höchstens 1 Commit je Minute
 RETRY_SECONDS = 300                  # nach einem Fehler spätestens dann neu (oder bei der nächsten Änderung)
-DAYS_KEEP = 7
-REPO_MAX = 200 * 1024 * 1024
-TOO_LARGE = re.compile(r"too large", re.I)        # UP-422b: "Sorry, your input was too large to process."
+DAYS_KEEP = 30                        # UP-TAGE (Entscheid des Nutzers 24.11. 06:26): 30 Tage, alles gepackt, 1 GB
+REPO_MAX = 1024 * 1024 * 1024        # Summe der (gepackten) Dateien im Daten-Repo
+KEEP_OLD_RETRY = 1800                # UP-TAGE: lehnt GitHub eine eigene Datei ab -> spätestens nach 30 Min. neu versuchen
 REPO_RE = re.compile(r"^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$")
 TOKEN_RE = re.compile(r"^(github_pat_|ghp_)[A-Za-z0-9_]+$")
 LIESMICH = ("# GoldSentinel-Daten (privat)\n\n"
             "Wird vom RaidMaster-Uploader geschrieben. Nur für die Prüf-Sitzung. Nicht von Hand ändern.\n\n"
             "- `aktuell/<rechner>/` – neuester Stand der Addon-Daten je Rechner (Spielversion, Konto-Kennung)\n"
-            "- `tage/<Datum>/<rechner>/` – letzter Stand der letzten 7 Spieltage je Rechner\n"
-            "- `stand.json` – je Rechner: Zeit und Dateien\n\n"
+            "- `tage/<Datum>/<rechner>/` – letzter Stand je Spieltag und Rechner, die letzten 30 Tage (höchstens 1 GB)\n"
+            "- `stand.json` – je Rechner: Zeit, Dateien, Uploader-Version, Tage\n\n"
             "Die Konto-Kennung (konto-xxxxxxxx) ist auf allen Rechnern gleich; der Kontoname steht hier nie.\n"
-            "Ist eine Datei für GitHub zu gross, liegt sie gepackt als `<Datei>.lua.gz` da (gzip; die ungepackte .lua fehlt dann).\n"
+            "Ab Uploader 2.3.19 liegt jede Datei gepackt als `<Datei>.lua.gz` da (gzip, z. B. `gzip.open(pfad, 'rt')`); "
+            "ältere Stände anderer Rechner und Tage können noch ungepackt (`.lua`) sein – Leser nehmen beides.\n"
             "Jede Lieferung ersetzt den Verlauf (ein einziger Commit) – ältere Fassungen gibt es hier nicht.\n")
 QUOTES = str.maketrans({"„": '"', "“": '"', "”": '"', "«": '"', "»": '"', "‘": "'",
                         "’": "'"})
@@ -426,6 +428,7 @@ class Daten:
         self.warned_big: set[str] = set()
         self.warned_filter: set[str] = set()       # DS1: "nicht geliefert" je Datei-Stand nur einmal melden
         self.warned_old = None                     # UP-DS2 (3): Hinweis "anderer Rechner mit altem Uploader" je Anzahl einmal
+        self._too_big: set[str] = set()
 
     # -- welche Dateien (DU2, T-DU10)
     def files(self) -> dict[str, str]:
@@ -455,7 +458,8 @@ class Daten:
     def status_line(self) -> str:
         if self.d.get("last"):
             line = (f"Prüfung: zuletzt geliefert {fmt_time(self.d['last'])} ({self.d.get('n', 0)} Dateien)"
-                    f" · Repo {fmt_mb(int(self.d.get('size') or 0))}")
+                    f" · Repo {fmt_mb(int(self.d.get('size') or 0))}"
+                    + (f" · {self.d['tage']} Tage" if self.d.get("tage") else ""))
         else:
             line = "Prüfung: noch nichts geliefert"
         if self.last_error:
@@ -485,11 +489,12 @@ class Daten:
         for rel, fn in files.items():
             try:
                 size = os.path.getsize(fn)
-                if size > MAX_FILE:
+                if size > MAX_RAW:
+                    self._too_big.add(rel + ".gz")          # 2.3.19: vorige Fassung im Repo bleibt stehen
                     if f"{rel}:{size}" not in self.warned_big:
                         self.warned_big.add(f"{rel}:{size}")
                         self.log(f"Prüfung: {rel.split('/')[-1]} ist {fmt_mb(size)} gross (über "
-                                 f"{fmt_mb(MAX_FILE)}) – übersprungen.")
+                                 f"{fmt_mb(MAX_RAW)}) – übersprungen.")
                     continue
                 with open(fn, "rb") as f:
                     data = f.read()
@@ -516,9 +521,10 @@ class Daten:
             cur[rel] = (data, git_blob_sha(data))
         return cur
 
-    def _clean_guildsentinel(self, sha: str, fetch, fblobs: dict[str, bytes]) -> str | None:
+    def _clean_guildsentinel(self, sha: str, fetch, fblobs: dict[str, bytes], packed: bool = False) -> str | None:
         """UP-DS2: Datei mit Prüfwert sha filtern. Rückgabe neuer Prüfwert (gleich = war schon sauber) oder None (nicht lesbar).
-        Merkt sich das Ergebnis je Prüfwert in st["daten"]["ds2"], damit jede Datei nur einmal geladen wird."""
+        Merkt sich das Ergebnis je Prüfwert in st["daten"]["ds2"], damit jede Datei nur einmal geladen wird.
+        packed (UP-TAGE 2.3.19): GuildSentinel.lua.gz – entpacken, filtern, geändert wieder gepackt (nicht entpackbar = nicht lesbar)."""
         memo = self.d.setdefault("ds2", {})
         if sha in memo:
             ns = memo[sha]
@@ -532,10 +538,13 @@ class Daten:
         # wiederholt; die Datei des anderen Rechners bleibt so lange unverändert im Repo (kein dauerhaftes Weglassen).
         data = fetch(sha)
         try:
-            new, _n = svfilter.filter_guildsentinel(data)
+            raw = gzip.decompress(data) if packed else data
+            new, _n = svfilter.filter_guildsentinel(raw)
         except Exception:                            # nicht sicher lesbar -> weglassen und merken, nie ungefiltert
             memo[sha] = ""
             return None
+        if packed:
+            new = data if new == raw else gzip.compress(new, compresslevel=9, mtime=0)
         ns = git_blob_sha(new)
         if ns != sha:
             fblobs[ns] = new
@@ -544,8 +553,8 @@ class Daten:
         return ns
 
     def _build(self, now: float, old: dict[str, dict], cur: dict[str, tuple[bytes, str]], stand_old: dict, fetch=None):
-        """Neuer Baum: eigener Rechner neu, andere Rechner unverändert (GuildSentinel.lua gefiltert), 7 Tage, höchstens
-        200 MB. fetch(sha) -> bytes lädt eine Datei aus dem Repo (UP-DS2); ohne fetch kein Nachfiltern."""
+        """Neuer Baum: eigener Rechner neu, andere Rechner unverändert (GuildSentinel.lua gefiltert), DAYS_KEEP Tage, höchstens
+        REPO_MAX. fetch(sha) -> bytes lädt eine Datei aus dem Repo (UP-DS2); ohne fetch kein Nachfiltern."""
         self._have = {e.get("sha") for e in old.values()}
         me = self.folder
         today = time.strftime("%Y-%m-%d", time.localtime(now))
@@ -555,7 +564,8 @@ class Daten:
             entries[f"aktuell/{me}/{rel}"] = s
             entries[f"tage/{today}/{me}/{rel}"] = s
             sizes[s] = len(data)
-        for rel in getattr(self, "_keep_old", {}):        # UP-422: von GitHub abgelehnte eigene Datei -> vorige Fassung bleibt
+        for rel in set(getattr(self, "_keep_old", {})) | set(getattr(self, "_too_big", set())):
+            # UP-422: von GitHub abgelehnte eigene Datei, 2.3.19: zu grosse eigene Datei -> vorige Fassung bleibt
             for r in {rel, rel[:-3] if rel.endswith(".lua.gz") else rel + ".gz"}:   # gepackt oder ungepackt, was da ist
                 p = f"aktuell/{me}/{r}"
                 if p in old and p not in entries:
@@ -569,6 +579,7 @@ class Daten:
                 sizes.setdefault(e["sha"], int(e.get("size") or 0))
         days = sorted({p.split("/")[1] for p in old if p.startswith("tage/") and len(p.split("/")) == 6})
         keep = [d for d in days if d != today][-(DAYS_KEEP - 1):] if DAYS_KEEP > 1 else []
+        self.days_aged = [d for d in days if d != today and d not in keep]   # UP-TAGE: älter als DAYS_KEEP -> fallen weg
         for p, e in old.items():
             parts = p.split("/")
             if parts[0] != "tage" or len(parts) != 6:
@@ -595,9 +606,9 @@ class Daten:
         gone_ds2 = 0
         if fetch is not None:
             for p in sorted(entries):
-                if not p.endswith("/GuildSentinel.lua") or entries[p] in own:
+                if not p.endswith(("/GuildSentinel.lua", "/GuildSentinel.lua.gz")) or entries[p] in own:
                     continue
-                ns = self._clean_guildsentinel(entries[p], fetch, fblobs)
+                ns = self._clean_guildsentinel(entries[p], fetch, fblobs, packed=p.endswith(".gz"))
                 if ns is None:
                     del entries[p]
                     gone_ds2 += 1
@@ -613,11 +624,15 @@ class Daten:
         for rel, (d, s) in cur.items():
             files[rel] = {"bytes": len(d), "sha": s}
             if rel.endswith(".lua.gz"):
-                files[rel]["gepackt"] = True                # UP-422b: gzip; ungepackte Grösse dazu
-                files[rel]["bytes_ungepackt"] = int(raw.get(rel[:-3], 0))
+                files[rel]["gepackt"] = True                # gzip; ungepackte Grösse dazu
+                files[rel]["bytes_ungepackt"] = int(raw.get(rel, 0))
+        tage = sorted({p.split("/")[1] for p in entries if p.startswith("tage/") and len(p.split("/")) == 6})
         stand[me] = {"zeit": int(now), "dateien": files,
                      "grundregeln": list(self.d.get("grundregeln") or []),      # TU5: Verletzungen (ohne Namen)
-                     "uploader": self.version or "unbekannt"}                   # UP-DS2 (1)
+                     "uploader": self.version or "unbekannt",                   # UP-DS2 (1)
+                     "tage": {"anzahl": len(tage), "von": tage[0] if tage else "", "bis": tage[-1] if tage else "",
+                              "grenze_tage": DAYS_KEEP, "grenze_mb": REPO_MAX // (1024 * 1024)}}   # UP-TAGE
+        self.days_now = tage
         extra = {"LIESMICH.md": LIESMICH.encode("utf-8"),
                  "stand.json": json.dumps(stand, ensure_ascii=False, indent=1, sort_keys=True).encode("utf-8")}
         for p, data in extra.items():
@@ -628,20 +643,24 @@ class Daten:
         self.fblobs = fblobs
         return entries, sizes, extra, dropped
 
-    def _pack_known(self, cur: dict[str, tuple[bytes, str]]) -> dict[str, tuple[bytes, str]]:
-        """UP-422b: Dateien, die GitHub schon einmal als zu gross abgelehnt hat, gleich gepackt liefern (solange sie
-        mindestens 80 % der damaligen Grösse haben) – spart den vergeblichen Versuch."""
-        self._raw_sizes = {rel: len(d) for rel, (d, _) in cur.items()}
-        known = self.d.get("gz") or {}
+    def _pack_all(self, cur: dict[str, tuple[bytes, str]]) -> dict[str, tuple[bytes, str]]:
+        """UP-TAGE (2.3.19, Entscheid des Nutzers 24.11. 06:26): JEDE eigene Datei gepackt liefern (<Datei>.lua.gz, gzip
+        Stufe 9, mtime=0 -> gleiche Datei = gleicher Prüfwert, kein Commit ohne Änderung). Gepackt über MAX_FILE -> übersprungen."""
+        self._raw_sizes = {}
+        self.d.pop("gz", None)                         # Merkliste von 2.3.18 (nur zu grosse gepackt) nicht mehr nötig
         out = {}
-        for rel, (data, sha) in cur.items():
-            if rel in known and len(data) >= 0.8 * int(known[rel] or 0) > 0:
-                packed = gzip.compress(data, compresslevel=9, mtime=0)
-                out[rel + ".gz"] = (packed, git_blob_sha(packed))
-            else:
-                out[rel] = (data, sha)
-                if rel in known:
-                    known.pop(rel)                     # wieder klein genug -> ungepackt
+        for rel in sorted(cur):
+            data = cur[rel][0]
+            packed = gzip.compress(data, compresslevel=9, mtime=0)
+            if len(packed) > MAX_FILE:
+                self._too_big.add(rel + ".gz")              # vorige Fassung im Repo bleibt stehen
+                if f"{rel}:gz:{len(data)}" not in self.warned_big:
+                    self.warned_big.add(f"{rel}:gz:{len(data)}")
+                    self.log(f"Prüfung: {rel.split('/')[-1]} ist gepackt {fmt_mb(len(packed))} gross (über "
+                             f"{fmt_mb(MAX_FILE)}) – übersprungen.")
+                continue
+            out[rel + ".gz"] = (packed, git_blob_sha(packed))
+            self._raw_sizes[rel + ".gz"] = len(data)
         return out
 
     @staticmethod
@@ -663,7 +682,7 @@ class Daten:
             if not ver or ver == "unbekannt" or self._older(ver, self.version):
                 n += 1
         if n and n != self.warned_old:
-            self.log(f"Prüfung: {n} andere(r) Rechner liefert noch mit einem alten Uploader (ohne Datenschutz-Filter) – "
+            self.log(f"Prüfung: {n} andere(r) Rechner liefert noch mit einem alten Uploader (kürzt die Tages-Stände auf 7 Tage) – "
                      f"dort den Uploader auf {self.version or 'die neue Version'} bringen.")
         self.warned_old = n
         self.old_uploaders = n
@@ -673,15 +692,15 @@ class Daten:
         (gemerkte Prüfwerte verworfen, alle Dateien neu geschickt, Prüfwerte, die GitHub als fehlend nennt, nicht mehr
         verwendet); lehnt GitHub eine eigene Datei ab, bleibt deren vorige Fassung und der Rest wird geliefert."""
         self.d["last_try"] = now
-        self._packed: list[str] = []                 # UP-422b: diesmal gepackt geliefert
         self._keep_old: dict[str, str] = {}          # eigene Dateien, die GitHub ablehnt -> vorige Fassung bleibt
         self._missing: set[str] = set()              # Prüfwerte, die GitHub als fehlend meldet
+        self._too_big: set[str] = set()              # 2.3.19: eigene Dateien über MAX_RAW / gepackt über MAX_FILE
         try:
             info = self.api.repo_info()
             if info.get("private") is not True:
                 raise GitHubError(f"{self.api.repo} ist nicht privat – aus Sicherheitsgründen nichts geliefert")
             branch = str(info.get("default_branch") or "main")
-            cur_all = self._pack_known(self._read_files(files))
+            cur_all = self._pack_all(self._read_files(files))
             strict, head_retried, rounds = False, False, 0
             while True:
                 rounds += 1
@@ -696,10 +715,15 @@ class Daten:
                     old = {e["path"]: e for e in self.api.tree(head)} if head else {}
                     mine = {p: e.get("sha") for p, e in old.items() if p.startswith(f"aktuell/{self.folder}/")}
                     memo = self.d.get("ds2") or {}
-                    dirty = any(p.endswith("/GuildSentinel.lua") and memo.get(e.get("sha")) != e.get("sha")
+                    dirty = any(p.endswith(("/GuildSentinel.lua", "/GuildSentinel.lua.gz"))
+                                and memo.get(e.get("sha")) != e.get("sha")
                                 for p, e in old.items() if not p.startswith(f"aktuell/{self.folder}/"))
-                    if (not strict and not dirty and not self._keep_old
-                            and mine == {f"aktuell/{self.folder}/{rel}": s for rel, (_, s) in cur.items()}):
+                    want = {f"aktuell/{self.folder}/{rel}": s for rel, (_, s) in cur.items()}
+                    for r in self._too_big:                      # zu grosse eigene Datei: vorige Fassung bleibt ohnehin
+                        for v in (r, r[:-3]):
+                            if f"aktuell/{self.folder}/{v}" in mine:
+                                want[f"aktuell/{self.folder}/{v}"] = mine[f"aktuell/{self.folder}/{v}"]
+                    if not strict and not dirty and not self._keep_old and mine == want:
                         self.d["sig_done"] = sig                 # nichts geändert -> nie ein Commit
                         self.last_error = ""
                         self.save()
@@ -722,7 +746,7 @@ class Daten:
                     own_rel = {}
                     for r, (_, cs) in cur.items():
                         own_rel.setdefault(cs, []).append(r)
-                    order = sorted(blobs, key=lambda s: 0 if any(r.endswith("/AHSentinel.lua") for r in own_rel.get(s, []))
+                    order = sorted(blobs, key=lambda s: 0 if any(r.endswith("/AHSentinel.lua.gz") for r in own_rel.get(s, []))
                                    else 1)
                     for s in order:                              # AHSentinel zuerst
                         if s in have:
@@ -731,18 +755,8 @@ class Daten:
                             got = self.api.blob(blobs[s])
                         except GitHubError as e:
                             if e.code == 422 and s in own_rel:   # eigene Datei abgelehnt -> ohne sie neu bauen
-                                for r in own_rel[s]:
-                                    if TOO_LARGE.search(e.detail or "") and not r.endswith(".gz"):
-                                        # UP-422b: zu gross für GitHub -> gepackt liefern (<Datei>.lua.gz), gemerkt
-                                        packed = gzip.compress(cur_all[r][0], compresslevel=9, mtime=0)
-                                        cur_all.pop(r)
-                                        cur_all[r + ".gz"] = (packed, git_blob_sha(packed))
-                                        self.d.setdefault("gz", {})[r] = int(self._raw_sizes.get(r, 0))
-                                        self._packed.append(r)
-                                    else:
-                                        self._keep_old[r] = e.detail or "abgelehnt"
-                                        if r.endswith(".gz") and r[:-3] in self._packed:
-                                            self._packed.remove(r[:-3])  # auch gepackt zu gross -> nicht "gepackt geliefert"
+                                for r in own_rel[s]:             # (ab 2.3.19 ist jede eigene Datei schon gepackt)
+                                    self._keep_old[r] = e.detail or "abgelehnt"
                                 continue_outer = True
                                 break
                             raise
@@ -792,21 +806,30 @@ class Daten:
             return False
         total = sum(sizes.get(s, 0) for s in set(entries.values()))
         self.last_error = ""
-        self.d.update({"last": now, "n": len(cur), "sig_done": sig, "size": total})
+        self.d.update({"last": now, "n": len(cur), "size": total, "tage": len(self.days_now)})
+        if self._keep_old:
+            # UP-TAGE (2.3.19): eine eigene Datei fehlt noch -> NICHT als erledigt merken, später von selbst neu versuchen
+            self.retry_at = now + KEEP_OLD_RETRY
+        else:
+            self.d["sig_done"] = sig
         self.save()
+        if self.days_aged:
+            self.log(f"Prüfung: Tages-Stände älter als {DAYS_KEEP} Tage gelöscht ({', '.join(self.days_aged)}).")
         if dropped:
             self.log(f"Prüfung: Repo über {fmt_mb(REPO_MAX)} – ältere Tages-Stände gelöscht ({', '.join(dropped)}).")
         if self.fblobs or self.ds2_dropped:
             self.log(f"Prüfung: Datenschutz – {len(self.fblobs)} ältere GuildSentinel-Datei(en) bereinigt"
                      + (f", {self.ds2_dropped} nicht lesbare weggelassen" if self.ds2_dropped else "") + ".")
-        for rel in self._packed:
-            self.log(f"Prüfung: {rel} ist für GitHub zu gross ({fmt_mb(self._raw_sizes.get(rel, 0))}) – gepackt geliefert "
-                     f"({rel}.gz).")
         for rel, why in sorted(self._keep_old.items()):
-            self.log(f"Prüfung: GitHub lehnt {rel} ab ({why}) – dort bleibt die vorige Fassung, der Rest ist geliefert.")
+            self.log(f"Prüfung: GitHub lehnt {rel} ab ({why}) – dort bleibt die vorige Fassung, der Rest ist geliefert; "
+                     f"neuer Versuch in {KEEP_OLD_RETRY // 60} Min. oder bei der nächsten Änderung.")
         if self.missing_dropped:
             self.log(f"Prüfung: {self.missing_dropped} Eintrag/Einträge, deren Datei bei GitHub fehlt, nicht mehr übernommen.")
-        self.log(f"Prüfung: geliefert ({len(cur)} Dateien, Repo {fmt_mb(total)}).")
+        raw = getattr(self, "_raw_sizes", {})
+        unp = sum(int(raw.get(r, 0)) for r in cur)
+        packed = f", gepackt {fmt_mb(sum(len(d) for d, _ in cur.values()))} statt {fmt_mb(unp)}" if unp else ""
+        self.log(f"Prüfung: geliefert ({len(cur)} Dateien{packed}, Repo {fmt_mb(total)}, "
+                 f"{len(self.days_now)} Tag(e) von höchstens {DAYS_KEEP}).")
         return True
 
 

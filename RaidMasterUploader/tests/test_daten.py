@@ -2,6 +2,7 @@
 Eine nachgebildete GitHub-API (Git Data) im Speicher, kein Netz.
 Start: python3 -I RaidMasterUploader/tests/test_daten.py"""
 import base64
+import gzip
 import io
 import json
 import os
@@ -9,6 +10,7 @@ import re
 import shutil
 import sys
 import tempfile
+import time
 import unittest
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,6 +22,10 @@ TOKEN = "github_pat_TESTGEHEIM_1234567890abc"
 KONTO = daten.konto_id("123456789#1")
 AKT = "aktuell/PC/forever/" + KONTO + "/"
 T0 = 1794380000.0
+
+
+def unz(d: bytes) -> bytes:
+    return gzip.decompress(d) if d[:2] == b"\x1f\x8b" else d
 
 
 class Resp:
@@ -133,8 +139,19 @@ class FakeGitHub:
         raise AssertionError((method, path))
 
     # Sicht der Prüf-Sitzung
-    def files(self):
+    def raw_files(self):
+        """genau wie im Repo (ab 2.3.19 jede eigene Datei als <Datei>.lua.gz)"""
         return {p: self.blobs[s] for p, s in self.trees[self.commits[self.ref]["tree"]].items()}
+
+    def files(self):
+        """wie die Prüf-Sitzung liest: <Datei>.lua.gz entpackt unter <Datei>.lua (beide Fassungen zugleich = Fehler)"""
+        out = {}
+        for p, data in self.raw_files().items():
+            if p.endswith(".lua.gz"):
+                p, data = p[:-3], gzip.decompress(data)
+            assert p not in out, f"{p} gepackt UND ungepackt im Repo"
+            out[p] = data
+        return out
 
     def history(self):
         """Commits, die vom Zweig aus erreichbar sind."""
@@ -246,16 +263,39 @@ class Lieferung(unittest.TestCase):
         self.assertNotIn(TOKEN, "\n".join(out))
 
     def test_du3_ueber_50_mb_uebersprungen(self):
+        # ab 2.3.19 (UP-TAGE): Grenze MAX_FILE gilt gepackt; ungepackt wird bis MAX_RAW gelesen
         self.write("AHSentinel.lua", "AHSentinelDB = { 1 }\n", T0)
         big = self.write("GuildSentinel.lua", "x", T0)
         with open(big, "wb") as f:
-            f.truncate(daten.MAX_FILE + 1)
+            f.truncate(daten.MAX_RAW + 1)                                     # über MAX_RAW: gar nicht gelesen
         os.utime(big, (T0, T0))
         self.run_until(T0 + 1, T0 + 20)
         files = self.gh.files()
         self.assertIn(AKT + "AHSentinel.lua", files)
         self.assertNotIn(AKT + "GuildSentinel.lua", files)
         self.assertEqual(sum("GuildSentinel.lua ist" in l and "übersprungen" in l for l in self.logs), 1)
+
+    def test_tage_ueber_50_mb_ungepackt_wird_gepackt_geliefert(self):
+        # Laptop 23.11.: AHSentinel.lua 49,3 MB ungepackt – knapp unter der alten Grenze (2.3.18: ungepackt > 50 MB = übersprungen)
+        os.remove(self.write("GuildSentinel.lua", "", T0))
+        row = '\t["item"] = { 12345, 67890, "Name des Gegenstands" },\n'
+        text = "AHSentinelDB = {\n" + row * (daten.MAX_FILE // len(row) + 1000) + "}\n"
+        self.assertGreater(len(text), daten.MAX_FILE)                       # Gegenprobe: 2.3.18 hätte die Datei übersprungen
+        self.write("AHSentinel.lua", text, T0)
+        self.run_until(T0 + 1, T0 + 20)
+        self.assertEqual(self.gh.files()[AKT + "AHSentinel.lua"], text.encode())
+        self.assertLess(len(self.gh.raw_files()[AKT + "AHSentinel.lua.gz"]), daten.MAX_FILE // 20)
+        self.assertFalse(any("übersprungen" in l for l in self.logs), self.logs)
+        # gepackt über MAX_FILE -> übersprungen, mit Meldung (einmal)
+        old = daten.MAX_FILE
+        daten.MAX_FILE = 1000
+        try:
+            self.write("AHSentinel.lua", os.urandom(4000).hex(), T0 + 200)
+            self.run_until(T0 + 201, T0 + 300)
+        finally:
+            daten.MAX_FILE = old
+        self.assertEqual(sum("gepackt" in l and "übersprungen" in l for l in self.logs), 1, self.logs)
+        self.assertEqual(self.gh.files()[AKT + "AHSentinel.lua"], text.encode())   # vorige Fassung bleibt im Repo
 
     def test_du4_kein_netz_kein_absturz_abgleich_unabhaengig(self):
         self.write("AHSentinel.lua", "AHSentinelDB = { 1 }\n", T0)
@@ -306,26 +346,33 @@ class Lieferung(unittest.TestCase):
         self.assertEqual(self.gh.commit_count(), 5)
 
     def test_du6_nur_neuester_und_7_tage_ohne_verlauf(self):
-        # 20 Läufe über 9 Tage
+        # 2 Läufe je Tag über DAYS_KEEP + 2 Tage (2.3.19: 30 Tage)
         t = T0
-        for i in range(20):
-            day = i * 9 // 20
-            now = T0 + day * 86400 + (i % 3) * 3600
+        runs = 2 * (daten.DAYS_KEEP + 2)
+        for i in range(runs):
+            day = i // 2
+            now = T0 + day * 86400 + (i % 2) * 3600
             self.write("AHSentinel.lua", f"AHSentinelDB = {{ {i} }}\n", now)
             self.run_until(now + 1, now + 20)
             t = now
         files = self.gh.files()
         days = sorted({p.split("/")[1] for p in files if p.startswith("tage/")})
         self.assertEqual(len(days), daten.DAYS_KEEP)
-        self.assertEqual(files[AKT + "AHSentinel.lua"], b"AHSentinelDB = { 19 }\n")
+        last = f"AHSentinelDB = {{ {runs - 1} }}\n".encode()
+        self.assertEqual(files[AKT + "AHSentinel.lua"], last)
         last_day = days[-1]
-        self.assertEqual(files[f"tage/{last_day}/PC/forever/{KONTO}/AHSentinel.lua"], b"AHSentinelDB = { 19 }\n")
+        self.assertEqual(files[f"tage/{last_day}/PC/forever/{KONTO}/AHSentinel.lua"], last)
+        self.assertTrue(any(f"älter als {daten.DAYS_KEEP} Tage gelöscht" in l for l in self.logs), self.logs)
+        stand = json.loads(files["stand.json"])["PC"]["tage"]
+        self.assertEqual((stand["anzahl"], stand["von"], stand["bis"], stand["grenze_tage"], stand["grenze_mb"]),
+                         (daten.DAYS_KEEP, days[0], days[-1], 30, 1024))
+        self.assertIn(f"· {daten.DAYS_KEEP} Tage", self.dl.status_line())
         self.assertEqual(self.gh.history(), [self.gh.ref])                  # ein Commit, kein Verlauf
         self.assertEqual(self.gh.commits[self.gh.ref]["parents"], [])
         self.assertIn("Repo ", self.dl.status_line())
         # über 200 MB: älteste Tages-Stände früher löschen
         old_max = daten.REPO_MAX
-        daten.REPO_MAX = 3 * 40
+        daten.REPO_MAX = 3 * 60
         try:
             self.write("AHSentinel.lua", "AHSentinelDB = { 'gross' }\n" + "-- " * 10, t + 86400)
             self.run_until(t + 86401, t + 86420)
@@ -382,7 +429,10 @@ class Datenschutz(unittest.TestCase):
         with open(fn, encoding="utf-8") as f:
             self.assertEqual(f.read(), GS_SV)                                  # Datei im Spiel unverändert
         stand = json.loads(self.gh.files()["stand.json"])
-        self.assertEqual(stand["PC"]["dateien"]["forever/" + KONTO + "/GuildSentinel.lua"]["bytes"], len(up.encode()))
+        st = stand["PC"]["dateien"]["forever/" + KONTO + "/GuildSentinel.lua.gz"]          # ab 2.3.19 gepackt
+        self.assertEqual(st["bytes_ungepackt"], len(up.encode()))
+        self.assertEqual(st["bytes"], len(self.gh.raw_files()[AKT + "GuildSentinel.lua.gz"]))
+        self.assertTrue(st["gepackt"])
 
     def test_ds1_ohne_apps_ban_unveraendert(self):
         sv = 'GuildSentinelDB = {\n\t["guilds"] = {\n\t\t["R|G"] = {\n\t\t\t["roster"] = {\n\t\t\t},\n\t\t},\n\t},\n}\n'
@@ -828,6 +878,7 @@ class UPDS2(ZweiRechner):
                 out[rel] = (data, daten.git_blob_sha(data))
             return out
         dl._read_files = raw
+        dl._pack_all = lambda cur: (setattr(dl, "_raw_sizes", {}), cur)[1]   # vor 2.3.19: ungepackt
         return dl, roots
 
     def new_uploader(self, name, konten):
@@ -972,7 +1023,7 @@ class UP422(ZweiRechner):
         before = dict(self.gh.trees[self.gh.commits[self.gh.ref]["tree"]])
         # eine fremde Tages-Datei UND eine unveränderte eigene Datei fehlen bei GitHub
         gone = self.purge(lambda p: (p.startswith("tage/") and "/PC/" in p and p.endswith("AHSentinel.lua"))
-                          or (p.startswith("aktuell/Laptop/") and p.endswith("LevelPilot.lua")))
+                          or (p.startswith("aktuell/Laptop/") and p.endswith("LevelPilot.lua.gz")))
         self.assertEqual(len(gone), 2)
         self.put(lr["_forever_/" + self.K], "AHSentinel.lua", "AHSentinelDB = { 'lap2' }\n", T0 + 200)
         n0 = self.gh.commit_count()
@@ -1005,7 +1056,7 @@ class UP422(ZweiRechner):
         lap, lr, logs = self.ausgangslage()
         konto = daten.konto_id(self.K)
         old_ah = self.gh.files()[f"aktuell/Laptop/forever/{konto}/AHSentinel.lua"]
-        self.gh.reject_blob = lambda d: "Testsperre (nachgebildet)" if b"SPERRE" in d else None
+        self.gh.reject_blob = lambda d: "Testsperre (nachgebildet)" if b"SPERRE" in unz(d) else None
         self.put(lr["_forever_/" + self.K], "AHSentinel.lua", "AHSentinelDB = { 'SPERRE' }\n", T0 + 200)
         self.put(lr["_forever_/" + self.K], "LevelPilot.lua", "LevelPilotDB = { 'lap2' }\n", T0 + 200)
         self.drive(lap, T0 + 201, T0 + 240)
@@ -1013,7 +1064,7 @@ class UP422(ZweiRechner):
         self.assertEqual(files[f"aktuell/Laptop/forever/{konto}/AHSentinel.lua"], old_ah)   # vorige Fassung bleibt
         self.assertIn(b"lap2", files[f"aktuell/Laptop/forever/{konto}/LevelPilot.lua"])    # Rest geliefert
         self.assertFalse(any(b"SPERRE" in v for v in files.values()))
-        self.assertTrue(any(f"GitHub lehnt forever/{konto}/AHSentinel.lua ab (Validation Failed – Blob custom Testsperre"
+        self.assertTrue(any(f"GitHub lehnt forever/{konto}/AHSentinel.lua.gz ab (Validation Failed – Blob custom Testsperre"
                             in l for l in logs), logs)
         self.assertEqual(lap.last_error, "")
 
@@ -1040,65 +1091,187 @@ class UP422(ZweiRechner):
         self.assertEqual(daten.github_detail(b"kein json"), "")
 
 
-class UP422b(ZweiRechner):
-    """2.3.18 UP-422b (Laptop 23.11. 15:13, Text von GitHub belegt): "Sorry, your input was too large to process." für
-    forever/…/AHSentinel.lua. Zu grosse Dateien gehen gepackt als <Datei>.lua.gz ins Daten-Repo; die veraltete .lua fällt weg."""
+class UPTAGE(ZweiRechner):
+    """2.3.19 UP-TAGE (Befund HOCH 24.11., Entscheid des Nutzers 24.11. 06:26): jede eigene Datei gepackt (.lua.gz), 30 Tage,
+    höchstens 1 GB; fremde GuildSentinel.lua.gz gefiltert; abgelehnte eigene Datei -> später von selbst neu versucht."""
 
     K = "123456789#1"
+    old_uploader = UPDS2.old_uploader
     new_uploader = UPDS2.new_uploader
     TEXT = ("Sorry, your input was too large to process. Consider creating the blob in a local clone of the repository "
             "and then pushing it to GitHub.")
 
-    def test_up422b_zu_gross_wird_gepackt(self):
-        import gzip as gz
-        lap, lr, logs = self.new_uploader("Laptop", [self.K])
+    def test_tage_alles_gepackt_gleicher_stand_kein_commit(self):
         konto = daten.konto_id(self.K)
-        self.put(lr["_forever_/" + self.K], "AHSentinel.lua", "AHSentinelDB = { 'klein' }\n", T0)
+        # Laptop lieferte mit 2.3.18 ungepackt
+        lap, lr = self.old_uploader("Laptop", self.K)
+        acc = lr["_forever_/" + self.K]
+        self.put(acc, "AHSentinel.lua", "AHSentinelDB = { 'alt' }\n", T0)
         self.drive(lap, T0 + 1, T0 + 20)
-        self.gh.reject_blob = lambda d: self.TEXT if len(d) > 20000 else None   # Grenze der Nachbildung: 20 kB
-        big = "AHSentinelDB = {\n" + "".join(f'  ["item{i % 50}"] = {{ 12345, 67890 }},\n' for i in range(3000)) + "}\n"
-        self.assertGreater(len(big), 20000)
-        self.put(lr["_forever_/" + self.K], "AHSentinel.lua", big, T0 + 200)
-        self.put(lr["_forever_/" + self.K], "LevelPilot.lua", "LevelPilotDB = { 'lp' }\n", T0 + 200)
+        self.assertIn(f"aktuell/Laptop/forever/{konto}/AHSentinel.lua", self.gh.raw_files())
+        # derselbe Rechner mit 2.3.19
+        lap = daten.Daten(daten.GitHubAPI("ich/goldsentinel-daten", TOKEN), lr, {}, lambda: None, "Laptop", lambda t: None,
+                          version="2.3.19")
+        logs = []
+        lap.log = logs.append
+        ah = "AHSentinelDB = {\n" + "".join(f'  ["item{i % 70}"] = {{ {i}, 67890 }},\n' for i in range(5000)) + "}\n"
+        self.put(acc, "AHSentinel.lua", ah, T0 + 200)
+        self.put(acc, "LevelPilot.lua", "LevelPilotDB = { 'lp' }\n", T0 + 200)
+        self.drive(lap, T0 + 201, T0 + 240)
+        raw = self.gh.raw_files()
+        own = sorted(p for p in raw if p.startswith(("aktuell/Laptop/", f"tage/{time.strftime('%Y-%m-%d', time.localtime(T0 + 200))}/Laptop/")))
+        self.assertEqual(len(own), 4, own)
+        self.assertTrue(all(p.endswith(".lua.gz") for p in own), own)       # nichts ungepackt, alte .lua weg
+        files = self.gh.files()                                             # (prüft auch: nie .lua UND .lua.gz zugleich)
+        self.assertEqual(files[f"aktuell/Laptop/forever/{konto}/AHSentinel.lua"], ah.encode())
+        self.assertEqual(files[f"aktuell/Laptop/forever/{konto}/LevelPilot.lua"], b"LevelPilotDB = { 'lp' }\n")
+        gz = raw[f"aktuell/Laptop/forever/{konto}/AHSentinel.lua.gz"]
+        self.assertLess(len(gz) * 10, len(ah))
+        st = json.loads(raw["stand.json"])["Laptop"]
+        self.assertEqual(st["uploader"], "2.3.19")
+        a = st["dateien"][f"forever/{konto}/AHSentinel.lua.gz"]
+        self.assertEqual((a["gepackt"], a["bytes"], a["bytes_ungepackt"]), (True, len(gz), len(ah.encode())))
+        self.assertIn("gepackt als `<Datei>.lua.gz`", raw["LIESMICH.md"].decode())
+        self.assertTrue(any("gepackt" in l and "statt" in l and "von höchstens 30" in l for l in logs), logs)
+        # /reload mit gleichem Inhalt (neue Zeit): gleiche gepackte Bytes -> kein Commit
+        n = self.gh.commit_count()
+        self.put(acc, "AHSentinel.lua", ah, T0 + 400)
+        self.drive(lap, T0 + 401, T0 + 440)
+        self.assertEqual(self.gh.commit_count(), n)
+        # Gegenprobe: ohne mtime=0 hinge der Prüfwert an der Uhrzeit (dann jedes Mal ein Commit)
+        self.assertNotEqual(gzip.compress(ah.encode(), 9, mtime=1), gzip.compress(ah.encode(), 9, mtime=2))
+        self.assertEqual(gzip.compress(ah.encode(), 9, mtime=0), gz)
+
+    def test_tage_auch_gepackt_zu_gross_vorige_fassung_bleibt_und_neuer_versuch(self):
+        lap, lr, logs = self.new_uploader("Laptop", [self.K])
+        acc, konto = lr["_forever_/" + self.K], daten.konto_id(self.K)
+        p = f"aktuell/Laptop/forever/{konto}/AHSentinel.lua"
+        self.put(acc, "AHSentinel.lua", "AHSentinelDB = { 'klein' }\n", T0)
+        self.drive(lap, T0 + 1, T0 + 20)
+        self.gh.reject_blob = lambda d: self.TEXT if len(d) > 2000 else None   # Grenze der Nachbildung: 2 kB gepackt
+        big = os.urandom(30000).hex()                                            # lässt sich kaum packen
+        self.put(acc, "AHSentinel.lua", big, T0 + 200)
+        self.put(acc, "LevelPilot.lua", "LevelPilotDB = { 'lp' }\n", T0 + 200)
         self.drive(lap, T0 + 201, T0 + 240)
         files = self.gh.files()
-        p = f"aktuell/Laptop/forever/{konto}/AHSentinel.lua"
-        self.assertNotIn(p, files)                                                  # veraltete ungepackte Fassung weg
-        self.assertEqual(gz.decompress(files[p + ".gz"]).decode(), big)            # gepackt = genau die Datei
-        self.assertTrue(any(k.startswith("tage/") and k.endswith("AHSentinel.lua.gz") for k in files))
-        self.assertIn(b"lp", files[f"aktuell/Laptop/forever/{konto}/LevelPilot.lua"])
-        st = json.loads(files["stand.json"])["Laptop"]["dateien"][f"forever/{konto}/AHSentinel.lua.gz"]
-        self.assertTrue(st["gepackt"])
-        self.assertEqual(st["bytes_ungepackt"], len(big.encode()))
-        self.assertTrue(any("zu gross" in l and "gepackt geliefert" in l for l in logs), logs)
-        self.assertIn("gepackt", files["LIESMICH.md"].decode())
-        # nächste Änderung: gleich gepackt, kein vergeblicher Versuch mehr
-        tries = []
-        self.gh.reject_blob = lambda d: (tries.append(len(d)), self.TEXT if len(d) > 20000 else None)[1]
-        self.put(lr["_forever_/" + self.K], "AHSentinel.lua", big + "-- neu\n", T0 + 600)
-        self.drive(lap, T0 + 601, T0 + 640)
-        self.assertFalse([n for n in tries if n > 20000])
-        self.assertEqual(gz.decompress(self.gh.files()[p + ".gz"]).decode(), big + "-- neu\n")
-        # wieder klein -> ungepackt, .gz fällt weg
-        self.put(lr["_forever_/" + self.K], "AHSentinel.lua", "AHSentinelDB = { 'klein2' }\n", T0 + 900)
-        self.drive(lap, T0 + 901, T0 + 940)
-        files = self.gh.files()
-        self.assertIn(b"klein2", files[p])
-        self.assertNotIn(p + ".gz", files)
+        self.assertIn(b"klein", files[p])                                                 # vorige Fassung bleibt
+        self.assertIn(b"lp", files[f"aktuell/Laptop/forever/{konto}/LevelPilot.lua"])     # Rest geliefert
+        self.assertTrue(any("dort bleibt die vorige Fassung" in l and "neuer Versuch in 30 Min." in l for l in logs), logs)
+        n = self.gh.commit_count()
+        # ohne Änderung: vor Ablauf der 30 Min. kein neuer Versuch
+        self.drive(lap, T0 + 241, T0 + 220 + daten.KEEP_OLD_RETRY - 30)
+        self.assertEqual(self.gh.commit_count(), n)
+        # GitHub nimmt die Datei wieder an -> nach 30 Min. von selbst geliefert (2.3.18: erst bei der nächsten Änderung)
+        self.gh.reject_blob = None
+        self.drive(lap, T0 + 220 + daten.KEEP_OLD_RETRY - 30, T0 + 240 + daten.KEEP_OLD_RETRY + 60)
+        self.assertEqual(self.gh.files()[p], big.encode())
+        self.assertEqual(self.gh.commit_count(), n + 1)
+        self.assertEqual(lap.d["sig_done"], lap.sig)
 
-    def test_up422b_auch_gepackt_zu_gross_vorige_fassung_bleibt(self):
+    def test_tage_gegenprobe_erledigt_gemerkt_kein_neuer_versuch(self):
+        # Gegenprobe zur Lücke in 2.3.18: wird die Lieferung trotz abgelehnter Datei als erledigt gemerkt, kommt kein Versuch mehr
         lap, lr, logs = self.new_uploader("Laptop", [self.K])
-        konto = daten.konto_id(self.K)
-        self.put(lr["_forever_/" + self.K], "AHSentinel.lua", "AHSentinelDB = { 'klein' }\n", T0)
+        acc, konto = lr["_forever_/" + self.K], daten.konto_id(self.K)
+        self.put(acc, "AHSentinel.lua", "AHSentinelDB = { 'klein' }\n", T0)
         self.drive(lap, T0 + 1, T0 + 20)
         self.gh.reject_blob = lambda d: self.TEXT if len(d) > 2000 else None
-        big = os.urandom(30000).hex()                                             # lässt sich kaum packen
-        self.put(lr["_forever_/" + self.K], "AHSentinel.lua", big, T0 + 200)
+        self.put(acc, "AHSentinel.lua", os.urandom(30000).hex(), T0 + 200)
         self.drive(lap, T0 + 201, T0 + 240)
-        files = self.gh.files()
-        self.assertIn(b"klein", files[f"aktuell/Laptop/forever/{konto}/AHSentinel.lua"])  # vorige Fassung bleibt
-        self.assertFalse(any("gepackt geliefert" in l for l in logs), logs)
-        self.assertTrue(any("dort bleibt die vorige Fassung" in l for l in logs), logs)
+        self.assertNotEqual(lap.d.get("sig_done"), lap.sig)                    # 2.3.19: nicht erledigt
+        lap.d["sig_done"] = lap.sig                                               # Verhalten 2.3.18 nachgestellt
+        self.gh.reject_blob = None
+        self.drive(lap, T0 + 241, T0 + 240 + daten.KEEP_OLD_RETRY + 60)
+        self.assertIn(b"klein", self.gh.files()[f"aktuell/Laptop/forever/{konto}/AHSentinel.lua"])   # bliebe alt
+
+    def run_days(self, n_days, pack, name="Laptop"):
+        """Ein Rechner, jeden Tag eine grosse, gut packbare AHSentinel.lua (wie echt: ~6:1)."""
+        lap, lr, logs = self.new_uploader(name, [self.K])
+        if not pack:
+            lap._pack_all = lambda cur: (setattr(lap, "_raw_sizes", {}), cur)[1]
+        acc = lr["_forever_/" + self.K]
+        for day in range(n_days):
+            now = T0 + day * 86400
+            rows = "".join(f'  ["item{(i + day) % 90}"] = {{ {i * 7 + day}, {day} }},\n' for i in range(4000))
+            self.put(acc, "AHSentinel.lua", "AHSentinelDB = {\n" + rows + "}\n", now)
+            self.drive(lap, now + 1, now + 30)
+        tage = sorted({p.split("/")[1] for p in self.gh.raw_files() if p.startswith("tage/")})
+        return tage, logs
+
+    def test_tage_30_tage_mit_grossen_dateien_bleiben(self):
+        # Massstab: Datei ungepackt ~100 kB, REPO_MAX 1 MB (echt: AHSentinel bis 49 MB, 1 GB) – ungepackt passen ~9 Tage
+        old = daten.REPO_MAX
+        daten.REPO_MAX = 1024 * 1024
+        try:
+            tage, logs = self.run_days(35, pack=True)
+            self.assertEqual(len(tage), 30)                                                   # 35 Tage -> die letzten 30
+            self.assertFalse(any("Repo über" in l for l in logs), logs)                      # nie wegen der Grösse
+            self.assertTrue(any("älter als 30 Tage gelöscht" in l for l in logs), logs)
+            st = json.loads(self.gh.raw_files()["stand.json"])["Laptop"]["tage"]
+            self.assertEqual((st["anzahl"], st["von"], st["bis"]), (30, tage[0], tage[-1]))
+            # Gegenprobe: dieselben Tage ungepackt sprengen die Grenze -> ältere Tage fallen weg (so verschwanden 17.–20.11.)
+            self.gh = FakeGitHub()
+            daten.urllib.request.urlopen = self.gh
+            tage2, logs2 = self.run_days(35, pack=False, name="Laptop2")
+            self.assertLess(len(tage2), 15)
+            self.assertTrue(any("Repo über" in l and "ältere Tages-Stände gelöscht" in l for l in logs2), logs2)
+        finally:
+            daten.REPO_MAX = old
+
+    def test_tage_fremde_guildsentinel_gz_wird_gefiltert(self):
+        k = self.K
+        konto = daten.konto_id(k)
+        # anderer Rechner legt eine UNGEFILTERTE, gepackte GuildSentinel.lua.gz ab (nachgebildet) und eine kaputte .gz
+        pc, pr = self.old_uploader("PC", k)
+        pc._pack_all = lambda cur: (setattr(pc, "_raw_sizes", {}),
+                                    {r + ".gz": (gzip.compress(d, 9, mtime=0), daten.git_blob_sha(gzip.compress(d, 9, mtime=0)))
+                                     for r, (d, _) in cur.items()})[1]
+        self.put(pr["_forever_/" + k], "GuildSentinel.lua", GS_SV, T0)
+        self.drive(pc, T0 + 1, T0 + 20)
+        self.assertIn(b"Bewerber", unz(self.gh.raw_files()[f"aktuell/PC/forever/{konto}/GuildSentinel.lua.gz"]))  # Ausgangslage
+        lap, lr, logs = self.new_uploader("Laptop", [k])
+        self.put(lr["_forever_/" + k], "AHSentinel.lua", "AHSentinelDB = { 'lap' }\n", T0 + 100)
+        self.drive(lap, T0 + 101, T0 + 130)
+        raw = self.gh.raw_files()
+        gsp = [p for p in raw if p.endswith("/GuildSentinel.lua.gz")]
+        self.assertEqual(len(gsp), 2, sorted(raw))                                        # aktuell/ und tage/, weiter gepackt
+        for p in gsp:
+            text = unz(raw[p]).decode()
+            self.assertNotIn("Bewerber", text)
+            self.assertNotIn("Gesperrt", text)
+            self.assertIn('["Testa"] = {', text)
+        self.assertTrue(any("1 ältere GuildSentinel-Datei(en) bereinigt" in l for l in logs), logs)
+        n = self.gh.commit_count()                                                          # bereinigt = kein Dauer-Commit
+        self.put(lr["_forever_/" + k], "AHSentinel.lua", "AHSentinelDB = { 'lap' }\n", T0 + 300)
+        self.drive(lap, T0 + 301, T0 + 340)
+        self.assertEqual(self.gh.commit_count(), n)
+        # kaputte .gz (nicht entpackbar) -> weggelassen, nie durchgelassen
+        pc._pack_all = lambda cur: (setattr(pc, "_raw_sizes", {}),
+                                    {r + ".gz": (b"\x1f\x8bKAPUTT Bewerber", daten.git_blob_sha(b"\x1f\x8bKAPUTT Bewerber"))
+                                     for r in cur})[1]
+        self.put(pr["_forever_/" + k], "GuildSentinel.lua", GS_SV + "-- neu\n", T0 + 500)
+        self.drive(pc, T0 + 501, T0 + 540)
+        self.put(lr["_forever_/" + k], "AHSentinel.lua", "AHSentinelDB = { 'lap2' }\n", T0 + 600)
+        self.drive(lap, T0 + 601, T0 + 640)
+        raw = self.gh.raw_files()
+        self.assertFalse(any(b"Bewerber" in v for v in raw.values()))
+        self.assertTrue(any("nicht lesbare weggelassen" in l for l in logs), logs)
+
+    def test_tage_hinweis_alter_uploader_kuerzt(self):
+        k = self.K
+        pc, pr, _ = self.new_uploader("PC", [k])
+        pc.version = "2.3.18"
+        self.put(pr["_forever_/" + k], "AHSentinel.lua", "AHSentinelDB = { 'pc' }\n", T0)
+        self.drive(pc, T0 + 1, T0 + 20)
+        lap, lr, logs = self.new_uploader("Laptop", [k])
+        lap.version = "2.3.19"
+        self.put(lr["_forever_/" + k], "AHSentinel.lua", "AHSentinelDB = { 'lap' }\n", T0 + 100)
+        self.drive(lap, T0 + 101, T0 + 130)
+        hint = [l for l in logs if "alten Uploader" in l]
+        self.assertEqual(len(hint), 1, logs)
+        self.assertIn("kürzt die Tages-Stände auf 7 Tage", hint[0])
+        self.assertIn("auf 2.3.19 bringen", hint[0])
+        self.assertNotIn("PC", hint[0])
+
 
 if __name__ == "__main__":
     unittest.main()

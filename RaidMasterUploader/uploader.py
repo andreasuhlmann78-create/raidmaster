@@ -47,7 +47,7 @@ gleicht ab (_sync.lock): läuft der Uploader, startet GoldSentinel-WoW.bat nur n
 
 Ab 2.3.0 – Daten für die Prüf-Sitzung (daten.py, daten_config.json über Daten-Repo-einrichten.bat): nach jedem /reload
 und Ausloggen gehen die SavedVariables der GoldSentinel-Addons in ein PRIVATES GitHub-Repo (nur neuester Stand und
-7 Tages-Stände). Der Abgleich PC/Laptop lädt ebenfalls nach jedem /reload hoch.
+30 Tages-Stände, ab 2.3.19 gepackt .lua.gz, höchstens 1 GB). Der Abgleich PC/Laptop lädt ebenfalls nach jedem /reload hoch.
 """
 
 from __future__ import annotations
@@ -69,7 +69,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import sync  # noqa: E402  (Abgleich PC/Laptop, ab 2.1.0)
 import daten  # noqa: E402  (Daten für die Prüf-Sitzung, ab 2.3.0)
 
-VERSION = "2.3.18"
+VERSION = "2.3.19"
 SHOT_WINDOW = (-30, 180)          # Bild darf so viele Sekunden vor/nach der gemerkten Zeit entstanden sein
 SHOT_MAX_BYTES = 9 * 1024 * 1024
 SHOT_MAX_AGE = 14 * 86400

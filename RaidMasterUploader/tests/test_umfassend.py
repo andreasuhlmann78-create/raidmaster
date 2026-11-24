@@ -324,9 +324,11 @@ STANDARD = [
     ("Konflikt-Fenster (Sekunden)", lambda: sync.CONFLICT_WINDOW, 600),
     ("Daten-Repo: stabil vor Lieferung (Sekunden)", lambda: daten.STABLE_SECONDS, 10),
     ("Daten-Repo: höchstens 1 Commit je … (Sekunden)", lambda: daten.MIN_GAP, 60),
-    ("Daten-Repo: Tages-Stände", lambda: daten.DAYS_KEEP, 7),
-    ("Daten-Repo: Grösse vor früherem Aufräumen (MB)", lambda: daten.REPO_MAX // (1024 * 1024), 200),
-    ("Daten-Repo: grösste Datei (MB)", lambda: daten.MAX_FILE // (1024 * 1024), 50),
+    ("Daten-Repo: Tages-Stände", lambda: daten.DAYS_KEEP, 30),                       # Entscheid des Nutzers 24.11. 06:26
+    ("Daten-Repo: Grösse vor früherem Aufräumen (MB)", lambda: daten.REPO_MAX // (1024 * 1024), 1024),   # ebenso
+    ("Daten-Repo: grösste Datei gepackt (MB)", lambda: daten.MAX_FILE // (1024 * 1024), 50),
+    ("Daten-Repo: grösste Datei ungepackt (MB)", lambda: daten.MAX_RAW // (1024 * 1024), 400),
+    ("Daten-Repo: abgelehnte Datei neu versuchen nach (Sekunden)", lambda: daten.KEEP_OLD_RETRY, 1800),
 ]
 
 

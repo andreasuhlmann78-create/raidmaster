@@ -1,0 +1,75 @@
+BERICHT RAIDMASTER AN DIE PRÜF-SITZUNG
+Stand: 24.11.2026 06:35 (aus date) · Sitzung: RaidMaster-Projekt-Sitzung · Version: Uploader 2.3.19 (Addon unverändert 3.0.40)
+Commit: dieser Push · Bezug: offen-raidmaster.txt "BEFUND SUPERVISOR 2026-11-24 06:16 – UP-TAGE HOCH", Punkt (3) und (4);
+Analyse (1)/(2) im Bericht 2026-11-24-0620-up-tage-analyse.txt · Entscheid des Nutzers 24.11. 06:26: "ja bau das so um aber mache
+keine fehler" (Vorschlag: alles gepackt, Grenze 1 GB, 30 Tage).
+Status: umgesetzt, zur Prüfung.
+
+UMSETZUNG (RaidMasterUploader/daten.py):
+(1) Jede eigene Datei geht gepackt als <Datei>.lua.gz ins Daten-Repo (aktuell/ und tage/): gzip Stufe 9, mtime=0 -> gleicher
+    Inhalt = gleicher Prüfwert, also kein Commit ohne Änderung (neu _pack_all statt _pack_known; Merkliste "gz" von 2.3.18 entfällt).
+    Die alte ungepackte .lua desselben Rechners fällt in aktuell/ bei der ersten Lieferung weg (nie .lua UND .lua.gz zugleich).
+(2) DAYS_KEEP 7 -> 30, REPO_MAX 200 MB -> 1 GB (Summe der eindeutigen, gepackten Dateien wie bisher). Fallen Tage weg, steht im
+    Fenster welche und warum: "älter als 30 Tage" (neu, bisher still) bzw. "Repo über 1024,0 MB" (wie bisher).
+(3) stand.json je Rechner zusätzlich "tage": {anzahl, von, bis, grenze_tage 30, grenze_mb 1024}; Fensterzeile "· n Tage";
+    Lieferzeile "geliefert (n Dateien, gepackt x MB statt y MB, Repo z MB, n Tag(e) von höchstens 30)".
+(4) Grössen: MAX_FILE 50 MB gilt jetzt GEPACKT, neu MAX_RAW 400 MB ungepackt (Speicher). Grund: die AHSentinel.lua des Laptops
+    hat ungepackt 49,3 MB (stand.json bytes_ungepackt 49336649) – mit 2.3.18 wäre sie ab 50 MB still übersprungen worden.
+    Ist eine eigene Datei zu gross, bleibt ihre vorige Fassung im Repo (bisher fiel sie weg).
+(5) Lücke aus 2.3.18 geschlossen: lehnte GitHub eine eigene Datei ab, galt die Lieferung trotzdem als erledigt (sig_done) – ein neuer
+    Versuch kam erst nach einer Änderung im Spiel. Jetzt: nicht erledigt, neuer Versuch nach 30 Min. (KEEP_OLD_RETRY) oder bei der
+    nächsten Änderung. Kein Dauer-Commit: höchstens 1 Versuch je 30 Min.
+(6) Datenschutz: auch fremde GuildSentinel.lua.gz werden geladen, entpackt, gefiltert und (falls geändert) wieder gepackt; nicht
+    entpackbar = nicht lesbar -> weggelassen (nie durchgelassen). Gegenprobe unten zeigt: 2.3.18 hätte eine fremde ungefilterte .gz
+    stehen lassen (in der Praxis nicht vorgekommen, weil 2.3.18 vor dem Packen filtert).
+(7) Hinweis auf andere Rechner mit altem Uploader nennt jetzt den Grund: "(kürzt die Tages-Stände auf 7 Tage)" – alle Versionen
+    vor 2.3.19 hatten DAYS_KEEP 7 (git log -L belegt nur diesen Wert). Ohne Rechnernamen.
+LIESMICH.md im Daten-Repo, LIESMICH.txt/README_EN.txt (2.3.19 DE/EN), uploader.py VERSION "2.3.19", download/RaidMasterUploader.zip
+neu gebaut (13 Dateien, ohne tests/; entpackt geprüft: VERSION 2.3.19, DAYS_KEEP 30, REPO_MAX 1073741824).
+
+TESTS (Hinweise, keine Freigabe):
+- test_daten 39/39, test_sync 53/53, test_uploader 23/23, test_umfassend 14/14 (TU1–TU7 FEHLER 0; TU3 Grundwerte auf 30 Tage /
+  1024 MB / 50 MB gepackt / 400 MB ungepackt / 1800 s angepasst).
+- Nachbildung liest wie die Prüf-Sitzung: FakeGitHub.files() entpackt .lua.gz und schlägt fehl, wenn .lua und .lua.gz zugleich
+  im Repo stehen; raw_files() zeigt das Repo wie es ist. Alle bisherigen Tests laufen damit unverändert in der Sache.
+- Neu (Klasse UPTAGE und Lieferung):
+  · alles gepackt: Rechner mit 2.3.18-Stand (.lua) -> nach 2.3.19 nur noch .lua.gz, Inhalt entpackt Byte für Byte gleich,
+    stand.json gepackt/bytes/bytes_ungepackt, gleicher Inhalt nach /reload = kein Commit (Gegenprobe: mtime 1 vs 2 ergibt andere Bytes).
+  · 30 Tage mit grossen Dateien (Massstab: ~100 kB ungepackt je Tag, Grenze 1 MB): 35 Tage -> genau 30 bleiben, nie "Repo über",
+    Meldung "älter als 30 Tage". Gegenprobe ungepackt mit gleicher Grenze: < 15 Tage, Meldung "Repo über" (so fielen 17.–20.11. weg).
+  · ungepackt > 50 MB (echte Grösse nachgebaut, 50 MB + Zeilen) wird gepackt geliefert (Gegenprobe: > MAX_FILE ungepackt, 2.3.18
+    hätte übersprungen); gepackt über der Grenze -> einmal "übersprungen", vorige Fassung bleibt.
+  · GitHub lehnt die gepackte Datei ab -> vorige Fassung bleibt, Rest geliefert, vor 30 Min. kein Versuch, danach von selbst
+    geliefert. Gegenprobe (Verhalten 2.3.18 nachgestellt: erledigt gemerkt) -> alte Fassung bliebe stehen.
+  · fremde ungefilterte GuildSentinel.lua.gz -> gefiltert, bleibt gepackt, zweiter Lauf ohne Commit; kaputte .gz -> weggelassen.
+  · Hinweis alter Uploader (2.3.18) -> genau 1 Zeile mit "kürzt die Tages-Stände auf 7 Tage", ohne Rechnernamen.
+- Gegenprobe gegen den Code von 2.3.18 (HEAD vor diesem Push, gleiche Tests): alle 7 neuen Tests rot (u. a. "7 != 30" Tage,
+  fremde .gz: "Bewerber" bleibt im Repo, erledigt-gemerkt), dazu die 6 angepassten alten.
+- Echte Daten (goldsentinel-daten, nur lokal gelesen, Stand 24.11. früh): alle 64 Dateien aus aktuell/ (4 Rechner, 165,0 MB
+  ungepackt) mit 2.3.19 gegen die Nachbildung geliefert: 64 × .lua.gz, 24,8 MB gepackt (24,14 MB eindeutig = 24,8 − 0,68 MB für
+  11 gleiche Dateien + stand.json/LIESMICH), 7,1 s für alle vier Rechner (hier gemessen), keine Bewerber im Repo.
+  Packzeit AHSentinel 49,3 MB: 1,36 s (Stufe 9; Stufe 6 0,63 s bei 4 % grösserer Datei).
+
+RECHNUNG 1 GB / 30 TAGE (gemessene Werte aus dem Analyse-Bericht, gepackt):
+- Tage gepackt 8,2 / 16,7 / 13,1 MB (21./22./23.11.), aktuell/ 24,8 MB. 30 × 16,7 MB (grösster Tag) + 24,8 MB = 525,8 MB < 1024 MB.
+- Wenn alle 4 Rechner eine AHSentinel.lua wie der Laptop hätten (6,1 MB gepackt): 4 × 6,1 = 24,4 MB je Tag ohne die übrigen Dateien;
+  Verdacht, zu messen: Tage mit mehr Daten. Reicht 1 GB nicht, fallen die ältesten Tage mit Meldung weg (nicht still).
+- GitHub empfiehlt Repos < 1 GB (Analyse-Bericht). Grösse auf GitHub selbst: gepackte Dateien lassen sich von git nicht weiter
+  packen – Repo-Grösse auf GitHub ~ Summe der gepackten Dateien (Verdacht, zu messen nach einigen Tagen: Settings-Seite).
+
+WICHTIG FÜR DIE LESER DES DATEN-REPOS (Befund an die Prüf-Sitzung – addon-check/ ändere ich nicht):
+- Ab der ersten Lieferung eines Rechners mit 2.3.19 liegen ALLE seine Dateien nur noch als .lua.gz vor (auch GuildSentinel,
+  RaidMaster, LevelPilot …). Ältere Tage anderer Rechner können noch .lua sein -> jeder Leser muss beides nehmen.
+- sv_lesen mit .gz haben: unterboten.py, verkaufsketten.py, markt_tabellen.py, buchhaltung_plausi.py (dazu laut grep
+  prognose_vergleich.py, verlauf_auspacken.py, sniper_kaeufe.py, test_sv_gz.py).
+- OHNE .gz: addon-check/marktanalyse/de_ketten_lehrer.py Zeile 4 liest einen festen Pfad .../aktuell/<Rechner>/forever/<konto>/
+  AHSentinel.lua mit open() – bricht, sobald dieser Rechner 2.3.19 hat. Zudem steht dort ein Rechnername im öffentlichen Repo
+  (kein Spielername, aber Hinweis).
+- Aufrufe in geplanten Aufgaben (z. B. Markt-Tabellen), die Pfade mit "AHSentinel.lua" bilden oder mit glob "*.lua" suchen, finden
+  die .gz nicht – dort "*.lua*" bzw. beide Endungen nehmen.
+
+FÜR DEN NUTZER: RaidMasterUploader.zip auf JEDEM Rechner, der ins Daten-Repo liefert (stand.json nennt 4 Rechner), ganz
+entpacken (alle Dateien ersetzen) und den Uploader neu starten. Solange ein Rechner einen älteren Uploader hat, kürzt er bei
+seiner Lieferung die Tages-Stände wieder auf 7 Tage (stand.json: 3 Rechner ohne "uploader"-Feld = vor 2.3.15). Erwartet im Fenster:
+"Prüfung: geliefert (… Dateien, gepackt … statt …, Repo …, n Tag(e) von höchstens 30)". Versand per Bot (/uploader) bietet die
+Sitzung an.

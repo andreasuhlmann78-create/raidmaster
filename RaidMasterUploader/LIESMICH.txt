@@ -142,8 +142,8 @@ Version 2.3.0 – Daten für die Prüfung (freiwillig) und Abgleich nach jedem /
   DATEN FÜR DIE PRÜFUNG (nur für den Entwickler des Addons nötig, sonst einfach weglassen)
   Der Uploader legt nach jedem /reload und Ausloggen die Daten der GoldSentinel-Addons (AHSentinel, GuildSentinel,
   ProfessionSentinel, LevelPilot, ThreatSentinel, BuffSentinel, RaidMaster – nur Kontoebene, keine anderen Addons) in
-  ein PRIVATES GitHub-Repo. Dort liegt immer nur der neueste Stand und der letzte Stand der letzten 7 Spieltage;
-  ältere Fassungen werden gelöscht (kein Verlauf). Ist das Repo nicht privat, liefert der Uploader nichts.
+  ein PRIVATES GitHub-Repo. Dort liegt immer nur der neueste Stand und der letzte Stand der letzten 30 Spieltage
+  (alles gepackt, zusammen höchstens 1 GB); ältere Fassungen werden gelöscht (kein Verlauf). Ist das Repo nicht privat, liefert der Uploader nichts.
   Einmal einrichten:
   1. github.com -> oben rechts "+" -> "New repository". Name: goldsentinel-daten. "Private" wählen. "Create
      repository". (Nichts weiter ausfüllen.)
@@ -282,6 +282,19 @@ Version 2.3.13 – Datenschutz im Daten-Repo (UP-DS1):
   Uploader leert sie in jeder Gilde, bevor er GuildSentinel.lua hochlädt. Die Datei im Spiel bleibt unverändert.
 - Kann er die Datei nicht sicher lesen, liefert er sie gar nicht und meldet einmal "GuildSentinel-Daten nicht geliefert: …".
 - Neue Datei svfilter.py – bitte immer die ganze RaidMasterUploader.zip entpacken.
+
+Version 2.3.19 – alles gepackt, 30 Tage (UP-TAGE, Entscheid 24.11.):
+- Jede Datei geht jetzt gepackt als <Datei>.lua.gz ins Daten-Repo (etwa ein Sechstel der Grösse). Gleicher Inhalt gibt
+  gleiche gepackte Datei – ohne Änderung kein neuer Stand im Repo.
+- Das Daten-Repo behält jetzt die letzten 30 Spieltage (bisher 7) und darf bis 1 GB gross werden (bisher 200 MB). Fallen
+  Tage weg, steht im Fenster, welche und warum. stand.json nennt je Rechner die Anzahl Tage.
+- Grosse Dateien: ungepackt bis 400 MB, gepackt bis 50 MB (bisher ungepackt 50 MB – die AHSentinel.lua des Laptops war mit
+  49 MB knapp darunter). Ist eine Datei zu gross, bleibt ihre vorige Fassung im Repo.
+- Lehnt GitHub eine Datei ab, versucht der Uploader es nach 30 Minuten von selbst neu (bisher erst nach der nächsten
+  Änderung im Spiel).
+- Datenschutz: auch gepackte GuildSentinel-Dateien anderer Rechner werden gefiltert.
+- WICHTIG: Alle Rechner, die ins Daten-Repo liefern, auf 2.3.19 bringen – ältere Uploader kürzen die Tages-Stände
+  wieder auf 7 Tage. Der Uploader meldet im Fenster, wenn ein anderer Rechner noch einen alten Uploader hat.
 
 Version 2.3.18 – zu grosse Dateien gepackt liefern (UP-422b):
 - GitHub nimmt eine einzelne Datei über die Schnittstelle nur bis zu einer Grösse an ("Sorry, your input was too large to
