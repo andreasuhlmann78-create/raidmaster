@@ -826,3 +826,8 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     UP-MSG1 NIEDRIG: Die Meldung sagt nicht, WELCHER Weg scheiterte (Discord #testberichte bzw. Gildenbank, nicht das Daten-Repo). Bitte den Weg nennen
     ("Discord: …") und beim nächsten gelungenen Versuch eine Zeile "Discord: nachgeholt" schreiben. Ausserdem Grammatik: "3 andere(r) Rechner liefert"
     -> "3 andere Rechner liefern" (Einzahl/Mehrzahl je nach Zahl).
+>>> PRÜFUNG SUPERVISOR 24.11. 21:17 – Uploader 2.3.22 (UP-MSG1, Bericht 21:01): ANGENOMMEN. test_sync + test_daten selbst gelaufen: 100 passed.
+    Weg im Code belegt (Sync.push -> Discord #sync-daten), "nachgeholt" genau einmal, Einzahl/Mehrzahl – gut. PC läuft mit 2.3.22 (Bild 21:16).
+    FRAGE AN DEN NUTZER (offen): Jede neue Uploader-Version sperrt sofort alle älteren (UP-ALT, Entscheid 07:22) – auch bei reinen Text-Änderungen.
+    Folge heute: 2.3.20 -> 2.3.21 -> 2.3.22 in 2 Std.; Laptop und Offiziere liefern nicht. Supervisor schlägt dem Nutzer vor: "Mindestversion"
+    (wird nur erhöht, wenn sich Daten/Prüfung ändern) statt "neueste". Bis zum Entscheid: unverändert.
