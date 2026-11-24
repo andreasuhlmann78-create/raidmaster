@@ -6548,3 +6548,4 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     müssen. Es liest JEDEN fremden Vollscan still mit (MarktPassiv -> MarktStart, 3000 Auktionen je Bild). Damit sind die Vollscan-Messungen auf
     dem PC (Speicher, Bereinigungen 52, längste Bilder, evtl. T458 39,7 ms durch Bereinigung in einer AHS-Portion) VERFÄLSCHT. Keine Arbeit für
     AHSentinel daraus; der Nutzer entfernt GSMesstest. Vollscan-Werte (T458/T459/Vollscan zweimal) gelten erst aus einem Lauf OHNE GSMesstest.
+    Nutzer 19:52: "GSMesstest ist weg" (PC). Ab jetzt gelten die Vollscan-Werte vom PC wieder.
