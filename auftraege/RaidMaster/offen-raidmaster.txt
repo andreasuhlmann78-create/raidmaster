@@ -728,3 +728,15 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     NICHT nochmals verschicken. Deine nächsten Schritte: Daten-Repo prüfen, sobald die Rechner umgestellt sind (Zweig "sicherung").
     Prüfung 2.3.20 durch den Supervisor folgt (Tests selbst gelaufen: alle grün).
 
+>>> INGAMETEST 3.0.41 – 24.11.2026 09:09 (Laptop, WARRIOR 30, Bericht vom Nutzer im Chat, Supervisor 09:30): OK 145 · FEHLER 2 · übersprungen 14 ·
+    im Client 10 · Sandbox OK. Keine nil-FEHLER mit GoldSentinelTest 3. Längstes Bild der Routine 23,4 ms (T182).
+ RM-I1 HOCH – T116 Speicher-Zuwachs 15 086 KB (soll < 256 KB), 40 185 Bereinigungsschritte, längster 3,0 ms. NEU: in 3.0.35/3.0.36 im Spiel
+    OK (18 KB bzw. −1 086 KB, rund 22 300 Schritte). Ursache belegen. Verdacht, zu messen: (a) SB2 gemeinsames Adressbuch im Livedaten-Wächter,
+    (b) GoldSentinelSync 3 aus shared/ – die höchste Fassung gewinnt und gehört dann RaidMaster; Speicher, den AHSentinel/ProfessionSentinel über
+    den gemeinsamen Sync anlegen, zählt GetAddOnMemoryUsage dann RaidMaster zu (im selben Client liefen AHS 0.65.388 und PS 0.9.80).
+    Mit Gegenprobe: nur RaidMaster geladen vs. alle Addons.
+ RM-I2 MITTEL – T199 Lesbarkeit L1: Knöpfe mit Kontrast 3,8–3,9:1 (soll ≥ 4,5:1), u. a. dkp/auction/loot "Bereitschaft > Button" bei "Schamane5"
+    (Klassenfarbe Schamane auf dem Knopf) und log "Hauptfenster > Button" 3,8:1. Die Prüfung findet echte Stellen – Farben anpassen (Klassenfarbe
+    aufhellen bzw. Hintergrund dunkler), nicht die Prüfung lockern. Vollständige Liste aus dem Testbericht (kommt nach /reload).
+ Nächste Version: RM-I1, dann RM-I2. Ingametest 3.0.41 sonst ohne FEHLER.
+
