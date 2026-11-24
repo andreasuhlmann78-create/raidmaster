@@ -329,6 +329,9 @@ STANDARD = [
     ("Daten-Repo: grösste Datei gepackt (MB)", lambda: daten.MAX_FILE // (1024 * 1024), 50),
     ("Daten-Repo: grösste Datei ungepackt (MB)", lambda: daten.MAX_RAW // (1024 * 1024), 400),
     ("Daten-Repo: abgelehnte Datei neu versuchen nach (Sekunden)", lambda: daten.KEEP_OLD_RETRY, 1800),
+    ("Daten-Repo: gültiger Zweig", lambda: daten.SAFE_BRANCH, "sicherung"),          # UP-ALT, Entscheid 24.11. 07:22
+    ("Daten-Repo: main mit sicherung vergleichen alle (Sekunden)", lambda: daten.WATCH_SECONDS, 300),
+    ("Daten-Repo: neueste Version lesen alle (Sekunden)", lambda: daten.LATEST_SECONDS, 600),
 ]
 
 
@@ -565,6 +568,10 @@ REGRESSIONEN = {
     "NP-UP13-1 doppelte Schlüssel": "test_daten.Datenschutz.test_np_up13_1_doppelte_schluessel_nie_durchlassen",
     "NP-UP13-1 Tiefe, jeder Fehler": "test_daten.Datenschutz.test_np_up13_1_tiefe_und_jeder_fehler",
     "RP-U nur bank/raidReady": "test_uploader.Uploader17.test_rp_u_nur_bank_und_raidready",
+    "UP-ALT alter Uploader kürzt nie, nicht angenommen": "test_daten.UPALT.test_alt_kuerzt_tage_nie_und_wird_nicht_angenommen",
+    "UP-ALT veraltet liefert nichts": "test_daten.UPALT.test_veraltet_liefert_nichts_und_sagt_es",
+    "UP-ALT sicherung gleichzeitig anlegen": "test_daten.UPALT.test_zwei_aktuelle_legen_sicherung_gleichzeitig_an",
+    "UP-ALT neueste Version ohne Token": "test_daten.UPALT.test_neueste_version_lesen_ohne_token",
 }
 
 

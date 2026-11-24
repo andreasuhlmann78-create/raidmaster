@@ -47,12 +47,21 @@ class FakeGitHub:
 
     def __init__(self, repo="ich/goldsentinel-daten", private=True):
         self.repo, self.private, self.online = repo, private, True
-        self.blobs, self.trees, self.commits, self.ref = {}, {}, {}, None
+        self.blobs, self.trees, self.commits = {}, {}, {}
+        self.refs = {}                   # Zweig -> Commit (UP-ALT: main und "sicherung")
         self.calls, self.n = [], 0
         self.token_ok = True
         self.fail, self.contexts, self.before_patch = None, [], None
         self.reject_blob = None          # UP-422: data -> Text, wenn GitHub die Datei mit 422 ablehnen soll
         self.ref_422 = None              # UP-422: Text, wenn GitHub das Setzen des Zweigs mit 422 ablehnen soll
+
+    @property
+    def ref(self):
+        return self.refs.get("main")
+
+    @ref.setter
+    def ref(self, sha):
+        self.refs["main"] = sha
 
     def err422(self, url, message, errors=None):
         body = json.dumps({"message": message, "errors": errors or [],
@@ -83,10 +92,20 @@ class FakeGitHub:
         path = url[len(base):]
         if path == "" and method == "GET":
             return Resp({"private": self.private, "default_branch": "main"})
-        if path == "/git/ref/heads/main":
-            if self.ref is None:
-                raise self.err(url, 409)
-            return Resp({"object": {"sha": self.ref}})
+        m = re.match(r"/git/ref/heads/(\w+)$", path)
+        if m and method == "GET":
+            if not self.refs.get("main"):
+                raise self.err(url, 409)                 # leeres Repo
+            if not self.refs.get(m.group(1)):
+                raise self.err(url, 404)                 # wie GitHub: Zweig fehlt -> 404
+            return Resp({"object": {"sha": self.refs[m.group(1)]}})
+        if path == "/git/refs" and method == "POST":     # UP-ALT: Zweig anlegen
+            b = body["ref"][len("refs/heads/"):]
+            if self.refs.get(b):
+                raise self.err422(url, "Reference already exists")
+            assert body["sha"] in self.commits
+            self.refs[b] = body["sha"]
+            return Resp({"object": {"sha": body["sha"]}})
         if path.startswith("/contents/") and method == "PUT":
             data = base64.b64decode(body["content"])
             sha = daten.git_blob_sha(data)
@@ -127,26 +146,29 @@ class FakeGitHub:
             c = self._id()
             self.commits[c] = {"tree": body["tree"], "parents": body["parents"], "message": body["message"]}
             return Resp({"sha": c})
-        if path == "/git/refs/heads/main" and method == "PATCH":
+        m = re.match(r"/git/refs/heads/(\w+)$", path)
+        if m and method == "PATCH":
             assert body["force"] is True
             if self.ref_422:
                 raise self.err422(url, self.ref_422)
-            if self.before_patch:
+            if not self.refs.get(m.group(1)):
+                raise self.err422(url, "Reference does not exist")
+            if self.before_patch and m.group(1) == "main":
                 f, self.before_patch = self.before_patch, None
                 f()
-            self.ref = body["sha"]
-            return Resp({"object": {"sha": self.ref}})
+            self.refs[m.group(1)] = body["sha"]
+            return Resp({"object": {"sha": body["sha"]}})
         raise AssertionError((method, path))
 
     # Sicht der Prüf-Sitzung
-    def raw_files(self):
+    def raw_files(self, branch="main"):
         """genau wie im Repo (ab 2.3.19 jede eigene Datei als <Datei>.lua.gz)"""
-        return {p: self.blobs[s] for p, s in self.trees[self.commits[self.ref]["tree"]].items()}
+        return {p: self.blobs[s] for p, s in self.trees[self.commits[self.refs[branch]]["tree"]].items()}
 
-    def files(self):
+    def files(self, branch="main"):
         """wie die Prüf-Sitzung liest: <Datei>.lua.gz entpackt unter <Datei>.lua (beide Fassungen zugleich = Fehler)"""
         out = {}
-        for p, data in self.raw_files().items():
+        for p, data in self.raw_files(branch).items():
             if p.endswith(".lua.gz"):
                 p, data = p[:-3], gzip.decompress(data)
             assert p not in out, f"{p} gepackt UND ungepackt im Repo"
@@ -824,6 +846,7 @@ class Gleichzeitig(ZweiRechner):
         self.put(pr["_forever_/123456789#1"], "AHSentinel.lua", "AHSentinelDB = { 'pc' }\n", T0 + 100)
         self.drive(pc, T0 + 101, T0 + 106)
         # bei jedem Versuch des PCs liefert der Laptop dazwischen (zuletzt sogar nach dem Ersetzen)
+        pc.watch_at = T0 + 10 ** 6                                   # UP-ALT: Wächter hier aus (geprüft wird die Lieferung)
         orig_set = pc.api.set_ref
         n = {"i": 0}
 
@@ -879,6 +902,7 @@ class UPDS2(ZweiRechner):
             return out
         dl._read_files = raw
         dl._pack_all = lambda cur: (setattr(dl, "_raw_sizes", {}), cur)[1]   # vor 2.3.19: ungepackt
+        dl.legacy = True                                    # vor 2.3.20: nur main, keine Mindestversion
         return dl, roots
 
     def new_uploader(self, name, konten):
@@ -999,15 +1023,17 @@ class UP422(ZweiRechner):
     new_uploader = UPDS2.new_uploader
 
     def ausgangslage(self):
-        # Laptop liefert (2.3.15+), danach PC mit GuildSentinel (Bewerber) über alten Uploader
-        lap, lr, lap_logs = self.new_uploader("Laptop", [self.K])
-        self.put(lr["_forever_/" + self.K], "AHSentinel.lua", "AHSentinelDB = { 'lap1' }\n", T0)
-        self.put(lr["_forever_/" + self.K], "LevelPilot.lua", "LevelPilotDB = { 'lap1' }\n", T0)
-        self.drive(lap, T0 + 1, T0 + 20)
+        # PC mit GuildSentinel (Bewerber) über alten Uploader, danach Laptop (aktuell). UP-ALT (2.3.20): die Daten des alten
+        # Uploaders stehen nur dann im gültigen Stand, wenn sie VOR dem ersten aktuellen Uploader kamen (Zweig "sicherung"
+        # wird dann aus main angelegt) – später gelieferte nimmt der aktuelle Uploader nie an (Tests UPALT).
         pc, pr = self.old_uploader("PC", self.K)
-        self.put(pr["_forever_/" + self.K], "GuildSentinel.lua", GS_SV, T0 + 30)
-        self.put(pr["_forever_/" + self.K], "AHSentinel.lua", "AHSentinelDB = { 'pc' }\n", T0 + 30)
-        self.drive(pc, T0 + 31, T0 + 100)
+        self.put(pr["_forever_/" + self.K], "GuildSentinel.lua", GS_SV, T0)
+        self.put(pr["_forever_/" + self.K], "AHSentinel.lua", "AHSentinelDB = { 'pc' }\n", T0)
+        self.drive(pc, T0 + 1, T0 + 20)
+        lap, lr, lap_logs = self.new_uploader("Laptop", [self.K])
+        self.put(lr["_forever_/" + self.K], "AHSentinel.lua", "AHSentinelDB = { 'lap1' }\n", T0 + 30)
+        self.put(lr["_forever_/" + self.K], "LevelPilot.lua", "LevelPilotDB = { 'lap1' }\n", T0 + 30)
+        self.drive(lap, T0 + 31, T0 + 100)
         return lap, lr, lap_logs
 
     def purge(self, pred):
@@ -1244,7 +1270,10 @@ class UPTAGE(ZweiRechner):
         self.put(lr["_forever_/" + k], "AHSentinel.lua", "AHSentinelDB = { 'lap' }\n", T0 + 300)
         self.drive(lap, T0 + 301, T0 + 340)
         self.assertEqual(self.gh.commit_count(), n)
-        # kaputte .gz (nicht entpackbar) -> weggelassen, nie durchgelassen
+        # kaputte .gz (nicht entpackbar) -> weggelassen, nie durchgelassen. UP-ALT (2.3.20): mit Zweig "sicherung" würde der
+        # aktuelle Uploader die Lieferung des alten gar nicht annehmen; nachgebildet wird darum der Stand vor dem ersten
+        # aktuellen Uploader (kein "sicherung", die kaputte Datei liegt schon in main)
+        self.gh.refs.pop("sicherung")
         pc._pack_all = lambda cur: (setattr(pc, "_raw_sizes", {}),
                                     {r + ".gz": (b"\x1f\x8bKAPUTT Bewerber", daten.git_blob_sha(b"\x1f\x8bKAPUTT Bewerber"))
                                      for r in cur})[1]
@@ -1260,6 +1289,7 @@ class UPTAGE(ZweiRechner):
         k = self.K
         pc, pr, _ = self.new_uploader("PC", [k])
         pc.version = "2.3.18"
+        pc.legacy = True                                                       # verhält sich wie 2.3.18 (nur main)
         self.put(pr["_forever_/" + k], "AHSentinel.lua", "AHSentinelDB = { 'pc' }\n", T0)
         self.drive(pc, T0 + 1, T0 + 20)
         lap, lr, logs = self.new_uploader("Laptop", [k])
@@ -1268,10 +1298,199 @@ class UPTAGE(ZweiRechner):
         self.drive(lap, T0 + 101, T0 + 130)
         hint = [l for l in logs if "alten Uploader" in l]
         self.assertEqual(len(hint), 1, logs)
-        self.assertIn("kürzt die Tages-Stände auf 7 Tage", hint[0])
-        self.assertIn("auf 2.3.19 bringen", hint[0])
+        self.assertIn("seine Daten werden nicht angenommen", hint[0])      # UP-ALT (2.3.20)
+        self.assertIn("/uploader holen (2.3.19)", hint[0])
         self.assertNotIn("PC", hint[0])
 
+
+class UPALT(ZweiRechner):
+    """2.3.20 UP-ALT (HOCH, Entscheid des Nutzers 24.11.2026 07:22 "wenn jemand nicht die neuste version drauf hatt die daten
+    nicht mehr annehmen!"): gültiger Stand im Zweig "sicherung" (nur aktuelle Uploader schreiben ihn, zuerst), Lieferungen
+    alter Uploader auf main werden nie übernommen und main zurückgestellt; veralteter Uploader liefert nichts."""
+
+    K = "123456789#1"
+    old_uploader = UPDS2.old_uploader
+
+    def current(self, name, version="2.3.20", latest="2.3.20"):
+        dl, roots = self.machine(name, [self.K])
+        dl.version = version
+        dl.latest_fetch = lambda: latest
+        logs = []
+        dl.log = logs.append
+        return dl, roots["_forever_/" + self.K], logs
+
+    def days(self, branch):
+        return sorted({p.split("/")[1] for p in self.gh.raw_files(branch) if p.startswith("tage/")})
+
+    def ten_days(self, dl, acc):
+        for i in range(10):                                   # 10 Spieltage nacheinander
+            t = T0 + i * 86400
+            self.put(acc, "AHSentinel.lua", f"AHSentinelDB = {{ 'tag{i}' }}\n", t)
+            dl.d["last_try"] = 0
+            self.drive(dl, t + 1, t + 30)
+
+    def old_delivers(self, text, t):
+        if not hasattr(self, "_old"):
+            self._old = self.old_uploader("PC", self.K)
+        pc, pr = self._old
+        pc.d["last_try"] = 0
+        self.put(pr["_forever_/" + self.K], "AHSentinel.lua", text, t)
+        keep = daten.DAYS_KEEP
+        daten.DAYS_KEEP = 7                                   # alte Uploader (bis 2.3.18) behielten 7 Tage
+        try:
+            self.drive(pc, t + 1, t + 30)
+        finally:
+            daten.DAYS_KEEP = keep
+        return pc
+
+    def test_alt_kuerzt_tage_nie_und_wird_nicht_angenommen(self):
+        lap, acc, logs = self.current("Laptop")
+        self.ten_days(lap, acc)
+        self.assertEqual(len(self.days("sicherung")), 10)
+        self.assertEqual(self.gh.refs["main"], self.gh.refs["sicherung"])
+        safe_before = self.gh.refs["sicherung"]
+        t = T0 + 9 * 86400 + 600
+        self.old_delivers("AHSentinelDB = { 'ALT' }\n", t)
+        # Ausgangslage belegt: der alte Uploader hat main auf 7 Tage gekürzt und seine Daten hineingelegt
+        self.assertEqual(len(self.days("main")), 7)
+        self.assertTrue(any(b"ALT" in v for v in self.gh.files("main").values()))
+        # (1) "sicherung" unberührt – alle 10 Tage, nichts vom alten Uploader
+        self.assertEqual(self.gh.refs["sicherung"], safe_before)
+        self.assertEqual(len(self.days("sicherung")), 10)
+        # Wächter: spätestens nach 5 Min. main zurück auf "sicherung", ohne neuen Commit
+        n = self.gh.commit_count()
+        lap.watch_at = t + 31                                 # letzter Vergleich gleich nach der alten Lieferung
+        self.drive(lap, t + 31, t + 31 + daten.WATCH_SECONDS - 20)
+        self.assertNotEqual(self.gh.refs["main"], safe_before)          # noch keine 5 Min. -> noch nicht verglichen
+        self.drive(lap, t + 31 + daten.WATCH_SECONDS - 20, t + 31 + daten.WATCH_SECONDS + 10)
+        self.assertEqual(self.gh.refs["main"], safe_before)
+        self.assertEqual(self.gh.commit_count(), n)
+        self.assertEqual(len(self.days("main")), 10)
+        self.assertFalse(any(b"ALT" in v for v in self.gh.files("main").values()))
+        hit = [l for l in logs if "nicht angenommen" in l and "zurückgestellt" in l]
+        self.assertEqual(len(hit), 1, logs)
+        self.assertIn("Uploader vor 2.3.15", hit[0])
+        self.assertNotIn("PC", hit[0])                                  # kein Rechnername
+        # nächste eigene Lieferung baut auf "sicherung" auf – auch dann nichts vom alten Uploader
+        self.old_delivers("AHSentinelDB = { 'ALT2' }\n", t + 1000)
+        self.put(acc, "AHSentinel.lua", "AHSentinelDB = { 'neu' }\n", t + 1100)
+        lap.d["last_try"] = 0
+        self.drive(lap, t + 1101, t + 1140)
+        for b in ("main", "sicherung"):
+            files = self.gh.files(b)
+            self.assertFalse(any(b"ALT" in v for v in files.values()), b)
+            self.assertEqual(len(self.days(b)), 10, b)
+            self.assertIn(b"neu", files[f"aktuell/Laptop/forever/{daten.konto_id(self.K)}/AHSentinel.lua"])
+        self.assertEqual(self.gh.refs["main"], self.gh.refs["sicherung"])
+        self.assertIn("Zweig `sicherung`", self.gh.raw_files("sicherung")["LIESMICH.md"].decode())
+
+    def test_alt_gegenprobe_ohne_sicherung_gehen_tage_verloren(self):
+        lap, acc, _ = self.current("Laptop")
+        lap.legacy = True                                      # Verhalten 2.3.19: nur main
+        self.ten_days(lap, acc)
+        self.assertNotIn("sicherung", self.gh.refs)
+        self.old_delivers("AHSentinelDB = { 'ALT' }\n", T0 + 9 * 86400 + 600)
+        self.assertEqual(len(self.days("main")), 7)                    # 3 Tage weg – genau der Befund UP-TAGE
+        lap.d["last_try"] = 0
+        self.put(acc, "AHSentinel.lua", "AHSentinelDB = { 'neu' }\n", T0 + 9 * 86400 + 900)
+        self.drive(lap, T0 + 9 * 86400 + 901, T0 + 9 * 86400 + 940)
+        self.assertEqual(len(self.days("main")), 7)
+        self.assertTrue(any(b"ALT" in v for v in self.gh.files("main").values()))   # angenommen
+
+    def test_veraltet_liefert_nichts_und_sagt_es(self):
+        lap, acc, logs = self.current("Laptop")
+        self.put(acc, "AHSentinel.lua", "AHSentinelDB = { 'a' }\n", T0)
+        self.drive(lap, T0 + 1, T0 + 30)
+        refs = dict(self.gh.refs)
+        n = self.gh.commit_count()
+        lap.latest_fetch = lambda: "2.3.21"                  # neue Version veröffentlicht
+        lap.latest_at = -1e18
+        self.put(acc, "AHSentinel.lua", "AHSentinelDB = { 'b' }\n", T0 + 100)
+        self.drive(lap, T0 + 101, T0 + 2000)
+        self.assertEqual(self.gh.commit_count(), n)
+        self.assertEqual(self.gh.refs, refs)
+        msg = "Daten nicht angenommen – Uploader 2.3.20 ist veraltet (neueste 2.3.21), bitte /uploader holen"
+        self.assertEqual([l for l in logs if "veraltet" in l], [f"Prüfung: {msg}."])        # genau einmal
+        self.assertIn(msg, lap.status_line())
+        self.assertEqual(lap.d["neueste"]["v"], "2.3.21")
+        # GitHub-Rohdatei nicht lesbar -> zuletzt gelesene Version gilt weiter (nie still annehmen)
+        lap.latest_fetch = lambda: None
+        lap.latest_at = -1e18
+        self.drive(lap, T0 + 2001, T0 + 3000)
+        self.assertEqual(self.gh.commit_count(), n)
+        # Nutzer holt /uploader -> 2.3.21 liefert sofort
+        lap.version = "2.3.21"
+        lap.retry_at = 0
+        self.drive(lap, T0 + 3001, T0 + 3100)
+        self.assertEqual(self.gh.commit_count(), n + 1)
+        self.assertEqual(json.loads(self.gh.raw_files("sicherung")["stand.json"])["Laptop"]["uploader"], "2.3.21")
+        self.assertEqual(lap.last_error, "")
+        # Gegenprobe: ohne je gelesene Version nie abweisen (eigene gilt)
+        lap2, acc2, logs2 = self.current("PC", version="2.3.20", latest=None)
+        self.assertIsNone(lap2.outdated(T0))
+        self.assertEqual(lap2.latest(T0), "2.3.20")
+        # Gegenprobe: neuere eigene Version als veröffentlicht (gerade erst gebaut) -> nicht veraltet
+        lap3, _, _ = self.current("PC2", version="2.3.21", latest="2.3.20")
+        self.assertIsNone(lap3.outdated(T0))
+
+    def test_zwei_aktuelle_legen_sicherung_gleichzeitig_an(self):
+        pc, pacc, _ = self.current("PC")
+        lap, lacc, _ = self.current("Laptop")
+        self.put(pacc, "AHSentinel.lua", "AHSentinelDB = { 'pc' }\n", T0)
+        self.drive(pc, T0 + 1, T0 + 30)                        # main entsteht (erster Commit), PC legt "sicherung" an
+        self.gh.refs.pop("sicherung")                          # Lage: noch niemand hat "sicherung"
+        self.put(lacc, "AHSentinel.lua", "AHSentinelDB = { 'lap' }\n", T0 + 100)
+        self.put(pacc, "AHSentinel.lua", "AHSentinelDB = { 'pc2' }\n", T0 + 100)
+        orig = lap.api.create_ref
+        state = {"n": 0}
+
+        def create_ref(branch, sha):                           # zwischen Bauen und Anlegen liefert der PC
+            state["n"] += 1
+            if state["n"] == 1:
+                pc.d["last_try"] = 0
+                self.drive(pc, T0 + 101, T0 + 130)
+            return orig(branch, sha)
+        lap.api.create_ref = create_ref
+        lap.watch_at = T0 + 10 ** 6
+        pc.watch_at = T0 + 10 ** 6
+        self.drive(lap, T0 + 101, T0 + 130)
+        k = daten.konto_id(self.K)
+        files = self.gh.files("sicherung")
+        self.assertEqual(files[f"aktuell/PC/forever/{k}/AHSentinel.lua"], b"AHSentinelDB = { 'pc2' }\n")
+        self.assertEqual(files[f"aktuell/Laptop/forever/{k}/AHSentinel.lua"], b"AHSentinelDB = { 'lap' }\n")
+        self.assertEqual(self.gh.refs["main"], self.gh.refs["sicherung"])
+        self.assertGreaterEqual(state["n"], 1)
+
+    def test_neueste_version_lesen_ohne_token(self):
+        seen = []
+
+        class R(Resp):
+            def __init__(self, text):
+                self.data = text.encode()
+
+        def fake(req, timeout=None, context=None):
+            seen.append(req)
+            return R('"""x"""\nimport os\nVERSION = "2.3.27"\n')
+        daten.urllib.request.urlopen = fake
+        self.assertEqual(daten.fetch_latest_version(), "2.3.27")
+        self.assertEqual(seen[0].full_url, daten.LATEST_URL)
+        self.assertIsNone(seen[0].get_header("Authorization"))            # nie ein Token an raw.githubusercontent.com
+        self.assertTrue(seen[0].get_header("Range"))
+        daten.urllib.request.urlopen = lambda *a, **k: (_ for _ in ()).throw(OSError("kein Netz"))
+        self.assertIsNone(daten.fetch_latest_version())
+        daten.urllib.request.urlopen = lambda *a, **k: R("kein Python")
+        self.assertIsNone(daten.fetch_latest_version())
+        # dieselbe Quelle wie der Bot: VERSION in uploader.py ist lesbar und liegt in den ersten 16 kB
+        with open(os.path.join(HERE, "uploader.py"), "rb") as f:
+            head = f.read(16384).decode("utf-8", "replace")
+        m = daten.VERSION_RE.search(head)
+        self.assertTrue(m)
+        import uploader
+        self.assertEqual(m.group(1), uploader.VERSION)
+        self.assertFalse(daten.is_older("2.3.20", "2.3.20"))
+        self.assertTrue(daten.is_older("2.3.9", "2.3.20"))                # Zahlen, nicht Text
+        self.assertTrue(daten.is_older("", "2.3.20"))
+        self.assertFalse(daten.is_older("2.3.20", ""))
 
 if __name__ == "__main__":
     unittest.main()

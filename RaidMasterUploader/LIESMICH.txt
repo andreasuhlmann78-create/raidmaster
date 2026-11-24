@@ -283,6 +283,18 @@ Version 2.3.13 – Datenschutz im Daten-Repo (UP-DS1):
 - Kann er die Datei nicht sicher lesen, liefert er sie gar nicht und meldet einmal "GuildSentinel-Daten nicht geliefert: …".
 - Neue Datei svfilter.py – bitte immer die ganze RaidMasterUploader.zip entpacken.
 
+Version 2.3.20 – nur die neueste Version liefert (UP-ALT, Entscheid 24.11. 07:22):
+- Daten eines Rechners, dessen Uploader nicht die neueste veröffentlichte Version hat, werden nicht mehr angenommen.
+- Neueste Version = die Version der RaidMasterUploader.zip, die der Bot mit /uploader schickt. Ist dein Uploader älter,
+  liefert er nichts und schreibt ins Fenster: "Daten nicht angenommen – Uploader x.y.z ist veraltet (neueste a.b.c),
+  bitte /uploader holen". Dann /uploader holen, die ganze ZIP entpacken, Uploader neu starten.
+- Folge: Nach JEDER neuen Uploader-Version werden alle Rechner abgewiesen, bis sie aktualisiert sind.
+- Alte Uploader (bis 2.3.19) lassen sich nicht mehr ändern. Damit sie nichts mehr kaputt machen (z. B. die Tages-Stände
+  auf 7 Tage kürzen), gilt im Daten-Repo ab jetzt der Zweig "sicherung": Ihn schreibt nur ein aktueller Uploader. Was ein
+  alter Uploader auf "main" legt, wird nie übernommen; ein aktueller Uploader stellt "main" spätestens nach 5 Minuten
+  zurück und meldet es im Fenster.
+- Beim ersten Start legt der aktuelle Uploader den Zweig "sicherung" an (Meldung im Fenster).
+
 Version 2.3.19 – alles gepackt, 30 Tage (UP-TAGE, Entscheid 24.11.):
 - Jede Datei geht jetzt gepackt als <Datei>.lua.gz ins Daten-Repo (etwa ein Sechstel der Grösse). Gleicher Inhalt gibt
   gleiche gepackte Datei – ohne Änderung kein neuer Stand im Repo.

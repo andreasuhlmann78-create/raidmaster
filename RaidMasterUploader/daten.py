@@ -31,6 +31,19 @@ DU6 Kein endloser Verlauf: Das Repo enthält immer nur
     Jede Lieferung ersetzt den Zweig durch EINEN Commit ohne Vorgänger (Orphan-Commit + Force-Push), damit ältere
     Fassungen wirklich aus dem Repo verschwinden. Über 200 MB werden die ältesten Tages-Stände früher gelöscht.
 
+UP-ALT (ab 2.3.20, Entscheid des Nutzers 24.11.2026 07:22 "wenn jemand nicht die neuste version drauf hatt die daten nicht
+    mehr annehmen!"):
+    (1) Gültiger Stand ist der Zweig "sicherung". Ihn schreibt nur ein Uploader ab 2.3.20, und zwar ZUERST (dann main).
+        Alle Uploader bis 2.3.19 schreiben nur den Standardzweig (main) – belegt an allen 11 Fassungen von daten.py.
+        Ein Uploader ab 2.3.20 baut immer auf "sicherung" auf; eine Lieferung eines alten Uploaders auf main wird nie
+        übernommen. Wächter: alle 5 Min. main mit "sicherung" vergleichen, weicht main ab -> main auf "sicherung"
+        zurückstellen (nur der Zeiger, kein neuer Commit). Gibt es "sicherung" noch nicht, legt sie der erste aktuelle
+        Uploader auf den Stand von main an.
+    (2) Neueste Version = VERSION in RaidMasterUploader/uploader.py im öffentlichen raidmaster-Repo (dieselbe Quelle wie der
+        Bot, steigt mit jeder Version von selbst), höchstens alle 10 Min. gelesen. Ist der eigene Uploader älter, liefert er
+        nichts (auch "sicherung" nicht) und sagt es im Fenster. Nicht lesbar -> zuletzt gelesene Version, sonst die eigene.
+    (3) Meldung im Fenster: "Daten nicht angenommen – Uploader x.y.z ist veraltet (neueste a.b.c), bitte /uploader holen."
+
 DS1 Datenschutz (ab 2.3.13, Entscheid des Nutzers 16.11.2026 07:10): In GuildSentinel.lua werden vor dem Hochladen die
     Bewerber (apps) und die Sperrliste (ban) jeder Gilde geleert (svfilter.py). Nur die hochgeladene Kopie; die Datei im
     Spiel bleibt unverändert. Kann die Datei nicht sicher gelesen werden, wird sie NICHT geliefert (nie ungefiltert).
@@ -76,6 +89,12 @@ RETRY_SECONDS = 300                  # nach einem Fehler spätestens dann neu (o
 DAYS_KEEP = 30                        # UP-TAGE (Entscheid des Nutzers 24.11. 06:26): 30 Tage, alles gepackt, 1 GB
 REPO_MAX = 1024 * 1024 * 1024        # Summe der (gepackten) Dateien im Daten-Repo
 KEEP_OLD_RETRY = 1800                # UP-TAGE: lehnt GitHub eine eigene Datei ab -> spätestens nach 30 Min. neu versuchen
+SAFE_BRANCH = "sicherung"            # UP-ALT (2.3.20): gültiger Stand, schreibt nur ein Uploader ab 2.3.20
+WATCH_SECONDS = 300                  # UP-ALT: so oft main mit "sicherung" vergleichen
+LATEST_SECONDS = 600                 # UP-ALT: so oft die neueste veröffentlichte Version lesen
+LATEST_URL = ("https://raw.githubusercontent.com/andreasuhlmann78-create/raidmaster/HEAD/"
+              "RaidMasterUploader/uploader.py")   # öffentlich, ohne Token; dieselbe Quelle wie der Bot
+VERSION_RE = re.compile(r'^VERSION\s*=\s*["\'](\d+(?:\.\d+){1,3})["\']', re.M)
 REPO_RE = re.compile(r"^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$")
 TOKEN_RE = re.compile(r"^(github_pat_|ghp_)[A-Za-z0-9_]+$")
 LIESMICH = ("# GoldSentinel-Daten (privat)\n\n"
@@ -86,9 +105,36 @@ LIESMICH = ("# GoldSentinel-Daten (privat)\n\n"
             "Die Konto-Kennung (konto-xxxxxxxx) ist auf allen Rechnern gleich; der Kontoname steht hier nie.\n"
             "Ab Uploader 2.3.19 liegt jede Datei gepackt als `<Datei>.lua.gz` da (gzip, z. B. `gzip.open(pfad, 'rt')`); "
             "ältere Stände anderer Rechner und Tage können noch ungepackt (`.lua`) sein – Leser nehmen beides.\n"
-            "Jede Lieferung ersetzt den Verlauf (ein einziger Commit) – ältere Fassungen gibt es hier nicht.\n")
+            "Jede Lieferung ersetzt den Verlauf (ein einziger Commit) – ältere Fassungen gibt es hier nicht.\n\n"
+            "Ab Uploader 2.3.20 gilt der Zweig `sicherung` (schreibt nur ein aktueller Uploader). `main` ist nur eine Kopie und "
+            "kann kurz eine nicht angenommene Lieferung eines alten Uploaders zeigen. Leser nehmen `sicherung` und nur Rechner, "
+            "deren `uploader` in `stand.json` die neueste veröffentlichte Version ist.\n")
 QUOTES = str.maketrans({"„": '"', "“": '"', "”": '"', "«": '"', "»": '"', "‘": "'",
                         "’": "'"})
+
+
+def version_key(v) -> tuple:
+    try:
+        return tuple(int(p) for p in str(v).split("."))
+    except ValueError:
+        return ()
+
+
+def is_older(have, want) -> bool:
+    """UP-ALT: ist "have" älter als "want"? Unbekannte eigene Version gilt als älter, unbekannte neueste nie."""
+    return bool(version_key(want)) and version_key(have) < version_key(want)
+
+
+def fetch_latest_version(timeout: int = 30) -> str | None:
+    """UP-ALT (2): VERSION des veröffentlichten Uploaders (raidmaster-Repo, öffentlich, ohne Token). None bei jedem Fehler."""
+    req = urllib.request.Request(LATEST_URL, headers={"User-Agent": "GoldSentinel-Uploader", "Range": "bytes=0-16383"})
+    try:
+        with urllib.request.urlopen(req, timeout=timeout, context=ssl_context()) as resp:
+            text = resp.read().decode("utf-8", "replace")
+    except Exception:  # noqa: BLE001 – nie abstürzen; dann gilt die zuletzt gelesene Version
+        return None
+    m = VERSION_RE.search(text)
+    return m.group(1) if m else None
 
 
 def git_blob_sha(data: bytes) -> str:
@@ -273,7 +319,7 @@ def _call_name(method: str, path: str) -> str:
     if "/git/commits" in path:
         return "Stand anlegen" if method == "POST" else "Stand lesen"
     if "/git/ref" in path:
-        return "Zweig setzen" if method == "PATCH" else "Zweig lesen"
+        return {"PATCH": "Zweig setzen", "POST": "Zweig anlegen"}.get(method, "Zweig lesen")
     return "Abfrage"
 
 
@@ -395,6 +441,16 @@ class GitHubAPI:
     def set_ref(self, branch: str, sha: str):
         self._req("PATCH", f"/repos/{self.repo}/git/refs/heads/{branch}", {"sha": sha, "force": True})
 
+    def create_ref(self, branch: str, sha: str) -> bool:
+        """UP-ALT: Zweig neu anlegen. False, wenn es ihn schon gibt (ein anderer Rechner war schneller)."""
+        try:
+            self._req("POST", f"/repos/{self.repo}/git/refs", {"ref": f"refs/heads/{branch}", "sha": sha})
+        except GitHubError as e:
+            if e.code == 422:
+                return False
+            raise
+        return True
+
 
 def test_connection(conf: dict, log=print) -> bool:
     """Daten-Verbindung-testen.bat (T-DU9 c): GET /repos/<repo>, Ergebnis verständlich."""
@@ -429,6 +485,15 @@ class Daten:
         self.warned_filter: set[str] = set()       # DS1: "nicht geliefert" je Datei-Stand nur einmal melden
         self.warned_old = None                     # UP-DS2 (3): Hinweis "anderer Rechner mit altem Uploader" je Anzahl einmal
         self._too_big: set[str] = set()
+        self.legacy = False                        # nur Tests: Verhalten bis 2.3.19 (kein "sicherung", keine Mindestversion)
+        self.latest_fetch = fetch_latest_version   # UP-ALT (2), im Test ersetzbar
+        self.latest_at = -1e18                     # wann zuletzt gelesen (Prozess)
+        self.watch_at = -1e18                      # UP-ALT (1): wann zuletzt main mit "sicherung" verglichen
+        self.warned_outdated = ""                  # UP-ALT (3): Meldung je Versionspaar einmal
+        self.warned_restore: set[str] = set()      # UP-ALT: Rückstellung je fremdem Commit einmal melden
+        self.restored = 0
+        self.watch_error = ""
+        self._want = ""
 
     # -- welche Dateien (DU2, T-DU10)
     def files(self) -> dict[str, str]:
@@ -466,6 +531,103 @@ class Daten:
             line += f" · FEHLER: {self.last_error}"
         return line
 
+    # -- UP-ALT (2): neueste veröffentlichte Version
+    def latest(self, now: float) -> str:
+        """Neueste veröffentlichte Uploader-Version; höchstens alle LATEST_SECONDS gelesen, sonst die gemerkte. Nicht
+        lesbar -> zuletzt gelesene (uploader_state.json), sonst die eigene (dann wird nie fälschlich abgewiesen)."""
+        if now - self.latest_at >= LATEST_SECONDS:
+            self.latest_at = now
+            v = self.latest_fetch()
+            if v and version_key(v):
+                if v != (self.d.get("neueste") or {}).get("v"):
+                    self.d["neueste"] = {"v": v, "zeit": int(now)}
+                    self.save()
+        v = str((self.d.get("neueste") or {}).get("v") or "")
+        if not version_key(v) or version_key(v) < version_key(self.version):
+            v = self.version                       # eigene ist neuer (z. B. gerade erst veröffentlicht) -> die eigene
+        return v
+
+    def outdated(self, now: float) -> str | None:
+        """UP-ALT (2)/(3): Text, wenn dieser Uploader nicht die neueste Version ist, sonst None."""
+        if self.legacy:
+            return None
+        want = self.latest(now)
+        if not is_older(self.version, want):
+            return None
+        return (f"Daten nicht angenommen – Uploader {self.version or 'unbekannt'} ist veraltet (neueste {want}), "
+                f"bitte /uploader holen")
+
+    # -- UP-ALT (1): Wächter – main nie länger als WATCH_SECONDS anders als "sicherung"
+    @staticmethod
+    def _deliverer(stand: dict) -> str:
+        """Uploader-Version des Rechners, der zuletzt geliefert hat (grösste "zeit" in stand.json)."""
+        best, ver = -1, ""
+        for v in stand.values() if isinstance(stand, dict) else []:
+            if isinstance(v, dict) and int(v.get("zeit") or 0) > best:
+                best, ver = int(v.get("zeit") or 0), str(v.get("uploader") or "")
+        return ver
+
+    def _restore_note(self, sha: str):
+        if sha in self.warned_restore:
+            return
+        self.warned_restore.add(sha)
+        ver = ""
+        try:
+            tree = {e["path"]: e for e in self.api.tree(sha)}
+            if "stand.json" in tree:
+                ver = self._deliverer(json.loads(self.api.blob_text(tree["stand.json"]["sha"]).decode("utf-8")))
+        except (GitHubError, ValueError, UnicodeDecodeError, KeyError, TypeError):
+            ver = ""
+        if ver and ver != "unbekannt" and not is_older(ver, self._want or self.version):
+            return                                   # ein aktueller Rechner war mitten im Liefern (sicherung vor main) – kein Fund
+        who = f"Uploader {ver}" if ver and ver != "unbekannt" else "Uploader vor 2.3.15"
+        self.log(f"Prüfung: Lieferung eines alten Uploaders ({who}) nicht angenommen – Daten-Repo auf den gesicherten "
+                 f"Stand zurückgestellt (Zweig {SAFE_BRANCH}).")
+
+    def watch(self, now: float) -> bool | None:
+        """Alle WATCH_SECONDS: weicht main von "sicherung" ab (Lieferung eines alten Uploaders), main zurückstellen.
+        Gibt es "sicherung" noch nicht und ist dieser Uploader aktuell: anlegen. True = zurückgestellt/angelegt."""
+        if self.legacy or now - self.watch_at < WATCH_SECONDS:
+            return None
+        self.watch_at = now
+        try:
+            branch = self.d.get("branch")
+            if not branch:
+                info = self.api.repo_info()
+                if info.get("private") is not True:
+                    return None                                   # nicht privat: nichts anfassen (wie deliver)
+                branch = self.d["branch"] = str(info.get("default_branch") or "main")
+            safe = self.api.head(SAFE_BRANCH)
+            main = self.api.head(branch)
+            if not main:
+                return None
+            if not safe:
+                if self.outdated(now):
+                    return None
+                if self.api.create_ref(SAFE_BRANCH, main):
+                    self.log(f"Prüfung: Zweig {SAFE_BRANCH} angelegt – ab jetzt werden Lieferungen alter Uploader nicht "
+                             f"mehr angenommen.")
+                    return True
+                return None
+            if main == safe:
+                self.watch_error = ""
+                return None
+            for _ in range(3):                                    # liefert ein aktueller Rechner gerade, folgt main ihm
+                self.api.set_ref(branch, safe)
+                again = self.api.head(SAFE_BRANCH)
+                if again == safe:
+                    break
+                safe = again
+            self._restore_note(main)
+            self.restored += 1
+            self.watch_error = ""
+            return True
+        except GitHubError as e:
+            if str(e) != self.watch_error:
+                self.watch_error = str(e)
+                self.log(f"Prüfung: Abgleich mit Zweig {SAFE_BRANCH} nicht möglich – {e} (neuer Versuch in 5 Min.).")
+            return False
+
     # -- regelmässig (alle paar Sekunden aus der Hauptschleife)
     def tick(self, now: float | None = None) -> bool | None:
         now = time.time() if now is None else now
@@ -477,11 +639,11 @@ class Daten:
             self.sig, self.changed_at = sig, now
             return None
         if sig == self.d.get("sig_done") or not sig:
-            return None
+            return self.watch(now)
         if now - self.changed_at < STABLE_SECONDS or now < self.retry_at:
-            return None
+            return self.watch(now)
         if now - float(self.d.get("last_try") or 0) < MIN_GAP:
-            return None
+            return self.watch(now)
         return self.deliver(now, files, sig)
 
     def _read_files(self, files: dict[str, str]) -> dict[str, tuple[bytes, str]]:
@@ -630,6 +792,7 @@ class Daten:
         stand[me] = {"zeit": int(now), "dateien": files,
                      "grundregeln": list(self.d.get("grundregeln") or []),      # TU5: Verletzungen (ohne Namen)
                      "uploader": self.version or "unbekannt",                   # UP-DS2 (1)
+                     "neueste": getattr(self, "_want", "") or self.version or "",  # UP-ALT: neueste veröffentlichte beim Liefern
                      "tage": {"anzahl": len(tage), "von": tage[0] if tage else "", "bis": tage[-1] if tage else "",
                               "grenze_tage": DAYS_KEEP, "grenze_mb": REPO_MAX // (1024 * 1024)}}   # UP-TAGE
         self.days_now = tage
@@ -665,12 +828,7 @@ class Daten:
 
     @staticmethod
     def _older(v: str, mine: str) -> bool:
-        def key(x):
-            try:
-                return tuple(int(p) for p in str(x).split("."))
-            except ValueError:
-                return ()
-        return key(v) < key(mine) if key(mine) else False
+        return is_older(v, mine)
 
     def _hint_old_uploaders(self, stand_old: dict):
         """UP-DS2 (3): liefert ein anderer Rechner ohne Versionsangabe oder mit älterem Uploader? Einmal melden, ohne Namen."""
@@ -679,11 +837,11 @@ class Daten:
             if k == self.me or k == self.folder or not isinstance(v, dict):
                 continue
             ver = v.get("uploader")
-            if not ver or ver == "unbekannt" or self._older(ver, self.version):
+            if not ver or ver == "unbekannt" or self._older(ver, self._want or self.version):
                 n += 1
         if n and n != self.warned_old:
-            self.log(f"Prüfung: {n} andere(r) Rechner liefert noch mit einem alten Uploader (kürzt die Tages-Stände auf 7 Tage) – "
-                     f"dort den Uploader auf {self.version or 'die neue Version'} bringen.")
+            self.log(f"Prüfung: {n} andere(r) Rechner liefert noch mit einem alten Uploader – seine Daten werden nicht "
+                     f"angenommen; dort /uploader holen ({self._want or self.version or 'die neue Version'}).")
         self.warned_old = n
         self.old_uploaders = n
 
@@ -695,11 +853,24 @@ class Daten:
         self._keep_old: dict[str, str] = {}          # eigene Dateien, die GitHub ablehnt -> vorige Fassung bleibt
         self._missing: set[str] = set()              # Prüfwerte, die GitHub als fehlend meldet
         self._too_big: set[str] = set()              # 2.3.19: eigene Dateien über MAX_RAW / gepackt über MAX_FILE
+        self._want = "" if self.legacy else self.latest(now)
+        why = self.outdated(now)
+        if why:                                      # UP-ALT (2)/(3): veraltet -> nichts liefern, auch "sicherung" nicht
+            self.last_error = why
+            self.retry_at = now + LATEST_SECONDS
+            if why != self.warned_outdated:
+                self.warned_outdated = why
+                self.log(f"Prüfung: {why}.")
+            self.save()
+            return False
+        self.warned_outdated = ""
+        safe = None if self.legacy else SAFE_BRANCH    # UP-ALT (1): gültiger Stand
         try:
             info = self.api.repo_info()
             if info.get("private") is not True:
                 raise GitHubError(f"{self.api.repo} ist nicht privat – aus Sicherheitsgründen nichts geliefert")
             branch = str(info.get("default_branch") or "main")
+            self.d["branch"] = branch
             cur_all = self._pack_all(self._read_files(files))
             strict, head_retried, rounds = False, False, 0
             while True:
@@ -708,10 +879,14 @@ class Daten:
                     raise GitHubError("Daten-Repo änderte sich bei jedem Versuch")
                 cur = {rel: v for rel, v in cur_all.items() if rel not in self._keep_old}
                 try:
-                    head = self.api.head(branch)
-                    if head is None:
+                    main_head = self.api.head(branch)
+                    if main_head is None:
                         self.api.init_empty(branch)
-                        head = self.api.head(branch)
+                        main_head = self.api.head(branch)
+                    safe_head = self.api.head(safe) if safe else None
+                    # UP-ALT (1): Grundlage ist "sicherung" (nie, was ein alter Uploader auf main gelegt hat); gibt es sie noch
+                    # nicht, main (einmalig, beim ersten aktuellen Uploader)
+                    head = safe_head or main_head
                     old = {e["path"]: e for e in self.api.tree(head)} if head else {}
                     mine = {p: e.get("sha") for p, e in old.items() if p.startswith(f"aktuell/{self.folder}/")}
                     memo = self.d.get("ds2") or {}
@@ -724,6 +899,15 @@ class Daten:
                             if f"aktuell/{self.folder}/{v}" in mine:
                                 want[f"aktuell/{self.folder}/{v}"] = mine[f"aktuell/{self.folder}/{v}"]
                     if not strict and not dirty and not self._keep_old and mine == want:
+                        if safe and main_head:                   # UP-ALT: auch ohne eigene Änderung main = "sicherung"
+                            if not safe_head:
+                                if self.api.create_ref(safe, main_head):
+                                    self.log(f"Prüfung: Zweig {safe} angelegt – ab jetzt werden Lieferungen alter Uploader "
+                                             f"nicht mehr angenommen.")
+                            elif main_head != safe_head:
+                                self.api.set_ref(branch, safe_head)
+                                self._restore_note(main_head)
+                                self.restored += 1
                         self.d["sig_done"] = sig                 # nichts geändert -> nie ein Commit
                         self.last_error = ""
                         self.save()
@@ -771,9 +955,18 @@ class Daten:
                     if not tree or not commit:
                         raise GitHubError("GitHub hat den Stand nicht bestätigt")
                     # hat der andere Rechner inzwischen geliefert? Dann seinen Stand einbeziehen (einmal neu)
-                    if not head_retried and self.api.head(branch) != head:
+                    if not head_retried and self.api.head(safe or branch) != (safe_head if safe else head):
                         head_retried = True
                         continue
+                    if safe:                                     # UP-ALT: ZUERST "sicherung", dann main
+                        if safe_head:
+                            self.api.set_ref(safe, commit)
+                        elif not self.api.create_ref(safe, commit):
+                            head_retried = True                  # ein anderer Rechner legte sie gerade an -> auf ihr neu
+                            continue
+                        if main_head and main_head != safe_head and safe_head:
+                            self._restore_note(main_head)        # main zeigte eine nicht angenommene Lieferung
+                            self.restored += 1
                     self.api.set_ref(branch, commit)
                 except GitHubError as e:
                     named = set(re.findall(r"\b[0-9a-f]{40}\b", e.detail or ""))
@@ -791,7 +984,7 @@ class Daten:
                     raise
                 # U1 (ab 2.3.2): nur "geliefert", wenn der Kopf danach wirklich unser Commit ist – sonst hat der andere
                 # Rechner gleichzeitig ersetzt; dann gilt nichts als erledigt und es folgt ein neuer Versuch
-                if self.api.head(branch) != commit:
+                if self.api.head(safe or branch) != commit:
                     self.last_error = "anderer Rechner lieferte gleichzeitig – neuer Versuch in 1 Min."
                     self.retry_at = now + MIN_GAP
                     self.log("Prüfung: anderer Rechner lieferte gleichzeitig – neuer Versuch in 1 Minute.")

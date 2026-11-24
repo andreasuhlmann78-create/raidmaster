@@ -253,6 +253,17 @@ Version 2.3.13 – privacy in the data repo (UP-DS1):
 - If the file cannot be read safely, it is not delivered at all, with one notice "GuildSentinel-Daten nicht geliefert: …".
 - New file svfilter.py – always extract the whole RaidMasterUploader.zip.
 
+Version 2.3.20 – only the newest version delivers (UP-ALT):
+- Data from a computer whose uploader is not the newest published version is no longer accepted.
+- Newest version = the version of RaidMasterUploader.zip that the bot sends with /uploader. If your uploader is older, it
+  delivers nothing and shows "Daten nicht angenommen – Uploader x.y.z ist veraltet (neueste a.b.c), bitte /uploader
+  holen". Then get /uploader, extract the whole ZIP and restart the uploader.
+- Consequence: after EVERY new uploader version all computers are rejected until they are updated.
+- Old uploaders (up to 2.3.19) cannot be changed any more. So they cannot break anything (e.g. cut the daily states to
+  7 days), the data repo now uses the branch "sicherung": only a current uploader writes it. What an old uploader puts on
+  "main" is never taken over; a current uploader resets "main" within 5 minutes and says so in the window.
+- On its first start the current uploader creates the branch "sicherung" (notice in the window).
+
 Version 2.3.19 – everything packed, 30 days (UP-TAGE):
 - Every file now goes to the data repo packed as <file>.lua.gz (about a sixth of the size). The same content gives the
   same packed file – without a change there is no new state in the repo.

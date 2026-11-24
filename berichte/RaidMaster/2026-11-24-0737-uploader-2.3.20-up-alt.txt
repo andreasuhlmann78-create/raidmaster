@@ -1,0 +1,92 @@
+Bericht RaidMaster-Sitzung an die Prüf-Sitzung – 24.11.2026 07:37
+Thema: UP-ALT HOCH (Entscheid des Nutzers 24.11. 07:22 "wenn jemand nicht die neuste version drauf hatt die daten nicht mehr
+annehmen!") – Uploader 2.3.20
+Status: umgesetzt, zur Prüfung (Uploader 2.3.20, download/RaidMasterUploader.zip). Zusätzlich: SH-V3 gelesen, kommt mit Addon 3.0.41.
+
+1. Ursache und Ansatzpunkt (belegt)
+- Alle 11 Fassungen von RaidMasterUploader/daten.py in der Repo-Geschichte (2.3.0 bis 2.3.19) schreiben nur EINEN Zweig:
+  den Standardzweig des Daten-Repos (GET /repos/<repo> -> default_branch, PATCH git/refs/heads/<default_branch>). Keine Fassung
+  liest, schreibt oder löscht einen anderen Zweig (grep "git/refs", "git/ref/", "DELETE" über alle Fassungen: je 1 Treffer, immer
+  derselbe Standardzweig).
+- 10 von 11 Fassungen haben DAYS_KEEP = 7 (nur 2.3.19 hat 30) -> jede Lieferung eines alten Uploaders kürzt tage/ auf 7 Tage.
+- Daraus: Ein Zweig, den nur 2.3.20+ schreibt, ist für alte Uploader unerreichbar. Das ist Weg a) des Auftrags, ohne Workflow.
+
+2. Umsetzung (1) – Schutz ausserhalb der alten Uploader
+- Gültiger Stand = Zweig "sicherung" im Daten-Repo. Ihn schreibt nur ein Uploader ab 2.3.20, und zwar ZUERST, danach main
+  (main ist nur noch eine Kopie).
+- Jede Lieferung ab 2.3.20 baut auf "sicherung" auf, nie auf main. Was ein alter Uploader auf main legt, kommt also nie in den
+  gültigen Stand (auch nicht seine Daten, auch nicht seine Kürzung der Tage).
+- Wächter: Ein laufender 2.3.20 vergleicht alle 5 Min. main mit "sicherung" (2 GET). Weicht main ab, setzt er main auf
+  "sicherung" zurück (nur der Zeiger, kein neuer Commit) und meldet einmal je fremdem Stand im Fenster:
+  "Prüfung: Lieferung eines alten Uploaders (Uploader x.y.z | Uploader vor 2.3.15) nicht angenommen – Daten-Repo auf den
+  gesicherten Stand zurückgestellt (Zweig sicherung)." (ohne Rechnernamen; die Version stammt aus stand.json des fremden Stands)
+- Gibt es "sicherung" noch nicht, legt sie der erste aktuelle Uploader auf den Stand von main an (einmalig; Meldung im Fenster).
+  Folge, offen gesagt: was zu diesem Zeitpunkt auf main liegt, ist der Ausgangsstand (die 14.–20.11. sind ohnehin weg).
+- Zusammenstösse: Vor dem Setzen wird geprüft, ob "sicherung" sich seit dem Lesen geändert hat (dann einmal neu bauen); danach
+  gilt nur als geliefert, wenn "sicherung" wirklich auf den eigenen Commit zeigt, sonst neuer Versuch nach 1 Min. (wie U1, jetzt auf
+  "sicherung"). Legen zwei Rechner "sicherung" gleichzeitig an, lehnt GitHub den zweiten mit 422 ab -> er baut auf der
+  angelegten neu auf. Wächter gegen Lieferung eines aktuellen Rechners: nach dem Zurückstellen wird "sicherung" erneut gelesen und
+  main nachgezogen (bis 3×). Rest-Fenster: main kann bis zur nächsten Prüfung (5 Min.) hinter "sicherung" liegen – "sicherung"
+  selbst nie (Verdacht, zu messen: tritt nur auf, wenn zwei aktuelle Rechner innerhalb weniger Sekunden liefern/prüfen).
+- Zeitfenster für Leser von main: zwischen einer alten Lieferung und dem nächsten Wächter-Lauf (höchstens 5 Min., solange ein
+  2.3.20 läuft; läuft keiner, bis zum nächsten Start eines 2.3.20) zeigt main die nicht angenommene Lieferung. "sicherung" ist
+  in dieser Zeit unverändert. Darum (4): Leser nehmen "sicherung".
+- Weg b) (neuer Zugangsschlüssel nur für 2.3.20+): nicht nötig, solange a) hält (belegt in 1.). Bleibt als Vorschlag für den
+  Nutzer, falls er alte Uploader GANZ aussperren will (dann schreiben sie auch main nicht mehr): neuen Fine-grained-Token nur
+  für das Daten-Repo (Contents: Read and write) erstellen, alten Token bei GitHub löschen, auf jedem Rechner mit 2.3.20
+  Daten-Repo-einrichten.bat ausführen und den neuen Token einfügen. Entscheid beim Nutzer; Claude fasst Token/Config nie an.
+
+3. Umsetzung (2) – "neueste Version"
+- Neueste Version = VERSION in RaidMasterUploader/uploader.py im öffentlichen raidmaster-Repo (raw, Zweig HEAD) – dieselbe Quelle,
+  aus der der Bot die Version der ZIP liest (RaidMasterBot/uploader_version.py). Steigt mit jeder neuen Uploader-Version von selbst,
+  keine zweite Datei, die man vergessen kann. Gelesen ohne Token (Range 0–16 kB; VERSION steht bei Byte 4326), höchstens alle 10 Min.
+- Ist der eigene Uploader älter: liefert nichts (auch "sicherung" nicht), merkt die Änderung nicht als erledigt, prüft nach 10 Min.
+  wieder. Nicht lesbar (kein Netz): die zuletzt gelesene Version gilt (uploader_state.json), nie gelesen: die eigene.
+- Folge für den Nutzer (bitte so weitergeben): Nach JEDER neuen Uploader-Version werden alle Rechner abgewiesen, bis sie
+  aktualisiert sind. Neue Versionen darum sofort per Bot an alle verteilen (/uploader nur_programm bzw. an_offiziere).
+
+4. Umsetzung (3) – Wer abgewiesen wird, sieht es
+- Ab 2.3.20 im Uploader-Fenster einmal je Versionspaar und dauerhaft in der Statuszeile:
+  "Prüfung: Daten nicht angenommen – Uploader 2.3.20 ist veraltet (neueste 2.3.21), bitte /uploader holen."
+- Andere Rechner mit altem Uploader: Hinweis ohne Namen "n andere(r) Rechner liefert noch mit einem alten Uploader – seine Daten
+  werden nicht angenommen; dort /uploader holen (2.3.20)."
+- Für Uploader vor 2.3.20 (können nichts mehr anzeigen): PN durch den Bot gehört dem Discord-Projekt (Bot ändert nur es).
+  Bitte an Discord/ weitergeben: Erkennung über stand.json im Zweig "sicherung" bzw. main (Feld "uploader" fehlt oder ist älter
+  als VERSION in RaidMasterUploader/uploader.py); Zuordnung Rechner -> Besitzer hat nur der Bot/Nutzer, nicht das Repo.
+
+5. Umsetzung (4) – Leser
+- Leser (addon-check, geplante Aufgaben, Prüf-Sitzung) nehmen ab sofort den Zweig "sicherung"
+  (lokal: git fetch origin sicherung && git checkout -B sicherung origin/sicherung), nicht main.
+- Angenommene Rechner: stand.json[<rechner>]["uploader"] ist NICHT älter als VERSION in raidmaster
+  RaidMasterUploader/uploader.py (Zahlenvergleich je Teil, "2.3.9" < "2.3.20"). Fehlt "uploader" oder ist er "unbekannt" ->
+  nicht angenommen. Neu je Rechner zusätzlich "neueste": welche neueste Version beim Liefern galt.
+- Weiterhin: .lua und .lua.gz lesen (de_ketten_lehrer.py liest noch festen .lua-Pfad, gemeldet 06:35).
+- LIESMICH.md im Daten-Repo nennt den Zweig und die Regel.
+
+6. Tests (eigene Tests, Hinweis – keine Freigabe)
+- test_daten 45 (neu 6 in UPALT), test_sync 53, test_uploader 23, test_umfassend 14 (TU6 79 von 79 grün, TU3 +3 Werte) – grün.
+- Neu: alter Uploader liefert nach 10 Spieltagen -> main 7 Tage + seine Daten; "sicherung" unberührt 10 Tage; Wächter stellt main
+  nach 5 Min. zurück (nicht früher, kein Commit), Meldung ohne Rechnername; nächste eigene Lieferung ohne Daten des alten.
+  Gegenprobe im selben Test-Satz (Verhalten 2.3.19): 3 Tage weg, Daten des alten angenommen.
+- Veraltet: kein Commit, Zweige unverändert, Meldung genau einmal, Statuszeile; Netz weg -> gemerkte Version gilt; nach Update
+  sofort geliefert. Gegenproben: nie gelesene Version / eigene neuer als veröffentlichte -> nicht abgewiesen.
+- Zwei aktuelle legen "sicherung" gleichzeitig an -> beide Stände drin, main = sicherung.
+- Neueste Version lesen: richtige Adresse, KEIN Authorization-Kopf, Range; Fehler/kein VERSION -> None; VERSION_RE liest
+  uploader.py in den ersten 16 kB = uploader.VERSION.
+- Gegenprobe gegen 2.3.19 (Testdatei gegen daten.py von HEAD vor dieser Änderung): 4 der 5 neuen UP-ALT-Tests rot (der fünfte
+  ist selbst die Gegenprobe), dazu die zwei angepassten Hinweis-/Filtertests rot.
+- Angepasste alte Tests (begründet): nachgebildete alte Uploader (UPDS2.old_uploader, 2.3.18-Hinweistest) verhalten sich jetzt
+  wirklich wie alte (nur main). UP422-Ausgangslage und der .gz-Filtertest legen die Daten des alten Rechners VOR dem ersten
+  aktuellen Uploader ab (sonst würde 2.3.20 sie richtigerweise gar nicht annehmen) – geprüft wird weiter Filter/Erholung.
+- Nachbau mit echten Daten (Kopie des lokalen Daten-Repos, 188 Dateien, nur lokal, keine Namen): 2.3.20 legt "sicherung" an,
+  liefert in 1 Commit, 0 Dateien verloren, alle Tage (21.–23.11.) erhalten, main = sicherung; geändert nur 2 GuildSentinel-Dateien
+  (DS2-Filter; dort lagen noch ungefilterte Stände alter Uploader). Hinweis "4 andere Rechner mit altem Uploader".
+
+7. Stand Daten-Repo 07:21 (lokal gelesen, ohne Namen): 4 Rechner, 1× uploader 2.3.18, 3× ohne Feld; tage/ 21.–23.11.
+   Noch kein Zweig "sicherung" – entsteht beim ersten Start eines 2.3.20.
+
+8. Offen beim Nutzer
+- Uploader 2.3.20 auf alle 4 liefernden Rechner (ganz entpacken, neu starten). Bis dahin liefert keiner angenommen; 2.3.19 auf dem
+  Laptop wird ab Veröffentlichung von 2.3.20 ebenfalls abgewiesen (Entscheid wörtlich).
+- Verteilen per Bot (/uploader) – Freigabe des Nutzers nötig (Nachricht in seinem Namen).
+- Entscheid b) (neuer Token) nur falls gewünscht.
