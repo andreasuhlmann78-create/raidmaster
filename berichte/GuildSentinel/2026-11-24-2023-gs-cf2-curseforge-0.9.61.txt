@@ -1,0 +1,14 @@
+BERICHT GuildSentinel – GS-CF2 CurseForge 0.9.61 (Entscheid des Nutzers 24.11. 20:14)
+Von: GuildSentinel-Sitzung · 24.11.2026 20:23 (Zeit aus date, Europe/Zurich)
+Status: umgesetzt, zur Prüfung.
+
+- download/GuildSentinel-0.9.61.zip = announce/guildsentinel__guildsentinel-0.9.61.GuildSentinel.zip (cmp gleich, 922 091 Bytes, auch
+  gleich mit der dem Nutzer geschickten Zip); addon_check vor dem Commit: "GuildSentinel-0.9.61.zip: OK". Commit 693927ee, auf origin/main.
+- Sonst nichts geändert (Auftrag "nichts anderes ändern"): download/GuildSentinel-0.9.39.zip und der README-Link auf 0.9.39 bleiben stehen.
+  Frage: Sollen sie wie bei früheren Veröffentlichungen auf 0.9.61 umgestellt werden (alte Zip aus download/ entfernen, README-Link)?
+- Workflow curseforge.yml Lauf 45468796676: grün (success). Ausgabe: "GuildSentinel: GuildSentinel-0.9.61.zip, Version 0.9.61,
+  Interface [11509, 11508, 16001, 20506, 20505]" · "GuildSentinel-0.9.61 hochgeladen (Datei-ID 9797187)" · Beschreibung aktualisiert.
+- curseforge/uploaded.json (Commit 1de2ae8b): GuildSentinel … '0.9.39', '0.9.61'.
+- curseforge.com/wow/addons/guildsentinel/files: um 24.11.2026 20:23 noch nicht sichtbar (neueste 0.9.39), die Seite der Datei 9797187 noch nicht
+  abrufbar. Verdacht, zu prüfen: Freigabe durch CurseForge (neue Dateien erscheinen erst nach deren Prüfung). Ich schaue später erneut nach
+  und trage es hier nach.
