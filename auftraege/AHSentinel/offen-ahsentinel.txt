@@ -6656,6 +6656,8 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
       NUTZER 21:25: "der wächter wartet weil er muss wenn der vollscan läuft" – das Warten ist RICHTIG und bleibt. AHS-TR1-a betrifft nur die
       Testroutine: (1) Grund nennen ("wartet auf Vollscan"), (2) Wächter-Schritt zählt seine 3 Min. erst nach dem Ende des Vollscans (Zeitlimit
       bleibt) bzw. läuft nicht gleichzeitig mit dem Vollscan; am Wächter selbst nichts ändern.
+      ENTSCHEID DES NUTZERS 21:27: "ok mach das aber das ist ja nicht schlimm wegen curse" -> AHS-TR1-a ist KEIN Blocker für CurseForge (betrifft nur die
+      Testroutine). Priorität NIEDRIG, in eine der nächsten Versionen. Für AHS-CF1 a) zählt der Wächter-Schritt "nicht prüfbar" wegen Vollscan nicht als FEHLER.
     - T459 FEHLER: "3. Vollscan der Sitzung · angelegt 31 116 KB · wiederverwendet 0, neu 7064 · Zusammenfassungen 10 634 KB · Bestpreise 2 490 KB"
       bei 382 099 Auktionen. Vergleich mit 19:18 (0.65.390, 343 518 Auktionen, 26 303 KB): absolut +18 %, je 1000 Auktionen 81,4 statt 76,6 KB (+6 %).
       AHS-CF1 c) ("nicht schlechter") damit NICHT erfüllt – der Markt ist grösser, der Wert je Auktion aber auch. Supervisor legt das dem Nutzer vor;
