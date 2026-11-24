@@ -4,7 +4,19 @@
 Sitzung seit 23.11. 06:18. Repos: raidmaster, goldsentinel-daten (schreiben); ahanalyzerpro, professionsentinel, guildsentinel (lesen).
 
 ## Gerade in Arbeit
-- nichts Laufendes. Entscheid 07:04: Supervisor entwickelt NICHT an Addons, nur prüfen (shared/ pflegt der Supervisor, Entscheid 07:09).
+- PAUSE auf Wunsch des Nutzers 20:07. Unterbrochen mitten in: "Lückenprüfung der letzten 24–48 Std." (Nutzer 20:07) + Prüfung PS 0.9.83.
+  Gefunden bisher (noch NICHT gemeldet, noch nichts eingetragen):
+  1. GuildSentinel: auf CurseForge noch 0.9.39 (download/, uploaded.json, seit 15.11.); 0.9.61 Ingametest 24.11. 12:48 ohne FEHLER –
+     CurseForge braucht OK des Nutzers (GS-Stand) -> Nutzer fragen.
+  2. AHSentinel CurseForge: 0.65.354 (19.11.) – AHS-CF1 läuft.
+  3. UP-ALT: PC hat Uploader 2.3.20 (stand.json), Offiziere nicht (alt, Lieferung 22.11./23.11.) -> Erinnerung über Bot? Nutzer fragen.
+  4. Discord Bot 1.5.194: Abnahme im Betrieb (1)-(3) offen, letzter Discord-Bericht 24.11. 10:39.
+  5. CurseForge-Zwischenstand CF1–CF3 / Antworten an Spieler A/B/C: Posten scheiterte (nicht angemeldet) – offen.
+  6. Laptop: AHS 0.65.390/391, PS 0.9.82/0.9.83, TS 2.5.30 nicht installiert (Laptop nicht verbunden).
+  7. Skelett: shared-Dateien kopiert neues_addon.py (COMMON) aus shared/ – ok; UMG1 später (Entscheid 20:06).
+  Noch zu prüfen: Rest der Entscheide 23./24.11. (D-MITGL1-R, W3/W2-E bei AHS, LP-Wegsperren 22.11.), BS-M1-b Version ausstehend.
+  PS 0.9.83 (Bericht 20:06, PS-I5-a): Bericht gelesen, md5 download=announce 2f7f4d5b… gleich; addon_check-Ausgabe NICHT gesehen -> erneut
+  laufen lassen; Code von SameValue/UI.AlarmRowClick lesen; dann in offen-professionsentinel eintragen.
 
 ## Nächste Schritte (Reihenfolge)
 1. Neueste Versionen hat der Nutzer 18:55 selbst installiert (Fernzugriff auf den PC) – "alles gut". Laptop erst wieder, wenn verbunden.
