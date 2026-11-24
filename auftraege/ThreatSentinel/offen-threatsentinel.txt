@@ -528,4 +528,17 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     (f) Blizzard-Einstellungen (CVars) rund um Plaketten und Aggro: Liste der vorhandenen Namen und Werte (nur lesen).
     Je Weg im Bericht: geht / geht nicht / nicht vorhanden + Belegzeile + was der Spieler damit sehen könnte + Aufwand. Echte Kämpfe nur mit Anleitung
     für den Nutzer (ein Mob allein, dann eine Gruppe von 3+ Mobs), sonst Simulation klar als Simulation kennzeichnen.
+ TS-M1 SELBST MESSEN (Nutzer 13:35 "er soll selbst messen sobald ein spieler in eine instanz geht oder auch aggro hat...er darf aber nichts
+    verändern"): Die Messung läuft von selbst beim normalen Spielen – beim Betreten einer Instanz und im Kampf, sobald ein Mob Aggro auf den
+    Spieler oder die Gruppe hat. Regeln:
+    - NUR LESEN. Nichts verändern: keine Plakette ausblenden, keine Alpha/Farbe/Grösse setzen, keine CVar schreiben, kein SetValue/SetText mit
+      geschützten Werten, keine Ziel-/Fokus-/Markierungsänderung, nichts senden. Die Teile (a) Durchreichen und (c) eigene Plaketten bleiben in der
+      Testroutine (nur auf Befehl des Nutzers, Entwicklermodus) – automatisch nur (b) lesen, (d) Quellen lesen, (f) CVars lesen.
+    - Je Kampf bzw. je Instanz höchstens einmal je Quelle messen (Ergebnis zusammengefasst), Kosten je Bild ≤ 1 ms, nie mehr als nötig;
+      Messkosten im Bericht.
+    - Keine Spielernamen speichern (Repo öffentlich) – nur Klasse/Rolle, Anzahl, Instanz-ID, geschützt/lesbar/nil.
+    - Ergebnis in das Diagnose-Protokoll/den Bericht, der mit dem Uploader kommt (wie die anderen GSTEST-/GSDIAG-Berichte).
+    - Auch ohne Entwicklermodus? -> Nur wenn das Messen ausschliesslich liest und billig ist; sonst nur im Entwicklermodus. Im Bericht sagen, welche
+      Wahl und warum.
+    - Gegenprobe im Nachbau: nach einem gemessenen Kampf sind Plaketten, CVars, Fenster und gespeicherte Einstellungen Bit für Bit unverändert.
 
