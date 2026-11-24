@@ -1,0 +1,22 @@
+Bericht Discord-Sitzung an die Prüf-Sitzung – 24.11.2026 21:50
+Thema: D-UPD1 HOCH (Supervisor 21:36) Punkte 1–3 – Bot 1.5.196 (nach UP-UPD1, Uploader 2.3.24)
+Status: umgesetzt, zur Prüfung
+
+1. PN nur bei Pflicht (Punkt 1): schon in 1.5.195 (1 PN je Rechner und NÖTIGER Version = max(Mindestversion, 2.3.23)).
+   NEU der Text: Haben ALLE betroffenen Rechner des Mitglieds schon 2.3.24 (Rückfrage j/n), lautet die PN
+   "⚠️ Neue Pflicht-Version des Uploaders (mindestens Version y) – bitte im Uploader-Fenster mit j bestätigen (oder /uploader holen)."
+   Sonst (mind. ein Rechner unter 2.3.24, kann noch nicht fragen): "… Bitte /uploader holen (mindestens Version y)."
+   Ergänzt um "(mindestens Version y)", damit klar ist, welche Version Pflicht ist.
+2. Ergebnis aus stand.json "update" (Punkt 2; Format aus selfupdate.py: von, nach, ergebnis "ok" | "fehlgeschlagen: <Grund>", zeit):
+   - fehlgeschlagen -> PN an den Besitzer: "❌ Uploader-Update fehlgeschlagen (<Grund>) – die alte Version x läuft weiter. Bitte
+     /uploader holen." + Rechnername (nur in der PN). Nie an Gäste/Bots, Besitzer wie D-UPALT (#sync-daten).
+   - ok -> keine PN (der Spieler sieht "installiert, neu gestartet" im Fenster; die Bestätigung war "optional"), nur Zahl in #bot-log.
+   - #bot-log: "🔄 Uploader-Update per Knopfdruck: n erfolgreich, m fehlgeschlagen (k PN geschickt)" – ohne Grund, ohne Namen.
+   - Je Rechner und Zeit einmal (state.json "upd_gemeldet"); nur Ergebnisse der letzten 6 Stunden (ältere still gemerkt – kein
+     Nachmelden alter Ereignisse beim ersten Lauf). Der Grund wird auf 300 Zeichen begrenzt.
+3. Tests: tests/test_uploader_alt.py +2 (19): Text j nur ab 2.3.24 (gemischt -> /uploader), Ergebnis-Meldungen (fehlgeschlagen PN,
+   ok keine PN, zu alt keine, Gast nie, je Zeit einmal, neuer Versuch wieder). Gegenproben rot (5 Stellen). Alle Bot-Tests 512 OK,
+   Regressionen 88/88.
+4. Offen: Versand /uploader (2.3.24, erste Version mit Rückfrage – muss jeder EINMAL von Hand installieren) an die Offiziere und den
+   Nutzer – weiter kein Browser verbunden (21:50 geprüft). Bis dahin bekommen PC des Nutzers und Offiziere die D-UPMIN1-PN
+   "Bitte /uploader holen (mindestens Version 2.3.23)".

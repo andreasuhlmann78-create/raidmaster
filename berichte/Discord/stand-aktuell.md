@@ -1,16 +1,15 @@
 # Stand Discord-Sitzung
 
-## Stand 24.11.2026 21:38 · Bot 1.5.195 (D-UPMIN1 umgesetzt, zur Prüfung; 1.5.194 angenommen)
+## Stand 24.11.2026 21:50 · Bot 1.5.196 (D-UPD1 umgesetzt, zur Prüfung; 1.5.195 angenommen)
 
 ## Gerade in Arbeit
-- Uploader 2.3.23 per Bot schicken (Nutzer 21:11 "nuester uploader senden bitte"; D-UPMIN1): in #bot-befehle
-  /uploader an_offiziere:True UND /uploader nur_programm:True (für den Nutzer). WARTET: kein Browser verbunden (21:11, 21:36).
+- Uploader 2.3.24 (erste mit Rückfrage j/n, einmal von Hand) per Bot schicken (Nutzer 21:11 "nuester uploader senden bitte"; D-UPMIN1): in #bot-befehle
+  /uploader an_offiziere:True UND /uploader nur_programm:True (für den Nutzer). WARTET: kein Browser verbunden (21:11, 21:36, 21:50).
 
 ## Nächste Schritte (Reihenfolge)
 1. Bei jeder Nachricht des Nutzers: git pull --rebase, auftraege/Discord/ lesen (git log --oneline -5 -- auftraege/Discord/).
 2. Browser da -> sofort den Versand oben (vorher VERSION in RaidMasterUploader/uploader.py prüfen = neueste).
-3. D-UPD1 Punkte 2–3 nach UP-UPD1 (RaidMaster): PN-Text "im Uploader-Fenster mit j bestätigen" für Rechner mit Knopf-Version,
-   stand.json "update" auswerten (Bestätigung / "Update fehlgeschlagen" + Grund). Bericht 2026-11-24-2138-d-upmin1.txt.
+3. Prüfung D-UPD1 (Bericht 2026-11-24-2150-d-upd1.txt) abwarten, Befunde umsetzen.
 4. Abnahme D-CHK1 im Betrieb (Supervisor 10:55): "✏️ … 3.12.94 … vervollständigt" in #bot-befehle, status.md grün (19:27 grün),
    beim nächsten Versionswechsel keine alte Fassung gepostet -> Bericht nachreichen.
 
@@ -19,7 +18,7 @@
 
 ## Entscheide des Nutzers seit letztem Stand
 - 24.11. 20:49 "das discord projekt soll den offiziere das seden" (Uploader 2.3.21); 20:51 "mir natürlich auch über den dc bot";
-  20:58 "dann morgen machen, es wird noch eine neue version kommen"; 21:11 "nuester uploader senden bitte".
+  20:58 "dann morgen machen, es wird noch eine neue version kommen"; 21:11 "nuester uploader senden bitte"; 21:44 "rm ist ready" (= UP-UPD1 fertig).
 - 24.11. 10:29 (D-CHK1): neueste Fassungen klären; fehlt dort etwas, entscheidet die Discord-Sitzung über Nachposten; die Prüfung
   lernt für ältere Fassungen dieselbe Regel wie der Bot; gelöscht wird nichts.
   Mein Entscheid daraus: LevelPilot-Übersicht 3.12.94 wird vervollständigt (Bearbeiten + 1 Nachricht anhängen, ohne Ping).

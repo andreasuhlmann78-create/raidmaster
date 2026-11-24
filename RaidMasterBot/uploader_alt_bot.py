@@ -6,6 +6,10 @@ D-UPMIN1 (ab Bot 1.5.195, Supervisor 24.11. 21:32): Massgebend ist die NÖTIGE V
 RaidMasterUploader/mindestversion.txt, mindestens aber 2.3.23 – Uploader 2.3.20–2.3.22 nehmen selbst nur die neueste an und
 liefern darum nicht, solange es eine neuere gibt. 1 PN je Rechner und nötiger Version: steigt die Mindestversion nicht, kommt
 für eine neue kleine Version keine PN (D-UPD1 Punkt 1). Text "(mindestens Version y)".
+D-UPD1 (ab Bot 1.5.196, Supervisor 21:36): Haben alle betroffenen Rechner eines Mitglieds schon 2.3.24 (Rückfrage j/n, UP-UPD1),
+lautet die PN "Neue Pflicht-Version … mit j bestätigen (oder /uploader holen)". stand.json "update" je Rechner: fehlgeschlagen ->
+PN an den Besitzer mit Grund und "/uploader holen"; erfolgreich -> nur Zahl in #bot-log. Je Rechner und Zeit einmal
+(state.json "upd_gemeldet"), nur Ergebnisse der letzten 6 Stunden.
 
 Uploader ab 2.3.20 nehmen nur noch Daten der neuesten Uploader-Version an und zeigen das selbst an. Rechner mit einem Uploader
 VOR 2.3.20 können das nicht anzeigen – darum schreibt der Bot dem Besitzer:
@@ -52,6 +56,11 @@ GUEST_ROLE = "gast"
 BRANCHES = ("sicherung", None)     # None = Standardzweig (main)
 API = "https://api.github.com"
 VERSION_OK = re.compile(r"^\d+(?:\.\d+){1,3}$")
+UPD_AB = "2.3.24"                  # D-UPD1: ab dieser Version fragt der Uploader selbst "installieren? (j/n)" (UP-UPD1)
+PN_TEXT_J = ("⚠️ Neue Pflicht-Version des Uploaders (mindestens Version {neu}) – bitte im Uploader-Fenster mit j bestätigen "
+             "(oder /uploader holen).")
+UPD_FAIL_TEXT = ("❌ Uploader-Update fehlgeschlagen ({grund}) – die alte Version {von} läuft weiter. Bitte /uploader holen.")
+UPD_FRISCH = 6 * 3600              # D-UPD1: nur Update-Ergebnisse der letzten 6 Stunden melden (ältere: einmal still gemerkt)
 PN_TEXT = ("⚠️ Dein Daten-Uploader ist veraltet – deine Daten werden nicht mehr angenommen. "
            "Bitte /uploader holen (mindestens Version {neu}).")
 
@@ -141,6 +150,35 @@ def owners(index_by_member: dict[int, set[str]]) -> tuple[dict[str, int], set[st
             seen.setdefault(mach, set()).add(uid)
     return ({k: next(iter(v)) for k, v in seen.items() if len(v) == 1},
             {k for k, v in seen.items() if len(v) > 1})
+
+
+def pn_text(newest: str, versions: list[str]) -> str:
+    """D-UPD1 Punkt 1: Haben alle betroffenen Rechner schon die Rückfrage (ab 2.3.24), reicht "mit j bestätigen"; sonst
+    muss die ZIP einmal von Hand installiert werden (/uploader)."""
+    if versions and all(not uploader_version.is_older(clean_version(v), UPD_AB) for v in versions):
+        return PN_TEXT_J.format(neu=newest)
+    return PN_TEXT.format(neu=newest)
+
+
+def update_events(stand: dict, seen: dict, now: float) -> tuple[dict, dict]:
+    """D-UPD1 Punkt 2: ({Rechner: update-Eintrag} neu zu meldende, {Rechner: zeit} alle gesehenen). stand.json je Rechner
+    "update": {"von", "nach", "ergebnis" ("ok" | "fehlgeschlagen: <Grund>"), "zeit"}. Je Rechner und Zeit nur einmal;
+    älter als UPD_FRISCH: nur merken, nicht melden (z. B. beim ersten Lauf)."""
+    new, seen = {}, dict(seen)
+    for k, v in stand.items():
+        u = v.get("update") if isinstance(v, dict) else None
+        if not isinstance(u, dict):
+            continue
+        try:
+            z = int(u.get("zeit") or 0)
+        except (TypeError, ValueError):
+            continue
+        if not z or seen.get(k) == z:
+            continue
+        seen[k] = z
+        if now - z <= UPD_FRISCH:
+            new[k] = u
+    return new, seen
 
 
 def plan(old: dict[str, str], newest: str, own: dict[str, int], sent: dict[str, str], given: dict[str, str],
@@ -256,7 +294,10 @@ async def check_once() -> dict | None:
         stands = await read_stands(session, data_repo, token)
     if not stands:
         return None
-    old = outdated(merge_stands(*stands), newest)
+    merged = merge_stands(*stands)
+    old = outdated(merged, newest)
+    import time as _time
+    events, seen_upd = update_events(merged, state.data.get("upd_gemeldet") or {}, _time.time())
     sent = state.data.get("upalt_pn")
     if sent is None:                                   # Punkt 5: erster Lauf
         sent = {}
@@ -268,8 +309,11 @@ async def check_once() -> dict | None:
             log.info("D-UPALT: erster Lauf, %d Rechner gelten für %s als informiert", len(sent), newest)
             await post_bot_log(f"📦 Uploader-Prüfung eingeschaltet: {len(sent)} Rechner mit altem Uploader – "
                                f"{SEED_VERSION} wurde ihnen schon geschickt, keine PN bis zur nächsten Version.")
-    if not old:
-        return {"newest": newest, "latest": latest, "old": 0, "pn": 0, "fail": 0, "unknown": 0}
+    if not old and not events:
+        if seen_upd != (state.data.get("upd_gemeldet") or {}):
+            state.data["upd_gemeldet"] = seen_upd
+            state.save()
+        return {"newest": newest, "latest": latest, "old": 0, "pn": 0, "fail": 0, "unknown": 0, "upd_ok": 0, "upd_fail": 0}
     own, ambiguous = owners(await read_indexes())
 
     def is_guest(uid):
@@ -282,7 +326,7 @@ async def check_once() -> dict | None:
     ok = fail = 0
     for uid, machines in todo["pn"].items():
         member = guild.get_member(uid)
-        text = PN_TEXT.format(neu=newest) + "\nBetroffen: " + ", ".join(f"`{m}`" for m in machines)
+        text = pn_text(newest, [old[m] for m in machines]) + "\nBetroffen: " + ", ".join(f"`{m}`" for m in machines)
         try:
             await member.send(text, allowed_mentions=discord.AllowedMentions.none())
             ok += 1
@@ -296,8 +340,29 @@ async def check_once() -> dict | None:
     new_unknown = [m for m in todo["unknown"] if told.get(m) != newest]   # PN folgt, sobald der Besitzer bekannt ist
     for mach in new_unknown:
         told[mach] = newest
+    upd_ok = upd_fail = upd_pn = 0                       # D-UPD1 Punkt 2: Ergebnis der Updates per Knopfdruck
+    for mach, u in sorted(events.items()):
+        if str(u.get("ergebnis") or "") == "ok":
+            upd_ok += 1                                  # Bestätigung nur als Zahl in #bot-log (der Nutzer sieht es im Fenster)
+            continue
+        upd_fail += 1
+        uid = own.get(mach)
+        if uid is None or is_guest(uid) is not False:
+            continue
+        grund = str(u.get("ergebnis") or "").split(":", 1)[-1].strip() or "unbekannt"
+        try:
+            await guild.get_member(uid).send(
+                UPD_FAIL_TEXT.format(grund=grund[:300], von=clean_version(u.get("von")) or "?") + f"\nRechner: `{mach}`",
+                allowed_mentions=discord.AllowedMentions.none())
+            upd_pn += 1
+        except discord.HTTPException:
+            pass
+    state.data["upd_gemeldet"] = seen_upd
     state.data["upalt_pn"] = sent
     state.save()
+    if upd_ok or upd_fail:
+        await post_bot_log(f"🔄 Uploader-Update per Knopfdruck: {upd_ok} erfolgreich, {upd_fail} fehlgeschlagen"
+                           + (f" ({upd_pn} PN geschickt)" if upd_fail else "") + ".")
     unknown = len(new_unknown)
     if ok or fail or unknown:
         parts = [f"{ok} PN geschickt"]
@@ -310,7 +375,8 @@ async def check_once() -> dict | None:
                          + " – keine PN")
         log.info("D-UPALT %s: %s", newest, "; ".join(parts))
         await post_bot_log(f"📦 Alter Daten-Uploader (nötig: mindestens {newest}): " + "; ".join(parts) + ".")
-    return {"newest": newest, "latest": latest, "old": len(old), "pn": ok, "fail": fail, "unknown": unknown}
+    return {"newest": newest, "latest": latest, "old": len(old), "pn": ok, "fail": fail, "unknown": unknown,
+            "upd_ok": upd_ok, "upd_fail": upd_fail}
 
 
 @tasks.loop(minutes=30)

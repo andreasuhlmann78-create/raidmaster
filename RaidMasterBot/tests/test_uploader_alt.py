@@ -285,6 +285,49 @@ class Ablauf(unittest.TestCase):
         self.assertEqual((r["newest"], r["pn"]), ("2.3.24", 3))
         self.assertEqual((len(self.off.got), len(self.off2.got), len(self.chef.got)), (2, 1, 2))
 
+    def test_d_upd1_text_mit_j_nur_ab_2_3_24(self):
+        m = self.m
+        self.assertIn("mit j bestätigen", m.pn_text("2.3.25", ["2.3.24", "2.3.30"]))
+        self.assertNotIn("mit j", m.pn_text("2.3.25", ["2.3.24", "2.3.23"]))     # ein Rechner ohne Rückfrage -> /uploader
+        self.assertNotIn("mit j", m.pn_text("2.3.25", [""]))
+        self.m.state.data["upalt_pn"] = {}
+        self.newest, self.minfile = "2.3.25", "2.3.25\n"
+        self.stand = {"A": {"zeit": 1, "uploader": "2.3.24"}, "B": {"zeit": 1, "uploader": "2.3.22"}}
+        self.index = {11: ["A"], 12: ["B"]}
+        self.run_once()
+        self.assertIn("Neue Pflicht-Version des Uploaders (mindestens Version 2.3.25) – bitte im Uploader-Fenster mit j bestätigen "
+                      "(oder /uploader holen).", self.off.got[0])
+        self.assertIn("Bitte /uploader holen (mindestens Version 2.3.25)", self.off2.got[0])
+
+    def test_d_upd1_update_ergebnis(self):
+        import time
+        now = int(time.time())
+        self.m.state.data["upalt_pn"] = {}
+        self.newest, self.minfile = "2.3.24", "2.3.20\n"
+        self.stand = {
+            "A": {"zeit": 1, "uploader": "2.3.24", "update": {"von": "2.3.24", "nach": "2.3.25",
+                                                              "ergebnis": "fehlgeschlagen: Prüfsumme falsch", "zeit": now - 60}},
+            "B": {"zeit": 1, "uploader": "2.3.25", "update": {"von": "2.3.24", "nach": "2.3.25", "ergebnis": "ok", "zeit": now}},
+            "C": {"zeit": 1, "uploader": "2.3.24", "update": {"von": "2.3.23", "nach": "2.3.24",
+                                                              "ergebnis": "fehlgeschlagen: alt", "zeit": now - 7 * 3600}},
+            "G": {"zeit": 1, "uploader": "2.3.24", "update": {"von": "2.3.24", "nach": "2.3.25",
+                                                              "ergebnis": "fehlgeschlagen: x", "zeit": now}}}
+        self.index = {11: ["A"], 12: ["B"], 10: ["C"], 13: ["G"]}
+        r = self.run_once()
+        self.assertEqual((r["old"], r["upd_ok"], r["upd_fail"]), (0, 1, 2))
+        self.assertEqual(len(self.off.got), 1)
+        self.assertIn("❌ Uploader-Update fehlgeschlagen (Prüfsumme falsch) – die alte Version 2.3.24 läuft weiter. "
+                      "Bitte /uploader holen.", self.off.got[0])
+        self.assertEqual(self.off2.got + self.chef.got + self.gast.got, [])   # ok: keine PN; zu alt: keine; Gast: nie
+        self.assertIn("1 erfolgreich, 2 fehlgeschlagen (1 PN geschickt)", self.blog[-1])
+        self.assertNotIn("Prüfsumme", self.blog[-1])
+        n = len(self.blog)
+        self.run_once()
+        self.assertEqual((len(self.off.got), len(self.blog)), (1, n))          # je Rechner und Zeit nur einmal
+        self.stand["A"]["update"] = dict(self.stand["A"]["update"], zeit=now)  # neuer Versuch -> neue Meldung
+        self.run_once()
+        self.assertEqual(len(self.off.got), 2)
+
     def test_mindestversion_nicht_lesbar_nichts_tun(self):
         self.m.state.data["upalt_pn"] = {}
         self.newest = "2.3.23"
