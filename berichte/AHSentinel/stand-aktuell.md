@@ -1,44 +1,39 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 24.11.2026 07:25 · Version 0.65.388 (Discord, CurseForge gesperrt bis Ingametest)
-Repos: ahanalyzerpro (Code, schreiben), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur lesen).
-Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord, löscht nichts in announce/;
- erwartet in /tmp/claude-0/rel/: AHSentinel-<V>.zip, notes.md, bericht.txt, stand.md). ZIP = gleiche Dateiliste wie Vorversion (unzip -Z1, 112 Dateien).
-Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /home/claude/AHSentinel (~70 s; TR_TEXT=1 = ganzer Text);
- 0.65.388: auto OK 1003, FEHLER 0; server PASS. Nur ein Teil: ONLY=s42_testroutine_auto (bzw. s43_testroutine_server).
+## Stand 24.11.2026 10:35 · Version 0.65.389 (Discord, CurseForge gesperrt)
+Repos: ahanalyzerpro (Code, schreiben), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur lesen; Ingame-Daten
+ im Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz, Testberichte als "GSTEST1{…}" darin).
+Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
+ erwartet in /tmp/claude-0/rel/: AHSentinel-<V>.zip, notes.md, bericht.txt, stand.md). ZIP = gleiche 112 Dateien wie Vorversion.
+Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /home/claude/AHSentinel (~70 s; TR_TEXT=1 ganzer Text);
+ 0.65.389: auto OK 1007, FEHLER 0; server PASS. T126 im Nachbau schwankt 6–11 ms (Uhr) – Vergleiche immer Median aus mehreren Läufen.
+ Eigene Szenarien (Sniper-Teil, echte Spieldaten REAL_SV=) in /tmp/claude-0/sim/wowsim/scenarios_new.lua (zz_i6_sniper, zz_i6_real).
 
 ## Gerade in Arbeit
-- nichts angefangen. 0.65.388 veröffentlicht: AHS-R1 (Release-Text DE zuerst), AHS-I4-a (Zahlen offen, Bilder/s beschriftet, Messung im
-  längsten Bild), SH-V3/AHS-V3 (GoldSentinelTest V3 kopiert, T277 >= 2). Bericht 2026-11-24-0725-0.65.388-ahs-r1-i4a-v3.txt.
+- nichts. 0.65.389 veröffentlicht: AHS-I7 (Diag im Abschluss -> Sandbox), AHS-I5 (Sniper-Zustand abgeschottet, Ursache Spielzustand),
+  AHS-I6 (Messfehler belegt: Item-Antworten als ms gezählt), AHS-I4-a Rest (Kosten je Bild). Bericht 2026-11-24-1035-0.65.389-i7-i5-i6.txt.
 
-## Nächste Schritte (Reihenfolge Supervisor 24.11. 07:08: R1 -> I4-a -> I3 -> G14-a -> T750/T191)
-1. AHS-I3 MITTEL: T126 Scan-Auswertung Ø 3 längste Portionen 8,5 ms (soll <= 8; ui:overview-movers 10 ms, ui:names 9 ms);
-   T459 Vollscan-Speicher 3. Scan 20 609 KB ohne gelesene Auktionen (soll <= 10 240 KB), 1 Bild > 40 ms mit Bereinigung, 64 Bereinigungen.
-2. G14-a MITTEL (angenommen): Schnäppchenliste je Item und Angebot nur EIN Fall; bestehende Liste beim Spieler nicht löschen, Doppel beim
-   Auswerten zusammenfassen; Test mit Gegenprobe (derselbe Treffer 2× -> 1 Fall).
-3. Teil 3 HILFE-GRP NIEDRIG: englisch ein Befehl doppelt ("einstellungen -> optionen").
-4. T750 (104 UI-Befunde: abgeschnitten 88, überlappt 12; Markt > Überfüllt 52) und T191 (Frame verdeckt Knopf) – eigene Version.
-5. Teil 2 UI 1 FEHLER, Teil 4 Sniper S1–S13 2 FEHLER: Einzelheiten aus testberichte/berichte/AHSentinel/AHSentinel-1795437122-*-3/-4.json.
-6. Ab jetzt jede Version: CHANGELOG.de.md-Abschnitt Pflicht (sonst bricht der Release-Lauf ab, AHS-R1).
+## Nächste Schritte (Reihenfolge Supervisor 10:15: I7 -> I6 -> I4-a Rest -> I3 -> G14-a -> T750/T191)
+1. AHS-I3: T459 Vollscan-Speicher 3. Scan 23 214 KB ohne gelesene Auktionen (soll <= 10 240 KB; je Schritt Einlesen 19 390 KB);
+   T126 (im Spiel 0.65.388 OK).
+2. G14-a: Schnäppchenliste je Item und Angebot nur EIN Fall; Liste beim Spieler nicht löschen, Doppel beim Auswerten zusammenfassen;
+   Test mit Gegenprobe.
+3. T750 (0.65.388: 116 Befunde, abgeschnitten 100, Markt > Überfüllt 41–42) und T191 (Frame verdeckt Knopf).
+4. Teil 3 HILFE-GRP englisch doppelt (im Spiel 0.65.387 "0 doppelt" – prüfen, ob noch offen).
 
 ## Offen beim Nutzer
-- Neuer Ingametest mit 0.65.388 ("testroutine alles", mindestens "server"): AHS-I1/I2 gelten erst danach als erledigt; CurseForge bleibt
-  bis dahin gesperrt. Neue Felder: vollscan_luecke (Lua gesamt, während der Messung bereinigt), vollscan_probe, vollscan_fps.
-- Messung Gold-Sicherheit (AHS-POST, Supervisor gibt sie an den Nutzer): Ausrüstung mit Kupfer-Preis einstellen (z. B. 14s57). Bei Fehler:
-  Regel "ganze Silber" nur fürs Einstellen zurück (AHS seit 0.65.359 Se:SilverOnly = false).
-- Messung RecipeList-Fehler mit nur AHS aktiv.
-- MT-Prüfung 24.11.: Markt-Tabelle bleibt Stand 16.11. bis RaidMaster UP-TAGE geklärt (Entscheid 06:17); Kern-Abgleich 28/29/36 Zellen –
-  noch kein Auftrag an AHS.
+- Ingametest mit 0.65.389 ("testroutine alles"): erwartet Teil 4 T617/T734 OK (eigene Arbeit ohne Item-Anzahl; sonst Stelle Datei:Zeile
+  im Text und Feld sniper_eigen), Teil 6 Sandbox OK (Feld diag_abschluss = Anzahl Einträge im Abschluss).
+- Gold-Messung Ausrüstung mit Kupfer-Preis (AHS-POST), RecipeList-Fehler mit nur AHS aktiv.
 
 ## Entscheide des Nutzers seit letztem Stand
-- 07:04 (an den Supervisor): "du musst nicht selber am addon entwickeln nur prüfen" – Supervisor ändert keinen Addon-Code.
-- 06:17: CurseForge-Zwischenstand posten; Markt-Tabellen warten auf RaidMaster UP-TAGE (höchstens 1 Tag).
+- keine neuen (Supervisor-Aufträge 08:15, 08:25, 10:00, 10:15 umgesetzt).
 
 ## Wichtig zu wissen
-- AHS-I4-a belegt: im 712-ms-Bild +104 907 KB, danach während UpdateAddOnMemoryUsage >= 132 580 KB bereinigt; "Code ausserhalb der Addons"
-  zurückgezogen (Verdacht, zu messen). GetFramerate = Mittelwert. Messung RegisterAllEvents nur Testroutine + Einlesen; Nachbau kennt sie nicht.
-- GoldSentinelTest Version 3 (nil = FEHLER) im ZIP; TR:Check ebenso streng.
-- Test-Regeln: Test-Items ohne GetItemInfo brauchen Itemstufe (P5), Test-Materialien Scan-Zeit (MP2), Testpreise verschiedene Stunden
-  (G4/TT3), Trend herausgerechnet (G11), Markt "Alle|<Fraktion>" (G1/G2), Rechnungsmenge Feld 11 (PM1).
-- Letzter Test T1005. Neue Tests vor "-- CF-AHS-5 (CurseForge 17.11. …"; Index vor { "BEFUND-S5", . Locale-Schlüssel nach "Seelengebunden – nicht im AH verkaufbar".
-- Nie etwas in announce/ löschen (23.11. 11:36), alte Versionen nicht wiederherstellen (12:03). Schliesskassetten-Preise ab 22.11. evtl. verzerrt.
+- AHS-I6 belegt: fo.item ist ANZAHL (Vollscan GET_ITEM_INFO_RECEIVED), fo.read Teil von fo.job; SniperTest zählt nur job+ev+upd.
+- Stelle eigener Skripte (debugstack) nur beim Laden der Dateien (A.db nil) – später gemerkt kostete T126 ~1–2 ms im Nachbau.
+- fo.busy: verschachtelte eigene Aufrufe nur im äussersten gezählt; A.OwnFrameReset je Bild (SniperTest OwnFrame, Vollscan MTick).
+- TR:SnIsolate für jede Prüfung, die Sniper-Zustand liest (Sn.result/extra/btnHit …).
+- Diag Store: Sandbox bei TR.running ODER TR.finishing.
+- Letzter Test T1009. Neue Tests vor "-- CF-AHS-5 (CurseForge 17.11. …"; Index vor { "AHS-I7", .
+- Nie etwas in announce/ löschen, alte Versionen nicht wiederherstellen. Jede Version: CHANGELOG.de.md-Abschnitt Pflicht (AHS-R1).

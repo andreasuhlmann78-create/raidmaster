@@ -1,0 +1,56 @@
+AHSentinel 0.65.389 – AHS-I7, AHS-I5, AHS-I6, AHS-I4-a Rest – umgesetzt, zur Prüfung
+Discord: ja (announce/). CurseForge: nein (gesperrt). ZIP: gleiche Dateiliste wie 0.65.388.
+Nachbau (ahanalyzerpro tests/run_offline.sh): Teil auto OK 1007 · FEHLER 0 · übersprungen 66 · im Client 16; s42 PASS, s43 PASS.
+addon_check 0.65.389: OK.
+
+1) AHS-I7 HOCH (Teil 6 Sandbox FEHLER diag.entries.1–4) – Diag.lua Store, TestRoutine.lua
+   Ursache im Code BELEGT: Diag-Store lenkte nur bei TR.running in die Sandbox. Im Abschluss der Routine ist running schon false und
+   finishing true (TestRoutine.lua: "self.running = false; self.finishing = true"), dann laufen ST:Unlock, RestoreRuntime, RestoreState
+   (Wächter:SetEnabled, Sniper:SetArmed, SelectTab, SetUILanguage, Fire SNIPER_CHANGED/WATCHER_CHANGED) und erst danach der Vergleich.
+   Jeder Diagnose-Eintrag aus diesem Fenster ging ins ECHTE Protokoll – genau die Lücke, die A:InTestRoutine (running ODER finishing)
+   sonst schliesst. 4 neue Einträge oben verschieben alle 200 -> "199 Pfade diag.entries.1… in 4 Durchgängen".
+   Welcher Eintrag im Spiel genau: Verdacht, zu messen – das echte Protokoll (200 Einträge) ist seit 09:5x überschrieben (Daten-Repo
+   Zweig sicherung 10:08: ältester Eintrag 09:52). Die I4-a-Messung (0.65.388) schreibt KEINE Diagnose (Vollscan.lua: ProbeOn/ProbeOff/
+   ProbeText ohne A.Diag) – der Verdacht des Supervisors ist damit nicht belegt; dass es in 0.65.387 OK war, passt zu einem Eintrag,
+   der nur je nach Zustand beim Zurückstellen entsteht (z. B. Sniper/Wächter an/aus).
+   Behebung: Store schreibt bei running ODER finishing in die Sandbox und zählt Einträge im Abschluss -> neues Feld diag_abschluss
+   (Anzahl) im Testbericht. T1009 (Abschluss -> Sandbox und gezählt; Gegenprobe ausserhalb -> echtes Protokoll, ohne zu schreiben).
+
+2) AHS-I5 (T837/T793 in 0.65.387 nur im Spiel rot, in 0.65.388 im Spiel OK)
+   0.65.388 hat daran nichts geändert (Sniper.lua unverändert; TestRoutine nur T277 und neue Tests T1003–T1005). Es lag am Spielzustand:
+   Nachbau mit einem echten Treffer (Sn.result) eines Wächter-Ziels (Sn.extra) vor T837/T793 ergibt Zeile für Zeile GENAU die Ingame-
+   Ausgaben ("Mausrad + Knopf: Fenster false/0" – WheelBuy: Treffer gehört zum Wächter, Taste nur Sniper -> kein Auslöser; "ask" statt
+   "wait" – HeldHit hält den Treffer des echten Ziels). Beides richtiges Verhalten, Prüfung war nicht abgeschottet. Gold: keine Gefahr.
+   Behebung (nur Test): TR:SnIsolate sichert und leert Treffer/Wächter-Ziele/gehaltenen Treffer usw. für die Prüfung und setzt sie danach
+   unverändert zurück (gleiche Tabellen); T837/T793 nennen "Zustand vorher: Treffer ja/nein, Wächter-Ziele n". Nachbau mit dem echten
+   Zustand jetzt: T837 PASS, T793 PASS. T1006 prüft SnIsolate (leer in der Prüfung, danach dieselben Tabellen).
+
+3) AHS-I6 HOCH (Sniper S13 "eigene Arbeit je Bild max 105.3 ms, Skripte 105") – Ursache BELEGT: Messfehler
+   SniperTest.lua OwnFrame summierte alle Zähler in A.frameOwn als ms: job, ev, upd, ITEM, READ. fo.item ist aber eine ANZAHL
+   (Vollscan.lua: +1 je GET_ITEM_INFO_RECEIVED/ITEM_DATA_LOAD_RESULT, Vollscan zeigt es als "Item-Antworten %d"), fo.read eine Teilmenge
+   von fo.job (Vollscan "Aufgaben x, davon Lesen beim Server y"). "Skripte" = upd + item + read. Beleg in den Zahlen: 0.65.385 "108.3",
+   0.65.387 "105.3" – jeweils ganze Zahl (Antworten) + 0,3 ms (Skripte); Aufgaben 0, Ereignisse 0. Ein echtes Skript von 105 ms hätte ein
+   Bild ≥ 105 ms gemacht; das langsamste Skript (fo.slow > 16 ms) fehlte im Text – es gab keins.
+   Behebung: eigene Arbeit = Aufgaben + Ereignisse + Skripte/Zeitgeber (ms); Item-Antworten als Anzahl im Text. T1008 mit den Ingame-
+   Zahlen (105 Antworten + 0,3 ms -> 0,3 ms; Aufgabe 5 ms davon 4 ms Lesen -> 5 ms; Gegenprobe echtes 40-ms-Skript -> zählt, 1 Bild > 33).
+   Zusätzlich (damit eine echte Lücke künftig ihre Stelle zeigt): Stelle Datei:Zeile wird beim Einhüllen gemerkt (debugstack, WoW hat kein
+   debug.getinfo – im Spiel stand bisher "?"), nur beim Laden der Dateien (Kosten im Nachbau 0,15 ms je Hülle; später gemerkt
+   hob es T126 messbar, siehe 5); später angelegte Hüllen heissen nach dem Rahmen-Namen; langsamster eigener Aufruf JE BILD (vorher nur der grösste der ganzen Messung); Stellen der
+   Bilder über 33 ms gezählt ("[Stellen: Sniper.lua:4487 3× bis 40 ms]"); verschachtelte eigene Aufrufe zählen nur im äussersten (Sperre
+   fo.busy, im nächsten Bild frei, falls ein Aufruf mit Fehler abbrach); ganzer Text zusätzlich als Feld sniper_eigen. T1007.
+   Nachbau Sniper-Teil (auch mit den echten Spieldaten vom Laptop geladen): eigene Arbeit je Bild max 0,4–0,9 ms, langsamstes Skript
+   Sniper.lua:4487 (Sn:Tick, alle 0,1 s), 18–19 eigene Aufrufe je Bild. Im Spiel zu bestätigen: T617/T734 mit 0.65.389.
+
+4) AHS-I4-a Rest
+   "Kosten der Messung 67,1 ms" war die SUMME über das ganze Einlesen (probe.ms), kein Bild. Jetzt: "je Bild höchstens x ms, Summe y ms in
+   n Bildern". −378-KB-Frage: beantwortet im Bericht 2026-11-24-0725 (Bereinigung ≥ 132 580 KB während der Messung je Addon, belegt aus
+   den Zahlen); 0.65.388 zeigt die Gesamtwerte jetzt im Feld vollscan_luecke ("während der Messung bereinigt X KB").
+
+5) T126 im Nachbau (Teil server) – Auskunft
+   Bei der Arbeit an AHS-I6 gemessen (je Lauf Teil server, Median, Nachbau-Uhr schwankt 6–11 ms):
+   0.65.388: 6,2 6,3 6,3 6,5 6,6 6,7 7,4 9,6 9,6 9,9 10,8 -> Median 6,7 ms.
+   Stellen-Merkung in den ersten 60 s nach dem Laden: Median 8,8 ms (11 Läufe) – Ursache durch Teilen eingegrenzt: nur Stellen-Merkung
+   (Variante C) 7,2–8,3; nur Sperre/Bild-Werte (Variante D) 6,1–7,3. Darum Stellen-Merkung NUR beim Laden der Dateien (vor ADDON_LOADED):
+   0.65.389 7,6 6,5 6,3 -> wie 0.65.388. Im Spiel war T126 in 0.65.388 OK.
+
+Nächste Schritte: AHS-I3 (T459, T126) -> G14-a -> T750/T191.
