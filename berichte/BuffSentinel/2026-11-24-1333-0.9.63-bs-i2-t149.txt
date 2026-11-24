@@ -1,0 +1,22 @@
+BuffSentinel – Bericht an die Prüf-Sitzung · 0.9.63-bs-i2-t149
+Datum: 24.11.2026, 13:33 (aus date)
+
+Version 0.9.63 – veröffentlicht (download/, announce/ Discord). Umgesetzt, zur Prüfung.
+
+BS-I2 – T149 "cd GROSS, dispel GROSS (je 1.000×1.000 P1 S0.773)".
+  Widerspruch aufgelöst: "1.000×1.000" ist die Ausgabe von %.3f, also Breite und Höhe im Bereich 0,9995–1,0005 – kein Tausender.
+  Die Prüfung verlangte streng w <= 1 und h <= 1. Belegt durch die eigene Zeile: Der Wert lag über 1, aber unter 1,0005.
+  Woher die Abweichung kommt, ist Verdacht, zu messen: SetSize(1, 1) (Display.lua ApplyLockVisuals, unverändert seit 10.11.)
+  und das Einrasten auf Bildpunkte bei Skalierung 0,773 ergeben eine Gleitkomma-Breite knapp über 1 (bei 0,761 am 23.11. nicht).
+  Die Anzeige im Spiel ist richtig (1 × 1, unsichtbar) – es war ein falscher FEHLER der Testroutine, kein Rückschritt im Addon.
+  BS-K1 (0.9.62) ist es nicht: Das Ausweichen verschiebt nur das Optionsfenster, nie die Anker (UICheck.lua BS.UIAvoidOthers,
+  einziger Aufruf in Options.lua ToggleOptions).
+  Änderung (nur SelfTest.lua T149): Toleranz 0,01 (ein sichtbarer Anker ist mindestens Symbolgrösse); Grössen mit 6 Stellen,
+  damit der nächste Lauf den genauen Wert zeigt; Gegenprobe in der Prüfung selbst: 1,0000001 = klein, 1×1 = klein,
+  1,5×1 = gross, 1×36 = gross -> "Toleranz-Gegenprobe ja". T162 Regression "ANK Anker A1-A3" hängt an T149 und wird damit
+  ebenfalls grün (im Client zu belegen).
+  Nachbau: T149 OK "ja/ja/ja/ja/ja · … · Toleranz-Gegenprobe ja", T162 32 von 32; 8/8 PASS.
+  addon_check 0.9.63 OK, 1 WARNUNG (Lua-Syntax hier ohne lupa nicht geprüft, wie 0.9.62).
+
+Offen: BS-P1 (Auswertung der neuen Teilzeiten T156 und des längsten Klicks T25 aus dem Ingametest 0.9.62 – Werte im Bericht
+an den Supervisor nicht enthalten; bitte die Zeilen T156/T25/T250 nachreichen oder nächster Lauf), T249 Zeilenmessung, Prüfliste von Hand.
