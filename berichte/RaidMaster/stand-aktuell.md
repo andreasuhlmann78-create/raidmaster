@@ -1,12 +1,13 @@
 # Stand RaidMaster-Sitzung
 
-## Stand 24.11.2026 07:38 · Addon 3.0.40 · Uploader 2.3.20
+## Stand 24.11.2026 07:46 · Addon 3.0.40 · Uploader 2.3.20
 - Addon 3.0.40 im Spiel ohne Fehler (Ingametest 18.11.), vom Ingametest befreit (Entscheid 18.11. 15:19).
-- Uploader 2.3.16–2.3.19 gepusht, Berichte 2026-11-23-1238 / -1413 / -1517, 2026-11-24-0635 – zur Prüfung.
+- Uploader 2.3.16–2.3.18 gepusht – zur Prüfung. 2.3.19 vom Supervisor 07:40 angenommen (Lieferung Laptop belegt).
 - 2.3.19 am 24.11. 06:41 per Bot an den Nutzer und 2 von 2 Offizieren geschickt.
 - Uploader 2.3.20 (UP-ALT HOCH, Entscheid 24.11. 07:22): gültiger Stand im Zweig "sicherung" (nur 2.3.20+ schreibt ihn, zuerst),
   Lieferungen alter Uploader auf main nie übernommen, Wächter stellt main alle 5 Min. zurück; neueste Version = VERSION in
-  RaidMasterUploader/uploader.py (raw HEAD), veralteter Uploader liefert nichts und meldet es. Bericht 2026-11-24-0737 – zur Prüfung.
+  RaidMasterUploader/uploader.py (raw HEAD), veralteter Uploader liefert nichts und meldet es. Dazu UP-TAGE-a (Text Tages-Löschung).
+  Bericht 2026-11-24-0737 (mit Nachtrag) – zur Prüfung.
 - SH-V3 (GoldSentinelTest Version 3) gelesen – kommt unverändert mit Addon 3.0.41.
 
 ## Gerade in Arbeit
@@ -42,7 +43,7 @@
 - Leser des Daten-Repos: Zweig "sicherung" nehmen, nur Rechner mit stand.json "uploader" nicht älter als VERSION in
   RaidMasterUploader/uploader.py; .lua UND .lua.gz lesen (de_ketten_lehrer.py liest festen .lua-Pfad – an Supervisor gemeldet).
 - Alle Uploader bis 2.3.19 schreiben nur den Standardzweig (belegt an 11 Fassungen) – "sicherung" erreichen sie nie.
-- Uploader: RaidMasterUploader/ (Tests: test_daten 45, test_sync 53, test_uploader 23, test_umfassend 14 – alle grün).
+- Uploader: RaidMasterUploader/ (Tests: test_daten 46, test_sync 53, test_uploader 23, test_umfassend 14 – alle grün).
   ZIP download/RaidMasterUploader.zip (13 Dateien, ohne tests/), Workflow prüft ZIP = Ordner; Bot holt sie aus raw HEAD.
 - Bot-Versand: #gildenbank, /uploader nur_programm:True (an mich) bzw. an_offiziere:True; eingebauter Browser auf 1280x900,
   /uploader tippen + Tab, danach Fenster zurück auf desktop. Nutzer loggt sich selbst ein.

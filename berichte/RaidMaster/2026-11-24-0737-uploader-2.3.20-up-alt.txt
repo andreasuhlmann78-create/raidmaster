@@ -90,3 +90,12 @@ Status: umgesetzt, zur Prüfung (Uploader 2.3.20, download/RaidMasterUploader.zi
   Laptop wird ab Veröffentlichung von 2.3.20 ebenfalls abgewiesen (Entscheid wörtlich).
 - Verteilen per Bot (/uploader) – Freigabe des Nutzers nötig (Nachricht in seinem Namen).
 - Entscheid b) (neuer Token) nur falls gewünscht.
+
+9. Nachtrag 07:46 – UP-TAGE-a (Supervisor 07:40, NIEDRIG) in 2.3.20 mit aufgenommen (2.3.20 war noch an niemanden verteilt,
+   darum keine eigene Version – eine neue Versionsnummer hätte nach UP-ALT sofort alle Rechner abgewiesen)
+- Meldung jetzt passend zur Regel: "Prüfung: mehr als 30 Tages-Stände – älteste gelöscht: <Daten>." (vorher "älter als 30 Tage").
+- Neuer Test mit Lücken: 32 Spieltage, jeder zweite Kalendertag -> 30 bleiben, der älteste davon 58 Kalendertage alt; Meldung
+  zweimal, nie "älter als". Gegenprobe gegen den vorigen Stand von 2.3.20: dieser Test und der angepasste 30-Tage-Test rot.
+- Tests jetzt: test_daten 46, test_sync 53, test_uploader 23, test_umfassend 14 (TU6 79/79) – grün.
+- Zur Kenntnis genommen: de_ketten_lehrer.py vom Supervisor auf .lua.gz umgestellt. Leser bitte zusätzlich auf Zweig "sicherung"
+  (Punkt 5).

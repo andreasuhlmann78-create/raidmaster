@@ -741,7 +741,8 @@ class Daten:
                 sizes.setdefault(e["sha"], int(e.get("size") or 0))
         days = sorted({p.split("/")[1] for p in old if p.startswith("tage/") and len(p.split("/")) == 6})
         keep = [d for d in days if d != today][-(DAYS_KEEP - 1):] if DAYS_KEEP > 1 else []
-        self.days_aged = [d for d in days if d != today and d not in keep]   # UP-TAGE: älter als DAYS_KEEP -> fallen weg
+        # UP-TAGE: es bleiben die letzten DAYS_KEEP GESPEICHERTEN Tage (heute + DAYS_KEEP-1 frühere), nicht "Tage jünger als …"
+        self.days_aged = [d for d in days if d != today and d not in keep]
         for p, e in old.items():
             parts = p.split("/")
             if parts[0] != "tage" or len(parts) != 6:
@@ -1007,7 +1008,8 @@ class Daten:
             self.d["sig_done"] = sig
         self.save()
         if self.days_aged:
-            self.log(f"Prüfung: Tages-Stände älter als {DAYS_KEEP} Tage gelöscht ({', '.join(self.days_aged)}).")
+            # UP-TAGE-a (Supervisor 24.11. 07:40): Text passt zur Regel (Anzahl gespeicherter Tage, nicht Alter)
+            self.log(f"Prüfung: mehr als {DAYS_KEEP} Tages-Stände – älteste gelöscht: {', '.join(self.days_aged)}.")
         if dropped:
             self.log(f"Prüfung: Repo über {fmt_mb(REPO_MAX)} – ältere Tages-Stände gelöscht ({', '.join(dropped)}).")
         if self.fblobs or self.ds2_dropped:

@@ -384,7 +384,7 @@ class Lieferung(unittest.TestCase):
         self.assertEqual(files[AKT + "AHSentinel.lua"], last)
         last_day = days[-1]
         self.assertEqual(files[f"tage/{last_day}/PC/forever/{KONTO}/AHSentinel.lua"], last)
-        self.assertTrue(any(f"älter als {daten.DAYS_KEEP} Tage gelöscht" in l for l in self.logs), self.logs)
+        self.assertTrue(any(f"mehr als {daten.DAYS_KEEP} Tages-Stände – älteste gelöscht: " in l for l in self.logs), self.logs)
         stand = json.loads(files["stand.json"])["PC"]["tage"]
         self.assertEqual((stand["anzahl"], stand["von"], stand["bis"], stand["grenze_tage"], stand["grenze_mb"]),
                          (daten.DAYS_KEEP, days[0], days[-1], 30, 1024))
@@ -1231,7 +1231,8 @@ class UPTAGE(ZweiRechner):
             tage, logs = self.run_days(35, pack=True)
             self.assertEqual(len(tage), 30)                                                   # 35 Tage -> die letzten 30
             self.assertFalse(any("Repo über" in l for l in logs), logs)                      # nie wegen der Grösse
-            self.assertTrue(any("älter als 30 Tage gelöscht" in l for l in logs), logs)
+            self.assertTrue(any("mehr als 30 Tages-Stände – älteste gelöscht: " in l for l in logs), logs)   # UP-TAGE-a
+            self.assertFalse(any("älter als" in l for l in logs), logs)
             st = json.loads(self.gh.raw_files()["stand.json"])["Laptop"]["tage"]
             self.assertEqual((st["anzahl"], st["von"], st["bis"]), (30, tage[0], tage[-1]))
             # Gegenprobe: dieselben Tage ungepackt sprengen die Grenze -> ältere Tage fallen weg (so verschwanden 17.–20.11.)
@@ -1284,6 +1285,24 @@ class UPTAGE(ZweiRechner):
         raw = self.gh.raw_files()
         self.assertFalse(any(b"Bewerber" in v for v in raw.values()))
         self.assertTrue(any("nicht lesbare weggelassen" in l for l in logs), logs)
+
+    def test_tage_a_luecken_text_passt_zur_regel(self):
+        # UP-TAGE-a: 32 Spieltage mit Lücken über 64 Kalendertage -> es bleiben die letzten 30 GESPEICHERTEN Tage, auch solche,
+        # die älter als 30 Kalendertage sind; die Meldung nennt die Regel (Anzahl), nicht ein Alter
+        lap, lr, logs = self.new_uploader("Laptop", [self.K])
+        acc = lr["_forever_/" + self.K]
+        for i in range(32):
+            now = T0 + i * 2 * 86400                                          # jeder zweite Tag
+            self.put(acc, "AHSentinel.lua", f"AHSentinelDB = {{ 'tag{i}' }}\n", now)
+            self.drive(lap, now + 1, now + 30)
+        tage = sorted({p.split("/")[1] for p in self.gh.raw_files() if p.startswith("tage/")})
+        self.assertEqual(len(tage), 30)
+        first = time.strftime("%Y-%m-%d", time.localtime(T0 + 2 * 2 * 86400))
+        self.assertEqual(tage[0], first)                                      # 58 Kalendertage alt – bleibt (Regel = Anzahl)
+        gone = [l for l in logs if "älteste gelöscht" in l]
+        self.assertEqual(len(gone), 2, logs)                                  # Tag 0 und Tag 1, je einmal
+        self.assertTrue(gone[0].startswith("Prüfung: mehr als 30 Tages-Stände – älteste gelöscht: "), gone)
+        self.assertFalse(any("älter als" in l for l in logs), logs)
 
     def test_tage_hinweis_alter_uploader_kuerzt(self):
         k = self.K
