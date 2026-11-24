@@ -615,3 +615,8 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     Hinweis: anderer Charakter als 12:46 (PRIEST 10 statt WARRIOR 30) – die Gleitkomma-Breite im nächsten Lauf mit 6 Stellen nachsehen.
     Offen: BS-P1 Auswertung (T156 20,8 ms, T179 22,1 ms, T25 8,3 ms in diesem Lauf), T249, Prüfliste von Hand.
 
+>>> BS-T1 NIEDRIG (Supervisor 24.11. 13:55, aus einer Frage des Nutzers zum Reinigen in Forever): Texte widersprechen sich.
+    Locales IN_RETAIL_MIDNIGHT_DEBUFFS_ARE (Optionen > Reinigen, nur in Retail gezeigt): "Diese Funktion gibt es nur in den Classic-Versionen und in
+    WoW Forever." – gleichzeitig DISPEL_GRID_OFF_IN_FOREVER / NO_DISPLAY_OF_PROCS_COOLDOWNS: "Reinigen-Raster in Forever/Retail aus" (im Kampf).
+    Klar und gleich sagen, was in Forever geht (ausserhalb des Kampfes? im Kampf aus, weil Debuffs geschützt sind) – in allen Sprachen, ein Text.
+
