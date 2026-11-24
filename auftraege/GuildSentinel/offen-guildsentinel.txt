@@ -733,3 +733,9 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     begründen – nie die Prüfung abschwächen. Achtung: Bringt ein anderes Addon im selben Client schon Version 3 mit, gilt sie auch für deine
     Prüfungen (höchste Version gewinnt) – nil-FEHLER können also schon vor deiner nächsten Version erscheinen.
 
+>>> INGAMETEST 0.9.61 – 24.11.2026 12:48 (Laptop, WARRIOR 30, Thunder Bluff; Bericht vom Nutzer im Chat, Supervisor 12:52): OK 339 · FEHLER 0 ·
+    übersprungen 24 · im Client 8 · Sandbox OK · geteilte Daten unverändert · 0 echte Sendungen · Fehlerzähler 0 · keine nil-FEHLER mit
+    GoldSentinelTest 3. Eigene Portionen: längste 20,8 ms (nach T269), über 40 ms: 0. GS-K1, GS-K2, GS-L1, GS-L5, GS-P1: im Spiel ohne FEHLER
+    -> ERLEDIGT (Hand-Punkte der Prüfliste bleiben). Hinweis: "Ziel <= 2 ms" je Portion – 6 Portionen über 16 ms (T269, T295g ×3, T09) bei
+    +700–900 KB: beim nächsten Mal kleiner schneiden, kein eigener Auftrag.
+
