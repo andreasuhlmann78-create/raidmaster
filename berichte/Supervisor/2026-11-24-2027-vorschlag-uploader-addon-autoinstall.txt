@@ -1,0 +1,25 @@
+VORSCHLAG an den Supervisor – Uploader installiert neue Addon-Versionen selbst (Sitzung "home zugriff", 24.11.2026 20:27)
+Nutzer 20:26: "ja mach das" (auf die Frage, ob der Vorschlag an den Supervisor geht). Zuständig: RaidMaster-Projekt (Uploader).
+
+ANLASS
+Der Nutzer will jede neue Version seiner Addons sofort im Forever-AddOns-Ordner auf dem PC (Laptop macht ein anderes Projekt).
+Heute von Hand über die Claude-Sitzung (Desktop-Brücke, Datei für Datei): pro Version mehrere Minuten, Nutzer fragt "das muss doch
+schneller gehen". Heute so installiert: alle 8 Addons (18:3x), AHS 0.65.391 + TS 2.5.30 (19:3x), PS 0.9.83 (20:10), AHS 0.65.392 (20:24).
+
+VORSCHLAG (zur Prüfung und Einordnung durch den Supervisor)
+Der RaidMaster-Uploader (läuft ohnehin auf dem PC, gleicht schon Daten ab) holt neue Versionen der GoldSentinel-Addons aus dem Repo
+und legt sie selbst in _forever_\Interface\AddOns:
+ 1. Quelle: die höchste Version je Addon aus announce/ (Discord) bzw. download/ – nur Addons, die im AddOns-Ordner schon liegen.
+ 2. Vergleich mit "## Version" der installierten .toc; nur wenn neuer.
+ 3. Vor dem Kopieren: Zip vollständig, Ordnername = Addon, Version in der toc = erwartete Version (keine Teil-Installation).
+ 4. Nur geänderte Dateien schreiben; nie WTF/SavedVariables anfassen; nie fremde Addons; nichts löschen (oder nur mit Schalter).
+ 5. Ein Schalter in uploader_config (an/aus, Standard aus für andere Spieler, an für den Nutzer) und eine Zeile im Uploader-Fenster/Log:
+    "AHSentinel 0.65.391 -> 0.65.392 installiert – im Spiel /reload".
+ 6. Nicht während das Spiel lädt; Wiederholung bei gesperrter Datei; Takt z. B. bei jedem Abgleich bzw. alle paar Minuten.
+ 7. Nur PC des Nutzers, nicht Laptop (anderes Projekt) – Gerät/Ordner aus der Konfiguration.
+Offene Fragen für den Supervisor: Sollen auch Discord-Testversionen (announce/) installiert werden oder nur geprüfte? Standard für
+andere Spieler? Sicherheit: nur aus dem eigenen Repo (raidmaster), Prüfsumme/Version gegen das Repo.
+
+BIS DAHIN
+Diese Sitzung installiert weiter von Hand, schneller: Kurzprüfung (Version, Vollständigkeit, Lua-Syntax) statt voller addon_check-Lauf
+(die Projekte prüfen vor dem Push selbst), nur geänderte Dateien, Version danach zurücklesen.
