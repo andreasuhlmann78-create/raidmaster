@@ -6600,14 +6600,16 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     c) ENTSCHEID DES NUTZERS 20:43 (ersetzt den Vorschlag von 20:41 "eingeklappter Block" – "das ist nicht korrekt"): "was der wächter zeigt darf nicht
        automatisch im sniper fenster erscheinen...nur wenn jemand das bei item anwählt dass es so sein muss". Also:
        - Funde des Wächters erscheinen NIE von selbst in der Sniper-Zielliste (auch nicht eingeklappt, auch nicht bei Sniper an).
-       - Nur wenn der Spieler es beim Item ausdrücklich wählt (z. B. Knopf/Rechtsklick "In den Sniper übernehmen" in der Wächter-Liste bzw. am Item),
+       - Nur wenn der Spieler es beim Item ausdrücklich wählt (z. B. Rechtsklick auf das Item "In den Sniper übernehmen" (Wächter-Liste)),
          wird daraus ein normales Sniper-Ziel.
        - Die interne Prüfung des Wächters (Einzelsuche) darf weiter laufen, aber unsichtbar für die Sniper-Liste (eigene Liste, nicht Sn-Ziele
          anzeigen).
-       - KAUFEN (überdacht 20:45 auf Wunsch des Nutzers "überdenken"): Der Kaufweg des Wächters bleibt wie heute – Knopf "Kaufen" im Reiter Wächter
-         und die Taste/das Mausrad, das für den WÄCHTER belegt ist (Sn:GetBinds("watcher"), Sn:OnTrigger("watcher")), immer nur mit Tastendruck.
-         Nur das Anzeigen im Sniper-Fenster entfällt. Ist dieselbe Taste für Sniper UND Wächter belegt (heute kind = nil -> kauft beides), bleibt
-         das so; im Reiter Wächter steht dann sichtbar, dass die Taste auch Wächter-Funde kauft (keine stille Änderung des Kaufverhaltens).
+       - KAUFEN – ENTSCHEID DES NUTZERS 20:48 (ersetzt "überdacht" von 20:46): "nein der spieler darf rechtsklicke auf ein item und kann den
+         wächter tipp so in den sniper übertragen wie vorgeschlagen. 1,2,3 und 5 sind gut". Also: Wächter-Funde sind TIPPS. Gekauft wird ein
+         Wächter-Fund nur, nachdem der Spieler ihn per RECHTSKLICK auf das Item ("In den Sniper übernehmen") in den Sniper übertragen hat – dann
+         wie jedes Sniper-Ziel (Taste/Mausrad/Knopf des Snipers, nie ohne Tastendruck). Der direkte Kaufweg des Wächters (Knopf "Kaufen" im Reiter
+         Wächter, eigene Wächter-Taste, gemeinsame Taste kind = nil) kauft KEINE Wächter-Funde mehr. Texte/Tooltips im Reiter Wächter anpassen
+         ("Rechtsklick: in den Sniper übernehmen"), alte Texte "Kaufen mit Mausrad/Taste wie beim Sniper" entfernen, alle Sprachen.
        - Tests: Wächter-Fund -> Sniper-Liste unverändert (Zeilen gleich), Kauf über den Wächter-Weg wie bisher; nach "übernehmen" genau ein Sniper-Ziel;
          Gegenprobe mit altem Verhalten (Zeile erscheint) = FEHLER. Bestehende "w:"-Ziele beim Laden aus der Sniper-Liste entfernen (Migration).
     d) Kopfzeile "Sniper: an" und im Reiter "Sniper-Modus: AUS" gleichzeitig (Bild 20:40) – widersprüchlich (L3). Entweder dieselbe Angabe oder

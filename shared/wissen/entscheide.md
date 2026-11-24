@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Folge |
 |---|---|---|
+| 20:48 | "nein der spieler darf rechtsklicke auf ein item und kann den wächter tipp so in den sniper übertragen wie vorgeschlagen. 1,2,3 und 5 sind gut" (AHSentinel Wächter/Sniper) | AHS-CF1-UI c): Wächter-Funde nur Tipps; Kauf nur nach Rechtsklick-Übernahme in den Sniper; direkter Kaufweg des Wächters kauft keine Funde mehr (ersetzt "Kaufweg bleibt" von 20:46) |
 | 20:43 | "was der wächter zeigt darf nicht automatisch im sniper fenster erscheinen...nur wenn jemand das bei item anwählt dass es so sein muss" (AHSentinel) | AHS-CF1-UI c): Wächter-Funde nie automatisch in der Sniper-Liste; nur nach ausdrücklicher Wahl am Item ein Sniper-Ziel. Kaufweg des Wächters (Knopf im Reiter Wächter, Wächter-Taste) bleibt wie heute (überdacht 20:45 auf "überdenken") |
 | 20:28 | Vorschlag "Uploader installiert neue Addon-Versionen selbst" (Sitzung home zugriff, Nutzer 20:26 "ja mach das") – "ich möchte das für den laptop auch" | UP-AUTO1 an RaidMaster: Uploader installiert neue Versionen aus dem eigenen Repo selbst, Schalter Standard AUS, beim Nutzer auf PC und Laptop an; Offiziere nicht |
 | 20:14 | "wenn ready dann jetzt pushen auf curse" (GuildSentinel 0.9.61; CurseForge seit 15.11. nur 0.9.39) | GS-CF2: 0.9.61 sofort nach download/ (Ausnahme vom 18:00-Termin), durch die GS-Sitzung; Supervisor prüft danach auf curseforge.com |
