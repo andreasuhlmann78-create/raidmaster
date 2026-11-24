@@ -740,3 +740,12 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     aufhellen bzw. Hintergrund dunkler), nicht die Prüfung lockern. Vollständige Liste aus dem Testbericht (kommt nach /reload).
  Nächste Version: RM-I1, dann RM-I2. Ingametest 3.0.41 sonst ohne FEHLER.
 
+>>> INGAMETEST 3.0.42 – 24.11.2026 10:17 (Laptop, WARRIOR 30, Bericht vom Nutzer im Chat, Supervisor 10:22): OK 147 · FEHLER 1 · übersprungen 14 ·
+    im Client 10 · Sandbox OK. Längstes Bild 38,0 ms (T116).
+ RM-I1: T116 im Spiel OK -> ERLEDIGT für RaidMaster. Die Zahlen je Addon (wer hatte die 15 MB?) liest der Supervisor aus dem Testbericht nach
+    /reload und gibt sie an das betroffene Projekt. Hinweis: T116 selbst macht jetzt das längste Bild (38 ms, knapp unter 40) – das Lesen je Addon
+    (UpdateAddOnMemoryUsage) nur einmal vor/nach dem Fenster lassen, nicht öfter.
+ RM-I2 MITTEL (Rest): T199 noch 2 Stellen: log "Hauptfenster > Button" 3,8:1 bei einem Item-Link (item:16800 … [Test…] – Qualitätsfarbe des Items
+    auf dem Knopf) und discord "Hauptfenster > '1. So funktioniert es'" 2,2:1 bei "1." (Aufzählungs-Nummer). Beide heller bzw. Qualitätsfarben wie
+    die Klassenfarben über eine Stelle (RM.ClassColor-Prinzip) anheben. Geprüft 4 725 Texte.
+
