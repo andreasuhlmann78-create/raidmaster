@@ -37,6 +37,8 @@
 - Bot: PN an Besitzer alter Uploader und Bewerbungen aufräumen liegen beim Discord-Projekt.
 
 ## Entscheide des Nutzers seit letztem Stand
+- 24.11. 20:49: "das discord projekt soll den offiziere das seden" – Uploader 2.3.21 an Offiziere über das Discord-Projekt
+  (Bericht 2049 an den Supervisor zum Weiterleiten).
 - 24.11. 20:04 (über Supervisor): Umgebung/Bedienung in allen Testroutinen erkennen (RM-UMG1).
 - 24.11. 20:28 (über Supervisor): Uploader installiert neue Addon-Versionen selbst, PC und Laptop (UP-AUTO1).
 - 24.11. 20:29: "repo".
