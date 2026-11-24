@@ -1,0 +1,62 @@
+ProfessionSentinel 0.9.80 – umgesetzt, zur Prüfung
+Bezug: offen-professionsentinel.txt – Ingametest 0.9.78 (PS-I1..I4), SH-V3/PS-V3
+
+SH-V3 / PS-V3
+- shared/GoldSentinelTest.lua Version 3 unverändert kopiert. TestRoutine.lua: "GT.version == 2" -> "(GT.version or 0) >= 2".
+- Neue nil-FEHLER offline: keine (forever 252/0, era 233/0, retail 231/0, forever --lua51 252/0). Die im Client laufenden Fälle
+  (T30, T50, T69, T85, T144, T186, T188, T195, T206-209, T235, T242) Rückgaben einzeln durchgesehen: keine "x and y, …"-Rückgabe mit
+  möglichem nil. Ob im Spiel ein nil-FEHLER kommt: Verdacht keiner, zu messen im Ingametest.
+
+PS-I2 MITTEL – T219 "zu viele Aufbauten beim Herstellen: 4" – drei Ursachen, belegt:
+ 1. Test-Fehler: T219 las die Aufbauten über einen Listenplatz im Protokoll UI.buildLog. Das Protokoll behält nur 50 Einträge; ist es
+    voll (im Spiel nach kurzer Zeit), zeigte der Platz hinter das Ende -> Abstand und längster Teil wurden nie geprüft.
+    Beleg: Ingametest "Leistung … T219 0 ms" (keine Einträge gelesen). Jetzt nach Aufbau-Nummer (gen). Meldung nennt Anlass und Zeit
+    jedes Aufbaus.
+ 2. Test-Fehler (Zeitgeber aus anderem Fall): T214 und T215 kaufen; Plan.BuyAmount zeichnet 1 s später neu (echter Zeitgeber). Dieser lief
+    im späteren Fall T219: Spur offline Plan.lua:297 -> Scan RefreshAll -> UI:Refresh in T219 (ganzer Aufbau) + 2 s später
+    "Heute herstellen" = 2 fremde Aufbauten (passt zu 4 = 2 + 2; die Zuordnung im Spiel zeigt die neue Meldung). T214/T215 schreiben
+    den Zeitgeber jetzt nur auf (und prüfen ihn).
+ 3. Echter Fehler im Addon, gefunden mit dem reparierten Test: retail und --lua51 zeigten "Herstellen fertig 9.55 s, Heute herstellen
+    10.05 s" (0,5 s Abstand). Die 2-s-Grenze galt nur WÄHREND des Herstellens. Jetzt auch bis 2 s nach dessen Ende (UI.RunPendingRefresh);
+    Wartezeit nie länger als 2 s (keine Sperre, auch wenn eine Uhr zurückspringt). Danach alle Läufe ohne Fehler.
+    Smoketest: T192 lief mit stehender Uhr in diesen Zeitraum (0 Aufbauten) -> T192 stellt seine Uhr weit nach jedem Herstellen.
+
+PS-I4 NIEDRIG – Dauer 333 s:
+ - T219 setzte die Bildgrenze -1 und liess sie bis zum Fallende stehen; der nicht-stille Stub rief zudem Advisor.Invalidate -> "Heute
+   herstellen" -> ganzer Aufbau mit einem Bild je Zeile (offline 2 Aufbauten zu je 2261 Bildern). Jetzt still und nur für den einen
+   Aufbau. T275: Grenze 0 blieb für den Rest jedes Aufbaus (jeder Durchgang lief bis zu seiner Grenze von 500 Bildern, Aufbau unfertig);
+   jetzt 0 nur für das Wechsel-Bild, dazu neue Prüfung "Aufbau nach 500 Bildern nicht fertig".
+   Offline Bilder: T219 9154 -> 1176, T275 5024 -> 46, alle Schritte 19193 -> 6264. Im Spiel waren es T219 6996 und T275 5034 Bilder.
+   Neue Dauer im Spiel: zu messen.
+ - "Trefferquote Schneiderei 0/186": gezählt wird jede eigene Herstellung, für die die Rechnung "Herstellen lohnt" sagte (MK.OnCraft).
+   Treffer = innerhalb 7 Tagen über das AH verkauft (Rechnung in der Post) mit Erlös >= Kosten; nicht verkauft nach 7 Tagen =
+   Fehlschlag (MK.Expire, so in T-PM6 festgelegt). Echte Daten: Schneiderei n=186, h=0, keine offene Notiz mehr. Wahrscheinlich
+   Herstellungen zum Skillen oder als Zwischenprodukt (z. B. Leinenstoffballen) – nie zum Verkauf eingestellt, zählen trotzdem als
+   Fehlschlag. Folge: jeder Schneiderei-Tooltip zeigt "Unsicher …" (siehe PS-I3). Die Zählung tut, was die Regel sagt; die Regel misst
+   aber nicht, was gemeint ist. NICHT geändert – Entscheid beim Nutzer (Vorschläge: A nicht verkauft = gar nicht zählen,
+   B nur Herstellungen ohne Skillpunkt zählen, C wie bisher; die alten 186 dann zurücksetzen mit Sicherung).
+
+PS-I3 MITTEL:
+ - T236 15 Zeilen: belegt. MK.Unsure(Schneiderei) liest die echte gespeicherte Trefferquote 0/186 (< 60 % ab 20 Fällen) -> eine Zeile
+   mehr "Unsicher: …". Offline sind es genau 14 Zeilen. CapeSim startet jetzt mit leerer Trefferquote; neue Prüfung: mit niedriger
+   Trefferquote genau EINE Zeile mehr, der Hinweis.
+ - T198 "Fehler nicht gezählt: 4": belegt und offline nachgestellt (gleiche Meldung "10 Prüfungen, 2 Fehler: … 4"). D.Text ->
+   D.SyncErrors holte die echten gezählten Lua-Fehler (ns.db.gsTest) in das Test-Protokoll; einer war 4× gezählt. Jetzt
+   D.ErrorStore(), im Test ein eigener leerer Speicher; neue Prüfung: ein Lua-Fehler (4×) kommt genau einmal mit Zahl 4.
+ - T85 "keine Zeilen": Ursache NICHT belegt (Verdacht: Beruf nicht erkannt oder Aufbau nicht fertig, zu messen). Offline mit
+   Berufsfenster ohne Beruf nachgestellt -> dieselbe Meldung. Die Meldung nennt jetzt Beruf, Stufe, Reiter, Aufbau läuft, letzter
+   Aufbau und die Zeile unten.
+
+PS-I1 HOCH – Bilder > 40 ms (T81 53, T260 52, T43 49 ms; HOCH 3 ebenso): Ursache NICHT belegt.
+ - Die Werte sind eigene Portionen (onPortion des Takts), "Abgabe nicht möglich: 0". Nachbau mit echten Daten und 250 MB Ballast:
+   längstes Bild 16,8 ms, keines > 40 ms. Im Spiel war Lua gesamt 254 MB.
+ - Verdacht, zu messen: Speicherbereinigung in unserer Portion (offline: T81-Portion mit 14,9 MB frei) oder Blizzards Liste
+   (SetDataProvider legt Zeilen-Rahmen an – im Nachbau nicht vorhanden).
+ - Neu im Bericht für jeden Schritt über 16 ms: "Längster Teil … zerlegt (gemessen): Tx n ms = unser Code a ms + Blizzard-Liste b ms,
+   Speicherbereinigung darin (x MB frei) / keine, Etikett". Jede SetDataProvider-Zeit wird gemessen (UI SetDP); Speicher am Anfang
+   jeder Portion (Core ns.TaktPortionStart). Nur gemessene Werte. Danach je Fall die passende Lösung.
+
+Tests: run_offline forever 252/0, era 233/0, retail 231/0, forever --lua51 252/0; check_actions OK; yield_check OK;
+gen_locale_keys OK; Smoketest forever/era/retail AUTOTEST OK (FEHLER 29/26/26 = Mock-Grenzen wie bisher); addon_check OK ohne WARNUNG. Zip md5 f36c38679049df5f0764ce18a13e2139, Repo 7b504b4.
+Offen beim Nutzer: Entscheid Trefferquote (A/B/C); Ingametest 0.9.80 "/ps testroutine alles" (Zerlegung der langen Teile, T85, T219-Anlässe,
+Dauer); Messung SetCraftableCount (nur PS / nur AHS).
