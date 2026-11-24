@@ -47,3 +47,9 @@ Grundlage: Befundliste des Ingametests 0.65.389 (db.uiFindingsLast, 73 Zeilen, D
 
 CF1-Bedingung d: CHANGELOG nennt nichts zu T459.
 Im Spiel (Nutzer): "testroutine alles" mit 0.65.392 – erwartet T750 deutlich weniger/0, T191 0 oder mit Lage benannt, Wächter-Schritt 3 Min.
+
+NACHTRAG 20:25 (eigener Fehler beim Veröffentlichen): die Discord-Ankündigung 0.65.392 ging ~8 Min. VOR dem Code ins Repo AHAnalyzerPro.
+Ursache belegt: pub.sh "git pull --rebase && cp … && commit" brach wegen einer lokal geänderten Test-Datei (tests/wowsim/scenarios_new.lua)
+still ab (set -e greift nicht in &&-Ketten); der Teil raidmaster lief weiter. Behoben: Code nachgetragen (origin/main Version 0.65.392,
+pagerAvoid vorhanden, Szenario s272 "Wächter 3 Min."), GitHub-Release v0.65.392 steht ("### Deutsch" zuerst). pub.sh: jeder Schritt einzeln,
+lokale Änderungen werden mitgenommen, und Discord wird nur veröffentlicht, wenn die Version auf origin/main steht.
