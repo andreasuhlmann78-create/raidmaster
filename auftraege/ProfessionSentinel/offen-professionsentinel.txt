@@ -828,3 +828,10 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     Tabelle des alten Aufbaus festhält, bleibt nach "unverändert" der alte Abschluss stehen. Belegen, dass keine Zeile der Blizzard-Liste Funktionen
     mit festgehaltenen Daten trägt (oder Funktionen als anders werten), mit einem Test.
  T85 (Beruf nil): Nutzer fragen, welches Fenster offen war – steht bei "Offen beim Nutzer".
+>>> PS-I8 HINWEIS SUPERVISOR 20:01 (E-Regel "Ausreisser zuerst gegen Bedienung des Nutzers", Info des Nutzers 19:47):
+    Der Ingametest 0.9.81 lief mit "Bild in Ruhe Median 33,0 ms, 46 Bilder/s" (ThreatSentinel heute im Vordergrund: Median 9,0 ms, 91–101 Bilder/s)
+    – das Spiel war sehr wahrscheinlich im Hintergrund. GSMesstest kommt in den PS-Daten nicht vor. Das Zeitbudget des Takts ist fest (2 ms, nicht
+    von der Bildrate abhängig); im Hintergrund kann Windows das Spiel aber mitten in einer Portion anhalten, und das zählt in der Uhr mit.
+    Darum: T269 (TD.Candidates rechnet Taschen/Gold je Aufruf neu) hat eine Ursache im Code -> weiter umsetzen. T139 19,8 ms und "Aufgabe heute"
+    23,3 ms NUR ändern, wenn der Nachbau sie nachstellt; sonst als "Ausreisser, Bedienung möglich" im Bericht führen und mit dem nächsten Ingametest
+    (Spiel im Vordergrund) bewerten. Kein Befund daraus, keine zusätzliche Ingame-Prüfung.
