@@ -10,39 +10,50 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 ## What's new
 
-### Version 0.9.39
+### Version 0.9.61
 
-- New (GS-W2): the "Choose suggestion" button on the recruitment page opens a list of ready-made ad texts: default text of the phase, short and simple, build-up, raid roster, friendly and cosy, with Discord tag, without Discord. Each entry shows its character count, and hovering shows the finished text. Suggestions that match the phase (build-up/raid) are at the top. Only a click replaces the text in the field.
-- GS-W1: every suggestion (including the one with the Discord tag) ends again with "– whisper me: /w <name> guild", in every language with its own word. An own text without this part gets a yellow hint; "Apply" appends it – never unasked.
-- Shortening to the chat length (255 characters): first the class list, then the Discord sentence, then the beginning of the text – the whisper part always stays whole.
-- Fixes: Chinese – dropping the Discord tag in the bracket （…） removed the whole rest including the whisper part. Shortening could cut Chinese characters in half at the end. Portuguese: all texts now use "sussurre para mim".
-- Market data network: shared file GoldSentinelMarkt.lua updated to version 4 (unchanged from shared/): export of the last 6 scans, at most 1.5 MB; turning "Share market data" off also stops an already planned reply to the guild.
-- Developer tests: T295a–g (T-GSW1/T-GSW2), T247 adjusted, T291 requires version 3 or newer.
+- Window gets out of the way: if the GuildSentinel window covers another window when it opens (LevelPilot, AHSentinel, ProfessionSentinel, RaidMaster, ThreatSentinel, BuffSentinel, guild, friends or profession window), it docks next to it – right, left, below or above, the shortest way, fully on screen. If it fits nowhere, it shrinks as little as needed (at most to 95 %; at 16:9 (UI 1365 × 768 points) with LevelPilot in its default spot 99.4 %). If such a window opens later, GuildSentinel moves then. Your saved position stays; the next time you open it without the other window, GuildSentinel is back there.
+- Group finder: the "Elite quest (LevelPilot)" button is inside the window again (it stuck out on the right); with LevelPilot the note field is narrow enough for both.
+- Readability: the Shaman class colour is a little lighter on the dark window (was 3.7:1, now at least 4.6:1) – names in lists, "Where", composition, progress, leadership, rules. All other class colours stay exactly as in the game.
+- Board (offers/wants) and crafting requests: an item's tooltip shows quantity and price (or OBO) right in the first line after the name, the game's details follow below.
+- Performance: the "Online times" page builds its overview without a new table per measurement (test setup 1,196 KB → 42 KB per build) and only once per display (twice before).
+- Shared file GoldSentinelTest 3 (a check returning nil counts as an error; texts are never cut in the middle of a character).
+- For the developer: the test routine names the exact place of the longest portions ("in T…" = check running, "nach T…" = between checks) and whether a garbage collection ran in that frame; T21/T22 open the pages in portions of their own; the bank checks can pause in between.
 
-### Version 0.9.38
+### Version 0.9.60
 
-- Market data network: shared file GoldSentinelMarkt.lua updated to version 2. It no longer reads a full scan a second time when AHSentinel is loaded (AHSentinel hands its scan over instead) – version 1 made the game stutter during AHSentinel's full scan and in its sniper. Smaller send queue, guild summary at most hourly, sold-out items in the export.
-- The "Share market data" tick now shows whether the network really runs: if another GoldSentinel addon has it turned off, the tick is off and a short hint says so.
-- Developer tests: T291 extended (version 2, FeedStart/Feed), T294 (tick follows the network).
+- Raid readiness without estimates: "raid-ready in n weeks (from x players, y days measured)" instead of "at the current pace in ~n weeks". With fewer than 3 players with a measured pace or less than 7 days of measurement it says "not enough data yet" (no week count in the Discord report either). The pace is now divided by the days actually measured (at most 14; before always by 14).
+- Level gain: the level a member joins with no longer counts as a level-up (new members had one level too many – ranking "levels in the last 7 days" and raid readiness).
+- "First to max level": if the date only comes from the member list (no event of its own), it says "by <day> at the latest" instead of an exact time.
+- Applicant tooltip: "First seen" now sits right under the name (before at the bottom).
+- The log entry for merging guild data lists the entries per old key ("before 802 = 479 + 323").
+- For the developer: the test routine checks L5 (main number on top in every tooltip with numbers, T317) instead of skipping it.
 
-### Version 0.9.37
+### Version 0.9.59
 
-- New: market data network (shared file GoldSentinelMarkt.lua, same in all GoldSentinel addons). When any addon or the player runs a full auction house scan, it is read along in small portions (never in combat, never a scan of its own) – lowest unit price, quantity and number of auctions per item, plus measured sales between two scans. No names: owners, bidders and item names are never read. Shared anonymously with the guild and the GoldSentinel network, own faction only. On by default, no question asked; Settings > "Share market data (anonymous, prices only)" turns it off (then nothing is read or sent). Without the auction house interface (Era/TBC) it stays silent.
-- Diagnostic log: lines "MARKT-NETZ" (version, on/off, scans read, sent/received, memory) – no names.
-- Fix: Guild management > Invite (and the member menu) now also respects the age block – applicants "declined (age)" cannot be invited from there either.
-- Developer tests: T291–T293 (MN4), T289f; offline load test with and without the market file.
+- Guild data without realm: on WoW Forever the game reports a different home realm per character – the same guild was stored under several keys (members, log, administration split). Now "faction + guild" is used. Old entries are merged once on login: nothing twice, earlier join time, newer states win; the old data stays as a backup (guildsOld), counts before/after in the log (/gs protokoll, line GILDE). "My week" shows the characters of all home realms.
+- Members page: built in a frame of its own after the window opens, the first selection only fills it; the list's numbers are computed once per selection (before up to three times). A slow selection lists its parts in the log (read/filter/sort, rows, numbers, details).
+- Recruitment: instead of the white block "Placeholders: {gilde} {fraktion} …" a small "Placeholders (?)" button – its tooltip lists every placeholder with its meaning (ad, automatic reply, welcome, rejection). "Leave empty = default text" is shown in grey in the empty ad field.
+- Readability: the selected row of a list now has an accent stripe on the left and a fainter fill (grey and red text on it was too weak); brighter version number in the title bar; every column has a header.
+- "Who's free": "Flag as free" and "No longer free" have their own row (they stuck out of the window in 6 of 10 languages); the rejection text has its hint and button below the field.
+- Developer commands (sync test, protokoll, clienttest, debug) appear in help and the command list only in developer mode.
+- Shared files: GoldSentinelSync 3 and GoldSentinelTakt 3.
+- For the developer: the test routine first measures the environment for 10 s (location, ping, frames/s; line "Umgebung" in the report), also compares the shared data (sync address book, sync and market storage) before/after the run (SHARED) and checks readability L1–L8 (T311–T318) and controls inside the window (T319). Found and fixed: T293 created an empty slot in the real market storage.
 
-### Version 0.9.36
+### Version 0.9.58
 
-- New (GA1): age question "How old are you?" for applicants. With a minimum age set (Recruitment > texts, default 16, 0 = off) it is ALWAYS asked as the last question, also with your own question list. Answer "17", "I'm 17", "17 years" -> continues normally. Below the minimum age: a friendly whisper ("Thanks for your interest in <guild>! Unfortunately we only accept players aged 16 and over. Have fun in Azeroth!" – text adjustable), status "declined (age)", "Invite to guild" blocked. No number or "soon 16" -> no automatic decline, status "age unclear" for an officer.
-- Privacy: the exact age and the answer text are never stored, shared or logged – only "16+" / "under 16" / "unclear".
-- New (GA2): in recruitment phase Build-up the default ad says so: "<guild> (faction) is being built up and is looking for players of all classes – relaxed, helpful, raid goal …". New placeholder {phase} ("being built up" / "almost raid-ready" / "raid-ready"). An own ad text without {wanted} or {phase} gets a yellow hint with an "Apply" button (takes the phase's default text). The finished chat text is shown right above the "Prepare ad" button.
-- Developer tests: T289a–e (T-GA1a–e), T290a–c (T-GA2a–c); offline flow with ages 17 / 15 / "bald 16".
+- Performance: from 100 members GuildSentinel reads the member list as a task of the shared scheduler – only the reading in one go, the notes in portions, the comparison at the end. Before, everything ran in one frame (16 ms with 500 members in game, every 30 seconds). During the portions the main from the note stays (no flicker).
+- Performance: notes like "Alt of X" whose main is no longer in the guild went through the whole list for every alt on every read. The result is now remembered per name (rebuilt with 500 members: 216 ms → 5 ms).
+- Title bar on the right in the window's style: flat close X (instead of the Blizzard X), "Support" as a small coin icon with tooltip (instead of a grey button), guild info with spacing – all the same height and on one line.
+- For the developer: the test routine checks the shared sync address book for test names (T308), the title bar (T309) and that every player feature is reachable without developer mode (T310); T138 measures the median of 3 runs and the longest frame in portions.
 
-### Version 0.9.35
+### Version 0.9.57
 
-- The summary for the uploader and the Discord bot (GuildSentinelDB.raidReady, written on logout) now has the field "vorschlag": the recruitment phase GuildSentinel currently suggests ("build" / "trans" / "raid", same words as "phase"); missing when no suggestion is open or it was put off with "Later". No names. The bot can then post "GuildSentinel suggests phase … – confirm in the game".
-- Developer test: T288 (T-RP-V).
+- New options modelled on AHSentinel (Settings > Options): sections on the left (General, Chat & tooltip, Announcements, Group finder, Recruitment, Data & sync, Features: community, Features: guild & raid, Leadership), only the options of the chosen section on the right in one column, no scrolling. A search box on top searches all sections (e.g. "sound"). Each row: a short label, an "on"/"off" button (or a row of buttons) on the right, the explanation in the tooltip. "Default" per section, rarely used options under "More".
+- Every option appears exactly once. Switches that sit next to their own text (automatic reply, welcome, application questions, minimum age, advertising channels, group finder role, promotion, composition) stay there – in the options a link jumps right to them. The advertising reminder and "Delete old applications" moved from the Recruitment page into the options; an "Options" button there opens the Recruitment section (likewise on the Group finder page).
+- Clicking a feature that is turned off opens its section in the options.
+- All saved settings stay valid (same fields as before).
+- For the developer: checklist point "OPT options on screen" (the right-click menu point, already done in game, was removed for it); the test routine checks every option (T307a–e) and reports which old game functions the client has (T306).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
