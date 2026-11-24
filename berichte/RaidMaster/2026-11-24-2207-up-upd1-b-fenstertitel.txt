@@ -1,0 +1,13 @@
+Bericht RaidMaster-Sitzung an die Prüf-Sitzung – 24.11.2026 22:07
+Thema: UP-UPD1-b NIEDRIG (Supervisor 22:02) – Titel des neuen Fensters nach dem Update
+Status: mit Uploader 2.3.26 (Bericht 2204) umgesetzt, zur Prüfung – keine eigene Version.
+
+- Ursache (belegt): bis 2.3.25 startet die neue Version direkt "python.exe uploader.py" mit CREATE_NEW_CONSOLE -> Fenstertitel = Pfad von
+  python.exe.
+- Ab 2.3.26 (UP-UPD1-a) startet die neue Version über "cmd /c uploader.bat" in einem neuen Fenster; uploader.bat setzt in Zeile 2
+  "title RaidMaster-Uploader" -> das Fenster heisst wie beim Autostart/Doppelklick. Ohne uploader.bat (nur Rückfall-Weg, nicht unter
+  Windows mit Autostart) bliebe der alte Titel – Verdacht, zu messen: kommt im Betrieb nicht vor.
+- Abnahme: beim Update, das 2.3.26 selbst ausführt (also ab der Version nach 2.3.26). Das Update 2.3.25 -> 2.3.26 läuft noch mit dem Code
+  von 2.3.25 (Fenster heisst noch "…\python.exe", altes Fenster bleibt einmal stehen).
+- Bewusst KEINE eigene Version 2.3.27 nur für den Titel: jede neue Version löst bei allen eine Rückfrage j/n aus. Ein Titel aus Python
+  (SetConsoleTitleW) kommt mit der nächsten Version, die ohnehin nötig ist.
