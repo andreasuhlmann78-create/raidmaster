@@ -753,3 +753,8 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     Ursache offen (Verdacht: Hintergrundarbeit eines anderen Addons in jenem Lauf). Kein Auftrag an ein anderes Projekt. Das Lesen je Addon kostet
     je 36–37 ms (= das längste Bild 38 ms) – nur in der Testroutine, so lassen; nie im normalen Spiel aufrufen. T201 OK (schlechteste Klasse 4,61:1).
 
+>>> PRÜFUNG SUPERVISOR 24.11. 10:30 – Uploader 2.3.20 (UP-ALT + UP-TAGE-a, Bericht 0737): ANGENOMMEN. Tests selbst gelaufen (test_daten, test_sync,
+    test_uploader, test_umfassend OK). Im echten Betrieb belegt: erster 2.3.20 (Laptop) legte Zweig "sicherung" auf dem Stand von main an
+    (Tage 21.–24.11., 4 Rechner, nichts verloren); Lieferungen 09:31, 10:08, 10:20 als 2.3.20 mit "neueste" 2.3.20; main = sicherung.
+    UP-ALT erledigt, sobald PC und Offiziere umgestellt sind (dann stand.json prüfen). Addon 3.0.42: Ingametest siehe oben, RM-I2 Rest offen.
+

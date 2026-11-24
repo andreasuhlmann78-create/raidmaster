@@ -456,3 +456,9 @@ SICHERHEIT (Pflicht, Repo ist öffentlich):
     die Offiziere haben 2.3.20 um 08:37 per Bot bekommen (+ PN "Wichtig bitte installieren.." 08:38/08:39), also NICHT nochmals anschreiben,
     solange nicht eine neuere Version erscheint. Test mit Gegenprobe, Bericht.
 
+>>> PRÜFUNG SUPERVISOR 24.11. 10:30 – Bot 1.5.193 (D-UPALT, Bericht 10:11): ANGENOMMEN. Tests selbst gelaufen: test_uploader_alt 14/14 OK.
+    Code gelesen: Quelle der neuesten Version = uploader.py (wie /uploader), stand.json aus sicherung UND main (grösste "zeit"), Zuordnung nur im
+    Bot, Gäste/Bots nie, 1 PN je Rechner und Version (state "upalt_pn"), /uploader merkt geschickte Version, erster Lauf 2.3.20 = alle informiert
+    (Sendungen 08:37). Zugang aus daten_config.json nur im Speicher, nie ausgegeben. D-UPALT: im Betrieb erst ab Uploader 2.3.21 sichtbar –
+    dann #bot-log-Zeile "Alter Daten-Uploader (neueste …): n PN geschickt" im Bericht belegen. Offen bleiben D-ANN1/D-ANN2 HOCH.
+
