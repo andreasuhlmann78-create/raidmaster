@@ -1,0 +1,35 @@
+BERICHT RAIDMASTER AN DIE PRÜF-SITZUNG
+Stand: 24.11.2026 06:25 (aus date) · Sitzung: RaidMaster-Projekt-Sitzung · Version: Uploader 2.3.18 (unverändert), Addon 3.0.40
+Bezug: offen-raidmaster.txt "BEFUND SUPERVISOR 2026-11-24 06:16 – UP-TAGE HOCH" (8a90f611); Prüfung 2.3.17/2.3.18 angenommen (b8f9acf2) zur Kenntnis
+Status: (1)–(3) belegt/vorgeschlagen; (4) Umsetzung + Tests nach dem Entscheid des Nutzers (Frage unten).
+
+1. URSACHE (belegt mit den Grössen im Daten-Repo, Stand 23.11. 23:50, MININT):
+   - Regel daten.py _build: tage/ höchstens DAYS_KEEP = 7 Tage, danach "while Summe der einmaligen Dateien > REPO_MAX (200 MB): ältesten Tag
+     streichen". Die Regel gilt in ALLEN Uploader-Versionen (2.3.x), welcher Rechner auch liefert.
+   - Gemessen jetzt: 82 einmalige Dateien, zusammen 185,8 MB. aktuell/ 123,8 MB; tage/2026-11-21 51,8 MB, -22 103,0 MB, -23 54,4 MB
+     (davon AHSentinel 37,1 / 87,0 / 40,2 MB). Ein weiterer Tag (≥ 50 MB) bringt die Summe über 200 MB -> der älteste Tag fällt.
+     Damit ist die Grenze belegt: Platz für 3 Tage, nicht 7. 14.–16.11. wären ohnehin nach 7 Tagen weggefallen; 17.–20.11. fielen der
+     200-MB-Regel zum Opfer.
+   - Verdacht 2 (alter Uploader baut ohne die Tage der anderen): NICHT zutreffend – alle 2.3.x übernehmen tage/ der anderen (gleiche
+     Schleife wie 2.3.18, nur ohne Filter); einziger Grund für Wegfall sind DAYS_KEEP und REPO_MAX.
+   - WANN und durch welchen Rechner: aus dem Repo NICHT bestimmbar (DU6: jede Lieferung ist ein einziger Commit ohne Vorgänger, kein
+     Verlauf). Belegen lässt es sich nur im Fenster des liefernden Rechners: Zeile "Prüfung: Repo über 200 MB – ältere Tages-Stände gelöscht
+     (<Tage>)". Treiber: AHSentinel.lua je Rechner 14–31 MB und wachsend (Laptop inzwischen über der GitHub-Grenze, seit 2.3.18 .gz).
+2. WIEDERHERSTELLBAR? (nur gemeldet, nichts angefasst)
+   a) GitHub: die alten Commits sind nicht mehr erreichbar; ihre Objekte bleiben bei GitHub bis zur Bereinigung (Zeitpunkt unbekannt).
+      Weg: über die Ereignis-Schnittstelle der Repo (Push-Ereignisse der letzten Tage, mit Commit-Kennungen) die damaligen Commits und
+      Bäume holen – braucht das Token des Daten-Repos (liegt nur beim Nutzer/Uploader). Verdacht, zu messen: ob GitHub sie noch liefert.
+   b) Rechner: WoW hält je Addon nur eine Vorgängerdatei (.bak) – keine Tagesstände. Der Abgleich PC/Laptop legt geänderte Dateien im
+      privaten Kanal #sync-daten ab ("Stand 185 hochgeladen …"); ob dort ältere Stände noch liegen, kann nur der Nutzer/Bot nachsehen.
+   c) Discord #bot-daten bekommt nur RaidMaster-Daten, keine AHSentinel-Stände.
+3. VORSCHLAG (Entscheid beim Nutzer) – Packrate gemessen an den heutigen Dateien:
+   A) ALLES gepackt liefern (.lua.gz für aktuell/ und tage/): aktuell 123,8 -> 24,8 MB, Tage 51,8 -> 8,2 / 103,0 -> 16,7 / 54,4 -> 13,1 MB.
+      7 Tage ≈ 25 + 7 × ~13 ≈ 115 MB – Platz für die vollen 7 Tage mit Reserve. Leser lesen .gz schon (Supervisor 23.11., sv_lesen,
+      test_sv_gz 6/6). EMPFEHLUNG.
+   B) Nur tage/ packen, aktuell/ ungepackt: ≈ 124 + 7 × 13 ≈ 215 MB – reicht NICHT ganz, schon heute knapp.
+   C) Nur die Journale je Tag behalten (AHSentinel-Teile für die Markt-Rechnung) – braucht eine Auswahl im Uploader je Addon, fehleranfällig,
+      andere Auswertungen verlieren die Tage.
+   Zusätzlich in jedem Fall: der Uploader meldet im Fenster und in stand.json, wie viele Tage drin sind ("tage": n) – Wegfall wird sichtbar.
+4. Nach dem Entscheid: Umsetzung als Uploader 2.3.19 mit Tests (z. B. 7 Tage mit grossen Dateien bleiben vollständig; Gegenprobe 2.3.18
+   streicht Tage), dazu die kleine Lücke aus 2.3.18: wird eine Datei nicht geliefert, gilt die Lieferung nicht als erledigt (neuer Versuch
+   ohne /reload).
