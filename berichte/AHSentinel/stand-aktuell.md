@@ -1,6 +1,6 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 24.11.2026 22:47 · Version 0.65.394 (Discord); CurseForge 0.65.393 (Datei-ID 9799863)
+## Stand 24.11.2026 23:16 · Version 0.65.394 (Discord); CurseForge 0.65.393 (Datei-ID 9799863)
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz – Testberichte "GSTEST1{…}", UI-Befunde db.uiFindingsLast).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
@@ -13,7 +13,8 @@ Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /h
 - AHS-SP1: Mess-Fassung in der Arbeitskopie (Vollscan.lua VS.COMPACT=false, DigestC/DecodeBody/NewSet, Ladder mit Zwischenspeicher 400,
   Finish/Track/FeedNetRun mit Satz). Bericht "sp1-messung-vor-einbau" abgelegt – WARTET auf Freigabe Supervisor. Nachbau-Szenarien zz_sp1eq,
   zz_t459real (SP1C=0/1, ZC=23520, REAL_SV=/tmp/claude-0/ahs_sv3.lua) in /tmp/claude-0/sim – nach Freigabe ins Repo.
-- 0.65.394 veröffentlicht (SG6-a, Detailtitel-Tooltip; SP1 enthalten aber AUS). Danach FULL 0.65.394 ohne Parallel-Last, dann CF1-UI-a1, UMG1.
+- 0.65.394 veröffentlicht (SG6-a, Detailtitel-Tooltip; SP1 enthalten aber AUS). FULL 0.65.394: 344 PASS/69 FAIL, neu rot nur s313 (Grenzfall
+  17,5 ms > 16, einzeln 2× PASS). WARTE auf SP1-Freigabe; CF1-UI-a1 erst nach T1016 im Spiel; UMG1 erst nach SP1.
 
 ## Nächste Schritte (AHS-CF1, Entscheid des Nutzers 19:19/19:21)
 1. Ingametest 0.65.393 auswerten (Daten-Repo; PC = aktuell/DESKTOP-NVITMSE/forever/…): T1016 (Rahmen über der Abdeckung, AH offen), T750.
