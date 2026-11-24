@@ -6608,7 +6608,7 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
          und die Taste/das Mausrad, das für den WÄCHTER belegt ist (Sn:GetBinds("watcher"), Sn:OnTrigger("watcher")), immer nur mit Tastendruck.
          Nur das Anzeigen im Sniper-Fenster entfällt. Ist dieselbe Taste für Sniper UND Wächter belegt (heute kind = nil -> kauft beides), bleibt
          das so; im Reiter Wächter steht dann sichtbar, dass die Taste auch Wächter-Funde kauft (keine stille Änderung des Kaufverhaltens).
-       - Tests: Wächter-Fund -> Sniper-Liste unverändert (Zeilen gleich), Kauftaste kauft nichts davon; nach "übernehmen" genau ein Sniper-Ziel;
+       - Tests: Wächter-Fund -> Sniper-Liste unverändert (Zeilen gleich), Kauf über den Wächter-Weg wie bisher; nach "übernehmen" genau ein Sniper-Ziel;
          Gegenprobe mit altem Verhalten (Zeile erscheint) = FEHLER. Bestehende "w:"-Ziele beim Laden aus der Sniper-Liste entfernen (Migration).
     d) Kopfzeile "Sniper: an" und im Reiter "Sniper-Modus: AUS" gleichzeitig (Bild 20:40) – widersprüchlich (L3). Entweder dieselbe Angabe oder
        beide klar beschriften (z. B. "Sniper eingeschaltet · sucht gerade nicht").
