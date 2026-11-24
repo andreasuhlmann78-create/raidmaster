@@ -1,0 +1,19 @@
+AHSentinel – FRAGE an den Supervisor (Nutzer 24.11. 20:17: "frage das den supervisor") – AHS-TR1, Prüfliste WAECHTER-LAST / WAECHTER-FUND
+
+Lage (0.65.392, Code belegt):
+- Der Schritt "waechter" von "testroutine alles" läuft jetzt 180 s (TR.ALL_WATCH_S, Entscheid des Nutzers 19:12) und bewertet selbst
+  (TR:AllWatcher result(): längste Wächter-Rechenzeit je Bild <= W.PL_FRAME_MS 50 ms und >= W.FUND_ROUNDS 3 Hürden-Runden).
+- Die Wächter-eigenen Prüflisten-Haken setzen sich nur nach festen Zeiten selbst: WAECHTER-LAST nach W.PL_SECONDS = 300 s (Watcher.lua W:PLTick),
+  WAECHTER-FUND nach W.FUND_SECONDS = 600 s seit der ersten Runde (W:PLFund). Im 3-Min.-Schritt werden beide NICHT mehr selbst abgehakt.
+- Bisher (600 s) haben sie sich während des Schritts selbst abgehakt; der Schritt wartete dafür auf W.plm.done (deshalb hätte er mit 180 s
+  sonst immer 300 s gedauert – Nachbau zz_tr1: 301 s; jetzt 181 s).
+- Pruefliste.lua (Z. 23): WAECHTER-LAST und WAECHTER-FUND stehen seit TR-ALLE (17.11.) nicht mehr als eigene Punkte in der Liste; abgehakt
+  wird TR-ALLES als Ganzes über die Kette (TR:PLAllDone). Meine Einschätzung: kein Verlust. Verdacht, zu prüfen: liest irgendwo noch etwas
+  (Prüfung, Bericht, Supervisor-Liste) die einzelnen Haken WAECHTER-LAST/-FUND?
+
+Frage: Reicht die Bewertung im Schritt (wie oben), oder sollen WAECHTER-LAST/-FUND weiterhin einzeln abgehakt werden?
+Mögliche Wege, falls einzeln nötig:
+  (a) W.PL_SECONDS und W.FUND_SECONDS auf 180 s senken (gilt dann auch im Alltag für die Prüfliste),
+  (b) der Schritt hakt beide am Ende selbst ab (PL:Hit mit derselben Notiz), nur wenn er "bestanden" ist,
+  (c) so lassen (keine einzelnen Haken mehr).
+Ich mache bis zur Antwort nichts daran und arbeite nach AHS-CF1 weiter (Ingametest 0.65.392 abwarten/auswerten).
