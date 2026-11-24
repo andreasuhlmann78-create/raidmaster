@@ -763,3 +763,21 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
  RM-I2: T199 im Spiel OK -> ERLEDIGT. Keine offenen Ingame-Befunde für das Addon RaidMaster. Offen: Abnahme UP-ALT, sobald PC und Offiziere
     Uploader 2.3.20 haben (stand.json).
 
+>>> RM-UMG1 MITTEL – Umgebung und Bedienung in der Testroutine erkennen (Supervisor 20:05)
+    Entscheid des Nutzers 24.11.2026 20:04: "ich denke sowas sollte man in all unsere addons einbauen auser solche TS" – "das was wir jetzt für ahs
+    und pf haben". Ziel: Die Testroutine trennt selbst, was das Addon leistet und was von aussen kommt (Nutzer, Windows, Server, Spiel, andere Addons),
+    damit Bedienung nie wieder als FEHLER gemeldet wird (E-Regel 20:05 Vorgänger 19:47/19:49 in pruef-ablauf.md).
+    Nur in der Testroutine (Entwicklermodus), nie beim normalen Spielen; NUR LESEN.
+    a) Umgebung vor, während und nach dem Lauf: Bilder/s, Bild in Ruhe (Median/95 %), Ping. Hintergrund erkennen: fällt die Bildrate auf eine feste
+       Hintergrund-Grenze (z. B. Median ≈ 33 ms bei sonst ≈ 9 ms) oder springt sie im Lauf, den Zeitraum als "Spiel im Hintergrund/Fensterwechsel
+       möglich" markieren (Belege: PS 0.9.81 Median 33 ms/46 Bilder/s; TS 2.5.30 im Vordergrund 9 ms/91 Bilder/s).
+    b) Je langem Bild (> 40 ms) und je Leistungsprüfung über ihrer Grenze: eigene Arbeit gegen Rest (Spiel/andere Addons), Ladebildschirm im Bild ja/nein,
+       Speicherbereinigung im Bild ja/nein.
+    c) Beim LÄNGSTEN Bild des Laufs einmal Speicher je Addon (UpdateAddOnMemoryUsage + GetAddOnMemoryUsage bzw. C_AddOns.*) – wie AHSentinel
+       (AHS-I4-a, TestRoutine.lua ~4861). ACHTUNG: UpdateAddOnMemoryUsage ist teuer – nur einmal, ausserhalb der Messung, Kosten nicht mitzählen.
+       Fremde Addons mit grossem Anteil (z. B. ein Messwerkzeug) im Bericht nennen.
+    d) Bewertung: Liegt eine Leistungsprüfung über ihrer Grenze UND ist im betroffenen Bild/Zeitraum a) Hintergrund, b) Ladebildschirm, oder ist der
+       Rest grösser als die eigene Arbeit -> Ergebnis "Bedienung/Umgebung möglich" (HINWEIS, kein FEHLER), mit dem Grund. Sonst wie bisher FEHLER.
+       Gegenprobe im Nachbau: dieselbe Überschreitung ohne Hintergrund -> FEHLER; mit simuliertem Hintergrund -> HINWEIS.
+    e) Kopfzeile des Berichts: "Umgebung: Vordergrund/Hintergrund (Zeitraum)", "längstes Bild je Addon: …".
+    Priorität: NIEDRIG/MITTEL – nach den laufenden HOCH-Punkten; nichts an den Leistungsgrenzen selbst ändern.
