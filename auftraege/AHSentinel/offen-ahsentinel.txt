@@ -6518,3 +6518,19 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
        gibt sie frei. Ohne sein OK keine CurseForge-Veröffentlichung (Zip erst nach seinem OK und dann um 18:00 nach download/).
     Speicher-Umbau (gemischte Ablage: Zahlen-Listen für Mindestpreis/Menge/Auktionen + Preisstufen als Text, Auspacken nur bei Bedarf) wird danach
     als eigener Auftrag kommen – NICHT jetzt anfangen.
+>>> INGAMETEST 24.11. 19:01–19:22 (PC, Forever deDE, Priester 10, Spiel im Hintergrund maximiert) – Auswertung Supervisor 19:32
+    ACHTUNG: gelaufen mit 0.65.390, NICHT 0.65.391 (PC hatte 0.65.391 noch nicht). Gilt als Messung für 0.65.390.
+    "alles": 1140 OK · 5 FEHLER · 41 übersprungen; Schritte 7 Vollscan zweimal, 8 Berufe, 9 Händler noch offen (Server-Abstand 13 Min.).
+    - T750 117 (auto) / 116 (ui) Befunde, Markt > Überfüllt 49 (vorher 41–42) – schlechter. T191 "Frame in AHAnalyzerProWindow verdeckt Button" (geprüft 104).
+      Beides = AHS-CF1 (1), sofort.
+    - Sniper 29 OK / 0 FEHLER. Wächter 155 Runden, längste Rechenzeit je Bild 9 ms (≤ 50) – bestanden. T126 6,8 ms OK. T410/T722 OK (Lücke 908 ms = Spiel).
+    - T458 FEHLER NEU: längste eigene Arbeit je Bild 39,7 ms im Einlesen ("fullscan bis Vollscan.lua:805"), 1 Bild über 16 ms (0.65.389: 8 ms).
+      Der Code des Einlesens ist zwischen 0.65.389 und 0.65.390 unverändert. Verdacht, zu messen: Speicherbereinigung innerhalb einer Lese-Portion
+      (T459: 52 Bereinigungen, 1 Bild über 40 ms mit Bereinigung) oder Hintergrund-Betrieb. Gehört zu AHS-CF1 Bedingung a): ursächlich belegen
+      (Bereinigung ja/nein in diesem Bild ausweisen) und, falls AHSentinel, beheben.
+    - T459: "3. Vollscan der Sitzung · angelegt 26 303 KB ohne gelesene Auktionen · Verdichtung 7054 Items: wiederverwendet 0, neu 7054 ·
+      Zusammenfassungen 8 338 KB · Bestpreise 2 260 KB". BELEG: Mit 0.65.390 hätte jede Tabelle des letzten Scans (old) wiederverwendet werden
+      müssen – 0 heisst, self.mem und memSpare waren LEER. Die Zählung "3. Vollscan der Sitzung" überlebt also etwas (/reload oder gespeichert), der
+      Arbeitsspeicher nicht. Folge: im Testlauf kommt nie ein Vorrat an; Wiederverwendung kann T459 hier nicht senken. Antwort dazu im nächsten
+      Bericht: woher zählt "der Sitzung" (Datei:Zeile), gab es vor dem Scan ein /reload? T459-Grundwert für AHS-CF1 c) = dieser Wert, bis 0.65.391
+      gemessen ist (26 303 KB, Zusammenfassungen 8 338 KB).
