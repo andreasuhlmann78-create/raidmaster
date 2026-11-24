@@ -620,3 +620,26 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     WoW Forever." – gleichzeitig DISPEL_GRID_OFF_IN_FOREVER / NO_DISPLAY_OF_PROCS_COOLDOWNS: "Reinigen-Raster in Forever/Retail aus" (im Kampf).
     Klar und gleich sagen, was in Forever geht (ausserhalb des Kampfes? im Kampf aus, weil Debuffs geschützt sind) – in allen Sprachen, ein Text.
 
+>>> BS-M1 HOCH (MESSEN + BAUEN) – Entscheid des Nutzers 24.11.2026 13:52: "baue das...buffsentinel soll das prüfen...und was sonst noch möglich wäre.."
+    Ziel: Reinigen in WoW Forever so bequem wie möglich (Vorbild Decursive), trotz im Kampf geschützter Debuffs. Grundregel Blizzard: nie
+    automatisch zaubern – jedes Reinigen ist ein Klick/Tastendruck des Spielers.
+    TEIL A – MESSEN (zuerst, in derselben Version; Muster wie ThreatSentinel TS-M1):
+    - Automatisch beim normalen Spielen (Instanz betreten, Kampf mit Gruppe), NUR LESEN, nichts verändern, je Kampf/Instanz einmal je Quelle,
+      ≤ 1 ms je Bild, keine Spielernamen (Klasse/Rolle/Anzahl), Ergebnis in Diagnose/Bericht über den Uploader.
+    - Quellen einzeln: C_UnitAuras (GetAuraDataByIndex / GetAuraDataBySlot / GetUnitAuras / ForEachAura … – was es in Forever gibt), UnitDebuff falls
+      vorhanden, dispelName/dispelType, Ereignis UNIT_AURA (Aktualisierungs-Info), Gruppen-/Raid-Rahmen von Blizzard (zeigen sie bannbare Debuffs im
+      Kampf? Option "Nur bannbare Schwächungszauber"? CVars nur lesen) – je Quelle: vorhanden, im Kampf lesbar, geschützt, nil.
+    - Anzeige ohne eigenen Entscheid: kann ein geschützter Debuff (Symbol, Typ, Farbe) an ein Blizzard-Element durchgereicht werden (Textur/Icon,
+      Farbe aus einer Blizzard-Funktion)? Nur in der Testroutine auf Befehl, nicht automatisch.
+    TEIL B – BAUEN (Entscheid des Nutzers "baue das"):
+    - Klick-Raster für Forever: je Gruppenmitglied ein sicherer Knopf (SecureActionButtonTemplate), Zuordnung Maustaste -> eigener Reinigungszauber
+      der Klasse NUR ausserhalb des Kampfes gesetzt; im Kampf nichts ändern (InCombatLockdown). Kein Auto-Zauber, kein Ziel wechseln.
+    - Markierung, wer etwas hat: nur wenn Teil A belegt, dass es ohne eigenen Entscheid geht (Blizzard zeigt/färbt selbst) – sonst ehrlich
+      kennzeichnen ("im Kampf kann BuffSentinel nicht sehen, wer betroffen ist") und auf die Blizzard-Raid-Rahmen verweisen.
+    - Zusätzlich anbieten: Mausover-Weg (Makro-Vorschlag im Text) als Hilfe.
+    - Was sonst noch möglich ist: im Bericht aufzählen, mit Messbeleg und Aufwand (Nutzer entscheidet danach).
+    - Standard: Raster in Forever ERST eingeschaltet, wenn der Ingametest ohne Taint/ADDON_ACTION_BLOCKED/Lua-Fehler bestanden ist; bis dahin
+      Option "aus", im Entwicklermodus testbar. Texte EN/DE, BS-T1 (widersprüchliche Texte) gleich mit erledigen.
+    - Tests: Nachbau (Knopf-Attribute nur ausserhalb des Kampfs, nie im Kampf geändert, richtiger Zauber je Klasse, keine Namen gespeichert),
+      Testroutine-Schritt im Spiel mit Anleitung für den Nutzer (ein Gruppenmitglied mit Fluch/Gift: Klick reinigt, kein "Aktion blockiert").
+

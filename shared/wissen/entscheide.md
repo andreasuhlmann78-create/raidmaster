@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Folge |
 |---|---|---|
+| 13:52 | "baue das...buffsentinel soll das prüfen...und was sonst noch möglich wäre.." (Reinigen in Forever wie Decursive) | Auftrag BS-M1 HOCH: messen (automatisch, nur lesen) + Klick-Raster für Forever bauen (sichere Knöpfe, ohne Auto-Zauber); Markierung nur wenn ohne eigenen Entscheid möglich; Raster erst nach bestandenem Ingametest standardmässig an |
 | 13:35 | "er soll selbst messen sobald ein spieler in eine instanz geht oder auch aggro hat...er darf aber nichts verändern..." (TS-M1) | Messung läuft automatisch in Instanz/Kampf, NUR LESEN; Durchreichen und eigene Plaketten nur in der Testroutine auf Befehl |
 | 13:34 | "er soll messen was möglich ist.." (TS-M1) | alle Wege für Aggro-Anzeige in Forever messen (c–f) |
 | 13:33 | "lass uns das messen" (ThreatSentinel: Aggro an Namensplaketten in Forever trotz geschützter Werte; eigene statt Blizzard-Plaketten) | Messauftrag TS-M1 an ThreatSentinel (nur messen: Durchreichen geschützter Werte, Blizzard-Aggro der Plakette, CVars); Umbau-Entscheid danach beim Nutzer |
