@@ -1,6 +1,6 @@
 {
-  "geprueft": "2026-11-24T07:33:18Z",
-  "commit": "ed175c9",
+  "geprueft": "2026-11-24T08:24:45Z",
+  "commit": "fadc7e0",
   "ok": false,
   "fehler": null,
   "hinweis": "Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 45 Minuten.",
@@ -8,70 +8,70 @@
     {
       "datei": "announce/addon-hilfe__ahanalyzerpro-hilfe-0.65.3.md",
       "kanal": "addon-hilfe",
-      "seit_push_min": 1239,
+      "seit_push_min": 1290,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/ahsentinel__ahsentinel-0.65.388.md",
       "kanal": "ahsentinel",
-      "seit_push_min": 69,
+      "seit_push_min": 120,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/ahsentinel__ahsentinel-0-vorstellung-1.8.md",
       "kanal": "ahsentinel",
-      "seit_push_min": 21746,
+      "seit_push_min": 21798,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/ahsentinel__ahsentinel-hilfe-1.0.md",
       "kanal": "ahsentinel",
-      "seit_push_min": 28943,
+      "seit_push_min": 28995,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/barrow-taktik__uebersicht-1.1.md",
       "kanal": "barrow-taktik",
-      "seit_push_min": 29774,
+      "seit_push_min": 29825,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/buffsentinel__buffsentinel-0.9.61.md",
       "kanal": "buffsentinel",
-      "seit_push_min": 1430,
+      "seit_push_min": 1482,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/guildsentinel__guildsentinel-0.9.60.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 1371,
+      "seit_push_min": 1422,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/hyjal-taktik__uebersicht-1.1.md",
       "kanal": "hyjal-taktik",
-      "seit_push_min": 29774,
+      "seit_push_min": 29825,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/levelpilot__levelpilot-3.13.11.md",
       "kanal": "levelpilot",
-      "seit_push_min": 962,
+      "seit_push_min": 1013,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/levelpilot__levelpilot-uebersicht-3.12.94.md",
       "kanal": "levelpilot",
-      "seit_push_min": 8550,
+      "seit_push_min": 8602,
       "abdeckung": 0.952,
       "status": "veraltet",
       "fehlende_zeilen": [
@@ -83,63 +83,63 @@
     {
       "datei": "announce/lore__alpine-vanguard-vorstellung-1.0.md",
       "kanal": "lore",
-      "seit_push_min": 33497,
+      "seit_push_min": 33548,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/mc-feuerresi__feuerresi-1.1.md",
       "kanal": "mc-feuerresi",
-      "seit_push_min": 29774,
+      "seit_push_min": 29825,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/onyxia-feuerresi__feuerresi-1.0.md",
       "kanal": "onyxia-feuerresi",
-      "seit_push_min": 38915,
+      "seit_push_min": 38967,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/onyxia-taktik__onyxia-video-1.0.md",
       "kanal": "onyxia-taktik",
-      "seit_push_min": 40340,
+      "seit_push_min": 40391,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
-      "datei": "announce/professionsentinel__professionsentinel-0.9.79.md",
+      "datei": "announce/professionsentinel__professionsentinel-0.9.80.md",
       "kanal": "professionsentinel",
-      "seit_push_min": 1112,
+      "seit_push_min": 35,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/professionsentinel__professionsentinel-0-vorstellung-1.27.md",
       "kanal": "professionsentinel",
-      "seit_push_min": 16022,
+      "seit_push_min": 16074,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/threatsentinel__threatsentinel-2.5.26.md",
       "kanal": "threatsentinel",
-      "seit_push_min": 1324,
+      "seit_push_min": 1376,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/threatsentinel__threatsentinel-0-vorstellung-2.2.md",
       "kanal": "threatsentinel",
-      "seit_push_min": 31202,
+      "seit_push_min": 31254,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/buffsentinel__buffsentinel-0-vorstellung-10.md",
       "kanal": "buffsentinel",
-      "seit_push_min": 1239,
+      "seit_push_min": 1290,
       "abdeckung": 0.945,
       "status": "veraltet",
       "fehlende_zeilen": [
@@ -151,14 +151,14 @@
     {
       "datei": "announce/buffsentinel__buffsentinel-0-vorstellung-11.md",
       "kanal": "buffsentinel",
-      "seit_push_min": 1239,
+      "seit_push_min": 1290,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/buffsentinel__buffsentinel-0-vorstellung-2.md",
       "kanal": "buffsentinel",
-      "seit_push_min": 1239,
+      "seit_push_min": 1290,
       "abdeckung": 0.688,
       "status": "veraltet",
       "fehlende_zeilen": [
@@ -172,7 +172,7 @@
     {
       "datei": "announce/buffsentinel__buffsentinel-0-vorstellung-3.md",
       "kanal": "buffsentinel",
-      "seit_push_min": 1239,
+      "seit_push_min": 1290,
       "abdeckung": 0.75,
       "status": "veraltet",
       "fehlende_zeilen": [
@@ -186,7 +186,7 @@
     {
       "datei": "announce/buffsentinel__buffsentinel-0-vorstellung-4.md",
       "kanal": "buffsentinel",
-      "seit_push_min": 1239,
+      "seit_push_min": 1290,
       "abdeckung": 0.736,
       "status": "veraltet",
       "fehlende_zeilen": [
@@ -200,7 +200,7 @@
     {
       "datei": "announce/buffsentinel__buffsentinel-0-vorstellung-5.md",
       "kanal": "buffsentinel",
-      "seit_push_min": 1239,
+      "seit_push_min": 1290,
       "abdeckung": 0.722,
       "status": "veraltet",
       "fehlende_zeilen": [
@@ -214,7 +214,7 @@
     {
       "datei": "announce/buffsentinel__buffsentinel-0-vorstellung-6.md",
       "kanal": "buffsentinel",
-      "seit_push_min": 1239,
+      "seit_push_min": 1290,
       "abdeckung": 0.902,
       "status": "veraltet",
       "fehlende_zeilen": [
@@ -228,7 +228,7 @@
     {
       "datei": "announce/buffsentinel__buffsentinel-0-vorstellung-7.md",
       "kanal": "buffsentinel",
-      "seit_push_min": 1239,
+      "seit_push_min": 1290,
       "abdeckung": 0.889,
       "status": "veraltet",
       "fehlende_zeilen": [
@@ -242,7 +242,7 @@
     {
       "datei": "announce/buffsentinel__buffsentinel-0-vorstellung-8.md",
       "kanal": "buffsentinel",
-      "seit_push_min": 1239,
+      "seit_push_min": 1290,
       "abdeckung": 0.889,
       "status": "veraltet",
       "fehlende_zeilen": [
@@ -256,7 +256,7 @@
     {
       "datei": "announce/buffsentinel__buffsentinel-0-vorstellung-9.md",
       "kanal": "buffsentinel",
-      "seit_push_min": 1239,
+      "seit_push_min": 1290,
       "abdeckung": 0.907,
       "status": "veraltet",
       "fehlende_zeilen": [
@@ -270,7 +270,7 @@
     {
       "datei": "announce/buffsentinel__buffsentinel-0-vorstellung.md",
       "kanal": "buffsentinel",
-      "seit_push_min": 1239,
+      "seit_push_min": 1290,
       "abdeckung": 0.611,
       "status": "veraltet",
       "fehlende_zeilen": [
@@ -284,7 +284,7 @@
     {
       "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-10.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 1239,
+      "seit_push_min": 1290,
       "abdeckung": 0.989,
       "status": "veraltet",
       "fehlende_zeilen": [
@@ -294,7 +294,7 @@
     {
       "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-11.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 1239,
+      "seit_push_min": 1290,
       "abdeckung": 0.977,
       "status": "veraltet",
       "fehlende_zeilen": [
@@ -305,7 +305,7 @@
     {
       "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-12.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 1239,
+      "seit_push_min": 1290,
       "abdeckung": 0.966,
       "status": "veraltet",
       "fehlende_zeilen": [
@@ -317,7 +317,7 @@
     {
       "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-13.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 1239,
+      "seit_push_min": 1290,
       "abdeckung": 0.955,
       "status": "veraltet",
       "fehlende_zeilen": [
@@ -330,7 +330,7 @@
     {
       "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-14.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 1239,
+      "seit_push_min": 1290,
       "abdeckung": 0.955,
       "status": "veraltet",
       "fehlende_zeilen": [
@@ -343,7 +343,7 @@
     {
       "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-15.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 1239,
+      "seit_push_min": 1290,
       "abdeckung": 0.943,
       "status": "veraltet",
       "fehlende_zeilen": [
@@ -357,7 +357,7 @@
     {
       "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-16.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 1239,
+      "seit_push_min": 1290,
       "abdeckung": 0.943,
       "status": "veraltet",
       "fehlende_zeilen": [
@@ -371,7 +371,7 @@
     {
       "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-17.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 1239,
+      "seit_push_min": 1290,
       "abdeckung": 0.933,
       "status": "veraltet",
       "fehlende_zeilen": [
@@ -385,7 +385,7 @@
     {
       "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-18.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 1239,
+      "seit_push_min": 1290,
       "abdeckung": 0.921,
       "status": "veraltet",
       "fehlende_zeilen": [
@@ -399,7 +399,7 @@
     {
       "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-2.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 1239,
+      "seit_push_min": 1290,
       "abdeckung": 0.809,
       "status": "veraltet",
       "fehlende_zeilen": [
@@ -413,7 +413,7 @@
     {
       "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-3.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 1239,
+      "seit_push_min": 1290,
       "abdeckung": 0.924,
       "status": "veraltet",
       "fehlende_zeilen": [
@@ -427,7 +427,7 @@
     {
       "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-4.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 1239,
+      "seit_push_min": 1290,
       "abdeckung": 0.948,
       "status": "veraltet",
       "fehlende_zeilen": [
@@ -440,7 +440,7 @@
     {
       "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-6.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 1239,
+      "seit_push_min": 1290,
       "abdeckung": 0.988,
       "status": "veraltet",
       "fehlende_zeilen": [
@@ -450,7 +450,7 @@
     {
       "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-7.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 1239,
+      "seit_push_min": 1290,
       "abdeckung": 0.988,
       "status": "veraltet",
       "fehlende_zeilen": [
@@ -460,21 +460,21 @@
     {
       "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-8.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 1239,
+      "seit_push_min": 1290,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-9.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 1239,
+      "seit_push_min": 1290,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/guildsentinel__guildsentinel-0-vorstellung.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 1239,
+      "seit_push_min": 1290,
       "abdeckung": 0.737,
       "status": "veraltet",
       "fehlende_zeilen": [
@@ -488,7 +488,7 @@
     {
       "datei": "announce/levelpilot__levelpilot-uebersicht.md",
       "kanal": "levelpilot",
-      "seit_push_min": 41165,
+      "seit_push_min": 41217,
       "abdeckung": 1.0,
       "status": "ok"
     }
@@ -499,7 +499,7 @@
       "version": "0.65.354",
       "datei": "download/AHSentinel-0.65.354.zip",
       "kanal": "ahsentinel",
-      "seit_push_min": 6486,
+      "seit_push_min": 6537,
       "status": "ok",
       "gepostet": "2026-11-19 19:53 UTC",
       "anhang": [
@@ -511,7 +511,7 @@
       "version": "3.0.41",
       "datei": "RaidMaster/RaidMaster.toc",
       "kanal": "raid-addon",
-      "seit_push_min": 35,
+      "seit_push_min": 87,
       "status": "ok",
       "gepostet": "2026-11-24 07:26 UTC",
       "anhang": [
@@ -523,7 +523,7 @@
     {
       "datei": "announce/buffsentinel__buffsentinel-0-vorstellung-12.md",
       "kanal": "buffsentinel",
-      "seit_push_min": 28893,
+      "seit_push_min": 28945,
       "abdeckung": 1.0,
       "status": "ok",
       "nur_info": "ersetzt durch buffsentinel__buffsentinel-0-vorstellung-10.md"
@@ -531,7 +531,7 @@
     {
       "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-19.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 17273,
+      "seit_push_min": 17324,
       "abdeckung": 0.9,
       "status": "veraltet",
       "fehlende_zeilen": [
@@ -546,7 +546,7 @@
     {
       "datei": "announce/raid-addon-zusammenfassung-3.0.0.md",
       "kanal": "raid-addon",
-      "seit_push_min": 1239,
+      "seit_push_min": 1290,
       "abdeckung": 0.353,
       "status": "veraltet",
       "fehlende_zeilen": [
@@ -561,7 +561,7 @@
     {
       "datei": "announce/threatsentinel__threatsentinel-0-vorstellung.md",
       "kanal": "threatsentinel",
-      "seit_push_min": 39980,
+      "seit_push_min": 40032,
       "abdeckung": 1.0,
       "status": "ok",
       "nur_info": "ersetzt durch threatsentinel__threatsentinel-0-vorstellung-2.2.md"
