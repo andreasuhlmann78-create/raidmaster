@@ -1,0 +1,703 @@
+{
+ "addon": "AHSentinel",
+ "buch_a7": "153/21/0/132",
+ "buch_abgleich": "-57880/268775/-326655 (5 Fig.)",
+ "buch_anzahlung": "404/2933/2979",
+ "buch_ausbeute": "14661/421",
+ "buch_eigenbedarf": "14/34098",
+ "buch_geldfluss": "166154/269554/-103400",
+ "buch_lager_mehr": "keins",
+ "buch_log": "7495/1794662418/0",
+ "buch_reparatur": "53/434927/240086",
+ "buch_reparatur3": "12/240957/221977",
+ "buch_unterwegs": "50386/15/15/2",
+ "buch_verloren": "30/502260",
+ "buchhaltung_b1": "78 min (281)",
+ "buchhaltung_gewinn": "486591",
+ "counts": {
+  "client": 0,
+  "fehler": 2,
+  "ok": 66,
+  "uebersprungen": 3
+ },
+ "dur_ms": 192463,
+ "entzauber_plausibel": "OK",
+ "entzauber_schutz": "OK",
+ "entzauber_stand": "Entzaubern (echte Daten): |   Gruppe grün 5-15 Rüstung (2:1:a): 767 eigene, 2 geteilt |     10940: 603/767 = 78.6 % · Tabelle 80 % · Menge 904 · Ø 1.50 |     10938: 164/767 = 21.4 % · Tabelle 20 % · Menge 257 · Ø 1.57",
+ "entzauber_stand_2": "  Gruppe grün 16-20 Rüstung (2:2:a): 1 eigene, 8 geteilt |     10940: 1/1 = 100.0 % · Tabelle 75 % · Menge 2 · Ø 2.00 |   Gruppe grün 21-25 Rüstung (2:3:a): 68 eigene, 0 geteilt |     10998: 7/68 = 10.3 % · Tabelle 20 % · Menge 11 · Ø 1.57",
+ "entzauber_stand_3": "    10940: 57/68 = 83.8 % · Tabelle 75 % · Menge 285 · Ø 5.00 |     10978: 4/68 = 5.9 % · Tabelle 5 % · Menge 4 · Ø 1.00 |   Gruppe grün 26-30 Rüstung (2:4:a): 1376 eigene, 88 geteilt |     11082: 271/1376 = 19.7 % · Tabelle 20 % · Menge 411 · Ø 1.52",
+ "entzauber_stand_4": "    11084: 77/1376 = 5.6 % · Tabelle 5 % · Menge 77 · Ø 1.00 |     11083: 1028/1376 = 74.7 % · Tabelle 75 % · Menge 1565 · Ø 1.52 |   Gruppe ",
+ "entzauber_zaehlung": "OK",
+ "entzaubern_gruppen": "2:4 Gewinn gesamt +28 % (1221 Käufe, Chance 1.01, Menge 1.01) -> 20 % (gemessen gut) | 2:5 Gewinn gesamt +17 % (34 Käufe, Chance 1.03, Menge 1.13) -> 30 % (gemessen schlecht) | 2:6 Gewinn gesamt +26 % (285 Käufe, Chance 1.01, Menge 1.01) -> 20 % (gemessen gut)",
+ "env": {
+  "build": "71037",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 10,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [],
+ "f": 1,
+ "id": "AHSentinel-1795503119-d5933b-5",
+ "kauf_preisstufe": "≤ 0,7: +58 % (N 9) | 0,7–0,8: +32 % (N 293) | 0,8–0,9: +22 % (N 647) | > 0,9: +7 % (N 68)",
+ "kern_gilde": "23168/21103/21025/grau",
+ "kern_ketten": "5/235/182",
+ "kern_lohnt": "60/60/0",
+ "kern_markt": "696202/650586/650589/zahl",
+ "kern_markt_tag": "48.0/133857.0/3842.2",
+ "kern_sell": "239/144/133/grau",
+ "kern_wellen": "5-25 offen (eigen) | 26-35 offen (eigen) | 36-45 offen (eigen) | 46-55 durch (eigen) | 56-60 durch (eigen)",
+ "kind": "test",
+ "lange_schritte": "Schritte über 5 ms (allein, nicht teilbar): T126 108 ms, T32 57 ms, S28 45 ms, T26a 43 ms, T26b 15 ms, T25j 12 ms, T25b 6 ms",
+ "lernen_faelle": "Staub/Essenz/Splitter 184 Fälle | Stoff 3 Fälle | Leder 1 Fälle | Erz/Barren/Stein 3 Fälle | Kräuter 2 Fälle | Tränke/Verbrauch 10 Fälle | Ausrüstung grün 16 Fälle | Sonstiges 20 Fälle",
+ "lernen_faktor": "vorgerechnet 1 · am Stück 1 · letzte Rechnung genommen 141",
+ "lernen_grenzen": "11083: Min 2|TInterface\\MoneyFrame\\UI-CopperIcon:0:0:2:0|t · Normal 4|TInterface\\MoneyFrame\\UI-SilverIcon:0:0:2:0|t 12|TInterface\\MoneyFrame\\UI-CopperIcon:0:0:2:0|t · Max 5|TInterface\\MoneyFrame\\UI-SilverIcon:0:0:2:0|t 15|TInterface\\MoneyFrame\\UI-CopperIcon:0:0:2:0|t",
+ "lernen_grenzen_2": "11082: Min 2|TInterface\\MoneyFrame\\UI-CopperIcon:0:0:2:0|t · Normal 15|TInterface\\MoneyFrame\\UI-SilverIcon:0:0:2:0|t 75|TInterf",
+ "lernen_kauf": "Entzaubern DE30b: Mindestgewinn je Gruppe 20/25/30 % (gut gemessen/ungemessen – Tabelle verlässlich: 20/schlecht), höchstens 90 % vom Wert, Sicherheitsmarge 10 % (N 1480), kein Budget",
+ "lernen_kauf_2": "Flip Marge 20 % (N 11), Budget 11|TInterface\\MoneyFrame\\UI-GoldIcon:0:0:2:0|t 75|TInterface\\MoneyFrame\\UI-Silv",
+ "lernen_korrektur": "de Dauer 0.34 Chance 0.78 (N 116) | misc Dauer 0.70 Chance 0.70 (N 15)",
+ "lernen_speicher_kb": "31",
+ "markt_index": "+10.5/+36.6",
+ "markt_kern": "MARKT-KERN (Ü1): |   Weg flip: Fälle 0 · Treffer - · mittlerer Fehler - · lernt |   Weg snipe: Fälle 5 · Treffer 40 % · mittlerer Fehler 43 % · lernt |   Weg de: Fälle 12 · Treffer 83 % · mittlerer Fehler 10 % · lernt",
+ "markt_kern_2": "  Weg craft: Fälle 0 · Treffer - · mittlerer Fehler - · lernt |   Weg vendor: Fälle 0 · Treffer - · mittlerer Fehler - · lernt |   MA1 eigene Auktionen geprüft 0 · Fehlerquote - |   MA3 Händlerpreise vom Spiel bestätigt 3561 · abweichend von der Tabelle 1",
+ "markt_kern_3": "  MA4 Band 1-25: messe noch (0 von 5 Tagen in der Kette mit ≥ 20 Paaren; 0 Items) |   MA4 Band 26-45: messe noch (0 von 5 Tagen in der Kette mit ≥ 20 Paaren; 0 Items) |   MA4 Band 46-60: messe noch (0 von 5 Tagen in der Kette mit ≥ 20 Paaren; 0 Items)",
+ "markt_kern_4": "  MR4 LAGE-ZEILE (Markt-Reiter > Kopf oben, 1. Zeile; Bänder als farbige Abschnitte): Marktrichtung je Stufe: noch zu wenig Daten (0 von 5 Tagen) |   RK6 ANNAHME fällt 5 %/Tag, Spitze = verkaufen, ruhig/steigt 0 % · gemessen: noch keine zwei Tage mit belegtem Band",
+ "markt_kern_5": "  MR7 nächstes Login vorhergesagt vs. wirklich (ANNAHMEN 50 % je Wochentag, einige Tage = 2, gespielt ab 10 Min.): noch keine gelernte Vorhersage geprüft",
+ "markt_kern_6": "  V4 Band 1-25: Tageszyklus nicht belegt (0 % gleich) · Wochenzyklus nicht belegt (0 % gleich) (ANNAHMEN ±1 %, ≥ 20 Werte; nur Messung)",
+ "markt_kern_7": "  V4 Band 26-45: Tageszyklus nicht belegt (0 % gleich) · Wochenzyklus nicht belegt (0 % gleich) (ANNAHMEN ±1 %, ≥ 20 Werte; nur Messung) |   V4 Band 46-60: Tagesz",
+ "markt_kern_craft": "Weg craft: Fälle 0 · Treffer - · mittlerer Fehler - · lernt",
+ "markt_kern_de": "Weg de: Fälle 12 · Treffer 83 % · mittlerer Fehler 10 % · lernt",
+ "markt_kern_flip": "Weg flip: Fälle 0 · Treffer - · mittlerer Fehler - · lernt",
+ "markt_kern_ma1": "MA1 eigene Auktionen geprüft 0 · Fehlerquote - | MA3 Händlerpreise vom Spiel bestätigt 3561 · abweichend von der Tabelle 1",
+ "markt_kern_snipe": "Weg snipe: Fälle 5 · Treffer 40 % · mittlerer Fehler 43 % · lernt",
+ "markt_kern_vendor": "Weg vendor: Fälle 0 · Treffer - · mittlerer Fehler - · lernt",
+ "markt_kern_wege": "Weg flip: Fälle 0 · Treffer - · mittlerer Fehler - · lernt | Weg snipe: Fälle 5 · Treffer 40 % · mittlerer Fehler 43 % · lernt | Weg de: Fälle 12 · Treffer 83 % · mittlerer Fehler 10 % · lernt | Weg craft: Fälle 0 · Treffer - · mittlerer Fehler - · lernt",
+ "markt_kern_wege_2": "Weg vendor: Fälle 0 · Treffer - · mittlerer Fehler - · lernt",
+ "markt_netz": "an",
+ "markt_wellen": "5-25 offen (10 Tage, Index 1.99) | 26-35 offen (10 Tage, Index 1.03) | 36-45 offen (10 Tage, Index 0.85) | 46-55 durch (10 Tage, Index 1.15) | 56-60 durch (10 Tage, Index 0.87)",
+ "markt_zeilen": "Heute 7 | Mein Lager 20 | Flippen 18 | Händler 0 | Lücken 20 | Überfüllt 20 | Trends 20 | Entzaubern 0",
+ "nicht_automatisiert": "3",
+ "prognose_brier": "0.414 (239)",
+ "prognose_dauer": "0.12 (111)",
+ "prognose_de_faktoren": "2:1:a Chance 1.01 × Menge 1.01 × Rest (Preis u. a.) 0.99 = 1.01 | 2:3:a Chance 0.93 × Menge 1.01 × Rest (Preis u. a.) 1.09 = 1.03 | 2:4:a Chance 1.01 × Menge 1.01 × Rest (Preis u. a.) 0.95 = 0.97 | 2:5:a Chance 1.03 × Menge 1.13 × Rest (Preis u. a.) 0.87 = 1.02",
+ "prognose_de_faktoren_2": "2:6:a Chance 1.01 × Menge 1.01 × Rest (Preis u. a.) 0.98 = 1.00",
+ "prognose_doppel": "0",
+ "prognose_entzaubern": "2:1:a 1.01 (752), 2:3:a 1.03 (68), 2:4:a 0.97 (1306), 2:5:a 1.02 (34), 2:6:a 1.00 (347)",
+ "prognose_erloes": "1.00 (120)",
+ "prognose_faelle": "3000/2883/4",
+ "prognose_kauf": "Einstellen/Flip: 11, mit Gewinn 18 %, Gewinn je Gold -0.00 · Entzaubern: 1480, mit Gewinn 33 %, Gewinn je Gold 0.28",
+ "prognose_ketten": "127/81/1.00/0.99",
+ "prognose_klasse80": "0/34",
+ "prognose_m1": "ReplicateItems,GetNumReplicateItems,GetReplicateItemInfo,GetReplicateItemTimeLeft",
+ "prognose_m2": "Ware auctionID:n,containsAccountItem:b,containsOwnerItem:b,itemID:n,numOwnerItems:n,owners,quantity:n,timeLeftSeconds:n,totalNumberOfOwners:n,unitPrice:n",
+ "prognose_m2_2": "Ausrüstung auctionID:n,buyoutAmount:n,containsAccountItem:b,containsOwnerItem:b,containsSocketedItem:b,itemKey:t,itemLink:s,owners,quantity:n,timeLeft:n,totalNumberOfOwners:n",
+ "prognose_p_diagnose": "11139 100% 3/0 0.00 (Ablauf (Briefkasten, nichts verkauft)) | 11135 100% 7/0 0.00 (Ablauf (Briefkasten, nichts verkauft)) | 11137 44% 36/0 0.00 (Ablauf (Briefkasten, nichts verkauft)) | 10998 58% 3/0 0.00 (Ablauf (Briefkasten, nichts verkauft))",
+ "prognose_p_diagnose_2": "11083 35% 11/0 0.00 (Ablauf (Briefkasten, nichts verkauft)) | 11135 35% 3/3 1.00 (Rechnung/Meldung (alles verkauft), inv) | 10940 58% 68/0 0.00 (Ablauf (Briefkasten, nichts verkauft)) | 11137 38% 17/17 1.00 (Rechnung/Meldung (alles verkauft), inv)",
+ "prognose_p_diagnose_3": "10998 58% 6/0 0.00 (Ablauf (Briefkasten, nichts verkauft)) | 10938 64% 2/2 1.00 (Rechnung/Meldung (alle",
+ "prognose_pr1": "abgebrochen 17/unterboten 0 · neu 44 % (239) · alt 41 % (256)",
+ "prognose_pr2": "108/55/68/44",
+ "prognose_preisstufe": "≤ 0,90: verkauft 34 % (N 33) | 0,90–0,97: verkauft 38 % (N 38) | 0,97–1,03: verkauft 58 % (N 90) | 1,03–1,10: verkauft 32 % (N 17) | > 1,10: verkauft 51 % (N 61)",
+ "prognose_speicher_kb": "215",
+ "prognose_zuverlaessigkeit": "0–20 %: 7 Fälle, vorhergesagt Ø 11 %, verkauft 86 % | 20–40 %: 39 Fälle, vorhergesagt Ø 33 %, verkauft 72 % | 40–60 %: 52 Fälle, vorhergesagt Ø 51 %, verkauft 44 % | 60–80 %: 58 Fälle, vorhergesagt Ø 67 %, verkauft 52 %",
+ "prognose_zuverlaessigkeit_2": "80–100 %: 83 Fälle, vorhergesagt Ø 97 %, verkauft 33 %",
+ "results": [
+  {
+   "bereich": "B",
+   "ergebnis": "v0.65.387, Interface 16001, modernes AH, Sprache deDE",
+   "id": "S01",
+   "ms": "0.0",
+   "name": "Grundlagen: Version und Client",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "S02",
+   "ms": "0.0",
+   "name": "Grundlagen: Auktionshaus offen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "S03",
+   "ms": "0.0",
+   "name": "Grundlagen: Server-Funktionen vorhanden",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 % beim Verkauf, Einzahlung zurück (dieser Client: WoW Forever)",
+   "id": "S04",
+   "ms": "0.0",
+   "name": "Grundlagen: AH-Gebühr WoW Forever",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja",
+   "id": "S05",
+   "ms": "0.0",
+   "name": "Grundlagen: Spielversion (GoldSentinelGame)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T20",
+   "ms": "0.0",
+   "name": "Scan: Markt-Scan",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "7487 Items, 7307 mit Marktwert, 18 auffällig billig (werden ausgeblendet)",
+   "id": "T21",
+   "ms": "0.0",
+   "name": "Scan: Marktdaten plausibel",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "S08",
+   "ms": "0.0",
+   "name": "Oberfläche: Fenster öffnen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T25a",
+   "ms": "0.0",
+   "name": "Oberfläche: Reiter Übersicht",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T25b",
+   "ms": "0.0",
+   "name": "Oberfläche: Reiter Kaufen -> Einkauf",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T25c",
+   "ms": "0.0",
+   "name": "Oberfläche: Reiter Kaufen -> Sniper",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T25d",
+   "ms": "0.0",
+   "name": "Oberfläche: Reiter Kaufen -> Wächter",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T25e",
+   "ms": "0.0",
+   "name": "Oberfläche: Reiter Kaufen -> Schnäppchen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T25f",
+   "ms": "0.0",
+   "name": "Oberfläche: Reiter Verkaufen -> Einstellen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T25g",
+   "ms": "0.0",
+   "name": "Oberfläche: Reiter Verkaufen -> Meine Auktionen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T25h",
+   "ms": "0.0",
+   "name": "Oberfläche: Reiter Markt -> Markt",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T25i",
+   "ms": "0.0",
+   "name": "Oberfläche: Reiter Markt -> Watchlist",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T25j",
+   "ms": "0.0",
+   "name": "Oberfläche: Reiter Buchhaltung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Thoriumpfeile",
+   "id": "T26a",
+   "ms": "0.0",
+   "name": "Oberfläche: Preisverlauf-Fenster",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T26b",
+   "ms": "0.0",
+   "name": "Oberfläche: Optionen, Hilfe, Einkaufslisten",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "18 Wechsel ohne Fehler, zurück auf Automatisch (Deutsch). Fehlende Item-Namen: enUS 15/200, frFR 15/200, esES 15/200, esMX 15/200, ptBR 15/200, itIT 200/200, ruRU 15/200, koKR 15/200, zhCN 15/200, zhTW 15/200",
+   "id": "T112",
+   "ms": "0.0",
+   "name": "Oberfläche: Sprachwechsel (alle Sprachen, mehrfach)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "S22",
+   "ms": "0.0",
+   "name": "Oberfläche: Knopf an der Minikarte",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "7487 Einträge",
+   "id": "S23",
+   "ms": "0.0",
+   "name": "Auswertungen: Marktliste",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Thoriumpfeile",
+   "id": "T15",
+   "ms": "0.0",
+   "name": "Auswertungen: Suche nach Namen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "55 Funde",
+   "id": "S25",
+   "ms": "0.0",
+   "name": "Auswertungen: Unter Händlerpreis",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0 Funde",
+   "id": "S26",
+   "ms": "0.0",
+   "name": "Auswertungen: Unter Entzauberwert",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0 Markt-Zeilen geprüft",
+   "id": "S27",
+   "ms": "0.0",
+   "name": "Auswertungen: Plausibilität (Ü3)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "20 Items geprüft, je Weg eine Zahl (Entzauber-Anzeigen = Entzauber-Grenze, API = bester Weg)",
+   "id": "S28",
+   "ms": "0.0",
+   "name": "Auswertungen: Ein \"Lohnt bis\" je Item (RK2-A)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "75/20/5, 20 geteilte übernommen, Staub jetzt 78.3 %",
+   "id": "S29",
+   "ms": "0.0",
+   "name": "Auswertungen: Entzaubern: Startwerte und Teilen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0 Funde",
+   "id": "S30",
+   "ms": "0.0",
+   "name": "Auswertungen: Gebote",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "29 Funde",
+   "id": "S31",
+   "ms": "0.0",
+   "name": "Auswertungen: Flips",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "67 Items, 19g 47s 30c",
+   "id": "T60",
+   "ms": "0.0",
+   "name": "Auswertungen: Vermögen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Gestern: nichts gebucht   |   7 Tage: +13 99 61   |   Gold: 47 3 68 (+47 3 68 seit gestern)",
+   "id": "S33",
+   "ms": "0.0",
+   "name": "Auswertungen: Tagesbilanz",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "353 Verkäufe, 91 Items in der Statistik",
+   "id": "S34",
+   "ms": "0.0",
+   "name": "Auswertungen: Buchhaltung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0 Items, 0c",
+   "id": "S35",
+   "ms": "0.0",
+   "name": "Auswertungen: Händler-Verkauf (nur Liste)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Taschen-Item Fraktionsbanner: 11 Zeilen (Weg: TooltipDataProcessor+Set*)",
+   "id": "T73",
+   "ms": "0.0",
+   "name": "Auswertungen: Tooltip",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "7487 Items: 6008 sicher, 984 unsicher (Mondpreise/selten), 50 vollständige Scans",
+   "id": "T14",
+   "ms": "0.0",
+   "name": "Auswertungen: Verkaufbarkeit",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "7 Vorschläge, zusammen ca. 3g 97s 57c, Kapital 3g 39s 53c von 47g 3s 68c",
+   "id": "T72",
+   "ms": "0.0",
+   "name": "Auswertungen: Heute tun",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "S40",
+   "ms": "0.0",
+   "name": "Server: Kein Scan im Hintergrund",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T32",
+   "ms": "0.0",
+   "name": "Server: Einkauf: Kategorie-Suche",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T33",
+   "ms": "0.0",
+   "name": "Server: Einkauf: Angebote eines Items",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Fraktionsbanner: 18 Angebote, Vorschlag 99c (0.8 Sek.)",
+   "id": "T48",
+   "ms": "0.0",
+   "name": "Server: Verkaufen: Preisprüfung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Thoriumpfeile: 6 Angebote gelesen (günstigstes 31c je Stück, Max 30c je Stück), kein Treffer (1.1 Sek.)",
+   "id": "T40",
+   "ms": "0.0",
+   "name": "Server: Sniper: Suche (kauft nichts)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Runde fertig in 4.6 Sek., 3 Schnäppchen gefunden",
+   "id": "T45",
+   "ms": "0.0",
+   "name": "Server: Wächter: eine Runde (kauft nichts)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0 eigene Auktionen",
+   "id": "T51",
+   "ms": "0.0",
+   "name": "Server: Eigene Auktionen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Kaufen/Einstellen gesperrt, Server-Befehle werden nur protokolliert",
+   "id": "S47",
+   "ms": "0.0",
+   "name": "Handel (simuliert): Schutz aktiv",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Abgenutzte Drachenschuppe: 33 Angebote (Ware)",
+   "id": "S48",
+   "ms": "0.0",
+   "name": "Handel (simuliert): Angebote laden",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "würde 1x Abgenutzte Drachenschuppe kaufen (Preisanfrage abgefangen)",
+   "id": "T35",
+   "ms": "0.0",
+   "name": "Handel (simuliert): Sofortkauf",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "grund": "Waren haben keine Gebote",
+   "id": "T36",
+   "name": "Handel (simuliert): Gebot",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "würde 1x Abgenutzte Drachenschuppe für 4s 95c kaufen (abgefangen, 3.7 Sek.)",
+   "id": "T41",
+   "ms": "0.0",
+   "name": "Handel (simuliert): Sniper-Kauf",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "würde 1x Fraktionsbanner für 99c einstellen (abgefangen)",
+   "id": "T49",
+   "ms": "0.0",
+   "name": "Handel (simuliert): Einstellen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "würde 1x Abgenutzte Drachenschuppe abbrechen (abgefangen, fiktive Auktion)",
+   "id": "T51b",
+   "ms": "0.0",
+   "name": "Handel (simuliert): Abbrechen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 Befehle abgefangen, Gold unverändert",
+   "id": "S54",
+   "ms": "0.0",
+   "name": "Handel (simuliert): Nichts wirklich ausgeführt",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "grund": "Einbindung in den Optionen aus",
+   "id": "T27",
+   "name": "Einbindung ins Auktionshaus",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Start true, Preis da true, Bestätigt true (nur Protokoll)",
+   "id": "T37",
+   "ms": "0.0",
+   "name": "Warenkauf simuliert",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Bestätigen 0, Kauf/Gebot 0, Vorab-Reservierungen 0",
+   "id": "T42",
+   "ms": "0.0",
+   "name": "Sniper-Vorab-Reservierung kauft nie ohne Klick",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0 Einstell-Befehle nur im Protokoll, Serie beendet",
+   "id": "T50",
+   "ms": "0.0",
+   "name": "Serie einstellen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Status liegen, Abbrechen-Versuche 0 (-) · fest: 10g gegen 5g unterboten, 1c Abstand liegen",
+   "id": "T52",
+   "ms": "0.0",
+   "name": "Unterboten",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "mittlere der 3 längsten Portionen 9.5 ms (längste 16.2 ms, höchstens 16) · names 16 ms bis Ende names, ui:overview-movers 10 ms, forecast-eval 9 ms in 515 Frames · über 8 ms: 4, davon mit Speicherbereinigung 2",
+   "erwartet": "<= 8 ms, längste <= 16 ms",
+   "id": "T126",
+   "ms": "0.0",
+   "name": "Scan-Auswertung in Portionen",
+   "status": "FEHLER"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "7 Schritte, längste Lücke 707 ms (Einlesen)",
+   "id": "T410",
+   "ms": "0.0",
+   "name": "T-VM1 Vollscan-Messung: alle Schritte mit ms und längste Lücke",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "längste Lücke 707 ms",
+   "id": "T411",
+   "ms": "0.0",
+   "name": "T-VM2 Vollscan: kein Schritt und keine Lücke über 1 s",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "längste eigene Arbeit je Bild 7 ms (Nachlauf) · Takt: 2414 Bilder · längstes 6.1 ms (cache:itemlist) · über 5/16/40 ms: 93/0/0 · Abgabe nicht möglich 0 (TestRoutine.lua:10770) · gescheitert 0 · Frames über 33 ms 1790 von 2761 · längstes ganzes Bild 707 ms (Einlesen; eigene Arbeit 2 ms, …",
+   "id": "T458",
+   "ms": "0.0",
+   "name": "T-VF1 Vollscan ruckelfrei: eigene Arbeit je Bild in keinem Schritt über 16 ms (Ziel ≤ Budget); fremde Zeit als Hinwei…",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "707 ms im Schritt Einlesen · eigene Arbeit 2 ms · Rest 705 ms (Spiel/andere Addons) · Speicher je Addon seit Scan-Beginn: GSMesstest +3 · LevelPilot_Data +0 · ProfessionSentinel +0 · RaidMaster -1 · ThreatSentinel -13 · ohne Addon (Spiel/Blizzard) -21914 KB · Rechenzeit je Addon: nur mit sc…",
+   "id": "T914",
+   "ms": "0.0",
+   "name": "VS-WER: längstes ganzes Bild im Vollscan – eigene Arbeit, Rest (Spiel/andere Addons), Speicher je Addon",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "3. Vollscan der Sitzung · angelegt 23214 KB ohne gelesene Auktionen (gelesen 17033 KB) · Bilder über 40 ms mit Bereinigung 1 · Bereinigungen 37 · eigener neuer Speicher 40247 KB · je Aufgabe fullscan 39650 · cache:itemlist 197 · ausserhalb von Aufgaben 400 · je Schritt Einlesen 19390 · Ver…",
+   "erwartet": "≤ 10240 KB · 0 Bilder über 40 ms mit Bereinigung",
+   "id": "T459",
+   "ms": "0.0",
+   "name": "T-VF2 Vollscan-Speicher: angelegt ohne gelesene Auktionen ≤ 30 MB (erster Scan der Sitzung) bzw. ≤ 10 MB (ab dem zwe…",
+   "status": "FEHLER"
+  },
+  {
+   "bereich": "D",
+   "grund": "nur im alten Client (Classic Era, TBC)",
+   "id": "T98",
+   "name": "Server-Wege altes AH",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "15 Namen geprüft, alle sicher und unverändert",
+   "id": "T899",
+   "ms": "0.0",
+   "name": "TAINT-1: wichtige Blizzard-Globale nach dem Lauf unverdorben (issecurevariable) und unverändert – die Testroutine bes…",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "707 ms (bei T126; eigene Arbeit 2 ms (Testroutine 0, Aufgaben 2), Rest 705 ms Spiel/Umgebung)",
+   "id": "T722",
+   "ms": "0.0",
+   "name": "T-TB168-9 längstes Bild während der Testroutine (Messung, Ziel ≤ 16 ms; Hinweis vorher im Chat)",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "5 Einträge, unverändert",
+   "id": "T913",
+   "ms": "0.0",
+   "name": "SYNC-BUCH: gemeinsames Adressbuch von GoldSentinelSync nach dem Lauf genau wie vorher (keine Testnamen, kein geändertes…",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "keine doppelten IDs",
+   "id": "T174",
+   "ms": "0.0",
+   "name": "Testfall-IDs eindeutig",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "gesperrte Scan-Starts 0",
+   "id": "T766",
+   "ms": "0.0",
+   "name": "TB188-7 echte Markt-/Vollscans während der Testroutine gesperrt (Anzahl gesperrter Starts)",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "7 Befehle nur protokolliert, echte Aktionen: Warteschlange leer",
+   "id": "T157",
+   "ms": "0.0",
+   "name": "Nichts wirklich ausgeführt (Gold, Post, Händler, Sync, Kanal)",
+   "status": "OK"
+  }
+ ],
+ "sandbox": "OK",
+ "schritte_16": "4 Schritte über 16 ms: T126 108, T32 57, S28 45, T26a 43",
+ "sk1_a": "0/0/0",
+ "sk1_b": "0/0/0",
+ "sk1_c": "0/0/0",
+ "sk1_d": "0/0/0",
+ "sk1_e": "10/3/7",
+ "sk1_f": "7/7/0",
+ "sk1_g": "0/0/0",
+ "sk1_h": "0/0/0",
+ "sk1_i": "1/1/0",
+ "sk1_j": "0/0/0",
+ "sk1_k": "0/0/0",
+ "sk1_m": "0/0/0",
+ "sk1_n": "276/191/85",
+ "sk1_o": "0/0/0",
+ "sk1_p": "0/0/0",
+ "sk1_q": "0/0/0",
+ "sk1_r": "4/4/0",
+ "speicher_kb": "1713",
+ "sync_queue": "leer",
+ "teil": "server",
+ "testort": "Undercity / Die Kanäle · Namensplaketten in Sicht 0 · Ping 19/18 ms · 29 Bilder/s",
+ "time": 1795502927,
+ "version": "0.65.387",
+ "vollscan_abbruch": "0.45 (14/31)",
+ "vollscan_abbruch_echt": "-",
+ "vollscan_absatz": "862/1248",
+ "vollscan_addon_kb": "-",
+ "vollscan_bild": "1790 Bilder über 33 ms: eigene Arbeit Ø 1.9 ms (höchstens 7) · Rest Ø 32.9 ms (Spiel/andere Addons) · Item-Antworten 10129 · mit Bereinigung 20",
+ "vollscan_fps": "Warten auf Server Ø 30 / min 30 | Ereignis-Aufruf Ø 30 / min 30 | Einlesen Ø 29 / min 26 | Verdichtung Ø 30 / min 30 | Verfolgung V4 Ø 30 / min 30 | Preisverlauf+Neuaufbau Ø 30 / min 29 | Nachlauf Ø 29 / min 29",
+ "vollscan_haenger": "keiner > 1 s",
+ "vollscan_luecke": "707 ms (Einlesen) · Speicherbereinigung nein · Ereignis keins (> 16 ms) · Aufgaben 2 ms (fullscan, 0 Schritte) · Bild: eigene Arbeit 2 ms (Aufgaben 2, davon Lesen beim Server 1.2, Ereignisse 0 in 332 Aufrufen, Skripte/Zeitgeber 0) · Rest 705 ms (Spiel/andere Addons) · Item-",
+ "vollscan_luecke_2": "Antworten 0 · Speicher 792878 -> 898706 KB (+105828, davon eigener 21 KB) · danach bereinigt 0 KB · Speicher je Addon seit Scan-Beginn: GSMesstest +3 · LevelPilot_Data +0 · ProfessionSentinel +0 · RaidMaster -1 · ThreatSentinel -13 · ohne Addon (Spiel/Blizzard) -21914 KB ",
+ "vollscan_luecke_3": "(Messung 197 ms, nicht gezählt)",
+ "vollscan_m1b": "Stufe 1: 0.4–0.4 Std. (1) | Stufe 2: 0.6–2.0 Std. (40) | Stufe 3: 0.0–2.0 Std. (42) | Stufe 4: 1.7–1.7 Std. (1)",
+ "vollscan_m1c": "1119 Min.→neue Liste (211240, 12.3s) | 41 Min.→neue Liste (197617, 11.9s) | 89 Min.→neue Liste (187862, 12.4s) | 264 Min.→neue Liste (237307, 13.5s) | 344 Min.→neue Liste (313621, 21.9s) | 181 Min.→neue Liste (344330, 25.1s) | 15 Min.→neue Liste (345365, 23.9s)",
+ "vollscan_m1c_2": "442 Min.→neue Liste (258174, 13.5s) | 28 Min.→neue Liste (246431, 12.7s) | 55 Min.→neue Liste (224773, 11.8s) | 15 M",
+ "vollscan_m1d": "202165;202157;1984;1.6;1752;6903;17032;0",
+ "vollscan_messung": "Warten auf Server 11716/90 | Ereignis-Aufruf 0/1 | Einlesen 59614/707 | Verdichtung 410/38 | Verfolgung V4 9334/38 | Preisverlauf+Neuaufbau 2614/67 | Nachlauf 0/39",
+ "vollscan_neu": "Einlesen 167044 · Verdichtung 31551 · Preisverlauf+Neuaufbau 27960 · Verfolgung V4 10395 · Warten auf Server 8381 (37 Bilder mit Bereinigung nicht zählbar)",
+ "vollscan_speicher": "806003->999633 KB, GC 37",
+ "vollscan_ueber33": "1790/2761",
+ "zeitpunkt_items": "7388",
+ "zeitpunkt_quote": "buy 56 % (36) AUS / wait - (0) / sell 76 % (50) / notnow 58 % (45) AUS"
+}

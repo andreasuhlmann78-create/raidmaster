@@ -1,0 +1,41 @@
+{
+ "addon": "ThreatSentinel",
+ "counts": {
+  "client": 0,
+  "fehler": 0,
+  "ok": 1,
+  "uebersprungen": 0
+ },
+ "dur_ms": 0,
+ "env": {
+  "build": "71037",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 10,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [],
+ "f": 1,
+ "fenster": "AuctionHouseFrame",
+ "id": "ThreatSentinel-1795501893-40da84-1",
+ "kind": "test",
+ "lauf": "2.5.26 2026-11-23 15:37",
+ "nachgeholt": "T186",
+ "results": [
+  {
+   "bereich": "K",
+   "ergebnis": "keine · geprüft 4",
+   "id": "T186",
+   "ms": "0.0",
+   "name": "Oberfläche mit offenen Blizzard-Fenstern (nachgeholt bei AuctionHouseFrame)",
+   "status": "OK"
+  }
+ ],
+ "time": 1795501893,
+ "version": "2.5.26"
+}
