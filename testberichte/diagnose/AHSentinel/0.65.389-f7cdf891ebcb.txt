@@ -1,0 +1,239 @@
+AHSentinel-Protokoll v0.65.389 · 24.11. 14:01:46
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  24.11. 13:58:44 L10 PRIEST v0.65.389
+  24.11. 13:57:27 L10 PRIEST v0.65.389
+  24.11. 13:51:52 L10 PRIEST v0.65.389
+  24.11. 13:46:38 L10 PRIEST v0.65.389
+  24.11. 13:44:28 L10 PRIEST v0.65.389
+  24.11. 13:39:28 L10 PRIEST v0.65.389
+  24.11. 13:27:55 L10 PRIEST v0.65.389
+  24.11. 13:04:14 L10 PRIEST v0.65.389
+  24.11. 13:03:42 L30 WARRIOR v0.65.389
+  24.11. 12:49:26 L30 WARRIOR v0.65.389
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 38 Min., 7497 Items, Preis-Sync an
+  SYNC GoldSentinelSync 3 · Wege: keiner · Mitspieler (1 Std.): AHSentinel 0, BuffSentinel 0, GoldSentinelMarkt 0, GoldSentinelTest 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0, ThreatSentinel 0
+  SYNC gesendet 22 · empfangen 0 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 4 (mit Sync 2: 4, pausiert 1) · gesendet 2 · weitergegeben 0 · offline 1 · Listen 2 · Warteschlange 0 · gespeichert ja · im Test angehalten 0
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Sniper-Takt (SN-T2): 299 Suchen · Abstand Median 0.73 s, Min 0.70 s, Max 498.22 s
+    Zeitraum 22.11. 09:12–09:47 · minimiert/Hintergrund (unter 15 Bilder/s): 0 % (0 von 2)
+    Server nicht bereit: Median 0.50 s, Min 0.00 s, Max 46.80 s je Suche
+    eigene Bremse/Abstand: Median 0.00 s, Min 0.00 s, Max 2.00 s je Suche
+    Antwort des Servers: Median 0.20 s, Min 0.10 s, Max 0.60 s je Suche
+    Treffer-Halt: Median 0.00 s, Min 0.00 s, Max 3.31 s je Suche
+    andere Arbeit: Median 0.00 s, Min 0.00 s, Max 449.32 s je Suche
+    bereit (Tick): Median 0.00 s, Min 0.00 s, Max 26.24 s je Suche
+    Suchen je Ziel: i:11986 87 (29 %) · i:5966 106 (35 %) · i:7058 105 (35 %) · w:15415 1 (0 %) · w:5471 1 (0 %)
+  Sync-Abweichungen (S6): 87 Fälle, Markt-Tag fremd 0 (alte Version / anderer Markt)
+    7 Tage je Ursache (vollständig): stapel 1, bewegt 4, unbekannt 82
+    Stapel- statt Stückpreis: 1 – Item 15733 eigen 3499/fremd 49999 (Alter 111/4 Min., g, Voll, Menge 17)
+    Markt hat sich bewegt (Zeitabstand > 6 Std.): 4 – Item 260793 eigen 650/fremd 1500 (Alter 1363/3 Min., g, Voll, Menge 118); Item 2980 eigen 895/fremd 1800 (Alter 1364/4 Min., g, Voll, Menge 8); Item 5363 eigen 400/fremd 9999 (Alter 1364/4 Min., g, Voll, Menge 1); Item 6304 eigen 100/fremd 1000 (Alter 1364/4 Min., g, Voll, Menge 1)
+    unbekannt: 82 – Item 2589 eigen 41/fremd 19 (Alter 108/0 Min., g, Voll, Menge 25480); Item 3464 eigen 25/fremd 10 (Alter 108/0 Min., g, Voll, Menge 10784); Item 17056 eigen 1695/fremd 100 (Alter 108/0 Min., g, Voll, Menge 5474); Item 2862 eigen 24/fremd 8 (Alter 108/0 Min., g, Voll, Menge 5001); Item 249391 eigen 2754/fremd 900 (Alter 108/0 Min., g, Voll, Menge 4789)
+  Einstellungen geändert: cmdHint=true, fastScan=true, helpSeen=true, learnExplore=false, marketExpert=false, minimapAngle=199, priceGuard=20, psHintHidden=true, sniperSignal=true, theme=modern, tooltipDEDetail=true, vendorButton=false, vendorFlipMin=500, vsBudget=2
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0
+
+== Einträge (200, neueste zuerst)
+[24.11. 13:59:45] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[24.11. 13:59:00] ITEMINFO neue Item-Anfragen 200 (zurückgestellt 0) · je Aufgabe: cache:warm 10, cache:warm-today 190
+[24.11. 13:58:50] SYNC Weg=GUILD
+[24.11. 13:58:46] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[24.11. 13:58:46] ABSATZ-UNPLAUSIBEL Item 4359 · 1864.4/Tag · Quelle gemessen
+[24.11. 13:58:46] ABSATZ-UNPLAUSIBEL Item 248703 · 124.7/Tag · Quelle geschätzt
+[24.11. 13:58:46] ABSATZ-UNPLAUSIBEL Item 250947 · 646.1/Tag · Quelle geschätzt
+[24.11. 13:58:46] ABSATZ-UNPLAUSIBEL Item 10046 · 32.4/Tag · Quelle geschätzt
+[24.11. 13:58:46] ABSATZ-UNPLAUSIBEL Item 2776 · 942.9/Tag · Quelle geschätzt
+[24.11. 13:58:46] ABSATZ-UNPLAUSIBEL Item 3859 · 1697.4/Tag · Quelle geschätzt
+[24.11. 13:58:46] ABSATZ-UNPLAUSIBEL Item 16083 · 81.8/Tag · Quelle gemessen
+[24.11. 13:58:45] ABSATZ-UNPLAUSIBEL Item 279968 · 1322.7/Tag · Quelle gemessen
+[24.11. 13:58:10] ABSATZ Item 118 · Q 2981 (scan, Q gesamt) · S 443.3 (measured) · S roh 443.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 6.7 · N 7.0
+[24.11. 13:57:43] ITEMINFO neue Item-Anfragen 200 (zurückgestellt 0) · je Aufgabe: cache:warm 17, cache:warm-today 183
+[24.11. 13:57:32] SYNC Weg=GUILD
+[24.11. 13:57:30] LANGSAM Hintergrund-Aufgabe pd7:load · 25 Schritte · längster Schritt 11 ms bis Ende pd7:load · 16 ms
+[24.11. 13:57:30] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[24.11. 13:57:30] ABSATZ-UNPLAUSIBEL Item 10046 · 32.4/Tag · Quelle geschätzt
+[24.11. 13:57:30] ABSATZ-UNPLAUSIBEL Item 250947 · 646.1/Tag · Quelle geschätzt
+[24.11. 13:57:30] ABSATZ-UNPLAUSIBEL Item 248703 · 124.7/Tag · Quelle geschätzt
+[24.11. 13:57:30] ABSATZ-UNPLAUSIBEL Item 4359 · 1864.4/Tag · Quelle gemessen
+[24.11. 13:57:30] ABSATZ-UNPLAUSIBEL Item 2776 · 942.9/Tag · Quelle geschätzt
+[24.11. 13:57:29] ABSATZ-UNPLAUSIBEL Item 3859 · 1697.4/Tag · Quelle geschätzt
+[24.11. 13:57:29] ABSATZ-UNPLAUSIBEL Item 16083 · 81.8/Tag · Quelle gemessen
+[24.11. 13:57:29] ABSATZ-UNPLAUSIBEL Item 279968 · 1322.7/Tag · Quelle gemessen
+[24.11. 13:52:52] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[24.11. 13:52:07] ITEMINFO neue Item-Anfragen 200 (zurückgestellt 0) · je Aufgabe: cache:warm 27, cache:warm-today 172, names 1
+[24.11. 13:51:57] SYNC Weg=GUILD
+[24.11. 13:51:54] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[24.11. 13:51:53] ABSATZ-UNPLAUSIBEL Item 4359 · 1864.4/Tag · Quelle gemessen
+[24.11. 13:51:53] ABSATZ-UNPLAUSIBEL Item 248703 · 124.7/Tag · Quelle geschätzt
+[24.11. 13:51:53] ABSATZ-UNPLAUSIBEL Item 250947 · 646.1/Tag · Quelle geschätzt
+[24.11. 13:51:53] ABSATZ-UNPLAUSIBEL Item 10046 · 32.4/Tag · Quelle geschätzt
+[24.11. 13:51:53] ABSATZ-UNPLAUSIBEL Item 2776 · 942.9/Tag · Quelle geschätzt
+[24.11. 13:51:53] ABSATZ-UNPLAUSIBEL Item 3859 · 1697.4/Tag · Quelle geschätzt
+[24.11. 13:51:53] ABSATZ-UNPLAUSIBEL Item 16083 · 81.8/Tag · Quelle gemessen
+[24.11. 13:51:52] ABSATZ-UNPLAUSIBEL Item 279968 · 1322.7/Tag · Quelle gemessen
+[24.11. 13:51:05] ITEMINFO neue Item-Anfragen 2883 (zurückgestellt 17067) · je Aufgabe: act:report:30 16, cache:warm 29, cache:warm-today 200, de:deals 596, forecast-eval 987, hist:flat 200, names 1, pd7 854
+[24.11. 13:50:00] ITEMINFO neue Item-Anfragen 2126 (zurückgestellt 6289) · je Aufgabe: act:report:30 16, cache:warm 29, cache:warm-today 200, forecast-eval 826, hist:flat 200, names 1, pd7 854
+[24.11. 13:49:54] ABSATZ Item 279948 · Q 95 (scan, Q gesamt) · S 8.0 (market, gelernt) · S roh 26.8 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 8.4 · N 7.0 · kaum
+[24.11. 13:49:50] ABSATZ Item 1710 · Q 1143 (scan, Q gesamt) · S 67.0 (measured) · S roh 67.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 17.1 · N 7.0 · kaum
+[24.11. 13:49:47] ABSATZ-UNPLAUSIBEL Item 250334 · 130.8/Tag · Quelle geschätzt
+[24.11. 13:49:47] ABSATZ-UNPLAUSIBEL Item 250339 · 183.2/Tag · Quelle geschätzt
+[24.11. 13:49:44] ABSATZ Item 6290 · Q 1033 (scan, Q gesamt) · S 1033.0 (measured, unsicher) · S roh 1033.0 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.7 · N 1.0
+[24.11. 13:49:38] ABSATZ-UNPLAUSIBEL Item 3849 · 6.4/Tag · Quelle geschätzt
+[24.11. 13:49:38] ABSATZ-UNPLAUSIBEL Item 250483 · 11.3/Tag · Quelle geschätzt
+[24.11. 13:49:37] ENTZAUBERWERT Item 2864 · Tabelle · 10940 87% × 2.47 à 139, 10939 11% × 1.50 à 673, 10978 3% × 1.00 à 475 · brutto 431 · netto 409
+[24.11. 13:49:37] ABSATZ Item 2864 · Q 8 (scan, Q gesamt) · S 5.9 (market, gelernt) · S roh 10.9 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.5 · N 7.0
+[24.11. 13:49:34] ABSATZ-UNPLAUSIBEL Item 260805 · 27.7/Tag · Quelle geschätzt
+[24.11. 13:49:34] ABSATZ-UNPLAUSIBEL Item 10514 · 107.8/Tag · Quelle geschätzt
+[24.11. 13:49:30] ABSATZ-UNPLAUSIBEL Item 9210 · 174.2/Tag · Quelle geschätzt
+[24.11. 13:49:10] ABSATZ Item 279952 · Q 201 (scan, Q gesamt) · S 4.4 (market, gelernt) · S roh 21.4 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 45.6 · N 7.0 · kaum
+[24.11. 13:49:10] ABSATZ Item 273122 · Q 10 (scan, Q gesamt) · S 0.9 (market, gelernt) · S roh 2.9 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 8.8 · N 7.0 · kaum
+[24.11. 13:49:10] ABSATZ Item 273097 · Q 3 (scan, Q gesamt) · S 2.2 (market, gelernt) · S roh 7.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.3 · N 7.0
+[24.11. 13:49:09] ENTZAUBERWERT Item 249392 · Tabelle · 11084 100% × 1.00 à 5265 · brutto 5452 · netto 5180
+[24.11. 13:49:09] ENTZAUBERWERT Item 249394 · Tabelle · 11084 100% × 1.00 à 5265 · brutto 5452 · netto 5180
+[24.11. 13:49:09] ENTZAUBERWERT Item 249395 · Tabelle · 11084 100% × 1.00 à 5265 · brutto 5452 · netto 5180
+[24.11. 13:49:09] DE-CHANCEN Gruppe 3:2 · Tabelle 11084 100% · echt 11084 100% (4)
+[24.11. 13:49:09] ENTZAUBERWERT Item 249396 · Tabelle · 10978 100% × 1.00 à 475 · brutto 492 · netto 467
+[24.11. 13:49:09] ENTZAUBERWERT Item 249398 · Tabelle · 10978 100% × 1.00 à 475 · brutto 492 · netto 467
+[24.11. 13:49:09] ENTZAUBERWERT Item 249397 · Tabelle · 10978 100% × 1.00 à 475 · brutto 492 · netto 467
+[24.11. 13:49:03] ABSATZ Item 11038 · Q 13 (scan, Q gesamt) · S 4.7 (market, gelernt) · S roh 15.6 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 2.1 · N 7.0
+[24.11. 13:49:03] ABSATZ Item 11098 · Q 13 (scan, Q gesamt) · S 2.3 (market, gelernt) · S roh 7.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 4.3 · N 7.0
+[24.11. 13:49:02] ABSATZ Item 6349 · Q 6 (scan, Q gesamt) · S 4.8 (market, gelernt) · S roh 16.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.0 · N 7.0
+[24.11. 13:49:02] ABSATZ Item 11081 · Q 3 (scan, Q gesamt) · S 3.8 (market, gelernt) · S roh 12.8 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.7 · N 7.0
+[24.11. 13:49:02] ABSATZ Item 6344 · Q 1 (scan, Q gesamt) · S ? (-, unsicher) · S roh - · Deckel - · eigene Quote - · Laufzeit 2 Std. · W ? · N 1.0
+[24.11. 13:49:02] ABSATZ-UNPLAUSIBEL Item 6344 · 15.8/Tag · Quelle geschätzt
+[24.11. 13:49:02] ABSATZ Item 20744 · Q 35 (vollscan) · S 50.3 (measured) · S roh 50.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.5 · N 7.0
+[24.11. 13:49:02] ABSATZ Item 20758 · Q 16 (scan, Q gesamt) · S 3.9 (market, gelernt) · S roh 13.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 3.0 · N 7.0
+[24.11. 13:49:02] ABSATZ Item 6347 · Q 11 (scan, Q gesamt) · S 2.8 (market, gelernt) · S roh 9.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 3.0 · N 7.0
+[24.11. 13:49:02] ABSATZ Item 6377 · Q 56 (scan, Q gesamt) · S 9.0 (market, gelernt) · S roh 30.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 4.4 · N 7.0
+[24.11. 13:49:02] ABSATZ Item 6342 · Q 27 (scan, Q gesamt) · S 3.3 (market, gelernt) · S roh 11.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 6.0 · N 7.0
+[24.11. 13:49:02] ABSATZ Item 6348 · Q 7 (vollscan) · S 3.4 (measured) · S roh 3.4 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.6 · N 7.0
+[24.11. 13:49:01] ABSATZ Item 248706 · Q 504 (scan, Q gesamt) · S 33.7 (measured) · S roh 33.7 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 15.0 · N 7.0 · kaum
+[24.11. 13:49:01] ABSATZ Item 248712 · Q 1 (vollscan) · S 34.3 (measured) · S roh 34.3 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.1 · N 1.0
+[24.11. 13:49:01] ABSATZ Item 248695 · Q 2 (vollscan) · S 20.1 (measured) · S roh 20.1 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.1 · N 1.0
+[24.11. 13:49:01] ABSATZ Item 248704 · Q 685 (scan, Q gesamt) · S 68.0 (measured) · S roh 68.0 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 10.1 · N 7.0 · kaum
+[24.11. 13:49:01] ABSATZ Item 248709 · Q 66 (vollscan) · S 52.9 (measured) · S roh 52.9 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 1.3 · N 2.0
+[24.11. 13:48:58] ABSATZ Item 255717 · Q 6 (scan, Q gesamt) · S 5.0 (market, gelernt) · S roh 16.7 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.0 · N 7.0
+[24.11. 13:48:58] ABSATZ Item 255724 · Q 6 (scan, Q gesamt) · S 1.0 (market, gelernt) · S roh 3.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 5.0 · N 7.0
+[24.11. 13:48:58] ABSATZ Item 255719 · Q 137 (scan, Q gesamt) · S 8.8 (market, gelernt) · S roh 29.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 11.0 · N 7.0 · kaum
+[24.11. 13:48:58] ABSATZ Item 255731 · Q 17 (scan, Q gesamt) · S 2.3 (market, gelernt) · S roh 7.7 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 5.5 · N 7.0
+[24.11. 13:48:58] ABSATZ Item 255722 · Q 85 (scan, Q gesamt) · S 5.8 (market, gelernt) · S roh 19.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 10.4 · N 7.0 · kaum
+[24.11. 13:48:58] ABSATZ Item 255730 · Q 39 (scan, Q gesamt) · S 3.9 (market, gelernt) · S roh 13.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 7.2 · N 7.0 · kaum
+[24.11. 13:48:58] ABSATZ Item 6453 · Q 427 (scan, Q gesamt) · S 39.4 (market, gelernt) · S roh 190.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 10.9 · N 7.0 · kaum
+[24.11. 13:48:58] ABSATZ Item 6454 · Q 51 (scan, Q gesamt) · S 3.5 (market, gelernt) · S roh 11.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 10.5 · N 7.0 · kaum
+[24.11. 13:48:58] ABSATZ Item 8544 · Q 1068 (scan, Q gesamt) · S 81.7 (market, gelernt) · S roh 394.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 13.1 · N 7.0 · kaum
+[24.11. 13:48:58] ABSATZ Item 16113 · Q 2 (vollscan) · S 60.0 (measured) · S roh 60.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.0 · N 1.0
+[24.11. 13:48:58] ABSATZ Item 6451 · Q 53 (vollscan) · S 44.2 (measured) · S roh 44.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.2 · N 7.0
+[24.11. 13:48:58] ABSATZ Item 16112 · Q 1 (vollscan) · S 41.0 (measured) · S roh 41.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.0 · N 1.0
+[24.11. 13:48:58] ABSATZ Item 255718 · Q 404 (scan, Q gesamt) · S 43.6 (market, gelernt) · S roh 145.8 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 6.5 · N 7.0
+[24.11. 13:48:58] ABSATZ Item 255727 · Q 85 (scan, Q gesamt) · S 7.2 (market, gelernt) · S roh 23.9 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 8.4 · N 7.0 · kaum
+[24.11. 13:48:58] ABSATZ Item 255715 · Q 167 (scan, Q gesamt) · S 70.7 (market, gelernt) · S roh 236.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.7 · N 7.0
+[24.11. 13:48:58] ABSATZ Item 255728 · Q 30 (scan, Q gesamt) · S 22.0 (measured) · S roh 22.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.0 · N 7.0
+[24.11. 13:48:58] ABSATZ Item 3928 · Q 83 (vollscan) · S 131.4 (measured) · S roh 131.4 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.6 · N 7.0
+[24.11. 13:48:58] ABSATZ Item 255725 · Q 30 (scan, Q gesamt) · S 30.0 (measured, unsicher) · S roh 30.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.7 · N 7.0
+[24.11. 13:48:58] ABSATZ Item 255723 · Q 59 (scan, Q gesamt) · S 19.0 (measured) · S roh 19.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 2.2 · N 7.0
+[24.11. 13:48:58] ITEMINFO neue Item-Anfragen 1249 (zurückgestellt 5601) · je Aufgabe: act:report:30 16, cache:warm 29, cache:warm-today 200, forecast-eval 60, hist:flat 200, names 1, pd7 743
+[24.11. 13:48:57] ABSATZ Item 250946 · Q 37 (scan, Q gesamt) · S 4.8 (market, gelernt) · S roh 23.1 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 7.9 · N 7.0 · kaum
+[24.11. 13:48:57] ABSATZ Item 250342 · Q 881 (scan, Q gesamt) · S 92.4 (market, gelernt) · S roh 446.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 9.5 · N 7.0 · kaum
+[24.11. 13:48:57] ABSATZ Item 250331 · Q 742 (scan, Q gesamt) · S 40.9 (market, gelernt) · S roh 197.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 18.2 · N 7.0 · kaum
+[24.11. 13:48:57] ABSATZ Item 250353 · Q 181 (scan, Q gesamt) · S 21.5 (market, gelernt) · S roh 103.6 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 8.5 · N 7.0 · kaum
+[24.11. 13:48:57] ABSATZ Item 250340 · Q 812 (scan, Q gesamt) · S 131.8 (market, gelernt) · S roh 636.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 6.2 · N 7.0
+[24.11. 13:48:57] ABSATZ Item 250345 · Q 69 (scan, Q gesamt) · S 43.1 (market, gelernt) · S roh 208.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.6 · N 7.0
+[24.11. 13:48:53] ABSATZ Item 249876 · Q 841 (scan, Q gesamt) · S 51.5 (market, gelernt) · S roh 172.2 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 11.4 · N 7.0 · kaum
+[24.11. 13:48:53] ABSATZ-UNPLAUSIBEL Item 8766 · 370.4/Tag · Quelle geschätzt
+[24.11. 13:48:53] ABSATZ Item 249875 · Q 137 (scan, Q gesamt) · S 35.0 (market, gelernt) · S roh 117.1 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 2.8 · N 3.0
+[24.11. 13:48:53] ABSATZ Item 249874 · Q 1001 (scan, Q gesamt) · S 82.7 (market, gelernt) · S roh 276.6 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 8.5 · N 7.0 · kaum
+[24.11. 13:48:53] ABSATZ Item 249873 · Q 502 (scan, Q gesamt) · S 74.4 (market, gelernt) · S roh 248.7 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 4.7 · N 5.0
+[24.11. 13:48:53] ABSATZ Item 249872 · Q 333 (scan, Q gesamt) · S 37.0 (market, gelernt) · S roh 123.7 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 6.3 · N 7.0
+[24.11. 13:48:53] ABSATZ Item 249871 · Q 613 (scan, Q gesamt) · S 41.9 (market, gelernt) · S roh 140.3 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 10.2 · N 7.0 · kaum
+[24.11. 13:48:48] ABSATZ Item 159 · Q 3779 (scan, Q gesamt) · S 398.1 (market, gelernt) · S roh 1331.2 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 6.6 · N 7.0
+[24.11. 13:48:48] ABSATZ Item 4470 · Q 214 (vollscan) · S 171.7 (measured) · S roh 171.7 · Deckel - · eigene Quote 2/3 · Laufzeit 2 Std. · W 1.3 · N 1.5
+[24.11. 13:48:47] ABSATZ Item 6890 · Q 147 (scan, Q gesamt) · S 125.5 (market, gelernt) · S roh 419.6 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.8 · N 7.0
+[24.11. 13:48:47] ABSATZ Item 6892 · Q 94 (scan, Q gesamt) · S 10.0 (measured) · S roh 10.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 6.7 · N 7.0
+[24.11. 13:48:47] ABSATZ Item 5473 · Q 1085 (scan, Q gesamt) · S 64.7 (market, gelernt) · S roh 216.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 11.8 · N 7.0 · kaum
+[24.11. 13:48:47] ABSATZ Item 5483 · Q 19 (vollscan) · S 25.1 (measured) · S roh 25.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.6 · N 7.0
+[24.11. 13:48:47] ABSATZ Item 5095 · Q 5255 (scan, Q gesamt) · S 256.2 (market, gelernt) · S roh 856.8 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 14.4 · N 7.0 · kaum
+[24.11. 13:48:47] ABSATZ Item 6368 · Q 11 (scan, Q gesamt) · S 6.7 (market, gelernt) · S roh 22.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.3 · N 7.0
+[24.11. 13:48:47] ABSATZ Item 5479 · Q 349 (scan, Q gesamt) · S 92.7 (market, gelernt) · S roh 310.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 2.6 · N 7.0
+[24.11. 13:48:47] ABSATZ Item 5488 · Q 58 (scan, Q gesamt) · S 4.7 (market, gelernt) · S roh 15.7 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 8.8 · N 7.0 · kaum
+[24.11. 13:48:47] ABSATZ Item 21072 · Q 387 (scan, Q gesamt) · S 187.8 (market, gelernt) · S roh 628.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.4 · N 7.0
+[24.11. 13:48:47] ABSATZ Item 21099 · Q 47 (vollscan) · S 35.3 (measured) · S roh 35.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.0 · N 7.0
+[24.11. 13:48:47] ABSATZ Item 4592 · Q 6017 (scan, Q gesamt) · S 1598.4 (measured) · S roh 1598.4 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 2.6 · N 3.0
+[24.11. 13:48:47] ABSATZ Item 6328 · Q 33 (vollscan) · S 33.1 (measured) · S roh 33.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.7 · N 7.0
+[24.11. 13:48:47] ABSATZ Item 3729 · Q 256 (scan, Q gesamt) · S 9.2 (measured) · S roh 9.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 19.6 · N 7.0 · kaum
+[24.11. 13:48:47] ABSATZ Item 3737 · Q 20 (scan, Q gesamt) · S 7.9 (measured) · S roh 7.9 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.9 · N 7.0
+[24.11. 13:48:47] ABSATZ Item 787 · Q 750 (scan, Q gesamt) · S 101.7 (market, gelernt) · S roh 490.8 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 7.4 · N 7.0 · kaum
+[24.11. 13:48:47] ABSATZ Item 6326 · Q 14 (scan, Q gesamt) · S 14.0 (measured, unsicher) · S roh 14.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.7 · N 7.0
+[24.11. 13:48:47] ABSATZ Item 12224 · Q 1069 (scan, Q gesamt) · S 65.9 (market, gelernt) · S roh 220.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 11.4 · N 7.0 · kaum
+[24.11. 13:48:47] ABSATZ Item 12226 · Q 54 (scan, Q gesamt) · S 14.0 (measured) · S roh 14.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 2.7 · N 7.0
+[24.11. 13:48:47] ABSATZ Item 6325 · Q 33 (scan, Q gesamt) · S 28.1 (measured) · S roh 28.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.8 · N 7.0
+[24.11. 13:48:46] ABSATZ-UNPLAUSIBEL Item 4457 · 554.1/Tag · Quelle geschätzt
+[24.11. 13:48:46] ABSATZ-UNPLAUSIBEL Item 5478 · 86.3/Tag · Quelle geschätzt
+[24.11. 13:48:45] ENTZAUBERWERT Item 250511 · Tabelle · 10978 100% × 1.00 à 475 · brutto 492 · netto 467
+[24.11. 13:48:45] ENTZAUBERWERT Item 250513 · Tabelle · 10978 100% × 1.00 à 475 · brutto 492 · netto 467
+[24.11. 13:48:45] ENTZAUBERWERT Item 250517 · Tabelle · 10978 100% × 1.00 à 475 · brutto 492 · netto 467
+[24.11. 13:48:45] ENTZAUBERWERT Item 250514 · Tabelle · 10978 100% × 1.00 à 475 · brutto 492 · netto 467
+[24.11. 13:48:45] ENTZAUBERWERT Item 250515 · Tabelle · 10978 100% × 1.00 à 475 · brutto 492 · netto 467
+[24.11. 13:48:45] ENTZAUBERWERT Item 250516 · Tabelle · 10978 100% × 1.00 à 475 · brutto 492 · netto 467
+[24.11. 13:48:42] ABSATZ Item 6043 · Q 82 (scan, Q gesamt) · S 8.2 (market, gelernt) · S roh 39.4 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 10.2 · N 7.0 · kaum
+[24.11. 13:48:42] ABSATZ Item 6045 · Q 44 (scan, Q gesamt) · S 6.0 (market, gelernt) · S roh 20.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 5.2 · N 7.0
+[24.11. 13:48:42] ENTZAUBERWERT Item 10423 · eigene Ø aus 58 · 11083 81% × 3.89 à 551, 11134 16% × 1.78 à 1042, 11138 3% × 1.00 à 854 · brutto 2164 · netto 2056
+[24.11. 13:48:42] DE-CHANCEN Gruppe 2:5:a · Tabelle 11083 75%/11134 20%/11138 5% · echt 11083 81%/11134 16%/11138 3% (58)
+[24.11. 13:48:42] ABSATZ Item 10423 · Q 22 (scan, Q gesamt) · S 4.8 (market, gelernt) · S roh 8.9 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 4.8 · N 7.0
+[24.11. 13:48:42] ABSATZ Item 10424 · Q 19 (scan, Q gesamt) · S 3.7 (market, gelernt) · S roh 12.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 3.8 · N 7.0
+[24.11. 13:48:42] ENTZAUBERWERT Item 3484 · eigene Ø aus 1464 · 11083 75% × 1.52 à 551, 11082 20% × 1.50 à 1707, 11084 5% × 1.00 à 5265 · brutto 1497 · netto 1422
+[24.11. 13:48:42] ABSATZ Item 3484 · Q 28 (scan, Q gesamt) · S 15.2 (market, gelernt) · S roh 28.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.9 · N 7.0
+[24.11. 13:48:42] ABSATZ Item 3611 · Q 40 (scan, Q gesamt) · S 3.5 (market, gelernt) · S roh 11.7 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 8.2 · N 7.0 · kaum
+[24.11. 13:48:42] ENTZAUBERWERT Item 5541 · Tabelle · 10939 75% × 1.50 à 673, 11083 20% × 1.50 à 551, 11084 5% × 1.00 à 5265 · brutto 1228 · netto 1167
+[24.11. 13:48:42] ABSATZ Item 5541 · Q 18 (scan, Q gesamt) · S 14.1 (market, gelernt) · S roh 26.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.4 · N 7.0
+[24.11. 13:48:42] ABSATZ Item 5543 · Q 7 (scan, Q gesamt) · S 3.4 (market, gelernt) · S roh 11.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.7 · N 7.0
+[24.11. 13:48:42] ENTZAUBERWERT Item 3492 · Tabelle · 10939 75% × 1.50 à 673, 11083 20% × 1.50 à 551, 11084 5% × 1.00 à 5265 · brutto 1228 · netto 1167
+[24.11. 13:48:42] DE-CHANCEN Gruppe 2:4:w · Tabelle 11083 20%/10939 75%/11084 5% · echt 11083 -/10939 -/11084 - (0)
+[24.11. 13:48:42] ABSATZ Item 3492 · Q 17 (scan, Q gesamt) · S 4.1 (market, gelernt) · S roh 7.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 4.4 · N 7.0
+[24.11. 13:48:42] ABSATZ Item 3608 · Q 9 (scan, Q gesamt) · S 1.4 (market, gelernt) · S roh 4.6 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 5.1 · N 7.0
+[24.11. 13:48:42] ENTZAUBERWERT Item 3490 · Tabelle · 10939 75% × 1.50 à 673, 10940 20% × 5.00 à 139, 10978 5% × 1.00 à 475 · brutto 952 · netto 905
+[24.11. 13:48:42] DE-CHANCEN Gruppe 2:3:w · Tabelle 10940 20%/10939 75%/10978 5% · echt 10940 -/10939 -/10978 - (0)
+[24.11. 13:48:42] ABSATZ Item 3490 · Q 18 (scan, Q gesamt) · S 9.1 (market, gelernt) · S roh 16.8 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 2.1 · N 7.0
+[24.11. 13:48:42] ABSATZ Item 2883 · Q 32 (scan, Q gesamt) · S 2.9 (market, gelernt) · S roh 9.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 8.1 · N 7.0 · kaum
+[24.11. 13:48:42] ENTZAUBERWERT Item 3481 · eigene Ø aus 68 · 10940 84% × 5.00 à 139, 10998 10% × 1.57 à 599, 10978 6% × 1.00 à 475 · brutto 743 · netto 706
+[24.11. 13:48:42] ABSATZ Item 3481 · Q 43 (scan, Q gesamt) · S 5.9 (market, gelernt) · S roh 19.6 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 5.2 · N 7.0
+[24.11. 13:48:42] ABSATZ Item 2882 · Q 31 (scan, Q gesamt) · S 2.2 (market, gelernt) · S roh 7.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 10.0 · N 7.0 · kaum
+[24.11. 13:48:42] ENTZAUBERWERT Item 2869 · eigene Ø aus 1464 · 11083 75% × 1.52 à 551, 11082 20% × 1.50 à 1707, 11084 5% × 1.00 à 5265 · brutto 1497 · netto 1422
+[24.11. 13:48:42] DE-CHANCEN Gruppe 2:4:a · Tabelle 11083 75%/11082 20%/11084 5% · echt 11083 75%/11082 20%/11084 5% (1464)
+[24.11. 13:48:42] ABSATZ Item 2869 · Q 15 (scan, Q gesamt) · S 5.9 (market, gelernt) · S roh 10.9 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 2.7 · N 7.0
+[24.11. 13:48:42] ABSATZ Item 5578 · Q 12 (scan, Q gesamt) · S 4.3 (market, gelernt) · S roh 14.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 2.1 · N 7.0
+[24.11. 13:48:42] ENTZAUBERWERT Item 3474 · eigene Ø aus 769 · 10940 79% × 1.50 à 139, 10938 21% × 1.57 à 219 · brutto 249 · netto 237
+[24.11. 13:48:42] ABSATZ Item 3474 · Q 25 (scan, Q gesamt) · S 3.6 (market, gelernt) · S roh 6.6 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 7.3 · N 7.0 · kaum
+[24.11. 13:48:42] ABSATZ Item 3610 · Q 3 (vollscan) · S 3.3 (measured) · S roh 3.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.8 · N 7.0
+[24.11. 13:48:42] ABSATZ Item 2881 · Q 13 (scan, Q gesamt) · S 2.4 (market, gelernt) · S roh 7.9 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 4.1 · N 7.0
+[24.11. 13:48:41] ABSATZ Item 260795 · Q 62 (scan, Q gesamt) · S 3.6 (market, gelernt) · S roh 17.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 17.4 · N 7.0 · kaum
+[24.11. 13:48:41] ABSATZ Item 264205 · Q 5 (scan, Q gesamt) · S 0.5 (market, gelernt) · S roh 1.6 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 9.0 · N 7.0 · kaum
+[24.11. 13:48:40] ABSATZ Item 260794 · Q 149 (scan, Q gesamt) · S 10.3 (market, gelernt) · S roh 34.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 10.2 · N 7.0 · kaum
+[24.11. 13:48:40] ABSATZ Item 264204 · Q 4 (scan, Q gesamt) · S 0.6 (market, gelernt) · S roh 1.9 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 6.3 · N 7.0
+[24.11. 13:48:40] ENTZAUBERWERT Item 285275 · Tabelle · 10939 75% × 1.50 à 673, 10940 20% × 2.50 à 139, 10978 5% × 1.00 à 475 · brutto 881 · netto 836
+[24.11. 13:48:40] DE-CHANCEN Gruppe 2:2:w · Tabelle 10940 20%/10939 75%/10978 5% · echt 10940 -/10939 -/10978 - (0)
+[24.11. 13:48:40] ABSATZ Item 260793 · Q 28 (scan, Q gesamt) · S 10.2 (market, gelernt) · S roh 49.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 2.9 · N 7.0
+[24.11. 13:48:40] ABSATZ Item 264203 · Q 2 (scan, Q gesamt) · S 0.4 (market, gelernt) · S roh 1.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 5.8 · N 7.0
+[24.11. 13:48:40] ABSATZ Item 260784 · Q 1 (scan, Q gesamt) · S 1.5 (market, gelernt) · S roh 4.9 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.0 · N 7.0
+[24.11. 13:48:40] ABSATZ Item 264201 · Q 4 (scan, Q gesamt) · S 0.4 (market, gelernt) · S roh 1.4 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 8.3 · N 7.0 · kaum
+[24.11. 13:48:40] ABSATZ Item 260792 · Q 518 (scan, Q gesamt) · S 32.3 (market, gelernt) · S roh 156.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 16.1 · N 7.0 · kaum
+[24.11. 13:48:40] ABSATZ Item 264202 · Q 1 (scan, Q gesamt) · S 0.4 (market, gelernt) · S roh 1.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 3.9 · N 7.0
+[24.11. 13:48:37] ABSATZ-UNPLAUSIBEL Item 10500 · 17.0/Tag · Quelle geschätzt
+[24.11. 13:48:33] ENTZAUBERWERT Item 253891 · Tabelle · 10978 100% × 1.00 à 475 · brutto 492 · netto 467
+[24.11. 13:48:33] ENTZAUBERWERT Item 253895 · Tabelle · 10978 100% × 1.00 à 475 · brutto 492 · netto 467
+[24.11. 13:48:33] ENTZAUBERWERT Item 253897 · Tabelle · 10978 100% × 1.00 à 475 · brutto 492 · netto 467
+[24.11. 13:48:33] ENTZAUBERWERT Item 253889 · Tabelle · 10978 100% × 1.00 à 475 · brutto 492 · netto 467
+[24.11. 13:48:33] ENTZAUBERWERT Item 253899 · Tabelle · 10978 100% × 1.00 à 475 · brutto 492 · netto 467
+[24.11. 13:48:33] ENTZAUBERWERT Item 253893 · Tabelle · 10978 100% × 1.00 à 475 · brutto 492 · netto 467
+[24.11. 13:48:25] ABSATZ Item 4306 · Q 358 (vollscan) · S 988.8 (measured) · S roh 988.8 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.4 · N 5.0
+[24.11. 13:48:25] ABSATZ Item 5500 · Q 3 (vollscan) · S 38.3 (measured) · S roh 38.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.1 · N 1.0
+[24.11. 13:48:25] ABSATZ Item 4305 · Q 781 (vollscan) · S 218.2 (measured) · S roh 218.2 · Deckel - · eigene Quote 3/3 · Laufzeit 2 Std. · W 3.6 · N 1.0
+[24.11. 13:48:25] ABSATZ Item 3182 · Q 9 (vollscan) · S 68.0 (measured) · S roh 68.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.1 · N 2.0
+[24.11. 13:48:25] ABSATZ Item 2319 · Q 40 (vollscan) · S 606.9 (measured) · S roh 606.9 · Deckel - · eigene Quote 4/4 · Laufzeit 2 Std. · W 0.1 · N 1.0
+[24.11. 13:48:22] ENTZAUBERWERT Item 7060 · eigene Ø aus 403 · 11137 75% × 1.51 à 765, 11135 20% × 1.54 à 3325, 11139 4% × 1.00 à 1995 · brutto 2103 · netto 1998
+[24.11. 13:48:22] ABSATZ Item 7060 · Q 3 (scan, Q gesamt) · S 3.0 (market, gelernt) · S roh 10.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.9 · N 7.0
+[24.11. 13:48:22] ABSATZ Item 7085 · Q 24 (scan, Q gesamt) · S 1.5 (market, gelernt) · S roh 5.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 11.4 · N 7.0 · kaum
+[21.11. 18:58:46] FEHLER Märkte vereinen: Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:5416: attempt to compare two table values
+[21.11. 18:38:52] FEHLER Märkte vereinen: Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:5416: attempt to compare number with table

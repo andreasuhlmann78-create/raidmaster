@@ -1,0 +1,79 @@
+{
+ "addon": "LevelPilot",
+ "blocked": [],
+ "env": {
+  "build": "71037",
+  "class": "DRUID",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 41,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "f": 1,
+ "fest": [],
+ "id": "LevelPilot-wege-1795538211-177f6b",
+ "kind": "wege",
+ "npc": [],
+ "time": 1795538211,
+ "version": "3.12.31",
+ "zones": [
+  {
+   "edges": [
+    {
+     "n": 13,
+     "p": [
+      44.8,
+      53.3,
+      44,
+      54.9,
+      42.1,
+      55.3
+     ],
+     "src": "selbst"
+    },
+    {
+     "n": 13,
+     "p": [
+      45.5,
+      52.2,
+      46.4,
+      51.3,
+      46.3,
+      48.7
+     ],
+     "src": "selbst"
+    },
+    {
+     "n": 14,
+     "p": [
+      42.1,
+      55.3,
+      43,
+      57.4,
+      44.4,
+      58.3,
+      46.2,
+      58.7
+     ],
+     "src": "selbst"
+    },
+    {
+     "n": 21,
+     "p": [
+      42.1,
+      55.3,
+      41.1,
+      53.8
+     ],
+     "src": "selbst"
+    }
+   ],
+   "map": 1456,
+   "name": "Thunder Bluff"
+  }
+ ]
+}
