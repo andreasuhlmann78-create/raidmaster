@@ -549,3 +549,11 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     Auf dem Laptop installiert 14:00 (neue Datei Messung.lua -> WoW neu starten). Erwartet im nächsten Bericht: Tabelle je Weg (geht / geht nicht /
     nicht vorhanden + Belegzeile) aus echtem Kampf in Forever, Kosten je Bild ≤ 1 ms.
 
+>>> INGAMETEST 2.5.28 – 24.11.2026 13:58 (Laptop, PRIEST 10, Undercity; Bericht vom Nutzer im Chat, Supervisor 14:05): OK 330 · FEHLER 2 · Sandbox OK ·
+    CVars/Tastenbelegung/Livedaten unverändert · echte Aktionen 0 · gesperrte Aktionen 0. Längstes eigenes Bild 24,3 ms.
+ TS-M1-a MITTEL (neu): T-M1 im echten Client: "Befehl (a) false" (soll true; im Nachbau true). (a) = geschützten Wert an eigenen unsichtbaren Balken/
+    Text durchreichen. Das kann ein echtes MESSERGEBNIS sein (Forever lehnt das Durchreichen ab) ODER ein Fehler im Testaufbau (Köderwert im echten
+    Client anders als im Nachbau). Klären mit Fehlertext aus pcall (steht in ThreatSentinelDB.m1 / Diagnose) und mit der echten Kampfmessung des
+    Nutzers (/ts messung kampf). Ist es ein Messergebnis: T-M1 so ändern, dass er das Ergebnis meldet statt FEHLER (Messung ≠ Prüfung), und im
+    Bericht als "(a) geht nicht in Forever: <Fehlertext>" belegen. TU6-R1 rot hängt nur an T-M1.
+
