@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Folge |
 |---|---|---|
+| 20:28 | Vorschlag "Uploader installiert neue Addon-Versionen selbst" (Sitzung home zugriff, Nutzer 20:26 "ja mach das") – "ich möchte das für den laptop auch" | UP-AUTO1 an RaidMaster: Uploader installiert neue Versionen aus dem eigenen Repo selbst, Schalter Standard AUS, beim Nutzer auf PC und Laptop an; Offiziere nicht |
 | 20:14 | "wenn ready dann jetzt pushen auf curse" (GuildSentinel 0.9.61; CurseForge seit 15.11. nur 0.9.39) | GS-CF2: 0.9.61 sofort nach download/ (Ausnahme vom 18:00-Termin), durch die GS-Sitzung; Supervisor prüft danach auf curseforge.com |
 | 20:06 | "soclhe anpassungen müssen natürlich für das skelet gemachet werden aber erst wenn alles funktioniert" | UMG1 (Umgebung/Bedienung erkennen) in die Vorlage shared/vorlage (Skelett) übernehmen – erst wenn es in den Addons im Spiel belegt funktioniert (Supervisor pflegt shared/; Vormerkung in berichte/Supervisor/stand-aktuell.md). Gilt sinngemäss für ähnliche Anpassungen an allen Addons |
 | 20:04 | "ich denke sowas sollte man in all unsere addons einbauen auser solche TS" – "das was wir jetzt für ahs und pf haben" | Testroutinen erkennen Umgebung/Bedienung selbst (Hintergrund, Ladebildschirm, eigene Arbeit gegen Rest, Speicher je Addon) und melden dann HINWEIS statt FEHLER: PS-/LP-/RM-/GS-UMG1, AHS-UMG1 (nur a+d). Ausgenommen ThreatSentinel und BuffSentinel (Kampf-Addons, Auslegung Supervisor – Nutzer kann ändern) |

@@ -781,3 +781,25 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
        Gegenprobe im Nachbau: dieselbe Überschreitung ohne Hintergrund -> FEHLER; mit simuliertem Hintergrund -> HINWEIS.
     e) Kopfzeile des Berichts: "Umgebung: Vordergrund/Hintergrund (Zeitraum)", "längstes Bild je Addon: …".
     Priorität: NIEDRIG/MITTEL – nach den laufenden HOCH-Punkten; nichts an den Leistungsgrenzen selbst ändern.
+>>> UP-AUTO1 HOCH – Uploader installiert neue Addon-Versionen selbst (Supervisor 20:29)
+    Grundlage: Vorschlag der Sitzung "home zugriff" (berichte/…/2026-11-24-2027-vorschlag-uploader-addon-autoinstall.txt, Nutzer 20:26 "ja mach das"),
+    Entscheid des Nutzers 24.11.2026 20:28: "ich möchte das für den laptop auch" -> für PC UND Laptop des Nutzers. Ziel: jede neue Version sofort
+    im Forever-AddOns-Ordner, ohne Handarbeit (Entscheide 18.11. 06:56, 24.11. 10:48).
+    Regeln:
+    1. Quelle NUR das eigene Repo raidmaster (GitHub, HTTPS): je Addon die höchste Version aus announce/ (Discord-Versionen = das, was der Nutzer
+       heute testet) bzw. download/, Reihenfolge der Versionen wie announce_reihe.py (eine Stelle, nicht neu erfinden). Nur Addons, deren Ordner im
+       AddOns-Ordner schon liegt. Nie fremde Addons, nie GSMesstest o. ä. installieren.
+    2. Nur wenn neuer als "## Version" der installierten .toc. Zip vor dem Kopieren prüfen: vollständig (entpackbar), genau ein Ordner = Addon-Name,
+       Version in der toc = erwartete Version, Prüfsumme gleich der Datei im Repo-Commit (sha) – sonst nichts tun und melden.
+    3. Nur geänderte Dateien schreiben (byte-genau danach zurücklesen = cmp). Nie WTF/SavedVariables, nie config.json/uploader_config.json-Inhalte
+       anderer Bereiche. NICHTS löschen (alte, nicht mehr gelieferte Dateien bleiben; im Log nennen).
+    4. Meldung im Uploader-Fenster/Log je Addon: "AHSentinel 0.65.391 -> 0.65.392 installiert – im Spiel /reload" bzw. "… – NEUSTART des Spiels
+       nötig (neue Dateien: n)", wenn Dateien dazukommen oder die .toc sich ändert. Fehler (Datei gesperrt, kein Schreibrecht in Program Files)
+       klar melden, später erneut versuchen (Zeitlimit, keine Endlosschleife).
+    5. Schalter in uploader_config "addons_auto_installieren" – Standard AUS für alle; der Nutzer schaltet ihn auf PC und Laptop selbst ein.
+       Bei Offizieren/anderen Spielern bleibt er aus (kein Testcode bei ihnen). Pfad des AddOns-Ordners aus der Konfiguration (Forever).
+    6. Takt: bei jedem Abgleich bzw. höchstens alle 5 Min.; während des Hochladens der Daten nichts installieren (eins nach dem anderen).
+    7. Tests (Nachbau): neuere Version -> installiert und cmp gleich; gleiche/ältere -> nichts; kaputte Zip / falscher Ordner / falsche Version /
+       falsche Prüfsumme -> nichts, Meldung; Addon nicht installiert -> nichts; SavedVariables-Ordner unverändert (Bit für Bit); Schalter aus -> nichts;
+       neue Datei -> Meldung "Neustart". Bericht mit Belegen; danach Abnahme auf PC und Laptop durch den Nutzer.
+    Die Sitzungen "home zugriff" (PC) und Supervisor (Laptop) installieren bis dahin weiter von Hand.
