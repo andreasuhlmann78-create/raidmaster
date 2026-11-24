@@ -115,7 +115,11 @@ class Ablauf(unittest.TestCase):
         self.index = {}
         self.blog, self.log = [], []
 
+        self.minfile = "# Erklärung\n#\n2.3.20\n"
+
         async def get_text(session, url, what, headers=None):
+            if "mindestversion" in url:
+                return self.minfile
             return f'VERSION = "{self.newest}"\n'
 
         async def read_stands(session, repo, token):
@@ -182,7 +186,7 @@ class Ablauf(unittest.TestCase):
         self.assertEqual(len(self.off.got), 1)
         self.assertEqual(len(self.off2.got), 1)
         self.assertIn("Dein Daten-Uploader ist veraltet – deine Daten werden nicht mehr angenommen. Bitte /uploader holen "
-                      "(neueste Version 2.3.21).", self.off.got[0])
+                      "(mindestens Version 2.3.21).", self.off.got[0])
         self.assertIn("`OFF-A`", self.off.got[0])
         self.run_once()
         self.run_once()
@@ -258,6 +262,49 @@ class Ablauf(unittest.TestCase):
         for t in self.blog:
             self.assertNotIn("GEHEIMER-PC", t)
             self.assertNotIn("`X`", t)
+
+    def test_mindestversion_d_upmin1(self):
+        """2.3.23 neueste, Mindestversion 2.3.20: 2.3.20–2.3.22 liefern trotzdem nicht -> PN (mindestens 2.3.23); 2.3.23 ok.
+        Neue kleine Version 2.3.24 ohne höhere Mindestversion: KEINE neue PN (D-UPD1 Punkt 1). Mindestversion 2.3.24: wieder je 1 PN."""
+        self.m.state.data["upalt_pn"] = {}
+        self.newest = "2.3.23"
+        self.stand = {"A": {"zeit": 1, "uploader": "2.3.22"}, "B": {"zeit": 1, "uploader": "2.3.23"},
+                      "C": {"zeit": 1, "uploader": "2.3.19"}}
+        self.index = {11: ["A"], 12: ["B"], 10: ["C"]}
+        r = self.run_once()
+        self.assertEqual((r["newest"], r["latest"], r["pn"]), ("2.3.23", "2.3.23", 2))
+        self.assertIn("(mindestens Version 2.3.23)", self.off.got[0])
+        self.assertEqual((len(self.off.got), len(self.off2.got), len(self.chef.got)), (1, 0, 1))
+        self.assertIn("nötig: mindestens 2.3.23", self.blog[-1])
+        self.newest = "2.3.24"
+        r = self.run_once()
+        self.assertEqual((r["newest"], r["pn"]), ("2.3.23", 0))
+        self.assertEqual((len(self.off.got), len(self.off2.got), len(self.chef.got)), (1, 0, 1))
+        self.minfile = "# x\n2.3.24\n"
+        r = self.run_once()
+        self.assertEqual((r["newest"], r["pn"]), ("2.3.24", 3))
+        self.assertEqual((len(self.off.got), len(self.off2.got), len(self.chef.got)), (2, 1, 2))
+
+    def test_mindestversion_nicht_lesbar_nichts_tun(self):
+        self.m.state.data["upalt_pn"] = {}
+        self.newest = "2.3.23"
+        self.minfile = None
+        self.stand = {"A": {"zeit": 1, "uploader": "2.3.19"}}
+        self.index = {11: ["A"]}
+        self.assertIsNone(self.run_once())
+        self.assertEqual(self.off.got, [])
+
+    def test_required_und_echte_datei(self):
+        m = self.m
+        self.assertEqual(m.required("2.3.21", None), "2.3.21")
+        self.assertEqual(m.required("2.3.23", "2.3.20"), "2.3.23")
+        self.assertEqual(m.required("2.3.30", "2.3.20"), "2.3.23")
+        self.assertEqual(m.required("2.3.30", "2.3.25"), "2.3.25")
+        self.assertIsNone(m.required("2.3.23", None))
+        path = os.path.join(os.path.dirname(__file__), "..", "..", "RaidMasterUploader", "mindestversion.txt")
+        with open(path, encoding="utf-8") as f:
+            self.assertEqual(m.parse_minimum(f.read()), "2.3.20")
+        self.assertIsNone(m.parse_minimum("# nur Kommentar\n"))
 
     def test_fehlt_etwas_nichts_tun(self):
         self.stand = {"A": {"zeit": 1}}

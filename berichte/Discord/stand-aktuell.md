@@ -1,25 +1,25 @@
 # Stand Discord-Sitzung
 
-## Stand 24.11.2026 20:58 · Bot 1.5.194 (D-CHK1 vom Supervisor 10:55 angenommen, Abnahme im Betrieb offen)
+## Stand 24.11.2026 21:38 · Bot 1.5.195 (D-UPMIN1 umgesetzt, zur Prüfung; 1.5.194 angenommen)
 
 ## Gerade in Arbeit
-- nichts. Uploader-Versand VERSCHOBEN auf 25.11. (Nutzer 20:58: "dann morgen machen, es wird noch eine neue version kommen").
-  Dann: NEUESTE Uploader-Version (VERSION in RaidMasterUploader/uploader.py auf origin) per Bot in #bot-befehle:
-  /uploader an_offiziere:True UND /uploader nur_programm:True (an den Nutzer selbst). Browser nötig.
+- Uploader 2.3.23 per Bot schicken (Nutzer 21:11 "nuester uploader senden bitte"; D-UPMIN1): in #bot-befehle
+  /uploader an_offiziere:True UND /uploader nur_programm:True (für den Nutzer). WARTET: kein Browser verbunden (21:11, 21:36).
 
 ## Nächste Schritte (Reihenfolge)
 1. Bei jeder Nachricht des Nutzers: git pull --rebase, auftraege/Discord/ lesen (git log --oneline -5 -- auftraege/Discord/).
-2. Nach dem Update auf 1.5.194 in #bot-befehle prüfen: "✏️ … levelpilot-uebersicht-3.12.94 … vervollständigt", KEINE Zeile
-   "fehlten im Discord und werden neu gepostet". Danach discord-check/status.md (läuft 35 Min. nach dem Push): erwartet grün.
-3. Prüfung D-CHK1 durch den Supervisor abwarten, Befunde umsetzen. Neue Aufträge umsetzen. Sonst nichts ändern.
-4. Ab Uploader 2.3.21 in #bot-befehle: "Alter Daten-Uploader (neueste 2.3.21): n PN geschickt" (D-UPALT).
+2. Browser da -> sofort den Versand oben (vorher VERSION in RaidMasterUploader/uploader.py prüfen = neueste).
+3. D-UPD1 Punkte 2–3 nach UP-UPD1 (RaidMaster): PN-Text "im Uploader-Fenster mit j bestätigen" für Rechner mit Knopf-Version,
+   stand.json "update" auswerten (Bestätigung / "Update fehlgeschlagen" + Grund). Bericht 2026-11-24-2138-d-upmin1.txt.
+4. Abnahme D-CHK1 im Betrieb (Supervisor 10:55): "✏️ … 3.12.94 … vervollständigt" in #bot-befehle, status.md grün (19:27 grün),
+   beim nächsten Versionswechsel keine alte Fassung gepostet -> Bericht nachreichen.
 
 ## Offen beim Nutzer
-- Morgen: Browser verbinden und sagen, wenn die neue Uploader-Version da ist -> dann schicke ich sie.
+- Browser verbinden (eingebauter Browser der Desktop-App oder Claude in Chrome) für den Uploader-Versand.
 
 ## Entscheide des Nutzers seit letztem Stand
 - 24.11. 20:49 "das discord projekt soll den offiziere das seden" (Uploader 2.3.21); 20:51 "mir natürlich auch über den dc bot";
-  20:58 "dann morgen machen, es wird noch eine neue version kommen".
+  20:58 "dann morgen machen, es wird noch eine neue version kommen"; 21:11 "nuester uploader senden bitte".
 - 24.11. 10:29 (D-CHK1): neueste Fassungen klären; fehlt dort etwas, entscheidet die Discord-Sitzung über Nachposten; die Prüfung
   lernt für ältere Fassungen dieselbe Regel wie der Bot; gelöscht wird nichts.
   Mein Entscheid daraus: LevelPilot-Übersicht 3.12.94 wird vervollständigt (Bearbeiten + 1 Nachricht anhängen, ohne Ping).
@@ -42,5 +42,5 @@
 - Verboten: #mc-dkp leeren, "Server zurücksetzen", Rolle Mitglied automatisch vergeben, config.json, uploader_config.json,
   daten_config.json oder token.txt lesen bzw. ändern, Passwörter tippen.
 - Nutzung sparen: keine Wecker, kurze Berichte.
-- D-UPALT: state.json "upalt_pn", "upalt_gemeldet", "uploader_geschickt"; erster Lauf mit 2.3.20 = alte Rechner gelten als informiert.
+- D-UPALT/D-UPMIN1: nötige Version = max(mindestversion.txt, 2.3.23) ab neueste 2.3.23; state.json "upalt_pn", "upalt_gemeldet", "uploader_geschickt"; erster Lauf mit 2.3.20 = alte Rechner gelten als informiert.
 - Tests: python3 -m unittest discover -s tests (in RaidMasterBot/). Befehlsliste: tests/test_befehle_liste.py --schreiben.

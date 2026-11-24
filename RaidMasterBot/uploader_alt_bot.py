@@ -2,6 +2,11 @@
 neuste version drauf hatt die daten nicht mehr annehmen!"): Besitzer eines Rechners mit veraltetem Daten-Uploader per PN
 informieren.
 
+D-UPMIN1 (ab Bot 1.5.195, Supervisor 24.11. 21:32): Massgebend ist die NÖTIGE Version (required): Mindestversion aus
+RaidMasterUploader/mindestversion.txt, mindestens aber 2.3.23 – Uploader 2.3.20–2.3.22 nehmen selbst nur die neueste an und
+liefern darum nicht, solange es eine neuere gibt. 1 PN je Rechner und nötiger Version: steigt die Mindestversion nicht, kommt
+für eine neue kleine Version keine PN (D-UPD1 Punkt 1). Text "(mindestens Version y)".
+
 Uploader ab 2.3.20 nehmen nur noch Daten der neuesten Uploader-Version an und zeigen das selbst an. Rechner mit einem Uploader
 VOR 2.3.20 können das nicht anzeigen – darum schreibt der Bot dem Besitzer:
   "Dein Daten-Uploader ist veraltet – deine Daten werden nicht mehr angenommen. Bitte /uploader holen (neueste Version x.y.z)."
@@ -39,6 +44,8 @@ from kern import cfg, log, state
 bot = grund.bot
 assert bot is not None, "uploader_alt_bot erst nach grund.bot = bot importieren"
 
+MIN_LOGIK_AB = "2.3.23"            # D-UPMIN1: ab dieser Uploader-Version gilt die Mindestversion (UP-MIN1); 2.3.20–2.3.22
+                                   # nehmen selbst nur die neueste an
 SEED_VERSION = "2.3.20"            # Punkt 5: an diese Version haben die Offiziere die ZIP schon am 24.11. 08:37 bekommen
 INDEX_MARK = "GSSYNC-INDEX"        # wie RaidMasterUploader/sync.py
 GUEST_ROLE = "gast"
@@ -46,7 +53,7 @@ BRANCHES = ("sicherung", None)     # None = Standardzweig (main)
 API = "https://api.github.com"
 VERSION_OK = re.compile(r"^\d+(?:\.\d+){1,3}$")
 PN_TEXT = ("⚠️ Dein Daten-Uploader ist veraltet – deine Daten werden nicht mehr angenommen. "
-           "Bitte /uploader holen (neueste Version {neu}).")
+           "Bitte /uploader holen (mindestens Version {neu}).")
 
 
 def path_name(name: str) -> str:
@@ -58,6 +65,27 @@ def clean_version(v) -> str | None:
     """Gültige Versionsnummer oder None ("unbekannt", leer, fehlt)."""
     v = str(v or "").strip()
     return v if VERSION_OK.match(v) else None
+
+
+def parse_minimum(text: str | None) -> str | None:
+    """Erste Zeile ohne # in RaidMasterUploader/mindestversion.txt (wie der Uploader 2.3.23 sie liest)."""
+    for ln in (text or "").splitlines():
+        ln = ln.strip()
+        if ln and not ln.startswith("#"):
+            return clean_version(ln)
+    return None
+
+
+def required(newest: str, minimum: str | None) -> str | None:
+    """D-UPMIN1: Welche Version ein Rechner mindestens braucht, damit seine Daten angenommen werden.
+    - neueste < 2.3.23 (noch keine Mindestversion): die neueste (Regel von 2.3.20–2.3.22).
+    - sonst max(Mindestversion, 2.3.23): Rechner mit 2.3.20–2.3.22 liefern nicht, solange es eine neuere gibt (sie prüfen selbst
+      gegen die neueste) – erst ab 2.3.23 zählt die Mindestversion. Mindestversion nicht lesbar -> None (Lauf auslassen)."""
+    if uploader_version.is_older(newest, MIN_LOGIK_AB):
+        return newest
+    if not minimum:
+        return None
+    return MIN_LOGIK_AB if uploader_version.is_older(minimum, MIN_LOGIK_AB) else minimum
 
 
 def is_outdated(entry: dict, newest: str) -> bool:
@@ -215,7 +243,14 @@ async def check_once() -> dict | None:
         return None
     async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=30)) as session:
         text = await _get_text(session, uploader_version.raw_url(repo, "RaidMasterUploader/uploader.py"), "uploader.py")
-        newest = clean_version(uploader_version.parse_version(text or ""))
+        latest = clean_version(uploader_version.parse_version(text or ""))
+        if not latest:
+            return None
+        minimum = None
+        if not uploader_version.is_older(latest, MIN_LOGIK_AB):
+            minimum = parse_minimum(await _get_text(
+                session, uploader_version.raw_url(repo, "RaidMasterUploader/mindestversion.txt"), "mindestversion.txt"))
+        newest = required(latest, minimum)        # ab hier: die NÖTIGE Version (D-UPMIN1), Schlüssel für "1 PN je Rechner"
         if not newest:
             return None
         stands = await read_stands(session, data_repo, token)
@@ -234,7 +269,7 @@ async def check_once() -> dict | None:
             await post_bot_log(f"📦 Uploader-Prüfung eingeschaltet: {len(sent)} Rechner mit altem Uploader – "
                                f"{SEED_VERSION} wurde ihnen schon geschickt, keine PN bis zur nächsten Version.")
     if not old:
-        return {"newest": newest, "old": 0, "pn": 0, "fail": 0, "unknown": 0}
+        return {"newest": newest, "latest": latest, "old": 0, "pn": 0, "fail": 0, "unknown": 0}
     own, ambiguous = owners(await read_indexes())
 
     def is_guest(uid):
@@ -274,8 +309,8 @@ async def check_once() -> dict | None:
                             if ambiguous & set(new_unknown) else "")
                          + " – keine PN")
         log.info("D-UPALT %s: %s", newest, "; ".join(parts))
-        await post_bot_log(f"📦 Alter Daten-Uploader (neueste {newest}): " + "; ".join(parts) + ".")
-    return {"newest": newest, "old": len(old), "pn": ok, "fail": fail, "unknown": unknown}
+        await post_bot_log(f"📦 Alter Daten-Uploader (nötig: mindestens {newest}): " + "; ".join(parts) + ".")
+    return {"newest": newest, "latest": latest, "old": len(old), "pn": ok, "fail": fail, "unknown": unknown}
 
 
 @tasks.loop(minutes=30)

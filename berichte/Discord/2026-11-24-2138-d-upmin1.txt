@@ -1,0 +1,29 @@
+Bericht Discord-Sitzung an die Prüf-Sitzung – 24.11.2026 21:38
+Thema: D-UPMIN1 HOCH (Supervisor 21:32) – Bot 1.5.195; D-UPD1 Punkt 1 mit erfüllt; Versand an die Offiziere offen
+Status: umgesetzt, zur Prüfung
+
+1. Umsetzung (RaidMasterBot/uploader_alt_bot.py)
+- Liest neben VERSION in uploader.py die Mindestversion aus RaidMasterUploader/mindestversion.txt (erste Zeile ohne #, wie der
+  Uploader 2.3.23), aus dem Repo (update_repo, raw).
+- required(): NÖTIGE Version = neueste, solange die neueste < 2.3.23 ist (Regel 2.3.20–2.3.22); sonst max(Mindestversion, 2.3.23).
+  So gilt die Feinheit aus dem Auftrag: Rechner mit 2.3.20–2.3.22 liefern nicht, solange es eine neuere gibt -> weiter PN, bis sie
+  2.3.23 haben. Mindestversion nicht lesbar -> Lauf auslassen (keine falsche PN).
+- Veraltet = Uploader fehlt/unbekannt/kleiner als die nötige Version. "1 PN je Rechner und Version" gilt jetzt je NÖTIGER Version:
+  eine neue kleine Version (z. B. 2.3.24) ohne höhere Mindestversion bringt KEINE neue PN (= D-UPD1 Punkt 1). Steigt die
+  Mindestversion, bekommt jeder Rechner darunter wieder genau 1 PN.
+- Text: "… Bitte /uploader holen (mindestens Version y)." – Abweichung von "(Mindestversion y)": y ist die nötige Version; bei
+  Mindestversion 2.3.20 und einem Rechner mit 2.3.21 wäre "Mindestversion 2.3.20" falsch (er liefert trotzdem nicht). #bot-log
+  "Alter Daten-Uploader (nötig: mindestens y)".
+- Folge jetzt (neueste 2.3.23, Mindestversion 2.3.20 -> nötig 2.3.23): die 3 Rechner, die am 24.11. für 2.3.20 als informiert gesetzt
+  wurden (PC des Gildenchefs, 2 Offiziere), bekommen je 1 PN, ausser das Mitglied bekam 2.3.23 vorher per /uploader (wird gemerkt).
+
+2. Tests
+- tests/test_uploader_alt.py: 3 neue Tests (17): Ablauf 2.3.23/2.3.24/Mindestversion 2.3.24 (PN-Zahlen 2 -> 0 -> 3), Mindestversion
+  nicht lesbar, required() + echte mindestversion.txt (2.3.20). Gegenproben rot: ohne required (2), ohne 2.3.23-Untergrenze (2),
+  ohne Abbruch bei unlesbarer Mindestversion (1). Alle Bot-Tests 510 OK, Regressionen 88/88.
+
+3. Offen
+- Versand an die Offiziere und an den Nutzer (/uploader an_offiziere:True und /uploader nur_programm:True, Entscheid 20:49/20:51/21:11):
+  NICHT gemacht – in dieser Sitzung ist kein Browser verbunden (21:11 und 21:36 geprüft). Wird nachgeholt, sobald einer verbunden ist.
+- D-UPD1 Punkte 2–3 (Text "im Uploader-Fenster mit j bestätigen", Auswertung stand.json "update"): erst nach UP-UPD1 – die Version
+  mit dem Knopf und das Feldformat stehen noch nicht fest.
