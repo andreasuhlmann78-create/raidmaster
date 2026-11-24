@@ -1,0 +1,49 @@
+AHSentinel 0.65.392 – AHS-CF1 Schritt 1 und 2: T750, T191, AHS-TR1 – umgesetzt, zur Prüfung (Kandidat für CurseForge, NICHT veröffentlicht dort)
+Discord: ja. CurseForge: nein – erst nach Ingametest, Prüfung der Bedingungen a–e durch den Supervisor und OK des Nutzers (AHS-CF1 e).
+addon_check 0.65.392: OK. ZIP: gleiche 112 Dateien wie 0.65.391.
+Nachbau Teil auto: OK 1011 · FEHLER 0 · übersprungen 66 · im Client 16; s42 PASS. s43: T126 schwankt (siehe 5). FULL: siehe 6.
+
+Grundlage: Befundliste des Ingametests 0.65.389 (db.uiFindingsLast, 73 Zeilen, Daten-Repo Zweig sicherung). Je Art: abgeschnitten 91 ·
+überlappt 12 · veraltet 4 = 107 FEHLER (Zeilen ohne Grund nach "Text x px)" sind "gekürzt (Tooltip)", kein FEHLER). Ursachen einzeln:
+
+1) Kaufen > Einkauf, überlappt (12 = 3 Paare × Klassisch/Modern × 100/130 %): "X" und "Favoriten" (Suchleiste, y 0…−24) über der
+   Seitenleiste der Ergebnisse (über der Tabelle, y −17…−33) mit "404 Einträge" und "<". Ursache: volle Leiste ~229 px breit, rechts an
+   der Tabelle; der Favoriten-Knopf endet ~105 px rechts von ihrem linken Rand (aus den gemeldeten Überdeckungen 43/11 px bei Faktor 0,64
+   zurückgerechnet). UI_Main.lua UpdatePager: misst den Platz bis zum rechten Rand von t.pagerAvoid (UI_Buy: p.favBtn); reicht er nicht,
+   kurze Form "< 3 / 22 >" (~77 px); reicht auch die nicht, keine Leiste (Rollen/Mausrad bleiben). Andere Tabellen unverändert.
+2) Kaufen > Wächter, veraltet (4): "lernt noch" ohne Zählung (Regel UIA.TextIssue, Entscheid 06:18). Watcher.lua GreyLine und
+   AlarmSecured: immer "Weiterverkauf lernt noch (x von y Fällen)" (Zahl aus MK.WayState); Schlüssel in 10 Sprachen. Tests der Wächter-Meldung ("lernt grau") und T870 angepasst.
+3) Markt, Kopfzeile, abgeschnitten (40 = 10 Ansichten × 4 Varianten; Platz 436/440 px, Text 490 px, "keine Tabellenzelle"):
+   UI_MarketView p:LageText: die zweite Zeile nimmt nur die Teile (Rhythmus, Abdeckung, Scan-Hinweis – in dieser Reihenfolge), die nach
+   GetUnboundedStringWidth in die Breite passen; die übrigen stehen oben im Tooltip der Kopfzeile ("Weitere Angaben"). Nichts mitten im Wort.
+4) Markt-Tabelle "Preis gefallen …", abgeschnitten mit Zahl im unsichtbaren Teil (708 px in 234 px): Comfort.lua – Zelle zweizeilig
+   "Preis gefallen: 493x Kupferrute" / "jetzt verkaufen bringt 3s"; ganzer Satz (Marktwert vorher/jetzt, warten) im Tooltip der Zeile (r.text).
+5) Spalte "Stand" "Zutaten je Herstellung … fehlen …" (306 px in 120 px, Zahl unsichtbar): Today.lua T:Info -> "Zutaten fehlen: n";
+   neu T:InfoDetail (Kosten je Herstellung, beim Händler) im Tooltip der Zeile (UI_MarketView onHover).
+6) Detailbereich "Gelernt: Min · Normal · Max" (300–328 px in 284 px): zwei Zeilen wie die Preisleiter; Detailbereich 9 statt 8 Zeilen
+   (Platz nachgerechnet: letzte Zeile −264 px, Rat/Begründung bis ~−350, Knöpfe unten; Bereich ~396 px hoch).
+   Nicht geändert (kein FEHLER, Tooltip zeigt den ganzen Text): "Kaufe 11x …", "Nicht einstellen: …" (Überfüllt), Preisverlauf-Liste.
+7) T191 ("Frame in AHAnalyzerProWindow verdeckt Button in AHAnalyzerProWindow", 104 geprüft): der Name nannte das Element nicht; Ursache
+   als Verdacht aus dem Code (zu messen): Hover-Rahmen ohne Namen, deren Tooltip IM Fenster aufgeht – Markt-Kopfzeile (ANCHOR_BOTTOM, über den
+   Ansichts-Knöpfen), "Treffer je Weg" (ANCHOR_TOP, über den Zeilen-Knöpfen), Zeiten im Detailbereich (ANCHOR_LEFT, über der Tabelle), Sync-
+   Stand (ANCHOR_TOP), zwei Hinweise im Verkaufen-Reiter (ANCHOR_RIGHT). Alle sechs auf UI:AnchorTooltip (neben dem Fenster, wie die übrigen
+   Tooltips). UICheck Name(): unbenannte Elemente jetzt mit Lage und Grösse ("Frame in … bei x/y (b×h)"), damit ein Rest-Befund zeigt, wo.
+   Im Nachbau nicht prüfbar (Lage von Rahmen mit relativen Ankern rechnet der Nachbau nicht – gemessen: alle Knöpfe L83).
+8) AHS-TR1 (Entscheid 19:12): TR.ALL_WATCH_S/MAX/OPT 180/300/60, Name "Wächter 3 Min." in 10 Sprachen, Hinweis beim Start "Tipp: Ein eigener
+   Vollscan (Entwicklermodus) kurz vorher spart einen Scan und 15 Min." (10 Sprachen). Der Schritt wartete bisher auch auf W.plm.done – das
+   setzt die Wächter-Messung erst nach W.PL_SECONDS = 300 s; mit 180 s hätte er immer 300 s gedauert (Nachbau: 301 s). Jetzt: Ende bei 180 s,
+   wenn >= 3 Hürden-Runden, Messung läuft (W.plm) und >= 1 Runde; Bewertung unverändert (result()). Nachbau zz_tr1: normal 181 s
+   "bestanden – 240 Runden in 3 Min.", ohne Hürden-Runden Zeitlimit 301 s "FEHLER". s272 (Kette) PASS, s272c (ohne Kategorie, AH zu, stop) PASS.
+   Dauer der ganzen Routine: Schritt waechter vorher 600 s (Ingametest 0.65.389: 10 Min., 189 Runden), jetzt 180 s -> −7 Min.; übrige Schritte
+   unverändert (vollscan bleibt, Entscheid). Hinweis: die Prüfliste-Punkte WAECHTER-LAST (W.PL_SECONDS 300 s) und WAECHTER-FUND (W.FUND_SECONDS
+   600 s) haken sich im 3-Min.-Schritt nicht selbst ab – sie sind seit TR-ALLE nicht mehr einzeln in der Liste (Pruefliste.lua Z. 23), der
+   Schritt bewertet selbst. Falls die Punkte doch einzeln gebraucht werden: Entscheid nötig.
+9) T126 im Nachbau (Teil server, 3 Läufe je Fassung abwechselnd): 0.65.391 7,5/6,4/6,6 · 0.65.392 7,6/9,8/6,5 – Streuung der Nachbau-Uhr;
+   keine Änderung in Scan-Portionen (nur UpdatePager: eine Hilfsfunktion je Aufbau der Seitenleiste).
+10) FULL (alle 410 Szenarien): 342 PASS, 68 FAIL (0.65.390: 336/74). Neu grün: s241_mr11_scan_hint (7 Sprachen), s243_mr4_lage@ruRU
+   (Kopfzeile passt jetzt). Neu rot im Gesamtlauf: s216_feed_memory (Zeitmessung "fullscan längstes Bild Median 11,1 ≤ 10" – mit 0.65.391
+   allein ebenso rot, also nicht von dieser Version) und s92_fullscan_smooth (Lauf 3 10 767 KB – einzeln je zweimal mit 0.65.391 und 0.65.392
+   PASS; liegt an der Grenze, seit AHS-I3-a ohne Wiederverwendung; T459/AHS-SP1). Übrige 66 FAIL wie vorher.
+
+CF1-Bedingung d: CHANGELOG nennt nichts zu T459.
+Im Spiel (Nutzer): "testroutine alles" mit 0.65.392 – erwartet T750 deutlich weniger/0, T191 0 oder mit Lage benannt, Wächter-Schritt 3 Min.
