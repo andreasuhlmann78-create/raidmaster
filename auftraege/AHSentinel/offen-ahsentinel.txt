@@ -6702,3 +6702,18 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     s74 (Optionszeile "Wächter kauft mit" gewollt entfernt, Szenario angepasst, einzeln PASS) und s272 Zeitüberschreitung unter Parallel-Last (ohne Last
     PASS in 232 s). Übrige 68 FAIL wie 0.65.392. AHS-CF1 Bedingung "FULL ohne neue Fehler" damit ERFÜLLT. Lehre aus dem Tempo (keine Nachbau-Läufe neben
     FULL) – richtig. Offen vor CurseForge: Ingametest 0.65.393, T459-Entscheid des Nutzers, Freigabe des Nutzers im Spiel.
+>>> AHS-CF2 HOCH SOFORT – CurseForge JETZT mit 0.65.393. ENTSCHEID DES NUTZERS 24.11.2026 22:17: "auf curse jetzt veröffentlichen, du arbeitest danach weiter
+    mit den offenen punkten die noch zu erledigen ... lass den push auf curse das projekt machen und explizit erwähnen dass es wichtiges update ist ok?"
+    Der Nutzer gibt die Version damit frei (ersetzt AHS-CF1 e) und nimmt T459 (c) sowie den noch fehlenden Ingametest 0.65.393 bewusst in Kauf;
+    Ausnahme vom 18:00-Termin. Erfüllt: FULL ohne neue Fehler, addon_check OK, Gold-Sicherheit (Kauf nur per Taste, Wächter-Funde gesperrt).
+    TUN:
+    1. curseforge/AHSentinel-changelog-0.65.393.md anlegen (upload.py nimmt GENAU diesen Text statt aller ~39 Abschnitte seit 0.65.354): oben deutlich
+       "WICHTIGES UPDATE / IMPORTANT UPDATE – bitte aktualisieren", dann kurz Deutsch und Englisch die wichtigsten Änderungen seit 0.65.354 für
+       Spieler (Sniper/Wächter: Wächter-Funde nur als Tipps, Übernahme per Rechtsklick, Leuchten + Raidwarnung im Suchtakt; Oberfläche bereinigt;
+       Vollscan stabiler; weitere Korrekturen). Keine Versprechen, keine Zahlen, die nicht belegt sind; Deutsch zuerst (Direktive Sprache).
+    2. Genau die geprüfte Zip (announce/ahsentinel__ahsentinel-0.65.393.AHSentinel.zip, cmp gleich) als download/AHSentinel-0.65.393.zip
+       committen, die alte download/AHSentinel-0.65.354.zip entfernen (wie bei den anderen Addons) und README-Link umstellen – ERST nach dem
+       erfolgreichen Upload entfernen bzw. im selben Schritt nur, wenn der Workflow sicher die neue nimmt. announce/ nicht anfassen.
+    3. Prüfen: Workflow curseforge.yml grün, curseforge/uploaded.json enthält 0.65.393, Datei auf curseforge.com/wow/addons/ahsentinel/files sichtbar
+       (kann wegen Freigabe durch CurseForge dauern), Changelog dort mit "Wichtiges Update". Bericht in berichte/AHSentinel/.
+    Danach weiter: AHS-SP1 (Speicher-Lösung) als nächster Schritt (Entscheid 19:56), dann AHS-SG6-a, CF1-UI-a1, AHS-UMG1.

@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Folge |
 |---|---|---|
+| 22:17 | "auf curse jetzt veröffentlichen … lass den push auf curse das projekt machen und explizit erwähnen dass es wichtiges update ist" | AHS-CF2: AHSentinel 0.65.393 sofort auf CurseForge (Freigabe des Nutzers ersetzt CF1 e; T459 und fehlender Ingametest bewusst in Kauf), Changelog "Wichtiges Update" DE/EN; danach AHS-SP1 |
 | 21:36 | "ok lass die befehle raus" (Uploader-Update: kein automatisches Selbst-Update, sondern auf Knopfdruck mit Rückfrage j/n, für alle; Bot-PN nur bei steigender Mindestversion) | UP-UPD1 an RaidMaster, D-UPD1 an Discord. Addons installieren sich weiter automatisch (UP-AUTO1) |
 | 21:27 | "ok mach das aber das ist ja nicht schlimm wegen curse" (Wächter-Schritt der Testroutine wartet auf Vollscan) | AHS-TR1-a NIEDRIG, kein CurseForge-Blocker |
 | 21:18 | "umsetzten" (Vorschlag Supervisor: Uploader-Mindestversion statt "nur neueste") | UP-MIN1 an RaidMaster: abgewiesen wird nur unter der Mindestversion; diese steigt nur bei Daten-/Format-/Prüf-/Sicherheitsänderungen. Ändert die Umsetzung von 07:22 (UP-ALT) |
