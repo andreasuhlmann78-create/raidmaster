@@ -590,3 +590,9 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     Fehlerzähler 0; gesperrte Aktionen 0. Längstes Bild 27,4 ms (T-OPT7), Prüfungen über 16 ms: T133 17,1 · T-OPT7 26,9 · T-LIVE2 22,9 · TU7-S1 19,2 ms
     (Umgebung: 101 Bilder/s, Bild in Ruhe Median 9,0 / 95 % 34,0 ms, 0 Bereinigungen) – unter 40 ms, kein Befund. Prüfliste 6/14 (M1, OPT offen).
     Nächster Test mit 2.5.30: Testroutine + Instanz/Kampf in Gruppe, dann /reload (Daten in ThreatSentinelDB.m1).
+>>> INGAMETEST 24.11. 19:39 mit 2.5.30 (PC, Forever deDE, Priester 10, Undercity) – Auswertung Supervisor 19:40
+    OK 333 · FEHLER 0 · übersprungen 11 · im Client 14 · 6,2 s (eine Prüfung mehr als 2.5.29 = T-M1b; Regressionen 67/67). Sandbox, echte Daten, Livedaten,
+    CVars, Tastenbelegung unverändert; echte Aktionen 0; Fehler 0; gesperrt 0. Längstes Bild 23,7 ms, ganze Bilder über 40 ms 0 (Umgebung 91 Bilder/s,
+    Ruhe Median 9,0 / 95 % 34,0 ms). Prüfungen über 16 ms wie 2.5.29 (T133 18,7 · T-OPT7 23,3 · T-LIVE2 22,0 · TU7-S1 18,1) – unter 40 ms, kein Befund.
+    Neu T-OPT3-display 5,7 ms allein – Auskunft. TS-M1-b: Testroutine im Spiel grün; die eigentliche Messung (ThreatSentinelDB.m1 mit echten Kämpfen,
+    cost.max ≤ 1 ms, keine Namen) prüft der Supervisor, sobald nach einem Kampf in Instanz/Gruppe und /reload die Daten im Daten-Repo liegen.
