@@ -1,16 +1,16 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 24.11.2026 21:52 · Version 0.65.393 (Discord; Kandidat für CurseForge – NICHT dort, wartet auf Ingametest + OK des Nutzers)
+## Stand 24.11.2026 21:59 · Version 0.65.393 (Discord; Kandidat für CurseForge – NICHT dort, wartet auf Ingametest + OK des Nutzers)
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz – Testberichte "GSTEST1{…}", UI-Befunde db.uiFindingsLast).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
  erwartet in /tmp/claude-0/rel/: AHSentinel-<V>.zip, notes.md, bericht.txt, stand.md). ZIP = gleiche 112 Dateien wie Vorversion.
 Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /home/claude/AHSentinel (~70 s); FULL=1 alle (Stunden bei Parallel-Last;
- 0.65.393 läuft (Stand 254: nur s272 Zeitüberschreitung unter Parallel-Last)). T126 streut 6–10 ms. Neu: s9_watcher_tip (Wächter-Tipp -> Rechtsklick -> Sniper kauft).
+ 0.65.393: 341 PASS, 70 FAIL, keine neuen – nie parallel zu FULL rechnen, sonst Zeitüberschreitungen). T126 streut 6–10 ms. Neu: s9_watcher_tip (Wächter-Tipp -> Rechtsklick -> Sniper kauft).
  Eigene Szenarien /tmp/claude-0/sim/wowsim/scenarios_new.lua (zz_t459real, zz_tr1, zz_i6_sniper, zz_ui_buy).
 
 ## Gerade in Arbeit
-- FULL 0.65.393 läuft (Ergebnis Pflicht vor CurseForge, eigener Bericht). 0.65.393 veröffentlicht: CF1-UI a/c/d, SG6, TR1-a, T750-Titel. Bericht 2026-11-24-2152-0.65.393-cf1ui-sg6-tr1a.txt.
+- nichts. FULL 0.65.393 fertig: keine neuen Fehler (Bericht 2026-11-24-2157-0.65.393-full.txt). 0.65.393 veröffentlicht: CF1-UI a/c/d, SG6, TR1-a, T750-Titel. Bericht 2026-11-24-2152-0.65.393-cf1ui-sg6-tr1a.txt.
 
 ## Nächste Schritte (AHS-CF1, Entscheid des Nutzers 19:19/19:21)
 0. 0.65.394: AHS-SG6-a (Reiter Wächter 1 Neuaufbau je Runde, Ursache messen), T750-Titel: zu lange Namen kürzen + voller Name im Tooltip.
