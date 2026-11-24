@@ -267,6 +267,9 @@ die es dort gibt.
   (hier: +104 907 KB im Bild gegen "ohne Addon −378 KB seit Scan-Beginn"). Widerspruch = Befund, Schluss nur als Verdacht.
 - E-Regel 24.11.2026 10:40 (D-ANN): Bevor dem Nutzer ein Punkt als "offen" gemeldet wird, den LETZTEN Eintrag dazu in offen-*.txt lesen
   (grep Kürzel | tail). D-ANN1/D-ANN2 waren seit 23.11. 12:43 erledigt, wurden aber aus dem eigenen Stand als offen gemeldet.
+- E-Regel 24.11.2026 19:50 (GSMesstest): Bei jeder Leistungs-/Speicher-Auswertung die Zeile "je Addon" lesen. Steht dort ein Messwerkzeug
+  (GSMesstest o. ä.) oder ein fremdes Addon mit grossem Anteil, gelten die Werte als verfälscht – kein Befund ans Projekt. Messwerkzeuge des
+  Supervisors nach der Messung SOFORT beim Nutzer entfernen lassen und das im Stand vermerken (GSMesstest blieb vom 13. bis 24.11. aktiv).
 - E-Regel 24.11.2026 19:48 (T458, Info des Nutzers 19:47 "sowas darf nie mehr passieren...auffällig keine bzw. Unregelmässigkeiten könnten auch
   durch mich durch solche deine verursache...wir brauchen da für keine Prüfung ingame"): Ein einzelner Ausreisser (ein Bild, eine Portion, ein
   Messwert) in einem Ingametest, bei dem der Code an dieser Stelle unverändert ist, wird ZUERST gegen die Bedienung des Nutzers gehalten

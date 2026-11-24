@@ -6537,3 +6537,14 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
       Arbeitsspeicher nicht. Folge: im Testlauf kommt nie ein Vorrat an; Wiederverwendung kann T459 hier nicht senken. Antwort dazu im nächsten
       Bericht: woher zählt "der Sitzung" (Datei:Zeile), gab es vor dem Scan ein /reload? T459-Grundwert für AHS-CF1 c) = dieser Wert, bis 0.65.391
       gemessen ist (26 303 KB, Zusammenfassungen 8 338 KB).
+>>> INGAMETEST 24.11. 19:41 mit 0.65.391, Teil auto (PC) – Auswertung Supervisor 19:50
+    OK 1042 · FEHLER 1 · übersprungen 34 · im Client 16 · 220 s; Sandbox OK; Entzauber-Daten unverändert; Plausibilität OK.
+    - T750 114 Befunde (abgeschnitten 98, überlappt 12, veraltet 4), Markt > Überfüllt 45 (0.65.390: 117/49) – weiter AHS-CF1 (1).
+    - T191 diesmal OK (0.65.390: FEHLER "Frame verdeckt Button"). 0.65.391 hat daran nichts geändert -> wechselnd. Bitte im Bericht zu T750/T191
+      sagen, wovon T191 abhängt (welcher Frame, welcher Button, wann), damit "grün" nicht Zufall ist.
+    - Vollscan-Zeilen im Bericht sind noch die GESPEICHERTEN des Scans mit 0.65.390 (Lücke 908 ms, Takt 39,7 ms) – kein neuer Scan in diesem Teil.
+ BEFUND DER PRÜFUNG (nicht AHSentinel): In der Vollscan-Messung "belegter Speicher je Addon seit Scan-Beginn" steht GSMesstest +154 138 KB
+    (AHSentinel +4 581). GSMesstest ist ein Messwerkzeug des Supervisors (shared/messtest, 13.11.), das nach der Messung hätte entfernt werden
+    müssen. Es liest JEDEN fremden Vollscan still mit (MarktPassiv -> MarktStart, 3000 Auktionen je Bild). Damit sind die Vollscan-Messungen auf
+    dem PC (Speicher, Bereinigungen 52, längste Bilder, evtl. T458 39,7 ms durch Bereinigung in einer AHS-Portion) VERFÄLSCHT. Keine Arbeit für
+    AHSentinel daraus; der Nutzer entfernt GSMesstest. Vollscan-Werte (T458/T459/Vollscan zweimal) gelten erst aus einem Lauf OHNE GSMesstest.
