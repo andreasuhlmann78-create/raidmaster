@@ -500,3 +500,5 @@ SICHERHEIT (Pflicht, Repo ist öffentlich):
     Feinheit 2.3.20–2.3.22 richtig ab; Text "mindestens Version y" statt "Mindestversion y" – Begründung richtig (y = nötige Version), angenommen.
     Unlesbare Mindestversion -> keine PN (gut, nie falsche PN). D-UPD1 Punkt 1 damit erfüllt; Punkte 2–3 nach UP-UPD1.
     Offen: Versand /uploader an die Offiziere und den Nutzer – braucht den verbundenen Browser (Nutzer meldet sich an).
+>>> HINWEIS SUPERVISOR 21:53: Der Nutzer verschickt den Uploader (2.3.24) an die Offiziere und an sich SELBST über die Bot-Befehle (Nutzer 21:53: "ich sende ihn denen selber").
+    Den verschobenen Versand NICHT zusätzlich machen (keine doppelte PN). Danach im Bericht nur prüfen, ob #bot-log den Versand zeigt.
