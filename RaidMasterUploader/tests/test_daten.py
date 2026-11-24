@@ -16,6 +16,15 @@ import unittest
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, HERE)
 import daten  # noqa: E402
+
+def MkDaten(*a, **k):
+    """UP-MIN1 (2.3.23): Testrechner gelten als aktueller Uploader (Mindestversion 0.1, eigene Version 2.3.23, wenn nicht genannt) –
+    die Tests der Mindestversion setzen min_fetch/version selbst (UPALT)."""
+    k.setdefault("version", "2.3.23")
+    dl = daten.Daten(*a, **k)
+    dl.min_fetch = lambda: "0.1"
+    return dl
+
 import sync  # noqa: E402
 
 TOKEN = "github_pat_TESTGEHEIM_1234567890abc"
@@ -201,7 +210,7 @@ class Lieferung(unittest.TestCase):
         self.dl = self.make()
 
     def make(self, repo="ich/goldsentinel-daten"):
-        return daten.Daten(daten.GitHubAPI(repo, TOKEN), {"_forever_/123456789#1": self.acc}, self.st,
+        return MkDaten(daten.GitHubAPI(repo, TOKEN), {"_forever_/123456789#1": self.acc}, self.st,
                            lambda: None, "PC", self.logs.append)
 
     def tearDown(self):
@@ -777,7 +786,7 @@ class ZweiRechner(unittest.TestCase):
             acc = os.path.join(self.d, name, "_forever_", "WTF", "Account", k)
             os.makedirs(os.path.join(acc, "SavedVariables"))
             roots["_forever_/" + k] = acc
-        return daten.Daten(daten.GitHubAPI("ich/goldsentinel-daten", TOKEN), roots, {}, lambda: None, name,
+        return MkDaten(daten.GitHubAPI("ich/goldsentinel-daten", TOKEN), roots, {}, lambda: None, name,
                            lambda t: None), roots
 
     @staticmethod
@@ -903,6 +912,7 @@ class UPDS2(ZweiRechner):
         dl._read_files = raw
         dl._pack_all = lambda cur: (setattr(dl, "_raw_sizes", {}), cur)[1]   # vor 2.3.19: ungepackt
         dl.legacy = True                                    # vor 2.3.20: nur main, keine Mindestversion
+        dl.version = ""                                     # vor 2.3.15: ohne Versionsangabe ("unbekannt")
         return dl, roots
 
     def new_uploader(self, name, konten):
@@ -1136,7 +1146,7 @@ class UPTAGE(ZweiRechner):
         self.drive(lap, T0 + 1, T0 + 20)
         self.assertIn(f"aktuell/Laptop/forever/{konto}/AHSentinel.lua", self.gh.raw_files())
         # derselbe Rechner mit 2.3.19
-        lap = daten.Daten(daten.GitHubAPI("ich/goldsentinel-daten", TOKEN), lr, {}, lambda: None, "Laptop", lambda t: None,
+        lap = MkDaten(daten.GitHubAPI("ich/goldsentinel-daten", TOKEN), lr, {}, lambda: None, "Laptop", lambda t: None,
                           version="2.3.19")
         logs = []
         lap.log = logs.append
@@ -1313,19 +1323,22 @@ class UPTAGE(ZweiRechner):
         self.drive(pc, T0 + 1, T0 + 20)
         lap, lr, logs = self.new_uploader("Laptop", [k])
         lap.version = "2.3.19"
+        lap.min_fetch = lambda: "2.3.19"                                       # UP-MIN1: Mindestversion 2.3.19
         self.put(lr["_forever_/" + k], "AHSentinel.lua", "AHSentinelDB = { 'lap' }\n", T0 + 100)
         self.drive(lap, T0 + 101, T0 + 130)
         hint = [l for l in logs if "alten Uploader" in l]
         self.assertEqual(len(hint), 1, logs)
-        self.assertIn("1 anderer Rechner liefert noch mit einem alten Uploader – seine Daten werden nicht angenommen", hint[0])
+        self.assertIn("1 anderer Rechner liefert noch mit einem zu alten Uploader (unter 2.3.19) – seine Daten werden nicht "
+                      "angenommen", hint[0])
         # UP-MSG1 (2.3.22): Mehrzahl
         logs2 = []
         lap.log, lap.warned_old = logs2.append, None
         lap._hint_old_uploaders({"A": {"uploader": "2.3.1"}, "B": {}, "C": {"uploader": "unbekannt"}, "Laptop": {}})
         self.assertEqual(len(logs2), 1, logs2)
-        self.assertIn("3 andere Rechner liefern noch mit einem alten Uploader – ihre Daten werden nicht angenommen", logs2[0])
+        self.assertIn("3 andere Rechner liefern noch mit einem zu alten Uploader (unter 2.3.19) – ihre Daten werden nicht angenommen",
+                      logs2[0])
         self.assertNotIn("andere(r)", logs2[0])
-        self.assertIn("/uploader holen (2.3.19)", hint[0])
+        self.assertIn("dort /uploader holen.", hint[0])
         self.assertNotIn("PC", hint[0])
 
 
@@ -1337,10 +1350,11 @@ class UPALT(ZweiRechner):
     K = "123456789#1"
     old_uploader = UPDS2.old_uploader
 
-    def current(self, name, version="2.3.20", latest="2.3.20"):
+    def current(self, name, version="2.3.20", latest="2.3.20", minimum="2.3.20"):
         dl, roots = self.machine(name, [self.K])
         dl.version = version
         dl.latest_fetch = lambda: latest
+        dl.min_fetch = lambda: minimum
         logs = []
         dl.log = logs.append
         return dl, roots["_forever_/" + self.K], logs
@@ -1424,24 +1438,25 @@ class UPALT(ZweiRechner):
         self.assertTrue(any(b"ALT" in v for v in self.gh.files("main").values()))   # angenommen
 
     def test_veraltet_liefert_nichts_und_sagt_es(self):
+        # UP-MIN1 (2.3.23): abgewiesen wird nur UNTER der Mindestversion (mindestversion.txt), nicht "nicht die neueste"
         lap, acc, logs = self.current("Laptop")
         self.put(acc, "AHSentinel.lua", "AHSentinelDB = { 'a' }\n", T0)
         self.drive(lap, T0 + 1, T0 + 30)
         refs = dict(self.gh.refs)
         n = self.gh.commit_count()
-        lap.latest_fetch = lambda: "2.3.21"                  # neue Version veröffentlicht
-        lap.latest_at = -1e18
+        lap.min_fetch = lambda: "2.3.21"                      # Mindestversion erhöht (Daten/Format geändert)
+        lap.min_at = -1e18
         self.put(acc, "AHSentinel.lua", "AHSentinelDB = { 'b' }\n", T0 + 100)
         self.drive(lap, T0 + 101, T0 + 2000)
         self.assertEqual(self.gh.commit_count(), n)
         self.assertEqual(self.gh.refs, refs)
-        msg = "Daten nicht angenommen – Uploader 2.3.20 ist veraltet (neueste 2.3.21), bitte /uploader holen"
-        self.assertEqual([l for l in logs if "veraltet" in l], [f"Prüfung: {msg}."])        # genau einmal
+        msg = "Daten nicht angenommen – Uploader 2.3.20 ist zu alt (Mindestversion 2.3.21), bitte /uploader holen"
+        self.assertEqual([l for l in logs if "zu alt" in l], [f"Prüfung: {msg}."])          # genau einmal
         self.assertIn(msg, lap.status_line())
-        self.assertEqual(lap.d["neueste"]["v"], "2.3.21")
-        # GitHub-Rohdatei nicht lesbar -> zuletzt gelesene Version gilt weiter (nie still annehmen)
-        lap.latest_fetch = lambda: None
-        lap.latest_at = -1e18
+        self.assertEqual(lap.d["mindest"]["v"], "2.3.21")
+        # Datei nicht lesbar -> zuletzt gelesene Mindestversion gilt weiter (nie still annehmen)
+        lap.min_fetch = lambda: None
+        lap.min_at = -1e18
         self.drive(lap, T0 + 2001, T0 + 3000)
         self.assertEqual(self.gh.commit_count(), n)
         # Nutzer holt /uploader -> 2.3.21 liefert sofort
@@ -1449,15 +1464,53 @@ class UPALT(ZweiRechner):
         lap.retry_at = 0
         self.drive(lap, T0 + 3001, T0 + 3100)
         self.assertEqual(self.gh.commit_count(), n + 1)
-        self.assertEqual(json.loads(self.gh.raw_files("sicherung")["stand.json"])["Laptop"]["uploader"], "2.3.21")
+        st = json.loads(self.gh.raw_files("sicherung")["stand.json"])["Laptop"]
+        self.assertEqual((st["uploader"], st["mindestversion"]), ("2.3.21", "2.3.21"))
         self.assertEqual(lap.last_error, "")
-        # Gegenprobe: ohne je gelesene Version nie abweisen (eigene gilt)
-        lap2, acc2, logs2 = self.current("PC", version="2.3.20", latest=None)
-        self.assertIsNone(lap2.outdated(T0))
-        self.assertEqual(lap2.latest(T0), "2.3.20")
-        # Gegenprobe: neuere eigene Version als veröffentlicht (gerade erst gebaut) -> nicht veraltet
-        lap3, _, _ = self.current("PC2", version="2.3.21", latest="2.3.20")
-        self.assertIsNone(lap3.outdated(T0))
+        # nie gelesen -> MIN_BUILTIN (nicht die eigene Version)
+        lap2, _, _ = self.current("PC", version="2.3.19", minimum=None)
+        self.assertEqual(lap2.minimum(T0), daten.MIN_BUILTIN)
+        self.assertIn("zu alt (Mindestversion 2.3.20)", lap2.outdated(T0))
+
+    def test_min_ueber_mindest_aber_nicht_neueste_wird_angenommen(self):
+        # UP-MIN1 (5): gleich/über Mindestversion, aber nicht die neueste -> angenommen + Hinweis (einmal je neuer Version)
+        lap, acc, logs = self.current("Laptop", version="2.3.21", latest="2.3.24", minimum="2.3.20")
+        self.put(acc, "AHSentinel.lua", "AHSentinelDB = { 'a' }\n", T0)
+        self.drive(lap, T0 + 1, T0 + 30)
+        n = self.gh.commit_count()
+        self.assertGreaterEqual(n, 1)
+        self.assertEqual(lap.last_error, "")
+        info = [l for l in logs if "neuere Uploader-Version" in l]
+        self.assertEqual(info, ["Prüfung: neuere Uploader-Version 2.3.24 verfügbar (/uploader) – die Daten werden weiter "
+                                "angenommen (Mindestversion 2.3.20)."])
+        st = json.loads(self.gh.raw_files("sicherung")["stand.json"])["Laptop"]
+        self.assertEqual((st["uploader"], st["neueste"], st["mindestversion"]), ("2.3.21", "2.3.24", "2.3.20"))
+        self.put(acc, "AHSentinel.lua", "AHSentinelDB = { 'b' }\n", T0 + 200)
+        lap.d["last_try"] = 0
+        self.drive(lap, T0 + 201, T0 + 240)
+        self.assertEqual(self.gh.commit_count(), n + 1)
+        self.assertEqual(len([l for l in logs if "neuere Uploader-Version" in l]), 1)                # nicht jedes Mal
+        # gleich der Mindestversion -> angenommen
+        pc, pacc, plogs = self.current("PC", version="2.3.20", latest="2.3.24", minimum="2.3.20")
+        self.assertIsNone(pc.outdated(T0))
+        # Gegenprobe altes Verhalten (Mindestversion = neueste): dieselbe 2.3.21 würde abgewiesen
+        old, _, _ = self.current("Alt", version="2.3.21", latest="2.3.24", minimum="2.3.24")
+        self.assertIn("zu alt (Mindestversion 2.3.24)", old.outdated(T0))
+        # Zahlen, nicht Text: 2.3.9 < 2.3.20
+        x, _, _ = self.current("X", version="2.3.9", minimum="2.3.20")
+        self.assertIsNotNone(x.outdated(T0))
+
+    def test_min_datei_im_repo(self):
+        with open(os.path.join(HERE, "mindestversion.txt"), encoding="utf-8") as f:
+            v = daten.parse_min(f.read())
+        import uploader
+        self.assertTrue(v and daten.version_key(v))
+        self.assertFalse(daten.is_older(uploader.VERSION, v))                 # die eigene Version liegt nie darunter
+        self.assertEqual(v, daten.MIN_BUILTIN)                                # beim Bau gleich (sonst MIN_BUILTIN nachziehen)
+        self.assertTrue(daten.MIN_URL.endswith("/RaidMasterUploader/mindestversion.txt"))
+        self.assertEqual(daten.parse_min("# x\n\n 2.3.25 \n2.3.1\n"), "2.3.25")
+        self.assertIsNone(daten.parse_min("# nur Kommentar\n"))
+        self.assertIsNone(daten.parse_min("abc\n2.3.20"))                   # erste Zeile ohne # muss die Version sein
 
     def test_zwei_aktuelle_legen_sicherung_gleichzeitig_an(self):
         pc, pacc, _ = self.current("PC")

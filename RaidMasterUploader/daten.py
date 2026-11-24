@@ -43,6 +43,13 @@ UP-ALT (ab 2.3.20, Entscheid des Nutzers 24.11.2026 07:22 "wenn jemand nicht die
         Bot, steigt mit jeder Version von selbst), höchstens alle 10 Min. gelesen. Ist der eigene Uploader älter, liefert er
         nichts (auch "sicherung" nicht) und sagt es im Fenster. Nicht lesbar -> zuletzt gelesene Version, sonst die eigene.
     (3) Meldung im Fenster: "Daten nicht angenommen – Uploader x.y.z ist veraltet (neueste a.b.c), bitte /uploader holen."
+UP-MIN1 (ab 2.3.23, Entscheid des Nutzers 24.11.2026 21:18 "umsetzten" auf den Vorschlag des Supervisors 21:17): statt "neueste"
+    gilt eine MINDESTVERSION – eine Stelle im Repo: RaidMasterUploader/mindestversion.txt (öffentlich, ohne Token gelesen, höchstens
+    alle 10 Min.). Sie wird nur erhöht, wenn sich Daten, Format, Prüfung oder Sicherheit ändern (Begründung im LIESMICH und Bericht),
+    nie für reine Text-/Anzeige-Änderungen. Unter der Mindestversion: nichts liefern, Meldung "… ist zu alt (Mindestversion x) …".
+    Darüber, aber nicht die neueste: liefern wie immer, einmal die Information "neuere Uploader-Version a.b.c verfügbar".
+    Nicht lesbar -> zuletzt gelesene, sonst MIN_BUILTIN (Stand beim Bau). Uploader 2.3.20–2.3.22 prüfen noch gegen "neueste" (lässt
+    sich bei ihnen nicht mehr ändern) – sie liefern erst wieder ab 2.3.23.
 
 DS1 Datenschutz (ab 2.3.13, Entscheid des Nutzers 16.11.2026 07:10): In GuildSentinel.lua werden vor dem Hochladen die
     Bewerber (apps) und die Sperrliste (ban) jeder Gilde geleert (svfilter.py). Nur die hochgeladene Kopie; die Datei im
@@ -94,6 +101,10 @@ WATCH_SECONDS = 300                  # UP-ALT: so oft main mit "sicherung" vergl
 LATEST_SECONDS = 600                 # UP-ALT: so oft die neueste veröffentlichte Version lesen
 LATEST_URL = ("https://raw.githubusercontent.com/andreasuhlmann78-create/raidmaster/HEAD/"
               "RaidMasterUploader/uploader.py")   # öffentlich, ohne Token; dieselbe Quelle wie der Bot
+MIN_URL = ("https://raw.githubusercontent.com/andreasuhlmann78-create/raidmaster/HEAD/"
+           "RaidMasterUploader/mindestversion.txt")      # UP-MIN1: die eine Stelle der Mindestversion
+MIN_BUILTIN = "2.3.20"                # UP-MIN1: Mindestversion beim Bau dieser Version (nur Notfall, wenn nie gelesen)
+MIN_RE = re.compile(r"^\s*(\d+(?:\.\d+){1,3})\s*$", re.M)
 VERSION_RE = re.compile(r'^VERSION\s*=\s*["\'](\d+(?:\.\d+){1,3})["\']', re.M)
 REPO_RE = re.compile(r"^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$")
 TOKEN_RE = re.compile(r"^(github_pat_|ghp_)[A-Za-z0-9_]+$")
@@ -108,7 +119,8 @@ LIESMICH = ("# GoldSentinel-Daten (privat)\n\n"
             "Jede Lieferung ersetzt den Verlauf (ein einziger Commit) – ältere Fassungen gibt es hier nicht.\n\n"
             "Ab Uploader 2.3.20 gilt der Zweig `sicherung` (schreibt nur ein aktueller Uploader). `main` ist nur eine Kopie und "
             "kann kurz eine nicht angenommene Lieferung eines alten Uploaders zeigen. Leser nehmen `sicherung` und nur Rechner, "
-            "deren `uploader` in `stand.json` die neueste veröffentlichte Version ist.\n")
+            "deren `uploader` in `stand.json` mindestens die Mindestversion ist (RaidMasterUploader/mindestversion.txt im "
+            "raidmaster-Repo, ab Uploader 2.3.23).\n")
 QUOTES = str.maketrans({"„": '"', "“": '"', "”": '"', "«": '"', "»": '"', "‘": "'",
                         "’": "'"})
 
@@ -135,6 +147,26 @@ def fetch_latest_version(timeout: int = 30) -> str | None:
         return None
     m = VERSION_RE.search(text)
     return m.group(1) if m else None
+
+
+def fetch_min_version(timeout: int = 30) -> str | None:
+    """UP-MIN1: erste Zeile mit einer Versionsnummer in mindestversion.txt (Zeilen mit # sind Erklärung). None bei jedem Fehler."""
+    req = urllib.request.Request(MIN_URL, headers={"User-Agent": "GoldSentinel-Uploader"})
+    try:
+        with urllib.request.urlopen(req, timeout=timeout, context=ssl_context()) as resp:
+            text = resp.read(16384).decode("utf-8", "replace")
+    except Exception:  # noqa: BLE001 – nie abstürzen; dann gilt die zuletzt gelesene Mindestversion
+        return None
+    return parse_min(text)
+
+
+def parse_min(text: str) -> str | None:
+    for line in str(text or "").splitlines():
+        if line.strip().startswith("#") or not line.strip():
+            continue
+        m = MIN_RE.match(line)
+        return m.group(1) if m else None
+    return None
 
 
 def git_blob_sha(data: bytes) -> str:
@@ -486,7 +518,11 @@ class Daten:
         self.warned_old = None                     # UP-DS2 (3): Hinweis "anderer Rechner mit altem Uploader" je Anzahl einmal
         self._too_big: set[str] = set()
         self.legacy = False                        # nur Tests: Verhalten bis 2.3.19 (kein "sicherung", keine Mindestversion)
-        self.latest_fetch = fetch_latest_version   # UP-ALT (2), im Test ersetzbar
+        self.latest_fetch = fetch_latest_version   # UP-ALT (2), im Test ersetzbar – ab 2.3.23 nur noch Information
+        self.min_fetch = fetch_min_version         # UP-MIN1, im Test ersetzbar
+        self.min_at = -1e18
+        self._latest = ""
+        self.told_newer = ""                       # UP-MIN1: Information "neuere Version" je Version einmal
         self.latest_at = -1e18                     # wann zuletzt gelesen (Prozess)
         self.watch_at = -1e18                      # UP-ALT (1): wann zuletzt main mit "sicherung" verglichen
         self.warned_outdated = ""                  # UP-ALT (3): Meldung je Versionspaar einmal
@@ -547,14 +583,26 @@ class Daten:
             v = self.version                       # eigene ist neuer (z. B. gerade erst veröffentlicht) -> die eigene
         return v
 
+    def minimum(self, now: float) -> str:
+        """UP-MIN1: Mindestversion aus mindestversion.txt; höchstens alle LATEST_SECONDS gelesen. Nicht lesbar -> zuletzt gelesene
+        (uploader_state.json), sonst MIN_BUILTIN. Darf auch sinken (der Supervisor kann sie zurücknehmen)."""
+        if now - self.min_at >= LATEST_SECONDS:
+            self.min_at = now
+            v = self.min_fetch()
+            if v and version_key(v) and v != (self.d.get("mindest") or {}).get("v"):
+                self.d["mindest"] = {"v": v, "zeit": int(now)}
+                self.save()
+        v = str((self.d.get("mindest") or {}).get("v") or "")
+        return v if version_key(v) else MIN_BUILTIN
+
     def outdated(self, now: float) -> str | None:
-        """UP-ALT (2)/(3): Text, wenn dieser Uploader nicht die neueste Version ist, sonst None."""
+        """UP-MIN1: Text, wenn dieser Uploader unter der Mindestversion liegt, sonst None."""
         if self.legacy:
             return None
-        want = self.latest(now)
+        want = self.minimum(now)
         if not is_older(self.version, want):
             return None
-        return (f"Daten nicht angenommen – Uploader {self.version or 'unbekannt'} ist veraltet (neueste {want}), "
+        return (f"Daten nicht angenommen – Uploader {self.version or 'unbekannt'} ist zu alt (Mindestversion {want}), "
                 f"bitte /uploader holen")
 
     # -- UP-ALT (1): Wächter – main nie länger als WATCH_SECONDS anders als "sicherung"
@@ -578,7 +626,7 @@ class Daten:
                 ver = self._deliverer(json.loads(self.api.blob_text(tree["stand.json"]["sha"]).decode("utf-8")))
         except (GitHubError, ValueError, UnicodeDecodeError, KeyError, TypeError):
             ver = ""
-        if ver and ver != "unbekannt" and not is_older(ver, self._want or self.version):
+        if ver and ver != "unbekannt" and not is_older(ver, self._want or MIN_BUILTIN):
             return                                   # ein aktueller Rechner war mitten im Liefern (sicherung vor main) – kein Fund
         who = f"Uploader {ver}" if ver and ver != "unbekannt" else "Uploader vor 2.3.15"
         self.log(f"Prüfung: Lieferung eines alten Uploaders ({who}) nicht angenommen – Daten-Repo auf den gesicherten "
@@ -793,7 +841,8 @@ class Daten:
         stand[me] = {"zeit": int(now), "dateien": files,
                      "grundregeln": list(self.d.get("grundregeln") or []),      # TU5: Verletzungen (ohne Namen)
                      "uploader": self.version or "unbekannt",                   # UP-DS2 (1)
-                     "neueste": getattr(self, "_want", "") or self.version or "",  # UP-ALT: neueste veröffentlichte beim Liefern
+                     "neueste": self._latest or self.version or "",        # UP-ALT: neueste veröffentlichte beim Liefern (Info)
+                     "mindestversion": self._want or MIN_BUILTIN,            # UP-MIN1: galt beim Liefern
                      "tage": {"anzahl": len(tage), "von": tage[0] if tage else "", "bis": tage[-1] if tage else "",
                               "grenze_tage": DAYS_KEEP, "grenze_mb": REPO_MAX // (1024 * 1024)}}   # UP-TAGE
         self.days_now = tage
@@ -838,14 +887,14 @@ class Daten:
             if k == self.me or k == self.folder or not isinstance(v, dict):
                 continue
             ver = v.get("uploader")
-            if not ver or ver == "unbekannt" or self._older(ver, self._want or self.version):
+            if not ver or ver == "unbekannt" or self._older(ver, self._want or MIN_BUILTIN):
                 n += 1
         if n and n != self.warned_old:
-            # UP-MSG1 (2.3.22): Einzahl/Mehrzahl je nach Zahl
+            # UP-MSG1 (2.3.22): Einzahl/Mehrzahl je nach Zahl; UP-MIN1 (2.3.23): "zu alt (unter x)"
             who = "1 anderer Rechner liefert" if n == 1 else f"{n} andere Rechner liefern"
             whose = "seine" if n == 1 else "ihre"
-            self.log(f"Prüfung: {who} noch mit einem alten Uploader – {whose} Daten werden nicht "
-                     f"angenommen; dort /uploader holen ({self._want or self.version or 'die neue Version'}).")
+            self.log(f"Prüfung: {who} noch mit einem zu alten Uploader (unter {self._want or MIN_BUILTIN}) – {whose} Daten "
+                     f"werden nicht angenommen; dort /uploader holen.")
         self.warned_old = n
         self.old_uploaders = n
 
@@ -857,8 +906,13 @@ class Daten:
         self._keep_old: dict[str, str] = {}          # eigene Dateien, die GitHub ablehnt -> vorige Fassung bleibt
         self._missing: set[str] = set()              # Prüfwerte, die GitHub als fehlend meldet
         self._too_big: set[str] = set()              # 2.3.19: eigene Dateien über MAX_RAW / gepackt über MAX_FILE
-        self._want = "" if self.legacy else self.latest(now)
+        self._want = "" if self.legacy else self.minimum(now)
+        self._latest = "" if self.legacy else self.latest(now)
         why = self.outdated(now)
+        if not why and not self.legacy and is_older(self.version, self._latest) and self._latest != self.told_newer:
+            self.told_newer = self._latest                 # UP-MIN1 (4): nur Information, kein Abweisen
+            self.log(f"Prüfung: neuere Uploader-Version {self._latest} verfügbar (/uploader) – die Daten werden weiter angenommen "
+                     f"(Mindestversion {self._want}).")
         if why:                                      # UP-ALT (2)/(3): veraltet -> nichts liefern, auch "sicherung" nicht
             self.last_error = why
             self.retry_at = now + LATEST_SECONDS

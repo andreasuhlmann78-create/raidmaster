@@ -1,0 +1,38 @@
+Bericht RaidMaster-Sitzung an die Prüf-Sitzung – 24.11.2026 21:23
+Thema: UP-MIN1 HOCH (Entscheid des Nutzers 24.11. 21:18 "umsetzten") – Mindestversion statt "neueste" – Uploader 2.3.23
+Status: umgesetzt, zur Prüfung. download/RaidMasterUploader.zip (17 Dateien, ZIP = Ordner, neu: mindestversion.txt).
+
+1. Eine Stelle (Regel 1): RaidMasterUploader/mindestversion.txt im öffentlichen raidmaster-Repo; erste Zeile ohne "#" = Mindestversion,
+   darüber die Begründung je Erhöhung. Gelesen über raw HEAD ohne Token, höchstens alle 10 Min.; nicht lesbar -> zuletzt gelesene
+   (uploader_state.json "mindest"), nie gelesen -> MIN_BUILTIN in daten.py (Stand beim Bau; Test: Datei = MIN_BUILTIN, eigene Version nie
+   darunter). Unter der Mindestversion: nichts liefern (auch "sicherung" nicht), Meldung (Regel 4)
+   "Daten nicht angenommen – Uploader x ist zu alt (Mindestversion y), bitte /uploader holen". Gleich/darüber: liefern; ist eine
+   neuere Version veröffentlicht (VERSION in uploader.py wie bisher), einmal je Version die Information "neuere Uploader-Version a.b.c
+   verfügbar (/uploader) – die Daten werden weiter angenommen (Mindestversion y)". stand.json je Rechner neu: "mindestversion".
+   Hinweis auf andere Rechner: "… liefert noch mit einem zu alten Uploader (unter y) …".
+2. Erhöhen (Regel 2): nur bei Änderung an Daten/Format/Prüfung/Sicherheit, Begründung in mindestversion.txt, LIESMICH und Bericht.
+   2.3.23 erhöht sie NICHT.
+3. Startwert 2.3.20 (Regel 3), Belege aus dem Code je Version, was die Daten betrifft:
+   - bis 2.3.18: DAYS_KEEP = 7 -> kürzt tage/ (10 von 11 Fassungen von daten.py, Bericht 0737)
+   - 2.3.19: alles als .lua.gz, 30 Tage – schreibt aber nur main (kein "sicherung")
+   - 2.3.20: erster Uploader, der "sicherung" schreibt (zuerst) und alte Lieferungen auf main zurückstellt (UP-ALT) – Grundlage des
+     gültigen Stands
+   - 2.3.21: nur Addons installieren (addons.py), daten.py unverändert ausser Versionsnummer; 2.3.22: nur Meldungen (sync.py/daten.py
+     Texte); 2.3.23: Mindestversion – keine Änderung an Daten/Format.
+   2.3.21 als Startwert wäre unbegründet (2.3.20-Daten sind gleich richtig). 2.3.19 nicht: schreibt nicht "sicherung".
+4. WICHTIG – Grenze der Umsetzung (belegt): Uploader 2.3.20, 2.3.21, 2.3.22 prüfen sich selbst noch gegen "neueste" (VERSION in
+   uploader.py, daten.py dieser Versionen) und lassen sich nicht nachträglich ändern. Sie liefern darum erst nach dem Wechsel auf 2.3.23
+   – EINMAL noch; ab 2.3.23 sperrt eine neue Version ohne erhöhte Mindestversion niemanden mehr.
+5. Tests (eigene, Hinweis): unter Mindestversion -> abgewiesen, Meldung einmal, Statuszeile, nicht lesbar -> gemerkte gilt, nach Update
+   sofort geliefert, nie gelesen -> MIN_BUILTIN; über Mindestversion aber nicht neueste -> angenommen + Information genau einmal,
+   stand.json uploader/neueste/mindestversion; gleich Mindestversion -> angenommen; Gegenprobe altes Verhalten (Mindest = neueste) ->
+   abgewiesen; 2.3.9 < 2.3.20. mindestversion.txt lesbar, Kommentare, erste Zeile. Gegenprobe gegen 2.3.22: 3 Tests rot.
+   Testrechner der übrigen Tests gelten als aktuell (Hilfsfunktion MkDaten: Version 2.3.23, Mindestversion 0.1).
+   Alle grün: test_addons 25, test_daten 48, test_sync 54, test_uploader 23, test_umfassend 14 (TU6 92/92, TU3 26).
+6. Stellen, die "neueste" lesen und angepasst werden müssen (nicht von mir geändert):
+   - Discord-Projekt, RaidMasterBot/uploader_alt_bot.py (D-UPALT): Z. 218 newest = VERSION aus uploader.py; is_outdated (Z. 63) und
+     outdated (Z. 85) vergleichen damit. Neu: Mindestversion aus RaidMasterUploader/mindestversion.txt (erste Zeile ohne #). Feinheit:
+     Rechner mit 2.3.20–2.3.22 liefern trotzdem nicht, solange eine neuere Version existiert (Punkt 4) -> für sie weiter "liefert
+     nicht, /uploader holen", bis sie 2.3.23 haben. Text "(neueste x)" -> "(Mindestversion y)".
+   - Leser des Daten-Repos (Supervisor/addon-check, geplante Aufgaben): Rechner angenommen, wenn stand.json "uploader" nicht unter
+     mindestversion.txt liegt (bisher: = neueste). LIESMICH.md im Daten-Repo sagt es ab der nächsten Lieferung.

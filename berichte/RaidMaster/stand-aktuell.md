@@ -1,22 +1,13 @@
 # Stand RaidMaster-Sitzung
 
-## Stand 24.11.2026 21:01 · Addon 3.0.44 · Uploader 2.3.22
-- Uploader 2.3.22 gepusht (UP-MSG1: Weg "Discord #sync-daten" genannt, "nachgeholt", Einzahl/Mehrzahl). Bericht 2101 – zur Prüfung.
-- Addon 3.0.44 gepusht (RM-UMG1: Testroutine erkennt Umgebung/Bedienung, Zeile UMGEBUNG, T203; T111 bereinigt vorher).
-  Bericht 2026-11-24-2046 – zur Prüfung.
-- Uploader 2.3.21 (UP-AUTO1, vom Supervisor 20:50 angenommen; an Offiziere verteilt 20:52) HOCH: installiert neue Addon-Versionen selbst, Schalter Standard aus,
-  Addons-automatisch-an/-aus.bat). Bericht 2026-11-24-2037 – zur Prüfung. Addon 3.0.43 im Ingametest 0 FEHLER (RM-I2 erledigt).
-- Addon 3.0.43 gepusht (RM-I2 Rest: Item-Qualitätsfarben über RM.ReadableText lesbar, Nummer im Discord-Leitfaden;
-  T202). Bericht 2026-11-24-1024 – zur Prüfung. Ingametest 3.0.42 (10:17): 147 OK, 1 FEHLER (T199) -> in 3.0.43; RM-I1 erledigt.
-- Addon 3.0.42 gepusht (RM-I1: T116 misst Speicher je Addon; RM-I2: Klassenfarben/Grau/Rot heller, T201). Bericht
-  2026-11-24-1010 – zur Prüfung. Ingametest 3.0.41 (09:09): 145 OK, 2 FEHLER (RM-I1, RM-I2) -> in 3.0.42.
-- Addon 3.0.41 (download/RaidMaster-3.0.41.zip, -latest.zip, Discord-Text raid_addon_intro.md; der Bot postet
-  #raid-addon beim Update selbst). addon_check OK. Bericht 2026-11-24-0758 – zur Prüfung.
-  Inhalt: SH-V3 (Test v3) + Sync aus shared/, Platzhalter "?" mit Tooltip (T197), Dev-Sicht geprüft (T196), gemeinsames
-  Adressbuch im Livedaten-Wächter (SB2, Gegenprobe T198), Lesbarkeit L1/L8 (T199, Gegenprobe T200, 2 Farben heller,
-  Schrift nie unter GameFontNormalSmall), 11 Schätz-Zeitangaben in der Prüfliste entfernt, Realm-Prüfung: nichts getrennt.
-- Uploader 2.3.20 (UP-ALT + UP-TAGE-a) gepusht, Bericht 2026-11-24-0737 (mit Nachtrag) – zur Prüfung. 2.3.19 vom
-  Supervisor 07:40 angenommen. 2.3.16–2.3.18 zur Prüfung.
+## Stand 24.11.2026 21:24 · Addon 3.0.44 · Uploader 2.3.23
+- Uploader 2.3.23 gepusht (UP-MIN1: Mindestversion aus RaidMasterUploader/mindestversion.txt = 2.3.20 statt "neueste").
+  Bericht 2123 – zur Prüfung. 2.3.20–2.3.22 liefern erst nach Wechsel auf 2.3.23 (einmalig).
+- Uploader 2.3.22 (UP-MSG1) und 2.3.21 (UP-AUTO1, PC abgenommen 20:55, Laptop offen) – vom Supervisor angenommen.
+- Addon 3.0.44 (RM-UMG1, Zeile UMGEBUNG, T203) – angenommen 20:50, Ingametest offen. 3.0.43 im Ingametest 0 FEHLER.
+- Addon 3.0.41–3.0.43: Platzhalter "?", Dev-Sicht, SB2-Adressbuch, Lesbarkeit L1/L8, Klassen-/Item-Farben, T116 je Addon.
+  Offen aus 3.0.41: L2–L7 als Prüfungen, Taktik-"ca."-Zahlen (Entscheid Prüf-Sitzung).
+- Uploader 2.3.20 (UP-ALT, "sicherung") angenommen 10:30.
 
 ## Gerade in Arbeit
 - nichts
@@ -30,7 +21,7 @@
    Taktik-"ca."-Zahlen in RaidData.lua nach Entscheid der Prüf-Sitzung.
 
 ## Offen beim Nutzer
-- Uploader 2.3.22 auf allen liefernden Rechnern (UP-ALT: 2.3.21 wird jetzt abgewiesen; Versand per Bot morgen). Auf PC und Laptop
+- Uploader 2.3.23 auf allen liefernden Rechnern (danach sperrt eine neue Version nur noch, wenn die Mindestversion steigt). Auf PC und Laptop
   Addons-automatisch-an.bat ausführen, Uploader neu starten -> Abnahme UP-AUTO1.
 - Uploader 2.3.20 auf allen 4 liefernden Rechnern ganz entpacken + neu starten (ältere werden abgewiesen, auch 2.3.19).
 - RaidMaster 3.0.44 installieren und Ingametest: /gsdev an, /rm testroutine alles, /reload.
@@ -38,6 +29,7 @@
 - Bot: PN an Besitzer alter Uploader und Bewerbungen aufräumen liegen beim Discord-Projekt.
 
 ## Entscheide des Nutzers seit letztem Stand
+- 24.11. 21:18 (über Supervisor): Mindestversion statt "neueste" (UP-MIN1), nur bei Daten/Format/Prüfung/Sicherheit erhöhen.
 - 24.11. 20:52 Nutzer: "meine offiziere haben den neuen auch bekommen" – Uploader 2.3.21 an Offiziere verteilt.
 - 24.11. 20:49: "das discord projekt soll den offiziere das seden" – Uploader 2.3.21 an Offiziere über das Discord-Projekt
   (Bericht 2049 an den Supervisor zum Weiterleiten).
@@ -49,8 +41,8 @@
 - 24.11. 07:46/10:06/10:22: "repo" – Aufträge aus dem Repo umsetzen (3.0.41–3.0.43).
 
 ## Wichtig zu wissen
-- Leser des Daten-Repos: Zweig "sicherung", nur Rechner mit stand.json "uploader" nicht älter als VERSION in
-  RaidMasterUploader/uploader.py; .lua und .lua.gz lesen.
+- Leser des Daten-Repos: Zweig "sicherung", nur Rechner mit stand.json "uploader" nicht unter
+  RaidMasterUploader/mindestversion.txt; .lua und .lua.gz lesen.
 - Uploader-Tests: test_addons 25, test_daten 46, test_sync 53, test_uploader 23, test_umfassend 14 – grün. ZIP = Ordner (Workflow prüft).
 - Addon-Nachbildung: berichte/RaidMaster/offline (lua5.1 run_routine.lua; SHOWID=T196,T197 zeigt einzelne; ADDONDIR=…
   für Gegenproben). Lua 5.1 ggf. neu installieren (apt-get install lua5.1).

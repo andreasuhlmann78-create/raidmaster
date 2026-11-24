@@ -253,6 +253,15 @@ Version 2.3.13 – privacy in the data repo (UP-DS1):
 - If the file cannot be read safely, it is not delivered at all, with one notice "GuildSentinel-Daten nicht geliefert: …".
 - New file svfilter.py – always extract the whole RaidMasterUploader.zip.
 
+Version 2.3.23 – minimum version instead of "newest" (UP-MIN1):
+- Only uploaders BELOW the minimum version are rejected (file RaidMasterUploader/mindestversion.txt in the GoldSentinel repo,
+  currently 2.3.20). A newer version without changes to data/format/check/security no longer blocks anyone.
+- If your uploader is too old: "Daten nicht angenommen – Uploader x ist zu alt (Mindestversion y), bitte /uploader holen".
+- If a newer version exists but you are at or above the minimum: once "neuere Uploader-Version … verfügbar" – your data is
+  still accepted.
+- IMPORTANT: uploaders 2.3.20 to 2.3.22 still check against "newest" and therefore deliver again only after switching to 2.3.23
+  (once; afterwards no longer with every new version).
+
 Version 2.3.22 – clearer messages (UP-MSG1):
 - If uploading for the PC/laptop sync fails, the message now names the path: "Abgleich: Hochladen nach Discord #sync-daten
   nicht möglich (…)"; the status line shows "FEHLER Discord #sync-daten: …". When the next attempt works, it says once

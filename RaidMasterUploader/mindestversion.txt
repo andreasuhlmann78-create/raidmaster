@@ -1,0 +1,8 @@
+# Mindestversion des RaidMaster-Uploaders (UP-MIN1, Entscheid des Nutzers 24.11.2026 21:18).
+# Daten von Uploadern UNTER dieser Version werden nicht angenommen. Nur erhöhen, wenn sich Daten, Format, Prüfung oder
+# Sicherheit ändern – nie für reine Text-/Anzeige-Änderungen. Jede Erhöhung mit Begründung im LIESMICH und im Bericht.
+# Die erste Zeile ohne # ist die Mindestversion. Ab Uploader 2.3.23 gelesen (raw, ohne Token, höchstens alle 10 Min.).
+#
+# 2.3.20 (24.11.2026): erster Uploader, der den Zweig "sicherung" schreibt (UP-ALT) – ältere schreiben nur main und
+#   kürzten bis 2.3.18 die Tages-Stände auf 7 Tage; 2.3.21 (Addons installieren) und 2.3.22 (Meldungen) ändern keine Daten.
+2.3.20

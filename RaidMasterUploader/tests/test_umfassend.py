@@ -21,6 +21,15 @@ UP = os.path.dirname(TESTS)
 sys.path.insert(0, UP)
 sys.path.insert(0, TESTS)
 import daten  # noqa: E402
+
+def MkDaten(*a, **k):
+    """UP-MIN1 (2.3.23): Testrechner gelten als aktueller Uploader (Mindestversion 0.1, eigene Version 2.3.23, wenn nicht genannt) –
+    die Tests der Mindestversion setzen min_fetch/version selbst (UPALT)."""
+    k.setdefault("version", "2.3.23")
+    dl = daten.Daten(*a, **k)
+    dl.min_fetch = lambda: "0.1"
+    return dl
+
 import sync  # noqa: E402
 import test_daten as td  # noqa: E402  (FakeGitHub)
 import test_sync as ts  # noqa: E402  (FakeStore, Machine, AH-Beispiele)
@@ -47,7 +56,7 @@ class Box:
         self.m = {n: ts.Machine(self.d, n, self.store) for n in ("PC", "Laptop")}
         self.dl = {}
         for n, mach in self.m.items():
-            self.dl[n] = daten.Daten(daten.GitHubAPI("ich/goldsentinel-daten", SECRET_TOKEN),
+            self.dl[n] = MkDaten(daten.GitHubAPI("ich/goldsentinel-daten", SECRET_TOKEN),
                                      {"_forever_/KONTO": mach.acc}, mach.st, lambda: None, n, mach.logs.append)
 
     def close(self):
@@ -335,6 +344,7 @@ STANDARD = [
     ("Addons: neue Versionen prüfen alle (Sekunden)", lambda: __import__("addons").CHECK_SECONDS, 300),   # UP-AUTO1
     ("Addons: Wiederholungen (Minuten)", lambda: __import__("addons").RETRY_MINUTES, (1, 2, 4, 8, 16)),
     ("Addons: Schalter", lambda: __import__("addons").CONFIG_KEY, "addons_auto_installieren"),
+    ("Uploader: Mindestversion beim Bau (UP-MIN1)", lambda: daten.MIN_BUILTIN, "2.3.20"),
 ]
 
 
@@ -584,6 +594,10 @@ REGRESSIONEN = {
     "UP-AUTO1 falsche Version": "test_addons.Abweisen.test_falsche_version_in_toc",
     "UP-AUTO1 Pfad ..": "test_addons.Abweisen.test_pfad_mit_punkt_punkt",
     "UP-AUTO1 Schalter bleibt": "test_addons.Schalter.test_schalter_bleibt_beim_speichern_des_laufenden_uploaders",
+    "UP-MIN1 unter Mindestversion abgewiesen": "test_daten.UPALT.test_veraltet_liefert_nichts_und_sagt_es",
+    "UP-MIN1 über Mindestversion angenommen + Hinweis": "test_daten.UPALT.test_min_ueber_mindest_aber_nicht_neueste_wird_angenommen",
+    "UP-MIN1 mindestversion.txt": "test_daten.UPALT.test_min_datei_im_repo",
+    "UP-MSG1 Weg genannt, nachgeholt": "test_sync.Abgleich.test_up_msg1_weg_genannt_und_nachgeholt",
 }
 
 
@@ -620,7 +634,7 @@ class TU7Formen(unittest.TestCase):
             roots = sync.find_roots([d])
             want = {f"{f}/KONTO" for f in ("_forever_", "_classic_era_", "_anniversary_", "_classic_", "_retail_")}
             ok = set(roots) == want
-            dl = daten.Daten(daten.GitHubAPI("a/b", SECRET_TOKEN), roots, {}, lambda: None, "PC", lambda t: None)
+            dl = MkDaten(daten.GitHubAPI("a/b", SECRET_TOKEN), roots, {}, lambda: None, "PC", lambda t: None)
             for k, acc in roots.items():
                 with open(os.path.join(acc, "SavedVariables", "AHSentinel.lua"), "w") as f:
                     f.write("AHSentinelDB = {}\n")
