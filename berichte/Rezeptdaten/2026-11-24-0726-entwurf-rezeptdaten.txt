@@ -1,0 +1,66 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+
+Geplante Aufgabe «ProfessionSentinel Rezeptdaten-Update», Lauf 24.11.2026 07:20 (MEZ)
+Geplante Version: 0.9.80 (höchste veröffentlichte: 0.9.79 – GitHub-Release v0.9.79, download/ProfessionSentinel-0.9.79.zip,
+announce/professionsentinel__professionsentinel-0.9.79.md)
+Branch: entwurf-2026-11-24 im ProfessionSentinel-Repo, Commit 7b752bf (Basis main 63f3d9c = 0.9.79)
+NICHT auf main, kein Release, nichts in announce/ oder download/ (Vorrang-Regel, Entscheid 14.11. 08:55).
+ACHTUNG Versionsnummer: Die ProfessionSentinel-Sitzung arbeitet laut stand-aktuell.md (24.11. 06:40) an PS-I1..I4. Erscheint vor dem
+Zusammenführen dort ebenfalls eine 0.9.80, muss dieser Entwurf eine Nummer höher (nur TOC x4, Core.lua ns.VERSION, CHANGELOG-Überschrift).
+
+1. Datenstand dieses Laufs
+- Clients: Forever 1.60.1.71037 (neu, vorher 70938), Era 1.15.9.70576 (unverändert), Retail 12.1.5.70961 (vorher 70783 im Datenkopf)
+- QuestieDB: 47a4756 vom 23.11.2026 (vorher e1652ce vom 16.11.)
+- report.md: CHANGES=62. Rezepte: Forever 2315, Era 1267, Retail 10172 (alle unverändert, kein Rezept neu oder weg)
+- git diff --stat (Daten): Data_Forever.lua 118+/65- (Kopf + Inhalt); Era und Retail nur Kopfzeilen (je 2+/2-)
+
+2. Inhalt (nur WoW Forever; Era und Retail: 0 neue Rezepte/Quellen/Händler/Drops/Lehrer, 0 geänderte Stufen)
+- Quelle jetzt bekannt (vorher unbekannt): 27 Rezepte, z. B. Studierzimmer für Gifte, Glänzender Mithrilhelm, Blauer Drachenschuppenhelm,
+  Nähmaschine, Transmutieren: Legionit, Saatenkreuzer, Königlicher Tee/Triagetee/Sonniger Tee/Tee des Weisen, Bärengeschnetzeltes,
+  Enchant 2H Weapon - Lesser Agility, Handschuhe - Hochentwickelte Kürschnerei, Traumzweigzauberstab
+- Neue Händler (report.md): 5 – Rissiger Schmiedehammer, Kraftvolles mittleres Rüstungsset, Leichte Lederreagenzientasche,
+  Salziger Meeresfrüchteeintopf, Hufförmiges Pedal. Davon bei 2 Rezepten erstmals überhaupt eine Händlerquelle (Salziger
+  Meeresfrüchteeintopf, Rissiger Schmiedehammer); bei den anderen 3 kam ein Händler zu bestehenden dazu.
+- Neue Drop-Quellen (report.md): 30; bei 25 Rezepten erstmals ein Drop. Beispiele: Kettenhemd des Veteranen 11 -> 19 NPCs,
+  Kettengamaschen des Gardisten 5 -> 18 NPCs, Schwaches Magierblutelixier 1 -> 2 NPCs.
+- Geänderte Stufe: 1 – Orc-Kriegsgamaschen (9957) erlernbar ab 205 (bisher 1); gelb/grün/grau 225/235/245 unverändert.
+- Entfallen: Händler 257006 bei Glänzender Kleinfisch (QuestieDB). Kein Rezept verliert seine einzige Quelle (gemessen: 0 Rezepte
+  mit Drop- bzw. Händlerquelle vorher und ohne nachher).
+- Lehrer: unverändert (ns.Trainers identisch mit main), siehe Punkt 4.
+- ns.Items/ns.NPCs: 21 Zeilen ersetzt/entfernt, 74 neu/ersetzt (Positionen, Stufen, Fraktion; z. B. Pexmit jetzt Stufe 60, AH, 46.8/80.4).
+
+3. Prüfungen (auf dem Branch, Version 0.9.80)
+3a) Lua 5.1 (lupa.luajit21, loadstring, ns.RecipeRows): Forever 2315, Era 1267, Retail 10172 Rezepte, kein Einbruch;
+    0 Zeilen gelb > grün oder grün > grau (Spalten 8/9/10); ns.Trainers[165] Forever 31, Era 30; ns.Crates Forever 30. OK
+3b) python3 -I tests/run_smoketest.py: Exit 0 (AUTOTEST OK; Zählerstände identisch mit main 0.9.79). OK
+3c) python3 -I tests/run_offline.py ProfessionSentinel: Exit 0. forever OK 252 / FEHLER 0, era OK 233 / FEHLER 0,
+    retail OK 231 / FEHLER 0; Fehlerfenster des Spiels je 0; keine echte Aktion im Mock. OK
+    (3b und 3c vor und nach dem Versionswechsel gelaufen, beide Male OK.)
+
+4. Pipeline-Korrektur (pipeline/qloader.py, 1 Zeile) – bitte prüfen
+Befund: Mit QuestieDB 47a4756 brach das Laden von src/corrections/Forever/generated/foreverBaseNpc.lua ab:
+  "attempt to index a nil value (local 'npcRanks')" – die Datei nutzt neu QuestieDB.npcRanks (npcRanks.ELITE).
+Folge ohne Korrektur (gemessen im ersten Lauf): 49 Lehrer-Einträge in Forever-ns.Trainers fehlten (z. B. Angeln 15 -> 9,
+Erste Hilfe 12 -> 11, Schmiedekunst 28 -> 22, Bergbau 17 -> 10, Kräuterkunde 30 -> 21), NPC-Tabelle 1373 -> 1330.
+Korrektur: im PRELUDE "npcRanks=setmetatable({}, {__index=function() return 0 end})" – gleicher Platzhalter wie npcFlags.
+Der Rang wird von der Pipeline nicht verwendet. Danach lädt die Datei fehlerfrei, ns.Trainers ist identisch mit main.
+
+5. Vorbereiteter Discord-Beitrag (für announce/, erst nach Freigabe)
+📦 **ProfessionSentinel 0.9.80** – neue Rezeptquellen für WoW Forever
+- 27 Rezepte, deren Quelle bisher unbekannt war, zeigen jetzt, wo es sie gibt – z. B. Studierzimmer für Gifte, Glänzender Mithrilhelm, Blauer Drachenschuppenhelm, Nähmaschine, Transmutieren: Legionit und die vier Tees
+- 2 neue Händler (Salziger Meeresfrüchteeintopf, Rissiger Schmiedehammer) und viele neue Drop-Quellen
+- Orc-Kriegsgamaschen: erlernbar ab Fertigkeit 205 (bisher falsch 1)
+- NPC-Standorte und -Stufen auf dem Stand vom 23.11.2026 (Forever-Client 1.60.1.71037)
+Installation: ZIP herunterladen, entpacken und den Ordner **ProfessionSentinel** in `Interface/AddOns` ersetzen. Deine Einstellungen bleiben erhalten.
+
+6. Datenstand-Absatz (python3 -I pipeline/datenstand.py ~/ps-work/library.json 0.9.80)
+**📊 Datenstand**
+Stand: Client-Build 1.60.1.71037 · Quellen vom 23.11.2026 · Addon-Version 0.9.80
+**2315 Rezepte**, davon **1058 neu in WoW Forever**:
+Lederverarbeitung 548 · Schmiedekunst 469 · Schneiderei 438 · Ingenieurskunst 253 · Verzauberkunst 234 · Alchimie 185 · Kochkunst 128 · Erste Hilfe 32 · Bergbau 18 · Überlebenskunst 1 · Angeln 3 · Kräuterkunde 3 · Kürschnerei 3
+Quellen: 799 Rezepte vom Händler · 531 als Drop/Weltdrop · 76 aus Quests · 438 vom Lehrer · bei **479** ist die Quelle noch nicht erfasst (meist neue Forever-Rezepte)
+
+7. Für den Supervisor
+- Branch entwurf-2026-11-24 prüfen und zusammenführen; ZIP bauen, addon_check, Release, announce/ + download/.
+- README.md "## Features (0.9.68)" nicht geändert (steht nicht auf der alten Version 0.9.79).
+- Interface-Nummern unverändert (kein neuer Retail-Patch: 12.1.5).
