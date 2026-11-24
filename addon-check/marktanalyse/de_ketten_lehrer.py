@@ -1,7 +1,24 @@
 import re
 from lupa import LuaRuntime
 lua=LuaRuntime(unpack_returned_tuples=True)
-lua.execute(open('/home/claude/goldsentinel-daten/aktuell/DESKTOP-NVITMSE/forever/konto-5cb3d536/AHSentinel.lua',encoding='utf-8',errors='replace').read())
+import sys
+
+
+def sv_lesen(pfad):
+    """SavedVariables lesen; seit Uploader 2.3.18/2.3.19 auch gepackt als .lua.gz (UP-422b, UP-TAGE)."""
+    import gzip
+    pfad = str(pfad)
+    if pfad.endswith(".gz"):
+        with gzip.open(pfad, "rt", encoding="utf-8", errors="replace") as fh:
+            return fh.read()
+    with open(pfad, encoding="utf-8", errors="replace") as fh:
+        return fh.read()
+
+
+# Aufruf: python3 de_ketten_lehrer.py <Pfad zu AHSentinel.lua oder AHSentinel.lua.gz> (kein fester Rechnername im öffentlichen Repo)
+if len(sys.argv) < 2:
+    sys.exit("Aufruf: de_ketten_lehrer.py <Pfad zu AHSentinel.lua bzw. .lua.gz>")
+lua.execute(sv_lesen(sys.argv[1]))
 db=lua.globals().AHSentinelDB; T=lua.eval('type')
 # G1 (0.65.364): gemeinsamer Markt je Fraktion; ältere Stände ohne "Alle|Horde" -> alter Realm-Markt
 M=(db.markets['Alle|Horde'] or db.markets['CAMWOW EU4 Realm 6 PvP|Horde']).data
