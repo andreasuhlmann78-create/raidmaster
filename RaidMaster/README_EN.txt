@@ -23,6 +23,12 @@ MAIN FEATURES
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
 
+WHAT'S NEW IN 3.0.44 – test routine recognises the environment (developer only)
+- The test routine now also measures what happens around RaidMaster: frames per second, ping, loading screen, garbage
+  collection and whether the game ran in the background. If a performance check is too slow while the game was in the
+  background or loading, it says "Bedienung/Umgebung möglich" instead of FEHLER. New line "UMGEBUNG" in the test report.
+- Nothing changes for players.
+
 WHAT'S NEW IN 3.0.43 – readable item colours
 - Item links in lists, auction and award: epic and rare colours are lightened slightly for display (contrast at least
   4.5:1). The link itself is unchanged (chat, click, tooltip as before).

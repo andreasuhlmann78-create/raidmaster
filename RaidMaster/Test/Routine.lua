@@ -343,6 +343,7 @@ local function CollectInSteps()
 		repeat
 			local t0 = debugprofilestop and debugprofilestop()
 			local done = collectgarbage("step", 16)
+			if R.env then R.env.gcMark = true end                 -- RM-UMG1: Bereinigung in diesem Bild
 			if t0 then
 				local d = debugprofilestop() - t0
 				R.gcStepMax, R.gcSteps = math.max(R.gcStepMax or 0, d), (R.gcSteps or 0) + 1
@@ -354,6 +355,144 @@ local function CollectInSteps()
 end
 
 -- Warten (nur im Ablauf der Routine, nicht innerhalb von t:Check – dort AsyncCheck benutzen)
+---------------------------------------------------------------------------
+-- RM-UMG1 (3.0.44, Entscheid des Nutzers 24.11.2026 20:04): Umgebung und Bedienung erkennen – NUR LESEN, nur in der Testroutine.
+-- a) jedes Bild des Laufs (OnUpdate) je Sekunde zusammengefasst: Zahl, Summe, längstes, eigene Arbeit (Portionen der Routine),
+--    Ladebildschirm, Speicherbereinigung; Bild-Verteilung (1-ms-Fächer) vorher (1 s Ruhe vor dem ersten Bereich), im Lauf, nachher.
+--    Alle Felder werden beim Start angelegt (kein Zuwachs im Messfenster von T116).
+--    Hintergrund: eine Sekunde mit mindestens 5 Bildern, deren Mittel bei der Bildgrenze für den Hintergrund liegt (CVar
+--    maxFPSBk; Standard 30 = 33,3 ms, ±3,5 ms) oder mindestens doppelt so lang ist wie das Ruhe-Mittel vorher und über 25 ms.
+-- b) Bilder über 40 ms: eigene Arbeit, Rest, Ladebildschirm, Speicherbereinigung (höchstens 30 gemerkt).
+-- c) Speicher je Addon einmal am Ende (nach der letzten Messung; UpdateAddOnMemoryUsage ist teuer) – nur wenn es ein Bild über
+--    40 ms gab.
+-- d) Leistungsprüfungen (Bereich H) über ihrer Grenze: lag in ihrer Zeit Hintergrund, Ladebildschirm oder Speicherbereinigung
+--    vor -> "im Client prüfen" mit Grund "Bedienung/Umgebung möglich" statt FEHLER. NICHT übernommen: "Rest grösser als eigene
+--    Arbeit" – die Grenzen von Bereich H messen nur die eigene Arbeit (debugprofilestop um den eigenen Code); der Rest des Bildes
+--    (Zeichnen, andere Addons) ist darin nicht enthalten und in fast jedem Bild grösser (begründet im Bericht).
+---------------------------------------------------------------------------
+local ENV_SECONDS = R.LIMIT_LONG + 60
+local ENV_LONG_MS, ENV_LONG_KEEP = 40, 30
+
+function R.NewEnv()
+	local e = { cnt = {}, sum = {}, max = {}, own = {}, load = {}, gc = {}, long = {}, hist = {},
+		phase = "vorher", ownAcc = 0, gcMark = false, loading = false, maxMs = 0, maxAt = "-", maxOwn = 0, nLong = 0 }
+	for i = 1, ENV_SECONDS do e.cnt[i], e.sum[i], e.max[i], e.own[i], e.load[i], e.gc[i] = 0, 0, 0, 0, false, false end
+	for _, ph in ipairs({ "vorher", "Lauf", "nachher" }) do
+		local h = {}
+		for i = 1, 201 do h[i] = 0 end
+		e.hist[ph] = h
+	end
+	local bk = tonumber(GetCVar and GetCVar("maxFPSBk") or nil)
+	local fg = tonumber(GetCVar and GetCVar("maxFPS") or nil)
+	e.capBk = (bk and bk > 0 and bk ~= fg) and (1000 / bk) or nil     -- gleiche Grenze vorn/hinten: nicht unterscheidbar
+	return e
+end
+
+function R.EnvStart(e, now)
+	e.t0 = now
+	e.lastCount = collectgarbage("count")
+	if GetNetStats then e.ping0 = select(3, GetNetStats()) end
+	e.fps0 = GetFramerate and GetFramerate() or nil
+end
+
+-- ein Bild (ms = Dauer, now = GetTime())
+function R.EnvFrame(e, ms, now)
+	local s = math.floor(now - (e.t0 or now)) + 1
+	if s < 1 then s = 1 elseif s > ENV_SECONDS then s = ENV_SECONDS end
+	local own = e.ownAcc
+	e.ownAcc = 0
+	local c = collectgarbage("count")
+	local gc = e.gcMark or ((e.lastCount or c) - c) > 512
+	e.gcMark, e.lastCount = false, c
+	e.cnt[s], e.sum[s], e.own[s] = e.cnt[s] + 1, e.sum[s] + ms, e.own[s] + own
+	if ms > e.max[s] then e.max[s] = ms end
+	if e.loading then e.load[s] = true end
+	if gc then e.gc[s] = true end
+	local h = e.hist[e.phase]
+	local b = math.floor(ms) + 1
+	if b > 201 then b = 201 elseif b < 1 then b = 1 end
+	h[b] = h[b] + 1
+	if ms > e.maxMs then e.maxMs, e.maxAt, e.maxOwn, e.maxGc, e.maxLoad = ms, tostring(R.current or "-"), own, gc, e.loading end
+	if ms > ENV_LONG_MS then
+		e.nLong = e.nLong + 1
+		if #e.long < ENV_LONG_KEEP then
+			e.long[#e.long + 1] = { at = tostring(R.current or "-"), ms = ms, own = own, gc = gc, load = e.loading, s = s }
+		end
+	end
+end
+
+local function HistStat(h)
+	local n = 0
+	for i = 1, 201 do n = n + h[i] end
+	if n == 0 then return 0, nil, nil end
+	local med, p95, acc = nil, nil, 0
+	for i = 1, 201 do
+		acc = acc + h[i]
+		if not med and acc >= n * 0.5 then med = i - 1 end
+		if not p95 and acc >= n * 0.95 then p95 = i - 1 end
+	end
+	return n, med, p95                                         -- in ganzen ms (Fächer 1 ms; 200 = 200 ms und mehr)
+end
+R.EnvHist = HistStat
+
+function R.EnvIsBack(e, s)
+	local n = e.cnt[s]
+	if n < 5 then return false end
+	local mean = e.sum[s] / n
+	if e.capBk and math.abs(mean - e.capBk) <= 3.5 then return true end
+	local _, med = HistStat(e.hist["vorher"])
+	return med ~= nil and med > 0 and mean > 25 and mean >= 2 * (med + 1)
+end
+
+-- Grund, warum eine Überschreitung zwischen t0 und t1 von aussen kommen kann, sonst nil
+function R.EnvJudge(e, t0, t1)
+	if not (e and e.t0) then return nil end
+	local a = math.max(1, math.floor(t0 - e.t0) + 1)
+	local b = math.min(ENV_SECONDS, math.floor(t1 - e.t0) + 1)
+	local why = {}
+	local back, load, gc = 0, false, false
+	for s = a, b do
+		if R.EnvIsBack(e, s) then back = back + 1 end
+		load = load or e.load[s]
+		gc = gc or e.gc[s]
+	end
+	if back > 0 then why[#why + 1] = string.format("Spiel im Hintergrund/Fensterwechsel möglich (%d Sek.)", back) end
+	if load then why[#why + 1] = "Ladebildschirm" end
+	if gc then why[#why + 1] = "Speicherbereinigung in der Messzeit" end
+	return #why > 0 and table.concat(why, ", ") or nil
+end
+
+function R.EnvLine(e, memTop)
+	if not (e and e.t0) then return "UMGEBUNG: nicht gemessen" end
+	local backS, first, last, lastS = 0, nil, nil, 1
+	for s = 1, ENV_SECONDS do
+		if e.cnt[s] > 0 then lastS = s end
+		if R.EnvIsBack(e, s) then backS = backS + 1; first = first or s; last = s end
+	end
+	local parts = {}
+	parts[#parts + 1] = backS > 0 and string.format("Hintergrund möglich (Sek. %d–%d, %d Sek. von %d)", first, last, backS, lastS)
+		or string.format("Vordergrund (%d Sek.)", lastS)
+	for _, ph in ipairs({ "vorher", "Lauf", "nachher" }) do
+		local n, med, p95 = HistStat(e.hist[ph])
+		parts[#parts + 1] = n > 0 and string.format("Bild %s Median %d ms / 95 %% %d ms (%d Bilder)", ph, med, p95, n)
+			or string.format("Bild %s: keine Bilder", ph)
+	end
+	if e.fps0 or e.fps1 then parts[#parts + 1] = string.format("Bilder/s %.0f -> %.0f", e.fps0 or 0, e.fps1 or 0) end
+	if e.ping0 or e.ping1 then parts[#parts + 1] = string.format("Ping %s -> %s ms", tostring(e.ping0 or "?"), tostring(e.ping1 or "?")) end
+	parts[#parts + 1] = string.format("längstes Bild %.1f ms bei %s (eigene Arbeit %.1f ms, Rest %.1f ms%s%s)", e.maxMs, e.maxAt,
+		e.maxOwn, math.max(0, e.maxMs - e.maxOwn), e.maxGc and ", Speicherbereinigung" or "", e.maxLoad and ", Ladebildschirm" or "")
+	local long = {}
+	table.sort(e.long, function(x, y) return x.ms > y.ms end)
+	for i = 1, math.min(5, #e.long) do
+		local l = e.long[i]
+		long[i] = string.format("%s %.0f ms (eigen %.1f%s%s)", l.at, l.ms, l.own, l.gc and ", Bereinigung" or "", l.load and ", Laden" or "")
+	end
+	parts[#parts + 1] = string.format("Bilder über %d ms: %d%s", ENV_LONG_MS, e.nLong, #long > 0 and (" – " .. table.concat(long, ", ")) or "")
+	parts[#parts + 1] = "Speicher je Addon (am Ende): " .. (memTop or "nicht gelesen")
+	if not e.capBk then parts[#parts + 1] = "Hintergrund-Bildgrenze = Vordergrund-Grenze (maxFPSBk) – nur über den Sprung erkennbar" end
+	return "UMGEBUNG: " .. table.concat(parts, " · ")
+end
+
 local function Wait(sec)
 	if not coroutine.running() then error("Wait außerhalb des Ablaufs der Routine", 2) end
 	coroutine.yield("wait", tonumber(sec) or 0)
@@ -371,6 +510,47 @@ local function AsyncCheck(t, id, area, name, fn)
 		if not r[1] then error(r[2], 0) end
 		return unpack(r, 2, r.n)
 	end)
+end
+
+-- RM-UMG1 d): Leistungsprüfung – über der Grenze UND Umgebung auffällig -> "im Client prüfen" mit Grund statt FEHLER
+function R.PerfVerdict(e, t0, t1, ok, a)
+	if not (ok and a == false) then return nil end
+	return R.EnvJudge(e, t0, t1)
+end
+
+local function PerfAdd(t, id, area, name, t0, r)
+	local why = R.PerfVerdict(R.env, t0, GetTime(), r[1], r[2])
+	if why then
+		return t:Client(id, area, name, string.format("Bedienung/Umgebung möglich: %s · gemessen %s (Grenze %s) – Lauf mit WoW im "
+			.. "Vordergrund wiederholen", why, tostring(r[3]), tostring(r[4])))
+	end
+	return t:Check(id, area, name, function()
+		if not r[1] then error(r[2], 0) end
+		return unpack(r, 2, r.n)
+	end)
+end
+
+local function PerfCheck(t, id, area, name, fn)
+	R.Breathe(R.PRE_MS)
+	R.current = id
+	local t0, p0 = GetTime(), debugprofilestop and debugprofilestop()
+	R.noYield = (R.noYield or 0) + 1                        -- wie t:Check: unter pcall kein Bild abgeben
+	local r = pack(pcall(fn))
+	R.noYield = R.noYield - 1
+	if p0 then
+		local d = debugprofilestop() - p0
+		if d > R.PORTION_MS and R.slow then R.slow[#R.slow + 1] = { id = id, ms = d } end
+	end
+	return PerfAdd(t, id, area, name, t0, r)
+end
+
+local function PerfAsync(t, id, area, name, fn)
+	R.current = id
+	R.Breathe(R.PRE_MS)
+	local t0 = GetTime()
+	local r = pack(Run(fn))
+	if r[1] and r[2] == ASYNC_SKIP then return t:Skip(id, area, name, tostring(r[3])) end
+	return PerfAdd(t, id, area, name, t0, r)
 end
 
 -- Nachlauf: verzögerte Aktionen (C_Timer) müssen vor dem Ende der Routine durch sein
@@ -2317,7 +2497,7 @@ local function AreaH(t)
 		for _, id in ipairs({ "T110", "T111", "T112", "T113", "T114", "T115", "T116" }) do t:Skip(id, "H", "Leistung", "debugprofilestop fehlt") end
 		return
 	end
-	t:Check("T110", "H", "Zielwechsel (Boss-Leiste) < 2 ms", function()
+	PerfCheck(t, "T110", "H", "Zielwechsel (Boss-Leiste) < 2 ms", function()
 		local B = RM.BossBar
 		local u = {}
 		return Guard(function()
@@ -2329,11 +2509,15 @@ local function AreaH(t)
 			return true, string.format("Mittel %.3f ms, max %.3f ms", avg, max)
 		end, function() Undo(u) end)
 	end)
-	AsyncCheck(t, "T111", "H", "Gruppenwechsel: Handler < 2 ms, zusammen < 16 ms", function()
+	PerfAsync(t, "T111", "H", "Gruppenwechsel: Handler < 2 ms, zusammen < 16 ms", function()
 		TestRaid()
 		RM.UI.Open("dkp")
 		local list = RM.HandlersFor("GROUP_ROSTER_UPDATE") or {}
 		local slow, total = {}, 0
+		-- 3.0.44 (belegt im Nachbau zhCN: mit angehaltener Speicherbereinigung 3.0.43 und 3.0.44 gleich 0,4–0,9 ms, ohne bis
+		-- 4 ms): angesammelte Bereinigungsarbeit früherer Prüfungen fiel in die Messung von Handler #10. Darum vorher eine
+		-- vollständige Bereinigung in Schritten (über mehrere Bilder, wie T116); die Grenze bleibt 2 ms je Handler.
+		CollectInSteps()
 		return Guard(function()
 			for i, fn in ipairs(list) do
 				local avg = Measure(function() pcall(fn) end, 5)   -- TR-ALLE: 5 statt 20 Messungen, damit ein Bild unter 5 ms bleibt
@@ -2347,7 +2531,7 @@ local function AreaH(t)
 			return true, string.format("%d Handler, zusammen %.2f ms", #list, total)
 		end, function() if Shown(MainFrame()) then RM.UI.Toggle() end end)
 	end)
-	t:Check("T112", "H", "Addon-Nachrichten: BID < 2 ms, SNAP 500 < 16 ms", function()
+	PerfCheck(t, "T112", "H", "Addon-Nachrichten: BID < 2 ms, SNAP 500 < 16 ms", function()
 		TestRaid()
 		local C = RM.Comm
 		local msg = "BID\t" .. C.Serialize({ a = "kein-aid", v = 20, g = "" })
@@ -2360,7 +2544,7 @@ local function AreaH(t)
 		if avgS >= 16 then return false, string.format("SNAP %.1f ms", avgS), "< 16 ms (sonst auf Ticker verteilen)" end
 		return true, string.format("BID %.3f ms, SNAP %.2f ms", avg, avgS)
 	end)
-	t:Check("T113", "H", "Ticker < 1 ms, D.Text mit 20 Fehlern < 16 ms", function()
+	PerfCheck(t, "T113", "H", "Ticker < 1 ms, D.Text mit 20 Fehlern < 16 ms", function()
 		local D = RM.Diag
 		local saved = {}
 		for i, e in ipairs(D.errors) do saved[i] = e end
@@ -2374,7 +2558,7 @@ local function AreaH(t)
 		end, function() wipe(D.errors); for i, e in ipairs(saved) do D.errors[i] = e end end)
 	end)
 	-- NP-RM30-1 (3.0.31): 500 Spieler in 5 Teilen à 100, jeder Teil in einem eigenen Bild; Grenze für die Summe wie bisher
-	AsyncCheck(t, "T114", "H", "Serializer 500 Spieler < 16 ms (5 Teile à 100)", function()
+	PerfAsync(t, "T114", "H", "Serializer 500 Spieler < 16 ms (5 Teile à 100)", function()
 		local sum, worst = 0, 0
 		for part = 0, 4 do
 			local data = { players = {} }
@@ -2392,7 +2576,7 @@ local function AreaH(t)
 		if sum >= 16 then return false, string.format("%.1f ms", sum), "< 16 ms" end
 		return true, string.format("zusammen %.1f ms, teuerster Teil %.1f ms", sum, worst)
 	end)
-	t:Check("T115", "H", "Tooltip < 2 ms, erster Aufbau < 16 ms", function()
+	PerfCheck(t, "T115", "H", "Tooltip < 2 ms, erster Aufbau < 16 ms", function()
 		local TT = RM.Tooltip
 		local fake = { GetItem = function() return "x", LINK_EPIC end, AddLine = function() end, Show = function() end }
 		TT.Invalidate()
@@ -3410,6 +3594,64 @@ local function AreaJ(t, G)
 		if raw >= 4.5 then return false, string.format("Rohfarben %.2f:1", raw), "unter 4,5:1 (Gegenprobe)" end
 		if RM.ReadableText("ohne Farbe") ~= "ohne Farbe" then return false, "Text ohne Farbe verändert", "unverändert" end
 		return true, string.format("6 Qualitäten, schlechteste %.2f:1 · Gegenprobe roh %.2f:1 erkannt · Link-Teil gleich", worst, raw)
+	end)
+
+	-- RM-UMG1 d) Gegenprobe (Nachbau der Bilder): dieselbe Überschreitung ohne Hintergrund -> FEHLER; mit Hintergrund (Bildgrenze
+	-- 33 ms oder Sprung auf das Doppelte), Ladebildschirm oder Speicherbereinigung -> "Bedienung/Umgebung möglich"
+	t:Check("T203", "J", "Umgebung: Überschreitung ohne Hintergrund FEHLER, mit Hintergrund/Laden/Bereinigung Hinweis (Gegenprobe)", function()
+		local function Sim(cap, frames)
+			local e = R.NewEnv()
+			e.capBk = cap
+			R.EnvStart(e, 100)
+			for _, f in ipairs(frames) do
+				e.phase = f[1] < 101 and "vorher" or "Lauf"
+				if f[3] == "laden" then e.loading = true else e.loading = false end
+				if f[3] == "gc" then e.gcMark = true end
+				R.EnvFrame(e, f[2], f[1])
+			end
+			return e
+		end
+		local function Frames(from, to, ms, tag)
+			local out, t = {}, from
+			while t < to do out[#out + 1] = { t, ms, tag }; t = t + ms / 1000 end
+			return out
+		end
+		local function Join(...)
+			local out = {}
+			for _, l in ipairs({ ... }) do for _, f in ipairs(l) do out[#out + 1] = f end end
+			return out
+		end
+		local fail = { true, false, "12.0 ms", "< 2 ms" }              -- wie pcall(Prüfung): ok, false, Ergebnis, Grenze
+		local pass = { true, true, "0.5 ms" }
+		-- Vordergrund (9 ms) -> FEHLER bleibt
+		local fg = Sim(1000 / 30, Join(Frames(100, 101, 9), Frames(101, 106, 9)))
+		if R.PerfVerdict(fg, 103.2, 103.8, fail[1], fail[2]) ~= nil then return false, "Vordergrund als Umgebung", "FEHLER bleibt" end
+		-- Hintergrund über die Bildgrenze (33 ms) in Sek. 3–4
+		local bg = Sim(1000 / 30, Join(Frames(100, 101, 9), Frames(101, 102, 9), Frames(102, 104, 33.3), Frames(104, 106, 9)))
+		local w1 = R.PerfVerdict(bg, 102.2, 102.9, fail[1], fail[2])
+		if not (w1 and w1:find("Hintergrund", 1, true)) then return false, "Hintergrund (Grenze) nicht erkannt: " .. tostring(w1), "Hinweis" end
+		if R.PerfVerdict(bg, 104.2, 104.9, fail[1], fail[2]) ~= nil then return false, "nach dem Hintergrund noch Umgebung", "FEHLER" end
+		if R.PerfVerdict(bg, 102.2, 102.9, pass[1], pass[2]) ~= nil then return false, "bestandene Prüfung verändert", "OK bleibt" end
+		-- ohne bekannte Bildgrenze: Sprung auf mehr als das Doppelte
+		local jump = Sim(nil, Join(Frames(100, 101, 9), Frames(101, 103, 28)))
+		local w2 = R.PerfVerdict(jump, 101.2, 101.8, fail[1], fail[2])
+		if not (w2 and w2:find("Hintergrund", 1, true)) then return false, "Sprung nicht erkannt: " .. tostring(w2), "Hinweis" end
+		-- langsamer Rechner (immer 28 ms, auch vorher) -> kein Hintergrund -> FEHLER bleibt
+		local slow = Sim(nil, Join(Frames(100, 101, 28), Frames(101, 103, 28)))
+		if R.PerfVerdict(slow, 101.2, 101.8, fail[1], fail[2]) ~= nil then return false, "gleichmässig langsam als Umgebung", "FEHLER" end
+		-- Ladebildschirm, Speicherbereinigung
+		local ld = Sim(1000 / 30, Join(Frames(100, 101, 9), { { 101.5, 300, "laden" } }, Frames(101.8, 103, 9)))
+		local w3 = R.PerfVerdict(ld, 101.1, 101.9, fail[1], fail[2])
+		if not (w3 and w3:find("Ladebildschirm", 1, true)) then return false, "Laden nicht erkannt: " .. tostring(w3), "Hinweis" end
+		local gc = Sim(1000 / 30, Join(Frames(100, 101, 9), { { 101.5, 12, "gc" } }, Frames(101.6, 103, 9)))
+		local w4 = R.PerfVerdict(gc, 101.1, 101.9, fail[1], fail[2])
+		if not (w4 and w4:find("Speicherbereinigung", 1, true)) then return false, "Bereinigung nicht erkannt: " .. tostring(w4), "Hinweis" end
+		-- Kopfzeile
+		local l1, l2 = R.EnvLine(fg), R.EnvLine(bg)
+		if not (l1:find("Vordergrund", 1, true) and l2:find("Hintergrund möglich (Sek. 3–4", 1, true)) then
+			return false, l2:sub(1, 120), "Vordergrund / Hintergrund möglich (Sek. 3–4 …)"
+		end
+		return true, "Vordergrund FEHLER · Bildgrenze/Sprung/Laden/Bereinigung Hinweis · gleichmässig langsam FEHLER · Kopfzeile richtig"
 	end)
 
 	-- 3.0.31 (Ingametest 17.11., T155): Tooltips verdecken keine Knöpfe – Platzierung neben, über, unter dem Fenster.
@@ -4575,7 +4817,7 @@ local function AreaL(t, G)
 			{ "TR-ALLE Sicherung", "T189" }, { "Tooltip-Platzierung (Ingame T155)", "T190" }, { "HUD-Ausnahme (Ingame T156)", "T191" }, { "Beschriftungen passen (Ingame T158)", "T192" }, { "Testdaten nie für andere Addons", "T193" },
 			{ "OPT-ALLE Optionen-Fenster", "T194" }, { "Spieler ohne Testbefehle", "T195" },
 			{ "DEV-SICHT Entwickler nur im Entwicklermodus", "T196" }, { "Werbung Platzhalter als ?", "T197" },
-			{ "Livedaten-Wächter Gegenprobe", "T198" }, { "Lesbarkeit L1/L8", "T199" }, { "Lesbarkeit Gegenprobe", "T200" }, { "RM-I2 Klassenfarben lesbar", "T201" }, { "RM-I2 Item-Qualitätsfarben lesbar", "T202" }, { "RM-I1 Speicher je Addon", "T116" },
+			{ "Livedaten-Wächter Gegenprobe", "T198" }, { "Lesbarkeit L1/L8", "T199" }, { "Lesbarkeit Gegenprobe", "T200" }, { "RM-I2 Klassenfarben lesbar", "T201" }, { "RM-I2 Item-Qualitätsfarben lesbar", "T202" }, { "RM-UMG1 Umgebung erkennen (Gegenprobe)", "T203" }, { "RM-I1 Speicher je Addon", "T116" },
 			{ "RM-TF-1 kein Fehlerfenster", "T120" }, { "T-BL4 echtes Eingabefeld", "T169" } }
 		local only = R.only
 		local have, missing = 0, {}
@@ -4734,6 +4976,7 @@ local function Resume(token, ...)
 	local res = pack(coroutine.resume(R.co, ...))
 	if R.portionStart and debugprofilestop then
 		local d = debugprofilestop() - R.portionStart
+		if R.env then R.env.ownAcc = R.env.ownAcc + d end      -- RM-UMG1: eigene Arbeit in diesem Bild
 		local at = tostring(R.current or "?")
 		-- leistung.md Regel 8: Gesamtdauer je Schritt getrennt vom längsten Bild
 		if R.stepTotal then
@@ -4903,6 +5146,20 @@ function R.Run(only)
 		if not T.active then error("Testmodus ließ sich nicht starten") end
 	end)
 	R.jobs = {}
+	-- RM-UMG1 a): Umgebung messen – 1 s Ruhe vorher, dann jedes Bild des Laufs (nur lesen)
+	R.env = R.NewEnv()
+	R.EnvStart(R.env, GetTime())
+	R.envFrame = R.envFrame or CreateFrame("Frame")
+	R.envFrame:SetScript("OnUpdate", function(_, elapsed)
+		if R.env and R.running then R.EnvFrame(R.env, (tonumber(elapsed) or 0) * 1000, GetTime()) end
+	end)
+	R.envFrame:RegisterEvent("LOADING_SCREEN_ENABLED")
+	R.envFrame:RegisterEvent("LOADING_SCREEN_DISABLED")
+	R.envFrame:SetScript("OnEvent", function(_, ev) if R.env then R.env.loading = ev == "LOADING_SCREEN_ENABLED" end end)
+	R.jobs[#R.jobs + 1] = { name = "Umgebung vorher", fn = function()
+		Wait(1)
+		R.env.phase = "Lauf"
+	end }
 	R.areaCount, R.areaNo = 0, 0
 	if ok then
 		-- NP-RM30-1 (Entscheid Supervisor 17.11.): Hauptfenster und alle Seiten einmal VOR den Prüfungen aufbauen, eine Seite je
@@ -4957,6 +5214,8 @@ function R.Run(only)
 	end
 	-- Nachlauf: verzögerte Aktionen (Timer von Raidstart, Ansagen, Berufe …) laufen noch im Testmodus ab
 	R.jobs[#R.jobs + 1] = { name = "Nachlauf", fn = function()
+		if R.env then R.env.phase = "nachher" end            -- RM-UMG1: Bilder nach dem letzten Bereich
+		Wait(1)
 		local left = (R.settleUntil or 0) - GetTime()
 		if left > 0 then Wait(left + 0.5) end
 		local n = 0
@@ -5234,6 +5493,29 @@ function R.Finish(aborted)
 	local snap = R.snap
 	local only = R.only
 	pcall(R.unwatch)
+	-- RM-UMG1: Umgebung abschliessen (nur lesen); Speicher je Addon EINMAL, nach der letzten Messung, nur bei Bildern über 40 ms
+	local envLine = "UMGEBUNG: nicht gemessen"
+	if R.envFrame then R.envFrame:SetScript("OnUpdate", nil); R.envFrame:UnregisterAllEvents() end
+	if R.env then
+		local e = R.env
+		if GetNetStats then e.ping1 = select(3, GetNetStats()) end
+		e.fps1 = GetFramerate and GetFramerate() or nil
+		local memTop
+		if e.nLong > 0 and R.AddonMemory then
+			local ok, mem, ms = pcall(R.AddonMemory)
+			if ok and mem then
+				local list = {}
+				for name, kb in pairs(mem) do list[#list + 1] = { name, kb } end
+				table.sort(list, function(x, y) return x[2] > y[2] end)
+				local top = {}
+				for i = 1, math.min(4, #list) do top[i] = string.format("%s %.1f MB", list[i][1], list[i][2] / 1024) end
+				memTop = table.concat(top, ", ") .. string.format(" (Lesen %.0f ms, nicht in den Messungen)", ms or 0)
+			end
+		end
+		local okL, line = pcall(R.EnvLine, e, memTop)
+		envLine = okL and line or ("UMGEBUNG: " .. tostring(line))
+	end
+	R.envLine = envLine
 	-- aufräumen, auch nach Fehler (laufende Einladungen, Suche, Timer zuerst – danach wären sie echt)
 	if RM.Signup.IsInviting() then pcall(RM.Signup.StopInvites) end
 	if RM.Gaps.search then pcall(RM.Gaps.StopSearch) end
@@ -5407,11 +5689,11 @@ function R.Finish(aborted)
 	if not aborted then pcall(R.SavePending, t) end           -- TR-ALLE D: Fenster-Schritte vormerken (nur Entwickler)
 	local text = t:Finish({ sandbox = sandbox, fehlerzaehler = R.diagBefore .. " -> " .. #RM.Diag.errors, locale = RM.LOCALE,
 		markt = marktLine, pruefliste = #plLines > 0 and table.concat(plLines, " | ") or nil, fehlerquellen = srcLine,
-		zusammenfassung = summary, portionen = portionLine,
+		zusammenfassung = summary, portionen = portionLine, umgebung = R.envLine,
 		testflavor_ende = G and tostring(G.flavor) or "-", blocked = blocked, echte_aktionen = realN, abgefangen = actList,
 		bereich = only or (R.long and "alle (lang)" or "alle"), abbruch = aborted and "ja" or nil })
 	text = text .. "\n" .. marktLine                       -- MN3
-	text = text .. "\n" .. summary .. "\n" .. portionLine     -- TR-ALLE
+	text = text .. "\n" .. (R.envLine or "UMGEBUNG: -") .. "\n" .. summary .. "\n" .. portionLine     -- TR-ALLE; RM-UMG1 e)
 	text = text .. "\n\nBericht gespeichert – wird beim nächsten /reload oder Ausloggen an die Prüfung gemeldet."
 		.. "\nNach der Testroutine bitte /reload (Knopf \"Neu laden und melden\")."
 	R.lastText = text

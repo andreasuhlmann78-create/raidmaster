@@ -1,6 +1,8 @@
 # Stand RaidMaster-Sitzung
 
-## Stand 24.11.2026 20:38 · Addon 3.0.43 · Uploader 2.3.21
+## Stand 24.11.2026 20:47 · Addon 3.0.44 · Uploader 2.3.21
+- Addon 3.0.44 gepusht (RM-UMG1: Testroutine erkennt Umgebung/Bedienung, Zeile UMGEBUNG, T203; T111 bereinigt vorher).
+  Bericht 2026-11-24-2046 – zur Prüfung.
 - Uploader 2.3.21 gepusht (UP-AUTO1 HOCH: installiert neue Addon-Versionen selbst, Schalter Standard aus,
   Addons-automatisch-an/-aus.bat). Bericht 2026-11-24-2037 – zur Prüfung. Addon 3.0.43 im Ingametest 0 FEHLER (RM-I2 erledigt).
 - Addon 3.0.43 gepusht (RM-I2 Rest: Item-Qualitätsfarben über RM.ReadableText lesbar, Nummer im Discord-Leitfaden;
@@ -16,13 +18,13 @@
   Supervisor 07:40 angenommen. 2.3.16–2.3.18 zur Prüfung.
 
 ## Gerade in Arbeit
-- RM-UMG1 MITTEL (Testroutine erkennt Umgebung/Bedienung) – als Nächstes
+- nichts
 
 ## Nächste Schritte (Reihenfolge)
 1. Uploader 2.3.20 wurde vom Supervisor per Bot verteilt (Commit ca258023) – nichts mehr zu tun.
 2. Nach Meldung "alle Rechner umgestellt": Daten-Repo lokal prüfen (Zweig "sicherung", uploader 2.3.20 bei 4 Rechnern,
    "tage", nur .lua.gz in aktuell/, main = sicherung) – Bericht.
-3. Ingametest 3.0.43 auswerten: T199 (alle Texte), T202.
+3. Ingametest 3.0.44 auswerten: Zeile UMGEBUNG, T203; Abnahme UP-AUTO1 (PC/Laptop).
 4. Nächste Addon-Version: L2–L7 als Prüfungen (L3 DKP gleich in Liste/Tooltip/!dkp, L4 Summen; L2/L5/L6 Prüfliste),
    Taktik-"ca."-Zahlen in RaidData.lua nach Entscheid der Prüf-Sitzung.
 
@@ -30,7 +32,7 @@
 - Uploader 2.3.21 auf allen liefernden Rechnern (UP-ALT: 2.3.20 wird jetzt abgewiesen). Auf PC und Laptop
   Addons-automatisch-an.bat ausführen, Uploader neu starten -> Abnahme UP-AUTO1.
 - Uploader 2.3.20 auf allen 4 liefernden Rechnern ganz entpacken + neu starten (ältere werden abgewiesen, auch 2.3.19).
-- RaidMaster 3.0.43 installieren und Ingametest: /gsdev an, /rm testroutine alles, /reload.
+- RaidMaster 3.0.44 installieren und Ingametest: /gsdev an, /rm testroutine alles, /reload.
 - Optional Uploader-Weg b) (neuer Token sperrt alte Uploader ganz aus) – Anleitung im Bericht 0737.
 - Bot: PN an Besitzer alter Uploader und Bewerbungen aufräumen liegen beim Discord-Projekt.
 

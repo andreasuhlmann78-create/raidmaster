@@ -1,0 +1,41 @@
+Bericht RaidMaster-Sitzung an die Prüf-Sitzung – 24.11.2026 20:46
+Thema: RM-UMG1 MITTEL (Entscheid des Nutzers 24.11. 20:04) – Testroutine erkennt Umgebung und Bedienung – Addon RaidMaster 3.0.44
+Status: umgesetzt, zur Prüfung. download/RaidMaster-3.0.44.zip (+ -latest), addon_check OK. Nur Test/Routine.lua (Entwicklermodus),
+nur lesen; für Spieler keine Änderung. Leistungsgrenzen unverändert.
+
+1. a) Umgebung vor, während, nach dem Lauf
+- Eigener Rahmen mit OnUpdate nur während der Routine: jedes Bild je Sekunde zusammengefasst (Zahl, Summe, längstes, eigene Arbeit,
+  Ladebildschirm, Speicherbereinigung) und Bild-Verteilung in 1-ms-Fächern für "vorher" (1 s Ruhe vor dem ersten Bereich), "Lauf",
+  "nachher" (ab Nachlauf, mind. 1 s) -> Median/95 %. Alle Felder beim Start angelegt (kein Zuwachs im Messfenster von T116;
+  belegt: T116 im Nachbau 43 KB wie vorher). Bilder/s (GetFramerate) und Ping (GetNetStats) am Anfang und Ende.
+- Hintergrund: eine Sekunde (mind. 5 Bilder), deren Mittel bei der Hintergrund-Bildgrenze liegt (CVar maxFPSBk, Standard 30 =
+  33,3 ms, ±3,5 ms) ODER mind. doppelt so lang wie das Ruhe-Median vorher und über 25 ms (Sprung). Ist maxFPSBk = maxFPS, nur über
+  den Sprung (steht dann im Bericht). Gleichmässig langsamer Rechner (vorher schon 28 ms) gilt NICHT als Hintergrund (Gegenprobe).
+2. b) Bilder über 40 ms: eigene Arbeit (Summe der Portionen der Routine im Bild), Rest, Ladebildschirm (LOADING_SCREEN_ENABLED/
+  DISABLED), Speicherbereinigung (Schritt der Routine oder Rückgang des Lua-Speichers um mehr als 512 KB im Bild); höchstens 30 gemerkt,
+  die 5 längsten im Bericht.
+3. c) Speicher je Addon EINMAL am Ende, nach der letzten Messung, nur wenn es ein Bild über 40 ms gab (die 4 grössten in MB, Dauer des
+  Lesens genannt, nicht in den Messungen). Abweichung: nicht "beim längsten Bild" selbst – das Lesen kostet im Spiel bis 36 ms
+  (Ingametest 3.0.43: längstes Bild 36,3 ms = Speicher lesen) und würde das Bild verfälschen; der Zeitpunkt steht im Bericht.
+4. d) Bewertung: Die 6 Leistungsprüfungen T110–T115 laufen über PerfCheck/PerfAsync. Über der Grenze UND im Zeitraum der Prüfung
+  Hintergrund, Ladebildschirm oder Speicherbereinigung -> "im Client prüfen" mit "Bedienung/Umgebung möglich: <Grund> · gemessen …
+  (Grenze …) – Lauf mit WoW im Vordergrund wiederholen" (das Prüfgerüst GoldSentinelTest kennt kein HINWEIS; CLIENT ist "kein
+  FEHLER, nachprüfen"). Sonst FEHLER wie bisher. Bestandene Prüfungen bleiben OK.
+  NICHT übernommen (begründet): "Rest grösser als eigene Arbeit". Die Grenzen von T110–T115 messen NUR die eigene Arbeit
+  (debugprofilestop um den eigenen Code), der Rest des Bildes ist darin nicht enthalten und in fast jedem Bild grösser (Zeichnen,
+  andere Addons) – die Regel würde jede Überschreitung zum Hinweis machen und echte Rückschritte verdecken. Bitte bestätigen.
+5. e) Neue Zeile "UMGEBUNG: Vordergrund (n Sek.) | Hintergrund möglich (Sek. a–b, n Sek. von m) · Bild vorher/Lauf/nachher Median/95 % ·
+  Bilder/s · Ping · längstes Bild x ms bei <Prüfung> (eigene Arbeit, Rest, Bereinigung/Laden) · Bilder über 40 ms · Speicher je
+  Addon (am Ende)" vor der Zusammenfassung; im Bericht-Datensatz als Feld "umgebung".
+
+6. Gegenproben
+- T203 (Nachbau der Bilder): Vordergrund 9 ms + Überschreitung -> FEHLER bleibt; Hintergrund 33,3 ms in Sek. 3–4 -> Hinweis (Sek. 3–4),
+  Sek. 5 danach -> FEHLER; bestandene Prüfung bleibt; Sprung 9 -> 28 ms ohne bekannte Grenze -> Hinweis; gleichmässig 28 ms ->
+  FEHLER; Ladebildschirm, Bereinigung -> Hinweis; Kopfzeile "Vordergrund" bzw. "Hintergrund möglich (Sek. 3–4".
+- Im ganzen Lauf (Kopie, T110 absichtlich immer über der Grenze): ohne Umgebung -> T110 FEHLER; mit Umgebung -> T110 CLIENT.
+7. Nebenbefund (belegt, behoben): Mit 3.0.44 lag T111 im Nachbau zhCN 4 von 5 Mal knapp über 2 ms (Handler #10 2,0–3,1 ms; 3.0.43:
+  0,4–0,5 ms). Gegenprobe mit angehaltener Speicherbereinigung während der Messung: 3.0.43 0,41–0,44 ms, 3.0.44 0,46–0,85 ms ->
+  der Handler selbst ist gleich schnell; die Mehrzeit war angesammelte Bereinigungsarbeit früherer Prüfungen (grössere Testdatei).
+  T111 bereinigt jetzt vorher vollständig in Schritten (wie T116) – Grenze unverändert. Danach zhCN 5/5 OK (0,44–0,78 ms).
+8. Tests (eigene, Hinweis): Nachbau deDE 145 OK, enUS/ruRU/zhCN 147 OK, je 0 FEHLER (deDE und zhCN je zweimal); Era ALLE OK;
+   TU6 51/51. Im Spiel prüfen: Zeile UMGEBUNG (echte Bilder, maxFPSBk), einmal Fensterwechsel während des Laufs.

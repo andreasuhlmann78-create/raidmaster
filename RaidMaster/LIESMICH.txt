@@ -11,6 +11,12 @@ INSTALLATION
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
 
+NEU IN 3.0.44 – Testroutine erkennt die Umgebung (nur für den Entwickler)
+- Die Testroutine misst jetzt auch, was um RaidMaster herum passiert: Bilder pro Sekunde, Ping, Ladebildschirm,
+  Speicherbereinigung und ob das Spiel im Hintergrund lief. Ist eine Leistungsprüfung zu langsam, während das Spiel im
+  Hintergrund war oder lud, steht "Bedienung/Umgebung möglich" statt FEHLER. Neue Zeile "UMGEBUNG" im Testbericht.
+- Für Spieler ändert sich nichts.
+
 NEU IN 3.0.43 – Item-Farben lesbar
 - Item-Links in Listen, Versteigerung und Vergabe: Episch- und Selten-Farben werden in der Anzeige leicht aufgehellt (mindestens
   4,5:1 Kontrast). Der Link selbst bleibt unverändert (Chat, Klick, Tooltip wie bisher).
