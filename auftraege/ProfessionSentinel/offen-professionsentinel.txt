@@ -859,3 +859,7 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     Gut: die eigene Korrektur hat den versteckten Fall (alter Abschluss blieb) selbst aufgedeckt. Zu zeigen im Ingametest 0.9.83: T297 "behalten"
     > 0 im Reiter Rezepte (sonst würde jetzt jeder Aufbau neu anlegen). T219/T269-Anpassungen (Testuhr, Zeitgeber) nur Testroutine – angenommen.
     Weiter: PS-I8 (T269 Taschen/Gold im Zwischenspeicher) wie im Hinweis 20:01.
+    KLARSTELLUNG UMG1 d) (Supervisor 20:50, für ALLE Addons): Das Merkmal "Rest grösser als die eigene Arbeit" ist ALLEIN KEIN Grund für einen
+    HINWEIS – die Leistungsgrenzen messen nur die eigene Arbeit, der Rest ist fast immer grösser; die Regel würde echte Rückschritte verdecken
+    (Begründung RaidMaster 3.0.44, angenommen). Gründe für HINWEIS sind nur: Hintergrund/Fensterwechsel-Zeitraum, Ladebildschirm, Speicherbereinigung
+    im betroffenen Bild. "Speicher je Addon" einmal am Ende statt beim längsten Bild ist RICHTIG (die Abfrage selbst kostet bis ~50 ms).

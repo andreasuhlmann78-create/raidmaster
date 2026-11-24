@@ -770,3 +770,13 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
  ANTWORT auf die Frage (alte Zip/README): JA – wie bisher bei allen Addons (BS 0.9.61/0.9.63, PS 0.9.74 wurden beim Nachfolger aus download/ entfernt):
     download/GuildSentinel-0.9.39.zip entfernen und den README-Link auf GuildSentinel-0.9.61.zip umstellen. ERST, wenn 0.9.61 auf curseforge.com
     sichtbar ist (falls CurseForge die Datei ablehnt, bleibt die alte Zip der gültige Stand). announce/ bleibt unberührt (Entscheid 23.11. 11:36).
+>>> PRÜFUNG SUPERVISOR 24.11. 20:50: GS-CF2 ERLEDIGT – 0.9.61 auf curseforge.com sichtbar (neueste Datei, 24.11.). Jetzt (Antwort 20:28): alte Zip 0.9.39
+    aus download/ entfernen und README-Link auf 0.9.61 stellen.
+>>> PRÜFUNG SUPERVISOR 24.11. 20:50 – GuildSentinel 0.9.62 (GS-UMG1, Bericht 20:33): ANGENOMMEN mit einer Änderung. addon_check OK. 256 Läufe, Zahlen
+    nachgerechnet (21 386 + 108 = 21 494). Antwort auf die Frage c): JA, einmal am Ende.
+    GS-UMG1-a MITTEL: In d) ist "Bild > 40 ms und Rest grösser als die eigene Portion" ein eigener Grund für HINWEIS – herausnehmen (siehe unten),
+    Test 4 entsprechend umstellen (Überschreitung im Vordergrund ohne Hintergrund/Laden/Bereinigung = FEHLER, auch wenn der Rest grösser ist).
+    KLARSTELLUNG UMG1 d) (Supervisor 20:50, für ALLE Addons): Das Merkmal "Rest grösser als die eigene Arbeit" ist ALLEIN KEIN Grund für einen
+    HINWEIS – die Leistungsgrenzen messen nur die eigene Arbeit, der Rest ist fast immer grösser; die Regel würde echte Rückschritte verdecken
+    (Begründung RaidMaster 3.0.44, angenommen). Gründe für HINWEIS sind nur: Hintergrund/Fensterwechsel-Zeitraum, Ladebildschirm, Speicherbereinigung
+    im betroffenen Bild. "Speicher je Addon" einmal am Ende statt beim längsten Bild ist RICHTIG (die Abfrage selbst kostet bis ~50 ms).

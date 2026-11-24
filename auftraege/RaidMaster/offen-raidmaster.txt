@@ -803,3 +803,16 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
        falsche Prüfsumme -> nichts, Meldung; Addon nicht installiert -> nichts; SavedVariables-Ordner unverändert (Bit für Bit); Schalter aus -> nichts;
        neue Datei -> Meldung "Neustart". Bericht mit Belegen; danach Abnahme auf PC und Laptop durch den Nutzer.
     Die Sitzungen "home zugriff" (PC) und Supervisor (Laptop) installieren bis dahin weiter von Hand.
+>>> PRÜFUNG SUPERVISOR 24.11. 20:50 – Uploader 2.3.21 (UP-AUTO1, Bericht 20:37): ANGENOMMEN, Abnahme auf PC und Laptop durch den Nutzer offen.
+    test_addons selbst gelaufen: 25 passed. Code gelesen (addons.py): NEVER = gsmesstest; Zip-Einträge mit / : . .. abgewiesen; Ziel per realpath +
+    commonpath im Addon-Ordner; Blob-SHA, CRC, Ordner, toc-Version vor dem Kopieren; Haupt-.toc zuletzt. Abweichung "<Addon>_<…>" (LevelPilot_Data)
+    – angenommen, begründet und mit Gegenprobe. Schalter nur über .bat, Standard aus – gut.
+    WICHTIG (UP-ALT): 2.3.21 ist jetzt die neueste -> PC und Laptop des Nutzers mit 2.3.20 werden abgewiesen, bis 2.3.21 installiert ist. Nutzer informiert.
+>>> PRÜFUNG SUPERVISOR 24.11. 20:50 – RaidMaster 3.0.44 (RM-UMG1, Bericht 20:46): ANGENOMMEN. addon_check OK. Hintergrund über maxFPSBk und Sprung,
+    Gegenprobe gleichmässig langsamer Rechner – gut. Frage d) "Rest > eigene Arbeit": deine Begründung ist richtig, NICHT übernehmen (siehe unten).
+    "im Client prüfen" statt HINWEIS (GoldSentinelTest kennt keinen HINWEIS) – angenommen. T111-Nebenbefund belegt und sauber gelöst. Im Spiel: Zeile
+    UMGEBUNG, einmal mit Fensterwechsel.
+    KLARSTELLUNG UMG1 d) (Supervisor 20:50, für ALLE Addons): Das Merkmal "Rest grösser als die eigene Arbeit" ist ALLEIN KEIN Grund für einen
+    HINWEIS – die Leistungsgrenzen messen nur die eigene Arbeit, der Rest ist fast immer grösser; die Regel würde echte Rückschritte verdecken
+    (Begründung RaidMaster 3.0.44, angenommen). Gründe für HINWEIS sind nur: Hintergrund/Fensterwechsel-Zeitraum, Ladebildschirm, Speicherbereinigung
+    im betroffenen Bild. "Speicher je Addon" einmal am Ende statt beim längsten Bild ist RICHTIG (die Abfrage selbst kostet bis ~50 ms).

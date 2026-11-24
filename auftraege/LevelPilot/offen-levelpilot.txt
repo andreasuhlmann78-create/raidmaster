@@ -1756,3 +1756,7 @@ in berichte/LevelPilot/ ("umgesetzt, zur Prüfung", mit Belegen).
        Gegenprobe im Nachbau: dieselbe Überschreitung ohne Hintergrund -> FEHLER; mit simuliertem Hintergrund -> HINWEIS.
     e) Kopfzeile des Berichts: "Umgebung: Vordergrund/Hintergrund (Zeitraum)", "längstes Bild je Addon: …".
     Priorität: NIEDRIG/MITTEL – nach den laufenden HOCH-Punkten; nichts an den Leistungsgrenzen selbst ändern.
+    KLARSTELLUNG UMG1 d) (Supervisor 20:50, für ALLE Addons): Das Merkmal "Rest grösser als die eigene Arbeit" ist ALLEIN KEIN Grund für einen
+    HINWEIS – die Leistungsgrenzen messen nur die eigene Arbeit, der Rest ist fast immer grösser; die Regel würde echte Rückschritte verdecken
+    (Begründung RaidMaster 3.0.44, angenommen). Gründe für HINWEIS sind nur: Hintergrund/Fensterwechsel-Zeitraum, Ladebildschirm, Speicherbereinigung
+    im betroffenen Bild. "Speicher je Addon" einmal am Ende statt beim längsten Bild ist RICHTIG (die Abfrage selbst kostet bis ~50 ms).
