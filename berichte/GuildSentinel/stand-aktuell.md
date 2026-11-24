@@ -1,4 +1,4 @@
-# Stand GuildSentinel – 24.11.2026 06:41 · Version 0.9.60 (Discord; CurseForge noch 0.9.52-Stand, siehe unten)
+# Stand GuildSentinel – 24.11.2026 06:41 · Version 0.9.60 (Discord; CurseForge erst nach Ingametest)
 
 ## Gerade in Arbeit
 - Nichts begonnen. Neue Befunde aus dem Ingametest 0.9.60 (23.11. 13:25, offen-guildsentinel.txt Zeile ~715) sind noch NICHT umgesetzt.
