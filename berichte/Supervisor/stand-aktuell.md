@@ -1,10 +1,10 @@
 # Stand Supervisor (Prüf-Sitzung, Projekt «Addonprüfer»)
 
-## Stand 24.11.2026 06:27 · Versionen geprüft: AHS 0.65.385 · LP 3.13.10 · PS 0.9.78 · TS 2.5.26 (Ingame) · GS 0.9.60 · BS 0.9.61 · Uploader 2.3.18 · Bot 1.5.192
+## Stand 24.11.2026 06:40 · Versionen geprüft: AHS 0.65.385 · LP 3.13.10 · PS 0.9.78 · TS 2.5.26 (Ingame) · GS 0.9.60 · BS 0.9.61 · Uploader 2.3.18 · Bot 1.5.192
 Sitzung seit 23.11. 06:18. Repos: raidmaster, goldsentinel-daten (schreiben); ahanalyzerpro, professionsentinel, guildsentinel (lesen).
 
 ## Gerade in Arbeit
-- nichts Laufendes. Ingametests 23.11. alle ausgewertet (TS, BS, GS, AHS PM1-a, PS, LP) – Befunde in den offen-*.txt.
+- nichts Laufendes. Kontext wird auf Wunsch des Nutzers zusammengefasst (24.11. 06:40); danach mit "Nächste Schritte" weiter. Ingametests 23.11. alle ausgewertet (TS, BS, GS, AHS PM1-a, PS, LP) – Befunde in den offen-*.txt.
 
 ## Nächste Schritte (Reihenfolge)
 1. Prüfen: AHSentinel 0.65.386 + 0.65.387 + Bericht AHS-I4 (712 ms: "eigene Arbeit 2 ms, Spiel 710 ms" – nachprüfen).
