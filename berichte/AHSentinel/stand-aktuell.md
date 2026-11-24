@@ -1,6 +1,6 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 24.11.2026 21:59 · Version 0.65.393 (Discord; Kandidat für CurseForge – NICHT dort, wartet auf Ingametest + OK des Nutzers)
+## Stand 24.11.2026 22:31 · Version 0.65.393 (Discord UND CurseForge seit 24.11. 22:25, Datei-ID 9799863, "Wichtiges Update")
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz – Testberichte "GSTEST1{…}", UI-Befunde db.uiFindingsLast).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
@@ -10,21 +10,22 @@ Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /h
  Eigene Szenarien /tmp/claude-0/sim/wowsim/scenarios_new.lua (zz_t459real, zz_tr1, zz_i6_sniper, zz_ui_buy).
 
 ## Gerade in Arbeit
-- nichts. FULL 0.65.393 fertig: keine neuen Fehler (Bericht 2026-11-24-2157-0.65.393-full.txt). 0.65.393 veröffentlicht: CF1-UI a/c/d, SG6, TR1-a, T750-Titel. Bericht 2026-11-24-2152-0.65.393-cf1ui-sg6-tr1a.txt.
+- AHS-SP1 beginnt (messen im Nachbau mit echten Daten, Bericht VOR Einbau).
 
 ## Nächste Schritte (AHS-CF1, Entscheid des Nutzers 19:19/19:21)
 0. 0.65.394: AHS-SG6-a (Reiter Wächter 1 Neuaufbau je Runde, Ursache messen), T750-Titel: zu lange Namen kürzen + voller Name im Tooltip.
 1. Ingametest 0.65.393 auswerten (Daten-Repo; PC = aktuell/DESKTOP-NVITMSE/forever/…): T1016 (Rahmen über der Abdeckung, AH offen), T750.
-2. CurseForge erst, wenn Supervisor a–e geprüft UND der Nutzer im Spiel freigibt; dann Zip um 18:00 nach download/ (T459-Ausnahme nur 1×).
+2. CurseForge: 0.65.393 hochgeladen (AHS-CF2). Künftig wieder 18:00-Regel; Sichtbarkeit auf curseforge.com vom Nutzer prüfen.
 3. DANACH AHS-SP1 (HOCH, Entscheid 19:56): Speicher-Lösung Vollscan – Zahlen-Listen min/qty/auc, Stufen als Text (EncodeLadder-Format).
    Messen im Nachbau mit echten Daten, Gleichheitstest aller Leser, Bericht VOR Einbau, Freigabe Supervisor, dann Einbau.
 4. Danach V4-Messung, G14-a, AHS-UMG1 (NIEDRIG; Klarstellung 20:50: "Rest grösser als eigene Arbeit" allein kein HINWEIS-Grund).
 
 ## Offen beim Nutzer
-- Ingametest mit 0.65.393 ("testroutine alles") und eigene Durchsicht im Spiel (CF1 e) – ohne sein OK keine CurseForge-Veröffentlichung.
+- Ingametest mit 0.65.393 ("testroutine alles"): T1016, T750, Vollscan zweimal, T126 im Vordergrund.
 - Gold-Messung Ausrüstung mit Kupfer-Preis (AHS-POST), RecipeList-Fehler mit nur AHS aktiv.
 
 ## Entscheide des Nutzers seit letztem Stand
+- 22:17/22:23 AHS-CF2: 0.65.393 sofort auf CurseForge, "Wichtiges Update"; T459 (c) und Ingametest bewusst in Kauf genommen.
 - 20:43 AHS-CF1-UI c: Wächter-Funde erscheinen nie von selbst im Sniper; nur nach Auswahl beim Item.
 - 20:48 AHS-CF1-UI c: Rechtsklick "In den Sniper übernehmen"; Wächter-Kaufweg (Knopf, eigene Taste, gemeinsame Taste) kauft keine Funde.
 - 21:07–21:13 AHS-SG6 Leuchten+Ton im Suchtakt, Wächter eigene Farbe (vor CurseForge). 21:25/21:27 AHS-TR1-a nur Testschritt, kein Blocker.

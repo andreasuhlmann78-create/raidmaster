@@ -1,0 +1,13 @@
+AHSentinel 0.65.393 – CurseForge (AHS-CF2, Entscheid des Nutzers 22:17, im Chat bestätigt 22:23 "ja veröffentlichen und weiter machen") – umgesetzt, zur Prüfung
+1. curseforge/AHSentinel-changelog-0.65.393.md: oben "WICHTIGES UPDATE – bitte aktualisieren / IMPORTANT UPDATE – please update", Beta-Hinweis,
+   dann Deutsch zuerst, Englisch danach: das Wichtigste seit 0.65.354 (Wächter-Funde = Tipps, Rechtsklick-Übernahme, Leuchten + Raidwarnung im
+   Suchtakt, Sniper zuverlässiger, Oberfläche bereinigt, Verkaufen/Buchhaltung, Vollscan stabiler, weitere Korrekturen). Keine Zahlen.
+   Jeder Punkt aus CHANGELOG.de.md 0.65.355–0.65.393 belegt. test_changelog_override.py 5/5.
+2. download/AHSentinel-0.65.393.zip = announce/ahsentinel__ahsentinel-0.65.393.AHSentinel.zip (cmp gleich). README-Link auf 0.65.393.
+   Workflow CurseForge-Upload 45490675041: success, "AHSentinel-0.65.393 hochgeladen (Datei-ID 9799863)", Changelog aus der Kurzfassung,
+   Beschreibung aktualisiert; curseforge/uploaded.json enthält "0.65.393".
+   ERST DANACH download/AHSentinel-0.65.354.zip entfernt; der Lauf dazu (45491839258) success: "0.65.393 wurde schon hochgeladen – nichts zu
+   tun" (kein Doppel-Upload). announce/ nicht angefasst.
+3. Offen: Sichtbarkeit auf curseforge.com/wow/addons/ahsentinel/files konnte ich nicht abrufen (Seite nicht erreichbar aus der Sitzung) – bitte
+   dort prüfen (Freigabe durch CurseForge kann dauern). Spielversionen ordnet upload.py mit dem API-Schlüssel zu wie bei den bisherigen Uploads.
+Weiter (Entscheid 19:56): AHS-SP1 (Speicher-Lösung Vollscan, erst messen, Bericht vor Einbau), dann AHS-SG6-a, CF1-UI-a1, Titel-Tooltip, AHS-UMG1.
