@@ -15,6 +15,7 @@ Sitzung seit 23.11. 06:18. Repos: raidmaster, goldsentinel-daten (schreiben); ah
 6. Prompt "Markt-Überwachung (wöchentlich)" (nächster Lauf 30.11.) auf .lua.gz hinweisen (Markt-Tabellen ist angepasst).
 
 ## Offen beim Nutzer
+- AHS Kupfer-Preis-Test (Ausrüstung mit Kupfer einstellen): macht der Nutzer am Wochenende vom PC aus (Nutzer 24.11. 09:26).
 - CurseForge-Zwischenstand CF1–CF3 (Entwurf berichte/Supervisor/2026-11-23-1605-…): OK gegeben 24.11. 06:17, Posten scheiterte – in Chrome
   NICHT bei CurseForge angemeldet. Nutzer meldet sich an, sagt "angemeldet", dann posten (Claude in Chrome) und Erscheinen prüfen.
 - PS-Messung Lua-Fehler SetCraftableCount (nur PS / nur AHS, Rezept wählen + herstellen; Anleitung im Chat 23.11. 16:02).
