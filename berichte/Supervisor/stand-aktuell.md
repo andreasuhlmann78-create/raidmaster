@@ -1,48 +1,41 @@
 # Stand Supervisor (Prüf-Sitzung, Projekt «Addonprüfer»)
 
-## Stand 23.11.2026 09:57
-Sitzung seit 23.11. 06:18 (Übergabe: berichte/Supervisor/2026-11-23-0620-uebergabe-neue-sitzung.md). Repos: raidmaster, goldsentinel-daten
-(schreiben); ahanalyzerpro, professionsentinel, guildsentinel (nur lesen).
+## Stand 24.11.2026 06:27 · Versionen geprüft: AHS 0.65.385 · LP 3.13.10 · PS 0.9.78 · TS 2.5.26 (Ingame) · GS 0.9.60 · BS 0.9.61 · Uploader 2.3.18 · Bot 1.5.192
+Sitzung seit 23.11. 06:18. Repos: raidmaster, goldsentinel-daten (schreiben); ahanalyzerpro, professionsentinel, guildsentinel (lesen).
 
 ## Gerade in Arbeit
-- nichts Laufendes.
+- nichts Laufendes. Ingametests 23.11. alle ausgewertet (TS, BS, GS, AHS PM1-a, PS, LP) – Befunde in den offen-*.txt.
 
 ## Nächste Schritte (Reihenfolge)
-0. SH-UTF8 NIEDRIG (eigene Aufgabe, shared/): GoldSentinelTest.lua:83 kürzt nach Bytes -> ungültiges UTF-8 in Berichten (LP-Fund 3.13.9).
-   Mit der nächsten ohnehin nötigen Änderung an GoldSentinelTest.lua bündeln (neue Version zwingt alle Addons zum Kopieren).
-1. Noch zu prüfen: ThreatSentinel 2.5.26, BuffSentinel 0.9.61 (Entwurf Nachprüfung 10:20 Teil 3 nachprüfen), Entwürfe Markt-Überwachung/Blueposts 10:17–10:20.
-   AHS 0.65.385, Uploader 2.3.16, Bot 1.5.192 geprüft 12:45 (angenommen). Davor AHSentinel 0.65.383/384 geprüft 12:05 (angenommen, AHS-W2E-a). ProfessionSentinel 0.9.78 geprüft 11:40 (angenommen) – davor 0.9.77 geprüft 10:42 (angenommen; PS-TBC, PS-L9) – vorher 0.9.76 geprüft 10:22 (angenommen). ThreatSentinel: TS-R1-a vor 2.5.26.
-   LevelPilot 3.13.10 geprüft 12:40 (angenommen, LP-T1-R/LP-T2-a erledigt). Davor LevelPilot 3.13.9 geprüft 11:03 (angenommen; LP-T2-a neu, LP-T2/LP-T1-R offen). Vorher: LevelPilot 3.13.8 geprüft 10:09 (angenommen; LP-T2 neu, LP-T1-R offen).
-1. Neue Berichte/Versionen prüfen, sobald sie kommen (zuerst AHSentinel: ST7, G2-a, PM1-a …; RaidMaster: UP-DS2; GuildSentinel: G-4a).
-   LevelPilot 3.13.7 geprüft 23.11. (LP-T1, LP-B1–B4, LP-O1 offen); Bilder 21.11./22.11. gesichtet.
-2. Erster Lauf Markt-Tabellen 24.11. 05:37: Bericht berichte/Pruef-Sitzung/…-markt-tabellen.txt prüfen.
-3. Montag-Aufträge der anderen Projekte erst prüfen, wenn deren Version/Bericht kommt (Nutzung sparen).
+1. Prüfen: AHSentinel 0.65.386 + 0.65.387 + Bericht AHS-I4 (712 ms: "eigene Arbeit 2 ms, Spiel 710 ms" – nachprüfen).
+2. Prüfen: LevelPilot 3.13.11 (LP-I1, LP-I2, LP-I4, LP-I5). ProfessionSentinel 0.9.79 (liegt im Repo, noch nicht geprüft).
+3. Testberichte 23.11. 23:50 (neu im Repo) gegen die Chat-Berichte abgleichen.
+4. Warten auf: RaidMaster UP-TAGE (Tage 14.–20.11. im Daten-Repo weg) -> dann Markt-Tabellen-Entscheid (siehe unten).
+5. SH-UTF8 NIEDRIG (eigene Aufgabe): shared/GoldSentinelTest.lua:83 kürzt nach Bytes – mit nächster Änderung an der Datei bündeln.
+6. Prompt "Markt-Überwachung (wöchentlich)" (nächster Lauf 30.11.) auf .lua.gz hinweisen (Markt-Tabellen ist angepasst).
 
 ## Offen beim Nutzer
-- PS-Messung Lua-Fehler SetCraftableCount: nur PS, dann nur AHS (Berufsfenster, Rezept wählen).
-- Uploader auf PC und bei beiden Offizieren aktualisieren (UP-DS2, Bewerbernamen im Daten-Repo); RaidMaster-Sitzung anstossen.
-- AHSentinel- und GuildSentinel-Nachricht einfügen (falls noch nicht); CurseForge-Entscheid nach ST7 + PM1-a.
-- Nachprüfung (geplante Aufgabe) wieder einschalten: Supervisor fragt, wenn die Sitzung gut läuft.
-- Offen: "kleine KI" AHS (14.11.), Erstkill-Meldungen unter den Rekord-Tafeln gewollt?
+- CurseForge-Zwischenstand CF1–CF3 (Entwurf berichte/Supervisor/2026-11-23-1605-…): OK gegeben 24.11. 06:17, Posten scheiterte – in Chrome
+  NICHT bei CurseForge angemeldet. Nutzer meldet sich an, sagt "angemeldet", dann posten (Claude in Chrome) und Erscheinen prüfen.
+- PS-Messung Lua-Fehler SetCraftableCount (nur PS / nur AHS, Rezept wählen + herstellen; Anleitung im Chat 23.11. 16:02).
+- LevelPilot "Wegabschnitte": eine Sitzung draussen mit Laufen.
+- Uploader 2.3.18 auf PC (DESKTOP-NVITMSE) und bei beiden Offizieren (stand.json "uploader" dort leer = alt).
+- Alte Addon-Ordner auf dem Laptop löschen: AddOns/_GoldSentinel_Update_2026-11-23 (kein Löschrecht für Claude).
+- Offen alt: "kleine KI" AHS (14.11.), Erstkill-Meldungen unter Rekord-Tafeln.
 
-## Entscheide des Nutzers seit letztem Stand
-- 23.11. 11:36 announce/ nichts mehr löschen (an alle, D-ANN1); 10:49 Doppel der geplanten Aufgaben aus (Nachprüfung aus). In entscheide.md.
-- 23.11. 09:59: Bot-Rolle hochziehen macht die Discord-Sitzung selbst, sehr vorsichtig (Auftrag D-MITGL1-R). In entscheide.md eingetragen.
-- alle in shared/wissen/entscheide.md eingetragen (zuletzt 23.11. 08:13).
+## Entscheide des Nutzers seit letztem Stand (alle in shared/wissen/entscheide.md)
+- 24.11. 06:17 "ok": CF-Zwischenstand posten; Markt-Tabellen warten auf UP-TAGE (höchstens 1 Tag) statt Fallzahl-Regel aussetzen.
+- 23.11.: 09:59 Bot-Rolle (Discord-Sitzung, vorsichtig) -> 10:32 so belassen; 10:16 Gäste in Mitglieder-Kanäle; 10:49 Doppel der geplanten
+  Aufgaben aus (Nachprüfung AUS); 11:36 announce/ nichts löschen; 11:45 gelöschte Ankündigungen wiederherstellen; 12:03 alte Versionen nie
+  wieder posten; 12:48 neue Version ersetzt alten Discord-Beitrag (wie bisher); 14:04 Laptop unter der Woche, PC am Wochenende.
 
 ## Wichtig zu wissen
-- Seit Uploader 2.3.18: Daten-Repo kann <Addon>.lua.gz enthalten. Markt-Werkzeuge + Markt-Tabellen-Aufgabe angepasst (15:36). OFFEN: Prompt der
-  geplanten Aufgabe "Markt-Überwachung (wöchentlich)" (nächster Lauf 30.11.) noch auf .lua.gz hinweisen.
-- Nutzer 23.11. 14:04: unter der Woche meist am Laptop (AUSPLUSLAPTOP), am Wochenende am PC (DESKTOP-NVITMSE). UP-422 trifft also den Haupt-Rechner unter der Woche.
-- 23.11. 13:10 Laptop (Forever, AddOns): installiert TS 2.5.26, BS 0.9.61, GS 0.9.60, AHS 0.65.385, LP 3.13.10 (+Data 1.6.4), PS 0.9.78 – 441 Dateien
-  gegen die Zips geprüft (0 Abweichung). Alte Ordner in AddOns/_GoldSentinel_Update_2026-11-23/alt/ (kein Löschrecht). RaidMaster 3.0.40 war aktuell.
-- Ingametest 23.11. (Nutzer 13:02): Chars stehen in den HAUPTSTÄDTEN. Zeitmessungen (Bilder > 16 ms) daher mit Zeile "Umgebung"/Testort lesen –
-  Last durch viele Spieler ist nicht Arbeit des Addons. LevelPilot "Wegabschnitte" und Prüfliste-Punkte "ausserhalb Hauptstadt" brauchen draussen.
-- Geplante Aufgaben (Nutzer 10:08 eingeschaltet; 10:49 "Doppel ausschalten, belegt"): AUS = Nachprüfung (doppelt zum Supervisor, Beleg Entwurf
-  10:20). AN, ohne Doppel: Markt-Tabellen (Tabellen + Kern-Abgleich), Markt-Überwachung (wöchentlich: Trend, Bänder, Kern aus Testberichten, books
-  – andere Ausgaben als Markt-Tabellen), Blueposts, Rezeptdaten, Raids und Taktiken (macht sonst niemand), Discord-Betreuung (DMs/Bumps; die
-  Discord-Sitzung baut nur den Bot), Gmail-Aufräumen. Ihre Entwürfe prüft der Supervisor.
-- LevelPilot-Offline: python3 berichte/LevelPilot/offline/run_offline.py <zip> --nur testroutine (~35 s, lupa). Forever deDE = "Ashenvale".
-- Discord-Sichtprüfung: Kategorien aufklappen (E-Regel 23.11.); Befund 09:20 "Kanäle fehlen" war falsch, korrigiert.
-- Prüfung AHS 0.65.376–382: offen-ahsentinel Teil 1–11; Prüfregeln neu in shared/wissen/pruef-ablauf.md Abschnitt E (23.11.).
-- Markt-Werkzeuge überspringen Sicherungsmärkte (mergedInto) seit 23.11.
+- Laptop = AUSPLUSLAPTOP (Forever: C:\Program Files (x86)\World of Warcraft\_forever_\Interface\AddOns, Zugriff am 23.11. erteilt).
+  Am 23.11. alle neuen Versionen dort installiert und gegen die Zips geprüft (441 Dateien).
+- Daten-Repo: jede Lieferung = 1 Commit ohne Vorgänger (DU6, so gewollt); höchstens 7 Tage + 200 MB (ältere Tage fallen weg).
+  Uploader 2.3.18 packt grosse Dateien (.lua.gz). Markt-Werkzeuge lesen .gz (sv_lesen, Test addon-check/test_sv_gz.py).
+- Testberichte kommen über Discord #testberichte; Abholung per Workflow testberichte.yml (:17/:47 UTC; von Hand: gh api … dispatches).
+- Ingametests in der Hauptstadt: "Umgebung" (Bild in Ruhe) lesen, bevor Ruckeln einem Addon angerechnet wird. Harte Grenze 40 ms (leistung.md).
+- Geplante Aufgaben AN: Markt-Tabellen, Markt-Überwachung, Blueposts, Rezeptdaten, Raids, Discord-Betreuung, Gmail. AUS: Nachprüfung (doppelt).
+- CurseForge-Kommentare: Kommentarseite nur angemeldet lesbar -> Gmail-Benachrichtigungen (noreply@curseforge.com) lesen. Neueste: 22.11.
+- AHS CurseForge-Upload gesperrt (Ingametest 0.65.385: 54 FEHLER, AHS-I1 Sandbox HOCH).
