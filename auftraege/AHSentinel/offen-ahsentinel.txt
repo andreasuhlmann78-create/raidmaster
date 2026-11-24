@@ -6664,3 +6664,12 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
       Lösung ist AHS-SP1. Wieder "wiederverwendet 0" (Vorrat nie da, wie 19:32 belegt).
     - Vollscan zweimal, Berufe, Händler: noch offen. BH-AUS-3 neu: Item 5966 "Lager 2, vorhanden 0" (SK1-f) – Verdacht, zu prüfen (Ware in Post/AH?),
       nach CF1, kein Blocker.
+>>> HINWEIS SUPERVISOR 21:38 – SPRACHE: Deine Meldungen an den Nutzer (21:28 und 21:38, vom Nutzer hier eingefügt) waren ganz bzw. zur Hälfte ENGLISCH.
+    Verstoss gegen die Direktive "NIE WIEDER ENGLISCH" (Entscheid 15.11. 12:38): alles, was der Nutzer liest, ist Deutsch. Ab sofort nur Deutsch.
+>>> VOR 0.65.393 PRÜFT DER SUPERVISOR AUSDRÜCKLICH (Stand 21:38, aus AHS-CF1/-CF1-UI/-SG6):
+    - T750: die 3 "abgeschnitten" mit Ort benannt und behoben (aus db.uiFindingsLast) – im Bericht je Stelle.
+    - CF1-UI b) "0/100000" bei Wächter-Zeilen: entfällt durch c) (keine Wächter-Zeilen mehr im Sniper)? Bitte bestätigen; nach "übernehmen" darf
+      kein "0/100000" stehen (Sniper-Ziel mit normaler Menge).
+    - CF1-UI a) durchscheinender Text: Ursache belegt oder klar "Verdacht, zu messen" mit Messpunkt T1016 – im Bericht.
+    - SG6 Punkt 5/6: Frischt der Reiter WÄCHTER im Takt jeder Wächter-Runde auf (Nutzer fragte 21:30)? Im Bericht mit Messung (ms je Runde).
+    - Wächter-Ton: bis zum Entscheid des Nutzers gilt I5 (Ton nur bei gesicherten Tipps, grün leuchten immer) – so gebaut, richtig.
