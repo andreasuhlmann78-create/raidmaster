@@ -1765,3 +1765,37 @@ in berichte/LevelPilot/ ("umgesetzt, zur Prüfung", mit Belegen).
     Aussagekraft (z. B. Wiederverwenden schon gerechneter Teile, Doppeltes weglassen, schnellere Rechnung bei gleichem Ergebnis). NICHT erlaubt: Reisen
     weglassen/kürzen, weniger Fraktionen/Modi, kleinere Stichproben, gröbere Grenzen. Im Bericht je Änderung belegen: Ergebnis vorher = nachher
     (Zeit, EP, Schritte, Weg) und welche Prüfung unverändert bleibt. Im Zweifel nicht verkürzen.
+
+>>> PRÜFUNG SUPERVISOR 25.11. 10:10 – Ingametest 3.13.13, virtuelle Reise (Bericht im Spiel 09:49, Scourge PRIEST Horde, Normal, deDE, Dauer 385 s)
+    Kopf: L1–60, 2044 Schritte, 714 Quests, 132 h 06 min, 17 ohne Weg, Planung Ø 7 ms je Schritt. Ganzer Testroutine-Bericht noch nicht hochgeladen
+    (letzter Upload LevelPilot 24.11. 12:59) – Gesamtauswertung (Dauer, T381, langeStuecke, LP-I1/I6/I7/I8) folgt, sobald er da ist.
+
+LP-SB1 HOCH (neu): "FEHLER Sandbox: echte Daten verändert – Wegpunkte 28307 → 28309, Wegstücke 34111 → 34115".
+    Code 3.13.13 gelesen: V:Fingerprint() vergleicht nur ANZAHLEN vor/nach der Reise (Virtual.lua 280–300, Finish ~795). Recorder ist während der Reise
+    gesperrt (Recorder.lua 57/69/91/…/456), Comm:Broadcast auch (Comm.lua 226) – aber Comm:Receive (Comm.lua 413, Art "P" ~520–537) hat KEINE Sperre:
+    empfangene Wegstücke anderer Spieler gehen während der 385 s per Graph:AddPolyline (+Join/SplitEdge) in das ECHTE Wegnetz.
+    Verdacht, zu messen: die +2/+4 kommen von empfangenen Wegen ("s", fromNet) – dann ist es KEIN Leck der Reise, sondern ein Fehlalarm der Prüfung.
+    Ebenso möglich ist ein echtes Leck (Reise schreibt ins Netz). Die Prüfung kann beides heute nicht unterscheiden – das ist der Befund.
+    a) Ursache BELEGEN: im Lauf jede Änderung am echten Netz mit Herkunft mitschreiben (Empfang/Recorder/Job/Reise) – z. B. db.net.newPaths und
+       G.count/G.netCount vor/nach, Quelle je AddNode/AddEdge/SplitEdge solange V.active.
+    b) Beheben ohne Datenverlust (nichts geht verloren): Empfangenes während der Reise NICHT verwerfen. Entweder bis Finish (nach fpAfter) puffern und
+       dann einspielen, oder mit Herkunft zählen und im Vergleich abziehen. Änderungen von aussen -> im Bericht HINWEIS "während der Reise von anderen
+       Spielern empfangen: x Wegpunkte, y Wegstücke" (kein FEHLER). Änderung aus der Reise selbst -> weiter FEHLER.
+    c) Gilt für alle Felder des Fingerprints (Quests, Händler, Flugpunkte, Höhlen … können ebenso über Comm kommen) – nicht nur das Wegnetz.
+    d) Tests/Gegenproben im Nachbau: (1) Empfang "P" mitten in der Reise -> HINWEIS, Wege danach im echten Netz vorhanden; (2) Reise schreibt absichtlich
+       einen Knoten ins echte Netz -> FEHLER; (3) beides zugleich -> FEHLER + HINWEIS getrennt; (4) ohne Empfang -> "Sandbox OK" wie bisher.
+    Reihenfolge: VOR LP-I1 (Sandbox = Schutz der echten Daten).
+
+LP-R1 MITTEL (neu, aus derselben Reise): unmögliche Koordinaten im Bericht – "Undercity 132.5,187.6" (Elixier des Leidens, L20) und
+    "Verwüstete Lande 83.7,-295.2" (Dunkle Gefäße, L48). Werte ausserhalb 0–100 = falsche Karte/Umrechnung (Rahmen/Unterkarte?). Ursache belegen
+    (welche Daten, welche Umrechnung), beheben, Test: jede Koordinate in Bericht und Anzeige 0–100, sonst Auffälligkeit mit Quelle.
+
+LP-R2 MITTEL (Regel Entscheid 22.11. 16:57/16:58, Zielwert 0): weiterhin Wege/Ziele an "Ort der anderen Fraktion": Theramore (Marschen 69.6,48.2 und
+    68.0,49.3 auf dem Weg zum Flugmeister Brackenwall), Seenhain (Rotkamm 21.9,45.8, 2×), Thelsamar (Loch Modan 35.5,47.7), Teufelswald 62.2,24.7,
+    Ziel "Bergung der Welle" (Hinterland). Zusätzlich Verdacht auf FALSCHEN Treffer: "Feralas 89.4,46.2 (Zonenübergang)" 6× – dort liegt kein
+    Allianz-Ort; Ortsliste/Radius prüfen. Belegen je Treffer: echter Ort der Gegenfraktion (Weg aussen herum) oder Fehleintrag (Liste korrigieren).
+
+HINWEISE (keine neuen Aufträge, für die laufenden Wegqualitäts-Punkte, Werte dieses Laufs): Strecke ohne bekannten Weg 58,4 % (16.11.: ~66 %);
+    17× KEIN WEG zwischen Zonen (u. a. Steinkrallen » Silberwald, Ashenvale » Hillsbrad); Mobs ≥ +3: Ziele 4, Wegstücke 56 (Ziel 0);
+    Abgleich echte Level-Zeiten L1–7 mittlere Abweichung 60 % (Ziel < 15 %; kleine Stichprobe, nur Minuten); Zone "Shen'dralas" (L40/L44) im
+    Questweg eines Horde-Normal-Laufs – belegen, dass dort echte Quests ohne Dungeon-Pflicht liegen, sonst Befund.

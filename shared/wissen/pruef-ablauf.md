@@ -288,3 +288,4 @@ die es dort gibt.
   Bericht lesen, ob der Nutzer eingegriffen hat. Solange das nicht ausgeschlossen ist: kein FEHLER-Befund an das Projekt, kein Blocker,
   keine Code-Arbeit und KEINE zusätzliche Ingame-Prüfung dafür verlangen – nur als "Ausreisser, Bedienung möglich" vermerken; bewertet
   wird der nächste reguläre Lauf. Erst wenn der Wert in einem Lauf ohne Eingriff wiederkommt, ist es ein Befund.
+- (25.11.) Sandbox-/Livedaten-Prüfungen, die nur Anzahlen vor/nach vergleichen, auf Wege von AUSSEN prüfen (Empfang über Comm/Sync, Hintergrund-Jobs, Recorder): Code lesen, ob jeder Schreibweg während des Laufs gesperrt oder mit Herkunft gezählt ist. Ein Unterschied ist erst ein Leck, wenn die Quelle belegt ist (Befund LP-SB1).
