@@ -6970,3 +6970,11 @@ AHS-SB1 MITTEL (neu): Sandbox-Zeile "FEHLER: 1 Pfade, wiederhergestellt in 2 Dur
     sniper.armed am echten Stand statt an der Kopie, warum erst im 2. Durchgang zurück; beheben; Gegenprobe. Ausserdem: Die Sandbox-Zeile sagt
     FEHLER, zählt aber nicht in "FEHLER 1" der Zusammenfassung -> Zählung angleichen (ein Sandbox-FEHLER muss in der Summe stehen).
     CurseForge 18:00: Entscheid nach Teil "server" (Supervisor meldet dem Nutzer).
+
+>>> AHS-API2 MITTEL (Supervisor 15:13, für PS-TQ1 – Entscheid des Nutzers 25.11. 13:47 "Echten Weg verfolgen"):
+    Neue Funktion in der öffentlichen Schnittstelle (API.lua/API.md, nur ADDITIV, Version 1 bleibt unverändert gültig):
+    API.Disenchanted(itemID[, since]) -> { n = Anzahl eigener Entzauberungen dieses Items seit since (alle eigenen Charaktere), value = Wert der
+    Beute gesamt in Kupfer (verkauftes Material = Erlös netto aus den Buchungen, sonst Marktwert zum Zeitpunkt der Entzauberung), first, last }
+    bzw. nil ohne Daten. Quelle: deLog + Buchungen (wie Ketten.Realized/SK1-l), nichts neu erfassen. Leistung: höchstens wenige ms je Aufruf
+    (Index je itemID, kein Durchlaufen von 2000 Einträgen je Aufruf). Tests: mit/ohne Daten, since-Filter, Material verkauft vs. Marktwert,
+    Gegenprobe. Reihenfolge: nach AHS-SB1/T750b, vor SP2 h.

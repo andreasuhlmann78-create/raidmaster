@@ -885,3 +885,6 @@ PS-TQ1 MITTEL: Trefferquote je tatsächlichem Weg des hergestellten Stücks:
     kopieren (addon_check warnt bis dahin "veraltete offizielle Fassung (Version 3)"). Nichts sonst ändern.
 >>> PRÜFUNG SUPERVISOR 25.11. 14:48 – ProfessionSentinel 0.9.84 (Bericht 14:32, PS-UMG1, T85): ANGENOMMEN, Abnahme im Spiel offen. Reihenfolge wie im
     Bericht (PS-I8, dann PS-TQ1); SHARED-T4 mit 0.9.85.
+>>> PRÜFUNG SUPERVISOR 25.11. 15:13 – ProfessionSentinel 0.9.85 (PS-I8, SHARED-T4, PS-TQ1 Vorarbeit): ANGENOMMEN, Abnahme im Spiel offen.
+    addon_check OK ohne Warnung. PS-TQ1 f): Zurücksetzen der alten 186 mit Sicherung (pmHits.old) – FREIGEGEBEN (einzelne Notizen nicht mehr da,
+    belegt). Frage API: JA – Auftrag AHS-API2 an AHSentinel (additiv, API.md Version 2). Bis dahin NICHT in AHSentinel-Tabellen lesen (richtig erkannt).
