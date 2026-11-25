@@ -73,7 +73,7 @@ import addons  # noqa: E402  (UP-AUTO1: neue Addon-Versionen selbst installieren
 import selfupdate  # noqa: E402  (UP-UPD1: Uploader-Update nur nach Rückfrage "j", ab 2.3.24)
 import einstellungen  # noqa: E402  (UP-CFG1: Einstellungsdateien aus dem Download-Ordner, nur nach "j", ab 2.3.27)
 
-VERSION = "2.3.27"
+VERSION = "2.3.28"
 SHOT_WINDOW = (-30, 180)          # Bild darf so viele Sekunden vor/nach der gemerkten Zeit entstanden sein
 SHOT_MAX_BYTES = 9 * 1024 * 1024
 SHOT_MAX_AGE = 14 * 86400
@@ -1217,7 +1217,8 @@ def main():
         log("Abgleich läuft automatisch: nach dem Beenden von WoW hoch, neuer Stand vom anderen Rechner sofort.")
     deliverer = make_daten(reporter.st, path, syncer)
     # UP-UPD1: diese Version meldet "läuft" (nach einem Update wartet die alte darauf), danach Rückfrage bei neuer Version
-    selfupdate.report_running(HERE, VERSION)
+    if selfupdate.report_running(HERE, VERSION, reporter.st):    # UP-UPD1-c: gelungenes Update in den eigenen Zustand
+        save_state(reporter.st)
     ctx = daten.ssl_context()
     updater = selfupdate.SelfUpdate(
         HERE, VERSION, reporter.st, lambda: save_state(reporter.st), log,
@@ -1321,6 +1322,7 @@ def main():
         # UP-UPD1: Rückfrage "j/n" bei neuer Version; nach erfolgreichem Update beendet sich dieser Prozess
         try:
             if updater.tick():
+                _flushed.append(True)            # UP-UPD1-c: Rest schickt die neue Version (sonst doppelt), nichts mehr schreiben
                 log("Dieses Fenster wird nicht mehr gebraucht – die neue Version läuft im neuen Fenster.")
                 return
         except Exception as e:  # noqa: BLE001

@@ -1,0 +1,34 @@
+Bericht RaidMaster-Sitzung an die Prüf-Sitzung – 25.11.2026 06:43
+Thema: Antwort auf die zwei Fragen in offen-raidmaster.txt (Abnahme Supervisor 25.11. 06:34) – dabei Fehler gefunden und behoben:
+Uploader 2.3.28 (UP-UPD1-c). Status: umgesetzt, zur Prüfung. download/RaidMasterUploader.zip (19 Dateien, ZIP = Ordner).
+Mindestversion bleibt 2.3.20.
+
+1. Frage "Feld update erscheint nicht in stand.json – wann wird es geschrieben?"
+   Ursache (belegt durch den Code von 2.3.24–2.3.27, selfupdate.install/_record, uploader.main):
+   - "update" wurde bei ERFOLG vom ALTEN Prozess in seinen Zustand geschrieben und gespeichert – erst, nachdem die neue Version
+     "läuft" gemeldet hatte, also nachdem sie uploader_state.json schon gelesen hatte. Die neue Version kennt das Feld darum nie,
+     liefert stand.json aus ihrem eigenen Zustand (ohne "update") und überschreibt die Datei beim nächsten Speichern.
+   - Folge: ein gelungenes Update erscheint NIE in stand.json, nur ein Fehlschlag (dann läuft der alte Prozess weiter und liefert).
+     Darum fehlt das Feld beim PC und beim Laptop (beide 2.3.26). Das widerspricht der Dokumentation von UP-UPD1 (Punkt 4) – mein Fehler.
+   Behoben in 2.3.28:
+   - Die NEUE Version trägt "update" {von, nach, ergebnis "ok", zeit} selbst ein, wenn sie "läuft" meldet (Angaben aus
+     _update/status.json), und speichert sofort. Nur wenn von != nach (kein Eintrag beim Neustart nach neuen Einstellungen, UP-CFG1)
+     und die Übergabe frisch ist (höchstens FRIST + 60 s = 120 s alt; sonst z. B. eine alte status.json nach Rückfall und späterer
+     Installation von Hand). Wirkt auch, wenn das Update noch von einer alten Version (2.3.24–2.3.27) ausgeführt wird.
+   - Fehlschlag wie bisher: der alte Prozess trägt "fehlgeschlagen: <Grund>" ein und liefert weiter.
+   Erste Messung: beim Update auf 2.3.28 per j muss stand.json des Rechners "update": {"von": "2.3.26", "nach": "2.3.28", "ergebnis": "ok"}
+   zeigen (nächste Lieferung nach dem Update).
+2. Dabei gefunden (gleiche Ursache, Verdacht, zu messen): Der alte Prozess schickte beim Beenden nach der Übergabe (atexit -> Reporter.flush)
+   noch gesammelte Testberichte. Die neue Version hat sie ebenfalls (ihr Zustand stammt von vorher) und schickt sie in ≤15 Min. nochmals ->
+   mögliche DOPPELTE Pakete in #testberichte nach jedem Update/Neustart, wenn gerade etwas gesammelt war. In 2.3.28 schickt und schreibt der
+   alte Prozess nach der Übergabe nichts mehr (gilt für Update und Neustart). Ob es im Betrieb schon doppelt vorkam, habe ich nicht gemessen
+   (der Bot/die Prüfung kann es an zwei gleichen Paketen um 24.11. ~21:55 bzw. 25.11. ~06:1x sehen).
+3. Frage "Zweig sicherung steht auf 24.11. 21:50, main auf 25.11. 06:16 – wann zieht sicherung nach?"
+   Gemessen 25.11. 06:41 (Daten-Repo frisch abgerufen, alle Zweige): origin/main = origin/sicherung = d10d6d9 (25.11. 06:17, Lieferung
+   06:16). Es gibt keinen Rückstand. Ein aktueller Uploader schreibt immer ZUERST "sicherung", dann main (daten.py, UP-ALT) – sicherung kann
+   main nie nachhinken; umgekehrt stellt der Wächter main auf sicherung zurück. Vermutlich war der lokale Zweig-Zeiger der Prüf-Sitzung alt
+   (git fetch holt "sicherung" nur, wenn der Abruf alle Zweige umfasst: git fetch origin '+refs/heads/*:refs/remotes/origin/*').
+4. Tests (eigene, Hinweis): test_selfupdate 25 (neu: Eintrag durch die neue Version, nicht durch die alte; keine Speicherung des alten
+   Prozesses nach der Übergabe; nur frisch / nur bei Versionswechsel / kaputte status.json – mit Gegenproben; flush beim Beenden aus),
+   test_einstellungen 15, test_addons 25, test_daten 48, test_sync 55, test_uploader 23, test_umfassend 14 (TU6 111/111) – alle grün.
+   LIESMICH/README_EN: Abschnitt 2.3.28.

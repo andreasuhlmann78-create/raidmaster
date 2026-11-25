@@ -283,6 +283,10 @@ Version 2.3.13 – Datenschutz im Daten-Repo (UP-DS1):
 - Kann er die Datei nicht sicher lesen, liefert er sie gar nicht und meldet einmal "GuildSentinel-Daten nicht geliefert: …".
 - Neue Datei svfilter.py – bitte immer die ganze RaidMasterUploader.zip entpacken.
 
+Version 2.3.28 – Update-Meldung und sauberes Beenden des alten Fensters (UP-UPD1-c):
+- Ein gelungenes Update trägt jetzt die neue Version in den Stand für die Prüfung ein (bisher ging die Meldung verloren).
+- Das alte Fenster schickt nach der Übergabe nichts mehr – gesammelte Testberichte schickt die neue Version (sonst doppelt).
+
 Version 2.3.27 – Einstellungsdateien aus dem Download-Ordner übernehmen (UP-CFG1, Entscheid 25.11. 06:29):
 - Lädst du eine neue uploader_config.json oder sync_config.json aus der Discord-Nachricht von /uploader herunter, fragt das
   Uploader-Fenster: "Neue Einstellungsdatei … im Download-Ordner – übernehmen? (j/n)" und zeigt die Kanal-Kennung bisher -> neu.

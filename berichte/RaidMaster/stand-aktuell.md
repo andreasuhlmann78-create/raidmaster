@@ -1,7 +1,9 @@
 # Stand RaidMaster-Sitzung
 
-## Stand 25.11.2026 06:36 · Addon 3.0.44 · Uploader 2.3.27
-- Uploader 2.3.27 gepusht (UP-CFG1: uploader_config/sync_config aus dem Download-Ordner nur nach j, mit Schutz). Bericht 0635.
+## Stand 25.11.2026 06:44 · Addon 3.0.44 · Uploader 2.3.28
+- Uploader 2.3.28 gepusht (UP-UPD1-c: "update" in stand.json trägt die NEUE Version ein; altes Fenster schickt nach Übergabe nichts mehr). Bericht 0643
+  (beantwortet auch: sicherung = main = d10d6d9, kein Rückstand). Laptop UP-AUTO1 im Betrieb belegt (Supervisor 06:34).
+- Uploader 2.3.27 (UP-CFG1: uploader_config/sync_config aus dem Download-Ordner nur nach j, mit Schutz). Bericht 0635.
 - Uploader 2.3.26 angenommen (UP-UPD1-a: altes Fenster schliesst sich nach Update, uploader.bat darf mit ersetzt werden). Bericht 2204.
 - Uploader 2.3.25 (UP-MSG2: eine Sperr-Zeile je PID; LIESMICH Entpacken). Bericht 2159 – zur Prüfung.
   Damit UP-UPD1 abnehmbar: PC mit 2.3.24 fragt j/n, Taste j.
@@ -12,7 +14,6 @@
 - Addon 3.0.44 (RM-UMG1, Zeile UMGEBUNG, T203) – angenommen 20:50, Ingametest offen. 3.0.43 im Ingametest 0 FEHLER.
 - Addon 3.0.41–3.0.43: Platzhalter "?", Dev-Sicht, SB2-Adressbuch, Lesbarkeit L1/L8, Klassen-/Item-Farben, T116 je Addon.
   Offen aus 3.0.41: L2–L7 als Prüfungen, Taktik-"ca."-Zahlen (Entscheid Prüf-Sitzung).
-- Uploader 2.3.20 (UP-ALT, "sicherung") angenommen 10:30.
 
 ## Gerade in Arbeit
 - nichts
@@ -26,8 +27,8 @@
    Taktik-"ca."-Zahlen in RaidData.lua nach Entscheid der Prüf-Sitzung.
 
 ## Offen beim Nutzer
-- PC: bei der Frage im Uploader-Fenster Taste j (Abnahme UP-UPD1). Laptop: 2.3.24/2.3.25 einmal von Hand, Addons-automatisch-an.bat. Auf PC und Laptop
-  Addons-automatisch-an.bat ausführen, Uploader neu starten -> Abnahme UP-AUTO1.
+- PC: bei der Frage im Uploader-Fenster Taste j (Abnahme UP-UPD1). Laptop UP-AUTO1 belegt.
+  Beim nächsten Update (2.3.28) per j: altes Fenster schliesst sich -> Abnahme UP-UPD1-a/b und UP-UPD1-c (stand.json "update").
 - Uploader 2.3.20 auf allen 4 liefernden Rechnern ganz entpacken + neu starten (ältere werden abgewiesen, auch 2.3.19).
 - RaidMaster 3.0.44 installieren und Ingametest: /gsdev an, /rm testroutine alles, /reload.
 - Optional Uploader-Weg b) (neuer Token sperrt alte Uploader ganz aus) – Anleitung im Bericht 0737.
@@ -43,7 +44,6 @@
   (Bericht 2049 an den Supervisor zum Weiterleiten).
 - 24.11. 20:04 (über Supervisor): Umgebung/Bedienung in allen Testroutinen erkennen (RM-UMG1).
 - 24.11. 20:28 (über Supervisor): Uploader installiert neue Addon-Versionen selbst, PC und Laptop (UP-AUTO1).
-- 24.11. 20:29: "repo".
 - 24.11. 10:29: D-CHK1 – fehlt im Discord wirklich etwas, entscheidet diese Sitzung über Nachposten; ältere Fassungen soll die Prüfung
   wie der Bot überspringen; gelöscht wird nichts. -> raid-addon-zusammenfassung-3.0.0.md: NICHT nachposten (Bericht 1030).
 - 24.11. 07:46/10:06/10:22: "repo" – Aufträge aus dem Repo umsetzen (3.0.41–3.0.43).
@@ -51,7 +51,7 @@
 ## Wichtig zu wissen
 - Leser des Daten-Repos: Zweig "sicherung", nur Rechner mit stand.json "uploader" nicht unter
   RaidMasterUploader/mindestversion.txt; .lua und .lua.gz lesen.
-- Uploader-Tests: test_addons 25, test_daten 46, test_sync 53, test_uploader 23, test_umfassend 14 – grün. ZIP = Ordner (Workflow prüft).
+- Uploader-Tests: test_selfupdate 25, test_einstellungen 15, test_addons 25, test_daten 48, test_sync 55, test_uploader 23, test_umfassend 14 – grün. ZIP = Ordner (Workflow prüft).
 - Addon-Nachbildung: berichte/RaidMaster/offline (lua5.1 run_routine.lua; SHOWID=T196,T197 zeigt einzelne; ADDONDIR=…
   für Gegenproben). Lua 5.1 ggf. neu installieren (apt-get install lua5.1).
 - Bot-Versand: #gildenbank, /uploader + Tab, nur_programm:True bzw. an_offiziere:True; eingebauter Browser 1280x900, danach

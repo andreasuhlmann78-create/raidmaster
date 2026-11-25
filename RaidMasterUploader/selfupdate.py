@@ -22,6 +22,11 @@ Rückfrage – KEIN automatisches Selbst-Update.
    (sonst wie bisher nicht). Die neue Version startet über uploader.bat in einem neuen Fenster: stürzt sie ab, bleibt dort "pause".
 4. Meldungen: "Uploader x -> y installiert, neu gestartet" bzw. "Update fehlgeschlagen (<Grund>) – alte Version x läuft weiter".
    stand.json je Rechner (über den Zustand "daten"): "update": {"von", "nach", "ergebnis", "zeit"} – ohne Namen (für D-UPD1).
+4a. UP-UPD1-c (2.3.28, Frage Supervisor 25.11. 06:34 "Feld update erscheint nicht"): Bis 2.3.27 schrieb bei Erfolg der ALTE Prozess
+   "update" in seinen Zustand – erst nachdem die neue Version ihren Zustand schon gelesen hatte. Die neue Version kannte das Feld nie
+   und überschrieb die Datei beim nächsten Speichern: ein gelungenes Update erschien nie in stand.json (nur Fehlschläge). Jetzt
+   trägt die NEUE Version es ein, wenn sie "läuft" meldet (Angaben aus _update/status.json; auch nach einem Update durch eine alte
+   Version). Der alte Prozess schreibt nach der Übergabe nichts mehr (kein Zustand, kein Senden beim Beenden).
 """
 from __future__ import annotations
 
@@ -159,19 +164,29 @@ def status_path(here: str) -> str:
     return os.path.join(here, UPDATE_DIR, STATUS_FILE)
 
 
-def report_running(here: str, version: str):
-    """Die (neue) Version meldet "läuft" – aufgerufen beim Start, sobald sie die Instanz hat und die Konfiguration gelesen ist."""
+def report_running(here: str, version: str, state: dict | None = None, now=time.time) -> bool:
+    """Die (neue) Version meldet "läuft" – aufgerufen beim Start, sobald sie die Instanz hat und die Konfiguration gelesen ist.
+    UP-UPD1-c: war es ein Update (von != nach) und ist die Übergabe frisch (höchstens FRIST + 60 s alt), trägt die neue Version
+    "update" in ihren eigenen Zustand state["daten"] ein. True = "läuft" gemeldet (dann soll der Aufrufer den Zustand speichern)."""
     p = status_path(here)
     try:
         with open(p, encoding="utf-8") as f:
             st = json.load(f)
     except (OSError, ValueError):
-        return
-    if st.get("nach") == version and not st.get("laeuft"):
-        st["laeuft"], st["pid"] = True, os.getpid()
-        with open(p + ".tmp", "w", encoding="utf-8") as f:
-            json.dump(st, f)
-        os.replace(p + ".tmp", p)
+        return False
+    if not isinstance(st, dict) or st.get("nach") != version or st.get("laeuft"):
+        return False
+    st["laeuft"], st["pid"] = True, os.getpid()
+    with open(p + ".tmp", "w", encoding="utf-8") as f:
+        json.dump(st, f)
+    os.replace(p + ".tmp", p)
+    try:
+        zeit = int(st.get("zeit") or 0)
+    except (TypeError, ValueError):
+        zeit = 0
+    if state is not None and st.get("von") and st.get("von") != version and 0 <= now() - zeit <= FRIST + 60:
+        state.setdefault("daten", {})["update"] = {"von": st["von"], "nach": version, "ergebnis": "ok", "zeit": zeit}
+    return True
 
 
 def read_status(here: str) -> dict:
@@ -409,8 +424,7 @@ class SelfUpdate:
         while waited < FRIST:
             if read_status(self.here).get("laeuft"):
                 self.log(f"Uploader {self.version} -> {ver} installiert, neu gestartet.")
-                self._record(ver, "ok")
-                self.exit_now = True
+                self.exit_now = True                 # UP-UPD1-c: "update" trägt die neue Version ein, hier nichts mehr speichern
                 return True
             if proc is not None and proc.poll() is not None:
                 return self._rollback(ver, f"neue Version beendet sich sofort (Code {proc.returncode})", proc)

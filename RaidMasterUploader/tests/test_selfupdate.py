@@ -93,7 +93,8 @@ class Base(unittest.TestCase):
         if self.start_ok == "crash":
             return Proc(code=1)
         if self.start_ok:
-            selfupdate.report_running(here, NEW)                 # die neue Version meldet "läuft"
+            self.new_st = {}                                     # Zustand der NEUEN Version (eigener Prozess)
+            selfupdate.report_running(here, NEW, self.new_st, now=lambda: 1010.0)   # die neue Version meldet "läuft"
         return Proc()
 
     def make(self, latest=NEW, minimum="2.3.20"):
@@ -140,7 +141,10 @@ class Rueckfrage(Base):
             self.assertIn(OLD, f.read())                                                            # Sicherung der alten Version
         self.assertFalse(any(n.endswith(".json") for n in os.listdir(alt)))
         self.assertIn("Uploader 2.3.24 -> 2.3.25 installiert, neu gestartet.", self.logs)
-        self.assertEqual(self.st["daten"]["update"], {"von": OLD, "nach": NEW, "ergebnis": "ok", "zeit": 1000})
+        # UP-UPD1-c: die NEUE Version trägt das gelungene Update ein; die alte schreibt nach der Übergabe nichts mehr
+        self.assertEqual(self.new_st["daten"]["update"], {"von": OLD, "nach": NEW, "ergebnis": "ok", "zeit": 1000})
+        self.assertNotIn("update", self.st.get("daten", {}))
+        self.assertNotIn("save", self.events[self.events.index("handover"):])
         self.assertEqual(self.events[:2], ["save", "handover"][:2] if self.events[0] == "save" else self.events[:2])
         self.assertIn("handover", self.events)
         self.assertNotIn("takeback", self.events)
@@ -383,11 +387,51 @@ class Hilfen(unittest.TestCase):
         finally:
             shutil.rmtree(d, ignore_errors=True)
 
+    def test_upd1c_update_nur_frisch_und_nur_bei_versionswechsel(self):
+        d = tempfile.mkdtemp()
+        try:
+            os.makedirs(os.path.join(d, selfupdate.UPDATE_DIR))
+
+            def put(**kw):
+                with open(selfupdate.status_path(d), "w") as f:
+                    json.dump(dict({"von": OLD, "nach": NEW, "zeit": 5000, "laeuft": False}, **kw), f)
+            st = {}
+            put()
+            self.assertTrue(selfupdate.report_running(d, NEW, st, now=lambda: 5000 + selfupdate.FRIST + 60))
+            self.assertEqual(st["daten"]["update"], {"von": OLD, "nach": NEW, "ergebnis": "ok", "zeit": 5000})
+            st = {}
+            self.assertFalse(selfupdate.report_running(d, NEW, st, now=lambda: 5001))      # schon "läuft" -> nichts mehr
+            self.assertEqual(st, {})
+            put()                                                                          # Gegenprobe: zu alt (Rückfall, später
+            self.assertTrue(selfupdate.report_running(d, NEW, st, now=lambda: 5000 + selfupdate.FRIST + 61))   # von Hand)
+            self.assertEqual(st, {})
+            put(von=NEW, grund="neue Einstellungen")                                       # Neustart derselben Version: kein Update
+            self.assertTrue(selfupdate.report_running(d, NEW, st, now=lambda: 5001))
+            self.assertEqual(st, {})
+            put(zeit="kaputt")
+            self.assertTrue(selfupdate.report_running(d, NEW, st, now=lambda: 5001))
+            self.assertEqual(st, {})
+            with open(selfupdate.status_path(d), "w") as f:
+                f.write("[1, 2]")
+            self.assertFalse(selfupdate.report_running(d, NEW, st))
+        finally:
+            shutil.rmtree(d, ignore_errors=True)
+
+    def test_upd1c_alter_prozess_schickt_beim_beenden_nichts(self):
+        with open(os.path.join(HERE, "uploader.py"), encoding="utf-8") as f:
+            src = f.read()
+        main = src[src.index("def main"):]
+        blk = main[main.index("if updater.tick():"):]
+        blk = blk[:blk.index("return")]
+        self.assertIn("_flushed.append(True)", blk)                                        # flush beim Beenden übersprungen
+        start = main[main.index("if selfupdate.report_running(HERE, VERSION, reporter.st):"):]
+        self.assertIn("save_state(reporter.st)", start.split("\n")[1])                       # Eintrag sofort gespeichert
+
     def test_uploader_meldet_laeuft_beim_start(self):
         with open(os.path.join(HERE, "uploader.py"), encoding="utf-8") as f:
             src = f.read()
         main = src[src.index("def main"):]
-        self.assertLess(main.index("instance_acquire"), main.index("selfupdate.report_running(HERE, VERSION)"))
+        self.assertLess(main.index("instance_acquire"), main.index("selfupdate.report_running(HERE, VERSION, reporter.st)"))
 
 
 if __name__ == "__main__":
