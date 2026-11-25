@@ -1,0 +1,49 @@
+Bericht RaidMaster-Sitzung an die Prüf-Sitzung – 25.11.2026 13:42
+Thema: RaidMaster 3.0.49 (RM-K2), Uploader-Doku (UP-DOC2), RM-CI2 (Frage an den Nutzer).
+Status: umgesetzt, zur Prüfung. download/RaidMaster-3.0.49.zip (72 Dateien, = Ordner) + latest; 3.0.48.zip entfernt, README 3.0.49.
+RaidMasterUploader.zip neu gebaut (19 Dateien, = Ordner; nur LIESMICH/README_EN geändert, Uploader-Version bleibt 2.3.28 – kein j-Update nötig).
+addon_check OK; ganze Prüfung wie der Workflow Exit 0, 0 FEHLER.
+
+RM-K2 – Ursache BELEGT (nicht a–d aus dem Auftrag, sondern zwei Fehler in meinem Code 3.0.48):
+ 1. UI.Frame hängte das Ausweichen mit HookScript("OnShow") an. Danach setzt CreateMain (UI.lua) f:SetScript("OnShow", RefreshCurrent) –
+    SetScript LÖSCHT HookScript-Haken (warcraft.wiki.gg/wiki/API_ScriptObject_HookScript: "Any hooks applied will remain in place until
+    replaced or cleared with SetScript"). Gleich bei "Lücken" (Gaps.lua) und "Anleitung" (Guide.lua). Das Hauptfenster wich also NIE aus.
+ 2. Ein neu gebautes Fenster ist im Spiel sofort sichtbar; UI.Toggle/UI.Open bauen es beim ersten /rm nach dem Einloggen und rufen :Show() –
+    ohne Wechsel kein OnShow. Selbst ohne Fehler 1 wäre beim ersten Öffnen nicht ausgewichen worden.
+ Warum die Nachbildung es nicht fand: der Nachbau kannte HookScript nicht (tat nichts), feuerte OnShow bei jedem :Show(), baute Rahmen
+ unsichtbar und hatte kein GetRect – T206 prüfte nur nachgebaute Fenster, nie den echten Ablauf (mein Prüf-Fehler).
+ Lösung: UI.OnShow(f, fn) setzt den OnShow-Handler eigener Fenster (zuerst ausweichen, dann fn); Lücken/Anleitung/Hauptfenster nutzen
+ ihn, kein SetScript("OnShow") mehr im Addon (grep: 0). UI.Frame weicht beim Bau zusätzlich im nächsten Bild aus (C_Timer.After(0)).
+ UI.avoidHandlers merkt sich die richtigen Handler.
+ Nachbildung jetzt wie das Spiel (harness.lua): neuer Rahmen sichtbar ohne OnShow; OnShow nur beim Wechsel verborgen->sichtbar;
+ HookScript wirkt und SetScript löscht die Haken; IsVisible über die Eltern; Grösse/Anker/GetRect für Fenster an UIParent (1920x1080).
+ Ganze Routine mit den neuen Regeln: ALLE OK (deDE, enUS, zhCN, Era). (HARNESS_HIDDEN=1 = alte, falsche Regel -> T208 FEHLER, erwartet.)
+ T208 (neu, J, echter Ablauf): (1) alle eigenen Fenster haben den Ausweich-Handler – Gegenprobe: einfaches SetScript wird erkannt;
+ (2) Hauptfenster verbergen -> UI.Open("auction") -> frei vom Hindernis -> Ansicht "loot" -> bleibt frei; Gegenprobe: Hindernis
+ unsichtbar -> bleibt liegen; (3) neu gebautes Fenster weicht im nächsten Bild aus. Hindernis = nachgebautes Fenster über RM.UIAvoidEnv
+ (kein Blizzard-Fenster öffnen, kein Name ersetzt). Gegenproben am Code: Fehler 1 wieder eingebaut -> T208 "OnShow ohne Ausweichen:
+ Hauptfenster"; Fehler 2 (ohne C_Timer-Ausweichen) -> T208 "neu gebautes Fenster überdeckt: 59501". Im Spiel ohne Kampf; im Kampf SKIP.
+ T156 schreibt bei Überlappung jetzt mit: Rechtecke beider Fenster (Bildschirm-Pixel), Bildschirmgrösse, UI-Skalierung, freier Platz ja/nein
+ (zu (c)/(d): Verdacht, zu messen – Rechteck des Charakterfensters im Spiel vs. sichtbare Fächer bis x≈455; der nächste Ingametest zeigt es).
+ Grenze bleibt: öffnet der Spieler das Charakterfenster NACH RaidMaster, bleibt RaidMaster liegen (kein Eingriff in Blizzard-Code).
+ Abnahme im Spiel: /reload, Charakterfenster (C) öffnen, dann /rm -> kein Überlappen; /rm testroutine k mit offenem Charakterfenster -> T156 OK.
+
+UP-DOC2 (Entscheid 25.11. 11:39): LIESMICH.txt/README_EN.txt: neuer Installationsschritt 5 "Addons automatisch aktuell halten (empfohlen für
+ Offiziere …): Addons-automatisch-an.bat doppelklicken, Uploader neu starten"; der Satz "Nur für die eigenen Test-Rechner – Offiziere lassen es
+ aus" ersetzt durch die Empfehlung. Standard bleibt AUS (nichts am Code geändert). Auch die Anleitung im Spiel (Seite "Anleitung", Schritt
+ "Uploader starten") hat den Tipp jetzt – in allen 11 Sprachen.
+ Für das Discord-Projekt (bitte weitergeben): RaidMasterBot/ANLEITUNG.md Abschnitt Uploader (Schritte 1–4) und die /uploader-Nachricht
+ (D-UPCFG1) brauchen denselben Hinweis: "Addons-automatisch-an.bat im Ordner doppelklicken, Uploader neu starten".
+
+RM-CI2 – belegt, aber ohne neues Recht nicht lösbar (Frage an den Nutzer):
+ - Gemessen: Workflow "Testberichte" heute (25.11. ab 00:00 UTC bis 12:42 UTC) 1 Lauf per Zeitplan, 2 von Hand (gh run list).
+ - (a) Uploader: sein einziger GitHub-Token ist der Fine-grained-Token NUR für das private Daten-Repo (Contents: Read and write; daten.py DU1,
+   Daten-Repo-einrichten.bat prüft genau das). Er darf im raidmaster-Repo keine Workflows auslösen -> (a) geht nicht ohne neues Recht.
+   Die Test-Webhook-Adresse (Discord) kann GitHub nicht anstossen.
+ - (b) Bot: Discord-Projekt; braucht ebenfalls einen GitHub-Token (Actions: Read and write nur für raidmaster) auf dem Bot-Server.
+ - (c) Workflow im Daten-Repo beim Push: braucht denselben Token als Geheimnis im Daten-Repo.
+ - Ohne neues Recht nur Teillösung: testberichte.yml zusätzlich bei jedem Push auf main (Sitzungen pushen oft; [skip ci] der Berichte
+   verhindert Schleifen) – keine Garantie nachts/ohne Pushes; die Datei gehört zum Prüfsystem (nicht meine) -> nur Vorschlag.
+ Empfehlung: (b) – ein Fine-grained-Token nur für raidmaster mit "Actions: Read and write", nur auf dem Bot-Server (config.json, nie im
+ Repo, nicht auf Spieler-PCs); der Bot ruft beim neuen Paket in #testberichte workflow_dispatch auf (höchstens alle 5 Min.). Frage an den
+ Nutzer gestellt; ich richte nichts ein.

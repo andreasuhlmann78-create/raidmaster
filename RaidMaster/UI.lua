@@ -28,18 +28,39 @@ local TEMPLATE = BackdropTemplateMixin and "BackdropTemplate" or nil
 -- Grundbausteine
 ---------------------------------------------------------------------------
 -- name: eigene Fenster direkt auf UIParent werden für die Oberflächen-Prüfung angemeldet (UICheck.lua, ab 3.0.18)
+-- RM-K2 (3.0.49, Ingametest 3.0.48: Hauptfenster wich dem Charakterfenster NICHT aus). Belegte Ursachen im Code von 3.0.48:
+--   1. UI.Frame hängte das Ausweichen mit HookScript("OnShow") an – danach setzte CreateMain (wie Lücken und Anleitung)
+--      SetScript("OnShow", …) und ersetzte damit den Haken (SetScript löscht auch die mit HookScript angehängten Funktionen).
+--   2. Ein neu gebautes Fenster ist im Spiel sofort sichtbar; das erste :Show() danach löst kein OnShow aus (es war nie verborgen).
+-- Jetzt: OnShow eigener Fenster nur über UI.OnShow (Ausweichen zuerst, dann die eigene Funktion), und beim Bau einmal im
+-- nächsten Bild ausweichen. UI.avoidHandlers merkt sich die richtigen Handler (Prüfung T208 erkennt ein späteres SetScript).
+UI.avoidHandlers = setmetatable({}, { __mode = "k" })
+function UI.AvoidNow(f)
+	if not (f and rawget(f, "rmAvoid") and RM.UIAvoidOthers) then return end
+	local ok, err = pcall(RM.UIAvoidOthers, f, RM.UIAvoidEnv)     -- RM.UIAvoidEnv nur im Test (T208), sonst nil
+	if not ok then RM.UIAvoidError = tostring(err) end
+end
+
+function UI.OnShow(f, fn)
+	local h = function(self, ...)
+		UI.AvoidNow(self)
+		if fn then return fn(self, ...) end
+	end
+	UI.avoidHandlers[h] = true
+	f:SetScript("OnShow", h)
+end
+
 function UI.Frame(parent, w, h, name)
 	local f = CreateFrame("Frame", nil, parent, TEMPLATE)
 	if w and h then f:SetSize(w, h) end
 	if name and parent == UIParent and RM.RegisterUI then
 		RM.RegisterUI(f, name)
-		-- RM-TAINT1/T156 (3.0.48): beim Zeigen offenen Blizzard- und GoldSentinel-Fenstern ausweichen (UICheck.lua)
-		if not (RM.UI_NO_AVOID and RM.UI_NO_AVOID[name]) and f.HookScript then
-			f:HookScript("OnShow", function(self)
-				if not RM.UIAvoidOthers then return end
-				local ok, err = pcall(RM.UIAvoidOthers, self)
-				if not ok then RM.UIAvoidError = tostring(err) end
-			end)
+		-- beim Zeigen offenen Blizzard- und GoldSentinel-Fenstern ausweichen (UICheck.lua); Leisten nicht
+		if not (RM.UI_NO_AVOID and RM.UI_NO_AVOID[name]) then
+			f.rmAvoid = true
+			UI.OnShow(f)
+			-- neu gebaut = schon sichtbar, ohne OnShow: im nächsten Bild (Lage ist dann gesetzt) einmal ausweichen
+			if C_Timer and C_Timer.After then C_Timer.After(0, function() if f:IsVisible() then UI.AvoidNow(f) end end) end
 		end
 	end
 	return f
@@ -1364,7 +1385,7 @@ local function CreateMain()
 	end
 
 	ApplyMainScale(f)
-	f:SetScript("OnShow", function() UI.RefreshCurrent() end)
+	UI.OnShow(f, function() UI.RefreshCurrent() end)
 	UI.ShowPage("dkp")
 	UI.BuildRest()
 	return f

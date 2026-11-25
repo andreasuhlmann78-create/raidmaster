@@ -697,7 +697,7 @@ local function Create()
 	local stop = UI.Button(f, L["Suche beenden"], 140, 32, function() G.StopSearch(L["Gruppensuche beendet."]); G.Refresh() end)
 	stop:SetPoint("LEFT", all, "RIGHT", 8, 0)
 	f.stopBtn = stop
-	f:SetScript("OnShow", function() G.Refresh() end)
+	UI.OnShow(f, function() G.Refresh() end)
 	local acc = 0
 	f:SetScript("OnUpdate", function(_, el)
 		acc = acc + el

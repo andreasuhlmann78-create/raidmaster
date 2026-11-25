@@ -1,8 +1,9 @@
 # Stand RaidMaster-Sitzung
 
-## Stand 25.11.2026 09:27 · Addon 3.0.48 · Uploader 2.3.28
-- Addon 3.0.48: RM-TAINT1 (Routine öffnet nie Blizzard-Fenster, T207 grep-Regel), Fenster weichen aus (T206), T205 kleiner, T116 getrennt.
-  Vom Supervisor angenommen 09:22, Abnahme im Spiel offen. Keine offenen Aufträge.
+## Stand 25.11.2026 13:43 · Addon 3.0.49 · Uploader 2.3.28 (Doku neu)
+- Addon 3.0.49 (RM-K2): Ausweichen wirkt jetzt (SetScript löschte HookScript; erstes Öffnen ohne OnShow); T208 echter Ablauf;
+  Nachbildung harness.lua wie das Spiel (HookScript/SetScript, sichtbar beim Bau, GetRect). UP-DOC2 Doku + Anleitung im Spiel.
+  RM-CI2: kein Weg ohne neues Recht -> Frage an den Nutzer (Bericht 1342). 3.0.48 im Spiel: TAINT1 bestätigt.
 - Addon 3.0.47: 3.0.46 (Taktik-Zahlen) zurückgenommen – Entscheid des Nutzers 08:24 "nicht löschen, auf korrekte Angaben warten".
   Taktik-Zahlen erst ändern, wenn der Supervisor bestätigte Werte überträgt (Prüfliste research/raidmaster-taktikzahlen.md, ab 09.12.).
 - Addon 3.0.45 gepusht (L3/L4 als Prüfungen T204/T205, nur Testroutine). Uploader 2.3.27/2.3.28 und RM-CI1 vom Supervisor angenommen 06:53.
@@ -35,15 +36,14 @@
 - PC: bei der Frage im Uploader-Fenster Taste j (Abnahme UP-UPD1). Laptop UP-AUTO1 belegt.
   Beim nächsten Update (2.3.28) per j: altes Fenster schliesst sich -> Abnahme UP-UPD1-a/b und UP-UPD1-c (stand.json "update").
 - Uploader 2.3.20 auf allen 4 liefernden Rechnern ganz entpacken + neu starten (ältere werden abgewiesen, auch 2.3.19).
-- RaidMaster 3.0.48 (kommt automatisch): Charakterfenster öffnen, dann /rm -> kein Überlappen; /rm testroutine k mit offenem Charakterfenster Ingametest: /gsdev an, /rm testroutine alles, /reload.
+- RaidMaster 3.0.49: /reload, Charakterfenster öffnen, dann /rm -> kein Überlappen; /rm testroutine k mit offenem Charakterfenster
+- RM-CI2: Entscheid GitHub-Token (Actions) für Bot-Server ja/nein Ingametest: /gsdev an, /rm testroutine alles, /reload.
 
 ## Entscheide des Nutzers seit letztem Stand
+- 25.11. 11:39 (über Supervisor): Offiziere schalten Addons-automatisch ein (UP-DOC2, nur Doku, Standard bleibt AUS).
 - 25.11. 08:24: Taktik-Zahlen NICHT löschen/ändern; geplante Aufgabe prüft (ab 09.12.), bestätigte Werte über Supervisor einsetzen.
 - 25.11. 06:29: Einstellungsdateien aus dem Download-Ordner übernehmen, "mit Schutz" (UP-CFG1) – nach Hinweis auf die Risiken.
 - 24.11. 22:00/22:01: altes Fenster soll sich nach Update schliessen; Updates laufen über den Uploader selbst (j) (UP-UPD1-a).
-- 24.11. 21:36 (über Supervisor): Uploader-Update nur auf Knopfdruck mit Rückfrage j/n, kein Selbst-Update (UP-UPD1).
-- 24.11. 21:18 (über Supervisor): Mindestversion statt "neueste" (UP-MIN1), nur bei Daten/Format/Prüfung/Sicherheit erhöhen.
-- 24.11. 20:52 Nutzer: "meine offiziere haben den neuen auch bekommen" – Uploader 2.3.21 an Offiziere verteilt.
   (Bericht 2049 an den Supervisor zum Weiterleiten).
   wie der Bot überspringen; gelöscht wird nichts. -> raid-addon-zusammenfassung-3.0.0.md: NICHT nachposten (Bericht 1030).
 

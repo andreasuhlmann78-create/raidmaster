@@ -3797,6 +3797,96 @@ local function AreaJ(t, G)
 		return true, "rechts daneben (408/900) · kein Platz erkannt · GoldSentinel-Fenster ja, HUD nein · Gegenproben: frei/unsichtbar/Kampf -> bleibt"
 	end)
 
+	-- RM-K2 (3.0.49, Ingametest 3.0.48: Hauptfenster wich nicht aus): Ausweichen im ECHTEN Ablauf – richtige OnShow-Handler an allen
+	-- eigenen Fenstern (ein späteres SetScript würde das Ausweichen löschen), Fenster zeigen + Ansicht wechseln, neu gebautes Fenster
+	-- (sichtbar ohne OnShow). Hindernis = nachgebautes Fenster über RM.UIAvoidEnv (kein Blizzard-Fenster öffnen, keinen Namen ersetzen).
+	local function BadHandlers(list)
+		local bad = {}
+		for _, o in ipairs(list) do
+			if o.addon == "RaidMaster" and type(o.frame) == "table" and rawget(o.frame, "rmAvoid") and not RM.UI.avoidHandlers[o.frame:GetScript("OnShow") or 0] then
+				bad[#bad + 1] = tostring(o.name)
+			end
+		end
+		return bad
+	end
+	AsyncCheck(t, "T208", "J", "RM-K2 Fenster weichen im echten Ablauf aus (Zeigen, Ansicht, Neubau; Gegenproben)", function()
+		local UI, U = RM.UI, RM.UICheck
+		if InCombatLockdown and InCombatLockdown() then return ASYNC_SKIP, "im Kampf (Ausweichen ist im Kampf aus)" end
+		local wasShown = Shown(MainFrame())
+		local wasPage = UI.main and UI.main.current
+		local probe, result
+		local function Restore()
+			RM.UIAvoidEnv = nil
+			local m = MainFrame()
+			if m then
+				local pos = RM.db.config.positions.main
+				m:ClearAllPoints()
+				if pos then m:SetPoint(pos[1], UIParent, pos[2], pos[3], pos[4]) else m:SetPoint("CENTER", UIParent, "CENTER", 0, 20) end
+				if wasPage then pcall(UI.ShowPage, wasPage) end
+				if not wasShown then m:Hide() end
+			end
+			if probe then
+				probe:Hide()
+				for i = #GoldSentinelUIFrames, 1, -1 do if GoldSentinelUIFrames[i].frame == probe then table.remove(GoldSentinelUIFrames, i) end end
+			end
+		end
+		local ok, a, b, c = pcall(function()
+			UI.Open("dkp")
+			local main = MainFrame()
+			-- 1. alle eigenen Fenster: OnShow = Ausweich-Handler (Gegenprobe: ein einfaches SetScript wird erkannt)
+			local bad = BadHandlers(GoldSentinelUIFrames)
+			if #bad > 0 then return false, "OnShow ohne Ausweichen: " .. table.concat(bad, ", "), "alle über UI.OnShow" end
+			local fake = { addon = "RaidMaster", name = "Gegenprobe", frame = { rmAvoid = true, GetScript = function() return function() end end } }
+			if #BadHandlers({ fake }) ~= 1 then return false, "Gegenprobe SetScript nicht erkannt", "erkannt" end
+			-- 2. Hauptfenster: Hindernis über seine linken 40 % -> verbergen, öffnen, Ansicht wechseln
+			local mine = U.Rect(main)
+			if not mine then return ASYNC_SKIP, "Lage des Hauptfensters nicht messbar" end
+			local w = mine.r - mine.l
+			local charShown = true
+			local char = { l = mine.l - 10, r = mine.l + math.floor(w * 0.4), t = mine.t + 10, b = mine.b - 10 }
+			local obj = { IsVisible = function() return charShown end, GetEffectiveScale = function() return 1 end,
+				GetRect = function() return char.l, char.b, char.r - char.l, char.t - char.b end }
+			RM.UIAvoidEnv = { blizzard = { "T208Char" }, lookup = function(n) return n == "T208Char" and obj or nil end, others = {} }
+			main:Hide()
+			UI.Open("auction")
+			local after = U.Rect(main)
+			if not RM.UIAvoidLast then return false, "Ausweichen nicht aufgerufen (OnShow)", "aufgerufen" end
+			if not RM.UIAvoidLast.free then return ASYNC_SKIP, "kein freier Platz auf diesem Bildschirm" end
+			local ov = U.Overlap(after, char)
+			if ov > 0 then return false, string.format("überdeckt nach dem Öffnen: %d px²", ov), "0" end
+			UI.ShowPage("loot")
+			local ov2 = U.Overlap(U.Rect(main), char)
+			if ov2 > 0 then return false, "nach Ansichtswechsel wieder überdeckt", "bleibt frei" end
+			-- Gegenprobe: Hindernis unsichtbar -> öffnen verschiebt nicht
+			charShown = false
+			local before = U.Rect(main)
+			main:Hide(); UI.Open("dkp")
+			local now = U.Rect(main)
+			if now.l ~= before.l or now.t ~= before.t then return false, "ohne Hindernis verschoben", "bleibt" end
+			charShown = true
+			-- 3. neu gebautes Fenster (sichtbar ohne OnShow) weicht im nächsten Bild aus
+			local cw, ch = 300, 200
+			probe = UI.Frame(UIParent, cw, ch, "T208 Prüffenster")
+			local es = probe:GetEffectiveScale() or 1
+			probe:ClearAllPoints()
+			probe:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", (char.l + 20) / es, (char.t - 20) / es)
+			char = { l = char.l, r = char.r, t = char.t, b = char.b }
+			return "wait"
+		end)
+		if not ok then Restore(); error(a, 0) end
+		if a ~= "wait" then Restore(); if a == ASYNC_SKIP then return ASYNC_SKIP, b end return a, b, c end
+		for _ = 1, 3 do R.Breathe(0) end
+		Settle(0.1)
+		R.Breathe(0)
+		local pr = probe and U.Rect(probe)
+		local charRect = RM.UIAvoidEnv and RM.UIAvoidEnv.lookup("T208Char")
+		local cl, cb, cw2, ch2 = charRect:GetRect()
+		local ov3 = pr and U.Overlap(pr, { l = cl, b = cb, r = cl + cw2, t = cb + ch2 }) or -1
+		Restore()
+		if ov3 ~= 0 then return false, "neu gebautes Fenster überdeckt: " .. ov3, "0 (weicht im nächsten Bild aus)" end
+		return true, "alle eigenen Fenster mit Ausweich-Handler · Öffnen + Ansichtswechsel frei · Neubau weicht aus · Gegenproben: SetScript erkannt, ohne Hindernis bleibt"
+	end)
+
 	-- 3.0.45 (Lesbarkeit L3): dieselbe DKP-Zahl in der Liste, im Tooltip der Zeile, in der Antwort auf "!dkp" und in DKP.Get;
 	-- die Kopfzeile "Gesamt" = Summe der Zeilen (L4 an der echten Anzeige). Testmodus-Daten, Flüstern nur über RM.Whisper.
 	local function SameNumber(rows, tipOf, chatOf, getOf)
@@ -5070,7 +5160,7 @@ local function AreaL(t, G)
 			{ "TR-ALLE Sicherung", "T189" }, { "Tooltip-Platzierung (Ingame T155)", "T190" }, { "HUD-Ausnahme (Ingame T156)", "T191" }, { "Beschriftungen passen (Ingame T158)", "T192" }, { "Testdaten nie für andere Addons", "T193" },
 			{ "OPT-ALLE Optionen-Fenster", "T194" }, { "Spieler ohne Testbefehle", "T195" },
 			{ "DEV-SICHT Entwickler nur im Entwicklermodus", "T196" }, { "Werbung Platzhalter als ?", "T197" },
-			{ "Livedaten-Wächter Gegenprobe", "T198" }, { "Lesbarkeit L1/L8", "T199" }, { "Lesbarkeit Gegenprobe", "T200" }, { "RM-I2 Klassenfarben lesbar", "T201" }, { "RM-I2 Item-Qualitätsfarben lesbar", "T202" }, { "RM-UMG1 Umgebung erkennen (Gegenprobe)", "T203" }, { "L4 Summen gehen auf", "T204" }, { "L3 gleiche DKP-Zahl überall", "T205" }, { "RM-TAINT1 Fenster weichen aus", "T206" }, { "RM-I1 Speicher je Addon", "T116" },
+			{ "Livedaten-Wächter Gegenprobe", "T198" }, { "Lesbarkeit L1/L8", "T199" }, { "Lesbarkeit Gegenprobe", "T200" }, { "RM-I2 Klassenfarben lesbar", "T201" }, { "RM-I2 Item-Qualitätsfarben lesbar", "T202" }, { "RM-UMG1 Umgebung erkennen (Gegenprobe)", "T203" }, { "L4 Summen gehen auf", "T204" }, { "L3 gleiche DKP-Zahl überall", "T205" }, { "RM-TAINT1 Fenster weichen aus", "T206" }, { "RM-K2 Ausweichen im Ablauf", "T208" }, { "RM-I1 Speicher je Addon", "T116" },
 			{ "RM-TF-1 kein Fehlerfenster", "T120" }, { "T-BL4 echtes Eingabefeld", "T169" } }
 		local only = R.only
 		local have, missing = 0, {}

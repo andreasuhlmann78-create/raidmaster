@@ -43,28 +43,70 @@ end
 
 -- universeller Frame-Stub
 local function NewObj()
-  local o = {scripts={}, shown=false, text="", _frame=true}
+  local o = {scripts={}, hooks={}, shown=false, text="", _frame=true}
   return setmetatable(o, {__index=function(t,k)
     local f
     if k=="GetText" then f=function(s) return s.text end
     elseif k=="SetText" then f=function(s,v) s.text=v or "" end
     elseif k=="IsShown" then f=function(s) return s.shown end
-    elseif k=="Show" then f=function(s) s.shown=true; if s.scripts.OnShow then s.scripts.OnShow(s) end end
+    -- 3.0.49 (RM-K2): wie im Spiel – OnShow nur beim Wechsel von verborgen zu sichtbar; SetScript löscht HookScript-Haken
+    -- (warcraft.wiki.gg API_ScriptObject_HookScript: "hooks … remain in place until replaced or cleared with SetScript")
+    elseif k=="Show" then f=function(s)
+        if s.shown then return end
+        s.shown=true
+        if s.scripts.OnShow then s.scripts.OnShow(s) end
+        for _, h in ipairs(s.hooks.OnShow or {}) do h(s) end
+      end
     elseif k=="Hide" then f=function(s) s.shown=false end
-    elseif k=="SetScript" then f=function(s,n,fn) s.scripts[n]=fn end
+    elseif k=="IsVisible" then f=function(s)
+        local x = s
+        while x do
+          if not rawget(x, "shown") then return false end
+          x = rawget(x, "parent")
+        end
+        return true
+      end
+    elseif k=="SetScript" then f=function(s,n,fn) s.scripts[n]=fn; s.hooks[n]=nil end
+    elseif k=="HookScript" then f=function(s,n,fn) s.hooks[n]=s.hooks[n] or {}; table.insert(s.hooks[n], fn) end
+    elseif k=="SetSize" then f=function(s,w,h) rawset(s,"w",w); rawset(s,"h",h) end
+    elseif k=="SetWidth" then f=function(s,w) rawset(s,"w",w) end
+    elseif k=="SetHeight" then f=function(s,h) rawset(s,"h",h) end
+    elseif k=="ClearAllPoints" then f=function(s) rawset(s,"pt",nil) end
+    -- Lage nur für Rahmen direkt an UIParent (Fenster): erster Ankerpunkt, Bildschirm 1920x1080, Skalierung 1
+    elseif k=="GetRect" then f=function(s)
+        local pt = rawget(s,"pt")
+        if not pt then return nil end
+        local P = pt.rel or rawget(s,"parent")
+        if P ~= UIParent then return nil end
+        local w, h = rawget(s,"w") or 100, rawget(s,"h") or 100
+        local function at(name, W, H)
+          local x = name:find("LEFT") and 0 or name:find("RIGHT") and W or W / 2
+          local y = name:find("BOTTOM") and 0 or name:find("TOP") and H or H / 2
+          return x, y
+        end
+        local px, py = at(pt.rp or pt.p, UIParent.w, UIParent.h)
+        local fx, fy = at(pt.p, w, h)
+        return px + (pt.x or 0) - fx, py + (pt.y or 0) - fy, w, h
+      end
     elseif k=="GetScript" then f=function(s,n) return s.scripts[n] end
     elseif k=="SetPoint" or k=="SetAllPoints" then
       -- 3.0.31 (T169): wie im Spiel – ein Bezug, der eine Tabelle, aber kein Rahmen ist, gibt "Wrong object type"
-      f=function(s, p, rel)
+      f=function(s, p, rel, rp, x, y)
         if k=="SetAllPoints" then rel = p end
         if type(rel)=="table" and not rawget(rel,"_frame") then error(k .. "(): Wrong object type for function", 2) end
+        if k=="SetPoint" and not rawget(s,"pt") then
+          if type(rel) == "number" then rel, rp, x, y = nil, nil, rel, rp end
+          if type(rp) == "number" then rp, x, y = nil, rp, x end
+          rawset(s, "pt", { p = p, rel = rel, rp = rp or p, x = x, y = y })
+        end
       end
     elseif k=="GetPoint" then f=function() return "CENTER", nil, "CENTER", 0, 0 end
     elseif k=="GetMinMaxValues" then f=function(s) return s.mn or 0, s.mx or 0 end
     elseif k=="SetMinMaxValues" then f=function(s,a,b) s.mn=a s.mx=b end
     elseif k=="HasFocus" or k=="GetChecked" then f=function() return false end
     elseif k=="IsEnabled" then f=function() return true end
-    elseif k=="GetWidth" or k=="GetHeight" then f=function() return 100 end
+    elseif k=="GetWidth" then f=function(s) return rawget(s,"w") or 100 end
+    elseif k=="GetHeight" then f=function(s) return rawget(s,"h") or 100 end
     elseif k=="GetCenter" then f=function() return 0,0 end
     elseif k=="GetEffectiveScale" then f=function() return 1 end
     elseif k=="CreateFontString" or k=="CreateTexture" then f=function() return NewObj() end
@@ -76,12 +118,14 @@ local function NewObj()
 end
 FRAMES = {}
 function CreateFrame(kind, name, parent, template)
-  local o = NewObj(); o.kind=kind
+  local o = NewObj(); o.kind=kind; o.parent=parent
+  -- 3.0.49 (RM-K2): wie im Spiel ist ein neuer Rahmen sofort sichtbar (ohne OnShow); HARNESS_HIDDEN=1 = altes Verhalten
+  if os.getenv("HARNESS_HIDDEN") ~= "1" then o.shown = true end
   if name then _G[name]=o end
   FRAMES[#FRAMES+1]=o
   return o
 end
-UIParent = NewObj(); Minimap = NewObj(); DEFAULT_CHAT_FRAME = {AddMessage=function(_,m) print("CHAT: "..m) end}
+UIParent = NewObj(); UIParent.shown = true; UIParent.w = 1920; UIParent.h = 1080; Minimap = NewObj(); DEFAULT_CHAT_FRAME = {AddMessage=function(_,m) print("CHAT: "..m) end}
 GameTooltip = NewObj(); RaidWarningFrame = NewObj(); UISpecialFrames = {}
 StaticPopupDialogs = {}; SlashCmdList = {}
 LASTPOPUP = nil

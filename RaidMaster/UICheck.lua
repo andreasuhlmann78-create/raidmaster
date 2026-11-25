@@ -233,7 +233,16 @@ function U.WindowsOverlapNothing()
 				local bf = _G[bn]
 				if type(bf) == "table" and Shown(bf) then
 					tested = tested + 1
-					if U.Overlap(mine, U.Rect(bf)) > 0 then problems[#problems + 1] = e.name .. " überdeckt " .. bn end
+					local br = U.Rect(bf)
+					if U.Overlap(mine, br) > 0 then
+						-- RM-K2 (3.0.49): Messwerte mitschreiben (Rechtecke in Bildschirm-Pixeln, Bildschirm, UI-Skalierung, freier Platz?)
+						local us = UIParent.GetEffectiveScale and UIParent:GetEffectiveScale() or 1
+						local sw, sh = (UIParent:GetWidth() or 0) * us, (UIParent:GetHeight() or 0) * us
+						local _, cover = U.BestPlace(mine.l, mine.t, mine.r - mine.l, mine.t - mine.b, sw, sh, U.Obstacles(e.frame))
+						problems[#problems + 1] = string.format("%s überdeckt %s (eigen x %d–%d y %d–%d, %s x %d–%d y %d–%d, Bildschirm %dx%d, " ..
+							"Skalierung %.2f, freier Platz %s)", e.name, bn, mine.l, mine.r, mine.b, mine.t, bn, br.l, br.r, br.b, br.t, sw, sh, us,
+							cover == 0 and "ja" or "nein")
+					end
 				end
 			end
 			for _, o in ipairs(GoldSentinelUIFrames) do

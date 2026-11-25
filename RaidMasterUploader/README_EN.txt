@@ -6,7 +6,10 @@ RaidMaster Uploader – sends the RaidMaster data from the raid leader's PC to t
 3. In Discord, type /uploader (admins only). Put the file uploader_config.json that the bot sends
    you into this folder. NEVER share it – it contains a secret link to your Discord.
 4. Double-click uploader.bat and keep the window open.
-5. Start it automatically with Windows: press Windows key + R, type shell:startup and put a
+5. Keep the addons up to date automatically (recommended for officers and everyone using GoldSentinel addons): in this
+   folder double-click Addons-automatisch-an.bat, then restart the uploader (close the window, double-click uploader.bat
+   again). From then on the uploader installs new versions of the GoldSentinel addons by itself.
+6. Start it automatically with Windows: press Windows key + R, type shell:startup and put a
    shortcut to uploader.bat into the folder that opens.
 
 After every /reload or logout, DKP, loot, assignments and specs show up in Discord within a few
@@ -311,7 +314,8 @@ Version 2.3.21 – install new addon versions automatically (UP-AUTO1):
 - If you want, the uploader fetches new versions of the GoldSentinel addons (AHSentinel, BuffSentinel, GuildSentinel,
   LevelPilot, ProfessionSentinel, RaidMaster, ThreatSentinel) itself and puts them into the Forever AddOns folder.
 - Default: OFF. Switch on: double-click Addons-automatisch-an.bat, then restart the uploader.
-  Switch off: Addons-automatisch-aus.bat. (Meant for the own test computers only – officers leave it off.)
+  Switch off: Addons-automatisch-aus.bat. Recommended (decision 25.11.): officers and everyone using the GoldSentinel
+  addons switch it on – see step 5 above.
 - Only addons that are already installed are updated, and only when the new version is higher.
 - The only source is the GoldSentinel repo on GitHub; every file is checked before copying (checksum, complete, right
   folder, right version). Your settings and data (WTF/SavedVariables) are never touched, nothing is deleted.

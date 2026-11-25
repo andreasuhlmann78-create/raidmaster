@@ -4331,6 +4331,7 @@ L["Niemals weitergeben oder posten – sie enthält einen geheimen Link zu eurem
 L["Uploader starten"] = "啟動上傳器"
 L["uploader.bat doppelklicken und das Fenster offen lassen. Beim ersten Start sucht er die RaidMaster-Datei von WoW selbst."] = "雙擊 uploader.bat 並讓視窗保持開啟。第一次啟動時它會自動找到 WoW 的 RaidMaster 檔案。"
 L["Automatisch mit Windows starten: Windows-Taste + R, shell:startup eingeben, eine Verknüpfung zu uploader.bat hineinlegen."] = "隨 Windows 自動啟動：按 Windows 鍵 + R，輸入 shell:startup，把 uploader.bat 的捷徑放進去。"
+L["Neue Versionen der GoldSentinel-Addons automatisch installieren (empfohlen): im Ordner RaidMasterUploader Addons-automatisch-an.bat doppelklicken, dann den Uploader neu starten (Fenster schliessen, uploader.bat wieder doppelklicken)."] = "自動安裝 GoldSentinel 插件的新版本（建議）：在 RaidMasterUploader 資料夾中雙擊 Addons-automatisch-an.bat，然後重新啟動上傳器（關閉視窗，再次雙擊 uploader.bat）。"
 L["Test: Knopf unten drücken. Im Uploader-Fenster erscheint \"Hochgeladen\", im Discord zeigt /raidmaster-status den Upload."] = "測試：按下方按鈕。上傳器視窗會顯示 \"已上傳\"，在 Discord 中 /raidmaster-status 會顯示這次上傳。"
 L["Spieler verknüpfen"] = "連結玩家"
 L["Jeder Spieler registriert sich einmal im Discord: Knopf \"Charakter registrieren\" in der Anmeldung seines Raids oder /charakter."] = "每位玩家在 Discord 註冊一次：在自己團隊的報名貼文中按 \"Charakter registrieren\"（註冊角色）按鈕，或使用 /charakter。"

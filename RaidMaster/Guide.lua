@@ -33,6 +33,7 @@ G.STEPS = {
 	{ group = 1, title = L["Uploader starten"],
 	  text = L["uploader.bat doppelklicken und das Fenster offen lassen. Beim ersten Start sucht er die RaidMaster-Datei von WoW selbst."] .. "\n\n"
 		.. L["Automatisch mit Windows starten: Windows-Taste + R, shell:startup eingeben, eine Verknüpfung zu uploader.bat hineinlegen."] .. "\n\n"
+		.. L["Neue Versionen der GoldSentinel-Addons automatisch installieren (empfohlen): im Ordner RaidMasterUploader Addons-automatisch-an.bat doppelklicken, dann den Uploader neu starten (Fenster schliessen, uploader.bat wieder doppelklicken)."] .. "\n\n"   -- UP-DOC2 (Entscheid 25.11. 11:39): Offiziere schalten es ein
 		.. L["Test: Knopf unten drücken. Im Uploader-Fenster erscheint \"Hochgeladen\", im Discord zeigt /raidmaster-status den Upload."],
 	  reload = true },
 	{ group = 1, title = L["Spieler verknüpfen"],
@@ -251,7 +252,7 @@ function G.Show()
 		local content = UI.Frame(f, 790, 556)
 		content:SetPoint("TOPLEFT", 20, -46)
 		f.refresh = G.Build(content)
-		f:SetScript("OnShow", function() if f.refresh then f.refresh() end end)
+		UI.OnShow(f, function() if f.refresh then f.refresh() end end)
 		G.window = f
 	end
 	G.window:Show()

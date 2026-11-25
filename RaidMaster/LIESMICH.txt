@@ -11,6 +11,15 @@ INSTALLATION
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
 
+NEU IN 3.0.49 – Ausweichen wirkt jetzt wirklich
+- 3.0.48 sollte RaidMaster-Fenster vor offenen Spielfenstern (z. B. Charakterfenster) ausweichen lassen – im Spiel wirkte es nicht:
+  das Hauptfenster ersetzte die Ausweich-Funktion beim Bau, und beim allerersten Öffnen nach dem Einloggen wurde sie nie
+  aufgerufen. Beides behoben; neu gebaute Fenster weichen im nächsten Bild aus.
+- Anleitung (Seite "Anleitung", Schritt "Uploader starten"): neuer Tipp – neue Addon-Versionen automatisch installieren mit
+  Addons-automatisch-an.bat im Uploader-Ordner (empfohlen für Offiziere).
+- Testroutine (nur Entwickler): neue Prüfung T208 (Ausweichen im echten Ablauf); T156 schreibt bei Überlappung die Lage beider
+  Fenster, Bildschirmgrösse, UI-Skalierung und "freier Platz ja/nein" mit.
+
 NEU IN 3.0.48 – Fenster weichen aus, kein Lua-Fehler mehr durch die Testroutine
 - RaidMaster-Fenster (Hauptfenster, Bereitschaft, Versteigerung …) weichen beim Öffnen offenen Spielfenstern aus (z. B.
   Charakterfenster, Händler, Post, Karte) und anderen GoldSentinel-Fenstern. Die gespeicherte Lage bleibt.

@@ -6,7 +6,10 @@ RaidMaster-Uploader – schickt die RaidMaster-Daten vom PC der Raidleitung an d
 3. Im Discord /uploader eingeben (nur Admins). Die Datei uploader_config.json, die der Bot schickt,
    in diesen Ordner legen. NIE weitergeben – sie enthält einen geheimen Link zu eurem Discord.
 4. uploader.bat doppelklicken und das Fenster offen lassen.
-5. Automatisch mit Windows starten: Windows-Taste + R, shell:startup eingeben, eine Verknüpfung zu
+5. Addons automatisch aktuell halten (empfohlen für Offiziere und alle, die GoldSentinel-Addons nutzen): in diesem Ordner
+   Addons-automatisch-an.bat doppelklicken, dann den Uploader neu starten (Fenster schliessen, uploader.bat wieder
+   doppelklicken). Danach installiert der Uploader neue Versionen der GoldSentinel-Addons selbst.
+6. Automatisch mit Windows starten: Windows-Taste + R, shell:startup eingeben, eine Verknüpfung zu
    uploader.bat hineinlegen.
 
 Nach jedem /reload oder Ausloggen sind DKP, Loot, Einteilung und Skillungen nach wenigen Sekunden im
@@ -345,7 +348,8 @@ Version 2.3.21 – neue Addon-Versionen automatisch installieren (UP-AUTO1, Ents
 - Auf Wunsch holt der Uploader neue Versionen der GoldSentinel-Addons (AHSentinel, BuffSentinel, GuildSentinel, LevelPilot,
   ProfessionSentinel, RaidMaster, ThreatSentinel) selbst und legt sie in den Forever-AddOns-Ordner.
 - Standard: AUS. Einschalten: Addons-automatisch-an.bat doppelklicken, dann den Uploader neu starten.
-  Ausschalten: Addons-automatisch-aus.bat. (Nur für die eigenen Test-Rechner gedacht – Offiziere lassen es aus.)
+  Ausschalten: Addons-automatisch-aus.bat. Empfohlen (Entscheid 25.11.): Offiziere und alle, die die GoldSentinel-Addons
+  nutzen, schalten es ein – siehe Schritt 5 oben.
 - Es werden nur Addons aktualisiert, die schon installiert sind, und nur, wenn die neue Version höher ist.
 - Quelle ist nur das GoldSentinel-Repo auf GitHub; jede Datei wird vor dem Kopieren geprüft (Prüfsumme, vollständig,
   richtiger Ordner, richtige Version). Deine Einstellungen und Daten (WTF/SavedVariables) werden nie angefasst, nichts

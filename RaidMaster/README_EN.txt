@@ -23,6 +23,15 @@ MAIN FEATURES
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
 
+WHAT'S NEW IN 3.0.49 – moving aside now really works
+- 3.0.48 was meant to move RaidMaster windows away from open game windows (e.g. character frame) – in the game it did not:
+  the main window replaced the move-aside function while being built, and on the very first opening after login it was never
+  called. Both fixed; newly built windows move aside on the next frame.
+- Guide (page "Guide", step "Start the uploader"): new tip – install new addon versions automatically with
+  Addons-automatisch-an.bat in the uploader folder (recommended for officers).
+- Test routine (developer only): new check T208 (moving aside in the real flow); on overlap T156 now records both windows'
+  positions, screen size, UI scale and "free space yes/no".
+
 WHAT'S NEW IN 3.0.48 – windows move aside, no more Lua error from the test routine
 - RaidMaster windows (main window, ready check, auction …) move aside when opened next to open game windows (e.g. character
   frame, vendor, mail, map) and other GoldSentinel windows. The saved position stays.

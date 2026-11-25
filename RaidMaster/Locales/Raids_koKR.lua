@@ -4331,6 +4331,7 @@ L["Niemals weitergeben oder posten – sie enthält einen geheimen Link zu eurem
 L["Uploader starten"] = "업로더 실행"
 L["uploader.bat doppelklicken und das Fenster offen lassen. Beim ersten Start sucht er die RaidMaster-Datei von WoW selbst."] = "uploader.bat을 더블클릭하고 창을 열어 두세요. 처음 실행하면 WoW의 RaidMaster 파일을 스스로 찾습니다."
 L["Automatisch mit Windows starten: Windows-Taste + R, shell:startup eingeben, eine Verknüpfung zu uploader.bat hineinlegen."] = "Windows와 함께 자동 실행: Windows 키 + R, shell:startup 입력 후 uploader.bat 바로가기를 그 안에 넣으세요."
+L["Neue Versionen der GoldSentinel-Addons automatisch installieren (empfohlen): im Ordner RaidMasterUploader Addons-automatisch-an.bat doppelklicken, dann den Uploader neu starten (Fenster schliessen, uploader.bat wieder doppelklicken)."] = "GoldSentinel 애드온의 새 버전 자동 설치(권장): RaidMasterUploader 폴더에서 Addons-automatisch-an.bat을 더블클릭한 뒤 업로더를 다시 시작하세요(창을 닫고 uploader.bat을 다시 더블클릭)."
 L["Test: Knopf unten drücken. Im Uploader-Fenster erscheint \"Hochgeladen\", im Discord zeigt /raidmaster-status den Upload."] = "테스트: 아래 버튼을 누르세요. 업로더 창에 \"업로드됨\"이 뜨고, Discord에서 /raidmaster-status 가 업로드를 보여줍니다."
 L["Spieler verknüpfen"] = "플레이어 연결"
 L["Jeder Spieler registriert sich einmal im Discord: Knopf \"Charakter registrieren\" in der Anmeldung seines Raids oder /charakter."] = "모든 플레이어는 Discord에서 한 번 등록합니다: 자기 공격대 신청 글의 \"Charakter registrieren\"(캐릭터 등록) 버튼 또는 /charakter."
