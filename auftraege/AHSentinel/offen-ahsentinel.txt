@@ -6808,3 +6808,25 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     3. Nach dem Einfügen: Seite neu laden, Text lesen (get_page_text), mit dem Entwurf vergleichen, Bericht. Nichts anderes auf CurseForge ändern
        (keine Dateien, keine Einstellungen, keine Kommentare).
     make_description.py ist gemeinsam (auch GuildSentinel): nur den AHS-Teil bzw. einen Schalter je Addon ändern; GS bleibt unverändert.
+>>> PRÜFUNG SUPERVISOR 25.11. 07:56 – AHS-SP2 Messung (Bericht 0701): (i) FREIGEGEBEN zum Einbau. (ii) danach, (iii) je Aufgabe erst messen.
+    (i) gemessen 2 388/1 745 -> 213 KB, Texte alt = neu für alle 7000 Items – gut; der benannte Messfehler (gleiche Texte nur einmal gezählt, ~643 KB in
+    beiden Varianten) ist ehrlich ausgewiesen; die "andere Stelle", an der die Texte weiterleben, bleibt Verdacht – beim Einbau suchen (könnte ein
+    Leck sein: nach Leeren von VS.cmp sollten sie frei werden). (ii) erst nach (i); Leser von "best" (ProcessBest, Feed, Tests) mit Gleichheitstest
+    alt = neu und Format für Mitspieler unverändert (alter Client liest neue Nachricht = Test). (iii) Reihenfolge nach GEMESSENEM Nutzen: jede
+    Aufgabe einzeln messen (Allokation mit/ohne Wiederverwendung), Bericht vor Einbau. Summe "~6–8 MB Scan 2" bleibt Verdacht, bis gemessen.
+    FULL 0.65.395 347/67, neu rot 0 – angenommen; s313 einmal rot, jetzt grün: weiter beobachten.
+>>> PRÜFUNG SUPERVISOR 25.11. 07:56 – AHS-CF4 ENTWURF (Bericht 0703): FREIGEGEBEN MIT ÄNDERUNGEN. Gut gemacht: jede neue Aussage am Code belegt,
+    "/ahs help" gestrichen, "one-notch" berichtigt, Sync nur Gilde/Gruppe. VOR dem Einfügen noch ändern:
+    1. Credits: Teile der Entzauber-Tabelle stammen aus Disenchantry 1.1.2 (MIT, LICENSE-Disenchantry.txt im Addon) – in "Credits & license" nennen.
+    2. Namensliste genau: Data/Names_*.lua hat 10 Sprachdateien (deDE enUS esES esMX frFR koKR ptBR ruRU zhCN zhTW; kein Italienisch) mit ~25 800 (enUS)
+       bis ~33 500 Einträgen. "~33,000 items in 10 languages" -> z. B. "up to ~33,500 item names per language (10 client languages)". Zahl aus den
+       Dateien zählen (Einträge, nicht Zeilen) und belegen.
+    3. "Languages": Italienisch als Oberflächensprache nur nennen, wenn die Locale wirklich existiert (Datei/Einträge belegen); sonst streichen.
+    4. "works on every WoW version – all with the same features": nur so stehen lassen, wenn es stimmt; sonst "the same addon for all versions"
+       (z. B. Forever-Einlage-Regel ist versionsabhängig).
+    5. Die bisher "ohne Einzelbeleg übernommenen" Aussagen (Kategorien, Listen, Statistik, Flip-Rechner, Twinks/Gold, CSV, Designs, Hilfe, Minikarte,
+       Reparatur): je eine Zeile Beleg (Funktion/Datei) im Bericht – was nicht belegbar ist, streichen. "Überlegt" heisst: nichts ungeprüft.
+ AHS-CF5 (ENTSCHEID DES NUTZERS 25.11. 07:56: Lizenz "Ja, auf GPL-3.0"): Auf CurseForge Projekt 1757594 die Einstellung License von "All Rights
+    Reserved" auf GPL-3.0 umstellen (passt zu LICENSE.txt, .toc X-License, QuestieDB GPL-3.0). Nur diese eine Einstellung, zusammen mit dem Einfügen
+    der Beschreibung; danach Seite neu laden und "License" lesen, im Bericht belegen. Sonst nichts ändern.
+    Danach Bericht mit Endfassung -> Supervisor liest die Seite gegen den Entwurf nach.
