@@ -1,0 +1,36 @@
+BERICHT AHSentinel – AHS-SP2 (iii) Nachlauf-Aufgaben einzeln gemessen (VOR jedem Umbau) – zur Prüfung
+Zeit: 25.11.2026 09:48 (Europe/Zurich) · Code 0.65.397
+
+Aufbau (Szenario zz_sp3 in meiner Nachbau-Kopie, kommt beim Einbau als s338 ins Repo): echte Daten (7 000 Items, 344 831 Auktionen), zwei
+Vollscans mit leicht geändertem Markt, danach jede Aufgabe allein am Stück aufgerufen, GC angehalten, angelegter Speicher in KB.
+Je aufgerufener Funktion inklusiv (KB/Aufrufe; Wrapper ohne eigene Tabellen). "warm" = Zwischenspeicher wie nach dem Nachlauf im Spiel;
+"kalt" = vor jeder Aufgabe A:ClearPriceCaches() (so trifft es die ERSTE Aufgabe nach einem Scan, weil der Scan die Preise ungültig macht).
+Datenlage: marketData 7 000 Items, Journal 3 000 Einträge (Fc.MAX).
+
+Aufgabe                 warm      kalt      grösster Anteil (warm / kalt)
+forecast-eval          2 518     2 527 KB   Fc:Decode 2 274 KB / 3 000 Aufrufe (0,76 KB je Eintrag) – je Lauf ALLE 3 000 Einträge neu
+                                            als Tabelle; Fc:Count 151 KB; A:RealValue 76–86 KB (113)
+learn:factor           1 287     2 775 KB   VS:MeasuredRate 1 280 KB / 1 672 (DecodeSold legt je Aufruf eine Tabelle an); kalt dazu
+                                            A:GetLiquidity 1 489 KB, A:GetMarketValue 257 KB
+cache:itemlist           258     2 883 KB   kalt: A:GetMarketValue 2 625 KB / 14 000 (Marktwert-Speicher neu aufbauen)
+core:realcheck         1 391     4 020 KB   D:Prior 1 160 KB / 8 128 (GreenPrior baut je Aufruf neue Ertrags-Tabellen); MK:LimitMismatch
+                                            230 KB / 2; kalt dazu A:GetMarketValue 2 625 KB
+sync-send BroadcastScan 2 711    2 711 KB   je Item eine Tabelle {id,p,q} + Sortieren + Teil-Texte. Im Nachbau-T459 NICHT enthalten
+                                            (dort keine Gilde/Gruppe verbunden) – im Spiel mit Gilde schon.
+
+Belegt: Der Marktwert-Speicher (A:GetMarketValue, 2 625 KB) wird nach jedem Scan EINMAL neu aufgebaut – von der Aufgabe, die zuerst fragt
+(warm 0–1 KB, kalt 2 625 KB bei itemlist UND realcheck). Er ist eine eigene Grösse, kein doppelter Aufwand.
+
+Vorschläge (je Punkt: erst bauen mit Gleichheitstest alt = neu, dann messen; Reihenfolge nach Ersparnis je Aufwand):
+ a) Fc:Decode in eine wiederverwendete Tabelle (Fc:Decode(s, into)); EvalCore nutzt sie nur, wo Count die Tabelle nicht behält (vorher
+    belegen). Erwartet bis −2 200 KB je Auswertung. Test: EvalCore-Ergebnis alt = neu (alle Zähler) auf echtem Journal.
+ b) BroadcastScan ohne Tabelle je Item: Liste der itemIDs + Sortieren mit Vergleich über die Bestpreis-Listen (SP2 ii); Nachricht Byte für Byte
+    gleich (Test wie s336, 347 Nachrichten d73af8df). Erwartet −1 500 bis −2 000 KB (Verdacht, zu messen) – nur mit Gilde/Gruppe.
+ c) VS:MeasuredRate: DecodeSold in eine wiederverwendete Tabelle bzw. nur die nötigen Zahlen lesen. Erwartet bis −1 200 KB. Test: Rate für
+    alle 7 000 Items alt = neu.
+ d) D:Prior/GreenPrior: Ertrags-Tabellen je Gruppe (Stufe, Waffe/Rüstung, Forever) einmal bauen und teilen – vorher belegen, dass kein
+    Aufrufer sie verändert. Erwartet bis −1 100 KB. Test: Prior aller Items alt = neu.
+Summe a–d: bis ~6 MB je Scan (b nur mit Gilde). Für T459 im Nachbau (ohne b) erwartet ~−4 500 KB: Scan 2 ~13 000, Scan 3 ~8 900 KB –
+Verdacht, zu messen. Das Ziel < 10 240 KB ab Scan 2 bräuchte zusätzlich den Marktwert-Speicher (2 625 KB) oder die Aufgabe "fullscan"
+(Scan 2 7 608 KB) – nächste Messung nach a–d.
+Frage an den Supervisor: Reihenfolge a, c, d, b einverstanden? Ich beginne mit a) (Gleichheitstest zuerst), sofern nichts anderes kommt.
