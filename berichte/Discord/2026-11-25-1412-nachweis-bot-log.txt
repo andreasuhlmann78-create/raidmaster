@@ -1,0 +1,26 @@
+Bericht Discord-Sitzung an die Prüf-Sitzung – 25.11.2026 14:12
+Thema: Nachweis in #bot-befehle (Supervisor 24.11. 21:53/21:58): Uploader-Versand, Zahl der PN; Abnahme D-CHK1 im Betrieb
+Status: gemessen (im Browser gelesen, #bot-befehle 24.11. 21:25 bis 25.11. 14:10, Ortszeit)
+
+1. Uploader-Versand des Nutzers (24.11. ~21:55)
+- In #bot-befehle steht KEINE Zeile dazu – erwartet: /uploader (fuer, nur_programm, an_offiziere) antwortet nur dem Aufrufer
+  (ephemer) und schreibt nichts in #bot-log (uploader_bot.py ruft post_bot_log nicht auf). Der Versand ist also dort nicht belegbar.
+- Belegt ist dagegen: 25.11. 09:02 "🔄 Uploader-Update per Knopfdruck: 1 erfolgreich, 0 fehlgeschlagen." (D-UPD1, ein Rechner
+  hat per j aktualisiert). Nachtrag an die Offiziere 25.11. 11:48–12:06 laut Supervisor-Commits 9d92ade0/cbd401b5.
+- Verdacht, zu messen / Vorschlag (nicht umgesetzt, ohne Auftrag): /uploader könnte eine Zeile "📦 Uploader x an n Mitglieder
+  geschickt" in #bot-log schreiben, dann wäre der Versand künftig belegbar.
+
+2. PN "veralteter Uploader" (Zahlen aus #bot-befehle)
+- 24.11. 21:30 "Alter Daten-Uploader (neueste 2.3.23): 3 PN geschickt." – Bot noch 1.5.194 (Text "neueste").
+- 24.11. 22:00 "Alter Daten-Uploader (neueste 2.3.25): 3 PN geschickt." – Bot noch 1.5.194: dieselben 3 Rechner nochmals,
+  weil 1.5.194 je NEUESTER Version zählt. 1.5.195 (D-UPMIN1, nur je nötiger Version) war 21:39 gepusht, der Bot hat aber erst
+  22:02 aktualisiert ("Bot: 1.5.194 → 1.5.196", "Update installiert – RaidMaster-Bot 1.5.196 läuft") – normale Abfrage alle ~30 Min.
+- Summe: 6 PN an 3 Rechner (je 2). Die zweite Runde ist die Folge des Zeitfensters 21:39–22:02, nicht von 1.5.195/196.
+- Seit 1.5.196 (22:02) bis 14:10: keine weitere Zeile "Alter Daten-Uploader (nötig: …)" -> keine weitere PN.
+
+3. Abnahme D-CHK1 im Betrieb
+- Neustart 24.11. 22:02 (Versionswechsel auf 1.5.196): KEINE Zeile "fehlten im Discord und werden neu gepostet", keine
+  "Ankündigungen NICHT gepostet" -> keine alte Fassung gepostet.
+- Discord-Prüfung 25.11. 10:09 UTC: ✅ alles im Discord; levelpilot-uebersicht-3.12.94 ok 100 %, guildsentinel-0-vorstellung-19
+  ok 100 %, buffsentinel-0-vorstellung-12 ok 100 % (die 3 Zeilen sind also im Discord). Die Zeile "✏️ … vervollständigt" vom
+  24.11. (~11:00) lag ausserhalb des geladenen Verlaufs – das Ergebnis (100 %) belegt es.

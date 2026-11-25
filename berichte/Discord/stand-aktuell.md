@@ -1,19 +1,16 @@
 # Stand Discord-Sitzung
 
-## Stand 25.11.2026 09:05 · Bot 1.5.196 (D-UPD1 angenommen 24.11. 21:58; Uploader neueste 2.3.28, Mindestversion 2.3.20)
+## Stand 25.11.2026 14:12 · Bot 1.5.196 (angenommen; Uploader neueste 2.3.28, Mindestversion 2.3.20)
 
 ## Gerade in Arbeit
-- nichts. Uploader-Versand hat der Nutzer am 24.11. 21:55 SELBST gemacht (Supervisor 21:53/21:58) – NICHT wiederholen.
+- nichts. Nachweis #bot-befehle abgelegt: berichte/Discord/2026-11-25-1412-nachweis-bot-log.txt.
 
 ## Nächste Schritte (Reihenfolge)
 1. Bei jeder Nachricht des Nutzers: git pull --rebase, auftraege/Discord/ lesen (git log --oneline -5 -- auftraege/Discord/).
-2. Sobald Discord im Browser wieder angemeldet ist (25.11. 09:05: Anmeldeseite): in #bot-befehle nachsehen und Bericht nachreichen:
-   a) Versand 2.3.24 vom 24.11. ~21:55 sichtbar? b) Zahl der D-UPMIN1-PN ("Alter Daten-Uploader (nötig: mindestens 2.3.23): n PN")
-   c) "✏️ … levelpilot-uebersicht-3.12.94 … vervollständigt" (D-CHK1 Betrieb) d) keine Zeile "fehlten im Discord … neu gepostet".
-3. Neue Aufträge umsetzen. Sonst nichts ändern.
+2. Neue Aufträge umsetzen (offen als Vorschlag ohne Auftrag: /uploader-Versand in #bot-log protokollieren). Sonst nichts ändern.
 
 ## Offen beim Nutzer
-- Discord im eingebauten Browser neu anmelden (Passwort tippe ich nicht).
+- nichts.
 
 ## Entscheide des Nutzers seit letztem Stand
 - 24.11. 21:53 "ich sende ihn denen selber" (Uploader an Offiziere und sich selbst, über die Bot-Befehle).
