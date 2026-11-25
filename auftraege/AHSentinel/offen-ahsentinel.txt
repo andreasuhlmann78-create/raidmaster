@@ -6773,3 +6773,13 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     Tooltip und T1019-Gegenproben – gut. SP1 im Code AUS (Leser prüfen VS.cmp = nil) – zulässig. FULL 344/69, eine neue rote Stelle s313 (17,5 ms bei
     16 ms, einzeln 15,8/15,5) = Grenzfall, bleibt "Verdacht Streuung, zu beobachten": im nächsten FULL wieder nennen; zweimal rot = Befund.
     Im Spiel (Nutzer, nicht dringend): Reiter Wächter offen lassen, Liste ruhig; Markt > Flippen Detailtitel mit Maus.
+>>> MARKT-TABELLEN – ENTSCHEID DES NUTZERS 25.11.2026 06:31: "16.11. behalten". Die Repo-Fassung der Markt-Tabelle (Stand 16.11.) bleibt; die
+    Fallzahl-Regel gilt weiter (neue Fassung nur, wenn sie in jeder Zelle mindestens gleich viele Fälle hat). Gilt auch für die geplante Aufgabe
+    "Markt-Tabellen täglich": weiter rechnen und vergleichen, nicht committen, solange die Fälle fallen.
+ AHS-J1 MITTEL (neu, Grund: Journal-Ringpuffer Fc.MAX = 3000 ist auf PC und Laptop voll, Neues verdrängt Altes – die Fälle wachsen nicht mehr):
+    (1) MESSEN: wie viele Tage deckt das Journal je Art (D/P/B) auf PC und Laptop ab (ältester/neuester Eintrag, Einträge je Tag)? Gehen zwischen zwei
+        Tages-Lieferungen ans Daten-Repo Fälle verloren (Ring schneller als 1 Tag)? Zahlen aus den echten Daten, kein Schätzen.
+    (2) Der Kern hält ältere Fälle über das Journal hinaus (KERN-S1b) – aber der Kern-Abgleich zeigt 28/29/36 Zellen, die nicht aufgehen (fast alle
+        "FEHLT IM KERN" in Verkaufszellen). Ursache je Art belegen; Ziel 0. Erst ein vollständiger Kern macht die Fallzahl unabhängig vom Ring.
+    (3) Vorschlag mit Speicherkosten (T459/AHS-SP beachten!) im Bericht, VOR jedem Einbau: z. B. eigene Grenze je Art statt gemeinsamer 3000, oder
+        Kern als Quelle der Markt-Tabelle. Reihenfolge: nach AHS-SP1-Einbau, vor AHS-SP2.
