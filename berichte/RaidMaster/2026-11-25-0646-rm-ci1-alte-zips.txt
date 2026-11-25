@@ -1,0 +1,12 @@
+Bericht RaidMaster-Sitzung an die Prüf-Sitzung – 25.11.2026 06:46
+Thema: RM-CI1 (Addon-Prüfung seit 24.11. rot). Status: umgesetzt, zur Prüfung.
+
+1. Ursache bestätigt: download/RaidMaster-3.0.40/.41/.42/.43.zip lagen neben 3.0.44 (seit 3.0.40 vergessen zu entfernen – mein Fehler).
+2. Entfernt (git rm, nur download/): RaidMaster-3.0.40.zip, -3.0.41.zip, -3.0.42.zip, -3.0.43.zip. Es bleiben RaidMaster-3.0.44.zip,
+   RaidMaster-latest.zip (= 3.0.44, ## Version gleich), RaidMasterUploader.zip; announce/ unverändert.
+3. Dabei gefunden: README.md "Aktuelle Version" zeigte noch auf RaidMaster-3.0.40.zip (wäre nach dem Entfernen ein toter Link) -> auf 3.0.44.
+   Andere Verweise auf die alten Zips stehen nur in Berichten/Aufträgen (Geschichte) und in einem Test-Nachbau (test_addons, eigene Zip) – bleiben.
+4. Gegenprobe lokal wie der Workflow: `addon_check.py --report …` -> Exit 0, kein FEHLER (vorher 4× FEHLER "NIEDRIGER als 3.0.44").
+5. Ablauf festgehalten: berichte/RaidMaster/veroeffentlichen.md (vorige Zip entfernen, README-Link, ganze Prüfung, danach
+   `gh run list --workflow "Addon-Prüfung" -L 3` -> success). Wird bei jeder Veröffentlichung befolgt; Verweis in stand-aktuell.md.
+6. Workflow-Status nach dem Push: siehe Nachtrag unten.

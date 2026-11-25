@@ -1,6 +1,7 @@
 # Stand RaidMaster-Sitzung
 
-## Stand 25.11.2026 06:44 · Addon 3.0.44 · Uploader 2.3.28
+## Stand 25.11.2026 06:46 · Addon 3.0.44 · Uploader 2.3.28
+- RM-CI1: alte RaidMaster-Zips 3.0.40–3.0.43 aus download/ entfernt, README-Link 3.0.44. Bericht 0646. Ablauf: veroeffentlichen.md.
 - Uploader 2.3.28 gepusht (UP-UPD1-c: "update" in stand.json trägt die NEUE Version ein; altes Fenster schickt nach Übergabe nichts mehr). Bericht 0643
   (beantwortet auch: sicherung = main = d10d6d9, kein Rückstand). Laptop UP-AUTO1 im Betrieb belegt (Supervisor 06:34).
 - Uploader 2.3.27 (UP-CFG1: uploader_config/sync_config aus dem Download-Ordner nur nach j, mit Schutz). Bericht 0635.
@@ -31,8 +32,6 @@
   Beim nächsten Update (2.3.28) per j: altes Fenster schliesst sich -> Abnahme UP-UPD1-a/b und UP-UPD1-c (stand.json "update").
 - Uploader 2.3.20 auf allen 4 liefernden Rechnern ganz entpacken + neu starten (ältere werden abgewiesen, auch 2.3.19).
 - RaidMaster 3.0.44 installieren und Ingametest: /gsdev an, /rm testroutine alles, /reload.
-- Optional Uploader-Weg b) (neuer Token sperrt alte Uploader ganz aus) – Anleitung im Bericht 0737.
-- Bot: PN an Besitzer alter Uploader und Bewerbungen aufräumen liegen beim Discord-Projekt.
 
 ## Entscheide des Nutzers seit letztem Stand
 - 25.11. 06:29: Einstellungsdateien aus dem Download-Ordner übernehmen, "mit Schutz" (UP-CFG1) – nach Hinweis auf die Risiken.
@@ -49,6 +48,7 @@
 - 24.11. 07:46/10:06/10:22: "repo" – Aufträge aus dem Repo umsetzen (3.0.41–3.0.43).
 
 ## Wichtig zu wissen
+- VERÖFFENTLICHEN nur nach berichte/RaidMaster/veroeffentlichen.md (vorige Zip weg, README, Workflow-Status success).
 - Leser des Daten-Repos: Zweig "sicherung", nur Rechner mit stand.json "uploader" nicht unter
   RaidMasterUploader/mindestversion.txt; .lua und .lua.gz lesen.
 - Uploader-Tests: test_selfupdate 25, test_einstellungen 15, test_addons 25, test_daten 48, test_sync 55, test_uploader 23, test_umfassend 14 – grün. ZIP = Ordner (Workflow prüft).
