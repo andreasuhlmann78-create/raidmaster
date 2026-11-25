@@ -1,0 +1,123 @@
+{
+ "abgefangen": "",
+ "addon": "RaidMaster",
+ "bereich": "K",
+ "blocked": "1",
+ "counts": {
+  "client": 0,
+  "fehler": 0,
+  "ok": 10,
+  "uebersprungen": 0
+ },
+ "dur_ms": 3399,
+ "echte_aktionen": "0",
+ "env": {
+  "build": "71091",
+  "class": "WARRIOR",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 30,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [],
+ "f": 1,
+ "fehlerquellen": "FEHLERQUELLEN: 0",
+ "fehlerzaehler": "0 -> 0",
+ "id": "RaidMaster-1795614268-d82fa3-1",
+ "kind": "test",
+ "locale": "deDE",
+ "markt": "MARKT-NETZ: v10 · an · mitgelesene Scans 0 · gesendet 0 / empfangen 0 · Speicher 0 KB",
+ "portionen": "PORTIONEN: 82 Bilder, längstes Bild 28.1 ms (K Daten sichern), über 5 ms: 1 (ohne einzeln gemessene) – K Daten sichern 28 ms; einzeln gemessen: Aufbau signup 6.3 ms, Aufbau Optionen beute 5.6 ms, Aufbau Optionen raid 5.6 ms, Aufbau Optionen bosse 4.4 ms, Aufbau Optionen dkp 4.4 ms, Aufbau Option…",
+ "pruefliste": "PRÜFLISTE RaidMaster: 1 von 14 erledigt |   TR fehler 25.11. 11:20 – 2 FEHLER: T191, T156 |   MNT auto 17.11. 17:02 – verworfen aus 0 |   TB offen |   OPT offen |   MN2B offen |   MN1 offen |   BL offen |   RT offen |   T54B offen |   TT offen |   SS offen |   SP offen |   CONS offen |   GS2 of…",
+ "results": [
+  {
+   "bereich": "K",
+   "ergebnis": "keine · geprüft 427",
+   "id": "T155",
+   "ms": "0.0",
+   "name": "Eigene Tooltips verdecken keine Knöpfe",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "keine · geprüft 56",
+   "id": "T156",
+   "ms": "0.0",
+   "name": "Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "keine · geprüft 320",
+   "id": "T157",
+   "ms": "0.0",
+   "name": "Fenster und Tooltips ganz im Bildschirm",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "keine · geprüft 665",
+   "id": "T158",
+   "ms": "0.0",
+   "name": "Beschriftungen von Knöpfen nicht abgeschnitten",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "keine · geprüft 5 · Stufe des Charakters 30, Eigener Name (ohne Realm) ok, Gilde wie im Spiel ok, Berufsfertigkeit 4 Berufe, Raidmitglieder Testmodus (Testraid)",
+   "id": "T159",
+   "ms": "0.0",
+   "name": "Angezeigte Spielwerte plausibel",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "keine · geprüft 0",
+   "id": "T160",
+   "ms": "0.0",
+   "name": "Keine Fehlerschleife (gleiche Meldung > 10×)",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "keine · geprüft 1333",
+   "id": "T199",
+   "ms": "0.0",
+   "name": "Lesbarkeit L1 Kontrast ab 4,5:1 und L8 Schrift nicht kleiner als GameFontNormalSmall",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "id": "SB",
+   "ms": "0.0",
+   "name": "echte Daten unverändert",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "5 Einträge unverändert",
+   "id": "SB2",
+   "ms": "0.0",
+   "name": "gemeinsame Daten unverändert (GoldSentinelSync-Adressbuch: fail, pause, v, src)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "keine",
+   "id": "T46b",
+   "ms": "0.0",
+   "name": "Sperrgitter: echte Aktionen während der Routine",
+   "status": "OK"
+  }
+ ],
+ "sandbox": "OK",
+ "testflavor_ende": "forever",
+ "time": 1795614265,
+ "umgebung": "UMGEBUNG: Hintergrund möglich (Sek. 4–4, 1 Sek. von 4) · Bild vorher Median 17 ms / 95 % 17 ms (60 Bilder) · Bild Lauf Median 17 ms / 95 % 21 ms (76 Bilder) · Bild nachher Median 32 ms / 95 % 34 ms (34 Bilder) · Bilder/s 43 -> 53 · Ping 15 -> 15 ms · längstes Bild 56.0 ms bei - (eigene Arb…",
+ "version": "3.0.49",
+ "zusammenfassung": "10 von 10 bestanden"
+}

@@ -1,6 +1,6 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-25 13:32 UTC
+Ausgewertet: 2026-11-25 13:51 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
@@ -11,21 +11,21 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 | GuildSentinel | 25.11.2026 07:55 UTC | 0.9.62 | forever 1.60.1 (Interface 16001) | 338 | 0 | 25 | 8 | 0 |
 | LevelPilot | 24.11.2026 12:00 UTC | 3.13.12 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 16 |
 | ProfessionSentinel | 24.11.2026 19:14 UTC | 0.9.83 | forever 1.60.1 (Interface 16001) | 1 | 1 | 8 | 0 | 20 |
-| RaidMaster | 25.11.2026 10:25 UTC | 3.0.48 | forever 1.60.1 (Interface 16001) | 9 | 1 | 0 | 0 | 0 |
+| RaidMaster | 25.11.2026 13:44 UTC | 3.0.49 | forever 1.60.1 (Interface 16001) | 10 | 0 | 0 | 0 | 0 |
 | ThreatSentinel | 24.11.2026 18:41 UTC | 2.5.30 | forever 1.60.1 (Interface 16001) | 1 | 0 | 0 | 0 | 0 |
 
 ## Diagnose-Protokolle (GSDIAG1)
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 248 | `testberichte/diagnose/AHSentinel/0.65.398-cf544551a0b8.txt` |
-| BuffSentinel | 182 | `testberichte/diagnose/BuffSentinel/0.9.65-f3bcb9505eac.txt` |
+| AHSentinel | 249 | `testberichte/diagnose/AHSentinel/0.65.400-6cd4c8b6d983.txt` |
+| BuffSentinel | 183 | `testberichte/diagnose/BuffSentinel/0.9.65-f3bcb9505eac.txt` |
 | GSMesstest | 25 | `testberichte/diagnose/GSMesstest/5.1-f65d607ab777.txt` |
 | GSSniperLog | 60 | `testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt` |
-| GuildSentinel | 296 | `testberichte/diagnose/GuildSentinel/0.9.63-ea93aa0c2b9e.txt` |
-| LevelPilot | 187 | `testberichte/diagnose/LevelPilot/3.13.14-983176260a0f.txt` |
-| ProfessionSentinel | 269 | `testberichte/diagnose/ProfessionSentinel/0.9.83-cddb4f5dab0b.txt` |
-| ThreatSentinel | 246 | `testberichte/diagnose/ThreatSentinel/2.5.30-fd96cf472bbb.txt` |
+| GuildSentinel | 297 | `testberichte/diagnose/GuildSentinel/0.9.63-ea93aa0c2b9e.txt` |
+| LevelPilot | 188 | `testberichte/diagnose/LevelPilot/3.13.14-983176260a0f.txt` |
+| ProfessionSentinel | 270 | `testberichte/diagnose/ProfessionSentinel/0.9.84-c219184ad978.txt` |
+| ThreatSentinel | 247 | `testberichte/diagnose/ThreatSentinel/2.5.30-fd96cf472bbb.txt` |
 
 ## Wegdaten (GSWEGE1)
 
@@ -521,33 +521,6 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 ## RaidMaster
 
-**Testlauf 3.0.42 · forever 1.60.1 (Interface 16001) · 24.11.2026 09:17 UTC** – OK 147 · FEHLER 1 · übersprungen 14 · im Client prüfen 10 · Sandbox OK
-- [SKIP] T06 A – Fähigkeiten folgen der Weiche (grund: Caps nur beim Laden berechnet)
-- [SKIP] T35b B – Berufe: Fenster wird eingelesen (grund: wartet auf Fenster: Berufe – passiert von selbst, wenn du das nächste Mal ein Berufsfenster öffnest)
-- [SKIP] T36b B – Bank-Charakter: Bank wird gelesen (grund: kein Bank-Charakter (Einstellungen))
-- [SKIP] T36c B – Bank-Charakter: Post wird gelesen (grund: kein Bank-Charakter (Einstellungen))
-- [CLIENT] T51b C – Absender von Addon-Nachrichten im Kampf geschützt? (anleitung: Forever, im Kampf mit Mitspieler: /rm sync – kommt keine Lua-Meldung, ist alles gut)
-- [CLIENT] T54b C – Systemmeldung mit geschütztem Text (anleitung: Forever, im Kampf jemanden einladen lassen: kommt keine Lua-Meldung, ist alles gut (echte geschützte Strings lassen sich nicht nachstellen))
-- [SKIP] T71 D – Alter Client (grund: nur im alten Client (Era/TBC))
-- [SKIP] T72 D – Alter Client (grund: nur im alten Client (Era/TBC))
-- [SKIP] T73 D – Alter Client (grund: nur im alten Client (Era/TBC))
-- [SKIP] T74 D – Alter Client (grund: nur im alten Client (Era/TBC))
-- [SKIP] T75 D – Alter Client (grund: nur im alten Client (Era/TBC))
-- [SKIP] T91 F – Formatplatzhalter (grund: offline geprüft (Lua 5.1 mit lupa))
-- [CLIENT] T92 F – Jede Sprache einmal aktiv (anleitung: einmal mit englischem Client /rmtest testroutine F)
-- [CLIENT] T103 G – DBM und BigWigs (anleitung: Pull-Timer aus der Boss-Leiste: Balken bei DBM/BigWigs sichtbar?)
-- [CLIENT] T104 G – BugSack/BugGrabber (anleitung: mit BugSack: /rmtest testroutine I – Testfehler in BugSack und Diagnose?)
-- [CLIENT] T133b J – Mouseover-Tasten und Symbol-Leiste im echten Kampf (anleitung: Forever: Mob im Kampf per RaidMaster-Taste (Mouseover) und per Klick auf die Symbol-Leiste markieren, Rechtsklick entfernt, 'Alle aus' – Symbol da, Fehlerliste leer, kein 'Aktion blockiert'?)
-- [CLIENT] T135 J – Skillungen in Forever (anleitung: /dump GetTalentTabInfo(1) und /dump GetTalentInfo(1,1); Gildenmitglied betrachten)
-- [CLIENT] T136b J – Plündermeister vorhanden (anleitung: /dump GiveMasterLoot ~= nil, GetMasterLootCandidate ~= nil; /dump C_PartyInfo and C_PartyInfo.GetLootMethod())
-- [CLIENT] T146 J – Bereitschafts-Check in alten Clients (anleitung: Era/Anniversary mit Fläschchen: /rm bereit – erkannt?)
-- [SKIP] T147 J – Berufe-Knopf übersetzt (grund: offline geprüft (Locales))
-- [CLIENT] T152 J – Berufe-Knopf im Client (anleitung: Knopf 'Meine Berufe einlesen' mehrmals, dann /rm berufe)
-- [FEHLER] T199 K – Lesbarkeit L1 Kontrast ab 4,5:1 und L8 Schrift nicht kleiner als GameFontNormalSmall (ergebnis: log: Hauptfenster > Button: L1 Kontrast 3.8:1 (unter 4.5:1) bei 'item:16800::::::::60:::::[Test…'; discord: Hauptfenster > '1. So funktioniert es': L1 Kontrast 2.2:1 (unter 4.5:1) bei '1.' · geprüft 4725 | erwartet: keine)
-- [SKIP] T90 F – Fehlende Übersetzungen (grund: Grundsprache)
-- [SKIP] T184 F – Platzhalter der Übersetzungen (grund: Grundsprache)
-- [SKIP] T70 D – Ganze Routine im alten Client (grund: nur im alten Client (Era/TBC): dort /rmtest testroutine)
-
 **Testlauf 3.0.43 · forever 1.60.1 (Interface 16001) · 24.11.2026 11:35 UTC** – OK 149 · FEHLER 0 · übersprungen 14 · im Client prüfen 10 · Sandbox OK
 - [SKIP] T06 A – Fähigkeiten folgen der Weiche (grund: Caps nur beim Laden berechnet)
 - [SKIP] T35b B – Berufe: Fenster wird eingelesen (grund: wartet auf Fenster: Berufe – passiert von selbst, wenn du das nächste Mal ein Berufsfenster öffnest)
@@ -603,6 +576,8 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 **Testlauf 3.0.48 · forever 1.60.1 (Interface 16001) · 25.11.2026 10:25 UTC** – OK 9 · FEHLER 1 · übersprungen 0 · im Client prüfen 0 · Sandbox OK
 - [FEHLER] T156 K – Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern (ergebnis: dkp: Hauptfenster überdeckt CharacterFrame; auction: Hauptfenster überdeckt CharacterFrame; loot: Hauptfenster überdeckt CharacterFrame; log: Hauptfenster überdeckt CharacterFrame; raid: Hauptfenster überdeckt CharacterFrame; signup: Hauptfenster überdeckt CharacterFrame; pug: Hauptfenster üb… | erwartet: keine)
+
+**Testlauf 3.0.49 · forever 1.60.1 (Interface 16001) · 25.11.2026 13:44 UTC** – OK 10 · FEHLER 0 · übersprungen 0 · im Client prüfen 0 · Sandbox OK
 
 ## ThreatSentinel
 

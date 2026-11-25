@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-25T13:32:19Z",
+ "ausgewertet": "2026-11-25T13:51:23Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -233,30 +233,19 @@
    ]
   },
   "RaidMaster": {
-   "berichte": 20,
+   "berichte": 21,
    "letzter_test": {
-    "id": "RaidMaster-1795602328-77b09e-2",
-    "version": "3.0.48",
-    "time": 1795602325,
+    "id": "RaidMaster-1795614268-d82fa3-1",
+    "version": "3.0.49",
+    "time": 1795614265,
     "counts": {
      "client": 0,
-     "fehler": 1,
-     "ok": 9,
+     "fehler": 0,
+     "ok": 10,
      "uebersprungen": 0
     }
    },
-   "fehler_tests": [
-    {
-     "addon": "RaidMaster",
-     "art": "test",
-     "version": "3.0.48",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T156",
-     "name": "Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern",
-     "detail": "ergebnis: dkp: Hauptfenster überdeckt CharacterFrame; auction: Hauptfenster überdeckt CharacterFrame; loot: Hauptfenster überdeckt CharacterFrame; log: Hauptfenster überdeckt CharacterFrame; raid: Hauptfenster überdeckt CharacterFrame; signup: Hauptfenster überdeckt CharacterFrame; pug: Hauptfenster üb… | erwartet: keine",
-     "bericht": "RaidMaster-1795602328-77b09e-2"
-    }
-   ],
+   "fehler_tests": [],
    "fehler_spiel": []
   },
   "ThreatSentinel": {
@@ -421,26 +410,16 @@
     "forever 1.60.1 (Interface 16001)"
    ],
    "stack": "[C]: in function 'pcall'\n[Interface/AddOns/ProfessionSentinel/GoldSentinelTest.lua]:407: in function <...rface/AddOns/ProfessionSentinel/GoldSentinelTest.lua:400>\n[C]: in function 'resume'\n[Interface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua]:470: in function <...rface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua:453>\n[C]: in function 'pcall'\n[Interface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua]:524: in function 'Tick'\n[Interface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua]:541: in function <...rface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua:541>\n"
-  },
-  {
-   "addon": "RaidMaster",
-   "art": "test",
-   "version": "3.0.48",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T156",
-   "name": "Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern",
-   "detail": "ergebnis: dkp: Hauptfenster überdeckt CharacterFrame; auction: Hauptfenster überdeckt CharacterFrame; loot: Hauptfenster überdeckt CharacterFrame; log: Hauptfenster überdeckt CharacterFrame; raid: Hauptfenster überdeckt CharacterFrame; signup: Hauptfenster überdeckt CharacterFrame; pug: Hauptfenster üb… | erwartet: keine",
-   "bericht": "RaidMaster-1795602328-77b09e-2"
   }
  ],
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 248,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.398-cf544551a0b8.txt"
+    "anzahl": 249,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.400-6cd4c8b6d983.txt"
    },
    "BuffSentinel": {
-    "anzahl": 182,
+    "anzahl": 183,
     "neueste": "testberichte/diagnose/BuffSentinel/0.9.65-f3bcb9505eac.txt"
    },
    "GSMesstest": {
@@ -452,19 +431,19 @@
     "neueste": "testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt"
    },
    "GuildSentinel": {
-    "anzahl": 296,
+    "anzahl": 297,
     "neueste": "testberichte/diagnose/GuildSentinel/0.9.63-ea93aa0c2b9e.txt"
    },
    "LevelPilot": {
-    "anzahl": 187,
+    "anzahl": 188,
     "neueste": "testberichte/diagnose/LevelPilot/3.13.14-983176260a0f.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 269,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.83-cddb4f5dab0b.txt"
+    "anzahl": 270,
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.84-c219184ad978.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 246,
+    "anzahl": 247,
     "neueste": "testberichte/diagnose/ThreatSentinel/2.5.30-fd96cf472bbb.txt"
    }
   },
