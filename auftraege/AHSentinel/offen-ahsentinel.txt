@@ -6947,3 +6947,15 @@ AHS-T750 NIEDRIG: 1 Befund "abgeschnitten" (0.65.396: 0) – welche Ansicht; beh
     T14: Ursache belegt (keine Vollscan-Einträge im Verlauf seit 6 Tagen) – ANGENOMMEN; Messung "warum keine Einträge" + Fix-Vorschlag (Absatz ohne
     Angebots-Daten nicht verwenden bzw. deckeln) FREIGEGEBEN; Verdacht "st.sold nicht je Markt getrennt" belegen (Horde/Allianz!).
     CurseForge 18:00: auch 0.65.399 NICHT (noch kein Ingametest; FULL 0.65.399 ausstehend).
+
+>>> PRÜFUNG SUPERVISOR 25.11. 14:48 – AHS FULL 0.65.399 (14:24) und 0.65.400 (Bericht 14:40): ANGENOMMEN, Abnahme im Spiel offen.
+    FULL 0.65.399: s304 = Testhilfe (%d) berichtigt – richtig; s216 Streuung mit Messung belegt (SafeFormat +0,14 ms je Scan) – beobachten, zweimal
+    rot in Folge = Befund. 0.65.400: addon_check OK ohne Warnung (GoldSentinelTest v4 = shared). OVF1 Stelle im Spiel BELEGT (Item 24282, Preis
+    99 999 999 999 Kupfer = AH-Höchstpreis -> Trend +10 526 315 689 %, "%+d %%" in UI_MarketView) – damit ist auch der T750-Befund erklärt; Fix
+    über A.AH_MAX_PRICE nur für genau dieses Item wirksam (7 532 Items alt = neu ausser 24282) – gut gegen IsOddPrice (309 Items) abgewogen.
+    T14: StaleOffer-Regel, Wirkung nur Item 274964 – ANGENOMMEN.
+    ENTSCHEID SUPERVISOR "fullScan je Markt" (Verdacht belegt: db.fullScan gemeinsam für alle Märkte): FREIGEGEBEN als AHS-MK1 NIEDRIG, Bedingungen
+    wie SP1/k: altes Format lesen, Umzug einmalig wie marketsMigrated mit Sicherung, Rückstufung auf 0.65.400 ohne Datenverlust im Nachbau belegt,
+    Horde-Werte alt = neu (der Nutzer spielt Horde). Reihenfolge: nach SP2 h und dem Ingametest.
+    CurseForge 18:00: Kandidat 0.65.400 NUR, wenn der Ingametest heute vor 18:00 ohne neuen FEHLER durchläuft (Nutzer fragt Supervisor). Sonst bleibt
+    0.65.393 (Achtung: dort ist OVF1 drin – dann Antwort an die Spieler erst mit der nächsten CF-Version).

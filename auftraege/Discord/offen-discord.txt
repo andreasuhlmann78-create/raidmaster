@@ -526,3 +526,5 @@ SICHERHEIT (Pflicht, Repo ist öffentlich):
 >>> D-UPDOC2 MITTEL (Supervisor 14:28, Entscheid des Nutzers 25.11. 11:39): RaidMasterBot/ANLEITUNG.md (Abschnitt Uploader) und die /uploader-Nachricht
     (D-UPCFG1) um den Schritt ergänzen: "Im Uploader-Ordner Addons-automatisch-an.bat doppelklicken, dann den Uploader neu starten – ab dann
     kommen neue Addon-Versionen von selbst." (wie LIESMICH 3.0.49 / Uploader-Doku UP-DOC2). Deutsch und Englisch.
+>>> PRÜFUNG SUPERVISOR 25.11. 14:48 – Bot 1.5.197 (Bericht 14:40, D-CI2, D-UPDOC2, D-UPCFG1): ANGENOMMEN, Abnahme im Betrieb offen
+    (nächster Testbericht -> workflow_dispatch-Lauf, Bericht ≤ 20 Min. im Repo). Fund save_config (neuer Schlüssel wäre überschrieben worden) – gut.
