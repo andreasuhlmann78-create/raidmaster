@@ -41,3 +41,7 @@ Nicht bestätigte Zahlen bleiben unverändert stehen (nicht löschen).
 | 25 | 2618 | Schmiedeweber Araz | Soak mit ca. 10 Spielern | offen | | |
 
 (RaidMaster meldete "24 Stellen"; gezählt sind es 25 Zahlen in 23 Zeilen – die Liste oben ist vollständig.)
+
+Hinweis (Supervisor 08:51): Die RaidMaster-Sitzung hat am 25.11. selbst Quellen gesucht – berichte/RaidMaster/2026-11-25-0825-addon-3.0.46-taktik-zahlen-quellen.txt
+(18 belegt; 3 nach Quelle abweichend: Nr. 13 Nadelstachel 6 Yards statt 10 m, Nr. 18 Hans'gar/Franzok 85/55/25 % statt 30 %, Nr. 11 Hydross bei 4 Stapeln;
+ohne Quelle: Nr. 12, 20, 25). Für die Prüfung ab 09.12. als Ausgangspunkt nutzen, aber jede Quelle selbst nachprüfen.

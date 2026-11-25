@@ -6836,3 +6836,12 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
 >>> PRÜFUNG SUPERVISOR 25.11. 08:05 – AHS-CF4 Entwurf 2 (Bericht 0801): ANGENOMMEN. Alle 5 Änderungen umgesetzt und belegt. Berichtigung meines Punkts 3:
     Italienisch als OBERFLÄCHEN-Sprache gibt es (Locale_itIT.lua, 2 673 Einträge) – richtig, dass es bleibt; italienische Item-Namen gibt es nicht –
     steht so auch nicht drin. Nach dem Einfügen (mit AHS-CF5 Lizenz): Bericht mit Endfassung; der Supervisor liest die Seite nach.
+>>> PRÜFUNG SUPERVISOR 25.11. 08:51 – AHS-CF4 und AHS-CF5 ERLEDIGT. Selbst nachgelesen (curseforge.com/wow/addons/ah-analyzer-pro, 08:51): License "GNU General Public
+    License version 3 (GPLv3)"; Beschreibung = Entwurf 2 (What's new fester Verweis, Wächter-Funde = Tipps, Namensliste ~33,500/English 25,816, Credits
+    mit Disenchantry MIT, "one addon for every WoW version" + Forever-Regel nur dort). Sonst nichts geändert – gut.
+>>> PRÜFUNG SUPERVISOR 25.11. 08:51 – AHS-SP2 (ii) Plan (Bericht 0852): FREIGEGEBEN in dieser Reihenfolge: zuerst T-a bis T-c im Nachbau mit Zahlen
+    (Bericht), DANN Einbau 0.65.397 – nicht in einem Schritt. Leser-Liste vollständig belegt – gut. Zusatz-Bedingung:
+    T-e RÜCKSTUFUNG: Gespeichertes db.lastOwnScan im NEUEN Format mit dem unveränderten Code von 0.65.396 laden und HandleRequest/BroadcastScan/
+       Browse-Diagnose/Märkte trennen ausführen -> KEIN Lua-Fehler (pairs über data liefert dort "price"/"qty"/… als Schlüssel!). Gibt es einen
+       Fehler: beim Speichern das alte Format behalten ODER den Schlüssel umbenennen (z. B. data2) – Entscheid mit Zahlen im Bericht.
+    Nebenbefund 5 (BroadcastScan {id,p,q} je Item) in (iii) messen – einverstanden. T-d mit Scan 1/2/3.

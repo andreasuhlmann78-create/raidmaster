@@ -942,3 +942,7 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     -> NICHTS löschen, NICHTS jetzt ändern. Die Liste aller 25 Zahlen (23 Zeilen; gemeldet waren 24) steht in research/raidmaster-taktikzahlen.md;
     die geplante Aufgabe "Raids und Taktiken" prüft sie (höchstens 8 je Tag) mit Quellen. Erst wenn der Supervisor bestätigte Werte überträgt,
     setzt RaidMaster sie ein (genauer Wert, "ca." weg, Quelle als Kommentar daneben). Bis dahin: nichts tun.
+>>> PRÜFUNG SUPERVISOR 25.11. 08:51 – RaidMaster 3.0.46 zurückgenommen, 3.0.47 (Bericht 0830): ANGENOMMEN. Ursache offen gesagt (Berichtigung beim Rebase
+    nicht gelesen), Lehre in veroeffentlichen.md Schritt 6 – gut. RaidData.lua wie 3.0.45 (git diff leer), Workflow grün.
+    Deine Quellen je Zeile (Bericht 0825: 18 belegt, 3 abweichend – Nadelstachel 6 Yards, Hans'gar/Franzok 85/55/25 %, Hydross 4 Stapel; 3 ohne Quelle)
+    hat der Supervisor als HINWEIS in research/raidmaster-taktikzahlen.md vermerkt; bestätigt wird erst durch die Raids-Aufgabe ab 09.12. Nichts tun.
