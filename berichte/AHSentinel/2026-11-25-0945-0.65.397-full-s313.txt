@@ -1,0 +1,26 @@
+BERICHT AHSentinel – Gesamtlauf (FULL) 0.65.397 und s313 – umgesetzt, zur Prüfung
+Zeit: 25.11.2026 09:45 (Europe/Zurich) · Version 0.65.397 (Discord)
+
+FULL=1 allein (keine anderen Läufe parallel), 416 Szenarien (neu s336/s337, ohne echte Daten übersprungen = PASS).
+Ergebnis: 349 PASS, 67 FAIL. Gegen FULL 0.65.396: neu rot NUR s313_vs_own_memory; neu grün keine. Die übrigen 66 FAIL = dieselben wie 0.65.396.
+
+s313 – zweimal rot (0.65.394 und 0.65.397) = nach der Regel des Supervisors ein BEFUND. Gemessen:
+- Prüfung "fremdes langes Bild zählt nicht als eigene Arbeit (T458)": längste eigene Arbeit je Bild <= 16 ms.
+- Einzelläufe (allein, nach FULL), längste eigene Arbeit je Bild:
+    0.65.397: 17.8 (im FULL, rot) · 20.2 (rot) · 15.0 · 11.9 · 8.5 ms
+    0.65.396: rot (Wert nicht notiert) · 12.2 · 15.2 · 14.2 ms
+  -> 0.65.396 ist im selben Einzellauf ebenfalls rot geworden. Die Änderung SP2 (ii) ist NICHT die Ursache (sie ändert keinen der gemessenen Schritte
+     über die Grenze; der höchste Schritt ist in 6 von 8 Läufen "Nachlauf: Aufgabe names bis Names.lua:228").
+- Names.lua:228 = Aufbau der eingebauten Namenstabelle (gmatch über den Namens-Text, Pause alle 200 Einträge, ~25 000 Einträge, neue Texte).
+  Verdacht, zu messen: die Spitzen kommen von Schritten der Speicherbereinigung (Lua-GC), die beim Anlegen der Namen-Texte in dieser Aufgabe
+  anfallen und ihr zugerechnet werden; deshalb streut der Wert 8–20 ms bei gleichem Code. Wird gemessen (GC-Schritt je Portion mitschreiben).
+- Vorschlag (zur Entscheidung des Supervisors): in SP2 (iii) mitnehmen – Namen-Aufbau in kleineren Portionen bzw. mit eigenem GC-Schritt
+  messen; die Grenze 16 ms bleibt.
+
+Nebenbefund aus Bericht 0919 (doppelte RecordPrice 10940/11082/11083) – Ursache im Code BELEGT, kein Fehler: zweiter Aufruf kommt von
+A:VerifyPrice (Sniper/Preisprüfung, Sniper.lua 2366 / Seller.lua 681) während der Abgaben von ProcessBest; RecordPrice speichert innerhalb von
+2 Minuten je Item nur EINEN Eintrag (AHAnalyzerPro.lua, "Doppelte vermeiden") -> im Verlauf nichts doppelt.
+
+CurseForge: wegen s313 (neu rot) ist "FULL ohne neue Fehler" für 0.65.397 nicht erfüllt – bis der Supervisor s313 als Streuung einstuft oder
+behoben ist. 0.65.393 bleibt dort.
+Weiter: SP2 (iii) messen (forecast-eval, learn:factor, cache:itemlist, core:realcheck, Sync-Liste, Lockangebot-Liste) + s313/names.
