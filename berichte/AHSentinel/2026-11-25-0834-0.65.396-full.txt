@@ -1,0 +1,18 @@
+BERICHT AHSentinel – Gesamtlauf (FULL) 0.65.396 – umgesetzt, zur Prüfung
+Zeit: 25.11.2026 08:34 (Europe/Zurich) · Version 0.65.396 (Discord) · CurseForge 0.65.393
+
+Lauf: FULL=1 tests/run_offline.sh, ALLEIN (keine anderen Nachbau-Läufe parallel), 414 Szenarien, je 600 s Grenze.
+Ergebnis: 348 PASS, 66 FAIL.
+Vergleich mit FULL 0.65.395 (Fehlliste fail395 gegen fail396, sortiert):
+- neu rot: keine.
+- neu grün: s92_fullscan_smooth.
+- Die übrigen 66 FAIL sind dieselben wie bei 0.65.395 (bekannte Alt-Fehler des Nachbaus, Liste unverändert).
+s313_vs_own_memory: bei 0.65.394 rot, bei 0.65.395 und 0.65.396 grün -> einmal rot, nicht zweimal in Folge = kein Befund nach der
+ Regel des Supervisors; ich nenne es weiter.
+s92 grün: Verdacht, zu messen – vermutlich durch SP2 (i) (Text in einem Durchgang zusammengesetzt, weniger Arbeit je Schritt im
+ Vollscan-Nachlauf). Nicht belegt; nur Hinweis.
+
+Damit ist die Bedingung "FULL ohne neue Fehler" für 0.65.396 aus meiner Sicht erfüllt (Entscheid 24.11. 21:44) – ob 0.65.396 auf
+CurseForge darf, entscheidet der Supervisor bzw. der Nutzer (Ingametest SP1 (d) und T1016 stehen noch aus).
+
+Nächste Schritte: Lizenz auf der öffentlichen CurseForge-Seite nachlesen (AHS-CF5), dann AHS-SP2 (ii) erst messen und berichten.
