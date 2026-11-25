@@ -1,12 +1,12 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-25 12:04 UTC
+Ausgewertet: 2026-11-25 12:24 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
 | Addon | letzter Testlauf | Version | Client | OK | FEHLER | übersprungen | im Client prüfen | Fehler im Spiel (7 Tage) |
 |---|---|---|---|---|---|---|---|---|
-| AHSentinel | 25.11.2026 08:01 UTC | 0.65.396 | forever 1.60.1 (Interface 16001) | 1051 | 1 | 34 | 16 | 4 |
+| AHSentinel | 25.11.2026 12:01 UTC | 0.65.398 | forever 1.60.1 (Interface 16001) | 1055 | 6 | 33 | 17 | 4 |
 | BuffSentinel | 25.11.2026 07:54 UTC | 0.9.64 | forever 1.60.1 (Interface 16001) | 226 | 0 | 11 | 11 | 0 |
 | GuildSentinel | 25.11.2026 07:55 UTC | 0.9.62 | forever 1.60.1 (Interface 16001) | 338 | 0 | 25 | 8 | 0 |
 | LevelPilot | 24.11.2026 12:00 UTC | 3.13.12 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 7 |
@@ -18,14 +18,14 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 246 | `testberichte/diagnose/AHSentinel/0.65.398-b30ba2856e46.txt` |
-| BuffSentinel | 180 | `testberichte/diagnose/BuffSentinel/0.9.65-e215fe01268a.txt` |
+| AHSentinel | 247 | `testberichte/diagnose/AHSentinel/0.65.398-cf544551a0b8.txt` |
+| BuffSentinel | 181 | `testberichte/diagnose/BuffSentinel/0.9.65-f3bcb9505eac.txt` |
 | GSMesstest | 25 | `testberichte/diagnose/GSMesstest/5.1-f65d607ab777.txt` |
 | GSSniperLog | 60 | `testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt` |
-| GuildSentinel | 294 | `testberichte/diagnose/GuildSentinel/0.9.63-e590f3633d14.txt` |
-| LevelPilot | 185 | `testberichte/diagnose/LevelPilot/3.13.14-686997589f89.txt` |
-| ProfessionSentinel | 267 | `testberichte/diagnose/ProfessionSentinel/0.9.83-ca7af6f24af4.txt` |
-| ThreatSentinel | 244 | `testberichte/diagnose/ThreatSentinel/2.5.30-fd96cf472bbb.txt` |
+| GuildSentinel | 295 | `testberichte/diagnose/GuildSentinel/0.9.63-e590f3633d14.txt` |
+| LevelPilot | 186 | `testberichte/diagnose/LevelPilot/3.13.14-686997589f89.txt` |
+| ProfessionSentinel | 268 | `testberichte/diagnose/ProfessionSentinel/0.9.83-ca7af6f24af4.txt` |
+| ThreatSentinel | 245 | `testberichte/diagnose/ThreatSentinel/2.5.30-fd96cf472bbb.txt` |
 
 ## Wegdaten (GSWEGE1)
 
@@ -34,14 +34,6 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 | LevelPilot | 356 | `testberichte/wege/LevelPilot/LevelPilot-wege-1795606483-37bf2c.json` |
 
 ## AHSentinel
-
-**Testlauf 0.65.390 · forever 1.60.1 (Interface 16001) · 24.11.2026 18:22 UTC** – OK 3 · FEHLER 3 · übersprungen 3 · im Client prüfen 0
-- [FEHLER] ALLES-1 ALLES – Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1) (ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 1040 OK, 2 FEHLER, 34 übersprungen, Sandbox OK)
-- [FEHLER] ALLES-2 ALLES – Oberflächen-Prüfung (alle Reiter) (ergebnis:   2. Oberflächen-Prüfung (alle Reiter): FEHLER – 6 OK, 1 FEHLER, 0 übersprungen, Sandbox OK)
-- [FEHLER] ALLES-6 ALLES – Prüfungen am offenen Auktionshaus (ergebnis:   6. Prüfungen am offenen Auktionshaus: FEHLER – 65 OK, 2 FEHLER, 4 übersprungen, Sandbox OK)
-- [SKIP] ALLES-7 ALLES – Vollscan zweimal: bleibender Speicher und längste Lücke (VOLLSCAN) (grund:   7. Vollscan zweimal: bleibender Speicher und längste Lücke (VOLLSCAN): noch offen – passiert von selbst beim nächsten Schnell-Vollscan (Entwicklermodus) (Server-Abstand noch 13 Min.))
-- [SKIP] ALLES-8 ALLES – Prüfungen am Berufsfenster (grund:   8. Prüfungen am Berufsfenster: noch offen – passiert von selbst beim nächsten Öffnen eines Berufsfensters)
-- [SKIP] ALLES-9 ALLES – Prüfungen am Händler (grund:   9. Prüfungen am Händler: noch offen – passiert von selbst beim nächsten Händler-Besuch)
 
 **Testlauf 0.65.391 · forever 1.60.1 (Interface 16001) · 24.11.2026 18:41 UTC** – OK 1042 · FEHLER 1 · übersprungen 34 · im Client prüfen 16 · Sandbox OK
 - [CLIENT] T08c A – Berufe-Weiche (Forever) (anleitung: /dump GetNumTradeSkills – muss nil sein, sonst liest das Addon die alte Liste)
@@ -157,6 +149,64 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 - [SKIP] T1001 M – W2E-b: hohe Einzahlung (5s bei 10s, Schwelle 10 %) – Verkaufen-Fenster, Serie, Neu einstellen, Heute tun: je 1. Klick … (grund: Wege nicht aufgebaut)
 - [SKIP] T1016 M – AHS-CF1-UI a): ausser dem aktiven Reiter ist kein Reiter gezeigt (Gegenprobe: ein gezeigter fremder Reiter wird gezählt… (grund: fremde Reiter gezeigt 0, Gegenprobe +1 | Auktionshaus: nicht offen bzw. ohne Abdeckung (im Spiel prüfen))
 - [FEHLER] T750 U – UI-CLEAN1 Fenster/Reiter/Unterreiter/Ansichten/Fenster/Dialoge (Klassisch/Modern, 100 %/130 %): nichts überlappt, nicht… (ergebnis: 0 Befunde · dazu 89 gekürzt mit Tooltip (kein FEHLER) (AH offen · Klassisch+Modern · 100+130 % · deDE · geprüft 164 von 166 Ansichten) · je Art: gekürzt (Tooltip) 89 · je Ansicht: Fenster > Preisverlauf: 44 · Markt > Markt > Überfüllt: 36 · Übersicht > overview: 6 · Markt > Markt > L… | erwartet: 0 Befunde · geprüft m von m)
+- [CLIENT] T197 K – Gewinn-Fenster am Berufsfenster (anleitung: Berufsfenster öffnen (mit und ohne ProfessionSentinel), dann /ahs testroutine k: T192 ohne "überdeckt", T195 ohne Fehler)
+
+**Testlauf 0.65.398 · forever 1.60.1 (Interface 16001) · 25.11.2026 12:01 UTC** – OK 1055 · FEHLER 6 · übersprungen 33 · im Client prüfen 17 · Sandbox OK
+- [CLIENT] T08c A – Berufe-Weiche (Forever) (anleitung: /dump GetNumTradeSkills – muss nil sein, sonst liest das Addon die alte Liste)
+- [FEHLER] T14 B – Auswertungen: Verkaufbarkeit (ergebnis: Interface/AddOns/AHSentinel/SelfTest.lua:819: unplausibel: Instabiles Magiepartikel (1972/Tag bei Ø 0 angeboten) | erwartet: bestanden)
+- [SKIP] T36 B – Handel (simuliert): Gebot (grund: Waren haben keine Gebote)
+- [SKIP] T31.36 B – Befehle test*/testmodus (grund: würde die laufende Routine stören)
+- [CLIENT] T143b J – Alter Ordner AHAnalyzerPro zusätzlich vorhanden (anleitung: Ordner AddOns\AHAnalyzerPro (bis 0.61) zusätzlich aktivieren: genau eine Meldung 'Bitte den alten Ordner ... löschen', keine doppelten /ahs-Befehle, keine Lua-Fehler)
+- [SKIP] T97 D – Nachbildung altes AH (grund: nur im alten Client)
+- [CLIENT] T142 J – Scan nicht vom Wächter blockiert (anleitung: Forever: Wächter an, Scan fällig -> /ahs scan startet den Scan)
+- [CLIENT] T138 J – Wächter und Server-Limit (anleitung: Forever: Wächter 2–3 Runden, dann /ahs scan: startet der Scan?)
+- [SKIP] T144 J – CurseForge Forever-Tag (grund: betrifft curseforge/upload.py im raidmaster-Repo, nicht das Addon – prüft die Prüf-Sitzung im Workflow)
+- [CLIENT] T145c J – Raid-Vorrat passt zu Forever (anleitung: Passen die Schutztränke zu Barrow Deeps, Hyjalgipfel, Onyxia? (Punkt 5 nach dem Launch))
+- [CLIENT] T149 J – Händler-Währungsfunktionen (anleitung: /dump GetMerchantItemCostInfo, /dump GetMerchantItemCostItem – fehlen sie, liest das Addon keine Favor-Kosten)
+- [CLIENT] T151 J – Interface-Nummer (anleitung: /dump select(4, GetBuildInfo()) – ist es nicht 16001, neue Nummer in AHSentinel.toc ergänzen)
+- [CLIENT] T155c J – Rezept-Auswahl (Forever) (anleitung: Rezept im Blizzard-Berufsfenster wählen -> /dump AHAnalyzerPro.Crafting.lastModernRecipe zeigt dessen ID)
+- [SKIP] T59b B – Händler-Verkauf simuliert (grund: HALB: Händler ansprechen, dann /ahs testroutine haendler)
+- [SKIP] T186 B – Händler-Knopf verdeckt keinen Reiter des Händlerfensters (grund: HALB: Händler ansprechen, dann /ahs testroutine haendler)
+- [CLIENT] T71b B – Alt-Klick im Spiel (anleitung: Alt+Klick auf ein Taschen-Item: Preisverlauf (AH zu) bzw. Einkauf (AH offen))
+- [SKIP] T27 B – Einbindung ins Auktionshaus (grund: HALB: Auktionshaus öffnen, dann /ahs testroutine server)
+- [SKIP] T37 B – Warenkauf simuliert (grund: HALB: Auktionshaus öffnen, dann /ahs testroutine server)
+- [SKIP] T42 B – Sniper-Vorab-Reservierung kauft nie ohne Klick (grund: HALB: Auktionshaus öffnen, dann /ahs testroutine server)
+- [SKIP] T50 B – Serie einstellen (grund: HALB: Auktionshaus öffnen, dann /ahs testroutine server)
+- [SKIP] T52 B – Unterboten (grund: HALB: Auktionshaus öffnen, dann /ahs testroutine server)
+- [SKIP] T126 H – Scan-Auswertung in Portionen (grund: HALB: Auktionshaus öffnen, dann /ahs testroutine server)
+- [SKIP] T98 D – Server-Wege altes AH (grund: nur im alten Client (Classic Era, TBC))
+- [SKIP] T101 D – Alter Taschen- und Tooltip-Weg (grund: nur im alten Client (Classic Era, TBC))
+- [SKIP] T99 D – Alte Berufe-API (grund: nur im alten Client (Classic Era, TBC))
+- [SKIP] T100 D – Alter Händler-Weg (grund: nur im alten Client (Classic Era, TBC))
+- [SKIP] T119 G – echtes ProfessionSentinel geladen (grund: HALB: ProfessionSentinel zusätzlich aktivieren)
+- [SKIP] T120 G – fremde AH-Addons (grund: HALB: Auctionator oder TSM aktiv und Auktionshaus offen)
+- [SKIP] T124 H – Berufsliste (Zwischenspeicher) (grund: HALB: Berufsfenster öffnen, dann /ahs testroutine berufe)
+- [SKIP] T147 J – KO 5b: Zutaten-Knopf ohne SchematicForm (grund: HALB: Berufsfenster (moderner Client) öffnen, dann /ahs testroutine berufe)
+- [SKIP] T148 J – KO 5c: Zwischenspeicher bleibt bei Listen-Ereignissen (grund: HALB: Berufsfenster (moderner Client) öffnen, dann /ahs testroutine berufe)
+- [CLIENT] T175 J – Im Spiel (anleitung: Rezept im ProfessionSentinel-Panel ohne vorherigen AHSentinel-Klick anklicken: Berufsfenster zeigt es in < 0,5 s (/ahs protokoll: KLICK ... gewählt))
+- [CLIENT] T176 J – Im Spiel (anleitung: Rezept in AHSentinel "Beste Rezepte" anklicken, auch mit Suchtext im Berufsfenster: sofort gewählt, kein Chat-Hinweis)
+- [CLIENT] T177 J – Im Spiel (anleitung: Berufsfenster mit AHSentinel und ProfessionSentinel öffnen: nebeneinander, Berufsreiter frei, /ahs protokoll ohne ÜBERLAPPT)
+- [CLIENT] T178 J – Im Spiel (anleitung: Kupferne Kettenhose im Gewinn-Fenster: 18c Gewinn, Zeile Einstellgebühr 1s)
+- [CLIENT] T179 J – Im Spiel (anleitung: Auktionshaus öffnen, Einkauf -> Waffen: Unterkategorien gleich wie im Blizzard-AH)
+- [SKIP] T746 J – EK-X1 Knopf X im Einkauf (grund: HALB: Reiter Einkauf einmal öffnen)
+- [SKIP] T202 J – Kategorie-Liste behält die Scroll-Position (grund: HALB: Reiter Einkauf einmal öffnen)
+- [CLIENT] T338 K – T-G6 Bereich K in allen Kombinationen (anleitung: Klassisch/Modern × 100/130 % × enGB/deDE: je /ahs testroutine k (nichts abgeschnitten/überlagert))
+- [SKIP] TSK1a Q – SELBSTKONTROLLE im Spiel: Händler (grund: seit 0.65.398 noch keine Fälle · seit 0.65.398: 0 Fälle · 0 stimmig · 0 Abweichungen · älter: 57 Fälle · 2 Abweichungen)
+- [SKIP] TSK1b Q – SELBSTKONTROLLE im Spiel: Post (grund: noch keine Fälle im Spiel)
+- [SKIP] TSK1c Q – SELBSTKONTROLLE im Spiel: Auktionshaus (grund: seit 0.65.398 noch keine Fälle · seit 0.65.398: 0 Fälle · 0 stimmig · 0 Abweichungen · älter: 96 Fälle · 9 Abweichungen)
+- [SKIP] TSK1d Q – SELBSTKONTROLLE im Spiel: Handel mit Spielern (grund: noch keine Fälle im Spiel)
+- [SKIP] TSK1g Q – SELBSTKONTROLLE im Spiel: Verkaufen-Fenster (grund: seit 0.65.398 noch keine Fälle · seit 0.65.398: 0 Fälle · 0 stimmig · 0 Abweichungen · älter: 318 Fälle · 0 Abweichungen)
+- [FEHLER] TSK1h Q – SELBSTKONTROLLE im Spiel: Vollscan (ergebnis: seit 0.65.398: 1 Fälle · 0 stimmig · 1 Abweichungen · älter: 46 Fälle · 23 Abweichungen · zuletzt 25.11. 12:05 Speicher bleibend +26474 KB (bereinigt; Stand am Ende 706701 KB, vorher 712407 KB, -5706 KB) · Bereinigungen 13 · Lücke 81 ms | erwartet: seit der aktuellen Version 0 Abweichungen)
+- [SKIP] TSK1j Q – SELBSTKONTROLLE im Spiel: Entzaubern-Knopf (grund: seit 0.65.398 noch keine Fälle · seit 0.65.398: 0 Fälle · 0 stimmig · 0 Abweichungen · älter: 190 Fälle · 6 Abweichungen)
+- [SKIP] T989 M – VL1/VL3: erster Aufbau -> eine Zeile VERKAUFEN-LISTE mit allen Schritten (Rest = gesamt − Serie − Taschen voll − S… (grund: Reiter Verkaufen nicht aufgebaut)
+- [SKIP] T990 M – VS1: Feld ohne eigene Eingabe = aktueller Vorschlag (6s91 -> 3s99); eigene Eingabe bleibt; Setzen durch AHSentinel gilt … (grund: Reiter Verkaufen nicht aufgebaut)
+- [SKIP] T1001 M – W2E-b: hohe Einzahlung (5s bei 10s, Schwelle 10 %) – Verkaufen-Fenster, Serie, Neu einstellen, Heute tun: je 1. Klick … (grund: Wege nicht aufgebaut)
+- [SKIP] T1016 M – AHS-CF1-UI a): ausser dem aktiven Reiter ist kein Reiter gezeigt (Gegenprobe: ein gezeigter fremder Reiter wird gezählt… (grund: fremde Reiter gezeigt 0, Gegenprobe +1 | Auktionshaus: nicht offen bzw. ohne Abdeckung (im Spiel prüfen))
+- [FEHLER] T000 - – Ablauf der Routine (lua: integer overflow attempting to store 10526315689)
+- [FEHLER] T000 - – Ablauf der Routine (lua: integer overflow attempting to store 10526315689)
+- [FEHLER] T000 - – Ablauf der Routine (lua: integer overflow attempting to store 10526315689)
+- [FEHLER] T750 U – UI-CLEAN1 Fenster/Reiter/Unterreiter/Ansichten/Fenster/Dialoge (Klassisch/Modern, 100 %/130 %): nichts überlappt, nicht… (ergebnis: 1 Befunde · dazu 117 gekürzt mit Tooltip (kein FEHLER) (AH offen · Klassisch+Modern · 100+130 % · deDE · geprüft 161 von 161 Ansichten · dazu 2 nur mit Spielzustand (T750b, im Client)) · je Art: abgeschnitten 1 · gekürzt (Tooltip) 117 · je Ansicht: Markt > Markt > Überfüllt: 36 · Fens… | erwartet: 0 Befunde · geprüft m von m)
+- [CLIENT] T750b U – UI-CLEAN1 Ansichten mit Spielzustand: Beste Rezepte / Gewinn am Berufsfenster: nur mit offenem Berufsfenster · Post-Kn… (anleitung: Berufsfenster öffnen bzw. am Briefkasten stehen, dann "/ahs testroutine ui" – T750 prüft die Ansicht dann mit (Ziel 0 Befunde))
 - [CLIENT] T197 K – Gewinn-Fenster am Berufsfenster (anleitung: Berufsfenster öffnen (mit und ohne ProfessionSentinel), dann /ahs testroutine k: T192 ohne "überdeckt", T195 ohne Fehler)
 
 **Fehler im Spiel (letzte 7 Tage)**

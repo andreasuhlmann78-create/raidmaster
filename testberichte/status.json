@@ -1,30 +1,80 @@
 {
- "ausgewertet": "2026-11-25T12:04:29Z",
+ "ausgewertet": "2026-11-25T12:24:50Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
-   "berichte": 170,
+   "berichte": 171,
    "letzter_test": {
-    "id": "AHSentinel-1795593870-d2b942-1",
-    "version": "0.65.396",
-    "time": 1795593667,
+    "id": "AHSentinel-1795608303-26b5fe-1",
+    "version": "0.65.398",
+    "time": 1795608095,
     "counts": {
-     "client": 16,
-     "fehler": 1,
-     "ok": 1051,
-     "uebersprungen": 34
+     "client": 17,
+     "fehler": 6,
+     "ok": 1055,
+     "uebersprungen": 33
     }
    },
    "fehler_tests": [
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.396",
+     "version": "0.65.398",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T14",
+     "name": "Auswertungen: Verkaufbarkeit",
+     "detail": "ergebnis: Interface/AddOns/AHSentinel/SelfTest.lua:819: unplausibel: Instabiles Magiepartikel (1972/Tag bei Ø 0 angeboten) | erwartet: bestanden",
+     "bericht": "AHSentinel-1795608303-26b5fe-1"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.398",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "TSK1h",
+     "name": "SELBSTKONTROLLE im Spiel: Vollscan",
+     "detail": "ergebnis: seit 0.65.398: 1 Fälle · 0 stimmig · 1 Abweichungen · älter: 46 Fälle · 23 Abweichungen · zuletzt 25.11. 12:05 Speicher bleibend +26474 KB (bereinigt; Stand am Ende 706701 KB, vorher 712407 KB, -5706 KB) · Bereinigungen 13 · Lücke 81 ms | erwartet: seit der aktuellen Version 0 Abweichungen",
+     "bericht": "AHSentinel-1795608303-26b5fe-1"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.398",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T000",
+     "name": "Ablauf der Routine",
+     "detail": "lua: integer overflow attempting to store 10526315689",
+     "bericht": "AHSentinel-1795608303-26b5fe-1"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.398",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T000",
+     "name": "Ablauf der Routine",
+     "detail": "lua: integer overflow attempting to store 10526315689",
+     "bericht": "AHSentinel-1795608303-26b5fe-1"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.398",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T000",
+     "name": "Ablauf der Routine",
+     "detail": "lua: integer overflow attempting to store 10526315689",
+     "bericht": "AHSentinel-1795608303-26b5fe-1"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.398",
      "client": "forever 1.60.1 (Interface 16001)",
      "id": "T750",
      "name": "UI-CLEAN1 Fenster/Reiter/Unterreiter/Ansichten/Fenster/Dialoge (Klassisch/Modern, 100 %/130 %): nichts überlappt, nicht…",
-     "detail": "ergebnis: 0 Befunde · dazu 89 gekürzt mit Tooltip (kein FEHLER) (AH offen · Klassisch+Modern · 100+130 % · deDE · geprüft 164 von 166 Ansichten) · je Art: gekürzt (Tooltip) 89 · je Ansicht: Fenster > Preisverlauf: 44 · Markt > Markt > Überfüllt: 36 · Übersicht > overview: 6 · Markt > Markt > L… | erwartet: 0 Befunde · geprüft m von m",
-     "bericht": "AHSentinel-1795593870-d2b942-1"
+     "detail": "ergebnis: 1 Befunde · dazu 117 gekürzt mit Tooltip (kein FEHLER) (AH offen · Klassisch+Modern · 100+130 % · deDE · geprüft 161 von 161 Ansichten · dazu 2 nur mit Spielzustand (T750b, im Client)) · je Art: abgeschnitten 1 · gekürzt (Tooltip) 117 · je Ansicht: Markt > Markt > Überfüllt: 36 · Fens… | erwartet: 0 Befunde · geprüft m von m",
+     "bericht": "AHSentinel-1795608303-26b5fe-1"
     }
    ],
    "fehler_spiel": [
@@ -228,12 +278,62 @@
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.396",
+   "version": "0.65.398",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T14",
+   "name": "Auswertungen: Verkaufbarkeit",
+   "detail": "ergebnis: Interface/AddOns/AHSentinel/SelfTest.lua:819: unplausibel: Instabiles Magiepartikel (1972/Tag bei Ø 0 angeboten) | erwartet: bestanden",
+   "bericht": "AHSentinel-1795608303-26b5fe-1"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.398",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "TSK1h",
+   "name": "SELBSTKONTROLLE im Spiel: Vollscan",
+   "detail": "ergebnis: seit 0.65.398: 1 Fälle · 0 stimmig · 1 Abweichungen · älter: 46 Fälle · 23 Abweichungen · zuletzt 25.11. 12:05 Speicher bleibend +26474 KB (bereinigt; Stand am Ende 706701 KB, vorher 712407 KB, -5706 KB) · Bereinigungen 13 · Lücke 81 ms | erwartet: seit der aktuellen Version 0 Abweichungen",
+   "bericht": "AHSentinel-1795608303-26b5fe-1"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.398",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T000",
+   "name": "Ablauf der Routine",
+   "detail": "lua: integer overflow attempting to store 10526315689",
+   "bericht": "AHSentinel-1795608303-26b5fe-1"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.398",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T000",
+   "name": "Ablauf der Routine",
+   "detail": "lua: integer overflow attempting to store 10526315689",
+   "bericht": "AHSentinel-1795608303-26b5fe-1"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.398",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T000",
+   "name": "Ablauf der Routine",
+   "detail": "lua: integer overflow attempting to store 10526315689",
+   "bericht": "AHSentinel-1795608303-26b5fe-1"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.398",
    "client": "forever 1.60.1 (Interface 16001)",
    "id": "T750",
    "name": "UI-CLEAN1 Fenster/Reiter/Unterreiter/Ansichten/Fenster/Dialoge (Klassisch/Modern, 100 %/130 %): nichts überlappt, nicht…",
-   "detail": "ergebnis: 0 Befunde · dazu 89 gekürzt mit Tooltip (kein FEHLER) (AH offen · Klassisch+Modern · 100+130 % · deDE · geprüft 164 von 166 Ansichten) · je Art: gekürzt (Tooltip) 89 · je Ansicht: Fenster > Preisverlauf: 44 · Markt > Markt > Überfüllt: 36 · Übersicht > overview: 6 · Markt > Markt > L… | erwartet: 0 Befunde · geprüft m von m",
-   "bericht": "AHSentinel-1795593870-d2b942-1"
+   "detail": "ergebnis: 1 Befunde · dazu 117 gekürzt mit Tooltip (kein FEHLER) (AH offen · Klassisch+Modern · 100+130 % · deDE · geprüft 161 von 161 Ansichten · dazu 2 nur mit Spielzustand (T750b, im Client)) · je Art: abgeschnitten 1 · gekürzt (Tooltip) 117 · je Ansicht: Markt > Markt > Überfüllt: 36 · Fens… | erwartet: 0 Befunde · geprüft m von m",
+   "bericht": "AHSentinel-1795608303-26b5fe-1"
   },
   {
    "addon": "AHSentinel",
@@ -332,12 +432,12 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 246,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.398-b30ba2856e46.txt"
+    "anzahl": 247,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.398-cf544551a0b8.txt"
    },
    "BuffSentinel": {
-    "anzahl": 180,
-    "neueste": "testberichte/diagnose/BuffSentinel/0.9.65-e215fe01268a.txt"
+    "anzahl": 181,
+    "neueste": "testberichte/diagnose/BuffSentinel/0.9.65-f3bcb9505eac.txt"
    },
    "GSMesstest": {
     "anzahl": 25,
@@ -348,19 +448,19 @@
     "neueste": "testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt"
    },
    "GuildSentinel": {
-    "anzahl": 294,
+    "anzahl": 295,
     "neueste": "testberichte/diagnose/GuildSentinel/0.9.63-e590f3633d14.txt"
    },
    "LevelPilot": {
-    "anzahl": 185,
+    "anzahl": 186,
     "neueste": "testberichte/diagnose/LevelPilot/3.13.14-686997589f89.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 267,
+    "anzahl": 268,
     "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.83-ca7af6f24af4.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 244,
+    "anzahl": 245,
     "neueste": "testberichte/diagnose/ThreatSentinel/2.5.30-fd96cf472bbb.txt"
    }
   },
