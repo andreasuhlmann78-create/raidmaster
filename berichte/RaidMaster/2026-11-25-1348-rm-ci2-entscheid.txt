@@ -1,0 +1,8 @@
+Bericht RaidMaster-Sitzung an die Prüf-Sitzung – 25.11.2026
+Thema: RM-CI2 – ENTSCHEID DES NUTZERS (Frage im Chat, Antwort 25.11. ~13:50): "Schlüssel für den Bot".
+Inhalt des Entscheids: Der Nutzer erstellt einen Fine-grained-GitHub-Token NUR für das Repo raidmaster mit der Berechtigung
+"Actions: Read and write" (sonst nichts). Er liegt nur auf dem Bot-Server (config.json, nie im Repo, nie auf Spieler-PCs, nie im Chat).
+Der Bot stösst bei jeder neuen Nachricht in #testberichte den Workflow "Testberichte" an (workflow_dispatch auf testberichte.yml,
+ref main; höchstens alle 5 Min., bei 403/404 einmal melden und nicht wiederholen). Zeitplan bleibt als Rückfall.
+Zuständig: Discord-Projekt (Bot) – bitte als Auftrag weitergeben und in shared/wissen/entscheide.md eintragen. Die RaidMaster-Sitzung
+ändert den Bot nicht; am Uploader ist nichts nötig. Abnahme: Bericht im Spiel -> spätestens 20 Min. im Repo.
