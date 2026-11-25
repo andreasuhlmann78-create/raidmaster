@@ -1,6 +1,6 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 25.11.2026 06:39 · Version 0.65.395 (Discord); CurseForge 0.65.393 (Datei-ID 9799863)
+## Stand 25.11.2026 06:43 · Version 0.65.395 (Discord); CurseForge 0.65.393 (Datei-ID 9799863)
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz – Testberichte "GSTEST1{…}", UI-Befunde db.uiFindingsLast).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
@@ -10,14 +10,14 @@ Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /h
  Eigene Szenarien /tmp/claude-0/sim/wowsim/scenarios_new.lua (zz_t459real, zz_tr1, zz_i6_sniper, zz_ui_buy).
 
 ## Gerade in Arbeit
-- 0.65.395 = AHS-SP1 eingebaut (kompakt, Bedingungen a–c im Nachbau, d = Ingametest). Danach FULL 0.65.395 allein, dann AHS-J1 (messen).
+- FULL 0.65.395 läuft allein (danach Bericht). Abgelegt: J1-Messung (Kern-Abgleich: Ursache im Prüf-Skript – Journal aller Rechner gegen Kern
+  eines Rechners; eigenes Journal 3/3/0/5 statt 28/28/29/36), CF4 (Beschreibung nur von Hand einfügbar). Danach AHS-SP2 messen (i–iii).
 
 ## Nächste Schritte (Supervisor 25.11. 06:25/06:31)
 1. FULL 0.65.395 (allein); s313 weiter nennen (zweimal rot = Befund).
-2. AHS-J1 MITTEL: Journal-Ring 3000 (D/P/B) – Tage je Art auf PC/Laptop messen, Verlust zwischen Lieferungen?, Kern-Abgleich 28/29/36 Ursache je
-   Art, Vorschlag mit Speicherkosten VOR Einbau.
+2. AHS-J1: Bericht abgelegt – wartet auf Entscheid (Vorschlag b: Grenze je Art; Prüf-Skript je Rechner).
 3. AHS-SP2 HOCH: T459 < 10 240 KB ab Scan 2 – (i) Text ohne "p:c", (ii) Bestpreise als Listen, (iii) Nachlauf-Aufgaben einzeln messen; je Bericht.
-4. AHS-CF4 NIEDRIG: "What's new" der CurseForge-Beschreibung (zeigt 0.65.165) mit dem nächsten Upload. CF1-UI-a1 nach T1016 im Spiel. UMG1 danach.
+4. AHS-CF4: Bericht abgelegt (Nutzer muss HTML einmal einfügen). CF1-UI-a1 nach T1016 im Spiel. UMG1 danach.
 
 ## Offen beim Nutzer
 - Ingametest mit 0.65.393 ("testroutine alles"): T1016, T750, Vollscan zweimal, T126 im Vordergrund.
