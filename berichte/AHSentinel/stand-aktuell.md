@@ -1,23 +1,25 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 25.11.2026 10:15 · Version 0.65.398 (Discord); CurseForge 0.65.393 (Datei-ID 9799863)
+## Stand 25.11.2026 10:48 · Version 0.65.398 (Discord); CurseForge 0.65.393 (Datei-ID 9799863)
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz – Testberichte "GSTEST1{…}", UI-Befunde db.uiFindingsLast).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
  erwartet in /tmp/claude-0/rel/: AHSentinel-<V>.zip, notes.md, bericht.txt, stand.md). ZIP = gleiche 112 Dateien wie Vorversion.
 Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /home/claude/AHSentinel (~70 s); FULL=1 alle (Stunden bei Parallel-Last;
- 0.65.397: 349 PASS, 67 FAIL (neu nur s313, Streuung) – nie parallel zu FULL rechnen, sonst Zeitüberschreitungen). T126 streut 6–10 ms. Neu: s9_watcher_tip (Wächter-Tipp -> Rechtsklick -> Sniper kauft).
+ 0.65.398: 353 PASS, 66 FAIL, keine neuen – nie parallel zu FULL rechnen, sonst Zeitüberschreitungen). T126 streut 6–10 ms. Neu: s9_watcher_tip (Wächter-Tipp -> Rechtsklick -> Sniper kauft).
  Eigene Szenarien /tmp/claude-0/sim/wowsim/scenarios_new.lua (zz_t459real, zz_tr1, zz_i6_sniper, zz_ui_buy).
 
 ## Gerade in Arbeit
-- 0.65.398 (SP2 iii a/c/b) auf Discord; d) zurückgenommen (D:Prior-Speicher = GetItemInfo im Nachbau, Verdacht im Spiel). T459 Scan 2 14 131,
-  Scan 3 9 970 KB. FULL 0.65.398 allein als Nächstes. Scratch /tmp/claude-0/sim2 (zz_sp3*, zz_t459real), alte Versionen /tmp/claude-0/ahs396, ahs397.
+- 0.65.398 vom Supervisor angenommen (10:23, Abnahme im Spiel offen); FULL 0.65.398 353/66 keine neuen (Bericht 1043).
+- Bericht 1048: Scan 2 aufgeschlüsselt (Track 5 836: EncodeSigs 3 035, Sigs 1 320, Compare 1 059), timing belegt (2 231 KB alt = neu),
+  S313 = GC-Schritt für die fremde 600 000-Tabellen-Liste (7,8–9,3 ms, unteilbar) – Frage an Supervisor offen, Addon dafür unverändert.
+- Jetzt: g) EncodeSigs ohne Text je Signatur – Gleichheit st.sigs alt = neu zuerst. Messkopien /tmp/claude-0/ahs398m (Track-Abschnitte), ahs398n.
 
-## Nächste Schritte (Supervisor 25.11. 10:00)
-1. FULL 0.65.398 allein, Bericht.
-2. AHS-S313 MITTEL: GC-Schritt je Portion mitschreiben (Namen-Aufbau Names.lua:228); belegt -> Portionen so schneiden, dass keine > 16 ms (inkl. GC).
-3. SP2 weiter: Ziel < 10 240 KB ab Scan 2 – Aufgabe fullscan (Scan 2 7 595 KB) aufschlüsseln; GetItemInfo-Speicher im Spiel messen.
-4. CF1-UI-a1 nach T1016. UMG1 danach. TB138-2 bleibt im Masterplan.
+## Nächste Schritte (Supervisor 25.11. 10:23)
+1. g) EncodeSigs, dann h) Sigs/Compare – je Gleichheitstest echte Daten, Einbau, T459 (Ziel Scan 2 < 10 240 KB; jetzt 14 131).
+2. AHS-S313: Entscheid Supervisor abwarten (Prüfung um GC-Spitze bereinigen oder lassen); nichts am Addon ändern.
+3. CurseForge 18:00: 0.65.398 erfüllt "FULL ohne neue Fehler"; Abnahme im Spiel offen – Version + Hochladen dem Nutzer vorlegen (Bestätigung).
+4. GetItemInfo-Speicher im Spiel messen (core:realcheck) beim nächsten Ingametest. CF1-UI-a1 nach T1016. UMG1. TB138-2 im Masterplan.
 
 ## Offen beim Nutzer
 - Ingametest: "testroutine alles" mit T1016 (AH offen), Vollscan zweimal (SP1 d / SP2 T459), T126 im Vordergrund. Teil auto 09:01 erledigt.
