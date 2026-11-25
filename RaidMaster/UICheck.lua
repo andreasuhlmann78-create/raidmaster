@@ -131,6 +131,98 @@ function U.TooltipsCoverNothing()
 	return problems, tested
 end
 
+-- RM-TAINT1 / T156 (3.0.48, wie Vorlage ns.UIAvoidOthers, GS-K1/BS-K1): eigene Fenster weichen beim Zeigen offenen
+-- Blizzard-Fenstern und Fenstern anderer GoldSentinel-Addons aus. Nur Lage dieser Anzeige; die gespeicherte Lage bleibt
+-- (gespeichert wird nur beim Ziehen). Nie im Kampf. Kleine Leisten (HUD) weichen nicht aus.
+RM.UI_NO_AVOID = { ["Markierungsleiste"] = true, ["Boss-Leiste"] = true, ["Timer"] = true, ["Pausenleiste"] = true }
+
+-- env (nur Test T206): { blizzard = Namensliste, lookup = function(name), others = Liste wie GoldSentinelUIFrames } – so braucht der
+-- Test keine Blizzard-Namen zu ersetzen (das würde sie bis /reload tainten)
+function U.Obstacles(frame, env)
+	local list = {}
+	local lookup = env and env.lookup or function(n) return _G[n] end
+	for _, bn in ipairs(env and env.blizzard or RM.UI_BLIZZARD) do
+		local bf = lookup(bn)
+		if type(bf) == "table" and bf ~= frame and Shown(bf) then
+			local r = U.Rect(bf)
+			if r then r.name = bn; list[#list + 1] = r end
+		end
+	end
+	for _, o in ipairs(env and env.others or GoldSentinelUIFrames) do
+		if o.addon ~= ADDON and o.frame ~= frame and not RM.IsForeignHUD(o) and Shown(o.frame) then
+			local r = U.Rect(o.frame)
+			if r then r.name = tostring(o.name) .. " (" .. tostring(o.addon) .. ")"; list[#list + 1] = r end
+		end
+	end
+	return list
+end
+
+function U.Covered(rect, list)
+	local sum = 0
+	for _, r in ipairs(list) do sum = sum + U.Overlap(rect, r) end
+	return sum
+end
+
+-- beste Lage für ein Rechteck (l, t, w, h) im Bildschirm (sw, sh) zwischen den Hindernissen – reine Rechnung (T206), aus der Vorlage.
+-- Stufe 1: 8 Pixel Abstand neben jedem Hindernis, erst waagrecht, dann auch senkrecht. Stufe 2 (nur ohne freien Platz): bündig
+-- an Bildschirmrand oder Hindernis. Rückgabe Überdeckung > 0 = es gibt keinen freien Platz.
+function U.BestPlace(l, t, w, h, sw, sh, list)
+	local function clampX(x) return math.max(0, math.min(x, sw - w)) end
+	local function clampT(y) return math.max(h, math.min(y, sh)) end
+	local best, bestCover, bestDist
+	local function try(x, y)
+		local c = U.Covered({ l = x, r = x + w, t = y, b = y - h }, list)
+		local d = math.abs(x - l) + math.abs(y - t)
+		if not best or c < bestCover or (c == bestCover and d < bestDist) then best, bestCover, bestDist = { l = x, t = y }, c, d end
+	end
+	local function uniq(a) local seen, out = {}, {} for _, v in ipairs(a) do if not seen[v] then seen[v] = true; out[#out + 1] = v end end return out end
+	local xs, ts = { clampX(l) }, { clampT(t) }
+	for _, r in ipairs(list) do
+		xs[#xs + 1] = clampX(r.r + 8); xs[#xs + 1] = clampX(r.l - 8 - w)
+		ts[#ts + 1] = clampT(r.b - 8); ts[#ts + 1] = clampT(r.t + 8 + h)
+	end
+	xs, ts = uniq(xs), uniq(ts)
+	for _, x in ipairs(xs) do try(x, ts[1]) end
+	if bestCover > 0 then
+		for _, x in ipairs(xs) do for _, y in ipairs(ts) do try(x, y) end end
+	end
+	if bestCover > 0 then
+		local xs2, ts2 = { 0 }, { h }
+		for _, r in ipairs(list) do
+			if r.r + w <= sw then xs2[#xs2 + 1] = r.r end
+			if r.t + h <= sh then ts2[#ts2 + 1] = r.t + h end
+		end
+		xs2, ts2 = uniq(xs2), uniq(ts2)
+		for _, x in ipairs(xs2) do for _, y in ipairs(ts2) do try(x, y) end end
+	end
+	return best, bestCover
+end
+
+-- Rückgabe true = verschoben. RM.UIAvoidLast = { covered = Rest-Überdeckung, free = freier Platz gefunden }
+-- env (nur Test T206): zusätzlich combat = function() -> true/false, parent = Ersatz für UIParent
+function RM.UIAvoidOthers(frame, env)
+	RM.UIAvoidLast = nil
+	local inCombat = env and env.combat or InCombatLockdown
+	if inCombat and inCombat() then return false end
+	local parent = env and env.parent or UIParent
+	if not (Shown(frame) and frame.GetRect and type(parent) == "table" and parent.GetWidth) then return false end
+	local mine = U.Rect(frame)
+	if not mine then return false end
+	local list = U.Obstacles(frame, env)
+	local covered = U.Covered(mine, list)
+	RM.UIAvoidLast = { covered = covered, free = covered == 0 }
+	if covered == 0 then return false end
+	local us = parent.GetEffectiveScale and parent:GetEffectiveScale() or 1
+	local sw, sh = (parent:GetWidth() or 0) * us, (parent:GetHeight() or 0) * us
+	local w, h = mine.r - mine.l, mine.t - mine.b
+	local best, bestCover = U.BestPlace(mine.l, mine.t, w, h, sw, sh, list)
+	RM.UIAvoidLast = { covered = bestCover, free = bestCover == 0 }
+	local fs = frame.GetEffectiveScale and frame:GetEffectiveScale() or 1
+	frame:ClearAllPoints()
+	frame:SetPoint("TOPLEFT", parent, "BOTTOMLEFT", best.l / fs, best.t / fs)
+	return true
+end
+
 -- Fall 2 (T156): eigene sichtbare Fenster überdecken weder Blizzard-Fenster noch Fenster anderer GoldSentinel-Addons
 function U.WindowsOverlapNothing()
 	local problems, tested, hints = {}, 0, {}

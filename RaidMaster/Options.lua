@@ -860,9 +860,11 @@ function O.RegisterGamePanel()
 	text:SetPoint("TOPLEFT", panel, "TOPLEFT", 16, -42)
 	text:SetWidth(520)
 	local btn = UI.Button(panel, L["Optionen öffnen"], 180, 26, function()
-		if SettingsPanel and SettingsPanel.IsShown and SettingsPanel:IsShown() and HideUIPanel then HideUIPanel(SettingsPanel) end
-		if InterfaceOptionsFrame and InterfaceOptionsFrame.IsShown and InterfaceOptionsFrame:IsShown() and HideUIPanel then HideUIPanel(InterfaceOptionsFrame) end
+		-- RM-TAINT1 (3.0.48): Blizzard-Fenster nie selbst schliessen (HideUIPanel aus Addon-Code verbreitet Taint) – stattdessen
+		-- liegt das eigene Fenster, solange es offen ist, über dem Einstellungsfenster des Spiels (Esc schliesst erst RaidMaster)
 		UI.OpenOptions("allgemein")
+		local main = _G["RaidMasterMainFrame"]
+		if main and main.SetFrameStrata then main:SetFrameStrata("DIALOG"); main.raisedOverSettings = true end
 	end)
 	btn:SetPoint("TOPLEFT", panel, "TOPLEFT", 16, -72)
 	panel.openButton = btn

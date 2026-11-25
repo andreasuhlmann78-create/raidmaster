@@ -2620,8 +2620,17 @@ local function AreaH(t)
 		local fake = { GetItem = function() return "x", LINK_EPIC end, AddLine = function() end, Show = function() end }
 		R.gcStepMax, R.gcSteps = 0, 0
 		CollectInSteps()
-		local memA, msA = AddonMemory()
-		R.Breathe(0)
+		-- 3.0.48 (Ingametest 3.0.47: T116 längstes Bild 50 ms – eigene Arbeit?): Speicher lesen = Blizzard UpdateAddOnMemoryUsage
+		-- (rechnet alle Addons). Eigenes Bild mit eigenem Namen, damit die Portionen-Zeile es von der Arbeit von T116 trennt.
+		local function ReadMem()
+			R.Breathe(0)
+			R.current = "T116 Speicher lesen (Blizzard)"
+			local m, ms = AddonMemory()
+			R.Breathe(0)
+			R.current = "T116"
+			return m, ms
+		end
+		local memA, msA = ReadMem()
 		local before = collectgarbage("count")
 		for _ = 1, 100 do CallHandlers("GROUP_ROSTER_UPDATE"); R.Breathe(R.PRE_MS) end
 		for _ = 1, 100 do CallHandlers("PLAYER_TARGET_CHANGED"); R.Breathe(R.PRE_MS) end
@@ -2629,8 +2638,7 @@ local function AreaH(t)
 		if R.leakProbe then R.leakProbe() end                -- nur Gegenprobe der Nachbildung (absichtliches Leck)
 		CollectInSteps()
 		local grow = collectgarbage("count") - before
-		R.Breathe(0)
-		local memB, msB = AddonMemory()
+		local memB, msB = ReadMem()
 		Settle(10)
 		local steps = string.format("%d Bereinigungsschritte, längster %.1f ms", R.gcSteps or 0, R.gcStepMax or 0)
 		if not (memA and memB and memA.RaidMaster and memB.RaidMaster) then
@@ -3734,11 +3742,67 @@ local function AreaJ(t, G)
 		return true, "8 Buchungen (mit Rückgängig und Verfall): Stände = von Hand, Gesamt mc 29/3/75 und ony 30/2/30 = Zeilen, verdient nachgerechnet gleich · Gegenprobe 2/2 erkannt"
 	end)
 
+	-- RM-TAINT1 / T156 (3.0.48): eigene Fenster weichen offenen Blizzard-Fenstern aus – Rechnung (BestPlace) und Verschieben an
+	-- nachgebauten Fenstern (keine echten Blizzard-Fenster, nichts öffnen); Gegenproben: kein Platz -> Rest-Überdeckung, verdecktes
+	-- Fenster nicht sichtbar -> kein Verschieben, im Kampf -> kein Verschieben
+	t:Check("T206", "J", "Fenster weichen Blizzard-Fenstern aus (Rechnung und Verschieben, Gegenproben)", function()
+		local U = RM.UICheck
+		if not (U and U.BestPlace and RM.UIAvoidOthers) then return false, "fehlt", "U.BestPlace, RM.UIAvoidOthers" end
+		-- Rechnung: Bildschirm 1920x1080, Charakterfenster links oben (0..400, oben 1000..400), eigenes Fenster 600x500 bei (100, 900)
+		local char = { l = 0, r = 400, t = 1000, b = 400, name = "CharacterFrame" }
+		local best, cover = U.BestPlace(100, 900, 600, 500, 1920, 1080, { char })
+		if cover ~= 0 then return false, "Überdeckung " .. cover, "0" end
+		if U.Overlap({ l = best.l, r = best.l + 600, t = best.t, b = best.t - 500 }, char) > 0 then return false, "überdeckt noch", "frei" end
+		if best.l ~= 408 or best.t ~= 900 then return false, best.l .. "/" .. best.t, "408/900 (8 Pixel rechts daneben, gleiche Höhe)" end
+		local _, full = U.BestPlace(100, 900, 600, 500, 1920, 1080, { { l = 0, r = 1920, t = 1080, b = 0 } })
+		if full <= 0 then return false, "kein Platz nicht erkannt", "> 0" end
+		-- Verschieben an nachgebauten Fenstern
+		local function Fake(l, b, w, h, shown)
+			local f = { pts = {} }
+			function f:IsVisible() return shown end
+			function f:GetRect() return l, b, w, h end
+			function f:GetEffectiveScale() return 1 end
+			function f:ClearAllPoints() self.pts = {} end
+			function f:SetPoint(...) self.pts = { ... } end
+			return f
+		end
+		local ui = { GetWidth = function() return 1920 end, GetHeight = function() return 1080 end, GetEffectiveScale = function() return 1 end }
+		local char = Fake(0, 400, 400, 600, true)
+		local fighting = false
+		-- nachgebaute Umgebung statt Blizzard-Namen zu ersetzen (UIParent/InCombatLockdown ersetzen taintet sie bis /reload)
+		local env = { parent = ui, blizzard = { "Char" }, lookup = function(n) return n == "Char" and char or nil end, others = {},
+			combat = function() return fighting end }
+		local mine = Fake(100, 400, 600, 500, true)
+		if not RM.UIAvoidOthers(mine, env) then return false, "nicht verschoben", "verschoben" end
+		if not (mine.pts[1] == "TOPLEFT" and mine.pts[2] == ui and mine.pts[4] == 408 and mine.pts[5] == 900 and RM.UIAvoidLast.free) then
+			return false, table.concat({ tostring(mine.pts[1]), tostring(mine.pts[4]), tostring(mine.pts[5]) }, " "), "TOPLEFT 408 900, frei"
+		end
+		-- Gegenproben
+		local m2 = Fake(1000, 400, 600, 500, true)
+		if RM.UIAvoidOthers(m2, env) or #m2.pts > 0 then return false, "ohne Überdeckung verschoben", "bleibt" end
+		char = Fake(0, 400, 400, 600, false)
+		local m3 = Fake(100, 400, 600, 500, true)
+		if RM.UIAvoidOthers(m3, env) then return false, "unsichtbares Fenster als Hindernis", "bleibt" end
+		char = Fake(0, 400, 400, 600, true)
+		fighting = true
+		local m4 = Fake(100, 400, 600, 500, true)
+		if RM.UIAvoidOthers(m4, env) then return false, "im Kampf verschoben", "nie im Kampf" end
+		-- anderes GoldSentinel-Fenster ist Hindernis, dessen HUD nicht
+		fighting = false
+		char = Fake(0, 400, 400, 600, false)
+		env.others = { { addon = "AHSentinel", name = "Hauptfenster", frame = Fake(0, 400, 400, 600, true) } }
+		if not RM.UIAvoidOthers(Fake(100, 400, 600, 500, true), env) then return false, "GoldSentinel-Fenster nicht ausgewichen", "verschoben" end
+		env.others = { { addon = "ThreatSentinel", name = "HUD", frame = Fake(0, 400, 400, 600, true) } }
+		if RM.UIAvoidOthers(Fake(100, 400, 600, 500, true), env) then return false, "HUD als Hindernis", "bleibt" end
+		return true, "rechts daneben (408/900) · kein Platz erkannt · GoldSentinel-Fenster ja, HUD nein · Gegenproben: frei/unsichtbar/Kampf -> bleibt"
+	end)
+
 	-- 3.0.45 (Lesbarkeit L3): dieselbe DKP-Zahl in der Liste, im Tooltip der Zeile, in der Antwort auf "!dkp" und in DKP.Get;
 	-- die Kopfzeile "Gesamt" = Summe der Zeilen (L4 an der echten Anzeige). Testmodus-Daten, Flüstern nur über RM.Whisper.
 	local function SameNumber(rows, tipOf, chatOf, getOf)
 		local bad = {}
 		for _, r in ipairs(rows) do
+			R.Breathe(R.PRE_MS)                    -- Ingametest 3.0.47: eine Portion 6 ms -> je Zeile ein eigenes Bild, wenn nötig
 			local tip, chat, get = tipOf(r), chatOf(r), getOf(r)
 			if tip ~= r.dkp or chat ~= r.dkp or get ~= r.dkp then
 				bad[#bad + 1] = string.format("%s Liste %s · Tooltip %s · !dkp %s · Stand %s", r.name, tostring(r.dkp), tostring(tip), tostring(chat), tostring(get))
@@ -5006,7 +5070,7 @@ local function AreaL(t, G)
 			{ "TR-ALLE Sicherung", "T189" }, { "Tooltip-Platzierung (Ingame T155)", "T190" }, { "HUD-Ausnahme (Ingame T156)", "T191" }, { "Beschriftungen passen (Ingame T158)", "T192" }, { "Testdaten nie für andere Addons", "T193" },
 			{ "OPT-ALLE Optionen-Fenster", "T194" }, { "Spieler ohne Testbefehle", "T195" },
 			{ "DEV-SICHT Entwickler nur im Entwicklermodus", "T196" }, { "Werbung Platzhalter als ?", "T197" },
-			{ "Livedaten-Wächter Gegenprobe", "T198" }, { "Lesbarkeit L1/L8", "T199" }, { "Lesbarkeit Gegenprobe", "T200" }, { "RM-I2 Klassenfarben lesbar", "T201" }, { "RM-I2 Item-Qualitätsfarben lesbar", "T202" }, { "RM-UMG1 Umgebung erkennen (Gegenprobe)", "T203" }, { "L4 Summen gehen auf", "T204" }, { "L3 gleiche DKP-Zahl überall", "T205" }, { "RM-I1 Speicher je Addon", "T116" },
+			{ "Livedaten-Wächter Gegenprobe", "T198" }, { "Lesbarkeit L1/L8", "T199" }, { "Lesbarkeit Gegenprobe", "T200" }, { "RM-I2 Klassenfarben lesbar", "T201" }, { "RM-I2 Item-Qualitätsfarben lesbar", "T202" }, { "RM-UMG1 Umgebung erkennen (Gegenprobe)", "T203" }, { "L4 Summen gehen auf", "T204" }, { "L3 gleiche DKP-Zahl überall", "T205" }, { "RM-TAINT1 Fenster weichen aus", "T206" }, { "RM-I1 Speicher je Addon", "T116" },
 			{ "RM-TF-1 kein Fehlerfenster", "T120" }, { "T-BL4 echtes Eingabefeld", "T169" } }
 		local only = R.only
 		local have, missing = 0, {}
@@ -5099,20 +5163,9 @@ local function AreaK(t)
 		end
 	end
 	for _, c in ipairs(ui) do if c[4] then R.Breathe(R.PRE_MS); Collect(c) end end
-	-- 3.0.32 (Ingametest 19:38: T156 SKIP "nichts geprüft"): war kein fremdes Fenster offen, öffnet die Prüfung selbst eines –
-	-- das Charakterfenster des Spiels (nur ausserhalb des Kampfes) – misst gegen das offene Hauptfenster und schliesst es wieder.
-	-- So misst T156 bei jedem Lauf und endet mit OK/FEHLER statt "nicht prüfbar".
-	if available and main and tested.T156 == 0 and not RM.InCombat() and type(ToggleCharacter) == "function"
-		and _G.CharacterFrame and not _G.CharacterFrame:IsShown() then
-		R.Breathe(R.PRE_MS)
-		local okOpen = pcall(ToggleCharacter, "PaperDollFrame")
-		if okOpen and _G.CharacterFrame:IsShown() then
-			Collect(ui[2], "mit Charakterfenster")
-			infos.T156 = { "Charakterfenster selbst geöffnet und wieder geschlossen" }
-		end
-		if _G.CharacterFrame:IsShown() then pcall(HideUIPanel, _G.CharacterFrame) end
-		if _G.CharacterFrame:IsShown() then pcall(ToggleCharacter, "PaperDollFrame") end
-	end
+	-- RM-TAINT1 (3.0.48, Lua-Fehler im Spiel 25.11. 08:58 "execution tainted by 'RaidMaster'"): die Testroutine öffnet NIE ein
+	-- Blizzard-Fenster selbst (bis 3.0.47 öffnete sie das Charakterfenster -> dessen Code lief "tainted" und verglich geschützte
+	-- Werte). T156 misst nur gegen Fenster, die der Spieler schon offen hat; sonst "im Client prüfen" mit Anleitung.
 	-- Seite und Fenster wie vorher
 	if main then
 		if wasPage then pcall(UI.ShowPage, wasPage) end
@@ -5122,6 +5175,9 @@ local function AreaK(t)
 	for _, c in ipairs(ui) do
 		if not c[4] and not available then
 			t:Skip(c[1], "K", c[2], "nur im echten Client (Fenster, Rechtecke, Tooltip)")
+		elseif c[1] == "T156" and tested.T156 == 0 and #found.T156 == 0 then
+			t:Client("T156", "K", c[2], "kein Blizzard-Fenster offen – Charakterfenster (Taste C) öffnen, dann /rm testroutine k; " ..
+				"die Routine öffnet selbst keine Blizzard-Fenster (RM-TAINT1)")
 		elseif not c[4] and tested[c[1]] == 0 and #found[c[1]] == 0 then
 			t:Skip(c[1], "K", c[2], "nichts geprüft (kein sichtbares Fenster mit messbaren Rechtecken)")
 		else

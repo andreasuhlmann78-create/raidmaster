@@ -11,6 +11,13 @@ INSTALLATION
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
 
+NEU IN 3.0.48 – Fenster weichen aus, kein Lua-Fehler mehr durch die Testroutine
+- RaidMaster-Fenster (Hauptfenster, Bereitschaft, Versteigerung …) weichen beim Öffnen offenen Spielfenstern aus (z. B.
+  Charakterfenster, Händler, Post, Karte) und anderen GoldSentinel-Fenstern. Die gespeicherte Lage bleibt.
+- Testroutine (nur Entwickler): öffnet nie mehr selbst ein Fenster des Spiels. Bis 3.0.47 öffnete sie das Charakterfenster –
+  das löste mit dem neuen Spiel-Build einen Lua-Fehler aus ("execution tainted by 'RaidMaster'"). Nach so einem Fehler /reload.
+- Knopf "Optionen öffnen" im Einstellungsfenster des Spiels: RaidMaster legt sich darüber, statt das Spielfenster zu schliessen.
+
 NEU IN 3.0.47 – Raid-Taktiken wie in 3.0.45
 - Die Änderungen an den Taktik-Zahlen aus 3.0.46 sind zurückgenommen: alle Zahlen stehen wieder wie in 3.0.45. Sie werden erst
   geändert, wenn bestätigte Werte mit Quelle vorliegen.

@@ -1,6 +1,7 @@
 # Stand RaidMaster-Sitzung
 
-## Stand 25.11.2026 08:30 · Addon 3.0.47 · Uploader 2.3.28
+## Stand 25.11.2026 09:13 · Addon 3.0.48 · Uploader 2.3.28
+- Addon 3.0.48: RM-TAINT1 (Routine öffnet nie Blizzard-Fenster, T207 grep-Regel), Fenster weichen aus (T206), T205 kleiner, T116 getrennt.
 - Addon 3.0.47: 3.0.46 (Taktik-Zahlen) zurückgenommen – Entscheid des Nutzers 08:24 "nicht löschen, auf korrekte Angaben warten".
   Taktik-Zahlen erst ändern, wenn der Supervisor bestätigte Werte überträgt (Prüfliste research/raidmaster-taktikzahlen.md, ab 09.12.).
 - Addon 3.0.45 gepusht (L3/L4 als Prüfungen T204/T205, nur Testroutine). Uploader 2.3.27/2.3.28 und RM-CI1 vom Supervisor angenommen 06:53.
@@ -33,7 +34,7 @@
 - PC: bei der Frage im Uploader-Fenster Taste j (Abnahme UP-UPD1). Laptop UP-AUTO1 belegt.
   Beim nächsten Update (2.3.28) per j: altes Fenster schliesst sich -> Abnahme UP-UPD1-a/b und UP-UPD1-c (stand.json "update").
 - Uploader 2.3.20 auf allen 4 liefernden Rechnern ganz entpacken + neu starten (ältere werden abgewiesen, auch 2.3.19).
-- RaidMaster 3.0.47 (kommt automatisch) Ingametest: /gsdev an, /rm testroutine alles, /reload.
+- RaidMaster 3.0.48 (kommt automatisch): Charakterfenster öffnen, dann /rm -> kein Überlappen; /rm testroutine k mit offenem Charakterfenster Ingametest: /gsdev an, /rm testroutine alles, /reload.
 
 ## Entscheide des Nutzers seit letztem Stand
 - 25.11. 08:24: Taktik-Zahlen NICHT löschen/ändern; geplante Aufgabe prüft (ab 09.12.), bestätigte Werte über Supervisor einsetzen.
@@ -44,7 +45,6 @@
 - 24.11. 20:52 Nutzer: "meine offiziere haben den neuen auch bekommen" – Uploader 2.3.21 an Offiziere verteilt.
 - 24.11. 20:49: "das discord projekt soll den offiziere das seden" – Uploader 2.3.21 an Offiziere über das Discord-Projekt
   (Bericht 2049 an den Supervisor zum Weiterleiten).
-- 24.11. 20:04 (über Supervisor): Umgebung/Bedienung in allen Testroutinen erkennen (RM-UMG1).
   wie der Bot überspringen; gelöscht wird nichts. -> raid-addon-zusammenfassung-3.0.0.md: NICHT nachposten (Bericht 1030).
 
 ## Wichtig zu wissen

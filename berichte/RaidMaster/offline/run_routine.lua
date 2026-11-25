@@ -301,6 +301,16 @@ if not os.getenv("STOPAT") then
 	T.Stop(); Advance(2)
 	check(RaidMasterAPI.TestRunning() == false and _G.RaidMaster.db == RM.db, "nach dem Testmodus: RaidMaster.db ist wieder RM.db")
 end
+-- RM-TAINT1 (3.0.48): kein Addon-/Testcode öffnet oder schliesst Blizzard-Fenster (T207 der Nachbildung), mit Gegenprobe
+do
+	local BF = dofile("blizzard_fenster.lua")
+	local hits, files = BF.ScanDir(ADDONDIR)
+	check(files > 30 and #hits == 0, "T207 keine Blizzard-Fenster-Aufrufe in " .. files .. " Dateien" .. (#hits > 0 and (": " .. table.concat(hits, ", ")) or ""))
+	local probe = BF.ScanText('local x = 1\n\tlocal ok = pcall(ToggleCharacter, "PaperDollFrame")\nHideUIPanel(f) -- HideUIPanel im Kommentar\n' ..
+		'RM.Test.Toggle() ; local s = "ShowUIPanel(x)"\n--[[ ToggleFrame(x)\n]]\nUI:HideUIPanel()', "Probe")
+	check(#probe == 2 and probe[1] == "Probe:2: ToggleCharacter" and probe[2] == "Probe:3: HideUIPanel",
+		"T207 Gegenprobe: eingefügte Aufrufe erkannt, Kommentar/Zeichenkette/Methode nicht (" .. table.concat(probe, ", ") .. ")")
+end
 -- 3.0.37: welche fehlenden globalen Namen der Code angefragt hat (bei Forever u. a. die alten Funktionen – nur geschützt erlaubt)
 if MissingGlobals then print("FEHLENDE GLOBALE NAMEN (angefragt, nil): " .. table.concat(MissingGlobals(), ", ")) end
 print(fails == 0 and "ALLE OK" or ("FEHLER: " .. fails))

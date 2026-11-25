@@ -19,6 +19,11 @@ Erwartet am Ende: `ALLE OK` (keine FEHLER, Sandbox OK, keine echte Blizzard-Akti
 Die Dateien werden in der Reihenfolge von RaidMaster.toc geladen – wie im Spiel. Bis 15.11. fügte die Nachbildung die
 Sprachdateien vor Locale.lua ein; dann war RM.LOCALE noch nil und keine Übersetzung wurde geladen (T90 "609:" unter enUS).
 
+## T207 (ab 3.0.48, RM-TAINT1)
+`blizzard_fenster.lua` durchsucht alle .lua-Dateien unter ADDONDIR (auch Test/) nach Aufrufen, die Blizzard-Fenster öffnen oder
+schliessen (ToggleCharacter, ShowUIPanel, HideUIPanel, …; Kommentare, Zeichenketten und Methoden ausgenommen). Ein Fund ist FAIL.
+Gegenprobe im Lauf: eingefügte Aufrufe werden erkannt.
+
 ## Grenzen
 Zeitmessungen (z. B. T114 Serializer ≤ 16 ms) hängen von der Rechnerlast ab und können vereinzelt ausschlagen –
 dann wiederholen. Im Spiel gelten die Werte aus dem Client.

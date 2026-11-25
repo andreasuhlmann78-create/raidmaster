@@ -23,6 +23,13 @@ MAIN FEATURES
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
 
+WHAT'S NEW IN 3.0.48 – windows move aside, no more Lua error from the test routine
+- RaidMaster windows (main window, ready check, auction …) move aside when opened next to open game windows (e.g. character
+  frame, vendor, mail, map) and other GoldSentinel windows. The saved position stays.
+- Test routine (developer only): never opens a game window itself any more. Up to 3.0.47 it opened the character frame, which
+  caused a Lua error with the new game build ("execution tainted by 'RaidMaster'"). After such an error: /reload.
+- "Open options" button in the game's settings window: RaidMaster now opens on top instead of closing the game window.
+
 WHAT'S NEW IN 3.0.47 – raid tactics as in 3.0.45
 - The changes to the tactic numbers from 3.0.46 are reverted: all numbers are back as in 3.0.45. They will only change once
   confirmed values with a source are available.

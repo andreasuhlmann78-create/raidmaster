@@ -1,0 +1,40 @@
+Bericht RaidMaster-Sitzung an die Prüf-Sitzung – 25.11.2026
+Thema: RaidMaster 3.0.48 – RM-TAINT1 (Testroutine öffnete das Charakterfenster), T156-Befund (Fenster überdecken), T205 Portion, T116 50 ms.
+Status: umgesetzt, zur Prüfung. download/RaidMaster-3.0.48.zip (72 Dateien, = Ordner) + latest; 3.0.47.zip entfernt, README 3.0.48.
+addon_check: OK (erster Bau hatte FEHLER "ersetzt InCombatLockdown" in meinem neuen T206 – vor dem Push behoben, siehe 4); ganze Prüfung Exit 0.
+
+1. RM-TAINT1 (1) – Ursache bestätigt (Routine.lua 5105–5114 seit 3.0.32). Block entfernt: die Routine öffnet und schliesst kein Blizzard-Fenster
+   mehr. T156 misst nur gegen Fenster, die schon offen sind; sonst "im Client prüfen": "Charakterfenster (Taste C) öffnen, dann
+   /rm testroutine k" (Status CLIENT, kein FEHLER, kein SKIP).
+   Dabei gefunden, gleiche Regel: Options.lua (seit 3.0.40, Knopf "Optionen öffnen" im Einstellungsfenster des Spiels) rief
+   HideUIPanel(SettingsPanel/InterfaceOptionsFrame). Entfernt: RaidMaster legt sich jetzt darüber (Schicht DIALOG, beim Schliessen
+   wieder HIGH); Esc schliesst zuerst RaidMaster. Verdacht, zu messen: ob das Einstellungsfenster im Client sichtbar dahinter bleibt
+   (Prüfliste nicht erweitert – 14 Punkte voll).
+2. RM-TAINT1 (2) – Regel als Prüfung der Nachbildung "T207" (berichte/RaidMaster/offline/blizzard_fenster.lua, läuft in run_routine.lua,
+   Fund = FAIL, kein "ALLE OK"): alle .lua unter RaidMaster/ inkl. Test/ auf ToggleCharacter, ShowUIPanel, HideUIPanel, ToggleFrame,
+   ToggleSpellBook, ToggleFriendsFrame, ToggleGuildFrame, ToggleWorldMap, ToggleQuestLog, ToggleTalentFrame, ToggleGameMenu, OpenAllBags,
+   ToggleBackpack, ToggleBag, CloseAllWindows, ShowFriends, ToggleAchievementFrame, ToggleCollectionsJournal (Kommentare, Zeichenketten,
+   Methoden wie RM.Test.Toggle ausgenommen). Jetzt: 66 Dateien, 0 Funde. Gegenprobe im Lauf (eingefügte Aufrufe -> 2 Funde, Kommentar/
+   Zeichenkette/Methode -> 0) und am alten Code 3.0.47: 8 Funde (Routine 5105/5108/5113/5114, Options 863/864).
+   Hinweis an die Prüf-Sitzung: dieselbe Regel passt in addon-check/ (für alle Addons) – nicht meine Datei.
+3. T156-Befund (echt): RaidMaster-Fenster weichen beim Zeigen aus (wie Vorlage ns.UIAvoidOthers/GS-K1): RM.UIAvoidOthers in UICheck.lua
+   (Hindernisse = sichtbare RM.UI_BLIZZARD-Fenster + Fenster anderer GoldSentinel-Addons ohne deren HUD; Lage nach U.BestPlace aus der
+   Vorlage: 8 Pixel daneben, sonst bündig, sonst geringste Überdeckung). Eingehängt in UI.Frame für alle angemeldeten Fenster ausser den
+   Leisten (Markierungsleiste, Boss-Leiste, Timer, Pausenleiste). Nie im Kampf. Gespeicherte Lage bleibt (nur Ziehen speichert).
+   Grenze: weicht beim ÖFFNEN von RaidMaster aus; öffnet der Spieler das Blizzard-Fenster erst danach, bleibt RaidMaster liegen
+   (Blizzard-Fenster nicht gehookt – bewusst, kein Eingriff in Blizzard-Code). Im Client belegen: Charakterfenster öffnen, dann /rm -> kein
+   Überlappen; T156 dann mit Messung.
+   T206 (neu, Bereich J): Rechnung (Bildschirm 1920x1080, Charakterfenster links -> 408/900, kein Platz -> Rest > 0) und Verschieben an
+   nachgebauten Fenstern; Gegenproben: ohne Überdeckung, unsichtbares Hindernis, im Kampf -> bleibt; GoldSentinel-Fenster ja, fremdes HUD nein.
+4. addon_check hat meinen ersten T206-Entwurf zu Recht abgewiesen (Swap von _G.InCombatLockdown/_G.UIParent tainted sie bis /reload – genau
+   die Fehlerart von RM-TAINT1). Lösung: RM.UIAvoidOthers(frame, env) nimmt im Test eine nachgebaute Umgebung (parent, blizzard, lookup,
+   others, combat); im Spiel ohne env = echte Namen. Kein Blizzard-Name wird ersetzt.
+5. T205 (6 ms, Ziel < 5): je Zeile R.Breathe vor Tooltip/!dkp/Stand. Nachbildung: T205 OK, längstes Bild 2,9 ms (T26); im Client prüfen.
+6. T116 50 ms: Die Portionen messen die Zeit der Routine selbst (coroutine.resume) – in T116 steckt darin der Aufruf
+   UpdateAddOnMemoryUsage (Blizzard, rechnet den Speicher ALLER Addons; T116 zeigt ihn als "Speicher lesen x/y ms"). Bisher lag er im
+   selben Bild wie die eigene Arbeit. Jetzt eigenes Bild mit Namen "T116 Speicher lesen (Blizzard)" (Breathe davor und danach), damit die
+   Portionen-Zeile Blizzard-Zeit und eigene Arbeit trennt. Verdacht, zu messen: die 50 ms sind fast ganz dieser Aufruf. Nicht als
+   "einzeln gemessen" ausgenommen – das entscheidet die Prüf-Sitzung.
+7. Nachbildung deDE Forever, enUS, Classic Era: ALLE OK (mit T207). Keine Discord-Ankündigung (wie bisher bei RaidMaster-Folgeversionen) –
+   falls für die sichtbare Änderung (Fenster weichen aus) gewünscht: Auftrag.
+Dem Nutzer: nach einem solchen Lua-Fehler /reload (Taint bleibt bis dahin).

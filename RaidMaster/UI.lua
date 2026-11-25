@@ -31,7 +31,17 @@ local TEMPLATE = BackdropTemplateMixin and "BackdropTemplate" or nil
 function UI.Frame(parent, w, h, name)
 	local f = CreateFrame("Frame", nil, parent, TEMPLATE)
 	if w and h then f:SetSize(w, h) end
-	if name and parent == UIParent and RM.RegisterUI then RM.RegisterUI(f, name) end
+	if name and parent == UIParent and RM.RegisterUI then
+		RM.RegisterUI(f, name)
+		-- RM-TAINT1/T156 (3.0.48): beim Zeigen offenen Blizzard- und GoldSentinel-Fenstern ausweichen (UICheck.lua)
+		if not (RM.UI_NO_AVOID and RM.UI_NO_AVOID[name]) and f.HookScript then
+			f:HookScript("OnShow", function(self)
+				if not RM.UIAvoidOthers then return end
+				local ok, err = pcall(RM.UIAvoidOthers, self)
+				if not ok then RM.UIAvoidError = tostring(err) end
+			end)
+		end
+	end
 	return f
 end
 
@@ -1161,6 +1171,10 @@ local function CreateMain()
 	f:SetFrameStrata("HIGH")
 	f:SetToplevel(true)
 	f:SetClampedToScreen(true)
+	-- 3.0.48: über das Einstellungsfenster des Spiels gehoben (Options "Optionen öffnen") -> beim Schliessen wieder normal
+	f:HookScript("OnHide", function(self)
+		if self.raisedOverSettings then self.raisedOverSettings = nil; self:SetFrameStrata("HIGH") end
+	end)
 	UI.Skin(f)
 	UI.MakeMovable(f, "main", "CENTER", 0, 20)
 	_G["RaidMasterMainFrame"] = f
