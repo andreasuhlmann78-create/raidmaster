@@ -37,7 +37,7 @@
   Beim nächsten Update (2.3.28) per j: altes Fenster schliesst sich -> Abnahme UP-UPD1-a/b und UP-UPD1-c (stand.json "update").
 - Uploader 2.3.20 auf allen 4 liefernden Rechnern ganz entpacken + neu starten (ältere werden abgewiesen, auch 2.3.19).
 - RaidMaster 3.0.49: /reload, Charakterfenster öffnen, dann /rm -> kein Überlappen; /rm testroutine k mit offenem Charakterfenster
-- RM-CI2: Token erstellen (nur raidmaster, Actions: Read and write) und dem Discord-Projekt für den Bot-Server geben Ingametest: /gsdev an, /rm testroutine alles, /reload.
+- RM-CI2: Token erstellt 13:58 (Nutzer verwahrt ihn); Auftrag an Discord-Sitzung gegeben 14:00 – Eintrag auf dem Bot-Server folgt dort Ingametest: /gsdev an, /rm testroutine alles, /reload.
 
 ## Entscheide des Nutzers seit letztem Stand
 - 25.11. ~13:50: RM-CI2 – GitHub-Token (nur raidmaster, Actions) auf dem Bot-Server; Bot löst Testberichte-Abholung aus (Discord-Projekt).
