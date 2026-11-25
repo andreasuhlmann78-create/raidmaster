@@ -993,3 +993,11 @@ RM-K2 HOCH (neu, Ziel von 3.0.48 im Spiel NICHT erreicht): T156 und T191 FEHLER 
     Chat des Nutzers: "/rm testroutine k": 9 von 10 bestanden (der eine = T156, s. oben).
     Spielmenü (Esc) liegt ÜBER RaidMaster – das ist Blizzard-Ebene DIALOG und richtig so; kein Befund. Abnahme "Einstellungen + Esc-Reihenfolge"
     noch ohne Beleg – im nächsten Ingametest nach RM-K2 nochmals.
+
+>>> ENTSCHEID DES NUTZERS 25.11. 11:39 (Supervisor 11:40): Offiziere schalten die automatische Addon-Installation des Uploaders EIN
+    ("im Beschrieb an endo und Harald fehlt der Tipp mit dem Addon an im Ordner vom Uploader").
+UP-DOC2 MITTEL: LIESMICH.txt (DE) und README_EN.txt Abschnitt "Addons automatisch": den Satz "(Nur für die eigenen Test-Rechner gedacht – Offiziere
+    lassen es aus.)" ersetzen: Offiziere und alle, die die GoldSentinel-Addons nutzen, sollen es einschalten (Addons-automatisch-an.bat doppelklicken,
+    Uploader neu starten). Die Schritt-für-Schritt-Anleitung für neue Offiziere (Installation) um diesen Schritt ergänzen (nach "Uploader starten").
+    Prüfen, ob die /uploader-Nachricht des Bots (Discord, D-UPCFG1) denselben Hinweis braucht -> dann Eintrag im Bericht, ich gebe ihn an Discord weiter.
+    Nichts am Standard (AUS) ändern ohne Auftrag – nur die Empfehlung in Doku/Anleitung.
