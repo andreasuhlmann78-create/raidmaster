@@ -1,0 +1,16 @@
+AHSentinel AHS-CF4 + AHS-CF5 – auf CurseForge eingefügt (Nutzer im Chat bestätigt 25.11.: "Ja, beides") – umgesetzt, zur Prüfung
+Weg: eingebauter Browser des Nutzers, authors.curseforge.com Projekt 1757594. Sonst nichts geändert (keine Dateien, keine Einstellungen, keine Kommentare).
+CF4 Beschreibung:
+ - BEFUND beim Öffnen: die bisherige Beschreibung stand im Editor-Modus "WYSIWYG", war aber Markdown-TEXT (im Markdown-Modus erschien sie als
+   "\# AHSentinel", "\*\*…"). Darum Modus auf "Markdown" gestellt und den Entwurf 2 GENAU so eingesetzt, wie er auf origin/main liegt
+   (curseforge/AHSentinel-description.md, im Browser von raw.githubusercontent.com geladen: 9 634 UTF-16-Zeichen = Datei 9 633 Zeichen + 1 Ersatzpaar
+   des Emoji – gleich). Gespeichert: Meldung "Changes saved successfully".
+ - NACHGELESEN (öffentliche Seite www.curseforge.com/wow/addons/ah-analyzer-pro, get_page_text): Beschreibung erscheint formatiert und vollständig –
+   "What's new: For the changes of each version see the changelog of the file in the Files tab.", Wächter-Tipps, "Buying only when you press",
+   "Glow and raid warning", Sync "guild or group", Namensliste "up to ~33,500 … (English 25,816)", "one addon for every WoW version" + Forever-Satz,
+   Befehle ohne /ahs help, Credits mit Disenchantry 1.1.2 (MIT). Text Satz für Satz = Entwurf 2.
+CF5 Lizenz:
+ - Projekt-Einstellung License: "All Rights Reserved" -> "GNU General Public License version 3 (GPLv3)", gespeichert ("Changes saved successfully").
+   Nach Neuladen der Einstellungsseite steht GPLv3 (belegt). Projekt-Verteilung ("Don't allow distribution to 3rd party") NICHT angefasst.
+ - OFFEN: die öffentliche Seite zeigt um 08:10 im Feld "License" noch "All Rights Reserved" (auch /license, neu geladen) –
+   Verdacht: Zwischenspeicher bzw. Freigabe durch CurseForge. Ich lese später nach und melde es.
