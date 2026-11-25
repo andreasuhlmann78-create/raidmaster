@@ -9,4 +9,5 @@ Thema: RM-CI1 (Addon-Prüfung seit 24.11. rot). Status: umgesetzt, zur Prüfung.
 4. Gegenprobe lokal wie der Workflow: `addon_check.py --report …` -> Exit 0, kein FEHLER (vorher 4× FEHLER "NIEDRIGER als 3.0.44").
 5. Ablauf festgehalten: berichte/RaidMaster/veroeffentlichen.md (vorige Zip entfernen, README-Link, ganze Prüfung, danach
    `gh run list --workflow "Addon-Prüfung" -L 3` -> success). Wird bei jeder Veröffentlichung befolgt; Verweis in stand-aktuell.md.
-6. Workflow-Status nach dem Push: siehe Nachtrag unten.
+6. Workflow-Status nach dem Push (gemessen 06:51): Lauf 45555956677 zum Commit d6f79eb0 "completed success" (4 Min. 37 s) – erster grüner Lauf
+   seit 24.11. 06:57. Die zwei Läufe davor "cancelled" (von neueren Commits abgelöst, nicht rot).
