@@ -1,0 +1,41 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+
+Geplante Aufgabe "Blueposts", Lauf 25.11.2026 21:45 MEZ (20:45 UTC). Letzter Stand: 25.11.2026 07:40 MEZ.
+Blizzard-Tracker US und EU direkt gelesen (groups/blizzard-tracker/posts.json), beide neuen Kaivax-Threads direkt
+gelesen (JSON). Hotfix-Thread 2403040: kein Post nach Kaivax #15 (24.11. 02:06 UTC).
+Keine Schwere HOCH oder MITTEL. Zwei Hinweise NIEDRIG (kein Auftrag nötig).
+
+NEUE BLUE-POSTS
+A) Kaivax, "Balance Druid Adjustments - November 25", 25.11.2026 18:32 UTC ("now live" = aktiv seit 25.11.)
+   https://us.forums.blizzard.com/en/wow/t/balance-druid-adjustments-november-25/2429007/1  (direkt gelesen)
+   https://eu.forums.blizzard.com/en/wow/t/balance-druid-adjustments-25-november/645939/1
+   In eigenen Worten: Gleichgewichts-Talente umgebaut. Verbesserter Zorn heisst jetzt "Starlight Wrath" und verkürzt
+   zusätzlich Sternenfeuer (0,1–0,5 Sek.). Verbessertes Mondfeuer heisst "Moon and Stars" (Sternenfeuer 50/100 % ohne
+   Zauberverzögerung bei Schaden). Verbessertes Sternenfeuer nur noch 2 Punkte (8/15 %); wer 3+ Punkte hatte, bekommt
+   ALLE Talentpunkte zurückgesetzt (unverteilt). Eklipse: Zorn dauerhaft +7/13/20 % krit. Mondfuror entfernt, dafür
+   "Dreamstate" (20–100 % von Anregen, wenn auf andere gezaubert). Mondkingestalt: +10 % Arkan- und Naturschaden.
+   Bewertung:
+   - BuffSentinel – NIEDRIG (Hinweis BP-2026-11-25-1): Mondkingestalt (Zauber 24858, specs {1}) unverändert; neue
+     Wirkung +10 % Schaden macht die Gestalt für Gleichgewicht noch wichtiger, Erinnerung bleibt richtig. Druiden mit
+     zurückgesetzten Talenten haben kurz keine Punkte im Baum – falls die Spec-Erkennung über Talentpunkte läuft,
+     zeigt sie bis zum Neuverteilen evtl. keine/falsche Spec. Kein Fehler, nur beim Testen wissen.
+   - ThreatSentinel – NIEDRIG (Hinweis BP-2026-11-25-1): Mondkin +10 % Schaden -> mehr Bedrohung, aber ThreatSentinel
+     rechnet aus dem tatsächlichen Schaden; kein fester Druiden-Faktor für Mondkin gefunden (nur Bär 1.3). Nichts tun.
+   - Gehirn: nichts (keine Wirtschaft/Kommunikation).
+
+B) Kaivax, "Alterac Valley Adjustments - November 25", 25.11.2026 19:42 UTC
+   https://us.forums.blizzard.com/en/wow/t/alterac-valley-adjustments-november-25/2429074/1  (direkt gelesen)
+   https://eu.forums.blizzard.com/en/wow/t/alterac-valley-adjustments-25-november/645966/1
+   In eigenen Worten: Ruf und Ehre für den gegnerischen General stark gesenkt, dafür mehr Ruf (und etwas Ehre) für
+   Türme, Friedhöfe, Minen und NPC-Kills; alle NPCs stärker; Kriegsmeister/Marschälle leinen sich an; Generäle mit
+   Stapel-Buff solange Ziele stehen (20 Min., 4 Stapel), mehr Schaden, bessere Tarnungsentdeckung.
+   Bewertung: PvP, keine Addon-Funktion betroffen (kein Raid, keine Wirtschaft, keine API). LevelPilot: höchstens
+   AV-Ruf-Schätzung, falls vorhanden – nur Hinweis. Kein Auftrag.
+
+C) Blizzard-News "WoW Celebration Pass, WoW Forever's 'Al'Aketh Rising' Comic, December Trading Post, and More"
+   (25.11. 18:40 UTC) – Werbung (Spielzeit-Angebot, Comic, Handelsposten, Twitch-Drop). Nichts für uns.
+
+TERMINE / OFFEN (unverändert)
+- Schliesskassetten-Fix: weiter kein Blizzard-Post.
+- Reitfertigkeit-Fix Paladin/Hexenmeister ("1–2 Tage" ab 23.11.): weiter kein Blizzard-Post.
+- Mindest-Einzahlung 1c: weiter in keinem Blue-Post als aktiv gemeldet (Messauftrag aus Entwurf 23.11. bleibt).
