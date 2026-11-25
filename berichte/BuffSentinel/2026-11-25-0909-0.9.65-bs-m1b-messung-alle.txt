@@ -1,0 +1,44 @@
+BuffSentinel – Bericht an die Prüf-Sitzung · 0.9.65-bs-m1b-messung-alle
+Datum: 25.11.2026, 09:09 (aus date)
+
+Version 0.9.65 – veröffentlicht (download/, announce/ Discord). Umgesetzt, zur Prüfung.
+
+BS-M1-b – Messung für alle Spieler, Daten über den Uploader
+- Automatische Messung (nur lesen) läuft jetzt bei JEDEM Spieler ohne Entwicklermodus, abschaltbar: Option "Messdaten sammeln"
+  (Optionen > Teilen, Standard EIN, Profil-Schlüssel BuffSentinelDB-Profil m1.collect; Tooltip EN/DE: was gesammelt wird, keine Namen,
+  höchstens 20 Einträge/etwa 20 KB, kommt mit dem Uploader). Befehl /bsen reinigen messen (mit "Anzeige ohne eigenen Entscheid")
+  bleibt im Entwicklermodus. Klick-Raster unverändert (dev, Standard aus).
+- Auslöser: Kampf (einmal je Kampf, 3 s nach Beginn), Instanz betreten (jetzt einmal je Betreten statt einmal je Instanz-ID für immer).
+  Nie während der Testroutine (T264). Keine Meldung im Chat, kein Fenster. Fehler einer Quelle per pcall als Messwert gespeichert.
+- WO DIE DATEN STEHEN (für die Prüfung): WTF/Account/<Konto>/SavedVariables/BuffSentinel.lua -> BuffSentinelDB["m1"]
+  (account-weit; die Datei liefert der Uploader, daten.py ADDONS). Aufbau ver = 2:
+    head = { v = Addon-Version, b = Client-Build (GetBuildInfo 4. Wert), z = Datum/Zeit der letzten Messung }
+    runs = { [1] = neueste … [20] }: je Durchlauf art ("kampf"/"instanz"/"befehl"), z, v, b, grp ("solo"/"party 3"/"raid 12"), inst
+           (Instanz-ID), cls (Klassen-Kürzel), role (UnitGroupRolesAssigned oder "-"), tags ("player:PRIEST", "party:MAGE"), state
+           (Kampf/Sperre/ShouldAurasBeSecret), maxMs, src = { Quelle -> Nummer in dict }
+    dict = { Ergebnistexte } (gleiche Texte jedes Kampfs nur einmal), sum = { Quelle -> { Fehler/geschützt/lesbar/fehlt/nil/sonst -> Anzahl },
+           _runs = zusammengefasste ältere Durchläufe }, cost = { max, n, over } (Kosten je Bild, über 1 ms).
+  Quellen-Schlüssel: idx, idxRAID, slots, unitAuras, instanceID, forEach, unitDebuff, blizzRahmen, unitAura, anzeige (nur Befehl),
+  namen/cvars/rahmen (Instanz und Befehl). Lesbar im Diagnose-Protokoll (Zeilen "BS-M1 …", neueste 6, Zusammenfassung).
+  Alte Daten aus 0.9.64 (ver fehlt) werden verworfen. Versionsnummer je Durchlauf (v, b) zum Aussortieren alter Stände.
+- Grenzen: Ringpuffer 20, Ältere in "sum"; Grösse geschätzt (M1.Size) höchstens 20 000 Byte – sonst fallen die ältesten Durchläufe in
+  die Zusammenfassung, ein einzelner zu grosser Durchlauf wird auf 120 Zeichen je Text gekürzt bzw. nur gezählt. Text je Quelle
+  höchstens 400 Zeichen.
+- T269 (Nachbau 8/8 OK): Befehl (alle Quellen), automatisch OHNE Entwicklermodus 25 Kämpfe -> 20 Durchläufe + 5 zusammengefasst
+  (idx: Fehler 5), Wörterbuch <= 12 Texte, Grösse 12 904 Byte; Gegenprobe ~24-KB-Eintrag -> 5 812 Byte; Option AUS -> nichts gespeichert;
+  nur m1 in der Ablage, Profil unverändert (FirstDiff nil); Namen aller Gruppen-Einheiten (player, target, party1–4, raid1–40) im
+  gespeicherten Text: 0 Treffer; UNIT_AURA nur Gruppen-Einheiten. GEGENPROBE (Mutation in einer Kopie: Option ignoriert, Ringpuffer
+  aus) -> T269 FEHLER "ring,off" (25 Durchläufe).
+- Kosten im Spiel: noch nicht gemessen (erst mit Kämpfen; cost.max/over in m1).
+
+BS-P1 – Ursache belegt (Ingametest 0.9.62/0.9.63, T156 "Teile in ms"): markt 27,4 ms bzw. 20,7 ms – alle anderen Teile ≤ 0,5 ms.
+  "markt" = GoldSentinelMarkt.DiagLines (GEMEINSAME Datei, nicht unsere): entpackt jedes gespeicherte Item (6612 im Ingametest).
+  T179 ruft dieselbe Funktion (Prüfung "Markt ohne Auktionshaus") – daher 23,6–30,3 ms; neu misst T179 deren Dauer
+  ("GoldSentinelMarkt.DiagLines x ms"), damit der nächste Lauf es auch für T179 belegt.
+  Spielbetrieb: ja – BS.DiagText (Befehl /bsen protokoll und PLAYER_LOGOUT) ruft sie einmal; im Kampf-Takt nie.
+  Eigener Code: nichts weiter zu teilen (der Rest von T156 ist ≤ 0,5 ms). BEFUND für die gemeinsame Datei GoldSentinelMarkt
+  (Supervisor/Eigentümer): DiagLines in Portionen oder mit gespeicherter Zählung, statt bei jedem Aufruf alle Items zu entpacken.
+  Bis dahin ändere ich nichts an der gemeinsamen Datei (Regel).
+
+Offen: T270 Klick-Raster im Spiel (Gruppe nötig), T134, T106 (Nutzer); Liste "was sonst noch möglich" (1–6) beim Nutzer nach den Kampfmessungen.
+Belege: Nachbau 8/8 PASS (248 forever, 247 sonst), addon_check 0.9.65 OK (1 WARNUNG Lua-Syntax ohne lupa, wie bisher).
