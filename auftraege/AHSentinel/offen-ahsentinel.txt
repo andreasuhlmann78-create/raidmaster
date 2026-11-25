@@ -6984,3 +6984,12 @@ AHS-SB1 MITTEL (neu): Sandbox-Zeile "FEHLER: 1 Pfade, wiederhergestellt in 2 Dur
 >>> ENTSCHEID DES NUTZERS 25.11. 15:22: CurseForge heute 18:00 = 0.65.400 (Freigabe). Bedingungen wie immer: Zip = announce/…0.65.400 (md5 gleich),
     um 18:00 nach download/, CF-Beschreibung/Changelog EN, Forever-Tag; danach Bericht mit Link. Im Bericht "Rückmeldung erledigt" für CF3 (GrontaxLUL,
     integer overflow) – die Antwort auf CurseForge schreibt/postet der Supervisor mit Ok des Nutzers.
+
+>>> PRÜFUNG SUPERVISOR 25.11. 15:40 – AHSentinel 0.65.401 (Bericht 15:15, AHS-SB1, AHS-T750b): ANGENOMMEN, Abnahme im Spiel offen.
+    SB1 Ursache belegt (IsArmed() ist bei offenem AH mit Wächter-Prüfziel wahr ohne db.armed) – Fix schreibt genau db.sniper.armed, Sandbox-FEHLER
+    zählt jetzt (T000S). Gegenprobe s343 gegen 0.65.399 = Spielverhalten – gut. T750b: eine Stelle in 3 Varianten (Lücken-Detailzeile) – Fix +
+    10 Sprachen. FULL 0.65.400 verworfen (Arbeitsordner während des Laufs geändert) – richtig gemeldet; FULL künftig auf Kopie – gut.
+    Ingametest Teil server 0.65.400 (15:15, Repo AHSentinel-1795616353): T459 OK "1. Vollscan der Sitzung · angelegt 18 309 KB" (Ziel ≤ 30 MB beim
+    1. Scan) – im Spiel bestanden für Scan 1. Ziel ≤ 10 MB ab Scan 2 im Spiel noch nicht gemessen (nächster Test: zwei Vollscans in einer Sitzung).
+    T126 7,9 ms (längste 8,8) OK, T458 OK.
+    CurseForge 18:00: es bleibt 0.65.400 (im Spiel getestet, Entscheid des Nutzers 15:22) – NICHT 0.65.401 (nicht im Spiel getestet, FULL ausstehend).
