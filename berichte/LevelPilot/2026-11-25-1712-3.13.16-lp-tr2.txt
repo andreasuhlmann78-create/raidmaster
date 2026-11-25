@@ -1,0 +1,47 @@
+LevelPilot 3.13.16 – Bericht an die Prüf-Sitzung: LP-TR2 HOCH (Reise in der Testroutine 15× langsamer)
+Stand 25.11.2026 17:12 · umgesetzt, zur Prüfung
+Zip: announce/levelpilot__levelpilot-3.13.16.LevelPilot.zip (md5 ccf6e5d41c316e6fa94a9c9410b84f73, 2 836 540 Bytes)
+
+Prüfungen vor dem Push
+- addon_check OK. Offline-Routine: 40 von 40 ohne FEHLER. Testroutine in 5 Formen: 5 von 5 ohne FEHLER.
+- Nachbau ganze Routine:
+  - Stufe 30 (Laptop): 0 FEHLER.
+  - Priester 10: 0 FEHLER.
+  - PC-Daten (MININT): nur T261 (Einloggen im Nachbau 1046 ms, bekanntes Rauschen um die Grenze 1000).
+  - T381 gleich in allen drei.
+- Gemeinsame Dateien mit cmp gleich shared/.
+
+Ursache – belegt im Nachbau, passt zur Messung im Spiel
+- In der Testroutine zählt die Reise ihre Abgabestellen (LP.sliceCalls = V.SLICE_CALLS = 32, wiederholbar seit 3.13.8). Der Zeitgeber
+  setzte je Bild genau EINE Portion fort.
+- Seit 3.13.15 (LP-Y1) geben die Wegsuchen in der Reise wirklich ab, statt still abzubrechen (CheckFirstPath, Navigation). Das sind sehr
+  viele Abgabestellen mit wenig Rechnung dazwischen.
+- Nachbau Stufe 30 (3.13.15), drei kurze Reisen à 65 Schritte: 27 063 Portionen. Jede Portion war ein Bild, das sind ~140 Bilder je
+  Schritt. Im Nachbau mit 20 Bildern/s ergab das "Reisen 684 s".
+- Im Spiel mit ~30 Bildern/s im Hintergrund: 2,95 s je Schritt ≈ 88 Bilder je Schritt, dieselbe Grössenordnung. Die Zeit ging also ins
+  Warten auf das nächste Bild, nicht in die Rechnung ("Planung 12 ms je Schritt" passt dazu).
+- Auch ohne die neue Wegprüfung wäre es so: Mit 32 Abgabestellen je Bild bremst jede zusätzliche Abgabestelle die Reise um einen
+  Bruchteil eines Bilds.
+
+Behoben ohne die Wegprüfung wieder auszuschalten, ohne Ruckeln
+- Virtual.lua Zeitgeber: In der Testroutine setzt er die Reise im selben Bild weiter fort, Portion für Portion, bis das Budget
+  (LP.sliceBudget 8 ms) erreicht ist (höchstens 64 Portionen).
+- Die Grenzen der Portionen bleiben gezählt (je 32 Abgabestellen). Zwischen zwei Portionen im selben Bild läuft kein anderer Code.
+  Ausserhalb der Testroutine unverändert (Budget je Bild).
+- T381 ist mit beiden Datensätzen (Stufe 30 und PC) gleich: 6691 s / 65 Schritte / 21345 yd bzw. 4428 s / 71 Schritte / 18327 yd.
+  Priester: 756 s / 49 Schritte.
+- Dazu: Bei einer gesperrten Abgabe (C-Grenze) wird der Zähler jetzt zurückgesetzt. Vorher prüfte jede weitere Abgabestelle den Stapel
+  erneut (debugstack) – unnötige Rechnung.
+- Messung neu im Bericht: Feld "reiseBilder" (Bilder, Portionen, längstes Bild, über 16/40 ms) für alle Reisen der Routine.
+- Nachbau nachher:
+  - Stufe 30: "Bilder 702, Portionen 17 556, längstes 21,0 ms, über 16 ms 5, über 40 ms 0", Reisen 42 s statt 684 s.
+  - Priester 10: "Bilder 215, längstes 17,3 ms, über 16 ms 3, über 40 ms 0".
+  - Zum Vergleich 3.13.14: längste Portion 38,8 ms.
+
+Nicht in dieser Version, nächste Schritte
+- LP-R3 MITTEL: Route bis L17 +34 %. Verdacht, zu messen: Seit 3.13.15 läuft die Wegprüfung zum ersten Ziel wirklich (vorher brach sie
+  still ab). Sie stellt Ziele mit starken Mobs auf dem Weg zurück, das kann Umwege machen (Mulgore für Untote).
+  Messen: Anzahl zurückgestellter Ziele (t.pathBlocked) je Lauf mit und ohne Prüfung, Spielzeit bis L17 im Nachbau, mit Beleg je Fall.
+- LP-SB1-c MITTEL (freigegeben 16:03): Empfang am Netzeingang während der Routine zurückhalten, nach Restore einspielen.
+- LP-TR1 b): Zeitlimit festlegen, sobald dauerBereiche aus dem Spiel da ist.
+- T26 war in einem Lauf SKIP ("aktueller Schritt ist ein Ziel PRIO:TRAIN"): je nach Lage nicht prüfbar, wie vorgesehen.

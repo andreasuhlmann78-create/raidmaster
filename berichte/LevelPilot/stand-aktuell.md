@@ -1,26 +1,20 @@
 # LevelPilot – Stand der Sitzung
 
-## Stand 25.11.2026 15:59 · Version 3.13.15 (veröffentlicht, Discord, md5 d90dee86daed45bbfe54a085e7c7acef)
+## Stand 25.11.2026 17:12 · Version 3.13.16 (veröffentlicht, Discord, md5 ccf6e5d41c316e6fa94a9c9410b84f73)
 
 ## Gerade in Arbeit
-- Nichts angefangen. 3.13.15 gepusht. Bericht: berichte/LevelPilot/2026-11-25-1559-3.13.15-lp-y1-tr1-sb1b.txt (umgesetzt, zur Prüfung).
-- Inhalt:
-  - LP-Y1: LP.YPCall, LP.PCall in der Reise, LP.YieldBlocked/MarkYieldBase.
-  - LP-TR1 a): Teilbericht bei Abbruch, T393; dauerBereiche; Zeitlimit vorläufig 3600 s.
-  - LP-SB1-b: V:Abort spielt ein, beim Ausloggen sofort.
-  - GoldSentinelTest v4.
-  - Neue Prüfungen T392–T394.
+- Nichts angefangen. 3.13.16 gepusht. Bericht: berichte/LevelPilot/2026-11-25-1712-3.13.16-lp-tr2.txt (umgesetzt, zur Prüfung).
+- Inhalt: LP-TR2 (Reise in der Routine: mehrere gezählte Portionen je Bild bis 8 ms), Feld reiseBilder.
+- 3.13.15 vom Supervisor angenommen 16:03.
 
-## Nächste Schritte (Reihenfolge laut Auftrag 25.11. 14:08: LP-Y1 + LP-TR1 a) -> LP-SB1-b -> LP-R1 -> LP-R2 -> LP-I1 …)
-1. LP-SB1-b Rest: Routine stellt am Ende LevelPilotDB ganz zurück -> Empfang während der Routine geht verloren (im Code belegt). Plan:
-   Empfang am Netzeingang zurückhalten (nicht Comm:Receive, das rufen Prüfungen direkt), nach Restore einspielen, HINWEIS; Test im Nachbau.
-2. LP-TR1 b): nach dem nächsten Bericht (dauerBereiche) Zeitlimit festlegen = gemessen im Hintergrund + Rand.
-3. LP-R1 MITTEL: Koordinaten ausserhalb 0–100 im Reisebericht.
-4. LP-R2 MITTEL: Orte der anderen Fraktion (Feralas 89.4,46.2).
-5. LP-I1/I6/I7/I8 (Daten der Figur fehlen), LP-T31, LP-UMG1, Notbremse "Routenberechnung", Wegabschnitte.
+## Nächste Schritte (Reihenfolge laut Auftrag 25.11. 17:04)
+1. LP-R3 MITTEL: Route bis L17 +34 % gegenüber 3.13.13 – Ursache belegen (Verdacht: CheckFirstPath läuft jetzt wirklich).
+2. LP-SB1-c MITTEL: Empfang während der Routine am Netzeingang halten, nach Restore einspielen, HINWEIS, Test im Nachbau.
+3. LP-TR1 b): Zeitlimit festlegen nach dauerBereiche aus dem Spiel.
+4. LP-R1, LP-R2, LP-I1/I6/I7/I8, LP-T31, LP-UMG1, Notbremse "Routenberechnung", Wegabschnitte.
 
 ## Offen beim Nutzer
-- Ingametest 3.13.15 (Routine sollte fertig werden; dauerBereiche, abgabeGesperrt, T392–T394).
+- Ingametest 3.13.16 (/lp testroutine alles): dauerBereiche, reiseBilder, abgabeGesperrt, T392–T394.
 - Datei der Testfigur – Weg klärt der Supervisor, nie ins Repo.
 
 ## Entscheide des Nutzers seit letztem Stand
