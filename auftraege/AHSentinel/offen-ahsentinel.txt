@@ -6749,3 +6749,27 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     Fast alle "FEHLT IM KERN" in Verkaufszellen (z. B. JD5: misc:1 Journal 29 / Kern 11, misc:5 29 / 15, consum:1 17 / 5, de:1–de:5 Kern 0;
     NVITMSE: consum:1 17 / 4, herb:1–5 und cloth:3/5 Kern 0). Verkauf ausserhalb 95 %: NVITMSE 4, JD5 1, M6U 1.
     Kaufen Kern gegen Tabelle: Kern buyk/buye 0–1 Käufe je Stufe gegen Tabelle 1/9/293/648/70. Nur Befund, keine Lösung.
+>>> PRÜFUNG SUPERVISOR 25.11. 06:25 – AHS-CF2 ERLEDIGT. Selbst auf curseforge.com nachgesehen (Projekt 1757594, Seite /wow/addons/ah-analyzer-pro):
+    Hauptdatei AHSentinel-0.65.393 (Release) für Retail, Forever, MoP Classic, Titan Reforged, Classic; aktualisiert 24.11. Alte Zip entfernt – richtig.
+    Hinweis für die Adresse: /wow/addons/ahsentinel gibt 404, die Seite heisst noch /wow/addons/ah-analyzer-pro (nur zur Kenntnis, nichts tun).
+ AHS-CF4 NIEDRIG (neu, Befund beim Nachsehen): Die Beschreibung auf CurseForge zeigt unter "What's new" als Neuestes "Version 0.65.165" – veraltet.
+    Prüfen, woher upload.py die Beschreibung nimmt, und "What's new" auf den Stand der hochgeladenen Version bringen (oder den Abschnitt durch einen
+    Verweis auf den Reiter Files/Changelog ersetzen) – Englisch, wie bisher. Mit dem nächsten CurseForge-Upload, kein eigener Upload nötig.
+>>> PRÜFUNG SUPERVISOR 25.11. 06:25 – AHS-SP1 Messung vor dem Einbau (Bericht 2242): FREIGEGEBEN für Punkt 4 (Einbau).
+    Geprüft: Zahlen nachgerechnet (9 693/7 000 = 1,385 KB; 1 924/7 000 = 0,275 KB; -80 %) – gehen auf. Gleichheit alle 7 000 Items 0 Abweichungen.
+    Ausnahme 3. Feld der Prozent-Stufe am Code selbst nachgeprüft: VS:Ladder wird nur gelesen in A:OfferLadder (st[1], st[2]; das eigene 3. Feld
+    "geschätzt" wird dort neu gesetzt), A:VendorSteps (step[1], step[2]), VS:Queue (s.qty / LadderQueue), UI_MarketView (steps[i][1], [2]), Ketten
+    (eigene Leiter) – kein Leser liest steps[i][3]. Ausnahme angenommen.
+    Ehrliche Einordnung angenommen: SP1 allein bringt T459 ab Scan 2 im Nachbau NICHT unter 10 240 KB (18–20 MB). Darum:
+    BEDINGUNGEN Einbau: (a) Zwischenspeicher 400 Einträge: im Test zeigen, dass "ganz verwerfen" mitten in einem Leser (z. B. Forecast über alle Items)
+    richtige Werte liefert und nicht bei jedem Item neu verwirft (Zähler Verwerfungen je Lauf im Bericht). (b) T1011–T1013 mit den zwei Sätzen und
+    Gegenproben wie angekündigt. (c) T459-Text nennt "kompakt" und zeigt Scan-Nummer. (d) Ingametest auto + Vollscan zweimal (Scan 1 und 2), Werte gegen
+    die Nachbau-Zahlen dieses Berichts.
+ AHS-SP2 HOCH (neu, gleich danach): Rest bis zum Ziel T459 < 10 240 KB ab Scan 2 – zuerst MESSEN, je einzeln, mit Bericht vor jedem Einbau:
+    (i) Stufen-Text ohne "p:c"-Zwischenstrings, (ii) Bestpreise als Zahlen-Listen (Format für Mitspieler unverändert), (iii) Nachlauf-Aufgaben
+    forecast-eval, learn:factor, cache:itemlist, core:realcheck einzeln (wer legt was an, wiederverwendbar?). Danach Reihenfolge nach Nutzen in KB.
+>>> PRÜFUNG SUPERVISOR 25.11. 06:25 – AHSentinel 0.65.394 (AHS-SG6-a, T750-Titel; Berichte 2247, 2315): ANGENOMMEN.
+    SG6-a: Neuaufbau 1,0 je Runde (vorher 4,0), Zeitlimit DIRTY_MAX 3 s (keine Sperre ohne Zeitlimit), T1020 mit Gegenprobe – gut. T750-Titel mit
+    Tooltip und T1019-Gegenproben – gut. SP1 im Code AUS (Leser prüfen VS.cmp = nil) – zulässig. FULL 344/69, eine neue rote Stelle s313 (17,5 ms bei
+    16 ms, einzeln 15,8/15,5) = Grenzfall, bleibt "Verdacht Streuung, zu beobachten": im nächsten FULL wieder nennen; zweimal rot = Befund.
+    Im Spiel (Nutzer, nicht dringend): Reiter Wächter offen lassen, Liste ruhig; Markt > Flippen Detailtitel mit Maus.
