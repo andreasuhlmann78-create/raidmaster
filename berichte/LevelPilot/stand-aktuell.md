@@ -1,46 +1,42 @@
 # LevelPilot – Stand der Sitzung
 
-## Stand 24.11.2026 18:55 · Version 3.13.13 (veröffentlicht, Discord, md5 e129bd88c92c04c33ba229f3cc494008)
+## Stand 25.11.2026 10:33 · Version 3.13.14 (veröffentlicht, Discord, md5 bd69e02a56b05c954bdb5a169545a23e)
 
 ## Gerade in Arbeit
-- Nichts angefangen. 3.13.13 gepusht. Bericht: berichte/LevelPilot/2026-11-24-1357-3.13.13-lp-i1-i8.txt (umgesetzt, zur Prüfung).
-- Inhalt:
-  - Reise-Bilder bis 867 ms: Jobs.JourneyPCall, Freigabe über Pausen, Zeitgeber jedes Bild, SLICE_CALLS 32.
-  - T144 kalte Neuplanung als Coop.
-  - T386 Coop.
-  - Feld langeStuecke.
-  - LP-I8: questRate zur Reise; T381 mit festem Erholungsbonus.
+- Nichts angefangen. 3.13.14 gepusht. Bericht: berichte/LevelPilot/2026-11-25-1033-3.13.14-lp-sb1.txt (umgesetzt, zur Prüfung).
+- Inhalt LP-SB1:
+  - Empfang während der Reise wartet (Comm.held) und wird danach eingespielt.
+  - HINWEIS im Bericht; Schreibzugriffe mit Herkunft (Graph.NoteWrite) als FEHLER.
+  - Neue Prüfungen T389–T391.
 
-## Nächste Schritte (Reihenfolge, Auftrag 24.11. 13:04: LP-I1 -> LP-I6 -> LP-I7 -> LP-I8)
-1. Datei der Figur abwarten (Nutzer gefragt 13:35), dann mit ihr nachbauen. Der Nachbau braucht dafür LevelPilotCharDB (Harness
-   erweitern: Datei laden).
-2. LP-I6 HOCH: Einloggen 1255 ms (nav/navplan 521 ms/133×, route 367, graph 222) – Ursache "nav" belegen.
-3. LP-I7: T150 Median 17,99 ms (ersterweg 7,82), T263 längste Portion 46,5 ms.
-4. LP-I1 Rest: T128 97, T136 59, T355 45, T29/T28 43, T251 39 – nach Ingametest 3.13.13 über langeStuecke bzw. mit den Daten der Figur.
-5. LP-K1 geprüft (Bericht 18:55: LevelPilot weicht nicht aus, Vorschlag: so lassen – Entscheid offen). Blueposts Reittempo geprüft:
-   gemessen, kein Handlungsbedarf. Offen: Notbremse "Routenberechnung", Wegabschnitte.
+## Nächste Schritte (Reihenfolge laut Auftrag 25.11. 10:10: LP-SB1 vor LP-I1; danach MITTEL)
+1. LP-R1 MITTEL: Koordinaten ausserhalb 0–100 im Reisebericht (Undercity 132.5,187.6; Verwüstete Lande 83.7,-295.2) – Ursache belegen.
+2. LP-R2 MITTEL: Wege/Ziele an Orten der anderen Fraktion (Theramore, Seenhain, Thelsamar, Teufelswald, Bergung der Welle); Verdacht
+   Fehltreffer Feralas 89.4,46.2 (Zonenübergang).
+3. LP-I1/I6/I7/I8: ganzer Testroutine-Bericht 3.13.13 (noch nicht hochgeladen) bzw. Datei der Figur (Weg klärt Supervisor).
+4. LP-T31 (Entscheid Supervisor 18:58): T31/T32 Schalter ohne Neuplanung je Schalter, einmal am Ende; Stichprobe 3; Messungen.
+   Zusammen mit "Dauer der Testroutine" – nur ohne Nachteile verkürzen (Entscheid des Nutzers 25.11. 09:40).
+5. LP-UMG1 MITTEL: Umgebung/Bedienung in der Testroutine erkennen (Klarstellung 20:50: "Rest > eigene Arbeit" allein kein Grund).
+6. Offen wie bisher: Notbremse "Routenberechnung" 22.11., Zeile Wegabschnitte.
 
 ## Offen beim Nutzer
-- Datei der Testfigur: WTF\Account\<Konto>\<Realm>\<Figur>\SavedVariables\LevelPilot.lua (nur lokal, nie ins Repo).
-- Ingametest 3.13.13 (langeStuecke, ganzeBilder bei Reisen, T381 Bonus, T388, Dauer).
-- Entscheid T31/T32 (einmal neu planen): keine Antwort.
+- Ingametest 3.13.14 und Upload des ganzen Testroutine-Berichts (3.13.13 fehlt noch).
+- Datei der Testfigur – Weg klärt der Supervisor mit dem Nutzer, NIE ins öffentliche Repo.
 
 ## Entscheide des Nutzers seit letztem Stand
-- 24.11. 18:51: "bitte immer auf deutsch" (Antworten an den Nutzer immer Deutsch – Bestätigung des Entscheids 23.11. 08:36).
-- Prüf-Sitzung 24.11. 14:10: 3.13.13 angenommen, Abnahme im Spiel offen; Weg für die Daten der Figur klärt der Supervisor mit dem Nutzer.
-- Auftrag der Prüf-Sitzung 24.11. 13:04 (Ingametest 3.13.12): Reihenfolge LP-I1 -> LP-I6 -> LP-I7 -> LP-I8.
+- 25.11. 09:40: Dauer der Testroutine nur verkürzen, wenn es keine Nachteile bringt (keine Reisen kürzen/weglassen, keine kleineren
+  Stichproben, keine gröberen Grenzen; je Änderung Ergebnis vorher = nachher belegen; im Zweifel nicht verkürzen).
+- 24.11. 20:04: Umgebung/Bedienung in allen Addons erkennen (LP-UMG1).
+- 24.11. 18:51: immer Deutsch.
+- Supervisor (Nutzer kann ändern): LP-K1 nicht ausweichen (18:56, erledigt); LP-T31 ja mit Bedingungen (18:58).
 
 ## Wichtig zu wissen
-- Daten Ingametest 3.13.12: goldsentinel-daten origin/sicherung, aktuell/AUSPLUSLAPTOP/forever/konto-5cb3d536/LevelPilot.lua.gz
-  -> /home/claude/lpdaten-2411b/ (bericht.json = GSTEST1 3.13.12). Den lokalen main von goldsentinel-daten nicht zurücksetzen.
+- Daten Ingametest 3.13.12: /home/claude/lpdaten-2411b/ (aus goldsentinel-daten origin/sicherung). Den lokalen main nicht zurücksetzen.
 - Skripte im Scratchpad:
-  - Ganze Routine: m3.sh (Stufe 30 Laptop), m.sh (MININT), m2.sh (Priester 10).
-  - mj1/mj3.sh + prof_journey.lua: Reise-Portionen (SLICEN=…).
-  - md3.sh + prof_det.lua: Spur je Reiseschritt (zeichnet mitten im Schritt auf, nur grob).
-  - mp3.sh: Stapel längstes Bild.
-  - p3w.sh + probe_144*.lua: Einzelmessungen.
-- Nachbau-Rauschen: T261 schwankt um 1000 ms. Zwei Läufe gleichzeitig verfälschen Zeiten und T381 (Zeitbudgets der Planung).
-- 3.13.13 neu:
-  - Jobs.JourneyPCall; V.pausedYieldOK; Ticker 0.001; V.SLICE_CALLS 32; NoReplan(body, clean).
-  - TR.GapNote/langeStuecke; opts.rested; saved.questRate.
-- Verdacht, zu messen: Routine im Spiel länger (Reisen in kleinen Portionen). Nachbau 827–930 s statt 200 s.
+  - Ganze Routine: m3.sh (Stufe 30), m.sh (MININT), m2.sh (Priester 10).
+  - mj*.sh/prof_journey.lua: Reise-Portionen. mp3.sh: Stapel langes Bild.
+  - offl/: Kopie der Offline-Lua für Einzelläufe (run_offline.py --lupa test40.lua <LevelPilot> 0 Orc WARRIOR Horde, mit
+    FOREVER=1 LVL=6 MAP=1411 PX=43.3 PY=68.5 BRAKE=1 PACKDIR=…).
+- Offline-Ersatzwelt liegt bei Weltkoordinate −51070, Comm nimmt nur −40000..40000 an (T389 berücksichtigt das).
+- T261 im Nachbau: Rauschen um 1000 ms.
+- 3.13.14 neu: Comm.HoldDuringJourney/ReplayHeld(now), Graph.NoteWrite/writeOrigin, V.SandboxLines, V.WritesText.

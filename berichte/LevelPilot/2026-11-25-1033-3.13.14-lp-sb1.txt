@@ -1,0 +1,67 @@
+LevelPilot 3.13.14 – Bericht an die Prüf-Sitzung: LP-SB1 HOCH (Sandbox der virtuellen Reise)
+Stand 25.11.2026 10:33 · umgesetzt, zur Prüfung
+Zip: announce/levelpilot__levelpilot-3.13.14.LevelPilot.zip (md5 bd69e02a56b05c954bdb5a169545a23e, 2 830 531 Bytes)
+
+Prüfungen vor dem Push
+- addon_check: OK.
+- Offline-Routine: 40 von 40 Läufen ohne FEHLER. Testroutine in 5 Formen: 5 von 5 ohne FEHLER.
+- Nachbau Stufe 30 (Laptop-Daten, Donnerfels): zwei Läufe.
+  - T389–T391 OK, T83 "65 Schritte, Sandbox OK", T381 gleich.
+  - Ein Lauf mit 0 FEHLER. Im zweiten nur T261 (1053 ms, Einloggen im Nachbau, bekanntes Rauschen um die Grenze 1000, siehe Berichte
+    3.13.12/3.13.13).
+- Gemeinsame Dateien GoldSentinel*.lua mit cmp gleich shared/.
+
+a) Ursache – Stand der Belege
+- Im Code belegt, wie in der Prüfung 25.11. 10:10 gelesen:
+  - Comm:Receive hatte während der Reise keine Sperre. Art "P" schreibt über Graph:AddPolyline (AddNode/AddEdge/Join/SplitEdge) ins
+    echte Netz, Art "Q" in die echte qdb.
+  - Recorder und Senden sind gesperrt.
+- Ob die +2 Wegpunkte / +4 Wegstücke des Ingametests aus dem Empfang kamen: Verdacht, zu messen.
+  - Den Empfang anderer Spieler kann der Nachbau nicht nachstellen.
+  - Gegenbeleg aus dem Nachbau: ohne Empfang schreibt die Reise selbst nichts (T83 "Sandbox OK", und mit der neuen Mitschrift keine
+    Schreibzugriffe; alle Reisen der Routine).
+- Neu, damit es im Spiel belegt wird: Graph.NoteWrite zählt während einer Reise jeden neuen Wegpunkt und jedes neue Wegstück im echten
+  Netz (AddNode, AddEdge, SplitEdge, Densify) mit Herkunft.
+  - Herkunft ist Graph.writeOrigin, sonst Datei:Zeile des Aufrufers aus debugstack.
+  - Ergebnis in V.s.realWrites, im Bericht der Reise als Zeile "Schreibzugriffe auf das echte Wegnetz während der Reise: …".
+
+b) Behoben ohne Datenverlust
+- Comm.HoldDuringJourney: Alles, was während einer Reise ankommt (jede Art: P, Q, Z, H …), wartet in Comm.held.
+  - Gezählt wird je Art in V.s.heldNet.
+  - Nach der Reise spielt Comm:ReplayHeld es ein: nach Fingerabdruck und Bericht, in Portionen (10 Nachrichten je Bild), in der
+    empfangenen Reihenfolge.
+  - Beginnt vorher eine neue Reise, warten die übrigen weiter. Nichts wird verworfen.
+- Bericht der Reise (V.SandboxLines), drei getrennte Teile:
+  - "Sandbox: echte Daten unverändert (OK)" bzw. "FEHLER Sandbox: echte Daten verändert – …".
+  - "HINWEIS Sandbox: während der Reise von anderen Spielern empfangen (Art Anzahl): P x, Q y – nach der Reise eingespielt, nichts
+    verloren" (kein FEHLER).
+  - Schreibzugriffe aufs echte Netz während der Reise. Seit der Empfang wartet, kann das nur eigener Code sein. Sie gehören darum zu den
+    Änderungen (FEHLER), auch wenn die Anzahl am Ende gleich wäre.
+- Übersetzungen: enUS, esES, frFR, itIT, koKR, ptBR, ruRU, zhCN, zhTW (esMX fällt auf esES zurück).
+
+c) Alle Felder des Fingerabdrucks
+- Der Empfang ist der einzige Weg von aussen in qdb, Händler, Flugpunkte, Höhlen und Wegnetz (Recorder während der Reise gesperrt). Er
+  wartet jetzt als Ganzes, also gilt b) für alle Felder.
+- Die Mitschrift a) zählt nur das Wegnetz (dort gab es den Befund).
+
+d) Tests und Gegenproben (Nachbau Stufe 30 und Offline, alle OK)
+- (1) T389: Empfang "P" während der Reise.
+  - Netz 29630 -> 29630, wartend 1 (P 1).
+  - Danach eingespielt: 3 Wegpunkte mehr (2 neue Wege).
+  - Gegenprobe ohne Reise: sofort 3 mehr.
+- (2) T390: Wegpunkt aus der Reise ins echte Netz.
+  - Gezählt "Wegpunkte · LPTest ×1", ohne Reise nicht gezählt.
+  - Der Text geht in die Liste der Änderungen (FEHLER).
+- (3) T391: beides zugleich.
+  - "FEHLER Sandbox … Schreibzugriffe … LPTest" und HINWEIS getrennt.
+  - Nur Empfang: OK + HINWEIS.
+- (4) T391 ohne beides: genau "Sandbox: echte Daten unverändert (OK)". Dazu T83 in allen Reisen der Routine "Sandbox OK".
+- Gefunden und behoben beim Test: Comm nimmt nur Weltkoordinaten −40000..40000 an. Die Ersatzwelt der Offline-Routine liegt bei −51070.
+  T389 legt seinen Testweg darum in diesen Bereich.
+
+Offen / nächste Schritte
+- LP-R1 (Koordinaten ausserhalb 0–100 im Bericht), LP-R2 (Orte der anderen Fraktion, Feralas 89.4,46.2).
+- LP-I1/I6/I7/I8 mit dem ganzen Testroutine-Bericht 3.13.13 (noch nicht hochgeladen) bzw. der Datei der Figur.
+- LP-T31 (T31/T32 einmal neu planen) und Dauer der Routine, beide unter dem Entscheid "nur verkürzen ohne Nachteile".
+- LP-UMG1.
+- Im nächsten Ingametest bitte in der virtuellen Reise auf die Zeilen HINWEIS/Schreibzugriffe achten.
