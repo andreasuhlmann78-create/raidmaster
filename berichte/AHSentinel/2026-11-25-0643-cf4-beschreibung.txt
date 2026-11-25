@@ -1,0 +1,10 @@
+AHSentinel AHS-CF4 (CurseForge-Beschreibung "What's new" zeigt 0.65.165) – Ursache belegt, Vorschlag – zur Prüfung
+Ursache (Code curseforge/make_description.py, Kopf): "CurseForge hat keine Schnittstelle, um die Projektbeschreibung zu ändern." Das Skript
+schreibt nur die Dateien curseforge/AHSentinel-description.md/.html im Repo neu (Stand jetzt: "What's new" = 0.65.393 bis 0.65.389, richtig);
+eingefügt werden muss die HTML-Datei VON HAND auf CurseForge (Projekt > Beschreibung). Die Zeile "Beschreibung aktualisiert" im Workflow-Lauf
+45490675041 meint diese Repo-Dateien, nicht die Seite. Auf der Seite steht darum noch der zuletzt von Hand eingefügte Stand (0.65.165).
+Vorschlag (Entscheid Nutzer/Supervisor):
+ 1. Einmalig: den Inhalt von curseforge/AHSentinel-description.html auf CurseForge einfügen (nur der Nutzer kann das – Anmeldung).
+ 2. Damit es nie wieder veraltet: "What's new" in der Beschreibung durch einen festen Satz ersetzen, z. B. "What's new: see the changelog of
+    each file in the Files tab." – dann ändert sich die Beschreibung nur noch bei inhaltlichen Änderungen. make_description.py gilt für alle
+    Addons (auch GuildSentinel) – Änderung darum nur nach Entscheid; ich ändere die gemeinsame Datei nicht ohne Auftrag.
