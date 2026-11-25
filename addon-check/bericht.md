@@ -11,17 +11,17 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 ## BuffSentinel-0.9.65.zip: OK
 
 ## GuildSentinel-0.9.61.zip: OK (1 Warnungen)
-- **WARNUNG** Version 0.9.61 in download/ wartet auf CurseForge 18:00 – Discord hat schon 0.9.62 (gewollt, Entscheid 15.11. 13:16)
+- **WARNUNG** Version 0.9.61 in download/ wartet auf CurseForge 18:00 – Discord hat schon 0.9.63 (gewollt, Entscheid 15.11. 13:16)
 
 ## ProfessionSentinel-0.9.83.zip: OK
 
-## RaidMaster-3.0.47.zip: OK
+## RaidMaster-3.0.48.zip: OK
 
 ## ThreatSentinel-2.5.30.zip: OK
 
 ## ahsentinel__ahsentinel-0.65.396.AHSentinel.zip: OK
 
-## guildsentinel__guildsentinel-0.9.62.GuildSentinel.zip: OK
+## guildsentinel__guildsentinel-0.9.63.GuildSentinel.zip: OK
 
 ## levelpilot__levelpilot-3.13.13.LevelPilot.zip: OK
 
