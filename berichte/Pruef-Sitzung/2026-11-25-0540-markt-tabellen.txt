@@ -1,0 +1,60 @@
+Markt-Tabellen täglich – 25.11.2026 (geplante Aufgabe, Lauf 05:38 MEZ)
+=====================================================================
+Ergebnis: Tabelle NICHT committet (Schritt 4: Fallzahlen fallen gegen die Repo-Fassung 16.11.). Befunde "MT-Prüfung 25.11.2026" und
+"KERN-ABGLEICH 25.11.2026" unten in auftraege/AHSentinel/offen-ahsentinel.txt, Zeile in auftraege/nachrichten-log.txt.
+Committet: testberichte/markt/kern/2026-11-25.md, dieser Bericht, die Einträge oben. Repo-Tabelle bleibt Stand 16.11.
+
+Datenlage
+- Daten-Repo: neuester Commit 24.11. 22:24 MEZ (< 36 Std.). Verlauf 1 Commit; tage/ nur 21., 22., 23., 24.11.
+- 13 Stände (alle 4 Rechner); gepackt = .lua.gz:
+    aktuell/  AUSPLUSLAPTOP (gepackt), DESKTOP-NVITMSE (gepackt), DESKTOP-JD5SLR5, MININT-M6UO3AL (ungepackt)
+    tage/21.11. JD5, M6U · 22.11. JD5, NVITMSE, M6U · 23.11. AUSPLUSLAPTOP (gepackt), M6U · 24.11. AUSPLUSLAPTOP (gepackt), NVITMSE (gepackt)
+- Journal je Stand (aktuell, D/P/B): Laptop 1698/172/1130 (t 577766–589392, gleich wie 23.11.); NVITMSE 1696/172/1132 (t 577766–592483);
+  JD5 –/139/13; M6U 130/64/28. Zusammengeführt ohne Doppelte: D 1830, P 375, B 1173.
+  Laptop und NVITMSE halten je 3000 Einträge (voll) – neue Fälle verdrängen alte.
+- Tests: test_kern_daten.py 20/20, test_markt_tabellen_alle.py 22/22, test_sv_gz.py 6/6.
+
+Prüfung der neu gerechneten Fassung (nur im Arbeitsordner)
+- Lädt in Lua (lupa) ok · 10 516 Bytes < 50 KB ok · nur Zahlen und Schlüssel, keine Spieler- oder Realm-Namen ok ·
+  Zustände nur offen/durch ok · Teil kern: markt 30 Zellen, gilde 46 Zellen, alle p 0..1, n >= 30 ok · Teil alle: 2 Tage.
+- NICHT ok: Fallzahlen fallen gegen 16.11. (Stände 14.–20.11. fehlen, Journale voll). Gegen die gestern gerechnete (nicht committete)
+  Fassung: praktisch gleich (2:1:a 605 -> 604, sonst gleiche n).
+
+Wellen je Band (Repo 16.11. -> heute gerechnet; gestern gerechnet in Klammern)
+  5-25   steigt 0.649 -> offen 1.585 (offen 0.949)
+  26-35  durch  0.149 -> offen 1.044 (offen 0.796)
+  36-45  offen  0.230 -> offen 1.006 (offen 0.714)
+  46-55  offen  0.453 -> durch 1.078 (durch 0.766)
+  56-60  offen  0.449 -> durch 0.883 (durch 0.754)
+  Alle 10 Tage. Indexwerte heute deutlich höher als gestern bei gleichen Zuständen – Verdacht, zu messen (neuer Tag 24.11. im Preisverlauf).
+
+Entzaubern (Repo -> heute; n, nKauf, Tabelle, Gewinn, Mindest)
+  2:4:a 1279/1205/0.965/0.258/0.20 -> 816/761/0.973/0.231/0.20   (n FÄLLT)
+  2:1:a 750/0/1.007/–/0.20         -> 604/0/0.991/–/0.20         (n FÄLLT)
+  2:6:a 124/62/0.950/0.199/0.30    -> 250/223/1.012/0.277/0.20
+  2:3:a 20/0/0.947/–/0.20          -> 96/0/1.009/–/0.20
+  2:5:a neu 46/34/1.035/0.174/0.30; 2:2:a n 4, 2:7:a n 1, 3:2–3:5 n 2–3 (n < 5, nicht gewertet)
+
+Kaufstufen (Repo -> heute; n, Gewinn)
+  bis 0.6  21 +52.7 %  -> 1 +12 566.7 %  (n FÄLLT, Einzelfall)
+  bis 0.7  155 +39.5 % -> 9 +58.1 %      (n FÄLLT)
+  bis 0.8  425 +30.7 % -> 293 +31.9 %    (n FÄLLT)
+  bis 0.9  598 +17.5 % -> 648 +22.5 %
+  darüber  15 −6.5 %   -> 70 +6.5 %
+
+Verkaufsquoten (heute; Stufen bis 0.90/0.97/1.03/1.10/darüber, n und Quote)
+  de:     2 0.500 · 23 0.435 · 59 0.663 · 11 0.309 · 21 0.613
+  misc:   35 0.652 · 14 0.714 · 22 0.773 · 16 0.688 · 31 0.774
+  consum: 27 0.815 · 6 1.000 · 7 0.286 · 2 0.500 · 15 0.853
+  kleine n: cloth 3/4/7/1/2, herb 2/4/4/3/5, leather 1/2/2/1/3, gear2 5/1/5/2/6, gear3 1/–/1, metal 2 (bis 0.90) + 1 (darüber)
+
+Teil kern: 3 Quellen, 76 Zellen (markt 30, gilde 46). Weg markt weitergegeben (NVITMSE Brier 0.0234 < 0.0252, n 696 202; JD5 0.0534 < 0.0572;
+  M6U 0.0573 < 0.0581). Weg gilde weitergegeben (NVITMSE 0.0929 < 0.0940; JD5 0.0930 < 0.1027; M6U 0.0895 < 0.0984).
+  Gegen gestern: Speicher konto-5cb3d536 kommt jetzt von NVITMSE (neuester Stand) statt Laptop -> gilde dort neu weitergegeben (70 -> 76 Zellen).
+
+Kern-Abgleich (testberichte/markt/kern/2026-11-25.md)
+  Zellen, die nicht aufgehen: NVITMSE 28, JD5 29, M6U 36 (Ziel 0; 24.11.: 28/29/36). Fast alle "FEHLT IM KERN" in Verkaufszellen.
+  Verkauf ausserhalb 95 %: NVITMSE 4, JD5 1, M6U 1. Kaufen: Kern 0–1 Käufe je Stufe gegen Tabelle 1/9/293/648/70. -> Befund KERN-ABGLEICH 25.11.
+
+Zu entscheiden: Entscheid 24.11. 06:17 (höchstens 1 Tag auf UP-TAGE warten) läuft ab; die Stände 14.–20.11. kommen nicht zurück.
+Fallzahl-Regel für diesen Neustart aussetzen oder Tabelle Stand 16.11. behalten.

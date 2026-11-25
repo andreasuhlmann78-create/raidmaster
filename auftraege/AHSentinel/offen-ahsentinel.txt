@@ -6731,3 +6731,21 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     A:VendorDeals, Forecast; (2) Gleichheitstest alt = neu für ALLE Items (VS:Ladder, VS:Queue, A:OfferLadder, A:VendorSteps, A:ResalePrice, feedItems);
     (3) Bericht mit den Zahlen VOR dem Einbau – der Supervisor gibt frei; (4) Einbau, Version, Ingametest. Kein Schätzen: "~0,2 KB je Item" bleibt
     Verdacht, bis gemessen. AHS-SG6-a, CF1-UI-a1, AHS-UMG1 danach.
+
+>>> MT-Prüfung 25.11.2026 (geplante Aufgabe "Markt-Tabellen täglich", Lauf 05:38) – Tabelle NICHT committet, Repo-Fassung bleibt Stand 16.11.
+    Bericht: berichte/Pruef-Sitzung/2026-11-25-0540-markt-tabellen.txt. Tests 20/20, 22/22, 6/6 bestanden; neue Fassung lädt (lupa), 10 516 Bytes,
+    keine Namen, Wellen nur offen/durch, kern nur markt (30) / gilde (46) mit p 0..1, n >= 30 – alles ok. Abgelehnt wegen Fallzahlen (wie 24.11.):
+    - Gegen die Repo-Fassung (16.11.): Entzaubern 2:4:a n 1279 -> 816 (nKauf 1205 -> 761), 2:1:a n 750 -> 604; Kaufen bis 0.6 n 21 -> 1
+      (Gewinn +12 566,7 %, Einzelfall), bis 0.7 n 155 -> 9, bis 0.8 n 425 -> 293.
+    - Gegen die gestern gerechnete Fassung kaum Zuwachs: 2:1:a 605 -> 604, alle anderen n gleich. Belegt: die Journale sind voll (3000 Einträge,
+      NVITMSE D 1696 / P 172 / B 1132, Laptop D 1698 / P 172 / B 1130, beide ab t 577766) – Neues verdrängt Altes; Laptop-Stand unverändert seit 23.11.
+    - Daten-Repo: tage/ nur 21.–24.11., die Stände 14.–20.11. fehlen weiter (UP-TAGE wirkt nur für künftige Tage). Kein Rechner fehlt (4 geliefert,
+      Laptop und PC als .lua.gz gelesen).
+    - Entscheid 24.11. 06:17 ("warten, bis UP-TAGE geklärt, höchstens 1 Tag") läuft heute ab: die alten Stände kommen nicht wieder. Zu entscheiden
+      (Nutzer/Supervisor): Fallzahl-Regel für diesen Neustart aussetzen oder Tabelle Stand 16.11. behalten. Nur Befund.
+
+>>> KERN-ABGLEICH 25.11.2026 (geplante Aufgabe, testberichte/markt/kern/2026-11-25.md) – "Zellen, die nicht aufgehen" > 0:
+    DESKTOP-NVITMSE 28 (statt Laptop, gleicher Speicher, neuerer Stand), DESKTOP-JD5SLR5 29, MININT-M6UO3AL 36 (Ziel 0) – unverändert gegen 24.11.
+    Fast alle "FEHLT IM KERN" in Verkaufszellen (z. B. JD5: misc:1 Journal 29 / Kern 11, misc:5 29 / 15, consum:1 17 / 5, de:1–de:5 Kern 0;
+    NVITMSE: consum:1 17 / 4, herb:1–5 und cloth:3/5 Kern 0). Verkauf ausserhalb 95 %: NVITMSE 4, JD5 1, M6U 1.
+    Kaufen Kern gegen Tabelle: Kern buyk/buye 0–1 Käufe je Stufe gegen Tabelle 1/9/293/648/70. Nur Befund, keine Lösung.
