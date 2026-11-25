@@ -805,3 +805,18 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     bei Zahlen über 32 Bit "integer overflow attempting to store N" (AHS-OVF1). v4: bis 32 Bit gleicher Text, darüber "%.0f". Tests 101/101 (v3/v4 in
     beiden Reihenfolgen, Nachbildung des WoW-Fehlers, Gegenprobe). Auftrag: mit der nächsten Version GoldSentinelTest.lua UNVERÄNDERT aus shared/
     kopieren (addon_check warnt bis dahin "veraltete offizielle Fassung (Version 3)"). Nichts sonst ändern.
+
+>>> BEFUND IM SPIEL 25.11. 15:45 (Supervisor 15:46) – GuildSentinel 0.9.63, während "/gs testroutine alles" (Laptop):
+GS-R1 HOCH: Lua-Fehler "Lead.lua:275: attempt to index local 'r' (a boolean value)" in Le:RecordGone, Aufruf über Lead.lua 325 (R.Log-Hülle)
+    <- Roster.lua 404 Compare ("leave" für Namen aus old) <- 283 Finish <- 299 <- Diag.lua 82 <- Roster.lua 465 (Roster-Abfrage aus dem Spiel).
+    Ursache (Code 0.9.63 gelesen, Verdacht sehr nahe, zu belegen): TestRoutine.lua 2301 (T118, Bereich E) legt in der Testgilde g.roster.Zbad = true
+    an. Während der Routine kam eine echte Roster-Abfrage (GUILD_ROSTER_UPDATE) -> Compare verglich die echte Liste mit g.roster der Testgilde ->
+    "leave" für Zbad -> RecordGone liest g.roster[name] = true -> Absturz. Gleiches Muster ungeschützt: Lead.lua 361, Progress.lua 151 (local r =
+    g.roster[name] ohne Typprüfung).
+    a) Robust machen: überall, wo g.roster[name] gelesen wird, nur Tabellen verwenden (type(r)=="table"); RecordGone/Compare mit kaputten Einträgen
+       ohne Fehler (T118 muss genau das finden – heute lief der Weg Roster-Abfrage -> Compare -> RecordGone in T118 NICHT mit: Weg ergänzen).
+    b) Klären: Soll eine echte Roster-Abfrage während der Routine überhaupt gegen die Testgilde laufen? Wenn ja, darf sie keine "leave"-Einträge aus
+       Test-Namen erzeugen und die echte Gilde nie verändern (Sandbox-Prüfung zeigt es); wenn nein, Abfrage während der Routine zurückhalten und
+       danach nachholen (nichts verlieren), wie LevelPilot Comm.held.
+    c) Gegenprobe im Nachbau: Testgilde mit roster.Zbad = true + Roster-Ereignis während T118 -> 0.9.63 Fehler, Fix ohne Fehler.
+    CurseForge: 0.9.63 NICHT heute 18:00 (Lua-Fehler im Spiel).
