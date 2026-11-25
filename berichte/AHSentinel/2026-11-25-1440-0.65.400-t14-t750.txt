@@ -1,0 +1,28 @@
+AHSentinel 0.65.400 – AHS-T14 Fix, AHS-T750 (abgeschnitten) Fix, AHS-OVF1 Nachträge, SHARED-T4 – umgesetzt, zur Prüfung (nur Discord)
+Zeit: 25.11.2026 14:40 (Europe/Zurich)
+addon_check 0.65.400: OK (WARNUNG SHARED-T4 weg). ZIP: gleiche 112 Dateien wie 0.65.399. GoldSentinelTest.lua = shared v4 (cmp gleich).
+
+AHS-OVF1 – Stelle im Spiel BELEGT (aus db.uiFindingsLast der hochgeladenen Daten, Laptop 13:07): Ansicht "Markt > Markt > Lücken" zeigte
+ "+10526315689 %" (Zahlen-Spalte abgeschnitten = der T750-Befund). Item 24282 "Tagebuch eines Schurken": die letzten 4 Preise = 99 999 999 999
+ Kupfer (Höchstpreis des AH, ein einziges Angebot), davor 2 400–2 500 -> Trend (99 999 999 999 − 950)/950 × 100 = 10 526 315 689 %. Die 3 T000
+ kamen beim Durchgehen der Ansichten (T750) aus "%+d %%" mit diesem Trend (UI_MarketView 476/478/1171) – mit 0.65.399 abgesichert.
+ Supervisor-Verdacht GoldSentinelTest.lua (JSON "%d"): ebenfalls eine Quelle, mit v4 behoben (SHARED-T4).
+ Nachträge: die 2 Methoden-Stellen (AHAnalyzerPro 6066 L[…]:format, DEWindow 570 L["Gesperrt (%d)"]:format(0)) auf string.format umgestellt.
+ s341-Regel erweitert: Methoden-Form (auch L[…]:format) = FEHLER; %x/%X/%o/%c im Format-Text nur mit Farbwerten (255). Gegenprobe mit 0.65.399:
+ meldet genau AHAnalyzerPro.lua:6060 und DEWindow.lua:570. (Erste Fassung meldete fälschlich UICheck 112 – gsub-Muster "%x"; jetzt nur der Format-Text.)
+AHS-T750 Fix: GetTrend gibt keinen Trend, wenn der aktuelle oder der Vergleichspreis = Höchstpreis 99 999 999 999 (A.AH_MAX_PRICE).
+ Erst geprüft und VERWORFEN: IsOddPrice (wie beim Marktwert) – nahm 309 von 7 532 Items den Trend (x g 99s 9x c sind übliche Preise).
+ Mit A.AH_MAX_PRICE: Trend 7 T/30 T aller 7 532 Items alt = neu ausser genau 24282. Test T1029 (Höchstpreis nil, Gegenprobe 950 -> 1900 = +100 %).
+AHS-T14 Fix (freigegeben 14:26): VS.StaleOffer = im Zeitraum kein Eintrag aus einem vollständigen Scan UND letzter Preis älter als 48 Std.
+ (A.COMPACT_FULL) -> kein gemessener Absatz (MeasuredRate) und kein "alle Spieler"-Absatz (SalesRateRaw). Ohne jeden Preis wie bisher (T309/T803:
+ erste Fassung "scans == 0" brach diese beiden Tests – die Messung eines Items ganz ohne Preise bleibt gültig). Wirkung mit Spieldaten: Absatz aller
+ 7 532 Items alt = neu ausser genau 274964 (1 971,7 -> keiner); T14-Regel: 0 unplausibel (vorher 1). Szenario s342 (mit SVIN) + Gegenprobe 0.65.399 (2 FEHLER).
+ Warum keine Einträge seit 6 Tagen: BELEGT – das Item ist seit 19.11. 12:00 in keinem Scan des Laptops mehr da (Verfolgung st.sold letzter Eintrag
+ 1795066683 = 19.11., Verlauf letzter Eintrag 19.11. 12:00); die Laptop-Daten haben zwischen 19.11. und 25.11. keinen Scan dieses Items.
+ Verdacht "st.sold nicht je Markt" BELEGT im Code: je Markt getauscht werden nur marketData, lastOwnScan und recv (A:StoreMarket); db.fullScan
+ (Signaturen, Leitern, gemessener Absatz) ist für alle Märkte gemeinsam. Folge: auf einem anderen Markt (Allianz/Neutral) gilt der auf Horde gemessene
+ Absatz (Nachbau als Allianz: Markt leer, Absatz aus Horde vorhanden). Behebung = fullScan je Markt (Speicherformat ändert sich, Umzug wie
+ marketsMigrated) – NICHT eingebaut, braucht Freigabe; Vorschlag: db.fullScan je Markt in db.markets[k].fs, beim Wechsel tauschen wie marketData.
+Nachbau 0.65.400: s42, s43, s187, s341, s342 (SVIN), s92, s14 PASS; s75/s77 rot wie 0.65.399 (Fehlertexte gleich).
+Rückmeldung erledigt: (keine neue – CF3 bereits mit 0.65.399 genannt).
+FULL 0.65.400 folgt allein.
