@@ -780,3 +780,11 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     HINWEIS – die Leistungsgrenzen messen nur die eigene Arbeit, der Rest ist fast immer grösser; die Regel würde echte Rückschritte verdecken
     (Begründung RaidMaster 3.0.44, angenommen). Gründe für HINWEIS sind nur: Hintergrund/Fensterwechsel-Zeitraum, Ladebildschirm, Speicherbereinigung
     im betroffenen Bild. "Speicher je Addon" einmal am Ende statt beim längsten Bild ist RICHTIG (die Abfrage selbst kostet bis ~50 ms).
+>>> INGAMETEST 25.11. 08:55 mit 0.9.62 (Forever deDE, PRIEST 10, Lauf mit Alt-Tab; Bericht vom Nutzer im Chat) – Auswertung Supervisor 08:56
+    OK 338 · FEHLER 0 · übersprungen 25 · im Client 8 · 43,7 s; Sandbox OK; geteilte Daten unverändert OK (10 Tabellen); Recorder 0 echte Sendungen.
+    GS-UMG1 im Spiel BELEGT: Zeile "Umgebung (Bedienung): Hintergrund/Fensterwechsel möglich – 6–12 s nach Start" = genau der Alt-Tab des Nutzers;
+    4 ganze Bilder > 40 ms alle "Rest > eigene Arbeit" (eigene 0,0 ms) -> richtig nicht als FEHLER gewertet. Angenommen.
+    Hinweis wie 0.9.61 (kein FEHLER): Portionen > 16 ms: 10 (T269 23,3/18,5, T295g 20,2/18,4/17,9, T09 19,2) – beim nächsten Mal kleiner schneiden.
+    VERDACHT, zu messen (NIEDRIG): "Speicher je Addon" nach dem Lauf GuildSentinel 134 933 KB – ohne Bereinigung gemessen, enthält den Abfall des Laufs
+       (+91 609 KB ganzer Speicher). Nächstes Mal zusätzlich einen Wert NACH collectgarbage (ausserhalb der Messung) ausgeben, damit klar ist, was
+       GuildSentinel wirklich hält.
