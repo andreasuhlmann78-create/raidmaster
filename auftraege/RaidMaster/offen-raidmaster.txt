@@ -937,3 +937,8 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     NIEDRIG, nach den offenen Punkten.
  UPLOADER: Laptop läuft 2.3.28 (Bild des Nutzers 08:04, PID 19784, Fenster "RaidMaster-Uploader"). stand.json zeigt für den Laptop noch 2.3.26 – die
     Lieferung ans Daten-Repo nach dem Update steht noch aus ("zuletzt geliefert 25.11. 06:16"). Abnahme UP-UPD1-c (Feld update) mit der nächsten Lieferung.
+>>> BERICHTIGUNG Taktik-"ca."-Zahlen (ersetzt meine Antwort zu Punkt 6 von heute) – ENTSCHEID DES NUTZERS 25.11.2026 08:24: "falls es noch keine
+    Daten in den Quellen gibt … über Raidtaktiken prüfen lassen und wenn bestätigt einfügen … nicht löschen, auf korrekte Angaben warten".
+    -> NICHTS löschen, NICHTS jetzt ändern. Die Liste aller 25 Zahlen (23 Zeilen; gemeldet waren 24) steht in research/raidmaster-taktikzahlen.md;
+    die geplante Aufgabe "Raids und Taktiken" prüft sie (höchstens 8 je Tag) mit Quellen. Erst wenn der Supervisor bestätigte Werte überträgt,
+    setzt RaidMaster sie ein (genauer Wert, "ca." weg, Quelle als Kommentar daneben). Bis dahin: nichts tun.

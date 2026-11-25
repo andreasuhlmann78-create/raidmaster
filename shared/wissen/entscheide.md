@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Folge |
 |---|---|---|
+| 25.11. 08:24 | Taktik-Zahlen RaidMaster: "falls es noch keine Daten in den Quellen gibt … über Raidtaktiken prüfen lassen und wenn bestätigt einfügen … nicht löschen, auf korrekte Angaben warten" | 25 ca.-Zahlen bleiben; geplante Aufgabe Raids prüft sie (Teil E, research/raidmaster-taktikzahlen.md); bestätigte Werte -> Supervisor -> RaidMaster setzt mit Quelle ein |
 | 25.11. 07:56 | CurseForge-Lizenz AHS: "Ja, auf GPL-3.0 (Empfohlen)" | AHS-CF5: Projekt-Einstellung License auf GPL-3.0 (statt All Rights Reserved), passend zu LICENSE.txt/QuestieDB |
 | 25.11. 06:54 | CurseForge-Beschreibung AHS: "ausnahme ihr könnt sie ändern aber bitte überlegt und nicht ein scheiss" | AHS-CF4: AHS-Sitzung darf die Projektbeschreibung auf CurseForge ändern – Entwurf, Prüfung durch Supervisor, dann einfügen und nachlesen; "What's new" als fester Verweis |
 | 25.11. 06:29 | (im Chat der RaidMaster-Sitzung) "Download-Ordner mit Schutz" | UP-CFG1: Uploader übernimmt uploader_config.json/sync_config.json aus dem Download-Ordner nur nach j, mit Schutz (gleicher Bot, nur Discord-Adressen, nur neuer, Sicherung) – Uploader 2.3.27 |
