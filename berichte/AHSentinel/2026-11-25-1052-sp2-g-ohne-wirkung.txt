@@ -1,0 +1,16 @@
+BERICHT AHSentinel – SP2 g) EncodeSigs: zwei Varianten gemessen, OHNE Wirkung, zurückgenommen – zur Prüfung
+Zeit: 25.11.2026 10:52 (Europe/Zurich) · Arbeitskopie wieder = 0.65.398 (Datei für Datei gegen origin/main geprüft)
+
+Gleichheitstest st.sigs/st.sold/st.ladder nach Scan 2 (echte Daten, 2 896 Zeilen) alt = neu: 0 Unterschiede bei BEIDEN Varianten.
+Speicher VS:Track in Scan 2 (GC aus): 0.65.397 5 790 KB · Variante 1 (Teile + EIN table.concat) 5 891 KB · Variante 2 (string.format je
+Signatur) 6 176 KB -> keine Ersparnis (Streuung ±300 KB). Variante 2 wäre ausserdem riskant: Sofortkauf bis 2^33 passt in WoW (Windows,
+32-Bit-%d) nicht sicher in "%d". Beide zurückgenommen, nichts veröffentlicht.
+Feiner gemessen (Messkopie): EncodeSigs 2 289 KB (Sortieren 0 KB), Text "now|…" 746 KB, Sigs 1 320 KB, Compare 1 059 KB, alte Signatur
+lesen 437 KB – für 612 verfolgte Items mit bis zu 60 Signaturen. Der Aufwand ist das Text-Format der Signaturen selbst (je Signatur Zahlen
+-> Text, je Item ein neuer Text, beim nächsten Scan wieder zerlegt: DecodeSigs legt je Signatur eine Tabelle an).
+Bewertung: Mit kleinen Änderungen am Schreiben ist hier nichts zu holen. Echte Ersparnis nur mit
+ h) Sigs: Zählen ohne Hash-Umbau (Lua 5.1 baut die geleerten Zähl-Tabellen beim Neufüllen mit neuen Schlüsseln um) – rein intern,
+    Text gleich; Verdacht ~1 MB, zu messen, und/oder
+ k) Signaturen als Zahlen-Listen statt Text (Format der gespeicherten Daten ändert sich – wie bei SP1/SP2 ii mit altem Format lesen,
+    Rückstufung prüfen); Verdacht ~3–4 MB je Scan, zu messen.
+Frage an den Supervisor: h) zuerst (rein intern), k) nur mit Freigabe (Format)? Ich beginne mit der Messung zu h), ohne etwas einzubauen.
