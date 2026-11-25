@@ -1,0 +1,23 @@
+AHSentinel 0.65.402 – AHS-API2 API.Disenchanted (für ProfessionSentinel PS-TQ1) – umgesetzt, zur Prüfung (nur Discord)
+Zeit: 25.11.2026 15:57 (Europe/Zurich)
+addon_check 0.65.402: OK. ZIP: gleiche 112 Dateien wie 0.65.401. Geändert: API.lua, API.md (Zeile ergänzt), TestRoutine.lua (T1031, Index),
+ Version, CHANGELOG EN/DE. Nur ADDITIV – Version 1 der Schnittstelle unverändert.
+
+API.Disenchanted(itemID[, since]) -> { n, value, first, last }:
+- n: eigene Entzauberungen seit since (Standard 30 Tage) aus db.deLog (alle Charaktere des Kontos, die letzten 2000; auch "abgelehnte" Beute
+  ausserhalb der Gruppen-Tabelle – es war eine echte Entzauberung).
+- value (Kupfer): Material aus dem Entzaubern, das verkauft wurde (Buchungen k="sale", Herkunft bt="de", nicht storniert), mit dem Netto-Erlös,
+  der Reihe nach zugeordnet (älteste Entzauberung zuerst, je Material; ein Verkauf VOR einer Entzauberung zählt nicht für sie); nicht verkauftes
+  Material mit dem Preis zum Zeitpunkt der Entzauberung (letzter bestätigter Preis des Preisverlaufs davor, sonst heutiger Marktwert).
+  Material mit Herkunft "mix" (gemischter Posten) zählt NICHT als verkauft aus dem Entzaubern -> Preis zum Zeitpunkt. (Bitte bestätigen/anpassen.)
+- nil = Item nie entzaubert (bzw. nicht mehr im Protokoll); n = 0, value = 0 = entzaubert, aber nicht seit since.
+- Leistung: Index einmal je Datenstand (Längen/letzte Zeiten von deLog und Buchungen + Zähler, der bei LEDGER_CHANGED und DE_LOOT steigt –
+  Buchungen werden auch an Ort und Stelle geändert). Mit den echten Daten (Laptop 15:03: 2 000 Entzauberungen, 7 497 Buchungen) Index 7,7 ms
+  (einmal nach jeder Buchungsänderung), Aufruf danach 0,02 ms. Verdacht, zu messen: 7,7 ms am Stück liegen über dem Bild-Budget 6 ms, wenn ein
+  anderes Addon direkt nach einer Buchung fragt – falls nötig, Index in Portionen im Hintergrund (Vorschlag, nicht gebaut).
+- Beispiele mit echten Daten: Schultern des Hügelwächters 796 Entzauberungen, 857 519 Kupfer (je 1 077); Braune Leinenhose 745 / 117 864.
+Tests: T1031 (eigene Testdaten, nie die echten): ohne Daten nil; 2 Entzauberungen = 2/950 (Verkauf 999 vor beiden zählt nicht, gekauftes Material
+ bt="ah" zählt nicht); seit 5 Tagen 1/650; seit 1 Tag 0/0; Gegenprobe: Erlös des späteren Verkaufs 800 -> 1200 ändert den Wert genau um 4 × 100
+ (1 Stück der ersten, 3 der zweiten Entzauberung) auf 1350 – und OHNE Änderungsmeldung bleibt der alte Stand (950) = Index-Zähler nötig und wirksam
+ (die erste Fassung ohne Zähler fiel genau hier durch). 2000/3000 Einträge: Index 11,6 ms im Nachbau, Aufruf 0,02 ms.
+Nachbau 0.65.402: s42, s43, s187, s341, s343 PASS.
