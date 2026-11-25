@@ -1,6 +1,6 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 25.11.2026 09:46 · Version 0.65.397 (Discord); CurseForge 0.65.393 (Datei-ID 9799863)
+## Stand 25.11.2026 09:48 · Version 0.65.397 (Discord); CurseForge 0.65.393 (Datei-ID 9799863)
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz – Testberichte "GSTEST1{…}", UI-Befunde db.uiFindingsLast).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
@@ -13,7 +13,9 @@ Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /h
 - 0.65.397 vom Supervisor angenommen (09:22). FULL 0.65.397: 349/67, neu rot nur s313 (Bericht 0945) – streut 8–20 ms auch mit 0.65.396,
   höchster Schritt meist "names bis Names.lua:228"; Verdacht GC-Schritte, zu messen. CurseForge erst nach Klärung s313.
 - Doppelte RecordPrice: belegt harmlos (VerifyPrice parallel, 2-Minuten-Sperre in RecordPrice).
-- Jetzt: SP2 (iii) messen. Scratch: /tmp/claude-0/sim2 (zz_t459real), alte Version /tmp/claude-0/ahs396.
+- SP2 (iii) gemessen (Bericht 0948): forecast-eval Decode 2 274 KB, BroadcastScan 2 711 KB, MeasuredRate 1 280, D:Prior 1 160, Marktwert-
+  Speicher 2 625 einmal je Scan. Vorschläge a) Decode wiederverwenden, c) MeasuredRate, d) Prior teilen, b) Sync-Liste. Beginne a) mit Gleichheitstest.
+  Scratch: /tmp/claude-0/sim2 (zz_sp3 Messung, zz_t459real), alte Version /tmp/claude-0/ahs396.
 
 ## Nächste Schritte (Supervisor 25.11. 08:51/09:08)
 1. s313/names: GC je Portion messen (Befund, Bericht 0945).
