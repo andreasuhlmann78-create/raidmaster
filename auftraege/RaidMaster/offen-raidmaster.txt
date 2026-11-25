@@ -957,3 +957,10 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     wenn der Spieler schon ein fremdes Fenster offen hat; sonst "im Client prüfen: Charakterfenster öffnen, dann /rm testroutine k" (SKIP mit Anleitung,
     kein FEHLER). (2) Test: grep-Regel im Nachbau/Test (T-neu), dass Test/*.lua und alle Addon-Dateien kein ToggleCharacter/ShowUIPanel/HideUIPanel auf
     Blizzard-Fenster rufen (Gegenprobe: eingefügter Aufruf -> FEHLER). (3) Version, Bericht. Dem Nutzer: nach dem Fehler /reload (Taint bleibt bis dahin).
+>>> INGAMETEST 25.11. 08:57 mit 3.0.47 (Forever deDE, Build 71091, PRIEST 10; Bericht vom Nutzer im Chat) – Auswertung Supervisor 09:00
+    OK 151 · FEHLER 1 · übersprungen 14 · im Client 10 · 101,7 s; Sandbox OK. Dazu der Lua-Fehler RM-TAINT1 (Charakterfenster selbst geöffnet).
+    FEHLER T156: "mit Charakterfenster: Hauptfenster überdeckt CharacterFrame; Bereitschaft überdeckt CharacterFrame". Der Befund ist ECHT (öffnet der
+    Spieler das Charakterfenster, liegt RaidMaster darüber) -> zu RM-TAINT1 dazu: RaidMaster-Fenster weichen Blizzard-Fenstern aus bzw. docken an
+    (wie Vorlage ns.UIAvoidOthers, GS-K1/BS-K1). Belegen im Spiel: Charakterfenster öffnen, dann RaidMaster öffnen -> kein Überlappen.
+    RM-UMG1 im Spiel BELEGT: "UMGEBUNG: Hintergrund möglich (Sek. 96–99)"; Bilder > 40 ms mit eigener Arbeit 0–1,4 ms richtig dem Rest zugeordnet.
+    T205 (DKP-Gleichheit) eine Portion 6 ms (Ziel < 5 ms) – kleiner schneiden, NIEDRIG. T116 50 ms längstes Bild: eigene Arbeit? -> im Bericht klären.

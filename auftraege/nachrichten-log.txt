@@ -643,3 +643,4 @@ JJJJ-MM-TT HH:MM | Projekt | Version oder Anlass | Sitzung (Chat / Nachprüfung 
 25.11.2026 08:54 Supervisor: BS 0.9.64 Ingametest ausgewertet (0 FEHLER, T179/T156 > 16 ms Hinweis)
 25.11.2026 08:56 Supervisor: GS 0.9.62 Ingametest ausgewertet (0 FEHLER, UMG1 im Spiel belegt)
 25.11.2026 08:59 Supervisor -> RaidMaster RM-TAINT1 (Testroutine öffnet Charakterfenster -> Taint-Fehler), GuildSentinel GS-TAINT1 (Verdacht), E-Regel
+25.11.2026 09:00 Supervisor: RM 3.0.47 Ingametest ausgewertet (T156 echt: Überlappen Charakterfenster, UMG1 belegt)
