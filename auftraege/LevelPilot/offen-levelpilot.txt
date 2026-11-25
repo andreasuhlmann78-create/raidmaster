@@ -1799,3 +1799,19 @@ HINWEISE (keine neuen Aufträge, für die laufenden Wegqualitäts-Punkte, Werte 
     17× KEIN WEG zwischen Zonen (u. a. Steinkrallen » Silberwald, Ashenvale » Hillsbrad); Mobs ≥ +3: Ziele 4, Wegstücke 56 (Ziel 0);
     Abgleich echte Level-Zeiten L1–7 mittlere Abweichung 60 % (Ziel < 15 %; kleine Stichprobe, nur Minuten); Zone "Shen'dralas" (L40/L44) im
     Questweg eines Horde-Normal-Laufs – belegen, dass dort echte Quests ohne Dungeon-Pflicht liegen, sonst Befund.
+
+>>> PRÜFUNG SUPERVISOR 25.11. 10:59 – LevelPilot 3.13.14 (Bericht 10:33, LP-SB1): ANGENOMMEN mit Nachtrag LP-SB1-b, Abnahme im Spiel offen.
+    Geprüft: addon_check OK; md5 bd69e02a… = Bericht; CI grün (09:34Z). Code gelesen: Comm:Receive -> Comm.HoldDuringJourney (alle Arten, nur solange
+    V.active, nicht beim Einspielen), Comm:ReplayHeld in Portionen (10 je Bild, hält an, wenn eine neue Reise läuft), Aufruf nach Finish
+    (Virtual.lua 853), Bericht trennt FEHLER / HINWEIS Empfang / Schreibzugriffe mit Herkunft. Gegenproben T389–T391 + T83 decken a)–d) ab.
+LP-SB1-b MITTEL (Lücke im Fix, "nichts geht verloren" / "keine Sperre ohne Zeitlimit"): V:Abort() (Virtual.lua 1005) spielt Comm.held NICHT ein.
+    Abort kommt von Backup.lua 169 (Wiederherstellen), TestRoutine.lua 2876/2882/3959 und PLAYER_LOGOUT. Folge: nach einem Abbruch warten empfangene
+    Wege/Quests bis zum Ende der NÄCHSTEN Reise; beim Ausloggen/Reload gehen sie verloren (nur im Speicher).
+    Fix: Abort ausser bei PLAYER_LOGOUT -> ReplayHeld() wie nach Finish. Beim Ausloggen: entweder ReplayHeld(true) (begrenzt, im Bericht Anzahl und
+    Zeit messen) oder Comm.held in die SavedVariables und beim nächsten Laden einspielen – du wählst mit Beleg (Zeit beim Ausloggen).
+    Tests: Empfang P während Reise -> Abort (Backup) -> danach eingespielt; Empfang -> Logout-Pfad im Nachbau -> nach Laden vorhanden; Gegenprobe
+    ohne Empfang -> nichts.
+    Zusätzlich belegen: In der Testroutine laufen zwei Reisen; das Einspielen nach der ersten fällt in die Laufzeit der Routine. Schlägt dadurch der
+    Livedaten-/Sandbox-Vergleich der ROUTINE selbst an (echte Änderung von aussen)? Wenn ja: derselbe HINWEIS-Weg wie in der Reise (Herkunft
+    "Empfang"), kein FEHLER; Test im Nachbau.
+    Reihenfolge: LP-SB1-b -> LP-R1 -> LP-R2 -> LP-I1 …

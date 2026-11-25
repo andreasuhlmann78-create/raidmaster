@@ -6882,3 +6882,18 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     WEITER, Reihenfolge: 1) FULL 0.65.398; 2) Aufgabe fullscan in Scan 2 aufschlüsseln (7 595 KB) und Scan-1-Anstieg "timing" belegen;
     3) AHS-S313. Abnahme im Spiel: nach Vollscan + /ahs testroutine T459 im Spiel gegen den Nachbau stellen (mit Gilde online, damit b wirkt).
     CurseForge: 0.65.398 nur Discord (Beta). Für 18:00 entscheidet die AHS-Sitzung nach Regel, welche Version nach download/ geht.
+
+>>> PRÜFUNG SUPERVISOR 25.11. 10:59 – AHS Berichte 10:43 (FULL 0.65.398), 10:48 (Scan 2, timing, S313), 10:52 (g ohne Wirkung):
+    FULL 0.65.398: 353/66, neu rot keine, Liste der 66 identisch – zur Kenntnis. "timing" Scan 1: belegt als Zuordnungs-Streuung (TM:OnScan einzeln
+    2 231 = 2 231 KB) – ANGENOMMEN. g) zurückgenommen (Varianten 5 891 / 6 176 gegen 5 790 KB, Gleichheit 0 Unterschiede) – ANGENOMMEN; Hinweis
+    zu %d und 2^33 richtig.
+    ENTSCHEID SUPERVISOR zu h)/k): h) zuerst (rein intern, Text gleich, erst Gleichheitstest, dann Einbau, dann T459). k) FREIGEGEBEN unter denselben
+    Bedingungen wie SP1/SP2 (ii): altes Format weiter lesen, Rückstufung auf 0.65.398 ohne Datenverlust im Nachbau belegt, Gleichheit aller
+    Auswertungen alt = neu mit echten Daten, Gegenprobe; erst NACH h) und nur, wenn h) Scan 2 nicht unter 10 240 KB bringt.
+    ENTSCHEID SUPERVISOR zu AHS-S313 (Frage 10:48), nach UMG1 d) (Entscheid Nutzer 24.11. 20:04, Klarstellung 20:50 – GC im Bild ist ein zulässiger
+    HINWEIS-Grund): Die Prüfung s313/T458 darf die GEMESSENE GC-Spitze des fremden Addons als "Speicherbereinigung im Bild" ausweisen -> HINWEIS statt
+    FEHLER, aber NUR wenn (1) der GC-Schritt in genau dieser Portion gemessen ist (zz_gcstep o. ä., Zahl im Ergebnis) und (2) die EIGENE Arbeit der
+    Portion ohne GC unter dem Budget liegt. Gegenprobe Pflicht: gleiche Portion ohne GC-Schritt über Budget -> FEHLER.
+    ACHTUNG: Laut deinem Bericht liegt die eigene Arbeit bei 6,1–8,3 ms, das Budget ist 6 ms -> s313 bleibt FEHLER, bis der Namen-Aufbau
+    (Names.lua bis 228) ohne GC unter 6 ms liegt. Weniger anlegen beim Namen-Aufbau ist damit Teil von AHS-S313 (MITTEL). Grenzen nicht ändern.
+    Reihenfolge: h) -> AHS-S313 (Bereinigung mit Gegenprobe + eigener Anteil < 6 ms) -> k) falls nötig.
