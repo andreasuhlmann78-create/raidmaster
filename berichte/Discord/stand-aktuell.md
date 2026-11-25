@@ -1,22 +1,23 @@
 # Stand Discord-Sitzung
 
-## Stand 24.11.2026 21:50 · Bot 1.5.196 (D-UPD1 umgesetzt, zur Prüfung; 1.5.195 angenommen)
+## Stand 25.11.2026 09:05 · Bot 1.5.196 (D-UPD1 angenommen 24.11. 21:58; Uploader neueste 2.3.28, Mindestversion 2.3.20)
 
 ## Gerade in Arbeit
-- Uploader 2.3.24 (erste mit Rückfrage j/n, einmal von Hand) per Bot schicken (Nutzer 21:11 "nuester uploader senden bitte"; D-UPMIN1): in #bot-befehle
-  /uploader an_offiziere:True UND /uploader nur_programm:True (für den Nutzer). WARTET: kein Browser verbunden (21:11, 21:36, 21:50).
+- nichts. Uploader-Versand hat der Nutzer am 24.11. 21:55 SELBST gemacht (Supervisor 21:53/21:58) – NICHT wiederholen.
 
 ## Nächste Schritte (Reihenfolge)
 1. Bei jeder Nachricht des Nutzers: git pull --rebase, auftraege/Discord/ lesen (git log --oneline -5 -- auftraege/Discord/).
-2. Browser da -> sofort den Versand oben (vorher VERSION in RaidMasterUploader/uploader.py prüfen = neueste).
-3. Prüfung D-UPD1 (Bericht 2026-11-24-2150-d-upd1.txt) abwarten, Befunde umsetzen.
-4. Abnahme D-CHK1 im Betrieb (Supervisor 10:55): "✏️ … 3.12.94 … vervollständigt" in #bot-befehle, status.md grün (19:27 grün),
-   beim nächsten Versionswechsel keine alte Fassung gepostet -> Bericht nachreichen.
+2. Sobald Discord im Browser wieder angemeldet ist (25.11. 09:05: Anmeldeseite): in #bot-befehle nachsehen und Bericht nachreichen:
+   a) Versand 2.3.24 vom 24.11. ~21:55 sichtbar? b) Zahl der D-UPMIN1-PN ("Alter Daten-Uploader (nötig: mindestens 2.3.23): n PN")
+   c) "✏️ … levelpilot-uebersicht-3.12.94 … vervollständigt" (D-CHK1 Betrieb) d) keine Zeile "fehlten im Discord … neu gepostet".
+3. Neue Aufträge umsetzen. Sonst nichts ändern.
 
 ## Offen beim Nutzer
-- Browser verbinden (eingebauter Browser der Desktop-App oder Claude in Chrome) für den Uploader-Versand.
+- Discord im eingebauten Browser neu anmelden (Passwort tippe ich nicht).
 
 ## Entscheide des Nutzers seit letztem Stand
+- 24.11. 21:53 "ich sende ihn denen selber" (Uploader an Offiziere und sich selbst, über die Bot-Befehle).
+- 25.11. 08:29 (via Supervisor, D-RAID1): "mc" in forever_raids.json bleibt "forever": true (Entscheid des Nutzers). Nichts ändern.
 - 24.11. 20:49 "das discord projekt soll den offiziere das seden" (Uploader 2.3.21); 20:51 "mir natürlich auch über den dc bot";
   20:58 "dann morgen machen, es wird noch eine neue version kommen"; 21:11 "nuester uploader senden bitte"; 21:44 "rm ist ready" (= UP-UPD1 fertig).
 - 24.11. 10:29 (D-CHK1): neueste Fassungen klären; fehlt dort etwas, entscheidet die Discord-Sitzung über Nachposten; die Prüfung
