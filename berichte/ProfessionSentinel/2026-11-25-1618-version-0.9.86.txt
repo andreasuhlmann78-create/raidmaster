@@ -1,0 +1,29 @@
+ProfessionSentinel 0.9.86 – umgesetzt, zur Prüfung
+Bezug: offen-professionsentinel.txt PS-TQ1 (Entscheid des Nutzers 25.11. 13:47 "Echten Weg verfolgen"; f) freigegeben 15:13).
+
+PS-TQ1 – Trefferquote je echtem Weg (Market.lua, PriceSource.lua):
+ a) entzaubert: MK.CheckDisenchanted fragt je Item mit offener Notiz AHSentinel.API.Disenchanted(itemID, since) (AHS-API2, additiv; über
+    PS.Disenchanted, frisch gefragt, nicht zwischengespeichert, still wenn die Funktion fehlt). since = älteste offene Notiz bzw. nach dem
+    zuletzt benutzten Entzaubern (pmHits.de[item] = last) – jedes Entzaubern zählt nur einmal; älteste Notizen zuerst, höchstens so viele
+    wie entzaubert. Treffer, wenn Beute je Stück (value/n) >= Kosten je Stück der Notiz. Kontoweit (deLog in AHSentinel ist kontoweit) –
+    auch nach Versand an einen anderen eigenen Charakter.
+ b) im AH verkauft: unverändert (Post-Rechnungen, MK.OnSale).
+ c) Zwischenprodukt: MK.UsedAsIngredient (bei jedem eigenen Herstellen, vor der Notiz des Endprodukts): offene Notizen der verbrauchten
+    Zutaten (älteste zuerst, höchstens so viele wie verbraucht) fallen ohne Fall weg, gezählt als z je Beruf. Ihre Kosten stecken in den
+    Kosten des Endprodukts (Preisrechnung über den günstigsten Weg).
+ d) Herstellungen mit Skillpunkt zählen mit (keine Ausnahme im Code).
+ e) nach 7 Tagen ohne bekannten Weg: offen, kein Fehlschlag (u je Beruf). Vorher: Fehlschlag.
+ f) MK.MigrateHits beim Einloggen (PLAYER_LOGIN, nie in der Testroutine): Zahlen der alten Regel -> pmHits.old { prof, at, rule = 1 },
+    Zählung neu, pmHits.rule = 2; nur einmal. Nachbau mit den echten Daten (Kopie, nicht im Repo): vorher Schneiderei 0/186, nachher
+    rule 2, gesichert 186, neue Zählung leer, 14 offene Notizen (Kochen) bleiben offen. Bericht: "alte Regel gesichert: 186 Fälle".
+ "Unsicher" weiter erst ab 20 BEWERTETEN Fällen unter 60 % (offene u zählen nicht).
+ Bericht "Trefferquote je Beruf": "Beruf h/n (x %)", dazu "Beruf ohne Weg u, Zwischenprodukt z", "alte Regel gesichert: n Fälle".
+ Bis AHSentinel API.Disenchanted liefert (AHS-API2): Weg a) wird nicht bewertet, die Notiz bleibt offen und geht nach 7 Tagen nach e).
+
+Tests: T299 neu (f Sicherung/Neustart/nur einmal/Bericht; a Entzaubern mit Gewinn = Treffer; Gegenprobe mit Verlust = Fehlschlag; ein
+ Entzaubern nie zweimal / nie für eine spätere Herstellung; c Zwischenprodukt ohne Fall; e ohne Weg offen; ohne AHS-Funktion kein Fehler;
+ "unsicher" nur nach bewerteten Fällen). T252 an e) angepasst (vorher "nach 7 Tagen nicht verkauft = kein Treffer", jetzt offen; Treffer 1/2,
+ ohne Weg 1). Regressionen: PS-TQ1 -> T299, T252.
+ run_offline forever 254/0, era 235/0, retail 233/0, forever --lua51 254/0; check_actions OK; yield_check OK; gen_locale_keys OK;
+ Smoketest forever/era/retail AUTOTEST OK (FEHLER 29/26/26 = Mock-Grenzen); addon_check OK ohne WARNUNG. Zip md5 8094a8f8a5ec53df19add9a5cb9a928b, Repo 3775878.
+AHS-API2 ist seit AHSentinel 0.65.402 da (Hinweis Supervisor 16:06): Vertrag geprüft – Tabelle { n, value, first, last }, Zeiten time() wie unsere Notizen (MK Now = time()), n = 0 -> bei uns nil. Abnahme a) mit echten Daten: die offenen Notizen sind zurzeit nur Kochen (nicht entzauberbar) – mit dem nächsten Herstellen + Entzaubern im Spiel (Bericht "Trefferquote je Beruf").
