@@ -1,40 +1,34 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 25.11.2026 08:38 · Version 0.65.396 (Discord); CurseForge 0.65.393 (Datei-ID 9799863)
+## Stand 25.11.2026 09:19 · Version 0.65.397 (Discord); CurseForge 0.65.393 (Datei-ID 9799863)
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz – Testberichte "GSTEST1{…}", UI-Befunde db.uiFindingsLast).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
  erwartet in /tmp/claude-0/rel/: AHSentinel-<V>.zip, notes.md, bericht.txt, stand.md). ZIP = gleiche 112 Dateien wie Vorversion.
 Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /home/claude/AHSentinel (~70 s); FULL=1 alle (Stunden bei Parallel-Last;
- 0.65.393: 341 PASS, 70 FAIL, keine neuen – nie parallel zu FULL rechnen, sonst Zeitüberschreitungen). T126 streut 6–10 ms. Neu: s9_watcher_tip (Wächter-Tipp -> Rechtsklick -> Sniper kauft).
+ 0.65.396: 348 PASS, 66 FAIL, keine neuen – nie parallel zu FULL rechnen, sonst Zeitüberschreitungen). T126 streut 6–10 ms. Neu: s9_watcher_tip (Wächter-Tipp -> Rechtsklick -> Sniper kauft).
  Eigene Szenarien /tmp/claude-0/sim/wowsim/scenarios_new.lua (zz_t459real, zz_tr1, zz_i6_sniper, zz_ui_buy).
 
 ## Gerade in Arbeit
-- FULL 0.65.396 fertig: 348 PASS / 66 FAIL, neu rot keine, neu grün s92 (Bericht 0834). s313 bei 395/396 grün.
-- CF4+CF5 eingefügt (Bericht 0810), Supervisor 08:05 Entwurf 2 angenommen. Öffentliche Seite zeigt 08:37 GPLv3 (Bericht 0838).
-- Danach SP2 (ii) Bestpreise als Listen (Gleichheit, alter Client) erst messen + Bericht, dann (iii).
+- 0.65.397 (SP2 ii Bestpreise als Listen + T750b) auf Discord; FULL 0.65.397 allein als Nächstes. Tests vorher: Bericht 0912 (0 Abweichungen,
+  Rückstufung ok, T459 Scan 2 17 457 / Scan 3 13 345 KB). Scratch: /tmp/claude-0/sim2 (zz_sp2eq/zz_sp2rueck/zz_t459real), /tmp/claude-0/ahs396.
+- Nebenbefund: 3 Items (10940/11082/11083) zweimal RecordPrice in ProcessBest (alt=neu) – Verdacht, zu messen, getrennt melden.
 
-## Nächste Schritte (Supervisor 25.11. 06:25/06:31)
-1. FULL 0.65.396 erledigt (keine neuen Fehler); s313 weiter nennen (zweimal rot = Befund).
-2. AHS-J1 ERLEDIGT (Supervisor 06:53: kein Ring-Umbau jetzt; Prüf-Skript berichtigt).
-3. AHS-SP2 HOCH: T459 < 10 240 KB ab Scan 2 – (i) Text ohne "p:c", (ii) Bestpreise als Listen, (iii) Nachlauf-Aufgaben einzeln messen; je Bericht.
-4. AHS-CF4/CF5 eingefügt (Editor jetzt Modus Markdown – vorher Markdown-Text im WYSIWYG-Modus). CF1-UI-a1 nach T1016. UMG1 danach.
+## Nächste Schritte (Supervisor 25.11. 08:51/09:08)
+1. FULL 0.65.397 allein; s313 weiter nennen. Danach Bericht.
+2. AHS-SP2 (iii) HOCH: Nachlauf je Aufgabe messen (forecast-eval, learn:factor, cache:itemlist, core:realcheck, BroadcastScan-Liste {id,p,q},
+   suspicious-Liste) – Ziel T459 < 10 240 KB ab Scan 2. Erst messen + Bericht, dann bauen.
+3. Doppelte RecordPrice (Nebenbefund) messen. CF1-UI-a1 nach T1016. UMG1 danach. TB138-2 Gold-Lücke 3,2 % bleibt im Masterplan.
+4. CF4/CF5 ERLEDIGT (Supervisor 08:51).
 
 ## Offen beim Nutzer
-- Ingametest mit 0.65.393 ("testroutine alles"): T1016, T750, Vollscan zweimal, T126 im Vordergrund.
+- Ingametest: "testroutine alles" mit T1016 (AH offen), Vollscan zweimal (SP1 d / SP2 T459), T126 im Vordergrund. Teil auto 09:01 erledigt.
 - Gold-Messung Ausrüstung mit Kupfer-Preis (AHS-POST), RecipeList-Fehler mit nur AHS aktiv.
 
 ## Entscheide des Nutzers seit letztem Stand
-- 25.11. 07:56 AHS-CF5: CurseForge-Lizenz auf GPL-3.0 (nur diese Einstellung, zusammen mit der Beschreibung).
-- 25.11. 06:54 AHS-CF4: AHS-Sitzung darf die CurseForge-Beschreibung ändern – "überlegt": Entwurf, Prüfung, dann einfügen und nachlesen.
-- 25.11. 06:31 Markt-Tabelle Stand 16.11. behalten (Fallzahl-Regel gilt).
-- 22:17/22:23 AHS-CF2: 0.65.393 sofort auf CurseForge, "Wichtiges Update"; T459 (c) und Ingametest bewusst in Kauf genommen.
-- 20:43 AHS-CF1-UI c: Wächter-Funde erscheinen nie von selbst im Sniper; nur nach Auswahl beim Item.
-- 20:48 AHS-CF1-UI c: Rechtsklick "In den Sniper übernehmen"; Wächter-Kaufweg (Knopf, eigene Taste, gemeinsame Taste) kauft keine Funde.
-- 21:07–21:13 AHS-SG6 Leuchten+Ton im Suchtakt, Wächter eigene Farbe (vor CurseForge). 21:25/21:27 AHS-TR1-a nur Testschritt, kein Blocker.
-- 21:44 Discord vor Ende von FULL erlaubt (auto, server, geänderte Szenarien, addon_check grün); FULL ohne neue Fehler Pflicht vor CurseForge.
-- Supervisor 21:38: NUR DEUTSCH an den Nutzer. 21:42: Schrift nie unter GameFontNormalSmall (L8).
-- 20:17 (über Supervisor): Wächter-Schritt bleibt so, WAECHTER-LAST/-FUND bleiben im Schritttext (Antwort c).
+- keine neuen (Supervisor 08:51: SP2 ii Reihenfolge Tests -> Einbau, Zusatz T-e; 09:08: T750-Ansichten mit Spielzustand nicht als FEHLER).
+- 25.11. 07:56 AHS-CF5: CurseForge-Lizenz GPL-3.0; 06:54 AHS-CF4 Beschreibung (beide erledigt).
+- 24.11. 21:44 Discord vor Ende von FULL erlaubt; FULL ohne neue Fehler Pflicht vor CurseForge. Supervisor 21:38: NUR DEUTSCH an den Nutzer.
 
 ## Wichtig zu wissen
 - Wächter-Prüfziele "w:<id>" stehen nur in Sn.extra; Sn:GetTargets() ohne sie, GetTargets(true) mit (nur GetActiveTargets).
@@ -42,5 +36,5 @@ Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /h
 - Kopfzeile "Sniper: an/aus" = db.sniper.armed (Sn:IsArmed ist auch mit Wächter-Prüfziel wahr – treibt nur die Suche).
 - AH-Abdeckung: UI:AHOverlayRaise einmal beim Einrichten; UI:AHBleed misst (T1016). Ursache a) noch "Verdacht, zu messen".
 - T750-Regel: Zeilen ohne " – Grund" nach "Text x px)" sind "gekürzt (Tooltip)" = kein FEHLER.
-- Letzter Test T1021 (T1011–T1013 = SP1 zwei Sätze, T1019/T1020 = SG6-a/Titel). Vollscan: VS.cmp/cmpSpare (set.min/qty/auc/lad). Neue Tests vor "-- CF-AHS-5 (CurseForge 17.11. …"; Index vor { "AHS-CF1-UI", .
+- Letzter Test T1024 (T1023/T1024 = SP2 ii; T1022 = SP2 i). best: A.NewBest/BestGet/BestIDs/BestMarkU (alt+neu); VS:BestSpare/BestInUse. Vollscan: VS.cmp/cmpSpare (set.min/qty/auc/lad). Neue Tests vor "-- CF-AHS-5 (CurseForge 17.11. …"; Index vor { "AHS-CF1-UI", .
 - Nie etwas in announce/ löschen, alte Versionen nicht wiederherstellen. Jede Version: CHANGELOG.de.md-Abschnitt Pflicht (AHS-R1).

@@ -1,0 +1,18 @@
+AHSentinel 0.65.397 – AHS-SP2 (ii) Einbau (Freigabe Supervisor 25.11. 08:51, Tests vorher: Bericht 0912) + T750b – umgesetzt, zur Prüfung (nur Discord)
+Zeit: 25.11.2026 09:19 (Europe/Zurich)
+addon_check 0.65.397: OK. ZIP: gleiche 112 Dateien wie 0.65.396.
+Geändert: AHAnalyzerPro.lua, Vollscan.lua, Sync.lua, Timing.lua, Learn.lua, Names.lua (SP2 ii, wie im Bericht 0912 beschrieben), TestRoutine.lua
+ (T1023, T1024, T750b, Index AHS-SP2-ii/AHS-T750b), Version, CHANGELOG EN/DE (je mit Beta-Hinweis). Locales unverändert (keine neuen Texte für Spieler).
+Nachbau mit dem fertigen 0.65.397:
+- Teil auto s42 PASS, Teil server s43 PASS; T1023 PASS (4 Items, abweichend 0, Sync-Nachricht gleich, Gegenprobe erkannt), T1024 PASS (ja|ja|ja).
+- s336_sp2_best_gleichheit (echte Daten 7 000 Items) PASS; DUMP 0.65.396 gegen 0.65.397: 28 485 Zeilen, 0 Unterschiede; 347 Nachrichten d73af8df.
+- s337_sp2_rueckstufung: Daten von 0.65.397 mit 0.65.396 geladen: alle Leser ok, 0 Lua-Fehler (Antwort 0 Nachrichten bis zum nächsten Scan, wie berichtet).
+- s187_testroutine_ui_walk PASS (Szenario sucht jetzt die Zeile T750 ohne T750b); T750 meldet "· dazu 2 nur mit Spielzustand (T750b, im Client)",
+  T750b CLIENT mit Anleitung.
+- Weitere betroffene Szenarien PASS: s262, s92, s276, s224, s312, s325, s87, s76_replicate, s76_legacy, s10, s14_sync_guild, s20, s225, s304,
+  s306, s318, s324, s9_bait_sniper, s9_seller_bait, s321, s40.
+- s9_bait_scan und s323: rot wie in FULL 0.65.396 (bekannt). s9_bait_scan las lastOwnScan.data[id].u direkt -> mit 0.65.397 brach es zuerst ab;
+  Szenario liest jetzt über A.BestGet – danach dieselben 5 alten Fehlschläge wie mit 0.65.396 (verglichen im selben Lauf).
+- Speicher (Bericht 0912): T459 Scan 2 17 457 KB (−893), Scan 3 13 345 KB (−1 853). Ziel < 10 240 KB noch nicht erreicht -> (iii).
+FULL 0.65.397 folgt allein. Danach SP2 (iii): Nachlauf-Aufgaben einzeln messen (forecast-eval, learn:factor, cache:itemlist, core:realcheck,
+ BroadcastScan-Liste, suspicious-Liste).
