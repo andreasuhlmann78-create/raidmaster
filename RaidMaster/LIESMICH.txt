@@ -11,6 +11,12 @@ INSTALLATION
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
 
+NEU IN 3.0.46 – Raid-Taktiken: Zahlen nur mit Quelle
+- Jede ungefähre Zahl ("ca.") in den Raid-Taktiken ist jetzt mit einer Quelle belegt. Berichtigt: Naj'entus – Abstand für
+  Nadelstachel mindestens 6 m (vorher 10 m); Hans'gar und Franzok bei 85/55/25 % (vorher 30 %); Hydross – Wechsel bei ca. 4
+  Stapeln. Ohne Quelle entfernt: Naj'entus-Enrage-Zeit, Prozentwerte bei Garothis "Ausrottung", Spielerzahl bei Araz.
+  In allen 11 Sprachen.
+
 NEU IN 3.0.45 – Testroutine prüft gleiche Zahlen und Summen (nur für den Entwickler)
 - Lesbarkeit L3: dieselbe DKP-Zahl in der Liste, im Tooltip, in der Antwort auf "!dkp" und im Stand (T205).
 - Lesbarkeit L4: "Gesamt" über der Liste = Summe der Zeilen; Stand = Summe der Buchungen, auch mit Rückgängig und Verfall (T204).

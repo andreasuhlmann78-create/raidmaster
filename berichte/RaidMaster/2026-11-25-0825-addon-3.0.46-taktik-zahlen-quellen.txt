@@ -1,0 +1,43 @@
+Bericht RaidMaster-Sitzung an die Prüf-Sitzung – 25.11.2026 08:25
+Thema: RaidMaster 3.0.46 – Taktik-"ca."-Zahlen in RaidData.lua (Antwort Supervisor 08:05 zu Punkt 6: je Stelle Quelle oder Zahl weg).
+Status: umgesetzt, zur Prüfung. download/RaidMaster-3.0.46.zip (72 Dateien, = Ordner) + latest; 3.0.45.zip entfernt, README-Link 3.0.46.
+addon_check OK; ganze Prüfung wie der Workflow Exit 0, 0 FEHLER.
+
+Vorgehen: Referenz classic.goldgoblin.net enthält keine Raid-Mechaniken (Auszug shared/wissen/referenz-goldgoblin.md) -> je Stelle die
+Boss-Seite gelesen (warcraft.wiki.gg zuerst, Classic-Seiten für Classic-Raids; sonst icy-veins/warcrafttavern), abgerufen 25.11.2026.
+Quelle steht als Kommentar am Ende der Zeile in RaidData.lua. "Meter" = Yards (deutscher Client nennt Yards "Meter").
+
+A. BELEGT, Text unverändert (18):
+ 131 Kurinnaxx Raserei 30 %           – warcraft.wiki.gg/wiki/Kurinnaxx ("At 30% HP, Kurinnaxx will enrage")
+ 147 Buru Phase 2 ca. 20 %             – wiki Buru_the_Gorger ("Phase 2 starts around 20%")
+ 152 Ayamiss Phase 2 ca. 70 %          – wiki Ayamiss_the_Hunter ("Around 70%, phase 2 begins")
+ 157 Ossirian Schwäche 45 Sek.         – wiki Ossirian ("a 45 second debuff")
+ 180 Sartura Wutanfall 20 %            – wiki Battleguard_Sartura ("At 20% she will become enraged"; hartes Limit dort 10 Min., Text nennt keine Zahl)
+ 233 Maexxna Netzspray 8 Sek.          – wiki Maexxna_(Classic) ("incapacitating everyone for 8 seconds"; WotLK-Fassung 6 Sek. – Forever = Classic)
+ 248 Loatheb 1× pro Minute heilen      – wiki Loatheb_(Classic) ("1 minute linked cooldown on all healing spells")
+ 269 Flickwerk Berserker 7 Min.        – wiki Patchwerk_(Classic) ("Berserk - 7 minute timer")
+ 279 Gluth Dezimieren auf 5 %          – wiki Gluth_(Classic) ("to 5% of their maximum HP")
+ 284 Thaddius Berserker 5 Min.         – wiki Thaddius_(Classic) ("After 5 minutes … berserker rage")
+ 538 Mutter Shahraz Raserei 10 %       – icy-veins tbc-classic mother-shahraz ("At 10% health … Enrage")
+ 549 Illidan Maiev ab 30 %             – wiki Illidan_Stormrage_(tactics) ("At 30% health, Maiev arrives")
+ 561 Nalorakk Wechsel ca. alle 45 Sek. – warcrafttavern tbc nalorakk (45 Sek. Troll-, 30 Sek. Bärengestalt) – "ca. alle 45 Sek." trifft nur
+                                         die Trollphase; Verdacht, ungenau – Vorschlag bei Bedarf: "nach 45 Sek. Bär, nach 30 Sek. zurück" (nicht geändert)
+ 598 Kalecgos Erschöpfung 1 Min.       – wiki Kalecgos_(tactics) ("this 60 second debuff")
+ 1542 Darmac 85/65/45 %                – wiki Beastlord_Darmac ("85% … each additional 20%")
+ 2202 Tarragrue 10 %                   – wiki The_Tarragrue_(tactics) ("At 10% health remaining …")
+ 2559 Leuchtendo/Torq 40 Meter         – wiki Cauldron_of_Carnage ("within 40 yards of each other … 99%")
+ 2564 Rik Resonanz 4-6 Stapel          – icy-veins rik-reverb ("roughly equates to a 4-6 stack swap")
+B. BERICHTIGT nach Quelle (3):
+ 413 Hydross "ca. 3-4 Stapeln" -> "ca. 4 Stapeln"  – wiki Hydross_the_Unstable ("after 60 seconds (= four debuffs)")
+ 509 Naj'entus Nadelstachel "ca. 10 m" -> "mindestens 6 m" – warcrafttavern tbc high-warlord-najentus ("never be within 6 yards of another player")
+ 1527 Hans'gar/Franzok "85/55/30 %" -> "85/55/25 %" – icy-veins hans-gar-and-franzok ("Between 25% and 15% …", Schwellen nur lose eingehalten)
+C. ZAHL ENTFERNT, keine passende Quelle (3):
+ 508 Naj'entus "Hartes Enrage nach ca. 8 Min." -> "Hartes Enrage" – keine Zeit in wiki, icy-veins, warcrafttavern, method.gg
+ 1824 Garothi "Ausrottung (bei ca. 65 % und 35 %)" -> "Ausrottung" – Quelle nennt 65/35 % (heroisch) bzw. 60/20 % (normal) für den
+      Apokalypse-Antrieb, nicht für Ausrottung
+ 2618 Araz "mit vielen Spielern (ca. 10) teilen" -> "mit vielen Spielern teilen" – icy-veins nennt keine Zahl (heroisch: 3 Gruppen)
+Damit 24/24 Stellen bearbeitet; "ca." ohne Quelle: 0 (Skript-Prüfung). Geänderte Texte in allen 10 Übersetzungen nachgeführt (Schlüssel
+und Text); fehlende Übersetzungen der Raids-Dateien vorher = nachher = 0. Nachbildung deDE, enUS, frFR, koKR, zhTW, ruRU, Era: ALLE OK.
+
+HINWEIS AN DISCORD-PROJEKT (bitte weiterleiten, ich ändere den Bot nicht): RaidMasterBot/raid_tactics.json enthält dieselben Texte mit
+24 "ca."-Stellen, u. a. die drei falschen (Nadelstachel 10 m, 85/55/30 %, Hydross 3-4) – nach dieser Liste nachführen.
