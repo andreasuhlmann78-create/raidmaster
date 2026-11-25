@@ -507,3 +507,9 @@ SICHERHEIT (Pflicht, Repo ist öffentlich):
     geschickt – nicht wiederholen. Die eine D-UPMIN1-PN je Rechner ("/uploader holen") darf trotzdem kommen (andere Aussage, einmal) – im Bericht zählen.
 >>> D-UPCFG1 NIEDRIG (Supervisor 25.11. 06:53, Vorschlag RaidMaster UP-CFG1 Punkt 8): In der /uploader-Nachricht die Kanal-Kennungen (nur die Zahl der
     Webhook-Adresse, NIE den Schlüssel) nennen, damit der Spieler sie mit der Frage im Uploader-Fenster vergleichen kann. Mit der nächsten Bot-Version.
+>>> D-RAID1 NIEDRIG (Supervisor 25.11. 08:28, Frage des Nutzers "welche Raids erscheinen am 9.12."): forever_raids.json gegen Quellen geprüft.
+    Stimmt: ony 40 / barrow 10 / hyjal 20, alle "forever": true, "opens" 2026-12-09 (Blizzard News 24303009 laut Warcraft Tavern 20.10.2026; Onyxia mit
+    Drakefire-Amulett; alle wöchentlicher Reset).
+    VERDACHT, zu klären: "mc" (Molten Core) steht mit "forever": true, aber ohne "opens". Laut Blizzard spielt WoW Forever VOR Molten Core
+    (news.blizzard.com 24301145); MC ist bisher für WoW Forever nicht angekündigt (Frühling 2027: "zwei neue Raids", ohne Namen). Prüfen, ob "forever": true
+    bei mc gewollt ist (z. B. für bestehende MC-Kanäle wie #mc-feuerresi) – sonst auf false bzw. "angekündigt" erst mit Quelle. Nichts löschen; Bericht.
