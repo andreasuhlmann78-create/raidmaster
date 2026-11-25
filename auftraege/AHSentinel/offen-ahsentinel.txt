@@ -6926,3 +6926,6 @@ AHS-TSK1h (Messwert, im Spiel): Vollscan 12:05 "Speicher bleibend +26 474 KB", e
     "n. Vollscan der Sitzung" mitschreiben. Ziel ≤ 10 240 KB ab dem 2. Scan bleibt; im Spiel deutlich über dem Nachbau -> Unterschied belegen.
 AHS-T750 NIEDRIG: 1 Befund "abgeschnitten" (0.65.396: 0) – welche Ansicht; beheben.
     Nächster Ingametest (nach OVF1): Vollscan starten, während er läuft /ahs testroutine (mit offenem Auktionshaus, damit "server" und T459 laufen).
+>>> NACHTRAG AHS-OVF1 (13:26): Bericht im Repo (testberichte/berichte/AHSentinel/AHSentinel-1795608303-26b5fe-1.json, 0.65.398, 13:01) = eingefügter Bericht
+    (6 FEHLER, gleiche Werte). T000 enthält NUR den Fehlertext, KEINE Stelle (Datei:Zeile/Stack) -> zusätzlich: T000 schreibt künftig die erste
+    eigene Stelle aus debugstack (wie LevelPilot Graph.NoteWrite) mit, damit ein Lua-Fehler im Spiel ohne Rätselraten zuzuordnen ist.
