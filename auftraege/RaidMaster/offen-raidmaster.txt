@@ -1009,3 +1009,8 @@ UP-DOC2 MITTEL: LIESMICH.txt (DE) und README_EN.txt Abschnitt "Addons automatisc
         kein neues Recht ohne Entscheid des Nutzers), oder (b) der Bot löst es bei einer neuen Nachricht in #testberichte aus, oder (c) Workflow im
         Daten-Repo beim Push. Zeitplan als Rückfall behalten. Keine Tokens/Geheimnisse ins Repo. Test: Bericht im Spiel -> spätestens 20 Min. im Repo.
     Braucht ein Weg ein neues Token/Recht: im Bericht als Frage an den Nutzer, nicht selbst einrichten.
+
+>>> SHARED-T4 MITTEL (Supervisor 25.11. 14:26): shared/GoldSentinelTest.lua Version 4 – JSON-Bericht schrieb ganze Zahlen mit string.format("%d"); WoW wirft
+    bei Zahlen über 32 Bit "integer overflow attempting to store N" (AHS-OVF1). v4: bis 32 Bit gleicher Text, darüber "%.0f". Tests 101/101 (v3/v4 in
+    beiden Reihenfolgen, Nachbildung des WoW-Fehlers, Gegenprobe). Auftrag: mit der nächsten Version GoldSentinelTest.lua UNVERÄNDERT aus shared/
+    kopieren (addon_check warnt bis dahin "veraltete offizielle Fassung (Version 3)"). Nichts sonst ändern.

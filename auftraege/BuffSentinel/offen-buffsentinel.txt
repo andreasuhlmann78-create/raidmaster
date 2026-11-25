@@ -670,3 +670,8 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     -> BS-P1: T156 "Teile in ms" und T179 auswerten: Testschritt oder Addon-Arbeit? Liegt es am Test, kleiner schneiden; liegt es am Addon, Ursache
        belegen. Einzelwerte zuerst gegen Bedienung/Umgebung prüfen (E-Regel 24.11.). NIEDRIG.
     Offen im Client (vom Nutzer, wenn in Gruppe/Instanz): T270 Klick-Raster (Entwicklermodus), T134 Ablauf im Kampf, T106 Raid 40.
+
+>>> SHARED-T4 MITTEL (Supervisor 25.11. 14:26): shared/GoldSentinelTest.lua Version 4 – JSON-Bericht schrieb ganze Zahlen mit string.format("%d"); WoW wirft
+    bei Zahlen über 32 Bit "integer overflow attempting to store N" (AHS-OVF1). v4: bis 32 Bit gleicher Text, darüber "%.0f". Tests 101/101 (v3/v4 in
+    beiden Reihenfolgen, Nachbildung des WoW-Fehlers, Gegenprobe). Auftrag: mit der nächsten Version GoldSentinelTest.lua UNVERÄNDERT aus shared/
+    kopieren (addon_check warnt bis dahin "veraltete offizielle Fassung (Version 3)"). Nichts sonst ändern.

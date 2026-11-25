@@ -173,18 +173,18 @@ check("BugGrabber-Fehler gezählt", lua.eval("DB.gsTest.errors['Lua|Interface/Ad
 lua = new_lua("GoldSentinelTest = { version = 5, marker = 'neu' }")
 check("neuere bleibt", lua.eval("GoldSentinelTest.marker"), "neu")
 lua = new_lua("GoldSentinelTest = { version = 0, registry = { Alt = { version = '1', db = {} } } }")
-check("ältere ersetzt", lua.eval("GoldSentinelTest.version"), 3)
+check("ältere ersetzt", lua.eval("GoldSentinelTest.version"), 4)
 check("Register übernommen", lua.eval("GoldSentinelTest.registry.Alt.version"), "1")
 
 # 6b. Version 2 (offizielle ältere Fassung) und Version 3 im selben Client – in beiden Reihenfolgen gewinnt 3
 V2 = (HERE / "variants" / "GoldSentinelTest-v2.lua").read_text(encoding="utf-8")
 lua = LuaRuntime(unpack_returned_tuples=True); lua.execute(STUB); lua.execute(GAME)
 lua.execute(V2); lua.execute("DB2 = {}; GoldSentinelTest.TrackErrors('AltAddon', '9', DB2)"); lua.execute(SRC)
-check("v2 dann v3: v3 gewinnt", lua.eval("GoldSentinelTest.version"), 3)
+check("v2 dann v4: v4 gewinnt", lua.eval("GoldSentinelTest.version"), 4)
 check("v2 dann v3: Register übernommen", lua.eval("GoldSentinelTest.registry.AltAddon ~= nil"), True)
 lua = LuaRuntime(unpack_returned_tuples=True); lua.execute(STUB); lua.execute(GAME)
 lua.execute(SRC); lua.execute(V2)
-check("v3 dann v2: v3 bleibt", lua.eval("GoldSentinelTest.version"), 3)
+check("v4 dann v2: v4 bleibt", lua.eval("GoldSentinelTest.version"), 4)
 
 # 6c. SH-NIL (Version 3): nil als Rückgabe = FEHLER, gar keine Rückgabe = OK (wie bisher)
 lua = new_lua()
@@ -349,5 +349,29 @@ lua.execute("GoldSentinelTest.TrackErrors('TestAddon', '1.0', DB)")
 check("ohne Sync: kein Endpunkt", lua.eval("GoldSentinelTest.Endpoint() == nil"), True)
 check("ohne Sync: Status sagt es", "ruht" in "".join(lua_to_py(lua.eval("GoldSentinelTest.ShareStatus()"))), True)
 
+# 6c. v3 (bis 25.11.) und v4 im selben Client – in beiden Reihenfolgen gewinnt v4, Register bleibt
+V3 = (HERE / "variants" / "GoldSentinelTest-v3.lua").read_text(encoding="utf-8")
+lua = LuaRuntime(unpack_returned_tuples=True); lua.execute(STUB); lua.execute(GAME)
+lua.execute(V3); lua.execute("DB3 = {}; GoldSentinelTest.TrackErrors('V3Addon', '1', DB3)"); lua.execute(SRC)
+check("v3 dann v4: v4 gewinnt", lua.eval("GoldSentinelTest.version"), 4)
+check("v3 dann v4: Register übernommen", lua.eval("GoldSentinelTest.registry.V3Addon ~= nil"), True)
+lua = LuaRuntime(unpack_returned_tuples=True); lua.execute(STUB); lua.execute(GAME)
+lua.execute(SRC); lua.execute(V3)
+check("v4 dann v3: v4 bleibt", lua.eval("GoldSentinelTest.version"), 4)
+# v4 (AHS-OVF1): JSON mit Zahlen über 32 Bit – WoW wirft bei %d, hier nachgebildet
+lua = new_lua("""
+local real = string.format
+string.format = function(fmt, ...)
+  local n = select('#', ...)
+  for i = 1, n do local v = select(i, ...)
+    if type(v) == 'number' and (v > 2147483647 or v < -2147483648) and fmt:find('%%[-+ #0]*%d*[diuxXoc]') then
+      error('integer overflow attempting to store ' .. real('%.0f', v)) end end
+  return real(fmt, ...)
+end""")
+for val, want in ((10526315689, "10526315689"), (99999999999, "99999999999"), (2147483648, "2147483648"),
+                  (-2147483649, "-2147483649"), (2147483647, "2147483647"), (42, "42"), (9007199254740992, "9.0072e+15")):
+    got = lua.eval("GoldSentinelTest.Encode(%r)" % val) if False else lua.execute("return GoldSentinelTest.Encode(%d)" % val)
+    check(f"Encode {val} ohne integer overflow", got, want)
+check("Gegenprobe Nachbildung wirft bei %d", lua.execute("return (pcall(string.format, '%d', 10526315689))"), False)
 print(f"GoldSentinelTest-Tests: {'bestanden' if fails == 0 else 'FEHLGESCHLAGEN'} ({checks - fails}/{checks})")
 sys.exit(1 if fails else 0)

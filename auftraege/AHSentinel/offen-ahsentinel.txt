@@ -6929,3 +6929,21 @@ AHS-T750 NIEDRIG: 1 Befund "abgeschnitten" (0.65.396: 0) – welche Ansicht; beh
 >>> NACHTRAG AHS-OVF1 (13:26): Bericht im Repo (testberichte/berichte/AHSentinel/AHSentinel-1795608303-26b5fe-1.json, 0.65.398, 13:01) = eingefügter Bericht
     (6 FEHLER, gleiche Werte). T000 enthält NUR den Fehlertext, KEINE Stelle (Datei:Zeile/Stack) -> zusätzlich: T000 schreibt künftig die erste
     eigene Stelle aus debugstack (wie LevelPilot Graph.NoteWrite) mit, damit ein Lua-Fehler im Spiel ohne Rätselraten zuzuordnen ist.
+
+>>> SHARED-T4 MITTEL (Supervisor 25.11. 14:26): shared/GoldSentinelTest.lua Version 4 – JSON-Bericht schrieb ganze Zahlen mit string.format("%d"); WoW wirft
+    bei Zahlen über 32 Bit "integer overflow attempting to store N" (AHS-OVF1). v4: bis 32 Bit gleicher Text, darüber "%.0f". Tests 101/101 (v3/v4 in
+    beiden Reihenfolgen, Nachbildung des WoW-Fehlers, Gegenprobe). Auftrag: mit der nächsten Version GoldSentinelTest.lua UNVERÄNDERT aus shared/
+    kopieren (addon_check warnt bis dahin "veraltete offizielle Fassung (Version 3)"). Nichts sonst ändern.
+>>> PRÜFUNG SUPERVISOR 25.11. 14:26 – AHSentinel 0.65.399 (Bericht 13:55, AHS-OVF1): ANGENOMMEN, Abnahme im Spiel offen.
+    Geprüft: addon_check OK (jetzt 1 WARNUNG wegen SHARED-T4, s. oben); CI grün (12:55Z). Locale.lua A.SafeFormat gelesen: ohne Zahl > 32 Bit genau
+    string.format; sonst %d/%i/%u als "%.0f" – richtig. Jede eigene Datei mit string.format hat "local string = A.SafeString or string" (geprüft,
+    nur die gemeinsamen GoldSentinel*.lua nicht – Regel). ABWEICHUNG vom Bericht ("keine Methoden-Form"): 2 Stellen in Methoden-Form, die an SafeFormat
+    vorbeigehen: AHAnalyzerPro.lua 6060 L[…]:format (nur %s) und DEWindow.lua 570 L["Gesperrt (%d)"]:format(0) – heute harmlos; in s341 als Regel
+    aufnehmen (Methoden-Form mit %d/%i/%u = FEHLER) und auf string.format umstellen. %x/%X/%o/%c mit grossen Zahlen fängt SafeFormat nicht ab –
+    s341 muss das prüfen (Bericht nennt "%08x" in eigener Testhilfe, berichtigt).
+    WICHTIG: Die gemeinsame Datei GoldSentinelTest.lua (JSON-Bericht, Zeile 143 "%d") war eine weitere Quelle desselben Fehlers – Verdacht, dass
+    T000 im Spiel genau daher kam (Testroutine schreibt den Bericht). Behoben in shared v4 (SHARED-T4) -> in 0.65.400 mitkopieren.
+    "Rückmeldung erledigt" (CF3 GrontaxLUL) notiert – Antwort auf CurseForge kommt mit der CF-Version, die den Fix enthält.
+    T14: Ursache belegt (keine Vollscan-Einträge im Verlauf seit 6 Tagen) – ANGENOMMEN; Messung "warum keine Einträge" + Fix-Vorschlag (Absatz ohne
+    Angebots-Daten nicht verwenden bzw. deckeln) FREIGEGEBEN; Verdacht "st.sold nicht je Markt getrennt" belegen (Horde/Allianz!).
+    CurseForge 18:00: auch 0.65.399 NICHT (noch kein Ingametest; FULL 0.65.399 ausstehend).
