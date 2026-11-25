@@ -3654,6 +3654,195 @@ local function AreaJ(t, G)
 		return true, "Vordergrund FEHLER · Bildgrenze/Sprung/Laden/Bereinigung Hinweis · gleichmässig langsam FEHLER · Kopfzeile richtig"
 	end)
 
+	-- 3.0.45 (Lesbarkeit L4, Hinweis 20.11. 13:50): Summen gehen auf – Stand = Summe der Buchungen, Kopfsumme = Summe der Zeilen,
+	-- "verdient" = Gutschriften ohne Rückgängiges; eigener Nachbau-Datensatz (nie echte Daten), Erwartung von Hand gerechnet
+	local function SumCheck(data)
+		local bad, sum = {}, {}
+		for _, e in ipairs(data.log) do
+			local pool = e.pool or "mc"
+			for n, d in pairs(e.d or {}) do sum[n .. "|" .. pool] = (sum[n .. "|" .. pool] or 0) + d end
+		end
+		for n, p in pairs(data.players) do
+			for pool, v in pairs(p.d or {}) do
+				if v ~= (sum[n .. "|" .. pool] or 0) then bad[#bad + 1] = n .. " " .. pool .. " Stand " .. v .. " ≠ Buchungen " .. (sum[n .. "|" .. pool] or 0) end
+				sum[n .. "|" .. pool] = nil
+			end
+		end
+		for k, v in pairs(sum) do if v ~= 0 then bad[#bad + 1] = k .. " Buchungen " .. v .. " ohne Stand" end end
+		table.sort(bad)
+		return bad
+	end
+	t:Check("T204", "J", "L4 Summen gehen auf: Stand = Buchungen, Gesamt = Zeilen, verdient ohne Rückgängiges (Gegenprobe)", function()
+		local DKP = RM.DKP
+		local data = { version = 0, players = {}, log = {}, firstKills = {}, lastDecay = 0, pools = {}, knownBosses = {}, earnedInit = true }
+		local A, B, C, D = "Testa", "Bob", "Cleo", "Offi"
+		local list = {
+			{ id = "t1", k = "start", pool = "mc", d = { [A] = 10, [B] = 10, [C] = 10 } },
+			{ id = "t2", k = "boss", pool = "mc", d = { [A] = 15, [B] = 15, [C] = 15 } },
+			{ id = "t3", k = "item", pool = "mc", d = { [A] = -40 } },
+			{ id = "t4", k = "manual", pool = "mc", d = { [B] = 7 } },
+			{ id = "t5", k = "undo", r = "t4", pool = "mc", d = { [B] = -7 } },
+			{ id = "t6", k = "decay", pool = "mc", d = { [B] = -3, [C] = -3 }, t = 1 },
+			{ id = "t7", k = "bench", pool = "ony", d = { [D] = 10 } },
+			{ id = "t8", k = "manual", pool = "ony", d = { [A] = 20 } },
+		}
+		for _, e in ipairs(list) do
+			if not DKP.ApplyEntryTo(data, e, false) then return false, "Buchung " .. e.id .. " nicht angewendet", "angewendet" end
+		end
+		if DKP.ApplyEntryTo(data, list[2], false) then return false, "Buchung t2 doppelt angewendet", "nur einmal" end
+		-- von Hand: mc Testa 10+15-40 = -15, Bob 10+15+7-7-3 = 22, Cleo 10+15-3 = 22; ony Offi 10, Testa 20
+		local want = { [A .. "|mc"] = -15, [B .. "|mc"] = 22, [C .. "|mc"] = 22, [D .. "|ony"] = 10, [A .. "|ony"] = 20 }
+		for k, v in pairs(want) do
+			local n, pool = k:match("^(.-)|(.+)$")
+			if DKP.PoolValue(data.players[n], pool) ~= v then return false, k .. " = " .. DKP.PoolValue(data.players[n], pool), v end
+		end
+		local bad = SumCheck(data)
+		if #bad > 0 then return false, table.concat(bad, "; "), "Stand = Summe der Buchungen" end
+		-- Kopfsumme = Summe der Zeilen (wie die Liste), Zahl der Spieler mit Stand, "verdient" ohne Abzüge und ohne Rückgängiges
+		local hand = { mc = { 29, 3, 75 }, ony = { 30, 2, 30 } }
+		for pool, h in pairs(hand) do
+			local total, count, earned = DKP.PoolTotal(data, pool)
+			local rows, rsum, rcount = DKP.SortedPlayers(pool, data), 0, 0
+			for i, r in ipairs(rows) do
+				rsum = rsum + r.dkp
+				if r.dkp ~= 0 then rcount = rcount + 1 end
+				if i > 1 and rows[i - 1].dkp < r.dkp then return false, pool .. " Reihenfolge", "absteigend" end
+			end
+			if total ~= rsum or count ~= rcount then return false, string.format("%s Gesamt %d/%d, Zeilen %d/%d", pool, total, count, rsum, rcount), "gleich" end
+			if total ~= h[1] or count ~= h[2] or earned ~= h[3] then
+				return false, string.format("%s %d DKP · %d Spieler · %d verdient", pool, total, count, earned), string.format("%d · %d · %d (von Hand)", h[1], h[2], h[3])
+			end
+		end
+		-- "verdient" nachgerechnet aus dem Log (wie bei alten Daten) = laufend mitgezählt
+		local copy = Deep(data)
+		copy.earnedInit = nil
+		DKP.InitEarned(copy)
+		for n, p in pairs(data.players) do
+			for pool, v in pairs(p.e or {}) do
+				if DKP.Earned(copy.players[n], pool) ~= v then return false, n .. " " .. pool .. " verdient " .. v .. " / nachgerechnet " .. DKP.Earned(copy.players[n], pool), "gleich" end
+			end
+		end
+		-- Gegenprobe: ein um 1 verfälschter Stand und eine verfälschte Buchung werden erkannt (je genau 1 Befund)
+		local g1 = Deep(data)
+		g1.players[A].d.mc = g1.players[A].d.mc + 1
+		local b1 = SumCheck(g1)
+		if #b1 ~= 1 or not b1[1]:find(A .. " mc", 1, true) then return false, "Gegenprobe Stand: " .. table.concat(b1, "; "), "1 Befund " .. A .. " mc" end
+		local g2 = Deep(data)
+		g2.log[7].d[D] = 11
+		local b2 = SumCheck(g2)
+		if #b2 ~= 1 or not b2[1]:find(D .. " ony", 1, true) then return false, "Gegenprobe Buchung: " .. table.concat(b2, "; "), "1 Befund " .. D .. " ony" end
+		return true, "8 Buchungen (mit Rückgängig und Verfall): Stände = von Hand, Gesamt mc 29/3/75 und ony 30/2/30 = Zeilen, verdient nachgerechnet gleich · Gegenprobe 2/2 erkannt"
+	end)
+
+	-- 3.0.45 (Lesbarkeit L3): dieselbe DKP-Zahl in der Liste, im Tooltip der Zeile, in der Antwort auf "!dkp" und in DKP.Get;
+	-- die Kopfzeile "Gesamt" = Summe der Zeilen (L4 an der echten Anzeige). Testmodus-Daten, Flüstern nur über RM.Whisper.
+	local function SameNumber(rows, tipOf, chatOf, getOf)
+		local bad = {}
+		for _, r in ipairs(rows) do
+			local tip, chat, get = tipOf(r), chatOf(r), getOf(r)
+			if tip ~= r.dkp or chat ~= r.dkp or get ~= r.dkp then
+				bad[#bad + 1] = string.format("%s Liste %s · Tooltip %s · !dkp %s · Stand %s", r.name, tostring(r.dkp), tostring(tip), tostring(chat), tostring(get))
+			end
+		end
+		return bad
+	end
+	t:Check("T205", "J", "L3 gleiche DKP-Zahl in Liste, Tooltip, !dkp und Stand; Gesamt = Zeilen (Gegenprobe)", function()
+		local UI, DKP, L = RM.UI, RM.DKP, RM.L
+		TestRaid()
+		local u = {}
+		local wasShown, wasPage = Shown(MainFrame()), UI.main and UI.main.current
+		local said = {}
+		return Guard(function()
+			Swap(u, RM.db.config, "whisperReplies", true)
+			Swap(u, RM, "Whisper", function(text) said[#said + 1] = tostring(text) end)
+			Swap(u, UI, "viewGuild", nil)
+			local data = RM.db.data
+			local pool = UI.viewPool or DKP.DefaultViewPool()
+			-- genug verschiedene Zahlen: zwei Spieler mit Stand (einer negativ), falls die Testdaten noch keine haben
+			local nonzero = 0
+			for _, p in pairs(data.players) do if DKP.PoolValue(p, pool) ~= 0 then nonzero = nonzero + 1 end end
+			if nonzero < 2 then
+				local m = RM.RaidMembers()
+				if #m < 2 then return false, #m .. " Spieler im Testraid", "≥ 2" end
+				DKP.EnsurePlayer(m[1].name, m[1].class); DKP.Adjust(m[1].name, 37, "T205", pool)
+				DKP.EnsurePlayer(m[2].name, m[2].class); DKP.Adjust(m[2].name, -12, "T205", pool)
+			end
+			if not Shown(MainFrame()) then UI.Toggle() end
+			UI.ShowPage("dkp")
+			UI.RefreshCurrent()
+			local page = UI.pages.dkp
+			local list, labels = page and page.frame and page.frame.list, {}
+			local head = page and page.frame and page.frame.totalLabel
+			if head and head.GetText then labels[1] = head:GetText() end
+			local function Scan(fr, depth)
+				if not fr or depth > 6 then return end
+				if not list and type(fr.data) == "table" and fr.SetData and fr.data[1] and fr.data[1].dkp ~= nil then list = fr end
+				for _, rg in ipairs({ fr.GetRegions and fr:GetRegions() or nil }) do
+					if rg and rg.GetText and rg:GetText() then labels[#labels + 1] = rg:GetText() end
+				end
+				for _, c in ipairs({ fr.GetChildren and fr:GetChildren() or nil }) do Scan(c, depth + 1) end
+			end
+			if not (list and head) then Scan(page and page.frame, 0) end
+			if not list then return false, "DKP-Liste ohne Zeilen", "Zeilen" end
+			local rows = list.data
+			-- Kopfzeile: Gesamt = Summe der Zeilen, Spieler = Zeilen mit Stand
+			local sum, cnt = 0, 0
+			for _, r in ipairs(rows) do sum = sum + r.dkp; if r.dkp ~= 0 then cnt = cnt + 1 end end
+			local poolName = DKP.PoolName(pool, data)
+			local wantHead = string.format(L["Gesamt %s: |cffff8c1a%d DKP|r · %d Spieler"], poolName, sum, cnt)
+			local headOk = false
+			for _, x in ipairs(labels) do if x == wantHead then headOk = true end end
+			if not headOk then
+				local seen = ""
+				for _, x in ipairs(labels) do if x:find(poolName, 1, true) and x:find("DKP", 1, true) then seen = x end end
+				return false, "Kopfzeile: " .. seen, wantHead
+			end
+			-- Zeilen prüfen: höchste, niedrigste und bis zu 10 weitere (Zeit)
+			local pick = {}
+			for i, r in ipairs(rows) do if i <= 6 or i > #rows - 6 then pick[#pick + 1] = r end end
+			local short = DKP.PoolShort(pool, data)
+			local function tipOf(r)
+				local lines = {}
+				local tt = { AddLine = function(_, s) lines[#lines + 1] = tostring(s) end, AddDoubleLine = function(_, a) lines[#lines + 1] = tostring(a) end }
+				if type(r.tooltip) ~= "function" then return "kein Tooltip" end
+				r.tooltip(tt)
+				for _, s in ipairs(lines) do
+					local want = string.format(L["%s: aktuell %d DKP"], poolName, r.dkp)
+					if s == want then return r.dkp end
+				end
+				return table.concat(lines, " / ")
+			end
+			local function chatOf(r)
+				wipe(said)
+				local errors, first = CallHandlers("CHAT_MSG_WHISPER", "!dkp " .. r.name, RM.Me())
+				if errors > 0 then return "Fehler " .. tostring(first) end
+				local text = said[#said]
+				if not text then return "keine Antwort" end
+				local body = text:match("^%[RaidMaster%] .-: (.*)$") or text
+				for part in (body .. " · "):gmatch("(.-) · ") do
+					if part:sub(1, #short + 1) == short .. " " then return tonumber(part:sub(#short + 2)) end
+				end
+				return 0                                   -- Topf ohne Stand steht nicht in der Antwort (= 0)
+			end
+			local function getOf(r) return DKP.Get(r.name, pool) end
+			local bad = SameNumber(pick, tipOf, chatOf, getOf)
+			if #bad > 0 then return false, table.concat(bad, " | "), "überall dieselbe Zahl" end
+			-- Gegenprobe: eine um 1 verfälschte Listenzahl und eine verfälschte Antwort werden erkannt
+			local fake = { { name = pick[1].name, dkp = pick[1].dkp + 1 } }
+			local g1 = SameNumber(fake, function() return pick[1].dkp end, function() return pick[1].dkp end, function() return pick[1].dkp end)
+			local g2 = SameNumber({ pick[1] }, function() return pick[1].dkp end, function() return pick[1].dkp - 1 end, getOf)
+			if #g1 ~= 1 or #g2 ~= 1 then return false, "Gegenprobe " .. #g1 .. "/" .. #g2, "1/1" end
+			return true, string.format("%d Zeilen von %d: Liste = Tooltip = !dkp = Stand (%s) · Gesamt %d DKP · %d Spieler = Zeilen · Gegenprobe 2/2 erkannt",
+				#pick, #rows, poolName, sum, cnt)
+		end, function()
+			Undo(u)
+			if UI.main then
+				if wasPage then pcall(UI.ShowPage, wasPage) end
+				if Shown(MainFrame()) ~= wasShown then pcall(UI.Toggle) end
+			end
+		end)
+	end)
+
 	-- 3.0.31 (Ingametest 17.11., T155): Tooltips verdecken keine Knöpfe – Platzierung neben, über, unter dem Fenster.
 	-- Nachgebaute Rahmen (Bildschirm 1000 x 800, Skala 1); geprüft wird, wohin UI.PlaceTooltip den Tooltip setzt.
 	t:Check("T190", "J", "Tooltip neben/über/unter dem Fenster (nie über Knöpfen)", function()
@@ -4817,7 +5006,7 @@ local function AreaL(t, G)
 			{ "TR-ALLE Sicherung", "T189" }, { "Tooltip-Platzierung (Ingame T155)", "T190" }, { "HUD-Ausnahme (Ingame T156)", "T191" }, { "Beschriftungen passen (Ingame T158)", "T192" }, { "Testdaten nie für andere Addons", "T193" },
 			{ "OPT-ALLE Optionen-Fenster", "T194" }, { "Spieler ohne Testbefehle", "T195" },
 			{ "DEV-SICHT Entwickler nur im Entwicklermodus", "T196" }, { "Werbung Platzhalter als ?", "T197" },
-			{ "Livedaten-Wächter Gegenprobe", "T198" }, { "Lesbarkeit L1/L8", "T199" }, { "Lesbarkeit Gegenprobe", "T200" }, { "RM-I2 Klassenfarben lesbar", "T201" }, { "RM-I2 Item-Qualitätsfarben lesbar", "T202" }, { "RM-UMG1 Umgebung erkennen (Gegenprobe)", "T203" }, { "RM-I1 Speicher je Addon", "T116" },
+			{ "Livedaten-Wächter Gegenprobe", "T198" }, { "Lesbarkeit L1/L8", "T199" }, { "Lesbarkeit Gegenprobe", "T200" }, { "RM-I2 Klassenfarben lesbar", "T201" }, { "RM-I2 Item-Qualitätsfarben lesbar", "T202" }, { "RM-UMG1 Umgebung erkennen (Gegenprobe)", "T203" }, { "L4 Summen gehen auf", "T204" }, { "L3 gleiche DKP-Zahl überall", "T205" }, { "RM-I1 Speicher je Addon", "T116" },
 			{ "RM-TF-1 kein Fehlerfenster", "T120" }, { "T-BL4 echtes Eingabefeld", "T169" } }
 		local only = R.only
 		local have, missing = 0, {}

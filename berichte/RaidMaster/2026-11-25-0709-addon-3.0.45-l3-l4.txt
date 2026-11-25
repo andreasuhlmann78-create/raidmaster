@@ -1,0 +1,30 @@
+Bericht RaidMaster-Sitzung an die Prüf-Sitzung – 25.11.2026
+Thema: RaidMaster 3.0.45 – Lesbarkeit L3/L4 als Prüfungen (Hinweis 20.11. 13:50; offen aus Bericht 3.0.41 Punkt 5).
+Status: umgesetzt, zur Prüfung. download/RaidMaster-3.0.45.zip (72 Dateien, = Ordner) + RaidMaster-latest.zip; 3.0.44.zip entfernt
+(Ablauf veroeffentlichen.md), README-Link 3.0.45. addon_check: OK; ganze Prüfung wie der Workflow: Exit 0, 0 FEHLER.
+Für Spieler ändert sich nichts (nur Testroutine + zwei Felder an der DKP-Seite). Keine Discord-Ankündigung (wie 3.0.41–3.0.44: nur Entwickler).
+
+1. T204 (Bereich J) – L4 Summen gehen auf, an einem eigenen Nachbau-Datensatz (nie echte Daten; Namen erfunden):
+   8 Buchungen über DKP.ApplyEntryTo (Raidstart, Boss, Item, Gutschrift, deren Rückgängig, Verfall, Ersatzbank, zweiter Topf).
+   Geprüft: Stände = von Hand gerechnet (mc -15/22/22, ony 10/20); Stand = Summe der Buchungen je Spieler und Topf; Buchung
+   doppelt -> nicht nochmals angewendet; PoolTotal = Summe/Anzahl der Zeilen (SortedPlayers, absteigend) und = von Hand
+   (mc 29 DKP · 3 Spieler · 75 verdient, ony 30 · 2 · 30; Rückgängig zählt nicht als verdient); "verdient" aus dem Log nachgerechnet
+   (InitEarned) = laufend mitgezählt. Gegenprobe: um 1 verfälschter Stand und verfälschte Buchung -> je genau 1 Befund.
+   Echte Daten werden NICHT auf "Stand = Summe der Buchungen" geprüft: das Log ist auf 1000 Einträge begrenzt, ältere Stände und
+   Abgleich-Schnappschüsse setzen Stände ohne Buchung – das gäbe falsche Befunde (Begründung, kein Befund).
+2. T205 (Bereich J) – L3 gleiche Zahl überall, an der echten DKP-Seite im Testmodus:
+   je Zeile (die 6 höchsten und 6 niedrigsten) Liste = Tooltip ("<Topf>: aktuell N DKP") = Antwort auf "!dkp <Name>" (über RM.Whisper,
+   nichts Echtes) = DKP.Get; dazu L4 an der Anzeige: Kopfzeile "Gesamt <Topf>: N DKP · M Spieler" = Summe/Anzahl der Zeilen
+   (Text exakt mit der Übersetzung verglichen, darum in jeder Sprache gleich streng). Zwei Spieler bekommen einen Stand (+37/-12),
+   falls die Testdaten keine haben. Gegenprobe im Test: verfälschte Listenzahl und verfälschte Antwort -> je 1 Befund.
+   Pages.lua: die DKP-Seite merkt sich ihre Liste und Kopfzeile (page.list, page.totalLabel), damit der Test sie auch ohne
+   Rahmen-Durchsuchung findet (die Nachbildung kennt GetChildren nicht).
+3. Gegenproben am Code (Kopien im Arbeitsordner, nicht im Repo): Tooltip zeigt Stand+1 -> T205 FEHLER "Liste 130 · Tooltip … 131";
+   PoolTotal zählt 1 zu viel -> T204 FEHLER "mc Gesamt 30/3, Zeilen 29/3" und T205 FEHLER "Kopfzeile … 6728". Original: beide OK.
+4. Nachbildung: deDE Forever, enUS, zhCN, Classic Era (TOC 11509) -> ALLE OK; T204/T205 OK
+   ("12 Zeilen von 57 … Gesamt 6727 DKP · 56 Spieler = Zeilen"). Im Client prüfen: T205 Zeit (12 Flüster-Antworten) unter 5 ms je Portion.
+5. L2/L5/L6 (Einordnung, Code gelesen, keine eigene Prüfung): L2 – alle Zahlen-Spalten der Listen rechtsbündig (DKP, Gebot, Betrag,
+   Spieler, Anzahl, Taschen, Bank, Post, Gildenbank – Pages.lua); L5/L6 – DKP-Tooltip: Name, darunter die eine beschriftete Zahl
+   "<Topf>: aktuell N DKP". Die Prüfliste ist mit 14 Punkten voll (T185 erlaubt höchstens 14) – darum kein neuer Handpunkt.
+   L7 trifft nicht zu (keine Kauf-/Verkaufsempfehlungen).
+6. Weiter offen: Taktik-"ca."-Zahlen in RaidData.lua (24 Stellen) – Entscheid der Prüf-Sitzung (a) weglassen oder (b) messen.

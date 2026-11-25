@@ -1,6 +1,7 @@
 # Stand RaidMaster-Sitzung
 
-## Stand 25.11.2026 06:46 · Addon 3.0.44 · Uploader 2.3.28
+## Stand 25.11.2026 07:09 · Addon 3.0.45 · Uploader 2.3.28
+- Addon 3.0.45 gepusht (L3/L4 als Prüfungen T204/T205, nur Testroutine). Uploader 2.3.27/2.3.28 und RM-CI1 vom Supervisor angenommen 06:53.
 - RM-CI1: alte RaidMaster-Zips 3.0.40–3.0.43 aus download/ entfernt, README-Link 3.0.44. Bericht 0646. Ablauf: veroeffentlichen.md.
 - Uploader 2.3.28 gepusht (UP-UPD1-c: "update" in stand.json trägt die NEUE Version ein; altes Fenster schickt nach Übergabe nichts mehr). Bericht 0643
   (beantwortet auch: sicherung = main = d10d6d9, kein Rückstand). Laptop UP-AUTO1 im Betrieb belegt (Supervisor 06:34).
@@ -24,14 +25,13 @@
 2. Nach Meldung "alle Rechner umgestellt": Daten-Repo lokal prüfen (Zweig "sicherung", uploader 2.3.20 bei 4 Rechnern,
    "tage", nur .lua.gz in aktuell/, main = sicherung) – Bericht.
 3. Ingametest 3.0.44 auswerten: Zeile UMGEBUNG, T203; Abnahme UP-AUTO1 Laptop (PC abgenommen 20:55).
-4. Nächste Addon-Version: L2–L7 als Prüfungen (L3 DKP gleich in Liste/Tooltip/!dkp, L4 Summen; L2/L5/L6 Prüfliste),
-   Taktik-"ca."-Zahlen in RaidData.lua nach Entscheid der Prüf-Sitzung.
+4. Taktik-"ca."-Zahlen in RaidData.lua nach Entscheid der Prüf-Sitzung (L2–L7 mit 3.0.45 erledigt bzw. eingeordnet).
 
 ## Offen beim Nutzer
 - PC: bei der Frage im Uploader-Fenster Taste j (Abnahme UP-UPD1). Laptop UP-AUTO1 belegt.
   Beim nächsten Update (2.3.28) per j: altes Fenster schliesst sich -> Abnahme UP-UPD1-a/b und UP-UPD1-c (stand.json "update").
 - Uploader 2.3.20 auf allen 4 liefernden Rechnern ganz entpacken + neu starten (ältere werden abgewiesen, auch 2.3.19).
-- RaidMaster 3.0.44 installieren und Ingametest: /gsdev an, /rm testroutine alles, /reload.
+- RaidMaster 3.0.45 (kommt automatisch) Ingametest: /gsdev an, /rm testroutine alles, /reload.
 
 ## Entscheide des Nutzers seit letztem Stand
 - 25.11. 06:29: Einstellungsdateien aus dem Download-Ordner übernehmen, "mit Schutz" (UP-CFG1) – nach Hinweis auf die Risiken.

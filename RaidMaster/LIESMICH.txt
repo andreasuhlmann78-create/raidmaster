@@ -11,6 +11,11 @@ INSTALLATION
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
 
+NEU IN 3.0.45 – Testroutine prüft gleiche Zahlen und Summen (nur für den Entwickler)
+- Lesbarkeit L3: dieselbe DKP-Zahl in der Liste, im Tooltip, in der Antwort auf "!dkp" und im Stand (T205).
+- Lesbarkeit L4: "Gesamt" über der Liste = Summe der Zeilen; Stand = Summe der Buchungen, auch mit Rückgängig und Verfall (T204).
+- Für Spieler ändert sich nichts.
+
 NEU IN 3.0.44 – Testroutine erkennt die Umgebung (nur für den Entwickler)
 - Die Testroutine misst jetzt auch, was um RaidMaster herum passiert: Bilder pro Sekunde, Ping, Ladebildschirm,
   Speicherbereinigung und ob das Spiel im Hintergrund lief. Ist eine Leistungsprüfung zu langsam, während das Spiel im

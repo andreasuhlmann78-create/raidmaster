@@ -23,6 +23,11 @@ MAIN FEATURES
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
 
+WHAT'S NEW IN 3.0.45 – test routine checks same numbers and sums (developer only)
+- Readability L3: the same DKP number in the list, the tooltip, the "!dkp" reply and the stored standing (T205).
+- Readability L4: "Total" above the list = sum of the rows; standing = sum of the entries, also with undo and decay (T204).
+- Nothing changes for players.
+
 WHAT'S NEW IN 3.0.44 – test routine recognises the environment (developer only)
 - The test routine now also measures what happens around RaidMaster: frames per second, ping, loading screen, garbage
   collection and whether the game ran in the background. If a performance check is too slow while the game was in the

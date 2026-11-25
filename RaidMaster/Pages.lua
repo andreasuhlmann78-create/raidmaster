@@ -149,6 +149,7 @@ UI.AddPage("dkp", L["DKP-Stände"], function(page)
 	})
 	Place(list, page, 0, -64)
 	UI.Fill(list, page)
+	page.list, page.totalLabel = list, totalLabel   -- 3.0.45: Testroutine T205 (L3/L4) liest Zeilen und Kopfzeile
 
 	-- Offiziersbereich
 	local px = 560
