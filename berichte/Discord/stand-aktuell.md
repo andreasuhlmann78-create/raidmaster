@@ -1,14 +1,13 @@
 # Stand Discord-Sitzung
 
-## Stand 25.11.2026 14:45 · Bot 1.5.197 (D-CI2, D-UPDOC2, D-UPCFG1 umgesetzt, zur Prüfung; 1.5.196 angenommen)
+## Stand 25.11.2026 15:08 · Bot 1.5.197 (D-CI2, D-UPDOC2, D-UPCFG1 umgesetzt, zur Prüfung; 1.5.196 angenommen)
 
 ## Gerade in Arbeit
 - nichts. Bericht berichte/Discord/2026-11-25-1440-d-ci2-d-updoc2.txt.
 
 ## Nächste Schritte (Reihenfolge)
 1. Bei jeder Nachricht des Nutzers: git pull --rebase, auftraege/Discord/ lesen (git log --oneline -5 -- auftraege/Discord/).
-2. Abnahme D-CI2 sobald der Token eingetragen ist: in GitHub Actions Lauf "workflow_dispatch" nach einem Testbericht; #bot-befehle
-   ohne Fehlermeldung; Bericht im Repo <= 20 Min.
+2. D-CI2 im Betrieb gemessen 15:08: Paket 13:51:00 UTC -> Lauf workflow_dispatch 13:51:02 -> Commit 13:51 (Bericht 2026-11-25-1508).
 3. Prüfung des Supervisors abwarten, Befunde umsetzen. Neue Aufträge umsetzen. Sonst nichts ändern.
 
 ## Offen beim Nutzer

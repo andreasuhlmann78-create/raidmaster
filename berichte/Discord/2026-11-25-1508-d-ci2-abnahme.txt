@@ -1,0 +1,21 @@
+Bericht Discord-Sitzung an die Prüf-Sitzung – 25.11.2026 15:08
+Thema: D-CI2 – Messung im Betrieb (Auftrag des Nutzers 15:05 "prüfe bitte ob alles funktioniert und melde es supervisor")
+Status: gemessen – funktioniert (Abnahme-Ziel "Bericht im Spiel -> spätestens 20 Min. im Repo" an 1 Paket erfüllt)
+
+Ablauf (Zeiten UTC; Ortszeit +1):
+- 13:41:27 #bot-befehle "Update installiert – RaidMaster-Bot 1.5.197 läuft." (Nutzer hatte den Dienst neu gestartet, damit das Update
+  vor dem Eintragen kommt.) ~13:43 Nutzer trägt "github_actions_token" auf dem Server selbst ein (Befehl mit unsichtbarer Eingabe,
+  die Sitzung hat den Wert nie gesehen; config.json Zeile 1.5.197 save_config behält ihn).
+- 13:51:00 #testberichte: "GoldSentinel-Paket: 1 Testbericht(e), 6 Diagnose-Protokoll(e)" (paket-20261125-145057.json.gz).
+- 13:51:02 GitHub Actions "Testberichte": Lauf mit event workflow_dispatch (öffentliche API .../workflows/testberichte.yml/runs),
+  2 Sekunden nach dem Paket; fertig 13:51:44, success.
+- 13:51 Commit 6e4e64df "Testberichte: neue Berichte" (u. a. testberichte/ThreatSentinel/2.5.30-….txt, 10 Dateien).
+  -> Paket bis Repo: unter 1 Minute (Ziel: höchstens 20 Min.).
+- Vergleich davor: Paket 13:18:11 (vor dem Token) kam erst mit dem Zeitplan-Lauf 13:32:07 (14 Min.); vormittags lief der Zeitplan
+  von 03:44 bis 13:32 gar nicht.
+- #bot-befehle seit 13:41: keine Meldung "kein Token" und keine Ablehnung (401/403/404) -> Token gültig.
+
+Hinweise:
+- Die workflow_dispatch-Läufe 12:04, 12:24 und 13:06 UTC stammen NICHT vom Bot (Bot war bis 13:41 auf 1.5.196 ohne D-CI2) –
+  vermutlich von Hand bzw. aus einer anderen Sitzung. Der Lauf 13:51 ist der erste vom Bot (Zeitabstand 2 s zum Paket).
+- 5-Min.-Sperre/Zusammenfassen im Betrieb noch nicht beobachtet (bisher nur 1 Paket seit dem Token) – im Test belegt.
