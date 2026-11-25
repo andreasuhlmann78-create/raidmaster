@@ -1,0 +1,83 @@
+LevelPilot 3.13.15 – Bericht an die Prüf-Sitzung: LP-Y1, LP-TR1 a) (+ b) Messung), LP-SB1-b, SHARED-T4
+Stand 25.11.2026 15:59 · umgesetzt, zur Prüfung
+Zip: announce/levelpilot__levelpilot-3.13.15.LevelPilot.zip (md5 d90dee86daed45bbfe54a085e7c7acef, 2 835 633 Bytes)
+
+Prüfungen vor dem Push
+- addon_check: OK (GoldSentinelTest 101/101). Gemeinsame Dateien mit cmp gleich shared/.
+- Offline-Routine: 40 von 40 ohne FEHLER. Testroutine in 5 Formen: 5 von 5 ohne FEHLER.
+- Nachbau ganze Routine:
+  - Stufe 30 (Laptop-Daten, Donnerfels): 0 FEHLER.
+  - PC-Daten (MININT, Donnerfels): 0 FEHLER.
+  - Priester 10 (Undercity): 0 FEHLER, gelaufen vor dem letzten Schritt (LP.YPCall). Der Schlusslauf ging über die Stufe-30- und
+    PC-Daten.
+  - Ein Zwischenlauf hatte T273 als FEHLER: T393 stand in der Liste der Regressionen, entsteht aber erst nach T273. Behoben: T393 ist
+    nicht mehr in dieser Liste.
+
+SHARED-T4: GoldSentinelTest.lua Version 4 unverändert aus shared/ kopiert (cmp gleich).
+
+LP-Y1 HOCH – "attempt to yield across metamethod/C-call boundary" (Fire PLAN_CHANGED)
+- Ursache im Code belegt, Weg im Nachbau gezählt:
+  - In der virtuellen Reise gibt LP:Yield über coroutine.yield der Reise-Coroutine ab.
+  - Steckt die Rechnung dabei in einem pcall (LP.PCall, LP:Fire -> Empfänger, Jobs.Start), bricht Lua 5.1 mit diesem Fehler ab. pcall
+    fängt ihn, meistens still.
+  - 3.13.13 machte das häufiger: Die Freigabe gilt seither über Pausen, und Jobs.JourneyPCall gibt die Reise ab.
+  - Abtastung im Nachbau (Priester 10, alle gesperrten Abgaben mit Stapel): 28 469 Stellen je Lauf, fast alle
+    Planner.lua:1677 CheckFirstPath -> LP.PCall(Graph.Path) -> LP:Yield.
+  - Die Fehler im Spiel ("Fire PLAN_CHANGED", 5× bzw. 2×) sind derselbe Weg über den pcall in LP:Fire.
+- Planung unvollständig: JA, belegt. CheckFirstPath brach bei jeder Abgabe im pcall ab ("if not okp then return").
+  - Die Prüfung des Wegs zum ersten Ziel (starke Mobs auf dem Weg) fiel damit weg.
+  - Nachbau Stufe 30: Weg der kurzen Reise vorher 21 490 yd, jetzt 21 345 yd. Die Prüfung läuft jetzt wirklich.
+- Behoben ohne die Portionierung aufzugeben:
+  - LP.YPCall (Core.lua): pcall, unter dem abgegeben werden darf. fn läuft in einer eigenen Coroutine, ihre Abgaben gehen an die
+    äussere weiter. Ergebnis und Fehler wie pcall.
+  - LP.PCall nutzt LP.YPCall, wenn es in der Reise-Coroutine läuft. Jobs.JourneyPCall ruft LP.YPCall. Die Trainerprüfung je Schritt
+    (Virtual.lua 516) läuft über LP.PCall statt pcall.
+  - Wo trotzdem eine C-Grenze im Stapel steht, gibt die Reise NICHT ab und rechnet weiter: LP.YieldBlocked, Tiefe der LP.PCall je
+    Coroutine plus Stapel (debugstack/traceback), geeicht wie GoldSentinelTakt mit LP.MarkYieldBase.
+  - Gesperrte Abgaben werden gezählt, mit Stelle. Bericht: "abgabeGesperrt", "abgabeGesperrtStellen".
+  - Nachbau danach: 5 gesperrte Abgaben je Lauf statt 28 469, alle 5 aus T392 selbst.
+  - Längste Portion der Reise (Stufe 30) jetzt 16,6 ms (3.13.14: 38,8 ms).
+- Laufzeit: Die vorher still abgebrochenen Wegprüfungen laufen jetzt ganz. Nachbau Stufe 30: Reisen 684 s, Routine 916 s, im Rahmen von
+  3.13.13/14 (827–930 s).
+- Gegenprobe T392:
+  - Coroutine wie die Reise; LP:Fire mit einem Empfänger, der abgibt, und einem, der einen Auftrag in der Reise startet.
+  - Ergebnis: kein Fehler, beide Empfänger fertig, Abgaben im pcall unterlassen (≥ 3).
+  - Ohne Fix gäbe der erste Empfänger einen Fehler.
+  - Testregel: T392 zählt dazu jeden "yield across"-Fehler im ganzen Lauf (LP.yieldErrors, mit Stelle) -> FEHLER.
+
+LP-TR1 HOCH
+a) Teilbericht bei Zeitlimit: TR:Abort speichert jetzt den Bericht mit allen fertigen Ergebnissen.
+   - Dazu T393 als FEHLER "abgebrochen: <Grund> bei <Bereich> / <Prüfung>".
+   - Weitere Felder: teilbericht, abbruch, abbruchBei, dauerBereiche, Takt-Zeile, langeStuecke, abgabeGesperrt.
+   - Test im Nachbau (Zeitlimit künstlich 90 s): GSTEST1 gespeichert, T393 "abgebrochen: Zeitlimit 90 s bei Reisen / Reisen",
+     dauerBereiche "Start 17 s, Reisen 73 s, gesamt 90 s".
+   - Gegenprobe 700 s: fertig, T393 OK.
+b) Messung statt Schätzung: neues Feld "dauerBereiche" (Wanduhr je Bereich), auch im normalen Bericht.
+   - Nachbau Stufe 30, 20 Bilder/s: Start 17 s, Reisen 684 s, Grundregeln 8 s, B 66 s, F 5 s, H 9 s, J 105 s, Sandbox und Bericht 9 s,
+     Nachlauf 9 s, gesamt 916 s.
+   - Die Reisen sind der grösste Teil.
+   - Für das Spiel fehlt die Messung: Die Läufe 3.13.13/14 endeten ohne Bericht.
+   - Zeitlimit darum VORLÄUFIG 3600 s. Begründung: drei Reisen bis je 240 s + Bereiche (3.12.91 im Spiel 330 s) + Hintergrund mit
+     weniger Bildern/s.
+   - Mit dem nächsten Bericht (dauerBereiche) lege ich die Grenze fest: gemessen + Rand. Eine Grenze bleibt. Inhalt nicht gekürzt.
+
+LP-SB1-b MITTEL
+- V:Abort spielt jetzt ein, was während der Reise ankam:
+  - Abbruch durch Backup oder Testroutine: in Portionen wie nach Finish.
+  - PLAYER_LOGOUT: sofort am Stück, gemessen in LP.db.net.logoutReplay (Anzahl, ms). Nachbau: 1 Nachricht in 0,15 ms.
+  - Ich habe "sofort beim Ausloggen" gewählt: Eine Wegnachricht kostet Bruchteile einer ms. Die Liste ist nur so lang wie der Empfang
+    einer Reise. Der Messwert steht in den SavedVariables.
+- T394: Ausloggen -> 3 Wegpunkte eingespielt, gemessen 1 Nachricht, danach nichts wartend. Abbruch -> Portionen gestartet. Ohne Empfang:
+  nichts. Nachbau OK.
+- Frage der Routine (zwei Reisen, Einspielen fällt in ihre Laufzeit) – im Code belegt, noch NICHT behoben:
+  - Die Routine stellt am Ende ihre Sicherung von LevelPilotDB vollständig zurück (Restore(sb), RestoreP über alle Schlüssel ausser
+    gsTest).
+  - Was während der Routine von aussen ankommt (eingespielt nach einer Reise oder direkt empfangen), fällt dabei weg.
+  - Einen FEHLER erzeugt das nicht: Nach dem Zurückstellen ist alles wie vorher, es gibt keinen Vergleich, der es meldet. Die Daten
+    gehen aber verloren. Das gilt schon vor 3.13.14.
+  - Vorschlag für die nächste Version: während der Routine den Empfang am Netzeingang (nicht in Comm:Receive, das rufen die Prüfungen
+    direkt) zurückhalten und nach Restore einspielen. Im Bericht als HINWEIS mit Anzahl je Art. Test im Nachbau: Empfang mitten in der
+    Routine -> nach dem Ende im Netz.
+
+Weiter in der Reihenfolge: LP-SB1-b (Routine, siehe oben) -> LP-R1 -> LP-R2 -> LP-I1 …
+Im nächsten Ingametest bitte: dauerBereiche, abgabeGesperrt(Stellen), T392–T394, ob die Routine fertig wird.
