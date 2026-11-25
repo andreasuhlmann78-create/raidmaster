@@ -1,0 +1,45 @@
+AHSentinel 0.65.399 – AHS-OVF1 HOCH (integer overflow) behoben + T000 mit Stelle + TSK1h Scan-Nummer; Befund T14 belegt – umgesetzt, zur Prüfung (nur Discord)
+Zeit: 25.11.2026 13:55 (Europe/Zurich)
+addon_check 0.65.399: OK. ZIP: gleiche 112 Dateien wie 0.65.398.
+
+AHS-OVF1
+- Ursache-Art BELEGT: WoW wirft bei string.format mit %d/%i/%u (auch %c/%o/%x) und einer Zahl ausserhalb von 32 Bit "integer overflow attempting to
+  store N"; normales Lua 5.1 (Nachbau) schneidet still ab – darum fiel es im Nachbau nie auf. Der Nachbau wirft jetzt wie WoW (wowsim.lua,
+  Sim:WrapFormatLikeWoW; WOW_OVERFLOW=0 nur zum Vergleich).
+- Gegenprobe mit der Nachbildung: 0.65.397 (Forecast Num() wie in 0.65.393): Journal kodieren mit 2147483648 / 10526315689 / 99999999999 / 2^53 ->
+  "integer overflow attempting to store …" (4×). 0.65.399: alle ohne Fehler, Zahl richtig im Text. FormatMoney war schon vorher sicher.
+- Die GENAUE Stelle im Spiel (welche Zahl 10526315689 auf welchem Weg) ist NICHT belegt: der Bericht hatte keine Stelle, und mit den hochgeladenen Daten
+  (Laptop 13:07, Teil auto und ui) tritt der Fehler im Nachbau nicht auf (Zustand im Spiel: Taschen/Post/Auktionshaus). Verdacht, zu messen:
+  ceil(9 999 999 904 / 0,95) = 10 526 315 689 – ein Betrag ~1 Mio. Gold geteilt durch (1 − 5 % AH-Gebühr), z. B. Mindestpreis aus Einkaufs-/
+  Händlerpreis (Seller.lua 765/768/886–892) oder Learn.lua 456. Ab 0.65.399 nennt T000 die Stelle (erste zwei eigene "Datei:Zeile").
+- Fix SYSTEMATISCH: A.SafeFormat (Locale.lua, erste eigene Datei): ohne Zahl über 32 Bit genau string.format; sonst nur bei %d/%i/%u die
+  Zahl ganzzahlig (wie %d Richtung 0) als Text (%.0f, exakt bis 2^53). Jede der 65 eigenen Dateien mit "format" nimmt direkt nach
+  "local A = AHAnalyzerPro" die Zeile "local string = A.SafeString or string" -> jedes string.format im Addon (888 Stellen mit %d) geht darüber.
+  Gemeinsame GoldSentinel*.lua unverändert (Regel). Keine Methoden-Form ("…"):format, kein SetFormattedText, kein freies format() im Addon.
+- Text bleibt für Werte < 2^31 Byte für Byte gleich: T1028 4 000 Zufallswerte (auch Kommazahlen, ±2^31 Grenzen) in 8 Formaten = string.format;
+  s336 (Sync-Nachrichten 0.65.396 gegen 0.65.399): 347 Nachrichten d73af8df, DUMP 0 Unterschiede.
+- Prüfregel: Nachbau s341 (Regel über alle eigenen Dateien der TOC + Gegenprobe Nachbildung + Journal/FormatMoney mit 2^31+1, 10526315689,
+  99999999999, 2^53 + T1028). Gegenprobe s341 mit 0.65.397: 6 FEHLER (Regel + 4× Journal + SafeFormat fehlt). Testroutine T1028 (im Spiel).
+  Den Datei-Grep kann die Testroutine im Spiel nicht (keine Dateien lesbar) – er läuft im Nachbau (s341) bei jedem Gesamtlauf.
+- Ist 0.65.393 (CurseForge) betroffen? JA: Num() und alle anderen %d-Stellen sind dort gleich; mit einem Betrag über 2^31 Kupfer (~214 748 g) in
+  Journal/Anzeige kommt derselbe Fehler (Gegenprobe oben mit 0.65.397-Code, Num() identisch).
+- Rückmeldung erledigt: CurseForge-Spieler (CF3, 20.11.) – "integer overflow attempting to store 99999999999" – 0.65.399 – "Kein Lua-Fehler
+  'integer overflow' mehr … bisher nur beim CSV-Export behoben."
+- T000 (Nachtrag 13:26): TR:Next/Warten nutzen xpcall; T000 schreibt "· Stelle: Datei:Zeile < Datei:Zeile" (TR.ErrWhere aus debugstack).
+
+AHS-T14 – Ursache BELEGT, nicht durch SP2 (c): mit den hochgeladenen Daten (Laptop 13:07, Markt Alle|Horde, Uhr 25.11.) im Nachbau nachgebaut:
+  genau "Instabiles Magiepartikel (1972/Tag bei Ø 0 angeboten)", Item 274964 – identisch mit 0.65.396, 0.65.397 und 0.65.398.
+  Grund: der Verlauf des Items hat in den letzten 14 Tagen KEINEN Eintrag zu einem vollständigen Scan (13 Einträge, alle verdichtet/zusammengefasst,
+  letzter vor 6,0 Tagen) -> Ø angeboten 0, Anwesenheit 0; der gemessene Absatz (Vollscan-Verfolgung, 6 Paare, 5 Tage, bis heute) gibt 1 972/Tag.
+  0.65.396 (09:01) war grün, weil die Daten damals anders waren (Item kam erst danach in diesen Zustand). Offene Frage (Verdacht, zu messen):
+  warum das Item seit 6 Tagen keine Preis-Einträge aus Vollscans bekommt, obwohl die Verfolgung es täglich sieht. Fix-Vorschlag nach dieser
+  Messung: gemessener Absatz ohne Angebots-Daten im Zeitraum nicht verwenden bzw. mit der Menge der Verfolgung deckeln. Nicht in 0.65.399.
+  Nebenbei: der Nachbau läuft als Allianz – dort ist marketData leer, der gemessene Absatz (nicht je Markt) aber da -> gleicher Befund auf
+  dem anderen Markt (Verdacht: st.sold ist nicht je Markt getrennt).
+AHS-TSK1h: Zeile nennt jetzt "· n. Vollscan seit dem Laden".
+AHS-T750 (1 Befund "abgeschnitten"): noch offen – im Nachbau mit den Daten nicht nachgestellt (64 "überlappt" = bekannte Nachbau-Grenze).
+
+Nachbau 0.65.399: Teil auto s42 PASS, server s43 PASS, ui s187 PASS (T1028 PASS), s341 PASS, s336 PASS. Nebenbei im Nachbau gefunden: eigene
+Testhilfe (Prüfsumme "%08x") hätte im Spiel denselben Fehler – berichtigt (zwei Hälften).
+CurseForge: laut Supervisor erst nach Fix + Ingametest. FULL 0.65.399 folgt allein (mit der WoW-Nachbildung: neue Funde sind möglich).
+Nächster Ingametest: Vollscan starten, währenddessen /ahs testroutine mit offenem Auktionshaus.
