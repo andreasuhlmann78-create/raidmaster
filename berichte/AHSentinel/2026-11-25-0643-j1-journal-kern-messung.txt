@@ -1,0 +1,40 @@
+AHSentinel AHS-J1 (Journal-Ring 3000 / Kern-Abgleich) – MESSUNG und Ursachen, Vorschlag VOR jedem Einbau – zur Prüfung
+Daten: Daten-Repo Zweig sicherung (aktuell/* und tage/*), PC = DESKTOP-NVITMSE, Laptop = AUSPLUSLAPTOP (beide konto-5cb3d536), dazu JD5SLR5
+(konto-741a4b9a) und M6UO3AL (konto-36a99f17). Auswertung mit eigenem Skript (liest db.forecast.list) und den Modulen der Prüf-Sitzung
+(markt_tabellen.py, kern_daten.py) – nichts geschätzt.
+
+(1) WIE VIELE TAGE DECKT DAS JOURNAL AB (Zeit Europe/Zurich, Einträge je Tag):
+ PC aktuell = tage/24.11. (3000 Einträge, 14.11. 15:19 .. 24.11. 20:36):
+   D 1696: 14.11. 207 · 15.11. 1155 · 21.11. 334 (letzter 21.11. 23:28)
+   B 1132: 14.11. 37 · 15.11. 801 · 16.11. 9 · 20.11. 9 · 21.11. 268 · 22.11. 6 · 24.11. 2
+   P  172: 14.11. 15 · 15.11. 53 · 16.11. 4 · 20.11. 4 · 21.11. 70 · 22.11. 26 (letzter 22.11. 17:05)
+ PC tage/22.11.: D 1703 (14.11. 214) · B 1129 · P 168. Laptop tage/23.–24.11. = Stand 22.11. 17:05 (unverändert, wie gemeldet); tage/25.11. = Stand PC 24.11.
+ Befunde:
+ - Der Ring ist voll, verliert aber seit 22.11. fast nichts: zwischen PC 22.11. und 24.11. fielen 7 alte D-Einträge vom 14.11. heraus (214 -> 207),
+   weil seither kaum Neues dazukam (24.11.: 2 Käufe, kein Einstellen, kein Entzaubern). KEIN Verlust zwischen zwei Tages-Lieferungen.
+ - Der Ring ist zu 66 % mit ZWEI Tagen gefüllt: 15.11. D 1155 (4 Items, je ein Text – keine Doppelten) und B 801 (13 Items, Sniper, 799 verschiedene
+   Texte) – echte Massen-Aktivität. Verdacht, zu messen (Stände 14.–20.11. fehlen im Daten-Repo): genau diese Masse hat am 15./16.11. die älteren
+   Fälle (vor 14.11. 15:19) aus dem Ring gedrängt – daher fallen die Zahlen gegen die Tabelle vom 16.11. (Entzaubern 1279 -> 816).
+ - "Die Fälle wachsen nicht mehr" liegt seit 22.11. an der geringen neuen Aktivität, nicht am Ring.
+(2) KERN-ABGLEICH 28/29/36 "FEHLT IM KERN" – URSACHE BELEGT: im Prüf-Skript, nicht im Addon.
+ kern_abgleich.py vergleicht in der harten Prüfung das ZUSAMMENGEFÜHRTE Journal ALLER Rechner (mt.merge_journals(dbs), drei Konten) mit dem Kern
+ EINES Rechners. Fälle anderer Konten können dort nie stehen. Nachgerechnet mit denselben Regeln (r nicht ""/u/c, Ende >= Kern-Start, Zelle g:Preisband):
+   Rechner        Zellen nicht aufgehend: alle Journale | eigenes Journal   Fälle: alle | eigenes | Kern
+   NVITMSE (PC)       28 | 3                                                  329 | 168 | 175
+   AUSPLUSLAPTOP      28 | 3                                                  329 | 168 | 175
+   JD5SLR5            29 | 0                                                  329 | 113 | 113
+   M6UO3AL            36 | 5                                                  329 |  48 |  53
+ Die Reste stehen alle mit Kern > Journal (PC: consum:3 2/3, de:3 59/60, de:5 21/26; M6U: cloth:3 0/1, gear2:3 0/1, gear2:5 0/1, misc:1 7/8,
+ misc:3 7/8) – also NICHTS "fehlt im Kern"; der Kern hält Fälle, die das Journal nicht mehr hat (Ring bzw. Tagesgrenze des Kern-Starts –
+ genau KERN-S1b). Ob jeder Rest genau so entstand: Verdacht, je Fall zu belegen (alte Stände fehlen).
+ => Vorschlag an die Prüf-Sitzung (ihre Datei, ich ändere sie nicht): harte Prüfung je Rechner mit dessen EIGENEM Journal; Befund "Kern > Journal"
+    getrennt als "Kern hält ältere Fälle" ausweisen statt "FEHLT/WEICHT AB".
+(3) VORSCHLAG (Speicherkosten, vor jedem Einbau; Reihenfolge nach SP1, vor SP2):
+ Grösse heute (PC): Text 160 KB für 3000 Einträge (D Ø 44 Zeichen, B Ø 65, P Ø 86); je Lua-Zeichenkette ~25 B dazu -> ~230 KB gehalten.
+ a) Kein Ring-Umbau nötig, solange die Aktivität so bleibt – der Ring verliert zurzeit < 10 Einträge in 2 Tagen.
+ b) Gegen Massen-Tage: eigene Grenze je Art statt gemeinsamer 3000 (z. B. P 1500 · B 1500 · D 1500 = 4500 Einträge, ~+115 KB gehalten), damit
+    ein Entzauber- oder Sniper-Tag nie die seltenen Einstell-Fälle (P, die Verkaufszellen) verdrängt. Kosten T459: keine (Journal wird im Scan
+    nicht angelegt); Ladezeit/SavedVariables +~115 KB.
+ c) Markt-Tabelle aus dem Kern statt aus dem Journal (der Kern ist laut (2) vollständig je Rechner) – grösster Nutzen, aber Änderung im Skript der
+    Prüf-Sitzung + Abgleich Kern/Tabelle; Addon unverändert.
+ Empfehlung: zuerst (2) im Prüf-Skript (kein Addon-Einbau), dann b) nach Entscheid; c) als eigener Punkt der Prüf-Sitzung.
