@@ -1,0 +1,43 @@
+BERICHT AHSentinel – AHS-SP2 (ii) Bestpreise als Listen: Leser, Plan, Gleichheitstest – VOR dem Einbau (zur Prüfung)
+Zeit: 25.11.2026 08:52 (Europe/Zurich) · Grundlage 0.65.396
+
+1. Messung (aus Bericht 0701, Nachbau mit echten Daten, 7 000 Items):
+   best als Tabelle je Item {price,qty,minQty}: 1 851 KB je Scan. Als drei Listen (price/qty/minQty je itemID): 960 KB neu angelegt;
+   bei Wiederverwendung der Listen des Vorscans ~0 KB neu -> "Verdacht, zu messen" (wird beim Einbau mit T459 und einem eigenen Test gemessen).
+
+2. Wohin "best" geht (vollständig, grep über alle Lua-Dateien ausser Locales/Tests):
+   a) Erzeugung: Vollscan.lua 1612 (Vollscan), AHAnalyzerPro.lua 5132 (bisheriger Scan / Schnell-Scan).
+   b) A:ProcessBest – liest price/qty, SCHREIBT b.u (unbestätigt) über ScanSuspicious (liest price/qty/minQty/u), dann RecordPrice.
+   c) db.lastOwnScan = { t, data = best, partial } – WIRD GESPEICHERT (SavedVariables). Leser: Sync S:HandleRequest (schickt own.data
+      später an Mitspieler), Browse-Diagnose AHAnalyzerPro 5127 (own.price), Märkte trennen/vereinen (m.own, nur t).
+   d) SCAN_FINISHED(itemCount, best, now): Sync BroadcastScan (price/qty/u), Timing TM:OnScan (price/qty/u), Learn Rhythmus (price),
+      Names ShareNames (nur Schlüssel). Alle übrigen SCAN_FINISHED-Empfänger lesen best nicht.
+   e) Tests: TestRoutine 15518 u. a. bauen best von Hand im alten Format; Nachbau-Szenarien (28 Fundstellen) ebenso.
+
+3. Plan (Muster wie SP1):
+   - Neues Format: best = { price = {}, qty = {}, minQty = {}, u = {} } (je itemID eine Zahl/true). Kennzeichen: best.price ist Tabelle.
+   - Zwei Helfer in AHAnalyzerPro.lua: A:BestGet(best, id) -> price, qty, minQty, u und A:BestEach(best, fn) – beide lesen ALT und NEU.
+     Grund: db.lastOwnScan.data aus 0.65.396 und älter liegt im alten Format in den SavedVariables (Sync-Antwort nach dem Login).
+   - Alle Leser aus 2b–2d auf die Helfer; ScanSuspicious bekommt die Werte statt der Tabelle; b.u -> best.u[id] = true.
+   - Wiederverwendung: Vollscan leert die Listen des vorletzten Scans (wie cmpSpare); lastOwnScan zeigt auf den neuen Satz.
+     ACHTUNG: lastOwnScan.data darf nie die Listen sein, die gerade gefüllt werden -> zwei Sätze im Wechsel, Austausch erst am Ende.
+   - SavedVariables: neues Format ist kleiner (keine 7 000 Untertabellen); ein älterer AHSentinel nach Rückstufung liest data[itemID]
+     = nil -> Sync-Antwort schickt dann nichts (kein Fehler, "if b.price" auf nil wird vorher abgefangen? -> PRÜFE ich mit Test, sonst
+     Schutz: beim Ausloggen alt speichern ist NICHT geplant).
+   - Mitspieler: Nachricht unverändert. BroadcastScan sortiert fest (Menge absteigend, dann ID) -> Nachrichten sind Byte für Byte
+     vergleichbar, unabhängig von der Reihenfolge von pairs.
+
+4. Gleichheitstests (neu, vor dem Einbau festgelegt):
+   T-a: echte Daten (REAL_SV, 7 000 Items): best alt und neu aus demselben Scan; für jeden Leser die Ergebnisse vergleichen:
+        RecordPrice-Aufrufe (id, price, qty, u), ScanSuspicious-Liste, BroadcastScan-Nachrichten (Text gleich), TM:OnScan-Aufrufe,
+        Rhythmus-Aufrufe, ShareNames-ID-Menge. Erwartung: 0 Abweichungen; Gegenprobe: ein verfälschter Preis muss genau 1 Abweichung geben.
+   T-b: alter Client liest neue Nachricht: Nachricht aus neuem Format -> Empfangsweg von 0.65.396 (unveränderte Kopie im Test) ->
+        gleiche Preise wie aus altem Format.
+   T-c: db.lastOwnScan im alten Format (wie aus 0.65.396 gespeichert) -> HandleRequest/BroadcastScan schickt dieselben Nachrichten.
+   T-d: T459-Speicher je Scan vorher/nachher (Ziel SP2: < 10 240 KB ab Scan 2; Stand 0.65.396 Scan 2 18 277 KB).
+
+5. Nebenbefund für (iii), Verdacht, zu messen: BroadcastScan legt je Item noch eine Tabelle {id,p,q} an (~7 000 Stück, kurzlebig)
+   und sortiert sie. Wird in (iii) als eigene Nachlauf-Aufgabe gemessen.
+
+Ich beginne mit den Tests T-a bis T-c im Nachbau (ohne Einbau in die Version) und melde die Zahlen, bevor 0.65.397 entsteht –
+ausser der Supervisor sagt, ich soll den Einbau gleich mit den Tests liefern.
