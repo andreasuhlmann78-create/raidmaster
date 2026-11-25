@@ -71,8 +71,9 @@ import sync  # noqa: E402  (Abgleich PC/Laptop, ab 2.1.0)
 import daten  # noqa: E402  (Daten für die Prüf-Sitzung, ab 2.3.0)
 import addons  # noqa: E402  (UP-AUTO1: neue Addon-Versionen selbst installieren, ab 2.3.21, Standard aus)
 import selfupdate  # noqa: E402  (UP-UPD1: Uploader-Update nur nach Rückfrage "j", ab 2.3.24)
+import einstellungen  # noqa: E402  (UP-CFG1: Einstellungsdateien aus dem Download-Ordner, nur nach "j", ab 2.3.27)
 
-VERSION = "2.3.26"
+VERSION = "2.3.27"
 SHOT_WINDOW = (-30, 180)          # Bild darf so viele Sekunden vor/nach der gemerkten Zeit entstanden sein
 SHOT_MAX_BYTES = 9 * 1024 * 1024
 SHOT_MAX_AGE = 14 * 86400
@@ -127,7 +128,10 @@ def load_config() -> dict:
     return cfg
 
 
-USER_KEYS = ("addons_auto_installieren", "addons_pfad")   # UP-AUTO1: setzt nur der Nutzer (Datei bzw. .bat)
+# UP-AUTO1: setzt nur der Nutzer (Datei bzw. .bat); UP-CFG1: die Kanal-Adressen kommen nur aus der Datei (Übernahme aus dem
+# Download-Ordner schreibt sie dort) – ein laufender Uploader (Stand vom Start) überschreibt keinen dieser Schlüssel.
+USER_KEYS = ("addons_auto_installieren", "addons_pfad", "einstellungen_aus_downloads", "downloads_pfad",
+             "webhook_url", "test_webhook_url", "bot_id")
 
 
 def save_config(cfg: dict, keep_user_keys: bool = True):
@@ -1220,7 +1224,8 @@ def main():
         latest=daten.fetch_latest_version, minimum=daten.fetch_min_version,
         fetch_zip=lambda: selfupdate.fetch_zip_from_repo(lambda url, headers=None: addons.http_get(url, headers, ctx=ctx)),
         handover=lambda: sync.instance_handover(HERE),
-        takeback=lambda: (sync.instance_acquire(HERE, VERSION, log=log), sync.write_lock(HERE)))
+        takeback=lambda: (sync.instance_acquire(HERE, VERSION, log=log), sync.write_lock(HERE)),
+        pickup=einstellungen.Pickup(HERE, cfg, reporter.st, lambda: save_state(reporter.st), log))
     installer = None
     if cfg.get(addons.CONFIG_KEY) is True:              # UP-AUTO1: Standard aus
         roots = dict(syncer.roots) if syncer is not None else sync.find_roots()

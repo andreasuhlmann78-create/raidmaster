@@ -298,7 +298,7 @@ def kill_tree(proc) -> None:
 class SelfUpdate:
     def __init__(self, here: str, version: str, st: dict, save, log, *, latest=None, minimum=None, fetch_zip=None,
                  key=read_key, spawn=spawn_same, handover=None, takeback=None, sleep=time.sleep, now=time.time,
-                 console=find_console_bat, kill_console=kill_one, kill=kill_tree):
+                 console=find_console_bat, kill_console=kill_one, kill=kill_tree, pickup=None):
         self.here, self.version, self.log, self.save = here, version, log, save
         self.s = st.setdefault("selbstupdate", {})
         self.d = st.setdefault("daten", {})
@@ -306,6 +306,8 @@ class SelfUpdate:
         self.key, self.spawn, self.handover, self.takeback = key, spawn, handover, takeback
         self.sleep, self.now = sleep, now
         self.console, self.kill_console, self.kill = console, kill_console, kill
+        self.pickup = pickup            # UP-CFG1: Einstellungsdateien aus dem Download-Ordner (eine Frage zur Zeit)
+        self.cfg_offer = None
         self.next_at = 0.0
         self.offer = ""                 # Version, nach der gerade gefragt wird
         self.exit_now = False           # True: neue Version läuft – dieser Prozess soll sich beenden
@@ -325,12 +327,27 @@ class SelfUpdate:
                 self.offer, self.offer_min = ver, mindest
                 self.log(f"Neue Uploader-Version {ver} verfügbar – jetzt installieren? (j/n)  "
                          f"[ohne Antwort läuft {self.version} weiter]")
-        if not self.offer:
+        if not self.offer and not self.cfg_offer and self.pickup is not None:
+            o = self.pickup.poll()
+            if o:
+                self.cfg_offer = o
+                self.log(o["text"])
+        if not self.offer and not self.cfg_offer:
             return False
         k = self.key()
         if not k:
             return False
         k = k.strip().lower()                       # nur genau "j" bzw. "n" (eine Taste) – "ja?" o. ä. zählt nicht
+        if self.cfg_offer and not self.offer:       # UP-CFG1
+            if k not in ("j", "n"):
+                return False
+            o, self.cfg_offer = self.cfg_offer, None
+            if k == "n":
+                self.pickup.decline(o)
+                return False
+            if self.pickup.accept(o) == "neustart":
+                return self.restart("neue Einstellungen")
+            return False
         if k == "n":
             self.s["abgelehnt"] = {"version": self.offer, "mindest": self.offer_min}
             self.save()
@@ -400,6 +417,45 @@ class SelfUpdate:
             self.sleep(1)
             waited += 1
         return self._rollback(ver, f"neue Version meldet sich nicht innerhalb von {FRIST} s", proc)
+
+    def restart(self, why: str) -> bool:
+        """UP-CFG1: dieselbe Version neu starten (wie beim Update: Fenster übergeben, neue meldet "läuft", sonst weiterlaufen)."""
+        st = {"von": self.version, "nach": self.version, "zeit": int(self.now()), "laeuft": False, "grund": why}
+        os.makedirs(os.path.join(self.here, UPDATE_DIR), exist_ok=True)
+        with open(status_path(self.here), "w", encoding="utf-8") as f:
+            json.dump(st, f)
+        try:
+            cmd = self.console() if self.console else None
+        except Exception:  # noqa: BLE001
+            cmd = None
+        if cmd:
+            self.kill_console(cmd)
+        if self.handover:
+            self.handover()
+        proc = None
+        try:
+            proc = self.spawn(self.here)
+        except Exception as e:  # noqa: BLE001
+            return self._restart_failed(f"Start nicht möglich ({e.__class__.__name__})", proc)
+        waited = 0.0
+        while waited < FRIST:
+            if read_status(self.here).get("laeuft"):
+                self.log(f"Uploader neu gestartet ({why}).")
+                self.exit_now = True
+                return True
+            if proc is not None and proc.poll() is not None:
+                return self._restart_failed(f"neuer Start beendet sich sofort (Code {proc.returncode})", proc)
+            self.sleep(1)
+            waited += 1
+        return self._restart_failed(f"neuer Start meldet sich nicht innerhalb von {FRIST} s", proc)
+
+    def _restart_failed(self, why: str, proc) -> bool:
+        if proc is not None and proc.poll() is None:
+            self.kill(proc)
+        if self.takeback:
+            self.takeback()
+        self.log(f"Neustart nicht gelungen ({why}) – der Uploader läuft weiter; die neuen Einstellungen gelten nach dem nächsten Start.")
+        return False
 
     def _rollback(self, ver: str, why: str, proc) -> bool:
         if proc is not None and proc.poll() is None:

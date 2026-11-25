@@ -1,7 +1,8 @@
 # Stand RaidMaster-Sitzung
 
-## Stand 24.11.2026 22:05 · Addon 3.0.44 · Uploader 2.3.26
-- Uploader 2.3.26 gepusht (UP-UPD1-a: altes Fenster schliesst sich nach Update, uploader.bat darf mit ersetzt werden). Bericht 2204.
+## Stand 25.11.2026 06:36 · Addon 3.0.44 · Uploader 2.3.27
+- Uploader 2.3.27 gepusht (UP-CFG1: uploader_config/sync_config aus dem Download-Ordner nur nach j, mit Schutz). Bericht 0635.
+- Uploader 2.3.26 angenommen (UP-UPD1-a: altes Fenster schliesst sich nach Update, uploader.bat darf mit ersetzt werden). Bericht 2204.
 - Uploader 2.3.25 (UP-MSG2: eine Sperr-Zeile je PID; LIESMICH Entpacken). Bericht 2159 – zur Prüfung.
   Damit UP-UPD1 abnehmbar: PC mit 2.3.24 fragt j/n, Taste j.
 - Uploader 2.3.24 auf PC installiert, liefert wieder; an Offiziere verschickt 21:55 (UP-UPD1: Update nur nach Taste j, Prüfung, _update/alt, Neustart mit Rückfall). Bericht 2142 – zur Prüfung.
@@ -33,6 +34,7 @@
 - Bot: PN an Besitzer alter Uploader und Bewerbungen aufräumen liegen beim Discord-Projekt.
 
 ## Entscheide des Nutzers seit letztem Stand
+- 25.11. 06:29: Einstellungsdateien aus dem Download-Ordner übernehmen, "mit Schutz" (UP-CFG1) – nach Hinweis auf die Risiken.
 - 24.11. 22:00/22:01: altes Fenster soll sich nach Update schliessen; Updates laufen über den Uploader selbst (j) (UP-UPD1-a).
 - 24.11. 21:36 (über Supervisor): Uploader-Update nur auf Knopfdruck mit Rückfrage j/n, kein Selbst-Update (UP-UPD1).
 - 24.11. 21:18 (über Supervisor): Mindestversion statt "neueste" (UP-MIN1), nur bei Daten/Format/Prüfung/Sicherheit erhöhen.

@@ -347,6 +347,8 @@ STANDARD = [
     ("Uploader: Mindestversion beim Bau (UP-MIN1)", lambda: daten.MIN_BUILTIN, "2.3.20"),
     ("Update: neue Version prüfen alle (Sekunden)", lambda: __import__("selfupdate").CHECK_SECONDS, 600),        # UP-UPD1
     ("Update: Frist bis die neue Version läuft (Sekunden)", lambda: __import__("selfupdate").FRIST, 60),
+    ("Einstellungen: Download-Ordner ansehen alle (Sekunden)", lambda: __import__("einstellungen").POLL_SECONDS, 30),   # UP-CFG1
+    ("Einstellungen: grösste Datei (Bytes)", lambda: __import__("einstellungen").MAX_BYTES, 16384),
 ]
 
 
@@ -613,6 +615,12 @@ REGRESSIONEN = {
     "UP-UPD1-a ohne Fenster bat bleibt": "test_selfupdate.Fenster.test_fenster_nicht_gefunden_bat_bleibt",
     "UP-UPD1-a Rückfall neue samt Kindern": "test_selfupdate.Fenster.test_rueckfall_beendet_neue_samt_kindern_alte_bat_zurueck",
     "UP-UPD1-a Vorfahre cmd uploader.bat": "test_selfupdate.Fenster.test_vorfahre_cmd_mit_uploader_bat",
+    "UP-CFG1 nur Bot-Schlüssel übernommen": "test_einstellungen.Angebot.test_uploader_config_nur_bot_schluessel_uebernommen",
+    "UP-CFG1 anderer Bot abgewiesen": "test_einstellungen.Schutz.test_anderer_bot",
+    "UP-CFG1 keine Discord-Adresse": "test_einstellungen.Schutz.test_keine_discord_adresse",
+    "UP-CFG1 alte Kopie nicht angeboten": "test_einstellungen.Schutz.test_alte_kopie_nicht_angeboten",
+    "UP-CFG1 laufender Uploader überschreibt nie": "test_einstellungen.Schutz.test_laufender_uploader_ueberschreibt_adressen_nie",
+    "UP-CFG1 ohne j nichts": "test_einstellungen.Ablauf.test_ohne_j_nichts_gegenprobe",
 }
 
 

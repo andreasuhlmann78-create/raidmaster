@@ -283,6 +283,17 @@ Version 2.3.13 – Datenschutz im Daten-Repo (UP-DS1):
 - Kann er die Datei nicht sicher lesen, liefert er sie gar nicht und meldet einmal "GuildSentinel-Daten nicht geliefert: …".
 - Neue Datei svfilter.py – bitte immer die ganze RaidMasterUploader.zip entpacken.
 
+Version 2.3.27 – Einstellungsdateien aus dem Download-Ordner übernehmen (UP-CFG1, Entscheid 25.11. 06:29):
+- Lädst du eine neue uploader_config.json oder sync_config.json aus der Discord-Nachricht von /uploader herunter, fragt das
+  Uploader-Fenster: "Neue Einstellungsdatei … im Download-Ordner – übernehmen? (j/n)" und zeigt die Kanal-Kennung bisher -> neu.
+  Taste j = übernehmen (bei uploader_config.json startet der Uploader danach neu). Taste n = diese Datei nicht mehr anbieten.
+- Schutz: nur diese zwei Dateinamen (auch "… (1).json"), nur wenn neuer und mit anderen Kanälen, nur Discord-Webhook-Adressen, nur
+  vom selben Bot wie bisher. Aus uploader_config.json werden nur die Kanal-Adressen übernommen – SavedVariables-Pfad, gesendete
+  Bilder und Schalter bleiben. Die alte Datei wird in _update\einstellungen gesichert. Im Download-Ordner wird nichts geändert.
+- WICHTIG: Übernimm nur Dateien, die du selbst gerade aus der Nachricht DEINES Bots geladen hast. Fragt das Fenster unerwartet,
+  drücke n. Ausschalten: in uploader_config.json "einstellungen_aus_downloads": false. Anderer Download-Ordner: "downloads_pfad".
+- daten_config.json wird nie so übernommen (die richtest du mit Daten-Repo-einrichten.bat ein).
+
 Version 2.3.26 – altes Fenster schliesst sich nach dem Update (UP-UPD1-a):
 - Nach "j" startet die neue Version in einem neuen Fenster; das alte Fenster schliesst sich jetzt von selbst (vorher blieb es mit
   "Taste drücken" stehen). Klappt das Update nicht, läuft die alte Version im alten Fenster weiter.

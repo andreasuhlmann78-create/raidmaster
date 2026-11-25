@@ -1,0 +1,40 @@
+Bericht RaidMaster-Sitzung an die Prüf-Sitzung – 25.11.2026 06:35
+Thema: UP-CFG1 (Entscheid des Nutzers direkt im Chat 25.11. 06:29: "Download-Ordner mit Schutz") – Einstellungsdateien aus dem
+Download-Ordner übernehmen, nur nach Taste j – Uploader 2.3.27
+Status: umgesetzt, zur Prüfung. download/RaidMasterUploader.zip (19 Dateien, ZIP = Ordner; neu einstellungen.py). Mindestversion
+bleibt 2.3.20 (keine Änderung an Daten/Format).
+
+0. Vorgeschichte: Nutzer fragte 24.11. 22:09, ob neue JSON-Dateien über denselben Weg wie das Update kommen können. Bewertung (geprüft):
+   Über das öffentliche Repo nie (uploader_config.json und sync_config.json enthalten geheime Webhook-Adressen; daten_config.json
+   kommt nicht vom Bot). Vorgeschlagen und vom Nutzer gewählt: Übernahme aus dem Download-Ordner mit Rückfrage und Schutz; die Risiken
+   wurden ihm vorher genannt (fremde Datei gleichen Namens, alte Kopien, Neustart nötig, Ordner unbestimmt).
+1. Was angeboten wird: nur uploader_config.json und sync_config.json (auch "… (n).json"), höchstens 16 kB, je Art die neueste Datei
+   im Download-Ordner (Windows: bekannter Ordner Downloads über SHGetKnownFolderPath, auch umgeleitet; sonst ~/Downloads; Schlüssel
+   "downloads_pfad"). Alle 30 s, nur lesen.
+2. Schutz: (a) nur neuer als der bekannte Stand – Achtung, belegt: uploader_config.json im Ordner schreibt der Uploader selbst laufend
+   (gesendete Bilder), ihre Änderungszeit taugt nicht; darum Grundzeit je Datei (erster Start: jetzt minus 1 Std., danach die Zeit
+   der zuletzt bearbeiteten Datei), bei sync_config.json zusätzlich ihre Änderungszeit; (b) nur wenn sich die Kanäle ändern;
+   (c) Webhook-Adressen nur der Form https://discord.com/api/webhooks/<Zahl>/<Schlüssel>; sync_index_id Zahl; (d) bot_id = bisherige
+   (Datei eines anderen Bots -> abgewiesen); (e) abgelehnte Datei (SHA-256) nie wieder; (f) daten_config.json nie.
+3. Frage (eine Frage zur Zeit, Update-Frage hat Vorrang): "Neue Einstellungsdatei uploader_config.json im Download-Ordner (Name, Zeit)
+   – übernehmen? (j/n)  Kanal-Kennung bisher: Daten 1…, Testberichte 1… -> neu: …" – nur die Zahl der Webhook-Adresse, nie der
+   geheime Schlüssel. Nur genau j/n.
+4. Bei j: alte Datei nach _update/einstellungen/<Name>-<Zeit>.json (letzte 5), neue über Zwischendatei, zurückgelesen.
+   uploader_config.json: NUR webhook_url, test_webhook_url, bot_id übernommen – SavedVariables-Pfad, gesendete Bilder, Schalter
+   bleiben (sonst würden Bilder neu gesendet). Danach Neustart derselben Version über den Weg des Updates (Fenster übergeben, neue
+   meldet "läuft", sonst läuft die alte weiter: "Neustart nicht gelungen – die neuen Einstellungen gelten nach dem nächsten Start").
+   sync_config.json: ganz übernommen; der Abgleich wechselt ohne Neustart (bestehendes reload_sync_config, UP-404).
+5. Schutz gegen Zurückschreiben (Denkfehler gefunden und behoben): Ein laufender Uploader speichert seine Konfiguration vom Start
+   (save_config) und hätte die alten Adressen zurückgeschrieben. webhook_url, test_webhook_url, bot_id (und die neuen Schalter
+   einstellungen_aus_downloads, downloads_pfad) gehören jetzt zu den Schlüsseln, die save_config immer von der Festplatte nimmt
+   (der Uploader setzt sie nie selbst – grep belegt).
+6. Schalter "einstellungen_aus_downloads" (fehlt = an; false = aus). Im Download-Ordner wird nie etwas geändert oder gelöscht.
+7. Tests (eigene, Hinweis): test_einstellungen 15 – nur Bot-Schlüssel übernommen, Rest bleibt, Sicherung, Download-Datei bleibt, nicht
+   nochmals angeboten; sync_config "(1)" ganz, ohne Neustart; neueste Kopie gewinnt; n -> nie wieder (auch mit neuer Zeit);
+   abgewiesen: anderer Bot, fremde/HTTP-Adresse, alte Kopie, gleiche Kanäle, kein JSON, zu gross, daten_config.json, falscher Name;
+   Schalter aus (Gegenprobe fehlt = an); Takt; laufender Uploader überschreibt die neuen Adressen nicht; Ablauf mit Rückfrage: j ->
+   Neustart, Neustart scheitert -> läuft weiter, ohne j (None/x/"ja"/"") nichts, n -> nie mehr. Alle grün: test_einstellungen 15,
+   test_selfupdate 22, test_addons 25, test_daten 48, test_sync 55, test_uploader 23, test_umfassend 14 (TU6 111/111).
+   Im Client prüfen: Download-Ordner unter Windows (SHGetKnownFolderPath), Neustart-Fenster.
+8. Vorschlag an das Discord-Projekt (Bot): in der /uploader-Nachricht die Kanal-Kennungen (Zahl der Webhook-Adresse, nicht der Schlüssel)
+   nennen, damit der Nutzer sie mit der Frage im Uploader-Fenster vergleichen kann.

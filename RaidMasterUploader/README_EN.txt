@@ -253,6 +253,17 @@ Version 2.3.13 – privacy in the data repo (UP-DS1):
 - If the file cannot be read safely, it is not delivered at all, with one notice "GuildSentinel-Daten nicht geliefert: …".
 - New file svfilter.py – always extract the whole RaidMasterUploader.zip.
 
+Version 2.3.27 – take over settings files from the Downloads folder (UP-CFG1):
+- If you download a new uploader_config.json or sync_config.json from the /uploader Discord message, the uploader window asks:
+  "Neue Einstellungsdatei … im Download-Ordner – übernehmen? (j/n)" and shows the channel id old -> new.
+  Key j = take over (for uploader_config.json the uploader restarts afterwards). Key n = never offer this file again.
+- Protection: only these two file names (also "… (1).json"), only if newer and with different channels, only Discord webhook
+  addresses, only from the same bot as before. From uploader_config.json only the channel addresses are taken – SavedVariables
+  path, sent pictures and switches stay. The old file is backed up in _update\einstellungen. Nothing is changed in Downloads.
+- IMPORTANT: only take over files you just downloaded yourself from YOUR bot's message. If the window asks unexpectedly, press n.
+  Switch off: "einstellungen_aus_downloads": false in uploader_config.json. Other downloads folder: "downloads_pfad".
+- daten_config.json is never taken over this way.
+
 Version 2.3.26 – old window closes after the update (UP-UPD1-a):
 - After "j" the new version starts in a new window; the old window now closes by itself (before it stayed open with "press a
   key"). If the update fails, the old version keeps running in the old window.
