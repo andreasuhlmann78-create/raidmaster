@@ -1,0 +1,8 @@
+BERICHT AHSentinel – Gesamtlauf (FULL) 0.65.401 – umgesetzt, zur Prüfung
+Zeit: 25.11.2026 15:47 (Europe/Zurich) · auf einer KOPIE des Arbeitsordners (/tmp/claude-0/ahs401), allein gerechnet
+
+Ergebnis: 355 PASS, 67 FAIL (422 Szenarien, neu s342/s343). Gegen FULL 0.65.399 (letzter gültiger): neu rot KEINE; neu grün s304_timing_same
+(Testhilfe berichtigt). Die 67 FAIL sind genau die 67 aus 0.65.399 ohne s304 (Listen verglichen: 68 -> 67, nur s304 weg) – darunter s216
+(weiter beobachten: 0.65.399 und 0.65.401 rot = zweimal in Folge -> nach der Regel ein Befund; Messung siehe Bericht 1424: Streuung des Rechners,
+mit 0.65.398 im selben Zeitraum ebenfalls rot). Ich nehme s216 als Befund AHS-S216 auf und messe es nach SP2 h / S313 (gleiches Thema: längstes Bild).
+Damit "FULL ohne neue Fehler" für 0.65.401 erfüllt; CurseForge heute bleibt 0.65.400 (Entscheid des Nutzers 15:22).
