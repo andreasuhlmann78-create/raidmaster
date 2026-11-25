@@ -1,0 +1,37 @@
+ProfessionSentinel 0.9.84 – umgesetzt, zur Prüfung
+Bezug: offen-professionsentinel.txt PS-UMG1 (vorgezogen nach Entscheid des Nutzers 25.11. 09:03 "ich lasse das wow fenster nicht offen ich bin
+am arbeiten"); Ingametest 0.9.83 (24.11. 20:15) gelesen.
+
+Ingametest 0.9.83 (Spiel im Hintergrund: Bild in Ruhe Median 33,0 ms, 95 % 34,0 ms):
+ - OK 254 · FEHLER 1 (T85). Längstes Bild 44 ms (T145; 0.9.81: 147 ms T243), über 40 ms: T145 44, T80 41, T82 41 – alle "keine
+   Speicherbereinigung darin", ohne "gehalten"-Stelle. Abgabe nicht möglich: 2 (T210, T213 pcall – wie bisher).
+ - T297 grün; T145 "Liste behalten 20, neu 0" – PS-I5 wirkt im Spiel (vorher bei jedem Neuaufbau eine neue Liste).
+ - T85: das Spiel meldet "ChildProfessionInfo true id 0/nil, BaseProfessionInfo true id 0/nil" – kein Beruf im Fenster. Die Anzeige "Öffne
+   zuerst ein Berufsfenster" ist dann richtig. Behoben (Testroutine): meldet das Spiel professionID 0, werden die Zeilen nicht geprüft
+   (im Ergebnis vermerkt); bei einem Beruf im Fenster bleibt "keine Zeilen" ein FEHLER.
+
+PS-UMG1 – Umgebung und Bedienung in der Testroutine (nur Testroutine, nur lesen):
+ a) Jedes Bild des Laufs wird je Schritt gezählt (OnUpdate elapsed): Bilder zwischen 30 und 37 ms = Hintergrund-Bildrate (30/s). Ein
+    Schritt gilt als "Hintergrund", wenn mindestens 60 % seiner (mindestens 5) Bilder so lang sind. Ladebildschirme
+    (LOADING_SCREEN_ENABLED/DISABLED) werden dem laufenden Schritt zugeordnet. Bericht: "Umgebung im Lauf: Vordergrund (n Schritte)" bzw.
+    "Hintergrund (ganzer Lauf | x von n Schritten, Tx bis Ty)" – neben der bisherigen Messung in Ruhe vor dem Lauf.
+ b) Je Schritt über 16 ms schon seit 0.9.80: eigener Code / Blizzard-Liste / Speicherbereinigung, dazu Etikett und "gehalten"-Stelle.
+ c) Speicher je Addon einmal am Ende, im selben Bild wie die bisherige Endmessung (UpdateAddOnMemoryUsage lief dort schon; Werte lesen
+    ist billig, nicht als Schritt gezählt): "Speicher je Addon (Ende, n Addons, zusammen x MB): die 6 grössten".
+ d) Bewertung: Perf() (alle Leistungsprüfungen mit ms-Grenze, dazu T269 Aufruf/Portion, T270 Aufruf, T275 Wechsel, T279 Portion und der Listenvergleich T297 jetzt über
+    Perf) – über der Grenze UND im Schritt Hintergrund, Ladebildschirm oder Speicherbereinigung im längsten Teil (> 1 MB frei) ->
+    HINWEIS mit Grund in der Zeile "Leistung über Grenze, Umgebung/Bedienung möglich (HINWEIS, kein Fehler)"; sonst FEHLER wie bisher.
+    "Rest grösser als eigene Arbeit" ist KEIN Grund (Klarstellung 20:50). Leistungsgrenzen unverändert. In der Liste "Längstes einzelnes
+    BILD" steht statt "(!)" der Grund, wenn es einen gibt.
+ Gegenprobe (T298, offline): 20 Bilder/18 bei 30/s = Hintergrund, 2 von 20 = nicht, 3 Bilder = kein Urteil; Überschreitung im
+    Vordergrund-Schritt -> FEHLER bleibt; im Hintergrund-Schritt, mit Ladebildschirm, mit Speicherbereinigung -> HINWEIS mit dem
+    jeweiligen Grund; unter der Grenze -> kein HINWEIS; Berichtszeile; die künstlichen Schritte bleiben nicht im Bericht.
+    Regressionen ergänzt: PS-I5 -> T297, PS-UMG1 -> T298 (99 von 99).
+
+T269 (offline --lua51 1 von 4 Läufen "neue Liste nicht übernommen"): die Meldung zeigte den ganzen Cache-Schlüssel mit dem Charakter-
+   Schlüssel -> T158 "Name im Bericht". Jetzt nennt die Meldung nur die Positionen der abweichenden Schlüsselteile und den Advisor-Stand,
+   keine Namen. Ursache des seltenen Falls: Verdacht, zu messen (danach 3 Läufe grün).
+
+Tests: run_offline forever 253/0, era 234/0, retail 232/0, forever --lua51 253/0 (3×); check_actions OK; yield_check OK;
+gen_locale_keys OK; Smoketest forever/era/retail AUTOTEST OK (FEHLER 29/26/26 = Mock-Grenzen); addon_check OK, 1 WARNUNG "GoldSentinelTest.lua veraltete Fassung (Version 3)" – SHARED-T4 kam während des Baus (14:26), kommt mit 0.9.85. Zip md5 04993b8ad64b1d3e3666bb0eea9f026b, Repo fd1a96b.
+Als Nächstes: PS-I8 (T269 Taschen/Gold im Zwischenspeicher), dann PS-TQ1 (Trefferquote je echtem Weg, Entscheid 25.11. 13:47).
