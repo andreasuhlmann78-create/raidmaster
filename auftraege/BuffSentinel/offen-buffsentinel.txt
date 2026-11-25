@@ -664,3 +664,9 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     Attribute nur ausserhalb des Kampfes, Gegenprobe T268 rot ohne Kampfsperre – gut) und BS-T1. addon_check OK.
     Teil A (Messung) "nur Entwicklermodus" ist durch den Entscheid 14:09 überholt -> BS-M1-b (oben) zuerst umsetzen.
     Liste "was sonst noch möglich wäre" (1–6) liegt beim Nutzer zum Entscheid, nach den Kampfmessungen.
+>>> INGAMETEST 25.11. 08:54 mit 0.9.64 (PC, Forever deDE, PRIEST 10, Bericht vom Nutzer im Chat) – Auswertung Supervisor 08:54
+    OK 226 · FEHLER 0 · übersprungen 11 · im Client 11 · 14,0 s; Sandbox OK; echte Aktionen 0; TU1–TU7 alle OK. 0.9.64 im Spiel ohne Fehler.
+    Leistung (Hinweis, kein FEHLER): 832 Bilder, längste eigene Rechenzeit je Bild T179 23,6 ms und T156 22,4 ms (> 16 ms); über 5 ms 30 Bilder.
+    -> BS-P1: T156 "Teile in ms" und T179 auswerten: Testschritt oder Addon-Arbeit? Liegt es am Test, kleiner schneiden; liegt es am Addon, Ursache
+       belegen. Einzelwerte zuerst gegen Bedienung/Umgebung prüfen (E-Regel 24.11.). NIEDRIG.
+    Offen im Client (vom Nutzer, wenn in Gruppe/Instanz): T270 Klick-Raster (Entwicklermodus), T134 Ablauf im Kampf, T106 Raid 40.
