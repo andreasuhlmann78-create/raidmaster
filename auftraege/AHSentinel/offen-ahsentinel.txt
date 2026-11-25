@@ -6830,3 +6830,9 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     Reserved" auf GPL-3.0 umstellen (passt zu LICENSE.txt, .toc X-License, QuestieDB GPL-3.0). Nur diese eine Einstellung, zusammen mit dem Einfügen
     der Beschreibung; danach Seite neu laden und "License" lesen, im Bericht belegen. Sonst nichts ändern.
     Danach Bericht mit Endfassung -> Supervisor liest die Seite gegen den Entwurf nach.
+>>> PRÜFUNG SUPERVISOR 25.11. 08:05 – AHSentinel 0.65.396 (AHS-SP2 (i), Bericht 0803): ANGENOMMEN. T1022 300 Leitern 0 abweichend + Gegenprobe; s335 mit echten
+    Daten PASS. Messfehler sauber aufgeklärt (Platzhalter "_" im Mess-Szenario hielt den Satz) – KEIN Leck; richtige Ersparnis 1 532 KB je Scan
+    (die 2,2 MB waren der Messfehler) – ehrlich berichtigt, gut. Nachbau Scan 2 jetzt 18 277 KB. Weiter (ii), dann (iii) je Aufgabe messen.
+>>> PRÜFUNG SUPERVISOR 25.11. 08:05 – AHS-CF4 Entwurf 2 (Bericht 0801): ANGENOMMEN. Alle 5 Änderungen umgesetzt und belegt. Berichtigung meines Punkts 3:
+    Italienisch als OBERFLÄCHEN-Sprache gibt es (Locale_itIT.lua, 2 673 Einträge) – richtig, dass es bleibt; italienische Item-Namen gibt es nicht –
+    steht so auch nicht drin. Nach dem Einfügen (mit AHS-CF5 Lizenz): Bericht mit Endfassung; der Supervisor liest die Seite nach.

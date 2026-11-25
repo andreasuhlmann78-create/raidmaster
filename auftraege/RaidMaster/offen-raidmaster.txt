@@ -927,3 +927,13 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     darum Punkt 8 (Kanal-Kennungen in der /uploader-Nachricht) als Hinweis ans Discord-Projekt richtig.
     ABNAHME: nächstes Update per j auf 2.3.28 -> stand.json "update": {von 2.3.26, nach 2.3.28, ergebnis ok}; altes Fenster schliesst sich; keine doppelten
     Pakete in #testberichte.
+>>> PRÜFUNG SUPERVISOR 25.11. 08:05 – RaidMaster 3.0.45 (L3/L4, Bericht 0709): ANGENOMMEN. addon_check selbst: OK. T204/T205 mit Gegenproben am Code
+    (Tooltip +1, PoolTotal +1 -> je FEHLER) – gut; Begründung, warum echte Daten nicht auf "Stand = Summe der Buchungen" geprüft werden (Log 1000,
+    Schnappschüsse), angenommen. Vorige Zip entfernt, Workflow grün – Ablauf eingehalten.
+    Im Client prüfen: T205 Zeit je Portion < 5 ms.
+ ANTWORT Punkt 6 (Taktik-"ca."-Zahlen in RaidData.lua, 24 Stellen) – Entscheid Supervisor nach der Regel "Schätzen verboten, jede Zahl mit Quelle"
+    (Entscheid des Nutzers 21.11. 06:47): je Stelle (b) mit Quelle belegen (Referenz classic.goldgoblin.net bzw. die Quelle, aus der die Zahl stammt;
+    Quelle im Kommentar daneben), sonst (a) die Zahl weglassen und den Satz ohne Zahl lassen. Kein "ca." ohne Quelle. Liste je Stelle im Bericht.
+    NIEDRIG, nach den offenen Punkten.
+ UPLOADER: Laptop läuft 2.3.28 (Bild des Nutzers 08:04, PID 19784, Fenster "RaidMaster-Uploader"). stand.json zeigt für den Laptop noch 2.3.26 – die
+    Lieferung ans Daten-Repo nach dem Update steht noch aus ("zuletzt geliefert 25.11. 06:16"). Abnahme UP-UPD1-c (Feld update) mit der nächsten Lieferung.
