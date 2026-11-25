@@ -1,0 +1,32 @@
+AHSentinel 0.65.398 – AHS-SP2 (iii) a, c, b eingebaut; d nicht (gemessen ohne Wirkung) – umgesetzt, zur Prüfung (nur Discord)
+Zeit: 25.11.2026 10:15 (Europe/Zurich)
+Freigabe Supervisor 25.11. 10:00 (Reihenfolge a, c, d, b; je Punkt Gleichheitstest mit echten Daten zuerst, dann Einbau, dann T459).
+addon_check 0.65.398: OK. ZIP: gleiche 112 Dateien wie 0.65.397. Geändert: Forecast.lua (a), Vollscan.lua + Learn.lua (c), Sync.lua (b),
+ TestRoutine.lua (T1025–T1027, Index AHS-SP2-iii), Version, CHANGELOG EN/DE (mit Beta-Hinweis). Disenchant.lua UNVERÄNDERT (d zurückgenommen).
+
+Je Punkt (echte Daten: 7 000 Items, Journal 3 000 Einträge; alt = 0.65.397, neu = 0.65.398):
+a) Fc:Decode(s, into) – EvalCore liest alle Einträge in EINE Tabelle (Fc:Count behält e nicht: speichert nur Zahlen in live.dur/rev/de).
+   Gleichheit: EvalCore-Ergebnis vollständig (2 300 Werte) alt = neu, 0 Unterschiede; Gegenprobe (1 Eintrag entfernt): 328 Zeilen verschieden.
+   Speicher EvalCore: 2 473 -> 304 KB. Nach zwei Scans (s338): forecast-eval 2 518 -> 349 KB.
+c) VS:MeasuredRate(id, into) – nur Ln:BuildFactors gibt eine Tabelle mit (andere Aufrufer unverändert; keiner behält x).
+   Gleichheit: alle 1 259 gemessenen Items Rate/x/Tage alt = neu und mit/ohne into: 0 Unterschiede; nach zwei Scans Faktoren der 5 Gruppen
+   (consum, de, gear2, herb, misc) alt = neu. Speicher: learn:factor 1 287 -> 138 KB (warm).
+d) NICHT eingebaut. Gebaut, Gleichheit 0 Unterschiede, Prüfsumme der geteilten Tabellen unverändert – aber gemessen ohne Wirkung:
+   core:realcheck 1 391 -> 1 366 KB. Ursache BELEGT: die 1 160 KB "D:Prior" sind GetItemInfo (7 000 Aufrufe = 1 135,7 KB; D:PriorRaw
+   1 135,8 KB; ItemInfoAllowed 0). Die Ertrags-Tabellen entstehen nur für 22 von 7 000 Items (Qualität 2–4). Im Nachbau ist GetItemInfo eine
+   Lua-Nachbildung – ob GetItemInfo im Spiel ebenso Speicher anlegt (Texte/Link je Aufruf), ist "Verdacht, zu messen". Deshalb zurückgenommen.
+b) BroadcastScan ohne Tabelle je Item: Liste der itemIDs, Preis/Menge aus den Bestpreis-Listen (altes Format: zwei Hilfslisten), ein
+   Teil-Puffer für alle Nachrichten. Gleichheit: s336 mit 0.65.398: 347 Nachrichten, Prüfsumme d73af8df (= 0.65.396/397), DUMP 0 Unterschiede;
+   T1027 gegen den bisherigen Weg im Test. Speicher: 2 711 -> 986 KB (Rest = die Nachrichten selbst). Nur mit Gilde/Gruppe wirksam.
+T459 (Nachbau, ohne Gilde – b dort nicht enthalten), ohne gelesene:
+            Scan 1      Scan 2      Scan 3
+   0.65.397 47 030 KB   17 457 KB   13 345 KB
+   0.65.398 47 947 KB   14 131 KB    9 970 KB
+   Scan 2: −3 326 KB, Scan 3: −3 375 KB -> Scan 3 unter 10 240 KB; Scan 2 noch 14 131 KB (Ziel nicht erreicht). Scan 1 +917 KB:
+   Verdacht, zu messen (Aufgabe "timing" 9 319 -> 11 026 KB; schwankte schon zwischen 0.65.396 und 397 um 3 MB – Scan 1 ist nicht im Ziel).
+Was zum Ziel fehlt (Scan 2): fullscan 7 595 KB, cache:itemlist 2 327 (= Marktwert-Speicher, einmal je Scan), learn:factor 1 273 (kalt:
+ GetLiquidity), core:realcheck 1 252 (GetItemInfo, s. d), learn:rhythm 671. Nächste Messung: Aufgabe fullscan in Scan 2 aufschlüsseln.
+Nachbau: Teil auto s42 PASS, server s43 PASS (T1023–T1027 PASS); s14, s275, s318, s319, s324, s335, s262, s92, s276, s87, s76 (2), s225, s304,
+ s306, s9_bait_sniper, s9_seller_bait, s321, s40, s187 PASS; s75, s77, s8_de_learn rot wie mit 0.65.397 (Fehlertexte im selben Lauf gleich).
+Neue Szenarien im Repo: s338_sp3_nachlauf_messung, s339_sp3a_eval_gleich, s340_sp3c_factor_gleich (mit REAL_SV).
+FULL 0.65.398 folgt allein. Danach AHS-S313 (GC je Portion beim Namen-Aufbau messen).
