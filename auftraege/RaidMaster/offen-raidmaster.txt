@@ -1001,3 +1001,11 @@ UP-DOC2 MITTEL: LIESMICH.txt (DE) und README_EN.txt Abschnitt "Addons automatisc
     Uploader neu starten). Die Schritt-für-Schritt-Anleitung für neue Offiziere (Installation) um diesen Schritt ergänzen (nach "Uploader starten").
     Prüfen, ob die /uploader-Nachricht des Bots (Discord, D-UPCFG1) denselben Hinweis braucht -> dann Eintrag im Bericht, ich gebe ihn an Discord weiter.
     Nichts am Standard (AUS) ändern ohne Auftrag – nur die Empfehlung in Doku/Anleitung.
+
+>>> RM-CI2 MITTEL (Supervisor 13:27, belegt): Workflow "Testberichte" (cron "17,47 * * * *" = 48 Läufe/Tag) lief von 24.11. 13:00 bis 25.11. 13:00 UTC
+    nur 2× per Zeitplan (20:38, 03:44 UTC) – GitHub lässt geplante Läufe aus (bekannt, keine Garantie). Folge: Berichte aus dem Spiel kamen heute
+    erst nach Anstossen von Hand ins Repo (12:04/12:24 UTC). Auftrag: Abholen AUSLÖSEN statt nur auf den Zeitplan warten – Weg mit Beleg wählen:
+    (a) Uploader ruft nach dem Senden an #testberichte workflow_dispatch/repository_dispatch auf (nur wenn sein Token das darf; sonst nichts tun,
+        kein neues Recht ohne Entscheid des Nutzers), oder (b) der Bot löst es bei einer neuen Nachricht in #testberichte aus, oder (c) Workflow im
+        Daten-Repo beim Push. Zeitplan als Rückfall behalten. Keine Tokens/Geheimnisse ins Repo. Test: Bericht im Spiel -> spätestens 20 Min. im Repo.
+    Braucht ein Weg ein neues Token/Recht: im Bericht als Frage an den Nutzer, nicht selbst einrichten.
