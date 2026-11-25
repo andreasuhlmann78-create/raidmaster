@@ -900,3 +900,13 @@ PS-P1 MITTEL (Spielweg, nicht Testhilfe): WEGE "Aufgabe heute 27.2 ms! ×13", AU
     Bericht als Testhilfe gekennzeichnet sind; Schritte, die Spielwege aufrufen (Panel-Aufbau, Ansicht recipes T123/T126/T130/T133/T134), belegen,
     ob derselbe Weg beim Spielen auch so lange rechnet.
     Trefferquote Schneiderei weiterhin 0/186 – erwartet bis PS-TQ1 (AHS-API2 Disenchanted seit 0.65.402 verfügbar).
+
+>>> PRÜFUNG SUPERVISOR 25.11. 16:40 – ProfessionSentinel 0.9.86 (Bericht 16:18, PS-TQ1): ANGENOMMEN, Abnahme im Spiel offen. addon_check OK.
+    Wege a)–f) wie entschieden umgesetzt, T299 mit Gegenproben, Sicherung der alten 186 (pmHits.old) im Nachbau mit echten Daten belegt.
+PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über MK.Expire bei PLAYER_LOGIN UND bei jedem MAIL_INBOX_UPDATE
+    (Market.lua 664 ReadInvoices -> Expire -> CheckDisenchanted) und fragt dort je Item mit offener Notiz AHSentinel.API.Disenchanted. Am Briefkasten
+    ändern sich die AHS-Buchungen laufend (Rechnungen) -> der AHS-Index wird jedes Mal neu gebaut (AHS-Bericht 15:57: 7,7 ms echte Daten, 11,6 ms
+    Nachbau, am Stück). Folge (Verdacht, zu messen): beim Abholen der Post je MAIL_INBOX_UPDATE ein Stück > 6–16 ms. Beheben: CheckDisenchanted nicht
+    bei jedem MAIL_INBOX_UPDATE, sondern gedrosselt (z. B. einmal beim Schliessen des Briefkastens / höchstens alle 60 s) und in Portionen; messen
+    (Briefkasten mit vielen Rechnungen im Nachbau mit echten Daten) und im Bericht ms je Aufruf nennen. Gleichzeitig AHS-API2-b (Index in Portionen)
+    -> an AHSentinel weitergegeben.

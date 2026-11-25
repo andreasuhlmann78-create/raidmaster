@@ -7000,3 +7000,7 @@ AHS-SB1 MITTEL (neu): Sandbox-Zeile "FEHLER: 1 Pfade, wiederhergestellt in 2 Dur
     verkauft aus dem Entzaubern, Preis zum Zeitpunkt); das ist die vorsichtige Bewertung (kein erfundener Erlös). Index 7,7 ms am Stück (echte Daten),
     11,6 ms Nachbau: über dem Bild-Budget – Vorschlag Portionen im Hintergrund FREIGEGEBEN als AHS-API2-b NIEDRIG, sobald PS die Funktion im Spielweg
     aufruft (PS meldet, wann/wie oft); bis dahin messen (T1031 schreibt Index-ms mit).
+>>> AHS-API2-b jetzt NÖTIG (Supervisor 16:40): ProfessionSentinel 0.9.86 ruft API.Disenchanted beim Einloggen und am Briefkasten (MAIL_INBOX_UPDATE) je
+    Item mit offener Notiz – dort ändern sich die Buchungen laufend, der Index wird also oft neu gebaut (7,7 ms am Stück). Index in Portionen bzw.
+    nur die geänderten Teile nachführen; bis der Index fertig ist, darf die API "noch nicht bereit" (nil + Hinweis) liefern – mit PS abstimmen
+    (PS behandelt nil heute als "nicht entzaubert" -> Rückgabe dafür eindeutig machen, z. B. zweiter Rückgabewert "pending"). MITTEL.
