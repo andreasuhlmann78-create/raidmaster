@@ -11,10 +11,10 @@ Sitzung seit 23.11. 06:18. Repos: raidmaster, goldsentinel-daten (schreiben); ah
 
 ## Nächste Schritte (Reihenfolge)
 1. AHS: SP1-Einbau prüfen (Bedingungen a–d, Ingametest Scan 1/2 gegen Nachbau), dann AHS-J1, AHS-SP2; s313 im nächsten FULL beobachten.
-2. Uploader: keine Lieferung seit 24.11. 21:50 (PC). Nächste Lieferung -> uploader 2.3.26, Feld "update"; Abnahme UP-UPD1-a/b beim ersten Update durch 2.3.26.
+2. Uploader: PC+Laptop 2.3.26 (Daten-Repo main; sicherung hinkt nach – Frage an RM). Nächste Lieferung -> uploader 2.3.26, Feld "update"; Abnahme UP-UPD1-a/b beim ersten Update durch 2.3.26.
 3. BS-M1-b (Version steht aus). TS-M1-b: Kampfdaten erst nach Instanz/Gruppe.
 4. UMG1 bei PS/LP (Berichte fehlen); PS-I8 T269; LP-T31/LP-K1, LP-Charakterdatei.
-5. Laptop: neueste Addons, sobald verbunden. CurseForge-Kommentare (27) beantworten – Anmeldung nötig.
+5. Laptop: 25.11. 06:16 Uploader 2.3.26 hat AHS/GS/PS/RM/TS selbst installiert (UP-AUTO1 belegt). Offiziere noch unter 2.3.20. CurseForge-Kommentare (27) beantworten – Anmeldung nötig.
 
 ## Offen beim Nutzer
 - Offiziere: Uploader 2.3.24 am 21:55 vom Nutzer selbst verschickt (Discord-Sitzung NICHT nochmals senden); Umstieg in stand.json beobachten.

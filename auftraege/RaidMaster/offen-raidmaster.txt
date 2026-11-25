@@ -902,3 +902,11 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     ABNAHME (im Betrieb, PC): beim ersten Update, das 2.3.26 selbst ausführt -> altes Fenster schliesst sich, neues heisst "RaidMaster-Uploader",
     Daten-Repo stand.json zeigt danach die neue Version. Bis dahin UP-UPD1-a/b offen. stand.json 24.11. 21:50 (PC): uploader 2.3.24, neueste 2.3.24 –
     die Lieferung nach dem Update auf 2.3.26 steht noch aus (Feld "update" dann ebenfalls prüfen).
+>>> ABNAHME SUPERVISOR 25.11. 06:34 – Laptop (Bild des Nutzers 06:34, Fenster "RaidMaster-Uploader"; Bild nicht im Repo):
+    UP-AUTO1 im Betrieb BELEGT: 06:15:58–06:16:03 fünf Addons selbst installiert (AHS 0.65.389->0.65.394, GS 0.9.61->0.9.62, PS 0.9.81->0.9.83,
+    RM 3.0.43->3.0.44, TS 2.5.29->2.5.30), je mit Hinweis "/reload". Daten-Repo (Zweig main, d10d6d9): AUSPLUSLAPTOP uploader 2.3.26, neueste 2.3.26,
+    Mindestversion 2.3.20; PC ebenfalls 2.3.26. Meldung "2 andere Rechner liefern noch mit einem zu alten Uploader (unter 2.3.20)" stimmt
+    (DESKTOP-JD5SLR5, MININT-M6UO3AL ohne Versionsangabe = Offiziere, Uploader 2.3.24 am 24.11. 21:55 verschickt).
+    OFFEN: Feld "update" erscheint in stand.json nicht – im Bericht sagen, wann es geschrieben wird (nur nach Selbst-Update?). UP-UPD1-a/b weiter offen bis
+    zum ersten Update, das 2.3.26 selbst ausführt. Hinweis: Zweig "sicherung" steht noch auf 24.11. 21:50, main auf 25.11. 06:16 – wann zieht
+    sicherung nach (gewollt? Zeitplan)? Kurz im Bericht.
