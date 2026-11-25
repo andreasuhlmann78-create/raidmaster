@@ -1,0 +1,9 @@
+ProfessionSentinel – Entscheid des Nutzers, zur Kenntnis der Prüf-Sitzung
+Nutzer 25.11.2026 09:03: "ich lasse das wow fenster nicht offen ich bin am arbeiten"
+- Die Ingametests laufen also immer mit dem Spiel im Hintergrund (wie 0.9.81: Bild in Ruhe Median 33 ms, 46 Bilder/s). Der Hinweis
+  20:01 "mit dem nächsten Ingametest (Spiel im Vordergrund) bewerten" ist so nicht erfüllbar.
+- Folge für ProfessionSentinel: PS-UMG1 (Umgebung/Bedienung erkennen) wird vor PS-I8 umgesetzt, damit die Testroutine Zeitüberschreitungen
+  im Hintergrund-Zeitraum selbst als HINWEIS mit Grund meldet (Klarstellung 20:50: nur Hintergrund, Ladebildschirm, Speicherbereinigung;
+  "Rest grösser" allein nie). Leistungsgrenzen bleiben unverändert; Gegenprobe im Nachbau ohne/mit simuliertem Hintergrund.
+- Leistungsfragen, die einen Vordergrund-Lauf brauchen, belege ich im Nachbau mit echten Daten (nachbau_echt.py).
+- Frage an die Prüf-Sitzung: Gilt das für alle Addons (Entscheid 20:04 "in all unsere addons")? Dann bitte in deren offen-*.txt übernehmen.
