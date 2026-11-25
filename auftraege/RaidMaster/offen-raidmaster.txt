@@ -985,3 +985,11 @@ RM-K2 HOCH (neu, Ziel von 3.0.48 im Spiel NICHT erreicht): T156 und T191 FEHLER 
     Bildschirmgrösse/UI-Skalierung des Spielers im Bericht mitschreiben. Fix + Test im Nachbau MIT echtem Ablauf der Routine (Fenster offen, Ansicht
     wechseln) und Gegenprobe; danach Abnahme im Spiel (Charakterfenster offen -> /rm, und Routine mit offenem Charakterfenster).
     Beobachtung des Nutzers (Schritt 4: Charakterfenster, dann /rm; Schritt 6: Einstellungen, Esc-Reihenfolge) wird nachgetragen.
+>>> NACHTRAG RM-K2 (11:26, Bildschirmfoto des Nutzers 11:25, nicht im Repo – enthält Namen): Fenstermodus ca. 1890x993. Charakterfenster offen (links,
+    Fächer Waffenhand/Schildhand/Distanzwaffe bis ca. x 455), RaidMaster-Hauptfenster bei ca. x 455–1435 / y 155–795 -> liegt BÜNDIG bzw. knapp
+    über dem rechten Rand des Charakterfensters (Fächer-Texte am RM-Rand abgeschnitten). Im Spiel also sichtbar überdeckt, nicht nur im Test.
+    Platz wäre rechts (bis ca. x 1560 vor der Questliste) bzw. die Lage "8 Pixel daneben" -> Rechnung von U.BestPlace mit echten Rechtecken
+    (GetRect × Skalierung) nachprüfen; Verdacht: Rechteck des Charakterfensters ohne seine Erweiterung/Skalierung (UIParent-Scale vs. Frame-Scale).
+    Chat des Nutzers: "/rm testroutine k": 9 von 10 bestanden (der eine = T156, s. oben).
+    Spielmenü (Esc) liegt ÜBER RaidMaster – das ist Blizzard-Ebene DIALOG und richtig so; kein Befund. Abnahme "Einstellungen + Esc-Reihenfolge"
+    noch ohne Beleg – im nächsten Ingametest nach RM-K2 nochmals.
