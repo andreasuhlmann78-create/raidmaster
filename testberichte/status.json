@@ -1,18 +1,18 @@
 {
- "ausgewertet": "2026-11-24T20:38:53Z",
+ "ausgewertet": "2026-11-25T03:44:46Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
-   "berichte": 159,
+   "berichte": 169,
    "letzter_test": {
-    "id": "AHSentinel-1795548640-bd4451-1",
+    "id": "AHSentinel-1795555288-744ede-5",
     "version": "0.65.392",
-    "time": 1795548415,
+    "time": 1795555288,
     "counts": {
-     "client": 16,
-     "fehler": 1,
-     "ok": 1042,
-     "uebersprungen": 34
+     "client": 0,
+     "fehler": 4,
+     "ok": 1,
+     "uebersprungen": 4
     }
    },
    "fehler_tests": [
@@ -21,10 +21,40 @@
      "art": "test",
      "version": "0.65.392",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T750",
-     "name": "UI-CLEAN1 Fenster/Reiter/Unterreiter/Ansichten/Fenster/Dialoge (Klassisch/Modern, 100 %/130 %): nichts überlappt, nicht…",
-     "detail": "ergebnis: 3 Befunde · dazu 129 gekürzt mit Tooltip (kein FEHLER) (AH offen · Klassisch+Modern · 100+130 % · deDE · geprüft 164 von 166 Ansichten) · je Art: abgeschnitten 3 · gekürzt (Tooltip) 129 · je Ansicht: Markt > Markt > Überfüllt: 38 · Fenster > Preisverlauf: 28 · Kaufen > Schnäppchen: 1… | erwartet: 0 Befunde · geprüft m von m",
-     "bericht": "AHSentinel-1795548640-bd4451-1"
+     "id": "ALLES-1",
+     "name": "Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1)",
+     "detail": "ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 1042 OK, 1 FEHLER, 34 übersprungen, Sandbox OK",
+     "bericht": "AHSentinel-1795555288-744ede-5"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.392",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "ALLES-2",
+     "name": "Oberflächen-Prüfung (alle Reiter)",
+     "detail": "ergebnis:   2. Oberflächen-Prüfung (alle Reiter): FEHLER – 6 OK, 1 FEHLER, 0 übersprungen, Sandbox OK",
+     "bericht": "AHSentinel-1795555288-744ede-5"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.392",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "ALLES-4",
+     "name": "Sniper-Testroutine S1–S13 (ohne echten Kauf)",
+     "detail": "ergebnis:   4. Sniper-Testroutine S1–S13 (ohne echten Kauf): FEHLER – 28 OK, 1 FEHLER, 3 übersprungen, Sandbox OK",
+     "bericht": "AHSentinel-1795555288-744ede-5"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.392",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "ALLES-6",
+     "name": "Prüfungen am offenen Auktionshaus",
+     "detail": "ergebnis:   6. Prüfungen am offenen Auktionshaus: FEHLER – 66 OK, 2 FEHLER, 3 übersprungen, Sandbox OK",
+     "bericht": "AHSentinel-1795555288-744ede-5"
     }
    ],
    "fehler_spiel": [
@@ -205,10 +235,40 @@
    "art": "test",
    "version": "0.65.392",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T750",
-   "name": "UI-CLEAN1 Fenster/Reiter/Unterreiter/Ansichten/Fenster/Dialoge (Klassisch/Modern, 100 %/130 %): nichts überlappt, nicht…",
-   "detail": "ergebnis: 3 Befunde · dazu 129 gekürzt mit Tooltip (kein FEHLER) (AH offen · Klassisch+Modern · 100+130 % · deDE · geprüft 164 von 166 Ansichten) · je Art: abgeschnitten 3 · gekürzt (Tooltip) 129 · je Ansicht: Markt > Markt > Überfüllt: 38 · Fenster > Preisverlauf: 28 · Kaufen > Schnäppchen: 1… | erwartet: 0 Befunde · geprüft m von m",
-   "bericht": "AHSentinel-1795548640-bd4451-1"
+   "id": "ALLES-1",
+   "name": "Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1)",
+   "detail": "ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 1042 OK, 1 FEHLER, 34 übersprungen, Sandbox OK",
+   "bericht": "AHSentinel-1795555288-744ede-5"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.392",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "ALLES-2",
+   "name": "Oberflächen-Prüfung (alle Reiter)",
+   "detail": "ergebnis:   2. Oberflächen-Prüfung (alle Reiter): FEHLER – 6 OK, 1 FEHLER, 0 übersprungen, Sandbox OK",
+   "bericht": "AHSentinel-1795555288-744ede-5"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.392",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "ALLES-4",
+   "name": "Sniper-Testroutine S1–S13 (ohne echten Kauf)",
+   "detail": "ergebnis:   4. Sniper-Testroutine S1–S13 (ohne echten Kauf): FEHLER – 28 OK, 1 FEHLER, 3 übersprungen, Sandbox OK",
+   "bericht": "AHSentinel-1795555288-744ede-5"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.392",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "ALLES-6",
+   "name": "Prüfungen am offenen Auktionshaus",
+   "detail": "ergebnis:   6. Prüfungen am offenen Auktionshaus: FEHLER – 66 OK, 2 FEHLER, 3 übersprungen, Sandbox OK",
+   "bericht": "AHSentinel-1795555288-744ede-5"
   },
   {
    "addon": "AHSentinel",
@@ -283,11 +343,11 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 239,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.392-29314daef652.txt"
+    "anzahl": 242,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.392-efd9905e299e.txt"
    },
    "BuffSentinel": {
-    "anzahl": 167,
+    "anzahl": 171,
     "neueste": "testberichte/diagnose/BuffSentinel/0.9.64-e2aa7de4946f.txt"
    },
    "GSMesstest": {
@@ -295,30 +355,30 @@
     "neueste": "testberichte/diagnose/GSMesstest/5.1-f65d607ab777.txt"
    },
    "GSSniperLog": {
-    "anzahl": 57,
+    "anzahl": 60,
     "neueste": "testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt"
    },
    "GuildSentinel": {
-    "anzahl": 281,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.61-f688f5ebfb9c.txt"
+    "anzahl": 285,
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.62-d627ee0b1b4a.txt"
    },
    "LevelPilot": {
-    "anzahl": 173,
-    "neueste": "testberichte/diagnose/LevelPilot/3.13.13-d1733afe2aff.txt"
+    "anzahl": 177,
+    "neueste": "testberichte/diagnose/LevelPilot/3.13.13-fe03622d779a.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 258,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.83-b4e34dab3158.txt"
+    "anzahl": 262,
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.83-ca7af6f24af4.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 237,
+    "anzahl": 240,
     "neueste": "testberichte/diagnose/ThreatSentinel/2.5.30-f368b38185c8.txt"
    }
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 341,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1795550177-2549cd.json"
+    "anzahl": 344,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1795553534-2a9cbf.json"
    }
   }
  }

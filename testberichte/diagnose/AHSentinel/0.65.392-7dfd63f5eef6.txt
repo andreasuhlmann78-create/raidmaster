@@ -1,0 +1,239 @@
+AHSentinel-Protokoll v0.65.392 · 24.11. 22:24:13
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  24.11. 21:50:45 L10 PRIEST v0.65.392
+  24.11. 21:49:24 L10 PRIEST v0.65.392
+  24.11. 21:49:13 L10 PRIEST v0.65.392
+  24.11. 20:56:23 L10 PRIEST v0.65.392
+  24.11. 20:25:26 L10 PRIEST v0.65.392
+  24.11. 20:23:15 L10 PRIEST v0.65.391
+  24.11. 20:10:16 L10 PRIEST v0.65.391
+  24.11. 19:52:56 L10 PRIEST v0.65.391
+  24.11. 19:41:37 L10 PRIEST v0.65.391
+  24.11. 19:39:00 L10 PRIEST v0.65.391
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 6 Min., 7518 Items, Preis-Sync an
+  SYNC GoldSentinelSync 3 · Wege: keiner · Mitspieler (1 Std.): AHSentinel 0, BuffSentinel 0, GoldSentinelMarkt 0, GoldSentinelTest 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0, ThreatSentinel 0
+  SYNC gesendet 391 · empfangen 2 · verworfen: nopath 2, secret 1 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 5 (mit Sync 2: 5, pausiert 4) · gesendet 8 · weitergegeben 0 · offline 8 · Listen 7 · Warteschlange 0 · gespeichert ja · im Test angehalten 0
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Sniper-Takt (SN-T2): 299 Suchen · Abstand Median 0.74 s, Min 0.70 s, Max 498.22 s
+    Zeitraum 22.11. 09:14–20:38 · minimiert/Hintergrund (unter 15 Bilder/s): 0 % (0 von 53)
+    Server nicht bereit: Median 0.50 s, Min 0.00 s, Max 46.80 s je Suche
+    eigene Bremse/Abstand: Median 0.00 s, Min 0.00 s, Max 2.00 s je Suche
+    Antwort des Servers: Median 0.20 s, Min 0.10 s, Max 0.30 s je Suche
+    Treffer-Halt: Median 0.00 s, Min 0.00 s, Max 6.77 s je Suche
+    andere Arbeit: Median 0.00 s, Min 0.00 s, Max 449.32 s je Suche
+    bereit (Tick): Median 0.00 s, Min 0.00 s, Max 26.24 s je Suche
+    Suchen je Ziel: i:11986 70 (23 %) · i:249428 15 (5 %) · i:5966 107 (36 %) · i:6040 10 (3 %) · i:7058 88 (29 %) · i:7911 2 (1 %) · w:12037 2 (1 %) · w:15415 1 (0 %) · w:2838 2 (1 %) · w:3404 1 (0 %) · w:4304 1 (0 %) · w:5471 1 (0 %)
+  Sync-Abweichungen (S6): 87 Fälle, Markt-Tag fremd 2 (alte Version / anderer Markt)
+    7 Tage je Ursache (vollständig): stapel 1, bewegt 4, unbekannt 82
+    Stapel- statt Stückpreis: 1 – Item 15733 eigen 3499/fremd 49999 (Alter 111/4 Min., g, Voll, Menge 17)
+    Markt hat sich bewegt (Zeitabstand > 6 Std.): 4 – Item 260793 eigen 650/fremd 1500 (Alter 1363/3 Min., g, Voll, Menge 118); Item 2980 eigen 895/fremd 1800 (Alter 1364/4 Min., g, Voll, Menge 8); Item 5363 eigen 400/fremd 9999 (Alter 1364/4 Min., g, Voll, Menge 1); Item 6304 eigen 100/fremd 1000 (Alter 1364/4 Min., g, Voll, Menge 1)
+    unbekannt: 82 – Item 2589 eigen 41/fremd 19 (Alter 108/0 Min., g, Voll, Menge 25480); Item 3464 eigen 25/fremd 10 (Alter 108/0 Min., g, Voll, Menge 10784); Item 17056 eigen 1695/fremd 100 (Alter 108/0 Min., g, Voll, Menge 5474); Item 2862 eigen 24/fremd 8 (Alter 108/0 Min., g, Voll, Menge 5001); Item 249391 eigen 2754/fremd 900 (Alter 108/0 Min., g, Voll, Menge 4789)
+  Einstellungen geändert: cmdHint=true, fastScan=true, helpSeen=true, learnExplore=false, marketExpert=false, minimapAngle=199, priceGuard=20, psHintHidden=true, sniperSignal=true, theme=modern, tooltipDEDetail=true, vendorButton=false, vendorFlipMin=500, vsBudget=2
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0 (dazu 3 in der Testroutine, nur in deren Protokoll)
+
+== Einträge (200, neueste zuerst)
+[24.11. 22:24:10] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 14 ms bis UI_MarketView.lua:702 · 17 ms
+[24.11. 22:24:10] SNIPER-RUHE Ruhemodus aus nach 166 s
+[24.11. 22:24:09] ABSATZ Item 8165 · Q 522 (vollscan) · S 36.7 (measured) · S roh 36.7 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 14.3 · N 7.0 · kaum
+[24.11. 22:24:09] ABSATZ Item 12360 · Q 10 (vollscan) · S 2.6 (measured) · S roh 2.6 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 4.2 · N 7.0
+[24.11. 22:24:09] ABSATZ Item 16206 · Q 1 (vollscan) · S 1.1 (market, gelernt) · S roh 6.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.6 · N 7.0
+[24.11. 22:24:09] ABSATZ Item 8836 · Q 32 (vollscan) · S 122.3 (measured) · S roh 122.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.3 · N 4.0
+[24.11. 22:24:09] ITEMINFO neue Item-Anfragen 8703 (zurückgestellt 173069) · je Aufgabe: - 6, act:report:30 7, act:report:today 200, cache:itemlist 493, cache:profit:de:20:0 200, cache:profit:vendor:20:0 3, cache:today:10 3342, cache:warm 28, cache:warm-today 200, fore
+[24.11. 22:23:25] PREISPRUEFUNG Item 271893 · Schlüssel allgemein (Stufe 1, Suffix 0, Haustier 0) · 8 Angebote · Scan 218 Stück · 0.2 s · Antwort
+[24.11. 22:23:25] SNIPER-RUHE Speicher 1064037 KB (+12276 KB in 60 s) · Suchen 0
+[24.11. 22:22:55] PREISPRUEFUNG Item 2893 · Schlüssel allgemein (Stufe 38, Suffix 0, Haustier 0) · 11 Angebote · Scan 778 Stück · 0.1 s · Antwort
+[24.11. 22:22:25] PREISPRUEFUNG Item 4780 · Schlüssel allgemein (Stufe 1, Suffix 0, Haustier 0) · 1 Angebote · Scan 9 Stück · 0.1 s · Antwort
+[24.11. 22:22:25] SNIPER-RUHE Speicher 1051761 KB (+16842 KB in 60 s) · Suchen 0
+[24.11. 22:21:24] ABSATZ-UNPLAUSIBEL Item 10025 · 25.3/Tag · Quelle geschätzt
+[24.11. 22:21:24] ABSATZ-UNPLAUSIBEL Item 250351 · 143.1/Tag · Quelle geschätzt
+[24.11. 22:21:24] ABSATZ-UNPLAUSIBEL Item 10009 · 27.9/Tag · Quelle geschätzt
+[24.11. 22:21:24] ABSATZ-UNPLAUSIBEL Item 249868 · 182.7/Tag · Quelle geschätzt
+[24.11. 22:21:24] ABSATZ-UNPLAUSIBEL Item 10050 · 132.1/Tag · Quelle geschätzt
+[24.11. 22:21:24] ABSATZ-UNPLAUSIBEL Item 250609 · 6.3/Tag · Quelle geschätzt
+[24.11. 22:21:24] ITEMINFO neue Item-Anfragen 8503 (zurückgestellt 166444) · je Aufgabe: - 6, act:report:30 7, act:report:today 200, cache:itemlist 294, cache:profit:de:20:0 200, cache:profit:vendor:20:0 3, cache:today:10 3342, cache:warm 28, cache:warm-today 200, fore
+[24.11. 22:16:35] SNIPER-RUHE Speicher 993880 KB (+11470 KB in 60 s) · Suchen 0
+[24.11. 22:15:35] SNIPER-RUHE Speicher 982409 KB (+10901 KB in 60 s) · Suchen 0
+[24.11. 22:14:35] SNIPER-RUHE Speicher 971509 KB (+10934 KB in 60 s) · Suchen 0
+[24.11. 22:13:35] SNIPER-RUHE Speicher 960574 KB (+12987 KB in 60 s) · Suchen 0
+[24.11. 22:12:36] ITEMINFO neue Item-Anfragen 7221 (zurückgestellt 141701) · je Aufgabe: - 6, act:report:30 7, act:report:today 200, cache:itemlist 93, cache:profit:de:20:0 200, cache:profit:vendor:20:0 3, cache:today:10 2742, cache:warm 28, cache:warm-today 200, forec
+[24.11. 22:12:35] SNIPER-RUHE Speicher 947587 KB (+14193 KB in 60 s) · Suchen 0
+[24.11. 22:03:41] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 0.8 Std., 10940: 0.8 Std., 11082: 0.8 Std. · 11 frisch geholt
+[24.11. 22:03:36] SNIPER-RUHE Ruhemodus an
+[24.11. 22:00:44] SYNC gesendet 2, empfangen 0, verworfen 0 · Kanal verweigert 0
+[24.11. 21:51:01] ITEMINFO neue Item-Anfragen 200 (zurückgestellt 0) · je Aufgabe: - 6, cache:warm 28, cache:warm-today 166
+[24.11. 21:51:01] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[24.11. 21:51:00] ABSATZ-UNPLAUSIBEL Item 4321 · 19.3/Tag · Quelle geschätzt
+[24.11. 21:51:00] ABSATZ-UNPLAUSIBEL Item 724 · 67.5/Tag · Quelle geschätzt
+[24.11. 21:50:50] SYNC Weg=GUILD
+[24.11. 21:50:47] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[24.11. 21:50:46] ABSATZ-UNPLAUSIBEL Item 4322 · 49.2/Tag · Quelle gemessen
+[24.11. 21:50:46] ABSATZ-UNPLAUSIBEL Item 279968 · 1322.7/Tag · Quelle gemessen
+[24.11. 21:50:46] ABSATZ-UNPLAUSIBEL Item 10592 · 879.4/Tag · Quelle gemessen
+[24.11. 21:50:46] ABSATZ-UNPLAUSIBEL Item 6241 · 39.0/Tag · Quelle geschätzt
+[24.11. 21:49:40] ITEMINFO neue Item-Anfragen 200 (zurückgestellt 0) · je Aufgabe: - 6, cache:warm 26, cache:warm-today 168
+[24.11. 21:49:40] ABSATZ-UNPLAUSIBEL Item 4321 · 19.3/Tag · Quelle geschätzt
+[24.11. 21:49:40] ABSATZ-UNPLAUSIBEL Item 724 · 67.5/Tag · Quelle geschätzt
+[24.11. 21:49:39] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[24.11. 21:49:29] SYNC Weg=GUILD
+[24.11. 21:49:26] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[24.11. 21:49:26] ABSATZ-UNPLAUSIBEL Item 4322 · 49.2/Tag · Quelle gemessen
+[24.11. 21:49:25] ABSATZ-UNPLAUSIBEL Item 279968 · 1322.7/Tag · Quelle gemessen
+[24.11. 21:49:25] ABSATZ-UNPLAUSIBEL Item 10592 · 879.4/Tag · Quelle gemessen
+[24.11. 21:49:25] ABSATZ-UNPLAUSIBEL Item 6241 · 39.0/Tag · Quelle geschätzt
+[24.11. 21:49:16] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[24.11. 21:49:16] ABSATZ-UNPLAUSIBEL Item 4322 · 49.2/Tag · Quelle gemessen
+[24.11. 21:49:14] ABSATZ-UNPLAUSIBEL Item 279968 · 1322.7/Tag · Quelle gemessen
+[24.11. 21:49:14] ABSATZ-UNPLAUSIBEL Item 10592 · 879.4/Tag · Quelle gemessen
+[24.11. 21:49:14] ABSATZ-UNPLAUSIBEL Item 6241 · 39.0/Tag · Quelle geschätzt
+[24.11. 21:48:45] SNIPER-RUHE Ruhemodus aus nach 1898 s
+[24.11. 21:48:06] SNIPER-RUHE Speicher 988937 KB (+29253 KB in 60 s) · Suchen 0
+[24.11. 21:47:07] ITEMINFO neue Item-Anfragen 9386 (zurückgestellt 182179) · je Aufgabe: - 6, act:report:30 7, act:report:today 400, cache:itemlist 484, cache:profit:de:20:0 200, cache:profit:vendor:20:0 1, cache:today:10 3122, cache:warm 200, cache:warm-today 200, for
+[24.11. 21:47:07] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 14 ms bis UI_MarketView.lua:702 · 19 ms
+[24.11. 21:47:06] SNIPER-RUHE Speicher 959685 KB (+11749 KB in 60 s) · Suchen 0
+[24.11. 21:46:23] SYNC gesendet 357, empfangen 12, verworfen nopath 1 · Kanal verweigert 0
+[24.11. 21:46:06] SNIPER-RUHE Speicher 947935 KB (+13050 KB in 60 s) · Suchen 0
+[24.11. 21:45:06] SNIPER-RUHE Speicher 934886 KB (+11481 KB in 60 s) · Suchen 0
+[24.11. 21:44:06] SNIPER-RUHE Speicher 923404 KB (+7962 KB in 60 s) · Suchen 0
+[24.11. 21:43:06] SNIPER-RUHE Speicher 915443 KB (-247430 KB in 60 s) · Suchen 0
+[24.11. 21:42:06] SNIPER-RUHE Speicher 1162872 KB (+11143 KB in 60 s) · Suchen 0
+[24.11. 21:41:06] SNIPER-RUHE Speicher 1151730 KB (+13076 KB in 60 s) · Suchen 0
+[24.11. 21:40:09] PREISPRUEFUNG Item 268416 · Schlüssel allgemein (Stufe 20, Suffix 0, Haustier 0) · 19 Angebote · Scan 852 Stück · 0.1 s · Antwort
+[24.11. 21:40:06] SNIPER-RUHE Speicher 1138654 KB (+13538 KB in 60 s) · Suchen 0
+[24.11. 21:39:39] PREISPRUEFUNG Item 1205 · Schlüssel allgemein (Stufe 25, Suffix 0, Haustier 0) · 5 Angebote · Scan 276 Stück · 0.1 s · Antwort
+[24.11. 21:39:09] PREISPRUEFUNG Item 8244 · Schlüssel allgemein (Stufe 1, Suffix 0, Haustier 0) · 9 Angebote · Scan 14 Stück · 0.2 s · Antwort
+[24.11. 21:39:06] SNIPER-RUHE Speicher 1125115 KB (+13382 KB in 60 s) · Suchen 0
+[24.11. 21:38:39] PREISPRUEFUNG Item 275895 · Schlüssel allgemein (Stufe 1, Suffix 0, Haustier 0) · 2 Angebote · Scan 4 Stück · 0.1 s · Antwort
+[24.11. 21:38:06] SNIPER-RUHE Speicher 1111734 KB (+12780 KB in 60 s) · Suchen 0
+[24.11. 21:37:39] PREISPRUEFUNG Item 279989 · Schlüssel allgemein (Stufe 60, Suffix 0, Haustier 0) · 4 Angebote · Scan 42 Stück · 0.1 s · Antwort
+[24.11. 21:37:06] SNIPER-RUHE Speicher 1098954 KB (+13052 KB in 60 s) · Suchen 0
+[24.11. 21:36:39] PREISPRUEFUNG Item 3175 · Schlüssel allgemein (Stufe 1, Suffix 0, Haustier 0) · 2 Angebote · Scan 22 Stück · 0.1 s · Antwort
+[24.11. 21:36:23] SYNC gesendet 357, empfangen 12, verworfen nopath 1 · Kanal verweigert 0
+[24.11. 21:36:06] SNIPER-RUHE Speicher 1085901 KB (+12112 KB in 60 s) · Suchen 0
+[24.11. 21:35:38] PREISPRUEFUNG Item 7101 · Schlüssel allgemein (Stufe 1, Suffix 0, Haustier 0) · 2 Angebote · Scan 24 Stück · 0.1 s · Antwort
+[24.11. 21:35:08] PREISPRUEFUNG Item 2593 · Schlüssel allgemein (Stufe 15, Suffix 0, Haustier 0) · 3 Angebote · Scan 22 Stück · 0.1 s · Antwort
+[24.11. 21:35:06] SNIPER-RUHE Speicher 1073789 KB (+12718 KB in 60 s) · Suchen 0
+[24.11. 21:34:09] PREISPRUEFUNG Item 18227 · Schlüssel allgemein (Stufe 1, Suffix 0, Haustier 0) · 3 Angebote · Scan 7 Stück · 0.2 s · Antwort
+[24.11. 21:34:06] SNIPER-RUHE Speicher 1061072 KB (+13110 KB in 60 s) · Suchen 0
+[24.11. 21:33:39] PREISPRUEFUNG Item 11382 · Schlüssel allgemein (Stufe 50, Suffix 0, Haustier 0) · 25 Angebote · Scan 137 Stück · 0.1 s · Antwort
+[24.11. 21:33:06] SNIPER-RUHE Speicher 1047962 KB (+21549 KB in 60 s) · Suchen 0
+[24.11. 21:32:39] PREISPRUEFUNG Item 6456 · Schlüssel allgemein (Stufe 1, Suffix 0, Haustier 0) · 2 Angebote · Scan 42 Stück · 0.1 s · Antwort
+[24.11. 21:32:06] SNIPER-RUHE Speicher 1026413 KB (+12364 KB in 60 s) · Suchen 0
+[24.11. 21:31:38] PREISPRUEFUNG Item 4604 · Schlüssel allgemein (Stufe 5, Suffix 0, Haustier 0) · 18 Angebote · Scan 614 Stück · 0.1 s · Antwort
+[24.11. 21:31:08] PREISPRUEFUNG Item 13545 · Schlüssel allgemein (Stufe 1, Suffix 0, Haustier 0) · 20 Angebote · Scan 5314 Stück · 0.1 s · Antwort
+[24.11. 21:31:06] SNIPER-RUHE Speicher 1014048 KB (+12440 KB in 60 s) · Suchen 0
+[24.11. 21:30:38] PREISPRUEFUNG Item 2070 · Schlüssel allgemein (Stufe 5, Suffix 0, Haustier 0) · 12 Angebote · Scan 174 Stück · 0.1 s · Antwort
+[24.11. 21:30:08] PREISPRUEFUNG Item 5376 · Schlüssel allgemein (Stufe 1, Suffix 0, Haustier 0) · 1 Angebote · Scan 1 Stück · 0.1 s · Antwort
+[24.11. 21:30:06] SNIPER-RUHE Speicher 1001609 KB (+22471 KB in 60 s) · Suchen 0
+[24.11. 21:29:09] PREISPRUEFUNG Item 217716 · Schlüssel allgemein (Stufe 1, Suffix 0, Haustier 0) · 1 Angebote · Scan 3 Stück · 0.2 s · Antwort
+[24.11. 21:29:06] SNIPER-RUHE Speicher 979137 KB (+28275 KB in 60 s) · Suchen 0
+[24.11. 21:28:08] PREISPRUEFUNG Item 11415 · Schlüssel allgemein (Stufe 55, Suffix 0, Haustier 0) · 4 Angebote · Scan 13 Stück · 0.1 s · Antwort
+[24.11. 21:28:06] SNIPER-RUHE Speicher 950863 KB (+22845 KB in 60 s) · Suchen 0
+[24.11. 21:27:09] PREISPRUEFUNG Item 2633 · Schlüssel allgemein (Stufe 26, Suffix 0, Haustier 0) · 9 Angebote · Scan 552 Stück · 0.2 s · Antwort
+[24.11. 21:27:06] SNIPER-RUHE Speicher 928018 KB (-214320 KB in 60 s) · Suchen 0
+[24.11. 21:26:23] SYNC gesendet 357, empfangen 12, verworfen nopath 1 · Kanal verweigert 0
+[24.11. 21:26:08] PREISPRUEFUNG Item 248693 · Schlüssel allgemein (Stufe 1, Suffix 0, Haustier 0) · 33 Angebote · Scan 478 Stück · 0.2 s · Antwort
+[24.11. 21:26:06] SNIPER-RUHE Speicher 1142337 KB (+13016 KB in 60 s) · Suchen 0
+[24.11. 21:25:08] PREISPRUEFUNG Item 4581 · Schlüssel allgemein (Stufe 1, Suffix 0, Haustier 0) · 5 Angebote · Scan 36 Stück · 0.2 s · Antwort
+[24.11. 21:25:06] SNIPER-RUHE Speicher 1129322 KB (+12836 KB in 60 s) · Suchen 0
+[24.11. 21:24:08] PREISPRUEFUNG Item 4757 · Schlüssel allgemein (Stufe 1, Suffix 0, Haustier 0) · 3 Angebote · Scan 24 Stück · 0.2 s · Antwort
+[24.11. 21:24:06] SNIPER-RUHE Speicher 1116486 KB (+13261 KB in 60 s) · Suchen 0
+[24.11. 21:23:08] PREISPRUEFUNG Item 4960 · Schlüssel allgemein (Stufe 7, Suffix 0, Haustier 0) · 2 Angebote · Scan 500 Stück · 0.2 s · Antwort
+[24.11. 21:23:06] SNIPER-RUHE Speicher 1103225 KB (+12491 KB in 60 s) · Suchen 0
+[24.11. 21:22:38] PREISPRUEFUNG Item 277500 · Schlüssel allgemein (Stufe 55, Suffix 0, Haustier 0) · 28 Angebote · Scan 660 Stück · 0.1 s · Antwort
+[24.11. 21:22:08] PREISPRUEFUNG Item 277501 · Schlüssel allgemein (Stufe 55, Suffix 0, Haustier 0) · 10 Angebote · Scan 230 Stück · 0.2 s · Antwort
+[24.11. 21:22:06] SNIPER-RUHE Speicher 1090733 KB (+12465 KB in 60 s) · Suchen 0
+[24.11. 21:21:08] PREISPRUEFUNG Item 18254 · Schlüssel allgemein (Stufe 45, Suffix 0, Haustier 0) · 9 Angebote · Scan 1527 Stück · 0.2 s · Antwort
+[24.11. 21:21:06] SNIPER-RUHE Speicher 1078269 KB (+12774 KB in 60 s) · Suchen 0
+[24.11. 21:20:08] PREISPRUEFUNG Item 5473 · Schlüssel allgemein (Stufe 10, Suffix 0, Haustier 0) · 10 Angebote · Scan 884 Stück · 0.1 s · Antwort
+[24.11. 21:20:06] SNIPER-RUHE Speicher 1065495 KB (+13577 KB in 60 s) · Suchen 0
+[24.11. 21:19:38] PREISPRUEFUNG Item 5206 · Schlüssel allgemein (Stufe 12, Suffix 0, Haustier 0) · 6 Angebote · Scan 713 Stück · 0.2 s · Antwort
+[24.11. 21:19:06] SNIPER-RUHE Speicher 1051918 KB (+13841 KB in 60 s) · Suchen 0
+[24.11. 21:18:38] PREISPRUEFUNG Item 11584 · Schlüssel allgemein (Stufe 5, Suffix 0, Haustier 0) · 7 Angebote · Scan 183 Stück · 0.2 s · Antwort
+[24.11. 21:18:06] SNIPER-RUHE Speicher 1038077 KB (+23001 KB in 60 s) · Suchen 0
+[24.11. 21:17:08] PREISPRUEFUNG Item 250068 · Schlüssel allgemein+stufe0 (Stufe 0, Suffix 0, Haustier 0) · 0 Angebote · Scan 1270 Stück · 8.1 s · Zeitlimit
+[24.11. 21:17:07] ABSATZ-UNPLAUSIBEL Item 2596 · 106.7/Tag · Quelle geschätzt
+[24.11. 21:17:07] ABSATZ-UNPLAUSIBEL Item 5329 · 8.8/Tag · Quelle geschätzt
+[24.11. 21:17:07] ABSATZ-UNPLAUSIBEL Item 7228 · 64.3/Tag · Quelle geschätzt
+[24.11. 21:17:07] ABSATZ-UNPLAUSIBEL Item 10592 · 879.4/Tag · Quelle gemessen
+[24.11. 21:17:07] ITEMINFO neue Item-Anfragen 9186 (zurückgestellt 175573) · je Aufgabe: - 6, act:report:30 7, act:report:today 400, cache:itemlist 285, cache:profit:de:20:0 200, cache:profit:vendor:20:0 1, cache:today:10 3121, cache:warm 200, cache:warm-today 200, for
+[24.11. 21:12:19] SNIPER-RUHE Speicher 999953 KB (+11755 KB in 60 s) · Suchen 0
+[24.11. 21:11:19] SNIPER-RUHE Speicher 988198 KB (+11535 KB in 60 s) · Suchen 0
+[24.11. 21:10:19] SNIPER-RUHE Speicher 976663 KB (+11300 KB in 60 s) · Suchen 0
+[24.11. 21:09:19] SNIPER-RUHE Speicher 965362 KB (+12124 KB in 60 s) · Suchen 0
+[24.11. 21:08:19] ITEMINFO neue Item-Anfragen 7798 (zurückgestellt 151077) · je Aufgabe: - 6, act:report:30 7, act:report:today 400, cache:itemlist 84, cache:profit:de:20:0 200, cache:profit:vendor:20:0 1, cache:today:10 2521, cache:warm 200, cache:warm-today 200, fore
+[24.11. 21:08:19] SNIPER-RUHE Speicher 953238 KB (+14135 KB in 60 s) · Suchen 0
+[24.11. 20:59:59] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 0.6 Std., 10940: 0.6 Std., 11082: 0.6 Std. · 11 frisch geholt
+[24.11. 20:59:54] SNIPER-RUHE Ruhemodus an
+[24.11. 20:56:39] ABSATZ-UNPLAUSIBEL Item 724 · 67.5/Tag · Quelle geschätzt
+[24.11. 20:56:39] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[24.11. 20:56:29] SYNC Weg=GUILD
+[24.11. 20:56:27] ABSATZ-UNPLAUSIBEL Item 2583 · 12.5/Tag · Quelle geschätzt
+[24.11. 20:56:27] ITEMINFO neue Item-Anfragen 200 (zurückgestellt 0) · je Aufgabe: - 6, cache:warm 194
+[24.11. 20:56:25] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[24.11. 20:56:25] ABSATZ-UNPLAUSIBEL Item 10045 · 28.8/Tag · Quelle geschätzt
+[24.11. 20:56:25] ABSATZ-UNPLAUSIBEL Item 7374 · 63.4/Tag · Quelle gemessen
+[24.11. 20:56:25] ABSATZ-UNPLAUSIBEL Item 6290 · 1026.8/Tag · Quelle geschätzt
+[24.11. 20:56:24] ABSATZ-UNPLAUSIBEL Item 279968 · 1322.7/Tag · Quelle gemessen
+[24.11. 20:56:24] ABSATZ-UNPLAUSIBEL Item 6361 · 1101.1/Tag · Quelle geschätzt
+[24.11. 20:56:24] ABSATZ-UNPLAUSIBEL Item 8959 · 200.8/Tag · Quelle geschätzt
+[24.11. 20:56:16] SNIPER-RUHE Ruhemodus aus nach 896 s
+[24.11. 20:55:26] SYNC gesendet 45, empfangen 2, verworfen nopath 1 · Kanal verweigert 0
+[24.11. 20:55:19] SNIPER-RUHE Speicher 922818 KB (+12650 KB in 60 s) · Suchen 0
+[24.11. 20:54:19] SNIPER-RUHE Speicher 910168 KB (+10916 KB in 60 s) · Suchen 0
+[24.11. 20:53:19] SNIPER-RUHE Speicher 899252 KB (+11506 KB in 60 s) · Suchen 0
+[24.11. 20:52:19] SNIPER-RUHE Speicher 887746 KB (+12081 KB in 60 s) · Suchen 0
+[24.11. 20:51:19] SNIPER-RUHE Speicher 875665 KB (+11727 KB in 60 s) · Suchen 0
+[24.11. 20:50:19] SNIPER-RUHE Speicher 863938 KB (+12862 KB in 60 s) · Suchen 0
+[24.11. 20:49:19] SNIPER-RUHE Speicher 851077 KB (+13131 KB in 60 s) · Suchen 0
+[24.11. 20:48:19] SNIPER-RUHE Speicher 837946 KB (+12004 KB in 60 s) · Suchen 0
+[24.11. 20:47:19] SNIPER-RUHE Speicher 825942 KB (+11470 KB in 60 s) · Suchen 0
+[24.11. 20:46:19] SNIPER-RUHE Speicher 814471 KB (+10792 KB in 60 s) · Suchen 0
+[24.11. 20:45:26] SYNC gesendet 45, empfangen 2, verworfen nopath 1 · Kanal verweigert 0
+[24.11. 20:45:19] SNIPER-RUHE Speicher 803679 KB (-235140 KB in 60 s) · Suchen 0
+[24.11. 20:44:19] SNIPER-RUHE Speicher 1038820 KB (+12631 KB in 60 s) · Suchen 0
+[24.11. 20:43:19] SNIPER-RUHE Speicher 1026188 KB (+12186 KB in 60 s) · Suchen 0
+[24.11. 20:42:19] SNIPER-RUHE Speicher 1014002 KB (+43879 KB in 60 s) · Suchen 0
+[24.11. 20:41:19] SNIPER-RUHE Ruhemodus an
+[24.11. 20:41:16] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 261 mit belastbarem Marktwert · 17 unter 70 % des Marktwerts · 16 ohne Preissturz/Flutung · 4 unter der Flip-Grenze (Mindestgewinn) · 4 im Tagesbudget Weiterverkauf · 1 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[24.11. 20:41:15] ABSATZ Item 12037 · Q 0 (vollscan) · S 54.7 (measured) · S roh 54.7 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.0 · N 1.0
+[24.11. 20:41:13] ABSATZ Item 4304 · Q 352 (vollscan) · S 362.7 (measured) · S roh 362.7 · Deckel - · eigene Quote 3/3 · Laufzeit 2 Std. · W 1.0 · N 1.0
+[24.11. 20:41:08] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 261 mit belastbarem Marktwert · 18 unter 70 % des Marktwerts · 17 ohne Preissturz/Flutung · 5 unter der Flip-Grenze (Mindestgewinn) · 5 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[24.11. 20:41:00] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 261 mit belastbarem Marktwert · 20 unter 70 % des Marktwerts · 19 ohne Preissturz/Flutung · 6 unter der Flip-Grenze (Mindestgewinn) · 6 im Tagesbudget Weiterverkauf · 1 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[24.11. 20:40:52] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 261 mit belastbarem Marktwert · 20 unter 70 % des Marktwerts · 20 ohne Preissturz/Flutung · 8 unter der Flip-Grenze (Mindestgewinn) · 8 im Tagesbudget Weiterverkauf · 3 Marktwert ab Mindestwert · 2 neu (nicht gerade abgelehnt) · 2 unter 50 %
+[24.11. 20:40:49] LANGSAM Empfänger Watcher.lua:920 von BROWSE_RESULTS · 18 ms
+[24.11. 20:40:48] LANGSAM Empfänger Watcher.lua:920 von BROWSE_RESULTS · 20 ms
+[24.11. 20:40:44] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 261 mit belastbarem Marktwert · 16 unter 70 % des Marktwerts · 16 ohne Preissturz/Flutung · 4 unter der Flip-Grenze (Mindestgewinn) · 4 im Tagesbudget Weiterverkauf · 1 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[24.11. 20:40:36] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 261 mit belastbarem Marktwert · 14 unter 70 % des Marktwerts · 14 ohne Preissturz/Flutung · 4 unter der Flip-Grenze (Mindestgewinn) · 4 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[24.11. 20:40:27] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 261 mit belastbarem Marktwert · 15 unter 70 % des Marktwerts · 15 ohne Preissturz/Flutung · 5 unter der Flip-Grenze (Mindestgewinn) · 5 im Tagesbudget Weiterverkauf · 1 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[24.11. 20:40:19] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 261 mit belastbarem Marktwert · 16 unter 70 % des Marktwerts · 16 ohne Preissturz/Flutung · 5 unter der Flip-Grenze (Mindestgewinn) · 5 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 2 unter 50 %
+[24.11. 20:40:10] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 261 mit belastbarem Marktwert · 16 unter 70 % des Marktwerts · 16 ohne Preissturz/Flutung · 5 unter der Flip-Grenze (Mindestgewinn) · 5 im Tagesbudget Weiterverkauf · 2 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[24.11. 20:40:02] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 261 mit belastbarem Marktwert · 18 unter 70 % des Marktwerts · 18 ohne Preissturz/Flutung · 6 unter der Flip-Grenze (Mindestgewinn) · 6 im Tagesbudget Weiterverkauf · 2 Marktwert ab Mindestwert · 1 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[24.11. 20:40:00] ABSATZ Item 3357 · Q 511 (vollscan) · S 209.7 (measured) · S roh 209.7 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 2.4 · N 7.0
+[24.11. 20:39:58] LANGSAM Empfänger Watcher.lua:920 von BROWSE_RESULTS · 26 ms
+[24.11. 20:39:58] LANGSAM Empfänger Watcher.lua:920 von BROWSE_RESULTS · 16 ms
+[24.11. 20:39:54] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 260 mit belastbarem Marktwert · 19 unter 70 % des Marktwerts · 19 ohne Preissturz/Flutung · 7 unter der Flip-Grenze (Mindestgewinn) · 7 im Tagesbudget Weiterverkauf · 1 Marktwert ab Mindestwert · 1 neu (nicht gerade abgelehnt) · 3 unter 50 %
+[24.11. 20:39:46] LANGSAM Empfänger UI_Buy.lua:1017 von ITEMINFO_LOADED · 33 ms
+[24.11. 20:39:46] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 260 mit belastbarem Marktwert · 18 unter 70 % des Marktwerts · 18 ohne Preissturz/Flutung · 7 unter der Flip-Grenze (Mindestgewinn) · 7 im Tagesbudget Weiterverkauf · 1 Marktwert ab Mindestwert · 1 neu (nicht gerade abgelehnt) · 3 unter 50 %
+[24.11. 20:39:45] ENTZAUBERWERT Item 4059 · eigene Ø aus 403 · 11137 75% × 1.51 à 844, 11135 20% × 1.54 à 2496, 11139 4% × 1.00 à 2342 · brutto 1941 · netto 1844
+[24.11. 20:39:45] ABSATZ Item 4059 · Q 21 (scan, Q gesamt) · S 3.8 (market, gelernt) · S roh 6.6 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 5.8 · N 7.0
+[24.11. 20:39:45] LANGSAM Empfänger UI_Buy.lua:1017 von ITEMINFO_LOADED · 30 ms
+[24.11. 20:39:44] ITEMINFO neue Item-Anfragen 8257 (zurückgestellt 155508) · je Aufgabe: - 4, act:report:30 7, cache:itemlist 29, cache:profit:de:20:0 200, cache:profit:vendor:20:0 1, cache:today:10 3302, cache:warm 23, cache:warm-today 200, forecast-eval 402, market:d
+[24.11. 20:39:38] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 260 mit belastbarem Marktwert · 14 unter 70 % des Marktwerts · 14 ohne Preissturz/Flutung · 4 unter der Flip-Grenze (Mindestgewinn) · 4 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[24.11. 20:39:34] ABSATZ Item 2838 · Q 0 (vollscan) · S 439.3 (measured) · S roh 439.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.0 · N 1.0
+[24.11. 20:39:30] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 260 mit belastbarem Marktwert · 14 unter 70 % des Marktwerts · 14 ohne Preissturz/Flutung · 4 unter der Flip-Grenze (Mindestgewinn) · 4 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[24.11. 20:39:22] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 260 mit belastbarem Marktwert · 14 unter 70 % des Marktwerts · 14 ohne Preissturz/Flutung · 2 unter der Flip-Grenze (Mindestgewinn) · 2 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[24.11. 20:39:14] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 260 mit belastbarem Marktwert · 16 unter 70 % des Marktwerts · 16 ohne Preissturz/Flutung · 4 unter der Flip-Grenze (Mindestgewinn) · 4 im Tagesbudget Weiterverkauf · 1 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 2 unter 50 %
+[24.11. 20:39:07] WAECHTER-HUERDEN ×2 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 261 mit belastbarem Marktwert · 15 unter 70 % des Marktwerts · 15 ohne Preissturz/Flutung · 3 unter der Flip-Grenze (Mindestgewinn) · 3 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[24.11. 20:38:49] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 261 mit belastbarem Marktwert · 18 unter 70 % des Marktwerts · 18 ohne Preissturz/Flutung · 5 unter der Flip-Grenze (Mindestgewinn) · 5 im Tagesbudget Weiterverkauf · 2 Marktwert ab Mindestwert · 1 neu (nicht gerade abgelehnt) · 2 unter 50 %
+[24.11. 20:38:41] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 261 mit belastbarem Marktwert · 16 unter 70 % des Marktwerts · 16 ohne Preissturz/Flutung · 3 unter der Flip-Grenze (Mindestgewinn) · 3 im Tagesbudget Weiterverkauf · 1 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[24.11. 20:38:41] WÄCHTER Entzaubern lohnt · 1 Teile · ab 30 %
+[24.11. 20:38:34] SNIPER-SUCHE Ziel 12037 · Angebote 67 · Treffer ≤ Max 1 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[24.11. 20:38:33] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 261 mit belastbarem Marktwert · 18 unter 70 % des Marktwerts · 18 ohne Preissturz/Flutung · 4 unter der Flip-Grenze (Mindestgewinn) · 4 im Tagesbudget Weiterverkauf · 1 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[24.11. 20:38:28] LANGSAM Empfänger Watcher.lua:920 von BROWSE_RESULTS · 18 ms
+[21.11. 18:58:46] FEHLER Märkte vereinen: Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:5416: attempt to compare two table values
+[21.11. 18:38:52] FEHLER Märkte vereinen: Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:5416: attempt to compare number with table
