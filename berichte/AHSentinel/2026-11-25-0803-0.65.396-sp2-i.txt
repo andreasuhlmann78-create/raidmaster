@@ -1,0 +1,17 @@
+AHSentinel 0.65.396 – AHS-SP2 (i) Einbau (Freigabe Supervisor 25.11. 07:56) – umgesetzt, zur Prüfung (nur Discord)
+addon_check 0.65.396: OK. ZIP: gleiche 112 Dateien wie 0.65.395.
+Nachbau: Teil auto OK 1019 · FEHLER 0 · übersprungen 67 · im Client 16 (s42 PASS); Teil server s43 PASS; s335_sp1_gleichheit mit echten Daten PASS
+ (12 Prüfungen: Verdichtung, st.ladder-Text, alle Leser, Weitergabe = alt); Vollscan-Szenarien PASS: s262, s92, s276, s224, s312, s325, s76_replicate,
+ s87. FULL folgt allein.
+EINBAU: Vollscan.lua VS:DigestC – Text je Item aus EINEM table.concat über Zahlen und Trennzeichen (Puffer bufS wiederverwendet), Mess-Schalter
+ ONECAT und alter Weg entfernt. Ausgabe Zeichen für Zeichen wie vorher (Zahlen werden in table.concat und ".." gleich umgewandelt).
+ Test T1022: 300 Leitern (1–400 Angebote, gleiche Preise, Sprünge -> Prozent-Stufen, Restzeit-Stufen) DigestC = Digest+EncodeLadder, 0 abweichend;
+ Gegenprobe: veränderter Preis erkannt.
+MESSFEHLER AUS DEM BERICHT 0701 GEKLÄRT (Supervisor: "beim Einbau suchen, könnte ein Leck sein"): KEIN Leck im Addon. Die "andere Stelle" war mein
+ Mess-Szenario selbst: "local kbA, _, n = measure(false)" hielt im Platzhalter "_" den ganzen Satz der ersten Messung -> dessen Texte lebten weiter
+ und Lua legte gleiche Texte nicht neu an. Ohne diesen Verweis (Rückgabe nur noch Zahlen): fertige Texte neu erzeugen 771 KB (davon Liste 109 KB)
+ = 662 KB, gerechnet waren 643 KB. Damit die richtigen Zahlen für (i): angelegt bei der Verdichtung heute 2 388 / 2 388 KB · neu 856 / 856 KB
+ -> Ersparnis 1 532 KB je Scan (statt der berichteten 1,5–2,2 MB: Untergrenze stimmt, die 2,2 MB waren der Messfehler).
+T459-Werte Nachbau mit 0.65.396 (zz_t459real, ohne gelesene Auktionen): Scan 1 53 711 KB · Scan 2 18 277 KB · Scan 3 15 170 KB; Verdichtung 7 277 /
+ 3 755 / 2 484 KB (0.65.395: 8 747 / 5 258 / 4 055). Scan 2 bleibt über 10 240 KB: Nachlauf 10 148 (forecast-eval 2 599, learn:factor 2 455,
+ cache:itemlist 2 324, core:realcheck 1 251), Verfolgung V4 3 024. Nächster Schritt SP2 (ii) Bestpreise, dann (iii) je Aufgabe messen.

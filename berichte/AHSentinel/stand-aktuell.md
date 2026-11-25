@@ -1,6 +1,6 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 25.11.2026 07:03 · Version 0.65.395 (Discord); CurseForge 0.65.393 (Datei-ID 9799863)
+## Stand 25.11.2026 08:03 · Version 0.65.396 (Discord); CurseForge 0.65.393 (Datei-ID 9799863)
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz – Testberichte "GSTEST1{…}", UI-Befunde db.uiFindingsLast).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
@@ -10,9 +10,8 @@ Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /h
  Eigene Szenarien /tmp/claude-0/sim/wowsim/scenarios_new.lua (zz_t459real, zz_tr1, zz_i6_sniper, zz_ui_buy).
 
 ## Gerade in Arbeit
-- WARTE auf Supervisor: (1) SP2-Messbericht (i Text in einem Stück −1,5–2,2 MB gemessen; ii Bestpreise-Listen; iii Nachlauf je Aufgabe Verdacht),
-  Mess-Schalter VS.ONECAT (aus) in der Arbeitskopie; (2) CF4-Entwurf der Beschreibung (erst nach Freigabe auf CurseForge einfügen, Browser des
-  Nutzers, Projekt 1757594, danach Seite lesen und vergleichen). FULL 0.65.395: 347/67, keine neuen Fehler. J1 erledigt (Supervisor).
+- 0.65.396 = SP2 (i) eingebaut. Jetzt: AHS-CF4 Entwurf 2 + AHS-CF5 (Lizenz GPL-3.0) im Browser des Nutzers einfügen (Projekt 1757594), danach
+  Seite lesen und Bericht. Dann FULL 0.65.396 allein, dann SP2 (ii) Bestpreise als Listen (Gleichheit, alter Client), dann (iii) je Aufgabe messen.
 
 ## Nächste Schritte (Supervisor 25.11. 06:25/06:31)
 1. FULL 0.65.395 (allein); s313 weiter nennen (zweimal rot = Befund).
@@ -25,6 +24,7 @@ Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /h
 - Gold-Messung Ausrüstung mit Kupfer-Preis (AHS-POST), RecipeList-Fehler mit nur AHS aktiv.
 
 ## Entscheide des Nutzers seit letztem Stand
+- 25.11. 07:56 AHS-CF5: CurseForge-Lizenz auf GPL-3.0 (nur diese Einstellung, zusammen mit der Beschreibung).
 - 25.11. 06:54 AHS-CF4: AHS-Sitzung darf die CurseForge-Beschreibung ändern – "überlegt": Entwurf, Prüfung, dann einfügen und nachlesen.
 - 25.11. 06:31 Markt-Tabelle Stand 16.11. behalten (Fallzahl-Regel gilt).
 - 22:17/22:23 AHS-CF2: 0.65.393 sofort auf CurseForge, "Wichtiges Update"; T459 (c) und Ingametest bewusst in Kauf genommen.
