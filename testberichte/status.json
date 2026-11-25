@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-25T14:59:38Z",
+ "ausgewertet": "2026-11-25T15:15:22Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -34,11 +34,11 @@
    ]
   },
   "BuffSentinel": {
-   "berichte": 16,
+   "berichte": 17,
    "letzter_test": {
-    "id": "BuffSentinel-1795593264-3884a8-1",
-    "version": "0.9.64",
-    "time": 1795593250,
+    "id": "BuffSentinel-1795618849-ccbe5d-1",
+    "version": "0.9.65",
+    "time": 1795618823,
     "counts": {
      "client": 11,
      "fehler": 0,
@@ -142,11 +142,11 @@
    ]
   },
   "ProfessionSentinel": {
-   "berichte": 21,
+   "berichte": 23,
    "letzter_test": {
-    "id": "ProfessionSentinel-1795547660-7c3541-5",
-    "version": "0.9.83",
-    "time": 1795547660,
+    "id": "ProfessionSentinel-1795619120-a44af4-5",
+    "version": "0.9.85",
+    "time": 1795619120,
     "counts": {
      "client": 0,
      "fehler": 1,
@@ -158,12 +158,12 @@
     {
      "addon": "ProfessionSentinel",
      "art": "test",
-     "version": "0.9.83",
+     "version": "0.9.85",
      "client": "forever 1.60.1 (Interface 16001)",
      "id": "S2",
      "name": "Fertigkeit und Plan-Start",
      "detail": "ergebnis: Fertigkeit 0 | erwartet: > 0",
-     "bericht": "ProfessionSentinel-1795547660-7c3541-5"
+     "bericht": "ProfessionSentinel-1795619120-a44af4-5"
     }
    ],
    "fehler_spiel": [
@@ -172,12 +172,13 @@
      "art": "spiel",
      "wo": "ADDON_ACTION_BLOCKED",
      "msg": "resume()",
-     "anzahl": 20,
+     "anzahl": 24,
      "versionen": [
       "0.9.78",
       "0.9.80",
       "0.9.81",
-      "0.9.83"
+      "0.9.83",
+      "0.9.85"
      ],
      "clients": [
       "forever 1.60.1 (Interface 16001)"
@@ -295,24 +296,25 @@
   {
    "addon": "ProfessionSentinel",
    "art": "test",
-   "version": "0.9.83",
+   "version": "0.9.85",
    "client": "forever 1.60.1 (Interface 16001)",
    "id": "S2",
    "name": "Fertigkeit und Plan-Start",
    "detail": "ergebnis: Fertigkeit 0 | erwartet: > 0",
-   "bericht": "ProfessionSentinel-1795547660-7c3541-5"
+   "bericht": "ProfessionSentinel-1795619120-a44af4-5"
   },
   {
    "addon": "ProfessionSentinel",
    "art": "spiel",
    "wo": "ADDON_ACTION_BLOCKED",
    "msg": "resume()",
-   "anzahl": 20,
+   "anzahl": 24,
    "versionen": [
     "0.9.78",
     "0.9.80",
     "0.9.81",
-    "0.9.83"
+    "0.9.83",
+    "0.9.85"
    ],
    "clients": [
     "forever 1.60.1 (Interface 16001)"
@@ -323,11 +325,11 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 252,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.401-7966db29413f.txt"
+    "anzahl": 253,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.402-c6e10ba7fdd6.txt"
    },
    "BuffSentinel": {
-    "anzahl": 186,
+    "anzahl": 187,
     "neueste": "testberichte/diagnose/BuffSentinel/0.9.65-f6ad00e1f353.txt"
    },
    "GSMesstest": {
@@ -339,19 +341,19 @@
     "neueste": "testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt"
    },
    "GuildSentinel": {
-    "anzahl": 300,
+    "anzahl": 301,
     "neueste": "testberichte/diagnose/GuildSentinel/0.9.63-ea93aa0c2b9e.txt"
    },
    "LevelPilot": {
-    "anzahl": 191,
+    "anzahl": 192,
     "neueste": "testberichte/diagnose/LevelPilot/3.13.14-c0d9e0680e3e.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 273,
+    "anzahl": 274,
     "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.85-e6589cd98028.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 250,
+    "anzahl": 251,
     "neueste": "testberichte/diagnose/ThreatSentinel/2.5.30-fd96cf472bbb.txt"
    }
   },

@@ -1,16 +1,16 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-25 14:59 UTC
+Ausgewertet: 2026-11-25 15:15 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
 | Addon | letzter Testlauf | Version | Client | OK | FEHLER | übersprungen | im Client prüfen | Fehler im Spiel (7 Tage) |
 |---|---|---|---|---|---|---|---|---|
 | AHSentinel | 25.11.2026 14:15 UTC | 0.65.400 | forever 1.60.1 (Interface 16001) | 68 | 0 | 3 | 0 | 4 |
-| BuffSentinel | 25.11.2026 07:54 UTC | 0.9.64 | forever 1.60.1 (Interface 16001) | 226 | 0 | 11 | 11 | 0 |
+| BuffSentinel | 25.11.2026 15:00 UTC | 0.9.65 | forever 1.60.1 (Interface 16001) | 226 | 0 | 11 | 11 | 0 |
 | GuildSentinel | 25.11.2026 14:44 UTC | 0.9.63 | forever 1.60.1 (Interface 16001) | 340 | 0 | 24 | 8 | 1 |
 | LevelPilot | 24.11.2026 12:00 UTC | 3.13.12 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 16 |
-| ProfessionSentinel | 24.11.2026 19:14 UTC | 0.9.83 | forever 1.60.1 (Interface 16001) | 1 | 1 | 8 | 0 | 20 |
+| ProfessionSentinel | 25.11.2026 15:05 UTC | 0.9.85 | forever 1.60.1 (Interface 16001) | 1 | 1 | 8 | 0 | 24 |
 | RaidMaster | 25.11.2026 13:44 UTC | 3.0.49 | forever 1.60.1 (Interface 16001) | 10 | 0 | 0 | 0 | 0 |
 | ThreatSentinel | 24.11.2026 18:41 UTC | 2.5.30 | forever 1.60.1 (Interface 16001) | 1 | 0 | 0 | 0 | 0 |
 
@@ -18,14 +18,14 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 252 | `testberichte/diagnose/AHSentinel/0.65.401-7966db29413f.txt` |
-| BuffSentinel | 186 | `testberichte/diagnose/BuffSentinel/0.9.65-f6ad00e1f353.txt` |
+| AHSentinel | 253 | `testberichte/diagnose/AHSentinel/0.65.402-c6e10ba7fdd6.txt` |
+| BuffSentinel | 187 | `testberichte/diagnose/BuffSentinel/0.9.65-f6ad00e1f353.txt` |
 | GSMesstest | 25 | `testberichte/diagnose/GSMesstest/5.1-f65d607ab777.txt` |
 | GSSniperLog | 60 | `testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt` |
-| GuildSentinel | 300 | `testberichte/diagnose/GuildSentinel/0.9.63-ea93aa0c2b9e.txt` |
-| LevelPilot | 191 | `testberichte/diagnose/LevelPilot/3.13.14-c0d9e0680e3e.txt` |
-| ProfessionSentinel | 273 | `testberichte/diagnose/ProfessionSentinel/0.9.85-e6589cd98028.txt` |
-| ThreatSentinel | 250 | `testberichte/diagnose/ThreatSentinel/2.5.30-fd96cf472bbb.txt` |
+| GuildSentinel | 301 | `testberichte/diagnose/GuildSentinel/0.9.63-ea93aa0c2b9e.txt` |
+| LevelPilot | 192 | `testberichte/diagnose/LevelPilot/3.13.14-c0d9e0680e3e.txt` |
+| ProfessionSentinel | 274 | `testberichte/diagnose/ProfessionSentinel/0.9.85-e6589cd98028.txt` |
+| ThreatSentinel | 251 | `testberichte/diagnose/ThreatSentinel/2.5.30-fd96cf472bbb.txt` |
 
 ## Wegdaten (GSWEGE1)
 
@@ -166,32 +166,6 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 ## BuffSentinel
 
-**Testlauf 0.9.61 · forever 1.60.1 (Interface 16001) · 23.11.2026 12:19 UTC** – OK 220 · FEHLER 3 · übersprungen 11 · im Client prüfen 10 · Sandbox OK
-- [FEHLER] T141 K – Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern (ergebnis: BuffSentinelOptions überdeckt Guide (LevelPilot) · geprüft 1 | erwartet: keine)
-- [CLIENT] T14 B – Talente in Forever lesbar? (anleitung: talentsReadable=false mainSpec=0 – /dump BuffSentinel.talentsReadable, BuffSentinel.mainSpec – siehe T74)
-- [SKIP] T33 B – Debuffs reinigen (Testdaten) (grund: Reinigen-Raster in Forever/Retail aus)
-- [CLIENT] T46 B – Töne hören (anleitung: Optionen > Warntöne > Anhören je Zeile und 'Sounds testen' in der Anordnen-Leiste: alle 7 Töne hörbar)
-- [FEHLER] T266 K – Lesbarkeit L1–L8: Schriftgrösse, Kontrast, Beträge im Nachkaufen-Tooltip (ergebnis: 476 Texte geprüft · kleinste erlaubte Grösse 10.0 · schwächster Kontrast 4.32:1 · Befunde: L1 skill "Rechtsklick auf de" 4.37:1; L1 skill "Suchen (z. B. Ton," 4.32:1; L1 proc "Rechtsklick auf de" 4.37:1; L1 proc "Suchen (z. B. Ton," 4.32:1; L1 buff "Rechtsklick auf de" 4.37:1; L1 buff "Suchen …)
-- [SKIP] T247 B – Händlerdaten im echten Spiel (grund: wartet auf Händler – passiert von selbst beim nächsten Händler-Besuch (Entwicklermodus, 7 Tage))
-- [SKIP] T80 D – Auren auf dem alten Weg (grund: kein UnitBuff – moderner Client)
-- [SKIP] T81 D – Zauber auf dem alten Weg (grund: kein UnitBuff – moderner Client)
-- [SKIP] T82 D – Zauberbuch auf dem alten Weg (grund: kein UnitBuff – moderner Client)
-- [SKIP] T83 D – Gegenstände auf dem alten Weg (grund: kein UnitBuff – moderner Client)
-- [SKIP] T84 D – Kampflog-Auslöser (grund: kein UnitBuff – moderner Client)
-- [SKIP] T85 D – Hauptbaum nur in Cata (grund: kein UnitBuff – moderner Client)
-- [SKIP] T87 D – Alter Kampfweg unverändert (grund: kein UnitBuff – moderner Client)
-- [SKIP] T86 D – Fraktion in Era (grund: nur Classic Era)
-- [CLIENT] T99 F – Nicht-deutscher Client (anleitung: einmal mit enUS-Client: Optionen öffnen, alle Seiten, Testmodus – Klassennamen aus LOCALIZED_CLASS_NAMES_MALE, Zauber in Client-Sprache, kein Fehler)
-- [SKIP] T103 G – Andere Addons des Nutzers (grund: BuffSentinel hat keine Schnittstelle zu anderen GoldSentinel-Addons)
-- [CLIENT] T104 G – Mehrere GoldSentinel-Addons gleichzeitig (anleitung: BuffSentinel mit RaidMaster, GuildSentinel, ThreatSentinel, ProfessionSentinel laden: /gsgame eine Zeile, /reload ohne Lua-Fehler, /bsen fehler 'keine Fehler')
-- [CLIENT] T106 H – RefreshGroup im Raid 40 (anleitung: im Raid /bsen testroutine leistung – Mittel < 5 ms)
-- [CLIENT] T129 J – Klicks nach /reload im Kampf (anleitung: im Kampf /reload, danach dorthin klicken, wo die Buttons waren: kein Zauber)
-- [CLIENT] T147 J – Diagnose-Protokoll im Spiel (anleitung: /bsen protokoll öffnet ein Fenster mit markierbarem Text; nach /reload liegt BuffSentinelDB.diagExport (beginnt mit GSDIAG1) in den SavedVariables)
-- [CLIENT] T133 J – Interface-Nummer im Client (anleitung: /dump select(4, GetBuildInfo()) – steht die Zahl in '## Interface' von BuffSentinel.toc? Addon nicht als 'veraltet')
-- [CLIENT] T134 J – Ablauf im Forever-Client (anleitung: Buff-Erinnerung vor dem Pull · im Kampf kein Lua-Fehler · /reload, Fehlerliste leer (/bsen testroutine kampf))
-- [CLIENT] T135 J – Gegenprobe alter Client (anleitung: Classic Era oder TBC Anniversary: Proc im Kampf, Execute unter 20 %, Dispel im Kampf, Cooldown beim Pull – alles wie vorher; /bsen fehler 'Sperren: nein')
-- [FEHLER] T162 Q – Regressionen: jeder Befund hat einen Test, der gelaufen ist (ergebnis: Regressionen: 30 von 30 vorhanden · FEHLER: UI Oberfläche im Client (5.11.))
-
 **Testlauf 0.9.62 · forever 1.60.1 (Interface 16001) · 24.11.2026 11:46 UTC** – OK 222 · FEHLER 2 · übersprungen 11 · im Client prüfen 10 · Sandbox OK
 - [CLIENT] T14 B – Talente in Forever lesbar? (anleitung: talentsReadable=false mainSpec=0 – /dump BuffSentinel.talentsReadable, BuffSentinel.mainSpec – siehe T74)
 - [SKIP] T33 B – Debuffs reinigen (Testdaten) (grund: Reinigen-Raster in Forever/Retail aus)
@@ -241,6 +215,30 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 - [CLIENT] T135 J – Gegenprobe alter Client (anleitung: Classic Era oder TBC Anniversary: Proc im Kampf, Execute unter 20 %, Dispel im Kampf, Cooldown beim Pull – alles wie vorher; /bsen fehler 'Sperren: nein')
 
 **Testlauf 0.9.64 · forever 1.60.1 (Interface 16001) · 25.11.2026 07:54 UTC** – OK 226 · FEHLER 0 · übersprungen 11 · im Client prüfen 11 · Sandbox OK
+- [CLIENT] T14 B – Talente in Forever lesbar? (anleitung: talentsReadable=false mainSpec=0 – /dump BuffSentinel.talentsReadable, BuffSentinel.mainSpec – siehe T74)
+- [CLIENT] T270 B – Klick-Raster in Forever im Spiel (Entwicklermodus) (anleitung: Optionen > Anzeige > Klick-Raster (Forever) an. In der Gruppe: ein Mitglied hat einen Fluch/ein Gift/Magie, die du entfernen kannst – seinen Knopf mit der Maustaste aus dem Tooltip klicken, im und ausserhalb des Kampfes. Erwartet: Debuff weg, keine Meldung „Aktion blockiert“, kein Lua-Fehler, …)
+- [SKIP] T33 B – Debuffs reinigen (Testdaten) (grund: Forever/Retail: Debuffs im Kampf geschützt – keine Markierung im Kampf (Forever-Klick-Raster: T268))
+- [CLIENT] T46 B – Töne hören (anleitung: Optionen > Warntöne > Anhören je Zeile und 'Sounds testen' in der Anordnen-Leiste: alle 7 Töne hörbar)
+- [SKIP] T247 B – Händlerdaten im echten Spiel (grund: wartet auf Händler – passiert von selbst beim nächsten Händler-Besuch (Entwicklermodus, 7 Tage))
+- [SKIP] T80 D – Auren auf dem alten Weg (grund: kein UnitBuff – moderner Client)
+- [SKIP] T81 D – Zauber auf dem alten Weg (grund: kein UnitBuff – moderner Client)
+- [SKIP] T82 D – Zauberbuch auf dem alten Weg (grund: kein UnitBuff – moderner Client)
+- [SKIP] T83 D – Gegenstände auf dem alten Weg (grund: kein UnitBuff – moderner Client)
+- [SKIP] T84 D – Kampflog-Auslöser (grund: kein UnitBuff – moderner Client)
+- [SKIP] T85 D – Hauptbaum nur in Cata (grund: kein UnitBuff – moderner Client)
+- [SKIP] T87 D – Alter Kampfweg unverändert (grund: kein UnitBuff – moderner Client)
+- [SKIP] T86 D – Fraktion in Era (grund: nur Classic Era)
+- [CLIENT] T99 F – Nicht-deutscher Client (anleitung: einmal mit enUS-Client: Optionen öffnen, alle Seiten, Testmodus – Klassennamen aus LOCALIZED_CLASS_NAMES_MALE, Zauber in Client-Sprache, kein Fehler)
+- [SKIP] T103 G – Andere Addons des Nutzers (grund: BuffSentinel hat keine Schnittstelle zu anderen GoldSentinel-Addons)
+- [CLIENT] T104 G – Mehrere GoldSentinel-Addons gleichzeitig (anleitung: BuffSentinel mit RaidMaster, GuildSentinel, ThreatSentinel, ProfessionSentinel laden: /gsgame eine Zeile, /reload ohne Lua-Fehler, /bsen fehler 'keine Fehler')
+- [CLIENT] T106 H – RefreshGroup im Raid 40 (anleitung: im Raid /bsen testroutine leistung – Mittel < 5 ms)
+- [CLIENT] T129 J – Klicks nach /reload im Kampf (anleitung: im Kampf /reload, danach dorthin klicken, wo die Buttons waren: kein Zauber)
+- [CLIENT] T147 J – Diagnose-Protokoll im Spiel (anleitung: /bsen protokoll öffnet ein Fenster mit markierbarem Text; nach /reload liegt BuffSentinelDB.diagExport (beginnt mit GSDIAG1) in den SavedVariables)
+- [CLIENT] T133 J – Interface-Nummer im Client (anleitung: /dump select(4, GetBuildInfo()) – steht die Zahl in '## Interface' von BuffSentinel.toc? Addon nicht als 'veraltet')
+- [CLIENT] T134 J – Ablauf im Forever-Client (anleitung: Buff-Erinnerung vor dem Pull · im Kampf kein Lua-Fehler · /reload, Fehlerliste leer (/bsen testroutine kampf))
+- [CLIENT] T135 J – Gegenprobe alter Client (anleitung: Classic Era oder TBC Anniversary: Proc im Kampf, Execute unter 20 %, Dispel im Kampf, Cooldown beim Pull – alles wie vorher; /bsen fehler 'Sperren: nein')
+
+**Testlauf 0.9.65 · forever 1.60.1 (Interface 16001) · 25.11.2026 15:00 UTC** – OK 226 · FEHLER 0 · übersprungen 11 · im Client prüfen 11 · Sandbox OK
 - [CLIENT] T14 B – Talente in Forever lesbar? (anleitung: talentsReadable=false mainSpec=0 – /dump BuffSentinel.talentsReadable, BuffSentinel.mainSpec – siehe T74)
 - [CLIENT] T270 B – Klick-Raster in Forever im Spiel (Entwicklermodus) (anleitung: Optionen > Anzeige > Klick-Raster (Forever) an. In der Gruppe: ein Mitglied hat einen Fluch/ein Gift/Magie, die du entfernen kannst – seinen Knopf mit der Maustaste aus dem Tooltip klicken, im und ausserhalb des Kampfes. Erwartet: Debuff weg, keine Meldung „Aktion blockiert“, kein Lua-Fehler, …)
 - [SKIP] T33 B – Debuffs reinigen (Testdaten) (grund: Forever/Retail: Debuffs im Kampf geschützt – keine Markierung im Kampf (Forever-Klick-Raster: T268))
@@ -427,17 +425,6 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 ## ProfessionSentinel
 
-**Testlauf 0.9.78 · forever 1.60.1 (Interface 16001) · 23.11.2026 14:29 UTC** – OK 1 · FEHLER 1 · übersprungen 8 · im Client prüfen 0
-- [FEHLER] S2 S – Fertigkeit und Plan-Start (ergebnis: Fertigkeit 0 | erwartet: > 0)
-- [SKIP] S3 S – Zähler sinkt nach einem Skillpunkt (grund: herstellen, bis ein Skillpunkt kommt)
-- [SKIP] S4 S – Andocken ohne Überlappen (grund: Rezept wählen, damit das AHSentinel-Gewinn-Fenster erscheint)
-- [SKIP] S5 S – Gleiche AH-Gebühr wie AHSentinel (grund: 5 Rezepte im Panel anklicken (Berufsfenster offen))
-- [SKIP] S6 S – Rangliste Leveln sortiert (grund: Reiter „Rangliste“ öffnen)
-- [SKIP] S7 S – Kein Neuaufbau-Sturm beim Herstellen (grund: 5 Gegenstände hintereinander herstellen)
-- [SKIP] S8 S – Oberflächen-Prüfung (Bereich K) (grund: Berufsfenster mit Panel öffnen)
-- [SKIP] S9 S – Gekaufte Menge = eingegebene Menge (grund: beim Händler: in der Einkaufsliste eine Menge eingeben und „Kaufen“ klicken)
-- [SKIP] S10 S – Shift+Klick öffnet das Mengenfenster (grund: beim Händler: Shift+Klick auf eine Ware, dann noch einmal mit offener Chat-Eingabe)
-
 **Testlauf 0.9.80 · forever 1.60.1 (Interface 16001) · 24.11.2026 08:29 UTC** – OK 1 · FEHLER 1 · übersprungen 8 · im Client prüfen 0
 - [FEHLER] S2 S – Fertigkeit und Plan-Start (ergebnis: Fertigkeit 0 | erwartet: > 0)
 - [SKIP] S3 S – Zähler sinkt nach einem Skillpunkt (grund: herstellen, bis ein Skillpunkt kommt)
@@ -471,8 +458,19 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 - [SKIP] S9 S – Gekaufte Menge = eingegebene Menge (grund: beim Händler: in der Einkaufsliste eine Menge eingeben und „Kaufen“ klicken)
 - [SKIP] S10 S – Shift+Klick öffnet das Mengenfenster (grund: beim Händler: Shift+Klick auf eine Ware, dann noch einmal mit offener Chat-Eingabe)
 
+**Testlauf 0.9.85 · forever 1.60.1 (Interface 16001) · 25.11.2026 15:05 UTC** – OK 1 · FEHLER 1 · übersprungen 8 · im Client prüfen 0
+- [FEHLER] S2 S – Fertigkeit und Plan-Start (ergebnis: Fertigkeit 0 | erwartet: > 0)
+- [SKIP] S3 S – Zähler sinkt nach einem Skillpunkt (grund: herstellen, bis ein Skillpunkt kommt)
+- [SKIP] S4 S – Andocken ohne Überlappen (grund: Rezept wählen, damit das AHSentinel-Gewinn-Fenster erscheint)
+- [SKIP] S5 S – Gleiche AH-Gebühr wie AHSentinel (grund: 5 Rezepte im Panel anklicken (Berufsfenster offen))
+- [SKIP] S6 S – Rangliste Leveln sortiert (grund: Reiter „Rangliste“ öffnen)
+- [SKIP] S7 S – Kein Neuaufbau-Sturm beim Herstellen (grund: 5 Gegenstände hintereinander herstellen)
+- [SKIP] S8 S – Oberflächen-Prüfung (Bereich K) (grund: Berufsfenster mit Panel öffnen)
+- [SKIP] S9 S – Gekaufte Menge = eingegebene Menge (grund: beim Händler: in der Einkaufsliste eine Menge eingeben und „Kaufen“ klicken)
+- [SKIP] S10 S – Shift+Klick öffnet das Mengenfenster (grund: beim Händler: Shift+Klick auf eine Ware, dann noch einmal mit offener Chat-Eingabe)
+
 **Fehler im Spiel (letzte 7 Tage)**
-- 20× `ADDON_ACTION_BLOCKED`: resume() – Version 0.9.78, 0.9.80, 0.9.81, 0.9.83 · forever 1.60.1 (Interface 16001) · zuletzt 24.11.2026 19:12 UTC
+- 24× `ADDON_ACTION_BLOCKED`: resume() – Version 0.9.78, 0.9.80, 0.9.81, 0.9.83, 0.9.85 · forever 1.60.1 (Interface 16001) · zuletzt 25.11.2026 15:03 UTC
 
 ## RaidMaster
 

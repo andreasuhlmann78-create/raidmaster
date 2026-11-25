@@ -1,0 +1,114 @@
+{
+ "addon": "ProfessionSentinel",
+ "counts": {
+  "client": 0,
+  "fehler": 1,
+  "ok": 1,
+  "uebersprungen": 8
+ },
+ "dur_ms": 0,
+ "env": {
+  "build": "71091",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 10,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [
+  {
+   "count": 4,
+   "first": 1795618984,
+   "last": 1795619010,
+   "msg": "resume()",
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:433: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:426>\n[C]: in function 'resume'\n[Interface/AddOns/ThreatSentinel/GoldSentinelTakt.lua]:470: in function <Interface/AddOns/ThreatSentinel/GoldSentinelTakt.lua:453>\n[C]: in function 'pcall'\n[Interface/AddOns/ThreatSentinel/GoldSentinelTakt.lua]:524: in function 'Tick'\n[Interface/AddOns/ThreatSentinel/GoldSentinelTakt.lua]:541: in function <Interface/AddOns/ThreatSentinel/GoldSentinelTakt.lua:541>\n",
+   "version": "0.9.85",
+   "wo": "ADDON_ACTION_BLOCKED"
+  }
+ ],
+ "f": 1,
+ "id": "ProfessionSentinel-1795619120-a44af4-5",
+ "kind": "test",
+ "modus": "spieltest",
+ "results": [
+  {
+   "bereich": "S",
+   "ergebnis": "5 von 5",
+   "id": "S1",
+   "ms": "0.0",
+   "name": "Klick öffnet das Rezept sofort",
+   "status": "OK"
+  },
+  {
+   "bereich": "S",
+   "ergebnis": "Fertigkeit 0",
+   "erwartet": "> 0",
+   "id": "S2",
+   "ms": "0.0",
+   "name": "Fertigkeit und Plan-Start",
+   "status": "FEHLER"
+  },
+  {
+   "bereich": "S",
+   "grund": "herstellen, bis ein Skillpunkt kommt",
+   "id": "S3",
+   "name": "Zähler sinkt nach einem Skillpunkt",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "S",
+   "grund": "Rezept wählen, damit das AHSentinel-Gewinn-Fenster erscheint",
+   "id": "S4",
+   "name": "Andocken ohne Überlappen",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "S",
+   "grund": "5 Rezepte im Panel anklicken (Berufsfenster offen)",
+   "id": "S5",
+   "name": "Gleiche AH-Gebühr wie AHSentinel",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "S",
+   "grund": "Reiter „Rangliste“ öffnen",
+   "id": "S6",
+   "name": "Rangliste Leveln sortiert",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "S",
+   "grund": "5 Gegenstände hintereinander herstellen",
+   "id": "S7",
+   "name": "Kein Neuaufbau-Sturm beim Herstellen",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "S",
+   "grund": "Berufsfenster mit Panel öffnen",
+   "id": "S8",
+   "name": "Oberflächen-Prüfung (Bereich K)",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "S",
+   "grund": "beim Händler: in der Einkaufsliste eine Menge eingeben und „Kaufen“ klicken",
+   "id": "S9",
+   "name": "Gekaufte Menge = eingegebene Menge",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "S",
+   "grund": "beim Händler: Shift+Klick auf eine Ware, dann noch einmal mit offener Chat-Eingabe",
+   "id": "S10",
+   "name": "Shift+Klick öffnet das Mengenfenster",
+   "status": "SKIP"
+  }
+ ],
+ "time": 1795619120,
+ "version": "0.9.85"
+}

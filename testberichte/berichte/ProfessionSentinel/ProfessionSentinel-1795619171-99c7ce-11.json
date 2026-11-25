@@ -1,0 +1,2335 @@
+{
+ "abgefangen": [
+  "Eingabe Aufschlag ×36",
+  "Eingabe Mindestgewinn ×36",
+  "Fenster Ziel Verzauberkunst ×37",
+  "Plan -> Sniper (AHSentinel) ×6",
+  "Rezept-Alarm -> Sniper ×120",
+  "Sniper-Ziele anlegen (AHSentinel) ×1",
+  "Today.BuyAH ×21",
+  "Today.BuyVendor ×1",
+  "Today.Craft ×1",
+  "Today.Sell ×19",
+  "VZ-Angebot flüstern ×55",
+  "Wegpunkt setzen ×268",
+  "ns.Act navigate ×1",
+  "ns.Act waypoint ×1"
+ ],
+ "addon": "ProfessionSentinel",
+ "api_simulation": "nein",
+ "counts": {
+  "client": 10,
+  "fehler": 0,
+  "ok": 257,
+  "uebersprungen": 17
+ },
+ "dur_ms": 213923,
+ "echte_aenderungen": "0",
+ "env": {
+  "build": "71091",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 10,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [],
+ "f": 1,
+ "id": "ProfessionSentinel-1795619171-99c7ce-11",
+ "kind": "test",
+ "leistung": {
+  "T139": 8,
+  "T140": 8.8,
+  "T141": 1.2,
+  "T142": 1,
+  "T143": 6.2,
+  "T144": 0,
+  "T219": 7.5,
+  "T246": 5.1,
+  "T257": 6.3,
+  "T269": 6.1,
+  "T270": 0.1,
+  "T275": 6.9,
+  "T279": 6.2,
+  "T297": 1.9
+ },
+ "modus": "alles",
+ "results": [
+  {
+   "bereich": "A",
+   "ergebnis": "20 Module",
+   "id": "T01",
+   "ms": "0.0",
+   "name": "Alle Dateien und Module geladen",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "toc 0.9.85 / Code 0.9.85",
+   "id": "T02",
+   "ms": "0.0",
+   "name": "Version .toc = Code",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "4 Prüfungen · forever 2315 Rezepte, Build 1.60.1.70938",
+   "id": "T05",
+   "ms": "0.0",
+   "name": "Datenpaket passt zum Client",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Launch: /dump select(4, GetBuildInfo()) – die Nummer muss in allen 4 TOCs stehen (Client 16001)",
+   "bereich": "A",
+   "id": "T06",
+   "name": "Interface-Nummer akzeptiert",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "13 Prüfungen",
+   "id": "T07",
+   "ms": "0.0",
+   "name": "GoldSentinelGame Version 3 (Code wie 2) und gleich erkannt",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "7 Weichen",
+   "id": "T08",
+   "ms": "0.0",
+   "name": "Weichen simuliert: forever",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "6 Weichen",
+   "id": "T09",
+   "ms": "0.0",
+   "name": "Weichen simuliert: era",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "9 Weichen",
+   "id": "T10",
+   "ms": "0.0",
+   "name": "Weichen simuliert: tbc und retail",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "forever",
+   "id": "T11",
+   "ms": "0.0",
+   "name": "Weichen wieder echt",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Entwickler: TEST_HELP · Spieler: HELP",
+   "id": "T12",
+   "ms": "0.0",
+   "name": "/ps help mit und ohne Entwickler",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "grund": "Berufsfenster offen – Fall gilt nur ohne Berufsfenster",
+   "id": "T13",
+   "name": "/ps und /professionsentinel (Panel umschalten)",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "true -> false -> true",
+   "id": "T14",
+   "ms": "0.0",
+   "name": "/ps line",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Modus ranking, Gruppe today true",
+   "id": "T15",
+   "ms": "0.0",
+   "name": "/ps heute",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "true -> false -> true",
+   "id": "T16",
+   "ms": "0.0",
+   "name": "/ps alarm",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "false -> true -> false",
+   "id": "T17",
+   "ms": "0.0",
+   "name": "/ps kisten",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Zielfrage abgefangen ×1",
+   "id": "T18",
+   "ms": "0.0",
+   "name": "/ps ziel",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "7 Befehle",
+   "id": "T19",
+   "ms": "0.0",
+   "name": "/ps test, selftest, autotest, testroutine ohne Freigabe",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "6 Schritte",
+   "id": "T20",
+   "ms": "0.0",
+   "name": "Testroutine: Doppelstart und Stopp",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "2315 Rezepte, 0 Abweichungen",
+   "id": "T21",
+   "ms": "0.0",
+   "name": "Indizes",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 Felder",
+   "id": "T22",
+   "ms": "0.0",
+   "name": "Charakterdatensatz",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 Prüfungen",
+   "id": "T23",
+   "ms": "0.0",
+   "name": "Namen und Sprache",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 Prüfungen",
+   "id": "T24",
+   "ms": "0.0",
+   "name": "Berufs-Aliasse und Zuordnung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "all true · none false · echt true",
+   "id": "T25",
+   "ms": "0.0",
+   "name": "Gelernt-Zustand",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "3 -> 3 Berufe",
+   "id": "T26",
+   "ms": "0.0",
+   "name": "Scan-Funktionen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "kennen 1, fehlt 1",
+   "id": "T27",
+   "ms": "0.0",
+   "name": "Charaktere je Rezept (Scan:CharsFor)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "8 Fälle",
+   "id": "T28",
+   "ms": "0.0",
+   "name": "Lebenslinie-Mathematik",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "95/110/125",
+   "id": "T29",
+   "ms": "0.0",
+   "name": "Farbstufen je Version",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "4 Prüfungen",
+   "id": "T30",
+   "ms": "0.0",
+   "name": "Lebenslinien-Widget und Hooks",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "6 Prüfungen",
+   "id": "T31",
+   "ms": "0.0",
+   "name": "Lehrer und Fundorte",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "3 Prüfungen",
+   "id": "T32",
+   "ms": "0.0",
+   "name": "Wegpunkt ohne Koordinaten und über TomTom-Attrappe",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "6 Fälle",
+   "id": "T33",
+   "ms": "0.0",
+   "name": "Preisrechnung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "7 Quellen",
+   "id": "T34",
+   "ms": "0.0",
+   "name": "Preisquelle und Reihenfolge (AHSentinel, auxForever, Auctionator, Auctioneer, TSM)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "7 Prüfungen",
+   "id": "T35",
+   "ms": "0.0",
+   "name": "Gebühr nach Regelwerk: 5 % beim Verkauf, Einzahlung nach Händlerpreis × Laufzeit (T-PS4)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 Texte",
+   "id": "T36",
+   "ms": "0.0",
+   "name": "Geldtexte",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "4 Ranglisten",
+   "id": "T37",
+   "ms": "0.0",
+   "name": "Ranglisten",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "11 Hilfen",
+   "id": "T38",
+   "ms": "0.0",
+   "name": "Advisor-Hilfen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "10 Fälle",
+   "id": "T39",
+   "ms": "0.0",
+   "name": "Levelplan und Einkaufsliste",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "225,300,150",
+   "id": "T40",
+   "ms": "0.0",
+   "name": "Planziel umschalten",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "3 Prüfungen",
+   "id": "T41",
+   "ms": "0.0",
+   "name": "Plan bauen",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Rechtsklick im Panel auf ein fehlendes Rezept mit Händler: Pin muss gesetzt werden, danach selbst entfernen; bestätigen mit /ps testroutine ok T42",
+   "bereich": "B",
+   "id": "T42",
+   "name": "Echter Kartenpin (halbautomatisch)",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "19 Prüfungen · 6 Kandidaten",
+   "id": "T43",
+   "ms": "0.0",
+   "name": "Kandidaten",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "12 Schritte",
+   "id": "T44",
+   "ms": "0.0",
+   "name": "Nächster Schritt (TD.Plan / StepText)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "12 Schritte",
+   "id": "T45",
+   "ms": "0.0",
+   "name": "Klick auf „Heute herstellen“ ohne echte Folge",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "26 Prüfungen · 2 Einträge",
+   "id": "T46",
+   "ms": "0.0",
+   "name": "ProfessionSentinelAPI (für AHSentinel „Heute tun“)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Aufrufe: 1,7",
+   "id": "T47",
+   "ms": "0.0",
+   "name": "Kauf-Logik Einzelstücke",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "3 Fälle",
+   "id": "T48",
+   "ms": "0.0",
+   "name": "Kauf-Logik Bündel und Begrenzung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 Fälle",
+   "id": "T49",
+   "ms": "0.0",
+   "name": "Favor-Kosten, Reihenfolge",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Stand 0",
+   "id": "T50",
+   "ms": "0.0",
+   "name": "Favor-Stand",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "6 Texte",
+   "id": "T51",
+   "ms": "0.0",
+   "name": "Kostentext",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "923 Prüfungen · 310 Favor-Rezepte",
+   "id": "T52",
+   "ms": "0.0",
+   "name": "Favor-Rezepte je Beruf",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "4 Fälle",
+   "id": "T53",
+   "ms": "0.0",
+   "name": "Favor-Planer",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "60 Fälle",
+   "id": "T54",
+   "ms": "0.0",
+   "name": "Kistenrechner",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne nil · mit 1",
+   "id": "T55",
+   "ms": "0.0",
+   "name": "Gildenblick Favor",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "grund": "nur Classic Era / Retail",
+   "id": "T56",
+   "name": "Händlergunst in anderen Versionen aus",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "6 Fälle",
+   "id": "T57",
+   "ms": "0.0",
+   "name": "Ziel und Rolle",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "4 Fälle",
+   "id": "T58",
+   "ms": "0.0",
+   "name": "Entzauberungswert",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "7 Fälle",
+   "id": "T59",
+   "ms": "0.0",
+   "name": "VZ-Preis, Marge, Sniper-Ziele",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 Prüfungen",
+   "id": "T60",
+   "ms": "0.0",
+   "name": "Angebot flüstern ohne echtes Flüstern",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 Regeln",
+   "id": "T61",
+   "ms": "0.0",
+   "name": "Kunde ermitteln",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "4 Prüfungen",
+   "id": "T62",
+   "ms": "0.0",
+   "name": "Zielfenster",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "15 Eingaben",
+   "id": "T63",
+   "ms": "0.0",
+   "name": "Eingabefenster Aufschlag, Mindestgewinn, Marge",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "4 Prüfungen",
+   "id": "T64",
+   "ms": "0.0",
+   "name": "AHSentinel-Daten für den Verzauberer-Reiter",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "2 Prüfungen",
+   "id": "T65",
+   "ms": "0.0",
+   "name": "Sniper übergeben",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Namen 2",
+   "id": "T66",
+   "ms": "0.0",
+   "name": "Wer braucht welches Rezept",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "6 Fälle",
+   "id": "T67",
+   "ms": "0.0",
+   "name": "Alarm nach Scan",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "1 frisch, Cache true",
+   "id": "T68",
+   "ms": "0.0",
+   "name": "Alarm aus aktuellen Preisen",
+   "status": "OK"
+  },
+  {
+   "anleitung": "ein Rezept-Item in die Taschen legen, dann /ps testroutine b",
+   "bereich": "B",
+   "id": "T69",
+   "name": "Rezepte in den Taschen",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "mit AHSentinel einen AH-Scan machen: Rezept-Alarm bzw. Gruppe „alerts“ im Panel erscheint (angemeldet: true)",
+   "bereich": "B",
+   "id": "T70",
+   "name": "Anbindung an den AHSentinel-Scan",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "neuer gewinnt: true, Available true",
+   "id": "T71",
+   "ms": "0.0",
+   "name": "Gildendaten zusammenführen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "7 Prüfungen",
+   "id": "T72",
+   "ms": "0.0",
+   "name": "Wer kann was",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "7 Prüfungen",
+   "id": "T73",
+   "ms": "0.0",
+   "name": "Abklingzeiten",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "3 Prüfungen",
+   "id": "T74",
+   "ms": "0.0",
+   "name": "Online-Liste",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "4 Prüfungen",
+   "id": "T75",
+   "ms": "0.0",
+   "name": "Item-Tooltip Rezept",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "3 Prüfungen",
+   "id": "T76",
+   "ms": "0.0",
+   "name": "Item-Tooltip Material",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "6 Tooltips",
+   "id": "T77",
+   "ms": "0.0",
+   "name": "Panel-Tooltips",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "TooltipDataProcessor: 1× ProfessionSentinel-Zeile",
+   "id": "T78",
+   "ms": "0.0",
+   "name": "Nur ein Tooltip-Weg aktiv",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "36 Berufe",
+   "id": "T79",
+   "ms": "0.0",
+   "name": "Panel je Beruf",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "13 Reiter",
+   "id": "T80",
+   "ms": "0.0",
+   "name": "Reiter: vier Reiter, jede alte Ansicht erreichbar",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "1510 Berufe × Ansichten",
+   "id": "T81",
+   "ms": "0.0",
+   "name": "Jede Ansicht aufbauen und bedienen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "54 Berufe",
+   "id": "T82",
+   "ms": "0.0",
+   "name": "Suche und Filter „nur fehlend“",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "499 Berufe",
+   "id": "T83",
+   "ms": "0.0",
+   "name": "Fertigkeits- und Gelernt-Simulation",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "grund": "Berufsfenster offen",
+   "id": "T84",
+   "name": "Panel ohne Beruf",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "2 Prüfungen; Zeilen nicht geprüft: das Spiel meldet keinen Beruf im Fenster (professionID 0) · Fenster: ChildProfessionInfo true id 0/nil, BaseProfessionInfo true id 0/nil, neu true",
+   "id": "T85",
+   "ms": "0.0",
+   "name": "Andocken und Hinweis „bester Rezept“",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "12 Optionen · guildShare ohne Wirkung (nur Lesen), panelOpen nur mit Berufsfenster prüfbar, planTarget siehe T40",
+   "id": "T86",
+   "ms": "0.0",
+   "name": "Jede Option an/aus",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "24 Prüfungen · 18 Knöpfe",
+   "id": "T87",
+   "ms": "0.0",
+   "name": "Testmodus-Fenster",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "68 Prüfungen, Zustand sauber",
+   "id": "T88",
+   "ms": "0.0",
+   "name": "Alter Selbsttest unverändert sauber",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "4 Befehle",
+   "id": "T89",
+   "ms": "0.0",
+   "name": "Autotest-Befehle",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "44 Aufrufe · 17 Frames",
+   "id": "T90",
+   "ms": "0.0",
+   "name": "Ereignis-Handler",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "20× TRADE_SKILL_LIST_UPDATE -> 1× UpdateProfessions",
+   "id": "T91",
+   "ms": "0.0",
+   "name": "Entprellung des Scans",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0 Abweichungen",
+   "id": "T92",
+   "ms": "0.0",
+   "name": "Datenpakete inhaltlich",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 Prüfungen · andere Addons: SendAddonMessage ×3 (kein Fehler)",
+   "id": "T93",
+   "ms": "0.0",
+   "name": "Keine Addon-Kommunikation",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "known 38 -> 38, IsSecret gefragt ×1",
+   "id": "T94",
+   "ms": "0.0",
+   "name": "Gelerntes Rezept mit geschütztem Argument",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "ID nil, Zeilen 0 -> 0",
+   "id": "T95",
+   "ms": "0.0",
+   "name": "Tooltip mit geschützter Item-ID",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Schlüssel gleich",
+   "id": "T96",
+   "ms": "0.0",
+   "name": "Eigener Name und Fraktion im Kampf",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Kunde nil, gesendet false",
+   "id": "T97",
+   "ms": "0.0",
+   "name": "Kunde mit geschütztem Ziel-Namen",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "übernommen false",
+   "id": "T98",
+   "ms": "0.0",
+   "name": "Gildenliste mit geschütztem Namen",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "kein Fehler",
+   "id": "T99",
+   "ms": "0.0",
+   "name": "Chat-Ereignis mit geschütztem Argument",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "grund": "nur im alten Client prüfbar – siehe T120",
+   "id": "T108",
+   "name": "Alter Tooltip-Weg",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Hinweis ×2, Läufe 0",
+   "id": "T109",
+   "ms": "0.0",
+   "name": "Start im Kampf verweigert",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "5 Prüfungen",
+   "id": "T110",
+   "ms": "0.0",
+   "name": "Kampfbeginn bricht ab",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "7 Aktionen",
+   "id": "T111",
+   "ms": "0.0",
+   "name": "Keine Aktionen im Kampf",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "5 Frames (5 vorhanden, keine Secure-Vorlage im Addon)",
+   "id": "T112",
+   "ms": "0.0",
+   "name": "Keine geschützten Frames",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Panel offen und Rezept in den Taschen überfahren, dann einen Kampf beginnen und Tooltips ansehen: kein Lua-Fehler, kein ADDON_ACTION_BLOCKED",
+   "bereich": "C",
+   "id": "T113",
+   "name": "Panel und Tooltip im echten Kampf",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "17 Frames ohne Kampflog",
+   "id": "T114",
+   "ms": "0.0",
+   "name": "Kampflog nicht registriert",
+   "status": "OK"
+  },
+  {
+   "bereich": "D",
+   "grund": "nur Classic Era",
+   "id": "T115",
+   "name": "Berufe auf dem alten Weg",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "nur Classic Era",
+   "id": "T117",
+   "name": "Händlergunst und Gebühr aus",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "ergebnis": "20 Prüfungen",
+   "id": "T118",
+   "ms": "0.0",
+   "name": "T-UI2: genau vier Reiter (Jetzt, Skillen, Gold, Rezepte), jede alte Ansicht öffnet und markiert ihren Reiter",
+   "status": "OK"
+  },
+  {
+   "bereich": "D",
+   "grund": "nur Classic Era",
+   "id": "T119",
+   "name": "Lebenslinie im Blizzard-Fenster alt",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "nur Classic Era",
+   "id": "T120",
+   "name": "Tooltip-Weg im alten Client",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "kein TBC-Client in diesem Lauf (simuliert in T10/T172)",
+   "id": "T121",
+   "name": "TBC bleibt untätig",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "nur Retail",
+   "id": "T122",
+   "name": "Retail-Eigenheiten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "30 Prüfungen",
+   "id": "T123",
+   "ms": "0.0",
+   "name": "Neuinstallation",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "6 Prüfungen",
+   "id": "T124",
+   "ms": "0.0",
+   "name": "Migration aus 0.8.x",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "wish/goals table, Kosten 150",
+   "id": "T125",
+   "ms": "0.0",
+   "name": "Migration aus 0.9.2 (Favor ohne Wunschliste)",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "21 Prüfungen",
+   "id": "T126",
+   "ms": "0.0",
+   "name": "Beschädigte Einträge",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "3 Zeitstempel",
+   "id": "T127",
+   "ms": "0.0",
+   "name": "Gelernte Kosten mit Zeitstempel",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "620 Schlüssel, fehlend 0",
+   "id": "T128",
+   "ms": "0.0",
+   "name": "Alle benutzten Schlüssel vorhanden",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "746 Schlüssel, 0 Abweichungen",
+   "id": "T129",
+   "ms": "0.0",
+   "name": "Platzhalter gleich",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "22 Prüfungen",
+   "id": "T130",
+   "ms": "0.0",
+   "name": "Jede Sprache einmal aktiv",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "5 Prüfungen · andere: RaidMaster 3.0.49, AHSentinel 0.65.402, GuildSentinel 0.9.63, ThreatSentinel 2.5.30, BuffSentinel 0.9.65, LevelPilot 3.13.14",
+   "id": "T131",
+   "ms": "0.0",
+   "name": "Gemeinsame Dateien",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "17 Prüfungen",
+   "id": "T132",
+   "ms": "0.0",
+   "name": "Keine globalen Namen überschrieben",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "16 Prüfungen",
+   "id": "T133",
+   "ms": "0.0",
+   "name": "Ohne AHSentinel",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "21 Aufrufe",
+   "id": "T134",
+   "ms": "0.0",
+   "name": "Mit fehlerhaftem AHSentinel",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "4 Prüfungen",
+   "id": "T135",
+   "ms": "0.0",
+   "name": "Mit echtem AHSentinel",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "4 Prüfungen",
+   "id": "T136",
+   "ms": "0.0",
+   "name": "GuildSentinel und RaidMaster mit/ohne",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "3 Quellen",
+   "id": "T137",
+   "ms": "0.0",
+   "name": "TSM, Auctionator, TomTom",
+   "status": "OK"
+  },
+  {
+   "anleitung": "AHSentinel „Heute tun“ öffnen: Zeilen von ProfessionSentinel erscheinen dort",
+   "bereich": "G",
+   "id": "T138",
+   "name": "AHSentinel „Heute tun“ zeigt Herstellungen",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "9 Ansichten · langsamste 8.0 ms (Lederverarbeitung)",
+   "id": "T139",
+   "ms": "0.0",
+   "name": "Panel-Aufbau je Ansicht",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "längste Portion 8.8 ms (gesamt 63.4 ms über mehrere Bilder) · AD.Update 3×, Ø 318.8 ms, Ø 3546 KB",
+   "id": "T140",
+   "ms": "0.0",
+   "name": "Bestes Rezept bei jedem Berufs-Ereignis",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "Rezept 0.59 ms, Material 0.05 ms, Panel 1.2 ms",
+   "id": "T141",
+   "ms": "0.0",
+   "name": "Tooltips",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "1.0 ms (2315 Zauber)",
+   "id": "T142",
+   "ms": "0.0",
+   "name": "Passiver Rezept-Abgleich",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "6 Rechnungen",
+   "id": "T143",
+   "ms": "0.0",
+   "name": "Teure Rechnungen",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "0.0 ms",
+   "id": "T144",
+   "ms": "0.0",
+   "name": "Lebenslinie im Blizzard-Fenster",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "registry true, offen 10",
+   "id": "T146",
+   "ms": "0.0",
+   "name": "Fehlerzählung angemeldet",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "gezählt ×1",
+   "id": "T147",
+   "ms": "0.0",
+   "name": "Abgefangener Fehler wird gezählt",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "3 Prüfungen",
+   "id": "T148",
+   "ms": "0.0",
+   "name": "Ungefangener Fehler wird gezählt",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "5 Teile",
+   "id": "T149",
+   "ms": "0.0",
+   "name": "Diagnose vollständig",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Version 3",
+   "id": "T150",
+   "ms": "0.0",
+   "name": "GoldSentinelGame unverändert, kein eigener Nachbau",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "beide forever",
+   "id": "T151",
+   "ms": "0.0",
+   "name": "Versionserkennung aus GoldSentinelGame",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "310 Favor-Rezepte, Ruf != 2587: 0, mit Goldpreis: 0, Fraktionen true",
+   "id": "T152",
+   "ms": "0.0",
+   "name": "Favor-Rezepte ohne Goldpreis",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Favor-Zeilen 2, Ruf 1, Münz-Zeilen 0",
+   "id": "T153",
+   "ms": "0.0",
+   "name": "Panel-Tooltip zeigt Favor statt Gold",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "A 2586, H 2587",
+   "id": "T154",
+   "ms": "0.0",
+   "name": "Allianz bekommt ihre Fraktion",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "150,170,180",
+   "id": "T157",
+   "ms": "0.0",
+   "name": "Reihenfolge der Kosten",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "4 Varianten",
+   "id": "T159",
+   "ms": "0.0",
+   "name": "AHSentinel nur aufrufen, wenn vorhanden, in pcall",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "currency 3333, Stand nil",
+   "id": "T160",
+   "ms": "0.0",
+   "name": "Währungs-ID von AHSentinel für den Stand",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "4 Fälle",
+   "id": "T162",
+   "ms": "0.0",
+   "name": "Nur Händlergunst von AHSentinel",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "3 Fälle",
+   "id": "T164",
+   "ms": "0.0",
+   "name": "Hergestellte Kisten: günstiger von Kaufen und Herstellen",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "3 Fälle",
+   "id": "T165",
+   "ms": "0.0",
+   "name": "Beste Kiste in „Heute herstellen“ nur mit Option",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "8 Reiter",
+   "id": "T167",
+   "ms": "0.0",
+   "name": "Reiter-Reihe und Ansichten-Reihe ohne Lücken",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Kosten 1, Ruf 1, aus 0",
+   "id": "T168",
+   "ms": "0.0",
+   "name": "Favor-Kosten im Item-Tooltip",
+   "status": "OK"
+  },
+  {
+   "anleitung": "/dump select(4, GetBuildInfo()) – Nummer in allen 4 TOCs (Client 16001)",
+   "bereich": "J",
+   "id": "T169",
+   "name": "Interface-Nummer nach dem Launch",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Daten 1.60.1.70938, Client 1.60.1.71091",
+   "id": "T170",
+   "ms": "0.0",
+   "name": "Daten aus dem Live-Build",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "35 Anmeldungen",
+   "id": "T171",
+   "ms": "0.0",
+   "name": "Nur bekannte Ereignisse angemeldet",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "4 Prüfungen",
+   "id": "T172",
+   "ms": "0.0",
+   "name": "Nicht unterstützte Versionen sagen es einmal",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "2 Prüfungen",
+   "id": "T173",
+   "ms": "0.0",
+   "name": "Nichts in den Gildenkanal, nur lesen",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "43 Aufrufe",
+   "id": "T174",
+   "ms": "0.0",
+   "name": "Echte Aktionen nur nach Klick",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Hinweis true, Öffnen ×0",
+   "id": "T175",
+   "ms": "0.0",
+   "name": "Berufsfenster wird nie selbst geöffnet",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "3 Prüfungen",
+   "id": "T176",
+   "ms": "0.0",
+   "name": "Vor- und Nachnamen in Forever",
+   "status": "OK"
+  },
+  {
+   "anleitung": "automatisch OK; nach dem RaidMaster-Fix: Gildenblick zeigt Einträge",
+   "bereich": "J",
+   "id": "T177",
+   "name": "Gildenblick bleibt leer, solange RaidMaster in Forever nichts einliest",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "3 Fälle",
+   "id": "T178",
+   "ms": "0.0",
+   "name": "Händlerpreise bei Lücke in AHSentinel",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja",
+   "id": "T179",
+   "ms": "0.0",
+   "name": "/gsgame zeigt die richtige API",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "8 Prüfungen · 4 Aktionswege, im Lauf 0 Aktionen mitgeschrieben",
+   "id": "T180",
+   "ms": "0.0",
+   "name": "Aktionen nur über ns.Act",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "6 Fälle",
+   "id": "T181",
+   "ms": "0.0",
+   "name": "Realm mit Bindestrich",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "7 Prüfungen · eigene Einstellung: an",
+   "id": "T182",
+   "ms": "0.0",
+   "name": "Minimap-Button da und sichtbar",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "9 Schritte",
+   "id": "T183",
+   "ms": "0.0",
+   "name": "Minimap-Button aus- und einblenden (/ps minimap)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "20 Prüfungen",
+   "id": "T184",
+   "ms": "0.0",
+   "name": "Minimap-Winkel: gespeichert, nach /reload gleich, Ziehen, Reparatur",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "grund": "Berufsfenster offen – Fall gilt nur ohne Berufsfenster",
+   "id": "T185",
+   "name": "Minimap-Klicks und Tooltip (über die Funktionen)",
+   "status": "SKIP"
+  },
+  {
+   "anleitung": "Buch-Symbol an der Minimap sichtbar, Tooltip in der Sprache des Clients, Ziehen verschiebt ihn, nach /reload am selben Ort, Linksklick wie /ps, Rechtsklick listet die Optionen; bestätigen mit /ps testroutine ok T186",
+   "bereich": "B",
+   "id": "T186",
+   "name": "Minimap-Button im Spiel",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "25 Prüfungen",
+   "id": "T187",
+   "ms": "0.0",
+   "name": "Kein Überlappen am Berufsfenster (mit und ohne AHSentinel)",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Berufsfenster mit AHSentinel öffnen: ProfessionSentinel steht rechts neben dem AHSentinel-Gewinn-Fenster, nichts verdeckt; AHSentinel-Fenster schliessen -> Panel rückt ans Berufsfenster; bestätigen mit /ps testroutine ok T188 (braucht AHSentinel mit AHAnalyzerPro.Crafting:GetDockFrame)",
+   "bereich": "B",
+   "id": "T188",
+   "name": "Berufsfenster mit AHSentinel im Spiel",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "8 Prüfungen",
+   "id": "T189",
+   "ms": "0.0",
+   "name": "Fertigkeit im modernen Client: echter Wert statt 0, Plan und Lebenslinie folgen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "9 Prüfungen",
+   "id": "T190",
+   "ms": "0.0",
+   "name": "AHSentinel-Fenster erscheint nach dem Panel: Haken, neu andocken, kein Überlappen",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "10 Prüfungen",
+   "id": "T191",
+   "ms": "0.0",
+   "name": "Rangliste Leveln: Material pro Skillpunkt, gelernte zuerst, grau fehlt",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "4 Prüfungen",
+   "id": "T192",
+   "ms": "0.0",
+   "name": "Ereignisse gesammelt: 20 in 1 s -> höchstens 3 Neuaufbauten",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "2 Prüfungen",
+   "id": "T193",
+   "ms": "0.0",
+   "name": "Klick während des Neuaufbaus öffnet das Rezept",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "3 Prüfungen",
+   "id": "T194",
+   "ms": "0.0",
+   "name": "Suchtext im Berufsfenster: Klick öffnet trotzdem das richtige Rezept",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "1 Prüfungen · moderner Client: OpenRecipe klappt die Kategorie selbst auf (T193/T194)",
+   "id": "T195",
+   "ms": "0.0",
+   "name": "Zugeklappte Kategorie: Rezept wird geöffnet; Hintergrund nimmt keine Klicks",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "6 Prüfungen",
+   "id": "T196",
+   "ms": "0.0",
+   "name": "Klick öffnet das Rezept mit der Rezept-ID des modernen Clients (Zauber-ID -> RecipeID)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 Prüfungen",
+   "id": "T197",
+   "ms": "0.0",
+   "name": "Klick ohne vorherigen AHSentinel-Klick: sofort die Rezept-ID des Fensters (Befund 5. Nov.)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "10 Prüfungen",
+   "id": "T198",
+   "ms": "0.0",
+   "name": "Diagnose-Protokoll: KLICK, AUFBAU, LANGSAM, ÜBERLAPPT, FEHLER",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "4 Prüfungen",
+   "id": "T199",
+   "ms": "0.0",
+   "name": "Diagnose-Protokoll: Ringpuffer und Testlauf schreibt nicht ins echte Protokoll",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "8 Prüfungen",
+   "id": "T200",
+   "ms": "0.0",
+   "name": "GSDIAG1: Kopfzeile, Grösse, keine Namen (Köderwerte)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "2 Prüfungen",
+   "id": "T201",
+   "ms": "0.0",
+   "name": "/ps protokoll öffnet das Fenster mit markierbarem Text",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "12 Prüfungen",
+   "id": "T202",
+   "ms": "0.0",
+   "name": "Ehrliche Zählung, Fälle aus dem Spiel, Liste im Client prüfen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 Prüfungen",
+   "id": "T203",
+   "ms": "0.0",
+   "name": "Klick wählt über die Liste des Fensters (wie AHSentinel), OpenRecipe nur als Rückfall",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "2 Prüfungen",
+   "id": "T204",
+   "ms": "0.0",
+   "name": "20 Listen-Ereignisse: Rezept-ID-Tabelle höchstens 1× neu gebaut",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "6 Prüfungen",
+   "id": "T205",
+   "ms": "0.0",
+   "name": "Ereignis-Sturm: 100 Listen-Ereignisse ohne Änderung -> kein Neuaufbau (Diagnose 0.9.22)",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "grund": "HALB: Berufsfenster und ProfessionSentinel-Panel öffnen, dann /ps testroutine k",
+   "id": "T206",
+   "name": "Eigene Tooltips verdecken keine Knöpfe",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "K",
+   "grund": "HALB: Berufsfenster und ProfessionSentinel-Panel öffnen, dann /ps testroutine k",
+   "id": "T207",
+   "name": "Kein Überlappen mit Berufsfenster, AHSentinel und anderen GoldSentinel-Fenstern",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "K",
+   "grund": "HALB: Berufsfenster und ProfessionSentinel-Panel öffnen, dann /ps testroutine k",
+   "id": "T208",
+   "name": "Fenster ganz im Bildschirm",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "K",
+   "grund": "HALB: Berufsfenster und ProfessionSentinel-Panel öffnen, dann /ps testroutine k",
+   "id": "T209",
+   "name": "Beschriftungen von Knöpfen nicht abgeschnitten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "keine · geprüft 3",
+   "id": "T210",
+   "ms": "0.0",
+   "name": "Angezeigte Spielwerte plausibel (Fertigkeit > 0, Plan beginnt bei der Fertigkeit)",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "keine · geprüft 116",
+   "id": "T211",
+   "ms": "0.0",
+   "name": "Keine Fehlerschleife (gleiche Meldung > 10×)",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "5 Prüfungen",
+   "id": "T212",
+   "ms": "0.0",
+   "name": "Ein Durchlauf fragt jeden Marktpreis und jede Taschenzahl nur einmal (Leistung im Spiel)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "23 Prüfungen",
+   "id": "T213",
+   "ms": "0.0",
+   "name": "Spieltest: jede Prüfung S1–S8 mit OK- und FEHLER-Lage, Bericht Bereich S",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "10 Prüfungen",
+   "id": "T214",
+   "ms": "0.0",
+   "name": "Händlerware in freier Menge kaufen (Mengenfeld + Kaufen)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "21 Prüfungen",
+   "id": "T215",
+   "ms": "0.0",
+   "name": "Mengenfenster am Händler (Shift+Klick)",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "13 Prüfungen",
+   "id": "T216",
+   "ms": "0.0",
+   "name": "Entzaubern und Preise richtig rechnen (Tabelle Disenchantry, Wert/Gewinn, Abschlag, Händler, Kaufpreis)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "7 Prüfungen",
+   "id": "T217",
+   "ms": "0.0",
+   "name": "Spieltest: FEHLER bleibt stehen, OK nur einmal, S2 nur bei neuer Lage",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "4 Prüfungen",
+   "id": "T218",
+   "ms": "0.0",
+   "name": "Tooltips im Panel liegen neben dem Panel, nie darüber (Spieltest S8 / T206)",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "15 Prüfungen",
+   "id": "T219",
+   "ms": "0.0",
+   "name": "5× Herstellen: höchstens 1 Aufbau je 2 s, jeder Teil unter 16 ms (Spieltest S7)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "7 Prüfungen",
+   "id": "T220",
+   "ms": "0.0",
+   "name": "T-PS1: Werte aus AHSentinel.API, Quelle AHSentinel, keine doppelte Gebühr",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "3 Prüfungen",
+   "id": "T221",
+   "ms": "0.0",
+   "name": "T-PS2: nur alte AHSentinel-Funktionen (RealPrice/RealValue) -> gleiche Werte wie T-PS1",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 Prüfungen",
+   "id": "T222",
+   "ms": "0.0",
+   "name": "T-PS3: nur auxForever -> Preise aus GetLatestPrice, Gebühr/Wege/Entzaubern selbst",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "4 Prüfungen",
+   "id": "T223",
+   "ms": "0.0",
+   "name": "T-PS5: Quelle wirft Fehler -> nächste Quelle, kein Lua-Fehler, Protokoll-Zeile",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "4 Prüfungen",
+   "id": "T224",
+   "ms": "0.0",
+   "name": "T-PS6: günstigster Materialweg – Leinenstoffballen aus Leinenstoff (16c statt 25c)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 Prüfungen",
+   "id": "T225",
+   "ms": "0.0",
+   "name": "T-PS7: bester Weg – Verkaufen 1s 90c netto, Entzaubern 93c -> verk.",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "4 Prüfungen",
+   "id": "T226",
+   "ms": "0.0",
+   "name": "T-PS8: Menge nach Absatz – 3/Tag -> höchstens 6; kaum -> keine Empfehlung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "4 Prüfungen",
+   "id": "T227",
+   "ms": "0.0",
+   "name": "T-PS9: fehlende Funktion -> Quelle weggelassen, \"Funktion nicht gefunden\"",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 Prüfungen",
+   "id": "T228",
+   "ms": "0.0",
+   "name": "T-UI2: Gruppen nach Platz – Braune Leinenhose Beine, Wolltasche Taschen, Ballen Stoffe",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 Prüfungen",
+   "id": "T229",
+   "ms": "0.0",
+   "name": "T-UI3: Filter – Standard Gelernt + Lernbar, „Fehlt“ zeigt die fehlenden",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "2 Prüfungen",
+   "id": "T230",
+   "ms": "0.0",
+   "name": "T-UI4: Skillen – Orange vor Gelb; Gelb vor Orange nur bei < 50 % Material/Punkt",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 Prüfungen",
+   "id": "T231",
+   "ms": "0.0",
+   "name": "T-UI7: ProfessionSentinel.IsPanelShown() passend; Reiter Gold mit Mindestgewinn",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "4 Prüfungen",
+   "id": "T232",
+   "ms": "0.0",
+   "name": "Nachprüfung 0.9.33: Händlerpreis aus API.Price ist kein AH-Preis; Wert nur mit echtem AH-Preis",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 Prüfungen",
+   "id": "T233",
+   "ms": "0.0",
+   "name": "Nachprüfung 0.9.33: selbst hergestellte Zutat – Einkaufsliste kauft das Grundmaterial",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "3 Prüfungen",
+   "id": "T234",
+   "ms": "0.0",
+   "name": "Nachprüfung 0.9.33: Heute tun nach Absatz; Dienstpreis mit eigenem Aufschlag",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "grund": "HALB: Berufsfenster und ProfessionSentinel-Panel öffnen, dann /ps testroutine k",
+   "id": "T235",
+   "name": "Zeile „Preise: … · Herstellen: …/Std.“ nicht abgeschnitten (Reiter Gold und Rezepte-Rangliste)",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "12 Prüfungen",
+   "id": "T236",
+   "ms": "0.0",
+   "name": "T-TT1: Tooltip ohne Shift – Kopf, eine Urteilszeile, Verkaufen, Händler, Skillen, Materialien",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "6 Prüfungen",
+   "id": "T237",
+   "ms": "0.0",
+   "name": "T-TT2: Tooltip mit Shift – Rechnung, Stufen, Quellen, Gilde",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "3 Prüfungen",
+   "id": "T238",
+   "ms": "0.0",
+   "name": "T-TT3: Gewinn im Tooltip = Gewinn in der Gold-Rangliste (eine Funktion)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "23 Prüfungen",
+   "id": "T239",
+   "ms": "0.0",
+   "name": "T-SP1: Skillspur im Handwerksbuch – eine Angabe je Zeile (orange: n× bis gelb, gelb: n bis grün, grün: n bis grau, …",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "13 Prüfungen",
+   "id": "T240",
+   "ms": "0.0",
+   "name": "T-SP2: Skillspur misst die Chance (ab 30 Fällen je Band gemessen statt geschätzt, Gegenprobe), Tooltip; Zeile „Beste…",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "3 Prüfungen",
+   "id": "T241",
+   "ms": "0.0",
+   "name": "T-UI9: viele fehlende Muster -> höchstens eine Chatzeile je Sitzung",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "grund": "nicht automatisiert – nichts zu prüfen (keine · geprüft 0)",
+   "id": "T242",
+   "name": "Berufsfenster: Zeichen überlappt nie Name oder Anzahl, kein Balken (T-UI5)",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "12 Prüfungen",
+   "id": "T243",
+   "ms": "0.0",
+   "name": "T-UI8: Details im Reiter Rezepte – gleicher Gewinn wie Tooltip und Gold-Rangliste",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "4 Prüfungen",
+   "id": "T244",
+   "ms": "0.0",
+   "name": "U3/U4: Nächster Schritt im Reiter Skillen, nächstes oranges Rezept kurz vor dem Umschlag",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "2 Prüfungen",
+   "id": "T245",
+   "ms": "0.0",
+   "name": "T-GT1/T-GT2: GoldSentinelTest Version 2; ohne Zustimmung bleibt der Ausgang leer",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "4 Prüfungen",
+   "id": "T246",
+   "ms": "0.0",
+   "name": "300 Rezepte: Reiter Skillen und Klick – jede Portion unter 16 ms, Plan aus dem Zwischenspeicher",
+   "status": "OK"
+  },
+  {
+   "bereich": "M",
+   "ergebnis": "11 Prüfungen",
+   "id": "T247",
+   "ms": "0.0",
+   "name": "T-PM1: beide Richtungen – Geröstetes Eberfleisch roh verkaufen, Rippchen vom tobenden Raptor herstellen",
+   "status": "OK"
+  },
+  {
+   "bereich": "M",
+   "ergebnis": "6 Prüfungen",
+   "id": "T248",
+   "ms": "0.0",
+   "name": "T-PM2: Preisleiter für 20 Zutaten statt Einzelstück; Händler billiger als die Leiter",
+   "status": "OK"
+  },
+  {
+   "bereich": "M",
+   "ergebnis": "13 Prüfungen",
+   "id": "T249",
+   "ms": "0.0",
+   "name": "T-PM3: Schutz vor Schein-Gewinnen – alt, Aufkauf, dünn, über 300 % -> keine Zahl",
+   "status": "OK"
+  },
+  {
+   "bereich": "M",
+   "ergebnis": "7 Prüfungen",
+   "id": "T250",
+   "ms": "0.0",
+   "name": "T-PM4: eine Zahl – mit und ohne AHSentinel dieselbe Rechnung (±1 Kupfer), Werte nur über die API",
+   "status": "OK"
+  },
+  {
+   "bereich": "M",
+   "ergebnis": "12 Prüfungen",
+   "id": "T251",
+   "ms": "0.0",
+   "name": "T-PM5: Stufenband fällt -> Hinweis; Raid-Essen/-Tränke als Filter bis zum Raidstart",
+   "status": "OK"
+  },
+  {
+   "bereich": "M",
+   "ergebnis": "15 Prüfungen · Bericht: Kochkunst 1/1 (100 %)",
+   "id": "T252",
+   "ms": "0.0",
+   "name": "T-PM6: Empfehlungen nachprüfen – Treffer zählen, unter 60 % ab 20 Fällen \"unsicher\", Forever-Rechnung",
+   "status": "OK"
+  },
+  {
+   "bereich": "M",
+   "ergebnis": "5 Prüfungen",
+   "id": "T253",
+   "ms": "0.0",
+   "name": "T-PM2b: Abklingzeit – Transmutieren je Abklingzeit, nicht je Klick",
+   "status": "OK"
+  },
+  {
+   "bereich": "U",
+   "ergebnis": "84 Prüfungen · 17 Lagen × 9 Funktionen",
+   "id": "T254",
+   "ms": "0.0",
+   "name": "TU1: Lagen-Katalog – jede Lage durch alle Funktionen (Preise, Fertigkeit, Quelle, Fraktion)",
+   "status": "OK"
+  },
+  {
+   "bereich": "U",
+   "ergebnis": "65 Prüfungen · 23 Planschritte abgearbeitet bis 300",
+   "id": "T255",
+   "ms": "0.0",
+   "name": "TU2: Abläufe wie ein Spieler – Fenster, Klick, Preise kommen später, Abbruch, Plan abarbeiten, Gold sortieren, Daten…",
+   "status": "OK"
+  },
+  {
+   "bereich": "U",
+   "ergebnis": "17 Prüfungen · Felder: Filter Rezepte = Gelernt + Lernbar; Reiter beim Öffnen = Jetzt; Gruppierung = nach Platz; Preisquelle = eigene Rechnung; Mindestgewinn = 20 %; Aufschlag Verzauberer = 20 %; Marge Entzaubern = 20 %; Rezept-Alarm = an; Kisten in Heute = aus; Tooltip = an; Lebenslinie = an; Mi…",
+   "id": "T256",
+   "ms": "0.0",
+   "name": "TU3: Standardwerte – jede Option ab Werk, leere Felder ergeben, was der Spieler meint",
+   "status": "OK"
+  },
+  {
+   "bereich": "U",
+   "ergebnis": "3 Prüfungen · 1000 Fälle, Startwert 4711, längste Portion 6.3 ms",
+   "id": "T257",
+   "ms": "0.0",
+   "name": "TU4: Grundregeln mit Zufallsdaten – 1000 Fälle, fester Startwert, in Portionen unter 8 ms",
+   "status": "OK"
+  },
+  {
+   "bereich": "U",
+   "ergebnis": "36 Prüfungen · Bekannte Datenfehler (Farbstufen unbekannt, HINWEIS): 16 – 1255000 Panzerarmschienen des Heilers (225/220/230/240); 1255001 Panzerarmschienen des Scharmützlers (225/220/230/240); 1255002 Panzerarmschienen des Himmelsrufers (225/220/230/240); 1255003 Panzerarmschienen des Pirscher…",
+   "id": "T258",
+   "ms": "0.0",
+   "name": "TU5: echte Daten (nur lesen) – Datenpaket und eigene Rezepte mit aktuellen Preisen auf die Grundregeln",
+   "status": "OK"
+  },
+  {
+   "bereich": "U",
+   "ergebnis": "2 Prüfungen · Regressionen: 99 von 99 vorhanden",
+   "id": "T259",
+   "ms": "0.0",
+   "name": "TU6: Regressionen – jeder Befund seit 1.11. hat einen bleibenden Test",
+   "status": "OK"
+  },
+  {
+   "bereich": "U",
+   "ergebnis": "46 Prüfungen",
+   "id": "T260",
+   "ms": "0.0",
+   "name": "TU7: Formen des Spiels – Lagen in Forever, Era, TBC, Retail; geheime Werte; deDE/enUS; Skalierung",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "2 Prüfungen",
+   "id": "T261",
+   "ms": "0.0",
+   "name": "T-N0.9.33-7d: Diagnose LANGSAM – Höchstwert je Version, letzter Wert",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "62 Prüfungen",
+   "id": "T262",
+   "ms": "0.0",
+   "name": "T-BL1/T-BL5: jeder Befehl des Handlers steht in der Liste; Entwickler-Befehle nur für den Entwickler",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "10 Prüfungen",
+   "id": "T263",
+   "ms": "0.0",
+   "name": "T-BL2: Filter mit jedem Buchstaben, deutsch und englisch, meistbenutzte oben",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "6 Prüfungen · Fenster über dem Chat kommt mit dem Baustein CmdHint (AHSentinel CH), T-BL4 dann",
+   "id": "T264",
+   "ms": "0.0",
+   "name": "T-BL3/T-BL6: Auswahl + Enter führt den gewählten Befehl aus (<= 10 s); alle Sprachen ohne Platzhalter-Fehler",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "7 Prüfungen",
+   "id": "T265",
+   "ms": "0.0",
+   "name": "T-N0.9.42-5: Tests ersetzen andere Addons nur in ns.foreignTest – AHSentinel und seine API bleiben unverändert",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "13 Prüfungen · MARKT-NETZ: v10 · an · Scans mitgelesen 0 · gesendet 0 · empfangen 0 · Speicher 0 Items",
+   "id": "T266",
+   "ms": "0.0",
+   "name": "T-MN: Marktdaten-Netz – Datei geladen und angemeldet, Schalter an/aus, Berichtszeile, ohne Datei und ohne AH-API kein …",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "6 Prüfungen",
+   "id": "T267",
+   "ms": "0.0",
+   "name": "T-MN6: An/Aus-Meldungen über die Sprachtabelle (/ps markt in enUS on/off, deDE an/aus); T-HKP: TodayCrafts meldet safe",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "12 Prüfungen",
+   "id": "T268",
+   "ms": "0.0",
+   "name": "T-A1: Hintergrund-Aufgaben in Portionen (<= Budget je Bild, vollständig, Gegenprobe ohne Portionen); T-A2: Ruhemodus de…",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "9 Prüfungen · Aufruf max 31.91 ms · Portion max 6.15 ms · 15 Bilder · 5 Zeilen",
+   "id": "T269",
+   "ms": "0.0",
+   "name": "T-TC1: TodayCrafts aus dem Zwischenspeicher (Aufruf <= 2 ms, Neuberechnung in Portionen <= 8 ms, alte Liste bis zur neue…",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "9 Prüfungen",
+   "id": "T270",
+   "ms": "0.0",
+   "name": "T-API1: KnownRecipes (Figur mit Beruf = Anzahl gelernter Rezepte mit Produkt, Twink, ohne Beruf leer, keine Namen, aus d…",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "7 Prüfungen",
+   "id": "T271",
+   "ms": "0.0",
+   "name": "T-DW1: Zeile 'Bestes' nur so breit wie ihr Text (AHS-Knopf unten links bleibt frei); T-A3: Item-Infos nur für eigene An…",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "6 Prüfungen · Höchstwert im Test nil",
+   "id": "T272",
+   "ms": "0.0",
+   "name": "T-UI3: Reiter Jetzt – höchstens drei Karten mit je einer Zahl und einem Klick, Rezept im AH als Einzelfall, Grenze be…",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "14 Prüfungen",
+   "id": "T273",
+   "ms": "0.0",
+   "name": "T-UI4: öffnet mit dem Berufsfenster (abschaltbar, PS.IsEnabled), Knopf ProfessionSentinel, Reiter je Beruf, Kopfzeile B…",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "17 Prüfungen",
+   "id": "T274",
+   "ms": "0.0",
+   "name": "T-UI5: nächster passender Lehrer nach Entfernung (drei Orte, Allianz-Gegenprobe), Hauptstadt ohne Position, Stufe zu ni…",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "27 Prüfungen · Wechsel max 6.87 ms",
+   "id": "T275",
+   "ms": "0.0",
+   "name": "T-UI6: Berufswechsel 5× – sofort der richtige Beruf und Reiter, nie der alte Inhalt, Wechsel <= 16 ms, danach frische…",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "21 Prüfungen",
+   "id": "T276",
+   "ms": "0.0",
+   "name": "T-UI7: eine Zahl je Zeile – Rezepte: Stufe + Quelle als Symbol, Skillen: „6×“, Gold: Gewinn ohne zweite Zahl; kei…",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "19 Prüfungen",
+   "id": "T277",
+   "ms": "0.0",
+   "name": "T-Q1: Warteschlange + EINE Einkaufsliste – bleibt gespeichert, zählt beim Herstellen herunter, Kauf bis <= Gewinnschw…",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "4 Prüfungen",
+   "id": "T278",
+   "ms": "0.0",
+   "name": "T-TX1: Texte ohne Fachwörter (kein „netto/Leiter/Quote“ bzw. „net/ladder“), jede Karte und Leiste mit einem Sat…",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "7 Prüfungen",
+   "id": "T279",
+   "ms": "0.0",
+   "name": "T-PV1: Plan „Mit Vorrat“ – Material in den Taschen zuerst, bis es aufgebraucht ist; leerer Vorrat = Plan „Billig…",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 Prüfungen",
+   "id": "T280",
+   "ms": "0.0",
+   "name": "T-LP1: Weg zeigen zuerst über LevelPilot (NavigateTo, x/y in Prozent), sonst TomTom/Karte/Chat; Fehler in LevelPilot ge…",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "10 Prüfungen",
+   "id": "T281",
+   "ms": "0.0",
+   "name": "T-B2: gelernte Verkaufschance – erwarteter Gewinn ordnet die Gold-Liste, „lernt noch“ ohne Quote, Tooltip mit Chan…",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "16 Prüfungen",
+   "id": "T282",
+   "ms": "0.0",
+   "name": "T-B4: Warnschutz fürs Herstellen – Verlust warnt mit Ton, Trotzdem ohne Sperre, Vorschlag löst die Warnung nie wiede…",
+   "status": "OK"
+  },
+  {
+   "bereich": "M",
+   "ergebnis": "14 Prüfungen",
+   "id": "T283",
+   "ms": "0.0",
+   "name": "T-B5: Marktlage im Rezept-Tooltip – Flut = jetzt nicht herstellen, Richtung des Stufenbands, nichts bei ruhig/normal",
+   "status": "OK"
+  },
+  {
+   "bereich": "M",
+   "ergebnis": "3 Prüfungen",
+   "id": "T284",
+   "ms": "0.0",
+   "name": "T-B5a: Flut-Produkt nicht in „Heute herstellen“ (Antwort 01:18) – Grund „flut“ gezählt, gleiches Rezept ohne …",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "95 Prüfungen",
+   "id": "T285",
+   "ms": "0.0",
+   "name": "T-PL1: Prüfliste im Spiel – nur Entwickler, jeder Punkt mit Wo/Schritte/Kosten, jede Haken-Stelle löst ihren Punkt a…",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "10 Prüfungen",
+   "id": "T286",
+   "ms": "0.0",
+   "name": "T-ESL1: AHS-Liste beim gewählten Rezept – nur mit AHSentinel, genaue Aufrufe, Meldung von AHSentinel, Fehler fangen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 Prüfungen",
+   "id": "T287",
+   "ms": "0.0",
+   "name": "T-WARN-P: /ps warnprobe – echtes Warnfenster mit drei Knöpfen, „PROBE“, nichts wird hergestellt",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "9 Prüfungen",
+   "id": "T288",
+   "ms": "0.0",
+   "name": "T-TR-ALLE: ein Befehl für alles – Zusammenfassung mit Gründen und langsamen Schritten, Abmelden bricht sauber ab",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "11 Prüfungen",
+   "id": "T289",
+   "ms": "0.0",
+   "name": "T-PS-RUN-1: Testroutine friert nicht ein – keine Speicherbereinigung im Lauf, kaputtes Addon pausiert, lange Schritte …",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "21 Prüfungen",
+   "id": "T290",
+   "ms": "0.0",
+   "name": "Ingametest 0.9.66: Antworten von AHSentinel behalten, Gold je Stunde und Schnäppchen nie im Fensteraufbau",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "16 Prüfungen",
+   "id": "T291",
+   "ms": "0.0",
+   "name": "API-TAB-1, nil von AHSentinel, Schnäppchen über die API, fremde Addons im Test (Prüfung 17./18.11.)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "105 Prüfungen",
+   "id": "T292",
+   "ms": "0.0",
+   "name": "OPT-ALLE: Optionen-Fenster – jede alte Option genau einmal und wirkt wie ihr Befehl (Gegenprobe), Bereiche <= 12 Zeile…",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "380 Prüfungen",
+   "id": "T293",
+   "ms": "0.0",
+   "name": "Spielerwege: jede Spieler-Funktion über Minimap, Fenster, Zahnrad, Spiel-Einstellungen oder /ps erreichbar – mit Entw…",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "7 Prüfungen",
+   "id": "T294",
+   "ms": "0.0",
+   "name": "Lehrer-Ränge belegt statt aus dem Titel: Snarl nicht Experte, Saru Steelfury Experte, nächster Experten-Lehrer Orgrimm…",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "7 Prüfungen",
+   "id": "T295",
+   "ms": "0.0",
+   "name": "Handwerksbuch: ungelerntes Lehrer-Rezept zeigt „Skill n“ (rot solange zu tief, normal sobald lernbar, „Skill ?“ …",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "10 Prüfungen",
+   "id": "T296",
+   "ms": "0.0",
+   "name": "Skillweg in der eigenen Liste (Handwerksbuch 1): orange 12,5,2 bis gelb, dann gelb, dann grün, grau fehlt, Grenze unbek…",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "9 Prüfungen · Vergleich 1.87 ms",
+   "id": "T297",
+   "ms": "0.0",
+   "name": "HOCH 1 Speicher: unveränderte Rezeptliste behält ihre Blizzard-Liste (kein neuer DataProvider), eine Änderung baut ne…",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "10 Prüfungen",
+   "id": "T298",
+   "ms": "0.0",
+   "name": "Umgebung und Bedienung erkennen (UMG1)",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "20× Refresh: -197904 KB · nach dem Lauf: -15194 KB · AD.Update 0× · Liste behalten 20, neu 0 · angelegt je Teil: Liste: Gruppen 5921 KB · Aufbau sonst 436 KB · Liste: Rezepte 394 KB · Liste: übernehmen 82 KB · Rangliste (UpdateBest) 10 KB · Liste recipes 9 KB · Liste: Alarm und Taschen …",
+   "id": "T145",
+   "ms": "0.0",
+   "name": "Speicher",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "geprüft gegen 11 Namen",
+   "id": "T158",
+   "ms": "0.0",
+   "name": "Keine Namen im Bericht",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "OK",
+   "id": "T04",
+   "ms": "0.0",
+   "name": "Sandbox: echte Daten unverändert",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "21 Wächter, eigene Aufrufe alle 0 · andere Addons: SendAddonMessage fremd AHSentinel ×5",
+   "id": "T03",
+   "ms": "0.0",
+   "name": "Wächter: keine echte Folge im ganzen Lauf",
+   "status": "OK"
+  }
+ ],
+ "sandbox": "OK",
+ "speicher": {
+  "nachher_kb": 726029,
+  "ungenau": true,
+  "vorher_kb": 741223
+ },
+ "time": 1795618957,
+ "umfassend": {
+  "TU1": "OK 1 · FEHLER 0 · SKIP 0",
+  "TU2": "OK 1 · FEHLER 0 · SKIP 0",
+  "TU3": "OK 1 · FEHLER 0 · SKIP 0",
+  "TU4": "OK 1 · FEHLER 0 · SKIP 0",
+  "TU5": "OK 1 · FEHLER 0 · SKIP 0",
+  "TU6": "OK 97 · FEHLER 0 · SKIP 3",
+  "TU7": "OK 1 · FEHLER 0 · SKIP 0",
+  "aufgaben": "AUFGABEN: heute ×7, Teil max 27.2 ms · rezepte-api 1 ×6, Teil max 6.1 ms",
+  "marktnetz": "MARKT-NETZ: v10 · an · Scans mitgelesen 0 · gesendet 0 · empfangen 0 · Speicher 0 Items",
+  "regressionen": "Regressionen: 99 von 99 vorhanden",
+  "startwert": 4711,
+  "toc": "TOC: Camelot",
+  "trefferquote": "Schneiderei 0/186 (0 %)",
+  "ungesichert": "Heute herstellen, nicht gesichert: buyout 1, old 1, raw 24",
+  "wege": "WEGE (längste Zeit je Weg, diese Sitzung): Aufgabe heute 27.2 ms! ×13 · Aufgabe rezepte-api 1 1.4 ms ×1 · Neuaufbau (Teil) 0.5 ms ×4 · Alles neu (erster Teil) 0.3 ms ×1 · Lebenslinien im Berufsfenster 0.0 ms ×1"
+ },
+ "version": "0.9.85",
+ "waechter": [],
+ "warnungen": []
+}
