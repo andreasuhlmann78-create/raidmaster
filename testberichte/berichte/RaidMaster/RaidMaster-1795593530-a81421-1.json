@@ -1,0 +1,1366 @@
+{
+ "abgefangen": "SetRaidTarget 17, ReloadUI 1, CastSpellByName 1, OpenTradeSkill 6, DisableAddOn 1",
+ "addon": "RaidMaster",
+ "bereich": "alle",
+ "blocked": "560",
+ "counts": {
+  "client": 10,
+  "fehler": 1,
+  "ok": 151,
+  "uebersprungen": 14
+ },
+ "dur_ms": 101747,
+ "echte_aktionen": "0",
+ "env": {
+  "build": "71091",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 10,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [],
+ "f": 1,
+ "fehlerquellen": "FEHLERQUELLEN: 0",
+ "fehlerzaehler": "0 -> 2",
+ "id": "RaidMaster-1795593530-a81421-1",
+ "kind": "test",
+ "locale": "deDE",
+ "markt": "MARKT-NETZ: v10 · an · mitgelesene Scans 0 · gesendet 0 / empfangen 0 · Speicher 0 KB",
+ "portionen": "PORTIONEN: 1436 Bilder, längstes Bild 50.3 ms (T116), über 5 ms: 10 (ohne einzeln gemessene) – T116 50 ms, T182 27 ms, K Daten sichern 25 ms, T198 11 ms, T195 7 ms, T205 6 ms, T14b 6 ms, T11 6 ms; einzeln gemessen: T12 14.8 ms, Aufbau Fenster 13.1 ms, T10 10.9 ms, Aufbau signup 9.5 ms, Aufbau lb…",
+ "pruefliste": "PRÜFLISTE RaidMaster: 1 von 14 erledigt |   TR fehler 24.11. 10:18 – 1 FEHLER: T199 |   MNT auto 17.11. 17:02 – verworfen aus 0 |   TB offen |   OPT offen |   MN2B offen |   MN1 offen |   BL offen |   RT offen |   T54B offen |   TT offen |   SS offen |   SP offen |   CONS offen |   GS2 offen",
+ "results": [
+  {
+   "bereich": "A",
+   "id": "T01",
+   "ms": "0.0",
+   "name": "Alle Dateien geladen",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "3.0.47",
+   "id": "T02",
+   "ms": "0.0",
+   "name": "Version .toc = Code",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "id": "T03",
+   "ms": "0.0",
+   "name": "Gemeinsame Dateien",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "forever (modern)",
+   "id": "T04",
+   "ms": "0.0",
+   "name": "Spielversion erkannt",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "id": "T05",
+   "ms": "0.1",
+   "name": "Weichen für jeden Client simuliert",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "grund": "Caps nur beim Laden berechnet",
+   "id": "T06",
+   "name": "Fähigkeiten folgen der Weiche",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "A",
+   "id": "T07",
+   "ms": "0.0",
+   "name": "Ladereihenfolge",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "id": "T08",
+   "ms": "0.0",
+   "name": "SavedVariables-Grundzustand",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "id": "T09",
+   "ms": "0.2",
+   "name": "Diagnose zeigt Erkennung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "33 Befehle",
+   "id": "T10",
+   "ms": "0.0",
+   "name": "Slash /rm mit allen Unterbefehlen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Fenster öffnet, Sperre ok",
+   "id": "T11",
+   "ms": "5.9",
+   "name": "Slash /rmtest und Dev-Sperre",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "14 Seiten (Raidleiter), 3 (Mitglied)",
+   "id": "T12",
+   "ms": "0.0",
+   "name": "Hauptfenster und alle Seiten je Ansicht",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "42 Haken, 17 Auswahl",
+   "id": "T13",
+   "ms": "0.0",
+   "name": "Jede Option einmal an und aus",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T14",
+   "ms": "0.0",
+   "name": "Nebenfenster und Esc",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T14b",
+   "ms": "6.1",
+   "name": "Spenden-Knopf (aus dem Selbsttest)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "150/130/150/120",
+   "id": "T15",
+   "ms": "1.7",
+   "name": "DKP Grundfunktionen (Testmodus)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T16",
+   "ms": "3.3",
+   "name": "Verfall, Ersatzbank, Twinks",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T17",
+   "ms": "1.3",
+   "name": "Snapshot, Export, Abgleich",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Tank1 108 -> 148 (Start +10, Boss +20, Ende +10)",
+   "id": "T18",
+   "ms": "4.3",
+   "name": "Raid starten, Bosskill, beenden, Pause",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Tank1 zu 20",
+   "id": "T19",
+   "ms": "0.0",
+   "name": "Versteigerung Ablauf",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T20",
+   "ms": "0.0",
+   "name": "Versteigerung Regeln",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "1 Items dem Client unbekannt",
+   "id": "T21",
+   "ms": "0.3",
+   "name": "Loot-Regeln und Verteilung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T22",
+   "ms": "0.1",
+   "name": "Anmeldungen importieren (Parse)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "7 eingeladen, 7 mit Status, Raid 6/40",
+   "id": "T23",
+   "ms": "0.0",
+   "name": "Einladen und Gruppen (simuliert)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T24",
+   "ms": "1.3",
+   "name": "PUG und Werbung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "mc 11, ony 2, barrow 2, hyjal 2",
+   "id": "T25",
+   "ms": "5.2",
+   "name": "Einteilung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "14 Aufrufe über RM.Act (gezählt, nicht ausgeführt)",
+   "id": "T26",
+   "ms": "0.0",
+   "name": "Markierungen ohne echte Symbole",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T27",
+   "ms": "2.7",
+   "name": "Boss-Leiste",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T28",
+   "ms": "0.0",
+   "name": "Einlull- und Schaf-Rotation",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "6 Fremde geantwortet, 5 eingeladen",
+   "id": "T29",
+   "ms": "0.0",
+   "name": "Lücken füllen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "40 Ergebnisse",
+   "id": "T30",
+   "ms": "0.0",
+   "name": "Bereitschafts-Check",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "D5 4, D4C 4, BigWigs 4 (alle zurückgehalten)",
+   "id": "T31",
+   "ms": "0.0",
+   "name": "Pull- und Pausen-Timer",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T32",
+   "ms": "3.2",
+   "name": "Rekorde",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T33",
+   "ms": "1.5",
+   "name": "Beute-Datenbank",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "1 Zusatzzeilen (Test-Verkauf aus T15)",
+   "id": "T34",
+   "ms": "0.6",
+   "name": "Item-Tooltips",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T35",
+   "ms": "1.7",
+   "name": "Berufe",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "grund": "wartet auf Fenster: Berufe – passiert von selbst, wenn du das nächste Mal ein Berufsfenster öffnest",
+   "id": "T35b",
+   "name": "Berufe: Fenster wird eingelesen",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "id": "T36",
+   "ms": "0.1",
+   "name": "Gildenbank",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "grund": "kein Bank-Charakter (Einstellungen)",
+   "id": "T36b",
+   "name": "Bank-Charakter: Bank wird gelesen",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "kein Bank-Charakter (Einstellungen)",
+   "id": "T36c",
+   "name": "Bank-Charakter: Post wird gelesen",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "id": "T37",
+   "ms": "0.4",
+   "name": "Skillungen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T38",
+   "ms": "0.9",
+   "name": "Kommunikation: Serializer",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "45 Teile",
+   "id": "T39",
+   "ms": "0.0",
+   "name": "Kommunikation: Mehrteil, Sync, Vertrauen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T40",
+   "ms": "1.8",
+   "name": "Begrüßung, Discord-Anleitung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T41",
+   "ms": "0.6",
+   "name": "Diagnose und Hänger lösen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "9 Raids, 59 Bosse",
+   "id": "T42",
+   "ms": "0.0",
+   "name": "Raiddaten dieser Version",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "1 Items vergeben in 7 s (Beute geladen 10/26, mit Test-Regeln versteigerbar 1; behandelt 1, Versteigerung 1, ohne Gebot 0; Regeln: Schuppe von Onyxia (Q3) -> Versteigerung; mit deinen echten Regeln: Onyxias Kopf (Q4, Klasse 12) -> von Hand verteilen, Schuppe von Onyxia (Q3, Klasse 7) -> Gildenbank, …",
+   "id": "T43",
+   "ms": "0.0",
+   "name": "Test-Werkzeug selbst (ony)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "34 Ereignisse",
+   "id": "T44",
+   "ms": "1.2",
+   "name": "Alle Ereignisse einmal",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T45",
+   "ms": "2.0",
+   "name": "Tastenbelegungen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T46",
+   "ms": "1.1",
+   "name": "Sperrgitter: !dkp/!bid per Flüstern, Zähler je RM.Act",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "id": "T50",
+   "ms": "0.1",
+   "name": "Simulator für geschützte Werte",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "id": "T51",
+   "ms": "0.0",
+   "name": "Addon-Nachricht mit geschütztem Absender",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Forever, im Kampf mit Mitspieler: /rm sync – kommt keine Lua-Meldung, ist alles gut",
+   "bereich": "C",
+   "id": "T51b",
+   "name": "Absender von Addon-Nachrichten im Kampf geschützt?",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "C",
+   "id": "T52",
+   "ms": "0.0",
+   "name": "Flüstern mit geschütztem Text oder Absender",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "id": "T53",
+   "ms": "0.0",
+   "name": "Bereitschafts-Check mit geschützten Auren",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "id": "T54",
+   "ms": "0.1",
+   "name": "Systemmeldung geschützt",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Forever, im Kampf jemanden einladen lassen: kommt keine Lua-Meldung, ist alles gut (echte geschützte Strings lassen sich nicht nachstellen)",
+   "bereich": "C",
+   "id": "T54b",
+   "name": "Systemmeldung mit geschütztem Text",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "C",
+   "id": "T55",
+   "ms": "0.0",
+   "name": "Fehlende alte Globals: Auren und Zauber",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "id": "T56",
+   "ms": "0.0",
+   "name": "Bindungen beim Laden und Laufzeitwahl",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "id": "T57",
+   "ms": "0.7",
+   "name": "Kampfsperre simuliert",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "nicht registriert",
+   "id": "T58",
+   "ms": "0.0",
+   "name": "Kampflog gesperrt bzw. offen",
+   "status": "OK"
+  },
+  {
+   "bereich": "D",
+   "grund": "nur im alten Client (Era/TBC)",
+   "id": "T71",
+   "name": "Alter Client",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "nur im alten Client (Era/TBC)",
+   "id": "T72",
+   "name": "Alter Client",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "nur im alten Client (Era/TBC)",
+   "id": "T73",
+   "name": "Alter Client",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "nur im alten Client (Era/TBC)",
+   "id": "T74",
+   "name": "Alter Client",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "nur im alten Client (Era/TBC)",
+   "id": "T75",
+   "name": "Alter Client",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "E",
+   "id": "T80",
+   "ms": "0.1",
+   "name": "Neuinstallation",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "id": "T81",
+   "ms": "0.3",
+   "name": "Migration älterer Fassungen",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "id": "T82",
+   "ms": "0.0",
+   "name": "Beschädigte Einträge",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "id": "T83",
+   "ms": "0.0",
+   "name": "Absturz mitten im Test",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "3 ms in 4 Bildern",
+   "id": "T84",
+   "ms": "0.0",
+   "name": "Große Datenmengen",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "9 vorhandene Berichte",
+   "id": "T85",
+   "ms": "0.0",
+   "name": "Berichte in den SavedVariables",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "deDE",
+   "id": "T93",
+   "ms": "0.0",
+   "name": "Sprache im Bericht",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "grund": "offline geprüft (Lua 5.1 mit lupa)",
+   "id": "T91",
+   "name": "Formatplatzhalter",
+   "status": "SKIP"
+  },
+  {
+   "anleitung": "einmal mit englischem Client /rmtest testroutine F",
+   "bereich": "F",
+   "id": "T92",
+   "name": "Jede Sprache einmal aktiv",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "AHSentinel, BuffSentinel, GuildSentinel, LevelPilot, ProfessionSentinel, RaidMaster, ThreatSentinel",
+   "id": "T100",
+   "ms": "0.0",
+   "name": "Mehrere GoldSentinel-Addons",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "id": "T101",
+   "ms": "0.0",
+   "name": "Keine globalen Namen überschrieben",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "id": "T102",
+   "ms": "0.0",
+   "name": "Datenformat RaidMaster.db.prof",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Pull-Timer aus der Boss-Leiste: Balken bei DBM/BigWigs sichtbar?",
+   "bereich": "G",
+   "id": "T103",
+   "name": "DBM und BigWigs",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "mit BugSack: /rmtest testroutine I – Testfehler in BugSack und Diagnose?",
+   "bereich": "G",
+   "id": "T104",
+   "name": "BugSack/BugGrabber",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "G",
+   "id": "T105",
+   "ms": "0.8",
+   "name": "Altes Addon RaidMasterTest",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "Mittel 0.001 ms, max 0.003 ms",
+   "id": "T110",
+   "ms": "0.0",
+   "name": "Zielwechsel (Boss-Leiste) < 2 ms",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "12 Handler, zusammen 0.80 ms",
+   "id": "T111",
+   "ms": "0.0",
+   "name": "Gruppenwechsel: Handler < 2 ms, zusammen < 16 ms",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "BID 0.011 ms, SNAP 0.29 ms",
+   "id": "T112",
+   "ms": "0.0",
+   "name": "Addon-Nachrichten: BID < 2 ms, SNAP 500 < 16 ms",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "Tick 0.000 ms, D.Text 0.10 ms",
+   "id": "T113",
+   "ms": "0.0",
+   "name": "Ticker < 1 ms, D.Text mit 20 Fehlern < 16 ms",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "zusammen 10.6 ms, teuerster Teil 2.2 ms",
+   "id": "T114",
+   "ms": "0.0",
+   "name": "Serializer 500 Spieler < 16 ms (5 Teile à 100)",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "Aufbau 0.33 ms, je Tooltip 0.004 ms",
+   "id": "T115",
+   "ms": "0.0",
+   "name": "Tooltip < 2 ms, erster Aufbau < 16 ms",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "RaidMaster -13 KB · ganzes Spiel 124 KB · grösster Zuwachs anderer: LevelPilot 169 KB · Speicher lesen 49.0/49.1 ms; 38666 Bereinigungsschritte, längster 1.5 ms",
+   "id": "T116",
+   "ms": "0.0",
+   "name": "Speicher: Zuwachs RaidMaster < 256 KB",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "id": "T120",
+   "ms": "0.1",
+   "name": "Absichtlicher Fehler wird gezählt",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "id": "T121",
+   "ms": "0.0",
+   "name": "Abgefangene Fehler melden (RM.ReportError)",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "id": "T122",
+   "ms": "0.0",
+   "name": "Doppelte Fehler",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "9",
+   "id": "T123",
+   "ms": "0.0",
+   "name": "Testberichte warten auf Versand (Anzeige)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "id": "T130",
+   "ms": "0.1",
+   "name": "IsClassicEra nur für echtes Era",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "id": "T131",
+   "ms": "0.1",
+   "name": "Bereitschafts-Check liest Auren modern",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "id": "T132",
+   "ms": "0.3",
+   "name": "MarkAdds/MarkBoss im Kampf auf modernem Weg",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "id": "T133",
+   "ms": "0.2",
+   "name": "Mark/SmartMark im Kampf (Forever: nur sichere Tasten)",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Forever: Mob im Kampf per RaidMaster-Taste (Mouseover) und per Klick auf die Symbol-Leiste markieren, Rechtsklick entfernt, 'Alle aus' – Symbol da, Fehlerliste leer, kein 'Aktion blockiert'?",
+   "bereich": "J",
+   "id": "T133b",
+   "name": "Mouseover-Tasten und Symbol-Leiste im echten Kampf",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Knopf (Seite Raid)",
+   "id": "T134",
+   "ms": "0.0",
+   "name": "Kernhunde-Hilfe ohne Kampflog",
+   "status": "OK"
+  },
+  {
+   "anleitung": "/dump GetTalentTabInfo(1) und /dump GetTalentInfo(1,1); Gildenmitglied betrachten",
+   "bereich": "J",
+   "id": "T135",
+   "name": "Skillungen in Forever",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "id": "T136",
+   "ms": "0.1",
+   "name": "Plündermeister fehlt: Tauschliste",
+   "status": "OK"
+  },
+  {
+   "anleitung": "/dump GiveMasterLoot ~= nil, GetMasterLootCandidate ~= nil; /dump C_PartyInfo and C_PartyInfo.GetLootMethod()",
+   "bereich": "J",
+   "id": "T136b",
+   "name": "Plündermeister vorhanden",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "id": "T137",
+   "ms": "0.0",
+   "name": "Namen mit Leerzeichen (Anmeldung)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "vor dem 9. Dezember (0 Bosse)",
+   "id": "T138",
+   "ms": "0.0",
+   "name": "Bosse Barrow Deeps und Hyjalgipfel",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "id": "T139",
+   "ms": "0.0",
+   "name": "Interface-Nummer getestet",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "id": "T140",
+   "ms": "0.1",
+   "name": "Bossleiste: geschützter Zielname",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "id": "T141",
+   "ms": "0.0",
+   "name": "Beute-Datenbank: geschützte GUID",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Doppelname, Vorname, gleicher Name: ok",
+   "id": "T142",
+   "ms": "1.5",
+   "name": "!dkp mit Doppelnamen (Forever-Weg)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "id": "T143",
+   "ms": "0.1",
+   "name": "Betrachten: geschützte GUID",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "id": "T144",
+   "ms": "0.1",
+   "name": "RM.Short mit geschütztem Namen",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "id": "T145",
+   "ms": "0.1",
+   "name": "Berufe: Ausgabe-ID nie nil",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Era/Anniversary mit Fläschchen: /rm bereit – erkannt?",
+   "bereich": "J",
+   "id": "T146",
+   "name": "Bereitschafts-Check in alten Clients",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "grund": "offline geprüft (Locales)",
+   "id": "T147",
+   "name": "Berufe-Knopf übersetzt",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "J",
+   "id": "T148",
+   "ms": "0.0",
+   "name": "Versionsnummer = Code",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "id": "T149",
+   "ms": "0.1",
+   "name": "Berufe modern aus GetProfessions",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "id": "T150",
+   "ms": "0.1",
+   "name": "Berufe öffnen: OpenTradeSkill zuerst",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "id": "T151",
+   "ms": "0.0",
+   "name": "Listenname als gelesen markieren",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Knopf 'Meine Berufe einlesen' mehrmals, dann /rm berufe",
+   "bereich": "J",
+   "id": "T152",
+   "name": "Berufe-Knopf im Client",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "id": "T153",
+   "ms": "0.0",
+   "name": "Datenformat für ProfessionSentinel",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "id": "T154",
+   "ms": "0.0",
+   "name": "GoldSentinelGame Version",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Version 3",
+   "id": "T162",
+   "ms": "0.0",
+   "name": "GoldSentinelTest Version 2 geladen (T-GT1)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Ausgang unverändert (0)",
+   "id": "T163",
+   "ms": "0.1",
+   "name": "Ohne Zustimmung nichts im Ausgang (T-GT2)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "v10 angemeldet (FeedStart/Feed da); ohne Datei still",
+   "id": "T180",
+   "ms": "0.0",
+   "name": "MN4 RaidMaster lädt mit und ohne GoldSentinelMarkt",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "aus: nichts gelesen/gesendet; an: wieder an; Zähler unverändert",
+   "id": "T181",
+   "ms": "0.0",
+   "name": "MN4 Schalter aus: kein Lesen, kein Senden",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "ohne AH-API still (6 Schritte in eigenen Bildern); Zähler und Teilen unverändert",
+   "id": "T182",
+   "ms": "0.0",
+   "name": "MN4 kein Lua-Fehler ohne Auktionshaus-Schnittstelle",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "MARKT-NETZ: v10 · an · mitgelesene Scans 0 · gesendet 0 / empfangen 0 · Speicher 0 KB",
+   "id": "T183",
+   "ms": "0.0",
+   "name": "MN3 Testbericht-Zeile MARKT-NETZ",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "14 Punkte; Hit-Stellen BL, MN2B, RT, SS, TR, MNT, auto SP; OPT sagt der Nutzer; ohne Dev wirkungslos",
+   "id": "T185",
+   "ms": "0.6",
+   "name": "Prüfliste: nur Entwickler, jede Stelle löst ihren Punkt aus",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "1000 Fehler in 10 Bildern 16.9 ms, teuerstes Bild 2.4 ms (20 einzeln erfasst in 1 s, Liste hält 20; 980 nur gezählt), Grenzmeldung 1 Eintrag n=300, offenes Fenster 100 Fehler 0.5 ms ohne Neuaufbau",
+   "id": "T186",
+   "ms": "0.0",
+   "name": "RM-DIAG-1 Fehlerflut: Diag bleibt billig",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "FEHLERQUELLEN: 46 · andere 12, AHSentinel 5, Fremd1 1, Fremd10 1, Fremd11 1, Fremd12 1, F",
+   "id": "T187",
+   "ms": "0.3",
+   "name": "RM-DIAG-1 Fehlerquellen je Addon",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "20 von 29 (gestern/heute früher weg), nur t+name, Fehler -> {}, Anmeldung 1, Testraid 0",
+   "id": "T188",
+   "ms": "0.2",
+   "name": "RM-API-RAIDS RaidMasterAPI.UpcomingRaids",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Sicherung im Lauf da; nach Abbruch: Inhalt zurück (gleiche Tabellen), Neues weg, nur einmal",
+   "id": "T189",
+   "ms": "0.0",
+   "name": "TR-ALLE sauber nach /reload (Sicherung)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "eigene Daten 1/1 erkannt · Adressbuch 2/2 erkannt und zurückgesetzt, seen/neue Einträge kein Befund",
+   "id": "T198",
+   "ms": "10.7",
+   "name": "Livedaten-Wächter: absichtlich geänderte Felder werden erkannt (Kopien)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "5 Fälle richtig (2 lesbar, 2 Kontrast-Befunde, 1 Schrift-Befund), Weiss/Schwarz 21:1",
+   "id": "T200",
+   "ms": "0.1",
+   "name": "Lesbarkeit: Gegenprobe – dunkelgraue Zahl, kleine Schrift werden erkannt",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "9 Klassen, schlechteste WARLOCK 4.61:1 · Gegenprobe Rohfarbe Schamane 2.97:1 erkannt",
+   "id": "T201",
+   "ms": "0.1",
+   "name": "Klassenfarben lesbar (ab 4,5:1 auf Knopf-Hintergrund, Gegenprobe Schamane roh)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "6 Qualitäten, schlechteste 4.63:1 · Gegenprobe roh 2.92:1 erkannt · Link-Teil gleich",
+   "id": "T202",
+   "ms": "0.2",
+   "name": "Item-Qualitätsfarben in Anzeige lesbar, Link-Teil unverändert (Gegenprobe Episch/Selten roh)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Vordergrund FEHLER · Bildgrenze/Sprung/Laden/Bereinigung Hinweis · gleichmässig langsam FEHLER · Kopfzeile richtig",
+   "id": "T203",
+   "ms": "3.6",
+   "name": "Umgebung: Überschreitung ohne Hintergrund FEHLER, mit Hintergrund/Laden/Bereinigung Hinweis (Gegenprobe)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "8 Buchungen (mit Rückgängig und Verfall): Stände = von Hand, Gesamt mc 29/3/75 und ony 30/2/30 = Zeilen, verdient nachgerechnet gleich · Gegenprobe 2/2 erkannt",
+   "id": "T204",
+   "ms": "0.3",
+   "name": "L4 Summen gehen auf: Stand = Buchungen, Gesamt = Zeilen, verdient ohne Rückgängiges (Gegenprobe)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "12 Zeilen von 57: Liste = Tooltip = !dkp = Stand (Molten Core) · Gesamt 6558 DKP · 54 Spieler = Zeilen · Gegenprobe 2/2 erkannt",
+   "id": "T205",
+   "ms": "5.8",
+   "name": "L3 gleiche DKP-Zahl in Liste, Tooltip, !dkp und Stand; Gesamt = Zeilen (Gegenprobe)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "6 Lagen richtig (rechts, links, über, unter, Leiste oben, sonst am Element)",
+   "id": "T190",
+   "ms": "0.1",
+   "name": "Tooltip neben/über/unter dem Fenster (nie über Knöpfen)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Pfeil, Aggrometer und Art 'hud' gemessen, aber erlaubt (4 gemessen, 3 Hinweise); echtes Fenster gemeldet",
+   "id": "T191",
+   "ms": "0.1",
+   "name": "Überlappung: HUD anderer Addons ausgenommen, Fenster nicht",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "4 Beschriftungen passen (Boss-Knopf und Anleitung aus dem Ingametest, Russisch zweizeilig)",
+   "id": "T192",
+   "ms": "0.1",
+   "name": "Knopf-Beschriftungen passen (Schrift kleiner, notfalls zwei Zeilen)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "RaidMaster.db = Schnappschuss vom Start, TestRunning() true, Funktionen wie RM",
+   "id": "T193",
+   "ms": "0.0",
+   "name": "Fremde Leser sehen während der Routine keine Testdaten",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "n alt 61 = n neu 61, 10 Bereiche (allgemein 9, dkp 11, gebote 6, bosse 11, beute 10, pm 4, ansagen 7, raid 6, einladen 5, symbole 5), Aufbau je Bereich höchstens 4.7 ms, nicht für diesen Client: coreHound",
+   "id": "T194",
+   "ms": "0.0",
+   "name": "OPT: Optionen-Fenster – jede alte Option genau einmal, wirkt wie vorher",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "ohne Entwicklermodus als Mitglied: /rm, Minimap links/rechts, /rm optionen, Einstellungsfenster des Spiels (Settings), 6 persönliche Optionen; Entwickler-Befehle nur prüfliste, test, testroutine",
+   "id": "T195",
+   "ms": "0.0",
+   "name": "Spieler-Funktionen ohne Entwicklermodus erreichbar (normaler Weg)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "25 Befehle, de und en ausführbar",
+   "id": "T166",
+   "ms": "3.2",
+   "name": "T-BL1 Befehlsliste: jeder Befehl des Handlers steht in der Liste",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Filter genau, Zähler sortiert",
+   "id": "T167",
+   "ms": "1.2",
+   "name": "T-BL2 Filter: genau die passenden Befehle, meistbenutzte oben",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Auswahl -> Enter führt 'pull' aus",
+   "id": "T168",
+   "ms": "2.2",
+   "name": "T-BL3 Klick wählt aus, Enter führt den gewählten Befehl aus",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "0 Schreibzugriffe, Fokus zurück",
+   "id": "T169",
+   "ms": "0.7",
+   "name": "T-BL4 Chatfeld wird nie beschrieben",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "versteckt / für Entwickler 2",
+   "id": "T170",
+   "ms": "0.3",
+   "name": "T-BL5 Entwickler-Befehle nur für den Entwickler",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "dev aus: 0 Zeilen, Knopf weg · dev an: prüfliste, test, testroutine, Knopf da",
+   "id": "T196",
+   "ms": "0.8",
+   "name": "DEV-SICHT: Entwickler-Befehle/-Knopf nur im Entwicklermodus (Gegenprobe dev an)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "?-Knopf, Tooltip 7 Zeilen, 0 sichtbare Platzhalter-Zeilen",
+   "id": "T197",
+   "ms": "0.1",
+   "name": "Werbung: Platzhalter als \"?\" mit Tooltip, keine sichtbare Platzhalter-Zeile",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "deDE: alle 25 Beschreibungen",
+   "id": "T171",
+   "ms": "0.1",
+   "name": "T-BL6 Beschreibungen in der Spielsprache ohne Platzhalter-Fehler",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "seq 7 übernommen, falsche Formen ignoriert",
+   "id": "T165",
+   "ms": "0.0",
+   "name": "Prüfblock des Uploaders wird gelesen (Beleg Abgleich)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Sync 3, keine Anmeldung, Gebot über RaidMstr (Warteschlange Sync 0)",
+   "id": "T164",
+   "ms": "0.0",
+   "name": "GoldSentinelSync nur mitgebracht, RaidMaster-Daten wie bisher",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "0 Aufrufe, 4 Hinweise, 1 Vorschläge",
+   "id": "T161",
+   "ms": "1.0",
+   "name": "Symbole in WoW Forever nur über sichere Knöpfe",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "keine · geprüft 718",
+   "id": "T155",
+   "ms": "0.0",
+   "name": "Eigene Tooltips verdecken keine Knöpfe",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "mit Charakterfenster: Hauptfenster überdeckt CharacterFrame; mit Charakterfenster: Bereitschaft überdeckt CharacterFrame · geprüft 3 · Charakterfenster selbst geöffnet und wieder geschlossen",
+   "erwartet": "keine",
+   "id": "T156",
+   "ms": "0.0",
+   "name": "Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern",
+   "status": "FEHLER"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "keine · geprüft 364",
+   "id": "T157",
+   "ms": "0.0",
+   "name": "Fenster und Tooltips ganz im Bildschirm",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "keine · geprüft 2282 · Hinweise: Bereitschaft: Text gekürzt bei Button; Bereitschaft: Text gekürzt bei Button; Bereitschaft: Text gekürzt bei Button; Bereitschaft: Text gekürzt bei Button; Bereitschaft: Text gekürzt bei Button; Bereitschaft: Text gekürzt bei Button; Bereitschaft: Text gekü…",
+   "id": "T158",
+   "ms": "0.0",
+   "name": "Beschriftungen von Knöpfen nicht abgeschnitten",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "keine · geprüft 5 · Stufe des Charakters 10, Eigener Name (ohne Realm) ok, Gilde wie im Spiel ok, Berufsfertigkeit 3 Berufe, Raidmitglieder Testmodus (Testraid)",
+   "id": "T159",
+   "ms": "0.0",
+   "name": "Angezeigte Spielwerte plausibel",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "keine · geprüft 1",
+   "id": "T160",
+   "ms": "0.0",
+   "name": "Keine Fehlerschleife (gleiche Meldung > 10×)",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "keine · geprüft 4724",
+   "id": "T199",
+   "ms": "0.0",
+   "name": "Lesbarkeit L1 Kontrast ab 4,5:1 und L8 Schrift nicht kleiner als GameFontNormalSmall",
+   "status": "OK"
+  },
+  {
+   "bereich": "L",
+   "ergebnis": "11 Lagen wie erwartet",
+   "id": "T172",
+   "ms": "0.0",
+   "name": "TU1 Lagen-Katalog: Gebote, DKP, Raid-Buchung",
+   "status": "OK"
+  },
+  {
+   "bereich": "L",
+   "ergebnis": "Vergabe genau einmal, Sync-Reihenfolge egal",
+   "id": "T173",
+   "ms": "1.8",
+   "name": "TU2 Abläufe: zwei Gebote zugleich, Vergabe, Sync doppelt/vertauscht",
+   "status": "OK"
+  },
+  {
+   "bereich": "L",
+   "ergebnis": "13 Standardwerte, fehlende Werte -> Standard",
+   "id": "T174",
+   "ms": "0.9",
+   "name": "TU3 Standardwerte und fehlende Einstellungen",
+   "status": "OK"
+  },
+  {
+   "bereich": "L",
+   "ergebnis": "1000 Fälle + 40 Gebotsrunden, Startwert 4711",
+   "id": "T175",
+   "ms": "0.0",
+   "name": "TU4 Grundregeln: 1000 Zufallsfälle",
+   "status": "OK"
+  },
+  {
+   "bereich": "L",
+   "ergebnis": "0 Buchungen, 2 Spieler geprüft",
+   "id": "T176",
+   "ms": "0.0",
+   "name": "TU5 echte Daten (Kopie) erfüllen die Grundregeln",
+   "status": "OK"
+  },
+  {
+   "bereich": "L",
+   "ergebnis": "Regressionen: 52 von 52 vorhanden",
+   "id": "T177",
+   "ms": "0.0",
+   "name": "TU6 Regressionen vorhanden",
+   "status": "OK"
+  },
+  {
+   "bereich": "L",
+   "ergebnis": "forever / deDE",
+   "id": "T178",
+   "ms": "0.0",
+   "name": "TU7 Formen des Spiels",
+   "status": "OK"
+  },
+  {
+   "bereich": "L",
+   "ergebnis": "TU1 OK 11 · FEHLER 0 · SKIP 0 | TU2 OK 2 · FEHLER 0 · SKIP 1 | TU3 OK 15 · FEHLER 0 · SKIP 0 | TU4 OK 1 · FEHLER 0 · SKIP 0 | TU5 OK 1 · FEHLER 0 · SKIP 0 | TU6 OK 1 · FEHLER 0 · SKIP 0 | TU7 OK 1 · FEHLER 0 · SKIP 1",
+   "id": "T179",
+   "ms": "0.1",
+   "name": "TU8 Testbericht je Bereich",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "grund": "Grundsprache",
+   "id": "T90",
+   "name": "Fehlende Übersetzungen",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "F",
+   "grund": "Grundsprache",
+   "id": "T184",
+   "name": "Platzhalter der Übersetzungen",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "C",
+   "id": "T59",
+   "ms": "0.0",
+   "name": "Gesperrte Aktionen im Spiel",
+   "status": "OK"
+  },
+  {
+   "bereich": "D",
+   "grund": "nur im alten Client (Era/TBC): dort /rmtest testroutine",
+   "id": "T70",
+   "name": "Ganze Routine im alten Client",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "A",
+   "id": "SB",
+   "ms": "0.0",
+   "name": "echte Daten unverändert",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "5 Einträge unverändert",
+   "id": "SB2",
+   "ms": "0.0",
+   "name": "gemeinsame Daten unverändert (GoldSentinelSync-Adressbuch: fail, pause, v, src)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "über RM.Act abgefangen: SetRaidTarget 17, ReloadUI 1, CastSpellByName 1, OpenTradeSkill 6, DisableAddOn 1",
+   "id": "T46b",
+   "ms": "0.0",
+   "name": "Sperrgitter: echte Aktionen während der Routine",
+   "status": "OK"
+  }
+ ],
+ "sandbox": "OK",
+ "testflavor_ende": "forever",
+ "time": 1795593429,
+ "umgebung": "UMGEBUNG: Hintergrund möglich (Sek. 96–99, 4 Sek. von 102) · Bild vorher Median 17 ms / 95 % 17 ms (60 Bilder) · Bild Lauf Median 17 ms / 95 % 17 ms (5365 Bilder) · Bild nachher Median 17 ms / 95 % 34 ms (519 Bilder) · Bilder/s 45 -> 39 · Ping 17 -> 17 ms · längstes Bild 61.0 ms bei T116 (…",
+ "version": "3.0.47",
+ "zusammenfassung": "151 von 152 bestanden, 24 nicht prüfbar – 9x nur im echten Client (nicht in der Prüfliste); 6x nur im alten Client; 2x Grundsprache. Noch offen: Berufe – passiert von selbst, wenn du das nächste Mal ein Berufsfenster öffnest"
+}

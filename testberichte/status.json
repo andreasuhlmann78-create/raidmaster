@@ -1,60 +1,30 @@
 {
- "ausgewertet": "2026-11-25T03:44:46Z",
+ "ausgewertet": "2026-11-25T12:04:29Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
-   "berichte": 169,
+   "berichte": 170,
    "letzter_test": {
-    "id": "AHSentinel-1795555288-744ede-5",
-    "version": "0.65.392",
-    "time": 1795555288,
+    "id": "AHSentinel-1795593870-d2b942-1",
+    "version": "0.65.396",
+    "time": 1795593667,
     "counts": {
-     "client": 0,
-     "fehler": 4,
-     "ok": 1,
-     "uebersprungen": 4
+     "client": 16,
+     "fehler": 1,
+     "ok": 1051,
+     "uebersprungen": 34
     }
    },
    "fehler_tests": [
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.392",
+     "version": "0.65.396",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "ALLES-1",
-     "name": "Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1)",
-     "detail": "ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 1042 OK, 1 FEHLER, 34 übersprungen, Sandbox OK",
-     "bericht": "AHSentinel-1795555288-744ede-5"
-    },
-    {
-     "addon": "AHSentinel",
-     "art": "test",
-     "version": "0.65.392",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "ALLES-2",
-     "name": "Oberflächen-Prüfung (alle Reiter)",
-     "detail": "ergebnis:   2. Oberflächen-Prüfung (alle Reiter): FEHLER – 6 OK, 1 FEHLER, 0 übersprungen, Sandbox OK",
-     "bericht": "AHSentinel-1795555288-744ede-5"
-    },
-    {
-     "addon": "AHSentinel",
-     "art": "test",
-     "version": "0.65.392",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "ALLES-4",
-     "name": "Sniper-Testroutine S1–S13 (ohne echten Kauf)",
-     "detail": "ergebnis:   4. Sniper-Testroutine S1–S13 (ohne echten Kauf): FEHLER – 28 OK, 1 FEHLER, 3 übersprungen, Sandbox OK",
-     "bericht": "AHSentinel-1795555288-744ede-5"
-    },
-    {
-     "addon": "AHSentinel",
-     "art": "test",
-     "version": "0.65.392",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "ALLES-6",
-     "name": "Prüfungen am offenen Auktionshaus",
-     "detail": "ergebnis:   6. Prüfungen am offenen Auktionshaus: FEHLER – 66 OK, 2 FEHLER, 3 übersprungen, Sandbox OK",
-     "bericht": "AHSentinel-1795555288-744ede-5"
+     "id": "T750",
+     "name": "UI-CLEAN1 Fenster/Reiter/Unterreiter/Ansichten/Fenster/Dialoge (Klassisch/Modern, 100 %/130 %): nichts überlappt, nicht…",
+     "detail": "ergebnis: 0 Befunde · dazu 89 gekürzt mit Tooltip (kein FEHLER) (AH offen · Klassisch+Modern · 100+130 % · deDE · geprüft 164 von 166 Ansichten) · je Art: gekürzt (Tooltip) 89 · je Ansicht: Fenster > Preisverlauf: 44 · Markt > Markt > Überfüllt: 36 · Übersicht > overview: 6 · Markt > Markt > L… | erwartet: 0 Befunde · geprüft m von m",
+     "bericht": "AHSentinel-1795593870-d2b942-1"
     }
    ],
    "fehler_spiel": [
@@ -75,15 +45,15 @@
    ]
   },
   "BuffSentinel": {
-   "berichte": 15,
+   "berichte": 16,
    "letzter_test": {
-    "id": "BuffSentinel-1795524308-92d5e9-1",
-    "version": "0.9.63",
-    "time": 1795524278,
+    "id": "BuffSentinel-1795593264-3884a8-1",
+    "version": "0.9.64",
+    "time": 1795593250,
     "counts": {
-     "client": 10,
+     "client": 11,
      "fehler": 0,
-     "ok": 224,
+     "ok": 226,
      "uebersprungen": 11
     }
    },
@@ -91,23 +61,23 @@
    "fehler_spiel": []
   },
   "GuildSentinel": {
-   "berichte": 15,
+   "berichte": 16,
    "letzter_test": {
-    "id": "GuildSentinel-1795520939-1affe7-1",
-    "version": "0.9.61",
-    "time": 1795520883,
+    "id": "GuildSentinel-1795593361-c2de38-1",
+    "version": "0.9.62",
+    "time": 1795593317,
     "counts": {
      "client": 8,
      "fehler": 0,
-     "ok": 339,
-     "uebersprungen": 24
+     "ok": 338,
+     "uebersprungen": 25
     }
    },
    "fehler_tests": [],
    "fehler_spiel": []
   },
   "LevelPilot": {
-   "berichte": 84,
+   "berichte": 85,
    "letzter_test": {
     "id": "LevelPilot-1795521612-127148-3",
     "version": "3.13.12",
@@ -124,6 +94,20 @@
     {
      "addon": "LevelPilot",
      "art": "spiel",
+     "wo": "Fire PLAN_CHANGED",
+     "msg": "attempt to yield across metamethod/C-call boundary",
+     "anzahl": 5,
+     "versionen": [
+      "3.13.13"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:471: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:236: in function 'Fire'\n[Interface/AddOns/LevelPilot/Planner.lua]:2523: in function <Interface/AddOns/LevelPilot/Planner.lua:2322>\n[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:487: in function 'PCall'\n..."
+    },
+    {
+     "addon": "LevelPilot",
+     "art": "spiel",
      "wo": "Comm-Empfang",
      "msg": "Interface/AddOns/LevelPilot/Comm.lua:488: attempt to index field 'Caves' (a nil value)",
      "anzahl": 1,
@@ -134,6 +118,20 @@
       "forever 1.60.1 (Interface 16001)"
      ],
      "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:318: in function 'Report'\n[Interface/AddOns/LevelPilot/Comm.lua]:595: in function <Interface/AddOns/LevelPilot/Comm.lua:590>\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelSync.lua]:603: in function <Interface/AddOns/AHSentinel/GoldSentinelSync.lua:557>\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelSync.lua]:750: in function <Interface/AddOns/AHSentinel/GoldSentinelSync.lua:748>\n"
+    },
+    {
+     "addon": "LevelPilot",
+     "art": "spiel",
+     "wo": "Testroutine",
+     "msg": "Zeitlimit 1800 s",
+     "anzahl": 1,
+     "versionen": [
+      "3.13.13"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:471: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:511: in function <Interface/AddOns/LevelPilot/Core.lua:506>\n[tail call]: ?\n[Interface/AddOns/LevelPilot/TestRoutine.lua]:12130: in function 'Abort'\n[Interface/AddOns/LevelPilot/TestRoutine.lua]:12398: in function <Interface/AddOns/LevelPilot/TestRoutine.lua:12392>\n..."
     }
    ]
   },
@@ -179,37 +177,34 @@
       "forever 1.60.1 (Interface 16001)"
      ],
      "stack": "[C]: in function 'pcall'\n[Interface/AddOns/ProfessionSentinel/GoldSentinelTest.lua]:407: in function <...rface/AddOns/ProfessionSentinel/GoldSentinelTest.lua:400>\n[C]: in function 'resume'\n[Interface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua]:470: in function <...rface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua:453>\n[C]: in function 'pcall'\n[Interface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua]:524: in function 'Tick'\n[Interface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua]:541: in function <...rface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua:541>\n"
-    },
-    {
-     "addon": "ProfessionSentinel",
-     "art": "spiel",
-     "wo": "AHSentinel:On",
-     "msg": "Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:161: attempt to concatenate local 'line' (a nil value)",
-     "anzahl": 5,
-     "versionen": [
-      "0.9.67"
-     ],
-     "clients": [
-      "forever 1.60.1 (Interface 16001)"
-     ],
-     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/ProfessionSentinel/Core.lua]:180: in function 'CountError'\n[Interface/AddOns/ProfessionSentinel/Alerts.lua]:144: in function <Interface/AddOns/ProfessionSentinel/Alerts.lua:140>\n"
     }
    ]
   },
   "RaidMaster": {
-   "berichte": 17,
+   "berichte": 20,
    "letzter_test": {
-    "id": "RaidMaster-1795520238-eca756-1",
-    "version": "3.0.43",
-    "time": 1795520136,
+    "id": "RaidMaster-1795602328-77b09e-2",
+    "version": "3.0.48",
+    "time": 1795602325,
     "counts": {
-     "client": 10,
-     "fehler": 0,
-     "ok": 149,
-     "uebersprungen": 14
+     "client": 0,
+     "fehler": 1,
+     "ok": 9,
+     "uebersprungen": 0
     }
    },
-   "fehler_tests": [],
+   "fehler_tests": [
+    {
+     "addon": "RaidMaster",
+     "art": "test",
+     "version": "3.0.48",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T156",
+     "name": "Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern",
+     "detail": "ergebnis: dkp: Hauptfenster überdeckt CharacterFrame; auction: Hauptfenster überdeckt CharacterFrame; loot: Hauptfenster überdeckt CharacterFrame; log: Hauptfenster überdeckt CharacterFrame; raid: Hauptfenster überdeckt CharacterFrame; signup: Hauptfenster überdeckt CharacterFrame; pug: Hauptfenster üb… | erwartet: keine",
+     "bericht": "RaidMaster-1795602328-77b09e-2"
+    }
+   ],
    "fehler_spiel": []
   },
   "ThreatSentinel": {
@@ -233,42 +228,12 @@
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.392",
+   "version": "0.65.396",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "ALLES-1",
-   "name": "Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1)",
-   "detail": "ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 1042 OK, 1 FEHLER, 34 übersprungen, Sandbox OK",
-   "bericht": "AHSentinel-1795555288-744ede-5"
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "test",
-   "version": "0.65.392",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "ALLES-2",
-   "name": "Oberflächen-Prüfung (alle Reiter)",
-   "detail": "ergebnis:   2. Oberflächen-Prüfung (alle Reiter): FEHLER – 6 OK, 1 FEHLER, 0 übersprungen, Sandbox OK",
-   "bericht": "AHSentinel-1795555288-744ede-5"
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "test",
-   "version": "0.65.392",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "ALLES-4",
-   "name": "Sniper-Testroutine S1–S13 (ohne echten Kauf)",
-   "detail": "ergebnis:   4. Sniper-Testroutine S1–S13 (ohne echten Kauf): FEHLER – 28 OK, 1 FEHLER, 3 übersprungen, Sandbox OK",
-   "bericht": "AHSentinel-1795555288-744ede-5"
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "test",
-   "version": "0.65.392",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "ALLES-6",
-   "name": "Prüfungen am offenen Auktionshaus",
-   "detail": "ergebnis:   6. Prüfungen am offenen Auktionshaus: FEHLER – 66 OK, 2 FEHLER, 3 übersprungen, Sandbox OK",
-   "bericht": "AHSentinel-1795555288-744ede-5"
+   "id": "T750",
+   "name": "UI-CLEAN1 Fenster/Reiter/Unterreiter/Ansichten/Fenster/Dialoge (Klassisch/Modern, 100 %/130 %): nichts überlappt, nicht…",
+   "detail": "ergebnis: 0 Befunde · dazu 89 gekürzt mit Tooltip (kein FEHLER) (AH offen · Klassisch+Modern · 100+130 % · deDE · geprüft 164 von 166 Ansichten) · je Art: gekürzt (Tooltip) 89 · je Ansicht: Fenster > Preisverlauf: 44 · Markt > Markt > Überfüllt: 36 · Übersicht > overview: 6 · Markt > Markt > L… | erwartet: 0 Befunde · geprüft m von m",
+   "bericht": "AHSentinel-1795593870-d2b942-1"
   },
   {
    "addon": "AHSentinel",
@@ -287,6 +252,20 @@
   {
    "addon": "LevelPilot",
    "art": "spiel",
+   "wo": "Fire PLAN_CHANGED",
+   "msg": "attempt to yield across metamethod/C-call boundary",
+   "anzahl": 5,
+   "versionen": [
+    "3.13.13"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:471: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:236: in function 'Fire'\n[Interface/AddOns/LevelPilot/Planner.lua]:2523: in function <Interface/AddOns/LevelPilot/Planner.lua:2322>\n[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:487: in function 'PCall'\n..."
+  },
+  {
+   "addon": "LevelPilot",
+   "art": "spiel",
    "wo": "Comm-Empfang",
    "msg": "Interface/AddOns/LevelPilot/Comm.lua:488: attempt to index field 'Caves' (a nil value)",
    "anzahl": 1,
@@ -297,6 +276,20 @@
     "forever 1.60.1 (Interface 16001)"
    ],
    "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:318: in function 'Report'\n[Interface/AddOns/LevelPilot/Comm.lua]:595: in function <Interface/AddOns/LevelPilot/Comm.lua:590>\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelSync.lua]:603: in function <Interface/AddOns/AHSentinel/GoldSentinelSync.lua:557>\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelSync.lua]:750: in function <Interface/AddOns/AHSentinel/GoldSentinelSync.lua:748>\n"
+  },
+  {
+   "addon": "LevelPilot",
+   "art": "spiel",
+   "wo": "Testroutine",
+   "msg": "Zeitlimit 1800 s",
+   "anzahl": 1,
+   "versionen": [
+    "3.13.13"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:471: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:511: in function <Interface/AddOns/LevelPilot/Core.lua:506>\n[tail call]: ?\n[Interface/AddOns/LevelPilot/TestRoutine.lua]:12130: in function 'Abort'\n[Interface/AddOns/LevelPilot/TestRoutine.lua]:12398: in function <Interface/AddOns/LevelPilot/TestRoutine.lua:12392>\n..."
   },
   {
    "addon": "ProfessionSentinel",
@@ -326,29 +319,25 @@
    "stack": "[C]: in function 'pcall'\n[Interface/AddOns/ProfessionSentinel/GoldSentinelTest.lua]:407: in function <...rface/AddOns/ProfessionSentinel/GoldSentinelTest.lua:400>\n[C]: in function 'resume'\n[Interface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua]:470: in function <...rface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua:453>\n[C]: in function 'pcall'\n[Interface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua]:524: in function 'Tick'\n[Interface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua]:541: in function <...rface/AddOns/ProfessionSentinel/GoldSentinelTakt.lua:541>\n"
   },
   {
-   "addon": "ProfessionSentinel",
-   "art": "spiel",
-   "wo": "AHSentinel:On",
-   "msg": "Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:161: attempt to concatenate local 'line' (a nil value)",
-   "anzahl": 5,
-   "versionen": [
-    "0.9.67"
-   ],
-   "clients": [
-    "forever 1.60.1 (Interface 16001)"
-   ],
-   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/ProfessionSentinel/Core.lua]:180: in function 'CountError'\n[Interface/AddOns/ProfessionSentinel/Alerts.lua]:144: in function <Interface/AddOns/ProfessionSentinel/Alerts.lua:140>\n"
+   "addon": "RaidMaster",
+   "art": "test",
+   "version": "3.0.48",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T156",
+   "name": "Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern",
+   "detail": "ergebnis: dkp: Hauptfenster überdeckt CharacterFrame; auction: Hauptfenster überdeckt CharacterFrame; loot: Hauptfenster überdeckt CharacterFrame; log: Hauptfenster überdeckt CharacterFrame; raid: Hauptfenster überdeckt CharacterFrame; signup: Hauptfenster überdeckt CharacterFrame; pug: Hauptfenster üb… | erwartet: keine",
+   "bericht": "RaidMaster-1795602328-77b09e-2"
   }
  ],
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 242,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.392-efd9905e299e.txt"
+    "anzahl": 246,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.398-b30ba2856e46.txt"
    },
    "BuffSentinel": {
-    "anzahl": 171,
-    "neueste": "testberichte/diagnose/BuffSentinel/0.9.64-e2aa7de4946f.txt"
+    "anzahl": 180,
+    "neueste": "testberichte/diagnose/BuffSentinel/0.9.65-e215fe01268a.txt"
    },
    "GSMesstest": {
     "anzahl": 25,
@@ -359,26 +348,26 @@
     "neueste": "testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt"
    },
    "GuildSentinel": {
-    "anzahl": 285,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.62-d627ee0b1b4a.txt"
+    "anzahl": 294,
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.63-e590f3633d14.txt"
    },
    "LevelPilot": {
-    "anzahl": 177,
-    "neueste": "testberichte/diagnose/LevelPilot/3.13.13-fe03622d779a.txt"
+    "anzahl": 185,
+    "neueste": "testberichte/diagnose/LevelPilot/3.13.14-686997589f89.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 262,
+    "anzahl": 267,
     "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.83-ca7af6f24af4.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 240,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.30-f368b38185c8.txt"
+    "anzahl": 244,
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.30-fd96cf472bbb.txt"
    }
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 344,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1795553534-2a9cbf.json"
+    "anzahl": 356,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1795606483-37bf2c.json"
    }
   }
  }

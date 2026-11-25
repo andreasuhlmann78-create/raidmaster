@@ -58,7 +58,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Das Brachland (1413)
 
-- Wegstücke 3855, Knoten 1533, zusammenhängende Teile 27
+- Wegstücke 3865, Knoten 1533, zusammenhängende Teile 27
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 1465 Knoten, Bereich 34–69 / 3–95
   - Teil 2: 12 Knoten, Bereich 52–54 / 52–54
@@ -299,7 +299,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Marschen von Dustwallow (1445)
 
-- Wegstücke 75, Knoten 423, zusammenhängende Teile 1
+- Wegstücke 121, Knoten 583, zusammenhängende Teile 1
 - **Widerspruch:** gesperrt (FEST) bei 61.4,39.1, aber 6× gelaufen
 - Gesperrte Wegstücke: 1
 
@@ -342,9 +342,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Thunder Bluff (1456)
 
-- Wegstücke 973, Knoten 792, zusammenhängende Teile 8
+- Wegstücke 1000, Knoten 797, zusammenhängende Teile 8
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 744 Knoten, Bereich 23–78 / 12–87
+  - Teil 1: 749 Knoten, Bereich 23–78 / 12–87
   - Teil 2: 16 Knoten, Bereich 11–21 / 17–35
   - Teil 3: 12 Knoten, Bereich 11–17 / 24–35
   - Teil 4: 8 Knoten, Bereich 18–24 / 3–6
@@ -403,16 +403,14 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Flusslande (2548)
 
-- Wegstücke 1620, Knoten 1678, zusammenhängende Teile 15
+- Wegstücke 2340, Knoten 2281, zusammenhängende Teile 6
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 1585 Knoten, Bereich 16–88 / 30–97
-  - Teil 2: 26 Knoten, Bereich 51–56 / 46–53
-  - Teil 3: 17 Knoten, Bereich 44–47 / 66–69
-  - Teil 4: 7 Knoten, Bereich 48–51 / 69–70
-  - Teil 5: 7 Knoten, Bereich 43–44 / 63–66
-  - Teil 6: 7 Knoten, Bereich 44–47 / 57–61
-  - Teil 7: 6 Knoten, Bereich 58–58 / 32–33
-  - Teil 8: 5 Knoten, Bereich 60–61 / 76–78
+  - Teil 1: 2263 Knoten, Bereich 16–88 / 15–97
+  - Teil 2: 6 Knoten, Bereich 58–58 / 32–33
+  - Teil 3: 5 Knoten, Bereich 60–61 / 76–78
+  - Teil 4: 3 Knoten, Bereich 61–62 / 35–35
+  - Teil 5: 2 Knoten, Bereich 59–59 / 30–31
+  - Teil 6: 2 Knoten, Bereich 85–85 / 72–72
 
 ## Shen'dralas (2652)
 
@@ -906,3 +904,14 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 | 260566 | 2548 | kein Ort im Datenpaket -> 78.6,53.6 | - | fehlt im Datenpaket |
 | 3159 | 1411 | 40.5,68.0 -> 40.6,68.0 | 0.1 % | klein |
 | 5887 | 1411 | 42.4,69.2 -> 42.5,69.1 | 0.1 % | klein |
+| 256710 | 2548 | kein Ort im Datenpaket -> 59.5,44.0 | - | fehlt im Datenpaket |
+| 259158 | 2548 | kein Ort im Datenpaket -> 47.4,51.3 | - | fehlt im Datenpaket |
+| 260931 | 2548 | kein Ort im Datenpaket -> 50.0,46.9 | - | fehlt im Datenpaket |
+| 261208 | 2548 | kein Ort im Datenpaket -> 49.2,46.8 | - | fehlt im Datenpaket |
+| 6491 | 2548 | kein Ort im Datenpaket -> 60.8,45.8 | - | fehlt im Datenpaket |
+| 16227 | 1413 | 63.1,37.2 -> 63.1,37.1 | 0.1 % | klein |
+| 255829 | 2548 | kein Ort im Datenpaket -> 64.6,14.8 | - | fehlt im Datenpaket |
+| 258048 | 2548 | kein Ort im Datenpaket -> 73.3,24.7 | - | fehlt im Datenpaket |
+| 258570 | 2548 | kein Ort im Datenpaket -> 33.4,38.0 | - | fehlt im Datenpaket |
+| 260993 | 2548 | kein Ort im Datenpaket -> 27.4,37.0 | - | fehlt im Datenpaket |
+| 260995 | 2548 | kein Ort im Datenpaket -> 27.0,33.2 | - | fehlt im Datenpaket |

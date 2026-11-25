@@ -1,0 +1,239 @@
+AHSentinel-Protokoll v0.65.398 · 25.11. 12:12:30
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  25.11. 12:12:15 L10 PRIEST v0.65.398
+  25.11. 11:32:18 L10 PRIEST v0.65.398
+  25.11. 11:30:48 L10 PRIEST v0.65.398
+  25.11. 11:26:09 L30 WARRIOR v0.65.398
+  25.11. 11:18:14 L30 WARRIOR v0.65.398
+  25.11. 10:08:03 L10 PRIEST v0.65.397
+  25.11. 09:09:38 L10 PRIEST v0.65.396
+  25.11. 09:00:43 L10 PRIEST v0.65.396
+  25.11. 08:59:08 L10 PRIEST v0.65.396
+  25.11. 08:56:48 L10 PRIEST v0.65.396
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 8 Min., 7532 Items, Preis-Sync an
+  SYNC GoldSentinelSync 3 · Wege: keiner · Mitspieler (1 Std.): AHSentinel 0, BuffSentinel 0, GoldSentinelMarkt 0, GuildSentinel 1, LevelPilot 1, LevelPilotG 0, ThreatSentinel 0
+  SYNC gesendet 12 · empfangen 3 · verworfen: 0 · Warteschlange 2 · Kanal verweigert 0
+  NETZ an · bekannt 6 (mit Sync 2: 6, pausiert 0) · gesendet 0 · weitergegeben 0 · offline 0 · Listen 0 · Warteschlange 2 · gespeichert ja · im Test angehalten 0
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Sniper-Takt (SN-T2): 298 Suchen · Abstand Median 0.74 s, Min 0.70 s, Max 498.22 s
+    Zeitraum 22.11. 09:14–12:11 · minimiert/Hintergrund (unter 15 Bilder/s): 0 % (0 von 58)
+    Server nicht bereit: Median 0.50 s, Min 0.00 s, Max 46.80 s je Suche
+    eigene Bremse/Abstand: Median 0.00 s, Min 0.00 s, Max 2.00 s je Suche
+    Antwort des Servers: Median 0.20 s, Min 0.10 s, Max 0.30 s je Suche
+    Treffer-Halt: Median 0.00 s, Min 0.00 s, Max 6.77 s je Suche
+    andere Arbeit: Median 0.00 s, Min 0.00 s, Max 449.32 s je Suche
+    bereit (Tick): Median 0.00 s, Min 0.00 s, Max 26.24 s je Suche
+    Suchen je Ziel: i:11986 69 (23 %) · i:249428 15 (5 %) · i:5966 105 (35 %) · i:6040 10 (3 %) · i:7058 86 (29 %) · i:7911 2 (1 %) · w:12037 2 (1 %) · w:12803 1 (0 %) · w:15415 1 (0 %) · w:249391 2 (1 %) · w:2838 2 (1 %) · w:3404 1 (0 %) · w:4304 3 (1 %) · w:5471 1 (0 %)
+  Sync-Abweichungen (S6): 87 Fälle, Markt-Tag fremd 0 (alte Version / anderer Markt)
+    7 Tage je Ursache (vollständig): stapel 1, bewegt 4, unbekannt 82
+    Stapel- statt Stückpreis: 1 – Item 15733 eigen 3499/fremd 49999 (Alter 111/4 Min., g, Voll, Menge 17)
+    Markt hat sich bewegt (Zeitabstand > 6 Std.): 4 – Item 260793 eigen 650/fremd 1500 (Alter 1363/3 Min., g, Voll, Menge 118); Item 2980 eigen 895/fremd 1800 (Alter 1364/4 Min., g, Voll, Menge 8); Item 5363 eigen 400/fremd 9999 (Alter 1364/4 Min., g, Voll, Menge 1); Item 6304 eigen 100/fremd 1000 (Alter 1364/4 Min., g, Voll, Menge 1)
+    unbekannt: 82 – Item 2589 eigen 41/fremd 19 (Alter 108/0 Min., g, Voll, Menge 25480); Item 3464 eigen 25/fremd 10 (Alter 108/0 Min., g, Voll, Menge 10784); Item 17056 eigen 1695/fremd 100 (Alter 108/0 Min., g, Voll, Menge 5474); Item 2862 eigen 24/fremd 8 (Alter 108/0 Min., g, Voll, Menge 5001); Item 249391 eigen 2754/fremd 900 (Alter 108/0 Min., g, Voll, Menge 4789)
+  Einstellungen geändert: cmdHint=true, fastScan=true, helpSeen=true, learnExplore=false, marketExpert=false, minimapAngle=199, priceGuard=20, psHintHidden=true, sniperSignal=true, theme=modern, tooltipDEDetail=true, vendorButton=false, vendorFlipMin=500, vsBudget=2
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0
+
+== Einträge (200, neueste zuerst)
+[25.11. 12:12:27] HAENDLERPREIS Item 6950: Tabelle 30 -> Spiel 0
+[25.11. 12:12:25] PD7 PD7 geladen: 20704 Items, 578989 Einträge geprüft, 0 Fehler · Zustand active
+[25.11. 12:12:20] SYNC Weg=GUILD
+[25.11. 12:12:17] ABSATZ-UNPLAUSIBEL Item 255645 · 79.5/Tag · Quelle geschätzt
+[25.11. 12:12:17] ABSATZ-UNPLAUSIBEL Item 12205 · 689.0/Tag · Quelle geschätzt
+[25.11. 12:12:17] ABSATZ-UNPLAUSIBEL Item 4322 · 49.2/Tag · Quelle gemessen
+[25.11. 12:12:17] ABSATZ-UNPLAUSIBEL Item 5134 · 239.9/Tag · Quelle geschätzt
+[25.11. 12:12:17] ABSATZ-UNPLAUSIBEL Item 11225 · 66.1/Tag · Quelle gemessen
+[25.11. 12:12:17] ABSATZ-UNPLAUSIBEL Item 20075 · 50.8/Tag · Quelle gemessen
+[25.11. 12:12:17] ABSATZ-UNPLAUSIBEL Item 6242 · 54.8/Tag · Quelle gemessen
+[25.11. 12:12:16] ABSATZ-UNPLAUSIBEL Item 7378 · 52.9/Tag · Quelle geschätzt
+[25.11. 12:12:16] ABSATZ-UNPLAUSIBEL Item 247789 · 44.4/Tag · Quelle geschätzt
+[25.11. 12:12:16] ABSATZ-UNPLAUSIBEL Item 279968 · 1322.7/Tag · Quelle gemessen
+[25.11. 12:12:16] ABSATZ-UNPLAUSIBEL Item 264090 · 58.2/Tag · Quelle gemessen
+[25.11. 12:12:16] ABSATZ-UNPLAUSIBEL Item 264068 · 31.4/Tag · Quelle geschätzt
+[25.11. 12:12:16] ABSATZ-UNPLAUSIBEL Item 4385 · 21.0/Tag · Quelle geschätzt
+[25.11. 12:12:01] WAECHTER-HUERDEN ×5 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 265 mit belastbarem Marktwert · 9 unter 70 % des Marktwerts · 9 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[25.11. 12:11:44] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 265 mit belastbarem Marktwert · 10 unter 70 % des Marktwerts · 9 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 2 unter 50 %
+[25.11. 12:11:43] SNIPER-SUCHE Ziel 12803 · Angebote 29 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[25.11. 12:11:42] SNIPER-TAKT Abstand 99.89 s · Server nicht bereit 10.10 s, Antwort des Servers 0.20 s, andere Arbeit 89.59 s · andere Arbeit: Wächter · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[25.11. 12:11:33] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 265 mit belastbarem Marktwert · 10 unter 70 % des Marktwerts · 10 ohne Preissturz/Flutung · 2 unter der Flip-Grenze (Mindestgewinn) · 2 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[25.11. 12:11:31] LANGSAM Empfänger Watcher.lua:973 von BROWSE_RESULTS · 25 ms
+[25.11. 12:11:29] LANGSAM Empfänger Watcher.lua:973 von BROWSE_RESULTS · 19 ms
+[25.11. 12:11:21] WAECHTER-HUERDEN ×8 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 265 mit belastbarem Marktwert · 9 unter 70 % des Marktwerts · 9 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[25.11. 12:10:37] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 265 mit belastbarem Marktwert · 10 unter 70 % des Marktwerts · 10 ohne Preissturz/Flutung · 2 unter der Flip-Grenze (Mindestgewinn) · 2 im Tagesbudget Weiterverkauf · 1 Marktwert ab Mindestwert · 1 neu (nicht gerade abgelehnt) · 2 unter 50 %
+[25.11. 12:10:34] WAECHTER-HUERDEN ×8 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 265 mit belastbarem Marktwert · 9 unter 70 % des Marktwerts · 9 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[25.11. 12:10:03] SNIPER-TAKT Abstand 36.93 s · Server nicht bereit 3.50 s, eigene Bremse/Abstand 0.10 s, Antwort des Servers 0.20 s, andere Arbeit 33.13 s · andere Arbeit: Wächter · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[25.11. 12:09:54] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 265 mit belastbarem Marktwert · 9 unter 70 % des Marktwerts · 9 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[25.11. 12:09:47] LANGSAM Empfänger Watcher.lua:973 von BROWSE_RESULTS · 18 ms
+[25.11. 12:09:46] LANGSAM Empfänger Watcher.lua:976 von QUERY_READY · 25 ms
+[25.11. 12:09:43] WAECHTER-HUERDEN ×3 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 265 mit belastbarem Marktwert · 10 unter 70 % des Marktwerts · 10 ohne Preissturz/Flutung · 2 unter der Flip-Grenze (Mindestgewinn) · 2 im Tagesbudget Weiterverkauf · 1 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[25.11. 12:09:34] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 265 mit belastbarem Marktwert · 10 unter 70 % des Marktwerts · 10 ohne Preissturz/Flutung · 2 unter der Flip-Grenze (Mindestgewinn) · 2 im Tagesbudget Weiterverkauf · 1 Marktwert ab Mindestwert · 1 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[25.11. 12:09:30] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 265 mit belastbarem Marktwert · 10 unter 70 % des Marktwerts · 10 ohne Preissturz/Flutung · 2 unter der Flip-Grenze (Mindestgewinn) · 2 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 2 unter 50 %
+[25.11. 12:09:26] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 265 mit belastbarem Marktwert · 9 unter 70 % des Marktwerts · 9 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[25.11. 12:09:26] SNIPER-SUCHE Ziel 249391 · Angebote 64 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[25.11. 12:09:26] SNIPER-TAKT Abstand 346.26 s · Server nicht bereit 12.83 s, eigene Bremse/Abstand 0.10 s, Antwort des Servers 0.10 s, andere Arbeit 333.23 s · andere Arbeit: Wächter · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[25.11. 12:09:19] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 265 mit belastbarem Marktwert · 10 unter 70 % des Marktwerts · 10 ohne Preissturz/Flutung · 2 unter der Flip-Grenze (Mindestgewinn) · 2 im Tagesbudget Weiterverkauf · 1 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[25.11. 12:09:10] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 265 mit belastbarem Marktwert · 11 unter 70 % des Marktwerts · 11 ohne Preissturz/Flutung · 3 unter der Flip-Grenze (Mindestgewinn) · 3 im Tagesbudget Weiterverkauf · 1 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 2 unter 50 %
+[25.11. 12:09:02] WAECHTER-HUERDEN ×4 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 265 mit belastbarem Marktwert · 9 unter 70 % des Marktwerts · 9 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[25.11. 12:08:31] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 265 mit belastbarem Marktwert · 10 unter 70 % des Marktwerts · 10 ohne Preissturz/Flutung · 2 unter der Flip-Grenze (Mindestgewinn) · 2 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 2 unter 50 %
+[25.11. 12:08:23] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 265 mit belastbarem Marktwert · 10 unter 70 % des Marktwerts · 10 ohne Preissturz/Flutung · 2 unter der Flip-Grenze (Mindestgewinn) · 2 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[25.11. 12:08:18] LANGSAM Empfänger Watcher.lua:973 von BROWSE_RESULTS · 29 ms
+[25.11. 12:08:16] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 265 mit belastbarem Marktwert · 9 unter 70 % des Marktwerts · 9 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[25.11. 12:08:08] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 265 mit belastbarem Marktwert · 10 unter 70 % des Marktwerts · 10 ohne Preissturz/Flutung · 2 unter der Flip-Grenze (Mindestgewinn) · 2 im Tagesbudget Weiterverkauf · 1 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[25.11. 12:08:00] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 265 mit belastbarem Marktwert · 10 unter 70 % des Marktwerts · 10 ohne Preissturz/Flutung · 2 unter der Flip-Grenze (Mindestgewinn) · 2 im Tagesbudget Weiterverkauf · 1 Marktwert ab Mindestwert · 1 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[25.11. 12:07:52] WAECHTER-HUERDEN ×2 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 265 mit belastbarem Marktwert · 9 unter 70 % des Marktwerts · 9 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[25.11. 12:07:40] LANGSAM Empfänger Watcher.lua:973 von BROWSE_RESULTS · 37 ms
+[25.11. 12:07:37] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 265 mit belastbarem Marktwert · 9 unter 70 % des Marktwerts · 9 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[25.11. 12:07:29] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 265 mit belastbarem Marktwert · 10 unter 70 % des Marktwerts · 10 ohne Preissturz/Flutung · 2 unter der Flip-Grenze (Mindestgewinn) · 2 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 2 unter 50 %
+[25.11. 12:07:21] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 265 mit belastbarem Marktwert · 9 unter 70 % des Marktwerts · 9 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[25.11. 12:07:13] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 265 mit belastbarem Marktwert · 10 unter 70 % des Marktwerts · 10 ohne Preissturz/Flutung · 2 unter der Flip-Grenze (Mindestgewinn) · 2 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 2 unter 50 %
+[25.11. 12:07:09] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 265 mit belastbarem Marktwert · 9 unter 70 % des Marktwerts · 9 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[25.11. 12:06:53] LANGSAM Empfänger Watcher.lua:973 von BROWSE_RESULTS · 22 ms
+[25.11. 12:06:42] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 265 mit belastbarem Marktwert · 8 unter 70 % des Marktwerts · 8 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[25.11. 12:06:35] WAECHTER-HUERDEN 275 Angebote · 267 Waren (Handwerkswaren & Co., keine Ausrüstung) · 267 mit Marktwert · 264 mit belastbarem Marktwert · 8 unter 70 % des Marktwerts · 8 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[25.11. 12:06:31] LANGSAM Empfänger Watcher.lua:973 von BROWSE_RESULTS · 43 ms
+[25.11. 12:06:31] LANGSAM Empfänger Watcher.lua:973 von BROWSE_RESULTS · 16 ms
+[25.11. 12:06:27] WAECHTER-HUERDEN ×2 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 265 mit belastbarem Marktwert · 9 unter 70 % des Marktwerts · 9 ohne Preissturz/Flutung · 2 unter der Flip-Grenze (Mindestgewinn) · 2 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[25.11. 12:06:18] PREISPRUEFUNG Item 8244 · Schlüssel allgemein (Stufe 1, Suffix 0, Haustier 0) · 5 Angebote · Scan 1 Stück · 0.1 s · Antwort
+[25.11. 12:06:10] PREISPRUEFUNG Item 6293 · Schlüssel allgemein (Stufe 1, Suffix 0, Haustier 0) · 2 Angebote · Scan 29 Stück · 0.1 s · Antwort
+[25.11. 12:06:10] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 265 mit belastbarem Marktwert · 9 unter 70 % des Marktwerts · 9 ohne Preissturz/Flutung · 2 unter der Flip-Grenze (Mindestgewinn) · 2 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[25.11. 12:06:09] PREISPRUEFUNG Item 13304 · Schlüssel allgemein (Stufe 1, Suffix 0, Haustier 0) · 15 Angebote · Scan 58 Stück · 0.1 s · Antwort
+[25.11. 12:06:08] PREISPRUEFUNG Item 3175 · Schlüssel allgemein (Stufe 1, Suffix 0, Haustier 0) · 1 Angebote · Scan 22 Stück · 0.1 s · Antwort
+[25.11. 12:06:01] PREISPRUEFUNG Item 21151 · Schlüssel allgemein (Stufe 1, Suffix 0, Haustier 0) · 65 Angebote · Scan 1971 Stück · 0.1 s · Antwort
+[25.11. 12:06:00] WAECHTER-HUERDEN 275 Angebote · 267 Waren (Handwerkswaren & Co., keine Ausrüstung) · 267 mit Marktwert · 264 mit belastbarem Marktwert · 8 unter 70 % des Marktwerts · 8 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[25.11. 12:06:00] PREISPRUEFUNG Item 11415 · Schlüssel allgemein+stufe0 (Stufe 0, Suffix 0, Haustier 0) · 0 Angebote · Scan 11 Stück · 8.0 s · Zeitlimit
+[25.11. 12:05:57] VOLLSCAN Bleibender Speicher nach dem Scan 598274 KB (2 Runden, 100 Schritte, 1.9 s, längster Schritt 21 ms bei 4096)
+[25.11. 12:05:56] LANGSAM Hintergrund-Aufgabe vollscan:boden · 0 Schritte · längster Schritt 21 ms bis Vollscan.lua:579 · mit Speicherbereinigung · 21 ms
+[25.11. 12:05:55] LANGSAM Hintergrund-Aufgabe vollscan:boden · 0 Schritte · längster Schritt 18 ms bis Vollscan.lua:579 · mit Speicherbereinigung · 20 ms
+[25.11. 12:05:55] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 265 mit belastbarem Marktwert · 8 unter 70 % des Marktwerts · 8 ohne Preissturz/Flutung · 1 unter der Flip-Grenze (Mindestgewinn) · 1 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[25.11. 12:05:52] ABSATZ-UNPLAUSIBEL Item 255645 · 79.5/Tag · Quelle geschätzt
+[25.11. 12:05:52] ABSATZ-UNPLAUSIBEL Item 12205 · 689.0/Tag · Quelle geschätzt
+[25.11. 12:05:52] ABSATZ-UNPLAUSIBEL Item 5134 · 239.9/Tag · Quelle geschätzt
+[25.11. 12:05:52] ABSATZ-UNPLAUSIBEL Item 20075 · 50.8/Tag · Quelle gemessen
+[25.11. 12:05:52] ABSATZ-UNPLAUSIBEL Item 7378 · 52.9/Tag · Quelle geschätzt
+[25.11. 12:05:52] ABSATZ-UNPLAUSIBEL Item 264090 · 58.2/Tag · Quelle gemessen
+[25.11. 12:05:52] ABSATZ-UNPLAUSIBEL Item 264068 · 31.4/Tag · Quelle geschätzt
+[25.11. 12:05:52] MATERIAL-PREIS Item 11176 · Quelle ah · Alter 0 Min. · sicher
+[25.11. 12:05:52] MATERIAL-PREIS Item 16202 · Quelle ah · Alter 0 Min. · sicher
+[25.11. 12:05:52] MATERIAL-PREIS Item 11175 · Quelle ah · Alter 0 Min. · sicher
+[25.11. 12:05:52] MATERIAL-PREIS Item 10978 · Quelle ah · Alter 0 Min. · sicher
+[25.11. 12:05:52] MATERIAL-PREIS Item 10939 · Quelle ah · Alter 0 Min. · sicher
+[25.11. 12:05:52] MATERIAL-PREIS Item 11177 · Quelle ah · Alter 0 Min. · sicher
+[25.11. 12:05:52] MATERIAL-PREIS Item 16203 · Quelle ah · Alter 0 Min. · sicher
+[25.11. 12:05:52] MATERIAL-PREIS Item 14344 · Quelle ah · Alter 0 Min. · sicher
+[25.11. 12:05:52] MATERIAL-PREIS Item 10938 · Quelle ah · Alter 0 Min. · sicher
+[25.11. 12:05:52] MATERIAL-PREIS Item 11178 · Quelle ah · Alter 0 Min. · sicher
+[25.11. 12:05:52] MATERIAL-PREIS Item 11139 · Quelle ah · Alter 0 Min. · sicher
+[25.11. 12:05:52] MATERIAL-PREIS Item 11084 · Quelle ah · Alter 0 Min. · sicher
+[25.11. 12:05:52] MATERIAL-PREIS Item 11138 · Quelle ah · Alter 0 Min. · sicher
+[25.11. 12:05:52] MATERIAL-PREIS Item 20725 · Quelle ah · Alter 0 Min. · sicher
+[25.11. 12:05:52] MATERIAL-PREIS Item 10998 · Quelle ah · Alter 0 Min. · sicher
+[25.11. 12:05:52] MATERIAL-PREIS Item 11083 · Quelle ah · Alter 0 Min. · sicher
+[25.11. 12:05:52] MATERIAL-PREIS Item 11137 · Quelle ah · Alter 0 Min. · sicher
+[25.11. 12:05:52] MATERIAL-PREIS Item 11082 · Quelle ah · Alter 0 Min. · sicher
+[25.11. 12:05:52] MATERIAL-PREIS Item 16204 · Quelle ah · Alter 0 Min. · sicher
+[25.11. 12:05:52] MATERIAL-PREIS Item 11174 · Quelle ah · Alter 0 Min. · sicher
+[25.11. 12:05:52] MATERIAL-PREIS Item 11135 · Quelle ah · Alter 0 Min. · sicher
+[25.11. 12:05:52] MATERIAL-PREIS Item 14343 · Quelle ah · Alter 0 Min. · sicher
+[25.11. 12:05:52] MATERIAL-PREIS Item 11134 · Quelle ah · Alter 0 Min. · sicher
+[25.11. 12:05:52] MATERIAL-PREIS Item 10940 · Quelle ah · Alter 0 Min. · sicher
+[25.11. 12:05:51] LANGSAM Empfänger Watcher.lua:973 von BROWSE_RESULTS · 21 ms
+[25.11. 12:05:51] LANGSAM Empfänger Watcher.lua:973 von BROWSE_RESULTS · 37 ms
+[25.11. 12:05:50] HAENDLERPREIS Item 8926: Tabelle 75 -> Spiel 0
+[25.11. 12:05:48] HAENDLERPREIS Item 8985: Tabelle 150 -> Spiel 0
+[25.11. 12:05:47] VOLLSCAN Messung 230451 Auktionen · 6952 Items · Lücke 81 ms (Nachlauf: Speicherbereinigung nein · Ereignis keins (> 16 ms) · Aufgaben 6 ms (cache:itemlist, 0 Schritte) · Bild: eigene Arbeit 54 ms (Aufgaben 6, davon Lesen beim Server 0.0, Ereignisse 0 in 56 Aufrufen, Skripte/Zeitgeber 48) · Rest 27 ms (Spiel/andere Addons) · Item-Antworten 28 · Speicher 716712 -> 718457 KB (+1746, davon eigener 1624 KB) · langsamstes eigenes Skript Zeitgeber (Stelle nicht gemerkt) 48 ms · danach bereinigt 0 KB) · Speicher 753001->706702 KB (tiefster 593932) · GC 13 · Warten auf Server 15030/62; Ereignis-Aufruf 0/3; Einlesen 67090/57; Verdichtung 492/40; Verfolgung V4 11663/39; Preisverlauf+Neuaufbau 2742/63; Nachlauf 0/81 · neu je Schritt Preisverlauf+Neuaufbau 40746 · Einlesen 35000 · Verdichtung 25790 · Nachlauf 20708 · Warten auf Server 19057 (13 Bilder mit Bereinigung nicht zählbar) · davon eigener neuer Speicher 21824 KB · je Aufgabe fullscan 16583 · cache:itemlist 337 · ui-refresh 3 · ausserhalb von Aufgaben 4901 · je Schritt Nachlauf 4938 · Einlesen 4507 · Verdichtung 4358 · Verfolgung V4 4305 · Preisverlauf+Neuaufbau 3650, 40 eigene Aufrufe mit Bereinigung nicht zählbar · Takt: 2842 Bilder · längstes 9.0 ms (fullscan bis Ende fullscan) · über 5/16/40 ms: 90/0/0 · Abgabe nicht möglich 0 · gescheitert 0
+[25.11. 12:05:46] PREIS-ALT nach Scan · letzter Scan Vollscan · Waren im Vollscan 1176 · Hauptmaterialien 11083: 0.0 Std., 10940: 0.0 Std., 11082: 0.0 Std. · 0 frisch geholt
+[25.11. 12:05:45] ABSATZ-UNPLAUSIBEL Item 247789 · 44.4/Tag · Quelle geschätzt
+[25.11. 12:05:44] PREISPRUEFUNG Item 263509 · Schlüssel allgemein (Stufe 15, Suffix 0, Haustier 0) · 1 Angebote · Scan 4 Stück · 0.1 s · Antwort
+[25.11. 12:05:44] ITEMINFO neue Item-Anfragen 1030 (zurückgestellt 16096) · je Aufgabe: cache:itemlist 203, cache:today:10 200, cache:warm 19, cache:warm-today 200, core:realcheck 196, names 7, watcher:de-check 205
+[25.11. 12:05:43] PREISPRUEFUNG Item 13306 · Schlüssel allgemein (Stufe 1, Suffix 0, Haustier 0) · 11 Angebote · Scan 37 Stück · 0.1 s · Antwort
+[25.11. 12:05:42] PREISPRUEFUNG Item 7096 · Schlüssel allgemein (Stufe 1, Suffix 0, Haustier 0) · 2 Angebote · Scan 14 Stück · 0.1 s · Antwort
+[25.11. 12:05:29] VOLLSCAN M1d 230451 Auktionen gelesen (230446 gültig) · 2345 ms in 2069 Portionen · längster Frame 1.8 ms · 6952 Items
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266141162 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266141144 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266141088 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266141039 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266141009 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266140936 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266140891 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266140706 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266140672 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266140563 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266140499 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266140465 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266140421 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266140353 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266140288 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266140260 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266140214 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266140070 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266140026 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266139958 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266139959 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266139878 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266139867 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266139859 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266139806 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266139688 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266139663 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266139201 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266139187 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266139152 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266138935 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266138889 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266138702 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266138700 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266138654 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266138634 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266138441 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266138358 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266138305 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266138202 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266138142 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266138135 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266138123 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266138059 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266137940 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266137882 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266137813 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266137812 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266137815 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266137806 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266137750 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266137743 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266137661 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266137592 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266137530 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266137518 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266137464 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266137427 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266137406 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266137382 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266137355 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266137336 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266137332 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266137302 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266137272 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266137254 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266137223 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266137216 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266137154 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266137090 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266137034 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266136958 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266136924 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266136914 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266136907 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266136518 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266136477 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266136415 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266136409 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266136191 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266136169 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266136164 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266136149 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266136131 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 12:04:51] ABBRECHEN AUCTION_CANCELED auctionID 266136050 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 18:58:46] FEHLER Märkte vereinen: Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:5416: attempt to compare two table values
+[21.11. 18:38:52] FEHLER Märkte vereinen: Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:5416: attempt to compare number with table

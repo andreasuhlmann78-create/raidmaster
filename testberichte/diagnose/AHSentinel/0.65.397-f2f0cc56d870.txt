@@ -1,0 +1,239 @@
+AHSentinel-Protokoll v0.65.397 · 25.11. 10:08:06
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  25.11. 10:08:03 L10 PRIEST v0.65.397
+  25.11. 09:09:38 L10 PRIEST v0.65.396
+  25.11. 09:00:43 L10 PRIEST v0.65.396
+  25.11. 08:59:08 L10 PRIEST v0.65.396
+  25.11. 08:56:48 L10 PRIEST v0.65.396
+  25.11. 08:54:54 L10 PRIEST v0.65.396
+  25.11. 08:53:44 L10 PRIEST v0.65.396
+  24.11. 21:50:45 L10 PRIEST v0.65.392
+  24.11. 21:49:24 L10 PRIEST v0.65.392
+  24.11. 21:49:13 L10 PRIEST v0.65.392
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 59 Min., 7530 Items, Preis-Sync an
+  SYNC GoldSentinelSync 3 · Wege: keiner · Mitspieler (1 Std.): AHSentinel 0, BuffSentinel 0, GoldSentinelMarkt 0, GuildSentinel 0, LevelPilot 1, LevelPilotG 0, ThreatSentinel 0
+  SYNC gesendet 0 · empfangen 3 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 5 (mit Sync 2: 5, pausiert 0) · gesendet 0 · weitergegeben 0 · offline 0 · Listen 0 · Warteschlange 0 · gespeichert ja · im Test angehalten 0
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Sniper-Takt (SN-T2): 299 Suchen · Abstand Median 0.74 s, Min 0.70 s, Max 498.22 s
+    Zeitraum 22.11. 09:14–20:38 · minimiert/Hintergrund (unter 15 Bilder/s): 0 % (0 von 53)
+    Server nicht bereit: Median 0.50 s, Min 0.00 s, Max 46.80 s je Suche
+    eigene Bremse/Abstand: Median 0.00 s, Min 0.00 s, Max 2.00 s je Suche
+    Antwort des Servers: Median 0.20 s, Min 0.10 s, Max 0.30 s je Suche
+    Treffer-Halt: Median 0.00 s, Min 0.00 s, Max 6.77 s je Suche
+    andere Arbeit: Median 0.00 s, Min 0.00 s, Max 449.32 s je Suche
+    bereit (Tick): Median 0.00 s, Min 0.00 s, Max 26.24 s je Suche
+    Suchen je Ziel: i:11986 70 (23 %) · i:249428 15 (5 %) · i:5966 107 (36 %) · i:6040 10 (3 %) · i:7058 88 (29 %) · i:7911 2 (1 %) · w:12037 2 (1 %) · w:15415 1 (0 %) · w:2838 2 (1 %) · w:3404 1 (0 %) · w:4304 1 (0 %) · w:5471 1 (0 %)
+  Sync-Abweichungen (S6): 87 Fälle, Markt-Tag fremd 0 (alte Version / anderer Markt)
+    7 Tage je Ursache (vollständig): stapel 1, bewegt 4, unbekannt 82
+    Stapel- statt Stückpreis: 1 – Item 15733 eigen 3499/fremd 49999 (Alter 111/4 Min., g, Voll, Menge 17)
+    Markt hat sich bewegt (Zeitabstand > 6 Std.): 4 – Item 260793 eigen 650/fremd 1500 (Alter 1363/3 Min., g, Voll, Menge 118); Item 2980 eigen 895/fremd 1800 (Alter 1364/4 Min., g, Voll, Menge 8); Item 5363 eigen 400/fremd 9999 (Alter 1364/4 Min., g, Voll, Menge 1); Item 6304 eigen 100/fremd 1000 (Alter 1364/4 Min., g, Voll, Menge 1)
+    unbekannt: 82 – Item 2589 eigen 41/fremd 19 (Alter 108/0 Min., g, Voll, Menge 25480); Item 3464 eigen 25/fremd 10 (Alter 108/0 Min., g, Voll, Menge 10784); Item 17056 eigen 1695/fremd 100 (Alter 108/0 Min., g, Voll, Menge 5474); Item 2862 eigen 24/fremd 8 (Alter 108/0 Min., g, Voll, Menge 5001); Item 249391 eigen 2754/fremd 900 (Alter 108/0 Min., g, Voll, Menge 4789)
+  Einstellungen geändert: cmdHint=true, fastScan=true, helpSeen=true, learnExplore=false, marketExpert=false, minimapAngle=199, priceGuard=20, psHintHidden=true, sniperSignal=true, theme=modern, tooltipDEDetail=true, vendorButton=false, vendorFlipMin=500, vsBudget=2
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0
+
+== Einträge (200, neueste zuerst)
+[25.11. 10:08:05] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[25.11. 10:08:05] ABSATZ-UNPLAUSIBEL Item 4322 · 49.2/Tag · Quelle gemessen
+[25.11. 10:08:05] ABSATZ-UNPLAUSIBEL Item 2457 · 711.0/Tag · Quelle gemessen
+[25.11. 10:08:05] ABSATZ-UNPLAUSIBEL Item 1179 · 458.2/Tag · Quelle geschätzt
+[25.11. 10:08:05] ABSATZ-UNPLAUSIBEL Item 7374 · 32.2/Tag · Quelle geschätzt
+[25.11. 10:08:05] ABSATZ-UNPLAUSIBEL Item 7026 · 75.3/Tag · Quelle gemessen
+[25.11. 10:08:05] ABSATZ-UNPLAUSIBEL Item 3855 · 30.4/Tag · Quelle geschätzt
+[25.11. 10:08:05] ABSATZ-UNPLAUSIBEL Item 11225 · 66.1/Tag · Quelle gemessen
+[25.11. 10:08:05] ABSATZ-UNPLAUSIBEL Item 7941 · 30.9/Tag · Quelle geschätzt
+[25.11. 10:08:05] ABSATZ-UNPLAUSIBEL Item 7933 · 55.2/Tag · Quelle geschätzt
+[25.11. 10:08:05] ABSATZ-UNPLAUSIBEL Item 13463 · 1768.9/Tag · Quelle geschätzt
+[25.11. 10:08:04] ABSATZ-UNPLAUSIBEL Item 4373 · 45.3/Tag · Quelle geschätzt
+[25.11. 10:08:04] ABSATZ-UNPLAUSIBEL Item 250077 · 475.2/Tag · Quelle geschätzt
+[25.11. 10:08:04] ABSATZ-UNPLAUSIBEL Item 279968 · 1322.7/Tag · Quelle gemessen
+[25.11. 10:08:04] ABSATZ-UNPLAUSIBEL Item 10592 · 879.4/Tag · Quelle gemessen
+[25.11. 10:08:04] ABSATZ-UNPLAUSIBEL Item 2290 · 62.5/Tag · Quelle gemessen
+[25.11. 10:08:04] ABSATZ-UNPLAUSIBEL Item 11022 · 547.4/Tag · Quelle geschätzt
+[25.11. 10:08:04] ABSATZ-UNPLAUSIBEL Item 8175 · 29.4/Tag · Quelle geschätzt
+[25.11. 09:59:37] SYNC gesendet 753, empfangen 4, verworfen 0 · Kanal verweigert 0
+[25.11. 09:49:37] SYNC gesendet 718, empfangen 4, verworfen 0 · Kanal verweigert 0
+[25.11. 09:44:19] ABSATZ Item 118 · Q 1328 (scan, Q gesamt) · S 443.3 (measured) · S roh 443.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 3.0 · N 7.0
+[25.11. 09:39:37] SYNC gesendet 388, empfangen 2, verworfen 0 · Kanal verweigert 0
+[25.11. 09:29:37] SYNC ×2 gesendet 2, empfangen 0, verworfen 0 · Kanal verweigert 0
+[25.11. 09:09:55] ITEMINFO neue Item-Anfragen 200 (zurückgestellt 0) · je Aufgabe: cache:warm 38, cache:warm-today 154, names 8
+[25.11. 09:09:54] ABSATZ-UNPLAUSIBEL Item 7289 · 6.0/Tag · Quelle geschätzt
+[25.11. 09:09:54] ABSATZ-UNPLAUSIBEL Item 14832 · 7.0/Tag · Quelle geschätzt
+[25.11. 09:09:54] ABSATZ-UNPLAUSIBEL Item 731 · 158.2/Tag · Quelle geschätzt
+[25.11. 09:09:54] ABSATZ-UNPLAUSIBEL Item 7286 · 1274.1/Tag · Quelle geschätzt
+[25.11. 09:09:54] ABSATZ-UNPLAUSIBEL Item 7387 · 31.0/Tag · Quelle geschätzt
+[25.11. 09:09:54] ABSATZ-UNPLAUSIBEL Item 277008 · 6.1/Tag · Quelle geschätzt
+[25.11. 09:09:54] ABSATZ-UNPLAUSIBEL Item 254033 · 7.0/Tag · Quelle geschätzt
+[25.11. 09:09:53] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[25.11. 09:09:45] HAENDLERPREIS Item 8927: Tabelle 100 -> Spiel 0
+[25.11. 09:09:43] SYNC Weg=GUILD
+[25.11. 09:09:40] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[25.11. 09:09:40] ABSATZ-UNPLAUSIBEL Item 2457 · 711.0/Tag · Quelle gemessen
+[25.11. 09:09:40] ABSATZ-UNPLAUSIBEL Item 1179 · 458.2/Tag · Quelle geschätzt
+[25.11. 09:09:39] ABSATZ-UNPLAUSIBEL Item 4322 · 49.2/Tag · Quelle gemessen
+[25.11. 09:09:39] ABSATZ-UNPLAUSIBEL Item 7374 · 32.2/Tag · Quelle geschätzt
+[25.11. 09:09:39] ABSATZ-UNPLAUSIBEL Item 7026 · 75.3/Tag · Quelle gemessen
+[25.11. 09:09:39] ABSATZ-UNPLAUSIBEL Item 3855 · 30.4/Tag · Quelle geschätzt
+[25.11. 09:09:39] ABSATZ-UNPLAUSIBEL Item 11225 · 66.1/Tag · Quelle gemessen
+[25.11. 09:09:39] ABSATZ-UNPLAUSIBEL Item 7941 · 30.9/Tag · Quelle geschätzt
+[25.11. 09:09:39] ABSATZ-UNPLAUSIBEL Item 7933 · 55.2/Tag · Quelle geschätzt
+[25.11. 09:09:39] ABSATZ-UNPLAUSIBEL Item 13463 · 1768.9/Tag · Quelle geschätzt
+[25.11. 09:09:39] ABSATZ-UNPLAUSIBEL Item 4373 · 45.3/Tag · Quelle geschätzt
+[25.11. 09:09:39] ABSATZ-UNPLAUSIBEL Item 250077 · 475.2/Tag · Quelle geschätzt
+[25.11. 09:09:39] ABSATZ-UNPLAUSIBEL Item 279968 · 1322.7/Tag · Quelle gemessen
+[25.11. 09:09:39] ABSATZ-UNPLAUSIBEL Item 10592 · 879.4/Tag · Quelle gemessen
+[25.11. 09:09:39] ABSATZ-UNPLAUSIBEL Item 2290 · 62.5/Tag · Quelle gemessen
+[25.11. 09:09:39] ABSATZ-UNPLAUSIBEL Item 11022 · 547.4/Tag · Quelle geschätzt
+[25.11. 09:09:38] ABSATZ-UNPLAUSIBEL Item 8175 · 29.4/Tag · Quelle geschätzt
+[25.11. 09:09:30] VOLLSCAN Messung 191875 Auktionen · 6914 Items · Lücke 78 ms (Nachlauf: Speicherbereinigung nein · Ereignis keins (> 16 ms) · Aufgaben 6 ms (cache:itemlist, 0 Schritte) · Bild: eigene Arbeit 62 ms (Aufgaben 6, davon Lesen beim Server 0.0, Ereignisse 0 in 52 Aufrufen, Skripte/Zeitgeber 56) · Rest 16 ms (Spiel/andere Addons) · Item-Antworten 26 · Speicher 879411 -> 881487 KB (+2076, davon eigener 1967 KB) · langsamstes eigenes Skript Zeitgeber (Stelle nicht gemerkt) 56 ms · danach bereinigt 0 KB) · Speicher 715037->862461 KB (tiefster 715045) · GC 0 · Warten auf Server 9739/63; Ereignis-Aufruf 0/2; Einlesen 33212/27; Verdichtung 491/25; Verfolgung V4 4899/19; Preisverlauf+Neuaufbau 2946/64; Nachlauf 0/78 · neu je Schritt Preisverlauf+Neuaufbau 49733 · Einlesen 39736 · Verdichtung 34180 · Nachlauf 31855 · Warten auf Server 13680 · davon eigener neuer Speicher 50195 KB · je Aufgabe fullscan 40283 · watcher:round 664 · cache:itemlist 571 · ui-refresh 3 · ausserhalb von Aufgaben 8675 · je Schritt Einlesen 19394 · Nachlauf 9824 · Preisverlauf+Neuaufbau 8388 · Verfolgung V4 7627 · Verdichtung 4916, 7 eigene Aufrufe mit Bereinigung nicht zählbar · Takt: 2758 Bilder · längstes 10.6 ms (fullscan bis Ende fullscan) · über 5/16/40 ms: 115/0/0 · Abgabe nicht möglich 0 (TestRoutine.lua:10864) · gescheitert 0
+[25.11. 09:09:30] PREIS-ALT nach Scan · letzter Scan Vollscan · Waren im Vollscan 1167 · Hauptmaterialien 11083: 0.0 Std., 10940: 0.0 Std., 11082: 0.0 Std. · 0 frisch geholt
+[25.11. 09:09:28] ITEMINFO neue Item-Anfragen 3467 (zurückgestellt 25203) · je Aufgabe: act:report:30 8, ahs-test-error 186, cache:itemlist 11, cache:profit:de:20:0 7, cache:today:10 311, cache:warm 14, forecast-eval 287, ma4 3, market:de 12, market:flip 2, market:lag
+[25.11. 09:09:28] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 265 mit belastbarem Marktwert · 6 unter 70 % des Marktwerts · 6 ohne Preissturz/Flutung · 2 unter der Flip-Grenze (Mindestgewinn) · 2 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[25.11. 09:09:28] ABSATZ-UNPLAUSIBEL Item 13463 · 1768.9/Tag · Quelle geschätzt
+[25.11. 09:09:28] ABSATZ-UNPLAUSIBEL Item 7286 · 1274.1/Tag · Quelle geschätzt
+[25.11. 09:09:28] ABSATZ-UNPLAUSIBEL Item 731 · 158.2/Tag · Quelle geschätzt
+[25.11. 09:09:27] PREISPRUEFUNG Item 7096 · Schlüssel allgemein (Stufe 1, Suffix 0, Haustier 0) · 2 Angebote · Scan 28 Stück · 0.1 s · Antwort
+[25.11. 09:09:26] PREISPRUEFUNG Item 217716 · Schlüssel allgemein (Stufe 1, Suffix 0, Haustier 0) · 1 Angebote · Scan 3 Stück · 0.1 s · Antwort
+[25.11. 09:09:24] VOLLSCAN Absatz unplausibel: Item 213543 · 406/Tag bei Ø 201 im AH (13.8 Std.)
+[25.11. 09:09:24] VOLLSCAN Absatz unplausibel: Item 2865 · 447/Tag bei Ø 217 im AH (13.8 Std.)
+[25.11. 09:09:22] VOLLSCAN Absatz unplausibel: Item 213546 · 386/Tag bei Ø 178 im AH (13.8 Std.)
+[25.11. 09:09:20] VOLLSCAN Absatz unplausibel: Item 211784 · 282/Tag bei Ø 101 im AH (13.8 Std.)
+[25.11. 09:09:20] VOLLSCAN Absatz unplausibel: Item 16656 · 319/Tag bei Ø 49 im AH (13.8 Std.)
+[25.11. 09:09:20] VOLLSCAN Absatz unplausibel: Item 8176 · 641/Tag bei Ø 289 im AH (13.8 Std.)
+[25.11. 09:09:19] VOLLSCAN M1d 191875 Auktionen gelesen (191869 gültig) · 2265 ms in 1984 Portionen · längster Frame 1.6 ms · 6914 Items
+[25.11. 09:09:04] ABBRECHEN AUCTION_CANCELED auctionID 265012485 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:09:04] ABBRECHEN AUCTION_CANCELED auctionID 265012410 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:09:04] ABBRECHEN AUCTION_CANCELED auctionID 265012383 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:09:04] ABBRECHEN AUCTION_CANCELED auctionID 265012249 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:09:04] ABBRECHEN AUCTION_CANCELED auctionID 265012215 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:09:04] ABBRECHEN AUCTION_CANCELED auctionID 265012106 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:09:04] ABBRECHEN AUCTION_CANCELED auctionID 265012076 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:09:04] ABBRECHEN AUCTION_CANCELED auctionID 265012062 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:09:04] ABBRECHEN AUCTION_CANCELED auctionID 265012016 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:09:04] ABBRECHEN AUCTION_CANCELED auctionID 265011983 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:09:04] ABBRECHEN AUCTION_CANCELED auctionID 265011981 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:09:04] ABBRECHEN AUCTION_CANCELED auctionID 265011961 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:09:04] ABBRECHEN AUCTION_CANCELED auctionID 265011841 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:09:04] ABBRECHEN AUCTION_CANCELED auctionID 265011820 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:09:04] ABBRECHEN AUCTION_CANCELED auctionID 265011800 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:09:04] ABBRECHEN AUCTION_CANCELED auctionID 265011792 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:09:04] ABBRECHEN AUCTION_CANCELED auctionID 265011772 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:09:04] ABBRECHEN AUCTION_CANCELED auctionID 265011755 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:09:04] ABBRECHEN AUCTION_CANCELED auctionID 265011745 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:09:04] ABBRECHEN AUCTION_CANCELED auctionID 265011666 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:09:04] ABBRECHEN AUCTION_CANCELED auctionID 265011647 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:09:04] ABBRECHEN AUCTION_CANCELED auctionID 265011621 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:09:04] ABBRECHEN AUCTION_CANCELED auctionID 265011618 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:09:04] ABBRECHEN AUCTION_CANCELED auctionID 265011520 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:09:04] ABBRECHEN AUCTION_CANCELED auctionID 265011491 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:09:04] ABBRECHEN AUCTION_CANCELED auctionID 265011459 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:09:04] ABBRECHEN AUCTION_CANCELED auctionID 265011444 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:08:58] ABBRECHEN AUCTION_CANCELED auctionID 263569884 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:08:57] ABBRECHEN AUCTION_CANCELED auctionID 263568616 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:08:56] ABBRECHEN AUCTION_CANCELED auctionID 263568847 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:08:56] ABBRECHEN AUCTION_CANCELED auctionID 263568149 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:08:56] ABBRECHEN AUCTION_CANCELED auctionID 263568426 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:08:55] ABBRECHEN AUCTION_CANCELED auctionID 263569786 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:08:55] ABBRECHEN AUCTION_CANCELED auctionID 249153621 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:08:55] ABBRECHEN AUCTION_CANCELED auctionID 263567968 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:08:54] ABBRECHEN AUCTION_CANCELED auctionID 263569927 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:08:54] ABBRECHEN AUCTION_CANCELED auctionID 249153153 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:08:54] ABBRECHEN AUCTION_CANCELED auctionID 263569032 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:08:54] ABBRECHEN AUCTION_CANCELED auctionID 263568987 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:08:54] ABBRECHEN AUCTION_CANCELED auctionID 263568653 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:08:54] ABBRECHEN AUCTION_CANCELED auctionID 263567211 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:08:53] ABBRECHEN AUCTION_CANCELED auctionID 249153543 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:08:53] ABBRECHEN AUCTION_CANCELED auctionID 263568956 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:08:53] ABBRECHEN AUCTION_CANCELED auctionID 249152133 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:08:53] ABBRECHEN AUCTION_CANCELED auctionID 263567320 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:08:52] ABBRECHEN AUCTION_CANCELED auctionID 263568071 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:08:52] ABBRECHEN AUCTION_CANCELED auctionID 263567580 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:08:51] ABBRECHEN AUCTION_CANCELED auctionID 263568471 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:08:51] ABBRECHEN AUCTION_CANCELED auctionID 263569459 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:08:51] ABBRECHEN AUCTION_CANCELED auctionID 263568033 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:08:49] ABBRECHEN AUCTION_CANCELED auctionID 263568304 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:08:49] ABBRECHEN AUCTION_CANCELED auctionID 263569128 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:08:49] ABBRECHEN AUCTION_CANCELED auctionID 263569127 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:08:48] ABBRECHEN AUCTION_CANCELED auctionID 263568530 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:08:47] ABBRECHEN AUCTION_CANCELED auctionID 263568414 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:08:46] ABBRECHEN AUCTION_CANCELED auctionID 263568611 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:08:45] ABBRECHEN AUCTION_CANCELED auctionID 263567797 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:08:44] ABBRECHEN AUCTION_CANCELED auctionID 263568096 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:08:43] ABBRECHEN AUCTION_CANCELED auctionID 263566809 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:08:43] ABBRECHEN AUCTION_CANCELED auctionID 263568344 (erwartet nil) -> unerwartet, nichts geändert
+[25.11. 09:08:42] VOLLSCAN M1c Abstand 39026 s · neue Liste · 191875 Auktionen · Antwort nach 9.7 s
+[25.11. 09:08:32] SCAN-START schnell · Weg Klick/Befehl · Sniper-Modus false · Ruhemodus false · AH offen true
+[25.11. 09:08:31] WAECHTER-HUERDEN 276 Angebote · 268 Waren (Handwerkswaren & Co., keine Ausrüstung) · 268 mit Marktwert · 267 mit belastbarem Marktwert · 11 unter 70 % des Marktwerts · 11 ohne Preissturz/Flutung · 5 unter der Flip-Grenze (Mindestgewinn) · 5 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 4 unter 50 %
+[25.11. 09:08:30] SNIPER-RUHE Ruhemodus aus nach 242 s
+[25.11. 09:08:30] SNIPER-RUHE Speicher 711577 KB (-175520 KB in 60 s) · Suchen 0
+[25.11. 09:07:30] SNIPER-RUHE Speicher 887096 KB (+16768 KB in 60 s) · Suchen 0
+[25.11. 09:06:30] SNIPER-RUHE Speicher 870328 KB (+17442 KB in 60 s) · Suchen 0
+[25.11. 09:05:30] SNIPER-RUHE Speicher 852886 KB (+22476 KB in 60 s) · Suchen 0
+[25.11. 09:01:03] LANGSAM Empfänger UI_Main.lua:5262 von AH_STATE · 18 ms
+[25.11. 09:01:03] SNIPER-RUHE Ruhemodus an
+[25.11. 09:00:58] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[25.11. 09:00:55] ABSATZ Item 4245 · Q 3 (vollscan) · S 74.0 (measured) · S roh 74.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.0 · N 1.0
+[25.11. 09:00:48] SYNC Weg=GUILD
+[25.11. 09:00:45] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[25.11. 09:00:45] ABSATZ-UNPLAUSIBEL Item 4322 · 49.2/Tag · Quelle gemessen
+[25.11. 09:00:44] ABSATZ-UNPLAUSIBEL Item 4384 · 434.8/Tag · Quelle gemessen
+[25.11. 09:00:44] ABSATZ-UNPLAUSIBEL Item 252546 · 49.6/Tag · Quelle geschätzt
+[25.11. 09:00:44] ABSATZ-UNPLAUSIBEL Item 20747 · 222.4/Tag · Quelle geschätzt
+[25.11. 09:00:44] ABSATZ-UNPLAUSIBEL Item 10050 · 132.1/Tag · Quelle geschätzt
+[25.11. 09:00:44] ABSATZ-UNPLAUSIBEL Item 279968 · 1322.7/Tag · Quelle gemessen
+[25.11. 09:00:44] ABSATZ-UNPLAUSIBEL Item 6241 · 35.3/Tag · Quelle geschätzt
+[25.11. 08:59:23] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[25.11. 08:59:13] SYNC Weg=GUILD
+[25.11. 08:59:10] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[25.11. 08:59:10] ABSATZ-UNPLAUSIBEL Item 20747 · 222.4/Tag · Quelle geschätzt
+[25.11. 08:59:10] ABSATZ-UNPLAUSIBEL Item 4384 · 434.8/Tag · Quelle gemessen
+[25.11. 08:59:10] ABSATZ-UNPLAUSIBEL Item 252546 · 49.6/Tag · Quelle geschätzt
+[25.11. 08:59:10] ABSATZ-UNPLAUSIBEL Item 4322 · 49.2/Tag · Quelle gemessen
+[25.11. 08:59:09] ABSATZ-UNPLAUSIBEL Item 10050 · 132.1/Tag · Quelle geschätzt
+[25.11. 08:59:09] ABSATZ-UNPLAUSIBEL Item 279968 · 1322.7/Tag · Quelle gemessen
+[25.11. 08:59:09] ABSATZ-UNPLAUSIBEL Item 6241 · 35.3/Tag · Quelle geschätzt
+[25.11. 08:57:03] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[25.11. 08:56:53] SYNC Weg=GUILD
+[25.11. 08:56:51] ITEMINFO neue Item-Anfragen 200 (zurückgestellt 0) · je Aufgabe: cache:warm 200
+[25.11. 08:56:50] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[25.11. 08:56:50] ABSATZ-UNPLAUSIBEL Item 4322 · 49.2/Tag · Quelle gemessen
+[25.11. 08:56:50] ABSATZ-UNPLAUSIBEL Item 4384 · 434.8/Tag · Quelle gemessen
+[25.11. 08:56:50] ABSATZ-UNPLAUSIBEL Item 252546 · 49.6/Tag · Quelle geschätzt
+[25.11. 08:56:49] ABSATZ-UNPLAUSIBEL Item 20747 · 222.4/Tag · Quelle geschätzt
+[25.11. 08:56:49] ABSATZ-UNPLAUSIBEL Item 10050 · 132.1/Tag · Quelle geschätzt
+[25.11. 08:56:49] ABSATZ-UNPLAUSIBEL Item 279968 · 1322.7/Tag · Quelle gemessen
+[25.11. 08:56:49] ABSATZ-UNPLAUSIBEL Item 6241 · 35.3/Tag · Quelle geschätzt
+[25.11. 08:55:48] ABSATZ Item 18641 · Q 602 (scan, Q gesamt) · S 35.7 (market, gelernt) · S roh 213.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 16.9 · N 7.0 · kaum
+[25.11. 08:55:48] ABSATZ Item 11371 · Q 492 (scan, Q gesamt) · S 47.1 (market, gelernt) · S roh 275.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 10.5 · N 7.0 · kaum
+[25.11. 08:55:48] ABSATZ Item 13459 · Q 389 (scan, Q gesamt) · S 29.4 (market, gelernt) · S roh 175.7 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 13.3 · N 7.0 · kaum
+[25.11. 08:55:48] ABSATZ Item 13458 · Q 826 (scan, Q gesamt) · S 14.2 (market, gelernt) · S roh 84.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 58.4 · N 7.0 · kaum
+[25.11. 08:55:48] ABSATZ Item 13456 · Q 417 (scan, Q gesamt) · S 18.7 (market, gelernt) · S roh 111.8 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 22.3 · N 7.0 · kaum
+[25.11. 08:55:48] ABSATZ Item 13461 · Q 330 (scan, Q gesamt) · S 6.7 (market, gelernt) · S roh 40.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 49.1 · N 7.0 · kaum
+[25.11. 08:55:48] ABSATZ Item 14342 · Q 177 (scan, Q gesamt) · S 4.1 (market, gelernt) · S roh 28.8 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 43.4 · N 7.0 · kaum
+[25.11. 08:55:48] ABSATZ Item 10646 · Q 289 (scan, Q gesamt) · S 37.1 (market, gelernt) · S roh 221.4 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 7.8 · N 7.0 · kaum
+[25.11. 08:55:48] ABSATZ Item 5634 · Q 1066 (scan, Q gesamt) · S 820.2 (measured) · S roh 820.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.3 · N 7.0
+[25.11. 08:55:48] ABSATZ Item 13444 · Q 28 (vollscan) · S 114.1 (measured) · S roh 114.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.3 · N 4.0
+[25.11. 08:55:48] ABSATZ Item 13446 · Q 1298 (scan, Q gesamt) · S 91.4 (measured) · S roh 91.4 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 14.2 · N 7.0 · kaum
+[25.11. 08:55:48] ABSATZ Item 13452 · Q 2232 (scan, Q gesamt) · S 57.3 (measured) · S roh 57.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 39.0 · N 7.0 · kaum
+[25.11. 08:55:48] ABSATZ Item 9206 · Q 385 (scan, Q gesamt) · S 43.5 (market, gelernt) · S roh 259.8 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 8.9 · N 7.0 · kaum
+[25.11. 08:55:48] ABSATZ Item 12360 · Q 10 (vollscan) · S 2.6 (measured) · S roh 2.6 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 4.2 · N 7.0
+[25.11. 08:55:48] ABSATZ Item 13457 · Q 696 (scan, Q gesamt) · S 32.5 (market, gelernt) · S roh 194.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 21.4 · N 7.0 · kaum
+[25.11. 08:55:48] ABSATZ Item 13512 · Q 54 (scan, Q gesamt) · S 7.0 (market, gelernt) · S roh 42.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 7.8 · N 7.0 · kaum
+[25.11. 08:55:48] ABSATZ Item 13511 · Q 60 (scan, Q gesamt) · S 2.1 (market, gelernt) · S roh 12.6 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 28.8 · N 7.0 · kaum
+[25.11. 08:55:48] ABSATZ Item 13510 · Q 97 (scan, Q gesamt) · S 3.0 (market, gelernt) · S roh 18.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 32.3 · N 7.0 · kaum
+[25.11. 08:55:47] ABSATZ Item 12359 · Q 3908 (scan, Q gesamt) · S 362.3 (measured) · S roh 362.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 10.8 · N 7.0 · kaum
+[25.11. 08:55:47] ABSATZ Item 13464 · Q 151 (vollscan) · S 93.1 (measured) · S roh 93.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.6 · N 7.0
+[25.11. 08:55:47] ABSATZ Item 14047 · Q 39 (vollscan) · S 555.3 (measured) · S roh 555.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.1 · N 1.0
+[25.11. 08:55:40] ABSATZ Item 118 · Q 1268 (scan, Q gesamt) · S 443.3 (measured) · S roh 443.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 2.9 · N 7.0
+[25.11. 08:55:09] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[25.11. 08:54:59] SYNC Weg=GUILD
+[25.11. 08:54:57] ITEMINFO neue Item-Anfragen 200 (zurückgestellt 0) · je Aufgabe: cache:warm 200
+[25.11. 08:54:56] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[25.11. 08:54:55] ABSATZ-UNPLAUSIBEL Item 20747 · 222.4/Tag · Quelle geschätzt
+[25.11. 08:54:55] ABSATZ-UNPLAUSIBEL Item 4384 · 434.8/Tag · Quelle gemessen
+[21.11. 18:58:46] FEHLER Märkte vereinen: Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:5416: attempt to compare two table values
+[21.11. 18:38:52] FEHLER Märkte vereinen: Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:5416: attempt to compare number with table

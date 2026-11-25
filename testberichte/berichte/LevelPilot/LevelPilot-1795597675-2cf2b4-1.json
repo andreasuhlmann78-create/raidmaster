@@ -1,0 +1,41 @@
+{
+ "addon": "LevelPilot",
+ "counts": {},
+ "env": {
+  "build": "71091",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 10,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [
+  {
+   "count": 5,
+   "first": 1795595033,
+   "last": 1795596556,
+   "msg": "attempt to yield across metamethod/C-call boundary",
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:471: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:236: in function 'Fire'\n[Interface/AddOns/LevelPilot/Planner.lua]:2523: in function <Interface/AddOns/LevelPilot/Planner.lua:2322>\n[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:487: in function 'PCall'\n...",
+   "version": "3.13.13",
+   "wo": "Fire PLAN_CHANGED"
+  },
+  {
+   "count": 1,
+   "first": 1795596023,
+   "last": 1795596023,
+   "msg": "Zeitlimit 1800 s",
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:471: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:511: in function <Interface/AddOns/LevelPilot/Core.lua:506>\n[tail call]: ?\n[Interface/AddOns/LevelPilot/TestRoutine.lua]:12130: in function 'Abort'\n[Interface/AddOns/LevelPilot/TestRoutine.lua]:12398: in function <Interface/AddOns/LevelPilot/TestRoutine.lua:12392>\n...",
+   "version": "3.13.13",
+   "wo": "Testroutine"
+  }
+ ],
+ "f": 1,
+ "id": "LevelPilot-1795597675-2cf2b4-1",
+ "kind": "fehler",
+ "time": 1795597675,
+ "version": "3.13.13"
+}

@@ -1,0 +1,312 @@
+LevelPilot-Protokoll v3.13.14 · 25.11.2026 12:12
+Client deDE 1.60.1 · Sprache de · modern
+Charakter L10 Scourge PRIEST Horde
+Datenpaket: v1.6.4, 3920 Quests
+Sitzungen: 40 · aktiv gespielt 2h 28min · Lua gesamt max 640.7 MB
+  25.11. 08:56 L10»10 PRIEST 2min · Pause 0min · Lua gesamt 694»657 MB, max 694
+  25.11. 08:59 L10»10 PRIEST 1min · Pause 0min · Lua gesamt 667»731 MB, max 731
+  25.11. 09:00 L10»10 PRIEST 7min · Pause 0min · Lua gesamt 706»829 MB, max 836
+  25.11. 09:09 L10»10 PRIEST 12min · Pause 0min · Lua gesamt 680»720 MB, max 724
+  25.11. 10:08 L10»10 PRIEST 0min · Pause 0min · Lua gesamt 566»566 MB, max 566
+  25.11. 11:18 L30»30 WARRIOR 5min · Pause 22h 14min · Lua gesamt 679»719 MB, max 719
+  25.11. 11:26 L30»30 WARRIOR 4min · Pause 0min · Lua gesamt 681»659 MB, max 681
+  25.11. 11:30 L10»10 PRIEST 1min · Pause 1h 22min · Lua gesamt 687»684 MB, max 687
+  25.11. 11:32 L10»10 PRIEST 16min · Pause 0min · Lua gesamt 698»731 MB, max 731
+  25.11. 12:12 L10»10 PRIEST 0min · Pause 0min · Lua gesamt 641»641 MB, max 641
+Einstellungen geändert: minimapAngle=-140.63425062719, shareSeed=true, shareSeedAsked=true, showArrow=false
+
+== Diagnose
+  Version 3.13.14 · Client: modern · Server: WoW Forever
+  Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+  Zustand: ok · Fokus: Tirisfal
+  Position: unbekannt, Karte nil
+  Datenpaket: v1.6.4, 3920 Quests
+  QuestieDB: nicht benötigt (Datenpaket aktiv)
+  Quests: Paket 3920, Questie 0, Startdatenbank 0, eigene 200, andere 307
+  Level 10 · passende Quests 202 · Aufgaben 78 · Schritte 14
+  Questlog: 12/40 (automatisch)
+  Modus: Normal
+  Dungeons: an, Lauf ab 2 Quests, Monster-EP 36 %, Quest-EP 150 %
+  Höhlen und Tunnel bekannt: 25 (selbst gelernt 14, von anderen 8)
+  Geländeführung: keine Geländekarte für diese Zone
+  Sprachpakete: deDE geladen
+  Kills pro Minute: 2.15 (165 Messungen) · Quest-EP-Faktor: 1.00 (196 Quests)
+EP je Kill: gemessen 514 · grün 89 %
+  Letzter Fehler: keiner
+  SYNC GoldSentinelSync 3 · Wege: keiner · Mitspieler (1 Std.): AHSentinel 0, BuffSentinel 0, GoldSentinelMarkt 0, GuildSentinel 1, LevelPilot 1, LevelPilotG 0, ThreatSentinel 0
+  SYNC gesendet 12 · empfangen 3 · verworfen: 0 · Warteschlange 2 · Kanal verweigert 0
+  NETZ an · bekannt 6 (mit Sync 2: 6, pausiert 0) · gesendet 0 · weitergegeben 0 · offline 0 · Listen 0 · Warteschlange 2 · gespeichert ja · im Test angehalten 0
+  CLIENTTEST: noch nicht gelaufen (/lp clienttest)
+  STRASSEN keine (seit 3.12.88 entfernt – Wegnetz aus gelaufenen Wegen)
+  UMWEG je Zone (bekannter Weg/Luftlinie): Silberwald 1,34 (12 Paare) · Tirisfal 1,23 (12 Paare) · Undercity 1,31 (12 Paare)
+  LAUFWEG (seit 3.12.52): Schritte 2 (angekommen 0) · Umweg gelaufen/Luftlinie – · Zeit Weg 0:00 / am Ziel 0:00 (Weg-Anteil 100 %) · Leerlauf 0:04
+  LAUFWEG Pfad während des Wegs: Netz 0 % · Gelände 0 % · Luftlinie 0 % · unbekannt 37 % · ohne Pfad 63 %
+  LAUFWEG Neuplanungen mit Zielwechsel 15, davon Richtungswechsel über 90° 0
+  LAUFWEG je Zone (Umweg, Schritte, Weg-Anteil): Undercity – (2, Weg 100 %)
+  EP/h je Level (aktive Zeit): 10: 0 (7:35 h)
+  REISE noch kein Flugvergleich · Tempo 7,0 yd/s (zu Fuss)
+  PRÜFLISTE LevelPilot: 6 von 15 erledigt
+    T344 auto 17.11. 20:12 – 54 Karten
+    CT-1 offen
+    T300 auto 21.11. 14:15 – mit Knopf Hinführen
+    T304 auto 20.11. 20:16 – 2 Plus auf Seite 1
+    T305 offen
+    T362 auto 19.11. 11:40 – Nicht mehr
+    T302 offen
+    T301 offen
+    T303 auto 20.11. 21:26 – nach 3 Min., nächste Stelle 357 Yards
+    GR1-K offen
+    UC-W1 auto 17.11. 16:34 – Weg bekannt, 198 Yards
+    WM offen
+    LAG1 offen
+    PF-A offen
+    SP1-M offen
+  MELDUNGEN: an · unterdrückt 0 · durchgerutscht 0
+  MARKT-NETZ: v10 · an (LevelPilot an) · Scans mitgelesen 0 · gesendet 0 · empfangen 0 · Speicher 7392 Items, 559 KB
+  MARKT-NETZ v10 · an · Addons: AHSentinel, BuffSentinel, GuildSentinel, LevelPilot, ProfessionSentinel, RaidMaster, ThreatSentinel
+  MARKT-NETZ Scans 0 (davon vom Host übergeben 0; zuletzt 0 Auktionen, 0 Items, 0 ms in 0 Bildern) · Vergleiche 0 · abgebrochen 0
+  MARKT-NETZ Items 7392 (eigen 7284, Netz 108, Absatz gemessen 959) · gesendet 0 · empfangen 0 · angenommen 0 · Warteschlange 0
+  MARKT-NETZ verworfen: nichts
+  MARKT-NETZ Test-IDs entfernt: 0
+  SPEICHER Lua gesamt (alle Addons, alle 5 Min.) nach dem Einloggen 640.7 MB · aktuell 644.6 MB · Höchstwert 644.6 MB
+  SPEICHER LevelPilot (gemessen beim Öffnen des Protokolls) aktuell ? · Höchstwert ? · Speicher-Messung noch keine
+  SPEICHER angelegt je Modul seit dem Einloggen (Summe 43.9 MB): Routenberechnung 26.0 MB · Questauswertung 7.7 MB · Wegnetz 4.3 MB · Assistent 3.9 MB · plan 1.3 MB · Aufzeichnung 0.3 MB · Navigation 0.3 MB · Protokoll 0.0 MB · Anzeige 0.0 MB · Netz-Empfang 0.0 MB
+  SPEICHER Bestand: Wegpunkte 28713 · Luftlinien-Nachbarn 11 · Geländeprüfungen 88 · Gefahren-Strecken 229 · Quests entschlüsselt 4078 · Aufgaben 78 · Questlog 12
+  ZEIT Routenberechnung 297 ms/118× max 5 · Wegnetz 168 ms/102× max 5 · Start 36 ms/32× max 18 (über 16 ms) · Assistent 27 ms/14× max 6 · plan 19 ms/5× max 8 · Navigation 12 ms/254× max 0 · Questauswertung 10 ms/1× max 10 · Wegsuche 9 ms/3× max 4 · Aufzeichnung 6 ms/28× max 0 · Protokoll 0 ms/9× max 0 · Anzeige 0 ms/24× max 0 · Netz-Empfang 0 ms/2× max 0
+  ZEIT erste 60 s nach dem Einloggen: Routenberechnung 297 ms max 5 · Wegnetz 168 ms max 5 · Start 36 ms max 18 (über 16 ms) · Assistent 27 ms max 6 · plan 19 ms max 8 · Navigation 12 ms max 0 · Questauswertung 10 ms max 10 · Wegsuche 9 ms max 4 · Aufzeichnung 6 ms max 0 · Protokoll 0 ms max 0 · Anzeige 0 ms max 0 · Netz-Empfang 0 ms max 0
+  ZEIT in Pausen verworfen: nichts
+  ZEIT Notbremse 0× · pausiert: nichts · Hintergrund-Arbeit: 0 laufend, 17 fertig, längste Portion 8 ms
+
+== Einträge (223, neueste zuerst)
+[25.11. 12:12] perf L10 Undercity(1458) 64.6,35.6 | Wegnetz laden: Portionen: 30 Bilder, längstes Bild 4.5 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 122.8 ms · Dauer 2.3 s · ganze Bilder über 40 ms: 6, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 6 · längstes ganzes Bild 1283.0 ms | Spiel: Undercity / Die Kanäle
+[25.11. 12:02] SYNC ×315 L10 Undercity(1458) 64.5,35.7 | SYNC Stand | Spiel: Undercity / Die Kanäle
+      Schritt ACCEPT:9265
+      SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 2, BuffSentinel 1, GoldSentinelMarkt 1, GoldSentinelTest 1, GuildSentinel 1, LevelPilot 1, LevelPilotG 1, ThreatSentinel 0
+      SYNC gesendet 1167 · empfangen 221 · verworfen: 0 · Warteschlange 2 · Kanal verweigert 0
+      NETZ an · bekannt 6 (mit Sync 2: 6, pausiert 4) · gesendet 9 · weitergegeben 0 · offline 6 · Listen 6 · Warteschlange 0 · gespeichert ja · im Test angehalten 0
+[25.11. 11:33] SYNC ×5 L10 Undercity(1458) 64.5,35.8 | SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, BuffSentinel 1, GoldSentinelMarkt 0, GuildSentinel 1, LevelPilot 1, LevelPilotG 0, ThreatSentinel 0 | Spiel: Undercity / Die Kanäle
+      Schritt ACCEPT:9265
+[25.11. 11:32] perf L10 Undercity(1458) 64.5,35.8 | Wegnetz laden: Portionen: 32 Bilder, längstes Bild 4.6 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 131.7 ms · Dauer 2.3 s · ganze Bilder über 40 ms: 5, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 5 · längstes ganzes Bild 1255.0 ms | Spiel: Undercity / Die Kanäle
+[25.11. 11:31] SYNC ×13 L10 Undercity(1458) 64.5,35.8 | SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, BuffSentinel 1, GoldSentinelMarkt 1, GuildSentinel 1, LevelPilot 1, LevelPilotG 1, ThreatSentinel 0 | Spiel: Undercity / Die Kanäle
+      Schritt ACCEPT:9265
+[25.11. 11:30] perf L10 Undercity(1458) 64.5,35.8 | Wegnetz laden: Portionen: 30 Bilder, längstes Bild 4.6 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 123.7 ms · Dauer 2.9 s · ganze Bilder über 40 ms: 17, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 17 · längstes ganzes Bild 186.0 ms | Spiel: Undercity / Die Kanäle
+[25.11. 11:27] SYNC ×4 L30 Thunder Bluff(1456) 38.8,50.5 | SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, BuffSentinel 1, GoldSentinelMarkt 0, GuildSentinel 1, LevelPilot 1, LevelPilotG 0, ThreatSentinel 0 | Spiel: Thunder Bluff
+      Schritt PRIO:TRAIN:30
+[25.11. 11:26] perf L30 Thunder Bluff(1456) 38.8,50.5 | Wegnetz laden: Portionen: 41 Bilder, längstes Bild 5.2 ms (Knoten) · über 5 ms: 1 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 177.4 ms · Dauer 2.9 s · ganze Bilder über 40 ms: 7, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 7 · längstes ganzes Bild 1480.0 ms | Spiel: Thunder Bluff
+[25.11. 11:18] perf L30 Thunder Bluff(1456) 38.8,50.5 | Wegnetz laden: Portionen: 29 Bilder, längstes Bild 4.9 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 120.5 ms · Dauer 3.3 s · ganze Bilder über 40 ms: 10, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 10 · längstes ganzes Bild 743.0 ms | Spiel: Thunder Bluff
+[25.11. 10:08] perf L10 Undercity(1458) 64.5,35.8 | Wegnetz laden: Portionen: 36 Bilder, längstes Bild 4.7 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 155.5 ms · Dauer 2.7 s · ganze Bilder über 40 ms: 6, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 6 · längstes ganzes Bild 1345.0 ms | Spiel: Undercity / Die Kanäle
+[25.11. 09:49] SANDBOX L10 Undercity(1458) 64.4,35.8 | Virtuelle Reise hat echte Daten verändert: Wegpunkte 28307 → 28309, Wegstücke 34111 → 34115 | Spiel: Undercity / Die Kanäle
+      Schritt TURNIN:5961 · v3.13.13
+[25.11. 09:49] REISE L10 Undercity(1458) 64.4,35.8 | Virtuelle Reise L1–60: 17 Auffälligkeit(en) | Spiel: Undercity / Die Kanäle
+      Schritt ACCEPT:9265 · v3.13.13
+[25.11. 09:49] LANGSAM L10 Winterspring(1452) 60.5,36.3 | Routenberechnung 135 ms · Aufgaben 52 · Kandidaten 710 · Questlog 35 · Wegpunkte 28309 · Zone ? · Pause 60 s | Spiel: Undercity / Die Kanäle
+      Schritt ACCEPT:94004 · v3.13.13
+[25.11. 09:47] LANGSAM L10 Un'Goro-Krater(1449) 45.2,5.8 | Routenberechnung 80 ms · Aufgaben 37 · Kandidaten 525 · Questlog 17 · Wegpunkte 28307 · Zone ? · Pause 60 s | Spiel: Undercity / Die Kanäle
+      Schritt FLY:Camp Mojache, Feralas · v3.13.13
+[25.11. 09:46] LANGSAM L10 Orgrimmar(1454) 45.5,64.1 | Routenberechnung 110 ms · Aufgaben 37 · Kandidaten 439 · Questlog 13 · Wegpunkte 28307 · Zone ? · Pause 60 s | Spiel: Undercity / Die Kanäle
+      Schritt ACCEPT:96774 · v3.13.13
+[25.11. 09:44] LANGSAM L10 Undercity(1458) 63.6,48.8 | Routenberechnung 161 ms · Aufgaben 27 · Kandidaten 302 · Questlog 13 · Wegpunkte 28307 · Zone ? · Pause 60 s | Spiel: Undercity / Die Kanäle
+      Schritt FLY:Tarrens Mühle, Hillsbrad · v3.13.13
+[25.11. 09:43] LANGSAM L10 Das Brachland(1413) 63.1,37.2 | Routenberechnung 100 ms · Aufgaben 25 · Kandidaten 285 · Questlog 5 · Wegpunkte 28307 · Zone ? · Pause 60 s | Spiel: Undercity / Die Kanäle
+      Schritt FLY:Crossroads, Brachland · v3.13.13
+[25.11. 09:43] SANDBOX L10 Undercity(1458) 64.4,35.8 | Virtuelle Reise hat echte Daten verändert: Quests 503 → 502, Wegpunkte 28315 → 28307, Wegstücke 34134 → 34111 | Spiel: Undercity / Die Kanäle
+      Schritt FP:Vhulgra:1440 · v3.13.13
+[25.11. 09:43] REISE L10 Undercity(1458) 64.4,35.8 | Virtuelle Reise L1–22: 3 Auffälligkeit(en) | Spiel: Undercity / Die Kanäle
+      Schritt ACCEPT:9265 · v3.13.13
+[25.11. 09:40] FEHLER L10 Ashenvale(1440) 73.2,61.6 | Testroutine: Zeitlimit 1800 s | Spiel: Undercity / Die Kanäle
+      Schritt COMPLETE:6544 · v3.13.13
+      [Interface/AddOns/LevelPilot/TestRoutine.lua]:12130: in function 'Abort'
+      [Interface/AddOns/LevelPilot/TestRoutine.lua]:12398: in function <Interface/AddOns/LevelPilot/TestRoutine.lua:12392>
+      [C]: in function 'pcall'
+      [Interface/AddOns/ThreatSentinel/GoldSentinelTakt.lua]:366: in function <Interface/AddOns/ThreatSentinel/GoldSentinelTakt.lua:353>
+      [Interface/AddOns/ThreatSentinel/GoldSentinelTakt.lua]:456: in function <Interface/AddOns/ThreatSentinel/GoldSentinelTakt.lua:453>
+      [C]: in function 'pcall'
+      ...
+[25.11. 09:09] perf L10 Undercity(1458) 64.4,35.9 | Wegnetz laden: Portionen: 31 Bilder, längstes Bild 4.4 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 126.7 ms · Dauer 2.2 s · ganze Bilder über 40 ms: 5, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 5 · längstes ganzes Bild 1210.0 ms | Spiel: Undercity / Die Kanäle
+[25.11. 09:00] perf L10 Undercity(1458) 64.4,35.9 | Wegnetz laden: Portionen: 34 Bilder, längstes Bild 5.4 ms (Knoten) · über 5 ms: 1 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 145.5 ms · Dauer 2.2 s · ganze Bilder über 40 ms: 3, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 3 · längstes ganzes Bild 1238.0 ms | Spiel: Undercity / Die Kanäle
+[25.11. 08:59] perf L10 Undercity(1458) 64.4,35.9 | Wegnetz laden: Portionen: 35 Bilder, längstes Bild 4.5 ms (-–Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 148.6 ms · Dauer 2.8 s · ganze Bilder über 40 ms: 4, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 4 · längstes ganzes Bild 1646.0 ms | Spiel: Undercity / Die Kanäle
+[25.11. 08:56] perf L10 Undercity(1458) 64.4,35.9 | Wegnetz laden: Portionen: 33 Bilder, längstes Bild 4.7 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 142.6 ms · Dauer 2.1 s · ganze Bilder über 40 ms: 5, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 5 · längstes ganzes Bild 1089.0 ms | Spiel: Undercity / Die Kanäle
+[25.11. 08:54] perf L10 Undercity(1458) 64.4,35.9 | Wegnetz laden: Portionen: 30 Bilder, längstes Bild 4.5 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 124.5 ms · Dauer 2.0 s · ganze Bilder über 40 ms: 3, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 3 · längstes ganzes Bild 1066.0 ms | Spiel: Undercity / Die Kanäle
+[25.11. 08:53] perf L10 Undercity(1458) 64.4,35.9 | Wegnetz laden: Portionen: 30 Bilder, längstes Bild 4.5 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 126.2 ms · Dauer 3.5 s · ganze Bilder über 40 ms: 16, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 16 · längstes ganzes Bild 395.0 ms | Spiel: Undercity / Die Kanäle
+[24.11. 21:51] SYNC ×53 L10 Undercity(1458) 64.4,35.9 | SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, BuffSentinel 0, GoldSentinelMarkt 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0, ThreatSentinel 0 | Spiel: Undercity / Die Kanäle
+      Schritt ACCEPT:9265 · v3.13.13
+[24.11. 21:50] perf L10 Undercity(1458) 64.4,35.9 | Wegnetz laden: Portionen: 27 Bilder, längstes Bild 4.5 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 109.7 ms · Dauer 2.2 s · ganze Bilder über 40 ms: 7, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 7 · längstes ganzes Bild 1170.0 ms | Spiel: Undercity / Die Kanäle
+[24.11. 21:50] SYNC L10 Undercity(1458) 64.4,35.9 | SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, BuffSentinel 0, GoldSentinelMarkt 0, GuildSentinel 0, LevelPilot 1, LevelPilotG 0, ThreatSentinel 0 | Spiel: Undercity / Die Kanäle
+      Schritt ACCEPT:9265 · v3.13.13
+[24.11. 21:49] perf L10 Undercity(1458) 64.4,35.9 | Wegnetz laden: Portionen: 30 Bilder, längstes Bild 4.6 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 123.3 ms · Dauer 2.3 s · ganze Bilder über 40 ms: 13, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 13 · längstes ganzes Bild 1065.0 ms | Spiel: Undercity / Die Kanäle
+[24.11. 21:49] perf L10 Undercity(1458) 64.4,35.9 | Wegnetz laden: Portionen: 30 Bilder, längstes Bild 7.7 ms (Kanten) · über 5 ms: 2 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 129.7 ms · Dauer 2.7 s · ganze Bilder über 40 ms: 25, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 25 · längstes ganzes Bild 113.0 ms | Spiel: Undercity / Die Kanäle
+[24.11. 20:56] perf L10 Undercity(1458) 64.4,35.9 | Wegnetz laden: Portionen: 27 Bilder, längstes Bild 8.8 ms (Kanten) · über 5 ms: 1 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 115.6 ms · Dauer 2.2 s · ganze Bilder über 40 ms: 4, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 4 · längstes ganzes Bild 1230.0 ms | Spiel: Undercity / Die Kanäle
+[24.11. 20:25] perf L10 Undercity(1458) 64.4,35.9 | Wegnetz laden: Portionen: 33 Bilder, längstes Bild 8.9 ms (Kanten) · über 5 ms: 2 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 146.0 ms · Dauer 3.2 s · ganze Bilder über 40 ms: 28, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 28 · längstes ganzes Bild 266.0 ms | Spiel: Undercity / Die Kanäle
+[24.11. 20:23] perf L10 Undercity(1458) 64.4,35.9 | Wegnetz laden: Portionen: 27 Bilder, längstes Bild 4.4 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 113.1 ms · Dauer 2.0 s · ganze Bilder über 40 ms: 2, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 2 · längstes ganzes Bild 1068.0 ms | Spiel: Undercity / Die Kanäle
+[24.11. 20:10] perf L10 Undercity(1458) 64.4,35.9 | Wegnetz laden: Portionen: 31 Bilder, längstes Bild 12.4 ms (Kanten) · über 5 ms: 2 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 139.8 ms · Dauer 3.1 s · ganze Bilder über 40 ms: 25, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 25 · längstes ganzes Bild 284.0 ms | Spiel: Undercity / Die Kanäle
+[24.11. 19:52] perf L10 Undercity(1458) 64.4,35.9 | Wegnetz laden: Portionen: 26 Bilder, längstes Bild 4.4 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 107.7 ms · Dauer 2.0 s · ganze Bilder über 40 ms: 5, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 5 · längstes ganzes Bild 1054.0 ms | Spiel: Undercity / Die Kanäle
+[24.11. 19:41] perf L10 Undercity(1458) 64.4,35.9 | Wegnetz laden: Portionen: 27 Bilder, längstes Bild 9.5 ms (Knoten) · über 5 ms: 2 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 120.8 ms · Dauer 2.1 s · ganze Bilder über 40 ms: 10, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 10 · längstes ganzes Bild 1050.0 ms | Spiel: Undercity / Die Kanäle
+[24.11. 19:39] perf L10 Undercity(1458) 64.4,35.9 | Wegnetz laden: Portionen: 27 Bilder, längstes Bild 4.5 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 112.8 ms · Dauer 2.8 s · ganze Bilder über 40 ms: 20, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 20 · längstes ganzes Bild 257.0 ms | Spiel: Undercity / Die Kanäle
+[24.11. 19:26] perf L10 Undercity(1458) 64.4,35.9 | Wegnetz laden: Portionen: 27 Bilder, längstes Bild 4.6 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 110.7 ms · Dauer 2.1 s · ganze Bilder über 40 ms: 8, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 8 · längstes ganzes Bild 1061.0 ms | Spiel: Undercity / Die Kanäle
+[24.11. 19:00] perf L10 Undercity(1458) 64.6,35.7 | Wegnetz laden: Portionen: 27 Bilder, längstes Bild 4.5 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 111.4 ms · Dauer 2.9 s · ganze Bilder über 40 ms: 17, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 17 · längstes ganzes Bild 291.0 ms | Spiel: Undercity / Die Kanäle
+[24.11. 13:58] perf L10 Undercity(1458) 64.6,35.7 | Wegnetz laden: Portionen: 29 Bilder, längstes Bild 4.5 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 123.6 ms · Dauer 2.3 s · ganze Bilder über 40 ms: 6, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 6 · längstes ganzes Bild 1251.0 ms | Spiel: Undercity / Die Kanäle
+[24.11. 13:57] perf L10 Undercity(1458) 64.6,35.7 | Wegnetz laden: Portionen: 30 Bilder, längstes Bild 4.6 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 126.5 ms · Dauer 3.3 s · ganze Bilder über 40 ms: 13, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 13 · längstes ganzes Bild 383.0 ms | Spiel: Undercity / Die Kanäle
+[24.11. 13:51] perf L10 Undercity(1458) 64.6,35.7 | Wegnetz laden: Portionen: 30 Bilder, längstes Bild 4.6 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 124.4 ms · Dauer 2.5 s · ganze Bilder über 40 ms: 6, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 6 · längstes ganzes Bild 1362.0 ms | Spiel: Undercity / Die Kanäle
+[24.11. 13:46] perf L10 Undercity(1458) 64.6,35.7 | Wegnetz laden: Portionen: 29 Bilder, längstes Bild 4.8 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 121.8 ms · Dauer 2.3 s · ganze Bilder über 40 ms: 9, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 9 · längstes ganzes Bild 1244.0 ms | Spiel: Undercity / Die Kanäle
+[24.11. 13:44] perf L10 Undercity(1458) 64.6,35.7 | Wegnetz laden: Portionen: 27 Bilder, längstes Bild 4.5 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 111.5 ms · Dauer 3.2 s · ganze Bilder über 40 ms: 13, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 13 · längstes ganzes Bild 383.0 ms | Spiel: Undercity / Die Kanäle
+[24.11. 13:39] perf L10 Undercity(1458) 64.6,35.7 | Wegnetz laden: Portionen: 31 Bilder, längstes Bild 4.4 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 127.6 ms · Dauer 3.4 s · ganze Bilder über 40 ms: 19, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 19 · längstes ganzes Bild 371.0 ms | Spiel: Undercity / Die Kanäle
+[24.11. 13:27] perf L10 Undercity(1458) 64.6,35.7 | Wegnetz laden: Portionen: 27 Bilder, längstes Bild 4.7 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 113.5 ms · Dauer 2.3 s · ganze Bilder über 40 ms: 6, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 6 · längstes ganzes Bild 1304.0 ms | Spiel: Undercity / Die Kanäle
+[24.11. 13:04] perf L10 Undercity(1458) 64.5,35.7 | Wegnetz laden: Portionen: 29 Bilder, längstes Bild 4.5 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 120.8 ms · Dauer 2.8 s · ganze Bilder über 40 ms: 18, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 18 · längstes ganzes Bild 222.0 ms | Spiel: Undercity / Die Kanäle
+[24.11. 13:03] perf L30 Thunder Bluff(1456) 38.8,50.5 | Wegnetz laden: Portionen: 26 Bilder, längstes Bild 4.5 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 108.5 ms · Dauer 2.4 s · ganze Bilder über 40 ms: 5, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 5 · längstes ganzes Bild 1508.0 ms | Spiel: Thunder Bluff
+[24.11. 12:49] perf L30 Thunder Bluff(1456) 38.8,50.5 | Wegnetz laden: Portionen: 28 Bilder, längstes Bild 4.6 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 115.5 ms · Dauer 2.5 s · ganze Bilder über 40 ms: 5, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 5 · längstes ganzes Bild 1453.0 ms | Spiel: Thunder Bluff
+[24.11. 12:46] perf L30 Thunder Bluff(1456) 38.8,50.5 | Wegnetz laden: Portionen: 28 Bilder, längstes Bild 4.4 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 113.3 ms · Dauer 2.1 s · ganze Bilder über 40 ms: 3, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 3 · längstes ganzes Bild 1271.0 ms | Spiel: Thunder Bluff
+[24.11. 12:44] perf L30 Thunder Bluff(1456) 38.8,50.5 | Wegnetz laden: Portionen: 29 Bilder, längstes Bild 4.6 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 119.8 ms · Dauer 2.8 s · ganze Bilder über 40 ms: 5, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 5 · längstes ganzes Bild 1162.0 ms | Spiel: Thunder Bluff
+[24.11. 12:43] perf L30 Thunder Bluff(1456) 38.8,50.5 | Wegnetz laden: Portionen: 26 Bilder, längstes Bild 4.4 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 110.0 ms · Dauer 2.4 s · ganze Bilder über 40 ms: 4, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 4 · längstes ganzes Bild 1541.0 ms | Spiel: Thunder Bluff
+[24.11. 12:41] perf L30 Thunder Bluff(1456) 38.8,50.5 | Wegnetz laden: Portionen: 28 Bilder, längstes Bild 4.5 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 115.1 ms · Dauer 3.0 s · ganze Bilder über 40 ms: 8, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 8 · längstes ganzes Bild 707.0 ms | Spiel: Thunder Bluff
+[24.11. 12:37] perf L30 Thunder Bluff(1456) 38.8,50.5 | Wegnetz laden: Portionen: 29 Bilder, längstes Bild 4.4 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 119.8 ms · Dauer 2.4 s · ganze Bilder über 40 ms: 4, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 4 · längstes ganzes Bild 1452.0 ms | Spiel: Thunder Bluff
+[24.11. 12:35] perf L30 Thunder Bluff(1456) 38.8,50.5 | Wegnetz laden: Portionen: 22 Bilder, längstes Bild 4.4 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 92.2 ms · Dauer 2.9 s · ganze Bilder über 40 ms: 5, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 5 · längstes ganzes Bild 735.0 ms | Spiel: Thunder Bluff
+[24.11. 10:20] perf L30 Thunder Bluff(1456) 38.8,50.5 | Wegnetz laden: Portionen: 22 Bilder, längstes Bild 4.4 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 91.2 ms · Dauer 2.2 s · ganze Bilder über 40 ms: 7, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 7 · längstes ganzes Bild 1274.0 ms | Spiel: Thunder Bluff
+[24.11. 10:16] perf L30 Thunder Bluff(1456) 38.8,50.5 | Wegnetz laden: Portionen: 23 Bilder, längstes Bild 4.3 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 93.1 ms · Dauer 3.0 s · ganze Bilder über 40 ms: 8, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 8 · längstes ganzes Bild 745.0 ms | Spiel: Thunder Bluff
+[24.11. 10:08] perf L10 Undercity(1458) 64.5,35.7 | Wegnetz laden: Portionen: 23 Bilder, längstes Bild 4.3 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 96.0 ms · Dauer 2.3 s · ganze Bilder über 40 ms: 4, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 4 · längstes ganzes Bild 1575.0 ms | Spiel: Undercity / Die Kanäle
+[24.11. 10:07] LANGSAM L10 Undercity(1458) 64.5,35.7 | Planung dauerte bis zu 15436 ms | Spiel: Undercity / Die Kanäle
+      Schritt ACCEPT:9265 · v3.13.11
+[24.11. 09:54] perf L10 Undercity(1458) 64.5,35.7 | Wegnetz laden: Portionen: 26 Bilder, längstes Bild 4.7 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 106.9 ms · Dauer 2.2 s · ganze Bilder über 40 ms: 6, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 6 · längstes ganzes Bild 1232.0 ms | Spiel: Undercity / Die Kanäle
+[24.11. 09:31] perf L10 Undercity(1458) 64.5,35.7 | Wegnetz laden: Portionen: 27 Bilder, längstes Bild 6.1 ms (Knoten) · über 5 ms: 1 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 113.8 ms · Dauer 2.8 s · ganze Bilder über 40 ms: 16, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 16 · längstes ganzes Bild 252.0 ms | Spiel: Undercity / Die Kanäle
+[24.11. 09:31] perf L30 Thunder Bluff(1456) 38.8,50.5 | Wegnetz laden: Portionen: 23 Bilder, längstes Bild 4.3 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 92.7 ms · Dauer 1.9 s · ganze Bilder über 40 ms: 2, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 2 · längstes ganzes Bild 1267.0 ms | Spiel: Thunder Bluff
+[24.11. 09:25] perf L30 Thunder Bluff(1456) 38.8,50.5 | Wegnetz laden: Portionen: 22 Bilder, längstes Bild 4.2 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 89.6 ms · Dauer 2.5 s · ganze Bilder über 40 ms: 5, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 5 · längstes ganzes Bild 525.0 ms | Spiel: Thunder Bluff
+[24.11. 09:09] perf L30 Thunder Bluff(1456) 38.8,50.5 | Wegnetz laden: Portionen: 23 Bilder, längstes Bild 4.3 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 96.3 ms · Dauer 2.9 s · ganze Bilder über 40 ms: 6, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 6 · längstes ganzes Bild 697.0 ms | Spiel: Thunder Bluff
+[24.11. 08:07] perf L10 Undercity(1458) 64.5,35.7 | Wegnetz laden: Portionen: 22 Bilder, längstes Bild 4.4 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 91.7 ms · Dauer 2.0 s · ganze Bilder über 40 ms: 5, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 5 · längstes ganzes Bild 1230.0 ms | Spiel: Undercity / Die Kanäle
+[24.11. 07:31] perf L10 Undercity(1458) 64.4,35.8 | Wegnetz laden: Portionen: 23 Bilder, längstes Bild 5.7 ms (Knoten) · über 5 ms: 1 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 96.6 ms · Dauer 2.5 s · ganze Bilder über 40 ms: 4, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 4 · längstes ganzes Bild 1903.0 ms | Spiel: Undercity / Die Kanäle
+[23.11. 15:54] perf L30 Thunder Bluff(1456) 38.8,50.5 | Wegnetz laden: Portionen: 23 Bilder, längstes Bild 4.3 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 92.5 ms · Dauer 4.3 s · ganze Bilder über 40 ms: 8, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 8 · längstes ganzes Bild 2703.0 ms | Spiel: Thunder Bluff
+      Schritt PRIO:TRAIN:30 · v3.13.10
+[23.11. 15:54] LANGSAM L30 Thunder Bluff(1456) 38.8,50.5 | Routenberechnung 253 ms · Aufgaben 52 · Kandidaten 299 · Questlog 20 · Wegpunkte 27341 · Zone ? · Pause 60 s | Spiel: Thunder Bluff
+      Schritt PRIO:TRAIN:30 · v3.13.10
+[23.11. 15:37] perf L30 Thunder Bluff(1456) 38.8,50.5 | Wegnetz laden: Portionen: 25 Bilder, längstes Bild 4.6 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 102.2 ms · Dauer 3.2 s · ganze Bilder über 40 ms: 8, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 8 · längstes ganzes Bild 1523.0 ms | Spiel: Thunder Bluff
+      Schritt PRIO:TRAIN:30 · v3.13.10
+[23.11. 15:37] LANGSAM L30 Thunder Bluff(1456) 38.8,50.5 | Routenberechnung 269 ms · Aufgaben 52 · Kandidaten 299 · Questlog 20 · Wegpunkte 27341 · Zone ? · Pause 60 s | Spiel: Thunder Bluff
+      Schritt PRIO:TRAIN:30 · v3.13.10
+[23.11. 15:37] perf L30 Thunder Bluff(1456) 38.8,50.5 | Wegnetz laden: Portionen: 22 Bilder, längstes Bild 4.5 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 91.0 ms · Dauer 2.6 s · ganze Bilder über 40 ms: 5, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 5 · längstes ganzes Bild 1301.0 ms | Spiel: Thunder Bluff
+      Schritt PRIO:TRAIN:30 · v3.13.10
+[23.11. 15:37] LANGSAM L30 Thunder Bluff(1456) 38.8,50.5 | Routenberechnung 237 ms · Aufgaben 52 · Kandidaten 299 · Questlog 20 · Wegpunkte 27341 · Zone ? · Pause 60 s | Spiel: Thunder Bluff
+      Schritt PRIO:TRAIN:30 · v3.13.10
+[23.11. 14:01] perf L30 Thunder Bluff(1456) 38.8,50.5 | Wegnetz laden: Portionen: 21 Bilder, längstes Bild 4.6 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 85.9 ms · Dauer 2.6 s · ganze Bilder über 40 ms: 7, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 7 · längstes ganzes Bild 1259.0 ms | Spiel: Thunder Bluff
+      Schritt PRIO:TRAIN:30 · v3.13.10
+[23.11. 14:01] LANGSAM L30 Thunder Bluff(1456) 38.8,50.5 | Routenberechnung 219 ms · Aufgaben 52 · Kandidaten 299 · Questlog 20 · Wegpunkte 27341 · Zone ? · Pause 60 s | Spiel: Thunder Bluff
+      Schritt PRIO:TRAIN:30 · v3.13.10
+[23.11. 13:51] perf L30 Thunder Bluff(1456) 38.8,50.5 | Wegnetz laden: Portionen: 24 Bilder, längstes Bild 4.4 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 96.7 ms · Dauer 2.5 s · ganze Bilder über 40 ms: 4, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 4 · längstes ganzes Bild 1210.0 ms | Spiel: Thunder Bluff
+      Schritt PRIO:TRAIN:30 · v3.13.10
+[23.11. 13:51] LANGSAM L30 Thunder Bluff(1456) 38.8,50.5 | Routenberechnung 223 ms · Aufgaben 52 · Kandidaten 299 · Questlog 20 · Wegpunkte 27341 · Zone ? · Pause 60 s | Spiel: Thunder Bluff
+      Schritt PRIO:TRAIN:30 · v3.13.10
+[23.11. 13:26] perf L30 Thunder Bluff(1456) 51.2,53.0 | Wegnetz laden: Portionen: 27 Bilder, längstes Bild 4.4 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 111.2 ms · Dauer 3.4 s · ganze Bilder über 40 ms: 8, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 8 · längstes ganzes Bild 1587.0 ms | Spiel: Thunder Bluff
+      Schritt PRIO:TRAIN:30 · v3.13.10
+[23.11. 13:26] LANGSAM L30 Thunder Bluff(1456) 51.2,53.0 | Routenberechnung 300 ms · Aufgaben 52 · Kandidaten 299 · Questlog 20 · Wegpunkte 27338 · Zone ? · Pause 60 s | Spiel: Thunder Bluff
+      Schritt PRIO:TRAIN:30 · v3.13.10
+[23.11. 13:20] perf L30 Thunder Bluff(1456) 51.2,53.0 | Wegnetz laden: Portionen: 33 Bilder, längstes Bild 4.9 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 141.3 ms · Dauer 3.9 s · ganze Bilder über 40 ms: 13, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 13 · längstes ganzes Bild 1568.0 ms | Spiel: Thunder Bluff
+      Schritt PRIO:TRAIN:30 · v3.13.10
+[23.11. 13:20] LANGSAM L30 Thunder Bluff(1456) 51.2,53.0 | Routenberechnung 374 ms · Aufgaben 52 · Kandidaten 299 · Questlog 20 · Wegpunkte 27338 · Zone ? · Pause 60 s | Spiel: Thunder Bluff
+      Schritt PRIO:TRAIN:30 · v3.13.10
+[23.11. 13:11] perf L30 Thunder Bluff(1456) 51.2,53.0 | Wegnetz laden: Portionen: 27 Bilder, längstes Bild 5.0 ms (-–Knoten) · über 5 ms: 1 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 114.4 ms · Dauer 4.3 s · ganze Bilder über 40 ms: 5, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 5 · längstes ganzes Bild 2457.0 ms | Spiel: Thunder Bluff
+      Schritt PRIO:TRAIN:30 · v3.13.10
+[23.11. 13:11] LANGSAM L30 Thunder Bluff(1456) 51.2,53.0 | Routenberechnung 357 ms · Aufgaben 52 · Kandidaten 299 · Questlog 20 · Wegpunkte 27338 · Zone ? · Pause 60 s | Spiel: Thunder Bluff
+      Schritt PRIO:TRAIN:30 · v3.13.10
+[23.11. 13:11] WEGE L30 Thunder Bluff(1456) 51.2,53.0 | Wegsperren aufgehoben: 1 (dazu 0 FEST-Einträge entsperrt) – Entscheid: keine Wege mehr sperren | Spiel: Thunder Bluff
+[23.11. 13:06] SYNC L30 Thunder Bluff(1456) 51.2,53.0 | SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, BuffSentinel 0, GoldSentinelMarkt 0, GuildSentinel 1, LevelPilot 1, LevelPilotG 0, ThreatSentinel 0 | Spiel: Thunder Bluff
+      Schritt PRIO:TRAIN:30 · v3.13.6
+[23.11. 13:05] perf L30 Thunder Bluff(1456) 51.2,53.0 | Wegnetz laden: Portionen: 29 Bilder, längstes Bild 6.2 ms (Kanten) · über 5 ms: 1 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 124.3 ms · Dauer 3.7 s · ganze Bilder über 40 ms: 21, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 21 · längstes ganzes Bild 1404.0 ms | Spiel: Thunder Bluff
+      Schritt PRIO:TRAIN:30 · v3.13.6
+[23.11. 13:05] LANGSAM L30 Thunder Bluff(1456) 51.2,53.0 | Routenberechnung 267 ms · Aufgaben 52 · Kandidaten 299 · Questlog 20 · Wegpunkte 27338 · Zone ? · Pause 60 s | Spiel: Thunder Bluff
+      Schritt PRIO:TRAIN:30 · v3.13.6
+[23.11. 13:04] perf L30 Thunder Bluff(1456) 51.2,53.0 | Wegnetz laden: Portionen: 25 Bilder, längstes Bild 4.4 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 104.3 ms · Dauer 3.1 s · ganze Bilder über 40 ms: 18, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 18 · längstes ganzes Bild 1212.0 ms | Spiel: Thunder Bluff
+      Schritt PRIO:TRAIN:30 · v3.13.6
+[23.11. 13:04] LANGSAM L30 Thunder Bluff(1456) 51.2,53.0 | Routenberechnung 255 ms · Aufgaben 52 · Kandidaten 299 · Questlog 20 · Wegpunkte 27338 · Zone ? · Pause 60 s | Spiel: Thunder Bluff
+      Schritt PRIO:TRAIN:30 · v3.13.6
+[23.11. 13:02] SYNC ×5 L30 Thunder Bluff(1456) 51.2,53.0 | SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, BuffSentinel 1, GoldSentinelMarkt 1, GuildSentinel 1, LevelPilot 1, LevelPilotG 1, ThreatSentinel 1 | Spiel: Thunder Bluff
+      Schritt PRIO:TRAIN:30 · v3.13.6
+[23.11. 13:01] perf L30 Thunder Bluff(1456) 51.2,53.0 | Wegnetz laden: Portionen: 28 Bilder, längstes Bild 4.8 ms (Knoten–Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 117.1 ms · Dauer 4.9 s · ganze Bilder über 40 ms: 18, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 18 · längstes ganzes Bild 838.0 ms | Spiel: Thunder Bluff
+      Schritt PRIO:TRAIN:30 · v3.13.6
+[23.11. 13:01] LANGSAM L30 Thunder Bluff(1456) 51.2,53.0 | Routenberechnung 259 ms · Aufgaben 52 · Kandidaten 299 · Questlog 20 · Wegpunkte 27338 · Zone ? · Pause 60 s | Spiel: Thunder Bluff
+      Schritt PRIO:TRAIN:30 · v3.13.6
+[22.11. 18:09] perf L30 Thunder Bluff(1456) 51.2,53.0 | Wegnetz laden: Portionen: 25 Bilder, längstes Bild 5.1 ms (Kanten) · über 5 ms: 1 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 103.7 ms · Dauer 3.7 s · ganze Bilder über 40 ms: 19, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 19 · längstes ganzes Bild 267.0 ms | Spiel: Thunder Bluff
+      Schritt PRIO:TRAIN:30 · v3.13.6
+[22.11. 18:09] LANGSAM L30 Thunder Bluff(1456) 51.2,53.0 | Routenberechnung 210 ms · Aufgaben 52 · Kandidaten 299 · Questlog 20 · Wegpunkte 27336 · Zone ? · Pause 60 s | Spiel: Thunder Bluff
+      Schritt PRIO:TRAIN:30 · v3.13.6
+[22.11. 17:02] SYNC L30 Thunder Bluff(1456) 40.2,51.9 | SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 3, BuffSentinel 2, GoldSentinelMarkt 0, GuildSentinel 2, LevelPilot 2, LevelPilotG 0, ThreatSentinel 0 | Spiel: Thunder Bluff
+      Schritt PRIO:TRAIN:30 · v3.13.6
+[22.11. 17:01] perf L30 Thunder Bluff(1456) 40.2,51.9 | Wegnetz laden: Portionen: 22 Bilder, längstes Bild 4.5 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 89.0 ms · Dauer 2.6 s · ganze Bilder über 40 ms: 5, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 5 · längstes ganzes Bild 1292.0 ms | Spiel: Thunder Bluff
+      Schritt PRIO:TRAIN:30 · v3.13.6
+[22.11. 17:01] LANGSAM L30 Thunder Bluff(1456) 40.2,51.9 | Routenberechnung 207 ms · Aufgaben 52 · Kandidaten 299 · Questlog 20 · Wegpunkte 27309 · Zone ? · Pause 60 s | Spiel: Thunder Bluff
+      Schritt PRIO:TRAIN:30 · v3.13.6
+[22.11. 15:36] perf L29 Arathihochland(1417) 43.6,81.7 | Wegnetz laden: Portionen: 25 Bilder, längstes Bild 4.5 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 105.6 ms · Dauer 3.0 s · ganze Bilder über 40 ms: 8, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 8 · längstes ganzes Bild 159.0 ms | Spiel: Arathihochland
+[22.11. 15:18] TOD L29 Sumpfland(1437) 53.7,64.8 | Tod bei „Eroberung des Arathibeckens“ | Spiel: Sumpfland / Thelgenfelsen
+      Schritt COMPLETE:8370 · v3.13.6
+[22.11. 14:52] TOD ×4 L29 ? | Tod bei „Ausgrabungsstätte: Sumpfland“ | Spiel: Ausgrabungsstätte: Sumpfland / Pirscherdickicht
+      Schritt DGIN · v3.13.6
+[22.11. 12:59] TOD L29 Sumpfland(1437) 51.0,14.0 | Tod bei „Gefährlich!“ | Spiel: Sumpfland / Dun Modr
+      Schritt ACCEPT:567 · v3.13.6
+[22.11. 12:26] SYNC ×13 L29 Durotar(1411) 49.2,13.6 | SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 2, BuffSentinel 2, GoldSentinelMarkt 2, GuildSentinel 2, LevelPilot 2, LevelPilotG 2, ThreatSentinel 1 | Spiel: Durotar / Scheckeneberhof
+      Schritt TURNIN:1145 · v3.13.6
+[22.11. 12:25] perf L29 Orgrimmar(1454) 52.0,73.2 | Wegnetz laden: Portionen: 24 Bilder, längstes Bild 10.3 ms (Kanten) · über 5 ms: 1 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 106.5 ms · Dauer 2.9 s · ganze Bilder über 40 ms: 17, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 17 · längstes ganzes Bild 436.0 ms | Spiel: Orgrimmar / Das Tal der Stärke
+[22.11. 12:24] perf L10 Undercity(1458) 64.3,35.6 | Wegnetz laden: Portionen: 25 Bilder, längstes Bild 4.7 ms (Knoten–Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 105.5 ms · Dauer 2.7 s · ganze Bilder über 40 ms: 21, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 21 · längstes ganzes Bild 166.0 ms | Spiel: Undercity / Die Kanäle
+[22.11. 11:03] perf L29 Ashenvale(1440) 12.2,33.8 | Wegnetz laden: Portionen: 23 Bilder, längstes Bild 4.6 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 92.6 ms · Dauer 1.9 s · ganze Bilder über 40 ms: 4, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 4 · längstes ganzes Bild 1152.0 ms | Spiel: Ashenvale / Zoram'gar-Außenposten
+[22.11. 10:21] SCHRITT L28 Ashenvale(1440) 80.8,49.2 | Schritt seit 25 min aktiv: Erledigen: Satyrhörner [26]  38 Yards | Spiel: Ashenvale / Satyrnaar
+      Schritt COMPLETE:6441 · v3.13.6
+[22.11. 10:18] TOD L28 Ashenvale(1440) 82.0,52.2 | Tod bei „Satyrhörner“ | Spiel: Ashenvale / Satyrnaar
+      Schritt COMPLETE:6441 · v3.13.6
+[22.11. 09:24] perf L28 Orgrimmar(1454) 55.1,62.1 | Wegnetz laden: Portionen: 20 Bilder, längstes Bild 4.3 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 81.6 ms · Dauer 1.9 s · ganze Bilder über 40 ms: 7, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 7 · längstes ganzes Bild 1028.0 ms | Spiel: Orgrimmar / Das Tal der Stärke
+[22.11. 09:21] perf L28 Orgrimmar(1454) 55.1,62.1 | Wegnetz laden: Portionen: 22 Bilder, längstes Bild 4.4 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 90.7 ms · Dauer 2.0 s · ganze Bilder über 40 ms: 7, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 7 · längstes ganzes Bild 1128.0 ms | Spiel: Orgrimmar / Das Tal der Stärke
+[22.11. 07:57] perf L28 Ashenvale(1440) 38.0,37.2 | Wegnetz laden: Portionen: 20 Bilder, längstes Bild 4.4 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 82.4 ms · Dauer 2.7 s · ganze Bilder über 40 ms: 3, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 3 · längstes ganzes Bild 181.0 ms | Spiel: Ashenvale / Lager der Distelfelle
+[22.11. 06:25] perf L27 Thunder Bluff(1456) 41.8,59.6 | Wegnetz laden: Portionen: 20 Bilder, längstes Bild 4.3 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 82.5 ms · Dauer 2.3 s · ganze Bilder über 40 ms: 11, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 11 · längstes ganzes Bild 345.0 ms | Spiel: Thunder Bluff
+[22.11. 06:24] perf L1 Orgrimmar(1454) 50.8,70.5 | Wegnetz laden: Portionen: 20 Bilder, längstes Bild 4.7 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 82.8 ms · Dauer 2.2 s · ganze Bilder über 40 ms: 8, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 8 · längstes ganzes Bild 151.0 ms | Spiel: Orgrimmar / Das Tal der Stärke
+[22.11. 06:20] perf L10 Undercity(1458) 64.3,35.7 | Wegnetz laden: Portionen: 20 Bilder, längstes Bild 4.3 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 82.8 ms · Dauer 2.5 s · ganze Bilder über 40 ms: 15, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 15 · längstes ganzes Bild 298.0 ms | Spiel: Undercity / Die Kanäle
+[21.11. 23:29] perf L10 Undercity(1458) 64.3,35.7 | Wegnetz laden: Portionen: 20 Bilder, längstes Bild 4.3 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 79.6 ms · Dauer 2.3 s · ganze Bilder über 40 ms: 16, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 16 · längstes ganzes Bild 117.0 ms | Spiel: Undercity / Die Kanäle
+[21.11. 23:23] perf L10 Undercity(1458) 62.5,36.3 | Wegnetz laden: Portionen: 20 Bilder, längstes Bild 4.6 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 83.6 ms · Dauer 2.8 s · ganze Bilder über 40 ms: 17, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 17 · längstes ganzes Bild 195.0 ms | Spiel: Undercity / Die Kanäle
+[21.11. 23:19] KEINWEG L27 Thunder Bluff(1456) 38.8,50.6 | Kein Weg zu „ACCEPT:1058“ (ACCEPT:1058) | Spiel: Thunder Bluff
+      Schritt ACCEPT:1058 · v3.13.6
+      abgebrochen
+[21.11. 23:18] perf L27 Thunder Bluff(1456) 38.8,50.6 | Wegnetz laden: Portionen: 21 Bilder, längstes Bild 4.4 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 86.3 ms · Dauer 2.1 s · ganze Bilder über 40 ms: 12, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 12 · längstes ganzes Bild 1147.0 ms | Spiel: Thunder Bluff
+[21.11. 22:52] SYNC L27 Ashenvale(1440) 73.5,60.4 | SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 2, BuffSentinel 2, GoldSentinelMarkt 0, GuildSentinel 2, LevelPilot 2, LevelPilotG 0, ThreatSentinel 0 | Spiel: Ashenvale / Splintertreeposten
+      Schritt FP:Vhulgra:1440 · v3.13.6
+[21.11. 22:51] perf L27 Ashenvale(1440) 73.6,61.1 | Wegnetz laden: Portionen: 20 Bilder, längstes Bild 4.3 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 81.5 ms · Dauer 1.8 s · ganze Bilder über 40 ms: 6, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 6 · längstes ganzes Bild 1108.0 ms | Spiel: Ashenvale / Splintertreeposten
+[21.11. 22:21] TOD L27 ? | Tod bei „Die Tiefschwarze Grotte“ | Spiel: Blackfathom-Tiefe / Mondschreinruine
+      Schritt DGIN · v3.13.6
+[21.11. 21:40] TOD L27 Ashenvale(1440) 25.4,38.6 | Tod bei „Hart auf hart“ | Spiel: Ashenvale / Maestras Posten
+      Schritt ACCEPT:216 · v3.13.6
+[21.11. 21:28] perf L27 Das Brachland(1413) 52.0,29.9 | Wegnetz laden: Portionen: 23 Bilder, längstes Bild 4.5 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 93.2 ms · Dauer 2.7 s · ganze Bilder über 40 ms: 11, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 11 · längstes ganzes Bild 389.0 ms | Spiel: Brachland / Crossroads
+[21.11. 21:26] perf L10 Undercity(1458) 63.7,36.1 | Wegnetz laden: Portionen: 21 Bilder, längstes Bild 4.4 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 86.4 ms · Dauer 2.4 s · ganze Bilder über 40 ms: 18, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 18 · längstes ganzes Bild 157.0 ms | Spiel: Undercity / Die Kanäle
+[21.11. 21:25] perf L10 Undercity(1458) 63.4,36.2 | Wegnetz laden: Portionen: 20 Bilder, längstes Bild 4.3 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 80.8 ms · Dauer 2.4 s · ganze Bilder über 40 ms: 16, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 16 · längstes ganzes Bild 184.0 ms | Spiel: Undercity / Die Kanäle
+[21.11. 21:04] TOD L26 Das Brachland(1413) 48.9,84.2 | Tod bei „Ganns Rache“ | Spiel: Brachland / Bael Modan
+      Schritt COMPLETE:846 · v3.13.6
+[21.11. 20:53] perf L26 Das Brachland(1413) 44.9,58.1 | Wegnetz laden: Portionen: 20 Bilder, längstes Bild 4.4 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 81.7 ms · Dauer 2.5 s · ganze Bilder über 40 ms: 8, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 8 · längstes ganzes Bild 411.0 ms | Spiel: Brachland / Camp Taurajo
+[21.11. 20:53] perf L10 Undercity(1458) 62.5,36.4 | Wegnetz laden: Portionen: 20 Bilder, längstes Bild 4.6 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 81.8 ms · Dauer 2.4 s · ganze Bilder über 40 ms: 19, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 19 · längstes ganzes Bild 179.0 ms | Spiel: Undercity / Die Kanäle
+[21.11. 20:46] perf L26 Orgrimmar(1454) 68.1,38.0 | Wegnetz laden: Portionen: 20 Bilder, längstes Bild 4.3 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 82.2 ms · Dauer 1.8 s · ganze Bilder über 40 ms: 4, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 4 · längstes ganzes Bild 1067.0 ms | Spiel: Orgrimmar / Das Tal der Ehre
+[21.11. 20:27] SYNC ×4 L26 Orgrimmar(1454) 55.1,62.2 | SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, BuffSentinel 2, GoldSentinelMarkt 0, GuildSentinel 2, LevelPilot 2, LevelPilotG 0, ThreatSentinel 0 | Spiel: Orgrimmar / Das Tal der Stärke
+      Schritt ACCEPT:6441 · v3.13.6
+[21.11. 20:26] perf L26 Orgrimmar(1454) 55.0,62.2 | Wegnetz laden: Portionen: 19 Bilder, längstes Bild 4.3 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 77.7 ms · Dauer 2.2 s · ganze Bilder über 40 ms: 9, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 9 · längstes ganzes Bild 347.0 ms | Spiel: Orgrimmar / Das Tal der Stärke
+[21.11. 20:19] perf L10 Undercity(1458) 64.3,35.7 | Wegnetz laden: Portionen: 19 Bilder, längstes Bild 4.3 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 76.6 ms · Dauer 1.6 s · ganze Bilder über 40 ms: 4, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 4 · längstes ganzes Bild 1007.0 ms | Spiel: Undercity / Die Kanäle
+[21.11. 20:14] perf L10 Undercity(1458) 62.8,36.2 | Wegnetz laden: Portionen: 19 Bilder, längstes Bild 4.3 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 76.4 ms · Dauer 1.7 s · ganze Bilder über 40 ms: 5, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 5 · längstes ganzes Bild 1051.0 ms | Spiel: Undercity / Die Kanäle
+[21.11. 20:01] perf L10 Undercity(1458) 64.3,35.7 | Wegnetz laden: Portionen: 19 Bilder, längstes Bild 4.4 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 76.5 ms · Dauer 1.8 s · ganze Bilder über 40 ms: 5, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 5 · längstes ganzes Bild 1162.0 ms | Spiel: Undercity / Die Kanäle
+[21.11. 19:54] perf L10 Undercity(1458) 64.3,35.7 | Wegnetz laden: Portionen: 19 Bilder, längstes Bild 4.5 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 78.5 ms · Dauer 1.8 s · ganze Bilder über 40 ms: 7, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 7 · längstes ganzes Bild 1093.0 ms | Spiel: Undercity / Die Kanäle
+[21.11. 19:38] perf L10 Undercity(1458) 64.3,35.7 | Wegnetz laden: Portionen: 22 Bilder, längstes Bild 4.4 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 89.2 ms · Dauer 2.6 s · ganze Bilder über 40 ms: 13, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 13 · längstes ganzes Bild 216.0 ms | Spiel: Undercity / Die Kanäle
+[21.11. 19:03] perf L26 Orgrimmar(1454) 80.2,23.4 | Wegnetz laden: Portionen: 18 Bilder, längstes Bild 4.4 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 74.7 ms · Dauer 1.6 s · ganze Bilder über 40 ms: 3, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 3 · längstes ganzes Bild 1082.0 ms | Spiel: Orgrimmar / Das Tal der Ehre
+[21.11. 18:59] perf L26 Orgrimmar(1454) 52.1,68.1 | Wegnetz laden: Portionen: 18 Bilder, längstes Bild 4.5 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 75.2 ms · Dauer 2.5 s · ganze Bilder über 40 ms: 11, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 11 · längstes ganzes Bild 452.0 ms | Spiel: Orgrimmar / Das Tal der Stärke
+[21.11. 18:58] perf L1 Orgrimmar(1454) 50.8,70.5 | Wegnetz laden: Portionen: 19 Bilder, längstes Bild 4.3 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 76.7 ms · Dauer 2.2 s · ganze Bilder über 40 ms: 15, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 15 · längstes ganzes Bild 155.0 ms | Spiel: Orgrimmar / Das Tal der Stärke
+[21.11. 18:38] perf L10 Undercity(1458) 62.5,36.4 | Wegnetz laden: Portionen: 19 Bilder, längstes Bild 4.3 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 75.2 ms · Dauer 2.5 s · ganze Bilder über 40 ms: 8, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 8 · längstes ganzes Bild 314.0 ms | Spiel: Undercity / Die Kanäle
+[21.11. 14:57] perf L26 Das Brachland(1413) 52.0,30.0 | Wegnetz laden: Portionen: 18 Bilder, längstes Bild 4.3 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 71.9 ms · Dauer 2.3 s · ganze Bilder über 40 ms: 5, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 5 · längstes ganzes Bild 501.0 ms | Spiel: Brachland / Crossroads
+[21.11. 14:51] perf L10 Undercity(1458) 64.2,35.8 | Wegnetz laden: Portionen: 18 Bilder, längstes Bild 4.4 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 71.4 ms · Dauer 2.5 s · ganze Bilder über 40 ms: 13, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 13 · längstes ganzes Bild 191.0 ms | Spiel: Undercity / Die Kanäle
+[21.11. 14:46] SYNC L1 Orgrimmar(1454) 55.0,62.1 | SYNC GoldSentinelSync 3 · Wege: keiner · Mitspieler (1 Std.): AHSentinel 0, BuffSentinel 0, GoldSentinelMarkt 0, GuildSentinel 0, LevelPilot 1, LevelPilotG 0, ThreatSentinel 0 | Spiel: Orgrimmar / Das Tal der Stärke
+      Schritt FP:Doras:1454 · v3.13.6
+[21.11. 14:45] perf L1 Orgrimmar(1454) 50.8,70.5 | Wegnetz laden: Portionen: 17 Bilder, längstes Bild 4.7 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 71.6 ms · Dauer 2.0 s · ganze Bilder über 40 ms: 13, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 13 · längstes ganzes Bild 124.0 ms | Spiel: Orgrimmar / Das Tal der Stärke
+[21.11. 12:52] perf L25 Orgrimmar(1454) 50.4,71.8 | Wegnetz laden: Portionen: 17 Bilder, längstes Bild 4.3 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 68.0 ms · Dauer 3.0 s · ganze Bilder über 40 ms: 15, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 15 · längstes ganzes Bild 521.0 ms | Spiel: Orgrimmar / Das Tal der Stärke
+[21.11. 12:42] SYNC L10 Undercity(1458) 64.3,35.9 | SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, BuffSentinel 1, GoldSentinelMarkt 1, GuildSentinel 1, LevelPilot 1, LevelPilotG 0, ThreatSentinel 0 | Spiel: Undercity / Die Kanäle
+      Schritt ACCEPT:9265 · v3.13.6
+[21.11. 12:41] perf L10 Undercity(1458) 64.3,35.9 | Wegnetz laden: Portionen: 16 Bilder, längstes Bild 4.3 ms (-–Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 66.1 ms · Dauer 1.8 s · ganze Bilder über 40 ms: 6, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 6 · längstes ganzes Bild 1159.0 ms | Spiel: Undercity / Die Kanäle
+[21.11. 12:39] perf L10 Undercity(1458) 64.4,35.7 | Wegnetz laden: Portionen: 16 Bilder, längstes Bild 4.3 ms (-–Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 66.1 ms · Dauer 2.3 s · ganze Bilder über 40 ms: 13, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 13 · längstes ganzes Bild 258.0 ms | Spiel: Undercity / Die Kanäle
+[21.11. 09:03] perf L10 Undercity(1458) 62.6,36.4 | Wegnetz laden: Portionen: 17 Bilder, längstes Bild 4.3 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 68.3 ms · Dauer 2.1 s · ganze Bilder über 40 ms: 10, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 10 · längstes ganzes Bild 182.0 ms | Spiel: Undercity / Die Kanäle
+[21.11. 08:56] perf L25 Orgrimmar(1454) 49.2,69.8 | Wegnetz laden: Portionen: 17 Bilder, längstes Bild 4.3 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 66.9 ms · Dauer 2.5 s · ganze Bilder über 40 ms: 12, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 12 · längstes ganzes Bild 342.0 ms | Spiel: Orgrimmar / Das Tal der Stärke
+[21.11. 08:50] perf L10 Undercity(1458) 64.3,35.9 | Wegnetz laden: Portionen: 16 Bilder, längstes Bild 4.3 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 65.0 ms · Dauer 2.3 s · ganze Bilder über 40 ms: 10, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 10 · längstes ganzes Bild 140.0 ms | Spiel: Undercity / Die Kanäle
+[21.11. 08:38] perf L10 Undercity(1458) 62.3,36.5 | Wegnetz laden: Portionen: 16 Bilder, längstes Bild 4.3 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 64.8 ms · Dauer 2.3 s · ganze Bilder über 40 ms: 11, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 11 · längstes ganzes Bild 193.0 ms | Spiel: Undercity / Die Kanäle
+[21.11. 08:37] perf L25 Orgrimmar(1454) 49.2,69.8 | Wegnetz laden: Portionen: 18 Bilder, längstes Bild 4.4 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 74.3 ms · Dauer 1.9 s · ganze Bilder über 40 ms: 9, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 9 · längstes ganzes Bild 1122.0 ms | Spiel: Orgrimmar / Das Tal der Stärke
+[21.11. 08:10] perf L25 Orgrimmar(1454) 52.5,66.9 | Wegnetz laden: Portionen: 19 Bilder, längstes Bild 4.5 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 79.5 ms · Dauer 2.6 s · ganze Bilder über 40 ms: 10, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 10 · längstes ganzes Bild 557.0 ms | Spiel: Orgrimmar / Das Tal der Stärke
+[21.11. 08:09] SYNC ×2 L1 Orgrimmar(1454) 50.9,70.5 | SYNC GoldSentinelSync 3 · Wege: keiner · Mitspieler (1 Std.): AHSentinel 0, BuffSentinel 0, GoldSentinelMarkt 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0, ThreatSentinel 0 | Spiel: Orgrimmar / Das Tal der Stärke
+      Schritt FP:Doras:1454 · v3.13.6
+[21.11. 08:08] perf L1 Orgrimmar(1454) 50.9,70.5 | Wegnetz laden: Portionen: 20 Bilder, längstes Bild 4.3 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 82.5 ms · Dauer 2.4 s · ganze Bilder über 40 ms: 12, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 12 · längstes ganzes Bild 131.0 ms | Spiel: Orgrimmar / Das Tal der Stärke
+[21.11. 08:04] perf L10 Undercity(1458) 64.3,52.7 | Wegnetz laden: Portionen: 17 Bilder, längstes Bild 4.6 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 71.2 ms · Dauer 2.2 s · ganze Bilder über 40 ms: 8, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 8 · längstes ganzes Bild 190.0 ms | Spiel: Undercity / Undercity
+[21.11. 08:00] FEST L1 Durotar(1411) 52.3,35.7 | Seit 4 min nicht näher an „ACCEPT:4641“ (noch 1252 Yards, Weg: graph) | Spiel: Durotar
+      Schritt ACCEPT:4641 · v3.13.6
+[21.11. 07:56] perf L1 Durotar(1411) 43.3,68.8 | Wegnetz laden: Portionen: 16 Bilder, längstes Bild 4.3 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 65.5 ms · Dauer 2.5 s · ganze Bilder über 40 ms: 3, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 3 · längstes ganzes Bild 116.0 ms | Spiel: Durotar / Das Tal der Prüfungen
+[21.11. 07:33] perf L25 Schlingendorntal(1434) 27.5,77.2 | Wegnetz laden: Portionen: 16 Bilder, längstes Bild 4.3 ms (Knoten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 65.5 ms · Dauer 2.4 s · ganze Bilder über 40 ms: 6, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 6 · längstes ganzes Bild 506.0 ms | Spiel: Schlingendornt

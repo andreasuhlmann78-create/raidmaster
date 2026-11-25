@@ -1,0 +1,47 @@
+{
+ "addon": "LevelPilot",
+ "blocked": [],
+ "env": {
+  "build": "71091",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 10,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "f": 1,
+ "fest": [],
+ "id": "LevelPilot-wege-1795593637-15e7d6",
+ "kind": "wege",
+ "npc": [],
+ "time": 1795593637,
+ "version": "3.13.13",
+ "zones": [
+  {
+   "edges": [
+    {
+     "n": 3,
+     "p": [
+      48.4,
+      47.3,
+      48.6,
+      46.7,
+      48.9,
+      46.6,
+      49.2,
+      46.6,
+      49.6,
+      46.8
+     ],
+     "src": "geteilt"
+    }
+   ],
+   "map": 2548,
+   "name": "Flusslande"
+  }
+ ]
+}
