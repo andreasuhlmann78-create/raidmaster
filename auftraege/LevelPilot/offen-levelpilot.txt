@@ -1848,3 +1848,19 @@ LP-SB1-c MITTEL (Vorschlag des Berichts FREIGEGEBEN): Während der Testroutine E
     Restore einspielen; Bericht HINWEIS mit Anzahl je Art; Test im Nachbau (Empfang mitten in der Routine -> danach im Netz). Heute gehen solche Daten
     beim Restore verloren (belegt) – darum MITTEL.
     Nächster Ingametest 3.13.15: /lp testroutine alles (Hintergrund erlaubt) – Bericht muss jetzt in jedem Fall kommen (auch als Teilbericht).
+
+>>> INGAMETEST 25.11. 16:07–17:02 (Supervisor 17:04) – LevelPilot 3.13.15 "/lp testroutine alles", Laptop, Hintergrund; vom Nutzer um ~17:02 abgebrochen
+    (musste weg) – virtuelle Reise nur bis L17: "Schritte 411 · Quests 181 · Weg 107 km · Planung im Schnitt 12 ms je Schritt · Dauer 1213s".
+LP-TR2 HOCH (neu, Messung im Spiel): Die Reise ist im Spiel ~15× LANGSAMER als vor 3.13.15:
+    3.13.13 (heute 09:49): 2044 Schritte (L1–60) in 385 s = 0,19 s je Schritt; 3.13.15: 411 Schritte in 1213 s = 2,95 s je Schritt.
+    Planung im Schnitt 12 ms je Schritt (vorher 7 ms) erklärt das NICHT – die Zeit geht ins Warten. Verdacht, zu messen: LP.YPCall/YieldBlocked
+    (jede Abgabe in einer eigenen Coroutine, ein Bild je Abgabe; Hintergrund 30 Bilder/s) bzw. die jetzt wirklich laufende Wegprüfung CheckFirstPath
+    (Graph.Path je Abgabe in vielen kleinen Portionen). Nachbau sagte "Reisen 684 s, im Rahmen" – im Spiel nicht. BELEGEN mit Zeit je Bereich
+    (dauerBereiche), Bilder je Schritt, Abgaben je Schritt, Wartezeit vs. Rechenzeit; dann beheben, OHNE die Wegprüfung wieder auszuschalten und
+    ohne Ruckeln (Ziel ≤ 16 ms je Bild): z. B. mehrere Abgaben je Bild bis zum Budget, Wegprüfung nur für das erste Ziel einmal je Schritt.
+    Mit 1213 s für L1–17 bricht die ganze Routine auch mit 3600 s ab -> ohne Fix kein Ingametest möglich.
+    Kam ein Teilbericht (LP-TR1 a)? -> beim nächsten Upload prüfen (Nutzer hat abgebrochen, nicht das Zeitlimit).
+    Inhalt der Reise (Hinweis): Route jetzt anders (L5 Tirisfal -> Mulgore "Gemeinsame Nutzung des Landes", L10 bei 2 h 59 statt 1 h 43); Strecke ohne
+    bekannten Weg 31,5 % (bis L17); Mobs ≥ +3: 1 Wegstück. Durch die jetzt laufende Wegprüfung erwartet – im Bericht erklären, ob die neue Route
+    besser ist (Zeit bis L17 im Vergleich 3.13.13: L17 bei 6 h 29; 3.13.15: L17 bei 8 h 40 = langsamer!) – Befund LP-R3 MITTEL: geschätzte Spielzeit bis
+    L17 +34 % gegenüber 3.13.13 – Ursache belegen (Wegprüfung meidet zu viel? Mulgore-Umweg für Untote?).
