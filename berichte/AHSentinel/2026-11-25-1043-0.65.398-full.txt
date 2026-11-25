@@ -1,0 +1,10 @@
+BERICHT AHSentinel – Gesamtlauf (FULL) 0.65.398 – umgesetzt, zur Prüfung
+Zeit: 25.11.2026 10:43 (Europe/Zurich) · Version 0.65.398 (Discord)
+
+FULL=1 allein, 419 Szenarien (neu s338–s340, ohne echte Daten übersprungen = PASS). Ergebnis: 353 PASS, 66 FAIL.
+Gegen FULL 0.65.397: neu rot keine; neu grün s313_vs_own_memory. Die 66 FAIL sind genau dieselben wie bei 0.65.396 (Liste identisch).
+s313 ist damit wieder grün – bleibt Befund AHS-S313 (streut 8–20 ms, Bericht 0945), wird gemessen (Reihenfolge Supervisor 10:23: Punkt 3).
+
+Bedingung "FULL ohne neue Fehler" für CurseForge: für 0.65.398 erfüllt. Offen für CurseForge um 18:00: Abnahme im Spiel (T459 mit Gilde) –
+die Wahl der Version und das Hochladen lege ich dem Nutzer vor (öffentliche Handlung nur mit seiner Bestätigung).
+Weiter (Supervisor 10:23): 2) Aufgabe fullscan in Scan 2 aufschlüsseln (7 595 KB) und Scan-1-Anstieg "timing" belegen; 3) AHS-S313.
