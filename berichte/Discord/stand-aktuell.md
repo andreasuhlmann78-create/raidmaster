@@ -1,6 +1,6 @@
 # Stand Discord-Sitzung
 
-## Stand 25.11.2026 14:40 · Bot 1.5.197 (D-CI2, D-UPDOC2, D-UPCFG1 umgesetzt, zur Prüfung; 1.5.196 angenommen)
+## Stand 25.11.2026 14:45 · Bot 1.5.197 (D-CI2, D-UPDOC2, D-UPCFG1 umgesetzt, zur Prüfung; 1.5.196 angenommen)
 
 ## Gerade in Arbeit
 - nichts. Bericht berichte/Discord/2026-11-25-1440-d-ci2-d-updoc2.txt.
@@ -12,8 +12,7 @@
 3. Prüfung des Supervisors abwarten, Befunde umsetzen. Neue Aufträge umsetzen. Sonst nichts ändern.
 
 ## Offen beim Nutzer
-- Auf dem Bot-Server in config.json "github_actions_token": "<Token>" eintragen (Fine-grained, nur raidmaster, Actions: Read and
-  write). Kein Neustart nötig. Der Wert kommt nie in den Chat oder ins Repo.
+- nichts. Token "github_actions_token" hat der Nutzer 25.11. 14:43 selbst auf dem Server eingetragen (Bot lief da 1.5.197).
 
 ## Entscheide des Nutzers seit letztem Stand
 - 25.11. ~13:50 (RaidMaster-Sitzung, via Supervisor D-CI2): Bot stösst den Testberichte-Workflow an, Token trägt der Nutzer ein.
