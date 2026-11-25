@@ -1,0 +1,4 @@
+AHSentinel 0.65.395 – Gesamtlauf (FULL, 414 Szenarien, OHNE Parallel-Last – während des Laufs nur kurze Python-Auswertungen mit nice 19) – zur Prüfung
+Ergebnis: 347 PASS · 67 FAIL (0.65.394: 344 PASS · 69 FAIL). Neu rot: 0. Neu grün: s216_feed_memory, s313_vs_own_memory (der Grenzfall aus 0.65.394
+– damit einmal rot, jetzt grün; weiter beobachtet). Neu dabei: s335_sp1_gleichheit (ohne echte Daten übersprungen = PASS).
+Damit für 0.65.395 (AHS-SP1-Einbau): keine neuen Fehler im Gesamtlauf. Übrige 67 FAIL wie bei 0.65.394.
