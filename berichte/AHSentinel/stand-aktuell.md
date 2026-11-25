@@ -1,21 +1,22 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 25.11.2026 09:19 · Version 0.65.397 (Discord); CurseForge 0.65.393 (Datei-ID 9799863)
+## Stand 25.11.2026 09:46 · Version 0.65.397 (Discord); CurseForge 0.65.393 (Datei-ID 9799863)
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz – Testberichte "GSTEST1{…}", UI-Befunde db.uiFindingsLast).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
  erwartet in /tmp/claude-0/rel/: AHSentinel-<V>.zip, notes.md, bericht.txt, stand.md). ZIP = gleiche 112 Dateien wie Vorversion.
 Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /home/claude/AHSentinel (~70 s); FULL=1 alle (Stunden bei Parallel-Last;
- 0.65.396: 348 PASS, 66 FAIL, keine neuen – nie parallel zu FULL rechnen, sonst Zeitüberschreitungen). T126 streut 6–10 ms. Neu: s9_watcher_tip (Wächter-Tipp -> Rechtsklick -> Sniper kauft).
+ 0.65.397: 349 PASS, 67 FAIL (neu nur s313, Streuung) – nie parallel zu FULL rechnen, sonst Zeitüberschreitungen). T126 streut 6–10 ms. Neu: s9_watcher_tip (Wächter-Tipp -> Rechtsklick -> Sniper kauft).
  Eigene Szenarien /tmp/claude-0/sim/wowsim/scenarios_new.lua (zz_t459real, zz_tr1, zz_i6_sniper, zz_ui_buy).
 
 ## Gerade in Arbeit
-- 0.65.397 (SP2 ii Bestpreise als Listen + T750b) auf Discord; FULL 0.65.397 allein als Nächstes. Tests vorher: Bericht 0912 (0 Abweichungen,
-  Rückstufung ok, T459 Scan 2 17 457 / Scan 3 13 345 KB). Scratch: /tmp/claude-0/sim2 (zz_sp2eq/zz_sp2rueck/zz_t459real), /tmp/claude-0/ahs396.
-- Nebenbefund: 3 Items (10940/11082/11083) zweimal RecordPrice in ProcessBest (alt=neu) – Verdacht, zu messen, getrennt melden.
+- 0.65.397 vom Supervisor angenommen (09:22). FULL 0.65.397: 349/67, neu rot nur s313 (Bericht 0945) – streut 8–20 ms auch mit 0.65.396,
+  höchster Schritt meist "names bis Names.lua:228"; Verdacht GC-Schritte, zu messen. CurseForge erst nach Klärung s313.
+- Doppelte RecordPrice: belegt harmlos (VerifyPrice parallel, 2-Minuten-Sperre in RecordPrice).
+- Jetzt: SP2 (iii) messen. Scratch: /tmp/claude-0/sim2 (zz_t459real), alte Version /tmp/claude-0/ahs396.
 
 ## Nächste Schritte (Supervisor 25.11. 08:51/09:08)
-1. FULL 0.65.397 allein; s313 weiter nennen. Danach Bericht.
+1. s313/names: GC je Portion messen (Befund, Bericht 0945).
 2. AHS-SP2 (iii) HOCH: Nachlauf je Aufgabe messen (forecast-eval, learn:factor, cache:itemlist, core:realcheck, BroadcastScan-Liste {id,p,q},
    suspicious-Liste) – Ziel T459 < 10 240 KB ab Scan 2. Erst messen + Bericht, dann bauen.
 3. Doppelte RecordPrice (Nebenbefund) messen. CF1-UI-a1 nach T1016. UMG1 danach. TB138-2 Gold-Lücke 3,2 % bleibt im Masterplan.
@@ -26,7 +27,7 @@ Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /h
 - Gold-Messung Ausrüstung mit Kupfer-Preis (AHS-POST), RecipeList-Fehler mit nur AHS aktiv.
 
 ## Entscheide des Nutzers seit letztem Stand
-- keine neuen (Supervisor 08:51: SP2 ii Reihenfolge Tests -> Einbau, Zusatz T-e; 09:08: T750-Ansichten mit Spielzustand nicht als FEHLER).
+- keine neuen (Supervisor 09:22: 0.65.397 angenommen; Zeit nur aus TZ=Europe/Zurich date. 08:51: SP2 ii Reihenfolge Tests -> Einbau, Zusatz T-e; 09:08: T750-Ansichten mit Spielzustand nicht als FEHLER).
 - 25.11. 07:56 AHS-CF5: CurseForge-Lizenz GPL-3.0; 06:54 AHS-CF4 Beschreibung (beide erledigt).
 - 24.11. 21:44 Discord vor Ende von FULL erlaubt; FULL ohne neue Fehler Pflicht vor CurseForge. Supervisor 21:38: NUR DEUTSCH an den Nutzer.
 
