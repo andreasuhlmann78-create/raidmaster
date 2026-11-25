@@ -1,0 +1,44 @@
+BERICHT GuildSentinel 0.9.63 – GS-UMG1-a, Speicher nach Bereinigung, Portionen T295g, GS-TAINT1
+Von: GuildSentinel-Sitzung · 25.11.2026 09:11 (Zeit aus date, Europe/Zurich) · Quellcode f192579
+Status: umgesetzt, zur Prüfung (Prüfung Supervisor 24.11. 20:50, Ingametest-Auswertung 25.11. 08:56, GS-TAINT1 08:59).
+Nur TestRoutine.lua (Entwicklermodus); Spielcode unverändert. download/ (CurseForge) nicht angefasst.
+
+A) GS-UMG1-a MITTEL – "Rest grösser als eigene Arbeit" kein eigener Grund mehr (R.UmgSuspect)
+- Gründe für HINWEIS nur noch: Hintergrund/Fensterwechsel-Zeitraum, Ladebildschirm im Bild, Speicherbereinigung im Bild (neu als Grund
+  "Speicherbereinigung im Bild (Bild x ms)", war vorher nur gezählt). "Rest > eigene Arbeit" wird weiter gezählt und angezeigt.
+- run_umg.lua Test 4 umgestellt: Bild 85 ms, eigene Portion 3 ms, im Vordergrund ohne Laden/Bereinigung -> FEHLER bleibt (FEHLER-Zahl 1).
+  Neu: Bereinigung allein (Vordergrund, Bild 60 ms) -> HINWEIS; Gegenprobe gleiches Bild ohne Bereinigung -> FEHLER.
+B) VERDACHT "Speicher je Addon" (Ingametest 25.11.: GuildSentinel 134 933 KB ohne Bereinigung) – R.AddonMem
+- Nach der ersten Abfrage einmal collectgarbage("collect") und UpdateAddOnMemoryUsage noch einmal: Zeile "GuildSentinel x KB, nach
+  Bereinigung y KB (Bereinigung und zweite Abfrage z ms)". Ausserhalb jeder Messung (Wächter und alle Prüfungen sind dann fertig).
+  Test: zweite Abfrage genau einmal zusätzlich, Wert vor/nach (9000 -> 3000 KB) richtig ausgegeben.
+C) Hinweis Portionen > 16 ms (kein Auftrag)
+- "nach T295g" (im Spiel 17,9–20,2 ms): die 20 simulierten Flüsternachrichten liefen zu 5 je Portion -> jetzt 1 je Portion
+  (Nachbau vorher 9,3–9,7 ms je Portion, eine Nachricht ~1,9 ms).
+- "nach T269" (23,3/18,5): das sind die Zellen des Lagen-Katalogs T270 (Lage aus 500 Mitgliedern + eine Funktion in Ersatzwerten,
+  innerhalb von pcall/With nicht teilbar). Nachbau längste Zellen: 500/Werbung 8,3 ms, 500/Berufe 6,5, 500/Aufstellung 5,4,
+  500/Mitgliederliste 4,2 ms. Nicht weiter geschnitten – kleiner ginge nur mit geteiltem Aufbau der Lage über Bilder (ändert die
+  Prüfung). Testcode, Spielbetrieb nicht betroffen (Rc:AdText mit 500 Mitgliedern 0,68 ms, Comp:WantedList 2,3 ms im Nachbau).
+- "nach T09" (19,2): erstes Öffnen einer Seite unter simulierter Retail-Version = Seitenaufbau (G-4a), unverändert.
+D) GS-TAINT1 NIEDRIG – Verdacht, zu messen
+- Einziger Weg in GuildSentinel, der ein Blizzard-Fenster aus Addon-Code öffnet: Le.OpenRankEditor (PagesLead.lua, Knopf "Ränge im
+  Spiel bearbeiten": GuildControlUI_LoadUI + ShowUIPanel(GuildControlUI); Classic: ToggleGuildFrame + GuildControlPopupFrame:Show).
+  Sonst keine Aufrufe von ShowUIPanel/ToggleGuildFrame/ToggleCharacter usw. (Suche im ganzen Addon).
+- Testroutine löst ihn nicht aus (Code durchgesehen: T280 prüft nur, ob die Funktion da ist; kein Klick). Jetzt bleibend abgesichert:
+  ab Beginn des Laufs zählt ein Wächter jeden Aufruf und führt ihn NICHT aus; neue Prüfung T320 "Testroutine öffnet nie ein
+  Blizzard-Fenster" verlangt 0 (Regressionsliste GS-TAINT1 -> T320). Ausserhalb des Laufs unverändert.
+- Test run_taint.lua (3 × 7): ganzer Lauf T320 OK, keine Blizzard-Funktion aufgerufen; Gegenprobe Knopf während des Laufs gedrückt ->
+  nicht ausgeführt, T320 FEHLER "1 Aufrufe: Ränge im Spiel bearbeiten"; ausserhalb des Laufs öffnet der Knopf wie bisher.
+- Ob der Knopf in Forever Build 71091 selbst den Taint-Fehler in Blizzard-Code auslöst, kann nur der Nutzer im Spiel prüfen:
+  Leitung > Ränge > "Ränge im Spiel bearbeiten" drücken, dann Fehlerliste/BugSack ansehen (Fehler "secret … tainted by
+  'GuildSentinel'"?). Wenn ja: Knopf durch die Anleitung "Gildenfenster mit J öffnen > Gildenverwaltung" ersetzen (Text gibt es schon).
+
+TESTS (test/run_alle.sh, RO=1): 259 Läufe, 0 rot · 21 573 Einzelprüfungen. Abgleich mit 0.9.62 (256 / 21 494): +79 = T320 in jedem
+Testroutine-Lauf mit Bereich B (+46, je Lauf genau +1), run_umg 3 × (40 − 36) = +12, run_taint neu 3 × 7 = +21. 46 + 12 + 21 = 79.
+
+ADDON_CHECK (addon-check/addon_check.py, Ausgabe unverändert):
+  Vorlage shared/GoldSentinelGame.lua: Version 3
+  Vorlage shared/GoldSentinelTest.lua: Version 3
+  Tests der gemeinsamen Datei: nicht ausgeführt – lupa fehlt (pip install lupa); im GitHub-Lauf werden sie ausgeführt
+  Lua-Syntaxprüfung mit: luac5.1 (Lua 5.1)
+  ## GuildSentinel-0.9.63.zip: OK
