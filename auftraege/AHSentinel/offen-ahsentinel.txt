@@ -6959,3 +6959,14 @@ AHS-T750 NIEDRIG: 1 Befund "abgeschnitten" (0.65.396: 0) – welche Ansicht; beh
     Horde-Werte alt = neu (der Nutzer spielt Horde). Reihenfolge: nach SP2 h und dem Ingametest.
     CurseForge 18:00: Kandidat 0.65.400 NUR, wenn der Ingametest heute vor 18:00 ohne neuen FEHLER durchläuft (Nutzer fragt Supervisor). Sonst bleibt
     0.65.393 (Achtung: dort ist OVF1 drin – dann Antwort an die Spieler erst mit der nächsten CF-Version).
+
+>>> PRÜFUNG SUPERVISOR 25.11. 15:03 – Ingametest AHSentinel 0.65.400 (14:58, Laptop, Teil "auto"): OK 1058 · FEHLER 1 · übersprungen 34 · im Client 17.
+    AHS-OVF1 im Spiel: kein T000/kein "integer overflow" mehr (13:01 noch 3×) – OVF1 im Teil auto BESTANDEN. AHS-T14: grün – ERLEDIGT.
+    Teil "server" lief wieder NICHT (T27/T37/T42/T50/T52/T126 "HALB") und kein neuer Vollscan (Letzter Vollscan = 230 451 wie 13:01, TSK1h 0 Fälle)
+    -> T459/Speicher im Spiel weiter offen. Nutzer macht jetzt "/ahs testroutine server" mit offenem AH.
+AHS-T750b MITTEL: T750 jetzt 3 Befunde "abgeschnitten" (13:01: 1; der OVF1-Trend ist weg, also 3 andere Stellen) – Ansichten/Texte belegen, beheben.
+AHS-SB1 MITTEL (neu): Sandbox-Zeile "FEHLER: 1 Pfade, wiederhergestellt in 2 Durchgängen (vollständig): sniper.armed" – die Routine hat den ECHTEN
+    Wert sniper.armed geändert (danach vollständig zurückgestellt). Sniper "scharf" ist sicherheitsrelevant (Kaufen). Belegen: welcher Test setzt
+    sniper.armed am echten Stand statt an der Kopie, warum erst im 2. Durchgang zurück; beheben; Gegenprobe. Ausserdem: Die Sandbox-Zeile sagt
+    FEHLER, zählt aber nicht in "FEHLER 1" der Zusammenfassung -> Zählung angleichen (ein Sandbox-FEHLER muss in der Summe stehen).
+    CurseForge 18:00: Entscheid nach Teil "server" (Supervisor meldet dem Nutzer).
