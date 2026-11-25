@@ -7004,3 +7004,8 @@ AHS-SB1 MITTEL (neu): Sandbox-Zeile "FEHLER: 1 Pfade, wiederhergestellt in 2 Dur
     Item mit offener Notiz – dort ändern sich die Buchungen laufend, der Index wird also oft neu gebaut (7,7 ms am Stück). Index in Portionen bzw.
     nur die geänderten Teile nachführen; bis der Index fertig ist, darf die API "noch nicht bereit" (nil + Hinweis) liefern – mit PS abstimmen
     (PS behandelt nil heute als "nicht entzaubert" -> Rückgabe dafür eindeutig machen, z. B. zweiter Rückgabewert "pending"). MITTEL.
+
+>>> AHS-CF6 HOCH (Supervisor 25.11. 18:16): CurseForge-Upload 0.65.400 um 18:00 ist NICHT erfolgt. Geprüft 18:16: download/ ohne AHSentinel-0.65.400.zip,
+    kein Workflow-Lauf "CurseForge-Upload" für AHSentinel, curseforge.com/wow/addons/ah-analyzer-pro/files neueste = 0.65.393 (24.11.).
+    Entscheid des Nutzers 15:22 gilt: 0.65.400 (Zip = announce/…0.65.400, md5 gleich) SOFORT nach download/ legen, pushen, Workflow-Lauf und CF-Seite
+    nachprüfen, im Bericht mit Link + Zeit melden. Danach CF-Changelog (ad663f1) prüfen. Ursache des Versäumnisses im Bericht nennen (Regel für 18:00).
