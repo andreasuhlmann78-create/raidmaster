@@ -946,3 +946,14 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     nicht gelesen), Lehre in veroeffentlichen.md Schritt 6 – gut. RaidData.lua wie 3.0.45 (git diff leer), Workflow grün.
     Deine Quellen je Zeile (Bericht 0825: 18 belegt, 3 abweichend – Nadelstachel 6 Yards, Hans'gar/Franzok 85/55/25 %, Hydross 4 Stapel; 3 ohne Quelle)
     hat der Supervisor als HINWEIS in research/raidmaster-taktikzahlen.md vermerkt; bestätigt wird erst durch die Raids-Aufgabe ab 09.12. Nichts tun.
+>>> RM-TAINT1 HOCH (Supervisor 25.11. 08:59; Lua-Fehler beim Ingametest 3.0.47 des Nutzers 08:58, Forever deDE, Client 1.60.1 Build 71091):
+    "Blizzard_TextStatusBar/TextStatusBar.lua:110: attempt to compare a secret number value (execution tainted by 'RaidMaster')"
+    Stack: Test/Routine.lua:5192 -> Resume 5165 (coroutine.resume) -> ShowUIPanel -> CharacterFrame.lua:729 -> ShowStatusBarText -> UpdateTextStringWithValues.
+    URSACHE (Code gelesen): Routine.lua 5105–5114 (seit 3.0.32, "T156 misst immer"): die Testroutine öffnet das Charakterfenster SELBST
+    (pcall(ToggleCharacter, "PaperDollFrame")) aus der Test-Coroutine. Damit läuft der Blizzard-Code des Charakterfensters "tainted by RaidMaster";
+    die Statusleisten vergleichen geschützte Werte (secret number) -> Lua-Fehler in Blizzard-Code. pcall schützt nicht (Fehler im OnShow-Pfad).
+    Neu sichtbar mit Build 71091 (bisher 71037) – Verdacht: geschützte Werte jetzt auch in den Statusleisten; das Muster war aber immer falsch.
+    TUN: (1) Die Testroutine öffnet NIE ein Blizzard-Fenster selbst (kein ToggleCharacter/ShowUIPanel/Toggle* aus Addon- oder Testcode). T156 misst nur,
+    wenn der Spieler schon ein fremdes Fenster offen hat; sonst "im Client prüfen: Charakterfenster öffnen, dann /rm testroutine k" (SKIP mit Anleitung,
+    kein FEHLER). (2) Test: grep-Regel im Nachbau/Test (T-neu), dass Test/*.lua und alle Addon-Dateien kein ToggleCharacter/ShowUIPanel/HideUIPanel auf
+    Blizzard-Fenster rufen (Gegenprobe: eingefügter Aufruf -> FEHLER). (3) Version, Bericht. Dem Nutzer: nach dem Fehler /reload (Taint bleibt bis dahin).

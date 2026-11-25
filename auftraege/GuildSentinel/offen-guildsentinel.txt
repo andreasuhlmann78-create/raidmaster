@@ -788,3 +788,8 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     VERDACHT, zu messen (NIEDRIG): "Speicher je Addon" nach dem Lauf GuildSentinel 134 933 KB – ohne Bereinigung gemessen, enthält den Abfall des Laufs
        (+91 609 KB ganzer Speicher). Nächstes Mal zusätzlich einen Wert NACH collectgarbage (ausserhalb der Messung) ausgeben, damit klar ist, was
        GuildSentinel wirklich hält.
+>>> GS-TAINT1 NIEDRIG – Verdacht, zu messen (Supervisor 25.11. 08:59, aus RM-TAINT1: RaidMaster-Testroutine öffnete das Charakterfenster aus Addon-Code ->
+    "attempt to compare a secret number value (execution tainted by 'RaidMaster')" in Blizzard-Code, Build 71091):
+    PagesLead.lua 448/450 ruft ShowUIPanel(GuildControlUI) bzw. ToggleGuildFrame() aus Addon-Code (nach Klick des Spielers). Prüfen, ob das in Forever
+    Build 71091 denselben Fehler in Blizzard-Code auslöst (im Spiel: Leitung > Knopf, BugSack/Fehlerliste). Wenn ja: Spieler stattdessen anleiten
+    ("Gildenfenster mit J öffnen") oder sicheren Weg belegen. Die Testroutine darf diese Wege nie selbst auslösen. Bericht.
