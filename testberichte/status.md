@@ -1,6 +1,6 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-25 14:37 UTC
+Ausgewertet: 2026-11-25 14:59 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
@@ -8,7 +8,7 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 |---|---|---|---|---|---|---|---|---|
 | AHSentinel | 25.11.2026 14:15 UTC | 0.65.400 | forever 1.60.1 (Interface 16001) | 68 | 0 | 3 | 0 | 4 |
 | BuffSentinel | 25.11.2026 07:54 UTC | 0.9.64 | forever 1.60.1 (Interface 16001) | 226 | 0 | 11 | 11 | 0 |
-| GuildSentinel | 25.11.2026 07:55 UTC | 0.9.62 | forever 1.60.1 (Interface 16001) | 338 | 0 | 25 | 8 | 0 |
+| GuildSentinel | 25.11.2026 14:44 UTC | 0.9.63 | forever 1.60.1 (Interface 16001) | 340 | 0 | 24 | 8 | 1 |
 | LevelPilot | 24.11.2026 12:00 UTC | 3.13.12 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 16 |
 | ProfessionSentinel | 24.11.2026 19:14 UTC | 0.9.83 | forever 1.60.1 (Interface 16001) | 1 | 1 | 8 | 0 | 20 |
 | RaidMaster | 25.11.2026 13:44 UTC | 3.0.49 | forever 1.60.1 (Interface 16001) | 10 | 0 | 0 | 0 | 0 |
@@ -18,14 +18,14 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 251 | `testberichte/diagnose/AHSentinel/0.65.400-6cd4c8b6d983.txt` |
-| BuffSentinel | 185 | `testberichte/diagnose/BuffSentinel/0.9.65-f3bcb9505eac.txt` |
+| AHSentinel | 252 | `testberichte/diagnose/AHSentinel/0.65.401-7966db29413f.txt` |
+| BuffSentinel | 186 | `testberichte/diagnose/BuffSentinel/0.9.65-f6ad00e1f353.txt` |
 | GSMesstest | 25 | `testberichte/diagnose/GSMesstest/5.1-f65d607ab777.txt` |
 | GSSniperLog | 60 | `testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt` |
-| GuildSentinel | 299 | `testberichte/diagnose/GuildSentinel/0.9.63-ea93aa0c2b9e.txt` |
-| LevelPilot | 190 | `testberichte/diagnose/LevelPilot/3.13.14-c0d9e0680e3e.txt` |
-| ProfessionSentinel | 272 | `testberichte/diagnose/ProfessionSentinel/0.9.84-c219184ad978.txt` |
-| ThreatSentinel | 249 | `testberichte/diagnose/ThreatSentinel/2.5.30-fd96cf472bbb.txt` |
+| GuildSentinel | 300 | `testberichte/diagnose/GuildSentinel/0.9.63-ea93aa0c2b9e.txt` |
+| LevelPilot | 191 | `testberichte/diagnose/LevelPilot/3.13.14-c0d9e0680e3e.txt` |
+| ProfessionSentinel | 273 | `testberichte/diagnose/ProfessionSentinel/0.9.85-e6589cd98028.txt` |
+| ThreatSentinel | 250 | `testberichte/diagnose/ThreatSentinel/2.5.30-fd96cf472bbb.txt` |
 
 ## Wegdaten (GSWEGE1)
 
@@ -266,40 +266,6 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 ## GuildSentinel
 
-**Testlauf 0.9.58 · forever 1.60.1 (Interface 16001) · 18.11.2026 18:20 UTC** – OK 329 · FEHLER 0 · übersprungen 24 · im Client prüfen 8 · Sandbox OK
-- [SKIP] T09b A – Simulation TBC: Inhalte (grund: beim Laden festgelegt, siehe D / offline 20505)
-- [CLIENT] T52 B – Berufsfenster einlesen (anleitung: Jedes eigene Berufsfenster einmal öffnen, dann /gs testroutine b: Seite Berufe zeigt die eigenen Rezepte)
-- [CLIENT] T180 B – Bank-Charakter im Spiel (anleitung: Einstellungen > Optionen > Daten & Abgleich: 'Bank-Charakter' auf 'an', Bank und Briefkasten öffnen, /reload: Bestand erscheint in #gildenbank (sobald Uploader und Bot aus dem RaidMaster-Auftrag fertig sind))
-- [CLIENT] T199 B – Verwaltungsknopf an der Gildenseite (anleitung: J drücken: rechts neben dem Gildenfenster steht 'Verwaltung (GuildSentinel)' (ohne Rechte grau); /gs verwaltung öffnet das Fenster; Passwort festlegen und mit falschem/richtigem Passwort entsperren)
-- [CLIENT] T191 B – Gilden-Berufsliste im Spiel (anleitung: Mit Gilde einloggen, 5 Minuten warten, /gs protokoll: Zeile 'Gilden-Berufsliste: … Zeilen' zeigt, ob das Spiel die Berufe der Mitglieder liefert; Seite Berufe zeigt dann auch Mitglieder ohne GuildSentinel (nur Stufen))
-- [CLIENT] T106 C – echte Kampfsperre (anleitung: Berufe-Seite offen, Kampf beginnen: kein ADDON_ACTION_BLOCKED für GuildSentinel, nach dem Kampf ist der Knopf wieder da)
-- [SKIP] T108 D – alter Client (grund: nicht dieser Client)
-- [SKIP] T109 D – alter Client (grund: nicht dieser Client)
-- [SKIP] T110 D – alter Client (grund: nicht dieser Client)
-- [SKIP] T111 D – alter Client (grund: nicht dieser Client)
-- [SKIP] T112 D – alter Client (grund: nicht dieser Client)
-- [SKIP] T114 D – alter Client (grund: nicht dieser Client)
-- [SKIP] T113 D – Berufe klassisch (grund: nicht dieser Client)
-- [SKIP] T115 E – Neuinstallation (grund: würde GuildSentinelDB neu anlegen; offline: jeder Lauf in test/ startet ohne GuildSentinelDB)
-- [SKIP] T117 E – Migration (grund: offline in test/run_nilglobals.lua (Altlasten) und run_lang.lua (alte Spracheinstellung))
-- [SKIP] T119 E – beschädigte Einstellungen (grund: offline in test/run_nilglobals.lua)
-- [SKIP] T123 F – alle Schlüssel vorhanden (grund: Client-Sprache ist de (Schlüssel bzw. Locales.lua))
-- [CLIENT] T136 G – Guild Roster Manager (anleitung: mit installiertem GRM: Leitung > GRM-Import zeigt Zahlen; ohne: kein Fehler)
-- [SKIP] T137 G – ProfessionSentinel (grund: GuildSentinel nutzt keine Schnittstelle von ProfessionSentinel)
-- [SKIP] T145 H – Speicher (grund: Messung im Bericht unten (Zeile Speicher, ohne Bereinigung))
-- [CLIENT] T189 I – Diagnose-Protokoll im Spiel (anleitung: /gs protokoll öffnet ein Fenster mit markierbarem Text; nach /reload liegt GuildSentinelDB.diagExport (beginnt mit GSDIAG1) in den SavedVariables und geht mit dem Uploader nach #testberichte)
-- [SKIP] T156 J – P4a: Bewerber-Flüstern im Kampf (grund: wie T85)
-- [SKIP] T157 J – P4b: Addon-Nachricht im Kampf (grund: wie T84)
-- [SKIP] T158 J – P4c: Abklingzeit im Kampf (grund: wie T86)
-- [SKIP] T160 J – P5b: KnowsSpell über C_SpellBook (grund: wie T98/T133)
-- [SKIP] T162 J – P6b: ChatFrame_RemoveChannel (grund: wie T101)
-- [SKIP] T164 J – Launch-Tag: Interface-Nummer (grund: wie T03)
-- [CLIENT] T168 J – K2 im echten Kampf (anleitung: Mitspieler flüstert im Kampf 'gilde'; nach dem Kampf /gs testroutine whisperq und prüfen, ob Hinweis oder Bewerber erscheint)
-- [SKIP] T171 J – K5: tools/luac5.1 -v (grund: Werkzeug im Repo (offline))
-- [SKIP] T172 J – RM2: Werkzeug nicht in der ZIP (grund: offline (unzip -l))
-- [SKIP] T173 J – N8: Offline-Test K2 (grund: offline (test/run_forever95.lua))
-- [SKIP] CT-C4 L – Spiel: Sperrliste: Bewerbung, Einladen, Tooltip (grund: nur für Offiziere)
-
 **Testlauf 0.9.60 · forever 1.60.1 (Interface 16001) · 23.11.2026 12:25 UTC** – OK 335 · FEHLER 4 · übersprungen 24 · im Client prüfen 8 · Sandbox OK
 - [SKIP] T09b A – Simulation TBC: Inhalte (grund: beim Laden festgelegt, siehe D / offline 20505)
 - [CLIENT] T52 B – Berufsfenster einlesen (anleitung: Jedes eigene Berufsfenster einmal öffnen, dann /gs testroutine b: Seite Berufe zeigt die eigenen Rezepte)
@@ -406,6 +372,43 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 - [SKIP] T173 J – N8: Offline-Test K2 (grund: offline (test/run_forever95.lua))
 - [SKIP] T318 K – L7 unsichere/alte Werte ohne Kauf-/Verkaufsempfehlung (grund: nicht anwendbar: GuildSentinel gibt keine Kauf-/Verkaufsempfehlung; den Marktwert liefert AHSentinel (GetMarketValue) fertig)
 - [SKIP] CT-C4 L – Spiel: Sperrliste: Bewerbung, Einladen, Tooltip (grund: nur für Offiziere)
+
+**Testlauf 0.9.63 · forever 1.60.1 (Interface 16001) · 25.11.2026 14:44 UTC** – OK 340 · FEHLER 0 · übersprungen 24 · im Client prüfen 8 · Sandbox OK
+- [SKIP] T09b A – Simulation TBC: Inhalte (grund: beim Laden festgelegt, siehe D / offline 20505)
+- [CLIENT] T52 B – Berufsfenster einlesen (anleitung: Jedes eigene Berufsfenster einmal öffnen, dann /gs testroutine b: Seite Berufe zeigt die eigenen Rezepte)
+- [CLIENT] T180 B – Bank-Charakter im Spiel (anleitung: Einstellungen > Optionen > Daten & Abgleich: 'Bank-Charakter' auf 'an', Bank und Briefkasten öffnen, /reload: Bestand erscheint in #gildenbank (sobald Uploader und Bot aus dem RaidMaster-Auftrag fertig sind))
+- [CLIENT] T199 B – Verwaltungsknopf an der Gildenseite (anleitung: J drücken: rechts neben dem Gildenfenster steht 'Verwaltung (GuildSentinel)' (ohne Rechte grau); /gs verwaltung öffnet das Fenster; Passwort festlegen und mit falschem/richtigem Passwort entsperren)
+- [CLIENT] T191 B – Gilden-Berufsliste im Spiel (anleitung: Mit Gilde einloggen, 5 Minuten warten, /gs protokoll: Zeile 'Gilden-Berufsliste: … Zeilen' zeigt, ob das Spiel die Berufe der Mitglieder liefert; Seite Berufe zeigt dann auch Mitglieder ohne GuildSentinel (nur Stufen))
+- [CLIENT] T106 C – echte Kampfsperre (anleitung: Berufe-Seite offen, Kampf beginnen: kein ADDON_ACTION_BLOCKED für GuildSentinel, nach dem Kampf ist der Knopf wieder da)
+- [SKIP] T108 D – alter Client (grund: nicht dieser Client)
+- [SKIP] T109 D – alter Client (grund: nicht dieser Client)
+- [SKIP] T110 D – alter Client (grund: nicht dieser Client)
+- [SKIP] T111 D – alter Client (grund: nicht dieser Client)
+- [SKIP] T112 D – alter Client (grund: nicht dieser Client)
+- [SKIP] T114 D – alter Client (grund: nicht dieser Client)
+- [SKIP] T113 D – Berufe klassisch (grund: nicht dieser Client)
+- [SKIP] T115 E – Neuinstallation (grund: würde GuildSentinelDB neu anlegen; offline: jeder Lauf in test/ startet ohne GuildSentinelDB)
+- [SKIP] T117 E – Migration (grund: offline in test/run_nilglobals.lua (Altlasten) und run_lang.lua (alte Spracheinstellung))
+- [SKIP] T119 E – beschädigte Einstellungen (grund: offline in test/run_nilglobals.lua)
+- [SKIP] T123 F – alle Schlüssel vorhanden (grund: Client-Sprache ist de (Schlüssel bzw. Locales.lua))
+- [CLIENT] T136 G – Guild Roster Manager (anleitung: mit installiertem GRM: Leitung > GRM-Import zeigt Zahlen; ohne: kein Fehler)
+- [SKIP] T137 G – ProfessionSentinel (grund: GuildSentinel nutzt keine Schnittstelle von ProfessionSentinel)
+- [SKIP] T145 H – Speicher (grund: Messung im Bericht unten (Zeile Speicher, ohne Bereinigung))
+- [CLIENT] T189 I – Diagnose-Protokoll im Spiel (anleitung: /gs protokoll öffnet ein Fenster mit markierbarem Text; nach /reload liegt GuildSentinelDB.diagExport (beginnt mit GSDIAG1) in den SavedVariables und geht mit dem Uploader nach #testberichte)
+- [SKIP] T156 J – P4a: Bewerber-Flüstern im Kampf (grund: wie T85)
+- [SKIP] T157 J – P4b: Addon-Nachricht im Kampf (grund: wie T84)
+- [SKIP] T158 J – P4c: Abklingzeit im Kampf (grund: wie T86)
+- [SKIP] T160 J – P5b: KnowsSpell über C_SpellBook (grund: wie T98/T133)
+- [SKIP] T162 J – P6b: ChatFrame_RemoveChannel (grund: wie T101)
+- [SKIP] T164 J – Launch-Tag: Interface-Nummer (grund: wie T03)
+- [CLIENT] T168 J – K2 im echten Kampf (anleitung: Mitspieler flüstert im Kampf 'gilde'; nach dem Kampf /gs testroutine whisperq und prüfen, ob Hinweis oder Bewerber erscheint)
+- [SKIP] T171 J – K5: tools/luac5.1 -v (grund: Werkzeug im Repo (offline))
+- [SKIP] T172 J – RM2: Werkzeug nicht in der ZIP (grund: offline (unzip -l))
+- [SKIP] T173 J – N8: Offline-Test K2 (grund: offline (test/run_forever95.lua))
+- [SKIP] T318 K – L7 unsichere/alte Werte ohne Kauf-/Verkaufsempfehlung (grund: nicht anwendbar: GuildSentinel gibt keine Kauf-/Verkaufsempfehlung; den Marktwert liefert AHSentinel (GetMarketValue) fertig)
+
+**Fehler im Spiel (letzte 7 Tage)**
+- 1× `Lua`: Interface/AddOns/GuildSentinel/Lead.lua:275: attempt to index local 'r' (a boolean value) – Version 0.9.63 · forever 1.60.1 (Interface 16001) · zuletzt 25.11.2026 14:45 UTC
 
 ## LevelPilot
 

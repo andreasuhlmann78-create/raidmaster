@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-25T14:37:22Z",
+ "ausgewertet": "2026-11-25T14:59:38Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -50,20 +50,35 @@
    "fehler_spiel": []
   },
   "GuildSentinel": {
-   "berichte": 16,
+   "berichte": 17,
    "letzter_test": {
-    "id": "GuildSentinel-1795593361-c2de38-1",
-    "version": "0.9.62",
-    "time": 1795593317,
+    "id": "GuildSentinel-1795617935-e5abac-1",
+    "version": "0.9.63",
+    "time": 1795617878,
     "counts": {
      "client": 8,
      "fehler": 0,
-     "ok": 338,
-     "uebersprungen": 25
+     "ok": 340,
+     "uebersprungen": 24
     }
    },
    "fehler_tests": [],
-   "fehler_spiel": []
+   "fehler_spiel": [
+    {
+     "addon": "GuildSentinel",
+     "art": "spiel",
+     "wo": "Lua",
+     "msg": "Interface/AddOns/GuildSentinel/Lead.lua:275: attempt to index local 'r' (a boolean value)",
+     "anzahl": 1,
+     "versionen": [
+      "0.9.63"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:382: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:381>\n[tail call]: ?\n[tail call]: ?\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/GuildSentinel/Lead.lua]:275: in function 'RecordGone'\n..."
+    }
+   ]
   },
   "LevelPilot": {
    "berichte": 86,
@@ -220,6 +235,20 @@
    "stack": null
   },
   {
+   "addon": "GuildSentinel",
+   "art": "spiel",
+   "wo": "Lua",
+   "msg": "Interface/AddOns/GuildSentinel/Lead.lua:275: attempt to index local 'r' (a boolean value)",
+   "anzahl": 1,
+   "versionen": [
+    "0.9.63"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:382: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:381>\n[tail call]: ?\n[tail call]: ?\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/GuildSentinel/Lead.lua]:275: in function 'RecordGone'\n..."
+  },
+  {
    "addon": "LevelPilot",
    "art": "spiel",
    "wo": "Fire PLAN_CHANGED",
@@ -294,12 +323,12 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 251,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.400-6cd4c8b6d983.txt"
+    "anzahl": 252,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.401-7966db29413f.txt"
    },
    "BuffSentinel": {
-    "anzahl": 185,
-    "neueste": "testberichte/diagnose/BuffSentinel/0.9.65-f3bcb9505eac.txt"
+    "anzahl": 186,
+    "neueste": "testberichte/diagnose/BuffSentinel/0.9.65-f6ad00e1f353.txt"
    },
    "GSMesstest": {
     "anzahl": 25,
@@ -310,19 +339,19 @@
     "neueste": "testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt"
    },
    "GuildSentinel": {
-    "anzahl": 299,
+    "anzahl": 300,
     "neueste": "testberichte/diagnose/GuildSentinel/0.9.63-ea93aa0c2b9e.txt"
    },
    "LevelPilot": {
-    "anzahl": 190,
+    "anzahl": 191,
     "neueste": "testberichte/diagnose/LevelPilot/3.13.14-c0d9e0680e3e.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 272,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.84-c219184ad978.txt"
+    "anzahl": 273,
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.85-e6589cd98028.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 249,
+    "anzahl": 250,
     "neueste": "testberichte/diagnose/ThreatSentinel/2.5.30-fd96cf472bbb.txt"
    }
   },

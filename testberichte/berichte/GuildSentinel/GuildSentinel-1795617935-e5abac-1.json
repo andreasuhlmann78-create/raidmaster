@@ -1,0 +1,2966 @@
+{
+ "addon": "GuildSentinel",
+ "counts": {
+  "client": 8,
+  "fehler": 0,
+  "ok": 340,
+  "uebersprungen": 24
+ },
+ "dur_ms": 57308,
+ "env": {
+  "build": "71091",
+  "class": "WARRIOR",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 30,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [
+  {
+   "count": 1,
+   "first": 1795617912,
+   "last": 1795617912,
+   "msg": "Interface/AddOns/GuildSentinel/Lead.lua:275: attempt to index local 'r' (a boolean value)",
+   "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:382: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:381>\n[tail call]: ?\n[tail call]: ?\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/GuildSentinel/Lead.lua]:275: in function 'RecordGone'\n...",
+   "version": "0.9.63",
+   "wo": "Lua"
+  }
+ ],
+ "f": 1,
+ "id": "GuildSentinel-1795617935-e5abac-1",
+ "kind": "test",
+ "results": [
+  {
+   "bereich": "A",
+   "ergebnis": "",
+   "id": "T01",
+   "ms": "0.0",
+   "name": "alle Dateien geladen",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "0.9.63",
+   "id": "T02",
+   "ms": "0.0",
+   "name": "Version .toc = Code",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "16001",
+   "id": "T03",
+   "ms": "0.0",
+   "name": "Interface-Nummer des Clients steht in der .toc",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "",
+   "id": "T04",
+   "ms": "0.0",
+   "name": "GoldSentinelGame",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "Dev 2, Test 4, registriert true",
+   "id": "T05",
+   "ms": "0.0",
+   "name": "Reihenfolge der gemeinsamen Dateien",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": " (forever)",
+   "id": "T06",
+   "ms": "0.0",
+   "name": "echte Weichen",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "Proper=Testa Beispiel",
+   "id": "T07",
+   "ms": "0.0",
+   "name": "Simulation Forever",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "Proper=Testabeispiel Same=false",
+   "id": "T08",
+   "ms": "0.0",
+   "name": "Simulation Era",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "TBC=true MODERN=false",
+   "id": "T09",
+   "ms": "0.0",
+   "name": "Simulation TBC",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "grund": "beim Laden festgelegt, siehe D / offline 20505",
+   "id": "T09b",
+   "name": "Simulation TBC: Inhalte",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "13 Seiten, ",
+   "id": "T10",
+   "ms": "0.0",
+   "name": "Simulation Retail",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "forever",
+   "id": "T11",
+   "ms": "0.0",
+   "name": "zurück auf echt",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Start true, Bezüge gleich true",
+   "id": "T12",
+   "ms": "7.2",
+   "name": "T:Start/T:Stop",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Feature(dev)=false",
+   "id": "T13",
+   "ms": "0.1",
+   "name": "nur Entwickler",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "",
+   "id": "T14",
+   "ms": "3.8",
+   "name": "Test-Ereignisse (13)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "true/false Esc true",
+   "id": "T15",
+   "ms": "3.5",
+   "name": "Hauptfenster",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "13 ",
+   "id": "T16",
+   "ms": "0.0",
+   "name": "alle 13 Seiten",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "40 ",
+   "id": "T17",
+   "ms": "0.0",
+   "name": "alle Reiter",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Info true Esc true/true",
+   "id": "T18",
+   "ms": "2.0",
+   "name": "Dialoge",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Knopf true aus true an true",
+   "id": "T19",
+   "ms": "0.8",
+   "name": "Minimap-Knopf",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Fenster true Toggle true/false",
+   "id": "T20",
+   "ms": "0.7",
+   "name": "Spenden",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "addons,home,myweek,settings",
+   "id": "T21",
+   "ms": "0.0",
+   "name": "Ohne Gilde",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "",
+   "id": "T22",
+   "ms": "4.1",
+   "name": "alle Unterbefehle",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Hinweise 1/1, Danke 1",
+   "id": "T23",
+   "ms": "0.4",
+   "name": "/gs danke",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "u ok true, danach 0",
+   "id": "T24",
+   "ms": "0.1",
+   "name": "/gs weg",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "21/21",
+   "id": "T25",
+   "ms": "0.6",
+   "name": "Roster:Scan",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Testa,Mira,Grom",
+   "id": "T26",
+   "ms": "0.0",
+   "name": "Twinks aus Notiz",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Grom,nil,",
+   "id": "T27",
+   "ms": "0.7",
+   "name": "SetMain/SetMyMain",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "leave,promote",
+   "id": "T28",
+   "ms": "0.7",
+   "name": "Verlauf",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "liveJoin=true",
+   "id": "T29",
+   "ms": "0.1",
+   "name": "Systemmeldungen live",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Rokwar,Testa | Brann",
+   "id": "T30",
+   "ms": "0.2",
+   "name": "Listen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Zeilen 21/21",
+   "id": "T31",
+   "ms": "0.6",
+   "name": "Export",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Twink true gesperrt true",
+   "id": "T32",
+   "ms": "0.1",
+   "name": "Abwesenheit",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Testa / Lowbie",
+   "id": "T33",
+   "ms": "0.0",
+   "name": "Paten",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "1/0",
+   "id": "T34",
+   "ms": "0.2",
+   "name": "Danke",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Twink von Testa",
+   "id": "T35",
+   "ms": "0.0",
+   "name": "Gildennotiz",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "true",
+   "id": "T36",
+   "ms": "0.0",
+   "name": "Gildenchat mit Main",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "true",
+   "id": "T37",
+   "ms": "0.0",
+   "name": "'ist online' mit Main",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Zeilen 2, aus +0",
+   "id": "T38",
+   "ms": "0.1",
+   "name": "Tooltip-Zeilen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "tdp",
+   "id": "T39",
+   "ms": "0.0",
+   "name": "Tooltip-Haken",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Mine true",
+   "id": "T40",
+   "ms": "0.5",
+   "name": "Gruppensuche",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0 aufgezeichnet, 0 echt",
+   "id": "T41",
+   "ms": "1.5",
+   "name": "Server-Kanal im Testmodus",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Mine true",
+   "id": "T42",
+   "ms": "0.4",
+   "name": "Wer ist frei",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "1/1",
+   "id": "T43",
+   "ms": "0.5",
+   "name": "Termine",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "truetruetruenil",
+   "id": "T44",
+   "ms": "0.0",
+   "name": "Zeiteingabe",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "API true, Fehler true, Merker true, ohne false",
+   "id": "T305a",
+   "ms": "0.1",
+   "name": "T-TD1: Testroutine eines anderen Addons erkannt (API, Merker), sonst nicht",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Erstkills 0, Ansage false",
+   "id": "T305b",
+   "ms": "0.0",
+   "name": "T-TD2: keine Erstkills und keine Ansage, solange RaidMaster testet",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "vorhanden 10 von 35 · vorhanden (alle anderen fehlen): IsSpellKnown, IsPlayerSpell, GetAddOnMemoryUsage, UpdateAddOnMemoryUsage, GetGuildRosterShowOffline, SetGuildRosterShowOffline, SendChatMessage, GetNumGuildMembers, GetGuildRosterInfo, GetGuildInfo · Weichen true",
+   "id": "T306",
+   "ms": "0.0",
+   "name": "Funktionsbestand des Clients (alte globale Funktionen)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "alt 54, neu 54 (Bereiche 9)",
+   "id": "T307a",
+   "ms": "0.3",
+   "name": "OPT: jede alte Option genau einmal, Bereiche höchstens 12 Zeilen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "57 von 57 Zeilen wirken",
+   "id": "T307b",
+   "ms": "1.4",
+   "name": "OPT: jede Option wirkt wie vorher (gleiches Feld bzw. gleiche Funktion)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "nicht gefunden 0 · Ton true · Unsinn 0",
+   "id": "T307c",
+   "ms": "0.8",
+   "name": "OPT: Suche findet jede Zeile (Beschriftung) und 'ton' die Ton-Option",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "399 Beschriftungen in 7 Sprachen, zu lang 0",
+   "id": "T307f",
+   "ms": "0.3",
+   "name": "OPT: Beschriftungen höchstens 28 Zeichen in jeder geladenen Sprache",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Seiten 13, Befehle 20, Entwickler-Befehle 7 (nur mit Entwicklermodus sichtbar), Optionen 2 Wege",
+   "id": "T310",
+   "ms": "3.6",
+   "name": "Spieler-Funktionen ohne Entwicklermodus erreichbar (Gegenprobe: Entwickler-Befehle gesperrt)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "längster Aufbau 0.8 ms, 12 Zeilen gebaut von 57",
+   "id": "T307e",
+   "ms": "0.0",
+   "name": "OPT: Aufbau eines Bereichs ≤ 16 ms (Zeilen erst beim Zeigen)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "TestRunning true",
+   "id": "T305c",
+   "ms": "0.0",
+   "name": "T-TD3: GuildSentinelAPI.TestRunning() während der Routine wahr",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "[Test] true, Recorder 0",
+   "id": "T45",
+   "ms": "2.0",
+   "name": "Termin ansagen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "8 Optionen, Stimmen 1",
+   "id": "T46",
+   "ms": "0.6",
+   "name": "Umfragen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "",
+   "id": "T47",
+   "ms": "0.3",
+   "name": "Dienste",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Liste true",
+   "id": "T48",
+   "ms": "0.4",
+   "name": "Biete/Suche",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T49",
+   "ms": "0.1",
+   "name": "Beute-Wünsche",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Antwort=true",
+   "id": "T50",
+   "ms": "0.1",
+   "name": "Fragen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "modern (Forever)",
+   "id": "T51",
+   "ms": "0.1",
+   "name": "Berufe-Daten",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Jedes eigene Berufsfenster einmal öffnen, dann /gs testroutine b: Seite Berufe zeigt die eigenen Rezepte",
+   "bereich": "B",
+   "id": "T52",
+   "name": "Berufsfenster einlesen",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "IMPORTANT true",
+   "id": "T53",
+   "ms": "1.7",
+   "name": "Herstellung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "3 Einträge",
+   "id": "T54",
+   "ms": "0.2",
+   "name": "Abklingzeiten",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "17 Einträge",
+   "id": "T55",
+   "ms": "0.1",
+   "name": "Leveling-Rennen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Beitritt=true",
+   "id": "T56",
+   "ms": "0.2",
+   "name": "Jubiläen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "17 Zeilen",
+   "id": "T57",
+   "ms": "0.4",
+   "name": "Zugänge",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "30",
+   "id": "T58",
+   "ms": "0.3",
+   "name": "Ziele",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "19 Einträge",
+   "id": "T59",
+   "ms": "1.7",
+   "name": "Chronik",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Hybride true Grom tank",
+   "id": "T60",
+   "ms": "0.6",
+   "name": "Aufstellung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ActiveDays Zahl=true",
+   "id": "T61",
+   "ms": "1.7",
+   "name": "Online-Zeiten",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "aufgezeichnet 0",
+   "id": "T62",
+   "ms": "0.7",
+   "name": "Beförderung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Notiz true",
+   "id": "T63",
+   "ms": "0.4",
+   "name": "Leitung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Mitglieder 1",
+   "id": "T64",
+   "ms": "0.6",
+   "name": "Sammelaktionen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "lastAdTime gleich true",
+   "id": "T65",
+   "ms": "1.2",
+   "name": "Werbung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Bewerber true",
+   "id": "T66",
+   "ms": "1.4",
+   "name": "Bewerber",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Vorschau",
+   "id": "T68",
+   "ms": "0.9",
+   "name": "Begrüssung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "v 1->2",
+   "id": "T69",
+   "ms": "0.6",
+   "name": "Regeln",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 Einträge, Länge 20",
+   "id": "T70",
+   "ms": "0.2",
+   "name": "Addons-Liste",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0",
+   "id": "T71",
+   "ms": "0.2",
+   "name": "Abgleich",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T72",
+   "ms": "1.6",
+   "name": "Meine Woche",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "home=true",
+   "id": "T73",
+   "ms": "1.1",
+   "name": "Übersicht",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Werte wie vorher=true",
+   "id": "T74",
+   "ms": "0.0",
+   "name": "jede Option einmal an/aus",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "24 ",
+   "id": "T75",
+   "ms": "0.0",
+   "name": "jede Funktion aus/an",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Rundweg true",
+   "id": "T76",
+   "ms": "0.2",
+   "name": "Serialize/Deserialize",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Zusammenbau true",
+   "id": "T77",
+   "ms": "0.1",
+   "name": "lange Pakete",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "56 Typen, Fehler 0",
+   "id": "T78",
+   "ms": "3.4",
+   "name": "alle Nachrichtentypen ohne Fehler",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "nil",
+   "id": "T79",
+   "ms": "0.0",
+   "name": "Typen über die Gruppe (auch andere Gilden): nur Gruppensuche",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0.9.100",
+   "id": "T80",
+   "ms": "0.0",
+   "name": "Versionen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Abe",
+   "id": "T81",
+   "ms": "0.0",
+   "name": "Ansage-Anspruch",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "gelesen false",
+   "id": "T175",
+   "ms": "0.0",
+   "name": "Bank-Charakter aus: nichts gelesen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "nil Stoff 60",
+   "id": "T176",
+   "ms": "0.1",
+   "name": "Bank simuliert: Format wie RaidMaster",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Stoff 63",
+   "id": "T177",
+   "ms": "0.1",
+   "name": "nur Post gelesen: Bankteil bleibt",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "im Kampf nicht gelesen, danach true",
+   "id": "T178",
+   "ms": "0.1",
+   "name": "im Kampf geöffnet: erst nach dem Kampf",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Stoff 63, Fehler 0",
+   "id": "T179",
+   "ms": "0.1",
+   "name": "alter Client ohne C_Container",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Trank 7, Gold 999",
+   "id": "T181",
+   "ms": "0.1",
+   "name": "Gildenbank simuliert",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Einstellungen > Optionen > Daten & Abgleich: 'Bank-Charakter' auf 'an', Bank und Briefkasten öffnen, /reload: Bestand erscheint in #gildenbank (sobald Uploader und Bot aus dem RaidMaster-Auftrag fertig sind)",
+   "bereich": "B",
+   "id": "T180",
+   "name": "Bank-Charakter im Spiel",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "gefunden 3, aufgeklappt 1, zugeklappt 1, Zustand wiederhergestellt",
+   "id": "T190",
+   "ms": "0.2",
+   "name": "Berufe aus der Gilden-Berufsliste des Spiels",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "gesendet true, Typ PROF, Grund gesendet, RaidMaster aktiv",
+   "id": "T201",
+   "ms": "0.1",
+   "name": "T-S1: RaidMaster aktiv – eigene Berufe werden trotzdem gesendet",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "gespeichert true, angezeigt true, zusammengeführt true",
+   "id": "T202",
+   "ms": "0.1",
+   "name": "T-S2: Empfang in anderer Schreibweise und Migration doppelter Einträge",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "gesendet true, zweites Mal false, angekommen true",
+   "id": "T203",
+   "ms": "0.2",
+   "name": "T-S3: Mitglied C sendet nach dem Einloggen selbst, Anfragender hat C",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Anzeige: 3 Einträge im Speicher, 2 angezeigt, 1 aussortiert (Name nicht in Gildenliste) | gesendet: eigene=ja (gesendet) | empfangen: 2 Einträge, angenommen 2, älter verworfen 0, Name unbekannt 1",
+   "id": "T204",
+   "ms": "0.2",
+   "name": "T-S4: Protokoll-Zeilen ohne Spielernamen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "zuerst 1, wartet true, danach 2, offline gelesen, Anzeige danach false, umgeschaltet 2",
+   "id": "T205",
+   "ms": "0.2",
+   "name": "T-S5: Offline-Mitglieder erst nach dem Warten gelesen, Anzeige danach zurückgesetzt",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "übernommen true, Rezepte 2, Senden 1, doppelt false",
+   "id": "T206",
+   "ms": "0.1",
+   "name": "T-S6: NEW_RECIPE_LEARNED – Rezept sofort im eigenen Eintrag, Senden geplant",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "falsch: falsch/0/aus true; richtig: ok/1",
+   "id": "T207",
+   "ms": "0.1",
+   "name": "T-S7: Rezeptprobe falsch – Weg abgeschaltet, nichts übernommen; Probe richtig – gefunden",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Stufen 1, wartet true, Rezept 2, beim Schliessen true",
+   "id": "T214",
+   "ms": "0.3",
+   "name": "Hochleveln: 10 Stufen in 2 Minuten -> 1 Senden, neues Rezept -> sofort",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "bereinigt true, verworfen true, WhoCanCraft 1",
+   "id": "T215",
+   "ms": "0.1",
+   "name": "Empfang in der Tiefe geprüft, WhoCanCraft mit kaputten Daten ohne Fehler",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "zuerst 2, Abfragen 2, nochmals 0",
+   "id": "T216",
+   "ms": "0.1",
+   "name": "Gilden-Rezepte: Gilden-Ansicht startet höchstens alle 10 Minuten, nichts doppelt gefragt",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "2 Gildenmitglieder haben GSTestBeruf. Ihre Rezepte sind noch nicht bekannt – sie erscheinen, sobald sie mit GuildSentinel ihr Berufsfenster öffnen.",
+   "id": "T208",
+   "ms": "0.1",
+   "name": "T-B1: Beruf ohne bekannte Daten – Leertext mit Anzahl laut Spiel",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Suche oben nach einem Rezept oder wähle links einen Beruf.",
+   "id": "T209",
+   "ms": "0.1",
+   "name": "T-B2: kein Beruf gewählt – allgemeiner Satz",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "1 von 4 | 2",
+   "id": "T210",
+   "ms": "0.0",
+   "name": "T-B3: Spalte Wer – \"1 von 4\" bzw. nur die Zahl",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Zeile g=true Stufe 150",
+   "id": "T211",
+   "ms": "0.1",
+   "name": "T-B4: Mitglied aus der Spielliste – Zeile \"Rezepte unbekannt\"",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "1 Zeile, +2 weitere laut Spiel, Rezepte unbekannt",
+   "id": "T212",
+   "ms": "0.1",
+   "name": "T-B5: 3 laut Spiel, 1 Name bekannt – \"+2 weitere laut Spiel\"",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Kopf 1 · Brust 1 · Hände 1 · Einhandwaffen 1 | Brust: 1",
+   "id": "T231",
+   "ms": "0.2",
+   "name": "T-RM1: Schmied – Filter Kopf/Brust/Hände/Waffen, Klick Brust -> nur das Brust-Rezept",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "elixir,healpot,rejuv,transmute,elixir,healpot,rejuv,transmute",
+   "id": "T232",
+   "ms": "0.1",
+   "name": "T-RM2: Alchemie – Elixiere / Heiltränke / Erholungstränke / Transmutationen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ench_chest,ench_chest,ench_2h,ench_weapon,ench_wrist",
+   "id": "T233",
+   "ms": "0.1",
+   "name": "T-RM3: Verzauberkunst nach Platz",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "other",
+   "id": "T234",
+   "ms": "0.1",
+   "name": "T-RM4: Daten ohne Item-ID (alter Sender) -> Sonstiges, kein Fehler",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "k:GSTestKategorie / head",
+   "id": "T235",
+   "ms": "0.1",
+   "name": "T-RM5: Feld k vorhanden -> Blizzard-Kategorie; fehlt k -> eigene Art",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "alt lesbar true, k übernommen true",
+   "id": "T236",
+   "ms": "0.1",
+   "name": "T-RM6: Daten mit k bleiben für ältere Leser unverändert (n, i, s gleich)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Eingabe 1 (/5 GSTest Werbung), gesendet 0, vorgemerkt true",
+   "id": "T239",
+   "ms": "0.7",
+   "name": "Werbung (Forever): Chat-Eingabe \"/5 <Text>\" vorbereitet, nichts selbst in den Kanal gesendet",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Eingabe 255 Zeichen, gleich gemerkt true, gezählt true",
+   "id": "T242",
+   "ms": "0.6",
+   "name": "Lange Werbung: Eingabe höchstens 255 Zeichen, gekürzter Text zählt nach dem Senden als gepostet",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "249 Bytes",
+   "id": "T243",
+   "ms": "0.0",
+   "name": "ns.CutBytes zerschneidet keine UTF-8-Zeichen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "<Testgilde> (Horde) sucht Heiler, Krieger und Magier für Dungeons und Raids – entspannt, hilfsbereit, deutschsprachig. Discord: https://discord.gg/test – flüstert mir: /w Testname gilde",
+   "id": "T244",
+   "ms": "0.6",
+   "name": "T-WT1: neuer Standardtext mit allen Werten",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "<Testgilde> (Horde) sucht Heiler, Krieger und Magier für Dungeons und Raids – entspannt, hilfsbereit, deutschsprachig. Flüstert mir: /w Testname gilde",
+   "id": "T245",
+   "ms": "0.5",
+   "name": "T-WT2: ohne Discord kein \"Discord:\", kein doppeltes Leerzeichen/Strich",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Eigener GSTest-Text <Testgilde> Heiler, Krieger und Magier",
+   "id": "T246",
+   "ms": "0.5",
+   "name": "T-WT3: eigener gespeicherter Text bleibt unverändert",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "212 Zeichen (ungekürzt 321), Flüster-Teil ganz",
+   "id": "T247",
+   "ms": "2.1",
+   "name": "T-WT4: Länge höchstens 255 − #\"/1 \" auch mit langen Werten",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Heiler, Krieger und Magier | neue Mitglieder",
+   "id": "T248",
+   "ms": "0.1",
+   "name": "{gesucht}: Liste mit \"und\", leer -> \"neue Mitglieder\"",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "(23/251) | |cffff4040(359/251) wird gekürzt|r",
+   "id": "T249",
+   "ms": "3.1",
+   "name": "Zähler der Werbung: \"wird gekürzt\" nur bei zu langem Text",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "alt (deDE) ersetzt true, alt (Client) ersetzt true, eigener bleibt true",
+   "id": "T250",
+   "ms": "0.1",
+   "name": "Alter gespeicherter Standardtext wird einmalig durch den neuen ersetzt, eigener bleibt",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "9 Fälle sauber",
+   "id": "T251",
+   "ms": "5.9",
+   "name": "T-DP2: Vorschlag 2 mit/ohne Discord-Link und Tag (DE/EN/RU)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "vorhanden",
+   "id": "T252",
+   "ms": "0.0",
+   "name": "T-DP1: Tipp \"dauerhafte Einladung\" beim Discord-Link",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "direkt 0, Eingabe 1 \"/geinladen Testa Beispiel\", vorher new, nachher invited",
+   "id": "T253",
+   "ms": "2.2",
+   "name": "GV1: Einladen nur über /ginvite in der Chat-Eingabe, Status erst nach der Systemmeldung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Gilde fremd nil, Server weitergegeben true, Gilde selbst true",
+   "id": "T240",
+   "ms": "0.1",
+   "name": "LFGX: Gildensuche schliesst nur der Suchende selbst, ganzer Server auch weitergegeben",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Offline zurück true, zugeklappt 1, Zeitgeber gelöscht",
+   "id": "T241",
+   "ms": "0.0",
+   "name": "Gilden-Berufsliste: zweites Lesen ohne Liste setzt trotzdem zurück",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Netz 0, Gruppe 5",
+   "id": "T238",
+   "ms": "0.1",
+   "name": "Gruppensuche ganzer Server: Gruppenänderungen gehen nicht ins Flüster-Netz",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "PARTY,GUILD",
+   "id": "T217",
+   "ms": "0.1",
+   "name": "T-SY1/T-GS1: Senden über die gemeinsame Datei, nur Gilde/Gruppe (nie über einen Kanal)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "GUILD | PARTY | 0, gezählt true",
+   "id": "T218",
+   "ms": "0.1",
+   "name": "T-SY2: Gilde -> GUILD, nur Gruppe -> PARTY, ohne beides nichts (Protokoll: kein Weg)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "1 Zeile(n)",
+   "id": "T219",
+   "ms": "0.0",
+   "name": "T-SY3: NOT_ALLOWED_IN_CHANNEL -> Protokollzeile",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "alt true, ohne Absender true, verworfen true, Fehler 0",
+   "id": "T220",
+   "ms": "0.2",
+   "name": "T-GS2/T-GS3: Empfang über ep:OnMessage – Absender nil vertragen, alte Nachricht ohne Kopf verstanden",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0 Beitritte",
+   "id": "T221",
+   "ms": "2.3",
+   "name": "T-GS4: kein Beitritt zu einem eigenen Kanal mehr",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Sync-Test läuft … | 0 Antworten (Gilde 0, Gruppe 0)",
+   "id": "T222",
+   "ms": "0.1",
+   "name": "T-GS5: /gs sync test gibt eine Zeile aus",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "1111111",
+   "id": "T223",
+   "ms": "0.0",
+   "name": "Werbung: nur Blizzard-Kanäle (Addon- und Spielerkanäle ausgeblendet)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "3",
+   "id": "T225",
+   "ms": "0.0",
+   "name": "T-N1: GoldSentinelSync Version 2 geladen (auch neben Version 1 anderer Addons)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "true",
+   "id": "T226",
+   "ms": "0.0",
+   "name": "T-N2: bekannte Mitspieler in GuildSentinelDB.gsSync (UseStorage)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0 Flüsternachrichten, Gruppensuche ins Netz 1",
+   "id": "T227",
+   "ms": "0.1",
+   "name": "T-N3: net = false und scope \"guild\" – keine Flüsternachricht ins Netz",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "NETZ true, Name false",
+   "id": "T228",
+   "ms": "0.1",
+   "name": "T-N4: Protokoll enthält NETZ und keinen Spielernamen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "4",
+   "id": "T229",
+   "ms": "0.0",
+   "name": "T-GT1: GoldSentinelTest Version 2 geladen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0 im Ausgang",
+   "id": "T230",
+   "ms": "0.0",
+   "name": "T-GT2: ohne Zustimmung bleibt der Ausgang nach einem Fehler leer",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, BuffSentinel 0, GoldSentinelMarkt 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0, ThreatSentinel 0",
+   "id": "T224",
+   "ms": "0.7",
+   "name": "Diagnose: Zeilen der gemeinsamen Datei im Protokoll",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "offen true, befördern true, entfernen false",
+   "id": "T192",
+   "ms": "0.1",
+   "name": "Verwaltung: mit Rechten offen, Knöpfe nach Recht",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "offen false, Hinweis true",
+   "id": "T193",
+   "ms": "0.1",
+   "name": "Verwaltung: ohne Rechte gesperrt",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "6/6 (111111), echt 0",
+   "id": "T194",
+   "ms": "0.4",
+   "name": "Verwaltung: Einladen/Befördern/Degradieren/Rauswerfen mit richtigem Namen mitgeschrieben",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "6/6",
+   "id": "T195",
+   "ms": "0.4",
+   "name": "Verwaltung: Leitung übergeben nur mit Passwort",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "----x ++++x +++++",
+   "id": "T254",
+   "ms": "0.4",
+   "name": "T-RV1: Rechtsklick-Menü zeigt genau die Einträge der eigenen Rechte (Mitglied, Offizier, Gildenmeister)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0++++ 0++++ 0++++ 0++++",
+   "id": "T304a",
+   "ms": "0.4",
+   "name": "T-RANG1a: Gildenmeister, eigener Name in der Liste anders geschrieben -> Befördern/Degradieren/Rang/Entfernen erlaubt",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Grund true, mehrdeutig: false nicht in der Liste",
+   "id": "T304b",
+   "ms": "0.0",
+   "name": "T-RANG1b: eigener Rang unbekannt -> Grund \"noch nicht geladen\", nie \"nicht über den eigenen Rang\"",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Lua-Fehler +0, ohne Twinks-Tabelle true",
+   "id": "T304c",
+   "ms": "3.2",
+   "name": "Befund 1 (17.11.): Bewerbungen aufräumen bei offenem Fenster ohne Lua-Fehler; Gilden-Tabelle ohne Twinks",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0 direkte Aufrufe",
+   "id": "T255",
+   "ms": "0.8",
+   "name": "T-RV2: kein geschützter Gilden-Aufruf direkt aus Addon-Code (Einladen, Befördern, Degradieren, Entfernen, Leitung)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "/gbefördern Testa Beispiel | /gentfernen Mira/gleader Sonnenkind",
+   "id": "T256",
+   "ms": "0.0",
+   "name": "T-RV3: Makro-Text mit Vor- und Nachname, kein Zeilenumbruch",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "1111",
+   "id": "T257",
+   "ms": "0.2",
+   "name": "T-RV4: Rang setzen über 3 Stufen = 3 Klicks, nie über den eigenen Rang",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "111",
+   "id": "T258",
+   "ms": "0.2",
+   "name": "T-RV5: \"befördert\" erst nach Bestätigung des Spiels, ohne Bestätigung \"nicht ausgeführt\"",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "aus 0, an 1, Schritte 2",
+   "id": "T259",
+   "ms": "0.2",
+   "name": "T-RV6: Twink bekommt den Rang des Mains nur vorgeschlagen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "3 ausgewählt, 3 Schritte, nach 1 Klick 1 erledigt, Kampf grau true",
+   "id": "T260",
+   "ms": "0.2",
+   "name": "T-RV8: Mehrfachauswahl – je Mitglied ein Klick; im Kampf grau",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Sperre 300 s, richtig während Sperre false, danach true",
+   "id": "T196",
+   "ms": "0.5",
+   "name": "Verwaltung: 3 Fehlversuche -> 5 Minuten Sperre",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Prüfsumme 16 Zeichen, Klartext false",
+   "id": "T197",
+   "ms": "10.2",
+   "name": "Verwaltung: Passwort nur als Prüfsumme",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "3 Einträge, Namen keine · Teilzeiten Einladen 0.1, Entfernen 0.1, Text/Export 0.7 ms",
+   "id": "T198",
+   "ms": "1.0",
+   "name": "Verwaltung: keine Namen im Protokoll und Export",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "11111",
+   "id": "T200",
+   "ms": "0.1",
+   "name": "Verwaltung: alter Client ohne C_GuildInfo nimmt die alte Funktion",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "1111",
+   "id": "T213",
+   "ms": "0.2",
+   "name": "Befördern (Aktivität) und Sammelaktion: nie direkt, nur über den sicheren Knopf (RV3)",
+   "status": "OK"
+  },
+  {
+   "anleitung": "J drücken: rechts neben dem Gildenfenster steht 'Verwaltung (GuildSentinel)' (ohne Rechte grau); /gs verwaltung öffnet das Fenster; Passwort festlegen und mit falschem/richtigem Passwort entsperren",
+   "bereich": "B",
+   "id": "T199",
+   "name": "Verwaltungsknopf an der Gildenseite",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "build: Mitstreiter aller Klassen, Vorgaben gleich",
+   "id": "T261",
+   "ms": "0.2",
+   "name": "T-RP1: Phase Aufbau -> {gesucht} \"aller Klassen\", Vorgaben unverändert",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Mitstreiter aller Klassen, besonders Tanks, Heiler und Schamanen",
+   "id": "T262",
+   "ms": "0.1",
+   "name": "T-RP2: Übergang mit fehlenden Rollen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Tanks und Heiler",
+   "id": "T263",
+   "ms": "0.1",
+   "name": "T-RP3: Phase Raid wie bisher (Lücken der Aufstellung)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "1111",
+   "id": "T264",
+   "ms": "0.5",
+   "name": "T-RP4: Erfüllungsgrad 59/60/100 %, Rollen-Mangel (nur Schurken) nicht raidfähig",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Mitglied gesperrt true, Offizier true, Empfang true",
+   "id": "T265",
+   "ms": "0.1",
+   "name": "T-RP5: nur Offiziere schalten um, Mitglied nicht",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "6 Tage nil, 7 Tage trans",
+   "id": "T266",
+   "ms": "0.1",
+   "name": "T-RP6: zurück erst nach 7 Tagen unter der Schwelle (6 Tage -> nichts)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "9 Raids stimmen",
+   "id": "T267",
+   "ms": "0.7",
+   "name": "T-RP7: Ziel-Raids 10/20/25/40 – Grösse und Rollen-Soll",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "2 aktiv",
+   "id": "T268",
+   "ms": "0.1",
+   "name": "T-RP8: Inaktive (> 14 Tage) und Twinks zählen nicht",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "raid/nil/nil",
+   "id": "T288",
+   "ms": "0.2",
+   "name": "T-RP-V: raidReady.vorschlag – offen gesetzt, bestätigt/Später fehlt",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Namen",
+   "id": "T269",
+   "ms": "0.1",
+   "name": "T-RP9: raidReady ohne Namen, alle Sprachen ohne Platzhalter-Fehler",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "108 Zellen OK (9 Lagen x 12 Funktionen)",
+   "id": "T270",
+   "ms": "0.0",
+   "name": "TU1: Lagen-Katalog – jede Lage durch alle Funktionen (Tabelle Lage x Funktion)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "1111111",
+   "id": "T271",
+   "ms": "5.0",
+   "name": "TU2: Abläufe – Bewerber, Verwaltung mit/ohne Antwort, /reload mittendrin, Werbung ohne Kanal",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "8 Felder: Werbetext (Standard, ohne {}/Discord), Server-Tag leer: kein Tag-Satz (Vorschlag 2), Intervall, Antwort auf Bewerbung, Begrüssung, Funktionen ab Werk an, Rekrutierungsphase Aufbau, Sprache folgt dem Client",
+   "id": "T272",
+   "ms": "2.4",
+   "name": "TU3: Standardwerte – leere Felder ergeben, was der Spieler meint",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "100 Fälle OK (157 ms)",
+   "id": "T273a",
+   "ms": "0.0",
+   "name": "TU4: Grundregeln mit Zufallsdaten, Portion 1/10 (Startwert 4711)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "100 Fälle OK (153 ms)",
+   "id": "T273b",
+   "ms": "0.0",
+   "name": "TU4: Grundregeln mit Zufallsdaten, Portion 2/10 (Startwert 4711)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "100 Fälle OK (147 ms)",
+   "id": "T273c",
+   "ms": "0.0",
+   "name": "TU4: Grundregeln mit Zufallsdaten, Portion 3/10 (Startwert 4711)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "100 Fälle OK (153 ms)",
+   "id": "T273d",
+   "ms": "0.0",
+   "name": "TU4: Grundregeln mit Zufallsdaten, Portion 4/10 (Startwert 4711)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "100 Fälle OK (154 ms)",
+   "id": "T273e",
+   "ms": "0.0",
+   "name": "TU4: Grundregeln mit Zufallsdaten, Portion 5/10 (Startwert 4711)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "100 Fälle OK (156 ms)",
+   "id": "T273f",
+   "ms": "0.0",
+   "name": "TU4: Grundregeln mit Zufallsdaten, Portion 6/10 (Startwert 4711)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "100 Fälle OK (158 ms)",
+   "id": "T273g",
+   "ms": "0.0",
+   "name": "TU4: Grundregeln mit Zufallsdaten, Portion 7/10 (Startwert 4711)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "100 Fälle OK (162 ms)",
+   "id": "T273h",
+   "ms": "0.0",
+   "name": "TU4: Grundregeln mit Zufallsdaten, Portion 8/10 (Startwert 4711)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "100 Fälle OK (169 ms)",
+   "id": "T273i",
+   "ms": "0.0",
+   "name": "TU4: Grundregeln mit Zufallsdaten, Portion 9/10 (Startwert 4711)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "100 Fälle OK (157 ms)",
+   "id": "T273j",
+   "ms": "0.0",
+   "name": "TU4: Grundregeln mit Zufallsdaten, Portion 10/10 (Startwert 4711)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0 Verletzungen",
+   "id": "T275",
+   "ms": "0.0",
+   "name": "TU5: echte Daten (nur lesen) – Bewerber, Twinks, Rang-Verlauf",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "11",
+   "id": "T281",
+   "ms": "0.6",
+   "name": "T-GA1: sicherer Knopf handelt nur in der Ausführungsphase (Aktion bei Tastendruck an/aus)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "23 Befehle, 55 Wörter, Liste 23",
+   "id": "T282",
+   "ms": "0.8",
+   "name": "T-BL1: jeder Befehl, den der Handler versteht, steht in der Liste (aus derselben Tabelle)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "w: weg,werbung,wo | we: weg,werbung | oben: weg | alle 16",
+   "id": "T283",
+   "ms": "0.2",
+   "name": "T-BL2: Filter \"/gs w\" und \"/gs we\" liefern genau die passenden, meistbenutzte oben",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "werbung / we / wo",
+   "id": "T284",
+   "ms": "0.3",
+   "name": "T-BL3: Klick wählt aus, Enter führt den gewählten Befehl aus; alte Auswahl (> 10 s) gilt nicht",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "geschrieben 0, Liste true, Fokus 2",
+   "id": "T285",
+   "ms": "0.4",
+   "name": "T-BL4: Chatfeld wird nie beschrieben (nur HookScript lesen, SetFocus)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne: danke,termine | mit: danke,termine,test,testroutine",
+   "id": "T286",
+   "ms": "0.1",
+   "name": "T-BL5: Entwickler-Befehle nur für den Entwickler",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "23 Beschreibungen in allen geladenen Sprachen",
+   "id": "T287",
+   "ms": "0.0",
+   "name": "T-BL6: alle Sprachen – Beschreibungen vorhanden, Platzhalter gleich",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ok/new",
+   "id": "T289a",
+   "ms": "12.7",
+   "name": "T-GA1a: Alter 17 -> weiter (Ergebnis 16+)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "agedecl | Absage mit 16",
+   "id": "T289b",
+   "ms": "12.2",
+   "name": "T-GA1b: Alter 15 -> nette Absage, Status abgelehnt (Alter), Einladen gesperrt",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "unclear/new",
+   "id": "T289c",
+   "ms": "13.3",
+   "name": "T-GA1c: \"bald 16\" -> unklar, keine automatische Absage",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Fragen 4, Alter nil",
+   "id": "T289d",
+   "ms": "11.1",
+   "name": "T-GA1d: Mindestalter 0 -> keine Altersfrage",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "agedecl, Einladen false/false",
+   "id": "T289f",
+   "ms": "12.2",
+   "name": "T-GA1f: Gildenverwaltung > Einladen umgeht die Alters-Sperre nicht",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "7 Vorschläge + Vorschlag 2 + 2 Standardtexte mit /w",
+   "id": "T295a",
+   "ms": "0.0",
+   "name": "T-GSW1a: Vorschlag 2 und alle Vorschläge enthalten \"/w {name}\"",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "14 Fälle sauber",
+   "id": "T295b",
+   "ms": "12.2",
+   "name": "T-GSW2: jeder Vorschlag eingesetzt <= 251 Zeichen, Flüster-Teil am Ende ganz (auch mit langen Werten)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "243 Zeichen, Ende /w Testa gilde",
+   "id": "T295c",
+   "ms": "0.1",
+   "name": "T-GSW1b: Kürzen auf 251 lässt \"/w <Name> gilde\" ganz",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Hinweis true, unverändert true, angehängt true",
+   "id": "T295d",
+   "ms": "0.0",
+   "name": "T-GSW1c: eigener Text ohne /w -> Hinweis; Übernehmen hängt an; nie ungefragt",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Reihenfolge true, Übernahme true",
+   "id": "T295e",
+   "ms": "0.1",
+   "name": "T-GSW2b: Auswahl – passende Phase oben, Klick übernimmt den Vorschlag",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Gilde。Discord：x —— 密我：/w {name} 公会",
+   "id": "T295f",
+   "ms": "0.0",
+   "name": "T-GSW1d: Tag in chinesischer Klammer weglassen lässt den Flüster-Teil stehen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "115/118 Zeichen",
+   "id": "T295g",
+   "ms": "0.1",
+   "name": "T-GSW1e: ohne Strich (Discord weg) bleibt der ganze Flüster-Satz beim Kürzen, Anfang endet mit Satzende",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "angeschrieben 5, pausiert 15, Hinweise 15, Bewerber 20",
+   "id": "T296a",
+   "ms": "0.2",
+   "name": "T-G3a: 20 Fremde in einer Minute -> nur 5 bekommen automatische Nachrichten, die anderen einen Hinweis",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "voll true, noch voll true, frei true",
+   "id": "T296b",
+   "ms": "0.1",
+   "name": "T-G3b: Grenze gleitet – nach 10 Minuten wieder frei, nie für immer gesperrt",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Nachrichten 2 -> 2",
+   "id": "T296c",
+   "ms": "6.5",
+   "name": "T-G3c: bekannter Bewerber ohne Stichwort bekommt keinen festen Text erneut; Antworten auf Fragen laufen weiter",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "angezeigt true, Erster ohne true, nach eigener Nachricht weg true",
+   "id": "T296d",
+   "ms": "13.5",
+   "name": "T-G40-1a: pausierter Bewerber zeigt auf der Seite \"selbst anschreiben\"; eigene Flüsternachricht löscht es",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Hinweise 1, nichts gesendet true, markiert true",
+   "id": "T296e",
+   "ms": "15.8",
+   "name": "T-G40-1b: bekannter Bewerber schreibt Stichwort bei voller Grenze -> ein Hinweis, höchstens einmal je Fenster",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "seit true, befördert true, ohne Daten 1 Zeile(n)",
+   "id": "T297a",
+   "ms": "0.4",
+   "name": "T-GSN1a: Tooltip zeigt \"In der Gilde seit\" und den letzten Rangwechsel (neuester zuerst)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "gelöscht 4, übrig DEF",
+   "id": "T297b",
+   "ms": "1.7",
+   "name": "T-GSN1b: abgeschlossene Bewerbungen nach 90 Tagen gelöscht, offene bleiben",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "aus: 0 gelöscht, 0 Zeilen; an: 2 gelöscht, Zeile true",
+   "id": "T297c",
+   "ms": "1.4",
+   "name": "T-GSN1c: Option aus -> nichts gelöscht; gelöscht -> eine Zeile im eigenen Chat",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "16 Fälle richtig",
+   "id": "T298a",
+   "ms": "0.2",
+   "name": "T-G5a: Alters-Angaben im Wortlaut unkenntlich, Stufen und andere Zahlen bleiben (deDE/enUS)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Nachricht hallo gilde, ich bin …, Antwort Schamane lvl 40, … Jahre",
+   "id": "T298b",
+   "ms": "3.8",
+   "name": "T-G5b: gespeichert wird nur die unkenntliche Fassung (letzte Nachricht und Antwort auf eine Frage)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Offizier true, Nicht-Offizier abgewiesen true",
+   "id": "T299a",
+   "ms": "3.3",
+   "name": "T-GSN3a: Sperrliste – Gross/Klein egal, nur Offiziere, Entfernen als Grabstein, neuerer Stand gewinnt",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "erfasst true, Nachrichten 0, Hinweise 1",
+   "id": "T299b",
+   "ms": "4.9",
+   "name": "T-GSN3b: Gesperrter flüstert -> erfasst, KEINE Nachricht an ihn, ein Hinweis je 10 Min., keine Fragen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "eingeladen false, Einladung 0, Meldung true, Liste true",
+   "id": "T299c",
+   "ms": "2.0",
+   "name": "T-GSN3c: Einladen eines Gesperrten gesperrt (Chat-Eingabe bleibt leer), Liste zeigt \"gesperrt\"",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Warnung true, Tooltip true, Nicht-Offizier ohne true",
+   "id": "T299d",
+   "ms": "1.8",
+   "name": "T-GSN3d: Gesperrter tritt bei -> Warnung an die Leitung; Tooltip zeigt den Grund (nur Offiziere)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Twink true, allein false, Tage 30",
+   "id": "T300a",
+   "ms": "0.0",
+   "name": "T-GSN4: Rückkehrer nur, wenn kein anderer Charakter desselben Spielers in 30 Tagen online war",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "– → „Heilerin“ | „Twink von Testa“ → –",
+   "id": "T300b",
+   "ms": "0.0",
+   "name": "T-GSN5: Notiz-Änderung als \"alt -> neu\" (leer = –, lange Notizen gekürzt, gültiges UTF-8)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Punkte 14, unvollständig nil, Hit in der Routine auto -> auto",
+   "id": "T303",
+   "ms": "0.0",
+   "name": "T-PL: Prüfliste im Entwicklermodus registriert (höchstens 14 Punkte, je Anweisung), Hits in der Routine wirkungslos",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "nur Ergebnis gespeichert",
+   "id": "T289e",
+   "ms": "12.6",
+   "name": "T-GA1e: genaues Alter nirgends gespeichert",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Standardtext Aufbau, alle Klassen",
+   "id": "T290a",
+   "ms": "1.2",
+   "name": "T-GA2a: Phase Aufbau, Standardtext -> \"im Aufbau … aller Klassen\"",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "1000",
+   "id": "T290b",
+   "ms": "0.2",
+   "name": "T-GA2b: eigener Text ohne {gesucht}/{phase} -> Hinweis",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "gezielt: Heiler, Krieger",
+   "id": "T290c",
+   "ms": "0.5",
+   "name": "T-GA2c: Phase Raid -> gezielte Klassen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "v10, an",
+   "id": "T291",
+   "ms": "0.1",
+   "name": "MN4: GoldSentinelMarkt geladen und mit GuildSentinel verbunden (MN1/MN3)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "aus true, Lesen nein, gesendet 0",
+   "id": "T292",
+   "ms": "0.0",
+   "name": "MN4: Schalter aus -> kein Lesen, kein Senden",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "anderes aus: false (Hinweis) | allein: true",
+   "id": "T294",
+   "ms": "0.0",
+   "name": "T-MN2b: Haken folgt dem Netz – anderes Addon \"aus\" -> Haken aus mit Hinweis",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "kein Fehler",
+   "id": "T293",
+   "ms": "0.0",
+   "name": "MN4: ohne Auktionshaus-Schnittstelle (Era/TBC) kein Lua-Fehler",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Knopf vorhanden",
+   "id": "T280",
+   "ms": "0.0",
+   "name": "T-RV7: Rangrechte nur anzeigen, Knopf öffnet das Rang-Fenster des Spiels",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Mit Gilde einloggen, 5 Minuten warten, /gs protokoll: Zeile 'Gilden-Berufsliste: … Zeilen' zeigt, ob das Spiel die Berufe der Mitglieder liefert; Seite Berufe zeigt dann auch Mitglieder ohne GuildSentinel (nur Stufen)",
+   "bereich": "B",
+   "id": "T191",
+   "name": "Gilden-Berufsliste im Spiel",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Zeilen 0",
+   "id": "T83",
+   "ms": "0.0",
+   "name": "Tooltip, geschützter Name",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "0",
+   "id": "T84",
+   "ms": "0.0",
+   "name": "Addon-Nachricht, geschützte Argumente",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "30 gemerkt, 1 gezählt",
+   "id": "T85",
+   "ms": "0.3",
+   "name": "Flüstern im Kampf (Warteschlange)",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "0",
+   "id": "T86",
+   "ms": "0.0",
+   "name": "Abklingzeit, geschützte Spell-ID",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "false",
+   "id": "T87",
+   "ms": "0.0",
+   "name": "Gildenchat-Filter, geschützter Autor",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "false",
+   "id": "T88",
+   "ms": "0.0",
+   "name": "Gildenchat-Filter, geschützter Text (N5)",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "false, Fehler 0",
+   "id": "T89",
+   "ms": "0.0",
+   "name": "Systemfilter, geschützter Text (N5)",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "1",
+   "id": "T90",
+   "ms": "0.0",
+   "name": "geschützte GUID",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "SetupGuild true",
+   "id": "T91",
+   "ms": "0.1",
+   "name": "eigener Name geschützt (N6)",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "false true",
+   "id": "T92",
+   "ms": "0.1",
+   "name": "fehlendes issecretvalue (ns.API.IsSecret nil)",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Zaubername-API=true",
+   "id": "T93",
+   "ms": "0.0",
+   "name": "Zaubernamen",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "C_Spell true: true, beide nil: nil",
+   "id": "T93b",
+   "ms": "0.0",
+   "name": "GetSpellInfo nil (über ns.API)",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "id": "T94",
+   "ms": "0.4",
+   "name": "Item aus Taschen",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "",
+   "id": "T95",
+   "ms": "0.0",
+   "name": "beim Laden gebundene Ersatzwege",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "1",
+   "id": "T96",
+   "ms": "0.0",
+   "name": "ns.Chat geht über ns.Act",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "alt true, ohne beide +0",
+   "id": "T96b",
+   "ms": "0.0",
+   "name": "SendChatMessage-Rückfall (über ns.API)",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "id": "T97",
+   "ms": "0.0",
+   "name": "Offiziersrechte (echter Weg)",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "true/true/false",
+   "id": "T97b",
+   "ms": "0.1",
+   "name": "Offiziers-Globals nil (über ns.API)",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "id": "T98",
+   "ms": "0.0",
+   "name": "KnowsSpell",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "false/false",
+   "id": "T99",
+   "ms": "0.2",
+   "name": "Quest-Global nil (über ns.API)",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "1",
+   "id": "T100",
+   "ms": "0.0",
+   "name": "Flüsterfenster über ns.Act",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "id": "T101",
+   "ms": "0.0",
+   "name": "Chatfilter-Haken / alten Kanal verlassen (Testmodus: nur anzeigen)",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "id": "T102",
+   "ms": "0.0",
+   "name": "Berufs-Weg passt zum Client",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "id": "T103",
+   "ms": "0.0",
+   "name": "Meine Woche ohne Fehler",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "false",
+   "id": "T104",
+   "ms": "0.0",
+   "name": "Addon-Metadaten",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Regeln zu true, Start abgelehnt true",
+   "id": "T105",
+   "ms": "0.0",
+   "name": "Kampfsperre (simuliert)",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Berufe-Seite offen, Kampf beginnen: kein ADDON_ACTION_BLOCKED für GuildSentinel, nach dem Kampf ist der Knopf wieder da",
+   "bereich": "C",
+   "id": "T106",
+   "name": "echte Kampfsperre",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "false",
+   "id": "T107",
+   "ms": "0.0",
+   "name": "Kampflog nicht benutzt",
+   "status": "OK"
+  },
+  {
+   "bereich": "D",
+   "grund": "nicht dieser Client",
+   "id": "T108",
+   "name": "alter Client",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "nicht dieser Client",
+   "id": "T109",
+   "name": "alter Client",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "nicht dieser Client",
+   "id": "T110",
+   "name": "alter Client",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "nicht dieser Client",
+   "id": "T111",
+   "name": "alter Client",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "nicht dieser Client",
+   "id": "T112",
+   "name": "alter Client",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "nicht dieser Client",
+   "id": "T114",
+   "name": "alter Client",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "nicht dieser Client",
+   "id": "T113",
+   "name": "Berufe klassisch",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "45 Schlüssel ",
+   "id": "T116",
+   "ms": "0.1",
+   "name": "neue Gilde",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "",
+   "id": "T118",
+   "ms": "2.1",
+   "name": "beschädigte Gildendaten",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "0 ",
+   "id": "T120",
+   "ms": "0.0",
+   "name": "beschädigte Pakete",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "400 Log, Notiz 80",
+   "id": "T121",
+   "ms": "3.5",
+   "name": "Grenzen",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "grund": "würde GuildSentinelDB neu anlegen; offline: jeder Lauf in test/ startet ohne GuildSentinelDB",
+   "id": "T115",
+   "name": "Neuinstallation",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "E",
+   "grund": "offline in test/run_nilglobals.lua (Altlasten) und run_lang.lua (alte Spracheinstellung)",
+   "id": "T117",
+   "name": "Migration",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "E",
+   "grund": "offline in test/run_nilglobals.lua",
+   "id": "T119",
+   "name": "beschädigte Einstellungen",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "de",
+   "id": "T122",
+   "ms": "0.0",
+   "name": "Sprache wie Client (bzw. gewählt)",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "grund": "Client-Sprache ist de (Schlüssel bzw. Locales.lua)",
+   "id": "T123",
+   "name": "alle Schlüssel vorhanden",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "0 nil",
+   "id": "T124",
+   "ms": "3.8",
+   "name": "Formatplatzhalter",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "",
+   "id": "T125",
+   "ms": "0.0",
+   "name": "Sprache umschalten",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "",
+   "id": "T126",
+   "ms": "0.0",
+   "name": "Merk-Schlüssel (N[...])",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "5 Sprachen, fehlend: 0",
+   "id": "T127",
+   "ms": "0.6",
+   "name": "übrige geladene Sprachen vollständig",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "RaidMaster 3.0.49, AHAnalyzerPro 0.65.401, BuffSentinel 0.9.65, ThreatSentinel 2.5.30, LevelPilot 3.13.14",
+   "id": "T128",
+   "ms": "0.0",
+   "name": "mehrere GoldSentinel-Addons",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "/gs=true",
+   "id": "T129",
+   "ms": "0.0",
+   "name": "keine globalen Namen überschrieben",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "false",
+   "id": "T130",
+   "ms": "0.0",
+   "name": "RaidMaster da / nicht da",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "12345,nil,nil",
+   "id": "T131",
+   "ms": "0.1",
+   "name": "AH-Preise",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "true,true",
+   "id": "T132",
+   "ms": "0.0",
+   "name": "AH-Addon unter Ordner AHSentinel erkannt (N7)",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "true,false",
+   "id": "T133",
+   "ms": "0.0",
+   "name": "BuffSentinel",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "heal,nil",
+   "id": "T134",
+   "ms": "0.0",
+   "name": "ThreatSentinel",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "1,0",
+   "id": "T135",
+   "ms": "0.0",
+   "name": "LevelPilot",
+   "status": "OK"
+  },
+  {
+   "anleitung": "mit installiertem GRM: Leitung > GRM-Import zeigt Zahlen; ohne: kein Fehler",
+   "bereich": "G",
+   "id": "T136",
+   "name": "Guild Roster Manager",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "G",
+   "grund": "GuildSentinel nutzt keine Schnittstelle von ProfessionSentinel",
+   "id": "T137",
+   "name": "ProfessionSentinel",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "am Stück Median 9.8 ms (13.4 / 9.8 / 8.0) · in Portionen längstes Bild 4.8 ms, 3 Bilder",
+   "id": "T138",
+   "ms": "0.1",
+   "name": "Roster:Scan mit 500 Mitgliedern (Median aus 3; im Spiel in Portionen: längstes Bild)",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "0.10 ms",
+   "id": "T139",
+   "ms": "5.1",
+   "name": "Tooltip",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "0.004 ms",
+   "id": "T140",
+   "ms": "0.8",
+   "name": "Chatfilter",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "0.07 ms",
+   "id": "T141",
+   "ms": "0.7",
+   "name": "Pakete",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "0.57 ms (höchster)",
+   "id": "T142",
+   "ms": "0.8",
+   "name": "Ticker-Arbeit",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "9.0 ms (langsamste: home)",
+   "id": "T143",
+   "ms": "0.0",
+   "name": "Seiten mit 500 Mitgliedern",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "0.1 ms",
+   "id": "T144",
+   "ms": "0.1",
+   "name": "Abgleich",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "grund": "Messung im Bericht unten (Zeile Speicher, ohne Bereinigung)",
+   "id": "T145",
+   "name": "Speicher",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "+1 GT true",
+   "id": "T146",
+   "ms": "0.1",
+   "name": "Fehler in internem Ereignis",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "2",
+   "id": "T147",
+   "ms": "0.2",
+   "name": "Fehler in Spiel-Ereignis und Paket",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "Diagnose",
+   "id": "T148",
+   "ms": "0.0",
+   "name": "Diagnose zeigt Fehler",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "nicht über ns.Act: -, echt 0",
+   "id": "T174",
+   "ms": "0.1",
+   "name": "Aktionen mit Folgen nur über ns.Act",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "4 Einträge, Zähler 50, Name nicht drin, Export true · Teilzeiten Diag 0.4, Fehler 0.0, Text/Export 0.5 ms",
+   "id": "T188",
+   "ms": "1.0",
+   "name": "Diagnose-Protokoll: Einträge, Zähler, Export GSDIAG1, keine Namen",
+   "status": "OK"
+  },
+  {
+   "anleitung": "/gs protokoll öffnet ein Fenster mit markierbarem Text; nach /reload liegt GuildSentinelDB.diagExport (beginnt mit GSDIAG1) in den SavedVariables und geht mit dem Uploader nach #testberichte",
+   "bereich": "I",
+   "id": "T189",
+   "name": "Diagnose-Protokoll im Spiel",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "registriert=true",
+   "id": "T149",
+   "ms": "0.0",
+   "name": "Fehler-Abgriff aktiv",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "true",
+   "id": "T150",
+   "ms": "0.0",
+   "name": "P1: Tooltip mit geschütztem Namen",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Testa Beispiel|Testa Beispiel",
+   "id": "T151",
+   "ms": "0.0",
+   "name": "P2: ns.Proper Vor- und Nachname",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Testa Beispiel|Testa Beispiel|nil|Testa Beispiel",
+   "id": "T152",
+   "ms": "0.1",
+   "name": "P2: Notiz mit zwei Wörtern",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "truefalsefalsefalse",
+   "id": "T153",
+   "ms": "0.0",
+   "name": "P2: ns.Same Vorname",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Testa Beispiel|Testa Beispiel|Testa Beispiel",
+   "id": "T154",
+   "ms": "0.4",
+   "name": "P2: Twink/Main, Danke, Pate mit Vor- und Nachname",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "SendTell/OpenChat",
+   "id": "T155",
+   "ms": "0.0",
+   "name": "P3: Flüstern mit Leerzeichen",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "grund": "wie T85",
+   "id": "T156",
+   "name": "P4a: Bewerber-Flüstern im Kampf",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "J",
+   "grund": "wie T84",
+   "id": "T157",
+   "name": "P4b: Addon-Nachricht im Kampf",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "J",
+   "grund": "wie T86",
+   "id": "T158",
+   "name": "P4c: Abklingzeit im Kampf",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "true/true/false",
+   "id": "T159",
+   "ms": "0.1",
+   "name": "P5a: IsOfficer über C_GuildInfo",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "grund": "wie T98/T133",
+   "id": "T160",
+   "name": "P5b: KnowsSpell über C_SpellBook",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "alt true, ohne beide +0",
+   "id": "T161",
+   "ms": "0.0",
+   "name": "P6a: SendChatMessage-Rückfall",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "grund": "wie T101",
+   "id": "T162",
+   "name": "P6b: ChatFrame_RemoveChannel",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "gleich",
+   "id": "T163",
+   "ms": "0.0",
+   "name": "GoldSentinelGame eingebaut",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "grund": "wie T03",
+   "id": "T164",
+   "name": "Launch-Tag: Interface-Nummer",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "vorhanden=true",
+   "id": "T165",
+   "ms": "0.0",
+   "name": "Ersatznamen der frühen Fassung",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Offizier false, abgelehnt true",
+   "id": "T166",
+   "ms": "0.1",
+   "name": "K1: CanViewOfficerNote allein",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Mitspieler flüstert im Kampf 'gilde'; nach dem Kampf /gs testroutine whisperq und prüfen, ob Hinweis oder Bewerber erscheint",
+   "bereich": "J",
+   "id": "T168",
+   "name": "K2 im echten Kampf",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "retail 0, era 2",
+   "id": "T169",
+   "ms": "0.3",
+   "name": "K3: Tooltip-Kampfsperre an MODERN",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Vorname false, voll true",
+   "id": "T170",
+   "ms": "0.1",
+   "name": "K4: Absender exakt (AWAY/THX)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "grund": "Werkzeug im Repo (offline)",
+   "id": "T171",
+   "name": "K5: tools/luac5.1 -v",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "J",
+   "grund": "offline (unzip -l)",
+   "id": "T172",
+   "name": "RM2: Werkzeug nicht in der ZIP",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "J",
+   "grund": "offline (test/run_forever95.lua)",
+   "id": "T173",
+   "name": "N8: Offline-Test K2",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "14 Knöpfe, 7 Zeilen, Fehler: 0",
+   "id": "T237",
+   "ms": "2.9",
+   "name": "Filterleiste Rezepte: bricht um, nichts abgeschnitten/überlagert",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "Höhe 24/24, Mitte 787.5/787.5/787.5, Abstand 8/16, flach true",
+   "id": "T309",
+   "ms": "0.0",
+   "name": "Titelleiste rechts: gleiche Höhe, eine Mittellinie, Abstand",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "57 Zeilen in 9 Bereichen",
+   "id": "T307d",
+   "ms": "12.5",
+   "name": "OPT: jeder Bereich passt (eine Spalte, nichts überlappt, nichts ragt hinaus)",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "836 Tooltips, verdeckt: 0",
+   "id": "T182",
+   "ms": "0.0",
+   "name": "Tooltips verdecken keine Knöpfe",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "0",
+   "id": "T183",
+   "ms": "0.1",
+   "name": "kein Überlappen mit anderen Fenstern",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "0 ausserhalb",
+   "id": "T184",
+   "ms": "0.0",
+   "name": "Fenster und Tooltips im Bildschirm",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "0 zu lang · 14 Tabellenzellen gekürzt (ganzer Text im Tooltip): group>search: Button \"<Name> 60\" / \"2 mit Beute-Wunsch Brauche n\"; board>svc: EditBox \"Eigenes Angebot, z. B. 'Fahr\" / \"Eigenes Angebot, z. B. 'Fahr\"; board>offer: EditBox \"Item-Name oder Shift-Klick a\" / \"Item-Name oder Shift-Klick a…",
+   "id": "T185",
+   "ms": "0.0",
+   "name": "Texte passen",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "1559 Bedienelemente · ausserhalb 0",
+   "id": "T319",
+   "ms": "0.0",
+   "name": "Bedienelemente jeder Seite liegen im Hauptfenster",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "3138 Texte (3056 bewertet) auf 52 Ansichten, schwächster 4.7:1, ohne bekannten Hintergrund 0, deaktiviert 55 · zu schwach 0",
+   "id": "T311",
+   "ms": "0.0",
+   "name": "L1 Kontrast: jeder Text mindestens 4,5:1 zum Hintergrund (WCAG 2.1, 1.4.3)",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "3138 Texte · zu klein 0",
+   "id": "T312",
+   "ms": "0.0",
+   "name": "L8 Schriftgrösse: nichts kleiner als GameFontNormalSmall",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "33 Listen, 11 Zellen mit Geldbetrag · nicht rechtsbündig 0",
+   "id": "T313",
+   "ms": "0.0",
+   "name": "L2 Geldbeträge in Listen rechtsbündig in ihrer Spalte",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "33 Listen · ohne Überschrift 0",
+   "id": "T314",
+   "ms": "0.0",
+   "name": "L6 jede Spalte einer Liste beschriftet",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "Mitglieder 19, online 15, Spieler online 13",
+   "id": "T315",
+   "ms": "0.7",
+   "name": "L3 gleiche Zahl überall: Mitglieder, online, Spieler online",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "7 Zonen, Liste 19 Zeilen, online 15",
+   "id": "T316",
+   "ms": "0.1",
+   "name": "L4 Summen gehen auf (Zonen-Köpfe, Mitgliederliste)",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "34 Tooltips mit Zahlen · Hauptzahl nicht oben 0 · reine Gegenstands-Tooltips des Spiels (nicht gewertet) 21",
+   "id": "T317",
+   "ms": "0.2",
+   "name": "L5 eine Hauptzahl oben in jedem Tooltip mit Zahlen",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "grund": "nicht anwendbar: GuildSentinel gibt keine Kauf-/Verkaufsempfehlung; den Marktwert liefert AHSentinel (GetMarketValue) fertig",
+   "id": "T318",
+   "name": "L7 unsichere/alte Werte ohne Kauf-/Verkaufsempfehlung",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "ok (Stufe 30, Kochkunst 195, Bergbau 119, Angeln 150, Schmiedekunst 150, Erste Hilfe 150)",
+   "id": "T186",
+   "ms": "0.1",
+   "name": "Spielwerte plausibel",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "0",
+   "id": "T187",
+   "ms": "0.0",
+   "name": "keine Fehlerschleifen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0",
+   "id": "T67",
+   "ms": "0.0",
+   "name": "verzögerte Sendungen nach Stop (N3)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Bewerber true, Hinweise 1",
+   "id": "T167",
+   "ms": "0.0",
+   "name": "K2: Kampf-Flüstern bleibt geschützt",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0 Aufrufe",
+   "id": "T320",
+   "ms": "0.0",
+   "name": "GS-TAINT1: Testroutine öffnet nie ein Blizzard-Fenster (Rang-/Gildenfenster)",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "Regressionen: 120 von 120 vorhanden",
+   "id": "T276",
+   "ms": "0.2",
+   "name": "TU6: Regressionen – jeder Befund seit 1.11. hat einen bleibenden Test",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "TU1 OK 108 · FEHLER 0 · SKIP 1 | TU2 OK 7 · FEHLER 0 · SKIP 0 | TU3 OK 8 · FEHLER 0 · SKIP 0 | TU4 OK 1000 · FEHLER 0 · SKIP 0 | TU5 OK 1 · FEHLER 0 · SKIP 0 | TU6 OK 120 · FEHLER 0 · SKIP 0 | TU7 3 Clients x 5 Sprachen (offline), Skalierung T184",
+   "id": "T279",
+   "ms": "0.0",
+   "name": "TU8: Testbericht je Bereich",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "neu 0, erneuert 0 (Testnamen)",
+   "id": "T308",
+   "ms": "0.0",
+   "name": "Sync-Adressbuch: kein Testname dazugelernt (vor/nach)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "echt 0, Warteschlange +0 · nicht von GuildSentinel: fremd AHSentinel C_ChatInfo.SendAddonMessage Präfix AHAP1 1×, fremd AHSentinel C_ChatInfo.SendAddonMessage Präfix GSREPORT1 2×, fremd AHSentinel C_ChatInfo.SendAddonMessage Präfix GSSYNC1 1×, fremd AHSentinel C_ChatInfo.SendAddonMessage Prä…",
+   "id": "T82",
+   "ms": "0.0",
+   "name": "nichts gesendet",
+   "status": "OK"
+  },
+  {
+   "bereich": "L",
+   "ergebnis": "7 Vorschläge, 0 fehlerhaft",
+   "id": "CT-C1",
+   "name": "Spiel: Werbetexte: jeder Vorschlag mit /w, höchstens 251 Zeichen",
+   "status": "OK"
+  },
+  {
+   "bereich": "L",
+   "ergebnis": "Grenze 5 in 600 s, voll true, danach frei true",
+   "id": "CT-C2",
+   "name": "Spiel: Grenze für automatische Antworten (5 in 10 Minuten)",
+   "status": "OK"
+  },
+  {
+   "bereich": "L",
+   "ergebnis": "Status-Spalte zeigt den Text",
+   "id": "CT-C3",
+   "name": "Spiel: Bewerberliste: „selbst anschreiben“ und „auf Sperrliste“",
+   "status": "OK"
+  },
+  {
+   "bereich": "L",
+   "ergebnis": "erkannt true, Einladen gesperrt true, Tooltip true",
+   "id": "CT-C4",
+   "name": "Spiel: Sperrliste: Bewerbung, Einladen, Tooltip",
+   "status": "OK"
+  },
+  {
+   "bereich": "L",
+   "ergebnis": "6 Mitglieder, 6 mit „zuletzt online“, 2. Durchlauf",
+   "id": "CT-C5",
+   "name": "Spiel: Rückkehrer: Daten für „wieder online nach 30 Tagen“",
+   "status": "OK"
+  },
+  {
+   "bereich": "L",
+   "ergebnis": "6 Mitglieder, öffentliche Notiz gemerkt 6, Offiziersnotiz gemerkt 0",
+   "id": "CT-C6",
+   "name": "Spiel: Notiz-Verlauf: öffentliche und Offiziersnotizen",
+   "status": "OK"
+  },
+  {
+   "bereich": "L",
+   "ergebnis": "13/13 Seiten gebaut, längster Aufbau jetzt 0.0 ms (-)",
+   "id": "CT-C7",
+   "name": "Spiel: Fenster: Seiten erst beim Anwählen bauen",
+   "status": "OK"
+  },
+  {
+   "bereich": "L",
+   "ergebnis": "keine (nichts länger als ein Bild)",
+   "id": "CT-C8",
+   "name": "Spiel: Ruckler: LANGSAM-Einträge im Protokoll",
+   "status": "OK"
+  },
+  {
+   "bereich": "L",
+   "ergebnis": "3 Zeilen für dich",
+   "id": "CT-C9",
+   "name": "Spiel: Tooltip: „In der Gilde seit“ und letzter Rangwechsel",
+   "status": "OK"
+  },
+  {
+   "bereich": "L",
+   "ergebnis": "ich bin … | lvl 60 hexer",
+   "id": "CT-C10",
+   "name": "Spiel: Datenschutz: Alters-Angaben unkenntlich",
+   "status": "OK"
+  },
+  {
+   "bereich": "-",
+   "ergebnis": "10 Tabellen, Vergleich 22.8 ms",
+   "id": "SHARED",
+   "name": "geteilte Daten unverändert (Sync-Adressbuch, Sync- und Markt-Speicher)",
+   "status": "OK"
+  }
+ ],
+ "sandbox": "OK",
+ "time": 1795617878,
+ "version": "0.9.63"
+}
