@@ -1,0 +1,48 @@
+ProfessionSentinel 0.9.87 – umgesetzt, zur Prüfung
+Bezug: offen-professionsentinel.txt PS-P1 (Aufgabe "heute" 27,2 ms, Supervisor 25.11. 16:06).
+
+PS-P1 – was die gespeicherten Daten belegen (Kopie der echten Daten, nur lokal):
+ - "×13"/"×15" in WEGE ist die Zahl ALLER Teile der Aufgabe "heute" in der Sitzung (ns.PerfLine: e.n), nicht die Zahl der langen Teile. Über
+   16 ms lag in der Sitzung belegt mindestens EIN Teil (Höchstwert 27,2 ms).
+ - Wann: Diagnose-Protokoll LANGSAM "Aufgabe heute" 27,2 ms um 25.11. 16:01:47 – vor dem Start der Testroutine (16:02), also im Spiel,
+   nicht in der Testroutine (ns.PerfNote zählt in der Testroutine nicht). Zähler des Eintrags: 777 (24.11. 21:50, v0.9.83, Höchstwert
+   30,6 ms) -> 799 (25.11. 16:01) = 22 lange Teile in diesem Zeitraum, über alle Sitzungen. Kein Ausreisser.
+ - Bild in Ruhe zu Beginn der Testroutine: Median 33 ms (30 Bilder/s) = Spiel im Hintergrund. Ob der Teil um 16:01:47 im Hintergrund lag,
+   ist mit den vorhandenen Daten NICHT belegbar (UMG1 misst nur während der Testroutine).
+ - Nachbau mit den echten Daten (AHSentinel 0.65.402 mit seinen echten Daten, 150 MB Ballast), Aufgabe "heute" für jede gespeicherte Figur
+   mit Berufen, kalt (Preis-Gedächtnis gelöscht) und warm: 36 Teile, längster 6,7 ms (Budget 6 ms + ein Rezept), ein Rezeptpreis höchstens
+   2,0 ms, je Teil 5–21 Rezepte, angelegt bis 373 KB je Teil. Der lange Teil aus dem Spiel ist im Nachbau NICHT nachgestellt.
+ - Damit: die Teilung funktioniert (Abgabe nach jedem Rezept, kein Rezept > 2 ms). Die übrigen ~20 ms des Teils im Spiel liegen ausserhalb
+   dessen, was der Nachbau zeigt. Verdacht, zu messen: Speicherbereinigung im Teil (im Spiel grösserer Speicher aller Addons) oder
+   Spiel im Hintergrund/Rechner beschäftigt (die Uhr misst Wandzeit).
+
+Umgesetzt (Jobs.lua, Today.lua): der längste Teil jeder Aufgabe wird im Spiel zerlegt und steht in den Zeilen AUFGABEN (Testbericht) und
+ "Hintergrund-Aufgaben" (Diagnose): gemessene Stücke (je Rezeptpreis: Anzahl, Summe, das längste mit Rezeptname), übrige Zeit, Speicher vor/
+ nach dem Teil (mehr als 1 MB weniger = "Bereinigung im Teil", wie UMG1), Bild davor (Abstand zum vorigen Bild der Aufgaben) und Bilder/s.
+ Nur bei Teilen über 16 ms, nur Messwerte. Beispiel: "heute ×7, Teil max 27.2 ms (darin 9 Stücke 5.1 ms, längstes 1.2 ms Heiltrank ·
+ übrig 22.1 ms · Speicher -3.1 MB = Bereinigung im Teil · Bild davor 33 ms · 30 Bilder/s)". Mit dem nächsten Ingametest (auch nach
+ normalem Spielen, Diagnose-Export) ist die Stelle belegt; danach teilen bzw. als Hinweis mit Grund einstufen.
+
+HINWEIS Spielwege in Testschritten (T123/T126/T130/T133/T134 "Ansicht recipes" 24–29 ms, unser Code 20–25 ms):
+ - Im Spiel beim normalen Spielen (gespeicherte Daten, beide PCs): WEGE dieser Sitzung "Neuaufbau (Teil) 0,5 ms ×4", "Alles neu (erster
+   Teil) 0,3 ms ×1"; Diagnose: letzter LANGSAM "Neuaufbau (Teil)" am 22.11. 15:44 (v0.9.74, 30,1 ms), seither keiner. ABER: die letzten
+   Aufbau-Einträge mit Spiel-Anlass (TRADE_SKILL_SHOW/LIST_UPDATE, Herstellen fertig) sind vom 22.11. (v0.9.74) – seit 0.9.75 wurde die
+   Rezeptliste beim Spielen kaum gebaut (nur 4 Teile in dieser Sitzung). Belegt ist also nur: wo gebaut, blieb jeder Teil <= 0,5 ms; für
+   die Ansicht recipes mit grossem Beruf beim Spielen fehlen Messwerte seit 0.9.75.
+ - In der Testroutine baut die Liste "in einem Stück" mit Takt-Abgabe (UI.SyncRefresh), beim Spielen in Portionen (UI.Yield, Budget je
+   Bild) – nicht derselbe Weg. Die 20–25 ms "unser Code" der Testschritte sind darum Testhilfe (Zeichnen in einem Stück, damit der Fall
+   direkt lesen kann), soweit die Takt-Abgabe dort keine Stelle "gehalten" meldet (gemeldet nur bei T210).
+ - Nachbau --only-open (echte Daten, alle Ansichten des grössten Berufs, Portionen): Portionen des Neuaufbaus (UI.lua:3099) höchstens
+   37 ms, meist 18–26 ms; dazu 2 Bilder mit ~405 ms und "Öffnen gold" 255 ms. Die Stapel im Moment der Überschreitung von 100 ms
+   zeigen 20× KEINE Addon-Zeile (Zeit im Nachbau-/Mock-Code oder in der Speicherverwaltung), 4× AD.UpdateCached (Advisor.lua:413/414).
+   Verdacht, zu messen: der Nachbau selbst (Mock) – im Spiel sind solche Werte nicht gemeldet. Wird als nächster Punkt geklärt
+   (Gegenprobe im Nachbau ohne Mock-Zeichnen, Profil mit Zeit je Ebene).
+
+Tests: T300 neu (Zerlegung: 3 Stücke + 20 ms Rest mit Bereinigung, längstes Stück mit Namen, Bilder/s, Bild davor; Gegenproben: Speicher
+ wächst -> keine Bereinigung, ohne Stücke -> keine Stückzahl, kurzer Teil -> keine Zerlegung, erster Teil -> kein "Bild davor", ausserhalb
+ einer Aufgabe kein Stück; echter Weg "Heute herstellen" misst jedes Rezept als Stück – Gegenprobe ohne die Messung in Today.lua schlägt
+ fehl). Regression PS-P1 -> T300.
+ run_offline forever 255/0, era 236/0, retail 234/0, forever --lua51 255/0 (1 von 10 Läufen T269 "Aufruf 4,28 ms > 2 ms" bei parallel
+ laufendem Nachbau = Last der Maschine, allein wiederholt OK); check_actions OK; yield_check OK; gen_locale_keys OK;
+ Smoketest forever/era/retail AUTOTEST OK (FEHLER 29/26/26 = Mock-Grenzen, wie 0.9.86); addon_check OK ohne WARNUNG. Zip md5 6c22eee4fa3a79f44737ef25ee3a0cbc, Repo bb9d455 (Release über erneuten Start, erster Lauf an HTTP 502 von GitHub gescheitert).
+Werkzeug: tests/nachbau_echt.py --heute (Aufgabe "heute" je gespeicherter Figur kalt/warm, ohne Namen), --only-open mit --profile repariert.
