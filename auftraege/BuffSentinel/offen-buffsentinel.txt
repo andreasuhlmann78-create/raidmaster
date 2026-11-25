@@ -680,3 +680,11 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     So: Repo mit add_repo (access "read") hinzufügen und klonen; Branches mit git fetch origin '+refs/heads/*:refs/remotes/origin/*' aktuell halten.
     NUR lesen – nie committen/pushen dort. Daten (BuffSentinel.lua aus aktuell/<PC>/forever/…) nur lokal für den Nachbau, nie ins öffentliche
     raidmaster-Repo kopieren, keine Spieler- oder Gildennamen in Berichte. Erster Nutzen: Tests mit echten Daten statt Nachbau (z. B. gsMarkt/Test-IDs).
+
+>>> INGAMETEST 25.11. 16:00 (Supervisor 16:01) – BuffSentinel 0.9.65 "/bsen testroutine alles" (Laptop, PRIEST 10): OK 226 · FEHLER 0 · übersprungen 11 ·
+    im Client 11 · 26,5 s · Sandbox OK · echte Aktionen 0 · TU1–TU7 alle OK. 0.9.65 im Spiel BESTANDEN (Teile, die eine Gruppe brauchen, offen: T270).
+    HINWEIS BS-P2 MITTEL: längste eigene Rechenzeit in einem Bild 28,2 ms (T146); weitere über 16 ms: T156 24,7 · T179 24,4 · T269 21,3 (T156/T179 schon
+    am 25.11. 08:54 über 16 ms). Ruckel-Ziel 16 ms je Bild (leistung.md): belegen, ob Testhilfe (einmaliger Aufbau) oder Spielweg; Spielwege teilen,
+    Testhilfen begründen. "Schritte über 16 ms gesamt" T25 159 / T27 88 sind über mehrere Bilder verteilt – nur nennen, wenn ein Bild > 16 ms.
+    Kleiner Wunsch aus dem Test (Nutzer 16:00 "BuffSentinel meldet die Version nicht"): Version in /bsen hilfe bzw. beim Einloggen (nur Entwicklermodus)
+    anzeigen, wie die anderen Addons – NIEDRIG.
