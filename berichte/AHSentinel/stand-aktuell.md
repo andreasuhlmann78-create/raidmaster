@@ -1,6 +1,6 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 25.11.2026 10:48 · Version 0.65.398 (Discord); CurseForge 0.65.393 (Datei-ID 9799863)
+## Stand 25.11.2026 10:52 · Version 0.65.398 (Discord); CurseForge 0.65.393 (Datei-ID 9799863)
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz – Testberichte "GSTEST1{…}", UI-Befunde db.uiFindingsLast).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
@@ -13,10 +13,11 @@ Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /h
 - 0.65.398 vom Supervisor angenommen (10:23, Abnahme im Spiel offen); FULL 0.65.398 353/66 keine neuen (Bericht 1043).
 - Bericht 1048: Scan 2 aufgeschlüsselt (Track 5 836: EncodeSigs 3 035, Sigs 1 320, Compare 1 059), timing belegt (2 231 KB alt = neu),
   S313 = GC-Schritt für die fremde 600 000-Tabellen-Liste (7,8–9,3 ms, unteilbar) – Frage an Supervisor offen, Addon dafür unverändert.
-- Jetzt: g) EncodeSigs ohne Text je Signatur – Gleichheit st.sigs alt = neu zuerst. Messkopien /tmp/claude-0/ahs398m (Track-Abschnitte), ahs398n.
+- g) gemessen ohne Wirkung, zurückgenommen (Bericht 1052). Jetzt: h) Sigs ohne Hash-Umbau messen; k) Signaturen als Zahlen nur mit
+  Freigabe (Format). Messkopien /tmp/claude-0/ahs398m (Track-Abschnitte), ahs398n.
 
 ## Nächste Schritte (Supervisor 25.11. 10:23)
-1. g) EncodeSigs, dann h) Sigs/Compare – je Gleichheitstest echte Daten, Einbau, T459 (Ziel Scan 2 < 10 240 KB; jetzt 14 131).
+1. h) Sigs/Compare messen (Frage h/k an Supervisor offen) – je Gleichheitstest echte Daten, Einbau, T459 (Ziel Scan 2 < 10 240; jetzt 14 131).
 2. AHS-S313: Entscheid Supervisor abwarten (Prüfung um GC-Spitze bereinigen oder lassen); nichts am Addon ändern.
 3. CurseForge 18:00: 0.65.398 erfüllt "FULL ohne neue Fehler"; Abnahme im Spiel offen – Version + Hochladen dem Nutzer vorlegen (Bestätigung).
 4. GetItemInfo-Speicher im Spiel messen (core:realcheck) beim nächsten Ingametest. CF1-UI-a1 nach T1016. UMG1. TB138-2 im Masterplan.
