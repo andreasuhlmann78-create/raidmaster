@@ -1815,3 +1815,21 @@ LP-SB1-b MITTEL (Lücke im Fix, "nichts geht verloren" / "keine Sperre ohne Zeit
     Livedaten-/Sandbox-Vergleich der ROUTINE selbst an (echte Änderung von aussen)? Wenn ja: derselbe HINWEIS-Weg wie in der Reise (Herkunft
     "Empfang"), kein FEHLER; Test im Nachbau.
     Reihenfolge: LP-SB1-b -> LP-R1 -> LP-R2 -> LP-I1 …
+
+>>> PRÜFUNG SUPERVISOR 25.11. 14:08 – Ingametest /lp testroutine alles: 3.13.13 (Start ~09:35) UND 3.13.14 (Start 13:32), Laptop, Spiel im Hintergrund.
+    Ergebnis BEIDE Male: KEIN Testbericht, nur Fehlerbericht (GSTEST1 kind "fehler"; Repo testberichte/…/LevelPilot-1795597675-2cf2b4-1.json für
+    3.13.13; 3.13.14 im Daten-Repo 14:03). Die Routine wurde vom eigenen Zeitlimit abgebrochen: "Zeitlimit 1800 s" (TestRoutine.lua 12232 Abort,
+    3.13.14) – 3.13.13 ebenso. Dazu Lua-Fehler "attempt to yield across metamethod/C-call boundary" (3.13.13: 5×, 3.13.14: 2×), wo "Fire PLAN_CHANGED":
+    Planner.lua 2523 LP:Fire("PLAN_CHANGED") -> Core.lua 236 Fire (pcall um die Empfänger) -> ein Empfänger ruft LP:Yield innerhalb dieses pcall.
+LP-TR1 HOCH: Testroutine wird im Spiel nicht fertig. TR.TIMEOUT = 1800 (Kommentar "alles dauert rund 6 min", Bericht 3.12.91) ist veraltet: allein
+    eine virtuelle Reise dauerte heute 385 s (Bericht 09:49), die Routine macht zwei, dazu A–K; im Hintergrund (Bilder/s ~30) länger.
+    a) Bei Zeitlimit MUSS ein Testbericht mit allen bis dahin fertigen Ergebnissen gespeichert werden (plus FEHLER "abgebrochen nach Zeitlimit bei <Teil>",
+       Dauer je Bereich) – heute ging der ganze Lauf verloren. Test im Nachbau: Zeitlimit künstlich klein -> Teilbericht mit Ergebnissen vorhanden.
+    b) Dauer je Bereich/Schritt im Spiel messen (auch aus diesem Lauf, falls mitgeschrieben) und belegen, wohin die Zeit geht (Hintergrund-Bildrate,
+       Reisen, Yield-Fehler/Neustarts?). Erst dann Grenze festlegen: gemessene Dauer im Hintergrund + Rand, oder Grenze je Teil statt gesamt.
+       Inhalt NICHT kürzen (Entscheid 25.11. 09:40). Eine Grenze muss bleiben (keine Sperre ohne Zeitlimit).
+LP-Y1 HOCH: "attempt to yield across metamethod/C-call boundary" bei PLAN_CHANGED. Empfänger finden (welcher Handler yieldet), beheben ohne die
+    Portionierung aufzugeben (Handler darf im pcall von Fire nicht yielden: Arbeit in eigene Aufgabe/Job verschieben oder LP.PCall/Coop-Weg wie
+    3.12.93). Prüfen, ob dadurch Planung unvollständig blieb (abgebrochener Handler) und ob das die Laufzeit verlängert. Gegenprobe im Nachbau:
+    Fire PLAN_CHANGED aus einer Coroutine heraus -> kein Fehler, alle Empfänger fertig. Testregel: Fehler dieser Art im Lauf = FEHLER mit Stelle.
+    Reihenfolge: LP-Y1 + LP-TR1 a) vor allem anderen (ohne sie gibt es keinen Ingametest), dann LP-SB1-b, LP-R1, LP-R2, LP-I1 …
