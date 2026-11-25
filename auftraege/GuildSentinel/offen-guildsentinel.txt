@@ -820,3 +820,10 @@ GS-R1 HOCH: Lua-Fehler "Lead.lua:275: attempt to index local 'r' (a boolean valu
        danach nachholen (nichts verlieren), wie LevelPilot Comm.held.
     c) Gegenprobe im Nachbau: Testgilde mit roster.Zbad = true + Roster-Ereignis während T118 -> 0.9.63 Fehler, Fix ohne Fehler.
     CurseForge: 0.9.63 NICHT heute 18:00 (Lua-Fehler im Spiel).
+>>> NACHTRAG GS-R1 (15:46, Bericht 0.9.63 im Spiel 15:44): OK 340 · FEHLER 0 · übersprungen 24 · im Client 8 · 57 s · Sandbox OK · "Vollständig durchgelaufen".
+    Der Lua-Fehler kam um 15:45:12, also NACH dem Ende der Routine (Bericht 15:44, Dauer 57 s) und VOR dem /reload ("Bitte jetzt /reload, damit alles
+    sicher wie vorher ist"). Belegen: Bleibt nach dem Lauf bis zum /reload ein Teststand (Testgilde mit roster.Zbad) aktiv, den echte Ereignisse
+    treffen? Dann gilt: nach dem Ende der Routine MUSS sofort alles echt sein (Testgilde weg, echte Gilde zurück) – kein Zustand "bis zum /reload".
+    Zusätzlich a)–c) oben. Der Fehler steht im Bericht nur unter "Fehler im Spiel seit dem letzten Bericht: 1" – richtig so (nach dem Lauf).
+    Übrige Werte: Speicher GuildSentinel 80 355 KB, nach Bereinigung 8 473 KB (Zeile vorhanden ✓); Portionen längste 20,2 ms (nach T09), über 16 ms: 3
+    (T09, T269 ×2) – Ruckel-Ziel 16 ms: belegen und teilen (NIEDRIG). "LANGSAM Seite members" (G-4a): Beobachtung des Nutzers folgt.
