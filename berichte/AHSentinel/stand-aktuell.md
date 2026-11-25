@@ -1,6 +1,6 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 24.11.2026 23:16 · Version 0.65.394 (Discord); CurseForge 0.65.393 (Datei-ID 9799863)
+## Stand 25.11.2026 06:39 · Version 0.65.395 (Discord); CurseForge 0.65.393 (Datei-ID 9799863)
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz – Testberichte "GSTEST1{…}", UI-Befunde db.uiFindingsLast).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
@@ -10,24 +10,21 @@ Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /h
  Eigene Szenarien /tmp/claude-0/sim/wowsim/scenarios_new.lua (zz_t459real, zz_tr1, zz_i6_sniper, zz_ui_buy).
 
 ## Gerade in Arbeit
-- AHS-SP1: Mess-Fassung in der Arbeitskopie (Vollscan.lua VS.COMPACT=false, DigestC/DecodeBody/NewSet, Ladder mit Zwischenspeicher 400,
-  Finish/Track/FeedNetRun mit Satz). Bericht "sp1-messung-vor-einbau" abgelegt – WARTET auf Freigabe Supervisor. Nachbau-Szenarien zz_sp1eq,
-  zz_t459real (SP1C=0/1, ZC=23520, REAL_SV=/tmp/claude-0/ahs_sv3.lua) in /tmp/claude-0/sim – nach Freigabe ins Repo.
-- 0.65.394 veröffentlicht (SG6-a, Detailtitel-Tooltip; SP1 enthalten aber AUS). FULL 0.65.394: 344 PASS/69 FAIL, neu rot nur s313 (Grenzfall
-  17,5 ms > 16, einzeln 2× PASS). WARTE auf SP1-Freigabe; CF1-UI-a1 erst nach T1016 im Spiel; UMG1 erst nach SP1.
+- 0.65.395 = AHS-SP1 eingebaut (kompakt, Bedingungen a–c im Nachbau, d = Ingametest). Danach FULL 0.65.395 allein, dann AHS-J1 (messen).
 
-## Nächste Schritte (AHS-CF1, Entscheid des Nutzers 19:19/19:21)
-1. Ingametest 0.65.393 auswerten (Daten-Repo; PC = aktuell/DESKTOP-NVITMSE/forever/…): T1016 (Rahmen über der Abdeckung, AH offen), T750.
-2. CurseForge: 0.65.393 hochgeladen (AHS-CF2). Künftig wieder 18:00-Regel; Sichtbarkeit auf curseforge.com vom Nutzer prüfen.
-3. DANACH AHS-SP1 (HOCH, Entscheid 19:56): Speicher-Lösung Vollscan – Zahlen-Listen min/qty/auc, Stufen als Text (EncodeLadder-Format).
-   Messen im Nachbau mit echten Daten, Gleichheitstest aller Leser, Bericht VOR Einbau, Freigabe Supervisor, dann Einbau.
-4. Danach V4-Messung, G14-a, AHS-UMG1 (NIEDRIG; Klarstellung 20:50: "Rest grösser als eigene Arbeit" allein kein HINWEIS-Grund).
+## Nächste Schritte (Supervisor 25.11. 06:25/06:31)
+1. FULL 0.65.395 (allein); s313 weiter nennen (zweimal rot = Befund).
+2. AHS-J1 MITTEL: Journal-Ring 3000 (D/P/B) – Tage je Art auf PC/Laptop messen, Verlust zwischen Lieferungen?, Kern-Abgleich 28/29/36 Ursache je
+   Art, Vorschlag mit Speicherkosten VOR Einbau.
+3. AHS-SP2 HOCH: T459 < 10 240 KB ab Scan 2 – (i) Text ohne "p:c", (ii) Bestpreise als Listen, (iii) Nachlauf-Aufgaben einzeln messen; je Bericht.
+4. AHS-CF4 NIEDRIG: "What's new" der CurseForge-Beschreibung (zeigt 0.65.165) mit dem nächsten Upload. CF1-UI-a1 nach T1016 im Spiel. UMG1 danach.
 
 ## Offen beim Nutzer
 - Ingametest mit 0.65.393 ("testroutine alles"): T1016, T750, Vollscan zweimal, T126 im Vordergrund.
 - Gold-Messung Ausrüstung mit Kupfer-Preis (AHS-POST), RecipeList-Fehler mit nur AHS aktiv.
 
 ## Entscheide des Nutzers seit letztem Stand
+- 25.11. 06:31 Markt-Tabelle Stand 16.11. behalten (Fallzahl-Regel gilt).
 - 22:17/22:23 AHS-CF2: 0.65.393 sofort auf CurseForge, "Wichtiges Update"; T459 (c) und Ingametest bewusst in Kauf genommen.
 - 20:43 AHS-CF1-UI c: Wächter-Funde erscheinen nie von selbst im Sniper; nur nach Auswahl beim Item.
 - 20:48 AHS-CF1-UI c: Rechtsklick "In den Sniper übernehmen"; Wächter-Kaufweg (Knopf, eigene Taste, gemeinsame Taste) kauft keine Funde.
@@ -42,5 +39,5 @@ Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /h
 - Kopfzeile "Sniper: an/aus" = db.sniper.armed (Sn:IsArmed ist auch mit Wächter-Prüfziel wahr – treibt nur die Suche).
 - AH-Abdeckung: UI:AHOverlayRaise einmal beim Einrichten; UI:AHBleed misst (T1016). Ursache a) noch "Verdacht, zu messen".
 - T750-Regel: Zeilen ohne " – Grund" nach "Text x px)" sind "gekürzt (Tooltip)" = kein FEHLER.
-- Letzter Test T1018 (T1017/T1018 = SG6). Neue Tests vor "-- CF-AHS-5 (CurseForge 17.11. …"; Index vor { "AHS-CF1-UI", .
+- Letzter Test T1021 (T1011–T1013 = SP1 zwei Sätze, T1019/T1020 = SG6-a/Titel). Vollscan: VS.cmp/cmpSpare (set.min/qty/auc/lad). Neue Tests vor "-- CF-AHS-5 (CurseForge 17.11. …"; Index vor { "AHS-CF1-UI", .
 - Nie etwas in announce/ löschen, alte Versionen nicht wiederherstellen. Jede Version: CHANGELOG.de.md-Abschnitt Pflicht (AHS-R1).

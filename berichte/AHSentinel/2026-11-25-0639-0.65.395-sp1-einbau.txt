@@ -1,0 +1,26 @@
+AHSentinel 0.65.395 – AHS-SP1 Einbau (Freigabe Supervisor 25.11. 06:25, Bedingungen a–d) – umgesetzt, zur Prüfung (nur Discord)
+addon_check 0.65.395: OK. ZIP: gleiche 112 Dateien wie 0.65.394.
+Nachbau: Teil auto OK 1018 · FEHLER 0 · übersprungen 67 · im Client 16 (s42 PASS); Teil server s43 PASS. Vollscan-Szenarien einzeln PASS: s216, s224,
+ s262, s272d, s276, s277, s279, s312, s313, s325, s326, s334, s76_legacy, s76_replicate, s87, s92 (s216/s313/s92 waren im FULL 0.65.394 rot – einzeln
+ jetzt grün). s294_sandbox_pending_vollscan rot wie schon in 0.65.394 (unverändert). FULL folgt allein (eigener Bericht).
+
+EINBAU (Vollscan.lua):
+ - VS:Finish nur noch kompakt: Satz im Aufbau = cmpSpare, wenn er nicht der sichtbare ist (sonst NewSet); seine Listen werden geleert (A:Pause je 2000),
+   DigestC je Item mit gelesener Auktion, Bestpreise wie bisher; am Ende cmpSpare/cmp getauscht, self.mem/self.memSpare = nil (alter Weg frei).
+   Ein ungültiger Scan kommt nicht bis zur Verdichtung (unverändert) -> sichtbarer Satz und Vorrat bleiben.
+ - Schalter VS.COMPACT entfernt. VS:Digest bleibt (Tests T-Track/Queue nutzen ihn als Referenz); VS:Ladder/Track/FeedNetRun lesen weiter auch das alte
+   Format (nur Tests). Zähler self.scanNo (Scan seit dem Laden), ladDecodes/ladWipes je Scan.
+BEDINGUNGEN:
+ (a) Zwischenspeicher 400: T1021 – 1000 Items in einem Leser-Durchgang: 0 falsch, 1000× ausgepackt, 2× verworfen (bei 400 und 800 – nicht je Item),
+     zweiter Durchgang 0 falsch; Gegenprobe ohne Grenze 0× verworfen. Für 7000 Items in einem Durchgang folgt daraus 7000 Auspacken, 17 Verwerfungen
+     (rechnerisch aus dem gemessenen Ablauf, je 400 neue Einträge eine). Gleichheitstest s335 (echte Daten): alle Leser alt = neu MIT Grenze 400.
+ (b) T1011 (ungültig unverändert | Vorrat wird sichtbar, dieselben Listen | alter sichtbarer wird Vorrat | neue Werte | Gegenprobe: Item des alten Vorrats
+     weg | 4 Einträge geleert | Text kompakt), T1012 (Leser bei jeder Abgabe 0× gemischt, danach neue Werte, Gegenprobe Mischung erkannt), T1013
+     (Vorrat = sichtbar -> neuer Satz, geteilter bleibt 500 | leeres Item fehlt | Scan-Nummer +1).
+ (c) T459-Feld vollscan_verdichtung: "Verdichtung kompakt, Scan n seit dem Laden: … Items · Zusammenfassungen … KB · Bestpreise … KB · Satz neu|
+     wiederverwendet (x Einträge geleert)".
+ (d) Ingametest (Nutzer): "testroutine auto" + Vollscan zweimal (Scan 1 und 2). Vergleich mit dem Nachbau (Bericht 2242, ohne gelesene Auktionen):
+     Scan 1 neu 46–47 MB, Scan 2 neu 18–20 MB, Verdichtung 8,7 / 5,3 MB; gehalten 0,275 KB je Item. Im Spiel zuletzt (0.65.392): ~81 KB je 1000 Auktionen.
+Gleichheit mit echten Daten im Repo: Szenario s335_sp1_gleichheit (läuft nur mit REAL_SV=<AHSentinel.lua> ZC=23520; sonst übersprungen). Lauf mit
+ 0.65.395: 7000 Items, 46 486 Stufen, alle Leser 0 abweichend, st.ladder-Text 0, Weitergabe 0, kein Leser ändert die Leiter; gehalten 9 693 -> 1 922 KB.
+Nächstes: AHS-J1 (messen, Bericht vor Einbau), dann AHS-SP2; CF4 mit dem nächsten CurseForge-Upload.
