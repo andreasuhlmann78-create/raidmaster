@@ -968,3 +968,20 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     addon_check selbst: OK. grep selbst: kein ToggleCharacter/ShowUIPanel/HideUIPanel mehr im Addon. Zusatzfund Options.lua HideUIPanel entfernt – gut.
     ABNAHME im Spiel: /rm testroutine alles ohne Lua-Fehler; Charakterfenster (C) öffnen, dann RaidMaster öffnen -> kein Überlappen; Knopf im
     Einstellungsfenster des Spiels -> RaidMaster liegt darüber, Esc schliesst zuerst RaidMaster.
+
+>>> PRÜFUNG SUPERVISOR 25.11. 11:25 – Ingametest RaidMaster 3.0.48 (Bericht im Spiel 11:18, Forever deDE, WARRIOR 30, Charakterfenster offen):
+    OK 151 · FEHLER 2 · übersprungen 14 · im Client 10 · 113,5 s · Sandbox OK. Keine Lua-Fehlermeldung (RM-TAINT1 im Spiel bestätigt, soweit dieser
+    Lauf reicht – Abnahme TAINT1 mit diesem Lauf: kein Taint-Fehler bei offenem Charakterfenster).
+    Umgebung: Hintergrund möglich Sek. 5–114 (Median 32 ms) – betrifft nur Zeitwerte, nicht die zwei FEHLER unten.
+    Portionen: längstes Bild 42,5 ms = "T116 Speicher lesen (Blizzard)" (jetzt getrennt, wie im Bericht 09:13 Punkt 6 vorhergesagt) – ANGENOMMEN;
+    eigene Arbeit in Bildern > 40 ms 0–1,4 ms. T205 nicht mehr über 5 ms in der Liste (5 ms) – im Spiel bestanden.
+RM-K2 HOCH (neu, Ziel von 3.0.48 im Spiel NICHT erreicht): T156 und T191 FEHLER – "Hauptfenster überdeckt CharacterFrame" in ALLEN Ansichten
+    (dkp, auction, loot, log, raid, signup, pug …); T191 "ist 2 (CharacterFrame + ThreatSentinel-Einstellungen), soll genau 1".
+    Das Charakterfenster war vor dem Lauf offen – genau der Fall, den RM.UIAvoidOthers (Bericht 09:13 Punkt 3, T206) lösen soll ("weicht beim ÖFFNEN aus").
+    Ursache BELEGEN (Verdacht, zu messen, eines davon): (a) die Routine zeigt die Ansichten über einen Weg ohne UI.Frame-OnShow (Fenster schon offen,
+    nur Inhalt gewechselt -> kein Ausweichen); (b) gespeicherte Lage wird nach dem Ausweichen wieder gesetzt; (c) CharacterFrame im Spiel nicht in
+    RM.UI_BLIZZARD bzw. IsVisible/Rechteck anders als im Nachbau (T206 nutzt nachgebaute Fenster); (d) kein Platz (1920x1080?) -> "geringste
+    Überdeckung" bleibt > 0 und T156 wertet das als FEHLER – dann Regel klären: Rest-Überdeckung ohne freien Platz = HINWEIS mit Zahl, sonst FEHLER.
+    Bildschirmgrösse/UI-Skalierung des Spielers im Bericht mitschreiben. Fix + Test im Nachbau MIT echtem Ablauf der Routine (Fenster offen, Ansicht
+    wechseln) und Gegenprobe; danach Abnahme im Spiel (Charakterfenster offen -> /rm, und Routine mit offenem Charakterfenster).
+    Beobachtung des Nutzers (Schritt 4: Charakterfenster, dann /rm; Schritt 6: Einstellungen, Esc-Reihenfolge) wird nachgetragen.
