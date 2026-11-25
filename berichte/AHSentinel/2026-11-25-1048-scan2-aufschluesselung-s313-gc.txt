@@ -1,0 +1,34 @@
+BERICHT AHSentinel – Scan 2 aufgeschlüsselt, Scan-1-"timing" belegt, AHS-S313 Ursache belegt – zur Prüfung (Reihenfolge Supervisor 10:23)
+Zeit: 25.11.2026 10:48 (Europe/Zurich) · Code 0.65.398 (Messungen in Nachbau-Kopien, nichts veröffentlicht)
+
+1) Aufgabe "fullscan" in Scan 2 (echte Daten, 7 000 Items; Scan 2 mit angehaltenem GC, Wrapper inklusiv; 0.65.397 und 0.65.398 gleich):
+   VS:Finish 12 014 KB, davon VS:Track 5 836 · VS:DigestC (Verdichtung) 2 064 · A:ProcessBest 827 (RecordPrice 509) · VS:FeedNet 246.
+   Track (nur 612 verfolgte Items, aber die mit den meisten Auktionen) in Abschnitte geteilt (Messkopie, Scan 1+2 zusammen):
+     EncodeSigs + st.sigs-Text 3 035 KB · Sigs (Signaturen zählen) 1 320 · Compare 1 059 · alte Signatur lesen 437 · ladder 142 ·
+     feedAbg+UpdateSold 135 · MarketPairs 86 · Rest < 80. Gespeichert bleiben davon nur st.sigs 372 KB und st.ladder 71 KB (612 Items).
+   Der Rest von Finish (~3 000 KB) sind in Scan 2 vor allem die NEU angelegten Listen (Verdichtungs-Satz und Bestpreis-Satz – wiederverwendet
+   wird erst ab Scan 3, weil der Satz von Scan 1 sichtbar ist). Das erklärt Scan 2 > Scan 3 (14 131 gegen 9 970 KB) – Verdacht, beim Bau zu messen.
+   Vorschläge (erst Gleichheitstest, dann Einbau, wie bisher):
+   g) EncodeSigs: je Signatur kein eigener Text "q:b:Stufe:n" mehr, sondern Zahlen und ":" direkt in den Puffer (table.concat wandelt Zahlen;
+      kleine Zahlen-Texte gibt es meist schon) – gespeicherter Text gleich (Test: st.sigs alt = neu für alle Items). Erwartet bis −2 500 KB.
+   h) Sigs/Compare: Zähllisten mit festen Schlüsseln statt Leeren-und-Neufüllen (Lua 5.1 baut Hash-Tabellen beim Neufüllen um) – zu messen.
+   i) Scan 2: zweiten Satz schon beim ersten Scan vorhalten ist KEINE Ersparnis (gleich viel Speicher, nur früher) – nicht vorgeschlagen.
+
+2) Scan-1-Anstieg "timing" (T459 9 319 -> 11 026 KB) BELEGT als Streuung der Zuordnung, nicht Code: TM:OnScan nach Scan 1 einzeln mit
+   angehaltenem GC: 0.65.397 2 231 KB, 0.65.398 2 231 KB (gleich). Die T459-Zahl je Aufgabe enthält, was während ihrer Portionen sonst noch
+   anfällt; sie schwankte schon 0.65.396 -> 397 um −3 MB.
+
+3) AHS-S313 – Ursache BELEGT: GC-Arbeit für das FREMDE Addon des Szenarios, nicht unsere Arbeit.
+   - s313 legt in einem Bild 600 000 kleine Tabellen eines "fremden Addons" an und hält sie in EINER Liste.
+   - Ein einzelner Lua-GC-Schritt braucht dann 7,8 / 8,0 / 9,3 ms (ohne diese Liste 0,03–0,04 ms): die grosse Liste wird in einem Stück
+     markiert (zz_gcstep: collectgarbage("step",0) einzeln gestoppt). Diesen Schritt bezahlt die Portion, die gerade Speicher anlegt.
+   - s313 je viermal: normal 12,7 / 13,0 / 14,7 / 13,1 ms (immer "names bis Names.lua:228"); mit angehaltenem GC nach dem fremden Bild
+     6,4 / 8,3 / 6,6 / 6,1 ms (names nicht mehr vorne). Früher gemessen bis 20,2 ms.
+   - Feiner schneiden hilft NICHT (Pause alle 50 statt 200 Einträge: 15,1 / 17,5 / 14,5 / 15,5 ms): der GC-Schritt ist unteilbar.
+   Folge: "keine Portion > 16 ms inkl. GC" ist mit Schneiden nicht erreichbar – die Spitze wächst mit dem Speicher fremder Addons
+   (hier 40 MB -> ~8 ms) und trifft irgendeine eigene Portion, die gerade anlegt. Unsere eigene Arbeit liegt bei 6–8 ms (Budget 6 ms).
+   Möglich wäre nur, beim Namen-Aufbau weniger anzulegen (weniger Schritte -> seltener getroffen), aber nicht ausgeschlossen.
+   FRAGE an den Supervisor (Entscheid): s313/T458 so lassen (Streuung ist die GC-Arbeit des fremden Addons) oder die Prüfung im Nachbau
+   um die gemessene GC-Spitze bereinigen (im Nachbau messbar, im Spiel nicht)? Ich ändere am Addon für S313 nichts, bis entschieden ist.
+
+Nächster Schritt (ohne Antwort weiter): g) EncodeSigs – Gleichheitstest st.sigs alt = neu mit echten Daten, dann Einbau, dann T459.
