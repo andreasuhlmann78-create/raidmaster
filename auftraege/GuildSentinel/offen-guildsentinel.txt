@@ -827,3 +827,7 @@ GS-R1 HOCH: Lua-Fehler "Lead.lua:275: attempt to index local 'r' (a boolean valu
     Zusätzlich a)–c) oben. Der Fehler steht im Bericht nur unter "Fehler im Spiel seit dem letzten Bericht: 1" – richtig so (nach dem Lauf).
     Übrige Werte: Speicher GuildSentinel 80 355 KB, nach Bereinigung 8 473 KB (Zeile vorhanden ✓); Portionen längste 20,2 ms (nach T09), über 16 ms: 3
     (T09, T269 ×2) – Ruckel-Ziel 16 ms: belegen und teilen (NIEDRIG). "LANGSAM Seite members" (G-4a): Beobachtung des Nutzers folgt.
+>>> G-4a BEOBACHTUNG IM SPIEL (15:46, /gs protokoll 0.9.63, 25.11. 15:45, 200 Einträge 24.11. 20:24 – 25.11. 15:45): KEINE Zeile "LANGSAM Seite members".
+    Bedingung des Nutzers (stand-aktuell: G-4a erst erledigt, wenn keine "LANGSAM Seite members" > 16 ms mehr kommt) im Zeitraum erfüllt -> G-4a ERLEDIGT
+    (Prüfung Supervisor). Hinweis: Viele Sitzungen ohne geöffnete Mitglieder-Seite zählen nicht als Beleg – falls die Seite in diesem Zeitraum nie
+    offen war, bitte im nächsten Bericht nennen (Zähler "Seite members gebaut n×"); dann bleibt G-4a bis zu einem Beleg offen.
