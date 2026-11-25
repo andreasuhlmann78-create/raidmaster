@@ -6978,3 +6978,9 @@ AHS-SB1 MITTEL (neu): Sandbox-Zeile "FEHLER: 1 Pfade, wiederhergestellt in 2 Dur
     bzw. nil ohne Daten. Quelle: deLog + Buchungen (wie Ketten.Realized/SK1-l), nichts neu erfassen. Leistung: höchstens wenige ms je Aufruf
     (Index je itemID, kein Durchlaufen von 2000 Einträgen je Aufruf). Tests: mit/ohne Daten, since-Filter, Material verkauft vs. Marktwert,
     Gegenprobe. Reihenfolge: nach AHS-SB1/T750b, vor SP2 h.
+
+>>> INGAMETEST 25.11. 15:15 Teil "server" 0.65.400 (Supervisor 15:22): OK 68 · FEHLER 0 · übersprungen 3 – mit neuem Vollscan (290 666 Auktionen,
+    eigener neuer Speicher beim Lesen 24 023 KB, Lücke 86 ms). T459 ohne FEHLER. Sandbox wieder "sniper.armed" (AHS-SB1 bleibt offen).
+>>> ENTSCHEID DES NUTZERS 25.11. 15:22: CurseForge heute 18:00 = 0.65.400 (Freigabe). Bedingungen wie immer: Zip = announce/…0.65.400 (md5 gleich),
+    um 18:00 nach download/, CF-Beschreibung/Changelog EN, Forever-Tag; danach Bericht mit Link. Im Bericht "Rückmeldung erledigt" für CF3 (GrontaxLUL,
+    integer overflow) – die Antwort auf CurseForge schreibt/postet der Supervisor mit Ok des Nutzers.
