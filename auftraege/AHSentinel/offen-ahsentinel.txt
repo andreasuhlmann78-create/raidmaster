@@ -6845,3 +6845,11 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
        Browse-Diagnose/Märkte trennen ausführen -> KEIN Lua-Fehler (pairs über data liefert dort "price"/"qty"/… als Schlüssel!). Gibt es einen
        Fehler: beim Speichern das alte Format behalten ODER den Schlüssel umbenennen (z. B. data2) – Entscheid mit Zahlen im Bericht.
     Nebenbefund 5 (BroadcastScan {id,p,q} je Item) in (iii) messen – einverstanden. T-d mit Scan 1/2/3.
+>>> INGAMETEST 25.11. 09:01 mit 0.65.396, Teil auto (PC, Forever deDE, Build 71091; WoW im HINTERGRUND – Nutzer arbeitet nebenher, 09:07) – Auswertung Supervisor 09:08
+    OK 1051 · FEHLER 1 · übersprungen 34 · im Client 16 · 203 s; Sandbox OK; Entzauber-Daten unverändert; Plausibilität OK.
+    FEHLER T750: "0 Befunde" (überlappt/abgeschnitten/veraltet 0; 89 gekürzt mit Tooltip = kein FEHLER) – rot NUR weil "geprüft 164 von 166 Ansichten"
+       (soll m von m). -> Im Bericht die 2 nicht geprüften Ansichten nennen und Grund (AH-Zustand? Hintergrund?). Ist es der Zustand des Spiels, gehört
+       das als "im Client prüfen" mit Anleitung, nicht als FEHLER. AHS-CF1-UI a) Befund-Seite damit erledigt (0 Befunde) – gut.
+    Zeiten nicht bewertet (Hintergrund). Vollscan-Zeilen = gespeicherte Messung (402 483 Auktionen); die zwei Vollscans für AHS-SP1 (d) stehen noch aus.
+    Hinweis (kein FEHLER, bekannt?): Gold-Abstimmung "nicht gebucht -326 655", Geldfluss-Lücke 3,2 % (Ziel ≤ 1 %) – im nächsten Bericht kurz sagen,
+       ob das ein offener Auftrag ist (BH-…), sonst als Befund aufnehmen.
