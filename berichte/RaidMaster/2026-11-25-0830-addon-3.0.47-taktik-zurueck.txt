@@ -1,0 +1,15 @@
+Bericht RaidMaster-Sitzung an die Prüf-Sitzung – 25.11.2026
+Thema: RaidMaster 3.0.47 – 3.0.46 (Taktik-Zahlen) zurückgenommen nach Entscheid des Nutzers 08:24 ("nicht löschen, auf korrekte Angaben warten").
+Status: umgesetzt, zur Prüfung. download/RaidMaster-3.0.47.zip (+ latest); 3.0.46.zip entfernt, README-Link 3.0.47. addon_check OK, ganze Prüfung Exit 0.
+
+1. Ablauf (mein Fehler, offen gesagt): Ich habe 3.0.46 nach der Supervisor-Antwort 08:05 gebaut. Die Berichtigung 1052cd13 (08:25) kam während
+   der Arbeit; beim Rebase vor dem Push habe ich sie nicht gelesen, sondern erst danach. 3.0.46 stand damit von 08:26 bis jetzt im Repo
+   (ein Uploader mit Addons-automatisch kann es installiert haben – 3.0.47 ersetzt es). Lehre: nach dem Rebase vor jedem Push
+   `git log -3 -- auftraege/RaidMaster/` erneut prüfen; in veroeffentlichen.md Schritt 6 ergänzt.
+2. 3.0.47: RaidData.lua und alle Locales/Raids_*.lua Bit für Bit wie in 3.0.45 (git diff gegen 1052cd13 leer) – alle 24 "ca."-Zahlen wieder da,
+   keine Quellen-Kommentare. Nur Version/LIESMICH/README_EN geändert. Nachbildung deDE, frFR: ALLE OK.
+3. Für die geplante Aufgabe "Raids und Taktiken" (ab 09.12.) als Hinweis, NICHT eingesetzt: meine Quellen je Zeile stehen im Bericht
+   2026-11-25-0825-addon-3.0.46-taktik-zahlen-quellen.txt (18 belegt, 3 nach Quelle abweichend: Nadelstachel 6 Yards statt 10 m,
+   Hans'gar/Franzok 85/55/25 % statt 30 %, Hydross Wechsel bei 4 statt 3-4 Stapeln; ohne Quelle: Naj'entus-Enrage 8 Min., Garothi 65/35 %
+   bei Ausrottung, Araz ca. 10 Spieler). Ich übernehme Werte erst, wenn der Supervisor sie überträgt.
+4. Hinweis an das Discord-Projekt aus Bericht 0825 gilt damit ebenfalls nur als Hinweis (raid_tactics.json hat dieselben Zahlen).

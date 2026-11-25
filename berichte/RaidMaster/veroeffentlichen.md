@@ -9,7 +9,9 @@ Gilt für jede neue Addon-Version (RaidMaster-<Version>.zip) und jeden neuen Upl
    RaidMaster-latest.zip = Kopie der neuesten (Inhalt gleich), announce/ bleibt.
 4. README.md "Aktuelle Version" auf die neue Zip setzen (der Link der alten führt sonst ins Leere).
 5. Ganze Prüfung wie der Workflow: `python3 addon-check/addon_check.py --report <Arbeitsordner>/b.md` -> Exit 0, kein FEHLER.
-6. Commit, push, `git fetch -q && git status -sb` (kein "ahead"), `git show origin/main:<Datei>` prüfen.
+6. Nach `git pull --rebase` und VOR dem Push nochmals `git log -3 -- auftraege/RaidMaster/` lesen – kam ein neuer Auftrag, erst
+   prüfen, ob er der Veröffentlichung widerspricht (25.11.: 3.0.46 trotz Entscheid 08:24 gepusht).
+   Commit, push, `git fetch -q && git status -sb` (kein "ahead"), `git show origin/main:<Datei>` prüfen.
 7. **Workflow-Status prüfen:** `gh run list --workflow "Addon-Prüfung" -L 3` – der Lauf zum eigenen Commit muss "success" sein
    (ein "cancelled" wegen eines neueren Commits zählt nicht; dann den neueren abwarten). Bei "failure": sofort Ursache in
    addon-check/bericht.md suchen und beheben.

@@ -1,8 +1,8 @@
 # Stand RaidMaster-Sitzung
 
-## Stand 25.11.2026 08:25 · Addon 3.0.46 · Uploader 2.3.28
-- Addon 3.0.46 gepusht: Taktik-Zahlen nur mit Quelle (24 Stellen: 18 belegt, 3 berichtigt, 3 Zahl entfernt). Bericht 0825.
-  Hinweis ans Discord-Projekt: raid_tactics.json hat dieselben Zahlen. 3.0.45 angenommen 08:05.
+## Stand 25.11.2026 08:30 · Addon 3.0.47 · Uploader 2.3.28
+- Addon 3.0.47: 3.0.46 (Taktik-Zahlen) zurückgenommen – Entscheid des Nutzers 08:24 "nicht löschen, auf korrekte Angaben warten".
+  Taktik-Zahlen erst ändern, wenn der Supervisor bestätigte Werte überträgt (Prüfliste research/raidmaster-taktikzahlen.md, ab 09.12.).
 - Addon 3.0.45 gepusht (L3/L4 als Prüfungen T204/T205, nur Testroutine). Uploader 2.3.27/2.3.28 und RM-CI1 vom Supervisor angenommen 06:53.
 - RM-CI1: alte RaidMaster-Zips 3.0.40–3.0.43 aus download/ entfernt, README-Link 3.0.44. Bericht 0646. Ablauf: veroeffentlichen.md.
 - Uploader 2.3.28 gepusht (UP-UPD1-c: "update" in stand.json trägt die NEUE Version ein; altes Fenster schickt nach Übergabe nichts mehr). Bericht 0643
@@ -17,7 +17,7 @@
 - Uploader 2.3.22 (UP-MSG1) und 2.3.21 (UP-AUTO1, PC abgenommen 20:55, Laptop offen) – vom Supervisor angenommen.
 - Addon 3.0.44 (RM-UMG1, Zeile UMGEBUNG, T203) – angenommen 20:50, Ingametest offen. 3.0.43 im Ingametest 0 FEHLER.
 - Addon 3.0.41–3.0.43: Platzhalter "?", Dev-Sicht, SB2-Adressbuch, Lesbarkeit L1/L8, Klassen-/Item-Farben, T116 je Addon.
-  Taktik-Zahlen mit 3.0.46, L2–L7 mit 3.0.45.
+  L2–L7 mit 3.0.45; Taktik-Zahlen warten auf bestätigte Werte.
 
 ## Gerade in Arbeit
 - nichts
@@ -33,10 +33,10 @@
 - PC: bei der Frage im Uploader-Fenster Taste j (Abnahme UP-UPD1). Laptop UP-AUTO1 belegt.
   Beim nächsten Update (2.3.28) per j: altes Fenster schliesst sich -> Abnahme UP-UPD1-a/b und UP-UPD1-c (stand.json "update").
 - Uploader 2.3.20 auf allen 4 liefernden Rechnern ganz entpacken + neu starten (ältere werden abgewiesen, auch 2.3.19).
-- RaidMaster 3.0.46 (kommt automatisch) Ingametest: /gsdev an, /rm testroutine alles, /reload.
+- RaidMaster 3.0.47 (kommt automatisch) Ingametest: /gsdev an, /rm testroutine alles, /reload.
 
 ## Entscheide des Nutzers seit letztem Stand
-- 25.11. 08:05 (über Supervisor): Taktik-Zahlen je Stelle mit Quelle, sonst Zahl weglassen.
+- 25.11. 08:24: Taktik-Zahlen NICHT löschen/ändern; geplante Aufgabe prüft (ab 09.12.), bestätigte Werte über Supervisor einsetzen.
 - 25.11. 06:29: Einstellungsdateien aus dem Download-Ordner übernehmen, "mit Schutz" (UP-CFG1) – nach Hinweis auf die Risiken.
 - 24.11. 22:00/22:01: altes Fenster soll sich nach Update schliessen; Updates laufen über den Uploader selbst (j) (UP-UPD1-a).
 - 24.11. 21:36 (über Supervisor): Uploader-Update nur auf Knopfdruck mit Rückfrage j/n, kein Selbst-Update (UP-UPD1).

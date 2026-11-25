@@ -23,10 +23,9 @@ MAIN FEATURES
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
 
-WHAT'S NEW IN 3.0.46 – raid tactics: numbers only with a source
-- Every approximate number ("~") in the raid tactics now has a source. Corrected: Naj'entus – Needle Spine spacing at least
-  6 m (was 10 m); Hans'gar and Franzok at 85/55/25 % (was 30 %); Hydross – swap at ~4 stacks. Removed for lack of a source:
-  Naj'entus enrage time, percentages for Garothi's "Eradication", player count for Araz. In all 11 languages.
+WHAT'S NEW IN 3.0.47 – raid tactics as in 3.0.45
+- The changes to the tactic numbers from 3.0.46 are reverted: all numbers are back as in 3.0.45. They will only change once
+  confirmed values with a source are available.
 
 WHAT'S NEW IN 3.0.45 – test routine checks same numbers and sums (developer only)
 - Readability L3: the same DKP number in the list, the tooltip, the "!dkp" reply and the stored standing (T205).
