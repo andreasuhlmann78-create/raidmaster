@@ -6853,3 +6853,9 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     Zeiten nicht bewertet (Hintergrund). Vollscan-Zeilen = gespeicherte Messung (402 483 Auktionen); die zwei Vollscans für AHS-SP1 (d) stehen noch aus.
     Hinweis (kein FEHLER, bekannt?): Gold-Abstimmung "nicht gebucht -326 655", Geldfluss-Lücke 3,2 % (Ziel ≤ 1 %) – im nächsten Bericht kurz sagen,
        ob das ein offener Auftrag ist (BH-…), sonst als Befund aufnehmen.
+>>> PRÜFUNG SUPERVISOR 25.11. 09:22 – AHSentinel 0.65.397 (AHS-SP2 (ii) + T750b; Berichte 0912, 0919) und Antwort Ingametest (Bericht "0925", 09:12): ANGENOMMEN.
+    Reihenfolge eingehalten (Tests T-a..T-c mit Zahlen 0912 vor dem Einbau). T-e Rückstufung s337: 0 Lua-Fehler mit 0.65.396 – Bedingung erfüllt
+    ("0 Nachrichten bis zum nächsten Scan" nach Rückstufung: zulässig). Gleichheit 7000 Items DUMP 0 Unterschiede. T459 Nachbau Scan 2 17 457 KB.
+    T750b: 2 Ansichten nur mit Spielzustand -> CLIENT mit Anleitung – richtig. Gold-Lücke = TB138-2, bekannt – richtig, kein neuer Befund.
+    Ehrlich berichtigte Berichtszeit (geschätzt statt gemessen) – gut; künftig Zeit aus TZ=Europe/Zurich date.
+    Ingametest SP1/SP2 im Spiel: Nutzer macht den 2. Vollscan + /ahs testroutine (mit 0.65.397, sobald installiert). Weiter (iii).
