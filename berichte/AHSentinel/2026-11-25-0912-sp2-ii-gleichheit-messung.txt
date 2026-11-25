@@ -1,5 +1,5 @@
 BERICHT AHSentinel – AHS-SP2 (ii) Bestpreise als Listen: Tests T-a bis T-e im Nachbau (vor dem Einbau) – umgesetzt, zur Prüfung
-Zeit: 25.11.2026 09:12 (Europe/Zurich) · Grundlage 0.65.396 (alt) gegen Arbeitsstand mit SP2 (ii) (neu, NICHT veröffentlicht)
+Zeit: 25.11.2026 09:10 (Europe/Zurich) – Berichtigung: der Dateiname nennt irrtümlich 0912 (Zeit geschätzt statt gemessen); Name bleibt, weil schon zitiert · Grundlage 0.65.396 (alt) gegen Arbeitsstand mit SP2 (ii) (neu, NICHT veröffentlicht)
 
 Aufbau: echte Daten (REAL_SV, ZC=23520) -> 7 000 Items, 344 831 Auktionen. Neues Szenario zz_sp2eq läuft einmal mit dem Ordner 0.65.396 und
 einmal mit dem Arbeitsstand. Die Testseite liest beide Formate selbst (benutzt die neuen Helfer nicht). Abgehört werden die echten Leser:
