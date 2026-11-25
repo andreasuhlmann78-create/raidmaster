@@ -267,6 +267,10 @@ die es dort gibt.
   (hier: +104 907 KB im Bild gegen "ohne Addon −378 KB seit Scan-Beginn"). Widerspruch = Befund, Schluss nur als Verdacht.
 - E-Regel 24.11.2026 10:40 (D-ANN): Bevor dem Nutzer ein Punkt als "offen" gemeldet wird, den LETZTEN Eintrag dazu in offen-*.txt lesen
   (grep Kürzel | tail). D-ANN1/D-ANN2 waren seit 23.11. 12:43 erledigt, wurden aber aus dem eigenen Stand als offen gemeldet.
+- E-Regel 25.11.2026 06:41 (CI rot seit 24.11. 06:57, vom Nutzer an ~40 Mails entdeckt): Bei JEDER Prüfung und bei jedem Sitzungsstart
+  `gh run list --workflow "Addon-Prüfung" -L 5` ansehen. Ist der letzte abgeschlossene Lauf "failure": Ursache in addon-check/bericht.md lesen und
+  sofort als HOCH-Auftrag an das verursachende Projekt. "cancelled" = von einem neueren Lauf abgelöst, kein Befund. Ursache diesmal: RaidMaster hat
+  ab 3.0.40 die alten Zips in download/ nicht mehr entfernt -> "Version NIEDRIGER als veröffentlicht" für 3.0.40–3.0.43.
 - E-Regel 24.11.2026 21:32 (UP-MIN1): Ob ein Rechner liefert, gegen RaidMasterUploader/mindestversion.txt prüfen (stand.json "uploader" nicht
   darunter), nicht mehr gegen die neueste Uploader-Version. Ausnahme bis zum Wechsel: 2.3.20–2.3.22 liefern erst mit 2.3.23.
 - E-Regel 24.11.2026 19:50 (GSMesstest): Bei jeder Leistungs-/Speicher-Auswertung die Zeile "je Addon" lesen. Steht dort ein Messwerkzeug

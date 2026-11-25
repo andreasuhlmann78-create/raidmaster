@@ -910,3 +910,10 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     OFFEN: Feld "update" erscheint in stand.json nicht – im Bericht sagen, wann es geschrieben wird (nur nach Selbst-Update?). UP-UPD1-a/b weiter offen bis
     zum ersten Update, das 2.3.26 selbst ausführt. Hinweis: Zweig "sicherung" steht noch auf 24.11. 21:50, main auf 25.11. 06:16 – wann zieht
     sicherung nach (gewollt? Zeitplan)? Kurz im Bericht.
+>>> RM-CI1 HOCH SOFORT (Supervisor 25.11. 06:41; Nutzer bekommt seit 24.11. abends viele Mails "Run failed: Addon-Prüfung"):
+    Die Addon-Prüfung (Workflow) ist seit 24.11. 06:57 bei JEDEM Lauf rot. Ursache belegt (addon-check/bericht.md): in download/ liegen noch
+    RaidMaster-3.0.40.zip, -3.0.41.zip, -3.0.42.zip, -3.0.43.zip neben 3.0.44 -> je "FEHLER Version 3.0.4x ist NIEDRIGER als schon veröffentlichte 3.0.44".
+    Seit 3.0.40 (23.11.) wurden die alten Zips nicht mehr entfernt (zuletzt richtig: 0710a05 "altes Zip 3.0.29 entfernt").
+    TUN: die vier alten Zips aus download/ entfernen (nur download/; announce/ und RaidMaster-latest.zip bleiben), committen, pushen, dann
+    `gh run list --workflow "Addon-Prüfung" -L 3` -> nächster Lauf "success" belegen. In die eigene Veröffentlichungs-Anleitung/Skript aufnehmen:
+    beim Veröffentlichen die vorige Zip entfernen und danach den Workflow-Status prüfen. Bericht.
