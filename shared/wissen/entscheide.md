@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Folge |
 |---|---|---|
+| 25.11. 06:29 | (im Chat der RaidMaster-Sitzung) "Download-Ordner mit Schutz" | UP-CFG1: Uploader übernimmt uploader_config.json/sync_config.json aus dem Download-Ordner nur nach j, mit Schutz (gleicher Bot, nur Discord-Adressen, nur neuer, Sicherung) – Uploader 2.3.27 |
 | 25.11. 06:31 | Markt-Tabellen: "16.11. behalten (Empfohlen)" | Repo-Fassung Stand 16.11. bleibt, Fallzahl-Regel gilt weiter (ersetzt 24.11. 06:17 Punkt 2); AHS-J1: Journal/Kern so, dass Fälle wieder wachsen |
 | 22:22 | "wenn du fertig bist den speicher in angriff nehmen, so wie wir es besprochen haben" | AHS-SP1 startet jetzt (nach CurseForge-Upload 0.65.393), Plan 19:16, Bericht mit Messung vor dem Einbau |
 | 22:17 | "auf curse jetzt veröffentlichen … lass den push auf curse das projekt machen und explizit erwähnen dass es wichtiges update ist" | AHS-CF2: AHSentinel 0.65.393 sofort auf CurseForge (Freigabe des Nutzers ersetzt CF1 e; T459 und fehlender Ingametest bewusst in Kauf), Changelog "Wichtiges Update" DE/EN; danach AHS-SP1 |

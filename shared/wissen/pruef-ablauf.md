@@ -267,6 +267,8 @@ die es dort gibt.
   (hier: +104 907 KB im Bild gegen "ohne Addon −378 KB seit Scan-Beginn"). Widerspruch = Befund, Schluss nur als Verdacht.
 - E-Regel 24.11.2026 10:40 (D-ANN): Bevor dem Nutzer ein Punkt als "offen" gemeldet wird, den LETZTEN Eintrag dazu in offen-*.txt lesen
   (grep Kürzel | tail). D-ANN1/D-ANN2 waren seit 23.11. 12:43 erledigt, wurden aber aus dem eigenen Stand als offen gemeldet.
+- E-Regel 25.11.2026 06:53 (sicherung "hinkt nach" – war falsch): Daten-Repo-Zweige vor jeder Aussage mit `git ls-remote origin` bzw.
+  `git fetch origin '+refs/heads/*:refs/remotes/origin/*'` frisch holen; nie aus einem alten lokalen Zweig-Zeiger auf Rückstand schliessen.
 - E-Regel 25.11.2026 06:41 (CI rot seit 24.11. 06:57, vom Nutzer an ~40 Mails entdeckt): Bei JEDER Prüfung und bei jedem Sitzungsstart
   `gh run list --workflow "Addon-Prüfung" -L 5` ansehen. Ist der letzte abgeschlossene Lauf "failure": Ursache in addon-check/bericht.md lesen und
   sofort als HOCH-Auftrag an das verursachende Projekt. "cancelled" = von einem neueren Lauf abgelöst, kein Befund. Ursache diesmal: RaidMaster hat

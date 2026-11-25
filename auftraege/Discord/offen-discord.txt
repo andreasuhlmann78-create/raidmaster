@@ -505,3 +505,5 @@ SICHERHEIT (Pflicht, Repo ist öffentlich):
 >>> PRÜFUNG SUPERVISOR 24.11. 21:58 – Bot 1.5.196 (D-UPD1, Bericht 21:50): ANGENOMMEN. Bot-Tests selbst: 512 passed. Text "mit j bestätigen" erst, wenn alle Rechner
     des Mitglieds ≥ 2.3.24 – richtig. Fehlgeschlagene Updates als PN mit Grund, ok ohne PN – gut. Versand: Nutzer hat 2.3.24 um 21:55 SELBST an die Offiziere
     geschickt – nicht wiederholen. Die eine D-UPMIN1-PN je Rechner ("/uploader holen") darf trotzdem kommen (andere Aussage, einmal) – im Bericht zählen.
+>>> D-UPCFG1 NIEDRIG (Supervisor 25.11. 06:53, Vorschlag RaidMaster UP-CFG1 Punkt 8): In der /uploader-Nachricht die Kanal-Kennungen (nur die Zahl der
+    Webhook-Adresse, NIE den Schlüssel) nennen, damit der Spieler sie mit der Frage im Uploader-Fenster vergleichen kann. Mit der nächsten Bot-Version.

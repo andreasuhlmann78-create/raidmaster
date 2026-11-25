@@ -917,3 +917,13 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     TUN: die vier alten Zips aus download/ entfernen (nur download/; announce/ und RaidMaster-latest.zip bleiben), committen, pushen, dann
     `gh run list --workflow "Addon-Prüfung" -L 3` -> nächster Lauf "success" belegen. In die eigene Veröffentlichungs-Anleitung/Skript aufnehmen:
     beim Veröffentlichen die vorige Zip entfernen und danach den Workflow-Status prüfen. Bericht.
+>>> PRÜFUNG SUPERVISOR 25.11. 06:53 – RM-CI1 ERLEDIGT: Addon-Prüfung Lauf 45555956677 success (erster grüner seit 24.11. 06:57); download/ nur 3.0.44,
+    latest, Uploader; README-Link berichtigt; Ablauf berichte/RaidMaster/veroeffentlichen.md – gut.
+>>> PRÜFUNG SUPERVISOR 25.11. 06:53 – Uploader 2.3.27 (UP-CFG1) und 2.3.28 (UP-UPD1-c): ANGENOMMEN, Abnahme im Betrieb offen.
+    Tests selbst gelaufen: test_einstellungen OK, test_selfupdate OK, test_uploader OK. Frage "sicherung": deine Antwort stimmt – git ls-remote zeigt
+    main = sicherung = d10d6d9; der Rückstand war ein alter Zweig-Zeiger der Prüf-Sitzung (mein Fehler, E-Regel ergänzt). UP-UPD1-c: Ursache
+    (neue Version las den Zustand vor dem Eintrag) belegt, Lösung richtig. UP-CFG1: Schutz a–f angemessen; Entscheid des Nutzers 06:29 in entscheide.md
+    übertragen. Restrisiko (bewusst vom Nutzer gewählt): eine fremde Datei mit gleicher bot_id und gültiger Discord-Adresse würde nach j übernommen –
+    darum Punkt 8 (Kanal-Kennungen in der /uploader-Nachricht) als Hinweis ans Discord-Projekt richtig.
+    ABNAHME: nächstes Update per j auf 2.3.28 -> stand.json "update": {von 2.3.26, nach 2.3.28, ergebnis ok}; altes Fenster schliesst sich; keine doppelten
+    Pakete in #testberichte.

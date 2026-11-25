@@ -105,7 +105,9 @@ def bericht(dbs, labels):
         if filled:
             fd = kd.day_start(filled)
             jn, jy = collections.Counter(), collections.Counter()
-            L = J.forecast.list
+            # Befund AHS-J1 (Bericht AHS 25.11. 06:43, nachgeprüft): der Kern eines Rechners kennt nur die Fälle SEINES Journals.
+            # Früher wurde hier das zusammengeführte Journal ALLER Rechner/Konten genommen -> Scheinbefunde "FEHLT IM KERN" (28/29/36).
+            L = db.forecast.list
             for i in range(1, len(L) + 1):
                 e = mt.decode(L[i], mt.P_F) if L[i] and L[i][0] == "P" else None
                 if not e or e["r"] in ("", "u", "c"):
@@ -129,13 +131,24 @@ def bericht(dbs, labels):
             out.append("")
             out.append("| Zelle | Journal Fälle | davon verkauft (Summe Anteil) | Kern Fälle | Kern verkauft | Befund |")
             out.append("|---|---:|---:|---:|---:|---|")
-            miss = 0
+            miss, older = 0, 0
             for z in sorted(set(jn) | set(kn)):
                 same = abs(jn[z] - kn[z]) < 0.5 and abs(jy[z] - ky[z]) < 0.05
-                miss += 0 if same else 1
-                out.append(f"| {z} | {jn[z]} | {jy[z]:.2f} | {kn[z]:.0f} | {ky[z]:.2f} | {'geht auf' if same else 'FEHLT IM KERN' if kn[z] < jn[z] else 'WEICHT AB'} |")
+                if same:
+                    befund = "geht auf"
+                elif kn[z] < jn[z] - 0.5:
+                    befund = "FEHLT IM KERN"
+                    miss += 1
+                elif kn[z] > jn[z] + 0.5:
+                    befund = "Kern hält ältere Fälle (nicht mehr im Journal)"
+                    older += 1
+                else:
+                    befund = "WEICHT AB"
+                    miss += 1
+                out.append(f"| {z} | {jn[z]} | {jy[z]:.2f} | {kn[z]:.0f} | {ky[z]:.2f} | {befund} |")
             out.append("")
-            out.append(f"Zellen, die nicht aufgehen: {miss} (Ziel 0). Hinweis: Fälle am Rand (Tagesgrenze des Kern-Starts) können um 1 abweichen.")
+            out.append(f"Zellen, die nicht aufgehen: {miss} (Ziel 0; eigenes Journal dieses Rechners). Kern hält ältere Fälle: {older} "
+                       "(Ring 3000 bzw. Tagesgrenze des Kern-Starts – kein Fehler, KERN-S1b). Fälle am Rand können um 1 abweichen.")
             out.append("")
         # Abgleich Kaufen
         out.append("### 3. Abgleich Kaufen: Kern \"buyk\"/\"buye\" gegen Tabelle \"kaufen\"")

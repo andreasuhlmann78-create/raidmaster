@@ -6783,3 +6783,17 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
         "FEHLT IM KERN" in Verkaufszellen). Ursache je Art belegen; Ziel 0. Erst ein vollständiger Kern macht die Fallzahl unabhängig vom Ring.
     (3) Vorschlag mit Speicherkosten (T459/AHS-SP beachten!) im Bericht, VOR jedem Einbau: z. B. eigene Grenze je Art statt gemeinsamer 3000, oder
         Kern als Quelle der Markt-Tabelle. Reihenfolge: nach AHS-SP1-Einbau, vor AHS-SP2.
+>>> PRÜFUNG SUPERVISOR 25.11. 06:53 – AHSentinel 0.65.395 (AHS-SP1 Einbau, Bericht 0639): ANGENOMMEN, Ingametest offen.
+    Bedingungen: (a) T1021 1000 Items -> 2 Verwerfungen (bei 400/800), Gegenprobe 0; 7000/400 = 17,5 -> 17 nachgerechnet, stimmt. s335 mit Grenze 400
+    alle Leser 0 abweichend. (b) T1011–T1013 mit Gegenproben. (c) T459-Text kompakt + Scan-Nummer. Addon-Prüfung (Workflow) wieder grün.
+    OFFEN (d): Ingametest des Nutzers "testroutine auto" + Vollscan zweimal; Supervisor vergleicht Scan 1/2 gegen 46–47 / 18–20 MB.
+>>> PRÜFUNG SUPERVISOR 25.11. 06:53 – AHS-J1 Messung (Bericht 0643): ANGENOMMEN, sehr gut belegt.
+    (1) Ring verliert zurzeit < 10 Einträge in 2 Tagen; 66 % des Rings = zwei Massen-Tage 15.11. (D 1155, B 801) – kein Verlust zwischen Lieferungen.
+    (2) Ursache Kern-Abgleich RICHTIG: Fehler im Prüf-Skript der Prüf-Sitzung. Supervisor hat addon-check/marktanalyse/kern_abgleich.py berichtigt
+        (harte Prüfung je Rechner mit SEINEM Journal; "Kern > Journal" = "Kern hält ältere Fälle", kein Fehler). Nachgerechnet mit den echten Daten
+        (Daten-Repo main d10d6d9): nicht aufgehend PC/Laptop 0 (ältere Fälle 3), JD5SLR5 0 (0), M6UO3AL 0 (5) – genau wie dein Bericht.
+    (3) Entscheid Supervisor: a) KEIN Ring-Umbau jetzt. b) eigene Grenze je Art NICHT jetzt – erst wenn ein Massen-Tag nachweislich P-Fälle verdrängt
+        (Messung bleibt im Kern-Abgleich sichtbar). c) Markt-Tabelle aus dem Kern = Aufgabe der Prüf-Sitzung (vorgemerkt). AHS-J1 damit ERLEDIGT.
+    Weiter: AHS-SP2 (messen, Bericht vor Einbau).
+>>> AHS-CF4 – Ursache angenommen (CurseForge hat keine Schnittstelle für die Projektbeschreibung; nur von Hand). Entscheid des Nutzers nötig
+    (Supervisor fragt): einmal von Hand einfügen und/oder "What's new" durch festen Verweis auf den Reiter Files ersetzen. Bis dahin nichts tun.
