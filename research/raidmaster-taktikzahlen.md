@@ -3,6 +3,8 @@
 Angelegt vom Supervisor am 25.11.2026 08:25. Entscheid des Nutzers 25.11.2026 08:24: "falls es noch keine Daten in den Quellen gibt … über Raidtaktiken
 prüfen lassen und wenn bestätigt einfügen … nicht löschen, auf korrekte Angaben warten".
 
+Start: ab 09.12.2026 (Entscheid des Nutzers 25.11. 08:26 – die geplante Aufgabe ist bis dahin ausgeschaltet).
+
 Ablauf: Die geplante Aufgabe "Raids und Taktiken für WoW Forever" prüft je Zeile den Wert mit zuverlässigen Quellen (Regeln wie in ihrer
 Anweisung: Blizzard, Wowhead, Icy Veins, warcraft.wiki.gg, Warcraft-Forever-Wiki, Guides mit Logs; kein Datamining, nichts erfinden).
 Für WoW Forever zählt der Wert auf WoW Forever; gibt es dort keine eigene Angabe, den Wert der Original-Version (Classic/TBC/…) mit Quelle

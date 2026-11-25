@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Folge |
 |---|---|---|
+| 25.11. 08:26 | "ich will dass die Raidtaktik-Sitzung erst ab dem 09.12. prüft … vorher werden für die neuen Dungeons sowieso keine Daten vorhanden sein" | Geplante Aufgabe "Raids und Taktiken" ausgeschaltet bis 09.12.2026; Erinnerung an den Supervisor 09.12. 07:00 zum Wiedereinschalten (Teil E Taktik-Zahlen beginnt dann) |
 | 25.11. 08:24 | Taktik-Zahlen RaidMaster: "falls es noch keine Daten in den Quellen gibt … über Raidtaktiken prüfen lassen und wenn bestätigt einfügen … nicht löschen, auf korrekte Angaben warten" | 25 ca.-Zahlen bleiben; geplante Aufgabe Raids prüft sie (Teil E, research/raidmaster-taktikzahlen.md); bestätigte Werte -> Supervisor -> RaidMaster setzt mit Quelle ein |
 | 25.11. 07:56 | CurseForge-Lizenz AHS: "Ja, auf GPL-3.0 (Empfohlen)" | AHS-CF5: Projekt-Einstellung License auf GPL-3.0 (statt All Rights Reserved), passend zu LICENSE.txt/QuestieDB |
 | 25.11. 06:54 | CurseForge-Beschreibung AHS: "ausnahme ihr könnt sie ändern aber bitte überlegt und nicht ein scheiss" | AHS-CF4: AHS-Sitzung darf die Projektbeschreibung auf CurseForge ändern – Entwurf, Prüfung durch Supervisor, dann einfügen und nachlesen; "What's new" als fester Verweis |
