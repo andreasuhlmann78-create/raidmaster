@@ -1838,3 +1838,13 @@ LP-Y1 HOCH: "attempt to yield across metamethod/C-call boundary" bei PLAN_CHANGE
     bei Zahlen über 32 Bit "integer overflow attempting to store N" (AHS-OVF1). v4: bis 32 Bit gleicher Text, darüber "%.0f". Tests 101/101 (v3/v4 in
     beiden Reihenfolgen, Nachbildung des WoW-Fehlers, Gegenprobe). Auftrag: mit der nächsten Version GoldSentinelTest.lua UNVERÄNDERT aus shared/
     kopieren (addon_check warnt bis dahin "veraltete offizielle Fassung (Version 3)"). Nichts sonst ändern.
+
+>>> PRÜFUNG SUPERVISOR 25.11. 16:03 – LevelPilot 3.13.15 (Bericht 15:59: LP-Y1, LP-TR1, LP-SB1-b, SHARED-T4): ANGENOMMEN, Abnahme im Spiel offen.
+    addon_check OK. LP-Y1: Ursache belegt (28 469 gesperrte Abgaben je Lauf im pcall, CheckFirstPath brach ab -> Wegprüfung fiel weg) – sehr gut;
+    LP.YPCall + YieldBlocked mit Zählung, T392 mit Gegenprobe und Laufregel. Längste Reise-Portion 16,6 ms (vorher 38,8). LP-TR1 a) Teilbericht + T393
+    mit Gegenprobe – angenommen; b) Grenze VORLÄUFIG 3600 s – angenommen bis zur Messung im Spiel (dauerBereiche), dann gemessen + Rand festlegen.
+    LP-SB1-b: Abort spielt ein, Logout sofort (0,15 ms je Nachricht gemessen) – angenommen.
+LP-SB1-c MITTEL (Vorschlag des Berichts FREIGEGEBEN): Während der Testroutine Empfang am Netzeingang zurückhalten (nicht in Comm:Receive) und NACH dem
+    Restore einspielen; Bericht HINWEIS mit Anzahl je Art; Test im Nachbau (Empfang mitten in der Routine -> danach im Netz). Heute gehen solche Daten
+    beim Restore verloren (belegt) – darum MITTEL.
+    Nächster Ingametest 3.13.15: /lp testroutine alles (Hintergrund erlaubt) – Bericht muss jetzt in jedem Fall kommen (auch als Teilbericht).

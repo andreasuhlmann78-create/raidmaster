@@ -6993,3 +6993,10 @@ AHS-SB1 MITTEL (neu): Sandbox-Zeile "FEHLER: 1 Pfade, wiederhergestellt in 2 Dur
     1. Scan) – im Spiel bestanden für Scan 1. Ziel ≤ 10 MB ab Scan 2 im Spiel noch nicht gemessen (nächster Test: zwei Vollscans in einer Sitzung).
     T126 7,9 ms (längste 8,8) OK, T458 OK.
     CurseForge 18:00: es bleibt 0.65.400 (im Spiel getestet, Entscheid des Nutzers 15:22) – NICHT 0.65.401 (nicht im Spiel getestet, FULL ausstehend).
+
+>>> PRÜFUNG SUPERVISOR 25.11. 16:03 – AHS FULL 0.65.401 (15:47) und 0.65.402 (Bericht 15:57, AHS-API2): ANGENOMMEN, Abnahme im Spiel offen.
+    FULL 0.65.401 auf Kopie, neu rot keine – angenommen; AHS-S216 als Befund aufgenommen – richtig (Regel "zweimal rot in Folge").
+    API.Disenchanted: additiv, Version 1 unverändert – angenommen. Frage "mix": ENTSCHEID SUPERVISOR – so lassen (gemischter Posten zählt nicht als
+    verkauft aus dem Entzaubern, Preis zum Zeitpunkt); das ist die vorsichtige Bewertung (kein erfundener Erlös). Index 7,7 ms am Stück (echte Daten),
+    11,6 ms Nachbau: über dem Bild-Budget – Vorschlag Portionen im Hintergrund FREIGEGEBEN als AHS-API2-b NIEDRIG, sobald PS die Funktion im Spielweg
+    aufruft (PS meldet, wann/wie oft); bis dahin messen (T1031 schreibt Index-ms mit).
