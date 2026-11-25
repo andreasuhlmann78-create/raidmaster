@@ -1,6 +1,6 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 25.11.2026 06:43 · Version 0.65.395 (Discord); CurseForge 0.65.393 (Datei-ID 9799863)
+## Stand 25.11.2026 07:03 · Version 0.65.395 (Discord); CurseForge 0.65.393 (Datei-ID 9799863)
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz – Testberichte "GSTEST1{…}", UI-Befunde db.uiFindingsLast).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
@@ -10,20 +10,22 @@ Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /h
  Eigene Szenarien /tmp/claude-0/sim/wowsim/scenarios_new.lua (zz_t459real, zz_tr1, zz_i6_sniper, zz_ui_buy).
 
 ## Gerade in Arbeit
-- FULL 0.65.395 läuft allein (danach Bericht). Abgelegt: J1-Messung (Kern-Abgleich: Ursache im Prüf-Skript – Journal aller Rechner gegen Kern
-  eines Rechners; eigenes Journal 3/3/0/5 statt 28/28/29/36), CF4 (Beschreibung nur von Hand einfügbar). Danach AHS-SP2 messen (i–iii).
+- WARTE auf Supervisor: (1) SP2-Messbericht (i Text in einem Stück −1,5–2,2 MB gemessen; ii Bestpreise-Listen; iii Nachlauf je Aufgabe Verdacht),
+  Mess-Schalter VS.ONECAT (aus) in der Arbeitskopie; (2) CF4-Entwurf der Beschreibung (erst nach Freigabe auf CurseForge einfügen, Browser des
+  Nutzers, Projekt 1757594, danach Seite lesen und vergleichen). FULL 0.65.395: 347/67, keine neuen Fehler. J1 erledigt (Supervisor).
 
 ## Nächste Schritte (Supervisor 25.11. 06:25/06:31)
 1. FULL 0.65.395 (allein); s313 weiter nennen (zweimal rot = Befund).
-2. AHS-J1: Bericht abgelegt – wartet auf Entscheid (Vorschlag b: Grenze je Art; Prüf-Skript je Rechner).
+2. AHS-J1 ERLEDIGT (Supervisor 06:53: kein Ring-Umbau jetzt; Prüf-Skript berichtigt).
 3. AHS-SP2 HOCH: T459 < 10 240 KB ab Scan 2 – (i) Text ohne "p:c", (ii) Bestpreise als Listen, (iii) Nachlauf-Aufgaben einzeln messen; je Bericht.
-4. AHS-CF4: Bericht abgelegt (Nutzer muss HTML einmal einfügen). CF1-UI-a1 nach T1016 im Spiel. UMG1 danach.
+4. AHS-CF4 (Ausnahme Nutzer 06:54: AHS-Sitzung darf Beschreibung ändern): Entwurf abgelegt, wartet auf Freigabe. CF1-UI-a1 nach T1016. UMG1 danach.
 
 ## Offen beim Nutzer
 - Ingametest mit 0.65.393 ("testroutine alles"): T1016, T750, Vollscan zweimal, T126 im Vordergrund.
 - Gold-Messung Ausrüstung mit Kupfer-Preis (AHS-POST), RecipeList-Fehler mit nur AHS aktiv.
 
 ## Entscheide des Nutzers seit letztem Stand
+- 25.11. 06:54 AHS-CF4: AHS-Sitzung darf die CurseForge-Beschreibung ändern – "überlegt": Entwurf, Prüfung, dann einfügen und nachlesen.
 - 25.11. 06:31 Markt-Tabelle Stand 16.11. behalten (Fallzahl-Regel gilt).
 - 22:17/22:23 AHS-CF2: 0.65.393 sofort auf CurseForge, "Wichtiges Update"; T459 (c) und Ingametest bewusst in Kauf genommen.
 - 20:43 AHS-CF1-UI c: Wächter-Funde erscheinen nie von selbst im Sniper; nur nach Auswahl beim Item.
