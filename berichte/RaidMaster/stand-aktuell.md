@@ -15,7 +15,7 @@
 - Uploader 2.3.22 (UP-MSG1) und 2.3.21 (UP-AUTO1, PC abgenommen 20:55, Laptop offen) – vom Supervisor angenommen.
 - Addon 3.0.44 (RM-UMG1, Zeile UMGEBUNG, T203) – angenommen 20:50, Ingametest offen. 3.0.43 im Ingametest 0 FEHLER.
 - Addon 3.0.41–3.0.43: Platzhalter "?", Dev-Sicht, SB2-Adressbuch, Lesbarkeit L1/L8, Klassen-/Item-Farben, T116 je Addon.
-  Offen aus 3.0.41: L2–L7 als Prüfungen, Taktik-"ca."-Zahlen (Entscheid Prüf-Sitzung).
+  Offen aus 3.0.41: Taktik-"ca."-Zahlen (Entscheid Prüf-Sitzung); L2–L7 mit 3.0.45.
 
 ## Gerade in Arbeit
 - nichts

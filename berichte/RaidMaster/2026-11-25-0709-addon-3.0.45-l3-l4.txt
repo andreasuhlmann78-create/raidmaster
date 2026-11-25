@@ -28,3 +28,4 @@ Für Spieler ändert sich nichts (nur Testroutine + zwei Felder an der DKP-Seite
    "<Topf>: aktuell N DKP". Die Prüfliste ist mit 14 Punkten voll (T185 erlaubt höchstens 14) – darum kein neuer Handpunkt.
    L7 trifft nicht zu (keine Kauf-/Verkaufsempfehlungen).
 6. Weiter offen: Taktik-"ca."-Zahlen in RaidData.lua (24 Stellen) – Entscheid der Prüf-Sitzung (a) weglassen oder (b) messen.
+7. Addon-Prüfung (Workflow) zum Commit b4170ca4: Lauf 45558578355 "completed success".
