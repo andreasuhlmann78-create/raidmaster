@@ -1,0 +1,49 @@
+BERICHT AHSentinel – AHS-SP2 (ii) Bestpreise als Listen: Tests T-a bis T-e im Nachbau (vor dem Einbau) – umgesetzt, zur Prüfung
+Zeit: 25.11.2026 09:12 (Europe/Zurich) · Grundlage 0.65.396 (alt) gegen Arbeitsstand mit SP2 (ii) (neu, NICHT veröffentlicht)
+
+Aufbau: echte Daten (REAL_SV, ZC=23520) -> 7 000 Items, 344 831 Auktionen. Neues Szenario zz_sp2eq läuft einmal mit dem Ordner 0.65.396 und
+einmal mit dem Arbeitsstand. Die Testseite liest beide Formate selbst (benutzt die neuen Helfer nicht). Abgehört werden die echten Leser:
+B = gespeicherter Scan db.lastOwnScan je Item (Preis, Menge, Menge der günstigsten Stufe, unbestätigt), R = RecordPrice-Aufrufe aus ProcessBest,
+T = Zeitpunkt-Lernen TM:Record, L = Rhythmus Ln:RhythmRecord, N = Namen teilen (Item-Schlüssel), M = Sync-Nachrichten "G:"/"P:" im Wortlaut.
+Danach je Lauf: dieselben Daten als altes und als neues Format durch BroadcastScan, und db gespeichert (nach PLAYER_LOGOUT, wie beim Ausloggen).
+
+T-a Gleichheit alt = neu: 28 485 Zeilen (B 7 000 · R 7 003 · T 7 000 · L 134 · N 7 000 · M 347 · C 1), Unterschiede: 0.
+    Gegenprobe (FALSIFY: Preis des kleinsten Items, Item 25, vor ProcessBest +1 Kupfer): genau 10 Zeilen verschieden = B, R, T, eine Nachricht
+    und die Prüfsumme – alle nur Item 25. Der Vergleich erkennt also eine Abweichung von 1 Kupfer bei 1 Item.
+T-b Alter Client liest neue Nachricht: die Nachrichten sind Byte für Byte gleich (347 Nachrichten, Prüfsumme d73af8df bei alt und neu; der
+    Empfangsweg bleibt unverändert). Ein Mitspieler mit 0.65.396 oder älter liest also genau dasselbe.
+T-c Neuer Code, gespeicherte Daten im ALTEN Format: im Speicher (BroadcastScan mit altem Format: 347 Nachrichten d73af8df = gleich) und nach
+    dem Laden (zz_sp2rueck, gespeicherte Datei aus 0.65.396): Antwort auf eine Anfrage 347 Nachrichten, alle Leser ohne Fehler.
+T-d Speicher je Scan (Nachbau T459, "ohne gelesene", drei Scans mit leicht geändertem Markt):
+         Scan 1      Scan 2      Scan 3
+    alt  53 687 KB   18 350 KB   15 198 KB
+    neu  47 030 KB   17 457 KB   13 345 KB
+    Scan 2: -893 KB (neue Listen statt Tabellen: erwartet 1 851 - 960 = -891). Scan 3: -1 853 KB (Listen des vorletzten Scans wiederverwendet;
+    Aufgabe "fullscan" 7 410 -> 5 558 KB; erwartet -1 851). Damit ist die Verdacht-Zahl "~0 KB bei Wiederverwendung" aus Bericht 0701 BELEGT.
+    Scan 1 zusätzlich: Aufgabe "timing" 12 305 -> 9 319 KB – warum, ist "Verdacht, zu messen" (nicht erklärt; nur Scan 1).
+    Ziel SP2 "< 10 240 KB ab Scan 2" ist damit NICHT erreicht (17 457 / 13 345 KB) – der Rest kommt aus (iii) (Nachlauf: forecast-eval ~2 600,
+    learn:factor ~2 450, cache:itemlist ~2 320, core:realcheck ~1 250 KB je Scan).
+T-e Rückstufung (zz_sp2rueck, Daten mit dem neuen Code gespeichert, geladen mit dem UNVERÄNDERTEN 0.65.396):
+    HandleRequest, BroadcastScan, ProcessScan mit Browse-Diagnose (Item Stapelgrösse 1, Menge 3), Markt wechseln und zurück (StoreMarket/
+    ActivateMarket), UniteMarkets, SCAN_FINISHED mit den gespeicherten Daten: alle ok, 0 Lua-Fehler.
+    Folge: 0.65.396 findet in den neuen Daten keine Einträge (pairs liefert "price"/"qty"/… mit Listen als Wert, b.price ist dort nil) -> die
+    Antwort auf eine Anfrage schickt 0 Nachrichten, bis der nächste eigene Scan ein neues lastOwnScan schreibt. Kein Fehler, keine falschen Preise.
+    Gegenläufe: 0.65.396 mit alten Daten 347 Nachrichten; neu mit neuen Daten 347 Nachrichten.
+    ENTSCHEID (mein Vorschlag, mit Zahlen): Schlüssel "data" BEHALTEN, nicht in "data2" umbenennen. Grund: mit "data2" sähe 0.65.396 ebenfalls
+    nichts (gleiches Ergebnis: 0 Nachrichten), aber nach einer Rückstufung schriebe 0.65.396 wieder "data", während "data2" veraltet liegen bliebe
+    – beim nächsten Wechsel auf die neue Version läse diese dann den ALTEN Scan. Mit "data" überschreibt jede Version denselben Eintrag.
+    Alt im alten Format speichern (Doppelung beim Ausloggen) bringt nur, dass eine Rückstufung die Antwort bis zum nächsten Scan behält – kostet
+    aber wieder 7 000 Tabellen beim Ausloggen. Nicht gewählt.
+Gespeicherte Datei (Nachbau-Serialisierung, nicht WoW): 107 339 847 -> 107 056 969 Bytes (-282 878 Bytes = -276 KB). Für WoW "Verdacht, zu messen".
+
+Nebenbefund (alt und neu gleich, nicht durch SP2): in ProcessBest stehen 7 003 RecordPrice-Aufrufe für 7 000 Items; die Items 10940, 11082,
+11083 (Verzauberungs-Material) werden mit genau denselben Werten zweimal aufgezeichnet. Verdacht, zu messen: ein anderer Weg (A:RecordVerified
+o. ä. aus Preisprüfung/Entzaubern) läuft während der Abgaben von ProcessBest mit. Ich prüfe, ob daraus doppelte Verlaufspunkte entstehen,
+und melde es getrennt.
+
+Einbau (geändert im Arbeitsstand): AHAnalyzerPro.lua (A.NewBest, A.IsBestSet, A.BestGet, A.BestIDs, A.BestMarkU, A:ScanSuspiciousV; ProcessBest,
+ProcessScan, Browse-Diagnose), Vollscan.lua (VS:BestSpare/VS:BestInUse – zwei Sätze im Wechsel, wiederverwendet nur, wenn weder lastOwnScan
+noch ein gespeicherter Markt darauf zeigt), Sync.lua (BroadcastScan), Timing.lua (OnScan), Learn.lua (Rhythmus), Names.lua (ShareNames bekommt
+die Item-Schlüssel – sonst hätte es mit den Listen "price"/"qty" als Schlüssel nichts geteilt; T-a Zeilen N belegen die Gleichheit).
+Nächster Schritt: Einbau als 0.65.397 mit den Tests in der Testroutine und den Szenarien im Repo (zz_sp2eq -> s336, zz_sp2rueck -> s337),
+danach Standard-Tests, addon_check, Discord. Vorher: Bericht zum Ingametest Teil auto (T750 164/166, Gold-Abstimmung).
