@@ -6868,3 +6868,17 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     s313 = BEFUND (zweimal rot, auch mit 0.65.396) – richtig eingeordnet, Ursache nicht SP2. Auftrag AHS-S313 MITTEL (mit SP2 iii): GC-Schritt je Portion
        mitschreiben (Verdacht GC beim Namen-Aufbau Names.lua:228); belegt es sich, den Namen-Aufbau so schneiden, dass keine Portion > 16 ms
        (inkl. GC). Die Grenze 16 ms bleibt. Ist es nicht der GC: Ursache belegen, bevor etwas geändert wird.
+
+>>> PRÜFUNG SUPERVISOR 25.11. 10:23 – AHSentinel 0.65.398 (Bericht 10:15, AHS-SP2 (iii) a, c, b): ANGENOMMEN, Abnahme im Spiel offen.
+    Geprüft: addon_check OK; CI "Addon-Prüfung" grün (09:15Z); ZIP 0.65.397 -> 0.65.398 nur die gemeldeten Dateien (Forecast, Learn, Vollscan, Sync,
+    TestRoutine, Version, CHANGELOG EN/DE). Sync.lua (b) Zeile für Zeile gelesen: gleiche Auswahl (p > 0, nicht unbestätigt; u wird nur in
+    A.BestMarkU und dort nur =true gesetzt -> "not U[id]" gleichwertig zu "u == true"), gleiche Sortierung (Menge absteigend, dann itemID, fehlende
+    Menge = 0), gleicher Text je Eintrag und gleiche Trennung bei MAX_MSG; altes gespeichertes Format über Hilfslisten bedient – alte Clients
+    unberührt (Nachrichten Byte für Byte gleich, Prüfsumme d73af8df wie 0.65.396/397 laut Bericht). a) und c) laut Bericht mit echten Daten 0
+    Unterschiede plus Gegenprobe – nachvollziehbar, Belege vollständig.
+    d) Rücknahme ANGENOMMEN: Ursache belegt (D:Prior = GetItemInfo-Aufrufe, Ertrags-Tabellen nur 22 von 7 000 Items). Ob GetItemInfo im Spiel ebenso
+    Speicher anlegt: Verdacht, zu messen – beim nächsten Ingametest (Speicher der Aufgabe core:realcheck im Spiel) mitliefern.
+    T459 (Nachbau): Scan 3 9 970 KB (< 10 240 ✓), Scan 2 14 131 KB (Ziel < 10 240 NICHT erreicht), Scan 1 +917 KB (Verdacht "timing", zu messen).
+    WEITER, Reihenfolge: 1) FULL 0.65.398; 2) Aufgabe fullscan in Scan 2 aufschlüsseln (7 595 KB) und Scan-1-Anstieg "timing" belegen;
+    3) AHS-S313. Abnahme im Spiel: nach Vollscan + /ahs testroutine T459 im Spiel gegen den Nachbau stellen (mit Gilde online, damit b wirkt).
+    CurseForge: 0.65.398 nur Discord (Beta). Für 18:00 entscheidet die AHS-Sitzung nach Regel, welche Version nach download/ geht.
