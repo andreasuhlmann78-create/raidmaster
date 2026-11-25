@@ -47,3 +47,4 @@ RM-CI2 – belegt, aber ohne neues Recht nicht lösbar (Frage an den Nutzer):
  Empfehlung: (b) – ein Fine-grained-Token nur für raidmaster mit "Actions: Read and write", nur auf dem Bot-Server (config.json, nie im
  Repo, nicht auf Spieler-PCs); der Bot ruft beim neuen Paket in #testberichte workflow_dispatch auf (höchstens alle 5 Min.). Frage an den
  Nutzer gestellt; ich richte nichts ein.
+Addon-Prüfung (Workflow) zum Commit 832df41d: Lauf 45616546822 "completed success".
