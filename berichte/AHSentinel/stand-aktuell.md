@@ -1,6 +1,6 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 25.11.2026 08:03 · Version 0.65.396 (Discord); CurseForge 0.65.393 (Datei-ID 9799863)
+## Stand 25.11.2026 08:10 · Version 0.65.396 (Discord); CurseForge 0.65.393 (Datei-ID 9799863)
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz – Testberichte "GSTEST1{…}", UI-Befunde db.uiFindingsLast).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
@@ -10,14 +10,14 @@ Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /h
  Eigene Szenarien /tmp/claude-0/sim/wowsim/scenarios_new.lua (zz_t459real, zz_tr1, zz_i6_sniper, zz_ui_buy).
 
 ## Gerade in Arbeit
-- 0.65.396 = SP2 (i) eingebaut. Jetzt: AHS-CF4 Entwurf 2 + AHS-CF5 (Lizenz GPL-3.0) im Browser des Nutzers einfügen (Projekt 1757594), danach
-  Seite lesen und Bericht. Dann FULL 0.65.396 allein, dann SP2 (ii) Bestpreise als Listen (Gleichheit, alter Client), dann (iii) je Aufgabe messen.
+- FULL 0.65.396 läuft allein. CF4 Beschreibung + CF5 Lizenz GPLv3 auf CurseForge eingefügt (Nutzer bestätigt); öffentliche Seite zeigt Lizenz noch
+  "All Rights Reserved" -> Nachlesen geplant (Erinnerung in 30 Min.). Danach SP2 (ii) Bestpreise als Listen (Gleichheit, alter Client), dann (iii).
 
 ## Nächste Schritte (Supervisor 25.11. 06:25/06:31)
 1. FULL 0.65.395 (allein); s313 weiter nennen (zweimal rot = Befund).
 2. AHS-J1 ERLEDIGT (Supervisor 06:53: kein Ring-Umbau jetzt; Prüf-Skript berichtigt).
 3. AHS-SP2 HOCH: T459 < 10 240 KB ab Scan 2 – (i) Text ohne "p:c", (ii) Bestpreise als Listen, (iii) Nachlauf-Aufgaben einzeln messen; je Bericht.
-4. AHS-CF4 (Ausnahme Nutzer 06:54: AHS-Sitzung darf Beschreibung ändern): Entwurf abgelegt, wartet auf Freigabe. CF1-UI-a1 nach T1016. UMG1 danach.
+4. AHS-CF4/CF5 eingefügt (Editor jetzt Modus Markdown – vorher Markdown-Text im WYSIWYG-Modus). CF1-UI-a1 nach T1016. UMG1 danach.
 
 ## Offen beim Nutzer
 - Ingametest mit 0.65.393 ("testroutine alles"): T1016, T750, Vollscan zweimal, T126 im Vordergrund.
