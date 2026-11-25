@@ -1,7 +1,8 @@
 # Stand RaidMaster-Sitzung
 
-## Stand 25.11.2026 09:13 · Addon 3.0.48 · Uploader 2.3.28
+## Stand 25.11.2026 09:27 · Addon 3.0.48 · Uploader 2.3.28
 - Addon 3.0.48: RM-TAINT1 (Routine öffnet nie Blizzard-Fenster, T207 grep-Regel), Fenster weichen aus (T206), T205 kleiner, T116 getrennt.
+  Vom Supervisor angenommen 09:22, Abnahme im Spiel offen. Keine offenen Aufträge.
 - Addon 3.0.47: 3.0.46 (Taktik-Zahlen) zurückgenommen – Entscheid des Nutzers 08:24 "nicht löschen, auf korrekte Angaben warten".
   Taktik-Zahlen erst ändern, wenn der Supervisor bestätigte Werte überträgt (Prüfliste research/raidmaster-taktikzahlen.md, ab 09.12.).
 - Addon 3.0.45 gepusht (L3/L4 als Prüfungen T204/T205, nur Testroutine). Uploader 2.3.27/2.3.28 und RM-CI1 vom Supervisor angenommen 06:53.
@@ -43,7 +44,6 @@
 - 24.11. 21:36 (über Supervisor): Uploader-Update nur auf Knopfdruck mit Rückfrage j/n, kein Selbst-Update (UP-UPD1).
 - 24.11. 21:18 (über Supervisor): Mindestversion statt "neueste" (UP-MIN1), nur bei Daten/Format/Prüfung/Sicherheit erhöhen.
 - 24.11. 20:52 Nutzer: "meine offiziere haben den neuen auch bekommen" – Uploader 2.3.21 an Offiziere verteilt.
-- 24.11. 20:49: "das discord projekt soll den offiziere das seden" – Uploader 2.3.21 an Offiziere über das Discord-Projekt
   (Bericht 2049 an den Supervisor zum Weiterleiten).
   wie der Bot überspringen; gelöscht wird nichts. -> raid-addon-zusammenfassung-3.0.0.md: NICHT nachposten (Bericht 1030).
 
