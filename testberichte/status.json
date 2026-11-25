@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-25T12:24:50Z",
+ "ausgewertet": "2026-11-25T13:32:19Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -127,7 +127,7 @@
    "fehler_spiel": []
   },
   "LevelPilot": {
-   "berichte": 85,
+   "berichte": 86,
    "letzter_test": {
     "id": "LevelPilot-1795521612-127148-3",
     "version": "3.13.12",
@@ -146,14 +146,30 @@
      "art": "spiel",
      "wo": "Fire PLAN_CHANGED",
      "msg": "attempt to yield across metamethod/C-call boundary",
-     "anzahl": 5,
+     "anzahl": 12,
      "versionen": [
-      "3.13.13"
+      "3.13.13",
+      "3.13.14"
      ],
      "clients": [
       "forever 1.60.1 (Interface 16001)"
      ],
      "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:471: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:236: in function 'Fire'\n[Interface/AddOns/LevelPilot/Planner.lua]:2523: in function <Interface/AddOns/LevelPilot/Planner.lua:2322>\n[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:487: in function 'PCall'\n..."
+    },
+    {
+     "addon": "LevelPilot",
+     "art": "spiel",
+     "wo": "Testroutine",
+     "msg": "Zeitlimit 1800 s",
+     "anzahl": 3,
+     "versionen": [
+      "3.13.13",
+      "3.13.14"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:471: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:511: in function <Interface/AddOns/LevelPilot/Core.lua:506>\n[tail call]: ?\n[Interface/AddOns/LevelPilot/TestRoutine.lua]:12130: in function 'Abort'\n[Interface/AddOns/LevelPilot/TestRoutine.lua]:12398: in function <Interface/AddOns/LevelPilot/TestRoutine.lua:12392>\n..."
     },
     {
      "addon": "LevelPilot",
@@ -168,20 +184,6 @@
       "forever 1.60.1 (Interface 16001)"
      ],
      "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:318: in function 'Report'\n[Interface/AddOns/LevelPilot/Comm.lua]:595: in function <Interface/AddOns/LevelPilot/Comm.lua:590>\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelSync.lua]:603: in function <Interface/AddOns/AHSentinel/GoldSentinelSync.lua:557>\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelSync.lua]:750: in function <Interface/AddOns/AHSentinel/GoldSentinelSync.lua:748>\n"
-    },
-    {
-     "addon": "LevelPilot",
-     "art": "spiel",
-     "wo": "Testroutine",
-     "msg": "Zeitlimit 1800 s",
-     "anzahl": 1,
-     "versionen": [
-      "3.13.13"
-     ],
-     "clients": [
-      "forever 1.60.1 (Interface 16001)"
-     ],
-     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:471: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:511: in function <Interface/AddOns/LevelPilot/Core.lua:506>\n[tail call]: ?\n[Interface/AddOns/LevelPilot/TestRoutine.lua]:12130: in function 'Abort'\n[Interface/AddOns/LevelPilot/TestRoutine.lua]:12398: in function <Interface/AddOns/LevelPilot/TestRoutine.lua:12392>\n..."
     }
    ]
   },
@@ -354,14 +356,30 @@
    "art": "spiel",
    "wo": "Fire PLAN_CHANGED",
    "msg": "attempt to yield across metamethod/C-call boundary",
-   "anzahl": 5,
+   "anzahl": 12,
    "versionen": [
-    "3.13.13"
+    "3.13.13",
+    "3.13.14"
    ],
    "clients": [
     "forever 1.60.1 (Interface 16001)"
    ],
    "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:471: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:236: in function 'Fire'\n[Interface/AddOns/LevelPilot/Planner.lua]:2523: in function <Interface/AddOns/LevelPilot/Planner.lua:2322>\n[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:487: in function 'PCall'\n..."
+  },
+  {
+   "addon": "LevelPilot",
+   "art": "spiel",
+   "wo": "Testroutine",
+   "msg": "Zeitlimit 1800 s",
+   "anzahl": 3,
+   "versionen": [
+    "3.13.13",
+    "3.13.14"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:471: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:511: in function <Interface/AddOns/LevelPilot/Core.lua:506>\n[tail call]: ?\n[Interface/AddOns/LevelPilot/TestRoutine.lua]:12130: in function 'Abort'\n[Interface/AddOns/LevelPilot/TestRoutine.lua]:12398: in function <Interface/AddOns/LevelPilot/TestRoutine.lua:12392>\n..."
   },
   {
    "addon": "LevelPilot",
@@ -376,20 +394,6 @@
     "forever 1.60.1 (Interface 16001)"
    ],
    "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:318: in function 'Report'\n[Interface/AddOns/LevelPilot/Comm.lua]:595: in function <Interface/AddOns/LevelPilot/Comm.lua:590>\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelSync.lua]:603: in function <Interface/AddOns/AHSentinel/GoldSentinelSync.lua:557>\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelSync.lua]:750: in function <Interface/AddOns/AHSentinel/GoldSentinelSync.lua:748>\n"
-  },
-  {
-   "addon": "LevelPilot",
-   "art": "spiel",
-   "wo": "Testroutine",
-   "msg": "Zeitlimit 1800 s",
-   "anzahl": 1,
-   "versionen": [
-    "3.13.13"
-   ],
-   "clients": [
-    "forever 1.60.1 (Interface 16001)"
-   ],
-   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:471: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:511: in function <Interface/AddOns/LevelPilot/Core.lua:506>\n[tail call]: ?\n[Interface/AddOns/LevelPilot/TestRoutine.lua]:12130: in function 'Abort'\n[Interface/AddOns/LevelPilot/TestRoutine.lua]:12398: in function <Interface/AddOns/LevelPilot/TestRoutine.lua:12392>\n..."
   },
   {
    "addon": "ProfessionSentinel",
@@ -432,11 +436,11 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 247,
+    "anzahl": 248,
     "neueste": "testberichte/diagnose/AHSentinel/0.65.398-cf544551a0b8.txt"
    },
    "BuffSentinel": {
-    "anzahl": 181,
+    "anzahl": 182,
     "neueste": "testberichte/diagnose/BuffSentinel/0.9.65-f3bcb9505eac.txt"
    },
    "GSMesstest": {
@@ -448,19 +452,19 @@
     "neueste": "testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt"
    },
    "GuildSentinel": {
-    "anzahl": 295,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.63-e590f3633d14.txt"
+    "anzahl": 296,
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.63-ea93aa0c2b9e.txt"
    },
    "LevelPilot": {
-    "anzahl": 186,
-    "neueste": "testberichte/diagnose/LevelPilot/3.13.14-686997589f89.txt"
+    "anzahl": 187,
+    "neueste": "testberichte/diagnose/LevelPilot/3.13.14-983176260a0f.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 268,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.83-ca7af6f24af4.txt"
+    "anzahl": 269,
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.83-cddb4f5dab0b.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 245,
+    "anzahl": 246,
     "neueste": "testberichte/diagnose/ThreatSentinel/2.5.30-fd96cf472bbb.txt"
    }
   },

@@ -1,0 +1,39 @@
+{
+ "addon": "LevelPilot",
+ "counts": {},
+ "env": {
+  "build": "71091",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 10,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [
+  {
+   "count": 7,
+   "msg": "attempt to yield across metamethod/C-call boundary",
+   "nur_zaehler": true,
+   "version": "3.13.14",
+   "vorher": 5,
+   "wo": "Fire PLAN_CHANGED"
+  },
+  {
+   "count": 2,
+   "msg": "Zeitlimit 1800 s",
+   "nur_zaehler": true,
+   "version": "3.13.14",
+   "vorher": 1,
+   "wo": "Testroutine"
+  }
+ ],
+ "f": 1,
+ "id": "LevelPilot-1795611777-483273-1",
+ "kind": "fehler",
+ "time": 1795611777,
+ "version": "3.13.14"
+}
