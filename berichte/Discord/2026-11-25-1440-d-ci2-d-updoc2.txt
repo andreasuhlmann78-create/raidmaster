@@ -1,0 +1,42 @@
+Bericht Discord-Sitzung an die Prüf-Sitzung – 25.11.2026 14:40
+Thema: D-CI2 HOCH, D-UPDOC2 MITTEL (Supervisor 14:28), dazu D-UPCFG1 NIEDRIG (06:53) – Bot 1.5.197
+Status: umgesetzt, zur Prüfung
+
+1. D-CI2 – Bot stösst den Workflow "Testberichte" an (neu ci_anstoss.py)
+- Jede neue Nachricht in #testberichte (uploader_setup.is_testberichte) -> POST
+  https://api.github.com/repos/<update_repo>/actions/workflows/testberichte.yml/dispatches {"ref":"main"} (204 = ok).
+  Im Hintergrund (create_task), Fehler nie nach aussen. Sonst wertet der Bot in #testberichte weiter nichts aus.
+- Höchstens alle 5 Min.: in der Sperre wird EIN Anstoss für das Ende der Sperre vorgemerkt, weitere Pakete zusammengefasst.
+- Token: config.json "github_actions_token" (trägt der Nutzer ein). Der Bot liest ihn bei JEDEM Anstoss frisch aus der Datei
+  (kein Neustart nötig) und gibt ihn nirgends aus. Die Sitzung hat config.json weder gelesen noch geändert.
+- Fehlt der Token: einmal je Start Hinweis in #bot-log. 401/403/404: einmal in #bot-log, dann kein Versuch mehr, bis ein ANDERER
+  Token eingetragen ist (state.json "ci_anstoss_fehler": Status + erste 12 Zeichen des SHA-256, nicht der Token). Netz/5xx: nur
+  Protokoll, die nächste Nachricht versucht es wieder.
+- Wichtig (Fund): save_config() schrieb config.json bisher komplett aus dem Speicher -> ein bei laufendem Bot neu eingetragener
+  Schlüssel wäre beim nächsten Speichern (z. B. /uploader, Einrichten) verloren gegangen. Ab 1.5.197 übernimmt save_config
+  Schlüssel, die nur in der Datei stehen (vorhandene Werte wie bisher aus dem Bot). Test dazu.
+- ANLEITUNG.md (Abschnitt Testberichte): Token eintragen, Rechte, Verhalten.
+
+2. D-UPDOC2 + D-UPCFG1 – /uploader-Nachricht und ANLEITUNG.md
+- Schritt in Deutsch und Englisch: "Im Uploader-Ordner Addons-automatisch-an.bat doppelklicken, dann den Uploader neu starten – ab
+  dann kommen neue Addon-Versionen von selbst." – in der Einrichtungs-Nachricht (nur mit ZIP), bei nur_programm und an_offiziere;
+  ANLEITUNG.md Abschnitt 7 neuer Schritt 5 (mit Ausschalten über Addons-automatisch-aus.bat).
+- Kanal-Kennungen in der Einrichtungs-Nachricht: "Daten <Zahl>, Testberichte <Zahl>, #sync-daten <Zahl>" – genau die Form, die das
+  Uploader-Fenster zeigt (einstellungen.ids; Test vergleicht beide), nur die Zahl der Webhook-Adresse, nie der Schlüssel.
+- Die Einrichtungs-Nachricht kann mit Hinweisen über 2000 Zeichen kommen -> wird jetzt in Teilen <= 1900 geschickt (Dateien am
+  ersten Teil); vorher wäre eine zu lange Nachricht als "Direktnachricht nicht möglich" fehlgeschlagen. Text als setup_text().
+
+3. Tests
+- NEU test_ci_anstoss.py (9): Aufruf/Adresse, kein Token einmal melden + Eintrag wirkt ohne Neustart, 401/403/404 einmal + gesperrt
+  + neuer Token, 5xx/Netz ohne Meldung, Token nie in Meldungen/state, 5-Min.-Sperre (5 Nachrichten -> 3 Anstösse), nach der Sperre
+  sofort, on_message stösst nur in #testberichte an, save_config behält neue Schlüssel.
+- NEU test_uploader_doc.py (6): Kennungen ohne Schlüssel und gleich wie im Uploader, Text DE/EN, lange Nachricht in Teilen, alle
+  drei Wege, ANLEITUNG.
+- Gegenproben (Code verfälscht) alle rot: Sperre, Fehlersperre, frisches Lesen, save_config, Anstoss in on_message, Zusammenfassen,
+  Tipp, Kennungen, Teilen, Schlüssel statt Zahl.
+- Angepasst (Text verschoben, keine Regel geändert): test_sync_setup s4 (Text jetzt in setup_text), test_testberichte b05
+  (Fenster 600 -> 900 Zeichen wegen 2 neuer Zeilen in on_message). Alle Bot-Tests 527 OK, Regressionen 90/90.
+
+4. Abnahme / Offen
+- Nutzer: Token in config.json auf dem Bot-Server eintragen. Danach: nächster Testbericht -> Workflow-Lauf "workflow_dispatch" in
+  GitHub Actions, Bericht spätestens 20 Min. im Repo (Messung, Verdacht bis dahin).

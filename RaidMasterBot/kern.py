@@ -88,7 +88,17 @@ def load_config() -> dict:
 
 
 def save_config():
-    """Schreibt die aktuellen Einstellungen zurück in config.json."""
+    """Schreibt die aktuellen Einstellungen zurück in config.json.
+    Ab 1.5.197 (D-CI2): Schlüssel, die der Nutzer bei laufendem Bot neu in config.json eingetragen hat (z. B.
+    "github_actions_token"), bleiben erhalten – sie werden übernommen statt überschrieben."""
+    try:
+        with open(CONFIG_PATH, "r", encoding="utf-8") as f:
+            disk = json.load(f)
+        if isinstance(disk, dict):
+            for k, v in disk.items():
+                cfg.setdefault(k, v)
+    except (OSError, ValueError):
+        pass
     with open(CONFIG_PATH, "w", encoding="utf-8") as f:
         json.dump(cfg, f, ensure_ascii=False, indent=2)
 

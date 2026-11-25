@@ -102,6 +102,13 @@ def route_message(cfg: dict, channel_id: int, webhook_id) -> str | None:
 
 
 
+def is_testberichte(cfg: dict, channel_id) -> bool:
+    """D-CI2 (ab 1.5.197): Nachricht in #testberichte (egal von wem) -> der Bot stösst den Workflow "Testberichte" an
+    (ci_anstoss.py). Ausgewertet wird dabei nichts."""
+    v = cfg.get("testberichte_channel_id")
+    return bool(v) and int(channel_id) == int(v)
+
+
 def market_source(cfg: dict, channel_id: int, webhook_id) -> bool:
     """MN7 (ab 1.5.131): Pakete des Uploaders in #testberichte dürfen auf GSMARKT1-Zeilen gelesen werden – still: nie
     antworten, nie löschen, sonst nichts auswerten. D-MN7c (1.5.132): nur der eigene Uploader-Webhook

@@ -372,6 +372,8 @@ class RaidBot(discord.Client):
     async def on_message(self, message: discord.Message):
         route = uploader_setup.route_message(cfg, message.channel.id, message.webhook_id)
         if route == "ignore":
+            if uploader_setup.is_testberichte(cfg, message.channel.id):
+                asyncio.get_running_loop().create_task(ci_testbericht_safe())   # D-CI2
             if uploader_setup.market_source(cfg, message.channel.id, message.webhook_id):
                 await market_intake_safe(message)      # MN7: nur GSMARKT1 still mitlesen
             return              # #testberichte: liest die Addon-Prüfung – nie antworten, nie löschen
@@ -389,6 +391,14 @@ class RaidBot(discord.Client):
                 log.exception("Gildennamen-Vorschlag konnte nicht verarbeitet werden")
 
 
+async def ci_testbericht_safe():
+    """D-CI2 (ab 1.5.197): Workflow "Testberichte" anstossen – Fehler nie nach aussen."""
+    try:
+        await ci_anstoss.on_testbericht()
+    except Exception:
+        log.exception("D-CI2: Anstoss fehlgeschlagen")
+
+
 bot = RaidBot()
 grund.bot = bot          # D-3 Schritt 3: die Grundfunktionen in grund.py benutzen dasselbe Bot-Objekt
 import markt_bot  # noqa: E402 – D-3 Schritt 4: Marktdaten (meldet /marktdaten an, darum erst hier)
@@ -401,6 +411,7 @@ from rechte_bot import check_bot_rights  # noqa: E402
 import pn_bot  # noqa: E402,F401 – D-3 Schritt 6: /pn (meldet den Befehl beim Import an, darum erst hier)
 import symbole_bot  # noqa: E402,F401 – D-3 Schritt 7: Symbole, Emojis, Wowhead
 import ruhmeshalle_bot  # noqa: E402,F401 – D-3 Schritt 8: Ruhmeshalle (meldet zwei Befehle beim Import an)
+import ci_anstoss  # noqa: E402 – D-CI2 (ab 1.5.197): #testberichte -> Workflow "Testberichte" anstossen
 import uploader_bot  # noqa: E402,F401 – D-3 Schritt 9: Uploader-Versand (meldet /uploader beim Import an)
 from uploader_alt_bot import uploader_alt_loop  # noqa: E402 – D-UPALT (ab 1.5.193): PN bei veraltetem Daten-Uploader
 import bank_bot  # noqa: E402,F401 – D-3 Schritt 10: Gildenbank und Raidfähigkeit (meldet /bank beim Import an)

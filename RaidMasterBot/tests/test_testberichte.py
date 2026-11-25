@@ -136,7 +136,7 @@ class Uploader(unittest.TestCase):
         self.assertIsNone(uploader_setup.route_message(cfg, 30, 999))
         with open(os.path.join(BOT_DIR, "bot.py"), encoding="utf-8") as f:
             src = f.read()
-        on_msg = src[src.index("async def on_message"):src.index("async def on_message") + 600]
+        on_msg = src[src.index("async def on_message"):src.index("async def on_message") + 900]   # 1.5.197: +D-CI2-Zeilen
         self.assertLess(on_msg.index('route == "ignore"'), on_msg.index("receive_upload"))
 
     def test_b06_einrichten(self):

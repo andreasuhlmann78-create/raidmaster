@@ -115,7 +115,7 @@ class SyncSetup(unittest.TestCase):
 
     def test_s4_bot_schickt_sync_config(self):
         import bot_quelle                                       # D-3 Schritt 9: uploader_cmd steht in uploader_bot.py
-        body = bot_quelle.funktion("uploader_cmd")
+        body = bot_quelle.funktion("uploader_cmd") + bot_quelle.funktion("setup_text")   # Text ab 1.5.197 in setup_text
         self.assertIn("uploader_setup.setup_sync(", body)
         self.assertIn('filename="sync_config.json"', body)
         self.assertIn("Autostart-einrichten.bat", body)                 # 1.5.114: einziger Schritt (S8 d)

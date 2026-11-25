@@ -12,6 +12,7 @@ import asyncio
 import io
 import json
 import os
+import re
 
 import discord
 from discord import app_commands
@@ -95,7 +96,7 @@ async def uploader_cmd(inter: discord.Interaction, nur_programm: bool = False, f
         vnote = uploader_version.note(have, want)
         try:
             await target.send(f"📦 **RaidMaster-Uploader {have or ''}**. Entpacken und die alten Dateien ersetzen – "
-                              "deine `uploader_config.json` im Ordner behalten.\n" + vnote,
+                              "deine `uploader_config.json` im Ordner behalten.\n" + ADDONS_AUTO_TIPP + "\n" + vnote,
                               file=discord.File(pkg, filename="RaidMasterUploader.zip"))
             uploader_alt_bot.note_given(target.id, have)          # D-UPALT: keine PN "veraltet" für diese Version
             await inter.followup.send(("Ich habe " + target.mention + " den Uploader per Direktnachricht geschickt. 📬 "
@@ -130,21 +131,7 @@ async def uploader_cmd(inter: discord.Interaction, nur_programm: bool = False, f
     have, want = await ensure_fresh_uploader()
     notes.append(uploader_version.note(have, want))
     pkg = uploader_package()
-    text = ("**Daten-Uploader einrichten** (auf dem PC, auf dem du WoW spielst):\n"
-            + ("1. **RaidMasterUploader.zip** entpacken, z. B. nach Dokumente.\n" if pkg else
-               "1. Den Ordner **RaidMasterUploader** aus dem RaidMaster-Paket nehmen (die ZIP liegt noch nicht auf dem Server).\n")
-            + ("2. **uploader_config.json** und **sync_config.json** in diesen Ordner legen.\n" if sync_conf else
-               "2. **uploader_config.json** in diesen Ordner legen.\n")
-            + "3. `uploader.bat` doppelklicken – beim ersten Start sucht er deine RaidMaster-Datei selbst.\n"
-            "4. Fertig: Nach jedem `/reload` oder Ausloggen sind DKP, Einteilung, Skillungen und Erstkill-Screenshots nach wenigen Sekunden im Discord.\n"
-            + ("5. **Abgleich PC/Laptop:** an jedem Rechner dasselbe – beide Dateien hineinlegen und einmal "
-               "`Autostart-einrichten.bat` doppelklicken. Mehr ist nicht nötig: Der Uploader gleicht deine Addon-Daten "
-               "von selbst ab (WoW einfach normal starten; `GoldSentinel-WoW.bat` brauchst du nicht mehr). Die Daten "
-               "liegen in deinem privaten Kanal #sync-daten – Mitglieder mit der Discord-Berechtigung "
-               "**Administrator** sehen jeden Kanal, also auch diesen.\n"
-               if sync_conf else "")
-            + "⚠️ uploader_config.json und sync_config.json enthalten geheime Links – nicht weitergeben."
-            + ("\n\n" + "\n".join("ℹ️ " + n for n in notes) if notes else ""))
+    text = setup_text(pkg, conf, sync_conf, notes)
 
     def files():
         out = [discord.File(io.BytesIO(conf_bytes), filename="uploader_config.json")]
@@ -158,7 +145,7 @@ async def uploader_cmd(inter: discord.Interaction, nur_programm: bool = False, f
     if other:
         text = (f"✉️ **{inter.user.display_name}** (Gildenleitung) schickt dir den Daten-Uploader.\n\n" + text)
     try:
-        await target.send(text, files=files())
+        await send_parts(target.send, text, files())
         if pkg:
             uploader_alt_bot.note_given(target.id, uploader_version.file_version(pkg))   # D-UPALT
         await inter.followup.send(("Ich habe " + target.mention + " den Uploader und die Einrichtungsdateien per "
@@ -170,8 +157,69 @@ async def uploader_cmd(inter: discord.Interaction, nur_programm: bool = False, f
             await inter.followup.send(f"{target.mention} nimmt keine Direktnachrichten vom Bot an (Privatnachrichten von "
                                       "Servermitgliedern erlauben). Nichts geschickt.", ephemeral=True)
             return
-        await inter.followup.send(text + "\n\n_(Direktnachricht nicht möglich – bitte Privatnachrichten von Servermitgliedern erlauben.)_",
-                                  files=files(), ephemeral=True)
+        async def eph(content, files=None):
+            if files is not None:
+                await inter.followup.send(content, files=files, ephemeral=True)
+            else:
+                await inter.followup.send(content, ephemeral=True)
+        await send_parts(eph, text + "\n\n_(Direktnachricht nicht möglich – bitte Privatnachrichten von Servermitgliedern erlauben.)_",
+                         files())
+
+
+# D-UPDOC2 (ab 1.5.197, Entscheid des Nutzers 25.11. 11:39): automatische Addon-Installation einschalten – Deutsch und Englisch
+ADDONS_AUTO_TIPP = ("🔄 **Neue Addon-Versionen automatisch:** Im Uploader-Ordner **Addons-automatisch-an.bat** doppelklicken, dann den "
+                    "Uploader neu starten – ab dann kommen neue Addon-Versionen von selbst.\n"
+                    "*In the uploader folder double-click **Addons-automatisch-an.bat**, then restart the uploader – new add-on "
+                    "versions will then arrive on their own.*")
+
+
+def hook_ids(conf: dict | None, sync_conf: dict | None = None) -> str:
+    """D-UPCFG1 (ab 1.5.197): die Kanal-Kennungen wie im Uploader-Fenster (UP-CFG1, einstellungen.py ids): nur die Zahl der
+    Webhook-Adresse, NIE der Schlüssel dahinter."""
+    def hid(url):
+        m = re.match(r"^https://(?:(?:ptb|canary)\.)?(?:discord\.com|discordapp\.com)/api/webhooks/(\d{5,25})/", str(url or ""))
+        return m.group(1) if m else None
+    parts = []
+    if conf and hid(conf.get("webhook_url")):
+        parts.append(f"Daten {hid(conf.get('webhook_url'))}")
+    if conf and hid(conf.get("test_webhook_url")):
+        parts.append(f"Testberichte {hid(conf.get('test_webhook_url'))}")
+    if sync_conf and hid(sync_conf.get("sync_webhook_url")):
+        parts.append(f"#sync-daten {hid(sync_conf.get('sync_webhook_url'))}")
+    return ", ".join(parts)
+
+
+def setup_text(pkg, conf: dict, sync_conf: dict | None, notes: list[str]) -> str:
+    """Text der /uploader-Direktnachricht (Einrichtung). Ab 1.5.197 als eigene Funktion (Tests): mit dem Schritt
+    Addons-automatisch-an.bat (D-UPDOC2) und den Kanal-Kennungen (D-UPCFG1). Kann länger als eine Discord-Nachricht sein –
+    gesendet wird in Teilen (send_parts)."""
+    return ("**Daten-Uploader einrichten** (auf dem PC, auf dem du WoW spielst):\n"
+            + ("1. **RaidMasterUploader.zip** entpacken, z. B. nach Dokumente.\n" if pkg else
+               "1. Den Ordner **RaidMasterUploader** aus dem RaidMaster-Paket nehmen (die ZIP liegt noch nicht auf dem Server).\n")
+            + ("2. **uploader_config.json** und **sync_config.json** in diesen Ordner legen.\n" if sync_conf else
+               "2. **uploader_config.json** in diesen Ordner legen.\n")
+            + "3. `uploader.bat` doppelklicken – beim ersten Start sucht er deine RaidMaster-Datei selbst.\n"
+            "4. Fertig: Nach jedem `/reload` oder Ausloggen sind DKP, Einteilung, Skillungen und Erstkill-Screenshots nach wenigen Sekunden im Discord.\n"
+            + ("5. **Abgleich PC/Laptop:** an jedem Rechner dasselbe – beide Dateien hineinlegen und einmal "
+               "`Autostart-einrichten.bat` doppelklicken. Mehr ist nicht nötig: Der Uploader gleicht deine Addon-Daten "
+               "von selbst ab (WoW einfach normal starten; `GoldSentinel-WoW.bat` brauchst du nicht mehr). Die Daten "
+               "liegen in deinem privaten Kanal #sync-daten – Mitglieder mit der Discord-Berechtigung "
+               "**Administrator** sehen jeden Kanal, also auch diesen.\n"
+               if sync_conf else "")
+            + (ADDONS_AUTO_TIPP + "\n" if pkg else "")
+            + ("🔎 Kanal-Kennungen (zum Vergleich mit der Frage im Uploader-Fenster): " + hook_ids(conf, sync_conf) + "\n"
+               if hook_ids(conf, sync_conf) else "")
+            + "⚠️ uploader_config.json und sync_config.json enthalten geheime Links – nicht weitergeben."
+            + ("\n\n" + "\n".join("ℹ️ " + n for n in notes) if notes else ""))
+
+
+async def send_parts(send, text: str, files=None):
+    """Text in Teilen <= 1900 Zeichen (announce_reihe.split_parts); die Dateien hängen am ersten Teil."""
+    from announce_reihe import split_parts
+    parts = split_parts(text) or [""]
+    await send(parts[0], files=files) if files is not None else await send(parts[0])
+    for part in parts[1:]:
+        await send(part)
 
 
 async def uploader_to_officers(inter: discord.Interaction):
@@ -193,7 +241,8 @@ async def uploader_to_officers(inter: discord.Interaction):
     vnote = uploader_version.note(have, want)
     text = (f"📦 **RaidMaster-Uploader {have or ''}** – neue Version von {inter.user.display_name} (Gildenleitung).\n"
             "Entpacken und die alten Dateien im Ordner **RaidMasterUploader** ersetzen. Deine `uploader_config.json` "
-            "und `sync_config.json` im Ordner behalten (nicht löschen). Danach `uploader.bat` neu starten.\n" + vnote)
+            "und `sync_config.json` im Ordner behalten (nicht löschen). Danach `uploader.bat` neu starten.\n"
+            + ADDONS_AUTO_TIPP + "\n" + vnote)
     ok, blocked = [], []
     for m in targets:
         try:

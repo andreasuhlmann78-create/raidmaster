@@ -1,18 +1,23 @@
 # Stand Discord-Sitzung
 
-## Stand 25.11.2026 14:12 · Bot 1.5.196 (angenommen; Uploader neueste 2.3.28, Mindestversion 2.3.20)
+## Stand 25.11.2026 14:40 · Bot 1.5.197 (D-CI2, D-UPDOC2, D-UPCFG1 umgesetzt, zur Prüfung; 1.5.196 angenommen)
 
 ## Gerade in Arbeit
-- nichts. Nachweis #bot-befehle abgelegt: berichte/Discord/2026-11-25-1412-nachweis-bot-log.txt.
+- nichts. Bericht berichte/Discord/2026-11-25-1440-d-ci2-d-updoc2.txt.
 
 ## Nächste Schritte (Reihenfolge)
 1. Bei jeder Nachricht des Nutzers: git pull --rebase, auftraege/Discord/ lesen (git log --oneline -5 -- auftraege/Discord/).
-2. Neue Aufträge umsetzen (offen als Vorschlag ohne Auftrag: /uploader-Versand in #bot-log protokollieren). Sonst nichts ändern.
+2. Abnahme D-CI2 sobald der Token eingetragen ist: in GitHub Actions Lauf "workflow_dispatch" nach einem Testbericht; #bot-befehle
+   ohne Fehlermeldung; Bericht im Repo <= 20 Min.
+3. Prüfung des Supervisors abwarten, Befunde umsetzen. Neue Aufträge umsetzen. Sonst nichts ändern.
 
 ## Offen beim Nutzer
-- nichts.
+- Auf dem Bot-Server in config.json "github_actions_token": "<Token>" eintragen (Fine-grained, nur raidmaster, Actions: Read and
+  write). Kein Neustart nötig. Der Wert kommt nie in den Chat oder ins Repo.
 
 ## Entscheide des Nutzers seit letztem Stand
+- 25.11. ~13:50 (RaidMaster-Sitzung, via Supervisor D-CI2): Bot stösst den Testberichte-Workflow an, Token trägt der Nutzer ein.
+- 25.11. 11:39 (via Supervisor D-UPDOC2): Offiziere schalten Addons-automatisch-an.bat ein; Schritt in Anleitung und /uploader.
 - 24.11. 21:53 "ich sende ihn denen selber" (Uploader an Offiziere und sich selbst, über die Bot-Befehle).
 - 25.11. 08:29 (via Supervisor, D-RAID1): "mc" in forever_raids.json bleibt "forever": true (Entscheid des Nutzers). Nichts ändern.
 - 24.11. 20:49 "das discord projekt soll den offiziere das seden" (Uploader 2.3.21); 20:51 "mir natürlich auch über den dc bot";
@@ -39,5 +44,6 @@
 - Verboten: #mc-dkp leeren, "Server zurücksetzen", Rolle Mitglied automatisch vergeben, config.json, uploader_config.json,
   daten_config.json oder token.txt lesen bzw. ändern, Passwörter tippen.
 - Nutzung sparen: keine Wecker, kurze Berichte.
+- config.json: save_config behält ab 1.5.197 vom Nutzer neu eingetragene Schlüssel.
 - D-UPALT/D-UPMIN1: nötige Version = max(mindestversion.txt, 2.3.23) ab neueste 2.3.23; state.json "upalt_pn", "upalt_gemeldet", "uploader_geschickt"; erster Lauf mit 2.3.20 = alte Rechner gelten als informiert.
 - Tests: python3 -m unittest discover -s tests (in RaidMasterBot/). Befehlsliste: tests/test_befehle_liste.py --schreiben.

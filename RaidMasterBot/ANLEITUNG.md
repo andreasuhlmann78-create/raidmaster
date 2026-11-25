@@ -214,6 +214,12 @@ Python (ist schon installiert).
 3. **`uploader.bat`** doppelklicken. Beim ersten Start sucht er die RaidMaster-Datei von WoW selbst.
    Fenster offen lassen.
 4. Automatisch mit Windows starten: `Win + R` → `shell:startup` → Verknüpfung zu `uploader.bat` hineinlegen.
+5. **Neue Addon-Versionen automatisch (empfohlen, auch für Offiziere):** Im Uploader-Ordner **`Addons-automatisch-an.bat`**
+   doppelklicken, dann den Uploader neu starten – ab dann kommen neue Addon-Versionen von selbst.
+   *English: in the uploader folder double-click `Addons-automatisch-an.bat`, then restart the uploader – new add-on
+   versions will then arrive on their own.* (Ausschalten: `Addons-automatisch-aus.bat`.) Der Bot schreibt diesen Schritt
+   ab 1.5.197 auch in jede `/uploader`-Nachricht, dazu die Kanal-Kennungen (nur die Zahl der Webhook-Adresse), damit du sie
+   mit der Frage „Neue Einstellungsdatei … übernehmen?“ im Uploader-Fenster vergleichen kannst.
 
 Nach jedem `/reload` oder Ausloggen sind die Daten nach wenigen Sekunden im Discord. Mehrere Offiziere
 können den Uploader nutzen – es zählt immer der neueste DKP-Stand.
@@ -249,6 +255,13 @@ wieder hineinlegen.
   Nachrichten, und erst wenn sie älter als 1 Stunde sind – nie in anderen Kanälen. Dafür braucht er in #testberichte das
   Recht **Nachrichten verwalten** (fehlt es, meldet er das einmal in #bot-befehle).
 - **Nicht von Hand löschen:** Bitte in #testberichte selbst nichts löschen und dort nichts schreiben.
+- **Sofort abholen (ab Bot 1.5.197, D-CI2):** Bei jeder neuen Nachricht in #testberichte stösst der Bot den GitHub-Workflow
+  „Testberichte“ an (höchstens alle 5 Minuten, mehrere Pakete zusammen) – ein Bericht aus dem Spiel liegt so nach etwa
+  20 Minuten im Repo. Der Zeitplan des Workflows bleibt als Rückfall. Dafür auf dem Bot-Server in **config.json** den
+  Eintrag `"github_actions_token": "…"` ergänzen: ein Fine-grained-Token von GitHub, nur für das Repo raidmaster, Recht
+  **Actions: Read and write**. Der Bot liest ihn bei jedem Anstoss frisch (kein Neustart nötig) und zeigt ihn nirgends.
+  Fehlt er, steht einmal je Start ein Hinweis in #bot-befehle; lehnt GitHub ab (401/403/404), meldet er das einmal und
+  versucht es erst mit einem anderen Token wieder.
 - **Kanal anlegen:** Fehlt #testberichte, legt der Bot ihn ab 1.5.98 beim Start selbst an (🔒 OFFIZIERE, nur Bot und
   Admins) und meldet das in #bot-befehle – `/raidmaster-einrichten` ist dafür nicht nötig.
 - **Datenschutz:** Die Berichte enthalten nur Klasse, Stufe, Spielversion, Sprache und Testergebnisse – keine Spieler-,

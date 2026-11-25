@@ -409,6 +409,8 @@ REGRESSIONEN = {
     "T-D-UPALT": ("test_uploader_alt", "Ablauf", "test_neue_version_je_rechner_einmal"),
     "T-D-CHK1": ("test_announce_reihe", "BotTeil", "test_vorfall_10_28_nur_neueste_freigeben"),
     "T-D-CHK1-TEIL": ("test_announce_reihe", "BotTeil", "test_abgeschnitten_vervollstaendigen"),
+    "T-D-CI2": ("test_ci_anstoss", "Sperre", "test_fuenf_minuten_zusammenfassen"),
+    "T-D-UPDOC2": ("test_uploader_doc", "Text", "test_einrichtungstext"),
     "T-D3-BEFEHLE": ("test_befehle_liste", "BefehleListe", "test_gleiche_befehle"),
     "T-D-MN8b": ("test_market", "BotAblauf", "test_T_D_MN8b_aenderung_erst_nach_senden_merken"),
     "T-D-GS1b": ("test_market", "BotAblauf", "test_T_D_GS1b_grosse_guildsentinel_datei"),
