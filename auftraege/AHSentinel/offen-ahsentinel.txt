@@ -6859,3 +6859,12 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     T750b: 2 Ansichten nur mit Spielzustand -> CLIENT mit Anleitung – richtig. Gold-Lücke = TB138-2, bekannt – richtig, kein neuer Befund.
     Ehrlich berichtigte Berichtszeit (geschätzt statt gemessen) – gut; künftig Zeit aus TZ=Europe/Zurich date.
     Ingametest SP1/SP2 im Spiel: Nutzer macht den 2. Vollscan + /ahs testroutine (mit 0.65.397, sobald installiert). Weiter (iii).
+>>> PRÜFUNG SUPERVISOR 25.11. 10:00 – AHS-SP2 (iii) Messung (Bericht 09:48) und FULL 0.65.397 (Bericht 09:45): ANGENOMMEN.
+    (iii) Messaufbau gut (warm/kalt getrennt, je Funktion inklusiv); Marktwert-Speicher 2 625 KB einmal je Scan belegt = keine Doppelarbeit.
+    ANTWORT Reihenfolge: a, c, d, b – EINVERSTANDEN. Je Punkt: Gleichheitstest alt = neu ZUERST (echte Daten), dann Einbau, dann T459-Messung.
+       d): vorher belegen, dass kein Aufrufer die geteilten Ertrags-Tabellen verändert (grep + Test mit Prüfsumme wie bei SP1).
+       b): Nachricht Byte für Byte gleich (347 Nachrichten d73af8df) und mit Gilde gemessen.
+       Die Erwartungen (~13 000 / ~8 900 KB) bleiben Verdacht, bis gemessen. Danach neue Messung, was zum Ziel < 10 240 KB ab Scan 2 noch fehlt.
+    s313 = BEFUND (zweimal rot, auch mit 0.65.396) – richtig eingeordnet, Ursache nicht SP2. Auftrag AHS-S313 MITTEL (mit SP2 iii): GC-Schritt je Portion
+       mitschreiben (Verdacht GC beim Namen-Aufbau Names.lua:228); belegt es sich, den Namen-Aufbau so schneiden, dass keine Portion > 16 ms
+       (inkl. GC). Die Grenze 16 ms bleibt. Ist es nicht der GC: Ursache belegen, bevor etwas geändert wird.
