@@ -1,32 +1,21 @@
 {
- "ausgewertet": "2026-11-25T14:13:22Z",
+ "ausgewertet": "2026-11-25T14:37:22Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
-   "berichte": 172,
+   "berichte": 173,
    "letzter_test": {
-    "id": "AHSentinel-1795615300-91ef88-1",
+    "id": "AHSentinel-1795616353-abea73-1",
     "version": "0.65.400",
-    "time": 1795615100,
+    "time": 1795616111,
     "counts": {
-     "client": 17,
-     "fehler": 1,
-     "ok": 1058,
-     "uebersprungen": 34
+     "client": 0,
+     "fehler": 0,
+     "ok": 68,
+     "uebersprungen": 3
     }
    },
-   "fehler_tests": [
-    {
-     "addon": "AHSentinel",
-     "art": "test",
-     "version": "0.65.400",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T750",
-     "name": "UI-CLEAN1 Fenster/Reiter/Unterreiter/Ansichten/Fenster/Dialoge (Klassisch/Modern, 100 %/130 %): nichts überlappt, nicht…",
-     "detail": "ergebnis: 3 Befunde · dazu 128 gekürzt mit Tooltip (kein FEHLER) (AH offen · Klassisch+Modern · 100+130 % · deDE · geprüft 164 von 164 Ansichten · dazu 2 nur mit Spielzustand (T750b, im Client)) · je Art: abgeschnitten 3 · gekürzt (Tooltip) 128 · je Ansicht: Fenster > Preisverlauf: 44 · Markt > M… | erwartet: 0 Befunde · geprüft m von m",
-     "bericht": "AHSentinel-1795615300-91ef88-1"
-    }
-   ],
+   "fehler_tests": [],
    "fehler_spiel": [
     {
      "addon": "AHSentinel",
@@ -218,16 +207,6 @@
  "offen": [
   {
    "addon": "AHSentinel",
-   "art": "test",
-   "version": "0.65.400",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T750",
-   "name": "UI-CLEAN1 Fenster/Reiter/Unterreiter/Ansichten/Fenster/Dialoge (Klassisch/Modern, 100 %/130 %): nichts überlappt, nicht…",
-   "detail": "ergebnis: 3 Befunde · dazu 128 gekürzt mit Tooltip (kein FEHLER) (AH offen · Klassisch+Modern · 100+130 % · deDE · geprüft 164 von 164 Ansichten · dazu 2 nur mit Spielzustand (T750b, im Client)) · je Art: abgeschnitten 3 · gekürzt (Tooltip) 128 · je Ansicht: Fenster > Preisverlauf: 44 · Markt > M… | erwartet: 0 Befunde · geprüft m von m",
-   "bericht": "AHSentinel-1795615300-91ef88-1"
-  },
-  {
-   "addon": "AHSentinel",
    "art": "spiel",
    "wo": "ADDON_ACTION_FORBIDDEN",
    "msg": "UNKNOWN()",
@@ -315,11 +294,11 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 250,
+    "anzahl": 251,
     "neueste": "testberichte/diagnose/AHSentinel/0.65.400-6cd4c8b6d983.txt"
    },
    "BuffSentinel": {
-    "anzahl": 184,
+    "anzahl": 185,
     "neueste": "testberichte/diagnose/BuffSentinel/0.9.65-f3bcb9505eac.txt"
    },
    "GSMesstest": {
@@ -331,19 +310,19 @@
     "neueste": "testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt"
    },
    "GuildSentinel": {
-    "anzahl": 298,
+    "anzahl": 299,
     "neueste": "testberichte/diagnose/GuildSentinel/0.9.63-ea93aa0c2b9e.txt"
    },
    "LevelPilot": {
-    "anzahl": 189,
+    "anzahl": 190,
     "neueste": "testberichte/diagnose/LevelPilot/3.13.14-c0d9e0680e3e.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 271,
+    "anzahl": 272,
     "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.84-c219184ad978.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 248,
+    "anzahl": 249,
     "neueste": "testberichte/diagnose/ThreatSentinel/2.5.30-fd96cf472bbb.txt"
    }
   },
