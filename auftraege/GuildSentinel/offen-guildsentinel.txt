@@ -793,3 +793,10 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     PagesLead.lua 448/450 ruft ShowUIPanel(GuildControlUI) bzw. ToggleGuildFrame() aus Addon-Code (nach Klick des Spielers). Prüfen, ob das in Forever
     Build 71091 denselben Fehler in Blizzard-Code auslöst (im Spiel: Leitung > Knopf, BugSack/Fehlerliste). Wenn ja: Spieler stattdessen anleiten
     ("Gildenfenster mit J öffnen") oder sicheren Weg belegen. Die Testroutine darf diese Wege nie selbst auslösen. Bericht.
+
+>>> ENTSCHEID DES NUTZERS 25.11. 11:09 (Supervisor 11:10): "wichtig ist, dass die Leute immer auch eine Antwort erhalten."
+    Jeder Kommentar auf CurseForge bekommt eine Antwort. Ablauf: Der Supervisor liest die Kommentare, schreibt die Antworten und postet sie mit Ok des
+    Nutzers (veröffentlichen bleibt beim Nutzer/Supervisor). DEIN Teil: Behebt eine Version etwas, das ein Spieler auf CurseForge (oder Discord)
+    gemeldet hat, nenne es im Bericht als eigene Zeile "Rückmeldung erledigt: <Spieler> – <Thema> – Version – Changelog-Zeile", damit die Antwort
+    sofort mit der Veröffentlichung kommt. Fragen der Spieler, die du nicht beantworten kannst, ebenso im Bericht nennen.
+    Stand 25.11. 11:06: alle offenen AHSentinel-Kommentare beantwortet (5 Antworten zu 0.65.393).

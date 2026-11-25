@@ -7,10 +7,11 @@ Wortlaut kurz, Wirkung und wo er umgesetzt wird (Auftrag/Kürzel). Spätere Änd
 Ältere Entscheide (vor 13.11. abends) stehen in wirtschaft-forever.md (Abschnitte "Entscheid des Nutzers …"),
 markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelten weiter.
 
-## 24.11.2026
+## 25.11.2026
 
 | Zeit | Entscheid | Folge |
 |---|---|---|
+| 25.11. 11:09 | Rückmeldungen der Spieler: "wichtig ist, dass die Leute immer auch eine Antwort erhalten" | Jeder Kommentar auf CurseForge (AHSentinel, GuildSentinel und jedes weitere Addon dort) bekommt eine Antwort – sobald es eine neue Antwort gibt (Fix veröffentlicht, Rückfrage, Erklärung), spätestens mit der nächsten CurseForge-Version um 18:00. Supervisor liest die Kommentare bei jeder CF-Veröffentlichung und täglich, schreibt Entwürfe (am Changelog geprüft, nie mehr versprechen als belegt), Nutzer gibt je Posting das Ok. Projekt-Sitzungen nennen im Bericht, welcher Kommentar mit einem Fix erledigt ist. Umsetzung: pruef-ablauf.md E (25.11.), offen-ahsentinel/offen-guildsentinel 25.11. |
 | 25.11. 09:40 | LevelPilot-Testdauer: "nur verkürzen, wenn es keine Nachteile bringt" | Verkürzen nur ohne schwächere Prüfung (gleiche Fälle/Aussagekraft, Ergebnis vorher = nachher belegt); Reisen 1–60 bleiben vollständig |
 | 25.11. 08:29 | Molten Core im Bot: "das war meine Entscheidung, weil ich fest davon ausgehe, dass MC im Frühling 27 kommt" | forever_raids.json mc "forever": true bleibt (gewollt, ohne "opens"); kein Befund |
 | 25.11. 08:26 | "ich will dass die Raidtaktik-Sitzung erst ab dem 09.12. prüft … vorher werden für die neuen Dungeons sowieso keine Daten vorhanden sein" | Geplante Aufgabe "Raids und Taktiken" ausgeschaltet bis 09.12.2026; Erinnerung an den Supervisor 09.12. 07:00 zum Wiedereinschalten (Teil E Taktik-Zahlen beginnt dann) |
@@ -19,6 +20,11 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 | 25.11. 06:54 | CurseForge-Beschreibung AHS: "ausnahme ihr könnt sie ändern aber bitte überlegt und nicht ein scheiss" | AHS-CF4: AHS-Sitzung darf die Projektbeschreibung auf CurseForge ändern – Entwurf, Prüfung durch Supervisor, dann einfügen und nachlesen; "What's new" als fester Verweis |
 | 25.11. 06:29 | (im Chat der RaidMaster-Sitzung) "Download-Ordner mit Schutz" | UP-CFG1: Uploader übernimmt uploader_config.json/sync_config.json aus dem Download-Ordner nur nach j, mit Schutz (gleicher Bot, nur Discord-Adressen, nur neuer, Sicherung) – Uploader 2.3.27 |
 | 25.11. 06:31 | Markt-Tabellen: "16.11. behalten (Empfohlen)" | Repo-Fassung Stand 16.11. bleibt, Fallzahl-Regel gilt weiter (ersetzt 24.11. 06:17 Punkt 2); AHS-J1: Journal/Kern so, dass Fälle wieder wachsen |
+
+## 24.11.2026
+
+| Zeit | Entscheid | Folge |
+|---|---|---|
 | 22:22 | "wenn du fertig bist den speicher in angriff nehmen, so wie wir es besprochen haben" | AHS-SP1 startet jetzt (nach CurseForge-Upload 0.65.393), Plan 19:16, Bericht mit Messung vor dem Einbau |
 | 22:17 | "auf curse jetzt veröffentlichen … lass den push auf curse das projekt machen und explizit erwähnen dass es wichtiges update ist" | AHS-CF2: AHSentinel 0.65.393 sofort auf CurseForge (Freigabe des Nutzers ersetzt CF1 e; T459 und fehlender Ingametest bewusst in Kauf), Changelog "Wichtiges Update" DE/EN; danach AHS-SP1 |
 | 21:36 | "ok lass die befehle raus" (Uploader-Update: kein automatisches Selbst-Update, sondern auf Knopfdruck mit Rückfrage j/n, für alle; Bot-PN nur bei steigender Mindestversion) | UP-UPD1 an RaidMaster, D-UPD1 an Discord. Addons installieren sich weiter automatisch (UP-AUTO1) |
