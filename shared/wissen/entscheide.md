@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Folge |
 |---|---|---|
+| 25.11. 06:54 | CurseForge-Beschreibung AHS: "ausnahme ihr könnt sie ändern aber bitte überlegt und nicht ein scheiss" | AHS-CF4: AHS-Sitzung darf die Projektbeschreibung auf CurseForge ändern – Entwurf, Prüfung durch Supervisor, dann einfügen und nachlesen; "What's new" als fester Verweis |
 | 25.11. 06:29 | (im Chat der RaidMaster-Sitzung) "Download-Ordner mit Schutz" | UP-CFG1: Uploader übernimmt uploader_config.json/sync_config.json aus dem Download-Ordner nur nach j, mit Schutz (gleicher Bot, nur Discord-Adressen, nur neuer, Sicherung) – Uploader 2.3.27 |
 | 25.11. 06:31 | Markt-Tabellen: "16.11. behalten (Empfohlen)" | Repo-Fassung Stand 16.11. bleibt, Fallzahl-Regel gilt weiter (ersetzt 24.11. 06:17 Punkt 2); AHS-J1: Journal/Kern so, dass Fälle wieder wachsen |
 | 22:22 | "wenn du fertig bist den speicher in angriff nehmen, so wie wir es besprochen haben" | AHS-SP1 startet jetzt (nach CurseForge-Upload 0.65.393), Plan 19:16, Bericht mit Messung vor dem Einbau |

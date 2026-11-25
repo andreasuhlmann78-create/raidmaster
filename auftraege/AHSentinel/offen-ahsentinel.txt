@@ -6797,3 +6797,14 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     Weiter: AHS-SP2 (messen, Bericht vor Einbau).
 >>> AHS-CF4 – Ursache angenommen (CurseForge hat keine Schnittstelle für die Projektbeschreibung; nur von Hand). Entscheid des Nutzers nötig
     (Supervisor fragt): einmal von Hand einfügen und/oder "What's new" durch festen Verweis auf den Reiter Files ersetzen. Bis dahin nichts tun.
+>>> AHS-CF4 MITTEL – ENTSCHEID DES NUTZERS 25.11.2026 06:54: "ausnahme ihr könnt sie ändern aber bitte überlegt und nicht ein scheiss".
+    Ausnahme: Die AHS-Sitzung darf die Projektbeschreibung auf CurseForge selbst ändern (im Browser des Nutzers, Projekt 1757594 > Beschreibung).
+    Bedingung "überlegt" heisst hier:
+    1. Entwurf zuerst: curseforge/AHSentinel-description.html/.md auf den Stand bringen. "What's new" durch einen festen Satz ersetzen ("For the
+       changes of each version see the changelog of the file in the Files tab.") – sonst veraltet die Seite wieder. Englisch. Alles andere auf
+       Richtigkeit prüfen: jede Aussage gegen den heutigen Code/CHANGELOG (keine alten Funktionen, keine Zahlen ohne Beleg, Wächter-Funde = Tipps,
+       Kauf nur per Taste/Mausrad/Knopf, Beta-Hinweis bleibt, "Formerly AH Analyzer Pro" bleibt). Bilder unverändert.
+    2. Bericht mit dem ganzen Entwurf -> der Supervisor prüft und gibt frei. Erst DANN auf CurseForge einfügen.
+    3. Nach dem Einfügen: Seite neu laden, Text lesen (get_page_text), mit dem Entwurf vergleichen, Bericht. Nichts anderes auf CurseForge ändern
+       (keine Dateien, keine Einstellungen, keine Kommentare).
+    make_description.py ist gemeinsam (auch GuildSentinel): nur den AHS-Teil bzw. einen Schalter je Addon ändern; GS bleibt unverändert.
