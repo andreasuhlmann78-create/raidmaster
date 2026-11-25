@@ -888,3 +888,15 @@ PS-TQ1 MITTEL: Trefferquote je tatsächlichem Weg des hergestellten Stücks:
 >>> PRÜFUNG SUPERVISOR 25.11. 15:13 – ProfessionSentinel 0.9.85 (PS-I8, SHARED-T4, PS-TQ1 Vorarbeit): ANGENOMMEN, Abnahme im Spiel offen.
     addon_check OK ohne Warnung. PS-TQ1 f): Zurücksetzen der alten 186 mit Sicherung (pmHits.old) – FREIGEGEBEN (einzelne Notizen nicht mehr da,
     belegt). Frage API: JA – Auftrag AHS-API2 an AHSentinel (additiv, API.md Version 2). Bis dahin NICHT in AHSentinel-Tabellen lesen (richtig erkannt).
+
+>>> INGAMETEST 25.11. 16:02 (Supervisor 16:06) – ProfessionSentinel 0.9.85 "/ps testroutine alles" (Laptop, PRIEST 10, Undercity, Berufsfenster offen):
+    OK 257 · FEHLER 0 · übersprungen 17 · im Client 10 · 214 s (Ziel ≤ 300) · Sandbox OK · Regressionen 99/99 · UMG1-Zeile "Hintergrund (46 von 285
+    Schritten)" erscheint – PS-UMG1 im Spiel BELEGT. T85 nicht mehr FEHLER. 0.9.85 im Spiel BESTANDEN.
+PS-P1 MITTEL (Spielweg, nicht Testhilfe): WEGE "Aufgabe heute 27.2 ms! ×13", AUFGABEN "heute ×7, Teil max 27,2 ms" – die Aufgabe "heute" (Heute herstellen)
+    rechnet im Spiel ein Stück von 27 ms (Ziel 16 ms; die Zeile markiert es selbst mit "!"). Am 24.11. als "Ausreisser, Bedienung möglich" (23,3 ms)
+    eingestuft – jetzt 13× in einer Sitzung, also kein Ausreisser. Mit UMG1 prüfen, ob die betroffenen Bilder im Hintergrund lagen; sonst Stück
+    belegen (Stelle) und teilen. Gegenprobe im Nachbau mit den echten Daten.
+    HINWEIS: viele Testschritte mit "unser Code" 20–38 ms in einem Bild (T145 38, T80 32, T256 32, T81 34 …) – Testhilfen dürfen das, wenn sie im
+    Bericht als Testhilfe gekennzeichnet sind; Schritte, die Spielwege aufrufen (Panel-Aufbau, Ansicht recipes T123/T126/T130/T133/T134), belegen,
+    ob derselbe Weg beim Spielen auch so lange rechnet.
+    Trefferquote Schneiderei weiterhin 0/186 – erwartet bis PS-TQ1 (AHS-API2 Disenchanted seit 0.65.402 verfügbar).
