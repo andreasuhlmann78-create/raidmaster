@@ -1024,3 +1024,8 @@ UP-DOC2 MITTEL: LIESMICH.txt (DE) und README_EN.txt Abschnitt "Addons automatisc
     RM-CI2: Weg (b) Bot – Entscheid des Nutzers eingetragen (entscheide.md), Auftrag D-CI2 an Discord. RM-CI2 damit bei RaidMaster ERLEDIGT.
     ABNAHME im Spiel (nächster Test): /reload, C (Charakterfenster), /rm -> kein Überlappen; /rm testroutine k mit offenem Charakterfenster -> T156 OK
     (sonst Rechtecke/Skalierung aus T156 im Bericht); Einstellungen + Esc-Reihenfolge.
+>>> INGAMETEST 25.11. 14:44 (Supervisor 14:46): RaidMaster 3.0.49 "/rm testroutine k" mit offenem Charakterfenster: OK 10 · FEHLER 0 · Sandbox OK.
+    RM-K2 im Spiel: T156 bestanden (vorher 11:18 in allen Ansichten "überdeckt CharacterFrame") -> RM-K2 ERLEDIGT (Prüfung Supervisor).
+    HINWEIS RM-P1 NIEDRIG: "K Daten sichern" längste Portion 28,1 ms (11:18: 14 ms), 236 ms in 51 Bildern; eigene Arbeit im 40-ms-Bild 10,4 ms.
+    Grenze 16 ms je Portion (leistung.md) – belegen, warum diesmal 28 ms (Datenmenge? ein Stück nicht teilbar?) und teilen; Testhilfe, aber im Spiel.
+    Offen bleibt: Einstellungen + Esc-Reihenfolge (Abnahme 3.0.48) beim nächsten Ingametest.
