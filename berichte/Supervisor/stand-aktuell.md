@@ -1,35 +1,31 @@
 # Stand Supervisor (Prüf-Sitzung, Projekt «Addonprüfer»)
 
-## Stand 25.11.2026 06:31 · Versionen geprüft: AHS 0.65.394 (CurseForge 0.65.393 sichtbar) · PS 0.9.83 · BS 0.9.64 · TS 2.5.30 · LP 3.13.13 · RM 3.0.44 · GS 0.9.62 · Uploader 2.3.26
-Sitzung seit 23.11. 06:18. Repos: raidmaster, goldsentinel-daten (schreiben); ahanalyzerpro, professionsentinel, guildsentinel (lesen).
+## Stand 25.11.2026 13:31 · geprüft: AHS 0.65.398 · LP 3.13.14 · RM 3.0.48 · Uploader 2.3.28 · GS 0.9.62 · BS 0.9.64 · PS 0.9.83 · TS 2.5.30
+Repos: raidmaster, goldsentinel-daten (schreiben); ahanalyzerpro, professionsentinel, guildsentinel (lesen). Nutzer tagsüber am Laptop (AUSPLUSLAPTOP).
 
 ## Gerade in Arbeit
-- Nichts Laufendes. 25.11. morgens: AHS-CF2 erledigt (curseforge.com: 0.65.393 Hauptdatei), CF4 (Beschreibung "What's new" veraltet 0.65.165),
-  AHS-SP1 Messung FREIGEGEBEN mit Bedingungen a–d (allein kein T459-Ziel: Scan 2 18–20 MB) + AHS-SP2 (Rest messen), 0.65.394 angenommen,
-  Entscheid Markt-Tabelle 16.11. behalten + AHS-J1 (Journal 3000 voll, Kern-Abgleich 28/29/36).
-- Skelett 24.11. fertig (Livedaten T63/T64, L1–L8, Ausweichen) – im Client noch nicht belegt.
+- Ingametests mit dem Nutzer, eines nach dem anderen (kurz -> lang). Erledigt heute: RM 3.0.48 (11:18), AHS 0.65.398 (13:01). Nächster: LP 3.13.14.
 
 ## Nächste Schritte (Reihenfolge)
-1. AHS: SP1-Einbau prüfen (Bedingungen a–d, Ingametest Scan 1/2 gegen Nachbau), dann AHS-J1, AHS-SP2; s313 im nächsten FULL beobachten.
-2. Uploader: PC+Laptop 2.3.26 (Daten-Repo main; sicherung hinkt nach – Frage an RM). Nächste Lieferung -> uploader 2.3.26, Feld "update"; Abnahme UP-UPD1-a/b beim ersten Update durch 2.3.26.
-3. BS-M1-b (Version steht aus). TS-M1-b: Kampfdaten erst nach Instanz/Gruppe.
-4. UMG1 bei PS/LP (Berichte fehlen); PS-I8 T269; LP-T31/LP-K1, LP-Charakterdatei.
-5. Laptop: 25.11. 06:16 Uploader 2.3.26 hat AHS/GS/PS/RM/TS selbst installiert (UP-AUTO1 belegt). Offiziere noch unter 2.3.20. CurseForge-Kommentare (27) beantworten – Anmeldung nötig.
+1. LP 3.13.14 Ingametest auswerten (virtuelle Reise: Sandbox-Zeilen HINWEIS/Schreibzugriffe; ganze Testroutine; Dauer).
+2. Berichte der Sitzungen prüfen: AHS-OVF1 (integer overflow, HOCH), AHS-T14, RM-K2 (Ausweichen Charakterfenster), UP-DOC2, RM-CI2, LP-SB1-b, LP-R1/R2.
+3. Testberichte bis RM-CI2 von Hand anstossen: gh api POST repos/…/raidmaster/actions/workflows/404904069/dispatches -f ref=main.
+4. 18:00 CurseForge: AHS 0.65.398 NICHT (OVF1 offen); GS nur, wenn neue Version geprüft. Danach CF-Kommentare lesen (Regel 25.11. 11:09).
+5. Offiziere: Lieferung mit Uploader 2.3.28 beobachten (12:35 noch alter Uploader abgewiesen).
+6. 09.12. 07:00 Erinnerung: Raids-Aufgabe wieder einschalten (trig_01RKTpb8qD5PxK8Gb24pHnRK).
 
 ## Offen beim Nutzer
-- Offiziere: Uploader 2.3.24 am 21:55 vom Nutzer selbst verschickt (Discord-Sitzung NICHT nochmals senden); Umstieg in stand.json beobachten.
-- CurseForge-Kommentare beantworten (Anmeldung nötig). Optional Taste "a" (sofortiger Addon-Abgleich im Uploader) – nicht entschieden.
-- PS: Trefferquote A/B/C; T85 Berufsfenster. AHS Wochenende: Kupfer-Preis-Test. Alte Ordner auf dem Laptop löschen (kein Löschrecht).
+- LP 3.13.14 Ingametest (lang, Hintergrund). AHS erneut nach OVF1-Fix: Vollscan starten, währenddessen /ahs testroutine mit offenem AH.
+- RM nach K2-Fix: Charakterfenster + /rm, Einstellungen + Esc. TS-Messung in Gruppe.
+- Discord: Nitro-Geschenk-Dialog 11:5x versehentlich geöffnet, sofort geschlossen – Nutzer soll Bestätigungs-Mail NICHT anklicken, Zahlungen prüfen.
 
-## Entscheide des Nutzers seit letztem Stand (alle in shared/wissen/entscheide.md)
-- 25.11.: Markt-Tabelle 16.11. behalten (Fallzahl-Regel bleibt)
-- 24.11.: 22:17 AHS-CF2 sofort CurseForge "Wichtiges Update" · 21:36/21:26/21:18/21:13 Uploader (Selbst-Update, Mindestversion, Fenster)
-- 24.11.: 22:22 AHS-SP1 jetzt in Angriff nehmen · 22:21 nach dem Skelett alle anderen Punkte
-  · 20:47 Wächter-Funde nur Tipps, Übernahme per Rechtsklick · 20:43/20:28/20:14 Sniper/Wächter-Takt (SG6) · 20:06 Skelett erst nach Bewährung.
+## Entscheide des Nutzers seit letztem Stand (in shared/wissen/entscheide.md eingetragen)
+- 11:09 Spieler bekommen auf CurseForge immer eine Antwort (Entwurf, Ok, posten; 5 Antworten AHS 11:06 gepostet).
+- 11:39 Offiziere schalten Addons-automatisch-an.bat ein (Nachtrag an beide gesendet 11:50/12:06, endo bestätigt 12:54).
+- 09:40 LP-Test nur ohne Nachteile verkürzen. 08:24/08:26/08:29 Taktik-Zahlen, Raids ab 09.12., MC forever:true. 06:54/07:56 CF4/CF5.
 
 ## Wichtig zu wissen
-- GS 0.9.61 auf CurseForge sichtbar (GS-CF2 erledigt). AHS auf CurseForge bis jetzt 0.65.354 (19.11.).
-- upload.py: liegt curseforge/<Addon>-changelog-<Version>.md vor, wird genau dieser Text hochgeladen (sonst alle Abschnitte seit letztem Upload).
-- E-Regeln 24.11.: Ausreisser zuerst gegen Bedienung/Windows/Server; Messwerkzeuge nach Messung entfernen; Uploader-Abnahme gegen Mindestversion.
-- PC (DESKTOP-NVITMSE): Uploader 2.3.26, neueste Addons. Laptop (AUSPLUSLAPTOP) zurzeit nicht verbunden.
-- Geplante Aufgaben AN: Markt-Tabellen, Markt-Überwachung, Blueposts, Rezeptdaten, Raids, Discord-Betreuung, Gmail.
+- Discord im eingebauten Browser: Eingabefeld per JS fokussieren (aria-label "Nachricht an @…"), NIE auf berechnete Koordinaten klicken
+  (Geschenk-Knopf daneben); bei schmalem Fenster erst Seite neu laden. Enter sendet, Shift+Enter neue Zeile; vor dem Senden Text per JS prüfen.
+- AHS-Testroutine wartet nur auf einen LAUFENDEN Vollscan; für Teil "server"/T459 muss das AH offen sein.
+- Uploader sammelt Testberichte bis 15 Min., dann #testberichte; GitHub-Zeitplan lässt Läufe aus (RM-CI2).
