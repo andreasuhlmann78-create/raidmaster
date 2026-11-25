@@ -1,27 +1,25 @@
-# Stand 25.11.2026 14:32 · Version 0.9.84
+# Stand 25.11.2026 15:08 · Version 0.9.85
 
 ## Gerade in Arbeit
-- Nichts. 0.9.84 veröffentlicht (Discord, Release v0.9.84, Repo fd1a96b), Bericht 2026-11-25-1432-version-0.9.84.txt – zur Prüfung.
-- 0.9.84: PS-UMG1 (Testroutine: Bild je Schritt, Hintergrund 30–37 ms ab 60 %, Ladebildschirm, Speicherbereinigung -> HINWEIS mit Grund
-  über Perf(); Speicher je Addon am Ende; T298 Gegenprobe), T85 bei professionID 0. Ingametest 0.9.83 gelesen: 1 FEHLER (T85), längstes
-  Bild 44 ms, T145 "Liste behalten 20, neu 0".
+- Nichts. 0.9.85 veröffentlicht (Discord, Release v0.9.85, Repo c69e9a9), Bericht 2026-11-25-1508-version-0.9.85.txt – zur Prüfung.
+- 0.9.84 vom Supervisor 14:48 angenommen (Abnahme im Spiel offen). 0.9.85: SHARED-T4 (GoldSentinelTest v4), PS-I8 T269 (Auswahl in
+  TD.Candidates je Sammlung+Gold gemerkt, TD.ForgetChoice für Tests).
+- 0.9.84: PS-UMG1 (Hintergrund 30–37 ms ab 60 % der Bilder eines Schritts, Ladebildschirm, Speicherbereinigung -> HINWEIS über Perf(); T298).
 
 ## Nächste Schritte (Reihenfolge)
-1. SHARED-T4: GoldSentinelTest.lua Version 4 unverändert aus shared/ kopieren (mit 0.9.85).
-2. PS-I8: T269 Aufruf <= 2 ms – Plan: Auswahl (Sammlung + Gold) in TD.Candidates zwischenspeichern (Schlüssel: Sammlungs-Tabelle, Gold,
-   TODAY_MAX/ITEM_SHARE/MAX_ROWS), nur TD.Plan der <= 5 Zeilen je Aufruf live (Taschen). Bei Jobs.Sync() ist die Sammlung jedes Mal neu.
-   T139/"Aufgabe heute" nur, wenn der Nachbau sie nachstellt (Supervisor 20:01).
-3. PS-TQ1 MITTEL (Entscheid Nutzer 25.11. 13:47 "echten Weg verfolgen"): Trefferquote je Weg – entzaubert (auch nach Versand an eigenen
+1. PS-TQ1 MITTEL (Entscheid Nutzer 25.11. 13:47 "echten Weg verfolgen"): Trefferquote je Weg – entzaubert (auch nach Versand an eigenen
    Charakter; Wert der Materialien >= Kosten), AH verkauft (wie bisher), Zwischenprodukt zählt nicht (Kosten ins Endprodukt), Skillpunkt-Fälle
    zählen mit, Weg unbekannt nach 7 Tagen = offen. Daten aus AHSentinel (SK1-l Ketten, Entzauber-Verlauf; nur lesen, API.lua). Alte 186:
    neu bewerten oder mit Sicherung zurücksetzen, Zahlen vorher/nachher. Tests a–e + Gegenprobe. Erst Nachbau mit echten Daten.
-4. Gilden-Rezepte ohne Realm (Guild.lua; Sicherung, Zahlen vorher/nachher, Sync-Tag ohne Realm).
-5. MITTEL 2 (T192 Zwischenspeicher 2×, T259), MITTEL 4 (Prüfliste TR, T285).
-6. Entwickler-Befehle nur im Entwicklermodus; Hinweis "Test ändert nie Livedaten"; Testort-Hinweis; Lesbarkeit L1–L8.
-7. Taschen-Rezepte zeigen "AH ~Preis" – prüfen gegen Direktive "keine geschätzte Zahl".
+   STAND: alte 186 nicht neu bewertbar (nur Summen in pmHits) -> Sicherung + zurücksetzen. Weg a) braucht AHSentinel-API (Vorschlag
+   API.Disenchanted(itemID, since), im Bericht 15:08 an die Prüf-Sitzung) – bis dahin b), c), e) vorbereiten.
+2. Gilden-Rezepte ohne Realm (Guild.lua; Sicherung, Zahlen vorher/nachher, Sync-Tag ohne Realm).
+3. MITTEL 2 (T192 Zwischenspeicher 2×, T259), MITTEL 4 (Prüfliste TR, T285).
+4. Entwickler-Befehle nur im Entwicklermodus; Hinweis "Test ändert nie Livedaten"; Testort-Hinweis; Lesbarkeit L1–L8.
+5. Taschen-Rezepte zeigen "AH ~Preis" – prüfen gegen Direktive "keine geschätzte Zahl".
 
 ## Offen beim Nutzer
-- Ingametest 0.9.84 "/ps testroutine alles" (darf im Hintergrund laufen). Messung Lua-Fehler SetCraftableCount (nur PS / nur AHS).
+- Ingametest 0.9.85 "/ps testroutine alles" (darf im Hintergrund laufen). Messung Lua-Fehler SetCraftableCount (nur PS / nur AHS).
 
 ## Entscheide des Nutzers seit letztem Stand
 - 25.11. 13:47 (über Supervisor, PS-TQ1): Trefferquote "echten Weg verfolgen" – siehe Schritt 3.

@@ -1,0 +1,34 @@
+ProfessionSentinel 0.9.85 – umgesetzt, zur Prüfung
+Bezug: offen-professionsentinel.txt SHARED-T4, PS-I8 (T269), PS-TQ1 (Stand und Frage).
+
+SHARED-T4: shared/GoldSentinelTest.lua Version 4 unverändert kopiert. TestRoutine prüft "(GT.version or 0) >= 2" (T245) und ">= 1" – passt.
+
+PS-I8 / T269 (Aufruf aus dem Zwischenspeicher, Regel <= 2 ms; Ingametest 0.9.81 3,0 ms – lief im Hintergrund):
+ - Code-Ursache: TD.Candidates ging bei JEDEM Aufruf die ganze Sammlung durch (je Eintrag UIYield/Takt-Prüfung, Anzahl nach Gold, Sortieren),
+   obwohl die Auswahl nur von Sammlung und Gold abhängt. Jetzt: Auswahl gemerkt je (Sammlungs-Tabelle, Gold, TODAY_MAX, ITEM_SHARE,
+   MAX_ROWS); je Aufruf nur noch der Einkaufsplan der <= 5 Zeilen (Taschen jetzt, Händler) auf neuen Tabellen. Unter Jobs.Sync() (Testroutine)
+   ist die Sammlung jedes Mal neu -> keine gemerkte Auswahl.
+ - Gemessen (Median der 3 längsten von 20 Aufrufen): offline 0,16–0,24 -> 0,13–0,15 ms; Nachbau mit echten Daten + AHSentinel (Bereich B)
+   0,272 -> 0,171 ms. Hinweis: die zwei Nachbau-Läufe hatten nicht dieselben gespeicherten Daten (zwischen den Läufen neu entpackt:
+   Sammlung 3 bzw. 4 Rezepte) – der Vergleich ist darum nur grob. Die 3,0 ms aus dem Spiel stellt kein Nachbau nach (Sammlung dort klein);
+   mit UMG1 (0.9.84) wird ein solcher Wert im Hintergrund als HINWEIS mit Grund gemeldet.
+ - Tests (T269): mit 1 Kupfer keine Zeile, mit viel Gold wieder Zeilen (die gemerkte Auswahl wird bei anderem Gold neu gemacht); zwei Aufrufe
+   liefern neue Zeilen-Tabellen mit gleicher Auswahl; bisheriger Vergleich "Zwischenspeicher = in einem Stück" bleibt.
+ - T139 19,8 ms und "Aufgabe heute" 23,3 ms: im Nachbau nicht nachgestellt -> "Ausreisser, Bedienung möglich" (Hinweis 20:01), nicht geändert.
+
+PS-TQ1 (Trefferquote je echtem Weg, Entscheid 25.11. 13:47) – Stand der Vorarbeit, noch nicht eingebaut:
+ - Die alten 186 Schneiderei-Fälle lassen sich NICHT neu bewerten: in ns.db.pmHits stehen je Beruf nur die Summen (n=186, h=0); die
+   einzelnen Notizen (welches Item, wann) wurden nach 7 Tagen gelöscht (MK.Expire). -> Vorschlag f): mit Sicherung (pmHits.old) zurücksetzen,
+   Zahl vorher/nachher im Bericht.
+ - Daten für Weg a) (entzaubert) liegen in AHSentinel: A.db.deLog (je Entzauberung itemID, Zeit, Beute; 2000 Einträge, kontoweit, gespeichert
+   seit 14.11.) und die Buchungen (Books: k="de"/"sale", Herkunft bt="de" für verkauftes Material, Einstand). Ketten.lua Realized() rechnet
+   daraus schon "Herstellen -> Entzaubern -> Verkauf" (SK1-l). Eine API dafür gibt es NICHT (API.md Version 1: Sold(itemID, since) nur für
+   Verkäufe). Auslesen fremder interner Tabellen wäre gegen "nur über die Schnittstelle" und bricht bei jeder Änderung von AHSentinel.
+ - FRAGE an die Prüf-Sitzung / Auftrag an AHSentinel (nur die AHSentinel-Sitzung ändert AHSentinel): additive API-Funktion, Vorschlag
+   `API.Disenchanted(itemID[, since])` -> Anzahl eigener Entzauberungen dieses Items seit `since` (alle eigenen Charaktere), Wert der Beute
+   gesamt in Kupfer (verkauftes Material = Erlös netto, sonst Marktwert zum Zeitpunkt), Zeit der ersten und letzten Entzauberung; `nil` ohne
+   Daten. Damit kann PS je Herstellung den Weg a) bewerten; b) über das vorhandene API.Sold; c) Zwischenprodukt erkennt PS selbst (eigene
+   Herstellung, die es als Zutat verbraucht); e) ohne Weg nach 7 Tagen = offen.
+ - Bis die Funktion da ist: Nachbau-Auswertung mit Kopie der echten Daten (nur lokal, nie ins Repo) wird vorbereitet.
+
+Tests: run_offline forever 253/0 (2×), era 234/0, retail 232/0, forever --lua51 253/0; yield_check OK; Smoketest forever/era/retail AUTOTEST OK (FEHLER 29/26/26 = Mock-Grenzen); addon_check OK ohne WARNUNG. Zip md5 bc8f378a322beb0d37436d4c328ff394, Repo c69e9a9.
