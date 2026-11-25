@@ -1,0 +1,13 @@
+BERICHT AHSentinel – Gesamtlauf (FULL) 0.65.399 – umgesetzt, zur Prüfung
+Zeit: 25.11.2026 14:24 (Europe/Zurich) · Version 0.65.399 (Discord) · erster Gesamtlauf mit der WoW-Nachbildung (%d über 2^31 = Lua-Fehler)
+
+Ergebnis: 352 PASS, 68 FAIL (420 Szenarien, neu s341). Gegen 0.65.398: neu rot s216_feed_memory und s304_timing_same; neu grün keine.
+- s304: KEIN Addon-Fehler – die Testhilfe des Szenarios gab ihre Prüfsumme 3 503 484 785 mit "%d" aus; die neue WoW-Nachbildung wirft dort wie
+  WoW. Testhilfe auf "%.0f" umgestellt (Code-Repo, nur tests/): s304 PASS, Prüfsumme unverändert 3503484785 (= Fassung 0.65.335).
+- s216 ("Aufgabe fullscan längstes Bild, Median ab Lauf 2 ≤ 10 ms"): Streuung des Rechners, nicht 0.65.399 – im selben Zeitraum zweimal mit
+  0.65.398: 10,8 und 11,1 ms (ROT), mit 0.65.399: 12,1 und 11,6 ms (ROT). Belegt, dass die Absicherung OVF1 das nicht verursacht:
+  string.format 0,53–0,60 µs, A.SafeFormat 1,02–1,06 µs je Aufruf (+0,45 µs); während eines ganzen Vollscans samt Nachlauf gibt es nur 310
+  Aufrufe (Aufgabe fullscan 119) = +0,14 ms über den ganzen Scan, je Bild höchstens wenige µs. s216 hängt am Rechner-Tempo (Grenze 10 ms knapp).
+  Vorschlag: s216 im nächsten Gesamtlauf weiter beobachten (zweimal rot in Folge = Befund wie bei s313).
+- Die übrigen 66 FAIL = dieselben wie 0.65.398. s341 (Regel OVF1) PASS.
+Weiter: AHS-T14 (warum Item 274964 keine Vollscan-Einträge bekommt), dann T750, dann SP2 h.
