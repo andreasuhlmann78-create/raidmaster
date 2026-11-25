@@ -6904,3 +6904,25 @@ steht, und kann es auf Absprache kaufen und schicken. Nicht bauen, bis der Nutze
     gemeldet hat, nenne es im Bericht als eigene Zeile "Rückmeldung erledigt: <Spieler> – <Thema> – Version – Changelog-Zeile", damit die Antwort
     sofort mit der Veröffentlichung kommt. Fragen der Spieler, die du nicht beantworten kannst, ebenso im Bericht nennen.
     Stand 25.11. 11:06: alle offenen AHSentinel-Kommentare beantwortet (5 Antworten zu 0.65.393).
+
+>>> PRÜFUNG SUPERVISOR 25.11. 13:06 – Ingametest AHSentinel 0.65.398 (Bericht im Spiel 13:01, Forever deDE, PRIEST 10, Laptop):
+    OK 1055 · FEHLER 6 · übersprungen 33 · im Client 17 · 208 s · Sandbox OK. ACHTUNG: Teil "server" lief NICHT (Auktionshaus beim Start zu:
+    T27/T37/T42/T50/T52/T126 "HALB") -> T459 im Spiel NICHT gemessen; dafür TSK1h (Vollscan 12:05) unten. Vergleich 0.65.396 (09:01): 1 FEHLER (T750).
+AHS-OVF1 HOCH (neu, im Spiel, 3×): T000 "Ablauf der Routine | Lua: integer overflow attempting to store 10526315689".
+    Gleiche Fehlerart wie der CurseForge-Kommentar (CSV "integer overflow attempting to store 99999999999", in 0.65.393 nur für den CSV-Export behoben).
+    Verdacht, zu messen: string.format("%d", x) mit x > 2^31 – z. B. Forecast.lua 192 (Num(): ganze Zahl -> "%d"), seit mindestens 0.65.393 im Code;
+    10526315689 sieht aus wie Preis × Menge oder eine Summe in Kupfer. In 0.65.396 (09:01) kam der Fehler nicht -> durch 0.65.397/398 neu ausgelöst
+    (neue Daten/Wege, z. B. Fc:Decode/EvalCore, Sync b) oder durch die Daten dieser Sitzung. BELEGEN: Stack/Stelle (Fehlerliste/Diagnose im Spiel),
+    welche Zahl, welcher Weg. FIX SYSTEMATISCH: alle string.format mit %d/%i auf Geld-/Summen-/Zeit-Werte im ganzen Addon (grep) auf sicheren Weg
+    (z. B. %.0f bzw. tostring(math.floor(x)), wie beim CSV-Fix), Gegenprobe im Nachbau mit 2^31+1, 10526315689, 99999999999, 2^53; Prüfregel in die
+    Testroutine (Schnellcheck: grep %d ohne Absicherung = FEHLER). Gespeichertes Format/Text muss für Werte < 2^31 Byte für Byte gleich bleiben.
+    Ist 0.65.393 (CurseForge) betroffen? Im Bericht beantworten (Num() ist dort gleich).
+    CurseForge 18:00: 0.65.398 NICHT hochladen, solange AHS-OVF1 offen ist; Entscheid über eine Version nach dem Fix + Ingametest.
+AHS-T14 MITTEL (neu): T14 "unplausibel: Instabiles Magiepartikel (1972/Tag bei Ø 0 angeboten)" (SelfTest.lua 819) – 0.65.396 noch OK.
+    Absatz 1972/Tag bei Ø 0 Angeboten ist unmöglich -> Ursache belegen (Teilung durch 0/leere Angebotsreihe nach SP2 c) MeasuredRate(into)? alter
+    Wert aus wiederverwendeter Tabelle?). Gleichheitstest c) (1 259 Items) hat das nicht gefunden -> mit genau diesem Item/Fall nachbauen.
+AHS-TSK1h (Messwert, im Spiel): Vollscan 12:05 "Speicher bleibend +26 474 KB", eigener neuer Speicher 21 824 KB, je Aufgabe fullscan 16 583 KB,
+    230 451 Auktionen. Nachbau Scan 2 (0.65.398): 14 131 KB. Welcher Scan der Sitzung das war, steht nicht im Bericht -> bitte in TSK1h/Messung
+    "n. Vollscan der Sitzung" mitschreiben. Ziel ≤ 10 240 KB ab dem 2. Scan bleibt; im Spiel deutlich über dem Nachbau -> Unterschied belegen.
+AHS-T750 NIEDRIG: 1 Befund "abgeschnitten" (0.65.396: 0) – welche Ansicht; beheben.
+    Nächster Ingametest (nach OVF1): Vollscan starten, während er läuft /ahs testroutine (mit offenem Auktionshaus, damit "server" und T459 laufen).
