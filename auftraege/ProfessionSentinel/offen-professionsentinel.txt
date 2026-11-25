@@ -910,3 +910,5 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
     bei jedem MAIL_INBOX_UPDATE, sondern gedrosselt (z. B. einmal beim Schliessen des Briefkastens / höchstens alle 60 s) und in Portionen; messen
     (Briefkasten mit vielen Rechnungen im Nachbau mit echten Daten) und im Bericht ms je Aufruf nennen. Gleichzeitig AHS-API2-b (Index in Portionen)
     -> an AHSentinel weitergegeben.
+>>> PRÜFUNG SUPERVISOR 25.11. 18:18 – ProfessionSentinel 0.9.87 (Bericht 17:24, PS-P1 Teil 1): ANGENOMMEN (Messung im Spiel statt Raten – richtig).
+    PS-P1 bleibt offen bis zum Beleg der Stelle im Spiel; Abklärung "Ansicht recipes" (Nachbau mit Mock 405 ms) als nächster Punkt – ok.

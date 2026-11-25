@@ -1864,3 +1864,9 @@ LP-TR2 HOCH (neu, Messung im Spiel): Die Reise ist im Spiel ~15× LANGSAMER als 
     bekannten Weg 31,5 % (bis L17); Mobs ≥ +3: 1 Wegstück. Durch die jetzt laufende Wegprüfung erwartet – im Bericht erklären, ob die neue Route
     besser ist (Zeit bis L17 im Vergleich 3.13.13: L17 bei 6 h 29; 3.13.15: L17 bei 8 h 40 = langsamer!) – Befund LP-R3 MITTEL: geschätzte Spielzeit bis
     L17 +34 % gegenüber 3.13.13 – Ursache belegen (Wegprüfung meidet zu viel? Mulgore-Umweg für Untote?).
+
+>>> PRÜFUNG SUPERVISOR 25.11. 18:18 – LevelPilot 3.13.16 (Bericht 17:12, LP-TR2): ANGENOMMEN, Abnahme im Spiel offen. addon_check OK.
+    Ursache belegt (eine Portion je Bild, ~88–140 Bilder je Schritt) und passt zur Messung im Spiel. Fix nur in der Testroutine (Budget 8 ms je Bild,
+    höchstens 64 Portionen), T381 gleich, reiseBilder neu. Nachbau längstes Bild 21,0 ms / 17,3 ms mit 5 bzw. 3 Bildern > 16 ms – Ziel 16 ms: Budget so
+    setzen, dass das ganze Bild ≤ 16 ms bleibt (heute 8 ms Budget + letzte Portion bis 21 ms) – im Spiel mit reiseBilder belegen. LP-R3 (Route bis L17
+    +34 %) weiterhin offen. Nächster Ingametest: /lp testroutine alles, sobald der Nutzer Zeit hat.
