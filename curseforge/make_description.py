@@ -18,6 +18,11 @@ sys.path.insert(0, str(HERE))
 from upload import newest_zip  # noqa: E402
 
 DEFAULT_VERSIONS = 5
+# AHS-CF4 (Entscheid des Nutzers 25.11.2026 06:54): für diese Addons steht unter "What's new" ein fester Satz statt der letzten Versionen -
+# die Beschreibung auf CurseForge kann nur von Hand geändert werden und veraltete sonst bei jeder Version. Andere Addons unverändert.
+FIXED_WHATS_NEW = {
+    "AHSentinel": "For the changes of each version see the changelog of the file in the **Files** tab.",
+}
 
 
 def read_changelog(path, addon):
@@ -72,6 +77,8 @@ def update(addon, count):
         return False
     md = md_path.read_text(encoding="utf-8")
     new_section = whats_new(text, count)
+    if addon in FIXED_WHATS_NEW:
+        new_section = "## What's new\n\n" + FIXED_WHATS_NEW[addon] + "\n"
     # Abschnitt "What's new" bis zur nächsten Trennlinie ersetzen
     m = re.search(r"^## What's new\n.*?(?=^---\s*$)", md, flags=re.S | re.M)
     if m:

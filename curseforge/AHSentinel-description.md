@@ -12,40 +12,7 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
-### Version 0.65.393
-
-- **Watcher finds are now tips:** they no longer appear in the Sniper target list on their own and are never bought by key, mouse wheel or button. Right-click the item in the Watcher, "Move to the Sniper" (or the "To the Sniper" button), turns it into a normal Sniper target with the Watcher's max price; it is then bought in the Sniper like any target. The separate Watcher key in the options is gone.
-- **Glow and raid warning in the search rhythm:** the screen edge glows and the sound plays every time a search finishes and its item is buyable – only for that item (with several targets never for another one), again on every further search while it stays buyable. Off on purchase, hit gone, AH closed and combat. No fixed interval any more.
-- **The Watcher glows too:** every check that finds a tip buyable makes the edge glow in its own color (default green, Options > Bargain alarm). Sound only for confirmed tips as before.
-- **Header:** "Sniper: on/off" shows the same as the "Sniper mode" button in the tab (before: "on" as soon as the Watcher checked something).
-- **Test routine:** the watcher step waits until a running full scan is done and counts its 3 minutes only afterwards; without a round it names the reason.
-- **Auction house:** the cover of our view now lies above all frames of the auction house, so its list no longer shows through faintly.
-
-### Version 0.65.392
-
-- **Buy > Purchase:** the page bar above the results no longer sits under "X" and "Favorites"; with little room it shows the short form "< 3 / 22 >".
-- **Market tab:** the second header line only shows what fits; the rest is at the top of its tooltip. "Price dropped" rows show item and proceeds in two lines (full sentence in the tooltip). The "State" column shows "Reagents missing: n" (cost per craft in the tooltip). The detail area shows "Learned" in two lines.
-- **Watcher:** "still learning" always comes with the number of cases.
-- **Tooltips** of the market header, the way quota line, the detail times, the sync status and two sell hints open next to the window and no longer cover buttons.
-- **Test routine:** the watcher step takes 3 minutes instead of 10; at the start a tip says that an own full scan shortly before saves one scan and 15 minutes.
-
-### Version 0.65.391
-
-- **Full scan:** while a scan is being summarised, the visible price ladders no longer change part by part; they change all at once at the end (0.65.390 reused the visible ladders of the last scan). Items without auctions in the scan leave their stored ladder untouched.
-
-### Version 0.65.390
-
-- **Full scan uses less memory:** the price ladders of the last scan are reused from the second scan after login on (before: only from the third, and an incomplete scan lost them). An incomplete scan is now detected before the ladders are built and changes nothing, as before.
-- **Full scan measurement (test routine only):** the per-addon memory measurement now belongs to the longest frame; the report shows how many ladders were reused.
-
-### Version 0.65.389
-
-- **Test routine, Sniper smoothness (S13):** item-info answers were counted as milliseconds of own work ("105 ms" were 105 answers); own work is now jobs + events + scripts, answers are shown as a count. The report names the location (file:line) of the slowest own script per frame and which locations cause frames over 33 ms.
-- **Test routine, sandbox:** diagnostic entries written while the routine is finishing no longer reach the real log.
-- **Test routine, Sniper checks:** a real hit or watcher target of the player no longer affects the button and mouse-wheel checks.
-- **Full scan measurement (test routine only):** the cost of the measurement is shown per frame (maximum) and as a total.
-
-*Older versions: see the changelog of each file in the **Files** tab.*
+For the changes of each version see the changelog of the file in the **Files** tab.
 
 ---
 
@@ -77,14 +44,15 @@ In-game: the **Support** button in the addon window (or `/ahs donate`).
 - **Sell-through estimate:** how many sell per day and how reliable the market value is
 - **Trends and charts** with time-based EMAs and crossover markers
 - **Bait-offer protection** and automatic re-checks of suspiciously cheap prices
-- **Price sync** between all players using the addon
+- **Price sync** with AHSentinel players in your guild or group
 - Prices and a small price chart in **every item tooltip**, plus vendor price and disenchant value
 
 ### Buying
 - **Categories like the Blizzard auction house:** every main category with its sub-categories (Weapons → One-Handed Axes …, Armor → Cloth/Leather …), names and order straight from the game
 - **Sniper:** targets with max price, quantity, budget, rarity, item level and level filters – searches on its own while the auction house is open
-- **Bargain watcher:** herbs, ore, cloth, leather, enchanting, elemental, gems, cooking and more – anything at or below x % of market value (default 50 %); never weapons or armour. When you start the full scan, it has priority: the watcher pauses until the scan has run
-- **One-notch buying** with the mouse wheel or your own key binding
+- **Bargain watcher:** herbs, ore, cloth, leather, enchanting, elemental, gems, cooking and more – anything at or below x % of market value (default 50 %); never weapons or armour. Its finds are **tips**: they never appear in the sniper on their own and are never bought directly – right-click the item, **Move to the Sniper**, and it becomes a normal sniper target. When you start the full scan, it has priority: the watcher pauses until the scan has run
+- **Buying only when you press:** mouse wheel, your own key binding or the button – never automatically
+- **Glow and raid warning** when a sniper search finds something buyable (only for that item); the watcher glows in its own colour
 - **Stackable goods combined** (classic auction house): same unit price = one row with the sum and the total price; Shift+click several rows and buy them together
 - **Shopping lists** with quantities – check all prices at once or turn missing items into sniper targets; items already in your bags are subtracted
 - **Watchlist** with alerts
@@ -100,7 +68,7 @@ In-game: the **Support** button in the addon window (or `/ahs donate`).
 - **Ledger:** income after the AH cut, spending, deposits and profit for today / 7 days / 30 days / all time – read from your mailbox invoices, nothing counted twice
 - **Statistics:** sell-through per item, best selling hours and weekdays
 - **Buy → Bargains:** below market value, below vendor price or below disenchant value, bids and flip recommendations, sorted by realistic profit per day; flipping calculator
-- **Disenchanting learns together:** your disenchant results are shared with all AHSentinel players (or only your guild), so the drop chances match the server much sooner
+- **Disenchanting learns together:** your disenchant results are shared with AHSentinel players in your guild or group (or only your guild), so the drop chances match the server much sooner
 - **Professions:** material cost, value of the result and profit for every recipe, best recipes, materials straight to a shopping list
 - **Vendor prices** are learned automatically at every merchant – including items that cost a currency (e.g. Merchant's Favor on WoW Forever)
 - **Alts & gold:** gold, bags and bank of all your characters, gold history of the last 30 days
@@ -142,7 +110,6 @@ Everything works with the mouse – the commands are optional.
 | Command | Action |
 |---|---|
 | `/ahs` | open / close the window |
-| `/ahs help` | list all commands in the chat |
 | `/ahs scan` | start a full market scan |
 | `/ahs today` | "Today" – what makes the most gold right now |
 | `/ahs sniper` | sniper on / off |
