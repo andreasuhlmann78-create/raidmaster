@@ -863,3 +863,18 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     HINWEIS – die Leistungsgrenzen messen nur die eigene Arbeit, der Rest ist fast immer grösser; die Regel würde echte Rückschritte verdecken
     (Begründung RaidMaster 3.0.44, angenommen). Gründe für HINWEIS sind nur: Hintergrund/Fensterwechsel-Zeitraum, Ladebildschirm, Speicherbereinigung
     im betroffenen Bild. "Speicher je Addon" einmal am Ende statt beim längsten Bild ist RICHTIG (die Abfrage selbst kostet bis ~50 ms).
+
+>>> ENTSCHEID DES NUTZERS 25.11. 13:47 (Supervisor 13:47) zur Trefferquote (Frage aus den Berichten 0.9.80–0.9.83): "Echten Weg verfolgen".
+    Hintergrund vom Nutzer: Er stellt Schneider-Teile her, um zu skillen und um sie (z. T. über einen anderen Charakter, per Post verschickt) zu
+    ENTZAUBERN – verkauft wird der Staub, weil er schneller weggeht als Rüstung. Er stellt auch ohne Skillpunkt her, wenn Herstellen+Entzaubern
+    lukrativer ist als Kaufen+Entzaubern. Zwischenprodukte (Stoffballen) werden weiterverarbeitet. Kaum etwas geht als Rüstung ins AH.
+PS-TQ1 MITTEL: Trefferquote je tatsächlichem Weg des hergestellten Stücks:
+    a) entzaubert (auch nach Versand an einen anderen eigenen Charakter) -> Treffer, wenn Wert der erhaltenen Materialien (verkauft = Erlös,
+       sonst Marktwert zum Zeitpunkt) >= Herstellkosten; b) im AH verkauft -> wie bisher (Erlös >= Kosten innerhalb 7 Tagen);
+       c) Zwischenprodukt (als Zutat verbraucht) -> zählt NICHT selbst, seine Kosten gehen in das Endprodukt; d) Herstellungen mit Skillpunkt
+       zählen mit (Nutzer: Skillpunkt-Fälle NICHT ausnehmen); e) Weg unbekannt nach 7 Tagen (liegt noch in Tasche/Bank) -> offen/zählt nicht,
+       nicht als Fehlschlag. Woher die Daten: AHSentinel führt den Weg Herstellen -> Entzaubern -> Verkauf schon (SK1-l "Ketten", Entzauber-
+       Verlauf) – vorhandene Schnittstelle/API.lua nutzen, wenn möglich; nichts doppelt erfassen; nie in fremde Daten schreiben (nur lesen).
+    f) Die alten 186 Schneiderei-Fälle: neu bewerten, wo der Weg nachvollziehbar ist, sonst mit Sicherung zurücksetzen – im Bericht Zahl vorher/
+       nachher je Beruf. g) Tests: je Weg ein Fall (a–e) + Gegenprobe (entzaubert mit Verlust -> Fehlschlag); "Unsicher" erscheint erst bei < 60 %
+       ab 20 bewerteten Fällen wie bisher. Erst Nachbau mit echten Daten (Kopie, nie ins Repo), dann Einbau.
