@@ -1029,3 +1029,5 @@ UP-DOC2 MITTEL: LIESMICH.txt (DE) und README_EN.txt Abschnitt "Addons automatisc
     HINWEIS RM-P1 NIEDRIG: "K Daten sichern" längste Portion 28,1 ms (11:18: 14 ms), 236 ms in 51 Bildern; eigene Arbeit im 40-ms-Bild 10,4 ms.
     Grenze 16 ms je Portion (leistung.md) – belegen, warum diesmal 28 ms (Datenmenge? ein Stück nicht teilbar?) und teilen; Testhilfe, aber im Spiel.
     Offen bleibt: Einstellungen + Esc-Reihenfolge (Abnahme 3.0.48) beim nächsten Ingametest.
+>>> ABNAHME IM SPIEL 25.11. 15:41 (Supervisor 15:41): Nutzer bestätigt mit 3.0.49 – Einstellungen offen, dann /rm: RaidMaster liegt oben, Esc schliesst
+    zuerst RaidMaster ("geht"). Damit ist die Abnahme 3.0.48/3.0.49 (RM-TAINT1, RM-K2, Einstellungen/Esc) im Spiel vollständig. Offen: RM-P1 (Hinweis).
