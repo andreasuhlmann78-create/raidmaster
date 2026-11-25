@@ -1,6 +1,6 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 25.11.2026 08:35 · Version 0.65.396 (Discord); CurseForge 0.65.393 (Datei-ID 9799863)
+## Stand 25.11.2026 08:38 · Version 0.65.396 (Discord); CurseForge 0.65.393 (Datei-ID 9799863)
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz – Testberichte "GSTEST1{…}", UI-Befunde db.uiFindingsLast).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
@@ -11,7 +11,7 @@ Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /h
 
 ## Gerade in Arbeit
 - FULL 0.65.396 fertig: 348 PASS / 66 FAIL, neu rot keine, neu grün s92 (Bericht 0834). s313 bei 395/396 grün.
-- CF4+CF5 eingefügt (Bericht 0810), Supervisor 08:05 Entwurf 2 angenommen. Öffentliche Lizenz noch "All Rights Reserved" -> Nachlesen (Erinnerung).
+- CF4+CF5 eingefügt (Bericht 0810), Supervisor 08:05 Entwurf 2 angenommen. Öffentliche Seite zeigt 08:37 GPLv3 (Bericht 0838).
 - Danach SP2 (ii) Bestpreise als Listen (Gleichheit, alter Client) erst messen + Bericht, dann (iii).
 
 ## Nächste Schritte (Supervisor 25.11. 06:25/06:31)
