@@ -78,7 +78,7 @@ In-game: the **Support** button in the addon window (or `/ahs donate`).
 - **Five tabs** with sub-tabs, price history in its own window, sniper and watcher switchable in the title bar
 - Two designs: **Classic** (looks like the WoW auction house) and **Modern**
 - Item search by name in any language, by item ID or by shift-click, with suggestions while typing
-- Built-in item name list (~33,000 items in 10 languages, incl. The Burning Crusade); lists always show names in your chosen language
+- Built-in item name list: up to ~33,500 item names per language in 10 client languages (English 25,816), incl. The Burning Crusade; lists always show names in your chosen language
 - Help page for every tab, right-click menu on every item, minimap button
 - **Robust saved data:** a single damaged entry (e.g. after a crash while saving) is repaired on login instead of causing a Lua error
 
@@ -86,7 +86,7 @@ In-game: the **Support** button in the addon window (or `/ahs donate`).
 
 ## Supported game versions
 
-AHSentinel works on **every** WoW version – all with the same features:
+AHSentinel is **one addon for every WoW version**:
 
 - **Retail**
 - **Mists of Pandaria Classic** and **Cataclysm Classic**
@@ -97,7 +97,7 @@ AHSentinel works on **every** WoW version – all with the same features:
 
 Both auction house types are supported: the modern one (Retail, Cata, MoP) and the classic one (Classic Era, TBC, Wrath).
 
-One download for everything – just copy the folder `AHSentinel` from the zip into `Interface\AddOns` of your game.
+One download for everything – just copy the folder `AHSentinel` from the zip into `Interface\AddOns` of your game. Rules that only exist on one server (e.g. the deposit on WoW Forever) are applied only there.
 
 ## Languages
 
@@ -137,4 +137,5 @@ Found a bug or have an idea? Leave a comment here on CurseForge – bug reports 
 
 Made by **GoldSentinel**. Licensed under **GPL-3.0-or-later**.
 Item names from [QuestieDB](https://github.com/Questie/QuestieDB) (GPL-3.0) and [wow-classic-items](https://github.com/nexus-devs/wow-classic-items) (MIT) – thank you!
+Parts of the disenchant table are taken from Disenchantry 1.1.2 (MIT, see `LICENSE-Disenchantry.txt` in the addon) – thank you!
 World of Warcraft and all item names © Blizzard Entertainment.
