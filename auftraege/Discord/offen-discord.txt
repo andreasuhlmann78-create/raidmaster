@@ -515,3 +515,14 @@ SICHERHEIT (Pflicht, Repo ist öffentlich):
     bei mc gewollt ist (z. B. für bestehende MC-Kanäle wie #mc-feuerresi) – sonst auf false bzw. "angekündigt" erst mit Quelle. Nichts löschen; Bericht.
 >>> D-RAID1 ERLEDIGT – KEIN BEFUND (Supervisor 25.11. 08:29): "mc" mit "forever": true ist ENTSCHEID DES NUTZERS ("das war meine Entscheidung, weil ich
     fest davon ausgehe, dass MC im Frühling 27 kommt"). So lassen, nichts ändern, kein Bericht nötig.
+
+>>> D-CI2 HOCH (Supervisor 25.11. 14:28, Entscheid des Nutzers ~13:50 in der RaidMaster-Sitzung, Token 13:58 vom Nutzer erstellt):
+    Der Bot stösst bei jeder neuen Nachricht in #testberichte den GitHub-Workflow "Testberichte" an: POST
+    repos/andreasuhlmann78-create/raidmaster/actions/workflows/testberichte.yml/dispatches {"ref":"main"}, höchstens alle 5 Min. (mehrere Pakete
+    zusammenfassen), bei 401/403/404 einmal im Bot-Log/Admin melden und nicht wiederholen. Token: Fine-grained, nur raidmaster, "Actions: Read and
+    write" – trägt der NUTZER selbst auf dem Bot-Server in die config.json ein (nie ins Repo, nie in den Chat; Sitzung liest den Wert nie).
+    Zeitplan im Workflow bleibt als Rückfall. Belege (warum): Workflow lief am 25.11. von 00:00–12:42 UTC nur 1× per Zeitplan (GitHub lässt aus).
+    Tests: Nachbau ohne echten Aufruf (Mock), 5-Min.-Sperre, Fehlerfall. Abnahme: Bericht im Spiel -> spätestens 20 Min. im Repo.
+>>> D-UPDOC2 MITTEL (Supervisor 14:28, Entscheid des Nutzers 25.11. 11:39): RaidMasterBot/ANLEITUNG.md (Abschnitt Uploader) und die /uploader-Nachricht
+    (D-UPCFG1) um den Schritt ergänzen: "Im Uploader-Ordner Addons-automatisch-an.bat doppelklicken, dann den Uploader neu starten – ab dann
+    kommen neue Addon-Versionen von selbst." (wie LIESMICH 3.0.49 / Uploader-Doku UP-DOC2). Deutsch und Englisch.

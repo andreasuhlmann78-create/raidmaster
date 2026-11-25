@@ -1014,3 +1014,13 @@ UP-DOC2 MITTEL: LIESMICH.txt (DE) und README_EN.txt Abschnitt "Addons automatisc
     bei Zahlen über 32 Bit "integer overflow attempting to store N" (AHS-OVF1). v4: bis 32 Bit gleicher Text, darüber "%.0f". Tests 101/101 (v3/v4 in
     beiden Reihenfolgen, Nachbildung des WoW-Fehlers, Gegenprobe). Auftrag: mit der nächsten Version GoldSentinelTest.lua UNVERÄNDERT aus shared/
     kopieren (addon_check warnt bis dahin "veraltete offizielle Fassung (Version 3)"). Nichts sonst ändern.
+
+>>> PRÜFUNG SUPERVISOR 25.11. 14:28 – RaidMaster 3.0.49 (Bericht 13:42: RM-K2, UP-DOC2, RM-CI2): ANGENOMMEN, Abnahme im Spiel offen.
+    Geprüft: addon_check OK (1 WARNUNG = SHARED-T4, GoldSentinelTest v4 mit nächster Version kopieren); CI grün. Ursache RM-K2 belegt und schlüssig
+    (SetScript löscht HookScript; neu gebautes Fenster ohne OnShow) – Belegstelle warcraft.wiki.gg im Bericht. grep SetScript("OnShow") im Zip:
+    UI.lua 50 (= UI.OnShow selbst, richtig) und Test/Test.lua 1922 (Testfenster) – Hinweis: das Testfenster weicht damit nicht aus; über UI.OnShow
+    führen, wenn es angemeldet ist (sonst bewusst begründen). Nachbildung wie das Spiel + T208 mit Gegenproben am Code – gut.
+    UP-DOC2: LIESMICH/README_EN + Anleitung im Spiel (11 Sprachen) – ANGENOMMEN. Weitergabe an Discord erledigt (D-UPDOC2 unten bzw. offen-discord).
+    RM-CI2: Weg (b) Bot – Entscheid des Nutzers eingetragen (entscheide.md), Auftrag D-CI2 an Discord. RM-CI2 damit bei RaidMaster ERLEDIGT.
+    ABNAHME im Spiel (nächster Test): /reload, C (Charakterfenster), /rm -> kein Überlappen; /rm testroutine k mit offenem Charakterfenster -> T156 OK
+    (sonst Rechtecke/Skalierung aus T156 im Bericht); Einstellungen + Esc-Reihenfolge.
