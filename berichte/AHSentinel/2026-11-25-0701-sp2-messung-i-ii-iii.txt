@@ -1,0 +1,24 @@
+AHSentinel AHS-SP2 (Rest bis T459 < 10 240 KB ab Scan 2) – MESSUNG (i) und (ii), Stand (iii), Bericht VOR jedem Einbau – zur Prüfung
+Nachbau mit echten Daten (ahs_sv3: 7000 Items, 344 831 Auktionen, ZC=23520), Szenario zz_sp2 in meiner Nachbau-Kopie, Code 0.65.395 + Mess-Schalter
+VS.ONECAT (nur Arbeitskopie, aus). Gemessen mit angehaltener Speicherbereinigung (collectgarbage "stop"), Listen vorher gross (wie der Vorrat-Satz).
+(i) Stufen-Text ohne "p:c"-Zwischenstücke (ein table.concat über Zahlen und Trennzeichen je Item, kein String je Stufe):
+    angelegt bei der Verdichtung: heute 2 388 / 1 745 KB (erster / zweiter Lauf) · neu 213 / 213 KB. Ersparnis 1,5–2,2 MB je Scan.
+    Texte alt = neu für alle 7000 Items (0 abweichend).
+    MESSFEHLER BEHOBEN, bitte beachten: die fertigen Texte (Ø 69,1 Zeichen) kosten in beiden Varianten gleich viel; im Nachbau werden sie aber
+    NICHT gezählt (Lua legt gleiche Texte nur einmal an, und dieselben Texte lebten noch an anderer Stelle – auch nach Leeren von VS.cmp; Stelle
+    nicht gefunden, Verdacht). Gerechnet: 7000 × (24 + 69,1 + 1) B ≈ 643 KB je Scan in beiden Varianten. Die Differenz alt − neu ist davon unberührt.
+(ii) Bestpreise als drei Zahlen-Listen statt einer Tabelle je Item: Tabelle je Item 1 851 KB · drei Listen NEU angelegt 960 KB · drei Listen
+    WIEDERVERWENDET (zwei Sätze wie bei SP1) ~0 KB (Listen nur gefüllt; nicht separat gemessen, Verdacht aus (i)/SP1: ~0). Format für Mitspieler
+    bleibt (A:ProcessBest bekommt die Listen statt der Tabellen – Leser von "best" müssen angepasst werden: ProcessBest, Feed, Tests).
+(iii) Nachlauf-Aufgaben – angelegt im Nachbau, Scan 2 kompakt (Messung 0.65.395 vor Einbau, zz_t459real): forecast-eval 2 600 KB · learn:factor
+    2 456 KB · cache:itemlist 2 326 KB · core:realcheck 1 253 KB. Wer legt was an (Code gelesen, VERDACHT, je einzeln zu messen):
+    - forecast-eval (Forecast.lua Fc:EvalCore): Fc:Decode erzeugt je Journal-Eintrag eine neue Tabelle (3000 Einträge, bis 30 Felder) – bei jedem
+      Lauf alle neu; das Journal ändert sich zurzeit kaum (J1: < 10 Einträge in 2 Tagen). Wiederverwendbar: Decode in EINE Arbeits-Tabelle, oder
+      Ergebnis-Teile behalten, solange Fc.listGen gleich ist.
+    - learn:factor (Learn.lua BuildFactors): Faktoren-Tabelle je Item neu bei jedem neuen Scan-Schlüssel; wiederverwendbar mit zwei Sätzen im Wechsel.
+    - cache:itemlist (A:BuildItemList): Zeilen-Tabelle je Item neu; wiederverwendbar (Zeilen-Tabellen behalten, nur Werte setzen).
+    - core:realcheck (MarketCore RealCheckItem je Item in marketData): Herkunft der 1,25 MB unklar (Prüftexte, Zwischenwerte) – zu messen.
+VORSCHLAG Reihenfolge nach Nutzen (KB je Scan, gemessen bzw. *Verdacht*): (i) 1 500–2 200 · forecast-eval *bis 2 600* · learn:factor *bis 2 450* ·
+ cache:itemlist *bis 2 300* · (ii) 1 850 · core:realcheck *bis 1 250*. Summe im besten Fall ~12 MB -> Scan 2 von 18–20 MB auf ~6–8 MB (*Verdacht*).
+ Nächster Schritt nach Freigabe: (i) einbauen (gemessen, gleich, klein: nur DigestC) und je Nachlauf-Aufgabe erst messen (Allokation je Aufgabe mit
+ der jeweiligen Wiederverwendung) mit eigenem Bericht.
