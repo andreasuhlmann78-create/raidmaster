@@ -1,0 +1,24 @@
+AHSentinel 0.65.401 – AHS-SB1 (sniper.armed) und AHS-T750b (abgeschnitten) – umgesetzt, zur Prüfung (nur Discord)
+Zeit: 25.11.2026 15:15 (Europe/Zurich)
+addon_check 0.65.401: OK. ZIP: gleiche 112 Dateien wie 0.65.400.
+
+AHS-SB1 – Ursache BELEGT (Code + Nachbau-Gegenprobe):
+- Start der Routine: wasArmed = Sn:IsArmed(); bei wahr SetArmed(false). Ende: SetArmed(true) nur "wenn wasArmed und nicht IsArmed()".
+  Sn:IsArmed() ist bei offenem AH auch OHNE db.armed wahr, sobald der Wächter ein Prüfziel hat (HasExtraTargets). Im Ingametest 14:58 (AH offen,
+  Wächter an) schrieb der Start daher db.sniper.armed = false (vorher nil bzw. true), das Ende sah "schon scharf" und setzte nichts zurück.
+- "in 2 Durchgängen": Durchgang 1 = der Sandbox-Vergleich fand sniper.armed und stellte den gespeicherten Wert her, Durchgang 2 = Kontrolle sauber.
+  Der echte Wert war also während der Routine falsch und wurde erst von der Sandbox zurückgestellt; im Spiel ging das in die sichere Richtung
+  (nicht scharf), Käufe waren ohnehin gesperrt (Handels-Proxy).
+- Fix: TR:DisarmForRun / TR:RestoreArmed sichern und schreiben genau db.sniper.armed (nil/false/true) – IsArmed wird nicht mehr benutzt.
+  Zweite Stelle mit demselben Muster (Befehle-Test, Schnappschuss armed = IsArmed()) ebenso umgestellt.
+- Zählung: ein Sandbox-FEHLER ist jetzt eine eigene FEHLER-Zeile T000S und steht in "FEHLER n" der Zusammenfassung.
+- Gegenprobe Nachbau s343 (Wächter-Prüfziel, AH offen, sniper.armed = nil; während der Routine ein echter Wert geschrieben):
+  0.65.401 PASS (T000S FAIL-Zeile, Pfad genannt, Wert zurück, sniper.armed bleibt nil, Summe zählt den FEHLER);
+  0.65.399 FAIL genau wie im Spiel: sniper.armed in der Sandbox-Liste, Summe "0 FEHLER", keine T000S-Zeile. Test T1030 (nil/false/true + alter Weg).
+AHS-T750b – die 3 Befunde: aus db.uiFindingsLast (Laptop 15:03): "Markt > Markt > Lücken: 'Preis 119g 00s 98c · Marktwert 60g … · Menge …' in …
+  detail (Platz 284 px, Text 316 px) – keine Tabellenzelle" (eine Zeile; die 3 = Klassisch/Modern/130 % derselben Stelle, Bericht kürzt auf 200 Zeichen).
+  Fix: Detailzeile "Preis · Marktwert" und eingerückt "Menge" (wie Preisleiter/Gelernt); neue Texte in 10 Sprachen (alter Schlüssel entfernt).
+  Höchstens 9 Zeilen bleiben (jetzt 9 mit Warteschlange). Nachweis im Spiel: T750 (Nachbau misst Text-Breiten nicht wie WoW).
+Nachbau 0.65.401: s42, s43, s44, s187, s341, s259, s343 PASS.
+HINWEIS FULL 0.65.400: abgebrochen und VERWORFEN – ich habe während des Laufs am Arbeitsordner weitergearbeitet (Szenarien ab ~15:00 liefen mit
+  geändertem Code). Künftig rechnet der Gesamtlauf auf einer Kopie des Ordners. FULL 0.65.401 folgt allein auf einer Kopie.

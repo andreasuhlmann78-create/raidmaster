@@ -1,6 +1,6 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 25.11.2026 14:40 · Version 0.65.400 (Discord); CurseForge 0.65.393 (Datei-ID 9799863)
+## Stand 25.11.2026 15:15 · Version 0.65.401 (Discord); CurseForge 0.65.393 (Datei-ID 9799863)
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz – Testberichte "GSTEST1{…}", UI-Befunde db.uiFindingsLast).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
@@ -10,15 +10,15 @@ Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /h
  Eigene Szenarien /tmp/claude-0/sim/wowsim/scenarios_new.lua (zz_t459real, zz_tr1, zz_i6_sniper, zz_ui_buy).
 
 ## Gerade in Arbeit
-- 0.65.400 (T14 StaleOffer, T750 Trend bei AH-Höchstpreis, OVF1-Nachträge, shared GoldSentinelTest v4) auf Discord; FULL 0.65.400 als Nächstes.
-- OVF1-Stelle belegt: Lücken-Trend Item 24282 (Angebot 99 999 999 999). Verdacht st.sold je Markt belegt (db.fullScan gemeinsam) – Freigabe nötig.
-- Scratch: /tmp/claude-0/sim2 (zz_t14c, zz_trendall mit NOW/FACTION/SVIN), alte Versionen ahs396–399 in /tmp/claude-0.
+- 0.65.401 (SB1 sniper.armed genau sichern + T000S zählt; T750b Detailzeile zweizeilig) auf Discord. FULL 0.65.401 auf KOPIE (/tmp/claude-0/ahs401).
+- Ingametest 14:58 (0.65.400, Teil auto): OVF1 + T14 bestanden (Supervisor 15:03). Teil "server"/T459 im Spiel offen (Nutzer macht es).
+- FULL 0.65.400 verworfen (Code während des Laufs geändert) – Gesamtlauf nur noch auf einer Kopie des Ordners.
 
-## Nächste Schritte (Supervisor 25.11. 14:26)
-1. FULL 0.65.400 allein, Bericht.
-2. fullScan je Markt: Vorschlag liegt (Bericht 0.65.400) – auf Freigabe warten, nicht bauen.
-3. SP2 h) (rein intern) -> AHS-S313 (Bereinigung + Namen-Aufbau < 6 ms ohne GC) -> k) falls nötig.
-4. CurseForge: keine Version ohne Ingametest (0.65.398/399 nicht). Nutzer: Vollscan + /ahs testroutine mit offenem AH.
+## Nächste Schritte (Supervisor 25.11. 14:48/15:03)
+1. FULL 0.65.401 (Kopie, allein), Bericht.
+2. SP2 h) (rein intern) -> AHS-S313 (Bereinigung + Namen-Aufbau < 6 ms ohne GC) -> k) falls nötig.
+3. AHS-MK1 NIEDRIG freigegeben (fullScan je Markt; Bedingungen wie SP1/k) – nach SP2 h und Ingametest.
+4. CurseForge 18:00: Kandidat 0.65.400/401 nur mit Ingametest ohne neuen FEHLER (Supervisor meldet Nutzer).
 
 ## Offen beim Nutzer
 - Ingametest: "testroutine alles" mit T1016 (AH offen), Vollscan zweimal (SP1 d / SP2 T459), T126 im Vordergrund. Teil auto 09:01 erledigt.
@@ -35,5 +35,5 @@ Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /h
 - Kopfzeile "Sniper: an/aus" = db.sniper.armed (Sn:IsArmed ist auch mit Wächter-Prüfziel wahr – treibt nur die Suche).
 - AH-Abdeckung: UI:AHOverlayRaise einmal beim Einrichten; UI:AHBleed misst (T1016). Ursache a) noch "Verdacht, zu messen".
 - T750-Regel: Zeilen ohne " – Grund" nach "Text x px)" sind "gekürzt (Tooltip)" = kein FEHLER.
-- Letzter Test T1029 (T1028 OVF1, T1029 Trend Höchstpreis; T1025–T1027 = SP2 iii a/c/b; T1023/T1024 = SP2 ii; T1022 = SP2 i). best: A.NewBest/BestGet/BestIDs/BestMarkU (alt+neu); VS:BestSpare/BestInUse. Vollscan: VS.cmp/cmpSpare (set.min/qty/auc/lad). Neue Tests vor "-- CF-AHS-5 (CurseForge 17.11. …"; Index vor { "AHS-CF1-UI", .
+- Letzter Test T1030 (T1030 SB1; T1028 OVF1, T1029 Trend Höchstpreis; T1025–T1027 = SP2 iii a/c/b; T1023/T1024 = SP2 ii; T1022 = SP2 i). best: A.NewBest/BestGet/BestIDs/BestMarkU (alt+neu); VS:BestSpare/BestInUse. Vollscan: VS.cmp/cmpSpare (set.min/qty/auc/lad). Neue Tests vor "-- CF-AHS-5 (CurseForge 17.11. …"; Index vor { "AHS-CF1-UI", .
 - Nie etwas in announce/ löschen, alte Versionen nicht wiederherstellen. Jede Version: CHANGELOG.de.md-Abschnitt Pflicht (AHS-R1).
