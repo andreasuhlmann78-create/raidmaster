@@ -1,0 +1,29 @@
+BERICHT AHSentinel – T459 Scan 2: grösste Posten belegt, Massnahmen gemessen (Messkopien, NICHTS eingebaut) – Entscheid nötig
+Zeit: 26.11.2026 09:00 (Europe/Zurich) · Basis 0.65.404 · Nachbau zz_sp4 mit echten Daten (Laptop), Scan 2 mit angehaltenem GC
+Dazu (Entscheid 08:26 umgesetzt): s313 Grenze = Budget der Aufgabe (höchstens Bild-Budget 6 ms) + gemessener längster Schritt (≤ 8 ms).
+  Normal PASS (eigene 3,1 ms / Grenze 4,7); Gegenprobe Budget 20 FEHLER (eigene 8,2 / Grenze 6,6). Die Kappung auf das Bild-Budget ist
+  meine Auslegung – ohne sie wäre die Gegenprobe HINWEIS geworden (Grenze 20,3). Bitte bestätigen. Test im Repo ahanalyzerpro.
+
+1) WICHTIGSTER BEFUND: T459 zählt NETTO-Zuwachs, nicht nur Abfall. Scan 2 (Nachbau, GC aus, danach collect):
+   angelegt 28 706 KB = Abfall 25 508 KB + BLEIBT 3 197 KB (Daten/Puffer). (Gesamt enthält den Nachbau selbst; T459 = 15 929 KB eigen.)
+   Was bleibt, ist keine Last für die Speicherbereinigung – aber T459 zählt es mit. Belegt:
+   a) cache:itemlist 2 325 KB = Zeilen der Item-Liste WACHSEN (Felder day/week/month werden in Scan 2 erstmals gesetzt -> Hash der
+      Zeile wird grösser). Alle Abfragen darin (GetTrend 21 000×, GetMarketValue 30 885× …) legen 0 KB an (einzeln gemessen).
+   b) Signatur-Zählpuffer 640 KB (Bericht 07:03).
+2) Eigene Arbeit je Aufgabe in Scan 2 (zwischen zwei Pausen, ohne A:Pause): fullscan 7 116 · cache:itemlist 2 316 · cache:today 1 631 ·
+   learn:factor 1 300 · core:realcheck 1 207 · learn:rhythm 654 KB. Im fullscan: Track ~5 100 (Signatur-Texte ~1 400, Puffer 640, Compare-Abfall
+   ~400, Kopie der alten Signatur ~360), Verdichtung 1 977 (Leitertext je Item), ProcessBest 904 (RecordPrice 509 = neue Verlaufseinträge, bleibt).
+3) Massnahmen in EINER Messkopie gemessen (T459 15 929 -> 13 531 KB, −2 398 KB; st.sigs/sold/ladder 2 919 Zeilen alt = neu byte-gleich):
+   M1 Item-Liste: Zeile beim Anlegen mit allen 13 Feldern vorbelegt (Lua 5.1 bemisst den Hash nach den Feldern im Konstruktor) -> kein
+      Wachsen in Scan 2. Wirkung: −2,3 MB in T459 Scan 2 – ABER kein weniger Abfall (gleich viel Speicher, nur schon beim Anlegen in Scan 1).
+   M2 alte Signatur ohne Kopie des Rests lesen (DecodeFlat liest direkt aus dem gespeicherten Text): Track −209 KB echter Abfall.
+   M3 Takt-Prüfung beim Abgeben (A:Pause, ~563× je Scan): C-Grenzen zählen ohne Teiltexte je Stapelzeile. Nachbau: debugstack 563×,
+      2 438 Zeilen; im Spiel geschätzt −0,2 MB Abfall je Scan (Nachbau-debugstack ist teurer als im Spiel, darum Schätzung).
+   Echter Abfall-Gewinn M2+M3 zusammen ~0,4 MB. Grosse echte Posten bleiben: Signatur-Texte (k verworfen), Leitertexte der Verdichtung,
+   cache:today, learn:factor, core:realcheck (nächste Messung, falls gewünscht).
+FRAGEN an den Supervisor:
+   (i) Soll T459 weiter den Netto-Zuwachs zählen? Vorschlag: Ziel auf ABFALL beziehen (im Spiel nicht direkt messbar ohne volle Bereinigung)
+       ODER Ziel 10 240 KB für Scan 2 als "Zuwachs inkl. einmaligem Wachsen" neu festlegen. Mit M1 sinkt die Zahl ohne echten Gewinn – das
+       will ich nicht als Erfolg verkaufen, darum frage ich vor dem Einbau.
+   (ii) M2 und M3 einbauen (rein intern, Text/Ergebnis gleich)? Ich würde sie einbauen, sobald freigegeben.
+Neu im Repo gesehen: AHS-TB1 HOCH (Tagesbilanz +46 g ohne Buchung) – ich gehe JETZT daran (Gold-Sicherheit vor Speicher).

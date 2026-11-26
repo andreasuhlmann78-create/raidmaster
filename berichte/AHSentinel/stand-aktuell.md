@@ -1,6 +1,6 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 26.11.2026 08:02 · Version 0.65.404 (Discord, AHS-S313); CurseForge 0.65.400 (öffentlich, CF6 erledigt 08:01)
+## Stand 26.11.2026 09:00 · Version 0.65.404 (Discord, AHS-S313); CurseForge 0.65.400 (öffentlich, CF6 erledigt 08:01)
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz – Testberichte "GSTEST1{…}", UI-Befunde db.uiFindingsLast).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
@@ -10,15 +10,15 @@ Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /h
  Eigene Szenarien /tmp/claude-0/sim/wowsim/scenarios_new.lua (zz_t459real, zz_tr1, zz_i6_sniper, zz_ui_buy).
 
 ## Gerade in Arbeit
-- 0.65.404 (AHS-S313): names-Budget 4,5 ms; s313 bewertet je Bild mit gemessener Bereinigung (Gegenprobe FEHLER). FULL 404: 355/67, keine neuen (Bericht).
-- SP2 h) gemessen: Hash-Umbau erzeugt keinen Abfall -> nicht eingebaut (Bericht 0703). Frage S313 Budget-Bedingung offen (Bericht 0.65.404).
-- AHS-CF6 erledigt: 0.65.400 öffentlich (CF-Seite heisst .../wow/addons/ah-analyzer-pro). Antworten an Spieler postet der Supervisor.
+- AHS-TB1 HOCH: Tagesbilanz "+46 g seit gestern" bei "nichts gebucht" (Priester 10, Laptop) – Quelle jeder Münze belegen, dann beheben.
+- T459-Posten berichtet (Bericht t459-posten): Fragen (i) Netto vs Abfall, (ii) M2/M3 einbauen? Messkopie /tmp/claude-0/ahs_m. k) VERWORFEN.
+- s313 Grenze Budget+gemessener Schritt im Repo (Kappung auf Bild-Budget = meine Auslegung, Bestätigung offen).
 
 ## Nächste Schritte
-1. k) gemessen (Berichte sp2-k-messung, sp2-k-mittelweg; Kopien /tmp/claude-0/ahs_k, ahs_k2) -> Entscheid Supervisor abwarten, nichts einbauen. Weiter AHS-S216.
-2. k) Signaturen als Zahlen (freigegeben unter Bedingungen: altes Format lesen, Rückstufung, Gleichheit echte Daten, Gegenprobe), zuerst messen.
-3. AHS-S216 (längstes Bild), AHS-MK1 danach.
-4. Ingametest: zwei Vollscans in einer Sitzung (T459 Scan 2), Sandbox ohne sniper.armed (0.65.401+).
+1. AHS-TB1 a) belegen mit echten Daten (Laptop-Sicherung goldsentinel-daten), Bericht, dann b)/c).
+2. Nach Antwort Supervisor: M2/M3 (und M1?) einbauen.
+3. AHS-S216 (längstes Bild), AHS-BP1 MITTEL (bindType: Schurkengifte/Blendungspulver BoP), AHS-MK1 (nach Ingametest).
+4. Ingametest: zwei Vollscans in einer Sitzung (T459 Scan 2), Sandbox ohne sniper.armed.
 5. Regel CF 18:00: CF-Entscheid im Repo -> sofort Auswahl-Frage im Chat; bis 17:30 Stand melden; ohne Bestätigung sofort melden.
 
 ## Offen beim Nutzer
@@ -26,6 +26,7 @@ Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /h
 - Gold-Messung Ausrüstung mit Kupfer-Preis (AHS-POST), RecipeList-Fehler mit nur AHS aktiv.
 
 ## Entscheide des Nutzers seit letztem Stand
+- Supervisor 26.11. 08:26: S313 Grenze Budget + gemessener längster Schritt (≤8); SP2 k) verworfen; weiter T459-Posten, dann S216. 08:57: TB1 HOCH (Nutzer schickte kein Gold an den Priester).
 - Supervisor 26.11. 06:30: CF6 erledigt bis auf Sichtbarkeit; Regel CF-Frage sofort/17:30/18:00 sofort melden ANGENOMMEN; 0.65.403 angenommen (Abnahme im Spiel offen).
 - 26.11. ~06:15 im Chat: "Ja, 0.65.400 hochladen" (CurseForge).
 - Nutzer 11:09: jeder CurseForge-Kommentar bekommt eine Antwort -> im Bericht "Rückmeldung erledigt: …". Supervisor 13:06: 0.65.398 nicht auf CurseForge; 10:59: h zuerst, k freigegeben unter Bedingungen, S313 Regel. (Supervisor 10:00: SP2 iii Reihenfolge a,c,d,b + AHS-S313; 09:22: 0.65.397 angenommen; Zeit nur aus TZ=Europe/Zurich date. 08:51: SP2 ii Reihenfolge Tests -> Einbau, Zusatz T-e; 09:08: T750-Ansichten mit Spielzustand nicht als FEHLER).
