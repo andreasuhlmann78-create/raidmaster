@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-26T06:06:23Z",
+ "ausgewertet": "2026-11-26T08:04:52Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -81,19 +81,30 @@
    ]
   },
   "LevelPilot": {
-   "berichte": 90,
+   "berichte": 91,
    "letzter_test": {
-    "id": "LevelPilot-1795671882-d4e498-3",
-    "version": "3.13.16",
-    "time": 1795671882,
+    "id": "LevelPilot-1795679361-484fa7-1",
+    "version": "3.13.17",
+    "time": 1795678227,
     "counts": {
      "client": 0,
-     "fehler": 0,
-     "ok": 11,
+     "fehler": 1,
+     "ok": 0,
      "uebersprungen": 0
     }
    },
-   "fehler_tests": [],
+   "fehler_tests": [
+    {
+     "addon": "LevelPilot",
+     "art": "test",
+     "version": "3.13.17",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T393",
+     "name": "[LP-TR1] Routine vollständig (nicht nach dem Zeitlimit abgebrochen), Dauer je Bereich im Bericht",
+     "detail": "ergebnis: abgebrochen: Ausloggen während der Testroutine bei Reisen / Reisen | erwartet: fertig",
+     "bericht": "LevelPilot-1795679361-484fa7-1"
+    }
+   ],
    "fehler_spiel": [
     {
      "addon": "LevelPilot",
@@ -251,6 +262,16 @@
   },
   {
    "addon": "LevelPilot",
+   "art": "test",
+   "version": "3.13.17",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T393",
+   "name": "[LP-TR1] Routine vollständig (nicht nach dem Zeitlimit abgebrochen), Dauer je Bereich im Bericht",
+   "detail": "ergebnis: abgebrochen: Ausloggen während der Testroutine bei Reisen / Reisen | erwartet: fertig",
+   "bericht": "LevelPilot-1795679361-484fa7-1"
+  },
+  {
+   "addon": "LevelPilot",
    "art": "spiel",
    "wo": "Fire PLAN_CHANGED",
    "msg": "attempt to yield across metamethod/C-call boundary",
@@ -325,11 +346,11 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 256,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.403-83c25f58426f.txt"
+    "anzahl": 257,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.404-ed6bc51c81be.txt"
    },
    "BuffSentinel": {
-    "anzahl": 190,
+    "anzahl": 191,
     "neueste": "testberichte/diagnose/BuffSentinel/0.9.65-f6ad00e1f353.txt"
    },
    "GSMesstest": {
@@ -341,19 +362,19 @@
     "neueste": "testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt"
    },
    "GuildSentinel": {
-    "anzahl": 304,
+    "anzahl": 305,
     "neueste": "testberichte/diagnose/GuildSentinel/0.9.63-ea93aa0c2b9e.txt"
    },
    "LevelPilot": {
-    "anzahl": 194,
-    "neueste": "testberichte/diagnose/LevelPilot/3.13.16-cafeb6d35e16.txt"
+    "anzahl": 195,
+    "neueste": "testberichte/diagnose/LevelPilot/3.13.17-321ca4da5bec.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 277,
+    "anzahl": 278,
     "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.87-f70fed84e386.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 254,
+    "anzahl": 255,
     "neueste": "testberichte/diagnose/ThreatSentinel/2.5.30-fd96cf472bbb.txt"
    }
   },
