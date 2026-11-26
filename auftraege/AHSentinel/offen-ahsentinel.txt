@@ -7215,3 +7215,13 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     AH-STATE mit "kleine Teile (n)" und "Rest (nicht zugeordnet)" – genau gefordert (Nachbau 96 % zugeordnet). cache:warm: Schritt = 1 Item, Bereinigungsanteil
     jetzt in der LANGSAM-Zeile – richtig (erst belegen, dann HINWEIS). Abnahme: AH öffnen (erstes Öffnen nach dem Einloggen) -> AH-STATE ≥ 90 % zugeordnet;
     nach dem Einloggen ggf. LANGSAM cache:warm mit "davon Bereinigung".
+
+>>> INGAMETEST 26.11. 16:07 (Supervisor 26.11. 16:07) – AHSentinel 0.65.411, erstes AH-Öffnen nach /reload (Protokoll vom Nutzer):
+    "AH-STATE gesamt 10,5 ms · Fenster 9,6 · Teile: Reiter aufbauen/umhängen (overview) 4,6 · Reiter füllen (overview) 1,3 · kleine Teile (8) 0,5 · Rest
+    (nicht zugeordnet) 3,4". Zugeordnet (9,6 − 3,4)/9,6 = 65 % – Ziel ≥ 90 % NICHT erreicht. (Summe der Teile 9,8 vs Fenster 9,6: Rundung – bitte Rest aus den
+    ungerundeten Werten so ausgeben, dass die Zeile aufgeht.) Diesmal 10,5 statt 17,6 ms (15:48) – Schwankung im Spiel; beide Werte > 6 ms.
+    Auftrag AHS-W1 Teil 2 weiter: a) Rest 3,4 ms zerlegen (Show/OnShow, Layout) wie geplant. b) Massnahme für den grössten Teil schon jetzt vorbereiten:
+    "Reiter aufbauen (overview)" 4,6–5,1 ms = Frames anlegen beim ERSTEN Öffnen -> die Frames nach dem Einloggen im Hintergrund als Aufgabe mit Budget
+    anlegen (vor dem ersten AH-Besuch), dann ist das Öffnen nur noch Zeigen/Füllen. Ziel: erstes Öffnen ≤ 6 ms.
+    cache:warm: in dieser Sitzung keine LANGSAM-Zeile (kein Schritt > Grenze) – Abnahme offen bis zum nächsten Fall mit "davon Bereinigung".
+    GOLD-LOGOUT 16:06:53 echt + NACHTRAG /reload ja – passt zur belegten Regel.
