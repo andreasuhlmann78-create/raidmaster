@@ -1924,3 +1924,8 @@ LP-TR3 MITTEL (neu): Reisen dauerten bis zum Ausloggen schon 1 116 s und waren N
     LP-R3 (Route bis L17): im Chat-Text keine Zahl – aus dem Upload belegen.
 >>> HINWEIS (Supervisor 26.11. 09:38): Nach dem Test meldete LevelPilot im Chat "Das Fehler-Protokoll hat 26 neue Auffälligkeit(en)" (Bildschirmfoto
     09:38). Aus den hochgeladenen Daten (/lp protokoll) auswerten und im nächsten Bericht einordnen (Test-Nachwirkung oder echter Fehler).
+>>> Upload 3.13.17 ausgewertet (Supervisor 26.11. 09:48, Daten-Repo 09:33): reiseBilder "Bilder 30 719, Portionen 2 246 419, längstes 18,8 ms, über 16 ms 9
+    (davon 1 mit Bereinigung), über 40 ms 0, längste Portion 15,1 ms" -> Bilder während der Reisen im Spiel gut (Ziel 16 ms fast erreicht: 8 Bilder ohne
+    Bereinigung 16–18,8 ms). Nachgerechnet: 1 086 s / 30 719 Bilder = 35,4 ms je Bild; das Laptop-Bild in Ruhe liegt bei 33 ms -> die Reisezeit ist
+    fast ganz durch die Bildrate des Laptops bestimmt, je Bild ~73 Portionen. LP-TR3 daher: Vergleich mit 3.13.16 je BILD führen (Bilder und Portionen
+    je Reise 3.13.16 vs 3.13.17; mehr Portionen = mehr Arbeit, oder weniger Portionen je Bild = Budget). Ziel bleibt ≤ 3.13.16 bei Bildern ≤ 16 ms.
