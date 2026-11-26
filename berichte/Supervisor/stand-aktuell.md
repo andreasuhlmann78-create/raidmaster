@@ -1,4 +1,4 @@
-# Stand Supervisor – 26.11.2026 09:32
+# Stand Supervisor – 26.11.2026 11:54
 
 ## Gerade in Arbeit
 - Prüfungen 26.11. vormittags: AHS 0.65.405 + TB1-Nachtrag, PS 0.9.88 angenommen; LP 3.13.17 voller Ingametest ausgewertet (alles in offen-*.txt).
@@ -10,7 +10,8 @@
 4. PS 0.9.89 (PS-P1 Rezeptpreis teilbar + Faktor 5 Nachbau/Spiel belegen), dann BP1 in PS.
 5. LP: LP-I3 (T155 Undercity-Wegsuche), LP-TR3 (Reisen +9,5 %), LP-R1/R2/R3.
 6. GS-R1 (kein CF für GS bis behoben), RM-P1, BS-P2 + Versionsanzeige.
-7. CF: Kommentare bei jeder CF-Version und täglich lesen und beantworten (ohne Vorzeigen, danach loggen und melden).
+7. SH-M1 (eigene Aufgabe, shared): GoldSentinelMarkt.DiagLines entpackt alle ~7 400 Items je Aufruf (20–27 ms, BS T146/T156/T179) – Zähler zwischenspeichern, Version 11, Tests, dann Hinweis an alle Addons zum Kopieren.
+8. CF: Kommentare bei jeder CF-Version und täglich lesen und beantworten (ohne Vorzeigen, danach loggen und melden).
 
 ## Offen beim Nutzer
 - AHS: Haben die zwei weiteren Figuren noch ~5,07 g und ~30,19 g? (gefragt 26.11.)
