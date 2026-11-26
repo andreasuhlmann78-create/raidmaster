@@ -1,6 +1,6 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 26.11.2026 07:12 · Version 0.65.404 (Discord, AHS-S313); CurseForge 0.65.400 (Datei-ID 9822958, in Prüfung bei CF)
+## Stand 26.11.2026 07:41 · Version 0.65.404 (Discord, AHS-S313); CurseForge 0.65.400 (Datei-ID 9822958, in Prüfung bei CF)
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz – Testberichte "GSTEST1{…}", UI-Befunde db.uiFindingsLast).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
@@ -10,12 +10,12 @@ Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /h
  Eigene Szenarien /tmp/claude-0/sim/wowsim/scenarios_new.lua (zz_t459real, zz_tr1, zz_i6_sniper, zz_ui_buy).
 
 ## Gerade in Arbeit
-- 0.65.404 (AHS-S313): names-Budget 4,5 ms; s313 bewertet je Bild mit gemessener Bereinigung (Gegenprobe FEHLER). FULL 404 läuft auf Kopie /tmp/claude-0/ahs404.
+- 0.65.404 (AHS-S313): names-Budget 4,5 ms; s313 bewertet je Bild mit gemessener Bereinigung (Gegenprobe FEHLER). FULL 404: 355/67, keine neuen (Bericht).
 - SP2 h) gemessen: Hash-Umbau erzeugt keinen Abfall -> nicht eingebaut (Bericht 0703). Frage S313 Budget-Bedingung offen (Bericht 0.65.404).
 - AHS-CF6: 0.65.400 Datei-ID 9822958 bei CF in Prüfung -> Nachlesen 07:53.
 
 ## Nächste Schritte
-1. CF-Seite nachlesen (07:53), Bericht. FULL 0.65.404 auswerten (gegen fail403), Bericht.
+1. CF-Seite nachlesen (07:53), Bericht. k) in Messkopie /tmp/claude-0/ahs_k gebaut (T1033) -> messen.
 2. k) Signaturen als Zahlen (freigegeben unter Bedingungen: altes Format lesen, Rückstufung, Gleichheit echte Daten, Gegenprobe), zuerst messen.
 3. AHS-S216 (längstes Bild), AHS-MK1 danach.
 4. Ingametest: zwei Vollscans in einer Sitzung (T459 Scan 2), Sandbox ohne sniper.armed (0.65.401+).

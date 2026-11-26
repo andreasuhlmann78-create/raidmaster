@@ -1,0 +1,6 @@
+BERICHT AHSentinel – Gesamtlauf (FULL) 0.65.404 – umgesetzt, zur Prüfung
+Zeit: 26.11.2026 07:41 (Europe/Zurich) · auf einer KOPIE (/tmp/claude-0/ahs404), allein (erster Start abgebrochen und neu gestartet, weil der
+Prozess nicht von der Sitzung verwaltet war – nur der zweite, vollständige Lauf zählt)
+
+Ergebnis: 355 PASS, 67 FAIL. Gegen FULL 0.65.403: neu rot keine, neu grün keine (Liste der 67 identisch).
+s313 (neue Bewertung je Bild): PASS – längstes Bild 14,7 ms, davon Speicherbereinigung 12,0 ms, eigene Arbeit 2,7 ms, kein Bild über 16 ms.
