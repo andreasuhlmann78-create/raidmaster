@@ -7261,3 +7261,9 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     download/AHSentinel-0.65.413.zip hinzufügen und download/AHSentinel-0.65.400.zip im SELBEN Commit entfernen (sonst wird die Repo-Prüfung rot), pushen;
     Workflow "CurseForge-Upload" grün und 0.65.413 in curseforge/uploaded.json nachprüfen, CHANGELOG/Beschreibung für CF Deutsch+Englisch. Bericht mit Lauf-ID.
     Heute 18:00 danach KEIN weiterer Upload (0.65.413 ist der Stand des Tages).
+
+>>> PRÜFUNG SUPERVISOR 26.11. 18:00 – AHS-CF7 ERLEDIGT: 0.65.413 auf CurseForge (Datei-ID 9829692, Lauf 45857795833 grün), uploaded.json enthält 0.65.413,
+    download/ nur noch AHSentinel-0.65.413.zip, Addon-Prüfung auf 65e607f grün (nachgeprüft). FULL 0.65.413 allein 357/66 – angenommen.
+    0.65.414 (17:12, Vorbauen ab 5 s, "Lücke in: <Funktion>"): ANGENOMMEN, addon_check (Release-ZIP) OK; Abnahme im Spiel offen (kalt < 5 s / normal > 5 s).
+    FULL 0.65.414 (17:37): 356/67, s216 wieder rot ohne Scan-Änderung -> Streuung, wird mit AHS-S216 (Zeitszenario stabil machen) erledigt – angenommen.
+    Hinweis: "allein" heisst auch kein addon_check über das ganze Repo während des FULL – nächstes Mal nachher laufen lassen.
