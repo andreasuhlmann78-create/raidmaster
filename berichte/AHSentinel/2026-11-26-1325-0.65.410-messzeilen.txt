@@ -1,0 +1,18 @@
+AHSentinel 0.65.410 – GOLD-LOGOUT-NACHTRAG (/reload), AHS-W1 Teil 2 Teilzeiten beim Öffnen – umgesetzt, zur Prüfung (nur Discord)
+Zeit: 26.11.2026 13:25 (Europe/Zurich)
+addon_check 0.65.410: OK. ZIP: gleiche 112 Dateien. Geändert: Characters.lua, UI_Main.lua, Version, CHANGELOG EN/DE.
+
+FULL 0.65.409: 355/67, neu rot keine, neu grün keine. EHRLICH: der Lauf war NICHT die ganze Zeit allein – ich habe währenddessen Nachbau-Läufe
+(zz_w1ah, s42/s43/s49/s6/s341) gestartet. Zusätzliche Last macht Zeitprüfungen nur strenger (keine falschen PASS), das Ergebnis ist gleich wie 0.65.408;
+trotzdem Regelverstoss – FULL 0.65.410 läuft allein, ohne andere Läufe.
+
+1) GOLD-LOGOUT (Supervisor 13:12: Hauptstadt = sofortiges Ausloggen ohne PLAYER_CAMPING): beim nächsten Laden einmal Diagnose "GOLD-LOGOUT-NACHTRAG ·
+   voriges Ende war /reload: ja|nein (Erst-Login ja|nein)" aus PLAYER_ENTERING_WORLD(isInitialLogin, isReloadingUi). Zusammen mit der GOLD-LOGOUT-Zeile
+   davor ist damit belegbar: /reload -> Wert?; Charakter-Menü/Spiel beenden (Erst-Login ja) -> Wert?
+2) AHS-W1 Teil 2 (Fenster 15,9 / 12,6 ms, Reiter overview): die AH-STATE-Zeile nennt jetzt die langsamsten Teile (≥ 0,5 ms): Reiter am AH, Gastfenster,
+   Einblenden, Panels umhängen, Reiter aufbauen/umhängen (<id>), Reiter zeigen, Reiter füllen (<id>), Reiterleiste, Seit-letztem-Besuch.
+   Nachbau erstes Öffnen: gesamt 2,7 ms, davon "Reiter aufbauen (overview)" 1,6 ms (Frames anlegen), danach 0,5 ms. Verdacht (zu messen): im Spiel ist
+   es dasselbe Aufbauen der Übersicht beim ersten Öffnen (Frames in C, Faktor ~5). Massnahme nach der Messung: Reiter leer zeigen und die Tabellen/Karten
+   im nächsten Bild bzw. als Aufgabe aufbauen; ist es "Reiter füllen", die Karten (A:CountTable über alle Items) in die Aufgabe.
+   Die Namen der Teile werden nur während der Messung gebaut (sonst kein neuer Text).
+Nachbau 0.65.410: s42, s42b, s43, s49, s6_chars_a/b, s341 PASS.
