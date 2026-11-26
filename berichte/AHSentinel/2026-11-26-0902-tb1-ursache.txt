@@ -1,0 +1,25 @@
+BERICHT AHSentinel – AHS-TB1 a) Ursache BELEGT: kein ungebuchter Erlös, sondern ein falscher 0-Gold-Punkt beim Ausloggen – zuerst Bericht, dann Behebung
+Zeit: 26.11.2026 09:02 (Europe/Zurich) · Daten: goldsentinel-daten, Zweig sicherung, Laptop forever, Stand 26.11. 08:49 (Figuren hier nur als Klasse genannt)
+
+1) Buchhaltung: 0 Buchungen seit 25.11. 00:00 -> "Gestern: nichts gebucht" ist RICHTIG. Kein Verkauf, kein Kauf.
+2) Gold-Verlauf (db.chars[].gold) der beiden Figuren mit Gold:
+   Priester: 24.11. 20:09 46,6716 g … 25.11. 15:44 46,6716 g · 25.11. 16:37 **0,0000 g** · 26.11. 06:26 46,6716 g · 07:02 0 · 08:28 0.
+   Krieger:  25.11. 15:44 12,2430 g (unverändert seit 22.11.).
+   Das Gold des Priesters hat sich seit 24.11. 20:09 NICHT verändert (46g 67s 16c).
+3) Rechnung der Zeile "seit gestern" (Characters.lua Ch:ChangeSince(heute−1)): je Figur letzter Punkt bis gestern Abend = Priester 0 (25.11. 16:37),
+   jetzt 46,6716 -> +46g 67s 16c; Krieger 12,2430 -> 12,2430 = 0. Summe **+46g 67s 16c = genau die Zahl im Bildschirmfoto**.
+   "Gold: 58g 91s 46c" = 46,6716 + 12,2430 g (Summe ALLER Figuren dieser Installation) – stimmt.
+4) Woher die 0-Punkte: Ch:RecordMoney läuft auch bei PLAYER_LOGOUT (Characters.lua:221). Die Nullen stehen jeweils am Ende einer Sitzung
+   (Priester 24.11. 08:08, 10:08, 22:24; 25.11. 10:08, 12:12, 16:37; 26.11. 07:02, 08:28; Krieger ebenso). Schluss: GetMoney() liefert beim
+   Ausloggen in WoW Forever 0 (Verdacht, im Spiel zu messen – das Muster ist in 2 Figuren über 5 Tage durchgehend). Schlimmer: liegt der letzte
+   echte Punkt < 30 Min. zurück, ÜBERSCHREIBT die 0 ihn (RecordMoney "letzten Punkt anpassen"). Danach ist auch c.money = 0 (Priester jetzt 0).
+5) Folge: Die Zeile "seit gestern" zeigt nach jedem Ausloggen das ganze Gold einer Figur als Zuwachs (oder Verlust). Keine Buchung fehlt.
+   Nebenfund c): "Gold" und "seit gestern" = alle Figuren dieser Installation; "Gestern/7 Tage" = Buchungen aller Figuren – einheitlich, aber
+   nicht beschriftet.
+Behebung (Vorschlag, baue ich jetzt):
+   - RecordMoney beim Ausloggen nur, wenn GetMoney() > 0; eine 0 ohne PLAYER_MONEY-Ereignis (Einloggen, Ausloggen) nie als Punkt und nie über
+     einen echten Punkt schreiben. Echte 0 (alles ausgegeben) kommt über PLAYER_MONEY und bleibt.
+   - Vorhandene Daten: ChangeSince/TotalMoney überspringen eine 0, die zwischen zwei gleichen Werten steht bzw. am Ende nach einem Ausloggen-Muster
+     (letzter echter Wert gilt); keine Daten löschen.
+   - Beschriftung: "Gold (alle Figuren)" in der Zeile; bei Zuwachs ohne Buchung "ausserhalb des Handels".
+   - Tests: Ausloggen mit 0, Einloggen mit 0, echte Ausgabe auf 0 (Gegenprobe), Daten des Nutzers (Priester) -> seit gestern 0.
