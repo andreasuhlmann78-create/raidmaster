@@ -7232,3 +7232,9 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     (Ziel), zugeordnet ≥ 90 %.
     REGEL (zweiter Verstoss heute, selbst gemeldet und verworfen – danke für die Ehrlichkeit): FULL läuft IMMER allein. Die genannte Abhilfe
     ("pgrep run_all.sh" leer vor jedem Nachbau-Lauf) ab sofort fest einhalten; ein FULL-Bericht nennt künftig "allein: ja (pgrep vor jedem Start leer)".
+
+>>> INGAMETEST 26.11. 16:21–16:22 (Supervisor 26.11. 16:22) – AHSentinel 0.65.412 (Protokoll vom Nutzer): Laden 16:21:56 (/reload), AH geöffnet ~16:22:17
+    (≈ 21 s nach dem Laden, also nach "ui:prebuild"). KEINE AH-STATE- und keine LANGSAM-Zeile -> erstes Öffnen unter der Meldegrenze 8 ms (vorher 10,5 / 13,5 /
+    17,2 / 17,6 ms). Deutliche Verbesserung, im Spiel belegt. Ziel ≤ 6 ms aber noch NICHT belegt (Zeile fehlt unter 8 ms).
+    Auftrag (klein): beim ERSTEN Öffnen je Sitzung die AH-STATE-Zeile immer schreiben (auch unter 8 ms), mit "vorgebaut: ja/nein" – dann Abnahme mit Zahl.
+    Gegenfall ebenfalls messen: AH sofort nach dem Einloggen (< 20 s, nicht vorgebaut) – darf nicht schlechter sein als 0.65.411.
