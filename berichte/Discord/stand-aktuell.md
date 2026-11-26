@@ -1,9 +1,10 @@
 # Stand Discord-Sitzung
 
-## Stand 26.11.2026 13:10 · Bot 1.5.198 (/addon-pn umgesetzt, zur Prüfung; 1.5.197 angenommen)
+## Stand 26.11.2026 13:08 · Bot 1.5.198 läuft (/addon-pn umgesetzt, zur Prüfung; 1.5.197 angenommen)
 
 ## Gerade in Arbeit
-- Sobald 1.5.198 läuft: für den Nutzer /addon-pn an:False (Wunsch 26.11. 12:59, keine PN bei neuer RaidMaster-Version).
+- nichts. 13:06 /update (1.5.198 installiert), 13:07 für den Nutzer /addon-pn an:False – Bot: "keine PN mehr".
+  Uploader-PN (/uploader, veraltet, Update fehlgeschlagen) bleiben (Nutzer 13:03).
 
 ## Nächste Schritte (Reihenfolge)
 1. Bei jeder Nachricht des Nutzers: git pull --rebase, auftraege/Discord/ lesen (git log --oneline -5 -- auftraege/Discord/).
