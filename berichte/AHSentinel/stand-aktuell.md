@@ -1,6 +1,6 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 26.11.2026 06:23 · Version 0.65.402 (Discord); CurseForge 0.65.400 (Datei-ID 9822958, 26.11. 06:22, in Prüfung?)
+## Stand 26.11.2026 06:28 · Version 0.65.403 (Discord); CurseForge 0.65.400 (Datei-ID 9822958, 26.11. 06:22, in Prüfung?)
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz – Testberichte "GSTEST1{…}", UI-Befunde db.uiFindingsLast).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
@@ -12,10 +12,10 @@ Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /h
 ## Gerade in Arbeit
 - AHS-CF6: 0.65.400 am 26.11. 06:19 nach download/ (Nutzer im Chat bestätigt), Workflow 45760886355 ok, Datei-ID 9822958 (Bericht 0623).
   Öffentliche Seite zeigte 06:22 noch 0.65.393 -> Nachlesen 07:53 geplant.
-- 0.65.402 (API2) auf Discord, vom Supervisor angenommen. Neu offen: PS-TQ1-b / AHS-API2-b (Briefkasten-Leistung) lesen.
+- 0.65.403 (AHS-API2-b: Index in Portionen, nil+"pending") auf Discord. PS muss "pending" auswerten (PS-TQ1-b).
 
 ## Nächste Schritte
-1. CF-Seite nachlesen (07:53), Bericht. Aufträge 8dbfc8ff (AHS-API2-b) lesen und einordnen.
+1. CF-Seite nachlesen (07:53), Bericht. FULL 0.65.403 auf Kopie.
 2. SP2 h) (rein intern) -> AHS-S313 -> AHS-S216 -> k) falls nötig. AHS-MK1 danach.
 3. Ingametest: zwei Vollscans in einer Sitzung (T459 Scan 2), Sandbox ohne sniper.armed (0.65.401+).
 4. Regel CF 18:00: CF-Entscheid im Repo -> sofort Auswahl-Frage im Chat; bis 17:30 Stand melden.
@@ -36,5 +36,5 @@ Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /h
 - Kopfzeile "Sniper: an/aus" = db.sniper.armed (Sn:IsArmed ist auch mit Wächter-Prüfziel wahr – treibt nur die Suche).
 - AH-Abdeckung: UI:AHOverlayRaise einmal beim Einrichten; UI:AHBleed misst (T1016). Ursache a) noch "Verdacht, zu messen".
 - T750-Regel: Zeilen ohne " – Grund" nach "Text x px)" sind "gekürzt (Tooltip)" = kein FEHLER.
-- Letzter Test T1031 (T1031 API2; T1030 SB1; T1028 OVF1, T1029 Trend Höchstpreis; T1025–T1027 = SP2 iii a/c/b; T1023/T1024 = SP2 ii; T1022 = SP2 i). best: A.NewBest/BestGet/BestIDs/BestMarkU (alt+neu); VS:BestSpare/BestInUse. Vollscan: VS.cmp/cmpSpare (set.min/qty/auc/lad). Neue Tests vor "-- CF-AHS-5 (CurseForge 17.11. …"; Index vor { "AHS-CF1-UI", .
+- Letzter Test T1032 (T1032 API2-b; T1031 API2; T1030 SB1; T1028 OVF1, T1029 Trend Höchstpreis; T1025–T1027 = SP2 iii a/c/b; T1023/T1024 = SP2 ii; T1022 = SP2 i). best: A.NewBest/BestGet/BestIDs/BestMarkU (alt+neu); VS:BestSpare/BestInUse. Vollscan: VS.cmp/cmpSpare (set.min/qty/auc/lad). Neue Tests vor "-- CF-AHS-5 (CurseForge 17.11. …"; Index vor { "AHS-CF1-UI", .
 - Nie etwas in announce/ löschen, alte Versionen nicht wiederherstellen. Jede Version: CHANGELOG.de.md-Abschnitt Pflicht (AHS-R1).

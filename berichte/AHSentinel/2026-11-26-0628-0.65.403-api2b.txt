@@ -1,0 +1,15 @@
+AHSentinel 0.65.403 – AHS-API2-b (Index in Portionen, "pending") – umgesetzt, zur Prüfung (nur Discord)
+Zeit: 26.11.2026 06:28 (Europe/Zurich)
+addon_check 0.65.403: OK. ZIP: gleiche 112 Dateien wie 0.65.402. Geändert: API.lua, API.md, TestRoutine.lua (T1032, Index), Version, CHANGELOG EN/DE.
+
+- API.Disenchanted: passt die Übersicht nicht zum Datenstand (Längen/letzte Zeiten von deLog und Buchungen, Änderungszähler bei LEDGER_CHANGED und DE_LOOT,
+  jetzt als Zahlen verglichen – kein neuer Text je Aufruf), startet sie die Hintergrund-Aufgabe "api:deindex" und gibt **nil, "pending"** zurück.
+  Fertig -> API.Notify("ledger") (OnChanged der Abonnenten, gedrosselt 2 s) -> ProfessionSentinel fragt neu.
+  "nie entzaubert" bleibt nil OHNE zweiten Wert – damit eindeutig von "noch nicht bereit" zu unterscheiden (Abstimmung mit PS: bitte PS-TQ1-b darauf
+  auslegen: zweiter Rückgabewert "pending" = später neu fragen, nicht "nicht entzaubert").
+- Aufbau in Portionen: A:Pause alle 200 Einträge (Verkäufe und Entzauberungen). Mit den echten Daten (Laptop 15:03: 2 000 Entzauberungen, 7 497 Buchungen)
+  im Nachbau: 1 Portion, 5,3 ms (unter dem Bild-Budget 6 ms, Pause teilt erst darüber), danach 796/857 519 für 4251 wie mit 0.65.402 (gleiche Werte).
+- Testdaten (API.testDeLog) rechnen weiter sofort (T1031 unverändert PASS); T1032: nach Änderung nil/"pending" + Aufgabe gestartet, danach 1/500,
+  nie entzaubert nil/nil.
+- API.md ergänzt ("pending" ab 0.65.403).
+Nachbau 0.65.403: s42 (T1031, T1032 PASS), s43, s187, s341 PASS.
