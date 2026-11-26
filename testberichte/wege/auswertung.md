@@ -342,7 +342,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Thunder Bluff (1456)
 
-- Wegstücke 1000, Knoten 797, zusammenhängende Teile 8
+- Wegstücke 1003, Knoten 797, zusammenhängende Teile 8
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 749 Knoten, Bereich 23–78 / 12–87
   - Teil 2: 16 Knoten, Bereich 11–21 / 17–35
