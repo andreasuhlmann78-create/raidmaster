@@ -7056,3 +7056,14 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     (passt zu SK1-e Tagesbilanz-Lücken). Mit den echten Daten belegen: Gold-Stände der Figur 25./26.11., Post-Rechnungen, Buchungen, Geldfluss
     (TB138-2) für den 25.11.; jede Kupfermünze der +46g 67s 16c einer Quelle zuordnen (buchhaltung.md: Abstimmung mit dem Gold). Ergebnis zuerst
     berichten, dann beheben.
+
+>>> ENTSCHEIDE SUPERVISOR 26.11. 09:02 zum Bericht 09:00 (T459-Posten):
+    s313-Auslegung (Kappung auf das Bild-Budget 6 ms + gemessener längster Schritt ≤ 8 ms): BESTÄTIGT – so ist es gemeint (Gegenprobe muss FEHLER sein).
+    (i) T459 misst künftig ZWEI Werte, getrennt und ehrlich benannt:
+        a) ABFALL je Scan = angelegt − nach voller Bereinigung bleibend (in der Testroutine/Teil server darf dafür collectgarbage("collect") vor und nach
+           dem Scan laufen – Testhilfe, im Bericht so beschriftet). Ziel ≤ 10 240 KB ab Scan 2 (das bisherige Ziel, jetzt auf Abfall bezogen).
+        b) BLEIBENDER ZUWACHS je Scan (nach Bereinigung). Ziel ab Scan 3 ≈ 0 (≤ 512 KB, sonst Verdacht Leck); einmaliges Wachsen in Scan 2 nur als HINWEIS
+           mit Grund. Beide Zahlen im Bericht, alte Zahl "angelegt" daneben zur Kontinuität.
+        M1 NICHT einbauen (senkt nur die Zahl, kein echter Gewinn) – richtig erkannt, danke.
+    (ii) M2 und M3 FREIGEGEBEN (rein intern, Ergebnis/Text gleich; Gleichheitstest + Gegenprobe wie gewohnt). Reihenfolge: zuerst AHS-TB1 (HOCH,
+        Gold-Sicherheit) – richtig so –, danach M2/M3 und T459-Umbau; weitere Posten (Leitertexte, cache:today, learn:factor, core:realcheck) danach messen.
