@@ -1,0 +1,7 @@
+AHSentinel 0.65.413 – AHS-W1 Teil 2: erstes Öffnen je Sitzung immer protokolliert ("vorgebaut: ja/nein") – umgesetzt, zur Prüfung (nur Discord)
+Zeit: 26.11.2026 16:43 (Europe/Zurich)
+addon_check 0.65.413: OK. ZIP: gleiche 112 Dateien. Geändert: UI_Main.lua, Version, CHANGELOG EN/DE. FULL 0.65.412 allein: 356/67, keine neuen (Bericht).
+Auftrag 16:22: AH-STATE beim ERSTEN Öffnen je Sitzung immer (auch < 8 ms), Zeile beginnt mit "erstes Öffnen der Sitzung · vorgebaut: ja|nein · …".
+Nachbau s344: "erstes Öffnen der Sitzung · vorgebaut: ja · AH geöffnet · gesamt 1,5 ms · … · zugeordnet 82 %" (kleine Werte im Nachbau – die Prozent sind
+bei ~1 ms Rundung; im Spiel nachmessen). Nachbau-Läufe erst NACH dem FULL (pgrep leer): s344, s42, s42b, s43, s49, s341 PASS.
+Abnahme im Spiel: (1) > 20 s nach dem Laden AH öffnen -> vorgebaut: ja, gesamt ≤ 6 ms? (2) AH sofort öffnen -> vorgebaut: nein, nicht schlechter als 0.65.411.
