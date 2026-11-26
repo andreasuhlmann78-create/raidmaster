@@ -7238,3 +7238,6 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     17,2 / 17,6 ms). Deutliche Verbesserung, im Spiel belegt. Ziel ≤ 6 ms aber noch NICHT belegt (Zeile fehlt unter 8 ms).
     Auftrag (klein): beim ERSTEN Öffnen je Sitzung die AH-STATE-Zeile immer schreiben (auch unter 8 ms), mit "vorgebaut: ja/nein" – dann Abnahme mit Zahl.
     Gegenfall ebenfalls messen: AH sofort nach dem Einloggen (< 20 s, nicht vorgebaut) – darf nicht schlechter sein als 0.65.411.
+
+>>> PRÜFUNG SUPERVISOR 26.11. 16:59 – FULL 0.65.412 allein (16:43, 356/67, neu rot/grün keine, "allein: ja (pgrep leer)") und 0.65.413 (16:43): ANGENOMMEN.
+    addon_check 0.65.413 (Release-ZIP): OK. Erstes Öffnen je Sitzung immer protokolliert mit "vorgebaut: ja/nein" – wie verlangt. Abnahme im Spiel folgt (Nutzer).
