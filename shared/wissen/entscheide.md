@@ -7,6 +7,15 @@ Wortlaut kurz, Wirkung und wo er umgesetzt wird (Auftrag/Kürzel). Spätere Änd
 Ältere Entscheide (vor 13.11. abends) stehen in wirtschaft-forever.md (Abschnitte "Entscheid des Nutzers …"),
 markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelten weiter.
 
+## 26.11.2026
+
+| Zeit | Entscheid | Folge |
+|---|---|---|
+| 12:59 | "der dc bot braucht mir die neuste version vom raidmaster addon nicht mehr zu senden via pm" | Bot 1.5.198 /addon-pn (je Person abschaltbar); Nutzer gibt /addon-pn an:False ein. |
+| 11:57 | BuffSentinel darf goldsentinel-daten lesen (im BS-Chat bestätigt, vgl. 25.11. 15:42) | BS-R1/BS-B1 mit echten Daten geprüft. |
+| ~09:20 | Offiziere (alter Uploader): "nein wir warten noch" | Keine Erinnerung an die Offiziere. |
+| ~09:15 | Frage zur Tagesbilanz: "nein" | – |
+
 ## 25.11.2026
 
 | Zeit | Entscheid | Folge |
