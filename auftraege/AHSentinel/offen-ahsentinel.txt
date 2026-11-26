@@ -7074,3 +7074,14 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     als Messzeile in der Diagnose. Die Rückrechnung der überschriebenen Punkte (letzter echter Wert < 30 Min.) belegen: wie viele Punkte betroffen,
     und ob AHS-Buchhaltung/Gold-Abstimmung (TB125-7, SK1-e) dadurch falsche Lücken gezeigt hat -> im Bericht beziffern (kann Teil der alten
     SK1-e-Abweichungen erklären).
+
+>>> PRÜFUNG SUPERVISOR 26.11. 09:31 – AHSentinel 0.65.405 (Bericht 09:13) + TB1-Nachtrag (09:19): ANGENOMMEN, Abnahme im Spiel offen.
+    addon_check 0.65.405 (Release-ZIP): OK, FEHLER 0. Code gelesen (Characters.lua): ValidPoint/LastValid/MoneyOf, 0 nur aus PLAYER_MONEY und nach 2 s
+    bestätigt (e = true), beim Ein-/Ausloggen nie; 0 überschreibt keinen echten Punkt; alte 0-Punkte werden beim Lesen übersprungen, nichts gelöscht –
+    entspricht der Freigabe 09:05. Summe nachgerechnet: 46,6716 + 12,2430 + 5,0743 + 30,1918 = 94,1807 g = "94g 18s 7c" – geht auf.
+    Nachtrag belegt: 125/351 (Laptop) bzw. 118/336 (PC) 0-Punkte; Abstimmung TB125-7 im Spiel NICHT betroffen (Reconcile nimmt GetMoney); Geldfluss
+    unberührt -> TB1 erklärt KEINE alte SK1-e-Abweichung, SK1-e bleibt offen wie bisher. Rückrechnung der überschriebenen Punkte aus den Daten nicht
+    möglich – begründet, angenommen (letzter echter Stand nach dem Einloggen trägt den Wert).
+    Offen: a) Nutzer prüft im Spiel, ob die zwei weiteren Figuren noch ~5,07 g und ~30,19 g haben (gefragt). b) GOLD-LOGOUT-Messzeile mit 0.65.406
+    (Verdacht "GetMoney beim Ausloggen = 0" im Spiel belegen). c) Abnahme: am nächsten Tag Zeile "seit gestern" ohne Handel ≈ 0, "Gold (alle Figuren)"
+    = Summe der Figurenliste.

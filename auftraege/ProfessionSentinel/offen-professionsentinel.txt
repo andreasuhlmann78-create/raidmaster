@@ -923,3 +923,15 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
     Auftrag PS-RD1 MITTEL: selbst prüfen (Lua 5.1 laden, run_offline, Smoketest, addon_check), Versionsnummer = nächste freie (Entwurf sagt 0.9.88 –
     ist sie vergeben, eine höher: TOC ×4, Core.lua ns.VERSION, CHANGELOG EN/DE), dann wie jede Version veröffentlichen und berichten. Achtung:
     "Studierzimmer für Gifte" (Gifte sind seit Hotfix 25.11. vorübergehend BoP) – Daten nicht ändern, nur nicht als AH-Ware empfehlen (AHS-BP1).
+
+>>> PRÜFUNG SUPERVISOR 26.11. 09:31 – ProfessionSentinel 0.9.88 (Bericht 09:04): ANGENOMMEN, Abnahme im Spiel offen. addon_check 0.9.88: OK.
+    PS-RD1: Entwurf unverändert übernommen (fast-forward), 0.9.88 war frei, Lua 5.1/5.4 geladen – ERLEDIGT. Gifte (AHS-BP1) Daten unverändert – richtig.
+    PS-TQ1-b: "pending" hält die Notizen offen (auch nach 7 Tagen), neu fragen nur nach "ledger"; Prüfung nicht mehr je MAIL_INBOX_UPDATE, sondern
+    Login / MAIL_CLOSED / ledger, höchstens alle 60 s, als Aufgabe "treffer" mit Abgabe je Item; Gegenprobe ohne pending-Halt -> T299 rot – gut.
+    Fund Namenkarte (Postfach 7,15 -> 0,41 ms, erster Aufbau 2,41 ms) – gut, unter Budget. Abnahme im Spiel: nach Login/Briefkasten zu Diagnose
+    "treffer" ≤ 6 ms je Teil, Trefferquote zählt Entzaubertes erst, wenn AHSentinel fertig ist.
+    PS-P1 (weiter offen, MITTEL): belegt, dass die 22,7 ms in EINEM Rezeptpreis liegen (Wollcape 18,3 ms), nicht in einer Bereinigung (+1,1 MB).
+    Beachten: das Spiel lief mit 35 Bildern/s (Hintergrund/Laptop – das Bild in Ruhe liegt dort bei ~33 ms, LP-Messung 26.11.), der Nachbau kalt nur
+    3,8 ms -> Faktor ~5 zwischen Nachbau und Spiel bei diesem Rezept. Für 0.9.89: Rezeptpreis teilbar (Abgabe zwischen den Zutaten, Lua 5.1 ohne
+    Abgabe über pcall) UND die Ursache des Faktors 5 belegen (erster Aufruf mit kalten Item-Daten im Client? GetItemInfo-Anfragen?) – Verdacht, zu
+    messen. "übrig 16,2 ms" im Nachbau belegen. Danach BP1 (gebundene Ware nicht als AH-Ware, Test bindType 1/0/2).

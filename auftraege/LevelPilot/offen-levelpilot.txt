@@ -1902,3 +1902,23 @@ LP-TR3 MITTEL (neu): Reisen dauerten bis zum Ausloggen schon 1 116 s und waren N
     die Reisen nicht länger als mit 3.13.16 dauern. Hinweis: Teilbericht enthielt 0 OK – ok, da Reisen der erste Teil sind; bitte im Teilbericht
     die bis dahin gemessenen reiseBilder mitschreiben (fehlten).
     Hinweis Bedienung: Der ganze Lauf dauert > 20 Min. – WoW loggt bei AFK aus. Nutzer wird gebeten, zwischendurch eine Taste zu drücken.
+
+>>> INGAMETEST 26.11. 09:06–09:27 (Supervisor 26.11. 09:31) – LevelPilot 3.13.17 "/lp testroutine alles", Laptop, PRIEST 10, Undercity (Chat-Text):
+    VOLLSTÄNDIG: OK 330 · FEHLER 1 · übersprungen 9 · im Client 55 · 1 271 s (Zeitlimit 1 800 s) · Sandbox OK · echte Aktionen 0 · Fehlerzähler 0 ·
+    Regressionen 101/101 · T261 Einloggen 766 ms < 1 000 OK. Abgabe nicht möglich: 1 (T353 Gegenprobe, gewollt).
+    Bericht 08:56 (LP-I3 Zwischenspeicher durch Messung widerlegt; Hotfix 25.11. geprüft, keine Änderung nötig): ANGENOMMEN – gute Arbeit, Messung statt Umbau.
+    LP-I7 (T263 unerreichbares Ziel): kein FEHLER mehr -> im Spiel BESTANDEN.
+    dauerBereiche jetzt im Chat-Text ("Dauer je Bereich (Wanduhr)") – Auftrag 06:51 ERLEDIGT.
+    LP-I3 weiter offen (MITTEL): T155 Ø 21,97 ms (27 Planungen), Median 10,64, längste 108,97 ms (#15 Stufe 10, Zone 1458, +1 296 KB), #6 78,1 ms,
+    #17 54,8 ms – alle drei Undercity. "mit Speicherbereinigung 0 Planungen" -> Bereinigung ist NICHT die Ursache (belegt). Wie im Bericht 08:56 geplant:
+    belegen, warum die Wegsuche in Zone 1458 so viele Knoten ausdehnt, dann die Suche billiger machen (Route unverändert, Gegenprobe gleiche Wege).
+    Zusätzlich: 682 KB je Planung ohne Bereinigung = Speicherwachstum je Planung -> beim Umbau mitsenken (weniger Tabellen je Suche).
+    LP-TR3 weiter offen (MITTEL): Reisen (Wanduhr) 1 086 s gegen 992 s mit 3.13.16 = +9,5 % (Nachbau sagte +10 % – passt). Das Teilergebnis von
+    08:30 (>1 116 s) war also durch AFK/Hintergrund verlängert. Ziel bleibt: nicht länger als 3.13.16 bei Bildern ≤ 16 ms. reiseBilder stehen nicht
+    im Chat-Text -> aus dem Upload-Bericht auswerten (Bilder je Reise, Zeit je Bild) und im nächsten Bericht beziffern; reiseBilder auch in die
+    Chat-Zusammenfassung aufnehmen (eine Zeile).
+    Takt: längstes Bild 81,2 ms T241–T244 (Bereinigung -120 MB), T355 76,0 ms (-135 MB, Testhilfe), T251 54 ms (-31 MB); ohne Bereinigung > 40 ms:
+    T294 40,4 · T285 Zentrale 40,2 (je knapp) – Schritte über 16 ms: 24. Im Bericht je Schritt einordnen (Testhilfe/Spielweg) wie bisher.
+    Umgebung: Bild in Ruhe Median 33 ms (Laptop ~30 Bilder/s) – 373 von 398 ganzen Bildern > 40 ms durch Spiel/Umgebung, 25 mit eigener Portion
+    > 16 ms: diese 25 im Bericht benennen.
+    LP-R3 (Route bis L17): im Chat-Text keine Zahl – aus dem Upload belegen.
