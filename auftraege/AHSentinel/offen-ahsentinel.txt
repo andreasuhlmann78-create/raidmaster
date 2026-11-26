@@ -7241,3 +7241,16 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
 
 >>> PRÜFUNG SUPERVISOR 26.11. 16:59 – FULL 0.65.412 allein (16:43, 356/67, neu rot/grün keine, "allein: ja (pgrep leer)") und 0.65.413 (16:43): ANGENOMMEN.
     addon_check 0.65.413 (Release-ZIP): OK. Erstes Öffnen je Sitzung immer protokolliert mit "vorgebaut: ja/nein" – wie verlangt. Abnahme im Spiel folgt (Nutzer).
+
+>>> INGAMETEST 26.11. 17:00–17:02 (Supervisor 26.11. 17:03) – AHSentinel 0.65.413, Laptop, Priester (Protokoll vom Nutzer):
+    (1) vorgebaut: JA (Erst-Login 17:00:34, AH 17:01:05 = 31 s danach): "gesamt 5,7 ms · Kern/Reiter 0,7 · Fenster 4,4 · Statuszeile 0,6 · Teile: Reiter zeigen
+        1,6 · Reiter füllen 1,5 · kleine Teile (10) 0,6 · Rest 0,7 · zugeordnet 84 %". Nachgerechnet: 0,7+4,4+0,6 = 5,7 ✓; 1,6+1,5+0,6+0,7 = 4,4 ✓.
+        -> Ziel ≤ 6 ms im Spiel ERREICHT (vorher 10,5–17,6 ms). AHS-W1 Teil 2 für den Normalfall BESTANDEN.
+    (2) vorgebaut: NEIN (/reload 17:01:38, AH 17:01:48 = 10 s danach): "gesamt 14,5 ms · Fenster 13,5 · Teile: Reiter aufbauen 4,6 · füllen 1,3 · kleine (10)
+        0,6 · Rest 7,0 · zugeordnet 48 %". Nachgerechnet 4,6+1,3+0,6+7,0 = 13,5 ✓. Gegen 0.65.411 (10,5 ms, gleicher Fall) schlechter, liegt aber in der
+        bisherigen Streuung (10,5–17,6). Offen (MITTEL, häufiger Fall: Umloggen direkt am AH):
+        a) Vorbauen früher und in Portionen starten (z. B. ab 3–5 s nach dem Laden, je Schritt ≤ 4 ms), damit das Fenster kleiner wird; öffnet der Spieler
+           vorher, den restlichen Aufbau in die Aufgabe verschieben statt alles im Öffnen-Bild.
+        b) Die 7,0 ms Rest beim kalten Öffnen zerlegen (Show/OnShow/Layout beim ersten Anzeigen des eigenen Fensters) – im vorgebauten Fall nur 0,7 ms, d. h.
+           der Rest entsteht beim erstmaligen Anlegen/Anzeigen: mit messen, was "vorbauen" heute nicht vorwegnimmt.
+        Ziel: auch kalt ≤ 8 ms, vorgebaut ≤ 6 ms halten.
