@@ -1870,3 +1870,18 @@ LP-TR2 HOCH (neu, Messung im Spiel): Die Reise ist im Spiel ~15× LANGSAMER als 
     höchstens 64 Portionen), T381 gleich, reiseBilder neu. Nachbau längstes Bild 21,0 ms / 17,3 ms mit 5 bzw. 3 Bildern > 16 ms – Ziel 16 ms: Budget so
     setzen, dass das ganze Bild ≤ 16 ms bleibt (heute 8 ms Budget + letzte Portion bis 21 ms) – im Spiel mit reiseBilder belegen. LP-R3 (Route bis L17
     +34 %) weiterhin offen. Nächster Ingametest: /lp testroutine alles, sobald der Nutzer Zeit hat.
+
+>>> INGAMETEST 26.11. 06:07–06:27 (Supervisor 26.11. 06:51) – LevelPilot 3.13.16 "/lp testroutine alles", Laptop, PRIEST 10, Undercity:
+    VOLLSTÄNDIG durchgelaufen (1 189 s, ohne Zeitlimit-Abbruch) – LP-TR1/LP-TR2 im Spiel BESTANDEN (Bericht kommt wieder; Reise nicht mehr 15× langsam).
+    OK 328 · FEHLER 2 · übersprungen 9 · im Client 55 · Sandbox OK · echte Aktionen 0 · Fehlerzähler 0 (kein yield-Fehler mehr -> LP-Y1 im Spiel BESTANDEN).
+    Abgabe nicht möglich: 1 (T353 Gegenprobe, gewollt).
+LP-I3 wieder offen (MITTEL): T155 Planung je Reiseschritt Ø 21,03 ms (27 Planungen), Median 10,74, längste 97,42 ms (#15 Stufe 10, Zone 1458 = Undercity,
+    +990 KB), soll < 16 ms. Am 24.11. mit PRIEST 10 OK – Rückschritt seit 3.13.15 (Wegprüfung CheckFirstPath läuft jetzt wirklich, Verdacht, zu messen).
+    Belegen: Anteil CheckFirstPath/Graph.Path an der Planung; die Prüfung je Schritt einmal und gekappt (Ziel Ø < 16 ms, längste ≤ 16 ms je Portion).
+LP-I7 wieder offen (MITTEL): T263 unerreichbares Ziel – längste Portion 44,6 ms (1 152 KB), soll ≤ 16 ms (24.11. mit PRIEST 10 OK). Portion bei
+    unerreichbarem Ziel teilen (Budget je Portion statt je Knoten-Menge), Gegenprobe im Nachbau mit denselben Daten.
+    Takt: längstes Bild 75,3 ms T355 (Speicherbereinigung -159 MB, Testhilfe) · 42 Bilder > 16 ms, 6 > 40 ms (davon 3 mit Bereinigung) – im Bericht je
+    Schritt einordnen (Testhilfe/Spielweg) wie bisher.
+    Zeitlimit LP-TR1 b): jetzt Messung im Spiel vorhanden (1 189 s gesamt, Hintergrund möglich) – Grenze = gemessen + Rand festlegen (z. B. 1 800 s) und
+    im nächsten Bericht begründen. Die Zeile dauerBereiche fehlt im eingefügten Chat-Text ("Rechenzeit je Bereich" ist Rechenzeit, nicht Wanduhr) –
+    im Upload-Bericht prüfen; falls sie fehlt: in die Chat-Zusammenfassung aufnehmen.
