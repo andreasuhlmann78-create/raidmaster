@@ -7039,3 +7039,14 @@ AHS-BP1 MITTEL (aus Entwurf Blueposts 26.11. 07:45, übertragen): Blizzard-Hotfi
     AH-verkaufbar empfehlen, nicht mit AH-Preis bewerten (Lagerwert), Sniper/Kaufen aus; Lücke im Verlauf nicht als Preissprung deuten. Wird es wieder
     BoE, automatisch normal. Messauftrag im Spiel (Nutzer, wenn vorhanden): Blendungspulver und ein Gift im Tooltip "Wird beim Aufheben gebunden"?
     Test mit bindType 1/0/2 + Gegenprobe.
+
+>>> BEOBACHTUNG IM SPIEL (26.11. 08:34, Bildschirmfoto des Nutzers 26.11. 06:26, Laptop, PRIEST 10 in Undercity – Bild nicht im Repo, enthält Namen):
+AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen:
+    "[AHSentinel] Tagesbilanz – Gestern: nichts gebucht | 7 Tage: +13g 63s 9c | Gold: 58g 91s 46c (+46g 67s 16c seit gestern)".
+    Der Nutzer stolpert darüber: "nichts gebucht", aber +46 g seit gestern – die Zeile sagt nicht, woher das Geld kommt.
+    a) Belegen (echte Daten): woher die +46g 67s 16c auf dieser Figur kamen (Post von eigener Figur? Quest/Beute? Händler?) und ob "nichts gebucht"
+       stimmt (Handel 0) – mit TB138-2/Geldfluss-Messung abgleichen.
+    b) Anzeige: Wenn Gold ohne Handel stark wechselt, in derselben Zeile kurz den Grund nennen (z. B. "davon Post von eigener Figur +46g", "ausserhalb
+       Handel"), oder "seit gestern" auf "Handel seit gestern" vs. "Gold gesamt" klar trennen. Nichts verschweigen, nichts beschönigen.
+    c) Klären: Bezieht sich "Gold" auf diese Figur, die 7 Tage auf alle Figuren? Wenn gemischt: einheitlich machen und beschriften.
+    Test mit den drei Fällen (Handel, Post eigene Figur, Quest/Beute) + Gegenprobe.
