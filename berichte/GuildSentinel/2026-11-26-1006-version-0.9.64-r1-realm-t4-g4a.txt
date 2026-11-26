@@ -1,0 +1,73 @@
+BERICHT GuildSentinel 0.9.64 – GS-R1, Realm leer (Hinweis 26.11.), SHARED-T4, G-4a-Zähler
+Von: GuildSentinel-Sitzung · 26.11.2026 10:06 (Zeit aus date, Europe/Zurich) · Quellcode 8ac775c
+Status: umgesetzt, zur Prüfung. download/ (CurseForge) nicht angefasst – erst nach Ingametest und OK des Nutzers.
+
+A) GS-R1 HOCH – Lua-Fehler "Lead.lua:275 attempt to index local 'r' (a boolean value)"
+- Gegenprobe belegt (Nachbau, Code 0.9.63 aus git f192579): gespeicherte Liste mit roster.Zbad = true + Roster-Abfrage des Spiels
+  (GUILD_ROSTER_UPDATE -> Scan -> Finish -> Compare "leave" -> R.Log-Hülle -> Le:RecordGone) ergibt genau
+  "Lead.lua:275: attempt to index local 'r' (a boolean value)". Mit 0.9.64 kein Fehler.
+- a) Robust: ns.RosterEntry(name, g) liefert nur Tabellen (sonst nil); alle 12 Lesestellen von g.roster[name] umgestellt
+  (Lead.lua RecordGone/JoinTime, Progress.lua JoinDate, Roster.lua Read/Chat-Beitritt, Options.lua, Pages.lua ×4, PagesMore.lua ×2,
+  PagesSocial.lua; ClientTest.lua C5/C6 überspringen Nicht-Tabellen). Roster:Compare nimmt als letzten Stand nur Datensätze: beschädigte
+  Einträge erzeugen kein "leave", werden mit dem neuen Stand ersetzt, Diagnose "DATEN Mitgliederliste: n beschädigte Einträge
+  übergangen"; g.levels/g.days und je Name nur Tabellen (sonst neu).
+- T118 hat den Weg jetzt: zuletzt "Roster:Scan (Roster-Abfrage des Spiels)" mit roster.Zbad = true – ohne Fehler und ohne Abgang Zbad.
+- b) Nach dem Ende: Ursache im Nachbau nicht nachgestellt (gewöhnlicher Lauf: nach dem Ende echte Gilde, kein Zbad). Gefundene Lücke, die
+  zum Befund passt: war der Testmodus SCHON VOR der Routine an, setzte RestoreState ns.guild auf die Testgilde vom Anfang zurück – mit
+  allem, was die Prüfungen hineinschrieben – und der Testmodus blieb bis zum /reload an (Roster-Abfragen alle 30 s gegen diese Gilde).
+  Verdacht, zu bestätigen: War im Spiel am 25.11. der Testmodus vor dem Lauf an? Jetzt in jedem Fall: Testmodus aus (echte Daten) und,
+  falls er vorher an war, neu an mit einer NEUEN, sauberen Testgilde. Neue Prüfung T321 "nach dem Ende sofort echte Daten": ohne
+  Testmodus ns.guild = gespeicherte Gilde (GuildSentinelDB.guilds[Schlüssel]), Schlüssel nicht TEST, kein beschädigter Eintrag; mit
+  vorher angeschaltetem Testmodus nicht die Testgilde vom Anfang. Antwort auf die Frage: Roster-Abfragen während der Routine laufen gegen
+  die Testgilde (Testmodus, Test-Schnittstelle), die echte Gilde ändern sie nie (Sandbox-Vergleich DB); mit a) ohne Fehler.
+- c) run_r1.lua (3 × 14) + Gegenprobe mit 0.9.63 (3 × 2): beschädigte Einträge true/7/"x" -> kein Fehler (Zeitgeber und ns.errors),
+  kein Abgang für sie, echter Abgang Testa erkannt, Liste danach nur Datensätze, Diagnose-Eintrag; Seiten Mitglieder/Leitung/Fortschritt/
+  Start und RecordGone/JoinTime/JoinDate mit Zbad ohne Fehler; Testmodus vorher an -> neue Testgilde, T321 und T118 OK, Roster-Abfrage
+  danach ohne Fehler, Testmodus aus -> gespeicherte Gilde. Gegenprobe 0.9.63 -> genau der Fehler aus dem Spiel.
+
+B) Hinweis Realm leer (26.11. 09:38) – BEFUND: betroffen waren Meine Woche UND Bank-Charakter
+- Meine Woche (MyWeek.lua): 0.9.59 speicherte ohne Realm absichtlich nichts. Da der Realm seit ~21.11. DAUERHAFT leer ist, wurde seitdem
+  gar nichts mehr gespeichert ("MyWeek ist abgesichert" hiess in Wahrheit: Meine Woche steht still). Gegenprobe 0.9.63 belegt: Scan
+  ohne Realm ändert nichts.
+- Bank-Charakter (Bank.lua 37): Schlüssel "Realm|Name"; ohne Realm "|Name" -> ein vor dem 21.11. gesetzter Bank-Charakter
+  ("Realm|Name") wird nicht mehr erkannt (Gegenprobe 0.9.63: IsBankChar false) -> Bank/Briefkasten werden nicht gelesen.
+  Bank-Bestände selbst liegen nicht unter Realm-Schlüsseln (nicht betroffen); Doppel entstehen dadurch keine.
+- Neu ns.CharKey (Core.lua): ohne Realm den vorhandenen Schlüssel "Realm|Name" dieses Namens (genau einer), sonst "|Name"; mit Realm
+  wie bisher. Meine Woche ersetzt "|Name", sobald unter dem Realm-Schlüssel gespeichert wird (nicht, wenn "|Name" der Schlüssel selbst
+  ist). Zwei Realms für denselben Namen -> "|Name" (kein falsches Zusammenführen).
+- run_realmleer.lua (3 × 10) + Gegenprobe 0.9.63 (3 × 2). run_realm.lua (0.9.59) Prüfung "Realm leer: nichts gespeichert" auf die neue
+  Regel umgestellt (gleiche Zahl Prüfungen: 24): "unter dem vorhandenen Realm-Schlüssel gespeichert, |Name ersetzt".
+- Weitere Stellen mit Realm: Bulk.lua (GRM-Schlüssel, fällt ohne Realm auf "Gildenname-…" erster Treffer zurück – unverändert, richtig),
+  Links.lua ThreatSentinel-Profil ("Name - Realm" wie ThreatSentinel selbst, beide leer – unverändert). Gildenschlüssel seit 0.9.59
+  ohne Realm.
+
+C) SHARED-T4 – GoldSentinelTest.lua Version 4 unverändert aus shared/ (cmp gleich; alle 7 gemeinsamen Dateien gleich).
+
+D) G-4a – Zähler wie verlangt: UI:Select zählt je Seite, wie oft sie in der Sitzung von Hand geöffnet wurde (nicht durch die Routine),
+  wie oft gebaut, das längste Mal. Beim Ausloggen Zeile "SEITE Seite members in dieser Sitzung n× geöffnet (gebaut m×), längstes Mal
+  x ms" im /gs protokoll; im Testroutine-Bericht "G-4a (vor der Routine, echte Bedienung): …".
+
+E) Portionen > 16 ms (NIEDRIG): "nach T269" = Zellen des Lagen-Katalogs T270 (500 Mitglieder je Lage, im Nachbau längste Werbung
+  8,3 ms) – im Spiel 18,5/23,3 ms; nicht teilbar ohne die Prüfung zu ändern (Aufbau der Lage und Funktion in einem pcall). "nach T09" =
+  erstes Öffnen einer Seite unter simulierter Retail-Version (Seitenaufbau, Testcode). Keine Änderung; bitte als bekannt führen oder
+  Entscheid, ob T270 mit 250 statt 500 Mitgliedern laufen soll (halbiert die Zellen).
+
+F) Rückmeldungen von Spielern: keine in dieser Version (kein CurseForge-/Discord-Thema betroffen). Offene Spielerfragen: keine bekannt.
+
+TESTS (test/run_alle.sh, RO=1): 271 Läufe, 0 rot · 21 703 Einzelprüfungen. Abgleich mit 0.9.63 (259 / 21 573): +130 = T321 in jedem
+Testroutine-Lauf mit Bereich B (+46, je Lauf +1; T118 gleiche Zahl), run_r1 3 × 14 = 42 + Gegenprobe 3 × 2 = 6, run_realmleer 3 × 10 = 30
++ Gegenprobe 3 × 2 = 6. 46 + 48 + 36 = 130. Alle anderen Läufe gleiche Zahl.
+Selbst gefunden beim Testen und behoben: (1) Zähler G-4a zählte das Öffnen durch die Testroutine und schrieb beim Ausloggen mitten im
+Lauf in die Diagnose (run_tr_alles rot) -> zählt nur noch echte Bedienung. (2) Beim Anlegen des Realm-Tests hatte ich die bestehende
+run_realm.lua überschrieben – sofort aus git wiederhergestellt, neuer Test heisst run_realmleer.lua.
+
+IM SPIEL ZU PRÜFEN: Testroutine einmal mit vorher angeschaltetem Testmodus (/gs test) – danach Testmodus an mit neuer Testgilde, T321 OK,
+kein Lua-Fehler bis zum /reload. Meine Woche: nach Login/Instanz aktualisiert? Bank-Charakter weiter erkannt? /gs protokoll nach dem
+Ausloggen: Zeile "SEITE Seite members …".
+
+ADDON_CHECK (addon-check/addon_check.py, Ausgabe unverändert):
+  Vorlage shared/GoldSentinelGame.lua: Version 3
+  Vorlage shared/GoldSentinelTest.lua: Version 4
+  Tests der gemeinsamen Datei: nicht ausgeführt – lupa fehlt (pip install lupa); im GitHub-Lauf werden sie ausgeführt
+  Lua-Syntaxprüfung mit: luac5.1 (Lua 5.1)
+  ## GuildSentinel-0.9.64.zip: OK

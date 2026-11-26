@@ -1,29 +1,28 @@
-# Stand GuildSentinel – 25.11.2026 09:12 · Version 0.9.63 (Discord); CurseForge 0.9.61 (sichtbar)
+# Stand GuildSentinel – 26.11.2026 10:07 · Version 0.9.64 (Discord); CurseForge 0.9.61
 
 ## Gerade in Arbeit
-- Nichts. 0.9.63 auf Discord, Bericht 2026-11-25-0911-version-0.9.63-umg1a-speicher-taint1.txt.
+- Nichts. 0.9.64 auf Discord, Bericht 2026-11-26-1006-version-0.9.64-r1-realm-t4-g4a.txt.
 
 ## Nächste Schritte (Reihenfolge)
-1. Prüfung 0.9.63 abwarten, dabei offen-guildsentinel.txt bei jedem "repo" lesen.
-2. GS-TAINT1: Nutzer prüft im Spiel den Knopf "Ränge im Spiel bearbeiten" (Fehler in Blizzard-Code?). Wenn ja: Knopf durch Anleitung
-   ersetzen ("Gildenfenster (Taste J) > Gildenverwaltung", Text vorhanden).
-3. Offene Frage L5 (reine Gegenstands-Tooltips in T317 nicht gewertet).
-4. CurseForge: nächste Version erst nach Ingametest und OK des Nutzers (download/ hat nur die neueste Zip, zurzeit 0.9.61).
+1. Prüfung 0.9.64 abwarten, dabei offen-guildsentinel.txt bei jedem "repo" lesen.
+2. Ingametest 0.9.64 (siehe Bericht: Testroutine mit vorher angeschaltetem Testmodus, Meine Woche, Bank-Charakter, SEITE-Zeile).
+3. Danach CurseForge 0.9.64 nur mit OK des Nutzers (0.9.63 durfte wegen GS-R1 nicht hinaus).
+4. Offen: Entscheid T270 mit 250 statt 500 Mitgliedern (Portionen "nach T269" 18–23 ms); FRAGE L5 (reine Gegenstands-Tooltips).
 
 ## Offen beim Nutzer
-- Ingametest 0.9.63: Zeile "Speicher je Addon … nach Bereinigung", T320, GS-TAINT1-Knopf (siehe oben).
-- G-4a gilt erst als erledigt, wenn im /gs protokoll keine "LANGSAM Seite members" > 16 ms mehr kommt.
+- Ingametest 0.9.64; bestätigen, ob am 25.11. der Testmodus vor der Routine an war (Ursache GS-R1 nach dem Ende).
+- GS-TAINT1: Knopf "Ränge im Spiel bearbeiten" im Spiel drücken, Fehlerliste ansehen.
 
 ## Entscheide des Nutzers seit letztem Stand
-- keine neuen (Supervisor: UMG1 Klarstellung 24.11. 20:50 – Rest > eigene Arbeit allein kein Grund; Speicher je Addon am Ende richtig).
-- Ingametest 0.9.62 (25.11. 08:55): OK 338, FEHLER 0, UMG1 im Spiel belegt (Alt-Tab 6–12 s erkannt).
+- 25.11. 11:09: Spieler auf CurseForge bekommen immer eine Antwort – im Bericht Zeile "Rückmeldung erledigt: …" je behobener Meldung.
+- Supervisor: G-4a im Spiel ohne "LANGSAM Seite members" -> ERLEDIGT (Beleg-Zähler jetzt im Protokoll).
 
 ## Wichtig zu wissen
-- 0.9.63: R.UmgSuspect (nur Hintergrund/Laden/Bereinigung), R.AddonMem (Wert nach Bereinigung), R.GuardWindows + T320, T296-Vorlauf
-  1 Flüsternachricht je Portion. Portionen "nach T269" = Zellen T270 (500er-Lage, nicht teilbar), "nach T09" = Seitenaufbau (G-4a).
-- 0.9.62: Wächter "GuildSentinelUmgFrame", Leistungsprüfungen R.PERF (T138–T144, T307e) -> HINWEIS bei Störung von aussen.
-- 0.9.61: Ausweichen (UI:AvoidOthers), Gp:FitNote, ns.ClassHex hellt Schamane auf, UI.ItemTip, Activity:Grid ohne Tabellen.
-- Offline: test/run_alle.sh 259 Läufe, 21 573 Einzelprüfungen (RO=1 Abgleich Lauf für Lauf).
+- 0.9.64: ns.RosterEntry (nur Tabellen), Roster:Compare übergeht beschädigte Einträge, RestoreState Testmodus neu an, T321, T118 mit
+  Roster:Scan, ns.CharKey (Realm leer seit ~21.11. dauerhaft: vorhandener "Realm|Name"), UI.selStats/SelStatLine (G-4a), GoldSentinelTest 4.
+- 0.9.63: UmgSuspect nur Hintergrund/Laden/Bereinigung, AddonMem nach Bereinigung, T320 (kein Blizzard-Fenster).
+- Offline: test/run_alle.sh 271 Läufe, 21 703 Einzelprüfungen; Gegenproben gegen 0.9.63 aus git (_alt063, wird gelöscht).
+- Testdateien NIE überschreiben: vor Write prüfen, ob es die Datei gibt (26.11. run_realm.lua versehentlich überschrieben, wiederhergestellt).
 - Veröffentlichen (falls Skript im Arbeitsordner verloren): cmp shared/ (7 Dateien), Zip, GS-Repo push, addon_check (kein FEHLER,
   Zeile "luac5.1"), announce/<…>.md + .GuildSentinel.zip DAZULEGEN (nichts löschen), Bericht, stand-aktuell.md, push, origin/main prüfen.
 - CurseForge: Zip nach download/ nur mit OK; alte Zip aus download/ entfernen und README-Link umstellen erst, wenn neue sichtbar ist.
