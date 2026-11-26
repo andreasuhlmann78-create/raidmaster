@@ -7254,3 +7254,10 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
         b) Die 7,0 ms Rest beim kalten Öffnen zerlegen (Show/OnShow/Layout beim ersten Anzeigen des eigenen Fensters) – im vorgebauten Fall nur 0,7 ms, d. h.
            der Rest entsteht beim erstmaligen Anlegen/Anzeigen: mit messen, was "vorbauen" heute nicht vorwegnimmt.
         Ziel: auch kalt ≤ 8 ms, vorgebaut ≤ 6 ms halten.
+
+>>> AUFTRAG HOCH AHS-CF7 (Supervisor 26.11. 17:16) – ENTSCHEID DES NUTZERS 26.11. 17:16: "wenn alles ok ist mit der letzten ahs version dann sofort hochladen".
+    Freigabe Supervisor für 0.65.413: addon_check OK; FULL 0.65.412 allein 356/67 ohne neue Fehler (0.65.413 = nur Messzeile UI); im Spiel 0.65.413 am 26.11.
+    17:00–17:02 ohne Lua-Fehler ("Fehler in dieser Sitzung: 0"), Gold alle Figuren / GOLD-LOGOUT / Wächter / AH-Öffnen geprüft. -> JETZT (nicht erst 18:00):
+    download/AHSentinel-0.65.413.zip hinzufügen und download/AHSentinel-0.65.400.zip im SELBEN Commit entfernen (sonst wird die Repo-Prüfung rot), pushen;
+    Workflow "CurseForge-Upload" grün und 0.65.413 in curseforge/uploaded.json nachprüfen, CHANGELOG/Beschreibung für CF Deutsch+Englisch. Bericht mit Lauf-ID.
+    Heute 18:00 danach KEIN weiterer Upload (0.65.413 ist der Stand des Tages).
