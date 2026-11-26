@@ -1,0 +1,14 @@
+AHSentinel 0.65.414 – AHS-W1 Teil 2 kaltes Öffnen: Vorbauen ab 5 s, Lücke je Funktion – umgesetzt, zur Prüfung (nur Discord)
+Zeit: 26.11.2026 17:12 (Europe/Zurich)
+addon_check 0.65.414: OK. ZIP: gleiche 112 Dateien. Geändert: UI_Main.lua, Version, CHANGELOG EN/DE. FULL 0.65.413 allein: 357/66, keine neuen (Bericht).
+Auftrag 17:03 (kalt 14,5 ms, Rest 7,0 ms, Ziel kalt ≤ 8, vorgebaut ≤ 6):
+a) UI.PREBUILD_DELAY 20 -> 5 s. Schritte: eigenes Fenster anlegen und Reiter bauen je ein Schritt (A:Pause dazwischen). "je Schritt ≤ 4 ms" ist NICHT erfüllt:
+   der Reiter-Bau ist ein Aufruf (BuildOverview, im Spiel 4,6–5,1 ms); kleiner nur, wenn die Übersicht in Bau-Teile zerlegt wird (Karten / linke Tabelle /
+   rechte Tabelle) – schlage ich vor, falls nötig (LONG_STEP 8 ms wird nicht erreicht). "Öffnet der Spieler vorher -> Rest in die Aufgabe": mit 5 s Vorlauf
+   selten; bewusst noch nicht gebaut (erst messen, ob kalt nach 0.65.414 noch vorkommt).
+b) Lücke je Funktion: UI:OnAHStateAuto, Show, ShowInAH, AfterShow, SelectTab werden während der Messung umhüllt (Gesamtzeit je Funktion); Teile werden
+   der laufenden Funktion zugeordnet. Die Zeile bekommt "Lücke in: <Funktion> X" (Gesamt − eigene Teile − Unterfunktion, nur > 0,3 ms). Damit ist der
+   kalte Rest 7,0 ms einer Funktion zuordenbar. Ausserhalb der Messung: eine Abfrage je Aufruf, keine neue Tabelle.
+   Nachbau: vorgebaut 1,3 ms (78 %), kalt 2,5 ms (96 %, "Reiter aufbauen 1,5"), keine Lücke > 0,3 ms (Nachbau zu schnell, im Spiel messen).
+Nachbau 0.65.414 (nach dem FULL, pgrep leer): s344 (+ Gegenprobe), s42, s42b, s43, s49, s341 PASS.
+Abnahme im Spiel: kalt (AH < 5 s nach dem Laden) -> "Lücke in: …"; normal (> 5 s) -> vorgebaut: ja, ≤ 6 ms.
