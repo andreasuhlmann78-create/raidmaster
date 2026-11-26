@@ -1,12 +1,12 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 26.11.2026 06:28 · Version 0.65.403 (Discord); CurseForge 0.65.400 (Datei-ID 9822958, 26.11. 06:22, in Prüfung?)
+## Stand 26.11.2026 06:55 · Version 0.65.403 (Discord, Supervisor 06:30 angenommen); CurseForge 0.65.400 (Datei-ID 9822958, in Prüfung bei CF)
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz – Testberichte "GSTEST1{…}", UI-Befunde db.uiFindingsLast).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
  erwartet in /tmp/claude-0/rel/: AHSentinel-<V>.zip, notes.md, bericht.txt, stand.md). ZIP = gleiche 112 Dateien wie Vorversion.
 Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /home/claude/AHSentinel (~70 s); FULL=1 alle (Stunden bei Parallel-Last;
- 0.65.398: 353 PASS, 66 FAIL, keine neuen – nie parallel zu FULL rechnen, sonst Zeitüberschreitungen). T126 streut 6–10 ms. Neu: s9_watcher_tip (Wächter-Tipp -> Rechtsklick -> Sniper kauft).
+ 0.65.403: 355 PASS, 67 FAIL, keine neuen (Bericht 0655, Kopie /tmp/claude-0/ahs403) – nie parallel zu FULL rechnen, sonst Zeitüberschreitungen). T126 streut 6–10 ms. Neu: s9_watcher_tip (Wächter-Tipp -> Rechtsklick -> Sniper kauft).
  Eigene Szenarien /tmp/claude-0/sim/wowsim/scenarios_new.lua (zz_t459real, zz_tr1, zz_i6_sniper, zz_ui_buy).
 
 ## Gerade in Arbeit
@@ -15,7 +15,7 @@ Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /h
 - 0.65.403 (AHS-API2-b: Index in Portionen, nil+"pending") auf Discord. PS muss "pending" auswerten (PS-TQ1-b).
 
 ## Nächste Schritte
-1. CF-Seite nachlesen (07:53), Bericht. FULL 0.65.403 auf Kopie.
+1. CF-Seite nachlesen (07:53), Bericht. (FULL 0.65.403 erledigt: 355/67, keine neuen.)
 2. SP2 h) (rein intern) -> AHS-S313 -> AHS-S216 -> k) falls nötig. AHS-MK1 danach.
 3. Ingametest: zwei Vollscans in einer Sitzung (T459 Scan 2), Sandbox ohne sniper.armed (0.65.401+).
 4. Regel CF 18:00: CF-Entscheid im Repo -> sofort Auswahl-Frage im Chat; bis 17:30 Stand melden.
@@ -25,6 +25,7 @@ Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /h
 - Gold-Messung Ausrüstung mit Kupfer-Preis (AHS-POST), RecipeList-Fehler mit nur AHS aktiv.
 
 ## Entscheide des Nutzers seit letztem Stand
+- Supervisor 26.11. 06:30: CF6 erledigt bis auf Sichtbarkeit; Regel CF-Frage sofort/17:30/18:00 sofort melden ANGENOMMEN; 0.65.403 angenommen (Abnahme im Spiel offen).
 - 26.11. ~06:15 im Chat: "Ja, 0.65.400 hochladen" (CurseForge).
 - Nutzer 11:09: jeder CurseForge-Kommentar bekommt eine Antwort -> im Bericht "Rückmeldung erledigt: …". Supervisor 13:06: 0.65.398 nicht auf CurseForge; 10:59: h zuerst, k freigegeben unter Bedingungen, S313 Regel. (Supervisor 10:00: SP2 iii Reihenfolge a,c,d,b + AHS-S313; 09:22: 0.65.397 angenommen; Zeit nur aus TZ=Europe/Zurich date. 08:51: SP2 ii Reihenfolge Tests -> Einbau, Zusatz T-e; 09:08: T750-Ansichten mit Spielzustand nicht als FEHLER).
 - 25.11. 07:56 AHS-CF5: CurseForge-Lizenz GPL-3.0; 06:54 AHS-CF4 Beschreibung (beide erledigt).
