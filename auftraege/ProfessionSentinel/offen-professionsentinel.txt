@@ -952,3 +952,9 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
     gefunden werden: FindCharKey deckt es ab; bitte bestätigen, dass jede Stelle, die AHS-Daten je Figur liest (z. B. Bestände, Entzaubern), FindCharKey nutzt.
     Abnahme im Spiel: Diagnose "DATEN Figur-Schlüssel zusammengeführt (Realm leer): 2" beim ersten Laden, danach 0; Tooltip "bekannt bei" ohne Doppel.
     Danach wie geplant 0.9.90 = PS-P1 Teil 2.
+
+>>> PRÜFUNG SUPERVISOR 26.11. 13:12 – ProfessionSentinel 0.9.90 (Bericht 12:12): ANGENOMMEN, Abnahme im Spiel offen. addon_check 0.9.90: OK.
+    Rückfrage 0.9.89 beantwortet (PS liest keine AHS-Daten je Figur) – erledigt; Gilden-Doppel je Kurzname behoben – gut. 0.9.89 im Spiel zusammengeführt
+    (charsMerged 2, Laptop 11:16) – PS-REALM BESTANDEN.
+    PS-P1: zweiter Beleg Wollcape 20,1 ms; Messung der fremden Aufrufe im längsten Stück statt blind teilen – richtig (erst Ursache, dann Massnahme).
+    Abnahme: nächster Diagnose-Export nach dem Einloggen mit der Schneider-Figur nennt "fremd …/eigener Code …".

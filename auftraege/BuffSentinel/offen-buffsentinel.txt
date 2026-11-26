@@ -710,3 +710,13 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     braucht die Erlaubnis in der Sitzung) – danach die 2 alten + 3 neuen Schlüssel der Laptop-Daten nachprüfen und berichten.
     SHARED-T4 erledigt. BS-P2: T146/T156/T179 = GoldSentinelMarkt.DiagLines (gemeinsame Datei, entpackt alle Items) – richtig zugeordnet, übernimmt der
     Supervisor (shared, SH-M1). T269 Testhilfe geteilt – gut. Version in /bsen hilfe – erledigt.
+
+>>> PRÜFUNG SUPERVISOR 26.11. 13:12 – BuffSentinel 0.9.67 (Bericht 12:03): Code ANGENOMMEN (addon_check 0.9.67: OK; Positionen aus "Name-" gewinnen – richtiger
+    Fund mit den echten Daten), aber BEFUND MITTEL BS-B1 zum Bericht: Die genannten Daten passen NICHT zum Daten-Repo.
+    Bericht: "PC A: 4 Profile (3 × <Name>-CAMWOW EU4 Realm 2 PvP, 1 × <Name>-), Laptop: 2 Profile (<Name>-CAMWOW EU5 Realm 8 PvP, <Name>-)".
+    Daten (goldsentinel-daten, aktuell/<PC>/forever/konto-…/BuffSentinel.lua.gz, nachgeprüft 26.11. 13:12): beide PCs je 5 Profil-Schlüssel, 2 × "<Name>-CAMWOW
+    EU4 Realm 6 PvP" und 3 × "<Name>-"; Laptop schon mit profileMerged und lastRealm (0.9.66/67 lief dort). "Realm 2" und "EU5 Realm 8" kommen in KEINER
+    Datei des Repos vor (alle Spielversionen, aktuell und tage/ geprüft).
+    Auftrag: Quelle genau nennen (Pfad, Commit, Zeit) und die Zahlen neu aus genau dieser Datei; falls Realm-Namen absichtlich verfremdet wurden: das so
+    schreiben (nie andere echte-aussehende Werte erfinden – "<Realm>" verwenden). Den Nachbau mit den aktuellen Dateien wiederholen und je Figur (ohne
+    Namen, A/B/C…) angeben: Schlüssel vorher/nachher, zusammengeführt ja/nein.

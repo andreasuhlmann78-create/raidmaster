@@ -1959,3 +1959,17 @@ LP-I3 weiter offen (MITTEL): T155 Ø 19,13 ms (vorher 21,97), Median 10,31, län
     LP-I3: Ursache "kalte erste Reise" (50–156 µs je Knoten statt 20–28) belegt, NearSparse/PlaceHit billiger, Knotenzahl gleich – gut.
     Abnahme im Spiel (nächster voller Lauf): Reisen ≤ 985 s · reiseBilder längste Portion ≤ 16 ms, über 16 ms nur mit Bereinigung · T155 Ø < 16 ms.
     Hinweis: Nachbau 3.13.19 "längstes 39,8 ms" (3.13.18: 31,2) – im Bericht zum Ingametest einordnen (Bereinigung?).
+
+>>> INGAMETEST 26.11. 12:45–13:03 (Supervisor 26.11. 13:12) – LevelPilot 3.13.20 "/lp testroutine alles", Laptop, PRIEST 10, Undercity (Chat-Text):
+    VOLLSTÄNDIG: OK 331 · FEHLER 1 (T155) · 1 078 s · Sandbox OK · echte Aktionen 0 · Fehlerzähler 0 · T261 814 ms < 1 000 OK (vorher 655; start/Center
+    max 26 ms – beobachten).
+    LP-TR3 im Spiel BESTANDEN (bis auf 1 Bild): Reisen 893 s (3.13.16 992 s: −10,0 % nachgerechnet; 3.13.18 985 s: −9,3 %) · reiseBilder "Bilder 26 737,
+    längstes 17,5 ms, über 16 ms 1 (ohne Bereinigung), über 40 ms 0, längste Portion 17,5 ms" (3.13.18: 106 über 16 ms). Das eine Bild 17,5 ms im nächsten
+    Bericht benennen (Stelle zwischen zwei Abgabestellen), dann LP-TR3 erledigt.
+    Bericht 3.13.20 (11:51, LP-R1/R2): ANGENOMMEN. addon_check 3.13.20: OK. LP-R1 Ursache (CheckMobs ausserhalb jeder Zone) belegt und behoben, T396;
+    LP-R2 eingeordnet (Treffer echt, lange Luftlinien/Thalanaar) – nächster Schritt "lange Luftlinien über Orte meiden" mit Gegenprobe Route/Zeit: einverstanden.
+LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,28), Median 16,43, längste 122,83 ms (#15), #6 118,6, #17 69,9 – alle Zone 1458,
+    ohne Bereinigung, 662 KB je Planung. Nachbau und Spiel laufen hier in entgegengesetzte Richtung (−55 % vs +53 %) -> der Nachbau bildet die kalte erste
+    Reise im Spiel nicht ab. Belegen IM SPIEL (Messzeile je Planung: Knoten ausgedehnt, µs je Knoten, Anteil NearSparse/Terrain/PlaceHit, Zwischenspeicher
+    kalt/warm), statt weiter im Nachbau zu optimieren. Verdacht, zu messen: Abgabe nach Uhr in 3.13.19 lässt Teile der Planung in Bildern laufen, in denen
+    das Spiel selbst lädt (Wanduhr statt Rechenzeit gemessen?) – prüfen, ob T155 Rechenzeit oder Wanduhr misst.

@@ -7179,3 +7179,15 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     später wieder eingeloggt = Charakter-Menü); 0 um 10:26:19 (neue Version geladen = Spiel neu gestartet), 10:26:46 (13 s nach dem Einloggen, kein neuer
     Sitzungseintrag -> vermutlich /reload) und 11:16:10 (nächste Sitzung 12:44 = Spiel beendet). Verdacht, zu messen: Charakter-Menü = echter Wert;
     Spiel beenden und /reload = 0. Die Messzeile mit Art (0.65.408) bestätigt es beim nächsten Ausloggen.
+
+>>> PRÜFUNG SUPERVISOR 26.11. 13:12 – FULL 0.65.408 (12:12) und 0.65.409 (12:51): ANGENOMMEN, Abnahme im Spiel offen. addon_check 0.65.409 (Release-ZIP): OK.
+    0.65.409: neue Einträge aus AUCTION_HOUSE_BROWSE_RESULTS_ADDED anhängen, ganze Liste nur bei UPDATED/ohne Einträge/READ_SAFE 5 s; Nachbau 252 -> 63
+    Lesungen, Gegenprobe ohne mitgelieferte Einträge = 252, gleiche Hürden – gut.
+>>> INGAMETEST 26.11. 13:06–13:09 (Supervisor 26.11. 13:12, Protokoll 0.65.409): keine WAECHTER-POLL-Zeile über 8 ms und kein LANGSAM Watcher in den Runden
+    13:08 (Hinweis, eine kurze Sitzung – Abnahme AHS-W1 Teil 1 mit einer längeren Wächter-Sitzung). AH-STATE weiter 13,5 ms (Fenster 12,6, Reiter overview) ->
+    W1 Teil 2 offen wie geplant.
+    GOLD-LOGOUT mit Art – Befund: alle fünf Zeilen "Art: ohne Ankündigung" – in einer Hauptstadt (Undercity, ausgeruht) loggt das Spiel SOFORT aus, ohne
+    PLAYER_CAMPING; die Art unterscheidet hier nichts. Werte: 12:45:07 echt (nächste Sitzung +8 s), 13:06:49 echt (+7 s), 13:07:03 0 (+13 s), 13:07:33 0 (+61 s);
+    früher 10:12:38/11:09:21 echt (+7 s), 10:26:19/10:26:46/11:16:10 0. Muster (Verdacht, zu messen): /reload (~7 s) = echter Wert; Charakter-Menü / Spiel beenden
+    = 0 – Nutzer wird gefragt, was er 13:06–13:08 in welcher Reihenfolge gemacht hat. Für die Messzeile: /reload ist erkennbar, wenn beim nächsten Laden
+    PLAYER_LOGIN mit isReload (ADDON_LOADED/PLAYER_ENTERING_WORLD isReloadingUi) kommt – Art beim nächsten Laden nachtragen ("war /reload: ja/nein").

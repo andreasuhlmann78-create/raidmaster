@@ -528,3 +528,7 @@ SICHERHEIT (Pflicht, Repo ist öffentlich):
     kommen neue Addon-Versionen von selbst." (wie LIESMICH 3.0.49 / Uploader-Doku UP-DOC2). Deutsch und Englisch.
 >>> PRÜFUNG SUPERVISOR 25.11. 14:48 – Bot 1.5.197 (Bericht 14:40, D-CI2, D-UPDOC2, D-UPCFG1): ANGENOMMEN, Abnahme im Betrieb offen
     (nächster Testbericht -> workflow_dispatch-Lauf, Bericht ≤ 20 Min. im Repo). Fund save_config (neuer Schlüssel wäre überschrieben worden) – gut.
+
+>>> PRÜFUNG SUPERVISOR 26.11. 13:12 – Discord-Bot 1.5.198 /addon-pn (Bericht 13:10): ANGENOMMEN. Wunsch des Nutzers 12:59 (keine PN mehr bei neuer RM-Version für ihn),
+    Schalter je Person in state.json (nur IDs, nicht im Repo), Ankündigung im Kanal unverändert, Test mit Gegenprobe, 528 Bot-Tests OK. Abnahme: Nutzer gibt
+    /addon-pn an:False ein; bei der nächsten RM-Version keine PN an ihn, Protokoll nennt "übersprungen 1".
