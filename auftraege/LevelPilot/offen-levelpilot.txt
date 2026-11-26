@@ -1977,3 +1977,16 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
 >>> PRÜFUNG SUPERVISOR 26.11. 15:43 – LevelPilot 3.13.21 (Bericht 13:27): ANGENOMMEN, Abnahme im Spiel offen. addon_check 3.13.21: OK.
     T155 misst Rechenzeit (Wanduhr minus Pausen) – im Code belegt, Frage beantwortet. Messzeile je längster Planung (Knoten, µs je Knoten, kalt, Leerungen,
     erste/zweite Hälfte) und Stelle der grössten Budget-Überschreitung in "Reisen:" – genau was gebraucht wird. Nächster voller Ingametest liefert die Ursache.
+
+>>> INGAMETEST 26.11. 15:49–16:06 (Supervisor 26.11. 16:07) – LevelPilot 3.13.21 "/lp testroutine alles", Laptop, PRIEST 10, Undercity (Chat-Text):
+    VOLLSTÄNDIG: OK 331 · FEHLER 1 (T155) · 1 034 s · Sandbox OK · echte Aktionen 0 · Fehlerzähler 0 · T261 557 ms < 1 000 OK.
+    LP-TR3 ERLEDIGT: Reisen 860 s (3.13.16 992 s: −13,3 %; 3.13.20 893 s: −3,7 %) · reiseBilder 25 959 Bilder, längstes 16,2 ms (1 Bild über 16 ms, ohne
+    Bereinigung, 0,2 ms darüber), über 40 ms 0; grösste Budget-Überschreitung 6,1 ms bei Virtual.lua:545 < 540 < 1010. HINWEIS NIEDRIG: an Virtual.lua:545
+    eine Abgabe früher setzen, wenn es ohne Umbau geht – sonst so lassen.
+    LP-I3 weiter offen (MITTEL): T155 Ø 19,92 ms, Median 11,15, längste 86,92 ms (#15, Zone 1458, +909 KB) [Wanduhr 272,7, Pausen 185,8/8× · Knoten 460,
+    189 µs je Knoten · kalt: Umkreis 1, Gelände …]. Nachgerechnet: 460 × 189 µs = 86,9 ms ✓; 272,7 − 185,8 = 86,9 ✓ (Rechenzeit, Pausen abgezogen – belegt).
+    Befund: im Spiel 189 µs je Knoten (Nachbau 88, warm früher 20–28) bei nur 1 kalter Umkreissuche -> NICHT der kalte Umkreis-Zwischenspeicher. Den Rest
+    der Zeile (Gelände kalt, Leerungen, erste/zweite Hälfte) aus dem Upload lesen (Chat-Text abgeschnitten; Nutzer macht /reload) und die Ursache der
+    189 µs benennen (Gelände-Abfragen je Knoten? Tabellen je Knoten -> 909 KB/460 = ~2 KB je Knoten?). Ziel bleibt T155 Ø < 16 ms.
+    Takt: 43 ganze Bilder > 40 ms (3.13.20: 82), davon 17 Umgebung; längste mit Bereinigung (T244/T355/T251), ohne: T285 Zentrale 36,2, T136 Zentrale 35,9,
+    T34 35,2 – wie bisher im Bericht einordnen.
