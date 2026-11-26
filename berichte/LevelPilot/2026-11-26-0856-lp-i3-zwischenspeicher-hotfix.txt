@@ -1,0 +1,24 @@
+LevelPilot – Bericht an die Prüf-Sitzung: LP-I3 (Messung Zwischenspeicher), HINWEIS Hotfix 25.11.
+Stand 26.11.2026 08:56 · keine neue Version (Messung und Prüfung, nichts geändert)
+
+1. LP-I3 – Vorschlag aus dem Bericht 07:49 (Wegsuche bei gleichen Eingaben zwischenspeichern) durch Messung WIDERLEGT
+- Messung im Nachbau (Priester 10, Undercity, Routine Bereich B mit allen Reisen): jede Wegsuche während einer Reise mit Schlüssel aus allen
+  Eingaben + Stand des Netzes (Graph.edgeGen, Anzahl Wegpunkte) + Gefahrenkarte (Danger.gen, Limit) + Reise.
+  - Über alle Reisen gezählt: 290 von 330 Suchen "schon gesehen" – aber fast nur, weil T381 dieselbe Reise zweimal fährt.
+  - Innerhalb EINER Reise: 197 von 328 Suchen wiederholt, zusammen nur 151 ms (billige Suchen der Navigation).
+  - CheckFirstPath: 19 Suchen, davon innerhalb derselben Reise 0 mit gleichen Eingaben. Ein Zwischenspeicher senkt T155 also nicht.
+  - Nur die Grenze (maxExpand) verschieden, sonst gleich: 4 Fälle.
+- Damit bleibt belegt (Bericht 07:49): Die Zeit steckt in der einzelnen Wegsuche der Prüfung (alle finden einen Weg, Mittel 15,6 ms,
+  längste 46,8 ms im Nachbau; in Undercity 64–89 % der längsten Planungen). Nächster Schritt: belegen, warum diese Suchen in Undercity so
+  viele Knoten ausdehnen (Innenraum-Zone 1458, keine Luftlinien zwischen Knoten), dann die Suche selbst billiger machen – ohne die Grenze
+  zu senken (das würde die Route ändern).
+- Abnahme T155 im Spiel mit 3.13.17 abwarten: Planungen geben jetzt im ganzen Schritt ab; der Mittelwert misst aber reine Rechenzeit.
+
+2. HINWEIS NIEDRIG Hotfix 25.11. – geprüft, keine Änderung nötig
+- Datenpaket 1.6.4 (Data/Quests.lua) enthält alle genannten Quests ohne Sperre:
+  - "Encrypted Twilight Texts" 8319 (dazu 8318 "Secret Communication", 8323 "True Believers"), Gegenstand 20404 mit Droplisten (Data/Items.lua).
+  - "Saving the Best for Last" Horde 9007–9014 (Mokvar), Allianz 8999–9004.
+  - "Scarlet Subterfuge"-Kette (5862 u. a.) vorhanden.
+- Im Code von LevelPilot steht für keine dieser Quests eine Sperre oder Ausnahme (Suche nach den IDs). Sie werden geplant wie jede Quest.
+- Reitfertigkeit Paladin/Hexenmeister (Gesprächsoption): Klassenquest ab Stufe 40, keine Leveling-Quest – nichts zu tun.
+- Magram-Respawn: LevelPilot rechnet keine Respawn-Zeiten je Gegner – nichts zu tun.
