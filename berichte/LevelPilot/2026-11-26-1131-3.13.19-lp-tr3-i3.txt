@@ -1,0 +1,48 @@
+LevelPilot 3.13.19 – Bericht an die Prüf-Sitzung: LP-TR3 (Abgabe nach Zeit), LP-I3, Zähler-Text Protokoll, T136/T34
+Stand 26.11.2026 11:31 · umgesetzt, zur Prüfung
+Zip: announce/levelpilot__levelpilot-3.13.19.LevelPilot.zip (md5 091035b60b84b9d4ec54325733208bfa, 2845778 Bytes)
+
+Prüfungen vor dem Push
+- addon_check: OK. Gemeinsame Dateien GoldSentinel*.lua mit cmp gleich shared/.
+- Offline-Routine 40 von 40 ohne FEHLER, Testroutine 5 von 5 ohne FEHLER.
+- Nachbau ganze Routine Priester 10 mit den Daten des Uploads 26.11. 11:16: 0 FEHLER (OK 323), T381 gleich, reiseBilder längstes 11,2 ms.
+- Gegenprobe Route 1–60 (am Stück und in der Reise nach Uhr): 141 h 30, 2 344 Schritte, 814 Quests, 1 446 112 yd – gleich wie 3.13.15–3.13.18.
+
+1. LP-TR3 – Portion nach ZEIT (Auftrag 11:09)
+- Umgesetzt: In der Testroutine gibt die Reise jetzt wie ausserhalb nach Uhr ab: Budget V.ROUTINE_BUDGET = 10 ms je Bild (ausserhalb
+  unverändert 8 ms). LP.sliceCalls (gezählte Portionen) ist in der Reise aus; die Stapelprüfung LP.YieldBlocked läuft nur einmal je Bild
+  (bei der Abgabe), nicht mehr je Portion. LP:Yield prüft die Uhr an jeder Abgabestelle (debugprofilestop, billig).
+- Warum das jetzt erlaubt ist (3.13.8 LP-T1 hatte gezählte Portionen für die Wiederholbarkeit eingeführt) – Gegenprobe 26.11.: drei Reisen
+  L1–60 GLEICHZEITIG im Coroutine-Betrieb mit Abgaben nach Uhr (also an verschiedenen Stellen, verschiedene Zahl Bilder) ergeben alle
+  141 h 30 / 2 344 Schritte / 814 Quests / 1 446 112 yd, genau wie die Reise am Stück. Was 3.13.8 verschieden machte, ist aus der Reise
+  heraus (Empfang wartet seit 3.13.14, questRate seit 3.13.13). T381 prüft es weiter in jedem Lauf (Nachbau gleich).
+- Nachbau lange Reise L1–60 (AREA=B LONG=1, ohne Messhülle, gleiche Daten):
+  - 3.13.16:            Bilder 21 694, längstes 222,8 ms, über 16 ms 274, über 40 ms 21, Reisen 1 092 s
+  - 3.13.18 (16 Stellen): Bilder 18 083, längstes 31,2 ms, über 16 ms 76 (68 mit Bereinigung), über 40 ms 0, Reisen 912 s
+  - 3.13.19 (10 ms):    Bilder 17 248, längstes 39,8 ms, über 16 ms 21 (17 mit Bereinigung), über 40 ms 0, Reisen 869 s
+- Nachbau/Spiel (Frage 11:09): Der Nachbau rechnet 20 Bilder/s fest, die Reise füllt jedes Bild mit ihrem Budget – weniger Rechenzeit je
+  Abgabestelle = weniger Bilder = kürzer. Im Spiel ist das Bild des Laptops ~33 ms lang (985 s / 29 440 Bilder = 33,5 ms); kürzer wird die
+  Reise dort nur, wenn je Bild mehr Arbeit passt. 3.13.18 sparte Stapelprüfungen (weniger Bilder: 29 440 statt 30 719), lief aber mit
+  längeren Portionen. Darum der Vergleich in BILDERN: Nachbau 3.13.19 −4,6 % Bilder gegen 3.13.18 und −20,5 % gegen 3.13.16; im Spiel
+  erwartet weniger (Bildrate begrenzt). Verdacht, zu messen: Reisen im Spiel <= 985 s.
+- Erwartung im Spiel: längste Portion ≈ 10 ms + längste Strecke zwischen zwei Abgabestellen; über 16 ms nur mit Bereinigung.
+
+2. LP-I3 (T155 im Spiel Ø 19,13 ms, alle langen in Zone 1458)
+- Belegt im Nachbau (neu: Graph.lastExpanded zählt ausgedehnte Knoten): Die Wegprüfungen aus Undercity dehnen 45 / 323 / 456 / 648 / 94
+  Knoten aus – in jeder Reise genau gleich. Teuer ist die erste Reise: 50–156 µs je Knoten (Zwischenspeicher der Luftlinien, Gelände,
+  Gefahr noch leer), in späteren Reisen 20–28 µs. Die Routine misst T155 in ihrer ersten kurzen Reise, also kalt.
+- Abtastung der kalten Suche: Graph:NearSparse 28 %, Terrain:Unknown/Gelände 21 %, D.PlaceHit 7 %.
+- Geändert (Ergebnis gleich, Route 1–60 gleich): NearSparse setzt den Zellenschlüssel je Zeile nur einmal zusammen und rechnet Quadrate
+  mit Multiplikation statt "^ 2"; dazu die Vorprüfung in D.PlaceHit (3.13.18) und die Stapelprüfung nur einmal je Bild (Punkt 1).
+- Nachbau ohne Parallelläufe: Wegprüfungen zusammen 179 ms statt 291 ms (3.13.18), längste 28,7 statt 41–47 ms; T155 8,28 ms (Median 4,52).
+- Die Zahl der Knoten senke ich nicht (das würde die Route ändern). Abnahme im Spiel abwarten.
+
+3. Zähler-Text (Hinweis 10:32): "Das Fehler-Protokoll hat %d neue Auffälligkeit(en) seit dem letzten Öffnen von /lp protokoll (nicht nur aus
+   diesem Test). …" – 9 Sprachen.
+
+4. T136 Zentrale 64,9 ms (−6,5 MB) und T34 plan 36,7 ms (+4,3 MB) – Einordnung
+- T136: Stapel aus langeStuecke = TestRoutine.lua:4216 "Coop(LP.Protocol.Show)" – das Protokollfenster mit dem Text (im Spiel 246 Einträge)
+  plus Bereinigung (−6,5 MB). Im Nachbau mit genau diesen Daten (Upload 11:16) nur 7,9 ms: der Rest ist Arbeit des Spiels (Text ins
+  Fenster setzen) und die Bereinigung. Verdacht, zu messen.
+- T34 (Datenseite: QuestDB:Reconnect, Diagnose, Protokoll, Selbsttest, Export, Import) taucht im Nachbau nicht über 6 ms auf. Damit der nächste
+  Ingametest die Stelle zeigt: langeStuecke nimmt eigene Stücke jetzt ab 25 ms (TR.SLOW_PIECE) statt ab 40 ms auf, mit Stapel.
