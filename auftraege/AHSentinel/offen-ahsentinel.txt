@@ -7009,3 +7009,10 @@ AHS-SB1 MITTEL (neu): Sandbox-Zeile "FEHLER: 1 Pfade, wiederhergestellt in 2 Dur
     kein Workflow-Lauf "CurseForge-Upload" für AHSentinel, curseforge.com/wow/addons/ah-analyzer-pro/files neueste = 0.65.393 (24.11.).
     Entscheid des Nutzers 15:22 gilt: 0.65.400 (Zip = announce/…0.65.400, md5 gleich) SOFORT nach download/ legen, pushen, Workflow-Lauf und CF-Seite
     nachprüfen, im Bericht mit Link + Zeit melden. Danach CF-Changelog (ad663f1) prüfen. Ursache des Versäumnisses im Bericht nennen (Regel für 18:00).
+
+>>> MT-Prüfung 26.11.2026 (geplante Aufgabe "Markt-Tabellen täglich", Lauf 05:38) – Tabelle NICHT committet (Entscheid des Nutzers 25.11. 06:31 "16.11. behalten",
+    Fallzahl-Regel gilt). Bericht: berichte/Pruef-Sitzung/2026-11-26-0540-markt-tabellen.txt. Tests 20/20, 22/22, 6/6; neue Fassung lädt (lupa), 10 376 Bytes,
+    keine Namen, Wellen nur offen/durch, kern markt 30 / gilde 44 Zellen, p 0..1, n >= 30 – ok. Fallzahlen weiter unter 16.11.: Entzaubern 2:4:a n 1279 -> 816,
+    2:1:a 750 -> 605; Kaufen bis 0.6 21 -> 1, bis 0.7 155 -> 9, bis 0.8 425 -> 293. Kein Zuwachs gegen 25.11.: neuester Journal-Eintrag auf PC und Laptop
+    gleich (t 592483, D 1696–1698 / P 172 / B 1132) – seit 24.11. keine neuen Fälle im Daten-Repo. Nur Befund.
+    KERN-ABGLEICH 26.11.: Zellen, die nicht aufgehen 0 / 0 / 0 (Laptop, JD5SLR5, M6UO3AL; berichtigtes Skript) – kein Befund.
