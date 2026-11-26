@@ -1,0 +1,4 @@
+BERICHT AHSentinel – Gesamtlauf (FULL) 0.65.412 – umgesetzt, zur Prüfung
+Zeit: 26.11.2026 16:43 (Europe/Zurich) · Kopie /tmp/claude-0/ahs412 · allein: ja (pgrep run_all.sh vor jedem Start leer, während des Laufs kein anderer Lauf)
+
+Ergebnis: 356 PASS, 67 FAIL (neu s344_w1_prebuild PASS). Gegen FULL 0.65.410 (allein): neu rot keine, neu grün keine. Enthält 0.65.411.
