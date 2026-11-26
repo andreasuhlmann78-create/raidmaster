@@ -1,0 +1,82 @@
+LevelPilot 3.13.17 – Bericht an die Prüf-Sitzung: Reise-Bilder, LP-I7, LP-SB1-c, LP-TR1 b), LP-R3, LP-I3
+Stand 26.11.2026 07:49 · umgesetzt, zur Prüfung
+Zip: announce/levelpilot__levelpilot-3.13.17.LevelPilot.zip (md5 83849e3cd20996ef074dea35bc9d2c54, 2 842 702 Bytes)
+
+Prüfungen vor dem Push
+- addon_check: OK. Gemeinsame Dateien GoldSentinel*.lua mit cmp gleich shared/.
+- Offline-Routine: 40 von 40 ohne FEHLER. Testroutine in 5 Formen: 5 von 5 ohne FEHLER.
+  (Ein Zwischenlauf hatte T395 als FEHLER: die Testwege lagen in der Ersatzwelt bei −40 200, ausserhalb ±40 000. Behoben: TestPathMsg
+  begrenzt jetzt auf ±37 000 vor dem Versatz.)
+- Nachbau ganze Routine, Priester 10 Undercity (Daten 23.11.): 0 FEHLER, OK 323. T381 gleich (756 s, 49 Schritte, 330 EP, 1999 yd).
+  Dauer 260 s (Nachbau, 20 Bilder/s).
+- Nachbau lange Reise L1–60 (AREA=B, LONG=1, wie "alles" im Spiel): ALLE TESTS OK.
+
+1. Reise-Bilder (Ingametest 3.13.16: längstes 320 ms, 705 über 16 ms, 24 über 40 ms)
+- Nachgestellt: Nachbau lange Reise mit 3.13.16 -> längstes Bild 150,5 ms, 267 über 16 ms, 27 über 40 ms.
+- Ursache belegt im Nachbau (Messung je Portion mit Stapel, je LP.YPCall mit Stapel der inneren Coroutine):
+  a) Hauptursache: Nach der Planung des Schritts setzte Step die Freigabe auf nil (Virtual.lua). Erledigt der Schritt danach ein Ziel,
+     plant LP.Engine:Skip/Complete sofort neu (Engine.lua:50 -> Planner:Replan -> DoReplan). Diese Planung lief ohne jede Abgabe am Stück.
+     Die 8 längsten inneren Läufe (alle Planner.lua:2322 DoReplan): 64–128 ms bis zur ersten Abgabe bzw. bis zum Ende.
+  b) Ein Bild endete erst nach der Portion, in der das Budget (8 ms) überschritten war; eine Portion von 32 Abgabestellen dauert an teuren
+     Stellen lange (Mittel je Abstand Planner.lua 437/942/956: 0,5–0,7 ms; Terrain 0,22 ms).
+- Änderungen:
+  - Die Freigabe der Planung ({plan, graph}) gilt für den ganzen Schritt (Step -> StepInner, zurück auf nil am Ende); Travel stellt nach
+    seiner Wegsuche die vorherige Freigabe wieder her statt nil.
+  - V.SLICE_CALLS 32 -> 8. Je Bild weitere Portionen nur, wenn (verstrichene Zeit + längste Portion dieses Bildes) <= V.FRAME_TARGET 12 ms.
+  - reiseBilder zählt neu: Bilder über 16 ms mit Speicherbereinigung (Speicher fiel > 1 MB) und die längste Portion.
+- Nachbau lange Reise danach: Bilder 23 129, längstes 32,1 ms, über 16 ms 58 (davon 53 mit Speicherbereinigung), über 40 ms 0, längste
+  Portion 25,1 ms (Messung mit Stapel-Mitschrift, also eher zu hoch). Kurze Reisen der Routine: längstes 12,5 ms, 0 über 16 ms.
+- Offen: 5 Bilder über 16 ms ohne Speicherbereinigung (Nachbau). Bilder mit Speicherbereinigung des Spiels kann die Reise nicht teilen.
+  Im Spiel bitte reiseBilder ansehen (Feld trennt jetzt beides).
+- Folge: Reisen der langen Routine im Nachbau 1163 s (3.13.16: 1060 s, je 20 Bilder/s). Im Spiel mehr Bilder/s.
+
+2. LP-I7 (T263 unerreichbar 44,6 ms, +1152 KB)
+- Nachbau mit denselben Daten: in ganzen Läufen erste Messung 26,7–104 ms (mit "kleinste Messung zählt" verdeckt), allein nur 4–9 ms.
+- Ursache belegt: Messung jeder Strecke zwischen zwei Abgaben in T263 – keine länger als 6 ms; die lange Portion kam aus dem Aufbau der
+  Gefahrenkarte (Danger:Build nach Danger:Reset, beim ersten Danger:Segment der Wegsuche). Er gab nur mit der Art "plan" ab; im Auftrag
+  der Wegsuche ({graph = true}) war "plan" nicht erlaubt -> der ganze Aufbau in einer Portion.
+- Behoben: Danger gibt mit der neuen Art "danger" ab; LP.KindOK erlaubt sie überall, wo "plan" oder "graph" erlaubt ist (LP:Yield und
+  Jobs.Yield). Der Aufbau baut in eigene Tabellen und setzt sie erst am Ende ein (keine halbe Karte bei Unterbrechung).
+- Nachbau ganze Routine danach: T263 unerreichbar längste Portion 4,4 / 8,8 / 13,0 ms (drei Läufe, erste Messung).
+
+3. LP-SB1-c (Empfang während der Routine)
+- Netzeingang ist jetzt Comm.NetIn (ep:OnMessage). Läuft die Routine, wartet alles von anderen Spielern in Comm.routineHeld (je Art
+  gezählt). Comm:Receive (so rufen die Prüfungen) wird nicht gehalten.
+- Erster Lauf zeigte: viele Prüfungen speisen über den Netzeingang ein (Deliver -> GoldSentinelSync.OnAddonMessage; T245 direkt) ->
+  T92/T189/T245/T246/T254 FEHLER. Darum zählt Einspeisen der Prüfungen über TR.Injecting (TR.netInject) – nur echter Empfang zwischen den
+  Bildern wartet. Danach alle OK.
+- Eingespielt nach dem Zurückstellen (Nachlauf, in Portionen wie nach einer Reise) bzw. nach TR:Abort.
+- Bericht: Feld empfangGehalten und Zeile "HINWEIS: während der Routine von anderen Spielern empfangen (Art Anzahl): … – nach dem
+  Zurückstellen eingespielt, nichts verloren" (9 Sprachen).
+- Im Code belegt und behoben: Für Ausloggen mitten in der Routine gab es keinen Handler – Testdaten standen beim Speichern in LevelPilotDB,
+  Backup:SaveCopy kopierte sie. Jetzt TR.OnLogout als erster Handler von PLAYER_LOGOUT: Reise abbrechen, Takt-Aufgabe abbrechen (onDone ->
+  TR:Abort: Restore am Stück, Teilbericht mit T393 "abgebrochen: Ausloggen während der Testroutine …"), Gewartetes sofort einspielen.
+- Tests: T395 (Netzeingang wartet, Comm:Receive nicht, Einspeisung nicht, Einspielen, ausserhalb der Routine sofort) OK.
+  Nachbau Skript: Empfang mitten in der Routine -> normales Ende: Netz +3 (= eine Nachricht), HINWEIS "P 1"; Ausloggen: direkt danach Netz
+  +3, Teilbericht mit T393 FEHLER "abgebrochen: Ausloggen …", nichts wartet mehr.
+
+4. LP-TR1 b)
+- Zeitlimit 1800 s = gemessen im Spiel 1189 s (3.13.16, Hintergrund) + rund 50 % Rand. Inhalt nicht gekürzt.
+- Dauer je Bereich (Wanduhr) steht jetzt auch in der Zusammenfassung im Chat ("Dauer je Bereich (Wanduhr): …", 9 Sprachen).
+
+5. LP-R3 (Route bis L17 +34 %) – Ursache: NICHT die Wegprüfung, belegt im Nachbau
+- Reise ab Stufe 1 bis L17, Scourge Priester, Daten 23.11. und 26.11.:
+  - Versionen 3.13.12, 3.13.13, 3.13.14, 3.13.15, 3.13.17 am Stück: alle L17 bei 8 h 40, gleiche Route (L5 Tirisfal -> Mulgore, L10 3 h 01).
+  - 3.13.17 mit ausgeschaltetem CheckFirstPath: genau gleich (8 h 40, 377 Schritte, 107 213 yd), pathBlocked 0.
+  - Im Spiel 3.13.15: L17 bei 8 h 40, L10 bei 2 h 59 – stimmt mit dem Nachbau überein.
+- Die 6 h 29 von 3.13.13 im Spiel lassen sich mit keiner Version und keinen Daten nachstellen. Verdacht, zu messen: In jenem Lauf brachen
+  im Spiel Teile der Planung still ab (LP-Y1, 28 469 gesperrte Abgaben je Lauf im Nachbau) – der Wert ist keine gültige Vergleichsbasis.
+  (Coroutine-Betrieb im Nachbau mit 3.13.13: L17 bei 8 h 24.)
+- Ob der Abstecher nach Mulgore bei L5 die bessere Route ist, ist damit eine Frage der Routenqualität, kein Rückschritt. Gerne als
+  eigener Punkt.
+
+6. LP-I3 (T155 im Spiel Ø 21 ms) – Ursache belegt, NICHT behoben
+- Nachbau Priester 10 (Planung je Schritt gemessen): in den längsten Planungen (Undercity, Schritte 4–7) macht CheckFirstPath 64–89 %
+  aus (z. B. 77,9 von 87,9 ms). Über die ganze Reise 23–34 % der Planungszeit.
+- Alle Wegsuchen der Prüfung finden einen Weg (19×, Art "graph", Mittel 15,6 ms, längste 46,8) – keine läuft ins Limit. Eine kleinere
+  Grenze (PATH_CHECK_EXPAND) würde darum die Route ändern. Vorschlag für die nächste Version: Ergebnis der Wegsuche mit genau gleichen
+  Eingaben zwischenspeichern (Planung, Reise und Navigation suchen je Schritt oft denselben Weg). Bis die Gleichheit der Ergebnisse
+  belegt ist, nicht eingebaut.
+- Nachbau T155 jetzt 7,95–9,09 ms je Planung (OK); Portionen sind durch Punkt 1 begrenzt.
+
+Im nächsten Ingametest bitte: reiseBilder (mit/ohne Speicherbereinigung), T263, T155, T395, Zeile "Dauer je Bereich (Wanduhr)" im Chat.
