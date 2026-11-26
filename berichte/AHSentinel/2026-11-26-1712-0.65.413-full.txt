@@ -1,0 +1,4 @@
+BERICHT AHSentinel – Gesamtlauf (FULL) 0.65.413 – umgesetzt, zur Prüfung
+Zeit: 26.11.2026 17:12 (Europe/Zurich) · Kopie /tmp/claude-0/ahs413 · allein: ja (pgrep run_all.sh vor dem Start leer, während des Laufs kein anderer Lauf – Code-Änderungen nur in der Arbeitskopie)
+
+Ergebnis: 357 PASS, 66 FAIL. Gegen FULL 0.65.412: neu rot keine, neu grün s216_feed_memory (Zeitszenario, bekannte Streuung AHS-S216 – kein Verdienst einer Änderung).
