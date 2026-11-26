@@ -1,0 +1,29 @@
+ProfessionSentinel 0.9.89 – umgesetzt, zur Prüfung
+Bezug: offen-professionsentinel.txt HINWEIS MITTEL 26.11. 09:35 + Nachtrag 09:38 (Realm leer in WoW Forever, aus AHS-TB1-b).
+Reihenfolge: vor PS-P1 Teil 2 gezogen, weil es Daten betrifft (Figuren doppelt in Anzeigen); PS-P1 Teil 2 folgt als 0.9.90.
+
+Befund in PS (gespeicherte Daten Laptop 26.11. 07:03, ohne Namen): 5 Figur-Schlüssel für 3 Figuren – Figur A mit Realm 49 Rezepte/5 Berufe
+ und ohne Realm 70/5, Figur B mit und ohne Realm je 38/3, Figur C nur ohne Realm. Doppelt sichtbar in Scan:CharsFor (Tooltip "bekannt bei"/
+ "fehlt bei") und AL.Needed (Rezept-Hinweise: Name zweimal); KnownAPI (Today.lua CharFor) fand bei fremdem Schlüssel mit Realm nur den alten
+ Eintrag. Gilden-Schlüssel (Guild.lua) "<Realm>|<Gilde>": mit leerem Realm nur "|<Gilde>" gefunden.
+
+Umgesetzt (Core.lua, Today.lua, Guild.lua):
+ - ns.MergeCharKeys(db, aktueller Schlüssel) beim Einloggen (vor InitChar): je Name genau ein Schlüssel mit Realm und einer ohne (gleiche
+   Spielversion) -> ein Eintrag; Ziel = Art des aktuellen Realms (leer -> "<Name>-"; kommt der Realm zurück, umgekehrt). Rezepte vereint,
+   je Beruf die höhere Fertigkeit, übrige Felder: Ziel zuerst, fehlende aus dem alten (auch eine Ebene tiefer, z. B. skillChance).
+   Der zusammengeführte Eintrag wird GANZ in db.charsMerged[<alter Schlüssel>] = { at, into, data } gesichert – nichts gelöscht.
+   Nicht angefasst: mehrere Realms mit gleichem Namen (mehrdeutig), andere Spielversion, alte Schlüssel anderer Figuren ohne neuen
+   Schlüssel (werden beim Einloggen dieser Figur verschoben). Eigene Figur nur mit altem Schlüssel -> auf den neuen Schlüssel verschoben
+   (nur gleiche Spielversion). Diagnose "DATEN Figur-Schlüssel zusammengeführt (Realm leer): n".
+ - ns.FindCharKey: Schlüssel eines anderen Addons – genau, sonst derselbe Name mit/ohne Realm, wenn eindeutig (KnownAPI).
+ - Guild.lua GU.FindGuild: GuildSentinel-Eintrag genau, sonst der einzige Eintrag dieser Gilde unter anderem Realm-Teil (nur lesen;
+   GuildSentinel entscheidet über seine Schlüssel). Mehrdeutig -> nichts.
+ - Nachbau mit den echten Daten (Realm leer wie im Spiel, Einloggen): vorher 5 Schlüssel (s. o.), nachher je Figur ein Schlüssel ohne Realm:
+   A 70 Rezepte/5 Berufe, B 38/3; Vereinigung der Rezepte unabhängig nachgerechnet (A 70, B 38 = keine Rezepte verloren), 2 Sicherungen in
+   charsMerged; zweiter Lauf 0 (nichts doppelt).
+Tests: T301 neu (Zusammenführen mit Sicherung, höhere Fertigkeit, Felder eine Ebene tief, eigene Figur verschoben; Gegenproben mehrdeutig,
+ andere Spielversion, fremde alte Figur, zweimal, Realm zurück = andere Richtung; FindCharKey genau/eindeutig/mehrdeutig; FindGuild genau
+ zuerst/ohne Realm/mehrdeutig/falsche Gilde). Regression PS-REALM -> T301.
+ run_offline forever 256/0, era 237/0, retail 235/0, forever --lua51 256/0; check_actions OK; gen_locale_keys OK; yield_check OK;
+ Smoketest forever/era/retail AUTOTEST OK (FEHLER 29/26/26 = Mock-Grenzen, wie 0.9.88); addon_check OK ohne WARNUNG. Zip md5 85882107aaa2502d595048bf8f994f61, Repo 22f2050.
+Werkzeug: tests/nachbau_echt.py --merge (Realm leer, Einloggen, vorher/nachher ohne Namen).

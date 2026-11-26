@@ -1,23 +1,24 @@
-# Stand 26.11.2026 09:04 · Version 0.9.88
+# Stand 26.11.2026 10:15 · Version 0.9.89
 
 ## Gerade in Arbeit
-- Nichts. 0.9.88 veröffentlicht (Discord, Release v0.9.88, Repo 222360f), Bericht 2026-11-26-0904-version-0.9.88.txt – zur Prüfung.
-- 0.9.88 = PS-RD1 (Rezeptdaten-Entwurf 26.11. übernommen) + PS-TQ1-b (pending offen lassen, nach "ledger" neu fragen, MK.CheckLater:
-  Login / MAIL_CLOSED / ledger, höchstens alle 60 s, Aufgabe "treffer") + Namenkarte MK.ItemByName (50 Rechnungen 7,15 -> 0,41 ms).
-- 0.9.87 angenommen (Supervisor 25.11. 18:18). Arbeitszweige arbeit-0.9.87/-0.9.88 = Stand von main (löschen nicht erlaubt, 403).
+- Nichts. 0.9.89 veröffentlicht (Discord, Release v0.9.89, Repo 22f2050), Bericht 2026-11-26-1015-version-0.9.89.txt – zur Prüfung.
+- 0.9.89 = Realm leer (Hinweis MITTEL 26.11. 09:35/09:38): ns.MergeCharKeys beim Login (Sicherung db.charsMerged), ns.FindCharKey,
+  GU.FindGuild; T301; Nachbau --merge mit echten Daten (5 Schlüssel -> 3, Rezepte vereint 70/38 nachgerechnet).
+- 0.9.88 angenommen (Supervisor 26.11. 09:31), Abnahme im Spiel offen. Arbeitszweige arbeit-0.9.87..89 = Stände von main (löschen 403).
 
 ## Nächste Schritte (Reihenfolge)
-1. PS-P1 Teil 2 (0.9.89): Beleg aus dem Spiel 26.11. 06:50 (0.9.87): "heute" Teil 22,7 ms = 5 Rezeptpreise 22,6 ms, längstes 18,3 ms Wollcape,
+1. PS-P1 Teil 2 (0.9.90): Beleg aus dem Spiel 26.11. 06:50 (0.9.87): "heute" Teil 22,7 ms = 5 Rezeptpreise 22,6 ms, längstes 18,3 ms Wollcape,
    übrig 0,2, Speicher +1,1 MB, 35 Bilder/s. -> einen Rezeptpreis teilbar machen (Abgabe zwischen Zutaten, nur in der Aufgabe; Lua 5.1
-   kein yield über pcall: --lua51). Nachbau sv4: Teil "übrig 16,2 ms" bei 1 Rezept (Figur 49 Rezepte, erster Teil) belegen.
+   kein yield über pcall: --lua51) UND Ursache Faktor ~5 Spiel/Nachbau belegen (Wollcape 18,3 vs 3,8 ms; kalte Item-Daten/GetItemInfo?
+   – Verdacht, zu messen). Nachbau sv4: Teil "übrig 16,2 ms" bei 1 Rezept (Figur 49 Rezepte, erster Teil) belegen.
    Danach Ansicht recipes im Nachbau (2 Bilder ~405 ms, Stapel 20x ohne Addon-Zeile = Verdacht Mock).
 2. AHS-BP1 für PS: gebundene Ware (bindType 1) nicht als AH-Ware empfehlen; Test bindType 1/0/2 + Gegenprobe. Daten nicht ändern.
 3. PS-TQ1 Abnahme a) mit echten Daten, sobald Herstellen+Entzaubern im Spiel (Bericht "Trefferquote je Beruf").
-4. Gilden-Rezepte ohne Realm (Guild.lua; Sicherung, Zahlen vorher/nachher, Sync-Tag ohne Realm).
+4. Gilden-Sync-Tag ohne Realm prüfen (Lesen über GU.FindGuild seit 0.9.89 erledigt).
 5. MITTEL 2 (T192, T259), MITTEL 4 (T285); Entwickler-Befehle nur im Entwicklermodus; Testort-Hinweis; Lesbarkeit L1–L8; "AH ~Preis".
 
 ## Offen beim Nutzer
-- Ingametest 0.9.88 "/ps testroutine alles" (darf im Hintergrund laufen) (darf im Hintergrund laufen). Messung Lua-Fehler SetCraftableCount (nur PS / nur AHS).
+- Ingametest 0.9.89 "/ps testroutine alles" (darf im Hintergrund laufen); danach Diagnose "DATEN Figur-Schlüssel zusammengeführt" (darf im Hintergrund laufen). Messung Lua-Fehler SetCraftableCount (nur PS / nur AHS).
 
 ## Entscheide des Nutzers seit letztem Stand
 - 25.11. 13:47 (über Supervisor, PS-TQ1): Trefferquote "echten Weg verfolgen" (umgesetzt 0.9.86).
