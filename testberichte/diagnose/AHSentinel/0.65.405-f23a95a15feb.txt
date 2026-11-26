@@ -1,0 +1,239 @@
+AHSentinel-Protokoll v0.65.405 · 26.11. 09:47:37
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  26.11. 09:37:21 L10 PRIEST v0.65.405
+  26.11. 09:29:35 L10 PRIEST v0.65.405
+  26.11. 09:05:19 L10 PRIEST v0.65.404
+  26.11. 08:28:18 L10 PRIEST v0.65.404
+  26.11. 06:50:55 L10 PRIEST v0.65.403
+  26.11. 06:26:31 L10 PRIEST v0.65.402
+  25.11. 17:02:49 L10 PRIEST v0.65.402
+  25.11. 16:37:33 L10 PRIEST v0.65.402
+  25.11. 16:06:31 L10 PRIEST v0.65.402
+  25.11. 16:01:44 L10 PRIEST v0.65.402
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 18 Std., 7535 Items, Preis-Sync an
+  SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, BuffSentinel 0, GoldSentinelMarkt 0, GoldSentinelTest 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0, ThreatSentinel 0
+  SYNC gesendet 22 · empfangen 0 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 4 (mit Sync 2: 4, pausiert 2) · gesendet 2 · weitergegeben 0 · offline 2 · Listen 1 · Warteschlange 0 · gespeichert ja · im Test angehalten 0
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Sniper-Takt (SN-T2): 297 Suchen · Abstand Median 0.75 s, Min 0.70 s, Max 498.22 s
+    Zeitraum 22.11. 09:14–13:31 · minimiert/Hintergrund (unter 15 Bilder/s): 0 % (0 von 74)
+    Server nicht bereit: Median 0.50 s, Min 0.00 s, Max 46.80 s je Suche
+    eigene Bremse/Abstand: Median 0.00 s, Min 0.00 s, Max 2.00 s je Suche
+    Antwort des Servers: Median 0.20 s, Min 0.10 s, Max 0.30 s je Suche
+    Treffer-Halt: Median 0.00 s, Min 0.00 s, Max 6.77 s je Suche
+    andere Arbeit: Median 0.00 s, Min 0.00 s, Max 449.32 s je Suche
+    bereit (Tick): Median 0.00 s, Min 0.00 s, Max 26.24 s je Suche
+    Suchen je Ziel: i:11986 63 (21 %) · i:249428 15 (5 %) · i:5966 100 (33 %) · i:6040 10 (3 %) · i:7058 81 (27 %) · i:7911 2 (1 %) · w:11176 1 (0 %) · w:12037 2 (1 %) · w:12803 1 (0 %) · w:13463 1 (0 %) · w:15415 1 (0 %) · w:249391 5 (2 %) · w:2838 3 (1 %) · w:3404 1 (0 %) · w:4304 10 (3 %) · w:4338 3 (1 %) · w:5471 1 (0 %)
+  Sync-Abweichungen (S6): 87 Fälle, Markt-Tag fremd 0 (alte Version / anderer Markt)
+    7 Tage je Ursache (vollständig): stapel 1, bewegt 4, unbekannt 82
+    Stapel- statt Stückpreis: 1 – Item 15733 eigen 3499/fremd 49999 (Alter 111/4 Min., g, Voll, Menge 17)
+    Markt hat sich bewegt (Zeitabstand > 6 Std.): 4 – Item 260793 eigen 650/fremd 1500 (Alter 1363/3 Min., g, Voll, Menge 118); Item 2980 eigen 895/fremd 1800 (Alter 1364/4 Min., g, Voll, Menge 8); Item 5363 eigen 400/fremd 9999 (Alter 1364/4 Min., g, Voll, Menge 1); Item 6304 eigen 100/fremd 1000 (Alter 1364/4 Min., g, Voll, Menge 1)
+    unbekannt: 82 – Item 2589 eigen 41/fremd 19 (Alter 108/0 Min., g, Voll, Menge 25480); Item 3464 eigen 25/fremd 10 (Alter 108/0 Min., g, Voll, Menge 10784); Item 17056 eigen 1695/fremd 100 (Alter 108/0 Min., g, Voll, Menge 5474); Item 2862 eigen 24/fremd 8 (Alter 108/0 Min., g, Voll, Menge 5001); Item 249391 eigen 2754/fremd 900 (Alter 108/0 Min., g, Voll, Menge 4789)
+  Einstellungen geändert: cmdHint=true, fastScan=true, helpSeen=true, learnExplore=false, marketExpert=false, minimapAngle=199, priceGuard=20, psHintHidden=true, sniperSignal=true, theme=modern, tooltipDEDetail=true, vendorButton=false, vendorFlipMin=500, vsBudget=2
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0
+
+== Einträge (200, neueste zuerst)
+[26.11. 09:47:21] SYNC gesendet 2, empfangen 0, verworfen 0 · Kanal verweigert 0
+[26.11. 09:37:37] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[26.11. 09:37:27] SYNC Weg=GUILD
+[26.11. 09:37:24] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[26.11. 09:37:24] ABSATZ-UNPLAUSIBEL Item 4322 · 49.2/Tag · Quelle gemessen
+[26.11. 09:37:24] ABSATZ-UNPLAUSIBEL Item 2568 · 21.3/Tag · Quelle geschätzt
+[26.11. 09:37:24] ABSATZ-UNPLAUSIBEL Item 4312 · 30.5/Tag · Quelle geschätzt
+[26.11. 09:37:24] ABSATZ-UNPLAUSIBEL Item 1179 · 449.6/Tag · Quelle geschätzt
+[26.11. 09:37:24] ABSATZ-UNPLAUSIBEL Item 4344 · 25.3/Tag · Quelle geschätzt
+[26.11. 09:37:24] ABSATZ-UNPLAUSIBEL Item 22250 · 63.9/Tag · Quelle geschätzt
+[26.11. 09:37:24] ABSATZ-UNPLAUSIBEL Item 6242 · 54.8/Tag · Quelle gemessen
+[26.11. 09:37:23] ABSATZ-UNPLAUSIBEL Item 5764 · 129.1/Tag · Quelle geschätzt
+[26.11. 09:37:23] ABSATZ-UNPLAUSIBEL Item 274964 · 1971.7/Tag · Quelle gemessen, Angebot veraltet
+[26.11. 09:37:23] ABSATZ-UNPLAUSIBEL Item 253667 · 71.8/Tag · Quelle gemessen
+[26.11. 09:37:23] ABSATZ-UNPLAUSIBEL Item 279968 · 1322.7/Tag · Quelle gemessen
+[26.11. 09:37:23] ABSATZ-UNPLAUSIBEL Item 10592 · 879.4/Tag · Quelle gemessen
+[26.11. 09:37:23] ABSATZ-UNPLAUSIBEL Item 10047 · 72.3/Tag · Quelle geschätzt
+[26.11. 09:37:22] ABSATZ-UNPLAUSIBEL Item 4385 · 20.0/Tag · Quelle geschätzt
+[26.11. 09:29:50] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[26.11. 09:29:40] SYNC Weg=GUILD
+[26.11. 09:29:37] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[26.11. 09:29:37] ABSATZ-UNPLAUSIBEL Item 1179 · 449.6/Tag · Quelle geschätzt
+[26.11. 09:29:37] ABSATZ-UNPLAUSIBEL Item 4344 · 25.3/Tag · Quelle geschätzt
+[26.11. 09:29:37] ABSATZ-UNPLAUSIBEL Item 4312 · 30.5/Tag · Quelle geschätzt
+[26.11. 09:29:37] ABSATZ-UNPLAUSIBEL Item 2568 · 21.3/Tag · Quelle geschätzt
+[26.11. 09:29:37] ABSATZ-UNPLAUSIBEL Item 4322 · 49.2/Tag · Quelle gemessen
+[26.11. 09:29:37] ABSATZ-UNPLAUSIBEL Item 22250 · 63.9/Tag · Quelle geschätzt
+[26.11. 09:29:37] ABSATZ-UNPLAUSIBEL Item 6242 · 54.8/Tag · Quelle gemessen
+[26.11. 09:29:36] ABSATZ-UNPLAUSIBEL Item 5764 · 129.1/Tag · Quelle geschätzt
+[26.11. 09:29:36] ABSATZ-UNPLAUSIBEL Item 274964 · 1971.7/Tag · Quelle gemessen, Angebot veraltet
+[26.11. 09:29:36] ABSATZ-UNPLAUSIBEL Item 253667 · 71.8/Tag · Quelle gemessen
+[26.11. 09:29:36] ABSATZ-UNPLAUSIBEL Item 279968 · 1322.7/Tag · Quelle gemessen
+[26.11. 09:29:36] ABSATZ-UNPLAUSIBEL Item 10592 · 879.4/Tag · Quelle gemessen
+[26.11. 09:29:36] ABSATZ-UNPLAUSIBEL Item 10047 · 72.3/Tag · Quelle geschätzt
+[26.11. 09:29:36] ABSATZ-UNPLAUSIBEL Item 4385 · 20.0/Tag · Quelle geschätzt
+[26.11. 09:25:19] SYNC ×2 gesendet 2, empfangen 0, verworfen 0 · Kanal verweigert 0
+[26.11. 09:05:35] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[26.11. 09:05:25] SYNC Weg=GUILD
+[26.11. 09:05:23] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[26.11. 09:05:22] ABSATZ-UNPLAUSIBEL Item 4322 · 49.2/Tag · Quelle gemessen
+[26.11. 09:05:22] ABSATZ-UNPLAUSIBEL Item 2568 · 21.3/Tag · Quelle geschätzt
+[26.11. 09:05:22] ABSATZ-UNPLAUSIBEL Item 4344 · 25.3/Tag · Quelle geschätzt
+[26.11. 09:05:22] ABSATZ-UNPLAUSIBEL Item 1179 · 449.6/Tag · Quelle geschätzt
+[26.11. 09:05:22] ABSATZ-UNPLAUSIBEL Item 4312 · 30.5/Tag · Quelle geschätzt
+[26.11. 09:05:22] ABSATZ-UNPLAUSIBEL Item 22250 · 63.9/Tag · Quelle geschätzt
+[26.11. 09:05:22] ABSATZ-UNPLAUSIBEL Item 6242 · 54.8/Tag · Quelle gemessen
+[26.11. 09:05:22] ABSATZ-UNPLAUSIBEL Item 5764 · 129.1/Tag · Quelle geschätzt
+[26.11. 09:05:21] ABSATZ-UNPLAUSIBEL Item 274964 · 1971.7/Tag · Quelle gemessen, Angebot veraltet
+[26.11. 09:05:21] ABSATZ-UNPLAUSIBEL Item 253667 · 71.8/Tag · Quelle gemessen
+[26.11. 09:05:21] ABSATZ-UNPLAUSIBEL Item 279968 · 1322.7/Tag · Quelle gemessen
+[26.11. 09:05:21] ABSATZ-UNPLAUSIBEL Item 10592 · 879.4/Tag · Quelle gemessen
+[26.11. 09:05:21] ABSATZ-UNPLAUSIBEL Item 10047 · 72.3/Tag · Quelle geschätzt
+[26.11. 09:05:21] ABSATZ-UNPLAUSIBEL Item 4385 · 20.0/Tag · Quelle geschätzt
+[26.11. 08:48:58] SYNC ×2 gesendet 2, empfangen 0, verworfen 0 · Kanal verweigert 0
+[26.11. 08:29:54] PD7 Preisverlauf verdichtet: 381751 -> 374829 Zeilen (~15657 -> ~15373 KB)
+[26.11. 08:28:34] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[26.11. 08:28:24] SYNC Weg=GUILD
+[26.11. 08:28:22] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[26.11. 08:28:21] ABSATZ-UNPLAUSIBEL Item 1179 · 442.3/Tag · Quelle geschätzt
+[26.11. 08:28:21] ABSATZ-UNPLAUSIBEL Item 4344 · 25.0/Tag · Quelle geschätzt
+[26.11. 08:28:21] ABSATZ-UNPLAUSIBEL Item 4312 · 32.2/Tag · Quelle geschätzt
+[26.11. 08:28:21] ABSATZ-UNPLAUSIBEL Item 2568 · 21.0/Tag · Quelle geschätzt
+[26.11. 08:28:21] ABSATZ-UNPLAUSIBEL Item 4322 · 49.2/Tag · Quelle gemessen
+[26.11. 08:28:21] ABSATZ-UNPLAUSIBEL Item 22250 · 63.8/Tag · Quelle geschätzt
+[26.11. 08:28:21] ABSATZ-UNPLAUSIBEL Item 6242 · 54.8/Tag · Quelle gemessen
+[26.11. 08:28:21] ABSATZ-UNPLAUSIBEL Item 5764 · 130.6/Tag · Quelle geschätzt
+[26.11. 08:28:21] ABSATZ-UNPLAUSIBEL Item 274964 · 1971.7/Tag · Quelle gemessen, Angebot veraltet
+[26.11. 08:28:20] ABSATZ-UNPLAUSIBEL Item 253667 · 71.8/Tag · Quelle gemessen
+[26.11. 08:28:20] ABSATZ-UNPLAUSIBEL Item 279968 · 1322.7/Tag · Quelle gemessen
+[26.11. 08:28:20] ABSATZ-UNPLAUSIBEL Item 10592 · 879.4/Tag · Quelle gemessen
+[26.11. 08:28:20] ABSATZ-UNPLAUSIBEL Item 10047 · 72.9/Tag · Quelle geschätzt
+[26.11. 08:28:20] ABSATZ-UNPLAUSIBEL Item 4385 · 20.6/Tag · Quelle geschätzt
+[26.11. 07:02:48] SYNC gesendet 2, empfangen 0, verworfen 0 · Kanal verweigert 0
+[26.11. 06:51:10] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[26.11. 06:51:00] SYNC Weg=GUILD
+[26.11. 06:50:57] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[26.11. 06:50:56] ABSATZ-UNPLAUSIBEL Item 4322 · 49.2/Tag · Quelle gemessen
+[26.11. 06:50:56] ABSATZ-UNPLAUSIBEL Item 2568 · 21.0/Tag · Quelle geschätzt
+[26.11. 06:50:56] ABSATZ-UNPLAUSIBEL Item 4312 · 32.2/Tag · Quelle geschätzt
+[26.11. 06:50:56] ABSATZ-UNPLAUSIBEL Item 1179 · 442.3/Tag · Quelle geschätzt
+[26.11. 06:50:56] ABSATZ-UNPLAUSIBEL Item 4344 · 25.0/Tag · Quelle geschätzt
+[26.11. 06:50:56] ABSATZ-UNPLAUSIBEL Item 22250 · 63.8/Tag · Quelle geschätzt
+[26.11. 06:50:56] ABSATZ-UNPLAUSIBEL Item 6242 · 54.8/Tag · Quelle gemessen
+[26.11. 06:50:56] ABSATZ-UNPLAUSIBEL Item 5764 · 130.6/Tag · Quelle geschätzt
+[26.11. 06:50:56] ABSATZ-UNPLAUSIBEL Item 274964 · 1971.7/Tag · Quelle gemessen, Angebot veraltet
+[26.11. 06:50:55] ABSATZ-UNPLAUSIBEL Item 253667 · 71.8/Tag · Quelle gemessen
+[26.11. 06:50:55] ABSATZ-UNPLAUSIBEL Item 279968 · 1322.7/Tag · Quelle gemessen
+[26.11. 06:50:55] ABSATZ-UNPLAUSIBEL Item 10592 · 879.4/Tag · Quelle gemessen
+[26.11. 06:50:55] ABSATZ-UNPLAUSIBEL Item 10047 · 72.9/Tag · Quelle geschätzt
+[26.11. 06:50:55] ABSATZ-UNPLAUSIBEL Item 4385 · 20.6/Tag · Quelle geschätzt
+[26.11. 06:46:31] SYNC ×2 gesendet 2, empfangen 0, verworfen 0 · Kanal verweigert 0
+[26.11. 06:26:46] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[26.11. 06:26:37] SYNC Weg=GUILD
+[26.11. 06:26:36] ABSATZ Item 4245 · Q 4 (vollscan) · S 82.4 (measured) · S roh 82.4 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.0 · N 1.0
+[26.11. 06:26:34] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[26.11. 06:26:34] ABSATZ-UNPLAUSIBEL Item 1179 · 442.3/Tag · Quelle geschätzt
+[26.11. 06:26:34] ABSATZ-UNPLAUSIBEL Item 4344 · 25.0/Tag · Quelle geschätzt
+[26.11. 06:26:34] ABSATZ-UNPLAUSIBEL Item 4312 · 32.2/Tag · Quelle geschätzt
+[26.11. 06:26:34] ABSATZ-UNPLAUSIBEL Item 2568 · 21.0/Tag · Quelle geschätzt
+[26.11. 06:26:34] ABSATZ-UNPLAUSIBEL Item 4322 · 49.2/Tag · Quelle gemessen
+[26.11. 06:26:34] ABSATZ-UNPLAUSIBEL Item 22250 · 63.8/Tag · Quelle geschätzt
+[26.11. 06:26:34] ABSATZ-UNPLAUSIBEL Item 6242 · 54.8/Tag · Quelle gemessen
+[26.11. 06:26:34] ABSATZ-UNPLAUSIBEL Item 5764 · 130.6/Tag · Quelle geschätzt
+[26.11. 06:26:34] ABSATZ-UNPLAUSIBEL Item 274964 · 1971.7/Tag · Quelle gemessen, Angebot veraltet
+[26.11. 06:26:33] ABSATZ-UNPLAUSIBEL Item 253667 · 71.8/Tag · Quelle gemessen
+[26.11. 06:26:33] ABSATZ-UNPLAUSIBEL Item 279968 · 1322.7/Tag · Quelle gemessen
+[26.11. 06:26:33] ABSATZ-UNPLAUSIBEL Item 10592 · 879.4/Tag · Quelle gemessen
+[26.11. 06:26:33] ABSATZ-UNPLAUSIBEL Item 10047 · 72.9/Tag · Quelle geschätzt
+[26.11. 06:26:33] ABSATZ-UNPLAUSIBEL Item 4385 · 20.6/Tag · Quelle geschätzt
+[25.11. 17:02:52] ITEMINFO neue Item-Anfragen 200 (zurückgestellt 0) · je Aufgabe: cache:warm 200
+[25.11. 17:02:51] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[25.11. 17:02:51] ABSATZ-UNPLAUSIBEL Item 4322 · 49.2/Tag · Quelle gemessen
+[25.11. 17:02:51] ABSATZ-UNPLAUSIBEL Item 2568 · 21.0/Tag · Quelle geschätzt
+[25.11. 17:02:51] ABSATZ-UNPLAUSIBEL Item 4344 · 25.0/Tag · Quelle geschätzt
+[25.11. 17:02:51] ABSATZ-UNPLAUSIBEL Item 1179 · 442.3/Tag · Quelle geschätzt
+[25.11. 17:02:51] ABSATZ-UNPLAUSIBEL Item 4312 · 32.2/Tag · Quelle geschätzt
+[25.11. 17:02:50] ABSATZ-UNPLAUSIBEL Item 22250 · 63.8/Tag · Quelle geschätzt
+[25.11. 17:02:50] ABSATZ-UNPLAUSIBEL Item 6242 · 54.8/Tag · Quelle gemessen
+[25.11. 17:02:50] ABSATZ-UNPLAUSIBEL Item 5764 · 130.6/Tag · Quelle geschätzt
+[25.11. 17:02:50] ABSATZ-UNPLAUSIBEL Item 274964 · 1971.7/Tag · Quelle gemessen, Angebot veraltet
+[25.11. 17:02:50] ABSATZ-UNPLAUSIBEL Item 253667 · 71.8/Tag · Quelle gemessen
+[25.11. 17:02:50] ABSATZ-UNPLAUSIBEL Item 279968 · 1322.7/Tag · Quelle gemessen
+[25.11. 17:02:50] ABSATZ-UNPLAUSIBEL Item 10592 · 879.4/Tag · Quelle gemessen
+[25.11. 17:02:50] ABSATZ-UNPLAUSIBEL Item 10047 · 72.9/Tag · Quelle geschätzt
+[25.11. 17:02:50] ABSATZ-UNPLAUSIBEL Item 4385 · 20.6/Tag · Quelle geschätzt
+[25.11. 16:57:33] SYNC ×2 gesendet 2, empfangen 0, verworfen 0 · Kanal verweigert 0
+[25.11. 16:37:49] ITEMINFO neue Item-Anfragen 200 (zurückgestellt 0) · je Aufgabe: cache:warm-today 200
+[25.11. 16:37:49] ABSATZ-UNPLAUSIBEL Item 10053 · 7.4/Tag · Quelle geschätzt
+[25.11. 16:37:49] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[25.11. 16:37:39] SYNC Weg=GUILD
+[25.11. 16:37:36] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[25.11. 16:37:36] ABSATZ-UNPLAUSIBEL Item 1179 · 442.3/Tag · Quelle geschätzt
+[25.11. 16:37:36] ABSATZ-UNPLAUSIBEL Item 4344 · 25.0/Tag · Quelle geschätzt
+[25.11. 16:37:36] ABSATZ-UNPLAUSIBEL Item 4312 · 32.2/Tag · Quelle geschätzt
+[25.11. 16:37:36] ABSATZ-UNPLAUSIBEL Item 2568 · 21.0/Tag · Quelle geschätzt
+[25.11. 16:37:36] ABSATZ-UNPLAUSIBEL Item 4322 · 49.2/Tag · Quelle gemessen
+[25.11. 16:37:35] ABSATZ-UNPLAUSIBEL Item 22250 · 63.8/Tag · Quelle geschätzt
+[25.11. 16:37:35] ABSATZ-UNPLAUSIBEL Item 6242 · 54.8/Tag · Quelle gemessen
+[25.11. 16:37:35] ABSATZ-UNPLAUSIBEL Item 5764 · 130.6/Tag · Quelle geschätzt
+[25.11. 16:37:35] ABSATZ-UNPLAUSIBEL Item 274964 · 1971.7/Tag · Quelle gemessen, Angebot veraltet
+[25.11. 16:37:35] ABSATZ-UNPLAUSIBEL Item 253667 · 71.8/Tag · Quelle gemessen
+[25.11. 16:37:35] ABSATZ-UNPLAUSIBEL Item 279968 · 1322.7/Tag · Quelle gemessen
+[25.11. 16:37:35] ABSATZ-UNPLAUSIBEL Item 10592 · 879.4/Tag · Quelle gemessen
+[25.11. 16:37:34] ABSATZ-UNPLAUSIBEL Item 10047 · 72.9/Tag · Quelle geschätzt
+[25.11. 16:37:34] ABSATZ-UNPLAUSIBEL Item 4385 · 20.6/Tag · Quelle geschätzt
+[25.11. 16:36:30] SYNC ×3 gesendet 2, empfangen 0, verworfen 0 · Kanal verweigert 0
+[25.11. 16:06:47] ITEMINFO neue Item-Anfragen 200 (zurückgestellt 0) · je Aufgabe: cache:warm 20, cache:warm-today 180
+[25.11. 16:06:47] ABSATZ-UNPLAUSIBEL Item 10053 · 7.4/Tag · Quelle geschätzt
+[25.11. 16:06:46] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[25.11. 16:06:36] SYNC Weg=GUILD
+[25.11. 16:06:33] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[25.11. 16:06:33] ABSATZ-UNPLAUSIBEL Item 4322 · 49.2/Tag · Quelle gemessen
+[25.11. 16:06:33] ABSATZ-UNPLAUSIBEL Item 2568 · 21.0/Tag · Quelle geschätzt
+[25.11. 16:06:33] ABSATZ-UNPLAUSIBEL Item 4312 · 32.2/Tag · Quelle geschätzt
+[25.11. 16:06:33] ABSATZ-UNPLAUSIBEL Item 1179 · 442.3/Tag · Quelle geschätzt
+[25.11. 16:06:33] ABSATZ-UNPLAUSIBEL Item 4344 · 25.0/Tag · Quelle geschätzt
+[25.11. 16:06:33] ABSATZ-UNPLAUSIBEL Item 22250 · 63.8/Tag · Quelle geschätzt
+[25.11. 16:06:33] ABSATZ-UNPLAUSIBEL Item 6242 · 54.8/Tag · Quelle gemessen
+[25.11. 16:06:32] ABSATZ-UNPLAUSIBEL Item 5764 · 130.6/Tag · Quelle geschätzt
+[25.11. 16:06:32] ABSATZ-UNPLAUSIBEL Item 274964 · 1971.7/Tag · Quelle gemessen, Angebot veraltet
+[25.11. 16:06:32] ABSATZ-UNPLAUSIBEL Item 253667 · 71.8/Tag · Quelle gemessen
+[25.11. 16:06:32] ABSATZ-UNPLAUSIBEL Item 279968 · 1322.7/Tag · Quelle gemessen
+[25.11. 16:06:32] ABSATZ-UNPLAUSIBEL Item 10592 · 879.4/Tag · Quelle gemessen
+[25.11. 16:06:32] ABSATZ-UNPLAUSIBEL Item 10047 · 72.9/Tag · Quelle geschätzt
+[25.11. 16:06:32] ABSATZ-UNPLAUSIBEL Item 4385 · 20.6/Tag · Quelle geschätzt
+[25.11. 16:05:14] ITEMINFO neue Item-Anfragen 2600 (zurückgestellt 17379) · je Aufgabe: act:report:30 517, cache:warm 12, cache:warm-today 200, de:deals 459, forecast-eval 1080, hist:flat 200, pd7 132
+[25.11. 16:04:38] ABSATZ Item 279948 · Q 253 (scan, Q gesamt) · S 11.1 (market, gelernt) · S roh 40.1 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 16.0 · N 7.0 · kaum
+[25.11. 16:04:34] ABSATZ-UNPLAUSIBEL Item 255717 · 23.9/Tag · Quelle geschätzt
+[25.11. 16:04:34] ABSATZ Item 1710 · Q 824 (scan, Q gesamt) · S 67.0 (measured) · S roh 67.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 12.3 · N 7.0 · kaum
+[25.11. 16:04:31] ABSATZ-UNPLAUSIBEL Item 250933 · 59.5/Tag · Quelle geschätzt
+[25.11. 16:04:28] ABSATZ Item 12224 · Q 854 (scan, Q gesamt) · S 108.7 (market, gelernt) · S roh 390.7 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 5.5 · N 7.0
+[25.11. 16:04:24] ABSATZ-UNPLAUSIBEL Item 7943 · 9.6/Tag · Quelle geschätzt
+[25.11. 16:04:23] ABSATZ-UNPLAUSIBEL Item 3845 · 7.2/Tag · Quelle geschätzt
+[25.11. 16:04:22] ABSATZ-UNPLAUSIBEL Item 250483 · 6.0/Tag · Quelle geschätzt
+[25.11. 16:04:22] ABSATZ-UNPLAUSIBEL Item 2869 · 6.7/Tag · Quelle geschätzt
+[25.11. 16:04:21] ABSATZ-UNPLAUSIBEL Item 3841 · 11.5/Tag · Quelle geschätzt
+[25.11. 16:04:21] ENTZAUBERWERT Item 3474 · eigene Ø aus 769 · 10940 79% × 1.50 à 116, 10938 21% × 1.57 à 197 · brutto 213 · netto 202
+[25.11. 16:04:21] ABSATZ Item 3474 · Q 20 (scan, Q gesamt) · S 2.1 (market, gelernt) · S roh 7.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 7.0 · N 7.0 · kaum
+[25.11. 16:04:17] ABSATZ-UNPLAUSIBEL Item 274048 · 9.1/Tag · Quelle geschätzt
+[25.11. 16:04:06] ITEMINFO neue Item-Anfragen 1463 (zurückgestellt 5610) · je Aufgabe: act:report:30 517, cache:warm 12, cache:warm-today 200, forecast-eval 402, hist:flat 200, pd7 132
+[25.11. 16:03:54] ABSATZ Item 279952 · Q 169 (scan, Q gesamt) · S 9.8 (market, gelernt) · S roh 35.1 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 12.2 · N 7.0 · kaum
+[25.11. 16:03:54] ABSATZ Item 273122 · Q 10 (scan, Q gesamt) · S 1.1 (market, gelernt) · S roh 4.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 6.9 · N 7.0
+[25.11. 16:03:54] ABSATZ Item 273097 · Q 13 (scan, Q gesamt) · S 2.1 (market, gelernt) · S roh 7.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 4.7 · N 7.0
+[25.11. 16:03:53] ENTZAUBERWERT Item 249392 · Tabelle · 11084 100% × 1.00 à 4940 · brutto 5116 · netto 4860
+[25.11. 16:03:53] ENTZAUBERWERT Item 249394 · Tabelle · 11084 100% × 1.00 à 4940 · brutto 5116 · netto 4860
+[25.11. 16:03:52] ENTZAUBERWERT Item 249395 · Tabelle · 11084 100% × 1.00 à 4940 · brutto 5116 · netto 4860
+[25.11. 16:03:52] DE-CHANCEN Gruppe 3:2 · Tabelle 11084 100% · echt 11084 100% (4)
+[25.11. 16:03:52] ENTZAUBERWERT Item 249396 · Tabelle · 10978 100% × 1.00 à 510 · brutto 528 · netto 502
+[25.11. 16:03:52] ENTZAUBERWERT Item 249398 · Tabelle · 10978 100% × 1.00 à 510 · brutto 528 · netto 502
+[25.11. 16:03:52] ENTZAUBERWERT Item 249397 · Tabelle · 10978 100% × 1.00 à 510 · brutto 528 · netto 502
+[25.11. 16:03:46] ABSATZ Item 11165 · Q 14 (scan, Q gesamt) · S 3.2 (market, gelernt) · S roh 11.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 3.3 · N 7.0
+[25.11. 16:03:46] ABSATZ Item 11152 · Q 38 (scan, Q gesamt) · S 0.4 (measured) · S roh 0.4 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 68.7 · N 7.0 · kaum
+[25.11. 16:03:46] ABSATZ Item 11081 · Q 72 (scan, Q gesamt) · S 5.2 (market, gelernt) · S roh 18.7 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 9.8 · N 7.0 · kaum
+[25.11. 16:03:45] ABSATZ Item 6375 · Q 25 (scan, Q gesamt) · S 4.5 (market, gelernt) · S roh 16.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 4.0 · N 7.0
+[25.11. 16:03:45] ABSATZ Item 6344 · Q 34 (scan, Q gesamt) · S 5.5 (market, gelernt) · S roh 19.6 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 4.5 · N 7.0
+[25.11. 16:03:45] ABSATZ Item 6342 · Q 42 (scan, Q gesamt) · S 4.0 (market, gelernt) · S roh 14.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 7.6 · N 7.0 · kaum
+[25.11. 16:03:45] ABSATZ Item 11038 · Q 16 (scan, Q gesamt) · S 4.3 (market, gelernt) · S roh 15.4 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 2.8 · N 7.0
+[25.11. 16:03:45] ABSATZ Item 6377 · Q 12 (scan, Q gesamt) · S 7.4 (market, gelernt) · S roh 26.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.2 · N 7.0
+[21.11. 18:58:46] FEHLER Märkte vereinen: Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:5416: attempt to compare two table values
+[21.11. 18:38:52] FEHLER Märkte vereinen: Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:5416: attempt to compare number with table
