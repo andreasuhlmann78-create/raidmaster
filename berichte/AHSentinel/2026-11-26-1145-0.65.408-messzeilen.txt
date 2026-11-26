@@ -1,0 +1,17 @@
+AHSentinel 0.65.408 – AHS-TB1 Messzeile mit Art des Endes, AHS-W1 Teil 2 (AH_STATE 19 ms) Messzeile, Schlüssel fremder Addons – umgesetzt, zur Prüfung (nur Discord)
+Zeit: 26.11.2026 11:45 (Europe/Zurich)
+addon_check 0.65.408: OK. ZIP: gleiche 112 Dateien. Geändert: Characters.lua, UI_Main.lua, Version, CHANGELOG EN/DE.
+
+1) GOLD-LOGOUT (Supervisor 10:32: 0 nicht bei jedem Ausloggen): Zeile jetzt "GetMoney beim Ausloggen X · beim Verlassen der Welt Y · Art: Ausloggen (Lager) |
+   Spiel beenden | ohne Ankündigung (sofort, Verbindungsende oder /reload) · letzter echter Stand Z". Art aus PLAYER_CAMPING / PLAYER_QUITING (LOGOUT_CANCEL
+   setzt zurück), Y aus PLAYER_LEAVING_WORLD. /reload ist von "sofort ausloggen" nicht unterscheidbar (beide ohne Ankündigung) – so beschriftet.
+2) AHS-W1 Teil 2 "LANGSAM Empfänger UI_Main.lua:5263 von AH_STATE · 19 ms": Nachbau (zz_w1ah) erstes Öffnen mit automatisch öffnendem Fenster 3,3 ms
+   (Show/ShowInAH 3,0), danach 0,4–1,1 ms; mit eigenem Fenster (ohne Einbettung) 2,9 ms. Im Spiel teurer -> Verdacht, zu messen (Fenster/Reiter mit echten
+   Daten, Frames in C). Messzeile "AH-STATE · AH geöffnet · gesamt · Kern/Reiter · Fenster (neu geöffnet?, Reiter) · Statuszeile · Bereinigung" ab 8 ms.
+   Danach Massnahme (z. B. Aufbau des Reiters als Aufgabe nach dem Öffnen).
+3) Schlüssel anderer Addons (HINWEIS 10:32): AHSentinel liest KEINE Daten anderer Addons mit Figur-Schlüssel. Geprüft alle A:Global(...)-Zugriffe:
+   ProfessionSentinelAPI (TestRunning, TodayCrafts – ohne Figur-Schlüssel), ProfessionSentinel (nur ob geladen/Fenster offen, Crafting.lua:1281/1298),
+   RaidMasterAPI (UpcomingRaids). GuildSentinel/BuffSentinel: kein Zugriff. Unsere API (API.lua) gibt ebenfalls keine Figur-Schlüssel heraus.
+   Abgleich der Schlüssel: AHS "<Name>-CAMWOW EU4 Realm 6 PvP" ist intern; falls ein anderes Addon AHS-Daten mit Schlüssel bräuchte, gibt es heute keine
+   Stelle dafür.
+Nachbau 0.65.408: s49_open_with_ah, s42, s42b, s43, s6_chars_a/b, s341 PASS.
