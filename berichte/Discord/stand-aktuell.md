@@ -1,9 +1,9 @@
 # Stand Discord-Sitzung
 
-## Stand 25.11.2026 15:08 · Bot 1.5.197 (D-CI2, D-UPDOC2, D-UPCFG1 umgesetzt, zur Prüfung; 1.5.196 angenommen)
+## Stand 26.11.2026 13:10 · Bot 1.5.198 (/addon-pn umgesetzt, zur Prüfung; 1.5.197 angenommen)
 
 ## Gerade in Arbeit
-- nichts. Bericht berichte/Discord/2026-11-25-1440-d-ci2-d-updoc2.txt.
+- Sobald 1.5.198 läuft: für den Nutzer /addon-pn an:False (Wunsch 26.11. 12:59, keine PN bei neuer RaidMaster-Version).
 
 ## Nächste Schritte (Reihenfolge)
 1. Bei jeder Nachricht des Nutzers: git pull --rebase, auftraege/Discord/ lesen (git log --oneline -5 -- auftraege/Discord/).
@@ -14,6 +14,7 @@
 - nichts. Token "github_actions_token" hat der Nutzer 25.11. 14:43 selbst auf dem Server eingetragen (Bot lief da 1.5.197).
 
 ## Entscheide des Nutzers seit letztem Stand
+- 26.11. 12:59 "der dc bot braucht mir die neuste version vom raidmaster addon nicht mehr zu senden via pm im dc" -> /addon-pn.
 - 25.11. ~13:50 (RaidMaster-Sitzung, via Supervisor D-CI2): Bot stösst den Testberichte-Workflow an, Token trägt der Nutzer ein.
 - 25.11. 11:39 (via Supervisor D-UPDOC2): Offiziere schalten Addons-automatisch-an.bat ein; Schritt in Anleitung und /uploader.
 - 24.11. 21:53 "ich sende ihn denen selber" (Uploader an Offiziere und sich selbst, über die Bot-Befehle).

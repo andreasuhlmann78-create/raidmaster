@@ -1034,10 +1034,21 @@ async def check_addon_release():
             f"Download in **#raid-addon**: {state.data.get('addon_message')}")
 
 
+ADDON_PN_AUS = "addon_pn_aus"      # ab 1.5.198: Mitglieder, die keine PN "Neue RaidMaster-Version" wollen (/addon-pn)
+
+
+def addon_pn_off(uid) -> bool:
+    return str(uid) in (state.data.get(ADDON_PN_AUS) or [])
+
+
 async def notify_registered(text: str):
-    """Allen registrierten Spielern (Charakter im Bot hinterlegt) eine Direktnachricht schicken."""
-    sent = failed = 0
+    """Allen registrierten Spielern (Charakter im Bot hinterlegt) eine Direktnachricht schicken – ausser wer sie mit
+    /addon-pn ausgeschaltet hat (ab 1.5.198, Wunsch des Nutzers 26.11. 12:59)."""
+    sent = failed = skipped = 0
     for uid in list(book.profiles.data.keys()):
+        if addon_pn_off(uid):
+            skipped += 1
+            continue
         try:
             user = bot.get_user(int(uid)) or await bot.fetch_user(int(uid))
             await user.send(text)
@@ -1045,7 +1056,7 @@ async def notify_registered(text: str):
         except discord.HTTPException:
             failed += 1
         await asyncio.sleep(1)
-    log.info("Benachrichtigung an %d Spieler verschickt (%d ohne Direktnachrichten).", sent, failed)
+    log.info("Benachrichtigung an %d Spieler verschickt (%d ohne Direktnachrichten, %d ausgeschaltet).", sent, failed, skipped)
 
 
 @bot.tree.command(name="addon-hochladen", description="Neue Addon-Version (ZIP) hochladen – wird im passenden Kanal veröffentlicht (Gildenleitung)")
@@ -1085,3 +1096,20 @@ async def addon_cmd(inter: discord.Interaction):
         await inter.response.send_message("Es wurde noch keine Addon-Version veröffentlicht.", ephemeral=True)
         return
     await inter.response.send_message(f"Aktuelle Version: **RaidMaster {v}** – Download: {state.data.get('addon_message')}", ephemeral=True)
+
+
+@bot.tree.command(name="addon-pn", description="PN bei neuer RaidMaster-Version für dich ein- oder ausschalten")
+@app_commands.describe(an="Ein (Standard) oder aus")
+async def addon_pn_cmd(inter: discord.Interaction, an: bool):
+    """Ab 1.5.198: jedes Mitglied für sich selbst. Gemerkt in state.json "addon_pn_aus" (nur IDs, nichts im Repo)."""
+    off = state.data.setdefault(ADDON_PN_AUS, [])
+    uid = str(inter.user.id)
+    if an and uid in off:
+        off.remove(uid)
+    elif not an and uid not in off:
+        off.append(uid)
+    state.save()
+    await inter.response.send_message(
+        "✅ Du bekommst bei einer neuen RaidMaster-Version wieder eine PN." if an else
+        "🔕 Du bekommst bei einer neuen RaidMaster-Version keine PN mehr. Die Ankündigung in **#raid-addon** bleibt; "
+        "einschalten mit `/addon-pn an:True`.", ephemeral=True)

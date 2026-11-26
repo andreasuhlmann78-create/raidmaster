@@ -54,6 +54,7 @@ COMMAND_INFO = {
     "abwesend liste": ("alle", "Spieler"),
     "abwesend entfernen": ("alle", "Spieler"),
     "addon": ("alle", "Spieler"),
+    "addon-pn": ("alle", "Spieler"),           # ab 1.5.198: PN bei neuer RaidMaster-Version ein/aus
     "raidmaster-status": ("Gildenleitung", "Verwaltung"),
     "raidmaster-einrichten": ("Gildenleitung", "Verwaltung"),
     "addon-hochladen": ("Gildenleitung", "Verwaltung"),

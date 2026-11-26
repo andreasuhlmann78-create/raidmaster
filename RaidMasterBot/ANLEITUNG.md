@@ -550,6 +550,7 @@ Der Bot führt im Kanal **#gildenname** eine Abstimmung (fehlt der Kanal, legt e
 | `/raid taktik` | Offiziere | Taktik eines Raids (oder ohne Angabe: aller Raids) in die Taktik-Kanäle (#mc-taktik, #onyxia-taktik …) |
 | `/raid softres` | Offiziere | softres.it-Link eines PUG-Raids setzen/ändern |
 | `/addon` | alle | Download-Link der aktuellen Addon-Version |
+| `/addon-pn an:` | alle | PN bei neuer RaidMaster-Version für dich ein (`True`) oder aus (`False`) – die Ankündigung in #raid-addon bleibt (ab 1.5.198) |
 | `/addon-hochladen` | Admins | Addon-ZIP hochladen (RaidMaster → #raid-addon, AHSentinel → #ahsentinel) |
 | `/charakter` | alle | Charakter und Rolle festlegen |
 | `/dkp`, `/dkpliste` | alle | DKP abfragen |

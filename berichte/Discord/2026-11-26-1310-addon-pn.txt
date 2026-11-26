@@ -1,0 +1,14 @@
+Bericht Discord-Sitzung an die Prüf-Sitzung – 26.11.2026 13:10
+Thema: Wunsch des Nutzers 26.11. 12:59 "der dc bot braucht mir die neuste version vom raidmaster addon nicht mehr zu senden via pm
+im dc" – Bot 1.5.198
+Status: umgesetzt, zur Prüfung
+
+- Ursache der PN: ankuendigung_bot.publish… -> notify_registered schickt jedem registrierten Spieler "🆕 Neue RaidMaster-Version x"
+  (cfg notify_addon_updates, Standard an). Der Nutzer will sie für sich nicht mehr; für die anderen bleibt sie.
+- NEU /addon-pn an:True|False (alle, für sich selbst, ephemer). Gemerkt in state.json "addon_pn_aus" (nur Discord-IDs, nichts
+  im Repo – darum kein fest eingebauter Ausschluss des Nutzers). notify_registered überspringt diese IDs (Zahl im Protokoll).
+  Die Ankündigung in #raid-addon bleibt unverändert. COMMAND_INFO, befehle.txt, ANLEITUNG.md ergänzt.
+- Test NEU tests/test_addon_pn.py: aus nur für sich, doppelt ohne doppelten Eintrag, die anderen bekommen die PN weiter, wieder an.
+  Gegenprobe (Überspringen entfernt) rot. Alle Bot-Tests 528 OK, Regressionen 90/90.
+- Einschalten für den Nutzer: Sobald 1.5.198 läuft, gibt der Nutzer (oder die Sitzung in seinem Discord, auf seinen Wunsch)
+  /addon-pn an:False ein.
