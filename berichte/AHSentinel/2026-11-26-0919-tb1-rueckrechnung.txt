@@ -1,0 +1,17 @@
+BERICHT AHSentinel – AHS-TB1 Nachtrag (Supervisor 09:05): betroffene Punkte und Wirkung auf die Abstimmung – zur Prüfung
+Zeit: 26.11.2026 09:19 (Europe/Zurich) · Daten: goldsentinel-daten/sicherung, forever, Laptop 26.11. 08:49 und PC (aktuell)
+
+1) 0-Goldpunkte in db.chars[].gold (alle falsch, je am Ende einer Sitzung):
+   Laptop: 125 von 351 Punkten (Figuren: 25/94, 60/166, 3/3, 15/47, 22/41). PC: 118 von 336 (17/29, 60/166, 13/44, 3/3, 25/94).
+   c.money = 0 bei 4 von 5 Figuren (Laptop) bzw. 5 von 5 (PC) – Gesamtgold war dort zu tief (Laptop: 58,91 statt 94,18 g).
+   Überschriebene echte Punkte (0 über einen Punkt < 30 Min.): aus den Daten NICHT unterscheidbar – ein überschriebener Punkt und ein neu
+   angelegter 0-Punkt sehen gleich aus (Zeit + m = 0). Obergrenze = alle 0-Punkte. Der echte Wert ist trotzdem rekonstruierbar, weil sich das
+   Gold zwischen Aus- und Einloggen nicht ändert: der nächste echte Punkt nach dem Einloggen trägt ihn (0.65.405 nimmt den letzten echten Stand).
+2) Buchhaltung books.gold (BK:RecordGold, auch beim Ausloggen): last = 0 bei 4/5 (Laptop) bzw. 5/5 (PC) Figuren; dayStart nie 0 (Werte 15 831
+   bis 470 368 Kupfer), start = 0 nur bei der Figur ohne Gold. Reconcile nimmt im Spiel GetMoney() (nicht last) -> die Abstimmung TB125-7 war
+   im Spiel NICHT betroffen; nur eine Auswertung ohne eingeloggte Figur (last) hätte 0 gesehen. 0.65.405 schreibt die 0 nicht mehr.
+3) Geldfluss TB138-2 / SK1-e (db.books.flow): KEINE Sprünge um das ganze Gold einer Figur (grösster Eintrag "sonst" +0,27 g) -> beim
+   Ausloggen kommt kein PLAYER_MONEY mit 0; die 0 entsteht nur, weil RecordMoney/RecordGold beim PLAYER_LOGOUT GetMoney() selbst lesen.
+   Damit erklärt TB1 KEINE der alten SK1-e-Abweichungen (belegt: Fluss unberührt).
+4) Messzeile im Spiel (Auftrag 09:05): Diagnose "GOLD-LOGOUT · GetMoney beim Ausloggen <Wert> · letzter echter Stand <Wert>" – kommt mit
+   0.65.406 (gebaut, Tests laufen nach dem FULL 0.65.405).
