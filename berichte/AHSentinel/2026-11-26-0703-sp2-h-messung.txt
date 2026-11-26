@@ -1,0 +1,18 @@
+BERICHT AHSentinel – AHS-SP2 h) gemessen: KEIN Einbau (keine Wirkung auf Abfall) – zur Prüfung
+Zeit: 26.11.2026 07:03 (Europe/Zurich) · Stand Code 0.65.403 · Nachbau zz_sp4 mit echten Spieldaten (Laptop), Messkopie, nichts eingebaut
+
+1) Ausgangslage 0.65.403 (Scan 2, GC angehalten): T459 15 888 KB; Track>Compare 1 077 KB in 609 Aufrufen.
+2) Compare innen aufgeschlüsselt (Messzeilen nur in der Kopie):
+   Sigs (Zähllisten) 640 KB netto = +1 680 KB Zunahmen / −1 040 KB Abnahmen · Entschlüsseln der alten Signaturen 181 KB ·
+   Liste "gone" (Tabelle je verschwundener Signatur) 170 KB · CompareQty (Waren) 45 KB · Rest 41 KB. Summe 1 077 KB = gemessen.
+3) Beleg zu h): Sigs über alle 7 000 Items des Markts, GC aus, danach collectgarbage("collect"):
+   Durchgang 1: netto −640 KB, davon Abfall 5 KB; Durchgang 2: Zunahmen 2 162 = Abnahmen 2 162 KB, Abfall 0 KB.
+   => Der Hash-Umbau in Lua 5.1 gibt den alten Teil SOFORT frei (kein Abfall für die Speicherbereinigung). Die 640 KB in Scan 2 sind
+      nur die Grösse der wiederverwendeten Zähllisten am Ende (hängt vom zuletzt gezählten Item ab, im nächsten Durchgang wieder weg).
+   => h) ("feste Schlüssel statt Leeren und Neufüllen") spart keinen Abfall. Mein Verdacht "~1 MB" aus dem Bericht 1052 ist damit
+      widerlegt. NICHT eingebaut.
+4) Folge für T459: Die Zahl je Scan kann allein durch diese Puffergrösse um bis zu ~0,6 MB schwanken (netto, kein Abfall).
+5) Echter Abfall in Compare: ~400 KB (Entschlüsseln 181, gone 170, Waren ~45). Selbst ganz weg: Scan 2 bliebe bei ~15,5 MB, Ziel
+   10 240 KB nicht erreichbar über Compare.
+6) Nach Entscheid 25.11. 10:59 ist k) jetzt erlaubt (h bringt Scan 2 nicht unter 10 240 KB). Reihenfolge laut Supervisor:
+   h) -> AHS-S313 -> k). Ich mache jetzt AHS-S313 (Namen-Aufbau ohne GC unter 6 ms, Gegenprobe), danach k) mit allen Bedingungen.
