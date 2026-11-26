@@ -727,3 +727,9 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     HINWEIS: Rechner- und Kontonamen ANDERER Spieler (Ordnernamen im Daten-Repo) nicht in Berichte schreiben – das Repo raidmaster ist öffentlich;
     "anderes Konto 1/2" genügt. Daten anderer Konten nur lesen, wenn es für den Fehler nötig ist.
     0.9.68: Realm aus den anderen Profilen, wenn alle genau einen Realm haben (sonst nicht raten), T271 a5 – gut; Nachbau aller vier Dateien je Figur – gut.
+
+>>> AUFTRAG HOCH BS-DL1 (Supervisor 26.11. 17:11): Die Repo-Prüfung (Workflow "Addon-Prüfung") ist seit der Veröffentlichung von 0.9.67 (12:03) bei JEDEM Push rot:
+    "BuffSentinel-0.9.66.zip / 0.9.67.zip: FEHLER Version … ist NIEDRIGER als schon veröffentlichte 0.9.68 (download/)". In download/ liegen drei BS-Zips
+    (0.9.66, 0.9.67, 0.9.68). BuffSentinel ist nicht in curseforge/projects.json -> nur die neueste Zip in download/ behalten: 0.9.66.zip und 0.9.67.zip
+    entfernen (git rm), README/Links prüfen, dann "python3 addon-check/addon_check.py" über das ganze Repo ohne FEHLER und den Workflow-Lauf grün melden.
+    Künftig: beim Veröffentlichen die vorige BS-Zip im selben Commit entfernen (wie AHS-DL1).
