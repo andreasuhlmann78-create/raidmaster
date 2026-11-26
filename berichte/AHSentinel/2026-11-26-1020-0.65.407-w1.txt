@@ -1,0 +1,17 @@
+AHSentinel 0.65.407 – AHS-W1 (Wächter 44 ms in BROWSE_RESULTS): Messzeile, Ursache noch "Verdacht, zu messen" – umgesetzt, zur Prüfung (nur Discord)
+Zeit: 26.11.2026 10:20 (Europe/Zurich)
+addon_check 0.65.407: OK. ZIP: gleiche 112 Dateien. Geändert: Watcher.lua (Messzeile), Characters.lua (Kommentar Hinweis zwei Realms, Supervisor 09:56),
+Version, CHANGELOG EN/DE. FULL 0.65.406: 355/67, keine neuen (Bericht 10:13).
+
+1) Code gelesen: Der Empfänger Watcher.lua:974 (BROWSE_RESULTS) ruft W:PollRound. Darin: GetBrowseResults (das Spiel legt bei JEDEM Aufruf eine neue
+   Liste aller Angebote an, ~277 Einträge mit je itemKey-Tabelle), Seiten nachladen, Ende der Runde prüfen; am Rundenende FinishRound -> die Bewertung
+   aller Angebote läuft seit WACH-3 als Hintergrund-Aufgabe "watcher:round" mit Budget (A:Pause je Angebot) – NICHT im Ereignis.
+2) Nachbau (zz_w1, ~300 Waren-Angebote, 80 Runden, Messzeile mit Schwelle 0): ganzer Empfänger höchstens 0,1 ms, GetBrowseResults 0,0–0,1 ms (Nachbildung),
+   eigene Arbeit 0,0 ms. Unsere Lua-Arbeit im Ereignis ist also klein; die 44 ms im Spiel liegen nach den Daten entweder im Spiel-Aufruf GetBrowseResults
+   (C, je Aufruf ganze Liste) oder in einer Speicherbereinigung, die gerade in diesem Bild lief (Lua-Speicher im Spiel ~500 MB). Verdacht, zu messen.
+3) Messzeile (neu): Diagnose "WAECHTER-POLL · gesamt X ms · GetBrowseResults Y ms (n Angebote, ±KB) · Rest Z ms [· mit Speicherbereinigung] [· Rundenende]"
+   für jedes Bild über 8 ms (W.POLL_NOTE_MS). Messtabelle wiederverwendet (PollRound läuft auch im Takt alle 0,1 s).
+   Bitte im Spiel: AH offen, Wächter an, ein paar Runden – dann die WAECHTER-POLL-Zeilen. Danach Massnahme mit Messung:
+   a) GetBrowseResults teuer -> je Ereignis nicht neu lesen, sondern nur "dirty" setzen und höchstens einmal je READ_GAP lesen (Seiten-Ereignisse fassen);
+   b) Bereinigung -> eigener Anteil klein, wie s313 als HINWEIS mit gemessener Bereinigung.
+Nachbau 0.65.407: s42, s43, s9_watcher_tip/_takt, s267, s11_watcher_frequency/_legacy_pages, s341 PASS (s9_watcher, _fallback, _filters waren schon rot).

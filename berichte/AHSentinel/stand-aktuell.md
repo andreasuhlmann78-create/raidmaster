@@ -1,6 +1,6 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 26.11.2026 10:16 · Version 0.65.406 (Discord, AHS-TB1-b); CurseForge 0.65.400 (öffentlich, CF6 erledigt 08:01)
+## Stand 26.11.2026 10:20 · Version 0.65.407 (Discord, AHS-W1 Messzeile); CurseForge 0.65.400 (öffentlich, CF6 erledigt 08:01)
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz – Testberichte "GSTEST1{…}", UI-Befunde db.uiFindingsLast).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
@@ -10,7 +10,8 @@ Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /h
  Eigene Szenarien /tmp/claude-0/sim/wowsim/scenarios_new.lua (zz_t459real, zz_tr1, zz_i6_sniper, zz_ui_buy).
 
 ## Gerade in Arbeit
-- 0.65.406: TB1-b (Realm leer -> Doppel zusammengeführt, Sicherung A.db.tb1bBackup), GOLD-LOGOUT/REALM-Diagnose, T459 M2/M3 + zwei Werte. FULL 406 folgt.
+- 0.65.406 im Spiel: TB1/TB1-b BESTANDEN (60g 49s 77c). Offen: GOLD-LOGOUT, zweites Laden ohne TB1-B.
+- 0.65.407: AHS-W1 Messzeile WAECHTER-POLL (Nachbau: eigene Arbeit im Ereignis ≤0,1 ms) -> Ingame-Messung abwarten, dann a) oder b).
 - KEINE CF-Veröffentlichung von 0.65.405/406 bis TB1-b abgenommen (Supervisor 09:35).
 
 ## Nächste Schritte
