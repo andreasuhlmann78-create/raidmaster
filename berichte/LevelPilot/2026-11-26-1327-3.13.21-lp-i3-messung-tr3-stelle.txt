@@ -1,0 +1,30 @@
+LevelPilot 3.13.21 – Bericht an die Prüf-Sitzung: LP-I3 Messzeile im Spiel, LP-TR3 Stelle des längsten Bilds
+Stand 26.11.2026 13:27 · umgesetzt, zur Prüfung
+Zip: announce/levelpilot__levelpilot-3.13.21.LevelPilot.zip (md5 479448fd7bb26a4cbde3491b0df6978e, 2848709 Bytes)
+
+Prüfungen vor dem Push
+- addon_check: OK. Gemeinsame Dateien GoldSentinel*.lua mit cmp gleich shared/.
+- Offline-Routine 40 von 40 ohne FEHLER, Testroutine 5 von 5 ohne FEHLER.
+- Nachbau ganze Routine Priester 10 (Upload 26.11. 11:16): Schlusslauf 0 FEHLER (OK 324), T381 gleich.
+  T261 im Nachbau auf dieser Arbeitsmaschine 1 116–1 158 ms: dieselbe Maschine gibt mit 3.13.19 (unverändert) ebenfalls 1 116 ms – Rauschen
+  der neu gestarteten Maschine, nicht der Code (im Spiel 3.13.20: 814 ms).
+
+1. LP-I3 – Rückschritt im Spiel (T155 Ø 29,2 ms): erst im Spiel belegen (Auftrag 13:12)
+- Frage "misst T155 Rechenzeit oder Wanduhr?" – im Code belegt: T155 misst je Planung debugprofilestop() (Wanduhr) MINUS LP.yieldPaused
+  (Zeit von jeder Abgabe der Reise bis zur Fortsetzung). Aufträge laufen in der Reise über Jobs.JourneyPCall -> LP:Yield, ihre Pausen sind also
+  abgezogen. Rest = Rechenzeit der Reise-Coroutine einschliesslich Speicherbereinigung in diesen Bildern.
+- Neu im Ergebnis von T155 je längster Planung: [Wanduhr, Pausen ms/Anzahl, Routine-Pausen · ausgedehnte Knoten, µs je Knoten · kalt:
+  Umkreissuchen und Geländeprüfungen ohne Zwischenspeicher · Leerungen der Zwischenspeicher Umkreis/Gelände]; dazu Summen erste gegen
+  zweite Hälfte der Reise (ms, Knoten, µs je Knoten, kalt, Abgaben, Wanduhr).
+  Zähler: Graph.stat (exp, nearMiss, unkMiss, unkWipe, nearWipe) und LP.yieldN – nur Zählungen, keine Uhr im heissen Weg.
+- Nachbau (diese Maschine) zum Vergleich: T155 12,00 ms (49), längste #7 57,2 ms [Wanduhr 58,5, Pausen 1,3/5× · Knoten 651, 88 µs je Knoten ·
+  kalt: Umkreis 48, Gelände 334 …]. Wanduhr minus Pausen = gemessene Zeit; die Messung ist also Rechenzeit.
+- Verdacht, zu messen (im nächsten Ingametest): Die Planungen in Zone 1458 sind im Spiel kalt teurer (Gelände Terrain:Unknown, Umkreis), und
+  ein geleerter Zwischenspeicher (unkCache höchstens 8 192 Einträge, danach geleert) macht sie wieder kalt. Die Zeile zeigt beides.
+
+2. LP-TR3 – das eine Bild 17,5 ms benennen
+- "Reisen: …" nennt jetzt die grösste Überschreitung des Budgets (10 ms) mit Stelle: LP:Yield merkt sich bei jedem neuen Höchstwert den Stapel
+  (4 Zeilen ohne Core.lua). Das ist die Abgabestelle, an der eine lange Strecke ohne Abgabe endete.
+  Nachbau: "grösste Überschreitung des Budgets 5,2 ms bei Planner.lua:74 < Perf.lua:151 < Virtual.lua:238 < Virtual.lua:717".
+- Nachbau 3.13.19 lange Reise "längstes 39,8 ms": 21 Bilder über 16 ms, davon 17 mit Speicherbereinigung; das längste ist sehr wahrscheinlich
+  eines davon (Verdacht – die Liste nennt die Bilder nicht einzeln). Mit der neuen Zeile ist das im nächsten Lauf eindeutig.

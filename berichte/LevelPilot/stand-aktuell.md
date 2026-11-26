@@ -1,18 +1,20 @@
 # LevelPilot – Stand der Sitzung
 
-## Stand 26.11.2026 11:51 · Version 3.13.20 (veröffentlicht, Discord)
+## Stand 26.11.2026 13:27 · Version 3.13.21 (veröffentlicht, Discord)
 
 ## Gerade in Arbeit
-- Nichts angefangen. Neu: Bericht 3.13.20 (LP-R1 behoben, LP-R2 eingeordnet). Davor 3.13.19 (Reise nach Zeit, Wegprüfung schneller).
+- Nichts angefangen. Neu: Bericht 3.13.21 (Messzeile T155 im Spiel, Stelle des längsten Reise-Bilds).
+- 3.13.19 und 3.13.20 angenommen; Ingametest 3.13.20: LP-TR3 bestanden bis auf 1 Bild (17,5 ms), LP-I3 Rückschritt (T155 29,2 ms).
 
 ## Nächste Schritte (Reihenfolge)
-1. Ingametest 3.13.19/3.13.20 auswerten: reiseBilder, Reisen <= 985 s, T155, langeStuecke ab 25 ms (T34, T136), T396.
-2. LP-R2: lange Luftlinien über Orte der anderen Fraktion in der Planung meiden (Zwischenziel), Gegenprobe Route/Zeit.
-3. Die 13 Stücke mit +3–5 MB je Stück nach Stapel einordnen.
-4. LP-I1/I6/I8, LP-T31, LP-UMG1, Notbremse "Routenberechnung", Wegabschnitte.
+1. Ingametest 3.13.21 auswerten: T155-Messzeile (Knoten, µs je Knoten, kalt, geleert) -> Ursache LP-I3 im Spiel belegen, dann beheben.
+2. LP-TR3: Stelle der grössten Überschreitung aus "Reisen: …" benennen.
+3. LP-R2: lange Luftlinien über Orte der anderen Fraktion in der Planung meiden (Zwischenziel), Gegenprobe Route/Zeit.
+4. Die 13 Stücke mit +3–5 MB je Stück nach Stapel einordnen (langeStuecke ab 25 ms).
+5. LP-I1/I6/I8, LP-T31, LP-UMG1, Notbremse "Routenberechnung", Wegabschnitte.
 
 ## Offen beim Nutzer
-- Ingametest 3.13.20 (/lp testroutine alles, zwischendurch eine Taste drücken wegen AFK).
+- Ingametest 3.13.21 (/lp testroutine alles, zwischendurch eine Taste drücken wegen AFK).
 - Datei der Testfigur – Weg klärt der Supervisor, nie ins Repo.
 
 ## Entscheide des Nutzers seit letztem Stand
@@ -25,3 +27,4 @@
 - Upload 26.11. 09:33 entpackt: /home/claude/lpdaten-2611b (bericht.json = 3.13.17 voll). Ältere Versionen: /home/claude/lpalt/<Version>.
 - Prüfungen speisen über TR.Injecting ein; nur echter Empfang wartet (Comm.routineHeld).
 - Den lokalen main von goldsentinel-daten nicht zurücksetzen.
+- T261 im Nachbau: auf der neu gestarteten Arbeitsmaschine 1 100–1 300 ms auch mit 3.13.19 – Rauschen.
