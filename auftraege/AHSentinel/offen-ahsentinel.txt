@@ -7024,3 +7024,18 @@ AHS-SB1 MITTEL (neu): Sandbox-Zeile "FEHLER: 1 Pfade, wiederhergestellt in 2 Dur
     an ProfessionSentinel weitergegeben (PS-TQ1-b).
 >>> (26.11. 08:01) AHS-CF6: 0.65.400 auf curseforge.com/…/files freigegeben und oben gelistet (geprüft 08:00) – AHS-CF6 ERLEDIGT. Antworten an die Spieler
     (GrontaxLUL u. a.) postet der Supervisor, sobald ein Browser verbunden ist.
+
+>>> PRÜFUNG SUPERVISOR 26.11. 08:26 – AHS 0.65.404 (S313), FULL 0.65.403/0.65.404 (355/67, neu rot keine), SP2 h) und k) Messungen: ANGENOMMEN.
+    ENTSCHEID SUPERVISOR S313-Frage (07:12 Punkt 4): Bedingung für HINWEIS statt FEHLER = Bereinigung in DIESEM Bild gemessen UND eigene Arbeit ohne
+    Bereinigung <= Budget der Aufgabe + gemessener längster Schritt dieser Aufgabe (höchstens A.LONG_STEP_MS 8). Der Schritt muss gemessen sein, nicht
+    angenommen; Gegenprobe (Budget 20) bleibt FEHLER. Bild > 16 ms ohne gemessene Bereinigung bleibt FEHLER. Grenzen unverändert.
+    ENTSCHEID SUPERVISOR SP2 k) (07:53/08:02): VERWORFEN (auch der Mittelweg). Grund: −1,4 MB Abfall je Scan gegen +0,75–1,8 MB dauerhaft belegt und
+    grössere SavedVariables, Ziel T459 trotzdem verfehlt, dazu Format-Änderung mit Rückstufungs-Verlust. Messkopie behalten, nicht einbauen.
+    WEITER zu T459 (Scan 2 im Nachbau 15,9 MB, Ziel < 10 240 KB): nächste grösste Posten belegen (je Aufgabe/Schritt: VS:Track 5,2 MB, Compare,
+    Preisverlauf+Neuaufbau, Einlesen) und je Posten eine Massnahme mit Messung vorschlagen; Reihenfolge nach Ersparnis. Danach AHS-S216.
+AHS-BP1 MITTEL (aus Entwurf Blueposts 26.11. 07:45, übertragen): Blizzard-Hotfix 25.11. (Kaivax #16, Quelle über Spiegel bluetracker.gg gelesen –
+    Original-Forum war für die Aufgabe nicht abrufbar): ALLE Schurkengifte und Blendungspulver (5530) VORÜBERGEHEND beim Aufheben gebunden (BoP).
+    Folge: kein AH-Handel; Preisverlauf hat Lücken. Umsetzen ohne feste Liste: Bindung aus dem Client (bindType) lesen; gebundene Ware nicht als
+    AH-verkaufbar empfehlen, nicht mit AH-Preis bewerten (Lagerwert), Sniper/Kaufen aus; Lücke im Verlauf nicht als Preissprung deuten. Wird es wieder
+    BoE, automatisch normal. Messauftrag im Spiel (Nutzer, wenn vorhanden): Blendungspulver und ein Gift im Tooltip "Wird beim Aufheben gebunden"?
+    Test mit bindType 1/0/2 + Gegenprobe.

@@ -915,3 +915,11 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
 >>> ZU PS-TQ1-b (26.11. 06:30): AHSentinel 0.65.403 liefert API.Disenchanted -> nil, "pending", solange der Index im Hintergrund gebaut wird, danach
     API.Notify("ledger"). "nie entzaubert" = nil OHNE zweiten Wert. PS muss "pending" als "später neu fragen" behandeln (Notiz offen lassen, nicht
     "nicht entzaubert"), auf OnChanged neu fragen; Test mit beiden Rückgaben + Gegenprobe. Dazu die Drosselung am Briefkasten (PS-TQ1-b oben).
+
+>>> REZEPTDATEN-ENTWURF 26.11. 07:22 (geplante Aufgabe) – vom Supervisor 26.11. 08:26 geprüft und FREIGEGEBEN zum Zusammenführen:
+    Branch entwurf-2026-11-26 (Commit a640787, Basis main bb9d455 = 0.9.87) im ProfessionSentinel-Repo; ersetzt entwurf-2026-11-24/-25 (nicht mehr
+    zusammenführen). Inhalt: Forever-Daten Build 1.60.1.71139, QuestieDB 498734b; +1 Rezept Zentaurenhufwärmer (Händler Gorhak/Molkar, Desolace),
+    27 Quellen jetzt bekannt, 5 Händler, 30 Drops, Orc-Kriegsgamaschen erlernbar 205, 6 Muschel-Kochrezepte Kategorie 10->15; Era/Retail nur Kopf.
+    Auftrag PS-RD1 MITTEL: selbst prüfen (Lua 5.1 laden, run_offline, Smoketest, addon_check), Versionsnummer = nächste freie (Entwurf sagt 0.9.88 –
+    ist sie vergeben, eine höher: TOC ×4, Core.lua ns.VERSION, CHANGELOG EN/DE), dann wie jede Version veröffentlichen und berichten. Achtung:
+    "Studierzimmer für Gifte" (Gifte sind seit Hotfix 25.11. vorübergehend BoP) – Daten nicht ändern, nur nicht als AH-Ware empfehlen (AHS-BP1).

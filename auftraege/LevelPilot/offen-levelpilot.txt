@@ -1885,3 +1885,10 @@ LP-I7 wieder offen (MITTEL): T263 unerreichbares Ziel – längste Portion 44,6 
     Zeitlimit LP-TR1 b): jetzt Messung im Spiel vorhanden (1 189 s gesamt, Hintergrund möglich) – Grenze = gemessen + Rand festlegen (z. B. 1 800 s) und
     im nächsten Bericht begründen. Die Zeile dauerBereiche fehlt im eingefügten Chat-Text ("Rechenzeit je Bereich" ist Rechenzeit, nicht Wanduhr) –
     im Upload-Bericht prüfen; falls sie fehlt: in die Chat-Zusammenfassung aufnehmen.
+
+>>> PRÜFUNG SUPERVISOR 26.11. 08:26 – LevelPilot 3.13.17 (Bericht 07:49): ANGENOMMEN, Abnahme im Spiel offen. Ursachen belegt (DoReplan ohne Abgabe nach
+    Skip/Complete; Danger:Build ohne erlaubte Abgabeart), Fixe mit Nachbau-Zahlen; LP-SB1-c inkl. Logout-Handler (wichtiger Fund) – gut; LP-TR1 b)
+    1 800 s = 1 189 s gemessen + Rand – angenommen. LP-I3/LP-I7/LP-R3: Abnahme mit dem nächsten Ingametest (reiseBilder trennt jetzt Bereinigung).
+>>> HINWEIS NIEDRIG (26.11. 08:26, aus Entwurf Blueposts 26.11.): Hotfix 25.11.: Reitfertigkeits-Fix Paladin/Hexenmeister live (Gesprächsoption bei Danitha Morr,
+    Lord Grayson Shadowbreaker, Zevrost, Ursula Deline); Silithus "Encrypted Twilight Texts" droppen wieder (3 Quests); "Scarlet Subterfuge" Illusion
+    60 Min.; Horde-Jägerquest "Saving the Best for Last" wieder lösbar; Magram-Kentauren schnellerer Respawn. Nur prüfen, ob Questdaten/Route das kennen.
