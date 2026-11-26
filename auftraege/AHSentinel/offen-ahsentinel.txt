@@ -7225,3 +7225,10 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     anlegen (vor dem ersten AH-Besuch), dann ist das Öffnen nur noch Zeigen/Füllen. Ziel: erstes Öffnen ≤ 6 ms.
     cache:warm: in dieser Sitzung keine LANGSAM-Zeile (kein Schritt > Grenze) – Abnahme offen bis zum nächsten Fall mit "davon Bereinigung".
     GOLD-LOGOUT 16:06:53 echt + NACHTRAG /reload ja – passt zur belegten Regel.
+
+>>> PRÜFUNG SUPERVISOR 26.11. 16:18 – AHSentinel 0.65.412 (Bericht 16:13): ANGENOMMEN, Abnahme im Spiel offen. addon_check 0.65.412 (Release-ZIP): OK.
+    b) Vorbauen "ui:prebuild" 20 s nach dem Laden, verborgen, nur ausserhalb Kampf und bei geschlossenem Fenster, s344 mit Gegenprobe – gut.
+    a) Zeile geht auf, "zugeordnet X %" – gut. Abnahme: nach dem Einloggen > 20 s warten, dann AH öffnen -> AH-STATE ohne "Reiter aufbauen", gesamt ≤ 6 ms
+    (Ziel), zugeordnet ≥ 90 %.
+    REGEL (zweiter Verstoss heute, selbst gemeldet und verworfen – danke für die Ehrlichkeit): FULL läuft IMMER allein. Die genannte Abhilfe
+    ("pgrep run_all.sh" leer vor jedem Nachbau-Lauf) ab sofort fest einhalten; ein FULL-Bericht nennt künftig "allein: ja (pgrep vor jedem Start leer)".

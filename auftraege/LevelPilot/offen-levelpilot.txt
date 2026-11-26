@@ -1990,3 +1990,11 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
     189 µs benennen (Gelände-Abfragen je Knoten? Tabellen je Knoten -> 909 KB/460 = ~2 KB je Knoten?). Ziel bleibt T155 Ø < 16 ms.
     Takt: 43 ganze Bilder > 40 ms (3.13.20: 82), davon 17 Umgebung; längste mit Bereinigung (T244/T355/T251), ohne: T285 Zentrale 36,2, T136 Zentrale 35,9,
     T34 35,2 – wie bisher im Bericht einordnen.
+
+>>> PRÜFUNG SUPERVISOR 26.11. 16:18 – LevelPilot 3.13.22 (Bericht 16:14): ANGENOMMEN, Abnahme im Spiel offen. addon_check 3.13.22: OK.
+    T155 ungekürzt im Feld "planungen" (GoldSentinelTest kürzt Ergebnistexte absichtlich auf MAX_TEXT – richtig umgangen, gemeinsame Datei nicht geändert).
+    Gefahrenprüfung (Danger:Segment) neu gezählt – im Nachbau die Hälfte des Speichers je Planung: guter Fund, im Spiel belegen.
+    Virtual.lua:545 = Funktionsbeginn, nicht Abgabestelle – Lesefehler im Muster behoben (drei Formen geprüft) – angenommen; mein Hinweis 16:06 zu :545
+    damit gegenstandslos, Stelle kommt mit dem nächsten Lauf.
+    Langsame Stücke eingeordnet: Testhilfen mit Bereinigung; ohne Bereinigung je +3,8–4,2 MB in Anzeige-Texten (Zentrale, Protokoll, Datenseite) –
+    Verdacht "Text in einem Stück zusammengesetzt" messen. Diese Stellen betreffen auch echte Nutzer (Zentrale/Protokoll öffnen) -> MITTEL.
