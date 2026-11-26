@@ -1,0 +1,30 @@
+LevelPilot 3.13.23 – Bericht an die Prüf-Sitzung: LP-I3 Ursache aus dem Feld "planungen", LP-TR3 Graph.lua:1836
+Stand 26.11.2026 17:09 · umgesetzt, zur Prüfung
+Zip: announce/levelpilot__levelpilot-3.13.23.LevelPilot.zip (md5 fb07159af528ecd13d5b60826add4050, 2850590 Bytes)
+
+Prüfungen vor dem Push
+- addon_check: OK. Gemeinsame Dateien GoldSentinel*.lua mit cmp gleich shared/.
+- Offline-Routine 40 von 40 ohne FEHLER, Testroutine 5 von 5 ohne FEHLER.
+- Nachbau ganze Routine (Upload 26.11. 11:16): T381 gleich, T397 OK (1 840 Strecken, 46 Zonen, verschieden 0), T155 6,92 ms.
+  T261 im Nachbau einmal 1 197 ms (FEHLER): abwechselnd auf derselben Maschine 3.13.22 665 / 643 ms, 3.13.23 672 / 802 ms – Rauschen.
+- Route 1–60 am Stück unverändert (141 h 30, 2 344 Schritte, 814 Quests, 1 446 112 yd).
+
+1. LP-I3 – Ursache aus dem Upload 26.11. 16:56 (Feld "planungen", Bericht 3.13.22) – BELEGT
+- 9 Planungen über 16 ms, alle mit vielen Prüfungen ohne Zwischenspeicher:
+  #15 84,9 ms · 460 Knoten · kalt Umkreis 1, Gelände 1 644, Gefahr 1 950 · geleert 0/0/1
+  #6 68,9 ms · 439 Knoten · kalt 125 / 732 / 1 468 · #17 42,9 ms · 446 Knoten · kalt 1 / 640 / 1 170 · #2 38,4 ms · 130 Knoten · 52 / 500 / 765
+  #1 30,7 ms · 0 Knoten (erste Planung, keine Wegprüfung) · #25 20,8 ms · 243 Knoten · 1 / 32 / 511
+- Damit: NICHT der Umkreis (kalt 1), sondern Gelände- und Gefahrenprüfungen (je Planung bis 1 644 + 1 950). Leerungen der Zwischenspeicher
+  spielen kaum mit (einmal Gefahr in #15) – jede Planung prüft neue Strecken (neuer Startpunkt, neues Ziel).
+- Kosten je kalter Prüfung, Nachbau (Messung mit 6 000 Strecken): Gefahr 4,3 µs (davon Orte der anderen Fraktion 1,6), Gelände 4,8 µs.
+- Geändert (Ergebnis gleich): Terrain:Unknown liest die Zelle direkt aus dem gepackten Text statt über die Metatabelle je Probe, math lokal:
+  4,8 -> 3,3 µs (−31 %). Prüfung T397 vergleicht neu gegen alt: 1 840 Strecken in 46 Zonen, 0 verschieden.
+- Versucht und VERWORFEN: "träge" Luftlinien (Gelände/Gefahr erst rechnen, wenn der Knoten an der Reihe ist). Route gleich, aber die kalten
+  Prüfungen sanken nur von 933 auf 924 – fast jeder Knoten bekommt einen zweiten Weg und muss dann doch gerechnet werden. Zurückgenommen.
+- Wegprüfung zum ersten Ziel (CheckFirstPath, 20 Suchen, Nachbau): 3.13.22 199 ms -> 3.13.23 175 ms (−12 %).
+- Ehrlich: T155 Ø < 16 ms im Spiel ist damit noch nicht sicher (im Spiel 19,4 ms). Nächster Schritt: die Gefahrenprüfung je Strecke
+  billiger (CellsOnLine und Speicher: Zwischenspeicher legt je neuem Startpunkt eine Tabelle an – im Nachbau die Hälfte der ~2 KB je Knoten).
+
+2. LP-TR3 – Graph.lua:1836 (Ingametest 3.13.22: 7,1 ms Überschreitung)
+- Graph.lua:1836 ist die Abgabe direkt NACH Graph:NearSparse – die Umkreissuche selbst war die lange Strecke. Jetzt gibt NearSparse je Zeile
+  des Zellenrasters ab (ausserhalb einer Coroutine tut LP:Yield nichts; Ergebnis gleich). Nachbau: grösste Überschreitung 1,0 ms.
