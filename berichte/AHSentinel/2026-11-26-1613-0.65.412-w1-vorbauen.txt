@@ -1,0 +1,17 @@
+AHSentinel 0.65.412 – AHS-W1 Teil 2 b) Reiter vorbauen, a) Zeile geht auf + mehr Teile – umgesetzt, zur Prüfung (nur Discord)
+Zeit: 26.11.2026 16:13 (Europe/Zurich)
+addon_check 0.65.412: OK. ZIP: gleiche 112 Dateien. Geändert: UI_Main.lua, Version, CHANGELOG EN/DE. Tests (ahanalyzerpro): neu s344_w1_prebuild.
+
+EHRLICH (zweites Mal heute): FULL 0.65.411 lief NICHT allein – ich habe während des Laufs Nachbau-Läufe (zz_w1pre, s344, s42/s43/s49/s341) gestartet. Ich habe
+den Lauf bei 157/422 ABGEBROCHEN und verworfen (kein Ergebnis berichtet). FULL 0.65.412 (enthält 0.65.411) läuft jetzt allein; bis er fertig ist, starte ich
+keinen anderen Lauf. Ursache: ich habe den laufenden FULL vor den Nachbau-Läufen nicht geprüft – Abhilfe: vor jedem Nachbau-Lauf "pgrep run_all.sh" (leer).
+
+b) Vorbauen (Auftrag 16:07): Aufgabe "ui:prebuild" 20 s nach dem Laden (READY), nur wenn das Fenster nicht offen ist und nicht im Kampf: eigenes Fenster
+   verborgen anlegen (ein Schritt), dann den Reiter bauen, der beim Öffnen gezeigt wird (settings.lastTab, sonst der erste; nicht Preisverlauf) – im
+   eigenen Fenster, verborgen. Beim Öffnen hängt AttachPanels ihn nur um. UI.prebuilt = Reiter-ID.
+   Nachbau (zz_w1pre / s344): erstes Öffnen 3,2 ms mit "Reiter aufbauen (overview) 2,0" -> 1,4 ms ohne diesen Teil (−56 %). Im Spiel erwartet:
+   10,5–17,6 ms minus 4,6–5,1 ms. s344 PASS; Gegenprobe S344_NOPRE=1: 2 Prüfungen rot ("vorgebaut", "baut nicht mehr").
+a) Zeile geht auf: alle Werte auf 0,1 gerundet, Teile über Platz 8 zu den kleinen Teilen, Rest = Fenster − Summe der gezeigten Werte, dazu "zugeordnet X %".
+   Neue Teile: "Einbetten prüfen" auch in ShowInAH (vorher ungemessen vor der ersten Marke), "Reiter: suchen" (Kopf von SelectTab), "Spieltest".
+   Nachbau mit Vorbauen: 89–90 % zugeordnet, ohne Vorbauen 93 %. Im Spiel nachmessen; bleibt der Rest > 10 %, liegt er im Spiel-Code (OnShow/Layout).
+Nachbau 0.65.412: s344, zz_w1pre, s42, s42b, s43, s49, s341 PASS.
