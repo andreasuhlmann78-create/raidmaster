@@ -1,10 +1,9 @@
 # BuffSentinel – Stand der Sitzung
 
-## Stand 26.11.2026 13:23 · Version 0.9.68
-Veröffentlicht (download/, announce/, Discord). Bericht: berichte/BuffSentinel/2026-11-26-1323-0.9.68-bs-b1-quelle-echte-daten.txt.
-0.9.68: BS-B1 beantwortet (Quelle: .lua.gz übersehen, andere Konten gelesen); Nachbau aller 4 PCs (Commit fa9f073);
-Realm aus den anderen Figuren, wenn das Konto nur einen Realm hat (T271 a5).
-0.9.67: Positionen aus "Name-" gewinnen. 0.9.66: Realm leer -> stabiler Schlüssel + Zusammenführen + Sicherung.
+## Stand 26.11.2026 17:24 · Version 0.9.68
+Veröffentlicht (download/ nur noch 0.9.68.zip, announce/, Discord). 0.9.68 angenommen (BS-B1 erledigt), Abnahme im Spiel offen.
+BS-DL1 erledigt (zur Prüfung): alte Zips entfernt, README-Link 0.9.68, Repo-Prüfung grün (Lauf 45857795766).
+Bericht: berichte/BuffSentinel/2026-11-26-1724-bs-dl1-alte-zips.txt.
 
 ## Gerade in Arbeit
 Nichts angefangen.
@@ -25,8 +24,8 @@ Nichts angefangen.
 
 ## Wichtig zu wissen
 - Quelle /home/claude/BuffSentinel (kein Git; nach Neustart aus download/<letzte Zip> wiederherstellen!). Skripte im scratchpad:
-  rel2.sh <alt> <neu> "<msg>" (Version, CHANGELOG, Zip, Nachbau 8×, addon_check, announce, push), rep2.sh <thema> "<msg>" < Text,
-  test/off.py (lupa, Lua 5.1), echt/echt_r1.lua + echt/names.py (echte Daten; Dateien .lua UND .lua.gz! Realms nur als <Realm> schreiben). Locales-Generator weg: neue Texte direkt in Locales.lua (EN+DE).
+  rel2.sh <alt> <neu> "<msg>" (Version, CHANGELOG, Zip, Nachbau 8×, addon_check, announce, ältere BS-Zips raus + README-Link, push), rep2.sh <thema> "<msg>" < Text,
+  test/off.py (lupa, Lua 5.1), echt/echt_r1.lua + echt/names.py (echte Daten; Dateien .lua UND .lua.gz! Realms nur als <Realm>, keine Rechner-/Kontonamen anderer Spieler in Berichte). Locales-Generator weg: neue Texte direkt in Locales.lua (EN+DE).
 - Nachbau erwartet rot: T13 T28 T45 T51 T95. T232 flackert im Nachbau (Serverzeit, Grenze 8 ms) – gemeldet.
 - Messung: Messung.lua (M1), Allowed = Option + nicht Testroutine (testAllow nur für T269); Befehl dev.
 - Shared nur unverändert: Sync 3, Markt v10, Dev v2, Test 4. Berichte nur "umgesetzt, zur Prüfung". announce/ nie löschen.
