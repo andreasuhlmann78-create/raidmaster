@@ -1892,3 +1892,13 @@ LP-I7 wieder offen (MITTEL): T263 unerreichbares Ziel – längste Portion 44,6 
 >>> HINWEIS NIEDRIG (26.11. 08:26, aus Entwurf Blueposts 26.11.): Hotfix 25.11.: Reitfertigkeits-Fix Paladin/Hexenmeister live (Gesprächsoption bei Danitha Morr,
     Lord Grayson Shadowbreaker, Zevrost, Ursula Deline); Silithus "Encrypted Twilight Texts" droppen wieder (3 Quests); "Scarlet Subterfuge" Illusion
     60 Min.; Horde-Jägerquest "Saving the Best for Last" wieder lösbar; Magram-Kentauren schnellerer Respawn. Nur prüfen, ob Questdaten/Route das kennen.
+
+>>> INGAMETEST 26.11. ~08:30 (Supervisor 26.11. 08:55) – LevelPilot 3.13.17 "/lp testroutine alles", Laptop: Spiel hat den Nutzer wegen AFK ausgeloggt.
+    Teilbericht da (Daten-Repo 08:49): T393 FEHLER "abgebrochen: Ausloggen während der Testroutine bei Reisen / Reisen" – LP-SB1-c Logout-Weg im
+    Spiel BELEGT (Teilbericht + Abbruch sauber). dauerBereiche: "Start 17 s, Reisen 1116 s, gesamt 1133 s (Zeitlimit 1800 s)".
+LP-TR3 MITTEL (neu): Reisen dauerten bis zum Ausloggen schon 1 116 s und waren NICHT fertig – 3.13.16 brauchte für alle Reisen 992 s. 3.13.17 ist im
+    Spiel also langsamer (Nachbau sagte +10 %: 1 060 -> 1 163 s). Mit "Start 17 + Reisen >1 116 + Rest ~180 s" wird das Zeitlimit 1 800 s knapp.
+    Belegen (reiseBilder im nächsten vollen Lauf): Bilder je Reise, Zeit je Bild; FRAME_TARGET 12 ms / SLICE_CALLS 8 so wählen, dass Bilder ≤ 16 ms UND
+    die Reisen nicht länger als mit 3.13.16 dauern. Hinweis: Teilbericht enthielt 0 OK – ok, da Reisen der erste Teil sind; bitte im Teilbericht
+    die bis dahin gemessenen reiseBilder mitschreiben (fehlten).
+    Hinweis Bedienung: Der ganze Lauf dauert > 20 Min. – WoW loggt bei AFK aus. Nutzer wird gebeten, zwischendurch eine Taste zu drücken.
