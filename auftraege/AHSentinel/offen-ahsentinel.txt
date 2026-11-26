@@ -7191,3 +7191,8 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     früher 10:12:38/11:09:21 echt (+7 s), 10:26:19/10:26:46/11:16:10 0. Muster (Verdacht, zu messen): /reload (~7 s) = echter Wert; Charakter-Menü / Spiel beenden
     = 0 – Nutzer wird gefragt, was er 13:06–13:08 in welcher Reihenfolge gemacht hat. Für die Messzeile: /reload ist erkennbar, wenn beim nächsten Laden
     PLAYER_LOGIN mit isReload (ADDON_LOADED/PLAYER_ENTERING_WORLD isReloadingUi) kommt – Art beim nächsten Laden nachtragen ("war /reload: ja/nein").
+
+>>> PRÜFUNG SUPERVISOR 26.11. 15:43 – AHSentinel 0.65.410 (13:25) + FULL 0.65.410 allein (13:53): ANGENOMMEN, Abnahme im Spiel offen. addon_check 0.65.410 (Release-ZIP): OK.
+    Regelverstoss FULL 0.65.409 (nicht allein) selbst gemeldet und mit FULL 0.65.410 allein sauber nachgeholt (355/67, neu rot/grün keine) – gut.
+    GOLD-LOGOUT-NACHTRAG (isInitialLogin/isReloadingUi) und Teilzeiten in AH-STATE – angenommen.
+    Abnahme im Spiel: 1) /reload, 2) Charakter-Menü + wieder einloggen, 3) Spiel beenden + starten -> je GOLD-LOGOUT + NACHTRAG-Zeile; AH öffnen -> AH-STATE mit Teilen.

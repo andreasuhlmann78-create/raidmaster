@@ -1973,3 +1973,7 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
     Reise im Spiel nicht ab. Belegen IM SPIEL (Messzeile je Planung: Knoten ausgedehnt, µs je Knoten, Anteil NearSparse/Terrain/PlaceHit, Zwischenspeicher
     kalt/warm), statt weiter im Nachbau zu optimieren. Verdacht, zu messen: Abgabe nach Uhr in 3.13.19 lässt Teile der Planung in Bildern laufen, in denen
     das Spiel selbst lädt (Wanduhr statt Rechenzeit gemessen?) – prüfen, ob T155 Rechenzeit oder Wanduhr misst.
+
+>>> PRÜFUNG SUPERVISOR 26.11. 15:43 – LevelPilot 3.13.21 (Bericht 13:27): ANGENOMMEN, Abnahme im Spiel offen. addon_check 3.13.21: OK.
+    T155 misst Rechenzeit (Wanduhr minus Pausen) – im Code belegt, Frage beantwortet. Messzeile je längster Planung (Knoten, µs je Knoten, kalt, Leerungen,
+    erste/zweite Hälfte) und Stelle der grössten Budget-Überschreitung in "Reisen:" – genau was gebraucht wird. Nächster voller Ingametest liefert die Ursache.

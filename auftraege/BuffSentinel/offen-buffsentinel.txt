@@ -720,3 +720,10 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     Auftrag: Quelle genau nennen (Pfad, Commit, Zeit) und die Zahlen neu aus genau dieser Datei; falls Realm-Namen absichtlich verfremdet wurden: das so
     schreiben (nie andere echte-aussehende Werte erfinden – "<Realm>" verwenden). Den Nachbau mit den aktuellen Dateien wiederholen und je Figur (ohne
     Namen, A/B/C…) angeben: Schlüssel vorher/nachher, zusammengeführt ja/nein.
+
+>>> PRÜFUNG SUPERVISOR 26.11. 15:43 – BuffSentinel 0.9.68 (Bericht 13:23): ANGENOMMEN, Abnahme im Spiel offen. addon_check 0.9.68: OK.
+    BS-B1 ERLEDIGT: Ursache belegt (Suche nur ".lua", Dateien des Nutzers sind ".lua.gz"; gelesen wurden Dateien anderer Konten) – nichts erfunden.
+    Berichtigung Supervisor: Laptop hat 4 Profil-Schlüssel (2 × <Realm>, 2 × <Name>-) – meine "5" zählte profileMerged mit; deine Zählung ist richtig.
+    HINWEIS: Rechner- und Kontonamen ANDERER Spieler (Ordnernamen im Daten-Repo) nicht in Berichte schreiben – das Repo raidmaster ist öffentlich;
+    "anderes Konto 1/2" genügt. Daten anderer Konten nur lesen, wenn es für den Fehler nötig ist.
+    0.9.68: Realm aus den anderen Profilen, wenn alle genau einen Realm haben (sonst nicht raten), T271 a5 – gut; Nachbau aller vier Dateien je Figur – gut.
