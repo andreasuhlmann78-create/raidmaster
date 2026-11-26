@@ -1,0 +1,134 @@
+forever 1.60.1 71139|16001|2026-11-26 13:09
+ProfessionSentinel 0.9.90 – Diagnose-Protokoll · 26.11.2026 13:09
+Client forever 1.60.1 (71139) · Interface 16001 · Sprache deDE
+Sitzungen: 506 (seit 05.11.2026)
+Geänderte Einstellungen: minimapAngle=141.45453888892, panelMode=ranking
+
+== Diagnose
+  Preisquelle: AHSentinel
+  Panel offen: nein
+  Angedockt an: –
+  Neuaufbauten: 0 angefragt, 1 ausgeführt
+  Langsamste Wege dieser Sitzung: Aufgabe heute 24.1 ms! ×4 · Alles neu (erster Teil) 0.2 ms ×1 · Aufgabe treffer 0.1 ms ×1 · Neuaufbau (Teil) 0.1 ms ×1 · Lebenslinien im Berufsfenster 0.0 ms ×1
+  Hintergrund-Aufgaben: heute ×0, Teil max 24.1 ms (darin 5 Stücke 23.9 ms, längstes 18.7 ms Wollcape [fremd 18.4 ms: AHSentinel.API.WorthUpTo 18.2 ms ×1, AHSentinel.API.NetSale 0.2 ms ×1, AHSentinel.API.MarketState 0.0 ms ×1; eigener Code 0.3 ms] · übrig 0.2 ms · Speicher +1.1 MB · Bild davor 31 ms · 36 Bilder/s) · treffer ×1, Teil max 0.1 ms
+  Lua-Fehler des Addons seit dem letzten Bericht: 0
+  Berichte, die noch gemeldet werden: 10
+
+== Einträge (117, neueste zuerst, höchstens 200)
+[26.11. 13:09:27] LANGSAM ×818 Aufgabe heute · 32.5 ms (zuletzt 24.1 ms) (v0.9.90)
+[26.11. 13:09:25] AUFBAU ×1206 direkt · 1206 Anfragen · 0.5 ms (zuletzt 0.1 ms) (v0.9.90)
+[26.11. 10:26:33] DATEN Figur-Schlüssel zusammengeführt (Realm leer): 2
+[24.11. 09:30:43] AUFBAU ×329 Heute herstellen · 580 Anfragen · 0.6 ms (v0.9.80)
+[22.11. 18:10:03] AUFBAU ×9983 TRADE_SKILL_LIST_UPDATE · 17883 Anfragen · 188.7 ms (zuletzt 12.5 ms) (v0.9.74)
+[22.11. 18:10:00] AUFBAU ×1225 Scan · 1270 Anfragen · 263.9 ms (zuletzt 2.7 ms) (v0.9.74)
+[22.11. 18:09:32] AUFBAU ×314 TRADE_SKILL_SHOW · 1066 Anfragen · 388.3 ms (zuletzt 30.2 ms) (v0.9.74)
+[22.11. 17:37:42] AUFBAU ×10 Gold je Stunde · 21 Anfragen · 26.1 ms (zuletzt 3.8 ms) (v0.9.74)
+[22.11. 17:09:57] AUFBAU ×866 Herstellen fertig · 1793 Anfragen · 166.5 ms (zuletzt 34.9 ms) (v0.9.74)
+[22.11. 17:06:20] KAUF Scharfe Gewürze · gewünscht 50 · gekauft 50 · 18s
+[22.11. 17:05:46] AUFBAU ×35 AHSentinel:ledger · 42 Anfragen · 235.1 ms (zuletzt 57.2 ms) (v0.9.74)
+[22.11. 15:44:30] LANGSAM ×420 Neuaufbau (Teil) · 30.1 ms (zuletzt 17.6 ms) (v0.9.74)
+[22.11. 15:44:30] LANGSAM ×16874 UI:Aufbau (Teil) · 30.1 ms (zuletzt 17.6 ms) (v0.9.74)
+[21.11. 19:25:06] KLICK ×8 Bronzene Stiefel mit Versilberung · Zauber 3331 · RecipeID 3331 · Liste · ausgewählt: ja · 10.8 ms (v0.9.74)
+[21.11. 19:20:07] KLICK ×7 Bronzene Stulpen mit Versilberung · Zauber 3333 · RecipeID 3333 · Liste · ausgewählt: ja · 7.5 ms (v0.9.74)
+[21.11. 19:18:47] AUFBAU Rezept-Alarm · 1 Anfragen · 24.4 ms (v0.9.74)
+[21.11. 19:10:15] KLICK Leuchtende silberne Brustplatte · Zauber 2675 · RecipeID 2675 · Liste · ausgewählt: ja · 12.4 ms (v0.9.74)
+[21.11. 19:05:35] KLICK Gemusterte bronzene Armschienen · Zauber 2672 · RecipeID 2672 · Liste · ausgewählt: ja · 4.5 ms (v0.9.74)
+[21.11. 19:05:34] KLICK ×6 Rauer bronzener Kürass · Zauber 2670 · RecipeID 2670 · Liste · ausgewählt: ja · 6.1 ms (v0.9.74)
+[21.11. 19:05:33] KLICK ×8 Raue bronzene Gamaschen · Zauber 2668 · RecipeID 2668 · Liste · ausgewählt: ja · 7.5 ms (zuletzt 5.2 ms) (v0.9.74)
+[21.11. 05:41:01] AUFBAU ×3 AHSentinel:scan · 4 Anfragen · 112.8 ms (v0.9.74)
+[20.11. 21:53:34] KLICK ×19 Stoppelfühlerwels · Zauber 7755 · RecipeID 7755 · Liste · ausgewählt: ja · 3.6 ms (zuletzt 3.2 ms) (v0.9.74)
+[20.11. 21:53:33] KLICK ×2 Pikantes Deviat-Supreme · Zauber 8238 · RecipeID 8238 · Liste · ausgewählt: ja · 3.5 ms (v0.9.74)
+[20.11. 21:53:32] KLICK ×4 Geräucherter Weisenfisch · Zauber 25704 · RecipeID 25704 · Liste · ausgewählt: ja · 3.9 ms (zuletzt 3.5 ms) (v0.9.74)
+[20.11. 21:50:53] KAUF Einfaches Holz · gewünscht 20 · gekauft 20 · 7s 60c
+[16.11. 15:36:32] LANGSAM ×2 Alles neu (erster Teil) · 40.2 ms (v0.9.62)
+[15.11. 10:06:39] KLICK ×5 Geringe Hexerrobe · Zauber 6690 · RecipeID 6690 · Liste · ausgewählt: ja · 5.0 ms (zuletzt 4.4 ms) (v0.9.45)
+[15.11. 10:06:35] KLICK ×4 Große Adeptenrobe · Zauber 7643 · RecipeID 7643 · Liste · ausgewählt: ja · 5.2 ms (zuletzt 1.1 ms) (v0.9.45)
+[15.11. 10:06:26] KLICK ×5 Seidenstoffballen · Zauber 3839 · RecipeID 3839 · Liste · ausgewählt: ja · 5.0 ms (v0.9.45)
+[15.11. 10:06:20] KLICK ×3 Handschuhe der Meditation · Zauber 3852 · RecipeID 3852 · Liste · ausgewählt: ja · 5.6 ms (zuletzt 5.2 ms) (v0.9.45)
+[15.11. 09:52:42] KAUF Roter Farbstoff · gewünscht 60 · gekauft 60 · 30s
+[15.11. 09:52:29] KAUF Feiner Faden · gewünscht 60 · gekauft 60 · 60s
+[15.11. 08:52:37] KAUF ×2 Einfaches Holz · gewünscht 30 · gekauft 30 · 11s 40c
+[15.11. 08:35:41] KAUF Einfaches Holz · gewünscht 15 · gekauft 15 · 5s 70c
+[15.11. 08:18:37] KAUF Grober Faden · gewünscht 42 · gekauft 42 · 4s 20c
+[15.11. 07:16:22] KAUF Grober Faden · gewünscht 230 · gekauft 230 · 23s
+[15.11. 00:43:18] KAUF Grober Faden · gewünscht 156 · gekauft 156 · 15s 60c
+[14.11. 17:11:49] KAUF Grober Faden · gewünscht 14 · gekauft 14 · 1s 40c
+[14.11. 17:04:17] KLICK ×21 Verstärktes Leinencape · Zauber 2397 · RecipeID 2397 · Liste · ausgewählt: ja · 6.6 ms (zuletzt 1.2 ms) (v0.9.45)
+[14.11. 16:08:16] KAUF Grober Faden · gewünscht 162 · gekauft 162 · 16s 20c
+[14.11. 14:54:57] KAUF Grober Faden · gewünscht 132 · gekauft 132 · 13s 20c
+[14.11. 14:10:43] KAUF Grober Faden · gewünscht 34 · gekauft 34 · 3s 40c
+[10.11. 15:37:47] LANGSAM ×8247 UI:Refresh · 77.0 ms (zuletzt 16.6 ms) (v0.9.37)
+[10.11. 15:37:47] LANGSAM ×77 UI:UpdateBest · 77.0 ms (zuletzt 16.6 ms) (v0.9.37)
+[10.11. 15:37:47] LANGSAM ×7203 AD.Update · 76.8 ms (zuletzt 16.5 ms) (v0.9.37)
+[10.11. 15:37:01] LANGSAM ×291 UI:Aufbau (Teil 1) · 72.4 ms (zuletzt 25.0 ms) (v0.9.37)
+[10.11. 08:02:15] LANGSAM ×33 UI:Aufbau (Teil 3) · 62.0 ms (zuletzt 46.5 ms) (v0.9.37)
+[10.11. 08:02:15] LANGSAM ×82 UI:Aufbau (Teil 2) · 64.2 ms (zuletzt 48.3 ms) (v0.9.37)
+[10.11. 07:31:36] KAUF Grober Faden · gewünscht 200 · gekauft 200 · 20s
+[10.11. 06:15:31] KAUF Grober Faden · gewünscht 170 · gekauft 170 · 17s
+[09.11. 22:20:31] KAUF Grober Faden · gewünscht 100 · gekauft 100 · 10s
+[09.11. 18:47:18] LANGSAM ×15 UI:Refresh/plan · 61.1 ms (zuletzt 24.1 ms) (v0.9.37)
+[09.11. 18:47:18] LANGSAM ×31 Plan · 57.4 ms (zuletzt 21.2 ms) (v0.9.37)
+[09.11. 18:46:52] LANGSAM ×30 UI:Refresh/recipes · 42.8 ms (zuletzt 19.1 ms) (v0.9.37)
+[09.11. 18:36:44] ÜBERLAPPT ×762 Panel überdeckt AHAnalyzerProCraftPanel
+[09.11. 18:20:25] LANGSAM UI:Aufbau (Teil 4) · 27.2 ms (v0.9.36)
+[09.11. 18:15:10] KLICK ×4 Perlenschnallenumhang · Zauber 6521 · RecipeID 6521 · Liste · ausgewählt: ja · 6.9 ms (v0.9.36)
+[09.11. 17:41:59] LANGSAM ×3 UI:Refresh/favor · 31.4 ms
+[09.11. 17:24:44] KAUF Grober Faden · gewünscht 63 · gekauft 63 · 6s 30c
+[09.11. 16:48:57] LANGSAM ×69 UI:Refresh/disenchant · 392.0 ms
+[09.11. 16:02:32] KAUF ×2 Grober Faden · gewünscht 150 · gekauft 150 · 15s
+[09.11. 14:37:53] KAUF Grober Faden · gewünscht 117 · gekauft 117 · 11s 70c
+[09.11. 14:11:53] KAUF Grober Faden · gewünscht 40 · gekauft 40 · 4s
+[09.11. 13:33:44] KAUF Grober Faden · gewünscht 53 · gekauft 53 · 5s 30c
+[09.11. 12:36:46] KAUF Grober Faden · gewünscht 80 · gekauft 80 · 8s
+[09.11. 10:14:15] KAUF Grober Faden · gewünscht 17 · gekauft 17 · 1s 70c
+[09.11. 10:05:49] KAUF Grober Faden · gewünscht 19 · gekauft 19 · 1s 90c
+[09.11. 09:06:17] KAUF Grober Faden · gewünscht 47 · gekauft 47 · 4s 70c
+[09.11. 08:11:28] KLICK ×7 Wollcape · Zauber 2402 · RecipeID 2402 · Liste · ausgewählt: ja · 5.0 ms
+[09.11. 08:11:27] KLICK ×2 Wollstiefel · Zauber 2401 · RecipeID 2401 · Liste · ausgewählt: ja · 5.0 ms
+[09.11. 08:11:26] KLICK Grüne Leinenarmschienen · Zauber 3841 · RecipeID 3841 · Liste · ausgewählt: ja · 4.1 ms
+[09.11. 08:11:26] KLICK Leinenstiefel · Zauber 2386 · RecipeID 2386 · Liste · ausgewählt: ja · 4.8 ms
+[09.11. 08:11:25] KLICK ×2 Leinenschuhe mit weichen Sohlen · Zauber 3845 · RecipeID 3845 · Liste · ausgewählt: ja · 5.4 ms
+[09.11. 08:11:24] KLICK ×2 Schwere Wollhandschuhe · Zauber 3843 · RecipeID 3843 · Liste · ausgewählt: ja · 3.9 ms
+[09.11. 08:11:23] KLICK ×2 Grüne Wollweste · Zauber 2399 · RecipeID 2399 · Liste · ausgewählt: ja · 4.5 ms
+[09.11. 07:57:33] SPIELTEST ×37 S6 OK: 45 Rezepte
+[09.11. 07:57:33] SPIELTEST ×36 S4 OK: neben AHSentinel
+[09.11. 07:57:33] SPIELTEST ×4 S3 OK: 50 von 50 gesunken
+[09.11. 07:57:33] SPIELTEST S2 OK: Fertigkeit 89, Plan ab 89
+[09.11. 07:57:32] SPIELTEST S7 FEHLER: 0.2 Aufbau/s, 3 LANGSAM
+[09.11. 07:57:25] SPIELTEST S2 OK: Fertigkeit 88, Plan ab 88
+[09.11. 07:57:17] SPIELTEST S2 OK: Fertigkeit 87, Plan ab 87
+[09.11. 07:57:09] SPIELTEST S2 OK: Fertigkeit 86, Plan ab 86
+[09.11. 07:56:50] SPIELTEST ×2 S1 OK: 5 von 5 sofort über die Liste
+[09.11. 07:56:50] SPIELTEST ×4 S2 OK: Fertigkeit 85, Plan ab 85
+[09.11. 07:55:43] SPIELTEST S8 FEHLER: CheckButton verdeckt ProfessionSentinelPanelCloseButton; Button verdeckt ProfessionSentinelPanelCloseButton; CheckButton verdeckt Button; Button verdeckt ProfessionSentinelPanelCloseButton; Button verdeckt ProfessionSentinelPanel
+[08.11. 18:55:34] KLICK ×2 Wollcape · Zauber 2402 · RecipeID 2402 · OpenRecipe · ausgewählt: nein · 0.3 ms
+[08.11. 07:37:28] KLICK Raue bronzene Gamaschen · Zauber 2668 · RecipeID 2668 · OpenRecipe · ausgewählt: ja · 8.0 ms
+[08.11. 07:36:03] KLICK ×8 Raue bronzene Stiefel · Zauber 7817 · RecipeID 7817 · OpenRecipe · ausgewählt: nein · 0.2 ms
+[08.11. 07:30:49] KLICK ×3 Raue bronzene Stiefel · Zauber 7817 · RecipeID 7817 · OpenRecipe · ausgewählt: ja · 15.1 ms
+[08.11. 07:20:00] KLICK ×3 Handschuhe des Beschützers · Zauber 1252259 · RecipeID 1252259 · OpenRecipe · ausgewählt: nein · 0.1 ms
+[08.11. 05:08:58] KLICK Perlenschnallenumhang · Zauber 6521 · RecipeID 6521 · OpenRecipe · ausgewählt: nein · 0.0 ms
+[08.11. 05:02:39] KLICK ×4 Leinenstiefel · Zauber 2386 · RecipeID 2386 · OpenRecipe · ausgewählt: nein · 0.1 ms
+[08.11. 05:00:47] KLICK ×4 Leinenstiefel · Zauber 2386 · RecipeID 2386 · OpenRecipe · ausgewählt: ja · 8.5 ms
+[08.11. 04:59:26] KLICK ×2 Schwere Leinenhandschuhe · Zauber 3840 · RecipeID 3840 · OpenRecipe · ausgewählt: ja · 7.7 ms
+[08.11. 04:59:22] KLICK ×2 Verstärktes Leinencape · Zauber 2397 · RecipeID 2397 · OpenRecipe · ausgewählt: ja · 6.6 ms
+[08.11. 04:58:59] KLICK Grüne Leinenarmschienen · Zauber 3841 · RecipeID 3841 · OpenRecipe · ausgewählt: ja · 6.7 ms
+[08.11. 04:58:51] KLICK ×5 Verstärktes Leinencape · Zauber 2397 · RecipeID 2397 · OpenRecipe · ausgewählt: nein · 0.3 ms
+[07.11. 13:05:32] KLICK ×2 Runenverzierter Kupfergürtel · Zauber 2666 · RecipeID 2666 · OpenRecipe · ausgewählt: ja · 10.3 ms
+[07.11. 13:05:30] KLICK ×4 Schweres Kupferbreitschwert · Zauber 3292 · RecipeID 3292 · OpenRecipe · ausgewählt: ja · 15.9 ms
+[07.11. 11:57:31] KLICK Runenverzierte Kupferarmschienen · Zauber 2664 · RecipeID 2664 · OpenRecipe · ausgewählt: ja · 8.6 ms
+[07.11. 11:56:49] KLICK ×15 Kupferner Kettengürtel · Zauber 2661 · RecipeID 2661 · OpenRecipe · ausgewählt: nein · 0.1 ms
+[07.11. 11:56:45] KLICK Schwerer Kupferschlägel · Zauber 7408 · RecipeID 7408 · OpenRecipe · ausgewählt: nein · 0.1 ms
+[07.11. 11:48:04] KLICK ×9 Rauer Schleifstein · Zauber 3320 · RecipeID 3320 · OpenRecipe · ausgewählt: ja · 4.8 ms
+[07.11. 11:47:45] KLICK ×6 Rauer Schleifstein · Zauber 3320 · RecipeID 3320 · OpenRecipe · ausgewählt: nein · 0.1 ms
+[05.11. 19:15:40] KLICK ×12 Kupferne Kettenweste · Zauber 3321 · RecipeID 3321 · OpenRecipe · ausgewählt: nein · 0.1 ms
+[05.11. 19:15:37] KLICK ×3 Raue Kupferweste · Zauber 12260 · RecipeID 12260 · OpenRecipe · ausgewählt: nein · 0.1 ms
+[05.11. 19:15:36] KLICK ×2 Kupferne Kettenhose · Zauber 2662 · RecipeID 2662 · OpenRecipe · ausgewählt: nein · 0.0 ms
+[05.11. 19:11:57] KLICK Kupferne Kettenweste · Zauber 3321 · RecipeID 3321 · OpenRecipe · ausgewählt: ja · 7.9 ms
+[05.11. 19:11:56] KLICK Raue Kupferweste · Zauber 12260 · RecipeID 12260 · OpenRecipe · ausgewählt: ja · 8.2 ms
+[05.11. 19:11:55] KLICK Kupferne Kettenhose · Zauber 2662 · RecipeID 2662 · OpenRecipe · ausgewählt: ja · 8.1 ms
+[05.11. 19:10:40] KLICK Kupferarmschienen · Zauber 2663 · RecipeID 2663 · OpenRecipe · ausgewählt: ja · 7.5 ms
+[05.11. 19:10:39] KLICK Rauer Gewichtsstein · Zauber 3115 · RecipeID 3115 · OpenRecipe · ausgewählt: ja · 8.8 ms
+[05.11. 19:09:12] KLICK ×2 Kupferarmschienen · Zauber 2663 · RecipeID 2663 · OpenRecipe · ausgewählt: nein · 0.1 ms
+[05.11. 19:09:12] KLICK ×3 Kupferstreitkolben · Zauber 2737 · RecipeID 2737 · OpenRecipe · ausgewählt: nein · 0.0 ms
+[05.11. 19:09:10] KLICK ×12 Rauer Wetzstein · Zauber 2660 · RecipeID 2660 · OpenRecipe · ausgewählt: nein · 0.1 ms
+[05.11. 19:07:13] KLICK ×4 Rauer Gewichtsstein · Zauber 3115 · RecipeID 3115 · OpenRecipe · ausgewählt: nein · 0.1 ms
