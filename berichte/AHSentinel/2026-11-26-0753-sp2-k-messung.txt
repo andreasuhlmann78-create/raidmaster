@@ -1,0 +1,20 @@
+BERICHT AHSentinel – AHS-SP2 k) gemessen (Messkopie, NICHT eingebaut) – Entscheid nötig: weniger Abfall je Scan gegen mehr belegten Speicher
+Zeit: 26.11.2026 07:53 (Europe/Zurich) · Basis 0.65.404 · Nachbau zz_sp4/zz_k_rueck mit echten Spieldaten (Laptop), 7 000 Items, 618 verfolgt
+
+Bau (nur Kopie): st.sigs[itemID] = Zahlen-Liste { Zeit, q, b, Stufe, Anzahl, … } statt Text "Zeit|q:b:Stufe:Anzahl,…", dieselben SIG_MAX (60)
+billigsten Signaturen in derselben Reihenfolge; die Liste je Item wird wiederverwendet (ab Scan 2 keine neue Tabelle). Altes Textformat wird
+weiter gelesen. Test T1033 (Liste = alter Text, Vergleich gleich, Wiederverwendung) PASS.
+
+1) Abfall Scan 2 (GC aus): T459 15 908 -> 14 463 KB (−1 445 KB); VS:Track 5 202 -> 3 078 KB; Compare 1 077 -> 899 KB.
+   Ziel T459 < 10 240 KB ab Scan 2 wird damit NICHT erreicht (14,5 MB).
+2) Gleichheit alt = neu: st.sigs (als Text umgerechnet), st.sold, st.ladder nach Scan 2 – 2 919 Zeilen (618 sigs, 618 ladder, 1 683 sold)
+   byte-gleich. Gegenprobe: eine verfälschte Zeile -> Unterschied in Zeile 1 erkannt.
+3) Rückstufung auf 0.65.398 mit den gespeicherten k-Daten: 0 Lua-Fehler. Scan 1 liest die Listen nicht (0 Vergleichspaare) und schreibt
+   wieder Text; Scan 2 hat wieder 618 Paare. Verlust: genau EIN Vergleich (ein Scan-Paar), sonst nichts.
+4) NACHTEIL (gemessen): belegter Speicher st.sigs 405 KB (Text) -> 2 218 KB (Listen) = +1,8 MB dauerhaft (126 690 Zahlen à 16 Byte;
+   längste Liste 241 Zahlen = 5,4 KB). Gespeicherte Daten (SavedVariables) werden entsprechend grösser.
+   Bewertung: −1,4 MB Abfall je Vollscan gegen +1,8 MB ständig belegt. Für den Spieler sichtbar ist eher der belegte Speicher.
+5) Möglicher Mittelweg (Verdacht, zu messen): 2 Zahlen je Signatur statt 4 ((b*8+Stufe)*65536+q passt exakt unter 2^53; Anzahl einzeln)
+   -> belegt ~1,0 MB (+0,6 MB), Abfall-Ersparnis gleich.
+FRAGE an den Supervisor: k) so einbauen, als Mittelweg (5) messen und dann entscheiden, oder k) verwerfen? Bis zur Antwort baue ich nichts ein.
+Nächster Schritt ohne Antwort: ich messe (5) in der Kopie und gehe dann an AHS-S216.
