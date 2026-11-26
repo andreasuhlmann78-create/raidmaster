@@ -1998,3 +1998,14 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
     damit gegenstandslos, Stelle kommt mit dem nächsten Lauf.
     Langsame Stücke eingeordnet: Testhilfen mit Bereinigung; ohne Bereinigung je +3,8–4,2 MB in Anzeige-Texten (Zentrale, Protokoll, Datenseite) –
     Verdacht "Text in einem Stück zusammengesetzt" messen. Diese Stellen betreffen auch echte Nutzer (Zentrale/Protokoll öffnen) -> MITTEL.
+
+>>> INGAMETEST 26.11. 16:22–16:40 (Supervisor 26.11. 16:55) – LevelPilot 3.13.22 "/lp testroutine alles", Laptop, PRIEST 10, Undercity (Chat-Text):
+    VOLLSTÄNDIG: OK 331 · FEHLER 1 (T155) · 1 044 s · Sandbox OK · echte Aktionen 0 · Fehlerzähler 0 · T261 593 ms OK.
+    Reisen 864 s (3.13.21: 860 – gleich) · reiseBilder 26 034, längstes 17,3 ms, über 16 ms 2 (ohne Bereinigung), über 40 ms 0 · grösste Budget-Überschreitung
+    7,1 ms bei Graph.lua:1836 < Graph.lua:1607 < Virtual.lua:417 < 616 < 541 -> jetzt echte Stelle: Wegsuche (Graph.lua:1836) ohne Abgabe. LP-TR3 bleibt
+    "bestanden bis auf 1–2 Bilder ~17 ms": an Graph.lua:1836 (bzw. in der Schleife davor) eine Abgabe nach Uhr ergänzen – dann LP-TR3 abschliessen.
+    T155 Ø 19,37 ms, Median 10,77, längste 84,9 ms (#15, Zone 1458, 460 Knoten, 185 µs je Knoten, +901 KB) – wie 3.13.21 (86,9 / 189 µs): reproduzierbar.
+    Das Feld "planungen" ist im Upload noch NICHT da (Daten-Repo LevelPilot 16:23, Version 3.13.21) – Nutzer macht /reload; dann Ursache je Knoten
+    (Gelände/Gefahr kalt) aus dem Feld belegen.
+    Takt: 26 ganze Bilder > 40 ms (3.13.21: 43), davon 10 Umgebung. Längstes Bild jetzt T136 Zentrale 69,1 ms MIT Bereinigung (-124 MB) – Anzeige-Texte
+    (Zentrale) wie im Bericht 16:14 als nächstes messen.
