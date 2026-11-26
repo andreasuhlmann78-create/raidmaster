@@ -1,0 +1,15 @@
+AHSentinel 0.65.411 – AHS-W1 Teil 2 (Rest zuordnen), cache:warm (Bereinigungsanteil) – umgesetzt, zur Prüfung (nur Discord)
+Zeit: 26.11.2026 15:59 (Europe/Zurich)
+addon_check 0.65.411: OK. ZIP: gleiche 112 Dateien. Geändert: UI_Main.lua, AHAnalyzerPro.lua (A:Pause, LANGSAM-Zeile, Version), CHANGELOG EN/DE.
+AHS-TB1: vom Supervisor 15:48 als vollständig erledigt geführt; Messzeilen GOLD-LOGOUT/NACHTRAG bleiben (eine Zeile je Ausloggen/Laden).
+
+1) AH-STATE (Auftrag 15:48 "Rest nennen, zerlegen bis ≥ 90 % zugeordnet"): neue Teile Einbetten prüfen, eigenes Fenster ausblenden, Blizzard-Suchleiste
+   ausblenden, Platz prüfen, Vor-dem-Start, Reiter: Panels umhängen, Reiter: andere ausblenden (zusätzlich zu den bisherigen). Die Zeile endet mit
+   "kleine Teile (n) X" (Summe aller Teile < 0,5 ms) und "Rest (nicht zugeordnet) Y" = Fenster − Summe aller Teile.
+   Nachbau erstes Öffnen: Fenster 2,3 ms = Reiter aufbauen 1,5 + kleine Teile (13) 0,6 + Rest 0,1 -> 96 % zugeordnet. Im Spiel nachmessen; bleibt der
+   Rest gross, liegt er in OnShow-Skripten/Layout ausserhalb unserer Aufrufe (dann nächster Schnitt dort).
+2) cache:warm 14 ms (15:47:23, kurz nach dem Einloggen): der Schritt bis AHAnalyzerPro.lua:4479 ist EIN Item der Item-Liste (A:Pause oben in der Schleife
+   von BuildItemRows); kleiner geht nicht. A:Pause führt jetzt je Aufgabe den üblichen Schritt OHNE Bereinigung (gleitender Mittelwert); die LANGSAM-Zeile
+   sagt bei einem Schritt mit Bereinigung "(davon Bereinigung ~X ms, Schritt sonst ~Y ms)". Verdacht (zu messen): fast die ganzen 14 ms sind die
+   Bereinigung kurz nach dem Laden (~500 MB Lua), der Item-Schritt selbst < 0,1 ms. Ist das bestätigt: HINWEIS wie S313 (Bereinigung, nicht eigene Arbeit).
+Nachbau 0.65.411: zz_w1ah, s42, s42b, s43, s49, s341 PASS.
