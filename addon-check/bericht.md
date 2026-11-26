@@ -6,11 +6,11 @@ Tests der gemeinsamen Datei: bestanden 30/30 Prüfungen bestanden; GoldSentinelG
 Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## AHSentinel-0.65.393.zip: FEHLER (1 Warnungen)
-- **FEHLER** Version 0.65.393 ist NIEDRIGER als schon veröffentlichte 0.65.402 (Discord (announce/)). Neue Version muss höher sein als 0.65.402, sonst bekommen Spieler das Update nicht.
+- **FEHLER** Version 0.65.393 ist NIEDRIGER als schon veröffentlichte 0.65.403 (Discord (announce/)). Neue Version muss höher sein als 0.65.403, sonst bekommen Spieler das Update nicht.
 - **WARNUNG** AHSentinel/GoldSentinelTest.lua: veraltete offizielle Fassung (Version 3) – auf shared/GoldSentinelTest.lua Version 4 aktualisieren
 
 ## AHSentinel-0.65.400.zip: OK (1 Warnungen)
-- **WARNUNG** Version 0.65.400 in download/ wartet auf CurseForge 18:00 – Discord hat schon 0.65.402 (gewollt, Entscheid 15.11. 13:16)
+- **WARNUNG** Version 0.65.400 in download/ wartet auf CurseForge 18:00 – Discord hat schon 0.65.403 (gewollt, Entscheid 15.11. 13:16)
 
 ## BuffSentinel-0.9.65.zip: OK (1 Warnungen)
 - **WARNUNG** BuffSentinel/GoldSentinelTest.lua: veraltete offizielle Fassung (Version 3) – auf shared/GoldSentinelTest.lua Version 4 aktualisieren
@@ -27,7 +27,7 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 ## ThreatSentinel-2.5.30.zip: OK (1 Warnungen)
 - **WARNUNG** ThreatSentinel/GoldSentinelTest.lua: veraltete offizielle Fassung (Version 3) – auf shared/GoldSentinelTest.lua Version 4 aktualisieren
 
-## ahsentinel__ahsentinel-0.65.402.AHSentinel.zip: OK
+## ahsentinel__ahsentinel-0.65.403.AHSentinel.zip: OK
 
 ## guildsentinel__guildsentinel-0.9.63.GuildSentinel.zip: OK (1 Warnungen)
 - **WARNUNG** GuildSentinel/GoldSentinelTest.lua: veraltete offizielle Fassung (Version 3) – auf shared/GoldSentinelTest.lua Version 4 aktualisieren
