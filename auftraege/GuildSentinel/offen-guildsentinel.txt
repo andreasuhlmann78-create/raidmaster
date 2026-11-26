@@ -831,3 +831,8 @@ GS-R1 HOCH: Lua-Fehler "Lead.lua:275: attempt to index local 'r' (a boolean valu
     Bedingung des Nutzers (stand-aktuell: G-4a erst erledigt, wenn keine "LANGSAM Seite members" > 16 ms mehr kommt) im Zeitraum erfüllt -> G-4a ERLEDIGT
     (Prüfung Supervisor). Hinweis: Viele Sitzungen ohne geöffnete Mitglieder-Seite zählen nicht als Beleg – falls die Seite in diesem Zeitraum nie
     offen war, bitte im nächsten Bericht nennen (Zähler "Seite members gebaut n×"); dann bleibt G-4a bis zu einem Beleg offen.
+
+>>> HINWEIS NIEDRIG (Supervisor 26.11. 09:38, aus AHS-TB1-b): BELEGT im Spiel – GetRealmName() und GetNormalizedRealmName() liefern in WoW Forever
+    seit ~21.11. dauerhaft "" (nicht nur früh beim Einloggen, wie in MyWeek.lua 0.9.59 angenommen). MyWeek ist abgesichert; bitte Bank.lua Z. 37
+    (realm = GetRealmName() or "") und jede andere Stelle mit Realm im Schlüssel prüfen: entstehen seit 21.11. Doppel (alte Daten mit Realm-Namen)?
+    In den Laptop-Daten 26.11. keine leeren Realm-Schlüssel gefunden – nur bestätigen, dass Bank-Daten nicht betroffen sind.

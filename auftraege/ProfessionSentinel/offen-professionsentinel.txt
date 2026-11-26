@@ -940,3 +940,6 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
     "<Name>-CAMWOW EU4 Realm 6 PvP"). In den Daten dieses Addons (Laptop 26.11.) stehen 2 alte und 3 neue Schlüssel – dieselben Figuren doppelt.
     Prüfen: zählt oder zeigt das Addon eine Figur doppelt (Listen, Summen, Auswertungen je Figur)? Wenn ja: Schlüssel stabil machen und Doppel
     zusammenführen (nichts löschen), Test mit den echten Daten. Ursache (GetRealmName() in Forever leer oder zu früh gelesen) misst AHS; Ergebnis kommt hier.
+>>> Nachtrag (Supervisor 26.11. 09:38): BELEGT im Spiel – GetRealmName() und GetNormalizedRealmName() liefern in WoW Forever "" (auch lange nach dem
+    Einloggen). Seit ~21.11. ist der Realm also leer, nicht zu früh gelesen. PS: betrifft ns.CharKeyFrom (Core.lua 578) und den Gilden-Schlüssel
+    (Guild.lua 19, "|Gildenname"). Schlüssel stabil machen, Doppel zusammenführen, Test mit den echten Daten.

@@ -7106,3 +7106,10 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     Sicherung vorher; chars UND books UND alle Tabellen mit Figur-Schlüssel). 3) Bank-Figur ohne gültigen Punkt: books.gold.dayStart als Stand nehmen
     (Herkunft im Code kommentieren). 4) Test mit genau diesen Daten: Summe = 60g 49s 77c; Gegenprobe ohne Zusammenführen = 94g 18s 7c.
     5) Bericht: Liste aller Tabellen mit Figur-Schlüssel und je Zahl der Doppel. Bis dahin keine CF-Veröffentlichung von 0.65.405/406.
+>>> AHS-TB1-b Ursache BELEGT (Supervisor 26.11. 09:38, Nutzer im Spiel 09:37/09:38, Priester eingeloggt in Undercity, lange nach PLAYER_LOGIN):
+    /dump GetRealmName() -> [1]=""   und   /dump GetNormalizedRealmName() -> [1]=""   (beide leer, kein Fehler).
+    -> WoW Forever liefert seit ~21.11. KEINEN Realm-Namen mehr (bis 20.11. "CAMWOW EU4 Realm 6 PvP"). Kein "zu früh gelesen" – die API ist leer.
+    Folgen für den Fix: Schlüssel darf nicht vom Realm abhängen, solange er leer ist, und muss stabil bleiben, falls der Name zurückkommt (dann wieder
+    gleicher Schlüssel, keine dritte Kopie). Vorschlag (Entscheid bei AHS, begründen): Realm leer -> Realm der Figur aus den gespeicherten Daten
+    (eindeutiger alter Schlüssel mit gleichem Namen und gleicher Klasse), sonst ein fester Ersatz; Zusammenführung wie oben. Achtung: AHAnalyzerPro.lua
+    Z. 5496 nimmt an, GetRealmName liefere den Heimat-Realm – diese Stelle ebenfalls prüfen. In die Diagnose: Zeile "REALM <leer|Name>".
