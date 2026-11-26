@@ -1,0 +1,32 @@
+LevelPilot 3.13.20 – Bericht an die Prüf-Sitzung: LP-R1 (behoben), LP-R2 (Treffer eingeordnet)
+Stand 26.11.2026 11:51 · umgesetzt, zur Prüfung
+Zip: announce/levelpilot__levelpilot-3.13.20.LevelPilot.zip (md5 e538c51eb27ee1080e11e9e10192bbf9, 2847004 Bytes)
+
+Prüfungen vor dem Push
+- addon_check: OK. Gemeinsame Dateien GoldSentinel*.lua mit cmp gleich shared/.
+- Offline-Routine 40 von 40 ohne FEHLER, Testroutine 5 von 5 ohne FEHLER.
+- Nachbau ganze Routine Priester 10 (Upload 26.11. 11:16): Schlusslauf 0 FEHLER (OK 324), T396 OK, T381 gleich.
+  Zwei Läufe davor hatten T261 FEHLER (1 307 / 1 176 ms): die Arbeitsmaschine war neu gestartet; alle Teile gleichmässig ~35 % langsamer.
+  Gegenprobe auf derselben Maschine, Bereich J: 3.13.19 928 ms, 3.13.20 693 ms – Rauschen des Nachbaus, keine Änderung beim Einloggen.
+- Reise 1–60 am Stück: unverändert 141 h 30, 2 344 Schritte, 814 Quests, 1 446 112 yd.
+
+LP-R1 – unmögliche Koordinaten im Reisebericht: Ursache belegt, behoben
+- Nachgestellt (Reise 1–60, Bericht nach Koordinaten ausserhalb 0–100 durchsucht): 4 Zeilen, alle "[WEG] … Luftlinie":
+  "Karte 1434 53.5,-14.5 Perlentauchen", "Karte 1434 81.4,-136.4 Whiskey Slim's verlorener Grog", "Karte 1452 49.0,111.3 Vereinigung von
+  Einflüssen", "Karte 1413 63.3,-22.1 Sind wir endlich da, Yeti?".
+- Ursache (Virtual.lua CheckMobs): Die gefährlichste Stelle einer langen Luftlinie lag in KEINER Zone der Wegpunkte; der Bericht rechnete sie
+  dann in der Zone des Wegs um (ausserhalb 0–100). Die Daten (Quests, NPC) sind richtig – z. B. Umpi (Elixier des Leidens) steht in Hillsbrad.
+- Behoben: V.MapAt(inst, n, w): Zone über die Spielkarte (Geo:ZoneAt), sonst die Zone der festen Liste, in deren Rahmen der Punkt am weitesten
+  innen liegt (wiederholbar). Danach: 0 Zeilen ausserhalb. Neu z. B. "Karte 1431 75.0,46.5 Perlentauchen", "Karte 1432 35.5,47.7 Whiskey
+  Slim's …", "Karte 1447 10.2,61.4 Vereinigung …".
+- Test T396: V.MapAt (Mitte Dämmerwald -> 1431 50,50) und jede Koordinate im Bericht der letzten Reise 0–100.
+
+LP-R2 – Orte der anderen Fraktion: die Treffer sind echt, Ursache = lange Luftlinien
+- Mit LP-R1 zeigt der Bericht jetzt, WO die Luftlinien die Orte schneiden: "Perlentauchen" schneidet Dämmerwald 75.0,46.5 (Dunkelhain),
+  "Whiskey Slim's verlorener Grog" schneidet Loch Modan 35.5,47.7 (Thelsamar) – eine Luftlinie von 14 666 Yards ab Schlingendorntal 27.2,77.0
+  ohne bekannten Weg. Das passt zu den Treffern des Ingametests (Thelsamar 35.5,47.7 genau).
+- Feralas 89.4,46.2 (Zonenübergang, 6×): KEIN Fehleintrag – dort liegt Thalanaar (Aussenposten der Allianz, in der Ortsliste mit 5
+  Spawnpunkten, s. 3.13.8 LP-O1). Der Zonenübergang Feralas <-> Tausend Nadeln führt durch den Ort; ein Weg aussen herum fehlt im Netz.
+- Folge: Die Orte werden nicht falsch erkannt; sie liegen auf Luftlinien (kein bekannter Weg) bzw. auf einem Übergang ohne Alternative.
+  Behebung braucht Wege (Weg aussen herum bzw. Zwischenziele vor langen Luftlinien) – nächster Schritt: lange Luftlinien über Orte in der
+  Planung meiden (Zwischenziel über einen Flugpunkt/Übergang), mit Gegenprobe Route und Zeit.

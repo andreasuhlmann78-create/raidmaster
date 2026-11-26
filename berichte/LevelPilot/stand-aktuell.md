@@ -1,19 +1,18 @@
 # LevelPilot – Stand der Sitzung
 
-## Stand 26.11.2026 11:31 · Version 3.13.19 (veröffentlicht, Discord)
+## Stand 26.11.2026 11:51 · Version 3.13.20 (veröffentlicht, Discord)
 
 ## Gerade in Arbeit
-- Nichts angefangen. Bericht: berichte/LevelPilot/2026-11-26-1131-3.13.19-lp-tr3-i3.txt (umgesetzt, zur Prüfung).
-- Inhalt: Reise in der Routine nach Zeit (10 ms je Bild), NearSparse sparsamer, Zähler-Text Protokoll, langeStuecke ab 25 ms.
-- 3.13.18 vom Supervisor angenommen 10:32; Ingametest 3.13.18: Reisen 985 s ok, aber 106 Bilder > 16 ms -> 3.13.19.
+- Nichts angefangen. Neu: Bericht 3.13.20 (LP-R1 behoben, LP-R2 eingeordnet). Davor 3.13.19 (Reise nach Zeit, Wegprüfung schneller).
 
 ## Nächste Schritte (Reihenfolge)
-1. Ingametest 3.13.19 auswerten: reiseBilder, Reisen <= 985 s, T155, langeStuecke (T34, T136).
-2. Die 13 Stücke mit +3–5 MB je Stück (T285, T294, T386, T21 …) nach Stapel einordnen.
-3. LP-R1, LP-R2, LP-I1/I6/I8, LP-T31, LP-UMG1, Notbremse "Routenberechnung", Wegabschnitte.
+1. Ingametest 3.13.19/3.13.20 auswerten: reiseBilder, Reisen <= 985 s, T155, langeStuecke ab 25 ms (T34, T136), T396.
+2. LP-R2: lange Luftlinien über Orte der anderen Fraktion in der Planung meiden (Zwischenziel), Gegenprobe Route/Zeit.
+3. Die 13 Stücke mit +3–5 MB je Stück nach Stapel einordnen.
+4. LP-I1/I6/I8, LP-T31, LP-UMG1, Notbremse "Routenberechnung", Wegabschnitte.
 
 ## Offen beim Nutzer
-- Ingametest 3.13.19 (/lp testroutine alles, zwischendurch eine Taste drücken wegen AFK).
+- Ingametest 3.13.20 (/lp testroutine alles, zwischendurch eine Taste drücken wegen AFK).
 - Datei der Testfigur – Weg klärt der Supervisor, nie ins Repo.
 
 ## Entscheide des Nutzers seit letztem Stand
