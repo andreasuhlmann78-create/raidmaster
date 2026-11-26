@@ -2,12 +2,8 @@
 
 Vorlage shared/GoldSentinelGame.lua: Version 3
 Vorlage shared/GoldSentinelTest.lua: Version 4
-Tests der gemeinsamen Datei: bestanden 30/30 Prüfungen bestanden; GoldSentinelGame-Tests: bestanden; 139/139 Prüfungen bestanden; GoldSentinelSync-Tests: bestanden (111/111); 82/82 Prüfungen bestanden; GoldSentinelTest-Tests: bestanden (101/101); OK 56 / FEHLER 0; UICheck-Tests: bestanden (9/9); Vorlage-Tests: bestanden (149/149); 127/127 Prüfungen bestanden; Ladetest-Tests: 36/36 bestanden; 22/22 Prüfungen bestanden; 6/6 Prüfungen bestanden; Testberichte-Tests: bestanden (27/27); Wegdaten-Tests: bestanden (14/14)
+Tests der gemeinsamen Datei: bestanden 30/30 Prüfungen bestanden; GoldSentinelGame-Tests: bestanden; 139/139 Prüfungen bestanden; GoldSentinelSync-Tests: bestanden (111/111); 82/82 Prüfungen bestanden; GoldSentinelTest-Tests: bestanden (101/101); OK 56 / FEHLER 0; UICheck-Tests: bestanden (9/9); Vorlage-Tests: bestanden (149/149); 127/127 Prüfungen bestanden; Ladetest-Tests: 35/35 bestanden; 22/22 Prüfungen bestanden; 6/6 Prüfungen bestanden; Testberichte-Tests: bestanden (27/27); Wegdaten-Tests: bestanden (14/14)
 Lua-Syntaxprüfung mit: lupa (Lua 5.1)
-
-## AHSentinel-0.65.393.zip: FEHLER (1 Warnungen)
-- **FEHLER** Version 0.65.393 ist NIEDRIGER als schon veröffentlichte 0.65.406 (Discord (announce/)). Neue Version muss höher sein als 0.65.406, sonst bekommen Spieler das Update nicht.
-- **WARNUNG** AHSentinel/GoldSentinelTest.lua: veraltete offizielle Fassung (Version 3) – auf shared/GoldSentinelTest.lua Version 4 aktualisieren
 
 ## AHSentinel-0.65.400.zip: OK (1 Warnungen)
 - **WARNUNG** Version 0.65.400 in download/ wartet auf CurseForge 18:00 – Discord hat schon 0.65.406 (gewollt, Entscheid 15.11. 13:16)
