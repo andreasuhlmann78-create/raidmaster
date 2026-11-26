@@ -7067,3 +7067,10 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
         M1 NICHT einbauen (senkt nur die Zahl, kein echter Gewinn) – richtig erkannt, danke.
     (ii) M2 und M3 FREIGEGEBEN (rein intern, Ergebnis/Text gleich; Gleichheitstest + Gegenprobe wie gewohnt). Reihenfolge: zuerst AHS-TB1 (HOCH,
         Gold-Sicherheit) – richtig so –, danach M2/M3 und T459-Umbau; weitere Posten (Leitertexte, cache:today, learn:factor, core:realcheck) danach messen.
+>>> PRÜFUNG SUPERVISOR 26.11. 09:05 – AHS-TB1 a) (Bericht 09:02): Ursache BELEGT und schlüssig (Rechnung geht auf die Kupfermünze auf: 46,6716 g Priester
+    alt 0-Punkt -> +46g 67s 16c). Kein ungebuchter Erlös – Gold-Sicherheit ok; HOCH -> MITTEL (Anzeige falsch, Daten durch 0 überschrieben).
+    Behebung wie vorgeschlagen FREIGEGEBEN (0 beim Aus-/Einloggen nie als Punkt, nie über echten Punkt; Lesen überspringt 0-Muster ohne Löschen;
+    Beschriftung "alle Figuren", "ausserhalb des Handels"). Zusätzlich im Spiel messen (Verdacht): GetMoney() beim PLAYER_LOGOUT = 0 in Forever –
+    als Messzeile in der Diagnose. Die Rückrechnung der überschriebenen Punkte (letzter echter Wert < 30 Min.) belegen: wie viele Punkte betroffen,
+    und ob AHS-Buchhaltung/Gold-Abstimmung (TB125-7, SK1-e) dadurch falsche Lücken gezeigt hat -> im Bericht beziffern (kann Teil der alten
+    SK1-e-Abweichungen erklären).
