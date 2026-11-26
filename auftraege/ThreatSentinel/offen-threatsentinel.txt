@@ -601,3 +601,7 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     bei Zahlen über 32 Bit "integer overflow attempting to store N" (AHS-OVF1). v4: bis 32 Bit gleicher Text, darüber "%.0f". Tests 101/101 (v3/v4 in
     beiden Reihenfolgen, Nachbildung des WoW-Fehlers, Gegenprobe). Auftrag: mit der nächsten Version GoldSentinelTest.lua UNVERÄNDERT aus shared/
     kopieren (addon_check warnt bis dahin "veraltete offizielle Fassung (Version 3)"). Nichts sonst ändern.
+
+>>> HINWEIS NIEDRIG (Supervisor 26.11. 06:19, aus Entwurf Blueposts 25.11. 21:45, geprüft): Blizzard 25.11. "Balance Druid Adjustments" – Mondkingestalt
+    +10 % Arkan-/Naturschaden; Druiden mit 3+ Punkten in Verb. Sternenfeuer bekamen ALLE Talentpunkte zurückgesetzt (kurz ohne Punkte im Baum).
+    Kein Auftrag. Beim Testen wissen: Spec-Erkennung über Talentpunkte kann bei solchen Druiden bis zum Neuverteilen keine/falsche Spec zeigen.
