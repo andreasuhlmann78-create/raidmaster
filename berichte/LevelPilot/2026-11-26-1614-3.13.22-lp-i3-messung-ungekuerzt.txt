@@ -1,0 +1,39 @@
+LevelPilot 3.13.22 – Bericht an die Prüf-Sitzung: LP-I3 (Upload 16:08 gelesen, Messung ungekürzt), Stelle Virtual.lua:545, langsame Stücke
+Stand 26.11.2026 16:14 · umgesetzt, zur Prüfung
+Zip: announce/levelpilot__levelpilot-3.13.22.LevelPilot.zip (md5 3af1b92df19d6f40e77fa69cacae189e, 2849393 Bytes)
+
+Prüfungen vor dem Push
+- addon_check: OK. Gemeinsame Dateien GoldSentinel*.lua mit cmp gleich shared/.
+- Offline-Routine 40 von 40 ohne FEHLER, Testroutine 5 von 5 ohne FEHLER.
+- Nachbau ganze Routine Priester 10 (Upload 26.11. 11:16): 0 FEHLER, T381 gleich.
+
+1. LP-I3 – Rest der Messzeile aus dem Upload 16:08 (Auftrag 16:07): NICHT lesbar
+- Upload 26.11. 16:08 gelesen (LevelPilotDB.gsTest.reports, voller Bericht 3.13.21): Das Ergebnis von T155 ist schon im gespeicherten
+  Bericht gekürzt ("… kalt: Umkreis 1, Gelände …") – GoldSentinelTest kürzt den Ergebnistext. Die Zeilen sind also auch dort nicht da.
+- Behoben für den nächsten Lauf: T155 schreibt alles zusätzlich ungekürzt ins Feld "planungen": erste Zeile = ganzes Ergebnis, danach JEDE
+  Planung über 16 ms als eigene Zeile (Wanduhr, Pausen, Knoten, µs je Knoten, kalt Umkreis/Gelände/Gefahr, Leerungen Umkreis/Gelände/Gefahr).
+  Neu gezählt: Gefahrenprüfung ohne Zwischenspeicher (Danger:Segment) und ihre Leerungen (D.SEG_MAX 8 192).
+- Was der Upload sicher zeigt: #15 86,9 ms = 460 Knoten × 189 µs, 909 KB -> ~2 KB je Knoten; Umkreis kalt nur 1.
+- Nachbau mit denselben Daten, Messung Speicher je Funktion in CheckFirstPath (Bereich B): 6 272 Knoten, 4 173 KB = 0,67 KB je Knoten.
+  Danger:Segment 22 983 Aufrufe, 2 055 KB (die Hälfte des Speichers: neue Teiltabellen und Einträge im Zwischenspeicher je neuer Strecke),
+  NearSparse 258 KB, Terrain:Unknown 241 KB. Nachbau-Lauf mit dem neuen Feld: #5 37,3 ms, 327 Knoten, 114 µs je Knoten, kalt Umkreis 117,
+  Gelände 933, Gefahr 1 583, keine Leerung.
+- Verdacht, zu messen: Im Spiel sind die kalten Gelände- und Gefahrenprüfungen je Knoten der Hauptteil (Speicher ~2 KB je Knoten). Das neue
+  Feld zeigt es; dann gezielt (z. B. Gefahrenprüfung je Strecke ohne neue Tabellen).
+
+2. HINWEIS Virtual.lua:545 – die Stelle war falsch gelesen
+- "Virtual.lua:545 < 540 < 1010" sind die Zeilen, an denen die FUNKTIONEN beginnen (StepInner, Step, body), nicht die aktuellen Zeilen:
+  Das Muster nahm aus "[LevelPilot/X.lua]:620: in function <LevelPilot/X.lua:545>" die zweite Angabe; benannte Funktionen ("in function
+  'PathRawImpl'") fielen ganz heraus. Direkt in StepInner steht keine Abgabestelle.
+- Behoben: Muster nimmt jetzt die aktuelle Zeile jedes Rahmens (geprüft an drei Formen: "[LevelPilot/Graph.lua]:1843", "[string
+  \"@…/Planner.lua\"]:74", "…/Virtual.lua:620"), 5 Rahmen ohne Core.lua. Nachbau: "1,0 ms bei Planner.lua:784 < Planner.lua:2350 <
+  Virtual.lua:564 < Virtual.lua:541 < Virtual.lua:1016". Die Abgabe setze ich, wenn der nächste Lauf die echte Stelle zeigt.
+
+3. Langsame Stücke (Takt, 3.13.21) – Einordnung
+- Mit Bereinigung (Testhilfe, legt viele Testdaten an): T241–T244 67,6 (−117,5 MB, Stapel TestRoutine.lua:12533/12590 = Messrahmen der Routine
+  am Bildende), T355 67,4 (−123,9 MB) und 59,5 (TestRoutine.lua:11575 'step' – Testhilfe von T355), T244–T251 54,4 (−32,4 MB).
+- Ohne Bereinigung, je +3,8–4,2 MB: T285 Zentrale 36,1 (TestRoutine.lua:3040), T136 35,8/34,9 (4239, Zentrale/Protokoll), T34 35,1 (3149),
+  T386 33,5 (Protocol.lua:615, Protokolltext), T294 32,9 (7601), T354/T355 32,9 (11575).
+  Alle zeigen Fenster/Texte der Anzeige (Zentrale, Protokoll, Datenseite). Gleiches Muster +4 MB in einem Stück -> Verdacht, zu messen:
+  Aufbau des Fenstertexts (SetText grosser Texte bzw. Zusammensetzen der Zeilen). Nächster Schritt: diese vier Stellen im Code lesen und
+  messen, ob der Text in einem Stück zusammengesetzt wird.
