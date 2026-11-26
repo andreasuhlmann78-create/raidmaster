@@ -1,0 +1,11 @@
+BERICHT AHSentinel – AHS-SP2 k) Mittelweg gemessen (Messkopie, NICHT eingebaut) – Nachtrag zum Bericht sp2-k-messung
+Zeit: 26.11.2026 08:02 (Europe/Zurich) · Basis 0.65.404 · gleiche Messung (zz_sp4/zz_k_rueck, echte Daten)
+
+Format: { Zeit, (b*8+Stufe)*65536+q, Anzahl, … } – 2 Zahlen je Signatur (b < 2^33 -> Wert < 2^52, exakt). T1033 angepasst: PASS.
+                      Text (0.65.404) | 4 Zahlen (k) | 2 Zahlen (Mittelweg)
+  T459 Scan 2 (KB)          15 908    |   14 463     |   14 548
+  VS:Track Scan 2 (KB)       5 202    |    3 078     |    3 618
+  st.sigs belegt (KB)          405    |    2 218     |    1 153
+Gleichheit st.sigs/sold/ladder alt = neu: 2 919 Zeilen byte-gleich (auch Mittelweg). 0 Lua-Fehler.
+Bewertung: Mittelweg spart −1 360 KB Abfall je Vollscan, kostet +748 KB dauernd belegt. Ziel T459 < 10 240 KB bleibt unerreicht.
+Empfehlung (Entscheid beim Supervisor): Mittelweg einbauen ODER k) ganz verwerfen. Ich baue bis zur Antwort nichts ein und gehe an AHS-S216.
