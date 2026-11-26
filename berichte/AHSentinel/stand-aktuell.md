@@ -1,6 +1,6 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 26.11.2026 09:13 · Version 0.65.405 (Discord, AHS-TB1); CurseForge 0.65.400 (öffentlich, CF6 erledigt 08:01)
+## Stand 26.11.2026 09:49 · Version 0.65.406 (Discord, AHS-TB1-b); CurseForge 0.65.400 (öffentlich, CF6 erledigt 08:01)
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz – Testberichte "GSTEST1{…}", UI-Befunde db.uiFindingsLast).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
@@ -10,15 +10,14 @@ Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /h
  Eigene Szenarien /tmp/claude-0/sim/wowsim/scenarios_new.lua (zz_t459real, zz_tr1, zz_i6_sniper, zz_ui_buy).
 
 ## Gerade in Arbeit
-- AHS-TB1 HOCH: Ursache belegt (0 Gold beim Ausloggen als Goldpunkt), 0.65.405 behebt (T1034, zz_tb1 echte Daten). FULL 405 folgt.
-- T459: Entscheid 09:02 – zwei Werte (Abfall ≤10 240 ab Scan 2, bleibender Zuwachs ≤512 ab Scan 3), M2/M3 frei, M1 nicht. Messkopie /tmp/claude-0/ahs_m.
-- s313 Grenze Budget (≤ Bild-Budget) + gemessener Schritt: vom Supervisor bestätigt.
+- 0.65.406: TB1-b (Realm leer -> Doppel zusammengeführt, Sicherung A.db.tb1bBackup), GOLD-LOGOUT/REALM-Diagnose, T459 M2/M3 + zwei Werte. FULL 406 folgt.
+- KEINE CF-Veröffentlichung von 0.65.405/406 bis TB1-b abgenommen (Supervisor 09:35).
 
 ## Nächste Schritte
-1. FULL 0.65.405 auf Kopie; dann M2/M3 einbauen + T459 auf zwei Werte umbauen (Testroutine collect vor/nach Scan, beschriftet).
-2. Weitere T459-Posten messen: Leitertexte, cache:today, learn:factor, core:realcheck.
-3. AHS-S216 (längstes Bild), AHS-BP1 MITTEL (bindType: Schurkengifte/Blendungspulver BoP), AHS-MK1 (nach Ingametest).
-4. Ingametest: zwei Vollscans in einer Sitzung (T459 Scan 2), Sandbox ohne sniper.armed.
+1. FULL 0.65.406 auf Kopie (allein), Bericht.
+2. Weitere T459-Posten messen (Leitertexte Verdichtung, cache:today, learn:factor, core:realcheck), je Massnahme mit Messung.
+3. AHS-BP1 MITTEL (bindType: gebundene Ware nicht als AH-Ware), AHS-S216, AHS-MK1 (nach Ingametest).
+4. Ingametest: Gold (alle Figuren) = Summe Charakterauswahl (60g 49s 77c), Diagnose REALM/TB1-B/GOLD-LOGOUT, T459 zwei Werte, Vollscan zweimal.
 5. Regel CF 18:00: CF-Entscheid im Repo -> sofort Auswahl-Frage im Chat; bis 17:30 Stand melden; ohne Bestätigung sofort melden.
 
 ## Offen beim Nutzer
@@ -26,6 +25,7 @@ Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /h
 - Gold-Messung Ausrüstung mit Kupfer-Preis (AHS-POST), RecipeList-Fehler mit nur AHS aktiv.
 
 ## Entscheide des Nutzers seit letztem Stand
+- Supervisor 09:35/09:38: TB1-b HOCH (Realm leer seit 21.11., Doppel zusammenführen, Sicherung, Bank-Figur aus books.gold); bis dahin kein CF.
 - Supervisor 26.11. 08:26: S313 Grenze Budget + gemessener längster Schritt (≤8); SP2 k) verworfen; weiter T459-Posten, dann S216. 08:57: TB1 HOCH (Nutzer schickte kein Gold an den Priester).
 - Supervisor 26.11. 06:30: CF6 erledigt bis auf Sichtbarkeit; Regel CF-Frage sofort/17:30/18:00 sofort melden ANGENOMMEN; 0.65.403 angenommen (Abnahme im Spiel offen).
 - 26.11. ~06:15 im Chat: "Ja, 0.65.400 hochladen" (CurseForge).

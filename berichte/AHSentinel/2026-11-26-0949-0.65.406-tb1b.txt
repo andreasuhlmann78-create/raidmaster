@@ -1,0 +1,36 @@
+AHSentinel 0.65.406 – AHS-TB1-b (Realm leer -> Figuren doppelt), TB1 Messzeile, T459 M2/M3 + zwei Werte – umgesetzt, zur Prüfung (nur Discord, kein CF)
+Zeit: 26.11.2026 09:49 (Europe/Zurich)
+addon_check 0.65.406: OK (FEHLER 0). ZIP: gleiche 112 Dateien wie 0.65.405. Geändert: Characters.lua, AHAnalyzerPro.lua (CCount, Version), Vollscan.lua (M2),
+TestRoutine.lua (T459 umgebaut, T1035, T1036, Index), CHANGELOG EN/DE. Tests (Repo ahanalyzerpro): s313 Grenze bestätigt (unverändert seit 08:50).
+FULL 0.65.405 (Kopie, allein): 355/67, neu rot keine, neu grün keine.
+
+1) Entschuldigung/Berichtigung: Mein Bericht 09:13 nannte "zwei weitere Figuren (5,07 g / 30,19 g)" – das waren die ALTEN Schlüssel derselben zwei Figuren.
+   Der Supervisor hat das richtig erkannt. Ich hätte die Schlüssel prüfen müssen statt "Figur" anzunehmen.
+2) AHS-TB1-b Behebung (Characters.lua):
+   - Schlüssel: Ch:Realm() = GetRealmName(), wenn nicht leer (und als A.db.homeRealm gemerkt); leer -> gemerkter Heimat-Realm; noch keiner -> der EINE Realm
+     aller gespeicherten Figuren (beim Nutzer "CAMWOW EU4 Realm 6 PvP"); sonst "". Kommt der Name zurück: derselbe Schlüssel. Format "Name-Realm" unverändert.
+   - Zusammenführen beim Laden (vor RecordMoney), je "Name-" -> "Name-<Realm>": chars (Goldpunkte zeitlich sortiert vereint, Stand/Taschen vom jüngeren,
+     Bank vom jüngeren), recipes (je Art jüngere), chains (jüngere), books.cb (Menge und Kosten addiert), books.gold (Start vom älteren, last/day vom jüngeren),
+     books.flow (je Tag/Ort addiert), books.flowStart (früheste), books.inboxSnap/opened (jüngere), books.ownEq (vereint), ledger.stock[Tag] (vereint),
+     books.log[].ch umgeschrieben. Sicherung vorher: A.db.tb1bBackup[Quelle] = Kopie beider Einträge je Tabelle + Indizes der umgeschriebenen Buchungen.
+     Diagnose "TB1-B" je Figur und "REALM <leer|Name> · Schlüssel-Realm …" bei jedem Laden.
+   - Bank-Figur ohne gültigen Goldpunkt: Ch.MoneyOf nimmt books.gold.last (>0), sonst dayStart (>0) – Herkunft im Code kommentiert.
+   - Liste der Tabellen mit Figur-Schlüssel und Doppel in den Daten (Laptop 08:49): chars, recipes, chains, books.cb, .gold, .flow, .flowStart, .inboxSnap,
+     .opened, .ownEq je 5 Schlüssel, davon 3 mit leerem Realm (2 Doppel + Bank-Figur nur neu); books.log: 1 970 Buchungen mit leerem Realm, 5 527 mit Realm.
+     ledger.stock (je Tag) ebenfalls zusammengeführt. AHAnalyzerPro.lua Markt-Schlüssel: hängt seit G1 (21.11.) NICHT vom Realm ab ("Alle|Fraktion") –
+     nur der Kommentar Z. 5507 sagt "Heimat-Realm"; unverändert richtig.
+   Belege mit den echten Daten (Nachbau zz_tb1b, Realm leer wie im Spiel, Uhr 26.11. 06:30):
+     0.65.405 (Gegenprobe): 5 Figuren (3 leer) · Gold (alle Figuren) 94g 18s 7c.
+     0.65.406: 3 Figuren (0 leer) · 46,6716 + 12,2430 + 1,5831 = 60g 49s 77c = Summe Charakterauswahl des Nutzers · seit gestern +0 · Buchungen 7 497 alle mit Realm.
+   Frage b) des Supervisors: Die ursprüngliche Meldung "+46g 67s 16c seit gestern" war NUR die 0 vom Ausloggen (alter Schlüssel des Priesters: 30,19 vor
+   und nach dem Stichtag = 0); "7 Tage +13g 63s 9c" kommt aus den Buchungen (alle Figuren, kein Figur-Schlüssel) und ist von der Verdoppelung nicht betroffen.
+   Einschränkung (ehrlich): Einstand (books.cb) wird addiert. Verkäufe zwischen 21.11. und heute, die Ware des ALTEN Schlüssels betrafen, fanden unter dem
+   neuen Schlüssel keinen Einstand – sie bleiben so gebucht; nach dem Zusammenführen kann deshalb alte Menge stehen bleiben, die schon verkauft ist
+   (Verdacht, zu messen: Lager-Abgleich SK1-f zeigt es).
+   Test T1036 PASS (synthetische Daten wie beim Nutzer: vorher 957 638 inkl. Doppel, nachher 604 977; Verlauf, Einstand 3/170/5, Fluss −8/7/1, Buchungen,
+   Sicherung, Lager, zweiter Lauf 0).
+3) AHS-TB1 Messzeile: Diagnose "GOLD-LOGOUT · GetMoney beim Ausloggen <Wert> · letzter echter Stand <Wert>".
+4) T459 (Entscheid 09:02): M2 (alte Signatur ohne Kopie) und M3 (C-Grenzen ohne Teiltexte, T1035) eingebaut; st.sigs/sold/ladder 2 919 Zeilen alt = neu.
+   T459 Scan 2 im Nachbau 15 929 -> 15 519 KB angelegt. T459 im Spiel jetzt mit zwei Werten: Abfall (≤ 30 MB Scan 1 / ≤ 10 MB ab Scan 2) und bleibender
+   Zuwachs (≤ 512 KB ab Scan 3, Scan 2 nur HINWEIS), Testhilfe collectgarbage("collect") vor und nach dem Scan (beschriftet).
+Nachbau 0.65.406: s42, s43, s6_chars_a/b, s341 PASS. FULL 0.65.406 folgt.
