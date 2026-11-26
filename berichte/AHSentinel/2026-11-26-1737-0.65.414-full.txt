@@ -1,0 +1,7 @@
+BERICHT AHSentinel – Gesamtlauf (FULL) 0.65.414 – umgesetzt, zur Prüfung
+Zeit: 26.11.2026 17:37 (Europe/Zurich) · Kopie /tmp/claude-0/ahs414 · allein: ja für Simulator-Läufe (pgrep vor dem Start leer, kein anderer Nachbau-Lauf).
+Offen gesagt: während des Laufs lief einmal addon_check über das ganze Repo (für AHS-CF7, ~2 Min., prüft Zips/shared-Tests, kein Simulator) – Zusatzlast.
+
+Ergebnis: 356 PASS, 67 FAIL. Gegen FULL 0.65.413: neu rot s216_feed_memory, neu grün keine.
+s216_feed_memory ist das bekannte Zeitszenario (AHS-S216): rot in 0.65.410/0.65.412, grün in 0.65.413, rot in 0.65.414 – es pendelt ohne Code-Änderung
+im Scan (0.65.414 ändert nur UI_Main: Vorbauen ab 5 s, Messzeilen). Bewertung: Streuung, kein neuer Fehler – Verdacht, zu prüfen mit AHS-S216.
