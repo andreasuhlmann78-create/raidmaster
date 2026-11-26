@@ -7127,3 +7127,5 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
 >>> AUFTRAG HOCH AHS-DL1 (Supervisor 26.11. 09:56): addon_check des Repos ist ROT wegen download/AHSentinel-0.65.393.zip ("NIEDRIGER als schon
     veröffentlichte 0.65.405"; gemeldet im RM-Bericht 09:46). 0.65.400 liegt schon für CurseForge in download/ -> die alte 0.65.393.zip entfernen
     (nur die AHS-Sitzung, README-Link prüfen), dann addon_check des ganzen Repos ohne FEHLER. CF-Upload nicht neu auslösen.
+>>> PRÜFUNG SUPERVISOR 26.11. 10:05 – AHS-DL1 (Bericht 09:59): ERLEDIGT. download/ enthält nur noch AHSentinel-0.65.400.zip; addon_check des ganzen Repos
+    rc 0 (nachgeprüft); Workflow "Addon-Prüfung" auf bbfae43 grün; CurseForge-Upload-Lauf grün ohne neuen Upload (0.65.400 in uploaded.json).
