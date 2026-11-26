@@ -1,0 +1,31 @@
+ProfessionSentinel 0.9.90 – umgesetzt, zur Prüfung
+Bezug: offen-professionsentinel.txt PS-P1 Teil 2; Prüfung 0.9.89 (26.11. 10:32: Rückfrage AHS-Daten je Figur).
+
+Rückfrage 0.9.89 "jede Stelle, die AHS-Daten je Figur liest, nutzt FindCharKey": PS liest von AHSentinel KEINE Daten je Figur. Durchgesehen:
+ alle Aufrufe über PriceSource (Price, RealPrice, GetMarketValue, CutPct, MinDeposit, Deposit, ListingDeposit, NetSale, RealValue,
+ DisenchantValue, Disenchanted, BestWay, SellSpeed, MinProfitPct, GoldPerHour, WorthUpTo, MaterialCost) gehen je Item bzw. kontoweit;
+ Alerts.lua (GetCurrent = AH-Liste), Disenchant.lua (Disenchant.GetValue, Sniper.SetTarget), Favor.lua (GetVendorCost je Item) ebenso.
+ Schlüssel je Figur kommen nur VON anderen Addons zu PS (KnownAPI: FindCharKey) und aus GuildSentinel/RaidMaster (Gilde, s. u.).
+ Gefunden und umgesetzt: Guild.lua zählte ein Mitglied, das GuildSentinel/RaidMaster mit UND ohne Realm melden, doppelt (GU.MemberCount;
+ wirkt auf "kennt niemand in der Gilde" ab 2 Mitgliedern). Jetzt einmal je Kurzname (die Hersteller-Listen nutzten den Kurznamen schon).
+ Abnahme 0.9.89 aus den Daten: Laptop 11:16 charsMerged 2, ein Schlüssel je Figur (3 Figuren, 0/70/38 Rezepte) – im Spiel zusammengeführt.
+
+PS-P1 Teil 2 – Stand:
+ - Beleg aus dem Spiel, ZWEITES Mal (Laptop 26.11. 11:09, v0.9.89): "heute ×3, Teil max 24.5 ms (darin 5 Stücke 24.3 ms, längstes 20.1 ms
+   Wollcape · übrig 0.2 ms · Speicher +1.1 MB · Bild davor 33 ms · 35 Bilder/s)". Wieder Wollcape, wieder im Hintergrund (35 Bilder/s).
+   Wollcape ist bei dieser Figur (Schneiderei 110) eines der ersten Rezepte nach dem Einloggen – Verdacht, zu messen: der erste
+   Rezeptpreis nach dem Einloggen trifft kalte Zwischenspeicher (PS und/oder AHSentinel).
+ - Nachbau mit denselben Daten, neu auch eingeloggt als diese Figur (--als 2402, Realm leer): Wollcape nie über 2 ms, kein Teil über 7,1 ms;
+   längster Teil zerlegt: 9 Stücke 6,7 ms, längstes 1,3 ms, darin fremd 0,9 ms (NetSale 0,6 ms ×5). Der Nachbau stellt die 20 ms NICHT nach
+   (Grenze: die Berufe der eingeloggten Figur kommen im Mock nicht aus GetProfessions – beim Einloggen wurden Verzauberer-Rezepte gerechnet).
+ - Darum noch NICHT geteilt: teilt man zwischen den Zutaten und die 20 ms sind EIN fremder Aufruf (z. B. AHSentinel.API.MaterialCost beim
+   ersten Aufruf), bringt das nichts; dann gehört der Befund zu AHSentinel. Umgesetzt (Jobs.lua, PriceSource.lua): im längsten Stück jeder
+   Aufgabe misst PS jeden fremden Aufruf (Name, Zeit, Anzahl; nur solange ein Stück läuft, Zwischenspeicher-Treffer zählen nicht) und
+   meldet die 3 längsten plus "eigener Code". Beispiel: "längstes 19.0 ms Wollcape [fremd 18.0 ms: Testquelle A 15.0 ms ×1, Testquelle B
+   3.0 ms ×2; eigener Code 1.0 ms]". Mit dem nächsten Einloggen (Diagnose-Export, auch ohne Testroutine) ist die Stelle belegt; dann
+   teilen (eigener Code) bzw. Befund an AHSentinel (fremder Aufruf) – als 0.9.91.
+Tests: T300 erweitert (fremde Aufrufe im Stück mit Name/Zeit/Anzahl und eigener Code; Aufruf ausserhalb des Stücks zählt nicht;
+ ausserhalb einer Aufgabe kein Stück), T301 erweitert (Mitglied mit/ohne Realm einmal, Hersteller einmal).
+ run_offline forever 256/0, era 237/0, retail 235/0, forever --lua51 256/0; check_actions OK; gen_locale_keys OK; yield_check OK;
+ Smoketest forever/era/retail AUTOTEST OK (FEHLER 29/26/26 = Mock-Grenzen, wie 0.9.89); addon_check OK ohne WARNUNG. Zip md5 fc66960073c0e3bc3f1db24b4c6f1e0d, Repo 72ac6e2.
+Werkzeug: tests/nachbau_echt.py --als <Zauber-ID> (einloggen als die gespeicherte Figur, die den Zauber kennt; Realm leer; Name bleibt im Lua).
