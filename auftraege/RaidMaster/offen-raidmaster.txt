@@ -1031,3 +1031,9 @@ UP-DOC2 MITTEL: LIESMICH.txt (DE) und README_EN.txt Abschnitt "Addons automatisc
     Offen bleibt: Einstellungen + Esc-Reihenfolge (Abnahme 3.0.48) beim nächsten Ingametest.
 >>> ABNAHME IM SPIEL 25.11. 15:41 (Supervisor 15:41): Nutzer bestätigt mit 3.0.49 – Einstellungen offen, dann /rm: RaidMaster liegt oben, Esc schliesst
     zuerst RaidMaster ("geht"). Damit ist die Abnahme 3.0.48/3.0.49 (RM-TAINT1, RM-K2, Einstellungen/Esc) im Spiel vollständig. Offen: RM-P1 (Hinweis).
+
+>>> PRÜFUNG SUPERVISOR 26.11. 09:56 – RaidMaster 3.0.50 (Bericht 09:46): ANGENOMMEN, Abnahme im Spiel offen. addon_check 3.0.50: OK; GoldSentinelTest.lua
+    in der ZIP gleich shared/ (v4) -> SHARED-T4 ERLEDIGT. Testwerkzeug-Fenster angemeldet und weicht aus (T208) – Hinweis 3.0.49 ERLEDIGT.
+    RM-P1: gemessen 0,75 ms je Kopie aller gesicherten Bereiche -> die 28 ms sind nicht die eigene Arbeit; Verdacht Speicherbereinigung im Bild –
+    belegt der nächste Ingametest mit der neuen Angabe "Speicher -X KB" beim längsten Bild. RM-P1 bleibt bis dahin offen.
+    Den roten Repo-Check (AHSentinel-0.65.393.zip) behebt die AHS-Sitzung (AHS-DL1) – richtig, nicht angefasst.

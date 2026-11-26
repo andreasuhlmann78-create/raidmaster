@@ -7113,3 +7113,17 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     gleicher Schlüssel, keine dritte Kopie). Vorschlag (Entscheid bei AHS, begründen): Realm leer -> Realm der Figur aus den gespeicherten Daten
     (eindeutiger alter Schlüssel mit gleichem Namen und gleicher Klasse), sonst ein fester Ersatz; Zusammenführung wie oben. Achtung: AHAnalyzerPro.lua
     Z. 5496 nimmt an, GetRealmName liefere den Heimat-Realm – diese Stelle ebenfalls prüfen. In die Diagnose: Zeile "REALM <leer|Name>".
+
+>>> PRÜFUNG SUPERVISOR 26.11. 09:56 – AHSentinel 0.65.406 (Bericht 09:49) + FULL 0.65.405 (09:50): ANGENOMMEN, Abnahme im Spiel offen.
+    addon_check 0.65.406 (Release-ZIP): OK. Code gelesen: Ch:Realm() = GetRealmName() wenn nicht leer (merkt homeRealm), sonst homeRealm, sonst der eine
+    Realm der Daten – stabil, auch wenn der Name zurückkommt. Zusammenführung mit Sicherung (tb1bBackup), alle Tabellen mit Figur-Schlüssel genannt und
+    gezählt – gut. Summe im Nachbau 60g 49s 77c = Charakterauswahl des Nutzers (09:33), Gegenprobe 0.65.405 = 94g 18s 7c – geht auf. Berichtigung
+    zum Bericht 09:13 angenommen. Einschränkung Einstand (books.cb) offen als Verdacht -> mit SK1-f messen.
+    FULL 0.65.405: 355/67, neu rot/grün keine – angenommen.
+    Abnahme im Spiel (0.65.406): Diagnose "REALM leer · Schlüssel-Realm CAMWOW …", "TB1-B" je Figur einmal, danach zweiter Laden 0; Tagesbilanz
+    "Gold (alle Figuren)" = 60g 49s 77c (± heutige Bewegungen); "GOLD-LOGOUT"-Zeile nach Aus-/Einloggen. T459 mit zwei Werten im nächsten Scan-Test.
+    HINWEIS NIEDRIG: Realm leer + Figuren auf einem zweiten Forever-Realm (Kommentar AHAnalyzerPro.lua: "Realm 6" und "Realm 2") -> alle landen unter
+    homeRealm; gleicher Name auf zwei Realms würde vermischt. Heute beim Nutzer nicht der Fall (ein Realm in den Daten) – nur im Code kommentieren.
+>>> AUFTRAG HOCH AHS-DL1 (Supervisor 26.11. 09:56): addon_check des Repos ist ROT wegen download/AHSentinel-0.65.393.zip ("NIEDRIGER als schon
+    veröffentlichte 0.65.405"; gemeldet im RM-Bericht 09:46). 0.65.400 liegt schon für CurseForge in download/ -> die alte 0.65.393.zip entfernen
+    (nur die AHS-Sitzung, README-Link prüfen), dann addon_check des ganzen Repos ohne FEHLER. CF-Upload nicht neu auslösen.
