@@ -1,0 +1,10 @@
+BS-DL1 HOCH – umgesetzt, zur Prüfung (keine neue Version).
+- download/BuffSentinel-0.9.66.zip und -0.9.67.zip mit git rm entfernt (Commit 69d8045a); in download/ nur noch BuffSentinel-0.9.68.zip.
+- README.md: Link stand noch auf 0.9.66.zip -> auf 0.9.68.zip geändert. Andere Verweise auf die alten Zips: nur in alten Berichten/Testberichten
+  (Text, kein Link zum Laden) – unverändert.
+- python3 addon-check/addon_check.py über das ganze Repo (vor dem Push): 0 × FEHLER, BuffSentinel-0.9.68.zip OK.
+- Workflow "Addon-Prüfung": mein Lauf 45857461534 wurde vom nächsten Push abgebrochen (cancelled, wie bei allen schnellen Folge-Pushs); der nächste
+  Lauf auf main mit meinem Commit (45857795766, Push 16:20 "AHSentinel 0.65.413 auf CurseForge") = success (grün).
+- Künftig: mein Veröffentlichungs-Skript entfernt im selben Commit alle älteren BuffSentinel-Zips aus download/ und zieht den README-Link nach.
+- Hinweis Supervisor 15:43 umgesetzt: Rechner- und Kontonamen anderer Spieler sowie echte Realm-Namen aus meinen Berichten 12:03 und 13:23
+  entfernt ("anderes Konto 1/2", "<Realm>"). In der Git-Geschichte stehen sie noch (alte Commits; nicht umgeschrieben – Entscheid beim Nutzer/Supervisor).
