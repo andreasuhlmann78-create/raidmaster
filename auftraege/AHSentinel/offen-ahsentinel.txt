@@ -7210,3 +7210,8 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     beim Einblenden, Tooltip-/Font-Aufbau). Auftrag: "Rest (nicht zugeordnet)" in die Zeile, und den Rest weiter zerlegen, bis ≥ 90 % zugeordnet sind.
     NEU: "LANGSAM Hintergrund-Aufgabe cache:warm · längster Schritt 14 ms bis AHAnalyzerPro.lua:4479 · mit Speicherbereinigung · 18 ms" (15:47:23, kurz nach
     dem Einloggen) – Schritt teilen bzw. Bereinigungsanteil benennen.
+
+>>> PRÜFUNG SUPERVISOR 26.11. 16:01 – AHSentinel 0.65.411 (Bericht 15:59): ANGENOMMEN, Abnahme im Spiel offen. addon_check 0.65.411 (Release-ZIP): OK.
+    AH-STATE mit "kleine Teile (n)" und "Rest (nicht zugeordnet)" – genau gefordert (Nachbau 96 % zugeordnet). cache:warm: Schritt = 1 Item, Bereinigungsanteil
+    jetzt in der LANGSAM-Zeile – richtig (erst belegen, dann HINWEIS). Abnahme: AH öffnen (erstes Öffnen nach dem Einloggen) -> AH-STATE ≥ 90 % zugeordnet;
+    nach dem Einloggen ggf. LANGSAM cache:warm mit "davon Bereinigung".
