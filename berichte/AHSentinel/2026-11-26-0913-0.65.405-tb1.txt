@@ -1,0 +1,20 @@
+AHSentinel 0.65.405 – AHS-TB1 (Tagesbilanz: 0 Gold beim Ausloggen) – umgesetzt, zur Prüfung (nur Discord)
+Zeit: 26.11.2026 09:13 (Europe/Zurich)
+addon_check 0.65.405: OK (FEHLER 0). ZIP: gleiche 112 Dateien wie 0.65.404. Geändert: Characters.lua, Books.lua, Extras.lua, Locale*.lua (3 neue
+Schlüssel in allen 10 Sprachen), TestRoutine.lua (T1034, Index), Version, CHANGELOG EN/DE. Ursache: Bericht tb1-ursache (heute).
+
+- Characters: GetMoney() = 0 beim Ein-/Ausloggen wird nie ein Goldpunkt und überschreibt keinen echten Punkt mehr; eine 0 aus PLAYER_MONEY zählt nur,
+  wenn sie 2 s später noch gilt (Punkt mit e = true). Alte 0-Punkte (ohne e) zählen in ChangeSince, DailyTotals, TotalMoney und der Figurenliste nicht
+  (letzter echter Stand gilt) – keine Daten gelöscht.
+- Books (books.gold): 0 aus GetMoney ist kein Gold-Stand (die Daten zeigten last = 0 nach jedem Ausloggen); übergebenes Gold wie bisher.
+- Zeile: "Gold (alle Figuren): …" und "(… seit gestern, heute ohne Handel)", wenn sich das Gold heute ohne Buchung ändert.
+- Naht Ch.GameMoney/BK.GameMoney statt GetMoney zu ersetzen (addon_check: Taint) – nur für die Testroutine.
+Belege mit den echten Daten des Nutzers (Laptop 08:49, Uhr auf 26.11. 06:30 gestellt, Nachbau zz_tb1):
+  0.65.404: "Gestern: nichts gebucht | 7 Tage: +13g 63s 9c | Gold: 58g 91s 46c (+46g 67s 16c seit gestern)" = genau das Bildschirmfoto.
+  0.65.405: seit gestern +0; Gold (alle Figuren) 94g 18s 7c = 46,6716 + 12,2430 + 5,0743 + 30,1918 g. Die zwei weiteren Figuren (zuletzt 20.11. mit
+  5,07 g und 30,19 g) waren vorher durch eine 0 vom Ausloggen versteckt (money = 0) – jetzt mit ihrem letzten echten Stand gezählt. Bitte im Spiel
+  prüfen, ob diese Figuren noch so viel Gold haben (sonst Verdacht: Gold seither ausgegeben/verschickt, ohne dass die Figur eingeloggt war – unmöglich,
+  also müsste der Stand stimmen).
+Tests: T1034 PASS (Priester-Muster seit gestern 0, Gesamt richtig, echte bestätigte 0 zählt = Gegenprobe, Ausloggen/Ereignis/Bestätigung, Buchhaltung
+  0 aus Spiel nein / 777 übergeben ja). Nachbau s42, s43, s6_chars_a/b, s13, s204, s206, s28, scan_flow, s341 PASS (s14, s24 waren schon rot).
+Offen: Messung im Spiel, ob GetMoney beim Ausloggen 0 liefert (Verdacht aus 5 Tagen Daten, 2 Figuren). FULL 0.65.405 folgt.

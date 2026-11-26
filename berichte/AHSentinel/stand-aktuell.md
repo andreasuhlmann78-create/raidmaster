@@ -1,6 +1,6 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 26.11.2026 09:00 · Version 0.65.404 (Discord, AHS-S313); CurseForge 0.65.400 (öffentlich, CF6 erledigt 08:01)
+## Stand 26.11.2026 09:13 · Version 0.65.405 (Discord, AHS-TB1); CurseForge 0.65.400 (öffentlich, CF6 erledigt 08:01)
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz – Testberichte "GSTEST1{…}", UI-Befunde db.uiFindingsLast).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
@@ -10,13 +10,13 @@ Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /h
  Eigene Szenarien /tmp/claude-0/sim/wowsim/scenarios_new.lua (zz_t459real, zz_tr1, zz_i6_sniper, zz_ui_buy).
 
 ## Gerade in Arbeit
-- AHS-TB1 HOCH: Tagesbilanz "+46 g seit gestern" bei "nichts gebucht" (Priester 10, Laptop) – Quelle jeder Münze belegen, dann beheben.
-- T459-Posten berichtet (Bericht t459-posten): Fragen (i) Netto vs Abfall, (ii) M2/M3 einbauen? Messkopie /tmp/claude-0/ahs_m. k) VERWORFEN.
-- s313 Grenze Budget+gemessener Schritt im Repo (Kappung auf Bild-Budget = meine Auslegung, Bestätigung offen).
+- AHS-TB1 HOCH: Ursache belegt (0 Gold beim Ausloggen als Goldpunkt), 0.65.405 behebt (T1034, zz_tb1 echte Daten). FULL 405 folgt.
+- T459: Entscheid 09:02 – zwei Werte (Abfall ≤10 240 ab Scan 2, bleibender Zuwachs ≤512 ab Scan 3), M2/M3 frei, M1 nicht. Messkopie /tmp/claude-0/ahs_m.
+- s313 Grenze Budget (≤ Bild-Budget) + gemessener Schritt: vom Supervisor bestätigt.
 
 ## Nächste Schritte
-1. AHS-TB1 a) belegen mit echten Daten (Laptop-Sicherung goldsentinel-daten), Bericht, dann b)/c).
-2. Nach Antwort Supervisor: M2/M3 (und M1?) einbauen.
+1. FULL 0.65.405 auf Kopie; dann M2/M3 einbauen + T459 auf zwei Werte umbauen (Testroutine collect vor/nach Scan, beschriftet).
+2. Weitere T459-Posten messen: Leitertexte, cache:today, learn:factor, core:realcheck.
 3. AHS-S216 (längstes Bild), AHS-BP1 MITTEL (bindType: Schurkengifte/Blendungspulver BoP), AHS-MK1 (nach Ingametest).
 4. Ingametest: zwei Vollscans in einer Sitzung (T459 Scan 2), Sandbox ohne sniper.armed.
 5. Regel CF 18:00: CF-Entscheid im Repo -> sofort Auswahl-Frage im Chat; bis 17:30 Stand melden; ohne Bestätigung sofort melden.
