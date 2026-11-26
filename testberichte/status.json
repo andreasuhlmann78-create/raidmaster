@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-26T08:04:52Z",
+ "ausgewertet": "2026-11-26T08:44:59Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -81,30 +81,19 @@
    ]
   },
   "LevelPilot": {
-   "berichte": 91,
+   "berichte": 95,
    "letzter_test": {
-    "id": "LevelPilot-1795679361-484fa7-1",
+    "id": "LevelPilot-1795681544-8b828b-3",
     "version": "3.13.17",
-    "time": 1795678227,
+    "time": 1795681544,
     "counts": {
      "client": 0,
-     "fehler": 1,
-     "ok": 0,
+     "fehler": 0,
+     "ok": 11,
      "uebersprungen": 0
     }
    },
-   "fehler_tests": [
-    {
-     "addon": "LevelPilot",
-     "art": "test",
-     "version": "3.13.17",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T393",
-     "name": "[LP-TR1] Routine vollständig (nicht nach dem Zeitlimit abgebrochen), Dauer je Bereich im Bericht",
-     "detail": "ergebnis: abgebrochen: Ausloggen während der Testroutine bei Reisen / Reisen | erwartet: fertig",
-     "bericht": "LevelPilot-1795679361-484fa7-1"
-    }
-   ],
+   "fehler_tests": [],
    "fehler_spiel": [
     {
      "addon": "LevelPilot",
@@ -149,6 +138,20 @@
       "forever 1.60.1 (Interface 16001)"
      ],
      "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:318: in function 'Report'\n[Interface/AddOns/LevelPilot/Comm.lua]:595: in function <Interface/AddOns/LevelPilot/Comm.lua:590>\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelSync.lua]:603: in function <Interface/AddOns/AHSentinel/GoldSentinelSync.lua:557>\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelSync.lua]:750: in function <Interface/AddOns/AHSentinel/GoldSentinelSync.lua:748>\n"
+    },
+    {
+     "addon": "LevelPilot",
+     "art": "spiel",
+     "wo": "Testroutine",
+     "msg": "Ausloggen während der Testroutine",
+     "anzahl": 1,
+     "versionen": [
+      "3.13.17"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:482: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:605: in function <Interface/AddOns/LevelPilot/Core.lua:600>\n[tail call]: ?\n[Interface/AddOns/LevelPilot/TestRoutine.lua]:12444: in function 'Abort'\n[Interface/AddOns/LevelPilot/TestRoutine.lua]:12753: in function <Interface/AddOns/LevelPilot/TestRoutine.lua:12747>\n..."
     }
    ]
   },
@@ -262,16 +265,6 @@
   },
   {
    "addon": "LevelPilot",
-   "art": "test",
-   "version": "3.13.17",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T393",
-   "name": "[LP-TR1] Routine vollständig (nicht nach dem Zeitlimit abgebrochen), Dauer je Bereich im Bericht",
-   "detail": "ergebnis: abgebrochen: Ausloggen während der Testroutine bei Reisen / Reisen | erwartet: fertig",
-   "bericht": "LevelPilot-1795679361-484fa7-1"
-  },
-  {
-   "addon": "LevelPilot",
    "art": "spiel",
    "wo": "Fire PLAN_CHANGED",
    "msg": "attempt to yield across metamethod/C-call boundary",
@@ -315,6 +308,20 @@
    "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:318: in function 'Report'\n[Interface/AddOns/LevelPilot/Comm.lua]:595: in function <Interface/AddOns/LevelPilot/Comm.lua:590>\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelSync.lua]:603: in function <Interface/AddOns/AHSentinel/GoldSentinelSync.lua:557>\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelSync.lua]:750: in function <Interface/AddOns/AHSentinel/GoldSentinelSync.lua:748>\n"
   },
   {
+   "addon": "LevelPilot",
+   "art": "spiel",
+   "wo": "Testroutine",
+   "msg": "Ausloggen während der Testroutine",
+   "anzahl": 1,
+   "versionen": [
+    "3.13.17"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:482: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:605: in function <Interface/AddOns/LevelPilot/Core.lua:600>\n[tail call]: ?\n[Interface/AddOns/LevelPilot/TestRoutine.lua]:12444: in function 'Abort'\n[Interface/AddOns/LevelPilot/TestRoutine.lua]:12753: in function <Interface/AddOns/LevelPilot/TestRoutine.lua:12747>\n..."
+  },
+  {
    "addon": "ProfessionSentinel",
    "art": "test",
    "version": "0.9.85",
@@ -346,11 +353,11 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 257,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.404-ed6bc51c81be.txt"
+    "anzahl": 258,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.405-24de880c7299.txt"
    },
    "BuffSentinel": {
-    "anzahl": 191,
+    "anzahl": 192,
     "neueste": "testberichte/diagnose/BuffSentinel/0.9.65-f6ad00e1f353.txt"
    },
    "GSMesstest": {
@@ -362,19 +369,19 @@
     "neueste": "testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt"
    },
    "GuildSentinel": {
-    "anzahl": 305,
+    "anzahl": 306,
     "neueste": "testberichte/diagnose/GuildSentinel/0.9.63-ea93aa0c2b9e.txt"
    },
    "LevelPilot": {
-    "anzahl": 195,
-    "neueste": "testberichte/diagnose/LevelPilot/3.13.17-321ca4da5bec.txt"
+    "anzahl": 196,
+    "neueste": "testberichte/diagnose/LevelPilot/3.13.17-c404c66491bd.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 278,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.87-f70fed84e386.txt"
+    "anzahl": 279,
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.88-704ae20a7f44.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 255,
+    "anzahl": 256,
     "neueste": "testberichte/diagnose/ThreatSentinel/2.5.30-fd96cf472bbb.txt"
    }
   },
