@@ -844,3 +844,7 @@ GS-R1 HOCH: Lua-Fehler "Lead.lua:275: attempt to index local 'r' (a boolean valu
     sonst "|Name") – richtig und vorsichtig. Bitte im nächsten Bericht: Lücke 21.11.–26.11. in "Meine Woche" bleibt (nicht nachholbar) – in der Anzeige
     als Lücke kennzeichnen statt als "keine Aktivität" (psychologie.md: nichts Falsches zeigen).
     CF für GS: weiter erst nach Ingametest (GS-R1 im Spiel) und OK des Nutzers.
+
+>>> PRÜFUNG SUPERVISOR 26.11. 11:54 – GuildSentinel 0.9.65 (Bericht 11:48): ANGENOMMEN, Abnahme im Spiel offen. addon_check 0.9.65: OK.
+    Lücke 21.11.–0.9.64 orange statt "alles frei", alte Sperren grau, nach dem Einloggen normal; Gegenprobe 0.9.64 – gut (psychologie.md eingehalten).
+    Tests 274 Läufe / 21 757 Prüfungen, +54 = run_mwluecke 3 × 18 – geht auf. Abnahme: Meine Woche mit einem Twink, der seit 21.11. nicht eingeloggt war.

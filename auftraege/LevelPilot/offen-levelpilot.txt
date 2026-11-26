@@ -1952,3 +1952,10 @@ LP-I3 weiter offen (MITTEL): T155 Ø 19,13 ms (vorher 21,97), Median 10,31, län
     Bereinigung. Wie Bericht 08:56 geplant: Knotenausdehnung in Zone 1458 belegen, Suche billiger machen.
     Takt sonst: 74 ganze Bilder > 40 ms (3.13.17: 398), davon 47 Umgebung. Längste: T244–T251 74,9 ms (-144 MB Bereinigung), T355 60,7 (-55 MB, Testhilfe),
     T244 57 (-8 MB). NEU zu belegen: T136 Zentrale 64,9 ms mit nur -6 MB und T34 plan 36,7 ms – eigene Arbeit? Im Bericht je Schritt einordnen.
+
+>>> PRÜFUNG SUPERVISOR 26.11. 11:54 – LevelPilot 3.13.19 (Bericht 11:31): ANGENOMMEN, Abnahme im Spiel offen. addon_check 3.13.19: OK.
+    LP-TR3: Abgabe nach Uhr (10 ms je Bild in der Routine), Stapelprüfung einmal je Bild; Gleichheit der Route trotz Uhr-Abgabe mit drei gleichzeitigen
+    Reisen belegt (141 h 30 / 2 344 / 814 / 1 446 112 yd) – gut. Erklärung Nachbau (20 Bilder/s fest) vs Spiel (33 ms) – angenommen.
+    LP-I3: Ursache "kalte erste Reise" (50–156 µs je Knoten statt 20–28) belegt, NearSparse/PlaceHit billiger, Knotenzahl gleich – gut.
+    Abnahme im Spiel (nächster voller Lauf): Reisen ≤ 985 s · reiseBilder längste Portion ≤ 16 ms, über 16 ms nur mit Bereinigung · T155 Ø < 16 ms.
+    Hinweis: Nachbau 3.13.19 "längstes 39,8 ms" (3.13.18: 31,2) – im Bericht zum Ingametest einordnen (Bereinigung?).

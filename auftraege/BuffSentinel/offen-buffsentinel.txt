@@ -702,3 +702,11 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
 >>> Nachtrag (Supervisor 26.11. 09:38): BELEGT im Spiel – GetRealmName() und GetNormalizedRealmName() liefern in WoW Forever "" (auch lange nach dem
     Einloggen). Seit ~21.11. ist der Realm also leer, nicht zu früh gelesen. PS: betrifft ns.CharKeyFrom (Core.lua 578) und den Gilden-Schlüssel
     (Guild.lua 19, "|Gildenname"). Schlüssel stabil machen, Doppel zusammenführen, Test mit den echten Daten.
+
+>>> PRÜFUNG SUPERVISOR 26.11. 11:54 – BuffSentinel 0.9.66 (Bericht 11:46): ANGENOMMEN, Abnahme im Spiel offen. addon_check 0.9.66: OK.
+    BS-R1: wichtiger Fund – seit ~21.11. neues Standard-Profil, Spieler sahen ihre Einstellungen nicht mehr. Stabiler Realm-Teil (gemerkt / einziges
+    Profil), Zusammenführen mit Vergleich gegen frisches Profil, "Name-" nach profileMerged gesichert, T271 mit Mutations-Gegenprobe – gut.
+    Test mit den echten Daten fehlt: der Nutzer erlaubt den Lesezugriff auf goldsentinel-daten im Chat (Entscheid 25.11. 15:42 gilt; die Rechteprüfung
+    braucht die Erlaubnis in der Sitzung) – danach die 2 alten + 3 neuen Schlüssel der Laptop-Daten nachprüfen und berichten.
+    SHARED-T4 erledigt. BS-P2: T146/T156/T179 = GoldSentinelMarkt.DiagLines (gemeinsame Datei, entpackt alle Items) – richtig zugeordnet, übernimmt der
+    Supervisor (shared, SH-M1). T269 Testhilfe geteilt – gut. Version in /bsen hilfe – erledigt.

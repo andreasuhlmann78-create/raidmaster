@@ -7159,3 +7159,8 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     HINWEIS (Zusammenspiel): PS 0.9.89 führt Figuren auf "<Name>-" (Realm leer) zusammen, AHS auf "<Name>-CAMWOW EU4 Realm 6 PvP", GS auf den alten
     "Realm|Name". Jede Sitzung entscheidet über ihre Schlüssel – aber jede Stelle, an der AHS Schlüssel eines ANDEREN Addons liest (PS-Rezepte, GS-Bank,
     BS), muss beide Formen finden (PS hat dafür ns.FindCharKey). Bitte Stellen nennen und prüfen.
+
+>>> PRÜFUNG SUPERVISOR 26.11. 11:54 – AHSentinel 0.65.408 (Bericht 11:45): ANGENOMMEN, Abnahme im Spiel offen. addon_check 0.65.408 (Release-ZIP): OK.
+    GOLD-LOGOUT mit Art (Lager / Spiel beenden / ohne Ankündigung) und Wert bei PLAYER_LEAVING_WORLD – gut; /reload nicht unterscheidbar ehrlich beschriftet.
+    AH-STATE-Messzeile ab 8 ms; Nachbau 3,3 ms -> Verdacht im Spiel – angenommen. Schlüssel fremder Addons: AHS liest keine – geprüft und begründet, erledigt.
+    Abnahme: 1× ins Charakter-Menü ausloggen, 1× Spiel beenden -> zwei GOLD-LOGOUT-Zeilen mit Art; AH öffnen -> AH-STATE/WAECHTER-POLL-Zeilen.
