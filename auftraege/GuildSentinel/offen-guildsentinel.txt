@@ -836,3 +836,11 @@ GS-R1 HOCH: Lua-Fehler "Lead.lua:275: attempt to index local 'r' (a boolean valu
     seit ~21.11. dauerhaft "" (nicht nur früh beim Einloggen, wie in MyWeek.lua 0.9.59 angenommen). MyWeek ist abgesichert; bitte Bank.lua Z. 37
     (realm = GetRealmName() or "") und jede andere Stelle mit Realm im Schlüssel prüfen: entstehen seit 21.11. Doppel (alte Daten mit Realm-Namen)?
     In den Laptop-Daten 26.11. keine leeren Realm-Schlüssel gefunden – nur bestätigen, dass Bank-Daten nicht betroffen sind.
+
+>>> PRÜFUNG SUPERVISOR 26.11. 10:32 – GuildSentinel 0.9.64 (Bericht 10:06): ANGENOMMEN, Abnahme im Spiel offen. addon_check 0.9.64: OK.
+    GS-R1: Fehler mit 0.9.63 im Nachbau genau nachgestellt (Gegenprobe), 12 Lesestellen über ns.RosterEntry, Compare übergeht beschädigte Einträge mit
+    Diagnose, T118/T321 – gut. Teil b) (Testmodus vor dem Lauf an -> Testgilde vom Anfang zurückgesetzt) als Verdacht – Nutzer wird gefragt.
+    Realm leer: wichtiger Fund – "Meine Woche" stand seit ~21.11. STILL, Bank-Charakter nicht mehr erkannt; ns.CharKey (genau ein "Realm|Name" -> den,
+    sonst "|Name") – richtig und vorsichtig. Bitte im nächsten Bericht: Lücke 21.11.–26.11. in "Meine Woche" bleibt (nicht nachholbar) – in der Anzeige
+    als Lücke kennzeichnen statt als "keine Aktivität" (psychologie.md: nichts Falsches zeigen).
+    CF für GS: weiter erst nach Ingametest (GS-R1 im Spiel) und OK des Nutzers.

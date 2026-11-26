@@ -7142,3 +7142,20 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     Figuren): 60g 49s 77c (+0 seit gestern)" = Summe der Charakterauswahl (09:33) EXAKT -> AHS-TB1 und AHS-TB1-b im Spiel BESTANDEN (Gold alle Figuren,
     seit gestern). Buchhaltung 30 Tage nachgerechnet: Verkauft 175g 63s 15c − Eingesetzt 128g 14s 52c − Gebühren 26s 13c + Entzauber-Ausbeute
     1g 46s 61c = 48g 69s 11c = angezeigter Gewinn – geht auf. Offen nur noch GOLD-LOGOUT (Aus-/Einloggen) und "zweites Laden ohne TB1-B".
+
+>>> INGAMETEST Teil 3 (Supervisor 26.11. 10:32, Protokoll 0.65.407 vom Nutzer 10:26): zweites und drittes Laden (10:12:45 v0.65.406, 10:26:33 v0.65.407)
+    OHNE neue "TB1-B"-Zeile -> Zusammenführung läuft genau einmal: BESTANDEN. AHS-TB1-b im Spiel abgeschlossen (bis auf Einstand-Verdacht SK1-f).
+    GOLD-LOGOUT – zwei Messungen, NICHT gleich:  10:12:38 "GetMoney beim Ausloggen 466716 · letzter echter Stand 466716"  (echter Wert!)
+                                                 10:26:19 "GetMoney beim Ausloggen 0 · letzter echter Stand 466716"
+    -> Die 0 kommt NICHT bei jedem Ausloggen. Verdacht, zu messen: 0 nur beim Beenden des Spiels (oder Verbindungsende), echter Wert beim Ausloggen ins
+    Charakter-Menü bzw. /reload. Nutzer wird gefragt, was er jeweils gemacht hat. In die Messzeile die Art aufnehmen (PLAYER_LOGOUT vs. PLAYER_LEAVING_WORLD,
+    /reload erkennbar?), damit die nächste Messung es selbst sagt. Der Fix (0 beim Ausloggen nie als Stand) bleibt in beiden Fällen richtig.
+    Weiter langsam im selben Protokoll: Watcher.lua:974 BROWSE_RESULTS 26 ms (10:13:10) -> AHS-W1 mit Messzeile 0.65.407 (nächster Test);
+    NEU: "LANGSAM Empfänger UI_Main.lua:5263 von AH_STATE · 19 ms" (10:12:48, AH öffnen) -> in AHS-W1 mitnehmen (gleiches Vorgehen: messen, teilen).
+>>> PRÜFUNG SUPERVISOR 26.11. 10:32 – FULL 0.65.406 (10:16) und 0.65.407 (Bericht 10:20): ANGENOMMEN. FULL 355/67, neu rot/grün keine; s313 längstes Bild 13,4 ms,
+    davon Bereinigung 10,7, eigene Arbeit 2,7 ms (≤ 4,7) – PASS nachvollzogen. 0.65.407: Code-Pfad PollRound beschrieben, Bewertung schon als Aufgabe
+    "watcher:round"; Nachbau 0,1 ms -> Ursache im Spiel (GetBrowseResults in C oder Bereinigung) ehrlich als Verdacht; Messzeile WAECHTER-POLL ab 8 ms – gut.
+    Abnahme: nächster Wächter-Test im Spiel mit den WAECHTER-POLL-Zeilen.
+    HINWEIS (Zusammenspiel): PS 0.9.89 führt Figuren auf "<Name>-" (Realm leer) zusammen, AHS auf "<Name>-CAMWOW EU4 Realm 6 PvP", GS auf den alten
+    "Realm|Name". Jede Sitzung entscheidet über ihre Schlüssel – aber jede Stelle, an der AHS Schlüssel eines ANDEREN Addons liest (PS-Rezepte, GS-Bank,
+    BS), muss beide Formen finden (PS hat dafür ns.FindCharKey). Bitte Stellen nennen und prüfen.

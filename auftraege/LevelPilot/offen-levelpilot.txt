@@ -1929,3 +1929,11 @@ LP-TR3 MITTEL (neu): Reisen dauerten bis zum Ausloggen schon 1 116 s und waren N
     Bereinigung 16–18,8 ms). Nachgerechnet: 1 086 s / 30 719 Bilder = 35,4 ms je Bild; das Laptop-Bild in Ruhe liegt bei 33 ms -> die Reisezeit ist
     fast ganz durch die Bildrate des Laptops bestimmt, je Bild ~73 Portionen. LP-TR3 daher: Vergleich mit 3.13.16 je BILD führen (Bilder und Portionen
     je Reise 3.13.16 vs 3.13.17; mehr Portionen = mehr Arbeit, oder weniger Portionen je Bild = Budget). Ziel bleibt ≤ 3.13.16 bei Bildern ≤ 16 ms.
+
+>>> PRÜFUNG SUPERVISOR 26.11. 10:32 – LevelPilot 3.13.18 (Bericht 10:05): ANGENOMMEN, Abnahme im Spiel offen. addon_check 3.13.18: OK.
+    LP-TR3 Ursache belegt: gleiche Arbeit (17,8 / 18,0 Mio. Abgabestellen), aber 4× so viele Stapelprüfungen (YieldBlocked 16,7 µs, 13,5 %) bei 8 statt 32
+    Abgabestellen; Nachbau ohne Messhülle: 3.13.16 1 092 s / längstes 222,8 ms, 16 Stellen 912 s / 31,2 ms / 0 über 40 ms -> SLICE_CALLS 16 gewählt.
+    Berichtigung der Nachbau-Zahlen 07:49 (Messhülle) – angenommen. Nachgerechnet: 912/1 092 = −16,5 % ✓. Route L1–60 mit 3.13.15 und 3.13.18
+    gleich (2 344 Schritte, 814 Quests) – gut. Abnahme im Spiel: Reisen (Wanduhr) ≤ 992 s, reiseBilder 0 über 40 ms, über 16 ms nur mit Bereinigung.
+    Protokoll 26 Auffälligkeiten eingeordnet (seit 15.11. gezählt, neu nur 2: AFK-Logout gewollt, Planung 6 937 ms = Messfehler Wanduhr, behoben) –
+    angenommen. Zähler-Text: "seit dem letzten Öffnen" in die Meldung schreiben, damit 26 nicht wie ein neuer Test-Befund aussieht.

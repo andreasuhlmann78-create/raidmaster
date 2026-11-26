@@ -943,3 +943,12 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
 >>> Nachtrag (Supervisor 26.11. 09:38): BELEGT im Spiel – GetRealmName() und GetNormalizedRealmName() liefern in WoW Forever "" (auch lange nach dem
     Einloggen). Seit ~21.11. ist der Realm also leer, nicht zu früh gelesen. PS: betrifft ns.CharKeyFrom (Core.lua 578) und den Gilden-Schlüssel
     (Guild.lua 19, "|Gildenname"). Schlüssel stabil machen, Doppel zusammenführen, Test mit den echten Daten.
+
+>>> PRÜFUNG SUPERVISOR 26.11. 10:32 – ProfessionSentinel 0.9.89 (Bericht 10:15): ANGENOMMEN, Abnahme im Spiel offen. addon_check 0.9.89: OK.
+    Befund in den Daten (5 Schlüssel für 3 Figuren, doppelt in "bekannt bei"/"fehlt bei" und Rezept-Hinweisen) belegt; MergeCharKeys mit voller
+    Sicherung (charsMerged), Rezepte vereint und unabhängig nachgezählt (A 70, B 38), zweiter Lauf 0, Gegenproben mehrdeutig/andere Spielversion/
+    Realm zurück – gut. FindCharKey/FindGuild nur lesend für fremde Schlüssel – richtig.
+    Zusammenspiel: AHS führt auf "<Name>-<Realm>" zusammen (gemerkter Realm), PS auf "<Name>-" – beide Richtungen müssen beim Lesen fremder Schlüssel
+    gefunden werden: FindCharKey deckt es ab; bitte bestätigen, dass jede Stelle, die AHS-Daten je Figur liest (z. B. Bestände, Entzaubern), FindCharKey nutzt.
+    Abnahme im Spiel: Diagnose "DATEN Figur-Schlüssel zusammengeführt (Realm leer): 2" beim ersten Laden, danach 0; Tooltip "bekannt bei" ohne Doppel.
+    Danach wie geplant 0.9.90 = PS-P1 Teil 2.
