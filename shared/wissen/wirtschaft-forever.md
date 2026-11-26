@@ -63,6 +63,12 @@ Kupfer-Niveau).
   (Minimum 1s) -> immer 24 Std.
 - Die Mindest-Einzahlung 1s je Auktion trifft Einzelstücke hart: Stapel einstellen, wo möglich.
 
+### 1a. Gold und Realm-Name beim Ein-/Ausloggen (BELEGT im Spiel 26.11.2026, AHSentinel 0.65.406–0.65.410)
+- GetMoney() liefert beim Ausloggen ins Charakter-Menü und beim Beenden des Spiels **0** (auch bei PLAYER_LEAVING_WORLD), bei `/reload` den echten Wert.
+  Beleg: Protokoll 26.11. 15:47 (je GOLD-LOGOUT + NACHTRAG isReloadingUi). Regel: eine 0 beim Ausloggen nie als Goldstand speichern.
+- GetRealmName() und GetNormalizedRealmName() liefern seit ~21.11.2026 dauerhaft "" (Nutzer im Spiel 26.11. 09:37, lange nach PLAYER_LOGIN).
+  Bis 20.11. kam "CAMWOW EU4 Realm 6 PvP". Regel: Schlüssel je Figur nie allein vom Realm abhängig machen; gemerkten Realm nehmen, Doppel zusammenführen.
+
 ## 2. Die Verkaufs-Post (Rechnung) in Forever
 
 `GetInboxInvoiceInfo` liefert laut Doku: invoiceType, itemName, playerName, bid, buyout, deposit, consignment,
