@@ -1,0 +1,43 @@
+BuffSentinel – Bericht an die Prüf-Sitzung · 0.9.66-bs-r1-realm-shared-t4
+Datum: 26.11.2026, 11:46 (aus date)
+
+Version 0.9.66 – veröffentlicht (download/, announce/ Discord). Umgesetzt, zur Prüfung.
+
+HINWEIS MITTEL Realm leer (AHS-TB1-b) -> bei BuffSentinel BS-R1 genannt
+- Betroffen: JA. Einziger Figur-Schlüssel: BS:ProfileKey() = UnitName .. "-" .. GetRealmName() (Core.lua) = Profil je Figur in
+  BuffSentinelDB.profiles. Seit ~21.11. "Name-" -> InitDB legte ein neues Profil mit Standardwerten an: Spieler sahen ihre Einstellungen
+  (Positionen, Grössen, Töne, Einträge) nicht mehr. Doppelte Zählung/Anzeige gibt es sonst keine (BuffSentinel summiert nichts je Figur).
+  Names.lua IsMe (eigene Sync-Nachrichten): vergleicht zuerst nur den Namen – mit leerem Realm weiter richtig, nichts geändert.
+- Stabiler Schlüssel (BS.RealmPart): Realm da -> merken (g.lastRealm); leer -> g.lastRealm; unbekannt -> Realm des einzigen vorhandenen
+  Profils "Name-<Realm>" (mehrere -> leer, nichts geraten). Über BS.API.GetRealmName (Test ersetzt es, die globale Funktion bleibt unberührt).
+- Zusammenführen (BS.MergeEmptyRealmProfile, beim Laden): Vergleich mit einem frischen Profil nach dem Laden (Standard + Bereinigung +
+  Ton-Migrationen, BS:FreshProfile). Wert im Profil "Name-" weicht davon ab -> seit 21.11. vom Spieler geändert -> gewinnt; Schlüssel
+  ohne Standard (Positionen, eigene Einträge) nur, wo das alte Profil nichts hat; sonst bleibt der alte Wert. NICHTS GELÖSCHT: das
+  Profil "Name-" wird unverändert nach BuffSentinelDB.profileMerged["Name-"] verschoben.
+- T271 (Nachbau 8/8 OK): Realm-Teil 4 Fälle; InitDB mit leerem Realm, altem Profil (eigene Werte) + Profil "Name-" (frisch, seit
+  21.11. Grösse und eine Fensterlage geändert): Grösse neu, Ruhezonen/Ton/alte Fensterlage alt, neue Fensterlage dazu, Sicherung
+  bit-gleich (FirstDiff nil); Gegenprobe ohne "Name-" -> nichts zusammengeführt. GEGENPROBE per Mutation ("neu gewinnt immer"):
+  T271 FEHLER "merge".
+- Test mit den ECHTEN Daten: NICHT gemacht. Der Zugriff auf goldsentinel-daten wurde in dieser Sitzung von der Rechteprüfung
+  abgelehnt (Erlaubnis stand nur im Repo-Text, nicht im Chat). Der Nutzer kann ihn im Chat erlauben; dann prüfe ich die 2+3 Schlüssel
+  der Laptop-Daten nach. Bis dahin gilt: Daten nachgestellt wie im Hinweis beschrieben.
+
+SHARED-T4 – GoldSentinelTest.lua Version 4 unverändert aus shared/ kopiert (addon_check: shared gleich, keine Warnung "veraltet").
+
+BS-P2 – Bilder über 16 ms (Ingametest 0.9.65):
+- T146 28,2 ms: Diagnose-Prüfung ruft BS.DiagText und BS.DiagExport – beide enthalten GoldSentinelMarkt.DiagLines (gemeinsame Datei,
+  entpackt alle gespeicherten Items; belegt in T156 "markt 20,7/27,4 ms", alle eigenen Teile ≤ 0,5 ms). Dieselbe Ursache wie T156
+  (24,7) und T179 (24,4). Spielweg ja (Befehl /bsen protokoll, Ausloggen; einmalig, nie im Kampf-Takt). Eigener Teil schon in
+  Portionen. Befund GoldSentinelMarkt beim Supervisor (Bericht 0.9.65) – an der gemeinsamen Datei ändere ich nichts.
+- T269 21,3 ms: Testhilfe – die Prüfung spielte 25 Kämpfe synchron (Timer nachgestellt) in einem Bild. Jetzt nach jedem Kampf ein Bild.
+  Im Spiel ist jeder Messschritt ohnehin ein eigenes Bild (C_Timer.After 0).
+- T25 159 / T27 88 ms: über viele Bilder verteilt (je Klick/Schritt ein Bild), kein einzelnes Bild > 16 ms laut Bericht – nur genannt.
+
+Kleiner Wunsch Version: /bsen hilfe zeigt als 2. Zeile "Version 0.9.66"; im Entwicklermodus zusätzlich beim Einloggen. T98 (Hilfe ohne
+Deutsch unter enUS) weiter OK.
+
+Hinweise Blueposts (NIEDRIG): Paladin "Oath of Light" – in BuffSentinel keine feste Dauer hinterlegt (Suche ohne Treffer), nichts zu
+ändern. Druiden-Talentrücksetzung: beim Testen bekannt (Spec-Erkennung über Talentpunkte).
+
+Belege: Nachbau 8/8 PASS (249 forever, 248 sonst), addon_check 0.9.66 OK (1 WARNUNG Lua-Syntax ohne lupa, wie bisher).
+Offen: T270 (Gruppe), echte Daten für T271, Auswertung Messdaten BS-M1 (Supervisor).
