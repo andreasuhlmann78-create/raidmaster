@@ -1,0 +1,63 @@
+LevelPilot 3.13.18 – Bericht an die Prüf-Sitzung: LP-TR3, LP-I3 (Stand), reiseBilder im Chat/Teilbericht, Protokoll 26 Auffälligkeiten,
+langsame Stücke, LP-R3 aus dem Upload
+Stand 26.11.2026 10:05 · umgesetzt, zur Prüfung
+Zip: announce/levelpilot__levelpilot-3.13.18.LevelPilot.zip (md5 ab177f6f374ec2ed5338682398a06000, 2 844 107 Bytes)
+
+Prüfungen vor dem Push
+- addon_check: OK. Gemeinsame Dateien GoldSentinel*.lua mit cmp gleich shared/.
+- Offline-Routine 40 von 40 ohne FEHLER, Testroutine 5 von 5 ohne FEHLER.
+- Nachbau ganze Routine Priester 10: 0 FEHLER (OK 323), T381 gleich, T395 OK, reiseBilder längstes 13,2 ms, 0 über 16 ms.
+- Gegenprobe Route: Reise 1–60 am Stück mit 3.13.15 und 3.13.18 genau gleich (141 h 30, 2344 Schritte, 814 Quests, 1 446 112 yd).
+
+1. LP-TR3 (Reisen im Spiel 1 086 s mit 3.13.17 gegen 992 s mit 3.13.16)
+- Je Bild verglichen (Upload 3.13.16 / 3.13.17): Bilder 29 804 / 30 719 (+3 %), Portionen 556 006 × 32 / 2 246 419 × 8 Abgabestellen =
+  17,8 / 18,0 Mio. Abgabestellen (gleiche Arbeit), Zeit je Bild 33,3 / 35,4 ms.
+- Ursache belegt im Nachbau: Jede Portion endet mit einer Prüfung des Stapels auf C-Grenzen (LP.YieldBlocked, debugstack/traceback):
+  16,7 µs je Prüfung, 13,5 % der Rechenzeit der Reise. Mit 8 statt 32 Abgabestellen 4-mal so viele Prüfungen -> weniger echte Arbeit je
+  Bild -> mehr Bilder.
+- Nachbau lange Reise L1–60 (AREA=B, LONG=1), OHNE Messhülle, gleiche Daten:
+  - 3.13.16 (32, Budget 8 ms):   Reisen 1 092 s, längstes Bild 222,8 ms, über 16 ms 274, über 40 ms 21
+  - 3.13.17-Code mit 8:          Reisen 1 023 s, längstes 28,4 ms, über 16 ms 51 (47 mit Speicherbereinigung), über 40 ms 0
+  - mit 16 (3.13.18):            Reisen   912 s, längstes 31,2 ms, über 16 ms 76 (68 mit Speicherbereinigung), über 40 ms 0
+  (Die Nachbau-Zahlen im Bericht 07:49 – 1 060 / 1 163 s – kamen aus Läufen MIT Messhülle, deren Kosten mit der Zahl der Portionen wachsen;
+  darum dort +10 %. Ohne Hülle ist schon 3.13.17 schneller als 3.13.16.)
+- Gewählt: V.SLICE_CALLS 16 (Reisen −16 % gegen 3.13.16, kein Bild über 40 ms; 8 Bilder über 16 ms ohne Bereinigung in ~18 000).
+- Im Spiel bitte prüfen: Reisen (Wanduhr) <= 992 s und reiseBilder.
+
+2. reiseBilder auch im Teilbericht (fehlte, Prüfung 08:55) und als Zeile "Reisen: …" in der Chat-Zusammenfassung (9 Sprachen).
+
+3. HINWEIS 09:38 – "Das Fehler-Protokoll hat 26 neue Auffälligkeit(en)" – eingeordnet (Upload 09:33, LevelPilotDB.protocolLog)
+- Die Zahl zählt alle Probleme seit dem letzten Öffnen von /lp protokoll (seen = 15.11.), nicht seit dem Test. Nachgezählt: error 2,
+  brake 18, sandbox 2, stuck 1, nopath 1, step 1, slow 1 = 26.
+- Seit dem Ingametest neu nur zwei:
+  - 26.11. 08:49 FEHLER "Testroutine: Ausloggen während der Testroutine" – Folge des AFK-Ausloggens, gewollt (LP-SB1-c).
+  - 26.11. 09:27 LANGSAM "Planung dauerte bis zu 6937 ms" – Messfehler, im Code belegt: Protocol.lua mass P.Replan mit der Wanduhr; die
+    Planung direkt nach der Routine lief in Portionen (Testroutine/Auftrag), die Pausen zwischen den Bildern zählten mit. Behoben: ohne
+    Pausen (TR.pausedMs, LP.yieldPaused, j.paused). Ob es genau dieser Lauf war (Routine-Nachlauf oder zurückgestellter Auftrag): Verdacht,
+    nicht nachgestellt.
+- Die übrigen 24 sind älter (25.11.: Notbremse "Routenberechnung" ×18 und Sandbox ×2 aus den Reisen 3.13.13/3.13.15 – beides bekannt und
+  behoben bzw. offener Punkt Notbremse; 25.11. 09:40 Zeitlimit 1800 s mit 3.13.14).
+
+4. Langsame Stücke (Takt, Ingametest 3.13.17) – Einordnung
+- Mit Speicherbereinigung: T244 79,4 (−120 MB), T355 75,8 (−135 MB), T251 50,2 (−23 MB), T144 13,2 (−34 MB), T358 9,5 – Testhilfen,
+  die viele Testdaten anlegen; die Bereinigung des Spiels fällt in dieses Bild.
+- Ohne Bereinigung über 16 ms (24 Schritte, Feld "stuecke"): T285 39,3 · T294 38,0 · T352 36,9 · T136 36,8 · T289 34,5 · T291 32,5 ·
+  T292 32,3 · T21 31,7 · T386 30,5 · T34 28,9 · T264 28,4 · T221 22,8 · T270 22,6 · T30 21,2 · Sandbox 19,6 · T234 19,4 · T295 18,6 ·
+  T263 18,4 · T128 18,0 · T222 16,2 · T51 16,1.
+  Auffällig: 13 davon legen in einem Stück je +2,8–5,6 MB an (T285, T294, T136, T289, T292, T21, T386, T34, T264, T221, T270, T30,
+  T128). Verdacht, zu messen: gemeinsame Ursache (Texte/Tabellen der Anzeige – T264/T386 bauen Protokolltexte, T136/T285 die Zentrale).
+  Diese Stücke treten im Nachbau so nicht auf; nächster Schritt: je Stück Stapel aus langeStuecke (nur > 40 ms erfasst) – Grenze für die
+  Mitschrift auf 25 ms senken, damit der nächste Ingametest die Stellen zeigt.
+- Ganze Bilder 200–729 ms "bei Reisen" mit eigener Portion 0,0 ms: Zeit ausserhalb der Routine und ausserhalb der Reise-Bilder
+  (reiseBilder längstes 18,8 ms) – Spiel/Hintergrund (Laptop im Hintergrund, Bild in Ruhe 33 ms).
+
+5. LP-I3 (T155 im Spiel Ø 21,97 ms) – weiter offen
+- Abtastung der Wegsuche von CheckFirstPath (Undercity -> Tirisfal) im Nachbau nach Funktionen: Graph:NearSparse 14,4 %, D.PlaceHit 12,6 %,
+  PathRawImpl 10,1 %, Terrain:Unknown 7,7 %, LP:Yield/YieldBlocked zusammen ~10 %.
+- D.PlaceHit: Vorprüfung mit Rechtecken eingebaut (Ergebnis beweisbar gleich; Gegenprobe Route 1–60 gleich). Messung danach: 19 Suchen
+  291 ms statt 296 ms – wirkt kaum (die Abtastung mit Haken überschätzte den Anteil). Ehrlich: LP-I3 ist damit NICHT gelöst.
+- Nächster Schritt: NearSparse in der Suche (Umkreissuche je Knoten) und die Zahl der Abgabeprüfungen in der Wegsuche messen und senken;
+  Speicher je Planung (682 KB im Spiel) dabei mitsenken.
+
+6. LP-R3 aus dem Upload: T84 im Spiel "Normal 141,4 h" – Nachbau 3.13.18 1–60 141 h 30 (gleiche Route wie 3.13.15). Die Stufenzeiten (L17)
+   stehen nicht im Testbericht; im Nachbau mit den Daten vom 26.11.: L17 bei 8 h 40 mit allen Versionen 3.13.12–3.13.18.
