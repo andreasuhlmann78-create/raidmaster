@@ -1,0 +1,28 @@
+Version 0.9.67 – veröffentlicht (download/, announce/ Discord). Umgesetzt, zur Prüfung.
+
+Zugriff: Der Nutzer hat am 26.11. 11:57 im Chat erlaubt, goldsentinel-daten zu lesen. Nur gelesen (flacher Klon, nichts committet/gepusht).
+Daten nur lokal verwendet; hier keine Namen, keine Realm-Daten über die Server-Nummer hinaus.
+
+BS-R1 MIT ECHTEN DATEN (aktuell/<PC>/forever/<Konto>/BuffSentinel.lua, Stand des Repos 26.11.):
+- PC A: 4 Profile (3 × "<Name>-CAMWOW EU4 Realm 2 PvP", 1 × "<Name>-"), PC B (Laptop): 2 Profile ("<Name>-CAMWOW EU5 Realm 8 PvP", "<Name>-").
+  Je ein Doppel (gleiche Figur mit und ohne Realm). Kein lastRealm, keine profileMerged vorhanden (alte Version).
+- Nachbau mit genau diesen Dateien (Lua 5.1, GetRealmName = "" wie im Spiel belegt, UnitName = die Figur mit dem Doppel, PLAYER_LOGIN):
+  PC A: Schlüssel = "<Name>-CAMWOW EU4 Realm 2 PvP", zusammengeführt ja, lastRealm gesetzt, Profile 4 -> 3, Sicherung profileMerged["<Name>-"] da.
+        Blätter: aus "Name-" 21 (Minimap-Winkel, 5 neu gelernte Fähigkeiten, 2 Schalter je Skillung, Grösse Cooldowns, 12 Positionswerte),
+        aus alt 3, gleich 67, Standard/Migration 18. Alte Blätter ohne Wert: 0. Die anderen 2 Figuren unverändert.
+  PC B: Schlüssel = "<Name>-CAMWOW EU5 Realm 8 PvP", zusammengeführt ja, Profile 2 -> 1, Sicherung da. Blätter neu 14, alt 4, gleich 53, Standard 18.
+        Alte Blätter ohne Wert: 0.
+- BEFUND aus den echten Daten (in 0.9.66 noch falsch): Ein seit 21.11. verschobener Knopf (Laptop, Gedankenschlag: 2 von 4 Positionswerten
+  anders) wäre an die ALTE Stelle zurückgesprungen – Regel "Schlüssel ohne Standard nur auffüllen" galt auch für Positionen.
+  Positionen schreibt nur der Spieler (Ziehen: Display.lua 79/429, Core.lua 748; Grösse ändern rechnet sie um: Display.lua 228) ->
+  0.9.67: pos/btnPos/winPos-Einträge aus "Name-" gewinnen. Andere Schlüssel ohne Standard (z. B. Einstellungen je Skillung, gelernte
+  Einträge) weiter nur auffüllen (schreibt teils das Addon selbst). Danach im echten Nachbau: Gedankenschlag neu, die nur im alten Profil
+  verschobenen Knöpfe alt (4 Werte), nichts verloren.
+- T271 erweitert: Fensterlage aus "Name-" gewinnt (99), alte Fensterlage ohne Gegenstück bleibt, Einstellung je Skillung (ohne Standard)
+  bleibt alt. Nachbau 8/8 PASS.
+
+Umgebung: Diese Sitzung lief neu an (Arbeitsordner geleert); Quelle aus download/BuffSentinel-0.9.66.zip wiederhergestellt (bit-gleich
+mit dem veröffentlichten Stand), Nachbau jetzt mit Lua 5.1 (lupa) statt 5.4 – näher am Spiel; 8/8 PASS wie zuvor. addon_check
+jetzt ohne Warnung (Lua-Syntax geprüft).
+Hinweis Locales: Der Generator lag im gelöschten Arbeitsordner; neue Texte ab jetzt direkt in Locales.lua (EN/DE gleich viele Schlüssel,
+T-Prüfungen der Locales laufen weiter).
