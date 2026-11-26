@@ -1937,3 +1937,18 @@ LP-TR3 MITTEL (neu): Reisen dauerten bis zum Ausloggen schon 1 116 s und waren N
     gleich (2 344 Schritte, 814 Quests) – gut. Abnahme im Spiel: Reisen (Wanduhr) ≤ 992 s, reiseBilder 0 über 40 ms, über 16 ms nur mit Bereinigung.
     Protokoll 26 Auffälligkeiten eingeordnet (seit 15.11. gezählt, neu nur 2: AFK-Logout gewollt, Planung 6 937 ms = Messfehler Wanduhr, behoben) –
     angenommen. Zähler-Text: "seit dem letzten Öffnen" in die Meldung schreiben, damit 26 nicht wie ein neuer Test-Befund aussieht.
+
+>>> INGAMETEST 26.11. 10:48–11:08 (Supervisor 26.11. 11:09) – LevelPilot 3.13.18 "/lp testroutine alles", Laptop, PRIEST 10, Undercity (Chat-Text):
+    VOLLSTÄNDIG: OK 330 · FEHLER 1 (T155) · 1 177 s · Sandbox OK · echte Aktionen 0 · Fehlerzähler 0 · T261 655 ms < 1 000 OK.
+    LP-TR3 Zeit: Reisen 985 s ≤ 992 s (3.13.16) ✓ – nachgerechnet −0,7 % gegen 3.13.16, −9,3 % gegen 3.13.17 (1 086 s). Der Nachbau sagte −16 %
+    (912 s): im Spiel nur −0,7 % -> Abweichung Nachbau/Spiel begründen (Bildrate Laptop 33 ms fest: 985 s / 29 440 Bilder = 33,5 ms je Bild – die Reise
+    ist durch die Bildzahl begrenzt, nicht durch die Rechenzeit).
+LP-TR3 weiter offen (MITTEL) – RÜCKSCHRITT bei den Bildern: reiseBilder "längstes 23,4 ms, über 16 ms 106 (davon mit Bereinigung 7), über 40 ms 0,
+    längste Portion 23,4 ms" gegen 3.13.17 "18,8 ms, über 16 ms 9 (1), längste Portion 15,1 ms". 99 Bilder > 16 ms OHNE Bereinigung (Nachbau sagte 8 in
+    ~18 000). Für −9 % Zeit 11× mehr ruckelnde Bilder – so nicht annehmbar (leistung.md: Ruckeln vor Tempo). Auftrag: Portion nach ZEIT begrenzen
+    (Budget mit debugprofilestop je Portion, z. B. 8 ms, Stapelprüfung nur alle n Aufrufe oder nur am Portionsende), statt fester SLICE_CALLS-Zahl;
+    Ziel: Reisen ≤ 992 s UND längste Portion ≤ 16 ms, über 16 ms nur mit Bereinigung. Den Nachbau mit Laptop-Bildrate (33 ms je Bild) rechnen.
+LP-I3 weiter offen (MITTEL): T155 Ø 19,13 ms (vorher 21,97), Median 10,31, längste 83,6 ms (#15), #6 73,2, #2 43,3 – alle Zone 1458 (Undercity), ohne
+    Bereinigung. Wie Bericht 08:56 geplant: Knotenausdehnung in Zone 1458 belegen, Suche billiger machen.
+    Takt sonst: 74 ganze Bilder > 40 ms (3.13.17: 398), davon 47 Umgebung. Längste: T244–T251 74,9 ms (-144 MB Bereinigung), T355 60,7 (-55 MB, Testhilfe),
+    T244 57 (-8 MB). NEU zu belegen: T136 Zentrale 64,9 ms mit nur -6 MB und T34 plan 36,7 ms – eigene Arbeit? Im Bericht je Schritt einordnen.
