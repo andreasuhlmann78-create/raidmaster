@@ -7164,3 +7164,18 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     GOLD-LOGOUT mit Art (Lager / Spiel beenden / ohne Ankündigung) und Wert bei PLAYER_LEAVING_WORLD – gut; /reload nicht unterscheidbar ehrlich beschriftet.
     AH-STATE-Messzeile ab 8 ms; Nachbau 3,3 ms -> Verdacht im Spiel – angenommen. Schlüssel fremder Addons: AHS liest keine – geprüft und begründet, erledigt.
     Abnahme: 1× ins Charakter-Menü ausloggen, 1× Spiel beenden -> zwei GOLD-LOGOUT-Zeilen mit Art; AH öffnen -> AH-STATE/WAECHTER-POLL-Zeilen.
+
+>>> INGAMETEST 26.11. 12:44 (Supervisor 26.11. 12:45) – AHSentinel 0.65.408, Protokoll vom Nutzer:
+    AHS-W1 BELEGT: "WAECHTER-POLL gesamt 8,9 ms · GetBrowseResults 8,8 ms (4 500 Angebote, +3 691 KB) · Rest 0,0 ms" -> die Zeit liegt im Spiel-Aufruf
+    GetBrowseResults (ganze Liste mit 4 500 Einträgen, 3,7 MB neue Tabellen je Aufruf), nicht in unserer Lua-Arbeit. Die 44/26/18 ms von 10:10–10:13
+    passen dazu (grössere Liste und/oder Bereinigung durch die 3,7 MB Abfall). Massnahme a) umsetzen: GetBrowseResults nicht je BROWSE_RESULTS-Ereignis,
+    sondern nur wenn nötig (z. B. erst wenn die Seite vollständig ist / höchstens 1× je READ_GAP, "dirty" sammeln); prüfen, ob die Runde nur die NEUEN
+    Einträge braucht. Ziel: kein Bild > 16 ms durch den Wächter, Speicherzuwachs je Runde messen (+KB) und senken. Gegenprobe: gleiche Treffer wie vorher.
+    AHS-W1 Teil 2 BELEGT: "AH-STATE AH geöffnet · gesamt 17,2 ms · Kern/Reiter 0,6 · Fenster 15,9 (neu geöffnet, Reiter overview) · Statuszeile 0,8" ->
+    das erste Öffnen des Hauptfensters mit Reiter Übersicht kostet 15,9 ms (Nachbau 3,0 ms -> Faktor 5, wie PS-P1: kalte Item-Daten/Frames im Client?).
+    Massnahme: Fenster sofort leer zeigen, Inhalt des Reiters als Aufgabe mit Budget nachladen; die Teile des Reiters (Kacheln, Preisanstiege/-rückgänge
+    Listen) einzeln messen und nennen.
+    GOLD-LOGOUT (alle Zeilen seit 10:12, Art noch nicht gemessen – 0.65.408 war bei keinem Ausloggen aktiv): echter Wert 10:12:38 und 11:09:21 (je ~7 s
+    später wieder eingeloggt = Charakter-Menü); 0 um 10:26:19 (neue Version geladen = Spiel neu gestartet), 10:26:46 (13 s nach dem Einloggen, kein neuer
+    Sitzungseintrag -> vermutlich /reload) und 11:16:10 (nächste Sitzung 12:44 = Spiel beendet). Verdacht, zu messen: Charakter-Menü = echter Wert;
+    Spiel beenden und /reload = 0. Die Messzeile mit Art (0.65.408) bestätigt es beim nächsten Ausloggen.
