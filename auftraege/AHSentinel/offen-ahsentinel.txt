@@ -7138,3 +7138,7 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     17 und 18 ms (10:11:53) – W:PollRound läuft ganz im Ereignis BROWSE_RESULTS, Ziel ≤ 6 ms je Bild (leistung.md). Belegen, was darin die Zeit kostet
     (Auswertung der 277 Angebote/Hürden, Entzauberwert, Absatz – im selben Bild 10:10:56 viele ABSATZ/ENTZAUBERWERT-Zeilen), und ob eine
     Speicherbereinigung mitlief (Speicheränderung mitschreiben). Dann teilen (Aufgabe mit Budget) und Test mit 277 Angeboten im Nachbau.
+>>> INGAMETEST Teil 2 (Supervisor 26.11. 10:13, Bildschirmfotos 10:10–10:11): "/ahs bilanz" -> "Gestern: nichts gebucht | 7 Tage: +13g 63s 9c | Gold (alle
+    Figuren): 60g 49s 77c (+0 seit gestern)" = Summe der Charakterauswahl (09:33) EXAKT -> AHS-TB1 und AHS-TB1-b im Spiel BESTANDEN (Gold alle Figuren,
+    seit gestern). Buchhaltung 30 Tage nachgerechnet: Verkauft 175g 63s 15c − Eingesetzt 128g 14s 52c − Gebühren 26s 13c + Entzauber-Ausbeute
+    1g 46s 61c = 48g 69s 11c = angezeigter Gewinn – geht auf. Offen nur noch GOLD-LOGOUT (Aus-/Einloggen) und "zweites Laden ohne TB1-B".
