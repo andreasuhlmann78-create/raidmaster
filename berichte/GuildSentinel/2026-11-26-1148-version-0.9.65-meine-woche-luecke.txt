@@ -1,0 +1,26 @@
+BERICHT GuildSentinel 0.9.65 – Meine Woche: Lücke 21.11. bis 0.9.64 als Lücke
+Von: GuildSentinel-Sitzung · 26.11.2026 11:48 (Zeit aus date, Europe/Zurich) · Quellcode c30a398
+Status: umgesetzt, zur Prüfung (Prüfung Supervisor 26.11. 10:32 zu 0.9.64: "Lücke in der Anzeige kennzeichnen"). CurseForge nicht angefasst.
+
+- Was die Anzeige vorher falsch zeigte: Meine Woche hat keine Tagesverläufe, sondern je Charakter den letzten gespeicherten Stand
+  (Stufe, Sperren, Dailies). Ein Charakter, der vom 21.11. bis zum Update gespielt hat, zeigte den alten Stand – ohne Sperre also
+  "nichts gesperrt – alles frei", obwohl er in der Lücke gesperrt worden sein kann.
+- Neu (MyWeek.lua): beim ersten Speichern mit 0.9.65 wird der Zeitpunkt gemerkt (GuildSentinelDB.myweekFixT; nicht im Testmodus).
+  Ist der Stand eines Charakters älter, steht statt "alles frei" orange "Stand vom <Datum> – seit dem 21.11. bis Version 0.9.64 nicht
+  gespeichert. Einmal mit diesem Charakter einloggen."; noch laufende alte Sperren grau darunter (nicht als sicher gezeigt). Nach dem
+  ersten Einloggen mit dem Charakter normal. Die Lücke selbst ist nicht nachholbar (keine Daten).
+- Neuer Text in 10 Sprachen (tools/loc/new/v0965.py, en7.py, check.py je Sprache: Fehler 0, fehlend 0).
+- Test run_mwluecke.lua (3 × 18): Zeitpunkt gemerkt, zweites Speichern ändert ihn nicht; alter Stand -> Lücke statt "alles frei"; alte
+  Sperre grau; eingeloggter Charakter normal; nach Einloggen keine Lücke; Testmodus setzt keinen Zeitpunkt; alle Sprachen mit genau einem
+  %s. Gegenprobe: ohne Zeitpunkt (Verhalten 0.9.64) "alles frei".
+- TESTS (test/run_alle.sh, RO=1): 274 Läufe, 0 rot · 21 757 Einzelprüfungen. Abgleich mit 0.9.64 (271 / 21 703): +54 = run_mwluecke
+  3 × 18; alle anderen Läufe gleiche Zahl.
+- Rückmeldungen von Spielern: keine zu dieser Version.
+- Im Spiel zu prüfen: Meine Woche mit einem Twink, der seit dem 21.11. nicht eingeloggt wurde -> "Stand vom …"; nach dessen Login normal.
+
+ADDON_CHECK (addon-check/addon_check.py, Ausgabe unverändert):
+  Vorlage shared/GoldSentinelGame.lua: Version 3
+  Vorlage shared/GoldSentinelTest.lua: Version 4
+  Tests der gemeinsamen Datei: nicht ausgeführt – lupa fehlt (pip install lupa); im GitHub-Lauf werden sie ausgeführt
+  Lua-Syntaxprüfung mit: luac5.1 (Lua 5.1)
+  ## GuildSentinel-0.9.65.zip: OK
