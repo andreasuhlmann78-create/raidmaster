@@ -1598,7 +1598,8 @@ end
 
 local function CreateWindow()
 	local W = 560
-	local f = UI.Frame(UIParent, W, 740)
+	-- 3.0.50 (Supervisor 25.11. 14:28): angemeldet, damit es wie die anderen Fenster offenen Spielfenstern ausweicht (UI.OnShow)
+	local f = UI.Frame(UIParent, W, 740, "Testwerkzeug")
 	UI.Skin(f)
 	f:SetFrameStrata("HIGH")
 	f:SetClampedToScreen(true)
@@ -1919,7 +1920,7 @@ local function CreateWindow()
 		local text = T.selfTest and (T.selfTest .. "\n\n") or ""
 		box:SetText(text .. table.concat(T.log, "\n"))
 	end
-	f:SetScript("OnShow", function() T.Refresh() end)
+	UI.OnShow(f, function() T.Refresh() end)
 	return f
 end
 

@@ -329,7 +329,7 @@ function R.Breathe(limit)
 	if not (debugprofilestop and R.running and R.portionStart and coroutine.running()) then return end
 	if (R.noYield or 0) > 0 then return end                 -- unter pcall (Körper von t:Check): kein Bild abgeben
 	local d = debugprofilestop() - R.portionStart
-	if d > (R.maxPortion or 0) and not R.IsSingle(tostring(R.current or "?")) then R.maxPortion, R.maxPortionAt = d, tostring(R.current or "?") end
+	if d > (R.maxPortion or 0) and not R.IsSingle(tostring(R.current or "?")) then R.maxPortion, R.maxPortionAt, R.maxPortionMem = d, tostring(R.current or "?"), nil end
 	if d > (limit or R.PORTION_MS) then coroutine.yield("wait", 0) end
 end
 
@@ -603,12 +603,15 @@ local function DeepPortions(v, seen, n)
 	local c = {}
 	seen[v] = c
 	local keys = {}
-	for k in pairs(v) do keys[#keys + 1] = k end
+	for k in pairs(v) do
+		keys[#keys + 1] = k
+		if #keys % 200 == 0 then R.Breathe(R.PRE_MS) end   -- RM-P1 (3.0.50): auch das Sammeln grosser Tabellen in Portionen
+	end
 	for _, k in ipairs(keys) do
 		local x = v[k]
 		if x ~= nil then c[Deep(k, seen)] = DeepPortions(x, seen, n) end
 		n[1] = n[1] + 1
-		if n[1] % 20 == 0 then R.Breathe(R.PRE_MS) end      -- 3.0.33: Ingame 19:38 "K Daten sichern 15 ms" bei 200 Einträgen je Prüfung
+		if n[1] % 10 == 0 then R.Breathe(R.PRE_MS) end      -- 3.0.33: alle 20; RM-P1 (3.0.50): alle 10 Einträge prüfen
 	end
 	return c
 end
@@ -5308,9 +5311,13 @@ local function Resume(token, ...)
 	if R.token ~= token then return end
 	R.portionStart = debugprofilestop and debugprofilestop() or nil
 	R.portions = (R.portions or 0) + 1
+	local mem0 = collectgarbage("count")
 	local res = pack(coroutine.resume(R.co, ...))
 	if R.portionStart and debugprofilestop then
 		local d = debugprofilestop() - R.portionStart
+		-- RM-P1 (3.0.50, Ingametest 3.0.49: "K Daten sichern" 28 ms): Speicher vor/nach dem Bild. Sinkt er, obwohl die Routine nur
+		-- Speicher belegt, hat die Speicherbereinigung von Lua in diesem Bild gearbeitet (ihr Schritt läuft in unserer Zeit mit).
+		local memDelta = collectgarbage("count") - mem0
 		if R.env then R.env.ownAcc = R.env.ownAcc + d end      -- RM-UMG1: eigene Arbeit in diesem Bild
 		local at = tostring(R.current or "?")
 		-- leistung.md Regel 8: Gesamtdauer je Schritt getrennt vom längsten Bild
@@ -5323,7 +5330,7 @@ local function Resume(token, ...)
 			-- NP-RM30-1 (Entscheid Supervisor 17.11.): erster Aufbau von Fenster/Seiten wird einzeln gemessen und getrennt genannt
 			if R.singlePortions then R.singlePortions[at] = math.max(R.singlePortions[at] or 0, d) end
 		else
-			if d > (R.maxPortion or 0) then R.maxPortion, R.maxPortionAt = d, at end
+			if d > (R.maxPortion or 0) then R.maxPortion, R.maxPortionAt, R.maxPortionMem = d, at, memDelta end
 			if d > R.PORTION_MS and R.bigPortions then R.bigPortions[at] = math.max(R.bigPortions[at] or 0, d) end
 		end
 	end
@@ -5446,6 +5453,7 @@ function R.Run(only)
 	-- 3.0.24 (TU6): welche Prüfungen in diesem Lauf vorkamen (für "Regressionen: n von m")
 	R.seen = {}
 	R.slow, R.maxPortion, R.portions, R.maxPortionAt, R.bigPortions, R.singlePortions, R.stepTotal = {}, 0, 0, nil, {}, {}, {}
+	R.maxPortionMem = nil
 	do
 		local oCheck, oSkip, oClient = t.Check, t.Skip, t.Client
 		t.Check = function(self, id, ...)
@@ -5809,8 +5817,11 @@ function R.Summary(t)
 	table.sort(steps, function(a, b) return a.ms > b.ms end)
 	local stepParts = {}
 	for i = 1, math.min(8, #steps) do stepParts[i] = string.format("%s %.0f ms in %d Bildern", steps[i].at, steps[i].ms, steps[i].frames) end
-	local portionLine = string.format("PORTIONEN: %d Bilder, längstes Bild %.1f ms (%s), über %d ms: %d (ohne einzeln gemessene)%s; einzeln gemessen: %s; Prüfungen länger als %d ms am Stück: %s; Schritte über 16 ms gesamt: %s",
-		R.portions or 0, R.maxPortion or 0, R.maxPortionAt or "-", R.PORTION_MS, #big,
+	-- RM-P1 (3.0.50): beim längsten Bild die Speicheränderung – negativ = die Speicherbereinigung lief in diesem Bild mit
+	local memNote = R.maxPortionMem and string.format(" · Speicher %+.0f KB%s", R.maxPortionMem,
+		R.maxPortionMem < 0 and " = Speicherbereinigung im Bild" or "") or ""
+	local portionLine = string.format("PORTIONEN: %d Bilder, längstes Bild %.1f ms (%s%s), über %d ms: %d (ohne einzeln gemessene)%s; einzeln gemessen: %s; Prüfungen länger als %d ms am Stück: %s; Schritte über 16 ms gesamt: %s",
+		R.portions or 0, R.maxPortion or 0, R.maxPortionAt or "-", memNote, R.PORTION_MS, #big,
 		#big > 0 and (" – " .. table.concat(bigParts, ", ")) or "",
 		#single > 0 and table.concat(single, ", ") or "keine", R.PORTION_MS, #slow > 0 and table.concat(slow, ", ") or "keine",
 		#stepParts > 0 and table.concat(stepParts, ", ") or "keine")

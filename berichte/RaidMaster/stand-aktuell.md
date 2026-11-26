@@ -1,9 +1,9 @@
 # Stand RaidMaster-Sitzung
 
-## Stand 25.11.2026 13:43 · Addon 3.0.49 · Uploader 2.3.28 (Doku neu)
-- Addon 3.0.49 (RM-K2): Ausweichen wirkt jetzt (SetScript löschte HookScript; erstes Öffnen ohne OnShow); T208 echter Ablauf;
-  Nachbildung harness.lua wie das Spiel (HookScript/SetScript, sichtbar beim Bau, GetRect). UP-DOC2 Doku + Anleitung im Spiel.
-  RM-CI2: Nutzer entschied Token für den Bot (Bericht ci2-entscheid) -> Discord-Projekt. 3.0.48 im Spiel: TAINT1 bestätigt.
+## Stand 26.11.2026 09:46 · Addon 3.0.50 · Uploader 2.3.28
+- Addon 3.0.50: SHARED-T4 (GoldSentinelTest v4), Testwerkzeug weicht aus, RM-P1 Messung Speicherbereinigung je Bild. Bericht 0946.
+- 3.0.49 angenommen; im Spiel RM-K2 und Einstellungen/Esc abgenommen (25.11.). RM-CI2 beim Discord-Projekt (D-CI2).
+- Ganze Prüfung rot durch AHSentinel-0.65.393.zip (nicht meins).
 - Addon 3.0.47: 3.0.46 (Taktik-Zahlen) zurückgenommen – Entscheid des Nutzers 08:24 "nicht löschen, auf korrekte Angaben warten".
   Taktik-Zahlen erst ändern, wenn der Supervisor bestätigte Werte überträgt (Prüfliste research/raidmaster-taktikzahlen.md, ab 09.12.).
 - Addon 3.0.45 gepusht (L3/L4 als Prüfungen T204/T205, nur Testroutine). Uploader 2.3.27/2.3.28 und RM-CI1 vom Supervisor angenommen 06:53.
@@ -36,7 +36,7 @@
 - PC: bei der Frage im Uploader-Fenster Taste j (Abnahme UP-UPD1). Laptop UP-AUTO1 belegt.
   Beim nächsten Update (2.3.28) per j: altes Fenster schliesst sich -> Abnahme UP-UPD1-a/b und UP-UPD1-c (stand.json "update").
 - Uploader 2.3.20 auf allen 4 liefernden Rechnern ganz entpacken + neu starten (ältere werden abgewiesen, auch 2.3.19).
-- RaidMaster 3.0.49: /reload, Charakterfenster öffnen, dann /rm -> kein Überlappen; /rm testroutine k mit offenem Charakterfenster
+- RaidMaster 3.0.50: /rm testroutine alles -> PORTIONEN-Zeile zeigt beim längsten Bild die Speicheränderung (RM-P1)
 - RM-CI2: Token erstellt 13:58 (Nutzer verwahrt ihn); Auftrag an Discord-Sitzung gegeben 14:00 – Eintrag auf dem Bot-Server folgt dort Ingametest: /gsdev an, /rm testroutine alles, /reload.
 
 ## Entscheide des Nutzers seit letztem Stand

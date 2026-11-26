@@ -23,6 +23,12 @@ MAIN FEATURES
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
 
+WHAT'S NEW IN 3.0.50 – test tool and measurement (developer only)
+- The test tool window moves aside from open game windows like the other RaidMaster windows.
+- Test routine: measures whether Lua's garbage collector ran in the longest frame; "back up data" yields a frame more often.
+- Shared file GoldSentinelTest.lua version 4 (no "integer overflow" errors in the test report for very large numbers).
+- Nothing changes for players.
+
 WHAT'S NEW IN 3.0.49 – moving aside now really works
 - 3.0.48 was meant to move RaidMaster windows away from open game windows (e.g. character frame) – in the game it did not:
   the main window replaced the move-aside function while being built, and on the very first opening after login it was never

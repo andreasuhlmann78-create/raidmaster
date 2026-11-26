@@ -11,6 +11,12 @@ INSTALLATION
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
 
+NEU IN 3.0.50 – Testwerkzeug und Messung (nur für den Entwickler)
+- Das Testwerkzeug-Fenster weicht wie die anderen RaidMaster-Fenster offenen Spielfenstern aus.
+- Testroutine: misst beim längsten Bild, ob die Speicherbereinigung von Lua darin lief; "Daten sichern" gibt öfter ein Bild ab.
+- Gemeinsame Datei GoldSentinelTest.lua Version 4 (keine "integer overflow"-Fehler im Testbericht bei sehr grossen Zahlen).
+- Für Spieler ändert sich nichts.
+
 NEU IN 3.0.49 – Ausweichen wirkt jetzt wirklich
 - 3.0.48 sollte RaidMaster-Fenster vor offenen Spielfenstern (z. B. Charakterfenster) ausweichen lassen – im Spiel wirkte es nicht:
   das Hauptfenster ersetzte die Ausweich-Funktion beim Bau, und beim allerersten Öffnen nach dem Einloggen wurde sie nie

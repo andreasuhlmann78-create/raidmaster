@@ -37,7 +37,7 @@ Berichte anderer Spieler (ab Version 2, braucht GoldSentinelSync 2 im selben Cli
     /gstest – Stand anzeigen · /gstest teilen an|aus · /gstest sammler an|aus
 ]]
 
-local VERSION = 3
+local VERSION = 4
 
 local existing = _G.GoldSentinelTest
 if type(existing) == "table" and type(existing.version) == "number" and existing.version >= VERSION then return end
@@ -140,7 +140,12 @@ local function Encode(v, depth)
     elseif tv == "boolean" then return v and "true" or "false"
     elseif tv == "number" then
         if v ~= v or v == math.huge or v == -math.huge then return "null" end
-        if v % 1 == 0 and v > -1e15 and v < 1e15 then return string.format("%d", v) end
+        -- v4 (25.11.2026, AHS-OVF1): WoW wirft bei string.format("%d") mit Zahlen ausserhalb von 32 Bit "integer overflow".
+        -- Bis 32 Bit wie bisher (gleicher Text), darueber "%.0f" (exakt bis 2^53).
+        if v % 1 == 0 and v > -1e15 and v < 1e15 then
+            if v >= -2147483648 and v <= 2147483647 then return string.format("%d", v) end
+            return string.format("%.0f", v)
+        end
         return string.format("%.6g", v)
     elseif tv == "string" then return JStr(v)
     elseif tv == "table" then
