@@ -7085,3 +7085,24 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     Offen: a) Nutzer prüft im Spiel, ob die zwei weiteren Figuren noch ~5,07 g und ~30,19 g haben (gefragt). b) GOLD-LOGOUT-Messzeile mit 0.65.406
     (Verdacht "GetMoney beim Ausloggen = 0" im Spiel belegen). c) Abnahme: am nächsten Tag Zeile "seit gestern" ohne Handel ≈ 0, "Gold (alle Figuren)"
     = Summe der Figurenliste.
+
+>>> BEFUND HOCH AHS-TB1-b (Supervisor 26.11. 09:35) – Annahme 0.65.405 von 09:31 für "Gold (alle Figuren)" ZURÜCKGENOMMEN: 94g 18s 7c ist FALSCH.
+    Beleg 1 (Nutzer, Bildschirmfotos Charakterauswahl 09:33): Priester 10 = 46g 67s 16c, Krieger 30 = 12g 24s 30c, Krieger 1 (Bank) = 1g 58s 31c,
+    Schurke 1 = kein Gold. Echte Summe = 46,6716 + 12,2430 + 1,5831 + 0 = 60,4977 g -> 60g 49s 77c. AHS 0.65.405 zeigt 94,1807 g (+33,68 g zu viel).
+    Beleg 2 (Daten Laptop 26.11. 08:49, AHSentinelDB.chars, Namen hier weggelassen): DIESELBEN Figuren stehen ZWEIMAL drin:
+      Krieger "<Name>-CAMWOW EU4 Realm 6 PvP" Punkte 05.11.–20.11., letzter echter Stand 5,0743 g  |  Krieger "<Name>-" (Realm LEER) ab 21.11. 07:33, 12,2430 g
+      Priester "<Name>-CAMWOW EU4 Realm 6 PvP" 06.11.–20.11., letzter echter Stand 30,1918 g      |  Priester "<Name>-" (Realm leer) ab 21.11. 05:40, 46,6716 g
+      Bank-Krieger "<Name>-" (Realm leer) ab 21.11., 3 Punkte, alle 0 -> 0.65.405 zählt 0 statt 1,5831 g.
+    Die "zwei weiteren Figuren" aus dem Bericht 09:13 sind also die ALTEN Schlüssel derselben zwei Figuren (Realm-Name bis 20.11. "CAMWOW EU4 Realm 6
+    PvP", seit 21.11. leer). 5,07 + 30,19 = 35,27 g doppelt gezählt; 1,58 g (Bank) fehlen: 94,18 - 35,27 + 1,58 = 60,50 g – geht exakt auf.
+    books.gold hat dieselbe Verdoppelung (5 Schlüssel, 2 alt). books.gold dayStart der Bank-Figur = 15 831 Kupfer = 1g 58s 31c (richtig) – dort ist der
+    Stand vorhanden, in chars nicht.
+    Fragen an die Ursache (belegen, nicht raten): a) Warum ist der Realm seit 21.11. leer – liefert GetRealmName() in Forever "" (Client-Update um 21.11.?)
+    oder liest AHS ihn zu früh (beim Laden statt nach PLAYER_LOGIN)? Messung im Spiel läuft (Nutzer: /dump GetRealmName(), GetNormalizedRealmName()).
+    b) Seit 21.11. teilt sich jede Auswertung je Figur (Gold, "seit gestern", 7 Tage, Buchhaltung, Lager/Bank/Taschen je Figur) auf zwei Schlüssel auf
+    – auch die ursprüngliche Meldung "+46g 67s 16c seit gestern" und "+13g 63s 9c 7 Tage" prüfen: wie viel davon ist die Verdoppelung?
+    Auftrag: 1) Schlüssel einer Figur stabil machen (Realm leer -> gleicher Schlüssel wie vorher, z. B. bekannter Realm-Name der Figur aus den Daten oder
+    nur GUID/Name; alte Clients nie brechen). 2) Bestehende Doppel ZUSAMMENFÜHREN statt doppelt zählen (alte Punkte vor die neuen, nichts löschen,
+    Sicherung vorher; chars UND books UND alle Tabellen mit Figur-Schlüssel). 3) Bank-Figur ohne gültigen Punkt: books.gold.dayStart als Stand nehmen
+    (Herkunft im Code kommentieren). 4) Test mit genau diesen Daten: Summe = 60g 49s 77c; Gegenprobe ohne Zusammenführen = 94g 18s 7c.
+    5) Bericht: Liste aller Tabellen mit Figur-Schlüssel und je Zahl der Doppel. Bis dahin keine CF-Veröffentlichung von 0.65.405/406.

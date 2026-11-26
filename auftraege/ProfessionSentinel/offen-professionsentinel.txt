@@ -935,3 +935,8 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
     3,8 ms -> Faktor ~5 zwischen Nachbau und Spiel bei diesem Rezept. Für 0.9.89: Rezeptpreis teilbar (Abgabe zwischen den Zutaten, Lua 5.1 ohne
     Abgabe über pcall) UND die Ursache des Faktors 5 belegen (erster Aufruf mit kalten Item-Daten im Client? GetItemInfo-Anfragen?) – Verdacht, zu
     messen. "übrig 16,2 ms" im Nachbau belegen. Danach BP1 (gebundene Ware nicht als AH-Ware, Test bindType 1/0/2).
+
+>>> HINWEIS MITTEL (Supervisor 26.11. 09:35, aus AHS-TB1-b): Seit 21.11. ist der Realm-Name in den Figur-Schlüsseln LEER ("<Name>-" statt
+    "<Name>-CAMWOW EU4 Realm 6 PvP"). In den Daten dieses Addons (Laptop 26.11.) stehen 2 alte und 3 neue Schlüssel – dieselben Figuren doppelt.
+    Prüfen: zählt oder zeigt das Addon eine Figur doppelt (Listen, Summen, Auswertungen je Figur)? Wenn ja: Schlüssel stabil machen und Doppel
+    zusammenführen (nichts löschen), Test mit den echten Daten. Ursache (GetRealmName() in Forever leer oder zu früh gelesen) misst AHS; Ergebnis kommt hier.

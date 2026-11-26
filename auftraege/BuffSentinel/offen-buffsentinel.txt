@@ -694,3 +694,8 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     Kein Auftrag. Beim Testen wissen: Spec-Erkennung über Talentpunkte kann bei solchen Druiden bis zum Neuverteilen keine/falsche Spec zeigen.
 >>> HINWEIS NIEDRIG (26.11. 08:26, aus Entwurf Blueposts 26.11.): Hotfix 25.11.: Paladin Heilig "Oath of Light" dauert jetzt 60 Min. (Erinnerungszeit prüfen, falls
     fest hinterlegt); Richturteile werden wieder durch Angriffe aufgefrischt; Schurkengifte vorübergehend BoP (Gift-Erinnerung unverändert richtig).
+
+>>> HINWEIS MITTEL (Supervisor 26.11. 09:35, aus AHS-TB1-b): Seit 21.11. ist der Realm-Name in den Figur-Schlüsseln LEER ("<Name>-" statt
+    "<Name>-CAMWOW EU4 Realm 6 PvP"). In den Daten dieses Addons (Laptop 26.11.) stehen 2 alte und 3 neue Schlüssel – dieselben Figuren doppelt.
+    Prüfen: zählt oder zeigt das Addon eine Figur doppelt (Listen, Summen, Auswertungen je Figur)? Wenn ja: Schlüssel stabil machen und Doppel
+    zusammenführen (nichts löschen), Test mit den echten Daten. Ursache (GetRealmName() in Forever leer oder zu früh gelesen) misst AHS; Ergebnis kommt hier.
