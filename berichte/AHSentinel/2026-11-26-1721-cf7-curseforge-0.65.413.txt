@@ -1,0 +1,10 @@
+BERICHT AHSentinel – AHS-CF7: 0.65.413 auf CurseForge hochgeladen – umgesetzt, zur Prüfung
+Zeit: 26.11.2026 17:21 (Europe/Zurich)
+
+- Bestätigung des Nutzers IM CHAT (Auswahl-Frage 17:19): "Ja, 0.65.413 hochladen" (dazu Entscheid 17:16 im Repo).
+- Commit: download/AHSentinel-0.65.413.zip hinzugefügt (md5 de6fde644f4a546a245d4de7b6d4f551, = Discord-Zip 0.65.413), download/AHSentinel-0.65.400.zip im
+  SELBEN Commit entfernt, README-Link auf 0.65.413, curseforge/AHSentinel-changelog-0.65.413.md (DE/EN, das Wichtigste seit 0.65.400).
+- addon_check des ganzen Repos vorher: rc 0, AHSentinel-0.65.413.zip OK (1 Warnung: Discord hat schon 0.65.414 – gewollt).
+- Workflow "CurseForge-Upload" Lauf 45857795833: grün. Log: "AHSentinel-0.65.413 hochgeladen (Datei-ID 9829692)", Changelog aus der md-Datei,
+  Beschreibung mit den letzten 5 Versionen aktualisiert. curseforge/uploaded.json: [..., "0.65.400", "0.65.413"].
+- Heute 18:00 KEIN weiterer Upload (0.65.413 ist der Stand des Tages). Sichtbarkeit auf CurseForge (Prüfung dort) lese ich nach.
