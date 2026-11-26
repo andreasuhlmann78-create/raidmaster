@@ -1,0 +1,39 @@
+forever 1.60.1 71139|16001|2026-11-26 17:03
+ProfessionSentinel 0.9.74 – Diagnose-Protokoll · 26.11.2026 17:03
+Client forever 1.60.1 (71139) · Interface 16001 · Sprache deDE
+Sitzungen: 124 (seit 05.11.2026)
+Geänderte Einstellungen: minimapAngle=253.49827185777, panelMode=disenchant, panelOpen=false
+
+== Diagnose
+  Preisquelle: AHSentinel
+  Panel offen: nein
+  Angedockt an: –
+  Neuaufbauten: 0 angefragt, 2 ausgeführt
+  Langsamste Wege dieser Sitzung: Aufgabe heute 6.9 ms ×11 · Aufgabe rezepte-api 1 1.6 ms ×1 · Alles neu (erster Teil) 0.2 ms ×2 · Neuaufbau (Teil) 0.1 ms ×2 · Lebenslinien im Berufsfenster 0.0 ms ×2
+  Hintergrund-Aufgaben: heute ×2, Teil max 6.9 ms · rezepte-api 1 ×1, Teil max 1.6 ms
+  Lua-Fehler des Addons seit dem letzten Bericht: 0
+  Berichte, die noch gemeldet werden: 0
+
+== Einträge (22, neueste zuerst, höchstens 200)
+[26.11. 17:02:39] AUFBAU ×378 direkt · 378 Anfragen · 244.2 ms (zuletzt 0.0 ms) (v0.9.74)
+[25.11. 23:38:25] AUFBAU ×82 Herstellen fertig · 134 Anfragen · 91.6 ms (zuletzt 0.2 ms) (v0.9.74)
+[25.11. 23:38:03] AUFBAU ×17 Schnäppchen · 19 Anfragen · 6.4 ms (zuletzt 6.1 ms) (v0.9.74)
+[25.11. 23:37:59] AUFBAU ×123 Heute herstellen · 179 Anfragen · 94.0 ms (zuletzt 6.1 ms) (v0.9.74)
+[25.11. 23:37:57] AUFBAU ×527 TRADE_SKILL_SHOW · 1929 Anfragen · 309.6 ms (zuletzt 139.9 ms) (v0.9.74)
+[23.11. 23:54:58] AUFBAU ×547 Scan · 574 Anfragen · 301.1 ms (zuletzt 6.1 ms) (v0.9.74)
+[23.11. 23:54:58] AUFBAU ×2207 TRADE_SKILL_LIST_UPDATE · 3587 Anfragen · 360.6 ms (zuletzt 6.4 ms) (v0.9.74)
+[23.11. 23:54:45] AUFBAU ×31 Gold je Stunde · 31 Anfragen · 23.6 ms (zuletzt 6.3 ms) (v0.9.74)
+[23.11. 15:21:26] KLICK Gekochte Muscheln · Zauber 6499 · RecipeID 6499 · Liste · ausgewählt: ja · 6.0 ms (v0.9.74)
+[22.11. 18:08:09] LANGSAM ×6 Neuaufbau (Teil) · 46.1 ms (zuletzt 26.2 ms) (v0.9.74)
+[22.11. 18:08:09] LANGSAM ×6 UI:Aufbau (Teil) · 46.1 ms (zuletzt 26.2 ms) (v0.9.74)
+[22.11. 00:49:22] AUFBAU ×2 AHSentinel:ledger · 2 Anfragen · 159.6 ms (v0.9.74)
+[21.11. 00:38:31] LANGSAM ×766 UI:Refresh · 150.3 ms (zuletzt 91.9 ms) (v0.9.37)
+[21.11. 00:38:31] LANGSAM ×225 UI:UpdateBest · 148.6 ms (zuletzt 91.9 ms) (v0.9.37)
+[21.11. 00:38:31] LANGSAM ×759 AD.Update · 148.5 ms (zuletzt 91.8 ms) (v0.9.37)
+[20.11. 20:20:10] LANGSAM UI:Refresh/disenchant · 150.1 ms (v0.9.37)
+[20.11. 20:19:55] LANGSAM ×209 UI:Aufbau (Teil 1) · 98.0 ms (zuletzt 89.6 ms) (v0.9.37)
+[19.11. 23:30:59] LANGSAM ×31 UI:Aufbau (Teil 3) · 106.4 ms (zuletzt 80.7 ms) (v0.9.37)
+[19.11. 23:30:59] LANGSAM ×107 UI:Aufbau (Teil 2) · 95.6 ms (zuletzt 87.1 ms) (v0.9.37)
+[10.11. 23:56:26] LANGSAM ×4 UI:Refresh/recipes · 57.4 ms (zuletzt 21.6 ms) (v0.9.37)
+[10.11. 23:56:19] LANGSAM ×2 UI:Refresh/plan · 33.0 ms (v0.9.37)
+[10.11. 23:56:19] LANGSAM ×2 Plan · 29.7 ms (v0.9.37)
