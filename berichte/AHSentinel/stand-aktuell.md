@@ -1,6 +1,6 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 26.11.2026 09:49 · Version 0.65.406 (Discord, AHS-TB1-b); CurseForge 0.65.400 (öffentlich, CF6 erledigt 08:01)
+## Stand 26.11.2026 10:16 · Version 0.65.406 (Discord, AHS-TB1-b); CurseForge 0.65.400 (öffentlich, CF6 erledigt 08:01)
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz – Testberichte "GSTEST1{…}", UI-Befunde db.uiFindingsLast).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
@@ -14,7 +14,7 @@ Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /h
 - KEINE CF-Veröffentlichung von 0.65.405/406 bis TB1-b abgenommen (Supervisor 09:35).
 
 ## Nächste Schritte
-1. FULL 0.65.406 auf Kopie (allein), Bericht.
+1. (FULL 0.65.406 erledigt: 355/67, keine neuen. AHS-DL1 erledigt: alte 0.65.393.zip weg.)
 2. Weitere T459-Posten messen (Leitertexte Verdichtung, cache:today, learn:factor, core:realcheck), je Massnahme mit Messung.
 3. AHS-BP1 MITTEL (bindType: gebundene Ware nicht als AH-Ware), AHS-S216, AHS-MK1 (nach Ingametest).
 4. Ingametest: Gold (alle Figuren) = Summe Charakterauswahl (60g 49s 77c), Diagnose REALM/TB1-B/GOLD-LOGOUT, T459 zwei Werte, Vollscan zweimal.
