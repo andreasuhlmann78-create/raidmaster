@@ -912,3 +912,6 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
     -> an AHSentinel weitergegeben.
 >>> PRÜFUNG SUPERVISOR 25.11. 18:18 – ProfessionSentinel 0.9.87 (Bericht 17:24, PS-P1 Teil 1): ANGENOMMEN (Messung im Spiel statt Raten – richtig).
     PS-P1 bleibt offen bis zum Beleg der Stelle im Spiel; Abklärung "Ansicht recipes" (Nachbau mit Mock 405 ms) als nächster Punkt – ok.
+>>> ZU PS-TQ1-b (26.11. 06:30): AHSentinel 0.65.403 liefert API.Disenchanted -> nil, "pending", solange der Index im Hintergrund gebaut wird, danach
+    API.Notify("ledger"). "nie entzaubert" = nil OHNE zweiten Wert. PS muss "pending" als "später neu fragen" behandeln (Notiz offen lassen, nicht
+    "nicht entzaubert"), auf OnChanged neu fragen; Test mit beiden Rückgaben + Gegenprobe. Dazu die Drosselung am Briefkasten (PS-TQ1-b oben).
