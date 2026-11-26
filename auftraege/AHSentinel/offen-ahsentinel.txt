@@ -7196,3 +7196,17 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     Regelverstoss FULL 0.65.409 (nicht allein) selbst gemeldet und mit FULL 0.65.410 allein sauber nachgeholt (355/67, neu rot/grün keine) – gut.
     GOLD-LOGOUT-NACHTRAG (isInitialLogin/isReloadingUi) und Teilzeiten in AH-STATE – angenommen.
     Abnahme im Spiel: 1) /reload, 2) Charakter-Menü + wieder einloggen, 3) Spiel beenden + starten -> je GOLD-LOGOUT + NACHTRAG-Zeile; AH öffnen -> AH-STATE mit Teilen.
+
+>>> INGAMETEST 26.11. 15:47–15:48 (Supervisor 26.11. 15:48) – AHSentinel 0.65.410, Laptop, Priester, Undercity (Protokoll vom Nutzer):
+    GOLD-LOGOUT BELEGT (je GOLD-LOGOUT + NACHTRAG beim nächsten Laden):
+      15:47:14 466 716 (echt) -> 15:47:21 "voriges Ende war /reload: ja"
+      15:47:28 0              -> 15:47:41 "/reload: nein (Erst-Login ja)"  = Charakter-Menü
+      15:47:46 0              -> 15:48:19 "/reload: nein (Erst-Login ja)"  = Spiel beendet
+    -> In WoW Forever liefert GetMoney beim Ausloggen ins Charakter-Menü und beim Beenden 0, bei /reload den echten Wert (auch bei PLAYER_LEAVING_WORLD).
+    Der Fix aus 0.65.405 (0 beim Ausloggen nie als Stand) ist damit begründet; AHS-TB1 VOLLSTÄNDIG ERLEDIGT. In wirtschaft-forever.md/kommunikation trägt
+    der Supervisor die Regel ein. Die Messzeilen GOLD-LOGOUT/NACHTRAG dürfen bleiben (wenig Text) oder hinter den Testmodus.
+    AHS-W1 Teil 2 – Teile reichen NICHT: "Fenster 16,6 ms … Teile: Reiter aufbauen/umhängen (overview) 5,1 · Reiter füllen (overview) 1,4" = 6,5 ms von 16,6;
+    10,1 ms fehlen. Die fehlenden 10 ms liegen in Teilen < 0,5 ms (Summe nennen!) oder in nicht gemessenen Aufrufen (Show/OnShow-Skripte, SetPoint/Layout
+    beim Einblenden, Tooltip-/Font-Aufbau). Auftrag: "Rest (nicht zugeordnet)" in die Zeile, und den Rest weiter zerlegen, bis ≥ 90 % zugeordnet sind.
+    NEU: "LANGSAM Hintergrund-Aufgabe cache:warm · längster Schritt 14 ms bis AHAnalyzerPro.lua:4479 · mit Speicherbereinigung · 18 ms" (15:47:23, kurz nach
+    dem Einloggen) – Schritt teilen bzw. Bereinigungsanteil benennen.
