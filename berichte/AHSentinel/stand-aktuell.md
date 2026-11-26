@@ -1,6 +1,6 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 26.11.2026 12:12 · Version 0.65.408 (Discord, Messzeilen GOLD-LOGOUT-Art, AH-STATE); CurseForge 0.65.400 (öffentlich, CF6 erledigt 08:01)
+## Stand 26.11.2026 12:51 · Version 0.65.409 (Discord, AHS-W1 a); CurseForge 0.65.400 (öffentlich, CF6 erledigt 08:01)
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz – Testberichte "GSTEST1{…}", UI-Befunde db.uiFindingsLast).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
@@ -11,7 +11,7 @@ Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /h
 
 ## Gerade in Arbeit
 - TB1/TB1-b im Spiel BESTANDEN (Supervisor 10:32), zweites Laden ohne TB1-B ok. GOLD-LOGOUT: 0 nicht immer -> 0.65.408 schreibt Art des Endes mit.
-- 0.65.408: AH-STATE-Messzeile (AH öffnen 19 ms). Fremde Addon-Schlüssel: AHS liest keine (Bericht). FULL 408: 355/67, keine neuen.
+- AHS-W1 belegt (12:44): GetBrowseResults 8,8 ms/3,7 MB -> 0.65.409 liest ganze Liste 1× je Runde (Nachbau 252->63). Teil 2: Fenster 15,9 ms (Reiter Übersicht) -> Teile messen, als Aufgabe nachladen.
 - 0.65.407: AHS-W1 Messzeile WAECHTER-POLL (Nachbau: eigene Arbeit im Ereignis ≤0,1 ms) -> Ingame-Messung abwarten, dann a) oder b).
 - KEINE CF-Veröffentlichung von 0.65.405/406 bis TB1-b abgenommen (Supervisor 09:35).
 

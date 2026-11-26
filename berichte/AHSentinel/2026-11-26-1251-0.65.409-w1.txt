@@ -1,0 +1,19 @@
+AHSentinel 0.65.409 – AHS-W1 Massnahme a) (GetBrowseResults nur noch 1× je Runde) – umgesetzt, zur Prüfung (nur Discord)
+Zeit: 26.11.2026 12:51 (Europe/Zurich)
+addon_check 0.65.409: OK. ZIP: gleiche 112 Dateien. Geändert: Watcher.lua, AHAnalyzerPro.lua (Ereignis gibt arg1 weiter, Version), TestRoutine.lua (T1037, Index),
+CHANGELOG EN/DE. Tests (ahanalyzerpro): wowsim liefert bei ADDED die neuen Einträge mit wie das Spiel (SIM_AH_ADDED_NOARGS=1 = ohne, Gegenprobe).
+FULL 0.65.408: 355/67, keine neuen (Bericht 11:58).
+
+Ursache (belegt im Spiel 12:44): GetBrowseResults 8,8 ms / +3 691 KB je Aufruf bei 4 500 Angeboten; der Wächter las die ganze Liste bei JEDEM BROWSE_RESULTS
+(jede Seite) und alle READ_GAP (1 s) während einer Runde.
+Massnahme (neues AH; altes AH unverändert):
+- AUCTION_HOUSE_BROWSE_RESULTS_ADDED liefert im Spiel die neuen Einträge mit (arg1, addedBrowseResults) – der Kern gibt sie jetzt an BROWSE_RESULTS weiter,
+  der Wächter hängt sie an seine Liste an. Ganze Liste nur nach ..._UPDATED (Liste ersetzt), bei ADDED ohne Einträge, und als Sicherheit, wenn eine Runde auf
+  Seiten wartet und READ_SAFE (5 s) keine Meldung kam. Vor der ersten Antwort wird nicht gelesen (ausser nach 5 s).
+Messung Nachbau (zz_w1, Seitengrösse 20, 62 Runden): ganze Liste 252× (0.65.408) -> 63× (= 1 je Runde), 126× angehängt; Speicher der Lesungen +89 -> +49 KB
+(Nachbau-Listen klein). Im Spiel bei 4 500 Angeboten: je eingesparter Lesung ~9 ms und ~3,7 MB.
+Gegenprobe: ohne mitgelieferte Einträge (SIM_AH_ADDED_NOARGS=1) wieder 252× – der Weg fällt sauber auf "ganz lesen" zurück.
+Gleiche Treffer: Hürden der letzten Runde alt = neu (n 72 / Ware 72); s9_watcher_tip und s267_watcher_hurdles mit Seitengrösse 5 alt und neu PASS;
+s9_watcher, _fallback, _filters vor und nach gleich rot (schon in fail408), alle anderen Wächter-Szenarien PASS (10 geprüft). T1037 PASS.
+Offen (W1 Teil 2): Fenster 15,9 ms beim ersten Öffnen mit Reiter Übersicht -> Teile messen, Inhalt als Aufgabe nachladen (nächste Version).
+Bitte im Spiel: Wächter-Runden mit vielen Angeboten -> WAECHTER-POLL-Zeilen nur noch am Rundenanfang (1× je Runde).
