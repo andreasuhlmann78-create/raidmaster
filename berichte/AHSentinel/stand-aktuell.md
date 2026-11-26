@@ -1,6 +1,6 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 25.11.2026 15:57 · Version 0.65.402 (Discord); CurseForge 0.65.393 (Datei-ID 9799863)
+## Stand 26.11.2026 06:23 · Version 0.65.402 (Discord); CurseForge 0.65.400 (Datei-ID 9822958, 26.11. 06:22, in Prüfung?)
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz – Testberichte "GSTEST1{…}", UI-Befunde db.uiFindingsLast).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
@@ -10,20 +10,22 @@ Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /h
  Eigene Szenarien /tmp/claude-0/sim/wowsim/scenarios_new.lua (zz_t459real, zz_tr1, zz_i6_sniper, zz_ui_buy).
 
 ## Gerade in Arbeit
-- 0.65.402 (AHS-API2 API.Disenchanted) auf Discord. FULL 0.65.401: 355/67, keine neuen (Bericht 1547). s216 zweimal rot -> Befund AHS-S216.
-- 18:00 CurseForge 0.65.400 (Entscheid Nutzer 15:22): Changelog curseforge/AHSentinel-changelog-0.65.400.md liegt; Zip md5 e11e48da… = announce.
-  Nur nach Bestätigung des Nutzers im Chat (öffentliche Handlung). Erinnerung 17:58 geplant.
+- AHS-CF6: 0.65.400 am 26.11. 06:19 nach download/ (Nutzer im Chat bestätigt), Workflow 45760886355 ok, Datei-ID 9822958 (Bericht 0623).
+  Öffentliche Seite zeigte 06:22 noch 0.65.393 -> Nachlesen 07:53 geplant.
+- 0.65.402 (API2) auf Discord, vom Supervisor angenommen. Neu offen: PS-TQ1-b / AHS-API2-b (Briefkasten-Leistung) lesen.
 
-## Nächste Schritte (Supervisor 15:13/15:40)
-1. 18:00 CurseForge 0.65.400 (mit Bestätigung im Chat), Bericht mit Link + Rückmeldung CF3.
-2. SP2 h) (rein intern) -> AHS-S313 -> AHS-S216 (längstes Bild) -> k) falls nötig. AHS-MK1 danach.
-3. Ingametest: zwei Vollscans in einer Sitzung (T459 Scan 2 im Spiel), Sandbox ohne sniper.armed (0.65.401+).
+## Nächste Schritte
+1. CF-Seite nachlesen (07:53), Bericht. Aufträge 8dbfc8ff (AHS-API2-b) lesen und einordnen.
+2. SP2 h) (rein intern) -> AHS-S313 -> AHS-S216 -> k) falls nötig. AHS-MK1 danach.
+3. Ingametest: zwei Vollscans in einer Sitzung (T459 Scan 2), Sandbox ohne sniper.armed (0.65.401+).
+4. Regel CF 18:00: CF-Entscheid im Repo -> sofort Auswahl-Frage im Chat; bis 17:30 Stand melden.
 
 ## Offen beim Nutzer
 - Ingametest: "testroutine alles" mit T1016 (AH offen), Vollscan zweimal (SP1 d / SP2 T459), T126 im Vordergrund. Teil auto 09:01 erledigt.
 - Gold-Messung Ausrüstung mit Kupfer-Preis (AHS-POST), RecipeList-Fehler mit nur AHS aktiv.
 
 ## Entscheide des Nutzers seit letztem Stand
+- 26.11. ~06:15 im Chat: "Ja, 0.65.400 hochladen" (CurseForge).
 - Nutzer 11:09: jeder CurseForge-Kommentar bekommt eine Antwort -> im Bericht "Rückmeldung erledigt: …". Supervisor 13:06: 0.65.398 nicht auf CurseForge; 10:59: h zuerst, k freigegeben unter Bedingungen, S313 Regel. (Supervisor 10:00: SP2 iii Reihenfolge a,c,d,b + AHS-S313; 09:22: 0.65.397 angenommen; Zeit nur aus TZ=Europe/Zurich date. 08:51: SP2 ii Reihenfolge Tests -> Einbau, Zusatz T-e; 09:08: T750-Ansichten mit Spielzustand nicht als FEHLER).
 - 25.11. 07:56 AHS-CF5: CurseForge-Lizenz GPL-3.0; 06:54 AHS-CF4 Beschreibung (beide erledigt).
 - 24.11. 21:44 Discord vor Ende von FULL erlaubt; FULL ohne neue Fehler Pflicht vor CurseForge. Supervisor 21:38: NUR DEUTSCH an den Nutzer.
