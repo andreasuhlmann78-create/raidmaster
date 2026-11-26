@@ -2,22 +2,22 @@ Version 0.9.68 – veröffentlicht (download/, announce/ Discord). Umgesetzt, zu
 
 BS-B1 – QUELLE DER DATEN IM BERICHT 12:03 (Antwort auf den Befund)
 - Ursache der Abweichung belegt: Ich hatte nur Dateien mit der Endung ".lua" gesucht (Muster aktuell/*/forever/*/BuffSentinel.lua). Die Dateien
-  des Nutzers liegen als ".lua.gz" vor (DESKTOP-NVITMSE, AUSPLUSLAPTOP, Konto 5cb3d536) und fehlten dadurch. Gelesen hatte ich die Dateien
-  der beiden anderen PCs: aktuell/DESKTOP-JD5SLR5/forever/konto-741a4b9a/BuffSentinel.lua und aktuell/MININT-M6UO3AL/forever/konto-36a99f17/
-  BuffSentinel.lua (Klon goldsentinel-daten Commit b7e3dff "Daten AUSPLUSLAPTOP 26.11. 11:16"). Dort stehen "Realm 2" bzw. "EU5 Realm 8"
+  des Nutzers liegen als ".lua.gz" vor (Desktop und Laptop des Nutzers) und fehlten dadurch. Gelesen hatte ich die Dateien
+  der beiden anderen PCs: aktuell/<anderes Konto 1>/…/BuffSentinel.lua und aktuell/<anderes Konto 2>/…/
+  BuffSentinel.lua (Klon goldsentinel-daten Commit b7e3dff (Laptop des Nutzers, 26.11. 11:16)). Dort stehen die genannten Realms
   tatsächlich (nachgezählt: 3 × bzw. 1 × im Profil-Schlüssel) – nichts verfremdet, nichts erfunden; falsch war nur "PC A / Laptop".
   Diese beiden Dateien gehören zu anderen Konten (Spieler über den Uploader). Ab jetzt schreibe ich Realms nur als <Realm>.
-- NEU NACHGEBAUT mit Commit fa9f073 ("Daten AUSPLUSLAPTOP 26.11. 13:10"), alle 4 Forever-Dateien (.lua und .lua.gz entpackt), Lua 5.1,
+- NEU NACHGEBAUT mit Commit fa9f073 (Laptop des Nutzers, 26.11. 13:10), alle 4 Forever-Dateien (.lua und .lua.gz entpackt), Lua 5.1,
   GetRealmName = "", je Figur mit Profil ohne Realm (PLAYER_LOGIN als diese Figur). Zählung = Schlüssel in BuffSentinelDB.profiles:
-  DESKTOP-NVITMSE (Konto 5cb3d536): 5 Schlüssel (2 × <Realm>, 3 × <Name>-), keine Sicherung/lastRealm (alte Version).
+  Desktop des Nutzers: 5 Schlüssel (2 × <Realm>, 3 × <Name>-), keine Sicherung/lastRealm (alte Version).
     Figur A: vorher nur "<Name>-" -> in 0.9.67 blieb der Schlüssel "<Name>-" (nicht zusammengeführt) = BEFUND, jetzt 0.9.68: "<Name>-<Realm>",
              zusammengeführt ja (übernommen), Sicherung ja.
     Figur B: vorher "<Name>-<Realm>" + "<Name>-" -> "<Name>-<Realm>", zusammengeführt ja (aus neu 3, alt 1, gleich 45), Sicherung ja.
     Figur C: wie B -> zusammengeführt ja (aus alt 13, gleich 28), Sicherung ja.
-  AUSPLUSLAPTOP (Konto 5cb3d536, 0.9.66+ lief schon: lastRealm und Sicherung vorhanden): 4 Schlüssel (2 × <Realm>, 2 × <Name>-).
+  Laptop des Nutzers ( 0.9.66+ lief schon: lastRealm und Sicherung vorhanden): 4 Schlüssel (2 × <Realm>, 2 × <Name>-).
     Figur A: nur "<Name>-" -> "<Name>-<Realm>" (lastRealm), zusammengeführt ja. Figur B: beide -> "<Name>-<Realm>", zusammengeführt ja (neu 4,
     alt 1, gleich 45). Figur C: nur "<Name>-<Realm>", nichts zu tun.
-  DESKTOP-JD5SLR5 (anderes Konto): Figur B zusammengeführt ja (neu 21, alt 3); A, C nur mit Realm. MININT-M6UO3AL (anderes Konto): Figur A
+  anderes Konto 1: Figur B zusammengeführt ja (neu 21, alt 3); A, C nur mit Realm. anderes Konto 2: Figur A
   zusammengeführt ja (neu 14, alt 4).
   Überall: alte Werte ohne Wert nach dem Zusammenführen 0; die anderen Figuren unverändert.
   Zum Zählunterschied (Supervisor: "beide PCs je 5 Schlüssel, 3 × <Name>-"): Laptop hier 4 (2/2) – gezählt nur die direkten Schlüssel von
