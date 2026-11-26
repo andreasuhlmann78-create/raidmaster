@@ -1,0 +1,44 @@
+ProfessionSentinel 0.9.88 – umgesetzt, zur Prüfung
+Bezug: offen-professionsentinel.txt PS-RD1 (Rezeptdaten-Entwurf 26.11., freigegeben 08:26), PS-TQ1-b (Supervisor 25.11. 16:40 + 26.11. 06:30),
+PS-P1 (Stand mit Beleg aus dem Spiel).
+
+PS-RD1 – Rezeptdaten: Branch entwurf-2026-11-26 (a640787, Basis bb9d455 = 0.9.87) ohne Änderung übernommen (fast-forward), Versionsnummer
+ 0.9.88 war frei (kein Release v0.9.88). Selbst geprüft: Daten laden in Lua 5.1 und 5.4 (run_offline forever --lua51 / era / retail ohne
+ Lua-Fehler), Stichprobe Data_Forever: count 2315 -> 2316, Build 1.60.1.71139, QuestieDB 498734b, Muschel-Rezepte Kategorie 10 -> 15
+ ("Ausdauernahrung"). "Studierzimmer für Gifte": Daten nicht geändert (siehe unten AHS-BP1).
+
+PS-TQ1-b – Entzaubern über AHSentinel (Market.lua, PriceSource.lua):
+ - PS.Disenchanted gibt AHSentinels nil, "pending" weiter (nil OHNE zweiten Wert = nie entzaubert). MK.CheckDisenchanted hält bei "pending" an:
+   alle Notizen bleiben offen, MK.dePending = true, Rückgabe 0, "pending". MK.Expire legt in diesem Fall KEINE Notiz nach 7 Tagen ab.
+ - AHSentinel meldet "ledger" (Index fertig) -> PS.OnChanged -> MK.OnLedger: neu fragen nur, wenn die letzte Antwort "pending" war.
+ - Drosselung: MAIL_INBOX_UPDATE ruft MK.Expire nicht mehr auf (vorher je Postbewegung). Geprüft wird über MK.CheckLater: beim Einloggen,
+   einmal beim Schliessen des Briefkastens (MAIL_CLOSED, nur wenn Post gelesen wurde) und nach "ledger" – höchstens alle 60 s
+   (MK.CHECK_GAP); eine Prüfung innerhalb der 60 s wird einmal per Zeitgeber nachgeholt. Läuft als Hintergrund-Aufgabe "treffer" mit
+   J.Yield je Item (in der Testroutine sofort).
+ - Gemessen im Nachbau mit den echten Daten (AHSentinel 0.65.404 mit seinen echten Daten, deLog 2000 Einträge; 59 offene Notizen für 15
+   tatsächlich entzauberte Items; Briefkasten mit 50 Rechnungen): CheckDisenchanted erster Aufruf 0,84 ms (44 beurteilt), danach 0,04–0,06
+   ms; AHSentinel.API.Disenchanted 31 Aufrufe, längster 0,17 ms; Aufgabe "treffer" 1 Teil 0,17 ms; MAIL_CLOSED 0,06 ms.
+ - Dabei gefunden (unser Code): MAIL_INBOX_UPDATE mit 50 Rechnungen 7,15 ms im Mittel (max 7,80) – MK.ItemByName ging je Rechnung alle
+   ~2300 Produkte durch und fragte deren Namen. Jetzt Namenkarte (einmal je Produktliste/Sprache/Namensfunktion; noch unbekannte Namen nur
+   bei einem Fehltreffer neu gefragt; gleicher Name zweimal -> kleinere ID). Nachher: Mittel 0,41 ms, max 2,41 ms (erster Aufbau der Karte).
+ - Tests T299 erweitert: pending -> Notiz offen, auch nach 7 Tagen; nach "ledger" neu gefragt und beurteilt; Gegenprobe "ledger" ohne pending
+   -> nichts; Drosselung (zweite Prüfung in 60 s wartet, ein Zeitgeber, nachgeholt); Post startet keine Prüfung, MAIL_CLOSED genau einmal;
+   Rückgaben von AHSentinel (pending / nil / Tabelle); Namenkarte (Treffer ohne Fragen, Fehltreffer fragt nur die unbekannten, gleicher Name
+   -> kleinere ID). Gegenprobe: ohne den pending-Halt in CheckDisenchanted schlägt T299 fehl. Regression PS-TQ1-b -> T299.
+
+AHS-BP1 (Gifte vorübergehend BoP) für PS: Daten nicht geändert. Offen in PS: gebundene Ware nicht als AH-Ware empfehlen (Bindung aus dem
+ Client lesen) – nächster Schritt nach PS-P1, mit Test bindType 1/0/2.
+
+PS-P1 – Beleg aus dem Spiel (gespeicherte Daten AUSPLUSLAPTOP 26.11. 07:03, Diagnose-Export mit 0.9.87):
+ "Hintergrund-Aufgaben: heute ×3, Teil max 22.7 ms (darin 5 Stücke 22.6 ms, längstes 18.3 ms Wollcape · übrig 0.2 ms · Speicher +1.1 MB ·
+ Bild davor 32 ms · 35 Bilder/s)", LANGSAM "Aufgabe heute" 26.11. 06:50:58 (v0.9.87).
+ -> Belegt: die Zeit liegt in EINEM Rezeptpreis (P.Recipe "Wollcape" 18,3 ms), nicht in einer Speicherbereinigung (Speicher +1,1 MB) und
+ nicht ausserhalb der Rezepte (übrig 0,2 ms). Das Spiel lief dabei mit 35 Bildern/s (Bild davor 32 ms) = sehr wahrscheinlich im Hintergrund.
+ Nachbau mit denselben Daten: kalter Rezeptpreis 3–6 ms (Wollcape 3,8 ms, Seidenstoffballen 6,3 ms), ein Teil mit "übrig 16,2 ms" bei 1
+ Rezept (Figur mit 49 Rezepten, erster Teil) – Stelle noch nicht belegt.
+ Nächster Schritt (0.9.89): einen Rezeptpreis teilbar machen (Abgabe zwischen den Zutaten, nur innerhalb der Aufgabe; Lua 5.1: kein Abgeben
+ über pcall hinweg – mit --lua51 prüfen) und die 16,2 ms "übrig" im Nachbau belegen.
+
+Tests: run_offline forever 255/0, era 236/0, retail 234/0, forever --lua51 255/0; check_actions OK; gen_locale_keys OK; yield_check OK;
+ Smoketest forever/era/retail AUTOTEST OK (FEHLER 29/26/26 = Mock-Grenzen, wie 0.9.87); addon_check OK ohne WARNUNG. Zip md5 80eb33dab8cb00bb8faa509d8736370d, Repo 222360f.
+Werkzeug: tests/nachbau_echt.py --tq1b (Entzaubern + Briefkasten mit den echten Daten).
