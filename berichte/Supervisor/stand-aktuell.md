@@ -1,31 +1,30 @@
-# Stand Supervisor (Prüf-Sitzung, Projekt «Addonprüfer»)
-
-## Stand 25.11.2026 13:31 · geprüft: AHS 0.65.398 · LP 3.13.14 · RM 3.0.48 · Uploader 2.3.28 · GS 0.9.62 · BS 0.9.64 · PS 0.9.83 · TS 2.5.30
-Repos: raidmaster, goldsentinel-daten (schreiben); ahanalyzerpro, professionsentinel, guildsentinel (lesen). Nutzer tagsüber am Laptop (AUSPLUSLAPTOP).
+# Stand Supervisor – 26.11.2026 09:32
 
 ## Gerade in Arbeit
-- Ingametests mit dem Nutzer, eines nach dem anderen (kurz -> lang). Erledigt heute: RM 3.0.48 (11:18), AHS 0.65.398 (13:01). Nächster: LP 3.13.14.
+- Prüfungen 26.11. vormittags: AHS 0.65.405 + TB1-Nachtrag, PS 0.9.88 angenommen; LP 3.13.17 voller Ingametest ausgewertet (alles in offen-*.txt).
 
 ## Nächste Schritte (Reihenfolge)
-1. LP 3.13.14 Ingametest auswerten (virtuelle Reise: Sandbox-Zeilen HINWEIS/Schreibzugriffe; ganze Testroutine; Dauer).
-2. Berichte der Sitzungen prüfen: AHS-OVF1 (integer overflow, HOCH), AHS-T14, RM-K2 (Ausweichen Charakterfenster), UP-DOC2, RM-CI2, LP-SB1-b, LP-R1/R2.
-3. Testberichte bis RM-CI2 von Hand anstossen: gh api POST repos/…/raidmaster/actions/workflows/404904069/dispatches -f ref=main.
-4. 18:00 CurseForge: AHS 0.65.398 NICHT (OVF1 offen); GS nur, wenn neue Version geprüft. Danach CF-Kommentare lesen (Regel 25.11. 11:09).
-5. Offiziere: Lieferung mit Uploader 2.3.28 beobachten (12:35 noch alter Uploader abgewiesen).
-6. 09.12. 07:00 Erinnerung: Raids-Aufgabe wieder einschalten (trig_01RKTpb8qD5PxK8Gb24pHnRK).
+1. Bei jedem "repo": pull, neue berichte/ prüfen, annehmen/ablehnen in offen-*.txt, push + nachprüfen.
+2. LP 3.13.17 Upload-Bericht (Daten-Repo) auswerten: reiseBilder, LP-R3 (Route bis L17), 25 eigene Bilder > 16 ms.
+3. AHS: FULL 0.65.405, dann 0.65.406 (GOLD-LOGOUT-Messzeile); M2/M3 + T459 (zwei Werte), AHS-BP1, AHS-S216, AHS-MK1, SK1-e.
+4. PS 0.9.89 (PS-P1 Rezeptpreis teilbar + Faktor 5 Nachbau/Spiel belegen), dann BP1 in PS.
+5. LP: LP-I3 (T155 Undercity-Wegsuche), LP-TR3 (Reisen +9,5 %), LP-R1/R2/R3.
+6. GS-R1 (kein CF für GS bis behoben), RM-P1, BS-P2 + Versionsanzeige.
+7. CF: Kommentare bei jeder CF-Version und täglich lesen und beantworten (ohne Vorzeigen, danach loggen und melden).
 
 ## Offen beim Nutzer
-- LP 3.13.14 Ingametest (lang, Hintergrund). AHS erneut nach OVF1-Fix: Vollscan starten, währenddessen /ahs testroutine mit offenem AH.
-- RM nach K2-Fix: Charakterfenster + /rm, Einstellungen + Esc. TS-Messung in Gruppe.
-- Discord: Nitro-Geschenk-Dialog 11:5x versehentlich geöffnet, sofort geschlossen – Nutzer soll Bestätigungs-Mail NICHT anklicken, Zahlungen prüfen.
+- AHS: Haben die zwei weiteren Figuren noch ~5,07 g und ~30,19 g? (gefragt 26.11.)
+- CF 18:00 für weitere Versionen: vorher fragen.
+- Offiziere: alter Uploader – Nutzer: warten (nicht erinnern).
+- 09.12. 07:00 Erinnerung: Aufgabe "Raids und Taktiken" wieder einschalten.
 
-## Entscheide des Nutzers seit letztem Stand (in shared/wissen/entscheide.md eingetragen)
-- 11:09 Spieler bekommen auf CurseForge immer eine Antwort (Entwurf, Ok, posten; 5 Antworten AHS 11:06 gepostet).
-- 11:39 Offiziere schalten Addons-automatisch-an.bat ein (Nachtrag an beide gesendet 11:50/12:06, endo bestätigt 12:54).
-- 09:40 LP-Test nur ohne Nachteile verkürzen. 08:24/08:26/08:29 Taktik-Zahlen, Raids ab 09.12., MC forever:true. 06:54/07:56 CF4/CF5.
+## Entscheide des Nutzers seit letztem Stand
+- 25.11.: CF-Antworten immer, ohne Vorzeigen (15:23); CF 0.65.400 (15:22); BS darf Daten-Repo lesen (15:42); PS-Trefferquote "Echten Weg verfolgen" (13:47).
+- 26.11.: Tagesbilanz-Frage: nein; Offiziere: warten. (in shared/wissen/entscheide.md nachtragen, falls noch fehlt)
 
 ## Wichtig zu wissen
-- Discord im eingebauten Browser: Eingabefeld per JS fokussieren (aria-label "Nachricht an @…"), NIE auf berechnete Koordinaten klicken
-  (Geschenk-Knopf daneben); bei schmalem Fenster erst Seite neu laden. Enter sendet, Shift+Enter neue Zeile; vor dem Senden Text per JS prüfen.
-- AHS-Testroutine wartet nur auf einen LAUFENDEN Vollscan; für Teil "server"/T459 muss das AH offen sein.
-- Uploader sammelt Testberichte bis 15 Min., dann #testberichte; GitHub-Zeitplan lässt Läufe aus (RM-CI2).
+- Nutzer unter der Woche tagsüber am Laptop (AUSPLUSLAPTOP); Laptop-Bild in Ruhe ~33 ms (30 Bilder/s) – Messungen dort einordnen.
+- WoW loggt bei AFK nach ~20 Min. aus: bei langen Testroutinen zwischendurch eine Taste drücken.
+- AHS-Testroutine: Vollscan starten, dann /ahs testroutine während er läuft (AH offen); Serverteil: /ahs testroutine server.
+- Testberichte: bei Ausbleiben Workflow 404904069 per dispatch starten.
+- shared/GoldSentinelTest.lua ist v4 (JSON-Zahlen-Fix).
