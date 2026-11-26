@@ -14,7 +14,7 @@
    Danach Ansicht recipes im Nachbau (2 Bilder ~405 ms, Stapel 20x ohne Addon-Zeile = Verdacht Mock).
 2. AHS-BP1 für PS: gebundene Ware (bindType 1) nicht als AH-Ware empfehlen; Test bindType 1/0/2 + Gegenprobe. Daten nicht ändern.
 3. PS-TQ1 Abnahme a) mit echten Daten, sobald Herstellen+Entzaubern im Spiel (Bericht "Trefferquote je Beruf").
-4. Gilden-Sync-Tag ohne Realm prüfen (Lesen über GU.FindGuild seit 0.9.89 erledigt).
+4. Gilden-Sync-Tag ohne Realm prüfen (Lesen über GU.FindGuild in 0.9.89 umgesetzt, zur Prüfung).
 5. MITTEL 2 (T192, T259), MITTEL 4 (T285); Entwickler-Befehle nur im Entwicklermodus; Testort-Hinweis; Lesbarkeit L1–L8; "AH ~Preis".
 
 ## Offen beim Nutzer
