@@ -1,0 +1,57 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+
+Geplante Aufgabe "Blueposts", Lauf 26.11.2026 07:45 MEZ (06:45 UTC). Letzter Stand: 25.11.2026 21:45 MEZ.
+Quellen: Blizzard-Foren diesmal NICHT direkt lesbar (Abruf blockiert). Gefunden über Websuche (Treffer "#16 by Kaivax" im
+US-Thread 2403040, "#13 by Kaivax" im EU-Thread 639885); Inhalt gelesen über bluetracker.gg (Spiegel des Blizzard-Posts,
+verweist auf news.blizzard.com/…/24315281). Zeitstempel dort "25.11.2026 23:19" ohne Zeitzone -> nicht als UTC belegt.
+Keine Schwere HOCH. Ein Punkt MITTEL (Marktdaten), sonst NIEDRIG.
+
+NEUER BLUE-POST
+Kaivax #16 "WoW: Forever Hotfixes – November 25, 2026" (aktiv, Hotfix)
+  https://us.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-25-2026/2403040/16
+  https://eu.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-25-2026/639885/13
+  https://www.bluetracker.gg/wow/topic/us-en/24315281-wow-forever-hotfixes-november-25-2026/  (gelesen)
+  Nichts zu Auktionshaus, Einzahlung, Post (ausser AV-Questgegenstände), Schliesskassetten, Addon-API, Chat, Gilde, Raids.
+
+1) AHSentinel / ProfessionSentinel – MITTEL (Vorschlag BP-2026-11-26-1, Marktdaten)
+   In eigenen Worten: ALLE Schurkengifte und Blendungspulver (Blinding Powder, 5530) sind VORÜBERGEHEND beim Aufheben
+   gebunden, bis ein Fehler behoben ist. Ohne Termin.
+   Folge: Diese Gegenstände können nicht mehr ins AH gestellt werden; neue Angebote fallen weg, alte laufen aus.
+   Betroffen: AHSentinel Marktdaten/Preisverlauf (Ausreisser, "kein Angebot" ist kein Preissignal), Empfehlungen und
+   Sniper für diese Gegenstände; Lagerwert, falls Gifte/Pulver im Inventar mit AH-Preis bewertet werden.
+   Lösung (nichts fest einbauen, da vorübergehend): Bindung aus dem Client lesen (Tooltip/GetItemInfo bindType) statt
+   fester Liste; gebundene Ware nicht als AH-verkaufbar empfehlen und nicht mit AH-Preis bewerten; Preisverlauf der
+   Lücke nicht als Preissturz/-anstieg deuten. Messauftrag: im Spiel prüfen, ob Blendungspulver (5530) und ein Gift
+   (z. B. Sofort wirkendes Gift) BoP zeigen.
+   Test T-BP-2026-11-26-1: Gegenstand mit bindType=1 (BoP) erscheint in keiner Verkaufsempfehlung und hat keinen
+   AH-Lagerwert; nach Rückkehr zu BoE (bindType 0/2) wieder normal.
+   ProfessionSentinel: Gifte stehen nicht in Data_Forever.lua (geprüft) -> nur Hinweis NIEDRIG.
+
+2) LevelPilot – NIEDRIG (Hinweis): Reitfertigkeits-Fix ist da. Paladine (Justice and Retribution / Judgment and
+   Redemption) und Hexenmeister (Dreadsteed of Xoroth) erhalten jetzt Geselle-Reiten beim Abschluss; wer die Quest
+   schon hatte, holt es kostenlos per Gesprächsoption bei Danitha Morr, Lord Grayson Shadowbreaker, Zevrost bzw.
+   Ursula Deline. Vorgemerkter Termin damit erledigt.
+   Weiter: Silithus Encrypted Twilight Texts droppen wieder (3 Quests); "Scarlet Subterfuge" Illusion 60 statt 30 Min.;
+   Hunter-Quest "Saving the Best for Last" (Horde) wieder lösbar; Magram-Kentauren schnellerer Respawn.
+
+3) BuffSentinel – NIEDRIG (Hinweis): Paladin Heilig "Oath of Light" dauert jetzt 60 Minuten (Erinnerungszeit prüfen,
+   falls fest hinterlegt); Paladin Richturteile werden wieder durch Angriffe aufgefrischt (unter 20 Sek. Rest);
+   Krieger Waffen "Weaponmaster" nach Tod im Schlachtfeld wieder aktiv; Gleichgewichts-Änderungen = schon im Entwurf
+   25.11. 21:45 (BP-2026-11-25-1). Schurke: Gifte BoP (siehe 1) – Gift-Erinnerung unverändert richtig.
+
+4) ThreatSentinel – NIEDRIG (Hinweis): Jäger-/Hexenmeister-Begleiter hatten 0 % Nahkampf-Krit (behoben) und
+   Tierherrschaft-Falken greifen auch bei passivem Begleiter an -> mehr Begleiter-Bedrohung; ThreatSentinel rechnet
+   aus dem Schaden, nichts zu tun.
+
+5) RaidMaster / Discord – nichts. Dungeons: Tiefschwarze Grotte Altar, Tempel Avatar von Hakkar (Fixes).
+   Verzauberkunst "Revelation" Proc einmal pro Welle (keine Wirtschaftsfolge). Unerring Purpose Händlerpreis erhöht
+   (AHSentinel liest Händlerpreis aus dem Client -> nichts zu tun).
+
+GEHIRN (Vorschlag für den Supervisor): wirtschaft-forever.md Tabelle Händler/AH: "Schurkengifte + Blendungspulver
+vorübergehend BoP – aktiv seit 25.11.2026 (Kaivax #16), nicht AH-handelbar, Ende offen".
+
+TERMINE
+- Reitfertigkeit-Fix Paladin/Hexenmeister: ERLEDIGT (Kaivax #16, 25.11.).
+- Schliesskassetten-Fix: weiter kein Blizzard-Post.
+- NEU: Schurkengifte/Blendungspulver wieder BoE – bei jedem Lauf nachsehen.
+- Mindest-Einzahlung 1c: weiter nicht als aktiv gemeldet.
