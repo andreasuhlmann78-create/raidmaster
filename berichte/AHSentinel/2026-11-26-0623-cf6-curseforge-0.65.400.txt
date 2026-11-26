@@ -1,0 +1,24 @@
+BERICHT AHSentinel – AHS-CF6: 0.65.400 auf CurseForge hochgeladen – umgesetzt, zur Prüfung
+Zeit: 26.11.2026 06:23 (Europe/Zurich)
+
+- Bestätigung des Nutzers im Chat: "Ja, 0.65.400 hochladen" (Antwort auf meine Frage von 25.11. 17:59, eingegangen 26.11. ~06:15).
+- 06:19 download/AHSentinel-0.65.400.zip = announce/ahsentinel__ahsentinel-0.65.400.AHSentinel.zip (md5 e11e48da7bff2ba72268d41e7ea084be, .toc 0.65.400),
+  README-Link auf 0.65.400; gepusht, auf origin/main geprüft (md5 gleich). download/AHSentinel-0.65.393.zip bleibt liegen (nichts gelöscht).
+- Workflow "CurseForge-Upload" Lauf 45760886355 (push 05:19:58Z) erfolgreich: "Changelog aus curseforge/AHSentinel-changelog-0.65.400.md (Kurzfassung)",
+  "AHSentinel-0.65.400 hochgeladen (Datei-ID 9822958)", Interface 11508/11509/16001/20505/20506/30405/38002/40402/50504/120105.
+  uploaded.json vom Workflow nachgeführt (990cd54f); Beschreibung unverändert (fester Text "What's new" – keine Änderung an AHSentinel-description.md).
+- CF-Changelog (ad663f1) geprüft: genau dieser Text wurde hochgeladen (Protokoll zeigt die DE/EN-Zeilen). Inhalt seit 0.65.393: integer overflow,
+  Höchstpreis-Trend, Speicher Vollscan, kein Absatz ohne Angebot, Wächter-Reiter/Namen – alles in 0.65.394–0.65.400 enthalten.
+- Öffentliche Seite curseforge.com/…/files 06:22: zeigt noch 0.65.393 als neueste; Seite der Datei 9822958 noch nicht abrufbar -> Verdacht: Datei in der
+  Prüfung von CurseForge (wie üblich). Nachlesen in 90 Min. geplant, Ergebnis als eigener Bericht.
+- Link (sobald freigegeben): https://www.curseforge.com/wow/addons/ah-analyzer-pro/files/9822958
+- Rückmeldung erledigt: CF3 (CurseForge-Spieler, 20.11.) – "integer overflow attempting to store 99999999999" – 0.65.400 – "Kein Lua-Fehler „integer
+  overflow“ mehr … bisher war das nur beim CSV-Export behoben."
+
+Ursache des Versäumnisses um 18:00 (Regel):
+- Die Erinnerung (geplante Aufgabe) traf 25.11. 17:59 ein. Für eine öffentliche Veröffentlichung brauche ich die ausdrückliche Bestätigung des Nutzers
+  IM CHAT (ein Entscheid, der nur im Repo steht, reicht nicht – so wurde schon 24.11. ein Hochladen abgelehnt). Ich habe um 17:59 gefragt; der Nutzer
+  war nicht mehr da, die Antwort kam erst am Morgen. Gefragt hatte ich bereits 15:57 in der Antwort – ohne Rückmeldung bis 18:00.
+- Regel (Vorschlag): Sobald ein CurseForge-Entscheid des Nutzers im Repo eingetragen ist, frage ich SOFORT mit einer Auswahl (nicht nur im Text) nach
+  der Bestätigung im Chat und melde dem Supervisor bis 17:30 im Bericht, ob sie vorliegt. Liegt sie um 18:00 nicht vor, wird nichts hochgeladen und
+  das sofort im Bericht gemeldet (nicht erst am nächsten Morgen).
