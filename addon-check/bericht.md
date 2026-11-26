@@ -2,17 +2,11 @@
 
 Vorlage shared/GoldSentinelGame.lua: Version 3
 Vorlage shared/GoldSentinelTest.lua: Version 4
-Tests der gemeinsamen Datei: bestanden 30/30 Prüfungen bestanden; GoldSentinelGame-Tests: bestanden; 139/139 Prüfungen bestanden; GoldSentinelSync-Tests: bestanden (111/111); 82/82 Prüfungen bestanden; GoldSentinelTest-Tests: bestanden (101/101); OK 56 / FEHLER 0; UICheck-Tests: bestanden (9/9); Vorlage-Tests: bestanden (149/149); 127/127 Prüfungen bestanden; Ladetest-Tests: 37/37 bestanden; 22/22 Prüfungen bestanden; 6/6 Prüfungen bestanden; Testberichte-Tests: bestanden (27/27); Wegdaten-Tests: bestanden (14/14)
+Tests der gemeinsamen Datei: bestanden 30/30 Prüfungen bestanden; GoldSentinelGame-Tests: bestanden; 139/139 Prüfungen bestanden; GoldSentinelSync-Tests: bestanden (111/111); 82/82 Prüfungen bestanden; GoldSentinelTest-Tests: bestanden (101/101); OK 56 / FEHLER 0; UICheck-Tests: bestanden (9/9); Vorlage-Tests: bestanden (149/149); 127/127 Prüfungen bestanden; Ladetest-Tests: 35/35 bestanden; 22/22 Prüfungen bestanden; 6/6 Prüfungen bestanden; Testberichte-Tests: bestanden (27/27); Wegdaten-Tests: bestanden (14/14)
 Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
-## AHSentinel-0.65.400.zip: OK (1 Warnungen)
-- **WARNUNG** Version 0.65.400 in download/ wartet auf CurseForge 18:00 – Discord hat schon 0.65.414 (gewollt, Entscheid 15.11. 13:16)
-
-## BuffSentinel-0.9.66.zip: FEHLER
-- **FEHLER** Version 0.9.66 ist NIEDRIGER als schon veröffentlichte 0.9.68 (download/, download/ (Git-Geschichte)). Neue Version muss höher sein als 0.9.68, sonst bekommen Spieler das Update nicht.
-
-## BuffSentinel-0.9.67.zip: FEHLER
-- **FEHLER** Version 0.9.67 ist NIEDRIGER als schon veröffentlichte 0.9.68 (download/, download/ (Git-Geschichte)). Neue Version muss höher sein als 0.9.68, sonst bekommen Spieler das Update nicht.
+## AHSentinel-0.65.413.zip: OK (1 Warnungen)
+- **WARNUNG** Version 0.65.413 in download/ wartet auf CurseForge 18:00 – Discord hat schon 0.65.414 (gewollt, Entscheid 15.11. 13:16)
 
 ## BuffSentinel-0.9.68.zip: OK
 
