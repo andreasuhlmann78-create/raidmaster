@@ -1,0 +1,27 @@
+AHSentinel 0.65.404 – AHS-S313 (Namen-Aufbau unter Budget, Prüfung s313 mit GC je Portion) – umgesetzt, zur Prüfung (nur Discord)
+Zeit: 26.11.2026 07:12 (Europe/Zurich)
+addon_check 0.65.404: OK. ZIP: gleiche 112 Dateien wie 0.65.403. Geändert: Names.lua (N.JOB_BUDGET), Version, CHANGELOG EN/DE.
+Tests (Repo ahanalyzerpro): s313_vs_own_memory umgestellt.
+
+1) Ursache der "eigenen Arbeit 6,1–8,3 ms ohne GC" BELEGT: das ist das Bild-Budget (A.FRAME_BUDGET 6 ms, wird mit Vorausschau gefüllt) plus
+   EIN Schritt. Ein Schritt des Namen-Aufbaus (200 Namen) misst direkt (lua5.1, Data/Names_deDE.lua, 33 223 Namen): Median 0,10–0,11 ms,
+   max 0,9–1,4 ms (wenn die 64 Fächer gleichzeitig wachsen). Ganzer Aufbau 22 ms, legt 4 050 KB an (die Namen selbst).
+2) Einbau: eigene Aufgaben-Budget für "names" N.JOB_BUDGET = 4,5 ms (A:Job hatte das Budget schon als 3. Wert) -> höchstens 4,5 + 1,4
+   = 5,9 ms. Nachbau (zz_s313gc, GC nach dem fremden Bild ganz aus), names je Bild: vorher 6,0 / 6,1 / 6,1 / 7,4 ms, jetzt 4,4–4,9 ms.
+   Gegenprobe (Budget 20 ms): 14,4 ms eigene Arbeit -> FEHLER (siehe 3).
+3) s313 bewertet jetzt nach Entscheid 25.11. 10:59: nach dem fremden Bild bleibt der automatische GC aus; die Bereinigung läuft in den
+   Pausen der Aufgaben (je 1 KB ein Grundschritt collectgarbage("step",0) = ein luaC_step wie beim Anlegen), gestoppt und dem Bild
+   zugeordnet; danach wieder "stop" (Lua 5.1 schaltet den GC am Ende eines Zyklus selbst wieder an – ohne das waren 12,4 ms "eigene Arbeit"
+   in Wahrheit unerfasste Bereinigung; gefunden und behoben). Je Bild im Mess-Fenster: <= 16 ms OK; sonst HINWEIS nur mit gemessener
+   Bereinigung in DIESEM Bild und eigener Arbeit ohne sie < 6 ms; sonst FEHLER.
+   Ergebnisse 0.65.404 (3 Läufe): längstes Bild 9,4 / 15,3 / 12,7 ms, davon Bereinigung 8,3 / 12,0 / 9,4 ms, eigene Arbeit 1,1 / 3,3 / 3,3 ms
+   -> PASS. Gegenprobe S313_NB=20: Bild 19,2 ms, Bereinigung 4,8, eigene 14,4 ms -> FEHLER (wie verlangt).
+   Grenzen unverändert (16 ms, Budget 6 ms). Die alte Bedingung "eigene Arbeit <= 16 ms" (mit unerfasster Bereinigung) ist durch die
+   Bewertung je Bild ersetzt; die übrigen Prüfungen von s313 bleiben.
+   Einschränkung (ehrlich): die Bereinigung läuft in der Nachbildung an den Pausen statt mitten im Schritt – Verschiebung höchstens ein
+   Schritt (<= 1,4 ms beim Namen-Aufbau).
+4) FRAGE an den Supervisor: "eigene Arbeit ohne GC < Budget" ist für JEDE Aufgabe mit dem Standard-Budget gebaut verfehlt (Budget wird
+   gefüllt + ein Schritt; gemessen core:realcheck 6,4–6,8 ms, cache:today 6,0 ms). Trifft die Bereinigung so ein Bild, wird s313 FEHLER,
+   obwohl die Aufgabe richtig arbeitet. Vorschlag: Bedingung "ohne GC <= Budget + längster erlaubter Schritt (A.LONG_STEP_MS 8)" ODER je
+   Aufgabe kleineres Budget wie bei names. Ich ändere dazu nichts, bis entschieden.
+Nachbau 0.65.404: s42, s43, s313 (3x), s341, s343 PASS. FULL 0.65.404 läuft (Kopie, allein), Bericht folgt.

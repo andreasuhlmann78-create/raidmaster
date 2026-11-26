@@ -1,24 +1,25 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 26.11.2026 06:55 · Version 0.65.403 (Discord, Supervisor 06:30 angenommen); CurseForge 0.65.400 (Datei-ID 9822958, in Prüfung bei CF)
+## Stand 26.11.2026 07:12 · Version 0.65.404 (Discord, AHS-S313); CurseForge 0.65.400 (Datei-ID 9822958, in Prüfung bei CF)
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz – Testberichte "GSTEST1{…}", UI-Befunde db.uiFindingsLast).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
  erwartet in /tmp/claude-0/rel/: AHSentinel-<V>.zip, notes.md, bericht.txt, stand.md). ZIP = gleiche 112 Dateien wie Vorversion.
 Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /home/claude/AHSentinel (~70 s); FULL=1 alle (Stunden bei Parallel-Last;
- 0.65.403: 355 PASS, 67 FAIL, keine neuen (Bericht 0655, Kopie /tmp/claude-0/ahs403) – nie parallel zu FULL rechnen, sonst Zeitüberschreitungen). T126 streut 6–10 ms. Neu: s9_watcher_tip (Wächter-Tipp -> Rechtsklick -> Sniper kauft).
+ 0.65.403: 355 PASS, 67 FAIL, keine neuen (Bericht 0655) – nie parallel zu FULL rechnen, sonst Zeitüberschreitungen). T126 streut 6–10 ms. Neu: s9_watcher_tip (Wächter-Tipp -> Rechtsklick -> Sniper kauft).
  Eigene Szenarien /tmp/claude-0/sim/wowsim/scenarios_new.lua (zz_t459real, zz_tr1, zz_i6_sniper, zz_ui_buy).
 
 ## Gerade in Arbeit
-- AHS-CF6: 0.65.400 am 26.11. 06:19 nach download/ (Nutzer im Chat bestätigt), Workflow 45760886355 ok, Datei-ID 9822958 (Bericht 0623).
-  Öffentliche Seite zeigte 06:22 noch 0.65.393 -> Nachlesen 07:53 geplant.
-- 0.65.403 (AHS-API2-b: Index in Portionen, nil+"pending") auf Discord. PS muss "pending" auswerten (PS-TQ1-b).
+- 0.65.404 (AHS-S313): names-Budget 4,5 ms; s313 bewertet je Bild mit gemessener Bereinigung (Gegenprobe FEHLER). FULL 404 läuft auf Kopie /tmp/claude-0/ahs404.
+- SP2 h) gemessen: Hash-Umbau erzeugt keinen Abfall -> nicht eingebaut (Bericht 0703). Frage S313 Budget-Bedingung offen (Bericht 0.65.404).
+- AHS-CF6: 0.65.400 Datei-ID 9822958 bei CF in Prüfung -> Nachlesen 07:53.
 
 ## Nächste Schritte
-1. CF-Seite nachlesen (07:53), Bericht. (FULL 0.65.403 erledigt: 355/67, keine neuen.)
-2. SP2 h) (rein intern) -> AHS-S313 -> AHS-S216 -> k) falls nötig. AHS-MK1 danach.
-3. Ingametest: zwei Vollscans in einer Sitzung (T459 Scan 2), Sandbox ohne sniper.armed (0.65.401+).
-4. Regel CF 18:00: CF-Entscheid im Repo -> sofort Auswahl-Frage im Chat; bis 17:30 Stand melden.
+1. CF-Seite nachlesen (07:53), Bericht. FULL 0.65.404 auswerten (gegen fail403), Bericht.
+2. k) Signaturen als Zahlen (freigegeben unter Bedingungen: altes Format lesen, Rückstufung, Gleichheit echte Daten, Gegenprobe), zuerst messen.
+3. AHS-S216 (längstes Bild), AHS-MK1 danach.
+4. Ingametest: zwei Vollscans in einer Sitzung (T459 Scan 2), Sandbox ohne sniper.armed (0.65.401+).
+5. Regel CF 18:00: CF-Entscheid im Repo -> sofort Auswahl-Frage im Chat; bis 17:30 Stand melden; ohne Bestätigung sofort melden.
 
 ## Offen beim Nutzer
 - Ingametest: "testroutine alles" mit T1016 (AH offen), Vollscan zweimal (SP1 d / SP2 T459), T126 im Vordergrund. Teil auto 09:01 erledigt.
@@ -37,5 +38,5 @@ Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /h
 - Kopfzeile "Sniper: an/aus" = db.sniper.armed (Sn:IsArmed ist auch mit Wächter-Prüfziel wahr – treibt nur die Suche).
 - AH-Abdeckung: UI:AHOverlayRaise einmal beim Einrichten; UI:AHBleed misst (T1016). Ursache a) noch "Verdacht, zu messen".
 - T750-Regel: Zeilen ohne " – Grund" nach "Text x px)" sind "gekürzt (Tooltip)" = kein FEHLER.
-- Letzter Test T1032 (T1032 API2-b; T1031 API2; T1030 SB1; T1028 OVF1, T1029 Trend Höchstpreis; T1025–T1027 = SP2 iii a/c/b; T1023/T1024 = SP2 ii; T1022 = SP2 i). best: A.NewBest/BestGet/BestIDs/BestMarkU (alt+neu); VS:BestSpare/BestInUse. Vollscan: VS.cmp/cmpSpare (set.min/qty/auc/lad). Neue Tests vor "-- CF-AHS-5 (CurseForge 17.11. …"; Index vor { "AHS-CF1-UI", .
+- s313 = Bewertung je Bild mit GC je Portion (Gegenprobe S313_NB=20). Letzter Test T1032 (T1032 API2-b; T1031 API2; T1030 SB1; T1028 OVF1, T1029 Trend Höchstpreis; T1025–T1027 = SP2 iii a/c/b; T1023/T1024 = SP2 ii; T1022 = SP2 i). best: A.NewBest/BestGet/BestIDs/BestMarkU (alt+neu); VS:BestSpare/BestInUse. Vollscan: VS.cmp/cmpSpare (set.min/qty/auc/lad). Neue Tests vor "-- CF-AHS-5 (CurseForge 17.11. …"; Index vor { "AHS-CF1-UI", .
 - Nie etwas in announce/ löschen, alte Versionen nicht wiederherstellen. Jede Version: CHANGELOG.de.md-Abschnitt Pflicht (AHS-R1).
