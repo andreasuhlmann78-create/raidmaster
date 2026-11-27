@@ -1,0 +1,30 @@
+Bericht GuildSentinel – GS-CF3: 0.9.66 auf CurseForge (27.11.2026 18:20)
+Auftrag: auftraege/GuildSentinel/offen-guildsentinel.txt, GS-CF3 (Supervisor 27.11. 11:25, Entscheid des Nutzers 11:21 "ausführen").
+Status: umgesetzt, zur Prüfung.
+
+Ablauf (Zeiten Europe/Zurich)
+- 18:01 git pull --rebase; keine neuen Aufträge für GuildSentinel (letzter: 27d91e5f "Nachricht GS-CF3 Wecker 18:00").
+- 18:02 announce/guildsentinel__guildsentinel-0.9.66.GuildSentinel.zip unverändert kopiert nach download/GuildSentinel-0.9.66.zip.
+  md5 announce/: 1f5a743a9f920e0216cca17aafbae885
+  md5 download/: 1f5a743a9f920e0216cca17aafbae885 (gleich)
+- download/GuildSentinel-0.9.61.zip entfernt (git rm).
+- addon_check download/GuildSentinel-0.9.66.zip: "Lua-Syntaxprüfung mit: luac5.1 (Lua 5.1)" – "GuildSentinel-0.9.66.zip: OK", keine Warnung, kein FEHLER.
+  Gegenprobe der Syntaxprüfung: über einen Verweis (Symlink) aufgerufen bestand der Wrapper den Probetest NICHT und addon_check meldete
+  "Lua-Syntax NICHT geprüft" (WARNUNG) – die Prüfung erkennt also einen fehlenden luac; erst mit dem echten Pfad lief die Syntaxprüfung.
+- 18:03 Commit b704b3d0 gepusht. Nachgeprüft: git status ohne "ahead"; git show origin/main:download/GuildSentinel-0.9.66.zip | md5sum
+  = 1f5a743a9f920e0216cca17aafbae885; download/GuildSentinel-0.9.61.zip auf origin/main nicht mehr vorhanden.
+
+Workflows zum Commit b704b3d0
+- CurseForge-Upload (Lauf 46038766609): success. Log: "GuildSentinel: GuildSentinel-0.9.66 hochgeladen (Datei-ID 9850937)",
+  Interface [11509, 11508, 16001, 20506, 20505]; Beschreibung mit den letzten 5 Versionen aktualisiert.
+- Addon-Prüfung (Lauf 46038766460): success.
+- Discord-Prüfung (Lauf 46038766629): bei Berichtszeit noch in Arbeit (nicht Teil von GS-CF3); Ergebnis im Stand nachgetragen.
+- curseforge/uploaded.json (Commit 3493b4ac des Workflows): GuildSentinel endet mit "0.9.61", "0.9.66".
+
+Offen
+- Sichtbarkeit auf curseforge.com: von hier aus nicht abrufbar (Seite für diese Sitzung gesperrt) – Verdacht, zu prüfen. Der Upload ist
+  laut CurseForge-Antwort angenommen (Datei-ID 9850937); ob die Datei schon freigeschaltet/sichtbar ist, bitte im Browser bestätigen.
+- README-Link: zeigt noch auf download/GuildSentinel-0.9.61.zip. Diese Datei ist seit b704b3d0 entfernt -> der Link führt ins Leere,
+  bis er umgestellt ist. Laut Auftrag erst umstellen, wenn 0.9.66 auf curseforge.com sichtbar ist. Vorschlag: sofort umstellen, weil
+  die Zip unter download/ schon liegt (Link funktioniert damit unabhängig von CurseForge) – Entscheid Supervisor/Nutzer.
+- "Marktdaten teilen" bleibt unter "Daten & Abgleich" (Entscheid 11:21), keine Änderung am Addon.
