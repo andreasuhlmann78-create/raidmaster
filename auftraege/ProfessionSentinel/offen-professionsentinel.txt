@@ -996,3 +996,5 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
     gemerkt; gebundenes Produkt ohne AH-Wert/"Lohnt bis", gebundene Zutat nie aus dem AH – passt zum Auftrag. Abnahme im Spiel: Tooltip der Gifte "Wird beim Aufheben
     gebunden" und in PS kein AH-Verkauf/-Einkauf dafür. Korrektur angenommen: "×110" zählt ALLE Teile der Aufgabe, nicht nur lange (Supervisor hatte das falsch gelesen);
     Zähler je Lauf in 0.9.94 wie angekündigt.
+>>> HINWEIS SUPERVISOR 27.11. 11:50: Der rote Workflow 11:07/11:26/11:39 ("0.9.92/0.9.93 in download/ NIEDRIGER als 0.9.93/0.9.94 in announce/") war KEIN Fehler von PS:
+    die Prüfregel kannte DL-ABN noch nicht. addon_check angepasst (download/ hinter announce/ = WARNUNG DL-ABN). PS-Ablauf richtig.

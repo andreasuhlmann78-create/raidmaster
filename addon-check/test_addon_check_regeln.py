@@ -245,7 +245,8 @@ with tempfile.TemporaryDirectory() as d:
         check("CF-Addon: download/ älter als Discord -> nur Warnung 18:00",
               not any(l == "FEHLER" and "NIEDRIGER" in t for l, t in r) and any(l == "WARNUNG" and "18:00" in t for l, t in r))
         r = a.check_zip(make_zip(dl, "ProbeNoCF", "1.0.1", {"Core.lua": "local x = 1\n"}))
-        check("Addon ohne CurseForge: weiter FEHLER", any(l == "FEHLER" and "NIEDRIGER" in t for l, t in r))
+        check("Addon ohne CurseForge: download/ älter als Discord -> nur Warnung DL-ABN (27.11.)",
+              not any(l == "FEHLER" and "NIEDRIGER" in t for l, t in r) and any(l == "WARNUNG" and "DL-ABN" in t for l, t in r))
         r = a.check_zip(make_zip(dl, "ProbeGit", "1.0.1", {"Core.lua": "local x = 1\n"}))
         check("CF-Addon, höhere Version schon in download/ -> weiter FEHLER", any(l == "FEHLER" and "NIEDRIGER" in t for l, t in r))
         r = a.check_zip(make_zip(d, "ProbeCF", "1.0.1", {"Core.lua": "local x = 1\n"}))

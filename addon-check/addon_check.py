@@ -799,10 +799,15 @@ def check_zip(path, shared_ref=None, dev_max=None):
             # GS-Hinweis 15.11. 20:25: CurseForge-Addons liegen bis 18:00 absichtlich mit der älteren Zip in download/,
             # während Discord (announce/) schon die neue hat – das ist gewollt, kein FEHLER
             only_discord = all(known[v] <= {"Discord (announce/)"} for v in higher)
-            if (not from_announce and path.parent.name == "download" and only_discord
-                    and zaddon.lower() in curseforge_addons()):
-                warn(f"Version {ver} in download/ wartet auf CurseForge 18:00 – Discord hat schon {top} "
-                     f"(gewollt, Entscheid 15.11. 13:16)")
+            # DL-ABN 27.11.2026 (Uploader 2.3.29+: download/ = stabil, wird bei allen Mitspielern automatisch installiert):
+            # für ALLE Addons liegt download/ absichtlich hinter Discord, bis der Supervisor die neuere Version annimmt
+            if not from_announce and path.parent.name == "download" and only_discord:
+                if zaddon.lower() in curseforge_addons():
+                    warn(f"Version {ver} in download/ wartet auf CurseForge 18:00 – Discord hat schon {top} "
+                         f"(gewollt, Entscheid 15.11. 13:16)")
+                else:
+                    warn(f"Version {ver} in download/ ist die angenommene stabile Version – Discord hat schon die Testversion {top} "
+                         f"(gewollt, DL-ABN 27.11.: download/ erst nach Annahme)")
             else:
                 err(f"Version {ver} ist NIEDRIGER als schon veröffentlichte {top} ({', '.join(sorted(known[top]))}). "
                     f"Neue Version muss höher sein als {top}, sonst bekommen Spieler das Update nicht.")
