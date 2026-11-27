@@ -1,0 +1,239 @@
+AHSentinel-Protokoll v0.65.414 · 27.11. 06:26:42
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  27.11. 06:26:08 L10 PRIEST v0.65.414
+  27.11. 06:25:44 L10 PRIEST v0.65.414
+  26.11. 17:02:50 L10 PRIEST v0.65.413
+  26.11. 17:01:38 L10 PRIEST v0.65.413
+  26.11. 17:00:34 L10 PRIEST v0.65.413
+  26.11. 16:55:15 L10 PRIEST v0.65.413
+  26.11. 16:22:40 L10 PRIEST v0.65.412
+  26.11. 16:21:56 L10 PRIEST v0.65.412
+  26.11. 16:07:44 L10 PRIEST v0.65.411
+  26.11. 16:07:00 L10 PRIEST v0.65.411
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 1 Tagen, 7535 Items, Preis-Sync an
+  SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, BuffSentinel 0, GoldSentinelMarkt 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0, ThreatSentinel 0
+  SYNC gesendet 18 · empfangen 0 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 5 (mit Sync 2: 5, pausiert 1) · gesendet 1 · weitergegeben 0 · offline 1 · Listen 0 · Warteschlange 0 · gespeichert ja · im Test angehalten 0
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Sniper-Takt (SN-T2): 297 Suchen · Abstand Median 0.75 s, Min 0.70 s, Max 498.22 s
+    Zeitraum 22.11. 09:14–13:31 · minimiert/Hintergrund (unter 15 Bilder/s): 0 % (0 von 74)
+    Server nicht bereit: Median 0.50 s, Min 0.00 s, Max 46.80 s je Suche
+    eigene Bremse/Abstand: Median 0.00 s, Min 0.00 s, Max 2.00 s je Suche
+    Antwort des Servers: Median 0.20 s, Min 0.10 s, Max 0.30 s je Suche
+    Treffer-Halt: Median 0.00 s, Min 0.00 s, Max 6.77 s je Suche
+    andere Arbeit: Median 0.00 s, Min 0.00 s, Max 449.32 s je Suche
+    bereit (Tick): Median 0.00 s, Min 0.00 s, Max 26.24 s je Suche
+    Suchen je Ziel: i:11986 63 (21 %) · i:249428 15 (5 %) · i:5966 100 (33 %) · i:6040 10 (3 %) · i:7058 81 (27 %) · i:7911 2 (1 %) · w:11176 1 (0 %) · w:12037 2 (1 %) · w:12803 1 (0 %) · w:13463 1 (0 %) · w:15415 1 (0 %) · w:249391 5 (2 %) · w:2838 3 (1 %) · w:3404 1 (0 %) · w:4304 10 (3 %) · w:4338 3 (1 %) · w:5471 1 (0 %)
+  Sync-Abweichungen (S6): 87 Fälle, Markt-Tag fremd 0 (alte Version / anderer Markt)
+    7 Tage je Ursache (vollständig): stapel 1, bewegt 4, unbekannt 82
+    Stapel- statt Stückpreis: 1 – Item 15733 eigen 3499/fremd 49999 (Alter 111/4 Min., g, Voll, Menge 17)
+    Markt hat sich bewegt (Zeitabstand > 6 Std.): 4 – Item 260793 eigen 650/fremd 1500 (Alter 1363/3 Min., g, Voll, Menge 118); Item 2980 eigen 895/fremd 1800 (Alter 1364/4 Min., g, Voll, Menge 8); Item 5363 eigen 400/fremd 9999 (Alter 1364/4 Min., g, Voll, Menge 1); Item 6304 eigen 100/fremd 1000 (Alter 1364/4 Min., g, Voll, Menge 1)
+    unbekannt: 82 – Item 2589 eigen 41/fremd 19 (Alter 108/0 Min., g, Voll, Menge 25480); Item 3464 eigen 25/fremd 10 (Alter 108/0 Min., g, Voll, Menge 10784); Item 17056 eigen 1695/fremd 100 (Alter 108/0 Min., g, Voll, Menge 5474); Item 2862 eigen 24/fremd 8 (Alter 108/0 Min., g, Voll, Menge 5001); Item 249391 eigen 2754/fremd 900 (Alter 108/0 Min., g, Voll, Menge 4789)
+  Einstellungen geändert: cmdHint=true, fastScan=true, helpSeen=true, learnExplore=false, marketExpert=false, minimapAngle=199, priceGuard=20, psHintHidden=true, sniperSignal=true, theme=modern, tooltipDEDetail=true, vendorButton=false, vendorFlipMin=500, vsBudget=2
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0
+
+== Einträge (200, neueste zuerst)
+[27.11. 06:26:37] WAECHTER-HUERDEN ×2 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 267 mit belastbarem Marktwert · 14 unter 70 % des Marktwerts · 14 ohne Preissturz/Flutung · 12 unter der Flip-Grenze (Mindestgewinn) · 12 im Tagesbudget Weiterverkauf · 6 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 4 unter 50 %
+[27.11. 06:26:25] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 267 mit belastbarem Marktwert · 14 unter 70 % des Marktwerts · 14 ohne Preissturz/Flutung · 12 unter der Flip-Grenze (Mindestgewinn) · 12 im Tagesbudget Weiterverkauf · 6 Marktwert ab Mindestwert · 1 neu (nicht gerade abgelehnt) · 4 unter 50 %
+[27.11. 06:26:25] PREISPRUEFUNG Item 10978 · Schlüssel allgemein (Stufe 20, Suffix 0, Haustier 0) · 36 Angebote · Scan 1915 Stück · 0.1 s · Antwort
+[27.11. 06:26:24] PREISPRUEFUNG Item 11134 · Schlüssel allgemein (Stufe 30, Suffix 0, Haustier 0) · 30 Angebote · Scan 1455 Stück · 0.1 s · Antwort
+[27.11. 06:26:24] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[27.11. 06:26:23] PREISPRUEFUNG Item 10998 · Schlüssel allgemein (Stufe 20, Suffix 0, Haustier 0) · 13 Angebote · Scan 1352 Stück · 0.1 s · Antwort
+[27.11. 06:26:22] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 0.0 Std., 10940: 0.0 Std., 11082: 0.0 Std. · 3 frisch geholt
+[27.11. 06:26:17] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 267 mit belastbarem Marktwert · 14 unter 70 % des Marktwerts · 14 ohne Preissturz/Flutung · 12 unter der Flip-Grenze (Mindestgewinn) · 12 im Tagesbudget Weiterverkauf · 6 Marktwert ab Mindestwert · 6 neu (nicht gerade abgelehnt) · 4 unter 50 %
+[27.11. 06:26:17] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[27.11. 06:26:17] ABSATZ-UNPLAUSIBEL Item 250483 · 6.4/Tag · Quelle geschätzt
+[27.11. 06:26:17] AH-STATE erstes Öffnen der Sitzung · vorgebaut: ja · AH geöffnet · gesamt 5.5 ms · Kern/Reiter 0.4 · Fenster 4.5 (neu geöffnet, Reiter overview) · Statuszeile 0.6 · Teile: Reiter füllen (overview) 1.8 · Reiter zeigen 1.4 · kleine Teile (10) 0.5 · Rest (nicht zugeordnet) 0.8 · zugeordnet 82 % · Lücke in: Show 0.8 · 5 ms
+[27.11. 06:26:14] SYNC Weg=GUILD
+[27.11. 06:26:12] ITEMINFO neue Item-Anfragen 200 (zurückgestellt 0) · je Aufgabe: cache:warm 200
+[27.11. 06:26:10] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[27.11. 06:26:10] ABSATZ-UNPLAUSIBEL Item 1179 · 445.5/Tag · Quelle geschätzt
+[27.11. 06:26:10] ABSATZ-UNPLAUSIBEL Item 4344 · 25.4/Tag · Quelle geschätzt
+[27.11. 06:26:10] ABSATZ-UNPLAUSIBEL Item 4312 · 29.3/Tag · Quelle geschätzt
+[27.11. 06:26:10] ABSATZ-UNPLAUSIBEL Item 2568 · 21.6/Tag · Quelle geschätzt
+[27.11. 06:26:10] ABSATZ-UNPLAUSIBEL Item 4322 · 49.2/Tag · Quelle gemessen
+[27.11. 06:26:10] ABSATZ-UNPLAUSIBEL Item 22250 · 65.2/Tag · Quelle geschätzt
+[27.11. 06:26:10] ABSATZ-UNPLAUSIBEL Item 6242 · 54.8/Tag · Quelle gemessen
+[27.11. 06:26:09] ABSATZ-UNPLAUSIBEL Item 5764 · 128.1/Tag · Quelle geschätzt
+[27.11. 06:26:09] ABSATZ-UNPLAUSIBEL Item 274964 · 1971.7/Tag · Quelle gemessen, Angebot veraltet
+[27.11. 06:26:09] ABSATZ-UNPLAUSIBEL Item 3726 · 990.9/Tag · Quelle gemessen
+[27.11. 06:26:09] ABSATZ-UNPLAUSIBEL Item 279968 · 1322.7/Tag · Quelle gemessen
+[27.11. 06:26:09] ABSATZ-UNPLAUSIBEL Item 10047 · 72.5/Tag · Quelle geschätzt
+[27.11. 06:26:09] ABSATZ-UNPLAUSIBEL Item 4385 · 19.9/Tag · Quelle geschätzt
+[27.11. 06:26:09] GOLD-LOGOUT-NACHTRAG voriges Ende war /reload: ja (Erst-Login nein)
+[27.11. 06:26:08] REALM <leer> · Schlüssel-Realm CAMWOW EU4 Realm 6 PvP
+[27.11. 06:26:02] GOLD-LOGOUT GetMoney beim Ausloggen 466716 · beim Verlassen der Welt 466716 · Art: ohne Ankündigung (sofort, Verbindungsende oder /reload) · letzter echter Stand 466716
+[27.11. 06:26:01] PREISPRUEFUNG Item 11139 · Schlüssel allgemein (Stufe 35, Suffix 0, Haustier 0) · 24 Angebote · Scan 652 Stück · 0.0 s · Antwort
+[27.11. 06:26:01] PREISPRUEFUNG Item 11135 · Schlüssel allgemein (Stufe 35, Suffix 0, Haustier 0) · 29 Angebote · Scan 1428 Stück · 0.1 s · Antwort
+[27.11. 06:26:00] PREISPRUEFUNG Item 11084 · Schlüssel allgemein (Stufe 25, Suffix 0, Haustier 0) · 59 Angebote · Scan 1650 Stück · 0.1 s · Antwort
+[27.11. 06:25:59] PREISPRUEFUNG Item 10938 · Schlüssel allgemein (Stufe 10, Suffix 0, Haustier 0) · 28 Angebote · Scan 6669 Stück · 0.1 s · Antwort
+[27.11. 06:25:59] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[27.11. 06:25:59] PREISPRUEFUNG Item 11137 · Schlüssel allgemein (Stufe 35, Suffix 0, Haustier 0) · 47 Angebote · Scan 9030 Stück · 0.1 s · Antwort
+[27.11. 06:25:58] PREISPRUEFUNG Item 11082 · Schlüssel allgemein (Stufe 25, Suffix 0, Haustier 0) · 22 Angebote · Scan 1458 Stück · 0.1 s · Antwort
+[27.11. 06:25:57] PREISPRUEFUNG Item 10940 · Schlüssel allgemein (Stufe 10, Suffix 0, Haustier 0) · 33 Angebote · Scan 13582 Stück · 0.1 s · Antwort
+[27.11. 06:25:57] PREISPRUEFUNG Item 11083 · Schlüssel allgemein (Stufe 25, Suffix 0, Haustier 0) · 32 Angebote · Scan 4889 Stück · 0.1 s · Antwort
+[27.11. 06:25:55] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 13.4 Std., 10940: 13.4 Std., 11082: 13.4 Std. · 11 frisch geholt
+[27.11. 06:25:52] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 267 mit belastbarem Marktwert · 14 unter 70 % des Marktwerts · 14 ohne Preissturz/Flutung · 12 unter der Flip-Grenze (Mindestgewinn) · 12 im Tagesbudget Weiterverkauf · 6 Marktwert ab Mindestwert · 6 neu (nicht gerade abgelehnt) · 4 unter 50 %
+[27.11. 06:25:52] ABSATZ-UNPLAUSIBEL Item 250483 · 6.4/Tag · Quelle geschätzt
+[27.11. 06:25:50] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[27.11. 06:25:50] AH-STATE erstes Öffnen der Sitzung · vorgebaut: nein · AH geöffnet · gesamt 12.4 ms · Kern/Reiter 0.4 · Fenster 11.5 (neu geöffnet, Reiter overview) · Statuszeile 0.6 · Teile: Reiter aufbauen/umhängen (overview) 4.0 · Reiter füllen (overview) 1.2 · kleine Teile (10) 0.3 · Rest (nicht zugeordnet) 6.0 · zugeordnet 48 % · Lücke in: Show 5.9 · 12 ms
+[27.11. 06:25:49] SYNC Weg=GUILD
+[27.11. 06:25:47] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[27.11. 06:25:47] ABSATZ-UNPLAUSIBEL Item 4322 · 49.2/Tag · Quelle gemessen
+[27.11. 06:25:47] ABSATZ-UNPLAUSIBEL Item 2568 · 21.6/Tag · Quelle geschätzt
+[27.11. 06:25:47] ABSATZ-UNPLAUSIBEL Item 4344 · 25.4/Tag · Quelle geschätzt
+[27.11. 06:25:47] ABSATZ-UNPLAUSIBEL Item 1179 · 445.5/Tag · Quelle geschätzt
+[27.11. 06:25:47] ABSATZ-UNPLAUSIBEL Item 4312 · 29.3/Tag · Quelle geschätzt
+[27.11. 06:25:46] ABSATZ-UNPLAUSIBEL Item 22250 · 65.2/Tag · Quelle geschätzt
+[27.11. 06:25:46] ABSATZ-UNPLAUSIBEL Item 6242 · 54.8/Tag · Quelle gemessen
+[27.11. 06:25:46] ABSATZ-UNPLAUSIBEL Item 5764 · 128.1/Tag · Quelle geschätzt
+[27.11. 06:25:46] ABSATZ-UNPLAUSIBEL Item 274964 · 1971.7/Tag · Quelle gemessen, Angebot veraltet
+[27.11. 06:25:46] ABSATZ-UNPLAUSIBEL Item 3726 · 990.9/Tag · Quelle gemessen
+[27.11. 06:25:46] ABSATZ-UNPLAUSIBEL Item 279968 · 1322.7/Tag · Quelle gemessen
+[27.11. 06:25:46] ABSATZ-UNPLAUSIBEL Item 10047 · 72.5/Tag · Quelle geschätzt
+[27.11. 06:25:45] ABSATZ-UNPLAUSIBEL Item 4385 · 19.9/Tag · Quelle geschätzt
+[27.11. 06:25:45] ABSATZ Item 118 · Q 732 (scan, Q gesamt) · S 443.3 (measured) · S roh 443.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.7 · N 7.0
+[27.11. 06:25:44] GOLD-LOGOUT-NACHTRAG voriges Ende war /reload: nein (Erst-Login ja)
+[27.11. 06:25:44] REALM <leer> · Schlüssel-Realm CAMWOW EU4 Realm 6 PvP
+[26.11. 17:10:43] GOLD-LOGOUT GetMoney beim Ausloggen 0 · beim Verlassen der Welt 0 · Art: ohne Ankündigung (sofort, Verbindungsende oder /reload) · letzter echter Stand 466716
+[26.11. 17:02:56] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[26.11. 17:02:55] SYNC Weg=GUILD
+[26.11. 17:02:51] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[26.11. 17:02:51] ABSATZ-UNPLAUSIBEL Item 1179 · 445.5/Tag · Quelle geschätzt
+[26.11. 17:02:51] ABSATZ-UNPLAUSIBEL Item 4344 · 25.4/Tag · Quelle geschätzt
+[26.11. 17:02:51] ABSATZ-UNPLAUSIBEL Item 4312 · 29.3/Tag · Quelle geschätzt
+[26.11. 17:02:51] ABSATZ-UNPLAUSIBEL Item 2568 · 21.6/Tag · Quelle geschätzt
+[26.11. 17:02:51] ABSATZ-UNPLAUSIBEL Item 4322 · 49.2/Tag · Quelle gemessen
+[26.11. 17:02:51] ABSATZ-UNPLAUSIBEL Item 22250 · 65.2/Tag · Quelle geschätzt
+[26.11. 17:02:51] ABSATZ-UNPLAUSIBEL Item 6242 · 54.8/Tag · Quelle gemessen
+[26.11. 17:02:51] ABSATZ-UNPLAUSIBEL Item 5764 · 128.1/Tag · Quelle geschätzt
+[26.11. 17:02:51] ABSATZ-UNPLAUSIBEL Item 274964 · 1971.7/Tag · Quelle gemessen, Angebot veraltet
+[26.11. 17:02:50] ABSATZ-UNPLAUSIBEL Item 3726 · 990.9/Tag · Quelle gemessen
+[26.11. 17:02:50] ABSATZ-UNPLAUSIBEL Item 279968 · 1322.7/Tag · Quelle gemessen
+[26.11. 17:02:50] ABSATZ-UNPLAUSIBEL Item 10047 · 72.5/Tag · Quelle geschätzt
+[26.11. 17:02:50] ABSATZ-UNPLAUSIBEL Item 4385 · 19.9/Tag · Quelle geschätzt
+[26.11. 17:02:50] GOLD-LOGOUT-NACHTRAG voriges Ende war /reload: ja (Erst-Login nein)
+[26.11. 17:02:50] REALM <leer> · Schlüssel-Realm CAMWOW EU4 Realm 6 PvP
+[26.11. 17:02:42] GOLD-LOGOUT GetMoney beim Ausloggen 466716 · beim Verlassen der Welt 466716 · Art: ohne Ankündigung (sofort, Verbindungsende oder /reload) · letzter echter Stand 466716
+[26.11. 17:02:36] WAECHTER-HUERDEN ×2 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 267 mit belastbarem Marktwert · 9 unter 70 % des Marktwerts · 9 ohne Preissturz/Flutung · 5 unter der Flip-Grenze (Mindestgewinn) · 5 im Tagesbudget Weiterverkauf · 2 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[26.11. 17:02:20] WAECHTER-HUERDEN ×3 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 267 mit belastbarem Marktwert · 10 unter 70 % des Marktwerts · 10 ohne Preissturz/Flutung · 6 unter der Flip-Grenze (Mindestgewinn) · 6 im Tagesbudget Weiterverkauf · 3 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[26.11. 17:02:03] ENTZAUBERWERT Item 10262 · Tabelle · 16204 75% × 3.50 à 1422, 16203 20% × 2.50 à 36480, 14344 5% × 1.00 à 27924 · brutto 24201 · netto 22990
+[26.11. 17:02:03] ABSATZ Item 10262 · Q 12 (scan, Q gesamt) · S 1.0 (market, gelernt) · S roh 2.7 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 13.3 · N 7.0 · kaum
+[26.11. 17:02:03] ABSATZ Item 1378 · Q 9 (scan, Q gesamt) · S 1.9 (market, gelernt) · S roh 5.3 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 5.3 · N 6.0
+[26.11. 17:02:03] ABSATZ Item 12435 · Q 273 (scan, Q gesamt) · S 38.1 (market, gelernt) · S roh 131.3 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 5.0 · N 6.0
+[26.11. 17:02:03] ENTZAUBERWERT Item 277034 · eigene Ø aus 769 · 10940 79% × 1.50 à 118, 10938 21% × 1.57 à 181 · brutto 210 · netto 200
+[26.11. 17:02:03] DE-CHANCEN Gruppe 2:1:a · Tabelle 10940 80%/10938 20% · echt 10940 79%/10938 21% (769)
+[26.11. 17:02:03] ABSATZ Item 277034 · Q 1 (scan, Q gesamt) · S 0.5 (market, gelernt) · S roh 1.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 4.3 · N 7.0
+[26.11. 17:02:03] ENTZAUBERWERT Item 254127 · Tabelle · 16204 75% × 1.50 à 1422, 16203 20% × 1.50 à 36480, 14344 5% × 1.00 à 27924 · brutto 14437 · netto 13714
+[26.11. 17:02:03] DE-CHANCEN Gruppe 2:10:a · Tabelle 16204 75%/16203 20%/14344 5% · echt 16204 -/16203 -/14344 - (0)
+[26.11. 17:02:03] ABSATZ Item 254127 · Q 4 (scan, Q gesamt) · S 0.6 (market, gelernt) · S roh 1.8 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 7.8 · N 7.0 · kaum
+[26.11. 17:02:03] ABSATZ Item 213544 · Q 5 (vollscan) · S 40.2 (measured) · S roh 40.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.1 · N 2.0
+[26.11. 17:02:03] ENTZAUBERWERT Item 10256 · Tabelle · 16204 75% × 3.50 à 1422, 16203 20% × 2.50 à 36480, 14344 5% × 1.00 à 27924 · brutto 24201 · netto 22990
+[26.11. 17:02:03] DE-CHANCEN Gruppe 2:11:a · Tabelle 16204 75%/16203 20%/14344 5% · echt 16204 -/16203 -/14344 - (0)
+[26.11. 17:02:03] ABSATZ Item 10256 · Q 33 (scan, Q gesamt) · S 2.1 (market, gelernt) · S roh 5.9 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 16.0 · N 7.0 · kaum
+[26.11. 17:02:03] ABSATZ Item 3365 · Q 24 (scan, Q gesamt) · S 0.3 (market, gelernt) · S roh 0.8 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 82.1 · N 7.0 · kaum
+[26.11. 17:01:57] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 267 mit belastbarem Marktwert · 10 unter 70 % des Marktwerts · 10 ohne Preissturz/Flutung · 6 unter der Flip-Grenze (Mindestgewinn) · 6 im Tagesbudget Weiterverkauf · 3 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[26.11. 17:01:53] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 0.0 Std., 10940: 0.0 Std., 11082: 0.0 Std. · 0 frisch geholt
+[26.11. 17:01:53] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[26.11. 17:01:49] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 267 mit belastbarem Marktwert · 10 unter 70 % des Marktwerts · 10 ohne Preissturz/Flutung · 6 unter der Flip-Grenze (Mindestgewinn) · 6 im Tagesbudget Weiterverkauf · 3 Marktwert ab Mindestwert · 3 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[26.11. 17:01:49] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[26.11. 17:01:48] ABSATZ-UNPLAUSIBEL Item 250483 · 6.4/Tag · Quelle geschätzt
+[26.11. 17:01:48] AH-STATE erstes Öffnen der Sitzung · vorgebaut: nein · AH geöffnet · gesamt 14.5 ms · Kern/Reiter 0.4 · Fenster 13.5 (neu geöffnet, Reiter overview) · Statuszeile 0.5 · Teile: Reiter aufbauen/umhängen (overview) 4.6 · Reiter füllen (overview) 1.3 · kleine Teile (10) 0.6 · Rest (nicht zugeordnet) 7.0 · zugeordnet 48 % · 14 ms
+[26.11. 17:01:43] SYNC Weg=GUILD
+[26.11. 17:01:40] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[26.11. 17:01:40] ABSATZ-UNPLAUSIBEL Item 4322 · 49.2/Tag · Quelle gemessen
+[26.11. 17:01:40] ABSATZ-UNPLAUSIBEL Item 2568 · 21.6/Tag · Quelle geschätzt
+[26.11. 17:01:40] ABSATZ-UNPLAUSIBEL Item 4312 · 29.3/Tag · Quelle geschätzt
+[26.11. 17:01:40] ABSATZ-UNPLAUSIBEL Item 1179 · 445.5/Tag · Quelle geschätzt
+[26.11. 17:01:40] ABSATZ-UNPLAUSIBEL Item 4344 · 25.4/Tag · Quelle geschätzt
+[26.11. 17:01:40] ABSATZ-UNPLAUSIBEL Item 22250 · 65.2/Tag · Quelle geschätzt
+[26.11. 17:01:40] ABSATZ-UNPLAUSIBEL Item 6242 · 54.8/Tag · Quelle gemessen
+[26.11. 17:01:40] ABSATZ-UNPLAUSIBEL Item 5764 · 128.1/Tag · Quelle geschätzt
+[26.11. 17:01:40] ABSATZ-UNPLAUSIBEL Item 274964 · 1971.7/Tag · Quelle gemessen, Angebot veraltet
+[26.11. 17:01:39] ABSATZ-UNPLAUSIBEL Item 3726 · 990.9/Tag · Quelle gemessen
+[26.11. 17:01:39] ABSATZ-UNPLAUSIBEL Item 279968 · 1322.7/Tag · Quelle gemessen
+[26.11. 17:01:39] ABSATZ-UNPLAUSIBEL Item 10047 · 72.5/Tag · Quelle geschätzt
+[26.11. 17:01:39] ABSATZ-UNPLAUSIBEL Item 4385 · 19.9/Tag · Quelle geschätzt
+[26.11. 17:01:38] GOLD-LOGOUT-NACHTRAG voriges Ende war /reload: ja (Erst-Login nein)
+[26.11. 17:01:38] REALM <leer> · Schlüssel-Realm CAMWOW EU4 Realm 6 PvP
+[26.11. 17:01:30] GOLD-LOGOUT GetMoney beim Ausloggen 466716 · beim Verlassen der Welt 466716 · Art: ohne Ankündigung (sofort, Verbindungsende oder /reload) · letzter echter Stand 466716
+[26.11. 17:01:22] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 267 mit belastbarem Marktwert · 10 unter 70 % des Marktwerts · 10 ohne Preissturz/Flutung · 6 unter der Flip-Grenze (Mindestgewinn) · 6 im Tagesbudget Weiterverkauf · 3 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[26.11. 17:01:21] PREISPRUEFUNG Item 10978 · Schlüssel allgemein (Stufe 20, Suffix 0, Haustier 0) · 57 Angebote · Scan 2032 Stück · 0.1 s · Antwort
+[26.11. 17:01:20] PREISPRUEFUNG Item 11134 · Schlüssel allgemein (Stufe 30, Suffix 0, Haustier 0) · 21 Angebote · Scan 1663 Stück · 0.1 s · Antwort
+[26.11. 17:01:20] PREISPRUEFUNG Item 10998 · Schlüssel allgemein (Stufe 20, Suffix 0, Haustier 0) · 36 Angebote · Scan 1892 Stück · 0.1 s · Antwort
+[26.11. 17:01:19] PREISPRUEFUNG Item 11139 · Schlüssel allgemein (Stufe 35, Suffix 0, Haustier 0) · 40 Angebote · Scan 695 Stück · 0.1 s · Antwort
+[26.11. 17:01:18] PREISPRUEFUNG Item 11135 · Schlüssel allgemein (Stufe 35, Suffix 0, Haustier 0) · 49 Angebote · Scan 1391 Stück · 0.1 s · Antwort
+[26.11. 17:01:18] PREISPRUEFUNG Item 11084 · Schlüssel allgemein (Stufe 25, Suffix 0, Haustier 0) · 45 Angebote · Scan 1533 Stück · 0.1 s · Antwort
+[26.11. 17:01:17] PREISPRUEFUNG Item 10938 · Schlüssel allgemein (Stufe 10, Suffix 0, Haustier 0) · 22 Angebote · Scan 5674 Stück · 0.1 s · Antwort
+[26.11. 17:01:16] PREISPRUEFUNG Item 11137 · Schlüssel allgemein (Stufe 35, Suffix 0, Haustier 0) · 31 Angebote · Scan 8272 Stück · 0.1 s · Antwort
+[26.11. 17:01:16] PREISPRUEFUNG Item 11082 · Schlüssel allgemein (Stufe 25, Suffix 0, Haustier 0) · 39 Angebote · Scan 1668 Stück · 0.1 s · Antwort
+[26.11. 17:01:15] PREISPRUEFUNG Item 10940 · Schlüssel allgemein (Stufe 10, Suffix 0, Haustier 0) · 41 Angebote · Scan 14803 Stück · 0.1 s · Antwort
+[26.11. 17:01:14] PREISPRUEFUNG Item 11083 · Schlüssel allgemein (Stufe 25, Suffix 0, Haustier 0) · 36 Angebote · Scan 4971 Stück · 0.1 s · Antwort
+[26.11. 17:01:10] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 0.6 Std., 10940: 0.6 Std., 11082: 0.6 Std. · 11 frisch geholt
+[26.11. 17:01:06] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 267 mit belastbarem Marktwert · 10 unter 70 % des Marktwerts · 10 ohne Preissturz/Flutung · 6 unter der Flip-Grenze (Mindestgewinn) · 6 im Tagesbudget Weiterverkauf · 3 Marktwert ab Mindestwert · 3 neu (nicht gerade abgelehnt) · 1 unter 50 %
+[26.11. 17:01:06] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[26.11. 17:01:05] ABSATZ-UNPLAUSIBEL Item 250483 · 6.4/Tag · Quelle geschätzt
+[26.11. 17:01:05] AH-STATE erstes Öffnen der Sitzung · vorgebaut: ja · AH geöffnet · gesamt 5.7 ms · Kern/Reiter 0.7 · Fenster 4.4 (neu geöffnet, Reiter overview) · Statuszeile 0.6 · Teile: Reiter zeigen 1.6 · Reiter füllen (overview) 1.5 · kleine Teile (10) 0.6 · Rest (nicht zugeordnet) 0.7 · zugeordnet 84 % · 6 ms
+[26.11. 17:00:50] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[26.11. 17:00:49] ITEMINFO neue Item-Anfragen 200 (zurückgestellt 0) · je Aufgabe: cache:warm-today 200
+[26.11. 17:00:40] SYNC Weg=GUILD
+[26.11. 17:00:38] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[26.11. 17:00:38] ABSATZ-UNPLAUSIBEL Item 1179 · 445.5/Tag · Quelle geschätzt
+[26.11. 17:00:38] ABSATZ-UNPLAUSIBEL Item 4344 · 25.4/Tag · Quelle geschätzt
+[26.11. 17:00:38] ABSATZ-UNPLAUSIBEL Item 4312 · 29.3/Tag · Quelle geschätzt
+[26.11. 17:00:38] ABSATZ-UNPLAUSIBEL Item 2568 · 21.6/Tag · Quelle geschätzt
+[26.11. 17:00:38] ABSATZ-UNPLAUSIBEL Item 4322 · 49.2/Tag · Quelle gemessen
+[26.11. 17:00:38] ABSATZ-UNPLAUSIBEL Item 22250 · 65.2/Tag · Quelle geschätzt
+[26.11. 17:00:38] ABSATZ-UNPLAUSIBEL Item 6242 · 54.8/Tag · Quelle gemessen
+[26.11. 17:00:37] ABSATZ-UNPLAUSIBEL Item 5764 · 128.1/Tag · Quelle geschätzt
+[26.11. 17:00:37] ABSATZ-UNPLAUSIBEL Item 274964 · 1971.7/Tag · Quelle gemessen, Angebot veraltet
+[26.11. 17:00:37] ABSATZ-UNPLAUSIBEL Item 3726 · 990.9/Tag · Quelle gemessen
+[26.11. 17:00:37] ABSATZ-UNPLAUSIBEL Item 279968 · 1322.7/Tag · Quelle gemessen
+[26.11. 17:00:37] ABSATZ-UNPLAUSIBEL Item 10047 · 72.5/Tag · Quelle geschätzt
+[26.11. 17:00:36] ABSATZ-UNPLAUSIBEL Item 4385 · 19.9/Tag · Quelle geschätzt
+[26.11. 17:00:34] GOLD-LOGOUT-NACHTRAG voriges Ende war /reload: nein (Erst-Login ja)
+[26.11. 17:00:34] REALM <leer> · Schlüssel-Realm CAMWOW EU4 Realm 6 PvP
+[26.11. 16:55:17] GOLD-LOGOUT GetMoney beim Ausloggen 0 · beim Verlassen der Welt 0 · Art: ohne Ankündigung (sofort, Verbindungsende oder /reload) · letzter echter Stand 466716
+[26.11. 16:55:16] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[26.11. 16:55:16] ABSATZ-UNPLAUSIBEL Item 4322 · 49.2/Tag · Quelle gemessen
+[26.11. 16:55:16] ABSATZ-UNPLAUSIBEL Item 2568 · 21.6/Tag · Quelle geschätzt
+[26.11. 16:55:16] ABSATZ-UNPLAUSIBEL Item 4344 · 25.4/Tag · Quelle geschätzt
+[26.11. 16:55:16] ABSATZ-UNPLAUSIBEL Item 1179 · 445.5/Tag · Quelle geschätzt
+[26.11. 16:55:16] ABSATZ-UNPLAUSIBEL Item 4312 · 29.3/Tag · Quelle geschätzt
+[26.11. 16:55:16] ABSATZ-UNPLAUSIBEL Item 22250 · 65.2/Tag · Quelle geschätzt
+[26.11. 16:55:16] ABSATZ-UNPLAUSIBEL Item 6242 · 54.8/Tag · Quelle gemessen
+[26.11. 16:55:16] ABSATZ-UNPLAUSIBEL Item 5764 · 128.1/Tag · Quelle geschätzt
+[26.11. 16:55:16] ABSATZ-UNPLAUSIBEL Item 274964 · 1971.7/Tag · Quelle gemessen, Angebot veraltet
+[26.11. 16:55:15] ABSATZ-UNPLAUSIBEL Item 3726 · 990.9/Tag · Quelle gemessen
+[26.11. 16:55:15] ABSATZ-UNPLAUSIBEL Item 279968 · 1322.7/Tag · Quelle gemessen
+[26.11. 16:55:15] ABSATZ-UNPLAUSIBEL Item 10047 · 72.5/Tag · Quelle geschätzt
+[26.11. 16:55:15] ABSATZ-UNPLAUSIBEL Item 4385 · 19.9/Tag · Quelle geschätzt
+[26.11. 16:55:15] GOLD-LOGOUT-NACHTRAG voriges Ende war /reload: ja (Erst-Login nein)
+[26.11. 16:55:15] REALM <leer> · Schlüssel-Realm CAMWOW EU4 Realm 6 PvP
+[26.11. 16:55:08] GOLD-LOGOUT GetMoney beim Ausloggen 466716 · beim Verlassen der Welt 466716 · Art: ohne Ankündigung (sofort, Verbindungsende oder /reload) · letzter echter Stand 466716
+[26.11. 16:52:39] SYNC gesendet 49, empfangen 7, verworfen 0 · Kanal verweigert 0
+[26.11. 16:42:39] SYNC ×2 gesendet 2, empfangen 0, verworfen 0 · Kanal verweigert 0
+[26.11. 16:22:55] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[26.11. 16:22:45] SYNC Weg=GUILD
+[26.11. 16:22:43] ITEMINFO neue Item-Anfragen 200 (zurückgestellt 0) · je Aufgabe: cache:warm 200
+[26.11. 16:22:41] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[26.11. 16:22:41] ABSATZ-UNPLAUSIBEL Item 1179 · 445.5/Tag · Quelle geschätzt
+[26.11. 16:22:41] ABSATZ-UNPLAUSIBEL Item 4344 · 25.4/Tag · Quelle geschätzt
+[26.11. 16:22:41] ABSATZ-UNPLAUSIBEL Item 4312 · 29.3/Tag · Quelle geschätzt
+[26.11. 16:22:41] ABSATZ-UNPLAUSIBEL Item 2568 · 21.6/Tag · Quelle geschätzt
+[26.11. 16:22:41] ABSATZ-UNPLAUSIBEL Item 4322 · 49.2/Tag · Quelle gemessen
+[26.11. 16:22:41] ABSATZ-UNPLAUSIBEL Item 22250 · 65.2/Tag · Quelle geschätzt
+[26.11. 16:22:41] ABSATZ-UNPLAUSIBEL Item 6242 · 54.8/Tag · Quelle gemessen
+[26.11. 16:22:40] ABSATZ-UNPLAUSIBEL Item 5764 · 128.1/Tag · Quelle geschätzt
+[26.11. 16:22:40] ABSATZ-UNPLAUSIBEL Item 274964 · 1971.7/Tag · Quelle gemessen, Angebot veraltet
+[26.11. 16:22:40] ABSATZ-UNPLAUSIBEL Item 253667 · 71.8/Tag · Quelle gemessen
+[26.11. 16:22:40] ABSATZ-UNPLAUSIBEL Item 279968 · 1322.7/Tag · Quelle gemessen
+[26.11. 16:22:40] ABSATZ-UNPLAUSIBEL Item 10592 · 879.4/Tag · Quelle gemessen
+[26.11. 16:22:40] ABSATZ-UNPLAUSIBEL Item 10047 · 72.5/Tag · Quelle geschätzt
+[26.11. 16:22:40] ABSATZ-UNPLAUSIBEL Item 4385 · 19.9/Tag · Quelle geschätzt
+[21.11. 18:58:46] FEHLER Märkte vereinen: Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:5416: attempt to compare two table values
+[21.11. 18:38:52] FEHLER Märkte vereinen: Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:5416: attempt to compare number with table
