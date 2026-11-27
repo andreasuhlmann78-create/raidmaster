@@ -1,21 +1,20 @@
-# Stand 27.11.2026 11:03 · Version 0.9.93 (announce), 0.9.92 (download)
+# Stand 27.11.2026 11:34 · Version 0.9.94 (announce), 0.9.93 (download)
 
 ## Gerade in Arbeit
-- 0.9.94: Zähler je Lauf "heute" (neue WorthUpTo / gemerkt) ins Protokoll (Supervisor 10:58: Lauf 2/3 ohne neue Aufrufe belegen).
-- 0.9.93 NUR announce/ (DL-ABN), Bericht 2026-11-27-1103-version-0.9.93.txt – zur Prüfung: AHS-BP1 (P.BindType aus GetItemInfo[14],
-  gebundenes Produkt Händlerwert, gebundene Zutat nicht aus AH; T304), T297 Pool-Prüfung nach Auffüll-Refresh.
-- 0.9.92 angenommen (ST1), in download/. PS-P1 eigener Teil im Spiel abgenommen (10:58: PS 0,1 ms, WorthUpTo 23,3 ms = AHS-API1 HOCH).
+- Nichts. 0.9.94 NUR announce/ (Release v0.9.94, Repo a15097a), Bericht 2026-11-27-1134-version-0.9.94.txt – zur Prüfung:
+  Zähler je Lauf "heute" (TD.runs, Protokoll "WorthUpTo je Lauf").
+- 0.9.93 angenommen (11:15) und nach download/ gelegt (md5 4b0c22a4…), 0.9.92 entfernt.
 
 ## Nächste Schritte (Reihenfolge)
-1. 0.9.94 Zähler je Lauf (s. o.).
-   Danach Ansicht recipes im Nachbau (2 Bilder ~405 ms, Stapel 20x ohne Addon-Zeile = Verdacht Mock).
-2. Nach "ANGENOMMEN 0.9.93": dieselbe Zip nach download/ (md5 im Bericht), 0.9.92 entfernen, Workflow grün.
+1. Nach "ANGENOMMEN 0.9.94": dieselbe Zip nach download/ (md5 im Bericht), 0.9.93 entfernen, Workflow grün.
+2. Ansicht recipes im Nachbau (2 Bilder ~405 ms, Stapel 20x ohne Addon-Zeile = Verdacht Mock) belegen.
 3. PS-TQ1 Abnahme a) mit echten Daten, sobald Herstellen+Entzaubern im Spiel (Bericht "Trefferquote je Beruf").
 4. Gilden-Sync-Tag ohne Realm prüfen.
 5. MITTEL 2 (T192, T259), MITTEL 4 (T285); Entwickler-Befehle nur im Entwicklermodus; Testort-Hinweis; Lesbarkeit L1–L8; "AH ~Preis".
 
 ## Offen beim Nutzer
-- Ingametest 0.9.92 "/ps testroutine alles" (darf im Hintergrund laufen); Einloggen mit der Schneider-Figur reicht für PS-P1 (darf im Hintergrund laufen). Messung Lua-Fehler SetCraftableCount (nur PS / nur AHS).
+- Ingametest 0.9.94 "/ps testroutine alles" (darf im Hintergrund laufen); /ps protokoll -> "WorthUpTo je Lauf" (Lauf 2: 0 neu).
+- Messung im Spiel (AHS-BP1): Tooltip der Gifte/Blendungspulver "Wird beim Aufheben gebunden"? (darf im Hintergrund laufen). Messung Lua-Fehler SetCraftableCount (nur PS / nur AHS).
 
 ## Entscheide des Nutzers seit letztem Stand
 - 25.11. 13:47 (über Supervisor, PS-TQ1): Trefferquote "echten Weg verfolgen" (umgesetzt 0.9.86).

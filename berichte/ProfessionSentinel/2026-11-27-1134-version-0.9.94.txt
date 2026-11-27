@@ -1,0 +1,15 @@
+ProfessionSentinel 0.9.94 – umgesetzt, zur Prüfung
+Bezug: offen-professionsentinel.txt Supervisor 27.11. 10:58/11:15 ("Zähler je Lauf ins Protokoll"); DL-ABN.
+DL-ABN: 0.9.93 nach "ANGENOMMEN" (11:15) nach download/ gelegt – gleiche Zip wie announce/ (md5 4b0c22a48618918e0723aabc15479ef7 = Bericht 11:03),
+ 0.9.92 entfernt. 0.9.94 liegt NUR in announce/ (md5 d4c4519ea62702df2c5c66ea49878418, Repo a15097a).
+
+Umgesetzt (Today.lua, Diagnose.lua): TD.Collect zählt je Lauf, wie viele Rezepte ein NEUES WorthUpTo brauchten (keine gemerkte Antwort) und wie viele
+ eine gemerkte nutzten (TD.lastNew / TD.lastKept); TD.Rebuild legt je Lauf { Nummer, neu, gemerkt } in TD.runs (die letzten 6). Diagnose-Export/
+ /ps protokoll neue Zeile unter "Hintergrund-Aufgaben": "Heute herstellen, WorthUpTo je Lauf: Lauf 1: 37 neu, 2 gemerkt · Lauf 2: 0 neu, 39 gemerkt".
+ "gemerkt" in Lauf 1 = Rezepte mit demselben Produkt wie ein früheres (eine Antwort je Item). Erwartung im Spiel: ab Lauf 2 "0 neu", solange
+ AHSentinel keine Änderung meldet (Scan/Buchung/Einstellung -> danach wieder neu).
+Tests: T302 erweitert (Lauf 1: neu = Zahl der WorthUpTo-Aufrufe; Lauf 2: 0 neu, gemerkt = neu + gemerkt aus Lauf 1; Protokoll-Zeile). Retail zeigte
+ zuerst 357 gemerkt bei 355 Aufrufen -> Grund belegt (2 Rezepte mit gleichem Produkt), Prüfung entsprechend genau gemacht. Zähler der echten Läufe
+ bleiben im Test unverändert.
+ run_offline forever 259/0, era 240/0, retail 238/0, forever --lua51 259/0; check_actions OK; gen_locale_keys OK (neu DG_TODAY_RUNS, DG_TODAY_RUN
+ EN/DE); yield_check OK; Smoketest forever/era/retail AUTOTEST OK (FEHLER 29/26/26 = Mock-Grenzen, wie 0.9.93); addon_check OK ohne WARNUNG.
