@@ -1,31 +1,31 @@
 # LevelPilot – Stand der Sitzung
 
-## Stand 27.11.2026 10:29 · Version 3.13.26 (veröffentlicht, Discord; ST1 angenommen 10:30, Abnahme im Spiel offen)
+## Stand 27.11.2026 11:18 · Version 3.13.27 (veröffentlicht, Discord; Messversion, Prüfung offen)
 
 ## Gerade in Arbeit
-- In der Arbeitskopie (für die nächste Version, nicht veröffentlicht): Einlog-Zeile "LevelPilot 3.13.x – …" ohne Doppelpunkt
-  (Supervisor 10:30 NIEDRIG, LP:Print(msg, plain)); im Nachbau geprüft.
-- DL-ABN (HOCH, 10:30): download/ nur mit angenommener Version – LevelPilot liegt dort nicht; wird so eingehalten (= LP-DL1).
+- Nichts angefangen. 3.13.27 = Messung T217 (Teile, Bildwechsel, Hintergrund-Aufgaben) und T136 (Protokoll Text/Fenster), Einlog-Zeile ohne
+  Doppelpunkt (Bericht 27.11. 11:18).
 
 ## Nächste Schritte (Reihenfolge)
-0. LP-DL1: nach jeder Annahme (mit Ingametest ohne offenes HOCH) die angenommene Zip als download/LevelPilot-<Version>.zip, ältere entfernen,
-   addon_check, Workflow grün, Bericht.
-1. Entscheid "Wo war ich?" beim Einloggen (Frage im ST1-Bericht Punkt 4) umsetzen, sobald er da ist.
-2. Ingametest 3.13.24–3.13.26 auswerten: Takt (keine Bilder > 40 ms), reiseBilder, T155/planungen, Protokoll-Fenster, T399, Einloggen.
-3. LP-I3 (falls T155 im Spiel > 16 ms), LP-R2, LP-I1/I6/I8, LP-T31, LP-UMG1, Notbremse, Wegabschnitte.
+1. HOCH T215–T217 143,5 ms (Ingametest 3.13.26): mit den Messzeilen aus dem nächsten Ingametest die Ursache belegen, dann beheben (Ziel ≤ 16 ms).
+   Belegt bisher: im 157-ms-Bild rechnete die Routine nur 6,8 ms, 150 ms "Spiel/Umgebung" (+2,3 MB). Widerlegt: Stufenbänder (Nachbau),
+   Wegfaktor-Messung (läuft als eigene Aufgabe).
+2. MITTEL T136 (Protokoll öffnen 48,6 ms), T355 40 ms, T244, T386, T285 (~33 ms); T155 Ø 21,2 ms (Ausreisser 68 ms, Zone 1458).
+3. LP-DL1 / DL-ABN: download/ erst, wenn T215–T217 ≤ 40 ms belegt und der Supervisor die Version angenommen hat.
+4. Entscheid "Wo war ich?" beim Einloggen (Frage ST1-Bericht Punkt 4).
+5. LP-R2, LP-I1/I6/I8, LP-T31, LP-UMG1, Notbremse, Wegabschnitte. Auffällig: Bereich J allein im Nachbau T298–T300 474–512 ms (ganze Routine nicht) – prüfen.
 
 ## Offen beim Nutzer
+- Ingametest 3.13.27 (/lp testroutine alles, zwischendurch eine Taste drücken wegen AFK), danach /reload für den Upload.
 - Frage: "Wo war ich?" beim Einloggen (eigener Schalter, ab Werk an, 2–5 Zeilen) – bleiben oder ab Werk aus?
-- Ingametest (/lp testroutine alles, zwischendurch eine Taste drücken wegen AFK), danach /reload für den Upload.
 - Datei der Testfigur – Weg klärt der Supervisor, nie ins Repo.
 
 ## Entscheide des Nutzers seit letztem Stand
-- Keine neuen seit 09:37. Gültig: ST1-Regeln A–E (27.11. 08:27–09:23), Protokoll 60 Einträge (08:27), LP-DL1 (~07:25).
+- Keine neuen. Gültig: ST1-Regeln A–E, Protokoll 60 Einträge, LP-DL1/DL-ABN (download/ nur angenommen).
 
 ## Wichtig zu wissen
-- ST1 gilt nur ausserhalb des Testmodus (LP:IsDev()): LP:LoginLine, LP:ErrorNotice (LP.errorNoticeShown), Se:CorpseTip (db.corpseTipShown),
-  Ce.ChannelLabel/ProtocolLabel; Mithelfen-Abschnitt unten in Austausch (shareSeed, protocol).
-- Skripte im Scratchpad: m2c.sh (ganze Routine), login.lua (Einloggen, Chat zählen; BRAKE=1 SVACC=… für Notbremse), msl.sh, r3.lua, mcfp.sh.
+- Uploads: goldsentinel-daten origin/sicherung, aktuell/AUSPLUSLAPTOP/forever/konto-5cb3d536/LevelPilot.lua.gz; Bericht mit lupa aus
+  LevelPilotDB.gsTest.reports (GSTEST1-Text, Bereich "alle"). Upload 11:10 entpackt: /home/claude/lpdaten-2711c (bericht.json = 3.13.26).
+- Skripte im Scratchpad: m2c.sh (ganze Routine), login.lua (Einloggen), lpdbg/ + m2dbg.sh (Messkopie), msl.sh, r3.lua, mcfp.sh.
 - Offline: python3 berichte/LevelPilot/offline/run_offline.py <zip> (40 Läufe).
-- Upload 27.11. 06:47: /home/claude/lpdaten-2711b. Ältere Versionen: /home/claude/lpalt/<Version>.
 - T261 im Nachbau rauscht (1 000–1 300 ms).

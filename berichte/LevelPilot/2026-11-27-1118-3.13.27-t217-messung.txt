@@ -1,0 +1,38 @@
+LevelPilot 3.13.27 – Bericht an die Prüf-Sitzung: T215–T217 (HOCH), T136 (MITTEL), Einlog-Zeile (NIEDRIG)
+Stand 27.11.2026 11:18 · umgesetzt, zur Prüfung (Messversion – T217 ist NICHT behoben, Ursache noch nicht belegt)
+Zip: announce/levelpilot__levelpilot-3.13.27.LevelPilot.zip (md5 0a120108e6a1df0a967c861803d8cda0, 2 860 492 Bytes)
+
+1. T215–T217 143,5 ms (Ingametest 3.13.26) – Auswertung des Uploads 27.11. 11:10 (Bericht 3.13.26 "alle")
+- Feld stuecke: "T217 143.3 (+2271 KB)", Ergebnis T217 ms 143.2; langeStuecke: "längste Strecke ohne sichere Stelle 143.2 ms von T216 bis T217".
+- ABER Feld ganzeBilder: "157.0 ms: eigene Portion 6.8 ms (T215 6.2) · Spiel/Umgebung 150.2 ms (+2286 KB) · bei T217". In dem Bild hat die
+  Routine selbst nur 6,8 ms gerechnet; 150 ms rechnete etwas ausserhalb ihrer Portion (anderer Code von LevelPilot oder anderer Addons im
+  gemeinsamen Takt, oder das Spiel). Die 143 ms von T217 sind also vermutlich NICHT Rechenzeit von T217 – Verdacht, zu messen.
+- Verdacht 1 "Stufenbänder je Zone leer, ChooseFocus baut sie am Stück" – im Nachbau WIDERLEGT:
+  - Ausgabe bei jedem Zurücksetzen/Aufbau: T31/T34/T130/T131/T144 setzen die Bänder zurück (Optionen "Datenpaket/QuestieDB nutzen" ->
+    QuestDB:Reconnect); Aufbau dauert im Nachbau 143–384 ms (in Portionen, Art "plan").
+  - Bänder direkt vor T217 erzwungen leer: T217 bleibt 7,7 ms, ChooseFocus kehrt vorher zurück (offene Quests in der Zone, in der man steht);
+    der Aufbau kam erst in T222 (in Portionen). Darum KEIN Vorbau eingebaut.
+- Verdacht 2 "Wegfaktor-Messung (Graph:MeasureDetour) in ChooseFocus": im Spiel nur als Hintergrund-Aufgabe gestartet (LP.Jobs.Start,
+  eigene Coroutine) – rechnet nicht in T217. Nicht belegt.
+- Darum jetzt Messung im Spiel (T217-Ergebnis): je Teil ms und KB (Fokus 1, Fokus 2, Wächter), Stufenbänder vorher leer/da, "Bildwechsel"
+  (GetTime() am Anfang/Ende verschieden = die Prüfung lief über ein Bild hinaus, dann zählt fremde Zeit mit), laufende Hintergrund-Aufgaben
+  von LevelPilot und im gemeinsamen Takt (Addon:Name) vorher/nachher.
+  Nachbau: "Teile: Fokus 1 8.1 ms +85 KB, Fokus 2 0.0 ms +0 KB, Wächter 0.0 ms +1 KB · Stufenbänder vorher da · Bildwechsel false ·
+  Aufgaben vorher keine, nachher keine".
+- Neues Berichtsfeld "vorgebaut": wie oft die Routine die Gefahrenkarte (3.13.24) vor einer Prüfung neu gebaut hat (Nachbau: 1×).
+
+2. T136 Zentrale 50,2 ms (MITTEL) – belegt, WO: die Strecke endet nach "Protokoll öffnen" (TestRoutine.lua Zeile 4253 in 3.13.26 = TR.Safe
+  direkt nach Coop(LP.Protocol.Show)); in 3.13.23 dieselbe Stelle 30,1 ms, 3.13.22 67,9 ms (mit Bereinigung). Ob Text oder Fenster (EditBox)
+  die Zeit braucht, zeigt der Nachbau nicht (kein echtes Fenster). Jetzt misst Pr:Show beides getrennt (ohne Pausen der Routine), T136
+  meldet das längste Öffnen: Nachbau "Text 2.3 ms +36 KB, Fenster 0.0 ms +1 KB (7214 Zeichen, 5 Einträge)".
+  T355/T244/T386/T285 noch nicht angefasst (nächster Schritt nach den Messwerten).
+
+3. NIEDRIG Einlog-Zeile: "LevelPilot 3.13.27 – Linksklick auf den Minimap-Knopf: Guide, Rechtsklick: Zentrale." (ohne Doppelpunkt;
+   LP:Print(msg, plain)). Nachbau Einloggen ohne Testmodus geprüft; im Testmodus unverändert.
+
+Prüfungen vor dem Push
+- Nachbau ganze Routine (Priester 10, Daten 26.11.): ALLE TESTS OK, längstes Bild 39,5 ms, über 40 ms 0, gesperrte Abgabe nur T353 (wie bisher).
+- addon_check: OK. Gemeinsame Dateien GoldSentinel*.lua mit cmp gleich shared/.
+- Offline-Routine (run_offline.py, diese Zip): 40 Läufe, 40 ohne FEHLER.
+
+Bitte im nächsten Ingametest: T217-Ergebniszeile (Teile, Bildwechsel, Aufgaben), T136-Ergebniszeile (Text/Fenster), Feld "vorgebaut".
