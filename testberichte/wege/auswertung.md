@@ -295,10 +295,16 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Feralas (1444)
 
-- Wegstücke 29, Knoten 188, zusammenhängende Teile 2
+- Wegstücke 89, Knoten 237, zusammenhängende Teile 8
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 183 Knoten, Bereich 45–75 / 2–58
-  - Teil 2: 5 Knoten, Bereich 52–53 / 57–58
+  - Teil 1: 205 Knoten, Bereich 45–77 / 2–58
+  - Teil 2: 8 Knoten, Bereich 72–73 / 38–39
+  - Teil 3: 6 Knoten, Bereich 71–72 / 54–55
+  - Teil 4: 5 Knoten, Bereich 52–53 / 57–58
+  - Teil 5: 5 Knoten, Bereich 72–73 / 56–57
+  - Teil 6: 4 Knoten, Bereich 69–70 / 53–54
+  - Teil 7: 2 Knoten, Bereich 71–71 / 58–58
+  - Teil 8: 2 Knoten, Bereich 71–71 / 57–57
 
 ## Marschen von Dustwallow (1445)
 
@@ -308,14 +314,14 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Tanaris (1446)
 
-- Wegstücke 155, Knoten 189, zusammenhängende Teile 2
+- Wegstücke 189, Knoten 191, zusammenhängende Teile 2
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 184 Knoten, Bereich 51–78 / 18–32
+  - Teil 1: 186 Knoten, Bereich 51–78 / 18–32
   - Teil 2: 5 Knoten, Bereich 72–74 / 17–18
 
 ## Orgrimmar (1454)
 
-- Wegstücke 1716, Knoten 1018, zusammenhängende Teile 3
+- Wegstücke 1717, Knoten 1018, zusammenhängende Teile 3
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 1013 Knoten, Bereich 22–82 / 19–95
   - Teil 2: 3 Knoten, Bereich 38–40 / 28–30
@@ -345,7 +351,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Thunder Bluff (1456)
 
-- Wegstücke 1014, Knoten 797, zusammenhängende Teile 8
+- Wegstücke 1015, Knoten 797, zusammenhängende Teile 8
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 749 Knoten, Bereich 23–78 / 12–87
   - Teil 2: 16 Knoten, Bereich 11–21 / 17–35
@@ -378,9 +384,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Undercity (1458)
 
-- Wegstücke 3230, Knoten 1149, zusammenhängende Teile 3
+- Wegstücke 3236, Knoten 1150, zusammenhängende Teile 3
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 1147 Knoten, Bereich 44–86 / 0–98
+  - Teil 1: 1148 Knoten, Bereich 44–86 / 0–98
   - Teil 2: 1 Knoten, Bereich 59–59 / 25–25
   - Teil 3: 1 Knoten, Bereich 76–76 / 32–32
 - **Ausreisser:** Wegstück 1: Sprung 10.6 % von 46.4,72.8 nach 52.8,64.4
@@ -406,9 +412,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Flusslande (2548)
 
-- Wegstücke 3375, Knoten 2410, zusammenhängende Teile 6
+- Wegstücke 3826, Knoten 2422, zusammenhängende Teile 6
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 2392 Knoten, Bereich 16–88 / 15–97
+  - Teil 1: 2404 Knoten, Bereich 16–88 / 15–97
   - Teil 2: 6 Knoten, Bereich 58–58 / 32–33
   - Teil 3: 5 Knoten, Bereich 60–61 / 76–78
   - Teil 4: 3 Knoten, Bereich 61–62 / 35–35
@@ -926,3 +932,15 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 | 260359 | 2548 | kein Ort im Datenpaket -> 79.7,54.1 | - | fehlt im Datenpaket |
 | 260558 | 2548 | kein Ort im Datenpaket -> 79.3,54.8 | - | fehlt im Datenpaket |
 | 260559 | 2548 | kein Ort im Datenpaket -> 79.3,54.7 | - | fehlt im Datenpaket |
+| 7875 | 1444 | 74.9,42.5 -> 74.9,42.6 | 0.1 % | klein |
+| 8021 | 1444 | 75.7,44.3 -> 75.7,44.3 | 0.0 % | klein |
+| 11752 | 1444 | kein Ort im Datenpaket -> 74.9,44.1 | - | fehlt im Datenpaket |
+| 255829 | 2548 | kein Ort im Datenpaket -> 64.5,14.8 | - | fehlt im Datenpaket |
+| 255894 | 2548 | kein Ort im Datenpaket -> 78.9,54.0 | - | fehlt im Datenpaket |
+| 256710 | 2548 | kein Ort im Datenpaket -> 59.5,44.0 | - | fehlt im Datenpaket |
+| 257062 | 2548 | kein Ort im Datenpaket -> 65.6,21.3 | - | fehlt im Datenpaket |
+| 258570 | 2548 | kein Ort im Datenpaket -> 33.4,38.0 | - | fehlt im Datenpaket |
+| 260931 | 2548 | kein Ort im Datenpaket -> 49.9,46.9 | - | fehlt im Datenpaket |
+| 260993 | 2548 | kein Ort im Datenpaket -> 27.4,37.0 | - | fehlt im Datenpaket |
+| 260995 | 2548 | kein Ort im Datenpaket -> 27.1,34.3 | - | fehlt im Datenpaket |
+| 261208 | 2548 | kein Ort im Datenpaket -> 49.3,46.7 | - | fehlt im Datenpaket |
