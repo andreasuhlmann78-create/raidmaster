@@ -378,9 +378,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Undercity (1458)
 
-- Wegstücke 3222, Knoten 1145, zusammenhängende Teile 3
+- Wegstücke 3227, Knoten 1149, zusammenhängende Teile 3
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 1143 Knoten, Bereich 44–86 / 0–98
+  - Teil 1: 1147 Knoten, Bereich 44–86 / 0–98
   - Teil 2: 1 Knoten, Bereich 59–59 / 25–25
   - Teil 3: 1 Knoten, Bereich 76–76 / 32–32
 - **Ausreisser:** Wegstück 1: Sprung 10.6 % von 46.4,72.8 nach 52.8,64.4
@@ -406,9 +406,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Flusslande (2548)
 
-- Wegstücke 2933, Knoten 2338, zusammenhängende Teile 6
+- Wegstücke 3173, Knoten 2403, zusammenhängende Teile 6
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 2320 Knoten, Bereich 16–88 / 15–97
+  - Teil 1: 2385 Knoten, Bereich 16–88 / 15–97
   - Teil 2: 6 Knoten, Bereich 58–58 / 32–33
   - Teil 3: 5 Knoten, Bereich 60–61 / 76–78
   - Teil 4: 3 Knoten, Bereich 61–62 / 35–35
