@@ -1,10 +1,8 @@
 # BuffSentinel – Stand der Sitzung
 
-## Stand 27.11.2026 09:38 · Version 0.9.69
-Veröffentlicht (download/ nur 0.9.69.zip, README, announce/, Discord). Bericht: berichte/BuffSentinel/2026-11-27-0935-0.9.69-st1-spielertexte.txt.
-0.9.69: ST1 Spieler-Texte – Einlog-Zeile "BuffSentinel <v> – /bsen …", Fehler 1×/Sitzung (BS.ErrorOnce), Tipps 1× (BS.TipOnce, gdb.tipsSeen),
-AnnounceSpec nur dev, Optionen-Abschnitt "Mithelfen" (shareServer, m1.collect, diagSend, Bericht/Fehler/Wer nutzt). T272.
-0.9.68 angenommen; BS-DL1 erledigt. BS-M1-b: Supervisor wartet auf Messdaten (Offizier A braucht 0.9.68+, Kampf in Gruppe).
+## Stand 27.11.2026 10:27 · Version 0.9.69
+0.9.69 ANGENOMMEN (ST1, 27.11. 10:30), Abnahme im Spiel offen; liegt in download/ (einzige BS-Zip). DL-ABN umgesetzt (Bericht 2026-11-27 …-dl-abn-ablauf.txt).
+REGEL DL-ABN: neue Version zuerst NUR announce/ (Anhang …BuffSentinel.zip), download/ erst nach "ANGENOMMEN" für genau diese Version (prom.sh).
 
 ## Gerade in Arbeit
 Nichts angefangen.
@@ -21,12 +19,14 @@ Nichts angefangen.
 - (erledigt) Lesezugriff goldsentinel-daten: Nutzer 26.11. 11:57 im Chat erlaubt; Klon /home/claude/goldsentinel-daten (nur lesen).
 
 ## Entscheide des Nutzers seit letztem Stand
+- 27.11. ~07:25 (über Supervisor, DL-ABN): "Nach Abnahme nach download/".
 - 27.11. 08:27–09:23 (über Supervisor, ST1): nur nützliche Spieler-Texte (A Einlog-Zeile, B Mithelfen, C Fehler 1×, D Messwerte nur Protokoll, E Tipps 1×).
 - 26.11. 11:57 (Chat): "Du darfst das Daten-Repo goldsentinel-daten lesen".
 
 ## Wichtig zu wissen
 - Quelle /home/claude/BuffSentinel (kein Git; nach Neustart aus download/<letzte Zip> wiederherstellen!). Skripte im scratchpad:
-  rel2.sh <alt> <neu> "<msg>" (Version, CHANGELOG, Zip, Nachbau 8×, addon_check, announce, ältere BS-Zips raus + README-Link, push), rep2.sh <thema> "<msg>" < Text,
+  rel2.sh <alt> <neu> "<msg>" (Version, CHANGELOG, Zip als announce-Anhang, Nachbau 8×, addon_check, push – NICHT download/), prom.sh <v>
+  (nach ANGENOMMEN: Zip nach download/, md5 gleich, ältere raus, README), rep2.sh <thema> "<msg>" < Text,
   test/off.py (lupa, Lua 5.1), echt/echt_r1.lua + echt/names.py (echte Daten; Dateien .lua UND .lua.gz! Realms nur als <Realm>, keine Rechner-/Kontonamen anderer Spieler in Berichte). Locales: scratchpad/loc.py <json {KEY:[en,de]}> schreibt direkt in Locales.lua.
 - Nachbau erwartet rot: T13 T28 T45 T51 T95. T232 flackert im Nachbau (Serverzeit, Grenze 8 ms) – gemeldet.
 - Messung: Messung.lua (M1), Allowed = Option + nicht Testroutine (testAllow nur für T269); Befehl dev.
