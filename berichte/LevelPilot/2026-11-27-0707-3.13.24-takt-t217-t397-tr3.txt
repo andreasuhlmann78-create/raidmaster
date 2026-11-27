@@ -1,0 +1,33 @@
+LevelPilot 3.13.24 – Bericht an die Prüf-Sitzung: Takt HOCH (T215–T217 119,7 ms, T387–T397 116,0 ms), LP-TR3 Graph.lua:1047, LP-I3
+Stand 27.11.2026 07:07 · umgesetzt, zur Prüfung
+Zip: announce/levelpilot__levelpilot-3.13.24.LevelPilot.zip (md5 f74f4549ea924d323d34d230c8e0b1b8, 2851303 Bytes)
+
+Prüfungen vor dem Push
+- addon_check: OK. Gemeinsame Dateien GoldSentinel*.lua mit cmp gleich shared/.
+- Offline-Routine 40 von 40 ohne FEHLER, Testroutine 5 von 5 ohne FEHLER.
+- Nachbau ganze Routine (Upload 26.11. 11:16): ALLE TESTS OK (OK 325), T381 gleich, T397 OK, T217 7,7 ms, reiseBilder längstes 12,3 ms.
+- Route 1–60 am Stück unverändert (141 h 30, 2 344 Schritte, 814 Quests, 1 446 112 yd).
+
+1. T387–T397 116,0 ms und "Abgabe nicht möglich: T397 (pcall) 11×" – Ursache im Code belegt, behoben
+- T397 (neu in 3.13.23) lief in pcall; TR.Safe darf in pcall nicht abgeben -> ganzer Vergleich (1 840 Strecken) in einem Bild.
+- Jetzt TR.PCall (abgebbar) statt pcall und je Zone eine sichere Stelle. Nachbau: T397 nicht mehr unter den Stücken über 5 ms (vorher 50–52 ms).
+
+2. T215–T217 119,7 ms (+2,2 MB, ohne Bereinigung; 3.13.22 im Spiel: T217 14,6 ms) – Ursache im Nachbau belegt, behoben
+- T217 und T215–T216 sind seit 3.13.22 unverändert; im Nachbau mit beiden Versionen 6,5–6,7 ms.
+- Nachbau mit Mitschrift von Danger:Reset/Build: die Gefahrenkarte wird alle 60 s zurückgesetzt (Calib.lua:513, LP:Throttle nach Wanduhr) und
+  beim ersten Danger:Segment danach AM STÜCK neu gebaut: 32,3–34,5 ms, +0,9 MB, in der Prüfung, die gerade läuft (Nachbau: T112 und T263).
+  Welche Prüfung es trifft, hängt an der Uhr – im Spiel diesmal T217 (119 ms, +2,2 MB passt zu Aufbau × Faktor Spiel/Nachbau ~3).
+  Verdacht für die Zuordnung zu T217 im Spiel (der Stapel des Spiels zeigt nur das Bildende) – der Weg selbst ist im Code und Nachbau belegt.
+- Behoben: Vor jeder Prüfung baut die Routine eine zurückgesetzte Gefahrenkarte in Portionen (TR.Coop, Abgabe an den Stellen "danger"),
+  nicht in einer Reise. Nachbau danach: kein Stück mit dem Aufbau (T112 nicht mehr unter den langen Stücken).
+
+3. LP-TR3 – Graph.lua:1047 (6,4 ms)
+- 1047 ist die Abgabe je Zeile in NearSparse; eine Zeile voller Zellen dauerte noch bis 6 ms. Jetzt zusätzlich alle 64 geprüften Knoten
+  eine Abgabe (Ergebnis gleich). Nachbau: grösste Überschreitung 2,2 ms (bei Planner.lua:74).
+
+4. LP-I3 (MITTEL) – Gefahrenprüfung billiger
+- Danger.PlaceHit: Wurzel nur noch, wenn "skip" gesetzt ist (ohne skip ist t0 immer 0), Zahlenschleife statt ipairs – gleiches Ergebnis.
+- Gemessen: je kalter Prüfung Gefahr 4,3–5,3 µs, davon Orte 1,6–2,1 µs; 31 Orte auf dem Ostkontinent – ein Raster für die Orte lohnt nicht.
+- Danger:Segment selbst ist schon schlank (Zahlenschlüssel, CELL 100). Die Richtung umdrehen (a->b = b->a) wäre NICHT immer gleich (Rasterweg
+  bei Gleichstand) – nicht gemacht.
+- Ehrlich: Der grosse Hebel ist das nicht. Im Spiel 3.13.23 schon 153 statt 185 µs je Knoten (−18 %). Nächster Ingametest zeigt T155 mit 3.13.24.
