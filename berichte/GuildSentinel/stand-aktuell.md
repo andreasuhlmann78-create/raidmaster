@@ -8,7 +8,7 @@
 ## Nächste Schritte (Reihenfolge)
 0. GS-CF3 (Entscheid des Nutzers 27.11. 11:21 "ausführen"): HEUTE AB 18:00 (nicht früher) announce/guildsentinel__guildsentinel-0.9.66.GuildSentinel.zip
    (md5 1f5a743a9f920e0216cca17aafbae885) als download/GuildSentinel-0.9.66.zip, GuildSentinel-0.9.61.zip entfernen, README-Link erst wenn auf
-   curseforge.com sichtbar; Workflows "Addon-Prüfung" und curseforge.yml grün, uploaded.json, Bericht. Kein Wecker: auf "repo" des Nutzers ab 18:00.
+   curseforge.com sichtbar; Workflows "Addon-Prüfung" und curseforge.yml grün, uploaded.json, Bericht. Wecker in dieser Sitzung auf 27.11. 18:00 gestellt (Wunsch des Nutzers 13:14).
 1. Auf neue Aufträge warten, dabei offen-guildsentinel.txt bei jedem "repo" lesen.
 2. Ingametest 0.9.66 (Einladung fremder Gilde -> keine Antwort; "ginv?" -> Antwort+Fragen; Einlog-Zeile; Meine Woche; Testroutine mit
    vorher angeschaltetem Testmodus; Bank-Charakter; SEITE-Zeile im Protokoll).
