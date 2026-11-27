@@ -7443,3 +7443,11 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
 >>> HINWEIS DATEN (Supervisor 21:40, berichte/Supervisor/2026-11-27-2140-daten-offizier-b.txt): Rechner von Offizier B hat 27.11. 21:31 Marktbeobachtungen
     21.–27.11. geliefert (u. a. 21.11. ~40 000, 26.11. ~11 000 Zeitstempel; andere Spielzeiten). Für Masterplan v2 Schritt 3 (Kern-Abgleich, G10/G11) im
     Nachbau mitnutzen (nur lesen, ohne Namen). Achtung: B läuft noch mit AHSentinel um 0.65.393 und altem Uploader.
+
+>>> DATEN-NACHLIEFERUNG NUTZEN (Entscheid des Nutzers 27.11. 21:47 "die Addons sollen alles Nützliche verwenden") – Supervisor 21:52, MITTEL (in Masterplan v2 Schritt 3):
+    Quelle: Daten-Repo goldsentinel-daten, Zweig nachlieferung-rechner-b-2026-11-27, aktuell/<Rechner B>/forever/…/AHSentinel.lua (Upload 21:31, altes Format,
+    AHSentinel ~0.65.393). Inhalt (Supervisor gemessen): 41 694 Beobachtungen ab 21.11., alle neu gegenüber den Rechnern des Nutzers, 7327 Items, Stunden
+    9/12/14/16/17 Uhr (17 Uhr: 13 977 vs. Nutzer 30); 25 Items nur dort.
+    Auftrag: (1) im Nachbau für Kern-Abgleich, G10/G11 (Tageszeit) und MARKT-KERN mitnutzen; (2) Vorschlag, wie solche Nachlieferungen künftig IM SPIEL
+    ankommen (Weg über die Markt-Tabelle "alle" des Prüfsystems, ohne neuen Sync) – nur Bericht, kein Bau ohne Freigabe; (3) Regeln: keine Namen, S1–S6,
+    eigene Daten Vorrang, gleiche Beobachtung nie doppelt (Rechner B sendet später mit neuem Uploader dieselben Daten noch einmal!).

@@ -2101,3 +2101,6 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
     Offen: MITTEL T155 (knapp über Ziel), MITTEL T136 Zentrale; Rest um 30 ms (Laptop in Ruhe 33 ms je Bild).
 >>> HINWEIS DATEN (Supervisor 21:40): Rechner von Offizier B lieferte 27.11. 21:31 LevelPilot-Wegdaten (8 Pakete, neueste 26.11. 16:59, 27.11. 20:22/21:30),
     erzeugt mit LevelPilot 3.12.31 (alt). Für die Wege-Auswertung brauchbar; Format-Unterschiede zu 3.13.x beachten. Bericht: berichte/Supervisor/2026-11-27-2140-daten-offizier-b.txt
+>>> (Entscheid des Nutzers 27.11. 21:47 "die Addons sollen alles Nützliche verwenden"): Wegdaten Rechner B nutzen – 7 von 8 Paketen liegen schon in
+    testberichte/wege/LevelPilot/ (kamen über #testberichte), das 8. (27.11. 21:30) im Daten-Repo-Zweig nachlieferung-rechner-b-2026-11-27. Format 3.12.31 –
+    beim Einlesen Unterschiede zu 3.13.x belegen, nichts doppelt zählen.
