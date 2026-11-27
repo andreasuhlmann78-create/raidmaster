@@ -7286,3 +7286,9 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     (z. B. SetAlpha(0)/ausserhalb des Bildschirms, ein eigener Schritt), damit Layout/OnShow-Kosten im Hintergrund anfallen. b) Vorbauen ist bei 6 s noch nicht
     fertig -> Start und Schritte so legen, dass es spätestens ~5 s nach dem Laden fertig ist (oder ab 2–3 s starten), je Schritt ≤ 6 ms. Gegenprobe im Spiel:
     AH nach 6 s -> "vorgebaut: ja". c) Bleibt der Fall "AH < 3 s nach dem Laden": dann Rest in die Aufgabe verschieben (wie 17:03 vorgeschlagen).
+
+>>> BEFUND MITTEL AHS-API1 (Supervisor 27.11. 07:01, aus PS-Ingametest 27.11. 07:00, PS 0.9.90 misst fremde Aufrufe): "AHSentinel.API.WorthUpTo 18,4 ms ×1"
+    für EIN Item (Verstärktes Leinencape) in der PS-Aufgabe "heute" (Laptop, 35 Bilder/s); NetSale 0,3 ms, MarketState 0,0 ms. Früher dasselbe Muster beim
+    Wollcape (18,3 / 20,1 ms). API.lua:415 -> MK:WorthUpTo (dieselbe Rechnung wie Tooltip/Sniper). Auftrag: belegen, was in WorthUpTo bei diesen Items 18 ms
+    kostet (erster Aufruf/kalt? Entzauberwert, Rezeptkette, Absatz-Lernen, Preisverlauf?), dann billiger machen oder zwischenspeichern; Ziel ≤ 2 ms je Aufruf
+    (Fremd-Aufruf aus anderen Addons). Test mit diesem Item im Nachbau und Gegenprobe gleicher Wert. Auch Tooltip/Sniper profitieren.

@@ -958,3 +958,12 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
     (charsMerged 2, Laptop 11:16) – PS-REALM BESTANDEN.
     PS-P1: zweiter Beleg Wollcape 20,1 ms; Messung der fremden Aufrufe im längsten Stück statt blind teilen – richtig (erst Ursache, dann Massnahme).
     Abnahme: nächster Diagnose-Export nach dem Einloggen mit der Schneider-Figur nennt "fremd …/eigener Code …".
+
+>>> INGAMETEST 27.11. 07:00 (Supervisor 27.11. 07:01) – ProfessionSentinel 0.9.90, Laptop, Schneider-Figur, Berufsfenster + Briefkasten ("/ps protokoll"):
+    PS-P1 Ursache BELEGT: "Hintergrund-Aufgaben: heute ×3, Teil max 20,0 ms (… längstes 19,1 ms Verstärktes Leinencape [fremd 18,8 ms: AHSentinel.API.WorthUpTo
+    18,4 ms ×1, AHSentinel.API.NetSale 0,3 ms ×2, MarketState 0,0 ms; eigener Code 0,3 ms] · Speicher +0,9 MB · Bild davor 34 ms · 35 Bilder/s)".
+    Dazu "LANGSAM ×831 Aufgabe heute · 32,5 ms (zuletzt 20,0 ms)". -> Die Zeit liegt zu 96 % in EINEM Aufruf von AHSentinel.API.WorthUpTo, nicht im PS-Code.
+    Diesmal Verstärktes Leinencape (früher Wollcape) – also kein bestimmtes Rezept, sondern der erste/teure WorthUpTo-Aufruf.
+    Auftrag PS (MITTEL): bis AHS den Aufruf billiger macht – WorthUpTo nicht im selben Stück wie andere Arbeit; je Stück höchstens EIN WorthUpTo und danach
+    abgeben; Ergebnis je Item zwischenspeichern (gleiche Sitzung, bis Preis-Sync/Scan). Den Befund an AHS weitergeben ist erledigt (AHS-API1 unten bei AHS).
+    Gute Messzeile (fremd/eigener Code) – genau so gebraucht.
