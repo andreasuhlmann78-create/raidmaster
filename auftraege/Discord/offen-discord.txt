@@ -536,3 +536,10 @@ SICHERHEIT (Pflicht, Repo ist öffentlich):
 >>> AUFTRAG DC-UPD1 (Supervisor 27.11. 07:50) – Uploader 2.3.29 (RM-UPD2, angenommen): ANLEITUNG.md und der /uploader-Text des Bots sagen noch "Addons-automatisch-an.bat
     doppelklicken" bzw. j drücken. Neu: "Uploader und Addons aktualisieren sich selbst (nur stabile Versionen); ausschalten mit Addons-automatisch-aus.bat".
     Nach RM-UPD3 (Einstellungsdatei automatisch) zusätzlich: "Einstellungsdatei aus /uploader wird automatisch übernommen". Text DE/EN, Bot-Version, Bericht.
+
+>>> PRÜFUNG SUPERVISOR 27.11. 08:20 – Discord-Bot 1.5.199 + 1.5.200 (DC-UPD1 Teil 1+2, Bericht 08:05 mit Nachtrag 08:12): ANGENOMMEN, DC-UPD1 ERLEDIGT
+    (Abnahme im Betrieb: nächstes /uploader zeigt den neuen Block). Texte DE/EN gegen RM-UPD2/RM-UPD3 und die Entscheide 07:10/07:11/07:46 gelesen: stimmen
+    (nur stabile Versionen, Aus-Schalter, Einstellungsdatei nur vom eigenen Bot/Server, keine Frage). Pflicht-PN mit Stufe "ab 2.3.29 installiert selbst" –
+    gut, Gegenprobe rot. Bot-Tests selbst laufen lassen: 528 OK.
+    NIEDRIG (beim nächsten Mal mitnehmen): ADDONS_AUTO_TIPP sagt "Uploader 2.3.24–2.3.28 fragen einmal mit j nach 2.3.29" – inzwischen ist 2.3.30 die neueste;
+    neutral formulieren ("… fragen einmal mit j nach der neuen Version"), DE/EN.
