@@ -1,0 +1,63 @@
+Markt-Tabellen täglich – 27.11.2026 (geplante Aufgabe, Lauf 05:38 MEZ)
+=====================================================================
+Ergebnis: Tabelle NICHT committet – Entscheid des Nutzers 25.11. 06:31 ("16.11. behalten", Fallzahl-Regel gilt weiter; die Fälle liegen
+weiter unter der Repo-Fassung 16.11.). Befund "MT-Prüfung 27.11.2026" unten in auftraege/AHSentinel/offen-ahsentinel.txt, Zeile im
+nachrichten-log. Committet: testberichte/markt/kern/2026-11-27.md, dieser Bericht, die Einträge. Repo-Tabelle bleibt Stand 16.11.
+
+Datenlage
+- Daten-Repo: neuester Commit 26.11. 17:13 MEZ (< 36 Std.). tage/ 21.–26.11. (neu: 26.11. Laptop, 26.11. M6UO3AL).
+- 16 Stände, alle 4 Rechner; gepackt = .lua.gz:
+    aktuell/  AUSPLUSLAPTOP, DESKTOP-NVITMSE, MININT-M6UO3AL (gepackt), DESKTOP-JD5SLR5 (ungepackt)
+    tage/21.11. JD5, M6U · 22.11. JD5, NVITMSE, M6U · 23.11. Laptop (gepackt), M6U · 24.11. Laptop, NVITMSE (gepackt) · 25.11. Laptop (gepackt)
+         · 26.11. Laptop, M6U (beide gepackt)
+  M6UO3AL liefert seit 26.11. nur noch .lua.gz (aktuell und tage) – wird gelesen (test_sv_gz 6/6).
+- Journal je Stand aktuell (D/P/B, t ältester–neuester): Laptop 1698/172/1132 (577766–592483); NVITMSE 1696/172/1132 (577766–592483);
+  JD5 –/139/13 (571812–589442, = Stand 22.11.); M6U 130/74/28 (572125–591240; gestern 130/64/28 bis 590747).
+  PC und Laptop: seit 24.11. kein neuer Journal-Eintrag (t 592483). Neue Fälle heute nur von M6UO3AL (P +10).
+- Tests: test_kern_daten.py 20/20, test_markt_tabellen_alle.py 22/22, test_sv_gz.py 6/6.
+
+Prüfung der neu gerechneten Fassung (nur im Arbeitsordner, verworfen)
+- Lädt in Lua (lupa) ok · 10 376 Bytes < 50 KB ok · keine Spieler-, Rechner- oder Realm-Namen (nur Zahlen und Schlüssel) ok ·
+  Zustände nur offen/durch ok · kern: markt 30, gilde 44 Zellen, alle p 0..1, n >= 30 ok · Teil alle: 2 Tage, weggelassen 0.
+- NICHT ok (Fallzahl-Regel): n fällt gegen 16.11. (siehe unten). Gegen gestern: n gleich oder höher (nur Verkauf misc/consum).
+
+Wellen je Band (Repo 16.11. -> heute; gestern gerechnet in Klammern)
+  5-25   steigt 0.649 -> offen 1.358 (offen 1.396)
+  26-35  durch  0.149 -> offen 1.016 (offen 1.253)
+  36-45  offen  0.230 -> durch 1.042 (offen 1.102)   <- Zustand gegen gestern geändert
+  46-55  offen  0.453 -> durch 1.195 (durch 1.194)
+  56-60  offen  0.449 -> durch 0.997 (durch 1.002)
+  Alle 10 Tage.
+
+Entzaubern (Repo 16.11. -> heute; n, nKauf, Tabelle, Gewinn, Mindest) – gleich wie gestern
+  2:4:a 1279/1205/0.965/0.258/0.20 -> 816/761/0.973/0.231/0.20   (n FÄLLT)
+  2:1:a 750/0/1.007/–/0.20         -> 605/0/0.992/–/0.20         (n FÄLLT)
+  2:6:a 124/62/0.950/0.199/0.30    -> 250/223/1.012/0.277/0.20
+  2:3:a 20/0/0.947/–/0.20          -> 96/0/1.009/–/0.20
+  2:5:a 46/34/1.035/0.174/0.30; 2:2:a n 4, 2:7:a n 1, 3:2–3:5 n 2–3 (n < 5, nicht gewertet)
+  Mindestgewinn je Gruppe: 0.20 ausser 2:5:a 0.30, 2:2:a und 2:7:a 0.25.
+
+Kaufstufen (Repo -> heute; n, Gewinn) – gleich wie gestern
+  bis 0.6  21 +52.7 %  -> 1 +12 566.7 % (n FÄLLT, Einzelfall)
+  bis 0.7  155 +39.5 % -> 9 +58.1 %     (n FÄLLT)
+  bis 0.8  425 +30.7 % -> 293 +31.9 %   (n FÄLLT)
+  bis 0.9  598 +17.5 % -> 648 +22.5 %
+  darüber  15 −6.5 %   -> 70 +6.5 %
+
+Verkaufsquoten (heute; Stufen bis 0.90/0.97/1.03/1.10/darüber, n und Quote)
+  de:     2 0.500 · 23 0.435 · 59 0.663 · 11 0.309 · 21 0.613   (gleich)
+  misc:   39 0.585 · 16 0.625 · 23 0.739 · 16 0.688 · 31 0.774   (gestern 35/14/22/16/31)
+  consum: 29 0.759 · 8 0.750 · 8 0.250 · 2 0.500 · 15 0.853     (gestern 27/6/7/2/15)
+  kleine n (gleich): cloth 3/4/7/1/2, herb 2/4/4/3/5, leather 1/2/2/1/3, gear2 5/1/5/2/6, gear3 1/–/1, metal 2 (bis 0.90) + 1 (darüber)
+
+Teil kern: 3 Quellen, 74 Zellen (markt 30, gilde 44 – wie gestern).
+  Weg markt weitergegeben (Laptop Brier 0.0233 < 0.0251, n 755 044; JD5 0.0534 < 0.0572; M6U 0.0573 < 0.0581).
+  Weg gilde weitergegeben (0.0929 < 0.0940; 0.0930 < 0.1027; 0.0895 < 0.0984).
+
+Kern-Abgleich (testberichte/markt/kern/2026-11-27.md)
+  Zellen, die nicht aufgehen: Laptop 0, JD5 0, M6U 0 (Ziel 0). "Kern hält ältere Fälle": 3 / 0 / 5 (kein Fehler, KERN-S1b).
+  Verkauf ausserhalb 95 %: Laptop 2, JD5 2, M6U 1. -> kein KERN-ABGLEICH-Befund.
+  Hinweis: Der Kern-Abgleich nennt je Rechner den neuesten Kern-Tag (Laptop 25.11., JD5 23.11., M6U 24.11.).
+
+Änderungen gegen gestern: 12 Verkaufsfälle mehr in der Tabelle (misc +4/+2/+1, consum +2/+2/+1; Quelle M6UO3AL, dessen Journal P +10 –
+  Unterschied 2 nicht belegt, Verdacht: geänderte Ergebnisse älterer P-Einträge, zu messen), Wellen-Indizes verschoben, Band 36-45 offen -> durch.

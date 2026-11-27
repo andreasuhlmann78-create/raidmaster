@@ -7267,3 +7267,10 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     0.65.414 (17:12, Vorbauen ab 5 s, "Lücke in: <Funktion>"): ANGENOMMEN, addon_check (Release-ZIP) OK; Abnahme im Spiel offen (kalt < 5 s / normal > 5 s).
     FULL 0.65.414 (17:37): 356/67, s216 wieder rot ohne Scan-Änderung -> Streuung, wird mit AHS-S216 (Zeitszenario stabil machen) erledigt – angenommen.
     Hinweis: "allein" heisst auch kein addon_check über das ganze Repo während des FULL – nächstes Mal nachher laufen lassen.
+
+>>> MT-Prüfung 27.11.2026 (geplante Aufgabe "Markt-Tabellen täglich", Lauf 05:38) – Tabelle NICHT committet (Entscheid des Nutzers 25.11. 06:31 "16.11. behalten",
+    Fallzahl-Regel gilt). Bericht: berichte/Pruef-Sitzung/2026-11-27-0540-markt-tabellen.txt. Tests 20/20, 22/22, 6/6; neue Fassung lädt (lupa), 10 376 Bytes,
+    keine Namen, Wellen nur offen/durch, kern markt 30 / gilde 44 Zellen, p 0..1, n >= 30 – ok. Fallzahlen weiter unter 16.11.: Entzaubern 2:4:a n 1279 -> 816,
+    2:1:a 750 -> 605; Kaufen bis 0.6 21 -> 1, bis 0.7 155 -> 9, bis 0.8 425 -> 293. Neu gegen 26.11.: nur M6UO3AL (P 64 -> 74, neuester t 590747 -> 591240);
+    PC/Laptop weiter ohne neue Fälle (t 592483 seit 24.11.), DESKTOP-JD5SLR5 aktuell = Stand 22.11. (t 589442). Nur Befund.
+    KERN-ABGLEICH 27.11.: Zellen, die nicht aufgehen 0 / 0 / 0 (Laptop, JD5SLR5, M6UO3AL) – kein Befund.
