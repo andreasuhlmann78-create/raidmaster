@@ -7377,3 +7377,21 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     Nachprüfung auf curseforge.com + Kommentare folgt 18:20.
     18:12: curseforge/uploaded.json führt 0.65.422 (und GS 0.9.66) – Upload von CurseForge angenommen. Ansicht auf curseforge.com (Freischaltung, Kommentare) noch offen:
     Webzugriff braucht eine Freigabe des Nutzers (abwesend) -> wird nachgeholt, sobald er da ist.
+
+>>> SN-Z4 HOCH (RÜCKFALL, Ingame Nutzer 27.11. 19:16, 0.65.422) – Supervisor 19:30. Belege: berichte/Supervisor/2026-11-27-1917-ingame-ahs-422-sniper-wechselt-nicht.txt
+    Nutzer: "der sniper sucht nur einzeil...er wechselt nicht" / "multible targets bitte" / "es hat ja mal super funktioniert" (0.65.375: SN-T 35/29/36 % je Ziel).
+    Befund: 2 Ziele (Azurblaue Seidenkapuze Max 13s48, Bronzene Stulpen mit Versilberung Max 13s49). Chat meldet Treffer abwechselnd für BEIDE (Suche wechselt),
+    aber Fenster + Kaufen-Knopf bleiben 15 s auf der Kapuze. 0 gekauft, 12 verpasst, 2 weggeschnappt, obwohl 752–758 Angebote "kaufbar" zu je exakt 13s 1c, Menge 1.
+    Supervisor (Diff Sniper.lua 0.65.375 -> 0.65.422 selbst gelesen) – VERDACHT, ZU MESSEN, nicht belegt:
+      a) ST7/A:RowUnit (seit 0.65.378): Stapelgrösse 1 und Menge > 1 -> Stückpreis = buyoutAmount, Kauf-Menge 1, group = Menge. 758 gleiche Angebote zu 13s 1c
+         für ein grünes Teil passen zu EINER Zeile, deren Menge falsch als "zusammengefasste Auktionen" gelesen wird (oder umgekehrt). Dann zielt jeder Kauf auf
+         etwas, das es so nicht gibt -> "verpasst/weggeschnappt". STAPEL-ROH-Zeile für Item 7048 im Protokoll prüfen (Menge, buyoutAmount, auctionID).
+      b) Sn:HeldHit hält den Treffer bis BTN_HOLD_MAX 30 s; ohne Kauf endet der Halt nicht -> der Wechsel der Suche wird im Fenster unsichtbar.
+      c) AHS-SG6 (ownPlan): Meldung nur für das Ziel der eben fertigen Suche, der vorne stehende Treffer bleibt – mit b) zusammen genau das Bild.
+    Auftrag:
+      1. Ursache des Kauf-Scheiterns BELEGEN (Datei:Zeile), Nachbau mit Item 7048 (Stapel 1) und Zeilen Menge 1 / Menge > 1; Gegenprobe mit 0.65.375.
+      2. Fenster muss sichtbar zeigen, welches Ziel gerade gesucht wird, und zwischen den Treffern der Ziele wechseln (Nutzer-Wunsch "mehrere Ziele"); ein Treffer,
+         der nicht kaufbar war (verpasst/weggeschnappt), darf den Knopf nicht 30 s blockieren.
+      3. Test: 2 Ziele, A mit Dauertreffer, B mit Treffer -> Fenster/Knopf zeigt B spätestens nach GUARANTEE_N Suchen; Kauf eines echten Angebots gelingt.
+      4. Zum Abgrenzen im Spiel (Nutzer, wenn er mag): Kapuze entfernen, nur Stulpen -> kauft er? (ja: Kapuzen-Liste; nein: Kaufweg).
+    Hinweis Daten: letzter PC-Upload 19:07 (vor dem Test), Uploader PC noch 2.3.26 -> neue Messdaten erst nach /reload + Upload.
