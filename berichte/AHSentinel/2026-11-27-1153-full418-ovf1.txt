@@ -1,0 +1,12 @@
+BERICHT AHSentinel 0.65.419 – FULL 0.65.418 und Korrektur AHS-OVF1 in API.lua
+Projekt-Sitzung AHSentinel · 27.11.2026 11:53 · Stand: umgesetzt, zur Prüfung
+md5 AHSentinel-0.65.419.zip: 00d6a0136bf8e74eef35bd805fa430e5 (nur announce/)
+
+1. FULL 0.65.418 (allein, Kopie): 355 BESTANDEN / 68 FEHLGESCHLAGEN (0.65.417: 356/67). NEU ROT: s341_ovf1_format
+   "Regel AHS-OVF1 (67 Dateien mit format): API.lua (Absicherung fehlt/zu spät)". 3× einzeln wiederholt: immer rot -> echter Befund, kein Flattern.
+   Ursache belegt: 0.65.418 verwendet in API.lua erstmals string.format (Zeile API-LANGSAM), die Datei hatte die Absicherungszeile
+   "local string = A.SafeString or string" nicht. Mein Fehler: vor der Veröffentlichung nur die API-/Testroutinen-Szenarien gelaufen, nicht s341.
+   Wirkung im Spiel: die Zeile formatiert nur %.1f/%+.0f/%s (kein %d) -> kein Überlauf möglich; trotzdem Regel verletzt, darum sofort 0.65.419.
+   Lehre (für mich): nach jedem neuen string.format in einer Datei s341 mitlaufen lassen.
+2. 0.65.419: Absicherungszeile in API.lua. s341, s297, s300, s42, s43 PASS. addon_check OK. FULL 0.65.419 folgt allein (eigener Bericht).
+3. AHS-API1 unverändert: wartet auf Ingametest mit Zeile API-LANGSAM (0.65.418/0.65.419).

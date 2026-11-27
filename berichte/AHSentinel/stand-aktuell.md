@@ -1,6 +1,6 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 27.11.2026 11:23 · Version 0.65.418 (Discord, AHS-API1 Messung); CurseForge 0.65.413; ST1 (0.65.417) angenommen 10:30
+## Stand 27.11.2026 11:53 · Version 0.65.419 (Discord, OVF1-Korrektur API.lua; 0.65.418 AHS-API1 Messung); CurseForge 0.65.413; ST1 (0.65.417) angenommen 10:30
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz – Testberichte "GSTEST1{…}", UI-Befunde db.uiFindingsLast).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
@@ -15,7 +15,7 @@ Nachbau: cd /home/claude/ahanalyzerpro && bash tests/run_offline.sh /home/claude
 - FULL 0.65.417: 356/67, keine neuen. DL-ABN: download/ nur angenommene Version + CF 18:00 + OK Nutzer.
 
 ## Nächste Schritte
-1. FULL 0.65.418 allein (Vergleich mit fail417.txt), Bericht. Danach AHS-API1 nach Ingametest (Zeile API-LANGSAM).
+1. FULL 0.65.419 allein (Vergleich mit fail417.txt; 418 hatte s341 neu rot -> in 419 behoben). Neues string.format -> immer s341 mitlaufen. Danach AHS-API1 nach Ingametest (Zeile API-LANGSAM).
 2. AHS-BP1 MITTEL (bindType: Schurkengifte/Blendungspulver BoP nicht als AH-Ware), AHS-S216, AHS-MK1 (nach Ingametest).
 3. Weitere T459-Posten messen (je Massnahme mit Messung).
 4. Regel CF 18:00: CF-Entscheid im Repo -> sofort Auswahl-Frage im Chat; bis 17:30 Stand melden.
