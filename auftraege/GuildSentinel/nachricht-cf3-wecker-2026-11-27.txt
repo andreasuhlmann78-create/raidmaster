@@ -1,0 +1,8 @@
+Nachricht an die GuildSentinel-Sitzung (Supervisor 27.11.2026 13:20, Wunsch des Nutzers 13:14 "interner Wecker"):
+
+Bitte stelle dir jetzt einen internen Wecker (send_later) auf heute 18:00 Europe/Zurich mit diesem Text:
+"GS-CF3 ausführen: git pull --rebase im raidmaster-Repo; GuildSentinel 0.9.66 (angenommen + im Spiel abgenommen) als download/GuildSentinel-0.9.66.zip ablegen –
+gleiche Zip wie announce/guildsentinel__guildsentinel-0.9.66.GuildSentinel.zip (md5 im Bericht nennen) –, download/GuildSentinel-0.9.61.zip entfernen, addon_check auf
+die download/-Zip, commit + push, prüfen: git show origin/main zeigt die Zip, Workflow 'Addon-Prüfung' grün und CurseForge-Upload-Workflow grün. Bericht in
+berichte/GuildSentinel/ und Stand sichern. Nicht vor 18:00."
+Auftrag steht in auftraege/GuildSentinel/offen-guildsentinel.txt (GS-CF3). Der Supervisor prüft um 18:20 nach (curseforge.com).
