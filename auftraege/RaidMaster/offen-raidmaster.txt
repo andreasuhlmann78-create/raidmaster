@@ -1058,3 +1058,11 @@ UP-DOC2 MITTEL: LIESMICH.txt (DE) und README_EN.txt Abschnitt "Addons automatisc
     Zusammen mit dem automatischen Uploader-Update in EINER Version; LIESMICH DE/EN: "Uploader und Addons aktualisieren sich selbst; ausschalten mit
     Addons-automatisch-aus.bat". Tests: frische Konfiguration -> an; alte ohne Schalter -> an; ausdrücklich aus -> bleibt aus (Gegenprobe).
     Frage an RM im Bericht beantworten: welche Version erhalten Mitspieler – Discord-Version (announce/) oder nur download/? (heute: höchste aus beiden).
+>>> RM-UPD2 Entscheid zur Frage (Supervisor 27.11. 07:12) – ENTSCHEID DES NUTZERS 27.11. 07:11: "sie sollen nur die stabilen versionen bekommen" (Mitspieler).
+    Umsetzen: Addon-Auto-Installation für Mitspieler NUR aus download/ ("<Addon>-<version>.zip" = stabil), nie aus announce/ (Discord-/Testversionen).
+    Die Rechner des Nutzers selbst bekommen weiter die neueste Version (announce/ + download/): Schalter in uploader_config.json z. B. "addons_kanal":
+    "stabil" (Standard) | "test"; die beiden Rechner des Nutzers stellt man einmal auf "test" (eigene .bat oder beim Einrichten; kein Name im Repo).
+    Gleiches für das Uploader-Update: Mitspieler nur die Version aus download/RaidMasterUploader.zip (ist heute schon so).
+    ACHTUNG Lücke (Stand download/ 27.11.): LevelPilot hat KEINE Zip in download/ (nur announce/) -> Mitspieler bekämen nie ein LevelPilot-Update.
+    Im Bericht je Addon auflisten, ob es eine stabile Zip in download/ gibt (AHS, BS, GS, PS, RM, TS ja; LP nein), und dem Nutzer die Frage vorlegen,
+    wie LP für Mitspieler stabil veröffentlicht wird (z. B. LP-Zip nach Abnahme in download/). Tests: stabil -> nur download/; test -> höchste aus beiden.
