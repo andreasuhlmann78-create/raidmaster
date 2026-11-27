@@ -1010,3 +1010,12 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
         Einstellung? Berufsfenster-Wechsel?). Ursache im Protokoll belegen (Grund je Vergessen mitschreiben); nur vergessen, wenn sich Werte wirklich ändern können.
     (c) Neu sichtbar: "Neuaufbau (Teil) 18.8 ms ×64" (UI:Aufbau beim offenen Berufsfenster) über 16 ms – messen und teilen (PS-eigener Code).
     WorthUpTo selbst weiter 26,6 ms / +0,9 MB je Aufruf (AHS-API1).
+
+>>> BEFUND MITTEL PS-SK1 (Supervisor 27.11. 13:10, Bildschirmfoto des Nutzers 13:02, Frage "was bedeuten die Fragezeichen?"): Im Plan (Skillen, Abschnitte 110–150) steht bei
+    "Azurblaue Seidenkapuze" und "Magiestoffballen" "[lernen] Skill ?" (bei "Azurblauer Seidenumhang" richtig "Skill 140"). Ursache im Code 0.9.94: UI.SkillNeedText zeigt "?",
+    wenn r.req ≤ 1; in Data_Forever.lua ist Feld 7 (req) für 3865 Magiestoffballen und 8760 Azurblaue Seidenkapuze = 1 (keine Lernstufe). Das letzte Feld der Zeile (125 bzw. 110)
+    sieht nach einer Lehrer-Stufe aus – prüfen, was es ist.
+    Auftrag: (a) Lernstufe für alle Rezepte mit req ≤ 1 aus belegter Quelle füllen (Lehrer im Spiel gelesen / Referenz classic.goldgoblin.net, shared/wissen/referenz-goldgoblin.md),
+    nicht raten; (b) wo sie wirklich unbekannt ist, verständlich statt "Skill ?" (z. B. "Lernstufe unbekannt" im Tooltip, in der Zeile nichts oder "–"), EN/DE;
+    (c) Zählung im Bericht: wie viele Rezepte je Beruf heute req ≤ 1 haben, vorher/nachher. Daten-Update nur über den üblichen Weg (Rezeptdaten-Entwurf/Supervisor), falls
+    die geplante Aufgabe "Rezeptdaten-Update" zuständig ist – im Bericht nennen.
