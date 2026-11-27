@@ -11,7 +11,7 @@ Stand 27.11.2026 13:15 · umgesetzt, zur Prüfung
   (concurrency, cancel-in-progress bei push). Der nächste durchlaufende Lauf prüft download/LevelPilot-3.13.28.zip mit; Ergebnis folgt im
   nächsten Bericht.
 
-Nachtrag 27.11. 14:22 – Workflows
+Nachtrag 27.11. 14:20 – Workflows
 - Discord-Prüfung Lauf 46001079262 (Commit b383786b, 3.13.29): success – erster durchgelaufener Lauf nach der Ablage.
 - Belegt in discord-check/check.py: im Abschnitt "Addon-Veröffentlichungen (download/)" prüft er nur Addons, die der Bot selbst aus
   download/ veröffentlicht (EXTRA_ADDONS, zurzeit nur AHSentinel) und RaidMaster. download/LevelPilot-*.zip wird dort nicht geprüft
