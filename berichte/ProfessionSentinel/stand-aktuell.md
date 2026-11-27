@@ -1,23 +1,21 @@
-# Stand 26.11.2026 12:14 · Version 0.9.90
+# Stand 27.11.2026 07:35 · Version 0.9.91
 
 ## Gerade in Arbeit
-- Nichts. 0.9.90 veröffentlicht (Discord, Release v0.9.90, Repo 72ac6e2), Bericht 2026-11-26-1212-version-0.9.90.txt – zur Prüfung.
-- 0.9.90 = Gilde: Mitglied mit/ohne Realm einmal (GU Index); PS-P1 Teil 2 Schritt 1: fremde Aufrufe im längsten Stück (J.PieceCall
-  aus PriceSource CallRaw, Bericht "[fremd x ms: …; eigener Code y ms]"). Rückfrage 0.9.89 beantwortet: PS liest keine AHS-Daten je Figur.
-- 0.9.89 angenommen (26.11. 10:32); Merge im Spiel belegt (Laptop 11:16 charsMerged 2).
+- Nichts. 0.9.91 veröffentlicht (Discord, Release v0.9.91, Repo b180313), Bericht 2026-11-27-0735-version-0.9.91.txt – zur Prüfung.
+- 0.9.91 = PS-P1 (Ursache im Spiel belegt 27.11. 07:00: AHSentinel.API.WorthUpTo 18,4 ms): P.Worth je Item gemerkt bis PS.OnChanged/
+  Händler, in "heute" je neues WorthUpTo allein im Teil (J.Hand davor > 0,5 ms und danach); T302. Nachbau: Teil max 2,1 ms.
+- 0.9.90 angenommen (26.11. 13:12), PS-REALM im Spiel BESTANDEN. AHS-API1 (WorthUpTo billiger) liegt bei AHSentinel.
 
 ## Nächste Schritte (Reihenfolge)
-1. PS-P1 Teil 2 Schritt 2 (0.9.91): Diagnose-Export nach dem nächsten Einloggen lesen (goldsentinel-daten, Zeile "Hintergrund-Aufgaben":
-   Wollcape 20 ms = fremd oder eigener Code). Eigener Code -> Rezeptpreis teilen (Abgabe zwischen Zutaten, nur in der Aufgabe; --lua51);
-   fremd -> Befund an AHSentinel über Bericht. Nachbau stellt die 20 ms nicht nach (Wollcape <= 2 ms, auch --als 2402).
+1. Abnahme PS-P1 aus dem nächsten Diagnose-Export (Schneider-Figur): Teil max ≈ WorthUpTo-Zeit, kein PS-Code dazu.
    Danach Ansicht recipes im Nachbau (2 Bilder ~405 ms, Stapel 20x ohne Addon-Zeile = Verdacht Mock).
 2. AHS-BP1 für PS: gebundene Ware (bindType 1) nicht als AH-Ware empfehlen; Test bindType 1/0/2 + Gegenprobe. Daten nicht ändern.
 3. PS-TQ1 Abnahme a) mit echten Daten, sobald Herstellen+Entzaubern im Spiel (Bericht "Trefferquote je Beruf").
-4. Gilden-Sync-Tag ohne Realm prüfen (Lesen GU.FindGuild 0.9.89, Mitglieder einmal 0.9.90 – umgesetzt, zur Prüfung).
+4. Gilden-Sync-Tag ohne Realm prüfen.
 5. MITTEL 2 (T192, T259), MITTEL 4 (T285); Entwickler-Befehle nur im Entwicklermodus; Testort-Hinweis; Lesbarkeit L1–L8; "AH ~Preis".
 
 ## Offen beim Nutzer
-- Ingametest 0.9.90 "/ps testroutine alles" (darf im Hintergrund laufen); schon einmal Einloggen reicht für die Wollcape-Zerlegung (darf im Hintergrund laufen). Messung Lua-Fehler SetCraftableCount (nur PS / nur AHS).
+- Ingametest 0.9.91 "/ps testroutine alles" (darf im Hintergrund laufen); Einloggen mit der Schneider-Figur reicht für PS-P1 (darf im Hintergrund laufen). Messung Lua-Fehler SetCraftableCount (nur PS / nur AHS).
 
 ## Entscheide des Nutzers seit letztem Stand
 - 25.11. 13:47 (über Supervisor, PS-TQ1): Trefferquote "echten Weg verfolgen" (umgesetzt 0.9.86).

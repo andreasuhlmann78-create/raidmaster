@@ -1,0 +1,27 @@
+ProfessionSentinel 0.9.91 – umgesetzt, zur Prüfung
+Bezug: offen-professionsentinel.txt PS-P1 (Ingametest 27.11. 07:00, Supervisor 07:01: Ursache AHSentinel.API.WorthUpTo 18,4 ms, Auftrag MITTEL).
+
+Umgesetzt (Prices.lua, Today.lua, Jobs.lua, PriceSource.lua):
+ - Antwort von WorthUpTo je Item für die Sitzung gemerkt (P.worth), bis AHSentinel eine Änderung meldet (PS.OnChanged: Scan, Buchung,
+   Einstellung) bzw. beim Händler (MERCHANT_SHOW/CLOSED, Weg "Händler"). Vorher nur 60 s im allgemeinen Wert-Gedächtnis. Nicht gemerkt:
+   nil (lernt noch / keine Antwort) und Fehler. Gehört die gemerkte Antwort zu einer anderen Funktion (AHSentinel neu geladen,
+   Test-Attrappe), wird neu gefragt.
+ - Hintergrund-Aufgabe "heute" (TD.Collect): vor einem NEUEN WorthUpTo wird abgegeben, wenn der Teil schon > 0,5 ms gearbeitet hat
+   (J.Hand), der Aufruf ist ein eigenes gemessenes Stück, danach wird immer abgegeben -> je Teil höchstens EIN neues WorthUpTo und keine
+   andere Arbeit davor oder danach. Der Rezeptpreis danach nimmt die gemerkte Antwort. Abgabe nur in der Schleife, in der schon J.Yield
+   steht (kein Abgeben über pcall – Lua 5.1, --lua51 geprüft).
+ - Grenze (ehrlich): ein einzelner WorthUpTo-Aufruf von 18 ms bleibt EIN Bild von 18 ms – PS kann einen fremden Aufruf nicht teilen.
+   Er steht jetzt aber allein im Bild (keine 20+ ms mehr durch PS-Arbeit dazu) und kommt je Item nur einmal je Sitzung/Änderung statt
+   bei jedem Neuaufbau. Schneller machen kann es nur AHSentinel (AHS-API1).
+ - Nachbau mit den echten Daten (Laptop 27.11. 07:00, AHSentinel 0.65.415 mit seinen echten Daten, 150 MB Ballast, Aufgabe "heute" je
+   Figur kalt und warm): längster Teil 2,1 ms, 149 Teile. Vergleich nur grob (andere Daten: Lauf 26.11. mit den Daten vom 26.11. und
+   0.9.90: längster Teil 6,6 ms, 20 Teile) – mehr Teile, weil jedes neue WorthUpTo ein eigenes Bild bekommt; danach gemerkt. Der Nachbau stellt die 18 ms eines WorthUpTo-Aufrufs nicht nach (dort < 1 ms) – im Spiel belegt erst mit der
+   Abnahme.
+Tests: T302 neu (gemerkt trotz geleertem Wert-Gedächtnis = 1 Aufruf; nil und Fehler nicht gemerkt; nach Scan vergessen; Weg "Heute
+ herstellen" in der Aufgabe: >1 WorthUpTo, je Teil höchstens 1, keiner nach anderer Arbeit im selben Teil, zweiter Lauf 0 neue Aufrufe;
+ Gegenprobe ohne Abgabe davor -> WorthUpTo nach anderer Arbeit im Teil). Der Testlauf stellt die gemerkten Antworten je Fall zurück.
+ T281 (Attrappe wechselt WorthUpTo) bleibt grün dank Funktions-Vergleich. Regression PS-P1-W -> T302.
+ run_offline forever 257/0, era 238/0, retail 236/0, forever --lua51 257/0; check_actions OK; gen_locale_keys OK; yield_check OK;
+ Smoketest forever/era/retail AUTOTEST OK (FEHLER 29/26/26 = Mock-Grenzen, wie 0.9.90); addon_check OK ohne WARNUNG. Zip md5 b9961d025b3620cf36e41dd34ea2a9f2, Repo b180313.
+Abnahme im Spiel: Diagnose-Export nach dem Einloggen mit der Schneider-Figur – "Hintergrund-Aufgaben: heute … längstes … [fremd …
+ AHSentinel.API.WorthUpTo …; eigener Code …]" mit Teil max ≈ WorthUpTo-Zeit (ohne PS-Arbeit dazu).
