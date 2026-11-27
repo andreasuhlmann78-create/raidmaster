@@ -1,30 +1,29 @@
 # LevelPilot – Stand der Sitzung
 
-## Stand 27.11.2026 22:00 · Version 3.13.30 (veröffentlicht, Discord; Messversion) · download/: 3.13.29 (angenommen)
+## Stand 27.11.2026 22:43 · Version 3.13.31 (veröffentlicht, Discord; Prüfung offen) · download/: 3.13.29
 
 ## Gerade in Arbeit
-- Nichts angefangen. 3.13.30 = Messung je Abschnitt im Protokolltext (Feld protokollTeile). Bericht 22:00 mit Auswertung Speicher 3.13.29
-  und Wegdaten Rechner B (Bestand, Doppelte, Probebau Startwegnetz). LP-DL1 3.13.29 erledigt (Bericht 21:54, Addon-Prüfung grün).
+- Nichts angefangen. 3.13.31 = T261: Reiseplan im Stehen nicht alle 10 s neu (C.NavDue, T400) + Starts je Auftrag in der Einlog-Messung;
+  LP-ML1: Markt-Zeilen im Protokolltext gemerkt (T401). Bericht 22:43.
 
-## Nächste Schritte (Reihenfolge)
-1. Wegdaten B / Startwegnetz (Entscheid 21:47): Probebau (Scratchpad seedprobe/Wege.lua) im Nachbau messen – Route (T381, L1–17), T261,
-   Speicher; dann eigene Version mit Bericht. Danach weitere Zonen (Grössen messen; Flusslande 2548 Forever-Zone). Städte mit Ebenen aus (W3D).
-2. MITTEL Speicher/T136: Feld protokollTeile aus dem Ingametest 3.13.30 -> welcher Abschnitt im Spiel ~4 MB / 25–35 ms; dann beheben.
-3. MITTEL T155 16,89 ms je Planung (Ziel < 16), längste 63 ms (Zone 1458).
-4. LP-DL1 künftig nach jeder Annahme mit Ingametest ohne offenes HOCH.
-5. Entscheid "Wo war ich?" beim Einloggen (Frage ST1-Bericht Punkt 4).
-6. LP-R2, LP-I1/I6/I8, LP-T31, LP-UMG1, Notbremse, Wegabschnitte; W3D (HOCH, wartet auf Messung GSWegMess).
+## Nächste Schritte (Reihenfolge, Supervisor 22:37)
+1. HOCH T261: Ingametest 3.13.31 (PC, Krieger) – Zeile "Starts je Auftrag"; reicht es nicht < 1000 ms: replan (504 ms) belegen und senken.
+2. LP-ML1: Abnahme im Spiel (protokollTeile MarktLine, Stücke T34/T21/T355/T386).
+3. MITTEL T150 (Replan Median 16,91 ms, Ziel < 16) / T155 (16,89 ms je Planung).
+4. MITTEL Grundregeln 80 ms im Spiel (Übergang "Reisen svc–Grundregeln"), Nachbau 45,9 ms – Ursache belegen.
+5. Wegdaten B / Startwegnetz: Probebau (Scratchpad seedprobe/Wege.lua) im Nachbau messen (T381/T261/Speicher), dann eigene Version.
+6. LP-DL1 nach jeder Annahme mit Ingametest ohne offenes HOCH. Entscheid "Wo war ich?" offen. W3D (HOCH) wartet auf GSWegMess.
 
 ## Offen beim Nutzer
-- Ingametest 3.13.30 (/lp testroutine alles, zwischendurch eine Taste drücken wegen AFK), danach /reload für den Upload.
+- Ingametest 3.13.31 (/lp testroutine alles, zwischendurch eine Taste drücken wegen AFK), danach /reload für den Upload.
 - Frage: "Wo war ich?" beim Einloggen (eigener Schalter, ab Werk an, 2–5 Zeilen) – bleiben oder ab Werk aus?
 
 ## Entscheide des Nutzers seit letztem Stand
-- 27.11. 21:47: "die Addons sollen alles Nützliche verwenden" – Wegdaten Rechner B nutzen, nichts doppelt zählen.
+- 27.11. 22:37 "b ist gut": SH-M1 bleibt gebündelt -> LP-ML1 (Markt-Zeilen merken) freigegeben.
 
 ## Wichtig zu wissen
-- Uploads: goldsentinel-daten origin/sicherung, aktuell/AUSPLUSLAPTOP/forever/konto-5cb3d536/LevelPilot.lua.gz (Bericht: lupa,
-  gsTest.reports, GSTEST1, Bereich "alle"). 3.13.29: /home/claude/lpdaten-2711f. Rechner B: /home/claude/lpdaten-b (Zweig nachlieferung-rechner-b-2026-11-27).
-- Wegdaten: alle Pakete in testberichte/wege/LevelPilot/ (B = Version 3.12.31). Werkzeug seed_bauen.py zählt jetzt nur src "selbst", keine Doppelten.
-- Nachbau mit Daten 12:35: m2d.sh (T261 dort FEHLER = Daten). Berichtsfelder als Text werden nach ~300 Zeichen gekürzt -> Listen.
-- In der Routine ist Jobs.sync an: Hintergrund-Aufträge rechnen dort sofort – in pcall-Prüfungen ohne Abgabe.
+- Uploads: goldsentinel-daten origin/sicherung, aktuell/<Rechner>/forever/konto-5cb3d536/LevelPilot.lua.gz (PC = DESKTOP-NVITMSE, Laptop =
+  AUSPLUSLAPTOP). Bericht: lupa, gsTest.reports, GSTEST1, Bereich "alle", Version wählen. 3.13.30 PC: /home/claude/lpdaten-2711g.
+- Einlog-Messung: "×" = Portionen; neu "Starts je Auftrag" = Läufe. Im Nachbau laufen Aufträge am Stück (Jobs.sync) – Wiederholungen im Spiel
+  sind dort nicht nachstellbar.
+- Wegdaten: seed_bauen.py zählt nur src "selbst", keine Doppelten. Berichtsfelder > 300 Zeichen als Liste.

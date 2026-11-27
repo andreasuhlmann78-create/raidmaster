@@ -1,0 +1,38 @@
+LevelPilot 3.13.31 – Bericht an die Prüf-Sitzung: T261 Einloggen (HOCH), LP-ML1 Markt-Zeilen (MITTEL), Nummern T150/T155
+Stand 27.11.2026 22:43 · umgesetzt, zur Prüfung
+Zip: announce/levelpilot__levelpilot-3.13.31.LevelPilot.zip (md5 fc76bf963713288e3ddb451fee04cfa2, 2 865 488 Bytes)
+
+1. T261 Einloggen 1810 ms (Ingametest 3.13.30 PC, Krieger 30, Donnerfels) – Ursache des grössten Teils BELEGT im Code, Wirkung im Spiel zu messen
+- Upload 22:31 (Feld einloggen): "nav 872,9 ms/1243×: navplan 831,1/232×/max 4,2, nav 41,8/1011×" · "route 503,9 ms/212×: replan 503,6/194×"
+  · graph 208 (seedwege 91, umweg* 73, eigeneKetten 44) · advisor 79 · ui 40 · start 37. Längster Aufruf 18 ms -> kein Ruckler, aber zu viel
+  Rechenzeit. "×" zählt Portionen (Perf.Add je Portion), nicht Läufe.
+- Comfort.lua (3.12.58 NAV-2): ein Ticker alle C.NAV_EVERY = 10 s startet Planner:TravelPlan neu ("navplan"), sobald ein Ziel gilt
+  (Hinführ-Ziel oder nächster Schritt >= 1500 yd bzw. anderer Kontinent) – jedes Mal von vorn, auch im Stehen. Dazu ein Start nach jeder
+  Neuplanung (C.OnPlanChanged, ohne Merker bei anderem Schritt). Der Krieger 30 in Donnerfels hat ein fernes Ziel -> in 60 s rund 6 Läufe.
+- Nachbau (Daten PC 22:31, Donnerfels, Krieger 30): dort laufen Aufträge am Stück (Jobs.sync), nav nur 11 ms – die Wiederholung im Spiel
+  lässt sich im Nachbau nicht nachstellen. Darum:
+  a) Behoben: C.NavDue – der Ticker rechnet nur neu, wenn der Spieler sich > C.NAV_MOVE = 30 yd bewegt hat, das Ziel ein anderes ist oder
+     der Plan älter als C.NAV_MAX_AGE = 60 s ist. In Bewegung bleibt es bei 10 s (Zeitangabe stimmt weiter). Der gemerkte Plan (planCache)
+     trägt Ort und Alter mit. Test T400 (Bereich J): "neu true · 10 s im Stehen false · 25 yd false · 40 yd true · 60 s alt true ·
+     anderer Kontinent true" (mit Gegenproben).
+  b) Gemessen: Die Einlog-Messung zählt jetzt Starts je Auftrag in den ersten 60 s (Perf.loginStarts, Feld einloggen, Zeile "Starts je
+     Auftrag: …"; gezählt nach dem Überspringen in der Routine, in Jobs.StartTakt nur ohne Ersatzweg -> nie doppelt).
+- Erwartung (Verdacht, zu messen): navplan im Stehen 1–2 Läufe statt ~6 -> rund −600 ms. Dann bleiben replan 504 ms (Anzahl Läufe zeigt
+  die neue Zeile) und graph 208 ms – reicht das nicht unter 1000 ms, ist replan der nächste Schritt (Ursache mit der Starts-Zeile belegen).
+
+2. LP-ML1 (freigegeben 22:37) – umgesetzt
+- Belegt (protokollTeile 3.13.30, Supervisor 22:40): "MarktLine 34,1 ms +3788 KB" von 37,1 ms im Protokolltext = LP:MarktLine +
+  GoldSentinelMarkt.DiagLines (gemeinsame Datei, nicht geändert – cmp gleich shared/).
+- Pr:Text merkt die Markt-Zeilen (Pr.marktCache): in derselben Testroutine einmal, sonst höchstens alle Pr.MARKT_TTL = 60 s neu. Text gleich.
+  Test T401: "erster Text rechnet 1×, zweiter 0×, ohne Merker 1× · Markt-Zeilen gleich true".
+- Vorher/nachher im Spiel bitte: protokollTeile "MarktLine" (vorher 34,1 ms +3788 KB, nachher beim zweiten und weiteren Text ~0), Stücke
+  T34/T21/T355/T386 (vorher je ~+3,9 MB), längstes Bild. Im Nachbau ist MarktLine schon vorher klein (0,0 ms +2 KB) – kein Nachweis dort.
+
+3. Nummern: T150 = "Planner:Replan(true) (Ticker 15 s und bei Ereignissen)", T155 = "Planung je Reiseschritt" – zwei verschiedene Prüfungen.
+   PC 22:11: FEHLER T150 (Median 16,91 ms); Laptop 15:47: FEHLER T155 (16,89 ms je Planung). Gleiche Grenze 16 ms, andere Messung.
+
+Prüfungen vor dem Push
+- addon_check: OK. Gemeinsame Dateien GoldSentinelGame/Test/Sync/Dev/Takt/Markt.lua mit cmp gleich shared/. Offline-Routine: 40 von 40 ohne FEHLER.
+- Nachbau ganze Routine (Daten 27.11. 12:35): 1 FEHLER T261 (Nachbau, Daten; wie seit 3.13.27). T400, T401 OK. Längstes Bild 45,9 ms
+  "Reisen svc–Grundregeln" – der Übergang Reisen->Grundregeln ist im Spiel jetzt belegt (79,8 ms), nächster MITTEL-Punkt nach T150.
+- Kein LP-DL1 für 3.13.30: Ingametest mit offenem HOCH (T261).
