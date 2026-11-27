@@ -605,3 +605,8 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
 >>> HINWEIS NIEDRIG (Supervisor 26.11. 06:19, aus Entwurf Blueposts 25.11. 21:45, geprüft): Blizzard 25.11. "Balance Druid Adjustments" – Mondkingestalt
     +10 % Arkan-/Naturschaden; Druiden mit 3+ Punkten in Verb. Sternenfeuer bekamen ALLE Talentpunkte zurückgesetzt (kurz ohne Punkte im Baum).
     Kein Auftrag. Beim Testen wissen: Spec-Erkennung über Talentpunkte kann bei solchen Druiden bis zum Neuverteilen keine/falsche Spec zeigen.
+
+>>> AUFTRAG MITTEL ST1 Spieler-Texte (Supervisor 27.11. 09:25) – Entscheide des Nutzers 27.11. 08:27–09:23. Vollständige Regeln, was NICHT angefasst wird
+    (Befehle, Tooltips, Bildschirm-Meldungen, Töne, Nachrichten an andere Spieler, Sprachen) und Nachweis: auftraege/anweisung-spielertexte-2026-11-27.txt (lesen!).
+    Kurz: A eine Einlog-Zeile mit Version, ohne Technik · B Entwicklungs-Schalter in "Mithelfen", verständlich · C Fehler = 1 Zeile je Sitzung · D Messwerte nur
+    im Protokoll · E Tipps nur einmal. Alles nur ausserhalb des Testmodus. Dieses Addon: Heute (Nachbau 2.5.30): "ThreatSentinel: geladen. Einstellungen: Minimap-Knopf, /ts …" (ohne Version) -> mit Version. Optionen: "Diagnose-Protokoll automatisch senden (mit dem Uploader)", "Messdaten für die Entwicklung sammeln: … Bedrohungs-Angaben … geschützt …", "Ini-Prüfung automatisch", "Bilder während der Prüfung" -> Mithelfen/verständlich (was nur Test ist: nur im Testmodus zeigen).

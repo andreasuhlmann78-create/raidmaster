@@ -1,0 +1,39 @@
+ANWEISUNG an ALLE Addon-Projekte (AHSentinel, BuffSentinel, GuildSentinel, LevelPilot, ProfessionSentinel, RaidMaster, ThreatSentinel)
+Supervisor 27.11.2026 09:25 – Kürzel ST1 ("Spieler-Texte") – Priorität MITTEL
+Grundlage: Entscheide des Nutzers 27.11. 08:27–09:23 (shared/wissen/entscheide.md) und Analyse berichte/Supervisor/2026-11-27-0831-analyse-spielertexte.txt.
+Ziel des Nutzers: "für alle Addons nur noch Dinge anzeigen, die für die Spieler nützlich sind im Text".
+
+GILT NUR AUSSERHALB DES TESTMODUS (Entscheid 08:54): Im Testmodus (GoldSentinelDev:IsDev / eigenes IsDev) bleibt ALLES wie heute sichtbar –
+Messwerte, Testbefehle, Protokolle, volle Fehlermeldungen, alle Hinweise.
+
+NICHT ANFASSEN (Entscheide 08:41–08:49):
+- Befehle und Hilfe-Listen (/x help, /gsgame, /gsdev, /gstest) – unverändert.
+- Gegenstands-Tooltips – unverändert, auch Fach-/Lerntexte darin.
+- Meldungen in der Bildschirmmitte und Töne – unverändert.
+- Nachrichten an andere Spieler (Raid/Gruppe/Gilde/Flüstern: Ansagen, Versteigerung, Einladungen, Einteilungen, Bewerbungsfragen) – unverändert.
+- Sprachen: keine neuen; jeder geänderte Text in ALLEN Sprachen, die das Addon schon hat.
+
+UMSETZEN
+A  Einlog-Zeile (09:13): genau EINE kurze Zeile je Addon: Name + Version + Kurzhinweis, z. B. "RaidMaster 3.0.52 – /rm öffnet das Fenster".
+   Keine Technik (kein Build, Interface, Client-Version, Sprache, "geladen für WoW Forever"). Die Version muss sichtbar bleiben (08:41) – auch Addons,
+   die heute nichts schreiben (GuildSentinel, ProfessionSentinel), bekommen diese eine Zeile. Weitere Zeilen beim Einloggen nur nach E.
+   AHSentinel: Tagesbilanz beim Einloggen nur, wenn es etwas gibt (nicht "Gestern: nichts gebucht | 7 Tage: +0 | Gold: 0").
+B  Optionen (09:18): alle Entwicklungs-Schalter bleiben mit gleicher Wirkung, aber in EINEM Abschnitt "Mithelfen" (unten in den Optionen) mit
+   verständlichem Text. Beispiele: "Diagnose-Protokoll automatisch senden (mit dem Uploader)" -> "Fehler ohne Namen an den Entwickler schicken";
+   "Messdaten für die Entwicklung sammeln …" -> "Helfen, das Addon zu verbessern (nur Zahlen, keine Namen)"; "Flüster-Netz" -> "auch mit Spielern
+   ausserhalb von Gilde und Gruppe"; "GoldSentinelSync, 1 Std." weg. In Spieler-Texten der Optionen keine Wörter Diagnose-Protokoll, Uploader, Sync,
+   Netz/Flüster-Netz, GoldSentinelSync, Messdaten, Messung, Zeitbudget, API, Testmodus (Testmodus-Schalter selbst nur im Testmodus zeigen).
+   Gespeicherte Werte (Schlüssel) NICHT umbenennen – alte Einstellungen bleiben gültig.
+C  Fehler im Chat (09:20): statt Datei/Zeile/Fehlertext nur "<Addon>: Ein Fehler ist aufgetreten – er wird automatisch gemeldet.", höchstens EINMAL
+   je Sitzung. Einzelheiten wie bisher ins Protokoll/Fehlerliste (Uploader). Kein "bitte an den Autor schicken".
+D  Messwerte (09:21): ms, KB, Bilder, Takt, Speicher, Zähler NUR im Protokoll-/Diagnose-Fenster – nie in normalen Fenstern, Chat oder Optionen.
+E  Tipps/Hinweise im Chat (09:23): jeder nur EINMAL (gemerkt in den SavedVariables), danach nie wieder; bei neuer Version höchstens eine kurze Zeile
+   "Neu: …".
+
+NACHWEIS IM BERICHT (berichte/<Addon>/…-st1-spielertexte.txt)
+1. Liste ALLER Texte, die ein normaler Spieler ohne eigenes Zutun sieht (Chat beim Einloggen und im Spiel, Optionen, normale Fenster), je mit
+   Ort und Einstufung Spieler / Mithelfen / nur Testmodus – vorher und nachher.
+2. Test mit Gegenprobe: Einloggen ohne Testmodus -> genau 1 Zeile mit Version (+ höchstens einmalige Hinweise); mit Testmodus -> wie bisher.
+   Fehler ausgelöst -> 1 Zeile, zweiter Fehler -> keine weitere Zeile, Protokoll enthält beide. Tipp einmal, nach /reload nicht mehr.
+3. Alle Sprachen nachgeführt (Liste der geänderten Schlüssel), CHANGELOG EN/DE.
+Der Supervisor misst danach mit dem Nachbau (Chat beim Einloggen/Zeitgeber, Testmodus aus) wie in der Analyse.

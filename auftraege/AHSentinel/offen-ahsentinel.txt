@@ -7296,3 +7296,8 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     wieder für Verstärktes Leinencape -> reproduzierbar je Sitzung (je erster Aufruf für dieses Item), nicht Zufall. Gleicher Befund wie oben.
 >>> PRÜFUNG SUPERVISOR 27.11. 08:30 – FULL 0.65.416 allein (Bericht 07:38): 356/67, gegen 0.65.415 keine neu roten, keine neu grünen – ANGENOMMEN.
     Offen bleiben AHS-W1 (erstes Öffnen), AHS-API1 (WorthUpTo 18,4 ms – PS hat es jetzt gemerkt, schneller machen kann nur AHS), AHS-S216.
+
+>>> AUFTRAG MITTEL ST1 Spieler-Texte (Supervisor 27.11. 09:25) – Entscheide des Nutzers 27.11. 08:27–09:23. Vollständige Regeln, was NICHT angefasst wird
+    (Befehle, Tooltips, Bildschirm-Meldungen, Töne, Nachrichten an andere Spieler, Sprachen) und Nachweis: auftraege/anweisung-spielertexte-2026-11-27.txt (lesen!).
+    Kurz: A eine Einlog-Zeile mit Version, ohne Technik · B Entwicklungs-Schalter in "Mithelfen", verständlich · C Fehler = 1 Zeile je Sitzung · D Messwerte nur
+    im Protokoll · E Tipps nur einmal. Alles nur ausserhalb des Testmodus. Dieses Addon: Heute (Nachbau 0.65.416, Testmodus aus): "[AHSentinel] Version 0.65.416 geladen. Öffnen über den Münz-Button oder /ahs (/ahs help = alle Befehle)" + Tagesbilanz auch bei "nichts gebucht | +0 | Gold 0". Optionen: "Preis-Sync", Hinweis "Kleineres Zeitbudget = länger, aber flüssiger" -> verständlich/Mithelfen.

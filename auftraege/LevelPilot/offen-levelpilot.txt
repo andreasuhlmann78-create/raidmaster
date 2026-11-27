@@ -2042,3 +2042,8 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
     „Alles kopieren“ zeigt den ganzen Text"; der vollständige Text bleibt zum Kopieren (und für den Uploader) unverändert. Umsetzen (MITTEL), EN/DE, Messung vorher/nachher
     (Öffnen Zentrale/Protokoll: ms und KB). Hinweis: Der Nutzer will allgemein nur noch für Spieler nützliche Texte – Analyse über alle Addons macht der Supervisor
     zuerst; weitere Änderungen an Texten erst nach seinem Entscheid.
+
+>>> AUFTRAG MITTEL ST1 Spieler-Texte (Supervisor 27.11. 09:25) – Entscheide des Nutzers 27.11. 08:27–09:23. Vollständige Regeln, was NICHT angefasst wird
+    (Befehle, Tooltips, Bildschirm-Meldungen, Töne, Nachrichten an andere Spieler, Sprachen) und Nachweis: auftraege/anweisung-spielertexte-2026-11-27.txt (lesen!).
+    Kurz: A eine Einlog-Zeile mit Version, ohne Technik · B Entwicklungs-Schalter in "Mithelfen", verständlich · C Fehler = 1 Zeile je Sitzung · D Messwerte nur
+    im Protokoll · E Tipps nur einmal. Alles nur ausserhalb des Testmodus. Dieses Addon: Heute (Nachbau 3.13.24): 3 Zeilen beim Einloggen ("v3.13.24 geladen. Linksklick …", Hinweis Wegdaten-Teilen, "Tipp: Nachkaufen und Belohnung …") -> 1 Zeile; Hinweis und Tipp nur beim allerersten Mal. Fehler "Fehler in comm_hello: LevelPilot/Comm.lua:… – Bitte diese Meldung an den Autor schicken. /lp diag …" -> 1 Zeile. Zentrale > Austausch: "Über das Flüster-Netz", "Mitspieler mit LevelPilot (GoldSentinelSync, 1 Std.)" -> verständlich/Mithelfen. HOCH-Punkte Takt gehen vor.

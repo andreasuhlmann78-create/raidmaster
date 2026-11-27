@@ -1101,3 +1101,8 @@ UP-DOC2 MITTEL: LIESMICH.txt (DE) und README_EN.txt Abschnitt "Addons automatisc
     lassen). Zip = Ordner (21, keine Abweichung). addon_check 3.0.52 OK. Workflow grün.
     Abnahme: Verdacht, zu messen – echte Discord-Antwort (guild_id) beim ersten echten Einstellungs-Wechsel ("Neue Einstellungen übernommen" bzw. stand.json
     "einstellungen"). Die Offiziere bekommen die Anleitung per Discord (Entscheid des Nutzers 08:03).
+
+>>> AUFTRAG MITTEL ST1 Spieler-Texte (Supervisor 27.11. 09:25) – Entscheide des Nutzers 27.11. 08:27–09:23. Vollständige Regeln, was NICHT angefasst wird
+    (Befehle, Tooltips, Bildschirm-Meldungen, Töne, Nachrichten an andere Spieler, Sprachen) und Nachweis: auftraege/anweisung-spielertexte-2026-11-27.txt (lesen!).
+    Kurz: A eine Einlog-Zeile mit Version, ohne Technik · B Entwicklungs-Schalter in "Mithelfen", verständlich · C Fehler = 1 Zeile je Sitzung · D Messwerte nur
+    im Protokoll · E Tipps nur einmal. Alles nur ausserhalb des Testmodus. Dieses Addon: Heute (Nachbau 3.0.52): "RaidMaster: v3.0.52 geladen – WoW Forever (WoW 1.60.1, Build 70753, Interface 16001) · Deutsch. /rm öffnet das Fenster." -> "RaidMaster 3.0.52 – /rm öffnet das Fenster". Optionen durchsehen (Mithelfen). Nachrichten an andere Spieler unverändert.
