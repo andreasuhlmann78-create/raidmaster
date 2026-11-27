@@ -1,6 +1,6 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 27.11.2026 21:15 · Version 0.65.424 (Discord, AHS-SN-CAN1); CurseForge 0.65.423 (Hotfix 21:03, Datei 9854852)
+## Stand 27.11.2026 21:50 · Version 0.65.424 (Discord); CurseForge 0.65.423 (Hotfix); Masterplan v2 Schritt 1 Inventur abgelegt
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz – Testberichte "GSTEST1{…}", UI-Befunde db.uiFindingsLast).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
@@ -9,12 +9,13 @@ Nachbau: cd /home/claude/ahanalyzerpro && bash tests/run_offline.sh /home/claude
  FULL 0.65.416: 356 PASS / 67 FAIL, keine neuen. Eigene Szenarien /tmp/claude-0/sim2/wowsim/scenarios_new.lua (zz_st1 Chat-Inventar, TR_TEXT=1).
 
 ## Gerade in Arbeit
-- SN-Z4 ERLEDIGT (Supervisor 21:16, Nutzer "ja sieht gut aus"). 0.65.423 Hotfix auf CurseForge (Entscheid Nutzer 21:00 + Bestätigung im Chat).
-- AHS-SN-CAN1 in 0.65.424: AUCTION_CANCELED mit eigener Sniper-auctionID = "eigener Kauf" (T1042).
-- AHS-API1: 0.65.422+ auf CurseForge; Ingametest API-LANGSAM offen.
+- MASTERPLAN v2 (auftraege/AHSentinel/masterplan-ahsentinel.txt, Nutzer 21:21 "ok lets go") = EINE Reihenfolge. Schritt 1 Inventur abgelegt
+  (berichte/AHSentinel/2026-11-27-2145-inventur-masterplan.txt): offen R1–R7, 0.66.0, TB182-2c, UI-CLEAN1-B T2, VS-121b/AHS-I4, AHS-S216/BP1/MK1/
+  W2E-b/UMG1, Rest-Speicher API1. TT-DE2/MR2/TB181-4 sind gebaut (Plan v2 irrt dort).
+- Danach Schritt 2 (Stabilität) parallel zur Prüfung: 2.1 Rest-Speicher API1, 2.4 AHS-BP1 …
 
 ## Nächste Schritte
-1. FULL 0.65.424 allein (Vergleich mit fail423.txt). Neues string.format -> immer s341 mitlaufen. Danach AHS-API1 nach Ingametest (Zeile API-LANGSAM).
+1. Schritt 2.1: Speicher DE tatsächlich/Mat Leiter ≤ 50 KB (zz_api4/5, HORDE=1). 2.4: AHS-BP1, AHS-S216, AHS-W2E-b, AHS-MK1, AHS-UMG1. Neues string.format -> immer s341 mitlaufen. Danach AHS-API1 nach Ingametest (Zeile API-LANGSAM).
 2. AHS-BP1 MITTEL (bindType: Schurkengifte/Blendungspulver BoP nicht als AH-Ware), AHS-S216, AHS-MK1 (nach Ingametest).
 3. Weitere T459-Posten messen (je Massnahme mit Messung).
 4. Regel CF 18:00: CF-Entscheid im Repo -> sofort Auswahl-Frage im Chat; bis 17:30 Stand melden.
@@ -25,6 +26,7 @@ Nachbau: cd /home/claude/ahanalyzerpro && bash tests/run_offline.sh /home/claude
 - Ingametest AHS-API1 mit 0.65.418: Schneider-Figur, Berufsfenster, /ahs protokoll -> API-LANGSAM.
 
 ## Entscheide des Nutzers seit letztem Stand
+- 27.11. 21:21: Masterplan v2 freigegeben ("ok lets go").
 - 27.11. 21:00: 0.65.423 sofort als Hotfix auf CurseForge (im Chat bestätigt). 16:56: 0.65.422 auf CurseForge statt 0.65.421.
 - 27.11. 10:30 (Supervisor): DL-ABN – download/ nur mit angenommener Version.
 - 27.11. 08:27–09:23 (über Supervisor 09:25): ST1 Spieler-Texte A–E, nur ausserhalb Testmodus.

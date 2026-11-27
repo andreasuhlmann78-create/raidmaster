@@ -1,0 +1,135 @@
+BERICHT AHSentinel – MASTERPLAN v2 SCHRITT 1: INVENTUR (kein Code)
+Projekt-Sitzung AHSentinel · 27.11.2026 21:45 · Stand Code 0.65.424 (origin/main AHAnalyzerPro), CurseForge 0.65.423
+Auftrag: offen-ahsentinel.txt (Supervisor 21:25) + masterplan-ahsentinel.txt v2. Nur Belege, keine Freigaben.
+
+WIE BELEGT (damit nachprüfbar)
+- "Version": Commit-Nachricht im Repo AHAnalyzerPro (git log, ab 0.65.3xx) bzw. mein Gesamtbericht 2026-11-16-1804-0.65.273-masterplan-durchgang.txt
+  (Phase 1–7 je Version) bzw. der jeweilige Einzelbericht in berichte/AHSentinel/.
+- "Tests": Chk-Nummern in TestRoutine.lua (Stand 0.65.424), deren Beschreibung das Kürzel nennt – sind im Code vorhanden.
+- "Im Spiel abgenommen": nur wenn in offen-ahsentinel.txt eine Zeile des Supervisors mit OK/ERLEDIGT/abgenommen/"im Spiel belegt" zu diesem
+  Kürzel steht (Zeilennummer angegeben). Automatisch gesucht (Regex je Kürzel über 7445 Zeilen) und von Hand nachgelesen. "nein" heisst:
+  keine solche Zeile gefunden – nicht, dass es im Spiel nicht geht.
+- Z = Zeilennummer in auftraege/AHSentinel/offen-ahsentinel.txt (Stand 21:40).
+
+ZUSAMMENFASSUNG
+- Alter Plan Phase 1–7: fast alle Kürzel sind im Code umgesetzt (Version + Test vorhanden). Im Spiel ausdrücklich abgenommen sind davon nur
+  wenige (SN-BTN1, SN-Z4, GSL4-1, MN5-Anzeige, R1/R3/R5 Regeln, DE30b, WS/SB-Bestand, CH-G). Die meisten stehen "angenommen (Code), Abnahme im
+  Spiel offen".
+- WIRKLICH OFFEN (nicht gebaut): R1–R7 "Reiter aktualisieren sich selbst" (Auftrag 23.11.) · 0.66.0 · TB182-2 (c) · UI-CLEAN1-B Teil 2 ·
+  VS-121b/AHS-I4 Rest (Ruckeln Vollscan im Spiel) · AHS-S216 · AHS-BP1 · AHS-MK1 · AHS-W2E-b · AHS-UMG1 · Rest-Speicher AHS-API1.
+- ÜBERHOLT: G12 (entfernt, Entscheid 21.11. 18:28) · SN-B5 als Fehler (war Testfehler, Z1182) · Phase-8-Ideen ohne Freigabe (8i, I3, I4, I6).
+- DATENSTUFE 5 (Tabellen von aussen) stockt AUSSERHALB von AHS (Bot-Tagesdateien, Markt-Tabelle "alle"); der Leser in AHS ist gebaut.
+
+TABELLE (Kürzel | Stand | Version | Tests | im Spiel abgenommen | Beleg / was fehlt)
+--- ALTER PLAN PHASE 1 – SNIPER
+SN-RUHE1   | erledigt (Code)   | 0.65.197            | T778            | nein                    | Bericht sn-ruhe1-0.65.197; Messung im Spiel (Ruhe-Zeilen SNIPER-RUHE kommen, PC 27.11. 19:15)
+GSL4-1     | erledigt          | 0.65.200            | T786            | ja Z54 ("erledigt in 0.65.200"), Z453 belegt
+SN-B5      | überholt/erledigt | 0.65.186            | –               | Z1182: "SN-B5 war Testfehler" | –
+SN-B6/B7/B8| erledigt (Code)   | 0.65.186–0.65.196   | –               | nein (SN-B8 Z447 "Messung angenommen") | Bericht 2026-11-15-1712-phase-1-3-stand
+T745       | erledigt (Code)   | 0.65.194            | –               | nein                    | gleicher Bericht
+TB184-U3   | erledigt (Code)   | 0.65.196            | –               | nein                    | gleicher Bericht
+GSL2-3     | erledigt (Code)   | 0.65.197            | T777            | nein                    | gleicher Bericht
+TB182-2    | TEILWEISE         | 0.65.2xx (a,b)      | T853,T854       | nein                    | (c) offen seit 17.11. (Z3976 "Weiter: TB182-2 (c)"); braucht Auflistung Buchung↔Gold je Minute
+POST-BLOCK1| erledigt (Code)   | 0.65.207            | –               | nein (Z112 "offen bis Beleg aus dem Spiel"; Z3665 Einstellen mit Warnung im Spiel benutzt)
+SN-BTN1    | erledigt          | 0.65.208, -2 0.65.272| T793,T849      | ja Z4003 ("OK im Spiel: SN-BTN1 … 1 Klick = 1 Kauf")
+SN-Z4      | erledigt          | 0.65.423            | s345 (Szenario) | ja Z7428/7429 (Nutzer 21:09, Supervisor 21:16)
+--- PHASE 2 – GEHIRN
+KERN-T1 (1)| erledigt (Code)   | 0.65.198            | T779,T780       | nein                    | Weg "markt" aus fremden Auktionen + Eichung; Wirkung im Spiel = Kern-Abgleich (Schritt 3.1)
+KERN-T1 (2)| erledigt (Code)   | 0.65.198            | T781            | nein                    | Gilden-Sync der Zähler; Z6339: T947/T955 im Spiel "Fälle nil / -1" (Gilde liefert kaum)
+KERN-T1 (3)| erledigt (Code)   | 0.65.198/0.65.226   | T779            | nein                    | Leser K:TableCell vorhanden (Z3570); Daten "alle" fehlen ausserhalb (siehe E)
+MN1–MN4    | erledigt (Code)   | 0.65.199/0.65.218/220| T782           | nein                    | GoldSentinelMarkt angebunden, Feed
+MN5        | erledigt (Code)   | 0.65.242            | T783,T816       | Code angenommen Z3475; im Spiel nein | Netz-Wert nur im Markt-Detail
+MN6–MN8    | nicht AHS         | –                   | –               | –                       | keine Zeile in offen-ahsentinel.txt; Bot/Supervisor (E)
+2.5 MARKT-KERN Testbericht | erledigt | 0.65.249/0.65.256 | –        | im Spiel belegt (Kern-Abgleich 16.11. 14:45 laut Bericht 1804) | 24.11.: 28–36 Zellen gehen nicht auf -> Schritt 3.1
+--- PHASE 3 – BUCHHALTUNG/VERKAUFEN
+DE-AUFT1   | erledigt (Code)   | 0.65.199            | T784            | nein                    | Plan 4.1
+TB181-4    | erledigt (Code)   | 0.65.201            | T787            | nein (Z414 Code-Prüfung) | Abbrechen bei "?" -> Meldung + Preisprüfung vorrangig
+TB181-3    | erledigt (Code)   | 0.65.201            | T356            | nein                    | Fusszeile doppelt
+MAIL-1     | erledigt (Code)   | 0.65.184 (+0.65.362 "alles abholen") | – | nein               | Plan 4.3
+VK-P1      | erledigt (Code)   | 0.65.202            | T788            | nein (Z414 Code-Prüfung)
+VK-E1/BH-TT2| erledigt (Code)  | 0.65.228            | –               | Code angenommen Z3429/3430; im Spiel nein
+--- PHASE 4 – RECHENKERN
+TT-DE2     | erledigt (Code)   | 0.65.203            | T789            | nein                    | Plan v2 5.1 sagt "nie gebaut" – das stimmt NICHT: T789 im Code, Bericht 1804. Abnahme fehlt.
+MR2        | erledigt (Code)   | 0.65.204 (+0.65.299 TU1-Lager) | T723,T790 | nein               | Plan v2 5.2 "nie gebaut" stimmt NICHT. Abnahme fehlt.
+RK3        | erledigt (Code)   | 0.65.205            | T791            | nein                    | herstellen oder roh verkaufen; Rezepte aus ProfessionSentinel nötig (PS-API1)
+RK4        | erledigt (Code)   | 0.65.206            | T792            | nein                    | Wege abwählbar + Verzauberkunst
+RK5        | erledigt (Code)   | 0.65.213            | T795            | Vorschlag angenommen Z313; im Spiel nein
+RK6        | erledigt (Code)   | 0.65.231 (+0.65.238 Ketten-Index) | T807,T813 | Code angenommen Z3447; im Spiel nein
+RK7        | erledigt (Code)   | 0.65.216/0.65.221   | T797,T799,T819  | nein
+RK8        | erledigt (Code)   | 0.65.205            | T791            | nein                    | Prüffälle
+API-PM2/3  | erledigt          | 0.65.107 (+API-PM4 0.65.274) | T850 (PM4) | nein               |
+TB170-10   | erledigt (Code)   | 0.65.219            | –               | nein                    | nie zwei "Lohnt bis"
+TB170-6/-7, TB168-1, TB172-2, TB168-9 | TEILWEISE | 0.65.171–173, 0.65.237, 0.65.239/240/248 | T812 | nein | Ruckeln/Speicher Vollscan im Spiel nicht grün -> heute AHS-I4/VS-121b/T459/AHS-SP1 (Schritt 2.2)
+4.6 0.66.0 | OFFEN             | –                   | –               | –                       | Freigabe-Bedingung: Schritt 2.1–2.3 im Spiel grün
+--- PHASE 5 – OBERFLÄCHE
+UI-REF1    | erledigt (Code)   | 0.65.219            | –               | Code angenommen Z3345; im Spiel nein
+UI-CLEAN1 A| erledigt          | 0.65.182            | T750,T751,T865  | –
+UI-CLEAN1 B| TEILWEISE         | Teil 1 0.65.289; T750/T191 0.65.392–0.65.401 | T750,T1019,T1029 | nein | "heute": letzter Lauf PC 25.11. 15:01 (0.65.400) = 70 Befunde (16.11.: 727); Teil 2 mit Upload-Daten offen (Z4297/4392)
+HP-4/HP-3/HP-2 | erledigt (Code)| 0.65.222/223/224   | T801 (HP-2)     | HP-2 Entscheid Z3416; im Spiel nein
+--- PHASE 6 – SPIELRHYTHMUS
+MR5        | erledigt (Code)   | 0.65.227            | T804            | nein
+MR6        | erledigt (Code)   | 0.65.232            | T808            | Code angenommen Z3449; im Spiel nein
+MR7        | erledigt (Code)   | 0.65.225            | T802,T809       | Annahmen angenommen Z3420; im Spiel nein
+MR8        | erledigt (Code)   | 0.65.229            | T805            | Code angenommen Z3443; im Spiel nein
+MR9        | erledigt (Code)   | 0.65.235            | T811            | nein
+V4         | erledigt (Code)   | 0.65.234 (+Speicher AHS-I3 0.65.389/390) | T810,T820 | nein | Z6497: Speicher der Verfolgung V4 war grösster Posten
+JK1–JK4    | erledigt (Code)   | seit 11.11. (Timing.lua) | T483       | nein
+--- PHASE 7 – MARKT-REITER
+MR1/MR3    | erledigt (Code)   | 0.65.244/245/247    | T723,T818,T819,T821 | nein                | Weg B "eine Seite" wartete auf den Nutzer
+MR4        | erledigt (Code)   | 0.65.243            | T817,T823,T840  | Prüfliste "Nicht OK" Z3756 -> vom Supervisor am Bild entschieden; Abnahme danach nein
+MR10       | erledigt (Code)   | 0.65.246            | T820            | nein
+MR11       | erledigt (Code)   | 0.65.241            | –               | Code angenommen Z3475; im Spiel nein
+--- PHASE 8 (freigegeben 16.11. 14:10)
+I5         | erledigt (Code)   | 0.65.267 (+0.65.393 AHS-SG6) | T839,T846,T1018 | nein               | Wächter-Ton nur bei gesichertem Tipp (Z6695)
+WS + SB    | erledigt          | 0.65.268 (+0.65.401 AHS-SB1) | T796,T845,T881,T315,T1030 | Bestand belegt Z3887; AHS-SB1 Abnahme offen Z6988
+Vorräte vor Raid-Abenden | erledigt (Code) | 0.65.269 | –          | nein                    | Hinweis 9.12. kommt (ST1: einmal); "gemessener Effekt" fehlt -> zeitkritisch ab 4.12.
+CH-G       | erledigt          | 0.65.123/0.65.270   | T848            | Z2393 addon_check OK; im Spiel nein
+8i, I3, I4, I6, KI-Frage | überholt/ohne Freigabe | – | –             | –                       | nicht anfangen ohne Entscheid (Plan v2)
+RUCKEL-1   | erledigt (Nachbau)| 0.65.2xx (BuyStats Wächter 71,5 -> 11 ms) | T892 | nein (Z4470 "Beleg im Spiel durch WAECHTER-LAST")
+--- NEUER PLAN C/D (seit 16.11.)
+G10        | erledigt (Code)   | 0.65.365–0.65.384   | T944,T947,T957,T958,T995,T999 | nein  | Eichung erst ab ≥ 30 echten Fällen je Gruppe; Z6339: Gilden-Teil liefert im Spiel nil
+G11        | erledigt (Code)   | 0.65.367            | T949            | nein
+G12        | ÜBERHOLT          | 0.65.368/369 entfernt | –             | Z6263 "G12 entfernt (Entscheid 18:28)"
+G13        | erledigt (Code)   | 0.65.366            | T946            | nein
+G14        | erledigt (Code)   | 0.65.367/368        | T951,T954       | nein                    | G14-a (Speicher) nach V4-Messung offen (Z6553)
+G15        | erledigt (Code)   | 0.65.367            | T950            | nein
+G16        | erledigt (Code)   | 0.65.367            | –               | nein                    | Ausreisser bleiben, Messauftrag P3
+G17        | erledigt (Code)   | 0.65.368–0.65.384   | T955,T956,T999  | nein                    | Z6339: T955 Gilde -1 im Spiel
+R1–R7 (Reiter aktualisieren, 23.11.) | OFFEN | – | –                | –                       | Code 0.65.424: UI:RefreshLater nur aus DATA_CHANGED (UI_Main.lua:5281) und CACHE_UPDATED; Verkaufen nur über SELLER_CHANGED. Post/Taschen/Gold/eigene Auktionen lösen keinen Neuaufbau aus. Kein Bericht dazu. (Nicht verwechseln mit KERN-P2 "R1–R5" Z4258 = Regeln, erledigt T829.)
+AHS-API1   | erledigt (Code)   | 0.65.416–0.65.422   | T1038,T1040,T1041 | angenommen Z7318/7363; im Spiel offen | Rest-Speicher "DE tatsächlich"/Mat Leiter 41–112 KB (Ziel ≤ 50 KB)
+AHS-W1     | erledigt (Code)   | 0.65.407–0.65.415   | T1037           | nein (Z7298 offen)
+AHS-SB1    | erledigt (Code)   | 0.65.401            | T1030           | angenommen Z6988, Abnahme offen
+AHS-SP1    | TEILWEISE         | 0.65.395            | T1011–T1013,T1021 | nein                  | (d) zwei Vollscans im Spiel stehen aus (Z6853)
+AHS-SP2    | erledigt (Code)   | 0.65.396/0.65.398   | T1022–T1027     | angenommen Z6872, Abnahme offen
+AHS-API2   | erledigt (Code)   | 0.65.402/0.65.403   | T1031,T1032     | angenommen Z7023, Abnahme offen
+AHS-SN-CAN1| erledigt (Code)   | 0.65.424            | T1042           | nein (gerade erst)
+AHS-I4     | TEILWEISE         | 0.65.388–0.65.390   | T1003–T1005,T1010 | I4-a Messkosten ERLEDIGT Z6462; Rest offen | längster Frame beim Einlesen im Spiel (Plan 2.2: 712 ms)
+VS-121b    | OFFEN             | –                   | –               | –                       | Z4067 Lücke 436 ms – im Spiel belegen; mit AHS-I4 zusammen
+T459       | TEILWEISE         | 0.65.338–0.65.406   | T459,T1035      | Z6992 "T459 OK 1. Vollscan 18 309 KB" (Teil); weitere Posten offen
+WAECHTER-LAST | TEILWEISE      | Messung 0.65.2xx    | T857            | nein (Z4006 Bedingung 0.66.0)
+SN-TR-2    | TEILWEISE         | 0.65.2xx            | T860            | nein (Z3993 HOCH, Z4180) | Sniper-Testroutine im Spiel grün steht aus
+AHS-TR1-a  | erledigt (Code)   | 0.65.393            | –               | Entscheid Nutzer Z6659 "kein Blocker" | –
+AHS-V3     | erledigt (Code)   | 0.65.388            | (T-Prüfung Teil Grund) | nein          | Code 0.65.424: GoldSentinelTest VERSION = 4; TestRoutine.lua:3798 prüft T.version >= 1 (kein "== 2" mehr)
+AHS-W2E-b  | OFFEN             | –                   | –               | –                       | Z6299 je Verkaufsweg mit hoher Gebühr testen
+AHS-BP1    | OFFEN             | –                   | –               | –                       | Z7036 Schurkengifte/Blendungspulver BoP
+AHS-S216   | OFFEN             | –                   | –               | –                       | Z7268 Zeitszenario s216 stabil machen
+AHS-MK1    | OFFEN             | –                   | –               | –                       | Z6957 fullScan je Markt (freigegeben NIEDRIG)
+AHS-T750   | erledigt (Code)   | 0.65.400/0.65.401   | T1029           | nein
+AHS-UMG1   | OFFEN             | –                   | –               | –                       | Z6733
+AHS-SG6-a  | erledigt (Code)   | 0.65.394            | T1020           | angenommen Z6771, Abnahme offen
+Hinweis "Wechsel kurz vor Raste" | erledigt (Code, Schutz) | 0.65.423 | s345 | nein          | kein Wechsel < 1 s nach Raste / während Kauf
+--- E. AUSSERHALB AHS
+D-KERN1 (Bot-Tagesdatei), Markt-Tabelle "alle", Datenlücke 14.–20.11. | nicht AHS | – | – | – | Leser in AHS vorhanden (KERN-T1 (3)); Daten fehlen
+PS-API1    | nicht AHS (PS)    | –                   | –               | –                       | Z1209; Grundlage für RK3/RK4-Rezepte
+
+KORREKTUREN AM PLAN v2 (belegt, bitte prüfen)
+1. Plan 5.1 "TT-DE2 seit 15.11. nie gebaut" und 5.2 "MR2 nie gebaut": beide sind gebaut (0.65.203 / 0.65.204, Tests T789 / T790 im Code). Offen ist
+   nur die Abnahme im Spiel.
+2. Plan 4.2 "TB181-4 Stand unklar": gebaut 0.65.201 (T787), Code-Prüfung Z414; Abnahme im Spiel fehlt.
+3. Plan 4.5 "R1–R7 Stand unklar": NICHT gebaut (Beleg oben). Das ist der grösste offene Bau-Punkt ausser Stabilität.
+
+VORSCHLAG NÄCHSTE SCHRITTE (Plan-Reihenfolge, ich arbeite parallel zur Prüfung dieser Inventur weiter)
+- Schritt 2.1 Rest: Speicher "DE tatsächlich"/Mat Leiter auf ≤ 50 KB (Nachbau mit HORDE=1, bekannte Items – zz_api4/zz_api5).
+- Schritt 2.4 kleine offene in dieser Reihenfolge: AHS-BP1 (MITTEL), AHS-S216, AHS-W2E-b, AHS-MK1, AHS-UMG1.
+- R1–R7 als eigener Punkt nach Schritt 2 (oder früher, wenn der Supervisor es vorzieht).
+- Im Spiel abnehmen (Nutzer, wenn er mag): AHS-API1 (API-LANGSAM), AHS-W1 (UI-PREBUILD), Vollscan (AHS-I4/VS-121b/AHS-SP1 d).
