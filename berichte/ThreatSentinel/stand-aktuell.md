@@ -1,6 +1,6 @@
 # Stand ThreatSentinel
 
-## Stand 27.11.2026 09:40 · Version 2.5.31
+## Stand 27.11.2026 10:30 · Version 2.5.31 (ANGENOMMEN 27.11. 10:30, liegt in download/)
 Veröffentlicht 27.11. 09:38 (download/, announce/; Commit ba47c4ff), Discord. Nicht auf CurseForge.
 Bericht: berichte/ThreatSentinel/2026-11-27-0938-st1-spielertexte.txt ("umgesetzt, zur Prüfung").
 2.5.31 = ST1 Spieler-Texte: ns:LoginLine (1 Zeile mit Version, Testmodus wie bisher), ns:DevPrint (Ini-Prüfung still), ns:HintOnce
@@ -10,7 +10,7 @@ Tests T-ST1 (neu), T-DEV1 angepasst. Dazu SHARED-T4: GoldSentinelTest 4 kopiert.
 2.5.30 (TS-M1-b) angenommen 24.11. 18:56; Ingametest 2.5.30: OK 333 · FEHLER 0.
 
 ## Gerade in Arbeit
-Nichts. Alle Aufträge bis Supervisor 27.11. 09:25 (ST1) umgesetzt.
+Nichts. Alle Aufträge bis Supervisor 27.11. 10:30 (DL-ABN) umgesetzt.
 
 ## Nächste Schritte (Reihenfolge)
 1. Bei "repo": git pull --rebase, offen-threatsentinel.txt ganz unten lesen.
@@ -32,6 +32,8 @@ Nichts. Alle Aufträge bis Supervisor 27.11. 09:25 (ST1) umgesetzt.
   (Instanz/Kampf), aber nichts verändern; (a)/(c) nur auf Befehl im Entwicklermodus.
 
 ## Wichtig zu wissen
+- DL-ABN (27.11.): neue Version NUR nach announce/ (publish.sh baut die Zip im Scratchpad); nach "ANGENOMMEN" für genau diese Version
+  freigeben.sh <Version> -> download/ (gleiche Zip, md5), ältere weg, README, Workflow "Addon-Prüfung" grün. Uploader installiert download/ bei allen!
 - Bauordner: /home/claude/build/v245/ThreatSentinel (nicht im Repo, ging am 27.11. verloren -> aus Zip entpackt; Inhalt = download/ThreatSentinel-2.5.31.zip – bei Verlust daraus entpacken).
 - Veröffentlichen (Skript publish.sh im Scratchpad, bei Verlust so nachbauen): git fetch + reset auf origin/main; Zip aus dem Bauordner nach
   download/ThreatSentinel-<neu>.zip; addon_check (kein FEHLER); announce/threatsentinel__threatsentinel-<neu>.md + .ThreatSentinel.zip

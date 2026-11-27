@@ -1,0 +1,14 @@
+BERICHT ThreatSentinel – 27.11.2026 10:26 – DL-ABN (download/ nur angenommene Versionen)
+Projekt: ThreatSentinel · Version 2.5.31 (angenommen 27.11. 10:30) · Status: umgesetzt, zur Prüfung
+
+1) Stand download/: ThreatSentinel-2.5.31.zip = angenommene Version (ST1). md5 f7ef9b5f4f9199929596f074783215db, gleich wie
+   announce/threatsentinel__threatsentinel-2.5.31.ThreatSentinel.zip. Keine ältere ThreatSentinel-*.zip in download/. Nichts zu ändern.
+2) Ablauf ab jetzt (Veröffentlichungs-Skript umgebaut):
+   - Neue Version: Zip nur im Arbeitsordner bauen, addon_check, dann NUR announce/ (.md + .ThreatSentinel.zip, md5 im Bericht).
+     download/ und README bleiben unverändert.
+   - Erst wenn in offen-threatsentinel.txt "ANGENOMMEN" für genau diese Version steht: dieselbe Zip aus announce/ nach
+     download/ThreatSentinel-<Version>.zip kopieren (md5-Vergleich), ältere ThreatSentinel-*.zip in download/ entfernen, README-Link nachführen,
+     push, Ankunft prüfen, Workflow "Addon-Prüfung" grün prüfen.
+   - ThreatSentinel steht nicht in curseforge/projects.json – kein 18:00-Termin.
+   - Ausnahme nur auf ausdrücklichen Entscheid des Nutzers (im Bericht nennen).
+3) Rückblick: 2.5.31 lag heute 09:38 vor der Prüfung in download/ (Fehler nach der neuen Regel; inzwischen angenommen, kein Schaden).
