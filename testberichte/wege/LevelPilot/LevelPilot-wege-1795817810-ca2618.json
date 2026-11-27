@@ -1,0 +1,362 @@
+{
+ "addon": "LevelPilot",
+ "blocked": [],
+ "env": {
+  "build": "71139",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 44,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "f": 1,
+ "fest": [],
+ "id": "LevelPilot-wege-1795817810-ca2618",
+ "kind": "wege",
+ "npc": [],
+ "time": 1795817810,
+ "version": "3.13.29",
+ "zones": [
+  {
+   "edges": [
+    {
+     "lv": [
+      "1454|d|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke",
+      "1454|o|Das Tal der Stärke"
+     ],
+     "n": 14,
+     "p": [
+      54.3,
+      68.4,
+      54,
+      69.6,
+      53,
+      69.9,
+      52.1,
+      69.9,
+      51.4,
+      70.8
+     ],
+     "src": "selbst"
+    }
+   ],
+   "map": 1454,
+   "name": "Orgrimmar"
+  },
+  {
+   "edges": [
+    {
+     "lv": [
+      "2548|o|Ostwindküste",
+      "2548|o|Ostwindküste"
+     ],
+     "n": 1,
+     "p": [
+      88.4,
+      31,
+      88.3,
+      30.7
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "2548|o|Ostwindküste",
+      "2548|o|Ostwindküste"
+     ],
+     "n": 1,
+     "p": [
+      88.4,
+      31,
+      88,
+      30.8
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "2548|o|Ostwindküste",
+      "2548|o|Ostwindküste"
+     ],
+     "n": 1,
+     "p": [
+      88.4,
+      31,
+      88.3,
+      31.5
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "2548|o|Ostwindküste",
+      "2548|o|Ostwindküste",
+      "2548|o|Ostwindküste"
+     ],
+     "n": 2,
+     "p": [
+      87.6,
+      27.4,
+      87.9,
+      27,
+      88.1,
+      26.7
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "2548|o|Ostwindküste",
+      "2548|o|Ostwindküste"
+     ],
+     "n": 1,
+     "p": [
+      87.7,
+      30.9,
+      88,
+      30.8
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "2548|o|Ostwindküste",
+      "2548|o|Ostwindküste"
+     ],
+     "n": 1,
+     "p": [
+      88,
+      30.8,
+      88.3,
+      30.7
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "2548|o|Ostwindküste",
+      "2548|o|Ostwindküste"
+     ],
+     "n": 1,
+     "p": [
+      88,
+      30.8,
+      88.2,
+      30.1
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "2548|o|Ostwindküste",
+      "2548|o|Ostwindküste"
+     ],
+     "n": 2,
+     "p": [
+      88.3,
+      30.7,
+      88.2,
+      30.1
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "2548|o|Ostwindküste",
+      "2548|o|Ostwindküste",
+      "2548|o|Ostwindküste"
+     ],
+     "n": 2,
+     "p": [
+      88.2,
+      30.1,
+      88.1,
+      29.8,
+      88,
+      29.4
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "2548|o|Ostwindküste",
+      "2548|o|Ostwindküste",
+      "2548|o|Ostwindküste",
+      "2548|o|Ostwindküste"
+     ],
+     "n": 1,
+     "p": [
+      88.2,
+      30.1,
+      88.4,
+      29.7,
+      88.6,
+      29.3,
+      88.3,
+      29
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "2548|o|Ostwindküste",
+      "2548|o|Ostwindküste"
+     ],
+     "n": 1,
+     "p": [
+      88,
+      29.4,
+      88.3,
+      29
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "2548|o|Ostwindküste",
+      "2548|o|Ostwindküste",
+      "2548|o|Ostwindküste",
+      "2548|o|Ostwindküste",
+      "2548|o|Ostwindküste",
+      "2548|o|Ostwindküste"
+     ],
+     "n": 1,
+     "p": [
+      88,
+      29.4,
+      87.9,
+      29,
+      87.8,
+      28.6,
+      87.8,
+      28.2,
+      87.9,
+      27.9,
+      88.3,
+      27.9
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "2548|o|Ostwindküste",
+      "2548|o|Ostwindküste"
+     ],
+     "n": 2,
+     "p": [
+      88.3,
+      27.9,
+      88.3,
+      27.4
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "2548|o|Ostwindküste",
+      "2548|o|Ostwindküste",
+      "2548|o|Ostwindküste"
+     ],
+     "n": 1,
+     "p": [
+      88.3,
+      27.9,
+      88.5,
+      28.5,
+      88.3,
+      29
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "2548|o|Ostwindküste",
+      "2548|o|Ostwindküste",
+      "2548|o|Ostwindküste"
+     ],
+     "n": 1,
+     "p": [
+      88.3,
+      27.9,
+      88.6,
+      27.7,
+      88.3,
+      27.4
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "2548|o|Ostwindküste",
+      "2548|o|Ostwindküste",
+      "2548|o|Ostwindküste"
+     ],
+     "n": 1,
+     "p": [
+      88.3,
+      27.9,
+      88.3,
+      28.5,
+      88.3,
+      29
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "2548|o|Ostwindküste",
+      "2548|o|Ostwindküste"
+     ],
+     "n": 2,
+     "p": [
+      88.3,
+      27.4,
+      88.1,
+      26.7
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "2548|o|Ostwindküste",
+      "2548|o|Ostwindküste",
+      "2548|o|Ostwindküste"
+     ],
+     "n": 1,
+     "p": [
+      88.3,
+      27.4,
+      88.1,
+      27.1,
+      88.1,
+      26.7
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "2548|o|Ostwindküste",
+      "2548|o|Ostwindküste"
+     ],
+     "n": 1,
+     "p": [
+      88.1,
+      26.7,
+      88,
+      26.4
+     ],
+     "src": "selbst"
+    }
+   ],
+   "map": 2548,
+   "name": "Flusslande"
+  }
+ ]
+}
