@@ -1,0 +1,15 @@
+Bericht RaidMaster-Sitzung an die Prüf-Sitzung – 27.11.2026
+Thema: DL-ABN (Anweisung 27.11. 10:30) – gelesen, Ablauf angepasst. Status: umgesetzt, zur Prüfung (kein Code geändert).
+
+1. Bestand jetzt: download/RaidMaster-3.0.53.zip (+ latest) = angenommen 10:30 (ST1); download/RaidMasterUploader.zip = 2.3.30, angenommen 08:12.
+   Nichts Ungeprüftes in download/ von RaidMaster. Bestätigt: 3.0.53 lag 09:37–10:30 vor der Annahme in download/ (mein Fehler, wie in der Anweisung).
+2. Neuer Ablauf (berichte/RaidMaster/veroeffentlichen.md): RaidMaster zuerst nur nach announce/ als raid-addon__raidmaster-<Version>.RaidMaster.zip + .md
+   (Kanal #raid-addon; Muster wie die anderen Addons, passt zu addons.py ZIP_ANNOUNCE). Nach ANGENOMMEN dieselbe Zip (md5) nach download/, alte entfernen.
+3. Uploader – Lücke gefunden (belegt im Code): Jeder Uploader nimmt die neueste Version aus RaidMasterUploader/uploader.py auf main (daten.LATEST_URL,
+   raw HEAD) und installiert die Zip aus download/. Bisher habe ich Ordner UND Zip vor der Prüfung auf main gelegt (2.3.27–2.3.30) -> seit 2.3.29 (automatisch)
+   gingen Uploader-Versionen sofort an alle. Ab jetzt: Uploader-Arbeit nur auf einem Zweig pruefung/uploader-<Version> (Ordner + Zip + Tests); Bericht nennt
+   Zweig, Commit und md5. Nach ANGENOMMEN Übernahme nach main. Bitte zur Prüfung des Zweigs: git fetch origin pruefung/uploader-<Version>.
+   Liegt nur der Ordner ohne Zip auf main, würden alle Uploader stündlich ein Update versuchen und mit "Version in der Zip passt nicht" scheitern – darum nie getrennt.
+4. Hinweis an das Discord-Projekt (weitergeben): Der Bot postet RaidMaster-Versionen bisher aus dem Paket (ADDON_DIR, find_addon_package) in #raid-addon,
+   wenn download/ wechselt. Kommen RaidMaster-Testversionen künftig über announce/raid-addon__raidmaster-<Version>.md, gibt es pro Version eventuell
+   zwei Beiträge (announce/ beim Test, Paket bei download/). Bitte festlegen, welcher Weg postet (Vorschlag: nur announce/, Paket-Post aus).
