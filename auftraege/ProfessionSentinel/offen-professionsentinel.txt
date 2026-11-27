@@ -979,3 +979,8 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
     (Befehle, Tooltips, Bildschirm-Meldungen, Töne, Nachrichten an andere Spieler, Sprachen) und Nachweis: auftraege/anweisung-spielertexte-2026-11-27.txt (lesen!).
     Kurz: A eine Einlog-Zeile mit Version, ohne Technik · B Entwicklungs-Schalter in "Mithelfen", verständlich · C Fehler = 1 Zeile je Sitzung · D Messwerte nur
     im Protokoll · E Tipps nur einmal. Alles nur ausserhalb des Testmodus. Dieses Addon: Heute (Nachbau 0.9.91): beim Einloggen KEINE Zeile -> neu genau eine Zeile mit Version (Entscheid 08:41). Optionen auf Entwicklungs-Schalter/Fachwörter durchsehen (Mithelfen).
+
+>>> PRÜFUNG SUPERVISOR 27.11. 10:30 – 0.9.92 (Bericht 10:04): ST1 ANGENOMMEN (Abnahme im Spiel offen: Einloggen ohne Testmodus = 1 Zeile, Optionen-Abschnitt "Mithelfen").
+    Nachbau Supervisor (addon-check-Mock, Testmodus aus, Chat beim Einloggen + Zeitgeber): "ProfessionSentinel 0.9.92 – /ps öffnet das Fenster" (vorher keine Zeile). addon_check OK.
+
+>>> AUFTRAG HOCH DL-ABN (Supervisor 27.11. 10:30): download/ nur noch mit vom Supervisor ANGENOMMENEN Versionen – der Uploader installiert jede Zip dort automatisch bei allen Mitspielern. Neue Versionen zuerst nur announce/. Einzelheiten: auftraege/anweisung-download-nur-abgenommen-2026-11-27.txt (lesen!).

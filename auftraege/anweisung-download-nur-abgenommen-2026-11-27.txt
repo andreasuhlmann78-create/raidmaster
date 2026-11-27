@@ -1,0 +1,13 @@
+ANWEISUNG an ALLE Addon-Projekte – Supervisor 27.11.2026 10:30 – Kürzel DL-ABN – Priorität HOCH (gilt sofort)
+Grund: Seit Uploader 2.3.29/2.3.30 (RM-UPD2, Entscheide des Nutzers 27.11. 07:10–07:12) installiert der Uploader bei ALLEN Mitspielern jede Zip aus
+download/ AUTOMATISCH ("stabile Versionen"). Entscheid des Nutzers ~07:25 (Bericht RaidMaster 0721 Punkt 7): "Nach Abnahme nach download/" – gilt für alle
+Addons: stabil = vom Supervisor ANGENOMMEN.
+Heute (27.11. 09:34–10:04) haben BuffSentinel 0.9.69, ProfessionSentinel 0.9.92, RaidMaster 3.0.53 und ThreatSentinel 2.5.31 ihre neue Zip VOR der Prüfung
+nach download/ gelegt -> sie gingen ungeprüft an alle Mitspieler. (Alle vier sind inzwischen geprüft und angenommen – diesmal kein Schaden.)
+Regel ab jetzt:
+1. Neue Version zuerst NUR nach announce/ (Discord, Testversion) – dort bekommen sie der Nutzer (Kanal "test") und die Prüfung.
+2. Erst wenn in offen-<addon>.txt "ANGENOMMEN" für GENAU diese Version steht, dieselbe Zip (gleicher Inhalt, md5 im Bericht) nach download/ legen,
+   ältere <Addon>-*.zip dort entfernen, Workflow "Addon-Prüfung" grün prüfen.
+3. AHSentinel und GuildSentinel zusätzlich wie bisher: download/ nur zum CurseForge-Termin 18:00 bzw. nach OK des Nutzers (projects.json).
+4. Ausnahme nur auf ausdrücklichen Entscheid des Nutzers (z. B. dringende Fehlerbehebung) – im Bericht nennen.
+RaidMaster/Uploader: RaidMasterUploader.zip ebenso erst nach Annahme (wie heute praktiziert).

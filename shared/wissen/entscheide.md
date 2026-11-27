@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Folge |
 |---|---|---|
+| 09:23 | Spieler-Texte E Tipps: "ja" – jeder Tipp/Hinweis im Chat nur einmal (gemerkt), bei neuer Version höchstens "Neu: …" | Auftrag ST1 an alle 7 Addons (09:25), angenommen 10:30. |
 | 09:21 | Spieler-Texte D Messwerte: "ja" – ms, KB, Bilder, Takt, Speicher, Zähler stehen NUR im Protokoll-/Diagnose-Fenster, nie in normalen Fenstern, Chat oder Optionen (heute schon so; feste Regel, Supervisor prüft bei jeder Version) | Prüfregel in pruef-ablauf.md E. |
 | 09:20 | Spieler-Texte C Fehler im Chat: "ja" – statt Datei/Zeile/Fehlertext nur "<Addon>: Ein Fehler ist aufgetreten – er wird automatisch gemeldet.", höchstens einmal je Sitzung; Einzelheiten ins Protokoll (Uploader); im Testmodus volle Meldung | Gesammelter Auftrag nach D–E. |
 | 09:18 | Spieler-Texte B Optionen: "ja" – alle Entwicklungs-Schalter bleiben (gleiche Wirkung), verständlicher Text, zusammen in einem Abschnitt "Mithelfen" unten in den Optionen (z. B. "Fehler ohne Namen an den Entwickler schicken", "Helfen, das Addon zu verbessern (nur Zahlen, keine Namen)", "auch mit Spielern ausserhalb von Gilde und Gruppe" statt Flüster-Netz; ohne GoldSentinelSync/Uploader/Diagnose-Protokoll/Messdaten/Zeitbudget) | Gesammelter Auftrag nach C–E. |

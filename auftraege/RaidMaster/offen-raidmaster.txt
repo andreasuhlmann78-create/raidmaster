@@ -1106,3 +1106,8 @@ UP-DOC2 MITTEL: LIESMICH.txt (DE) und README_EN.txt Abschnitt "Addons automatisc
     (Befehle, Tooltips, Bildschirm-Meldungen, Töne, Nachrichten an andere Spieler, Sprachen) und Nachweis: auftraege/anweisung-spielertexte-2026-11-27.txt (lesen!).
     Kurz: A eine Einlog-Zeile mit Version, ohne Technik · B Entwicklungs-Schalter in "Mithelfen", verständlich · C Fehler = 1 Zeile je Sitzung · D Messwerte nur
     im Protokoll · E Tipps nur einmal. Alles nur ausserhalb des Testmodus. Dieses Addon: Heute (Nachbau 3.0.52): "RaidMaster: v3.0.52 geladen – WoW Forever (WoW 1.60.1, Build 70753, Interface 16001) · Deutsch. /rm öffnet das Fenster." -> "RaidMaster 3.0.52 – /rm öffnet das Fenster". Optionen durchsehen (Mithelfen). Nachrichten an andere Spieler unverändert.
+
+>>> PRÜFUNG SUPERVISOR 27.11. 10:30 – 3.0.53 (Bericht 09:37): ST1 ANGENOMMEN (Abnahme im Spiel offen: Einloggen ohne Testmodus = 1 Zeile, Optionen-Abschnitt "Mithelfen").
+    Nachbau Supervisor (addon-check-Mock, Testmodus aus, Chat beim Einloggen + Zeitgeber): "RaidMaster 3.0.53 – /rm öffnet das Fenster" (vorher mit Build/Interface/Sprache). addon_check OK.
+
+>>> AUFTRAG HOCH DL-ABN (Supervisor 27.11. 10:30): download/ nur noch mit vom Supervisor ANGENOMMENEN Versionen – der Uploader installiert jede Zip dort automatisch bei allen Mitspielern. Neue Versionen zuerst nur announce/. Einzelheiten: auftraege/anweisung-download-nur-abgenommen-2026-11-27.txt (lesen!).
