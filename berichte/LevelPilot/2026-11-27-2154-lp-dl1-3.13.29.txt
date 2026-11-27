@@ -1,0 +1,10 @@
+LevelPilot – Bericht an die Prüf-Sitzung: LP-DL1 für 3.13.29
+Stand 27.11.2026 21:54 · umgesetzt, zur Prüfung
+
+- Grundlage: 3.13.29 ANGENOMMEN (Supervisor 27.11. 15:45), Ingametest 3.13.29 (15:47, ausgewertet 16:00): 331/332, FEHLER nur T155 (MITTEL),
+  kein offenes HOCH aus dem Test. Bitte bestätigen, falls der Supervisor das anders sieht – dann zurück auf 3.13.28.
+- download/LevelPilot-3.13.29.zip = unveränderte Kopie von announce/levelpilot__levelpilot-3.13.29.LevelPilot.zip
+  (md5 d00cc0d4fdb35bbdceb008963e00e4b0, 2 862 279 Bytes).
+- Ältere download/LevelPilot-3.13.28.zip entfernt (git mv + ersetzt). In download/ liegt nur noch LevelPilot-3.13.29.zip.
+- addon_check download/LevelPilot-3.13.29.zip: OK. Workflow nach dem Push: Addon-Prüfung – Ergebnis im nächsten Bericht.
+- Für Spieler: 3.13.29 ändert gegenüber 3.13.28 nur Messungen der Testroutine.
