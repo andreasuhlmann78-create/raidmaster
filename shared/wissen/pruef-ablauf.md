@@ -292,8 +292,8 @@ die es dort gibt.
 - (25.11.) CurseForge-Kommentare bei JEDER Prüfung einer CF-Version und täglich lesen (Seite comments, alle Seiten, Antworten aufklappen). Jeder Kommentar ohne passende Antwort zur aktuellen Version -> Antwort-Entwurf (am CHANGELOG belegt, nie mehr versprechen als belegt), posten (seit 25.11. 15:23 ohne Vorzeigen, Entscheid des Nutzers), im nachrichten-log eintragen, dem Nutzer danach melden (Entscheid Nutzer 25.11. 11:09: "die Leute erhalten immer eine Antwort").
 
 - E (26.11.2026, Nutzer fand rote Workflow-Mails 06:24–16:46): Eine Prüfung einzelner Zips reicht nicht. Nach JEDER Annahme einer Version den letzten Lauf des Workflows "Addon-Prüfung" ansehen (`gh run list --workflow "Addon-Prüfung" -L 3`); ist er rot: Ursache aus dem Log (`gh run view <id> --log | grep '**FEHLER'`) sofort dem zuständigen Projekt als HOCH auftragen. Alte Zips in download/ (Version niedriger als veröffentlicht) machen jeden Lauf rot.
-- E 27.11.2026 (ST1 Spieler-Texte, Entscheide des Nutzers 08:27–09:23): Bei JEDER Version ohne Testmodus prüfen (Nachbau wie
-  /home-Analyse: addon-check/ladetest.py-Mock, Chat getrennt, Zeitgeber ausgeführt): genau 1 Einlog-Zeile mit Version, keine Technik;
+- E 27.11.2026 (ST1 Spieler-Texte, Entscheide des Nutzers 08:27–09:23): Bei JEDER Version ohne Testmodus prüfen (Nachbau wie in der
+  Analyse berichte/Supervisor/2026-11-27-0831: addon-check/ladetest.py-Mock, Chat getrennt, Zeitgeber ausgeführt): genau 1 Einlog-Zeile mit Version, keine Technik;
   Fehler im Chat höchstens 1 Zeile ohne Datei/Zeile; Messwerte (ms/KB/Bilder/Takt/Speicher) nur im Protokoll; Tipps nur einmal;
   Entwicklungs-Schalter nur im Abschnitt "Mithelfen" mit verständlichem Text. NICHT beanstanden: Befehle/Hilfe, Gegenstands-Tooltips,
   Bildschirm-Meldungen/Töne, Nachrichten an andere Spieler (vom Nutzer ausdrücklich so gelassen).
