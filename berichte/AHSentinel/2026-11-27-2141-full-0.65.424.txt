@@ -1,0 +1,6 @@
+BERICHT AHSentinel 0.65.424 – FULL-Nachbau (alle Szenarien), allein gelaufen
+Projekt-Sitzung AHSentinel · 27.11.2026 21:41 · Stand: umgesetzt, zur Prüfung
+
+- Lauf auf Kopie /tmp/claude-0/ahs424, vorher und währenddessen kein anderer Nachbau-Lauf (pgrep run_all.sh leer).
+- Ergebnis: 357 BESTANDEN, 67 FEHLGESCHLAGEN – wie 0.65.423. Fehlerlisten verglichen: keine neuen roten, keine neuen grünen.
+- Masterplan v2 gelesen; als Nächstes SCHRITT 1 INVENTUR (kein Code), Bericht berichte/AHSentinel/<Zeit>-inventur-masterplan.txt.
