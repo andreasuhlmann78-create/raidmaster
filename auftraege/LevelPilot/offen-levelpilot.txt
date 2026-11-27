@@ -2068,3 +2068,11 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
     LP-DL1 (stabile Zip nach download/) erst, wenn T215–T217 ≤ 40 ms belegt ist.
 >>> PRÜFUNG SUPERVISOR 27.11. 12:05 – LevelPilot 3.13.27 (Messversion T217/T136, Bericht 11:18): ANGENOMMEN als Messversion (addon_check OK). Gute Auswertung: im
     langen Bild rechnete die Routine nur 6,8 ms, 150 ms lagen ausserhalb ihrer Portion – Ursache also evtl. nicht T217 selbst. Nächster Ingametest (Testroutine) entscheidet.
+
+>>> INGAMETEST 27.11. 12:27 (Laptop, LevelPilot 3.13.27 Messversion) – ausgewertet Supervisor 12:45. 331/332, FEHLER 1 (T155), Fehlerzähler 0, echte Daten unverändert.
+    - T215–T217 weiter 144,6 ms (längstes ganzes Bild 156 ms). Die Messdaten der Messversion stehen im Upload (Bericht/Felder) – bitte auswerten und Ursache BELEGEN.
+    - NEU: "Bilder über 40 ms, in denen der Speicher fiel: T355 70 ms (-159 MB), T136 55 ms (-115 MB)" – Speicherbereinigung des Spiels über 100+ MB fällt in die
+      Prüfungen; prüfen, ob LevelPilot selbst so viel Müll erzeugt (Zentrale/Protokoll-Text, Planung) oder es fremder Speicher ist (Messung Speicher je Teil).
+    - T155: 30,6 ms je Planung, Median 9,7 ms (besser), aber längste #1 447,2 ms (+7688 KB, Knoten 11239, Umkreis kalt 1105) – kalte erste Planung ist schlimmer
+      geworden (3.13.26: 68 ms). HOCH zusammen mit T217: erste Planung in Portionen bzw. Umkreis vorbauen.
+    - Reisen: längstes 11,1 ms, 0 über 16 ms (bleibt erledigt). Bild in Ruhe am Laptop diesmal Median 33 ms (47 Bilder/s).
