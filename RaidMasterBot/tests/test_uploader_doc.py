@@ -49,7 +49,11 @@ class Text(unittest.TestCase):
         self.assertIn("Addons-automatisch-aus.bat", t)
         self.assertIn("The uploader and add-ons update themselves (from uploader 2.3.29, stable versions only)", t)
         self.assertNotIn("Addons-automatisch-an.bat", t)                 # überholt (Entscheid 27.11. 07:10)
-        self.assertIn("Kanal-Kennungen (zum Vergleich mit der Frage im Uploader-Fenster): Daten 111111111111111111", t)
+        self.assertIn("Datei herunterladen – fertig.** Der Uploader übernimmt neue Einstellungen aus dem Download-Ordner selbst", t)
+        self.assertIn("Download the file – done. The uploader takes over new settings from the Downloads folder by itself", t)
+        self.assertNotIn("Frage im Uploader-Fenster", t)                  # keine j/n-Frage mehr (RM-UPD3)
+        self.assertIn("Kanal-Kennungen (zum Vergleich mit der Meldung „Neue Einstellungen übernommen“ im Uploader-Fenster): "
+                      "Daten 111111111111111111", t)
         self.assertNotIn(SCHLUESSEL, t)
         ohne_zip = self.m.setup_text(None, CONF, None, [])
         self.assertNotIn("aktualisieren sich selbst", ohne_zip)        # ohne ZIP: kein Uploader-Hinweis
@@ -87,6 +91,8 @@ class Text(unittest.TestCase):
         self.assertIn("Uploader und Addons aktualisieren sich selbst (ab Uploader 2.3.29, nur stabile Versionen)", a)
         self.assertIn("the uploader and add-ons update themselves", a)
         self.assertNotIn("Addons-automatisch-an.bat", a)
+        self.assertIn("Einstellungsdateien automatisch (ab Uploader 2.3.30)", a)
+        self.assertIn("The uploader takes over new settings from the Downloads folder by itself", a)
         self.assertIn("Kanal-Kennungen", a)
 
 

@@ -192,6 +192,16 @@ def hook_ids(conf: dict | None, sync_conf: dict | None = None) -> str:
     return ", ".join(parts)
 
 
+# DC-UPD1 Teil 2 (ab 1.5.200; Uploader 2.3.30 = RM-UPD3, Entscheid des Nutzers 27.11. 07:46 "vollautomatisch"; Text von der
+# RaidMaster-Sitzung, Bericht 2026-11-27-0759): Einstellungsdateien werden aus dem Download-Ordner selbst übernommen.
+EINSTELLUNGEN_AUTO = ("📥 **Datei herunterladen – fertig.** Der Uploader übernimmt neue Einstellungen aus dem Download-Ordner selbst "
+                      "(nur von diesem Bot und diesem Discord-Server, ab Uploader 2.3.30). Uploader und Addons aktualisieren sich "
+                      "ebenfalls selbst; keine Frage, nichts anklicken.\n"
+                      "*Download the file – done. The uploader takes over new settings from the Downloads folder by itself (only "
+                      "from this bot and this Discord server, from uploader 2.3.30). The uploader and the addons also update "
+                      "themselves; no question, nothing to click.*")
+
+
 def setup_text(pkg, conf: dict, sync_conf: dict | None, notes: list[str]) -> str:
     """Text der /uploader-Direktnachricht (Einrichtung). Ab 1.5.197 als eigene Funktion (Tests): mit dem Schritt
     Addons-automatisch-an.bat (D-UPDOC2) und den Kanal-Kennungen (D-UPCFG1). Kann länger als eine Discord-Nachricht sein –
@@ -199,18 +209,22 @@ def setup_text(pkg, conf: dict, sync_conf: dict | None, notes: list[str]) -> str
     return ("**Daten-Uploader einrichten** (auf dem PC, auf dem du WoW spielst):\n"
             + ("1. **RaidMasterUploader.zip** entpacken, z. B. nach Dokumente.\n" if pkg else
                "1. Den Ordner **RaidMasterUploader** aus dem RaidMaster-Paket nehmen (die ZIP liegt noch nicht auf dem Server).\n")
-            + ("2. **uploader_config.json** und **sync_config.json** in diesen Ordner legen.\n" if sync_conf else
-               "2. **uploader_config.json** in diesen Ordner legen.\n")
+            + ("2. **uploader_config.json** und **sync_config.json** herunterladen (Uploader ab 2.3.30 holt sie selbst aus dem "
+               "Download-Ordner; ältere: in diesen Ordner legen).\n" if sync_conf else
+               "2. **uploader_config.json** herunterladen (Uploader ab 2.3.30 holt sie selbst aus dem Download-Ordner; ältere: in "
+               "diesen Ordner legen).\n")
             + "3. `uploader.bat` doppelklicken – beim ersten Start sucht er deine RaidMaster-Datei selbst.\n"
             "4. Fertig: Nach jedem `/reload` oder Ausloggen sind DKP, Einteilung, Skillungen und Erstkill-Screenshots nach wenigen Sekunden im Discord.\n"
-            + ("5. **Abgleich PC/Laptop:** an jedem Rechner dasselbe – beide Dateien hineinlegen und einmal "
+            + ("5. **Abgleich PC/Laptop:** an jedem Rechner dasselbe – beide Dateien herunterladen und einmal "
                "`Autostart-einrichten.bat` doppelklicken. Mehr ist nicht nötig: Der Uploader gleicht deine Addon-Daten "
                "von selbst ab (WoW einfach normal starten; `GoldSentinel-WoW.bat` brauchst du nicht mehr). Die Daten "
                "liegen in deinem privaten Kanal #sync-daten – Mitglieder mit der Discord-Berechtigung "
                "**Administrator** sehen jeden Kanal, also auch diesen.\n"
                if sync_conf else "")
+            + EINSTELLUNGEN_AUTO + "\n"
             + (ADDONS_AUTO_TIPP + "\n" if pkg else "")
-            + ("🔎 Kanal-Kennungen (zum Vergleich mit der Frage im Uploader-Fenster): " + hook_ids(conf, sync_conf) + "\n"
+            + ("🔎 Kanal-Kennungen (zum Vergleich mit der Meldung „Neue Einstellungen übernommen“ im Uploader-Fenster): "
+               + hook_ids(conf, sync_conf) + "\n"
                if hook_ids(conf, sync_conf) else "")
             + "⚠️ uploader_config.json und sync_config.json enthalten geheime Links – nicht weitergeben."
             + ("\n\n" + "\n".join("ℹ️ " + n for n in notes) if notes else ""))

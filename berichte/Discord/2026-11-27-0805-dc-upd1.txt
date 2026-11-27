@@ -13,3 +13,13 @@ Status: umgesetzt, zur Prüfung (Teil 2 "Einstellungsdatei automatisch" folgt na
   Gegenprobe (Stufe 2.3.29 entfernt) rot. Alle Bot-Tests 528 OK, Regressionen 90/90.
 - Teil 2 offen: nach RM-UPD3 Satz "Einstellungsdatei aus /uploader wird automatisch übernommen" (DE/EN) und die Kanal-Kennungen-Zeile
   ("zum Vergleich mit der Meldung im Uploader-Fenster") prüfen.
+
+NACHTRAG 27.11. 08:12 – DC-UPD1 Teil 2 (nach RM-UPD3, Uploader 2.3.30, Bericht RaidMaster 2026-11-27-0759) – Bot 1.5.200
+Status: umgesetzt, zur Prüfung
+- /uploader-Einrichtung: Block DE/EN wörtlich nach RaidMaster-Vorgabe, ergänzt um "ab Uploader 2.3.30":
+  "📥 Datei herunterladen – fertig. Der Uploader übernimmt neue Einstellungen aus dem Download-Ordner selbst (nur von diesem Bot und
+  diesem Discord-Server, ab Uploader 2.3.30). Uploader und Addons aktualisieren sich ebenfalls selbst; keine Frage, nichts anklicken."
+  (+ Englisch). Schritt 2/5: "herunterladen (Uploader ab 2.3.30 holt sie selbst aus dem Download-Ordner; ältere: in diesen Ordner legen)".
+- Kanal-Kennungen-Zeile: "zum Vergleich mit der Meldung „Neue Einstellungen übernommen“ im Uploader-Fenster" (statt "Frage").
+- ANLEITUNG.md Abschnitt 7 neuer Schritt 6 (DE/EN).
+- Tests test_uploader_doc ergänzt (Text DE/EN, keine "Frage" mehr, ANLEITUNG). Alle Bot-Tests 528 OK, Regressionen 90/90.

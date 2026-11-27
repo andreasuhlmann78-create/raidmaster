@@ -221,6 +221,12 @@ Python (ist schon installiert).
    To turn it off, run `Addons-automatisch-aus.bat` in the uploader folder. Uploaders 2.3.24–2.3.28 ask once (press j) for
    2.3.29.* Der Bot schreibt das ab 1.5.199 auch in jede `/uploader`-Nachricht, dazu die Kanal-Kennungen (nur die Zahl der
    Webhook-Adresse), damit du sie mit der Meldung im Uploader-Fenster vergleichen kannst.
+6. **Einstellungsdateien automatisch (ab Uploader 2.3.30):** Datei aus der `/uploader`-Nachricht herunterladen – fertig. Der
+   Uploader übernimmt neue Einstellungen aus dem Download-Ordner selbst (nur von diesem Bot und diesem Discord-Server) und
+   meldet „Neue Einstellungen übernommen (Kanal-Kennung alt → neu)“. Uploader und Addons aktualisieren sich ebenfalls selbst;
+   keine Frage, nichts anklicken. Ältere Uploader: Dateien von Hand in den Uploader-Ordner legen.
+   *English: download the file – done. The uploader takes over new settings from the Downloads folder by itself (only from
+   this bot and this Discord server). The uploader and the addons also update themselves; no question, nothing to click.*
 
 Nach jedem `/reload` oder Ausloggen sind die Daten nach wenigen Sekunden im Discord. Mehrere Offiziere
 können den Uploader nutzen – es zählt immer der neueste DKP-Stand.

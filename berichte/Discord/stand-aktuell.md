@@ -1,10 +1,9 @@
 # Stand Discord-Sitzung
 
-## Stand 27.11.2026 08:05 · Bot 1.5.199 (DC-UPD1 Teil 1 umgesetzt, zur Prüfung; 1.5.198 angenommen)
+## Stand 27.11.2026 08:12 · Bot 1.5.200 (DC-UPD1 Teil 1+2 umgesetzt, zur Prüfung; 1.5.198 angenommen)
 
 ## Gerade in Arbeit
-- DC-UPD1 Teil 2 wartet auf RM-UPD3 (Uploader: Einstellungsdatei automatisch): dann Satz "Einstellungsdatei aus /uploader
-  wird automatisch übernommen" DE/EN in /uploader-Text + ANLEITUNG, neue Bot-Version, Bericht.
+- nichts. DC-UPD1 ganz umgesetzt (1.5.199 Teil 1, 1.5.200 Teil 2), Bericht 2026-11-27-0805-dc-upd1.txt.
 
 ## Nächste Schritte (Reihenfolge)
 1. Bei jeder Nachricht des Nutzers: git pull --rebase, auftraege/Discord/ lesen (git log --oneline -5 -- auftraege/Discord/).
