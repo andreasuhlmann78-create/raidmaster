@@ -1,0 +1,10 @@
+AHSentinel – FULL 0.65.426 (Kopie, allein) + Ursache s326 · umgesetzt, zur Prüfung
+FULL 0.65.426: 356 PASS / 68 FAIL. Gegen 0.65.424 neu rot nur s326_vs_wer_testort (wie bei 0.65.425), weg keine.
+s326 war damit zweimal in Folge rot -> Ursache gesucht, BELEGT (Fehler im Testszenario, nicht im Addon):
+  Das Szenario setzte frameStepMs = 7 und rief dann Sim:Advance(0.05). Dabei lief der OnUpdate-Rahmen der Testroutine selbst
+  (TR:FrameTick), merkte das Bild mit tr = 7 und setzte frameStepMs auf 0. Der anschliessende eigene FrameTick-Aufruf überschrieb
+  das längste Bild mit tr = 0, sobald seine Lücke (echte Uhr debugprofilestop) zufällig länger war -> "(0)". Zeitrennen = Streuung.
+Behebung (nur Test, ahanalyzerpro tests/wowsim/scenarios_new.lua, Marke AHS-S326): ohne Advance, ein Bild mit fester Lücke
+  (lastFrameT = jetzt − 50 ms) und 7 ms eigener Zeit.
+Belege: neu 12 von 12 grün (vorher 1–2 von 11 rot). Gegenprobe: Addon-Kopie, deren FrameTick tr immer 0 merkt -> s326 FAIL "(0)".
+Addon unverändert (0.65.426). Auf origin geprüft.
