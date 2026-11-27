@@ -2128,3 +2128,6 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
     das ist SH-M1 (Supervisor, 26.11.: entpackt alle Items; Entscheid des Nutzers 27.11. 21:16 "gebündelt"). LP ändert die gemeinsame Datei NICHT.
     Möglich ohne shared-Änderung (Vorschlag, nur mit Bericht): MarktLine im LP-Protokolltext nur einmal je Testroutine bzw. gemerkt (Text ändert sich
     während der Routine kaum) – Messung vorher/nachher, Text gleich.
+>>> ENTSCHEID 22:37 (Nutzer "b ist gut"): SH-M1 bleibt gebündelt. Darum LP-ML1 MITTEL FREIGEGEBEN: MarktLine im LP-Protokolltext nur einmal je Testroutine
+    bzw. gemerkt (Ablauf ≤ 60 s oder bis neue Marktdaten), Text inhaltlich gleich; Messung vorher/nachher (protokollTeile, T34/T21/T355/T386 Speicher,
+    längstes Bild), Test mit Gegenprobe. Gemeinsame Datei NICHT ändern. Reihenfolge: T261 (HOCH) zuerst, dann LP-ML1, dann T150, Grundregeln 80 ms.
