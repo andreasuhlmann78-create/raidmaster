@@ -1,0 +1,123 @@
+{
+ "addon": "LevelPilot",
+ "bereich": "kurz",
+ "counts": {
+  "client": 0,
+  "fehler": 0,
+  "ok": 11,
+  "uebersprungen": 0
+ },
+ "datenpaket": "1.6.4",
+ "dur_ms": 166,
+ "env": {
+  "build": "71139",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 10,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [],
+ "f": 1,
+ "fehlerzaehler": "0",
+ "id": "LevelPilot-1795758173-4f39fc-1",
+ "kind": "test",
+ "results": [
+  {
+   "bereich": "A",
+   "ergebnis": "36 Module",
+   "id": "T01",
+   "ms": "0.1",
+   "name": "alle Module gestartet",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "10 Übersetzungen",
+   "id": "T02",
+   "ms": "0.0",
+   "name": "Dateien ohne Modul geladen",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "3.13.23",
+   "id": "T03",
+   "ms": "0.0",
+   "name": "Version .toc = Code",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "1.6.4 / 1.6.4 / Format 1",
+   "id": "T04",
+   "ms": "0.0",
+   "name": "Version Datenpaket .toc = Code",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "Version 3",
+   "id": "T06",
+   "ms": "0.0",
+   "name": "GoldSentinelGame Version 2 oder neuer",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "Version 4 angemeldet",
+   "id": "T07",
+   "ms": "0.0",
+   "name": "GoldSentinelTest geladen und angemeldet",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja",
+   "id": "T08",
+   "ms": "0.0",
+   "name": "echte Erkennung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "14 Schritte, Zustand ok",
+   "id": "T39",
+   "ms": "17.4",
+   "name": "Planung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Weg 95 Yards",
+   "id": "T50",
+   "ms": "4.1",
+   "name": "Navigation",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Paket 3920, Start 0, eigene 200",
+   "id": "T56",
+   "ms": "0.5",
+   "name": "QuestDB",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "407 benutzte Schlüssel in allen Sprachen",
+   "id": "T133",
+   "ms": "0.9",
+   "name": "Schlüssel in jeder Sprache vorhanden",
+   "status": "OK"
+  }
+ ],
+ "spielsprache": "deDE",
+ "sprache": "de",
+ "time": 1795758173,
+ "version": "3.13.23"
+}

@@ -375,7 +375,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Undercity (1458)
 
-- Wegstücke 3220, Knoten 1145, zusammenhängende Teile 3
+- Wegstücke 3221, Knoten 1145, zusammenhängende Teile 3
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 1143 Knoten, Bereich 44–86 / 0–98
   - Teil 2: 1 Knoten, Bereich 59–59 / 25–25
