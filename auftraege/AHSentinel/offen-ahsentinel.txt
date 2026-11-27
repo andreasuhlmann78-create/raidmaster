@@ -7419,3 +7419,9 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
       eigenen Kauf offenbar als AUCTION_CANCELED derselben auctionID. Belegen (kam die Kapuze an? Gold −12s97?) und den Fall als "eigener Kauf" erkennen,
       statt "unerwartet" zu protokollieren; nichts an Buchungen ändern, ohne es zu belegen.
     Auffällig (nur Hinweis): "Treffer>Reserv. 133556 ms" in der SNIPER-Zeile – Zeit vom ersten Treffer bis zur Raste (133 s), Kennzahl so nicht aussagekräftig.
+
+>>> HOTFIX CURSEFORGE SOFORT (Entscheid des Nutzers 27.11. 21:00: "sniper geht wieder sofort auf curse posten als hotfix für den sniper") – Supervisor 21:02:
+    0.65.423 ist ANGENOMMEN (20:55) und der Kauf im Spiel belegt (20:58:24). Ausnahme vom 18:00-Termin nach DL-ABN Punkt 4.
+    JETZT: genau die Zip aus announce/ (md5 8af59e5dd89f31259238d08ef94995e8) als download/AHSentinel-0.65.423.zip ablegen, AHSentinel-0.65.422.zip dort
+    entfernen, Commit-Nachricht "Hotfix Sniper (Entscheid Nutzer 21:00)"; danach CurseForge-Upload und Addon-Prüfung grün prüfen, curseforge/uploaded.json
+    muss 0.65.423 führen. Bericht in berichte/AHSentinel/. Offene Punkte (SN-Z4 Abnahme Wechsel, AHS-SN-CAN1) bleiben offen.
