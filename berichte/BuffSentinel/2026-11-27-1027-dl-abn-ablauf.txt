@@ -1,0 +1,9 @@
+DL-ABN HOCH – umgesetzt, zur Prüfung (keine neue Version).
+- Stand jetzt: download/ enthält nur BuffSentinel-0.9.69.zip (md5 6fd5ecb744d87c29ccbdb0953ab01483) – 0.9.69 ist laut offen-buffsentinel.txt (27.11. 10:30) ANGENOMMEN.
+  Nichts zu entfernen. Eingeräumt: 0.9.69 lag (09:34) VOR der Prüfung in download/ – nach der damals geltenden Regel; nicht wieder.
+- Ablauf ab jetzt (meine Skripte angepasst):
+  1. Neue Version: Zip NUR als Anhang announce/buffsentinel__buffsentinel-<v>.BuffSentinel.zip + Ankündigung announce/buffsentinel__buffsentinel-<v>.md
+     (Discord, Testversion); md5 der Zip steht im Bericht. Nachbau 8×, addon_check auf genau diese Zip. download/ und README bleiben unverändert.
+  2. Erst wenn in offen-buffsentinel.txt "ANGENOMMEN" für GENAU diese Version steht: dieselbe Zip nach download/BuffSentinel-<v>.zip (md5 gleich,
+     geprüft), ältere BuffSentinel-*.zip in download/ entfernen, README-Link nachziehen, Workflow "Addon-Prüfung" grün prüfen, Commit nennt md5.
+  3. Ausnahme nur auf ausdrücklichen Entscheid des Nutzers, im Bericht genannt.
