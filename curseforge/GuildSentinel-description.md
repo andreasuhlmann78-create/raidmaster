@@ -10,50 +10,35 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 ## What's new
 
-### Version 0.9.61
+### Version 0.9.66
 
-- Window gets out of the way: if the GuildSentinel window covers another window when it opens (LevelPilot, AHSentinel, ProfessionSentinel, RaidMaster, ThreatSentinel, BuffSentinel, guild, friends or profession window), it docks next to it – right, left, below or above, the shortest way, fully on screen. If it fits nowhere, it shrinks as little as needed (at most to 95 %; at 16:9 (UI 1365 × 768 points) with LevelPilot in its default spot 99.4 %). If such a window opens later, GuildSentinel moves then. Your saved position stays; the next time you open it without the other window, GuildSentinel is back there.
-- Group finder: the "Elite quest (LevelPilot)" button is inside the window again (it stuck out on the right); with LevelPilot the note field is narrow enough for both.
-- Readability: the Shaman class colour is a little lighter on the dark window (was 3.7:1, now at least 4.6:1) – names in lists, "Where", composition, progress, leadership, rules. All other class colours stay exactly as in the game.
-- Board (offers/wants) and crafting requests: an item's tooltip shows quantity and price (or OBO) right in the first line after the name, the game's details follow below.
-- Performance: the "Online times" page builds its overview without a new table per measurement (test setup 1,196 KB → 42 KB per build) and only once per display (twice before).
-- Shared file GoldSentinelTest 3 (a check returning nil counts as an error; texts are never cut in the middle of a character).
-- For the developer: the test routine names the exact place of the longest portions ("in T…" = check running, "nach T…" = between checks) and whether a garbage collection ran in that frame; T21/T22 open the pages in portions of their own; the bank checks can pause in between.
+- Recruitment: invitations from other guilds ("Hey! Want to join …?", "Willst du in unsere Gilde?" etc., in all languages) are no longer taken as applications – no more automatic reply and application questions to other guilds' recruiters. Such entries are removed once from the applicant list.
+- Keywords only count as whole words ("join" not in "joined", "Gilde" not in "Gildenbank"). The automatic reply only goes out when someone wants something from your guild (e.g. "can I join?", "ginv", "guild?", "is your guild recruiting?"). For unclear messages: note "Possible applicant – please check yourself", no automatic reply.
+- On login one short line with the version. Login notes (open events, polls, away) only appear once until something changes.
+- Errors: only one short line per session in chat; the details are in the log.
 
-### Version 0.9.60
+### Version 0.9.65
 
-- Raid readiness without estimates: "raid-ready in n weeks (from x players, y days measured)" instead of "at the current pace in ~n weeks". With fewer than 3 players with a measured pace or less than 7 days of measurement it says "not enough data yet" (no week count in the Discord report either). The pace is now divided by the days actually measured (at most 14; before always by 14).
-- Level gain: the level a member joins with no longer counts as a level-up (new members had one level too many – ranking "levels in the last 7 days" and raid readiness).
-- "First to max level": if the date only comes from the member list (no event of its own), it says "by <day> at the latest" instead of an exact time.
-- Applicant tooltip: "First seen" now sits right under the name (before at the bottom).
-- The log entry for merging guild data lists the entries per old key ("before 802 = 479 + 323").
-- For the developer: the test routine checks L5 (main number on top in every tooltip with numbers, T317) instead of skipping it.
+- My week: characters whose saved state is from before the update (nothing was saved from 21 Nov until version 0.9.64) show "As of … – log in once with this character" instead of "nothing saved – all free". Old lockouts that are still running are listed in grey below. After logging in once with the character everything is normal again.
 
-### Version 0.9.59
+### Version 0.9.64
 
-- Guild data without realm: on WoW Forever the game reports a different home realm per character – the same guild was stored under several keys (members, log, administration split). Now "faction + guild" is used. Old entries are merged once on login: nothing twice, earlier join time, newer states win; the old data stays as a backup (guildsOld), counts before/after in the log (/gs protokoll, line GILDE). "My week" shows the characters of all home realms.
-- Members page: built in a frame of its own after the window opens, the first selection only fills it; the list's numbers are computed once per selection (before up to three times). A slow selection lists its parts in the log (read/filter/sort, rows, numbers, details).
-- Recruitment: instead of the white block "Placeholders: {gilde} {fraktion} …" a small "Placeholders (?)" button – its tooltip lists every placeholder with its meaning (ad, automatic reply, welcome, rejection). "Leave empty = default text" is shown in grey in the empty ad field.
-- Readability: the selected row of a list now has an accent stripe on the left and a fainter fill (grey and red text on it was too weak); brighter version number in the title bar; every column has a header.
-- "Who's free": "Flag as free" and "No longer free" have their own row (they stuck out of the window in 6 of 10 languages); the rejection text has its hint and button below the field.
-- Developer commands (sync test, protokoll, clienttest, debug) appear in help and the command list only in developer mode.
-- Shared files: GoldSentinelSync 3 and GoldSentinelTakt 3.
-- For the developer: the test routine first measures the environment for 10 s (location, ping, frames/s; line "Umgebung" in the report), also compares the shared data (sync address book, sync and market storage) before/after the run (SHARED) and checks readability L1–L8 (T311–T318) and controls inside the window (T319). Found and fixed: T293 created an empty slot in the real market storage.
+- My week saves again: since about 21 Nov WoW Forever returns an empty realm name – My week stopped saving since then. Existing entries are now continued (no duplicates).
+- The bank character is recognised again even when the realm name is empty (before, the setting then looked switched off).
+- No more Lua error when the saved member list contains a damaged entry (reported after the test routine: "Lead.lua:275 … boolean value"). Damaged entries are skipped and replaced on the next sync.
+- For the developer: after the test routine ends, the real data is back immediately – also if test mode was on before (then with a new, clean test guild); new check T321. T118 now also checks a game roster query with damaged data. The report says how often the "Members" page was opened before the routine (also in the log on logout). Shared file GoldSentinelTest 4.
 
-### Version 0.9.58
+### Version 0.9.63
 
-- Performance: from 100 members GuildSentinel reads the member list as a task of the shared scheduler – only the reading in one go, the notes in portions, the comparison at the end. Before, everything ran in one frame (16 ms with 500 members in game, every 30 seconds). During the portions the main from the note stays (no flicker).
-- Performance: notes like "Alt of X" whose main is no longer in the guild went through the whole list for every alt on every read. The result is now remembered per name (rebuilt with 500 members: 216 ms → 5 ms).
-- Title bar on the right in the window's style: flat close X (instead of the Blizzard X), "Support" as a small coin icon with tooltip (instead of a grey button), guild info with spacing – all the same height and on one line.
-- For the developer: the test routine checks the shared sync address book for test names (T308), the title bar (T309) and that every player feature is reachable without developer mode (T310); T138 measures the median of 3 runs and the longest frame in portions.
+- For the developer (test routine, nothing changes in normal play):
+  - A performance check over its limit only counts as "handling/environment possible" if the game was in the background, a loading screen ran or a garbage collection ran in that frame. "Rest of the frame larger than its own work" alone no longer counts (that is almost always the case and would hide real regressions).
+  - "Memory per addon" also shows GuildSentinel after a full garbage collection – what GuildSentinel really holds (before it included the run's garbage).
+  - The test routine never opens a game window itself (rank/guild window); new check T320.
+  - The simulated whispers each run in a frame of their own (shorter portions).
 
-### Version 0.9.57
+### Version 0.9.62
 
-- New options modelled on AHSentinel (Settings > Options): sections on the left (General, Chat & tooltip, Announcements, Group finder, Recruitment, Data & sync, Features: community, Features: guild & raid, Leadership), only the options of the chosen section on the right in one column, no scrolling. A search box on top searches all sections (e.g. "sound"). Each row: a short label, an "on"/"off" button (or a row of buttons) on the right, the explanation in the tooltip. "Default" per section, rarely used options under "More".
-- Every option appears exactly once. Switches that sit next to their own text (automatic reply, welcome, application questions, minimum age, advertising channels, group finder role, promotion, composition) stay there – in the options a link jumps right to them. The advertising reminder and "Delete old applications" moved from the Recruitment page into the options; an "Options" button there opens the Recruitment section (likewise on the Group finder page).
-- Clicking a feature that is turned off opens its section in the options.
-- All saved settings stay valid (same fields as before).
-- For the developer: checklist point "OPT options on screen" (the right-click menu point, already done in game, was removed for it); the test routine checks every option (T307a–e) and reports which old game functions the client has (T306).
+- For the developer: the test routine recognises environment and handling (developer mode only, read only). It measures frames before, during and after the run, detects periods with the game in the background or a window switch (frame rate at the background limit or twice as slow as at rest), names for each frame over 40 ms its own work against the rest, loading screen and garbage collection, and once after the run the memory per addon. If a performance check is over its limit while the game was in the background, a loading screen ran or the rest of the frame was larger than its own work, it says "handling/environment possible" (note) instead of an error. Nothing changes in normal play.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
