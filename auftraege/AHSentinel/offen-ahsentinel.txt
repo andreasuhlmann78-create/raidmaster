@@ -7427,3 +7427,6 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     muss 0.65.423 führen. Bericht in berichte/AHSentinel/. Offene Punkte (SN-Z4 Abnahme Wechsel, AHS-SN-CAN1) bleiben offen.
 >>> ABNAHME SN-Z4 (Nutzer 27.11. 21:09, PC, 0.65.423): Max der Stulpen erhöht -> beide Ziele mit Treffern, Fenster wechselt: "ja sieht gut aus".
     Kauf im Spiel belegt 20:58:24. SN-Z4 ERLEDIGT (Supervisor 21:16). Offen bleibt nur AHS-SN-CAN1 NIEDRIG und der Hinweis NIEDRIG (Wechsel kurz vor Raste).
+>>> AHS-SN-CAN1 Beleg (Supervisor 21:18): Kauf 20:58:24 war echt – Nutzer 21:10 "hab die Kapuze aus dem Briefkasten geholt"; Gold auf den Bildern
+    20:56 46g 67s 16c -> 21:07 46g 54s 19c = −12s 97c = genau der Kaufpreis. Das "AUCTION_CANCELED auctionID 309469661 -> unerwartet" direkt nach dem Kauf
+    ist also die Meldung des Servers zum EIGENEN Kauf (WoW Forever). Auftrag bleibt NIEDRIG: als "eigener Kauf bestätigt" erkennen, nicht "unerwartet".
