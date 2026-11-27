@@ -990,3 +990,9 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
     eigener Code 0.1 ms] · übrig 0.0 ms · Speicher +0.9 MB · Bild davor 29 ms · 36 Bilder/s)". PS-Arbeit im Stück 0,1 ms – WorthUpTo steht allein im Bild, wie
     beauftragt. Lua-Fehler 0. Rest liegt bei AHSentinel (AHS-API1, jetzt HOCH). Offen bei PS nur: "Aufgabe heute 23.4 ms ×110" = 110 lange Stücke in dieser Sitzung
     (je neues Item ein WorthUpTo) – im nächsten Bericht bitte belegen, dass Lauf 2 und 3 keine neuen WorthUpTo-Aufrufe hatten (Zähler je Lauf ins Protokoll).
+
+>>> PRÜFUNG SUPERVISOR 27.11. 11:15 – ProfessionSentinel 0.9.93 (AHS-BP1 PS-Teil, Bericht 11:03): ANGENOMMEN -> darf als download/ProfessionSentinel-0.9.93.zip
+    (gleiche Zip, md5 4b0c22a4…) die 0.9.92 ersetzen (DL-ABN richtig eingehalten). addon_check OK. Bindung aus GetItemInfo (14. Wert bindType) je Item, nil nicht
+    gemerkt; gebundenes Produkt ohne AH-Wert/"Lohnt bis", gebundene Zutat nie aus dem AH – passt zum Auftrag. Abnahme im Spiel: Tooltip der Gifte "Wird beim Aufheben
+    gebunden" und in PS kein AH-Verkauf/-Einkauf dafür. Korrektur angenommen: "×110" zählt ALLE Teile der Aufgabe, nicht nur lange (Supervisor hatte das falsch gelesen);
+    Zähler je Lauf in 0.9.94 wie angekündigt.
