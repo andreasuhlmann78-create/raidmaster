@@ -564,3 +564,4 @@ SICHERHEIT (Pflicht, Repo ist öffentlich):
              2. Jede Befehls-Antwort zuerst defer() (vor jedem await mit Netz), damit nie "reagiert nicht" kommt; Fehler als Antwort zeigen statt still.
              3. Test: /uploader (ohne Option, nur_programm, an_offiziere) antwortet < 3 s, auch während einer langen Hintergrund-Aufgabe.
     Zusammenhang: Der Nutzer will Offizier B den Uploader 2.3.30 schicken (D-UPALT schickt keine PN, weil Mindestversion 2.3.20/2.3.23 – gewollt, Entscheid 24.11.).
+    19:35 Nutzer: auch "/uploader an_offiziere" reagiert nicht (dort ist defer() die erste Zeile) -> der Bot antwortet gar nicht; Verdacht: ganzer Bot hängt/aus. Dringend.

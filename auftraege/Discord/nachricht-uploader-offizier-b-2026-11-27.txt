@@ -1,18 +1,21 @@
-AUFTRAG an die Hilfs-Sitzung am PC (Homezugriff) – Supervisor 27.11.2026 19:27, auf Wunsch des Nutzers ("sende es homezugriff")
-Bitte diese Nachricht per Discord-Direktnachricht an OFFIZIER B schicken (der Nutzer hat das Senden ausdrücklich gewünscht, 19:25).
-Discord: Eingabefeld per JS fokussieren, Text per JS prüfen, dann Enter. Höchstens 2000 Zeichen (Text unten ~800).
-Hintergrund: Offizier B hat wohl noch den alten Uploader (letzter Upload 22.11., Uploader-Version leer in stand.json – Verdacht, nicht belegt).
-Danach: in auftraege/nachrichten-log.txt eine Zeile, und dem Nutzer melden.
+AUFTRAG an die Hilfs-Sitzung am PC (Homezugriff) – Supervisor 27.11.2026 19:37 (ersetzt die Fassung 19:27), Wunsch des Nutzers 19:35
+Der Bot-Befehl /uploader (auch an_offiziere) antwortet zurzeit nicht ("Die Anwendung reagiert nicht", Befund DC-UPL1). Darum:
+Den Uploader 2.3.30 SELBST als Datei per Discord-Direktnachricht an OFFIZIER B schicken – KEIN GitHub-Link (Nutzer: vorhin wurde ein
+Offizier mit dem Link in der PN auf GitHub geschickt – das soll nicht sein).
+1. RaidMasterUploader.zip auf dem PC holen: aus download/ des raidmaster-Repos (main) – Version im ZIP prüfen: RaidMasterUploader/uploader.py
+   VERSION = "2.3.30". Nicht den Ordner des eigenen Uploaders verschicken (dort liegen uploader_config.json/daten_config.json – GEHEIM, nie senden).
+2. In Discord die DM an Offizier B öffnen, die ZIP als Anhang hochladen, Text unten einfügen (Eingabefeld per JS fokussieren, Text per JS prüfen), Enter.
+3. Prüfen, dass die Nachricht MIT Anhang angekommen ist (Dateiname RaidMasterUploader.zip). Dann Zeile in auftraege/nachrichten-log.txt, Nutzer melden.
+   Offizier A: laut stand.json lädt ein Offiziers-Rechner seit 15:31 mit 2.3.30 hoch – nur schicken, wenn der Nutzer es sagt.
 
------ TEXT (unverändert senden) -----
-Hoi! Hier der neuste Uploader (Version 2.3.30). Danach aktualisiert er sich und die Addons selbst – du musst nie mehr etwas bestätigen.
+----- TEXT (mit der ZIP als Anhang senden) -----
+Hoi! Im Anhang der neuste Uploader (Version 2.3.30). Danach aktualisiert er sich und die Addons selbst – du musst nie mehr etwas bestätigen.
 
-1. Uploader schliessen (Fenster zu bzw. unten rechts beenden).
-2. Herunterladen: https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/RaidMasterUploader.zip
-3. ZIP entpacken und den Inhalt des Ordners RaidMasterUploader in deinen bisherigen Uploader-Ordner kopieren -> "Dateien ersetzen" wählen.
+1. Uploader schliessen.
+2. Die angehängte RaidMasterUploader.zip entpacken und den Inhalt des Ordners RaidMasterUploader in deinen bisherigen Uploader-Ordner kopieren -> "Dateien ersetzen".
    WICHTIG: uploader_config.json und daten_config.json NICHT löschen – die bleiben, wie sie sind.
-4. Uploader wieder starten. Im Fenster muss oben "2.3.30" stehen.
-5. Einmal ins Spiel einloggen und /reload eingeben, damit die ersten Daten hochgehen.
+3. Uploader wieder starten (uploader.bat). Im Fenster muss oben "2.3.30" stehen.
+4. Ins Spiel einloggen und /reload eingeben, damit die ersten Daten hochgehen.
 
 Wenn etwas nicht klappt: Bildschirmfoto vom Uploader-Fenster hier schicken. Danke!
 ----- ENDE -----
