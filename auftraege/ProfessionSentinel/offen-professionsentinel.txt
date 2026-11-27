@@ -1031,3 +1031,10 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
     Feld rq richtig NICHT angezeigt; Zählung 540 Rezepte req ≤ 1 (davon 425 Lehrer) – gut belegt. Im Spiel messen: gibt es GetTrainerServiceSkillReq im Forever-Client?
     Ingametest (Nutzer): Schneiderei-Lehrer öffnen, Filter "alle" -> /ps protokoll "LEHRER Lernstufen gelesen n"; Plan zeigt bei Magiestoffballen/Azurblaue Seidenkapuze
     "Skill <Zahl>". Danach Schneider-Figur 1 Min. warten -> "WorthUpTo je Lauf" (Lauf 2 0 neu) und "WorthUpTo vergessen: …".
+
+>>> INGAMETEST 27.11. 21:06 (PC, 0.9.96, PS-SK1) – ausgewertet Supervisor 21:10: "[21:06:02] LEHRER Lernstufen gelesen 28" – das Lesen am Lehrer (Filter "alle")
+    funktioniert im Spiel (28 Lernstufen). Lua-Fehler 0. Noch NICHT belegt: dass die Plan-Ansicht danach kein "Skill ?" mehr zeigt (Bild des Nutzers folgt).
+    Bitte im Bericht/Protokoll künftig zusätzlich: wie viele der gelesenen Stufen neu waren und wie viele "Skill ?" im Plan danach übrig sind (Zahl), damit
+    der Test ohne Bild belegt ist.
+    Nebenbefund (Hinweis): "Heute herstellen" Lauf 4: 32 neu, 0 gemerkt nach "WorthUpTo vergessen 20:58:26 ledger" – erwartet (AHS-Kauf 20:58:24 bucht);
+    "WorthUpTo ohne Antwort": Fraktionsbanner, Einfaches Lagerfeuerset, Magiepartikel (je 2×) – PS-P2 nil-Merken greift (nach 10 Min. neu gefragt).
