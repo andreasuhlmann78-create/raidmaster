@@ -1,147 +1,164 @@
 {
-  "geprueft": "2026-11-27T01:08:22Z",
-  "commit": "091447d",
-  "ok": true,
+  "geprueft": "2026-11-27T07:35:10Z",
+  "commit": "0ca81b0",
+  "ok": false,
   "fehler": null,
   "hinweis": "Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 45 Minuten.",
   "ankuendigungen": [
     {
       "datei": "announce/addon-hilfe__ahanalyzerpro-hilfe-0.65.3.md",
       "kanal": "addon-hilfe",
-      "seit_push_min": 5174,
+      "seit_push_min": 5561,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/ahsentinel__ahsentinel-0-vorstellung-1.8.md",
       "kanal": "ahsentinel",
-      "seit_push_min": 25681,
+      "seit_push_min": 26068,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
-      "datei": "announce/ahsentinel__ahsentinel-0.65.414.md",
+      "datei": "announce/ahsentinel__ahsentinel-0.65.416.md",
       "kanal": "ahsentinel",
-      "seit_push_min": 535,
-      "abdeckung": 1.0,
-      "status": "ok"
+      "seit_push_min": 85,
+      "abdeckung": 0.4,
+      "status": "veraltet",
+      "fehlende_zeilen": [
+        "## AHSentinel 0.65.416",
+        "- **Schnellere Preis-Abfragen anderer Addons (z. B. ProfessionSentinel):** die erste \"Lohnt bis\"-Abfrage einer Sitzung konnte 18–21 ms dauern, weil AHSentinel e",
+        "- **Faster price questions from other addons (e.g. ProfessionSentinel):** the first \"worth up to\" query of a session could take 18–21 ms because AHSentinel rebu"
+      ]
     },
     {
       "datei": "announce/ahsentinel__ahsentinel-hilfe-1.0.md",
       "kanal": "ahsentinel",
-      "seit_push_min": 32879,
+      "seit_push_min": 33265,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/barrow-taktik__uebersicht-1.1.md",
       "kanal": "barrow-taktik",
-      "seit_push_min": 33709,
+      "seit_push_min": 34096,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/buffsentinel__buffsentinel-0-vorstellung-12.md",
       "kanal": "buffsentinel",
-      "seit_push_min": 32828,
+      "seit_push_min": 33215,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/buffsentinel__buffsentinel-0.9.68.md",
       "kanal": "buffsentinel",
-      "seit_push_min": 765,
+      "seit_push_min": 1151,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-19.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 21208,
+      "seit_push_min": 21595,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/guildsentinel__guildsentinel-0.9.65.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 859,
+      "seit_push_min": 1246,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/hyjal-taktik__uebersicht-1.1.md",
       "kanal": "hyjal-taktik",
-      "seit_push_min": 33709,
+      "seit_push_min": 34096,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
-      "datei": "announce/levelpilot__levelpilot-3.13.23.md",
+      "datei": "announce/levelpilot__levelpilot-3.13.24.md",
       "kanal": "levelpilot",
-      "seit_push_min": 538,
-      "abdeckung": 1.0,
-      "status": "ok"
+      "seit_push_min": 87,
+      "abdeckung": 0.429,
+      "status": "veraltet",
+      "fehlende_zeilen": [
+        "📢 **LevelPilot 3.13.24** – Testroutine ohne lange Hänger",
+        "• Die Testroutine baut die Gefahrenkarte nach einem Zurücksetzen jetzt in kleinen Stücken neu, statt mitten in einer Prüfung am Stück (vorher bis 119 ms in eine",
+        "• Die neue Geländeprüfung (T397) rechnet in Portionen.",
+        "• Die Wegsuche pausiert noch feiner – gleiche Route wie vorher."
+      ]
     },
     {
       "datei": "announce/levelpilot__levelpilot-uebersicht-3.12.94.md",
       "kanal": "levelpilot",
-      "seit_push_min": 12485,
+      "seit_push_min": 12872,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/lore__alpine-vanguard-vorstellung-1.0.md",
       "kanal": "lore",
-      "seit_push_min": 37432,
+      "seit_push_min": 37819,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/mc-feuerresi__feuerresi-1.1.md",
       "kanal": "mc-feuerresi",
-      "seit_push_min": 33709,
+      "seit_push_min": 34096,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/onyxia-feuerresi__feuerresi-1.0.md",
       "kanal": "onyxia-feuerresi",
-      "seit_push_min": 42851,
+      "seit_push_min": 43237,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/onyxia-taktik__onyxia-video-1.0.md",
       "kanal": "onyxia-taktik",
-      "seit_push_min": 44275,
+      "seit_push_min": 44662,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/professionsentinel__professionsentinel-0-vorstellung-1.27.md",
       "kanal": "professionsentinel",
-      "seit_push_min": 19957,
+      "seit_push_min": 20344,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
-      "datei": "announce/professionsentinel__professionsentinel-0.9.90.md",
+      "datei": "announce/professionsentinel__professionsentinel-0.9.91.md",
       "kanal": "professionsentinel",
-      "seit_push_min": 833,
-      "abdeckung": 1.0,
-      "status": "ok"
+      "seit_push_min": 59,
+      "abdeckung": 0.2,
+      "status": "veraltet",
+      "fehlende_zeilen": [
+        "📦 **ProfessionSentinel 0.9.91** – kein Ruckeln mehr nach dem Einloggen ⚡",
+        "• **„Heute herstellen“ ruckelt nicht mehr beim ersten Rechnen nach dem Einloggen:**",
+        "– Die Abfrage „Lohnt bis“ bei AHSentinel brauchte im Spiel bis zu 18 ms für ein einziges Rezept. Sie läuft jetzt allein in ihrem Bild.",
+        "– Ihre Antwort wird je Gegenstand gemerkt, bis AHSentinel neue Preise oder Buchungen meldet."
+      ]
     },
     {
       "datei": "announce/threatsentinel__threatsentinel-0-vorstellung-2.2.md",
       "kanal": "threatsentinel",
-      "seit_push_min": 35137,
+      "seit_push_min": 35524,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/threatsentinel__threatsentinel-2.5.30.md",
       "kanal": "threatsentinel",
-      "seit_push_min": 3320,
+      "seit_push_min": 3706,
       "abdeckung": 1.0,
       "status": "ok"
     }
@@ -152,7 +169,7 @@
       "version": "0.65.413",
       "datei": "download/AHSentinel-0.65.413.zip",
       "kanal": "ahsentinel",
-      "seit_push_min": 528,
+      "seit_push_min": 915,
       "status": "ok",
       "gepostet": "2026-11-26 21:38 UTC",
       "anhang": [
@@ -161,15 +178,12 @@
     },
     {
       "addon": "RaidMaster",
-      "version": "3.0.50",
+      "version": "3.0.52",
       "datei": "RaidMaster/RaidMaster.toc",
       "kanal": "raid-addon",
-      "seit_push_min": 981,
-      "status": "ok",
-      "gepostet": "2026-11-26 08:49 UTC",
-      "anhang": [
-        "RaidMaster-3.0.50.zip"
-      ]
+      "seit_push_min": 35,
+      "status": "wartet",
+      "status_eigentlich": "fehlt"
     }
   ],
   "info": [
@@ -361,7 +375,7 @@
     }
   ],
   "server": "Alpine Vanguard",
-  "wartet": false,
+  "wartet": true,
   "bot": [
     {
       "pruefung": "Kanäle aus /raidmaster-einrichten",
