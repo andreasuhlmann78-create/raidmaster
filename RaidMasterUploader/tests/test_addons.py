@@ -93,7 +93,8 @@ class Base(unittest.TestCase):
             f.write("AHSentinelDB = { 1 }\n")
         self.repo = FakeRepo()
         self.logs = []
-        self.cfg = {addons.CONFIG_KEY: True}
+        # bisherige Tests prüfen beide Ordner -> Kanal "test"; der Kanal "stabil" (Standard) hat eigene Tests (RM-UPD2)
+        self.cfg = {addons.CONFIG_KEY: True, addons.CHANNEL_KEY: "test"}
         self.ai = addons.AutoInstall(self.cfg, self.addons_dir, self.logs.append, get=self.repo)
 
     def tearDown(self):
@@ -187,20 +188,50 @@ class Installieren(Base):
         self.assertEqual(self.ai.tick(now=1000), [])
         self.assertEqual(addons.installed_version(self.addons_dir, "GSMesstest"), "1.0")
 
-    def test_schalter_aus_nichts(self):
+    def test_schalter_aus_nur_ausdruecklich(self):
+        # RM-UPD2: Standard AN; AUS nur mit Merker "addons_auto_gewaehlt" (Addons-automatisch-aus.bat)
         self.install_local("AHSentinel", "0.65.391")
         self.repo.put("announce", "ahsentinel__ahsentinel-0.65.392.AHSentinel.zip", make_zip("AHSentinel", "0.65.392"))
         self.cfg[addons.CONFIG_KEY] = False
+        self.cfg[addons.CHOSEN_KEY] = True                                       # ausdrücklich aus
         self.assertEqual(self.ai.tick(now=1000), [])
         self.assertEqual(self.repo.calls, [])                                    # nicht einmal das Repo gefragt
-        self.cfg.pop(addons.CONFIG_KEY)                                          # Standard = aus
-        self.assertEqual(self.ai.tick(now=2000), [])
-        self.cfg[addons.CONFIG_KEY] = "ja"                                       # nur True schaltet ein
-        self.assertEqual(self.ai.tick(now=3000), [])
         self.assertEqual(addons.installed_version(self.addons_dir, "AHSentinel"), "0.65.391")
-        # Gegenprobe: an -> installiert
-        self.cfg[addons.CONFIG_KEY] = True
-        self.assertEqual(len(self.ai.tick(now=4000)), 1)
+        # Gegenprobe: altes "false" ohne Merker (Standard früher AUS) -> gilt AN
+        self.cfg.pop(addons.CHOSEN_KEY)
+        self.assertEqual(len(self.ai.tick(now=2000)), 1)
+        self.assertEqual(addons.installed_version(self.addons_dir, "AHSentinel"), "0.65.392")
+
+    def test_standard_an_frisch_und_alt(self):
+        self.assertTrue(addons.auto_enabled({}))                                 # frische Konfiguration
+        self.assertTrue(addons.auto_enabled({"webhook_url": "x"}))              # alte ohne Schalter
+        self.assertTrue(addons.auto_enabled({addons.CONFIG_KEY: False}))        # altes "aus" ohne Merker
+        self.assertTrue(addons.auto_enabled({addons.CONFIG_KEY: "ja", addons.CHOSEN_KEY: True}))
+        self.assertFalse(addons.auto_enabled({addons.CONFIG_KEY: False, addons.CHOSEN_KEY: True}))   # ausdrücklich aus
+
+    def test_kanal_stabil_nur_download(self):
+        # RM-UPD2 (Nutzer 27.11. 07:11 "nur die stabilen versionen"): Standard -> nur download/, nie announce/
+        self.cfg.pop(addons.CHANNEL_KEY)
+        self.ai = addons.AutoInstall(self.cfg, self.addons_dir, self.logs.append, get=self.repo)
+        self.install_local("AHSentinel", "0.65.391")
+        self.repo.put("announce", "ahsentinel__ahsentinel-0.65.399.AHSentinel.zip", make_zip("AHSentinel", "0.65.399"))
+        self.repo.put("download", "AHSentinel-0.65.395.zip", make_zip("AHSentinel", "0.65.395"))
+        out = self.ai.tick(now=1000)
+        self.assertEqual(len(out), 1)
+        self.assertEqual(addons.installed_version(self.addons_dir, "AHSentinel"), "0.65.395")   # nicht die Testversion 0.65.399
+        self.assertFalse(any("announce" in str(c) for c in self.repo.calls))    # announce/ nicht einmal gelesen
+        # nur in announce/ -> für "stabil" nichts
+        self.install_local("ThreatSentinel", "2.5.1")
+        self.repo.put("announce", "threatsentinel__threatsentinel-2.5.9.ThreatSentinel.zip", make_zip("ThreatSentinel", "2.5.9"))
+        self.ai.tick(now=2000)
+        self.assertEqual(addons.installed_version(self.addons_dir, "ThreatSentinel"), "2.5.1")
+        # unbekannter Kanalwert -> wie stabil
+        self.assertEqual(addons.channel_folders({addons.CHANNEL_KEY: "beta"}), addons.STABLE_FOLDERS)
+        # Gegenprobe Kanal "test": höchste aus beiden
+        self.cfg[addons.CHANNEL_KEY] = "test"
+        self.ai.tick(now=3000)
+        self.assertEqual(addons.installed_version(self.addons_dir, "AHSentinel"), "0.65.399")
+        self.assertEqual(addons.installed_version(self.addons_dir, "ThreatSentinel"), "2.5.9")
 
     def test_toc_mit_neuer_datei_meldet_neustart(self):
         self.install_local("ProfessionSentinel", "0.9.83")
@@ -371,7 +402,17 @@ class Schalter(unittest.TestCase):
             uploader.addons_toggle("aus")
             uploader.save_config(dict(running, **{addons.CONFIG_KEY: True}))    # auch ein alter Wert im Speicher gilt nicht
             with open(uploader.CONFIG, encoding="utf-8") as f:
-                self.assertIs(json.load(f)[addons.CONFIG_KEY], False)
+                disk = json.load(f)
+            self.assertIs(disk[addons.CONFIG_KEY], False)
+            self.assertIs(disk[addons.CHOSEN_KEY], True)                        # RM-UPD2: ausdrücklich gewählt
+            self.assertFalse(addons.auto_enabled(disk))
+            uploader.addons_channel("an")                                       # RM-UPD2: Testversionen
+            uploader.save_config(dict(running))                                 # laufender Uploader überschreibt den Kanal nicht
+            with open(uploader.CONFIG, encoding="utf-8") as f:
+                self.assertEqual(json.load(f)[addons.CHANNEL_KEY], "test")
+            uploader.addons_channel("aus")
+            with open(uploader.CONFIG, encoding="utf-8") as f:
+                self.assertEqual(json.load(f)[addons.CHANNEL_KEY], "stabil")
             uploader.addons_toggle("vielleicht")                                # falscher Wert -> nichts geändert
             with open(uploader.CONFIG, encoding="utf-8") as f:
                 self.assertIs(json.load(f)[addons.CONFIG_KEY], False)
@@ -381,11 +422,12 @@ class Schalter(unittest.TestCase):
 
     def test_bat_dateien(self):
         for n in ("an", "aus"):
-            with open(os.path.join(HERE, f"Addons-automatisch-{n}.bat"), "rb") as f:
-                b = f.read()
-            self.assertIn(f"--addons-auto {n}".encode(), b)
-            self.assertTrue(b.isascii())
-            self.assertIn(b"\r\n", b)
+            for name, arg in ((f"Addons-automatisch-{n}.bat", f"--addons-auto {n}"), (f"Addons-Testversionen-{n}.bat", f"--addons-test {n}")):
+                with open(os.path.join(HERE, name), "rb") as f:
+                    b = f.read()
+                self.assertIn(arg.encode(), b)
+                self.assertTrue(b.isascii())
+                self.assertIn(b"\r\n", b)
 
 
 class Hilfen(unittest.TestCase):

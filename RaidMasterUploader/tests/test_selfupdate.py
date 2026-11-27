@@ -97,14 +97,16 @@ class Base(unittest.TestCase):
             selfupdate.report_running(here, NEW, self.new_st, now=lambda: 1010.0)   # die neue Version meldet "läuft"
         return Proc()
 
-    def make(self, latest=NEW, minimum="2.3.20"):
+    now = 1000.0
+
+    def make(self, latest=NEW, minimum="2.3.20", busy=None):
         self.latest = latest
         return selfupdate.SelfUpdate(
             self.d, OLD, self.st, lambda: self.events.append("save"), self.logs.append,
             latest=lambda: self.latest, minimum=lambda: minimum, fetch_zip=self.fetch,
             key=lambda: self.keys.pop(0) if self.keys else None, spawn=self.spawn,
             handover=lambda: self.events.append("handover"), takeback=lambda: self.events.append("takeback"),
-            sleep=lambda s: None, now=lambda: 1000.0,
+            sleep=lambda s: None, now=lambda: self.now, busy=busy,
             console=lambda: self.console_pid, kill_console=self.kill_console, kill=lambda p: self.events.append("kill_tree"))
 
     console_pid = None
@@ -120,15 +122,15 @@ class Base(unittest.TestCase):
             return f.read()
 
 
-class Rueckfrage(Base):
-    def test_j_installiert_cmp_gleich_konfiguration_unveraendert(self):
+class Automatisch(Base):
+    """RM-UPD2 (2.3.29, Entscheid des Nutzers 27.11.2026): neue Uploader-Version ohne Frage, alle Schutzmassnahmen unverändert."""
+
+    def test_ohne_eingabe_installiert_cmp_gleich_konfiguration_unveraendert(self):
         u = self.make()
-        self.assertFalse(u.tick())
-        self.assertIn("Neue Uploader-Version 2.3.25 verfügbar – jetzt installieren? (j/n)", self.logs[0])
-        self.assertEqual(self.read("uploader.py"), f'VERSION = "{OLD}"\nprint("alt")\n')            # noch nichts
-        self.keys.append("j")
-        self.assertTrue(u.tick())
+        self.assertTrue(u.tick())                                                                  # ohne jede Taste
         self.assertTrue(u.exit_now)
+        self.assertIn("Neue Uploader-Version 2.3.25 – wird automatisch installiert ...", self.logs)
+        self.assertFalse(any("(j/n)" in l for l in self.logs))                                     # keine Frage mehr
         with zipfile.ZipFile(io.BytesIO(self.zip)) as z:
             for i in z.infolist():
                 if not i.is_dir():
@@ -140,67 +142,73 @@ class Rueckfrage(Base):
         with open(os.path.join(alt, "uploader.py"), encoding="utf-8") as f:
             self.assertIn(OLD, f.read())                                                            # Sicherung der alten Version
         self.assertFalse(any(n.endswith(".json") for n in os.listdir(alt)))
-        self.assertIn("Uploader 2.3.24 -> 2.3.25 installiert, neu gestartet.", self.logs)
+        self.assertIn("Uploader 2.3.24 -> 2.3.25 automatisch installiert, neu gestartet.", self.logs)
         # UP-UPD1-c: die NEUE Version trägt das gelungene Update ein; die alte schreibt nach der Übergabe nichts mehr
         self.assertEqual(self.new_st["daten"]["update"], {"von": OLD, "nach": NEW, "ergebnis": "ok", "zeit": 1000})
         self.assertNotIn("update", self.st.get("daten", {}))
         self.assertNotIn("save", self.events[self.events.index("handover"):])
-        self.assertEqual(self.events[:2], ["save", "handover"][:2] if self.events[0] == "save" else self.events[:2])
-        self.assertIn("handover", self.events)
         self.assertNotIn("takeback", self.events)
 
-    def test_n_nichts_und_keine_neue_frage_bis_neue_version(self):
-        u = self.make()
-        u.tick()
-        self.keys.append("n")
-        self.assertFalse(u.tick())
-        self.assertEqual(self.spawned, [])
-        self.assertEqual(self.read("uploader.py"), f'VERSION = "{OLD}"\nprint("alt")\n')
-        u.next_at = 0
-        u.tick()
-        self.assertEqual(len([l for l in self.logs if "jetzt installieren" in l]), 1)               # nicht nochmals gefragt
-        u2 = self.make()                                                                           # Neustart: gemerkt
-        u2.tick()
-        self.assertEqual(len([l for l in self.logs if "jetzt installieren" in l]), 1)
-        self.latest = "2.3.26"                                                                     # nächste Version -> wieder
-        u2.next_at = 0
-        u2.tick()
-        self.assertIn("2.3.26", self.logs[-1])
-        # höhere Mindestversion -> für dieselbe abgelehnte Version wieder gefragt
-        u3 = self.make(latest=NEW, minimum="2.3.25")
-        u3.tick()
-        self.assertTrue(self.logs[-1].startswith("Neue Uploader-Version 2.3.25"))
-
-    def test_ohne_j_kein_update_gegenprobe(self):
-        u = self.make()
-        u.tick()                                                                                   # Frage gestellt
-        for k in [None, "x", "", "1", "ja?", None]:                                                # keine dieser Eingaben installiert
-            self.keys.append(k)
-            self.assertFalse(u.tick(), k)
-        self.assertEqual(self.spawned, [])
-        self.assertEqual(self.read("uploader.py"), f'VERSION = "{OLD}"\nprint("alt")\n')
-        for _ in range(20):                                                                        # ohne Taste nie
-            self.assertFalse(u.tick())
-        self.assertEqual(self.spawned, [])
-        # Gegenprobe: "J" (gross) installiert
-        self.keys.append("J")
-        self.assertTrue(u.tick())
+    def test_alter_n_merker_wird_nicht_beachtet(self):
+        self.st["selbstupdate"] = {"abgelehnt": {"version": NEW, "mindest": "2.3.20"}}             # früher "n" gedrückt
+        self.assertTrue(self.make().tick())
         self.assertEqual(len(self.spawned), 1)
 
-    def test_keine_frage_wenn_aktuell(self):
+    def test_kein_umschalten_waehrend_abgleich_beim_spielstart(self):
+        busy = [True]
+        u = self.make(busy=lambda: busy[0])
+        for t in (1000.0, 1100.0, 1200.0):
+            self.now = t
+            u.next_at = 0
+            self.assertFalse(u.tick())
+        self.assertEqual(self.spawned, [])
+        self.assertEqual(self.read("uploader.py"), f'VERSION = "{OLD}"\nprint("alt")\n')
+        self.assertEqual(len([l for l in self.logs if "sobald der Abgleich" in l]), 1)              # einmal gemeldet
+        self.assertNotIn("versuch", self.st.get("selbstupdate", {}))                               # zählt nicht als Versuch
+        busy[0] = False                                                                            # Gegenprobe: frei -> installiert
+        u.next_at = 0
+        self.assertTrue(u.tick())
+
+    def test_fehlschlag_hoechstens_ein_versuch_je_version_und_stunde(self):
+        self.sha = "0" * 40                                                                        # falsche Prüfsumme
+        u = self.make()
+        self.assertFalse(u.tick())
+        self.assertTrue(any("Update fehlgeschlagen (Prüfsumme" in l for l in self.logs))
+        tries = lambda: len([l for l in self.logs if "wird automatisch installiert" in l])
+        for t in (1001.0, 2000.0, 4599.0):                                                         # innerhalb der Stunde: nie
+            self.now = t
+            u.next_at = 0
+            self.assertFalse(u.tick())
+        self.assertEqual(tries(), 1)
+        u2 = self.make()                                                                           # auch nach Neustart nicht
+        self.now = 3000.0
+        self.assertFalse(u2.tick())
+        self.assertEqual(tries(), 1)
+        self.now = 4601.0                                                                          # nach einer Stunde: 1 Versuch
+        u2.next_at = 0
+        u2.tick()
+        self.assertEqual(tries(), 2)
+        self.sha = None                                                                            # neue Version: sofort
+        self.latest = "2.3.26"
+        u2.next_at = 0
+        self.now = 4602.0
+        self.zip = make_zip("2.3.26")
+        u2.tick()
+        self.assertEqual(tries(), 3)
+
+    def test_keine_aktion_wenn_aktuell(self):
         u = self.make(latest=OLD)
         u.tick()
         self.assertEqual(self.logs, [])
         u = self.make(latest="2.3.9")
         u.tick()
         self.assertEqual(self.logs, [])
+        self.assertEqual(self.spawned, [])
 
 
 class Abweisen(Base):
     def go(self, why):
         u = self.make()
-        u.tick()
-        self.keys.append("j")
         self.assertFalse(u.tick())
         self.assertEqual(self.spawned, [])
         self.assertEqual(self.read("uploader.py"), f'VERSION = "{OLD}"\nprint("alt")\n')
@@ -247,8 +255,6 @@ class Neustart(Base):
     def test_neue_meldet_sich_nicht_alte_wieder_da(self):
         self.start_ok = False
         u = self.make()
-        u.tick()
-        self.keys.append("j")
         self.assertFalse(u.tick())
         self.assertFalse(u.exit_now)
         self.check_back()
@@ -257,8 +263,6 @@ class Neustart(Base):
     def test_neue_beendet_sich_sofort(self):
         self.start_ok = "crash"
         u = self.make()
-        u.tick()
-        self.keys.append("j")
         self.assertFalse(u.tick())
         self.check_back()
         self.assertIn("beendet sich sofort (Code 1)", self.logs[-1])
@@ -274,8 +278,6 @@ class Neustart(Base):
                 dst.writestr(i, data)
         self.zip = z.getvalue()
         u = self.make()
-        u.tick()
-        self.keys.append("j")
         self.assertTrue(u.tick())
         with open(os.path.join(self.d, "uploader.bat"), "rb") as f:
             self.assertEqual(f.read(), b"@echo off\r\npy -3 uploader.py\r\npause\r\n")
@@ -303,8 +305,6 @@ class Fenster(Base):
         self.zip = self.new_bat_zip()
         self.console_pid = 4242
         u = self.make()
-        u.tick()
-        self.keys.append("j")
         self.assertTrue(u.tick())
         self.assertIn(("kill_console", 4242, "alt"), self.events)                                  # vor dem Umschalten
         self.assertIn(b"rem neu", self.bat())                                                    # ersetzt
@@ -314,8 +314,6 @@ class Fenster(Base):
         self.zip = self.new_bat_zip()
         self.console_pid = None                                                                   # z. B. ohne uploader.bat gestartet
         u = self.make()
-        u.tick()
-        self.keys.append("j")
         self.assertTrue(u.tick())
         self.assertFalse(any(isinstance(e, tuple) for e in self.events))
         self.assertNotIn(b"rem neu", self.bat())
@@ -325,8 +323,6 @@ class Fenster(Base):
         self.zip = self.new_bat_zip()
         self.console_pid, self.console_kill_ok = 4242, False
         u = self.make()
-        u.tick()
-        self.keys.append("j")
         self.assertTrue(u.tick())
         self.assertNotIn(b"rem neu", self.bat())
 
@@ -335,8 +331,6 @@ class Fenster(Base):
         self.console_pid = 4242
         self.start_ok = False
         u = self.make()
-        u.tick()
-        self.keys.append("j")
         self.assertFalse(u.tick())
         self.assertIn("kill_tree", self.events)
         self.assertEqual(self.bat(), b"@echo off\r\npy -3 uploader.py\r\npause\r\n")             # alte zurück

@@ -6,9 +6,9 @@ RaidMaster Uploader – sends the RaidMaster data from the raid leader's PC to t
 3. In Discord, type /uploader (admins only). Put the file uploader_config.json that the bot sends
    you into this folder. NEVER share it – it contains a secret link to your Discord.
 4. Double-click uploader.bat and keep the window open.
-5. Keep the addons up to date automatically (recommended for officers and everyone using GoldSentinel addons): in this
-   folder double-click Addons-automatisch-an.bat, then restart the uploader (close the window, double-click uploader.bat
-   again). From then on the uploader installs new versions of the GoldSentinel addons by itself.
+5. The uploader and the addons update themselves (from version 2.3.29): a new uploader version is installed without asking,
+   and so are new STABLE versions of the installed GoldSentinel addons. Nothing to click. To switch it off (addons only):
+   double-click Addons-automatisch-aus.bat, then restart the uploader.
 6. Start it automatically with Windows: press Windows key + R, type shell:startup and put a
    shortcut to uploader.bat into the folder that opens.
 
@@ -16,6 +16,7 @@ After every /reload or logout, DKP, loot, assignments and specs show up in Disco
 seconds. In the game, the page "Discord" (or /rm discord) shows the full step-by-step guide.
 
 UPDATING TO A NEW VERSION
+- From version 2.3.29 the uploader updates itself (see step 5). Manually only if the uploader is older than 2.3.24:
 - First back up uploader_config.json from the old folder (e.g. copy it to the desktop).
 - REPLACE the old "RaidMasterUploader" folder with the new one – do not unpack into the old folder.
   Otherwise you get RaidMasterUploader\RaidMasterUploader and uploader.bat keeps starting the old version.
@@ -255,6 +256,17 @@ Version 2.3.13 – privacy in the data repo (UP-DS1):
   uploader empties them in every guild before uploading GuildSentinel.lua. The file in the game stays unchanged.
 - If the file cannot be read safely, it is not delivered at all, with one notice "GuildSentinel-Daten nicht geliefert: …".
 - New file svfilter.py – always extract the whole RaidMasterUploader.zip.
+
+Version 2.3.29 – uploader and addons update themselves (RM-UPD2, decision 27.11.):
+- From version 2.3.29 the uploader updates itself: a new version is installed without asking ("New uploader version x –
+  installing automatically ...", then "Uploader a -> b installed automatically, restarted"). All safeguards as before: only
+  from the repo, checksum, program files only, never the settings, old version kept in _update\alt, if the new one does not
+  start the old one keeps running. Never while GoldSentinel-WoW is syncing. On failure at most one new attempt per hour.
+  Once: uploaders 2.3.24 to 2.3.28 still ask one last time (key j).
+- New addon versions are now installed automatically by default (before: only with Addons-automatisch-an.bat). Switch off:
+  Addons-automatisch-aus.bat (stays off). Only STABLE versions (from download/ in the repo); Discord test versions only with
+  Addons-Testversionen-an.bat (for your own test computers), back with Addons-Testversionen-aus.bat.
+- Still with a question (j/n): a new settings file from the Downloads folder.
 
 Version 2.3.28 – update record and clean exit of the old window (UP-UPD1-c):
 - A successful update is now recorded by the new version in the status for the review (the record was lost before).

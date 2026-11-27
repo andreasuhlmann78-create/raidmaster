@@ -18,8 +18,13 @@ Regeln (auftraege/RaidMaster/offen-raidmaster.txt, UP-AUTO1):
    "Die .toc ändert sich" heisst: ausser der Zeile "## Version" (die ändert sich bei jeder Version, dafür reicht /reload).
    Fehler (Datei gesperrt, kein Schreibrecht) klar melden, erneut versuchen nach 1, 2, 4, 8, 16 Min., danach bis zur
    nächsten Version bzw. zum nächsten Start nicht mehr (kein Endlos-Versuch).
-5. Schalter "addons_auto_installieren" in uploader_config.json, Standard AUS. Ein-/Ausschalten nur durch den Nutzer
-   (Addons-automatisch-an.bat / -aus.bat). Pfad: "addons_pfad" in uploader_config.json, sonst <_forever_>/Interface/AddOns.
+5. Schalter "addons_auto_installieren" in uploader_config.json. RM-UPD2 (2.3.29, Entscheid des Nutzers 27.11.2026 07:10 "dass die
+   addon versionen automatisch geholt werden und installiert ohne dass man in der uploaderdatei irgendwas anklicken muss"):
+   Standard AN. AUS nur, wenn jemand es ausdrücklich gewählt hat (Addons-automatisch-aus.bat setzt dazu den Merker
+   "addons_auto_gewaehlt"; ohne Merker gilt AN – auch ein älteres "false"). Pfad: "addons_pfad", sonst <_forever_>/Interface/AddOns.
+5a. RM-UPD2 (Entscheid des Nutzers 27.11.2026 07:11 "sie sollen nur die stabilen versionen bekommen"): Kanal "addons_kanal" –
+   "stabil" (Standard): NUR download/ ("<Addon>-<version>.zip"), nie announce/ (Discord-/Testversionen); "test": höchste aus
+   announce/ und download/ (für die eigenen Rechner des Nutzers; Addons-Testversionen-an.bat / -aus.bat).
 6. Höchstens alle 5 Min. (CHECK_SECONDS); läuft im selben Ablauf wie das Hochladen der Daten, also nie gleichzeitig.
 """
 from __future__ import annotations
@@ -37,12 +42,25 @@ import zipfile
 REPO = "andreasuhlmann78-create/raidmaster"
 API = "https://api.github.com"
 FOLDERS = ("announce", "download")       # Reihenfolge = Vorrang bei gleicher Version (Discord-Version zuerst)
+STABLE_FOLDERS = ("download",)           # RM-UPD2: Kanal "stabil" (Standard) – nur abgenommene Zips
 CHECK_SECONDS = 300
 RETRY_MINUTES = (1, 2, 4, 8, 16)         # danach Ruhe bis zur nächsten Version bzw. zum Neustart
 NEVER = {"gsmesstest"}                   # nie installieren (Messwerkzeuge u. ä.), Kleinschreibung
 MAX_ZIP = 60 * 1024 * 1024               # grösste erlaubte Zip (Schutz gegen Fehlgriffe)
 CONFIG_KEY = "addons_auto_installieren"
 PATH_KEY = "addons_pfad"
+CHOSEN_KEY = "addons_auto_gewaehlt"      # RM-UPD2: nur mit diesem Merker gilt ein "aus"
+CHANNEL_KEY = "addons_kanal"             # RM-UPD2: "stabil" (Standard) | "test"
+
+
+def auto_enabled(cfg: dict) -> bool:
+    """RM-UPD2: Standard AN; AUS nur bei ausdrücklicher Wahl (Merker)."""
+    return not (cfg.get(CONFIG_KEY) is False and cfg.get(CHOSEN_KEY) is True)
+
+
+def channel_folders(cfg: dict) -> tuple:
+    """RM-UPD2: "test" -> announce/ + download/, sonst (auch unbekannte Werte) nur download/."""
+    return FOLDERS if str(cfg.get(CHANNEL_KEY) or "").strip().lower() == "test" else STABLE_FOLDERS
 
 ZIP_ANNOUNCE = re.compile(r"^[^/]+__.+?[-_ ]v?(?P<ver>\d+(?:\.\d+)+)\.(?P<addon>[A-Za-z][A-Za-z0-9_]*)\.zip$")
 ZIP_DOWNLOAD = re.compile(r"^(?P<addon>[A-Za-z][A-Za-z0-9_]*)-(?P<ver>\d+(?:\.\d+)+)\.zip$")
@@ -70,10 +88,10 @@ def parse_entry(folder: str, name: str):
     return m.group("addon"), m.group("ver")
 
 
-def newest(listing: dict[str, list[dict]]) -> dict[str, dict]:
-    """{Addon: {"ver", "key", "folder", "name", "sha", "url", "size"}} – je Addon die höchste Version."""
+def newest(listing: dict[str, list[dict]], folders: tuple = FOLDERS) -> dict[str, dict]:
+    """{Addon: {"ver", "key", "folder", "name", "sha", "url", "size"}} – je Addon die höchste Version aus den Ordnern folders."""
     out: dict[str, dict] = {}
-    for folder in FOLDERS:
+    for folder in folders:
         for e in listing.get(folder) or []:
             if e.get("type") not in (None, "file"):
                 continue
@@ -223,7 +241,10 @@ class AutoInstall:
         self.done: list[str] = []
 
     def enabled(self) -> bool:
-        return self.cfg.get(CONFIG_KEY) is True
+        return auto_enabled(self.cfg)
+
+    def folders(self) -> tuple:
+        return channel_folders(self.cfg)
 
     def _say(self, key: str, msg: str):
         if key not in self.warned:
@@ -237,7 +258,8 @@ class AutoInstall:
         Grenze bei dieser Grösse). Ohne Token höchstens 3 Anfragen je 5 Min. (GitHub erlaubt 60 je Stunde)."""
         url = f"{API}/repos/{REPO}/contents"
         hdr = {"Accept": "application/vnd.github+json"}
-        if self.etag.get("/"):
+        # bedingt nur, wenn jeder Ordner des Kanals schon einmal gelesen ist (sonst fehlte er nach einem Wechsel des Kanals)
+        if self.etag.get("/") and all(f in self.tree_sha for f in self.folders()):
             hdr["If-None-Match"] = self.etag["/"]
         status, head, body = self.get(url, hdr)
         if status == 304:
@@ -252,7 +274,7 @@ class AutoInstall:
             return False
         trees = {e.get("name"): e.get("sha") for e in root if isinstance(e, dict) and e.get("type") == "dir"} \
             if isinstance(root, list) else {}
-        for folder in FOLDERS:
+        for folder in self.folders():
             sha = trees.get(folder)
             if not sha:
                 return False
@@ -297,7 +319,7 @@ class AutoInstall:
                              f"{CHECK_SECONDS // 60} Min.")
             return []
         out = []
-        for addon, best in sorted(newest(self.listing).items()):
+        for addon, best in sorted(newest(self.listing, self.folders()).items()):
             if not NAME_OK.match(addon) or not os.path.isdir(os.path.join(self.dir, addon)):
                 continue                                         # nur Addons, die schon installiert sind
             have = installed_version(self.dir, addon)

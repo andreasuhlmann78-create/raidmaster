@@ -27,6 +27,12 @@ Rückfrage – KEIN automatisches Selbst-Update.
    und überschrieb die Datei beim nächsten Speichern: ein gelungenes Update erschien nie in stand.json (nur Fehlschläge). Jetzt
    trägt die NEUE Version es ein, wenn sie "läuft" meldet (Angaben aus _update/status.json; auch nach einem Update durch eine alte
    Version). Der alte Prozess schreibt nach der Übergabe nichts mehr (kein Zustand, kein Senden beim Beenden).
+5. RM-UPD2 (2.3.29, Entscheid des Nutzers 27.11.2026 07:08/07:10 "dass man im uploader nicht mehr mit j bestätigen muss sondern dass es
+   automatisch läuft" – nur die neue Uploader-Version; ÜBERHOLT Punkt 1): eine neuere Version wird OHNE Frage installiert, mit allen
+   Schutzmassnahmen aus 2.–4a. unverändert. Nie während ein Abgleich beim Spielstart (GoldSentinel-WoW, Rolle "starter") läuft – dann
+   wird gewartet. Höchstens 1 Versuch je Version und Stunde (uploader_state.json "selbstupdate"."versuch"; über einen Neustart hinweg,
+   keine Schleife). Der frühere "n"-Merker ("abgelehnt") wird nicht mehr beachtet. Meldung "Uploader x -> y automatisch installiert,
+   neu gestartet". UNVERÄNDERT mit j/n: neue Einstellungsdatei (UP-CFG1).
 """
 from __future__ import annotations
 
@@ -313,7 +319,7 @@ def kill_tree(proc) -> None:
 class SelfUpdate:
     def __init__(self, here: str, version: str, st: dict, save, log, *, latest=None, minimum=None, fetch_zip=None,
                  key=read_key, spawn=spawn_same, handover=None, takeback=None, sleep=time.sleep, now=time.time,
-                 console=find_console_bat, kill_console=kill_one, kill=kill_tree, pickup=None):
+                 console=find_console_bat, kill_console=kill_one, kill=kill_tree, pickup=None, busy=None):
         self.here, self.version, self.log, self.save = here, version, log, save
         self.s = st.setdefault("selbstupdate", {})
         self.d = st.setdefault("daten", {})
@@ -322,57 +328,58 @@ class SelfUpdate:
         self.sleep, self.now = sleep, now
         self.console, self.kill_console, self.kill = console, kill_console, kill
         self.pickup = pickup            # UP-CFG1: Einstellungsdateien aus dem Download-Ordner (eine Frage zur Zeit)
+        self.busy = busy                # RM-UPD2: True = Abgleich beim Spielstart läuft gerade -> nicht umschalten
         self.cfg_offer = None
         self.next_at = 0.0
-        self.offer = ""                 # Version, nach der gerade gefragt wird
         self.exit_now = False           # True: neue Version läuft – dieser Prozess soll sich beenden
 
-    def _declined(self, ver: str, mindest: str) -> bool:
-        a = self.s.get("abgelehnt") or {}
-        return a.get("version") == ver and not is_older(a.get("mindest") or "", mindest)
+    RETRY_SECONDS = 3600                 # RM-UPD2: höchstens 1 Versuch je Version und Stunde
+
+    def _tried_recently(self, ver: str, t: float) -> bool:
+        v = self.s.get("versuch") or {}
+        try:
+            return v.get("version") == ver and 0 <= t - float(v.get("zeit") or 0) < self.RETRY_SECONDS
+        except (TypeError, ValueError):
+            return False
 
     def tick(self) -> bool:
         """Liefert True, wenn sich dieser Prozess beenden soll (neue Version läuft)."""
         t = self.now()
-        if not self.offer and t >= self.next_at:
+        if t >= self.next_at:
             self.next_at = t + CHECK_SECONDS
             ver = self.latest() if self.latest else None
-            mindest = (self.minimum() if self.minimum else None) or ""
-            if ver and is_older(self.version, ver) and not self._declined(ver, mindest):
-                self.offer, self.offer_min = ver, mindest
-                self.log(f"Neue Uploader-Version {ver} verfügbar – jetzt installieren? (j/n)  "
-                         f"[ohne Antwort läuft {self.version} weiter]")
-        if not self.offer and not self.cfg_offer and self.pickup is not None:
+            if ver and is_older(self.version, ver) and not self._tried_recently(ver, t):
+                if self.busy is not None and self.busy():
+                    if self.s.get("wartet") != ver:
+                        self.s["wartet"] = ver
+                        self.log(f"Neue Uploader-Version {ver} – wird automatisch installiert, sobald der Abgleich beim Spielstart fertig ist.")
+                    self.next_at = t + 30
+                else:
+                    self.s.pop("wartet", None)
+                    self.s["versuch"] = {"version": ver, "zeit": int(t)}
+                    self.save()
+                    self.log(f"Neue Uploader-Version {ver} – wird automatisch installiert ...")
+                    return self.install(ver)
+        if not self.cfg_offer and self.pickup is not None:
             o = self.pickup.poll()
             if o:
                 self.cfg_offer = o
                 self.log(o["text"])
-        if not self.offer and not self.cfg_offer:
+        if not self.cfg_offer:
             return False
         k = self.key()
         if not k:
             return False
         k = k.strip().lower()                       # nur genau "j" bzw. "n" (eine Taste) – "ja?" o. ä. zählt nicht
-        if self.cfg_offer and not self.offer:       # UP-CFG1
-            if k not in ("j", "n"):
-                return False
-            o, self.cfg_offer = self.cfg_offer, None
-            if k == "n":
-                self.pickup.decline(o)
-                return False
-            if self.pickup.accept(o) == "neustart":
-                return self.restart("neue Einstellungen")
+        if k not in ("j", "n"):                     # UP-CFG1 – unverändert mit Rückfrage
             return False
+        o, self.cfg_offer = self.cfg_offer, None
         if k == "n":
-            self.s["abgelehnt"] = {"version": self.offer, "mindest": self.offer_min}
-            self.save()
-            self.log(f"Update auf {self.offer} abgelehnt – keine Frage mehr bis zur nächsten Version (oder höheren Mindestversion).")
-            self.offer = ""
+            self.pickup.decline(o)
             return False
-        if k != "j":
-            return False
-        ver, self.offer = self.offer, ""
-        return self.install(ver)
+        if self.pickup.accept(o) == "neustart":
+            return self.restart("neue Einstellungen")
+        return False
 
     def _record(self, nach: str, ergebnis: str):
         self.d["update"] = {"von": self.version, "nach": nach, "ergebnis": ergebnis, "zeit": int(self.now())}
@@ -423,7 +430,7 @@ class SelfUpdate:
         waited = 0.0
         while waited < FRIST:
             if read_status(self.here).get("laeuft"):
-                self.log(f"Uploader {self.version} -> {ver} installiert, neu gestartet.")
+                self.log(f"Uploader {self.version} -> {ver} automatisch installiert, neu gestartet.")
                 self.exit_now = True                 # UP-UPD1-c: "update" trägt die neue Version ein, hier nichts mehr speichern
                 return True
             if proc is not None and proc.poll() is not None:

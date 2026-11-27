@@ -73,7 +73,7 @@ import addons  # noqa: E402  (UP-AUTO1: neue Addon-Versionen selbst installieren
 import selfupdate  # noqa: E402  (UP-UPD1: Uploader-Update nur nach Rückfrage "j", ab 2.3.24)
 import einstellungen  # noqa: E402  (UP-CFG1: Einstellungsdateien aus dem Download-Ordner, nur nach "j", ab 2.3.27)
 
-VERSION = "2.3.28"
+VERSION = "2.3.29"
 SHOT_WINDOW = (-30, 180)          # Bild darf so viele Sekunden vor/nach der gemerkten Zeit entstanden sein
 SHOT_MAX_BYTES = 9 * 1024 * 1024
 SHOT_MAX_AGE = 14 * 86400
@@ -131,7 +131,7 @@ def load_config() -> dict:
 # UP-AUTO1: setzt nur der Nutzer (Datei bzw. .bat); UP-CFG1: die Kanal-Adressen kommen nur aus der Datei (Übernahme aus dem
 # Download-Ordner schreibt sie dort) – ein laufender Uploader (Stand vom Start) überschreibt keinen dieser Schlüssel.
 USER_KEYS = ("addons_auto_installieren", "addons_pfad", "einstellungen_aus_downloads", "downloads_pfad",
-             "webhook_url", "test_webhook_url", "bot_id")
+             "webhook_url", "test_webhook_url", "bot_id", "addons_auto_gewaehlt", "addons_kanal")
 
 
 def save_config(cfg: dict, keep_user_keys: bool = True):
@@ -155,15 +155,40 @@ def save_config(cfg: dict, keep_user_keys: bool = True):
 
 
 def addons_toggle(arg: str):
-    """UP-AUTO1 Regel 5: nur der Nutzer schaltet (Addons-automatisch-an.bat / -aus.bat)."""
+    """UP-AUTO1 Regel 5 / RM-UPD2: Addons-automatisch-an.bat / -aus.bat. Standard ist AN; "aus" gilt nur mit dem Merker
+    "addons_auto_gewaehlt" (ausdrücklich gewählt)."""
     if arg not in ("an", "aus"):
         print("Aufruf: uploader.py --addons-auto an|aus")
         return
     cfg = load_config()
     cfg[addons.CONFIG_KEY] = arg == "an"
+    cfg[addons.CHOSEN_KEY] = True
     save_config(cfg, keep_user_keys=False)
     print("Neue Addon-Versionen automatisch installieren: " + ("AN" if arg == "an" else "AUS") +
           ". Gilt ab dem nächsten Start des Uploaders (Uploader-Fenster schliessen und neu starten).")
+
+
+def addons_channel(arg: str):
+    """RM-UPD2: Addons-Testversionen-an.bat / -aus.bat – "test" = auch Discord-/Testversionen aus announce/, sonst nur stabile."""
+    if arg not in ("an", "aus"):
+        print("Aufruf: uploader.py --addons-test an|aus")
+        return
+    cfg = load_config()
+    cfg[addons.CHANNEL_KEY] = "test" if arg == "an" else "stabil"
+    save_config(cfg, keep_user_keys=False)
+    print("Addons: " + ("auch TESTVERSIONEN (Discord) installieren" if arg == "an" else "nur STABILE Versionen installieren") +
+          ". Gilt ab dem nächsten Start des Uploaders (Uploader-Fenster schliessen und neu starten).")
+
+
+def starter_syncing() -> bool:
+    """RM-UPD2: gleicht GoldSentinel-WoW (Rolle "starter") gerade ab? Dann kein Uploader-Update umschalten."""
+    try:
+        if not sync.lock_active(HERE, time.time()):
+            return False
+        owner = sync.lock_owner(HERE) or {}
+        return owner.get("rolle") == "starter" and sync.pid_alive(int(owner.get("pid") or 0))
+    except Exception:  # noqa: BLE001
+        return False
 
 
 def find_saved_variables() -> list[str]:
@@ -1150,6 +1175,11 @@ def main():
         addons_toggle(sys.argv[i] if i < len(sys.argv) else "")
         input("Enter zum Beenden ...")
         return
+    if "--addons-test" in sys.argv:
+        i = sys.argv.index("--addons-test") + 1
+        addons_channel(sys.argv[i] if i < len(sys.argv) else "")
+        input("Enter zum Beenden ...")
+        return
     if "--daten-testen" in sys.argv:
         conf, problem = daten.read_config(HERE)
         if conf:
@@ -1226,14 +1256,16 @@ def main():
         fetch_zip=lambda: selfupdate.fetch_zip_from_repo(lambda url, headers=None: addons.http_get(url, headers, ctx=ctx)),
         handover=lambda: sync.instance_handover(HERE),
         takeback=lambda: (sync.instance_acquire(HERE, VERSION, log=log), sync.write_lock(HERE)),
-        pickup=einstellungen.Pickup(HERE, cfg, reporter.st, lambda: save_state(reporter.st), log))
+        pickup=einstellungen.Pickup(HERE, cfg, reporter.st, lambda: save_state(reporter.st), log),
+        busy=starter_syncing)
     installer = None
-    if cfg.get(addons.CONFIG_KEY) is True:              # UP-AUTO1: Standard aus
+    if addons.auto_enabled(cfg):                         # RM-UPD2: Standard AN (aus nur ausdrücklich gewählt)
         roots = dict(syncer.roots) if syncer is not None else sync.find_roots()
         adir = addons.forever_addons_dir(cfg, roots)
         installer = addons.AutoInstall(cfg, adir, log, ctx=daten.ssl_context())
-        log(f"Addons: neue Versionen werden automatisch installiert (alle {addons.CHECK_SECONDS // 60} Min.) in "
-            f"{adir or 'unbekannt – addons_pfad eintragen'}.")
+        kanal = "auch Testversionen (Discord)" if addons.channel_folders(cfg) == addons.FOLDERS else "nur stabile Versionen"
+        log(f"Addons: neue Versionen werden automatisch installiert ({kanal}, alle {addons.CHECK_SECONDS // 60} Min.) in "
+            f"{adir or 'unbekannt – addons_pfad eintragen'}. Ausschalten: Addons-automatisch-aus.bat.")
     next_sync, last_status, status_text = time.time() + SYNC_TICK, time.time(), ""
     conf_seen = sync_config_mtime()
     next_lock = time.time() + SYNC_LOCK_EVERY

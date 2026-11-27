@@ -1,0 +1,38 @@
+Bericht RaidMaster-Sitzung an die Prüf-Sitzung – 27.11.2026 07:21
+Thema: RM-UPD2 (Entscheide des Nutzers 27.11. 07:08/07:10/07:11) – Uploader 2.3.29 + RaidMaster 3.0.51 (Anleitung).
+Status: umgesetzt, zur Prüfung. download/RaidMasterUploader.zip (21 Einträge, = Ordner; neu Addons-Testversionen-an/-aus.bat),
+download/RaidMaster-3.0.51.zip (+ latest; 3.0.50.zip entfernt, README 3.0.51). Mindestversion bleibt 2.3.20 (kein Daten-/Formatwechsel).
+addon_check 3.0.51 OK; ganze Prüfung wie der Workflow: Exit 0, 0 FEHLER.
+
+1. Uploader-Update automatisch (selfupdate.py, Punkt 5 der Kopfbeschreibung): neuere Version -> ohne Frage installieren. Alle Schutzmassnahmen
+   aus UP-UPD1 unverändert (nur raidmaster, Git-Blob-SHA, CRC, nur .py/.bat/.txt direkt im Ordner, nie .json, _update/alt, Rückfall ohne
+   "läuft", Konfiguration unberührt – dieselbe install()-Funktion). Neu:
+   - nie während GoldSentinel-WoW (Rolle "starter") gerade abgleicht (Sperre aktiv und Prozess lebt) -> wartet, einmal gemeldet, alle 30 s neu;
+     der Uploader selbst arbeitet in einer Schleife ohne Fäden: Hochladen/Abgleich/Lieferung laufen nie gleichzeitig mit dem Update.
+   - höchstens 1 Versuch je Version und Stunde (uploader_state.json selbstupdate.versuch, über Neustarts hinweg).
+   - Meldungen: "Neue Uploader-Version x – wird automatisch installiert ..." / "Uploader a -> b automatisch installiert, neu gestartet".
+   - "abgelehnt" (alter n-Merker) wird nicht mehr beachtet. stand.json "update" wie bisher (UP-UPD1-c).
+   - UNVERÄNDERT j/n: Einstellungsdatei (UP-CFG1). Hinweis: "WoW beenden für den Abgleich" ist im Uploader keine j/n-Frage, sondern ein
+     Hinweis (sync.py "WoW beenden, dann übernehmen") – unverändert.
+   - Einmalig: Uploader 2.3.24–2.3.28 fragen noch ein letztes Mal (j); unter 2.3.24 bleibt die Handinstallation.
+2. Addons Standard AN (addons.py Regel 5): auto_enabled() = AN, ausser "addons_auto_installieren": false UND Merker "addons_auto_gewaehlt": true
+   (Addons-automatisch-aus.bat setzt beides; -an.bat setzt true + Merker). Ein altes false ohne Merker gilt AN (wie beauftragt). Schutzregeln 1–4, 6
+   unverändert. Die Startzeile im Fenster nennt "nur stabile Versionen" bzw. "auch Testversionen" und den Aus-Schalter.
+3. Kanal (Entscheid 07:11): "addons_kanal" = "stabil" (Standard; auch jeder unbekannte Wert) -> NUR download/; "test" -> announce/ + download/
+   (höchste). Schalter: Addons-Testversionen-an.bat / -aus.bat (neu, --addons-test an|aus). Beide neuen Schlüssel in USER_KEYS (ein laufender
+   Uploader überschreibt sie nie). Dabei gefunden und behoben: nach einem Kanalwechsel hätte die bedingte Abfrage (ETag 304) den neu nötigen
+   Ordner nie gelesen -> bedingt nur, wenn jeder Ordner des Kanals schon gelesen ist.
+   Die beiden Rechner des Nutzers: einmal Addons-Testversionen-an.bat doppelklicken (nach dem Update auf 2.3.29), Uploader neu starten.
+   Uploader-Update für alle aus download/RaidMasterUploader.zip (unverändert).
+4. Stabile Zips heute (download/ vs. höchste inkl. announce/): AHSentinel 0.65.413 (Test 0.65.416) · BuffSentinel 0.9.68 (=) · GuildSentinel 0.9.61
+   (Test 0.9.65) · ProfessionSentinel 0.9.90 (=) · RaidMaster 3.0.51 (=) · ThreatSentinel 2.5.30 (=) · LevelPilot: KEINE stabile Zip (Test 3.13.24)
+   -> Mitspieler bekommen LevelPilot nie automatisch. Frage an den Nutzer gestellt (Antwort folgt im nächsten Bericht/Stand).
+5. Tests (eigene, Hinweis): test_selfupdate (Klasse Automatisch: ohne Eingabe installiert + cmp gleich + Konfiguration Bit für Bit; alter n-Merker
+   ignoriert; kein Umschalten während Abgleich, Gegenprobe frei -> installiert; Fehlschlag höchstens 1 Versuch je Stunde, auch nach Neustart, neue
+   Version sofort; aktuell -> nichts); test_addons (Standard an frisch/alt/altes false; ausdrücklich aus -> aus, Gegenprobe ohne Merker -> an;
+   stabil nur download/ – announce/ nicht einmal gelesen, Gegenprobe test -> höchste aus beiden; unbekannter Kanal = stabil; .bat-Dateien; laufender
+   Uploader überschreibt Kanal/Merker nicht); test_einstellungen 15 (j/n unverändert). Alle grün: addons, daten, einstellungen, selfupdate, sync,
+   uploader, umfassend (TU6 114/114).
+6. RaidMaster 3.0.51: Anleitung im Spiel ("Uploader starten") sagt jetzt "aktualisieren sich selbst, nur stabile; ausschalten mit
+   Addons-automatisch-aus.bat" statt "-an.bat doppelklicken" – 11 Sprachen. Nachbildung deDE/koKR ALLE OK.
+   Für das Discord-Projekt (weitergeben): ANLEITUNG.md / /uploader-Text entsprechend ("nichts anklicken; aus mit Addons-automatisch-aus.bat").
