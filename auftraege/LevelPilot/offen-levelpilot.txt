@@ -2052,3 +2052,17 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
     Nachbau Supervisor (addon-check-Mock, Testmodus aus, Chat beim Einloggen + Zeitgeber): "LevelPilot: 3.13.26 – Linksklick auf den Minimap-Knopf: Guide, Rechtsklick: Zentrale." + beim allerersten Mal Wege-Hinweis und Tipp (Code: db.wegeInfoShown / db.optTipShown, je einmal je Konto – richtig); Fehler nur noch eine Zeile. Protokoll-Fenster 60 Einträge: Messung 18,0 -> 1,9 ms, +1030 -> +123 KB (Nachbau) – gut. NIEDRIG: Einlog-Zeile einheitlich wie die anderen ("LevelPilot 3.13.26 – …" statt "LevelPilot: 3.13.26 – …"), beim nächsten Mal. addon_check 3.13.26 OK. Ingametest 3.13.24+ (T397/T217) bleibt offen -> danach LP-DL1.
 
 >>> AUFTRAG HOCH DL-ABN (Supervisor 27.11. 10:30): download/ nur noch mit vom Supervisor ANGENOMMENEN Versionen – der Uploader installiert jede Zip dort automatisch bei allen Mitspielern. Neue Versionen zuerst nur announce/. Einzelheiten: auftraege/anweisung-download-nur-abgenommen-2026-11-27.txt (lesen!).
+
+>>> INGAMETEST 27.11. 11:03 (Laptop, LevelPilot 3.13.26, PRIEST 10 Undercity, Testmodus) – ausgewertet vom Supervisor 11:10
+    Ergebnis 331/332, FEHLER 1 (T155), Fehlerzähler 0, echte Daten unverändert, 206 s.
+    ERLEDIGT (im Spiel belegt):
+    - T397 (3.13.23: 116 ms in pcall): nicht mehr unter den langen Schritten; "Abgabe nicht möglich" nur noch T353 Gegenprobe (gewollt).
+    - LP-TR3 Reisen: 348 Bilder, längstes 12,1 ms, über 16 ms 0 (Überschreitung 1,9 ms bei Planner.lua:74) -> ERLEDIGT.
+    OFFEN / NEU:
+    - HOCH T215–T217: 143,5 ms (3.13.23: 119,7 ms) – die Behebung aus 3.13.24 (Gefahrenkarte vorher in Portionen) wirkt im Spiel NICHT; die Ursache
+      "Neubau Gefahrenkarte" war nur im Nachbau belegt, die Zuordnung im Spiel als Verdacht markiert -> Verdacht widerlegt oder unvollständig. Speicherbereinigungen
+      in Ruhe 0. Auftrag: im Spiel messen, was in T215–T217 läuft (Teile mit ms und KB je Teil, wie PS "fremd/eigener Code"), Ursache BELEGEN, dann beheben. Ziel ≤ 16 ms.
+    - MITTEL T136 Zentrale 50,2 ms (+ 39,6/33,0 ms), T355 40,5/38,9 ms, T244 33 ms, T386 32,8 ms, T285 32,8 ms – Takt-Ziel 16 ms; mit ST1/Protokoll-60 neu messen.
+    - MITTEL T155 (LP-I3): 21,21 ms je Planung (Ziel < 16), Median 14,2 ms, längste 68,4 ms (+1439 KB, Zone 1458, 439 Knoten, 156 µs je Knoten). Schneller als
+      3.13.23 (Median), aber Ausreisser 68 ms bleibt.
+    LP-DL1 (stabile Zip nach download/) erst, wenn T215–T217 ≤ 40 ms belegt ist.
