@@ -1,41 +1,38 @@
-# Stand Supervisor – 27.11.2026 21:20
+# Stand Supervisor – 27.11.2026 22:45 (Nutzer schläft)
 
 ## Gerade in Arbeit
-- Nichts Laufendes. Warte auf neue Versionen: PS (PS-SK2 Magiestoffballen ohne Stufe im Plan 110–150), LP (T155 16,89 ms / T136 Zentrale),
-  AHS-Kleinigkeiten (AHS-SN-CAN1, Wechsel kurz vor Raste, Rest-Speicher AHS-API1).
+- Nichts Laufendes. Projekte arbeiten: AHSentinel (Masterplan v2 Schritt 2, Befund AHS-BP1-L), LevelPilot (T261 HOCH, LP-ML1, T150, Grundregeln 80 ms).
 
 ## Nächste Schritte (Reihenfolge)
 1. Bei jedem "repo": pull, Berichte prüfen, addon_check, annehmen/ablehnen, push + nachprüfen, Workflow ansehen.
-2. Offizier B: Uploader 2.3.30 am 27.11. 20:54 per Bot + Anleitung bekommen (Log). Sein Rechner lädt seit 22.11. nicht (stand.json uploader leer) –
-   nach seinem ersten Upload mit 2.3.30 prüfen. Offizier A seit 15:31 auf 2.3.30. BS-M1-b Messdaten Offizier A auswerten, sobald da.
-3. CurseForge: AHS 0.65.423 als Hotfix 21:02 hochgeladen (Entscheid 21:00), GS 0.9.66 18:00. Seiten auf curseforge.com + Kommentare noch nicht gelesen
-   (Webzugriff braucht Freigabe/verbundenen Browser) – beim nächsten Mal nachholen.
-
-4. Daten Rechner B (Entscheid 21:47): Daten-Repo-Zweig nachlieferung-rechner-b-2026-11-27 – beim nächsten Markt-Tabellen-Lauf als zusätzliche
-   AHSentinel.lua mitgeben (markt_tabellen.py nimmt mehrere Stände, Punkte ohne Doppelte); AHS/LP-Aufträge 21:52.
-5. Masterplan AHS v2 freigegeben 21:21 – Inventur-Bericht von AHS prüfen (Stichproben im Code).
-
-6. Offizier B: Uploader 2.3.30 laut Nutzer gestartet (21:36), aber kein Upload mit 2.3.30 (B offline seit ~22:20). Nächster Upload von Rechner B:
-   stand.json "uploader" = 2.3.30, Addons aktualisiert? Offizier A lädt seit 22:05 mit 2.3.30.
+2. AHSentinel: Masterplan v2 (auftraege/AHSentinel/masterplan-ahsentinel.txt, freigegeben 21:21, Nachtrag 22:00 nach Inventur): Schritt 2 Stabilität
+   (API1-Rest-Speicher, Vollscan AHS-I4/VS-121b/SP1, BP1-L Leistung von 0.65.425, S216, W2E-b, MK1, UMG1) -> R1–R7 (Reiter aktualisieren sich selbst,
+   NICHT gebaut) -> Abnahme-Runde im Spiel (Prüfliste von AHS) -> 0.66.0. Daten Rechner B im Nachbau mitnutzen (Auftrag 21:52).
+3. LevelPilot 3.13.30 (angenommen 22:16): Ingametest 22:11 PC – T261 Einloggen 1810 ms (soll < 1000, HOCH), T150 16,91 ms, längstes Bild 79,8 ms
+   Reisen->Grundregeln; MarktLine 34 ms/3,8 MB = SH-M1 belegt -> LP-ML1 freigegeben.
+4. ProfessionSentinel 0.9.97 (PS-SK2) angenommen 22:08; Ingametests beim Nutzer (Schneider- + Experten-Lehrer, Gift-Tooltip BoP, SetCraftableCount, WorthUpTo).
+5. Offizier B: Uploader 2.3.30 laut Nutzer gestartet, aber KEIN Upload damit (offline seit ~22:07). Verdacht: daten_config.json fehlt im neuen Ordner.
+   Nächster Upload von Rechner B: stand.json "uploader" 2.3.30, Addons aktualisiert (B hatte PS 0.9.32, LP 3.12.31, AHS ~0.65.393).
+   Sein Upload 21:31 (alter Uploader) gesichert: Daten-Repo Zweig nachlieferung-rechner-b-2026-11-27 (OK Nutzer 21:44).
+6. Markt-Tabelle: beim nächsten Lauf die AHSentinel.lua aus dem Zweig nachlieferung-rechner-b als zusätzlichen Stand mitgeben (Entscheid 21:47).
+   Bot-Tagesdateien (D-KERN1) zuletzt 21.11. – nach Bot 1.5.203 prüfen, ob sie wieder täglich kommen.
+7. CurseForge: Seiten/Kommentare zu AHS 0.65.423 und GS 0.9.66 noch nicht gelesen (braucht Browser/Freigabe).
 
 ## Offen beim Nutzer
-- 09.12. 07:00 Erinnerung: Aufgabe "Raids und Taktiken" wieder einschalten.
+- Ingametests PS (siehe 4), AHS Abnahme API-LANGSAM, Tooltip Blendungspulver.
+- Frage "kleine KI aus dem Rechenkern" (seit 14.11., keine Eile).
+- 09.12. 07:00 Erinnerung: Aufgabe "Raids und Taktiken" wieder einschalten. Raid 9.12.: Vorräte-Hinweis ab 4.12.
 
 ## Entscheide des Nutzers seit letztem Stand (alle in entscheide.md 27.11.)
-- 20:58 announce/: je Addon nur die 3 neuesten ZIPs + stabile Version (DC-ANN2, umgesetzt: 758 -> 50 MB).
-- 21:00 AHS 0.65.423 sofort als Hotfix auf CurseForge (Ausnahme DL-ABN Punkt 4).
+- 20:58 announce/ nur 3 neueste ZIPs + stabile · 21:00 AHS 0.65.423 Hotfix CF · 21:16 SH-M1 B · 21:21 Masterplan v2 · 21:44 Daten B sichern ·
+  21:47 Daten B überall nutzen · 22:37 SH-M1 bleibt B, LP-ML1.
 
-## Heute Abend erledigt
-- DC-UPL1: Bot hing – Ursache Speicher (ganze Repo-ZIP ~900 MB in den Speicher, 1720 MB von 2 GB), DNS-Fehler nur Folge. Bot 1.5.202/1.5.203 angenommen:
-  Download auf Platte, nur Nötiges entpacken, Reste weg (UPL2), Netz 45 s statt 300 s (UPL3), ~100 MB statt 0,9 GB je Update (UPL4).
-- SN-Z4 (AHS 0.65.423): Fenster wechselt zwischen Zielen (Rotation 3 s), Knopf frei wenn nicht kaufbar; Kauf im Spiel belegt (Kapuze, −12s97,
-  Briefkasten). ABGENOMMEN 21:09. AUCTION_CANCELED nach Kauf = eigener Kauf (NIEDRIG).
-- PS 0.9.96 PS-SK1: "LEHRER Lernstufen gelesen 28", Plan zeigt Skill 110/120/140 statt "?" – bestätigt; neu PS-SK2.
-- AHS 0.65.422 AHS-API1: Ursache (1016× CorrectionFor je Entzauber-Kauf) behoben, Werte gleich; im Spiel 20:55 WorthUpTo 4,7 ms (nur 1 Zeile, cache:warm).
-- PC des Nutzers: Uploader 2.3.30, Testversionen an.
+## Heute erledigt (Abend)
+- DC-UPL1–4/DC-ANN2 (Bot hing wegen Speicher; 1.5.202/1.5.203; announce 758 -> 50 MB). SN-Z4 Sniper abgenommen, Kauf belegt. AHS 0.65.423 auf CF.
+- PS-SK1 im Spiel bestätigt. AHS-Inventur angenommen (fast alles gebaut, Abnahme im Spiel fehlt).
 
 ## Wichtig zu wissen
-- SH-M1 (Entscheid 21:16: B): DiagLines-Verbesserung mit der NÄCHSTEN nötigen shared/-Änderung mitnehmen.
-- DL-ABN: download/ nur angenommene Versionen; AHS/GS CurseForge 18:00 (Ausnahme nur auf Entscheid).
-- announce/: ZIPs werden automatisch auf 3 + stabile gekürzt (Workflow "Announce aufräumen"), .md bleiben.
+- DL-ABN: download/ nur angenommene Versionen; AHS/GS CF 18:00 (Ausnahme nur auf Entscheid).
+- SH-M1 (B): GoldSentinelMarkt.DiagLines leichter (16–34 ms, 2,8–3,8 MB -> ~6,8 ms/5 KB) mit der NÄCHSTEN nötigen shared/-Änderung mitnehmen.
+- Daten-Repo main wird überschrieben (Uploader unter Mindestversion verworfen) – Nachlieferungen nur als eigener Zweig sichern (mit OK des Nutzers).
 - Repo öffentlich: keine Spieler-/PC-Namen (Offizier A/B). Prüfwerkzeuge chatprobe.py/rek1probe.py nur in dieser Sitzung.
