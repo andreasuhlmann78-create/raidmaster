@@ -1,0 +1,87 @@
+ENTWURF – MASTERPLAN AHSENTINEL v2 (Supervisor, 27.11.2026 21:50) – WARTET AUF FREIGABE DURCH DEN NUTZER
+Auftrag des Nutzers 21:17 "ja mach das" (Masterplan neu, Stand heute). Ersetzt nach Freigabe auftraege/AHSentinel/masterplan-ahsentinel.txt
+(Stand 15./16.11.). Grundlage: offen-ahsentinel.txt (7432 Zeilen, 13.–27.11.), berichte/AHSentinel/stand-aktuell.md (21:15), entscheide.md,
+Markt-Tabellen/Kern-Abgleich. Wo der Stand nicht sicher belegt ist, steht "Stand unklar" – das belegt AHS in Schritt 1 (Inventur), nicht ich.
+
+=====================================================================================================================
+A. ZIEL UND GRUNDSÄTZE (unverändert, ergänzt um die Entscheide seit 16.11.)
+=====================================================================================================================
+- Ziel: das beste AH-Addon für Casual-Spieler – mehr Gold, nur Belegtes ("vorausahnen, aber fundiert und belegbar").
+- Direktiven: Perfektion, nicht warten, alles Deutsch für den Nutzer, nichts gilt ohne origin/main.
+- Anzeige: Zahl statt Worte (+grün / −rot), keine Schätzzeichen ("~") ohne Fallzahl, Einzelheiten hinter Knopf/Hover.
+- Spieler-Texte ST1 (27.11.): ausserhalb Testmodus 1 Einlog-Zeile, Fehler 1×, Tipps 1×, Messwerte nur im Protokoll.
+- Tempo: kein Bild > 16 ms durch AHS (eigene Arbeit), Tooltip ≤ 5 ms, "Lohnt bis" ≤ 2 ms / ≤ 50 KB.
+- Fremde Daten S1–S6 (21.11.): 1 Stimme je Absender/Item/Stunde, Plausibilität ×2, eigene Scans Vorrang, nie Verkaufspreis aus Fremddaten.
+- G9-Schutz: Gold-Werte (Sniper, Wächter, Lohnt bis, Verkaufspreis, Buchhaltung) ändern sich nur durch mehr Daten, nie durch Umbau.
+- Veröffentlichen: Discord jede Version; download/ nur nach Annahme (DL-ABN); CurseForge 18:00 (Ausnahme nur auf Entscheid).
+- Tooltip eingefroren (TT-STOP) ausser Entzauber-Teil (TT-DE2).
+
+=====================================================================================================================
+B. DATENSTUFEN DES GEHIRNS – STAND
+=====================================================================================================================
+ 1. Eigene Fälle (Post, Entzaubern, Käufe) .............. läuft (Lernschicht S1–S3, 0.65.153–180; Buchhaltung TB1 erledigt 26.11.)
+ 2. Fremde Auktionen im eigenen Scan (KERN-T1 1) ......... laut Prüfung 0.65.198 umgesetzt – Stand im Spiel unklar
+ 3. Gilde (KERN-T1 2, G1–G9 gemeinsamer Markt) ........... umgesetzt 0.65.363–385 (21.–23.11.); G10 Eichung ab ≥ 30 echten Fällen
+ 4. Alle Spieler im Marktdaten-Netz (MN5, S1–S6) ......... MN5 nur im Markt-Detail (15.11.), S1–S6 umgesetzt (21.11.); Kern nutzt Netz nur über S1–S3
+ 5. Tabellen von aussen (A1/A2, Teil "alle") ............. STOCKT: Repo-Tabelle Stand 16.11.; Bot-Tagesdateien nur 14.11. und 21.11.
+    (Bot hing bis heute 20:45 wegen Speicher – DC-UPL1); Daten-Repo ohne Stände 14.–20.11.; Kern-Abgleich 24.11.: 28–36 Zellen gehen nicht auf.
+
+=====================================================================================================================
+C. STAND 27.11. (kurz; Einzelheiten je Kürzel in offen-ahsentinel.txt)
+=====================================================================================================================
+ABGENOMMEN / ERLEDIGT seit 16.11. (Auswahl): Sniper SN-Z4 (Wechsel + Kauf, 27.11.), SN-RAD/PF-1/OPT-1, AHS-I1/I5/I6/I7 (Sandbox, Testroutine),
+ AHS-OVF1, AHS-TB1 (Tagesbilanz), AHS-CF1–CF7 (CurseForge-Seite und Uploads), ST1 Spieler-Texte, UI-REF1 (Aktualisieren-Knopf),
+ Phase 8 Punkte 1–4 umgesetzt (WS/SB, I5 Schnäppchen-Alarm, Vorräte vor Raids, CH-G) – im Spiel nicht alle abgenommen.
+ANGENOMMEN, ABNAHME IM SPIEL OFFEN: AHS-API1 (0.65.422, Lohnt bis 40 -> 2 ms im Nachbau), AHS-W1, AHS-SB1, AHS-SP2, AHS-API2/-b, AHS-SN-CAN1 (0.65.424).
+CURSEFORGE: 0.65.423 (Hotfix Sniper, 27.11. 21:03).
+
+=====================================================================================================================
+D. REIHENFOLGE AB 28.11. (oben zuerst; neue Befunde HOCH aus dem Spiel gehen immer vor)
+=====================================================================================================================
+SCHRITT 1 – INVENTUR (klein, zuerst, 1 Bericht, kein Code)
+  AHS geht JEDES Kürzel dieses Plans (Abschnitt D alt + C/D neu) durch und belegt je Kürzel: erledigt (Version, Test, Abnahme ja/nein) /
+  teilweise (was fehlt) / offen / überholt (Entscheid). Ergebnis als Tabelle im Bericht. Der Supervisor prüft stichprobenartig im Code.
+  Ohne diese Inventur wird nichts Neues gebaut.
+
+SCHRITT 2 – STABILITÄT FERTIG MACHEN (Voraussetzung für 0.66.0)
+  2.1 AHS-API1 Abnahme im Spiel (Zeile API-LANGSAM ≤ 2 ms) + Rest-Speicher "DE tatsächlich"/Mat Leiter ≤ 50 KB.
+  2.2 Vollscan ohne Ruckeln: AHS-I4 (längster Frame 712 ms im Spiel), VS-121b, T459-Speicher, AHS-SP1 – Ziel: eigene Arbeit ≤ 16 ms je Bild.
+  2.3 Wächter-Last (WAECHTER-LAST ≤ 50 ms eigene Arbeit) und Sniper-Testroutine (SN-TR-2) im Spiel grün.
+  2.4 Kleine offene: AHS-TR1-a, AHS-V3, AHS-W2E-b, AHS-BP1, AHS-S216, AHS-MK1, AHS-T750, AHS-UMG1, AHS-SG6-a, Hinweis Wechsel vor Raste.
+  -> Wenn 2.1–2.3 im Spiel grün: Freigabe-Bedingung für 0.66.0 erfüllt (Entscheid 16.11.).
+
+SCHRITT 3 – GEHIRN: DATEN ALLER SPIELER WIEDER ZUM LAUFEN BRINGEN
+  3.1 Kern-Abgleich: "Zellen, die nicht aufgehen" wieder auf 0 (24.11.: 28/29/36) – Ursache belegen (Journal vs. Kern ausserhalb de).
+  3.2 G10 Eichung je Gruppe ab ≥ 30 echten Fällen (Post-Scan, Gilde) – Stand und Fallzahlen je Gruppe im Testbericht MARKT-KERN.
+  3.3 G11 Wann kaufen/verkaufen, G13 DE-Daten eine Quelle, G14 Schnäppchen-Zeiten, G15, G17 – je Stand aus der Inventur, offene Teile bauen.
+  3.4 Testbericht MARKT-KERN vollständig: je Datenstufe Fälle/Tag, Faktor je Gruppe mit n, Brier gegen Grundlinie.
+  (Supervisor/Discord parallel, siehe E: Tagesdateien und Markt-Tabelle "alle" wieder täglich.)
+
+SCHRITT 4 – BUCHHALTUNG UND VERKAUFEN
+  4.1 DE-AUFT1 (0.65.199 umgesetzt) im Spiel abnehmen.  4.2 TB181-4 Abbrechen-Knopf "Meine Auktionen" bei "?" – Stand unklar.
+  4.3 Post: "alles abholen" (0.65.362) abnehmen.  4.4 VK-P1/P8–P10 Verkaufspreis-Vorschlag abnehmen; VK-E1, BH-TT2 (NIEDRIG).
+  4.5 R1–R7 alle Reiter aktualisieren sich selbst (Auftrag 23.11.) – Stand unklar.
+
+SCHRITT 5 – RECHENKERN FERTIG = 0.66.0
+  5.1 TT-DE2 Entzauber-Teil im Tooltip (Variante B ohne 10s76) – seit 15.11. nie gebaut.
+  5.2 MR2 Mein Lager (Taschen, Bank, Post, eigene Auktionen) – nie gebaut.
+  5.3 RK3 herstellen oder roh verkaufen (mit ProfessionSentinel), RK4 Berufe automatisch, RK6 Haltedauer, RK7 Rangfolge Gold/Tag je 1g,
+      RK8 Prüffälle (RK5 Risiko-Wahl angenommen 14.11.) – je Stand aus der Inventur.
+  5.4 Version 0.66.0 "Rechenkern fertig" mit eigenem Bericht + MARKT-KERN, erst nach Schritt 2 grün.
+
+SCHRITT 6 – OBERFLÄCHE: UI-CLEAN1-B (727 Befunde 16.11., heute?), HP-2/3/4, T750/T191.
+SCHRITT 7 – 0.67 SPIELRHYTHMUS (MR5–MR9, Zyklen) und 0.68 NEUER MARKT-REITER (MR1/3/4/10/11) – vieles schon gebaut (15./16.11.),
+  Inventur entscheidet, was fehlt. "Muss streng überwacht werden."
+ZEITKRITISCH (vor Schritt 3 einschieben, wenn die Inventur Lücken zeigt): Vorräte vor Raid-Abenden – Raid 9.12.2026 (Onyxia/Hyjal/
+  Barrow Deeps), Hinweis 3–5 Tage vorher = ab 4.12.; nur mit gemessenem Effekt, sonst "noch zu wenig Daten".
+
+OFFENE FRAGE AN DEN NUTZER (seit 14.11.): "aus dem Rechenkern eine kleine KI basteln?" – Vorschlag unverändert: erst Statistik, ein Modell
+  nur bei vielen Fällen und wenn nachweislich besser. Entscheid steht aus (kein Bau ohne Freigabe; ebenso 8i Kelly, I3, I4, I6).
+
+=====================================================================================================================
+E. AUSSERHALB VON AHSENTINEL
+=====================================================================================================================
+- DISCORD-BOT (D-KERN1): Tagesdatei testberichte/markt/tages/<Datum>.json wieder TÄGLICH (zuletzt 21.11.) – prüfen nach Bot 1.5.203.
+- SUPERVISOR: Markt-Tabelle "alle" (markt_tabellen.py) wieder täglich übernehmen; Entscheid zur Datenlücke 14.–20.11. (Daten-Repo) vorlegen.
+- PROFESSIONSENTINEL: PS-API1 / Ketten für RK3/RK4 – Stand mit PS klären.
+- ALLE ADDONS: gemeinsame Dateien unverändert aus shared/ (SH-M1 gebündelt, Entscheid 27.11. 21:16).
