@@ -1000,3 +1000,13 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
     die Prüfregel kannte DL-ABN noch nicht. addon_check angepasst (download/ hinter announce/ = WARNUNG DL-ABN). PS-Ablauf richtig.
 >>> PRÜFUNG SUPERVISOR 27.11. 12:05 – ProfessionSentinel 0.9.94 (Zähler WorthUpTo je Lauf, Bericht 11:34): ANGENOMMEN (addon_check OK). Ingametest zusammen mit
     AHSentinel 0.65.418 (Schneider-Figur): Zeile "WorthUpTo je Lauf: Lauf 1 … neu · Lauf 2: 0 neu" erwartet. download/ 0.9.94 erst nach diesem Ingametest.
+
+>>> INGAMETEST 27.11. 12:26 (Laptop, PS 0.9.94 + AHS 0.65.418, Schneider-Figur, Berufsfenster offen) – ausgewertet Supervisor 12:30:
+    "WorthUpTo je Lauf: Lauf 1: 32 neu, 0 gemerkt · Lauf 2: 4 neu, 28 gemerkt · Lauf 3: 32 neu, 0 gemerkt · Lauf 4: 3 neu, 29 gemerkt".
+    Erwartet war ab Lauf 2 "0 neu". BEFUND MITTEL PS-P2:
+    (a) Lauf 2/4: 3–4 neue Aufrufe trotz Merken – vermutlich Items mit Antwort nil ("lernt noch", nicht gemerkt) -> jedes Mal neu gefragt. Belegen (welche Items, welche
+        Antwort) und für nil eine kurze Merkzeit (z. B. bis zur nächsten AHS-Änderung oder 10 Min.) einführen, damit nil nicht in jedem Lauf 23–27 ms kostet.
+    (b) Lauf 3: alles vergessen (32 neu, 0 gemerkt) innerhalb ~1 Min. -> welches Ereignis hat P.ForgetWorth ausgelöst (PS.OnChanged von AHSentinel: Scan/Buchung/
+        Einstellung? Berufsfenster-Wechsel?). Ursache im Protokoll belegen (Grund je Vergessen mitschreiben); nur vergessen, wenn sich Werte wirklich ändern können.
+    (c) Neu sichtbar: "Neuaufbau (Teil) 18.8 ms ×64" (UI:Aufbau beim offenen Berufsfenster) über 16 ms – messen und teilen (PS-eigener Code).
+    WorthUpTo selbst weiter 26,6 ms / +0,9 MB je Aufruf (AHS-API1).
