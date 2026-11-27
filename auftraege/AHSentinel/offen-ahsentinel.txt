@@ -7406,3 +7406,16 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     OFFEN Ingametest Nutzer (2 Ziele): Fenster wechselt alle ~3 s, "sucht gerade" sichtbar; 1 Raste bei sichtbarem Treffer -> /ahs protokoll Zeile KAUF
     (oder "Raste übergangen") – klärt "0 gekauft" (19:13–19:20 kein KAUF-Eintrag = keine Raste angekommen, belegt aus PC-Daten).
     CurseForge: nicht vor Ingametest (nächster Termin 28.11. 18:00).
+
+>>> INGAMETEST 27.11. 20:55–20:58 (PC, 0.65.423, Protokoll vom Nutzer) – ausgewertet Supervisor 21:05:
+    KAUF GEHT: 20:58:24 "SNIPER-RAD Mausrad über AHAnalyzerProWindow · gekauft", "KAUF gesendet · Angebot 309469661", "SNIPER Treffer 1 · gekauft 1".
+      -> "0 gekauft" um 19:16 war: keine Raste angekommen (wie von AHS belegt), kein Fehler im Kaufweg.
+    WECHSEL: Stulpen (3483) gesucht 20:56:14 / 20:57:17 / 20:58:18, jedes Mal "Treffer ≤ Max 0" (372/370/366 Angebote, Max 13s49) – es gab keinen
+      Stulpen-Treffer, darum blieb das Fenster richtigerweise auf der Kapuze. Nutzer sah "ganz kurz Stulpen, dann Kapuze": vermutlich der alte Stulpen-
+      Treffer aus der Sitzung davor, sofort frei durch HeldHit "nicht kaufbar" (SN-Z4 c) – Verdacht, nicht belegt. Wechsel mit 2 echten Treffern im Spiel
+      damit NOCH NICHT gesehen -> Abnahme SN-Z4 offen bis zu einem Lauf mit Treffern für beide Ziele.
+      Suchen je Ziel 74 % / 26 % (222/78) – Garantie wirkt.
+    NIEDRIG AHS-SN-CAN1: direkt nach dem Kauf "ABBRECHEN AUCTION_CANCELED auctionID 309469661 (erwartet nil) -> unerwartet". Der Server meldet den
+      eigenen Kauf offenbar als AUCTION_CANCELED derselben auctionID. Belegen (kam die Kapuze an? Gold −12s97?) und den Fall als "eigener Kauf" erkennen,
+      statt "unerwartet" zu protokollieren; nichts an Buchungen ändern, ohne es zu belegen.
+    Auffällig (nur Hinweis): "Treffer>Reserv. 133556 ms" in der SNIPER-Zeile – Zeit vom ersten Treffer bis zur Raste (133 s), Kennzahl so nicht aussagekräftig.
