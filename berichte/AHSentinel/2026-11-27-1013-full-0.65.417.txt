@@ -1,0 +1,7 @@
+BERICHT AHSentinel 0.65.417 – FULL-Nachbau (alle Szenarien), allein gelaufen
+Projekt-Sitzung AHSentinel · 27.11.2026 10:13 · Stand: umgesetzt, zur Prüfung
+
+- Lauf auf Kopie /tmp/claude-0/ahs417, vorher kein anderer Nachbau-Lauf aktiv (pgrep run_all.sh leer), währenddessen keine anderen Läufe.
+- Ergebnis: 356 BESTANDEN, 67 FEHLGESCHLAGEN (0.65.416: 356 / 67).
+- Vergleich der Fehlerlisten (comm fail416/fail417): keine neuen roten, keine neuen grünen Szenarien.
+- Damit verändert ST1 (Spieler-Texte) im Nachbau kein Ergebnis ausser den angepassten Tests T265/T1039 (Testroutine, beide grün).
