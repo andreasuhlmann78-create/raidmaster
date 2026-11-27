@@ -1,0 +1,55 @@
+Version 0.9.69 – veröffentlicht (download/ nur 0.9.69.zip, README-Link, announce/ Discord). Umgesetzt, zur Prüfung.
+Grundlage: auftraege/anweisung-spielertexte-2026-11-27.txt (ST1, Entscheide des Nutzers 27.11. 08:27–09:23). Gilt nur ohne Entwicklermodus
+(BS:IsDev = GoldSentinelDev); mit Entwicklermodus bleibt alles wie bisher.
+
+1. TEXTE, DIE EIN SPIELER OHNE EIGENES ZUTUN SIEHT – vorher -> nachher (Einstufung)
+ Chat beim Einloggen:
+  - "BuffSentinel: geladen für WoW Forever." (Core PLAYER_LOGIN) -> "BuffSentinel 0.9.69 – /bsen öffnet die Einstellungen" (Spieler, 1 Zeile, Version sichtbar).
+    Retail: " – Retail-Modus: …" angehängt -> nur noch Entwicklermodus.
+  - "Skillung erkannt: <Skillung> – X Buffs, Y Procs, Z Cooldowns" (AnnounceSpec; kam bei JEDEM Einloggen, weil die Talent-Kennung beim ersten
+    Lesen wechselt) -> nur Entwicklermodus (Zähler, D).
+  - "Für deine Klasse gibt es noch keine Daten …" (Klasse ohne Daten) -> Tipp, nur EINMAL (tipsSeen.noclass).
+ Chat im Spiel:
+  - Fehler "Fehler (Scan): BuffSentinel/Core.lua:…" (CountError, erster je Bereich) und "Fehler in <Ereignis>: …" (Ereignis-Handler, erster)
+    -> "BuffSentinel: Ein Fehler ist aufgetreten – er wird automatisch gemeldet." höchstens 1× je Sitzung (BS.ErrorOnce). Zählung und Text weiter in
+    der Fehlerliste (/bsen fehler) und im Protokoll (Uploader). Entwicklermodus: voller Text wie bisher.
+  - "Im Kampf gibt WoW Forever Addons keine Buff- oder Cooldown-Daten …" (NoteSecret, je Sitzung) -> Tipp nur EINMAL überhaupt (tipsSeen.secret).
+  - "Zorn der Gerechtigkeit …"-Hinweis (Paladin, RF_HINT, je Sitzung; Schalter in Hilfen bleibt) -> nur EINMAL (tipsSeen.rf).
+  - "Talentname/Zaubername <x> gelernt von <Spieler>" (Austausch, Names.lua) -> nur Entwicklermodus (Technik).
+  - Unverändert Spieler (Ereignis, nützlich): neuer Proc/neue Fähigkeit gelernt bzw. von anderen übernommen, Nachkauf gekauft/Abweichung,
+    "Änderung wird nach dem Kampf übernommen", Meldungen auf eigene Klicks/Befehle (Anordnen, Vorschau, Töne, Aufnahme, Hilfe – Befehle nicht angefasst).
+ Optionen (Spieler-Zeilen, Abschnitt "Teilen & Lernen" -> neuer Abschnitt "Mithelfen" ganz unten, gleiche Schlüssel):
+  - "Namen: alle Nutzer" / Tipp "Auch über das Flüster-Netz austauschen …" -> Mithelfen: "Namen: auch Fremde" / "Zauber- und Talentnamen auch mit
+    BuffSentinel-Spielern ausserhalb von Gilde und Gruppe austauschen." (gdb.shareServer)
+  - "Messdaten sammeln" / Tipp mit "Rechenzeit, BuffSentinel.lua, Uploader" -> "Beim Verbessern helfen" / "Nur Zahlen, keine Namen: …" (db.m1.collect)
+  - "Diagnose-Protokoll senden" (Weitere) / Tipp "… damit der Uploader es an das Test-Team schickt …" -> "Fehler an Entwickler senden" / "Tritt ein Fehler
+    auf, geht eine Beschreibung ohne Namen an den Entwickler …" (diagSend; jetzt sichtbar, nicht mehr unter Weitere)
+  - Hilfen > Weitere "Protokoll zeigen" (Tipp "Diagnose-Protokoll") -> Mithelfen > Weitere "Bericht zeigen" (Tipp "Bericht für den Entwickler").
+  - Hilfen > Weitere "Fehler anzeigen" (Tipp "Spielversion, Fehlerzahl und Sperren") -> Mithelfen > Weitere "Fehler anzeigen" ("ob Fehler aufgetreten sind").
+  - Teilen > Weitere "Sync prüfen" (Tipp "Flüster-Netz") -> Mithelfen > Weitere "Wer nutzt BuffSentinel" (Tipp "Gilde, Gruppe, andere"). Für Spieler
+    sichtbar gelassen: sonst hätte der Befehl /bsen sync test keinen normalen Weg mehr (T262 meldete das, als ich ihn zuerst auf Entwickler stellte).
+  - "Marktdaten teilen" bleibt in Teilen; Tipp ohne "Netz"/"GoldSentinel-Datei".
+  - Vorschau-Knöpfe (bisher "Testmodus (Entwickler)") nur im Entwicklermodus, Text "Vorschau (Entwickler)".
+ Normale Fenster: keine Messwerte (ms, KB, Bilder, Zähler) gefunden – Rechenzeit-Zeilen (PERF_LINE/PERF_BAG) nur im Protokoll und in der Prüfliste
+ (Entwickler). Statische Suche über alle Locale-Werte, die in Nicht-Test-Dateien benutzt werden.
+
+2. TEST MIT GEGENPROBE – neue Prüfung T272 (Nachbau 8/8 OK):
+  (a) Einloggen ohne Entwicklermodus: genau 1 Zeile mit Version, ohne "geladen für"/"Forever"; mit Entwicklermodus 2 Zeilen (Gegenprobe).
+  (b) zwei Fehler ohne Entwicklermodus -> 1 Zeile = "Ein Fehler ist aufgetreten …", ohne "Core.lua"; Fehlerliste zählt 2; mit Entwicklermodus voller
+      Text mit Datei:Zeile (Gegenprobe).
+  (c) Tipp: 1. Mal gezeigt, 2. Mal (gleiche SavedVariables = wie nach /reload) nicht, tipsSeen.probe = true; mit Entwicklermodus gezeigt (Gegenprobe).
+  (d) Optionen: keine der Wörter Diagnose, Uploader, Sync, Netz, GoldSentinelSync, Messdaten, Messung, Zeitbudget, API, Testmodus (+ englisch) in
+      Spieler-Zeilen (Beschriftung, Tipp, Knopf) – fand beim ersten Lauf "marketShare: Netz" (behoben); "Mithelfen" ist der letzte Abschnitt mit
+      shareServer, m1.collect, diagSend, act.log.
+  (e) "Skillung erkannt" ohne Entwicklermodus 0 Zeilen, mit ≥ 1.
+  Regression "ST1 Spieler-Texte" (T272) in T162.
+
+3. SPRACHEN: BuffSentinel hat Englisch + Deutsch (andere Sprachen fallen auf Englisch zurück). Geänderte/neue Schlüssel (EN und DE):
+  neu LOGIN_LINE, ERROR_ONCE, OPT_AREA_HELP_OUT, T272_NAME, T272_RESULT; geändert OPT_SHARE_ALL, EXCHANGE_WITH_ALL_BUFFSENTINEL_USERS, OPT_M1_COLLECT,
+  OPT_TIP_M1_COLLECT, OPT_DIAG_SEND, OPT_TIP_DIAG_SEND, OPT_SHOW_LOG, OPT_TIP_SHOW_LOG, OPT_SHOW_DIAG, OPT_TIP_SHOW_DIAG, OPT_SYNC_CHECK,
+  OPT_TIP_SYNC_CHECK, OPT_TEST_MODE, TEST_MODE_DEV, MARKET_SHARE_HINT. CHANGELOG.md / CHANGELOG.de.md 0.9.69.
+  Gespeicherte Schlüssel unverändert (shareServer, m1.collect, diagSend, cmdHint, rfHint …); neu nur BuffSentinelDB.tipsSeen.
+
+Nicht angefasst (Anweisung): Befehle und Hilfe (/bsen hilfe zeigt weiter Version), Tooltips von Gegenständen, Meldungen in der Bildschirmmitte, Töne,
+Nachrichten an andere Spieler (BuffSentinel sendet nur Addon-Daten).
+Belege: Nachbau 8/8 PASS (Lua 5.1), addon_check 0.9.69 OK; ältere Zip 0.9.68 im selben Commit entfernt (BS-DL1-Regel), README-Link 0.9.69.
