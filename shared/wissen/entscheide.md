@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Folge |
 |---|---|---|
+| 20:58 | Alte Addon-ZIPs in announce/: "Nur die letzten 3 behalten" (Vorschlag Supervisor nach DC-UPL1, Repo 758 MB, 319 ZIPs) | Je Addon die 3 neuesten ZIPs in announce/ plus die stabile Version (= download/) behalten, ältere ZIPs entfernen; die Ankündigungstexte (.md) bleiben immer. Umsetzung Discord-Projekt (DC-ANN2), danach gilt es für jede neue Version aller Addons. |
 | 11:21 | "ausführen" auf: (1) GuildSentinel 0.9.66 heute 18:00 auf CurseForge, (2) Schalter "Marktdaten teilen" bleibt unter "Daten & Abgleich" (Vorschlag Supervisor) | GS-CF3: GS legt 0.9.66 um 18:00 nach download/ (ersetzt 0.9.61); Supervisor prüft danach curseforge.com. |
 | 09:23 | Spieler-Texte E Tipps: "ja" – jeder Tipp/Hinweis im Chat nur einmal (gemerkt), bei neuer Version höchstens "Neu: …" | Auftrag ST1 an alle 7 Addons (09:25), angenommen 10:30. |
 | 09:21 | Spieler-Texte D Messwerte: "ja" – ms, KB, Bilder, Takt, Speicher, Zähler stehen NUR im Protokoll-/Diagnose-Fenster, nie in normalen Fenstern, Chat oder Optionen (heute schon so; feste Regel, Supervisor prüft bei jeder Version) | Prüfregel in pruef-ablauf.md E. |

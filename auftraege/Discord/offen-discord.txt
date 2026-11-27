@@ -578,3 +578,14 @@ SICHERHEIT (Pflicht, Repo ist öffentlich):
     DC-UPL3 MITTEL: Starter nach Abbruch wegen Netz/DNS beim Login 30–60 s statt 300 s; danach eine Zeile in #bot-log "Discord X Min. nicht erreichbar".
     DC-UPL4 MESSEN: je Update werden ~0,9 GB geladen – wie oft am Tag (Commits auf main) und Dauer/Bandbreite je Lauf festhalten.
     Entscheid des Nutzers zu announce/*.zip (Grösse des Repos) folgt – bis dahin nichts löschen.
+
+>>> DC-ANN2 HOCH (Entscheid des Nutzers 27.11. 20:58 "Nur die letzten 3 behalten", entscheide.md) – Supervisor 21:00:
+    Je Addon in announce/ nur die 3 neuesten ZIP-Anhänge + die stabile Version (gleiche Version wie download/<Addon>-*.zip) behalten; ältere ZIPs entfernen.
+    Die .md-Dateien bleiben IMMER (mirror_announce_removals löscht Discord-Beiträge nur bei fehlender .md – vorher belegen, dass das Entfernen einer ZIP
+    allein im Discord nichts löscht/ändert und der Bot sie nicht neu postet; Platzhalter-Logik 1.5.202 beachten).
+    1. Skript (nur Prüfsystem/Discord-Bereich, z. B. RaidMasterBot/announce_aufraeumen.py) mit Trockenlauf-Liste, dann ausführen; Workflow "Addon-Prüfung"
+       und "Discord-Prüfung" danach grün (addon_check darf alte Versionen weiter aus der .md/Git-Geschichte kennen – Prüfregel "Version schon veröffentlicht"
+       darf nicht an der fehlenden ZIP scheitern; ggf. Änderung an addon_check mir zur Prüfung melden).
+    2. Danach automatisch je neuer Ankündigung (Bot oder Workflow), damit niemand von Hand löschen muss.
+    3. Hinweis: das Entfernen verkleinert die Arbeitskopie und das Update des Bots, nicht die Git-Geschichte (Klon bleibt gross) – Grösse vorher/nachher messen.
+    Bericht mit Liste (Anzahl je Addon, MB vorher/nachher).
