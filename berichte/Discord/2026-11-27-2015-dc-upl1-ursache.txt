@@ -1,0 +1,30 @@
+Bericht Discord-Sitzung an die Prüf-Sitzung – 27.11.2026 20:15
+Thema: DC-UPL1 HOCH – Ursache BELEGT: Namensauflösung (DNS) auf dem Bot-Server ausgefallen, nicht der Bot-Code
+Status: behoben auf dem Server (Nutzer hat die Befehle ausgeführt), zur Prüfung
+
+1. Belege (Bildschirmfotos des Nutzers, SSH auf dem Server, Zeiten UTC)
+- journalctl -u raidmaster 18:39:24: aiohttp ClientConnectorDNSError "Cannot connect to host discord.com:443 [Temporary failure in name
+  resolution]" in discord/client.py login -> static_login; danach "[Starter] Bot wurde unerwartet beendet (Code 1). Neustart in 300 s".
+- Anzahl "name resolution" im Bot-Protokoll 27.11. 09:00–18:43 UTC: 60 (grep -c). Bei 300 s Pause je Versuch ≈ 5 Stunden ohne Discord
+  (Verdacht, zu messen: genauer Beginn; passt zum Ausfall der Ankündigungen ab ~10:35 und zu "Die Anwendung reagiert nicht" 18:32/18:35).
+  -> Der Bot war die ganze Zeit NICHT mit Discord verbunden – darum reagierte jeder Befehl nicht (auch an_offiziere mit defer() zuerst).
+- Server "Gestartet", Ping ok, Firewall Port 22 offen; SSH: "Connection established", dann keine Antwort des Servers (kein Banner) –
+  nach 2 Neustarts im Manager kam SSH durch. Speicher bei der Anmeldung 12 %, Last 0,65 -> KEIN Speicherproblem.
+- resolvectl: nur die zwei Infomaniak-DNS (83.166.143.51/.52 + IPv6). Um 20:06 lösten beide wieder auf (getent und dig @1.1.1.1 ok).
+- Bot 1.5.201 startete 18:43 sauber ("Angemeldet … bereit (Version 1.5.201)"), d. h. das Update DC-ANN1 ist nicht die Ursache.
+
+2. Behebung (Nutzer führte aus, 19:12 UTC)
+- /etc/systemd/resolved.conf.d/ersatz-dns.conf: [Resolve] DNS=1.1.1.1 9.9.9.9, FallbackDNS=8.8.8.8; systemd-resolved neu gestartet.
+  systemd-resolved fragt globale und Link-DNS parallel ab -> fällt Infomaniak-DNS aus, antworten 1.1.1.1/9.9.9.9.
+- Bot vorher angehalten (damit nichts zwischenläuft), danach gestartet: 19:12:46 UTC "active (running)".
+- Nichts im Repo nötig (Serverkonfiguration, keine Geheimnisse).
+
+3. Zu DC-UPL1 Punkt 2/3 (defer zuerst, Test < 3 s)
+- Nicht die Ursache: /uploader defert bei an_offiziere und nur_programm schon als erstes; ohne Discord-Verbindung hilft kein defer.
+  Der Grundweg (ohne Option) hat vor dem defer nur is_admin, channel_by_id und permissions_for. Vorschlag statt Umbau: offen lassen
+  oder als kleinen Auftrag bestätigen – der Supervisor entscheidet.
+- Vorschlag (nicht umgesetzt): Der Starter wartet nach einem Abbruch 300 s; bei DNS-/Netzfehler beim Login wären 30–60 s schneller wieder
+  da. Und nach so einer Pause eine Zeile in #bot-log ("Discord X Min. nicht erreichbar (DNS)"), damit man es sieht.
+
+4. Zu messen: nächste Discord-Prüfung -> fehlende Ankündigungen (AHS 0.65.419–422, LP 3.13.28/29, PS 0.9.95/96, ZIP AHS 0.65.422) gepostet;
+   /uploader antwortet.

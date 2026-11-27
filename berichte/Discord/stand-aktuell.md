@@ -1,10 +1,9 @@
 # Stand Discord-Sitzung
 
-## Stand 27.11.2026 19:45 · Bot 1.5.201 (DC-UPL1 HOCH in Arbeit – Bot antwortet nicht)
+## Stand 27.11.2026 20:15 · Bot 1.5.201 läuft wieder (DC-UPL1: Ursache DNS-Ausfall auf dem Server, behoben)
 
 ## Gerade in Arbeit
-- DC-UPL1: Bot postet seit ~10:35 UTC nichts mehr, Befehle reagieren nicht. Warte auf Protokoll vom Server (Nutzer). Bericht
-  2026-11-27-1945-dc-upl1-zwischenstand.txt. Danach Ursache belegen, beheben, defer zuerst in /uploader, Test < 3 s.
+- nichts. DC-UPL1 Bericht 2026-11-27-2015-dc-upl1-ursache.txt. Messen: nächste Discord-Prüfung grün, /uploader antwortet.
 
 ## Nächste Schritte (Reihenfolge)
 1. Bei jeder Nachricht des Nutzers: git pull --rebase, auftraege/Discord/ lesen (git log --oneline -5 -- auftraege/Discord/).
@@ -35,6 +34,8 @@
 - 23.11.: announce/*.md nie löschen (11:36). 33 wiederhergestellt (11:45). Alte Versionen nie wieder posten (12:03).
 
 ## Wichtig zu wissen
+- Bot-Server DNS: zusätzlich 1.1.1.1/9.9.9.9 (resolved.conf.d/ersatz-dns.conf, 27.11.). Bei "Temporary failure in name
+  resolution" im Protokoll -> DNS prüfen (resolvectl status, getent hosts discord.com).
 - Bot auf dem Infomaniak-Server, Updates automatisch von GitHub, /update geht auch. Bot-Meldungen in #bot-befehle.
 - JEDER Versionswechsel startet einmalige Läufe (repair_missing_announcements, repair_truncated_announcements, Marker je Version
   in state.json). Am 24.11. 10:28 gab 1.5.193 so alte GuildSentinel-Vorstellungen frei (10:31 kurz neu gepostet) – ab 1.5.194 nur
