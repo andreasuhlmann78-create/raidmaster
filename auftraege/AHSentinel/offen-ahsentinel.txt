@@ -7334,3 +7334,15 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     Tabellen je Aufruf. Ziel ≤ 2 ms, ≤ 50 KB je Aufruf. Gegenprobe gleiche Werte (Liste). Nachbau zeigte nur 0,2–2,8 ms – Unterschied zum Spiel (Faktor 10) im Bericht erklären.
 >>> PRÜFUNG SUPERVISOR 27.11. 12:50 – 0.65.420 (AHS-API1 Messung DE-Teile, Bericht 12:36): ANGENOMMEN als Messversion. md5 announce = Bericht; md5-Frage geklärt (Release-Asset
     vom Workflow gebaut, Inhalt identisch) – ERLEDIGT. Gut: sichtbarer Code erklärt 24,7 ms nicht -> weiter messen statt raten. Ingametest beim Nutzer.
+
+>>> INGAMETEST 27.11. 12:47 (Laptop, 0.65.420, Schneider-Figur, Berufsfenster) – ausgewertet Supervisor 13:00:
+    Nur EINE Zeile API-LANGSAM: WorthUpTo 2580 (Verstärktes Leinencape) 7,6 ms +243 KB · 4 s nach dem Laden · Item im Client nein · Testroutine nein · DE-Teile:
+    tatsächlich 0,8 ms +36 KB · Korrektur 0,4 +24 · Wert 1,2 +60 · Alter 0,2 +10 · 22× "DE Iteminfo ja/nein" je 0,0 ms. Summe der Teile ~2,6 ms / ~130 KB von 7,6 ms / 243 KB.
+    Wollcape 2584 diesmal NICHT über 4 ms (12:25: 26,5 ms, 12:34: 26,1 ms).
+    BEOBACHTUNG (Supervisor, alle 5 Messungen): Zeit wächst mit dem angelegten Speicher – 26,5 ms/951 KB, 26,1/853, 14,7/878, 7,6/243, 5,8/205 (≈ 25–30 µs je KB); im
+    Nachbau ~1 ms/4 KB. VERDACHT, ZU MESSEN: Die Zeit ist zum grossen Teil die Speicherbereinigung (inkrementelle GC-Schritte, die das Anlegen von Speicher im grossen
+    Spiel-Speicher auslöst) – und der eigentliche Unterschied ist, dass der Entzauber-Weg im Spiel 200–900 KB anlegt, im Nachbau nur 4 KB.
+    Auftrag (HOCH, AHS-API1): (1) im Spiel belegen, WAS die 200–900 KB anlegt (Teil-Messung KB ist da; Lücke zwischen Teilen und Summe: welche Stelle legt den Rest an –
+    z. B. Strings/Tabellen aus GetItemInfo/C_Item, Iteminfo-Warteschlange, Verlaufs-/Buchungs-Suchen); (2) zusätzlich je API-LANGSAM-Zeile collectgarbage("count") vorher/
+    nachher UND ob ein GC-Zyklus darin fiel (Speicher sinkt) – trennt "eigene Rechnung" von "Bereinigung"; (3) dann die Anlage vermeiden (Werte merken, keine neuen
+    Tabellen je Aufruf). Ziel ≤ 2 ms, ≤ 50 KB je Aufruf. Ein Ingametest wie heute genügt (Nutzer).
