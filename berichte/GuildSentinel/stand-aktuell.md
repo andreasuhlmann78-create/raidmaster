@@ -1,4 +1,4 @@
-# Stand GuildSentinel – 27.11.2026 10:26 · Version 0.9.66 (Discord, angenommen 27.11. 10:30); CurseForge 0.9.61
+# Stand GuildSentinel – 27.11.2026 11:26 · Version 0.9.66 (Discord, angenommen, im Spiel abgenommen 27.11. 11:19); CurseForge 0.9.61 -> 0.9.66 heute 18:00
 
 ## Gerade in Arbeit
 - Nichts. 0.9.66 auf Discord (GS-REK1 + ST1), Bericht 2026-11-27-1003-version-0.9.66-rek1-st1.txt.
@@ -6,17 +6,21 @@
 - DL-ABN (27.11. 10:30): download/ nur angenommene Versionen und bei GS nur nach OK des Nutzers – eingehalten (download/ = 0.9.61).
 
 ## Nächste Schritte (Reihenfolge)
+0. GS-CF3 (Entscheid des Nutzers 27.11. 11:21 "ausführen"): HEUTE AB 18:00 (nicht früher) announce/guildsentinel__guildsentinel-0.9.66.GuildSentinel.zip
+   (md5 1f5a743a9f920e0216cca17aafbae885) als download/GuildSentinel-0.9.66.zip, GuildSentinel-0.9.61.zip entfernen, README-Link erst wenn auf
+   curseforge.com sichtbar; Workflows "Addon-Prüfung" und curseforge.yml grün, uploaded.json, Bericht. Kein Wecker: auf "repo" des Nutzers ab 18:00.
 1. Auf neue Aufträge warten, dabei offen-guildsentinel.txt bei jedem "repo" lesen.
 2. Ingametest 0.9.66 (Einladung fremder Gilde -> keine Antwort; "ginv?" -> Antwort+Fragen; Einlog-Zeile; Meine Woche; Testroutine mit
    vorher angeschaltetem Testmodus; Bank-Charakter; SEITE-Zeile im Protokoll).
-3. Danach CurseForge 0.9.66 nur mit OK des Nutzers (angenommen ist sie; dieselbe Zip, md5 im Bericht, alte Zip entfernen).
-4. Offen: Entscheid T270 250 statt 500 Mitglieder; FRAGE L5 (reine Gegenstands-Tooltips); FRAGE ST1 "Marktdaten teilen" nach "Mithelfen"?
+3. (erledigt durch GS-CF3, siehe 0.)
+4. Offen: Entscheid T270 250 statt 500 Mitglieder; FRAGE L5 (reine Gegenstands-Tooltips); ("Marktdaten teilen" bleibt unter Daten & Abgleich – Entscheid 11:21)
 
 ## Offen beim Nutzer
 - Ingametest; bestätigen, ob am 25.11. der Testmodus vor der Routine an war (Ursache GS-R1 nach dem Ende).
 - GS-TAINT1: Knopf "Ränge im Spiel bearbeiten" drücken, Fehlerliste ansehen.
 
 ## Entscheide des Nutzers seit letztem Stand
+- 27.11. 11:21: GuildSentinel 0.9.66 heute 18:00 auf CurseForge; "Marktdaten teilen" bleibt unter "Daten & Abgleich".
 - 27.11. 08:27–09:23 ST1 Spieler-Texte (Einlog-Zeile mit Version, Mithelfen, Fehler 1×, Messwerte nur im Protokoll, Tipps einmal;
   nur ausserhalb des Testmodus) – umgesetzt in 0.9.66.
 - 27.11. 08:49: Texte der Antwort und Bewerbungsfragen "so lassen"; Einladungen fremder Gilden nie beantworten (GS-REK1).
