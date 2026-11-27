@@ -1,10 +1,10 @@
 # Stand Discord-Sitzung
 
-## Stand 27.11.2026 21:20 · Bot 1.5.202 (angenommen); DC-ANN2 ausgeführt (announce 790 -> 49 MB)
+## Stand 27.11.2026 21:40 · Bot 1.5.203 (DC-UPL2/3 umgesetzt, zur Prüfung); DC-ANN2 ausgeführt
 
 ## Gerade in Arbeit
-- Nach DC-ANN2: Workflows Wächter/Addon-Prüfung/Discord-Prüfung grün prüfen. Danach DC-UPL2 (tmp-* beim Start weg),
-  DC-UPL3 (Starter 30–60 s bei Netz/DNS + Zeile #bot-log), DC-UPL4 (Updates je Tag messen).
+- nichts. Berichte 2026-11-27-2120-dc-ann2.txt, 2026-11-27-2140-dc-upl2-3-4.txt. Offen: Ergebnis Addon-/Discord-Prüfung
+  nach 4230edd8; launcher.py wirkt erst nach systemctl restart raidmaster.
 
 ## Nächste Schritte (Reihenfolge)
 1. Bei jeder Nachricht des Nutzers: git pull --rebase, auftraege/Discord/ lesen (git log --oneline -5 -- auftraege/Discord/).

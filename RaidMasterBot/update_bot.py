@@ -145,6 +145,13 @@ async def update_loop():
 @update_loop.before_loop
 async def before_update():
     await bot.wait_until_ready()
+    try:                                     # DC-UPL2 (ab 1.5.203): Reste abgebrochener Updates (älter als 2 h) wegräumen
+        n, size = await asyncio.to_thread(updater.cleanup_stale, BASE)
+        if n:
+            log.info("Update-Reste weggeräumt: %d (%.0f MB)", n, size / 1e6)
+            await post_bot_log(f"🧹 Reste abgebrochener Updates weggeräumt: {n} ({size / 1e6:.0f} MB).")
+    except Exception:  # noqa: BLE001 – Aufräumen darf den Update-Lauf nie verhindern
+        log.exception("Update-Reste nicht weggeräumt")
     await asyncio.sleep(60)
 
 

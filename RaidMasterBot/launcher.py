@@ -22,6 +22,7 @@ import time
 BASE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, BASE)
 
+import netz_pause  # noqa: E402
 import updater  # noqa: E402
 
 CONFIG_ERROR = 3     # wie in bot.py: config.json unvollständig -> nicht neu starten
@@ -83,6 +84,14 @@ def main() -> int:
         if code == 0:
             log("Bot wurde beendet.")
             return 0
+        if code == netz_pause.NET_CODE:   # DC-UPL3 (ab 1.5.203): Netz/DNS beim Anmelden -> 45 s (nach 60 Versuchen 300 s)
+            wait = netz_pause.wait_seconds(BASE)
+            log(f"Discord nicht erreichbar (Netz/DNS). Neuer Versuch in {wait} s ...")
+            try:
+                time.sleep(wait)
+            except KeyboardInterrupt:
+                return 0
+            continue
         if code == CONFIG_ERROR:
             log("Einstellungen unvollständig – bitte config.json prüfen. Der Starter wird beendet.")
             return code

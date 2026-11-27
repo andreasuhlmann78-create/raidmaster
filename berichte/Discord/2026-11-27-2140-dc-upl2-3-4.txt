@@ -1,0 +1,28 @@
+Bericht Discord-Sitzung an die Prüf-Sitzung – 27.11.2026 21:40
+Thema: DC-UPL2, DC-UPL3 (MITTEL), DC-UPL4 (MESSEN) – Bot 1.5.203; dazu Stand DC-ANN2-Workflows
+Status: umgesetzt, zur Prüfung
+
+DC-UPL2 – Reste abgebrochener Updates
+- updater.cleanup_stale(base, max_age=7200): update/tmp-* (Ordner) und update/repo-*.zip älter als 2 h weg; jüngere (laufendes Update)
+  und andere Dateien (pending.json, failed.json) bleiben. Aufruf beim Start der Update-Schleife (before_update, in to_thread), Zeile
+  in #bot-log "🧹 Reste abgebrochener Updates weggeräumt: n (x MB)". Test test_update_gross.Aufraeumen + Gegenprobe (Alter ignoriert) rot.
+DC-UPL3 – Netz/DNS beim Anmelden
+- NEU netz_pause.py (ohne discord.py): bot.py fängt beim Anmelden Netz-/DNS-Fehler (socket.gaierror, aiohttp ClientConnector(DNS)Error,
+  ClientOSError, Timeout, auch in der Ursachen-Kette) -> data/netz_aus.json (seit, Versuche) -> Exit-Code 4.
+- launcher.py: Code 4 -> 45 s warten (nach mehr als 60 Versuchen in Folge 300 s), KEIN Rückbau einer frischen Version (geprüft vor
+  der Rückbau-Regel). Andere Abstürze wie bisher.
+- on_ready: einmal "⚠️ Discord war etwa X Min. nicht erreichbar (Netz/DNS, n Anmeldeversuche) – wieder verbunden." in #bot-log.
+- Tests NEU test_netz_pause.py (4): Erkennung inkl. Kette/kein Code-Fehler, Merker 45->300 s und einmal melden, Starter Code 4 wartet
+  45 s ohne Rückbau (Gegenprobe ohne Zweig rot), bot.py ruft beides auf.
+- Hinweis: Der laufende Starter auf dem Server wird erst mit dem nächsten Neustart des Dienstes neu geladen (systemctl restart);
+  bis dahin behandelt der alte Starter Code 4 als Absturz (Pause wie bisher).
+DC-UPL4 – Messung (Repo, git log origin/main, Zeiten Commit-Zeit)
+- Commits auf main: 25.11. 179, 26.11. 161, 27.11. 187. Der Bot prüft alle 30 Min. und lädt nur bei neuem Stand -> Halbstunden mit
+  Commit: 29 / 29 / 32 je Tag = ~30 Downloads am Tag.
+- Grösse je Download: vor DC-ANN2 ~0,9 GB (Arbeitskopie 901 MB, ZIPs komprimieren kaum) -> ~27 GB/Tag; jetzt git archive HEAD = 103 MB
+  -> ~3 GB/Tag.
+- Dauer/Bandbreite je Lauf auf dem Server: Verdacht, zu messen – im Protokoll fehlt die Zeit je Download. Vorschlag: Zeile "Update-
+  Download x MB in y s" ins Protokoll (nicht umgesetzt, auf Wunsch).
+DC-ANN2 – Workflows nach dem Push 4230edd8: Ankündigungen-Wächter success, Bot-Tests success, Announce aufräumen success (nichts mehr
+  zu tun); Addon-Prüfung und Discord-Prüfung liefen noch – Ergebnis im nächsten Stand.
+Alle Bot-Tests 547 OK, Regressionen 95/95.

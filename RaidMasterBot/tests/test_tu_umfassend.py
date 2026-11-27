@@ -414,6 +414,8 @@ REGRESSIONEN = {
     "T-DC-ANN1": ("test_dc_ann1", "DcAnn1", "test_eine_version_genau_ein_beitrag"),
     "T-DC-UPL1": ("test_update_gross", "Entpacken", "test_nur_noetiges_und_platzhalter"),
     "T-DC-ANN2": ("test_announce_aufraeumen", "Waechter", "test_erlaubt_nur_alte_zip"),
+    "T-DC-UPL2": ("test_update_gross", "Aufraeumen", "test_nur_alte_reste"),
+    "T-DC-UPL3": ("test_netz_pause", "Starter", "test_code_4_wartet_45_s_ohne_rueckbau"),
     "T-D3-BEFEHLE": ("test_befehle_liste", "BefehleListe", "test_gleiche_befehle"),
     "T-D-MN8b": ("test_market", "BotAblauf", "test_T_D_MN8b_aenderung_erst_nach_senden_merken"),
     "T-D-GS1b": ("test_market", "BotAblauf", "test_T_D_GS1b_grosse_guildsentinel_datei"),

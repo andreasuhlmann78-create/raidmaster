@@ -84,6 +84,28 @@ class Entpacken(unittest.TestCase):
             updater.install_zip(buf.getvalue(), base, "Upload", "")
 
 
+class Aufraeumen(unittest.TestCase):
+    """DC-UPL2: alte update/tmp-* und update/repo-*.zip (älter als 2 h) weg; junge (laufendes Update) und andere Dateien bleiben."""
+    def test_nur_alte_reste(self):
+        with tempfile.TemporaryDirectory() as base:
+            d = updater.update_dir(base)
+            os.makedirs(os.path.join(d, "tmp-alt", "x"))
+            with open(os.path.join(d, "tmp-alt", "x", "f.bin"), "wb") as f:
+                f.write(b"0" * 1000)
+            os.makedirs(os.path.join(d, "tmp-jung"))
+            for n in ("repo-alt.zip", "repo-jung.zip", "pending.json", "failed.json"):
+                open(os.path.join(d, n), "w").close()
+            now = 1_000_000.0
+            for n in ("tmp-alt", "repo-alt.zip", "pending.json", "failed.json"):
+                os.utime(os.path.join(d, n), (now - 3 * 3600, now - 3 * 3600))
+            for n in ("tmp-jung", "repo-jung.zip"):
+                os.utime(os.path.join(d, n), (now - 600, now - 600))
+            count, size = updater.cleanup_stale(base, now=now)
+            self.assertEqual((count, size), (2, 1000))
+            self.assertEqual(sorted(os.listdir(d)), ["failed.json", "pending.json", "repo-jung.zip", "tmp-jung"])
+            self.assertEqual(updater.cleanup_stale(os.path.join(base, "fehlt")), (0, 0))
+
+
 class Download(unittest.TestCase):
     def test_in_stuecken_auf_die_platte(self):
         chunks = [b"a" * (1 << 20), b"b" * 10]

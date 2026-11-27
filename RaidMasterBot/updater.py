@@ -344,6 +344,40 @@ def mirror_announce_removals(repo_files, base: str) -> list[str]:
     return removed
 
 
+def cleanup_stale(base: str, max_age: float = 7200, now: float | None = None) -> tuple[int, int]:
+    """DC-UPL2 (ab 1.5.203): Reste abgebrochener Updates wegräumen – update/tmp-* (Entpack-Ordner, je ~0,2–0,9 GB) und
+    update/repo-*.zip (Download), wenn älter als max_age Sekunden (ein laufendes Update ist jünger). Am 27.11. lagen nach dem
+    Hängen viele tmp-* mit je ~880 MB -> Platte 89 %. Liefert (Anzahl, Bytes)."""
+    d = update_dir(base)
+    if not os.path.isdir(d):
+        return 0, 0
+    now = time.time() if now is None else now
+    count = size = 0
+    for name in os.listdir(d):
+        if not ((name.startswith("tmp-") and os.path.isdir(os.path.join(d, name)))
+                or (name.startswith("repo-") and name.endswith(".zip"))):
+            continue
+        path = os.path.join(d, name)
+        try:
+            if now - os.path.getmtime(path) < max_age:
+                continue
+            if os.path.isdir(path):
+                for root, _, files in os.walk(path):
+                    for f in files:
+                        try:
+                            size += os.path.getsize(os.path.join(root, f))
+                        except OSError:
+                            pass
+                shutil.rmtree(path, ignore_errors=True)
+            else:
+                size += os.path.getsize(path)
+                os.remove(path)
+            count += 1
+        except OSError:
+            continue
+    return count, size
+
+
 def install_zip(data, base: str, source: str, ref: str = "") -> dict:
     """Installiert eine Update-ZIP. Liefert Infos fürs Protokoll; wirft UpdateError bei Problemen."""
     # eigener Ordner je Durchlauf (ab Bot 1.5.100): ein zweites Update kann den Ordner des ersten nicht mehr löschen

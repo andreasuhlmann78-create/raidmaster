@@ -24,6 +24,7 @@ import discord
 from discord import app_commands
 
 import guildbank
+import netz_pause
 import uploader_setup
 import member_area
 import market
@@ -122,6 +123,13 @@ class RaidBot(discord.Client):
 
     async def on_ready(self):
         log.info("Angemeldet als %s – bereit (Version %s).", self.user, updater.bot_version(BASE))
+        down = netz_pause.take_down(BASE)            # DC-UPL3 (ab 1.5.203)
+        if down:
+            try:
+                await post_bot_log(f"⚠️ Discord war etwa {down[0]} Min. nicht erreichbar (Netz/DNS, {down[1]} Anmeldeversuche) – "
+                                   "wieder verbunden.")
+            except Exception:  # noqa: BLE001
+                pass
         if cfg.get("message_content_intent") and not self.intents.message_content \
                 and not getattr(self, "_mc_warned", False):
             self._mc_warned = True
@@ -604,6 +612,13 @@ async def repair_missing_announcements():
 if __name__ == "__main__":
     try:
         bot.run(cfg["token"], log_handler=None)
+    except Exception as e:                       # DC-UPL3 (ab 1.5.203): Netz/DNS beim Anmelden -> kurzer Neustart (45 s)
+        if isinstance(e, discord.PrivilegedIntentsRequired) or not netz_pause.is_net_error(e):
+            raise
+        d = netz_pause.note_down(BASE)
+        log.error("Discord nicht erreichbar (%s) – Versuch %d, Neustart in %d s.", type(e).__name__, d["versuche"],
+                  netz_pause.wait_seconds(BASE))
+        sys.exit(netz_pause.NET_CODE)
     except discord.PrivilegedIntentsRequired:
         # Ein Intent ist im Entwicklerportal aus. Schritt für Schritt ohne ihn starten – nie endlos:
         # 1. Server Members Intent weglassen, 2. Message Content Intent weglassen, 3. aufhören (kein Neustart).
