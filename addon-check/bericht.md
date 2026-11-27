@@ -16,7 +16,7 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## ProfessionSentinel-0.9.90.zip: OK
 
-## RaidMaster-3.0.50.zip: OK
+## RaidMaster-3.0.51.zip: OK
 
 ## ThreatSentinel-2.5.30.zip: OK (1 Warnungen)
 - **WARNUNG** ThreatSentinel/GoldSentinelTest.lua: veraltete offizielle Fassung (Version 3) – auf shared/GoldSentinelTest.lua Version 4 aktualisieren
