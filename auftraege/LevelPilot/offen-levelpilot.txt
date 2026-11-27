@@ -2066,3 +2066,5 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
     - MITTEL T155 (LP-I3): 21,21 ms je Planung (Ziel < 16), Median 14,2 ms, längste 68,4 ms (+1439 KB, Zone 1458, 439 Knoten, 156 µs je Knoten). Schneller als
       3.13.23 (Median), aber Ausreisser 68 ms bleibt.
     LP-DL1 (stabile Zip nach download/) erst, wenn T215–T217 ≤ 40 ms belegt ist.
+>>> PRÜFUNG SUPERVISOR 27.11. 12:05 – LevelPilot 3.13.27 (Messversion T217/T136, Bericht 11:18): ANGENOMMEN als Messversion (addon_check OK). Gute Auswertung: im
+    langen Bild rechnete die Routine nur 6,8 ms, 150 ms lagen ausserhalb ihrer Portion – Ursache also evtl. nicht T217 selbst. Nächster Ingametest (Testroutine) entscheidet.

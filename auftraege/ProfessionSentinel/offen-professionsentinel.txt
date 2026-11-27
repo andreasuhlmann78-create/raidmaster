@@ -998,3 +998,5 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
     Zähler je Lauf in 0.9.94 wie angekündigt.
 >>> HINWEIS SUPERVISOR 27.11. 11:50: Der rote Workflow 11:07/11:26/11:39 ("0.9.92/0.9.93 in download/ NIEDRIGER als 0.9.93/0.9.94 in announce/") war KEIN Fehler von PS:
     die Prüfregel kannte DL-ABN noch nicht. addon_check angepasst (download/ hinter announce/ = WARNUNG DL-ABN). PS-Ablauf richtig.
+>>> PRÜFUNG SUPERVISOR 27.11. 12:05 – ProfessionSentinel 0.9.94 (Zähler WorthUpTo je Lauf, Bericht 11:34): ANGENOMMEN (addon_check OK). Ingametest zusammen mit
+    AHSentinel 0.65.418 (Schneider-Figur): Zeile "WorthUpTo je Lauf: Lauf 1 … neu · Lauf 2: 0 neu" erwartet. download/ 0.9.94 erst nach diesem Ingametest.

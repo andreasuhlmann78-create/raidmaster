@@ -7315,3 +7315,7 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     kalt und warm, für Wollcape und 20 weitere Rezept-Produkte. Gegenprobe: gleiche Rückgabewerte wie 0.65.417 für alle Items (Liste im Bericht).
 >>> KORREKTUR Supervisor 27.11. 11:15 zu AHS-API1 HOCH (11:05): "110 solche Stücke / bis zu 110 Ruckler" war falsch gelesen – "×110" zählt ALLE Teile der PS-Aufgabe.
     Belegt ist: EIN WorthUpTo-Aufruf 23,3 ms und +0,9 MB. Der Auftrag (≤ 2 ms je Aufruf, wenig Speicher, gleiche Werte) bleibt unverändert HOCH.
+>>> PRÜFUNG SUPERVISOR 27.11. 12:05 – AHSentinel 0.65.418 (AHS-API1 Messversion, Bericht 11:23): ANGENOMMEN als Messversion (Release-Zip addon_check OK; Werte 0.65.417 =
+    0.65.418 laut Gegenprobe). Richtig: im Nachbau nur 0,2–2,8 ms -> nicht auf Verdacht ändern, erst im Spiel messen (API-LANGSAM mit Teilen). Wichtiger Hinweis Punkt 3
+    (vorgemerkter Testroutinen-Schritt "berufe" startet beim Öffnen des Berufsfensters, dann API-Zwischenspeicher aus) – genau das ist Verdacht Nr. 1; im Ingametest prüfen.
+    Falls belegt: vorgemerkte Schritte dürfen nie unbemerkt beim normalen Spielen laufen (Meldung + nur im Testmodus) – Auftrag folgt dann.
