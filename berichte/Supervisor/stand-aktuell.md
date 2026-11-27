@@ -11,6 +11,10 @@
 3. CurseForge: AHS 0.65.423 als Hotfix 21:02 hochgeladen (Entscheid 21:00), GS 0.9.66 18:00. Seiten auf curseforge.com + Kommentare noch nicht gelesen
    (Webzugriff braucht Freigabe/verbundenen Browser) – beim nächsten Mal nachholen.
 
+4. Daten Rechner B (Entscheid 21:47): Daten-Repo-Zweig nachlieferung-rechner-b-2026-11-27 – beim nächsten Markt-Tabellen-Lauf als zusätzliche
+   AHSentinel.lua mitgeben (markt_tabellen.py nimmt mehrere Stände, Punkte ohne Doppelte); AHS/LP-Aufträge 21:52.
+5. Masterplan AHS v2 freigegeben 21:21 – Inventur-Bericht von AHS prüfen (Stichproben im Code).
+
 ## Offen beim Nutzer
 - 09.12. 07:00 Erinnerung: Aufgabe "Raids und Taktiken" wieder einschalten.
 
