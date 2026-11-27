@@ -1,0 +1,23 @@
+AHSentinel – Schritt 2.1 Rest-Speicher "Lohnt bis": KORREKTUR der eigenen Messung + Ergebnis · zur Prüfung
+Stand 27.11.2026 · Version 0.65.427 (unverändert, keine neue Version)
+
+1. Fehler in meiner Messung (belegt): Das Messszenario zz_api4 zählt die Aufrufe von D:PriorRaw mit einer Hülle, die je Aufruf
+   debug.traceback + 2× gsub schreibt. Diese Hülle allein legt ~21,7 KB an (Messung: PriorRaw "21,7 KB in 1 Aufruf", die Teile
+   GetItemInfo 0,2 KB, GreenPrior 1,1 KB, IsNeverDE/GreenTable/ItemInfoAllowed 0 KB). Alle bisherigen KALT-Werte (40–76 KB) aus
+   zz_api4 enthielten diesen Überhang. Die Berichte 22:00, 22:11 und 23:12 nennen deshalb zu hohe KB-Zahlen.
+2. Neu gemessen OHNE die Hülle (Schalter NOTB, sonst gleich: echte Daten Laptop, HORDE, Margin-Speicher bleibt, kalter Aufruf je Item):
+   Item       0.65.424   0.65.426   0.65.427
+   2584       56 KB      56 KB      45 KB   (2,7 ms -> 1,0 ms)
+   22660      27 KB      27 KB      27 KB
+   7054       26 KB      26 KB      26 KB
+   2580       26 KB      26 KB      26 KB
+   -> Ziel Masterplan 2.1 (<= 50 KB je kaltem Aufruf) im Nachbau mit 0.65.427 bei allen vier Items erreicht.
+      Der Gewinn von 0.65.427 (gespeicherte Vollscan-Leiter einmal entschlüsseln) beim ersten Item: -11 KB, -1,7 ms.
+   Der verworfene Versuch 22:00 (Materialpreise über Aufrufe merken) bleibt verworfen: kein Unterschied auch ohne Hülle zu erwarten
+   (Materialpreise je Item 6 KB, Messung SINGLE Disenchant:MatPrice).
+3. Grösste Posten je kaltem Aufruf (einzeln gemessen, SINGLE, ohne fremde Hülle; 22660): DELimit 39 KB inkl. Hülle ~21 -> ~17 KB;
+   SellOutlook 3,5 KB (3 Aufrufe), MatPrice 6,1 KB (6), FlipCheck 3,7, ResaleBasis 3,2, FeePerPiece 3,0, ExpectedDepositLoss 2,0 KB.
+   Keine einzelne Stelle mehr über 10 KB (ohne Hülle).
+4. Offen: Bestätigung im Spiel mit 0.65.427 (Zeile API-LANGSAM, Ziel <= 50 KB je kaltem Aufruf). Im Spiel lag 0.65.416 bei +0,9 MB
+   für einen Aufruf – der Nachbau bildet das nicht ab (Verdacht, zu messen: Speicherbereinigung/andere Addons im selben Bild).
+Nächster Schritt: Masterplan 2.2 Vollscan (AHS-I4, VS-121b, AHS-SP1 d).
