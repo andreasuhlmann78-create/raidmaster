@@ -1,0 +1,165 @@
+LevelPilot-Protokoll v3.12.31 · 27.11.2026 21:57
+Client deDE 1.60.1 · Sprache de · modern
+Charakter L42 Tauren DRUID Horde
+Datenpaket: v1.6.1, 3920 Quests
+Sitzungen: 35 · aktiv gespielt 34h 19min · Speicher max 90.8 MB
+  24.11. 21:35 L3»3 SHAMAN 16min · Pause 100h 41min · Speicher 33»35 MB, max 39
+  25.11. 08:04 L41»41 DRUID 49min · Pause 10h 30min · Speicher 55»54 MB, max 60
+  25.11. 08:53 L41»42 DRUID 39min · Pause 0min · Speicher 40»48 MB, max 59
+  25.11. 09:33 L42»42 DRUID 12min · Pause 0min · Speicher 51»37 MB, max 52
+  25.11. 09:47 L42»41 DRUID 2h 45min · Pause 0min · Speicher 63»45 MB, max 78
+  25.11. 12:59 L42»42 DRUID 0min · Pause 24min
+  26.11. 16:50 L42»42 DRUID 8min · Pause 27h 51min · Speicher 45»52 MB, max 52
+  27.11. 19:02 L42»42 DRUID 1h 19min · Pause 26h 02min · Speicher 47»85 MB, max 168
+  27.11. 20:39 L42»43 DRUID 47min · Pause 17min · Speicher 57»57 MB, max 157
+  27.11. 21:30 L43»42 DRUID 22min · Pause 0min · Speicher 69»65 MB, max 91
+Einstellungen geändert: advAmmo=false, advBags=false, advDurability=false, advTalents=false, advTrainer=false, advUpgrades=false, ammoWarn=150, autoAccept=false, autoFly=false, autoRepair=false, autoSellGrey=false, autoTurnin=false, bagCleanup=false, bagWarn=2, dungeons=false, durWarn=20, forever=false, messages=false, minimapAngle=157.89054075414, platesQuest=false, restockAmmo=false, restockFood=false, restockPetFood=false, restockWater=false, shareSeed=true, shareSeedAsked=true, showActionBar=false, showArrow=false, showMapPath=false, showMinimapPath=false, showTimer=false, terrainPath=false, useHearth=false, useQuestie=false
+
+== Diagnose
+  Version 3.12.31 · Client: modern · Server: Classic
+  Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+  Zustand: ok · Fokus: Flusslande
+  Position: unbekannt, Karte nil
+  Datenpaket: v1.6.1, 3920 Quests
+  QuestieDB: nicht benötigt (Datenpaket aktiv)
+  Quests: Paket 3920, Questie 0, Startdatenbank 0, eigene 152, andere 90
+  Level 43 · passende Quests 463 · Aufgaben 105 · Schritte 13
+  Questlog: 26/20 (automatisch)
+  Modus: Normal
+  Dungeons: aus
+  Höhlen und Tunnel bekannt: 17 (selbst gelernt 13, von anderen 1)
+  Geländeführung: aus
+  Sprachpakete: deDE geladen
+  Kills pro Minute: 2.16 (205 Messungen) · Quest-EP-Faktor: 1.03 (44 Quests)
+EP je Kill: gemessen 370 · grün 98 %
+  Letzter Fehler: keiner
+  SYNC GoldSentinelSync 3 · Wege: keiner · Mitspieler (1 Std.): AHSentinel 2, BuffSentinel 2, GoldSentinelMarkt 2, GoldSentinelTest 2, GuildSentinel 2, LevelPilot 2, LevelPilotG 2
+  SYNC gesendet 2558 · empfangen 2161 · verworfen: duplicate 142 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 6 (mit Sync 2: 6, pausiert 2) · gesendet 8 · weitergegeben 0 · offline 5 · Listen 6 · Warteschlange 0 · gespeichert ja · im Test angehalten 0
+  MELDUNGEN: aus · unterdrückt 2 · durchgerutscht 0
+  MARKT-NETZ: v10 · an (LevelPilot an) · Scans mitgelesen 0 · gesendet 0 · empfangen 7 · Speicher 7372 Items, 667 KB
+  MARKT-NETZ v10 · an · Addons: AHSentinel, BuffSentinel, GuildSentinel, LevelPilot, RaidMaster
+  MARKT-NETZ Scans 0 (davon vom Host übergeben 0; zuletzt 0 Auktionen, 0 Items, 0 ms in 0 Bildern) · Vergleiche 0 · abgebrochen 0
+  MARKT-NETZ Items 7372 (eigen 5398, Netz 1974, Absatz gemessen 625) · gesendet 0 · empfangen 7 · angenommen 60 · Warteschlange 0
+  MARKT-NETZ verworfen: nichts
+  MARKT-NETZ Test-IDs entfernt: 0
+  SPEICHER LevelPilot nach dem Einloggen 69.0 MB · aktuell 48.8 MB · Höchstwert 90.8 MB · Lua gesamt (alle Addons) 641.0 MB
+  SPEICHER angelegt je Modul seit dem Einloggen (Summe 826.1 MB): Routenberechnung 768.3 MB · Navigation 46.9 MB · Aufzeichnung 5.7 MB · Questauswertung 4.0 MB · Protokoll 0.8 MB · Anzeige 0.4 MB · Netz-Empfang 0.1 MB · Wegsuche 0.0 MB
+  SPEICHER Bestand: Wegpunkte 14084 · Luftlinien-Nachbarn 0 · Geländeprüfungen 0 · Gefahren-Strecken 0 · Quests entschlüsselt 499 · Aufgaben 105 · Questlog 26
+  ZEIT Routenberechnung 7127 ms/4095× max 34 · Navigation 1068 ms/32980× max 0 · Aufzeichnung 129 ms/3192× max 3 · Start 107 ms/27× max 50 · Questauswertung 40 ms/1× max 40 · Anzeige 24 ms/5302× max 0 · Protokoll 22 ms/963× max 0 · Netz-Empfang 3 ms/128× max 0 · Wegsuche 0 ms/5× max 0
+  ZEIT erste 60 s nach dem Einloggen: Routenberechnung 340 ms max 20 · Navigation 35 ms max 0 · Aufzeichnung 5 ms max 0 · Start 107 ms max 50 · Questauswertung 40 ms max 40 · Anzeige 0 ms max 0 · Protokoll 0 ms max 0 · Netz-Empfang 0 ms max 0 · Wegsuche 0 ms max 0
+  ZEIT in Pausen verworfen: nichts
+  ZEIT Notbremse 0× · pausiert: nichts · Hintergrund-Arbeit: 0 laufend, 1180 fertig, längste Portion 34 ms
+
+== Einträge (54, neueste zuerst)
+[27.11. 21:50] SYNC ×196 L43 Flusslande(2548) 77.0,52.5 | SYNC Stand | Spiel: Flusslande / Hafen von Powderfuse
+      Schritt COMPLETE:79677
+      SYNC GoldSentinelSync 3 · Wege: GUILD+PARTY · Mitspieler (1 Std.): AHSentinel 2, BuffSentinel 2, GoldSentinelMarkt 2, GoldSentinelTest 2, GuildSentinel 2, LevelPilot 2, LevelPilotG 2
+      SYNC gesendet 1911 · empfangen 1709 · verworfen: duplicate 109 · Warteschlange 0 · Kanal verweigert 0
+      NETZ an · bekannt 6 (mit Sync 2: 6, pausiert 0) · gesendet 6 · weitergegeben 0 · offline 3 · Listen 4 · Warteschlange 0 · gespeichert ja · im Test angehalten 0
+[27.11. 21:31] SYNC L43 Flusslande(2548) 59.5,44.1 | SYNC GoldSentinelSync 3 · Wege: GUILD+PARTY · Mitspieler (1 Std.): AHSentinel 2, BuffSentinel 2, GoldSentinelMarkt 0, GuildSentinel 2, LevelPilot 1, LevelPilotG 1 | Spiel: Flusslande / Rog'mar
+      Schritt COMPLETE:79677
+[27.11. 21:05] SCHRITT L43 Flusslande(2548) 27.0,35.6 | Schritt seit 25 min aktiv: Erledigen: Muschelette Surprise [45]  962 Yards / Ödland | Spiel: Flusslande / Die Trostlose Grube
+      Schritt COMPLETE:6610
+[27.11. 20:44] FEST L42 Flusslande(2548) 65.2,44.1 | Seit 4 min nicht näher an „COMPLETE:6610“ (noch 1857 Yards, Weg: graph) | Spiel: Flusslande
+      Schritt COMPLETE:6610
+[27.11. 20:43] FOKUS L42 Flusslande(2548) 66.3,25.2 | Planung in Ödland, obwohl 1 Aufgabe(n) in Flusslande warten | Spiel: Flusslande / Bolder'ok
+      Schritt COMPLETE:6610
+[27.11. 20:40] SYNC ×8 L42 Flusslande(2548) 55.3,43.5 | SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, BuffSentinel 1, GoldSentinelMarkt 1, GuildSentinel 1, LevelPilot 1, LevelPilotG 1 | Spiel: Flusslande
+      Schritt COMPLETE:6610
+[27.11. 20:20] FEST L42 Flusslande(2548) 51.3,46.2 | Seit 4 min nicht näher an „COMPLETE:6610“ (noch 1385 Yards, Weg: graph) | Spiel: Flusslande / Elbrims Hof
+      Schritt COMPLETE:6610
+[27.11. 19:41] SCHRITT L42 Flusslande(2548) 45.5,65.1 | Schritt seit 25 min aktiv: Erledigen: Die inneren Werte [42] [NEU]  187 Yards | Spiel: Flusslande
+      Schritt COMPLETE:95261
+[25.11. 12:33] SCHRITT L42 Marschen von Dustwallow(1445) 61.7,22.7 | Schritt seit 25 min aktiv: Erledigen: Ein kurzer Blick auf die Liste [40] [NEU] | Spiel: Marschen von Dustwallow / Dreadmurk Shore
+      Schritt COMPLETE:79677
+[25.11. 11:37] SCHRITT L42 Flusslande(2548) 59.0,44.4 | Schritt seit 25 min aktiv: Erledigen: Die inneren Werte [42] [NEU]  56 Yards | Spiel: Flusslande / Rog'mar
+      Schritt COMPLETE:95261
+[25.11. 11:27] TOD L42 Flusslande(2548) 26.7,44.1 | Tod bei „Die inneren Werte“ | Spiel: Flusslande / Zwielichtschleier
+      Schritt COMPLETE:95261
+[25.11. 10:45] TOD L42 Flusslande(2548) 27.3,41.5 | Tod bei „Einen Weg ebnen“ | Spiel: Flusslande / Zwielichtschleier
+      Schritt COMPLETE:94745
+[25.11. 09:48] SYNC ×2 L42 Flusslande(2548) 66.5,51.9 | SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, BuffSentinel 1, GoldSentinelMarkt 0, GuildSentinel 1, LevelPilot 0, LevelPilotG 0 | Spiel: Flusslande
+      Schritt COMPLETE:95261
+[25.11. 08:05] SYNC ×3 L41 Flusslande(2548) 59.4,47.7 | SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, BuffSentinel 0, GoldSentinelMarkt 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0 | Spiel: Flusslande / Rog'mar
+      Schritt COMPLETE:95951
+[24.11. 21:36] SYNC L3 Durotar(1411) 42.6,68.3 | SYNC GoldSentinelSync 2 · Wege: keiner · Mitspieler (1 Std.): BuffSentinel 0, GoldSentinelMarkt 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0 | Spiel: Durotar / Das Tal der Prüfungen
+      Schritt COMPLETE:789
+[24.11. 19:46] FOKUS ×3 L41 Durotar(1411) 50.8,13.7 | Planung in Marschen von Dustwallow, obwohl 1 Aufgabe(n) in Durotar warten | Spiel: Durotar
+      Schritt COMPLETE:8427
+[24.11. 19:45] FOKUS ×2 L41 Orgrimmar(1454) 50.7,67.2 | Planung in Marschen von Dustwallow, obwohl 1 Aufgabe(n) in Orgrimmar warten | Spiel: Orgrimmar / Das Tal der Stärke
+      Schritt COMPLETE:8427
+[23.11. 17:14] SCHRITT L41 Thunder Bluff(1456) 40.5,52.4 | Schritt seit 25 min aktiv: Erledigen: Schlacht der Warsongschlucht [39] | Spiel: Thunder Bluff
+      Schritt COMPLETE:8427
+[22.11. 20:23] FEST L40 Flusslande(2548) 80.0,49.9 | Seit 4 min nicht näher an „COMPLETE:6610“ (noch 2577 Yards, Weg: direct) | Spiel: Flusslande / Ostwindküste
+      Schritt COMPLETE:6610
+[22.11. 19:07] SYNC L40 Schlingendorntal(1434) 26.8,77.0 | SYNC GoldSentinelSync 3 · Wege: GUILD+PARTY · Mitspieler (1 Std.): AHSentinel 1, BuffSentinel 1, GoldSentinelMarkt 0, GuildSentinel 1, LevelPilot 1, LevelPilotG 1 | Spiel: Schlingendorntal / Booty Bay
+      Schritt TURNIN:2842
+[22.11. 18:04] FOKUS ×3 L40 Durotar(1411) 50.6,12.7 | Planung in Desolace, obwohl 1 Aufgabe(n) in Durotar warten | Spiel: Durotar
+      Schritt COMPLETE:96105
+[22.11. 18:00] FOKUS ×4 L40 Orgrimmar(1454) 61.0,46.5 | Planung in Desolace, obwohl 1 Aufgabe(n) in Orgrimmar warten | Spiel: Orgrimmar / Die Gasse
+      Schritt COMPLETE:96105
+[22.11. 17:53] SYNC L40 Thunder Bluff(1456) 40.3,52.3 | SYNC GoldSentinelSync 3 · Wege: GUILD+PARTY · Mitspieler (1 Std.): AHSentinel 2, BuffSentinel 1, GoldSentinelMarkt 0, GuildSentinel 1, LevelPilot 1, LevelPilotG 1 | Spiel: Thunder Bluff
+      Schritt COMPLETE:96105
+[22.11. 16:56] FOKUS ×2 L40 Das Brachland(1413) 44.6,87.1 | Planung in Marschen von Dustwallow, obwohl 2 Aufgabe(n) in Das Brachland warten | Spiel: Brachland / Südliche Goldstraße
+      Schritt COMPLETE:96105
+[22.11. 16:15] SYNC L40 ? | SYNC GoldSentinelSync 3 · Wege: GUILD+PARTY · Mitspieler (1 Std.): AHSentinel 2, BuffSentinel 2, GoldSentinelMarkt 0, GuildSentinel 2, LevelPilot 2, LevelPilotG 1 | Spiel: Das Scharlachrote Kloster
+      Schritt DGIN
+[22.11. 15:19] SCHRITT L40 Shen'dralas(2652) 71.4,28.2 | Schritt seit 25 min aktiv: Erledigen: Konflikt auf den Darkspear-Inseln [39] [NEU]  58 Yards | Spiel: Shen'dralas / Rückzugsort der Borstennacken
+      Schritt COMPLETE:98887
+[22.11. 15:17] TOD ×5 L40 Shen'dralas(2652) 72.2,24.1 | Tod bei „Konflikt auf den Darkspear-Inseln“ | Spiel: Shen'dralas / Rückzugsort der Borstennacken
+      Schritt COMPLETE:98887
+[22.11. 13:23] TOD L39 ? | Tod bei „Die Versunkene Stadt“ | Spiel: Atal'Byzal / Ataal'Byzal
+      Schritt DGIN
+[22.11. 12:29] ZONE L39 Schlingendorntal(1434) 21.6,27.7 | LevelPilot erkennt Schlingendorntal (1434), das Spiel zeigt Die Versunkene Höhle | Spiel: Die Versunkene Höhle / Versunkene Höhle
+      Schritt COMPLETE:213
+[22.11. 12:19] SYNC L39 Schlingendorntal(1434) 31.6,28.0 | SYNC GoldSentinelSync 3 · Wege: GUILD+PARTY · Mitspieler (1 Std.): AHSentinel 2, BuffSentinel 2, GoldSentinelMarkt 2, GuildSentinel 2, LevelPilot 2, LevelPilotG 2 | Spiel: Schlingendorntal / Das Basislager von Grom'gol
+      Schritt COMPLETE:213
+[22.11. 11:45] FEST L39 Westfall(1436) 40.2,91.4 | Seit 4 min nicht näher an „COMPLETE:213“ (noch 2224 Yards, Weg: graph) | Spiel: Westfall / Longshore
+      Schritt COMPLETE:213
+[22.11. 10:41] SCHRITT L39 Undercity(1458) 71.1,44.2 | Schritt seit 25 min aktiv: Erledigen: Konflikt auf den Darkspear-Inseln [39] [NEU] | Spiel: Undercity / Die Ruinen von Lordaeron
+      Schritt COMPLETE:98887
+[22.11. 10:00] SYNC ×2 L38 Orgrimmar(1454) 49.3,91.4 | SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, BuffSentinel 1, GoldSentinelMarkt 0, GuildSentinel 1, LevelPilot 1, LevelPilotG 0 | Spiel: Orgrimmar / Orgrimmar
+      Schritt COMPLETE:95982
+[21.11. 21:48] SYNC L38 Das Brachland(1413) 44.7,59.0 | SYNC GoldSentinelSync 3 · Wege: GUILD+PARTY · Mitspieler (1 Std.): AHSentinel 2, BuffSentinel 3, GoldSentinelMarkt 1, GuildSentinel 3, LevelPilot 4, LevelPilotG 2 | Spiel: Brachland / Camp Taurajo
+      Schritt FP:Omusa Thunderhorn:1413
+[21.11. 20:16] TOD L38 Shen'dralas(2652) 66.9,22.9 | Tod bei „Muschelköder“ | Spiel: Shen'dralas / Rückzugsort der Borstennacken
+      Schritt COMPLETE:6142
+[21.11. 20:15] FEST L38 Shen'dralas(2652) 68.2,22.9 | Seit 4 min nicht näher an „COMPLETE:6142“ (noch 2669 Yards, Weg: graph) | Spiel: Shen'dralas / Rückzugsort der Borstennacken
+      Schritt COMPLETE:6142
+[21.11. 19:06] FOKUS L37 Tanaris(1446) 51.6,25.5 | Planung in Tausend Nadeln, obwohl 1 Aufgabe(n) in Tanaris warten | Spiel: Tanaris / Gadgetzan
+      Schritt TURNIN:1112
+[21.11. 18:57] SYNC L37 Orgrimmar(1454) 46.5,66.0 | SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 2, BuffSentinel 2, GoldSentinelMarkt 2, GuildSentinel 2, LevelPilot 2, LevelPilotG 2 | Spiel: Orgrimmar / Das Tal der Stärke
+      Schritt TURNIN:95141
+[21.11. 18:57] FOKUS ×3 L37 Orgrimmar(1454) 46.7,65.1 | Planung in Desolace, obwohl 2 Aufgabe(n) in Orgrimmar warten | Spiel: Orgrimmar / Das Tal der Stärke
+      Schritt TURNIN:95141
+[21.11. 17:57] FOKUS L37 Mulgore(1412) 39.9,17.8 | Planung in Desolace, obwohl 1 Aufgabe(n) in Mulgore warten | Spiel: Mulgore
+      Schritt COMPLETE:6142
+[21.11. 17:56] FOKUS ×2 L37 Thunder Bluff(1456) 51.4,20.9 | Planung in Desolace, obwohl 1 Aufgabe(n) in Thunder Bluff warten | Spiel: Thunder Bluff
+      Schritt COMPLETE:6142
+[21.11. 16:33] TOD L37 Schlingendorntal(1434) 25.1,19.1 | Tod bei „Das finstere Riff“ | Spiel: Schlingendorntal / Die ungezähmte Küste
+      Schritt COMPLETE:629
+[21.11. 16:25] SYNC L37 Schlingendorntal(1434) 30.9,28.4 | SYNC GoldSentinelSync 3 · Wege: GUILD+PARTY · Mitspieler (1 Std.): AHSentinel 2, BuffSentinel 2, GoldSentinelMarkt 0, GuildSentinel 3, LevelPilot 2, LevelPilotG 1 | Spiel: Schlingendorntal / Das Basislager von Grom'gol
+      Schritt COMPLETE:629
+[21.11. 16:11] SYNC ×2 L37 Schlingendorntal(1434) 31.5,29.8 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): BuffSentinel 2, GoldSentinelMarkt 0, GuildSentinel 2, LevelPilot 2, LevelPilotG 0 | Spiel: Schlingendorntal / Das Basislager von Grom'gol
+      Schritt COMPLETE:629
+[21.11. 14:43] FEST L36 Schlingendorntal(1434) 34.2,14.5 | Seit 4 min nicht näher an „TURNIN:568“ (noch 621 Yards, Weg: graph – gesperrt) | Spiel: Schlingendorntal / Ruinen von Tkashi
+      Schritt TURNIN:568
+[21.11. 13:13] FOKUS ×2 L36 Durotar(1411) 50.8,13.7 | Planung in Desolace, obwohl 2 Aufgabe(n) in Durotar warten | Spiel: Durotar
+      Schritt COMPLETE:96774
+[21.11. 09:37] FEST L35 Vorgebirge von Hillsbrad(1424) 44.5,27.5 | Seit 4 min nicht näher an „FP:Zarise:1424“ (noch 533 Yards, Weg: graph – gesperrt) | Spiel: Vorgebirge von Hillsbrad / Darrow Hill
+      Schritt FP:Zarise:1424
+[21.11. 09:16] FOKUS L35 Undercity(1458) 65.7,38.4 | Planung in Alteracgebirge, obwohl 1 Aufgabe(n) in Undercity warten | Spiel: Undercity / Das Handwerksviertel
+      Schritt COMPLETE:552
+[20.11. 21:08] FEST L35 Arathihochland(1417) 74.6,37.8 | Seit 4 min nicht näher an „FP:Urda:1417“ (noch 135 Yards, Weg: graph – gesperrt) | Spiel: Arathihochland / Hammerfall
+      Schritt FP:Urda:1417
+[20.11. 20:52] TOD L35 Arathihochland(1417) 46.0,54.5 | Tod bei „Zu den Waffen“ | Spiel: Arathihochland
+      Schritt COMPLETE:678
+[20.11. 20:17] FOKUS L35 Tirisfal(1420) 61.8,64.1 | Planung in Alteracgebirge, obwohl 1 Aufgabe(n) in Tirisfal warten | Spiel: Tirisfal / Ruinen von Lordaeron
+      Schritt COMPLETE:552
+[20.11. 20:15] SYNC L35 Undercity(1458) 66.2,14.4 | SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 2, BuffSentinel 1, GoldSentinelMarkt 0, GuildSentinel 2, LevelPilot 2, LevelPilotG 0 | Spiel: Undercity / Die Ruinen von Lordaeron
+      Schritt FP:Michael Garrett:1458
+[20.11. 16:47] SYNC L1 Durotar(1411) 44.2,65.7 | SYNC GoldSentinelSync 2 · Wege: keiner · Mitspieler (1 Std.): AHSentinel 0, BuffSentinel 0, GoldSentinelMarkt 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0 | Spiel: Durotar / Das Tal der Prüfungen
+      Schritt COMPLETE:788
+[14.11. 13:36] FOKUS L31 Thunder Bluff(1456) 43.5,60.3 | Planung in Tausend Nadeln, obwohl 2 Aufgabe(n) in Thunder Bluff warten | Spiel: Thunder Bluff
+      Schritt FP:Tal:1456 · v3.12.13

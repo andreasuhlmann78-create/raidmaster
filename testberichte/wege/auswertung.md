@@ -406,9 +406,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Flusslande (2548)
 
-- Wegstücke 3173, Knoten 2403, zusammenhängende Teile 6
+- Wegstücke 3224, Knoten 2405, zusammenhängende Teile 6
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 2385 Knoten, Bereich 16–88 / 15–97
+  - Teil 1: 2387 Knoten, Bereich 16–88 / 15–97
   - Teil 2: 6 Knoten, Bereich 58–58 / 32–33
   - Teil 3: 5 Knoten, Bereich 60–61 / 76–78
   - Teil 4: 3 Knoten, Bereich 61–62 / 35–35
@@ -922,3 +922,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 | 7777 | 1444 | 75.8,43.6 -> 74.3,44.4 | 1.7 % | klein |
 | 3143 | 1411 | 42.1,68.3 -> 42.1,68.4 | 0.1 % | klein |
 | 10176 | 1411 | 43.3,68.5 -> 43.3,68.6 | 0.1 % | klein |
+| 255894 | 2548 | kein Ort im Datenpaket -> 78.8,54.1 | - | fehlt im Datenpaket |
+| 260359 | 2548 | kein Ort im Datenpaket -> 79.7,54.1 | - | fehlt im Datenpaket |
+| 260558 | 2548 | kein Ort im Datenpaket -> 79.3,54.8 | - | fehlt im Datenpaket |
+| 260559 | 2548 | kein Ort im Datenpaket -> 79.3,54.7 | - | fehlt im Datenpaket |
