@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Folge |
 |---|---|---|
+| 07:10 | Uploader: "nicht mehr mit j bestätigen … automatisch" – auf Rückfrage NUR die neue Uploader-Version automatisch; Einstellungsdatei und WoW-Beenden bleiben mit j/n | RM-UPD2. ÜBERHOLT 24.11. 21:36 (kein automatisches Selbst-Update) für das Programm-Update. |
 | 07:08 | Offizier B (alter Uploader, < 2.3.15): Anleitung für die einmalige Handinstallation festhalten, "aber mache noch nichts" | In stand-aktuell.md vermerkt; nichts senden bis zum Zeichen des Nutzers. |
 
 ## 26.11.2026

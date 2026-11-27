@@ -1037,3 +1037,15 @@ UP-DOC2 MITTEL: LIESMICH.txt (DE) und README_EN.txt Abschnitt "Addons automatisc
     RM-P1: gemessen 0,75 ms je Kopie aller gesicherten Bereiche -> die 28 ms sind nicht die eigene Arbeit; Verdacht Speicherbereinigung im Bild –
     belegt der nächste Ingametest mit der neuen Angabe "Speicher -X KB" beim längsten Bild. RM-P1 bleibt bis dahin offen.
     Den roten Repo-Check (AHSentinel-0.65.393.zip) behebt die AHS-Sitzung (AHS-DL1) – richtig, nicht angefasst.
+
+>>> AUFTRAG HOCH RM-UPD2 (Supervisor 27.11. 07:09) – ENTSCHEID DES NUTZERS 27.11. 07:08/07:10: "dass man im uploader nicht mehr mit j bestätigen muss sondern dass es
+    automatisch läuft" – auf Rückfrage gewählt: NUR die neue Uploader-Version automatisch. ÜBERHOLT damit den Entscheid 24.11. 21:36 ("KEIN automatisches
+    Selbst-Update") für das Programm-Update.
+    Umsetzen (selfupdate.py, UP-UPD1): neuere Version im Repo -> ohne Frage installieren, mit ALLEN bisherigen Schutzmassnahmen unverändert (nur raidmaster,
+    Git-Blob-SHA, CRC, nur .py/.bat/.txt direkt im Ordner, nie .json, Sicherung _update/alt, Rückfall bei fehlender "läuft"-Meldung, Konfiguration unberührt).
+    Zusätzlich: nie während eines laufenden Uploads/Abgleichs umschalten; Meldung im Fenster "Uploader x -> y automatisch installiert"; stand.json "update"
+    wie bisher; "n"-Merker (selbstupdate) entfällt bzw. wird ignoriert. Bei Fehlschlag höchstens 1 Versuch je Version und Stunde (keine Schleife).
+    UNVERÄNDERT mit j/n: neue Einstellungsdatei (einstellungen.py, UP-CFG1) und das Beenden von WoW für den Abgleich (sync.py) – Nutzer hat das so gewählt.
+    LIESMICH (DE/EN): klar schreiben "Der Uploader aktualisiert sich ab Version … selbst". Tests: Update ohne Eingabe, Rückfall, kein Update während Upload,
+    j/n bei Einstellungen und WoW-Beenden unverändert (Gegenprobe). Hinweis: Uploader unter 2.3.24 haben keine Update-Funktion – für sie bleibt die
+    Handinstallation (betrifft heute einen Offizier; Nutzer entscheidet später).
