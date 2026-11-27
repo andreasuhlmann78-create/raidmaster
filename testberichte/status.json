@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-27T06:02:21Z",
+ "ausgewertet": "2026-11-27T10:12:35Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -81,11 +81,11 @@
    ]
   },
   "LevelPilot": {
-   "berichte": 115,
+   "berichte": 119,
    "letzter_test": {
-    "id": "LevelPilot-1795758191-14f892-3",
-    "version": "3.13.23",
-    "time": 1795758191,
+    "id": "LevelPilot-1795773882-d8b524-3",
+    "version": "3.13.26",
+    "time": 1795773882,
     "counts": {
      "client": 0,
      "fehler": 0,
@@ -353,12 +353,12 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 269,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.415-5ee83e0b7409.txt"
+    "anzahl": 271,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.417-54e06785b02d.txt"
    },
    "BuffSentinel": {
-    "anzahl": 205,
-    "neueste": "testberichte/diagnose/BuffSentinel/0.9.68-e6dc25a12e3d.txt"
+    "anzahl": 207,
+    "neueste": "testberichte/diagnose/BuffSentinel/0.9.69-d70894bbc046.txt"
    },
    "GSMesstest": {
     "anzahl": 25,
@@ -369,20 +369,20 @@
     "neueste": "testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt"
    },
    "GuildSentinel": {
-    "anzahl": 319,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.65-f4c79ea344b7.txt"
+    "anzahl": 321,
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.66-82651590d894.txt"
    },
    "LevelPilot": {
-    "anzahl": 209,
-    "neueste": "testberichte/diagnose/LevelPilot/3.13.23-b14f445aeabf.txt"
+    "anzahl": 211,
+    "neueste": "testberichte/diagnose/LevelPilot/3.13.26-d1966e4ae80d.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 292,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.90-f7fd20aaaa7b.txt"
+    "anzahl": 294,
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.92-8267df6df420.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 269,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.30-fd96cf472bbb.txt"
+    "anzahl": 271,
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.31-ec53c3f86239.txt"
    }
   },
   "wege": {
