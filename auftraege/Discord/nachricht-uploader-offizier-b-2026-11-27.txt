@@ -1,0 +1,18 @@
+AUFTRAG an die Hilfs-Sitzung am PC (Homezugriff) – Supervisor 27.11.2026 19:27, auf Wunsch des Nutzers ("sende es homezugriff")
+Bitte diese Nachricht per Discord-Direktnachricht an OFFIZIER B schicken (der Nutzer hat das Senden ausdrücklich gewünscht, 19:25).
+Discord: Eingabefeld per JS fokussieren, Text per JS prüfen, dann Enter. Höchstens 2000 Zeichen (Text unten ~800).
+Hintergrund: Offizier B hat wohl noch den alten Uploader (letzter Upload 22.11., Uploader-Version leer in stand.json – Verdacht, nicht belegt).
+Danach: in auftraege/nachrichten-log.txt eine Zeile, und dem Nutzer melden.
+
+----- TEXT (unverändert senden) -----
+Hoi! Hier der neuste Uploader (Version 2.3.30). Danach aktualisiert er sich und die Addons selbst – du musst nie mehr etwas bestätigen.
+
+1. Uploader schliessen (Fenster zu bzw. unten rechts beenden).
+2. Herunterladen: https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/RaidMasterUploader.zip
+3. ZIP entpacken und den Inhalt des Ordners RaidMasterUploader in deinen bisherigen Uploader-Ordner kopieren -> "Dateien ersetzen" wählen.
+   WICHTIG: uploader_config.json und daten_config.json NICHT löschen – die bleiben, wie sie sind.
+4. Uploader wieder starten. Im Fenster muss oben "2.3.30" stehen.
+5. Einmal ins Spiel einloggen und /reload eingeben, damit die ersten Daten hochgehen.
+
+Wenn etwas nicht klappt: Bildschirmfoto vom Uploader-Fenster hier schicken. Danke!
+----- ENDE -----
