@@ -6,9 +6,10 @@ RaidMaster Uploader – sends the RaidMaster data from the raid leader's PC to t
 3. In Discord, type /uploader (admins only). Put the file uploader_config.json that the bot sends
    you into this folder. NEVER share it – it contains a secret link to your Discord.
 4. Double-click uploader.bat and keep the window open.
-5. The uploader and the addons update themselves (from version 2.3.29): a new uploader version is installed without asking,
-   and so are new STABLE versions of the installed GoldSentinel addons. Nothing to click. To switch it off (addons only):
-   double-click Addons-automatisch-aus.bat, then restart the uploader.
+5. Everything runs automatically (from version 2.3.30): new uploader versions, new STABLE versions of the installed GoldSentinel
+   addons and new settings files from /uploader (from the Downloads folder, only from your own bot and Discord server) are taken
+   over by the uploader itself – no question, nothing to click. To switch it off (addons only): double-click
+   Addons-automatisch-aus.bat, then restart the uploader.
 6. Start it automatically with Windows: press Windows key + R, type shell:startup and put a
    shortcut to uploader.bat into the folder that opens.
 
@@ -256,6 +257,13 @@ Version 2.3.13 – privacy in the data repo (UP-DS1):
   uploader empties them in every guild before uploading GuildSentinel.lua. The file in the game stays unchanged.
 - If the file cannot be read safely, it is not delivered at all, with one notice "GuildSentinel-Daten nicht geliefert: …".
 - New file svfilter.py – always extract the whole RaidMasterUploader.zip.
+
+Version 2.3.30 – everything automatic, including new settings files (RM-UPD3, decision 27.11. 07:46):
+- A new uploader_config.json or sync_config.json in the Downloads folder (from /uploader in Discord) is taken over without asking –
+  but only if it comes from your own bot and all channels belong to the SAME Discord server (the uploader asks Discord). Otherwise
+  the file is discarded and the reason is shown in the window. Message: "New settings taken over".
+- First setup: if there is no uploader_config.json in the folder yet, the uploader takes the one from the Downloads folder at start.
+- The uploader no longer asks any j/n question.
 
 Version 2.3.29 – uploader and addons update themselves (RM-UPD2, decision 27.11.):
 - From version 2.3.29 the uploader updates itself: a new version is installed without asking ("New uploader version x –

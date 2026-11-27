@@ -73,7 +73,7 @@ import addons  # noqa: E402  (UP-AUTO1: neue Addon-Versionen selbst installieren
 import selfupdate  # noqa: E402  (UP-UPD1: Uploader-Update nur nach Rückfrage "j", ab 2.3.24)
 import einstellungen  # noqa: E402  (UP-CFG1: Einstellungsdateien aus dem Download-Ordner, nur nach "j", ab 2.3.27)
 
-VERSION = "2.3.29"
+VERSION = "2.3.30"
 SHOT_WINDOW = (-30, 180)          # Bild darf so viele Sekunden vor/nach der gemerkten Zeit entstanden sein
 SHOT_MAX_BYTES = 9 * 1024 * 1024
 SHOT_MAX_AGE = 14 * 86400
@@ -114,6 +114,11 @@ def log(msg: str):
 
 
 def load_config() -> dict:
+    if not os.path.isfile(CONFIG):
+        try:                                     # RM-UPD3 c): erste Einrichtung aus dem Download-Ordner (die Datei von /uploader)
+            einstellungen.first_setup(HERE, log, ctx=daten.ssl_context())
+        except Exception as e:  # noqa: BLE001
+            log(f"Einstellungen: erste Einrichtung nicht möglich ({e.__class__.__name__}).")
     if not os.path.isfile(CONFIG):
         log("uploader_config.json fehlt. In Discord /uploader ausführen und die Datei in diesen Ordner legen:")
         log("  " + HERE)
@@ -1256,7 +1261,7 @@ def main():
         fetch_zip=lambda: selfupdate.fetch_zip_from_repo(lambda url, headers=None: addons.http_get(url, headers, ctx=ctx)),
         handover=lambda: sync.instance_handover(HERE),
         takeback=lambda: (sync.instance_acquire(HERE, VERSION, log=log), sync.write_lock(HERE)),
-        pickup=einstellungen.Pickup(HERE, cfg, reporter.st, lambda: save_state(reporter.st), log),
+        pickup=einstellungen.Pickup(HERE, cfg, reporter.st, lambda: save_state(reporter.st), log, ctx=ctx),
         busy=starter_syncing)
     installer = None
     if addons.auto_enabled(cfg):                         # RM-UPD2: Standard AN (aus nur ausdrücklich gewählt)

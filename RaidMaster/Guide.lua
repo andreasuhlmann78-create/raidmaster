@@ -33,7 +33,7 @@ G.STEPS = {
 	{ group = 1, title = L["Uploader starten"],
 	  text = L["uploader.bat doppelklicken und das Fenster offen lassen. Beim ersten Start sucht er die RaidMaster-Datei von WoW selbst."] .. "\n\n"
 		.. L["Automatisch mit Windows starten: Windows-Taste + R, shell:startup eingeben, eine Verknüpfung zu uploader.bat hineinlegen."] .. "\n\n"
-		.. L["Ab Uploader 2.3.29 aktualisieren sich Uploader und GoldSentinel-Addons selbst (nur stabile Versionen) – nichts anklicken. Ausschalten (nur Addons): im Ordner RaidMasterUploader Addons-automatisch-aus.bat doppelklicken, Uploader neu starten."] .. "\n\n"   -- RM-UPD2 (Entscheid 27.11.): Uploader und Addons aktualisieren sich selbst
+		.. L["Ab Uploader 2.3.30 läuft alles automatisch: Uploader, GoldSentinel-Addons (nur stabile Versionen) und neue Einstellungsdateien von /uploader aus dem Download-Ordner – nichts anklicken. Ausschalten (nur Addons): im Ordner RaidMasterUploader Addons-automatisch-aus.bat doppelklicken, Uploader neu starten."] .. "\n\n"   -- RM-UPD2/RM-UPD3 (Entscheide 27.11.): alles automatisch
 		.. L["Test: Knopf unten drücken. Im Uploader-Fenster erscheint \"Hochgeladen\", im Discord zeigt /raidmaster-status den Upload."],
 	  reload = true },
 	{ group = 1, title = L["Spieler verknüpfen"],

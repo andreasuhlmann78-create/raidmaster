@@ -21,11 +21,26 @@ fremde Kanäle. Darum:
    übernehmen; der laufende Abgleich wechselt ohne Neustart (wie bisher bei einer neuen sync_config.json im Ordner).
 6. Den Download-Ordner liest der Uploader nur (Namen und diese zwei Dateien), er ändert und löscht dort nichts.
 7. Schalter "einstellungen_aus_downloads" in uploader_config.json (fehlt = an); eigener Ordner: "downloads_pfad".
+
+RM-UPD3 (2.3.30, Entscheid des Nutzers 27.11.2026 07:46 "ich will das alles vollautomatisch passiert"; ÜBERHOLT Punkt 4): KEINE Frage mehr.
+Eine Datei, die ALLE Prüfungen 1–3 besteht, wird automatisch übernommen (Punkt 5 unverändert), wenn zusätzlich die Herkunft geprüft ist:
+ a) uploader_config.json: jede neue Webhook-Adresse wird einmal abgefragt (GET der Webhook-Adresse, ohne Bot-Token – Discord liefert dazu
+    "guild_id", den Server). Alle neuen Adressen müssen zum SELBEN Server gehören wie die bisherige webhook_url. Anderer Server, Adresse
+    ungültig/gelöscht (401/404) -> verworfen. Netzfehler/Discord gestört -> nicht übernommen, höchstens 1 neuer Versuch je 10 Min.
+ b) sync_config.json: sync_webhook_url muss zum selben Server gehören wie die bisherige webhook_url (uploader_config.json), UND die
+    Index-Nachricht sync_index_id muss eine Nachricht DIESES Webhooks sein (GET …/messages/<id> mit der Webhook-Adresse; Discord liefert
+    nur Nachrichten, die der Webhook selbst geschickt hat). Ohne bisherige webhook_url ist der Server nicht prüfbar -> nicht übernommen.
+ c) Erste Einrichtung (noch keine uploader_config.json im Ordner): beim Start eine gültige uploader_config.json aus dem Download-Ordner
+    übernehmen, wenn ihre webhook_url erreichbar ist und einen Server nennt (first_setup).
+Eine Datei, die eine Prüfung nicht besteht, wird verworfen (Prüfsumme gemerkt, nie wieder), eine Zeile im Fenster mit dem Grund.
+In stand.json (Zustand "daten"."einstellungen"): Zeit, Datei, übernommen/verworfen und Grund (ohne Adressen, ohne Schlüssel).
 """
 from __future__ import annotations
 
 import hashlib
 import json
+import urllib.error
+import urllib.request
 import os
 import re
 import shutil
@@ -41,6 +56,23 @@ KEEP_BACKUPS = 5
 SWITCH_KEY = "einstellungen_aus_downloads"
 PATH_KEY = "downloads_pfad"
 BOT_KEYS = ("webhook_url", "test_webhook_url", "bot_id")      # nur diese kommen aus einer neuen uploader_config.json
+NET_RETRY = 600                                               # RM-UPD3: bei Netzfehler höchstens 1 Versuch je 10 Min.
+
+
+def http_get_json(url: str, ctx=None, timeout: int = 20):
+    """GET ohne Bot-Token. (Status, JSON oder None); Status 0 = Netzfehler."""
+    req = urllib.request.Request(url, headers={"User-Agent": "RaidMaster-Uploader"})
+    try:
+        with urllib.request.urlopen(req, timeout=timeout, context=ctx) as r:
+            return r.status, json.loads(r.read(64 * 1024).decode("utf-8"))
+    except urllib.error.HTTPError as e:
+        return e.code, None
+    except (OSError, ValueError):
+        return 0, None
+
+
+class NotNow(Exception):
+    """Herkunft gerade nicht prüfbar (Netz, Discord gestört) – später neu versuchen."""
 
 
 def downloads_dir(cfg: dict) -> str | None:
@@ -125,9 +157,12 @@ def ids(kind: str, d: dict | None) -> str:
 
 
 class Pickup:
-    def __init__(self, here: str, cfg: dict, st: dict, save, log, *, downloads=None, now=time.time):
+    def __init__(self, here: str, cfg: dict, st: dict, save, log, *, downloads=None, now=time.time, fetch=None, ctx=None):
         self.here, self.cfg, self.save, self.log, self.now = here, cfg, save, log, now
         self.s = st.setdefault("einstellungen", {})
+        self.d = st.setdefault("daten", {})               # RM-UPD3: Ergebnis auch in stand.json
+        self.fetch = fetch or (lambda url: http_get_json(url, ctx))
+        self.guilds: dict[str, str] = {}                  # Webhook-Kennung -> Server (je Lauf gemerkt)
         self.downloads = downloads if downloads is not None else downloads_dir(cfg)
         self.next_at = 0.0
         self.warned: set[str] = set()
@@ -190,19 +225,86 @@ class Pickup:
                 self._seen(kind, mt, sha)
                 continue
             why = check(kind, new, cur)
-            if why:
-                self._seen(kind, mt, sha)
-                self.log(f"Einstellungen: {os.path.basename(path)} im Download-Ordner NICHT angeboten – {why}.")
-                continue
-            if relevant(kind, new) == relevant(kind, cur):
+            if not why and relevant(kind, new) == relevant(kind, cur):
                 self._seen(kind, mt, sha)                 # gleiche Kanäle -> nichts zu tun
                 continue
-            when = time.strftime("%d.%m. %H:%M", time.localtime(mt))
-            text = (f"Neue Einstellungsdatei {kind}.json im Download-Ordner ({os.path.basename(path)}, {when}) – übernehmen? (j/n)  "
-                    f"Kanal-Kennung bisher: {ids(kind, cur) if cur else 'keine Datei'} -> neu: {ids(kind, new)}"
-                    + ("  [danach startet der Uploader neu]" if kind == "uploader_config" else ""))
+            if not why:
+                net = (self.s.get("netz") or {}).get(sha)
+                if net is not None and t - float(net) < NET_RETRY:
+                    continue                              # Netzfehler: höchstens 1 Versuch je 10 Min.
+                try:
+                    why = self.origin(kind, new)
+                except NotNow as e:
+                    self.s.setdefault("netz", {})[sha] = t
+                    self.save()
+                    self._warn("netz" + sha, f"Einstellungen: {os.path.basename(path)} – Herkunft gerade nicht prüfbar ({e}); "
+                                             f"neuer Versuch in {NET_RETRY // 60} Min., nichts übernommen.")
+                    continue
+            if why:
+                self.reject({"kind": kind, "path": path, "sha": sha, "mtime": mt}, why)
+                continue
+            (self.s.get("netz") or {}).pop(sha, None)
+            text = f"{kind}: Kanal-Kennung {ids(kind, cur) if cur else 'keine Datei'} -> {ids(kind, new)}"
             return {"kind": kind, "path": path, "sha": sha, "data": new, "mtime": mt, "text": text}
         return None
+
+    # -- RM-UPD3: Herkunft prüfen
+    def guild(self, url: str) -> str:
+        """Server (guild_id) einer Webhook-Adresse. "" = Adresse ungültig/gelöscht; NotNow = nicht prüfbar."""
+        hid = hook_id(url)
+        if not hid:
+            return ""
+        if hid in self.guilds:
+            return self.guilds[hid]
+        status, body = self.fetch(url)
+        if status in (401, 403, 404):
+            return ""
+        if status != 200 or not isinstance(body, dict):
+            raise NotNow(f"Discord antwortet {status or 'nicht'}")
+        g = str(body.get("guild_id") or "")
+        if str(body.get("id") or "") != hid or not g.isdigit():
+            return ""
+        self.guilds[hid] = g
+        return g
+
+    def origin(self, kind: str, new: dict) -> str:
+        """"" = gleiche Herkunft (gleicher Discord-Server), sonst Grund. NotNow = später."""
+        up, _ = self._current("uploader_config")
+        home = self.guild((up or {}).get("webhook_url")) if up and hook_id(up.get("webhook_url")) else ""
+        if not home:
+            return "bisheriger Server nicht prüfbar (keine gültige webhook_url in uploader_config.json)"
+        keys = ("sync_webhook_url",) if kind == "sync_config" else ("webhook_url", "test_webhook_url")
+        for k in keys:
+            if not new.get(k):
+                continue
+            g = self.guild(new[k])
+            if not g:
+                return f"{k} ist ungültig oder gelöscht (Discord kennt sie nicht)"
+            if g != home:
+                return f"{k} gehört zu einem anderen Discord-Server"
+        if kind == "sync_config":
+            status, body = self.fetch(f"{new['sync_webhook_url']}/messages/{new['sync_index_id']}")
+            if status in (401, 403, 404):
+                return "sync_index_id ist keine Nachricht dieses Webhooks"
+            if status != 200 or not isinstance(body, dict):
+                raise NotNow(f"Discord antwortet {status or 'nicht'}")
+            if str(body.get("id") or "") != str(new["sync_index_id"]):
+                return "sync_index_id ist keine Nachricht dieses Webhooks"
+        return ""
+
+    def _record(self, kind: str, result: str, why: str = ""):
+        self.d["einstellungen"] = {"zeit": int(self.now()), "datei": kind + ".json", "ergebnis": result,
+                                   **({"grund": why} if why else {})}
+
+    def reject(self, offer: dict, why: str):
+        """RM-UPD3: verwerfen ohne Frage – Prüfsumme merken (nie wieder), eine Zeile mit Grund, in stand.json."""
+        lst = list(self.s.get("abgelehnt") or [])
+        if offer.get("sha"):
+            lst.append(offer["sha"])
+        self.s["abgelehnt"] = lst[-50:]
+        self._record(offer["kind"], "verworfen", why)
+        self._seen(offer["kind"], offer["mtime"], offer.get("sha") or "")
+        self.log(f"Einstellungen: {os.path.basename(offer.get('path') or offer['kind'] + '.json')} im Download-Ordner verworfen – {why}.")
 
     def _seen(self, kind: str, mt: float, sha: str):
         self.s.setdefault("gesehen", {})[kind] = {"mtime": mt, "sha": sha}
@@ -212,13 +314,6 @@ class Pickup:
         if key not in self.warned:
             self.warned.add(key)
             self.log(msg)
-
-    def decline(self, offer: dict):
-        lst = list(self.s.get("abgelehnt") or [])
-        lst.append(offer["sha"])
-        self.s["abgelehnt"] = lst[-50:]
-        self._seen(offer["kind"], offer["mtime"], offer["sha"])
-        self.log(f"Einstellungen: {offer['kind']}.json nicht übernommen – diese Datei wird nicht mehr angeboten.")
 
     def accept(self, offer: dict) -> str:
         """Schreibt die Datei. Liefert "neustart" (uploader_config), "ok" (sync_config) oder "fehler"."""
@@ -250,6 +345,55 @@ class Pickup:
         except OSError as e:
             self.log(f"Einstellungen: {kind}.json NICHT übernommen – Schreiben nicht möglich ({e}).")
             return "fehler"
+        self._record(kind, "übernommen")
         self._seen(kind, offer["mtime"], offer["sha"])
-        self.log(f"Einstellungen: {kind}.json übernommen (alte Datei gesichert in _update\\einstellungen).")
+        self.log(f"Neue Einstellungen übernommen ({offer.get('text') or kind}; alte Datei gesichert in _update\\einstellungen).")
         return "neustart" if kind == "uploader_config" else "ok"
+
+
+def first_setup(here: str, log, *, downloads=None, fetch=None, ctx=None) -> bool:
+    """RM-UPD3 c): noch keine uploader_config.json -> die neueste gültige aus dem Download-Ordner übernehmen, wenn ihre webhook_url
+    bei Discord existiert (Server bekannt). Nur lesen im Download-Ordner. True = übernommen."""
+    target = os.path.join(here, "uploader_config.json")
+    if os.path.exists(target):
+        return False
+    folder = downloads if downloads is not None else downloads_dir({})
+    if not folder or not os.path.isdir(folder):
+        return False
+    fetch = fetch or (lambda url: http_get_json(url, ctx))
+    cands = []
+    try:
+        with os.scandir(folder) as it:
+            for e in it:
+                m = FILE_RE.match(e.name)
+                if m and m.group(1).lower() == "uploader_config" and e.is_file() and e.stat().st_size <= MAX_BYTES:
+                    cands.append((e.stat().st_mtime, e.path))
+    except OSError:
+        return False
+    for _mt, path in sorted(cands, reverse=True):
+        try:
+            with open(path, "rb") as f:
+                new = json.loads(f.read(MAX_BYTES + 1).decode("utf-8-sig"))
+        except (OSError, ValueError, UnicodeDecodeError):
+            continue
+        if check("uploader_config", new, None):
+            continue
+        status, body = fetch(new["webhook_url"])
+        if status != 200 or not isinstance(body, dict) or str(body.get("id") or "") != hook_id(new["webhook_url"]) \
+                or not str(body.get("guild_id") or "").isdigit():
+            log(f"Einstellungen: {os.path.basename(path)} im Download-Ordner nicht übernommen – webhook_url bei Discord nicht bestätigt.")
+            continue
+        data = (json.dumps(new, indent=2, ensure_ascii=False) + "\n").encode("utf-8")
+        try:
+            with open(target + ".gsneu", "wb") as f:
+                f.write(data)
+            os.replace(target + ".gsneu", target)
+            with open(target, "rb") as f:
+                if f.read() != data:
+                    raise OSError("nach dem Schreiben nicht gleich")
+        except OSError as e:
+            log(f"Einstellungen: uploader_config.json nicht übernommen – Schreiben nicht möglich ({e}).")
+            return False
+        log(f"Neue Einstellungen übernommen (erste Einrichtung: {os.path.basename(path)} aus dem Download-Ordner, {ids('uploader_config', new)}).")
+        return True
+    return False

@@ -23,6 +23,10 @@ MAIN FEATURES
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
 
+WHAT'S NEW IN 3.0.52 – guide: everything runs automatically
+- Page "Guide", step "Start the uploader": from uploader 2.3.30 the uploader also takes over new settings files from /uploader
+  by itself – everything runs automatically. In all languages.
+
 WHAT'S NEW IN 3.0.51 – guide: the uploader and the addons update themselves
 - Page "Guide", step "Start the uploader": from uploader 2.3.29 the uploader and the GoldSentinel addons update themselves
   (stable versions only); switch off with Addons-automatisch-aus.bat. In all languages.

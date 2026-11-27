@@ -1,6 +1,8 @@
 # Stand RaidMaster-Sitzung
 
-## Stand 27.11.2026 07:21 · Addon 3.0.51 · Uploader 2.3.29
+## Stand 27.11.2026 07:59 · Addon 3.0.52 · Uploader 2.3.30
+- Uploader 2.3.30 (RM-UPD3): Einstellungsdateien automatisch, nur gleicher Bot + gleicher Discord-Server; keine j/n-Frage mehr. Bericht 0759.
+- 2.3.29/3.0.51 angenommen 07:50.
 - Uploader 2.3.29 (RM-UPD2): Update ohne j, Addons Standard an, Kanal stabil (nur download/) / test. Bericht 0721.
 - Addon 3.0.51: Anleitung-Tipp angepasst. 3.0.50 angenommen 26.11. (RM-P1 offen bis Ingametest).
 - LevelPilot: Nutzer entschied 27.11. ~07:25 "nach Abnahme nach download/" -> LevelPilot-Sitzung (über Supervisor).
@@ -19,7 +21,6 @@
   Bericht 2123 – zur Prüfung. 2.3.20–2.3.22 liefern erst nach Wechsel auf 2.3.23 (einmalig).
 - Uploader 2.3.22 (UP-MSG1) und 2.3.21 (UP-AUTO1, PC abgenommen 20:55, Laptop offen) – vom Supervisor angenommen.
 - Addon 3.0.44 (RM-UMG1, Zeile UMGEBUNG, T203) – angenommen 20:50, Ingametest offen. 3.0.43 im Ingametest 0 FEHLER.
-- Addon 3.0.41–3.0.43: Platzhalter "?", Dev-Sicht, SB2-Adressbuch, Lesbarkeit L1/L8, Klassen-/Item-Farben, T116 je Addon.
   L2–L7 mit 3.0.45; Taktik-Zahlen warten auf bestätigte Werte.
 
 ## Gerade in Arbeit
@@ -40,10 +41,9 @@
 - RM-CI2: Token erstellt 13:58 (Nutzer verwahrt ihn); Auftrag an Discord-Sitzung gegeben 14:00 – Eintrag auf dem Bot-Server folgt dort Ingametest: /gsdev an, /rm testroutine alles, /reload.
 
 ## Entscheide des Nutzers seit letztem Stand
+- 27.11. 07:46: "alles vollautomatisch" – auch Einstellungsdateien ohne j/n (RM-UPD3).
 - 27.11. ~07:25: stabile Versionen = nach Abnahme in download/ (LevelPilot ebenso).
 - 27.11. 07:08–07:11: Uploader-Update automatisch; Addons Standard an; Mitspieler nur stabile Versionen (RM-UPD2).
-- 25.11. ~13:50: RM-CI2 – GitHub-Token (nur raidmaster, Actions) auf dem Bot-Server; Bot löst Testberichte-Abholung aus (Discord-Projekt).
-- 25.11. 11:39 (über Supervisor): Offiziere schalten Addons-automatisch ein (UP-DOC2, nur Doku, Standard bleibt AUS).
   (Bericht 2049 an den Supervisor zum Weiterleiten).
   wie der Bot überspringen; gelöscht wird nichts. -> raid-addon-zusammenfassung-3.0.0.md: NICHT nachposten (Bericht 1030).
 

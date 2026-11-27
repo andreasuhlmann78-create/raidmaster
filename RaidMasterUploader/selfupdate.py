@@ -33,6 +33,9 @@ Rückfrage – KEIN automatisches Selbst-Update.
    wird gewartet. Höchstens 1 Versuch je Version und Stunde (uploader_state.json "selbstupdate"."versuch"; über einen Neustart hinweg,
    keine Schleife). Der frühere "n"-Merker ("abgelehnt") wird nicht mehr beachtet. Meldung "Uploader x -> y automatisch installiert,
    neu gestartet". UNVERÄNDERT mit j/n: neue Einstellungsdatei (UP-CFG1).
+6. RM-UPD3 (2.3.30, Entscheid des Nutzers 27.11.2026 07:46 "ich will das alles vollautomatisch passiert"; ÜBERHOLT den j/n-Teil von 5.):
+   auch eine neue Einstellungsdatei wird ohne Frage übernommen – nur wenn einstellungen.Pickup sie geprüft hat (gleicher Bot, gleicher
+   Discord-Server, gültig); sonst verwirft Pickup sie selbst. Der Uploader stellt keine j/n-Frage mehr.
 """
 from __future__ import annotations
 
@@ -329,7 +332,6 @@ class SelfUpdate:
         self.console, self.kill_console, self.kill = console, kill_console, kill
         self.pickup = pickup            # UP-CFG1: Einstellungsdateien aus dem Download-Ordner (eine Frage zur Zeit)
         self.busy = busy                # RM-UPD2: True = Abgleich beim Spielstart läuft gerade -> nicht umschalten
-        self.cfg_offer = None
         self.next_at = 0.0
         self.exit_now = False           # True: neue Version läuft – dieser Prozess soll sich beenden
 
@@ -360,25 +362,10 @@ class SelfUpdate:
                     self.save()
                     self.log(f"Neue Uploader-Version {ver} – wird automatisch installiert ...")
                     return self.install(ver)
-        if not self.cfg_offer and self.pickup is not None:
+        if self.pickup is not None:                 # RM-UPD3: geprüfte Einstellungsdatei automatisch übernehmen
             o = self.pickup.poll()
-            if o:
-                self.cfg_offer = o
-                self.log(o["text"])
-        if not self.cfg_offer:
-            return False
-        k = self.key()
-        if not k:
-            return False
-        k = k.strip().lower()                       # nur genau "j" bzw. "n" (eine Taste) – "ja?" o. ä. zählt nicht
-        if k not in ("j", "n"):                     # UP-CFG1 – unverändert mit Rückfrage
-            return False
-        o, self.cfg_offer = self.cfg_offer, None
-        if k == "n":
-            self.pickup.decline(o)
-            return False
-        if self.pickup.accept(o) == "neustart":
-            return self.restart("neue Einstellungen")
+            if o and self.pickup.accept(o) == "neustart":
+                return self.restart("neue Einstellungen")
         return False
 
     def _record(self, nach: str, ergebnis: str):

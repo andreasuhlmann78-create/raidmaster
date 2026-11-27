@@ -618,12 +618,15 @@ REGRESSIONEN = {
     "UP-UPD1-a ohne Fenster bat bleibt": "test_selfupdate.Fenster.test_fenster_nicht_gefunden_bat_bleibt",
     "UP-UPD1-a Rückfall neue samt Kindern": "test_selfupdate.Fenster.test_rueckfall_beendet_neue_samt_kindern_alte_bat_zurueck",
     "UP-UPD1-a Vorfahre cmd uploader.bat": "test_selfupdate.Fenster.test_vorfahre_cmd_mit_uploader_bat",
-    "UP-CFG1 nur Bot-Schlüssel übernommen": "test_einstellungen.Angebot.test_uploader_config_nur_bot_schluessel_uebernommen",
-    "UP-CFG1 anderer Bot abgewiesen": "test_einstellungen.Schutz.test_anderer_bot",
+    "UP-CFG1/RM-UPD3 nur Bot-Schlüssel, ohne Eingabe": "test_einstellungen.Automatisch.test_uploader_config_ohne_eingabe_nur_bot_schluessel",
+    "UP-CFG1 anderer Bot verworfen": "test_einstellungen.Schutz.test_anderer_bot_verworfen_ohne_frage",
+    "RM-UPD3 anderer Server verworfen": "test_einstellungen.Schutz.test_anderer_server_verworfen_gegenprobe",
+    "RM-UPD3 Netzfehler später": "test_einstellungen.Schutz.test_netzfehler_spaeter_nicht_uebernommen",
+    "RM-UPD3 Index gehört zum Webhook": "test_einstellungen.Schutz.test_geloeschte_adresse_und_fremder_index",
     "UP-CFG1 keine Discord-Adresse": "test_einstellungen.Schutz.test_keine_discord_adresse",
     "UP-CFG1 alte Kopie nicht angeboten": "test_einstellungen.Schutz.test_alte_kopie_nicht_angeboten",
     "UP-CFG1 laufender Uploader überschreibt nie": "test_einstellungen.Schutz.test_laufender_uploader_ueberschreibt_adressen_nie",
-    "UP-CFG1 ohne j nichts": "test_einstellungen.Ablauf.test_ohne_j_nichts_gegenprobe",
+    "RM-UPD3 verworfen kein Neustart": "test_einstellungen.Ablauf.test_verworfen_kein_neustart_gegenprobe",
 }
 
 

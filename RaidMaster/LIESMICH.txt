@@ -11,6 +11,10 @@ INSTALLATION
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
 
+NEU IN 3.0.52 – Anleitung: alles läuft automatisch
+- Seite "Anleitung", Schritt "Uploader starten": ab Uploader 2.3.30 übernimmt der Uploader auch neue Einstellungsdateien von
+  /uploader selbst – alles läuft automatisch. In allen Sprachen.
+
 NEU IN 3.0.51 – Anleitung: Uploader und Addons aktualisieren sich selbst
 - Seite "Anleitung", Schritt "Uploader starten": ab Uploader 2.3.29 aktualisieren sich Uploader und GoldSentinel-Addons selbst
   (nur stabile Versionen); ausschalten mit Addons-automatisch-aus.bat. In allen Sprachen.

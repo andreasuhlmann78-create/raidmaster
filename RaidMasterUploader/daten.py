@@ -844,6 +844,8 @@ class Daten:
                      "neueste": self._latest or self.version or "",        # UP-ALT: neueste veröffentlichte beim Liefern (Info)
                      "mindestversion": self._want or MIN_BUILTIN,            # UP-MIN1: galt beim Liefern
                      **({"update": dict(self.d["update"])} if isinstance(self.d.get("update"), dict) else {}),   # UP-UPD1
+                     **({"einstellungen": dict(self.d["einstellungen"])}                                     # RM-UPD3
+                        if isinstance(self.d.get("einstellungen"), dict) else {}),
                      "tage": {"anzahl": len(tage), "von": tage[0] if tage else "", "bis": tage[-1] if tage else "",
                               "grenze_tage": DAYS_KEEP, "grenze_mb": REPO_MAX // (1024 * 1024)}}   # UP-TAGE
         self.days_now = tage

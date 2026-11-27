@@ -1,0 +1,40 @@
+Bericht RaidMaster-Sitzung an die Prüf-Sitzung – 27.11.2026 07:59
+Thema: RM-UPD3 (Entscheid des Nutzers 27.11. 07:46 "vollautomatisch") – Uploader 2.3.30 + RaidMaster 3.0.52 (Anleitung).
+Status: umgesetzt, zur Prüfung. download/RaidMasterUploader.zip (21 Einträge, = Ordner), download/RaidMaster-3.0.52.zip (+ latest; 3.0.51.zip entfernt,
+README 3.0.52). Mindestversion bleibt 2.3.20. addon_check 3.0.52 OK; ganze Prüfung wie der Workflow Exit 0, 0 FEHLER.
+
+1. Keine j/n-Frage mehr (selfupdate.py Punkt 6): Pickup.poll liefert nur noch Dateien, die ALLE Prüfungen bestanden haben; SelfUpdate.tick übernimmt sie
+   ohne Taste (uploader_config -> Neustart mit Rückfall wie bisher; sync_config -> ohne Neustart). Die Taste wird nirgends mehr gelesen
+   (grep "(j/n)" im Uploader-Code: nur noch Kommentare). Einmalig fragen 2.3.24–2.3.28 noch nach dem Programm-Update.
+2. Prüfungen (einstellungen.py, Kopf "RM-UPD3"): 1–3 unverändert (zwei Namen, ≤16 kB, neuer als Grundzeit/gesehen, ändert etwas, JSON, Webhook-Form,
+   sync_index_id Zahl, bot_id gleich). NEU:
+   (a) Gleicher Server: jede neue Webhook-Adresse einmal GET (ohne Bot-Token; Discord "Get Webhook with Token" liefert id + guild_id), muss = Server der
+       BISHERIGEN webhook_url sein; id muss zur Adresse passen. 401/403/404 -> "ungültig oder gelöscht" -> verworfen; anderer Server -> verworfen;
+       Status 0/5xx/429/kein JSON -> NotNow: nicht übernommen, nicht verworfen, höchstens 1 neuer Versuch je 10 Min. (Zustand "netz" je Prüfsumme).
+       Server je Webhook-Kennung wird im Lauf gemerkt (ein Webhook wechselt nie den Server).
+   (b) sync_config.json – Herkunft: sync_webhook_url auf denselben Server wie die bisherige webhook_url (uploader_config.json), UND GET
+       <sync_webhook_url>/messages/<sync_index_id> muss 200 mit derselben id liefern – Discord gibt über eine Webhook-Adresse nur Nachrichten
+       heraus, die dieser Webhook selbst geschickt hat (so arbeitet auch sync.py: GET/PATCH /messages/<index>). Damit ist der Index an den Webhook
+       gebunden und der Webhook an unseren Server. Ohne gültige bisherige webhook_url ist der Server nicht prüfbar -> NICHT übernommen (verworfen mit Grund).
+       Verdacht, zu messen: Discord-Antwortfelder im echten Betrieb (id/guild_id) – im Client sieht man es an "Neue Einstellungen übernommen".
+   (c) Erste Einrichtung: uploader.load_config ruft einstellungen.first_setup, wenn keine uploader_config.json da ist: neueste gültige aus dem
+       Download-Ordner, nur wenn ihre webhook_url bei Discord existiert (200, id passt, Server genannt); Zwischendatei + Zurücklesen.
+   Verwerfen: Prüfsumme gemerkt (nie wieder, nicht einmal neu gemeldet), eine Zeile "… im Download-Ordner verworfen – <Grund>", keine Frage.
+   Unverändert: Sicherung _update/einstellungen (5), aus uploader_config nur webhook_url/test_webhook_url/bot_id, Download-Ordner nur lesen,
+   Schalter einstellungen_aus_downloads.
+   Meldung: "Neue Einstellungen übernommen (<Datei>: Kanal-Kennung alt -> neu; …)" – nur Kennungen, nie Schlüssel.
+   stand.json je Rechner: "einstellungen": {zeit, datei, ergebnis übernommen|verworfen, grund} (daten.py; ohne Adressen/Schlüssel – Test prüft,
+   dass der Schlüssel nicht im Zustand steht).
+3. Tests (eigene, Hinweis): test_einstellungen 20 (ohne Eingabe übernommen nur Bot-Schlüssel + Sicherung + stand; sync_config ganz, Index geprüft;
+   neueste Kopie; erste Einrichtung + Gegenprobe unbekannte Adresse; anderer Bot/anderer Server/gelöschte Adresse/fremder Index verworfen ohne Frage,
+   Gegenprobe gleicher Server -> übernommen; Netzfehler -> nicht übernommen, 10 Min. kein Versuch, danach übernommen, kein "verworfen"; ohne bisherige
+   Adresse nicht prüfbar; ungültige Form -> Discord nicht gefragt; verworfene nie wieder; Schalter aus; Ablauf: ohne Taste Neustart, Neustart scheitert
+   -> läuft weiter, verworfen -> kein Neustart). Alle Uploader-Tests grün (addons, daten, einstellungen, selfupdate, sync, uploader, umfassend TU6 117/117).
+4. RaidMaster 3.0.52: Anleitung "Uploader starten": "Ab Uploader 2.3.30 läuft alles automatisch: Uploader, GoldSentinel-Addons (nur stabile
+   Versionen) und neue Einstellungsdateien von /uploader aus dem Download-Ordner – nichts anklicken. Ausschalten (nur Addons): …aus.bat" – 11 Sprachen.
+   Nachbildung deDE/ruRU ALLE OK.
+5. FÜR DAS DISCORD-PROJEKT (bitte weitergeben, DC-UPD1): neue Texte für ANLEITUNG.md und die /uploader-Nachricht –
+   DE: "Datei herunterladen – fertig. Der Uploader übernimmt neue Einstellungen aus dem Download-Ordner selbst (nur von diesem Bot und
+   diesem Discord-Server). Uploader und Addons aktualisieren sich ebenfalls selbst; keine Frage, nichts anklicken."
+   EN: "Download the file – done. The uploader takes over new settings from the Downloads folder by itself (only from this bot and this
+   Discord server). The uploader and the addons also update themselves; no question, nothing to click."

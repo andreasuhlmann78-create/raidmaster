@@ -6,9 +6,10 @@ RaidMaster-Uploader – schickt die RaidMaster-Daten vom PC der Raidleitung an d
 3. Im Discord /uploader eingeben (nur Admins). Die Datei uploader_config.json, die der Bot schickt,
    in diesen Ordner legen. NIE weitergeben – sie enthält einen geheimen Link zu eurem Discord.
 4. uploader.bat doppelklicken und das Fenster offen lassen.
-5. Uploader und Addons aktualisieren sich selbst (ab Version 2.3.29): eine neue Uploader-Version installiert der Uploader ohne
-   Rückfrage, und neue STABILE Versionen der installierten GoldSentinel-Addons auch. Nichts anklicken. Ausschalten (nur die
-   Addons): Addons-automatisch-aus.bat doppelklicken, dann den Uploader neu starten.
+5. Alles läuft automatisch (ab Version 2.3.30): neue Uploader-Versionen, neue STABILE Versionen der installierten
+   GoldSentinel-Addons und neue Einstellungsdateien von /uploader (aus dem Download-Ordner, nur vom eigenen Bot und Discord-Server)
+   übernimmt der Uploader selbst – keine Frage, nichts anklicken. Ausschalten (nur die Addons): Addons-automatisch-aus.bat
+   doppelklicken, dann den Uploader neu starten.
 6. Automatisch mit Windows starten: Windows-Taste + R, shell:startup eingeben, eine Verknüpfung zu
    uploader.bat hineinlegen.
 
@@ -286,6 +287,13 @@ Version 2.3.13 – Datenschutz im Daten-Repo (UP-DS1):
   Uploader leert sie in jeder Gilde, bevor er GuildSentinel.lua hochlädt. Die Datei im Spiel bleibt unverändert.
 - Kann er die Datei nicht sicher lesen, liefert er sie gar nicht und meldet einmal "GuildSentinel-Daten nicht geliefert: …".
 - Neue Datei svfilter.py – bitte immer die ganze RaidMasterUploader.zip entpacken.
+
+Version 2.3.30 – alles automatisch, auch neue Einstellungsdateien (RM-UPD3, Entscheid 27.11. 07:46):
+- Eine neue uploader_config.json oder sync_config.json im Download-Ordner (von /uploader im Discord) übernimmt der Uploader ohne
+  Frage – aber nur, wenn sie vom eigenen Bot stammt und alle Kanäle zum SELBEN Discord-Server gehören (der Uploader fragt dazu
+  bei Discord nach). Sonst verwirft er die Datei und schreibt den Grund ins Fenster. Meldung: "Neue Einstellungen übernommen".
+- Erste Einrichtung: Liegt noch keine uploader_config.json im Ordner, holt der Uploader beim Start die aus dem Download-Ordner.
+- Der Uploader stellt keine j/n-Frage mehr.
 
 Version 2.3.29 – Uploader und Addons aktualisieren sich selbst (RM-UPD2, Entscheid 27.11.):
 - Der Uploader aktualisiert sich ab Version 2.3.29 selbst: Gibt es eine neue Version, installiert er sie ohne Frage
