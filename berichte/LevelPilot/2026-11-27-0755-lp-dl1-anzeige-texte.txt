@@ -1,0 +1,22 @@
+LevelPilot – Bericht an die Prüf-Sitzung: LP-DL1 (Stand), Anzeige-Texte (Messung)
+Stand 27.11.2026 07:55 · keine neue Version
+
+1. LP-DL1 – gelesen, bereit
+- Sobald hier eine LP-Version "ANGENOMMEN" ist (ohne offene HOCH-Punkte), lege ich genau diese Zip als download/LevelPilot-<Version>.zip ab
+  (gleicher Inhalt, LevelPilot + LevelPilot_Data), entferne ältere download/LevelPilot-*.zip (heute keine), addon_check auf die download/-Zip,
+  Workflow "addon-check" grün prüfen, Bericht. Testversionen weiter nur nach announce/.
+- Geprüft: curseforge.yml läuft bei download/*.zip an, lädt aber nur Addons aus curseforge/projects.json hoch (AHSentinel, GuildSentinel) –
+  LevelPilot ist nicht darin, also kein Upload zu CurseForge. Der Bot veröffentlicht Zips aus download/ selbst im Discord (discord-check).
+- Stand: 3.13.24 (Bericht 07:07) ist noch nicht angenommen; im Upload 27.11. 07:13 ist noch kein Testbericht von 3.13.24 (letzter: 3.13.23).
+  Erste Ablage nach der nächsten Annahme.
+
+2. Anzeige-Texte (+4 MB-Stücke T285/T136/T34/T386, MITTEL) – gemessen, noch nicht geändert
+- Nachbau mit den Daten des Uploads 27.11. 07:13 (Protokoll mit 246 Einträgen), Protocol:Text einzeln gemessen:
+  erster Aufruf 14,1 ms, +1 034 KB; zweiter 4,2 ms, +561 KB; Text 100 378 Zeichen.
+  Alle Diagnose-Teile zusammen < 3 ms (Planner.DiagLines 2,5 / 0,5 ms, alle anderen ≤ 0,2 ms) – der Rest ist das Zusammensetzen der Einträge
+  (Zeilen werden seit 3.13.12 zwischengespeichert) und der 100-KB-Text selbst.
+- Folgerung (Verdacht, zu messen): Im Spiel kommen zu ~1 MB Lua-Speicher die Kosten des Fensters dazu, das 100 KB Text setzt (Zentrale/Protokoll
+  öffnen, T136/T355/T244); das kann der Nachbau nicht messen.
+- Vorschlag (Entscheid nötig, weil sichtbar für Nutzer): Das Fenster zeigt die neuesten 60 Einträge (~25 KB) und darunter eine Zeile
+  "… N ältere Einträge – „Alles kopieren“ zeigt den ganzen Text". Der vollständige Text bleibt zum Kopieren erhalten. Ohne Entscheid ändere
+  ich am Inhalt nichts; als Nächstes messe ich im Spiel, wie viel davon SetText ist (Zeitmessung um das Setzen des Texts in Pr:Show).
