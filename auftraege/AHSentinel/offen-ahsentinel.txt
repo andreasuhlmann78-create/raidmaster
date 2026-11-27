@@ -7367,3 +7367,7 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     Ursache Datei:Zeile genannt – Auftrag Punkt 1 erfüllt; Punkt 3 (Mat Leiter) teilweise; Punkt 4 (≤ 50 KB) im Normalfall bei 3 von 4 Items, Rest offen ("DE tatsächlich").
     NIEDRIG (Hinweis): bleibt durch einen Abbruch ein alter D.matCache ohne job liegen, schaltet ownMC die Ersparnis dauerhaft ab (Werte bleiben richtig) – beim nächsten Mal mitnehmen.
     OFFEN: INGAMETEST Nutzer (wie 15:44, mit 0.65.422): erwartet keine Zeile API-LANGSAM über 4 ms, kein "DE Iteminfo ×1000".
+
+>>> FREIGABE CURSEFORGE 27.11. (Supervisor 16:58, Frage des Nutzers 16:55): 0.65.422 ist ANGENOMMEN -> darf heute um 18:00 nach download/ (DL-ABN Punkt 2+3).
+    Genau die Zip aus announce/ (md5 0acf340ecdf17026a82eb9988b1c4872), AHSentinel-0.65.413.zip dort entfernen, danach Workflow "Addon-Prüfung" grün prüfen
+    und CurseForge-Upload nachsehen. Bitte internen Wecker 18:00 stellen (send_later). Ingametest API-LANGSAM bleibt offen (keine Bedingung für CF).
