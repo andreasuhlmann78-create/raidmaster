@@ -12,7 +12,6 @@
    (Webzugriff braucht Freigabe/verbundenen Browser) – beim nächsten Mal nachholen.
 
 ## Offen beim Nutzer
-- Entscheid SH-M1 (A jetzt / B gebündelt, empfohlen B).
 - 09.12. 07:00 Erinnerung: Aufgabe "Raids und Taktiken" wieder einschalten.
 
 ## Entscheide des Nutzers seit letztem Stand (alle in entscheide.md 27.11.)
@@ -29,6 +28,7 @@
 - PC des Nutzers: Uploader 2.3.30, Testversionen an.
 
 ## Wichtig zu wissen
+- SH-M1 (Entscheid 21:16: B): DiagLines-Verbesserung mit der NÄCHSTEN nötigen shared/-Änderung mitnehmen.
 - DL-ABN: download/ nur angenommene Versionen; AHS/GS CurseForge 18:00 (Ausnahme nur auf Entscheid).
 - announce/: ZIPs werden automatisch auf 3 + stabile gekürzt (Workflow "Announce aufräumen"), .md bleiben.
 - Repo öffentlich: keine Spieler-/PC-Namen (Offizier A/B). Prüfwerkzeuge chatprobe.py/rek1probe.py nur in dieser Sitzung.
