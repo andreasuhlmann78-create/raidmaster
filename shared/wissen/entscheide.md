@@ -11,6 +11,8 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Folge |
 |---|---|---|
+| 08:03 | "sobald die neue version fertig ist bitte den beiden über dc senden mit einer ganz genauen anleitung! nichts vergessen" | Nach Annahme 2.3.30: Supervisor schickt beiden Offizieren je eine Discord-Direktnachricht (A: einmal j; B: Handinstallation). |
+| 08:01 | "ich will nicht dass man bestätigen muss" | Ab 2.3.29/2.3.30 keine Frage mehr; das letzte j bei 2.3.24–2.3.28 ist technisch nicht vermeidbar (alter Code fragt). |
 | 07:46 | Uploader: "ich will das alles vollautomatisch passiert" – auch die neue Einstellungsdatei im Download-Ordner ohne j/n | RM-UPD3: Einstellungsdatei automatisch übernehmen, wenn sie alle Prüfungen besteht (gleicher Bot, gleicher Discord-Server); sonst automatisch verwerfen mit Meldung. ÜBERHOLT den Teil "Einstellungsdatei bleibt mit j/n" von 07:10. |
 | ~07:25 | LevelPilot für Mitspieler: "Nach Abnahme nach download/" (Frage der RM-Sitzung) | LP-DL1: LP legt nur abgenommene Versionen als download/LevelPilot-<Version>.zip ab. Gilt für alle Addons: stabil = abgenommen in download/. |
 | 07:12 | Mitspieler bekommen automatisch "nur die stabilen Versionen" | RM-UPD2: Mitspieler nur download/, Rechner des Nutzers weiter neueste (Kanal "test"); LP fehlt in download/ (Frage folgt). |
