@@ -1,6 +1,6 @@
 {
-  "geprueft": "2026-11-27T11:31:03Z",
-  "commit": "934ca95",
+  "geprueft": "2026-11-27T13:19:29Z",
+  "commit": "b383786",
   "ok": false,
   "fehler": null,
   "hinweis": "Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 45 Minuten.",
@@ -8,151 +8,158 @@
     {
       "datei": "announce/addon-hilfe__ahanalyzerpro-hilfe-0.65.3.md",
       "kanal": "addon-hilfe",
-      "seit_push_min": 5796,
+      "seit_push_min": 5905,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/ahsentinel__ahsentinel-0-vorstellung-1.8.md",
       "kanal": "ahsentinel",
-      "seit_push_min": 26304,
+      "seit_push_min": 26412,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
-      "datei": "announce/ahsentinel__ahsentinel-0.65.419.md",
+      "datei": "announce/ahsentinel__ahsentinel-0.65.421.md",
       "kanal": "ahsentinel",
-      "seit_push_min": 35,
+      "seit_push_min": 72,
       "abdeckung": 0.4,
-      "status": "wartet",
+      "status": "veraltet",
       "fehlende_zeilen": [
-        "## AHSentinel 0.65.419",
-        "- **Intern:** die neue Diagnose-Zeile aus 0.65.418 nutzt jetzt wie das übrige Addon die Zahlen-Formatierung ohne Überlauf. Keine sichtbare Änderung.",
-        "- **Internal:** the new diagnostic line from 0.65.418 now uses the overflow-safe number formatting like the rest of the addon. No visible change."
-      ],
-      "status_eigentlich": "veraltet"
+        "## AHSentinel 0.65.421",
+        "- **Diagnose:** die Zeile zu langsamen Preis-Abfragen zählt gleiche Teile zusammen, zeigt den belegten Speicher vor der Abfrage und ob darin eine Speicherberein",
+        "- **Diagnostics:** the slow-question line adds up repeated parts, shows the memory in use before the question and whether a memory clean-up ran during it, and s"
+      ]
     },
     {
       "datei": "announce/ahsentinel__ahsentinel-hilfe-1.0.md",
       "kanal": "ahsentinel",
-      "seit_push_min": 33501,
+      "seit_push_min": 33610,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/barrow-taktik__uebersicht-1.1.md",
       "kanal": "barrow-taktik",
-      "seit_push_min": 34332,
+      "seit_push_min": 34440,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/buffsentinel__buffsentinel-0-vorstellung-12.md",
       "kanal": "buffsentinel",
-      "seit_push_min": 33451,
+      "seit_push_min": 33560,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/buffsentinel__buffsentinel-0.9.69.md",
       "kanal": "buffsentinel",
-      "seit_push_min": 176,
+      "seit_push_min": 284,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-19.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 21830,
+      "seit_push_min": 21939,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/guildsentinel__guildsentinel-0.9.66.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 148,
+      "seit_push_min": 256,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/hyjal-taktik__uebersicht-1.1.md",
       "kanal": "hyjal-taktik",
-      "seit_push_min": 34332,
+      "seit_push_min": 34440,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
-      "datei": "announce/levelpilot__levelpilot-3.13.27.md",
+      "datei": "announce/levelpilot__levelpilot-3.13.29.md",
       "kanal": "levelpilot",
-      "seit_push_min": 69,
-      "abdeckung": 1.0,
-      "status": "ok"
+      "seit_push_min": 35,
+      "abdeckung": 0.6,
+      "status": "wartet",
+      "fehlende_zeilen": [
+        "📢 **LevelPilot 3.13.29** – genauere Speichermessung in der Testroutine",
+        "• **Testroutine:** Der Bericht zeigt jetzt auch, wie viel Speicher Prüfungen mit Pausen und die Schritte zwischen den Prüfungen brauchen – damit lässt sich klär"
+      ],
+      "status_eigentlich": "veraltet"
     },
     {
       "datei": "announce/levelpilot__levelpilot-uebersicht-3.12.94.md",
       "kanal": "levelpilot",
-      "seit_push_min": 13108,
+      "seit_push_min": 13216,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/lore__alpine-vanguard-vorstellung-1.0.md",
       "kanal": "lore",
-      "seit_push_min": 38055,
+      "seit_push_min": 38163,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/mc-feuerresi__feuerresi-1.1.md",
       "kanal": "mc-feuerresi",
-      "seit_push_min": 34332,
+      "seit_push_min": 34440,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/onyxia-feuerresi__feuerresi-1.0.md",
       "kanal": "onyxia-feuerresi",
-      "seit_push_min": 43473,
+      "seit_push_min": 43582,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/onyxia-taktik__onyxia-video-1.0.md",
       "kanal": "onyxia-taktik",
-      "seit_push_min": 44898,
+      "seit_push_min": 45006,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/professionsentinel__professionsentinel-0-vorstellung-1.27.md",
       "kanal": "professionsentinel",
-      "seit_push_min": 20580,
+      "seit_push_min": 20688,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
-      "datei": "announce/professionsentinel__professionsentinel-0.9.94.md",
+      "datei": "announce/professionsentinel__professionsentinel-0.9.96.md",
       "kanal": "professionsentinel",
-      "seit_push_min": 56,
-      "abdeckung": 0.25,
-      "status": "veraltet",
+      "seit_push_min": 37,
+      "abdeckung": 0.167,
+      "status": "wartet",
       "fehlende_zeilen": [
-        "📦 **ProfessionSentinel 0.9.94** – genauer messen 📊",
-        "• **Für den Entwickler:** Das Protokoll zeigt für „Heute herstellen“ je Durchgang, wie viele Abfragen „Lohnt bis“ neu waren und wie viele gemerkte Antworten gen",
-        "• Für Spieler ändert sich nichts."
-      ]
+        "📦 **ProfessionSentinel 0.9.96** – Lernstufen vom Lehrer 📚",
+        "• **Kein „Skill ?“ mehr im Plan und in der Rezeptliste:**",
+        "– Öffnest du einen Berufslehrer, liest ProfessionSentinel für jedes angebotene Rezept die Lernstufe aus dem Lehrerfenster.",
+        "– Die Lernstufe gilt danach für alle deine Figuren.",
+        "– Ist sie noch unbekannt, bleibt die Spalte leer. Der Tooltip sagt, dass sie beim nächsten Lehrerbesuch gelesen wird."
+      ],
+      "status_eigentlich": "veraltet"
     },
     {
       "datei": "announce/threatsentinel__threatsentinel-0-vorstellung-2.2.md",
       "kanal": "threatsentinel",
-      "seit_push_min": 35760,
+      "seit_push_min": 35868,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/threatsentinel__threatsentinel-2.5.31.md",
       "kanal": "threatsentinel",
-      "seit_push_min": 173,
+      "seit_push_min": 281,
       "abdeckung": 1.0,
       "status": "ok"
     }
@@ -163,7 +170,7 @@
       "version": "0.65.413",
       "datei": "download/AHSentinel-0.65.413.zip",
       "kanal": "ahsentinel",
-      "seit_push_min": 1151,
+      "seit_push_min": 1259,
       "status": "ok",
       "gepostet": "2026-11-26 21:38 UTC",
       "anhang": [
@@ -175,7 +182,7 @@
       "version": "3.0.53",
       "datei": "RaidMaster/RaidMaster.toc",
       "kanal": "raid-addon",
-      "seit_push_min": 173,
+      "seit_push_min": 282,
       "status": "ok",
       "gepostet": "2026-11-27 09:01 UTC",
       "anhang": [
