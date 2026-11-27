@@ -1,28 +1,37 @@
-# Stand Supervisor – 27.11.2026 13:20
+# Stand Supervisor – 27.11.2026 17:00 (Übergabe für den Abend am PC)
 
 ## Gerade in Arbeit
-- Warte auf: LP-DL1 (3.13.28 nach download/, freigegeben 13:15), AHS-API1 (Speicheranlage im Entzauber-Teil belegen), PS-P2/PS-SK1 (Merken, "Skill ?"),
-  GS-CF3 (GuildSentinel 0.9.66 um 18:00 auf CurseForge; Nachprüfung als Erinnerung 18:20 gestellt).
+- Wartet auf Uploads um 18:00: GuildSentinel 0.9.66 (GS-CF3) und AHSentinel 0.65.422 (freigegeben 16:58, md5 0acf340e…).
+- Erinnerungen dieser Sitzung (gestellt): 18:05 GS download/ + Workflow, 18:10 AHS download/ (0.65.413 weg) + Workflow, 18:20 CurseForge beide + Kommentare.
+  Sieht eine neue Sitzung sie nicht: von Hand prüfen (download/, `gh run list --workflow "Addon-Prüfung" -L 3`, curseforge.com/wow/addons/ah-analyzer-pro und /guildsentinel).
 
 ## Nächste Schritte (Reihenfolge)
-1. Bei jedem "repo": pull, Berichte prüfen, addon_check, annehmen/ablehnen, push + nachprüfen, Workflow "Addon-Prüfung" ansehen (E-Regel 27.11.!).
-2. LP-DL1: download/LevelPilot-3.13.28.zip = announce-md5 3fcede98…, Workflow grün.
-3. AHS-API1: Zeit ~ angelegter Speicher (25–30 µs/KB im Spiel); Auftrag: was legt 200–900 KB an, GC trennen, Ziel ≤ 2 ms/≤ 50 KB.
-4. PS: PS-P2 (nil merken, Lauf 3 vergisst alles, Neuaufbau 18,8 ms), PS-SK1 HOCH (Lehrer-Lernstufen, kein "Skill ?"); 0.9.94 nach download/ erst nach Ingametest PS-P2.
-5. 18:20: CF GS 0.9.66 prüfen + CF-Kommentare lesen (eingebauter Browser, Slugs ah-analyzer-pro / guildsentinel).
-6. Offiziere: Uploader 2.3.30 (A: j; B: Handinstallation + Nachtrag daten_config.json, DM 08:18/08:20). stand.json "uploader" beobachten; danach BS-M1-b Messdaten Offizier A.
+1. Bei jedem "repo": pull, neue Berichte prüfen, addon_check, annehmen/ablehnen, push + nachprüfen, Workflow ansehen (E-Regel 27.11.).
+2. 18:05–18:20 Kontrollen oben; Ergebnis in offen-guildsentinel.txt / offen-ahsentinel.txt.
+3. Ingametests des Nutzers am PC auswerten (je einer, nacheinander):
+   a) PS 0.9.96 PS-SK1: Schneiderei-Lehrer, Filter "alle", /ps protokoll -> "LEHRER Lernstufen gelesen", kein "Skill ?" mehr bei Lehrer-Rezepten.
+   b) AHS 0.65.422 AHS-API1: wie 15:44 -> keine Zeile API-LANGSAM über 4 ms, kein "DE Iteminfo ×1000" (bestanden = Abnahme).
+   c) Uploader PC: einmal j (2.3.30), Addons-Testversionen-an.bat, Neustart -> stand.json "uploader" 2.3.30 prüfen.
+4. Neue Versionen erwarten und prüfen: LP T155 (16,89 ms, Ziel < 16) + T136 Zentrale (57,5 ms mit GC −110 MB); AHS Rest-Speicher ("DE tatsächlich",
+   Mat Leiter, ≤ 50 KB); PS-P2/PS-SK1-Folgen.
+5. Offiziere: Uploader 2.3.30 (A: j; B: Handinstallation + daten_config.json-Nachtrag). stand.json beobachten; dann BS-M1-b Messdaten Offizier A.
 
 ## Offen beim Nutzer
-- PC (abends): einmal j für 2.3.30, dann Addons-Testversionen-an.bat + Neustart.
+- Ingametests 3a–3c (PC, heute Abend).
 - Entscheid SH-M1 (A jetzt / B gebündelt, empfohlen B).
 - 09.12. 07:00 Erinnerung: Aufgabe "Raids und Taktiken" wieder einschalten.
 
-## Entscheide des Nutzers seit letztem Stand (alle in entscheide.md 27.11.)
-- 08:27–09:23 Spieler-Texte (ST1, alle 7 angenommen 10:30). 08:44 Tooltips nie anfassen. 11:21 GS 0.9.66 um 18:00 auf CF, Marktdaten-Schalter bleibt.
+## Entscheide des Nutzers seit letztem Stand
+- 16:55 Frage "0.65.422 freigegeben für Curse?" -> Supervisor: ja (angenommen = DL-ABN), Upload 18:00, AHS-Sitzung hat die Anweisung (16:57).
+
+## Heute geprüft (Kurz)
+- AHS 0.65.422 ANGENOMMEN 16:55: Ursache AHS-API1 = Ln:BuyStats rief D:CorrectionFor je Entzauber-Kauf (1016× für 7 Items) -> jetzt je Item einmal;
+  Nachbau 40,6–42,6 ms -> 1,6–2,2 ms, Werte gleich (149 Items), FULL 356/67 wie 0.65.421. NIEDRIG: liegengebliebener D.matCache ohne job schaltet Ersparnis ab.
+- LP 3.13.29 Ingametest 15:47: bester Lauf (57,5 ms längstes Bild, ganzes Bild 70 statt 150 ms); offen MITTEL T155, T136.
+- GS 0.9.66 + BS 0.9.69 abgenommen 11:18/11:19. PS 0.9.95/0.9.96 angenommen. ST1 (Spieler-Texte) alle 7 angenommen.
 
 ## Wichtig zu wissen
-- DL-ABN: download/ nur angenommene Versionen (Uploader installiert automatisch bei allen); addon_check erlaubt download/ < announce/ (WARNUNG).
-- RM: Uploader-Versionen nur über Zweig pruefung/uploader-<V>, erst nach Annahme auf main.
-- GS-REK1 erledigt (0.9.66): fremde Gilden-Einladungen werden nicht mehr beantwortet (unabhängig im Nachbau geprüft).
-- LP T215–T217 erledigt (nur Testroutine: Jobs.sync am Stück). AHS 0.65.420 angenommen (Messversion). PS 0.9.93 in download/.
-- Prüfwerkzeug Spieler-Texte: /home/claude/chatprobe.py (Mock, Chat beim Einloggen/Zeitgeber/Slash, Testmodus aus) – nicht im Repo.
+- DL-ABN: download/ nur angenommene Versionen (Uploader installiert automatisch bei allen Mitspielern); AHS/GS zusätzlich nur um 18:00 (CurseForge).
+- addon_check: download/ < announce/ = WARNUNG (gewollt). Workflow war 11:07–11:39 rot durch neue Regel -> E-Regel: nach jeder neuen Regel Workflow prüfen.
+- RM: Uploader-Versionen nur über Zweig pruefung/uploader-<V>. Repo öffentlich: keine Spieler-/PC-Namen (Offizier A/B).
+- Prüfwerkzeuge /home/claude/chatprobe.py, rek1probe.py nur in dieser Sitzung (nicht im Repo).
