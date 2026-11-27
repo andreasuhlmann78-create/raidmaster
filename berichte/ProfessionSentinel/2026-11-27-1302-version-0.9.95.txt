@@ -1,0 +1,28 @@
+ProfessionSentinel 0.9.95 – umgesetzt, zur Prüfung
+Bezug: offen-professionsentinel.txt BEFUND MITTEL PS-P2 (Ingametest 27.11. 12:26, Supervisor 12:30). DL-ABN: 0.9.95 nur announce/.
+Hinweis: die Rohdaten des Ingametests 12:26 sind noch nicht in goldsentinel-daten (letzter Stand Laptop 11:22, v0.9.93) – die Ursachen unten sind darum
+ aus dem Code belegt bzw. als "Verdacht, zu messen" gekennzeichnet; 0.9.95 schreibt die fehlenden Belege ins Protokoll.
+
+(a) "Lauf 2: 4 neu, Lauf 4: 3 neu": Code-Beleg – P.Worth merkte eine Antwort nil (AHSentinel "lernt noch"/nichts bekannt) NICHT, jeder Lauf fragte
+    diese Items neu (Prices.lua 0.9.91: "ret[1] ~= nil" Bedingung). Jetzt: nil wird P.WORTH_NIL_SEC = 600 s gemerkt (oder bis zum nächsten echten
+    Vergessen), danach neu gefragt; die Items stehen im Protokoll ("WorthUpTo ohne Antwort (nil, nach 10 Min. neu gefragt): Wollcape, …").
+    Fehler (pcall) werden weiter nicht gemerkt.
+(b) "Lauf 3: 32 neu, 0 gemerkt" ~1 Min. nach dem Einloggen: Verdacht, zu messen – PS selbst löst es aus: beim Einloggen prüft MK.CheckLater (PS-TQ1-b)
+    die Entzauberungen -> AHSentinel.API.Disenchanted antwortet "pending" und baut seinen Index im Hintergrund -> danach API.DEIndex
+    Notify("ledger") (API.lua Z. 353) -> PS.OnChanged("ledger") vergass alle gemerkten WorthUpTo, obwohl sich weder Preis noch Buchung geändert hat.
+    Jetzt: "ledger", während PS auf diesen Index wartet (MK.dePending), behält die Antworten (Protokoll "… ledger (Entzauber-Index fertig) – behalten");
+    jedes andere Vergessen (scan, ledger = Buchung, settings, MERCHANT_SHOW/CLOSED) wird mit Uhrzeit, Grund und Zahl der Antworten mitgeschrieben
+    ("WorthUpTo vergessen: 12:25:31 scan (32 Antworten) · …", die letzten 8). Mit dem nächsten Ingametest ist der Grund für Lauf 3 belegt.
+    Grenze: eine echte Buchung genau in dieser Wartezeit würde auch behalten (bis zum nächsten scan/ledger) – Zeitfenster Sekunden nach dem Einloggen.
+(c) "Neuaufbau (Teil) 18.8 ms ×64" (Berufsfenster offen): Verdacht, zu messen – dieselbe Ursache: der Neuaufbau rechnet Rezeptpreise (AD.Evaluate ->
+    P.Recipe) und fragte dabei kalte WorthUpTo (20–27 ms) mitten im Teil. Jetzt steht P.WorthAlone(r) in den Schleifen der Ranglisten (AD.Ranking,
+    AD.MatRanking, AD.GoldRanking, AD.DERanking) direkt nach dem vorhandenen Yield: ein NEUES WorthUpTo bekommt einen eigenen Teil (vorher abgeben, wenn der Teil
+    schon > 0,5 ms gearbeitet hat, danach immer) – im Neuaufbau über UI.HandNow, in einer Hintergrund-Aufgabe über J.Hand; sonst unverändert.
+    Ein einzelner WorthUpTo bleibt bis AHS-API1 ein Bild von 20–27 ms, steht aber allein; dank (a)/(b) kommt er seltener.
+Tests: T302 erweitert (nil 600 s gemerkt, danach neu, Item notiert; Grund je Vergessen; ledger bei wartendem Entzauber-Index behalten / Gegenprobe ohne
+ Warten vergessen; Protokoll-Zeile; Gold-Rangliste in einer Aufgabe: je Teil höchstens 1 WorthUpTo, keiner nach anderer Arbeit – Gegenprobe ohne
+ WorthAlone in GoldRanking schlägt fehl). 19 Prüfungen.
+ run_offline forever 259/0, era 240/0, retail 238/0, forever --lua51 259/0; check_actions OK; gen_locale_keys OK (neu DG_WORTH_FORGETS,
+ DG_WORTH_FORGET, DG_WORTH_KEPT, DG_WORTH_NIL EN/DE); yield_check OK; Smoketest forever/era/retail AUTOTEST OK (FEHLER 29/26/26 = Mock-Grenzen, wie 0.9.94); addon_check OK ohne WARNUNG. Zip md5 d7390baf114637f19822e6f874e3a295, Repo 82856f3. download/ bleibt 0.9.93 (0.9.94 angenommen, aber "download erst nach dem Ingametest" – der Ingametest ergab PS-P2; auf Freigabe für 0.9.94 oder 0.9.95 warten).
+Abnahme im Spiel (Schneider-Figur, Berufsfenster offen, /ps protokoll): "WorthUpTo je Lauf" ab Lauf 2 "0 neu"; "WorthUpTo vergessen" nennt jeden
+ Grund; "Neuaufbau (Teil)" nur noch so lang wie ein einzelner WorthUpTo (eigener Code klein).
