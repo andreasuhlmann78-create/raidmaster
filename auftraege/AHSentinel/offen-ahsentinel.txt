@@ -7292,3 +7292,5 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     Wollcape (18,3 / 20,1 ms). API.lua:415 -> MK:WorthUpTo (dieselbe Rechnung wie Tooltip/Sniper). Auftrag: belegen, was in WorthUpTo bei diesen Items 18 ms
     kostet (erster Aufruf/kalt? Entzauberwert, Rezeptkette, Absatz-Lernen, Preisverlauf?), dann billiger machen oder zwischenspeichern; Ziel ≤ 2 ms je Aufruf
     (Fremd-Aufruf aus anderen Addons). Test mit diesem Item im Nachbau und Gegenprobe gleicher Wert. Auch Tooltip/Sniper profitieren.
+>>> AHS-API1 Nachtrag (Supervisor 27.11. 07:01): zweite Messung in neuer Sitzung (PS-Protokoll 07:01, Berufsfenster offen): "AHSentinel.API.WorthUpTo 20,7 ms ×1"
+    wieder für Verstärktes Leinencape -> reproduzierbar je Sitzung (je erster Aufruf für dieses Item), nicht Zufall. Gleicher Befund wie oben.
