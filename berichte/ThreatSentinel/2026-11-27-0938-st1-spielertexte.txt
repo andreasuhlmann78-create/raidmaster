@@ -1,0 +1,63 @@
+BERICHT ThreatSentinel 2.5.31 – 27.11.2026 09:38 – ST1 Spieler-Texte (+ SHARED-T4)
+Projekt: ThreatSentinel · Version 2.5.31 · Status: umgesetzt, zur Prüfung
+Veröffentlicht: Discord (announce/threatsentinel__threatsentinel-2.5.31.*), download/ThreatSentinel-2.5.31.zip. Nicht auf CurseForge.
+addon_check: "## ThreatSentinel-2.5.31.zip: OK", kein FEHLER, keine WARNUNG. Commit ba47c4ff.
+SHARED-T4: shared/GoldSentinelTest.lua Version 4 unverändert kopiert (cmp gleich; alle gemeinsamen Dateien = shared/).
+
+1) VERZEICHNIS – Texte, die ein normaler Spieler OHNE eigenes Zutun sieht (Testmodus aus)
+   Ort                                   | Text (vorher -> nachher)                                                      | Einstufung
+   Chat beim Einloggen (Core.lua)         | "ThreatSentinel: geladen. Einstellungen: Minimap-Knopf, /ts oder Spielmenü >  | Spieler (A)
+                                          |  Optionen > AddOns." -> "ThreatSentinel 2.5.31 – /ts oder der Minimap-Knopf    |
+                                          |  öffnet die Einstellungen."                                                    |
+   Chat bei Fehler (Core.lua ReportError) | vorher: nur in neuen Clients (Forever/Retail) "Ein interner Fehler wurde       | Spieler (C)
+                                          |  abgefangen - /ts bedrohung zeigt Details.", alte Clients nichts -> in JEDEM   |
+                                          |  Client 1× je Sitzung "Ein Fehler ist aufgetreten – er wird automatisch        |
+                                          |  gemeldet." Einzelheiten unverändert in Protokoll (Diag) + Fehlerliste         |
+                                          |  (GoldSentinelTest.Error, Uploader)                                            |
+   Chat "Kein Tank bekannt …" (Core.lua)  | vorher 1× je Gruppe -> 1× überhaupt (ThreatSentinelDB.hintsSeen.noTank)        | Spieler (E)
+   Chat Ini-Prüfung (Log.lua)             | "Ini-Prüfung läuft (…)", "Ini-Prüfung … beendet: n OK, m Fehler", "Du hast     | nur Testmodus (D)
+                                          |  nicht getankt" + Bericht-Fenster beim Verlassen -> still (ns:DevPrint);       |
+                                          |  Prüfung selbst läuft unverändert, /ts log bericht zeigt den Bericht weiter     |
+   Chat Warnungen mit Kanal "Nur ich"     | unverändert (Spieler hat den Kanal selbst gewählt; Warn-Funktion)              | Spieler
+   Bildschirmmitte, Töne                  | unverändert (Entscheid 08:41–08:49)                                            | Spieler
+   Minimap-Tipp                           | "Linksklick: Einstellungen", "Ziehen: Knopf verschieben" (Rechtsklick/Testzentrale | Spieler
+                                          |  schon vorher nur im Testmodus)                                               |
+   Optionen Allgemein (erweitert)         | "Diagnose automatisch senden", "Messdaten sammeln", Knopf "Diagnose-Protokoll" | -> Mithelfen (B)
+   Optionen Entwickler (nur Testmodus)    | Abschnitt "Entwickler" -> Abschnitt "Mithelfen" für alle, unten               | Mithelfen (B)
+   Optionen Mithelfen (neu, für alle)     | "Fehler melden (ohne Namen)" [diagSend], "Addon verbessern helfen" [m1Collect], | Mithelfen
+                                          |  "In Instanzen mitprüfen" [dungeonCheck, vorher versteckt aber AN],            |
+                                          |  "Auch im Schlachtzug" [dungeonCheckRaid], "Was gesendet wird" [diagShow];     |
+                                          |  Abschnitt-Hilfe: "Freiwillig: hilft dem Entwickler … Nur Zahlen, nie Namen …" |
+   Optionen Mithelfen (nur Testmodus)     | Testzentrale, Bilder während der Prüfung, Letzter Ini-Bericht                  | nur Testmodus
+   Optionen Tank-Sync                     | Abschnitt "Tank-Sync" -> "Mit Tanks abstimmen", "Tank-Sync aktiv" -> "Mit       | Spieler (B: Wort Sync)
+                                          |  anderen Tanks abstimmen" (Schlüssel sync unverändert)                          |
+   Normale Fenster (Aggrometer, DD-Ansicht, Plaketten, HUD) | nur Bedrohung in % und Namen der Mobs – keine Messwerte (ms/KB/Bilder) | Spieler (D)
+   Protokoll-Fenster (Diagnose, /ts protokoll), Testzentrale, /ts messung, /ts bedrohung | Messwerte bleiben dort (D erlaubt)  | Protokoll / Befehl
+   Nicht angefasst: Befehle und Hilfe-Listen, Tooltips von Gegenständen, Bildschirmmitte, Töne, Nachrichten an andere Spieler.
+   Gespeicherte Schlüssel NICHT umbenannt (diagSend, m1Collect, dungeonCheck, dungeonCheckRaid, dungeonShots, sync).
+
+2) TESTS mit Gegenprobe (umgesetzt, zur Prüfung)
+   - T-ST1 (neu, Bereich U): Testmodus AUS / AN je:
+     ist = soll: "Spieler: Einloggen 1/true/false, Fehler 1+0/2/2, Tipp 1/true, Ini 0 · Testmodus: Einloggen 1/false/false, Fehler 0+1/2/2,
+     Tipp 2/false, Ini 1 · Fachwörter keine, Gegenprobe true"
+     (Einloggen = Zeilen/Version drin/Technik-Wörter; Fehler = neue Zeile + alte Zeile / Protokoll-Einträge / Fehlerliste-Einträge bei ZWEI Fehlern;
+      Tipp = Zeilen bei zwei Gruppen / in SavedVariables gemerkt; Ini = Chat-Zeilen der Ini-Prüfung; Fachwörter = alle für Spieler sichtbaren
+      Options-Texte in enUS UND deDE gegen Diagnose, Uploader, Sync, Netz, GoldSentinelSync, Messdaten, Messung, Zeitbudget, API, Testmodus,
+      diagnostic, measurement, test mode, network.) Testmodus-Fehlerzeile 0+1 gilt in Forever (neuer Client), in Era 0+0 wie bisher.
+   - Gegenprobe: alter Ablauf in einer Kopie (alte Einlog-Zeile, Fehlerzeile nur neue Clients, Hinweis je Gruppe) -> T-ST1 FEHLER
+     "Spieler: Einloggen 1/false/false, Fehler 0+1/2/2, Tipp 2/false …".
+   - T-DEV1 angepasst: misst die echte Einlog-Zeile (ns:LoginLine) und zählt im Abschnitt Mithelfen die Testmodus-Zeilen: Spieler 0, Testmodus 3.
+   - Chat beim Einloggen im Nachbau (addon-check/ladetest, nur Start-Ereignisse, Testmodus aus, WoW Forever):
+     deDE: genau 1 Chat-Zeile "ThreatSentinel 2.5.31 – /ts oder der Minimap-Knopf öffnet die Einstellungen."
+     enUS: genau 1 Chat-Zeile "ThreatSentinel 2.5.31 – /ts or the minimap button opens the settings."
+     (2.5.30 vorher: "ThreatSentinel: geladen. Einstellungen: Minimap-Knopf, …" ohne Version.)
+   - Offline alles: Forever 317/323, Era 321/327 – je 6 FEHLER = die bekannten Nachbildungsfälle (T02, T09, T20, T34, T39, T133), ausserhalb 0.
+
+3) SPRACHEN (ThreatSentinel hat enUS und deDE; beide nachgeführt)
+   Geändert: OL_SEC_DEV, OL_DIAG, O_DIAG, OL_M1, O_M1, OL_DIAG_SHOW, O_DIAG_SHOW, OL_DUNGEON, O_DUNGEON, TAB_SYNC, O_SYNC.
+   Neu: LOGIN_LINE, ERR_ONCE, O_HELP_HELP. Unverändert weiter genutzt im Testmodus: LOADED, LOADED_DEV, ERR_NOTICE, DG_START, DG_DONE, DG_NOTANK.
+   CHANGELOG.md / CHANGELOG.de.md: Eintrag 2.5.31.
+
+Offen beim Nutzer
+- Ingametest 2.5.31 (Testmodus aus und an): Einloggen = 1 Zeile mit Version; Optionen > Mithelfen; /gsdev, /ts testroutine alles.
+- Weiter offen: Prüflisten-Punkt M1 (/ts messung kampf), echte Messdaten TS-M1 über den Uploader.
