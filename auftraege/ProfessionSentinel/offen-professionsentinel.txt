@@ -1019,3 +1019,8 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
     nicht raten; (b) wo sie wirklich unbekannt ist, verständlich statt "Skill ?" (z. B. "Lernstufe unbekannt" im Tooltip, in der Zeile nichts oder "–"), EN/DE;
     (c) Zählung im Bericht: wie viele Rezepte je Beruf heute req ≤ 1 haben, vorher/nachher. Daten-Update nur über den üblichen Weg (Rezeptdaten-Entwurf/Supervisor), falls
     die geplante Aufgabe "Rezeptdaten-Update" zuständig ist – im Bericht nennen.
+>>> PS-SK1 jetzt HOCH (Supervisor 27.11. 13:12) – Hinweis des Nutzers 13:06: "das findet man heraus ab welcher stufe das möglich ist ... das [sind] 0815 Rezepte, die man beim
+    Lehrer lernt". Für Lehrer-Rezepte darf es KEIN "Skill ?" geben. Wege (belegt, nicht raten): (1) Lehrerfenster liefert die Stufe selbst (GetTrainerServiceSkillReq bzw.
+    C_Trainer… im Forever-Client – messen, welche Funktion es gibt) -> beim Öffnen eines Lehrers für alle angebotenen Rezepte merken und in den Plan übernehmen;
+    (2) Referenz classic.goldgoblin.net für alle Lehrer-Rezepte aller Berufe; (3) das letzte Feld der Datenzeile (3865: 125, 8760: 110) prüfen – ist es die Lehrer-Stufe?
+    Ziel: alle Lehrer-Rezepte mit Lernstufe; "?" höchstens noch bei Rezepten aus unbekannter Quelle, und dann verständlich (siehe (b) oben).
