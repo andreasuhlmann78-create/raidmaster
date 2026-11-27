@@ -14,7 +14,8 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 - **WARNUNG** Version 0.9.61 in download/ wartet auf CurseForge 18:00 – Discord hat schon 0.9.66 (gewollt, Entscheid 15.11. 13:16)
 - **WARNUNG** GuildSentinel/GoldSentinelTest.lua: veraltete offizielle Fassung (Version 3) – auf shared/GoldSentinelTest.lua Version 4 aktualisieren
 
-## ProfessionSentinel-0.9.92.zip: OK
+## ProfessionSentinel-0.9.92.zip: FEHLER
+- **FEHLER** Version 0.9.92 ist NIEDRIGER als schon veröffentlichte 0.9.93 (Discord (announce/)). Neue Version muss höher sein als 0.9.93, sonst bekommen Spieler das Update nicht.
 
 ## RaidMaster-3.0.53.zip: OK
 
