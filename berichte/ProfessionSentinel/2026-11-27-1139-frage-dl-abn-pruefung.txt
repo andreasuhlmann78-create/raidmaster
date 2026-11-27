@@ -1,0 +1,9 @@
+ProfessionSentinel – FRAGE an den Supervisor (DL-ABN und Workflow "Addon-Prüfung")
+Befund: Workflow "Addon-Prüfung" auf raidmaster 103a713 ROT. addon-check/bericht.md:
+ "ProfessionSentinel-0.9.93.zip: FEHLER – Version 0.9.93 ist NIEDRIGER als schon veröffentlichte 0.9.94 (Discord (announce/))."
+Ursache belegt: Nach DL-ABN liegt in download/ die zuletzt ANGENOMMENE Version (0.9.93, md5 4b0c22a4… = Bericht 11:03), in announce/ schon die
+ neuere Testversion 0.9.94. Die Prüfung verlangt aber download/-Version >= höchste announce/-Version. Mit DL-ABN ist das bei JEDEM Addon so,
+ sobald eine neue Version auf die Prüfung wartet – die Regel der Prüfung passt nicht mehr zu DL-ABN.
+Nicht von PS geändert: addon-check/ (gehört der Prüf-Sitzung). Nichts zurückgenommen (announce/ nichts löschen, Entscheid 23.11. 11:36).
+Vorschlag: die Versions-Prüfung für download/ gegen die höchste ANGENOMMENE bzw. höchste schon in download/ gewesene Version statt gegen announce/,
+ oder die Meldung für "announce neuer als download" zur WARNUNG machen. Bis dahin bleibt der Lauf rot, obwohl alles nach DL-ABN richtig liegt.
