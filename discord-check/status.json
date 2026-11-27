@@ -1,6 +1,6 @@
 {
-  "geprueft": "2026-11-27T17:39:19Z",
-  "commit": "b704b3d",
+  "geprueft": "2026-11-27T19:17:10Z",
+  "commit": "f9432b8",
   "ok": false,
   "fehler": null,
   "hinweis": "Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 45 Minuten.",
@@ -8,84 +8,85 @@
     {
       "datei": "announce/addon-hilfe__ahanalyzerpro-hilfe-0.65.3.md",
       "kanal": "addon-hilfe",
-      "seit_push_min": 6165,
+      "seit_push_min": 6263,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/ahsentinel__ahsentinel-0-vorstellung-1.8.md",
       "kanal": "ahsentinel",
-      "seit_push_min": 26672,
+      "seit_push_min": 26770,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
-      "datei": "announce/ahsentinel__ahsentinel-0.65.422.md",
+      "datei": "announce/ahsentinel__ahsentinel-0.65.423.md",
       "kanal": "ahsentinel",
-      "seit_push_min": 142,
-      "abdeckung": 0.286,
-      "status": "veraltet",
+      "seit_push_min": 35,
+      "abdeckung": 0.222,
+      "status": "wartet",
       "fehlende_zeilen": [
-        "## AHSentinel 0.65.422",
-        "- **Schnellere \"Lohnt bis\"-Antworten (z. B. für ProfessionSentinel):** die Sicherheitsmarge beim Entzaubern hat für jeden einzelnen früheren Entzauber-Kauf die ",
-        "- Materialpreise und Entzauber-Startwerte werden je Abfrage nur noch einmal gerechnet.",
-        "- **Faster \"worth up to\" answers (e.g. for ProfessionSentinel):** the disenchanting safety margin looked up the item data of every single past disenchant purcha",
-        "- Material prices and disenchanting start values are now worked out only once per question."
-      ]
+        "## AHSentinel 0.65.423",
+        "- **Sniper mit mehreren Zielen:** Fenster und Kaufen-Knopf wechseln jetzt zwischen den Treffern aller Ziele. Vorher blieb ein Ziel mit Dauertreffer weit unter s",
+        "- Wartet ein Treffer, zeigt die Statuszeile zusätzlich, welches andere Ziel gerade gesucht wird.",
+        "- Ein gehaltener Treffer, der nicht mehr kaufbar ist (weg oder schon gekauft), belegt den Kaufen-Knopf nicht mehr bis zu 30 Sekunden.",
+        "- **Sniper with several targets:** the window and the Buy button now alternate between the hits of all targets. Before, a target with a constant hit far below i"
+      ],
+      "status_eigentlich": "veraltet"
     },
     {
       "datei": "announce/ahsentinel__ahsentinel-hilfe-1.0.md",
       "kanal": "ahsentinel",
-      "seit_push_min": 33869,
+      "seit_push_min": 33967,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/barrow-taktik__uebersicht-1.1.md",
       "kanal": "barrow-taktik",
-      "seit_push_min": 34700,
+      "seit_push_min": 34798,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/buffsentinel__buffsentinel-0-vorstellung-12.md",
       "kanal": "buffsentinel",
-      "seit_push_min": 33819,
+      "seit_push_min": 33917,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/buffsentinel__buffsentinel-0.9.69.md",
       "kanal": "buffsentinel",
-      "seit_push_min": 544,
+      "seit_push_min": 642,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-19.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 22199,
+      "seit_push_min": 22297,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/guildsentinel__guildsentinel-0.9.66.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 516,
+      "seit_push_min": 614,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/hyjal-taktik__uebersicht-1.1.md",
       "kanal": "hyjal-taktik",
-      "seit_push_min": 34700,
+      "seit_push_min": 34798,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/levelpilot__levelpilot-3.13.29.md",
       "kanal": "levelpilot",
-      "seit_push_min": 295,
+      "seit_push_min": 393,
       "abdeckung": 0.6,
       "status": "veraltet",
       "fehlende_zeilen": [
@@ -96,49 +97,49 @@
     {
       "datei": "announce/levelpilot__levelpilot-uebersicht-3.12.94.md",
       "kanal": "levelpilot",
-      "seit_push_min": 13476,
+      "seit_push_min": 13574,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/lore__alpine-vanguard-vorstellung-1.0.md",
       "kanal": "lore",
-      "seit_push_min": 38423,
+      "seit_push_min": 38521,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/mc-feuerresi__feuerresi-1.1.md",
       "kanal": "mc-feuerresi",
-      "seit_push_min": 34700,
+      "seit_push_min": 34798,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/onyxia-feuerresi__feuerresi-1.0.md",
       "kanal": "onyxia-feuerresi",
-      "seit_push_min": 43842,
+      "seit_push_min": 43939,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/onyxia-taktik__onyxia-video-1.0.md",
       "kanal": "onyxia-taktik",
-      "seit_push_min": 45266,
+      "seit_push_min": 45364,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/professionsentinel__professionsentinel-0-vorstellung-1.27.md",
       "kanal": "professionsentinel",
-      "seit_push_min": 20948,
+      "seit_push_min": 21046,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/professionsentinel__professionsentinel-0.9.96.md",
       "kanal": "professionsentinel",
-      "seit_push_min": 296,
+      "seit_push_min": 394,
       "abdeckung": 0.167,
       "status": "veraltet",
       "fehlende_zeilen": [
@@ -152,14 +153,14 @@
     {
       "datei": "announce/threatsentinel__threatsentinel-0-vorstellung-2.2.md",
       "kanal": "threatsentinel",
-      "seit_push_min": 36128,
+      "seit_push_min": 36226,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/threatsentinel__threatsentinel-2.5.31.md",
       "kanal": "threatsentinel",
-      "seit_push_min": 541,
+      "seit_push_min": 639,
       "abdeckung": 1.0,
       "status": "ok"
     }
@@ -170,16 +171,15 @@
       "version": "0.65.422",
       "datei": "download/AHSentinel-0.65.422.zip",
       "kanal": "ahsentinel",
-      "seit_push_min": 38,
-      "status": "wartet",
-      "status_eigentlich": "fehlt"
+      "seit_push_min": 136,
+      "status": "fehlt"
     },
     {
       "addon": "RaidMaster",
       "version": "3.0.53",
       "datei": "RaidMaster/RaidMaster.toc",
       "kanal": "raid-addon",
-      "seit_push_min": 542,
+      "seit_push_min": 639,
       "status": "ok",
       "gepostet": "2026-11-27 09:01 UTC",
       "anhang": [

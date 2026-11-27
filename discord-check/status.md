@@ -1,6 +1,6 @@
 # Discord-Prüfung
 
-Geprüft: 2026-11-27T17:39:19Z (Commit b704b3d), Server: Alpine Vanguard
+Geprüft: 2026-11-27T19:17:10Z (Commit f9432b8), Server: Alpine Vanguard
 
 **Ergebnis: ❌ es fehlt etwas**
 
@@ -10,8 +10,8 @@ Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 4
 
 | | Addon | Version | Kanal | Gepostet | seit Push |
 |---|---|---|---|---|---|
-| ⏳ wartet | AHSentinel | 0.65.422 | #ahsentinel | - | 38 Min. |
-| ✅ ok | RaidMaster | 3.0.53 | #raid-addon | 2026-11-27 09:01 UTC | 9 Std. |
+| ❌ fehlt | AHSentinel | 0.65.422 | #ahsentinel | - | 2 Std. |
+| ✅ ok | RaidMaster | 3.0.53 | #raid-addon | 2026-11-27 09:01 UTC | 10 Std. |
 
 ## Ankündigungen (announce/, neueste Fassung je Reihe)
 
@@ -19,31 +19,31 @@ Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 4
 |---|---|---|---|---|
 | ✅ ok | addon-hilfe__ahanalyzerpro-hilfe-0.65.3.md | #addon-hilfe | 100 % | 4 Tage |
 | ✅ ok | ahsentinel__ahsentinel-0-vorstellung-1.8.md | #ahsentinel | 100 % | 18 Tage |
-| ⚠️ veraltet | ahsentinel__ahsentinel-0.65.422.md | #ahsentinel | 28 % | 2 Std. |
+| ⏳ wartet | ahsentinel__ahsentinel-0.65.423.md | #ahsentinel | 22 % | 35 Min. |
 | ✅ ok | ahsentinel__ahsentinel-hilfe-1.0.md | #ahsentinel | 100 % | 23 Tage |
 | ✅ ok | barrow-taktik__uebersicht-1.1.md | #barrow-taktik | 100 % | 24 Tage |
 | ✅ ok | buffsentinel__buffsentinel-0-vorstellung-12.md | #buffsentinel | 100 % | 23 Tage |
-| ✅ ok | buffsentinel__buffsentinel-0.9.69.md | #buffsentinel | 100 % | 9 Std. |
+| ✅ ok | buffsentinel__buffsentinel-0.9.69.md | #buffsentinel | 100 % | 10 Std. |
 | ✅ ok | guildsentinel__guildsentinel-0-vorstellung-19.md | #guildsentinel | 100 % | 15 Tage |
-| ✅ ok | guildsentinel__guildsentinel-0.9.66.md | #guildsentinel | 100 % | 8 Std. |
+| ✅ ok | guildsentinel__guildsentinel-0.9.66.md | #guildsentinel | 100 % | 10 Std. |
 | ✅ ok | hyjal-taktik__uebersicht-1.1.md | #hyjal-taktik | 100 % | 24 Tage |
-| ⚠️ veraltet | levelpilot__levelpilot-3.13.29.md | #levelpilot | 60 % | 4 Std. |
+| ⚠️ veraltet | levelpilot__levelpilot-3.13.29.md | #levelpilot | 60 % | 6 Std. |
 | ✅ ok | levelpilot__levelpilot-uebersicht-3.12.94.md | #levelpilot | 100 % | 9 Tage |
 | ✅ ok | lore__alpine-vanguard-vorstellung-1.0.md | #lore | 100 % | 26 Tage |
 | ✅ ok | mc-feuerresi__feuerresi-1.1.md | #mc-feuerresi | 100 % | 24 Tage |
 | ✅ ok | onyxia-feuerresi__feuerresi-1.0.md | #onyxia-feuerresi | 100 % | 30 Tage |
 | ✅ ok | onyxia-taktik__onyxia-video-1.0.md | #onyxia-taktik | 100 % | 31 Tage |
 | ✅ ok | professionsentinel__professionsentinel-0-vorstellung-1.27.md | #professionsentinel | 100 % | 14 Tage |
-| ⚠️ veraltet | professionsentinel__professionsentinel-0.9.96.md | #professionsentinel | 16 % | 4 Std. |
+| ⚠️ veraltet | professionsentinel__professionsentinel-0.9.96.md | #professionsentinel | 16 % | 6 Std. |
 | ✅ ok | threatsentinel__threatsentinel-0-vorstellung-2.2.md | #threatsentinel | 100 % | 25 Tage |
-| ✅ ok | threatsentinel__threatsentinel-2.5.31.md | #threatsentinel | 100 % | 9 Std. |
+| ✅ ok | threatsentinel__threatsentinel-2.5.31.md | #threatsentinel | 100 % | 10 Std. |
 
-**announce/ahsentinel__ahsentinel-0.65.422.md** – fehlt im Discord:
-- `## AHSentinel 0.65.422`
-- `- **Schnellere "Lohnt bis"-Antworten (z. B. für ProfessionSentinel):** die Sicherheitsmarge beim Entzaubern hat für jeden einzelnen früheren Entzauber-Kauf die `
-- `- Materialpreise und Entzauber-Startwerte werden je Abfrage nur noch einmal gerechnet.`
-- `- **Faster "worth up to" answers (e.g. for ProfessionSentinel):** the disenchanting safety margin looked up the item data of every single past disenchant purcha`
-- `- Material prices and disenchanting start values are now worked out only once per question.`
+**announce/ahsentinel__ahsentinel-0.65.423.md** – fehlt im Discord:
+- `## AHSentinel 0.65.423`
+- `- **Sniper mit mehreren Zielen:** Fenster und Kaufen-Knopf wechseln jetzt zwischen den Treffern aller Ziele. Vorher blieb ein Ziel mit Dauertreffer weit unter s`
+- `- Wartet ein Treffer, zeigt die Statuszeile zusätzlich, welches andere Ziel gerade gesucht wird.`
+- `- Ein gehaltener Treffer, der nicht mehr kaufbar ist (weg oder schon gekauft), belegt den Kaufen-Knopf nicht mehr bis zu 30 Sekunden.`
+- `- **Sniper with several targets:** the window and the Buy button now alternate between the hits of all targets. Before, a target with a constant hit far below i`
 
 **announce/levelpilot__levelpilot-3.13.29.md** – fehlt im Discord:
 - `📢 **LevelPilot 3.13.29** – genauere Speichermessung in der Testroutine`
