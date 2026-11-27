@@ -295,7 +295,10 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Feralas (1444)
 
-- Wegstücke 25, Knoten 167, zusammenhängende Teile 1
+- Wegstücke 29, Knoten 188, zusammenhängende Teile 2
+- **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
+  - Teil 1: 183 Knoten, Bereich 45–75 / 2–58
+  - Teil 2: 5 Knoten, Bereich 52–53 / 57–58
 
 ## Marschen von Dustwallow (1445)
 
@@ -305,14 +308,14 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Tanaris (1446)
 
-- Wegstücke 145, Knoten 184, zusammenhängende Teile 2
+- Wegstücke 155, Knoten 189, zusammenhängende Teile 2
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 179 Knoten, Bereich 51–78 / 18–32
+  - Teil 1: 184 Knoten, Bereich 51–78 / 18–32
   - Teil 2: 5 Knoten, Bereich 72–74 / 17–18
 
 ## Orgrimmar (1454)
 
-- Wegstücke 1714, Knoten 1018, zusammenhängende Teile 3
+- Wegstücke 1716, Knoten 1018, zusammenhängende Teile 3
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 1013 Knoten, Bereich 22–82 / 19–95
   - Teil 2: 3 Knoten, Bereich 38–40 / 28–30
@@ -342,7 +345,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Thunder Bluff (1456)
 
-- Wegstücke 1004, Knoten 797, zusammenhängende Teile 8
+- Wegstücke 1012, Knoten 797, zusammenhängende Teile 8
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 749 Knoten, Bereich 23–78 / 12–87
   - Teil 2: 16 Knoten, Bereich 11–21 / 17–35
@@ -403,9 +406,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Flusslande (2548)
 
-- Wegstücke 2627, Knoten 2335, zusammenhängende Teile 6
+- Wegstücke 2933, Knoten 2338, zusammenhängende Teile 6
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 2317 Knoten, Bereich 16–88 / 15–97
+  - Teil 1: 2320 Knoten, Bereich 16–88 / 15–97
   - Teil 2: 6 Knoten, Bereich 58–58 / 32–33
   - Teil 3: 5 Knoten, Bereich 60–61 / 76–78
   - Teil 4: 3 Knoten, Bereich 61–62 / 35–35
