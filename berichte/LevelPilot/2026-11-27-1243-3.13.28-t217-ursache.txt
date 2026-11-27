@@ -1,0 +1,39 @@
+LevelPilot 3.13.28 – Bericht an die Prüf-Sitzung: T215–T217 Ursache belegt und behoben (HOCH), Speicher je Prüfung, T155
+Stand 27.11.2026 12:43 · umgesetzt, zur Prüfung
+Zip: announce/levelpilot__levelpilot-3.13.28.LevelPilot.zip (md5 3fcede98af74f0839eca4dba6c76dd4b, 2 861 622 Bytes)
+
+1. T215–T217 (Ingametest 3.13.27, 12:27) – URSACHE BELEGT
+- Messzeile T217 aus dem Spiel (Upload 12:35): "Teile: Fokus 1 144.1 ms +2246 KB, Fokus 2 0.0 ms +1 KB, Wächter 0.0 ms +1 KB · Stufenbänder
+  vorher da · Bildwechsel false · Aufgaben vorher keine, nachher keine". Also: die ganze Zeit im ERSTEN Aufruf von Planner:ChooseFocus, im
+  selben Bild, ohne Hintergrund-Aufgabe; der zweite Aufruf kostet nichts -> ein Zwischenspeicher wird beim ersten Mal am Stück gefüllt.
+  (Meine Vermutung im Bericht 11:18 "Zeit liegt ausserhalb der Routine" war damit falsch: das Feld ganzeBilder ordnet diese Zeit der Routine
+  nicht zu, sie ist aber Rechenzeit von T217.)
+- Nachbau mit den Daten des Uploads 12:35 (vorher Daten 26.11.: nur 8 ms): Fokus 1 138,3 ms +1773 KB – Zeit je Unterfunktion:
+  Graph:MeasureDetour 2× 138,2 ms +1770 KB (über LP.Jobs.Start), P.WayDist 9× 138,25 ms, Geo:Dist 0,01 ms, ZoneOf 0,01 ms.
+  Umweg-Faktoren vorher vorhanden nur für 1458/1420/1421; für die Zonen der Aufgaben (Mulgore 1412, Thunder Bluff 1456) fehlten sie.
+- Kette: ChooseFocus -> P.WayDist -> Graph:Detour -> MeasureDetour -> LP.Jobs.Start. Die Routine schaltet Jobs.sync ein (TR:Run,
+  TestRoutine.lua "LP.Jobs.sync = true") -> der Auftrag rechnet sofort am Stück (Perf.lua Jobs.Start, Zweig sync), in T217 unter dem pcall
+  von Guard, also ohne Abgabe. Ausserhalb der Routine ist es eine Hintergrund-Aufgabe in Portionen -> für Spieler kein Hänger.
+- Behoben: T217 misst die fehlenden Umweg-Faktoren der Zonen seiner Aufgaben VOR Guard als freigegebene Rechnung (Coop: Jobs.Start rechnet
+  mit TR.PCall und gibt an LP:Yield("graph") ab), mit TR.Safe je Zone. Ergebniszeile neu: "Umweg-Faktoren vorher gemessen: N Zone(n)".
+- Nachbau gleiche Daten: 3.13.27 längstes Bild "T215–T217 94.1 ms"; 3.13.28 "Fokus 1 0.0 ms +1 KB", T215–T217 nicht mehr unter den
+  längsten Bildern. Der Stufenband-Verdacht (11:18) bleibt widerlegt.
+
+2. Speicherbereinigung −159 / −115 MB in T355 / T136 – noch NICHT belegt, jetzt gemessen
+- Belegt aus dem Upload: Viele verschiedene Stücke im Spiel je +3,7–4,1 MB (T244, T34, T289, T294, T251, T285, T386, T398, T21 …); dieselben im
+  Nachbau klein (T244 nicht unter den 40 grössten). T136: "Text 49.9 ms −117069 KB" – die Bereinigung lief beim Bauen des Protokolltexts
+  (sie trifft die Stelle, an der gerade Speicher angelegt wird; 8214 Zeichen, 5 Einträge – der Text selbst ist klein).
+- Neues Berichtsfeld speicherPruefungen: Speicher, den jede Prüfung selbst anlegt (nur Prüfungen ohne Pause, weil in einer Pause andere Addons
+  und das Spiel in denselben Speicher schreiben), grösste 12. Nachbau: "ohne Pause 345 Prüfungen, zusammen +16.1 MB · mit Pause 67 · grösste:
+  T292 +4080 KB, T30 +1999 KB …". Zeigt das Spiel bei T244/T34/T289 je ~4 MB, liegt es am Code dieser Prüfungen; sonst an dem, was dazwischen
+  läuft – dann nächster Schritt danach.
+
+3. T155 (HOCH, erste Planung 447 ms, Knoten 11239, Umkreis kalt 1105) – im Nachbau mit den Daten 12:35 NICHT nachgestellt: dort längste
+   Planung 32,3 ms (Knoten 451). Die Planung #1 im Spiel lief in Portionen (44 Pausen, Wanduhr 1471 ms) – kein langes Bild, aber zu viel
+   Rechenzeit. Nächster Schritt: herausfinden, welche Wegsuche 11 239 Knoten ausdehnt (Spiel-Zustand vor T155 nachbauen).
+
+Prüfungen vor dem Push
+- addon_check: OK. Gemeinsame Dateien GoldSentinel*.lua mit cmp gleich shared/. Offline-Routine: 40 Läufe, 40 ohne FEHLER.
+- Nachbau ganze Routine (Daten 27.11. 12:35): 1 FEHLER T261 (Einloggen 1679 ms) – mit 3.13.27 und denselben Daten ebenso (1963 ms), also von
+  den neuen Daten im Nachbau; im Spiel T261 OK (830 ms). Längstes Bild 48,4 ms T32 (3.13.27 gleiche Daten: T32 35,7 ms; T32 ist nicht geändert –
+  Verdacht Rauschen der Arbeitsmaschine, zu messen; im Spiel T32 nicht unter den langen Bildern).
