@@ -1,14 +1,15 @@
-# Stand GuildSentinel – 27.11.2026 10:04 · Version 0.9.66 (Discord); CurseForge 0.9.61
+# Stand GuildSentinel – 27.11.2026 10:26 · Version 0.9.66 (Discord, angenommen 27.11. 10:30); CurseForge 0.9.61
 
 ## Gerade in Arbeit
 - Nichts. 0.9.66 auf Discord (GS-REK1 + ST1), Bericht 2026-11-27-1003-version-0.9.66-rek1-st1.txt.
-- 0.9.64 und 0.9.65 vom Supervisor angenommen, Abnahme im Spiel offen.
+- 0.9.64, 0.9.65, 0.9.66 (GS-REK1 Code ERLEDIGT, ST1) vom Supervisor angenommen, Abnahme im Spiel offen.
+- DL-ABN (27.11. 10:30): download/ nur angenommene Versionen und bei GS nur nach OK des Nutzers – eingehalten (download/ = 0.9.61).
 
 ## Nächste Schritte (Reihenfolge)
-1. Prüfung 0.9.66 abwarten, dabei offen-guildsentinel.txt bei jedem "repo" lesen.
+1. Auf neue Aufträge warten, dabei offen-guildsentinel.txt bei jedem "repo" lesen.
 2. Ingametest 0.9.66 (Einladung fremder Gilde -> keine Antwort; "ginv?" -> Antwort+Fragen; Einlog-Zeile; Meine Woche; Testroutine mit
    vorher angeschaltetem Testmodus; Bank-Charakter; SEITE-Zeile im Protokoll).
-3. Danach CurseForge 0.9.66 nur mit OK des Nutzers.
+3. Danach CurseForge 0.9.66 nur mit OK des Nutzers (angenommen ist sie; dieselbe Zip, md5 im Bericht, alte Zip entfernen).
 4. Offen: Entscheid T270 250 statt 500 Mitglieder; FRAGE L5 (reine Gegenstands-Tooltips); FRAGE ST1 "Marktdaten teilen" nach "Mithelfen"?
 
 ## Offen beim Nutzer
