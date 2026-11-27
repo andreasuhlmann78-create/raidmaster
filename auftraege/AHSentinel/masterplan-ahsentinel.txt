@@ -58,15 +58,15 @@ SCHRITT 3 – GEHIRN: DATEN ALLER SPIELER WIEDER ZUM LAUFEN BRINGEN
   (Supervisor/Discord parallel, siehe E: Tagesdateien und Markt-Tabelle "alle" wieder täglich.)
 
 SCHRITT 4 – BUCHHALTUNG UND VERKAUFEN
-  4.1 DE-AUFT1 (0.65.199 umgesetzt) im Spiel abnehmen.  4.2 TB181-4 Abbrechen-Knopf "Meine Auktionen" bei "?" – Stand unklar.
+  4.1 DE-AUFT1 (0.65.199 umgesetzt) im Spiel abnehmen.  4.2 TB181-4 Abbrechen-Knopf bei "?" – gebaut 0.65.201 (T787), im Spiel abnehmen.
   4.3 Post: "alles abholen" (0.65.362) abnehmen.  4.4 VK-P1/P8–P10 Verkaufspreis-Vorschlag abnehmen; VK-E1, BH-TT2 (NIEDRIG).
-  4.5 R1–R7 alle Reiter aktualisieren sich selbst (Auftrag 23.11.) – Stand unklar.
+  4.5 R1–R7 alle Reiter aktualisieren sich selbst (Auftrag 23.11.) – NICHT GEBAUT (Inventur 21:45, vom Supervisor im Code bestätigt:
+      UI:RefreshLater nur aus DATA_CHANGED) = grösster offener Bau-Punkt; direkt nach Schritt 2.
 
 SCHRITT 5 – RECHENKERN FERTIG = 0.66.0
-  5.1 TT-DE2 Entzauber-Teil im Tooltip (Variante B ohne 10s76) – seit 15.11. nie gebaut.
-  5.2 MR2 Mein Lager (Taschen, Bank, Post, eigene Auktionen) – nie gebaut.
-  5.3 RK3 herstellen oder roh verkaufen (mit ProfessionSentinel), RK4 Berufe automatisch, RK6 Haltedauer, RK7 Rangfolge Gold/Tag je 1g,
-      RK8 Prüffälle (RK5 Risiko-Wahl angenommen 14.11.) – je Stand aus der Inventur.
+  5.1 TT-DE2 Entzauber-Teil im Tooltip – gebaut 0.65.203 (T789), im Spiel abnehmen. (Korrektur nach Inventur.)
+  5.2 MR2 Mein Lager – gebaut 0.65.204 (T790), im Spiel abnehmen. (Korrektur nach Inventur.)
+  5.3 RK3–RK8 – alle gebaut (0.65.205–0.65.231, T791/T792/T795/T797/T807), im Spiel abnehmen; RK3-Rezepte brauchen PS-API1.
   5.4 Version 0.66.0 "Rechenkern fertig" mit eigenem Bericht + MARKT-KERN, erst nach Schritt 2 grün.
 
 SCHRITT 6 – OBERFLÄCHE: UI-CLEAN1-B (727 Befunde 16.11., heute?), HP-2/3/4, T750/T191.
@@ -77,6 +77,10 @@ ZEITKRITISCH (vor Schritt 3 einschieben, wenn die Inventur Lücken zeigt): Vorr�
 
 OFFENE FRAGE AN DEN NUTZER (seit 14.11.): "aus dem Rechenkern eine kleine KI basteln?" – Vorschlag unverändert: erst Statistik, ein Modell
   nur bei vielen Fällen und wenn nachweislich besser. Entscheid steht aus (kein Bau ohne Freigabe; ebenso 8i Kelly, I3, I4, I6).
+
+NACHTRAG 27.11. 22:00 (Inventur AHS 21:45, Stichproben Supervisor T787/T789/T790/T791/T792/T807/T944 im Code 0.65.423 vorhanden, R1–R7 fehlt):
+  Fast alles aus Phase 1–8 ist GEBAUT; es fehlt die ABNAHME IM SPIEL. Darum nach Schritt 2 eine Abnahme-Runde mit dem Nutzer
+  (Prüfliste, je Punkt OK/nicht OK), dann 0.66.0.
 
 =====================================================================================================================
 E. AUSSERHALB VON AHSENTINEL

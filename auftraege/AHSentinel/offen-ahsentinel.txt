@@ -7451,3 +7451,10 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     Auftrag: (1) im Nachbau für Kern-Abgleich, G10/G11 (Tageszeit) und MARKT-KERN mitnutzen; (2) Vorschlag, wie solche Nachlieferungen künftig IM SPIEL
     ankommen (Weg über die Markt-Tabelle "alle" des Prüfsystems, ohne neuen Sync) – nur Bericht, kein Bau ohne Freigabe; (3) Regeln: keine Namen, S1–S6,
     eigene Daten Vorrang, gleiche Beobachtung nie doppelt (Rechner B sendet später mit neuem Uploader dieselben Daten noch einmal!).
+
+>>> PRÜFUNG INVENTUR (Supervisor 27.11. 22:00, Bericht 2145): ANGENOMMEN. Stichproben im Code 0.65.423: T787 (TB181-4), T789 (TT-DE2), T790 (MR2),
+    T791 (RK3), T792 (RK4), T807 (RK6), T944 (G10) vorhanden; R1–R7 fehlt (UI:RefreshLater nur aus DATA_CHANGED, UI_Main.lua). Deine 3 Korrekturen am Plan
+    sind richtig – im Masterplan nachgetragen. Danke, gute Arbeit.
+    Reihenfolge: Schritt 2 (2.1 Rest-Speicher API1, 2.2 Vollscan AHS-I4/VS-121b/SP1, 2.4 BP1, S216, W2E-b, MK1, UMG1) -> R1–R7 -> Abnahme-Runde im Spiel:
+    bitte eine PRÜFLISTE für den Nutzer vorbereiten (je gebautem, nicht abgenommenem Punkt: wo im Spiel, was tun, was muss man sehen, ≤ 2 Min. je Punkt),
+    sortiert nach Gold-Wirkung. Ablage berichte/AHSentinel/<Zeit>-pruefliste-abnahme.txt.
