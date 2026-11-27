@@ -7458,3 +7458,11 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     Reihenfolge: Schritt 2 (2.1 Rest-Speicher API1, 2.2 Vollscan AHS-I4/VS-121b/SP1, 2.4 BP1, S216, W2E-b, MK1, UMG1) -> R1–R7 -> Abnahme-Runde im Spiel:
     bitte eine PRÜFLISTE für den Nutzer vorbereiten (je gebautem, nicht abgenommenem Punkt: wo im Spiel, was tun, was muss man sehen, ≤ 2 Min. je Punkt),
     sortiert nach Gold-Wirkung. Ablage berichte/AHSentinel/<Zeit>-pruefliste-abnahme.txt.
+
+>>> PRÜFUNG SUPERVISOR 27.11. 22:25 – 0.65.425 (AHS-BP1, Bericht 22:11): ANGENOMMEN (Code), Abnahme im Spiel offen (Nutzer: Tooltip Blendungspulver/Gift).
+    addon_check OK, md5 7c92b29e… = Bericht. A:BindOnPickup gelesen: bindType 1/4, keine Server-Anfrage (IsItemDataCachedByID), Cache 60 s; Werte 151 Items gleich.
+    BEFUND MITTEL AHS-BP1-L (Leistung, Verdacht – zu messen): BindOnPickup sitzt in A:RealPrice/ResalePrice/UnitStockValue/PriceHints/FlipBlocked/Batch/Sniper
+    – also in heissen Wegen (Markt-Reiter-Aufbau, Vollscan-Nachlauf, "Lohnt bis"). Bei 60 s Ablauf fragt AHS je Minute erneut GetItemInfo je Item (im Spiel
+    7–11 µs je Aufruf, AHS-API1!) -> 7500 Items ≈ 50–80 ms + Tabellen. Messen im Nachbau mit echten Daten (HORDE=1): Markt-Reiter kalt/warm und Vollscan-
+    Nachlauf, 0.65.424 gegen 0.65.425 (ms, KB). Vorschlag: Bindung ändert sich nur per Hotfix -> Ablauf deutlich länger (z. B. 30 Min. oder bis /reload,
+    Neuladen bei GET_ITEM_INFO_RECEIVED) – mit Messung begründen. Dazu NIEDRIG: ruhendes Sniper-Ziel (gebunden) im Fenster mit Grund anzeigen, nicht still.
