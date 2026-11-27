@@ -2099,3 +2099,5 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
     davon 2 durch Umgebung; längstes ganzes Bild 70 ms (vorher 150–157). T215–T217 weiter weg. T155: 16,89 ms je Planung (Ziel < 16), Median 9,65, längste 63 ms.
     Reisen: längstes 11,2 ms, 0 über 16. Die Speicher-Zeilen (speicherPruefungen, 3.13.29) stehen im Upload – auswerten (T136: −110 MB fällt in den Zentrale-Text).
     Offen: MITTEL T155 (knapp über Ziel), MITTEL T136 Zentrale; Rest um 30 ms (Laptop in Ruhe 33 ms je Bild).
+>>> HINWEIS DATEN (Supervisor 21:40): Rechner von Offizier B lieferte 27.11. 21:31 LevelPilot-Wegdaten (8 Pakete, neueste 26.11. 16:59, 27.11. 20:22/21:30),
+    erzeugt mit LevelPilot 3.12.31 (alt). Für die Wege-Auswertung brauchbar; Format-Unterschiede zu 3.13.x beachten. Bericht: berichte/Supervisor/2026-11-27-2140-daten-offizier-b.txt

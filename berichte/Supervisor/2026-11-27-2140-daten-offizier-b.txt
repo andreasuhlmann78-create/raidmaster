@@ -1,0 +1,23 @@
+DATEN OFFIZIER B – Upload 27.11.2026 21:31 (Rechner B, Daten-Repo main, aktuell/<Rechner B>/forever/konto-741a4b9a) – Supervisor 21:40
+Auftrag des Nutzers 21:33: "suche nach allem, was wir brauchen können". Nur gelesen, keine Namen übernommen.
+
+LIEFERUNG: noch mit ALTEM Uploader (stand.json ohne "uploader", Dateien ungepackt, nur main, kein Zweig sicherung) -> Abgleich/Bot nehmen sie
+  nicht an (Mindestversion). Für Auswertungen des Prüfsystems sind sie trotzdem lesbar (Daten-Repo main).
+
+INSTALLIERTE ADDON-VERSIONEN (aus den Daten, Verdacht – höchste gefundene Nummer, kein Start-Eintrag): AHSentinel um 0.65.393 (Fehler-Meldungen
+  0.65.354), ProfessionSentinel 0.9.32 (eigenes Diagnose-Protokoll 27.11. 21:30 – aktuell 0.9.96/stabil 0.9.93), LevelPilot 3.12.31 (stabil 3.13.28),
+  BuffSentinel um 0.9.21. -> Offizier B spielt mit Wochen alten Addons; der alte Uploader installiert keine Addons. Mit Uploader 2.3.30 kommen die
+  stabilen Versionen automatisch.
+
+BRAUCHBAR:
+ 1. AHSentinel-Marktbeobachtungen 21.–27.11. (Zeitstempel je Tag: 21.11. 40 418, 22.11. 33 352, 23.11. 7 646, 24.11. 3 696, 25.11. 8 167,
+    26.11. 11 320, 27.11. 2 120; letzter Scan 26.11. 17:51) – andere Spielzeiten als der Nutzer -> genau das, was G1–G11 (gemeinsamer Markt,
+    Tageszeit) und der Kern-Abgleich brauchen. Lücke des Daten-Repos 14.–20.11. füllt das NICHT (erst ab 21.11.).
+ 2. LevelPilot-Wegdaten: 8 Pakete, die neuesten 26.11. 16:59, 27.11. 20:22, 27.11. 21:30 – für die Wege-Auswertung.
+ 3. ProfessionSentinel-Diagnose 0.9.32: 0 Lua-Fehler, TRADE_SKILL_SHOW ×508 15,4 ms – alt, nur als Vergleich.
+ 4. AHSentinel-Fehlermeldungen 0.65.354: ADDON_ACTION_FORBIDDEN (ContainerFrame) – alte Version, vermutlich längst behoben (nicht weiterverfolgen,
+    bis B auf aktueller Version ist).
+ 5. GuildSentinel/RaidMaster-Daten bis 27.11. 21:30 (Gilde, Raid) – kommen im Bot erst mit neuem Uploader an.
+
+NÄCHSTER SCHRITT: Offizier B startet Uploader 2.3.30 aus dem richtigen Ordner (Uploader-Fenster zeigt 2.3.30). Danach installiert der Uploader die
+  stabilen Addons, und die Daten werden angenommen. Supervisor prüft den nächsten Upload (stand.json "uploader").
