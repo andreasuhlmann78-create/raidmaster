@@ -1,0 +1,7 @@
+BERICHT AHSentinel 0.65.423 – FULL-Nachbau (alle Szenarien), allein gelaufen
+Projekt-Sitzung AHSentinel · 27.11.2026 20:03 · Stand: umgesetzt, zur Prüfung
+
+- Lauf auf Kopie /tmp/claude-0/ahs423, vorher und währenddessen kein anderer Nachbau-Lauf (pgrep run_all.sh leer).
+- Ergebnis: 357 BESTANDEN, 67 FEHLGESCHLAGEN (0.65.422: 356/67; +1 = neues Szenario s345_snz4_zwei_ziele PASS).
+- Fehlerlisten verglichen: keine neuen roten, keine neu grünen alten Szenarien.
+- SN-Z4: Kauf im Spiel (kein KAUF-Eintrag 19:13–19:20) wartet auf Ingametest des Nutzers.
