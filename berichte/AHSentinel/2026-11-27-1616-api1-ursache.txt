@@ -1,0 +1,34 @@
+BERICHT AHSentinel 0.65.422 – AHS-API1 HOCH: Ursache der ~1000 GetItemInfo-Aufrufe belegt und behoben (Auftrag Supervisor 15:55)
+Projekt-Sitzung AHSentinel · 27.11.2026 16:16 · Stand: umgesetzt, zur Prüfung
+md5 AHSentinel-0.65.422.zip (announce/): 0acf340ecdf17026a82eb9988b1c4872
+
+1. URSACHE (Datei:Zeile, belegt im Nachbau mit Aufruf-Zählung je Stelle, Szenario zz_api4)
+   MK:DELimit -> MK:LimitFromNet (MarketCore.lua:601) -> MK:SafetyMargin (:527) -> MK:BaseMargin (:504) -> Ln:Margin("d") (Learn.lua:~605)
+   -> Ln:MarginCalc -> Ln:BuyStats("d") (Learn.lua:~565): Schleife über ALLE Kauf-Fälle; je Entzauber-Kauf pcall(D.CorrectionFor, D, e.id)
+   -> D:CorrectionFor (Disenchant.lua:1706) -> D:Prior -> D:PriorRaw -> pcall(GetItemInfo) + neue Startwert-Tabellen (GreenPrior).
+   Laptop-Daten 27.11. 15:46: 1016 Entzauber-Käufe, davon nur 7 verschiedene Items -> 1016 Prior-Aufrufe für 7 Ergebnisse.
+   Ln:Margin merkt höchstens 30 s (und bis neuer Scan/neuer Fall) -> jede erste "Lohnt bis"-Rechnung danach zahlt das (im Spiel 7–11 µs je
+   GetItemInfo = 7–11 ms + Tabellen ~860 KB). Deshalb trafen es die PS-Abfragen kurz nach dem Laden bzw. alle 30 s.
+   Warum der Nachbau es bisher nicht zeigte (belegt): (a) der Nachbau spielte als ALLIANZ -> mit den Laptop-Daten leerer Markt "Alle|Alliance"
+   -> DealValue ohne Materialpreise = nil -> LimitFromNet nie erreicht; (b) die Items waren im Nachbau unbekannt -> PriorRaw sofort nil.
+   Mit Horde-Markt (HORDE=1) und bekannten Items zeigt der Nachbau es jetzt: 0.65.421 kalter WorthUpTo 40,6–42,6 ms, Prior 1020.
+
+2. MASSNAHMEN 0.65.422
+   a) Ln:BuyStats: Korrektur je Item EINMAL je Aufruf merken (corrById) – gleicher Zustand im selben Aufruf -> gleicher Wert.
+   b) Ln:BuyStats(way, noRatios): für Entzaubern keine Liste mit 1016 Verhältnissen mehr (MarginCalc "d" nutzt nur Summe/Summe, KF2);
+      Sonderfall Summe 0 rechnet wie bisher den Median mit Liste.
+   c) API.WorthUpTo (jede echte Rechnung): D.matCache für diesen einen Aufruf (nur wenn frei; gilt nur im selben Bild) -> Materialpreise und
+      Prior je Item einmal statt 11–20× (Auftrag Punkt 3 "Mat Leiter").
+3. MESSUNG Nachbau (Laptop-Daten 15:46, Horde-Markt, Items bekannt), 0.65.421 -> 0.65.422:
+   MK:LimitFromNet 2584 32,8 ms -> 0,95 ms, Prior 1017 -> 8 · Ln:Margin("d") 22,8 ms -> 0,52 ms (Wert 0,1, n 1480 gleich)
+   kalter WorthUpTo mit neu zu rechnender Marge (schlimmster Fall, höchstens alle 30 s): 40,6–42,6 ms / 120–155 KB -> 1,6–2,2 ms / 64–96 KB
+   kalter WorthUpTo mit gemerkter Marge (Normalfall): 0,7–1,2 ms / 41–76 KB.
+   Ziel ≤ 2 ms erreicht (Nachbau); Speicher ≤ 50 KB nur im Normalfall bei 3 von 4 Items – Rest: "DE tatsächlich" (D:ActualValue/Combined: Zeilen-
+   und Material-Tabellen je Aufruf, 26–42 KB) und Mat Leiter (16 KB beim Wollcape). Nächster Schritt dort, wenn der Ingametest es bestätigt.
+4. GEGENPROBE gleiche Werte: zz_api5 (151 Items als bekannte grüne/blaue Teile, Horde-Markt, 149 mit Entzauber-Wert): WorthUpTo und DELimit
+   0.65.421 = 0.65.422 (diff leer). zz_api1eq 124 Items (beide Datenstände) gleich; 20 Schneider-Produkte gleich.
+   T1041 neu (Korrektur-Aufrufe = Anzahl Items; Anzahl/Summen gleich wie Kauf für Kauf; ohne Liste) PASS; T1040 PASS.
+   19 Szenarien (Entzaubern, Kern, API, Testroutine, s341) Ergebnis identisch zu 0.65.421 (s1_market_deals, s8_de_learn, s77_learn, s314 rot wie
+   schon in FULL 0.65.421). addon_check OK. FULL 0.65.422 folgt allein.
+5. NACHBAU-LEHRE (für mich): Messungen mit echten Daten immer mit HORDE=1 (Markt der Daten) und bekannten Items – sonst falscher Weg.
+6. Ingametest Nutzer: wie 15:44 mit 0.65.422 – erwartet keine Zeile API-LANGSAM mehr über 4 ms (bzw. ohne "DE Iteminfo ×1000").
