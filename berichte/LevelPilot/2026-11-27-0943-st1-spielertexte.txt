@@ -1,0 +1,71 @@
+LevelPilot 3.13.26 – Bericht an die Prüf-Sitzung: ST1 Spieler-Texte (anweisung-spielertexte-2026-11-27.txt, MITTEL)
+Stand 27.11.2026 09:43 · umgesetzt, zur Prüfung
+Zip: announce/levelpilot__levelpilot-3.13.26.LevelPilot.zip (md5 55151d480fbfc42f8db444b84f1381fc, 2 858 925 Bytes)
+
+Grundsatz: Alles gilt nur ausserhalb des Testmodus (LP:IsDev()). Im Testmodus geben alle geänderten Stellen den bisherigen Text aus.
+Nicht angefasst: Befehle und Hilfe-Listen, Tooltips, Bildschirmmitte, Töne, Nachrichten an andere Spieler, Antworten auf eigene Befehle.
+
+1. VERZEICHNIS – Texte, die ein normaler Spieler ohne eigenes Zutun sieht (vorher -> nachher, Einstufung)
+Chat beim Einloggen
+- Core.lua Login: "v3.13.25 geladen. Linksklick auf den Minimap-Button = Guide, Rechtsklick = Zentrale."
+  -> "3.13.26 – Linksklick auf den Minimap-Knopf: Guide, Rechtsklick: Zentrale." (mit Vorsatz "LevelPilot: ") · Spieler (A)
+- Core.lua WegeInfoOnce "LevelPilot teilt gelaufene Wege ohne Namen …": schon seit 3.13.2 einmal je Konto (db.wegeInfoShown) · Spieler (E) · unverändert
+- Session.lua Optionstipp "Tipp: Nachkaufen und Belohnung anlegen …": schon einmal (db.optTipShown) · Spieler (E) · unverändert
+- Session.lua "Wo war ich?" (Willkommen zurück, Zone, 3 Schritte, fertige Quests) nach 6 s bei jedem Einloggen: Spieler-Schalter
+  Extras > „„Wo war ich?“ beim Einloggen“, ab Werk an · unverändert – FRAGE an den Nutzer, siehe Punkt 4
+- Perf.lua Notbremse "Routenberechnung pausiert (zu aufwendig) …" (im Nachbau mit echten Daten direkt nach dem Einloggen)
+  -> nur Protokoll (Eintrag "brake" wie bisher) · nur Testmodus im Chat (D)
+- Core.lua Modul-Startfehler "Modul X konnte nicht starten: <Fehler>" -> wie Fehler (C)
+- Protocol.lua "Das Fehler-Protokoll hat N neue Auffälligkeit(en) …" nach 30 s: war schon nur Testmodus · unverändert
+- Backup.lua "Aus der Sicherung … ergänzt" / "Gesammelte Daten fehlten … wiederhergestellt": nur nach beschädigten Daten · Spieler · unverändert
+- Names.lua/QuestDB.lua Datenpaket fehlt/veraltet: Spieler muss handeln · Spieler · unverändert
+Chat im Spiel
+- Core.lua LP:Error "Fehler in <Ort>: <Datei:Zeile Text>" + "Bitte diese Meldung an den Autor schicken. /lp diag …"
+  -> "Ein Fehler ist aufgetreten – er wird automatisch gemeldet." höchstens einmal je Sitzung (LP.errorNoticeShown); jeder Fehler weiter
+  ins Protokoll (Hülle in Protocol.lua) und an GoldSentinelTest (LP.Report) · Spieler (C)
+- Session.lua Geistheiler-Tipp (bis Level 10, Leiche > 500 yd): vorher bei JEDEM Tod (Merker nur bis zur Wiederbelebung)
+  -> einmal überhaupt (LP.db.corpseTipShown) · Spieler (E)
+- unverändert, Spieler: Belohnungs-Empfehlung, Repariert/Gold fehlt, graue Gegenstände verkauft, Fliege nach, Questlog voll, Dungeon
+  betreten/verlassen, Level-Zeit/Bestwert, offene Abgaben beim Zonenwechsel (Schalter), Bilanz beim Ausloggen (Schalter), Vorräte gekauft,
+  Belohnung angelegt.
+- Antworten auf eigene Befehle (Kartenrahmen, Talente, Sprache, Debug, Grau verkaufen, Gruppen-Text): unverändert (Befehle nicht anfassen).
+Zentrale (normale Fenster)
+- Daten: Knöpfe "Diagnose" (Zustand der Planung im Chat) und "Selbsttest" (Prüfbericht) -> nur Testmodus (Befehle /lp diag, /lp selbsttest
+  bleiben); "Fehler-Protokoll" bleibt für alle (bei Problemen) und rückt neben "Datenquellen neu laden".
+  Zeile "Zonenübergänge im Grundnetz: N" -> nur Testmodus (D). Übrige Zeilen (Quests, Händler, Flugpunkte, Wegpunkte, Sicherung) = Inhalt
+  der Daten-Seite, Spieler, unverändert.
+- Austausch: "Über das Flüster-Netz (alle Spieler mit LevelPilot)" -> "Auch mit Spielern ausserhalb von Gilde und Gruppe" (B).
+  Statistik ohne Testmodus nur noch: "Bekannte Spieler mit LevelPilot: N (in der letzten Stunde: N)", "Durch Austausch gelernt: …",
+  "Freigabe für die Startdatenbank: ja/nein". Nur Testmodus: Gesendet/Empfangen, "Mitspieler mit LevelPilot (GoldSentinelSync, 1 Std.)",
+  Warteschlange, Zonen-Abgleich Anfragen (B/D).
+  Neuer Abschnitt "Mithelfen" unten: "Meine Aufzeichnungen für die LevelPilot-Startdatenbank freigeben" (Schlüssel shareSeed, vorher oben auf
+  derselben Seite) und "Fehler aufschreiben, damit sie behoben werden können" (Schlüssel protocol, vorher Extras > Gruppe mit "Fehler-Protokoll
+  mitschreiben (bleibt auf deinem Computer)" – im Testmodus weiter dieser Text) (B). Die Seite rückt nach oben ("Zone jetzt abgleichen" und
+  "Wegdaten automatisch senden" -122, Statistik -156, Hinweis -262, Mithelfen -380/-404/-428).
+- Messwerte (D): Suche nach ms/KB/MB/Bilder/Takt/Speicher in allen Texten ausser Testroutine, Protokoll, Perf, Selbsttest, Virtual, Prüfliste:
+  keine Fundstelle in normalen Fenstern. "MARKT-NETZ … KB" (Core.lua LP:MarktLine) steht nur im Protokoll-Text.
+- Optionen ohne Fachwort: Wörter Diagnose-Protokoll, Uploader, Sync, Netz, GoldSentinelSync, Messdaten, Messung, Zeitbudget, API, Testmodus
+  kommen ausserhalb des Testmodus in keinem Schalter-Text mehr vor (Testmodus-Knöpfe "Alles testen" usw. waren schon nur Testmodus).
+
+2. TESTS (mit Gegenprobe)
+- Neue Prüfung T399 (Bereich J), Nachbau ganze Routine: OK – "Einlog-Zeile mit Version, ohne "geladen" true · Testmodus wie bisher true ·
+  2 Fehler -> 1 Zeile(n) true, Protokoll 2 · Testmodus volle Meldung true · Tipp einmal true, Testmodus true · Notbremse Chat 0, Protokoll 1".
+  (LP.db der Prüfung bleibt über die beiden Aufrufe erhalten = wie nach /reload.)
+- Nachbau Einloggen, Testmodus aus, frisches Konto: 3.13.25 = 2 Zeilen ("v3.13.25 geladen …" + Wege-Hinweis einmalig);
+  neu = 2 Zeilen ("3.13.26 – Linksklick …" + Wege-Hinweis einmalig).
+- Nachbau Einloggen, Testmodus aus, echte Daten 26.11., Notbremse an: 3.13.25 = 2 Zeilen ("v3.13.25 geladen …" + "Routenberechnung
+  pausiert (zu aufwendig) …"); neu = 1 Zeile.
+- Ganze Routine (Testmodus): ALLE TESTS OK, Takt längstes Bild 38,7 ms, über 40 ms 0 (wie 3.13.25).
+- addon_check: OK. Gemeinsame Dateien GoldSentinel*.lua mit cmp gleich shared/.
+- Offline-Routine (run_offline.py, diese Zip): 40 Läufe, 40 ohne FEHLER.
+
+3. SPRACHEN – 5 neue Schlüssel in allen 9 Sprachen (enUS esES frFR itIT koKR ptBR ruRU zhCN zhTW; esMX fällt auf esES zurück):
+  "%s – Linksklick auf den Minimap-Knopf: Guide, Rechtsklick: Zentrale." · "Ein Fehler ist aufgetreten – er wird automatisch gemeldet." ·
+  "Mithelfen" · "Auch mit Spielern ausserhalb von Gilde und Gruppe" · "Fehler aufschreiben, damit sie behoben werden können".
+  Alte Schlüssel bleiben (Testmodus). Gespeicherte Werte: keine umbenannt; neu nur LP.db.corpseTipShown. CHANGELOG EN/DE.
+
+4. FRAGE an den Nutzer (nicht geändert): "Wo war ich?" beim Einloggen ist ein eigener Spieler-Schalter (ab Werk an) und schreibt 2–5 Zeilen
+   bei jedem Einloggen. Nach Regel A wären das weitere Zeilen. Vorschlag: bleibt, weil der Spieler ihn selbst ausschalten kann – oder ab Werk aus.
+   Entscheid des Nutzers nötig.
+5. Hinweis: Die Meldung "er wird automatisch gemeldet" stimmt, wenn GoldSentinelTest die Fehler sammelt (LP.trackingErrors) und der Uploader
+   läuft; ohne Uploader bleibt der Fehler im Protokoll. Text wie vom Supervisor vorgegeben.
