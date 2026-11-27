@@ -1,10 +1,10 @@
 # Stand Discord-Sitzung
 
-## Stand 27.11.2026 20:45 · Bot 1.5.202 gepusht (DC-UPL1 Speicher), auf dem Server noch 1.5.201 – von Hand einspielen
+## Stand 27.11.2026 20:50 · Bot 1.5.202 (Kern von Hand eingespielt 19:43 UTC, Speicher max. 178 MB statt 1,7 GB)
 
 ## Gerade in Arbeit
-- DC-UPL1: Ursache Speicher (Repo-ZIP 0,9 GB im RAM). 1.5.202 gepusht. Mit dem Nutzer per SSH einspielen: Bot stoppen,
-  updater.py + update_bot.py von raw nach /opt/raidmaster, Bot starten, ps messen. Bericht 2026-11-27-2045-dc-upl1-speicher.txt.
+- DC-UPL1 behoben (Speicher), Bericht 2026-11-27-2045 mit Nachtrag. Offen: Bestätigung /uploader antwortet; Entscheid
+  alte announce/*.zip (Repo 0,9 GB); Vorschlag tmp-* aufräumen beim Start.
 
 ## Nächste Schritte (Reihenfolge)
 1. Bei jeder Nachricht des Nutzers: git pull --rebase, auftraege/Discord/ lesen (git log --oneline -5 -- auftraege/Discord/).

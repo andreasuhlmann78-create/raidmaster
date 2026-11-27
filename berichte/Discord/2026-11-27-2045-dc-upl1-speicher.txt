@@ -26,3 +26,12 @@ Status: umgesetzt, zur Prüfung; Einspielen von Hand nötig (siehe 4)
 5. Offen/Vorschlag: announce/ wächst weiter (je AHSentinel-Version 8,4 MB). Auch mit 1.5.202 lädt jedes Update ~0,9 GB herunter (Platte,
    Bandbreite, Dauer). Vorschlag an Supervisor/Nutzer: ältere Addon-ZIPs in announce/ nach Annahme entfernen ODER der Bot holt nur die
    nötigen Ordner (GitHub-API je Datei). Entscheid des Nutzers nötig (Regel "announce nie löschen" betrifft .md; für .zip zu klären).
+
+NACHTRAG 20:50 – Eingespielt und gemessen (Bildschirmfotos des Nutzers, UTC)
+- 19:41 Server neu gestartet, Bot sofort angehalten; updater.py/update_bot.py aus Commit c697252c per raw geholt (grep: 3 / 1),
+  Sicherung *.alt daneben.
+- Platte: 89 % voll (2,1 GB frei) – je abgebrochenem Update blieb ein Entpack-Ordner update/tmp-* von ~850–896 MB liegen (install_zip
+  räumt im finally auf, das lief beim Hängen nie). rm -rf update/tmp-* update/repo-*.zip -> 42 % (11 GB frei).
+- 19:43:58 Bot gestartet, ps alle 15 s: RSS 67 MB bis 01:00, dann während des Updates 170–178 MB (max. 8,8 %), CPU bis 39 %
+  (Entpacken/Prüfen), "buff/cache" steigt (Datei-Cache vom Download, wird bei Bedarf frei). Vorher 1720 MB. -> behoben (Messung).
+- Vorschlag (nicht umgesetzt): beim Start alte update/tmp-*-Ordner (älter als 2 h) wegräumen, damit ein Absturz die Platte nicht füllt.
