@@ -1,37 +1,34 @@
-# Stand Supervisor – 27.11.2026 17:00 (Übergabe für den Abend am PC)
+# Stand Supervisor – 27.11.2026 21:20
 
 ## Gerade in Arbeit
-- Wartet auf Uploads um 18:00: GuildSentinel 0.9.66 (GS-CF3) und AHSentinel 0.65.422 (freigegeben 16:58, md5 0acf340e…).
-- Erinnerungen dieser Sitzung (gestellt): 18:05 GS download/ + Workflow, 18:10 AHS download/ (0.65.413 weg) + Workflow, 18:20 CurseForge beide + Kommentare.
-  Sieht eine neue Sitzung sie nicht: von Hand prüfen (download/, `gh run list --workflow "Addon-Prüfung" -L 3`, curseforge.com/wow/addons/ah-analyzer-pro und /guildsentinel).
+- Nichts Laufendes. Warte auf neue Versionen: PS (PS-SK2 Magiestoffballen ohne Stufe im Plan 110–150), LP (T155 16,89 ms / T136 Zentrale),
+  AHS-Kleinigkeiten (AHS-SN-CAN1, Wechsel kurz vor Raste, Rest-Speicher AHS-API1).
 
 ## Nächste Schritte (Reihenfolge)
-1. Bei jedem "repo": pull, neue Berichte prüfen, addon_check, annehmen/ablehnen, push + nachprüfen, Workflow ansehen (E-Regel 27.11.).
-2. 18:05–18:20 Kontrollen oben; Ergebnis in offen-guildsentinel.txt / offen-ahsentinel.txt.
-3. Ingametests des Nutzers am PC auswerten (je einer, nacheinander):
-   a) PS 0.9.96 PS-SK1: Schneiderei-Lehrer, Filter "alle", /ps protokoll -> "LEHRER Lernstufen gelesen", kein "Skill ?" mehr bei Lehrer-Rezepten.
-   b) AHS 0.65.422 AHS-API1: wie 15:44 -> keine Zeile API-LANGSAM über 4 ms, kein "DE Iteminfo ×1000" (bestanden = Abnahme).
-   c) Uploader PC: einmal j (2.3.30), Addons-Testversionen-an.bat, Neustart -> stand.json "uploader" 2.3.30 prüfen.
-4. Neue Versionen erwarten und prüfen: LP T155 (16,89 ms, Ziel < 16) + T136 Zentrale (57,5 ms mit GC −110 MB); AHS Rest-Speicher ("DE tatsächlich",
-   Mat Leiter, ≤ 50 KB); PS-P2/PS-SK1-Folgen.
-5. Offiziere: Uploader 2.3.30 (A: j; B: Handinstallation + daten_config.json-Nachtrag). stand.json beobachten; dann BS-M1-b Messdaten Offizier A.
+1. Bei jedem "repo": pull, Berichte prüfen, addon_check, annehmen/ablehnen, push + nachprüfen, Workflow ansehen.
+2. Offizier B: Uploader 2.3.30 am 27.11. 20:54 per Bot + Anleitung bekommen (Log). Sein Rechner lädt seit 22.11. nicht (stand.json uploader leer) –
+   nach seinem ersten Upload mit 2.3.30 prüfen. Offizier A seit 15:31 auf 2.3.30. BS-M1-b Messdaten Offizier A auswerten, sobald da.
+3. CurseForge: AHS 0.65.423 als Hotfix 21:02 hochgeladen (Entscheid 21:00), GS 0.9.66 18:00. Seiten auf curseforge.com + Kommentare noch nicht gelesen
+   (Webzugriff braucht Freigabe/verbundenen Browser) – beim nächsten Mal nachholen.
 
 ## Offen beim Nutzer
-- Ingametests 3a–3c (PC, heute Abend).
 - Entscheid SH-M1 (A jetzt / B gebündelt, empfohlen B).
 - 09.12. 07:00 Erinnerung: Aufgabe "Raids und Taktiken" wieder einschalten.
 
-## Entscheide des Nutzers seit letztem Stand
-- 16:55 Frage "0.65.422 freigegeben für Curse?" -> Supervisor: ja (angenommen = DL-ABN), Upload 18:00, AHS-Sitzung hat die Anweisung (16:57).
+## Entscheide des Nutzers seit letztem Stand (alle in entscheide.md 27.11.)
+- 20:58 announce/: je Addon nur die 3 neuesten ZIPs + stabile Version (DC-ANN2, umgesetzt: 758 -> 50 MB).
+- 21:00 AHS 0.65.423 sofort als Hotfix auf CurseForge (Ausnahme DL-ABN Punkt 4).
 
-## Heute geprüft (Kurz)
-- AHS 0.65.422 ANGENOMMEN 16:55: Ursache AHS-API1 = Ln:BuyStats rief D:CorrectionFor je Entzauber-Kauf (1016× für 7 Items) -> jetzt je Item einmal;
-  Nachbau 40,6–42,6 ms -> 1,6–2,2 ms, Werte gleich (149 Items), FULL 356/67 wie 0.65.421. NIEDRIG: liegengebliebener D.matCache ohne job schaltet Ersparnis ab.
-- LP 3.13.29 Ingametest 15:47: bester Lauf (57,5 ms längstes Bild, ganzes Bild 70 statt 150 ms); offen MITTEL T155, T136.
-- GS 0.9.66 + BS 0.9.69 abgenommen 11:18/11:19. PS 0.9.95/0.9.96 angenommen. ST1 (Spieler-Texte) alle 7 angenommen.
+## Heute Abend erledigt
+- DC-UPL1: Bot hing – Ursache Speicher (ganze Repo-ZIP ~900 MB in den Speicher, 1720 MB von 2 GB), DNS-Fehler nur Folge. Bot 1.5.202/1.5.203 angenommen:
+  Download auf Platte, nur Nötiges entpacken, Reste weg (UPL2), Netz 45 s statt 300 s (UPL3), ~100 MB statt 0,9 GB je Update (UPL4).
+- SN-Z4 (AHS 0.65.423): Fenster wechselt zwischen Zielen (Rotation 3 s), Knopf frei wenn nicht kaufbar; Kauf im Spiel belegt (Kapuze, −12s97,
+  Briefkasten). ABGENOMMEN 21:09. AUCTION_CANCELED nach Kauf = eigener Kauf (NIEDRIG).
+- PS 0.9.96 PS-SK1: "LEHRER Lernstufen gelesen 28", Plan zeigt Skill 110/120/140 statt "?" – bestätigt; neu PS-SK2.
+- AHS 0.65.422 AHS-API1: Ursache (1016× CorrectionFor je Entzauber-Kauf) behoben, Werte gleich; im Spiel 20:55 WorthUpTo 4,7 ms (nur 1 Zeile, cache:warm).
+- PC des Nutzers: Uploader 2.3.30, Testversionen an.
 
 ## Wichtig zu wissen
-- DL-ABN: download/ nur angenommene Versionen (Uploader installiert automatisch bei allen Mitspielern); AHS/GS zusätzlich nur um 18:00 (CurseForge).
-- addon_check: download/ < announce/ = WARNUNG (gewollt). Workflow war 11:07–11:39 rot durch neue Regel -> E-Regel: nach jeder neuen Regel Workflow prüfen.
-- RM: Uploader-Versionen nur über Zweig pruefung/uploader-<V>. Repo öffentlich: keine Spieler-/PC-Namen (Offizier A/B).
-- Prüfwerkzeuge /home/claude/chatprobe.py, rek1probe.py nur in dieser Sitzung (nicht im Repo).
+- DL-ABN: download/ nur angenommene Versionen; AHS/GS CurseForge 18:00 (Ausnahme nur auf Entscheid).
+- announce/: ZIPs werden automatisch auf 3 + stabile gekürzt (Workflow "Announce aufräumen"), .md bleiben.
+- Repo öffentlich: keine Spieler-/PC-Namen (Offizier A/B). Prüfwerkzeuge chatprobe.py/rek1probe.py nur in dieser Sitzung.
