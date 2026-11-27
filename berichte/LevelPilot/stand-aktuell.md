@@ -1,9 +1,11 @@
 # LevelPilot – Stand der Sitzung
 
-## Stand 27.11.2026 09:43 · Version 3.13.26 (veröffentlicht, Discord; Prüfung offen)
+## Stand 27.11.2026 10:29 · Version 3.13.26 (veröffentlicht, Discord; ST1 angenommen 10:30, Abnahme im Spiel offen)
 
 ## Gerade in Arbeit
-- Nichts angefangen. Neu: 3.13.26 = ST1 Spieler-Texte (Bericht 27.11. 09:43), 3.13.25 = Protokoll-Fenster 60 Einträge (Bericht 09:37).
+- In der Arbeitskopie (für die nächste Version, nicht veröffentlicht): Einlog-Zeile "LevelPilot 3.13.x – …" ohne Doppelpunkt
+  (Supervisor 10:30 NIEDRIG, LP:Print(msg, plain)); im Nachbau geprüft.
+- DL-ABN (HOCH, 10:30): download/ nur mit angenommener Version – LevelPilot liegt dort nicht; wird so eingehalten (= LP-DL1).
 
 ## Nächste Schritte (Reihenfolge)
 0. LP-DL1: nach jeder Annahme (mit Ingametest ohne offenes HOCH) die angenommene Zip als download/LevelPilot-<Version>.zip, ältere entfernen,
