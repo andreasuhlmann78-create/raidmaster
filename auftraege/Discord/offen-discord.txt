@@ -589,3 +589,8 @@ SICHERHEIT (Pflicht, Repo ist öffentlich):
     2. Danach automatisch je neuer Ankündigung (Bot oder Workflow), damit niemand von Hand löschen muss.
     3. Hinweis: das Entfernen verkleinert die Arbeitskopie und das Update des Bots, nicht die Git-Geschichte (Klon bleibt gross) – Grösse vorher/nachher messen.
     Bericht mit Liste (Anzahl je Addon, MB vorher/nachher).
+
+>>> DC-ANN2 – Ergebnis geprüft Supervisor 27.11. 21:10: announce/ 758 MB -> 50 MB, 319 -> 22 ZIPs, 492 .md unverändert. Je Addon 3 neueste + stabile Version
+    vorhanden (PS 0.9.93 stabil + 0.9.94–0.9.96; LP-Data 3.4.4–3.5.0). BuffSentinel 0.9.67–0.9.69 hatten nie eine ZIP in announce/ (nur .md, z. B. 994b749c) –
+    nicht durch das Aufräumen. Workflow "Announce aufräumen" grün. ANGENOMMEN (Ergebnis); Code tools/announce_aufraeumen.py + announce_guard folgt in der Prüfung 1.5.203.
+    Bot 1.5.203 (DC-UPL2/3/4): zur Prüfung, noch nicht geprüft.
