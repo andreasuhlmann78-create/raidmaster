@@ -1,0 +1,7 @@
+AHSentinel – FULL 0.65.425 (Kopie, allein) · umgesetzt, zur Prüfung
+Ergebnis: 356 PASS / 68 FAIL (0.65.424: 357/67). Neu rot: s326_vs_wer_testort. Weg: keine.
+s326 ("eigene Testroutinen-Zeit im längsten Bild gemerkt (0)") ist Streuung, belegt:
+  Nachlauf 11× je Fassung: 0.65.424 rot 1 von 11, 0.65.425 rot 2 von 11 (dieselbe Prüfung, auch alt rot).
+  s326 war schon bei FULL 0.65.420 einmal rot (Bericht damals), ohne Änderung am Messweg. BP1 berührt diesen Weg nicht.
+Damit: keine neue Rot-Stelle durch 0.65.425. Fail-Liste /tmp/claude-0/fail425.txt (lokal).
+Weiter: AHS-BP1-L (Leistung BindOnPickup) messen, 0.65.424 gegen 0.65.425 mit echten Daten.
