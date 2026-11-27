@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Folge |
 |---|---|---|
+| 08:54 | Spieler-Texte Punkt 5: "ja" – im Testmodus sieht der Nutzer weiterhin alles (Messwerte, Testbefehle, Protokolle, volle Meldungen); nur normale Spieler bekommen die bereinigte Fassung | Jede Text-Bereinigung gilt nur ausserhalb des Testmodus (IsDev). |
 | 08:49 | Spieler-Texte Punkt 4 Sprachen: "so belassen" (11 Sprachen bei AHS/GS/LP/RM; BS/PS/TS Deutsch+Englisch) | Keine neuen Sprachen. Geänderte Texte wie immer in allen Sprachen, die das Addon hat. |
 | 08:49 | GuildSentinel Rekrutierung: "so lassen" – dazu Anmerkung: wenn ein Offizier von Fremden per Flüstern angeschrieben wird, kommt die Abfrage mit den 4 Punkten auch | Befund GS-REK1 (HOCH): Einladungen fremder Gilden lösen über das Stichwort "join" die automatische Antwort und die Bewerbungsfragen aus. |
 | 08:48 | Spieler-Texte Punkt 3 Nachrichten an andere Spieler (RaidMaster-Ansagen, Versteigerung, Einladungen, Einteilungen; GS/TS/PS/LP): "SO LASSEN" | Alle Chat-Nachrichten an andere Spieler bleiben unverändert. |
