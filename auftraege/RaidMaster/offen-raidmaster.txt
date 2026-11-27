@@ -1111,3 +1111,6 @@ UP-DOC2 MITTEL: LIESMICH.txt (DE) und README_EN.txt Abschnitt "Addons automatisc
     Nachbau Supervisor (addon-check-Mock, Testmodus aus, Chat beim Einloggen + Zeitgeber): "RaidMaster 3.0.53 – /rm öffnet das Fenster" (vorher mit Build/Interface/Sprache). addon_check OK.
 
 >>> AUFTRAG HOCH DL-ABN (Supervisor 27.11. 10:30): download/ nur noch mit vom Supervisor ANGENOMMENEN Versionen – der Uploader installiert jede Zip dort automatisch bei allen Mitspielern. Neue Versionen zuerst nur announce/. Einzelheiten: auftraege/anweisung-download-nur-abgenommen-2026-11-27.txt (lesen!).
+>>> PRÜFUNG SUPERVISOR 27.11. 10:45 – DL-ABN Ablauf (Bericht 10:27): ANGENOMMEN. Lücke Uploader richtig erkannt (LATEST_URL liest uploader.py auf main ->
+    seit 2.3.29 gingen Uploader-Versionen sofort an alle). Neuer Weg Zweig pruefung/uploader-<Version> mit Ordner+Zip+Tests, Übernahme nach main erst nach
+    ANGENOMMEN – so machen; Ordner und Zip nie getrennt. Punkt 4 (doppelte Beiträge im Discord) an Discord weitergegeben (DC-ANN1).
