@@ -1,0 +1,18 @@
+ProfessionSentinel 0.9.98 – umgesetzt, zur Prüfung
+Bezug: offen-professionsentinel.txt Prüfung 0.9.97 (27.11. 22:08): "T269-Ausreisser weiter beobachten – im nächsten Bericht Ursache oder Zählung". DL-ABN: nur announce/.
+
+T269-Ausreisser – Ursache belegt (Code + Gegenprobe), und es war ein echter (seltener) Fehler, kein Testfehler:
+ - Meldung (1 von 4 Läufen forever --lua51): "neue Liste nicht übernommen (Schlüssel vorher gleich true, Aufgabe offen false)".
+ - Today.lua TD.Collection rief TD.Rebuild nur, wenn KEINE Aufgabe "heute" wartete. Lief schon eine Aufgabe mit den ALTEN Eingaben (z. B. von
+   TD.Invalidate per Zeitgeber kurz vor der Änderung gestartet; der Schlüssel wird beim Start der Aufgabe festgelegt), wurde für die neuen Eingaben
+   nichts gerechnet: die alte Aufgabe speicherte ihre Liste unter dem alten Schlüssel, danach wartete keine Aufgabe mehr. Im Test hängt das davon
+   ab, ob der Zeitgeber genau dazwischen fällt (darum selten). Im Spiel: "Heute herstellen" zeigte dann die alte Liste bis zur nächsten Änderung.
+ - Jetzt: TD.Rebuild merkt den Schlüssel seiner Aufgabe (TD.jobKey). TD.Collection rechnet neu, wenn keine Aufgabe wartet ODER die wartende für
+   andere Eingaben rechnet. Jobs.Add: eine noch nicht gestartete Aufgabe bekommt die neuen Eingaben, eine laufende läuft danach noch einmal.
+ - Test T302 (deterministisch, ohne Zeitgeber): Aufgabe gestartet, dann Eingaben geändert, TD.Collection -> neuer Schlüssel der Aufgabe = aktueller;
+   nach dem Abarbeiten gehört die Liste zu den aktuellen Eingaben. Gegenprobe ohne die Änderung in Today.lua: T302 schlägt mit genau diesem Fall fehl.
+ - Zählung nach der Änderung: forever --lua51 5 von 5 Läufen grün (vorher 1 von 4 rot), forever/era/retail grün.
+Tests: run_offline forever 260/0, era 241/0, retail 238/0, forever --lua51 5× 260–261/0; check_actions OK; gen_locale_keys OK; yield_check OK;
+ Smoketest forever/era/retail AUTOTEST OK (FEHLER 29/26/26 = Mock-Grenzen, wie 0.9.97); addon_check OK ohne WARNUNG. Zip md5 dbe05b131f8d02d721b098d7cd4dd6b5, Repo 6a00fde. download/ bleibt 0.9.93 bis Freigabe.
+Offen beim Nutzer (unverändert): Ingametest PS-SK2 – Schneiderlehrer UND Experten-Lehrer Schneiderei (Filter "alle") -> Protokoll "LEHRER … (neu,
+ geändert); im Plan ohne Lernstufe z", Tooltip Magiestoffballen mit Grund.

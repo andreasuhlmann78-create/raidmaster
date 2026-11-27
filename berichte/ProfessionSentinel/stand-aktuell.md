@@ -1,11 +1,9 @@
-# Stand 27.11.2026 21:43 · Version 0.9.97 (announce), 0.9.93 (download)
+# Stand 27.11.2026 22:50 · Version 0.9.98 (announce), 0.9.93 (download)
 
 ## Gerade in Arbeit
-- Nichts. 0.9.97 NUR announce/ (Release v0.9.97, Repo 59d8688), Bericht 2026-11-27-2143-version-0.9.97.txt – zur Prüfung: PS-SK2
-  ("Skill ?" + Grund via TrainerRanks.NoLevelReason, db.trainerOffered/trainerProfRead; Protokoll neu/geändert/Plan ohne Lernstufe). (a) bewusst
-  nicht (Experten-Lehrer könnte ab 125 lehren) -> Messung Experten-Lehrer Schneiderei.
-- 0.9.95/0.9.96 angenommen (15:45), PS-SK1 im Spiel bestätigt (21:12). download/ = 0.9.93 bis Freigabe.
-- Beobachten: T269 lua51 1× "neue Liste nicht übernommen" (Ursache nicht belegt).
+- Nichts. 0.9.98 NUR announce/ (Release v0.9.98, Repo 6a00fde), Bericht 2026-11-27-2250-version-0.9.98.txt – zur Prüfung:
+  T269-Ursache belegt (wartende Aufgabe "heute" mit alten Eingaben) -> TD.jobKey, TD.Collection rechnet neu; T302; lua51 5/5 grün.
+- 0.9.97 angenommen (22:08), Abnahme im Spiel offen (Schneider- + Experten-Lehrer). download/ = 0.9.93 bis Freigabe.
 
 ## Nächste Schritte (Reihenfolge)
 1. Nach Freigabe (0.9.94 oder 0.9.95 "ANGENOMMEN" + download frei): dieselbe Zip nach download/ (md5), alte entfernen, Workflow grün.
