@@ -1,0 +1,30 @@
+AHSentinel – Masterplan v2 Schritt 2.1: Rest-Speicher "Lohnt bis" (AHS-API1) – Versuch verworfen
+Stand: 27.11.2026 22:00 · Version unverändert 0.65.424 (nichts veröffentlicht)
+
+Ziel: kalter Aufruf von "Lohnt bis" je Gegenstand <= 50 KB (heute 40–76 KB).
+
+Versuch: Materialpreise über mehrere Aufrufe hinweg zwischenspeichern
+(an A:DataVersion() gebunden, höchstens 30 s), damit jedes Material nur
+einmal gerechnet wird.
+
+Messung (Simulator, echte Daten Laptop, HORDE, zz_api4, kalter Aufruf
+je Gegenstand, Zwischenspeicher bleibt zwischen den Gegenständen erhalten):
+  Gegenstand   0.65.424   Versuch
+  22660        72 KB      73 KB
+  7054         42 KB      40 KB
+  2580         43 KB      41 KB
+  2584          0 KB       0 KB (Wiederverkauf, kein Entzaubern)
+
+Ergebnis: kein messbarer Gewinn (Unterschied innerhalb der Streuung von
++-2 KB). Belegt: Die Materialpreise sind beim 2. und 3. Gegenstand schon
+im Speicher, trotzdem bleiben ~40 KB. Der Rest kommt also NICHT aus den
+Materialpreisen.
+Verdacht, zu messen: RealisticCap (SellOutlook ~13 KB, OfferLadder ~5 KB
+in der früheren Messung) und die Prior-Tabellen je Gegenstand.
+
+Entscheid: Änderung zurückgenommen (kein Nutzen belegt = kein Einbau).
+Arbeitskopie wieder gleich 0.65.424 (diff -rq leer). Patch gesichert,
+nicht im Repo.
+
+Nächster Schritt: Schritt 2.4 AHS-BP1 (Schurkengifte). 2.1 bleibt offen
+und wird mit einer Messung je Funktion (RealisticCap) wieder aufgenommen.
