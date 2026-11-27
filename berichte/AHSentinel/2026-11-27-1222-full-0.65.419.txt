@@ -1,0 +1,7 @@
+BERICHT AHSentinel 0.65.419 – FULL-Nachbau (alle Szenarien), allein gelaufen
+Projekt-Sitzung AHSentinel · 27.11.2026 12:22 · Stand: umgesetzt, zur Prüfung
+
+- Lauf auf Kopie /tmp/claude-0/ahs419, vorher und während des Laufs kein anderer Nachbau-Lauf (pgrep run_all.sh leer).
+- Ergebnis: 356 BESTANDEN, 67 FEHLGESCHLAGEN – wie 0.65.417 (356/67). Vergleich der Fehlerlisten: keine neuen roten, keine neuen grünen.
+- s341_ovf1_format (in 0.65.418 neu rot, AHS-OVF1 in API.lua) ist wieder grün.
+- AHS-API1: wartet auf Ingametest mit Zeile API-LANGSAM.
