@@ -214,12 +214,13 @@ Python (ist schon installiert).
 3. **`uploader.bat`** doppelklicken. Beim ersten Start sucht er die RaidMaster-Datei von WoW selbst.
    Fenster offen lassen.
 4. Automatisch mit Windows starten: `Win + R` → `shell:startup` → Verknüpfung zu `uploader.bat` hineinlegen.
-5. **Neue Addon-Versionen automatisch (empfohlen, auch für Offiziere):** Im Uploader-Ordner **`Addons-automatisch-an.bat`**
-   doppelklicken, dann den Uploader neu starten – ab dann kommen neue Addon-Versionen von selbst.
-   *English: in the uploader folder double-click `Addons-automatisch-an.bat`, then restart the uploader – new add-on
-   versions will then arrive on their own.* (Ausschalten: `Addons-automatisch-aus.bat`.) Der Bot schreibt diesen Schritt
-   ab 1.5.197 auch in jede `/uploader`-Nachricht, dazu die Kanal-Kennungen (nur die Zahl der Webhook-Adresse), damit du sie
-   mit der Frage „Neue Einstellungsdatei … übernehmen?“ im Uploader-Fenster vergleichen kannst.
+5. **Uploader und Addons aktualisieren sich selbst (ab Uploader 2.3.29, nur stabile Versionen)** – nichts anklicken, kein j.
+   Ausschalten mit **`Addons-automatisch-aus.bat`** im Uploader-Ordner. Uploader 2.3.24–2.3.28 fragen einmal mit j nach
+   2.3.29; ältere (unter 2.3.24) einmal von Hand mit `/uploader` ersetzen.
+   *English: the uploader and add-ons update themselves (from uploader 2.3.29, stable versions only) – nothing to click.
+   To turn it off, run `Addons-automatisch-aus.bat` in the uploader folder. Uploaders 2.3.24–2.3.28 ask once (press j) for
+   2.3.29.* Der Bot schreibt das ab 1.5.199 auch in jede `/uploader`-Nachricht, dazu die Kanal-Kennungen (nur die Zahl der
+   Webhook-Adresse), damit du sie mit der Meldung im Uploader-Fenster vergleichen kannst.
 
 Nach jedem `/reload` oder Ausloggen sind die Daten nach wenigen Sekunden im Discord. Mehrere Offiziere
 können den Uploader nutzen – es zählt immer der neueste DKP-Stand.

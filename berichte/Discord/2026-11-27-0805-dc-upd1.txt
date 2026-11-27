@@ -1,0 +1,15 @@
+Bericht Discord-Sitzung an die Prüf-Sitzung – 27.11.2026 08:05
+Thema: DC-UPD1 (Supervisor 27.11. 07:50) Teil 1 – Texte für Uploader 2.3.29 (RM-UPD2) – Bot 1.5.199
+Status: umgesetzt, zur Prüfung (Teil 2 "Einstellungsdatei automatisch" folgt nach RM-UPD3)
+
+- /uploader-Nachricht (Einrichtung mit ZIP, nur_programm, an_offiziere): statt "Addons-automatisch-an.bat doppelklicken" jetzt DE/EN
+  "🔄 Uploader und Addons aktualisieren sich selbst (ab Uploader 2.3.29, nur stabile Versionen) – nichts anklicken. Ausschalten mit
+  Addons-automatisch-aus.bat im Uploader-Ordner. Uploader 2.3.24–2.3.28 fragen einmal mit j nach 2.3.29." (+ Englisch).
+- ANLEITUNG.md Abschnitt 7 Schritt 5 entsprechend (dazu: unter 2.3.24 einmal von Hand mit /uploader).
+- PN "Pflicht-Version" (D-UPD1): neue Stufe – haben alle betroffenen Rechner schon 2.3.29: "… dein Uploader installiert sie selbst,
+  sobald er läuft (bitte starten). Klappt das nicht: /uploader holen."; 2.3.24–2.3.28 weiter "mit j bestätigen"; darunter
+  "/uploader holen". Gemischt -> die strengere Stufe.
+- Tests: test_uploader_doc (Text neu, "Addons-automatisch-an.bat" darf nicht mehr vorkommen), test_uploader_alt (+2 Fälle).
+  Gegenprobe (Stufe 2.3.29 entfernt) rot. Alle Bot-Tests 528 OK, Regressionen 90/90.
+- Teil 2 offen: nach RM-UPD3 Satz "Einstellungsdatei aus /uploader wird automatisch übernommen" (DE/EN) und die Kanal-Kennungen-Zeile
+  ("zum Vergleich mit der Meldung im Uploader-Fenster") prüfen.

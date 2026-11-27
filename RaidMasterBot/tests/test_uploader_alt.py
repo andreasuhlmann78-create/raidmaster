@@ -288,6 +288,8 @@ class Ablauf(unittest.TestCase):
     def test_d_upd1_text_mit_j_nur_ab_2_3_24(self):
         m = self.m
         self.assertIn("mit j bestätigen", m.pn_text("2.3.25", ["2.3.24", "2.3.30"]))
+        self.assertIn("installiert sie selbst", m.pn_text("2.3.31", ["2.3.29", "2.3.30"]))   # DC-UPD1: ab 2.3.29 ohne Frage
+        self.assertIn("mit j bestätigen", m.pn_text("2.3.31", ["2.3.28", "2.3.30"]))      # ein Rechner fragt noch
         self.assertNotIn("mit j", m.pn_text("2.3.25", ["2.3.24", "2.3.23"]))     # ein Rechner ohne Rückfrage -> /uploader
         self.assertNotIn("mit j", m.pn_text("2.3.25", [""]))
         self.m.state.data["upalt_pn"] = {}

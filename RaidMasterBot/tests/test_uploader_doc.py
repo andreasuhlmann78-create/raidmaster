@@ -45,13 +45,14 @@ class Text(unittest.TestCase):
 
     def test_einrichtungstext(self):
         t = self.m.setup_text("zip", CONF, SYNC, ["Uploader-Version **2.3.28**."])
-        self.assertIn("Addons-automatisch-an.bat", t)
-        self.assertIn("Uploader neu starten – ab dann kommen neue Addon-Versionen von selbst", t)
-        self.assertIn("then restart the uploader – new add-on versions will then arrive on their own", t)
+        self.assertIn("Uploader und Addons aktualisieren sich selbst** (ab Uploader 2.3.29, nur stabile Versionen)", t)   # DC-UPD1
+        self.assertIn("Addons-automatisch-aus.bat", t)
+        self.assertIn("The uploader and add-ons update themselves (from uploader 2.3.29, stable versions only)", t)
+        self.assertNotIn("Addons-automatisch-an.bat", t)                 # überholt (Entscheid 27.11. 07:10)
         self.assertIn("Kanal-Kennungen (zum Vergleich mit der Frage im Uploader-Fenster): Daten 111111111111111111", t)
         self.assertNotIn(SCHLUESSEL, t)
         ohne_zip = self.m.setup_text(None, CONF, None, [])
-        self.assertNotIn("Addons-automatisch-an.bat", ohne_zip)        # ohne ZIP gibt es die .bat nicht im Ordner
+        self.assertNotIn("aktualisieren sich selbst", ohne_zip)        # ohne ZIP: kein Uploader-Hinweis
 
     def test_lange_nachricht_in_teilen(self):
         notes = [f"Hinweis {i}: " + "z" * 150 for i in range(12)]
@@ -83,8 +84,9 @@ class Text(unittest.TestCase):
     def test_anleitung(self):
         with open(os.path.join(HERE, "..", "ANLEITUNG.md"), encoding="utf-8") as f:
             a = f.read()
-        self.assertIn("Addons-automatisch-an.bat", a)
-        self.assertIn("then restart the uploader", a)
+        self.assertIn("Uploader und Addons aktualisieren sich selbst (ab Uploader 2.3.29, nur stabile Versionen)", a)
+        self.assertIn("the uploader and add-ons update themselves", a)
+        self.assertNotIn("Addons-automatisch-an.bat", a)
         self.assertIn("Kanal-Kennungen", a)
 
 

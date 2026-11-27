@@ -57,6 +57,9 @@ BRANCHES = ("sicherung", None)     # None = Standardzweig (main)
 API = "https://api.github.com"
 VERSION_OK = re.compile(r"^\d+(?:\.\d+){1,3}$")
 UPD_AB = "2.3.24"                  # D-UPD1: ab dieser Version fragt der Uploader selbst "installieren? (j/n)" (UP-UPD1)
+AUTO_AB = "2.3.29"                 # DC-UPD1: ab dieser Version installiert der Uploader neue (stabile) Versionen ohne Frage (RM-UPD2)
+PN_TEXT_AUTO = ("⚠️ Neue Pflicht-Version des Uploaders (mindestens Version {neu}) – dein Uploader installiert sie selbst, sobald er "
+                "läuft (bitte starten). Klappt das nicht: /uploader holen.")
 PN_TEXT_J = ("⚠️ Neue Pflicht-Version des Uploaders (mindestens Version {neu}) – bitte im Uploader-Fenster mit j bestätigen "
              "(oder /uploader holen).")
 UPD_FAIL_TEXT = ("❌ Uploader-Update fehlgeschlagen ({grund}) – die alte Version {von} läuft weiter. Bitte /uploader holen.")
@@ -155,7 +158,11 @@ def owners(index_by_member: dict[int, set[str]]) -> tuple[dict[str, int], set[st
 def pn_text(newest: str, versions: list[str]) -> str:
     """D-UPD1 Punkt 1: Haben alle betroffenen Rechner schon die Rückfrage (ab 2.3.24), reicht "mit j bestätigen"; sonst
     muss die ZIP einmal von Hand installiert werden (/uploader)."""
-    if versions and all(not uploader_version.is_older(clean_version(v), UPD_AB) for v in versions):
+    def ab(grenze):
+        return bool(versions) and all(not uploader_version.is_older(clean_version(v), grenze) for v in versions)
+    if ab(AUTO_AB):                         # DC-UPD1 (ab 1.5.199): ab 2.3.29 ohne Frage
+        return PN_TEXT_AUTO.format(neu=newest)
+    if ab(UPD_AB):
         return PN_TEXT_J.format(neu=newest)
     return PN_TEXT.format(neu=newest)
 

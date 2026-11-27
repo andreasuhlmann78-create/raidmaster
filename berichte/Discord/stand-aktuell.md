@@ -1,10 +1,10 @@
 # Stand Discord-Sitzung
 
-## Stand 26.11.2026 13:08 · Bot 1.5.198 läuft (/addon-pn umgesetzt, zur Prüfung; 1.5.197 angenommen)
+## Stand 27.11.2026 08:05 · Bot 1.5.199 (DC-UPD1 Teil 1 umgesetzt, zur Prüfung; 1.5.198 angenommen)
 
 ## Gerade in Arbeit
-- nichts. 13:06 /update (1.5.198 installiert), 13:07 für den Nutzer /addon-pn an:False – Bot: "keine PN mehr".
-  Uploader-PN (/uploader, veraltet, Update fehlgeschlagen) bleiben (Nutzer 13:03).
+- DC-UPD1 Teil 2 wartet auf RM-UPD3 (Uploader: Einstellungsdatei automatisch): dann Satz "Einstellungsdatei aus /uploader
+  wird automatisch übernommen" DE/EN in /uploader-Text + ANLEITUNG, neue Bot-Version, Bericht.
 
 ## Nächste Schritte (Reihenfolge)
 1. Bei jeder Nachricht des Nutzers: git pull --rebase, auftraege/Discord/ lesen (git log --oneline -5 -- auftraege/Discord/).

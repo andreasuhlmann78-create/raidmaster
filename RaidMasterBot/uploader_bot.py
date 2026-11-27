@@ -166,11 +166,14 @@ async def uploader_cmd(inter: discord.Interaction, nur_programm: bool = False, f
                          files())
 
 
-# D-UPDOC2 (ab 1.5.197, Entscheid des Nutzers 25.11. 11:39): automatische Addon-Installation einschalten – Deutsch und Englisch
-ADDONS_AUTO_TIPP = ("🔄 **Neue Addon-Versionen automatisch:** Im Uploader-Ordner **Addons-automatisch-an.bat** doppelklicken, dann den "
-                    "Uploader neu starten – ab dann kommen neue Addon-Versionen von selbst.\n"
-                    "*In the uploader folder double-click **Addons-automatisch-an.bat**, then restart the uploader – new add-on "
-                    "versions will then arrive on their own.*")
+# D-UPDOC2 (1.5.197) -> DC-UPD1 (ab 1.5.199, Supervisor 27.11. 07:50; Uploader 2.3.29 = RM-UPD2, Entscheide des Nutzers 27.11.
+# 07:08–07:12): Uploader und Addons aktualisieren sich selbst (nur stabile Versionen) – kein .bat und kein j mehr nötig.
+ADDONS_AUTO_TIPP = ("🔄 **Uploader und Addons aktualisieren sich selbst** (ab Uploader 2.3.29, nur stabile Versionen) – nichts "
+                    "anklicken. Ausschalten mit **Addons-automatisch-aus.bat** im Uploader-Ordner. Uploader 2.3.24–2.3.28 fragen "
+                    "einmal mit j nach 2.3.29.\n"
+                    "*The uploader and add-ons update themselves (from uploader 2.3.29, stable versions only) – nothing to click. "
+                    "To turn it off, run **Addons-automatisch-aus.bat** in the uploader folder. Uploaders 2.3.24–2.3.28 ask once "
+                    "(press j) for 2.3.29.*")
 
 
 def hook_ids(conf: dict | None, sync_conf: dict | None = None) -> str:
