@@ -1049,3 +1049,12 @@ UP-DOC2 MITTEL: LIESMICH.txt (DE) und README_EN.txt Abschnitt "Addons automatisc
     LIESMICH (DE/EN): klar schreiben "Der Uploader aktualisiert sich ab Version … selbst". Tests: Update ohne Eingabe, Rückfall, kein Update während Upload,
     j/n bei Einstellungen und WoW-Beenden unverändert (Gegenprobe). Hinweis: Uploader unter 2.3.24 haben keine Update-Funktion – für sie bleibt die
     Handinstallation (betrifft heute einen Offizier; Nutzer entscheidet später).
+>>> RM-UPD2 ERWEITERT (Supervisor 27.11. 07:10) – ENTSCHEID DES NUTZERS 27.11. 07:10: "nimm den rest mit dem automatischen uploadersystem mit rein … dass die
+    addon versionen automatisch geholt werden und installiert ohne dass man in der uploaderdatei irgendwas anklicken muss".
+    Umsetzen (addons.py, UP-AUTO1 Regel 5): "addons_auto_installieren" Standard AN – ohne Addons-automatisch-an.bat. Bestehende Konfigurationen: fehlt der
+    Schalter oder wurde er nie bewusst gesetzt -> AN. Hat jemand ausdrücklich "aus" gewählt (Addons-automatisch-aus.bat), bleibt es aus (dafür einen Merker
+    "addons_auto_gewaehlt" einführen; ohne Merker gilt AN). Die .bat-Dateien bleiben als Schalter. Alle Schutzregeln 1–4 und 6 unverändert (nur raidmaster,
+    Prüfsumme, nur vorhandene GoldSentinel-Ordner, nie WTF/SavedVariables, nichts löschen, .toc zuletzt, Meldung "/reload" bzw. "Neustart").
+    Zusammen mit dem automatischen Uploader-Update in EINER Version; LIESMICH DE/EN: "Uploader und Addons aktualisieren sich selbst; ausschalten mit
+    Addons-automatisch-aus.bat". Tests: frische Konfiguration -> an; alte ohne Schalter -> an; ausdrücklich aus -> bleibt aus (Gegenprobe).
+    Frage an RM im Bericht beantworten: welche Version erhalten Mitspieler – Discord-Version (announce/) oder nur download/? (heute: höchste aus beiden).
