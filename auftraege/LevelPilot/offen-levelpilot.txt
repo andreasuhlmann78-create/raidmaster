@@ -2123,3 +2123,8 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
       61 (26 durch Umgebung), längstes ganzes 92 ms. Reisen: längstes 21 ms, Budget-Überschreitung 10,9 ms bei Planner.lua:784 < Planner.lua:2351 <
       Virtual.lua:564 < Virtual.lua:541 < Virtual.lua:1016.
     protokollTeile (3.13.30) kommt mit dem Upload nach /reload – auswerten (T34/T21/T355/T386 Speicher je Abschnitt).
+>>> 22:40 protokollTeile aus dem Upload 22:31 (PC, 3.13.30) – URSACHE der ~3,9-MB-Stücke BELEGT: "Protokolltext längstens 37,1 ms +3899 KB:
+    … MarktLine 34,1 ms +3788 KB …" (Kopf 0,4 / Planner 1,4 / Einträge 0,4 ms, Rest ~0). MarktLine = GoldSentinelMarkt.DiagLines (gemeinsame Datei) –
+    das ist SH-M1 (Supervisor, 26.11.: entpackt alle Items; Entscheid des Nutzers 27.11. 21:16 "gebündelt"). LP ändert die gemeinsame Datei NICHT.
+    Möglich ohne shared-Änderung (Vorschlag, nur mit Bericht): MarktLine im LP-Protokolltext nur einmal je Testroutine bzw. gemerkt (Text ändert sich
+    während der Routine kaum) – Messung vorher/nachher, Text gleich.
