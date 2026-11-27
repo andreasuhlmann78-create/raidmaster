@@ -6,7 +6,7 @@ Tests der gemeinsamen Datei: bestanden 30/30 Prüfungen bestanden; GoldSentinelG
 Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## AHSentinel-0.65.423.zip: OK (1 Warnungen)
-- **WARNUNG** Version 0.65.423 in download/ wartet auf CurseForge 18:00 – Discord hat schon 0.65.426 (gewollt, Entscheid 15.11. 13:16)
+- **WARNUNG** Version 0.65.423 in download/ wartet auf CurseForge 18:00 – Discord hat schon 0.65.427 (gewollt, Entscheid 15.11. 13:16)
 
 ## BuffSentinel-0.9.69.zip: OK
 
@@ -22,5 +22,5 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## ThreatSentinel-2.5.31.zip: OK
 
-## ahsentinel__ahsentinel-0.65.426.AHSentinel.zip: OK
+## ahsentinel__ahsentinel-0.65.427.AHSentinel.zip: OK
 
