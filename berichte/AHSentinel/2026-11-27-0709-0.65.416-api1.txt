@@ -1,0 +1,20 @@
+AHSentinel 0.65.416 – AHS-API1 (API.WorthUpTo 18–21 ms beim ersten Aufruf) – Ursache belegt, umgesetzt, zur Prüfung (nur Discord)
+Zeit: 27.11.2026 07:09 (Europe/Zurich)
+addon_check 0.65.416: OK. ZIP: gleiche 112 Dateien. Geändert: Ledger.lua (EntriesFor, WarmIndex, READY), AHAnalyzerPro.lua (OwnSalesPerDay, Version),
+Learn.lua (Croston), TestRoutine.lua (T1038, Index), CHANGELOG EN/DE. FULL 0.65.415 allein: 356/67, keine neuen (Bericht 07:0x).
+
+Ursache BELEGT (Nachbau zz_api1, echte Laptop-Daten 26.11. 08:49, Item 2580 Verstärktes Leinencape, erster Aufruf 1,7–3,1 ms im Nachbau, Faktor ~6–10 im Spiel):
+  API.WorthUpTo -> Kern:LohntBis -> FlipCheck -> ResaleBasis -> SellOutlook -> RealPrice/PriceInfo -> Ledger:AverageSalePrice -> Ledger:EntriesFor
+  (1,5 ms: Index je Item über das GANZE Hauptbuch, 2 978 Einträge, neu nach JEDER Buchung, LEDGER_CHANGED) und A:OwnSalesPerDay (0,4–1,0 ms: eigener
+  Index über das ganze Hauptbuch, neu nach jeder Buchung UND jede Stunde). Zweiter Aufruf 0,0 ms. "Je Sitzung beim ersten Aufruf" passt genau dazu.
+Massnahme:
+  - Ledger:EntriesFor: neue Buchungen nur ANHÄNGEN (gleiche Liste, letzter indizierter Eintrag an seiner Stelle, Liste länger); ganz neu nur bei ersetzter/
+    gekürzter Liste oder Verschiebung davor. LEDGER_CHANGED leert den Index nicht mehr.
+  - Aufgabe "ledger:index" 3 s nach dem Laden baut den Index in Portionen (300 Einträge je A:Pause) vor.
+  - A:OwnSalesPerDay und Learn:Croston zählen nur die Einträge DIESES Items (aus dem Index) statt des ganzen Hauptbuchs (Croston: ersetzt ein Test die Naht
+    LedgerEntries, gilt weiter dessen Liste). Gleiche Regel (Verkäufe der letzten 30 Tage, Stück, frühester Zeitpunkt), keine neue Tabelle je Aufruf.
+Messung: erster Aufruf Item 2580: 1,7 -> 0,3 ms im Nachbau (kein Ledger-Teil mehr > 0,05 ms); 124 Items (alle gebuchten + Markt) gesamt 42 -> 19 ms.
+Gegenprobe gleicher Wert: zz_api1eq – für alle 124 Items WorthUpTo (Betrag, Weg, Sicherheit, Stückpreis), OwnSalesPerDay (21 mit Wert), Croston (11 mit Wert),
+  AverageSalePrice alt (0.65.415) = neu byte-gleich. T1038 PASS (anhängen statt neu bauen, Neubau nach Kürzen, Absatz/Tag gleich der alten Zählung).
+Nachbau 0.65.416: s42, s43, s341, s344 und 14 Buchhaltungs-/Absatz-/Lern-Szenarien – 10 PASS, 4 schon vorher rot (s3_ledger_buys/sales, s77_learn, s8_de_learn).
+Abnahme im Spiel: PS-Messung "AHSentinel.API.WorthUpTo" ≤ 2 ms beim ersten Aufruf je Sitzung (auch nach einer Buchung).
