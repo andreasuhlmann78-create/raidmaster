@@ -3,7 +3,7 @@
 ## Stand 27.11.2026 07:21 · Addon 3.0.51 · Uploader 2.3.29
 - Uploader 2.3.29 (RM-UPD2): Update ohne j, Addons Standard an, Kanal stabil (nur download/) / test. Bericht 0721.
 - Addon 3.0.51: Anleitung-Tipp angepasst. 3.0.50 angenommen 26.11. (RM-P1 offen bis Ingametest).
-- Frage an den Nutzer: LevelPilot hat keine stabile Zip in download/.
+- LevelPilot: Nutzer entschied 27.11. ~07:25 "nach Abnahme nach download/" -> LevelPilot-Sitzung (über Supervisor).
 - Addon 3.0.47: 3.0.46 (Taktik-Zahlen) zurückgenommen – Entscheid des Nutzers 08:24 "nicht löschen, auf korrekte Angaben warten".
   Taktik-Zahlen erst ändern, wenn der Supervisor bestätigte Werte überträgt (Prüfliste research/raidmaster-taktikzahlen.md, ab 09.12.).
 - Addon 3.0.45 gepusht (L3/L4 als Prüfungen T204/T205, nur Testroutine). Uploader 2.3.27/2.3.28 und RM-CI1 vom Supervisor angenommen 06:53.
@@ -40,10 +40,10 @@
 - RM-CI2: Token erstellt 13:58 (Nutzer verwahrt ihn); Auftrag an Discord-Sitzung gegeben 14:00 – Eintrag auf dem Bot-Server folgt dort Ingametest: /gsdev an, /rm testroutine alles, /reload.
 
 ## Entscheide des Nutzers seit letztem Stand
+- 27.11. ~07:25: stabile Versionen = nach Abnahme in download/ (LevelPilot ebenso).
 - 27.11. 07:08–07:11: Uploader-Update automatisch; Addons Standard an; Mitspieler nur stabile Versionen (RM-UPD2).
 - 25.11. ~13:50: RM-CI2 – GitHub-Token (nur raidmaster, Actions) auf dem Bot-Server; Bot löst Testberichte-Abholung aus (Discord-Projekt).
 - 25.11. 11:39 (über Supervisor): Offiziere schalten Addons-automatisch ein (UP-DOC2, nur Doku, Standard bleibt AUS).
-- 25.11. 08:24: Taktik-Zahlen NICHT löschen/ändern; geplante Aufgabe prüft (ab 09.12.), bestätigte Werte über Supervisor einsetzen.
   (Bericht 2049 an den Supervisor zum Weiterleiten).
   wie der Bot überspringen; gelöscht wird nichts. -> raid-addon-zusammenfassung-3.0.0.md: NICHT nachposten (Bericht 1030).
 

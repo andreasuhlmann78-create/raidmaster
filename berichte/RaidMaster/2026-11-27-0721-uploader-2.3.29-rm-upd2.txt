@@ -36,3 +36,7 @@ addon_check 3.0.51 OK; ganze Prüfung wie der Workflow: Exit 0, 0 FEHLER.
 6. RaidMaster 3.0.51: Anleitung im Spiel ("Uploader starten") sagt jetzt "aktualisieren sich selbst, nur stabile; ausschalten mit
    Addons-automatisch-aus.bat" statt "-an.bat doppelklicken" – 11 Sprachen. Nachbildung deDE/koKR ALLE OK.
    Für das Discord-Projekt (weitergeben): ANLEITUNG.md / /uploader-Text entsprechend ("nichts anklicken; aus mit Addons-automatisch-aus.bat").
+7. ENTSCHEID DES NUTZERS (Frage im Chat, 27.11. ~07:25) zu LevelPilot: "Nach Abnahme nach download/" – die LevelPilot-Sitzung legt eine von der
+   Prüf-Sitzung abgenommene Version als download/LevelPilot-<Version>.zip ab (Daten-Ordner LevelPilot_Data… in derselben Zip, wie bisher);
+   Mitspieler bekommen dann diese. Bitte als Auftrag an LevelPilot weitergeben und in shared/wissen/entscheide.md eintragen.
+   Gilt sinngemäss für alle Addons: stabil = abgenommen in download/.
