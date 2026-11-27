@@ -1,6 +1,6 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 27.11.2026 12:36 · Version 0.65.420 (Discord, AHS-API1 Messung Entzauber-Teil); CurseForge 0.65.413; angenommen bis 0.65.419
+## Stand 27.11.2026 13:06 · Version 0.65.421 (Discord, AHS-API1 Speicher/Bereinigung messen); CurseForge 0.65.413; angenommen bis 0.65.420
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz – Testberichte "GSTEST1{…}", UI-Befunde db.uiFindingsLast).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
@@ -9,13 +9,12 @@ Nachbau: cd /home/claude/ahanalyzerpro && bash tests/run_offline.sh /home/claude
  FULL 0.65.416: 356 PASS / 67 FAIL, keine neuen. Eigene Szenarien /tmp/claude-0/sim2/wowsim/scenarios_new.lua (zz_st1 Chat-Inventar, TR_TEXT=1).
 
 ## Gerade in Arbeit
-- AHS-API1 HOCH: Ingametest 12:27 belegt Teil ENTZAUBERN (MK:DELimit) 24,7 ms +860 KB je kaltem Aufruf (Testroutine nein, Item im Client nein).
-  Code-Weg ohne Iteminfo ist kurz; Nachbau 0,1 ms. 0.65.420 teilt DE weiter (Fertigkeit, Iteminfo, tatsächlich, geschätzt, Korrektur). Warte Ingametest.
-- md5: Bericht = announce-Zip; Release-Asset baut der Workflow (115 Einträge), Inhalt identisch.
-- FULL 0.65.419: 356/67, keine neuen.
+- AHS-API1 HOCH: Zeit ~ angelegter Speicher (200–900 KB je kaltem Aufruf im Spiel, Nachbau 4–24 KB). 0.65.421: Teile zusammengezählt, Speicher vorher,
+  Bereinigung ja/nein, Materialpreis geteilt (Preis/Marktwert/Verlauf/Leiter). Warte Ingametest. Rohzeilen: lua scratch_slow.lua laptop_cur.lua.
+- FULL 0.65.420: 355/68, s326 flattert (auch mit 419: 1/5). md5 im Bericht = announce-Zip.
 
 ## Nächste Schritte
-1. FULL 0.65.420 allein (Vergleich mit fail419.txt). Neues string.format -> immer s341 mitlaufen. Danach AHS-API1 nach Ingametest (Zeile API-LANGSAM).
+1. FULL 0.65.421 allein (Vergleich mit fail419.txt; s326 und s216 flattern). Neues string.format -> immer s341 mitlaufen. Danach AHS-API1 nach Ingametest (Zeile API-LANGSAM).
 2. AHS-BP1 MITTEL (bindType: Schurkengifte/Blendungspulver BoP nicht als AH-Ware), AHS-S216, AHS-MK1 (nach Ingametest).
 3. Weitere T459-Posten messen (je Massnahme mit Messung).
 4. Regel CF 18:00: CF-Entscheid im Repo -> sofort Auswahl-Frage im Chat; bis 17:30 Stand melden.

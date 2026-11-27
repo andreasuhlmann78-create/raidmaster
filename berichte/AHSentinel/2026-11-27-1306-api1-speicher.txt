@@ -1,0 +1,26 @@
+BERICHT AHSentinel 0.65.421 – AHS-API1 HOCH: Speicheranlage messen (Auftrag Supervisor 13:00) + FULL 0.65.420
+Projekt-Sitzung AHSentinel · 27.11.2026 13:06 · Stand: Messung eingebaut, zur Prüfung. Ursache der Speicheranlage noch NICHT belegt.
+md5 AHSentinel-0.65.421.zip (announce/): 96cf6b192276357286875cdd9251a611
+
+1. ROHZEILE 12:46 (Laptop-Daten 12:48, Zweig sicherung) – Mangel meiner Messzeile belegt:
+   Die Zeile war bei 24 Teilen voll: nach "DE Alter" kamen 15× "DE Iteminfo nein" (Prior für Materialien), danach wurden Entzaubern, Wiederverkauf,
+   Lohnt bis, Kern-Wert, Materialien NICHT mehr geschrieben -> darum fehlen 5 ms / ~110 KB in der Summe der Teile. Kein Messwert, sondern abgeschnitten.
+   Ausserdem: alle 5 langsamen Aufrufe liefen, während eine AHS-Hintergrund-Aufgabe gerade "aktuell" war (cache:warm, hist:flat, ma4) – 4–84 s nach dem Laden.
+
+2. 0.65.421 (nur Messung, gleiche Werte):
+   a) Teile gleichen Namens werden zusammengezählt ("Mat Preis 0.1 ms +1 KB ×4"), höchstens 30 verschiedene – nichts wird mehr abgeschnitten.
+   b) Je Zeile: "Speicher vorher <MB>" und "Bereinigung im Aufruf ja (n×, KB frei)/nein" (sinkt collectgarbage("count") zwischen zwei Messpunkten,
+      lief dort ein GC-Schritt) – trennt eigene Rechnung von Bereinigung (Auftrag Punkt 2).
+   c) Materialpreis (D:MatPriceRaw) geteilt: "Mat Preis" (A:PriceInfo), "Mat Marktwert" (Marktwert+aktuell), "Mat Verlauf" (A:HF), "Mat Leiter"
+      (RealisticCap/Angebotsliste) – Auftrag Punkt 1 (wer legt den Speicher an).
+   Nachbau (Laptop-Daten 12:48, Items mit Iteminfo, Preise frisch geleert): 2584 0,4 ms +24 KB, Speicher vorher 217 MB, keine Bereinigung, Mat Preis ×4
+   0,1 ms – der Nachbau legt weiterhin nur 4–24 KB an; Verdacht, zu messen: im Spiel sind Materialpreis/Verlauf (Aufgaben cache:warm/hist:flat noch nicht
+   fertig) kalt und legen die 200–900 KB an. Die Zeile von 0.65.421 belegt oder widerlegt das.
+   Gegenprobe: zz_api1eq 124 Items = 0.65.417; 20 Schneider-Produkte gleich. s341, s297, s300, s42, s43 PASS (T1040 PASS). addon_check OK.
+
+3. FULL 0.65.420 (allein): 355/68. Neu rot gegenüber 0.65.419: s326_vs_wer_testort ("eigene Testroutinen-Zeit im längsten Bild gemerkt (0)").
+   Je 5× einzeln: 0.65.419 1 FAIL/4 PASS, 0.65.420 2 FAIL/3 PASS -> flattert schon mit 0.65.419 (Zeitmessung "längstes Bild"), nicht durch 0.65.420.
+   0.65.420 ändert nur Messpunkte im kalten API-Aufruf; s326 ruft WorthUpTo nicht auf. Als flatternd geführt (wie s216).
+
+4. NÄCHSTER SCHRITT: Ingametest wie 12:47 mit 0.65.421 (Schneider-Figur, Berufsfenster, /ahs protokoll). Danach die anlegende Stelle beheben
+   (Werte merken bis Preis-/Buchungsänderung, keine neuen Tabellen je Aufruf; Ziel ≤ 2 ms, ≤ 50 KB).
