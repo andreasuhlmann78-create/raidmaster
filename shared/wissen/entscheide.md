@@ -7,6 +7,12 @@ Wortlaut kurz, Wirkung und wo er umgesetzt wird (Auftrag/Kürzel). Spätere Änd
 Ältere Entscheide (vor 13.11. abends) stehen in wirtschaft-forever.md (Abschnitte "Entscheid des Nutzers …"),
 markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelten weiter.
 
+## 27.11.2026
+
+| Zeit | Entscheid | Folge |
+|---|---|---|
+| 07:08 | Offizier B (alter Uploader, < 2.3.15): Anleitung für die einmalige Handinstallation festhalten, "aber mache noch nichts" | In stand-aktuell.md vermerkt; nichts senden bis zum Zeichen des Nutzers. |
+
 ## 26.11.2026
 
 | Zeit | Entscheid | Folge |

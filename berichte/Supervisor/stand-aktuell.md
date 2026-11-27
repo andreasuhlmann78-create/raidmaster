@@ -1,4 +1,4 @@
-# Stand Supervisor – 26.11.2026 16:08
+# Stand Supervisor – 27.11.2026 07:08
 
 ## Gerade in Arbeit
 - Warte auf Berichte AHS (AHS-W1 Teil 2: AH-STATE Rest 3,4 ms, Frames vorbauen) und LP (LP-I3: 189 µs je Knoten in Zone 1458) – beide angestossen 16:08.
@@ -12,6 +12,7 @@
 6. CF: Kommentare bei jeder CF-Version und täglich lesen und beantworten (ohne Vorzeigen, danach loggen und melden). 18:00-Upload weiterer Versionen: vorher fragen.
 
 ## Offen beim Nutzer
+- Offizier B (alter Uploader < 2.3.15, letzte Daten 22.11., wird seit Mindestversion 2.3.20 nicht mehr angenommen): einmal von Hand auf 2.3.28 bringen nötig (alter Uploader kann sich nicht selbst aktualisieren; kein heimlicher Weg). Kurzanleitung vorbereiten und dem Nutzer zeigen – ERST auf sein Zeichen (Nutzer 27.11. 07:08 "halte das fest aber mache noch nichts"). Offizier A ist auf 2.3.28 (liefert).
 - Entscheid SH-M1 (A/B).
 - Offiziere: alter Uploader – warten (nicht erinnern).
 - 09.12. 07:00 Erinnerung: Aufgabe "Raids und Taktiken" wieder einschalten.
