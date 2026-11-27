@@ -2093,3 +2093,9 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
 >>> PRÜFUNG SUPERVISOR 27.11. 15:45 – LP-DL1 ERLEDIGT (download/LevelPilot-3.13.28.zip md5 3fcede98… = angenommene Zip, Workflows grün). 3.13.29 (Speicher je Prüfung,
     Messversion, Bericht 13:31): ANGENOMMEN (addon_check OK); nächste Testroutine im Spiel liefert die Speicher-Zeilen. Discord-Prüfung von download/LevelPilot: nicht nötig
     (LP wird über announce/ angekündigt) – kein Auftrag.
+
+>>> INGAMETEST 27.11. 15:47 (Laptop, 3.13.29) – ausgewertet Supervisor 16:00. 331/332, FEHLER 1 (T155), Fehlerzähler 0, echte Daten unverändert.
+    Bester Lauf bisher: längstes Bild 57,5 ms (T136 Zentrale, mit Speicherbereinigung −110 MB), sonst alle ≤ 38 ms; Bilder über 40 ms: 1; ganze Bilder über 40 ms 28,
+    davon 2 durch Umgebung; längstes ganzes Bild 70 ms (vorher 150–157). T215–T217 weiter weg. T155: 16,89 ms je Planung (Ziel < 16), Median 9,65, längste 63 ms.
+    Reisen: längstes 11,2 ms, 0 über 16. Die Speicher-Zeilen (speicherPruefungen, 3.13.29) stehen im Upload – auswerten (T136: −110 MB fällt in den Zentrale-Text).
+    Offen: MITTEL T155 (knapp über Ziel), MITTEL T136 Zentrale; Rest um 30 ms (Laptop in Ruhe 33 ms je Bild).
