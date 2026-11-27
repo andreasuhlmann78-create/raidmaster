@@ -1,19 +1,19 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 27.11.2026 22:12 · Version 0.65.425 (Discord); CurseForge 0.65.423 (Hotfix)
+## Stand 27.11.2026 22:44 · Version 0.65.426 (Discord); CurseForge 0.65.423 (Hotfix); 0.65.425 vom Supervisor angenommen (Code)
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz; Nachlieferung Rechner B: Zweig nachlieferung-rechner-b-2026-11-27).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
  erwartet in /tmp/claude-0/rel/: AHSentinel-<V>.zip, notes.md, bericht.txt, stand.md). ZIP = gleiche 112 Dateien wie Vorversion (listN.txt).
 Nachbau: cd /home/claude/ahanalyzerpro && bash tests/run_offline.sh /home/claude/AHSentinel; FULL=1 nur auf Kopie und ALLEIN (vorher pgrep run_all.sh leer).
- FULL 0.65.424: 357 PASS / 67 FAIL, keine neuen. Echte Daten im Sim: immer HORDE=1 (sonst leerer Markt), bekannte Items (Sim:AddItem).
+ FULL 0.65.425: 356/68, neu nur s326 (Streuung belegt). zz_bp1 = Leistung BindOnPickup (TR_TEXT=1 nötig für Ausgaben). Echte Daten im Sim: immer HORDE=1 (sonst leerer Markt), bekannte Items (Sim:AddItem).
  Eigene Szenarien /tmp/claude-0/sim2/wowsim/scenarios_new.lua (zz_api4 KALT/KEEPM/KEEPMC, zz_api5 OUT=<Datei> Wertvergleich, zz_api6 KB je Funktion).
 
 ## Gerade in Arbeit
-- MASTERPLAN v2 Schritt 2 (Stabilität). 0.65.425 = AHS-BP1 (Bindung aus dem Client, T1043). FULL 0.65.425 allein danach.
+- MASTERPLAN v2 Schritt 2. 0.65.426 = AHS-BP1-L (Ablauf 30 Min., ohne Tabelle) + ruhendes Ziel mit Grund. FULL 0.65.426 allein danach.
 
 ## Nächste Schritte (Reihenfolge)
-1. FULL 0.65.425 auswerten (gegen /tmp/claude-0/fail424.txt), Bericht.
+1. FULL 0.65.426 auswerten (gegen /tmp/claude-0/fail425.txt), Bericht.
 2. Schritt 2.1 weiter: Rest ~40 KB "Lohnt bis" je Funktion messen (RealisticCap/SellOutlook verdächtig) - Materialpreis-Cache brachte nichts.
 3. Schritt 2.2 Vollscan: AHS-I4, VS-121b, AHS-SP1 (d). 2.4 Rest: AHS-S216, AHS-W2E-b, AHS-MK1, AHS-UMG1.
 4. Danach R1–R7 (Reiter aktualisieren sich selbst), dann Abnahme-Prüfliste für den Nutzer (berichte/AHSentinel/<Zeit>-pruefliste-abnahme.txt).
@@ -28,7 +28,7 @@ Nachbau: cd /home/claude/ahanalyzerpro && bash tests/run_offline.sh /home/claude
 - keine neuen (21:21 Masterplan v2 frei, 21:00 0.65.423 Hotfix auf CurseForge).
 
 ## Wichtig zu wissen
-- A:BindOnPickup(id): bindType 1/4 = gebunden, 60 s Zwischenspeicher, keine Server-Anfrage für ungecachte Items.
+- A:BindOnPickup(id): bindType 1/4 = gebunden, 30 Min. Zwischenspeicher (Zahl, negativ = gebunden), keine Server-Anfrage für ungecachte Items.
 - A:PrintError(where, text, reported): ohne Testmodus 1 Zeile je Sitzung; A:PrintOnce(key, msg).
 - Laptop-Daten haben db.entwickler = true -> alte volle Einlog-Zeile. Ohne: /tmp/claude-0/tb1/laptop_nodev.lua.
 - Letzter Test T1043 (BP1); T1042 CAN1, T1041/T1040 API1. Neue Tests vor "Chk(\"T496\"" einfügen; Index-Eintrag nach AHS-SN-CAN1.

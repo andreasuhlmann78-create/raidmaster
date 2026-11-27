@@ -1,0 +1,27 @@
+BERICHT AHSentinel 0.65.426 – AHS-BP1-L MITTEL (Leistung) + BP1 NIEDRIG (ruhendes Ziel mit Grund) · Supervisor 22:25
+Projekt-Sitzung AHSentinel · 27.11.2026 22:43 · Stand: umgesetzt, zur Prüfung
+md5 AHSentinel-0.65.426.zip (announce/): 3893ab523dc4f1561440af5375f16615 (nur Discord; CurseForge bleibt 0.65.423)
+
+1. Messung (Nachbau, echte Daten Laptop, HORDE, 7535 Items im Markt; Szenario zz_bp1, lokal):
+   Markt-Reiter (BuildFlip/Stock/Vendor/Trends/DE) + Inventarwert + Lagerwert:
+     0.65.424: kalt 165–199 ms +9003 KB, warm 91–119 ms +1594 KB
+     0.65.425: kalt 176–194 ms +9015 KB, warm 96–110 ms +1594 KB · BindOnPickup 92 Aufrufe je Aufbau
+     -> Zeit im Rahmen der Streuung; +12 KB kalt (Tabelle je Item).
+   "Lohnt bis" über 2000 Items: 0.65.424 185 ms, 0.65.425 178 ms · BindOnPickup 4074 Aufrufe, 1981 neue Abfragen (kalt).
+   Belegt: der Verdacht "7500 Items je Minute" trifft den Markt-Reiter NICHT (92 Aufrufe), wohl aber "Lohnt bis" über viele Items:
+   rund 2 Aufrufe je Item, kalt 1 Abfrage je Item. Im Spiel mit 7–11 µs je GetItemInfo (Messung des Supervisors) ≈ 14–22 ms je
+   2000 Items – bei 60 s Ablauf jede Minute erneut. Verdacht, zu messen: die echten µs im Spiel (der Nachbau misst GetItemInfo nicht).
+   Den Vollscan-Nachlauf kann zz_bp1 mit echten Daten nicht nachbauen (Sim:FillMarket braucht Sim-Grundpreise) – offen.
+
+2. Massnahmen:
+   a) A.BIND_TTL 60 s -> 1800 s (Bindung ändert sich nur per Hotfix; /reload leert den Speicher). Messung nach 61 s:
+      0.65.425 92 neue Abfragen, 0.65.426 25 (= Items ohne Namen im Nachbau, im Spiel bricht dort IsItemDataCachedByID vorher ab).
+   b) Zwischenspeicher ohne Tabelle je Item (Zahl: Zeitpunkt, negativ = gebunden): kalt +9008 KB statt +9015 KB (0.65.424: +9003).
+   c) NIEDRIG: Sn:PauseText nennt bei gebundener Ware den Grund: Zielzeile "ruht · gebunden", lang "ruht – beim Aufheben gebunden,
+      im AH nicht handelbar" (10 Locales).
+
+3. Tests: T1043 erweitert (Zielzeile gebunden = "ruht · gebunden", frei = nil; Wechsel BoP->BoE nach Ablauf mit neuem Format).
+   Gegenprobe: ohne die neue Zeile in PauseText -> T1043 FAIL ("nil"). Szenarien s42, s43, s297, s300, s341, s345, s8_de_prior,
+   s1_vendor_deals PASS. Werte 151 Items (Laptop, HORDE) = 0.65.424 Zeile für Zeile. addon_check OK, 112 Dateien.
+   FULL 0.65.425: 356/68, einzige neue Rot-Stelle s326 = Streuung (Nachlauf alt 1/11, neu 2/11 rot), Bericht 22:3x.
+   FULL 0.65.426 läuft danach allein.
