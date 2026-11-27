@@ -1,0 +1,53 @@
+BERICHT AHSentinel 0.65.417 – ST1 Spieler-Texte (Auftrag Supervisor 27.11. 09:25, Anweisung auftraege/anweisung-spielertexte-2026-11-27.txt)
+Projekt-Sitzung AHSentinel · 27.11.2026 09:45 · Stand: umgesetzt, zur Prüfung (nur Discord; CurseForge nur nach Entscheid)
+
+1. LISTE DER TEXTE, DIE EIN SPIELER OHNE EIGENES ZUTUN SIEHT (Nachbau zz_st1: Einloggen, 60 s, AH öffnen, Vollscan, Wächter,
+   AH schliessen, Briefkasten, nächster Tag AH öffnen; Testmodus aus; echte Daten Laptop 08:49 mit Testmodus-Schalter entfernt)
+   Ort                     | vorher (0.65.416)                                                        | nachher (0.65.417)                                     | Einstufung
+   Chat Einloggen          | "[AHSentinel] Version 0.65.416 geladen. Öffnen über den Münz-Button oder | "AHSentinel 0.65.417 – /ahs oder der Münz-Button       | Spieler (A)
+                           |  /ahs  (/ahs help = alle Befehle)"                                       |  öffnet das Fenster"                                   |
+   Chat Einloggen          | Tagesbilanz auch bei "nichts gebucht | +0 | Gold 0"                       | nur, wenn gestern/7 Tage etwas gebucht (X:DailyHasNews) | Spieler (A)
+                           |                                                                          | – "Jetzt zeigen" in den Optionen und /ahs bilanz zeigen |
+                           |                                                                          | sie immer (vom Spieler ausgelöst)                       |
+   Chat AH öffnen          | Raid-Start-Hinweis 9.12. jeden Tag                                       | einmal (tipsShown.raidStart1209), danach nie wieder     | Spieler (E)
+   Chat Hinweise Laden     | "alter Ordner AHAnalyzerPro löschbar", "Preise mehrerer Server"          | je einmal (tipsShown.oldFolder / .marketsMixed)         | Spieler (E)
+   Chat Wächter            | "kombinierte Suche"-Hinweis                                              | einmal (tipsShown.watcherSplit)                         | Spieler (E)
+   Chat Fehler             | "<Ort>: <Lua-Fehlertext>" bei jedem Fehler (Fire-Handler, Job, Scan,     | "AHSentinel: Ein Fehler ist aufgetreten – er wird       | Spieler (C)
+                           |  CSV, Vollscan, Buchhaltung Post, Sync, Sniper)                          |  automatisch gemeldet." höchstens 1x je Sitzung;        |
+                           |                                                                          |  Einzelheiten wie bisher an GoldSentinelTest (Liste)    |
+   Optionen Vollscan-Tempo | "%d ms je Bild" + "Kleineres Zeitbudget = länger, aber flüssiger"       | "sehr flüssig/flüssig/ausgewogen/schneller", Tooltip    | Spieler (B/D)
+                           |                                                                          |  ohne Zeitbudget; ms nur im Testmodus                   |
+   Optionen Knopf-Tooltip  | "…, Ton, Preis-Sync, Sniper-Tempo, …"                                    | "…, Ton, Preise teilen, Sniper-Tempo, …"                | Spieler (B)
+   Optionen Namen-Info     | "… über den Preis-Sync von Mitspielern."                                 | "… von Mitspielern, die Preise teilen."                 | Spieler (B)
+   Optionen Teilen mit     | "(Eigene Kanäle gehen in WoW Forever nicht - …)"                         | Klammer entfernt (Technik)                              | Spieler (B)
+   Chat Teilen an/aus      | "Preis-Sync eingeschaltet./ausgeschaltet."                               | "Preise mit Mitspielern teilen: an./aus."               | Spieler (B)
+   Hilfe Charts            | "Punkte von Mitspielern (Preis-Sync)"                                    | "(Preise teilen)" (DE und EN-Hilfe)                     | Spieler (B)
+   Optionen Selbsttest     | nur im Testmodus (schon seit OPT-1)                                      | unverändert                                             | nur Testmodus
+   Knopf "Test"            | nur im Testmodus (TEST-DEV1)                                             | unverändert                                             | nur Testmodus
+   Chat Vollscan           | "Schnell-Vollscan gestartet ..." / "Scan fertig: … (2.0 Sek.)"           | unverändert – vom Spieler ausgelöst                     | Spieler
+   Abschnitt "Mithelfen" (B): AHSentinel hat in den Optionen KEINEN Entwicklungs-Schalter für Spieler. Die Zustimmung zum Fehlerbericht
+   fragt die gemeinsame GoldSentinelTest.lua (Dialog, nicht geändert – nur aus shared/ kopiert). "Marktdaten teilen" und "Preise mit
+   Mitspielern teilen" sind Spieler-Funktionen (der Spieler bekommt fremde Preise), deshalb nicht unter "Mithelfen" – bitte entscheiden,
+   falls "Marktdaten teilen" doch nach "Mithelfen" soll. Gespeicherte Schlüssel unverändert (db.sync.enabled, Markt-Teilen, tipsShown neu).
+   Nicht angefasst: Befehle/Hilfe-Listen (/ahs help, Hinweis "Chat-Befehle: …"), Tooltips der Items, Bildschirmmitte, Töne, Diagnose-Fenster.
+
+2. TEST MIT GEGENPROBE
+   - Nachbau zz_st1 ohne Testmodus (echte Daten): Einloggen = genau 1 Zeile mit Version; Raid-Hinweis Tag 1 ja, Tag 2 NEIN.
+     Gegenprobe Testmodus an (DEV=1): Raid-Hinweis Tag 1 und Tag 2 (wie bisher). Mit Testmodus-Schalter in den Daten (Laptop 08:49):
+     alte volle Einlog-Zeile "Version … geladen …" (wie bisher).
+   - T1039 (Testroutine): ohne Testmodus 2 Fehler -> 1 Chat-Zeile ohne Fehlertext, beide gemeldet (2); Tipp true/false, nach "/reload"
+     (Sitzung neu) false; Gegenprobe Testmodus: 2 volle Zeilen mit Fehlertext.
+   - T265 angepasst: Testmodus an "false/true/false/true/false/2" (wie bisher), aus "false/true/false/false/false/1".
+   - s13_daily_summary (Tagesbilanz mit Buchungen, abschaltbar, einmal am Tag) PASS; s42, s42b, s42c, s43, s49, s341 PASS.
+   - Hinweis (Verdacht, zu messen; nicht ST1): im Nachbau mit echten Daten meldet der Vollscan "ohne Antwort – nichts übernommen"; gleich
+     schon mit 0.65.416, mit Nachbau-Daten "Scan fertig". Vermutlich Nachbau-Eigenheit (Antwort des simulierten Servers), nicht im Spiel gemeldet.
+   - addon_check 0.65.417.zip: OK. FULL läuft nach der Veröffentlichung allein (eigener Bericht).
+
+3. SPRACHEN (alle 10 Locale-Dateien) – geänderte/neue Schlüssel
+   neu: "/ahs oder der Münz-Button öffnet das Fenster", "Ein Fehler ist aufgetreten – er wird automatisch gemeldet.",
+        "Kann ruckeln: … Stufe „flüssiger“ rechnet länger, ruckelt aber weniger.", "Wie AHSentinel den Vollscan auswertet: …",
+        "sehr flüssig", "flüssig", "ausgewogen", "schneller"
+   ersetzt: "Design (…), Ton, Preis-Sync, …" -> "…, Preise teilen, …"; "… über den Preis-Sync von Mitspielern." -> "… von Mitspielern,
+        die Preise teilen."; "Mit wem geteilt wird: … (Eigene Kanäle …)" -> ohne Klammer (bisher in 9 Sprachen nur Englisch, jetzt übersetzt);
+        "Preis-Sync eingeschaltet./ausgeschaltet." -> "Preise mit Mitspielern teilen: an./aus."
+   CHANGELOG.md und CHANGELOG.de.md: Abschnitt 0.65.417.
