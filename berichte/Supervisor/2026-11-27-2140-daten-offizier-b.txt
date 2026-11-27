@@ -25,7 +25,7 @@ NÄCHSTER SCHRITT: Offizier B startet Uploader 2.3.30 aus dem richtigen Ordner (
 NACHTRAG 21:50 – AUSGEWERTET (Nutzer 21:38 "zieh aus seinen Daten raus, was du brauchen kannst"):
 - Der Upload 21:31 (alter Uploader) wurde im Daten-Repo danach wieder überschrieben (main zurück auf den Stand 20:36, "forced-update") – vermutlich
   die Sperre gegen Uploader unter der Mindestversion (Verdacht, nicht belegt). Der Supervisor hat ihn vorher lokal geholt (Commit e178872).
-  Sichern als eigener Zweig im Daten-Repo: noch NICHT gemacht (braucht OK des Nutzers).
+  GESICHERT (OK des Nutzers 21:44): Daten-Repo, Zweig nachlieferung-rechner-b-2026-11-27 (= Commit e178872, unverändert, nur lesen).
 - MARKT (marktanalyse/verlauf_auspacken.py): B hat 7424 Items mit Verlauf, 76 238 Punkte (06.–26.11.). Ab 21.11.: 41 694 Beobachtungen, ALLE neu
   gegenüber PC + Laptop des Nutzers (7327 Items). Stunden ab 21.11. (Zürich): B 09, 12, 14, 16, 17 Uhr; 17 Uhr: B 13 977 Punkte, Nutzer nur 30 ->
   füllt die Lücke am Spätnachmittag. 25 Items kennt nur B. Tageszyklus-Auswertung bei B allein nicht möglich (kein Item mit ≥ 40 Punkten).
