@@ -28,3 +28,12 @@ Status: behoben auf dem Server (Nutzer hat die Befehle ausgeführt), zur Prüfun
 
 4. Zu messen: nächste Discord-Prüfung -> fehlende Ankündigungen (AHS 0.65.419–422, LP 3.13.28/29, PS 0.9.95/96, ZIP AHS 0.65.422) gepostet;
    /uploader antwortet.
+
+NACHTRAG 20:20 zum Hinweis Supervisor 19:40 (Uploader am PC 19:20:37 Zürich = 18:20:37 UTC "Discord nicht erreichbar")
+- Im Bot-Protokoll im selben Zeitraum: DNS-Fehler (z. B. 18:39:24 UTC "Temporary failure in name resolution" beim Login). Keine 429 als
+  Abbruchgrund (429 kamen erst NACH dem Neustart 18:44 beim Nachholen – harmlos, Wiederholung nach ~5 s).
+- Dass auch der PC des Nutzers Discord gleichzeitig nicht erreichte, spricht für eine Störung, die nicht nur den Infomaniak-DNS betraf
+  (Verdacht, zu messen: Namensauflösung von discord.com allgemein oder Netzstörung). Der Ersatz-DNS (1.1.1.1/9.9.9.9) hilft sicher nur
+  bei einem Ausfall des Infomaniak-DNS; bei einer Störung bei Discord selbst hilft er nicht.
+- discordstatus.com: Verlauf/RSS (Stand der Seite 27.11. 06:27 UTC) ohne Störung am 26./27.11.; spätere Einträge dort nicht abrufbar
+  (Seite liefert die Liste nur per Skript). Nicht belegt, nicht ausgeschlossen.
