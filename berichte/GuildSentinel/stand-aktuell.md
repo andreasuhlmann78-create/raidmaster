@@ -3,7 +3,7 @@
 ## Gerade in Arbeit
 - GS-CF3 umgesetzt, zur Prüfung: Bericht 2026-11-27-1820-curseforge-0.9.66.txt. download/ = nur GuildSentinel-0.9.66.zip
   (md5 1f5a743a9f920e0216cca17aafbae885, gleich wie announce/), 0.9.61 entfernt (Commit b704b3d0).
-- Workflows zu b704b3d0: CurseForge-Upload success, Addon-Prüfung success; Discord-Prüfung lief bei 18:20 noch.
+- Workflows zu b704b3d0: CurseForge-Upload success, Addon-Prüfung success; Discord-Prüfung success (nachgetragen).
   uploaded.json GuildSentinel endet mit 0.9.61, 0.9.66.
 
 ## Nächste Schritte (Reihenfolge)
