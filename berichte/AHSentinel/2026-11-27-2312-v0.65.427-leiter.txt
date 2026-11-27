@@ -1,0 +1,16 @@
+BERICHT AHSentinel 0.65.427 – Masterplan v2 Schritt 2.1 (Rest-Speicher "Lohnt bis"), Teil 1
+Projekt-Sitzung AHSentinel · 27.11.2026 23:12 · Stand: umgesetzt, zur Prüfung
+md5 AHSentinel-0.65.427.zip (announce/): b2a4121ef47054f41ec985eb4ce4e60e (nur Discord; CurseForge bleibt 0.65.423)
+
+1. Befund (Nachbau, echte Daten Laptop, HORDE, KB je Funktion mit zz_api6): FullScan:DecodeLadder 10× je "Lohnt bis" (~13 KB).
+   Ursache belegt: VS:Ladder hat für die GESPEICHERTE Leiter (st.ladder, Text) keinen Zwischenspeicher – mem/cmp haben einen.
+   Dieser Weg gilt nach /reload bis zum nächsten Vollscan.
+2. Änderung (Vollscan.lua VS:Ladder): gespeicherte Leiter einmal je Text entschlüsseln und merken (Schlüssel = der Text selbst,
+   keine zusätzliche Tabelle je Eintrag), höchstens LAD_CACHE_MAX (400) Einträge, dann leeren. Neuer Text = neue Leiter.
+   Alle Aufrufer (OfferLadder, Queue, Detail Markt-Reiter, Puffer AHAnalyzerPro:4392) lesen nur – geprüft.
+3. Messung kalt "Lohnt bis" (zz_api4 KEEPM): 0.65.426 -> 0.65.427: 2584 75 -> 65 KB; 22660 43 -> 45; 7054 43 -> 44; 2580 43 -> 45.
+   Ehrlich: Gewinn nur beim ersten Item (-10 KB); die übrigen ~43 KB je Item bleiben. Ziel ≤ 50 KB ist für die Folge-Items
+   erreicht, beim ersten kalten Aufruf (65 KB) noch nicht. Weitere Messung je Funktion folgt (Hülle von zz_api6 verfälscht).
+4. Belege: Werte 151 Items (Laptop, HORDE) = 0.65.424 Zeile für Zeile. Szenarien s42, s43, s297, s300, s341 und alle Vollscan-/
+   Leiter-Szenarien (s76×2, s87, s92, s224, s277, s294, s312, s325, s334, s335 + 5× s*_vs*) alt = neu (md5 der Ergebnisse gleich,
+   s335-Gruppe: 1 rot wie vorher). addon_check OK. FULL 0.65.427 folgt allein.
