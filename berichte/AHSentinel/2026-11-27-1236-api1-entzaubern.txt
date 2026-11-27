@@ -1,0 +1,28 @@
+BERICHT AHSentinel 0.65.420 – AHS-API1 HOCH, Teil ENTZAUBERN weiter geteilt (Ingametest 12:27, Supervisor 12:40)
+Projekt-Sitzung AHSentinel · 27.11.2026 12:36 · Stand: Messung eingebaut, zur Prüfung. Ursache im Entzauber-Teil noch NICHT belegt.
+md5 AHSentinel-0.65.420.zip (announce/): 4d59ab49a79477ea56fe24ee82093cd2
+
+1. CODE DES TEILS "ENTZAUBERN" (MK:DELimit) – was für ein Item ohne Iteminfo ("Item im Client nein") läuft:
+   D:WayDE -> A:WayOn("de"), D:AccountEnchantSkill (30 s gemerkt; GetNumSkillLines/GetSkillLineInfo-Schleife + Figurenliste), pcall(GetItemInfo)
+   D:DealValue -> D:ActualValue -> D:Prior -> D:PriorRaw: A:ItemInfoAllowed (C_Item.IsItemDataCachedByID, Zähler), pcall(GetItemInfo) -> ohne Name sofort nil
+              -> D:GetValue -> D:Yield -> D:Prior (dasselbe) -> nil -> DealValue nil.
+   Laut Code ist der Weg ohne Iteminfo also kurz (keine Schleife über Entzauber-Ergebnisse, keine grosse Tabelle). Im Nachbau genau so:
+   Laptop-Daten 27.11. 10:59, Items ohne Iteminfo: DELimit 0,06–0,10 ms +3 KB (2584 beim ersten Aufruf 1,3 ms +4 KB); mit Verzauberkunst
+   erzwungen (testSkill 300) gleich; mit bekannten Items (Qualität 2) "DE Wert" 0,1–0,2 ms +6–9 KB.
+   -> Warum das Spiel 24,7 ms +860 KB in diesem Teil braucht, erklärt der sichtbare Code NICHT. Unterschied zum Nachbau (Faktor > 100 in diesem Teil)
+   damit offen; Verdacht, zu messen: etwas ausserhalb der sichtbaren Rechnung im Spiel (z. B. GetItemInfo/C_Item im Forever-Client oder von einem
+   anderen Addon ersetzt, die Fertigkeits-Abfrage), oder die Iteminfo kommt im Spiel doch an und der Weg mit Werten ist teurer als im Nachbau.
+
+2. MASSNAHME 0.65.420 (nur Messung): API-LANGSAM zeigt jetzt zusätzlich je Teil Zeit und Speicher:
+   "DE Fertigkeit eigene", "DE Fertigkeit Konto" (nur wenn neu gerechnet), "DE Weg", "DE Iteminfo ja/nein" (je GetItemInfo-Aufruf in Prior),
+   "DE tatsächlich", "DE geschätzt", "DE Korrektur", "DE Wert", "DE Alter" – dazu wie bisher Entzaubern/Wiederverkauf/Händler/Lohnt bis/Kern-Wert/Materialien.
+   Nur innerhalb eines kalten API-Aufrufs (API.profOn), sonst keine Wirkung. Höchstens 24 Teile je Zeile.
+   Gegenprobe Werte: zz_api1eq 124 Items 0.65.417 = 0.65.420 (diff leer); 20 Schneider-Produkte gleich. s341 (OVF1), s297, s300, s42, s42b, s43, s49 PASS.
+   addon_check OK.
+
+3. md5 (NIEDRIG, Supervisor 12:40): die md5 im Bericht ist die der Zip in announce/ (= /tmp-Bau, gleiche Zip kommt später nach download/).
+   Das GitHub-Release-Asset baut der Workflow im Repo AHAnalyzerPro selbst: v0.65.419 Asset md5 a397ed70…, 115 Einträge (inkl. Ordner-Einträge),
+   announce-Zip 00d6a013…, 112 Dateien. Inhalt Datei für Datei verglichen (entpackt, diff -r): identisch. Für DL-ABN gilt die announce-md5.
+
+4. NÄCHSTER SCHRITT: Ingametest wie 12:27 mit 0.65.420 (Schneider-Figur, Berufsfenster, /ahs protokoll) -> Zeilen API-LANGSAM mit DE-Teilen.
+   Dann Ursache belegen und beheben (Ziel ≤ 2 ms, ≤ 50 KB je Aufruf; Entzauber-Wert je Item merken bis zur nächsten Preis-/Buchungsänderung).
