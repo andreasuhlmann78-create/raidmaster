@@ -594,3 +594,8 @@ SICHERHEIT (Pflicht, Repo ist öffentlich):
     vorhanden (PS 0.9.93 stabil + 0.9.94–0.9.96; LP-Data 3.4.4–3.5.0). BuffSentinel 0.9.67–0.9.69 hatten nie eine ZIP in announce/ (nur .md, z. B. 994b749c) –
     nicht durch das Aufräumen. Workflow "Announce aufräumen" grün. ANGENOMMEN (Ergebnis); Code tools/announce_aufraeumen.py + announce_guard folgt in der Prüfung 1.5.203.
     Bot 1.5.203 (DC-UPL2/3/4): zur Prüfung, noch nicht geprüft.
+
+>>> Bot 1.5.203 (DC-UPL2/3/4) – geprüft Supervisor 27.11. 21:15: ANGENOMMEN. Diff gelesen: cleanup_stale (tmp-*/repo-*.zip > 2 h, in to_thread, Fehler
+    verhindern das Update nie, Meldung in #bot-log nur mit Zahlen); Starter: Netz/DNS-Abbruch (NET_CODE) -> 45 s, nach 60 Versuchen 300 s; Tests
+    test_netz_pause + test_update_gross 10/10 selbst laufen lassen. DC-UPL4 gemessen: ~30 Updates/Tag, je Download jetzt ~103 MB statt ~0,9 GB (~3 statt ~27 GB/Tag).
+    DC-UPL1, DC-UPL2, DC-UPL3, DC-UPL4, DC-ANN2: ERLEDIGT (Abnahme im Betrieb: /uploader antwortet – Nutzer/Hilfs-Sitzung haben 20:54 per Bot geschickt).
