@@ -1,0 +1,35 @@
+BERICHT AHSentinel 0.65.425 – AHS-BP1 MITTEL (Masterplan v2 Schritt 2.4) + Schritt 2.1 Zwischenstand
+Projekt-Sitzung AHSentinel · 27.11.2026 22:11 · Stand: umgesetzt, zur Prüfung
+md5 AHSentinel-0.65.425.zip (announce/): 7c92b29e4715f24f9d83f587e37dd03a (nur Discord; CurseForge bleibt 0.65.423)
+
+1. Auftrag AHS-BP1 (Hotfix 25.11.: Schurkengifte und Blendungspulver 5530 vorübergehend BoP), umgesetzt OHNE feste Liste:
+   - Neu A:BindOnPickup(itemID): liest bindType (14. Rückgabe GetItemInfo). 1 = beim Aufheben gebunden, 4 = Questgegenstand -> gebunden.
+     0/2/3 = normal. Item nicht im Client-Cache -> normal und KEINE Server-Anfrage (C_Item.IsItemDataCachedByID, Regel GSL8-1).
+     Zwischenspeicher je Item höchstens 60 s (A.BIND_TTL) -> wird es wieder BoE, gilt es danach von selbst wieder normal.
+   - Gebunden heisst:
+     a) A:RealPrice -> nil (kein AH-Preis; A:RealValue fällt damit auf den Händlerpreis zurück, X:InventoryValue ebenso).
+     b) A:ResalePrice -> nil (kein Wiederverkauf).
+     c) Le:UnitStockValue: Lagerwert nur Händlerpreis (deckt auch BK:OpeningValue/Buchhaltung ab).
+     d) A:FlipBlocked -> "bound"; Markt-Reiter zeigt "liegen lassen – Beim Aufheben gebunden – kein Wiederverkauf im AH" (10 Locales).
+        Kauf zum Händlerpreis (Händler zahlt mehr als AH-Preis) bleibt möglich: das geht auch mit gebundener Ware.
+     e) A:PriceHints -> nur { bound = true }: keine Hinweise Sprung/Einbruch/alt aus Lücken im Verlauf.
+     f) Se:BatchCandidates: gebundene Ware nie in der Verkaufsserie.
+     g) Sn:GetActiveTargets: Ziel mit gebundener Ware ruht (bleibt gespeichert, sucht/kauft nicht).
+   - Grenze (ehrlich): Nach der Rückkehr zu BoE zeigt ein echter Preisunterschied zum alten Marktwert wieder normale Hinweise.
+     Das ist dann ein echter Marktunterschied, keine Lücke.
+
+2. Belege:
+   - Test T1043 (Testroutine, Index AHS-BP1) mit bindType 1/4/0/2 und dem Wechsel BoP -> BoE nach Ablauf des Zwischenspeichers:
+     1 und 4: true/nil/nil/bound/true/25/0/0. 0 und 2: false/1000/preis/nil/-/950/1/1. Wechsel: true -> false.
+     Gegenprobe: dieselbe Fassung mit ausgeschalteter Bindungsprüfung -> T1043 FAIL (gebunden wird wie frei bewertet).
+   - Szenarien: s42, s43, s297, s300, s341, s345, s1_vendor_deals, s2_undercut_cancel, s8_de_* (4), s261, s263, s11 PASS.
+     s1_market_deals, s2_undercut_modes, s8_de_learn: wie 0.65.424 rot, Fehlerbild gleich (md5 der Ausgabe identisch).
+   - Echte Daten (Laptop, HORDE, 151 Items, WorthUpTo + DELimit): Werte alt 0.65.424 = neu 0.65.425, Zeile für Zeile gleich.
+   - addon_check: OK, 112 Dateien wie 0.65.424. FULL läuft danach allein (Ergebnis im nächsten Bericht).
+   - Simulator (ahanalyzerpro): GetItemInfo liefert jetzt it.bind (sonst 0) an Stelle 14.
+
+3. Messauftrag im Spiel (Nutzer, wenn vorhanden): Blendungspulver (5530) und ein Gift: Tooltip "Wird beim Aufheben gebunden"?
+   Dann im Markt-Reiter die Zeile "liegen lassen – Beim Aufheben gebunden …", kein aktives Sniper-Ziel dafür.
+
+4. Schritt 2.1 Rest-Speicher "Lohnt bis": Versuch mit Materialpreisen über mehrere Aufrufe ohne messbaren Gewinn verworfen
+   (Bericht 2026-11-27-2200). Rest ~40 KB kommt nicht aus den Materialpreisen. Verdacht, zu messen: RealisticCap/SellOutlook.
