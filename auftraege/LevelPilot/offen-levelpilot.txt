@@ -2110,3 +2110,16 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
     angenommen – alle 15 Pakete der Spieldatei liegen schon im Ordner, auch 21:30 (meine Angabe "das 8. fehlt" war falsch: ich hatte nur 8 Zeitstempel
     gezählt). seed_bauen.py nur "selbst", ohne Doppelte – richtig. Startwegnetz NICHT ohne eigene Version mit Messung (T381/T261/Speicher) – richtig.
     Ingametest jetzt (Nutzer 22:12 "/lp testroutine alles"): auf 3.13.30 werten (Version im Bericht prüfen) -> protokollTeile, T136, T155.
+
+>>> INGAMETEST 27.11. 22:11–22:29 (PC, 3.13.30, Krieger 30, Donnerfels, 105 Bilder/s) – ausgewertet Supervisor 22:35. 334/336, FEHLER 2, Fehlerzähler 0,
+    Sandbox OK, echte Daten unverändert, 1078 s.
+    FEHLER T150 Planner:Replan(true): Median 16,91 ms, max 17,98 (Ziel < 16 / < 33) – Planung = ersterweg 8,03 + reihenfolge 4,56 + aufgaben 3,49 + Rest.
+      (Laptop 15:47 hiess dieselbe Grenze T155 16,89 ms – bitte Nummern im Bericht klarstellen.) MITTEL wie bisher.
+    FEHLER T261 NEU IM SPIEL (bisher nur im Nachbau rot, "im Spiel OK"): Einloggen erste 60 s 1810 ms (soll < 1000) in 1946 Aufrufen, längster 18 ms;
+      nav 873 ms/1243× (navplan 831…), route 504 ms/212×, graph 208 ms/166×, advisor 79, ui 40, start 37. HOCH (Einlog-Lag ist Spieler-spürbar):
+      Ursache belegen (warum nav/navplan 1243× in 60 s), auf < 1000 ms senken, Test.
+    BILDER: längstes 79,8 ms "Reisen svc–Grundregeln" (neu im Spiel; Nachbau-Bericht 22:00 sagte 50 ms "Verdacht Nachbau" – jetzt im Spiel belegt) – MITTEL,
+      Ursache am Übergang Reisen->Grundregeln belegen. Sonst ≤ 38 ms; T136 Zentrale jetzt 32–34 ms (15:47: 57,5 mit GC) – besser. Ganze Bilder über 40 ms
+      61 (26 durch Umgebung), längstes ganzes 92 ms. Reisen: längstes 21 ms, Budget-Überschreitung 10,9 ms bei Planner.lua:784 < Planner.lua:2351 <
+      Virtual.lua:564 < Virtual.lua:541 < Virtual.lua:1016.
+    protokollTeile (3.13.30) kommt mit dem Upload nach /reload – auswerten (T34/T21/T355/T386 Speicher je Abschnitt).
