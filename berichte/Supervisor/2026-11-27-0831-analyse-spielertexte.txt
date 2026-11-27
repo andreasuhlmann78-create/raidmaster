@@ -87,3 +87,8 @@ UMSETZUNG (nach Entscheid)
  Schritt 2: Jede Projekt-Sitzung liefert ein Textverzeichnis aller Spieler-Texte (Chat, Fenster, Tooltips, Optionen) mit Einstufung
     Spieler / Diagnose / Entwickler und Ort – Supervisor prüft es gegen R1–R7.
  Schritt 3: Projekte ändern, EN/DE und alle Sprachen, Nachweis mit dem Nachbau (Chat beim Einloggen und Hilfe wie oben gemessen).
+
+ENTSCHEID DES NUTZERS 27.11. 08:41: "ich will dass man die Addonversion immer noch sieht. die befehlszeilen bleiben so wie sie sind".
+ -> R1 neu: beim Einloggen bleibt je Addon eine kurze Zeile mit Name und Version (ohne Build/Interface, ohne Zusatztechnik).
+ -> R2 entfällt (Hilfe-/Befehlslisten unverändert); R3 (/gsgame /gsdev /gstest) als Befehle ebenfalls unverändert.
+ -> Rückfragen an den Nutzer (offen): Tooltips, Bildschirm-Meldungen/Töne, Nachrichten an andere Spieler, Sprachen, "Neu"-Hinweise.
