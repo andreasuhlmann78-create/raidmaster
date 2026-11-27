@@ -2104,3 +2104,9 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
 >>> (Entscheid des Nutzers 27.11. 21:47 "die Addons sollen alles Nützliche verwenden"): Wegdaten Rechner B nutzen – 7 von 8 Paketen liegen schon in
     testberichte/wege/LevelPilot/ (kamen über #testberichte), das 8. (27.11. 21:30) im Daten-Repo-Zweig nachlieferung-rechner-b-2026-11-27. Format 3.12.31 –
     beim Einlesen Unterschiede zu 3.13.x belegen, nichts doppelt zählen.
+
+>>> PRÜFUNG SUPERVISOR 27.11. 22:16 – 3.13.30 (Messversion, Bericht 22:00): ANGENOMMEN. addon_check OK (md5 1dd34617… = Bericht). Speicher-Auswertung 3.13.29
+    schlüssig (Speicher entsteht IN den Prüfungen; gemeinsam = Protocol:Text) – 3.13.30 misst je Abschnitt (protokollTeile). Wegdaten B: Korrektur
+    angenommen – alle 15 Pakete der Spieldatei liegen schon im Ordner, auch 21:30 (meine Angabe "das 8. fehlt" war falsch: ich hatte nur 8 Zeitstempel
+    gezählt). seed_bauen.py nur "selbst", ohne Doppelte – richtig. Startwegnetz NICHT ohne eigene Version mit Messung (T381/T261/Speicher) – richtig.
+    Ingametest jetzt (Nutzer 22:12 "/lp testroutine alles"): auf 3.13.30 werten (Version im Bericht prüfen) -> protokollTeile, T136, T155.
