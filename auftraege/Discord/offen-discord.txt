@@ -549,3 +549,8 @@ SICHERHEIT (Pflicht, Repo ist öffentlich):
     Der Bot postet RaidMaster heute zusätzlich aus dem Paket (ADDON_DIR/find_addon_package), wenn download/ wechselt -> pro Version drohen zwei Beiträge in #raid-addon.
     Festlegen und umsetzen: RaidMaster wie alle Addons NUR über announce/ ankündigen; der Paket-Post beim Wechsel in download/ entfällt (oder wird nur ein kurzer
     "jetzt stabil"-Hinweis ohne zweite Ankündigung – im Bericht begründen). Test mit Gegenprobe (eine Version -> genau ein Beitrag). Bericht.
+
+>>> PRÜFUNG SUPERVISOR 27.11. 10:55 – Discord-Bot 1.5.201 (DC-ANN1, Bericht 11:05): ANGENOMMEN, Abnahme im Betrieb offen.
+    Festlegung richtig: Ankündigung nur über announce/, stabiler Wechsel in download/ bearbeitet die Vorstellung (ZIP ersetzt) statt neu zu posten; Testversionen
+    ohne PN (passt zu Entscheid 07:11); announce-Beiträge beim Ersatz-Weg geschützt. Bot-Tests selbst laufen lassen: alle grün.
+    Abnahme (Verdacht, zu messen): beim nächsten RaidMaster-Wechsel in download/ in #raid-addon "(bearbeitet)" am Download-Beitrag, ZIP-Name neu, kein neuer Beitrag.
