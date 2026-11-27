@@ -1,0 +1,89 @@
+Analyse Supervisor 27.11.2026 – Was sehen normale Spieler (kein Testmodus) an Text? Grundlage für den Entscheid des Nutzers
+Auftrag: Entscheid des Nutzers 27.11. 08:27 "für alle Addons nur noch Dinge anzeigen, die für die Spieler nützlich sind im Text … aber analysiere
+erst alles und erstatte mir Bericht". Noch KEINE Aufträge an die Projekte – erst nach seinem Entscheid.
+
+Geprüfte Versionen: AHSentinel 0.65.416, BuffSentinel 0.9.68, GuildSentinel 0.9.65, LevelPilot 3.13.24, ProfessionSentinel 0.9.91,
+RaidMaster 3.0.52, ThreatSentinel 2.5.30.
+
+METHODE
+1. Gemessen im Nachbau (addon-check/ladetest.py, WoW Forever, deDE, Testmodus AUS): Chat beim Einloggen (Start-Ereignisse und Zeitgeber)
+   und bei jedem Befehl mit "help" bzw. ohne Zusatz. Chat getrennt von Fenstertexten. Lua-Fehler im Nachbau (BS Core.lua:361, LP UI.lua:430,
+   LP Comm.lua:259) sind Grenzen des Nachbaus, keine Spielfehler – nicht gezählt.
+2. Durchsucht: alle Texte im Code (ohne Testroutinen, Prüflisten, Daten) mit Fachbegriffen (ms, KB, Bilder, Takt, Diagnose, Protokoll,
+   Messung, Sync, Netz, MARKT-NETZ, Testroutine, API, Interface, Build, Speicher, Abgabe, Warteschlange …).
+3. Stichproben im Code, ob ein Text nur im Testmodus erscheint (IsDev / "dev = true").
+Grenze: Was in Fenstern erst bei echten Daten erscheint, zeigt der Nachbau nicht vollständig. Das vollständige Verzeichnis je Fenster kann nur
+die jeweilige Projekt-Sitzung liefern (siehe Vorschlag Schritt 2).
+
+BEFUNDE
+
+A. Testfunktionen sind schon gut versteckt
+   Befehle mit "Entwickler"/"dev = true" (Testroutine, Testmodus, Prüfliste, Messbefehle) erscheinen bei normalen Spielern nicht in der Hilfe
+   und antworten nur "gehört zum Testmodus" (RaidMaster /rmtest). Das ist in allen 7 Addons so gebaut.
+
+B. Chat beim Einloggen (gemessen, Testmodus aus)
+   AHSentinel 2 Zeilen: "Version 0.65.416 geladen. Öffnen über …" + Tagesbilanz ("Gestern: nichts gebucht | 7 Tage: +0 | Gold: 0").
+   BuffSentinel 1: "geladen für WoW Forever."
+   GuildSentinel 0.
+   LevelPilot 3: "v3.13.24 geladen. Linksklick …", Hinweis Wegdaten-Teilen (Ausschalten …), "Tipp: Nachkaufen und Belohnung … ab Werk aus".
+   ProfessionSentinel 0.
+   RaidMaster 1: "v3.0.52 geladen – WoW Forever (WoW 1.60.1, Build 70753, Interface 16001) · Deutsch. /rm öffnet das Fenster."
+   ThreatSentinel 1: "geladen. Einstellungen: Minimap-Knopf, /ts …".
+   -> Wer alle 7 hat, bekommt bei jedem Einloggen 8 Zeilen, davon 5 reine "geladen"-Zeilen. RaidMaster zeigt Build/Interface (nur für Prüfung nützlich).
+
+C. Gemeinsame Befehle antworten jedem Spieler (gemeinsame Dateien in allen 7 Addons)
+   /gsgame "Spielversion … · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+   /gsdev  "Testmodus: aus · BattleTag vom Spiel geliefert: nein"
+   /gstest "Teilen: noch nicht gefragt · Sammler: keiner bekannt · Wartend: 0 · fremde Berichte gespeichert: 0 (kein GoldSentinelSync 2 – Teilen ruht)"
+   -> Für Spieler ohne Nutzen. BuffSentinel nennt /gsgame sogar in seiner Hilfe.
+
+D. Hilfe-Listen enthalten Diagnose-/Fachbefehle
+   AHSentinel /ahs help (37 Einträge): u. a. "vollscan messen – Vollscan-Messung M1c", "messreihe – Silber-Messreihe", "pd7 – Kompakter Preisverlauf …
+   pd7 zurück", "markt – Stand der Zusammenführung; markt sicherung löschen", "stapel (GetItemInfo)", "gebuehren – Gebührenregel prüfen",
+   "debug – Diagnose", "ahdebug – Auktionshaus-Diagnose im Chat", "ah – Auktionshaus-Fenster erzwingen", "sync test", "doppelt".
+   BuffSentinel /bsen help: "fehler – Fehler und Diagnose", "protokoll / protokoll an / protokoll aus – … für den Uploader ablegen",
+   "sync test – … (Gilde, Gruppe, Netz)", "befehlsliste an/aus", "/gsgame – erkannte Spielversion".
+   ProfessionSentinel, GuildSentinel: kurze Listen, im Nachbau ohne Diagnose-Befehle in der Hilfe (PS nennt in der Spieler-Hilfe keine Testbefehle).
+   -> Gut wäre: Hilfe = nur Spieler-Befehle + EIN Eintrag "bei Problemen: /x protokoll". Alles andere bleibt aufrufbar, aber nicht gelistet.
+
+E. Optionen mit Entwicklungs-Schaltern und Fachbegriffen (sichtbar für alle)
+   BuffSentinel: "Diagnose-Protokoll für den Uploader ablegen / nicht ablegen", Knöpfe "Diagnose-Protokoll" und "Sync-Test" mit Tooltips
+   ("… an das Test-Team schickt", "Gilde, Gruppe, Flüster-Netz"), "Messdaten sammeln", "Auch über das Flüster-Netz austauschen".
+   ThreatSentinel: "Diagnose-Protokoll automatisch senden (mit dem Uploader)", "Messdaten für die Entwicklung sammeln: … Bedrohungs-Angaben …
+   geschützt oder …", "Ini-Prüfung automatisch", "Bilder während der Prüfung".
+   LevelPilot (Zentrale > Austausch): "Über das Flüster-Netz (alle Spieler mit LevelPilot)", "Mitspieler mit LevelPilot (GoldSentinelSync, 1 Std.)".
+   AHSentinel: Optionen-Beschreibung nennt "Preis-Sync", "Sniper-Tempo", "CSV-Export"; Hinweistext "Kleineres Zeitbudget = länger, aber flüssiger".
+   -> Schalter sind sinnvoll (Zustimmung der Spieler), aber Wörter wie Uploader, Diagnose-Protokoll, Sync, Netz, GoldSentinelSync, Messdaten,
+      Zeitbudget sind Fachsprache.
+
+F. Fehlermeldungen im Chat
+   LevelPilot: "Fehler in comm_hello: LevelPilot/Comm.lua:259 … – Bitte diese Meldung an den Autor schicken. /lp diag zeigt weitere Infos."
+   BuffSentinel: "Fehler (Scan): BuffSentinel/Core.lua:361 …" (Muster: Datei:Zeile im Chat).
+   -> Dateinamen/Zeilen helfen dem Spieler nicht; der Uploader meldet Fehler ohnehin automatisch.
+
+G. Messwerte in Fenstern (ms, KB, Bilder, Takt, MARKT-NETZ, SYNC, LEISTUNG)
+   Im Code gefunden fast nur in Diagnose-/Protokoll-Texten (AHS Diag/Books/Forecast "TB138-2", "PD7 Grösse", "A7 Post-Geld"; BS "LEISTUNG Kampf";
+   GS "Seite … geöffnet …ms"; LP Perf "ZEIT Notbremse", "SPEICHER"; PS Jobs "Stücke … ms"; TS "Kampf: längster Rahmen"). Diese erscheinen nur im
+   Protokoll-Fenster (/x protokoll bzw. debug), das Spieler selten öffnen – dort sind sie für die Prüfung nötig.
+   In normalen Ansichten keine Messwerte gefunden (Stichprobe: AHS "AUFBAU/LANGSAM"-Texte stehen nur im Spieltest S7, Testmodus).
+   Vollständig belegen kann das erst das Textverzeichnis je Projekt (Schritt 2).
+   LevelPilot Protokoll-Fenster 100 KB (Entscheid 08:27 umgesetzt durch LP).
+
+VORSCHLAG – Regeln für alle Addons (Entscheid des Nutzers nötig, einzeln oder ganz)
+ R1 Einloggen: keine "geladen"-Zeile mehr. Eine Zeile nur, wenn es etwas Neues gibt (erste Nutzung / neue Version mit kurzem "Neu: …") oder der
+    Spieler etwas tun muss. Keine Technik (Build, Interface). AHS-Tagesbilanz: nur wenn es eine gibt (nicht "nichts gebucht / +0").
+ R2 Hilfe-Liste: nur Spieler-Befehle + ein Eintrag "bei Problemen: /x protokoll". Diagnose- und Fachbefehle bleiben aufrufbar, aber ungelistet
+    (im Testmodus weiter alle sichtbar).
+ R3 /gsgame, /gsdev, /gstest: nur im Testmodus antworten (gemeinsame Dateien – macht der Supervisor in shared/, die Projekte kopieren sie).
+ R4 Optionen: alles für die Entwicklung in EINEN Bereich "Mithelfen" mit einfachem Text, z. B. "Fehler und Messwerte ohne Namen an den Entwickler
+    schicken (über den Uploader)". Keine Wörter Diagnose-Protokoll, Sync, Netz, GoldSentinelSync, Messdaten, Zeitbudget in Spieler-Texten –
+    stattdessen "Preise mit Mitspielern teilen", "Spieler ausserhalb von Gilde und Gruppe".
+ R5 Fehler im Chat: höchstens eine Zeile je Sitzung "X: ein Fehler ist aufgetreten – wird automatisch gemeldet", ohne Datei/Zeile/Funktion.
+ R6 Messwerte (ms, KB, Bilder, Takt, Speicher, Zähler) nur im Protokoll-/Diagnose-Fenster, nie in normalen Seiten, Tooltips oder im Chat.
+ R7 Hinweise/Tipps im Chat höchstens einmal (gemerkt), nicht bei jedem Einloggen.
+
+UMSETZUNG (nach Entscheid)
+ Schritt 1: Supervisor ergänzt Prüfregel (pruef-ablauf.md E) und psychologie.md; R3 selbst in shared/.
+ Schritt 2: Jede Projekt-Sitzung liefert ein Textverzeichnis aller Spieler-Texte (Chat, Fenster, Tooltips, Optionen) mit Einstufung
+    Spieler / Diagnose / Entwickler und Ort – Supervisor prüft es gegen R1–R7.
+ Schritt 3: Projekte ändern, EN/DE und alle Sprachen, Nachweis mit dem Nachbau (Chat beim Einloggen und Hilfe wie oben gemessen).
