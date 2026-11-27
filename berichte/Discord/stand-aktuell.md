@@ -1,10 +1,10 @@
 # Stand Discord-Sitzung
 
-## Stand 27.11.2026 20:50 · Bot 1.5.202 (Kern von Hand eingespielt 19:43 UTC, Speicher max. 178 MB statt 1,7 GB)
+## Stand 27.11.2026 21:20 · Bot 1.5.202 (angenommen); DC-ANN2 ausgeführt (announce 790 -> 49 MB)
 
 ## Gerade in Arbeit
-- DC-UPL1 behoben (Speicher), Bericht 2026-11-27-2045 mit Nachtrag. Offen: Bestätigung /uploader antwortet; Entscheid
-  alte announce/*.zip (Repo 0,9 GB); Vorschlag tmp-* aufräumen beim Start.
+- Nach DC-ANN2: Workflows Wächter/Addon-Prüfung/Discord-Prüfung grün prüfen. Danach DC-UPL2 (tmp-* beim Start weg),
+  DC-UPL3 (Starter 30–60 s bei Netz/DNS + Zeile #bot-log), DC-UPL4 (Updates je Tag messen).
 
 ## Nächste Schritte (Reihenfolge)
 1. Bei jeder Nachricht des Nutzers: git pull --rebase, auftraege/Discord/ lesen (git log --oneline -5 -- auftraege/Discord/).
@@ -15,6 +15,7 @@
 - nichts. Token "github_actions_token" hat der Nutzer 25.11. 14:43 selbst auf dem Server eingetragen (Bot lief da 1.5.197).
 
 ## Entscheide des Nutzers seit letztem Stand
+- 27.11. 20:58 "Nur die letzten 3 behalten" (announce/*.zip je Addon 3 neueste + stabile; .md bleiben) -> DC-ANN2.
 - 26.11. 12:59 "der dc bot braucht mir die neuste version vom raidmaster addon nicht mehr zu senden via pm im dc" -> /addon-pn.
 - 25.11. ~13:50 (RaidMaster-Sitzung, via Supervisor D-CI2): Bot stösst den Testberichte-Workflow an, Token trägt der Nutzer ein.
 - 25.11. 11:39 (via Supervisor D-UPDOC2): Offiziere schalten Addons-automatisch-an.bat ein; Schritt in Anleitung und /uploader.

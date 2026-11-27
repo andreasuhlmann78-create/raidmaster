@@ -1,0 +1,46 @@
+# DC-ANN2 (Entscheid des Nutzers 27.11.2026 20:58 "Nur die letzten 3 behalten"): Nach jeder neuen Addon-ZIP in announce/ oder download/
+# werden in announce/ je Addon nur die 3 neuesten ZIP-Anhänge und die stabile Version (= download/) behalten, ältere ZIPs entfernt.
+# Die .md-Dateien bleiben immer. Skript: RaidMasterBot/tools/announce_aufraeumen.py; der Wächter announce-guard.yml lässt genau diese
+# Löschungen zu (announce_aufraeumen.removable). Grund: Repo ~0,9 GB -> Bot-Update lief voll (DC-UPL1).
+name: Announce aufräumen
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "announce/*.zip"
+      - "download/*.zip"
+      - "RaidMasterBot/tools/announce_aufraeumen.py"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: announce-aufraeumen
+  cancel-in-progress: false
+
+jobs:
+  aufraeumen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Alte ZIP-Anhänge entfernen (je Addon 3 neueste + stabile)
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          for i in 1 2 3; do
+            git pull --rebase -q
+            python3 -I RaidMasterBot/tools/announce_aufraeumen.py --ausfuehren
+            git add -A announce/
+            if git diff --cached --quiet; then echo "Nichts zu entfernen."; exit 0; fi
+            git commit -q -m "Announce aufräumen: alte Addon-ZIPs entfernt (je Addon 3 neueste + stabile, DC-ANN2)"
+            if git push -q; then exit 0; fi
+            git reset -q --hard origin/main
+            sleep 5
+          done
+          exit 1

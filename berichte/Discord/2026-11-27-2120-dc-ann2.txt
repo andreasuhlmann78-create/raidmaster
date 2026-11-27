@@ -1,0 +1,28 @@
+Bericht Discord-Sitzung an die Prüf-Sitzung – 27.11.2026 21:20
+Thema: DC-ANN2 HOCH (Entscheid des Nutzers 27.11. 20:58 "Nur die letzten 3 behalten"; Supervisor 21:00)
+Status: umgesetzt und ausgeführt, zur Prüfung
+
+1. Belegt vor dem Löschen: Fehlt nur die ZIP und die .md bleibt, passiert im Bot nichts
+- updater.mirror_announce_removals reagiert nur auf fehlende .md (repo_md vs local_md); Anhänge zieht es nur mit einer fehlenden .md mit.
+  Die ZIP-Kopie auf dem Server bleibt (Test: test_nur_zip_weg_bot_loescht_nichts, mit Gegenprobe .md fehlt -> alte Regel).
+- Gepostete .md stehen in "announced" -> nie neu gepostet; Anhänge werden nur beim Posten angehängt. Kein Discord-Beitrag gelöscht/geändert.
+- Platzhalter 1.5.202: betrifft nur ZIPs, die im Repo noch liegen -> unberührt.
+- addon_check kennt alte Versionen weiter aus "git log --all --name-only" (Workflow fetch-depth: 0) und auf dem Server aus den liegen-
+  gebliebenen ZIPs -> "Version schon veröffentlicht" scheitert nicht an der fehlenden ZIP (kein Eingriff in addon_check nötig).
+  Hinweis: Ein noch nicht geposteter alter Text (z. B. AHS 0.65.419/420 vom Ausfall heute) wird dann ohne ZIP gepostet und gleich
+  ersetzt – D-ANN2/Ersetzen wie bisher.
+2. Skript RaidMasterBot/tools/announce_aufraeumen.py: Trockenlauf (Standard) und --ausfuehren. Je Addon (aus dem Dateinamen
+   <kanal>__<reihe>-<Version>.<Addon>.zip) die 3 neuesten + stabile Version (download/<Addon>-<Version>.zip); unbekannte Namen nie.
+   Ausgeführt 21:15:
+     ahsentinel behalten 3/entfernt 37 · buffsentinel 3/3 · guildsentinel 3/4 · levelpilot 3/148 · levelpilot_data 3/6 ·
+     professionsentinel 4/35 (stabil 0.9.93 dazu) · threatsentinel 3/64
+     ZIPs in announce/: 319 -> 22; 790,5 MB -> 48,9 MB. Arbeitskopie (ohne .git) 901 MB -> 193 MB; announce/ 758 -> 50 MB.
+     Git-Geschichte unverändert (Klon bleibt gross); das Bot-Update lädt künftig ~0,2 GB statt ~0,9 GB (Messung beim nächsten Update).
+3. Automatisch: Workflow .github/workflows/announce-aufraeumen.yml – bei jedem Push mit announce/*.zip oder download/*.zip: Skript
+   --ausfuehren, commit "Announce aufräumen: …", push mit Wiederholung (pull --rebase). Kein [skip ci] -> Wächter und Addon-Prüfung laufen.
+4. Wächter announce_guard.py: gelöschte announce/*.zip ist erlaubt, wenn announce_aufraeumen.removable (im Stand danach je Addon 3 neuere,
+   nicht stabil); .md, umbenennen, neueste/stabile/unbekannte ZIP weiter ROT. Ohne Stand (alte Tests) wie bisher ROT.
+5. Tests NEU test_announce_aufraeumen.py (6): Plan (3 neueste + stabil, .md nie, unbekannte nie, Zahl statt Text), Wächter erlaubt nur
+   alte ZIP / ROT für neueste, stabile, .md, unbekannt, umbenennen; echtes Repo: alles, was das Skript entfernt, lässt der Wächter zu;
+   Bot löscht nichts. Gegenproben (3 Stellen) rot. Alle Bot-Tests 542 OK, Regressionen 93/93.
+6. Zu prüfen nach dem Push: Workflows "Announce-Wächter", "Addon-Prüfung", "Discord-Prüfung" grün.
