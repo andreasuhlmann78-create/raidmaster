@@ -7274,3 +7274,15 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     2:1:a 750 -> 605; Kaufen bis 0.6 21 -> 1, bis 0.7 155 -> 9, bis 0.8 425 -> 293. Neu gegen 26.11.: nur M6UO3AL (P 64 -> 74, neuester t 590747 -> 591240);
     PC/Laptop weiter ohne neue Fälle (t 592483 seit 24.11.), DESKTOP-JD5SLR5 aktuell = Stand 22.11. (t 589442). Nur Befund.
     KERN-ABGLEICH 27.11.: Zellen, die nicht aufgehen 0 / 0 / 0 (Laptop, JD5SLR5, M6UO3AL) – kein Befund.
+
+>>> INGAMETEST 27.11. 06:25–06:26 (Supervisor 27.11. 06:26) – AHSentinel 0.65.414, Laptop, Priester (Protokoll vom Nutzer):
+    kalt: Erst-Login 06:25:44, AH 06:25:50 (≈ 6 s nach dem Laden – Vorbauen ab 5 s war NOCH NICHT fertig): "vorgebaut: nein · gesamt 12,4 ms · Fenster 11,5 · Reiter
+          aufbauen 4,0 · füllen 1,2 · kleine (10) 0,3 · Rest 6,0 · zugeordnet 48 % · Lücke in: Show 5,9". Nachgerechnet 4,0+1,2+0,3+6,0 = 11,5 ✓.
+    vorgebaut: /reload 06:26:08, AH 06:26:17 (9 s): "vorgebaut: ja · gesamt 5,5 ms · Fenster 4,5 · füllen 1,8 · zeigen 1,4 · kleine 0,5 · Rest 0,8 · zugeordnet 82 %
+          · Lücke in: Show 0,8" -> Ziel ≤ 6 ms im Spiel zum zweiten Mal erreicht (5,7 / 5,5 ms).
+    BELEGT: der kalte Rest (6,0 ms) liegt fast ganz in UI:Show selbst (5,9 ms), nicht in unseren gemessenen Teilen – das ist das ERSTE Anzeigen der neu
+    angelegten Frames (Layout/OnShow im Spiel). Vorgebaut kostet Show nur 0,8 ms.
+    Auftrag (MITTEL): a) Das erste Anzeigen beim Vorbauen vorwegnehmen: nach dem Anlegen das eigene Fenster einmal unsichtbar zeigen und wieder verbergen
+    (z. B. SetAlpha(0)/ausserhalb des Bildschirms, ein eigener Schritt), damit Layout/OnShow-Kosten im Hintergrund anfallen. b) Vorbauen ist bei 6 s noch nicht
+    fertig -> Start und Schritte so legen, dass es spätestens ~5 s nach dem Laden fertig ist (oder ab 2–3 s starten), je Schritt ≤ 6 ms. Gegenprobe im Spiel:
+    AH nach 6 s -> "vorgebaut: ja". c) Bleibt der Fall "AH < 3 s nach dem Laden": dann Rest in die Aufgabe verschieben (wie 17:03 vorgeschlagen).
