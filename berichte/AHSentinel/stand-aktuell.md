@@ -1,6 +1,6 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 27.11.2026 09:46 · Version 0.65.417 (Discord, ST1 Spieler-Texte); CurseForge 0.65.413
+## Stand 27.11.2026 11:23 · Version 0.65.418 (Discord, AHS-API1 Messung); CurseForge 0.65.413; ST1 (0.65.417) angenommen 10:30
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz – Testberichte "GSTEST1{…}", UI-Befunde db.uiFindingsLast).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
@@ -9,13 +9,13 @@ Nachbau: cd /home/claude/ahanalyzerpro && bash tests/run_offline.sh /home/claude
  FULL 0.65.416: 356 PASS / 67 FAIL, keine neuen. Eigene Szenarien /tmp/claude-0/sim2/wowsim/scenarios_new.lua (zz_st1 Chat-Inventar, TR_TEXT=1).
 
 ## Gerade in Arbeit
-- ST1 Spieler-Texte umgesetzt in 0.65.417 (zur Prüfung): Einlog-Zeile, Tagesbilanz nur mit Inhalt, Fehler 1 Zeile/Sitzung (A:PrintError),
-  Tipps einmal (A:PrintOnce, db.tipsShown), Optionen ohne ms/Zeitbudget/Preis-Sync. Gilt nur ausserhalb Testmodus (A:IsDev). T1039, T265 angepasst.
-- Offene Frage im Bericht: "Marktdaten teilen" unter "Mithelfen"? (bisher Spieler-Funktion).
-- Danach FULL 0.65.417 allein.
+- AHS-API1 HOCH (11:05): WorthUpTo im Spiel 23,3 ms/+0,9 MB je kaltem Aufruf; Nachbau (Laptop 27.11. 10:59, zz_api2, TAILOR=1) nur 0,2–2,8 ms.
+  0.65.418 = Messzeile API-LANGSAM (Teile, Zustand, Testroutine). Warte auf Ingametest -> dann Ursache belegen, Massnahme.
+- Befund: Laptop-Daten haben "berufe"/"haendler" vorgemerkt (24.11.) -> Testroutine startet beim Öffnen des Berufsfensters.
+- FULL 0.65.417: 356/67, keine neuen. DL-ABN: download/ nur angenommene Version + CF 18:00 + OK Nutzer.
 
 ## Nächste Schritte
-1. FULL 0.65.417 allein, Vergleich mit 416 (fail-Listen), Bericht.
+1. FULL 0.65.418 allein (Vergleich mit fail417.txt), Bericht. Danach AHS-API1 nach Ingametest (Zeile API-LANGSAM).
 2. AHS-BP1 MITTEL (bindType: Schurkengifte/Blendungspulver BoP nicht als AH-Ware), AHS-S216, AHS-MK1 (nach Ingametest).
 3. Weitere T459-Posten messen (je Massnahme mit Messung).
 4. Regel CF 18:00: CF-Entscheid im Repo -> sofort Auswahl-Frage im Chat; bis 17:30 Stand melden.
@@ -23,8 +23,10 @@ Nachbau: cd /home/claude/ahanalyzerpro && bash tests/run_offline.sh /home/claude
 ## Offen beim Nutzer
 - Ingametest W1: Öffnen kalt und vorgebaut mit 0.65.415+ (Zeile UI-PREBUILD). API1: WorthUpTo ≤ 2 ms mit 0.65.416+.
 - Ingametest ST1: Einloggen ohne Testmodus = 1 Zeile.
+- Ingametest AHS-API1 mit 0.65.418: Schneider-Figur, Berufsfenster, /ahs protokoll -> API-LANGSAM.
 
 ## Entscheide des Nutzers seit letztem Stand
+- 27.11. 10:30 (Supervisor): DL-ABN – download/ nur mit angenommener Version.
 - 27.11. 08:27–09:23 (über Supervisor 09:25): ST1 Spieler-Texte A–E, nur ausserhalb Testmodus.
 - 26.11. ~17:19 im Chat: "Ja, 0.65.413 hochladen" (CurseForge, erledigt).
 

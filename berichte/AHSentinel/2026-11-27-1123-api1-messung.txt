@@ -1,0 +1,51 @@
+BERICHT AHSentinel 0.65.418 – AHS-API1 HOCH (Supervisor 27.11. 11:05, Korrektur 11:15: EIN Aufruf 23,3 ms / +0,9 MB belegt)
+Projekt-Sitzung AHSentinel · 27.11.2026 11:23 · Stand: Messung eingebaut, zur Prüfung. Ursache NICHT belegt – im Nachbau nicht nachstellbar (siehe 1).
+md5 AHSentinel-0.65.418.zip: d45e4a25664f7fba3144e780d956f0da (nur announce/, nicht download/ – DL-ABN)
+
+1. NACHBAU MIT ECHTEN DATEN (Laptop 27.11. 10:59, goldsentinel-daten Zweig sicherung, NOW = 27.11. 10:58), Szenario zz_api2
+   Schneider-Berufsfenster aus den gespeicherten Rezepten (20 Rezepte der Schneider-Figur) offen; je Item 1. Aufruf (kalt) und 2. (warm),
+   Zeit mit os.clock, Speicher mit collectgarbage("count") bei angehaltener Bereinigung:
+   Item                              kalt ms   KB  | warm ms  KB  | Wert (0.65.417 = 0.65.418)
+   2580 Verstärktes Leinencape         1,06     4  |  0,01   0,1  | 55 vendor sicher
+   2569 Leinenstiefel                  0,18     4  |  0,01   0,1  | 72 vendor sicher
+   2570 Leinenumhang                   0,27     6  |  0,01   0,1  | 9 vendor sicher
+   2582 Grüne Wollweste                0,22     6  |  0,00   0,1  | 180 vendor sicher
+   2583 Wollstiefel                    0,19     6  |  0,00   0,1  | 299 vendor sicher
+   2584 Wollcape                       0,77    17  |  0,01   0,1  | 280 resale sicher
+   2996 Leinenstoffballen              0,64    16  |  0,01   0,1  | 51 resale sicher
+   2997 Wollstoffballen                0,45    17  |  0,01   0,1  | 605 resale sicher
+   4238 Leinentasche                   0,38    16  |  0,00   0,1  | 166 vendor sicher
+   4240 Wolltasche                     0,35    15  |  0,01   0,1  | 523 resale sicher
+   4307 Schwere Leinenhandschuhe       0,22     5  |  0,01   0,1  | 24 vendor sicher
+   4308 Grüne Leinenarmschienen        0,22     4  |  0,01   0,1  | 37 vendor sicher
+   4310 Schwere Wollhandschuhe         0,23     4  |  0,01   0,1  | 150 vendor sicher
+   4312 Leinenschuhe weiche Sohle      0,37    12  |  0,01   0,1  | 1890 resale sicher
+   4343 Braune Leinenhose              0,40    13  |  0,01   0,1  | 213 resale sicher
+   4344 Braunes Leinenhemd             0,19     4  |  0,01   0,1  | 9 vendor sicher
+   5542 Perlenschnallenumhang          0,23     7  |  0,00   0,1  | 308 vendor sicher
+   10045 Einfache Leinenhose           0,22     4  |  0,01   0,1  | 19 vendor sicher
+   253887 Schärpe d. inbrünstigen N.   0,21     4  |  0,00   0,1  | 146 vendor sicher
+   279972 Fraktionsbanner              0,37    15  |  0,01   0,1  | 42 resale sicher
+   Weitere Lagen, alle ohne Wirkung (kalt ≤ 2,8 ms, ≤ 84 KB): direkt nach dem Laden (0 s, Buchungs-Index noch nicht vorgebaut: 2,8 ms +84 KB),
+   nach 60 s; nach Preisänderung (priceVersion+1, Zwischenspeicher geleert), nach Scan, nach neuer Buchung; Items im Client bekannt (Qualität 1 und 2);
+   ohne Berufsfenster; mit laufender Testroutine. -> 23 ms / 0,9 MB sind im Nachbau NICHT nachgestellt (Faktor 10–20 zum Spiel).
+
+2. MASSNAHME 0.65.418 (nur Messung, keine Änderung an Werten)
+   Jede echte Rechnung von WorthUpTo (mit und ohne Zwischenspeicher, auch während der Testroutine) misst Zeit und Speicher je Teil:
+   "Entzaubern", "Wiederverkauf", "Händler", "Lohnt bis" (Kern), "Kern-Wert", "Materialien". Ab 4 ms schreibt AHSentinel ins Diagnose-Protokoll:
+   API-LANGSAM "WorthUpTo <Item>: <ms> <KB> · <s> nach dem Laden · Item im Client ja/nein · Lohnt-Zwischenspeicher neu/gleich · Buchungs-Index neu <n>
+   · Aufgabe <Job> · Testroutine läuft/nein · Teile: …" – höchstens 20 je Sitzung; während der Testroutine zurückgehalten und danach geschrieben
+   (sonst Sandbox). Kosten je kaltem Aufruf ~10 Uhrzeit-/Speicherabfragen.
+   Gegenprobe Werte: zz_api1eq (124 Items mit Buchungen, Laptop 27.11.) 0.65.417 und 0.65.418 identisch (diff leer); 20 Schneider-Produkte identisch.
+   T1040 (Testroutine): unter Schwelle keine Zeile; ab Schwelle Zeile mit Teilen; während der Routine zurückgehalten; gleiche Werte mit/ohne Messung – PASS.
+   s297_api_kosten, s300_api_tab, s42, s42b, s43, s49 PASS; s217_ps_dock FAIL wie schon in FULL 0.65.416/417 (nicht neu). addon_check OK.
+
+3. HINWEIS (belegt im Nachbau, Bedeutung im Spiel: Verdacht, zu messen)
+   In den Laptop-Daten ist seit 24.11. 22:21 der Testroutinen-Schritt "berufe" (und "haendler") vorgemerkt (gilt 7 Tage). Öffnet man das
+   Berufsfenster, startet AHSentinel diesen Schritt von selbst ("Testroutine: vorgemerkter Schritt läuft jetzt"). Im Nachbau startete er beim
+   Öffnen des Schneider-Fensters. Während der Testroutine ist der API-Zwischenspeicher aus (jede Abfrage rechnet neu). Ob er um 10:58 lief,
+   zeigt ab 0.65.418 die Zeile API-LANGSAM ("Testroutine läuft").
+
+4. NÄCHSTER SCHRITT
+   Ingametest Nutzer (Laptop, Schneider-Figur, wie 10:58): einloggen, Berufsfenster, kurz warten, "/ahs protokoll" -> Zeilen API-LANGSAM.
+   Danach Ursache am grössten Teil belegen und gezielt beheben (Ziel ≤ 2 ms je Aufruf, Speicher klein). Bis dahin keine Massnahme auf Verdacht.
