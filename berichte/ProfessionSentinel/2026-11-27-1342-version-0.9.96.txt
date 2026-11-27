@@ -1,0 +1,34 @@
+ProfessionSentinel 0.9.96 – PS-SK1 – umgesetzt, zur Prüfung
+Bezug: offen-professionsentinel.txt BEFUND PS-SK1 (Supervisor 27.11. 13:10, HOCH 13:12, Hinweis des Nutzers 13:06). DL-ABN: nur announce/.
+
+Ursache belegt: UI.SkillNeedText zeigte "Skill ?", wenn r.req <= 1. Feld 7 (req) kommt laut Datenkopf aus den Client-Tabellen (wago.tools Build
+ 1.60.1.71139); dort haben viele Lehrer-Rezepte keinen Wert (1). Das LETZTE Feld der Datenzeile (3865: 125, 8760: 110) ist NICHT belegt:
+ pipeline/build_library.py Z. 390–410 SCHÄTZT es ("rq"): Forever = Era-Lernstufe um die Verschiebung der gelben Stufe verschoben, sonst gelb − 20.
+ Es diente nur der internen Sortierung (Rezepte weit über der Fertigkeit aus dem Skill-Plan halten) und wird weiter NICHT angezeigt
+ (Verbot geschätzter Zahlen).
+Zählung (c) Data_Forever.lua (2316 Rezepte): req <= 1 bei 540, davon mit Quelle "Lehrer" 425 – je Beruf (gesamt / req<=1 / davon Lehrer):
+ Schmiedekunst 469/89/66, Lederverarbeitung 549/94/70, Alchemie 185/45/39, Kochkunst 128/21/11, Bergbau 18/16/14, Schneiderei 438/98/80,
+ Ingenieurskunst 253/87/67, Verzauberkunst 234/70/60, Erste Hilfe 32/16/14, Kräuterkunde 3/1/1, Angeln 3/1/1, Kürschnerei 3/1/1,
+ Skill-Linie 142: 1/1/1. (Ein Teil davon ist tatsächlich ab 1 lernbar – das bestätigt dann das Lehrerfenster mit 1.)
+Quellen (Auftrag Wege 1–3):
+ (1) UMGESETZT: Lehrerfenster. Bei TRAINER_SHOW und TRAINER_UPDATE liest TrainerRanks.lua je angebotenem Rezept GetTrainerServiceInfo (Name) und
+     GetTrainerServiceSkillReq (Beruf, Stufe) und merkt kontoweit ns.db.trainerReq[Zauber-ID] = Stufe (nur Stufe > 0). Zuordnung über den Namen in
+     der Client-Sprache (DE/EN der Daten) innerhalb des Berufs des Lehrers; passt ein Name auf mehrere Rezepte, wird nichts gemerkt (nie raten).
+     Diagnose "LEHRER Lernstufen gelesen n". Ob der Forever-Client GetTrainerServiceSkillReq hat, ist zu MESSEN (Classic-Era-API; ohne die Funktion
+     liest PS nichts und bleibt bei "unbekannt"). Hinweis: das Lehrerfenster zeigt je nach Filter nur "verfügbar"/"nicht verfügbar" – nicht
+     verfügbare (noch zu tiefe) Rezepte sind genau die gesuchten; Filter "alle" liefert am meisten.
+ (2) goldgoblin: der Rezeptfinder (shared/wissen/referenz-goldgoblin.md) enthält nur Rezeptgegenstände (451), KEINE Lehrer-Rezepte; die
+     Berufs-Guides nennen nur einzelne Stufen. Keine vollständige belegte Quelle dort.
+ (3) letztes Feld = Schätzung (siehe oben), nicht belegt.
+ Anzeige: ns.LearnReq(r) = Datenwert (req > 1), sonst am Lehrer gelesen, sonst nil. Plan/Rezeptliste: Spalte "Skill n" wie bisher, unbekannt
+ -> LEER (kein "?"); Tooltip "Berufslehrer (Lernstufe unbekannt – wird beim Öffnen des Lehrers gelesen)" / EN. Advisor (LearnLevel im
+ Skill-Plan, x.need im Weg-Plan) nimmt den gelesenen Wert vor der Schätzung.
+Daten: Data_Forever.lua NICHT geändert. Vorschlag an den Supervisor: die gelesenen Werte (ProfessionSentinelDB.trainerReq, Zauber-ID -> Stufe,
+ keine Namen) kann die geplante Aufgabe "Rezeptdaten-Update" aus den gespeicherten Daten übernehmen, damit sie für alle Spieler in den Daten stehen.
+Tests: T305 neu (ohne Lernstufe leer; Datenwert; Lehrerfenster mit 3 Angeboten: 1 gemerkt (125), unbekannter Name und Stufe 0 nicht; Plan zeigt
+ "Skill 125"; Gegenproben: Client ohne Funktion liest nichts, Datenwert schlägt Lehrerwert, mehrdeutiger Name nicht zugeordnet; Retail SKIP –
+ TrainerRanks nicht in der Mainline-.toc). T295 an den Entscheid angepasst (ohne Lernstufe leer statt "Skill ?"). Regression PS-SK1 -> T305.
+ run_offline forever 260/0, era 241/0, retail 238/0, forever --lua51 260/0; check_actions OK; gen_locale_keys OK (neu SRC_TRAINER_UNKNOWN EN/DE);
+ yield_check OK; Smoketest forever/era/retail AUTOTEST OK (FEHLER 29/26/26 = Mock-Grenzen, wie 0.9.95); addon_check OK ohne WARNUNG. Zip md5 69c04615e341ed413b32963aed9d32c9, Repo dc6d8ee. download/ bleibt 0.9.93.
+Abnahme im Spiel: Schneiderlehrer öffnen (Filter alle) -> /ps protokoll "LEHRER Lernstufen gelesen n"; Plan Skillen 110–150: Azurblaue Seidenkapuze und
+ Magiestoffballen mit "Skill n" statt "Skill ?".

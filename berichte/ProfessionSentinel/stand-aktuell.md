@@ -1,9 +1,9 @@
-# Stand 27.11.2026 13:02 · Version 0.9.95 (announce), 0.9.93 (download)
+# Stand 27.11.2026 13:42 · Version 0.9.96 (announce), 0.9.93 (download)
 
 ## Gerade in Arbeit
-- Nichts. 0.9.95 NUR announce/ (Release v0.9.95, Repo 82856f3), Bericht 2026-11-27-1302-version-0.9.95.txt – zur Prüfung: PS-P2
-  (a) nil 600 s merken, (b) Grund je Vergessen + ledger bei MK.dePending behalten, (c) P.WorthAlone in AD-Ranglisten (UI.HandNow/J.Hand).
-- 0.9.94 angenommen (12:05), download/ erst nach Ingametest -> Ingametest 12:26 ergab PS-P2; download/ bleibt 0.9.93 bis Freigabe.
+- Nichts. 0.9.96 NUR announce/ (Release v0.9.96, Repo dc6d8ee), Bericht 2026-11-27-1342-version-0.9.96.txt – zur Prüfung: PS-SK1
+  (TrainerRanks.ReadLearnLevels: GetTrainerServiceSkillReq -> db.trainerReq[spell]; ns.LearnReq; unbekannt = leer + Tooltip; T305).
+- 0.9.95 (PS-P2) zur Prüfung. 0.9.94 angenommen. download/ = 0.9.93 bis Freigabe einer neueren Version.
 
 ## Nächste Schritte (Reihenfolge)
 1. Nach Freigabe (0.9.94 oder 0.9.95 "ANGENOMMEN" + download frei): dieselbe Zip nach download/ (md5), alte entfernen, Workflow grün.
@@ -14,7 +14,8 @@
 
 ## Offen beim Nutzer
 - Ingametest 0.9.95 (Schneider-Figur, Berufsfenster offen, /ps protokoll): "WorthUpTo je Lauf" ab Lauf 2 "0 neu", "WorthUpTo vergessen" mit Grund.
-- Messung im Spiel (AHS-BP1): Tooltip der Gifte/Blendungspulver "Wird beim Aufheben gebunden"? (darf im Hintergrund laufen). Messung Lua-Fehler SetCraftableCount (nur PS / nur AHS).
+- Messung im Spiel (AHS-BP1): Tooltip der Gifte/Blendungspulver "Wird beim Aufheben gebunden"?
+- Schneiderlehrer öffnen (Filter alle) -> "LEHRER Lernstufen gelesen n" im Protokoll; Plan ohne "Skill ?" (PS-SK1). (darf im Hintergrund laufen). Messung Lua-Fehler SetCraftableCount (nur PS / nur AHS).
 
 ## Entscheide des Nutzers seit letztem Stand
 - 25.11. 13:47 (über Supervisor, PS-TQ1): Trefferquote "echten Weg verfolgen" (umgesetzt 0.9.86).
