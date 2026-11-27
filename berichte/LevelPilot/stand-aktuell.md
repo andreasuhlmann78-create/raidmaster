@@ -11,7 +11,7 @@
    Workflow grün, Bericht. Erste Ablage nach Annahme von 3.13.24.
 1. Ingametest 3.13.24 auswerten: Takt (keine Bilder > 40 ms ohne Bereinigung), reiseBilder (Überschreitung), T155/planungen.
 2. LP-I3: falls T155 im Spiel weiter > 16 ms – Speicher je Knoten senken (segCache-Teiltabellen), Grundregeln-Stück (Nachbau 30–141 ms) prüfen.
-3. Anzeige-Texte: Protokolltext 100 KB / ~1 MB (gemessen, Bericht 07:5x); Vorschlag "neueste 60 Einträge im Fenster" wartet auf Entscheid.
+3. Anzeige-Texte: Protokolltext 100 KB / ~1 MB (gemessen, Bericht 27.11. 07:55); Vorschlag "neueste 60 Einträge im Fenster" wartet auf Entscheid.
 4. LP-R2: lange Luftlinien über Orte meiden. 5. LP-I1/I6/I8, LP-T31, LP-UMG1, Notbremse, Wegabschnitte.
 
 ## Offen beim Nutzer
