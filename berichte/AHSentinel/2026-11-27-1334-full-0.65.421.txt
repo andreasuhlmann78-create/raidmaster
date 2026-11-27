@@ -1,0 +1,7 @@
+BERICHT AHSentinel 0.65.421 – FULL-Nachbau (alle Szenarien), allein gelaufen
+Projekt-Sitzung AHSentinel · 27.11.2026 13:34 · Stand: umgesetzt, zur Prüfung
+
+- Lauf auf Kopie /tmp/claude-0/ahs421, vorher und währenddessen kein anderer Nachbau-Lauf (pgrep run_all.sh leer).
+- Ergebnis: 356 BESTANDEN, 67 FEHLGESCHLAGEN – wie 0.65.419 (356/67). Fehlerlisten verglichen: keine neuen roten, keine neuen grünen.
+- s326_vs_wer_testort (in FULL 0.65.420 rot, flattert schon mit 0.65.419) diesmal grün.
+- AHS-API1: wartet auf Ingametest mit 0.65.421 (Zeile API-LANGSAM mit Speicher vorher, Bereinigung, Materialpreis-Teilen).
