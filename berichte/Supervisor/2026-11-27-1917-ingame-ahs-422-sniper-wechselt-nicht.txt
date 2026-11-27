@@ -1,0 +1,43 @@
+BEFUND AUS DEM SPIEL – AHSentinel 0.65.422, Sniper wechselt nicht zwischen den Zielen (Rückfall?)
+Von: Hilfs-Sitzung (Installation/Ingame am PC), 27.11.2026 19:17 · An: Supervisor -> bitte prüfen und an die AHS-Sitzung geben
+Projekte prüfen sich nicht selbst: das hier ist eine Beobachtung mit Belegen, keine Ursache-Freigabe.
+
+AUSSAGE DES NUTZERS (19:17, wörtlich)
+  "der sniper sucht nur einzeil...er wechselt nicht" / "multible targets bitte" / "es hat ja mal super funktioniert"
+  -> Wunsch: der Sniper soll mehrere Ziele abwechselnd suchen (wie nach SN-Z1, Messung SN-T 35 % / 29 % / 36 % je Ziel).
+  -> Der Nutzer meldet einen RÜCKFALL: früher ging es.
+
+BELEGE (3 Bildschirmfotos des Nutzers 19:16:02, 19:16:11, 19:16:17 – nicht im Repo, Spielernamen darauf)
+  Version oben: v0.65.422. Reiter Kaufen > Sniper. Sniper-Modus AN, Kaufen mit Mausrad. Ruhemodus: "2 Aufgaben pausiert",
+  "Scan wartet: Sniper-Ruhemodus".
+  Ziele (2 Einträge):
+    - Azurblaue Seidenkapuze   Max 13s48  0/1000 · Rest 5g
+    - Bronzene Stulpen mit Versilberung  Max 13s49  0/1000 · Rest 5g  (zuletzt gesetzt, Feld oben zeigt sie)
+  Rechte Ansicht in ALLEN drei Bildern: "Azurblaue Seidenkapuze", "gesucht vor 1 Sek." / "vor 2 Sek." / "vor 1 Sek.",
+    758 -> 757 -> 752 Angebote, jede Zeile 13s 1c, 103 % Markt, Menge 1, iLvl 29, "kaufbar".
+  Kaufen-Knopf in allen drei Bildern: "Kaufen: 1× Azurblaue Seidenkapuze für 13s 1c".
+  Zähler: Heute 11 -> 13 Treffer · 0 mit Kauf · 10 -> 12 verpasst · 1 offen · 0 Stück.
+          gekauft 0 · weggeschnappt 1 -> 2 · ohne Antwort 0.
+  Chat [AHSentinel]: Treffer abwechselnd "1x Azurblaue Seidenkapuze für 13s 1c" und
+          "1x Bronzene Stulpen mit Versilberung für 13s 49c" (je "Mausrad zum Kaufen").
+
+WAS DIE BELEGE ZEIGEN / NICHT ZEIGEN
+  1. Die Stulpen werden laut Chat ebenfalls gesucht (Treffer 13s49 = genau Max). Die Anzeige und der Kaufen-Knopf bleiben
+     aber 15 s lang durchgehend bei der Kapuze ("gesucht vor 1–2 Sek."). Für den Nutzer sieht das aus wie "nur ein Ziel".
+  2. Kein einziger Kauf: 0 gekauft, 12 verpasst, obwohl 752+ Angebote unter Max "kaufbar" angezeigt werden.
+  3. 758 Angebote zu je exakt 13s 1c für ein grünes iLvl-29-Teil sind ungewöhnlich – Verdacht, zu messen: die Liste ist
+     nicht frisch/echt (veraltetes Ergebnis oder Darstellungsfehler) und darum scheitert jeder Kauf.
+
+VERDACHT, ZU MESSEN (Code 0.65.422, Sniper.lua, nur gelesen)
+  - Sn:CheckNext: DueTarget (GUARANTEE_N = 4) bzw. PickTarget, im Ruhemodus WarmTargets. Mit Dauertreffer auf der Kapuze
+    HIT_HOLD = 3 s je Treffer; die Stulpen kommen nach ≤ 4 Suchen dran (Chat bestätigt das).
+  - Anzeige/Knopf: Sn:HeldHit hält den Treffer bis BTN_HOLD_MAX = 30 s (Abbruch nur bei "Zeit", "Ziel weg", "gekauft",
+    "pausiert", "veraltet", "weg"). Da nie gekauft wird, bleibt der Kapuzen-Treffer stehen und überdeckt die Stulpen.
+  - Offen: warum jeder Kauf scheitert (verpasst/weggeschnappt) – ohne Kauf endet der Halt nie, der Wechsel wird unsichtbar.
+  - Rückfall: welche Version seit SN-Z1/SN-T (23.11.) Anzeige, Halt oder Kaufweg geändert hat (CHANGELOG 0.65.375–0.65.422).
+
+BITTE AN DEN SUPERVISOR
+  - Als Befund (Vorschlag SN-Z4 HOCH, Rückfall) in offen-ahsentinel.txt eintragen.
+  - Nutzer-Wunsch festhalten: "mehrere Ziele" muss im Fenster sichtbar abwechseln (welches Ziel gerade gesucht wird),
+    nicht nur im Chat.
+  - Messauftrag: /ahs Sniper-Protokoll (SN-T) eines Laufs mit 2 Zielen: Suchen je Ziel, Kaufversuche, Fehlertexte.
