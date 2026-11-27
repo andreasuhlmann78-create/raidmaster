@@ -1,0 +1,35 @@
+ProfessionSentinel 0.9.97 – PS-SK2 – umgesetzt, zur Prüfung
+Bezug: offen-professionsentinel.txt Ingametest 27.11. 21:06/21:12 (PS-SK1 bestätigt für Hellgelbes Hemd 110, Azurblaue Seidenkapuze 120, Azurblauer
+ Seidenumhang 140) und BEFUND PS-SK2 MITTEL (Magiestoffballen im Plan 110->150 ohne Lernstufe). DL-ABN: nur announce/.
+
+Ursache belegt (Code + Daten):
+ - Magiestoffballen (Zauber 3865, Schneiderei): Data_Forever req 1 (Client ohne Lernstufe), gelb 145, grün 147, grau 150 – in WoW Forever liegen die
+   Farbstufen also unter 150 (in Classic höher). Das letzte Feld 125 ist die SCHÄTZUNG der Daten (build_library.py "rq"). AD.Plan (Advisor.lua
+   Z. 618–623) nimmt für die Auswahl x.need = gelesene Lernstufe, sonst Datenwert, sonst diese Schätzung -> ab Fertigkeit 125 wird das Rezept als
+   Schritt gewählt (grau 150 > Fertigkeit). Darum steht es im Abschnitt 110->150.
+ - 0.9.96 zeigte bei fehlender Lernstufe bewusst nichts (PS-SK1) – daher "[lernen] 6×" ohne "Skill".
+ - Ob der Lehrer im Spiel Magiestoffballen angeboten hat, ist aus den gespeicherten Daten noch nicht ablesbar (Upload nach 21:06 fehlt in
+   goldsentinel-daten, letzter Stand 20:36: trainerReq leer). Bei 28 gelesenen Stufen und Filter "alle" spricht viel dafür, dass DIESER Lehrer
+   es nicht lehrt – Verdacht, zu messen (0.9.97 schreibt es jetzt auf, siehe unten).
+Umgesetzt:
+ (b) Fehlt die Lernstufe: wieder "Skill ?" (statt nichts), Tooltip mit Grund (TrainerRanks.NoLevelReason):
+     - "Berufslehrer (Lernstufe unbekannt – wird beim Öffnen des Lehrers gelesen)", wenn noch kein Lehrer dieses Berufs gelesen wurde;
+     - "Berufslehrer (Lernstufe unbekannt – dein besuchter Lehrer bietet es nicht an)", wenn ein Lehrer dieses Berufs mit VOLLSTÄNDIGER Liste
+       gelesen wurde (das Fenster zeigte auch "nicht verfügbare" Rezepte) und das Rezept nicht darunter war.
+     Dafür merkt PS je Lehrerbesuch, welche Rezepte angeboten wurden (db.trainerOffered[Zauber]) und dass/wie vollständig ein Lehrer des Berufs
+     gelesen wurde (db.trainerProfRead[Beruf] = { t, full }).
+ (a) NICHT umgesetzt, mit Grund: das Rezept aus dem Plan zu nehmen wäre geraten. Laut Referenz (goldgoblin) gibt es in Forever für Verzauberkunst den
+     Experten-Lehrer ab Fertigkeit 125 (+ Stufe 20) – für Schneiderei nicht belegt, Verdacht gleich; ein Rezept mit gelb 145, das der Gesellen-Lehrer nicht lehrt, kann beim Experten ab 125 lernbar
+     sein – dann ist es ein richtiger Schritt im Plan 125–150. Belegen: Experten-Lehrer Schneiderei öffnen (Filter alle) -> PS liest die Stufe;
+     ist sie > 150, fällt das Rezept automatisch aus dem Abschnitt (x.need > Fertigkeit). Ohne diese Messung bleibt es mit "Skill ?" + Grund stehen.
+ Protokoll (Wunsch 21:10, Test ohne Bild): "LEHRER Lernstufen gelesen n (neu x, geändert y); im Plan ohne Lernstufe z" – z = Rezepte zum Lernen im
+ aktuellen Skill-Plan (PL.current) ohne gelesene/belegte Lernstufe.
+Tests: T305 erweitert (neu/geändert gezählt: erster Besuch 1/0, gleicher Besuch 0/0, andere Stufe 0/1; Grund "unread" vor dem Besuch,
+ "notOffered" bei vollständiger Liste ohne das Rezept, Gegenprobe ohne "nicht verfügbare" -> "unread"; Plan-Zählung 1 bei 2 gleichen offenen
+ Schritten + 1 mit Lernstufe + 1 gelernten). T295 wieder "Skill ?" ohne Daten. Regression PS-SK1 -> T305.
+ run_offline forever 260/0, era 241/0, retail 238/0 (T305 SKIP: kein Lehrer-Modul), forever --lua51 260/0 (3 von 4 Läufen; 1 Lauf T269 "neue Liste
+ nicht übernommen, Schlüssel vorher gleich true, Aufgabe offen false" – Ursache nicht belegt, Verdacht Zeitgeber unter Last, nicht von PS-SK2
+ berührt; wird beobachtet); check_actions OK; gen_locale_keys OK (neu SRC_TRAINER_NOT_OFFERED EN/DE); yield_check OK; Smoketest forever/era/retail AUTOTEST OK (FEHLER 29/26/26 = Mock-Grenzen, wie 0.9.96);
+ addon_check OK ohne WARNUNG. Zip md5 b025742965c25c7b7049c0baa470afc2, Repo 59d8688. download/ bleibt 0.9.93 (0.9.94–0.9.96 angenommen; download erst nach Freigabe).
+Abnahme im Spiel: Schneiderlehrer (Filter alle) -> Protokoll "LEHRER Lernstufen gelesen n (neu x, geändert y); im Plan ohne Lernstufe z";
+ Tooltip Magiestoffballen zeigt den Grund. Experten-Lehrer Schneiderei öffnen -> Lernstufe von Magiestoffballen gelesen (Entscheid für (a)).

@@ -1,9 +1,11 @@
-# Stand 27.11.2026 13:42 · Version 0.9.96 (announce), 0.9.93 (download)
+# Stand 27.11.2026 21:43 · Version 0.9.97 (announce), 0.9.93 (download)
 
 ## Gerade in Arbeit
-- Nichts. 0.9.96 NUR announce/ (Release v0.9.96, Repo dc6d8ee), Bericht 2026-11-27-1342-version-0.9.96.txt – zur Prüfung: PS-SK1
-  (TrainerRanks.ReadLearnLevels: GetTrainerServiceSkillReq -> db.trainerReq[spell]; ns.LearnReq; unbekannt = leer + Tooltip; T305).
-- 0.9.95 (PS-P2) zur Prüfung. 0.9.94 angenommen. download/ = 0.9.93 bis Freigabe einer neueren Version.
+- Nichts. 0.9.97 NUR announce/ (Release v0.9.97, Repo 59d8688), Bericht 2026-11-27-2143-version-0.9.97.txt – zur Prüfung: PS-SK2
+  ("Skill ?" + Grund via TrainerRanks.NoLevelReason, db.trainerOffered/trainerProfRead; Protokoll neu/geändert/Plan ohne Lernstufe). (a) bewusst
+  nicht (Experten-Lehrer könnte ab 125 lehren) -> Messung Experten-Lehrer Schneiderei.
+- 0.9.95/0.9.96 angenommen (15:45), PS-SK1 im Spiel bestätigt (21:12). download/ = 0.9.93 bis Freigabe.
+- Beobachten: T269 lua51 1× "neue Liste nicht übernommen" (Ursache nicht belegt).
 
 ## Nächste Schritte (Reihenfolge)
 1. Nach Freigabe (0.9.94 oder 0.9.95 "ANGENOMMEN" + download frei): dieselbe Zip nach download/ (md5), alte entfernen, Workflow grün.
@@ -15,7 +17,7 @@
 ## Offen beim Nutzer
 - Ingametest 0.9.95 (Schneider-Figur, Berufsfenster offen, /ps protokoll): "WorthUpTo je Lauf" ab Lauf 2 "0 neu", "WorthUpTo vergessen" mit Grund.
 - Messung im Spiel (AHS-BP1): Tooltip der Gifte/Blendungspulver "Wird beim Aufheben gebunden"?
-- Schneiderlehrer öffnen (Filter alle) -> "LEHRER Lernstufen gelesen n" im Protokoll; Plan ohne "Skill ?" (PS-SK1). (darf im Hintergrund laufen). Messung Lua-Fehler SetCraftableCount (nur PS / nur AHS).
+- Schneiderlehrer + Experten-Lehrer Schneiderei öffnen (Filter alle) -> Protokoll "Lernstufen gelesen n (neu, geändert); im Plan ohne Lernstufe z". (darf im Hintergrund laufen). Messung Lua-Fehler SetCraftableCount (nur PS / nur AHS).
 
 ## Entscheide des Nutzers seit letztem Stand
 - 25.11. 13:47 (über Supervisor, PS-TQ1): Trefferquote "echten Weg verfolgen" (umgesetzt 0.9.86).
