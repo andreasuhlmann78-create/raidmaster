@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Folge |
 |---|---|---|
+| 09:13 | Spieler-Texte A Einlog-Zeile: "SO MACHEN" – je Addon eine kurze Zeile Name + Version + Kurzhinweis (z. B. "RaidMaster 3.0.52 – /rm öffnet das Fenster"); RaidMaster ohne "WoW 1.60.1, Build, Interface, Sprache"; LevelPilot 1 statt 3 Zeilen, Wege-Teilen-Hinweis und Tipp nur beim allerersten Mal; AHSentinel-Tagesbilanz nur, wenn es etwas gibt (nicht "nichts gebucht, +0") | Auftrag an alle Addons nach Klärung von B–E (gesammelt). Nur ausserhalb des Testmodus (Entscheid 08:54). |
 | 08:54 | Spieler-Texte Punkt 5: "ja" – im Testmodus sieht der Nutzer weiterhin alles (Messwerte, Testbefehle, Protokolle, volle Meldungen); nur normale Spieler bekommen die bereinigte Fassung | Jede Text-Bereinigung gilt nur ausserhalb des Testmodus (IsDev). |
 | 08:49 | Spieler-Texte Punkt 4 Sprachen: "so belassen" (11 Sprachen bei AHS/GS/LP/RM; BS/PS/TS Deutsch+Englisch) | Keine neuen Sprachen. Geänderte Texte wie immer in allen Sprachen, die das Addon hat. |
 | 08:49 | GuildSentinel Rekrutierung: "so lassen" – dazu Anmerkung: wenn ein Offizier von Fremden per Flüstern angeschrieben wird, kommt die Abfrage mit den 4 Punkten auch | Befund GS-REK1 (HOCH): Einladungen fremder Gilden lösen über das Stichwort "join" die automatische Antwort und die Bewerbungsfragen aus. |
