@@ -1,0 +1,25 @@
+LevelPilot 3.13.29 – Bericht an die Prüf-Sitzung: Speicher je Prüfung (MITTEL), Graph.lua:1048 (NIEDRIG)
+Stand 27.11.2026 13:31 · umgesetzt, zur Prüfung (Messversion)
+Zip: announce/levelpilot__levelpilot-3.13.29.LevelPilot.zip (md5 d00cc0d4fdb35bbdceb008963e00e4b0, 2 862 279 Bytes)
+
+1. Speicher (Ingametest 3.13.28, Upload 13:10) – Auswertung, Ursache noch NICHT belegt
+- Feld speicherPruefungen (3.13.28): "ohne Pause 322 Prüfungen, zusammen +21.3 MB · mit Pause 76 (nicht gezählt) · mit Bereinigung 21 ·
+  grösste: T292 +5592 KB, T30 +2794 KB, T64 +1202 KB, T69 +957 KB, T215 +799 KB …" – der Rest war abgeschnitten (Bericht kürzt Texte nach
+  ~300 Zeichen).
+- Feld stuecke: T34 +4303, T285 +3881, T386 +3851, T264 +3841, T289 +3946, T398 +3923, T21 +4126, T294 +3849, T221 +4265 KB – fast gleich gross,
+  in verschiedenen Prüfungen. Diese Prüfungen stehen NICHT unter den grössten Prüfungen ohne Pause. Also: entweder hatten sie Pausen (nicht
+  gezählt), oder der Speicher entsteht ausserhalb der Prüfung. Im Nachbau sind dieselben Stücke klein – Verdacht: Speicher, den nur das
+  Spiel anlegt (Blizzard-Oberfläche/andere Addons, die durch Aufrufe der Prüfung im selben Bild laufen). Zu messen.
+- 3.13.29: Feld speicherPruefungen ist jetzt eine Liste kurzer Zeilen (nichts mehr abgeschnitten) und zeigt zusätzlich Prüfungen MIT Pause
+  (markiert "P" – dort zählt Speicher anderer Addons in den Pausen mit) und den Speicher im Ablauf ZWISCHEN zwei Prüfungen.
+  Nachbau Bereich J: "zwischen den Prüfungen: 220, zusammen +0.7 MB"; grösste in der Prüfung T221 P +134 MB 2596 ms (Reise), T354 P +21.6 MB …
+- Nächster Schritt mit dem Ingametest: Liegen T34/T285/T386 … als "P" mit ~4 MB vorn, dann deren Pausen ansehen; liegen sie klein, entsteht es
+  zwischen den Prüfungen.
+
+2. NIEDRIG Graph.lua:1048 (Reise 1–60, 1 Bild über 16 ms, Überschreitung 5,9 ms): Zeile 1048 = Abgabe alle 64 Knoten in NearSparse.
+   Die Überschreitung zeigt, wo eine zu lange Portion ENDETE, nicht wo die Zeit lag. 1 von 24 562 Bildern; ohne Beleg keine Änderung.
+
+Prüfungen vor dem Push
+- addon_check: OK. Gemeinsame Dateien GoldSentinel*.lua mit cmp gleich shared/. Offline-Routine: 40 Läufe, 40 ohne FEHLER.
+- Nachbau ganze Routine (Daten 27.11. 12:35): 1 FEHLER T261 (Daten, wie 3.13.27/3.13.28; im Spiel OK). Längstes Bild T32 50,0 ms mit
+  Speicherbereinigung (−10,7 MB) – T32 unverändert; im Spiel nicht unter den langen Bildern. Verdacht: Bereinigung zufällig in T32, zu messen.
