@@ -7359,3 +7359,11 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     Auftrag HOCH: (1) welche Schleife ruft ~1000× GetItemInfo (vermutlich über alle Items einer Entzauber-Stufe / alle möglichen Ergebnisse) – im Bericht mit Datei:Zeile;
     (2) Ergebnis je Item/Stufe EINMAL rechnen und merken (bis Scan/Buchung), GetItemInfo-Ergebnisse (Qualität/iLvl/Klasse) in eigener Tabelle je itemID halten;
     (3) Mat Leiter (+45–120 KB je Aufruf) und den nicht zugeordneten Speicher (~600 KB) finden und vermeiden. Ziel ≤ 2 ms, ≤ 50 KB je Aufruf; Gegenprobe gleiche Werte.
+
+>>> 0.65.422 (AHS-API1) – geprüft Supervisor 27.11. 16:55: ANGENOMMEN (Code), Abnahme erst nach Ingametest.
+    addon_check OK (md5 0acf340e… = Bericht), Workflow grün. Diff 0.65.421 -> 0.65.422 selbst gelesen: nur Learn.lua (BuyStats: Korrektur je Item einmal je Aufruf,
+    Liste der Verhältnisse für "d" weggelassen, Sonderfall Summe 0 rechnet Median wie bisher), API.lua (matCache nur für diesen Aufruf, nur wenn frei, ohne job –
+    MatCacheOn gilt ohne job nur im selben Bild, damit kein S28-Leck), TestRoutine T1041. Werte unverändert belegt (zz_api5 149 Items, FULL 356/67 wie 0.65.421).
+    Ursache Datei:Zeile genannt – Auftrag Punkt 1 erfüllt; Punkt 3 (Mat Leiter) teilweise; Punkt 4 (≤ 50 KB) im Normalfall bei 3 von 4 Items, Rest offen ("DE tatsächlich").
+    NIEDRIG (Hinweis): bleibt durch einen Abbruch ein alter D.matCache ohne job liegen, schaltet ownMC die Ersparnis dauerhaft ab (Werte bleiben richtig) – beim nächsten Mal mitnehmen.
+    OFFEN: INGAMETEST Nutzer (wie 15:44, mit 0.65.422): erwartet keine Zeile API-LANGSAM über 4 ms, kein "DE Iteminfo ×1000".
