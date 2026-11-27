@@ -7430,3 +7430,11 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
 >>> AHS-SN-CAN1 Beleg (Supervisor 21:18): Kauf 20:58:24 war echt – Nutzer 21:10 "hab die Kapuze aus dem Briefkasten geholt"; Gold auf den Bildern
     20:56 46g 67s 16c -> 21:07 46g 54s 19c = −12s 97c = genau der Kaufpreis. Das "AUCTION_CANCELED auctionID 309469661 -> unerwartet" direkt nach dem Kauf
     ist also die Meldung des Servers zum EIGENEN Kauf (WoW Forever). Auftrag bleibt NIEDRIG: als "eigener Kauf bestätigt" erkennen, nicht "unerwartet".
+
+>>> MASTERPLAN v2 FREIGEGEBEN (Nutzer 27.11. 21:21 "ok lets go") – Supervisor 21:25. Datei: auftraege/AHSentinel/masterplan-ahsentinel.txt (neu, ganz lesen).
+    Sie ist ab jetzt die EINE Reihenfolge für AHSentinel. Neue Befunde HOCH aus dem Spiel gehen weiter vor.
+    JETZT: SCHRITT 1 INVENTUR – kein Code. Jedes Kürzel aus dem alten Plan (Phasen 1–8, Abschnitt E) und aus dem neuen Plan (C/D) einzeln belegen:
+    erledigt (Version, Test-Nr., im Spiel abgenommen ja/nein + Zeile in dieser Datei) / teilweise (was fehlt) / offen / überholt (welcher Entscheid).
+    Besonders klären: KERN-T1 (1)(2)(3), TB181-4, R1–R7, G10–G17, RK3/RK4/RK6/RK7/RK8, TT-DE2, MR2, Phase-8-Punkte im Spiel, UI-CLEAN1-B heute.
+    Ergebnis als Tabelle in berichte/AHSentinel/<Zeit>-inventur-masterplan.txt, "umgesetzt, zur Prüfung" gilt nicht – nur Belege.
+    Danach SCHRITT 2 (Stabilität) in der Plan-Reihenfolge, parallel zur Prüfung der Inventur. Zeitkritisch: Vorräte vor Raid 9.12. (ab 4.12.).

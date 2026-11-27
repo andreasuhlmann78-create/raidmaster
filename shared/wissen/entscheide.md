@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Folge |
 |---|---|---|
+| 21:21 | Masterplan AHSentinel v2: "ok lets go" | Neuer Plan ersetzt den vom 15./16.11. (auftraege/AHSentinel/masterplan-ahsentinel.txt). Reihenfolge: 1 Inventur aller Kürzel (belegt) -> 2 Stabilität (API1, Vollscan, Wächter, Sniper-TR) -> 3 Gehirn/Daten aller Spieler -> 4 Buchhaltung/Verkaufen -> 5 0.66.0 (TT-DE2, MR2, RK3–RK8) -> 6/7 Oberfläche, Rhythmus, Markt-Reiter; Vorräte vor Raid 9.12. zeitkritisch. Frage "kleine KI" weiter offen. |
 | 21:16 | SH-M1: "b bitte" (gebündelt) | GoldSentinelMarkt.DiagLines leichter lesen (16,4 -> 6,8 ms, 2,8 MB -> 5 KB, nur Testroutine/Protokoll) wird NICHT allein geändert, sondern mit der nächsten nötigen Änderung an den gemeinsamen Dateien (shared/) mitgenommen – eine Runde neuer Versionen statt zwei. Supervisor merkt es vor. |
 | 21:00 | "sniper geht wieder sofort auf curse posten als hotfix für den sniper" | AHSentinel 0.65.423 (SN-Z4, angenommen 20:55, Kauf im Spiel belegt 20:58) SOFORT nach download/ -> CurseForge, Ausnahme vom 18:00-Termin (DL-ABN Punkt 4, dringende Fehlerbehebung). Nur die AHS-Sitzung legt ab. |
 | 20:58 | Alte Addon-ZIPs in announce/: "Nur die letzten 3 behalten" (Vorschlag Supervisor nach DC-UPL1, Repo 758 MB, 319 ZIPs) | Je Addon die 3 neuesten ZIPs in announce/ plus die stabile Version (= download/) behalten, ältere ZIPs entfernen; die Ankündigungstexte (.md) bleiben immer. Umsetzung Discord-Projekt (DC-ANN2), danach gilt es für jede neue Version aller Addons. |

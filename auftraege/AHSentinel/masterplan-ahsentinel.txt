@@ -1,126 +1,87 @@
-MASTERPLAN AHSENTINEL – vollständig (Supervisor, 15.11.2026 16:31)
-Auftrag des Nutzers 16:25 "wir hatten doch einen Masterplan für AHS", 16:28 "der Rechenkern soll nicht nur meine Daten
-brauchen, sondern die aller Spieler", 16:29 "erinnere dich an alles und ergänze den Masterplan".
-Zusammengeführt aus: RELEASEPLAN 13.11. 13:15 (verbindlich), anweisung-rechenkern-066.txt (Teil 1–5), anweisung-markt-
-reiter.txt (RK1–RK8, MR1–MR11), anweisung-marktdaten-netz.txt (MN1–MN8), FERTIG-LISTE 14.11. 17:06, KERN-T1 15.11. 10:45,
-SNIPER-KOMPLETT 15.11. 12:13, shared/wissen/entscheide.md (alle Entscheide 12.–15.11.), markt-strategie.md, wirtschaft-forever.md 8.6.
-Dieser Plan ist die EINE Reihenfolge für AHSentinel. Er ersetzt jede frühere Reihenfolge in offen-ahsentinel.txt; die
-Einzelheiten je Kürzel stehen weiter dort (Suche nach dem Kürzel). Nachführen bei jeder Prüfung.
+MASTERPLAN AHSENTINEL v2 (Supervisor, 27.11.2026 21:50) – FREIGEGEBEN vom Nutzer 27.11. 21:21 ("ok lets go")
+Auftrag des Nutzers 21:17 "ja mach das" (Masterplan neu, Stand heute). Ersetzt die frühere Fassung dieser Datei
+(Stand 15./16.11.). Grundlage: offen-ahsentinel.txt (7432 Zeilen, 13.–27.11.), berichte/AHSentinel/stand-aktuell.md (21:15), entscheide.md,
+Markt-Tabellen/Kern-Abgleich. Wo der Stand nicht sicher belegt ist, steht "Stand unklar" – das belegt AHS in Schritt 1 (Inventur), nicht ich.
 
 =====================================================================================================================
-A. ZIEL UND GRUNDSÄTZE (gelten für jeden Punkt)
+A. ZIEL UND GRUNDSÄTZE (unverändert, ergänzt um die Entscheide seit 16.11.)
 =====================================================================================================================
-- Ziel: das beste AH-Addon – "so gut, dass es jeder haben muss" (10.11.); Werkzeug, um mehr Gold zu machen, für Casual-
-  Spieler (13.11.). "Nur wer den Markt vorausahnen kann, macht richtig Gold – aber immer fundiert und belegbar" (14.11.).
-- Direktiven: 1. PERFEKTION (Ursache belegt, jede Zahl geht auf, alle Wege getestet, keine Sperre ohne Zeitlimit).
-  2. NICHT WARTEN. Nie Englisch für den Nutzer. Nie vergessen ins Repo zu laden (origin/main prüfen).
-- Anzeige: Zahlen statt Worte (grün +x / rot −x), nur Gesichertes, keine Rechenwege, Einzelheiten hinter einem Knopf,
-  Zahl + ein Satz (≤ 20 Wörter), Begriffe wie im Spiel, nur zeigen was Gold bringt (nichts mit Minus).
-- Tempo: ruckelfrei und "pfeilschnell" = Freigabe-Bedingung (kein Bild > 16 ms durch AHS, Tooltip ≤ 5 ms, Reiter ≤ 50 ms).
-- Prüfen: jede neue Funktion mit Test (auch absichtlich falsche Fälle), Selbstkontrolle im Spiel, dreifache Prüfung
-  durch den Supervisor; Mini-Addons messen im Spiel (shared/messtest). Testroutine nur beim Entwickler (TEST-DEV1).
-- Tooltip eingefroren (TT-STOP 11:50) – nur der Entzauber-Teil (TT-DE2) darf noch geändert werden.
-- Veröffentlichen: Discord jede Version sofort; CurseForge 18:00, AHSentinel erst nach der Sniper-Abnahme.
+- Ziel: das beste AH-Addon für Casual-Spieler – mehr Gold, nur Belegtes ("vorausahnen, aber fundiert und belegbar").
+- Direktiven: Perfektion, nicht warten, alles Deutsch für den Nutzer, nichts gilt ohne origin/main.
+- Anzeige: Zahl statt Worte (+grün / −rot), keine Schätzzeichen ("~") ohne Fallzahl, Einzelheiten hinter Knopf/Hover.
+- Spieler-Texte ST1 (27.11.): ausserhalb Testmodus 1 Einlog-Zeile, Fehler 1×, Tipps 1×, Messwerte nur im Protokoll.
+- Tempo: kein Bild > 16 ms durch AHS (eigene Arbeit), Tooltip ≤ 5 ms, "Lohnt bis" ≤ 2 ms / ≤ 50 KB.
+- Fremde Daten S1–S6 (21.11.): 1 Stimme je Absender/Item/Stunde, Plausibilität ×2, eigene Scans Vorrang, nie Verkaufspreis aus Fremddaten.
+- G9-Schutz: Gold-Werte (Sniper, Wächter, Lohnt bis, Verkaufspreis, Buchhaltung) ändern sich nur durch mehr Daten, nie durch Umbau.
+- Veröffentlichen: Discord jede Version; download/ nur nach Annahme (DL-ABN); CurseForge 18:00 (Ausnahme nur auf Entscheid).
+- Tooltip eingefroren (TT-STOP) ausser Entzauber-Teil (TT-DE2).
 
 =====================================================================================================================
-B. DATENSTUFEN DES GEHIRNS (Nutzer 16:28: "nicht nur meine Daten, sondern die aller Spieler")
+B. DATENSTUFEN DES GEHIRNS – STAND
 =====================================================================================================================
-Der Rechenkern lernt aus fünf Quellen, jede mit eigener Herkunft, eigener Fallzahl n und eigener Prüfung (P1–P4).
-Rangfolge (markt-strategie.md 6.4, empirisches Bayes, L2 mit k = 2): eigene Fälle gehen immer vor.
-  1. EIGENE Fälle (Wahrheit: Briefkasten, eigene Entzauberungen, eigene Käufe) – heute vorhanden (S1–S3).
-  2. FREMDE AUKTIONEN IM EIGENEN SCAN (KERN-T1 1): Verhalten ALLER Spieler am Markt (verschwunden vor Ablauf = wohl verkauft),
-     geeicht an den eigenen Auktionen, eigener Weg "markt".
-  3. GILDE (KERN-T1 2): Zähler je Zelle und Tag der Gildenmitglieder mit AHSentinel über GoldSentinelSync (ohne Namen).
-  4. ALLE SPIELER IM MARKTDATEN-NETZ (MN1–MN5, vorgezogen): Vollscans aller Spieler mit irgendeinem GoldSentinel-Addon
-     (GoldSentinelMarkt, gildenübergreifend, Schalter "Marktdaten teilen", Entscheid 13.11.) – gemessener Absatz und Preise.
-  5. TABELLEN VON AUSSEN (KERN-T1 3 / A1–A2): täglich 05:37 aus den hochgeladenen Daten gerechnet – NEU auch aus der
-     Sammelstelle des Discord-Bots (Scans ALLER einsendenden Spieler, MN7), nicht nur aus den Daten des Nutzers.
-Regeln: fremde Werte allein lösen nie Kauf/Verkauf aus; nie überschreibt ein fremder Wert einen eigenen frischeren; Ausreisser
-verworfen; keine Namen; nur eigene Fraktion; nichts im Kampf; keine zusätzlichen Server-Anfragen; Speicher Kern < 300 KB.
-Anzeige je Zahl: Herkunft im Tooltip der Zahl ("eigene 12 · Gilde 40 · Netz 3 Quellen · Tabelle").
+ 1. Eigene Fälle (Post, Entzaubern, Käufe) .............. läuft (Lernschicht S1–S3, 0.65.153–180; Buchhaltung TB1 erledigt 26.11.)
+ 2. Fremde Auktionen im eigenen Scan (KERN-T1 1) ......... laut Prüfung 0.65.198 umgesetzt – Stand im Spiel unklar
+ 3. Gilde (KERN-T1 2, G1–G9 gemeinsamer Markt) ........... umgesetzt 0.65.363–385 (21.–23.11.); G10 Eichung ab ≥ 30 echten Fällen
+ 4. Alle Spieler im Marktdaten-Netz (MN5, S1–S6) ......... MN5 nur im Markt-Detail (15.11.), S1–S6 umgesetzt (21.11.); Kern nutzt Netz nur über S1–S3
+ 5. Tabellen von aussen (A1/A2, Teil "alle") ............. STOCKT: Repo-Tabelle Stand 16.11.; Bot-Tagesdateien nur 14.11. und 21.11.
+    (Bot hing bis heute 20:45 wegen Speicher – DC-UPL1); Daten-Repo ohne Stände 14.–20.11.; Kern-Abgleich 24.11.: 28–36 Zellen gehen nicht auf.
 
 =====================================================================================================================
-C. STAND (15.11. 16:31)
+C. STAND 27.11. (kurz; Einzelheiten je Kürzel in offen-ahsentinel.txt)
 =====================================================================================================================
-ERLEDIGT (zur Prüfung bzw. geprüft): 0.65.109–113 falsche Zahlen/Ruckeln/Zuverlässigkeit · Buchhaltung BH/BR/HB/EB/SK1 ·
-DE30b Mindestgewinn je Gruppe · KF2 · PR1 · Rechenkern S1 Lernschicht L1–L5/P1–P4 (0.65.153), S2 V2 Kaufgrenze lernt,
-V3 Welle, A2 Tabellen lesen (0.65.154), S3a ein "Lohnt bis" (0.65.158), S3b Herstellungs-Ketten (0.65.165, Ke.LIVE 0.65.180)
-· FERTIG-LISTE Block 1 · Block 2 grösstenteils (SN-MAX1, MR1-V, VK-1, Ketten) · SN-ALLE1 · TEST-DEV1 · TT-DE1 · EK-X1 ·
-Sniper 0.65.183–0.65.196 (SN-B9..B12, P186, P190, GSL1-1..3, SN-UI1, GSL2-1 b–d).
-IN ARBEIT: SN-RUHE1 (Tests s197).
-WARTET AUF DEN NUTZER: Sniper-Abnahme A1–A6 = GSSniperLog-1.3-Protokoll mit 0.65.196+.
+ABGENOMMEN / ERLEDIGT seit 16.11. (Auswahl): Sniper SN-Z4 (Wechsel + Kauf, 27.11.), SN-RAD/PF-1/OPT-1, AHS-I1/I5/I6/I7 (Sandbox, Testroutine),
+ AHS-OVF1, AHS-TB1 (Tagesbilanz), AHS-CF1–CF7 (CurseForge-Seite und Uploads), ST1 Spieler-Texte, UI-REF1 (Aktualisieren-Knopf),
+ Phase 8 Punkte 1–4 umgesetzt (WS/SB, I5 Schnäppchen-Alarm, Vorräte vor Raids, CH-G) – im Spiel nicht alle abgenommen.
+ANGENOMMEN, ABNAHME IM SPIEL OFFEN: AHS-API1 (0.65.422, Lohnt bis 40 -> 2 ms im Nachbau), AHS-W1, AHS-SB1, AHS-SP2, AHS-API2/-b, AHS-SN-CAN1 (0.65.424).
+CURSEFORGE: 0.65.423 (Hotfix Sniper, 27.11. 21:03).
 
 =====================================================================================================================
-D. REIHENFOLGE (oben = zuerst; Release-Blocker und Befunde aus einem Sniper-Protokoll gehen IMMER vor)
+D. REIHENFOLGE AB 28.11. (oben zuerst; neue Befunde HOCH aus dem Spiel gehen immer vor)
 =====================================================================================================================
-PHASE 1 – SNIPER PERFEKT (Nutzer 12:13 oberste Prio)
-  1.1 SN-RUHE1 Sniper-Ruhemodus fertig (a–g, Abnahme mit GSSniperLog: Bilder > 100 ms ≤ 1/Min., AHS Ø ≤ 2 ms, < 5 GC/Min.).
-  1.2 Befunde aus GSSniperLog-Protokoll 3 (sobald da) – vor allem anderen.
-      Nutzer 17:21: GSL4-1 (Code 10 trotz gelungenem Kauf) als PRIO jetzt, danach weiter mit 2.2.
-  1.3 Rest Sniper-Block: SN-B5 (Max zur Planung speichern), SN-B6 (Zähler nach Bestätigung), SN-B7 (Treffer "geleert" ohne
-      Grund), SN-B8 (Testkauf-Gold erklären), T745 (Wartegrund "false"), TB182-2 (Tageslücke 7g67), TB184-U3 (alle
-      Unterbereiche in der UI-Prüfung, Nutzer 12:29 gleich hohe Prio), GSL2-3 (Ruckler-Stelle nach Kauf).
-  1.3b POST-BLOCK1 (Spieler-Meldung Einstellen blockiert) und SN-BTN1 (Spieler-Wunsch: Kaufen-Knopf = ein Klick ein Kauf,
-       Mausrad bleibt; Nutzer 18:27).
-  1.4 Abnahme A1–A6 durch den Supervisor (Protokoll) -> dann AHSentinel um 18:00 auf CurseForge.
-PHASE 2 – AUSBAU DES GEHIRNS (Nutzer 10:45 "oberste Prio", 16:24 "Ausbau des Gehirns", 16:28 "Daten aller Spieler")
-  Läuft PARALLEL zu Phase 1, solange die Abnahme auf das Spiel-Protokoll wartet (Zweite Direktive); Sniper-Befunde vor.
-  2.1 KERN-T1 (1) fremde Auktionen als Fälle (Datenstufe 2), eigener Weg "markt", geeicht an eigenen Auktionen je Gruppe.
-  2.2 MN1–MN5 VORGEZOGEN (Datenstufe 4): GoldSentinelMarkt (neueste Fassung aus shared/, byte-gleich) in AHSentinel,
-      Schalter "Marktdaten teilen", Testbericht-Zeile MARKT-NETZ, Tests; MN5 GSMarkt.Get als Quelle im Kern
-      (eigener frischer Scan > Netz > Schätzung), Herkunft sichtbar. AHSentinels Vollscan bleibt, nicht doppelt lesen.
-  2.3 KERN-T1 (2) Gilden-Sync der Zähler (Datenstufe 3), Drossel nach kommunikation-forever.md.
-  2.4 KERN-T1 (3) Vorwissen-Anschluss je Zelle (Datenstufe 5) inkl. neuer Teil "alle Spieler" (siehe E).
-  2.5 Testbericht MARKT-KERN: je Datenstufe Fälle/Tag, geeichter Faktor je Gruppe mit n, Brier gegen Grundlinie, seit wann
-      Anzeige frei. NICHT: Schwellen senken, teurer/in Kleinstapeln einstellen ("ohne Einbussen").
-PHASE 3 – BUCHHALTUNG UND VERKAUFEN (Grundlage des Gehirns, R9)
-  3.1 DE-AUFT1 Entzauber-Einstand nach erwartetem Wert + Posten "Entzauber-Ausbeute" (Entscheid 16:35).
-  3.2 TB181-4 HOCH Abbrechen-Knopf "Meine Auktionen" bei Status "?" (Nutzer 10:49) + TB181-3 Fusszeile doppelt.
-  3.3 MAIL-1 Rest (Post).
-  3.4 VK-P1 = S4 V1 Verkaufspreis als Zahl im Verkaufen-Fenster (nur nach P2), VK-E1 Einstand je Stück, BH-TT2 "Erlös:".
-PHASE 4 – RECHENKERN FERTIG = Version 0.66.0
-  4.1 TT-DE2 Entzauber-Teil im Tooltip (Variante B, ohne die 10s76).
-  4.2 MR2 Mein Lager (Taschen, Bank, Post, eigene Auktionen: Menge, Wert jetzt, Herkunft).
-  4.3 S5 RK3–RK7: RK3 beide Richtungen (herstellen oder roh verkaufen), RK4 Fähigkeiten automatisch (Berufe, mit
-      ProfessionSentinel-API PS-API1), RK5 Risiko-Wahl vorsichtig/normal/mutig, RK6 Haltedauer, RK7 Rangfolge Gold je Tag
-      je 1g Einsatz × Sicherheit; RK8 Prüffälle.
-  4.4 API-PM2/3-Rest (ProfessionSentinel), Absatz als Spanne, TB170-10/S28 nie zwei "Lohnt bis" für ein Item.
-  4.5 FERTIG-LISTE Block 3: TB170-6/-7 + TB168-1 + TB172-2 (Ruckeln/Speicher Vollscan, Nachlauf), TB168-9.
-  4.6 Version 0.66.0 "Rechenkern fertig" mit eigenem Bericht und Testbericht MARKT-KERN.
-PHASE 5 – OBERFLÄCHE
-  5.1 UI-REF1 ein Aktualisieren-Knopf oben rechts in jedem Fenster (Klick = Reiter, Shift = alles).
-  5.2 UI-CLEAN1 (B) mit allen Befunden aus TB184-U3/TB181-1..3/HP-3.
-  5.3 HP-4 Schnäppchen "Marktwert" und "Flips" ausblenden -> HP-3 -> HP-2.
-PHASE 6 – 0.67 SPIELRHYTHMUS
-  MR5 "Seit deinem letzten Besuch", MR6 "Bevor du gehst", MR7 Rhythmus lernen, MR8 Laufzeit passend, MR9 Plan nach Pausen
-  (eigene + Gilden-Daten), RK6 Haltedauer im Alltag, V4 Tages-/Wochenzyklus nur messen (≥ 3 Wochen, ≥ 80 % gleich),
-  Zyklen JK1–JK4 (Tag/Woche/Monat, Nutzer 14.11. 00:19).
-PHASE 7 – 0.68 NEUER MARKT-REITER (ersetzt "Heute tun"; Daten der alten Liste bleiben im Hintergrund)
-  MN5 (Supervisor 18:22): Netz-Werte nur über A:PriceInfoNet für den Markt-Reiter, A:PriceInfo bleibt ohne Netz.
-  MR1 Aufbau Lage / Mein Lager / Chancen, MR3 Chancen aus dem Kern (alle Kaufwege mit Höchstpreis), MR4 Lage-Kacheln je
-  Stufenband mit Welle/Aufkauf-Alarm (MA4/MA6), MR10 Wochentag-Muster aller Gildenmitglieder (ab 3 Wochen), MR11 Hinweis
-  "nächster Vollscan möglich in x Min.". Nur Belegtes, sonst grau "lernt noch". "Muss streng überwacht werden" (06:18).
-PHASE 8 – SPÄTER / IDEEN (nicht anfangen ohne Freigabe)
-  FREIGEGEBEN 16.11.2026 14:10 (Nutzer): I5 Schnäppchen-Alarm, WS + SB, Verbrauchsgüter vor Raid-Abenden, CH-G – Reihenfolge in offen-ahsentinel.txt.
-  I5 Schnäppchen-Alarm (JA, nur Gesichertes, Daten ≤ 60 s) · WS Warnschutz zu billig/zu teuer · SB Budget-Abfrage (prüfen,
-  ob umgesetzt) · CH-G gemeinsame Befehlsliste (AHS zuerst) · 8i Erwartungswert je Weg + Positionsgrösse (Kelly, erst
-  Nutzen-Test) · I3 Vermögensverlauf (SPÄTER) · I4 Plan fürs Offline-Sein (SPÄTER, Teil von MR9) · I6 Nachfrage-Wellen nur
-  messen · Verbrauchsgüter vor Raid-Abenden (wirtschaft 8.6; Onyxia/Hyjal/Barrow Deeps 9.12.2026 -> Vorräte vorher) ·
-  RUCKEL-1 (zurückgestellt, Testroutine-Ruckeln egal 14.11. 18:18) · RM1, EW1, Wyckoff, FL-Feinheiten, TB168-3..8,
-  TB170-5/-9, T277, T647 (zurückgestellt bis nach Block 3).
-  OFFENE FRAGE AN DEN NUTZER (14.11. 08:02): "aus dem Rechenkern eine kleine KI basteln?" – Vorschlag Supervisor: lernende
-  Statistik im Spiel (so gebaut), schwere Rechnung ausserhalb, ein Modell erst bei vielen Fällen und nur wenn es
-  nachweislich besser ist als die Statistik (P2-Grundlinie). Entscheid steht aus.
+SCHRITT 1 – INVENTUR (klein, zuerst, 1 Bericht, kein Code)
+  AHS geht JEDES Kürzel dieses Plans (Abschnitt D alt + C/D neu) durch und belegt je Kürzel: erledigt (Version, Test, Abnahme ja/nein) /
+  teilweise (was fehlt) / offen / überholt (Entscheid). Ergebnis als Tabelle im Bericht. Der Supervisor prüft stichprobenartig im Code.
+  Ohne diese Inventur wird nichts Neues gebaut.
+
+SCHRITT 2 – STABILITÄT FERTIG MACHEN (Voraussetzung für 0.66.0)
+  2.1 AHS-API1 Abnahme im Spiel (Zeile API-LANGSAM ≤ 2 ms) + Rest-Speicher "DE tatsächlich"/Mat Leiter ≤ 50 KB.
+  2.2 Vollscan ohne Ruckeln: AHS-I4 (längster Frame 712 ms im Spiel), VS-121b, T459-Speicher, AHS-SP1 – Ziel: eigene Arbeit ≤ 16 ms je Bild.
+  2.3 Wächter-Last (WAECHTER-LAST ≤ 50 ms eigene Arbeit) und Sniper-Testroutine (SN-TR-2) im Spiel grün.
+  2.4 Kleine offene: AHS-TR1-a, AHS-V3, AHS-W2E-b, AHS-BP1, AHS-S216, AHS-MK1, AHS-T750, AHS-UMG1, AHS-SG6-a, Hinweis Wechsel vor Raste.
+  -> Wenn 2.1–2.3 im Spiel grün: Freigabe-Bedingung für 0.66.0 erfüllt (Entscheid 16.11.).
+
+SCHRITT 3 – GEHIRN: DATEN ALLER SPIELER WIEDER ZUM LAUFEN BRINGEN
+  3.1 Kern-Abgleich: "Zellen, die nicht aufgehen" wieder auf 0 (24.11.: 28/29/36) – Ursache belegen (Journal vs. Kern ausserhalb de).
+  3.2 G10 Eichung je Gruppe ab ≥ 30 echten Fällen (Post-Scan, Gilde) – Stand und Fallzahlen je Gruppe im Testbericht MARKT-KERN.
+  3.3 G11 Wann kaufen/verkaufen, G13 DE-Daten eine Quelle, G14 Schnäppchen-Zeiten, G15, G17 – je Stand aus der Inventur, offene Teile bauen.
+  3.4 Testbericht MARKT-KERN vollständig: je Datenstufe Fälle/Tag, Faktor je Gruppe mit n, Brier gegen Grundlinie.
+  (Supervisor/Discord parallel, siehe E: Tagesdateien und Markt-Tabelle "alle" wieder täglich.)
+
+SCHRITT 4 – BUCHHALTUNG UND VERKAUFEN
+  4.1 DE-AUFT1 (0.65.199 umgesetzt) im Spiel abnehmen.  4.2 TB181-4 Abbrechen-Knopf "Meine Auktionen" bei "?" – Stand unklar.
+  4.3 Post: "alles abholen" (0.65.362) abnehmen.  4.4 VK-P1/P8–P10 Verkaufspreis-Vorschlag abnehmen; VK-E1, BH-TT2 (NIEDRIG).
+  4.5 R1–R7 alle Reiter aktualisieren sich selbst (Auftrag 23.11.) – Stand unklar.
+
+SCHRITT 5 – RECHENKERN FERTIG = 0.66.0
+  5.1 TT-DE2 Entzauber-Teil im Tooltip (Variante B ohne 10s76) – seit 15.11. nie gebaut.
+  5.2 MR2 Mein Lager (Taschen, Bank, Post, eigene Auktionen) – nie gebaut.
+  5.3 RK3 herstellen oder roh verkaufen (mit ProfessionSentinel), RK4 Berufe automatisch, RK6 Haltedauer, RK7 Rangfolge Gold/Tag je 1g,
+      RK8 Prüffälle (RK5 Risiko-Wahl angenommen 14.11.) – je Stand aus der Inventur.
+  5.4 Version 0.66.0 "Rechenkern fertig" mit eigenem Bericht + MARKT-KERN, erst nach Schritt 2 grün.
+
+SCHRITT 6 – OBERFLÄCHE: UI-CLEAN1-B (727 Befunde 16.11., heute?), HP-2/3/4, T750/T191.
+SCHRITT 7 – 0.67 SPIELRHYTHMUS (MR5–MR9, Zyklen) und 0.68 NEUER MARKT-REITER (MR1/3/4/10/11) – vieles schon gebaut (15./16.11.),
+  Inventur entscheidet, was fehlt. "Muss streng überwacht werden."
+ZEITKRITISCH (vor Schritt 3 einschieben, wenn die Inventur Lücken zeigt): Vorräte vor Raid-Abenden – Raid 9.12.2026 (Onyxia/Hyjal/
+  Barrow Deeps), Hinweis 3–5 Tage vorher = ab 4.12.; nur mit gemessenem Effekt, sonst "noch zu wenig Daten".
+
+OFFENE FRAGE AN DEN NUTZER (seit 14.11.): "aus dem Rechenkern eine kleine KI basteln?" – Vorschlag unverändert: erst Statistik, ein Modell
+  nur bei vielen Fällen und wenn nachweislich besser. Entscheid steht aus (kein Bau ohne Freigabe; ebenso 8i Kelly, I3, I4, I6).
 
 =====================================================================================================================
-E. AUFGABEN AUSSERHALB VON AHSENTINEL (damit das Gehirn die Daten aller Spieler bekommt)
+E. AUSSERHALB VON AHSENTINEL
 =====================================================================================================================
-- SUPERVISOR: addon-check/marktanalyse/markt_tabellen.py erweitern: zusätzlich die Tages-Zusammenfassung der Bot-
-  Sammelstelle (alle einsendenden Spieler) einlesen -> neuer Teil "alle" in GoldSentinelMarktTabellen.lua (je Item/Band:
-  gemessener Absatz/Tag als Spanne, Preis, Anzahl Quellen n, Zeitraum). Format nur ERWEITERN (alte Clients). Geplante
-  Aufgabe 05:37 nimmt es mit. Tests mit erfundenen Daten.
-- DISCORD-BOT (Auftrag D-KERN1): täglich eine anonyme Zusammenfassung aller gesammelten Scans (keine Namen, keine
-  Quellen-IDs) als Datei in testberichte/markt/tages/<JJJJ-MM-TT>.json (≤ 1 MB), damit die Tabellen sie lesen können;
-  zusammen mit KEEP90 (90 Tage, Grenze ≤ 1 GB).
-- ALLE ANDEREN ADDONS: GoldSentinelMarkt neueste Fassung beim nächsten Release (je mehr Addons mitlesen, desto mehr Scans).
-- PROFESSIONSENTINEL: PS-API1 (Berufe für RK4/Ketten), PS-TC1 (TodayCrafts schneller).
+- DISCORD-BOT (D-KERN1): Tagesdatei testberichte/markt/tages/<Datum>.json wieder TÄGLICH (zuletzt 21.11.) – prüfen nach Bot 1.5.203.
+- SUPERVISOR: Markt-Tabelle "alle" (markt_tabellen.py) wieder täglich übernehmen; Entscheid zur Datenlücke 14.–20.11. (Daten-Repo) vorlegen.
+- PROFESSIONSENTINEL: PS-API1 / Ketten für RK3/RK4 – Stand mit PS klären.
+- ALLE ADDONS: gemeinsame Dateien unverändert aus shared/ (SH-M1 gebündelt, Entscheid 27.11. 21:16).
