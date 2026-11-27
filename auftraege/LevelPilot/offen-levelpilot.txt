@@ -2081,3 +2081,12 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
     unter pcall, beim normalen Spielen läuft es als Hintergrund-Aufgabe in Portionen -> für Spieler KEIN Hänger). Behebung: fehlende Umweg-Faktoren vor Guard in
     Portionen messen – passt. Ehrliche Korrektur der eigenen Vermutung von 11:18 – gut. Im Ingametest belegen: T215–T217 nicht mehr unter den langen Bildern.
     Speicher je Prüfung (speicherPruefungen) und T155 (11 239 Knoten) weiter offen, wie berichtet.
+
+>>> INGAMETEST 27.11. 12:48 (Laptop, 3.13.28, Testroutine inkl. Reise 1–60) – ausgewertet Supervisor 13:15. 334/335, FEHLER 1 (T155), Fehlerzähler 0, echte Daten unverändert.
+    - T215–T217: NICHT mehr unter den langen Bildern -> im Spiel ERLEDIGT (Ursache belegt 12:43).
+    - Reise 1–60 (816 s, 24 562 Bilder): längstes 16,0 ms, 1 über 16 ms, Überschreitung 5,9 ms bei Graph.lua:1048 – LP-TR3 bleibt praktisch erledigt (NIEDRIG: 1048 nochmals ansehen).
+    - Längstes Bild jetzt 72,7 ms T244–T251 (mit Speicherbereinigung −149 MB), T241–T244 53,8, T355 53,8, T136 52,9, T34 40,9 – MITTEL (Speicher je Prüfung, Feld speicherPruefungen).
+    - T155: 17,3 ms je Planung (Ziel < 16), Median 9,8, längste 66,4 ms – die 447 ms von 3.13.27 kamen nicht wieder. MITTEL.
+    - Ganze Bilder über 40 ms: 77, davon 47 durch Spiel/Umgebung (Laptop in Ruhe Median 33 ms).
+    LP-DL1 FREIGEGEBEN: Bedingung (T215–T217 ≤ 40 ms im Spiel) erfüllt, 3.13.28 angenommen -> diese Zip (md5 3fcede98…) als download/LevelPilot-3.13.28.zip ablegen,
+    Workflow grün prüfen, Bericht. Damit bekommen die Mitspieler LevelPilot erstmals automatisch.
