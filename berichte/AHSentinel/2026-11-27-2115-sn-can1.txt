@@ -1,0 +1,13 @@
+BERICHT AHSentinel 0.65.424 – AHS-SN-CAN1 NIEDRIG (Supervisor 21:18)
+Projekt-Sitzung AHSentinel · 27.11.2026 21:15 · Stand: umgesetzt, zur Prüfung
+md5 AHSentinel-0.65.424.zip (announce/): 03065dd3af8a53e6c4af09bd339eea20 (nur Discord; CurseForge bleibt 0.65.423 Hotfix)
+
+1. Ursache (belegt vom Supervisor 21:18: Kauf echt, Gold −12s 97c, Kapuze im Briefkasten): WoW Forever meldet den eigenen Sniper-Kauf zusätzlich
+   als AUCTION_CANCELED mit derselben auctionID. Seller.lua Se:CancelForeign stufte jede AUCTION_CANCELED ohne eigenen Abbruch als "unerwartet" ein.
+2. Massnahme: Se:CancelForeign fragt vor "unerwartet" Sn:SentState(auctionID) – "gesendet"/"gekauft" (Sniper hat genau diese Auktion gekauft)
+   -> Ergebnis "eigener Kauf (gesendet|gekauft)"; Protokoll "AUCTION_CANCELED auctionID … -> eigener Kauf (…), nichts geändert". Wie bisher:
+   keine Zeile entfernt, nichts gebucht, kein Ereignis. Läuft gleichzeitig ein eigener Abbruch mit DIESER ID, gilt weiter der Abbruch.
+3. Tests: T1042 neu (eigene ID -> "eigener Kauf (gesendet)", Zeilen 1, Ereignisse 0; unbekannte ID weiter "unerwartet") PASS; T580 (D1) PASS.
+   7 Verkaufen/Abbrechen-Szenarien Ergebnis gleich 0.65.423; s42, s43, s44, s345, s341 PASS. addon_check OK. FULL 0.65.424 folgt allein.
+4. Hinweis NIEDRIG (Wechsel kurz vor Raste): Schutz ist eingebaut (kein Wechsel < 1 s nach einer Raste, nicht während Reservierung/Kauf);
+   wenn im Spiel trotzdem gemeldet: bitte mit Zeitpunkt, dann messe ich die Abstände (SNIPER-RAD / KAUF).
