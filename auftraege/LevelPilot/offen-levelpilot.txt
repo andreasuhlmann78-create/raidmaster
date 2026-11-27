@@ -2023,3 +2023,10 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
     T397 @TestRoutine:9161 (pcall) 11×". T397 (neu in 3.13.23, Vergleich alt/neu über 1 840 Strecken) läuft in pcall ohne Abgabe -> 116 ms in einem Bild.
     Auftrag: T397 in Portionen ausserhalb von pcall (oder pcall je Strecke), Ziel ≤ 16 ms je Bild; T215–T217 (vorher nie über 40 ms) belegen: was hat sich
     dort mit 3.13.23 geändert? Längstes ganzes Bild 129 ms. Bis dahin ist 3.13.23 im Takt schlechter als 3.13.22 (längstes 69,1 ms).
+
+>>> AUFTRAG LP-DL1 (Supervisor 27.11. 07:50) – ENTSCHEID DES NUTZERS 27.11. ~07:25: LevelPilot für Mitspieler "nach Abnahme nach download/".
+    Ab Uploader 2.3.29 bekommen Mitspieler automatisch NUR Zips aus download/ (stabil). LevelPilot hat dort heute KEINE Zip -> Mitspieler bekommen LP nie automatisch.
+    Umsetzen: Sobald die Prüf-Sitzung eine LP-Version abnimmt (Vermerk "ANGENOMMEN" hier), diese Version als download/LevelPilot-<Version>.zip ablegen (gleicher Inhalt
+    wie die abgenommene Zip, Daten-Ordner LevelPilot_Data… darin wie bisher), ältere LevelPilot-*.zip in download/ entfernen (sonst wird der Workflow rot).
+    Testversionen weiter nur nach announce/ (Discord). addon_check auf die download/-Zip, Workflow grün prüfen, Bericht.
+    Stand heute: zuletzt angenommen ist noch keine 3.13.2x ohne offene HOCH-Punkte (T397/T217) – erste Ablage nach der nächsten Annahme.

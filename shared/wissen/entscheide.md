@@ -11,6 +11,8 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Folge |
 |---|---|---|
+| 07:46 | Uploader: "ich will das alles vollautomatisch passiert" – auch die neue Einstellungsdatei im Download-Ordner ohne j/n | RM-UPD3: Einstellungsdatei automatisch übernehmen, wenn sie alle Prüfungen besteht (gleicher Bot, gleicher Discord-Server); sonst automatisch verwerfen mit Meldung. ÜBERHOLT den Teil "Einstellungsdatei bleibt mit j/n" von 07:10. |
+| ~07:25 | LevelPilot für Mitspieler: "Nach Abnahme nach download/" (Frage der RM-Sitzung) | LP-DL1: LP legt nur abgenommene Versionen als download/LevelPilot-<Version>.zip ab. Gilt für alle Addons: stabil = abgenommen in download/. |
 | 07:12 | Mitspieler bekommen automatisch "nur die stabilen Versionen" | RM-UPD2: Mitspieler nur download/, Rechner des Nutzers weiter neueste (Kanal "test"); LP fehlt in download/ (Frage folgt). |
 | 07:11 | "addon versionen automatisch geholt und installiert ohne dass man in der uploaderdatei irgendwas anklicken muss" | RM-UPD2 erweitert: Addon-Auto-Installation Standard AN (ohne .bat), ausdrückliches "aus" bleibt aus. |
 | 07:10 | Uploader: "nicht mehr mit j bestätigen … automatisch" – auf Rückfrage NUR die neue Uploader-Version automatisch; Einstellungsdatei und WoW-Beenden bleiben mit j/n | RM-UPD2. ÜBERHOLT 24.11. 21:36 (kein automatisches Selbst-Update) für das Programm-Update. |

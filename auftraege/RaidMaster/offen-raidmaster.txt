@@ -1066,3 +1066,29 @@ UP-DOC2 MITTEL: LIESMICH.txt (DE) und README_EN.txt Abschnitt "Addons automatisc
     ACHTUNG Lücke (Stand download/ 27.11.): LevelPilot hat KEINE Zip in download/ (nur announce/) -> Mitspieler bekämen nie ein LevelPilot-Update.
     Im Bericht je Addon auflisten, ob es eine stabile Zip in download/ gibt (AHS, BS, GS, PS, RM, TS ja; LP nein), und dem Nutzer die Frage vorlegen,
     wie LP für Mitspieler stabil veröffentlicht wird (z. B. LP-Zip nach Abnahme in download/). Tests: stabil -> nur download/; test -> höchste aus beiden.
+
+>>> PRÜFUNG SUPERVISOR 27.11. 07:50 – Uploader 2.3.29 + RaidMaster 3.0.51 (RM-UPD2, Bericht 07:21): ANGENOMMEN, Abnahme auf den Rechnern offen.
+    Geprüft: Code selfupdate.py/addons.py/uploader.py gegen die Entscheide 07:10/07:11/07:12. Update ohne Frage über dieselbe install() (alle Schutzmassnahmen),
+    nicht während der Starter abgleicht (Sperre + Prozess lebt), 1 Versuch je Version und Stunde, "abgelehnt"-Merker ignoriert. Addons Standard AN, "aus" nur mit Merker.
+    Kanal "stabil" = nur download/, unbekannter Wert = stabil; nie Rückstufung (nur höher als installiert); nur vorhandene Ordner. ETag-Fehler beim Kanalwechsel
+    selbst gefunden und behoben – gut. Tests: alle 207 Uploader-Tests grün (selbst laufen lassen). download/RaidMasterUploader.zip = Ordner (21 Dateien, keine Abweichung).
+    addon_check 3.0.51: OK. Workflow Addon-Prüfung: grün.
+    Abnahme durch den Nutzer: Laptop + PC einmal j für 2.3.29, danach Addons-Testversionen-an.bat, Neustart; Fenster zeigt "auch Testversionen".
+    Hinweis (kein Fehler): während des Wartens auf den Abgleich wird die Version alle 30 s gelesen (raw, 16 kB) – in Ordnung.
+
+>>> AUFTRAG HOCH RM-UPD3 (Supervisor 27.11. 07:50) – ENTSCHEID DES NUTZERS 27.11. 07:46: "Gleich geblieben: Eine neue Einstellungsdatei im Download-Ordner fragt
+    weiter mit j/n. ich will das alles vollautomatisch passiert". ÜBERHOLT den Teil "Einstellungsdatei bleibt mit j/n" (Entscheid 07:10).
+    Umsetzen (einstellungen.py, UP-CFG1): keine j/n-Frage mehr. Eine neue Datei wird AUTOMATISCH übernommen, wenn sie ALLE bisherigen Prüfungen besteht (Punkte 1–3:
+    nur die zwei Namen, ≤16 kB, neuer als der letzte Stand und ändert etwas, gültiges JSON, Webhook-Form, sync_index_id Zahl, bot_id gleich wie bisher), PLUS neu:
+    (a) Gleicher Discord-Server: jede neue Webhook-Adresse einmal ohne Token abfragen (GET der Webhook-Adresse liefert guild_id) und mit dem Server der bisherigen
+        Adresse vergleichen. Anderer Server oder nicht prüfbar (Netzfehler) -> NICHT übernehmen (bei Netzfehler später neu versuchen, höchstens 1× je 10 Min.).
+    (b) sync_config.json: nur übernehmen, wenn ein gültiger Server-Bezug geprüft werden kann (gleiche Kennungen-Form wie bisher; was nicht prüfbar ist, nicht
+        blind übernehmen – im Bericht begründen, wie die Herkunft geprüft wird).
+    (c) Erste Einrichtung (noch keine uploader_config.json): gültige Datei automatisch übernehmen (das ist der /uploader-Weg).
+    Besteht eine Datei eine Prüfung nicht: automatisch verwerfen (Prüfsumme merken, nie wieder), eine Zeile im Fenster mit Grund, keine Frage.
+    Unverändert: Sicherung nach _update/einstellungen (letzte 5), Zwischendatei + Zurücklesen, aus uploader_config.json NUR webhook_url/test_webhook_url/bot_id,
+    Neustart mit Rückfall, Download-Ordner nur lesen, Schalter "einstellungen_aus_downloads" (aus = nichts übernehmen). Meldung im Fenster: "Neue Einstellungen
+    übernommen (Kanal alt -> neu)" ohne geheimen Schlüssel. In stand.json vermerken (Zeit, welche Datei, übernommen/verworfen + Grund).
+    Tests: gültig -> ohne Eingabe übernommen; fremder Bot / fremder Server / ungültig -> verworfen ohne Frage (Gegenprobe); Netzfehler -> später, nicht übernommen;
+    Schalter aus -> nichts. LIESMICH DE/EN und RM-Anleitung (alle Sprachen) anpassen: "alles läuft automatisch". Danach nennt der Uploader keine j/n-Frage mehr
+    (ausser der einmaligen Frage alter Versionen 2.3.24–2.3.28 vor dem Sprung). Bitte dem Discord-Projekt die neuen Texte melden (Bericht).

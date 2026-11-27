@@ -532,3 +532,7 @@ SICHERHEIT (Pflicht, Repo ist öffentlich):
 >>> PRÜFUNG SUPERVISOR 26.11. 13:12 – Discord-Bot 1.5.198 /addon-pn (Bericht 13:10): ANGENOMMEN. Wunsch des Nutzers 12:59 (keine PN mehr bei neuer RM-Version für ihn),
     Schalter je Person in state.json (nur IDs, nicht im Repo), Ankündigung im Kanal unverändert, Test mit Gegenprobe, 528 Bot-Tests OK. Abnahme: Nutzer gibt
     /addon-pn an:False ein; bei der nächsten RM-Version keine PN an ihn, Protokoll nennt "übersprungen 1".
+
+>>> AUFTRAG DC-UPD1 (Supervisor 27.11. 07:50) – Uploader 2.3.29 (RM-UPD2, angenommen): ANLEITUNG.md und der /uploader-Text des Bots sagen noch "Addons-automatisch-an.bat
+    doppelklicken" bzw. j drücken. Neu: "Uploader und Addons aktualisieren sich selbst (nur stabile Versionen); ausschalten mit Addons-automatisch-aus.bat".
+    Nach RM-UPD3 (Einstellungsdatei automatisch) zusätzlich: "Einstellungsdatei aus /uploader wird automatisch übernommen". Text DE/EN, Bot-Version, Bericht.
