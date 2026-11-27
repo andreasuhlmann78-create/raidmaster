@@ -2009,3 +2009,17 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
     (Gelände/Gefahr kalt) aus dem Feld belegen.
     Takt: 26 ganze Bilder > 40 ms (3.13.21: 43), davon 10 Umgebung. Längstes Bild jetzt T136 Zentrale 69,1 ms MIT Bereinigung (-124 MB) – Anzeige-Texte
     (Zentrale) wie im Bericht 16:14 als nächstes messen.
+
+>>> PRÜFUNG SUPERVISOR 27.11. 06:47 – LevelPilot 3.13.23 (Bericht 26.11. 17:09): ANGENOMMEN. addon_check 3.13.23: OK. LP-I3 Ursache BELEGT aus "planungen":
+    Gelände- (bis 1 644) und Gefahrenprüfungen (bis 1 950) ohne Zwischenspeicher je Planung, nicht der Umkreis. Terrain:Unknown −31 %, T397 Gegenprobe
+    alt/neu 0 verschieden; Versuch "träge Luftlinien" ehrlich verworfen – gut.
+>>> INGAMETEST 27.11. 06:28–06:45 (Supervisor 27.11. 06:47) – LevelPilot 3.13.23 "/lp testroutine alles", Laptop, PRIEST 10, Undercity (Chat-Text):
+    VOLLSTÄNDIG: OK 332 · FEHLER 1 (T155) · 1 010 s · Sandbox OK · echte Aktionen 0 · Fehlerzähler 0 · T261 657 ms OK.
+    Reisen 829 s (3.13.22: 864, −4,1 %) · reiseBilder 24 816, längstes 16,5 ms, über 16 ms 3 (ohne Bereinigung), über 40 ms 0 · grösste Überschreitung 6,4 ms
+    jetzt bei Graph.lua:1047 < 1838 < 1610 (NearSparse-Abgabe wirkt, nächste Stelle). LP-TR3: nächste Abgabe an Graph.lua:1047, dann abschliessen.
+    T155 Ø 19,30 ms, Median 11,18, längste 70,5 ms (#15, 460 Knoten, 153 µs je Knoten – vorher 185; −18 % je Knoten im Spiel). Weiter offen (MITTEL):
+    Gefahrenprüfung je Strecke billiger, wie geplant.
+    NEU, HOCH (Rückschritt im Takt): zwei Bilder über 100 ms OHNE Bereinigung: "T215–T217 119,7 ms" und "T387–T397 116,0 ms"; dazu "Abgabe nicht möglich:
+    T397 @TestRoutine:9161 (pcall) 11×". T397 (neu in 3.13.23, Vergleich alt/neu über 1 840 Strecken) läuft in pcall ohne Abgabe -> 116 ms in einem Bild.
+    Auftrag: T397 in Portionen ausserhalb von pcall (oder pcall je Strecke), Ziel ≤ 16 ms je Bild; T215–T217 (vorher nie über 40 ms) belegen: was hat sich
+    dort mit 3.13.23 geändert? Längstes ganzes Bild 129 ms. Bis dahin ist 3.13.23 im Takt schlechter als 3.13.22 (längstes 69,1 ms).
