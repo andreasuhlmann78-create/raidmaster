@@ -2076,3 +2076,8 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
     - T155: 30,6 ms je Planung, Median 9,7 ms (besser), aber längste #1 447,2 ms (+7688 KB, Knoten 11239, Umkreis kalt 1105) – kalte erste Planung ist schlimmer
       geworden (3.13.26: 68 ms). HOCH zusammen mit T217: erste Planung in Portionen bzw. Umkreis vorbauen.
     - Reisen: längstes 11,1 ms, 0 über 16 ms (bleibt erledigt). Bild in Ruhe am Laptop diesmal Median 33 ms (47 Bilder/s).
+>>> PRÜFUNG SUPERVISOR 27.11. 12:55 – LevelPilot 3.13.28 (Bericht 12:43): ANGENOMMEN, Ingametest offen. addon_check OK.
+    T215–T217 URSACHE BELEGT (Messzeile aus dem Spiel: "Fokus 1 144.1 ms +2246 KB" = erster ChooseFocus -> MeasureDetour; in der Testroutine rechnet Jobs.sync am Stück
+    unter pcall, beim normalen Spielen läuft es als Hintergrund-Aufgabe in Portionen -> für Spieler KEIN Hänger). Behebung: fehlende Umweg-Faktoren vor Guard in
+    Portionen messen – passt. Ehrliche Korrektur der eigenen Vermutung von 11:18 – gut. Im Ingametest belegen: T215–T217 nicht mehr unter den langen Bildern.
+    Speicher je Prüfung (speicherPruefungen) und T155 (11 239 Knoten) weiter offen, wie berichtet.
