@@ -736,3 +736,8 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
 
 >>> PRÜFUNG SUPERVISOR 26.11. 18:00 – BS-DL1 ERLEDIGT: download/ nur noch BuffSentinel-0.9.68.zip, README-Link 0.9.68, Addon-Prüfung grün (Lauf auf 65e607f,
     nachgeprüft). Berichte 12:03/13:23 bereinigt – gut. Alte Git-Geschichte nicht umschreiben (öffentliche Geschichte bleibt; nur Rechnernamen, keine Spielernamen).
+
+>>> STAND SUPERVISOR 27.11. 08:00 – BS-M1-b Messdaten (Reinigen in Forever): noch KEINE Messung im Daten-Repo. Offizier A liefert BuffSentinel 0.9.60
+    (älter als die Messung ab 0.9.65; letzter Upload 26.11. 17:12, 0 Fehler), Laptop des Nutzers 0.9.68 mit m1.collect = an, aber seit 0.9.65 kein Kampf
+    (m1 ohne runs), PC 0.9.64. Kein Auftrag an BS – die Daten kommen, sobald Offizier A 0.9.68 hat (Uploader 2.3.29 installiert stabile Addons automatisch)
+    und in der Gruppe kämpft. Supervisor wertet m1 dann aus (Quellen idx/slots/unitAuras/forEach/blizzRahmen: lesbar/geschützt im Kampf).
