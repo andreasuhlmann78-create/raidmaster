@@ -1,8 +1,8 @@
 # Discord-Prüfung
 
-Geprüft: 2026-11-27T09:40:00Z (Commit 1c38273), Server: Alpine Vanguard
+Geprüft: 2026-11-27T11:31:03Z (Commit 934ca95), Server: Alpine Vanguard
 
-**Ergebnis: ✅ alles im Discord**
+**Ergebnis: ❌ es fehlt etwas**
 
 Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 45 Minuten.
 
@@ -10,33 +10,43 @@ Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 4
 
 | | Addon | Version | Kanal | Gepostet | seit Push |
 |---|---|---|---|---|---|
-| ✅ ok | AHSentinel | 0.65.413 | #ahsentinel | 2026-11-26 21:38 UTC | 17 Std. |
-| ✅ ok | RaidMaster | 3.0.53 | #raid-addon | 2026-11-27 09:01 UTC | 62 Min. |
+| ✅ ok | AHSentinel | 0.65.413 | #ahsentinel | 2026-11-26 21:38 UTC | 19 Std. |
+| ✅ ok | RaidMaster | 3.0.53 | #raid-addon | 2026-11-27 09:01 UTC | 2 Std. |
 
 ## Ankündigungen (announce/, neueste Fassung je Reihe)
 
 | | Datei | Kanal | Abdeckung | seit Push |
 |---|---|---|---|---|
-| ✅ ok | addon-hilfe__ahanalyzerpro-hilfe-0.65.3.md | #addon-hilfe | 100 % | 3 Tage |
+| ✅ ok | addon-hilfe__ahanalyzerpro-hilfe-0.65.3.md | #addon-hilfe | 100 % | 4 Tage |
 | ✅ ok | ahsentinel__ahsentinel-0-vorstellung-1.8.md | #ahsentinel | 100 % | 18 Tage |
-| ✅ ok | ahsentinel__ahsentinel-0.65.417.md | #ahsentinel | 100 % | 53 Min. |
+| ⏳ wartet | ahsentinel__ahsentinel-0.65.419.md | #ahsentinel | 40 % | 35 Min. |
 | ✅ ok | ahsentinel__ahsentinel-hilfe-1.0.md | #ahsentinel | 100 % | 23 Tage |
 | ✅ ok | barrow-taktik__uebersicht-1.1.md | #barrow-taktik | 100 % | 23 Tage |
 | ✅ ok | buffsentinel__buffsentinel-0-vorstellung-12.md | #buffsentinel | 100 % | 23 Tage |
-| ✅ ok | buffsentinel__buffsentinel-0.9.69.md | #buffsentinel | 100 % | 65 Min. |
+| ✅ ok | buffsentinel__buffsentinel-0.9.69.md | #buffsentinel | 100 % | 2 Std. |
 | ✅ ok | guildsentinel__guildsentinel-0-vorstellung-19.md | #guildsentinel | 100 % | 15 Tage |
-| ✅ ok | guildsentinel__guildsentinel-0.9.66.md | #guildsentinel | 100 % | 36 Min. |
+| ✅ ok | guildsentinel__guildsentinel-0.9.66.md | #guildsentinel | 100 % | 2 Std. |
 | ✅ ok | hyjal-taktik__uebersicht-1.1.md | #hyjal-taktik | 100 % | 23 Tage |
-| ✅ ok | levelpilot__levelpilot-3.13.26.md | #levelpilot | 100 % | 54 Min. |
+| ✅ ok | levelpilot__levelpilot-3.13.27.md | #levelpilot | 100 % | 69 Min. |
 | ✅ ok | levelpilot__levelpilot-uebersicht-3.12.94.md | #levelpilot | 100 % | 9 Tage |
 | ✅ ok | lore__alpine-vanguard-vorstellung-1.0.md | #lore | 100 % | 26 Tage |
 | ✅ ok | mc-feuerresi__feuerresi-1.1.md | #mc-feuerresi | 100 % | 23 Tage |
 | ✅ ok | onyxia-feuerresi__feuerresi-1.0.md | #onyxia-feuerresi | 100 % | 30 Tage |
 | ✅ ok | onyxia-taktik__onyxia-video-1.0.md | #onyxia-taktik | 100 % | 31 Tage |
 | ✅ ok | professionsentinel__professionsentinel-0-vorstellung-1.27.md | #professionsentinel | 100 % | 14 Tage |
-| ✅ ok | professionsentinel__professionsentinel-0.9.92.md | #professionsentinel | 100 % | 35 Min. |
+| ⚠️ veraltet | professionsentinel__professionsentinel-0.9.94.md | #professionsentinel | 25 % | 56 Min. |
 | ✅ ok | threatsentinel__threatsentinel-0-vorstellung-2.2.md | #threatsentinel | 100 % | 24 Tage |
-| ✅ ok | threatsentinel__threatsentinel-2.5.31.md | #threatsentinel | 100 % | 62 Min. |
+| ✅ ok | threatsentinel__threatsentinel-2.5.31.md | #threatsentinel | 100 % | 2 Std. |
+
+**announce/ahsentinel__ahsentinel-0.65.419.md** – fehlt im Discord:
+- `## AHSentinel 0.65.419`
+- `- **Intern:** die neue Diagnose-Zeile aus 0.65.418 nutzt jetzt wie das übrige Addon die Zahlen-Formatierung ohne Überlauf. Keine sichtbare Änderung.`
+- `- **Internal:** the new diagnostic line from 0.65.418 now uses the overflow-safe number formatting like the rest of the addon. No visible change.`
+
+**announce/professionsentinel__professionsentinel-0.9.94.md** – fehlt im Discord:
+- `📦 **ProfessionSentinel 0.9.94** – genauer messen 📊`
+- `• **Für den Entwickler:** Das Protokoll zeigt für „Heute herstellen“ je Durchgang, wie viele Abfragen „Lohnt bis“ neu waren und wie viele gemerkte Antworten gen`
+- `• Für Spieler ändert sich nichts.`
 
 ## Bot-Funktionen (tut der Bot, was er soll?)
 
