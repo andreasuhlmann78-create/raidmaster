@@ -1,6 +1,6 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 27.11.2026 16:16 · Version 0.65.422 (Discord, AHS-API1 Ursache behoben); CurseForge 0.65.413; angenommen bis 0.65.421
+## Stand 27.11.2026 19:41 · Version 0.65.423 (Discord, SN-Z4 Sniper wechselt Ziele); CurseForge 0.65.422 (18:00)
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz – Testberichte "GSTEST1{…}", UI-Befunde db.uiFindingsLast).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
@@ -9,13 +9,13 @@ Nachbau: cd /home/claude/ahanalyzerpro && bash tests/run_offline.sh /home/claude
  FULL 0.65.416: 356 PASS / 67 FAIL, keine neuen. Eigene Szenarien /tmp/claude-0/sim2/wowsim/scenarios_new.lua (zz_st1 Chat-Inventar, TR_TEXT=1).
 
 ## Gerade in Arbeit
-- AHS-API1 HOCH: Ursache belegt+behoben in 0.65.422: Ln:BuyStats("d") rief je Entzauber-Kauf D:CorrectionFor (1016 Käufe, 7 Items) -> jetzt je
-  Item einmal; Marge ohne Verhältnis-Liste; matCache je API-Aufruf. Nachbau kalt 40 ms -> 1,6–2,2 ms. Rest Speicher: ActualValue/Combined.
-- NACHBAU: mit Laptop-Daten immer HORDE=1 (sonst Allianz = leerer Markt!) und bekannte Items (zz_api4/zz_api5).
-- Warte Ingametest 0.65.422 (API-LANGSAM).
+- SN-Z4 HOCH: Ursache belegt (SM1 HitGap: Dauertreffer mit grösserem Abstand bleibt immer vorne) -> 0.65.423 Wechsel nach ROTATE_S 3 s,
+  "sucht gerade", HeldHit frei ohne kaufbares Angebot. Kauf im Spiel: kein KAUF-Eintrag = keine Raste angekommen (zu messen beim Nutzer).
+  Nachbau: s345 (Repo-Test), zz_snz4 (scratch, PRESS=20).
+- AHS-API1: 0.65.422 auf CurseForge; Ingametest offen.
 
 ## Nächste Schritte
-1. FULL 0.65.422 allein (Vergleich mit fail421.txt; s326 und s216 flattern). Neues string.format -> immer s341 mitlaufen. Danach AHS-API1 nach Ingametest (Zeile API-LANGSAM).
+1. FULL 0.65.423 allein (Vergleich mit fail422.txt; s345 neu grün erwartet). Neues string.format -> immer s341 mitlaufen. Danach AHS-API1 nach Ingametest (Zeile API-LANGSAM).
 2. AHS-BP1 MITTEL (bindType: Schurkengifte/Blendungspulver BoP nicht als AH-Ware), AHS-S216, AHS-MK1 (nach Ingametest).
 3. Weitere T459-Posten messen (je Massnahme mit Messung).
 4. Regel CF 18:00: CF-Entscheid im Repo -> sofort Auswahl-Frage im Chat; bis 17:30 Stand melden.

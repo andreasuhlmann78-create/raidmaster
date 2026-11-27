@@ -1,0 +1,31 @@
+BERICHT AHSentinel 0.65.423 – SN-Z4 HOCH (Supervisor 19:30): Sniper wechselt nicht zwischen den Zielen
+Projekt-Sitzung AHSentinel · 27.11.2026 19:41 · Stand: umgesetzt, zur Prüfung
+md5 AHSentinel-0.65.423.zip (announce/): 8af59e5dd89f31259238d08ef94995e8
+
+1. URSACHE "FENSTER WECHSELT NICHT" – belegt (Nachbau zz_snz4 / Szenario s345 mit dem Bild aus dem Spiel: Kapuze 150× 13s 1c, Max 13s 48;
+   Stulpen 13× 13s 49, Max 13s 49; viele teurere Angebote)
+   Sniper.lua Sn:FinishSearch, Regel SM1 (seit vor 0.65.375 unverändert): kommt ein Treffer eines ANDEREN Ziels, während ein Treffer vorne steht,
+   bleibt der mit dem grösseren Abstand zum Max vorne (Sn:HitGap), der andere wartet (hitQueue). Kapuze: (1348−1301)/1348 = 3,5 %, Stulpen:
+   (1349−1349)/1349 = 0 % -> die Kapuze gewinnt IMMER; sie wird alle ≤ 4 Suchen neu gesucht und bleibt frisch, der Stulpen-Treffer verfällt
+   in der Warteschlange. Nachbau 0.65.422 ohne Raste, 30 s: Ergebnis vorne Kapuze 297/300 Zehntelsekunden, Stulpen 0; Chat abwechselnd.
+   Gegenprobe 0.65.375 (git cc369ba): Fenster ebenfalls nur Kapuze (297/300) – der Chat meldete damals nur den vorderen Treffer (Kapuze),
+   seit AHS-SG6 (0.65.393) meldet er den Treffer der eben fertigen Suche -> der Chat wechselt, das Fenster nicht. Das ist der Unterschied, den
+   der Nutzer als Rückfall sieht; die Fensterlogik selbst war schon in 0.65.375 so (Verdacht a/c des Supervisors: c belegt, a widerlegt).
+2. "KAUF SCHEITERT" – NICHT nachgestellt, im Spiel KEIN Kauf gesendet (belegt aus den PC-Daten 19:20):
+   Protokoll 19:13–19:20: keine einzige Zeile KAUF ("gesendet"), keine STAPEL-ROH-Zeile (alle Zeilen Menge 1 -> RowUnit/ST7 nicht beteiligt,
+   Verdacht a widerlegt), keine Fehlermeldung des Servers. SNIPER "Treffer 11 · weg 11": alle Treffer endeten "weg" ohne Kaufversuch.
+   Im Nachbau kauft das Mausrad die Kapuze bei jeder Raste (0.65.422 und 0.65.375: Kauf gesendet + bestätigt). Verdacht, zu messen: im Spiel kam
+   keine Raste beim Sniper an (Mausrad über einem anderen Fenster / Bindung) – darum 0 gekauft. Bitte im Spiel: 1 Raste bei sichtbarem Treffer,
+   danach /ahs protokoll (Zeile KAUF oder "Raste übergangen").
+3. MASSNAHMEN 0.65.423 (Sniper.lua)
+   a) SN-Z4 Wechsel: der vordere Treffer bleibt höchstens Sn.ROTATE_S = 3 s vorne; danach übernimmt der Treffer der eben fertigen Suche eines
+      anderen Ziels, der alte wartet (Warteschlange wie bisher). Kein Wechsel, solange reserviert/Kauf unterwegs ist oder < 1 s nach einer Raste
+      (kein "ich sah A, gekauft wurde B"). Sn:NoteFront merkt, seit wann welches Ziel vorne steht (FinishSearch, PromoteHit).
+   b) Status: wartet ein Treffer, hängt "· sucht gerade: <Ziel>" an (Sn:SearchingNote, nur anderes Ziel, nie Wächter-Prüfungen). 10 Sprachen.
+   c) Sn:HeldHit: gehaltener Treffer ohne kaufbares Angebot (alle weg/gekauft/gesendet) -> sofort frei ("nicht kaufbar") statt bis 30 s.
+4. TESTS: neues Szenario s345_snz4_zwei_ziele (ahanalyzerpro/tests): ohne Raste 30 s Kapuze 165 / Stulpen 132 Zehntelsekunden vorne,
+   Stulpen nach 3,7 s vorne, "sucht gerade" sichtbar, Mausrad alle 2 s kauft beide (Kapuze 7, Stulpen 2, abgelehnt 0), gehaltener Treffer
+   ohne kaufbares Angebot frei. GEGENPROBE (S345_ALT=1 = altes Verhalten): 3 FAIL (Stulpen 0, nie vorne, nur Kapuze gekauft).
+   32 Sniper-Szenarien + s42/s43: Ergebnis gleich 0.65.422 (ausser s345 neu grün); T849 (SN-BTN1-2) weiter PASS (ohne Angebotsliste wird
+   weiter gehalten). s341 PASS. addon_check OK. FULL 0.65.423 folgt allein.
+5. Punkt 4 des Auftrags (Ingame-Abgrenzung Kapuze entfernen) nicht mehr nötig für das Wechseln; für "Kauf scheitert" siehe 2.
