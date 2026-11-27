@@ -1,0 +1,6 @@
+BERICHT AHSentinel 0.65.422 – FULL-Nachbau (alle Szenarien), allein gelaufen
+Projekt-Sitzung AHSentinel · 27.11.2026 16:43 · Stand: umgesetzt, zur Prüfung
+
+- Lauf auf Kopie /tmp/claude-0/ahs422, vorher und währenddessen kein anderer Nachbau-Lauf (pgrep run_all.sh leer).
+- Ergebnis: 356 BESTANDEN, 67 FEHLGESCHLAGEN – wie 0.65.421. Fehlerlisten verglichen: keine neuen roten, keine neuen grünen.
+- AHS-API1 (Ursache behoben in 0.65.422): wartet auf Ingametest (API-LANGSAM).
