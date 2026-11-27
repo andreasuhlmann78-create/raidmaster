@@ -15,6 +15,9 @@
    AHSentinel.lua mitgeben (markt_tabellen.py nimmt mehrere Stände, Punkte ohne Doppelte); AHS/LP-Aufträge 21:52.
 5. Masterplan AHS v2 freigegeben 21:21 – Inventur-Bericht von AHS prüfen (Stichproben im Code).
 
+6. Offizier B: Uploader 2.3.30 laut Nutzer gestartet (21:36), aber kein Upload mit 2.3.30 (B offline seit ~22:20). Nächster Upload von Rechner B:
+   stand.json "uploader" = 2.3.30, Addons aktualisiert? Offizier A lädt seit 22:05 mit 2.3.30.
+
 ## Offen beim Nutzer
 - 09.12. 07:00 Erinnerung: Aufgabe "Raids und Taktiken" wieder einschalten.
 
