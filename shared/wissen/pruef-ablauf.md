@@ -297,3 +297,8 @@ die es dort gibt.
   Fehler im Chat höchstens 1 Zeile ohne Datei/Zeile; Messwerte (ms/KB/Bilder/Takt/Speicher) nur im Protokoll; Tipps nur einmal;
   Entwicklungs-Schalter nur im Abschnitt "Mithelfen" mit verständlichem Text. NICHT beanstanden: Befehle/Hilfe, Gegenstands-Tooltips,
   Bildschirm-Meldungen/Töne, Nachrichten an andere Spieler (vom Nutzer ausdrücklich so gelassen).
+- E 27.11.2026 (Workflow rot 11:07–11:39, vom Nutzer per E-Mail gefunden, NICHT vom Supervisor): Neue Regel DL-ABN (download/ hinter
+  announce/) widersprach der Prüfregel "download/ niedriger als Discord = FEHLER" (galt nur für CF-Addons als Ausnahme). Behoben in
+  addon_check.py (WARNUNG DL-ABN für alle Addons) + Test. REGEL: Wer eine neue Ablauf-Regel einführt, prüft sofort, ob addon_check/Workflow
+  sie mitträgt (Probelauf mit einer Zip im neuen Zustand), und schaut nach JEDER Annahme UND nach jeder eigenen Anweisung in den Workflow.
+
