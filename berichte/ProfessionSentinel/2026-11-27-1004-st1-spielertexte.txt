@@ -1,0 +1,44 @@
+ProfessionSentinel 0.9.92 – ST1 Spieler-Texte – umgesetzt, zur Prüfung
+Bezug: offen-professionsentinel.txt AUFTRAG MITTEL ST1 (Supervisor 27.11. 09:25), auftraege/anweisung-spielertexte-2026-11-27.txt.
+Sprachen des Addons: Englisch (Standard) und Deutsch – beide nachgeführt.
+
+1. TEXTE, DIE EIN SPIELER OHNE EIGENES ZUTUN SIEHT (vorher -> nachher)
+ Chat beim Einloggen:
+  - vorher: KEINE Zeile (ausser auf nicht unterstützten Clients L.UNSUPPORTED).
+  - nachher: genau EINE Zeile "ProfessionSentinel 0.9.92 – /ps öffnet das Fenster" (enUS "… – /ps opens the window") – Spieler.
+    Nicht unterstützter Client: weiter nur L.UNSUPPORTED (keine Versionszeile) – Spieler.
+ Chat im Spiel (automatisch):
+  - Rezept-Alarm L.ALERT_SHORT "Rezept-Alarm: n fehlende(s) Rezept(e) im AH – Liste im Panel, Reiter Rezepte" – Ereignis, schon bisher
+    höchstens 1× je Sitzung mit Ton, abschaltbar (Option "Rezept-Alarm") – Spieler, unverändert.
+  - Favor-Kosten nicht lesbar L.FAVOR_COSTS_UNREADABLE – vorher 1× je Händlerbesuch; nachher Hinweis nur EINMAL überhaupt
+    (ns.HintOnce, gespeichert in ProfessionSentinelDB.hintsShown.favorCosts) – Spieler (E). Im Testmodus wie bisher jedes Mal.
+  - Fehler: vorher still (nur Zähler + Protokoll, keine Chatzeile). Nachher (C): "ProfessionSentinel: Ein Fehler ist aufgetreten – er wird
+    automatisch gemeldet." höchstens 1× je Sitzung (ns.ErrorLine aus ns.CountError); Einzelheiten weiter im Protokoll/Fehlerliste.
+    Nicht im Testmodus und nicht während der Testroutine (dort absichtlich ausgelöste Fehler).
+  - Alle übrigen ns.Print-Zeilen (Kauf, Sniper, Wegpunkt, Warteschlange, Ziel, Schalter-Befehle, Auswahl fehlgeschlagen …) kommen NUR als
+    Antwort auf eine Handlung des Spielers – nicht angefasst.
+  - Gemeinsame Dateien (nur aus shared/ kopiert, nicht von PS geändert): GoldSentinelTest.lua Zustimmungsfrage "Fehlermeldungen und
+    Testergebnisse … an den Sammler schicken?" (Fenster, sonst Chat) und /gstest-Ausgaben; GoldSentinelDev Require-Hinweis nur bei
+    Entwickler-Befehl. Für ST1 zuständig: Supervisor (shared/).
+ Optionen (Fenster /ps optionen, Spiel-Einstellungen):
+  - Abschnitte vorher: Fenster / Gold & Verzaubern / Hilfen & Daten. Nachher dazu unten "Mithelfen" (enUS "Help out").
+  - "Marktdaten teilen" (Hilfen & Daten) -> "Preise mit Spielern teilen" in "Mithelfen", Tipp "Teilt die Auktionspreise, die du siehst,
+    mit anderen Spielern der GoldSentinel-Addons – so haben alle frischere Preise (nur Preise, keine Namen)." Gleicher Schlüssel
+    gsMarktAus, gleiche Wirkung, gleicher Befehl /ps markt (alte Einstellungen gültig).
+  - Knopf "Diagnose-Protokoll" -> "Protokoll" (enUS "Diagnostic log" -> "Log"), gleiche Wirkung (öffnet das Protokoll).
+  - Durchgesehen: alle Beschriftungen, Tipps, Auswahltexte, Abschnitte, Titel, Spiel-Einstellungs-Hinweis – keines der Wörter Diagnose,
+    Uploader, Sync, Netz, Messdaten, Messung, Zeitbudget, API, Testmodus (Test T303 prüft das je Sprache). Ein Testmodus-Schalter steht
+    nicht in den Optionen (Testmodus nur über /ps test im Entwicklermodus).
+ Normale Fenster (D): keine Messwerte (ms/KB/Bilder/Takt/Speicher) – Durchsicht UI/Today/Advisor/Tooltip/Minimap/Options/Lifeline/Plan/
+  Queue/Guild/Favor/Disenchant: Messwert-Texte nur in Testroutine-Bericht (TR_*), Protokoll-Fenster (DG_*) und Testmodus.
+2. TESTS mit Gegenprobe – T303 neu: Einlog-Zeile mit Name/Version/Hinweis ohne Technik-Wörter; ns.OnLogin schreibt genau 1 Zeile und
+ nichts sonst; nicht unterstützter Client -> keine Versionszeile; Fehler -> 1 Zeile, zweiter -> keine, Protokoll enthält beide; Testmodus
+ und laufende Testroutine -> keine Fehlerzeile; Hinweis einmal, gespeichert (nach /reload nicht mehr), im Testmodus jedes Mal; Optionen:
+ Mithelfen unten mit gsMarktAus, keine Fachwörter. Lauf deDE und enUS grün. Chat beim Laden ohne Testroutine (run_offline: ADDON_LOADED,
+ PLAYER_LOGIN, 200 Zeitgeber-Schritte): deDE genau "… 0.9.92 – /ps öffnet das Fenster", enUS "… – /ps opens the window", sonst nichts.
+ Regression ST1 -> T303. T292 (Optionen) grün nach Kürzen der Beschriftung (Grenze 30 Zeichen).
+ run_offline forever 258/0, era 239/0, retail 237/0, forever --lua51 258/0; check_actions OK; gen_locale_keys OK; yield_check OK;
+ Smoketest forever/era/retail AUTOTEST OK (FEHLER 29/26/26 = Mock-Grenzen, wie 0.9.91); addon_check OK ohne WARNUNG. Zip md5 7b2af2a29a859e108b785e29f810bd93, Repo 7fe2d60.
+3. GEÄNDERTE/NEUE SCHLÜSSEL (enUS + deDE): neu LOGIN_HINT, ERROR_ONCE, OPTW_AREA_HELPOUT; geändert OPTW_MARKET, OPTW_MARKET_TIP,
+ OPTW_PROTOCOL. CHANGELOG EN/DE 0.9.92.
+Hinweis: die Einlog-Zeile steht auch im Testmodus (sie fügt dort nur die Version hinzu, nimmt nichts weg).
