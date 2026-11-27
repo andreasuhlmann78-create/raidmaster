@@ -848,3 +848,21 @@ GS-R1 HOCH: Lua-Fehler "Lead.lua:275: attempt to index local 'r' (a boolean valu
 >>> PRÜFUNG SUPERVISOR 26.11. 11:54 – GuildSentinel 0.9.65 (Bericht 11:48): ANGENOMMEN, Abnahme im Spiel offen. addon_check 0.9.65: OK.
     Lücke 21.11.–0.9.64 orange statt "alles frei", alte Sperren grau, nach dem Einloggen normal; Gegenprobe 0.9.64 – gut (psychologie.md eingehalten).
     Tests 274 Läufe / 21 757 Prüfungen, +54 = run_mwluecke 3 × 18 – geht auf. Abnahme: Meine Woche mit einem Twink, der seit 21.11. nicht eingeloggt war.
+
+>>> BEFUND HOCH GS-REK1 (Supervisor 27.11. 08:55) – Hinweis des Nutzers 27.11. 08:49: Wird ein Offizier von Fremden per Flüstern angeschrieben, kommt die Abfrage mit
+    den 4 Fragen auch. BELEGT mit den Daten von Offizier A (GuildSentinel 0.9.61, forever, Upload 26.11.): in ns.guild.apps stehen 4 "Bewerber" (st "new", Fragen
+    gestellt), ihre Flüsternachrichten sind ALLE Einladungen fremder Gilden nach dem Muster "Hey! Want to join <Gildenname>?" (Namen bewusst weggelassen).
+    Ursache im Code (Recruit.lua 0.9.65): Rc:Matches sucht die Stichwörter "gilde, guild, beitreten, join, ginv, bewerbung" als TEILTEXT irgendwo in der Nachricht
+    (msg:find(w, 1, true)); "join" in "Want to join …?" reicht -> Bewerber angelegt, wantReply (autoReply) und wantAsk (askQuestions) -> Antwort und 4 Fragen gehen
+    per Flüstern an den fremden Werber. Öffentlich sichtbar, wiederholt sich bei jedem Werber.
+    Auftrag:
+    (a) Einladungen anderer Gilden erkennen und NIE automatisch beantworten ("want to join …?", "wanna join", "join us/our", "come join", "recruiting", "looking for
+        members", "willst/möchtest du … unserer Gilde …", "suchen noch Mitglieder" usw., in allen 11 Sprachen sinngemäss). Im Zweifel NICHT automatisch antworten,
+        nur Hinweis "möglicher Bewerber – bitte selbst prüfen".
+    (b) Stichwörter nur als ganze Wörter (Wortgrenzen; "join" nicht in "joined/rejoin", "gilde" nicht in "Gildenbank") und nur, wenn der Absender etwas von UNS will
+        ("can I join", "ginv", "inv guild", "Bewerbung", "darf ich beitreten", eigener Gildenname).
+    (c) Bestehende Falsch-Bewerber einmalig bereinigen: Einträge, deren erste Nachricht nach (a) eine Einladung ist, beim nächsten Login entfernen (Zähler im Protokoll,
+        keine Namen).
+    (d) Tests mit den echten Mustern (anonymisiert): "Hey! Want to join <Gilde>?" (auch Gildenname mit Akzenten) -> keine Antwort, keine Fragen, kein Bewerber;
+        Gegenprobe "Hi, can I join your guild?" / "Hallo, darf ich eurer Gilde beitreten?" / "ginv pls" -> wie bisher Antwort + Fragen; Wortgrenzen-Fälle.
+    Texte der Antwort und der Fragen bleiben unverändert (Entscheid 08:49 "so lassen"). Bericht mit Belegen.
