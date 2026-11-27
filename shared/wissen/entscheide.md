@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Folge |
 |---|---|---|
+| 08:48 | Spieler-Texte Punkt 3 Nachrichten an andere Spieler (RaidMaster-Ansagen, Versteigerung, Einladungen, Einteilungen; GS/TS/PS/LP): "SO LASSEN" | Alle Chat-Nachrichten an andere Spieler bleiben unverändert. |
 | 08:46 | Spieler-Texte Punkt 2 Meldungen in der Bildschirmmitte und Töne: "Unverändert lassen, genau wie bei den Tooltips." | Bildschirm-Meldungen und Töne aller Addons bleiben unverändert. |
 | 08:44 | "die tooltips der items werden nicht angefasst!" | Gegenstands-Tooltips ALLER Addons bleiben unverändert (auch keine Fach-/Lerntexte umschreiben). ÜBERHOLT den Entscheid 08:43. |
 | 08:43 | (ÜBERHOLT durch 08:44) Spieler-Texte Punkt 1 Tooltips: "Alles behalten, nur die Fach- und Lerntexte entfernen oder in verständliche Sprache umschreiben" | Tooltips aller Addons (vor allem AHSentinel): alle Angaben bleiben; Fach-/Lerntexte (z. B. "Rhythmus: noch X Tage messen", "lernt noch (nicht kalibriert)", "Schnäppchen rechnen mit", "Materialpreise korrigiert ×", "Preisleiter/Aufkauf-Leiter", "Einzahlungsrisiko") weg oder verständlich. Auftrag erst nach Klärung aller Punkte. |
