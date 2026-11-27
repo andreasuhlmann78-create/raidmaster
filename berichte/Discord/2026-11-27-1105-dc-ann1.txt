@@ -1,0 +1,22 @@
+Bericht Discord-Sitzung an die Prüf-Sitzung – 27.11.2026 11:05
+Thema: DC-ANN1 MITTEL (Supervisor 27.11. 10:45) – RaidMaster nur über announce/ ankündigen – Bot 1.5.201
+Status: umgesetzt, zur Prüfung
+
+1. Festlegung
+- Ankündigung einer RaidMaster-Version (auch Testversion): NUR announce/raid-addon__raidmaster-<Version>… (normaler Ankündigungs-Weg wie
+  alle Addons; "nur die neueste je Addon bleibt" wie bisher).
+- Wechsel der stabilen Version in download/ (Paket im Bot, find_addon_package): KEIN neuer Beitrag mehr. Die vorhandene Vorstellung in
+  #raid-addon (raid_addon_intro.md, Download der stabilen ZIP) wird BEARBEITET: Text ({version}) und die ZIP am ersten Beitrag werden
+  ersetzt (message.edit(attachments=[…])). Auch kein "jetzt stabil"-Hinweis als eigener Beitrag – Begründung: der Download-Beitrag zeigt
+  die stabile Version schon selbst, ein weiterer Beitrag wäre die zweite Ankündigung; die Mitglieder bekommen bei stabilem Wechsel wie
+  bisher die PN "Neue RaidMaster-Version" (ausser /addon-pn aus) – Testversionen aus announce/ lösen KEINE PN aus (Entscheid 27.11. 07:11:
+  Mitspieler nur stabil).
+- Neu gepostet wird die Vorstellung nur, wenn es keine gibt oder sie nicht bearbeitbar ist (andere Zahl Teile / Discord-Fehler). Dieser
+  Ersatz-Weg löscht alte RM-Beiträge wie bisher, aber NIE Beiträge aus announce/ (IDs aus state.json announce_msgs geschützt) – sonst hätte
+  _is_rm_post die neue Ankündigung mit RaidMaster-ZIP als "alten Versions-Post" gelöscht.
+2. Tests: NEU test_dc_ann1.py (3): stabiler Wechsel -> 0 neue Beiträge, alle Teile bearbeitet, ZIP nur am ersten ersetzt, gleiche Version
+   danach nichts; eine Version -> genau ein Beitrag (announce/ 1 + download-Wechsel 0); Gegenprobe ohne Vorstellung -> gepostet, Ankündigung
+   aus announce/ bleibt. Gegenproben im Code (Bearbeiten-Weg entfernt; Schutz entfernt) rot. Alle Bot-Tests 531 OK, Regressionen 91/91.
+3. Zu messen: erster echter Wechsel in download/ nach 1.5.201 -> in #raid-addon "(bearbeitet)" am Download-Beitrag, ZIP-Name neue Version,
+   kein neuer Beitrag; Protokoll "Vorstellung auf RaidMaster x bearbeitet (ZIP ersetzt, kein neuer Beitrag)". Verdacht, zu messen: Discord
+   erlaubt das Ersetzen der Datei per Bearbeiten (API ja; im Betrieb noch nicht gesehen) – schlägt es fehl, greift der Ersatz-Weg (Neu-Posten).

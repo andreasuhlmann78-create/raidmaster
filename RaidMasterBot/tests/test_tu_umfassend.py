@@ -411,6 +411,7 @@ REGRESSIONEN = {
     "T-D-CHK1-TEIL": ("test_announce_reihe", "BotTeil", "test_abgeschnitten_vervollstaendigen"),
     "T-D-CI2": ("test_ci_anstoss", "Sperre", "test_fuenf_minuten_zusammenfassen"),
     "T-D-UPDOC2": ("test_uploader_doc", "Text", "test_einrichtungstext"),
+    "T-DC-ANN1": ("test_dc_ann1", "DcAnn1", "test_eine_version_genau_ein_beitrag"),
     "T-D3-BEFEHLE": ("test_befehle_liste", "BefehleListe", "test_gleiche_befehle"),
     "T-D-MN8b": ("test_market", "BotAblauf", "test_T_D_MN8b_aenderung_erst_nach_senden_merken"),
     "T-D-GS1b": ("test_market", "BotAblauf", "test_T_D_GS1b_grosse_guildsentinel_datei"),

@@ -883,8 +883,12 @@ def _is_rm_post(m) -> bool:
 
 
 async def ensure_addon_intro(ch, path: str, version: str) -> bool:
-    """#raid-addon: Vorstellung (mit der aktuellen Addon-ZIP) und Updates. Neue Version oder anderer Text ->
-    die alten Beiträge (auch alte Versions-Posts und Zusammenfassungen) werden ersetzt. Liefert True, wenn neu gepostet."""
+    """#raid-addon: Vorstellung (mit der aktuellen Addon-ZIP) und Updates. Liefert True, wenn die Version gewechselt hat
+    (bearbeitet oder neu gepostet).
+    DC-ANN1 (ab 1.5.201, Supervisor 27.11. 10:45): Die Ankündigung einer RaidMaster-Version kommt NUR über announce/
+    (raid-addon__raidmaster-<Version>…). Wechselt die stabile Version in download/, wird die vorhandene Vorstellung BEARBEITET
+    (Text und ZIP am ersten Beitrag ersetzt) – kein zweiter Beitrag, nichts gelöscht. Neu gepostet wird nur, wenn es noch
+    keine Vorstellung gibt oder sie nicht bearbeitet werden kann (z. B. andere Zahl von Teilen)."""
     posts = addon_intro_posts(version)
     if not posts:
         return False
@@ -905,6 +909,23 @@ async def ensure_addon_intro(ch, path: str, version: str) -> bool:
             return False
         except discord.HTTPException as e:
             log.info("Vorstellung nicht bearbeitet (%s) – wird neu gepostet.", e)
+    elif (rec.get("ch") == ch.id and rec.get("ids") and rec.get("version") != version
+          and len(rec["ids"]) == len(posts)):
+        # DC-ANN1: neue stabile Version -> Vorstellung bearbeiten und die ZIP am ersten Beitrag ersetzen (kein neuer Beitrag)
+        try:
+            for i, (mid, text) in enumerate(zip(rec["ids"], posts)):
+                if i == 0:
+                    await ch.get_partial_message(mid).edit(
+                        content=text, attachments=[discord.File(path, filename=f"RaidMaster-{version}.zip")])
+                else:
+                    await ch.get_partial_message(mid).edit(content=text)
+                await asyncio.sleep(0.4)
+            state.data["addon_intro"] = {"ch": ch.id, "ids": list(rec["ids"]), "hash": digest, "version": version}
+            state.save()
+            log.info("#raid-addon: Vorstellung auf RaidMaster %s bearbeitet (ZIP ersetzt, kein neuer Beitrag).", version)
+            return True
+        except discord.HTTPException as e:
+            log.info("Vorstellung nicht bearbeitet (%s) – wird neu gepostet.", e)
     old_ids = set(rec.get("ids") or []) if rec.get("ch") == ch.id else set()
     ids = []
     first = await ch.send(posts[0], file=discord.File(path, filename=f"RaidMaster-{version}.zip"))
@@ -918,9 +939,12 @@ async def ensure_addon_intro(ch, path: str, version: str) -> bool:
     state.save()
     # alte Vorstellung, alte Versions-Posts und Zusammenfassungen entfernen
     removed = 0
+    # DC-ANN1 (ab 1.5.201): Ankündigungen aus announce/ (auch raid-addon__raidmaster-…) nie mitlöschen
+    protected = {int(x) for r in (state.data.get("announce_msgs") or {}).values() for x in (r.get("ids") or [])}
     try:
         async for m in ch.history(limit=500):
-            if m.author == bot.user and m.id not in ids and (m.id in old_ids or _is_rm_post(m)):
+            if (m.author == bot.user and m.id not in ids and m.id not in protected
+                    and (m.id in old_ids or _is_rm_post(m))):
                 try:
                     await m.delete()
                     removed += 1
