@@ -11,6 +11,14 @@ INSTALLATION
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
 
+NEU IN 3.0.53 – nur noch nützliche Texte (ST1)
+- Beim Einloggen genau eine kurze Zeile: "RaidMaster 3.0.53 – /rm öffnet das Fenster" (ohne Spielversion, Build und Sprache).
+- Hinweise (z. B. "Neuere Spielversion als getestet", "kein Plündermeister", neue RaidMaster-Version) kommen nur noch einmal.
+- Ein Fehler zeigt im Chat nur noch eine Zeile je Sitzung: "Ein Fehler ist aufgetreten – er wird automatisch gemeldet."
+- Optionen: neuer Bereich "Mithelfen" ganz unten (Marktdaten teilen, Addon unterstützen); Texte ohne Technik-Wörter.
+  Alle Einstellungen bleiben gültig. /rm optionen öffnet immer "Allgemein".
+- Im Testmodus (/gsdev) bleibt alles wie bisher sichtbar.
+
 NEU IN 3.0.52 – Anleitung: alles läuft automatisch
 - Seite "Anleitung", Schritt "Uploader starten": ab Uploader 2.3.30 übernimmt der Uploader auch neue Einstellungsdateien von
   /uploader selbst – alles läuft automatisch. In allen Sprachen.

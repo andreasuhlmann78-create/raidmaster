@@ -1,14 +1,14 @@
 # Stand RaidMaster-Sitzung
 
-## Stand 27.11.2026 07:59 · Addon 3.0.52 · Uploader 2.3.30
+## Stand 27.11.2026 09:37 · Addon 3.0.53 · Uploader 2.3.30
+- Addon 3.0.53 (ST1 Spieler-Texte): 1 Einlog-Zeile, Hinweise einmal, Fehler 1 Zeile, Optionen 'Mithelfen', T209. Bericht 0937.
 - Uploader 2.3.30 (RM-UPD3): Einstellungsdateien automatisch, nur gleicher Bot + gleicher Discord-Server; keine j/n-Frage mehr. Bericht 0759.
-- 2.3.29/3.0.51 angenommen 07:50; 2.3.30/3.0.52 angenommen 08:12 (Abnahme im Betrieb offen). Keine offenen Aufträge.
+- 2.3.29/3.0.51 angenommen 07:50; 2.3.30/3.0.52 angenommen 08:12 (Abnahme im Betrieb offen). 
 - Uploader 2.3.29 (RM-UPD2): Update ohne j, Addons Standard an, Kanal stabil (nur download/) / test. Bericht 0721.
 - Addon 3.0.51: Anleitung-Tipp angepasst. 3.0.50 angenommen 26.11. (RM-P1 offen bis Ingametest).
 - LevelPilot: Nutzer entschied 27.11. ~07:25 "nach Abnahme nach download/" -> LevelPilot-Sitzung (über Supervisor).
 - Addon 3.0.47: 3.0.46 (Taktik-Zahlen) zurückgenommen – Entscheid des Nutzers 08:24 "nicht löschen, auf korrekte Angaben warten".
   Taktik-Zahlen erst ändern, wenn der Supervisor bestätigte Werte überträgt (Prüfliste research/raidmaster-taktikzahlen.md, ab 09.12.).
-- Addon 3.0.45 gepusht (L3/L4 als Prüfungen T204/T205, nur Testroutine). Uploader 2.3.27/2.3.28 und RM-CI1 vom Supervisor angenommen 06:53.
 - RM-CI1: alte RaidMaster-Zips 3.0.40–3.0.43 aus download/ entfernt, README-Link 3.0.44. Bericht 0646. Ablauf: veroeffentlichen.md.
 - Uploader 2.3.28 gepusht (UP-UPD1-c: "update" in stand.json trägt die NEUE Version ein; altes Fenster schickt nach Übergabe nichts mehr). Bericht 0643
   (beantwortet auch: sicherung = main = d10d6d9, kein Rückstand). Laptop UP-AUTO1 im Betrieb belegt (Supervisor 06:34).
@@ -20,7 +20,6 @@
 - Uploader 2.3.23 angenommen 21:30 (UP-MIN1: Mindestversion aus RaidMasterUploader/mindestversion.txt = 2.3.20 statt "neueste").
   Bericht 2123 – zur Prüfung. 2.3.20–2.3.22 liefern erst nach Wechsel auf 2.3.23 (einmalig).
 - Uploader 2.3.22 (UP-MSG1) und 2.3.21 (UP-AUTO1, PC abgenommen 20:55, Laptop offen) – vom Supervisor angenommen.
-- Addon 3.0.44 (RM-UMG1, Zeile UMGEBUNG, T203) – angenommen 20:50, Ingametest offen. 3.0.43 im Ingametest 0 FEHLER.
   L2–L7 mit 3.0.45; Taktik-Zahlen warten auf bestätigte Werte.
 
 ## Gerade in Arbeit
@@ -41,6 +40,7 @@
 - RM-CI2: Token erstellt 13:58 (Nutzer verwahrt ihn); Auftrag an Discord-Sitzung gegeben 14:00 – Eintrag auf dem Bot-Server folgt dort Ingametest: /gsdev an, /rm testroutine alles, /reload.
 
 ## Entscheide des Nutzers seit letztem Stand
+- 27.11. 08:27–09:23 (über Supervisor): ST1 – nur nützliche Spieler-Texte ausserhalb des Testmodus.
 - 27.11. 07:46: "alles vollautomatisch" – auch Einstellungsdateien ohne j/n (RM-UPD3).
 - 27.11. ~07:25: stabile Versionen = nach Abnahme in download/ (LevelPilot ebenso).
 - 27.11. 07:08–07:11: Uploader-Update automatisch; Addons Standard an; Mitspieler nur stabile Versionen (RM-UPD2).

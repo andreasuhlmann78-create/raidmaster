@@ -23,6 +23,14 @@ MAIN FEATURES
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
 
+WHAT'S NEW IN 3.0.53 – only useful texts (ST1)
+- At login exactly one short line: "RaidMaster 3.0.53 – /rm opens the window" (no game version, build or language).
+- Hints (e.g. "newer game version than tested", "no master looter", new RaidMaster version) now appear only once.
+- An error now shows only one chat line per session: "An error occurred – it is reported automatically."
+- Options: new section "Help out" at the bottom (share market data, support the addon); texts without technical words.
+  All settings stay valid. /rm options always opens "General".
+- In test mode (/gsdev) everything stays visible as before.
+
 WHAT'S NEW IN 3.0.52 – guide: everything runs automatically
 - Page "Guide", step "Start the uploader": from uploader 2.3.30 the uploader also takes over new settings files from /uploader
   by itself – everything runs automatically. In all languages.

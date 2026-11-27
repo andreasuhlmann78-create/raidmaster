@@ -1,0 +1,41 @@
+Bericht RaidMaster-Sitzung an die Prüf-Sitzung – 27.11.2026 09:37
+Thema: ST1 Spieler-Texte (Anweisung 27.11. 09:25, Entscheide 08:27–09:23) – RaidMaster 3.0.53.
+Status: umgesetzt, zur Prüfung. download/RaidMaster-3.0.53.zip (72 Dateien, = Ordner) + latest; 3.0.52.zip entfernt, README 3.0.53. Uploader unverändert (2.3.30).
+addon_check OK; ganze Prüfung wie der Workflow Exit 0, 0 FEHLER. Testmodus = RM.IsDev() (GoldSentinelDev): dort alles wie bisher.
+
+1. LISTE der Texte ohne eigenes Zutun (Chat beim Einloggen und im Spiel, Optionen, normale Fenster) – vorher -> nachher
+   Einloggen (Core.lua RM.PrintLogin):
+   - "RaidMaster: v3.0.52 geladen – WoW Forever (WoW 1.60.1, Build 70753, Interface 16001) · Deutsch. /rm öffnet das Fenster."  [Spieler]
+     -> "RaidMaster 3.0.53 – /rm öffnet das Fenster" (A). Testmodus: alte Zeile.
+   - "Diese Spielversion kennt RaidMaster noch nicht …", "Neuere Spielversion als getestet …", "Diese Spielversion hat keinen Plündermeister …"
+     [Spieler-Hinweis] jedes Einloggen -> je Spielversion EINMAL (E, config.hinweise). Testmodus: jedes Mal.
+   Im Spiel, automatisch:
+   - Comm.lua "Neue RaidMaster-Version x verfügbar …" (+ Bildschirm-Meldung) [Spieler-Hinweis] je Sitzung -> je neuerer Version einmal (E);
+     die Bildschirm-Meldung selbst unverändert, sie erscheint nur zusammen mit der Chat-Zeile.
+   - Spec.lua "Dieser Spielclient zeigt beim Betrachten keine Talente …" [Hinweis] je Sitzung -> einmal (E).
+   - UI.lua Fehler einer Seite: "Fehler in RaidMaster (bitte Screenshot an die Raidleitung): <Datei:Zeile: Text>" je Fehler [nur Testmodus]
+     -> "RaidMaster: Ein Fehler ist aufgetreten – er wird automatisch gemeldet." EINMAL je Sitzung (C); Einzelheiten weiter an den
+     Fehler-Handler (GoldSentinelTest sammelt sie -> Uploader). Testmodus: wie bisher mit Text.
+   - Unverändert [Spieler, Ereignis-Meldungen, nützlich]: eigene Aufgaben (Assign 683/686/714), Erstkill/Bestzeit (Records 119/139),
+     Beute/Plündermeister-Warnungen für den Plündermeister (Loot 193–515), PUG-Raid gestartet (PUG 93), DKP-Tabelle einer anderen Gilde
+     empfangen (DKP 664), wöchentlicher Verfall (DKP 527, Offizier), neuer DKP-Topf (DKP 96), Datenstand übernommen (Comm 340),
+     Gruppensuche-Antworten (Gaps 574–625). Alle übrigen ~180 RM.Print sind Antworten auf eigene Klicks/Befehle (bleiben).
+   - Nicht angefasst (Regeln): Befehle/Hilfe, Item-Tooltips, Bildschirm-Meldungen, Töne, Nachrichten an andere Spieler.
+   Optionen (Options.lua) – alle Bereiche/Beschriftungen/Tipps: vorher 2 Technik-Wörter ("Uploader" im Tipp Bank-Charakter und Screenshot beim
+   Erstkill) -> 0. Neuer Bereich "Mithelfen" ganz unten mit "Marktdaten teilen" (anonym, nur Preise) und "Addon unterstützen" (vorher in
+   Allgemein). Schlüssel unverändert (marktTeilen …). RaidMaster hat KEINE Diagnose-/Messdaten-/Testmodus-Schalter in den Optionen (das
+   Testwerkzeug zeigt sich nur mit /gsdev). /rm optionen öffnet jetzt immer "Allgemein" (vorher zuletzt gewählter Bereich – mit "Mithelfen"
+   für alle wäre das nicht mehr Allgemein gewesen; T195 verlangt Allgemein).
+   Normale Fenster (D): keine Messwerte gefunden (grep ms/KB/Bilder/Speicher ausserhalb Diagnose/Test/Befehle; MARKT-NETZ-Zeile nur per Befehl).
+2. Test T209 (neu, J) mit Gegenproben (über RM.ChatSink/UI.ErrorSink, kein echtes Lua-Fenster):
+   Einloggen ohne Testmodus -> genau die Zeile "RaidMaster <Version> – /rm öffnet das Fenster", ohne Build/Interface/WoW/Toc; zweites Einloggen
+   -> nur 1 Zeile (Hinweise gemerkt); Testmodus -> alte Zeile mit Build. Hinweis einmal, gemerkt in config.hinweise (übersteht /reload), im
+   Testmodus jedes Mal. Fehler A+B -> 1 Zeile ohne Datei, beide weitergegeben (UI.errorsSeen 2); Testmodus -> Zeile mit Fehlertext.
+   Optionen: 132 Texte ohne Wörter der Liste; Mithelfen ist der letzte Bereich; Gegenprobe Wortliste.
+   Gegenproben am Code: "Uploader" wieder in den Tipp -> T209 FEHLER "Uploader in 'Beim Erstkill …'"; Fehlerzeile je Fehler -> FEHLER "2 Zeilen".
+   Nachbildung deDE, enUS, koKR, zhTW, Era: ALLE OK.
+3. Sprachen: geänderte/neue Schlüssel in allen 10 Sprachdateien (+ Deutsch als Schlüssel):
+   neu: "RaidMaster %s – /rm öffnet das Fenster", "Ein Fehler ist aufgetreten – er wird automatisch gemeldet.", "Mithelfen";
+   geändert: "Beim Erstkill macht RaidMaster einen Screenshot; er kommt in den Discord (#ruhmeshalle)." (Locales/<lang>.lua),
+   "Beim Öffnen von Bank, Briefkasten … Er kommt in den Discord (#gildenbank, /bank). Auf diesem Charakter …" (Locales/Raids_<lang>.lua).
+   LIESMICH/README_EN: Abschnitt 3.0.53.

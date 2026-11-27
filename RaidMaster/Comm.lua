@@ -225,8 +225,10 @@ local function StoreHello(sender, d)
 	if not versionNotified and (d.av or 0) > RM.VERSION_NUM then
 		versionNotified = true
 		local msg = string.format(L["Neue RaidMaster-Version %s verfügbar (du hast %s). Download im Discord unter #raid-addon."], d.at or "?", RM.VERSION)
-		RM.Print("|cffffcc00" .. msg .. "|r")
-		RaidNotice_AddMessage(RaidWarningFrame, "RaidMaster: " .. msg, ChatTypeInfo["RAID_WARNING"])
+		-- ST1 (3.0.53, E): je neuere Version nur einmal (gemerkt); die Bildschirm-Meldung kommt gleich oft wie die Chat-Zeile
+		if RM.PrintOnce("neue-version:" .. tostring(d.av or 0), "|cffffcc00" .. msg .. "|r") then
+			RaidNotice_AddMessage(RaidWarningFrame, "RaidMaster: " .. msg, ChatTypeInfo["RAID_WARNING"])
+		end
 	end
 end
 

@@ -3890,6 +3890,84 @@ local function AreaJ(t, G)
 		return true, "alle eigenen Fenster mit Ausweich-Handler · Öffnen + Ansichtswechsel frei · Neubau weicht aus · Gegenproben: SetScript erkannt, ohne Hindernis bleibt"
 	end)
 
+	-- ST1 (3.0.53, Entscheide des Nutzers 27.11. 08:27–09:23): Spieler-Texte ausserhalb des Testmodus – Einlog-Zeile, Hinweise einmal,
+	-- Fehler 1 Zeile je Sitzung, Optionen ohne Technik-Wörter; Gegenproben mit Testmodus. Chat und Fehler über RM.ChatSink/UI.ErrorSink.
+	local ST1_WORDS = { "Diagnose-Protokoll", "Uploader", "Sync", "Netz", "GoldSentinelSync", "Messdaten", "Messung", "Zeitbudget", "API", "Testmodus" }
+	local function ST1Bad(texts)
+		local bad = {}
+		for _, t in ipairs(texts) do
+			for _, w in ipairs(ST1_WORDS) do
+				if tostring(t):find(w, 1, true) then bad[#bad + 1] = w .. " in '" .. tostring(t):sub(1, 40) .. "'" end
+			end
+		end
+		return bad
+	end
+	t:Check("T209", "J", "ST1 Spieler-Texte: 1 Einlog-Zeile, Hinweis einmal, Fehler 1 Zeile, Optionen ohne Technik (Gegenproben Testmodus)", function()
+		local UI, O = RM.UI, RM.Opt
+		local u, out, errs = {}, {}, {}
+		local dev = false
+		return Guard(function()
+			Swap(u, RM, "ChatSink", function(text) out[#out + 1] = tostring(text) end)
+			Swap(u, UI, "ErrorSink", function(e) errs[#errs + 1] = e end)
+			Swap(u, RM, "IsDev", function() return dev end)
+			Swap(u, RM.db.config, "hinweise", {})
+			-- A: Einlog-Zeile
+			RM.PrintLogin()
+			local want = string.format(RM.L["RaidMaster %s – /rm öffnet das Fenster"], RM.VERSION)
+			local plain = (out[1] or ""):gsub("|c%x%x%x%x%x%x%x%x", ""):gsub("|r", "")
+			if plain ~= want then return false, plain, want end
+			for _, w in ipairs({ "Build", "Interface", "WoW ", tostring(RM.TOC) }) do
+				if plain:find(w, 1, true) then return false, "Technik in der Einlog-Zeile: " .. w, "keine" end
+			end
+			local first = #out
+			wipe(out)
+			RM.PrintLogin()                                            -- zweites Einloggen: Hinweise (E) nicht nochmals
+			if #out ~= 1 then return false, (#out) .. " Zeilen beim zweiten Einloggen", "1 (nur die Versionszeile)" end
+			dev = true                                                 -- Gegenprobe Testmodus: wie bisher
+			wipe(out)
+			RM.PrintLogin()
+			if not (out[1] or ""):find("Build", 1, true) then return false, "Testmodus ohne Spielversion/Build", "wie bisher" end
+			dev = false
+			-- E: Hinweis einmal (auch nach /reload: gemerkt in config.hinweise)
+			wipe(out)
+			local a1 = RM.PrintOnce("t209-probe", "Probe")
+			local a2 = RM.PrintOnce("t209-probe", "Probe")
+			if not (a1 and not a2 and #out == 1 and RM.db.config.hinweise["t209-probe"]) then return false, "Hinweis " .. #out .. "×", "einmal, gemerkt" end
+			dev = true
+			if not RM.PrintOnce("t209-probe", "Probe") then return false, "Testmodus unterdrückt Hinweis", "im Testmodus jedes Mal" end
+			dev = false
+			-- C: Fehler – 1 Zeile, zweiter Fehler keine weitere, beide gesammelt
+			UI.ResetErrorReport()
+			wipe(out)
+			UI.ReportError("Interface\\AddOns\\RaidMaster\\Pages.lua:1: Probe A")
+			UI.ReportError("Interface\\AddOns\\RaidMaster\\Pages.lua:2: Probe B")
+			if #out ~= 1 or out[1]:find("Pages.lua", 1, true) or not out[1]:find(RM.L["Ein Fehler ist aufgetreten – er wird automatisch gemeldet."], 1, true) then
+				return false, #out .. " Zeilen: " .. tostring(out[1]), "1 Zeile ohne Datei"
+			end
+			if #errs ~= 2 or #UI.errorsSeen ~= 2 then return false, #errs .. " Fehler weitergegeben", "2 (Protokoll)" end
+			dev = true                                                 -- Gegenprobe Testmodus: mit Text
+			UI.ResetErrorReport()
+			wipe(out)
+			UI.ReportError("Interface\\AddOns\\RaidMaster\\Pages.lua:3: Probe C")
+			if not (out[1] or ""):find("Probe C", 1, true) then return false, "Testmodus ohne Fehlertext", "mit Text" end
+			dev = false
+			UI.ResetErrorReport()
+			-- B: Optionen (alle Bereiche, Titel, Beschriftungen, Tipps) ohne Technik-Wörter; Mithelfen ist der letzte Bereich
+			local texts = {}
+			for _, a in ipairs(O.AREAS) do texts[#texts + 1] = a.title end
+			for _, d in ipairs(O.DEFS) do texts[#texts + 1] = d.label; texts[#texts + 1] = d.tip end
+			local bad = ST1Bad(texts)
+			if #bad > 0 then return false, table.concat(bad, "; "), "keine Technik-Wörter" end
+			if O.AREAS[#O.AREAS].id ~= "mithelfen" then return false, O.AREAS[#O.AREAS].id, "Mithelfen unten" end
+			if #ST1Bad({ "Der Uploader schickt es" }) ~= 1 then return false, "Gegenprobe Wortliste", "erkannt" end
+			return true, string.format("Einlog-Zeile '%s' (%d Zeile(n) beim ersten Mal) · Hinweis einmal · Fehler 1 Zeile, 2 gesammelt · %d Options-Texte ohne Technik · Gegenproben Testmodus 3/3",
+				want, first, #texts)
+		end, function()
+			Undo(u)
+			UI.ResetErrorReport()
+		end)
+	end)
+
 	-- 3.0.45 (Lesbarkeit L3): dieselbe DKP-Zahl in der Liste, im Tooltip der Zeile, in der Antwort auf "!dkp" und in DKP.Get;
 	-- die Kopfzeile "Gesamt" = Summe der Zeilen (L4 an der echten Anzeige). Testmodus-Daten, Flüstern nur über RM.Whisper.
 	local function SameNumber(rows, tipOf, chatOf, getOf)
@@ -4404,7 +4482,9 @@ local function AreaJ(t, G)
 			-- Einstellungen als Mitglied: nur Allgemein, mit allen persönlichen Optionen
 			if not UI.CanSeePage("settings") then Bad("Mitglied sieht die Einstellungen nicht") end
 			for _, a in ipairs(O.AREAS) do
-				if O.AreaVisible(a) ~= (a.id == "allgemein") then Bad("Bereich " .. a.id .. (O.AreaVisible(a) and " sichtbar" or " fehlt")) end
+				-- ST1 (3.0.53): Mitglied sieht Allgemein und Mithelfen
+				local want = a.id == "allgemein" or a.id == "mithelfen"
+				if O.AreaVisible(a) ~= want then Bad("Bereich " .. a.id .. (O.AreaVisible(a) and " sichtbar" or " fehlt")) end
 			end
 			local need = { "minimap.hide", "itemTooltip", "records", "marktTeilen", "cmdHint", "firstKillScreenshot" }
 			for _, key in ipairs(need) do
@@ -5163,7 +5243,7 @@ local function AreaL(t, G)
 			{ "TR-ALLE Sicherung", "T189" }, { "Tooltip-Platzierung (Ingame T155)", "T190" }, { "HUD-Ausnahme (Ingame T156)", "T191" }, { "Beschriftungen passen (Ingame T158)", "T192" }, { "Testdaten nie für andere Addons", "T193" },
 			{ "OPT-ALLE Optionen-Fenster", "T194" }, { "Spieler ohne Testbefehle", "T195" },
 			{ "DEV-SICHT Entwickler nur im Entwicklermodus", "T196" }, { "Werbung Platzhalter als ?", "T197" },
-			{ "Livedaten-Wächter Gegenprobe", "T198" }, { "Lesbarkeit L1/L8", "T199" }, { "Lesbarkeit Gegenprobe", "T200" }, { "RM-I2 Klassenfarben lesbar", "T201" }, { "RM-I2 Item-Qualitätsfarben lesbar", "T202" }, { "RM-UMG1 Umgebung erkennen (Gegenprobe)", "T203" }, { "L4 Summen gehen auf", "T204" }, { "L3 gleiche DKP-Zahl überall", "T205" }, { "RM-TAINT1 Fenster weichen aus", "T206" }, { "RM-K2 Ausweichen im Ablauf", "T208" }, { "RM-I1 Speicher je Addon", "T116" },
+			{ "Livedaten-Wächter Gegenprobe", "T198" }, { "Lesbarkeit L1/L8", "T199" }, { "Lesbarkeit Gegenprobe", "T200" }, { "RM-I2 Klassenfarben lesbar", "T201" }, { "RM-I2 Item-Qualitätsfarben lesbar", "T202" }, { "RM-UMG1 Umgebung erkennen (Gegenprobe)", "T203" }, { "L4 Summen gehen auf", "T204" }, { "L3 gleiche DKP-Zahl überall", "T205" }, { "RM-TAINT1 Fenster weichen aus", "T206" }, { "RM-K2 Ausweichen im Ablauf", "T208" }, { "ST1 Spieler-Texte", "T209" }, { "RM-I1 Speicher je Addon", "T116" },
 			{ "RM-TF-1 kein Fehlerfenster", "T120" }, { "T-BL4 echtes Eingabefeld", "T169" } }
 		local only = R.only
 		local have, missing = 0, {}

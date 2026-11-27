@@ -1122,15 +1122,26 @@ end
 
 -- Fehler einer Seite auch im Chat zeigen (viele haben Lua-Fehlermeldungen ausgeschaltet),
 -- jeden Fehler nur einmal pro Sitzung
-local reported = {}
+-- ST1 (3.0.53, Entscheid 27.11. 09:20): ausserhalb des Testmodus nur EINE Zeile je Sitzung ohne Datei/Zeile/Text; Einzelheiten
+-- sammelt GoldSentinelTest (Fehlerliste, der Uploader meldet sie). Im Testmodus wie bisher je Fehler mit Text.
+local reported, reportedAny = {}, false
+UI.errorsSeen = {}                                   -- alle Fehler dieser Sitzung (für die Prüfung)
 function UI.ReportError(err)
 	err = tostring(err)
-	if not reported[err] then
-		reported[err] = true
-		RM.Print("|cffff5555" .. L["Fehler in RaidMaster (bitte Screenshot an die Raidleitung):"] .. "|r " .. err:gsub("^Interface\\AddOns\\", ""))
+	UI.errorsSeen[#UI.errorsSeen + 1] = err
+	if RM.IsDev() then
+		if not reported[err] then
+			reported[err] = true
+			RM.Print("|cffff5555" .. L["Fehler in RaidMaster (bitte Screenshot an die Raidleitung):"] .. "|r " .. err:gsub("^Interface\\AddOns\\", ""))
+		end
+	elseif not reportedAny then
+		reportedAny = true
+		RM.Print("|cffff5555" .. L["Ein Fehler ist aufgetreten – er wird automatisch gemeldet."] .. "|r")
 	end
+	if UI.ErrorSink then return UI.ErrorSink(err) end   -- nur Testroutine (T209): kein Lua-Fenster beim Prüfen
 	geterrorhandler()(err)
 end
+function UI.ResetErrorReport() reported, reportedAny = {}, false; UI.errorsSeen = {} end   -- nur Testroutine
 
 function UI.RefreshCurrent()
 	if not main or not main:IsShown() then return end

@@ -19,8 +19,8 @@ RM.GLOBAL = setmetatable({}, {
 })
 RaidMaster = RM.GLOBAL
 
-RM.VERSION = "3.0.52"
-RM.VERSION_NUM = 30052
+RM.VERSION = "3.0.53"
+RM.VERSION_NUM = 30053
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------
@@ -423,8 +423,27 @@ function RM.Round(x)
 	return -math.floor(-x + 0.5)
 end
 
+-- ST1 (3.0.53): alle Chat-Zeilen über RM.ChatOut; RM.ChatSink nur in der Testroutine (T209), sonst nil
+function RM.ChatOut(text)
+	if RM.ChatSink then return RM.ChatSink(text) end
+	DEFAULT_CHAT_FRAME:AddMessage(text)
+end
+
 function RM.Print(msg)
-	DEFAULT_CHAT_FRAME:AddMessage("|cffff8c1aRaidMaster:|r " .. tostring(msg))
+	RM.ChatOut("|cffff8c1aRaidMaster:|r " .. tostring(msg))
+end
+
+-- ST1 (3.0.53, Entscheid des Nutzers 27.11. 09:23): ein Hinweis im Chat nur EINMAL (gemerkt in RaidMasterDB.config.hinweise);
+-- im Testmodus (RM.IsDev) wie bisher jedes Mal.
+function RM.PrintOnce(key, msg)
+	if RM.IsDev() then RM.Print(msg) return true end
+	local cfg = RM.db and RM.db.config
+	if not cfg then RM.Print(msg) return true end
+	cfg.hinweise = cfg.hinweise or {}
+	if cfg.hinweise[key] then return false end
+	cfg.hinweise[key] = true
+	RM.Print(msg)
+	return true
 end
 
 -- RM-I2 (3.0.42, Ingametest 3.0.41 T199): Klassenfarben mit zu wenig Kontrast (Schamane 0/0,44/0,87: 3,0:1 auf einem
@@ -973,16 +992,28 @@ RM.On("PLAYER_LOGIN", function()
 	RM.RequestGuildRoster()
 	RM.Fire("LOGIN")
 	RM.db.game = { key = RM.GAME.key, toc = RM.TOC, version = RM.GAME_VERSION, locale = RM.GAME_LOCALE }
-	RM.Print("v" .. RM.VERSION .. L[" geladen – "] .. RM.GameInfoText() .. " · " .. (RM.LANGUAGES[RM.LOCALE] or RM.LOCALE) .. L[". /rm öffnet das Fenster."])
+	RM.PrintLogin()
+end)
+
+-- ST1 (3.0.53, Entscheid 27.11. 09:13): ausserhalb des Testmodus genau EINE kurze Zeile (Name, Version, Kurzhinweis), ohne Technik.
+-- Im Testmodus wie bisher mit Spielversion, Build, Interface und Sprache. Weitere Zeilen nur einmal je Spielversion (E).
+function RM.PrintLogin()
+	if RM.IsDev() then
+		RM.Print("v" .. RM.VERSION .. L[" geladen – "] .. RM.GameInfoText() .. " · " .. (RM.LANGUAGES[RM.LOCALE] or RM.LOCALE) .. L[". /rm öffnet das Fenster."])
+	else
+		local line = string.format(L["RaidMaster %s – /rm öffnet das Fenster"], RM.VERSION)
+		RM.ChatOut("|cffff8c1a" .. (line:gsub("^RaidMaster", "RaidMaster|r", 1)))
+	end
+	local gv = tostring(RM.GAME_VERSION) .. "/" .. tostring(RM.TOC)
 	if RM.GAME.key == "unknown" then
-		RM.Print(L["|cffffcc00Diese Spielversion kennt RaidMaster noch nicht. Bitte im Discord unter #addon-hilfe melden.|r"])
+		RM.PrintOnce("spiel-unbekannt:" .. gv, L["|cffffcc00Diese Spielversion kennt RaidMaster noch nicht. Bitte im Discord unter #addon-hilfe melden.|r"])
 	elseif RM.TOC > RM.GAME.tested then
-		RM.Print(L["|cffffcc00Neuere Spielversion als getestet – falls etwas nicht klappt, bitte im Discord unter #addon-hilfe melden.|r"])
+		RM.PrintOnce("spiel-neuer:" .. gv, L["|cffffcc00Neuere Spielversion als getestet – falls etwas nicht klappt, bitte im Discord unter #addon-hilfe melden.|r"])
 	end
 	if not RM.Caps.masterLoot then
-		RM.Print(L["Diese Spielversion hat keinen Plündermeister: Ersteigerte Items werden per Handel übergeben."])
+		RM.PrintOnce("kein-pm:" .. gv, L["Diese Spielversion hat keinen Plündermeister: Ersteigerte Items werden per Handel übergeben."])
 	end
-end)
+end
 
 RM.On("GUILD_ROSTER_UPDATE", RebuildGuild)
 RM.On("PLAYER_GUILD_UPDATE", function() RM.RequestGuildRoster() end)

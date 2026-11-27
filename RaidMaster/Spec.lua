@@ -381,7 +381,7 @@ local function ReadInspect()
 		scan.zeros = scan.zeros + 1
 		if scan.zeros >= 3 and not Spec.inspectUnsupported then
 			Spec.inspectUnsupported = true
-			RM.Print(L["Dieser Spielclient zeigt beim Betrachten keine Talente. Skillungen kommen nur von Spielern mit RaidMaster."])
+			RM.PrintOnce("spec-kein-betrachten", L["Dieser Spielclient zeigt beim Betrachten keine Talente. Skillungen kommen nur von Spielern mit RaidMaster."])
 		end
 	end
 	FinishCurrent()

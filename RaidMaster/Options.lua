@@ -70,6 +70,8 @@ O.AREAS = {
 	{ id = "raid", title = L["Raid & Timer"] },
 	{ id = "einladen", title = L["Einladen & Werbung"] },
 	{ id = "symbole", title = L["Symbole & Leisten"] },
+	-- ST1 (3.0.53, Entscheid des Nutzers 27.11. 09:18): Mitmach-Schalter in EINEM Abschnitt unten, verständlich, Schlüssel unverändert
+	{ id = "mithelfen", title = L["Mithelfen"] },
 }
 O.AREA = {}
 for _, a in ipairs(O.AREAS) do O.AREA[a.id] = a end
@@ -136,12 +138,12 @@ CToggle("allgemein", "itemTooltip", L["Infos im Item-Tooltip"],
 	"all", { on = true })
 CToggle("allgemein", "records", L["Erstkill-Feier & Bestzeiten"],
 	L["Erstkill: Fanfare, Schlachtzugwarnung und Screenshot für Discord. Bestzeiten: 'Neuer Rekord!' bei schnelleren Kills."], "all", { on = true })
-Def("allgemein", { kind = "toggle", key = "marktTeilen", label = L["Marktdaten teilen"], access = "all",
+Def("mithelfen", { kind = "toggle", key = "marktTeilen", label = L["Marktdaten teilen"], access = "all",
 	tip = L["Marktdaten teilen (anonym, nur Preise)"] .. "\n" .. L["Liest Auktionshaus-Scans mit, die ohnehin gemacht werden (z. B. von AHSentinel), und teilt nur Preise und Mengen – ohne Namen. Aus = nichts lesen, nichts senden."],
 	get = function() return C().marktTeilen ~= false end,
 	set = function(v) RM.MarktShareFromUI(v and true or false) end })
 CToggle("allgemein", "bankScan", L["Bank-Charakter"],
-	L["Bank-Charakter (Bestand an Discord)"] .. "\n" .. L["Beim Öffnen von Bank, Briefkasten (und Gildenbank, falls vorhanden) liest RaidMaster den Bestand aus.\nDer Uploader schickt ihn an Discord (#gildenbank, /bank).\nAuf diesem Charakter erscheint dann der Bereich Gildenbank."],
+	L["Bank-Charakter (Bestand an Discord)"] .. "\n" .. L["Beim Öffnen von Bank, Briefkasten (und Gildenbank, falls vorhanden) liest RaidMaster den Bestand aus.\nEr kommt in den Discord (#gildenbank, /bank).\nAuf diesem Charakter erscheint dann der Bereich Gildenbank."],
 	"leaderbank", { after = function() if UI.UpdateNav then UI.UpdateNav() end end })
 Def("allgemein", { kind = "toggle", key = "cmdHint", label = L["Befehlsliste beim Tippen"], access = "all", def = true,
 	tip = L["Tippst du /rm in den Chat, zeigt eine Liste die passenden Befehle (auch: /rm befehlsliste)."],
@@ -150,10 +152,10 @@ Def("allgemein", { kind = "toggle", key = "cmdHint", label = L["Befehlsliste bei
 		C().cmdHint = v and true or false
 		if not v and RM.CmdHint and RM.CmdHint.Hide then RM.CmdHint:Hide() end
 	end })
-Def("allgemein", { kind = "donate", label = L["Addon unterstützen"], access = "all",
+Def("mithelfen", { kind = "donate", label = L["Addon unterstützen"], access = "all",
 	tip = L["Öffnet das Fenster zum Unterstützen (PayPal) – nur auf Klick."] })
 CToggle("allgemein", "firstKillScreenshot", L["Screenshot beim Erstkill"],
-	L["Beim Erstkill macht RaidMaster einen Screenshot; der Uploader schickt ihn an Discord (#ruhmeshalle)."], "all", { on = true, more = true })
+	L["Beim Erstkill macht RaidMaster einen Screenshot; er kommt in den Discord (#ruhmeshalle)."], "all", { on = true, more = true })
 
 -- DKP-Vergabe (Gilde) ------------------------------------------------------
 local function Max0(v) return math.max(0, v) end
