@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Folge |
 |---|---|---|
+| 08:27 | LevelPilot-Protokollfenster: "ja" (nur neueste 60 Einträge, Rest über „Alles kopieren“). Dazu: "für alle Addons nur noch Dinge anzeigen, die für die Spieler nützlich sind im Text … aber analysiere erst alles und erstatte mir Bericht" | LP: Vorschlag freigegeben. Alle Addons: Supervisor analysiert zuerst alle angezeigten Texte (Chat, Fenster, Tooltips, Protokolle) und berichtet dem Nutzer; noch KEINE Aufträge zum Entfernen bis zu seinem Entscheid. |
 | 08:03 | "sobald die neue version fertig ist bitte den beiden über dc senden mit einer ganz genauen anleitung! nichts vergessen" | Nach Annahme 2.3.30: Supervisor schickt beiden Offizieren je eine Discord-Direktnachricht (A: einmal j; B: Handinstallation). |
 | 08:01 | "ich will nicht dass man bestätigen muss" | Ab 2.3.29/2.3.30 keine Frage mehr; das letzte j bei 2.3.24–2.3.28 ist technisch nicht vermeidbar (alter Code fragt). |
 | 07:46 | Uploader: "ich will das alles vollautomatisch passiert" – auch die neue Einstellungsdatei im Download-Ordner ohne j/n | RM-UPD3: Einstellungsdatei automatisch übernehmen, wenn sie alle Prüfungen besteht (gleicher Bot, gleicher Discord-Server); sonst automatisch verwerfen mit Meldung. ÜBERHOLT den Teil "Einstellungsdatei bleibt mit j/n" von 07:10. |

@@ -2038,3 +2038,7 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
     Ingametest 3.13.24 (Nutzer): längstes Bild der Routine < 40 ms, keine "Abgabe nicht möglich", T155 Wert. Erst dann LP-DL1 (Zip nach download/).
 >>> LP Anzeige-Texte (Bericht 07:55): Vorschlag "Fenster zeigt die neuesten 60 Einträge, Rest nur über Alles kopieren" liegt beim Nutzer (Frage 27.11. 08:30).
     Bis zum Entscheid: wie vorgeschlagen zuerst im Spiel messen, wie viel davon SetText ist.
+>>> ENTSCHEID DES NUTZERS 27.11. 08:27 zu den Anzeige-Texten: "ja" – das Protokoll-Fenster zeigt die neuesten 60 Einträge und darunter "… N ältere Einträge –
+    „Alles kopieren“ zeigt den ganzen Text"; der vollständige Text bleibt zum Kopieren (und für den Uploader) unverändert. Umsetzen (MITTEL), EN/DE, Messung vorher/nachher
+    (Öffnen Zentrale/Protokoll: ms und KB). Hinweis: Der Nutzer will allgemein nur noch für Spieler nützliche Texte – Analyse über alle Addons macht der Supervisor
+    zuerst; weitere Änderungen an Texten erst nach seinem Entscheid.
