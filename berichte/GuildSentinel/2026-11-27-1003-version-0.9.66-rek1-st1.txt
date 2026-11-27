@@ -1,0 +1,65 @@
+BERICHT GuildSentinel 0.9.66 – GS-REK1 (HOCH) und ST1 Spieler-Texte (MITTEL)
+Von: GuildSentinel-Sitzung · 27.11.2026 10:03 (Zeit aus date, Europe/Zurich) · Quellcode 81dac0d
+Status: umgesetzt, zur Prüfung. addon_check: "GuildSentinel-0.9.66.zip: OK" (luac5.1). Discord ja; CurseForge nicht angefasst
+(erst nach Ingametest und OK des Nutzers). Gemeinsame Dateien: alle 7 cmp-gleich mit shared/.
+
+A) GS-REK1 HOCH – Einladungen fremder Gilden wurden als Bewerbung beantwortet (Recruit.lua)
+- Ursache wie im Befund: Rc:Matches suchte "join" usw. als Teiltext. Gegenprobe belegt (Nachbau, Code 0.9.65 aus git c30a398):
+  "Hey! Want to join Échos Éternels?" -> Bewerber angelegt, Antwort + Fragen gesendet.
+- (a)/(b) Neu Rc:Classify -> "invite" / "apply" / "maybe" / nil:
+  * INVITE-Muster (Einladung einer anderen Gilde) in de/en/fr/es/it/pt/ru/ko/zh (Rc.INVITE): z. B. "want to join", "wanna join",
+    "join us/our", "recruiting", "looking for members", "willst/möchtest du", "unsere Gilde", "wir suchen", "veux-tu rejoindre",
+    "quieres unirte", "vuoi unirti", "quer entrar", "хочешь вступить", "저희 길드", "加入我们" … -> NIE automatisch antworten, kein Bewerber,
+    nur Zähler (Diagnose "REKRUT Einladung einer anderen Gilde nicht beantwortet", ohne Namen).
+  * APPLY-Muster (will etwas von UNS): "ginv", "can i join", "invite me", "Bewerbung", "darf ich", "eurer Gilde", "puis-je rejoindre",
+    "можно вступить", "能加入" …, eigener Gildenname, und "nur das Stichwort" ("gilde?", "guild pls", "hallo, gilde?").
+  * Fragen nach UNSERER Gilde (2. Person: "your guild", "eure Gilde", "votre guilde", "ваша гильдия", "你们公会" …) gewinnen gegen allgemeine
+    Wörter wie "recruiting" ("Is your guild recruiting?" -> Bewerbung). Einladungswort UND Bewerbungswort ohne 2. Person -> "maybe".
+  * "maybe" (Stichwort als ganzes Wort, kein klarer Wunsch): Bewerber ohne automatische Antwort (noAuto), Hinweis "Möglicher Bewerber: %s –
+    bitte selbst prüfen (keine automatische Antwort)." (neuer Text, 10 Sprachen).
+  * Wortgrenzen (Rc.HasWord): an ASCII-Kanten darf kein Buchstabe/Ziffer/Umlaut anschliessen ("join" nicht in "joined/rejoin", "gilde" nicht in
+    "Gildenbank"); Satzzeichen ¡¿«»–…、。！？ zählen als Grenze. Kleinschreibung auch für Latin-1 und Kyrillisch (Rc.Lower).
+  * Texte der Antwort und der Fragen unverändert (Entscheid 08:49).
+- (c) Rc:CleanInvites: einmal je Gilde (g.rek1Clean) bei GS_GUILD (nicht im Testmodus): Bewerber mit Status "neu", deren gespeicherte
+  Nachricht eine Einladung ist, werden entfernt; Diagnose "REKRUT n Einladungen anderer Gilden aus der Bewerberliste entfernt" (keine Namen).
+  Selbst gefunden beim Testen: zuerst mit ns:On statt ns:Listen eingehängt – die Bereinigung wäre im Spiel nie gelaufen; Test 5 hat es gezeigt.
+- (d) Test run_rek1.lua (3 × 48) + Gegenprobe 0.9.65 (3 × 1): 16 Einladungen (u. a. "Hey! Want to join Échos Éternels?", "… Ordre du
+  Crépuscule?", alle Sprachen) -> keine Antwort, keine Fragen, kein Bewerber, Zähler +1; 19 Bewerbungen ("Hi, can I join your guild?",
+  "Hallo, darf ich eurer Gilde beitreten?", "ginv pls", "gilde?", "guild?", Testtext "Hallo! Sucht eure Gilde noch Leute?" in allen 10
+  Sprachen + Deutsch) -> Antwort + Fragen; Wortgrenzen ("I joined a raid", "rejoin the queue", "wo ist die Gildenbank?", "joining later")
+  -> nichts; Stichwort im Satz -> möglicher Bewerber ohne Antwort mit Hinweis; Einladungswort + Bewerbungswort -> selbst prüfen;
+  Bereinigung 2 entfernt / eingeladene und echte bleiben / nur einmal / im Testmodus nicht / mit echter Gilde ja.
+- Testroutine: die Prüfungen G-3/G-5 (T296a–e, T298b) flüsterten "hallo gilde" bzw. "gilde?" – nach der neuen Regel ist "hallo gilde" kein
+  klarer Wunsch mehr. Eingaben auf "hallo, darf ich eurer gilde beitreten?" bzw. "ginv?" umgestellt (Prüfungen selbst unverändert).
+  run_g3/run_v5 nutzen "hallo, sucht ihr noch für die gilde?" und "gilde?" – beide weiter Bewerbung (unverändert grün).
+
+B) ST1 Spieler-Texte (anweisung-spielertexte-2026-11-27.txt)
+1. Liste der Texte, die ein Spieler ohne eigenes Zutun sieht (Nachbau: Einloggen + 10 Minuten, fremdes Konto)
+   VORHER (0.9.65): Einloggen: keine Zeile. Nach 25–40 s je nach Lage: "%d Gildentermin(e) ohne deine Antwort – /gs termine" (Events.lua),
+   "%d offene Umfrage(n) – abstimmen: /gs umfrage" (Poll.lua), "Du bist als abwesend gemeldet bis … /gs weg 0" (Social.lua) – bei JEDEM
+   Einloggen. Fehler: keine Zeile (nur mit /gs debug, mit Datei/Text). Im Spiel durch Ereignisse (Spieler, nützlich, unverändert):
+   neue Termine/Erinnerung 15 Min., neue Umfrage, Gruppensuche passt, Bewerber, Dank, Rückkehrer, Brett passt, Herstellungswunsch,
+   Werbung fällig (eigene Einstellung), Sperrliste-Warnung. Nur Testmodus/Debug: "Berufsfenster: modern/klassisch …" (Professions.lua),
+   "sync -> …" (Sync.lua), Fehler mit Datei/Text.
+   Optionen: Allgemein, Chat & Tooltip, Ansagen, Gruppensuche, Rekrutierung, Daten & Abgleich, Funktionen, Leitung – KEIN Entwicklungs-
+   Schalter vorhanden, keines der Wörter Diagnose-Protokoll/Uploader/Sync/Netz/GoldSentinelSync/Messdaten/Messung/Zeitbudget/API in
+   Spieler-Texten (geprüft per Suche in Options.lua); "Testmodus" erscheint nur im Testmodus (RaidMaster-Zeile). Ein Abschnitt "Mithelfen"
+   ist deshalb nicht nötig – Frage: soll "Marktdaten teilen (anonym, nur Preise)" dorthin? (ist kein Entwicklungs-Schalter, hilft AHSentinel)
+   Normale Fenster: keine ms/KB/Zähler (Messwerte nur im Protokoll: Seiten-Zähler G-4a, Seitenaufbau).
+   NACHHER (0.9.66): Einloggen ohne Testmodus genau 1 Zeile "GuildSentinel 0.9.66 – /gs öffnet das Fenster" (A). Die drei Einlog-Hinweise
+   nur EINMAL je Inhalt (ns.HintOnce, GuildSentinelDB.settings.hintSeen: Termin-IDs, Umfrage-IDs, Ende der Abwesenheit) – neuer Termin ->
+   wieder einmal (E). Fehler: einmal je Sitzung "GuildSentinel: Ein Fehler ist aufgetreten – er wird automatisch gemeldet." (C), Einzelheiten
+   wie bisher in /gs protokoll und an GoldSentinelTest. Im Testmodus alles wie bisher (keine Einlog-Zeile, Hinweise bei jedem Einloggen,
+   Fehler nur mit /gs debug). D: nichts zu ändern.
+2. Test run_st1.lua (3 × 14): ohne Testmodus genau 1 Zeile (ohne Technik), mit Testmodus keine; Hinweise beim 1. Einloggen je einmal,
+   nach /reload keine, neuer Termin -> wieder einmal (Umfrage nicht), Testmodus bei jedem Einloggen; Fehler -> 1 Zeile, zweiter keine weitere,
+   Protokoll enthält beide, Testmodus keine Zeile; neue Texte in allen 10 Sprachen.
+3. Geänderte/neue Schlüssel (10 Sprachen, check.py je Sprache: Fehler 0, fehlend 0): "/gs öffnet das Fenster",
+   "Ein Fehler ist aufgetreten – er wird automatisch gemeldet.", "Möglicher Bewerber: %s – bitte selbst prüfen (keine automatische Antwort).".
+   CHANGELOG EN/DE, LIESMICH/README.
+
+TESTS (test/run_alle.sh, RO=1): 283 Läufe, 0 rot · 21 946 Einzelprüfungen. Abgleich mit 0.9.65 (274 / 21 757): +189 = run_rek1 3 × 48
+(144) + Gegenprobe 3 × 1 (3) + run_st1 3 × 14 (42). Alle anderen Läufe zusammen gleich.
+Rückmeldungen von Spielern: Rückmeldung erledigt: Hinweis des Nutzers 27.11. 08:49 (Fragen an fremde Werber) – behoben in 0.9.66.
+IM SPIEL ZU PRÜFEN: Einladung einer fremden Gilde anflüstern lassen -> keine Antwort; "ginv?" -> Antwort + Fragen; /gs protokoll:
+"REKRUT n Einladungen anderer Gilden … entfernt" einmal; Einloggen (Testmodus aus, anderes Konto): eine Zeile mit Version.
