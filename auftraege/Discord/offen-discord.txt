@@ -568,3 +568,13 @@ SICHERHEIT (Pflicht, Repo ist öffentlich):
     19:40 HINWEIS (Uploader-Fenster PC des Nutzers, 2.3.30): 19:20:37 "Hochladen nach Discord #sync-daten nicht möglich (kein Netz oder Discord nicht
     erreichbar)" – ~10 Min. vor "/uploader reagiert nicht" (19:32). Verdacht, zu messen: Störung/Sperre bei Discord (Rate-Limit, Ausfall) statt Bot-Code.
     Bitte im Bot-Protokoll Verbindungsabbrüche/429 um 19:20–19:35 prüfen und Discord-Status (discordstatus.com) für diese Zeit festhalten.
+
+>>> DC-UPL1 – geprüft Supervisor 27.11. 20:55: Bot 1.5.202 ANGENOMMEN. Ursache belegt (Speicher: ganze Repo-ZIP ~900 MB in den Speicher + alles entpackt
+    -> 1720 MB von 2 GB -> Server hängt -> DNS-Fehler/Abbrüche = Folge). Diff selbst gelesen: Download in 1-MB-Stücken auf Platte, Datei im finally gelöscht,
+    install_zip in asyncio.to_thread (blockiert die Schleife nicht), Berichte/Aufträge nicht entpackt, gleiche announce-Anhänge als Platzhalter.
+    test_update_gross.py 5/5 selbst laufen lassen. Messung nach Einspielen: max. 178 MB statt 1720 MB, Platte 89 % -> 42 %.
+    Folgeaufträge:
+    DC-UPL2 MITTEL: beim Start alte update/tmp-* und update/repo-*.zip (älter als 2 h) wegräumen (ein Absturz darf die Platte nicht füllen). Test.
+    DC-UPL3 MITTEL: Starter nach Abbruch wegen Netz/DNS beim Login 30–60 s statt 300 s; danach eine Zeile in #bot-log "Discord X Min. nicht erreichbar".
+    DC-UPL4 MESSEN: je Update werden ~0,9 GB geladen – wie oft am Tag (Commits auf main) und Dauer/Bandbreite je Lauf festhalten.
+    Entscheid des Nutzers zu announce/*.zip (Grösse des Repos) folgt – bis dahin nichts löschen.

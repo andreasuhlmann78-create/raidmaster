@@ -7395,3 +7395,14 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
       3. Test: 2 Ziele, A mit Dauertreffer, B mit Treffer -> Fenster/Knopf zeigt B spätestens nach GUARANTEE_N Suchen; Kauf eines echten Angebots gelingt.
       4. Zum Abgrenzen im Spiel (Nutzer, wenn er mag): Kapuze entfernen, nur Stulpen -> kauft er? (ja: Kapuzen-Liste; nein: Kaufweg).
     Hinweis Daten: letzter PC-Upload 19:07 (vor dem Test), Uploader PC noch 2.3.26 -> neue Messdaten erst nach /reload + Upload.
+
+>>> 0.65.423 (SN-Z4) – geprüft Supervisor 27.11. 20:55: ANGENOMMEN (Code), Abnahme nach Ingametest.
+    addon_check OK, md5 8af59e5d… = Bericht; FULL 357/67 (+ s345 neu grün, sonst gleich). Diff selbst gelesen (nur Sniper.lua + Locales + Version/CHANGELOG):
+    FinishSearch hält den vorderen Treffer nur noch ROTATE_S = 3 s (bzw. solange reserviert/Kauf unterwegs/< 1 s nach Raste), danach übernimmt der Treffer
+    des anderen Ziels; HeldHit gibt den Knopf frei, wenn kein Angebot mehr kaufbar ist; Status "· sucht gerade: <Ziel>". Ursache-Erklärung schlüssig
+    (SM1/HitGap: Stulpen mit Max = Preis hatten Abstand 0 und verloren immer; Chat-Wechsel seit SG6 0.65.393). Mein Verdacht a (ST7) widerlegt – danke.
+    NIEDRIG: Wechsel kurz VOR einer Raste (Treffer A seit 2,9 s sichtbar, Raste bei 3,0 s) kauft B statt A. Gold-sicher (B ebenfalls ≤ Max des Nutzers),
+    aber "ich sah A" – beim nächsten Mal: Wechsel nicht innerhalb 0,5 s nach letzter Mausbewegung über dem Fenster/ oder Knopf-Text vor dem Kauf prüfen.
+    OFFEN Ingametest Nutzer (2 Ziele): Fenster wechselt alle ~3 s, "sucht gerade" sichtbar; 1 Raste bei sichtbarem Treffer -> /ahs protokoll Zeile KAUF
+    (oder "Raste übergangen") – klärt "0 gekauft" (19:13–19:20 kein KAUF-Eintrag = keine Raste angekommen, belegt aus PC-Daten).
+    CurseForge: nicht vor Ingametest (nächster Termin 28.11. 18:00).
