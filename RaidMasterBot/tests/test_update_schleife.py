@@ -62,7 +62,7 @@ class BotPruefung(unittest.TestCase):
         sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
         import bot_quelle                       # D-3 Schritt 20: _check_github steht in update_bot.py
         block = bot_quelle.funktion("_check_github")
-        block = block[:block.index("github_zip(")]
+        block = block[:block.index("github_zip_to_file(")]          # ab 1.5.202 (DC-UPL1) auf die Platte
         self.assertIn('pending.get("ref")', block)                        # Prüfung VOR dem Herunterladen
 
 

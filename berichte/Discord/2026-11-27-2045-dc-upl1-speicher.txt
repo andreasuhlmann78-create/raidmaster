@@ -1,0 +1,28 @@
+Bericht Discord-Sitzung an die Prüf-Sitzung – 27.11.2026 20:45
+Thema: DC-UPL1 HOCH – URSACHE BELEGT (ersetzt den DNS-Befund von 20:15 als Grund): Speicher – Bot 1.5.202
+Status: umgesetzt, zur Prüfung; Einspielen von Hand nötig (siehe 4)
+
+1. Messung auf dem Server (Bildschirmfotos des Nutzers, 27.11. UTC, ps alle 15 s nach "systemctl start raidmaster", frisch neu gestartet):
+   19:25:45 bot.py RSS 68 MB · 19:26:30 68 MB · 19:26:45 338 MB (16,7 %) · 19:27:00 738 MB (36,6 %) · 19:27:15 1720 MB (85,3 %), frei 73 MB.
+   CPU nur 2–7 %. -> Speicher läuft ~1 Min. nach dem Start voll (2 GB Server, kein Swap) -> Server hängt: SSH ohne Antwort, DNS-Abfragen
+   scheitern ("Temporary failure in name resolution", 60x 09:00–18:43), Bot bricht ab, Starter startet ihn nach 300 s neu -> Kreislauf.
+   Der DNS-Fehler war FOLGE, nicht Ursache (Bericht 20:15 Punkt 1 damit überholt; der Ersatz-DNS schadet nicht).
+2. Ursache im Code: update_bot._check_github -> updater.github_zip lädt die GANZE Repo-ZIP mit r.read() in den Speicher, install_zip
+   entpackt per extractall ALLES. Das Repo ist durch announce/*.zip auf ~900 MB gewachsen (319 ZIPs, 755 MB; announce/ wird nie gelöscht,
+   Entscheid 23.11.; AHSentinel je Version 8,4 MB). ~1 Min. nach dem Start fragt der Bot GitHub (erste Prüfung nach 1–2 Min.) -> Spitze.
+   Seit wann über der Grenze: Verdacht, zu messen – passt zum Ausfall ab ~10:35 UTC (DL-ABN: Testversionen kommen seit heute als ZIP
+   in announce/, AHS 0.65.416–0.65.423 allein 67 MB).
+3. Behebung 1.5.202 (updater.py, update_bot.py):
+   - github_zip_to_file: Repo-ZIP in 1-MB-Stücken auf die Platte (update/repo-*.zip), danach gelöscht (auch bei Fehler).
+   - install_zip nimmt einen Pfad (GitHub) oder Bytes (Upload per Discord).
+   - _safe_extract entpackt testberichte/, berichte/, auftraege/ nicht; Anhänge in announce/ (nicht .md), die auf dem Server schon mit
+     gleicher Grösse liegen, nur als leere Platzhalter (Name bleibt in der Liste -> mirror_announce_removals löscht nichts) und werden
+     nicht kopiert/geprüft. Neue Anhänge und alle .md wie bisher.
+   - Tests NEU test_update_gross.py (5): nur Nötiges + Platzhalter, Gegenprobe andere Grösse, Install aus Datei (nichts überschrieben,
+     nichts gelöscht, kein tmp-Rest), Bytes gehen weiter, Download in Stücken + Fehler ohne Reste. Gegenproben (3 Stellen) rot.
+     test_update_schleife an github_zip_to_file angepasst. Alle Bot-Tests 536 OK, Regressionen 92/92.
+4. Einspielen: Der laufende 1.5.201 kann sich nicht selbst aktualisieren (er läuft beim Herunterladen voll). Darum mit dem Nutzer per
+   SSH: Bot anhalten, updater.py und update_bot.py aus origin/main (raw) nach /opt/raidmaster kopieren, Bot starten, Speicher messen.
+5. Offen/Vorschlag: announce/ wächst weiter (je AHSentinel-Version 8,4 MB). Auch mit 1.5.202 lädt jedes Update ~0,9 GB herunter (Platte,
+   Bandbreite, Dauer). Vorschlag an Supervisor/Nutzer: ältere Addon-ZIPs in announce/ nach Annahme entfernen ODER der Bot holt nur die
+   nötigen Ordner (GitHub-API je Datei). Entscheid des Nutzers nötig (Regel "announce nie löschen" betrifft .md; für .zip zu klären).

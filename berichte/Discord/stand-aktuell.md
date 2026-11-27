@@ -1,9 +1,10 @@
 # Stand Discord-Sitzung
 
-## Stand 27.11.2026 20:15 · Bot 1.5.201 läuft wieder (DC-UPL1: Ursache DNS-Ausfall auf dem Server, behoben)
+## Stand 27.11.2026 20:45 · Bot 1.5.202 gepusht (DC-UPL1 Speicher), auf dem Server noch 1.5.201 – von Hand einspielen
 
 ## Gerade in Arbeit
-- nichts. DC-UPL1 Bericht 2026-11-27-2015-dc-upl1-ursache.txt. Messen: nächste Discord-Prüfung grün, /uploader antwortet.
+- DC-UPL1: Ursache Speicher (Repo-ZIP 0,9 GB im RAM). 1.5.202 gepusht. Mit dem Nutzer per SSH einspielen: Bot stoppen,
+  updater.py + update_bot.py von raw nach /opt/raidmaster, Bot starten, ps messen. Bericht 2026-11-27-2045-dc-upl1-speicher.txt.
 
 ## Nächste Schritte (Reihenfolge)
 1. Bei jeder Nachricht des Nutzers: git pull --rebase, auftraege/Discord/ lesen (git log --oneline -5 -- auftraege/Discord/).

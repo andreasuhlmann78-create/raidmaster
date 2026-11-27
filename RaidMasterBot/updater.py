@@ -90,13 +90,48 @@ def toc_version(addon_dir: str) -> str | None:
 # ZIP prüfen
 # ---------------------------------------------------------------------------
 
-def _safe_extract(zf: zipfile.ZipFile, target: str):
+# DC-UPL1 (ab 1.5.202): Das Repo ist durch announce/*.zip auf ~900 MB gewachsen (319 ZIPs, 755 MB, nie gelöscht – Entscheid
+# 23.11.). Bis 1.5.201 lud jeder Update-Lauf die ganze Repo-ZIP in den Speicher und entpackte alles: belegt am 27.11. 19:26–19:27 UTC
+# mit ps: bot.py 68 MB -> 338 -> 738 -> 1720 MB (85 % von 2 GB) ~1 Min. nach dem Start -> Server hängt (SSH ohne Antwort, DNS-Fehler,
+# "Die Anwendung reagiert nicht"). Darum: Download auf die Platte (github_zip_to_file) und nur Nötiges entpacken.
+SKIP_TOP = ("testberichte", "berichte", "auftraege")   # nur Repo-Geschichte/Berichte – braucht der Bot nicht
+
+
+def _skip_member(name: str, base: str | None) -> str:
+    """"" = entpacken; "weg" = gar nicht; "da" = Anhang in announce/, der auf dem Server schon gleich gross liegt."""
+    parts = name.split("/")
+    rel = parts[1:] if len(parts) > 1 else parts            # GitHub-ZIP: <repo>-<sha>/...
+    if rel and rel[0] in SKIP_TOP:
+        return "weg"
+    return ""
+
+
+def _safe_extract(zf: zipfile.ZipFile, target: str, base: str | None = None) -> set[str]:
+    """Entpackt sicher (kein Pfad ausserhalb). Ab 1.5.202: Berichte/Geschichte werden übersprungen; Anhänge in announce/
+    (nicht .md), die auf dem Server schon mit gleicher Grösse liegen, werden nur als leere Platzhalter angelegt (der Name bleibt
+    für die Liste der Ankündigungen erhalten) und nicht wieder kopiert. Liefert die Namen dieser Platzhalter."""
     root = os.path.realpath(target)
     for member in zf.infolist():
         dest = os.path.realpath(os.path.join(target, member.filename))
         if not (dest == root or dest.startswith(root + os.sep)):
             raise UpdateError(f"Ungültiger Pfad in der ZIP: {member.filename}")
-    zf.extractall(target)
+    placeholders = set()
+    for member in zf.infolist():
+        if _skip_member(member.filename, base) == "weg":
+            continue
+        parts = member.filename.rstrip("/").split("/")
+        fn = parts[-1]
+        if (base and not member.is_dir() and len(parts) >= 2 and parts[-2] == "announce"
+                and not fn.lower().endswith(".md")):
+            have = os.path.join(base, "announce", fn)
+            if os.path.isfile(have) and os.path.getsize(have) == member.file_size:
+                dest = os.path.join(target, member.filename)
+                os.makedirs(os.path.dirname(dest), exist_ok=True)
+                open(dest, "wb").close()
+                placeholders.add(fn)
+                continue
+        zf.extract(member, target)
+    return placeholders
 
 
 def find_roots(folder: str) -> tuple[str | None, str | None]:
@@ -309,7 +344,7 @@ def mirror_announce_removals(repo_files, base: str) -> list[str]:
     return removed
 
 
-def install_zip(data: bytes, base: str, source: str, ref: str = "") -> dict:
+def install_zip(data, base: str, source: str, ref: str = "") -> dict:
     """Installiert eine Update-ZIP. Liefert Infos fürs Protokoll; wirft UpdateError bei Problemen."""
     # eigener Ordner je Durchlauf (ab Bot 1.5.100): ein zweites Update kann den Ordner des ersten nicht mehr löschen
     os.makedirs(update_dir(base), exist_ok=True)
@@ -317,8 +352,10 @@ def install_zip(data: bytes, base: str, source: str, ref: str = "") -> dict:
     tmp = tempfile.mkdtemp(prefix="tmp-", dir=update_dir(base))
     try:
         try:
-            with zipfile.ZipFile(io.BytesIO(data)) as zf:
-                _safe_extract(zf, tmp)
+            # ab 1.5.202: data = Pfad einer ZIP auf der Platte (GitHub) oder Bytes (Upload per Discord, klein)
+            src = data if isinstance(data, str) else io.BytesIO(data)
+            with zipfile.ZipFile(src) as zf:
+                placeholders = _safe_extract(zf, tmp, base)
         except zipfile.BadZipFile:
             raise UpdateError("Die Datei ist keine gültige ZIP.")
         bot_dir, addon_dir = find_roots(tmp)
@@ -351,13 +388,15 @@ def install_zip(data: bytes, base: str, source: str, ref: str = "") -> dict:
                 latest = {fn for _, fn in newest.values()}
                 blocked = set()
                 for fn in filenames:
+                    if fn in placeholders:
+                        continue
                     if fn in latest and not os.path.isfile(os.path.join(base, "announce", fn)):
                         errors = check_addon_zip(checker, os.path.join(dirpath, fn))
                         if errors:
                             blocked.add(announce_stem(fn))
                             result["rejected"].append({"file": fn, "errors": errors})
                 for fn in filenames:
-                    if announce_stem(fn) in blocked:
+                    if announce_stem(fn) in blocked or fn in placeholders:   # Platzhalter: liegt schon gleich da
                         continue
                     # Text (.md) und Anhänge dazu (Bilder, ZIP, PDF) – siehe check_announcements im Bot
                     if fn.lower().endswith((".md", ".png", ".jpg", ".jpeg", ".gif", ".zip", ".pdf", ".txt")):
@@ -497,8 +536,34 @@ async def github_latest(session, repo: str, branch: str, token: str | None) -> d
 
 
 async def github_zip(session, repo: str, sha: str, token: str | None) -> bytes:
+    """Nur noch für Tests/Altaufrufe: ganze ZIP in den Speicher. Der Bot nutzt github_zip_to_file (DC-UPL1)."""
     url = f"https://api.github.com/repos/{repo}/zipball/{sha}"
     async with session.get(url, headers=_headers(token)) as r:
         if r.status != 200:
             raise UpdateError(f"Download von GitHub fehlgeschlagen ({r.status}).")
         return await r.read()
+
+
+async def github_zip_to_file(session, repo: str, sha: str, token: str | None, base: str) -> str:
+    """DC-UPL1 (ab 1.5.202): Repo-ZIP in Stücken von 1 MB auf die Platte schreiben (Speicher bleibt klein). Liefert den Pfad;
+    der Aufrufer löscht die Datei nach install_zip."""
+    url = f"https://api.github.com/repos/{repo}/zipball/{sha}"
+    os.makedirs(update_dir(base), exist_ok=True)
+    fd, path = tempfile.mkstemp(prefix="repo-", suffix=".zip", dir=update_dir(base))
+    try:
+        async with session.get(url, headers=_headers(token)) as r:
+            if r.status != 200:
+                raise UpdateError(f"Download von GitHub fehlgeschlagen ({r.status}).")
+            with os.fdopen(fd, "wb") as f:
+                fd = None
+                async for chunk in r.content.iter_chunked(1 << 20):
+                    f.write(chunk)
+        return path
+    except BaseException:
+        if fd is not None:
+            os.close(fd)
+        try:
+            os.remove(path)
+        except OSError:
+            pass
+        raise

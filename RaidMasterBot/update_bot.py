@@ -12,6 +12,7 @@ update_loop und report_update_result. Weg A (Antwort der Prüf-Sitzung 15.11. 20
 from __future__ import annotations
 
 import asyncio
+import os
 
 import discord
 from discord import app_commands
@@ -119,8 +120,14 @@ async def _check_github(manual: bool = False) -> str:
             return f"⏳ Version {updater.bot_version(BASE)} (Commit `{sha[:7]}`) ist eben installiert worden und startet gerade."
         if sha == state.data.get("failed_sha") and not manual:
             return "Letztes Update war fehlerhaft – warte auf eine neue Version."
-        data = await updater.github_zip(session, repo, sha, token)
-    return await _apply_update(data, "GitHub", sha, latest["message"].splitlines()[0] if latest["message"] else "")
+        data = await updater.github_zip_to_file(session, repo, sha, token, BASE)   # DC-UPL1: auf die Platte, nicht in den Speicher
+    try:
+        return await _apply_update(data, "GitHub", sha, latest["message"].splitlines()[0] if latest["message"] else "")
+    finally:
+        try:
+            os.remove(data)
+        except OSError:
+            pass
 
 
 @tasks.loop(minutes=30)
