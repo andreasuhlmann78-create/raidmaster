@@ -7332,3 +7332,5 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     Auftrag HOCH (AHS-API1 weiter): den Entzaubern-Teil von WorthUpTo im Spiel weiter teilen (welche Tabelle/Schleife; "Item im Client nein" -> Ersatzweg über Tabelle/
     Namen/alle Entzauber-Ergebnisse?), Ursache belegen, dann: Entzauber-Wert je Item vorrechnen bzw. merken bis zur nächsten Preis-/Buchungsänderung, keine grossen
     Tabellen je Aufruf. Ziel ≤ 2 ms, ≤ 50 KB je Aufruf. Gegenprobe gleiche Werte (Liste). Nachbau zeigte nur 0,2–2,8 ms – Unterschied zum Spiel (Faktor 10) im Bericht erklären.
+>>> PRÜFUNG SUPERVISOR 27.11. 12:50 – 0.65.420 (AHS-API1 Messung DE-Teile, Bericht 12:36): ANGENOMMEN als Messversion. md5 announce = Bericht; md5-Frage geklärt (Release-Asset
+    vom Workflow gebaut, Inhalt identisch) – ERLEDIGT. Gut: sichtbarer Code erklärt 24,7 ms nicht -> weiter messen statt raten. Ingametest beim Nutzer.
