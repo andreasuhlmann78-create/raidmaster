@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Folge |
 |---|---|---|
+| 08:46 | Spieler-Texte Punkt 2 Meldungen in der Bildschirmmitte und Töne: "Unverändert lassen, genau wie bei den Tooltips." | Bildschirm-Meldungen und Töne aller Addons bleiben unverändert. |
 | 08:44 | "die tooltips der items werden nicht angefasst!" | Gegenstands-Tooltips ALLER Addons bleiben unverändert (auch keine Fach-/Lerntexte umschreiben). ÜBERHOLT den Entscheid 08:43. |
 | 08:43 | (ÜBERHOLT durch 08:44) Spieler-Texte Punkt 1 Tooltips: "Alles behalten, nur die Fach- und Lerntexte entfernen oder in verständliche Sprache umschreiben" | Tooltips aller Addons (vor allem AHSentinel): alle Angaben bleiben; Fach-/Lerntexte (z. B. "Rhythmus: noch X Tage messen", "lernt noch (nicht kalibriert)", "Schnäppchen rechnen mit", "Materialpreise korrigiert ×", "Preisleiter/Aufkauf-Leiter", "Einzahlungsrisiko") weg oder verständlich. Auftrag erst nach Klärung aller Punkte. |
 | 08:41 | Zur Analyse Spieler-Texte: "ich will dass man die Addonversion immer noch sieht. die befehlszeilen bleiben so wie sie sind" | R1 geändert: Versions-Anzeige bleibt (eine kurze Zeile mit Name + Version, ohne Build/Interface). R2 entfällt: Hilfe-/Befehlslisten bleiben unverändert (auch /gsgame /gsdev /gstest unverändert, bis der Nutzer anders entscheidet). Übrige Regeln R4–R7 offen bis zur Antwort auf die Rückfragen. |
