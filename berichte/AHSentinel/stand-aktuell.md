@@ -1,6 +1,6 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 26.11.2026 17:12 · Version 0.65.414 (Discord, Vorbauen ab 5 s, Lücke je Funktion); CurseForge 0.65.400 (öffentlich, CF6 erledigt 08:01)
+## Stand 27.11.2026 06:35 · Version 0.65.415 (Discord, erstes Anzeigen vorweg); CurseForge 0.65.413; 
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz – Testberichte "GSTEST1{…}", UI-Befunde db.uiFindingsLast).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
@@ -12,7 +12,8 @@ Nachbau: cd /home/claude/ahanalyzerpro && TR_ROWS=1 bash tests/run_offline.sh /h
 ## Gerade in Arbeit
 - TB1/TB1-b im Spiel BESTANDEN (Supervisor 10:32), zweites Laden ohne TB1-B ok. GOLD-LOGOUT: 0 nicht immer -> 0.65.408 schreibt Art des Endes mit.
 - AHS-TB1 VOLLSTÄNDIG ERLEDIGT (Supervisor 15:48: /reload echt, Charakter-Menü/Beenden 0).
-- AHS-W1 Teil 2: vorgebaut 5,7 ms im Spiel = Ziel erreicht (17:03). Kalt 14,5 ms offen (MITTEL): 0.65.414 Vorbauen ab 5 s + 'Lücke in:' -> messen.
+- AHS-W1 Teil 2: vorgebaut 5,5/5,7 ms im Spiel (Ziel erreicht). Kalt: 'Lücke in Show 5,9' belegt = erstes Anzeigen -> 0.65.415 zeigt den Reiter vorab unsichtbar, Start 2 s.
+- AHS-CF7 erledigt: 0.65.413 auf CurseForge (Datei-ID 9829692).
 - REGEL für mich: vor jedem Nachbau-Lauf pgrep run_all.sh prüfen - läuft ein FULL, KEIN anderer Lauf.
 - FULL 409 nicht ganz allein gelaufen (berichtet); FULL 410 allein: 355/67, keine neuen.
 - 0.65.407: AHS-W1 Messzeile WAECHTER-POLL (Nachbau: eigene Arbeit im Ereignis ≤0,1 ms) -> Ingame-Messung abwarten, dann a) oder b).

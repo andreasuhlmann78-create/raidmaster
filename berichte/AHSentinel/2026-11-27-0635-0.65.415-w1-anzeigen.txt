@@ -1,0 +1,14 @@
+AHSentinel 0.65.415 – AHS-W1 Teil 2 (Ingametest 27.11. 06:26): erstes Anzeigen vorwegnehmen, Vorbauen ab 2 s – umgesetzt, zur Prüfung (nur Discord)
+Zeit: 27.11.2026 06:35 (Europe/Zurich)
+addon_check 0.65.415: OK. ZIP: gleiche 112 Dateien. Geändert: UI_Main.lua (UI:PrebuildTab, READY), Version, CHANGELOG EN/DE.
+
+a) Erstes Anzeigen vorwegnehmen: nach dem Bau wird der Reiter EIN Bild lang in einem unsichtbaren Halter (eigener Frame, Alpha 0, Ebene BACKGROUND, Grösse wie
+   der Inhalt des eigenen Fensters) gezeigt, im nächsten Bild verborgen und zurück ins eigene Fenster (PlacePanel). Hat der Spieler inzwischen geöffnet, bleibt
+   der Reiter dort, wo UI ihn hingehängt hat (nur der Halter wird verborgen). Kein OnShow des Hauptfensters (kein RefreshActive), nur das des Reiters.
+b) Start 5 -> 2 s nach READY; Schritte jetzt je ein eigenes Bild (A:YieldNow): Fenster anlegen / Reiter bauen / zeigen / verbergen. Nachbau: fertig 2,2 s nach
+   dem Laden (Fenster 0,6 ms, Reiter bauen 1,4 ms). Neue Diagnose "UI-PREBUILD · Fenster X · Reiter bauen Y · erstes Anzeigen Z ms · fertig N s nach dem Laden"
+   – damit im Spiel belegbar, ob "≤ 6 ms je Schritt" und "fertig bis 5 s" gelten (Reiter bauen im Spiel bisher 4,0–5,1 ms).
+c) AH < 3 s nach dem Laden: noch NICHT gebaut (erst messen, ob es nach a/b vorkommt).
+Nachbau 0.65.415 (pgrep leer): s344 PASS (Gegenprobe S344_NOPRE=1: 2 rot), zz_w1pre (vorgebaut ja, 1,2 ms), s42, s42b, s43, s49, s341, s6_chars_a/b PASS.
+Abnahme im Spiel: (1) AH ~6 s nach dem Laden -> "vorgebaut: ja"; (2) Lücke in Show beim ersten Öffnen klein (vorher kalt 5,9 ms); (3) UI-PREBUILD-Zeile lesen.
+FULL 0.65.415 folgt (allein, addon_check erst danach).
