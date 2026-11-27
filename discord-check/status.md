@@ -1,8 +1,8 @@
 # Discord-Prüfung
 
-Geprüft: 2026-11-27T19:17:10Z (Commit f9432b8), Server: Alpine Vanguard
+Geprüft: 2026-11-27T22:50:38Z (Commit 6b4d796), Server: Alpine Vanguard
 
-**Ergebnis: ❌ es fehlt etwas**
+**Ergebnis: ✅ alles im Discord**
 
 Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 45 Minuten.
 
@@ -10,8 +10,8 @@ Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 4
 
 | | Addon | Version | Kanal | Gepostet | seit Push |
 |---|---|---|---|---|---|
-| ❌ fehlt | AHSentinel | 0.65.422 | #ahsentinel | - | 2 Std. |
-| ✅ ok | RaidMaster | 3.0.53 | #raid-addon | 2026-11-27 09:01 UTC | 10 Std. |
+| ✅ ok | AHSentinel | 0.65.423 | #ahsentinel | 2026-11-27 20:18 UTC | 2 Std. |
+| ✅ ok | RaidMaster | 3.0.53 | #raid-addon | 2026-11-27 09:01 UTC | 14 Std. |
 
 ## Ankündigungen (announce/, neueste Fassung je Reihe)
 
@@ -19,42 +19,24 @@ Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 4
 |---|---|---|---|---|
 | ✅ ok | addon-hilfe__ahanalyzerpro-hilfe-0.65.3.md | #addon-hilfe | 100 % | 4 Tage |
 | ✅ ok | ahsentinel__ahsentinel-0-vorstellung-1.8.md | #ahsentinel | 100 % | 18 Tage |
-| ⏳ wartet | ahsentinel__ahsentinel-0.65.423.md | #ahsentinel | 22 % | 35 Min. |
+| ✅ ok | ahsentinel__ahsentinel-0.65.427.md | #ahsentinel | 100 % | 36 Min. |
 | ✅ ok | ahsentinel__ahsentinel-hilfe-1.0.md | #ahsentinel | 100 % | 23 Tage |
 | ✅ ok | barrow-taktik__uebersicht-1.1.md | #barrow-taktik | 100 % | 24 Tage |
 | ✅ ok | buffsentinel__buffsentinel-0-vorstellung-12.md | #buffsentinel | 100 % | 23 Tage |
-| ✅ ok | buffsentinel__buffsentinel-0.9.69.md | #buffsentinel | 100 % | 10 Std. |
+| ✅ ok | buffsentinel__buffsentinel-0.9.69.md | #buffsentinel | 100 % | 14 Std. |
 | ✅ ok | guildsentinel__guildsentinel-0-vorstellung-19.md | #guildsentinel | 100 % | 15 Tage |
-| ✅ ok | guildsentinel__guildsentinel-0.9.66.md | #guildsentinel | 100 % | 10 Std. |
+| ✅ ok | guildsentinel__guildsentinel-0.9.66.md | #guildsentinel | 100 % | 13 Std. |
 | ✅ ok | hyjal-taktik__uebersicht-1.1.md | #hyjal-taktik | 100 % | 24 Tage |
-| ⚠️ veraltet | levelpilot__levelpilot-3.13.29.md | #levelpilot | 60 % | 6 Std. |
+| ✅ ok | levelpilot__levelpilot-3.13.31.md | #levelpilot | 100 % | 66 Min. |
 | ✅ ok | levelpilot__levelpilot-uebersicht-3.12.94.md | #levelpilot | 100 % | 9 Tage |
 | ✅ ok | lore__alpine-vanguard-vorstellung-1.0.md | #lore | 100 % | 26 Tage |
 | ✅ ok | mc-feuerresi__feuerresi-1.1.md | #mc-feuerresi | 100 % | 24 Tage |
 | ✅ ok | onyxia-feuerresi__feuerresi-1.0.md | #onyxia-feuerresi | 100 % | 30 Tage |
 | ✅ ok | onyxia-taktik__onyxia-video-1.0.md | #onyxia-taktik | 100 % | 31 Tage |
 | ✅ ok | professionsentinel__professionsentinel-0-vorstellung-1.27.md | #professionsentinel | 100 % | 14 Tage |
-| ⚠️ veraltet | professionsentinel__professionsentinel-0.9.96.md | #professionsentinel | 16 % | 6 Std. |
+| ✅ ok | professionsentinel__professionsentinel-0.9.98.md | #professionsentinel | 100 % | 60 Min. |
 | ✅ ok | threatsentinel__threatsentinel-0-vorstellung-2.2.md | #threatsentinel | 100 % | 25 Tage |
-| ✅ ok | threatsentinel__threatsentinel-2.5.31.md | #threatsentinel | 100 % | 10 Std. |
-
-**announce/ahsentinel__ahsentinel-0.65.423.md** – fehlt im Discord:
-- `## AHSentinel 0.65.423`
-- `- **Sniper mit mehreren Zielen:** Fenster und Kaufen-Knopf wechseln jetzt zwischen den Treffern aller Ziele. Vorher blieb ein Ziel mit Dauertreffer weit unter s`
-- `- Wartet ein Treffer, zeigt die Statuszeile zusätzlich, welches andere Ziel gerade gesucht wird.`
-- `- Ein gehaltener Treffer, der nicht mehr kaufbar ist (weg oder schon gekauft), belegt den Kaufen-Knopf nicht mehr bis zu 30 Sekunden.`
-- `- **Sniper with several targets:** the window and the Buy button now alternate between the hits of all targets. Before, a target with a constant hit far below i`
-
-**announce/levelpilot__levelpilot-3.13.29.md** – fehlt im Discord:
-- `📢 **LevelPilot 3.13.29** – genauere Speichermessung in der Testroutine`
-- `• **Testroutine:** Der Bericht zeigt jetzt auch, wie viel Speicher Prüfungen mit Pausen und die Schritte zwischen den Prüfungen brauchen – damit lässt sich klär`
-
-**announce/professionsentinel__professionsentinel-0.9.96.md** – fehlt im Discord:
-- `📦 **ProfessionSentinel 0.9.96** – Lernstufen vom Lehrer 📚`
-- `• **Kein „Skill ?“ mehr im Plan und in der Rezeptliste:**`
-- `– Öffnest du einen Berufslehrer, liest ProfessionSentinel für jedes angebotene Rezept die Lernstufe aus dem Lehrerfenster.`
-- `– Die Lernstufe gilt danach für alle deine Figuren.`
-- `– Ist sie noch unbekannt, bleibt die Spalte leer. Der Tooltip sagt, dass sie beim nächsten Lehrerbesuch gelesen wird.`
+| ✅ ok | threatsentinel__threatsentinel-2.5.31.md | #threatsentinel | 100 % | 14 Std. |
 
 ## Bot-Funktionen (tut der Bot, was er soll?)
 
