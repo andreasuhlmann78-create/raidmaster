@@ -1045,3 +1045,9 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
       üblicherweise Schneiderei 175 (Fachmann, nicht beim Gesellen-Lehrer) – Verdacht, zu messen (Referenz classic.goldgoblin.net bzw. Lehrer im Spiel):
       a) Rezept über der Ziel-Stufe 150 / nicht beim Gesellen lernbar darf nicht als Schritt im Plan 110–150 stehen; b) fehlt die Stufe, "Skill ?" oder
       Grund anzeigen statt nichts. Ursache belegen (woher kommt der Eintrag, welche Stufe kennt PS), Test.
+
+>>> PRÜFUNG SUPERVISOR 27.11. 22:08 – 0.9.97 (PS-SK2, Bericht 21:43): ANGENOMMEN (Code), Abnahme im Spiel offen. addon_check OK, md5 b0257429… = Bericht.
+    Ursache belegt (Forever-Farbstufen für Magiestoffballen gelb 145/grau 150, Lernstufe fehlt -> Schätzung 125 der Daten). (b) "Skill ?" + Grund – richtig.
+    (a) NICHT entfernen, bis gemessen – Begründung angenommen (Forever weicht von Classic ab; mein Classic-Verdacht 175 ist für Forever nicht belegt).
+    Ingametest beim Nutzer (PC): Schneiderlehrer UND Experten-Lehrer Schneiderei (Filter "alle") -> Protokoll "LEHRER … (neu, geändert); im Plan ohne
+    Lernstufe z"; Tooltip Magiestoffballen Grund. T269-Ausreisser (1 von 4 Läufen) weiter beobachten – im nächsten Bericht Ursache oder Zählung.
