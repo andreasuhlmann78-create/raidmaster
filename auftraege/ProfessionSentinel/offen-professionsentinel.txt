@@ -1038,3 +1038,10 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
     der Test ohne Bild belegt ist.
     Nebenbefund (Hinweis): "Heute herstellen" Lauf 4: 32 neu, 0 gemerkt nach "WorthUpTo vergessen 20:58:26 ledger" – erwartet (AHS-Kauf 20:58:24 bucht);
     "WorthUpTo ohne Antwort": Fraktionsbanner, Einfaches Lagerfeuerset, Magiepartikel (je 2×) – PS-P2 nil-Merken greift (nach 10 Min. neu gefragt).
+    21:12 Bild des Nutzers 21:07 (Plan "Skillen", Schneiderei 110/150, Lehrer-Fenster daneben offen): Lehrer-/Muster-Rezepte zeigen jetzt Lernstufen –
+    "Hellgelbes Hemd [lernen] Skill 110", "Azurblaue Seidenkapuze [lernen] Skill 120", "Azurblauer Seidenumhang [lernen] Skill 140" (vorher "Skill ?").
+    PS-SK1 damit im Spiel bestätigt für diese drei. ABER:
+    PS-SK2 MITTEL (Befund): "Magiestoffballen [lernen] 6×" steht im Abschnitt des Plans 110->150 OHNE Lernstufe. Magiestoffballen braucht in Classic
+      üblicherweise Schneiderei 175 (Fachmann, nicht beim Gesellen-Lehrer) – Verdacht, zu messen (Referenz classic.goldgoblin.net bzw. Lehrer im Spiel):
+      a) Rezept über der Ziel-Stufe 150 / nicht beim Gesellen lernbar darf nicht als Schritt im Plan 110–150 stehen; b) fehlt die Stufe, "Skill ?" oder
+      Grund anzeigen statt nichts. Ursache belegen (woher kommt der Eintrag, welche Stufe kennt PS), Test.
