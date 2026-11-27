@@ -884,3 +884,7 @@ GS-R1 HOCH: Lua-Fehler "Lead.lua:275: attempt to index local 'r' (a boolean valu
 >>> AUFTRAG GS-CF3 (Supervisor 27.11. 11:25) – ENTSCHEID DES NUTZERS 11:21 "ausführen": GuildSentinel 0.9.66 (angenommen, im Spiel abgenommen) heute um 18:00 als
     download/GuildSentinel-0.9.66.zip (gleiche Zip wie announce/, md5 im Bericht) ablegen, GuildSentinel-0.9.61.zip entfernen -> CurseForge-Upload über den Workflow.
     Nicht vor 18:00. Workflow "Addon-Prüfung" und CurseForge-Upload grün prüfen, Bericht. "Marktdaten teilen" bleibt unter "Daten & Abgleich" (kein Mithelfen).
+
+>>> KONTROLLE Supervisor 27.11. 18:08 (CF 18:00): download/ enthält GuildSentinel-0.9.66.zip (md5 1f5a743a… = announce) und AHSentinel-0.65.422.zip (md5 0acf340e… = announce);
+    0.9.61 und 0.65.413 entfernt. CurseForge-Upload beide success; Addon-Prüfung auf b704b3d0 (Stand mit beiden Zips) success (Lauf 02a93259 nur abgebrochen durch Folge-Push).
+    Nachprüfung auf curseforge.com + Kommentare folgt 18:20.

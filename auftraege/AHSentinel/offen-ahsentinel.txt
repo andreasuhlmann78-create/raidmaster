@@ -7371,3 +7371,7 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
 >>> FREIGABE CURSEFORGE 27.11. (Supervisor 16:58, Frage des Nutzers 16:55): 0.65.422 ist ANGENOMMEN -> darf heute um 18:00 nach download/ (DL-ABN Punkt 2+3).
     Genau die Zip aus announce/ (md5 0acf340ecdf17026a82eb9988b1c4872), AHSentinel-0.65.413.zip dort entfernen, danach Workflow "Addon-Prüfung" grün prüfen
     und CurseForge-Upload nachsehen. Bitte internen Wecker 18:00 stellen (send_later). Ingametest API-LANGSAM bleibt offen (keine Bedingung für CF).
+
+>>> KONTROLLE Supervisor 27.11. 18:08 (CF 18:00): download/ enthält GuildSentinel-0.9.66.zip (md5 1f5a743a… = announce) und AHSentinel-0.65.422.zip (md5 0acf340e… = announce);
+    0.9.61 und 0.65.413 entfernt. CurseForge-Upload beide success; Addon-Prüfung auf b704b3d0 (Stand mit beiden Zips) success (Lauf 02a93259 nur abgebrochen durch Folge-Push).
+    Nachprüfung auf curseforge.com + Kommentare folgt 18:20.
