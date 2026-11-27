@@ -295,7 +295,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Feralas (1444)
 
-- Wegstücke 24, Knoten 165, zusammenhängende Teile 1
+- Wegstücke 25, Knoten 167, zusammenhängende Teile 1
 
 ## Marschen von Dustwallow (1445)
 
@@ -375,7 +375,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Undercity (1458)
 
-- Wegstücke 3221, Knoten 1145, zusammenhängende Teile 3
+- Wegstücke 3222, Knoten 1145, zusammenhängende Teile 3
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 1143 Knoten, Bereich 44–86 / 0–98
   - Teil 2: 1 Knoten, Bereich 59–59 / 25–25
@@ -917,3 +917,5 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 | 260995 | 2548 | kein Ort im Datenpaket -> 27.0,33.2 | - | fehlt im Datenpaket |
 | 4544 | 1444 | 75.9,42.7 -> 76.0,42.8 | 0.1 % | klein |
 | 7777 | 1444 | 75.8,43.6 -> 74.3,44.4 | 1.7 % | klein |
+| 3143 | 1411 | 42.1,68.3 -> 42.1,68.4 | 0.1 % | klein |
+| 10176 | 1411 | 43.3,68.5 -> 43.3,68.6 | 0.1 % | klein |

@@ -1,0 +1,81 @@
+{
+ "addon": "LevelPilot",
+ "blocked": [],
+ "env": {
+  "build": "71139",
+  "class": "SHAMAN",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 1,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "f": 2,
+ "fest": [],
+ "id": "LevelPilot-wege-1795789873-93d479",
+ "kind": "wege",
+ "npc": [
+  {
+   "id": 3143,
+   "map": 1411,
+   "new": [
+    42.1,
+    68.4
+   ],
+   "old": [
+    42.1,
+    68.3
+   ],
+   "t": 1795789621
+  },
+  {
+   "id": 10176,
+   "map": 1411,
+   "new": [
+    43.3,
+    68.6
+   ],
+   "old": [
+    43.3,
+    68.5
+   ],
+   "t": 1795789603
+  }
+ ],
+ "qo": [
+  {
+   "a": "A",
+   "l": 1,
+   "m": 1411,
+   "q": 4641,
+   "t": 1795789604
+  },
+  {
+   "a": "T",
+   "l": 1,
+   "m": 1411,
+   "q": 4641,
+   "t": 1795789621
+  },
+  {
+   "a": "A",
+   "l": 1,
+   "m": 1411,
+   "q": 788,
+   "t": 1795789622
+  },
+  {
+   "a": "A",
+   "l": 1,
+   "m": 1411,
+   "q": 97279,
+   "t": 1795789622
+  }
+ ],
+ "time": 1795789873,
+ "version": "3.13.28",
+ "zones": []
+}

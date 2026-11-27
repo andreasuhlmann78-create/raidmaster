@@ -1,0 +1,41 @@
+forever 1.60.1 71139|16001|2026-11-27 15:31
+ProfessionSentinel 0.9.93 – Diagnose-Protokoll · 27.11.2026 15:31
+Client forever 1.60.1 (71139) · Interface 16001 · Sprache deDE
+Sitzungen: 127 (seit 05.11.2026)
+Geänderte Einstellungen: minimapAngle=253.49827185777, panelMode=plan, panelOpen=false
+
+== Diagnose
+  Preisquelle: AHSentinel
+  Panel offen: nein
+  Angedockt an: –
+  Neuaufbauten: 0 angefragt, 1 ausgeführt
+  Langsamste Wege dieser Sitzung: Alles neu (erster Teil) 0.2 ms ×1 · Neuaufbau (Teil) 0.2 ms ×1 · Aufgabe treffer 0.1 ms ×3 · Aufgabe heute 0.0 ms ×4 · Aufgabe rezepte-api 1 0.0 ms ×2 · Lebenslinien im Berufsfenster 0.0 ms ×1
+  Hintergrund-Aufgaben: heute ×4, Teil max 0.0 ms · rezepte-api 1 ×2, Teil max 0.0 ms · treffer ×3, Teil max 0.1 ms
+  Lua-Fehler des Addons seit dem letzten Bericht: 0
+  Berichte, die noch gemeldet werden: 0
+
+== Einträge (24, neueste zuerst, höchstens 200)
+[27.11. 15:25:17] AUFBAU ×388 direkt · 388 Anfragen · 153.3 ms (zuletzt 0.2 ms) (v0.9.93)
+[27.11. 15:24:01] AUFBAU ×126 Heute herstellen · 182 Anfragen · 6.0 ms (zuletzt 2.6 ms) (v0.9.93)
+[27.11. 15:24:00] AUFBAU ×529 TRADE_SKILL_SHOW · 1943 Anfragen · 97.0 ms (zuletzt 94.6 ms) (v0.9.93)
+[27.11. 15:21:44] KLICK Schwarze Magiestoffgamaschen · Zauber 12049 · RecipeID 12049 · Liste · ausgewählt: ja · 6.3 ms (v0.9.93)
+[27.11. 15:21:44] AUFBAU ×3 AHSentinel:ledger · 3 Anfragen · 242.0 ms (v0.9.93)
+[27.11. 15:21:43] LANGSAM ×7 Neuaufbau (Teil) · 28.4 ms (v0.9.93)
+[27.11. 15:21:43] LANGSAM ×7 UI:Aufbau (Teil) · 28.4 ms (v0.9.93)
+[27.11. 15:21:36] AUFBAU ×83 Herstellen fertig · 135 Anfragen · 3.0 ms (v0.9.93)
+[27.11. 15:21:28] AUFBAU ×18 Schnäppchen · 20 Anfragen · 5.2 ms (v0.9.93)
+[27.11. 15:20:41] DATEN Figur-Schlüssel zusammengeführt (Realm leer): 1
+[23.11. 23:54:58] AUFBAU ×547 Scan · 574 Anfragen · 301.1 ms (zuletzt 6.1 ms) (v0.9.74)
+[23.11. 23:54:58] AUFBAU ×2207 TRADE_SKILL_LIST_UPDATE · 3587 Anfragen · 360.6 ms (zuletzt 6.4 ms) (v0.9.74)
+[23.11. 23:54:45] AUFBAU ×31 Gold je Stunde · 31 Anfragen · 23.6 ms (zuletzt 6.3 ms) (v0.9.74)
+[23.11. 15:21:26] KLICK Gekochte Muscheln · Zauber 6499 · RecipeID 6499 · Liste · ausgewählt: ja · 6.0 ms (v0.9.74)
+[21.11. 00:38:31] LANGSAM ×766 UI:Refresh · 150.3 ms (zuletzt 91.9 ms) (v0.9.37)
+[21.11. 00:38:31] LANGSAM ×225 UI:UpdateBest · 148.6 ms (zuletzt 91.9 ms) (v0.9.37)
+[21.11. 00:38:31] LANGSAM ×759 AD.Update · 148.5 ms (zuletzt 91.8 ms) (v0.9.37)
+[20.11. 20:20:10] LANGSAM UI:Refresh/disenchant · 150.1 ms (v0.9.37)
+[20.11. 20:19:55] LANGSAM ×209 UI:Aufbau (Teil 1) · 98.0 ms (zuletzt 89.6 ms) (v0.9.37)
+[19.11. 23:30:59] LANGSAM ×31 UI:Aufbau (Teil 3) · 106.4 ms (zuletzt 80.7 ms) (v0.9.37)
+[19.11. 23:30:59] LANGSAM ×107 UI:Aufbau (Teil 2) · 95.6 ms (zuletzt 87.1 ms) (v0.9.37)
+[10.11. 23:56:26] LANGSAM ×4 UI:Refresh/recipes · 57.4 ms (zuletzt 21.6 ms) (v0.9.37)
+[10.11. 23:56:19] LANGSAM ×2 UI:Refresh/plan · 33.0 ms (v0.9.37)
+[10.11. 23:56:19] LANGSAM ×2 Plan · 29.7 ms (v0.9.37)

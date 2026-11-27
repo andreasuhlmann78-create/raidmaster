@@ -1,15 +1,15 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-27 10:30 UTC
+Ausgewertet: 2026-11-27 15:36 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
 | Addon | letzter Testlauf | Version | Client | OK | FEHLER | übersprungen | im Client prüfen | Fehler im Spiel (7 Tage) |
 |---|---|---|---|---|---|---|---|---|
-| AHSentinel | 25.11.2026 14:15 UTC | 0.65.400 | forever 1.60.1 (Interface 16001) | 68 | 0 | 3 | 0 | 4 |
+| AHSentinel | 27.11.2026 11:26 UTC | 0.65.419 | forever 1.60.1 (Interface 16001) | 11 | 0 | 1 | 0 | 4 |
 | BuffSentinel | 25.11.2026 15:00 UTC | 0.9.65 | forever 1.60.1 (Interface 16001) | 226 | 0 | 11 | 11 | 0 |
 | GuildSentinel | 25.11.2026 14:44 UTC | 0.9.63 | forever 1.60.1 (Interface 16001) | 340 | 0 | 24 | 8 | 1 |
-| LevelPilot | 27.11.2026 10:04 UTC | 3.13.26 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 17 |
+| LevelPilot | 27.11.2026 14:48 UTC | 3.13.29 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 17 |
 | ProfessionSentinel | 25.11.2026 15:05 UTC | 0.9.85 | forever 1.60.1 (Interface 16001) | 1 | 1 | 8 | 0 | 24 |
 | RaidMaster | 25.11.2026 13:44 UTC | 3.0.49 | forever 1.60.1 (Interface 16001) | 10 | 0 | 0 | 0 | 0 |
 | ThreatSentinel | 24.11.2026 18:41 UTC | 2.5.30 | forever 1.60.1 (Interface 16001) | 1 | 0 | 0 | 0 | 0 |
@@ -18,32 +18,22 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 272 | `testberichte/diagnose/AHSentinel/0.65.417-54e06785b02d.txt` |
-| BuffSentinel | 208 | `testberichte/diagnose/BuffSentinel/0.9.69-d70894bbc046.txt` |
+| AHSentinel | 276 | `testberichte/diagnose/AHSentinel/0.65.421-be425bead81d.txt` |
+| BuffSentinel | 213 | `testberichte/diagnose/BuffSentinel/0.9.69-e49fa38c9241.txt` |
 | GSMesstest | 25 | `testberichte/diagnose/GSMesstest/5.1-f65d607ab777.txt` |
 | GSSniperLog | 60 | `testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt` |
-| GuildSentinel | 322 | `testberichte/diagnose/GuildSentinel/0.9.66-82651590d894.txt` |
-| LevelPilot | 212 | `testberichte/diagnose/LevelPilot/3.13.26-d1966e4ae80d.txt` |
-| ProfessionSentinel | 295 | `testberichte/diagnose/ProfessionSentinel/0.9.93-f6f30b50d184.txt` |
-| ThreatSentinel | 272 | `testberichte/diagnose/ThreatSentinel/2.5.31-ec53c3f86239.txt` |
+| GuildSentinel | 327 | `testberichte/diagnose/GuildSentinel/0.9.66-f400ab8ce4a2.txt` |
+| LevelPilot | 217 | `testberichte/diagnose/LevelPilot/3.13.29-acfbcd124933.txt` |
+| ProfessionSentinel | 300 | `testberichte/diagnose/ProfessionSentinel/0.9.96-bbae6a828714.txt` |
+| ThreatSentinel | 277 | `testberichte/diagnose/ThreatSentinel/2.5.31-ec53c3f86239.txt` |
 
 ## Wegdaten (GSWEGE1)
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| LevelPilot | 359 | `testberichte/wege/LevelPilot/LevelPilot-wege-1795759228-1759b0.json` |
+| LevelPilot | 362 | `testberichte/wege/LevelPilot/LevelPilot-wege-1795789873-93d479.json` |
 
 ## AHSentinel
-
-**Testlauf 0.65.392 · forever 1.60.1 (Interface 16001) · 24.11.2026 21:21 UTC** – OK 1 · FEHLER 4 · übersprungen 4 · im Client prüfen 0
-- [FEHLER] ALLES-1 ALLES – Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1) (ergebnis:   1. Automatische Prüfungen (Regeln, Marktlagen-Nachbau TU1): FEHLER – 1042 OK, 1 FEHLER, 34 übersprungen, Sandbox OK)
-- [FEHLER] ALLES-2 ALLES – Oberflächen-Prüfung (alle Reiter) (ergebnis:   2. Oberflächen-Prüfung (alle Reiter): FEHLER – 6 OK, 1 FEHLER, 0 übersprungen, Sandbox OK)
-- [FEHLER] ALLES-4 ALLES – Sniper-Testroutine S1–S13 (ohne echten Kauf) (ergebnis:   4. Sniper-Testroutine S1–S13 (ohne echten Kauf): FEHLER – 28 OK, 1 FEHLER, 3 übersprungen, Sandbox OK)
-- [SKIP] ALLES-5 ALLES – Wächter 3 Min.: Rechenzeit je Bild und Hürden (WAECHTER-LAST, WAECHTER-FUND) (grund:   5. Wächter 3 Min.: Rechenzeit je Bild und Hürden (WAECHTER-LAST, WAECHTER-FUND): nicht prüfbar – 0 Runden in 5 Min. · längste Wächter-Rechenzeit je Bild 0 ms (≤ 50; Wächter-Takt (Tick)) · längstes ganzes Bild 34 ms (Auskunft) · Hürden: keine Runde – keine Runde (Wächter wartete: …)
-- [FEHLER] ALLES-6 ALLES – Prüfungen am offenen Auktionshaus (ergebnis:   6. Prüfungen am offenen Auktionshaus: FEHLER – 66 OK, 2 FEHLER, 3 übersprungen, Sandbox OK)
-- [SKIP] ALLES-7 ALLES – Vollscan zweimal: bleibender Speicher und längste Lücke (VOLLSCAN) (grund:   7. Vollscan zweimal: bleibender Speicher und längste Lücke (VOLLSCAN): noch offen – passiert von selbst beim nächsten Schnell-Vollscan (Entwicklermodus) (Server-Abstand noch 12 Min.))
-- [SKIP] ALLES-8 ALLES – Prüfungen am Berufsfenster (grund:   8. Prüfungen am Berufsfenster: noch offen – passiert von selbst beim nächsten Öffnen eines Berufsfensters)
-- [SKIP] ALLES-9 ALLES – Prüfungen am Händler (grund:   9. Prüfungen am Händler: noch offen – passiert von selbst beim nächsten Händler-Besuch)
 
 **Testlauf 0.65.396 · forever 1.60.1 (Interface 16001) · 25.11.2026 08:01 UTC** – OK 1051 · FEHLER 1 · übersprungen 34 · im Client prüfen 16 · Sandbox OK
 - [CLIENT] T08c A – Berufe-Weiche (Forever) (anleitung: /dump GetNumTradeSkills – muss nil sein, sonst liest das Addon die alte Liste)
@@ -160,6 +150,9 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 - [SKIP] T36 B – Handel (simuliert): Gebot (grund: Waren haben keine Gebote)
 - [SKIP] T27 B – Einbindung ins Auktionshaus (grund: Einbindung in den Optionen aus)
 - [SKIP] T98 D – Server-Wege altes AH (grund: nur im alten Client (Classic Era, TBC))
+
+**Testlauf 0.65.419 · forever 1.60.1 (Interface 16001) · 27.11.2026 11:26 UTC** – OK 11 · FEHLER 0 · übersprungen 1 · im Client prüfen 0 · Sandbox OK
+- [SKIP] T99 D – Alte Berufe-API (grund: nur im alten Client (Classic Era, TBC))
 
 **Fehler im Spiel (letzte 7 Tage)**
 - 4× `ADDON_ACTION_FORBIDDEN`: UNKNOWN() – Version 0.65.354 · forever 1.60.1 (Interface 16001) · zuletzt 21.11.2026 14:31 UTC
@@ -410,13 +403,13 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 ## LevelPilot
 
-**Testlauf 3.13.21 · forever 1.60.1 (Interface 16001) · 26.11.2026 15:04 UTC** – OK 11 · FEHLER 0 · übersprungen 0 · im Client prüfen 0
-
-**Testlauf 3.13.22 · forever 1.60.1 (Interface 16001) · 26.11.2026 15:38 UTC** – OK 11 · FEHLER 0 · übersprungen 0 · im Client prüfen 0
-
-**Testlauf 3.13.23 · forever 1.60.1 (Interface 16001) · 27.11.2026 05:43 UTC** – OK 11 · FEHLER 0 · übersprungen 0 · im Client prüfen 0
-
 **Testlauf 3.13.26 · forever 1.60.1 (Interface 16001) · 27.11.2026 10:04 UTC** – OK 11 · FEHLER 0 · übersprungen 0 · im Client prüfen 0
+
+**Testlauf 3.13.27 · forever 1.60.1 (Interface 16001) · 27.11.2026 11:28 UTC** – OK 11 · FEHLER 0 · übersprungen 0 · im Client prüfen 0
+
+**Testlauf 3.13.28 · forever 1.60.1 (Interface 16001) · 27.11.2026 12:03 UTC** – OK 11 · FEHLER 0 · übersprungen 0 · im Client prüfen 0
+
+**Testlauf 3.13.29 · forever 1.60.1 (Interface 16001) · 27.11.2026 14:48 UTC** – OK 11 · FEHLER 0 · übersprungen 0 · im Client prüfen 0
 
 **Fehler im Spiel (letzte 7 Tage)**
 - 12× `Fire PLAN_CHANGED`: attempt to yield across metamethod/C-call boundary – Version 3.13.13, 3.13.14 · forever 1.60.1 (Interface 16001) · zuletzt 25.11.2026 13:02 UTC

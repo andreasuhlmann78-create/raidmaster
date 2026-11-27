@@ -1,0 +1,54 @@
+{
+ "addon": "LevelPilot",
+ "blocked": [],
+ "env": {
+  "build": "71139",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 43,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "f": 1,
+ "fest": [],
+ "id": "LevelPilot-wege-1795789503-27faaa",
+ "kind": "wege",
+ "npc": [],
+ "time": 1795789503,
+ "version": "3.13.28",
+ "zones": [
+  {
+   "edges": [
+    {
+     "lv": [
+      "1444|d|Camp Mojache",
+      "1444|o|Camp Mojache",
+      "1444|o|Camp Mojache",
+      "1444|o|Camp Mojache",
+      "1444|o|Camp Mojache"
+     ],
+     "n": 4,
+     "p": [
+      74.7,
+      44.8,
+      74.6,
+      44.5,
+      74.7,
+      44.3,
+      75,
+      44,
+      74.8,
+      44
+     ],
+     "src": "selbst"
+    }
+   ],
+   "map": 1444,
+   "name": "Feralas"
+  }
+ ]
+}
