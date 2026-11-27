@@ -565,3 +565,6 @@ SICHERHEIT (Pflicht, Repo ist öffentlich):
              3. Test: /uploader (ohne Option, nur_programm, an_offiziere) antwortet < 3 s, auch während einer langen Hintergrund-Aufgabe.
     Zusammenhang: Der Nutzer will Offizier B den Uploader 2.3.30 schicken (D-UPALT schickt keine PN, weil Mindestversion 2.3.20/2.3.23 – gewollt, Entscheid 24.11.).
     19:35 Nutzer: auch "/uploader an_offiziere" reagiert nicht (dort ist defer() die erste Zeile) -> der Bot antwortet gar nicht; Verdacht: ganzer Bot hängt/aus. Dringend.
+    19:40 HINWEIS (Uploader-Fenster PC des Nutzers, 2.3.30): 19:20:37 "Hochladen nach Discord #sync-daten nicht möglich (kein Netz oder Discord nicht
+    erreichbar)" – ~10 Min. vor "/uploader reagiert nicht" (19:32). Verdacht, zu messen: Störung/Sperre bei Discord (Rate-Limit, Ausfall) statt Bot-Code.
+    Bitte im Bot-Protokoll Verbindungsabbrüche/429 um 19:20–19:35 prüfen und Discord-Status (discordstatus.com) für diese Zeit festhalten.
