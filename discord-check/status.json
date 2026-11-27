@@ -1,160 +1,147 @@
 {
-  "geprueft": "2026-11-26T16:56:05Z",
-  "commit": "65e607f",
-  "ok": false,
+  "geprueft": "2026-11-27T01:08:22Z",
+  "commit": "091447d",
+  "ok": true,
   "fehler": null,
   "hinweis": "Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 45 Minuten.",
   "ankuendigungen": [
     {
       "datei": "announce/addon-hilfe__ahanalyzerpro-hilfe-0.65.3.md",
       "kanal": "addon-hilfe",
-      "seit_push_min": 4682,
+      "seit_push_min": 5174,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/ahsentinel__ahsentinel-0-vorstellung-1.8.md",
       "kanal": "ahsentinel",
-      "seit_push_min": 25189,
+      "seit_push_min": 25681,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/ahsentinel__ahsentinel-0.65.414.md",
       "kanal": "ahsentinel",
-      "seit_push_min": 43,
-      "abdeckung": 0.286,
-      "status": "wartet",
-      "fehlende_zeilen": [
-        "## AHSentinel 0.65.414",
-        "- **Auktionshaus öffnen:** der Reiter wird jetzt 5 Sekunden nach dem Einloggen vorgebaut (vorher 20) – er ist öfter schon fertig, wenn du gleich zum Auktionshau",
-        "- **Diagnose:** die Öffnen-Zeile zeigt auch, wo nicht zugeordnete Zeit liegt (\"Lücke in: …\").",
-        "- **Opening the auction house:** the tab is now pre-built 5 seconds after logging in (was 20), so it is ready more often when you go to the auction house right ",
-        "- **Diagnostics:** the opening line also shows where unassigned time lies (\"gap in: …\")."
-      ],
-      "status_eigentlich": "veraltet"
+      "seit_push_min": 535,
+      "abdeckung": 1.0,
+      "status": "ok"
     },
     {
       "datei": "announce/ahsentinel__ahsentinel-hilfe-1.0.md",
       "kanal": "ahsentinel",
-      "seit_push_min": 32386,
+      "seit_push_min": 32879,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/barrow-taktik__uebersicht-1.1.md",
       "kanal": "barrow-taktik",
-      "seit_push_min": 33217,
+      "seit_push_min": 33709,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/buffsentinel__buffsentinel-0-vorstellung-12.md",
       "kanal": "buffsentinel",
-      "seit_push_min": 32336,
+      "seit_push_min": 32828,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/buffsentinel__buffsentinel-0.9.68.md",
       "kanal": "buffsentinel",
-      "seit_push_min": 272,
+      "seit_push_min": 765,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-19.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 20715,
+      "seit_push_min": 21208,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/guildsentinel__guildsentinel-0.9.65.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 367,
+      "seit_push_min": 859,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/hyjal-taktik__uebersicht-1.1.md",
       "kanal": "hyjal-taktik",
-      "seit_push_min": 33217,
+      "seit_push_min": 33709,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/levelpilot__levelpilot-3.13.23.md",
       "kanal": "levelpilot",
-      "seit_push_min": 46,
-      "abdeckung": 0.5,
-      "status": "veraltet",
-      "fehlende_zeilen": [
-        "📢 **LevelPilot 3.13.23** – schnellere Wegsuche",
-        "• Die Geländeprüfung der Wegsuche rechnet rund ein Drittel schneller – mit genau denselben Ergebnissen.",
-        "• Die Umkreissuche pausiert jetzt öfter, damit kein Bild der virtuellen Reise mehr hängt."
-      ]
+      "seit_push_min": 538,
+      "abdeckung": 1.0,
+      "status": "ok"
     },
     {
       "datei": "announce/levelpilot__levelpilot-uebersicht-3.12.94.md",
       "kanal": "levelpilot",
-      "seit_push_min": 11993,
+      "seit_push_min": 12485,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/lore__alpine-vanguard-vorstellung-1.0.md",
       "kanal": "lore",
-      "seit_push_min": 36940,
+      "seit_push_min": 37432,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/mc-feuerresi__feuerresi-1.1.md",
       "kanal": "mc-feuerresi",
-      "seit_push_min": 33217,
+      "seit_push_min": 33709,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/onyxia-feuerresi__feuerresi-1.0.md",
       "kanal": "onyxia-feuerresi",
-      "seit_push_min": 42358,
+      "seit_push_min": 42851,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/onyxia-taktik__onyxia-video-1.0.md",
       "kanal": "onyxia-taktik",
-      "seit_push_min": 43783,
+      "seit_push_min": 44275,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/professionsentinel__professionsentinel-0-vorstellung-1.27.md",
       "kanal": "professionsentinel",
-      "seit_push_min": 19465,
+      "seit_push_min": 19957,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/professionsentinel__professionsentinel-0.9.90.md",
       "kanal": "professionsentinel",
-      "seit_push_min": 341,
+      "seit_push_min": 833,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/threatsentinel__threatsentinel-0-vorstellung-2.2.md",
       "kanal": "threatsentinel",
-      "seit_push_min": 34645,
+      "seit_push_min": 35137,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/threatsentinel__threatsentinel-2.5.30.md",
       "kanal": "threatsentinel",
-      "seit_push_min": 2827,
+      "seit_push_min": 3320,
       "abdeckung": 1.0,
       "status": "ok"
     }
@@ -165,16 +152,19 @@
       "version": "0.65.413",
       "datei": "download/AHSentinel-0.65.413.zip",
       "kanal": "ahsentinel",
-      "seit_push_min": 36,
-      "status": "wartet",
-      "status_eigentlich": "fehlt"
+      "seit_push_min": 528,
+      "status": "ok",
+      "gepostet": "2026-11-26 21:38 UTC",
+      "anhang": [
+        "AHSentinel-0.65.413.zip"
+      ]
     },
     {
       "addon": "RaidMaster",
       "version": "3.0.50",
       "datei": "RaidMaster/RaidMaster.toc",
       "kanal": "raid-addon",
-      "seit_push_min": 489,
+      "seit_push_min": 981,
       "status": "ok",
       "gepostet": "2026-11-26 08:49 UTC",
       "anhang": [
@@ -371,7 +361,7 @@
     }
   ],
   "server": "Alpine Vanguard",
-  "wartet": true,
+  "wartet": false,
   "bot": [
     {
       "pruefung": "Kanäle aus /raidmaster-einrichten",
