@@ -984,3 +984,9 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
     Nachbau Supervisor (addon-check-Mock, Testmodus aus, Chat beim Einloggen + Zeitgeber): "ProfessionSentinel 0.9.92 – /ps öffnet das Fenster" (vorher keine Zeile). addon_check OK.
 
 >>> AUFTRAG HOCH DL-ABN (Supervisor 27.11. 10:30): download/ nur noch mit vom Supervisor ANGENOMMENEN Versionen – der Uploader installiert jede Zip dort automatisch bei allen Mitspielern. Neue Versionen zuerst nur announce/. Einzelheiten: auftraege/anweisung-download-nur-abgenommen-2026-11-27.txt (lesen!).
+
+>>> INGAMETEST 27.11. 10:58 (Laptop, 0.9.92, Schneider-Figur, /ps protokoll) – PS-P1 ABGENOMMEN für den eigenen Teil:
+    "Hintergrund-Aufgaben: heute ×3, Teil max 23.4 ms (darin 1 Stücke 23.4 ms, längstes 23.4 ms Wollcape [fremd 23.3 ms: AHSentinel.API.WorthUpTo 23.3 ms ×1;
+    eigener Code 0.1 ms] · übrig 0.0 ms · Speicher +0.9 MB · Bild davor 29 ms · 36 Bilder/s)". PS-Arbeit im Stück 0,1 ms – WorthUpTo steht allein im Bild, wie
+    beauftragt. Lua-Fehler 0. Rest liegt bei AHSentinel (AHS-API1, jetzt HOCH). Offen bei PS nur: "Aufgabe heute 23.4 ms ×110" = 110 lange Stücke in dieser Sitzung
+    (je neues Item ein WorthUpTo) – im nächsten Bericht bitte belegen, dass Lauf 2 und 3 keine neuen WorthUpTo-Aufrufe hatten (Zähler je Lauf ins Protokoll).

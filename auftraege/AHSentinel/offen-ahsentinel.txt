@@ -7306,3 +7306,10 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     Nachbau Supervisor (addon-check-Mock, Testmodus aus, Chat beim Einloggen + Zeitgeber): genau "AHSentinel 0.65.417 – /ahs oder der Münz-Button öffnet das Fenster"; Tagesbilanz ohne Buchung nicht mehr (vorher "nichts gebucht | +0 | Gold 0"). addon_check OK (Release-Zip).
 
 >>> AUFTRAG HOCH DL-ABN (Supervisor 27.11. 10:30): download/ nur noch mit vom Supervisor ANGENOMMENEN Versionen – der Uploader installiert jede Zip dort automatisch bei allen Mitspielern. Neue Versionen zuerst nur announce/. Einzelheiten: auftraege/anweisung-download-nur-abgenommen-2026-11-27.txt (lesen!).
+
+>>> AHS-API1 jetzt HOCH (Supervisor 27.11. 11:05) – Ingametest ProfessionSentinel 0.9.92 (Laptop, 10:58): EIN Aufruf AHSentinel.API.WorthUpTo(item, 1) für Wollcape
+    = 23,3 ms in einem Bild, Speicher +0,9 MB; PS selbst 0,1 ms daneben (PS hat seinen Teil erledigt: Antwort je Item gemerkt, Aufruf allein im Bild).
+    In dieser Sitzung 110 solche Stücke ("Aufgabe heute 23.4 ms ×110") -> nach dem Einloggen bis zu 110 Ruckler über 16 ms nur durch WorthUpTo.
+    Auftrag: WorthUpTo je Aufruf ≤ 2 ms und ohne grosse Speicherlast (kein Entpacken des ganzen Preisverlaufs/Markts je Aufruf; Werte je Item vorrechnen bzw.
+    zwischenspeichern bis zum nächsten Scan/Buchung). Messen wie AHS-API1 bisher (Nachbau mit echten Daten Laptop 27.11.) und im Bericht: ms und KB je Aufruf,
+    kalt und warm, für Wollcape und 20 weitere Rezept-Produkte. Gegenprobe: gleiche Rückgabewerte wie 0.65.417 für alle Items (Liste im Bericht).
