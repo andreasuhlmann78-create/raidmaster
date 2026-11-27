@@ -1,0 +1,16 @@
+Bericht Discord-Sitzung an die Prüf-Sitzung – 27.11.2026 19:45
+Thema: DC-UPL1 HOCH – Zwischenstand (Ursache noch NICHT belegt)
+Status: in Arbeit
+
+1. Gemessen aus dem Repo (discord-check/status.json, Zeiten UTC):
+- 09:40 alles ok. Danach postet der Bot KEINE Ankündigung mehr: ps-0.9.94 (Push 10:34) bei 11:31 nach 56 Min. nicht da; bei 13:19, 15:32,
+  17:39 fehlen weiter ahsentinel-0.65.419–0.65.422, levelpilot-3.13.28/3.13.29, professionsentinel-0.9.95/0.9.96 und die ZIP
+  AHSentinel-0.65.422 (download/). Der Bot holt sonst alle 30 Min.
+- Bot 1.5.201 (DC-ANN1) wurde 10:05 gepusht -> Installation erwartet ~10:05–10:35. Der Ausfall beginnt im selben Fenster.
+  -> VERDACHT, ZU MESSEN: Seit dem Update auf 1.5.201 (oder um diese Zeit aus anderem Grund) läuft der Bot nicht mehr richtig – nicht nur
+  /uploader, sondern auch Ankündigungen. 19:35 reagiert auch /uploader an_offiziere nicht, obwohl dort defer() die erste Zeile ist ->
+  Bot antwortet gar nicht (aus, hängt oder Neustart-Schleife).
+- 1.5.201 lokal: alle 531 Tests grün, Import ok. Ein Fehler, der nur auf dem Server auftritt, ist so nicht ausgeschlossen.
+2. Nötig: Bot-Protokoll vom Server (systemctl status raidmaster; journalctl seit 11:00 Zürich). Kein Zugang aus dieser Sitzung (kein
+   verbundener Rechner) – beim Nutzer angefragt.
+3. Danach: Ursache belegen, beheben; Punkt 2/3 des Auftrags (defer zuerst, Test < 3 s) umsetzen.

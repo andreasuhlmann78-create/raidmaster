@@ -1,9 +1,10 @@
 # Stand Discord-Sitzung
 
-## Stand 27.11.2026 11:05 · Bot 1.5.201 (DC-ANN1 umgesetzt, zur Prüfung; 1.5.200 angenommen)
+## Stand 27.11.2026 19:45 · Bot 1.5.201 (DC-UPL1 HOCH in Arbeit – Bot antwortet nicht)
 
 ## Gerade in Arbeit
-- nichts. DC-ANN1 in 1.5.201, Bericht 2026-11-27-1105-dc-ann1.txt. Messen beim ersten stabilen RM-Wechsel in download/.
+- DC-UPL1: Bot postet seit ~10:35 UTC nichts mehr, Befehle reagieren nicht. Warte auf Protokoll vom Server (Nutzer). Bericht
+  2026-11-27-1945-dc-upl1-zwischenstand.txt. Danach Ursache belegen, beheben, defer zuerst in /uploader, Test < 3 s.
 
 ## Nächste Schritte (Reihenfolge)
 1. Bei jeder Nachricht des Nutzers: git pull --rebase, auftraege/Discord/ lesen (git log --oneline -5 -- auftraege/Discord/).
