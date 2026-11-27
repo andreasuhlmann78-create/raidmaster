@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-27T15:36:04Z",
+ "ausgewertet": "2026-11-27T19:51:19Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -124,20 +124,6 @@
       "forever 1.60.1 (Interface 16001)"
      ],
      "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:471: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:511: in function <Interface/AddOns/LevelPilot/Core.lua:506>\n[tail call]: ?\n[Interface/AddOns/LevelPilot/TestRoutine.lua]:12130: in function 'Abort'\n[Interface/AddOns/LevelPilot/TestRoutine.lua]:12398: in function <Interface/AddOns/LevelPilot/TestRoutine.lua:12392>\n..."
-    },
-    {
-     "addon": "LevelPilot",
-     "art": "spiel",
-     "wo": "Comm-Empfang",
-     "msg": "Interface/AddOns/LevelPilot/Comm.lua:488: attempt to index field 'Caves' (a nil value)",
-     "anzahl": 1,
-     "versionen": [
-      "3.12.24"
-     ],
-     "clients": [
-      "forever 1.60.1 (Interface 16001)"
-     ],
-     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:318: in function 'Report'\n[Interface/AddOns/LevelPilot/Comm.lua]:595: in function <Interface/AddOns/LevelPilot/Comm.lua:590>\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelSync.lua]:603: in function <Interface/AddOns/AHSentinel/GoldSentinelSync.lua:557>\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelSync.lua]:750: in function <Interface/AddOns/AHSentinel/GoldSentinelSync.lua:748>\n"
     },
     {
      "addon": "LevelPilot",
@@ -296,20 +282,6 @@
   {
    "addon": "LevelPilot",
    "art": "spiel",
-   "wo": "Comm-Empfang",
-   "msg": "Interface/AddOns/LevelPilot/Comm.lua:488: attempt to index field 'Caves' (a nil value)",
-   "anzahl": 1,
-   "versionen": [
-    "3.12.24"
-   ],
-   "clients": [
-    "forever 1.60.1 (Interface 16001)"
-   ],
-   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:318: in function 'Report'\n[Interface/AddOns/LevelPilot/Comm.lua]:595: in function <Interface/AddOns/LevelPilot/Comm.lua:590>\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelSync.lua]:603: in function <Interface/AddOns/AHSentinel/GoldSentinelSync.lua:557>\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelSync.lua]:750: in function <Interface/AddOns/AHSentinel/GoldSentinelSync.lua:748>\n"
-  },
-  {
-   "addon": "LevelPilot",
-   "art": "spiel",
    "wo": "Testroutine",
    "msg": "Ausloggen während der Testroutine",
    "anzahl": 1,
@@ -353,11 +325,11 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 276,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.421-be425bead81d.txt"
+    "anzahl": 279,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.422-5b458ee1a231.txt"
    },
    "BuffSentinel": {
-    "anzahl": 213,
+    "anzahl": 216,
     "neueste": "testberichte/diagnose/BuffSentinel/0.9.69-e49fa38c9241.txt"
    },
    "GSMesstest": {
@@ -365,30 +337,30 @@
     "neueste": "testberichte/diagnose/GSMesstest/5.1-f65d607ab777.txt"
    },
    "GSSniperLog": {
-    "anzahl": 60,
+    "anzahl": 62,
     "neueste": "testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt"
    },
    "GuildSentinel": {
-    "anzahl": 327,
+    "anzahl": 330,
     "neueste": "testberichte/diagnose/GuildSentinel/0.9.66-f400ab8ce4a2.txt"
    },
    "LevelPilot": {
-    "anzahl": 217,
+    "anzahl": 220,
     "neueste": "testberichte/diagnose/LevelPilot/3.13.29-acfbcd124933.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 300,
+    "anzahl": 303,
     "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.96-bbae6a828714.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 277,
+    "anzahl": 280,
     "neueste": "testberichte/diagnose/ThreatSentinel/2.5.31-ec53c3f86239.txt"
    }
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 362,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1795789873-93d479.json"
+    "anzahl": 364,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1795808142-0242e1.json"
    }
   }
  }
