@@ -1,0 +1,29 @@
+ProfessionSentinel 0.9.93 – umgesetzt, zur Prüfung
+Bezug: offen-professionsentinel.txt AHS-BP1-Teil für PS ("nur nicht als AH-Ware empfehlen", Test bindType 1/0/2); DL-ABN (27.11. 10:30).
+DL-ABN: 0.9.93 liegt NUR in announce/ (Discord, Testversion). download/ enthält weiter die angenommene 0.9.92; 0.9.93 kommt erst nach
+ "ANGENOMMEN" dorthin (gleiche Zip, md5 unten).
+
+Umgesetzt (Prices.lua) – ohne feste Liste, Bindung aus dem Client:
+ - P.BindType(item) = 14. Wert von GetItemInfo (bindType 0 keine, 1 beim Aufheben, 2 beim Anlegen, 3 beim Benutzen, 4 Quest), je Item für
+   die Sitzung gemerkt; nil (Item noch nicht geladen) wird NICHT gemerkt -> beim nächsten Mal neu gefragt. P.Bound = bindType 1 oder 4.
+ - Gebundenes PRODUKT: kein AH-Wert (valueAH nil), kein "Lohnt bis" von AHSentinel (dessen Weg könnte AH sein), Wert = Händlerwert × Menge,
+   Weg "vendor", Feld bound = true. Entzaubern bleibt (gebundene Ware lässt sich entzaubern). Damit erscheint es nicht als AH-Verkauf in
+   Gold/Heute herstellen.
+ - Gebundene ZUTAT: nie aus dem AH – verkauft sie ein Händler, Händlerpreis; sonst kein Preis (bekannt = nein, Herkunft "Farm" = selbst
+   besorgen) -> keine Einkaufs-/Sniper-Ziele im AH, der Rezeptpreis ist unvollständig (keine Gewinnzahl auf geschätzter Grundlage).
+   AHSentinels MaterialCost wird für eine gebundene Zutat nicht genommen.
+ - Wird die Ware wieder BoE (bindType 2/0), rechnet alles automatisch wie vorher (spätestens nach /reload, da je Sitzung gemerkt).
+ - Daten (Studierzimmer für Gifte usw.) NICHT geändert.
+ - Grenze: ob die Gifte im Forever-Client bindType 1 liefern, ist im Spiel zu messen (Messauftrag im AHS-BP1: Tooltip "Wird beim Aufheben
+   gebunden"). Liefert der Client keinen 14. Wert, bleibt alles wie vor 0.9.93.
+Nebenbei (Test-Wackler): T297 "Knoten-Pool wächst 562 -> 563" in 1 von 4 Läufen – kein Leck: ein Pool kleiner als eine Liste wird beim
+ ersten Refresh einmal auf Listengrösse aufgefüllt (je nachdem, was frühere Fälle im Pool liessen). Die Prüfung misst jetzt nach einem
+ Auffüll-Refresh über zwei weitere Refreshes; ein Leck wüchse weiter bei jedem Refresh. Danach 6 von 6 Läufen grün.
+Tests: T304 neu (bindType 0 und 2: wie bisher, Zutat AH; 1 und 4: Produkt Händlerwert, kein AH-Wert, kein Lohnt-bis; gebundene Zutat:
+ Händler oder "Farm"/unbekannt; Bindung unbekannt (nil): wie bisher und nicht gemerkt, nach dem Laden gebunden). Gemerkte Bindungen
+ gehören je Fall der Testroutine. Regression AHS-BP1 -> T304.
+ run_offline forever 259/0 (6×), era 240/0, retail 238/0, forever --lua51 259/0; check_actions OK; gen_locale_keys OK; yield_check OK;
+ Smoketest forever/era/retail AUTOTEST OK (FEHLER 29/26/26 = Mock-Grenzen, wie 0.9.92); addon_check OK ohne WARNUNG. Zip md5 4b0c22a48618918e0723aabc15479ef7, Repo a64e9a7.
+Zum Ingametest 0.9.92 (Supervisor 27.11. 10:58, "Aufgabe heute 23.4 ms ×110"): ×110 ist die Zahl ALLER Teile der Aufgabe in der Sitzung
+ (ns.PerfLine zählt jeden Teil, nicht nur die langen; über 16 ms lag belegt der Teil mit WorthUpTo 23,3 ms). Der Zähler je Lauf (neue
+ WorthUpTo / gemerkte Antworten) kommt als nächste Version 0.9.94 ins Protokoll, damit belegt ist, dass Lauf 2 und 3 keine neuen Aufrufe haben.
