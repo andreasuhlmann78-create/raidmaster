@@ -7294,3 +7294,5 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     (Fremd-Aufruf aus anderen Addons). Test mit diesem Item im Nachbau und Gegenprobe gleicher Wert. Auch Tooltip/Sniper profitieren.
 >>> AHS-API1 Nachtrag (Supervisor 27.11. 07:01): zweite Messung in neuer Sitzung (PS-Protokoll 07:01, Berufsfenster offen): "AHSentinel.API.WorthUpTo 20,7 ms ×1"
     wieder für Verstärktes Leinencape -> reproduzierbar je Sitzung (je erster Aufruf für dieses Item), nicht Zufall. Gleicher Befund wie oben.
+>>> PRÜFUNG SUPERVISOR 27.11. 08:30 – FULL 0.65.416 allein (Bericht 07:38): 356/67, gegen 0.65.415 keine neu roten, keine neu grünen – ANGENOMMEN.
+    Offen bleiben AHS-W1 (erstes Öffnen), AHS-API1 (WorthUpTo 18,4 ms – PS hat es jetzt gemerkt, schneller machen kann nur AHS), AHS-S216.

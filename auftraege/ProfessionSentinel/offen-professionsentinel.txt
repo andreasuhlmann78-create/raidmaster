@@ -967,3 +967,10 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
     Auftrag PS (MITTEL): bis AHS den Aufruf billiger macht – WorthUpTo nicht im selben Stück wie andere Arbeit; je Stück höchstens EIN WorthUpTo und danach
     abgeben; Ergebnis je Item zwischenspeichern (gleiche Sitzung, bis Preis-Sync/Scan). Den Befund an AHS weitergeben ist erledigt (AHS-API1 unten bei AHS).
     Gute Messzeile (fremd/eigener Code) – genau so gebraucht.
+
+>>> PRÜFUNG SUPERVISOR 27.11. 08:30 – ProfessionSentinel 0.9.91 (PS-P1, Bericht 07:35): ANGENOMMEN, Abnahme im Spiel offen.
+    addon_check OK, md5 b9961d02… = Bericht. Code gelesen (Prices.lua P.Worth/WorthPending/PrefetchWorth, Today.lua TD.Collect): Antwort je Item gemerkt bis
+    PS.OnChanged (Scan/Buchung/Einstellung) bzw. Händler; nil/Fehler nicht gemerkt; neue Funktion -> neu fragen; im Hintergrund vorher und nachher abgeben ->
+    WorthUpTo allein im Bild. Ehrliche Grenze richtig benannt: ein Aufruf bleibt 18 ms, bis AHS-API1 ihn schneller macht.
+    Abnahme (Nutzer): mit der Schneider-Figur einloggen, kurz warten, /ps protokoll -> "Hintergrund-Aufgaben: heute … längstes …" = etwa die WorthUpTo-Zeit,
+    eigener Code daneben klein; zweites Einloggen/zweiter Lauf ohne neue WorthUpTo-Aufrufe.

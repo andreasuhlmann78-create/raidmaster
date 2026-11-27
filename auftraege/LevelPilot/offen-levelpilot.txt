@@ -2030,3 +2030,11 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
     wie die abgenommene Zip, Daten-Ordner LevelPilot_Data… darin wie bisher), ältere LevelPilot-*.zip in download/ entfernen (sonst wird der Workflow rot).
     Testversionen weiter nur nach announce/ (Discord). addon_check auf die download/-Zip, Workflow grün prüfen, Bericht.
     Stand heute: zuletzt angenommen ist noch keine 3.13.2x ohne offene HOCH-Punkte (T397/T217) – erste Ablage nach der nächsten Annahme.
+
+>>> PRÜFUNG SUPERVISOR 27.11. 08:30 – LevelPilot 3.13.24 (Bericht 07:07): Code/Nachbau ANGENOMMEN, Ingametest offen (entscheidet über HOCH-Punkte und LP-DL1).
+    addon_check OK, md5 f74f4549… = Bericht. T397: TR.PCall statt pcall, je Zone abgebbar – Ursache der 116 ms belegt. T217: Ursache Gefahrenkarte-Neubau nach
+    dem 60-s-Zurücksetzen in der laufenden Prüfung – Weg im Code und Nachbau belegt, Zuordnung zu T217 im Spiel "Verdacht" (richtig gekennzeichnet); jetzt
+    vorher in Portionen gebaut. LP-TR3: Abgabe alle 64 Knoten. LP-I3: kleiner Gewinn, ehrlich benannt.
+    Ingametest 3.13.24 (Nutzer): längstes Bild der Routine < 40 ms, keine "Abgabe nicht möglich", T155 Wert. Erst dann LP-DL1 (Zip nach download/).
+>>> LP Anzeige-Texte (Bericht 07:55): Vorschlag "Fenster zeigt die neuesten 60 Einträge, Rest nur über Alles kopieren" liegt beim Nutzer (Frage 27.11. 08:30).
+    Bis zum Entscheid: wie vorgeschlagen zuerst im Spiel messen, wie viel davon SetText ist.
