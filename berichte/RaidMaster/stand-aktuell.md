@@ -2,7 +2,7 @@
 
 ## Stand 27.11.2026 07:59 · Addon 3.0.52 · Uploader 2.3.30
 - Uploader 2.3.30 (RM-UPD3): Einstellungsdateien automatisch, nur gleicher Bot + gleicher Discord-Server; keine j/n-Frage mehr. Bericht 0759.
-- 2.3.29/3.0.51 angenommen 07:50.
+- 2.3.29/3.0.51 angenommen 07:50; 2.3.30/3.0.52 angenommen 08:12 (Abnahme im Betrieb offen). Keine offenen Aufträge.
 - Uploader 2.3.29 (RM-UPD2): Update ohne j, Addons Standard an, Kanal stabil (nur download/) / test. Bericht 0721.
 - Addon 3.0.51: Anleitung-Tipp angepasst. 3.0.50 angenommen 26.11. (RM-P1 offen bis Ingametest).
 - LevelPilot: Nutzer entschied 27.11. ~07:25 "nach Abnahme nach download/" -> LevelPilot-Sitzung (über Supervisor).
