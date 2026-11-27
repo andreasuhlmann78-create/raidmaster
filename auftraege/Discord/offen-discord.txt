@@ -554,3 +554,13 @@ SICHERHEIT (Pflicht, Repo ist öffentlich):
     Festlegung richtig: Ankündigung nur über announce/, stabiler Wechsel in download/ bearbeitet die Vorstellung (ZIP ersetzt) statt neu zu posten; Testversionen
     ohne PN (passt zu Entscheid 07:11); announce-Beiträge beim Ersatz-Weg geschützt. Bot-Tests selbst laufen lassen: alle grün.
     Abnahme (Verdacht, zu messen): beim nächsten RaidMaster-Wechsel in download/ in #raid-addon "(bearbeitet)" am Download-Beitrag, ZIP-Name neu, kein neuer Beitrag.
+
+>>> DC-UPL1 HOCH (Nutzer 27.11. 19:32, Bildschirmfoto) – Supervisor 19:38: "/uploader" -> "Die Anwendung reagiert nicht" (Bot 1.5.201).
+    Der Bot hat die Interaktion nicht innerhalb von 3 s bestätigt. Code gelesen: uploader_cmd ruft bei an_offiziere / nur_programm sofort defer();
+    im Grundweg (ohne Option) kommen vorher is_admin, channel_by_id (fetch_channel bei leerem Cache) und permissions_for – alles kurz.
+    -> VERDACHT, ZU MESSEN: der Bot war zu dem Zeitpunkt blockiert (Ereignisschleife durch etwas Synchrones, z. B. Datei-/Markt-/Git-Arbeit,
+       uploader_alt_loop, Selbst-Update) oder hing/startete neu – dann reagieren ALLE Befehle nicht. Oder ein Fehler vor dem defer.
+    Auftrag: 1. Bot-Protokoll um 19:32 (Zürich) lesen: Fehler/Traceback in uploader_cmd? Neustart/Update? lange Aufgabe? Ursache belegen (Datei:Zeile).
+             2. Jede Befehls-Antwort zuerst defer() (vor jedem await mit Netz), damit nie "reagiert nicht" kommt; Fehler als Antwort zeigen statt still.
+             3. Test: /uploader (ohne Option, nur_programm, an_offiziere) antwortet < 3 s, auch während einer langen Hintergrund-Aufgabe.
+    Zusammenhang: Der Nutzer will Offizier B den Uploader 2.3.30 schicken (D-UPALT schickt keine PN, weil Mindestversion 2.3.20/2.3.23 – gewollt, Entscheid 24.11.).
