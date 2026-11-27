@@ -7319,3 +7319,16 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     0.65.418 laut Gegenprobe). Richtig: im Nachbau nur 0,2–2,8 ms -> nicht auf Verdacht ändern, erst im Spiel messen (API-LANGSAM mit Teilen). Wichtiger Hinweis Punkt 3
     (vorgemerkter Testroutinen-Schritt "berufe" startet beim Öffnen des Berufsfensters, dann API-Zwischenspeicher aus) – genau das ist Verdacht Nr. 1; im Ingametest prüfen.
     Falls belegt: vorgemerkte Schritte dürfen nie unbemerkt beim normalen Spielen laufen (Meldung + nur im Testmodus) – Auftrag folgt dann.
+
+>>> PRÜFUNG SUPERVISOR 27.11. 12:40 – 0.65.419 (OVF1-Absicherung API.lua, Berichte 11:53 und FULL 12:22): ANGENOMMEN. FULL 356/67 wie 0.65.417, s341 wieder grün; addon_check
+    der Release-Zip OK. Gute Selbstkorrektur (s341 nach neuem string.format). NIEDRIG: md5 der Release-Zip v0.65.419 = a397ed70… ≠ Bericht 00d6a013… – im nächsten Bericht
+    klären, welche Zip die md5 im Bericht meint (announce/ vs. Release-Asset), damit DL-ABN "gleiche Zip" prüfbar ist.
+
+>>> INGAMETEST 27.11. 12:27 (Laptop, 0.65.419, Schneider-Figur, Berufsfenster offen) – AHS-API1 URSACHE BELEGT (Supervisor 12:40):
+    API-LANGSAM WorthUpTo 2584 (Wollcape): 26,5 ms +951 KB · 5 s nach dem Laden · Item im Client nein · Testroutine nein · Teile: ENTZAUBERN 24,7 ms +860 KB · Wiederverkauf
+    0,4 ms · Händler 0,0 · Lohnt bis 25,1 ms (enthält Entzaubern) · Kern-Wert 0,8 · Materialien 0,6.
+    WorthUpTo 4311: 14,7 ms +878 KB – Entzaubern 14,6 ms +874 KB. WorthUpTo 254129: 5,8 ms +205 KB – Entzaubern 5,7 ms.
+    -> Verdacht "vorgemerkter Testroutinen-Schritt" WIDERLEGT (Testroutine nein). Kosten liegen fast ganz im Teil ENTZAUBERN (~0,9 MB Speicher je Aufruf).
+    Auftrag HOCH (AHS-API1 weiter): den Entzaubern-Teil von WorthUpTo im Spiel weiter teilen (welche Tabelle/Schleife; "Item im Client nein" -> Ersatzweg über Tabelle/
+    Namen/alle Entzauber-Ergebnisse?), Ursache belegen, dann: Entzauber-Wert je Item vorrechnen bzw. merken bis zur nächsten Preis-/Buchungsänderung, keine grossen
+    Tabellen je Aufruf. Ziel ≤ 2 ms, ≤ 50 KB je Aufruf. Gegenprobe gleiche Werte (Liste). Nachbau zeigte nur 0,2–2,8 ms – Unterschied zum Spiel (Faktor 10) im Bericht erklären.
