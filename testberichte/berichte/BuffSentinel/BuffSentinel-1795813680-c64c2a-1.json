@@ -1,0 +1,39 @@
+{
+ "addon": "BuffSentinel",
+ "counts": {
+  "client": 0,
+  "fehler": 0,
+  "ok": 1,
+  "uebersprungen": 0
+ },
+ "dur_ms": 0,
+ "env": {
+  "build": "71139",
+  "class": "WARRIOR",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 30,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [],
+ "f": 1,
+ "id": "BuffSentinel-1795813680-c64c2a-1",
+ "kind": "test",
+ "nachgeholt": "nachgeholt zum Lauf von Version 0.9.65 vom 25.11.2026 16:00",
+ "results": [
+  {
+   "bereich": "B",
+   "ergebnis": "6 Waren, Quelle C_MerchantFrame, Item-IDs gelesen 6 von 6, falsche Werte bei: -, Plan ohne Fehler: ja",
+   "id": "T247",
+   "ms": "0.1",
+   "name": "Händlerdaten im echten Spiel",
+   "status": "OK"
+  }
+ ],
+ "time": 1795813680,
+ "version": "0.9.69"
+}

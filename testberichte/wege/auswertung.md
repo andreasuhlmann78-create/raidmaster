@@ -345,7 +345,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Thunder Bluff (1456)
 
-- Wegstücke 1012, Knoten 797, zusammenhängende Teile 8
+- Wegstücke 1014, Knoten 797, zusammenhängende Teile 8
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 749 Knoten, Bereich 23–78 / 12–87
   - Teil 2: 16 Knoten, Bereich 11–21 / 17–35
@@ -378,7 +378,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Undercity (1458)
 
-- Wegstücke 3227, Knoten 1149, zusammenhängende Teile 3
+- Wegstücke 3230, Knoten 1149, zusammenhängende Teile 3
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 1147 Knoten, Bereich 44–86 / 0–98
   - Teil 2: 1 Knoten, Bereich 59–59 / 25–25
@@ -406,9 +406,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Flusslande (2548)
 
-- Wegstücke 3224, Knoten 2405, zusammenhängende Teile 6
+- Wegstücke 3375, Knoten 2410, zusammenhängende Teile 6
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 2387 Knoten, Bereich 16–88 / 15–97
+  - Teil 1: 2392 Knoten, Bereich 16–88 / 15–97
   - Teil 2: 6 Knoten, Bereich 58–58 / 32–33
   - Teil 3: 5 Knoten, Bereich 60–61 / 76–78
   - Teil 4: 3 Knoten, Bereich 61–62 / 35–35
