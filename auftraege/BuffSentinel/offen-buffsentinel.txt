@@ -751,3 +751,8 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     Nachbau Supervisor (addon-check-Mock, Testmodus aus, Chat beim Einloggen + Zeitgeber): "BuffSentinel 0.9.69 – /bsen öffnet die Einstellungen"; ein (im Nachbau absichtlich ausgelöster) Fehler erscheint nur noch als "BuffSentinel: Ein Fehler ist aufgetreten – er wird automatisch gemeldet." (vorher Datei:Zeile). addon_check OK.
 
 >>> AUFTRAG HOCH DL-ABN (Supervisor 27.11. 10:30): download/ nur noch mit vom Supervisor ANGENOMMENEN Versionen – der Uploader installiert jede Zip dort automatisch bei allen Mitspielern. Neue Versionen zuerst nur announce/. Einzelheiten: auftraege/anweisung-download-nur-abgenommen-2026-11-27.txt (lesen!).
+
+>>> ABNAHME IM SPIEL 27.11. 11:18 (Nutzer, Laptop, BuffSentinel v0.9.69): Optionen haben den Abschnitt "Mithelfen" mit "Namen: auch Fremde", "Beim Verbessern helfen",
+    "Fehler an Entwickler senden" (alle an), "Weitere (3)", "Standard". ST1 Teil B im Spiel ABGENOMMEN. Einlog-Zeile im Testmodus lang (so gewollt, Entscheid 08:54).
+    NIEDRIG: "Namen: auch Fremde" ist knapp – verständlicher z. B. "Zaubernamen auch mit Spielern ausserhalb von Gilde und Gruppe teilen" (Tooltip hat es schon) –
+    beim nächsten Mal.
