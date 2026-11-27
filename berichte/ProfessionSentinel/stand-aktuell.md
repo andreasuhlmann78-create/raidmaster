@@ -1,10 +1,10 @@
-# Stand 27.11.2026 10:04 · Version 0.9.92
+# Stand 27.11.2026 10:25 · Version 0.9.92
 
 ## Gerade in Arbeit
 - Nichts. 0.9.92 veröffentlicht (Discord, Release v0.9.92, Repo 7fe2d60), Bericht 2026-11-27-1004-st1-spielertexte.txt – zur Prüfung.
 - 0.9.92 = ST1 Spieler-Texte: Einlog-Zeile (ns.LoginLine/ChatOut), Fehler 1 Zeile je Sitzung (ns.ErrorLine, nicht Testmodus/Testroutine),
   Hinweis einmal (ns.HintOnce, db.hintsShown; Favor-Kosten), Optionen "Mithelfen" unten (gsMarktAus), Knopf "Protokoll"; T303.
-- 0.9.91 angenommen (27.11. 08:30), Abnahme im Spiel offen (Schneider-Figur einloggen, /ps protokoll).
+- 0.9.92 angenommen (27.11. 10:30, ST1), liegt in download/ (Workflow Addon-Prüfung grün). 0.9.91 angenommen, Abnahme im Spiel offen.
 
 ## Nächste Schritte (Reihenfolge)
 1. Abnahme PS-P1 aus dem nächsten Diagnose-Export (Schneider-Figur): Teil max ≈ WorthUpTo-Zeit, kein PS-Code dazu.
@@ -30,7 +30,8 @@
   Prüfung `git ls-remote origin refs/heads/main`), /home/claude/raidmaster (öffentlich; auftraege/ nur Supervisor).
 - Ingametest-Bericht: goldsentinel-daten/aktuell/<PC>/forever/<konto>/ProfessionSentinel.lua.gz, Zeile ["last"] (unicode_escape).
 - Release-Asset: `gh api repos/<R>/releases/tags/vX --jq '.assets[0].id'`, dann mit Accept octet-stream laden.
-- Veröffentlichen: download/ProfessionSentinel-<V>.zip (alte entfernen), announce/…-<V>.md + <V>.ProfessionSentinel.zip NEU dazu. addon_check vorher.
+- Veröffentlichen (DL-ABN 27.11. 10:30, HOCH): neue Version NUR announce/…-<V>.md + <V>.ProfessionSentinel.zip. download/ erst, wenn in
+  offen-professionsentinel.txt "ANGENOMMEN" für genau diese Version steht: gleiche Zip (md5), alte entfernen, Workflow Addon-Prüfung grün.
 - Nachbau echt: `tests/nachbau_echt.py ProfessionSentinel /home/claude/ahanalyzerpro <sv> --mb 150 [--area b|--heute [--als <Zauber>]|--tq1b|--merge|--only-open]` (~10 min).
 - Arbeitsstand ohne Veröffentlichung: in Zweig pushen (Push auf main mit TOC-Sprung = Release). Zweig löschen geht nicht (403); arbeit-0.9.87 = main.
 - Testmeldungen nie mit Cache-Schlüssel/CharKey (T158 Namen). Zeitmessungen offline unter Last unzuverlässig – allein wiederholen.
