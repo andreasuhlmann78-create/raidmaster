@@ -38,8 +38,18 @@ MIN_LAEUFE = int(os.environ.get("SEED_MIN", "1"))
 JOIN = 10.0        # yd: loses Ende so nah neben einem Weg = angehängt (Graph.JOIN)
 
 
+STAT_LESEN = collections.Counter()
+
+
 def lesen(ordner):
+    """27.11.2026 (Entscheid des Nutzers 21:47 "alles Nützliche verwenden", Wegdaten Rechner B): nichts doppelt zählen.
+    - Nur Kanten mit src "selbst" (selbst gelaufen). "geteilt" = von einem anderen Spieler empfangen – die stehen schon in DESSEN
+      Paketen als "selbst" (belegt 27.11.: 128 von 873 geteilten Kanten von B = Kanten des Nutzers, 341 umgekehrt).
+    - Dieselbe Kante (Karte + gleiche Punkte) aus mehreren Paketen nur einmal (Pakete enthalten Wiederholungen: B 149).
+    - Format 3.12.31 und 3.13.x: gleiche Felder für Wege (map, edges: n, p, src); 3.13.x hat zusätzlich lv (Ebene), qo, lu – hier
+      nicht gebraucht. Koordinaten in beiden 0–100 mit 1 Nachkommastelle."""
     daten = collections.defaultdict(list)   # map -> [(datei, n, [(x,y),...])]
+    gesehen = set()
     for f in sorted(glob.glob(os.path.join(ordner, "*.json"))):
         try:
             d = json.load(open(f, encoding="utf-8"))
@@ -51,8 +61,17 @@ def lesen(ordner):
                 continue
             for e in z.get("edges", []):
                 p = e.get("p") or []
+                if e.get("src", "selbst") != "selbst":
+                    STAT_LESEN["geteilt weggelassen"] += 1
+                    continue
+                key = (m, tuple(p))
+                if key in gesehen:
+                    STAT_LESEN["doppelt weggelassen"] += 1
+                    continue
+                gesehen.add(key)
                 pts = [(float(p[i]), float(p[i + 1])) for i in range(0, len(p) - 1, 2)]
                 if len(pts) >= 2:
+                    STAT_LESEN["genommen"] += 1
                     daten[m].append((os.path.basename(f), int(e.get("n") or 1), pts))
     return daten
 

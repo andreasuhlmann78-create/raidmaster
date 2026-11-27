@@ -1,0 +1,46 @@
+LevelPilot 3.13.30 – Bericht an die Prüf-Sitzung: Speicher-Zeilen 3.13.29, Messung Protokolltext, Wegdaten Rechner B
+Stand 27.11.2026 22:00 · umgesetzt, zur Prüfung (Messversion + Auswertung; Startwegnetz NICHT geändert)
+Zip: announce/levelpilot__levelpilot-3.13.30.LevelPilot.zip (md5 1dd34617994bf0d410e2cb4497ccee7a, 2 863 047 Bytes)
+
+1. Speicher-Zeilen aus dem Ingametest 3.13.29 (Upload 15:47) – ausgewertet
+- In der Prüfung ohne Pause: 338 Prüfungen, zusammen +29,5 MB; mit Pause 71; zwischen den Prüfungen 412, zusammen +42,8 MB – davon
+  +30,3 MB und +9,5 MB "vor T01" (Aufbau der Sandbox/Sicherung am Anfang), sonst nur 0–1,5 MB.
+- Die Stücke um +3,9–4,1 MB (T386, T355, T285, T34, T244, T398, T251, T21, T289, T294, T264) gehören zu Prüfungen MIT Pause, die insgesamt viel
+  anlegen: T34 P +33,7 MB, T21 P +16,5 MB, T355 P +19,3 MB, T386 P +11,7 MB, T289 P +10,5 MB, T398 P +7,9 MB, T264 P +7,7 MB.
+  Belegt damit: Der Speicher entsteht IN den Prüfungen, nicht im Ablauf dazwischen.
+- Gemeinsam (Code gelesen): T34, T244, T251, T285, T289, T386 (und T136, T398) bauen den Protokolltext (Protocol:Text). Im Nachbau kostet der
+  Text 2,9 ms / +182 KB. Verdacht, zu messen: ein Diagnose-Abschnitt des Texts ruft im Spiel teure Spiel-Funktionen.
+  T136 im Spiel: "Text 53.2 ms −111845 KB" (Speicherbereinigung während des Texts), Fenster 0,3 ms.
+- Zur Gleichheit der Stücke (~3,9 MB): ein Grenzwert im Takt ist es nicht (GoldSentinelTakt und TestRoutine gelesen – es gibt keine
+  Speichergrenze je Portion). Offen.
+- 3.13.30: Pr:Text misst Zeit (ohne Pausen der Routine) und Speicher je Abschnitt (Kopf, Planner, Comm, ClientTest, Graph, Laufweg, Pruefliste,
+  MessagesLine, MarktLine, Perf, Einträge); der teuerste Aufbau während der Routine steht im neuen Berichtsfeld "protokollTeile" (Liste).
+  Nachbau: "Protokolltext längstens 2.9 ms +182 KB: Kopf 0.2 ms +4 KB, Planner 0.5 ms +6 KB, … Einträge 1.7 ms +146 KB".
+
+2. Wegdaten Rechner B (Entscheid des Nutzers 21:47) – Bestand belegt
+- Im Ordner testberichte/wege/LevelPilot/ liegen 26 Pakete der Version 3.12.31, alle von B (Druide Stufe 35–43, Schamane Stufe 1–3),
+  20.11. 16:53 bis 27.11. 21:30. Die Spieldatei von B (Daten-Repo-Zweig nachlieferung-rechner-b-2026-11-27) hält davon die letzten 15
+  (wegeExport) – alle 15 liegen schon im Ordner, inhaltlich gleich (JSON verglichen), auch das Paket 27.11. 21:30. Es fehlt keines;
+  die Angabe "das 8. nur im Zweig" stimmt nicht. outbox leer.
+- Format 3.12.31 gegen 3.13.x: gleiche Felder für Wege (zones: map, name, edges: n, p, src; f=1; Koordinaten 0–100, 1 Nachkommastelle).
+  3.13.x hat zusätzlich lv (Ebene je Kante, W3D), qo (Questfolge, f=2), lu (Lücken). Für das Startwegnetz unerheblich.
+- Doppelt zählen (gemessen): Pakete enthalten Kanten mit src "geteilt" = von anderen Spielern empfangen. B: 873 geteilte, davon 128 gleich
+  wie Kanten des Nutzers ("selbst"); Nutzer: 7077 geteilte, davon 341 gleich wie Kanten von B. Dazu Wiederholungen derselben Kante in mehreren
+  Paketen (B 149). Das Bauwerkzeug (seed_bauen.py) zählte bisher alles -> geändert: nur "selbst", gleiche Kante nur einmal
+  (berichte/LevelPilot/wege-seed/seed_bauen.py). Probe: 9198 Kanten genommen, 3451 geteilte und 180 doppelte weggelassen.
+- Zonen von B (selbst gelaufene Punkte B / Nutzer 3.13.x): Flusslande 2548 7137/1687, Schlingendorntal 2659/3640, Arathi 1792/649,
+  Tirisfal 1784/7757, Durotar 1692/5969, Undercity 976/7220, Shen'dralas 789/123, Desolace 679/4353, Brachland 633/12300, Orgrimmar 567/4513,
+  Donnerfels 538/2326, Hügelland 480/2308, Sümpfe 472/452, Dustwallow 349/988, Tanaris 318/814, Mulgore 307/3970 u. a.
+- Probebau Startwegnetz (9 Zonen wie bisher, alle Daten bis 27.11. 21:30, ohne Doppelte) gegen Data/Wege.lua vom 16.11.:
+  Durotar 13,4 -> 18,2 km, Mulgore 22,6 -> 23,4, Brachland 47,0 -> 54,8, Tirisfal 16,6 -> 18,2, Silberwald 12,8 -> 10,6 (geteilte weg),
+  Hügelland 13,3 -> 24,1, Tausend Nadeln 21,4 -> 27,1, Steinkrallengebirge 16,6 -> 15,1, Donnerfels 2,7 -> 2,9; Datei 122 -> 144 KB.
+- NICHT eingebaut: Ein neues Startwegnetz ändert Routen (T381), Einloggen (T261, Laden in Portionen) und Speicher für alle Spieler.
+  Nächster Schritt: Wirkung im Nachbau messen (Route L1–17/L1–60, T261, Speicher), dann mit Bericht als eigene Version.
+  Weitere Zonen (Flusslande, Schlingendorntal, Arathi …) brauchen Zonengrössen für die Schwellen des Werkzeugs (heute nur 9 Zonen eingetragen);
+  Flusslande 2548 ist eine eigene Forever-Zone (Grösse unbekannt – messen). Städte mit Ebenen (Undercity, Orgrimmar) bleiben aus (W3D).
+
+Prüfungen vor dem Push
+- addon_check: OK. Gemeinsame Dateien GoldSentinel*.lua mit cmp gleich shared/. Offline-Routine: 40 Läufe, 40 ohne FEHLER.
+- Nachbau ganze Routine (Daten 27.11. 12:35): 1 FEHLER T261 (Daten, wie seit 3.13.27; im Spiel OK). Längstes Bild 50,0 ms "Grundregeln"
+  (Reise; im Spiel Reisen längstens 11,2 ms) – Verdacht Nachbau, zu messen.
+- LP-DL1 für 3.13.29: Addon-Prüfung zum Commit 806c0b07 success (Bericht 21:54).
