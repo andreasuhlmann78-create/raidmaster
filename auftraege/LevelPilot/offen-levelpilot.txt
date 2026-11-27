@@ -2090,3 +2090,6 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
     - Ganze Bilder über 40 ms: 77, davon 47 durch Spiel/Umgebung (Laptop in Ruhe Median 33 ms).
     LP-DL1 FREIGEGEBEN: Bedingung (T215–T217 ≤ 40 ms im Spiel) erfüllt, 3.13.28 angenommen -> diese Zip (md5 3fcede98…) als download/LevelPilot-3.13.28.zip ablegen,
     Workflow grün prüfen, Bericht. Damit bekommen die Mitspieler LevelPilot erstmals automatisch.
+>>> PRÜFUNG SUPERVISOR 27.11. 15:45 – LP-DL1 ERLEDIGT (download/LevelPilot-3.13.28.zip md5 3fcede98… = angenommene Zip, Workflows grün). 3.13.29 (Speicher je Prüfung,
+    Messversion, Bericht 13:31): ANGENOMMEN (addon_check OK); nächste Testroutine im Spiel liefert die Speicher-Zeilen. Discord-Prüfung von download/LevelPilot: nicht nötig
+    (LP wird über announce/ angekündigt) – kein Auftrag.

@@ -1024,3 +1024,10 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
     C_Trainer… im Forever-Client – messen, welche Funktion es gibt) -> beim Öffnen eines Lehrers für alle angebotenen Rezepte merken und in den Plan übernehmen;
     (2) Referenz classic.goldgoblin.net für alle Lehrer-Rezepte aller Berufe; (3) das letzte Feld der Datenzeile (3865: 125, 8760: 110) prüfen – ist es die Lehrer-Stufe?
     Ziel: alle Lehrer-Rezepte mit Lernstufe; "?" höchstens noch bei Rezepten aus unbekannter Quelle, und dann verständlich (siehe (b) oben).
+
+>>> PRÜFUNG SUPERVISOR 27.11. 15:45 – ProfessionSentinel 0.9.95 (PS-P2, Bericht 13:02) + 0.9.96 (PS-SK1, Bericht 13:42): ANGENOMMEN, Ingametests offen.
+    addon_check 0.9.96 OK (0.9.95 nur "niedriger als 0.9.96" – überholt, kein Befund). PS-P2: nil 600 s merken, Vergessen mit Grund protokolliert, "ledger" während
+    Entzauber-Index-Wartens behalten – passt. PS-SK1: Lernstufe aus dem Lehrerfenster (GetTrainerServiceSkillReq), nur eindeutige Namen, sonst nichts merken; geschätztes
+    Feld rq richtig NICHT angezeigt; Zählung 540 Rezepte req ≤ 1 (davon 425 Lehrer) – gut belegt. Im Spiel messen: gibt es GetTrainerServiceSkillReq im Forever-Client?
+    Ingametest (Nutzer): Schneiderei-Lehrer öffnen, Filter "alle" -> /ps protokoll "LEHRER Lernstufen gelesen n"; Plan zeigt bei Magiestoffballen/Azurblaue Seidenkapuze
+    "Skill <Zahl>". Danach Schneider-Figur 1 Min. warten -> "WorthUpTo je Lauf" (Lauf 2 0 neu) und "WorthUpTo vergessen: …".

@@ -7346,3 +7346,5 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     z. B. Strings/Tabellen aus GetItemInfo/C_Item, Iteminfo-Warteschlange, Verlaufs-/Buchungs-Suchen); (2) zusätzlich je API-LANGSAM-Zeile collectgarbage("count") vorher/
     nachher UND ob ein GC-Zyklus darin fiel (Speicher sinkt) – trennt "eigene Rechnung" von "Bereinigung"; (3) dann die Anlage vermeiden (Werte merken, keine neuen
     Tabellen je Aufruf). Ziel ≤ 2 ms, ≤ 50 KB je Aufruf. Ein Ingametest wie heute genügt (Nutzer).
+>>> PRÜFUNG SUPERVISOR 27.11. 15:45 – 0.65.421 (FULL 356/67, keine neuen; API-LANGSAM mit Speicher vorher/Bereinigung/Materialpreis-Teilen): ANGENOMMEN als Messversion
+    (addon_check OK). Ingametest beim Nutzer wie 12:47.
