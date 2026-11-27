@@ -1,6 +1,6 @@
 # Discord-Prüfung
 
-Geprüft: 2026-11-27T13:19:29Z (Commit b383786), Server: Alpine Vanguard
+Geprüft: 2026-11-27T15:32:11Z (Commit 1125fb7), Server: Alpine Vanguard
 
 **Ergebnis: ❌ es fehlt etwas**
 
@@ -10,8 +10,8 @@ Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 4
 
 | | Addon | Version | Kanal | Gepostet | seit Push |
 |---|---|---|---|---|---|
-| ✅ ok | AHSentinel | 0.65.413 | #ahsentinel | 2026-11-26 21:38 UTC | 20 Std. |
-| ✅ ok | RaidMaster | 3.0.53 | #raid-addon | 2026-11-27 09:01 UTC | 4 Std. |
+| ✅ ok | AHSentinel | 0.65.413 | #ahsentinel | 2026-11-26 21:38 UTC | 23 Std. |
+| ✅ ok | RaidMaster | 3.0.53 | #raid-addon | 2026-11-27 09:01 UTC | 6 Std. |
 
 ## Ankündigungen (announce/, neueste Fassung je Reihe)
 
@@ -19,29 +19,31 @@ Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 4
 |---|---|---|---|---|
 | ✅ ok | addon-hilfe__ahanalyzerpro-hilfe-0.65.3.md | #addon-hilfe | 100 % | 4 Tage |
 | ✅ ok | ahsentinel__ahsentinel-0-vorstellung-1.8.md | #ahsentinel | 100 % | 18 Tage |
-| ⚠️ veraltet | ahsentinel__ahsentinel-0.65.421.md | #ahsentinel | 40 % | 72 Min. |
+| ⏳ wartet | ahsentinel__ahsentinel-0.65.422.md | #ahsentinel | 28 % | 15 Min. |
 | ✅ ok | ahsentinel__ahsentinel-hilfe-1.0.md | #ahsentinel | 100 % | 23 Tage |
-| ✅ ok | barrow-taktik__uebersicht-1.1.md | #barrow-taktik | 100 % | 23 Tage |
+| ✅ ok | barrow-taktik__uebersicht-1.1.md | #barrow-taktik | 100 % | 24 Tage |
 | ✅ ok | buffsentinel__buffsentinel-0-vorstellung-12.md | #buffsentinel | 100 % | 23 Tage |
-| ✅ ok | buffsentinel__buffsentinel-0.9.69.md | #buffsentinel | 100 % | 4 Std. |
+| ✅ ok | buffsentinel__buffsentinel-0.9.69.md | #buffsentinel | 100 % | 6 Std. |
 | ✅ ok | guildsentinel__guildsentinel-0-vorstellung-19.md | #guildsentinel | 100 % | 15 Tage |
-| ✅ ok | guildsentinel__guildsentinel-0.9.66.md | #guildsentinel | 100 % | 4 Std. |
-| ✅ ok | hyjal-taktik__uebersicht-1.1.md | #hyjal-taktik | 100 % | 23 Tage |
-| ⏳ wartet | levelpilot__levelpilot-3.13.29.md | #levelpilot | 60 % | 35 Min. |
+| ✅ ok | guildsentinel__guildsentinel-0.9.66.md | #guildsentinel | 100 % | 6 Std. |
+| ✅ ok | hyjal-taktik__uebersicht-1.1.md | #hyjal-taktik | 100 % | 24 Tage |
+| ⚠️ veraltet | levelpilot__levelpilot-3.13.29.md | #levelpilot | 60 % | 2 Std. |
 | ✅ ok | levelpilot__levelpilot-uebersicht-3.12.94.md | #levelpilot | 100 % | 9 Tage |
 | ✅ ok | lore__alpine-vanguard-vorstellung-1.0.md | #lore | 100 % | 26 Tage |
-| ✅ ok | mc-feuerresi__feuerresi-1.1.md | #mc-feuerresi | 100 % | 23 Tage |
+| ✅ ok | mc-feuerresi__feuerresi-1.1.md | #mc-feuerresi | 100 % | 24 Tage |
 | ✅ ok | onyxia-feuerresi__feuerresi-1.0.md | #onyxia-feuerresi | 100 % | 30 Tage |
 | ✅ ok | onyxia-taktik__onyxia-video-1.0.md | #onyxia-taktik | 100 % | 31 Tage |
 | ✅ ok | professionsentinel__professionsentinel-0-vorstellung-1.27.md | #professionsentinel | 100 % | 14 Tage |
-| ⏳ wartet | professionsentinel__professionsentinel-0.9.96.md | #professionsentinel | 16 % | 37 Min. |
-| ✅ ok | threatsentinel__threatsentinel-0-vorstellung-2.2.md | #threatsentinel | 100 % | 24 Tage |
-| ✅ ok | threatsentinel__threatsentinel-2.5.31.md | #threatsentinel | 100 % | 4 Std. |
+| ⚠️ veraltet | professionsentinel__professionsentinel-0.9.96.md | #professionsentinel | 16 % | 2 Std. |
+| ✅ ok | threatsentinel__threatsentinel-0-vorstellung-2.2.md | #threatsentinel | 100 % | 25 Tage |
+| ✅ ok | threatsentinel__threatsentinel-2.5.31.md | #threatsentinel | 100 % | 6 Std. |
 
-**announce/ahsentinel__ahsentinel-0.65.421.md** – fehlt im Discord:
-- `## AHSentinel 0.65.421`
-- `- **Diagnose:** die Zeile zu langsamen Preis-Abfragen zählt gleiche Teile zusammen, zeigt den belegten Speicher vor der Abfrage und ob darin eine Speicherberein`
-- `- **Diagnostics:** the slow-question line adds up repeated parts, shows the memory in use before the question and whether a memory clean-up ran during it, and s`
+**announce/ahsentinel__ahsentinel-0.65.422.md** – fehlt im Discord:
+- `## AHSentinel 0.65.422`
+- `- **Schnellere "Lohnt bis"-Antworten (z. B. für ProfessionSentinel):** die Sicherheitsmarge beim Entzaubern hat für jeden einzelnen früheren Entzauber-Kauf die `
+- `- Materialpreise und Entzauber-Startwerte werden je Abfrage nur noch einmal gerechnet.`
+- `- **Faster "worth up to" answers (e.g. for ProfessionSentinel):** the disenchanting safety margin looked up the item data of every single past disenchant purcha`
+- `- Material prices and disenchanting start values are now worked out only once per question.`
 
 **announce/levelpilot__levelpilot-3.13.29.md** – fehlt im Discord:
 - `📢 **LevelPilot 3.13.29** – genauere Speichermessung in der Testroutine`
