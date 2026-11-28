@@ -1,0 +1,46 @@
+forever 1.60.1 71139|16001|2026-11-28 13:41
+ProfessionSentinel 0.9.100 – Diagnose-Protokoll · 28.11.2026 13:41
+Client forever 1.60.1 (71139) · Interface 16001 · Sprache deDE
+Sitzungen: 135 (seit 05.11.2026)
+Geänderte Einstellungen: minimapAngle=253.49827185777, panelMode=plan, panelOpen=false
+
+== Diagnose
+  Preisquelle: AHSentinel
+  Panel offen: nein
+  Angedockt an: –
+  Neuaufbauten: 25 angefragt, 42 ausgeführt
+  Langsamste Wege dieser Sitzung: Aufgabe heute 18.6 ms! ×1336 · Neuaufbau (Teil) 6.2 ms ×1554 · Alles neu (erster Teil) 5.8 ms ×16 · Aufgabe rezepte-api 1 3.4 ms ×21 · Berufswechsel (sofort) 2.3 ms ×4 · Lebenslinien im Berufsfenster 0.6 ms ×16 · Aufgabe treffer 0.1 ms ×2
+  Hintergrund-Aufgaben: heute ×22, Teil max 18.6 ms (darin 1 Stücke 18.6 ms, längstes 18.6 ms Azurblaue Seidenkapuze [fremd 4.5 ms: AHSentinel.API.DisenchantValue 2.8 ms ×1, AHSentinel.API.NetSale 1.5 ms ×2, AHSentinel.API.Price 0.1 ms ×2; eigener Code 14.1 ms] · übrig 0.0 ms · Speicher -1.6 MB = Bereinigung im Teil · Bild davor 15 ms · 46 Bilder/s) · rezepte-api 1 ×21, Teil max 3.4 ms · treffer ×2, Teil max 0.1 ms
+  Heute herstellen, WorthUpTo je Lauf: Lauf 17: 0 neu, 120 gemerkt · Lauf 18: 0 neu, 120 gemerkt · Lauf 19: 0 neu, 120 gemerkt · Lauf 20: 0 neu, 120 gemerkt · Lauf 21: 120 neu, 0 gemerkt · Lauf 22: 120 neu, 0 gemerkt
+  WorthUpTo vergessen: 12:50:48 ledger (123 Antworten) · 13:03:40 ledger (618 Antworten) · 13:03:43 ledger (69 Antworten) · 13:03:43 Händler: Kauf/Verkauf (1 Antworten) · 13:39:57 Händler: Kauf/Verkauf (661 Antworten) · 13:39:59 ledger (0 Antworten) · 13:41:16 Händler: Kauf/Verkauf (120 Antworten) · 13:41:17 ledger (0 Antworten)
+  WorthUpTo ohne Antwort (nil, nach 10 Min. neu gefragt): Fischglas, Fraktionsbanner, Einfaches Lagerfeuerset, Glitschhautmakrele, Wurzeltee, Verbandtasche, Verzauberte Laute, Magiepartikel, Angelständer, Fischglas
+  Lua-Fehler des Addons seit dem letzten Bericht: 0
+  Berichte, die noch gemeldet werden: 0
+
+== Einträge (26, neueste zuerst, höchstens 200)
+[28.11. 13:41:16] AUFBAU ×514 direkt · 514 Anfragen · 344.6 ms (zuletzt 0.0 ms) (v0.9.100)
+[28.11. 13:35:16] AUFBAU ×547 TRADE_SKILL_SHOW · 2021 Anfragen · 410.5 ms (zuletzt 1.0 ms) (v0.9.100)
+[28.11. 13:32:08] AUFBAU ×152 Heute herstellen · 216 Anfragen · 141.6 ms (zuletzt 3.7 ms) (v0.9.100)
+[28.11. 12:49:33] LANGSAM Aufgabe heute · 18.6 ms (v0.9.100)
+[28.11. 12:41:02] AUFBAU ×5 AHSentinel:ledger · 5 Anfragen · 240.8 ms (v0.9.100)
+[28.11. 12:40:57] AUFBAU ×106 Herstellen fertig · 162 Anfragen · 7.1 ms (zuletzt 3.7 ms) (v0.9.100)
+[28.11. 12:14:54] AUFBAU ×4 Rezept-Alarm · 7 Anfragen · 0.6 ms (v0.9.100)
+[27.11. 23:32:55] AUFBAU ×570 Scan · 598 Anfragen · 225.7 ms (zuletzt 112.3 ms) (v0.9.93)
+[27.11. 23:26:40] LANGSAM ×11 Neuaufbau (Teil) · 30.9 ms (v0.9.93)
+[27.11. 23:26:40] LANGSAM ×11 UI:Aufbau (Teil) · 30.9 ms (v0.9.93)
+[27.11. 23:23:39] AUFBAU ×2241 TRADE_SKILL_LIST_UPDATE · 3650 Anfragen · 163.6 ms (zuletzt 4.4 ms) (v0.9.93)
+[27.11. 23:20:45] AUFBAU ×19 Schnäppchen · 21 Anfragen · 5.2 ms (zuletzt 4.5 ms) (v0.9.93)
+[27.11. 15:21:44] KLICK Schwarze Magiestoffgamaschen · Zauber 12049 · RecipeID 12049 · Liste · ausgewählt: ja · 6.3 ms (v0.9.93)
+[27.11. 15:20:41] DATEN Figur-Schlüssel zusammengeführt (Realm leer): 1
+[23.11. 23:54:45] AUFBAU ×31 Gold je Stunde · 31 Anfragen · 23.6 ms (zuletzt 6.3 ms) (v0.9.74)
+[23.11. 15:21:26] KLICK Gekochte Muscheln · Zauber 6499 · RecipeID 6499 · Liste · ausgewählt: ja · 6.0 ms (v0.9.74)
+[21.11. 00:38:31] LANGSAM ×766 UI:Refresh · 150.3 ms (zuletzt 91.9 ms) (v0.9.37)
+[21.11. 00:38:31] LANGSAM ×225 UI:UpdateBest · 148.6 ms (zuletzt 91.9 ms) (v0.9.37)
+[21.11. 00:38:31] LANGSAM ×759 AD.Update · 148.5 ms (zuletzt 91.8 ms) (v0.9.37)
+[20.11. 20:20:10] LANGSAM UI:Refresh/disenchant · 150.1 ms (v0.9.37)
+[20.11. 20:19:55] LANGSAM ×209 UI:Aufbau (Teil 1) · 98.0 ms (zuletzt 89.6 ms) (v0.9.37)
+[19.11. 23:30:59] LANGSAM ×31 UI:Aufbau (Teil 3) · 106.4 ms (zuletzt 80.7 ms) (v0.9.37)
+[19.11. 23:30:59] LANGSAM ×107 UI:Aufbau (Teil 2) · 95.6 ms (zuletzt 87.1 ms) (v0.9.37)
+[10.11. 23:56:26] LANGSAM ×4 UI:Refresh/recipes · 57.4 ms (zuletzt 21.6 ms) (v0.9.37)
+[10.11. 23:56:19] LANGSAM ×2 UI:Refresh/plan · 33.0 ms (v0.9.37)
+[10.11. 23:56:19] LANGSAM ×2 Plan · 29.7 ms (v0.9.37)
