@@ -2173,3 +2173,14 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
     (Gegenprobe), −7 %/−20 % Speicher – reicht laut Bericht NICHT unter 16 ms: T155 bleibt HOCH offen, nächster Schritt kalte Wegsuchen in
     CheckFirstPath/Graph:Path mit Datei:Zeile. T261: Ingametest kalt beim Nutzer (erstes Einloggen nach 3.13.32, 60 s warten, dann Routine).
     Auslöser der 9 Neuplanungen beim Einloggen im nächsten Ingametest messen.
+
+>>> INGAMETEST 3.13.32 – Nutzer 28.11. 05:51 (PC, Priester 10, Undercity), Supervisor 06:20: OK 336 · FEHLER 1 · SKIP 9 · Client 55 · 980 s.
+    - T401/längstes Bild: 33,9 ms (T352), Bilder über 40 ms: 0 (vorher 91,2 ms) – Ziel < 40 ms im Spiel ERREICHT. Die ~4-MB-Stücke: im Bericht belegen.
+    - T155 weiter FEHLER: 16,99 ms je Planung (vorher 18,36; −7,5 %, wie vom Nachbau erwartet), Median 9,48, längste 67,8 ms (#6 Stufe 10,
+      Zone 1458, +1429 KB), 541 KB je Planung. Bleibt HOCH – nächster Schritt kalte Wegsuchen (Bericht 05:42).
+    - T261: 682 ms in 60 s, aber WIEDER "Einloggen: zweites (Ablage getroffen)" – obwohl der Nutzer nach dem Einspielen von 3.13.32 eingeloggt hat.
+      Belegen (Datei:Zeile), wann die Ablage als gültig gilt: nur Version des Addons, oder auch Datenpaket/Wegnetz? Gilt sie über einen
+      Versionswechsel, ist "erstes" im Spiel praktisch nie messbar -> Testroutine soll den kalten Fall selbst erzeugen können (Ablage für eine
+      Messung verwerfen, z. B. /lp testroutine kalt) oder die Ablage beim Versionswechsel ungültig machen. Erst mit kaltem Wert < 1000 ms erledigt.
+    - Reisen: längstes 17,0 ms, Überschreitung 6,9 ms jetzt bei Planner.lua:784 (vorher Graph.lua:1048) – NIEDRIG.
+    - Umgebung unruhig (92 Bilder/s, Ruhe 95 % 34 ms, längstes 247 ms) – 11 von 12 ganzen Bildern über 40 ms durch Spiel/Umgebung.
