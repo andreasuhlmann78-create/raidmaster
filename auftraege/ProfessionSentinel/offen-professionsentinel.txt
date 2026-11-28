@@ -1065,3 +1065,19 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
       "Lauf 8: 32 neu" – jedes Händler-Öffnen/Schliessen wirft alle Antworten weg und fragt AHSentinel 32× neu. Nur vergessen, wenn sich Taschen/Gold/
       Preise wirklich geändert haben (z. B. Kauf/Verkauf), nicht beim blossen Öffnen/Schliessen; doppelte CLOSED zusammenfassen. Messung + Test.
     Sonst gut: Neuaufbau (Teil) max 8,4 ms, Aufgabe heute 6,2 ms, alles < 16 ms.
+
+>>> BEFUNDE 8 Bilder des Nutzers 28.11. 04:49–04:50 (PC, 0.9.98, Schneiderei 110/150, Reiter Jetzt/Gold/Rezepte) – Supervisor 05:00:
+    Nachgerechnet OK: Schärpe des inbrünstigen Novizen Material 6s72 + 1s80 + 10c = 8s62, Händler 1s76 -> −6s86 stimmt. Spinnenseidenstiefel Material
+      15s36 + 6s96 + 77s92 + 8s51 = 1g8s75 stimmt.
+    PS-UI-REZ1 MITTEL: Reiter "Rezepte" Kopfzeile überlappt: "Alle 438 Gelernt 25ernbar 150ehlt 268Händlergut…" – die Zähler laufen ineinander und unter
+      das Suchfeld "Rezept oder Zutat s…". Ausserdem Reiter-Titel "Rezepte 368" vs. "Alle 438" / "25/438 bekannt" – 368 belegen (was zählt es?) oder angleichen.
+    PS-GOLD-WID MITTEL (Psychologie): Tooltip "Wolkenblaue sturmgenähte Weste" zeigt gleichzeitig grün "✓ Herstellen lohnt sich +46s81" und rot "Markt
+      überflutet – viel mehr Angebote als gestern, Preis gefallen: jetzt nicht herstellen". Eine klare Aussage (Kopfzeile folgt der Warnung, z. B. "Jetzt nicht
+      herstellen – Markt überflutet (sonst +46s81)"); die Liste "Gold verdienen" darf so ein Rezept nicht ohne Warnzeichen oben führen.
+    PS-LVL-EINH MITTEL ("jede Zahl geht auf"): Liste "Levelin (Top 10) – Gold pro Skillpunkt" mischt Einheiten: "+97c/Herst.", "−3s70c/Herst.", "−13s65c/Herst.",
+      "−9s84c/Herst." neben "−1s10c/Pkt", "−4s24c/Pkt", "−12s61c/Pkt". Eine Rangliste nach Gold pro Skillpunkt braucht EINE Einheit (je Punkt, mit
+      Chance) – belegen, warum manche Zeilen /Herst. zeigen, vereinheitlichen; Tippfehler "Levelin" -> "Leveln" prüfen (Bild zeigt "Leveln (Top 10)").
+    PS-TT-RECH NIEDRIG: Spinnenseidenstiefel "Verkaufen 91s68", "Herstellen lohnt nicht −34s29" bei Material 1g8s75 – aus den sichtbaren Zahlen nicht
+      nachrechenbar (91s68 − 1g8s75 = −17s07; mit 5 % −21s65). Die Abzüge (Absatz/realistischer Preis?) in einer Zeile nennen, nicht nur hinter Shift.
+    Reiter "Jetzt": "Bestes Gold-Rezept jetzt: Leinenstiefel +1s39c – Klick: nächster Schritt (2 Zutat(en) im AH kaufen (etwa 12s 84…" – Text abgeschnitten
+      (NIEDRIG, nichts abschneiden).
