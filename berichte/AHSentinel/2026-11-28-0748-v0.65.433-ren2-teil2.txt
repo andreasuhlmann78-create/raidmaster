@@ -21,3 +21,8 @@ FULL 0.65.432: 360 PASS / 67 FAIL, Fail-Liste = 0.65.431 (keine neue Rot-Stelle)
    Verkauf, der NICHT zählt). Gegenprobe 0.65.432: FAIL. T263/T264 (alter Weg) weiter grün. 13 Buchhaltungs-Szenarien alt = neu. addon_check OK.
 5. Offen: Zusatz "noch im Lager aus Entzaubern: n Stück, Wert x (unrealisiert)" im Rendite-Reiter (nächster Schritt); Reiter "Entzaubern" (je Tag)
    nutzt weiter Le:DisenchantReport (jetzt mit Einsatz aus den Buchungen, 0.65.431).
+
+NACHTRAG 07:52 (Genauigkeit zu Punkt 3): Formel nachgeprüft - Books.lua BK:Summary "s.boughtProfit = s.profit - s.freeRev" und
+"s.roi = s.cost > 0 and (s.boughtProfit / s.cost * 100)". Nenner s.cost = Kostenbasis der Verkäufe OHNE verfallene Einzahlungen; meine Zahl
+128g40s68 enthält die Einzahlungen (Zeile Sonstiges). (48g69s08 − 17g84s78) / 128g40s68 = 24,02 %; mit s.cost (ohne Einzahlungen) leicht höher –
+genaue Zahl im Nachbau noch auszugeben, Verdacht: 24–25 %. Die Formel selbst ist belegt.
