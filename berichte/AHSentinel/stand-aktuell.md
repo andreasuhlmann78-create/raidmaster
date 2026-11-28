@@ -1,6 +1,6 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 28.11.2026 10:30 · Version 0.65.437 (Discord); CurseForge 0.65.423; 0.65.434 angenommen (Code)
+## Stand 28.11.2026 10:36 · Version 0.65.437 (Discord); CurseForge 0.65.423; 0.65.434 angenommen (Code)
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/<RECHNER>/forever/konto-*/AHSentinel.lua.gz; PC = DESKTOP-NVITMSE; Nachlieferung Rechner B: eigener Zweig).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
@@ -14,7 +14,7 @@ Nachbau: FULL=1 nur auf Kopie und ALLEIN (pgrep run_all.sh leer). FULL 0.65.436:
   FULL 0.65.437 allein (sim_full437.txt).
 
 ## Nächste Schritte (Reihenfolge = Masterplan Supervisor 28.11. 10:20, verbindlich)
-1. SN-UX1 Punkt 2: Entscheid des Nutzers zum Wechsel zwischen 2 Zielen mit Treffer (SN-Z4 alle 3 s vs. stehen lassen).
+1. FULL 0.65.437 auswerten (gegen fail436.txt).
 2. Schritt 2 Rest: T459 Nachlauf-Speicher + AHS-SN-LAG2 (SEARCH_RESULTS 16–35 ms, Tabellen wiederverwenden) + AHS-SP1 (d).
 3. Schritt 2b Rest in Masterplan-Reihenfolge: MR4-T (ma4log leer; Verdacht ReqLevel ohne Item-Cache), SP-MENGE, TT-WEG, MW-AUSR, BH-QUOTE,
    BH-LEER, DE-WID1, MKT-WID2, PROF-SP1 (+ CHAT-PROFIT Zahl 14/22), VEN-GW1 (8 Fälle), SN-LB1, Einkauf-Zeilen beschriften, Eigenbedarf-Buchung,
@@ -25,10 +25,10 @@ Nachbau: FULL=1 nur auf Kopie und ALLEIN (pgrep run_all.sh leer). FULL 0.65.436:
 ## Offen beim Nutzer
 - Ingametest: API-LANGSAM-Zeilen (≤ 2 ms, ≤ 50 KB), Blendungspulver/Gift-Tooltip + "ruht · gebunden", Einkauf > Seltenheit (ganz sichtbar,
   Klick daneben schliesst, Restzeit gefüllt), Protokollzeile UI-DD1.
-- SN-UX1 (2): Wechsel zwischen zwei Zielen mit Treffer – SN-Z4 behalten oder nur nach Kauf wechseln?
 - CurseForge-Antwort AHS-CF-1 (EN, Bericht 09:07) wartet auf OK des Nutzers – nicht selbst posten.
 
 ## Entscheide des Nutzers seit letztem Stand
+- 28.11. 10:36: Sniper mit 2 Zielen mit Treffer: weiter alle 3 s wechseln (SN-Z4 bleibt, nicht stehen lassen).
 - 28.11. 04:55: Anzeige-Befunde = Schritt 2b (nach 2, vor R1–R7), keiner darf verloren gehen, jeder mit Test + Abnahme-Bild.
 - 28.11. 05:03: Eine Raste kauft ALLE Angebote des Treffers (Massenkauf) – gewollt, nicht ändern.
 

@@ -1,0 +1,7 @@
+AHSentinel 0.65.437 – AHS-SN-UX1 Punkt 2: Entscheid des Nutzers 28.11. 10:36
+Projekt-Sitzung AHSentinel
+
+Frage an den Nutzer: zwei Ziele mit gleichzeitigem Treffer – alle 3 s wechseln (SN-Z4), nur nach Kauf wechseln, oder stehen bis zum Klick?
+Antwort des Nutzers: "Alle 3 s wechseln (wie jetzt)".
+Damit gilt SN-Z4 weiter (ROTATE_S = 3 s, s345 unverändert). 0.65.437 bleibt so: rechts nie ein Ziel ohne Treffer, Wechsel nur zwischen
+Zielen mit Treffer und frühestens nach 3 s (s350: kürzeste Standzeit 3,3 s). Kein Code geändert. Bitte in shared/wissen/entscheide.md übernehmen.
