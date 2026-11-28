@@ -1,12 +1,11 @@
-# Stand 27.11.2026 22:50 · Version 0.9.98 (announce), 0.9.93 (download)
+# Stand 28.11.2026 04:29 · Version 0.9.98 (announce + download)
 
 ## Gerade in Arbeit
-- Nichts. 0.9.98 NUR announce/ (Release v0.9.98, Repo 6a00fde), Bericht 2026-11-27-2250-version-0.9.98.txt – zur Prüfung:
-  T269-Ursache belegt (wartende Aufgabe "heute" mit alten Eingaben) -> TD.jobKey, TD.Collection rechnet neu; T302; lua51 5/5 grün.
-- 0.9.97 angenommen (22:08), Abnahme im Spiel offen (Schneider- + Experten-Lehrer). download/ = 0.9.93 bis Freigabe.
+- Nichts. 0.9.98 angenommen (28.11. 04:35) und nach download/ gelegt (gleiche Zip wie announce/, md5 dbe05b13…), 0.9.93 entfernt.
+- Offen im Spiel: PS-SK2 (Schneider- + Experten-Lehrer, Tooltip Magiestoffballen), PS-P2-Abnahme (WorthUpTo je Lauf, Vergessen mit Grund).
 
 ## Nächste Schritte (Reihenfolge)
-1. Nach Freigabe (0.9.94 oder 0.9.95 "ANGENOMMEN" + download frei): dieselbe Zip nach download/ (md5), alte entfernen, Workflow grün.
+1. Neue Version erst nach "ANGENOMMEN" nach download/ (DL-ABN).
 2. Ansicht recipes im Nachbau (2 Bilder ~405 ms, Stapel 20x ohne Addon-Zeile = Verdacht Mock) belegen.
 3. PS-TQ1 Abnahme a) mit echten Daten, sobald Herstellen+Entzaubern im Spiel (Bericht "Trefferquote je Beruf").
 4. Gilden-Sync-Tag ohne Realm prüfen.
