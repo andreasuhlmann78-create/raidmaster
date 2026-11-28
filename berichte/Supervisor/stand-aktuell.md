@@ -1,12 +1,13 @@
-# Stand Supervisor – 28.11.2026 05:18 (Nutzer spielt, Tests laufen)
+# Stand Supervisor – 28.11.2026 05:36 (alle 3 Projekte arbeiten)
 
 ## Gerade in Arbeit
-- Warte nicht: LP-Testprotokoll (3.13.31, nach Neu-Einloggen) kommt vom Nutzer -> T261 (Einloggen, gestern 1810 ms), T150, Grundregeln, MarktLine/LP-ML1 auswerten.
-- AHSentinel und LevelPilot um 05:17 angestossen.
+- Nichts Laufendes. AHS, LP, PS um 05:31 am Arbeiten.
+- Angenommen heute: AHS 0.65.428 (UI-DD1), 0.65.429 (SN-DEL1 a, PS-EIG1 AHS-Seite, CHAT-PROFIT, TXT-CUT); PS 0.9.99 (P3, SK2-b, darf nach download/).
+- LP Ingametest 3.13.31 05:11: T261 699 ms aber WARM (Ablage) -> kalt belegen; NEU T155 FEHLER 18,4 ms/Planung HOCH; längstes Bild 91 ms T401.
 
 ## Nächste Schritte (Reihenfolge)
 1. Bei jedem "repo": pull, Berichte prüfen, addon_check, annehmen/ablehnen, push + nachprüfen, Workflow ansehen.
-2. LP-Protokoll auswerten (s. o.); LP-Aufträge: T261 HOCH, Route 1–60 ALT/NEU mit Wegdaten (Probebau, bisher 141 h 30 unverändert), LP-UI-AC1 NIEDRIG.
+2. LP: T155 HOCH, T261 kalt, T401 91 ms; dann Wegnetz mit Zonen von B (Entscheid 05:35); LP-UI-AC1 NIEDRIG.
 3. AHSentinel 0.65.428 (AHS-UI-DD1) angenommen 05:08 – Spieltest beim Nutzer offen (Seltenheit über Liste, schliesst, Restzeit gefüllt; Sniper/Preisverlauf).
    Offen bei AHS: AHS-BH-REN2 HOCH (Rendite: Entzauber-Kosten 0), AHS-SN-DEL1 MITTEL (nur a: Löschen verwirft offene Treffer/"1 offen"),
    AHS-SN-LB1 NIEDRIG (Text "+60 %"), Masterplan v2 Schritt 2 (Stabilität/Vollscan) -> 2b (Anzeige) -> R1–R7 -> Abnahme -> 0.66.0.
@@ -21,6 +22,7 @@
 - Frage "kleine KI aus dem Rechenkern" (seit 14.11., keine Eile). 09.12. 07:00: Aufgabe "Raids und Taktiken" wieder einschalten.
 
 ## Entscheide des Nutzers seit letztem Stand
+- 28.11. 05:35 LP-Startwegnetz: erst Haralds Zonen (B) ins Werkzeug, neu messen, dann EINE Version (Route ALT/NEU: Konto +0,2 %, neuer Spieler −2 %).
 - 28.11. 04:55 Anzeige-Befunde AHS als Schritt 2b im Masterplan (nichts vergessen).
 - 28.11. 05:03 Sniper: eine Raste kauft ALLE Angebote des Treffers, solange Gold reicht – gewollt (in entscheide.md).
 - Nutzer 05:01: Treffer Wollstoff/Öl kamen VOR dem Löschen -> AHS-SN-DEL1 von SEHR HOCH auf MITTEL korrigiert.
