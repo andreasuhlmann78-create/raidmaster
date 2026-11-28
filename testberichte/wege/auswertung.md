@@ -323,7 +323,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Orgrimmar (1454)
 
-- Wegstücke 1720, Knoten 1018, zusammenhängende Teile 3
+- Wegstücke 1722, Knoten 1018, zusammenhängende Teile 3
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 1013 Knoten, Bereich 22–82 / 19–95
   - Teil 2: 3 Knoten, Bereich 38–40 / 28–30
@@ -414,14 +414,15 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Flusslande (2548)
 
-- Wegstücke 3846, Knoten 2468, zusammenhängende Teile 6
+- Wegstücke 3907, Knoten 2552, zusammenhängende Teile 7
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 2437 Knoten, Bereich 16–88 / 15–97
+  - Teil 1: 2519 Knoten, Bereich 16–88 / 15–97
   - Teil 2: 15 Knoten, Bereich 88–89 / 26–32
   - Teil 3: 6 Knoten, Bereich 58–58 / 32–33
   - Teil 4: 5 Knoten, Bereich 60–61 / 76–78
   - Teil 5: 3 Knoten, Bereich 61–62 / 35–35
   - Teil 6: 2 Knoten, Bereich 59–59 / 30–31
+  - Teil 7: 2 Knoten, Bereich 23–24 / 64–64
 
 ## Shen'dralas (2652)
 
