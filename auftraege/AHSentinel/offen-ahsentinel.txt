@@ -7514,3 +7514,11 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     brauchen die Restzeit – im Einkauf stand bei allen Angeboten Restzeit "-" (AHS-UI-DD1 Nebenpunkt). Liefert Forever die Restzeit nicht, kann der
     Reiter "Gebote" nie etwas zeigen -> dann ehrlich sagen ("in WoW Forever ohne Restzeit nicht möglich") statt "mehrere Tage". Kopftext
     "Klick auf ein Item: im Einkauf (…" wird vom Stufen-Knopf "10 %" überdeckt (abgeschnitten) – mit AHS-TXT-CUT beheben.
+
+>>> PRÜFUNG Bild des Nutzers 28.11. 04:42 (PC, 0.65.427, Buchhaltung "Seit Neustart" + Details) – Supervisor 04:50, nachgerechnet:
+    Gewinn 48g69s11 = Verkauft 175g63s15 − Eingesetzt 128g14s52 + Entzauber-Ausbeute 1g46s61 − Einzahlen verfallen 26s13 – geht auf den Kupfer auf.
+    Handel pro Stunde 80s11 bei 60,8 Std. (48,69 g / 60,8 h = 80s08 – Rundung der Stunden, ok). Verkaufsquote 2315/2809 = 82,4 % ok.
+    Herkunft unbekannt 17g84s78 mit Kostenbasis 0 im Gewinn = nach buchhaltung.md Regel 2 gewollt (Anteil ~10 % der Verkäufe, plausibel).
+    AHS-BH-REN NIEDRIG: "Rendite 24 %" lässt sich aus den gezeigten Zahlen nicht nachrechnen (48,69/128,15 = 38 %, /175,63 = 28 %; nur 48,69/(175,63 +
+    Fehlbestand 30,87) = 23,6 % träfe – Verdacht, nicht belegt). Formel belegen und im Tooltip der Zahl zeigen (Gewinn / Basis = %), Test.
+    "Gold-Abstimmung: wird abgeglichen" – im nächsten Bericht sagen, wann sie fertig ist und mit welchem Ergebnis (Regel 3).
