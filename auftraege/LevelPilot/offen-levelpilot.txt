@@ -2208,3 +2208,17 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
     1037 ms eigene Rechenzeit sind (debugprofilestop nur um den eigenen Code) oder Wanduhr eines Bildes, in dem das Spiel im Hintergrund
     gedrosselt war (Fensterwechsel). Ist es Wanduhr: Messung so trennen, dass "Schritte über 16 ms" nur eigene Zeit zählt, und LP-FRZ1 auf
     NIEDRIG. Ist es eigene Zeit: bleibt HOCH.
+
+>>> PROTOKOLL Nutzer 28.11. 07:14 (/lp protokoll, 3.13.33, "26 neue Auffälligkeiten"), Supervisor 07:34:
+    1. Fast alle Einträge sind "perf … Wegnetz laden" bei jedem Einloggen/Reload: eigene Portionen ≤ 5 ms (über 16 ms: 0), aber "längstes ganzes
+       Bild 1031–1148 ms … durch Spiel/Umgebung". Das ist der Ladebildschirm/Reload des Spiels, keine Auffälligkeit von LP. BEFUND LP-PROT-N1
+       NIEDRIG: solche Zeilen nicht als "neue Auffälligkeit" zählen (nur wenn eigene Portion > 16 ms), sonst meldet der Chat "26 neue" für nichts.
+    2. Hinweis zu LP-FRZ1 (1037 ms bei T221/T222): genau dieselbe Grösse (~1,0–1,1 s) hat das ganze Bild nach JEDEM Laden. Belegen, ob T222 im
+       kalten Lauf einen Reload/Ladevorgang oder ein Bild nach dem Laden mitgemessen hat (dann Messfehler, NIEDRIG) – oder eigene Rechenzeit (HOCH).
+    3. "06:47 LANGSAM Planung dauerte bis zu 2314 ms" (während/nach der kalten Routine) – Wanduhr über mehrere Bilder oder ein Bild? Im Bericht
+       mit eigener Zeit/Bilder angeben; bei > 16 ms in einem Bild gehört es zu T155.
+    4. 05:08 (3.13.31): Stapel "TestRoutine.lua:12838 in function 'Abort' … ThreatSentinel/GoldSentinelTakt.lua:366/412" – war das ein Fehler oder
+       ein gewollter Abbruch (Text fehlt)? "Letzter Fehler: keiner". Belegen; ein gewollter Abbruch darf nicht wie ein Fehler mit Stapel erscheinen.
+    5. "ZEIT Start 33 ms/32× max 17 (über 16 ms)" erste 60 s – 1 ms über dem Ziel, NIEDRIG (mit T261).
+    6. Speicher: Lua gesamt (alle Addons) bis 946 MB (06:29, Routine); LP angelegt seit Einloggen 94,6 MB, davon "Sicherung 39,1 MB" – erklären,
+       was "Sicherung" je Sitzung so viel anlegt (leistung.md, Speicher). NIEDRIG/MITTEL nach Befund.
