@@ -7574,3 +7574,16 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
       "Seit Neustart" – Zeitraum/Zählweise belegen und beschriften.
     AHS-BH-LEER NIEDRIG: Statistik-Liste hat eine Zeile ohne Item-Namen ("– 94 – 1s71", eingestellt "-") – belegen (Item unbekannt im Cache?), Namen nachladen
       oder "Item #ID" zeigen.
+
+>>> BEFUND AHS-SN-DEL1 SEHR HOCH (GOLD-SICHERHEIT) – Bild des Nutzers 28.11. 04:59 (PC, 0.65.427), Supervisor 05:15:
+    Nutzer: "ich habe Wollstoff aus dem Sniper gelöscht". Zielliste zeigt nur noch 2 Einträge (Kapuze, Stulpen) – Wollstoffballen und Fläschchen Öl sind weg.
+    Trotzdem im Chat (danach bzw. weiter): "[AHSentinel] Treffer: 208x Wollstoffballen für 16g 19s 92 – Mausrad zum Kaufen" (2×) und "Treffer: 50x Fläschchen
+    Öl für 16s – Mausrad zum Kaufen". Zähler "Heute: 15 Treffer · 8 mit Kauf · 6 verpasst · 1 offen". Gold unverändert 45g58s18 (kein Kauf belegt).
+    Gefahr: eine Raste über dem Fenster könnte für ein GELÖSCHTES Ziel bis zu ~16g ausgeben. Auftrag (vor allem anderen, Masterplan "HOCH geht vor"):
+    1. Reihenfolge belegen (kamen die Treffer nach dem Löschen? laufende Suche/gehaltener Treffer/Warteschlange des gelöschten Ziels?) – Datei:Zeile.
+    2. Ziel löschen = sofort: laufende Suche des Ziels verwerfen, gehaltene/offene Treffer und Reservierungen des Ziels löschen, keine Chat-Meldung mehr,
+       Kaufweg prüft VOR jedem Kauf, dass das Ziel noch existiert und Max/Budget gelten (sonst "Raste übergangen – Ziel gelöscht").
+    3. Prüfen: bedeutet "208x … für 16g19s92 – Mausrad zum Kaufen", dass EINE Raste 208 Stück/16g kauft? Wenn ja: je Raste höchstens ein Angebot (wie
+       sonst) – belegen und mit Test sichern. Budget/Rest des Ziels (17g80) muss jede Raste begrenzen.
+    4. Test: Ziel anlegen, Treffer erzeugen, Ziel löschen, Raste -> kein Kauf, keine Meldung; Gegenprobe mit 0.65.427.
+    Bis zur Behebung: dem Nutzer geraten, nach dem Löschen eines Ziels nicht über dem Fenster zu scrollen (bzw. Sniper aus/an).
