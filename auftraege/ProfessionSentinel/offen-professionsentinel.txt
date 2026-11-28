@@ -1142,3 +1142,8 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
     16 ausgeführt", langsamster Teil 6,6 ms. Belegen (Datei:Zeile): Ist 120,9 ms EIN Bild (dann Ruckler, HOCH, leistung.md ≤ 16 ms) oder die Summe
     eines Ereignis-Sturms? Warum 10 020 TRADE_SKILL_LIST_UPDATE in ~2 Min. (Client feuert beim Öffnen/Filtern ständig?) – Ereignis bündeln
     (1× je Bild/0,2 s), Anfragen je Ereignis senken. Protokollzeile so schreiben, dass "max je Bild" und "Summe" getrennt stehen. Test + Gegenprobe.
+
+>>> SPIELTEST PS-P3 – Protokolle Nutzer 28.11. 07:10/07:11 (0.9.100), Supervisor 07:27: BESTANDEN.
+    Händler auf/zu ohne Kauf (07:10): keine Zeile "WorthUpTo vergessen" durch den Händler. Nach Kauf (07:11): genau EIN Eintrag
+    "07:11:21 Händler: Kauf/Verkauf (32 Antworten)"; danach "Heute herstellen" Lauf 4: 32 neu (richtig nach dem Vergessen). PS-P3 ERLEDIGT.
+    Offen beim Nutzer nur noch: Lehrer-Zeile (PS-SK2-b, Magiestoffballen?).
