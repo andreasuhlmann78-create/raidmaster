@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Folge |
 |---|---|---|
+| 05:03 | Sniper: "alle solange genug Gold da ist, aber so ist es auch richtig … Massenkäufe mit einer Raste" | Eine Mausrad-Raste kauft alle Angebote des Treffers (z. B. 208x Wollstoffballen), solange Gold reicht – gewollt, kein Fehler. Grenzen bleiben Max-Preis/Max-Menge/Budget des Ziels und Gold. AHS-SN-DEL1 Punkt b damit entschieden. |
 | 04:55 | Anzeige-Befunde AHSentinel vom Morgen: "wir dürfen das nicht vergessen zu erledigen … wie Masterplan" | Reihenfolge Masterplan bleibt (zuerst Schritt 2 Vollscan/Stabilität); die 10 Anzeige-Befunde stehen als eigener SCHRITT 2b im Masterplan (vor R1–R7), keiner geht verloren. |
 
 ## 27.11.2026
