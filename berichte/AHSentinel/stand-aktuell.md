@@ -1,36 +1,37 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 28.11.2026 05:25 · Version 0.65.429 (Discord); CurseForge 0.65.423; 0.65.428 vom Supervisor angenommen (Code)
+## Stand 28.11.2026 05:28 · Version 0.65.429 (Discord); CurseForge 0.65.423; 0.65.428 vom Supervisor angenommen (Code)
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
- lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz; Nachlieferung Rechner B: Zweig nachlieferung-rechner-b-2026-11-27).
+ lesen; Zweig sicherung: aktuell/<RECHNER>/forever/konto-*/AHSentinel.lua.gz; PC = DESKTOP-NVITMSE; Nachlieferung Rechner B: eigener Zweig).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
- erwartet in /tmp/claude-0/rel/: AHSentinel-<V>.zip, notes.md, bericht.txt, stand.md). ZIP = gleiche 112 Dateien wie Vorversion (listN.txt).
-Nachbau: cd /home/claude/ahanalyzerpro && bash tests/run_offline.sh /home/claude/AHSentinel; FULL=1 nur auf Kopie und ALLEIN (vorher pgrep run_all.sh leer).
- FULL 0.65.426: 356/68, neu nur s326 = Zeitrennen im Testszenario, Test behoben (AHS-S326). zz_bp1 = Leistung BindOnPickup (TR_TEXT=1 nötig für Ausgaben). Echte Daten im Sim: immer HORDE=1 (sonst leerer Markt), bekannte Items (Sim:AddItem).
- Eigene Szenarien /tmp/claude-0/sim2/wowsim/scenarios_new.lua (zz_api4 KALT/KEEPM/KEEPMC, zz_api5 OUT=<Datei> Wertvergleich, zz_api6 KB je Funktion).
+ erwartet in /tmp/claude-0/rel/: AHSentinel-<V>.zip, notes.md, bericht.txt, stand.md – stand.md VORHER aus dem Repo übernehmen!).
+Nachbau: FULL=1 nur auf Kopie und ALLEIN (pgrep run_all.sh leer). FULL 0.65.428: 357/67, keine neue Rot-Stelle (fail428.txt).
+ Echte Daten im Sim: HORDE=1, Ausgaben eigener Szenarien nur mit TR_TEXT=1. KB-Messung "Lohnt bis": zz_api4 NOTB=1 (sonst +21 KB Messhülle),
+ je Funktion SINGLE=Mod:Fn. PC-Daten entpackt: /tmp/claude-0/tb1/pc_cur.lua (27.11. 23:17).
 
 ## Gerade in Arbeit
-- MASTERPLAN v2 Schritt 2. 0.65.427 = 2.1 Teil: gespeicherte Vollscan-Leiter je Text einmal entschlüsseln (VS.savedLad). FULL 0.65.427 allein danach.
+- 0.65.429 = Schritt 2b Teil 1 (SN-DEL1 a, PS-EIG1, CHAT-PROFIT, TXT-CUT, Messzeile UI-DD1). FULL 0.65.429 allein als Nächstes.
 
-## Nächste Schritte (Reihenfolge)
-1. FULL 0.65.427 auswerten (gegen /tmp/claude-0/fail426.txt; s326 sollte jetzt grün sein), Bericht.
-2. Schritt 2.1 weiter: Rest ~43 KB "Lohnt bis" (Leiter-Cache brachte nur -10 KB beim 1. Item). zz_api6 WUT=1 WARM=<id> misst je Funktion, Hülle verfälscht (146 KB) -> Messung je einzelner Funktion nötig.
-3. Schritt 2.2 Vollscan: AHS-I4, VS-121b, AHS-SP1 (d). 2.4 Rest: AHS-S216, AHS-W2E-b, AHS-MK1, AHS-UMG1.
-4. Danach R1–R7 (Reiter aktualisieren sich selbst), dann Abnahme-Prüfliste für den Nutzer (berichte/AHSentinel/<Zeit>-pruefliste-abnahme.txt).
-5. Schritt 3: Daten Nachlieferung Rechner B im Sim nutzen, Vorschlag-Bericht (kein Bau ohne Freigabe).
-6. Regel CF 18:00 / DL-ABN: download/ nur angenommene Version UND Bestätigung des Nutzers im Chat (AskUserQuestion).
+## Nächste Schritte (Reihenfolge, Entscheid 04:55)
+1. FULL 0.65.429 auswerten (gegen fail428.txt), Bericht.
+2. Schritt 2.2 Vollscan: AHS-I4, VS-121b, AHS-SP1 (d); Vollscan-Dauer 45,8 s / 308047 Einträge / 7068 Items (Bild 04:45) festhalten.
+3. Rest Schritt 2b: AHS-MR4-T zuerst (ma4log der PC-Daten LEER = nie ein Band belegt; Verdacht: W:LevelBands rechnet nach dem Login mit
+   W:ReqLevel ohne Item-Cache -> zu wenige Items, Ergebnis gilt den ganzen Tag (W.ma4.day); im Sim mit PC-Daten messen), Gebote leer
+   (Restzeit bei Ausrüstung nur Stufe), AHS-SP-MENGE, AHS-TT-WEG (3 Fälle), AHS-MW-AUSR, AHS-BH-REN, Einsatz neben "Gewinn gesamt", AHS-SN-LB1.
+4. Danach R1–R7, dann Abnahme-Prüfliste (berichte/AHSentinel/<Zeit>-pruefliste-abnahme.txt), dann Schritt 3 (Daten Rechner B).
+5. Regel CF 18:00 / DL-ABN: download/ nur angenommene Version UND Bestätigung des Nutzers im Chat (AskUserQuestion).
 
 ## Offen beim Nutzer
-- Ingametest AHS-BP1: Blendungspulver/Gift Tooltip "Wird beim Aufheben gebunden"? Markt-Reiter "liegen lassen – Beim Aufheben gebunden".
-- Ingametest AHS-API1 (0.65.418+): Zeile API-LANGSAM. W1: Zeile UI-PREBUILD. ST1: Einloggen ohne Testmodus = 1 Zeile.
+- Ingametest: API-LANGSAM-Zeilen (≤ 2 ms, ≤ 50 KB), Blendungspulver/Gift-Tooltip + "ruht · gebunden", Einkauf > Seltenheit (ganz sichtbar,
+  Klick daneben schliesst, Restzeit gefüllt), Protokollzeile UI-DD1.
+- PS muss f.zweck = "eigenbedarf" senden (über Supervisor an PS).
 
 ## Entscheide des Nutzers seit letztem Stand
-- keine neuen (21:21 Masterplan v2 frei, 21:00 0.65.423 Hotfix auf CurseForge).
+- 28.11. 04:55: Anzeige-Befunde = Schritt 2b (nach 2, vor R1–R7), keiner darf verloren gehen, jeder mit Test + Abnahme-Bild.
+- 28.11. 05:03: Eine Raste kauft ALLE Angebote des Treffers (Massenkauf) – gewollt, nicht ändern.
 
 ## Wichtig zu wissen
-- A:BindOnPickup(id): bindType 1/4 = gebunden, 30 Min. Zwischenspeicher (Zahl, negativ = gebunden), keine Server-Anfrage für ungecachte Items.
-- A:PrintError(where, text, reported): ohne Testmodus 1 Zeile je Sitzung; A:PrintOnce(key, msg).
-- Laptop-Daten haben db.entwickler = true -> alte volle Einlog-Zeile. Ohne: /tmp/claude-0/tb1/laptop_nodev.lua.
-- Letzter Test T1043 (BP1); T1042 CAN1, T1041/T1040 API1. Neue Tests vor "Chk(\"T496\"" einfügen; Index-Eintrag nach AHS-SN-CAN1.
-- Nie Blizzard-Globale in Tests ersetzen (Taint) – Nähte A.apiOverride/A:Global, Ch.GameMoney, BK.GameMoney.
-- Nie etwas in announce/ löschen. Jede Version: CHANGELOG.de.md-Abschnitt Pflicht (AHS-R1). Neues string.format -> s341 mitlaufen.
+- Sn:ForgetTarget(key) räumt beim Löschen alles des Ziels. Sn:SetTarget 5. Wert f.zweck/f.quelle. A:VendorDealsChatText(n).
+- A:BindOnPickup(id): 30 Min. Zwischenspeicher (Zahl, negativ = gebunden). VS:Ladder savedLad je Text (max 400).
+- Letzte Tests T1044–T1047; neue Tests vor "Chk(\"T1043\"" o. ä. einfügen; Index-Einträge vor "AHS-BP1".
+- Nie Blizzard-Globale in Tests ersetzen (Taint). Nie etwas in announce/ löschen. CHANGELOG.de.md je Version Pflicht.
