@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Folge |
 |---|---|---|
+| 11:25 | ProfessionSentinel: "sobald PS fertig ist, geht er auch in die Pause bis Montag" | PS macht die laufende Arbeit fertig (nächste Version mit Bericht zu PS-SK3 und den offenen Befunden vom 28.11.), dann Pause bis Montag 30.11. Keine neuen Versionen in der Pause. |
 | 11:07 | LevelPilot: "wir machen mit LP Montag oder Dienstag weiter" | LP pausiert bis Montag 30.11. bzw. Dienstag 1.12.: keine Ingametests, keine neuen Versionen; die LP-Sitzung arbeitet bis dahin nicht weiter (offene Punkte bleiben in offen-levelpilot.txt). |
 | 10:36 | AHSentinel Sniper, zwei Ziele mit Treffer gleichzeitig (AHS-SN-UX1 Punkt 2): "Alle 3 s wechseln (wie jetzt)" | SN-Z4 bleibt (ROTATE_S 3 s). Rechts nie ein Ziel ohne Treffer, Wechsel nur zwischen Zielen mit Treffer, frühestens nach 3 s. Entscheid in der AHS-Sitzung, Bericht 10:36. |
 | 06:43 | ProfessionSentinel Einzel-Einkauf aus der Rezeptansicht (UI.BuyForRecipe): "Eigenbedarf" | Sniper-Ziele aus dem Einkauf für ein einzelnes Rezept bekommen zweck = "eigenbedarf" (keine Verlust-Warnung in AHSentinel). Gewinn-Wege (Heute herstellen, Schnäppchen, Herstellen & Entzaubern, Rezept-Alarm) bleiben ohne Zweck und warnen weiter. |
