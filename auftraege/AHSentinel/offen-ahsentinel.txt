@@ -7662,3 +7662,17 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     und Ausrüstung + Gegenprobe 0.65.429. Vor 2b (verpasste Käufe). Prüfen, ob andere Ziele mit Umlaut (Ö/Ü/ß) gleich betroffen sind.
     Nachgerechnet, STIMMT: Entzauber-Tooltip Ältestenhandschuhe (iLvl 32, Tabelle 31–35): 3,147×4s45=14s00 + 0,353×8s60=3s04 = 17s04; −85c ->
     16s19; −14s = +2s19.
+
+>>> MT-Prüfung 28.11.2026 (geplante Aufgabe "Markt-Tabellen täglich", Lauf 05:38) – Tabelle NICHT committet (Entscheid des Nutzers 25.11. 06:31 "16.11. behalten",
+    Fallzahl-Regel gilt). Bericht: berichte/Pruef-Sitzung/2026-11-28-0540-markt-tabellen.txt. Tests 20/20, 22/22, 6/6; neue Fassung lädt (lupa), 10 599 Bytes,
+    keine Namen, Wellen nur offen, kern markt 30 / gilde 47 Zellen, p 0..1, n >= 30 – ok. Fallzahlen weiter unter 16.11. (7 Zellen): Entzaubern 2:4:a n 1279 -> 816,
+    2:1:a 750 -> 599; Kaufen bis 0.6 21 -> 1, bis 0.7 155 -> 9, bis 0.8 425 -> 293; Verkauf de:1 11 -> 2, de:5 34 -> 21.
+    NEU gegen 27.11.: Entzaubern 2:1:a n 605 -> 599 (FÄLLT auch gegen gestern). Ursache gemessen (Prüfsystem, nicht AHSentinel-Code): PC-Journal ist voll
+    (D+P+B = 1687+172+1141 = 3000; D 1696 -> 1695 -> 1687, B 1132 -> 1133 -> 1141 von 24.11. über 27.11. auf 28.11.). Der Ring hat bei einem Schlüssel
+    mit 8 gleichen Vorkommen (D, t 577767, Item 4343, 2:1:a) 3 verdrängt; merge_journals nimmt alle Vorkommen eines Schlüssels aus dem NEUESTEN Stand (5),
+    ältere Stände (8) füllen nur fehlende Schlüssel -> 3 Fälle verloren. Gemessen: Stand PC 24.11. 599 gültige 2:1:a-Fälle, PC 28.11. 590; Zusammenführung
+    ohne PC 28.11. 602, mit 599. Nur Befund für den Supervisor (Werkzeug addon-check/marktanalyse/markt_tabellen.py merge_journals) und AHS-J1 – keine Lösung.
+    Nachlieferung Rechner B (Zweig nachlieferung-rechner-b-2026-11-27, Entscheid 27.11. 21:47) zusätzlich gerechnet (nur Arbeitsordner): Entzaubern, Kaufen,
+    Verkauf unverändert; nur Wellen (36-45 und 56-60 -> durch) und kern (78 statt 77 Zellen) anders. Die Anweisung dieser Aufgabe nimmt den Zweig noch nicht
+    auf – Supervisor: Anweisung anpassen, falls gewollt.
+    KERN-ABGLEICH 28.11.: Zellen, die nicht aufgehen 0 / 0 / 0 (JD5SLR5, NVITMSE, M6UO3AL) – kein Befund.
