@@ -7935,3 +7935,21 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     47s5c bringt? Gleiches Muster wie PS-VAL-LB2 (Weiße Leinenrobe, Handwickel je 1s80c). Belegen (Absatz/Sicherheit des Wegs AH? Flip-Weg
     aus?), und die Anzeige nennt den Grund ("AH verkauft sich kaum: n in 14 Tagen" o. ä.). Dazu die Zeile "Gewinn: −5s24c / Stück" im selben
     Tooltip: woraus (Kauf 44s95c gegen welchen Wert)? Zahl muss aufgehen und benannt sein. Nachbau mit echten Daten. Nach Masterplan Ende 2b.
+
+>>> BEFUND AHS-TT-DE2 MITTEL – Bilder Nutzer 28.11. 11:37 (0.65.437 neben PS 0.9.101), Tooltip "Braune Leinenhose" im Berufsfenster:
+    Rechnung nachgerechnet, geht auf: 1,18 × 1s26 = 1s49 (0,79 × 1,50) · 0,335 × 2s22 = 74c (0,21 × 1,57) · Summe 2s23 · Gebühr 5 % −11c ·
+    Wert nach Gebühren 2s12 · Kaufpreis (Scan) −50s · Gewinn −47s88.
+    Befunde:
+    (a) FALSCHER ZUSAMMENHANG: Im Berufsfenster (der Spieler STELLT die Hose HER, Material ~1s25 laut PS) steht als erste AHSentinel-Zeile
+        gross und rot "Gewinn −47s88" – das ist "im AH kaufen und entzaubern" mit Kaufpreis 50s. Für ein herstellbares Item im Berufsfenster
+        ist das irreführend (Psychologie: Verlust-Schreck ohne Bezug). Soll: im Berufsfenster Entzaubern gegen die Herstellkosten rechnen
+        (oder die Kauf-Rechnung nur im AH-Kontext), und die Zeile sagt, WAS verglichen wird ("Kaufen im AH 50s → entzaubern 2s12").
+    (b) KAUFPREIS 50s: Für eine Braune Leinenhose (Lohnt bis 1s69 laut PS) – ist 50s das günstigste Angebot? Dann ist der Kaufweg ohnehin
+        sinnlos und gehört nicht in den Tooltip. Belegen, woher "Kaufpreis (Scan)" kommt.
+    (c) LESBARKEIT: Drei Tooltips (Rechnung, Item, "Ausgerüstet") überlappen; die AHSentinel-Werte "Marktwert (Median 14 Tage)/(Scan vor
+        11 Min.)" der Hose sind verdeckt; der Hintergrund der Rechnung ist durchscheinend, Text des PS-Panels scheint durch ("Billigst",
+        "5 Abschnitte", "Rote Wollstiefel"). Soll: Rechnung so verankern, dass sie weder Item- noch Vergleichs-Tooltip verdeckt, deckender
+        Hintergrund wie GameTooltip.
+    (d) Titel "Rechnung je Entzauberung (bei dir (767))": doppelte Klammer und "767" ohne Einheit – was ist 767 (Zahl eigener Entzauberungen?
+        Fertigkeit?) Klar benennen, z. B. "nach 767 eigenen Entzauberungen".
+    Nachbau + Gegenprobe. Nicht HOCH (kein Kauf ausgelöst) -> Masterplan Ende 2b, zusammen mit AHS-LB-AH1.
