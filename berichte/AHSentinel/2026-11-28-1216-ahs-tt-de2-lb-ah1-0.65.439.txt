@@ -37,3 +37,5 @@ MESSUNG MIT SPIELDATEN (PC 28.11. 11:02 und 11:56, Nachbau zz_lb1 mit echtem Sta
 
 TESTS: T1050, T1051 neu (PASS). Tooltip-/Beruf-/API-Satz 20 Szenarien: 0.65.438 und 0.65.439 je 15 PASS, gleiche Rot-Stellen (s1, s4×2, s59, s64 – alle in fail438). FULL 0.65.438: 364/67, keine neue Rot-Stelle. FULL 0.65.439 folgt allein.
 addon_check AHSentinel-0.65.439.zip: OK.
+
+NACHTRAG 28.11. 12:45: FULL 0.65.439 allein: 364 PASS / 67 FAIL, keine neue Rot-Stelle gegen 0.65.438 (comm leer). Korrektur angenommen: "Gewinn: %s / Stück" ist AHSentinel TT:ProfitLine (Locale-Schlüssel nicht gesucht – mein Fehler); Weg der 39s71 folgt Ende 2b.

@@ -16,7 +16,7 @@ Nachbau: FULL=1 nur auf Kopie und ALLEIN (pgrep run_all.sh leer). FULL 0.65.436:
 - 0.65.438 (SN-UX1 3/4, SN-ROT1, SN-BUD1) beim Supervisor; FULL 438: 364/67, keine neue Rot-Stelle (fail438.txt).
 
 ## Nächste Schritte (Reihenfolge = Masterplan Supervisor 28.11. 10:20, verbindlich)
-1. FULL 0.65.439 gegen fail438.txt. Danach Schritt 2 Rest (T459, SN-LAG2, SP1 d), dann 2b-Rest (DE-MSG1 u. a.).
+1. (FULL 0.65.439: 364/67, fail439.txt; 0.65.438/439 angenommen Code 12:40.) Jetzt Schritt 2 Rest (T459, SN-LAG2, SP1 d), dann 2b-Rest (DE-MSG1 u. a.).
 2. Schritt 2 Rest: T459 Nachlauf-Speicher + AHS-SN-LAG2 (SEARCH_RESULTS 16–35 ms, Tabellen wiederverwenden) + AHS-SP1 (d).
 3. Schritt 2b Rest in Masterplan-Reihenfolge: MR4-T (ma4log leer; Verdacht ReqLevel ohne Item-Cache), SP-MENGE, TT-WEG, MW-AUSR, BH-QUOTE,
    BH-LEER, DE-WID1, MKT-WID2, PROF-SP1 (+ CHAT-PROFIT Zahl 14/22), VEN-GW1 (8 Fälle), SN-LB1, Einkauf-Zeilen beschriften, Eigenbedarf-Buchung,
