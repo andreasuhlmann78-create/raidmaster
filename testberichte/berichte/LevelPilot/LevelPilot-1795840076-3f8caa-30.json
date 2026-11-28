@@ -1,0 +1,3421 @@
+{
+ "abgabeGesperrt": "5",
+ "abgabeGesperrtStellen": [
+  "LP.PCall ×5"
+ ],
+ "addon": "LevelPilot",
+ "bereich": "alle",
+ "bilder40": [
+  "91.1 ms: T399 0.9 · T401 90.0"
+ ],
+ "counts": {
+  "client": 55,
+  "fehler": 1,
+  "ok": 336,
+  "uebersprungen": 9
+ },
+ "datenpaket": "1.6.4",
+ "dauerBereiche": [
+  "Start 12 s",
+  "Reisen 785 s",
+  "Grundregeln 11 s",
+  "B 41 s",
+  "C 1 s",
+  "E 1 s",
+  "F 6 s",
+  "G 3 s",
+  "H 9 s",
+  "I 0 s",
+  "J 91 s",
+  "K 0 s",
+  "Sandbox und Bericht 12 s",
+  "Nachlauf 7 s",
+  "gesamt 978 s (Zeitlimit 1800 s)"
+ ],
+ "dur_ms": 978525,
+ "echteAktionen": "0",
+ "einloggen": [
+  "route 362.8 ms/151×/max 5.1: replan 362.5/136×/max 5.1, route 0.3/15×/max 0.0",
+  "graph 169.6 ms/104×/max 2.9: seedwege 100.7/59×/max 2.1, eigeneKetten 49.7/29×/max 2.9, umweg* 19.2/16×/max 2.2",
+  "nav 49.7 ms/1126×/max 0.2: nav 49.7/1126×/max 0.2",
+  "start 35.3 ms/32×/max 17.5: Center 17.5/1×/max 17.5, Graph 9.6/1×/max 9.6, Names 3.2/1×/max 3.2, UI 2.2/1×/max 2.2, Protocol 0.9/1×/max 0.9, Pins 0.6/1×/max 0.6, Group 0.3/1×/max 0.3, QuestDB 0.3/1×/max 0.3, Nav 0.1/1×/max 0.1, Comm 0.1/1×/max 0.1, Caves 0.1/1×/max 0.1, Actions 0.1/1×/max 0.1",
+  "advisor 26.6 ms/15×/max 6.5: advisor 26.6/15×/max 6.5",
+  "plan 19.5 ms/8×/max 5.6: orte 19.5/8×/max 5.6",
+  "record 15.2 ms/117×/max 0.5: record 15.2/117×/max 0.5",
+  "quests 10.1 ms/1×/max 10.1: quests 10.1/1×/max 10.1",
+  "path 9.1 ms/3×/max 4.1: navpath 9.1/3×/max 4.1",
+  "proto 0.7 ms/33×/max 0.1: proto 0.7/33×/max 0.1",
+  "ui 0.5 ms/76×/max 0.0: ui 0.5/76×/max 0.0",
+  "Starts je Auftrag: advisor 10, replan 9, umweg* 3, eigeneKetten 1, seedwege 1, orte 1, navpath 1"
+ ],
+ "empfangGehalten": "H 1",
+ "env": {
+  "build": "71139",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 10,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [],
+ "f": 1,
+ "fehlerEindeutig": "0",
+ "fehlerzaehler": "0",
+ "ganzeBilder": [
+  "ganze Bilder 29986, über 40 ms: 9, davon eigene Portion über 16 ms: 0, mit Speicherbereinigung: 0 · längstes 100.0 ms",
+  "100.0 ms: eigene Portion 4.1 ms (T398 4.1) · Spiel/Umgebung 95.9 ms (+7966 KB) · bei T401",
+  "53.0 ms: eigene Portion 0.0 ms (Reisen 0.0) · Spiel/Umgebung 53.0 ms (+391 KB) · bei Reisen",
+  "51.0 ms: eigene Portion 0.0 ms (Reisen 0.0) · Spiel/Umgebung 51.0 ms (+221 KB) · bei Reisen",
+  "51.0 ms: eigene Portion 0.0 ms (Reisen 0.0) · Spiel/Umgebung 51.0 ms (+179 KB) · bei Reisen",
+  "51.0 ms: eigene Portion 0.0 ms (Reisen 0.0) · Spiel/Umgebung 51.0 ms (+42 KB) · bei Reisen",
+  "50.0 ms: eigene Portion 0.0 ms (Reisen 0.0) · Spiel/Umgebung 50.0 ms (+43 KB) · bei Reisen",
+  "50.0 ms: eigene Portion 0.0 ms (Reisen 0.0) · Spiel/Umgebung 50.0 ms (+608 KB) · bei Reisen",
+  "46.0 ms: eigene Portion 4.1 ms (T375 4.1) · Spiel/Umgebung 41.9 ms (+494 KB) · bei T375",
+  "45.0 ms: eigene Portion 4.1 ms (Start 2.5 · Reisen 1.6) · Spiel/Umgebung 40.9 ms (+29 KB) · bei Reisen"
+ ],
+ "gesperrt": "Abgabe nicht möglich, Stellen (1): T353 Gegenprobe @TestRoutine:11743 (pcall) 1×",
+ "id": "LevelPilot-1795840076-3f8caa-30",
+ "initFehler": "0",
+ "kind": "test",
+ "langeStuecke": [
+  "91.1 ms (T398 bis T401 (+7967 KB)): längste Strecke ohne sichere Stelle 90.0 ms von „T400 T400“ bis „T401 T401“ · Stapel: [LevelPilot/TestRoutine.lua]:12873: in function <LevelPilot/TestRoutine.lua:12873> | [LevelPilot/TestRoutine.lua]:12930: in function <LevelPilot/TestRoutine.lua:12880> | [tail call]: ? | ",
+  "30.4 ms (T18 bis T21 (+4533 KB)): längste Strecke ohne sichere Stelle 27.5 ms von „T20 T20“ bis „T21 svc“ · Stapel: [LevelPilot/Core.lua]:692: in function 'Yield' | [LevelPilot/Protocol.lua]:659: in function 'Text' | [LevelPilot/Protocol.lua]:712: in function 'Show' | [LevelPilot/Core.lua]:1122: in function <LevelPilot/Core.lua:1120> | [tail call]: ? | ",
+  "29.8 ms (T352 bis T352 (+8 KB)): längste Strecke ohne sichere Stelle 29.8 ms von „Anfang“ bis „T352 T352“ · Stapel: [LevelPilot/TestRoutine.lua]:12873: in function <LevelPilot/TestRoutine.lua:12873> | [LevelPilot/TestRoutine.lua]:12930: in function <LevelPilot/TestRoutine.lua:12880> | [tail call]: ? | ",
+  "27.3 ms (T31 bis T31 (+1812 KB)): längste Strecke ohne sichere Stelle 27.0 ms von „T31 plan“ bis „T31 plan“ · Stapel: [LevelPilot/Core.lua]:692: in function 'Yield' | [LevelPilot/Planner.lua]:784: in function 'CollectTasks' | [LevelPilot/Planner.lua]:2351: in function <LevelPilot/Planner.lua:2323> | [tail call]: ? | "
+ ],
+ "modus": "normal",
+ "nichtAutomatisiert": "0",
+ "planungen": [
+  "18.36 ms je Planung (27) · Median 10.55 ms, längste 70.50 ms · mit Speicherbereinigung 0 Planungen (0 ms) · ohne: 627 KB je Planung · längste: #6 70.5 ms (Stufe 10, Zone 1458, +1452 KB) [Wanduhr 232.4, Pausen 161.9/7×, Routine 0.0 · Knoten 440, 160 µs je Knoten · kalt: Umkreis 125, Gelände 749, Gefahr 1485 · geleert 0/0/0], #15 65.8 ms (Stufe 10, Zone 1458, +1130 KB) [Wanduhr 228.5, Pausen 162.7/7×, Routine 0.0 · Knoten 459, 143 µs je Knoten · kalt: Umkreis 1, Gelände 1657, Gefahr 1967 · geleert 0/0/1], #2 39.5 ms (Stufe 10, Zone 1458, +954 KB) [Wanduhr 132.2, Pausen 92.7/4×, Routine 0.0 · Knoten 129, 306 µs je Knoten · kalt: Umkreis 54, Gelände 525, Gefahr 786 · geleert 0/0/0] · erste Hälfte: 249 ms, 649 Knoten, 383 µs je Knoten, kalt 197/1422/2547, 24 Abgaben, Wanduhr 804, 8736 KB · zweite: 247 ms, 1720 Knoten, 144 µs, kalt 11/3058/5016, 26 Abgaben, Wanduhr 851, 8187 KB",
+  "#1 32.6 ms Stufe 10 Zone 1458 +854 KB · Wanduhr 102.3, Pausen 69.7/3× · Knoten 0, 0 µs je Knoten · kalt Umkreis 0, Gelände 0, Gefahr 0 · geleert 0/0/0",
+  "#2 39.5 ms Stufe 10 Zone 1458 +954 KB · Wanduhr 132.2, Pausen 92.7/4× · Knoten 129, 306 µs je Knoten · kalt Umkreis 54, Gelände 525, Gefahr 786 · geleert 0/0/0",
+  "#6 70.5 ms Stufe 10 Zone 1458 +1452 KB · Wanduhr 232.4, Pausen 161.9/7× · Knoten 440, 160 µs je Knoten · kalt Umkreis 125, Gelände 749, Gefahr 1485 · geleert 0/0/0",
+  "#14 21.1 ms Stufe 10 Zone 1458 +591 KB · Wanduhr 67.6, Pausen 46.5/2× · Knoten 183, 116 µs je Knoten · kalt Umkreis 1, Gelände 172, Gefahr 569 · geleert 0/0/0",
+  "#15 65.8 ms Stufe 10 Zone 1458 +1130 KB · Wanduhr 228.5, Pausen 162.7/7× · Knoten 459, 143 µs je Knoten · kalt Umkreis 1, Gelände 1657, Gefahr 1967 · geleert 0/0/1",
+  "#17 37.5 ms Stufe 10 Zone 1458 +667 KB · Wanduhr 130.6, Pausen 93.1/4× · Knoten 447, 84 µs je Knoten · kalt Umkreis 1, Gelände 653, Gefahr 1193 · geleert 0/0/0",
+  "#25 18.1 ms Stufe 11 Zone 1458 +558 KB · Wanduhr 63.9, Pausen 45.8/2× · Knoten 244, 74 µs je Knoten · kalt Umkreis 1, Gelände 33, Gefahr 519 · geleert 0/0/0"
+ ],
+ "protokollTeile": [
+  "Protokolltext längstens 44.9 ms +3980 KB: Kopf 0.5 ms +1 KB, Planner 1.3 ms +26 KB, Comm 0.1 ms +1 KB, ClientTest 0.0 ms +0 KB, Graph 0.0 ms +0 KB, Graph 0.0 ms +0 KB, Laufweg 0.1 ms +2 KB, Pruefliste 0.1 ms +1 KB, MessagesLine 0.0 ms +0 KB",
+  "  MarktLine 42.2 ms +3940 KB, Perf 0.4 ms +2 KB, Perf 0.1 ms +2 KB, Einträge 0.1 ms +4 KB"
+ ],
+ "reiseBilder": "Bilder 24000, Portionen 24000, längstes 17.2 ms, über 16 ms 1 (davon mit Speicherbereinigung 0), über 40 ms 0, längste Portion 17.2 ms, grösste Überschreitung des Budgets 7.1 ms bei Graph.lua:1048 < Graph.lua:1843 < Graph.lua:1615 < Virtual.lua:417 < Virtual.lua:616",
+ "results": [
+  {
+   "bereich": "A",
+   "ergebnis": "36 Module",
+   "id": "T01",
+   "ms": "0.1",
+   "name": "alle Module gestartet",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "10 Übersetzungen",
+   "id": "T02",
+   "ms": "0.0",
+   "name": "Dateien ohne Modul geladen",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "3.13.31",
+   "id": "T03",
+   "ms": "0.2",
+   "name": "Version .toc = Code",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "1.6.4 / 1.6.4 / Format 1",
+   "id": "T04",
+   "ms": "0.0",
+   "name": "Version Datenpaket .toc = Code",
+   "status": "OK"
+  },
+  {
+   "anleitung": "/dump select(4, GetBuildInfo()) – steht die Zahl in beiden .toc? Addon-Liste: LevelPilot nicht 'veraltet'",
+   "bereich": "A",
+   "id": "T05",
+   "name": "Interface-Nummer passt zum Client",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "Version 3",
+   "id": "T06",
+   "ms": "0.0",
+   "name": "GoldSentinelGame Version 2 oder neuer",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "Version 4 angemeldet",
+   "id": "T07",
+   "ms": "0.0",
+   "name": "GoldSentinelTest geladen und angemeldet",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja",
+   "id": "T08",
+   "ms": "0.0",
+   "name": "echte Erkennung",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "Forever true, Questlog 40, Dungeon 0.36/1.50, grün 0.85",
+   "id": "T09",
+   "ms": "0.2",
+   "name": "Weichen mit SetTestFlavor(\"forever\")",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "Forever false, Questlog 20, Dungeon 1.00/1.00, grün 1.00",
+   "id": "T10",
+   "ms": "0.0",
+   "name": "Weichen mit SetTestFlavor(\"era\")",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "Forever false, Questlog 20, Dungeon 1.00/1.00, grün 1.00",
+   "id": "T11",
+   "ms": "0.1",
+   "name": "Weichen mit SetTestFlavor(\"tbc\")",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "Forever false, Questlog 20, Dungeon 1.00/1.00, grün 1.00",
+   "id": "T12",
+   "ms": "0.0",
+   "name": "Weichen mit SetTestFlavor(\"retail\")",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "forever · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja",
+   "id": "T13",
+   "ms": "0.0",
+   "name": "SetTestFlavor(nil) stellt alles zurück",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "SafeValue true, SameName true",
+   "id": "T14",
+   "ms": "0.0",
+   "name": "ohne GoldSentinelGame",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "grund": "wird von addon-check geprüft",
+   "id": "T15",
+   "name": "Reihenfolge in der .toc",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Guide wechselt true, Zentrale true/true, kompakt gleich true",
+   "id": "T16",
+   "ms": "8.4",
+   "name": "Fenster-Befehle",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "speed true, normal true",
+   "id": "T17",
+   "ms": "53.1",
+   "name": "Modus-Befehle",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "way true, weg true",
+   "id": "T18",
+   "ms": "1502.6",
+   "name": "Wegpunkt und Suche",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Kürzel false, xx false",
+   "id": "T19",
+   "ms": "0.1",
+   "name": "Sprache per Befehl",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Gilde true: 2 mitgeschrieben, Teilen 0, Bilanz LevelPilot-Bilanz",
+   "id": "T20",
+   "ms": "1.8",
+   "name": "Teilen, Gruppe, Bilanz",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Kopierfenster true/true/true, Protokoll danach 0",
+   "id": "T21",
+   "ms": "101.1",
+   "name": "Protokoll, Diagnose, Messung, Selbsttest",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Reise aktiv false, Sandbox OK",
+   "id": "T22",
+   "ms": "77.6",
+   "name": "Reise-Befehle",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ReloadUI mitgeschrieben: 1",
+   "id": "T23",
+   "ms": "0.2",
+   "name": "Debug, Zurück, Reset",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "false",
+   "id": "T24",
+   "ms": "1.2",
+   "name": "unbekannter Befehl",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Toggle zweimal gleich true, Text true",
+   "id": "T25",
+   "ms": "42.9",
+   "name": "Guide-Fenster LevelPilotFrame",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Menü true, übersprungen true, wieder geplant true, zurückgestellt true",
+   "id": "T26",
+   "ms": "143.9",
+   "name": "Schritt-Menü LevelPilotStepMenu",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T27",
+   "ms": "0.4",
+   "name": "Hinweise oben (Toasts) LevelPilotToasts",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "aus versteckt true, an sichtbar true",
+   "id": "T28",
+   "ms": "6.6",
+   "name": "Minimap-Button LevelPilotMinimapButton",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "aus versteckt true",
+   "id": "T29",
+   "ms": "6.8",
+   "name": "Pfeil LevelPilotArrow",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "8 Reiter, Escape true",
+   "id": "T30",
+   "ms": "20.4",
+   "name": "Zentrale LevelPilotCenter, alle 8 Reiter",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "74 Schalter, Fehler: keine, nicht zurück: keine",
+   "id": "T31",
+   "ms": "2256.0",
+   "name": "jede Option der Zentrale einmal an und aus",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "11 Stepper",
+   "id": "T32",
+   "ms": "127.8",
+   "name": "alle 12 Stepper",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Knöpfe 10, anzeigbare Sprachen 9",
+   "id": "T33",
+   "ms": "5.9",
+   "name": "Sprachknöpfe",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Fehler 0, Reiseknöpfe 3 sichtbar von 3",
+   "id": "T34",
+   "ms": "264.6",
+   "name": "Zentrale » Daten: Knöpfe",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Pause→Weiter→Pause, Zuschauen→Schnell→Zuschauen, nach Stopp nur Bericht/Schliessen true, Bericht true",
+   "id": "T35",
+   "ms": "0.0",
+   "name": "Fenster der virtuellen Reise LevelPilotVirtualFrame",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Status zurück, Panel ohne Gruppe versteckt true",
+   "id": "T36",
+   "ms": "9.0",
+   "name": "Gruppen-Panel LevelPilotGroupPanel",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Makro 180 Zeichen, lang 248 Zeichen, Tasten true/true",
+   "id": "T37",
+   "ms": "0.2",
+   "name": "Aktionsleiste und Tastenbelegung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "LevelPilot",
+   "id": "T38",
+   "ms": "0.0",
+   "name": "Spenden-Fenster",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "14 Schritte, Zustand ok",
+   "id": "T39",
+   "ms": "19.1",
+   "name": "Planung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "12 Werte",
+   "id": "T40",
+   "ms": "0.0",
+   "name": "Planner:KillXPFormula – Werte",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "",
+   "id": "T41",
+   "ms": "0.0",
+   "name": "Planner:GreyLevel",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0.85 1.00 89.64 118.64",
+   "id": "T42",
+   "ms": "0.1",
+   "name": "Planner:GreenXPFactor / KillXP ohne Messung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0.36 auto · 0.50 set · 2.00 set",
+   "id": "T43",
+   "ms": "0.0",
+   "name": "Dungeon-Faktoren",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "18, 20",
+   "id": "T44",
+   "ms": "0.0",
+   "name": "Questlevel bei Quest-Kills",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "grund": "keine Eskortenquest im Bereich (Stufen 1–3 ohne Fehler, keine Klassenquest übersprungen) – in dieser Lage nicht prüfbar",
+   "id": "T45",
+   "ms": "95.2",
+   "name": "Speedrun-Filter",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "19 Dungeons in der Übersicht",
+   "id": "T46",
+   "ms": "17.3",
+   "name": "Dungeon-Übersicht",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Diagnose 846 Zeichen",
+   "id": "T47",
+   "ms": "0.7",
+   "name": "Diagnose",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "WantQuest false, Dungeon false",
+   "id": "T48",
+   "ms": "0.0",
+   "name": "Engine-Funktionen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Annehmen 1/0, Belohnung 0:1 1:1 2:0, Gossip zuerst SelectActiveQuest, ignoriert 0",
+   "id": "T49",
+   "ms": "0.1",
+   "name": "Automatik Annehmen/Abgeben/Gossip",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "grund": "kein Ziel (Schritt ohne Ort) – in dieser Lage nicht prüfbar",
+   "id": "T50",
+   "ms": "0.0",
+   "name": "Navigation",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Startwege 2346 (Startdatenbank 0), Weg 89 Punkte, Knoten nah 0, neu 29258/29259",
+   "id": "T51",
+   "ms": "278.2",
+   "name": "Wegenetz Graph",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "mit Paket true, ohne false, Strecke false",
+   "id": "T52",
+   "ms": "0.4",
+   "name": "Gelände Terrain",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "28/14/11 -> 29/15/11",
+   "id": "T53",
+   "ms": "0.3",
+   "name": "Höhlen Caves",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Weg-Kills 0, Mittel –",
+   "id": "T54",
+   "ms": "0.1",
+   "name": "Gefahr Danger",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Kontinent 1414, Name Durotar",
+   "id": "T55",
+   "ms": "0.0",
+   "name": "Geo",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Paket 3920, Start 0, eigene 200",
+   "id": "T56",
+   "ms": "0.6",
+   "name": "QuestDB",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "deDE geladen",
+   "id": "T57",
+   "ms": "0.0",
+   "name": "Namen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Eintrag true, (1234,nil)->(nil,1234), (3,1234)->(3,1234), ohne NPC nichts",
+   "id": "T58",
+   "ms": "0.4",
+   "name": "Recorder (Aufzeichnung)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Quest übernommen true, eigene nur bestätigt true, ungültig verworfen true, kaputt ohne Eintrag true",
+   "id": "T59",
+   "ms": "0.8",
+   "name": "Comm: Kodieren und Empfangen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "80: true, 81: false",
+   "id": "T60",
+   "ms": "0.1",
+   "name": "Comm: Begrenzung je Absender",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "mitgeschrieben 2, Präfix LvPilot2, Stats sent/recv 10557/19802",
+   "id": "T61",
+   "ms": "0.2",
+   "name": "Comm: Senden",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "mitgeschrieben 5",
+   "id": "T62",
+   "ms": "5.1",
+   "name": "Comm: Zonen-Abgleich",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Mitglied erkannt",
+   "id": "T63",
+   "ms": "0.2",
+   "name": "Gruppe (LvPilotG)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Teilen 10, Text nil, Partner an true, aus ignoriert true",
+   "id": "T64",
+   "ms": "6.9",
+   "name": "Social (Teilen, Gruppensuche, Partner)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "1g 23s · 2s 50c · 5c",
+   "id": "T65",
+   "ms": "0.1",
+   "name": "Session",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Dur(59) 1 min, Reparieren mitgeschrieben 1",
+   "id": "T66",
+   "ms": "0.2",
+   "name": "Comfort",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "2 Bedarf, Kauf mitgeschrieben 1",
+   "id": "T67",
+   "ms": "0.1",
+   "name": "Supply (Vorräte, Belohnung anlegen)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0 Hinweis(e)",
+   "id": "T68",
+   "ms": "1.5",
+   "name": "Advisor (Assistent)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0 Klassenquests",
+   "id": "T69",
+   "ms": "9.8",
+   "name": "Hints",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Gebiete 0, Fundstellen 0, verfügbar 66",
+   "id": "T70",
+   "ms": "2.3",
+   "name": "Pins (Karte, Fundstellen)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "16 offene Ziele",
+   "id": "T71",
+   "ms": "1.2",
+   "name": "Plates (Namensplaketten)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Spieler nil, Questgegenstand keiner im Log, Hook über TooltipDataProcessor",
+   "id": "T72",
+   "ms": "0.1",
+   "name": "Tooltips",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "EP je Kill: gemessen 514 · grün 89 %",
+   "id": "T73",
+   "ms": "0.0",
+   "name": "Calib (Lernwerte)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "gemessen 1 (Verhältnis 1.00), erholt +0, Gruppe +0",
+   "id": "T74",
+   "ms": "0.1",
+   "name": "Calib: EP-Messung je Kill",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "neu: 1",
+   "id": "T75",
+   "ms": "0.1",
+   "name": "Protocol (Fehler-Protokoll)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Import true (Anzahlen true), kaputt false, Prüfsumme false, Kopie behalten true, wiederhergestellt true",
+   "id": "T76",
+   "ms": "1.4",
+   "name": "Backup (Sichern/Laden)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "10469 Zeichen (Text nicht im Bericht)",
+   "id": "T77",
+   "ms": "2.5",
+   "name": "Measure (/lp messen)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Text 3 Module gestartet, Client de (deDE)",
+   "id": "T78",
+   "ms": "0.2",
+   "name": "Sprache: Hilfsfunktionen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Bits true, Zonen true, Format true, Fire true",
+   "id": "T79",
+   "ms": "0.2",
+   "name": "Core-Hilfen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "52 Ereignisse",
+   "id": "T80",
+   "ms": "79.6",
+   "name": "alle Ereignisse einmal",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "15 Ticker",
+   "id": "T81",
+   "ms": "24.6",
+   "name": "alle Ticker einmal",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Navigation und Pins, Weltkarte zu (Hooks nicht geprüft)",
+   "id": "T82",
+   "ms": "0.2",
+   "name": "OnUpdate-Treiber",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "27 Schritte, Sandbox OK, danach LP.char echt true, Flugpunkte ohne Überlagerung true, API.Quests Original true",
+   "id": "T83",
+   "ms": "0.0",
+   "name": "virtuelle Reise kurz",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Normal 139.0 h · Speedrun 132.9 h · Unterschied -4 % (Modus danach normal) [Normal 500568 s, Speedrun 478378 s]",
+   "id": "T84",
+   "ms": "0.0",
+   "name": "virtuelle Reise 1–60, beide Modi",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "während: echter Charakter true, Flugpunkte ohne Überlagerung true · nach Abbruch zurück true",
+   "id": "T85",
+   "ms": "0.0",
+   "name": "Reise abbrechen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Quests 3920",
+   "id": "T86",
+   "ms": "0.3",
+   "name": "Datenpaket-Inhalt",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "grund": "ausserhalb des Spiels",
+   "id": "T87",
+   "name": "Werkzeuge ausserhalb des Spiels (Tools/: Sicherung.ps1, Wiederherstellen.ps1, lp_sammeln.py …)",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Rückgabe 0",
+   "id": "T88",
+   "ms": "0.0",
+   "name": "API.ItemCooldown mit geschützten start/duration (Ruhestein)",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "geschützt +0, Gegenprobe +1",
+   "id": "T89",
+   "ms": "0.1",
+   "name": "Recorder:RecordService mit geschütztem UnitName(\"npc\")",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Zeilen 0",
+   "id": "T90",
+   "ms": "0.0",
+   "name": "Tooltip-Hook OnShow mit geschütztem GameTooltipTextLeft1:GetText() und geschütztem tt:GetUnit()",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Stück 0",
+   "id": "T91",
+   "ms": "0.0",
+   "name": "Calib:OnLoot mit geschütztem Beute-Text",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "geschützt Comm 0 Group 0 · Absender geschützt Comm 1 Group 0 · Gegenprobe Comm 1 Group 1",
+   "id": "T92",
+   "ms": "0.2",
+   "name": "CHAT_MSG_ADDON mit geschütztem prefix/msg/sender (Comm und Group)",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "geschützt false, Gegenprobe true",
+   "id": "T93",
+   "ms": "0.1",
+   "name": "Plates:ForUnit mit geschütztem UnitName/UnitGUID",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Messungen: Level geschützt 0, EP geschützt 0",
+   "id": "T94",
+   "ms": "0.1",
+   "name": "Calib:ReadTarget / OnXPUpdate mit geschütztem UnitLevel/UnitXP",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "\"?\" statt des Werts",
+   "id": "T95",
+   "ms": "0.0",
+   "name": "Measure-Zeile mit geschütztem UnitClassification",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "GUID geschützt nichts, Level geschützt nichts, Gegenprobe gelernt",
+   "id": "T96",
+   "ms": "0.2",
+   "name": "Calib:ObserveUnit mit geschützter GUID und geschütztem Level",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "SameName false, Short nil",
+   "id": "T97",
+   "ms": "0.1",
+   "name": "Namensvergleich mit geschütztem Namen",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "lesbar false, EP 0/1",
+   "id": "T98",
+   "ms": "0.1",
+   "name": "EP-Anzeige mit geschütztem UnitXP/UnitXPMax (UI-Ticker im Kampf)",
+   "status": "OK"
+  },
+  {
+   "anleitung": "/lp testroutine kampf, dann allein einen Gegner töten – Fehlerzähler vorher/nachher gleich",
+   "bereich": "C",
+   "id": "T99",
+   "name": "geschützte Werte im echten Kampf",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "0, 0 Ziele, nil, false, nil",
+   "id": "T100",
+   "ms": "0.1",
+   "name": "Questlog-Funktionen",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "5,7,10,13",
+   "id": "T101",
+   "ms": "0.0",
+   "name": "API.GreenRange ohne C_QuestLog.GetTrivialRange und GetQuestGreenRange",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "alle Rückfälle",
+   "id": "T102",
+   "ms": "0.0",
+   "name": "Händler",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "alle Rückfälle",
+   "id": "T103",
+   "ms": "0.0",
+   "name": "Gegenstände",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "alle Rückfälle",
+   "id": "T104",
+   "ms": "0.0",
+   "name": "Taschen",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Punkte nil, Hinweis false, Diagnose nennt Talentpunkte",
+   "id": "T105",
+   "ms": "1.0",
+   "name": "Talentpunkte",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Rückgabe nil",
+   "id": "T106",
+   "ms": "0.0",
+   "name": "Hints Known ohne IsSpellKnown/IsPlayerSpell",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Zeile true, mitgeschrieben 1",
+   "id": "T107",
+   "ms": "0.3",
+   "name": "Gruppensuche ohne ChatFrame_OpenChat",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "im Kanal: verlassen 1×, nicht im Kanal: 0×",
+   "id": "T108",
+   "ms": "0.1",
+   "name": "Alter Kanal LevelPilotNet: nur verlassen, nie betreten",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Diagnose: Zufriedenheit true, Futter true",
+   "id": "T109",
+   "ms": "0.3",
+   "name": "Jäger ohne GetPetHappiness/GetPetFoodTypes",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "alt LevelPilot (1×), ohne beide LevelPilot",
+   "id": "T110",
+   "ms": "0.1",
+   "name": "Metadaten und AddOns",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Gruppe 1, Gruppenmodus aus 0, Bilanz 0",
+   "id": "T111",
+   "ms": "0.1",
+   "name": "Gruppe sendet über GoldSentinelSync nur an die Gruppe",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "14 Fälle ohne Fehler",
+   "id": "T112",
+   "ms": "53.1",
+   "name": "weitere alte Globals ohne Prüfung",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Laden zu Ende, collectgarbage warf",
+   "id": "T113",
+   "ms": "0.1",
+   "name": "Names: collectgarbage wirft",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "im Kampf: Schritt gelesen 0×, Knopf unverändert · danach 1 Aktualisierung",
+   "id": "T114",
+   "ms": "0.0",
+   "name": "Aktionsleiste im Kampf",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "mitgeschrieben 0",
+   "id": "T115",
+   "ms": "0.0",
+   "name": "Belohnung anlegen und Hinweis-Knöpfe im Kampf",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Start erlaubt: false",
+   "id": "T116",
+   "ms": "0.0",
+   "name": "Testroutine und Kampf",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "neu: 1",
+   "id": "T117",
+   "ms": "0.1",
+   "name": "ADDON_ACTION_BLOCKED für LevelPilot",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "angemeldet false",
+   "id": "T118",
+   "ms": "0.2",
+   "name": "Kampflog nicht angemeldet",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Classic Era mit 'Veraltete AddOns laden' starten, dann /lp testroutine – keine Lua-Fehler beim Laden, T01 OK",
+   "bereich": "D",
+   "id": "T119",
+   "name": "Laden in Classic Era",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "D",
+   "ergebnis": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja",
+   "id": "T120",
+   "ms": "0.0",
+   "name": "Hinweis \"für WoW Forever gebaut\"",
+   "status": "OK"
+  },
+  {
+   "bereich": "D",
+   "ergebnis": "API.modern true",
+   "id": "T121",
+   "ms": "0.0",
+   "name": "Weichen auf dem alten Weg",
+   "status": "OK"
+  },
+  {
+   "bereich": "D",
+   "grund": "LevelPilot nur für WoW Forever",
+   "id": "T122",
+   "name": "TBC und Retail",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "alle Standardwerte",
+   "id": "T123",
+   "ms": "1.3",
+   "name": "Neuinstallation (leere SavedVariables)",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "2, 3",
+   "id": "T124",
+   "ms": "2.5",
+   "name": "Migration Speedrun-Strenge (3.10)",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "auto",
+   "id": "T125",
+   "ms": "1.4",
+   "name": "Migration Sprache",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "drop",
+   "id": "T126",
+   "ms": "0.0",
+   "name": "Migration Protokoll",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "RealTaxiOf echt true, Konto echt true, Kopie ohne Reise-Einträge true",
+   "id": "T127",
+   "ms": "0.1",
+   "name": "Überlagerung der Flugpunkte nach einem Abbruch",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "ergänzt true, gemessen false",
+   "id": "T128",
+   "ms": "23.1",
+   "name": "alte Fassung (Beispieldaten im Test)",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "alle Aufrufe ohne Fehler",
+   "id": "T129",
+   "ms": "79.5",
+   "name": "beschädigte Einträge (nil, falscher Typ)",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "fehlt true, Kurztest true, Format 2 true, 1.5.0 läuft mit einem Hinweis true/true, danach Paket true",
+   "id": "T130",
+   "ms": "1.5",
+   "name": "Datenpaket fehlt, falsches Format, zu alt",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "alt: Version zu alt (LPTest) · ohne Tabelle: Schnittstelle unvollständig · echtes Questie geladen (nicht ersetzt)",
+   "id": "T131",
+   "ms": "0.4",
+   "name": "QuestieDB vorhanden, aber zu alt oder unvollständig",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "Charakter true, Konto wieder true",
+   "id": "T132",
+   "ms": "1.4",
+   "name": "Einstellungen pro Charakter",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "540 benutzte Schlüssel in allen Sprachen",
+   "id": "T133",
+   "ms": "1.3",
+   "name": "Schlüssel in jeder Sprache vorhanden",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "keine Abweichung",
+   "id": "T134",
+   "ms": "34.0",
+   "name": "Formatplatzhalter",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "alle formatierbar",
+   "id": "T135",
+   "ms": "15.4",
+   "name": "Format mit Werten",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "9 Sprachen · Protokoll öffnen längstens: Text 2.0 ms +89 KB, Fenster 0.4 ms +1 KB (8209 Zeichen, 5 Einträge)",
+   "id": "T136",
+   "ms": "762.7",
+   "name": "jede Sprache aktivieren, Hauptfenster öffnen",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "ok",
+   "id": "T137",
+   "ms": "0.1",
+   "name": "Sprachen ohne Schrift",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "deDE geladen",
+   "id": "T138",
+   "ms": "0.0",
+   "name": "Namen je Sprache",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "Spielversion",
+   "id": "T139",
+   "ms": "0.0",
+   "name": "Texte von GoldSentinelGame",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "geladen: GuildSentinel, RaidMaster, ThreatSentinel, BuffSentinel, ProfessionSentinel, AHSentinel",
+   "id": "T140",
+   "ms": "0.0",
+   "name": "gemeinsame Dateien mit anderen GoldSentinel-Addons",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "ok",
+   "id": "T141",
+   "ms": "0.0",
+   "name": "keine globalen Namen überschrieben",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "GoldSentinelTest 1, Protokoll 1, Haken in der Kette true · Fehlerfenster geöffnet: 0 · ohne BugGrabber",
+   "id": "T142",
+   "ms": "0.1",
+   "name": "Fehler-Handler-Kette",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "grund": "keine Schnittstelle – LevelPilot nutzt keine anderen GoldSentinel-Addons",
+   "id": "T143",
+   "name": "Schnittstellen zu anderen GoldSentinel-Addons",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "mit Questie: aktiv true",
+   "id": "T144",
+   "ms": "347.2",
+   "name": "Questie mit und ohne",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "true, true",
+   "id": "T145",
+   "ms": "0.2",
+   "name": "Addon-Präfixe angemeldet",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "Median 0.00 ms, Höchstwert 0.01 ms",
+   "id": "T146",
+   "ms": "0.2",
+   "name": "UI:Refresh (Ticker 1 s)",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "Median 0.00 ms, Höchstwert 0.01 ms",
+   "id": "T147",
+   "ms": "0.2",
+   "name": "Engine:CheckSteps (Ticker 0,5 s)",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "Median 0.03 ms, Höchstwert 0.07 ms, Recalc(true) 0.04 ms, Wegsuche 1 Portionen, längste 5.30 ms",
+   "id": "T148",
+   "ms": "6.1",
+   "name": "Navigations-Treiber (OnUpdate alle 0,05 s: Nav:Recalc(false), Pfeil, Minikarte)",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "OnUpdate Median 0.04 ms (max 0.12), Weltkarte 0.00 ms",
+   "id": "T149",
+   "ms": "0.6",
+   "name": "Pins-Treiber und Weltkarte",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "Median 9.52 ms, Höchstwert 9.59 ms · Aufteilung (Ø von 3, ms): gesamt 9.59 = Planung 9.56 + Aufruf 0.03 · Planung = reihenfolge 4.41 + aufgaben 4.09 + rest 0.47 + buendelindex 0.09 + annahmenamweg 0.09 + fokus 0.08 + meldung 0.07 + flugpunkt 0.06 + naheannahmen 0.06 + kleine Teile 0.14 · darin:…",
+   "id": "T150",
+   "ms": "88.5",
+   "name": "Planner:Replan(true) (Ticker 15 s und bei Ereignissen)",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "in Portionen: 8 Bilder, längstes 8.18 ms, Weg 121 Punkte · gesamt 448.92 ms (ohne Pausen) · Portionen: 16 Bilder, längstes Bild 4.1 ms (graph) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 63.8 ms · Dauer 0.2 s",
+   "id": "T151",
+   "ms": "513.5",
+   "name": "Graph:Path für eine lange Route (Orgrimmar -> Wegkreuz)",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "vom Weg ab: 0 Neuberechnungen in 1 s, auf dem Flug 0",
+   "id": "T152",
+   "ms": "8.7",
+   "name": "Drosselung bei \"vom Weg ab\"",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "Plakette 0.002 ms, Tooltip 0.008 ms, Beobachtung 0.001 ms",
+   "id": "T153",
+   "ms": "0.7",
+   "name": "Plaketten, Tooltip und Beobachtung je Einheit",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "Empfang 0.013 ms, Senden 0.001 ms",
+   "id": "T154",
+   "ms": "0.8",
+   "name": "Comm",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "18.36 ms je Planung (27) · Median 10.55 ms, längste 70.50 ms · mit Speicherbereinigung 0 Planungen (0 ms) · ohne: 627 KB je Planung · längste: #6 70.5 ms (Stufe 10, Zone 1458, +1452 KB) [Wanduhr 232.4, Pausen 161.9/7×, Routine 0.0 · Knoten 440, 160 µs je Knoten · kalt: Umkreis 125, Geländ…",
+   "erwartet": "< 16 ms",
+   "id": "T155",
+   "ms": "0.2",
+   "name": "Planung je Reiseschritt",
+   "status": "FEHLER"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "3 Ticker, Summe Median 0.01 ms, Höchstwert 0.06 ms",
+   "id": "T156",
+   "ms": "0.4",
+   "name": "alle 1-s-Ticker zusammen (ui, caves, recorder, session)",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "Zuwachs -19322 KB (ab dem Start der Prüfungen)",
+   "id": "T157",
+   "ms": "556.2",
+   "name": "Speicher",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "Rückgabe false, Zähler +1, GoldSentinelTest true",
+   "id": "T158",
+   "ms": "0.2",
+   "name": "absichtlicher Fehler über LP:Safe",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "GoldSentinelTest 1, Protokoll 2",
+   "id": "T159",
+   "ms": "0.1",
+   "name": "Lua-Fehler ausserhalb eines pcall",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "Zähler +1, übrige liefen true",
+   "id": "T160",
+   "ms": "0.1",
+   "name": "Fehler in einem Ereignis-Handler",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "Zähler +1, nächster lief true",
+   "id": "T161",
+   "ms": "0.1",
+   "name": "Fehler in einem LP:Fire-Listener",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "T01 meldet FEHLER true, Diagnose zeigt ihn true",
+   "id": "T162",
+   "ms": "1.7",
+   "name": "Modul-Startfehler in der Diagnose",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "Zähler +2",
+   "id": "T163",
+   "ms": "0.2",
+   "name": "Ticker-Fehler",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "Protokoll 5, GoldSentinelTest 5 (je Reise höchstens 5)",
+   "id": "T164",
+   "ms": "0.2",
+   "name": "Fehler der virtuellen Reise",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Version 3",
+   "id": "T167",
+   "ms": "0.0",
+   "name": "[V Schritt 1] GoldSentinelGame unverändert und vor allen eigenen Dateien",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Diagnose 847 Zeichen",
+   "id": "T168",
+   "ms": "0.7",
+   "name": "[V Schritt 1] G.Status() in der Diagnose",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "true, false, eigene Nachricht: Comm 0, Group +0",
+   "id": "T169",
+   "ms": "0.5",
+   "name": "[V Schritt 1] Namensvergleiche über G.SameName",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "1.6.4",
+   "id": "T170",
+   "ms": "0.0",
+   "name": "[V Schritt 2.1] Datenpaket-Version passt",
+   "status": "OK"
+  },
+  {
+   "anleitung": "/dump select(4, GetBuildInfo()) – Nummer in LevelPilot.toc und LevelPilot_Data.toc, 16001 bleibt drin",
+   "bereich": "J",
+   "id": "T171",
+   "name": "[V Launch] Interface-Nummer in beiden .toc",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "12 Werte",
+   "id": "T172",
+   "ms": "0.0",
+   "name": "[Z1a] EP je Kill nach Levelunterschied",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "0.85 / 3",
+   "id": "T173",
+   "ms": "0.0",
+   "name": "[Z1b] Abschlag für grüne Monster nur in Forever",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "8 Weg-Kills (Level 10–12), 44.2 EP je Kill ohne Erholt-Bonus (Grenze 105.8)",
+   "id": "T174",
+   "ms": "0.1",
+   "name": "[Z1c] Weg-Kills mit mittlerem Monsterlevel",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "18, 20",
+   "id": "T175",
+   "ms": "0.0",
+   "name": "[Z1d] Quest-Kills mit Questlevel",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "0.36 / 1.5",
+   "id": "T176",
+   "ms": "0.0",
+   "name": "[Z2] Dungeon-Werte Forever 0,36 / 1,5, Classic 1,0",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "T74 true, T94 true, Stufe -3: 0.70 (true), EP je Kill: gemessen 20 · grün 70 %",
+   "id": "T177",
+   "ms": "0.8",
+   "name": "[Z3] Messung EP je Kill: geschützt, erholt, Gruppe",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Hinweis true",
+   "id": "T178",
+   "ms": "0.1",
+   "name": "[Z4] Gruppen-EP-Hinweis in Forever",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "angezeigt true, alle 10 Sprachen",
+   "id": "T179",
+   "ms": "2.3",
+   "name": "[Z5a] \"Zeit bis 60\" klar beschriftet",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Normal 139.0 h · Speedrun 132.9 h · Unterschied -4 % (Modus danach normal) [Normal 500568 s, Speedrun 478378 s]",
+   "id": "T180",
+   "ms": "0.0",
+   "name": "[Z5b] beide Modi vergleichen, echter Modus bleibt",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Zeile \"Werte: Kills/Min …\" vorhanden",
+   "id": "T181",
+   "ms": "0.0",
+   "name": "[Z5c] Reisebericht nennt die Herkunft der Werte",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "4084700 in 59 Einträgen",
+   "id": "T182",
+   "ms": "0.0",
+   "name": "[Z NICHT ÄNDERN] EP-Tabelle und Regeln unverändert",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Normal 139.0 h · Speedrun 132.9 h · Unterschied -4 % (Modus danach normal) [Normal 500568 s, Speedrun 478378 s]",
+   "id": "T183",
+   "ms": "0.0",
+   "name": "[Z Test 1] Zeiten 1–60 Normal und Speedrun",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Titel übersetzt true",
+   "id": "T184",
+   "ms": "0.5",
+   "name": "[K1] /lp reise bericht ohne Lua-Fehler (global L)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Rückgabe 0",
+   "id": "T185",
+   "ms": "0.1",
+   "name": "[K2] Ruhestein-Abklingzeit mit geschützten Werten",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "geschützt +0, Gegenprobe +1",
+   "id": "T186",
+   "ms": "0.1",
+   "name": "[K3] Recorder: geschützter NPC-Name",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Zeilen 0",
+   "id": "T187",
+   "ms": "0.0",
+   "name": "[K4] Tooltip-Titel und GetUnit geschützt",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Stück 0",
+   "id": "T188",
+   "ms": "0.0",
+   "name": "[K5] Calib:OnLoot geschützt",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "geschützt Comm 0 Group 0 · Absender geschützt Comm 1 Group 0 · Gegenprobe Comm 1 Group 1",
+   "id": "T189",
+   "ms": "0.1",
+   "name": "[K6] CHAT_MSG_ADDON geschützt (Comm und Group)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Laden zu Ende, collectgarbage warf",
+   "id": "T190",
+   "ms": "0.1",
+   "name": "[K7] collectgarbage in Names mit pcall",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Rückgabe nil",
+   "id": "T191",
+   "ms": "0.0",
+   "name": "[K8] Hints Known ohne Rückgabe true",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Zeile true, mitgeschrieben 1",
+   "id": "T192",
+   "ms": "0.1",
+   "name": "[K9] Gruppen-Text ohne ChatFrame_OpenChat",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "im Kanal: verlassen 1×, nicht im Kanal: 0×",
+   "id": "T193",
+   "ms": "0.1",
+   "name": "[K10] alter Kanal LevelPilotNet nur verlassen",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "5,7,10,13",
+   "id": "T194",
+   "ms": "0.1",
+   "name": "[K11] GreenRange mit UnitQuestTrivialLevelRange",
+   "status": "OK"
+  },
+  {
+   "anleitung": "/dump UnitCharacterPoints, /dump GetUnspentTalentPoints, /dump GetPetHappiness, /dump GetPetFoodTypes – Ergebnis zurückmelden (automatischer Teil OK: T105 true, T109 true)",
+   "bereich": "J",
+   "ergebnis": "T105 true, T109 true",
+   "id": "T195",
+   "ms": "7.1",
+   "name": "[K12] Talent- und Jägerfunktionen",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "ohne Beute 1/0 · geplündert 2/2 · liegen gelassen 2/2 · geschützt 2",
+   "id": "T196",
+   "ms": "0.2",
+   "name": "[K13] Dropraten ohne Kampflog",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "vom Weg ab: 0 Neuberechnungen in 1 s, auf dem Flug 0",
+   "id": "T197",
+   "ms": "4.8",
+   "name": "[K14] Navigation: 0,5 s Mindestpause auch bei \"off\", nicht neu rechnen auf Flügen",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "15 Ticker über LP:Ticker",
+   "id": "T198",
+   "ms": "0.1",
+   "name": "[K15] alle Ticker in LP:Safe",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Laden ohne Fehler",
+   "id": "T199",
+   "ms": "0.1",
+   "name": "[K16] Protokoll mit beschädigtem Eintrag startet",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "\"?\" statt des Werts",
+   "id": "T200",
+   "ms": "0.1",
+   "name": "[K17] Measure: UnitClassification geschützt",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "LP.API.IsQuestDone 2×",
+   "id": "T201",
+   "ms": "0.2",
+   "name": "[K18] Tooltips nutzen LP.API.IsQuestDone",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "forever true, era false",
+   "id": "T202",
+   "ms": "0.1",
+   "name": "[K19] eigene Erkennung auf LP.Game umgeleitet",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Mindestversion 1.6.0",
+   "id": "T203",
+   "ms": "0.0",
+   "name": "[K20] Mindestversion des Datenpakets",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "restock false, autoEquipRewards false, autoRepair true, autoFly true",
+   "id": "T204",
+   "ms": "0.0",
+   "name": "[K Frage] Standardwerte mit echten Folgen",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "grund": "vor dem Push mit addon-check",
+   "id": "T205",
+   "name": "[R] Datenpaket nur in der gemeinsamen ZIP",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "autoRepair true, autoFly true, restock false, autoEquipRewards false",
+   "id": "T206",
+   "ms": "1.3",
+   "name": "[A1] Neuinstallation: Reparieren/Flug an, Nachkaufen/Belohnung aus",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "autoRepair false, autoFly false, restock true",
+   "id": "T207",
+   "ms": "1.3",
+   "name": "[A1] Bestehende Einstellungen bleiben",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "erster Besuch true (1 Hinweis), zweiter false, gekauft 0",
+   "id": "T208",
+   "ms": "2.0",
+   "name": "[A2a] Hinweis Nachkaufen einmal, nichts gekauft",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "erste true (1 Hinweis), zweite false, gewählt/angelegt 0",
+   "id": "T209",
+   "ms": "0.1",
+   "name": "[A2b] Hinweis Belohnung einmal, nichts gewählt oder angelegt",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Hinweis false, gezeigt 0",
+   "id": "T210",
+   "ms": "0.1",
+   "name": "[A2c] Option an -> kein Hinweis",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "im Kampf 0, danach 1",
+   "id": "T211",
+   "ms": "0.1",
+   "name": "[A2d] Im Kampf -> kein Hinweis",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Kills 1, Stück 2",
+   "id": "T212",
+   "ms": "0.1",
+   "name": "[3.12.5-1] Drop-Messung: erneut geöffnete Leiche zählt nicht doppelt",
+   "status": "OK"
+  },
+  {
+   "anleitung": "/dump C_SpellBook.IsSpellKnown(3273) und /dump IsPlayerSpell(3273) – Erste Hilfe gelernt? Beide Antworten zurückmelden",
+   "bereich": "J",
+   "id": "T213",
+   "name": "[3.12.6-2] Berufszauber: C_SpellBook und IsPlayerSpell im Client",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Fall 1 Abgaben vorn true, Fall 2 Abgaben vorn true, weite Abgabe unverändert true (Nähe 900 Yards)",
+   "id": "T214",
+   "ms": "0.1",
+   "name": "[3.12.7-1] Abgabebereite Quests in der Nähe zuerst (Mulgore Fall 1 und 2)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Merge true, Bloodhoof begehbar true, Gastwirt im Gebirge ausgeblendet true, Linie über Gebirge unterdrückt true",
+   "id": "T215",
+   "ms": "6.0",
+   "name": "[3.12.7-2] Kein Ziel und keine Linie im Gebirge (unplausible Orte)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "kein Fehler, Vergleich übersprungen",
+   "id": "T216",
+   "ms": "0.1",
+   "name": "[3.12.7-3] Protokoll CheckNav mit geschützten Werten",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Fokus aus Thunder Bluff 1412/1412, Wächter-Einträge 0, Vorrang-Ziel an Stelle 3 (nach den Abgaben) · Teile: Fokus 1 0.1 ms +1 KB, Fokus 2 0.0 ms +1 KB, Wächter 0.1 ms +1 KB · Stufenbänder vorher da · Bildwechsel true · Aufgaben vorher keine, nachher keine · Umweg-Faktoren vorher gemessen: 2…",
+   "id": "T217",
+   "ms": "16.5",
+   "name": "[3.12.8-1] Thunder Bluff und Mulgore: ein Fokus, kein FOKUS-Eintrag, Vorrang-Ziel nach nahen Abgaben",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Mulgore 1 true, Mulgore 2 true, bekannter Weg true, Ziel ohne Netz true, Aufzug ohne/mit Kante true/true",
+   "id": "T218",
+   "ms": "0.1",
+   "name": "[3.12.9-1] Wegnetz statt Luftlinie: ohne bekannten Weg keine Linie, nur Pfeil \"Weg unbekannt\"",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "10 min AFK 0, 10 min stehen 0, 2+1 min 0, 4 min Kreis 1 (FEST), Kante gesperrt false, Weg nimmt sie true",
+   "id": "T219",
+   "ms": "7.2",
+   "name": "[3.12.10-1] FEST nur bei Laufzeit: 10 min AFK, 2 min stehen + 1 min laufen, 4 min im Kreis",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "gemerkt true (Datenpaket 45.9/64.2), Abgabeziel aus dem echten Ort true, geschützt nichts true",
+   "id": "T220",
+   "ms": "0.2",
+   "name": "[3.12.11-1] Echter Ort eines Questgebers korrigiert das Ziel",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Text 973 Wege (Fenster true), GSWEGE1 true (200672 Zeichen), Versände bis alles drin 6, danach ohne Neues true, aus true, Namen keine · Zone in Teilen 40/40 Ketten, 2 Versände, max 1768/5896 true · ohne Teilen nach 6 noch offen true",
+   "id": "T221",
+   "ms": "3109.5",
+   "name": "[3.12.12-1] Wegdaten: /lp wege und GSWEGE1 ohne Namen, nur Neues, Grösse begrenzt",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Fokus ohne/mit altem Fokus 1412/1412, aus Thunder Bluff 1412, Mulgore fertig 1413",
+   "id": "T222",
+   "ms": "15.5",
+   "name": "[3.12.13-1] Offene Quests in Mulgore vor Abgaben im Brachland",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "kein Fehler, AFK aus dem Leerlauf: false",
+   "id": "T223",
+   "ms": "0.3",
+   "name": "[3.12.14-1] UnitIsAFK & Co. geschützt: kein Fehler, AFK über den eigenen Leerlauf",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "keine · geprüft 37",
+   "id": "T224",
+   "ms": "47.9",
+   "name": "Eigene Tooltips verdecken keine Knöpfe",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "keine · geprüft 0",
+   "id": "T225",
+   "ms": "7.1",
+   "name": "Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "keine · geprüft 3",
+   "id": "T226",
+   "ms": "7.8",
+   "name": "Fenster ganz im Bildschirm",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "keine · geprüft 39",
+   "id": "T227",
+   "ms": "7.6",
+   "name": "Beschriftungen von Knöpfen nicht abgeschnitten",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "keine · geprüft 4",
+   "id": "T228",
+   "ms": "0.4",
+   "name": "Angezeigte Spielwerte plausibel („N fertig“ = Abgeben, Questlog, Stufe, Position)",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "keine · Meldungen 0",
+   "id": "T229",
+   "ms": "0.0",
+   "name": "Keine Fehlerschleife (gleiche Meldung > 10× in der Sitzung)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Liste 2, verkauft 2, Zeilen 1 (2 graue Gegenstände verkauft für 0c.)",
+   "id": "T230",
+   "ms": "0.1",
+   "name": "[3.12.16-1] Graue Items: Option an verkauft nur Qualität 0 mit Wert, ungesperrt; Chatzeile",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "aus true, Lauf nil, verkauft 0, Zeilen 1, wieder an true, leere Tasche ohne Zeile true",
+   "id": "T231",
+   "ms": "0.4",
+   "name": "[3.12.16-2] Graue Items: Option aus (auch /lp grau) – nichts verkauft, keine Zeile",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "verkauft 1 von 2, beendet true, Händler offen false",
+   "id": "T232",
+   "ms": "0.9",
+   "name": "[3.12.16-3] Graue Items: Abbruch bei MERCHANT_CLOSED",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "im Kampf Lauf nil, verkauft 0; Kampfbeginn: verkauft 1",
+   "id": "T233",
+   "ms": "0.1",
+   "name": "[3.12.16-4] Graue Items: im Kampf nichts, Kampfbeginn bricht ab",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Händler öffnen: graue Gegenstände verschwinden, Chatzeile „N graue Gegenstände verkauft für …“, Reiter Händler/Rückkauf frei sichtbar (automatischer Teil OK: mitgeschrieben 2, echt ausgeführt 0, LevelPilot-Rahmen am Händlerfenster 0)",
+   "bereich": "J",
+   "ergebnis": "mitgeschrieben 2, echt ausgeführt 0, LevelPilot-Rahmen am Händlerfenster 0",
+   "id": "T234",
+   "ms": "16.8",
+   "name": "[3.12.16-5] Graue Items: im Test nur mitgeschrieben, kein Knopf am Händlerfenster",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Anfang an Kante true, Kreuzung true, 15 Yards daneben false, Weg A ganz true",
+   "id": "T235",
+   "ms": "0.5",
+   "name": "[3.12.17-1] Wegnetz: Anfang/Ende und Kreuzung bis 10 Yards an bestehende Kante gehängt",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "16 von 31 Punkten, grösster Abstand 24.0 Yards, Ecke true",
+   "id": "T236",
+   "ms": "0.1",
+   "name": "[3.12.17-2] Wegpunkte höchstens 25 Yards auseinander, Ecke > 30° bleibt",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "aufgezeichnete Punkte 0, Wegdaten Kalimdor 0 Zonen",
+   "id": "T237",
+   "ms": "51.2",
+   "name": "[3.12.17-3] Keine Wege auf der Kontinentkarte (Aufzeichnung und Wegdaten)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "15350 alt 57.8,76.4 (Karte gleich), 299901 nopack true",
+   "id": "T238",
+   "ms": "0.1",
+   "name": "[3.12.17-4] Wegdaten NPC: old/new als [x, y], oldMap, nächster Fundort, nopack",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "10666 true, 10881 true, 15350 true (Datenpaket 1.6.4, Forever-Orte)",
+   "id": "T239",
+   "ms": "0.0",
+   "name": "[3.12.17-5] Datenpaket: Orte von NPC 10666, 10881 und 15350 stimmen",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Mitte RIGHT (-50), rechter Rand LEFT, breit BELOW; Knopf im Leitfenster: am Fenster, RIGHT",
+   "id": "T240",
+   "ms": "0.1",
+   "name": "[3.12.18-1] Tooltip neben dem Fenster (rechts, sonst links, sonst darunter), nie über den Knöpfen",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Richtung nil, drinnen false, Erholung false, Tempo nil, Stufe 17",
+   "id": "T241",
+   "ms": "2.3",
+   "name": "[3.12.19-1] GetPlayerFacing, IsIndoors, IsResting, GetUnitSpeed, UnitLevel geschützt: kein Fehler, Rückfall",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "GUILD 3, PARTY 3, anderer Weg (Kanal) 0, Aktionen beim früheren Kanal-Beitritt 0",
+   "id": "T242",
+   "ms": "0.4",
+   "name": "[T-SY1/T-GS1/T-GS4] Senden nur über GoldSentinelSync, nie CHANNEL, kein Kanal-Beitritt",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Gilde: GUILD · Gruppe: PARTY · ohne beides: nichts (gesendet false, kein Weg 1) · nur Gruppe erlaubt: PARTY · nur Netz: nichts · Gilde+Netz: GUILD · Gruppe+Netz: PARTY · alles: GUILD+PARTY+NETZ",
+   "id": "T243",
+   "ms": "0.3",
+   "name": "[T-SY2] Gilde -> GUILD, Gruppe -> PARTY/RAID, ohne beides und ohne Netz: nichts",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "gezählt +1, in der Diagnose true, im Protokoll true",
+   "id": "T244",
+   "ms": "2.0",
+   "name": "[T-SY3] NOT_ALLOWED_IN_CHANNEL steht in der Diagnose",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "verarbeitet 1, Fehler 0, Antwort ohne Absender 0",
+   "id": "T245",
+   "ms": "0.1",
+   "name": "[T-GS2] Empfang über ep:OnMessage, Absender nil wird vertragen",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Daten ohne Kopf verstanden 1, Gruppe ohne Kopf true (Neuplanung angestossen 1×)",
+   "id": "T246",
+   "ms": "0.2",
+   "name": "[T-GS3] alte Nachricht ohne Kopf (ältere LevelPilot-Version) wird verstanden",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "2 Zeilen: Sync-Test läuft (5 Sekunden) … | 0 Antworten (Gilde 0, Gruppe 0) (Ping gesendet 1)",
+   "id": "T247",
+   "ms": "0.1",
+   "name": "[T-GS5] /lp sync test gibt eine Antwortzeile aus",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "GoldSentinelSync 3",
+   "id": "T248",
+   "ms": "0.0",
+   "name": "[T-N1] GoldSentinelSync Version 2",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "gelernt true, LevelPilotDB.gsSync false, gespeichert true (Speicher eines anderen GoldSentinel-Addons)",
+   "id": "T249",
+   "ms": "0.1",
+   "name": "[T-N2] ep:UseStorage: gelernter Mitspieler steht in LevelPilotDB.gsSync.book",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "normal 2, net=false 0, scope guild 0",
+   "id": "T250",
+   "ms": "0.1",
+   "name": "[T-N3] net = false und scope guild: nichts ins Flüster-Netz",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "NETZ true, Spielernamen keine",
+   "id": "T251",
+   "ms": "1.7",
+   "name": "[T-N4] Diagnose enthält NETZ und keinen Spielernamen",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "GoldSentinelTest 4",
+   "id": "T252",
+   "ms": "0.1",
+   "name": "[T-GT1] GoldSentinelTest Version 2",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Ausgang vorher 0, nach dem Fehler 0 (Zustimmung nil)",
+   "id": "T253",
+   "ms": "0.2",
+   "name": "[T-GT2] ohne Zustimmung bleibt der Ausgang (share.outbox) nach einem Fehler leer",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "weitergegeben: Partner 0, Anfrage 0 · vom Urheber: Partner 1, Anfrage 1 · eigene ins Netz 0",
+   "id": "T254",
+   "ms": "0.5",
+   "name": "[3.12.22-1] Netz: Zonen-Anfrage und Mitspielersuche nur vom Urheber, eigene nie ins Netz",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Antwort 24 Nachrichten (Warteschlange +24) · bei voller Warteschlange 0",
+   "id": "T255",
+   "ms": "6.2",
+   "name": "[3.12.22-3] Zonen-Antwort höchstens 25 Nachrichten, keine bei voller Warteschlange",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "ohne Weg false, danach mit Gilde true, nochmals nil",
+   "id": "T256",
+   "ms": "0.1",
+   "name": "[3.12.22-4] Broadcast merkt nur Gesendetes",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "eigene Warteschlange true, fremde Einträge darin 0",
+   "id": "T257",
+   "ms": "0.0",
+   "name": "[3.12.22-5] Testroutine pumpt nur eigene Testnachrichten",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Stadt gestanden: ruhig true, gelaufen: false, Feld: false · Dungeon ruhig true, Abgabe false · Fokus beim Abarbeiten ruhig true, sonst false",
+   "id": "T258",
+   "ms": "0.0",
+   "name": "[3.12.22-6] Protokoll: kein SCHRITT beim Stehen in der Stadt, kein FOKUS beim Abarbeiten der Zone",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "nach 70-Yards-Lücke Spur 1 Punkt(e), Kanten über die Lücke 0 · gelaufen 5 Punkte · Abschnitt übernommen 1, verworfen 0",
+   "id": "T259",
+   "ms": "1.5",
+   "name": "[3.12.23-2] Wegaufzeichnung: Lücke über 25 Yards trennt die Spur (keine gerade Linie)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "geteilt 3, 4 Stücke, längstes 25.0 Yards, Weg durchgehend true",
+   "id": "T260",
+   "ms": "36.9",
+   "name": "[3.12.23-2] alte lange Wegstücke in Stücke <= 25 Yards geteilt, Netz bleibt verbunden",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Mit dem Krieger einloggen: sofort laufen können, CPU normal; /lp diag – Zeile „ZEIT erste 60 s“ unter 1000 ms (automatischer Teil OK: erste 60 s: 699 ms in 1666 Aufrufen, längster 17 ms · je Aufrufer: route 363 ms/151×/max 5, graph 170 ms/104×/max 3, nav 50 ms/1126×/max 0, start 35 ms/32×/max 17, advisor 27 ms/15×/max 6, plan 20 ms/8×/max 6, record 15 ms/117×/max 0, quests 10 ms/1×/max 10 · aufgeschlüsselt: route: replan 362/136×/max 5, route 0/15×/max 0 | graph: seedwege 101/59×/max 2, eigeneKetten 50/29×/max 3, umweg* 19/16×/max 2 | nav: nav 50/1126×/max 0 · Einloggen: zweites (Ablage getroffen), Umweg-Ablage 3 übernommen / 0 gemessen)",
+   "bereich": "J",
+   "ergebnis": "erste 60 s: 699 ms in 1666 Aufrufen, längster 17 ms · je Aufrufer: route 363 ms/151×/max 5, graph 170 ms/104×/max 3, nav 50 ms/1126×/max 0, start 35 ms/32×/max 17, advisor 27 ms/15×/max 6, plan 20 ms/8×/max 6, record 15 ms/117×/max 0, quests 10 ms/1×/max 10 · aufgeschlüsselt: route: repl…",
+   "id": "T261",
+   "ms": "0.1",
+   "name": "[T-LAG1] Einloggen ohne Lag: Rechenzeit der ersten 60 s < 1 s",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "über 50 ms: Pause true, zweiter Aufruf lief false · Summe: Pause true nach 26 Aufrufen · Chatzeilen 2 · LANGSAM 2 · Portionen 4 ms: Pause false, Portion 60 ms: Pause true · in der Pause verworfen 1, Nachholen vorgemerkt true",
+   "id": "T262",
+   "ms": "0.3",
+   "name": "[T-LAG2] Notbremse: > 50 ms oder > 1 s in 5 s -> 60 s Pause, eine Chatzeile, LANGSAM",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Aufbau 173 ms · 500 Einträge: längster 0.7 ms (Summe 133 ms) · Wegsuche: 68 Portionen, längste 4.1 ms [4.1 ms/28 KB (max 249 KB)] · unerreichbar: 435 Portionen, längste 5.3 ms [5.3 ms/1809 KB (max 1809 KB)], beendet true · gesamt 2350 ms · im Spiel: erste Messung zählt",
+   "id": "T263",
+   "ms": "2351.0",
+   "name": "[T-LAG3] Last-Test: 2000 Wegpunkte, 500 Netz-Einträge, unerreichbares Ziel – Portionen <= 16 ms",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "ZEIT true, erste 60 s true, Module true, Export true (10334 Zeichen), Name keiner, im Test geschrieben false",
+   "id": "T264",
+   "ms": "4.6",
+   "name": "[T-LAG4] Diagnose zeigt Zeiten je Modul (auch erste 60 s) und schreibt GSDIAG1",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "60 Yards unsicher und ungeteilt true · 120 Yards: 4 neue Knoten · ohne Kante 0",
+   "id": "T265",
+   "ms": "40.1",
+   "name": "[3.12.24] Wegnetz teilen: nur > 80 Yards, 25–80 Yards unsicher, kein verwaister Knoten",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Fehler in der Suche aufgefangen true, globale Grenze nil, Grenze je Suche 1 (danach nil)",
+   "id": "T266",
+   "ms": "3.9",
+   "name": "[3.12.25-2] Suchschritt-Grenze gilt nur je Suche (keine globale Variable)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "60-Yards-Kette unsicher true, 120-Yards-Kette unsicher false, Ketten 4347",
+   "id": "T267",
+   "ms": "237.4",
+   "name": "[3.12.25-4] von 3.12.23 geteilte Lücken (25–80 Yards) werden als unsicher erkannt",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "LANGSAM nach Planung noch da 1 · Auftrag im Auftrag: ohne Fehler true, lief true",
+   "id": "T268",
+   "ms": "40.0",
+   "name": "[3.12.25-3/5] LANGSAM der Notbremse bleibt; neuer Auftrag während einer Portion",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "80 Lagen (Horde; 80 Lagen der anderen Fraktion im Lauf mit deren Charakter), 4996 verfügbare Quests geprüft · erledigt false, im Log false, fehlgeschlagen false, abgebrochen true",
+   "id": "T269",
+   "ms": "365.8",
+   "name": "[TU1] Lagen-Katalog: alle Völker/Klassen/Startgebiete, Stufen 1–60, Queststand",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Plan nach /reload und Moduswechsel gleich (ACCEPT:9265,TURNIN:405,FP:Michael Garrett:1458,ACCEPT:96897,LATER:445), Tod ohne Fehler, Belohnung 1 -> Index 1, 3 -> keine",
+   "id": "T270",
+   "ms": "110.6",
+   "name": "[TU2] Abläufe: /reload unterwegs, Plan wechseln, Tod -> Geistheiler -> weiter, annehmen/abgeben",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "96 Optionen ab Werk: advAmmo=true, advBags=true, advDurability=true, advGrind=true, advRested=true, advTalents=true, advTrainer=true, advUpgrades=true, advWeapon=true, ammoAmount=1000, ammoWarn=200, arrowPos=false, autoAccept=true, autoEquipRewards=false, autoFly=true, autoRepair=true, autoSellGrey=…",
+   "id": "T271",
+   "ms": "1.5",
+   "name": "[TU3] Standardwerte: jede Option ab Werk = was der Spieler meint (Liste)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "1000 Fälle (Startwert 1113): Weg 250, Belohnung 250, Zeiten 250, Kampf 250",
+   "id": "T272",
+   "ms": "0.0",
+   "name": "[TU4] Grundregeln mit 1000 Zufallsfällen (Weg, Belohnung, Zeiten, Kampf)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Regressionen: 101 von 101 vorhanden",
+   "id": "T273",
+   "ms": "0.2",
+   "name": "[TU6] Regressionen: jeder Befund seit 1.11. hat einen bleibenden Test",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Nach einer Spielsitzung /lp diag: keine Zeile „GRUNDREGEL VERLETZT“ (oder Fall melden) (automatischer Teil OK: 13 Questlog-Einträge und Messwerte geprüft)",
+   "bereich": "J",
+   "ergebnis": "13 Questlog-Einträge und Messwerte geprüft",
+   "id": "T274",
+   "ms": "0.0",
+   "name": "[TU5] echte Daten (nur lesen): Questlog und gemessene Zeiten gegen den Plan",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "geprüft: era (nächster Lauf: tbc), de, en, 80 %",
+   "id": "T275",
+   "ms": "37.7",
+   "name": "[TU7] Formen des Spiels: je Lauf eine von Forever/Era/TBC im Wechsel, deDE/enUS, Fenster bei Skalierung 80 %",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "32 Befehle in der Tabelle, fehlen in der Liste: keine · falsch zugeordnet: keine",
+   "id": "T276",
+   "ms": "2.3",
+   "name": "[T-BL1] jeder Befehl des Handlers steht in der Liste (aus derselben Tabelle)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "/lp we -> weg, wege, wegmessung (Rest we)",
+   "id": "T277",
+   "ms": "0.7",
+   "name": "[T-BL2] Filter /lp w und /lp we liefern genau die passenden",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Auswahl -> plan, nach 11 s -> pl, Enter führte aus 1×",
+   "id": "T278",
+   "ms": "0.7",
+   "name": "[T-BL3] Klick wählt, Enter führt aus (frische Auswahl <= 10 s)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Liste gezeigt true, Tab wählt true, geschlossen true · ins Chatfeld geschrieben 0×, SetScript 0×",
+   "id": "T279",
+   "ms": "0.3",
+   "name": "[T-BL4] Chatfeld wird nie beschrieben (nur HookScript lesen)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "ohne Entwickler 0, mit Entwickler 11 von 11",
+   "id": "T280",
+   "ms": "1.5",
+   "name": "[T-BL5] Entwickler-Befehle nur für den Entwickler",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "9 Sprachen, alle Beschreibungen übersetzt",
+   "id": "T281",
+   "ms": "0.3",
+   "name": "[T-BL6] alle Sprachen: jede Beschreibung übersetzt, keine Platzhalter-Fehler",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "mit Datei: angemeldet true (v10) · ohne Datei: Fehler false, angemeldet false, Zeile „MARKT-NETZ: Datei fehlt“",
+   "id": "T282",
+   "ms": "0.0",
+   "name": "[MN4-1] LevelPilot lädt mit und ohne GoldSentinelMarkt.lua (angemeldet bzw. still aus)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "an: Lesen vorgemerkt true · aus: Schalter true, Lesen vorgemerkt false, gelesen 0, angenommen 0, gesendet 0, Warteschlange 0 · wieder an true",
+   "id": "T283",
+   "ms": "0.1",
+   "name": "[MN4-2] Schalter „Marktdaten teilen“ aus -> kein Lesen, kein Senden, kein Annehmen",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Fehler 0 · gelesen false · Zeile „MARKT-NETZ: v10 · an (LevelPilot an) · ohne AH-API · Scans mitgelesen 0 · gesendet 0 · empfangen 0 · Speicher 0 Items, 0 KB“",
+   "id": "T284",
+   "ms": "0.1",
+   "name": "[MN4-3] ohne Auktionshaus-API (Era/TBC) kein Lua-Fehler, nichts gelesen",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Zeile „MARKT-NETZ: v10 · an (LevelPilot an) · Scans mitgelesen 0 · gesendet 0 · empfangen 0 · Speicher 7464 Items, 572 KB“ · Diagnose true · Schalter true · Standard an true",
+   "id": "T285",
+   "ms": "10.1",
+   "name": "[MN3] Zeile MARKT-NETZ in Testbericht und Diagnose; Schalter in der Zentrale, Standard an",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "74 Schalter, jeder an eigener Stelle",
+   "id": "T286",
+   "ms": "5.8",
+   "name": "[3.12.28] Zentrale: keine zwei Schalter an derselben Stelle",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "T283 mit feedUntil = Uhr + 300 und AHSentinel geladen: true (an: Lesen vorgemerkt true · aus: Schalter true, Lesen vorgemerkt false, gelesen 0, angenommen 0, gesendet 0, Warteschlange 0 · wieder an true) · Zustand zurück true",
+   "id": "T287",
+   "ms": "0.1",
+   "name": "[T-MK1] T283 auch während ein anderes Addon einen Vollscan weitergibt (feedUntil) und mit AHSentinel",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "ohne Hinweis Grundregel meldet 445 · Hinweis true an Stelle 2: „|cff3dd694Später abgeben|r: Lieferung in den Silberwald“ · mit Hinweis Grundregel still · Abgabe-Aufgabe 445 true (Karte 1421) · Überspringen/Zurückstellen lässt ihn stehen true · bei 10 Schritten Zeile 5 true",
+   "id": "T288",
+   "ms": "4.3",
+   "name": "[T-GR1] fertige Quest mit ferner Abgabe (445 Silberwald, Spieler Undercity L10) bleibt sichtbar, Grundregel still",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "angelegt gezählt 50 KB (soll 50) · Diagnose-Zeilen true · Zuwachs nach 10 Neuplanungen: keiner",
+   "id": "T289",
+   "ms": "118.5",
+   "name": "[T-SP1] Speicher-Messung: Zeilen SPEICHER in der Diagnose, angelegt je Modul, Bestand wächst bei Neuplanungen nicht",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "AUS: Chat 0, Mitte 0, Ton 0, Toast unterdrückt true, Assistent-Hinweise 0 · Antworten Chat 2, Mitte 1 · durchgerutscht 0 · am Schalter vorbei erkannt 1 · AN: Chat 1, Mitte 1, Ton 1 · Schalter true, Standard an true",
+   "id": "T290",
+   "ms": "6.9",
+   "name": "[T-ML] Schalter „Meldungen“ aus: kein Chat, keine Bildschirmmeldung, kein Ton, kein Toast, keine Assistent-Hinweise;…",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "2000 Strecken (mit Gefahr 1956): Abweichung 0, mit Grenze 0 · Gegenprobe (halbe Messpunkte) erkannt 40 von 500",
+   "id": "T291",
+   "ms": "253.3",
+   "name": "[T-PF-A] Gefahr entlang einer Strecke: schnelle Rechnung liefert genau dasselbe wie die bisherige (2000 Strecken)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "in Portionen gemessen 8 ms (Wanduhr 108 ms) · Stufe 31, 4092 Quests: 2 Portionen, längste 4.27 ms, zusammen 8.29 ms",
+   "id": "T292",
+   "ms": "17.6",
+   "name": "[T-LP-D1] Questauswertung: Pausen zwischen Portionen zählen nicht als Rechenzeit; Auswertung Stufe 31 unter 16 ms",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "kompakt angehängt true, Tooltip true · normale Liste ohne Anhang true · ohne Hinweis kein Anhang true",
+   "id": "T293",
+   "ms": "1.4",
+   "name": "[T-GR1-K] Kompaktmodus: „+n später abgeben“ in der einen Zeile, Questnamen im Tooltip; normale Liste unverändert",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Ticker 300 s registriert true · UpdateAddOnMemoryUsage im Ticker 0×, im Diagnose-Text 0× · Gegenprobe Messung auf Befehl 1× · Lua gesamt 790486 KB",
+   "id": "T294",
+   "ms": "2.0",
+   "name": "[T-L-1] 5-Minuten-Ticker misst Speicher ohne UpdateAddOnMemoryUsage (kein Ruckler); genaue Messung nur auf Befehl",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "kalt erkannt true · in Portionen true (6 Bilder, längste 4.65 ms) · danach warm true · warmer Klick sofort true",
+   "id": "T295",
+   "ms": "32.4",
+   "name": "[T-PF-A2] Klick „Neu planen“ mit kalten Zwischenspeichern läuft in Portionen (längste < 16 ms), warm sofort",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "normale Suche bekannt false · nur bekannte Wege: 20 Punkte, bekannt true",
+   "id": "T296",
+   "ms": "100.3",
+   "name": "[T-UC-W1] Undercity: Auktionshaus -> Bethor Iceshard über gelaufene Wege (nicht „Weg unbekannt“)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Ebenen-Angabe „1458|o|Die Kanäle“ · gespeichert als Nr. 38 · zurück „1458|o|Die Kanäle“ · Schalter aus true",
+   "id": "T297",
+   "ms": "0.1",
+   "name": "[T-W3D-B1] Ebenen-Angabe (Karte|drinnen|Unterzone) wird gespeichert; W3D-Schalter aus = Wegführung wie bisher",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Karten 9 · neue Knoten 752 · eigene genutzt 1294 · Kanten 2346 · gespeichert 0",
+   "id": "T298",
+   "ms": "6.9",
+   "name": "[T-WEGE-1] Startwegnetz (9 Zonen seit 3.12.68, vorher Mulgore/Brachland/Donnerfels) (eigene Koordinatenlisten) geladen, …",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "keine Tabelle true · Name bleibt true · alte Schlüssel lesbar true · Ebenen-Angabe unverändert true",
+   "id": "T299",
+   "ms": "0.1",
+   "name": "[T-W3D-SPRACHE] Unterzonen-Schlüssel = Name aus dem Spiel (keine Tabelle aus den Spieldaten, 3.12.88); alte Schlüssel …",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Ausserhalb von Gasthaus/Hauptstadt /afk eingeben: im Assistenten erscheint „Pause? Im Gasthaus …“ mit „Hinführen“; im Gasthaus nicht (automatischer Teil OK: AFK draussen 1 · im Gasthaus 0 · nicht AFK 0 · Stufe 60 0 · aus 0)",
+   "bereich": "J",
+   "ergebnis": "AFK draussen 1 · im Gasthaus 0 · nicht AFK 0 · Stufe 60 0 · aus 0",
+   "id": "T300",
+   "ms": "0.2",
+   "name": "[T-LPN1-ERHOLT] Pause ausserhalb des Gasthauses: Hinweis nur bei AFK, nicht beim Ausruhen, nicht auf Höchststufe, absch…",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Waffe einer Art mit niedriger Fertigkeit anlegen (z. B. neue Questwaffe): Hinweis „Waffenfertigkeit …: x von y“ – prüft, ob der Name der Fertigkeit genau der Waffenart entspricht (Sprache des Clients) (automatischer Teil OK: 40/100 1 („Waffenfertigkeit Einhandäxte: 40 von 100 – du verfehlst öfter. Mit dieser Waffe an leichteren Gegnern üben.“) · 80/100 0 · andere Waffenart 0 · Classic (nur globales GetItemInfo) 1)",
+   "bereich": "J",
+   "ergebnis": "40/100 1 („Waffenfertigkeit Einhandäxte: 40 von 100 – du verfehlst öfter. Mit dieser Waffe an leichteren Gegnern üben.“) · 80/100 0 · andere Waffenart 0 · Classic (nur globales GetItemInfo) 1",
+   "id": "T301",
+   "ms": "0.1",
+   "name": "[T-LPN1-WAFFE] Waffenfertigkeit der angelegten Waffe 25+ unter dem Höchstwert: Hinweis; sonst keiner",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Waffe einer noch nicht gelernten, für die Klasse erlaubten Art (grün oder besser) in die Tasche: Hinweis nennt den richtigen Waffenmeister; nach dem Lernen verschwindet er (automatischer Teil OK: nicht am Ort 0 · Dolch ungelernt 1 („[Testdolch] in deiner Tasche: Waffenart „Dolche“ noch nicht gelernt. Lernen beim Waffenmeister (etwa 10 Silber): Archibald, Undercity (70 Yards)“) · gelernt 0 · grau 0 · Zauberstab (Krieger) 0 · Stangenwaffe Lv15 0 / Lv20 1 · Sprache passt nicht 0 · Forever (nur C_Item) 1)",
+   "bereich": "J",
+   "ergebnis": "nicht am Ort 0 · Dolch ungelernt 1 („[Testdolch] in deiner Tasche: Waffenart „Dolche“ noch nicht gelernt. Lernen beim Waffenmeister (etwa 10 Silber): Archibald, Undercity (70 Yards)“) · gelernt 0 · grau 0 · Zauberstab (Krieger) 0 · Stangenwaffe Lv15 0 / Lv20 1 · Sprache passt nicht 0 …",
+   "id": "T302",
+   "ms": "0.8",
+   "name": "[T-LPN1-MEISTER] Waffe einer noch nicht gelernten Art in der Tasche: Hinweis mit dem Waffenmeister, der sie lehrt",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Bei einer Töte-Quest 3 Min. am Ziel ohne Fortschritt stehen/suchen: Hinweis „Seit 3 Min. kein Fortschritt …“, Klick „Andere Stelle“ -> Pfeil zur nächsten Stelle (automatischer Teil OK: Zähler gestartet true · leere Stelle ausgelassen true · alle leer -> Liste bleibt true · abgelaufen true · sofort 0 · nach 3 Min. 1 („Seit 3 Min. kein Fortschritt bei „Testquest“ – Stelle abgegrast? Nächste Stelle 1.2 km entfernt.“) · Andere Stelle true · weg true · aus true)",
+   "bereich": "J",
+   "ergebnis": "Zähler gestartet true · leere Stelle ausgelassen true · alle leer -> Liste bleibt true · abgelaufen true · sofort 0 · nach 3 Min. 1 („Seit 3 Min. kein Fortschritt bei „Testquest“ – Stelle abgegrast? Nächste Stelle 1.2 km entfernt.“) · Andere Stelle true · weg true · aus true",
+   "id": "T303",
+   "ms": "0.1",
+   "name": "[T-LPN1-GRIND] Stelle abgegrast: Hinweis erst nach 3 Min. ohne Fortschritt am Ziel, „Andere Stelle“ plant die nächs…",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Händler mit tragbarer Ware öffnen: Plus-Zeichen oben links an den Waren, die für deine Klasse ein Upgrade sind (wie „Mögliches Upgrade“); Seite wechseln: Zeichen wandern mit (automatischer Teil OK: Seite 1: 1 markiert (Platz 2 true, Platz 3 ohne true) · Seite 2: 1 (Platz 2 true) · Rückkauf-Reiter 0, ausgeblendet true · aus 0)",
+   "bereich": "J",
+   "ergebnis": "Seite 1: 1 markiert (Platz 2 true, Platz 3 ohne true) · Seite 2: 1 (Platz 2 true) · Rückkauf-Reiter 0, ausgeblendet true · aus 0",
+   "id": "T304",
+   "ms": "0.1",
+   "name": "[T-LPN1-HAENDLER] Händlerfenster: Upgrades markiert (nur Kauf-Reiter, richtige Seite, aus = keine Markierung)",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Mit freiem Talentpunkt: Hinweis „Talentpunkt(e) frei“ zeigt „Vorschlag (Level-Build von LevelPilot): <Talent> x/y – <Satz>“; das Talent gibt es im Talentfenster (Taste N) (automatischer Teil OK: 51 Punkte je Klasse true · nur Namen true · Start Verbesserter heldenhafter Stoß 1/… · danach Verbessertes Verwunden · Platzhalter stoppt true · englisch true · fremde Sprache true · Name fehlt true)",
+   "bereich": "J",
+   "ergebnis": "51 Punkte je Klasse true · nur Namen true · Start Verbesserter heldenhafter Stoß 1/… · danach Verbessertes Verwunden · Platzhalter stoppt true · englisch true · fremde Sprache true · Name fehlt true",
+   "id": "T305",
+   "ms": "0.2",
+   "name": "[T-LPN1-TALENT] Talent-Vorschlag: nächster Punkt des Level-Builds, Waffen-Alternative, Baum passt nicht = still",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "/run print(LevelPilotAPI.NavigateTo(1411, 52, 43, \"Test\")) -> true, oben im Guide steht „Test“ mit Pfeil dorthin (automatischer Teil OK: gültig true, Schritt oben true, ohne Titel true · x=150 false · ohne Karte false · Text false · unbekannte Karte false · Ziel unverändert true · Neuplanungen 2 · Version 3)",
+   "bereich": "J",
+   "ergebnis": "gültig true, Schritt oben true, ohne Titel true · x=150 false · ohne Karte false · Text false · unbekannte Karte false · Ziel unverändert true · Neuplanungen 2 · Version 3",
+   "id": "T306",
+   "ms": "0.1",
+   "name": "[T-API-NAV] LevelPilotAPI.NavigateTo: gültiges Ziel -> true und Schritt oben; ungültig/unbekannte Karte -> false",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "zuerst gefragt A · Fragen 3 · A OK B OK C FEHLER D FEHLER E(nicht OK) FEHLER F(übersprungen) N/A · „Client-Test fertig: OK 2 · FEHLER 3 · N/A 1 · offen 0 – Ergebnis in /lp diag.“ · Diagnose-Zeilen 7 · echte Punkte 10, Lua-Fehler 0",
+   "id": "T307",
+   "ms": "0.3",
+   "name": "[T-LPN2] /lp clienttest: automatische Prüfungen, Fragen nur wo nötig, Antworten OK/Nicht OK/Überspringen, Zeilen in d…",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Mit GSWegMess: /lp wegmessung – Fenster zeigt Lauf 1 Schritt 1, Pfeil zum Auktionshaus; „Markieren & weiter“ -> /wegmess zeigt mehr Zeilen; am Ende Chatzeile „Wegmessung fertig …“ (automatischer Teil OK: ohne Werkzeug Hinweis true · Start true · Pfeil true · Ortsnamen true · Lauf 2 true · übersprungen -> Lauf 3 true · Ende stoppt true · Notizen 9 (erste „L1 Auktionshaus“, Sprung notiert true) · „Wegmessung fertig (8 Markierungen). Jetzt /reload und die Datei SavedVariables/GSWegMess.lua schicken.“)",
+   "bereich": "J",
+   "ergebnis": "ohne Werkzeug Hinweis true · Start true · Pfeil true · Ortsnamen true · Lauf 2 true · übersprungen -> Lauf 3 true · Ende stoppt true · Notizen 9 (erste „L1 Auktionshaus“, Sprung notiert true) · „Wegmessung fertig (8 Markierungen). Jetzt /reload und die Datei SavedVariables/GSWegMess.l…",
+   "id": "T308",
+   "ms": "0.1",
+   "name": "[T-WEGMESSUNG] /lp wegmessung: GSWegMess fehlt = Hinweis; Start, Markieren je Schritt, Lauf überspringen, Ende stoppt d…",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "/lp prüfliste (nur Testmodus): Fenster „Prüfliste LevelPilot 3.12.47 – 0 von 14 erledigt“, unten die Anweisung zum ersten Punkt; /afk draussen -> T300 springt auf „erledigt (erkannt)“ und eine Chatzeile erscheint (automatischer Teil OK: ohne Testmodus: Liste true, Meldung true, Bericht leer true, nichts gespeichert true · mit: angemeldet true, Punkte 15 (vollständig 15), Fehler true/doppelt true, „PRÜFLISTE LevelPilot: 0 von 15 erledigt“ (16 Zeilen), gespeichert true · Unterstadt-Gegenprobe true · nicht ausgelöst: „“ · PF-A fail · 60 s 500 ms · Wegmessung 12 Schritte · trocken gesperrt true)",
+   "bereich": "J",
+   "ergebnis": "ohne Testmodus: Liste true, Meldung true, Bericht leer true, nichts gespeichert true · mit: angemeldet true, Punkte 15 (vollständig 15), Fehler true/doppelt true, „PRÜFLISTE LevelPilot: 0 von 15 erledigt“ (16 Zeilen), gespeichert true · Unterstadt-Gegenprobe true · nicht ausgelöst: „“ …",
+   "id": "T309",
+   "ms": "9.7",
+   "name": "[T-PRUEFLISTE] Prüfliste im Spiel: im Testmodus angemeldet (15 Punkte, 3.13.0: + T362), ohne Testmodus wirkungslos, jed…",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Nach einer Spielstunde /lp protokoll: Zeilen „LAUFWEG …“ (Schritte, Umweg, Zeit Weg/Ziel, Pfad, Neuplanungen, je Zone) und „EP/h je Level“ mit plausiblen Zahlen (automatischer Teil OK: Schritte 3 (angekommen 1) · Luftlinie 300 gelaufen 260 · Zeit Weg 51 / Ziel 25 · Netz 25 s Gelände 12 s unbekannt 1 s · Neuplanungen 1 Richtungswechsel 1 · Leerlauf 7 s · EP L10 900 L11 50 (L10 75 s) · C gelaufen 70 · Zeilen 6, Umweg 0,87 true, Zone true, EP/h true, Winkel true)",
+   "bereich": "J",
+   "ergebnis": "Schritte 3 (angekommen 1) · Luftlinie 300 gelaufen 260 · Zeit Weg 51 / Ziel 25 · Netz 25 s Gelände 12 s unbekannt 1 s · Neuplanungen 1 Richtungswechsel 1 · Leerlauf 7 s · EP L10 900 L11 50 (L10 75 s) · C gelaufen 70 · Zeilen 6, Umweg 0,87 true, Zone true, EP/h true, Winkel true",
+   "id": "T310",
+   "ms": "0.4",
+   "name": "[T-LW6] Laufweg-Messung: Luftlinie/gelaufen/Zeit Weg+Ziel, Pfadart, Neuplanung mit Richtungswechsel, Leerlauf, EP/h je L…",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Mit bekannten Flugpunkten ein Ziel weit weg wählen, /lp protokoll: Zeile „REISE letzter Flugvergleich: Laufen x s · Fliegen y s (Flugzeit gemessen) …“ passt zur Wahl; auf dem Reittier „Tempo 11,2 yd/s (Reittier gemessen)“ (automatischer Teil OK: zu Fuss 7 true · Reittier 11,2 true · unplausibel abgelehnt true · 14 true · Flugzeit Annahme true / gemessen true · B Reittier: laufen true · C zu Fuss: Flug true · Planung B ohne Flug true · Planung C Flugmeister+Flug true · Protokollzeile true)",
+   "bereich": "J",
+   "ergebnis": "zu Fuss 7 true · Reittier 11,2 true · unplausibel abgelehnt true · 14 true · Flugzeit Annahme true / gemessen true · B Reittier: laufen true · C zu Fuss: Flug true · Planung B ohne Flug true · Planung C Flugmeister+Flug true · Protokollzeile true",
+   "id": "T311",
+   "ms": "0.1",
+   "name": "[T-LW3] Flug nach Zeit: gemessene Flugzeit/Annahme, Reittier-Tempo, Entscheid in beide Richtungen anders als die alte St…",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "grund": "Strassennetz seit 3.12.88 entfernt (EULA) – Wegnetz aus gelaufenen Wegen – in dieser Lage nicht prüfbar",
+   "id": "T312",
+   "ms": "0.0",
+   "name": "[T-ST2] Strassennetz (Forever bzw. Classic Era): Kontinent des Spielers geladen, Knoten mit Zone, nichts gespeichert, We…",
+   "status": "SKIP"
+  },
+  {
+   "anleitung": "Nach einer Spielstunde /lp protokoll: Zeile „UMWEG je Zone …“ mit gemessenen Zonen (n Paare), Werte zwischen 1,0 und 1,8 (automatischer Teil OK: Median true (gerade Anzahl true) · Grenzen true · zu wenig Paare true · ohne Zone Annahme true · je Zone true · mit Wegkosten zuerst T313B · Luftlinie (vorher) zuerst T313A · Schalter aus = 1 true)",
+   "bereich": "J",
+   "ergebnis": "Median true (gerade Anzahl true) · Grenzen true · zu wenig Paare true · ohne Zone Annahme true · je Zone true · mit Wegkosten zuerst T313B · Luftlinie (vorher) zuerst T313A · Schalter aus = 1 true",
+   "id": "T313",
+   "ms": "0.1",
+   "name": "[T-LW1] Wegkosten statt Luftlinie: Umweg-Faktor je Zone (Median, Grenzen, Annahme), Reihenfolge wählt das schneller err…",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "/lp navi 45 60 Brachland: Pfeil zum Punkt, oben im Guide „Wegpunkt 45.0, 60.0 · Brachland“; /lp navi briefkasten: nächster Briefkasten; /lp navi aus: Route geht weiter (automatischer Teil OK: Zone genau true · Anfang/unbekannt true · navi 45 60 brachland true · aus true · aus ohne Ziel true · ungültig true · Zone fehlt true · Dienstwörter „repair,repair,mailbox,inn“ · nächster Händler nach Wegkosten true)",
+   "bereich": "J",
+   "ergebnis": "Zone genau true · Anfang/unbekannt true · navi 45 60 brachland true · aus true · aus ohne Ziel true · ungültig true · Zone fehlt true · Dienstwörter „repair,repair,mailbox,inn“ · nächster Händler nach Wegkosten true",
+   "id": "T314",
+   "ms": "0.7",
+   "name": "[T-NAV1A] /lp navi: Koordinaten mit Zone, Zonenname (genau/Anfang), aus, ungültig; Dienstwörter (auch repair); nächst…",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Nur im Classic-Era-Client prüfbar (Nutzer hat keinen): NPCs in Mulgore/Sturmwind stehen am richtigen Ort – Verdacht, zu messen (automatischer Teil OK: Forever unverändert true (Paket true) · Era Mulgore 44.20/76.10 -> 44.55/75.39 true · hin und zurück true · andere Zone true · Paket: 6 Punkte zurückgerechnet, Werte true · Gordo auf Questie true · zweimal = nichts true)",
+   "bereich": "J",
+   "ergebnis": "Forever unverändert true (Paket true) · Era Mulgore 44.20/76.10 -> 44.55/75.39 true · hin und zurück true · andere Zone true · Paket: 6 Punkte zurückgerechnet, Werte true · Gordo auf Questie true · zweimal = nichts true",
+   "id": "T315",
+   "ms": "0.1",
+   "name": "[T-LW5-E2] Classic Era: 4 Forever-Zonen zurückgerechnet (Datenpaket, Dungeon-Eingänge), Hin-/Rückweg genau, Forever u…",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Im Classic-Era-Client (Nutzer seit 10:36): nach dem ersten Einloggen steht in SavedVariables/LevelPilot.lua ein Bereich „era“; Forever-Wege erscheinen dort nicht (automatischer Teil OK: Forever = Grundtabelle true · Era = eigener Bereich true · Era-Daten bleiben, Forever unberührt true · Kalibrierung im Bereich true / leer true · Sprache true · Flugpunkte true · ersetzte Grundtabelle true · jetzt true (forever))",
+   "bereich": "J",
+   "ergebnis": "Forever = Grundtabelle true · Era = eigener Bereich true · Era-Daten bleiben, Forever unberührt true · Kalibrierung im Bereich true / leer true · Sprache true · Flugpunkte true · ersetzte Grundtabelle true · jetzt true (forever)",
+   "id": "T316",
+   "ms": "0.0",
+   "name": "[T-LW5-E3] Daten je Spielversion: Forever = LevelPilotDB (unverändert), Classic Era = LevelPilotDB.era; Kalibrierung li…",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Im Classic-Era-Client: Einstellungen > Server & Dungeons ohne Schalter „Server WoW Forever“; Daten-Seite ohne „WoW-Forever-Quests“ (automatischer Teil OK: Schalter Forever true / Era aus true / TBC aus true · Hilfe Forever true / Era ohne Forever true · NEU Forever true / Era nie true)",
+   "bereich": "J",
+   "ergebnis": "Schalter Forever true / Era aus true / TBC aus true · Hilfe Forever true / Era ohne Forever true · NEU Forever true / Era nie true",
+   "id": "T317",
+   "ms": "0.1",
+   "name": "[T-LW5-E4] Forever-Eigenheiten je Spielversion: Schalter \"Server WoW Forever\" nur wo er wirkt, Hilfetext ohne Forever-Qu…",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Im Spiel: /lp navi 50 50 Brachland (von Durotar) – im Guide unter dem Ziel „Reise ~m:ss: … → …“, die Zeit wird alle 10 s neu gerechnet (automatischer Teil OK: Laufen/Schiff/Laufen 450 s true · Text true · Flug true · Ruhestein true · nicht bereit -> laufen true)",
+   "bereich": "J",
+   "ergebnis": "Laufen/Schiff/Laufen 450 s true · Text true · Flug true · Ruhestein true · nicht bereit -> laufen true",
+   "id": "T318",
+   "ms": "0.3",
+   "name": "[T-NAV2] Reiseplan nach Zeit: Laufen/Schiff/Laufen mit Sekunden, Flug statt Laufen, Ruhestein wenn schneller, nicht wenn…",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Im Spiel: /lp navi gornek (oder ein anderer Questgeber), /lp navi flammenschlund, bei mehreren Treffern /lp navi 2 (automatischer Teil OK: Dienstwörter true · NPC nächster Fundort, ohne feindliche true · Gegner true · Dungeon true · zu kurz true · Liste true · Nummer true · aus true · ein Treffer direkt true · nichts gefunden true)",
+   "bereich": "J",
+   "ergebnis": "Dienstwörter true · NPC nächster Fundort, ohne feindliche true · Gegner true · Dungeon true · zu kurz true · Liste true · Nummer true · aus true · ein Treffer direkt true · nichts gefunden true",
+   "id": "T319",
+   "ms": "1.1",
+   "name": "[T-NAV1B] /lp navi <Name>: NPC (nächster Fundort, keine feindlichen), Dungeon, Zone; Trefferliste, Wahl per Nummer, ein…",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Im Spiel: Markierung auf der Weltkarte setzen (Strg+Klick) – LevelPilot führt hin, Reiseplan unter dem Ziel; Markierung entfernen -> Navi endet. Gibt es das Ereignis im Forever-Client? (Zeile „Ereignis im Client“) (automatischer Teil OK: Markierung -> Ziel true · doppelt nur einmal true · Vector2D true · entfernt -> Ende true · anderes Ziel bleibt true · Schalter aus true · Ereignis im Client true)",
+   "bereich": "J",
+   "ergebnis": "Markierung -> Ziel true · doppelt nur einmal true · Vector2D true · entfernt -> Ende true · anderes Ziel bleibt true · Schalter aus true · Ereignis im Client true",
+   "id": "T320",
+   "ms": "0.1",
+   "name": "[T-NAV1C] Markierung auf der Weltkarte = Navi-Ziel; dieselbe Markierung nur einmal; entfernt -> Navi endet; Schalter aus…",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Linie 950 -> 350 true · annehmen vor abgeben true · Questlog voll 750 -> 650 true · optimal bleibt true · < 4 nichts true · Schritt danach zählt true",
+   "id": "T321",
+   "ms": "2.4",
+   "name": "[T-LW2A] Exakte Reihenfolge der nächsten 8 Schritte: kürzeste Kette, annehmen vor abgeben, Questlog läuft nie über, …",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Im Spiel: /lp navi zu einem Ort hinter einem Gebiet mit hohen Gegnern – rote Zeile „Vorsicht: Gegner bis Stufe …“; am Ziel „Navi: angekommen“ (automatischer Teil OK: Gefahr Stufe 12 im Plan true · ohne Gefahr kein Hinweis true · Ankunft Navi-Ziel mit Meldung true · anderes Ziel still true)",
+   "bereich": "J",
+   "ergebnis": "Gefahr Stufe 12 im Plan true · ohne Gefahr kein Hinweis true · Ankunft Navi-Ziel mit Meldung true · anderes Ziel still true",
+   "id": "T322",
+   "ms": "0.1",
+   "name": "[T-NAV3] Navi unterwegs: Gefahr auf dem Weg im Reiseplan (ab Spielerlevel + 3), Ankunft am Navi-Ziel mit Meldung, andere…",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Im Spiel: weiter Routenschritt (z. B. Abgabe in einer anderen Zone) – „Reise ~…“ unter dem Schritt; ein anderes Addon (ProfessionSentinel) ruft LevelPilotAPI.NavigateToNearest(\"trainer\") (automatischer Teil OK: Route weit true / nah keins true / Navi zuerst true · Plan true · gleicher Schritt aus Speicher true · Stop eigenes Ziel nein true · Abfrage Kopie true · Stop API-Ziel true · falsche Art true · Reisezeit 100 s true · falsche Angaben true)",
+   "bereich": "J",
+   "ergebnis": "Route weit true / nah keins true / Navi zuerst true · Plan true · gleicher Schritt aus Speicher true · Stop eigenes Ziel nein true · Abfrage Kopie true · Stop API-Ziel true · falsche Art true · Reisezeit 100 s true · falsche Angaben true",
+   "id": "T323",
+   "ms": "0.1",
+   "name": "[T-NAV4] Reiseplan auch für weite Routenschritte (gleicher Schritt behält den Plan), Schnittstelle v2: Stop nur für e…",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Im Spiel: Töte-Quest mit mehreren Gegner-Gruppen – nahe dem Gebiet zeigt der Pfeil „Gegner – Rundgang“ und führt von Gruppe zu Gruppe, danach von vorn (automatischer Teil OK: erster true · Reihenfolge true · Runde von vorn true · zu weit true · < 3 true · nur Töte-Ziele true)",
+   "bereich": "J",
+   "ergebnis": "erster true · Reihenfolge true · Runde von vorn true · zu weit true · < 3 true · nur Töte-Ziele true",
+   "id": "T324",
+   "ms": "0.1",
+   "name": "[T-LW7A] Rundgang über die Fundorte der Gegner: nur nahe und ab 3 Fundorten, nächster nicht besuchter, besucht ab 30 y…",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Im Classic-Era-Client: AddOn-Liste ohne „veraltet“, /lp prüfliste zeigt „Classic Era: …“ (6 Punkte), E5-1 bis E5-3 erledigt sich selbst (automatischer Teil OK: Era-Liste 6 vollständig true · Forever bisherige true · ausserhalb Era still true · lädt true · Bereich era / falsch true · Questlog 20 / 40 true)",
+   "bereich": "J",
+   "ergebnis": "Era-Liste 6 vollständig true · Forever bisherige true · ausserhalb Era still true · lädt true · Bereich era / falsch true · Questlog 20 / 40 true",
+   "id": "T325",
+   "ms": "0.1",
+   "name": "[T-LW5-E5] Prüfliste im Classic-Era-Client: eigene Era-Liste (6 Punkte, vollständig), im Forever-Client die bisherige;…",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Im Spiel nicht einzeln sichtbar: Wirkung über die virtuelle Reise (/lp testroutine reise) und die Laufweg-Zeilen (LW-6) (automatischer Teil OK: 700 yd/300 s = 0,857 true · Untergrenze 0,35 true · anderer Kontinent 0,4 true · 2 Questgeber true · Normalmodus angewendet, nicht ausgelassen true · Schalter aus unverändert true)",
+   "bereich": "J",
+   "ergebnis": "700 yd/300 s = 0,857 true · Untergrenze 0,35 true · anderer Kontinent 0,4 true · 2 Questgeber true · Normalmodus angewendet, nicht ausgelassen true · Schalter aus unverändert true",
+   "id": "T326",
+   "ms": "0.1",
+   "name": "[T-LW2B] Zeitfaktor auch im Normalmodus: Annahme-Wert × Anteil Questdauer an Questdauer + halbem Weg (mind. 0,35), ande…",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Im Spiel (Speedrun, Stufe 1–10, Schalter an): weiter Weg mit Friedhof nahe am Ziel – gelbe Zeile „Speedrun-Trick: … spart ~X min“. Haltbarkeit/Nachwirkungen nach dem Auferstehen messen (Forever) (automatischer Teil OK: Hinweis 686 s true · Text ~11 min true · Plan bleibt Laufen true · unter 3 min nichts true · Stufe 11 nichts true · ohne Speedrun nichts true · Schalter aus nichts true · anderer Kontinent nichts true · ohne Daten nichts true)",
+   "bereich": "J",
+   "ergebnis": "Hinweis 686 s true · Text ~11 min true · Plan bleibt Laufen true · unter 3 min nichts true · Stufe 11 nichts true · ohne Speedrun nichts true · Schalter aus nichts true · anderer Kontinent nichts true · ohne Daten nichts true",
+   "id": "T327",
+   "ms": "0.6",
+   "name": "[T-LW7D] Tod als Reise: Hinweis nur im Speedrun, bis Stufe 10, Schalter an, Gewinn >= 3 min (Sterben 90 s + Auferstehen …",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Im Spiel: Flugmeister ansprechen (Flugkarte öffnen), dann /lp navi zu einem Ziel mit Flug – im Reiseplan „Flug nach X, 1s 20c (2:10)“ (automatischer Teil OK: mitgeschrieben 2 · gelesen (nur ab Start, fern nicht) true · neuer Preis true · ohne aktuellen Ort nichts true · ohne Schnittstelle nichts true · Reiseplan Preis / unbekannt true)",
+   "bereich": "J",
+   "ergebnis": "mitgeschrieben 2 · gelesen (nur ab Start, fern nicht) true · neuer Preis true · ohne aktuellen Ort nichts true · ohne Schnittstelle nichts true · Reiseplan Preis / unbekannt true",
+   "id": "T328",
+   "ms": "0.1",
+   "name": "[T-LW8-2] Flugpreise: beim Flugmeister je erreichbarem Ziel mitgeschrieben (nur ab dem aktuellen Ort), im Reiseplan geze…",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Im Spiel: /lp testroutine reise, danach /lp testroutine bericht – Abschnitt „Messlatte: Bestzeiten je Stufe“ (automatischer Teil OK: Stufen mit beiden Werten (7: unter 60 s, 8/9: ohne Paar) true · Summen true · ohne Bestzeiten leer true · ohne Namen true)",
+   "bereich": "J",
+   "ergebnis": "Stufen mit beiden Werten (7: unter 60 s, 8/9: ohne Paar) true · Summen true · ohne Bestzeiten leer true · ohne Namen true",
+   "id": "T329",
+   "ms": "0.0",
+   "name": "[T-LW7E] Messlatte: Bestzeit je Stufe (alle Charaktere) gegen die virtuelle Reise, nur Stufen mit beiden Werten, Summen;…",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Im Spiel: /lp navi 50 50 ödland (Allianz/Horde egal) findet das Ödland; /lp protokoll Zeile REISE zeigt „Tempo 7,0 yd/s (zu Fuss)“ (automatischer Teil OK: Faltung true · Zone ödland/ÖDLAND/östliche/тирисфальские true · NPC/Dungeon true · Laufweg Quelle true · Komma true)",
+   "bereich": "J",
+   "ergebnis": "Faltung true · Zone ödland/ÖDLAND/östliche/тирисфальские true · NPC/Dungeon true · Laufweg Quelle true · Komma true",
+   "id": "T330",
+   "ms": "1.1",
+   "name": "[T-NP-LP54-2/NP-LP49] Suche mit Umlauten und Kyrillisch in jeder Schreibweise (Zone, NPC, Dungeon, Dienst); Laufweg-Zeil…",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Im Spiel: mit fertiger Quest in der Nähe /lp navi 50 50 ödland – das Navi-Ziel steht oben, der Pfeil zeigt dorthin (automatischer Teil OK: gewähltes Ziel oben true · Assistent nach nahen Abgaben true · Navi setzt es true · Schnittstelle setzt es true)",
+   "bereich": "J",
+   "ergebnis": "gewähltes Ziel oben true · Assistent nach nahen Abgaben true · Navi setzt es true · Schnittstelle setzt es true",
+   "id": "T331",
+   "ms": "0.0",
+   "name": "[T-NAV-T1] Vom Spieler gewähltes Navi-Ziel steht oben (vor nahen Abgaben), Vorschläge des Assistenten weiter danach",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Im Classic-Era-Client: neuer Charakter in der Startzone – erst die nahen Questgeber, Binden/Flugpunkt später; der Pfeil dreht beim Laufen nicht um (automatischer Teil OK: Binden nach nahen Schritten true · Reise-Schritte bleiben vorn true · anderer Kontinent weit true · Wegpunkt hinten übersprungen true · vorn nicht true · Ecke nicht true · letzter nie true · weit vor dem Wegpunkt nie true · Gefahren-Zelle an der Ecke erkannt true · daneben nicht true · negative Koordinaten true)",
+   "bereich": "J",
+   "ergebnis": "Binden nach nahen Schritten true · Reise-Schritte bleiben vorn true · anderer Kontinent weit true · Wegpunkt hinten übersprungen true · vorn nicht true · Ecke nicht true · letzter nie true · weit vor dem Wegpunkt nie true · Gefahren-Zelle an der Ecke erkannt true · daneben nicht true · ne…",
+   "id": "T332",
+   "ms": "0.1",
+   "name": "[T-ERA-1] Binden/Flugpunkt holen erst nach näheren Routenschritten; Pfeil schaltet über einen Wegpunkt hinter dem Spie…",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Im Spiel: Zonenwahl passt zur Stufe (keine Zone, deren Quests klar über oder unter dir liegen, wenn es passende gibt) (automatischer Teil OK: Zonen mit Band 35 · Startzone 5–12 · Bänder gültig true · Faktoren 1.5/0.6)",
+   "bereich": "J",
+   "ergebnis": "Zonen mit Band 35 · Startzone 5–12 · Bänder gültig true · Faktoren 1.5/0.6",
+   "id": "T342",
+   "ms": "0.5",
+   "name": "[T-OPT-ROUTE 1b] Stufenband je Zone aus den Questdaten; Zonen im eigenen Stufenband werden bevorzugt",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Im Spiel: weites Ziel, Bindeort in einer Stadt mit Flugmeister – der Guide schlägt Ruhestein + Flug vor, wenn das schneller ist (automatischer Teil OK: Ruhestein, weil Reiseplan schneller true · nicht, wenn nicht schneller true · Ziel am Bindeort wie bisher true)",
+   "bereich": "J",
+   "ergebnis": "Ruhestein, weil Reiseplan schneller true · nicht, wenn nicht schneller true · Ziel am Bindeort wie bisher true",
+   "id": "T343",
+   "ms": "0.1",
+   "name": "[T-OPT-ROUTE H3] Ruhestein auch, wenn der Reiseplan mit Ruhestein + Flug schneller ist (nicht nur Ziel am Bindeort)",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Wo: irgendwo im Spiel, nicht im Kampf (der Befehl ist nur für dein Konto freigeschaltet). Schritte: 1. Tippe in den Chat: /lp kartenrahmen 2. Tippe in den Chat: /reload – der Uploader schickt die Daten danach von selbst. Was du siehst: Im Chat steht 'LevelPilot: Kartenrahmen: … Karten gemessen und gespeichert – jetzt /reload, dann Upload.' mit einer Zahl um 50 (alle Zonen und beide Kontinente; WoW Forever: 54). Kosten: kein Gold, unter 1 Minute. Danach OK – oder Nicht OK mit dem Text, der stattdessen kam. (automatischer Teil OK: 2 Karten gezählt true · Ecken/Typ/Eltern true · Karte ohne Weltlage nicht true · keine Namen true · ohne C_Map nichts true)",
+   "bereich": "J",
+   "ergebnis": "2 Karten gezählt true · Ecken/Typ/Eltern true · Karte ohne Weltlage nicht true · keine Namen true · ohne C_Map nichts true",
+   "id": "T344",
+   "ms": "1.0",
+   "name": "[T-EULA] Kartenrahmen zur Laufzeit messen (C_Map), gespeichert ohne Namen – Ersatz für Daten aus den Spieldateien",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Zahlen true · Gründe gezählt true · ohne Zusatz true · Fehlerzeile true · stopp ohne Lauf nichts true · stopp bricht ab true · Portion 5 ms true",
+   "id": "T345",
+   "ms": "0.1",
+   "name": "[TR-ALLE] testroutine alles: Zusammenfassung (bestanden, nicht prüfbar mit Grund, Fehler) und Abbrechen",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Wo: auf einem Charakter, den du ohnehin hast (Stufe egal), nicht im Kampf. Schritte: 1. Tippe in den Chat: /lp talente 2. Tippe: /reload. Was du siehst: „LevelPilot: Talente: … Talente aufgezeichnet – jetzt /reload, dann Upload.“ Kosten: kein Gold, unter 1 Minute. (automatischer Teil OK: 3 Talente true · Name/Reihe/Spalte/Rang true · ohne Symbol true · ohne Abfrage nichts true)",
+   "bereich": "J",
+   "ergebnis": "3 Talente true · Name/Reihe/Spalte/Rang true · ohne Symbol true · ohne Abfrage nichts true",
+   "id": "T346",
+   "ms": "0.1",
+   "name": "[T-EULA] Talentbaum zur Laufzeit aufzeichnen (/lp talente): Namen, Reihe, Spalte, Höchstrang je Klasse und Sprache",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Wo: im Entwicklermodus beim normalen Spielen. Schritte: 1. Spiele wie immer, bis die Prüfliste einen Punkt selbst abhakt (Chatzeile „… erledigt (erkannt)“). Was du siehst: nichts Neues im Spiel; beim nächsten Hochladen kommt ein kleiner Testbericht „Prüfliste“ mit diesem Punkt mit. Kosten: keine. OK, wenn der Bericht ankommt. (automatischer Teil OK: ohne Testmodus kein Bericht true · Hit true -> Berichte 1, GSTEST1 true, Felder true, 0.31 ms · nochmals 1 · Fehler true/true · Sperre Testroutine true (2))",
+   "bereich": "J",
+   "ergebnis": "ohne Testmodus kein Bericht true · Hit true -> Berichte 1, GSTEST1 true, Felder true, 0.31 ms · nochmals 1 · Fehler true/true · Sperre Testroutine true (2)",
+   "id": "T347",
+   "ms": "0.7",
+   "name": "[TR-ALLE D2] Prüflisten-Punkt beim Spielen abgehakt -> eigener kleiner GSTEST-Bericht (Punkt, Messwert, Version, erkann…",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Wo: irgendwo, wo du schon Wege gelaufen bist. Schritte: 1. Tippe /lp testroutine alles. Was du siehst: am Ende T151 (Orgrimmar -> Wegkreuz) unter 16 ms. Kosten: keine. OK, wenn T151 und T348 bestanden sind. (automatischer Teil OK: innere Punkte 22737 (aus: 0) · Kosten 615 / 615 · Punkte im Weg 25 / 25 · auf der Kette 19 / 19, davon innere 20)",
+   "bereich": "J",
+   "ergebnis": "innere Punkte 22737 (aus: 0) · Kosten 615 / 615 · Punkte im Weg 25 / 25 · auf der Kette 19 / 19, davon innere 20",
+   "id": "T348",
+   "ms": "103.3",
+   "name": "[ING-3.12.89-1] Wegsuche über eigene Wege: innere Punkte als Kette (gleicher Weg, gleiche Kosten, weniger Rechenzeit)",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Wo: im Entwicklermodus. Schritte: 1. Tippe /lp testroutine alles. Was du siehst: am Ende im Chat die Zeilen „Portionen: … Bilder, längstes … ms (…) … · Bilder über 40 ms: …“ und „Rechenzeit je Bereich: …“. Kosten: keine. OK, wenn beide Zeilen da sind. (automatischer Teil OK: „Portionen: 6 Bilder, längstes 41.0 ms (T9), Schritte über 16 ms: 2 – T9 41 ms, T2 25 ms · Bilder über 40 ms: 1“ · „Rechenzeit je Bereich: A 0.0 s · B 0.1 s“ · ohne Speicherfall keine 3. Zeile true · „Bilder über 40 ms, in denen der Speicher fiel (Speicherbereinigung): 1 – T7 55 ms (-8 MB)“)",
+   "bereich": "J",
+   "ergebnis": "„Portionen: 6 Bilder, längstes 41.0 ms (T9), Schritte über 16 ms: 2 – T9 41 ms, T2 25 ms · Bilder über 40 ms: 1“ · „Rechenzeit je Bereich: A 0.0 s · B 0.1 s“ · ohne Speicherfall keine 3. Zeile true · „Bilder über 40 ms, in denen der Speicher fiel (Speicherbereinigung): 1 – T7 …",
+   "id": "T349",
+   "ms": "0.1",
+   "name": "[ING-3.12.89-6] Testroutine: Zeile Portionen (Bilder, längstes Bild mit Schritt, Schritte über 16 ms, Zeit je Bereich)",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "im Test gelesen 350 · in _G angekommen false · Blizzard-Namen geprüft 32, verdorben: keine",
+   "id": "T350",
+   "ms": "0.1",
+   "name": "[TAINT] WithEnv schreibt nie in _G; wichtige Blizzard-Namen nach den Tests unverdorben (issecurevariable)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "TestRunning während Test true, danach false · geteilt während Test 0, mit Erlaubnis 1",
+   "id": "T351",
+   "ms": "0.1",
+   "name": "[TESTDATEN] LevelPilotAPI.TestRunning(); während Tests kein automatisches Teilen eigener Aufzeichnungen",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Fingerabdruck Daten 31546/75504/497590831/36957082 · geladen in Portionen 31546/75504/497590831/36957082 · lädt: Weg direct · 31 Bilder, längstes 4.5 ms · Portionen: 31 Bilder, längstes Bild 4.4 ms (Kanten) · über 5 ms: 0 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 129.0 ms · …",
+   "id": "T352",
+   "ms": "316.4",
+   "name": "[TAKT] Wegnetz laden in Portionen (GoldSentinelTakt): gleiches Netz wie am Stück, längstes Bild, Luftlinie solange es …",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "unter Budget false (Bilder +0) · über Budget true (Bilder +1) · in pcall false (Fehler nein) · bei Ersatz false",
+   "id": "T353",
+   "ms": "15.2",
+   "name": "[TR-TAKT] Testroutine im Takt: Abgabe an sicherer Stelle, nie in pcall oder bei Ersatz (TR.hold); Bilder über 40 ms gez…",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Zone 1413 (6561 Knoten, Faktor 1.441837572897, 12 Paare) · gemessen+abgelegt true · aus der Ablage true · andere Kennung misst neu true · unbrauchbarer Wert misst neu true · höchstens 3 je Zone true · Kennung true",
+   "id": "T354",
+   "ms": "2552.4",
+   "name": "[UMWEG-ABLAGE] Umweg-Messung je Zone abgelegt (Kennung des Netzes): gleiches Netz ohne Wegsuchen, anderes Netz misst neu",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "ohne Zusatz (protokoll, log) 0× · protokoll speicher 1× · log mem 1× · Knopf Fehler-Protokoll 0× · Hinweis vorher true",
+   "id": "T355",
+   "ms": "15.9",
+   "name": "[PROTOKOLL] /lp protokoll misst den Speicher aller Addons nur mit \"speicher\"/\"mem\" (sonst kein Bild über 40 ms)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "in der Pause gelaufen 0 · zurückgestellt 2 (Takt-Auftrag true) · neuerer Start ersetzt true · nach dem Ende gestartet 2, Summe 10110",
+   "id": "T356",
+   "ms": "0.1",
+   "name": "[TR-TAKT] Aufträge aus der Pause einer Prüfung werden zurückgestellt (nicht verworfen) und nach der Routine gestartet",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "in der Hülle gelernt true, danach Zustand gleich true, Name weg true · Sync 3 ohne testLearn: nichts gelernt true · Gegenprobe ohne Hülle gelernt true, zurück true · Bereinigung entfernt 2, echter Name bleibt true · Ende gleich true",
+   "id": "T357",
+   "ms": "0.8",
+   "name": "[SYNC-TEST] Prüfungen ändern das Sync-Adressbuch nicht (Hülle + Gegenprobe), Bereinigung entfernt nur Testnamen",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Reise startet in der Pause: abgebrochen, alte Sicherung bleibt true · Reise läuft beim Start: abgebrochen true · ohne Reise: fertig, 301 Einträge true",
+   "id": "T358",
+   "ms": "1.6",
+   "name": "[LP-95-1] Sicherung in Portionen bricht bei virtueller Reise ab (keine Überlagerung kopiert, Reise bleibt)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "andere Verbindungen -> andere Kennung true · andere Paarzahl -> andere Kennung true · gleich -> gleich true · Version 2",
+   "id": "T359",
+   "ms": "0.1",
+   "name": "[LP-95-2] Kennung der Umweg-Ablage: Verbindungen und Mess-Konstanten gehören dazu",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Entpacken neu = alt true (3 Karten, 30006 Zellen), Gegenprobe anders true · Dungeon-Quests gemerkt true, nach Zurücksetzen neu true, Übersicht gleich true · Statistik zweimal gleich true (37752 Kanten)",
+   "id": "T360",
+   "ms": "22.9",
+   "name": "[TAKT-97] Geländekarte schneller entpackt, Dungeon-Quests und Netz-Statistik im Zwischenspeicher – gleiches Ergebnis",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "153 Annahmen mit Ort, abweichend 0, grösste Gruppe 19 · Grenzfälle gleich true",
+   "id": "T361",
+   "ms": "10.8",
+   "name": "[T150] Nachbarzählung der Questgeber über ein Raster = Zählung jede mit jeder (Grenzfälle 250 yd, Ebenen)",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Bei einem echten Vorschlag (z. B. „Erste Hilfe kannst du hier lernen“) „Später“ klicken: in derselben Stadt und Stufe kommt er nicht wieder; „Nicht mehr“ bei einem anderen: auch nach /reload weg, in der Zentrale (Assistent) unter „Ausgeblendete Vorschläge“ mit „wieder zeigen“ (automatischer Teil OK: Später: weg true, ruht true, gleiche Stadt+Stufe 31 Min. true, nächste Stufe 10 Min. true / 31 Min. false · zweimal 3600 s, Ort 45 Min. true / 61 Min. false, Grenzen true · Nicht mehr true, Liste true, wieder zeigen true · gelernt weg true / ungelernt bleibt true · Ort: 120 yd true, 600 yd false, Stadt true, andere Stadt false, Kampf false, Eile false, ohne Lehrer false, Weg 100 yd true / 400 yd false)",
+   "bereich": "J",
+   "ergebnis": "Später: weg true, ruht true, gleiche Stadt+Stufe 31 Min. true, nächste Stufe 10 Min. true / 31 Min. false · zweimal 3600 s, Ort 45 Min. true / 61 Min. false, Grenzen true · Nicht mehr true, Liste true, wieder zeigen true · gelernt weg true / ungelernt bleibt true · Ort: 120 yd true, 600 yd fal…",
+   "id": "T362",
+   "ms": "0.3",
+   "name": "[TU2] Vorschläge: Später (Ruhe, Verdoppelung, Stufe/Ort), Nicht mehr (bleibt, wieder zeigen), nur am passenden Ort, ge…",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "aus: dev 0, normal 21/21 · an: dev 11/11, normal 21 · als dev: sync test, messen, clienttest, wegmessung, prüfliste, testroutine, test reise, reise, talente, kartenrahmen, debug",
+   "id": "T363",
+   "ms": "0.5",
+   "name": "[DEV-0906] Befehlsliste: Entwickler-Befehle nur im Entwicklermodus sichtbar, normale immer",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "gleiches Ziel: nicht erzwingen true · Weg unbekannt: nicht erzwingen true · gesperrt: nicht erzwingen true · neue Stufe: neu true · anderes Ziel: neu true · zurück: nicht erzwingen true",
+   "id": "T367",
+   "ms": "10.9",
+   "name": "[T150] Neue Planung mit gleichem Ziel erzwingt keine neue Wegsuche (auch nicht bei unbekanntem Weg); Zielwechsel, neue S…",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "gelernt (Kochen 30/75, Stufe 25) -> kein Hinweis true (0/0) · Stufe voll 55/75, Stufe 12 -> Geselle true · 49 -> keiner true · Stufe 9 -> keiner true · schon Geselle -> keiner true · Liste leer -> keiner true · nicht gelernt -> Lehrling true · Zauber bekannt -> keiner true · Name unbekannt -…",
+   "id": "T369",
+   "ms": "0.3",
+   "name": "[PROF-2311] Berufs-Hinweise nur nach Prüfung: gelernt -> keiner; Stufe voll -> Geselle; Liste leer -> keiner; nicht gel…",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "20 Sperren beim Laden -> 0 true (20 -> 0, FEST 2 -> 0) · Protokoll true · FEST 4 Min. -> keine Sperre true (Graph:Block 0×) · Graph:Block sperrt nicht true · alte/empfangene Sperre ignoriert true · gesendet 0 Sperren",
+   "id": "T370",
+   "ms": "1.9",
+   "name": "[SPERREN-2211] Keine Wegsperren mehr: 20 alte Sperren -> 0; FEST 4 Min. -> keine Sperre; alte/empfangene Sperre ignorier…",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Orte der anderen Fraktion 46, der eigenen 39 · Testort Karte 1429 (8 NPCs, Radius 159 yd): hindurch -> Sperrgebiet true, aussen herum frei true, Route hindurch true, Ziel im Ort erlaubt true, Wegkosten hindurch x25 true, Ziel selbst true · andere Fraktion darf hindurch true · neutrale Städte fre…",
+   "id": "T371",
+   "ms": "22.7",
+   "name": "[ORTE-2211] Orte der anderen Fraktion: hindurch -> gemieden, aussen herum frei, Ziel im Ort erlaubt; andere Fraktion dar…",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Abgabe ohne Ort -> Hinweis true · Annahme ohne Ort -> Hinweis true · mit Ort -> Entfernung + Zone true (Zone 1436, gleicher Kontinent) · anderer Kontinent -> Zone ohne Entfernung true (Zone 1413) · Erledigen unverändert true · 79007 Abgabe Westfall 37.5/50.7 true · ohne Ort hinter 6/8 km true…",
+   "id": "T372",
+   "ms": "0.2",
+   "name": "[LP-M1] Abgabe/Annahme ohne Ort -> Hinweis; mit Ort -> Entfernung + Zone; Erledigen unverändert; 79007 Westfall; ohne O…",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Yards: gleiche Zahl in Kopf- und Reisezeile, Zeit einmal true (36 Yards ×2, Zeiten 1) · km-Grenze true (0.9 km ×2, Zeiten 1) · Flug: Reiseplan unverändert true",
+   "id": "T373",
+   "ms": "0.1",
+   "name": "[LP-M2] Eine Entfernung je Weg: Kopf- und Reisezeile gleich (Yards, km-Grenze), Zeit einmal; Flug unverändert",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "im Gebiet -> Name true · Hauptstadt im Gebiet -> Name true · ausserhalb -> \"Ziel: …\" true · ohne Fokus -> Ort true · Fehlerzustände unverändert true · Tooltip (automatisch/gewählt/ohne) true",
+   "id": "T374",
+   "ms": "0.0",
+   "name": "[LP-M3] Fenstertitel: im Gebiet Name, ausserhalb \"Ziel: …\", ohne Fokus Ort, Fehler unverändert, Tooltip",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Kopie gleich true · zusätzliches Feld erkannt true · geändertes Feld (hasMount) erkannt true · echte Daten unberührt true",
+   "id": "T375",
+   "ms": "1181.3",
+   "name": "[LIVEDATEN] Gegenprobe Sandbox-Vergleich: Kopie gleich, geändertes/zusätzliches Feld erkannt (nur an Kopien)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "im Flug erkannt true · Zeile \"Im Flug nach …\" true · keine Entfernung true · keine Laufzeit true · Ziel unbekannt -> \"Im Flug\" true · Landung -> normal true",
+   "id": "T376",
+   "ms": "0.2",
+   "name": "[LP-B1] Im Flug: Zeile \"Im Flug nach …\", keine Entfernung/Laufzeit, Pfeil aus; Landung -> normal",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "ohne Messung -> \"noch nicht gemessen\" true · gemessen -> \"ca.\" true · Zone mit Annahme (30 s Vorgabe) -> nicht gemessen true · Zone nur gemessene Ziele -> gemessen true · Trainerkosten geschätzt -> kein Hinweis, gemessen -> Hinweis true",
+   "id": "T377",
+   "ms": "0.1",
+   "name": "[LP-B2] Zeiten ohne Messung -> \"noch nicht gemessen\"; gemessen -> \"ca.\"; Trainerkosten nur gemessen",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Name enthält Gebiet -> ohne Klammer true · Hillsbrad true · Gross/klein true · anderes Gebiet -> mit Klammer true · ohne Gebiet true · Gebietsname = Spiel (Ashenvale) true",
+   "id": "T378",
+   "ms": "0.0",
+   "name": "[LP-B3] Später abgeben: Gebiet nicht doppelt; Gebietsname wie das Spiel",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Spieler ohne Entwicklermodus -> keine Chatzeile true · Entwicklermodus -> Zeile true · 0 neue -> keine true · Protokoll aus -> keine true",
+   "id": "T379",
+   "ms": "0.0",
+   "name": "[LP-B4] Chat \"Fehler-Protokoll … Auffälligkeiten\" nur im Entwicklermodus",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "L1: 46 Farben geprüft, unter 4,5:1: keine (schwächste 909090 4.5:1) · Entfernung/Zeit 12.4:1 nicht grau true, Entfernung in dieser Farbe true · Gegenprobe 555555 erkannt true · L8: 22 Schriften im Fenster, kleiner als 10: keine",
+   "id": "T380",
+   "ms": "0.5",
+   "name": "[LESBAR-L1/L8] Kontrast >= 4,5:1, Entfernung/Zeit >= 7:1 nicht grau, Gegenprobe dunkelgrau; Schrift >= GameFontNormalSma…",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Lauf 1: 3528 s, 27 Schritte, Stufe 12, 2797 EP, 6888 yd · Lauf 2: 3528 s, 27 Schritte, Stufe 12, 2797 EP, 6888 yd · Erholungsbonus echt vor Lauf 1 11400, vor Lauf 2 11400 (beide Läufe mit 11400)",
+   "id": "T381",
+   "ms": "0.0",
+   "name": "[LP-T1] Virtuelle Reise wiederholbar: dieselbe kurze Reise zweimal -> gleiche Zeit, Schritte, EP, Weg",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Steinkrallengipfel true · Thalanaar true · Valormok true",
+   "id": "T382",
+   "ms": "23.3",
+   "name": "[LP-O1] Ortsliste: Steinkrallengipfel, Thalanaar (Allianz), Valormok (Horde)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Gitter: 30006 Zellen in 3 Zonen, Abweichungen 0 · Heap Reihenfolge true · 40 Geländeprüfungen in 8 Zonen: 7 KB angelegt · Gegenprobe einmal entpacken (vorher je Zone): 509 KB",
+   "id": "T383",
+   "ms": "622.8",
+   "name": "[LP-T2-a] Wegsuche legt weniger an: Geländegitter ohne Entpacken (gleiche Zellen), Heap ohne Tabelle je Eintrag, Gegenp…",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "im Auftrag ohne Klick: sofort geplant 0×, vorgemerkt 1× · Gegenprobe Klick im Auftrag: sofort 1×",
+   "id": "T384",
+   "ms": "0.1",
+   "name": "[LP-I2] Neuplanung aus einem anderen Auftrag (z. B. Trainerbesuch im Assistenten) nicht am Stück, Klick sofort (Gegenpr…",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Bilder 4, über 40 ms 3, davon eigene Portion über 16 ms 1 · Reihenfolge true · 883 ms: Rest 878,0 und Teile true · ohne Portion „keine“ true · Kopfzeile true",
+   "id": "T385",
+   "ms": "0.1",
+   "name": "[LP-I1] ganze Bilder über 40 ms: eigene Portion und Rest (Spiel/Umgebung) richtig zugeordnet, Speicher je Bild",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Eintrag im Text true · nach zweiter Meldung ×2 true · ohne gespeicherte Zeilen gleich true",
+   "id": "T386",
+   "ms": "7.0",
+   "name": "[LP-I1] Protokolltext mit gespeicherten Zeilen = ohne (Gegenprobe), geänderter Eintrag erscheint neu",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "EachEdge 37753 von 37753 (Neuanfang 1×) · Stats 37753/37753 · Stats() gleich true · Ketten zweimal mit Abgabe 23653 / 23653",
+   "id": "T387",
+   "ms": "158.8",
+   "name": "[LP-I1] Wegnetz in Stücken: EachEdge zählt genau (auch nach Neuanfang), Stats gleich, Ketten mit Abgabe gleich",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Ergebnis true/42 · Abgaben der Reise 4 · danach LP.yieldCo und Freigabe zurück true · Fehler wie pcall true",
+   "id": "T388",
+   "ms": "0.2",
+   "name": "[LP-I1] Auftrag in der virtuellen Reise gibt mit der Reise ab (eigene Coroutine), Ergebnis und Fehler wie pcall",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "während der Reise: Netz 31546 -> 31546, wartend 1 (P 1) · danach eingespielt: 3 Wegpunkte mehr · ohne Reise sofort: 3 mehr (neue Wege gezählt 2 / 2, Nachricht P\t0\t6348,255,1458;6348,295,1458;6348,335,1458\t0)",
+   "id": "T389",
+   "ms": "0.4",
+   "name": "[LP-SB1] Wege anderer Spieler während der Reise warten und kommen danach ins Netz (nichts verloren); ohne Reise sofort",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "während der Reise gezählt 1 · ohne Reise unverändert true · Text Schreibzugriffe auf das echte Wegnetz während der Reise: Wegpunkte · LPTest ×1",
+   "id": "T390",
+   "ms": "0.1",
+   "name": "[LP-SB1] neuer Wegpunkt/Wegstück im echten Netz während der Reise wird mit Herkunft gezählt (ohne Reise nicht)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "ohne beides: true · nur Empfang: OK + HINWEIS true · Schreiben + Empfang: FEHLER + HINWEIS getrennt true",
+   "id": "T391",
+   "ms": "0.0",
+   "name": "[LP-SB1] Bericht: FEHLER (Änderung/Schreiben aus der Reise) und HINWEIS (Empfang) getrennt; ohne beides Sandbox OK",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Fehler 0 · Empfänger 1 fertig true, Empfänger 2 (Auftrag) fertig true · Abgaben im pcall unterlassen 5 · Fehler \"yield across\" im Lauf 0 (erste Stelle: –)",
+   "id": "T392",
+   "ms": "0.1",
+   "name": "[LP-Y1] keine Abgabe über eine C-Grenze: Fire aus einer Reise-Coroutine ohne Fehler; im ganzen Lauf kein \"yield across\"…",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Ausloggen: 3 Wegpunkte eingespielt, gemessen 1 Nachricht(en) in 0.12 ms, wartend danach 0 · Abbruch: Portionen gestartet true · ohne Empfang nichts true",
+   "id": "T394",
+   "ms": "0.3",
+   "name": "[LP-SB1-b] Abbruch einer Reise spielt den Empfang ein (Ausloggen sofort, sonst in Portionen); ohne Empfang nichts",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Netzeingang: Netz +0, wartend 1 (P 1) · Comm:Receive direkt +3, wartend 1 · von einer Prüfung eingespeist +3, wartend 1 · eingespielt 1 Nachricht(en), +3 Wegpunkte, übrig 0, Zählung danach nil · ausserhalb der Routine sofort +3, wartend 0",
+   "id": "T395",
+   "ms": "0.5",
+   "name": "[LP-SB1-c] Empfang am Netzeingang während der Routine wartet (gezählt je Art), danach eingespielt; Prüfungen (Comm:Re…",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "MapAt 1431 50.0,50.0 · Bericht: 0 Koordinaten, ausserhalb 0–100: 0",
+   "id": "T396",
+   "ms": "0.2",
+   "name": "[LP-R1] Koordinaten im Bericht der letzten Reise alle 0–100; V.MapAt findet zu einer Weltposition Zone und 0–100",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "1840 Strecken in 46 Zonen, verschieden 0",
+   "id": "T397",
+   "ms": "120.4",
+   "name": "[LP-I3] Geländeprüfung ohne Metatabelle: gleiche Werte wie der bisherige Weg (viele Strecken in allen Zonen mit Gelän…",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Einträge 65 · Fenster 60 Einträge, 15073 Zeichen, Zeile \"ältere\" true · ganzer Text 65 Einträge, 16866 Zeichen, ohne Zeile true (Testeinträge 51)",
+   "id": "T398",
+   "ms": "8.1",
+   "name": "[Entscheid 27.11. 08:27] Protokoll-Fenster: neueste 60 Einträge + Zeile \"… N ältere\", ganzer Text unverändert (Alle…",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Einlog-Zeile mit Version, ohne \"geladen\" true · Testmodus wie bisher true · 2 Fehler -> 1 Zeile(n) true, Protokoll 2 · Testmodus volle Meldung true · Tipp einmal true, Testmodus true · Notbremse Chat 0, Protokoll 1",
+   "id": "T399",
+   "ms": "0.8",
+   "name": "[ST1 27.11.] Spieler-Texte ohne Testmodus: 1 Einlog-Zeile mit Version, Fehler 1 Zeile je Sitzung (Protokoll alle), Tipp …",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "neu true · 10 s im Stehen false · 25 yd false · 40 yd true · 60 s alt true · anderer Kontinent true",
+   "id": "T400",
+   "ms": "0.1",
+   "name": "[T261 27.11.] Reiseplan im Stehen nicht alle 10 s neu: nur bei Bewegung > 30 yd, neuem Ziel oder Alter >= 60 s (Gegenpro…",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "erster Text rechnet 1×, zweiter 0×, ohne Merker 1× · Markt-Zeilen gleich true",
+   "id": "T401",
+   "ms": "89.9",
+   "name": "[SH-M1 27.11.] Markt-Zeilen im Protokolltext gemerkt: zweiter Text rechnet sie nicht neu, Text gleich (Gegenprobe: ohne …",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "während Testroutine nur vorgemerkt, danach übernommen true · 8 Std. AH: alles Stillstand, 0 Laufzeit true · Stehen: erst nach 30 s, dann mit true · AFK 40 s im Lauf abgezogen true · gerade übernommen true · Kreis verworfen true · Hin-und-her verworfen true · abseits vom Ziel verworfen true…",
+   "id": "T368",
+   "ms": "2.0",
+   "name": "[WEGQ-1242] Wegqualität: 8 Std. im AH -> 0 Abschnitte/0 Laufzeit; Kreis -> verworfen; gerade -> übernommen; abseits vo…",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "durchlaufen -> gemessen, bleibt offen true · schlechterer 2. Lauf ersetzt nicht, Lücke zu true · besserer ersetzt true (96 -> 48 s, Läufe 2, Messungen 2, letzter Abbruch nil) · keine Namen true · dritter Lauf -> keine Messung true · bekannte Strecke nichts true · Flug/Tod nichts true · Spru…",
+   "id": "T366",
+   "ms": "10.9",
+   "name": "[LUECKEN-1100] Wegnetz-Lücken: durchlaufen -> gemessen und aus der Liste; bekannte Strecke, Flug/Tod, Sprung, Umweg -> …",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "neu: Zeile + gemerkt true · zweiter Start ohne Zeile true · bisher aus bleibt aus, ohne Zeile true · aus: nichts gesendet true · Standard an true",
+   "id": "T365",
+   "ms": "0.1",
+   "name": "[WEGE-1100] Wegdaten ab Werk an: einmal eine Chatzeile je Konto; ausdrücklich aus bleibt aus, dann nichts gesendet",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "gleich gespeichert true · 1/1000 yd neu true · andere Grenze neu true · ohne Grenze neu true · geleert neu true · Ergebnis gleich true",
+   "id": "T364",
+   "ms": "0.3",
+   "name": "[T150] Gefahr auf der Strecke: Zwischenspeicher je genauen Eingaben (gleich -> gespeichert, kleinste Änderung -> neu ge…",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Im Spiel: der Guide wechselt den Kontinent erst, wenn auf deinem kaum noch passende Quests sind (automatischer Teil OK: Kontinentwechsel nur, wenn daheim Restwert unter 2.5 · keine Stufengrenze mehr true)",
+   "bereich": "J",
+   "ergebnis": "Kontinentwechsel nur, wenn daheim Restwert unter 2.5 · keine Stufengrenze mehr true",
+   "id": "T341",
+   "ms": "0.0",
+   "name": "[T-OPT-ROUTE 1b] Kontinent als Block: anderer Kontinent nur, wenn daheim kaum noch etwas zu tun ist (3.12.84)",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Im Spiel mit Wegdaten-Versand an: Quests annehmen/abgeben, ausloggen – die Wegdaten enthalten die Questfolge (ohne Namen) (automatischer Teil OK: ohne Zustimmung nichts true · Eintrag Quest/Art/Stufe/Zeit true · keine Namen true · gesendet als f=2 mit qo true · als versandt gemerkt true)",
+   "bereich": "J",
+   "ergebnis": "ohne Zustimmung nichts true · Eintrag Quest/Art/Stufe/Zeit true · keine Namen true · gesendet als f=2 mit qo true · als versandt gemerkt true",
+   "id": "T340",
+   "ms": "140.3",
+   "name": "[T-ROUTE-Q R5] Questfolge (Annahme/Abgabe, ohne Namen) nur mit Zustimmung aufgezeichnet und als Wegdaten f = 2 gesendet",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Im Spiel: auf dem Weg zu einem Ziel steht ein Questgeber am Weg – der Guide nimmt ihn unterwegs mit (automatischer Teil OK: Questgeber am Weg vor dem Ziel true · aus hinterer Stelle nach vorn true · abseits nicht true · gewähltes Ziel bleibt vorn true · zwei hintere Annahmen beide vorn true)",
+   "bereich": "J",
+   "ergebnis": "Questgeber am Weg vor dem Ziel true · aus hinterer Stelle nach vorn true · abseits nicht true · gewähltes Ziel bleibt vorn true · zwei hintere Annahmen beide vorn true",
+   "id": "T339",
+   "ms": "0.1",
+   "name": "[T-ORT-1 O5] Questgeber am Weg (bis 60 yd Umweg) wird unterwegs angenommen, an der frühesten passenden Stelle",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Im Spiel: in einem Dorf (z. B. Späherkuppe) zeigt der Guide zuerst alle Questgeber im Dorf, dann die Ziele draussen (automatischer Teil OK: Annahme im Ort vor Ziel ausserhalb true · über 400 yd nicht true · anderer Ort nicht true · ohne Karte nur 150 yd true)",
+   "bereich": "J",
+   "ergebnis": "Annahme im Ort vor Ziel ausserhalb true · über 400 yd nicht true · anderer Ort nicht true · ohne Karte nur 150 yd true",
+   "id": "T338",
+   "ms": "0.1",
+   "name": "[T-ORT-1 O2] Im Ort zuerst alle Questgeber: Annahmen im selben Ort (bis 400 yd) vor Zielen ausserhalb",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Im Spiel: einem Ziel folgen – die Entfernung fällt stetig, der Pfeil dreht nicht zurück (automatischer Teil OK: Haarnadel abgekürzt true · gerader Weg bleibt true · lange Schleife bleibt true · nie auf ein Tor true · alter Weg bleibt bis max(30 yd, 10 %) true · Weglänge true · Haarnadel mitten im Weg entfernt true · Kurve bleibt true)",
+   "bereich": "J",
+   "ergebnis": "Haarnadel abgekürzt true · gerader Weg bleibt true · lange Schleife bleibt true · nie auf ein Tor true · alter Weg bleibt bis max(30 yd, 10 %) true · Weglänge true · Haarnadel mitten im Weg entfernt true · Kurve bleibt true",
+   "id": "T337",
+   "ms": "0.1",
+   "name": "[T-ROUTE-Q R3] Weg springt nicht: Abkürzung am Wegbeginn, alter Weg bleibt, solange der neue nicht deutlich kürzer ist",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "grund": "Testquest wird aus anderem Grund nicht angeboten – in dieser Lage nicht prüfbar",
+   "id": "T336",
+   "ms": "0.1",
+   "name": "[T-ROUTE-Q R2] Quests höchstens 2 Stufen über dem Spieler (vorher 3)",
+   "status": "SKIP"
+  },
+  {
+   "anleitung": "Im Spiel: steht ein Questgeber in der Nähe (bis 150 yd), zeigt der Guide zuerst ihn – erst danach weiter weg oder zum Gasthaus (automatischer Teil OK: Annahme vor weitem Ziel true · vor Binden, nahe Abgabe bleibt vorn true · aus den Aufgaben geholt true · Kette true · gewähltes Ziel bleibt true)",
+   "bereich": "J",
+   "ergebnis": "Annahme vor weitem Ziel true · vor Binden, nahe Abgabe bleibt vorn true · aus den Aufgaben geholt true · Kette true · gewähltes Ziel bleibt true",
+   "id": "T335",
+   "ms": "0.1",
+   "name": "[T-ROUTE-Q R1/R4] Annehmbarer Questgeber bis 150 yd kommt vor weitere Ziele und vor Binden/Flugpunkt; fehlende Annahme w…",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Im Spiel: /lp testroutine – Nordhain und Goldhain werden als verschiedene Orte erkannt (Era und Forever) (automatischer Teil OK: keine Spieldaten true · Startort ist ein Ort true · Nachbarort anderer Ort true · fremde Karte nil true · Eltern = Karte true · Startgebiet ohne Spieldaten true)",
+   "bereich": "J",
+   "ergebnis": "keine Spieldaten true · Startort ist ein Ort true · Nachbarort anderer Ort true · fremde Karte nil true · Eltern = Karte true · Startgebiet ohne Spieldaten true",
+   "id": "T334",
+   "ms": "0.2",
+   "name": "[T-ORT-1] Orte aus den Questdaten (Häufung der Questgeber, EULA 3.12.87); Startgebiet ohne Spieldaten",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Im Classic-Era-Client: neuer Charakter – die Route bleibt im Startgebiet (Nordhain, Tal der Prüfungen …), bis dort alles erledigt ist oder Stufe 6; kein Binden/Flugpunkt vorher (automatischer Teil OK: Startgebiet-Grenze true · Stufe 3 nur drinnen true · Stufe 6 frei true · ohne Aufgabe drinnen hinaus true · blockierte zählt nicht true · fremdes Startgebiet true · Questgeber am Weg true · Binden auf dem Weg true · nicht auf dem Weg kein Binden true · am Ende true · erst annehmen, dann erledigen true)",
+   "bereich": "J",
+   "ergebnis": "Startgebiet-Grenze true · Stufe 3 nur drinnen true · Stufe 6 frei true · ohne Aufgabe drinnen hinaus true · blockierte zählt nicht true · fremdes Startgebiet true · Questgeber am Weg true · Binden auf dem Weg true · nicht auf dem Weg kein Binden true · am Ende true · erst annehmen, dann e…",
+   "id": "T333",
+   "ms": "0.1",
+   "name": "[T-ERA-1] Startgebiet: unter Stufe 6 nur Ziele im Startgebiet (solange es dort Aufgaben gibt), erst annehmen, dann erled…",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "fertig nach 978 s · Start 12 s, Reisen 785 s, Grundregeln 11 s, B 41 s, C 1 s, E 1 s, F 6 s, G 3 s, H 9 s, I 0 s, J 91 s, K 0 s, Sandbox und Bericht 12 s, Nachlauf 7 s, gesamt 978 s (Zeitlimit 1800 s)",
+   "id": "T393",
+   "ms": "0.0",
+   "name": "[LP-TR1] Routine vollständig (nicht nach dem Zeitlimit abgebrochen), Dauer je Bereich im Bericht",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "doppelt:  fehlend: ",
+   "id": "T166",
+   "ms": "0.3",
+   "name": "Testfall-IDs eindeutig und vollständig",
+   "status": "OK"
+  }
+ ],
+ "sandbox": "OK",
+ "speicherPruefungen": [
+  "in der Prüfung: ohne Pause 347, zusammen +32.0 MB · mit Pause 68 (P, Speicher anderer Addons in den Pausen zählt mit) · mit Bereinigung 6",
+  "zwischen den Prüfungen (Eintragen, Sicherheitsnetz, Gefahrenkarte, Pausen): 418, zusammen +34.3 MB",
+  "grösste in der Prüfung: T221 P +179967 KB 3109.5 ms, T136 P +85519 KB 762.7 ms, T34 P +29950 KB 264.6 ms, T354 P +27888 KB 2552.4 ms, T269 P +23438 KB 365.8 ms, T352 P +19707 KB 316.4 ms, T18 P +14500 KB 1502.6 ms",
+  "grösste in der Prüfung: T21 P +12801 KB 101.1 ms, T270 P +12652 KB 110.6 ms, T22 P +12352 KB 77.6 ms, T45 P +10317 KB 95.2 ms, T80 P +8613 KB 79.6 ms, T401 +7924 KB 89.9 ms, T129 P +7744 KB 79.5 ms, T340 P +7144 KB 140.3 ms",
+  "grösste in der Prüfung: T151 P +7093 KB 513.5 ms, T289 P +7020 KB 118.5 ms, T17 P +6851 KB 53.1 ms, T32 P +6595 KB 127.8 ms, T360 P +6403 KB 22.9 ms",
+  "grösste zwischen: vor T01 +26529 KB, vor T01 +5748 KB, vor T97 +1474 KB, vor T345 +120 KB, vor T01 +107 KB, vor T125 +62 KB, vor T257 +30 KB, vor T127 +16 KB, vor T220 +16 KB, vor T185 +15 KB, vor T292 +14 KB, vor T63 +13 KB",
+  "grösste zwischen: vor T365 +12 KB, vor T350 +12 KB, vor T31 +11 KB"
+ ],
+ "spielsprache": "deDE",
+ "sprache": "de",
+ "stuecke": [
+  "T401 90.0 (+7929 KB)",
+  "T352 29.8 (+8 KB)",
+  "T21 27.6 (+4108 KB)",
+  "T31 27.3 (+1812 KB)",
+  "T291 24.1 (+14 KB)",
+  "T270 22.5 (+3369 KB)",
+  "T30 20.4 (+2822 KB)",
+  "T263 18.9 (+455 KB)",
+  "T128 18.8 (+3020 KB)",
+  "T292 17.6 (+5608 KB)",
+  "T234 16.9 (+19 KB)",
+  "Sandbox und Bericht 16.4 (+3189 KB)",
+  "T51 16.1 (+360 KB)",
+  "T222 15.5 (+239 KB)",
+  "T221 14.0 (+1024 KB)",
+  "T150 14.0 (+818 KB)",
+  "T267 13.9 (+808 KB)",
+  "T375 13.0 (+1741 KB)",
+  "T32 11.7 (+547 KB)",
+  "Grundregeln 11.6 (+2616 KB)",
+  "T129 11.5 (+522 KB)",
+  "T295 11.4 (+712 KB)",
+  "T366 11.0 (+146 KB)",
+  "T353 10.1 (+9 KB)",
+  "T136 9.9 (+1470 KB)",
+  "T69 9.8 (+997 KB)",
+  "Start 9.8 (+2066 KB)",
+  "T309 9.7 (+512 KB)",
+  "T151 9.6 (+129 KB)",
+  "T275 9.4 (+575 KB)",
+  "T36 9.1 (+520 KB)",
+  "T152 8.8 (+70 KB)",
+  "T269 8.2 (+467 KB)",
+  "T134 8.2 (+816 KB)",
+  "T361 7.7 (+17 KB)",
+  "Reisen 7.3 (+16 KB)",
+  "T219 7.2 (+51 KB)",
+  "T195 7.2 (+1218 KB)",
+  "T348 7.0 (+92 KB)",
+  "T298 7.0 (+14 KB)"
+ ],
+ "takt": "Portionen: 30081 Bilder, längstes Bild 91.2 ms (T398–T401) · über 5 ms: 457 · über 16 ms: 18 · über 40 ms: 1 · längste: T398–T401 91.2 ms, T18 graph–T21 svc 30.6 ms, T352 29.9 ms, T31 plan 27.5 ms, T291 24.1 ms, T270 plan–T270 22.6 ms, T124–T128 20.5 ms, T29–T30 20.5 ms, T227 sv…",
+ "taktTeile": [
+  "Portionen: 30081 Bilder, längstes Bild 91.2 ms (T398–T401)",
+  "über 5 ms: 457",
+  "über 16 ms: 18",
+  "über 40 ms: 1",
+  "längste: T398–T401 91.2 ms, T18 graph–T21 svc 30.6 ms, T352 29.9 ms, T31 plan 27.5 ms, T291 24.1 ms, T270 plan–T270 22.6 ms, T124–T128 20.5 ms, T29–T30 20.5 ms, T227 svc–T234 19.5 ms, T352 svc–T352 19.4 ms",
+  "eigene Rechenzeit 26821.6 ms",
+  "Dauer 978.5 s",
+  "ganze Bilder über 40 ms: 9, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 8",
+  "längstes ganzes Bild 100.0 ms",
+  "Abgabe nicht möglich: 1 (T353 Gegenprobe (pcall))"
+ ],
+ "time": 1795839098,
+ "umgebung": "Umgebung: Undercity (Die Kanäle) · in Sicht 0 Namensplaketten · Ping Realm 24 ms / Welt 26 ms · 120 Bilder/s · Bild in Ruhe Median 8.0 ms, 95 % 9.0 ms, längstes 9.0 ms (1201 Bilder in 10 s) · Speicherbereinigungen 0",
+ "version": "3.13.31",
+ "vorgebaut": "Gefahrenkarte 1×",
+ "wege": "Wegabschnitte 3.13.31: aufgezeichnet 3 · verworfen Stillstand/AFK 8, Umweg 1, abseits vom Ziel 2 · Stillstand 39 min"
+}

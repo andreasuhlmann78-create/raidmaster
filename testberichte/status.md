@@ -1,6 +1,6 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-28 04:22 UTC
+Ausgewertet: 2026-11-28 04:43 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
@@ -9,7 +9,7 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 | AHSentinel | 27.11.2026 21:08 UTC | 0.65.424 | forever 1.60.1 (Interface 16001) | 9 | 0 | 1 | 0 | 4 |
 | BuffSentinel | 27.11.2026 21:08 UTC | 0.9.69 | forever 1.60.1 (Interface 16001) | 1 | 0 | 0 | 0 | 0 |
 | GuildSentinel | 25.11.2026 14:44 UTC | 0.9.63 | forever 1.60.1 (Interface 16001) | 340 | 0 | 24 | 8 | 1 |
-| LevelPilot | 28.11.2026 04:07 UTC | 3.13.31 | forever 1.60.1 (Interface 16001) | 0 | 1 | 0 | 0 | 16 |
+| LevelPilot | 28.11.2026 04:25 UTC | 3.13.31 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 17 |
 | ProfessionSentinel | 25.11.2026 15:05 UTC | 0.9.85 | forever 1.60.1 (Interface 16001) | 1 | 1 | 8 | 0 | 24 |
 | RaidMaster | 25.11.2026 13:44 UTC | 3.0.49 | forever 1.60.1 (Interface 16001) | 10 | 0 | 0 | 0 | 0 |
 | ThreatSentinel | 24.11.2026 18:41 UTC | 2.5.30 | forever 1.60.1 (Interface 16001) | 1 | 0 | 0 | 0 | 0 |
@@ -18,14 +18,14 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 282 | `testberichte/diagnose/AHSentinel/0.65.428-b29df70c16ac.txt` |
-| BuffSentinel | 224 | `testberichte/diagnose/BuffSentinel/0.9.69-ed9db248d701.txt` |
+| AHSentinel | 283 | `testberichte/diagnose/AHSentinel/0.65.428-fac046751da1.txt` |
+| BuffSentinel | 225 | `testberichte/diagnose/BuffSentinel/0.9.69-ed9db248d701.txt` |
 | GSMesstest | 25 | `testberichte/diagnose/GSMesstest/5.1-f65d607ab777.txt` |
-| GSSniperLog | 65 | `testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt` |
-| GuildSentinel | 338 | `testberichte/diagnose/GuildSentinel/0.9.66-f400ab8ce4a2.txt` |
-| LevelPilot | 228 | `testberichte/diagnose/LevelPilot/3.13.31-635ae93cdd75.txt` |
-| ProfessionSentinel | 310 | `testberichte/diagnose/ProfessionSentinel/0.9.98-648b3eb435df.txt` |
-| ThreatSentinel | 285 | `testberichte/diagnose/ThreatSentinel/2.5.31-f48be9c1afe2.txt` |
+| GSSniperLog | 66 | `testberichte/diagnose/GSSniperLog/1.7-f8198d5ac74a.txt` |
+| GuildSentinel | 339 | `testberichte/diagnose/GuildSentinel/0.9.66-f400ab8ce4a2.txt` |
+| LevelPilot | 229 | `testberichte/diagnose/LevelPilot/3.13.31-635ae93cdd75.txt` |
+| ProfessionSentinel | 311 | `testberichte/diagnose/ProfessionSentinel/0.9.99-59329f0b4c59.txt` |
+| ThreatSentinel | 286 | `testberichte/diagnose/ThreatSentinel/2.5.31-f48be9c1afe2.txt` |
 
 ## Wegdaten (GSWEGE1)
 
@@ -336,13 +336,12 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 **Testlauf 3.13.30 · forever 1.60.1 (Interface 16001) · 27.11.2026 21:27 UTC** – OK 11 · FEHLER 0 · übersprungen 0 · im Client prüfen 0
 
-**Testlauf 3.13.31 · forever 1.60.1 (Interface 16001) · 28.11.2026 04:07 UTC** – OK 0 · FEHLER 1 · übersprungen 0 · im Client prüfen 0
-- [FEHLER] T393 J – [LP-TR1] Routine vollständig (nicht nach dem Zeitlimit abgebrochen), Dauer je Bereich im Bericht (ergebnis: abgebrochen: Ausloggen während der Testroutine bei Reisen / Reisen | erwartet: fertig)
+**Testlauf 3.13.31 · forever 1.60.1 (Interface 16001) · 28.11.2026 04:25 UTC** – OK 11 · FEHLER 0 · übersprungen 0 · im Client prüfen 0
 
 **Fehler im Spiel (letzte 7 Tage)**
 - 12× `Fire PLAN_CHANGED`: attempt to yield across metamethod/C-call boundary – Version 3.13.13, 3.13.14 · forever 1.60.1 (Interface 16001) · zuletzt 25.11.2026 13:02 UTC
 - 3× `Testroutine`: Zeitlimit 1800 s – Version 3.13.13, 3.13.14 · forever 1.60.1 (Interface 16001) · zuletzt 25.11.2026 13:02 UTC
-- 1× `Testroutine`: Ausloggen während der Testroutine – Version 3.13.17 · forever 1.60.1 (Interface 16001) · zuletzt 26.11.2026 07:49 UTC
+- 2× `Testroutine`: Ausloggen während der Testroutine – Version 3.13.17, 3.13.31 · forever 1.60.1 (Interface 16001) · zuletzt 28.11.2026 04:08 UTC
 
 ## ProfessionSentinel
 
