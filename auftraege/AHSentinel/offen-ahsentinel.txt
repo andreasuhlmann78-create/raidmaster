@@ -7800,3 +7800,13 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
        (leistung.md). Zusammenführen/Sortieren der Varianten in Portionen bzw. ohne Neuaufbau aller Zeilen.
     3. "SNIPER-RUHE Speicher +80 108 KB / +49 677 KB in 60 s" – starker Speicherdurchsatz im Sniper (Tabellen je Antwort neu?). Mit T459 klären.
     Vor 2b, nach AHS-BH-REN2 (Server-Grenze kann andere Suchen/Scan blockieren).
+
+>>> 0.65.431 (AHS-BH-REN2 Teil 1, AHS-SN-SORT1) – Supervisor 28.11. 07:16: ANGENOMMEN (Code), addon_check OK. Ursache REN2 belegt (Einsatz nur aus
+    Sammelkauf deBuys, Sniper/Einkauf -> 0); Einsatz jetzt aus den Buchungen "de" (Books-Kostenbasis), T1048 mit Gegenprobe. SORT1: im Spiel
+    sichtbar sortiert (Bilder 06:53). Gold-Sicherheit Kauf aus früherem Schlüssel belegt (PlanNext limit/maxPrice, Sn:Buy nur geplantes Angebot) –
+    und im Spiel bestätigt (Kauf 06:56:32, genau −14s).
+>>> ENTSCHEID SUPERVISOR zu REN2 Teil 2 (aus buchhaltung.md, kein neuer Nutzer-Entscheid nötig): Haupt-Zahl = REALISIERTER Gewinn (buchhaltung.md
+    Abschnitt Anzeige Punkt 1), Entzaubern = Umbuchung der Kostenbasis auf die Materialien (Punkt 3), unrealisiert nur als Zusatz (Punkt 6).
+    -> Rendite-Zeile Entzaubern = Erlös verkaufter Materialien nach 5 % − deren Kostenbasis (umgebuchter Einstand); "noch im Lager: n Stück,
+    Wert x (unrealisiert)" separat. Pflicht: Summe der Arten = Kopfzeile (48g69s08 im Nachbau), jede Zahl geht auf (wirtschaft-forever 0).
+    Test mit den PC-Daten 05:50 + Gegenprobe 0.65.431 (Differenz 20g96s79 muss 0 werden). Danach REN2 im Spiel abnehmen (Bild Rendite-Reiter).
