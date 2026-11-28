@@ -1,0 +1,99 @@
+BERICHT Homezugriff -> Supervisor: CurseForge-Meldungen der Spieler (AHSentinel, GuildSentinel) – Stand 28.11.2026 06:02
+Auftrag: auftraege/nachricht-homezugriff-curseforge-2026-11-28.txt. NUR GELESEN – nichts geantwortet, gepostet oder geändert.
+Quelle: eingebauter Browser am PC, NICHT eingeloggt (Seite zeigt "Sign In to continue"). Kommentarseiten ganz gelesen (Seitentext inkl.
+Antworten) + öffentliche API (/api/v1/mods/<id>/comments, /files). Keine Cloudflare-Prüfung aufgetreten.
+Autoren-Bereich (authors.curseforge.com): NICHT gelesen, weil nicht eingeloggt -> Downloads je Datei und Nachrichten fehlen (siehe unten).
+Namen: keine Spieler-/CurseForge-Namen; Spieler 1, 2 … (je Person eine Nummer). "AUTOR" = unsere Antworten (GoldSentinel).
+Daten: Hauptkommentare mit genauem Zeitpunkt aus der API (UTC); Antworten nur relativ angezeigt ("vor N Tagen") -> als "≈ Datum".
+
+ZAHLEN
+  AHSentinel  (1757594): 34 Beiträge gesamt (11 Hauptkommentare + 23 Antworten, davon 2 gelöschte Autor-Beiträge "[Deleted]").
+                         Spieler-Beiträge: 17 von 7 Spielern (17 Beiträge AUTOR). Davon NEU seit der letzten Durchsicht (22.11.): 1 (Spieler 1, 27.11.) – UNBEANTWORTET.
+  GuildSentinel (1771789): 0 Kommentare, Stand 28.11.2026 06:02 (API totalCount 0).
+
+DOWNLOADS UND NEUESTE DATEI
+  AHSentinel:    7'378 Downloads gesamt. Neueste Datei AHSentinel-0.65.423, Release, hochgeladen 27.11.2026 20:03:40 UTC (= 21:03 Zürich,
+                 also NICHT um 18:00 – Hinweis für die 18:00-Regel; 0.65.422 kam 18:02 Zürich). Davor 0.65.413 (26.11. 17:21 Zürich).
+                 Soll 0.65.423 = IST 0.65.423. OK.
+  GuildSentinel: 598 Downloads gesamt. Neueste Datei GuildSentinel-0.9.66, Release, 27.11.2026 17:04:47 UTC (= 18:04 Zürich).
+                 Davor 0.9.61 (24.11.). Soll 0.9.66 = IST 0.9.66. OK.
+  Downloads der letzten Version einzeln: öffentlich nicht angezeigt (API liefert keine Zahl je Datei) -> nur im Autoren-Bereich (eingeloggt).
+
+KOMMENTARE AHSentinel (neueste zuerst; je Hauptkommentar die Antworten eingerückt)
+
+ 1. AHSentinel · 27.11.2026 14:26 UTC · Version nicht genannt · Spieler 1 · FRAGE/FEHLER (NEU, UNBEANTWORTET)
+    Möchte den Preisverlauf-Graphen erzwingen: egal welche Einstellungen, beim Darüberfahren mit der Maus über ein Item erscheint
+    kein Graph. Kein Lua-Fehler genannt.
+
+ 2. AHSentinel · 18.11.2026 22:23 UTC · Version nicht genannt · Spieler 2 · FEHLER: CSV-Export-Knopf geht nicht mehr.
+    - AUTOR ≈20.11. (2 Beiträge "[Deleted]").
+    - AUTOR ≈20.11.: Export neu im Hintergrund, in 0.65.351, bitte Version/Fehler melden.
+    - Spieler 2 ≈21.11.: neueste Addon-Version, neueste WoW-Version, WoW Forever. Fehler wörtlich:
+        [AHSentinel] Error in CSV-Export: integer overflow attempting to store 99999999999
+    - AUTOR ≈26.11.: behoben in 0.65.393 (Item zum höchstmöglichen AH-Preis; grosse Zahlen als Text).
+    - AUTOR ≈27.11.: 0.65.400 auf CurseForge, gleicher Überlauf auch an weiteren Stellen behoben.
+    Keine Rückmeldung des Spielers seither.
+
+ 3. AHSentinel · 18.11.2026 02:48 UTC · Version nicht genannt · Spieler 3 · FRAGE: "Accounting:"-Meldungen im Chat abschalten.
+    - AUTOR ≈20.11.: Erklärung (fehlender Bestand wird ausgebucht), keine Option zum Ausblenden, Wunsch notiert.
+    - Spieler 3 ≈21.11.: Meldung kommt nach JEDEM Kampf (verbrauchte Pfeile usw.), "so unbrauchbar"; will nur Scan+Tooltip
+      (90 % brauche er nicht); möchte, dass beim Öffnen eines Berufs NICHT jedes Mal ein Fenster aufgeht.
+    - Spieler 3 ≈21.11.: auch eine Version zurück dasselbe – Addon DEINSTALLIERT, bis sich das ändert.
+    - AUTOR ≈26.11.: beides in 0.65.393 behoben (Verbrauchsgüter still gebucht, echte Fehlbestände max. 1 Zeile je Sitzung,
+      abschaltbar mit /ahs missing; Berufsfenster öffnet nichts mehr, nur kleiner "AHS"-Knopf).
+    Keine Rückmeldung des Spielers seither.
+
+ 4. AHSentinel · 17.11.2026 04:20 UTC · Version 0.65.354, WoW Forever · Spieler 4 · FEHLER (Gold-Verlust): Verkaufen-Reiter schlägt
+    viel zu tiefe Preise vor ("Preis/Stück = 15c" für "Shredder Operating Manual - Page 1", auch nach "Preis prüfen"; günstigstes
+    Angebot im AH 3s 40c) -> verkauft zu billig.
+    - AUTOR ≈20.11.: nachgefragt (Version/WoW).   - Spieler 4 ≈20.11.: "v0.65.354 and Forever".
+    - AUTOR ≈21.11.: als behoben in 0.65.354 gemeldet.
+    - Spieler 4 ≈21.11.: NICHT behoben, gleiches Item weiter falsch (Bildschirmfoto-Link imgur).
+    - Spieler 4 ≈21.11.: passiert bei mehreren Items; kann das Addon so nicht zum Verkaufen nutzen (2. Bildschirmfoto-Link imgur).
+    - AUTOR ≈26.11.: Ursache gefunden (Preisprüfung mit Item-Schlüssel ohne Treffer -> alter Marktwert); 0.65.393 findet die echten
+      Angebote, ohne frische Prüfung kein Marktwert mehr ("Price not checked – check again").
+    Keine Rückmeldung des Spielers seither. (Bildschirmfoto-Links nicht geöffnet, nicht ins Repo übernommen.)
+
+ 5. AHSentinel · 15.11.2026 11:54 UTC · Version nicht genannt · Spieler 5 · WUNSCH: Kaufen mit dem Mausrad gefällt nicht, der Knopf
+    "Kaufen" soll einfach kaufen.
+    - AUTOR 15.11. 17:39 UTC: Umbau angekündigt (1 Klick = 1 Kauf, Mausrad abschaltbar).
+    - AUTOR 25.11. 10:05 UTC: Optionen > Kaufen & Sniper > "Sniper kauft mit: nur Knopf".
+
+ 6. AHSentinel · 15.11.2026 11:54 UTC · Version nicht genannt · Spieler 5 · FEHLER beim Einstellen eines Items. Lua-Fehler wörtlich
+    (BugGrabber, ohne Pfade/Locals):
+        [ADDON_ACTION_BLOCKED] AddOn 'AHSentinel' tried to call the protected function 'UNKNOWN()'.
+        [AHSentinel/Seller.lua]:988: in function <AHSentinel/Seller.lua:906>
+        [AHSentinel/UI_Sell.lua]:645: in function 'Post'
+        [AHSentinel/UI_Sell.lua]:686: in function 'onAnyway'
+        [AHSentinel/UI_Sell.lua]:667: in function <AHSentinel/UI_Sell.lua:667>
+        [AHSentinel/UI_Main.lua]:276: in function <AHSentinel/UI_Main.lua:275>
+    - AUTOR ≈16.11.: nach Version, Art des Einstellens und vollem Fehlertext gefragt.
+    - AUTOR ≈26.11.: Ursache "Post anyway" nach Preiswarnung; seit 0.65.215 direkt im Klick; sonst nächster Klick auf "Post" stellt ein.
+
+ 7. AHSentinel · 14.11.2026 12:22 UTC · Spieler 4 · WUNSCH: höchstens 1 Update pro Tag statt "500".
+    - AUTOR ≈17.11.: seit 15.11. max. 1× täglich 18:00 auf CurseForge.   - Spieler 4 ≈17.11.: LOB ("great job with this addon").
+
+ 8. AHSentinel · 12.11.2026 08:46 UTC · Spieler 6 · FEHLER: "Materialien auf Einkaufsliste" meldet Erfolg, aber keine Liste entsteht.
+    - AUTOR ≈16.11.: echter Fehler (leerer Listenname), im nächsten Update behoben; Umweg von Hand.
+
+ 9. AHSentinel · 22.10.2026 11:15 UTC · AUTOR · Begrüssung/Bitte um Rückmeldung (angeheftet).
+    - Spieler 7 (Oktober, Classic Era): 1) "Your client does not support auction house search (SendBrowseQuery missing)." 2) Oberfläche
+      zu klein auf 23-Zoll-Bildschirm 3) Addon-Reiter überdeckt Reiter anderer Addons (TSM, Auctionator).
+    - AUTOR (Oktober): alles in 0.59.16 behoben.
+    - Spieler 7 (Oktober): Scan geht jetzt, separates Fenster gefällt (LOB). Neu: Spaltennamen im Gewinn-Reiter vertauscht; Wunsch
+      Bieten-Sniper; Fehlermeldung wörtlich "Auction house search box not found" bei "Im Auktionshaus suchen".
+    - AUTOR (Oktober): beides in 0.59.26 behoben, Bieten-Sniper notiert.
+
+LUA-/FEHLERMELDUNGEN WÖRTLICH (Übersicht)
+  - [AHSentinel] Error in CSV-Export: integer overflow attempting to store 99999999999          (Spieler 2, ≈21.11.)
+  - [ADDON_ACTION_BLOCKED] AddOn 'AHSentinel' tried to call the protected function 'UNKNOWN()'. … Seller.lua:988 / UI_Sell.lua:645,686,667 / UI_Main.lua:276   (Spieler 5, 15.11.)
+  - Your client does not support auction house search (SendBrowseQuery missing).               (Spieler 7, Oktober, alt)
+  - Auction house search box not found                                                          (Spieler 7, Oktober, alt)
+  Neue Lua-Fehler seit 22.11.: KEINE.
+
+FÜR DIE AUSWERTUNG (nur Hinweise, keine Bewertung)
+  - Einziger offener Punkt: Kommentar 1 (Spieler 1, 27.11.) – Preisverlauf-Graph im Tooltip erscheint nicht; noch keine Antwort.
+  - Spieler 3 hat das Addon am ≈21.11. deinstalliert; Antwort 26.11. (0.65.393) ohne Rückmeldung.
+  - Spieler 4 (Verkaufspreise, Gold-Verlust) seit der Antwort 26.11. ohne Rückmeldung.
+  - AHS 0.65.423 kam 21:03 Zürich auf CurseForge (nicht 18:00).
+  - Fehlt: Autoren-Bereich (Downloads je Version, private Nachrichten) – braucht Anmeldung als Projektinhaber im eingebauten Browser.
