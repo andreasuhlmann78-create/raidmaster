@@ -1,0 +1,17 @@
+ProfessionSentinel – PS-SK3: Magiestoffballen im Plan ist KEIN Rückschritt von 0.9.101 (Beleg für PS-DL 0.9.101)
+Bezug: offen-professionsentinel.txt Spieltest 0.9.101 Plan "Skillen" (Supervisor 10:40) und Reiter Gold (10:47): "PS-DL frei, sobald PS belegt,
+ dass PS-SK3 nicht neu in 0.9.101 ist".
+
+Beleg (Code):
+ - Die Auswahl der Plan-Schritte steht in Advisor.lua AD.Plan (x.need = gelesene Lernstufe, sonst Datenwert, sonst die Schätzung der Daten).
+   Advisor.lua ist seit 0.9.97 unverändert: `git log v0.9.97..v0.9.101 -- ProfessionSentinel/Advisor.lua` ist leer.
+ - TrainerRanks.lua änderte sich seit 0.9.97 nur in 0.9.99 (Protokollzeile "im Beruf ohne Lernstufe" – PS-SK2-b), nicht in der Plan-Auswahl.
+ - Zwischen 0.9.99 und 0.9.101 betrafen die Änderungen am Plan nur Plan.lua PL.ToSniper (Zweck "eigenbedarf") und die Anzeige (UI.lua).
+ - In 0.9.97 wurde (a) "aus dem Plan nehmen" ausdrücklich NICHT umgesetzt (Bericht 2026-11-27 0.9.97: "das Rezept aus dem Plan zu nehmen wäre
+   geraten … Ohne diese Messung bleibt es mit 'Skill ?' + Grund stehen"). Also zeigen 0.9.97 bis 0.9.101 Magiestoffballen gleich: "[lernen]
+   Skill ?" im Plan. "bleibt aus dem Plan" (07:30) war eine Folgerung, kein Verhalten von PS.
+Umsetzung PS-SK3 und Lehrername (Freigabe 09:10) folgen mit 0.9.102 (in Arbeit, Tests grün; Bericht folgt):
+ - Rezept nur vom Lehrer, das kein besuchter Lehrer mit vollständiger Liste anbietet -> trägt keine Punkte, kein Material; unter den Schritten
+   "Nicht im Plan: Magiestoffballen – bei keinem besuchten Lehrer (n besucht)". Noch kein Lehrer gelesen -> bleibt mit "Skill ?".
+ - "125" aus Data_Forever.lua ist NICHT die Lernstufe, sondern die Schätzung der Daten (build_library.py "rq", Bericht 0.9.96) – wird nach dem
+   Entscheid "keine geschätzten Zahlen" nicht als "Skill 125" angezeigt.
