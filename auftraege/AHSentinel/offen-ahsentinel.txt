@@ -7549,3 +7549,10 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
 
 >>> ENTSCHEID 28.11. 04:55 (Nutzer "wir dürfen das nicht vergessen zu erledigen – wie Masterplan"): Reihenfolge bleibt; alle Anzeige-Befunde von heute
     Morgen stehen jetzt als SCHRITT 2b im Masterplan (nach Schritt 2, vor R1–R7). Jeder Punkt mit Test und mit Abnahme-Bild in der Prüfliste.
+
+>>> PRÜFUNG SUPERVISOR 28.11. 05:05 – 0.65.428 (AHS-UI-DD1 + Restzeit, Bericht 05:00): ANGENOMMEN (Code). addon_check OK, md5 2782cfb2… = Bericht.
+    Auswahl an UIParent mit fester Ebene, schliesst bei Klick aussen/Suchen/Ware/OK/Knopf weg; T1044 mit Gegenprobe – gut. Restzeit-Ursache belegt
+    (Ausrüstung liefert nur Stufe timeLeft, keine Sekunden) – Anzeige als Bereichsmitte nur zur Anzeige, NoteBid unverändert – richtig (Gold-Sicherheit).
+    Zu messen im Spiel: gibt es GLOBAL_MOUSE_DOWN im Forever-Client? Wenn nicht, schliesst "Klick aussen" nicht (andere Wege bleiben) – Protokollzeile.
+    Hinweis Reihenfolge: Entscheid 04:55 – Schritt 2 (Vollscan) zuerst, dann Rest von 2b; UI-DD1 war schon angefangen – ok.
+    OFFEN Abnahme (Nutzer): Einkauf > Seltenheit öffnen -> ganz sichtbar, Klick daneben schliesst; Spalte Restzeit gefüllt.
