@@ -7899,3 +7899,16 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
         (GOLD-SICHERHEIT). Darum HOCH bis belegt.
     (5) Enter in leerem Feld: im Bild nicht geprüft – Nutzer prüft später.
     AHS-SN-UX1 bleibt offen (Punkte 3, 4). Punkt 4 HOCH vor dem Masterplan.
+
+>>> NACHTRAG SPIELTEST AHS-SN-UX1 – Nutzer 28.11. 11:14, Supervisor 11:18:
+    - Punkt (4) Budget: Nutzer: "der Sniper hält das Budget ein". Gold-Sicherheit damit im Spiel bestätigt -> (4) von HOCH auf MITTEL
+      (nur Anzeige: "0/1000 · Rest 5g" und "noch 1000 Stück, 5g Budget" trotz 32 Käufen für 4g24s – Stand/Rest richtig zeigen oder
+      "Insgesamt seit …" erklären).
+    - NEU AHS-SN-ROT1 MITTEL (Nutzer: "der Wechsel zwischen den Items ist nicht korrekt, zum Teil 7 s"): aus den Bildern, Zeile "gesucht vor":
+      11:11:15 vor 1 s · 11:11:21 vor 1 s · 11:11:26 vor 6 s · 11:11:31 vor 5 s (Infozeile "sucht gerade: Regenmacherkordel") · 11:11:32 vor
+      6 s · 11:11:33 vor 1 s. Das Ziel mit Treffern wird also nur etwa alle 7 s neu gesucht, weil die Suche reihum auch die Ziele ohne Treffer
+      (Regenmacherkordel, Seidenkapuze) abfragt. Entscheid 10:36 ("alle 3 s wechseln") gilt für die ANZEIGE; hier geht es um den Takt der
+      SUCHE. Bitte belegen: Dauer einer Suche je Ziel, Reihenfolge, Pausen (Server-Grenze RATE1), und Vorschlag, wie ein Ziel mit Treffern
+      öfter drankommt (z. B. Ziele mit Treffer doppelt so oft wie Ziele ohne), ohne RATE1 zu verletzen. Nachbau 3 Ziele (1 mit, 2 ohne
+      Treffer) mit Messung "Abstand zwischen zwei Suchen des Treffer-Ziels" vorher/nachher. Wenn eine Wahl nötig ist: Frage an den Nutzer.
+    Reihenfolge für AHS: SN-UX1 Punkte 3 (Chat doppelt) und 4 (Anzeige Stand/Rest) und AHS-SN-ROT1 zusammen, danach Masterplan.
