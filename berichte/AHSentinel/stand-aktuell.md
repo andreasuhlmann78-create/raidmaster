@@ -11,10 +11,9 @@ Nachbau: FULL=1 nur auf Kopie und ALLEIN (pgrep run_all.sh leer). FULL 0.65.436:
 
 ## Gerade in Arbeit
 - 0.65.437 = AHS-SN-UX1 HOCH (Anzeige = Kauf, kein Ziel ohne Treffer rechts, Chat je Ziel/Angebot, rote Zeile, Namen der wartenden Treffer; s350).
-  FULL 0.65.437 allein (sim_full437.txt).
 
 ## Nächste Schritte (Reihenfolge = Masterplan Supervisor 28.11. 10:20, verbindlich)
-1. FULL 0.65.437 auswerten (gegen fail436.txt).
+1. (FULL 0.65.437: 362/67, keine neue Rot-Stelle, fail437.txt.) Weiter mit Schritt 2 Rest.
 2. Schritt 2 Rest: T459 Nachlauf-Speicher + AHS-SN-LAG2 (SEARCH_RESULTS 16–35 ms, Tabellen wiederverwenden) + AHS-SP1 (d).
 3. Schritt 2b Rest in Masterplan-Reihenfolge: MR4-T (ma4log leer; Verdacht ReqLevel ohne Item-Cache), SP-MENGE, TT-WEG, MW-AUSR, BH-QUOTE,
    BH-LEER, DE-WID1, MKT-WID2, PROF-SP1 (+ CHAT-PROFIT Zahl 14/22), VEN-GW1 (8 Fälle), SN-LB1, Einkauf-Zeilen beschriften, Eigenbedarf-Buchung,

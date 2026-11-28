@@ -27,3 +27,5 @@ TESTS: Sniper-Satz 31 Szenarien: 0.65.436 28 PASS, 0.65.437 29 PASS (einzige Än
 schon in fail436). FULL 0.65.436: 361/67, keine neue Rot-Stelle gegen 0.65.435 (comm leer). Hinweis: während FULL 436 liefen zwei
 s350-Starts (je ~4 s, brachen sofort ab) – Regelverstoss "FULL allein", Ergebnis gleich wie 435. FULL 0.65.437 folgt allein.
 addon_check AHSentinel-0.65.437.zip: OK.
+
+NACHTRAG 28.11. 10:57: FULL 0.65.437 allein gelaufen: 362 PASS / 67 FAIL (s350 neu, PASS), keine neue Rot-Stelle gegen 0.65.436 (comm leer).
