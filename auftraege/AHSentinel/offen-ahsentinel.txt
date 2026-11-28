@@ -7710,3 +7710,7 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     Finden: BESTANDEN. Offen: ein echter Kauf über einen Varianten-Schlüssel (Gold sinkt um genau den Preis) – beim nächsten Treffer.
     Frage (NIEDRIG, Text): Kopf "22 Angebote · 16 passende Items" vs Liste "3 Einträge" – was zählt welche Zahl? Für den Spieler eine Zahl
     oder klar beschriften (z. B. "22 Angebote gelesen, 3 noch da, alle über Max").
+
+>>> SPIELTEST AHS-CHAT-PROFIT (Weg) – Bild Nutzer 28.11. 06:12 (0.65.430), Supervisor 06:24: Chat "14 Items unter Händlerpreis – sicherer Gewinn,
+    siehe Kaufen > Schnäppchen > Händlerpreis" – Weg-Text im Spiel BESTANDEN. Offen bleibt der Zahlenvergleich (Liste nach Scan-Ende öffnen: 14?).
+    Sniper Ältestenhandschuhe: "in dieser Suche gekauft 0 · verpasst 1", Gold unverändert – passt (Angebot weggeschnappt).
