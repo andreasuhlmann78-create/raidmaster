@@ -1,0 +1,44 @@
+AHSentinel 0.65.438 – AHS-SN-UX1 (3)(4), AHS-SN-ROT1, AHS-SN-BUD1 – umgesetzt, zur Prüfung
+Projekt-Sitzung AHSentinel, 28.11.2026
+
+1. AHS-SN-UX1 (3) CHAT DOPPELT – Ursache belegt: 0.65.437 meldete je Ziel+Angebot höchstens alle PRINT_REPEAT = 30 s, also nach 30 s mit
+   Absicht wieder (die Zeile auf Bild 11:11:15 kann bis 30 s alt gewesen sein). Der Auftrag (10:15) verlangt EINE Meldung je Angebot,
+   solange es dasselbe ist. Jetzt: Sn.printedAt[Ziel] = Item:Menge:Preis; neue Zeile nur bei anderem Angebot oder wenn die Suche dieses
+   Ziels keinen Treffer hatte (Merker leer); ForgetTarget leert ihn. PRINT_REPEAT entfernt.
+   Nachbau s351 (1 Ziel mit 40 gleichen Angeboten 13s25, 2 Ziele ohne, 60 s): 0.65.437 2 Zeilen -> 0.65.438 1 Zeile.
+   Bei zu kleinem Budget gibt es keinen Kaufplan und darum keine Zeile (s352 Teil 2: 0 Zeilen, Knopf "Kein Treffer").
+
+2. AHS-SN-UX1 (4) "0/1000 · Rest 5g" – BEFUND FALSCH GELESEN, begründet: "Insgesamt: 32 Stück für 4g24s – 32 Käufe" ist Sn:PlanTotal =
+   was die NÄCHSTE Raste mit Restbudget und Restmenge kaufen KANN (Massenkauf, Entscheid 05:03), nicht gekauft (Code: Sn:PlanTotal zählt
+   Angebote mit Status kaufbar bis min(Restbudget, Gold)). 0/1000 · Rest 5g war richtig. Ebenso 11:16 "37 Stück für 4g90s20c" = passt
+   genau ins Budget 5g (Rest wäre 9s80 < 13s20). Damit es nicht mehr missverstanden wird: Text "Kaufbar jetzt: … – %d Angebote auf
+   einmal" (10 Sprachen). Bitte im Spiel bestätigen: Stand links zählt nach einem echten Kauf hoch.
+
+3. AHS-SN-ROT1 SUCHTAKT – Ursache aus Spieldaten belegt (PC 28.11. 11:02, db.sniper.takt, 300 Suchen, je Suche Gründe in s):
+   mit Treffer-Halt (Grund h) 171 Suchen, Abstand Ø 3,36 s, davon Halt Ø 2,99 s · ohne Halt 128 Suchen, Ø 1,63 s · Server-Antwort Ø 0,29 s.
+   Je Ziel (3 Ziele) Abstand Ø 7,6 s (7048, 3483) bzw. 8,7 s (7366), max 16 s. Ursache: HIT_HOLD = 3 s griff nach JEDER Antwort mit
+   Treffer, auch beim zehnten Mal desselben Dauertreffers. Reihenfolge ist reihum gleich oft (SN-ALLE1, Entscheid Nutzer), "seltener
+   gesucht" gilt nur für Ziele ohne Treffer seit 10 Min. (Tooltip) und betrifft das Treffer-Ziel nicht.
+   Entscheid des Nutzers 28.11. (zwei Fragen im Chat): erst "Halt nur 1× je Treffer". Nachbau zeigte das Risiko, das in meiner ersten
+   Frage bei dieser Wahl FEHLTE (mein Fehler): ohne Halt bei Wiederholung s345 9 von 15 Rasten "Server noch nicht bereit", Stulpen 0
+   gekauft (FAIL), s347 2 statt 4 Stück. Messreihe Halt bei Wiederholung (s345 nicht bereit / Treffer-Ziel Ø Abstand s351):
+   0 s 9/15, 2,2 s · 1 s 1/15 aber Stulpen 0, 2,8 s · 1,5 s 1/15, beide gekauft, 3,3 s · 2 s 2/15, 3,8 s · 3 s (0.65.437) 0/15, 4,7 s.
+   Zweite Frage mit diesen Zahlen -> Entscheid "1,5 s bei Wiederholung": neuer Treffer 3 s (HIT_HOLD), jede weitere Antwort mit
+   DEMSELBEN Treffer 1,5 s (Sn.HIT_HOLD_REPEAT; Sn.holdSeen je Ziel, holdUntil in FinishSearch). RATE1 unverändert.
+   Waren (Rohstoffe) behalten ihren Halt 2 s (an die Frische 3 s gebunden): mit 1,5 s fand die Raste in s9_bait_sniper die Drossel belegt
+   (0 statt 10 Eisenerz) -> Ausnahme, danach s9 PASS.
+   Nachbau s351: Treffer-Ziel Ø alle 4,7 s -> 3,3 s. Im Spiel geschätzt je Ziel ~5–6 s statt 7,6 s (Verdacht, zu messen: Takt-Protokoll
+   db.sniper.takt nach dem nächsten Spiel, Grund h je Suche ~1,5 s statt ~3 s).
+
+4. AHS-SN-BUD1 – Ursache belegt: von MIR in 0.65.437 (SN-UX1 Punkt 1). Rechts steht seitdem der vom Knopf GEHALTENE Treffer, aber nur
+   das aktive Ergebnis (Sn.result) bekam einen Kaufplan -> neben "Kaufen: 1× … 13s20" stand "Nichts bis zu deinem Max-Preis (13s25).
+   Günstigstes: 13s20" (gehaltener Treffer ≠ Sn.result) oder "Ergebnis ist veraltet" (Sn.result älter als 30 s, Knopf hält bis 30 s
+   länger). Kein Budget-Problem (siehe 2.). Jetzt: gehaltener Treffer bekommt seinen Plan (PlanNext mit kurz getauschtem Ergebnis, Budget
+   und Max gelten wie beim Kauf), nie "veraltet". Nachbau s352: 0.65.437 Knopf "Kaufen: 1× … 1320" + rechts "Ergebnis ist veraltet"
+   -> FAIL; 0.65.438 rechts "Nächster Kauf: 1 Stück für 1320" -> PASS. Budget < Angebot: Knopf "Kein Treffer", keine Chatzeile.
+   Knopf/Raste kaufen nie über Budget: PlanNext prüft min(Restbudget, Gold) (Status "über Budget"/"zu wenig Gold"), HeldHit lässt einen
+   Treffer ohne kaufbares Angebot los (Nutzer bestätigt "Budget gehalten").
+
+TESTS: s350/s351/s352 neu bzw. angepasst (Gegenprobe 0.65.437: s351 und s352 FAIL). Sniper-Satz 34 Szenarien: 32 PASS (s1/s4 rot wie in fail437).
+   FULL 0.65.438 folgt allein.
+addon_check AHSentinel-0.65.438.zip: OK.
