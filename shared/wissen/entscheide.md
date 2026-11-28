@@ -11,6 +11,9 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Folge |
 |---|---|---|
+| ~12:10 | AHSentinel AHS-LB-AH1 (i): frischer Preissprung -> "bei Sprung höchstens Median" | Wiederverkauf-Grenze bei frischem Sprung (aktuell > 1,5 × Marktwert, < 24 Std.) höchstens Marktwert. Entscheid in der AHS-Sitzung, Bericht 12:16. |
+| ~12:10 | AHSentinel AHS-LB-AH1 (ii): Regel F1 "ohne aktuelle Preisleiter kein Flip" -> "Regel bleibt, Grund anzeigen" | Lohnt bis darf auf Händler fallen, wenn keine Angebotsliste da ist; der Grund wird angezeigt (API.WorthUpTo 6. Wert). Bericht 12:16. |
+| ~11:30 | AHSentinel AHS-SN-ROT1 Suchtakt: "1,5 s bei Wiederholung" (zweite Frage, mit Messreihe) | Neuer Treffer hält 3 s, jede weitere Antwort mit DEMSELBEN Treffer 1,5 s; Waren bleiben bei 2 s. Erste Wahl "Halt nur 1× je Treffer" ersetzt (Risiko Server nicht bereit). Bericht 11:37. |
 | 11:39 | AHS-TT-DE2 (Entzauber-Rechnung Braune Leinenhose: Kaufpreis 50s, Gewinn −47s88): "Gold geht nicht verloren, aber es ist keine realistische Zahl, daher hoch" | Unrealistische Zahlen in Anzeigen gelten als HOCH (vor dem Masterplan), auch ohne Goldverlust. AHS-TT-DE2 auf HOCH. |
 | 11:25 | ProfessionSentinel: "sobald PS fertig ist, geht er auch in die Pause bis Montag" | PS macht die laufende Arbeit fertig (nächste Version mit Bericht zu PS-SK3 und den offenen Befunden vom 28.11.), dann Pause bis Montag 30.11. Keine neuen Versionen in der Pause. |
 | 11:07 | LevelPilot: "wir machen mit LP Montag oder Dienstag weiter" | LP pausiert bis Montag 30.11. bzw. Dienstag 1.12.: keine Ingametests, keine neuen Versionen; die LP-Sitzung arbeitet bis dahin nicht weiter (offene Punkte bleiben in offen-levelpilot.txt). |

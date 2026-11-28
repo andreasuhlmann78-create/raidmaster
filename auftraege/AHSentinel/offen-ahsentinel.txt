@@ -7959,3 +7959,24 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     zusammen mit den Sniper-Punkten (SN-UX1 3/4, SN-BUD1, SN-ROT1). Zuerst (b) belegen: woher "Kaufpreis (Scan) 50s" für eine Braune
     Leinenhose, und (a) im Berufsfenster nicht gegen einen AH-Kaufpreis rechnen. AHS-LB-AH1 (Lohnt bis 25s bei AH 59s) fällt unter dieselbe
     Regel -> ebenfalls HOCH.
+
+>>> 0.65.438 + 0.65.439 – Supervisor 28.11. 12:40: ANGENOMMEN (Code), addon_check 0.65.439 OK. Entscheide aus der AHS-Sitzung (ROT1 1,5 s;
+    LB-AH1 "Sprung höchstens Median", "F1 bleibt, Grund anzeigen") in entscheide.md übernommen.
+    - SN-UX1 (3) Chat: eine Zeile je Angebot, solange dasselbe (s351 2 -> 1) – ok.
+    - SN-UX1 (4): BEFUND WAR FALSCH GELESEN (mein Fehler) – "Insgesamt: 32/37 Stück … Käufe" ist der Kaufplan der nächsten Raste (passt ins
+      Budget: 36 × 13s25 + 13s20 = 4g90s20 ≤ 5g, 38 Stück wären 5g3s45), nicht schon gekauft. Damit auch meine Lesart in SN-BUD1 ("Rest 9s80")
+      falsch. Neuer Text "Kaufbar jetzt: … – n Angebote auf einmal" – gut. Spiel: Stand links zählt nach echtem Kauf hoch.
+    - SN-BUD1: Ursache belegt (eigener Fehler 0.65.437: gehaltener Treffer ohne eigenen Kaufplan). s352 mit Gegenprobe – ok.
+    - SN-ROT1: Ursache aus Spieldaten belegt (HIT_HOLD 3 s nach JEDER Antwort mit Treffer); Messreihe 0/1/1,5/2/3 s offen gelegt, Nutzer
+      entschied 1,5 s. Nachbau Treffer-Ziel Ø 4,7 s -> 3,3 s. Gut: der erste Vorschlag ohne Risiko wurde selbst korrigiert.
+    - TT-DE2: (b) belegt echt (Angebote 2s25 weg, günstigstes 50s); (a) im Berufsfenster Herstellkosten statt AH-Kaufpreis; (c) deckend;
+      (d) Titel klar. T1050 – ok.
+    - LB-AH1: (i) Sprung -> höchstens Median (37s99 -> 1s80), (ii) Grund als 6. Wert der API – ok.
+    KORREKTUR zum Bericht 12:16 ("Gewinn: −5s24c / Stück kommt nicht aus AHSentinel"): FALSCH – die Zeile ist AHSentinel Tooltip.lua:1215
+      TT:ProfitLine (L["Gewinn: %s / Stück"], Locale.lua:2286). Im Einkauf ist price = Listenpreis 44s95 (TT:LivePrice "list"), best =
+      bester Weg für das MUSTER (Rezept-Gegenstand) -> 44s95 − 5s24 = 39s71 netto. Bitte im nächsten Bericht bestätigen, welcher Weg 39s71
+      ergibt (Verkaufen nach Gebühren bei Median 55s?), und die Zeile nennt den Weg ("Gewinn beim Weiterverkauf …"). NIEDRIG, Ende 2b.
+      Prüfregel für AHS: vor "kein solcher Text im Code" auch nach dem Locale-Schlüssel suchen.
+    IM SPIEL (Nutzer, /reload): (1) Sniper: Treffer-Ziel kommt öfter dran ("gesucht vor" meist ≤ 4 s), Chat 1 Zeile je Angebot, Stand links
+    zählt nach Kauf hoch; (2) Tooltip Braune Leinenhose im Berufsfenster: "Herstellkosten (Rezept)" statt Kaufpreis 50s, Hintergrund deckend.
+    Danach weiter nach Masterplan Schritt 2 Rest.

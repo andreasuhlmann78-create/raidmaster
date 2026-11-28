@@ -1241,3 +1241,15 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
 
 >>> Zu PS-VAL-LB2, weiteres Beispiel (Bild 11:33): Rosa Magiestoffhemd "Lohnt bis 25s" (Händler 30s / 1,2) bei AH 59s und Verkaufen 47s5c.
     Der Wert kommt aus AHSentinel (API.WorthUpTo) – Ursache klärt AHS (AHS-LB-AH1). PS: nur die Zeile mit Weg und Grund (PS-VAL-HV1).
+
+>>> 0.9.102 – Supervisor 28.11. 12:40: ANGENOMMEN (Code), addon_check OK.
+    - PS-SK3: KEIN Rückschritt belegt (Advisor.lua seit 0.9.97 unverändert; meine Lesart 07:30 "bleibt aus dem Plan" war eine Folgerung) –
+      richtig zurückgemeldet. Neu: Rezept nur vom Lehrer, das kein besuchter Lehrer anbietet, trägt keine Punkte/kein Material, "Nicht im Plan:
+      … bei keinem besuchten Lehrer (n besucht)"; Lehrername nur NPC (UnitName("npc")). "125" ist Schätzung, nicht angezeigt – richtig. T310.
+    - PS-P4 gebündelt (4 -> 2), T311 mit Gegenprobe – ok. PS-REZ-ZAHL: zwei verschiedene Mengen, Tooltip erklärt – ok (Befund war falsch
+      verstanden, Angleichen wäre falsch). PS-PLAN-KOST belegt, "Noch zu kaufen" – ok. PS-VAL-HV1/VK1: Weg in der Zeile, "für n Stück" – ok.
+    - PS-PERF-NB1: Messung je Abschnitt eingebaut, Ursache im Spiel zu benennen – offen (nächstes /ps protokoll).
+    PS-DL: 0.9.101 FREI (PS-SK3 kein Rückschritt). Da PS pausiert: am Montag 0.9.101 (oder nach Spieltest 0.9.102) nach download/.
+    Hinweis an PS (Montag): "Gewinn: −5s24c / Stück" kommt aus AHSentinel (Tooltip.lua:1215), nicht aus PS – nichts zu tun.
+    IM SPIEL (Montag): Lehrer Schneiderei öffnen -> Magiestoffballen "bei keinem besuchten Lehrer (1 besucht)", Plan ohne Magiestoffballen;
+    Plan-Kopf "Noch zu kaufen"; Lohnt bis mit Weg; Post mit mehreren Briefen -> "ledger (gebündelt n)"; Berufsfenster -> "TEIL …".
