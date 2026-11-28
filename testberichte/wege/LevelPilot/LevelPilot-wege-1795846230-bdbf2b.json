@@ -1,0 +1,54 @@
+{
+ "addon": "LevelPilot",
+ "blocked": [],
+ "env": {
+  "build": "71139",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 10,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "f": 1,
+ "fest": [],
+ "id": "LevelPilot-wege-1795846230-bdbf2b",
+ "kind": "wege",
+ "npc": [],
+ "time": 1795846230,
+ "version": "3.13.33",
+ "zones": [
+  {
+   "edges": [
+    {
+     "lv": [
+      "1458|o|Das Handwerksviertel",
+      "1458|o|Das Handwerksviertel",
+      "1458|o|Das Handwerksviertel",
+      "1458|o|Das Handwerksviertel",
+      "1458|o|Das Handwerksviertel"
+     ],
+     "n": 30,
+     "p": [
+      69.5,
+      39.4,
+      67.8,
+      39.7,
+      66.9,
+      38,
+      65.2,
+      38.3,
+      63.6,
+      38.4
+     ],
+     "src": "selbst"
+    }
+   ],
+   "map": 1458,
+   "name": "Undercity"
+  }
+ ]
+}
