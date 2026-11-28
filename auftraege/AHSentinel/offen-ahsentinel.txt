@@ -7556,3 +7556,21 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     Zu messen im Spiel: gibt es GLOBAL_MOUSE_DOWN im Forever-Client? Wenn nicht, schliesst "Klick aussen" nicht (andere Wege bleiben) – Protokollzeile.
     Hinweis Reihenfolge: Entscheid 04:55 – Schritt 2 (Vollscan) zuerst, dann Rest von 2b; UI-DD1 war schon angefangen – ok.
     OFFEN Abnahme (Nutzer): Einkauf > Seltenheit öffnen -> ganz sichtbar, Klick daneben schliesst; Spalte Restzeit gefüllt.
+
+>>> BEFUNDE 8 Bilder des Nutzers 28.11. 04:56–04:57 (PC, 0.65.427, Buchhaltung "Seit Neustart": Pro Item/Verlauf/Statistik/Gold/Vermögen/Entzaubern/Rendite)
+    – Supervisor 05:10, nachgerechnet (buchhaltung.md gelesen):
+    OK: Tooltip "Entzaubern 5–25": Erlös 11g33s83 + 1g75s21 + 60s91 + 15s04 = 13g84s99 = Zeile; Gewinn 13g84s99 − 8g38s90 = 5g46s09 – stimmt.
+      Gold aller Charaktere 45g58s18 + 12g24s30 + 1g58s31 = 59g40s79 – stimmt. Vermögen: Wert = Menge × Marktwert stichprobenweise stimmt (Bronzebarren
+      68 × 2s58 = 1g75s44, Wollstoff 35 × 2s65 = 92s75, Fraktionsbanner 23 × 1s10 = 25s30); Gold 59g40s79 + Waren 10g10s43 = 69g51s22 – stimmt.
+    AHS-BH-REN2 HOCH (Gold-Zahlen widersprechen sich – Buchhaltung Regel 3 "Entzaubern als Umbuchung"):
+      Reiter "Rendite": Entzaubern eingesetzt 0, erlöst 175g87s25, Gewinn 175g87s25, 41g08s90/Std.; Rohstoffe Rendite 6364 %; Gesamt Gewinn 188g32s40,
+      Rendite 5010 %, 2g83s02/Std. – dagegen Kopfzeile Gewinn 48g69s11 / Rendite 24 %, Details "Handel pro Stunde 80s11", Pro Item Entzauber-Gruppen
+      eingesetzt 71g05s31 + 37g91s87 + 8g38s90 = 117g36s08. Der Rendite-Reiter rechnet die Kosten der entzauberten Teile NICHT ein (Einsatz 0) und zählt
+      die Materialverkäufe als reinen Gewinn -> Gold/Std. ×50 zu hoch. Ursache belegen (Datei:Zeile), auf dieselbe Kostenbasis wie Kopfzeile/Pro Item
+      bringen (Summe der Geschäftsarten = Kopfzeile, auf den Kupfer), Test mit Entzaubern + Materialverkauf.
+      Reiter "Entzaubern" (je Tag): alle Spalten Teile/ausgegeben/Wert Materialien/Gewinn = 0, nur "eigene" gefüllt (z. B. 15.11. 1155 (99g91s18)),
+      Kopf "Gesamt: 0 Teile · ausgegeben 0 …" – gleiche Ursache vermutet; belegen. Zusammen mit AHS-BH-REN (24 %) lösen.
+    AHS-BH-QUOTE NIEDRIG: "Verkaufsquote" Details 82 % (2315 von 2809) vs. Statistik "Verkaufsquote gesamt: 84 % (8353 von 9889)" bei gleichem Zeitraum
+      "Seit Neustart" – Zeitraum/Zählweise belegen und beschriften.
+    AHS-BH-LEER NIEDRIG: Statistik-Liste hat eine Zeile ohne Item-Namen ("– 94 – 1s71", eingestellt "-") – belegen (Item unbekannt im Cache?), Namen nachladen
+      oder "Item #ID" zeigen.
