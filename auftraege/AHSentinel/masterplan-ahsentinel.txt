@@ -96,3 +96,14 @@ E. AUSSERHALB VON AHSENTINEL
 - SUPERVISOR: Markt-Tabelle "alle" (markt_tabellen.py) wieder täglich übernehmen; Entscheid zur Datenlücke 14.–20.11. (Daten-Repo) vorlegen.
 - PROFESSIONSENTINEL: PS-API1 / Ketten für RK3/RK4 – Stand mit PS klären.
 - ALLE ADDONS: gemeinsame Dateien unverändert aus shared/ (SH-M1 gebündelt, Entscheid 27.11. 21:16).
+
+NACHTRAG STAND 28.11. 10:20 (Supervisor, Frage Nutzer "können wir bald wieder am Masterplan weiterarbeiten?")
+  Schritt 2 Stabilität: AHS-I4 ERREICHT, VS-121b GESCHLOSSEN, AHS-SN-RATE1 im Spiel BESTANDEN. Rest: T459 Nachlauf-Speicher, AHS-SP1 (d),
+    AHS-SN-LAG2 (16–35 ms SEARCH_RESULTS, Speicher-Pendel) – gehört zu T459/Leistung.
+  Schritt 2b Anzeige: ERLEDIGT/angenommen: UI-DD1 (im Spiel), SN-FIND1 (im Spiel), SN-DEL1, SN-SORT1, CHAT-PROFIT Weg, TXT-CUT, PS-EIG1 (AHS-Seite),
+    BH-REN2, BH-REN, CF-1 (Code), SN-CNT1 (Code). OFFEN: SN-UX1 (HOCH), MR4-T, SP-MENGE, TT-WEG, MW-AUSR, BH-QUOTE, BH-LEER, DE-WID1, MKT-WID2,
+    PROF-SP1 (+ CHAT-PROFIT Zahl), VEN-GW1, SN-LB1, Einkauf-Zeilen beschriften, Eigenbedarf-Buchung, Lager-Anteil "de".
+  REIHENFOLGE AB JETZT (verbindlich): 1. SN-UX1 HOCH. 2. Schritt 2 Rest (T459 + SN-LAG2 + SP1). 3. Schritt 2b Rest in obiger Reihenfolge.
+    4. R1–R7. 5. Abnahme-Runde (Prüfliste). 6. 0.66.0.
+  REGEL gegen Stillstand: Neue Befunde aus dem Spiel gehen nur dann VOR den Plan, wenn sie HOCH sind (Gold, Absturz, Ruckeln > 40 ms, Kauf falsch).
+    Alles andere wird hinten an Schritt 2b angehängt und blockiert R1–R7 nicht. Die Prüf-Sitzung stuft beim Eintragen ein.
