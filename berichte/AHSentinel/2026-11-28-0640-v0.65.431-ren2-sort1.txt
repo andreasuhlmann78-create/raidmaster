@@ -1,0 +1,30 @@
+BERICHT AHSentinel 0.65.431 – AHS-BH-REN2 HOCH (Teil 1) + AHS-SN-SORT1 MITTEL · 28.11.2026 06:40 · umgesetzt, zur Prüfung
+md5 AHSentinel-0.65.431.zip (announce/): d2ebc2087eb4fd5b8c989305614687af (nur Discord; CurseForge bleibt 0.65.423)
+FULL 0.65.430: 358 PASS / 67 FAIL (s346 neu grün), Fail-Liste = 0.65.429.
+
+1. AHS-BH-REN2 – Ursache BELEGT:
+   Ledger.lua Le:DisenchantReport zählte eine Entzauberung nur dann mit Einsatz, wenn deLog-Eintrag e.paid gesetzt ist. e.paid setzt NUR
+   Disenchant.lua D:LogResult aus A.db.deBuys, und deBuys schreibt NUR der Sammelkauf (DEBuy.lua:253). Sniper/Einkauf-Käufe -> "eigene", Einsatz 0.
+   PC-Daten 28.11. 05:50: deBuys 0 Einträge, deLog 2000 Einträge, davon mit paid 0. Activity.lua Act:Business übernahm rows.de.invested = t.spent (0).
+   Nachbau mit diesen Daten (zz_ren2, "Seit Neustart"), 0.65.430: Entzaubern eingesetzt 0g00s00, erlöst 177g33s79, gesamt Rendite 5049 %
+   (= Bild 04:42: 175g87s25 / 5010 %). Kopfzeile BK:Summary 48g69s08.
+   Behebung: Le:DEBookCosts(from) liest die Buchungen k = "de" der Buchhaltung (Books.lua BK:OnDisenchant: cost = Einstand des Teils, dieselbe
+   Kostenbasis wie Kopfzeile/Pro Item); Le:DisenchantReport nimmt ohne Sammelkauf-Treffer deren cost (gleiche Item-ID, ≤ 5 s, jede Buchung einmal;
+   cost 0 = eigene). Ergebnis 0.65.431 gleiche Daten: Entzaubern eingesetzt 120g13s07 (Pro Item laut Bild 117g36s08 – 0.65.431 rechnet "Seit
+   Neustart" inkl. Entzauberungen bis 05:50), erlöst 177g33s79, Gewinn 57g20s72; gesamt Gewinn 69g65s87, Rendite 56 %.
+   NOCH OFFEN (ehrlich): Summe der Arten 69g65s87 ≠ Kopfzeile 48g69s08 (Differenz 20g96s79). Grund (Code): Act:Business bewertet beim Entzaubern
+   "erlöst" = Marktwert der GANZEN Beute nach Gebühr (Le:DisenchantLootValue, auch unverkauftes Lager), die Kopfzeile rechnet nur Verkauftes
+   (realisiert). Vorschlag (Entscheid Supervisor, buchhaltung.md Regel 3): Rendite-Zeile Entzaubern = realisierte Verkäufe der Materialien −
+   Einstand der verkauften Materialien (Books-Kostenbasis) + Entzauber-Ausbeute; Lager separat als "noch im Lager (Wert)". Dann geht die Summe
+   auf die Kopfzeile auf. Bis zum Entscheid bleibt die Bewertung, Einsatz stimmt jetzt.
+   Test T1048 (Index AHS-BH-REN2): 2 bezahlte Teile (Buchungen 1200/1300), 1 eigener (Kosten 0) -> eingesetzt 2500, eigene 1. Gegenprobe 0.65.430:
+   "bezahlte Teile 0 · eingesetzt 0 · eigene 3".
+2. AHS-SN-SORT1 – Ursache: 0.65.430 hängte die Angebote je Varianten-Schlüssel in der Reihenfolge der Browse-Mindestpreise an; ist der Mindestpreis
+   einer Variante veraltet (Angebot schon weg), landet ihr teurer Block vorne (Bild: 14s, 90s, 98s, 14s, 15s). Jetzt: nach dem Zusammenführen
+   table.sort nach Stückpreis (Sniper.lua nach "full = s.accFull"). Szenario s347 (3 Varianten, Mindestpreis der teuren veraltet): 0.65.430 FAIL
+   "9000,9800,9850,1400,…", 0.65.431 PASS sortiert; Kauf nur ≤ Max, günstigste zuerst (4 Stück, 5700 Kupfer) – in beiden gleich (PlanNext plant
+   nach Preis). Kopf "22 Angebote · 16 passende Items" folgt mit der Textfrage (Schritt 2b).
+3. Gold-Sicherheit Kauf aus früherem Schlüssel (Frage Supervisor 06:15): Einzelkauf Sniper.lua Sn:PlanNext "local limit = math.min(budgetLeft,
+   money)", je Angebot "elseif l.price > t.maxPrice then" (nicht geplant) und "elseif l.buyout > limit then" (nicht geplant); Sn:Buy kauft nur ein
+   geplantes Angebot (plan.listing) und prüft GetTarget. Commodity-Weg zusätzlich Sn:Confirm PriceOK.
+4. 52 Szenarien (s42, s43, s341, 49 Sniper/Buchhaltung/DE) alt = neu ausser s347 (alt rot, neu grün). addon_check OK. FULL 0.65.431 folgt.
