@@ -7505,3 +7505,7 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
       zum Kauf vorgeschlagen wird. Für den Spieler widersprüchlich. "Gewinn" im Tooltip muss den Weg nennen ("Entzaubern: −21s05") oder den besten Weg zeigen
       ("Beim Händler verkaufen: +9c"); nie ein nackter roter Gewinn, wenn ein anderer Weg lohnt. Mit Entscheiden (TT-STOP, Psychologie) abgleichen, Test.
     Gut im Bild: Ausgerüstet "Schlägel der Verlassenen – Seelengebunden – nicht im AH verkaufbar" (BP1-Logik greift auch bei Seelengebunden).
+    Nachtrag 04:45 (Bild 04:41, Zauberstab des Versengens): dort zeigt der Tooltip richtig "Gewinn: +8c / Stück · Händler: 52s18" (Weg genannt, grün), und
+    der Flipping-Rechner übernimmt die Zeile mit AH-Gebühr 0 % (Händler) -> Gewinn 8c, Marge +0,2 % – stimmt. Beim Beulenhammer dagegen Entzauber-Gewinn
+    −21s05 ohne Weg. AHS-TT-WEG: belegen, warum der Tooltip einmal den Händler-Weg und einmal den Entzauber-Weg zeigt (Regel?), und einheitlich machen.
+    Hinweis (Psychologie, NIEDRIG): Zauberstab 50 Angebote × 52s10 = 26g Einsatz für ~4s Gewinn – in der Liste den Einsatz neben "Gewinn gesamt" zeigen.
