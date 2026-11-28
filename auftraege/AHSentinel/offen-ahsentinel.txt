@@ -7755,3 +7755,11 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     Angebote, die nur in dieser Runde nicht gelesen wurden (anderer Varianten-Schlüssel, max 8) statt wirklich verschwundener. Belegen (Datei:Zeile).
     Soll: dasselbe Angebot (auctionID) = ein Treffer, eine Chat-Meldung; "weggeschnappt" nur, wenn die auctionID beim Lesen IHRES Schlüssels fehlt;
     nicht gekauft, weil der Spieler nicht scrollt = "nicht gekauft (kein Mausrad)", nicht "verpasst". Test mit 3 Suchen nacheinander + Gegenprobe.
+
+>>> SPIELTEST AHS-SN-DEL1 a – Bilder Nutzer 28.11. 06:54–06:55 (0.65.431), Supervisor 07:00: Ziel Ältestenhandschuhe mit offenem Treffer gelöscht.
+    BESTANDEN: "Ziel entfernt: Ältestenhandschuhe", Liste 2 Ziele, Kaufknopf "Kein Treffer", Sniper sucht weiter Kapuze/Stulpen, KEINE neue
+    Treffer-Meldung danach, Gold unverändert 45g58s18.
+    NICHT BESTANDEN: Kopf vorher "20 Treffer · 9 verpasst · 3 offen", nachher "19 Treffer · 9 verpasst · 2 offen" – nur EINE offene Episode
+    zurückgenommen; die anderen 2 "offen" gehören zum gelöschten Ziel (Kapuze/Stulpen haben keinen Treffer). Zusammen mit AHS-SN-CNT1 beheben:
+    Sn:ForgetTarget muss ALLE offenen Episoden/Treffer des Ziels zurücknehmen (nicht nur self.episode) – Test: 3 Treffer desselben Ziels offen,
+    löschen -> 0 offen; Gegenprobe 0.65.431 -> 2 offen.
