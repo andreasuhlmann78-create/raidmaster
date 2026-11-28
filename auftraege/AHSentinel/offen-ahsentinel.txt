@@ -7492,3 +7492,16 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
       abgeschnitten) – kürzen oder umbrechen, alle Sprachen prüfen.
     Sonst plausibel: "Weg Entzaubern lernt noch (12 von 20 Fällen) – Zahlen nur geschätzt", "Zurzeit nichts unter dem Entzauber-Wert mit mindestens 20 %
       Gewinn (geprüft: 1111 Items)" – passt zu den Käufen der Kapuze für 12s01 bei DE-Wert netto ~13s02.
+
+>>> BEFUNDE Bild des Nutzers 28.11. 04:40 (PC, 0.65.427, Kaufen > Schnäppchen > "Händlerpreis", 67 Einträge; Tooltip Beulenhammer) – Supervisor 04:45:
+    AHS-SP-MENGE MITTEL ("jede Zahl geht auf"): In der Liste ist Gewinn gesamt ≠ Menge × Gewinn/Stück bei den meisten Zeilen, z. B.
+      Beulenhammer 20 × 9c = 1s80, angezeigt 1s56 · Zauberstab des Versengens 50 × 8c = 4s00 / 3s65 · Adelsmarke 23 × 10c = 2s30 / 1s91 ·
+      Gezackter Stern 14 × 16c = 2s24 / 1s41 · Formel: Handschuhe 64 × 3c = 1s92 / 1s33 · Leinentasche 120 × 2c = 2s40 / 1s23;
+      passend nur z. B. Explosive Schrotflinte 11 × 14c = 1s54, Riesenkeule 15 × 9c = 1s35. Verdacht: "Menge" zählt ALLE Angebote, "Gewinn gesamt" nur
+      die unter dem Händlerpreis, "Gewinn/Stück" ist das beste Angebot. Belegen; dann eindeutig machen (Menge = kaufbare Stück mit Gewinn, oder Spalten
+      umbenennen + Tooltip "x von y Angeboten lohnen, Gewinn je Stück a–b"), Test mit gemischten Preisen.
+    AHS-TT-WEG MITTEL (Psychologie, Tooltip-Teil Entzaubern TT-DE2 – darf geändert werden): Tooltip Beulenhammer zeigt als Kopfzeile rot "Gewinn −21s 5"
+      (Entzauber-Rechnung: Wert nach Gebühren 6s27 − Kaufpreis 27s32), während dieselbe Ware im Schnäppchen-Reiter "Händlerpreis" mit +9c je Stück
+      zum Kauf vorgeschlagen wird. Für den Spieler widersprüchlich. "Gewinn" im Tooltip muss den Weg nennen ("Entzaubern: −21s05") oder den besten Weg zeigen
+      ("Beim Händler verkaufen: +9c"); nie ein nackter roter Gewinn, wenn ein anderer Weg lohnt. Mit Entscheiden (TT-STOP, Psychologie) abgleichen, Test.
+    Gut im Bild: Ausgerüstet "Schlägel der Verlassenen – Seelengebunden – nicht im AH verkaufbar" (BP1-Logik greift auch bei Seelengebunden).
