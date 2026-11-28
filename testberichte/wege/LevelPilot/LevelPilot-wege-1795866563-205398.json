@@ -1,0 +1,839 @@
+{
+ "addon": "LevelPilot",
+ "blocked": [],
+ "env": {
+  "build": "71139",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 44,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "f": 2,
+ "fest": [],
+ "id": "LevelPilot-wege-1795866563-205398",
+ "kind": "wege",
+ "npc": [
+  {
+   "id": 220984,
+   "map": 1446,
+   "new": [
+    51.7,
+    27.7
+   ],
+   "nopack": true,
+   "t": 1795866514
+  },
+  {
+   "id": 260405,
+   "map": 1446,
+   "new": [
+    67.6,
+    23.1
+   ],
+   "nopack": true,
+   "t": 1795866337
+  },
+  {
+   "id": 260857,
+   "map": 1446,
+   "new": [
+    67.4,
+    23.9
+   ],
+   "nopack": true,
+   "t": 1795866349
+  }
+ ],
+ "qo": [
+  {
+   "a": "T",
+   "l": 44,
+   "m": 1446,
+   "q": 95296,
+   "t": 1795866338
+  },
+  {
+   "a": "A",
+   "l": 44,
+   "m": 1446,
+   "q": 95383,
+   "t": 1795866338
+  },
+  {
+   "a": "T",
+   "l": 44,
+   "m": 1446,
+   "q": 95383,
+   "t": 1795866350
+  },
+  {
+   "a": "A",
+   "l": 44,
+   "m": 1446,
+   "q": 95312,
+   "t": 1795866350
+  },
+  {
+   "a": "T",
+   "l": 44,
+   "m": 1446,
+   "q": 95312,
+   "t": 1795866515
+  },
+  {
+   "a": "A",
+   "l": 44,
+   "m": 1446,
+   "q": 95321,
+   "t": 1795866515
+  }
+ ],
+ "time": 1795866563,
+ "version": "3.13.34",
+ "zones": [
+  {
+   "edges": [
+    {
+     "n": 6,
+     "p": [
+      45.9,
+      78.3,
+      45.9,
+      78.5,
+      45.9,
+      78.7,
+      46,
+      79.1,
+      46,
+      79.3,
+      46,
+      79.6
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1413|o|Südliche Goldstraße",
+      "1413|o|Südliche Goldstraße",
+      "1413|o|Südliche Goldstraße",
+      "1413|o|Südliche Goldstraße",
+      "",
+      "1413|o|Südliche Goldstraße",
+      "1413|o|Südliche Goldstraße"
+     ],
+     "n": 6,
+     "p": [
+      46.1,
+      71.2,
+      46.1,
+      71.4,
+      46.1,
+      71.6,
+      46.1,
+      71.8,
+      46.1,
+      72,
+      46.1,
+      72.2,
+      46.1,
+      72.4
+     ],
+     "src": "selbst"
+    },
+    {
+     "n": 2,
+     "p": [
+      46.3,
+      67.7,
+      46.3,
+      67.5
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "",
+      "1413|o|Südliche Goldstraße",
+      "1413|o|Südliche Goldstraße",
+      "1413|o|Südliche Goldstraße",
+      "1413|o|Südliche Goldstraße",
+      "1413|o|Südliche Goldstraße",
+      "1413|o|Südliche Goldstraße",
+      "1413|o|Südliche Goldstraße",
+      "1413|o|Südliche Goldstraße",
+      "1413|o|Südliche Goldstraße",
+      "1413|o|Südliche Goldstraße",
+      "",
+      "1413|o|Südliche Goldstraße"
+     ],
+     "n": 5,
+     "p": [
+      46.1,
+      75.5,
+      46.2,
+      75.3,
+      46.2,
+      75.1,
+      46.2,
+      74.9,
+      46.1,
+      74.6,
+      46.1,
+      74.4,
+      46.1,
+      74.2,
+      46.1,
+      73.8,
+      46.1,
+      73.6,
+      46.1,
+      73.4,
+      46.1,
+      73.2,
+      46.1,
+      73,
+      46.1,
+      72.8
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1413|o|Südliche Goldstraße",
+      "1413|o|Südliche Goldstraße"
+     ],
+     "n": 5,
+     "p": [
+      46.1,
+      75.9,
+      46,
+      76.1
+     ],
+     "src": "selbst"
+    },
+    {
+     "n": 2,
+     "p": [
+      46.1,
+      82,
+      46.2,
+      82,
+      46.1,
+      82.2
+     ],
+     "src": "selbst"
+    },
+    {
+     "n": 2,
+     "p": [
+      46.2,
+      67.8,
+      46.3,
+      68
+     ],
+     "src": "selbst"
+    },
+    {
+     "n": 4,
+     "p": [
+      46.2,
+      81.5,
+      46.2,
+      81.3
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1413|o|Südliche Goldstraße",
+      "1413|o|Südliche Goldstraße"
+     ],
+     "n": 2,
+     "p": [
+      46,
+      76.9,
+      46,
+      77.1
+     ],
+     "src": "selbst"
+    },
+    {
+     "n": 7,
+     "p": [
+      46.2,
+      81,
+      46.1,
+      80.8,
+      46.1,
+      80.6
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1413|o|Südliche Goldstraße",
+      ""
+     ],
+     "n": 2,
+     "p": [
+      46,
+      76.5,
+      45.9,
+      76.3
+     ],
+     "src": "selbst"
+    },
+    {
+     "n": 4,
+     "p": [
+      46.1,
+      79.8,
+      46.1,
+      80,
+      46.1,
+      80.2
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1413|o|Südliche Goldstraße",
+      "1413|o|Südliche Goldstraße",
+      "",
+      ""
+     ],
+     "n": 6,
+     "p": [
+      46.1,
+      69.1,
+      46.1,
+      69.3,
+      46.1,
+      69.5,
+      46.2,
+      69.7
+     ],
+     "src": "selbst"
+    },
+    {
+     "n": 5,
+     "p": [
+      46.1,
+      68.2,
+      46.1,
+      68.4,
+      46.2,
+      68.6,
+      46.2,
+      68.8
+     ],
+     "src": "selbst"
+    },
+    {
+     "n": 2,
+     "p": [
+      43.1,
+      90.2,
+      42.9,
+      90.2
+     ],
+     "src": "selbst"
+    },
+    {
+     "n": 2,
+     "p": [
+      42.5,
+      90.1,
+      42.6,
+      90.1
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1413|o|Südliche Goldstraße",
+      "",
+      "1413|o|Südliche Goldstraße",
+      "1413|o|Südliche Goldstraße",
+      ""
+     ],
+     "n": 6,
+     "p": [
+      46.1,
+      70.1,
+      46.2,
+      70.3,
+      46,
+      70.4,
+      46.1,
+      70.6,
+      46.1,
+      70.8
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "1413|o|Südliche Goldstraße"
+     ],
+     "n": 3,
+     "p": [
+      45.9,
+      78.3,
+      46,
+      78,
+      45.9,
+      77.8,
+      45.9,
+      77.6,
+      45.9,
+      77.4,
+      46,
+      77.1
+     ],
+     "src": "geteilt"
+    },
+    {
+     "lv": [
+      "1413|o|Südliche Goldstraße",
+      ""
+     ],
+     "n": 1,
+     "p": [
+      46.1,
+      71.2,
+      46.1,
+      70.8
+     ],
+     "src": "geteilt"
+    },
+    {
+     "lv": [
+      "1413|o|Südliche Goldstraße",
+      "1413|o|Südliche Goldstraße"
+     ],
+     "n": 1,
+     "p": [
+      46,
+      76.5,
+      46,
+      76.9
+     ],
+     "src": "geteilt"
+    },
+    {
+     "lv": [
+      "1413|o|Südliche Goldstraße",
+      "1413|o|Südliche Goldstraße"
+     ],
+     "n": 1,
+     "p": [
+      46.1,
+      72.4,
+      46.1,
+      72.8
+     ],
+     "src": "geteilt"
+    },
+    {
+     "n": 1,
+     "p": [
+      46.1,
+      79.8,
+      46,
+      79.6
+     ],
+     "src": "geteilt"
+    },
+    {
+     "n": 1,
+     "p": [
+      46.3,
+      68,
+      46.1,
+      68.2
+     ],
+     "src": "geteilt"
+    },
+    {
+     "n": 1,
+     "p": [
+      46.3,
+      67.7,
+      46.2,
+      67.8
+     ],
+     "src": "geteilt"
+    },
+    {
+     "n": 1,
+     "p": [
+      46.2,
+      81.5,
+      46.2,
+      81.9,
+      46.2,
+      82,
+      46.2,
+      82.3,
+      46.1,
+      82.4
+     ],
+     "src": "geteilt"
+    },
+    {
+     "n": 1,
+     "p": [
+      46.8,
+      65.3,
+      46.8,
+      65.1
+     ],
+     "src": "geteilt"
+    },
+    {
+     "n": 2,
+     "p": [
+      46.8,
+      65.3,
+      46.7,
+      65.2,
+      46.8,
+      65.1
+     ],
+     "src": "geteilt"
+    },
+    {
+     "n": 3,
+     "p": [
+      46.8,
+      65.3,
+      46.7,
+      65.5,
+      46.7,
+      65.7,
+      46.8,
+      65.9,
+      46.7,
+      66.1,
+      46.7,
+      66.3,
+      46.6,
+      66.5,
+      46.6,
+      66.7
+     ],
+     "src": "geteilt"
+    },
+    {
+     "lv": [
+      "1413|o|Südliche Goldstraße",
+      ""
+     ],
+     "n": 1,
+     "p": [
+      46.1,
+      75.9,
+      46.1,
+      75.5
+     ],
+     "src": "geteilt"
+    },
+    {
+     "n": 1,
+     "p": [
+      46.1,
+      80.6,
+      46.1,
+      80.2
+     ],
+     "src": "geteilt"
+    },
+    {
+     "lv": [
+      "",
+      "1413|o|Südliche Goldstraße"
+     ],
+     "n": 1,
+     "p": [
+      46.2,
+      69.7,
+      46.1,
+      70.1
+     ],
+     "src": "geteilt"
+    },
+    {
+     "lv": [
+      "",
+      "1413|o|Südliche Goldstraße"
+     ],
+     "n": 2,
+     "p": [
+      45.9,
+      76.3,
+      46,
+      76.1
+     ],
+     "src": "geteilt"
+    },
+    {
+     "n": 2,
+     "p": [
+      46.2,
+      81,
+      46.2,
+      81.3
+     ],
+     "src": "geteilt"
+    },
+    {
+     "n": 2,
+     "p": [
+      46.3,
+      67.5,
+      46.4,
+      67.2,
+      46.4,
+      67.1,
+      46.5,
+      66.8,
+      46.6,
+      66.7
+     ],
+     "src": "geteilt"
+    },
+    {
+     "n": 2,
+     "p": [
+      46.7,
+      65,
+      46.8,
+      65.1
+     ],
+     "src": "geteilt"
+    },
+    {
+     "lv": [
+      "1413|o|Südliche Goldstraße",
+      ""
+     ],
+     "n": 1,
+     "p": [
+      46.1,
+      69.1,
+      46.2,
+      68.8
+     ],
+     "src": "geteilt"
+    },
+    {
+     "n": 1,
+     "p": [
+      42.9,
+      90.2,
+      42.6,
+      90.1
+     ],
+     "src": "geteilt"
+    },
+    {
+     "n": 1,
+     "p": [
+      46.9,
+      64.7,
+      46.8,
+      64.9,
+      46.8,
+      65.1
+     ],
+     "src": "geteilt"
+    },
+    {
+     "n": 1,
+     "p": [
+      46.7,
+      66.7,
+      46.6,
+      66.7
+     ],
+     "src": "geteilt"
+    }
+   ],
+   "map": 1413,
+   "name": "Das Brachland"
+  },
+  {
+   "edges": [
+    {
+     "lv": [
+      "1446|o|Die südlichen Meere",
+      "1446|o|Die südlichen Meere",
+      "1446|o|Die südlichen Meere",
+      "1446|o|Die südlichen Meere",
+      "1446|o|Die südlichen Meere",
+      "1446|o|Die südlichen Meere",
+      "1446|o|Die südlichen Meere",
+      "1446|o|Die südlichen Meere",
+      "1446|o|Die südlichen Meere",
+      "1446|o|Die südlichen Meere",
+      "1446|o|Die südlichen Meere",
+      "1446|o|Wellenschreiterstrand",
+      "1446|o|Wellenschreiterstrand",
+      "1446|o|Wellenschreiterstrand",
+      "1446|o|Wellenschreiterstrand",
+      "1446|o|Wellenschreiterstrand",
+      "1446|o|Wellenschreiterstrand",
+      "1446|o|Wellenschreiterstrand",
+      "1446|o|Wellenschreiterstrand",
+      "1446|o|Wellenschreiterstrand",
+      "1446|o|Wellenschreiterstrand",
+      "1446|o|Wellenschreiterstrand",
+      "1446|o|Wellenschreiterstrand",
+      "1446|o|Wellenschreiterstrand",
+      "1446|o|Wellenschreiterstrand",
+      "1446|o|Steamwheedle",
+      "1446|o|Steamwheedle",
+      "1446|o|Steamwheedle",
+      "1446|o|Steamwheedle",
+      "1446|o|Steamwheedle",
+      "1446|o|Steamwheedle",
+      "1446|o|Steamwheedle",
+      "1446|o|Steamwheedle",
+      "1446|o|Steamwheedle",
+      "1446|o|Steamwheedle",
+      "1446|o|Steamwheedle"
+     ],
+     "n": 5,
+     "p": [
+      74.1,
+      17,
+      73.8,
+      17.1,
+      73.6,
+      17.1,
+      73.4,
+      17.2,
+      73.1,
+      17.3,
+      72.9,
+      17.3,
+      72.7,
+      17.4,
+      72.5,
+      17.5,
+      72.3,
+      17.5,
+      72.1,
+      17.6,
+      71.8,
+      17.8,
+      71.5,
+      17.9,
+      71.3,
+      18,
+      71.1,
+      18.1,
+      70.9,
+      18.3,
+      70.7,
+      18.4,
+      70.6,
+      18.5,
+      70.3,
+      18.8,
+      70.1,
+      19,
+      69.9,
+      19.2,
+      69.7,
+      19.4,
+      69.4,
+      19.7,
+      69.2,
+      20,
+      69,
+      20.3,
+      68.9,
+      20.5,
+      68.8,
+      20.8,
+      68.7,
+      21,
+      68.6,
+      21.3,
+      68.6,
+      21.6,
+      68.5,
+      21.9,
+      68.5,
+      22.2,
+      68.4,
+      22.7,
+      68.3,
+      23.1,
+      68.1,
+      23.1,
+      67.8,
+      23.1,
+      67.6,
+      23
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1446|o|Steamwheedle",
+      "1446|o|Steamwheedle"
+     ],
+     "n": 3,
+     "p": [
+      67.5,
+      23.7,
+      67.5,
+      23.4
+     ],
+     "src": "selbst"
+    }
+   ],
+   "map": 1446,
+   "name": "Tanaris"
+  },
+  {
+   "edges": [
+    {
+     "lv": [
+      "2548|o|Das Verbotene Meer",
+      "2548|o|Das Verbotene Meer",
+      "2548|o|Das Verbotene Meer",
+      "2548|o|Das Verbotene Meer"
+     ],
+     "n": 2,
+     "p": [
+      84.9,
+      71.7,
+      85.1,
+      72,
+      85.3,
+      72.4,
+      85.5,
+      72.7
+     ],
+     "src": "selbst"
+    }
+   ],
+   "map": 2548,
+   "name": "Flusslande"
+  }
+ ]
+}

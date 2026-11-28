@@ -1,0 +1,48 @@
+{
+ "addon": "LevelPilot",
+ "blocked": [],
+ "env": {
+  "build": "71139",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 44,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "f": 1,
+ "fest": [],
+ "id": "LevelPilot-wege-1795865884-5c16f8",
+ "kind": "wege",
+ "npc": [],
+ "time": 1795865884,
+ "version": "3.13.34",
+ "zones": [
+  {
+   "edges": [
+    {
+     "lv": [
+      "2548|o|Hafen von Powderfuse",
+      "2548|o|Hafen von Powderfuse",
+      "2548|d|Hafen von Powderfuse"
+     ],
+     "n": 14,
+     "p": [
+      78.3,
+      53.5,
+      78.6,
+      53.8,
+      78.8,
+      54.1
+     ],
+     "src": "selbst"
+    }
+   ],
+   "map": 2548,
+   "name": "Flusslande"
+  }
+ ]
+}
