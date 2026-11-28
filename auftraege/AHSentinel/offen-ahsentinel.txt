@@ -7844,3 +7844,20 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
       Sniper bietet "Kaufen 1× Stulpen für 12s90" (Wert 12s72 -> Verlust) und zählt 144/307 Treffer ≤ Max. Belegen (Datei:Zeile), WER die Max-Werte
       geändert hat (Nutzer? "Max folgt Lohnt bis"? Sync/PS?). Falls nicht der Nutzer: HOCH, sofort beheben – kein Max-Wert ändert sich ohne Klick.
     KLÄRUNG Nutzer 28.11. 10:12: Max-Preise 15s/20s/15s hat der Nutzer SELBST gesetzt – kein Fehler, Verdacht erledigt. WARNSCHUTZ hat richtig gewarnt.
+
+>>> BEFUND AHS-SN-UX1 HOCH (Sniper "läuft nicht sauber", Nutzer 10:07) – Bilder 28.11. 09:51:04–09:51:22 (0.65.435), Supervisor 10:15:
+    1. ANZEIGE ≠ KAUF: Bild 09:51:07/09 zeigt rechts "Ältestenhandschuhe – Suche läuft … Hier erscheinen die Angebote" (leer), der Kaufknopf aber
+       "Kaufen: 1× Bronzene Stulpen mit Vers… für 12s90". Eine Raste kauft dann etwas anderes, als der Spieler sieht. Rechts muss IMMER das Ziel
+       stehen, das der Knopf/die Raste kauft (oder der Knopf sagt deutlich "anderes Ziel: …"). Gold-Sicherheit + Psychologie.
+    2. SPRINGENDE ANZEIGE: in 18 s wechselt die rechte Seite Stulpen -> Ältestenhandschuhe -> Kapuze -> Stulpen (je Suche ein anderes Ziel, Liste
+       leer/voll, Seitenzahl 10/23/24). Nicht lesbar. Vorschlag: rechts bleibt das Ziel mit dem offenen Treffer (bzw. das gewählte) stehen, bis der
+       Spieler wechselt; Suchen anderer Ziele nur in der Kopfzeile "sucht gerade: …".
+    3. CHAT-FLUT: "Treffer: 1x Azurblaue Seidenkapuze für 12s88" und "Treffer: 1x Bronzene Stulpen … 12s90" im Wechsel immer wieder (≥ 8 Zeilen in
+       20 s), obwohl dieselben Angebote. PRINT_REPEAT 30 s greift sichtlich nicht über Ziele hinweg. Soll: je Angebot (auctionID) eine Meldung,
+       solange es dasselbe ist; bei vielen Treffern eine Sammelzeile.
+    4. Zähler (0.65.435): "30 Treffer · 9 mit Kauf · 17 verpasst · 4 offen" in wenigen Minuten ohne Mausrad – mit 0.65.436 (SN-CNT1) nachprüfen.
+    5. Rote Zeile "Bitte Item-Name, Item-ID oder Suchbegriff eingeben." steht dauerhaft unter den Knöpfen (vom leeren Eingabefeld?) – nur nach
+       Klick auf "Ziel setzen" mit leerem Feld zeigen, sonst ausblenden.
+    6. Kopf "320 Angebote" vs "Nächster Kauf … Insgesamt 39 Stück für 4g92s64 – 39 Käufe" ist richtig (Budget 5g), aber "1 weitere Treffer warten"
+       ohne Erklärung, welche. Text klären.
+    Test mit 3 Zielen, die gleichzeitig Treffer haben (Nachbau), + Gegenprobe 0.65.436. VOR 2b-Rest, direkt nach REN2/RATE1.
