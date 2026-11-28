@@ -12,8 +12,8 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## GuildSentinel-0.9.66.zip: OK
 
-## LevelPilot-3.13.29.zip: OK (1 Warnungen)
-- **WARNUNG** Version 3.13.29 in download/ ist die angenommene stabile Version – Discord hat schon die Testversion 3.13.34 (gewollt, DL-ABN 27.11.: download/ erst nach Annahme)
+## LevelPilot-3.13.34.zip: OK (1 Warnungen)
+- **WARNUNG** Version 3.13.34 in download/ ist die angenommene stabile Version – Discord hat schon die Testversion 3.13.35 (gewollt, DL-ABN 27.11.: download/ erst nach Annahme)
 
 ## ProfessionSentinel-0.9.100.zip: OK (1 Warnungen)
 - **WARNUNG** Version 0.9.100 in download/ ist die angenommene stabile Version – Discord hat schon die Testversion 0.9.101 (gewollt, DL-ABN 27.11.: download/ erst nach Annahme)
