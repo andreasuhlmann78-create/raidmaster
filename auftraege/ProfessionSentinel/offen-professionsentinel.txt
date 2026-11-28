@@ -1051,3 +1051,8 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
     (a) NICHT entfernen, bis gemessen – Begründung angenommen (Forever weicht von Classic ab; mein Classic-Verdacht 175 ist für Forever nicht belegt).
     Ingametest beim Nutzer (PC): Schneiderlehrer UND Experten-Lehrer Schneiderei (Filter "alle") -> Protokoll "LEHRER … (neu, geändert); im Plan ohne
     Lernstufe z"; Tooltip Magiestoffballen Grund. T269-Ausreisser (1 von 4 Läufen) weiter beobachten – im nächsten Bericht Ursache oder Zählung.
+
+>>> PRÜFUNG SUPERVISOR 28.11. 04:35 – 0.9.98 (T269-Ursache, Bericht 22:50): ANGENOMMEN. addon_check OK, md5 dbe05b13… = Bericht. Ursache (laufende
+    Aufgabe mit alten Eingaben, TD.Collection rechnete nicht neu) im Bericht belegt, T302 deterministisch mit Gegenprobe, 5/5 lua51 grün – gut.
+    PS-DL: 0.9.98 ist angenommen -> darf nach download/ (DL-ABN; PS nicht auf CurseForge, also sofort), 0.9.93 dort entfernen, Workflows grün prüfen.
+    Ingametests beim Nutzer bleiben offen (Lehrer Schneiderei + Experte, Tooltip Magiestoffballen).

@@ -7466,3 +7466,11 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     7–11 µs je Aufruf, AHS-API1!) -> 7500 Items ≈ 50–80 ms + Tabellen. Messen im Nachbau mit echten Daten (HORDE=1): Markt-Reiter kalt/warm und Vollscan-
     Nachlauf, 0.65.424 gegen 0.65.425 (ms, KB). Vorschlag: Bindung ändert sich nur per Hotfix -> Ablauf deutlich länger (z. B. 30 Min. oder bis /reload,
     Neuladen bei GET_ITEM_INFO_RECEIVED) – mit Messung begründen. Dazu NIEDRIG: ruhendes Sniper-Ziel (gebunden) im Fenster mit Grund anzeigen, nicht still.
+
+>>> PRÜFUNG SUPERVISOR 28.11. 04:35 – 0.65.426 (AHS-BP1-L) und 0.65.427 (Masterplan 2.1, VS:Ladder) ANGENOMMEN (Code). addon_check 0.65.427 OK,
+    md5 b2a4121e… = Bericht; Diff 0.65.425 -> 0.65.427 gelesen (AHAnalyzerPro BIND_TTL 1800 s + Zahl statt Tabelle, Sniper PauseText "ruht · gebunden",
+    Vollscan VS:Ladder savedLad je Text, max 400, Aufrufer nur lesend). Werte 151 Items gleich, FULL ohne neue Rot-Stelle (s326 behoben).
+    Selbst-Korrektur der Messhülle (~21,7 KB) – sauber, danke: kalt "Lohnt bis" 45/27/26/26 KB (Ziel ≤ 50 KB im Nachbau erreicht).
+    BP1-L: 60 s -> 1800 s erledigt; Rest (echte µs je GetItemInfo im Spiel) mit der Abnahme im Spiel.
+    OFFEN Abnahme im Spiel (Nutzer, eine Sitzung): API-LANGSAM-Zeilen (≤ 2 ms, ≤ 50 KB), Blendungspulver/Gift-Tooltip + "ruht · gebunden".
+    Weiter mit Masterplan 2.2 Vollscan.

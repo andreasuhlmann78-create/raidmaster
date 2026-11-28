@@ -2131,3 +2131,8 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
 >>> ENTSCHEID 22:37 (Nutzer "b ist gut"): SH-M1 bleibt gebündelt. Darum LP-ML1 MITTEL FREIGEGEBEN: MarktLine im LP-Protokolltext nur einmal je Testroutine
     bzw. gemerkt (Ablauf ≤ 60 s oder bis neue Marktdaten), Text inhaltlich gleich; Messung vorher/nachher (protokollTeile, T34/T21/T355/T386 Speicher,
     längstes Bild), Test mit Gegenprobe. Gemeinsame Datei NICHT ändern. Reihenfolge: T261 (HOCH) zuerst, dann LP-ML1, dann T150, Grundregeln 80 ms.
+
+>>> PRÜFUNG SUPERVISOR 28.11. 04:35 – 3.13.31 (T261-Teil + LP-ML1, Bericht 22:43): ANGENOMMEN (Code). addon_check OK, md5 fc76bf96… = Bericht.
+    T261: Ursache navplan-Ticker (10 s, auch im Stehen, von vorn) im Code schlüssig; C.NavDue (30 yd / anderes Ziel / 60 s) mit T400 + Gegenproben – gut.
+    Erwartung −600 ms ist Verdacht -> Ingametest Einloggen (Zeile "Starts je Auftrag", Ziel < 1000 ms). LP-ML1 mit T401 – gut. Nummern T150/T155 geklärt.
+    OFFEN Ingametest (Nutzer, PC): einloggen, 60 s warten, /lp testroutine alles -> T261 und protokollTeile MarktLine beim 2. Text ~0.
