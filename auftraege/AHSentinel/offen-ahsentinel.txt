@@ -7530,3 +7530,12 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
       Marktwert (Scan vor 14 Min.) 12s24 – Scan-Wert 4,4× über dem Median, für Händlerware 1c. Verdacht: ein einzelnes Liebhaber-/Fehlangebot wird als
       "Marktwert" gezeigt. Belegen (wie viele Angebote, Menge, Verkäufe?); Scan-Wert > 2× Median bei wenigen Angeboten nicht als Marktwert zeigen
       (oder "1 Angebot – kein Marktwert"), Regel wie S1–S6 (×2-Plausibilität). Test mit 1 Ausreisser-Angebot.
+
+>>> BEFUNDE Bild des Nutzers 28.11. 04:45 (PC, 0.65.427, Sniper Kapuze + Tooltip, Chat nach Vollscan) – Supervisor 04:55:
+    Nachgerechnet OK: DE-Rechnung Kapuze (bei dir 1376): 1,137 × 4s46 = 5s07; 0,2987 × 18s29 = 5s46; 0,056 × 53s97 = 3s02; Summe 13s55; −5 % 67c; Wert 12s88;
+      Kauf 12s45 -> +43c. "Lohnt bis 10s69" = 12s88 / 1,205 (Mindestgewinn) – passt. Sniper: 8 Treffer, 8 gekauft, Max 12s < alle Angebote 12s45/12s50 -> kein Kauf.
+    AHS-CHAT-PROFIT MITTEL: Chat nach dem Vollscan "[AHSentinel] 96 Items unter Händlerpreis – sicherer Gewinn, siehe Tab Profit". (a) Einen Reiter
+      "Profit" gibt es nicht (Reiter: Übersicht/Kaufen/Verkaufen/Markt/Buchhaltung; die Liste heisst Kaufen > Schnäppchen > Händlerpreis). (b) Dieselbe
+      Liste zeigte 4 Min. vorher 67 Einträge – 96 vs. 67 belegen (andere Zählung, Filter, Zeitpunkt?) und angleichen. (c) Im Sinn von ST1 prüfen, ob diese
+      Zeile ausserhalb des Testmodus erscheinen darf (Tipp 1×?). Text in allen 10 Sprachen korrigieren, Test.
+    Hinweis Leistung: "Scan fertig: 308047 Einträge, 7068 verschiedene Items (45,8 Sek.)" – Vollscan-Dauer für Masterplan 2.2 festhalten.
