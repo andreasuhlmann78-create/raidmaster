@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Folge |
 |---|---|---|
+| 14:00 | ThreatSentinel nach TS-M1 (Bedrohung in Forever nur als Stufe 0–3 lesbar, Prozent/Abstand/Kampflog geschützt): "3" = weiter messen | Kein Umbau jetzt. Messung TS-M1 läuft weiter (auch Schlachtzug, andere Instanzen/Rollen); Umbau-Entscheid erst nach mehr Daten (Auftrag TS-M1-c). |
 | ~12:10 | AHSentinel AHS-LB-AH1 (i): frischer Preissprung -> "bei Sprung höchstens Median" | Wiederverkauf-Grenze bei frischem Sprung (aktuell > 1,5 × Marktwert, < 24 Std.) höchstens Marktwert. Entscheid in der AHS-Sitzung, Bericht 12:16. |
 | ~12:10 | AHSentinel AHS-LB-AH1 (ii): Regel F1 "ohne aktuelle Preisleiter kein Flip" -> "Regel bleibt, Grund anzeigen" | Lohnt bis darf auf Händler fallen, wenn keine Angebotsliste da ist; der Grund wird angezeigt (API.WorthUpTo 6. Wert). Bericht 12:16. |
 | ~11:30 | AHSentinel AHS-SN-ROT1 Suchtakt: "1,5 s bei Wiederholung" (zweite Frage, mit Messreihe) | Neuer Treffer hält 3 s, jede weitere Antwort mit DEMSELBEN Treffer 1,5 s; Waren bleiben bei 2 s. Erste Wahl "Halt nur 1× je Treffer" ersetzt (Risiko Server nicht bereit). Bericht 11:37. |
