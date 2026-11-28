@@ -1,0 +1,47 @@
+LevelPilot 3.13.35 – Bericht an die Prüf-Sitzung: T261 (MITTEL, Ingametest 3.13.34 10:22) und LP-DL1 3.13.34
+Stand 28.11.2026 10:47 · umgesetzt, zur Prüfung
+Zip: announce/levelpilot__levelpilot-3.13.35.LevelPilot.zip (md5 6775713d55cdf79c03baf70d17b0fd7f, 2 873 267 Bytes)
+
+1. T261 (b) – Ursache belegt: warum so viele route-Aufrufe
+- Upload 10:34 (Bericht 3.13.34), Zeilen im Feld "einloggen": "Starts je Auftrag: replan 62, advisor 52 …" und
+  "Neuplanung angestossen von: Planner.lua:2774 62, Planner.lua:2021 29, …".
+  Planner.lua:2774 (3.13.34) = soon() = LP:Throttle("replan", 1.5, P:Replan) für QUEST_LOG_UPDATE, QUEST_TURNED_IN, ZONE_CHANGED_NEW_AREA,
+  QDB_CHANGED, QUEST_RECORDED. Planner.lua:2021 = Nachholen (replanPending: Neuplanung kam, während eine lief -> nach 0,5 s noch einmal).
+- Fehler in LP:Throttle (Core.lua): ruft fn sofort UND nach der Wartezeit ohne Bedingung noch einmal; kommt im Fenster etwas Neues, startet
+  ein neues Fenster wieder mit sofortigem Aufruf. Bei dauernden Ereignissen (Questlog nach dem Einloggen) also etwa alle 0,75 s eine
+  Neuplanung, und jede zweite trifft eine laufende -> Nachholen (die 29). 62 + 29 = 91 Neuplanungen in 60 s; jede rechnet in Portionen
+  -> 331 route-Portionen ("×" = Portionen, nicht Läufe).
+- Behebung: neues LP:Coalesce (Core.lua) nur für die Neuplanung: erster Aufruf sofort, weitere im Fenster gesammelt, am Fensterende genau
+  EIN Nachlauf (nur wenn etwas kam), Fenster P.REPLAN_GAP = 3 s. LP:Throttle bleibt für seine 23 übrigen Nutzer unverändert.
+  Stufenaufstieg, PLAYER_ENTERING_WORLD, Start nach 1 s und Ticker 15 s unverändert.
+- Nachbau mit echten Daten (PC 28.11., Priester 10, Forever), QUEST_LOG_UPDATE 60 s lang dauernd (Skript ev261.lua), Gegenprobe mit 3.13.34:
+    alle 0,5 s: 3.13.34 P:Replan 94×, fertige Planungen 21×, Rechenzeit 150 ms -> 3.13.35 29×, 7×, 51 ms
+    alle 0,2 s: 3.13.34 106×, 33×, 233 ms                                  -> 3.13.35 32×, 10×, 74 ms
+  94 im Nachbau passt zu 91 im Spiel. Rund ein Drittel der Neuplanungen.
+- Erwartung im Spiel: route 797 ms -> etwa ein Drittel, T261 dann etwa 600–700 ms. Verdacht, zu messen (nächster Ingametest).
+- T261 selbst im Nachbau: 804 ms (3.13.34: 1057 ms; Streuung zwischen Läufen gross: 845–1057). Dort läuft route nur 1× (kein
+  Ereignis-Sturm im Nachbau), darum zeigt T261 im Nachbau die Bündelung nicht – der Beleg ist der Ereignis-Nachbau oben.
+  Das Ziel "< 800 ms im Nachbau" erreicht T261 im Nachbau knapp nicht (804); der Rest sind start 338 ms (Wegnetz, Gefahrenkarte),
+  backup 159 ms, graph – nicht die Neuplanung. Nächster Schritt dafür: diese Teile senken (eigener Punkt).
+- Neue Prüfung T404 (Bereich J) mit Gegenprobe (Ersatz-Zeitgeber über WithEnv, kein Blizzard-Wert überschrieben):
+  "Coalesce: 5 Ereignisse -> sofort 1, nach Fenster 2, ohne Neues 2, Ende 2 · 1 Ereignis -> 1 · Gegenprobe Throttle: 1/3/4/4, 1 Ereignis -> 2".
+- NoReplan der Testroutine sperrt auch das neue Fenster (sonst Neuplanung mitten in einer Prüfung).
+
+2. T261 (a) – nichts abgeschnitten
+- T261-Ergebnis jetzt: Summe, längster, Einloggen-Art, Umweg-Ablage, "Neuplanungen N, angestossen von <die 3 häufigsten>", dann je Aufrufer,
+  "aufgeschlüsselt" zuletzt (wird bei Bedarf gekürzt, steht ganz im Feld "einloggen").
+- Die volle Liste "Neuplanung angestossen von: …" steht als eigene Zeile im Feld "einloggen" (Zeilenliste, nicht gekürzt).
+
+3. LP-DL1 3.13.34 (Supervisor 08:10 ANGENOMMEN, Ingametest 10:22 ohne offenes HOCH)
+- download/LevelPilot-3.13.29.zip -> download/LevelPilot-3.13.34.zip (git mv, Inhalt = announce/levelpilot__levelpilot-3.13.34.LevelPilot.zip,
+  cmp gleich, md5 dc659444305a1f1b8ad55aecf713d32a, 2 871 350 Bytes). addon_check: OK mit erwarteter WARNUNG (Discord hat schon 3.13.35, DL-ABN).
+  Workflow addon-check.yml läuft bei download/*.zip.
+
+Prüfungen vor dem Push
+- Nachbau ganze Routine (Priester 10, Daten 28.11.): ALLE TESTS OK, längstes Bild 28,4 ms, über 40 ms 0, gesperrte Abgabe T154/T353 (wie bisher).
+- addon_check: OK. Gemeinsame Dateien GoldSentinel*.lua mit cmp gleich shared/.
+- Offline-Routine (run_offline.py, diese Zip): 40 Läufe, 40 ohne FEHLER.
+
+Noch offen (nicht in dieser Version): LP-TAKT-16 (T352 zuerst), die 2 eigenen Bilder > 40 ms mit Schritt nennen, LP-TAKT-ZU1,
+Protokoll-Hinweise (2314 ms, Abort-Stapel, Sicherung 39 MB).
+Bitte im nächsten Ingametest (kalt): T261-Wert und Zeile "Neuplanung angestossen von".
