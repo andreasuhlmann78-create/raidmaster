@@ -2161,3 +2161,8 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
 >>> ROUTE 1–60 ALT/NEU (Bericht 05:23) – Supervisor 05:33: Bericht gelesen, sauber (gleiche Bedingungen, beide Fälle, Stufenzeiten, Gegenprobe).
     Konto −0/+14 min (+0,2 %), neuer Spieler −3 h 56 (−2,0 %). Entscheid beim Nutzer, ob NEU als Version kommt und ob die nur von B gelaufenen Zonen
     (Schlingendorntal, Arathi, Flusslande …) ins Werkzeug sollen. Bis dahin nichts veröffentlichen. Vor jeder Version mit NEU: T261/T381 im Nachbau.
+
+>>> ENTSCHEID NUTZER 28.11. 05:35 zum Startwegnetz: "Erst Haralds Zonen dazu". Auftrag: Die nur von Rechner B gelaufenen Zonen (Schlingendorntal,
+    Arathi, Flusslande/Forever-Zone 2548 …) ins Werkzeug seed_bauen.py aufnehmen (Zonengrössen messen bzw. belegen, gleiche Regeln: nur "selbst",
+    keine Doppelten), dann Route 1–60 ALT/NEU wieder in beiden Fällen messen (wie Bericht 05:23) und erst danach EINE Version. Reihenfolge:
+    T155 und T261 kalt (HOCH) vorher. Bis dahin nichts am Startwegnetz veröffentlichen.
