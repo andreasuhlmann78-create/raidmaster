@@ -1081,3 +1081,9 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
       nachrechenbar (91s68 − 1g8s75 = −17s07; mit 5 % −21s65). Die Abzüge (Absatz/realistischer Preis?) in einer Zeile nennen, nicht nur hinter Shift.
     Reiter "Jetzt": "Bestes Gold-Rezept jetzt: Leinenstiefel +1s39c – Klick: nächster Schritt (2 Zutat(en) im AH kaufen (etwa 12s 84…" – Text abgeschnitten
       (NIEDRIG, nichts abschneiden).
+    Nachtrag 05:05 (Bild 04:51, Plan Skillen 110->150, 0.9.98): Magiestoffballen steht NICHT mehr im Plan – Plan jetzt "Graue Wollrobe (Skill 80, 15 Punkte)"
+      + "Phönixbindungen (Skill 125, 25 Punkte)". PS-SK2 im Spiel damit sichtbar behoben (Abnahme mit Lehrer-Zeile PS-SK2-b).
+    PS-TT-RECH (2. Fall): Graue Wollrobe "Verkaufen 46s26", Material 31s16 + 2s70 + 3s15 = 37s01 (stimmt), aber "Herstellen lohnt sich +97c" – sichtbar wären
+      +9s25 bzw. mit 5 % +6s94. Abzüge benennen.
+    PS-TT-EINH NIEDRIG: "Skillen 16,0 Wollstoffballen je Herstellung (Punkt nicht sicher)" – das Rezept braucht 4 je Herstellung; 16 ist offenbar je PUNKT
+      (4 / Chance 0,25). Beschriftung korrigieren ("je Skillpunkt").
