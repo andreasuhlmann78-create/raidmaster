@@ -7624,3 +7624,7 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     CHAT-PROFIT 96 vs 67: "Verdacht, zu messen" (Liste vor Scan-Ende geöffnet) – im Spiel: nach Scan-Ende Liste öffnen, Zahl = Chat?
     Im Spiel prüfen (Nutzer): Sniper-Ziel mit offenem Treffer löschen -> "offen" geht weg, keine Meldung mehr; Chatzeile Händlerpreis nennt den Weg
     "Kaufen > Schnäppchen > Händlerpreis". Nur Discord.
+
+>>> SPIELTEST AHS-UI-DD1 – Bild Nutzer 28.11. 05:33 (PC, 0.65.429), Supervisor 05:38: Seltenheits-Auswahl im Einkauf liegt GANZ sichtbar über der
+    Angebotsliste (Alle/Grau/Weiss/Grün/Blau/Episch + OK), Kopf zeigt "Grün - Episch" – Teil 1 BESTANDEN. Noch offen: Schliessen bei Klick
+    daneben/"Suchen", Restzeit-Spalte bei Ausrüstung (Ware öffnen), Sniper/Preisverlauf. Erst danach AHS-UI-DD1 erledigt.
