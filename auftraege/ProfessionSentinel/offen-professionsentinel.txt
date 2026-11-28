@@ -1132,3 +1132,13 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
     Text berechnen (Zeilenumbruch), Fusszeile zweizeilig oder Versionstext an eigene Stelle; Sniper-Zeile umbrechen oder Rest im Tooltip.
     Test mit dem längsten Text (deDE, 1920×1080 und UI-Skalierung wie beim Nutzer) + Gegenprobe 0.9.100. PS-DL: 0.9.100 darf nach download/
     (Kernpunkte im Spiel bestanden, Überlappung ist NIEDRIG).
+
+>>> PROTOKOLL 0.9.100 – Nutzer 28.11. 07:08 (Sitzung seit /reload 07:06), Supervisor 07:24:
+    PS-P3: "WorthUpTo vergessen: 07:06:47 settings (64) · 07:06:51 ledger (Entzauber-Index fertig) – behalten (378)" – kein "Händler"-Eintrag, aber
+    in dieser Sitzung war (laut Bildern) noch kein Händler offen (Giftverkäufer 06:58 = vor dem /reload). Spieltest Händler auf/zu steht noch aus.
+    "Heute herstellen" Lauf 3–5: 0 neu, 32 gemerkt – Merken wirkt.
+>>> BEFUND PS-PERF-TSU1 MITTEL (Verdacht, zu messen): "AUFBAU ×10020 TRADE_SKILL_LIST_UPDATE · 17942 Anfragen · 120.9 ms" (07:06–07:08, nur Schneiderei
+    offen), dazu "AUFBAU ×1304 direkt · 85.9 ms (zuletzt 13.0)" und "AHSentinel:ledger · 75.8 ms". Gleichzeitig Diagnose "Neuaufbauten: 12 angefragt,
+    16 ausgeführt", langsamster Teil 6,6 ms. Belegen (Datei:Zeile): Ist 120,9 ms EIN Bild (dann Ruckler, HOCH, leistung.md ≤ 16 ms) oder die Summe
+    eines Ereignis-Sturms? Warum 10 020 TRADE_SKILL_LIST_UPDATE in ~2 Min. (Client feuert beim Öffnen/Filtern ständig?) – Ereignis bündeln
+    (1× je Bild/0,2 s), Anfragen je Ereignis senken. Protokollzeile so schreiben, dass "max je Bild" und "Summe" getrennt stehen. Test + Gegenprobe.
