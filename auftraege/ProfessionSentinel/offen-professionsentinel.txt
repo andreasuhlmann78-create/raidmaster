@@ -1056,3 +1056,12 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
     Aufgabe mit alten Eingaben, TD.Collection rechnete nicht neu) im Bericht belegt, T302 deterministisch mit Gegenprobe, 5/5 lua51 grün – gut.
     PS-DL: 0.9.98 ist angenommen -> darf nach download/ (DL-ABN; PS nicht auf CurseForge, also sofort), 0.9.93 dort entfernen, Workflows grün prüfen.
     Ingametests beim Nutzer bleiben offen (Lehrer Schneiderei + Experte, Tooltip Magiestoffballen).
+
+>>> INGAMETEST 28.11. 04:47 (PC, 0.9.98, Schneider-Lehrer + Experten-Lehrer) – ausgewertet Supervisor 04:55. Lua-Fehler 0.
+    "LEHRER Lernstufen gelesen 29 (neu 1, geändert 0)" und "… 14 (neu 0, geändert 0)" – Lesen an beiden Lehrern geht.
+    PS-SK2-b NIEDRIG: Die zugesagte Angabe "im Plan ohne Lernstufe z" fehlt in beiden Zeilen (Bericht 0.9.97) – so ist ohne Bild nicht belegt, ob
+      Magiestoffballen danach eine Stufe hat. Zeile ergänzen; im nächsten Bericht sagen, ob einer der 30 (neu 1) bzw. 14 Einträge Magiestoffballen ist.
+    PS-P3 MITTEL (Leistung): "WorthUpTo vergessen" bei jedem MERCHANT_SHOW/MERCHANT_CLOSED (8× in 20 s: 04:47:12–04:47:32), danach "Lauf 6: 32 neu",
+      "Lauf 8: 32 neu" – jedes Händler-Öffnen/Schliessen wirft alle Antworten weg und fragt AHSentinel 32× neu. Nur vergessen, wenn sich Taschen/Gold/
+      Preise wirklich geändert haben (z. B. Kauf/Verkauf), nicht beim blossen Öffnen/Schliessen; doppelte CLOSED zusammenfassen. Messung + Test.
+    Sonst gut: Neuaufbau (Teil) max 8,4 ms, Aufgabe heute 6,2 ms, alles < 16 ms.
