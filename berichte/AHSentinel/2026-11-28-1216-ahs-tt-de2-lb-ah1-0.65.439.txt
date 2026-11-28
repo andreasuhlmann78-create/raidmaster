@@ -1,0 +1,39 @@
+AHSentinel 0.65.439 – AHS-TT-DE2 HOCH, AHS-LB-AH1 HOCH – umgesetzt, zur Prüfung
+Projekt-Sitzung AHSentinel, 28.11.2026
+
+MESSUNG MIT SPIELDATEN (PC 28.11. 11:02 und 11:56, Nachbau zz_lb1 mit echtem Stand):
+  Braune Leinenhose 4343 · 11:02: günstigst 2s25 (Leiter 225×106, 226×1, 245×1, 50000×1, 300000×1), Median 2s37, Lohnt bis 1s69 (Weg AH)
+                          · 11:56: günstigst 50s (Leiter 5000×5, 9995×1, 49995×3, 50000×1, 300000×1), 11 Stück, Median 2s37,
+                            Absatz 11/Tag, Lohnt bis 37s99 (Weg AH, Wiederverkauf 49s99), Preis-Hinweis "frisch gestiegen".
+  Rosa Magiestoffhemd 10055 · 11:56: günstigst 59s (13 Stück), Median 70s, Händler 30s · FlipCheck "noladder" (keine Suche, kein Vollscan
+                            jünger als 2 Tage) -> AH-Weg fehlt -> Lohnt bis 25s (Weg Händler, 30s / 1,2).
+
+1. AHS-TT-DE2 (b) "Kaufpreis (Scan) 50s" – BELEGT ECHT: um 11:56 waren die 106 Angebote zu 2s25 weg, das günstigste Angebot war 50s.
+   (a) Ursache: RealCalc nahm ohne Angebot unter der Maus und ohne Händler IMMER den günstigsten Scan-Preis, auch im Berufsfenster.
+   Jetzt (TT:InCraftWindow = Beruf offen und AH zu): Kaufpreis = Herstellkosten aus dem gemerkten Rezept des offenen Berufs (TT:CraftCost:
+   Zutaten je günstigster Weg Cr:BestUnit, ÷ hergestellte Menge; liest im Tooltip nie neu). Ohne gemerktes Rezept kein Kaufpreis -> keine
+   Gewinn-Zeile, Vergleich/Entzauberwert (B1). Zeilen benannt: "Herstellkosten (Rezept)" / "Kaufpreis im AH (Scan)" / Angebot / Händler.
+   (d) Titel "Rechnung je Entzauberung – Anteile aus 767 eigenen Entzauberungen" (767 = Zahl eigener Entzauberungen dieses Items, Quelle own).
+   (c) Rechnung: Ebene TOOLTIP, deckender Hintergrund (NineSlice/Backdrop Alpha 1) – Verdacht, im Spiel zu prüfen, ob WoW den Hintergrund
+       beim Anzeigen zurücksetzt. Platzwahl neben Vergleichs-Tooltips (B8) unverändert; fremde Fenster (PS-Panel) sind kein Hindernis der
+       Platzwahl – dass Text durchschien, lag am durchscheinenden Hintergrund.
+   Test T1050 (Herstellkosten 350 / 175 bei 2 hergestellt / ohne Rezept nil / AH offen -> kein Berufsfenster-Fall).
+
+2. AHS-LB-AH1 – zwei Ursachen, zwei Entscheide des Nutzers (Frage im Chat 28.11.):
+   (i) "Lohnt bis 37s99" bei Median 2s37 (Leinenhose 11:56): A:ResalePrice nimmt die Leiter (5 × 50s); MH1310(3) lässt über dem Marktwert
+       zu, weil die Leiter "voll" ist (≥ 3 Stufen, Absatz 11/Tag); A2/A3 vom 10.11.: Marktwert nur Warnlampe. Entscheid "bei Sprung höchstens
+       Median": frischer Preissprung (aktuell > 1,5 × Marktwert, A:PriceHints.fresh < 24 Std.) -> Wiederverkauf höchstens Marktwert (Quelle
+       "sprung"). Nachbau mit Daten 11:56: Lohnt bis 37s99 -> 1s80. Test T1051 (237/sprung, ohne Hinweis 4999/leiter).
+   (ii) "Lohnt bis 25s" beim Rosa Magiestoffhemd: Regel F1 (10.11., "ohne aktuelle Preisleiter kein Flip") – Entscheid "Regel bleibt, Grund
+       anzeigen". K:LohntBis merkt den Grund (best.ahWhy), API.WorthUpTo gibt als 6. Wert (additiv, API.md) den Text "AH-Weg: keine
+       Angebotsliste – im AH suchen oder Vollscan", wenn ein anderer Weg gilt und das Item im Scan angeboten wird. Nachbau: Hemd -> Hinweis
+       gesetzt, Hose (Weg AH) -> nil. Die gezeigte Zeile "Lohnt bis 25s" stammt aus ProfessionSentinel (Tooltip "Muster: …") – PS müsste den
+       6. Wert anzeigen: bitte an PS weitergeben (anderes Addon, hier nicht geändert).
+   Offen: "Gewinn: −5s24c / Stück" im selben Tooltip – Zeile kommt nicht aus AHSentinel (kein solcher Text im Code), vermutlich PS
+   (Kauf 44s95 gegen 39s71?) – Verdacht, zu messen; bitte an PS.
+
+3. NEBENBEFUND, behoben: API.lua las in API.ReagentsToList ein globales L (nil) -> statt "Berufsfenster ist nicht offen." kam nil
+   (Fehler von Safe geschluckt). Jetzt local L = A.L.
+
+TESTS: T1050, T1051 neu (PASS). Tooltip-/Beruf-/API-Satz 20 Szenarien: 0.65.438 und 0.65.439 je 15 PASS, gleiche Rot-Stellen (s1, s4×2, s59, s64 – alle in fail438). FULL 0.65.438: 364/67, keine neue Rot-Stelle. FULL 0.65.439 folgt allein.
+addon_check AHSentinel-0.65.439.zip: OK.
