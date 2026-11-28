@@ -1,29 +1,31 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 28.11.2026 09:46 · Version 0.65.436 (Discord); CurseForge 0.65.423; 0.65.434 angenommen (Code)
+## Stand 28.11.2026 10:30 · Version 0.65.437 (Discord); CurseForge 0.65.423; 0.65.434 angenommen (Code)
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/<RECHNER>/forever/konto-*/AHSentinel.lua.gz; PC = DESKTOP-NVITMSE; Nachlieferung Rechner B: eigener Zweig).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
  erwartet in /tmp/claude-0/rel/: AHSentinel-<V>.zip, notes.md, bericht.txt, stand.md – stand.md VORHER aus dem Repo übernehmen!).
-Nachbau: FULL=1 nur auf Kopie und ALLEIN (pgrep run_all.sh leer). FULL 0.65.435: 360/67, keine neue Rot-Stelle (fail435.txt). Eigene Prüfliste: bei Act:Business-Änderungen s54/s55 mitlaufen.
+Nachbau: FULL=1 nur auf Kopie und ALLEIN (pgrep run_all.sh leer). FULL 0.65.436: 361/67, keine neue Rot-Stelle (fail436.txt). Eigene Prüfliste: bei Act:Business-Änderungen s54/s55 mitlaufen.
  Echte Daten im Sim: HORDE=1, Ausgaben eigener Szenarien nur mit TR_TEXT=1. KB-Messung "Lohnt bis": zz_api4 NOTB=1 (sonst +21 KB Messhülle),
  je Funktion SINGLE=Mod:Fn. PC-Daten entpackt: /tmp/claude-0/tb1/pc_cur.lua (27.11. 23:17).
 
 ## Gerade in Arbeit
-- 0.65.436 = AHS-SN-CNT1 (weggeschnappt je gelesenem Schlüssel, ohne Raste, jeder Ausgang zählt; s349). FULL 0.65.436 allein.
+- 0.65.437 = AHS-SN-UX1 HOCH (Anzeige = Kauf, kein Ziel ohne Treffer rechts, Chat je Ziel/Angebot, rote Zeile, Namen der wartenden Treffer; s350).
+  FULL 0.65.437 allein (sim_full437.txt).
 
-## Nächste Schritte (Reihenfolge, Entscheid 04:55)
-1. FULL 0.65.436 (gegen fail435.txt). Dann VEN-GW1 (8 Fälle), dann Anteil "de" je Kostenbasis-Posten (Freigabe 09:10, NIEDRIG), CHAT-PROFIT 14/22, PROF-SP1, MR4-T, MKT-WID2, DE-WID1, SP-MENGE, TT-WEG, MW-AUSR, SN-LB1.
-2. Schritt 2.2: I4 erreicht, VS-121b geschlossen (Supervisor 05:50). Rest: T459 Nachlauf-Speicher (89 976 KB) je Schritt, dann AHS-SP1 (d).
-3. Rest Schritt 2b: AHS-MR4-T zuerst (ma4log der PC-Daten LEER = nie ein Band belegt; Verdacht: W:LevelBands rechnet nach dem Login mit
-   W:ReqLevel ohne Item-Cache -> zu wenige Items, Ergebnis gilt den ganzen Tag (W.ma4.day); im Sim mit PC-Daten messen), Gebote leer
-   (Restzeit bei Ausrüstung nur Stufe), AHS-SP-MENGE, AHS-TT-WEG (3 Fälle), AHS-MW-AUSR, AHS-BH-REN, Einsatz neben "Gewinn gesamt", AHS-SN-LB1.
-4. Danach R1–R7, dann Abnahme-Prüfliste (berichte/AHSentinel/<Zeit>-pruefliste-abnahme.txt), dann Schritt 3 (Daten Rechner B).
+## Nächste Schritte (Reihenfolge = Masterplan Supervisor 28.11. 10:20, verbindlich)
+1. SN-UX1 Punkt 2: Entscheid des Nutzers zum Wechsel zwischen 2 Zielen mit Treffer (SN-Z4 alle 3 s vs. stehen lassen).
+2. Schritt 2 Rest: T459 Nachlauf-Speicher + AHS-SN-LAG2 (SEARCH_RESULTS 16–35 ms, Tabellen wiederverwenden) + AHS-SP1 (d).
+3. Schritt 2b Rest in Masterplan-Reihenfolge: MR4-T (ma4log leer; Verdacht ReqLevel ohne Item-Cache), SP-MENGE, TT-WEG, MW-AUSR, BH-QUOTE,
+   BH-LEER, DE-WID1, MKT-WID2, PROF-SP1 (+ CHAT-PROFIT Zahl 14/22), VEN-GW1 (8 Fälle), SN-LB1, Einkauf-Zeilen beschriften, Eigenbedarf-Buchung,
+   Lager-Anteil "de".
+4. R1–R7, dann Abnahme-Prüfliste, dann 0.66.0. Neue Befunde nur vor den Plan, wenn HOCH (Gold, Absturz, Ruckeln > 40 ms, Kauf falsch).
 5. Regel CF 18:00 / DL-ABN: download/ nur angenommene Version UND Bestätigung des Nutzers im Chat (AskUserQuestion).
 
 ## Offen beim Nutzer
 - Ingametest: API-LANGSAM-Zeilen (≤ 2 ms, ≤ 50 KB), Blendungspulver/Gift-Tooltip + "ruht · gebunden", Einkauf > Seltenheit (ganz sichtbar,
   Klick daneben schliesst, Restzeit gefüllt), Protokollzeile UI-DD1.
+- SN-UX1 (2): Wechsel zwischen zwei Zielen mit Treffer – SN-Z4 behalten oder nur nach Kauf wechseln?
 - CurseForge-Antwort AHS-CF-1 (EN, Bericht 09:07) wartet auf OK des Nutzers – nicht selbst posten.
 
 ## Entscheide des Nutzers seit letztem Stand
@@ -33,5 +35,5 @@ Nachbau: FULL=1 nur auf Kopie und ALLEIN (pgrep run_all.sh leer). FULL 0.65.435:
 ## Wichtig zu wissen
 - Sn:ForgetTarget(key) räumt beim Löschen alles des Ziels. Sn:SetTarget 5. Wert f.zweck/f.quelle. A:VendorDealsChatText(n).
 - A:BindOnPickup(id): 30 Min. Zwischenspeicher (Zahl, negativ = gebunden). VS:Ladder savedLad je Text (max 400).
-- Letzte Tests T1044–T1047; neue Tests vor "Chk(\"T1043\"" o. ä. einfügen; Index-Einträge vor "AHS-BP1".
+- Sniper-Anzeige: UI_Sniper self.shownR = rechts gezeigtes Ergebnis; Sn.printedAt[Ziel|Angebot]. Letzte Tests T1043–T1049; neue Tests vor "Chk(\"T1043\"" o. ä. einfügen; Index-Einträge vor "AHS-BP1".
 - Nie Blizzard-Globale in Tests ersetzen (Taint). Nie etwas in announce/ löschen. CHANGELOG.de.md je Version Pflicht.

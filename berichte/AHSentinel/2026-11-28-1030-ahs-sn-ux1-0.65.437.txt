@@ -1,0 +1,29 @@
+AHSentinel 0.65.437 – AHS-SN-UX1 HOCH (Bilder 28.11. 09:51) – umgesetzt, zur Prüfung
+Projekt-Sitzung AHSentinel, 28.11.2026
+
+NACHBAU s350_snux1_anzeige (3 Ziele: Kapuze 12s88 und Stulpen 12s90 mit Treffern unter Max, Ältestenhandschuhe ohne Treffer; 20 s,
+Sniper an, Reiter offen; gelesen wird der SICHTBARE Titel rechts, für jede Version gleich):
+  0.65.436 (Gegenprobe): rechts ≠ Kaufziel 21 von 197 Zehntelsekunden · Ziel ohne Treffer ("Suche läuft") rechts 6 · 9 Wechsel,
+           kürzeste Standzeit 0,3 s · Chat "Treffer:" 6 Zeilen in 20 s  -> FAIL (Befund nachgebaut: Punkte 1, 2, 3)
+  0.65.437: abweichend 0 von 197 · Ziel ohne Treffer rechts 0 · 5 Wechsel, kürzeste Standzeit 3,3 s · Chat 2 Zeilen  -> PASS
+
+Punkte:
+ 1. ANZEIGE = KAUF: UI_Sniper zeigt rechts das Ergebnis, das Knopf/Raste kauft (gehaltener Knopf-Treffer, sonst frischer Kaufplan).
+    Ohne Treffer bleibt das zuletzt gezeigte Ergebnis stehen (Ziel noch da); die laufende Suche steht in der Infozeile "· sucht gerade: …".
+    Zahlen unten (Nächster Kauf / Insgesamt) nur für das aktive Ergebnis.
+ 2. SPRINGEN: kein Wechsel mehr auf Ziele ohne Treffer und keine Wechsel unter 3 s. ABER: zwischen ZWEI Zielen, die beide Treffer haben,
+    wechselt die Seite weiter alle ROTATE_S = 3 s mit Knopf und Raste. Das ist SN-Z4 (Wunsch des Nutzers "mehrere Ziele", 27.11., Hotfix
+    0.65.423 im Spiel belegt, s345 prüft genau dieses Abwechseln). Der Vorschlag "rechts bleibt, bis der Spieler wechselt" widerspricht
+    SN-Z4 (dann käme ein Treffer am Max wieder nie nach vorne). NICHT geändert – Entscheid des Nutzers nötig (Frage im Chat gestellt).
+    Möglichkeit ohne Widerspruch: Wechsel nur nach einem Kauf oder wenn der vordere Treffer weg ist (nicht nach Uhr).
+ 3. CHAT: Sn:Alert merkt "zuletzt gemeldet" je Ziel und Angebot (Ziel|Item:Menge:Preis), PRINT_REPEAT 30 s; vorher EIN Merker für alle
+    Ziele -> zwei Ziele im Wechsel meldeten jede Suche. Keine Sammelzeile gebaut: mit der Sperre je Ziel höchstens 1 Zeile je Ziel/30 s.
+ 4. ZÄHLER: SN-CNT1 steckt in 0.65.436 (ohne Raste statt verpasst, weggeschnappt je gelesenem Schlüssel, kein Dauer-"offen"). Im Spiel
+    mit 0.65.436/437 nachsehen.
+ 5. ROTE ZEILE: Enter in einem leeren Feld meldet nichts mehr; nur Klick auf "Ziel setzen" mit leerem Feld zeigt sie, nach 15 s weg.
+ 6. "x weitere Treffer warten: <Ziel>, <Ziel>" nennt bis zu 2 wartende Ziele.
+
+TESTS: Sniper-Satz 31 Szenarien: 0.65.436 28 PASS, 0.65.437 29 PASS (einzige Änderung s350 FAIL->PASS; s1/s4 rot in beiden, stehen
+schon in fail436). FULL 0.65.436: 361/67, keine neue Rot-Stelle gegen 0.65.435 (comm leer). Hinweis: während FULL 436 liefen zwei
+s350-Starts (je ~4 s, brachen sofort ab) – Regelverstoss "FULL allein", Ergebnis gleich wie 435. FULL 0.65.437 folgt allein.
+addon_check AHSentinel-0.65.437.zip: OK.
