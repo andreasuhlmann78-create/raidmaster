@@ -1,0 +1,241 @@
+AHSentinel-Protokoll v0.65.435 · 28.11. 10:01:17
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  28.11. 09:48:30 L10 PRIEST v0.65.435
+  28.11. 07:15:13 L10 PRIEST v0.65.432
+  28.11. 07:12:39 L10 PRIEST v0.65.431
+  28.11. 07:10:37 L10 PRIEST v0.65.431
+  28.11. 07:09:30 L10 PRIEST v0.65.431
+  28.11. 07:06:43 L10 PRIEST v0.65.431
+  28.11. 07:05:33 L10 PRIEST v0.65.431
+  28.11. 06:48:29 L10 PRIEST v0.65.431
+  28.11. 06:29:38 L10 PRIEST v0.65.430
+  28.11. 06:25:32 L10 PRIEST v0.65.430
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 3 Std., 7574 Items, Preis-Sync an
+  SYNC GoldSentinelSync 3 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, BuffSentinel 0, GoldSentinelMarkt 0, GoldSentinelTest 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0, ThreatSentinel 0
+  SYNC gesendet 67 · empfangen 0 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 4 (mit Sync 2: 4, pausiert 3) · gesendet 3 · weitergegeben 0 · offline 3 · Listen 2 · Warteschlange 0 · gespeichert ja · im Test angehalten 0
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Sniper-Takt (SN-T2): 299 Suchen · Abstand Median 3.13 s, Min 0.70 s, Max 211.60 s
+    Zeitraum 28.11. 06:56–10:01 · minimiert/Hintergrund (unter 15 Bilder/s): 0 % (0 von 300)
+    Server nicht bereit: Median 0.00 s, Min 0.00 s, Max 1.03 s je Suche
+    NAME_WAIT: Median 0.00 s, Min 0.00 s, Max 2.68 s je Suche
+    eigene Bremse/Abstand: Median 0.00 s, Min 0.00 s, Max 0.31 s je Suche
+    Antwort des Servers: Median 0.21 s, Min 0.10 s, Max 2.02 s je Suche
+    Nachlauf nach Antwort: Median 0.00 s, Min 0.00 s, Max 3.10 s je Suche
+    Treffer-Halt: Median 2.93 s, Min 0.00 s, Max 3.36 s je Suche
+    andere Arbeit: Median 0.00 s, Min 0.00 s, Max 211.08 s je Suche
+    bereit (Tick): Median 0.00 s, Min 0.00 s, Max 0.10 s je Suche
+    Suchen je Ziel: Azurblaue Seidenkapuze 105 (35 %) · Bronzene Stulpen mit Versilberung 105 (35 %) · Ältestenhandschuhe 90 (30 %)
+  Sync-Abweichungen (S6): 87 Fälle, Markt-Tag fremd 0 (alte Version / anderer Markt)
+    7 Tage je Ursache (vollständig): stapel 1, bewegt 4, unbekannt 82
+    Stapel- statt Stückpreis: 1 – Item 15733 eigen 3499/fremd 49999 (Alter 111/4 Min., g, Voll, Menge 17)
+    Markt hat sich bewegt (Zeitabstand > 6 Std.): 4 – Item 260793 eigen 650/fremd 1500 (Alter 1363/3 Min., g, Voll, Menge 118); Item 2980 eigen 895/fremd 1800 (Alter 1364/4 Min., g, Voll, Menge 8); Item 5363 eigen 400/fremd 9999 (Alter 1364/4 Min., g, Voll, Menge 1); Item 6304 eigen 100/fremd 1000 (Alter 1364/4 Min., g, Voll, Menge 1)
+    unbekannt: 82 – Item 2589 eigen 41/fremd 19 (Alter 108/0 Min., g, Voll, Menge 25480); Item 3464 eigen 25/fremd 10 (Alter 108/0 Min., g, Voll, Menge 10784); Item 17056 eigen 1695/fremd 100 (Alter 108/0 Min., g, Voll, Menge 5474); Item 2862 eigen 24/fremd 8 (Alter 108/0 Min., g, Voll, Menge 5001); Item 249391 eigen 2754/fremd 900 (Alter 108/0 Min., g, Voll, Menge 4789)
+  Einstellungen geändert: cmdHint=true, fastScan=true, helpSeen=true, learnExplore=false, marketExpert=false, minimapAngle=199, priceGuard=20, psHintHidden=true, sniperSignal=true, theme=modern, tooltipDEDetail=true, vendorButton=false, vendorFlipMin=500, vsBudget=2
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0
+
+== Einträge (200, neueste zuerst)
+[28.11. 10:01:11] SNIPER-RUHE Ruhemodus aus nach 663 s
+[28.11. 10:01:08] SNIPER-RUHE Speicher 720075 KB (-48709 KB in 60 s) · Suchen 20
+[28.11. 10:01:01] SNIPER Treffer 16 · weg 16 · Ø Suche>Treffer 129 ms
+[28.11. 10:00:55] SNIPER-SUCHE Ziel 3483 · Angebote 145 · Treffer ≤ Max 142 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 10:00:52] LANGSAM Empfänger Sniper.lua:4683 von SEARCH_RESULTS · 16 ms
+[28.11. 10:00:51] SNIPER-SUCHE Ziel 7366 · Angebote 4 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 10:00:43] SNIPER-SUCHE Ziel 7048 · Angebote 350 · Treffer ≤ Max 317 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 10:00:22] LANGSAM Empfänger Sniper.lua:4683 von SEARCH_RESULTS · 25 ms
+[28.11. 10:00:11] LANGSAM Empfänger Sniper.lua:4683 von SEARCH_RESULTS · 17 ms
+[28.11. 10:00:08] SNIPER-RUHE Speicher 768784 KB (-48285 KB in 60 s) · Suchen 21
+[28.11. 10:00:01] SNIPER Treffer 9 · weg 9 · Ø Suche>Treffer 117 ms
+[28.11. 09:59:48] SNIPER-SUCHE Ziel 3483 · Angebote 147 · Treffer ≤ Max 144 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 09:59:41] SNIPER-SUCHE Ziel 7048 · Angebote 344 · Treffer ≤ Max 311 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 09:59:37] SNIPER-SUCHE Ziel 7366 · Angebote 4 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 09:59:37] SNIPER-NAME Item 7366: 3 von 14 Suchschlüsseln gelesen (gemerkt neu), zusammen 4 Angebote
+[28.11. 09:59:36] SNIPER-NAME ×7 Item 7366: Suche per Name "Ältestenhandschuhe" -> 14 Ergebnisse, 14 Varianten dieses Items (Stufe/Suffix): 32/14327 ab 1600, 32/14299 ab 1600, 32/14311 ab 1670, 32/14320 ab 1670, 32/14309 ab 1677
+[28.11. 09:59:08] PREISPRUEFUNG Item 10978 · Schlüssel allgemein (Stufe 20, Suffix 0, Haustier 0) · 21 Angebote · Scan 982 Stück · 0.1 s · Antwort
+[28.11. 09:59:08] SNIPER-RUHE Speicher 817068 KB (+147724 KB in 60 s) · Suchen 21
+[28.11. 09:59:01] SNIPER Treffer 7 · weg 7 · Ø Suche>Treffer 130 ms
+[28.11. 09:58:38] SNIPER-SUCHE Ziel 3483 · Angebote 147 · Treffer ≤ Max 144 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 09:58:32] SNIPER-SUCHE Ziel 7048 · Angebote 335 · Treffer ≤ Max 302 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 09:58:29] SYNC gesendet 24, empfangen 0, verworfen 0 · Kanal verweigert 0
+[28.11. 09:58:29] SNIPER-SUCHE Ziel 7366 · Angebote 3 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 09:58:08] SNIPER-RUHE Speicher 669345 KB (-46861 KB in 60 s) · Suchen 21
+[28.11. 09:58:00] SNIPER Treffer 7 · weg 7 · Ø Suche>Treffer 141 ms
+[28.11. 09:57:38] PREISPRUEFUNG Item 11134 · Schlüssel allgemein (Stufe 30, Suffix 0, Haustier 0) · 30 Angebote · Scan 1900 Stück · 0.1 s · Antwort
+[28.11. 09:57:30] SNIPER-SUCHE Ziel 3483 · Angebote 147 · Treffer ≤ Max 144 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 09:57:23] SNIPER-SUCHE Ziel 7048 · Angebote 331 · Treffer ≤ Max 298 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 09:57:21] SNIPER-SUCHE Ziel 7366 · Angebote 4 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 09:57:08] PREISPRUEFUNG Item 10998 · Schlüssel allgemein (Stufe 20, Suffix 0, Haustier 0) · 19 Angebote · Scan 301 Stück · 0.1 s · Antwort
+[28.11. 09:57:08] SNIPER-RUHE Speicher 716205 KB (-43783 KB in 60 s) · Suchen 22
+[28.11. 09:57:00] SNIPER Treffer 7 · weg 7 · Ø Suche>Treffer 121 ms
+[28.11. 09:56:36] LANGSAM Empfänger Sniper.lua:4683 von SEARCH_RESULTS · 35 ms
+[28.11. 09:56:36] LANGSAM Empfänger UI_Sniper.lua:816 von SNIPER_CHANGED · 18 ms
+[28.11. 09:56:23] SNIPER-SUCHE Ziel 3483 · Angebote 147 · Treffer ≤ Max 144 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 09:56:16] SNIPER-SUCHE Ziel 7048 · Angebote 340 · Treffer ≤ Max 307 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 09:56:13] SNIPER-SUCHE Ziel 7366 · Angebote 3 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 09:56:08] PREISPRUEFUNG Item 11139 · Schlüssel allgemein (Stufe 35, Suffix 0, Haustier 0) · 29 Angebote · Scan 434 Stück · 0.1 s · Antwort
+[28.11. 09:56:08] SNIPER-RUHE Speicher 759988 KB (-46217 KB in 60 s) · Suchen 21
+[28.11. 09:56:00] SNIPER Treffer 7 · weg 7 · Ø Suche>Treffer 132 ms
+[28.11. 09:55:15] SNIPER-SUCHE Ziel 3483 · Angebote 147 · Treffer ≤ Max 144 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 09:55:08] SNIPER-SUCHE Ziel 7048 · Angebote 329 · Treffer ≤ Max 296 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 09:55:08] SNIPER-RUHE Speicher 806204 KB (+146271 KB in 60 s) · Suchen 21
+[28.11. 09:55:06] SNIPER-SUCHE Ziel 7366 · Angebote 3 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 09:55:00] SNIPER Treffer 7 · weg 7 · Ø Suche>Treffer 125 ms
+[28.11. 09:54:34] SNIPER-NAME Item 7366: 3 von 14 Suchschlüsseln gelesen (gemerkt neu), zusammen 4 Angebote
+[28.11. 09:54:33] SNIPER-NAME ×6 Item 7366: Suche per Name "Ältestenhandschuhe" -> 14 Ergebnisse, 14 Varianten dieses Items (Stufe/Suffix): 32/14327 ab 1600, 32/14299 ab 1600, 32/14300 ab 1670, 32/14311 ab 1670, 32/14320 ab 1670
+[28.11. 09:54:08] PREISPRUEFUNG Item 11135 · Schlüssel allgemein (Stufe 35, Suffix 0, Haustier 0) · 47 Angebote · Scan 942 Stück · 0.1 s · Antwort
+[28.11. 09:54:08] SNIPER-RUHE Speicher 659933 KB (-45929 KB in 60 s) · Suchen 21
+[28.11. 09:54:06] SNIPER-SUCHE Ziel 3483 · Angebote 147 · Treffer ≤ Max 144 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 09:54:00] SNIPER Treffer 7 · weg 7 · Ø Suche>Treffer 141 ms
+[28.11. 09:54:00] SNIPER-SUCHE Ziel 7048 · Angebote 309 · Treffer ≤ Max 276 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 09:53:57] SNIPER-SUCHE Ziel 7366 · Angebote 3 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 09:53:43] LANGSAM Empfänger Sniper.lua:4683 von SEARCH_RESULTS · 24 ms
+[28.11. 09:53:08] SNIPER-RUHE Speicher 705863 KB (-46770 KB in 60 s) · Suchen 21
+[28.11. 09:53:00] SNIPER Treffer 8 · weg 8 · Ø Suche>Treffer 120 ms
+[28.11. 09:52:59] SNIPER-SUCHE Ziel 3483 · Angebote 147 · Treffer ≤ Max 144 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 09:52:52] SNIPER-SUCHE Ziel 7048 · Angebote 317 · Treffer ≤ Max 284 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 09:52:50] SNIPER-SUCHE Ziel 7366 · Angebote 3 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 09:52:38] PREISPRUEFUNG Item 11084 · Schlüssel allgemein (Stufe 25, Suffix 0, Haustier 0) · 25 Angebote · Scan 698 Stück · 0.1 s · Antwort
+[28.11. 09:52:08] SNIPER-RUHE Speicher 752633 KB (-83971 KB in 60 s) · Suchen 22
+[28.11. 09:52:00] SNIPER Treffer 6 · weg 6 · Ø Suche>Treffer 115 ms
+[28.11. 09:51:51] SNIPER-SUCHE Ziel 3483 · Angebote 138 · Treffer ≤ Max 135 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 09:51:44] SNIPER-SUCHE Ziel 7048 · Angebote 328 · Treffer ≤ Max 295 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 09:51:41] SNIPER-SUCHE Ziel 7366 · Angebote 3 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 09:51:17] SNIPER-TAKT Abstand 3.44 s · Antwort des Servers 0.11 s, Treffer-Halt 3.34 s · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[28.11. 09:51:13] SNIPER-TAKT Abstand 3.38 s · Antwort des Servers 0.22 s, Treffer-Halt 3.16 s · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[28.11. 09:51:10] SNIPER-TAKT Abstand 2.08 s · Server nicht bereit 0.41 s, eigene Bremse/Abstand 0.10 s, Antwort des Servers 0.51 s, Nachlauf nach Antwort 1.05 s · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[28.11. 09:51:08] SNIPER-TAKT Abstand 2.09 s · Server nicht bereit 0.51 s, Antwort des Servers 0.53 s, Nachlauf nach Antwort 1.05 s · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[28.11. 09:51:07] SNIPER-RUHE Speicher 836604 KB (+148385 KB in 60 s) · Suchen 21
+[28.11. 09:51:06] SNIPER-TAKT Abstand 3.14 s · Antwort des Servers 0.10 s, Treffer-Halt 3.04 s · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[28.11. 09:51:02] SNIPER-TAKT Abstand 3.17 s · Antwort des Servers 0.10 s, Treffer-Halt 3.07 s · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[28.11. 09:51:00] SNIPER Treffer 7 · weg 7 · Ø Suche>Treffer 118 ms
+[28.11. 09:50:59] SNIPER-TAKT Abstand 3.18 s · Antwort des Servers 0.21 s, Treffer-Halt 2.98 s · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[28.11. 09:50:56] SNIPER-TAKT Abstand 3.24 s · Antwort des Servers 0.20 s, Treffer-Halt 3.04 s · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[28.11. 09:50:53] SNIPER-TAKT Abstand 2.20 s · Server nicht bereit 0.52 s, Antwort des Servers 0.62 s, Nachlauf nach Antwort 1.07 s · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[28.11. 09:50:51] SNIPER-TAKT Abstand 2.19 s · Server nicht bereit 0.51 s, Antwort des Servers 0.64 s, Nachlauf nach Antwort 1.05 s · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[28.11. 09:50:48] SNIPER-TAKT Abstand 3.25 s · Antwort des Servers 0.22 s, Treffer-Halt 3.04 s · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[28.11. 09:50:45] SNIPER-TAKT Abstand 3.26 s · Antwort des Servers 0.21 s, Treffer-Halt 3.05 s · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[28.11. 09:50:42] SNIPER-SUCHE Ziel 3483 · Angebote 138 · Treffer ≤ Max 135 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 09:50:42] SNIPER-TAKT Abstand 3.15 s · Antwort des Servers 0.22 s, Treffer-Halt 2.93 s · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[28.11. 09:50:39] SNIPER-TAKT Abstand 3.22 s · Antwort des Servers 0.21 s, Treffer-Halt 3.02 s · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[28.11. 09:50:36] SNIPER-SUCHE Ziel 7048 · Angebote 304 · Treffer ≤ Max 271 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 09:50:33] SNIPER-SUCHE Ziel 7366 · Angebote 3 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 09:50:32] SNIPER-TAKT Abstand 3.17 s · Antwort des Servers 0.21 s, Treffer-Halt 2.96 s · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[28.11. 09:50:28] SNIPER-TAKT Abstand 3.14 s · Antwort des Servers 0.20 s, Treffer-Halt 2.94 s · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[28.11. 09:50:25] SNIPER-TAKT Abstand 3.24 s · Antwort des Servers 0.20 s, Treffer-Halt 3.04 s · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[28.11. 09:50:22] SNIPER-TAKT Abstand 3.12 s · Antwort des Servers 0.10 s, Treffer-Halt 3.02 s · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[28.11. 09:50:19] SNIPER-TAKT Abstand 2.18 s · Server nicht bereit 0.52 s, eigene Bremse/Abstand 0.10 s, Antwort des Servers 0.52 s, Nachlauf nach Antwort 1.04 s · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[28.11. 09:50:17] SNIPER-TAKT Abstand 2.20 s · Server nicht bereit 0.52 s, Antwort des Servers 0.63 s, Nachlauf nach Antwort 1.05 s · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[28.11. 09:50:14] SNIPER-TAKT Abstand 3.23 s · Antwort des Servers 0.21 s, Treffer-Halt 3.03 s · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[28.11. 09:50:11] SNIPER-TAKT Abstand 3.13 s · Antwort des Servers 0.11 s, Treffer-Halt 3.03 s · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[28.11. 09:50:08] SNIPER-TAKT Abstand 5.10 s · Server nicht bereit 0.51 s, eigene Bremse/Abstand 0.10 s, Antwort des Servers 0.22 s, Treffer-Halt 1.17 s, andere Arbeit 3.09 s · andere Arbeit: aus · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[28.11. 09:50:07] PREISPRUEFUNG Item 10938 · Schlüssel allgemein (Stufe 10, Suffix 0, Haustier 0) · 17 Angebote · Scan 2675 Stück · 0.1 s · Antwort
+[28.11. 09:50:07] SNIPER-RUHE Ruhemodus an
+[28.11. 09:50:07] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 16 ms bis UI_Main.lua:2088 · 16 ms
+[28.11. 09:50:07] PD7 Preisverlauf verdichtet: 330233 -> 316654 Zeilen (~13544 -> ~12987 KB)
+[28.11. 09:50:07] PREISPRUEFUNG Item 11137 · Schlüssel allgemein (Stufe 35, Suffix 0, Haustier 0) · 33 Angebote · Scan 3301 Stück · 0.1 s · Antwort
+[28.11. 09:50:06] PREISPRUEFUNG Item 11082 · Schlüssel allgemein (Stufe 25, Suffix 0, Haustier 0) · 41 Angebote · Scan 1401 Stück · 0.1 s · Antwort
+[28.11. 09:50:05] PREISPRUEFUNG Item 10940 · Schlüssel allgemein (Stufe 10, Suffix 0, Haustier 0) · 44 Angebote · Scan 6992 Stück · 0.1 s · Antwort
+[28.11. 09:50:05] PREISPRUEFUNG Item 11083 · Schlüssel allgemein (Stufe 25, Suffix 0, Haustier 0) · 35 Angebote · Scan 3527 Stück · 0.1 s · Antwort
+[28.11. 09:50:04] SNIPER-RUHE Ruhemodus aus nach 5 s
+[28.11. 09:50:03] SNIPER-TAKT Abstand 3.12 s · Antwort des Servers 0.10 s, Treffer-Halt 3.02 s · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[28.11. 09:50:00] SNIPER Treffer 1 · weg 1 · Ø Suche>Treffer 72 ms
+[28.11. 09:50:00] SNIPER-TAKT Abstand 2.17 s · Server nicht bereit 0.51 s, eigene Bremse/Abstand 0.11 s, Antwort des Servers 0.52 s, Nachlauf nach Antwort 1.03 s · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[28.11. 09:50:00] WARNSCHUTZ Item 7048 · Preis 1500 · Vergleich 1272 (Sniper-Ziel über Verkaufswert) · gewarnt
+[28.11. 09:49:59] SNIPER-RUHE Ruhemodus an
+[28.11. 09:49:58] SNIPER-RUHE Ruhemodus aus nach 30 s
+[28.11. 09:49:58] SNIPER-TAKT Abstand 2.09 s · Server nicht bereit 0.52 s, Antwort des Servers 0.63 s, Nachlauf nach Antwort 0.94 s · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[28.11. 09:49:56] SNIPER-TAKT Abstand 3.16 s · Antwort des Servers 0.20 s, Treffer-Halt 2.95 s · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[28.11. 09:49:51] SNIPER-TAKT Abstand 2.51 s · Antwort des Servers 0.11 s, Treffer-Halt 2.40 s · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[28.11. 09:49:49] SNIPER-TAKT Abstand 2.18 s · Server nicht bereit 0.51 s, Antwort des Servers 0.62 s, Nachlauf nach Antwort 1.05 s · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[28.11. 09:49:47] WARNSCHUTZ Item 3483 · Preis 2000 · Vergleich 1272 (Sniper-Ziel über Verkaufswert) · gewarnt
+[28.11. 09:49:35] ENTZAUBERWERT Item 7366 · eigene Ø aus 46 · 11083 80% × 3.92 à 423, 11134 17% × 1.75 à 812, 11138 2% × 1.00 à 852 · brutto 1682 · netto 1598
+[28.11. 09:49:35] DE-CHANCEN Gruppe 2:5:a · Tabelle 11083 75%/11134 20%/11138 5% · echt 11083 80%/11134 17%/11138 2% (46)
+[28.11. 09:49:35] ABSATZ Item 7366 · Q 12 (vollscan) · S 6.0 (market, gelernt) · S roh 10.4 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 2.2 · N 7.0
+[28.11. 09:49:35] ENTZAUBERWERT Item 3483 · eigene Ø aus 1420 · 11083 75% × 1.52 à 423, 11082 20% × 1.51 à 1720, 11084 5% × 1.00 à 5035 · brutto 1339 · netto 1272
+[28.11. 09:49:35] ABSATZ Item 3483 · Q 69 (vollscan) · S 42.7 (measured) · S roh 42.7 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.6 · N 7.0
+[28.11. 09:49:33] SNIPER-TAKT Abstand 3.29 s · Server nicht bereit 0.52 s, NAME_WAIT 2.68 s, Antwort des Servers 0.10 s · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[28.11. 09:49:32] SNIPER-SUCHE Ziel 7366 · Angebote 3 · Treffer ≤ Max 0 · gekauft 1 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 09:49:32] SNIPER-NAME Item 7366: 3 von 14 Suchschlüsseln gelesen (gemerkt neu), zusammen 3 Angebote
+[28.11. 09:49:31] SNIPER-NAME Item 7366: per Name 1 Angebote (Variante 32/14327) -> ab jetzt per Name
+[28.11. 09:49:30] SNIPER-NAME ×7 Item 7366: Suche per Name "Ältestenhandschuhe" -> 14 Ergebnisse, 14 Varianten dieses Items (Stufe/Suffix): 32/14327 ab 1600, 32/14299 ab 1600, 32/14300 ab 1670, 32/14311 ab 1670, 32/14320 ab 1670
+[28.11. 09:49:30] SNIPER-NAME Item 7366: Suche mit allgemeinem Schlüssel (0/0) leer -> Suche per Name "Ältestenhandschuhe" (gewartet 0.5 s)
+[28.11. 09:49:30] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 2.9 Std., 10940: 3.6 Std., 11082: 3.6 Std. · 11 frisch geholt
+[28.11. 09:49:29] SNIPER-SUCHE Ziel 3483 · Angebote 132 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 09:49:28] SNIPER-SUCHE Ziel 7048 · Angebote 304 · Treffer ≤ Max 0 · gekauft 8 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 09:49:28] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[28.11. 09:49:28] LANGSAM Empfänger UI_Sniper.lua:816 von SNIPER_CHANGED · 21 ms
+[28.11. 09:49:28] SNIPER-RUHE Ruhemodus an
+[28.11. 09:49:25] AH-STATE erstes Öffnen der Sitzung · vorgebaut: ja · AH geöffnet · gesamt 4.8 ms · Kern/Reiter 0.3 · Fenster 3.8 (neu geöffnet, Reiter buy) · Statuszeile 0.6 · Teile: Reiter füllen (buy) 0.9 · Reiter zeigen 0.8 · Vor-dem-Start 0.8 · kleine Teile (9) 0.3 · Rest (nicht zugeordnet) 1.0 · zugeordnet 74 % · Lücke in: Show 1.0 · 5 ms
+[28.11. 09:49:18] POST-ZEILEN Briefe 9 · Zeilen 2 · Items 9
+[28.11. 09:49:18] ENTZAUBERWERT Item 7048 · eigene Ø aus 1420 · 11083 75% × 1.52 à 423, 11082 20% × 1.51 à 1720, 11084 5% × 1.00 à 5035 · brutto 1339 · netto 1272
+[28.11. 09:49:18] DE-CHANCEN Gruppe 2:4:a · Tabelle 11083 75%/11082 20%/11084 5% · echt 11083 75%/11082 20%/11084 5% (1420)
+[28.11. 09:49:18] ABSATZ Item 7048 · Q 125 (vollscan) · S 77.8 (measured) · S roh 77.8 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.6 · N 7.0
+[28.11. 09:49:18] ABSATZ Item 6338 · Q 11 (vollscan) · S 75.2 (measured) · S roh 75.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.1 · N 1.0
+[28.11. 09:49:18] ABSATZ Item 279972 · Q 41 (vollscan) · S 51.4 (measured) · S roh 51.4 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.8 · N 1.0
+[28.11. 09:49:18] ABSATZ Item 4245 · Q 5 (vollscan) · S 89.3 (measured) · S roh 89.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.0 · N 1.0
+[28.11. 09:49:15] KAUF-DOPPELT ×8 verhindert: Rechnung schon gebucht · Item 7048 · 1 Stück · 1200
+[28.11. 09:49:15] KAUF-DOPPELT verhindert: Rechnung schon gebucht · Item ? · 1 Stück · 1400
+[28.11. 09:49:15] ITEMINFO neue Item-Anfragen 200 (zurückgestellt 0) · je Aufgabe: - 2, cache:warm 18, hist:flat 180
+[28.11. 09:48:45] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[28.11. 09:48:45] ABSATZ-UNPLAUSIBEL Item 11206 · 14.9/Tag · Quelle geschätzt
+[28.11. 09:48:45] ABSATZ-UNPLAUSIBEL Item 3828 · 239.4/Tag · Quelle geschätzt
+[28.11. 09:48:45] ABSATZ-UNPLAUSIBEL Item 3492 · 6.3/Tag · Quelle geschätzt
+[28.11. 09:48:41] UI-PREBUILD Reiter buy vorgebaut · Fenster 2.6 ms · Reiter bauen 18.1 ms · erstes Anzeigen 1.5 ms · fertig 11.6 s nach dem Laden
+[28.11. 09:48:41] LANGSAM Hintergrund-Aufgabe ui:prebuild · 0 Schritte · mit Speicherbereinigung · 18 ms
+[28.11. 09:48:35] SYNC Weg=GUILD
+[28.11. 09:48:33] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[28.11. 09:48:33] ABSATZ-UNPLAUSIBEL Item 2457 · 711.0/Tag · Quelle gemessen
+[28.11. 09:48:33] ABSATZ-UNPLAUSIBEL Item 21071 · 762.8/Tag · Quelle geschätzt
+[28.11. 09:48:33] ABSATZ-UNPLAUSIBEL Item 4312 · 24.5/Tag · Quelle geschätzt
+[28.11. 09:48:32] ABSATZ-UNPLAUSIBEL Item 3840 · 31.5/Tag · Quelle geschätzt
+[28.11. 09:48:32] ABSATZ-UNPLAUSIBEL Item 274964 · 1971.7/Tag · Quelle gemessen, Angebot veraltet
+[28.11. 09:48:32] ABSATZ-UNPLAUSIBEL Item 3726 · 990.9/Tag · Quelle gemessen
+[28.11. 09:48:31] ABSATZ-UNPLAUSIBEL Item 2862 · 887.7/Tag · Quelle geschätzt
+[28.11. 09:48:31] ABSATZ-UNPLAUSIBEL Item 279968 · 1322.7/Tag · Quelle gemessen
+[28.11. 09:48:31] ABSATZ-UNPLAUSIBEL Item 8175 · 32.2/Tag · Quelle geschätzt
+[28.11. 09:48:30] GOLD-LOGOUT-NACHTRAG voriges Ende war /reload: nein (Erst-Login ja)
+[28.11. 09:48:30] REALM <leer> · Schlüssel-Realm CAMWOW EU4 Realm 6 PvP
+[28.11. 07:17:51] GOLD-LOGOUT GetMoney beim Ausloggen 0 · beim Verlassen der Welt 0 · Art: ohne Ankündigung (sofort, Verbindungsende oder /reload) · letzter echter Stand 454218
+[28.11. 07:17:51] ITEMINFO neue Item-Anfragen 235 (zurückgestellt 5079) · je Aufgabe: - 6, cache:warm 28, cache:warm-today 200, pd7 1
+[28.11. 07:15:29] ITEMINFO neue Item-Anfragen 200 (zurückgestellt 0) · je Aufgabe: - 6, cache:warm 28, cache:warm-today 166
+[28.11. 07:15:28] ABSATZ-UNPLAUSIBEL Item 11206 · 14.9/Tag · Quelle geschätzt
+[28.11. 07:15:28] ABSATZ-UNPLAUSIBEL Item 3828 · 239.4/Tag · Quelle geschätzt
+[28.11. 07:15:28] ABSATZ-UNPLAUSIBEL Item 3492 · 6.3/Tag · Quelle geschätzt
+[28.11. 07:15:28] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[28.11. 07:15:22] UI-PREBUILD Reiter buy vorgebaut · Fenster 2.4 ms · Reiter bauen 12.9 ms · erstes Anzeigen 1.3 ms · fertig 9.5 s nach dem Laden
+[28.11. 07:15:18] SYNC Weg=GUILD
+[28.11. 07:15:15] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[28.11. 07:15:14] ABSATZ-UNPLAUSIBEL Item 2457 · 711.0/Tag · Quelle gemessen
+[28.11. 07:15:14] ABSATZ-UNPLAUSIBEL Item 21071 · 762.8/Tag · Quelle geschätzt
+[28.11. 07:15:14] ABSATZ-UNPLAUSIBEL Item 4312 · 24.5/Tag · Quelle geschätzt
+[28.11. 07:15:14] ABSATZ-UNPLAUSIBEL Item 3840 · 31.5/Tag · Quelle geschätzt
+[28.11. 07:15:14] ABSATZ-UNPLAUSIBEL Item 274964 · 1971.7/Tag · Quelle gemessen, Angebot veraltet
+[28.11. 07:15:14] ABSATZ-UNPLAUSIBEL Item 3726 · 990.9/Tag · Quelle gemessen
+[28.11. 07:15:13] ABSATZ-UNPLAUSIBEL Item 2862 · 887.7/Tag · Quelle geschätzt
+[28.11. 07:15:13] ABSATZ-UNPLAUSIBEL Item 279968 · 1322.7/Tag · Quelle gemessen
+[28.11. 07:15:13] ABSATZ-UNPLAUSIBEL Item 8175 · 32.2/Tag · Quelle geschätzt
+[28.11. 07:15:13] GOLD-LOGOUT-NACHTRAG voriges Ende war /reload: ja (Erst-Login nein)
+[28.11. 07:15:13] REALM <leer> · Schlüssel-Realm CAMWOW EU4 Realm 6 PvP
+[28.11. 07:15:06] GOLD-LOGOUT GetMoney beim Ausloggen 454218 · beim Verlassen der Welt 454218 · Art: ohne Ankündigung (sofort, Verbindungsende oder /reload) · letzter echter Stand 454218
+[28.11. 07:15:06] ITEMINFO neue Item-Anfragen 233 (zurückgestellt 5074) · je Aufgabe: - 6, cache:warm 26, cache:warm-today 200, pd7 1
+[28.11. 07:12:55] ITEMINFO neue Item-Anfragen 200 (zurückgestellt 0) · je Aufgabe: - 6, cache:warm 26, cache:warm-today 168
+[28.11. 07:12:55] ABSATZ-UNPLAUSIBEL Item 11206 · 14.9/Tag · Quelle geschätzt
+[28.11. 07:12:54] ABSATZ-UNPLAUSIBEL Item 3828 · 239.4/Tag · Quelle geschätzt
+[28.11. 07:12:54] ABSATZ-UNPLAUSIBEL Item 3492 · 6.3/Tag · Quelle geschätzt
+[28.11. 07:12:54] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[28.11. 07:12:45] UI-PREBUILD Reiter buy vorgebaut · Fenster 2.1 ms · Reiter bauen 12.5 ms · erstes Anzeigen 1.5 ms · fertig 7.0 s nach dem Laden
+[28.11. 07:12:44] SYNC Weg=GUILD
+[28.11. 07:12:40] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[28.11. 07:12:40] ABSATZ-UNPLAUSIBEL Item 2457 · 711.0/Tag · Quelle gemessen
+[28.11. 07:12:40] ABSATZ-UNPLAUSIBEL Item 21071 · 762.8/Tag · Quelle geschätzt
+[28.11. 07:12:40] ABSATZ-UNPLAUSIBEL Item 4312 · 24.5/Tag · Quelle geschätzt
+[28.11. 07:12:40] ABSATZ-UNPLAUSIBEL Item 3840 · 31.5/Tag · Quelle geschätzt
+[28.11. 07:12:40] ABSATZ-UNPLAUSIBEL Item 274964 · 1971.7/Tag · Quelle gemessen, Angebot veraltet
+[28.11. 07:12:40] ABSATZ-UNPLAUSIBEL Item 3726 · 990.9/Tag · Quelle gemessen
+[28.11. 07:12:39] ABSATZ-UNPLAUSIBEL Item 2862 · 887.7/Tag · Quelle geschätzt
+[21.11. 18:58:46] FEHLER Märkte vereinen: Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:5416: attempt to compare two table values
+[21.11. 18:38:52] FEHLER Märkte vereinen: Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:5416: attempt to compare number with table

@@ -1,0 +1,81 @@
+{
+ "addon": "LevelPilot",
+ "blocked": [],
+ "env": {
+  "build": "71139",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 10,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "f": 1,
+ "fest": [],
+ "id": "LevelPilot-wege-1795856477-b6e138",
+ "kind": "wege",
+ "npc": [],
+ "time": 1795856477,
+ "version": "3.13.34",
+ "zones": [
+  {
+   "edges": [
+    {
+     "lv": [
+      "1458|o|Das Magieviertel",
+      "1458|o|Das Magieviertel",
+      "1458|o|Das Magieviertel",
+      "1458|o|Das Magieviertel",
+      "1458|o|Die Kanäle",
+      "1458|o|Die Kanäle",
+      "1458|o|Die Kanäle",
+      "1458|o|Die Ruinen von Lordaeron",
+      "1458|o|Die Ruinen von Lordaeron",
+      "1458|o|Die Ruinen von Lordaeron",
+      "1458|o|Die Kanäle",
+      "1458|o|Die Kanäle",
+      "1458|o|Die Kanäle",
+      "1413|d|Crossroads"
+     ],
+     "n": 6,
+     "p": [
+      70.5,
+      29.7,
+      70.8,
+      28.6,
+      72,
+      27,
+      71.3,
+      25.1,
+      70.1,
+      24.1,
+      68.7,
+      23.6,
+      67.3,
+      23.7,
+      66.5,
+      26.2,
+      66.3,
+      28.5,
+      66,
+      30.5,
+      65.7,
+      32.1,
+      64.6,
+      33.4,
+      63.3,
+      34.8,
+      62.2,
+      35.8
+     ],
+     "src": "selbst"
+    }
+   ],
+   "map": 1458,
+   "name": "Undercity"
+  }
+ ]
+}
