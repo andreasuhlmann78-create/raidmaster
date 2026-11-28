@@ -2190,3 +2190,17 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
     ist richtig (sonst Arbeit für alle Spieler). /lp testroutine kalt nur im Testmodus, T402 mit Gegenprobe.
     Im Spiel (Nutzer): /lp testroutine kalt -> /reload -> 60 s warten -> /lp testroutine alles. Soll: T261 "erstes (Ablage leer/neu)" < 1000 ms,
     dazu Zeile "Neuplanung angestossen von: …" (ob debugstack "(tail call)" so schreibt – sonst "Perf.lua:152" melden). T155 weiter HOCH offen.
+
+>>> INGAMETEST 3.13.33 KALT – Nutzer 28.11. 06:30 (/lp testroutine kalt, /reload, 60 s, alles), Supervisor 06:52: OK 337 · FEHLER 1 · SKIP 9.
+    - T261 KALT BESTANDEN: "Einloggen: erstes (Ablage leer/neu), 3 Zonen erst nach 60 s gemessen, Umweg-Ablage 0 übernommen / 3 gemessen" –
+      671 ms in 60 s (< 1000), längster 17 ms. T261 im Spiel erledigt (kalt 671, warm 682).
+    - T155 diesmal NICHT unter den Fehlern (vorher 16,99 ms). Wert im Bericht nennen; als erledigt erst, wenn zwei Läufe hintereinander < 16 ms
+      (Schwankung) – bleibt bis dahin HOCH beobachtet.
+    - T402 FEHLER: "Neuplanung gezählt false (Perf.lua:152)" – Verdacht des Berichts bestätigt: debugstack schreibt im Spiel kein "(tail call)".
+      Zählung so bauen, dass sie im Client trifft (Rahmen Perf.lua überspringen ohne "(tail call)"), Test im Spiel-Format.
+    - NEU HOCH LP-FRZ1: längstes Bild 1037,4 ms (T221 wege – T222), eigene Portion ("Schritte über 16 ms: T222 1037 ms") – 1 Sekunde Stillstand.
+      Verdacht, zu messen: die 3 nach 60 s gestaffelten Umweg-Messungen (Ablage leer) liefen in T221/T222 auf einmal statt in Portionen, oder
+      T222 baut die geleerte Ablage am Stück neu. Ursache mit Datei:Zeile belegen; jede Messung/Neuaufbau in Portionen ≤ 16 ms (leistung.md),
+      Nachbau mit leerer Ablage + Gegenprobe 3.13.33. Betrifft im echten Spiel jeden Spieler mit leerer/ungültiger Ablage (neues Wegnetz!) –
+      vor dem Wegnetz-Update mit Haralds Zonen beheben.
+    - Umgebung sehr unruhig (79 Bilder/s, Ruhe Median 33 ms, längstes 656 ms) – 10 von 11 ganzen Bildern > 40 ms durch Spiel/Umgebung.
