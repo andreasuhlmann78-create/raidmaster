@@ -7784,3 +7784,19 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     "Gewinn: −10c / Stück", "Händler: 1s25" – KEIN "ruht · gebunden". NICHT BESTANDEN (Gift-Tooltip-Auftrag: Zeile fehlt). Belegen, unter welcher
     Bedingung die Zeile kommt (nur bei eigenem Bestand/Taschen? nur Schurke?) – wenn nur bei Besitz, im Bericht sagen, dann gilt der Punkt als
     beim Nutzer nicht prüfbar. Dazu für AHS-VEN-GW1: Blendungspulver Händler 1s25, Markt 1s30 -> "−10c" (erwartet −1c bzw. +5c) – 8. Fall.
+
+>>> PROTOKOLL Nutzer 28.11. 07:02 (0.65.431, Sniper 06:50–07:01) – Supervisor 07:12:
+    BELEGT/gut: Kauf 06:56:32 "SNIPER-RAD Mausrad … gekauft", "KAUF gesendet · Angebot 315962133", AUCTION_CANCELED als eigener Kauf erkannt,
+    Treffer>Reserv. 2026 ms – passt zum Bild (−14s). "UI-DD1 GLOBAL_MOUSE_DOWN vorhanden". "M2 Ausrüstung … timeLeft:n" (kein timeLeftSeconds) –
+    bestätigt Ursache der Restzeit. Keine Zeile "API-LANGSAM" in diesem Ausschnitt (Messauftrag offen: in welchen Fällen wird sie geschrieben?).
+>>> BEFUND AHS-SN-RATE1 HOCH (Server-Grenze/Leistung, seit 0.65.430 Varianten-Suche):
+    1. Jede Runde für Ältestenhandschuhe: "Suche mit allgemeinem Schlüssel leer -> Suche per Name" (SNIPER-NAME ×5–6 je Runde) UND danach
+       "8 Suchschlüssel gelesen" – also ~9–14 Server-Anfragen je Runde für EIN Ziel. Folge: "SUCHEN Grenze erreicht: 83 in 60 s (max 90)"
+       (06:52:03, 06:56:19), Runde für dieses Ziel ~7,3 s (Nachlauf 3 s + Treffer-Halt 3 s), Ziel 14 % der Suchen, aber den Grossteil der Anfragen.
+       Auftrag: Varianten-Schlüssel aus der Namenssuche merken (z. B. 5–10 Min.) und nur diese lesen; Namenssuche nur neu, wenn ein Schlüssel leer
+       wird oder die Zeit abläuft; 8 Schlüssel nicht jede Runde alle (günstigste zuerst, Rest seltener). Ziel: ≤ 3 Anfragen je Runde und Ziel,
+       Grenze nie erreicht. Messen und mit Datei:Zeile belegen; Nachbau mit 3 Zielen (1 Ausrüstung mit 15 Varianten) + Gegenprobe 0.65.431.
+    2. "LANGSAM Empfänger Sniper.lua:4641 von SEARCH_RESULTS" 16–21 ms, 14× in 10 Min. (vorher nicht im Protokoll) – über 16 ms je Bild
+       (leistung.md). Zusammenführen/Sortieren der Varianten in Portionen bzw. ohne Neuaufbau aller Zeilen.
+    3. "SNIPER-RUHE Speicher +80 108 KB / +49 677 KB in 60 s" – starker Speicherdurchsatz im Sniper (Tabellen je Antwort neu?). Mit T459 klären.
+    Vor 2b, nach AHS-BH-REN2 (Server-Grenze kann andere Suchen/Scan blockieren).
