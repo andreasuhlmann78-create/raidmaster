@@ -7474,3 +7474,11 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     BP1-L: 60 s -> 1800 s erledigt; Rest (echte µs je GetItemInfo im Spiel) mit der Abnahme im Spiel.
     OFFEN Abnahme im Spiel (Nutzer, eine Sitzung): API-LANGSAM-Zeilen (≤ 2 ms, ≤ 50 KB), Blendungspulver/Gift-Tooltip + "ruht · gebunden".
     Weiter mit Masterplan 2.2 Vollscan.
+
+>>> BEFUND AHS-UI-DD1 MITTEL (Bild des Nutzers 28.11. 04:32, PC, 0.65.427, Reiter Kaufen > Einkauf, Suche "Feste Lederhandschuhe", Stufe bis 27):
+    Die Auswahl der Qualität ("Grün – Episch": Alle/Grau/Weiss/Grün/Blau/Episch mit Häkchen + Knopf "OK") liegt OFFEN ÜBER dem Titel der Ware und dem
+    Kopf der Angebotsliste (Spalten Sofortkauf/Gebot/iLvl/Menge) und ist dort halb verdeckt bzw. verdeckt selbst Titel und erste Zeilen; "OK" steht
+    mitten in der Liste (Zeile 3, Spalte Menge). Erwartet: Auswahl als eigenes Feld vorne (Ebene über allem, ganz sichtbar), schliesst bei Klick ausserhalb,
+    bei "Suchen" und beim Wechsel in die Ware. Ursache belegen (Frame-Ebene/Strata, Anker, Schliessen bei OnHide), UI-Prüfung (TB184-U3) um diesen Fall
+    ergänzen, Test. Nebenbei im Bild: Spalte "Restzeit" zeigt bei allen 11 Angeboten "-" – im Forever-Client verfügbar? Messen, sonst Spalte weglassen.
+    Gut im Bild: Sniper kauft (Chat "Ihr habt eine Auktion gewonnen: Azurblaue Seidenkapuze" ×2, "[AHSentinel] Gekauft: 1x … für 12…").
