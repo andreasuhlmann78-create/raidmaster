@@ -7651,3 +7651,14 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
        "zu teuer für dein Gold" kennzeichnen (Psychologie: keine Gier-Empfehlung über das Budget).
     3. Tooltip über der Tabelle ist durchscheinend (Zeilentext darunter lesbar) – deckender Hintergrund (vgl. LP-UI-AC1).
     Test mit diesen Zahlen + Gegenprobe 0.65.429. Schritt 2b.
+
+>>> BEFUND AHS-SN-FIND1 HOCH (Sniper findet vorhandene Angebote nicht) – Bilder Nutzer 28.11. 05:41–05:42 (PC, 0.65.429), Supervisor 05:46:
+    Neues Sniper-Ziel "Ältestenhandschuhe", Max 15s, Budget 5g. Sniper: "gesucht vor 0/1 Sek. · 0 Angebote · Keine Angebote gefunden".
+    Gleichzeitig Kaufen > Einkauf (Rüstung, iLvl ab 27): Ältestenhandschuhe Stufe 27 iLvl 32 – 3 Zeilen 14s/Stück mit 1 + 7 + 1 = 9 Stück,
+    88 % Markt – alle UNTER Max 15s. Der Sniper hätte 9 Stück finden müssen.
+    Verdacht, zu messen: Ziel mit anderer Item-ID/Suchschlüssel als die Angebote (Name mit Umlaut "Ä"? Suche über Namen statt itemKey? Ausrüstung
+    = einzelne Angebote statt Ware?). Die anderen Ziele (Kapuze, Stulpen) finden 311/321 Angebote.
+    Auftrag: Ursache mit Datei:Zeile belegen (welche Suche schickt der Sniper für dieses Ziel, was kommt zurück), beheben, Test mit Umlaut-Namen
+    und Ausrüstung + Gegenprobe 0.65.429. Vor 2b (verpasste Käufe). Prüfen, ob andere Ziele mit Umlaut (Ö/Ü/ß) gleich betroffen sind.
+    Nachgerechnet, STIMMT: Entzauber-Tooltip Ältestenhandschuhe (iLvl 32, Tabelle 31–35): 3,147×4s45=14s00 + 0,353×8s60=3s04 = 17s04; −85c ->
+    16s19; −14s = +2s19.
