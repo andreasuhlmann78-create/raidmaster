@@ -1,0 +1,22 @@
+BERICHT AHSentinel 0.65.428 – AHS-UI-DD1 MITTEL (Bild 28.11. 04:32) · umgesetzt, zur Prüfung
+Projekt-Sitzung AHSentinel · 28.11.2026 05:00 · md5 AHSentinel-0.65.428.zip (announce/): 2782cfb20f63d8421a29703c4ff8653f (nur Discord)
+
+1. Qualitäts-Auswahl verdeckt Liste – Ursache:
+   Belegt im Code: UI:QualityPicker legte die Auswahl als KIND des Knopfs an (CreateFrame("Frame", nil, p)) und setzte nur
+   FULLSCREEN_DIALOG. Der Einkauf-Reiter wird ins Auktionshaus umgehängt (UI_Main:1919/5381 tab.panel:SetParent(...)), und die
+   Abdeckung wird auf Stufe bis 9000 angehoben (AHOverlayRaise).
+   Verdacht, zu messen (der Nachbau bildet die Ebenen nicht nach): Beim Umhängen übernimmt der Client für die Kinder die Ebene
+   des neuen Elternrahmens. Die Auswahl läge dann in derselben Ebene wie die Angebotsliste. Das passt zum Bild: Auswahl halb verdeckt, "OK" mitten in der Liste.
+   Behebung unabhängig davon: eigener Rahmen an UIParent (wird nie umgehängt), SetFixedFrameStrata(true) + FULLSCREEN_DIALOG,
+   SetToplevel, Raise beim Öffnen, Massstab wie der Knopf (Fenster-Skalierung), am Bildschirmrand gehalten.
+   Schliesst: Klick ausserhalb (GLOBAL_MOUSE_DOWN nur solange offen), Knopf ausgeblendet (Reiter-/Fensterwechsel), "Suchen" (p:DoSearch),
+   Wechsel in die Ware (B:Open), OK. Gilt für alle 3 Stellen der Auswahl (Einkauf, Sniper, Preisverlauf).
+2. Nebenbefund Restzeit "-" – Ursache BELEGT: Messauftrag M2 aus dem Spiel (Laptop-Daten): Suchergebnis Ausrüstung hat die Felder
+   "auctionID,buyoutAmount,…,quantity:n,timeLeft:n,totalNumberOfOwners:n" – KEIN timeLeftSeconds; Ware hat timeLeftSeconds.
+   Buy.lua las nur timeLeftSeconds -> bei Ausrüstung immer "-". Jetzt: timeLeftSeconds oder Stufe timeLeft (0–3) -> Mitte des Bereichs
+   (B.TIME_BAND_S 900/3600/21600/86400 s), nur für die Anzeige. A:NoteBid bekommt weiter nur echte Sekunden (unverändert).
+   -> Für den Nachtrag 04:47 (Gebote): Forever liefert die Restzeit bei Ausrüstung als Stufe – das untersuche ich mit AHS-MR4-T.
+3. Test T1044 (Index AHS-UI-DD1): Eltern UIParent, Ebene FULLSCREEN_DIALOG nach Umhängen, Klick innen bleibt/aussen zu, Close,
+   Knopf weg, Stufen der Restzeit in den richtigen Bereichen. Gegenprobe 0.65.427 -> T1044 FAIL.
+   38 Szenarien (s43, s341 + 36 Einkauf/UI) alt = neu (3 rot wie vorher: s10_buy_priority, s3_ledger_buys, s6_vendor_buy). addon_check OK.
+4. Im Spiel prüfen: Kaufen > Einkauf, Seltenheit anklicken -> ganz sichtbar über der Liste; Klick daneben/Suchen schliesst; Restzeit-Spalte gefüllt.

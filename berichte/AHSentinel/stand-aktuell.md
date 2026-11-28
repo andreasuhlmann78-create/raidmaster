@@ -1,19 +1,20 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 27.11.2026 23:42 · Version 0.65.427 (Discord); CurseForge 0.65.423 (Hotfix); 0.65.425 vom Supervisor angenommen (Code)
+## Stand 28.11.2026 05:00 · Version 0.65.428 (Discord); CurseForge 0.65.423; 0.65.426/427 vom Supervisor angenommen (Code)
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz; Nachlieferung Rechner B: Zweig nachlieferung-rechner-b-2026-11-27).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
  erwartet in /tmp/claude-0/rel/: AHSentinel-<V>.zip, notes.md, bericht.txt, stand.md). ZIP = gleiche 112 Dateien wie Vorversion (listN.txt).
 Nachbau: cd /home/claude/ahanalyzerpro && bash tests/run_offline.sh /home/claude/AHSentinel; FULL=1 nur auf Kopie und ALLEIN (vorher pgrep run_all.sh leer).
- FULL 0.65.427: 357/67, keine neue Rot-Stelle (s326 behoben, AHS-S326). zz_bp1 = Leistung BindOnPickup (TR_TEXT=1 nötig für Ausgaben). Echte Daten im Sim: immer HORDE=1 (sonst leerer Markt), bekannte Items (Sim:AddItem).
+ FULL 0.65.426: 356/68, neu nur s326 = Zeitrennen im Testszenario, Test behoben (AHS-S326). zz_bp1 = Leistung BindOnPickup (TR_TEXT=1 nötig für Ausgaben). Echte Daten im Sim: immer HORDE=1 (sonst leerer Markt), bekannte Items (Sim:AddItem).
  Eigene Szenarien /tmp/claude-0/sim2/wowsim/scenarios_new.lua (zz_api4 KALT/KEEPM/KEEPMC, zz_api5 OUT=<Datei> Wertvergleich, zz_api6 KB je Funktion).
 
 ## Gerade in Arbeit
-- MASTERPLAN v2 Schritt 2: 2.1 im Nachbau erreicht (0.65.427 kalt 26–45 KB, Korrekturbericht: alte zz_api4-Werte enthielten ~21 KB Messhülle). Weiter 2.2.
+- MASTERPLAN v2 Schritt 2. 0.65.427 = 2.1 Teil: gespeicherte Vollscan-Leiter je Text einmal entschlüsseln (VS.savedLad). FULL 0.65.427 allein danach.
 
 ## Nächste Schritte (Reihenfolge)
-2. KB-Messung "Lohnt bis": zz_api4 immer mit NOTB=1 (sonst +21 KB Messhülle); je Funktion SINGLE=Mod:Fn (A:Fn für A).
+1. FULL 0.65.427 auswerten (gegen /tmp/claude-0/fail426.txt; s326 sollte jetzt grün sein), Bericht.
+2. Schritt 2.1 weiter: Rest ~43 KB "Lohnt bis" (Leiter-Cache brachte nur -10 KB beim 1. Item). zz_api6 WUT=1 WARM=<id> misst je Funktion, Hülle verfälscht (146 KB) -> Messung je einzelner Funktion nötig.
 3. Schritt 2.2 Vollscan: AHS-I4, VS-121b, AHS-SP1 (d). 2.4 Rest: AHS-S216, AHS-W2E-b, AHS-MK1, AHS-UMG1.
 4. Danach R1–R7 (Reiter aktualisieren sich selbst), dann Abnahme-Prüfliste für den Nutzer (berichte/AHSentinel/<Zeit>-pruefliste-abnahme.txt).
 5. Schritt 3: Daten Nachlieferung Rechner B im Sim nutzen, Vorschlag-Bericht (kein Bau ohne Freigabe).
