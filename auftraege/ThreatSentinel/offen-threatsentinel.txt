@@ -630,3 +630,11 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     deren Farbe zeigen, keine Prozent und keinen Abstand zum Tank. Umbau-Entscheid liegt beim Nutzer (Entscheid 24.11. 13:33) – Frage gestellt.
     Offen bleibt: 13:45 Kampf mit sit=nil/det=nil bei Gruppe 3 (Mob nicht in der Bedrohungsliste des Spielers?) – TS: Lage im Bericht deuten.
     Prüfliste 6/14 (u. a. M1 jetzt mit Daten). Sync: verworfen 54 "veraltet" im Kampf – Hinweis, kein Befund.
+
+>>> ENTSCHEID DES NUTZERS 28.11. 14:00: "weiter messen" (Wahl 3 von: nur Stufen / so lassen / weiter messen). KEIN Umbau jetzt.
+    Auftrag TS-M1-c MITTEL (Supervisor 14:02): Messung m1 bleibt an (nur lesen, Kosten ≤ 1 ms, keine Namen). Damit der Entscheid auf
+    genug Daten steht, im nächsten Bericht/Protokoll je Lage getrennt zählen: Rolle (Tank/Heiler/DD), Gruppe/Schlachtzug, Instanz/offene
+    Welt, Mob-Art (normal/Elite/Boss) – je Lage: sit lesbar n · det geschützt n · nil n · "Ziel des Mobs = ich" ja/nein/geschützt n.
+    Ziel: mindestens je 10 Kämpfe als Tank und als DD in Instanz, dazu Schlachtzug sobald möglich. Ändert sich der Zugriff (z. B. nach einem
+    Client-Update, Build ≠ 71139), sofort eine Zeile "ZUGRIFF GEÄNDERT" im Protokoll. Dazu die Deutung des Kampfs 13:45 (sit=nil, Gruppe 3).
+    Kein Code für die Anzeige ändern, bis der Nutzer entscheidet.
