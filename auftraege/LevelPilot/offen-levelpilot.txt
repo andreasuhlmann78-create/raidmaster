@@ -2204,3 +2204,7 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
       Nachbau mit leerer Ablage + Gegenprobe 3.13.33. Betrifft im echten Spiel jeden Spieler mit leerer/ungültiger Ablage (neues Wegnetz!) –
       vor dem Wegnetz-Update mit Haralds Zonen beheben.
     - Umgebung sehr unruhig (79 Bilder/s, Ruhe Median 33 ms, längstes 656 ms) – 10 von 11 ganzen Bildern > 40 ms durch Spiel/Umgebung.
+    Ergänzung LP-FRZ1 (Nutzer 06:49): Der Nutzer hat während der Routine ab und zu aus dem Spiel gewechselt / zugeschaut. Mit belegen, ob die
+    1037 ms eigene Rechenzeit sind (debugprofilestop nur um den eigenen Code) oder Wanduhr eines Bildes, in dem das Spiel im Hintergrund
+    gedrosselt war (Fensterwechsel). Ist es Wanduhr: Messung so trennen, dass "Schritte über 16 ms" nur eigene Zeit zählt, und LP-FRZ1 auf
+    NIEDRIG. Ist es eigene Zeit: bleibt HOCH.
