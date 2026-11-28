@@ -7539,3 +7539,10 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
       Liste zeigte 4 Min. vorher 67 Einträge – 96 vs. 67 belegen (andere Zählung, Filter, Zeitpunkt?) und angleichen. (c) Im Sinn von ST1 prüfen, ob diese
       Zeile ausserhalb des Testmodus erscheinen darf (Tipp 1×?). Text in allen 10 Sprachen korrigieren, Test.
     Hinweis Leistung: "Scan fertig: 308047 Einträge, 7068 verschiedene Items (45,8 Sek.)" – Vollscan-Dauer für Masterplan 2.2 festhalten.
+
+>>> BEFUND AHS-PS-EIG1 MITTEL (Zusammenspiel, Bild des Nutzers 28.11. 04:52, AHS 0.65.427 + PS 0.9.98): Der Nutzer hat in ProfessionSentinel ">> AH-Zutaten in
+    den Sniper" geklickt -> PS legt 2 Sniper-Ziele an (Fläschchen Öl Max 35c ×50, Wollstoffballen Max 8s56 ×208 = Zutaten des Levelplans, Max = Marktwert
+    +10 %). Sofort danach AHS rot: "Achtung: Sniper-Ziel Fläschchen Öl: Max-Preis 35c liegt über dem Verkaufswert – jeder Kauf verliert ca. 10c/Stück."
+    Für EIGENBEDARF (Skillen) ist das kein Verlust im Sinn der Warnung – der Spieler wird verunsichert. Ziele, die PS über die Schnittstelle anlegt, als
+    "Eigenbedarf (ProfessionSentinel-Plan)" kennzeichnen: keine Verlust-Warnung (höchstens Hinweis "teurer als Händler/Farm" falls belegt), Buchhaltung
+    bucht als Eigenbedarf. Schnittstelle mit PS abstimmen (Feld "zweck"), alte PS-Versionen ohne Feld = wie bisher. Test beide Wege.

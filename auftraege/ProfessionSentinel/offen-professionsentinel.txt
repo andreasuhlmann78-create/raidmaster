@@ -1087,3 +1087,9 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
       +9s25 bzw. mit 5 % +6s94. Abzüge benennen.
     PS-TT-EINH NIEDRIG: "Skillen 16,0 Wollstoffballen je Herstellung (Punkt nicht sicher)" – das Rezept braucht 4 je Herstellung; 16 ist offenbar je PUNKT
       (4 / Chance 0,25). Beschriftung korrigieren ("je Skillpunkt").
+
+>>> BEFUND PS-AHS-EIG1 MITTEL (gleicher Fall wie AHS-PS-EIG1, Bild 04:52): Nach ">> AH-Zutaten in den Sniper" (2 Ziele, Fläschchen Öl 35c ×50,
+    Wollstoffballen 8s56 ×208) warnt AHSentinel "jeder Kauf verliert ca. 10c/Stück". PS soll beim Anlegen über die AHS-Schnittstelle den Zweck mitgeben
+    (z. B. zweck = "eigenbedarf", Quelle "PS-Levelplan"), sobald AHS das Feld kennt (AHS-PS-EIG1); bis dahin unverändert. Ausserdem: PS-Chat "… – im Sniper
+    noch das Budget einstellen", obwohl im Sniper schon "Rest 17s50" / "Rest 17g80s" stehen – belegen, ob PS ein Budget setzt; Text passend machen.
+    Hinweis: Plan 110->150 braucht laut Einkaufsliste u. a. 208 Wollstoffballen à ~8s56 ≈ 17g80 (Spieler hat ~45g) – vor dem Anlegen die Summe nennen.
