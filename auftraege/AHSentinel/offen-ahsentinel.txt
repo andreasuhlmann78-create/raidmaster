@@ -7768,3 +7768,13 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     1 Raste: Chat "Gekauft: 1x Ältestenhandschuhe für 14s" + Spiel "Ihr habt eine Auktion gewonnen", Gold 45g58s18 -> 45g44s18 = GENAU −14s,
     Ziel "1/1000 · Rest 4g86s" (5g − 14s = 4g86s, stimmt), "gekauft 1". Kauf über Varianten-Schlüssel im Spiel BESTANDEN – AHS-SN-FIND1 ERLEDIGT.
     (Ware kommt per Post – Taschen 50/60 unverändert, richtig.) Zähler weiter wie AHS-SN-CNT1: "weggeschnappt 16", "21 Treffer · 3 offen".
+
+>>> BEFUND AHS-VEN-GW1 MITTEL (Händler-Tooltip "Gewinn: … / Stück") – Bilder Nutzer 28.11. 06:58 (0.65.431, Giftverkäufer Undercity), Supervisor 07:08:
+    Zeilen am Händlerfenster: Essenz der Pein Händler 2s, Markt 50c -> "Gewinn −1s50" (= Markt ohne Gebühr − Händlerpreis, geht auf);
+    Leere Phiole Händler 20c, Markt 5c -> "Gewinn −3c" (erwartet −15c bzw. mit Gebühr −16c); Staub der Verschlechterung Händler 1s, Markt 1s42 ->
+    "Gewinn −75c" (erwartet positiv, ~+35c); Verbleite Phiole Händler 2s?, Markt 42c -> "−2c"; Kristallphiole -> "−1s17"; Staub des Verfalls
+    Händler 20c, Markt 38c -> "−13c"; Essenz des Schmerzes Händler 50c, Markt 20c -> "−37c". Die Zahlen folgen keiner erkennbaren gemeinsamen Formel.
+    Verdacht, zu messen: es wird teils der Händler-ANKAUFSpreis (Verkaufspreis an den Händler, z. B. 25c) statt des Händler-Verkaufspreises genommen.
+    Auftrag: Formel mit Datei:Zeile belegen, für alle 7 Items nachrechnen (Tabelle im Bericht), korrigieren; Zeile beschriften, was gemeint ist
+    (z. B. "beim Händler kaufen und im AH verkaufen: +x / Stück, nach 5 % Gebühr"). Test mit diesen 7 Items + Gegenprobe 0.65.431.
+    Spieltest Gift-Tooltip "ruht · gebunden": mit diesen Bildern NICHT geprüft (Reagenzien, kein Gift/Blendungspulver) – bleibt offen.
