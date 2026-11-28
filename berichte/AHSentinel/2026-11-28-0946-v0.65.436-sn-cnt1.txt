@@ -1,0 +1,26 @@
+BERICHT AHSentinel 0.65.436 – AHS-SN-CNT1 MITTEL (Sniper-Zähler) + Rest SN-DEL1 a · 28.11.2026 09:46 · umgesetzt, zur Prüfung
+md5 AHSentinel-0.65.436.zip (announce/): 4734448f3545200b108ff1395d5a5602 (nur Discord; CurseForge bleibt 0.65.423)
+FULL 0.65.435: 360 PASS / 67 FAIL, Fail-Liste = 0.65.434 (keine neue Rot-Stelle).
+
+1. Ursachen (Code, Verdacht (b) belegt im Nachbau):
+   (b) "weggeschnappt": Sniper.lua Sn:FinishSearch (SN-UI1) markiert jedes Angebot des vorigen Ergebnisses, das im neuen fehlt, als "weg" und zählt
+       RowStat "gone". Seit 0.65.432 liest eine Runde nur 3 Varianten-Schlüssel (2 günstigste + 1 im Wechsel) -> die Angebote des Wechsel-Schlüssels
+       fehlten in der nächsten Runde und galten als weggeschnappt. Nachbau s349 (5 Varianten, nichts verschwindet, 60 s ohne Mausrad):
+       0.65.435 "weggeschnappt 28".
+   "verpasst"/"offen": Sn:MeterEnd zählte nur "gekauft" und MISS_KINDS (weg/gestiegen/Fehler/abgelaufen); "über Max" blieb für immer "offen";
+       ein Treffer ohne jede Raste ("weg", weil andere kauften oder der Treffer ersetzt wurde) zählte als "verpasst".
+   "1 offen" nach dem Löschen (Spieltest 06:54): es gibt immer höchstens EINE laufende Episode (Sn.episode) - die übrigen "offen" waren beendete
+       Treffer mit Ausgang ausserhalb MISS_KINDS (z. B. "über Max"), nicht weitere Episoden des Ziels.
+2. Behebung (Sniper.lua):
+   - Varianten-Weg: jedes gelesene Angebot bekommt l.vk (Schlüssel Stufe:Suffix), s.readKeys = gelesene Schlüssel dieser Runde. FinishSearch: fehlt
+     ein Angebot eines NICHT gelesenen Schlüssels, bleibt es in der Liste (höchstens Sn.CARRY_S = 60 s, nach Preis einsortiert, "weg"-Zeilen ans Ende);
+     "weg"/weggeschnappt nur bei gelesenem Schlüssel.
+   - MeterEnd: jeder Ausgang zählt; ohne Raste/Taste (ep.presses = 0) -> st.idle "ohne Raste", sonst -> verpasst. StatsText: mit idle > 0
+     "Heute: n Treffer · n mit Kauf · n verpasst · n ohne Raste · n offen · …" (neuer Text, 10 Locales); ohne idle Text wie bisher.
+     Treffer = mit Kauf + verpasst + ohne Raste + offen (offen höchstens die laufende Episode).
+   - "Nicht gekauft (kein Mausrad)" = "ohne Raste" (Wortwahl kurz für die Kopfzeile).
+3. Tests: s349 (0.65.435 FAIL: weggeschnappt 28; "über Max"/ohne Raste -> "1 offen"; 0.65.436 PASS: weggeschnappt 0, verpasst 0, nach Löschen 0
+   offen, Ausgänge nicht offen, "1 ohne Raste"). T271 angepasst: Ende "weg" MIT Raste = verpasst (wie gemeint). 35 Sniper-Szenarien + s42/s43/s341
+   alt = neu ausser s349. addon_check OK. FULL 0.65.436 folgt allein.
+4. (a) Chat "Treffer: 1x …" 4×: Wiederholung höchstens alle PRINT_REPEAT 30 s je Treffer (Sniper.lua Kommentar bei 2161); mit (b) endet die
+   Episode nicht mehr fälschlich -> Verdacht: seltener; im Spiel zu messen.
