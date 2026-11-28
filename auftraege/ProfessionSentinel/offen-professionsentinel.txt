@@ -1193,3 +1193,23 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
       Vorschlag NIEDRIG (PS-VAL-HV1): in der Urteilszeile bei "Lohnt bis" den Weg nennen ("Lohnt bis 20s 25c, Händler") – damit klar ist, warum
       der Wert unter dem Händlerpreis liegt.
     PS-DL: 0.9.101 weiter NICHT nach download/ – erst nach Bild Plan "Skillen" mit 0.9.101.
+
+>>> SPIELTEST 0.9.101 Plan "Skillen" – 11 Bilder Nutzer 28.11. 10:35, Supervisor 10:40:
+    BESTANDEN PS-UI-OVL1: "Nächster Schritt: 110 -> 115" (Billigst) bzw. "110 -> 111" (Mit Vorrat) steht in eigener Zeile, lesbar, ohne
+    Überlappung; Kopftext 3–4 Zeilen frei; Fusszeile gekürzt "Warteschlange l…" ohne Überlappung mit der Build-Zeile. Titel "– Plan /
+    – Rangliste / – Lehrer" ok. Rechnung Tooltip Flammenstiefel nachgerechnet: 58s32c+1s80c+2g31s86c+1s7c = 2g93s5c, 3s23c − 2g93s5c =
+    −2g89s82c – geht auf. PS-UI-OVL1 ERLEDIGT.
+    NEU:
+    - PS-SK3 MITTEL: Magiestoffballen steht im Plan (Billigst und Mit Vorrat) als "[lernen] Skill ? · 23 Punkte" und zieht "Magiestoff
+      mindestens 115" in die Einkaufsliste – obwohl kein besuchter Lehrer es führt (PS-SK2-b: "im Beruf ohne Lernstufe"). Freigabe 09:10
+      (Lehrer-Name) sieht vor: "lernbar bei <Lehrer>" nur wenn dort gelesen, sonst "bei keinem besuchten Lehrer (n besucht)". "Skill ?" ist
+      weder das eine noch das andere. Daten Forever (Data_Forever.lua:201) nennen 125 als Lernstufe – dann "Skill 125 (Datenbank, bei keinem
+      besuchten Lehrer)" anzeigen. Entscheiden und belegen: soll ein Rezept ohne gelesenen Lehrer 23 Punkte des Plans tragen? Wenn ja, in
+      der Zeile klar sagen, wo man es lernt bzw. dass es offen ist. Test + Gegenprobe.
+    - PS-PLAN-KOST NIEDRIG (Zahl muss erklärbar sein): Billigst "Material mindestens 6g 73s 87c" (6 Abschnitte), Mit Vorrat "7g 1s 3c"
+      (7 Abschnitte, zusätzlich Rote Wollstiefel lernen). Mit Vorrat ist teurer als Billigst, obwohl eigener Vorrat zuerst zählt. Belegen,
+      warum (anderer Weg, Lernkosten?) und den Grund im Kopf von "Mit Vorrat" nennen. Dazu: Sniper-Budget 7g 19s 14c bzw. 7g 16s 4c –
+      woraus setzt es sich zusammen (Zahl muss aufgehen)?
+    Lehrer-Liste (Ränge, Fraktion, Entfernung, "Experte ab Stufe 20 (du: 10)") und Rangliste (59 Rezepte · 11 gelernt · 48 zum Lernen) ok.
+    PS-DL 0.9.101: noch offen nur Flut-Tooltip (PS-GOLD-WID, Reiter Gold). Danach frei, sofern PS-SK3 nicht neu in 0.9.101 ist (PS: im
+    Bericht sagen, ob 0.9.100 Magiestoffballen ebenso zeigt).
