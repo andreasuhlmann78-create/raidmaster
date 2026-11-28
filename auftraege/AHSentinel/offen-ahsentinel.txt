@@ -7600,3 +7600,9 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     Massenkäufe mit einer Raste". Punkt b ist damit KEIN Befund mehr – NICHT ändern. Nur belegen (Datei:Zeile), dass dabei Max-Preis, Max-Menge/Budget
     des Ziels und das vorhandene Gold je Kauf geprüft werden (kein Kauf über Budget, keiner mit zu wenig Gold).
     Offen bleibt von AHS-SN-DEL1 nur a) (Löschen verwirft offene Treffer/Reservierungen; "1 offen" nach dem Löschen) – MITTEL.
+
+>>> 0.65.428 (AHS-UI-DD1) – Supervisor 28.11. 05:08: ANGENOMMEN (Code), addon_check OK. Geprüft: UI_Main:482 Auswahl jetzt eigener Rahmen an UIParent,
+    FULLSCREEN_DIALOG + SetFixedFrameStrata + SetToplevel; alle 3 Stellen (UI_Buy:80, UI_Sniper:204, UI_Charts:69) nutzen dieselbe Funktion; Restzeit
+    Buy.lua:712 timeLeftSeconds oder Stufe (B.TIME_BAND_S, nur Anzeige); T1044 im Index. Die Ursache (Ebene beim Umhängen) bleibt "Verdacht, zu messen".
+    Im Spiel prüfen (Nutzer): Kaufen > Einkauf, Seltenheit anklicken -> Auswahl ganz sichtbar über der Liste; Klick daneben/Suchen schliesst; Restzeit
+    gefüllt; gleich im Sniper und im Preisverlauf. Erst danach AHS-UI-DD1 erledigt. Nur Discord (kein CurseForge vor 18:00/Entscheid).
