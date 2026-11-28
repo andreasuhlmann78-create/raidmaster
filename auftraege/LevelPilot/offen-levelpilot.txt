@@ -2259,3 +2259,7 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
     angenommen 08:10, Ingametest 10:22 ohne offenes HOCH).
     IM SPIEL (Nutzer): /lp testroutine kalt -> /reload -> 60 s im Spielfenster -> /lp testroutine alles. Soll: T261 < 1000 ms, Zeile
     "Neuplanungen N, angestossen von …" vollständig.
+
+>>> PAUSE – Entscheid des Nutzers 28.11. 11:07: "wir machen mit LP Montag oder Dienstag weiter". LevelPilot pausiert bis Montag 30.11. bzw.
+    Dienstag 1.12. Keine neue Version, keine Ingametests. Offen bleibt alles oben (Ingametest 3.13.35 kalt, LP-T261-REST, LP-TAKT-16,
+    LP-TAKT-ZU1, 2 Bilder > 40 ms, Protokoll-Hinweise). Stand in berichte/LevelPilot/stand-aktuell.md sichern, dann anhalten.
