@@ -7688,3 +7688,18 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     Die Zusatzmessung "Item-Antworten je Bild, davon angefordert" NICHT bauen (kein Nutzen fürs Addon). Messzeile bleibt.
     Weiter: T459 Nachlauf-Speicher (89 976 KB ausserhalb von Aufgaben) je Schritt aufschlüsseln, dann AHS-SP1 (d). HOCH-Befunde gehen vor:
     AHS-SN-FIND1 (Sniper findet Ältestenhandschuhe nicht) und AHS-BH-REN2 (Rendite Entzauber-Kosten 0).
+
+>>> 0.65.430 (AHS-SN-FIND1 HOCH) – Supervisor 28.11. 06:15: ANGENOMMEN (Code), addon_check OK. Ursache BELEGT aus dem Protokoll (MakeItemKey
+    liefert bei Ausrüstung die Itemstufe mit -> Rückfall auf Suche per Name lief nie). Geprüft: Sniper.lua:1890 s.genericKey, :2044 neue
+    Bedingung, :2002–2006 bis Sn.VARIANT_MAX = 8 Schlüssel zusammengeführt (ohne doppelte auctionID). s346 mit Gegenprobe, Umlaut ist NICHT die Ursache.
+    Gold-Sicherheit: Kauf eines Angebots aus einem früher gelesenen Schlüssel ist "Verdacht, zu messen" – Max-Preis/Budget/Gold müssen auch dann
+    vor dem Kauf gelten (Sn:Confirm PriceOK) – im nächsten Bericht mit Datei:Zeile bestätigen.
+    Im Spiel prüfen (Nutzer): Sniper-Ziel Ältestenhandschuhe -> Angebote > 0; Protokoll "SNIPER-NAME … Suchschlüssel gelesen"; ein Kauf mit
+    Raste -> Gold sinkt um genau den Preis. Einkauf-Zeilenbeschriftung (Punkt 4): Messauftrag ok, Vorschlag abwarten.
+>>> BEFUND AHS-CF-1 MITTEL (CurseForge, Spieler 1, 27.11. 14:26 UTC, UNBEANTWORTET) – aus berichte/Supervisor/2026-11-28-0602-curseforge-meldungen.txt:
+    "Preisverlauf-Graph im Tooltip erzwingen – egal welche Einstellung, beim Darüberfahren über ein Item erscheint kein Graph." Version nicht genannt.
+    Auftrag: belegen (Datei:Zeile), wann der Tooltip den Graphen zeigt (Einstellung, Taste, nur mit Daten ≥ n Tage, nur im AH?) und ob es einen
+    Fall gibt, in dem er trotz Einstellung nie kommt; ggf. beheben. Dazu einen kurzen ENGLISCHEN Antworttext (Version, Einstellung, Weg) im Bericht
+    vorschlagen – NICHT selbst posten: Antwort geht nur mit OK des Nutzers raus.
+    Hinweis: Spieler 4 meldete am 17.–21.11. zu tiefe Verkaufspreise für "Shredder Operating Manual – Page 1" (Schredderanleitung). Heute
+    AHS-MKT-WID2 Punkt 1 betrifft wieder die Schredderanleitung (Marktwert 2s84 vs Preis 30s) – beim Belegen mitprüfen, ob es dieselbe Ursache ist.
