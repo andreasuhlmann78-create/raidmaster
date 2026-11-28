@@ -7729,3 +7729,11 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     Test mit diesen Zahlen + Gegenprobe 0.65.430. Schritt 2b.
 >>> SPIELTEST AHS-UI-DD1 Teil 2 – Nutzer 28.11. 06:18 (0.65.430): Klick daneben schliesst die Seltenheits-Auswahl – BESTANDEN.
     Offen: Restzeit-Spalte bei Ausrüstung (Ware öffnen), Auswahl im Sniper/Preisverlauf.
+
+>>> BEFUND AHS-SN-SORT1 MITTEL (Sniper-Liste nach Zusammenführen der Varianten) – Bilder Nutzer 28.11. 06:19 (0.65.430), Supervisor 06:32:
+    Nutzer: "ich habe das Gefühl, er sucht nicht richtig". Sniper sucht (gesucht vor 1–4 Sek., "Suche läuft"), findet 22 Angebote, "Nächster Kauf:
+    1 Stück für 14s", "Insgesamt 8 Stück für 1g16s (Ø 14s50) – 8 Käufe" – Suche und Plan stimmen. ABER die Liste ist NICHT nach Preis sortiert:
+    14s, 14s, 14s, 90s, 90s, 98s, 98s, 98s50, 14s, 15s, 15s, 16s, 16s70, 16s70 (Seite 1 von 2) – offenbar je Varianten-Schlüssel hintereinander
+    angehängt (0.65.430, Sniper.lua:2002–2006). Wirkt wie falsche Suche. Auftrag: nach dem Zusammenführen ALLE Angebote nach Preis/Stück sortieren
+    (günstigste oben, über Seiten hinweg); Kopf "22 Angebote · 16 passende Items" verständlich machen (siehe SN-FIND1 Frage). Test mit 3 Varianten
+    in gemischter Reihenfolge + Gegenprobe 0.65.430. Kauf-Reihenfolge (günstigste zuerst) im selben Test belegen.
