@@ -2184,3 +2184,9 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
       Messung verwerfen, z. B. /lp testroutine kalt) oder die Ablage beim Versionswechsel ungültig machen. Erst mit kaltem Wert < 1000 ms erledigt.
     - Reisen: längstes 17,0 ms, Überschreitung 6,9 ms jetzt bei Planner.lua:784 (vorher Graph.lua:1048) – NIEDRIG.
     - Umgebung unruhig (92 Bilder/s, Ruhe 95 % 34 ms, längstes 247 ms) – 11 von 12 ganzen Bildern über 40 ms durch Spiel/Umgebung.
+
+>>> 3.13.33 (T261 kalt, Auslöser, T402) – Supervisor 28.11. 06:34: ANGENOMMEN (Code), addon_check OK. Ablage-Kennung belegt (Graph.lua:851–888:
+    je Zone über das Wegnetz, nicht über die Version; Messung ohne Ablage erst nach 60 s) – Entscheid, die Ablage beim Update NICHT zu verwerfen,
+    ist richtig (sonst Arbeit für alle Spieler). /lp testroutine kalt nur im Testmodus, T402 mit Gegenprobe.
+    Im Spiel (Nutzer): /lp testroutine kalt -> /reload -> 60 s warten -> /lp testroutine alles. Soll: T261 "erstes (Ablage leer/neu)" < 1000 ms,
+    dazu Zeile "Neuplanung angestossen von: …" (ob debugstack "(tail call)" so schreibt – sonst "Perf.lua:152" melden). T155 weiter HOCH offen.
