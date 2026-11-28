@@ -1156,3 +1156,13 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
     bzw. Rezeptdaten)? Gehört es zu den 39 nur, weil dieser Lehrer es nicht führt – dann im Plan als "lernbar bei <Lehrer, Ort>" statt still weglassen.
     PS-SK2-b ERLEDIGT. Alle Spieltests 0.9.99/0.9.100 durch (P3, SK2-b, TT-RECH, TT-EINH, EIG1-Plan). Offen: PS-UI-OVL1, PS-PERF-TSU1, Eigenbedarf
     Einzel-Einkauf (Entscheid 06:43), PS-UI-REZ1, PS-GOLD-WID, PS-LVL-EINH.
+
+>>> 0.9.101 – Supervisor 28.11. 09:10 (selbständig): ANGENOMMEN (Code), addon_check OK. Einzel-Einkauf = Eigenbedarf (Entscheid 06:43) mit T307.
+    PS-PERF-TSU1: meine Lesart war falsch – belegt: "×n" zählt seit 05.11. über alle Sitzungen, 120,9 ms ist die Summe eines Neuaufbaus über
+    viele Bilder (längstes Bild 6,6 ms). Protokollzeile trennt jetzt Sitzung/gesamt und Summe/längstes Bild – gut. Punkt auf NIEDRIG; Rest
+    ("Anfragen je Ereignis senken") erst nach Messung "diese Sitzung k".
+    PS-UI-OVL1, PS-UI-REZ1 ("Rezepte !n" = Rezept-Alarm, Tooltip), PS-GOLD-WID (Flut-Urteil) umgesetzt – im Spiel zu prüfen.
+    PS-LVL-EINH: bleibt wie entschieden ("Formel-Chance intern") – GESCHLOSSEN, kein neuer Entscheid nötig.
+    FREIGABE Vorschlag Magiestoffballen: beim Lehrerbesuch den Namen des Lehrers zu den angebotenen Rezepten merken; Plan zeigt "lernbar bei
+    <Lehrer>" nur wenn dort gelesen, sonst "bei keinem besuchten Lehrer (n besucht)". Keine Namen von Spielern (nur NPC). Test + Gegenprobe.
+    PS-DL: 0.9.101 erst nach Spieltest (Plan-Kopf, Fusszeile, Filterzeile, Flut-Tooltip, /ps protokoll "diese Sitzung").
