@@ -7,6 +7,12 @@ Wortlaut kurz, Wirkung und wo er umgesetzt wird (Auftrag/Kürzel). Spätere Änd
 Ältere Entscheide (vor 13.11. abends) stehen in wirtschaft-forever.md (Abschnitte "Entscheid des Nutzers …"),
 markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelten weiter.
 
+## 28.11.2026
+
+| Zeit | Entscheid | Folge |
+|---|---|---|
+| 04:55 | Anzeige-Befunde AHSentinel vom Morgen: "wir dürfen das nicht vergessen zu erledigen … wie Masterplan" | Reihenfolge Masterplan bleibt (zuerst Schritt 2 Vollscan/Stabilität); die 10 Anzeige-Befunde stehen als eigener SCHRITT 2b im Masterplan (vor R1–R7), keiner geht verloren. |
+
 ## 27.11.2026
 
 | Zeit | Entscheid | Folge |
