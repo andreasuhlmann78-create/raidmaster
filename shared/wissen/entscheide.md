@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Folge |
 |---|---|---|
+| 10:36 | AHSentinel Sniper, zwei Ziele mit Treffer gleichzeitig (AHS-SN-UX1 Punkt 2): "Alle 3 s wechseln (wie jetzt)" | SN-Z4 bleibt (ROTATE_S 3 s). Rechts nie ein Ziel ohne Treffer, Wechsel nur zwischen Zielen mit Treffer, frühestens nach 3 s. Entscheid in der AHS-Sitzung, Bericht 10:36. |
 | 06:43 | ProfessionSentinel Einzel-Einkauf aus der Rezeptansicht (UI.BuyForRecipe): "Eigenbedarf" | Sniper-Ziele aus dem Einkauf für ein einzelnes Rezept bekommen zweck = "eigenbedarf" (keine Verlust-Warnung in AHSentinel). Gewinn-Wege (Heute herstellen, Schnäppchen, Herstellen & Entzaubern, Rezept-Alarm) bleiben ohne Zweck und warnen weiter. |
 | 05:35 | LevelPilot Startwegnetz: "Erst Haralds Zonen dazu" | Zuerst die nur von Offizier B gelaufenen Zonen (Schlingendorntal, Arathi, Flusslande …) ins Wegnetz-Werkzeug (Zonengrössen messen), Route 1–60 alt/neu neu messen, dann EINE Version. Reihenfolge: T155/T261 (HOCH) zuerst. |
 | 05:03 | Sniper: "alle solange genug Gold da ist, aber so ist es auch richtig … Massenkäufe mit einer Raste" | Eine Mausrad-Raste kauft alle Angebote des Treffers (z. B. 208x Wollstoffballen), solange Gold reicht – gewollt, kein Fehler. Grenzen bleiben Max-Preis/Max-Menge/Budget des Ziels und Gold. AHS-SN-DEL1 Punkt b damit entschieden. |

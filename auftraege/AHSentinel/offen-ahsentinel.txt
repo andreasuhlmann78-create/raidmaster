@@ -7861,3 +7861,12 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     6. Kopf "320 Angebote" vs "Nächster Kauf … Insgesamt 39 Stück für 4g92s64 – 39 Käufe" ist richtig (Budget 5g), aber "1 weitere Treffer warten"
        ohne Erklärung, welche. Text klären.
     Test mit 3 Zielen, die gleichzeitig Treffer haben (Nachbau), + Gegenprobe 0.65.436. VOR 2b-Rest, direkt nach REN2/RATE1.
+
+>>> 0.65.437 – Supervisor 28.11. 11:05: ANGENOMMEN (Code), addon_check OK. AHS-SN-UX1 HOCH umgesetzt: Nachbau s350 mit Gegenprobe
+    (0.65.436: rechts ≠ Kaufziel 21/197, Ziel ohne Treffer rechts 6, kürzeste Standzeit 0,3 s, Chat 6 Zeilen -> 0.65.437: 0, 0, 3,3 s, 2 Zeilen).
+    FULL 362/67 allein, keine neue Rot-Stelle. Punkt 2 nach Entscheid des Nutzers 10:36 ("alle 3 s wechseln") – in entscheide.md übernommen.
+    Punkte 1, 3, 5, 6 umgesetzt; 4 (SN-CNT1) steckt seit 0.65.436.
+    IM SPIEL PRÜFEN (Nutzer, nach /reload, Sniper mit 2–3 Zielen, davon eines ohne Treffer): (1) rechts steht immer das, was Knopf/Raste
+    kauft; (2) nie ein Ziel ohne Treffer rechts, Wechsel frühestens nach 3 s; (3) Chat höchstens 1 Zeile je Ziel und 30 s; (4) Zähler unten
+    ohne Dauer-"offen"; (5) Enter in leerem Feld: keine rote Zeile. AHS-SN-UX1 bleibt offen bis zu diesem Spieltest.
+    Weiter nach Masterplan (Nachtrag 10:20): Schritt 2 Rest (T459 + SN-LAG2 + SP1).

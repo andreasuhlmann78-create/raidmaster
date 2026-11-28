@@ -2249,3 +2249,13 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
     - LP-TAKT-16 NIEDRIG: 10 Schritte über 16 ms (T352 36 ms, T21 31 ms, T291 28 ms, T263/T30 20 ms, T128/T270/Sandbox 19 ms, T292/T234 18 ms).
       Alle unter 40 ms, darum NIEDRIG; im Zug der Masterplan-Reihenfolge in Portionen ≤ 16 ms teilen, mit T352 beginnen.
     - "ganze Bilder über 40 ms: 5, davon durch Spiel/Umgebung 3" – die 2 übrigen (eigene Portion > 16 ms?) bitte mit Schritt nennen.
+
+>>> 3.13.35 – Supervisor 28.11. 11:05: ANGENOMMEN (Code), addon_check OK. T261 (b) Ursache BELEGT (Planner.lua:2774 Throttle ruft sofort
+    UND nach Fenster ohne Bedingung -> 62 + 29 Nachholen = 91 Neuplanungen/60 s, im Nachbau 94). Neues LP:Coalesce nur für die Neuplanung
+    (Fenster 3 s, genau ein Nachlauf), Throttle für die übrigen 23 Nutzer unverändert – gut. Nachbau Ereignis-Sturm: 94 -> 29 Replan,
+    150 -> 51 ms; T404 mit Gegenprobe. T261 (a): Auslöser-Liste ungekürzt im Feld "einloggen" – ok.
+    Offen: T261 im Nachbau 804 ms (Ziel < 800 knapp verfehlt; Rest start 338, backup 159) – eigener Punkt LP-T261-REST NIEDRIG.
+    LP-DL1: download/LevelPilot-3.13.34.zip = announce 3.13.34 (md5 dc659444… geprüft), Workflow Addon-Prüfung grün – IN ORDNUNG (DL-ABN:
+    angenommen 08:10, Ingametest 10:22 ohne offenes HOCH).
+    IM SPIEL (Nutzer): /lp testroutine kalt -> /reload -> 60 s im Spielfenster -> /lp testroutine alles. Soll: T261 < 1000 ms, Zeile
+    "Neuplanungen N, angestossen von …" vollständig.
