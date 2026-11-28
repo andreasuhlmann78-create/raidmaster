@@ -7509,3 +7509,8 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     der Flipping-Rechner übernimmt die Zeile mit AH-Gebühr 0 % (Händler) -> Gewinn 8c, Marge +0,2 % – stimmt. Beim Beulenhammer dagegen Entzauber-Gewinn
     −21s05 ohne Weg. AHS-TT-WEG: belegen, warum der Tooltip einmal den Händler-Weg und einmal den Entzauber-Weg zeigt (Regel?), und einheitlich machen.
     Hinweis (Psychologie, NIEDRIG): Zauberstab 50 Angebote × 52s10 = 26g Einsatz für ~4s Gewinn – in der Liste den Einsatz neben "Gewinn gesamt" zeigen.
+    Nachtrag 04:47 (Bild 04:41, Schnäppchen > Gebote, 10 %): "Keine Schnäppchen gefunden. Dafür braucht es Scans über mehrere Tage." – gleiches Bild wie
+    AHS-MR4-T ("0 von 5 Tagen") trotz wochenlanger Scans -> gemeinsame Ursache prüfen (Tagesdaten fehlen/werden verworfen?). Zusätzlich prüfen: Gebote
+    brauchen die Restzeit – im Einkauf stand bei allen Angeboten Restzeit "-" (AHS-UI-DD1 Nebenpunkt). Liefert Forever die Restzeit nicht, kann der
+    Reiter "Gebote" nie etwas zeigen -> dann ehrlich sagen ("in WoW Forever ohne Restzeit nicht möglich") statt "mehrere Tage". Kopftext
+    "Klick auf ein Item: im Einkauf (…" wird vom Stufen-Knopf "10 %" überdeckt (abgeschnitten) – mit AHS-TXT-CUT beheben.
