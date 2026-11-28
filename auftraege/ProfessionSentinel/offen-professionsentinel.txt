@@ -1102,3 +1102,8 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
     Im Spiel prüfen (Nutzer): Händler öffnen/schliessen ohne Kauf -> /ps protokoll ohne neues "WorthUpTo vergessen"; mit Kauf -> genau ein Eintrag
     "Händler: Kauf/Verkauf"; Lehrer öffnen -> Zeile "ohne Lernstufe z: Namen" (steht Magiestoffballen darin?). Erst danach PS-P3/PS-SK2-b erledigt.
     PS-DL: 0.9.99 darf nach download/ (ersetzt 0.9.98).
+
+>>> PS-AHS-EIG1 – Ergänzung Supervisor 28.11. 05:33: AHSentinel 0.65.429 nimmt jetzt Sn:SetTarget(…, f) mit f.zweck = "eigenbedarf",
+    f.quelle = "ProfessionSentinel" (keine Verlust-Warnung, grauer Hinweis "Eigenbedarf"). Auftrag PS: Disenchant.lua:735 (Sn.SetTarget(Sn, id, max,
+    qty, max*qty)) als 5. Wert { zweck = "eigenbedarf", quelle = "ProfessionSentinel" } mitgeben – nur für Plan-/Warteschlangen-Zutaten (alte AHS
+    ignorieren das Feld). Test mit Sniper-Attrappe: Feld kommt an; Gegenprobe ohne Feld. Buchung beim Kauf: mit AHS abstimmen (Bericht).

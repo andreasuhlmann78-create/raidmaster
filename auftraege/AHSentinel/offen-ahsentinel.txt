@@ -7615,3 +7615,12 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     bedeutet (Max 12s ist nur +12 % über 10s69). Bei den Stulpen steht dafür "Käufe darüber bringen zu wenig". Auftrag: belegen (Datei:Zeile), was
     "+60 %" misst; Text so, dass der Spieler ohne Rechnen versteht, was er bedeutet (z. B. "Max 12s liegt 12 % über Lohnt bis – Gewinn je Stück nur
     noch 89c statt Mindestgewinn"), an beiden Stellen gleich. Im Schritt 2b mitnehmen.
+
+>>> 0.65.429 (2b Teil 1: SN-DEL1 a, PS-EIG1 AHS-Seite, CHAT-PROFIT, TXT-CUT) – Supervisor 28.11. 05:33: ANGENOMMEN (Code), addon_check OK.
+    Geprüft: Sniper.lua:416 RemoveTarget -> Sn:ForgetTarget:425 (Ergebnis, hitQueue, btnHit, heldUse, urgentKey, pending -> CancelPending, offene
+    Episode -> hits−1); Budget je Raste Sniper.lua:3144 math.min(budgetLeft, money) – passt zum Entscheid 05:03. T1045–T1047 mit Gegenprobe.
+    PS-Seite für Eigenbedarf als Auftrag an ProfessionSentinel weitergegeben (offen-professionsentinel PS-AHS-EIG1). Buchung Eigenbedarf beim Kauf:
+    mit PS abstimmen, Vorschlag im nächsten Bericht (Buchhaltung.md beachten, kein Doppelbuchen mit EB1).
+    CHAT-PROFIT 96 vs 67: "Verdacht, zu messen" (Liste vor Scan-Ende geöffnet) – im Spiel: nach Scan-Ende Liste öffnen, Zahl = Chat?
+    Im Spiel prüfen (Nutzer): Sniper-Ziel mit offenem Treffer löschen -> "offen" geht weg, keine Meldung mehr; Chatzeile Händlerpreis nennt den Weg
+    "Kaufen > Schnäppchen > Händlerpreis". Nur Discord.

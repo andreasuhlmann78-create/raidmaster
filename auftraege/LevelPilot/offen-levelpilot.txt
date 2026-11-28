@@ -2148,3 +2148,16 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
     141 h 30, 2 344 Schritte, 814 Quests, 1 446 112 yd. Auftrag zum Probebau (stand-aktuell Schritt 5): im Bericht Route 1–60 ALT gegen NEU
     (Startwegnetz mit Wegdaten Nutzer+B) nebeneinander: Stunden, Schritte, Quests, Yards, dazu die 5 Zonen mit der grössten Änderung, und
     Gegenprobe, dass keine Strecke durch neue Kanten unmöglich wird (Wände/Ebenen). Erst dann als eigene Version.
+
+>>> INGAMETEST 3.13.31 – Nutzer 28.11. 05:11 (PC, Priester 10, Undercity), Supervisor 05:33: OK 336 · FEHLER 1 · SKIP 9 · Client 55 · 978 s.
+    - T261 Einloggen: 699 ms in 60 s (soll < 1000), längster 17 ms – ABER "Einloggen: zweites (Ablage getroffen)" = warm mit Ablage. Gestern 1810 ms.
+      Auftrag: belegen, ob das ERSTE Einloggen (kalt, ohne Ablage, z. B. nach Versionswechsel) auch < 1000 ms ist; Testroutine soll kalt/warm
+      ausweisen. Erst mit kaltem Wert < 1000 ms ist T261 erledigt. route replan 362 ms/136× ist der grösste Teil – erklären, warum 136 Neuplanungen in 60 s.
+    - NEU FEHLER T155 (Planung je Reiseschritt): 18,36 ms je Planung (soll < 16), Median 10,55, längste 70,5 ms (#6 Stufe 10, Zone 1458, +1452 KB),
+      627 KB je Planung. HOCH (Ruckeln beim Spielen). Ursache belegen (Datei:Zeile), beheben, Nachbau mit diesen Zahlen.
+    - Längstes Bild 91,2 ms T398–T401 (T401 91 ms) – gestern 79,8 ms (Grundregeln). Soll < 40 ms: Ursache T401 belegen.
+    - Reisen: längstes 17,2 ms, Überschreitung 7,1 ms Graph.lua:1048 (wie Bericht, NIEDRIG).
+    - Fehlerzähler 0, echte Daten unverändert OK, Regressionen 101/101.
+>>> ROUTE 1–60 ALT/NEU (Bericht 05:23) – Supervisor 05:33: Bericht gelesen, sauber (gleiche Bedingungen, beide Fälle, Stufenzeiten, Gegenprobe).
+    Konto −0/+14 min (+0,2 %), neuer Spieler −3 h 56 (−2,0 %). Entscheid beim Nutzer, ob NEU als Version kommt und ob die nur von B gelaufenen Zonen
+    (Schlingendorntal, Arathi, Flusslande …) ins Werkzeug sollen. Bis dahin nichts veröffentlichen. Vor jeder Version mit NEU: T261/T381 im Nachbau.
