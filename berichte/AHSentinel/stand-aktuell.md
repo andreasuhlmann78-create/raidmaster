@@ -1,19 +1,19 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 28.11.2026 07:15 · Version 0.65.432 (Discord); CurseForge 0.65.423; 0.65.431 angenommen (Code); SN-FIND1 erledigt (Spiel)
+## Stand 28.11.2026 07:48 · Version 0.65.433 (Discord); CurseForge 0.65.423; 0.65.431 angenommen (Code)
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/<RECHNER>/forever/konto-*/AHSentinel.lua.gz; PC = DESKTOP-NVITMSE; Nachlieferung Rechner B: eigener Zweig).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
  erwartet in /tmp/claude-0/rel/: AHSentinel-<V>.zip, notes.md, bericht.txt, stand.md – stand.md VORHER aus dem Repo übernehmen!).
-Nachbau: FULL=1 nur auf Kopie und ALLEIN (pgrep run_all.sh leer). FULL 0.65.431: 359/67, keine neue Rot-Stelle (fail431.txt).
+Nachbau: FULL=1 nur auf Kopie und ALLEIN (pgrep run_all.sh leer). FULL 0.65.432: 360/67, keine neue Rot-Stelle (fail432.txt).
  Echte Daten im Sim: HORDE=1, Ausgaben eigener Szenarien nur mit TR_TEXT=1. KB-Messung "Lohnt bis": zz_api4 NOTB=1 (sonst +21 KB Messhülle),
  je Funktion SINGLE=Mod:Fn. PC-Daten entpackt: /tmp/claude-0/tb1/pc_cur.lua (27.11. 23:17).
 
 ## Gerade in Arbeit
-- 0.65.432 = AHS-SN-RATE1 HOCH (Varianten-Schlüssel 5 Min. gemerkt, 3 Anfragen je Runde, s348). Danach REN2 Teil 2 (Entscheid Supervisor 07:16: realisiert).
+- 0.65.433 = AHS-BH-REN2 Teil 2 (Rendite aus Books-Buchungen, Summe = Kopfzeile 48g69s08 mit PC-Daten). FULL 0.65.433 allein.
 
 ## Nächste Schritte (Reihenfolge, Entscheid 04:55)
-1. FULL 0.65.432 allein. REN2 Teil 2: Rendite Entzaubern = Erlös verkaufter Materialien nach 5 % − umgebuchter Einstand; Lager separat; Summe Arten = Kopfzeile 48g69s08 (zz_ren2, pc_0550.lua). Dann AHS-CF-1, PS-AHS-EIG1 Buchung, VEN-GW1, Rest 2b.
+1. FULL 0.65.433 (gegen fail432.txt). Dann REN2 Zusatz "noch im Lager aus Entzaubern (unrealisiert)", AHS-CF-1 (Graph Tooltip, EN-Antwort nur Vorschlag), PS-AHS-EIG1 Buchung Eigenbedarf, VEN-GW1, CHAT-PROFIT Zahl 14/22, PROF-SP1, Rest 2b.
 2. Schritt 2.2: I4 erreicht, VS-121b geschlossen (Supervisor 05:50). Rest: T459 Nachlauf-Speicher (89 976 KB) je Schritt, dann AHS-SP1 (d).
 3. Rest Schritt 2b: AHS-MR4-T zuerst (ma4log der PC-Daten LEER = nie ein Band belegt; Verdacht: W:LevelBands rechnet nach dem Login mit
    W:ReqLevel ohne Item-Cache -> zu wenige Items, Ergebnis gilt den ganzen Tag (W.ma4.day); im Sim mit PC-Daten messen), Gebote leer

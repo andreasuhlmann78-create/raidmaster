@@ -1,0 +1,23 @@
+BERICHT AHSentinel 0.65.433 – AHS-BH-REN2 Teil 2 (Entscheid Supervisor 07:16: realisiert, Summe = Kopfzeile) · 28.11.2026 07:48 · umgesetzt, zur Prüfung
+md5 AHSentinel-0.65.433.zip (announce/): b18508bf6c81f4049c4c5767c7a9b5a6 (nur Discord; CurseForge bleibt 0.65.423)
+FULL 0.65.432: 360 PASS / 67 FAIL, Fail-Liste = 0.65.431 (keine neue Rot-Stelle).
+
+1. Umsetzung (Activity.lua): neu Act:BusinessBooks(periodKey) - dieselben Buchungen und Bedingungen wie Books.lua BK:Summary (Kopfzeile):
+   je Verkauf k="sale", st nicht "p"/"x": Erlös rev und Kostenbasis cost; Art = bt (de/flip/craft; vendor/mix/unknown -> neue Zeile "Sonstiges");
+   Anteil ohne Einkauf (free) -> "Rohstoffe" (Erlös anteilig, Kostenbasis 0 - wie BK:Summary freeRev); Entzauber-Ausbeute k="dey" -> Entzaubern;
+   verfallene Einzahlungen (BK:DepositStatus) -> Sonstiges (eingesetzt). Zeitraum = BK:PeriodStart (wie Kopfzeile, "Seit Neustart" = since).
+   Act:Business nimmt diesen Weg, sobald die Buchhaltung da ist; der alte Weg (Ledger) bleibt nur als Rückfall (Act.forceLedger in T263/T264).
+   Unverkaufte Materialien sind nicht mehr im Gewinn (vorher Marktwert der ganzen Beute).
+2. Beleg mit den PC-Daten 28.11. 05:50 (Nachbau zz_ren2, "Seit Neustart"):
+   0.65.432: Arten zusammen 69g65s87, Kopfzeile 48g69s08 (Differenz 20g96s79).
+   0.65.433: Flippen eingesetzt 7g27s68 / erlöst 7g62s18 · Herstellen 1g30s32 / 1g42s94 · Entzaubern 117g04s68 / 147g70s99 (Gewinn 30g66s31) ·
+   Rohstoffe 0 / 17g84s78 (= "Herkunft unbekannt 17g84s78" im Bild 04:42) · Sonstiges 2g78s00 / 2g48s87 · GESAMT eingesetzt 128g40s68,
+   erlöst 177g09s76, Gewinn 48g69s08 = Kopfzeile 48g69s08 (Differenz 0), Rendite 37 %. Entzaubern eingesetzt 117g04s68 ≈ "Pro Item"
+   Entzauber-Gruppen 117g36s08 im Bild (Bild 04:42, Daten 05:50 - Differenz durch Verkäufe dazwischen, zu prüfen im Spiel).
+3. Rendite 24 % (AHS-BH-REN) vs. 37 % hier: die Kopfzeile teilt durch einen anderen Nenner (BE1/BE3: nur Ware mit Einkauf, Gewinn ohne
+   Einkauf abgezogen: (48g69 − 17g85) / 128g41 = 24,0 %). Belegt aus Books.lua (BE1/BE3-Formel nach s.profit). Vorschlag für BH-REN: Tooltip
+   der Zahl zeigt "(Gewinn 48g69 − ohne Einkauf 17g85) / eingesetzt 128g41 = 24 %"; Rendite-Reiter Gesamt dann gleiche Formel - Entscheid Supervisor.
+4. Tests: T1049 (Index AHS-BH-REN2-T2): Entzaubern 330 · Flippen 150 · Rohstoffe 100 · Sonstiges 60 · Summe 640 = Kopfzeile 640 (mit ausstehendem
+   Verkauf, der NICHT zählt). Gegenprobe 0.65.432: FAIL. T263/T264 (alter Weg) weiter grün. 13 Buchhaltungs-Szenarien alt = neu. addon_check OK.
+5. Offen: Zusatz "noch im Lager aus Entzaubern: n Stück, Wert x (unrealisiert)" im Rendite-Reiter (nächster Schritt); Reiter "Entzaubern" (je Tag)
+   nutzt weiter Le:DisenchantReport (jetzt mit Einsatz aus den Buchungen, 0.65.431).
