@@ -1120,3 +1120,15 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
 >>> ENTSCHEID NUTZER 28.11. 06:43 zur Frage UI.BuyForRecipe: "Eigenbedarf". Auftrag: Einzel-Einkauf aus der Rezeptansicht sendet { zweck =
     "eigenbedarf", quelle = "ProfessionSentinel" } wie Plan/Warteschlange. Gewinn-Wege bleiben ohne Zweck. T307 um diesen Fall erweitern
     (mit Gegenprobe). Kleine Änderung – mit dem nächsten Punkt zusammen veröffentlichen.
+
+>>> SPIELTEST 0.9.100 – Bilder Nutzer 28.11. 07:07 (PC), Supervisor 07:20:
+    PS-TT-RECH BESTANDEN: Tooltip Wollcape "Herstellen lohnt nicht −5s86c (Lohnt bis 2s88c − Material 8s74c)" – 2s88 − 8s74 = −5s86, Material
+    7s84 + 90c = 8s74 (geht auf). PS-TT-EINH: "1,0 Wollstoffballen je Herstellung (Punkt nicht sicher)" – Einheit je Herstellung, passt.
+    PS-AHS-EIG1 Plan-Zeile: ">> AH-Zutaten in den Sniper – Budget zusammen höchstens 7g2s26c (Marktwert 6g39s19…" – Summe da, aber der Rest
+    ("dein Gold …") ABGESCHNITTEN ("…"). Klick/Sniper-Hinweis "Eigenbedarf" noch nicht geprüft.
+>>> BEFUND PS-UI-OVL1 NIEDRIG (Überlappung, gleiche Bilder): Plan-Kopf – die Zeile "Nächster Schritt 110 -> 111" liegt ÜBER der Zeile
+    "(gelb/grün: Schritte können mehr Herstellungen brauchen)" (Texte übereinander, unlesbar). Fusszeile – "Warteschlange leer – merke ein Rezept
+    in sei…" liegt über "…0.1.71139 · Quellen 2026-11-25". Dazu Plan-Zeile Sniper abgeschnitten (s. o.). Auftrag: Höhe der Kopfzeilen aus dem
+    Text berechnen (Zeilenumbruch), Fusszeile zweizeilig oder Versionstext an eigene Stelle; Sniper-Zeile umbrechen oder Rest im Tooltip.
+    Test mit dem längsten Text (deDE, 1920×1080 und UI-Skalierung wie beim Nutzer) + Gegenprobe 0.9.100. PS-DL: 0.9.100 darf nach download/
+    (Kernpunkte im Spiel bestanden, Überlappung ist NIEDRIG).
