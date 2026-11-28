@@ -1,0 +1,34 @@
+BERICHT AHSentinel 0.65.435 – AHS-CF-1 MITTEL (CurseForge "kein Graph im Tooltip") + Vorschlag PS-AHS-EIG1 (Buchung Eigenbedarf) · 28.11.2026 09:07
+Stand: umgesetzt, zur Prüfung · md5 AHSentinel-0.65.435.zip (announce/): f542af9b9e53b5001f2de30ed24fc8dc (nur Discord; CurseForge bleibt 0.65.423)
+FULL 0.65.434: 360 PASS / 67 FAIL, Fail-Liste = 0.65.432 (s54 wieder grün, keine neue Rot-Stelle).
+
+1. AHS-CF-1 – Ursache BELEGT:
+   - TT7 (Entscheid des Nutzers 21.11. 09:18, entscheide.md Zeile "Preisverlauf nicht im Tooltip (09:18)"): kein Preisverlauf mehr im Tooltip,
+     Tooltip.lua "-- TT7 (Nutzer 21.11. 09:18): kein Preisverlauf im Tooltip mehr …", Test T933 "ShowChart wird beim Item-Tooltip nicht mehr
+     aufgerufen"; CHANGELOG 0.65.360 "No price history chart in the tooltip (it stays in the windows)".
+   - Die Einstellung "Preisverlauf im Tooltip" (UI_Main.lua w.ttChartBtn, TT:CycleChartDays) war aber noch in Einstellungen > Allgemein und
+     wirkte nicht -> genau der Fall des Spielers ("egal welche Einstellung").
+   - Behebung: Zeile entfernt (UI_Main.lua, Kommentar AHS-CF-1); gespeicherter Wert tooltipChartDays bleibt unbenutzt (alte Clients unberührt).
+     Tests angepasst: T839 / s74 54 statt 55 Optionszeilen; TR-Liste "04" prüft "Einstellung entfernt". Gegenprobe 0.65.434: s74 FAIL (55).
+   - Kein Fall, in dem der Graph im Tooltip doch käme (ShowChart ohne Aufrufer ausser T933-Test).
+   VORSCHLAG Antwort CurseForge (EN, NICHT gepostet – nur mit OK des Nutzers):
+   "Hi, thanks for the report! Since version 0.65.360 the item tooltip no longer shows the price history chart (it shows the price calculation
+    instead). The setting "Price history in tooltip" was left behind by mistake and had no effect – it is removed in 0.65.435. To see the price
+    history: Alt+click an item link while the auction house is closed to open the price history window, or use the chart button in
+    Buy > Shopping."
+   Frage an den Nutzer über den Supervisor: soll es den Graphen im Tooltip wieder als Wahl geben (TT7 rückgängig, aus als Standard)? Kein Bau ohne Entscheid.
+
+2. PS-AHS-EIG1 Buchung Eigenbedarf – VORSCHLAG (kein Bau, Buchhaltung, buchhaltung.md gelesen):
+   Heute: Sniper-Kauf -> Ledger-Eintrag kind "buy" -> Ledger.lua:68 pcall(BK.OnBuy, …) -> Books.lua BK:OnBuy Put(…, "flip") = Handelsware im Lager
+   (Kostenbasis, Lagerwert). Verbrauch beim Herstellen: BK:OnCraft überträgt die Kostenbasis aufs Produkt. EB1 (BK:CheckOwnUse) bucht nur
+   ANGELEGTE Ware als "own".
+   Vorschlag:
+   a) Sniper merkt beim Kauf eines Ziels mit t.zweck = "eigenbedarf" den Zweck am Ledger-Eintrag (e.zweck = "eigenbedarf").
+   b) BK:OnBuy mit Zweck: Put(…, "own") statt "flip" und Log k = "buy" mit own = true. Lagerwert (BK:StockValues / Le:UnitStockValue) zählt Posten
+      mit Art "own" NICHT als Handelsware (eigene Zeile "Eigenbedarf im Lager").
+   c) Verbrauch: BK:OnCraft mit Zutaten aus Posten "own" -> Kostenbasis als Ausgabe Eigenbedarf buchen (Log k = "own", why = "verbraucht"),
+      Produkt ohne diese Kosten (sonst erschiene Skillen als Handelsverlust "Herstellen"). EB1 überspringt Posten "own" beim Anlegen nicht – dort
+      wird ebenfalls k = "own" gebucht, aber nur aus Posten, die noch nicht "own" verbucht sind -> keine Doppelbuchung (je Stück genau eine own-Buchung).
+   d) Wird Eigenbedarf doch verkauft: Verkauf mit Art "own" -> Rendite-Zeile "Sonstiges" (Kostenbasis bleibt), Kopfzeile wie bisher.
+   e) Kopfzeile/Rendite: Eigenbedarf ist nicht im Handelsgewinn (wie EB1 heute), Summe der Arten = Kopfzeile bleibt.
+   Test (nach Freigabe): Kauf mit Zweck -> Lager "own", Herstellen -> 1 own-Buchung, Anlegen -> keine zweite; Gegenprobe ohne Zweck = wie heute.

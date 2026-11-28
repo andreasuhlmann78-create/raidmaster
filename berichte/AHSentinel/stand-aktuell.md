@@ -1,19 +1,19 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 28.11.2026 08:28 · Version 0.65.434 (Discord); CurseForge 0.65.423; 0.65.433 angenommen (Code)
+## Stand 28.11.2026 09:07 · Version 0.65.435 (Discord); CurseForge 0.65.423; 0.65.433 angenommen (Code)
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/<RECHNER>/forever/konto-*/AHSentinel.lua.gz; PC = DESKTOP-NVITMSE; Nachlieferung Rechner B: eigener Zweig).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
  erwartet in /tmp/claude-0/rel/: AHSentinel-<V>.zip, notes.md, bericht.txt, stand.md – stand.md VORHER aus dem Repo übernehmen!).
-Nachbau: FULL=1 nur auf Kopie und ALLEIN (pgrep run_all.sh leer). FULL 0.65.433: 359/68, neu rot s54 (alte Rendite-Regel im Szenario, Test umgestellt); fail433.txt.
+Nachbau: FULL=1 nur auf Kopie und ALLEIN (pgrep run_all.sh leer). FULL 0.65.434: 360/67, keine neue Rot-Stelle (fail434.txt).
  Echte Daten im Sim: HORDE=1, Ausgaben eigener Szenarien nur mit TR_TEXT=1. KB-Messung "Lohnt bis": zz_api4 NOTB=1 (sonst +21 KB Messhülle),
  je Funktion SINGLE=Mod:Fn. PC-Daten entpackt: /tmp/claude-0/tb1/pc_cur.lua (27.11. 23:17).
 
 ## Gerade in Arbeit
-- 0.65.434 = AHS-BH-REN (eine Formel wie Kopfzeile, Rechnung sichtbar) + Lager aus Entzaubern. FULL 0.65.434 allein.
+- 0.65.435 = AHS-CF-1 (wirkungslose Einstellung Preisverlauf im Tooltip entfernt; EN-Antwort als Vorschlag, wartet auf OK des Nutzers). PS-AHS-EIG1: Vorschlag im Bericht, kein Bau.
 
 ## Nächste Schritte (Reihenfolge, Entscheid 04:55)
-1. FULL 0.65.434 (gegen fail433.txt; s54 muss grün sein). Dann AHS-CF-1 (Graph Tooltip, EN-Antwort nur Vorschlag), PS-AHS-EIG1 Buchung Eigenbedarf, VEN-GW1, CHAT-PROFIT Zahl 14/22, PROF-SP1, Rest 2b.
+1. FULL 0.65.435 (gegen fail434.txt). Dann VEN-GW1 (Händler-Tooltip Gewinn, 8 Fälle), CHAT-PROFIT Zahl 14/22, PROF-SP1, MR4-T, MKT-WID2, DE-WID1, SP-MENGE, TT-WEG, MW-AUSR, SN-LB1, Kopf "22 Angebote".
 2. Schritt 2.2: I4 erreicht, VS-121b geschlossen (Supervisor 05:50). Rest: T459 Nachlauf-Speicher (89 976 KB) je Schritt, dann AHS-SP1 (d).
 3. Rest Schritt 2b: AHS-MR4-T zuerst (ma4log der PC-Daten LEER = nie ein Band belegt; Verdacht: W:LevelBands rechnet nach dem Login mit
    W:ReqLevel ohne Item-Cache -> zu wenige Items, Ergebnis gilt den ganzen Tag (W.ma4.day); im Sim mit PC-Daten messen), Gebote leer
@@ -24,7 +24,7 @@ Nachbau: FULL=1 nur auf Kopie und ALLEIN (pgrep run_all.sh leer). FULL 0.65.433:
 ## Offen beim Nutzer
 - Ingametest: API-LANGSAM-Zeilen (≤ 2 ms, ≤ 50 KB), Blendungspulver/Gift-Tooltip + "ruht · gebunden", Einkauf > Seltenheit (ganz sichtbar,
   Klick daneben schliesst, Restzeit gefüllt), Protokollzeile UI-DD1.
-- PS muss f.zweck = "eigenbedarf" senden (über Supervisor an PS).
+- CurseForge-Antwort AHS-CF-1 (EN, Bericht 09:07) wartet auf OK des Nutzers – nicht selbst posten.
 
 ## Entscheide des Nutzers seit letztem Stand
 - 28.11. 04:55: Anzeige-Befunde = Schritt 2b (nach 2, vor R1–R7), keiner darf verloren gehen, jeder mit Test + Abnahme-Bild.
