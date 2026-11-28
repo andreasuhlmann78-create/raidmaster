@@ -1,0 +1,237 @@
+AHSentinel-Protokoll v0.65.429 · 28.11. 05:49:57
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  28.11. 05:32:16 L10 PRIEST v0.65.429
+  28.11. 05:28:26 L10 PRIEST v0.65.428
+  28.11. 05:09:09 L10 PRIEST v0.65.428
+  28.11. 05:07:29 L10 PRIEST v0.65.428
+  28.11. 04:27:48 L10 PRIEST v0.65.427
+  27.11. 22:31:24 L30 WARRIOR v0.65.425
+  27.11. 22:09:54 L30 WARRIOR v0.65.424
+  27.11. 22:07:54 L30 WARRIOR v0.65.424
+  27.11. 22:03:44 L30 WARRIOR v0.65.424
+  27.11. 20:55:32 L10 PRIEST v0.65.423
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 15 Min., 7574 Items, Preis-Sync an
+  SYNC GoldSentinelSync 3 · Wege: keiner · Mitspieler (1 Std.): AHSentinel 0, BuffSentinel 0, GoldSentinelMarkt 0, GoldSentinelTest 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0, ThreatSentinel 0
+  SYNC gesendet 1178 · empfangen 0 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 4 (mit Sync 2: 4, pausiert 1) · gesendet 3 · weitergegeben 0 · offline 3 · Listen 2 · Warteschlange 0 · gespeichert ja · im Test angehalten 0
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Sniper-Takt (SN-T2): 300 Suchen · Abstand Median 1.10 s, Min 0.70 s, Max 3.63 s
+    Zeitraum 28.11. 05:44–05:49 · minimiert/Hintergrund (unter 15 Bilder/s): 0 % (0 von 300)
+    Server nicht bereit: Median 1.00 s, Min 0.30 s, Max 1.10 s je Suche
+    eigene Bremse/Abstand: Median 0.00 s, Min 0.00 s, Max 0.31 s je Suche
+    Antwort des Servers: Median 0.20 s, Min 0.10 s, Max 0.21 s je Suche
+    andere Arbeit: Median 0.00 s, Min 0.00 s, Max 3.02 s je Suche
+    Suchen je Ziel: Azurblaue Seidenkapuze 60 (20 %) · Bronzene Stulpen mit Versilberung 60 (20 %) · Ältestenhandschuhe 180 (60 %)
+  Sync-Abweichungen (S6): 87 Fälle, Markt-Tag fremd 0 (alte Version / anderer Markt)
+    7 Tage je Ursache (vollständig): stapel 1, bewegt 4, unbekannt 82
+    Stapel- statt Stückpreis: 1 – Item 15733 eigen 3499/fremd 49999 (Alter 111/4 Min., g, Voll, Menge 17)
+    Markt hat sich bewegt (Zeitabstand > 6 Std.): 4 – Item 260793 eigen 650/fremd 1500 (Alter 1363/3 Min., g, Voll, Menge 118); Item 2980 eigen 895/fremd 1800 (Alter 1364/4 Min., g, Voll, Menge 8); Item 5363 eigen 400/fremd 9999 (Alter 1364/4 Min., g, Voll, Menge 1); Item 6304 eigen 100/fremd 1000 (Alter 1364/4 Min., g, Voll, Menge 1)
+    unbekannt: 82 – Item 2589 eigen 41/fremd 19 (Alter 108/0 Min., g, Voll, Menge 25480); Item 3464 eigen 25/fremd 10 (Alter 108/0 Min., g, Voll, Menge 10784); Item 17056 eigen 1695/fremd 100 (Alter 108/0 Min., g, Voll, Menge 5474); Item 2862 eigen 24/fremd 8 (Alter 108/0 Min., g, Voll, Menge 5001); Item 249391 eigen 2754/fremd 900 (Alter 108/0 Min., g, Voll, Menge 4789)
+  Einstellungen geändert: cmdHint=true, fastScan=true, helpSeen=true, learnExplore=false, marketExpert=false, minimapAngle=199, priceGuard=20, psHintHidden=true, sniperSignal=true, theme=modern, tooltipDEDetail=true, vendorButton=false, vendorFlipMin=500, vsBudget=2
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0
+
+== Einträge (200, neueste zuerst)
+[28.11. 05:49:55] SNIPER-RUHE Ruhemodus aus nach 71 s
+[28.11. 05:49:53] LANGSAM Empfänger Sniper.lua:4591 von SEARCH_RESULTS · 26 ms
+[28.11. 05:49:53] LANGSAM Empfänger UI_Sniper.lua:816 von SNIPER_CHANGED · 16 ms
+[28.11. 05:49:44] SNIPER-RUHE Speicher 800822 KB (+82504 KB in 60 s) · Suchen 63
+[28.11. 05:49:41] SNIPER-SUCHE Ziel 7366 · Angebote 0 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 05:49:13] SNIPER-SUCHE Ziel 7048 · Angebote 325 · Treffer ≤ Max 0 · gekauft 8 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 05:49:09] LANGSAM Empfänger Sniper.lua:4591 von SEARCH_RESULTS · 26 ms
+[28.11. 05:48:59] SNIPER-SUCHE Ziel 3483 · Angebote 308 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 05:48:58] LANGSAM Empfänger Sniper.lua:4591 von SEARCH_RESULTS · 28 ms
+[28.11. 05:48:58] LANGSAM Empfänger UI_Sniper.lua:816 von SNIPER_CHANGED · 16 ms
+[28.11. 05:48:53] LANGSAM Empfänger Sniper.lua:4591 von SEARCH_RESULTS · 26 ms
+[28.11. 05:48:44] SNIPER-TAKT Abstand 3.63 s · Server nicht bereit 0.41 s, Antwort des Servers 0.20 s, andere Arbeit 3.02 s · andere Arbeit: aus · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[28.11. 05:48:44] SNIPER-RUHE Ruhemodus an
+[28.11. 05:48:41] SNIPER-RUHE Ruhemodus aus nach 530 s
+[28.11. 05:48:40] SNIPER-SUCHE Ziel 7366 · Angebote 0 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 05:48:22] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 14 ms bis UI_Main.lua:2088 · 16 ms
+[28.11. 05:48:08] SNIPER-SUCHE Ziel 7048 · Angebote 321 · Treffer ≤ Max 0 · gekauft 8 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 05:47:59] SNIPER-SUCHE Ziel 3483 · Angebote 308 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 05:47:50] SNIPER-RUHE Speicher 697376 KB (-170671 KB in 60 s) · Suchen 60
+[28.11. 05:47:48] LANGSAM Empfänger Sniper.lua:4591 von SEARCH_RESULTS · 18 ms
+[28.11. 05:47:37] SNIPER-SUCHE Ziel 7366 · Angebote 0 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 05:47:21] ENTZAUBERWERT Item 10076 · Tabelle · 11176 75% × 1.50 à 1519, 11175 20% × 1.50 à 13663, 11178 5% × 1.00 à 20419 · brutto 7072 · netto 6718
+[28.11. 05:47:21] ABSATZ Item 10076 · Q 4 (vollscan) · S 2.3 (market, gelernt) · S roh 4.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 2.1 · N 7.0
+[28.11. 05:47:21] ENTZAUBERWERT Item 9938 · Tabelle · 11176 75% × 1.50 à 1519, 11175 20% × 1.50 à 13663, 11178 5% × 1.00 à 20419 · brutto 7072 · netto 6718
+[28.11. 05:47:21] ABSATZ Item 9938 · Q 8 (vollscan) · S 2.7 (market, gelernt) · S roh 4.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 3.4 · N 7.0
+[28.11. 05:47:21] ENTZAUBERWERT Item 9945 · Tabelle · 11176 75% × 1.50 à 1519, 11175 20% × 1.50 à 13663, 11178 5% × 1.00 à 20419 · brutto 7072 · netto 6718
+[28.11. 05:47:21] ABSATZ Item 9945 · Q 6 (vollscan) · S 3.2 (market, gelernt) · S roh 5.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 2.2 · N 7.0
+[28.11. 05:47:15] ENTZAUBERWERT Item 8108 · Tabelle · 11176 75% × 1.50 à 1519, 11175 20% × 1.50 à 13663, 11178 5% × 1.00 à 20419 · brutto 7072 · netto 6718
+[28.11. 05:47:15] DE-CHANCEN Gruppe 2:8:a · Tabelle 11176 75%/11175 20%/11178 5% · echt 11176 -/11175 -/11178 - (0)
+[28.11. 05:47:15] ABSATZ Item 8108 · Q 4 (vollscan) · S 5.6 (market, gelernt) · S roh 9.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.9 · N 7.0
+[28.11. 05:47:04] SNIPER-SUCHE Ziel 7048 · Angebote 321 · Treffer ≤ Max 0 · gekauft 8 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 05:47:00] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 13 ms bis UI_Main.lua:2088 · 18 ms
+[28.11. 05:46:59] LANGSAM Empfänger Sniper.lua:4591 von SEARCH_RESULTS · 19 ms
+[28.11. 05:46:59] SNIPER-SUCHE Ziel 3483 · Angebote 308 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 05:46:59] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 15 ms bis UI_Main.lua:2088 · 19 ms
+[28.11. 05:46:50] SNIPER-RUHE Speicher 868047 KB (+36785 KB in 60 s) · Suchen 60
+[28.11. 05:46:36] SNIPER-SUCHE Ziel 7366 · Angebote 0 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 05:46:32] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 14 ms bis UI_Main.lua:2088 · 18 ms
+[28.11. 05:46:13] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 16 ms bis UI_Main.lua:2088 · 19 ms
+[28.11. 05:46:09] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 13 ms bis UI_Main.lua:2088 · 17 ms
+[28.11. 05:46:08] LANGSAM Empfänger Sniper.lua:4591 von SEARCH_RESULTS · 24 ms
+[28.11. 05:46:08] LANGSAM Sniper Angebote lesen: 322 Angebote (Einzel-Auktionen) · 21 ms · 0.06 ms je Angebot · 21 ms
+[28.11. 05:46:08] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 15 ms bis UI_Main.lua:2088 · mit Speicherbereinigung (davon Bereinigung ~15 ms, Schritt sonst ~0.2 ms) · 19 ms
+[28.11. 05:46:07] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 16 ms bis UI_Main.lua:2088 · 19 ms
+[28.11. 05:46:06] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 14 ms bis UI_Main.lua:2088 · 18 ms
+[28.11. 05:46:05] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 13 ms bis UI_Main.lua:2088 · 16 ms
+[28.11. 05:46:03] SNIPER-SUCHE Ziel 7048 · Angebote 322 · Treffer ≤ Max 0 · gekauft 8 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 05:45:59] SNIPER-SUCHE Ziel 3483 · Angebote 308 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 05:45:55] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 14 ms bis UI_Main.lua:2088 · 17 ms
+[28.11. 05:45:50] SNIPER-RUHE Speicher 831262 KB (+36649 KB in 60 s) · Suchen 60
+[28.11. 05:45:36] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 12 ms bis UI_Main.lua:2088 · 17 ms
+[28.11. 05:45:35] SNIPER-SUCHE Ziel 7366 · Angebote 0 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 05:45:18] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 13 ms bis UI_Main.lua:2088 · 17 ms
+[28.11. 05:45:17] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 16 ms bis UI_Main.lua:2088 · mit Speicherbereinigung (davon Bereinigung ~16 ms, Schritt sonst ~0.2 ms) · 20 ms
+[28.11. 05:45:15] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 14 ms bis UI_Main.lua:2088 · 18 ms
+[28.11. 05:45:03] SNIPER-SUCHE Ziel 7048 · Angebote 323 · Treffer ≤ Max 0 · gekauft 8 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 05:44:54] SNIPER-SUCHE Ziel 3483 · Angebote 308 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 05:44:50] SNIPER-RUHE Speicher 794613 KB (+40809 KB in 60 s) · Suchen 60
+[28.11. 05:44:41] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 12 ms bis UI_Main.lua:2088 · 16 ms
+[28.11. 05:44:32] SNIPER-SUCHE Ziel 7366 · Angebote 0 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 05:44:27] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 13 ms bis UI_Main.lua:2088 · 17 ms
+[28.11. 05:44:26] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 18 ms bis UI_Main.lua:2088 · mit Speicherbereinigung (davon Bereinigung ~18 ms, Schritt sonst ~0.2 ms) · 22 ms
+[28.11. 05:44:25] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 14 ms bis UI_Main.lua:2088 · 18 ms
+[28.11. 05:43:58] SNIPER-SUCHE Ziel 7048 · Angebote 321 · Treffer ≤ Max 0 · gekauft 8 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 05:43:54] SNIPER-SUCHE Ziel 3483 · Angebote 308 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 05:43:50] SNIPER-RUHE Speicher 753804 KB (+45759 KB in 60 s) · Suchen 60
+[28.11. 05:43:37] LANGSAM ×2 Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 13 ms bis UI_Main.lua:2088 · 16 ms
+[28.11. 05:43:35] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 17 ms bis UI_Main.lua:2088 · mit Speicherbereinigung (davon Bereinigung ~17 ms, Schritt sonst ~0.2 ms) · 22 ms
+[28.11. 05:43:34] LANGSAM Empfänger Sniper.lua:4591 von SEARCH_RESULTS · 16 ms
+[28.11. 05:43:34] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 14 ms bis UI_Main.lua:2088 · 18 ms
+[28.11. 05:43:31] SNIPER-SUCHE Ziel 7366 · Angebote 0 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 05:43:30] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 12 ms bis UI_Main.lua:2088 · 17 ms
+[28.11. 05:43:29] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 13 ms bis UI_Main.lua:2088 · 16 ms
+[28.11. 05:42:55] SNIPER-SUCHE Ziel 7048 · Angebote 321 · Treffer ≤ Max 0 · gekauft 8 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 05:42:53] SNIPER-SUCHE Ziel 3483 · Angebote 311 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 05:42:50] SNIPER-RUHE Speicher 708045 KB (-146576 KB in 60 s) · Suchen 60
+[28.11. 05:42:47] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 12 ms bis UI_Main.lua:2088 · 16 ms
+[28.11. 05:42:46] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 17 ms bis UI_Main.lua:2088 · mit Speicherbereinigung (davon Bereinigung ~16 ms, Schritt sonst ~0.2 ms) · 21 ms
+[28.11. 05:42:45] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 14 ms bis UI_Main.lua:2088 · 18 ms
+[28.11. 05:42:40] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 11 ms bis UI_Main.lua:2088 · 17 ms
+[28.11. 05:42:31] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 15 ms bis UI_Main.lua:2088 · 19 ms
+[28.11. 05:42:30] SNIPER-SUCHE Ziel 7366 · Angebote 0 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 05:42:17] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 14 ms bis UI_Main.lua:2088 · 17 ms
+[28.11. 05:42:16] ENTZAUBERWERT Item 7356 · eigene Ø aus 1420 · 11083 75% × 1.52 à 423, 11082 20% × 1.51 à 1738, 11084 5% × 1.00 à 5034 · brutto 1344 · netto 1277
+[28.11. 05:42:16] ABSATZ Item 7356 · Q 3 (vollscan) · S 7.8 (market, gelernt) · S roh 13.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.5 · N 7.0
+[28.11. 05:42:16] ENTZAUBERWERT Item 9837 · eigene Ø aus 1420 · 11083 75% × 1.52 à 423, 11082 20% × 1.51 à 1738, 11084 5% × 1.00 à 5034 · brutto 1344 · netto 1277
+[28.11. 05:42:16] ABSATZ Item 9837 · Q 3 (vollscan) · S 6.2 (market, gelernt) · S roh 10.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.7 · N 7.0
+[28.11. 05:42:16] SYNC gesendet 373, empfangen 0, verworfen 0 · Kanal verweigert 0
+[28.11. 05:41:53] SNIPER-SUCHE Ziel 3483 · Angebote 311 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 05:41:52] SNIPER-SUCHE Ziel 7048 · Angebote 321 · Treffer ≤ Max 0 · gekauft 8 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 05:41:50] SNIPER-RUHE Speicher 854621 KB (+122941 KB in 60 s) · Suchen 55
+[28.11. 05:41:40] LANGSAM Empfänger Sniper.lua:4591 von SEARCH_RESULTS · 26 ms
+[28.11. 05:41:27] SNIPER-SUCHE Ziel 7366 · Angebote 0 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 05:41:17] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 17 ms bis UI_Main.lua:2088 · mit Speicherbereinigung (davon Bereinigung ~17 ms, Schritt sonst ~0.2 ms) · 22 ms
+[28.11. 05:41:16] LANGSAM Empfänger Sniper.lua:4591 von SEARCH_RESULTS · 18 ms
+[28.11. 05:41:16] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 15 ms bis UI_Main.lua:2088 · 19 ms
+[28.11. 05:41:02] ENTZAUBERWERT Item 7366 · eigene Ø aus 46 · 11083 80% × 3.92 à 423, 11134 17% × 1.75 à 816, 11138 2% × 1.00 à 852 · brutto 1684 · netto 1600
+[28.11. 05:41:02] DE-CHANCEN Gruppe 2:5:a · Tabelle 11083 75%/11134 20%/11138 5% · echt 11083 80%/11134 17%/11138 2% (46)
+[28.11. 05:41:02] ABSATZ Item 7366 · Q 4 (vollscan) · S 6.1 (market, gelernt) · S roh 10.4 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.8 · N 7.0
+[28.11. 05:41:01] ENTZAUBERWERT Item 9838 · eigene Ø aus 1420 · 11083 75% × 1.52 à 423, 11082 20% × 1.51 à 1738, 11084 5% × 1.00 à 5034 · brutto 1344 · netto 1277
+[28.11. 05:41:01] ABSATZ Item 9838 · Q 1 (vollscan) · S 5.3 (market, gelernt) · S roh 9.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.4 · N 5.0
+[28.11. 05:41:00] SNIPER-TAKT Abstand 3.97 s · Server nicht bereit 0.79 s, Antwort des Servers 0.21 s, andere Arbeit 2.98 s · andere Arbeit: Einkauf · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[28.11. 05:40:59] LANGSAM Empfänger UI_Buy.lua:1020 von ITEMINFO_LOADED · 28 ms
+[28.11. 05:40:59] LANGSAM Empfänger Buy.lua:1126 von BROWSE_RESULTS · 40 ms
+[28.11. 05:40:59] LANGSAM Empfänger UI_Buy.lua:1008 von BUY_CHANGED · 22 ms
+[28.11. 05:40:58] LANGSAM Empfänger Buy.lua:1126 von BROWSE_RESULTS · 37 ms
+[28.11. 05:40:58] LANGSAM Empfänger UI_Buy.lua:1008 von BUY_CHANGED · 22 ms
+[28.11. 05:40:57] LANGSAM Empfänger Buy.lua:1126 von BROWSE_RESULTS · 29 ms
+[28.11. 05:40:57] LANGSAM Empfänger UI_Buy.lua:1008 von BUY_CHANGED · 21 ms
+[28.11. 05:40:57] LANGSAM Empfänger Buy.lua:1132 von QUERY_READY · 20 ms
+[28.11. 05:40:57] LANGSAM Empfänger UI_Buy.lua:1008 von BUY_CHANGED · 20 ms
+[28.11. 05:40:57] LANGSAM Empfänger UI_Buy.lua:1008 von BUY_CHANGED · 19 ms
+[28.11. 05:40:56] SNIPER-TAKT Abstand 2.80 s · Server nicht bereit 0.92 s, Antwort des Servers 0.21 s, andere Arbeit 1.68 s · andere Arbeit: Einkauf · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[28.11. 05:40:56] LANGSAM Empfänger UI_Buy.lua:1020 von ITEMINFO_LOADED · 21 ms
+[28.11. 05:40:56] ENTZAUBERWERT Item 9821 · eigene Ø aus 1420 · 11083 75% × 1.52 à 423, 11082 20% × 1.51 à 1738, 11084 5% × 1.00 à 5034 · brutto 1344 · netto 1277
+[28.11. 05:40:56] ABSATZ Item 9821 · Q 1 (vollscan) · S 5.9 (market, gelernt) · S roh 10.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.3 · N 5.0
+[28.11. 05:40:56] ABSATZ Item 3365 · Q 4 (vollscan) · S 1.0 (market, gelernt) · S roh 1.7 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 5.0 · N 5.0
+[28.11. 05:40:55] LANGSAM Empfänger UI_Buy.lua:1020 von ITEMINFO_LOADED · 40 ms
+[28.11. 05:40:55] LANGSAM Empfänger Buy.lua:1126 von BROWSE_RESULTS · 31 ms
+[28.11. 05:40:55] LANGSAM Empfänger UI_Buy.lua:1008 von BUY_CHANGED · 20 ms
+[28.11. 05:40:55] LANGSAM Empfänger UI_Buy.lua:1020 von ITEMINFO_LOADED · 27 ms
+[28.11. 05:40:54] LANGSAM Empfänger Buy.lua:1126 von BROWSE_RESULTS · 24 ms
+[28.11. 05:40:54] LANGSAM Empfänger UI_Buy.lua:1008 von BUY_CHANGED · 19 ms
+[28.11. 05:40:54] LANGSAM Empfänger UI_Buy.lua:1020 von ITEMINFO_LOADED · 66 ms
+[28.11. 05:40:54] LANGSAM Empfänger UI_Buy.lua:1008 von BUY_CHANGED · 18 ms
+[28.11. 05:40:53] ENTZAUBERWERT Item 15285 · Tabelle · 11134 75% × 1.50 à 816, 11083 20% × 3.50 à 423, 11138 5% × 1.00 à 852 · brutto 1302 · netto 1236
+[28.11. 05:40:53] ABSATZ Item 15285 · Q 18 (vollscan) · S 5.9 (market, gelernt) · S roh 10.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 3.2 · N 7.0
+[28.11. 05:40:52] SNIPER-SUCHE Ziel 3483 · Angebote 311 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 05:40:51] SNIPER-SUCHE Ziel 7048 · Angebote 321 · Treffer ≤ Max 0 · gekauft 8 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 05:40:51] ABSATZ Item 8184 · Q 1 (vollscan) · S 9.5 (market, gelernt) · S roh 16.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.2 · N 3.0
+[28.11. 05:40:50] SNIPER-RUHE Speicher 731679 KB (-78068 KB in 60 s) · Suchen 67
+[28.11. 05:40:49] ENTZAUBERWERT Item 3041 · Tabelle · 11134 75% × 1.50 à 816, 11083 20% × 3.50 à 423, 11138 5% × 1.00 à 852 · brutto 1302 · netto 1236
+[28.11. 05:40:49] DE-CHANCEN Gruppe 2:5:w · Tabelle 11083 20%/11134 75%/11138 5% · echt 11083 -/11134 -/11138 - (0)
+[28.11. 05:40:49] ABSATZ Item 3041 · Q 1 (vollscan) · S 11.2 (market, gelernt) · S roh 19.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.2 · N 3.0
+[28.11. 05:40:49] ENTZAUBERWERT Item 5752 · Tabelle · 10939 75% × 1.50 à 503, 11083 20% × 1.50 à 423, 11084 5% × 1.00 à 5034 · brutto 978 · netto 929
+[28.11. 05:40:49] DE-CHANCEN Gruppe 2:4:w · Tabelle 11083 20%/10939 75%/11084 5% · echt 11083 -/10939 -/11084 - (0)
+[28.11. 05:40:49] ABSATZ Item 5752 · Q 4 (vollscan) · S 2.0 (market, gelernt) · S roh 3.4 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 2.5 · N 7.0
+[28.11. 05:40:47] SNIPER-TAKT Abstand 7.20 s · Antwort des Servers 0.39 s, Nachlauf nach Antwort 0.36 s, andere Arbeit 6.45 s · andere Arbeit: Einkauf · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[28.11. 05:40:46] LANGSAM Empfänger UI_Buy.lua:1020 von ITEMINFO_LOADED · 27 ms
+[28.11. 05:40:46] LANGSAM Empfänger Buy.lua:1126 von BROWSE_RESULTS · 23 ms
+[28.11. 05:40:45] LANGSAM Empfänger UI_Buy.lua:1020 von ITEMINFO_LOADED · 33 ms
+[28.11. 05:40:45] ABSATZ Item 217287 · Q 96 (vollscan) · S 61.1 (measured) · S roh 61.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.6 · N 7.0
+[28.11. 05:40:45] LANGSAM Empfänger Buy.lua:1126 von BROWSE_RESULTS · 25 ms
+[28.11. 05:40:44] LANGSAM Empfänger Buy.lua:1126 von BROWSE_RESULTS · 41 ms
+[28.11. 05:40:44] LANGSAM Empfänger UI_Buy.lua:1020 von ITEMINFO_LOADED · 16 ms
+[28.11. 05:40:43] LANGSAM Empfänger Buy.lua:1126 von BROWSE_RESULTS · 33 ms
+[28.11. 05:40:42] LANGSAM Empfänger UI_Buy.lua:1020 von ITEMINFO_LOADED · 19 ms
+[28.11. 05:40:42] LANGSAM Empfänger Buy.lua:1126 von BROWSE_RESULTS · 23 ms
+[28.11. 05:40:42] LANGSAM Empfänger UI_Buy.lua:1020 von ITEMINFO_LOADED · 28 ms
+[28.11. 05:40:41] LANGSAM Empfänger UI_Buy.lua:1020 von ITEMINFO_LOADED · 44 ms
+[28.11. 05:40:41] LANGSAM Empfänger UI_Buy.lua:1020 von ITEMINFO_LOADED · 40 ms
+[28.11. 05:40:37] ITEMINFO neue Item-Anfragen 1534 (zurückgestellt 27002) · je Aufgabe: - 6, cache:itemlist 35, cache:today:10 400, cache:warm 28, cache:warm-today 200, core:realcheck 198, hist:flat 163, market:de 200, market:lager 52, names 5, ui-refresh 1, watcher:d
+[28.11. 05:40:23] LANGSAM Empfänger Sniper.lua:4591 von SEARCH_RESULTS · 23 ms
+[28.11. 05:40:13] LANGSAM Empfänger Sniper.lua:4591 von SEARCH_RESULTS · 17 ms
+[28.11. 05:40:01] ENTZAUBERWERT Item 3483 · eigene Ø aus 1420 · 11083 75% × 1.52 à 423, 11082 20% × 1.51 à 1738, 11084 5% × 1.00 à 5034 · brutto 1344 · netto 1277
+[28.11. 05:40:01] ABSATZ Item 3483 · Q 54 (vollscan) · S 42.7 (measured) · S roh 42.7 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.3 · N 7.0
+[28.11. 05:39:58] ENTZAUBERWERT Item 7048 · eigene Ø aus 1420 · 11083 75% × 1.52 à 423, 11082 20% × 1.51 à 1738, 11084 5% × 1.00 à 5034 · brutto 1344 · netto 1277
+[28.11. 05:39:58] DE-CHANCEN Gruppe 2:4:a · Tabelle 11083 75%/11082 20%/11084 5% · echt 11083 75%/11082 20%/11084 5% (1420)
+[28.11. 05:39:58] ABSATZ Item 7048 · Q 22 (vollscan) · S 77.8 (measured) · S roh 77.8 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.3 · N 4.0
+[28.11. 05:39:51] SNIPER-SUCHE Ziel 3483 · Angebote 311 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 05:39:50] SNIPER-SUCHE Ziel 7048 · Angebote 321 · Treffer ≤ Max 0 · gekauft 8 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[28.11. 05:39:50] SNIPER-TAKT Abstand 378.22 s · Server nicht bereit 0.21 s, Antwort des Servers 0.11 s, andere Arbeit 377.91 s · andere Arbeit: aus · Intervall-Einstellung 0 s · pace-Abstand 0.00 s
+[28.11. 05:39:50] SNIPER-RUHE Ruhemodus an
+[28.11. 05:39:42] WAECHTER-HUERDEN ×2 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 265 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[28.11. 05:39:34] ITEMINFO neue Item-Anfragen 1482 (zurückgestellt 27002) · je Aufgabe: - 6, cache:itemlist 35, cache:today:10 400, cache:warm 28, cache:warm-today 200, core:realcheck 198, hist:flat 163, market:de 200, market:lager 1, names 5, watcher:de-check 246
+[28.11. 05:39:30] WAECHTER-HUERDEN ×32 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 265 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[28.11. 05:36:10] PREISPRUEFUNG Item 275895 · Schlüssel allgemein (Stufe 1, Suffix 0, Haustier 0) · 1 Angebote · Scan 3 Stück · 0.1 s · Antwort
+[28.11. 05:36:09] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 265 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[28.11. 05:36:09] PREISPRUEFUNG Item 10310 · Schlüssel allgemein (Stufe 65, Suffix 0, Haustier 0) · 38 Angebote · Scan 335 Stück · 0.1 s · Antwort
+[28.11. 05:36:03] PREISPRUEFUNG Item 10647 · Schlüssel allgemein (Stufe 50, Suffix 0, Haustier 0) · 6 Angebote · Scan 72 Stück · 0.1 s · Antwort
+[28.11. 05:36:02] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 265 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[28.11. 05:36:02] PREISPRUEFUNG Item 269739 · Schlüssel allgemein (Stufe 1, Suffix 0, Haustier 0) · 3 Angebote · Scan 23 Stück · 0.1 s · Antwort
+[28.11. 05:35:59] WAECHTER-HUERDEN 277 Angebote · 269 Waren (Handwerkswaren & Co., keine Ausrüstung) · 269 mit Marktwert · 265 mit belastbarem Marktwert · 0 unter 30 % des Marktwerts · 0 ohne Preissturz/Flutung · 0 unter der Flip-Grenze (Mindestgewinn) · 0 im Tagesbudget Weiterverkauf · 0 Marktwert ab Mindestwert · 0 neu (nicht gerade abgelehnt) · 0 unter 50 %
+[28.11. 05:35:56] PREISPRUEFUNG Item 20679 · Schlüssel allgemein (Stufe 1, Suffix 0, Haustier 0) · 5 Angebote · Scan 10 Stück · 0.1 s · Antwort
+[28.11. 05:35:55] PREISPRUEFUNG Item 4757 · Schlüssel allgemein (Stufe 1, Suffix 0, Haustier 0) · 1 Angebote · Scan 3 Stück · 0.2 s · Antwort
+[28.11. 05:35:54] MATERIAL-PREIS Item 11176 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:35:54] MATERIAL-PREIS Item 16202 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:35:54] MATERIAL-PREIS Item 11175 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:35:54] MATERIAL-PREIS Item 10978 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:35:54] MATERIAL-PREIS Item 10939 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:35:54] MATERIAL-PREIS Item 11177 · Quelle ah · Alter 0 Min. · unsicher: Scan 13497 / Marktwert 8740
+[28.11. 05:35:54] MATERIAL-PREIS Item 16203 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:35:54] MATERIAL-PREIS Item 14344 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:35:54] MATERIAL-PREIS Item 10938 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:35:54] MATERIAL-PREIS Item 11178 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:35:54] MATERIAL-PREIS Item 11139 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:35:54] MATERIAL-PREIS Item 11084 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:35:54] MATERIAL-PREIS Item 11138 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:35:54] MATERIAL-PREIS Item 20725 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:35:54] MATERIAL-PREIS Item 10998 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:35:54] MATERIAL-PREIS Item 11083 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:35:54] MATERIAL-PREIS Item 11137 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:35:54] MATERIAL-PREIS Item 11082 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:35:54] MATERIAL-PREIS Item 16204 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:35:54] MATERIAL-PREIS Item 11174 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:35:54] MATERIAL-PREIS Item 11135 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:35:54] MATERIAL-PREIS Item 14343 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:35:54] MATERIAL-PREIS Item 11134 · Quelle ah · Alter 0 Min. · sicher
+[21.11. 18:58:46] FEHLER Märkte vereinen: Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:5416: attempt to compare two table values
+[21.11. 18:38:52] FEHLER Märkte vereinen: Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:5416: attempt to compare number with table
