@@ -7522,3 +7522,11 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     AHS-BH-REN NIEDRIG: "Rendite 24 %" lässt sich aus den gezeigten Zahlen nicht nachrechnen (48,69/128,15 = 38 %, /175,63 = 28 %; nur 48,69/(175,63 +
     Fehlbestand 30,87) = 23,6 % träfe – Verdacht, nicht belegt). Formel belegen und im Tooltip der Zahl zeigen (Gewinn / Basis = %), Test.
     "Gold-Abstimmung: wird abgeglichen" – im nächsten Bericht sagen, wann sie fertig ist und mit welchem Ergebnis (Regel 3).
+
+>>> BEFUNDE Bild des Nutzers 28.11. 04:43 (PC, 0.65.427, Einkauf Rüstung grün–episch, Tooltip Braune Leinenhose + Vergleich "Ausgerüstet") – Supervisor 04:52:
+    Entzauber-Rechnung Braune Leinenhose nachgerechnet: 1,179 × 1s14 = 1s34; 0,335 × 1s80 = 60c; Summe 1s94; −5 % = −9c; Wert 1s85; − Kauf 2s25 = −40c – stimmt.
+    Aber wieder rote Kopfzeile "Gewinn −40" ohne Weg -> gehört zu AHS-TT-WEG (3. Fall).
+    AHS-MW-AUSR MITTEL (Plausibilität): Vergleichs-Tooltip "Ausgefranste Hose" (weiss, 4 Rüstung, Händler 1c) zeigt Marktwert (Median 14 Tage) 2s80 und
+      Marktwert (Scan vor 14 Min.) 12s24 – Scan-Wert 4,4× über dem Median, für Händlerware 1c. Verdacht: ein einzelnes Liebhaber-/Fehlangebot wird als
+      "Marktwert" gezeigt. Belegen (wie viele Angebote, Menge, Verkäufe?); Scan-Wert > 2× Median bei wenigen Angeboten nicht als Marktwert zeigen
+      (oder "1 Angebot – kein Marktwert"), Regel wie S1–S6 (×2-Plausibilität). Test mit 1 Ausreisser-Angebot.
