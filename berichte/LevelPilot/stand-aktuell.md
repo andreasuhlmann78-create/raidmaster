@@ -1,14 +1,15 @@
 # LevelPilot – Stand der Sitzung
 
-## Stand 28.11.2026 10:47 · Version 3.13.35 (veröffentlicht, Discord; Prüfung offen) · download/: 3.13.34
+## Stand 28.11.2026 11:10 · Version 3.13.35 (angenommen 11:05, Code) · download/: 3.13.34 (geprüft) · PAUSE bis Mo 30.11./Di 1.12.
 
 ## Gerade in Arbeit
+- PAUSE (Entscheid 11:07): keine neue Version, keine Ingametests, bis Montag/Dienstag nicht weiterarbeiten.
 - Nichts angefangen. 3.13.35 = T261: LP:Throttle plante je Ereignis doppelt (62 + 29 Nachholen in 60 s); neu LP:Coalesce, 3 s.
   Nachbau Ereignis-Sturm: 94 -> 29 Neuplanungen. T404. Bericht 10:47. LP-DL1: download/ = 3.13.34.
 
 ## Nächste Schritte (Reihenfolge)
 1. Ingametest 3.13.35 (kalt): T261 < 1000? (Erwartung 600–700, Verdacht, zu messen); Zeile "Neuplanung angestossen von".
-2. T261-Rest senken: start 338 ms (Wegnetz, Gefahrenkarte), backup 159 ms – Nachbau 804, Ziel < 800 mit Reserve.
+2. LP-T261-REST NIEDRIG: start 338 ms (Wegnetz, Gefahrenkarte), backup 159 ms – Nachbau 804, Ziel < 800 mit Reserve.
 3. Die 2 eigenen ganzen Bilder > 40 ms mit Schritt nennen; LP-TAKT-16 NIEDRIG (T352 zuerst); LP-TAKT-ZU1 MITTEL.
 4. Protokoll-Hinweise: "Planung bis 2314 ms", Abort-Stapel 05:08, "Sicherung 39,1 MB".
 5. Startwegnetz mit Haralds Zonen (Entscheid 05:35): Zonen von B ins Werkzeug, Route 1–60 ALT/NEU, dann EINE Version.
@@ -19,7 +20,7 @@
 - Frage: "Wo war ich?" beim Einloggen – bleiben oder ab Werk aus?
 
 ## Entscheide des Nutzers seit letztem Stand
-- keine neuen.
+- 28.11. 11:07: "wir machen mit LP Montag oder Dienstag weiter" – LevelPilot pausiert.
 
 ## Wichtig zu wissen
 - Uploads: goldsentinel-daten origin/sicherung, aktuell/<Rechner>/forever/konto-5cb3d536/LevelPilot.lua.gz (PC DESKTOP-NVITMSE, Laptop AUSPLUSLAPTOP).
