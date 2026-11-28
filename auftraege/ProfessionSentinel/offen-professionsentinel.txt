@@ -1166,3 +1166,30 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
     FREIGABE Vorschlag Magiestoffballen: beim Lehrerbesuch den Namen des Lehrers zu den angebotenen Rezepten merken; Plan zeigt "lernbar bei
     <Lehrer>" nur wenn dort gelesen, sonst "bei keinem besuchten Lehrer (n besucht)". Keine Namen von Spielern (nur NPC). Test + Gegenprobe.
     PS-DL: 0.9.101 erst nach Spieltest (Plan-Kopf, Fusszeile, Filterzeile, Flut-Tooltip, /ps protokoll "diese Sitzung").
+
+>>> SPIELTEST 0.9.101 – Bilder Nutzer 28.11. 10:14–10:16 (20 Bilder) und /ps protokoll 10:19, Supervisor 10:25: TEILWEISE.
+    BESTANDEN:
+    - PS-UI-REZ1: Filterzeile "Alle · Gelernt · Lernbar · Fehlt · Händlergunst" vollständig, Reiter "Rezepte !362". Fusszeile im Reiter Rezepte
+      ohne Überlappung (Text links gekürzt "Warteschlange l…", rechts Build/Quellen) – ok.
+    - Rechnung in 14 Tooltips von mir nachgerechnet, alle gehen auf (Material = Summe der Zeilen, Ergebnis = Lohnt bis/Händler − Material),
+      z. B. Flammenrobe 8g 47s 46c, Traumzwirnweste 1g 84s 98c, Filigrane glänzende Robe 3g 5s 96c, Rote Leinenweste +3s 3c.
+    - PS-PERF-TSU1 Anzeige: Zeilen tragen "diese Sitzung n" und "Summe je Aufbau" getrennt von "längstes Bild" – ok.
+    NOCH OFFEN:
+    - PS-UI-OVL1 Plan "Skillen": die mitgeschickten Skillen-Bilder sind von 07:07 mit 0.9.100 (Chatzeile "ProfessionSentinel 0.9.100") – dort
+      überlappt "Nächster Schritt 110 -> 111" noch die Kopfzeile und die Fusszeile "Warteschlange leer – merke …" die Build-Zeile. Mit 0.9.101
+      noch NICHT geprüft – Nutzer schickt ein neues Bild.
+    NEUE BEFUNDE:
+    - PS-PERF-NB1 MITTEL: in dieser Sitzung 7× "Neuaufbau (Teil) 22.0 ms" (LANGSAM), längstes Bild 22.0 ms (Aufbau "Scan") und 21.9 ms (Aufbau
+      "direkt") – über dem Ziel 16 ms je Bild (shared/wissen/leistung.md). Unter 40 ms, darum nicht HOCH. Bitte den Teil, der 22 ms braucht,
+      benennen (Schritt im Protokoll) und so teilen, dass kein Bild > 16 ms. Test mit echten Daten (438 Rezepte Schneiderei) + Gegenprobe.
+    - PS-P4 NIEDRIG: "WorthUpTo vergessen" durch AHSentinel:ledger 4× in 11 s (10:04:30 / :34 / :37 / :41, je 323–448 Antworten), danach
+      alles neu gefragt. Vorschlag: ledger-Vergessen bündeln (z. B. höchstens 1× je 5 s, das letzte gewinnt), wie bei PS-P3 (Händler).
+      Beleg im Bericht: Zahl der Vergessen je Minute vorher/nachher.
+    - PS-REZ-ZAHL NIEDRIG (Frage, Zahl muss aufgehen): Reiter "Rezepte !362", im Reiter Gelernt aber "Kennt niemand in der Gilde 369". Was zählt
+      "!362" genau, und warum weicht es von 369 ab? Entweder gleiche Zahl oder Tooltip erklärt den Unterschied.
+    - Klärung (KEIN Fehler, belegt im Code): "Lohnt bis" ist AHSentinels Wert inkl. Mindestgewinn; beim Weg Händler Händlerpreis / 1,2
+      (Kern.lua K:LohntBis, VENDOR_MIN_GAIN, S3-1). Darum z. B. Purpurrote Seidenpantalons Händler 24s 30c -> Lohnt bis 20s 25c, Leinentasche
+      2s -> 1s 66c. Rezepte, bei denen AHSentinel keinen Wert hat (z. B. Flammenrobe), rechnen mit vollem Händlerpreis ("Händler 15s 48c").
+      Vorschlag NIEDRIG (PS-VAL-HV1): in der Urteilszeile bei "Lohnt bis" den Weg nennen ("Lohnt bis 20s 25c, Händler") – damit klar ist, warum
+      der Wert unter dem Händlerpreis liegt.
+    PS-DL: 0.9.101 weiter NICHT nach download/ – erst nach Bild Plan "Skillen" mit 0.9.101.
