@@ -1147,3 +1147,12 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
     Händler auf/zu ohne Kauf (07:10): keine Zeile "WorthUpTo vergessen" durch den Händler. Nach Kauf (07:11): genau EIN Eintrag
     "07:11:21 Händler: Kauf/Verkauf (32 Antworten)"; danach "Heute herstellen" Lauf 4: 32 neu (richtig nach dem Vergessen). PS-P3 ERLEDIGT.
     Offen beim Nutzer nur noch: Lehrer-Zeile (PS-SK2-b, Magiestoffballen?).
+
+>>> SPIELTEST PS-SK2-b – Protokoll Nutzer 28.11. 07:13 (0.9.100), Supervisor 07:30: BESTANDEN.
+    "LEHRER Lernstufen gelesen 28 (neu 0, geändert 0); im Beruf ohne Lernstufe 39: Seidenes Stirnband, Weißes Schwadroneurshemd, Magiestoffballen,
+    Formelles weißes Hemd, Rotes Schwadroneurshemd, …" – Zeile kommt jetzt immer mit Zahl und Namen. Magiestoffballen hat weiter KEINE Lernstufe:
+    beide bisher besuchten Lehrer (28/29 und 14 Rezepte) bieten es nicht an. Damit bleibt es aus dem Plan (PS-SK2 im Spiel bestätigt 04:47).
+    Frage an PS (im nächsten Bericht, Verdacht, zu messen): Bei welchem Lehrer lernt man Magiestoffballen in Forever (Quelle referenz-goldgoblin
+    bzw. Rezeptdaten)? Gehört es zu den 39 nur, weil dieser Lehrer es nicht führt – dann im Plan als "lernbar bei <Lehrer, Ort>" statt still weglassen.
+    PS-SK2-b ERLEDIGT. Alle Spieltests 0.9.99/0.9.100 durch (P3, SK2-b, TT-RECH, TT-EINH, EIG1-Plan). Offen: PS-UI-OVL1, PS-PERF-TSU1, Eigenbedarf
+    Einzel-Einkauf (Entscheid 06:43), PS-UI-REZ1, PS-GOLD-WID, PS-LVL-EINH.
