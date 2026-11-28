@@ -1,34 +1,32 @@
-# Stand Supervisor – 28.11.2026 09:14 (Nutzer kommt gleich zurück; selbständige Prüfung 2 erledigt)
+# Stand Supervisor (Prüf-Sitzung)
+
+## Stand 28.11.2026 11:10 · AHS 0.65.437 · PS 0.9.101 · LP 3.13.35 (Pause)
 
 ## Gerade in Arbeit
-- Nichts Laufendes. Spieltests des Morgens alle ausgewertet und eingetragen.
-- Angenommen heute: AHS 0.65.428–434; LP 3.13.32–34; PS 0.9.101 (Spieltest offen); PS 0.9.99 (download/), 0.9.100 (PS-DL frei).
+- Nichts offen in Arbeit; warte auf neue Berichte (AHS, PS) und Spieltests des Nutzers.
 
 ## Nächste Schritte (Reihenfolge)
-1. Bei jedem "repo": pull, Berichte prüfen, addon_check, annehmen/ablehnen, push + nachprüfen, Workflow ansehen.
-2. AHS (HOCH zuerst): REN2 Teil 2 (Entscheid Supervisor 07:16: realisiert, Lager separat, Summe = Kopfzeile), SN-RATE1 HOCH
-   (Varianten-Suche ~10 Anfragen/Runde, Grenze 83/90, Sniper.lua:4641 16–21 ms, Speicher +80 MB/min), SN-CNT1 (Treffer mehrfach, "offen" bleibt
-   nach Löschen 2), VEN-GW1 (Händler-Gewinn uneinheitlich, 8 Fälle), Gift-Tooltip "ruht · gebunden" fehlt (Bedingung belegen), dann 2b-Rest
-   (DE-WID1, MKT-WID2, PROF-SP1, CHAT-PROFIT Zahl 14/22, SN-LB1, CF-1 Antworttext nur mit OK), Eigenbedarf-Buchung, Schritt 2 T459/SP1.
-   ERLEDIGT im Spiel: UI-DD1, SN-FIND1 (Kauf −14s genau), I4, VS-121b geschlossen.
-3. LP: LP-FRZ1 (1037 ms – Verdacht: Ladebildschirm mitgemessen), T155 (16,99 ms; 2 Läufe < 16 nötig), T402 (debugstack ohne tail call),
-   LP-PROT-N1, Speicher "Sicherung" 39 MB; dann Wegnetz mit Zonen von B (Entscheid 05:35); LP-UI-AC1. T261 kalt BESTANDEN (671 ms).
-4. PS: Eigenbedarf Einzel-Einkauf (Entscheid 06:43), PS-UI-OVL1, PS-PERF-TSU1 (10 020 TRADE_SKILL_LIST_UPDATE, 120,9 ms), Magiestoffballen-Lehrer,
-   PS-UI-REZ1, PS-GOLD-WID, PS-LVL-EINH. ERLEDIGT im Spiel: P3, SK2-b, TT-RECH, TT-EINH.
-5. Offizier B: Upload 28.11. 08:43 in main übernommen, aber LP noch 3.12.31 und kein "uploader"-Feld -> Auftrag RaidMaster 09:12. Markt-Tabelle: Zweig nachlieferung-rechner-b mitgeben.
+1. AHS 0.65.437 Spieltest SN-UX1 (Nutzer, Sniper AN mit 2–3 Zielen): Anzeige = Kauf, kein Ziel ohne Treffer rechts, Wechsel >= 3 s,
+   Chat <= 1 Zeile/Ziel/30 s, keine rote Zeile bei Enter. Dann SN-UX1 schliessen.
+2. PS: Bericht zu PS-SK3 (Magiestoffballen "Skill ?" im Plan – Rückschritt seit 04:47?). Wenn nicht neu: PS-DL 0.9.101 frei.
+   Weitere PS-Punkte: PS-PERF-NB1 (22 ms), PS-P4, PS-REZ-ZAHL (362/369), PS-PLAN-KOST, PS-VAL-VK1, PS-VAL-LB2, PS-VAL-HV1.
+3. AHS nach Masterplan (Nachtrag 10:20): Schritt 2 Rest (T459 + SN-LAG2 + SP1), dann 2b Rest (inkl. AHS-DE-MSG1 neu 11:08).
+4. LP ab Montag 30.11./Dienstag 1.12.: Ingametest 3.13.35 kalt (T261 < 1000 ms), LP-T261-REST, LP-TAKT-16.
 
 ## Offen beim Nutzer
-- Keine Spieltests offen. Idee für später: Gilden-Homepage (mit Namen nur in eigenem Repo). 09.12. 07:00: "Raids und Taktiken" wieder einschalten.
+- CurseForge: englische Antwort an Spieler CF-1 posten? (wartet auf OK)
+- Preisverlauf-Graph im Tooltip als Option (Standard aus)?
+- Homezugriff: Uploader-Zip 2.3.30 nochmals an Offizier B?
+- Spieltests: AHS 0.65.437 Sniper; PS Flut-Tooltip erst, wenn ein Rezept Flut hat (blockiert nicht).
+- Idee für später: Homepage für die Gilde.
 
-## Supervisor-Entscheide (aus Regeln)
-- 07:16 REN2 Teil 2 realisiert (buchhaltung.md); 08:10 Rendite überall = Formel der Kopfzeile BK:Summary.
-
-## Entscheide des Nutzers seit letztem Stand (in entscheide.md)
-- 28.11. 06:43 PS Einzel-Einkauf aus Rezeptansicht = Eigenbedarf.
+## Entscheide des Nutzers seit letztem Stand (in entscheide.md eingetragen)
+- 10:36 AHS Sniper: zwei Ziele mit Treffer wechseln weiter alle 3 s (SN-Z4 bleibt).
+- 11:07 LevelPilot pausiert bis Montag/Dienstag.
+- 10:12 Max-Preise im Sniper hat der Nutzer selbst geändert (Klärung, kein Entscheid).
 
 ## Wichtig zu wissen
-- CurseForge 06:02: AHS 1 Kommentar offen (CF-1), GS 0. Browser nur über Homezugriff.
-- Nutzer ist Priester (kein Schurke) – Gift-Tests beim Nutzer nicht möglich.
-- Nutzer wechselt während Testroutinen manchmal das Fenster -> Messwerte mit "Umgebung" lesen.
-- DL-ABN: download/ nur angenommene + im Spiel geprüfte Versionen; AHS/GS CF 18:00. SH-M1 (B) mit nächster shared/-Änderung.
-- Repo öffentlich: keine Spieler-/PC-Namen (Offizier A/B).
+- Heute geprüft: PS 0.9.101 im Spiel (Rezepte, Plan Skillen, Gold) – OVL1/REZ1 bestanden; LP 3.13.34 im Spiel (FRZ1, T155 erledigt;
+  T261 1143 ms) -> 3.13.35 angenommen, 3.13.34 in download/ (md5 geprüft).
+- "Lohnt bis" beim Weg Händler = Händlerpreis / 1,2 (Kern.lua K:LohntBis, VENDOR_MIN_GAIN) – kein Fehler.
+- addon_check auf download/-Zips kann > 120 s dauern: einzeln mit timeout 110 oder md5 gegen announce vergleichen.
