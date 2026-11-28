@@ -1,0 +1,21 @@
+BERICHT AHSentinel 0.65.432 – AHS-SN-RATE1 HOCH (Varianten-Suche an der Server-Grenze) · 28.11.2026 07:15 · umgesetzt, zur Prüfung
+md5 AHSentinel-0.65.432.zip (announce/): 97406991b0a3efefff5ce4efb75348dc (nur Discord; CurseForge bleibt 0.65.423)
+FULL 0.65.431: 359 PASS / 67 FAIL, Fail-Liste = 0.65.430. Hinweis (Regelverstoss, ehrlich): s348 lief 2× einzeln WÄHREND dieses FULL; FULL
+trotzdem ohne neue Rot-Stelle -> keine Wirkung belegt. Künftig wieder strikt allein.
+
+1. Ursache (Code + Protokoll 07:02): Sniper.lua 0.65.430/431 - nach der Namenssuche alle bis 8 Schlüssel lesen, und Sn.byNameItem wurde nur gesetzt,
+   wenn der ERSTE gelesene Schlüssel Angebote hatte (bei veraltetem Browse-Mindestpreis 0) -> jede Runde: allgemeiner Schlüssel (leer) +
+   Namenssuche + 8 Schlüssel. Nachbau s348 (3 Ziele, Ausrüstung mit 15 Varianten, 120 s): 0.65.431 7,8 Anfragen je Runde dieses Ziels, 17 Browse
+   in 120 s, 17 Runden.
+2. Behebung (Sniper.lua): Sn.variantCache[itemID] = Schlüssel aus der Namenssuche (höchstens VARIANT_MAX 8), gemerkt VARIANT_TTL 300 s;
+   je Runde Sn:VariantPick: 2 günstigste + 1 aus dem Rest im Wechsel (VARIANT_PER_ROUND 3). Sn:Search liest gemerkte Schlüssel direkt (kein
+   allgemeiner Schlüssel, keine Namenssuche). Alle gelesenen leer -> Speicher weg -> nächste Runde neu per Name. byNameItem nach dem Zusammenführen
+   bei > 0 Angeboten. Protokoll SNIPER-NAME je Item höchstens alle 5 Min. ("k von n Suchschlüsseln gelesen (gemerkt ja/neu)").
+   s348 0.65.432: 2,0 Anfragen je Runde, 0 Browse in 120 s (nach dem Anlauf), 36 Runden (doppelt so oft dran). Gesamt 179 Anfragen/120 s = 89,5/min:
+   der Sniper nutzt den Takt bis zur eigenen Grenze (A:CanQueryNow) - die Grenze selbst ist der Schutz; Verdacht, zu messen im Spiel: Zeile
+   "SUCHEN Grenze erreicht" seltener.
+   Teil 2 (LANGSAM SEARCH_RESULTS 16–21 ms): weniger Schlüssel je Runde = weniger Zusammenführen; Verdacht, zu messen im Spiel (Nachbau misst es nicht).
+3. Gift-Tooltip (07:01): Blendungspulver steht mit 688 Angeboten im AH und hat Marktwert -> in WoW Forever zurzeit NICHT gebunden (beim
+   Aufheben gebundene Ware kann nicht eingestellt werden). A:BindOnPickup liest bindType vom Client -> korrekt "frei", darum keine Zeile
+   "ruht · gebunden" (die steht ohnehin nur in der Zielzeile des Sniper-Ziels, nicht im Tooltip). Beim Nutzer nicht prüfbar, Nachbau T1043.
+4. 34 Sniper-Szenarien + s42/s43/s341 alt = neu ausser s348 (alt rot, neu grün). addon_check OK. FULL 0.65.432 folgt allein.
