@@ -7638,3 +7638,16 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
        "Entzaubern lohnt: aus" unten im Einkauf. Text muss den echten Weg nennen (wie AHS-CHAT-PROFIT) und der Klick sollte dorthin führen.
     3. Markt > Entzaubern: "Preise vom Scan vor 0 Min." – Statuszeile gleichzeitig "letzter Scan vor 28 Min.". Welche Zahl stimmt? Belegen, angleichen.
     Test: dieselben Daten -> Meldung und Liste nennen dieselbe Zahl; Gegenprobe 0.65.429. Im Schritt 2b, vor R1–R7.
+
+>>> BEFUND AHS-MKT-WID2 MITTEL (Markt > Heute, Widersprüche) – Bild Nutzer 28.11. 05:39 (PC, 0.65.429), Supervisor 05:44:
+    1. Zeile 1 "Preis gefallen: 56x Schredderanleitung - Seite 9 – jetzt verkaufen bringt 15g96"; rechts dazu "Preis 30s · Marktwert 2s84 ·
+       Trend 7 Tage +1496 %" und "liegen lassen – Preis 30s über deiner Kaufgrenze 22s79". "gefallen" vs +1496 %, und Verkaufen-Zeile vs "liegen
+       lassen" widersprechen sich. Belegen (Datei:Zeile): woher "gefallen", welcher Marktwert gilt (2s84 vs 30s – Ausreisser/Lockangebot?), und
+       ob 56 × ~28s5 = 15g96 mit Gebühren aufgeht. "liegen lassen" gilt fürs Kaufen – Text muss das sagen (nicht neben einer Verkaufs-Empfehlung).
+       Preisleiter-Zeile "30: 16 · 38: 60 · 40: 42 · 62 · 85: 66" ist ohne Erklärung nicht lesbar (Preis: Menge?) – Einheit/Beschriftung.
+    2. Zeile "Kaufe 2x Buchband der Schnelligkeit bis 19g83, einstellen um 46g4" (Zahl 47g80) – Fusszeile "Kapitalbedarf 7g06s84 von 45g58s18
+       (höchstens 25 %)". 2 × 19g83 = 39g66 = 87 % des Golds – passt weder zum Kapitalbedarf noch zur 25-%-Grenze. Belegen, ob die Zeile in den
+       Kapitalbedarf zählt ("lernt noch" = ausgenommen?) und ob ein Vorschlag über der Grenze erscheinen darf; sonst ausblenden oder klar als
+       "zu teuer für dein Gold" kennzeichnen (Psychologie: keine Gier-Empfehlung über das Budget).
+    3. Tooltip über der Tabelle ist durchscheinend (Zeilentext darunter lesbar) – deckender Hintergrund (vgl. LP-UI-AC1).
+    Test mit diesen Zahlen + Gegenprobe 0.65.429. Schritt 2b.
