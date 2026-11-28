@@ -7482,3 +7482,13 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     bei "Suchen" und beim Wechsel in die Ware. Ursache belegen (Frame-Ebene/Strata, Anker, Schliessen bei OnHide), UI-Prüfung (TB184-U3) um diesen Fall
     ergänzen, Test. Nebenbei im Bild: Spalte "Restzeit" zeigt bei allen 11 Angeboten "-" – im Forever-Client verfügbar? Messen, sonst Spalte weglassen.
     Gut im Bild: Sniper kauft (Chat "Ihr habt eine Auktion gewonnen: Azurblaue Seidenkapuze" ×2, "[AHSentinel] Gekauft: 1x … für 12…").
+
+>>> BEFUNDE Bild des Nutzers 28.11. 04:37 (PC, 0.65.427, Markt > Markt > Entzaubern) – Supervisor 04:40:
+    AHS-MR4-T MITTEL: Kopfzeile "Marktrichtung je Stufe: noch zu wenig Daten (0 von 5 Tagen)". Der Nutzer scannt seit Wochen fast täglich (Statuszeile:
+      "letzter Scan vor 8 Min.", 7574 Items). 0 von 5 Tagen ist darum unplausibel – Verdacht, zu messen: Tageswerte je Stufe werden nicht (mehr) gespeichert,
+      beim Laden verworfen oder an einen anderen Schlüssel gehängt (Realm leer/"CAMWOW"?). Ursache belegen (SavedVariables PC/Laptop: wie viele Tage liegen
+      vor?), beheben, Test; Inventur-Punkt MR4 entsprechend korrigieren.
+    AHS-TXT-CUT NIEDRIG: Erklärtext unter den Knöpfen endet abgeschnitten "… mindestens 20 % Gewinn bringen – zum aktuellen Markt, nac…" (Regel: nichts
+      abgeschnitten) – kürzen oder umbrechen, alle Sprachen prüfen.
+    Sonst plausibel: "Weg Entzaubern lernt noch (12 von 20 Fällen) – Zahlen nur geschätzt", "Zurzeit nichts unter dem Entzauber-Wert mit mindestens 20 %
+      Gewinn (geprüft: 1111 Items)" – passt zu den Käufen der Kapuze für 12s01 bei DE-Wert netto ~13s02.
