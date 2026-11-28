@@ -1,6 +1,6 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 28.11.2026 05:00 · Version 0.65.428 (Discord); CurseForge 0.65.423; 0.65.426/427 vom Supervisor angenommen (Code)
+## Stand 28.11.2026 05:25 · Version 0.65.429 (Discord); CurseForge 0.65.423; 0.65.428 vom Supervisor angenommen (Code)
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/AUSPLUSLAPTOP/forever/konto-*/AHSentinel.lua.gz; Nachlieferung Rechner B: Zweig nachlieferung-rechner-b-2026-11-27).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;

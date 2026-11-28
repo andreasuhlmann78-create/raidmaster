@@ -1,0 +1,30 @@
+BERICHT AHSentinel 0.65.429 – Schritt 2b Teil 1 · Projekt-Sitzung · 28.11.2026 05:25 · umgesetzt, zur Prüfung
+md5 AHSentinel-0.65.429.zip (announce/): fcda6d8ccca50bcacdb6cc1f3d3f9a9e (nur Discord; CurseForge bleibt 0.65.423)
+FULL 0.65.428: 357 PASS / 67 FAIL – Fail-Liste gleich 0.65.427 (keine neue Rot-Stelle).
+
+1. AHS-SN-DEL1 a) MITTEL – belegt + gebaut:
+   Schon vorher (kein Kauf für gelöschtes Ziel möglich): Sniper.lua Sn:PlanNext "local t = self:GetTarget(r.key) / if not t then return nil end";
+   Sn:Confirm "local t = self:GetTarget(p.key) … if not t then return false, L["Ziel nicht gefunden."]"; Sn:HeldHit "elseif not self:GetTarget(h.key) then why = "Ziel weg"".
+   Lücke: Sn:RemoveTarget räumte nur self.result. Neu Sn:ForgetTarget(key): Ergebnis, Warteschlange (hitQueue), Knopf-Treffer (btnHit/heldUse),
+   Vorrang (urgentKey), Reservierung (Sn:CancelPending -> CancelCommoditiesPurchase) und laufender Treffer im Tageszähler (hits − 1, nicht "verpasst")
+   – "1 offen" nach dem Löschen verschwindet. Gesendeter Kauf (inFlight) bleibt beim Server und wird normal gezählt.
+   b) (Entscheid 05:03, nur belegen): Sn:PlanNext "local limit = math.min(budgetLeft, money)" (Rest-Budget aus Sn:Remaining inkl. Gold-Abgang
+   seit Start, SN-B10 (3)) begrenzt jede Raste; Sn:Confirm "if p.total and not self:PriceOK(t, p.qty, p.total)" = Max je Stück vor dem Bestätigen.
+   Test T1047 (Index AHS-SN-DEL1): Treffer 1 -> 0, alles weg, 1 Abbruch, anderes Ziel bleibt. Gegenprobe 0.65.428: FAIL (Warteschlange/Knopf/
+   Vorrang/Reservierung bleiben, Treffer 1 -> 1).
+2. AHS-PS-EIG1 MITTEL – AHS-Seite gebaut: Sn:SetTarget(…, f) nimmt f.zweck = "eigenbedarf" (+ f.quelle, z. B. "ProfessionSentinel").
+   Sn:MaxOverValue -> nil (keine Chat-Achtung, kein Ton, keine rote Zeile), Hinweis grau "Eigenbedarf (%s) – kein Wiederverkauf, keine
+   Verlust-Warnung" (10 Locales). Ohne Feld wie bisher. ** PS muss es senden: ProfessionSentinel Disenchant.lua:735 ruft heute
+   Sn.SetTarget(Sn, tostring(t.id), t.maxPrice, t.qty, t.maxPrice * t.qty) – bitte an PS weitergeben: 5. Wert { zweck = "eigenbedarf",
+   quelle = "ProfessionSentinel" } für Plan-/Queue-Zutaten (alte AHS ignorieren das Feld). ** Buchhaltung: Kauf wird noch NICHT beim Kauf als
+   Eigenbedarf gebucht; verbrauchte Zutaten bucht EB1 (Books.lua BK:CheckOwnUse) wie bisher – Vorschlag, mit PS abzustimmen.
+   Test T1046: mit Feld Zweck eigenbedarf/über Wert nil/0 Achtung-Zeilen/Hinweis; ohne Feld über Wert 10/1 Achtung-Zeile. Gegenprobe 0.65.428 FAIL.
+3. AHS-CHAT-PROFIT MITTEL: A:VendorDealsChatText(n) – "… siehe Kaufen > Schnäppchen > Händlerpreis" aus L["Kaufen"]/L["Schnäppchen"]/
+   L["Händlerpreis"] (dieselben Texte wie die Knöpfe), 10 Locales. 96 vs 67: Chat und Liste zählen dieselbe Funktion A:FindVendorDeals ohne
+   Filter (UI_Profit VendorDeals ohne threshold/WithoutAbsurd). Verdacht, zu messen: Liste vor dem Ende des Vollscans geöffnet (Daten vorher),
+   Chat danach. (c) ST1: eine Zeile je Vollscan, bleibt (Tipp). Test T1045, Gegenprobe 0.65.428 FAIL.
+4. AHS-TXT-CUT NIEDRIG: Markt-Reiter: Einsteiger-Satz entfällt, wenn der Text sonst abgeschnitten wäre (IsTruncated des Clients, jede Sprache).
+   Schnäppchen: Knopfreihe 10/20/30/50 % von −44 auf −52 (Kopftext 2 Zeilen bis ~−49, Tabelle ab −76).
+5. Messauftrag 05:05 UI-DD1: Protokollzeile UI-DD1 einmal je Sitzung: "GLOBAL_MOUSE_DOWN vorhanden" bzw. "fehlt".
+6. Szenarien: s42 (T1044–T1047 grün), s43, s341 + 51 Sniper/Markt/Profit/DE-Szenarien alt = neu (6 rot wie vorher). addon_check OK.
+   FULL 0.65.429 folgt allein. Weiter laut Entscheid 04:55: Schritt 2.2 Vollscan, dann Rest 2b (MR4-T zuerst, neu SN-LB1).
