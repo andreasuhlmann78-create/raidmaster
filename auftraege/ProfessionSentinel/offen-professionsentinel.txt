@@ -1116,3 +1116,7 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
     Buchung Eigenbedarf beim Kauf: an AHSentinel weitergegeben (AHS bucht, PS ändert nichts).
     Im Spiel prüfen (Nutzer): Tooltip Graue Wollrobe -> "(Lohnt bis … - Material …)", Skillen "4 ×"; Plan-Zeile Sniper mit Summe; Klick ->
     AHSentinel-Ziel ohne Verlust-Warnung, Hinweis "Eigenbedarf"; Chat "Budget zusammen …". PS-DL: 0.9.100 erst nach diesem Spieltest nach download/.
+
+>>> ENTSCHEID NUTZER 28.11. 06:43 zur Frage UI.BuyForRecipe: "Eigenbedarf". Auftrag: Einzel-Einkauf aus der Rezeptansicht sendet { zweck =
+    "eigenbedarf", quelle = "ProfessionSentinel" } wie Plan/Warteschlange. Gewinn-Wege bleiben ohne Zweck. T307 um diesen Fall erweitern
+    (mit Gegenprobe). Kleine Änderung – mit dem nächsten Punkt zusammen veröffentlichen.
