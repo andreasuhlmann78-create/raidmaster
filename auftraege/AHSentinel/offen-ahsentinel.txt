@@ -7780,3 +7780,7 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     Spieltest Gift-Tooltip "ruht · gebunden": mit diesen Bildern NICHT geprüft (Reagenzien, kein Gift/Blendungspulver) – bleibt offen.
 >>> Spieltest Gift-Tooltip "ruht · gebunden" – Nutzer 28.11. 07:01: Nutzer ist kein Schurke, AH-Suche "Sofort wirkendes Gift" = keine Angebote.
     Nicht prüfbar beim Nutzer – bleibt offen (im Nachbau belegen; Abnahme später mit Schurken-Daten eines anderen Spielers oder entfällt).
+>>> SPIELTEST Gift-Tooltip – Bild Nutzer 28.11. 07:01 (0.65.431): Blendungspulver im Einkauf (688 Stück, 1s35), Tooltip zeigt Marktwert 1s69/1s30,
+    "Gewinn: −10c / Stück", "Händler: 1s25" – KEIN "ruht · gebunden". NICHT BESTANDEN (Gift-Tooltip-Auftrag: Zeile fehlt). Belegen, unter welcher
+    Bedingung die Zeile kommt (nur bei eigenem Bestand/Taschen? nur Schurke?) – wenn nur bei Besitz, im Bericht sagen, dann gilt der Punkt als
+    beim Nutzer nicht prüfbar. Dazu für AHS-VEN-GW1: Blendungspulver Händler 1s25, Markt 1s30 -> "−10c" (erwartet −1c bzw. +5c) – 8. Fall.
