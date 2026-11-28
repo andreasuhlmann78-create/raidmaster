@@ -1238,3 +1238,6 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
     fertig: zuerst Bericht zu PS-SK3 (Magiestoffballen "Skill ?" – neu in 0.9.101 oder nicht? davon hängt PS-DL 0.9.101 ab), dann was in
     der laufenden Version steckt (PS-PERF-NB1, PS-P4, PS-REZ-ZAHL, PS-SK3, PS-PLAN-KOST, PS-VAL-VK1/LB2/HV1 soweit begonnen). Danach Stand in
     berichte/ProfessionSentinel/stand-aktuell.md sichern und bis Montag 30.11. anhalten. Was nicht fertig wird, bleibt hier offen.
+
+>>> Zu PS-VAL-LB2, weiteres Beispiel (Bild 11:33): Rosa Magiestoffhemd "Lohnt bis 25s" (Händler 30s / 1,2) bei AH 59s und Verkaufen 47s5c.
+    Der Wert kommt aus AHSentinel (API.WorthUpTo) – Ursache klärt AHS (AHS-LB-AH1). PS: nur die Zeile mit Weg und Grund (PS-VAL-HV1).

@@ -7927,3 +7927,11 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
       Bei leerem Budget gar keine Treffer-Zeile (Psychologie: keine Kaufaufforderung, die nicht geht). SN-UX1 Punkt 3.
     Gut: Tooltip der Seidenkapuze "seltener gesucht: keine Treffer seit 12 Min." – Ansatz für AHS-SN-ROT1 ist also schon da; bitte in den
     Bericht zu ROT1: ab wann "seltener", und warum das Treffer-Ziel dennoch nur alle ~7 s drankommt.
+
+>>> BEFUND AHS-LB-AH1 MITTEL (Zahl muss erklärbar sein) – Bild Nutzer 28.11. 11:33 (0.65.437 + PS 0.9.101), Supervisor 11:37:
+    Tooltip "Muster: Rosa Magiestoffhemd" im Einkauf: für das HEMD drei Werte, die nicht zusammenpassen:
+    AHS Marktwert Median 14 T 70s, Scan vor 7 Min. 59s (Liste: Rosa Magiestoffhemd 59s, 13 verfügbar) · "Verkaufen 47s5c" · "Lohnt bis 25s"
+    (= Händler 30s / 1,2, Weg Händler). Warum wählt K:LohntBis/API.WorthUpTo den Händler (25s), wenn das Hemd im AH für 59s steht und netto
+    47s5c bringt? Gleiches Muster wie PS-VAL-LB2 (Weiße Leinenrobe, Handwickel je 1s80c). Belegen (Absatz/Sicherheit des Wegs AH? Flip-Weg
+    aus?), und die Anzeige nennt den Grund ("AH verkauft sich kaum: n in 14 Tagen" o. ä.). Dazu die Zeile "Gewinn: −5s24c / Stück" im selben
+    Tooltip: woraus (Kauf 44s95c gegen welchen Wert)? Zahl muss aufgehen und benannt sein. Nachbau mit echten Daten. Nach Masterplan Ende 2b.
