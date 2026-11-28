@@ -7878,3 +7878,24 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     Quelle/Grenze/Stand im Wächter? Item nur im Wächter, weil "Weg Entzaubern lernt noch (12 von 20)"?), EINE Regel für beide; die
     Chatzeile nennt das Item (Link) und den Gewinn, damit der Spieler es findet. Dazu Sprache: "1 Teile" -> "1 Teil".
     Nachbau mit echten Daten + Gegenprobe. Nicht HOCH (kein Fehlkauf) -> nach Masterplan ans Ende von 2b.
+
+>>> SPIELTEST AHS-SN-UX1 – 6 Bilder Nutzer 28.11. 11:11:15–11:11:33 (0.65.437, Sniper AN, 3 Ziele), Supervisor 11:15: TEILWEISE.
+    BESTANDEN:
+    (1) Anzeige = Kauf: rechts "Lederhandschuhe des Hügelwächters", Knopf "Kaufen: 1× Lederhandschuhe … für 13s25", "Nächster Kauf: 1 Stück
+        für 13s25" – auf allen 6 Bildern gleich.
+    (2) Kein Springen: 18 s lang kein Wechsel; Regenmacherkordel (ohne Treffer) nie rechts, nur in der Infozeile "· sucht gerade:
+        Regenmacherkordel" – genau wie vorgesehen.
+    Zählerzeile geht auf: 9 mit Kauf + 101 verpasst + 22 ohne Raste + 5 offen = 137 Treffer. Insgesamt 32 × 13s25 = 4g24s – geht auf.
+    Warnung "Max-Preis liegt über dem Verkaufswert – jeder Kauf verliert ca. 59c/Stück" kommt (Max-Preise vom Nutzer gesetzt, Klärung 10:12).
+    NICHT BESTANDEN / OFFEN:
+    (3) Chat: "Treffer: 1x Lederhandschuhe des Hügelwächters für 13s25 – Mausrad zum Kaufen" ZWEIMAL innerhalb von höchstens 18 s (Bild
+        11:11:15 eine Zeile, 11:11:33 zwei gleiche Zeilen), gleiches Ziel, gleiches Angebot, kein Kauf dazwischen (32 Käufe unverändert).
+        Soll nach Bericht: höchstens 1 Zeile je Ziel+Angebot je 30 s (PRINT_REPEAT). Ursache belegen (anderer Merker-Schlüssel, z. B.
+        Angebotsnummer/Seite statt Item:Menge:Preis? Merker beim Sniper-Neustart geleert?), Nachbau + Gegenprobe.
+    (4) Zähler links WEITER FALSCH: jedes Ziel "0/1000 · Rest 5g", Kopf "noch 1000 Stück, 5g Budget", obwohl "Insgesamt: 32 Stück für
+        4g24s – 32 Käufe" für dieses Ziel. Genau der Befund von 09:51 (0/1000 bei 38 gekauft). Wenn "Insgesamt" frühere Käufe (vor dem
+        Neu-Setzen des Ziels) zählt, muss das dort stehen ("seit …"); sonst müssen Stand und Rest 32/1000 bzw. 5g − 4g24s = 76s zeigen.
+        Mit 5g Budget und 4g24s ausgegeben darf der Sniper höchstens noch 5 Stück kaufen – belegen, dass das Budget wirklich gilt
+        (GOLD-SICHERHEIT). Darum HOCH bis belegt.
+    (5) Enter in leerem Feld: im Bild nicht geprüft – Nutzer prüft später.
+    AHS-SN-UX1 bleibt offen (Punkte 3, 4). Punkt 4 HOCH vor dem Masterplan.
