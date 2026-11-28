@@ -1107,3 +1107,12 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
     f.quelle = "ProfessionSentinel" (keine Verlust-Warnung, grauer Hinweis "Eigenbedarf"). Auftrag PS: Disenchant.lua:735 (Sn.SetTarget(Sn, id, max,
     qty, max*qty)) als 5. Wert { zweck = "eigenbedarf", quelle = "ProfessionSentinel" } mitgeben – nur für Plan-/Warteschlangen-Zutaten (alte AHS
     ignorieren das Feld). Test mit Sniper-Attrappe: Feld kommt an; Gegenprobe ohne Feld. Buchung beim Kauf: mit AHS abstimmen (Bericht).
+
+>>> 0.9.100 (PS-TT-RECH, PS-TT-EINH, PS-AHS-EIG1) – Supervisor 28.11. 06:38: ANGENOMMEN (Code), addon_check OK.
+    Nachgerechnet, STIMMT: 208 × 9s41 + 50 × 38c = 19g57s28 + 19s = 19g76s28; Marktwert 208 × 8s56 + 50 × 35c = 17g80s48 + 17s50 = 17g97s98;
+    Wollrobe 37s98 − 37s01 = +97c. PS-TT-EINH: Ursache belegt (Summe aller Grundmaterialien), Befund-Annahme "je Skillpunkt" war falsch – akzeptiert.
+    Budget-Text "im Sniper noch das Budget einstellen" war falsch und ist korrigiert – gut.
+    Frage UI.BuyForRecipe (Einzel-Einkauf aus der Rezeptansicht) Eigenbedarf ja/nein: liegt beim Nutzer, Antwort folgt hier. Bis dahin ohne Zweck lassen.
+    Buchung Eigenbedarf beim Kauf: an AHSentinel weitergegeben (AHS bucht, PS ändert nichts).
+    Im Spiel prüfen (Nutzer): Tooltip Graue Wollrobe -> "(Lohnt bis … - Material …)", Skillen "4 ×"; Plan-Zeile Sniper mit Summe; Klick ->
+    AHSentinel-Ziel ohne Verlust-Warnung, Hinweis "Eigenbedarf"; Chat "Budget zusammen …". PS-DL: 0.9.100 erst nach diesem Spieltest nach download/.

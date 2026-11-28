@@ -7737,3 +7737,8 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     angehängt (0.65.430, Sniper.lua:2002–2006). Wirkt wie falsche Suche. Auftrag: nach dem Zusammenführen ALLE Angebote nach Preis/Stück sortieren
     (günstigste oben, über Seiten hinweg); Kopf "22 Angebote · 16 passende Items" verständlich machen (siehe SN-FIND1 Frage). Test mit 3 Varianten
     in gemischter Reihenfolge + Gegenprobe 0.65.430. Kauf-Reihenfolge (günstigste zuerst) im selben Test belegen.
+
+>>> PS-AHS-EIG1 Gegenstück – Supervisor 28.11. 06:38: ProfessionSentinel 0.9.100 sendet jetzt f.zweck = "eigenbedarf", f.quelle =
+    "ProfessionSentinel" für Plan- und Warteschlangen-Zutaten (T307). Auftrag AHS (nach den HOCH-Punkten): Käufe solcher Ziele als Einkauf für
+    Eigenbedarf buchen (Kostenbasis, nicht als Handelsware/Lagerwert für Wiederverkauf; buchhaltung.md lesen), ohne Doppelbuchung mit EB1
+    (BK:CheckOwnUse). Vorschlag mit Datei:Zeile im Bericht, Test mit Gegenprobe.
