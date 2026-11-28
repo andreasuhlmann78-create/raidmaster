@@ -1093,3 +1093,12 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
     (z. B. zweck = "eigenbedarf", Quelle "PS-Levelplan"), sobald AHS das Feld kennt (AHS-PS-EIG1); bis dahin unverändert. Ausserdem: PS-Chat "… – im Sniper
     noch das Budget einstellen", obwohl im Sniper schon "Rest 17s50" / "Rest 17g80s" stehen – belegen, ob PS ein Budget setzt; Text passend machen.
     Hinweis: Plan 110->150 braucht laut Einkaufsliste u. a. 208 Wollstoffballen à ~8s56 ≈ 17g80 (Spieler hat ~45g) – vor dem Anlegen die Summe nennen.
+
+>>> 0.9.99 (PS-P3, PS-SK2-b) – Supervisor 28.11. 05:24: ANGENOMMEN (Code), addon_check OK, md5 laut Bericht e097a996….
+    Geprüft: PriceSource.lua:761 PS.OnMerchant – SHOW merkt Gold, CLOSED vergisst nur bei anderem Gold ("Händler: Kauf/Verkauf"), zweites CLOSED ohne
+    SHOW tut nichts (before == nil); kurzes Wert-Gedächtnis wird weiter geleert. Ursache PS-P3 (jedes SHOW/CLOSED -> ForgetWorth) passt zum Ingametest 04:47.
+    Grenze akzeptiert: Tausch ohne Goldänderung vergisst nicht (Antworten hängen an Preisen). PS-SK2-b: Zeile nennt immer "ohne Lernstufe z" + Namen.
+    Tests T302/T305 erweitert, offline 260/0 forever.
+    Im Spiel prüfen (Nutzer): Händler öffnen/schliessen ohne Kauf -> /ps protokoll ohne neues "WorthUpTo vergessen"; mit Kauf -> genau ein Eintrag
+    "Händler: Kauf/Verkauf"; Lehrer öffnen -> Zeile "ohne Lernstufe z: Namen" (steht Magiestoffballen darin?). Erst danach PS-P3/PS-SK2-b erledigt.
+    PS-DL: 0.9.99 darf nach download/ (ersetzt 0.9.98).
