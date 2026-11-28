@@ -2233,3 +2233,19 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
     T155: im Spiel 15,89 ms (1. Lauf < 16) – noch einer nötig. Nachbau T261 1057 ms (schwankt im Nachbau; im Spiel kalt 671/warm 682 OK).
     Im Spiel prüfen (Nutzer): /lp testroutine kalt -> /reload -> 60 s -> /lp testroutine alles: T222 nicht mehr ~1 s, T155 < 16 (2. Lauf),
     Zeile "Neuplanung angestossen von: …" mit echter Datei:Zeile, Protokoll ohne "Wegnetz laden"-Flut.
+
+>>> INGAMETEST 3.13.34 – Testroutine Nutzer 28.11. 10:22 (kalt -> /reload -> 60 s -> alles, Nutzer die ganze Zeit im Spiel), Supervisor 10:35:
+    339 OK · 1 FEHLER · 9 übersprungen · 54 im Client. Sandbox OK, Fehlerzähler 0, echte Daten unverändert.
+    BESTANDEN:
+    - LP-FRZ1: T222 nicht mehr unter den langen Bildern (vorher 1037 ms). Längstes Bild jetzt 36,0 ms, kein eigenes Bild > 40 ms. LP-FRZ1 ERLEDIGT.
+    - T155: wieder nicht unter den Fehlern und nicht in "Schritte über 16 ms" – zweiter Lauf < 16 ms hintereinander. T155 ERLEDIGT.
+    NEU OFFEN:
+    - T261 MITTEL (wieder offen): FEHLER "erste 60 s: 1143 ms in 2021 Aufrufen, längster 17 ms" (Soll < 1000; Lauf 06:2x kalt 671, Nachbau 1057).
+      Grösster Anteil "route 797 ms / 331×", dann graph 154 ms / 94×. 331 Routen-Aufrufe in 60 s ist zu viel. Die Zeile bricht bei
+      "aufgeschlüsselt: route: replan …" ab – die Auslöser ("Neuplanung angestossen von …") fehlen darum im Protokoll. Bitte:
+      (a) Auslöser-Aufschlüsselung in eine EIGENE Zeile, nicht gekürzt (Direktive: nichts abgeschnitten);
+      (b) belegen, warum 331 route-Aufrufe in 60 s (wer stösst an, wie oft je Auslöser) und Neuplanungen bündeln, damit T261 sicher
+          < 1000 ms bleibt – auch bei Schwankung (Ziel mit Reserve, z. B. < 800 ms im Nachbau mit echten Daten). Test + Gegenprobe.
+    - LP-TAKT-16 NIEDRIG: 10 Schritte über 16 ms (T352 36 ms, T21 31 ms, T291 28 ms, T263/T30 20 ms, T128/T270/Sandbox 19 ms, T292/T234 18 ms).
+      Alle unter 40 ms, darum NIEDRIG; im Zug der Masterplan-Reihenfolge in Portionen ≤ 16 ms teilen, mit T352 beginnen.
+    - "ganze Bilder über 40 ms: 5, davon durch Spiel/Umgebung 3" – die 2 übrigen (eigene Portion > 16 ms?) bitte mit Schritt nennen.
