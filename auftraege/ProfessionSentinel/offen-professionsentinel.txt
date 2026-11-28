@@ -1213,3 +1213,10 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
     Lehrer-Liste (Ränge, Fraktion, Entfernung, "Experte ab Stufe 20 (du: 10)") und Rangliste (59 Rezepte · 11 gelernt · 48 zum Lernen) ok.
     PS-DL 0.9.101: noch offen nur Flut-Tooltip (PS-GOLD-WID, Reiter Gold). Danach frei, sofern PS-SK3 nicht neu in 0.9.101 ist (PS: im
     Bericht sagen, ob 0.9.100 Magiestoffballen ebenso zeigt).
+
+>>> SPIELTEST 0.9.101 Reiter Gold – 3 Bilder Nutzer 28.11. 10:39, Supervisor 10:42: Layout ok (Gruppen Gold verdienen 7 · Daten prüfen 2 ·
+    Verkauft sich kaum oder kein Gewinn 110 · Dein Ziel · VZ verkaufen 3; Zeilen nicht abgeschnitten). Fraktionsbanner: Material 58c+9c = 67c,
+    2s 9c − 67c = +1s 42c – geht auf. Flut-Tooltip noch nicht gesehen (Gruppe "Verkauft sich kaum" zugeklappt) – Nutzer schickt Bild.
+    - PS-VAL-VK1 NIEDRIG (Frage, Zahl muss aufgehen): Fraktionsbanner "Verkaufen 1s 5c", aber "Lohnt bis 2s 9c" – Lohnt bis liegt über dem
+      Verkaufspreis. Ergibt die Herstellung 2 Stück (2 × 1s 5c = 2s 10c ≈ 2s 9c)? Dann "je Stück"/"für 2 Stück" an beiden Zahlen nennen;
+      sonst Ursache belegen.
