@@ -7606,3 +7606,12 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     Buy.lua:712 timeLeftSeconds oder Stufe (B.TIME_BAND_S, nur Anzeige); T1044 im Index. Die Ursache (Ebene beim Umhängen) bleibt "Verdacht, zu messen".
     Im Spiel prüfen (Nutzer): Kaufen > Einkauf, Seltenheit anklicken -> Auswahl ganz sichtbar über der Liste; Klick daneben/Suchen schliesst; Restzeit
     gefüllt; gleich im Sniper und im Preisverlauf. Erst danach AHS-UI-DD1 erledigt. Nur Discord (kein CurseForge vor 18:00/Entscheid).
+
+>>> Bilder Nutzer 28.11. 05:06 (PC, noch 0.65.427 – 0.65.428 nicht installiert, AHS-UI-DD1 also noch nicht im Spiel geprüft), Supervisor 05:12:
+    Nachgerechnet, STIMMT: Entzauber-Rechnung Stulpen (iLvl 27): 1,137×4s46=5s07 + 0,2987×18s29=5s46 + 0,056×53s97=3s02 = 13s55; −5 % 67c -> 12s88;
+    −12s49 = +39c. Material 26–30 (Seelenstaub/Grosse Astralessenz/Grosser gleissender Splitter) passt zur Tabelle Disenchant.lua:47 (warcraft.wiki.gg).
+    "Lohnt bis 10s69" = 12s89/(1+Mindestgewinn ~20 %) – passt.
+>>> BEFUND AHS-SN-LB1 NIEDRIG (Text, Psychologie): Tooltip Sniper-Ziel Kapuze: "Max über Lohnt bis (10s69) – hier gemessen +60 %". Unklar, was +60 %
+    bedeutet (Max 12s ist nur +12 % über 10s69). Bei den Stulpen steht dafür "Käufe darüber bringen zu wenig". Auftrag: belegen (Datei:Zeile), was
+    "+60 %" misst; Text so, dass der Spieler ohne Rechnen versteht, was er bedeutet (z. B. "Max 12s liegt 12 % über Lohnt bis – Gewinn je Stück nur
+    noch 89c statt Mindestgewinn"), an beiden Stellen gleich. Im Schritt 2b mitnehmen.
