@@ -7829,3 +7829,17 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     FREIGABE Vorschlag Punkt 2: Anteil "de" je Kostenbasis-Posten mitführen (auch bei "mix"), damit "Lager aus Entzaubern" stimmt – NIEDRIG,
     nach SN-CNT1 und VEN-GW1. Test mit gemischtem Posten + Gegenprobe; Buchhaltung (buchhaltung.md Punkt 3 Umbuchung) einhalten.
     Im Spiel prüfen (Nutzer): Buchhaltung > Rendite "Seit Neustart": Rendite-Zeile unter der Tabelle mit Rechnung, gleiche % wie die Kopfzeile.
+
+>>> 0.65.435 (AHS-CF-1, Vorschlag Eigenbedarf-Buchung) + 0.65.436 (AHS-SN-CNT1) – Supervisor 28.11. 10:10: beide ANGENOMMEN (Code), addon_check OK.
+    CF-1: Ursache belegt (TT7, Einstellung ohne Wirkung) und Einstellung entfernt. Antworttext + Frage "Graph im Tooltip wieder als Wahl" liegen beim Nutzer.
+    Eigenbedarf-Buchung (Vorschlag a–e, 0.65.435 Bericht): FREIGEGEBEN wie vorgeschlagen (buchhaltung.md: Eigenbedarf nicht im Handelsgewinn,
+    je Stück genau eine own-Buchung, Summe der Arten = Kopfzeile bleibt) – nach den HOCH-Punkten.
+>>> PROTOKOLL + BILDER Nutzer 28.11. 09:49–10:01 (0.65.435), Supervisor 10:10:
+    - SN-RATE1 im Spiel BESTANDEN: Ältestenhandschuhe "3 von 14 Suchschlüsseln gelesen (gemerkt neu)" alle ~5 Min., keine "SUCHEN Grenze erreicht".
+    - BEFUND AHS-SN-LAG2 MITTEL: "LANGSAM Empfänger Sniper.lua:4683 von SEARCH_RESULTS" 16–35 ms (6× in 10 Min., bei 300–350 Angeboten Kapuze/Stulpen)
+      und "UI_Sniper.lua:816 von SNIPER_CHANGED" 18–21 ms. Verarbeitung grosser Ergebnisse in Portionen (leistung.md ≤ 16 ms). Speicher-Pendel
+      ±45–148 MB je Minute (SNIPER-RUHE) – Tabellen je Antwort wiederverwenden. Mit T459.
+    - VERDACHT GOLD (Klärung beim Nutzer läuft): Bilder 09:49 zeigen Max Kapuze 15s, Stulpen 20s, Handschuhe 15s (vorher 12s/12s/14s), Knopf
+      "Max folgt Lohnt bis"; Protokoll "WARNSCHUTZ Item 7048 Preis 1500 · Vergleich 1272 (Sniper-Ziel über Verkaufswert)" und "Item 3483 Preis 2000".
+      Sniper bietet "Kaufen 1× Stulpen für 12s90" (Wert 12s72 -> Verlust) und zählt 144/307 Treffer ≤ Max. Belegen (Datei:Zeile), WER die Max-Werte
+      geändert hat (Nutzer? "Max folgt Lohnt bis"? Sync/PS?). Falls nicht der Nutzer: HOCH, sofort beheben – kein Max-Wert ändert sich ohne Klick.
