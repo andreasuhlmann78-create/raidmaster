@@ -7744,3 +7744,14 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     (BK:CheckOwnUse). Vorschlag mit Datei:Zeile im Bericht, Test mit Gegenprobe.
 >>> SPIELTEST AHS-UI-DD1 Teil 3 – Bild Nutzer 28.11. 06:51 (0.65.431): Ware Ältestenhandschuhe, Angebot 14s iLvl 32 – Spalte Restzeit "< 12 Std."
     (nicht mehr "-") – BESTANDEN. Offen nur noch: Seltenheits-Auswahl im Sniper.
+
+>>> SPIELTEST AHS-UI-DD1 Teil 4 – Bilder Nutzer 28.11. 06:53 (0.65.431): Seltenheits-Auswahl im Sniper ganz sichtbar (Alle/Grau/Weiss/Grün/Blau/
+    Episch + OK), Klick daneben schliesst – BESTANDEN. AHS-UI-DD1 damit im Spiel vollständig bestanden (Einkauf, Restzeit, Sniper) – ERLEDIGT.
+    Nebenbei: Sniper-Liste jetzt nach Preis sortiert (14s, 15s, 16s, 16s70) – AHS-SN-SORT1 im Spiel sichtbar behoben (Bericht 0.65.431 folgt in der Prüfung).
+>>> BEFUND AHS-SN-CNT1 MITTEL (Zähler) – gleiche Bilder, Sniper Ältestenhandschuhe, Nutzer kauft NICHT (kein Mausrad):
+    "gekauft 0 · weggeschnappt 14 · ohne Antwort 0", Kopf "Heute: 20 Treffer · 8 mit Kauf · 9 verpasst · 3 offen"; Chat meldet denselben Treffer
+    "1x Ältestenhandschuhe für 14s" 4× hintereinander – die drei 14s-Angebote stehen aber weiter in der Liste ("kaufbar").
+    Verdacht, zu messen: (a) jede neue Suche zählt dieselben Angebote als neuen Treffer und den alten als "verpasst"; (b) "weggeschnappt" zählt
+    Angebote, die nur in dieser Runde nicht gelesen wurden (anderer Varianten-Schlüssel, max 8) statt wirklich verschwundener. Belegen (Datei:Zeile).
+    Soll: dasselbe Angebot (auctionID) = ein Treffer, eine Chat-Meldung; "weggeschnappt" nur, wenn die auctionID beim Lesen IHRES Schlüssels fehlt;
+    nicht gekauft, weil der Spieler nicht scrollt = "nicht gekauft (kein Mausrad)", nicht "verpasst". Test mit 3 Suchen nacheinander + Gegenprobe.
