@@ -18,6 +18,7 @@
 7. CurseForge-Seiten/Kommentare AHS 0.65.423 / GS 0.9.66 noch nicht gelesen.
 
 ## Offen beim Nutzer
+- Idee für später (Nutzer 28.11. 05:36): Gilden-Homepage (einfach/mittel/gross; mit Spielernamen nur in eigenem Repo, nicht hier). Nicht begonnen.
 - Spieltest AHS 0.65.428 (Seltenheit); LP-Protokoll; PS-Ingametests.
 - Frage "kleine KI aus dem Rechenkern" (seit 14.11., keine Eile). 09.12. 07:00: Aufgabe "Raids und Taktiken" wieder einschalten.
 
