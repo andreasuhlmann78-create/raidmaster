@@ -1,8 +1,8 @@
-# Stand Supervisor – 28.11.2026 07:36 (alle 3 Projekte um 07:15 angestossen)
+# Stand Supervisor – 28.11.2026 08:12 (Nutzer bis ~09:15 weg; selbständige Prüfung 1 erledigt)
 
 ## Gerade in Arbeit
 - Nichts Laufendes. Spieltests des Morgens alle ausgewertet und eingetragen.
-- Angenommen heute: AHS 0.65.428–431; LP 3.13.32/33; PS 0.9.99 (download/), 0.9.100 (PS-DL frei).
+- Angenommen heute: AHS 0.65.428–433; LP 3.13.32–34; PS 0.9.99 (download/), 0.9.100 (PS-DL frei).
 
 ## Nächste Schritte (Reihenfolge)
 1. Bei jedem "repo": pull, Berichte prüfen, addon_check, annehmen/ablehnen, push + nachprüfen, Workflow ansehen.
@@ -19,6 +19,9 @@
 
 ## Offen beim Nutzer
 - Keine Spieltests offen. Idee für später: Gilden-Homepage (mit Namen nur in eigenem Repo). 09.12. 07:00: "Raids und Taktiken" wieder einschalten.
+
+## Supervisor-Entscheide (aus Regeln)
+- 07:16 REN2 Teil 2 realisiert (buchhaltung.md); 08:10 Rendite überall = Formel der Kopfzeile BK:Summary.
 
 ## Entscheide des Nutzers seit letztem Stand (in entscheide.md)
 - 28.11. 06:43 PS Einzel-Einkauf aus Rezeptansicht = Eigenbedarf.
