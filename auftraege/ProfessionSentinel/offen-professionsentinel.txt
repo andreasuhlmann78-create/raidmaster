@@ -1220,3 +1220,16 @@ PS-TQ1-b MITTEL (Leistung, im Code gefunden): MK.CheckDisenchanted läuft über 
     - PS-VAL-VK1 NIEDRIG (Frage, Zahl muss aufgehen): Fraktionsbanner "Verkaufen 1s 5c", aber "Lohnt bis 2s 9c" – Lohnt bis liegt über dem
       Verkaufspreis. Ergibt die Herstellung 2 Stück (2 × 1s 5c = 2s 10c ≈ 2s 9c)? Dann "je Stück"/"für 2 Stück" an beiden Zahlen nennen;
       sonst Ursache belegen.
+
+>>> SPIELTEST 0.9.101 Reiter Gold, Gruppe "Verkauft sich kaum" offen – 4 Bilder Nutzer 28.11. 10:41, Supervisor 10:47:
+    Rechnungen nachgerechnet, alle gehen auf: Weiße Leinenrobe 1s74c+9c+23c = 2s6c, 1s80c − 2s6c = −26c · Braunes Leinenhemd 67c, 9c − 67c =
+    −58c (Lohnt bis 9c = Händler 11c / 1,2, Weg Händler) · Azurblaue Handwickel 2s32c+36c = 2s68c, 1s80c − 2s68c = −88c · Rote Leinentasche
+    2s32c+90c+45c = 3s67c, 2s27c − 3s67c = −1s40c. Gruppe aufklappbar, Zeilen nicht abgeschnitten.
+    PS-GOLD-WID (Flut): im Spiel derzeit NICHT prüfbar – es gibt gerade kein Rezept mit Flut (keine eigene Gruppe "nicht jetzt" in der Liste,
+    belegt UI.lua:2448). Bleibt "im Client prüfen beim nächsten Auftreten", blockiert PS-DL nicht.
+    NEU PS-VAL-LB2 NIEDRIG (Frage, Zahl muss erklärbar sein): "Lohnt bis" weicht stark vom Verkaufspreis ab, ohne dass der Tooltip sagt warum:
+    Weiße Leinenrobe Verkaufen 3s31c -> Lohnt bis 1s80c; Azurblaue Handwickel Verkaufen 22s74c -> Lohnt bis 1s80c (zweimal genau 1s80c bei
+    ganz verschiedenen Preisen); Rote Leinentasche Verkaufen 2s13c, Händler 2s50c -> Lohnt bis 2s27c (weder Händler/1,2 = 2s8c noch Verkauf).
+    Belegen, woraus AHSentinels WorthUpTo hier besteht (Weg, Sicherheit, Absatz) und den Weg/Grund in der Urteilszeile nennen (mit PS-VAL-HV1).
+    PS-DL 0.9.101: frei, sobald PS im Bericht belegt, dass PS-SK3 (Magiestoffballen im Plan mit "Skill ?") NICHT neu in 0.9.101 ist
+    (PS-SK2 war 04:47 mit "bleibt aus dem Plan" bestätigt – darum Verdacht Rückschritt, zu messen).
