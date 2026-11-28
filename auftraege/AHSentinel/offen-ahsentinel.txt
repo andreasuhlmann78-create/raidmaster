@@ -7703,3 +7703,10 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     vorschlagen – NICHT selbst posten: Antwort geht nur mit OK des Nutzers raus.
     Hinweis: Spieler 4 meldete am 17.–21.11. zu tiefe Verkaufspreise für "Shredder Operating Manual – Page 1" (Schredderanleitung). Heute
     AHS-MKT-WID2 Punkt 1 betrifft wieder die Schredderanleitung (Marktwert 2s84 vs Preis 30s) – beim Belegen mitprüfen, ob es dieselbe Ursache ist.
+
+>>> SPIELTEST AHS-SN-FIND1 – Bild Nutzer 28.11. 06:10 (PC, 0.65.430), Supervisor 06:22: Sniper FINDET die Ältestenhandschuhe jetzt
+    ("22 Angebote · 16 passende Items"), Chat "Treffer: 1x Ältestenhandschuhe für 14s – Mausrad zum Kaufen"; die 14s-Angebote waren beim
+    Nachsehen weg ("gekauft 0 · weggeschnappt 8 · ohne Antwort 0"), übrig 3 × 16s/16s70 (zu teuer). Gold unverändert 45g58s18 – kein Kauf.
+    Finden: BESTANDEN. Offen: ein echter Kauf über einen Varianten-Schlüssel (Gold sinkt um genau den Preis) – beim nächsten Treffer.
+    Frage (NIEDRIG, Text): Kopf "22 Angebote · 16 passende Items" vs Liste "3 Einträge" – was zählt welche Zahl? Für den Spieler eine Zahl
+    oder klar beschriften (z. B. "22 Angebote gelesen, 3 noch da, alle über Max").
