@@ -1,0 +1,42 @@
+LevelPilot 3.13.34 – Bericht an die Prüf-Sitzung: LP-FRZ1 (HOCH), T402, LP-PROT-N1, Hinweise Protokoll 07:14
+Stand 28.11.2026 07:24 · umgesetzt, zur Prüfung
+Zip: announce/levelpilot__levelpilot-3.13.34.LevelPilot.zip (md5 dc659444305a1f1b8ad55aecf713d32a, 2 871 350 Bytes)
+
+1. LP-FRZ1 – T222 1037 ms (Ingametest 3.13.33 kalt) – EIGENE Rechenzeit, Ursache BELEGT, behoben
+- Upload 07:15 (Bericht 3.13.33 "alle", kalt): Ergebnis T222 ms 1036,5 (= Rechenzeit ohne Pausen der Routine, nicht Wanduhr); stuecke
+  "T222 1036.6 (+20094 KB)"; langeStuecke "längste Strecke ohne sichere Stelle 1036.5 ms von T222 bis T222". Kein Reload darin (das Bild
+  liegt mitten in der Routine, die Einträge davor/danach laufen weiter). Fensterwechsel: würde die Wanduhr des Bildes treffen, nicht die
+  gemessene Rechenzeit von T222 -> HOCH bleibt richtig. (ganzeBilder ordnet die Zeit "Spiel/Umgebung" zu – dieselbe Fehlzuordnung wie bei
+  T217 in 3.13.27: Rechnung in einer inneren Coroutine (PCallY) zählt dort nicht als eigene Portion.)
+- Ursache wie T217 (Bericht 3.13.28): T222 ruft P:ChooseFocus für Aufgaben in Mulgore 1412 / Brachland 1413 / aus Thunder Bluff 1456 ->
+  P.WayDist -> Graph:Detour -> fehlt der Faktor, MeasureDetour über LP.Jobs.Start; in der Routine ist Jobs.sync an -> sofort, am Stück, und
+  unter dem pcall von Guard ohne Abgabe. Nach /lp testroutine kalt fehlten genau diese 3 Zonen ("3 Zonen erst nach 60 s gemessen").
+- Nachbau (Daten 28.11. 05:29), direkt vor T217/T222 die Faktoren von 1412/1413/1456 geleert (Ablage + Sitzung) = Lage im Spiel:
+  3.13.33: längstes Bild "T221 wege–T222 1117.5 ms", T222 1115,9 ms  ->  3.13.34: T222 nicht unter den langen Bildern (über 40 ms nur T298–T300,
+  Nachbau Bereich J allein, wie vorher), T222 "Umweg-Faktoren vorher gemessen: 3 Zone(n)".
+- Behoben: gemeinsame Hilfe PrebuildDetours(tag, tasks, extra) misst fehlende Faktoren der Zonen der Aufgaben VOR Guard als freigegebene
+  Rechnung (Coop -> TR.PCall, Abgabe an LP:Yield("graph")), TR.Safe je Zone; T217 (bisher eigene Schleife) und T222 nutzen sie.
+- Für Spieler: ausserhalb der Routine ist MeasureDetour eine Takt-Aufgabe in Portionen – kein Hänger (auch bei neuem/leerem Wegnetz).
+  Gegenprobe Verdacht "Hänger beim Spieler": in den Ingametests nie ausserhalb der Routine aufgetreten; im Code ist der sync-Zweig nur in der
+  Routine/Reise aktiv.
+
+2. T402 – Stapel-Format des Spiels: BELEGT aus dem Upload (langeStuecke): debugstack schreibt "[tail call]: ?" (eckige Klammern), der
+   Nachbau "(tail call): ?". Zählung prüft jetzt nur "tail call". T402 prüft zusätzlich einen Stapel im Spiel-Format
+   ("Protocol.lua:358 / Perf.lua:152 / [tail call]: ? / Comfort.lua:661" -> Comfort.lua:661). Im Ingametest 3.13.33 stand "Perf.lua:152 13" –
+   ab jetzt der echte Auslöser.
+
+3. LP-PROT-N1 (NIEDRIG) – umgesetzt: "Wegnetz laden: …" nur ins Protokoll, wenn eine EIGENE Portion über 16 ms lag (Takt st.over[2] > 0), das
+   Laden nicht "fertig" endete oder keine Messwerte da sind (Graph.LoadNoteworthy). Zusammenfassung bleibt in Graph.loadSummary.
+   Test T403 mit Gegenproben (normal -> nein; > 16 ms, Abbruch, ohne Messwerte -> ja).
+
+4. Weitere Hinweise aus dem Protokoll 07:14 – noch NICHT bearbeitet (nächste Schritte):
+   - "06:47 LANGSAM Planung dauerte bis zu 2314 ms": Messung ist Rechenzeit ohne Pausen (Protocol.lua, 3.13.17) – gleiche Zeit/Lage wie T222?
+     Verdacht, zu messen (die Hülle misst P:Replan; ChooseFocus läuft in der Planung) -> mit dem nächsten Ingametest kalt.
+   - 05:08 Stapel "TestRoutine.lua:12838 in function 'Abort'": zu belegen (gewollter Abbruch ohne Text?).
+   - Speicher "Sicherung 39,1 MB" je Sitzung.
+   - T155: im Ingametest 3.13.33 15,89 ms (< 16, erstes Mal); bleibt beobachtet bis zwei Läufe < 16.
+
+Prüfungen vor dem Push
+- addon_check: OK. Gemeinsame Dateien mit cmp gleich shared/. Offline-Routine: 40 von 40 ohne FEHLER.
+- Nachbau ganze Routine (Daten 28.11. 05:29): 1 FEHLER T261 (1057 ms im Nachbau, Aufträge am Stück; schwankt dort um 1000 ms – 3.13.33 im
+  selben Nachbau OK/1045; im Spiel T261 kalt 671 / warm 682 OK). T402, T403 OK. Längstes Bild 43,8 ms "Reisen svc–Grundregeln".

@@ -1,19 +1,17 @@
 # LevelPilot – Stand der Sitzung
 
-## Stand 28.11.2026 06:23 · Version 3.13.33 (veröffentlicht, Discord; Prüfung offen) · download/: 3.13.29
+## Stand 28.11.2026 07:24 · Version 3.13.34 (veröffentlicht, Discord; Prüfung offen) · download/: 3.13.29
 
 ## Gerade in Arbeit
-- Nichts angefangen. 3.13.33 = /lp testroutine kalt (Umweg-Ablage leeren, T402), Auslöser der Neuplanungen in den ersten 60 s (T261-Zeile).
-  Bericht 06:23. 3.13.32 angenommen (Teilschritt); Ingametest 3.13.32: längstes Bild 33,9 ms (< 40 erreicht), T155 16,99 ms.
+- Nichts angefangen. 3.13.34 = LP-FRZ1 (T222 misst Umweg-Faktoren vorher in Portionen, belegt + nachgestellt), T402 Spiel-Format
+  "[tail call]", LP-PROT-N1 (T403). Bericht 07:24. T261 im Spiel kalt 671 / warm 682 bestanden (Supervisor 06:52).
 
-## Nächste Schritte (Reihenfolge, Supervisor 05:33/05:35)
-1. HOCH T155: kalte Wegsuchen der Prüfung (CheckFirstPath/Graph:Path, 52 % der Neuplanung; Danger:Segment 166k Aufrufe) – Datei:Zeile belegen,
-   senken ohne Routenänderung (Gegenprobe r3 Route 1–60). Ziel Spiel < 16 ms (Nachbau < ~8,6).
-2. HOCH T261 kalt: Nutzer: /lp testroutine kalt, /reload, 60 s warten, Routine -> kalter Wert; Zeile "Neuplanung angestossen von" auswerten.
-3. Startwegnetz (Entscheid Nutzer 05:35 "Erst Haralds Zonen dazu"): Zonen von B (Schlingendorntal, Arathi, Flusslande 2548 …) ins Werkzeug
-   (Grössen messen/belegen), Route 1–60 ALT/NEU wieder messen, dann EINE Version. Bis dahin nichts am Startwegnetz veröffentlichen.
-4. MITTEL Grundregeln 80 ms (Übergang Reisen->Grundregeln), Nachbau 43,5 ms. NIEDRIG LP-UI-AC1 (Befehlsliste). NIEDRIG Graph.lua:1048.
-5. LP-DL1 nach Annahme mit Ingametest ohne offenes HOCH. "Wo war ich?" offen. W3D (HOCH) wartet auf GSWegMess.
+## Nächste Schritte (Reihenfolge)
+1. Ingametest 3.13.34 (kalt): LP-FRZ1 weg? Zeile "Neuplanung angestossen von" mit echtem Auslöser; "Planung dauerte bis zu 2314 ms" einordnen.
+2. HOCH T155 beobachtet (3.13.33: 15,89 ms) – zweiter Lauf < 16 nötig; sonst kalte Wegsuchen (Zeit je Funktion) senken.
+3. Protokoll-Hinweise 07:14: Abort-Stapel 05:08 belegen; Speicher "Sicherung 39,1 MB" erklären.
+4. Startwegnetz mit Haralds Zonen (Entscheid 05:35): Zonen von B ins Werkzeug, Route 1–60 ALT/NEU, dann EINE Version (vorher T261/T381).
+5. MITTEL Grundregeln-Übergang; NIEDRIG LP-UI-AC1, Planner.lua:784; LP-DL1 nach Annahme ohne offenes HOCH; "Wo war ich?" offen.
 
 ## Offen beim Nutzer
 - Ingametest 3.13.33 kalt: /lp testroutine kalt, /reload, 60 s warten, /lp testroutine alles, danach /reload.
