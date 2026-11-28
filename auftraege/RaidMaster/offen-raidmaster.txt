@@ -1114,3 +1114,11 @@ UP-DOC2 MITTEL: LIESMICH.txt (DE) und README_EN.txt Abschnitt "Addons automatisc
 >>> PRÜFUNG SUPERVISOR 27.11. 10:45 – DL-ABN Ablauf (Bericht 10:27): ANGENOMMEN. Lücke Uploader richtig erkannt (LATEST_URL liest uploader.py auf main ->
     seit 2.3.29 gingen Uploader-Versionen sofort an alle). Neuer Weg Zweig pruefung/uploader-<Version> mit Ordner+Zip+Tests, Übernahme nach main erst nach
     ANGENOMMEN – so machen; Ordner und Zip nie getrennt. Punkt 4 (doppelte Beiträge im Discord) an Discord weitergegeben (DC-ANN1).
+
+>>> UPLOADER Offizier B – Supervisor 28.11. 09:12 (Daten-Repo): Rechner B hat 28.11. 08:43 hochgeladen, Daten in main übernommen
+    (aktuell/<Rechner B>/…, Commit "Daten <Rechner B> 28.11. 08:43") – der Upload mit dem neuen Uploader klappt also. ABER:
+    1. stand.json-Eintrag von B hat KEIN Feld "uploader" (die anderen Rechner: "2.3.30") – belegen, ob B wirklich 2.3.30 nutzt bzw. warum das Feld fehlt.
+    2. Addon-Stände in Bs Dateien: LevelPilot "3.12.31" (aktuell 3.13.34), AHSentinel "0.65.423" (CurseForge-Stand, ok). Das automatische
+       Aktualisieren der Addons durch den Uploader (Text an B: "danach aktualisiert er sich und die Addons selbst") hat LevelPilot NICHT erneuert.
+       Verdacht, zu messen: Auto-Update nur für CurseForge-Addons oder nur nach Neustart des Uploaders. Belegen (Uploader-Code, Datei:Zeile) und
+       beheben oder dem Nutzer sagen, was B tun muss. Keine Namen/Rechnernamen ins Repo.
