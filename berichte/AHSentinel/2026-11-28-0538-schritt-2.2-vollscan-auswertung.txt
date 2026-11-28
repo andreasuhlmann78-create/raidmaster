@@ -1,0 +1,27 @@
+AHSentinel – Masterplan v2 Schritt 2.2 Vollscan (AHS-I4, VS-121b, T459-Speicher, AHS-SP1) – Auswertung der Spieldaten · zur Prüfung
+Quelle: SavedVariables PC (Daten-Repo, Zweig sicherung, Stand 27.11. 23:17), Protokoll des Vollscans 27.11. 22:09 mit 0.65.424.
+Kein Code geändert.
+
+1. AHS-I4 (Ziel: eigene Arbeit ≤ 16 ms je Bild) – im Spiel ERREICHT (Messung, nicht Nachbau):
+   VOLLSCAN-Zeile 22:09:43: "Takt: 4278 Bilder · längstes 13.4 ms (fullscan bis Ende fullscan) · über 5/16/40 ms: 130/0/0 · Abgabe nicht möglich 0".
+   Einlesen (M1d 22:09:30): "373984 Auktionen gelesen · 3696 ms in 3231 Portionen · längster Frame 2.0 ms · 7144 Items".
+   Der alte Wert 712 ms (AHS-I4) ist damit für die EIGENE Arbeit überholt (13,4 ms).
+2. VS-121b (Lücke 436 ms) – Lücke heute 463 ms, Ursache ausserhalb des Addons, BELEGT soweit messbar:
+   gleiche Zeile: "Lücke 463 ms (Verdichtung: Speicherbereinigung nein · Ereignis keins (> 16 ms) · Aufgaben 2 ms (fullscan, 0 Schritte) · Bild:
+   eigene Arbeit 6 ms (… Ereignisse 4 in 4008 Aufrufen …) · Rest 457 ms (Spiel/andere Addons) · Item-Antworten 2008 · Speicher 713983 -> 728283 KB
+   (+14300, davon eigener 1 KB)". -> 457 von 463 ms und 14,3 MB von 14,3 MB nicht vom Addon.
+   Woher die 2008 Item-Antworten (GET_ITEM_INFO_RECEIVED in EINEM Bild)? Eigene neue Item-Anfragen (Sperre GSL8-1) laut ITEMINFO 22:09:09:
+   "neue Item-Anfragen 469 (zurückgestellt 16010)" für die ganze Zeit davor, 22:10:11 "200 (zurückgestellt 0)". 2008 > 469 + 200 -> der grösste
+   Teil wurde NICHT vom Addon angefordert. Verdacht, zu messen: der Client lädt nach dem Vollscan (ReplicateItems) selbst Item-Daten für die
+   gelesenen Auktionen und meldet sie gesammelt in einem Bild (dabei +14 MB). Das kann das Addon nicht verhindern; die 4 eigenen Empfänger-
+   Aufrufe dafür kosten 4 ms (4008 Aufrufe).
+   Vorschlag: VS-121b als "Ursache im Client" schliessen; Messzeile bleibt. Falls der Supervisor mehr will: Messung "Item-Antworten je Bild,
+   davon von uns angefordert" (Zähler je ItemID aus A:ItemInfoAllowed gegen die Antworten) – kleiner Bau, nur auf Freigabe.
+3. T459-Speicher: gleicher Scan "Speicher 739510->844958 KB (tiefster 662557) · GC 37 · davon eigener neuer Speicher 164351 KB · je Aufgabe
+   fullscan 48341 · timing 11277 · ui:overview-movers 3788 …, ausserhalb von Aufgaben 95534 (Nachlauf 89976 …)". Eigener neuer Speicher
+   ~164 MB über den ganzen Scan (373 984 Auktionen ≈ 0,44 KB je Auktion) – grösster Posten "ausserhalb von Aufgaben / Nachlauf 89976 KB".
+   Offen: Nachlauf-Speicher je Schritt aufschlüsseln (nächster Punkt, Nachbau mit PC-Daten möglich).
+4. Vollscan-Dauer (Bild 28.11. 04:45, 0.65.427): "Scan fertig: 308047 Einträge, 7068 verschiedene Items (45,8 Sek.)" – festgehalten.
+   27.11. 22:09: Warten auf Server 24 073 ms, Einlesen 40 336 ms (Wanduhr, Portionen), Verdichtung 789 ms, Verfolgung V4 7 063 ms.
+5. AHS-SP1 (d): noch nicht bearbeitet – kommt nach dem Nachlauf-Speicher (3.).
+FULL 0.65.429 läuft allein; danach Nachbau Nachlauf-Speicher mit PC-Daten.
