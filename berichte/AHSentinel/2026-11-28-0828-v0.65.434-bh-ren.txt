@@ -1,0 +1,20 @@
+BERICHT AHSentinel 0.65.434 – AHS-BH-REN (Entscheid Supervisor 08:10: eine Formel) + REN2-Zusatz Lager · 28.11.2026 08:28 · umgesetzt, zur Prüfung
+md5 AHSentinel-0.65.434.zip (announce/): 099457f625ca2aae716845e44b752495 (nur Discord; CurseForge bleibt 0.65.423)
+
+0. FULL 0.65.433: 359 PASS / 68 FAIL – NEU ROT s54_de_window (ehrlich: durch 0.65.433 verursacht). Belegt: alt/neu je 3× einzeln, 0.65.432 grün,
+   0.65.433 rot "vier Geschäftsarten + gesamt: erwartet 5, bekommen 6" und "Entzaubern: eingesetzt 10s: erwartet 1000, bekommen 0". Beides ist die
+   ALTE Regel (Entzaubern eingesetzt = gekaufte Teile, auch unverkauft; 4 Arten). Nach dem Entscheid 07:16 (realisiert) richtig: 5 Arten + Gesamt,
+   Entzaubern eingesetzt 0 solange nichts verkauft, dazu grau "Lager aus Entzaubern". Szenario angepasst (ahanalyzerpro, mit Begründung im Code):
+   0.65.434 grün, 0.65.432/433 rot (Gegenprobe). Ich hätte s54 vor 0.65.433 mitlaufen lassen müssen – Lehre: bei Änderungen an Act:Business die
+   DE-Fenster-/Buchhaltungs-Szenarien (s54, s55) in die Auswahl nehmen.
+1. AHS-BH-REN (eine Formel): Activity.lua Act:Business "Gesamt": total.roi = (Gewinn − Erlös ohne Einkauf) / Kostenbasis der Verkäufe (ohne
+   verfallene Einzahlungen) = Books.lua BK:Summary "s.boughtProfit = s.profit - s.freeRev", "s.roi = … s.boughtProfit / s.cost". Unter der Tabelle:
+   "Rendite: (Gewinn x − ohne Einkauf y) / eingesetzt z = n %" (10 Locales). PC-Daten 05:50 (zz_ren2): Reiter 24,07 % = Kopfzeile 24,07 %,
+   Kostenbasis 128g14s52 (= "Eingesetzt 128g14s52" im Bild 04:42), ohne Einkauf 17g84s78, Gewinn 48g69s08. (Mein Nenner im Bericht 07:48 128g40s68
+   enthielt die verfallenen Einzahlungen 26s16 – im Nachtrag 07:52 schon gemeldet, jetzt genau.)
+2. Lager aus Entzaubern (unrealisiert): Act:DEStock aus der Kostenbasis der Buchhaltung (db.cb, Art "de", q > 0): Stück, umgebuchter Einstand,
+   Wert jetzt (Materialpreis nach Gebühr); graue Zeile "Lager aus Entzaubern" unter Gesamt, NICHT im Gewinn. PC-Daten: alle 8 Posten mit Art "de"
+   haben q = 0 (Rest steht als "mix" mit anderer Ware) -> Zeile erscheint dort nicht. Verdacht, zu messen: Materialien, die mit anderer Ware
+   gemischt sind ("mix"), fehlen in dieser Zeile – Vorschlag: Anteil "de" je Posten mitführen (eigener Bau, nur auf Freigabe).
+3. Tests: T1049 erweitert (Lager 4 Stück Einstand 280; Rendite Reiter = BK:Summary, ×100 gleich). s54 (s. 0). 31 Buchhaltungs-/DE-Szenarien alt =
+   neu ausser s54 (alt rot, neu grün). addon_check OK. FULL 0.65.434 folgt allein.
