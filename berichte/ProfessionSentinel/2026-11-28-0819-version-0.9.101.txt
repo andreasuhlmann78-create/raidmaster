@@ -1,0 +1,58 @@
+ProfessionSentinel 0.9.101 – umgesetzt, zur Prüfung
+Bezug: offen-professionsentinel.txt Entscheid 06:43 (Einzel-Einkauf = Eigenbedarf), BEFUND PS-UI-OVL1, BEFUND PS-PERF-TSU1, PS-UI-REZ1, PS-GOLD-WID,
+ PS-LVL-EINH, Frage Magiestoffballen (PS-SK2-b 07:30). DL-ABN: nur announce/.
+Ausserdem: 0.9.100 nach "PS-DL frei" (07:20) nach download/ gelegt, gleiche Zip, md5 573df5a7272dbf2d1e91cbf0cd998571; 0.9.99 entfernt.
+
+Entscheid 06:43: UI.BuyForRecipe (Einkauf aus der Rezeptansicht) sendet { zweck = "eigenbedarf", quelle = "ProfessionSentinel" }. Gewinn-Wege
+ (Schnäppchen, Herstellen & Entzaubern, Rezept-Alarm, "Heute herstellen") weiter ohne Zweck. T307 erweitert: Einzel-Einkauf mit Zweck; Gegenprobe
+ "Heute herstellen" (TD.BuyAH, Sniper-Weg) ohne Zweck; Gegenprobe ohne Zweck in UI.lua -> FEHLER "Einzel-Einkauf ohne Zweck eigenbedarf".
+
+PS-PERF-TSU1 – Ursache der Zahlen belegt, die Lesart "10 020 in ~2 Min., ein Bild 120,9 ms" trifft nicht zu:
+ - "×n" zählt seit es den Eintrag gibt, über alle Sitzungen und Versionen (Diagnose.lua ns.Diag: found.n + 1, nie zurückgesetzt; nur ms beginnt
+   je Version neu). Gespeicherte Daten: Laptop 27.11. 13:02 (v0.9.94) n = 9993, Anfragen 17 897; PC 28.11. 07:08 (v0.9.100) n = 10 020,
+   Anfragen 17 942 -> in ~18 h +27 Aufbauten / +45 Anfragen. Protokoll seit 05.11.2026, 565 Sitzungen. Kein Sturm in diesen 2 Minuten belegbar.
+ - 120,9 ms ist die SUMME eines Neuaufbaus über viele Bilder: UI.lua Step() addiert je Bild info.ms = info.ms + ms (Budget UI.FRAME_BUDGET
+   5 ms je Bild, Fortsetzung mit After(0)); D.Build schrieb diese Summe als ms. Das längste Bild steht getrennt in "Neuaufbau (Teil)" (Bild 07:08:
+   6,6 ms) – unter 16 ms, kein Ruckler.
+ - Bündeln besteht schon: UI.RequestRefresh sammelt 0,5 s (UI.REFRESH_DELAY), danach ein Aufbau; 17 942 Anfragen / 10 020 Aufbauten = 1,79 je
+   Aufbau. Scan.lua ignoriert Listen-Ereignisse 1,0 s nach dem eigenen Lesen (Scan.QUIET).
+ - Umgesetzt: Protokollzeile trennt jetzt "×n seit TT.MM., diese Sitzung k" und für Neuaufbauten "Summe je Aufbau x ms (höchste), längstes Bild
+   y ms (letzter Aufbau z Bilder)". Alte Einträge (ohne Felder) bleiben lesbar.
+ - Verdacht, zu messen: ob der Client bei offenem Berufsfenster laufend TRADE_SKILL_LIST_UPDATE schickt und PS deshalb ohne Änderung neu aufbaut.
+   Das nächste Protokoll nach /reload zeigt "diese Sitzung k" je Ereignis – erst dann "Anfragen je Ereignis senken" (z. B. Aufbau nur bei geänderten
+   Taschen/Fertigkeit), damit nichts auf Vermutung gebaut wird.
+ Test T308 (Zählung gesamt/Sitzung über 2 Sitzungen, Summe 120,9 / längstes Bild 6,6 getrennt, "diese Sitzung 0" in späterer Sitzung; Gegenproben:
+ Klick-Zeile ohne Bildtext, alter Eintrag 10020/120.9 lesbar, neue Version setzt Höchstwerte neu).
+
+PS-UI-OVL1:
+ - Plan-Kopf: die Liste begann fest bei 106 px (Zusammenfassung ab 80 px = Platz für 2 Zeilen); der Plan hat 3 Zeilen (Schritte, Material mit dem
+   Zusatz "(gelbe/grüne Schritte …)" umgebrochen) -> die erste Zeile "Nächster Schritt" lag darüber. Jetzt legt jedes summary:SetText die Liste
+   neu: Oberkante = 80 + Texthöhe (GetStringHeight, mit Umbruch) + 4, mindestens 106, höchstens 170.
+ - Fusszeile: Warteschlangen-Leiste war fest 250 px breit ab links, die Datenzeile rechts ohne Grenze -> übereinander. Jetzt endet die Leiste vor der
+   Datenzeile (rechter Punkt an deren linkem Rand), ihr Text wird gekürzt, der ganze Text steht im Tooltip der Leiste.
+ - Sniper-Zeile: "Budget höchstens <Σ> · dein Gold <g>"; Summe = Menge × Max-Preis und Marktwert im Tooltip.
+ - Messung bei 1920×1080 mit deiner UI-Skalierung ist offline nicht möglich (die Attrappe hat feste Schriftmasse) – im Spiel zu prüfen.
+PS-UI-REZ1:
+ - Ursache: Filterknöpfe fest 50/58 px (UI.lua PlaceRow), Texte mit Zahlen breiter. Jetzt UI.FitRow: jeder Knopf so breit wie sein Text; zu breit ->
+   Suchfeld gibt Platz bis 96 px; noch zu breit -> Zahlen nur im Tooltip ("Gelernt: 25 Rezepte dieses Berufs"); noch zu breit -> gleiche Breiten.
+ - "Rezepte 368" belegt: die Zahl auf dem Reiter ist der REZEPT-ALARM (Alerts.lua AL.found: Rezept-Gegenstände, die einer deiner Figuren fehlen und
+   gerade im AH liegen, über ALLE Berufe), nicht die Zahl der Liste ("Alle 438" = Rezepte dieses Berufs). Jetzt "Rezepte !368" mit Tooltip
+   "Rezept-Alarm: 368 Rezepte, die einer deiner Figuren fehlen, liegen gerade im Auktionshaus (alle Berufe)".
+ Test T309 (Liste ab 124 bei 3 Zeilen, 106 bei 1, Grenze 170; Leiste endet an der Datenzeile; Filterzeile Schritt 1/2/3/4, nie unter dem Suchfeld;
+ Gegenprobe ohne Neulegen und ohne rechten Punkt -> 3 FEHLER).
+PS-GOLD-WID: Flut + Gewinn > 0 -> Urteilszeile "Jetzt nicht herstellen – Markt überflutet" rechts "sonst +46s81 (Lohnt bis … - Material …)", darunter
+ nur der Grund "Viel mehr Angebote als gestern, Preis gefallen." (kein zweites Urteil, Tooltip nicht länger). Gold-Liste: solche Rezepte in eigener
+ Gruppe "Jetzt nicht – Markt überflutet" (UI.GoldBuckets), nie unter "Gold verdienen". "Jetzt" und "Heute herstellen" liessen Flut schon weg (T284).
+ Test T283 angepasst + Gegenprobe Flut ohne Gewinn ("lohnt nicht" + volle Flut-Zeile, kein Flut-Urteil); Gold-Gruppen geprüft.
+PS-LVL-EINH: in 0.9.100 umgesetzt (Bericht 0620): Mischung gewollt (Entscheid "Formel-Chance intern": orange je Punkt sicher, gelb/grün je
+ Herstellung ohne geschätzte Chance); Überschrift "Leveln (Top 10) – günstigste Skillpunkte", Erklärung nennt die Einheiten. "Levelin" steht nirgends
+ im Code (Locales: "Leveln"/"Levelling"). Eine Einheit "je Punkt" für gelb/grün ginge nur mit geschätzter Chance – Entscheid des Nutzers nötig.
+Frage Magiestoffballen: Daten Forever: Quelle Lehrer, Farbstufen 145/147/150 (Era 180/182/185). Welcher Lehrer es lehrt, steht in
+ keiner Quelle im Repo: Data_TrainerRef (goldgoblin) nennt für Schneiderei nur Ränge, Experte (Stufe 3) Josef Gregorian und Georgio Bolero, Fachmann
+ (4) Daryl Stack und Timothy Worthington – nicht je Rezept. Verdacht, zu messen: es lehrt ein Experten-Lehrer einer Hauptstadt. PS merkt bisher nicht,
+ WELCHER Lehrer gelesen wurde. Vorschlag (nicht umgesetzt, wartet auf Supervisor): beim Lehrerbesuch Name des Lehrers (NPC) zu den angebotenen
+ Rezepten merken; dann im Plan "lernbar bei <Lehrer>" nur, wenn dort gelesen, sonst "bei keinem besuchten Lehrer (n besucht)".
+Tests: run_offline forever 264/0, era 245/0, retail 242/0, forever --lua51 264/0; check_actions OK; gen_locale_keys OK; Smoketest: AUTOTEST OK forever/era/retail (T309 in die Liste der Attrappen-Grenzen, T275 daraus gestrichen – passt jetzt); yield_check OK; addon_check: OK.
+ md5 announce-Zip (Release v0.9.101, Repo ef0416f): a85940189ddbd192aa2be1474fce130c.
+Abnahme im Spiel: Plan Skillen -> "Nächster Schritt" unter der Zusammenfassung; Fusszeile ohne Überlappung; Reiter Rezepte Filterzeile lesbar, Reiter
+ "Rezepte !n" mit Tooltip; Tooltip Flut-Produkt; /reload, Berufsfenster 2 Min. offen, /ps protokoll -> AUFBAU "diese Sitzung k".

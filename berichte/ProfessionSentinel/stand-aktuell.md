@@ -1,23 +1,25 @@
-# Stand 28.11.2026 06:20 · Version 0.9.100 (announce), 0.9.99 (download)
+# Stand 28.11.2026 08:19 · Version 0.9.101 (announce), 0.9.100 (download)
 
 ## Gerade in Arbeit
-- 0.9.100 NUR announce/ (Release v0.9.100, Repo e692781, md5 573df5a7…), Bericht 2026-11-28-0620-version-0.9.100.txt – zur Prüfung:
-  PS-TT (Rechnung in der Urteilszeile, Hauptzutat je Herstellung, Jetzt-Schritt, Leveln-Einheiten), PS-AHS-EIG1 (Zweck "eigenbedarf" für
-  Plan/Warteschlange, Budget-Summe in Meldung und Plan-Zeile). Fragen im Bericht: UI.BuyForRecipe auch Eigenbedarf? Buchung in AHS.
-- 0.9.99 angenommen (05:24) -> download/ (md5 e097a996…), 0.9.98 entfernt.
+- 0.9.101 NUR announce/ (Release v0.9.101, Repo ef0416f, md5 a8594018…), Bericht 2026-11-28-0819-version-0.9.101.txt – zur Prüfung:
+  Einzel-Einkauf Eigenbedarf (Entscheid 06:43), PS-PERF-TSU1 (Protokoll: seit/diese Sitzung, Summe getrennt vom längsten Bild; Sturm-Lesart
+  widerlegt, Senken erst nach Messung), PS-UI-OVL1, PS-UI-REZ1 (368 = Rezept-Alarm), PS-GOLD-WID; PS-LVL-EINH begründet.
+- 0.9.100 nach download/ (PS-DL frei 07:20, md5 573df5a7…), 0.9.99 entfernt. PS-P3, PS-SK2-b im Spiel bestanden, erledigt.
 
 ## Nächste Schritte (Reihenfolge)
-1. Antwort des Supervisors zu 0.9.100 abwarten – NICHT untätig: nächster Punkt.
-2. PS-TQ1 Abnahme a) mit echten Daten; Gilden-Sync-Tag ohne Realm; MITTEL 2/4; Entwickler-Befehle; Lesbarkeit L1–L8; "AH ~Preis".
-3. Neue Version erst nach "ANGENOMMEN" nach download/ (DL-ABN).
+1. Antwort Supervisor zu 0.9.101; Vorschlag Lehrername je Besuch (Magiestoffballen "lernbar bei …") wartet auf Supervisor.
+2. PS-PERF-TSU1 b): nach dem nächsten Protokoll ("diese Sitzung k") entscheiden, ob Aufbauten ohne Änderung wegfallen.
+3. PS-TQ1 Abnahme a) mit echten Daten; Gilden-Sync-Tag ohne Realm; MITTEL 2/4; Entwickler-Befehle; Lesbarkeit L1–L8; "AH ~Preis".
+4. Neue Version erst nach "ANGENOMMEN"/"PS-DL frei" nach download/ (DL-ABN).
 
 ## Offen beim Nutzer
-- Ingametest 0.9.99: Händler öffnen/schliessen ohne Kauf -> kein neues "WorthUpTo vergessen"; mit Kauf genau ein Eintrag; Lehrer -> "ohne Lernstufe z: Namen".
-- Ingametest 0.9.100: Tooltip Graue Wollrobe (Klammer-Rechnung, Skillen 4 ×), Plan-Sniper-Zeile mit Summe, AHS ohne Verlust-Warnung.
+- Ingametest 0.9.101: Plan-Kopf/Fusszeile ohne Überlappung, Filterzeile Rezepte, Reiter "Rezepte !n", Flut-Tooltip; /reload + 2 Min. Berufsfenster -> /ps protokoll (AUFBAU "diese Sitzung k").
+- Offen aus 0.9.100: Klick Sniper -> AHS-Hinweis "Eigenbedarf" ohne Verlust-Warnung.
 - Messung im Spiel (AHS-BP1): Tooltip der Gifte/Blendungspulver "Wird beim Aufheben gebunden"?
 - Schneiderlehrer + Experten-Lehrer Schneiderei öffnen (Filter alle) -> Protokoll "Lernstufen gelesen n (neu, geändert); im Plan ohne Lernstufe z". (darf im Hintergrund laufen). Messung Lua-Fehler SetCraftableCount (nur PS / nur AHS).
 
 ## Entscheide des Nutzers seit letztem Stand
+- 28.11. 06:43 (über Supervisor): Einzel-Einkauf aus der Rezeptansicht = Eigenbedarf (umgesetzt 0.9.101).
 - 25.11. 13:47 (über Supervisor, PS-TQ1): Trefferquote "echten Weg verfolgen" (umgesetzt 0.9.86).
 - 27.11. 08:27–09:23 (über Supervisor, ST1): nur nützliche Spieler-Texte; Testmodus behält alles.
 - 25.11. 16:38: Antworten an den Nutzer immer Deutsch (erinnert).
