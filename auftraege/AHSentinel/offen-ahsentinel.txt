@@ -7912,3 +7912,18 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
       öfter drankommt (z. B. Ziele mit Treffer doppelt so oft wie Ziele ohne), ohne RATE1 zu verletzen. Nachbau 3 Ziele (1 mit, 2 ohne
       Treffer) mit Messung "Abstand zwischen zwei Suchen des Treffer-Ziels" vorher/nachher. Wenn eine Wahl nötig ist: Frage an den Nutzer.
     Reihenfolge für AHS: SN-UX1 Punkte 3 (Chat doppelt) und 4 (Anzeige Stand/Rest) und AHS-SN-ROT1 zusammen, danach Masterplan.
+
+>>> SPIELTEST AHS-SN-UX1 Teil 2 – 7 Bilder Nutzer 28.11. 11:16:24–11:16:48 (0.65.437), Supervisor 11:20:
+    Budget: "Insgesamt: 37 Stück für 4g90s20c (Ø 13s25) – 37 Käufe" = 36 × 13s25 + 1 × 13s20 = 4g90s20c – geht auf. Rest 5g − 4g90s20c =
+    9s80c < 13s20 -> Sniper kauft nicht mehr (Nutzer bestätigt: Budget gehalten). GOLD-SICHERHEIT OK.
+    NEU AHS-SN-BUD1 MITTEL (falsche Begründung und Knopf trotz leerem Budget):
+    - 11:16:36 Zeile: "Nichts bis zu deinem Max-Preis (13s25). Günstigstes: 13s20" – falsch, 13s20 liegt UNTER dem Max-Preis. Der echte Grund
+      ist das Budget (Rest 9s80 < 13s20). Soll: "Budget aufgebraucht: Rest 9s80c, günstigstes 13s20c – Budget erhöhen oder Ziel löschen".
+    - Gleichzeitig (11:16:24/27/42/48) Knopf "Kaufen: 1× Lederhandschuhe … für 13s20" und "Nächster Kauf: 1 Stück für 13s20" – zeigt einen
+      Kauf, den das Budget nicht erlaubt (SN-UX1 Punkt 1: Anzeige = Kauf). Belegen, dass Knopf/Raste hier nichts kaufen (Nachbau), und
+      Knopf in diesem Fall grau mit Grund. Kopf "noch 1000 Stück, 5g Budget" und Ziel-Liste/Tooltip "0/1000 gekauft · Rest 5g" weiter falsch
+      (soll 37/1000 · Rest 9s80c) – das ist SN-UX1 Punkt 4.
+    - Chat weiter mehrfach: "Treffer: 1x Lederhandschuhe … für 13s20" dreimal zwischen 11:16:24 und 11:16:48, obwohl nicht kaufbar (Budget).
+      Bei leerem Budget gar keine Treffer-Zeile (Psychologie: keine Kaufaufforderung, die nicht geht). SN-UX1 Punkt 3.
+    Gut: Tooltip der Seidenkapuze "seltener gesucht: keine Treffer seit 12 Min." – Ansatz für AHS-SN-ROT1 ist also schon da; bitte in den
+    Bericht zu ROT1: ab wann "seltener", und warum das Treffer-Ziel dennoch nur alle ~7 s drankommt.
