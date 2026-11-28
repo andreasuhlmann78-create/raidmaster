@@ -1,0 +1,39 @@
+LevelPilot 3.13.32 – Bericht an die Prüf-Sitzung: T155 (HOCH, Teil), T401 91 ms, T261 kalt
+Stand 28.11.2026 05:42 · umgesetzt, zur Prüfung (T155 NICHT erledigt – Teilschritt)
+Zip: announce/levelpilot__levelpilot-3.13.32.LevelPilot.zip (md5 aafd4625c6cc698f8f0e50906573b3aa, 2 866 324 Bytes)
+
+1. T401 91 ms (Ingametest 3.13.31) – Ursache belegt, behoben
+- protokollTeile im Upload 05:29: "MarktLine 42.2 ms +3940 KB"; T401 rechnete die Markt-Zeilen absichtlich zweimal echt (erster Text + Gegenprobe)
+  -> 2 × GoldSentinelMarkt.DiagLines am Stück (gemeinsame Datei, keine Abgabe) = 89,9 ms, +7,9 MB.
+- T401 prüft das Merken jetzt mit zählenden Stellvertretern für LP:MarktLine und GoldSentinelMarkt.DiagLines (danach zurückgesetzt), in PCallY
+  (abgebbar), TR.Safe zwischen den Texten. Gemeinsame Datei unverändert. Nachbau T401 2 ms, "1×, 0×, 1× · true".
+- Hinweis: Der erste Protokolltext einer Routine rechnet die Markt-Zeilen weiter echt (protokollTeile 3.13.31: längstens 44,9 ms, davon
+  MarktLine 42,2) – das ist der eine Lauf je Routine aus LP-ML1. Die ~4-MB-Stücke der übrigen Prüfungen sind damit weg (bitte im Ingametest ansehen).
+
+2. T155 (HOCH, 18,36 ms je Planung, Median 10,55, längste 70,5 ms, 627 KB je Planung) – Teilschritt
+- Nachbau mit den Daten des Uploads 05:29 (Priester 10, Undercity): 9,9 ms je Planung, längste 93 ms (#5: 328 Knoten, kalt Gelände 964,
+  Gefahr 1610). Spiel/Nachbau ≈ 1,85.
+- Messung je Funktion über alle Reise-Planungen in Bereich H (eingeschlossen): DoReplan 4063 ms; Graph:Path 2111 ms (52 %), CheckFirstPath 960
+  (darin Wegsuchen), Danger:Segment 382 ms (166 341 Aufrufe), Graph:NearSparse 286, Terrain:Unknown 187.
+- Stichprobe (alle 200 Befehle, nur Code der Planung ausserhalb der Wegsuch-Coroutinen): 22,0 % in Planner:ExactOrder (Planner.lua:1466),
+  dann Geo:Dist 6,0 %, LegCost 5,4 %, WayFactor/WayDist 8,7 %, Graph.CurDetour/Detour 7,7 %.
+  (Eine zweite Stichprobe über alle Coroutinen war verfälscht – der Zähler blieb bei abgebrochenen Planungen stehen – und ist verworfen.)
+- Behoben in ExactOrder (Held-Karp, m <= 8): Bit-Tabellen je Maske nur einmal je m (P.exactStatic[m], flache Tabelle) statt je Aufruf 2^m Tabellen;
+  dp/par je eine flache Tabelle statt 2 × 2^m Tabellen; Vorgänger-Prüfung als Zahlenschleife statt ipairs. Gleiche Schleifenreihenfolge und
+  gleiche strenge Vergleiche.
+- Gegenprobe Route 1–60 (r3.lua, gleiche Bedingungen wie Bericht 05:23): mit Kontodaten 139 h 53 / 2 395 / 838 / 1 364 492 vorher und nachher,
+  Stufenzeiten und Zonenfolge gleich; ohne Kontodaten 194 h 40 / 2 155 / 648 / 1 783 624 vorher und nachher, gleich.
+- Wirkung T155, Bereich H abwechselnd gemessen: vorher 8,54 / 8,81 ms je Planung, nachher 8,09 / 7,99 ms (−7 %); Median 5,96 / 6,15 -> 5,40 / 5,29
+  (−11 %); Speicher je Planung 385 / 394 -> 313 / 310 KB (−20 %). Längste Planung unverändert (kalte Wegsuchen).
+- Erwartung im Spiel (Verdacht, zu messen): 18,4 -> rund 17 ms – reicht NICHT unter 16. Nächster Schritt: die kalten Wegsuchen der Prüfung
+  (CheckFirstPath, 52 % in Graph:Path mit Gelände/Gefahr) – Datei:Zeile innerhalb der Suche belegen.
+
+3. T261 kalt/warm
+- Die Ergebniszeile weist es schon aus ("Einloggen: zweites (Ablage getroffen)" = warm). Kalt ist das erste Einloggen nach einem Versionswechsel:
+  Bitte nach dem Einspielen von 3.13.32 das ERSTE Einloggen messen (einloggen, 60 s warten, dann Routine) – dann steht "erstes" in der Zeile.
+- 136 Neuplanungs-Portionen in 60 s = 9 Starts (Zeile "Starts je Auftrag: … replan 9 …"), je rund 40 ms in rund 15 Portionen: Ticker alle 15 s
+  (4 in 60 s) plus Ereignisse beim Einloggen (Questlog, Taschen, Zone) – Anzahl der Auslöser je Ereignis noch nicht gemessen (nächster Ingametest).
+
+Prüfungen vor dem Push
+- addon_check: OK. Gemeinsame Dateien GoldSentinelGame/Test/Sync/Dev/Takt/Markt.lua mit cmp gleich shared/. Offline-Routine: 40 von 40 ohne FEHLER.
+- Nachbau ganze Routine (Daten 28.11. 05:29): ALLE TESTS OK, längstes Bild 43,5 ms "Reisen svc–Grundregeln" (MITTEL, offen), T155 9,34 ms.
