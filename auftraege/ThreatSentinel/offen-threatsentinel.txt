@@ -615,3 +615,18 @@ brechen (alter Schlüssel wird beim Laden übernommen, Sync mit altem Tag ignori
     Nachbau Supervisor (addon-check-Mock, Testmodus aus, Chat beim Einloggen + Zeitgeber): "ThreatSentinel 2.5.31 – /ts oder der Minimap-Knopf öffnet die Einstellungen." (vorher ohne Version). addon_check OK.
 
 >>> AUFTRAG HOCH DL-ABN (Supervisor 27.11. 10:30): download/ nur noch mit vom Supervisor ANGENOMMENEN Versionen – der Uploader installiert jede Zip dort automatisch bei allen Mitspielern. Neue Versionen zuerst nur announce/. Einzelheiten: auftraege/anweisung-download-nur-abgenommen-2026-11-27.txt (lesen!).
+
+>>> TS-M1-b IM SPIEL BELEGT – Daten-Upload Nutzer 28.11. 13:50 (Rechner des Nutzers, Forever, ThreatSentinel 2.5.31), Supervisor 13:58:
+    Messung ThreatSentinelDB.m1: 20 Durchläufe, 33 Kämpfe (heute Krieger Stufe 30, Tank, Kral von Razorfen = Instanz 47, Gruppe 3–5).
+    Kosten je Bild max 0,16 ms, über 1 ms: 0 von 14 – OK (Soll ≤ 1 ms). Keine Spielernamen in m1 (names = nur Funktionsnamen) – OK.
+    Leistung letzter Kampf: längster Rahmen 0,9 ms, über 16 ms 0 von 2059. Fehler 0. Gesperrte Aktionen 0.
+    ERGEBNIS (Forever 1.60.1 Build 71139, Zugriff "secret"):
+    - UnitDetailedThreatSituation: alle 5 Rückgaben GESCHÜTZT (20×) bzw. nil (12×, kein Bezug zum Mob) -> keine Prozent-/Rohwerte lesbar.
+    - UnitThreatSituation(player, Mob) und (player): LESBAR (Zahl, Stufe 0–3); GetThreatStatusColor: lesbar.
+    - UnitThreatPercentageOfLead: geschützt. Ziel des Mobs = ich: 6 ja / 15 nein / 11 geschützt (wechselnd). TargetFrameNumericalThreat fehlt.
+    - Kampflog: Anmelden löst "geblockt" aus (nicht angemeldet). CVars threatWarning=3, threatShowNumeric=1, threatPlaySounds=1.
+    - Ereignisse UNIT_THREAT_SITUATION_UPDATE / UNIT_THREAT_LIST_UPDATE kommen (Einheit lesbar).
+    Folgerung (belegt): In Forever kann ThreatSentinel nur die STUFE (0–3: keine Aggro / mehr als Tank / Aggro unsicher / Aggro sicher) und
+    deren Farbe zeigen, keine Prozent und keinen Abstand zum Tank. Umbau-Entscheid liegt beim Nutzer (Entscheid 24.11. 13:33) – Frage gestellt.
+    Offen bleibt: 13:45 Kampf mit sit=nil/det=nil bei Gruppe 3 (Mob nicht in der Bedrohungsliste des Spielers?) – TS: Lage im Bericht deuten.
+    Prüfliste 6/14 (u. a. M1 jetzt mit Daten). Sync: verworfen 54 "veraltet" im Kampf – Hinweis, kein Befund.
