@@ -314,9 +314,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Tanaris (1446)
 
-- Wegstücke 189, Knoten 191, zusammenhängende Teile 2
+- Wegstücke 195, Knoten 209, zusammenhängende Teile 2
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 186 Knoten, Bereich 51–78 / 18–32
+  - Teil 1: 204 Knoten, Bereich 51–78 / 18–32
   - Teil 2: 5 Knoten, Bereich 72–74 / 17–18
 
 ## Orgrimmar (1454)
@@ -351,7 +351,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Thunder Bluff (1456)
 
-- Wegstücke 1015, Knoten 797, zusammenhängende Teile 8
+- Wegstücke 1018, Knoten 797, zusammenhängende Teile 8
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 749 Knoten, Bereich 23–78 / 12–87
   - Teil 2: 16 Knoten, Bereich 11–21 / 17–35
@@ -384,9 +384,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Undercity (1458)
 
-- Wegstücke 3239, Knoten 1150, zusammenhängende Teile 3
+- Wegstücke 3266, Knoten 1165, zusammenhängende Teile 3
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 1148 Knoten, Bereich 44–86 / 0–98
+  - Teil 1: 1163 Knoten, Bereich 44–86 / 0–98
   - Teil 2: 1 Knoten, Bereich 59–59 / 25–25
   - Teil 3: 1 Knoten, Bereich 76–76 / 32–32
 - **Ausreisser:** Wegstück 1: Sprung 10.6 % von 46.4,72.8 nach 52.8,64.4
@@ -412,15 +412,14 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Flusslande (2548)
 
-- Wegstücke 3845, Knoten 2437, zusammenhängende Teile 7
+- Wegstücke 3846, Knoten 2468, zusammenhängende Teile 6
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 2404 Knoten, Bereich 16–88 / 15–97
+  - Teil 1: 2437 Knoten, Bereich 16–88 / 15–97
   - Teil 2: 15 Knoten, Bereich 88–89 / 26–32
   - Teil 3: 6 Knoten, Bereich 58–58 / 32–33
   - Teil 4: 5 Knoten, Bereich 60–61 / 76–78
   - Teil 5: 3 Knoten, Bereich 61–62 / 35–35
   - Teil 6: 2 Knoten, Bereich 59–59 / 30–31
-  - Teil 7: 2 Knoten, Bereich 85–85 / 72–72
 
 ## Shen'dralas (2652)
 
@@ -945,3 +944,5 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 | 260993 | 2548 | kein Ort im Datenpaket -> 27.4,37.0 | - | fehlt im Datenpaket |
 | 260995 | 2548 | kein Ort im Datenpaket -> 27.1,34.3 | - | fehlt im Datenpaket |
 | 261208 | 2548 | kein Ort im Datenpaket -> 49.3,46.7 | - | fehlt im Datenpaket |
+| 5204 | 1458 | 50.1,68.0 -> 50.0,68.1 | 0.1 % | klein |
+| 10136 | 1458 | 47.5,73.4 -> 47.5,73.0 | 0.4 % | klein |
