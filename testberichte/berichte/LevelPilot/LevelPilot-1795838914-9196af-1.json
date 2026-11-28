@@ -1,0 +1,52 @@
+{
+ "abbruch": "Ausloggen während der Testroutine",
+ "abbruchBei": "Reisen / Reisen",
+ "abgabeGesperrt": "0",
+ "addon": "LevelPilot",
+ "bereich": "alle",
+ "counts": {
+  "client": 0,
+  "fehler": 1,
+  "ok": 0,
+  "uebersprungen": 0
+ },
+ "dauerBereiche": [
+  "Start 15 s",
+  "Reisen 45 s",
+  "gesamt 61 s (Zeitlimit 1800 s)"
+ ],
+ "dur_ms": 62052,
+ "env": {
+  "build": "71139",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 10,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [],
+ "f": 1,
+ "fehlerzaehler": "0",
+ "id": "LevelPilot-1795838914-9196af-1",
+ "kind": "test",
+ "reiseBilder": "Bilder 1580, Portionen 1580, längstes 12.3 ms, über 16 ms 0 (davon mit Speicherbereinigung 0), über 40 ms 0, längste Portion 12.3 ms, grösste Überschreitung des Budgets 2.2 ms bei Graph.lua:1590 < Graph.lua:1599 < Graph.lua:1614 < Virtual.lua:417 < Virtual.lua:616",
+ "results": [
+  {
+   "bereich": "J",
+   "ergebnis": "abgebrochen: Ausloggen während der Testroutine bei Reisen / Reisen",
+   "erwartet": "fertig",
+   "id": "T393",
+   "ms": "0.0",
+   "name": "[LP-TR1] Routine vollständig (nicht nach dem Zeitlimit abgebrochen), Dauer je Bereich im Bericht",
+   "status": "FEHLER"
+  }
+ ],
+ "takt": "Portionen: 1890 Bilder, längstes Bild 10.7 ms (Start) · über 5 ms: 7 · über 16 ms: 0 · über 40 ms: 0 · eigene Rechenzeit 961.2 ms · Dauer 60.8 s · ganze Bilder über 40 ms: 10, davon durch Spiel/Umgebung (eigene Portion ≤ 16 ms): 10 · längstes ganzes Bild 189.0 ms · Ende: abgebrochen …",
+ "teilbericht": "true",
+ "time": 1795838852,
+ "version": "3.13.31"
+}

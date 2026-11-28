@@ -1,0 +1,236 @@
+AHSentinel-Protokoll v0.65.428 · 28.11. 05:08:34
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  28.11. 05:07:29 L10 PRIEST v0.65.428
+  28.11. 04:27:48 L10 PRIEST v0.65.427
+  27.11. 22:31:24 L30 WARRIOR v0.65.425
+  27.11. 22:09:54 L30 WARRIOR v0.65.424
+  27.11. 22:07:54 L30 WARRIOR v0.65.424
+  27.11. 22:03:44 L30 WARRIOR v0.65.424
+  27.11. 20:55:32 L10 PRIEST v0.65.423
+  27.11. 19:20:23 L30 WARRIOR v0.65.422
+  27.11. 19:13:40 L30 WARRIOR v0.65.422
+  27.11. 16:04:01 L10 PRIEST v0.65.421
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 3 Min., 7574 Items, Preis-Sync an
+  SYNC GoldSentinelSync 3 · Wege: keiner · Mitspieler (1 Std.): AHSentinel 1, BuffSentinel 0, GoldSentinelMarkt 0, GoldSentinelTest 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0, ThreatSentinel 0
+  SYNC gesendet 21 · empfangen 1 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 5 (mit Sync 2: 5, pausiert 0) · gesendet 1 · weitergegeben 0 · offline 0 · Listen 0 · Warteschlange 1 · gespeichert ja · im Test angehalten 0 (Test laeuft)
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Sniper-Takt (SN-T2): 300 Suchen · Abstand Median 0.70 s, Min 0.70 s, Max 0.73 s
+    Zeitraum 28.11. 05:01–05:04 · minimiert/Hintergrund (unter 15 Bilder/s): 0 % (0 von 300)
+    Server nicht bereit: Median 0.30 s, Min 0.21 s, Max 0.41 s je Suche
+    eigene Bremse/Abstand: Median 0.20 s, Min 0.10 s, Max 0.31 s je Suche
+    Antwort des Servers: Median 0.20 s, Min 0.10 s, Max 0.21 s je Suche
+    Suchen je Ziel: Azurblaue Seidenkapuze 150 (50 %) · Bronzene Stulpen mit Versilberung 150 (50 %)
+  Sync-Abweichungen (S6): 87 Fälle, Markt-Tag fremd 0 (alte Version / anderer Markt)
+    7 Tage je Ursache (vollständig): stapel 1, bewegt 4, unbekannt 82
+    Stapel- statt Stückpreis: 1 – Item 15733 eigen 3499/fremd 49999 (Alter 111/4 Min., g, Voll, Menge 17)
+    Markt hat sich bewegt (Zeitabstand > 6 Std.): 4 – Item 260793 eigen 650/fremd 1500 (Alter 1363/3 Min., g, Voll, Menge 118); Item 2980 eigen 895/fremd 1800 (Alter 1364/4 Min., g, Voll, Menge 8); Item 5363 eigen 400/fremd 9999 (Alter 1364/4 Min., g, Voll, Menge 1); Item 6304 eigen 100/fremd 1000 (Alter 1364/4 Min., g, Voll, Menge 1)
+    unbekannt: 82 – Item 2589 eigen 41/fremd 19 (Alter 108/0 Min., g, Voll, Menge 25480); Item 3464 eigen 25/fremd 10 (Alter 108/0 Min., g, Voll, Menge 10784); Item 17056 eigen 1695/fremd 100 (Alter 108/0 Min., g, Voll, Menge 5474); Item 2862 eigen 24/fremd 8 (Alter 108/0 Min., g, Voll, Menge 5001); Item 249391 eigen 2754/fremd 900 (Alter 108/0 Min., g, Voll, Menge 4789)
+  Einstellungen geändert: cmdHint=true, fastScan=true, helpSeen=true, learnExplore=false, marketExpert=false, minimapAngle=199, priceGuard=20, psHintHidden=true, sniperSignal=true, theme=modern, tooltipDEDetail=true, vendorButton=false, vendorFlipMin=500, vsBudget=2
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0
+
+== Einträge (200, neueste zuerst)
+[28.11. 05:07:45] ITEMINFO neue Item-Anfragen 200 (zurückgestellt 0) · je Aufgabe: - 6, cache:warm 3, cache:warm-today 185, names 3, pd7:load 3
+[28.11. 05:07:44] ABSATZ-UNPLAUSIBEL Item 4342 · 77.0/Tag · Quelle geschätzt
+[28.11. 05:07:44] ABSATZ-UNPLAUSIBEL Item 3492 · 7.1/Tag · Quelle geschätzt
+[28.11. 05:07:37] UI-PREBUILD Reiter sniper vorgebaut · Fenster 2.5 ms · Reiter bauen 5.5 ms · erstes Anzeigen 1.1 ms · fertig 9.5 s nach dem Laden
+[28.11. 05:07:34] PD7 PD7 geladen: 20753 Items, 605354 Einträge geprüft, 0 Fehler · Zustand active
+[28.11. 05:07:34] SYNC Weg=GUILD
+[28.11. 05:07:32] LANGSAM Hintergrund-Aufgabe pd7:load · 0 Schritte · längster Schritt 17 ms bis PD7.lua:313 · mit Speicherbereinigung (davon Bereinigung ~15 ms, Schritt sonst ~2.3 ms) · 17 ms
+[28.11. 05:07:30] ABSATZ-UNPLAUSIBEL Item 1475 · 188.2/Tag · Quelle geschätzt
+[28.11. 05:07:30] ABSATZ-UNPLAUSIBEL Item 5784 · 219.8/Tag · Quelle geschätzt
+[28.11. 05:07:30] ABSATZ-UNPLAUSIBEL Item 3857 · 664.7/Tag · Quelle geschätzt
+[28.11. 05:07:30] ABSATZ-UNPLAUSIBEL Item 4312 · 25.9/Tag · Quelle geschätzt
+[28.11. 05:07:30] ABSATZ-UNPLAUSIBEL Item 3745 · 666.9/Tag · Quelle geschätzt
+[28.11. 05:07:30] ABSATZ-UNPLAUSIBEL Item 3840 · 32.6/Tag · Quelle geschätzt
+[28.11. 05:07:30] ABSATZ-UNPLAUSIBEL Item 16083 · 81.8/Tag · Quelle gemessen
+[28.11. 05:07:30] ABSATZ-UNPLAUSIBEL Item 16113 · 83.4/Tag · Quelle geschätzt
+[28.11. 05:07:30] ABSATZ-UNPLAUSIBEL Item 274964 · 1971.7/Tag · Quelle gemessen, Angebot veraltet
+[28.11. 05:07:29] ABSATZ-UNPLAUSIBEL Item 9251 · 53.4/Tag · Quelle geschätzt
+[28.11. 05:07:29] ABSATZ-UNPLAUSIBEL Item 3726 · 990.9/Tag · Quelle gemessen
+[28.11. 05:07:29] ABSATZ-UNPLAUSIBEL Item 2862 · 888.7/Tag · Quelle geschätzt
+[28.11. 05:07:29] ABSATZ-UNPLAUSIBEL Item 279968 · 1322.7/Tag · Quelle gemessen
+[28.11. 05:07:29] GOLD-LOGOUT-NACHTRAG voriges Ende war /reload: ja (Erst-Login nein)
+[28.11. 05:07:29] REALM <leer> · Schlüssel-Realm CAMWOW EU4 Realm 6 PvP
+[28.11. 05:07:23] GOLD-LOGOUT GetMoney beim Ausloggen 455818 · beim Verlassen der Welt 455818 · Art: ohne Ankündigung (sofort, Verbindungsende oder /reload) · letzter echter Stand 455818
+[28.11. 05:07:22] ITEMINFO neue Item-Anfragen 6320 (zurückgestellt 111979) · je Aufgabe: - 2, act:report:30 6, act:report:today 29, cache:itemlist 102, cache:profit:de:10:1 200, cache:profit:de:20:0 200, cache:profit:vendor:20:0 2, cache:today:10 809, cache:warm 40, co
+[28.11. 05:06:09] PREISPRUEFUNG Item 275895 · Schlüssel allgemein (Stufe 1, Suffix 0, Haustier 0) · 1 Angebote · Scan 3 Stück · 0.1 s · Antwort
+[28.11. 05:06:09] PREISPRUEFUNG Item 269739 · Schlüssel allgemein (Stufe 1, Suffix 0, Haustier 0) · 3 Angebote · Scan 33 Stück · 0.2 s · Antwort
+[28.11. 05:06:08] PREISPRUEFUNG Item 9036 · Schlüssel allgemein (Stufe 42, Suffix 0, Haustier 0) · 24 Angebote · Scan 415 Stück · 0.1 s · Antwort
+[28.11. 05:06:07] VOLLSCAN Messung 296615 Auktionen · 7049 Items · Lücke 70 ms (Preisverlauf+Neuaufbau: Speicherbereinigung nein · Ereignis keins (> 16 ms) · Aufgaben 12 ms (fullscan, 0 Schritte, längster 11 ms bis AHAnalyzerPro.lua:5372) · Bild: eigene Arbeit 13 ms (Aufgaben 12, davon Lesen beim Server 0.0, Ereignisse 0 in 318 Aufrufen, Skripte/Zeitgeber 0) · Rest 57 ms (Spiel/andere Addons) · Item-Antworten 159 · Speicher 913921 -> 915226 KB (+1305, davon eigener 631 KB) · danach bereinigt 0 KB) · Speicher 809955->916569 KB (tiefster 809966) · GC 0 · Warten auf Server 16065/15; Ereignis-Aufruf 0/1; Einlesen 43982/44; Verdichtung 584/17; Verfolgung V4 3574/32; Preisverlauf+Neuaufbau 1282/70; Nachlauf 0/47 · neu je Schritt Einlesen 35951 · Nachlauf 31214 · Preisverlauf+Neuaufbau 25343 · Verdichtung 23084 · Warten auf Server 16479 · davon eigener neuer Speicher 24131 KB · je Aufgabe fullscan 11568 · timing 3706 · learn:factor 2147 · learn:rhythm 977 · ketten:refresh 850 · ausserhalb von Aufgaben 2406 · je Schritt Nachlauf 12144 · Einlesen 4202 · Verfolgung V4 4106 · Preisverlauf+Neuaufbau 2647 · Verdichtung 958, 41 eigene Aufrufe mit Bereinigung nicht zählbar · Takt: 3454 Bilder · längstes 15.0 ms (fullscan bis Ende fullscan) · über 5/16/40 ms: 196/0/0 · Abgabe nicht möglich 0 · gescheitert 0 (forecast-eval, cache:itemlist)
+[28.11. 05:06:07] PREIS-ALT nach Scan · letzter Scan Vollscan · Waren im Vollscan 1208 · Hauptmaterialien 11083: 0.0 Std., 10940: 0.0 Std., 11082: 0.0 Std. · 0 frisch geholt
+[28.11. 05:06:07] ABSATZ-UNPLAUSIBEL Item 5784 · 219.8/Tag · Quelle geschätzt
+[28.11. 05:06:07] ABSATZ-UNPLAUSIBEL Item 3857 · 664.7/Tag · Quelle geschätzt
+[28.11. 05:06:07] ABSATZ-UNPLAUSIBEL Item 3840 · 32.6/Tag · Quelle geschätzt
+[28.11. 05:06:07] ABSATZ-UNPLAUSIBEL Item 16083 · 81.8/Tag · Quelle gemessen
+[28.11. 05:06:07] ABSATZ-UNPLAUSIBEL Item 9251 · 53.4/Tag · Quelle geschätzt
+[28.11. 05:06:07] MATERIAL-PREIS Item 11176 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:06:07] MATERIAL-PREIS Item 16202 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:06:07] PREISPRUEFUNG Item 20679 · Schlüssel allgemein (Stufe 1, Suffix 0, Haustier 0) · 5 Angebote · Scan 10 Stück · 0.1 s · Antwort
+[28.11. 05:06:07] MATERIAL-PREIS Item 11175 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:06:07] MATERIAL-PREIS Item 10978 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:06:07] MATERIAL-PREIS Item 10939 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:06:07] MATERIAL-PREIS Item 11177 · Quelle ah · Alter 0 Min. · unsicher: Scan 13497 / Marktwert 8740
+[28.11. 05:06:07] MATERIAL-PREIS Item 16203 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:06:07] MATERIAL-PREIS Item 14344 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:06:07] MATERIAL-PREIS Item 10938 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:06:07] MATERIAL-PREIS Item 11178 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:06:07] MATERIAL-PREIS Item 11139 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:06:07] MATERIAL-PREIS Item 11084 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:06:07] MATERIAL-PREIS Item 11138 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:06:07] MATERIAL-PREIS Item 20725 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:06:07] MATERIAL-PREIS Item 10998 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:06:07] MATERIAL-PREIS Item 11083 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:06:07] MATERIAL-PREIS Item 11137 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:06:07] MATERIAL-PREIS Item 11082 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:06:07] MATERIAL-PREIS Item 16204 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:06:07] MATERIAL-PREIS Item 11174 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:06:07] MATERIAL-PREIS Item 11135 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:06:07] MATERIAL-PREIS Item 14343 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:06:07] MATERIAL-PREIS Item 11134 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:06:07] MATERIAL-PREIS Item 10940 · Quelle ah · Alter 0 Min. · sicher
+[28.11. 05:06:06] PREISPRUEFUNG Item 4757 · Schlüssel allgemein (Stufe 1, Suffix 0, Haustier 0) · 1 Angebote · Scan 13 Stück · 0.1 s · Antwort
+[28.11. 05:06:05] PREISPRUEFUNG Item 4342 · Schlüssel allgemein (Stufe 50, Suffix 0, Haustier 0) · 1 Angebote · Scan 3 Stück · 0.1 s · Antwort
+[28.11. 05:06:05] PREISPRUEFUNG Item 260927 · Schlüssel allgemein (Stufe 1, Suffix 0, Haustier 0) · 2 Angebote · Scan 3 Stück · 0.2 s · Antwort
+[28.11. 05:06:04] PREISPRUEFUNG Item 260794 · Schlüssel allgemein (Stufe 15, Suffix 0, Haustier 0) · 4 Angebote · Scan 112 Stück · 0.1 s · Antwort
+[28.11. 05:05:59] VOLLSCAN M1d 296615 Auktionen gelesen (296609 gültig) · 2787 ms in 2474 Portionen · längster Frame 1.9 ms · 7049 Items
+[28.11. 05:05:54] ITEMINFO neue Item-Anfragen 5832 (zurückgestellt 104172) · je Aufgabe: - 2, act:report:30 6, act:report:today 29, cache:itemlist 68, cache:profit:de:10:1 200, cache:profit:de:20:0 200, cache:profit:vendor:20:0 2, cache:today:10 600, cache:warm 40, cor
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315631058 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315630995 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315630982 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315630903 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315630828 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315630775 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315630719 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315630617 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315630577 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315630458 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315630407 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315630363 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315630219 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315630116 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315630076 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315630077 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315630009 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315629984 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315629823 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315629663 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315629612 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315629577 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315629364 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315629317 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315629166 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315629000 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315628938 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315628849 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315628836 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315628797 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315628603 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315628478 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315628280 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315628140 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315628114 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315628105 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315627763 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315627668 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315627643 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315627595 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315627594 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315627444 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315627420 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315627405 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315627404 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315627394 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315627350 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315627266 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315627246 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315627240 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315627202 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315627187 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315627137 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315627070 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315626909 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315626903 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:53] ABBRECHEN AUCTION_CANCELED auctionID 315626609 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309603466 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309603408 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309603357 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309603354 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309603311 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309603278 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309603236 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309603102 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309603050 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309603019 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309602964 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309602840 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309602806 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309602780 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309602726 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309602685 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309602664 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309602549 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309602389 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309602156 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309602137 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309602130 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309601986 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309601954 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309601849 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309601823 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309601817 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309601789 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309601776 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309601767 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309601650 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309601541 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309601403 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309601389 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309601383 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309601339 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309601317 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309601299 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309601247 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309600933 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309600923 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309600912 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309600904 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309600891 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309600877 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309600764 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309600728 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309600655 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309600543 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309600528 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309600464 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309600437 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309600394 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309600307 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309600246 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309600250 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309600240 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309600199 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309600193 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309600173 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309599960 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309599945 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309599891 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309599873 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309599861 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309599718 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309599675 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309599650 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309599616 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309599619 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309599540 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309599523 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309599434 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309599391 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309599368 (erwartet nil) -> unerwartet, nichts geändert
+[28.11. 05:05:26] ABBRECHEN AUCTION_CANCELED auctionID 309599342 (erwartet nil) -> unerwartet, nichts geändert
+[21.11. 18:58:46] FEHLER Märkte vereinen: Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:5416: attempt to compare two table values
+[21.11. 18:38:52] FEHLER Märkte vereinen: Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:5416: attempt to compare number with table

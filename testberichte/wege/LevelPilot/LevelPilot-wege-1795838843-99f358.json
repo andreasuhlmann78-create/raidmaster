@@ -1,0 +1,77 @@
+{
+ "addon": "LevelPilot",
+ "blocked": [],
+ "env": {
+  "build": "71139",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 10,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "f": 1,
+ "fest": [],
+ "id": "LevelPilot-wege-1795838843-99f358",
+ "kind": "wege",
+ "npc": [],
+ "time": 1795838843,
+ "version": "3.13.31",
+ "zones": [
+  {
+   "edges": [
+    {
+     "lv": [
+      "1458|o|Die Kanäle",
+      "1458|o|Die Kanäle",
+      "1458|o|Die Kanäle",
+      "1458|o|Die Kanäle",
+      "1413|d|Crossroads"
+     ],
+     "n": 2,
+     "p": [
+      65.9,
+      29.3,
+      65.3,
+      32.4,
+      63.5,
+      34.4,
+      61.7,
+      36.4,
+      63.5,
+      36.2
+     ],
+     "src": "selbst"
+    },
+    {
+     "lv": [
+      "1458|o|Das Magieviertel",
+      "1458|o|Das Magieviertel",
+      "1458|o|Das Magieviertel",
+      "1458|o|Die Kanäle",
+      "1458|o|Die Kanäle"
+     ],
+     "n": 5,
+     "p": [
+      71.1,
+      27.9,
+      71.7,
+      26.1,
+      70.8,
+      24.7,
+      69.3,
+      23.6,
+      68.1,
+      23.7
+     ],
+     "src": "selbst"
+    }
+   ],
+   "map": 1458,
+   "name": "Undercity"
+  }
+ ]
+}
