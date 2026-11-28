@@ -1,0 +1,39 @@
+ProfessionSentinel 0.9.100 – umgesetzt, zur Prüfung
+Bezug: offen-professionsentinel.txt PS-TT (Supervisor 28.11.), BEFUND PS-AHS-EIG1 MITTEL + Ergänzung 05:33 (AHSentinel 0.65.429). DL-ABN: nur announce/.
+Ausserdem: 0.9.99 nach "ANGENOMMEN" (05:24) nach download/ gelegt, gleiche Zip, md5 e097a99664539eb52c7554a3f4dc53f7; 0.9.98 entfernt.
+
+PS-TT-RECH – die Rechnung steht jetzt IN der Urteilszeile (keine neue Zeile, der kurze Tooltip bleibt bei höchstens 14 Zeilen, T236):
+ "Herstellen lohnt sich  +97c (Lohnt bis 37s 98c - Material 37s 01c)". Wert = Gewinn + Material, d. h. die Zahlen gehen auf dem Bildschirm auf.
+ Bezeichnung des Werts: "Lohnt bis" (AHSentinel WorthUpTo – schon nach Gebühr, Absatzchance, Sicherheitsabschlag), sonst "Entzaubern", "Händler"
+ oder "Verkauf". Warum "Verkaufen 46s26" daneben nicht zum Gewinn passt: die Zeile "Verkaufen" ist der Netto-AH-Preis, der Gewinn rechnet mit
+ dem tieferen "Lohnt bis" – das zeigt die Klammer jetzt.
+PS-TT-EINH – Ursache belegt: die Zahl in der Zeile "Skillen" kam aus AD.BaseMats = SUMME ALLER Grundmaterialien des Rezepts (Graue Wollrobe:
+ 4 Ballen × 3 Wollstoff + 3 Faden + 1 Färbemittel = 16) – nicht "je Skillpunkt". Die Annahme "je Skillpunkt" im Befund trifft also nicht zu.
+ Jetzt: Menge der Hauptzutat je Herstellung (UI.MainMaterial liefert Gegenstand und Menge: Wollrobe 4 Ballen).
+/Herst. und /Pkt im Leveln: Mischung ist gewollt (Entscheid "Formel-Chance intern": orange = 1 Punkt sicher -> je Punkt; gelb/grün -> je
+ Herstellung, ohne geschätzte Chance). Überschrift jetzt "Leveln (Top 10) – günstigste Skillpunkte", die Erklärung nennt die Einheiten.
+"Jetzt": Schrittzeile der Gold-Zeile nicht mehr abgeschnitten (eigene Zeile ">> nächster Schritt"); NOW_GOLD_TIP sagt "Lohnt bis von AHSentinel
+ minus Material".
+
+PS-AHS-EIG1:
+ - Zweck: DE.SendToSniper(targets, what, doneText, purpose) gibt als 5. Wert { zweck = "eigenbedarf", quelle = "ProfessionSentinel" } an
+   Sniper.SetTarget – je Ziel eine eigene Tabelle. Mit Zweck: Plan.ToSniper (">> AH-Zutaten in den Sniper") und Queue.ToSniper (Warteschlange).
+   Ohne Zweck (Gewinn): Schnäppchen, Zutaten für Herstellen & Entzaubern, Rezept-Alarm, "Heute herstellen" (Gewinn-Herstellung), Einkauf für ein
+   einzelnes Rezept aus der Rezeptansicht – Frage an den Supervisor: soll der Einzel-Einkauf (UI.BuyForRecipe) auch Eigenbedarf sein?
+ - Budget belegt: PS SETZT ein Budget – 4. Wert = Max-Preis × Menge je Ziel; AHSentinel Sniper.lua Sn:SetTarget übernimmt es (nur bei leer/0
+   rechnet es selbst Max × Menge). Der Text "im Sniper noch das Budget einstellen" war also falsch. Jetzt: "%d Sniper-Ziele angelegt (…) – Budget
+   zusammen <Summe>." (EN/DE, auch Schnäppchen/Alarm); Erklärtexte: "Budget je Ziel = Menge × Max-Preis – im Sniper änderbar".
+ - Summe vor dem Anlegen: Plan-Zeile ">> AH-Zutaten in den Sniper" zeigt "Budget zusammen höchstens <Σ Max × Menge> (Marktwert <Σ>, dein Gold <g>)"
+   – exakt die Budgets, die angelegt würden. Fall Bild 04:52: 208 × 9s41 + 50 × 38c = 19g76s28 (Marktwert 208 × 8s56 + 50 × 35c = 17g97s98).
+ - Buchung beim Kauf: PS bucht Sniper-Käufe nicht selbst (die Käufe macht und bucht AHSentinel). Abstimmung mit AHS: Ziele mit zweck "eigenbedarf"
+   sollten in AHS als Einkauf für Eigenbedarf gebucht werden – Frage an AHS über den Supervisor, PS ändert dafür nichts.
+Tests: T306 (Rechnungszeile: Wollrobe 37s98/37s01/+97c, Stiefel 74s46, Entzaubern/Verkauf, echte Rezepte Wert - Material = Gewinn; Hauptzutat
+ 2997 × 4); T236 erweitert (Rechnung steht in der Urteilszeile des echten Tooltips, weiter <= 14 Zeilen; Gegenprobe ohne Klammer -> FEHLER
+ "Urteilszeile ohne Rechnung"; in T236, weil die Smoketest-Attrappe keine Tooltip-Zeilen lesen kann).
+ T307 neu (Sniper-Attrappe: Plan-Ziele mit zweck/quelle, Budget je Ziel = Max × Menge, Summe 19g76s28 in der Meldung, kein "Budget einstellen";
+ Warteschlange mit Zweck; Gegenprobe Schnäppchen ohne Zweck; je Ziel eigene Tabelle; altes AHSentinel ohne 5. Wert funktioniert;
+ Gegenprobe ohne Zweck in Plan.lua -> FEHLER "Plan-Ziele ohne Zweck eigenbedarf"). Regression PS-TT -> T306, PS-AHS-EIG1 -> T307.
+ run_offline forever 262/0, era 243/0, retail 240/0, forever --lua51 262/0; check_actions OK; gen_locale_keys OK; Smoketest: AUTOTEST OK forever/era/retail; yield_check OK; addon_check: OK.
+ md5 announce-Zip (Release v0.9.100, Repo e692781): 573df5a7272dbf2d1e91cbf0cd998571.
+Abnahme im Spiel: Tooltip Graue Wollrobe -> Urteilszeile mit "(Lohnt bis … - Material …)", Skillen "4 ×"; Plan -> Zeile Sniper zeigt die Summe;
+ Klick -> AHSentinel ohne Verlust-Warnung, Hinweis "Eigenbedarf"; Chat nennt "Budget zusammen …".

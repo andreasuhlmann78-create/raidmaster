@@ -1,21 +1,19 @@
-# Stand 28.11.2026 05:16 · Version 0.9.99 (announce), 0.9.98 (download)
+# Stand 28.11.2026 06:20 · Version 0.9.100 (announce), 0.9.99 (download)
 
 ## Gerade in Arbeit
-- 0.9.99 NUR announce/ (Release v0.9.99, Repo 9939fd5), Bericht 2026-11-28-0516-version-0.9.99.txt – zur Prüfung: PS-P3 (PS.OnMerchant,
-  vergessen nur bei Goldänderung), PS-SK2-b (Lehrer-Zeile immer "ohne Lernstufe z: Namen").
-- PS-SK2 im Spiel sichtbar behoben (Supervisor 05:05). download/ = 0.9.98.
+- 0.9.100 NUR announce/ (Release v0.9.100, Repo e692781, md5 573df5a7…), Bericht 2026-11-28-0620-version-0.9.100.txt – zur Prüfung:
+  PS-TT (Rechnung in der Urteilszeile, Hauptzutat je Herstellung, Jetzt-Schritt, Leveln-Einheiten), PS-AHS-EIG1 (Zweck "eigenbedarf" für
+  Plan/Warteschlange, Budget-Summe in Meldung und Plan-Zeile). Fragen im Bericht: UI.BuyForRecipe auch Eigenbedarf? Buchung in AHS.
+- 0.9.99 angenommen (05:24) -> download/ (md5 e097a996…), 0.9.98 entfernt.
 
 ## Nächste Schritte (Reihenfolge)
-1. Tooltip/Anzeige (Supervisor 28.11.): PS-TT-RECH (Verkaufen − Material ≠ "lohnt sich": Abzüge in einer Zeile nennen; Spinnenseidenstiefel,
-   Graue Wollrobe), PS-TT-EINH ("je Herstellung" -> "je Skillpunkt"), Einheit /Herst. vs /Pkt in Leveln-Liste vereinheitlichen, "Jetzt"-Text
-   nicht abschneiden.
-2. PS-AHS-EIG1 MITTEL: Sniper-Ziele mit Zweck "eigenbedarf" sobald AHS das Feld kennt; Chat "im Sniper noch das Budget einstellen" belegen/
-   anpassen; vor dem Anlegen die Summe nennen.
+1. Antwort des Supervisors zu 0.9.100 abwarten – NICHT untätig: nächster Punkt.
+2. PS-TQ1 Abnahme a) mit echten Daten; Gilden-Sync-Tag ohne Realm; MITTEL 2/4; Entwickler-Befehle; Lesbarkeit L1–L8; "AH ~Preis".
 3. Neue Version erst nach "ANGENOMMEN" nach download/ (DL-ABN).
-4. PS-TQ1 Abnahme a) mit echten Daten; Gilden-Sync-Tag ohne Realm; MITTEL 2/4; Entwickler-Befehle; Lesbarkeit L1–L8; "AH ~Preis".
 
 ## Offen beim Nutzer
-- Ingametest 0.9.95 (Schneider-Figur, Berufsfenster offen, /ps protokoll): "WorthUpTo je Lauf" ab Lauf 2 "0 neu", "WorthUpTo vergessen" mit Grund.
+- Ingametest 0.9.99: Händler öffnen/schliessen ohne Kauf -> kein neues "WorthUpTo vergessen"; mit Kauf genau ein Eintrag; Lehrer -> "ohne Lernstufe z: Namen".
+- Ingametest 0.9.100: Tooltip Graue Wollrobe (Klammer-Rechnung, Skillen 4 ×), Plan-Sniper-Zeile mit Summe, AHS ohne Verlust-Warnung.
 - Messung im Spiel (AHS-BP1): Tooltip der Gifte/Blendungspulver "Wird beim Aufheben gebunden"?
 - Schneiderlehrer + Experten-Lehrer Schneiderei öffnen (Filter alle) -> Protokoll "Lernstufen gelesen n (neu, geändert); im Plan ohne Lernstufe z". (darf im Hintergrund laufen). Messung Lua-Fehler SetCraftableCount (nur PS / nur AHS).
 
