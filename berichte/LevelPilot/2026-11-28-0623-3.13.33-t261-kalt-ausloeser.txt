@@ -1,0 +1,37 @@
+LevelPilot 3.13.33 – Bericht an die Prüf-Sitzung: T261 kalt (HOCH), Auslöser der Neuplanungen, T155 (Zwischenstand)
+Stand 28.11.2026 06:23 · umgesetzt, zur Prüfung
+Zip: announce/levelpilot__levelpilot-3.13.33.LevelPilot.zip (md5 7fdcafa35c098b1c09ca9cbb2b468e06, 2 869 774 Bytes)
+
+1. T261 – wann gilt die Ablage als gültig? BELEGT (Graph.lua:851–876, MeasureDetour)
+- Die Umweg-Ablage (LP.db.detourCache) gilt je Zone über eine Kennung des Wegnetzes der Zone: Anzahl Knoten, Summe der Ids, Summe der Verbindungen,
+  Lage der Knoten auf 0,1 yd (Graph.DetourSig). NICHT über die Addon-Version, NICHT über das Datenpaket als Ganzes (nur soweit es Knoten der Zone
+  ändert). Ein Update ohne geändertes Netz trifft die Ablage absichtlich (gleiche Paare -> gleiches Ergebnis) -> "erstes" ist im Spiel praktisch
+  nie messbar.
+- Dazu Graph.lua:880–888 (3.12.98): fehlt eine Zone in der Ablage, misst LevelPilot in den ersten 60 s NICHT, sondern danach gestaffelt
+  (Graph.loginDeferred). Kalt unterscheidet sich in den ersten 60 s also nur durch die Kennungs-Rechnung (läuft immer) – Erwartung (Verdacht,
+  zu messen): kalt ≈ warm.
+- Ablage beim Versionswechsel ungültig machen hätte allen Spielern nach jedem Update die Messungen (nach 60 s) neu aufgebürdet – nicht gemacht.
+  Stattdessen (Vorschlag des Supervisors a): /lp testroutine kalt (nur Testmodus, nicht während einer Routine) leert die Ablage und meldet
+  "Umweg-Ablage geleert (N Zonen). Jetzt /reload – das nächste Einloggen ist kalt: 60 s warten, dann /lp testroutine alles." (9 Sprachen).
+  Danach zeigt T261 "erstes (Ablage leer/neu), N Zonen erst nach 60 s gemessen".
+- Test T402: während der Routine unverändert (Gegenprobe), geleert, Meldung mit Zonenzahl.
+
+2. Auslöser der Neuplanungen in den ersten 60 s – Messung eingebaut
+- Planner:Replan zählt im Einlog-Fenster den Aufrufer (Datei:Zeile) in Perf.loginReplanBy; T261-Feld einloggen: Zeile "Neuplanung angestossen
+  von: …". Replan ist doppelt umhüllt (Protocol.lua: Dauer; Perf.Wrap -> return Perf.Run: Tail-Call) – übersprungen werden Protocol.lua-Rahmen,
+  "(tail call)" und der Perf.lua-Rahmen davor (= Perf.Run). Im Nachbau belegt (Stapel-Ausgabe: "Protocol.lua:358 / Perf.lua:152 … (tail call)");
+  ob debugstack im Spiel "(tail call)" genauso schreibt, ist ein Verdacht – sonst stünde dort "Perf.lua:152" (im nächsten Ingametest sichtbar).
+- T402 prüft die Zählung: gezählt mit echtem Aufrufer (TestRoutine.lua:9459), ausserhalb des Fensters nicht.
+
+3. T155 Zwischenstand (kein Code in dieser Version)
+- Stichprobe neu ohne den Fehler von 05:42 (Hook nur auf die Neuplanung und die von ihr angelegten Coroutinen): ExactOrder 14,1 %, StackLines/
+  YieldBlocked (Core.lua:543/562) 13,4 %, Geo:Dist 4,1 %, LegCost/WayFactor/Detour ~12 %. ACHTUNG: die Stichprobe zählt Lua-Befehle, nicht Zeit –
+  C-lastige Stellen (debugstack, gmatch) sind unterschätzt, befehlslastige Schleifen überschätzt.
+- Versuch: Stapel-Prüfung (äussere Coroutine in LP.YPCall nur einmal je Aufruf; Schnellweg ohne "[C]") – Route gleich, T155 abwechselnd 8,44 ->
+  7,90 und 8,56 -> 9,07 ms: kein belegter Gewinn -> wieder entfernt.
+- Nächster Schritt: Zeitmessung je Funktion (statt Befehle) in den kalten Wegsuchen (Graph:Path, Danger:Segment 166 341 Aufrufe).
+
+Prüfungen vor dem Push
+- addon_check: OK. Gemeinsame Dateien mit cmp gleich shared/. Offline-Routine: 40 von 40 ohne FEHLER.
+- Nachbau ganze Routine (Daten 28.11. 05:29): ALLE TESTS OK, längstes Bild 44,3 ms T32 (Nachbau, im Spiel 3.13.32 längstes 33,9 ms).
+- Kein LP-DL1 für 3.13.32: Ingametest mit offenem HOCH (T155, T261 kalt).
