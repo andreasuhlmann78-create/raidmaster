@@ -1,0 +1,115 @@
+{
+ "addon": "LevelPilot",
+ "blocked": [],
+ "env": {
+  "build": "71139",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 10,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "f": 1,
+ "fest": [],
+ "id": "LevelPilot-wege-1795862428-a0cfb6",
+ "kind": "wege",
+ "npc": [],
+ "time": 1795862428,
+ "version": "3.13.35",
+ "zones": [
+  {
+   "edges": [
+    {
+     "n": 1,
+     "p": [
+      76.9,
+      30,
+      77.2,
+      29.8,
+      77.3,
+      29.4,
+      77.5,
+      29.1
+     ],
+     "src": "geteilt"
+    },
+    {
+     "n": 1,
+     "p": [
+      80.1,
+      31.7,
+      80,
+      31.3,
+      79.8,
+      31,
+      79.8,
+      30.5,
+      79.5,
+      30.4,
+      79.2,
+      30.2,
+      79,
+      30,
+      78.7,
+      30
+     ],
+     "src": "geteilt"
+    },
+    {
+     "n": 1,
+     "p": [
+      80.1,
+      32.1,
+      80,
+      32.4,
+      79.7,
+      32.6
+     ],
+     "src": "geteilt"
+    },
+    {
+     "n": 2,
+     "p": [
+      79.7,
+      32.6,
+      79.9,
+      32.1,
+      79.7,
+      31.7
+     ],
+     "src": "geteilt"
+    },
+    {
+     "n": 1,
+     "p": [
+      79.7,
+      32.6,
+      79.5,
+      32.8,
+      79.9,
+      33,
+      80.2,
+      33
+     ],
+     "src": "geteilt"
+    },
+    {
+     "n": 1,
+     "p": [
+      80.5,
+      33,
+      80.7,
+      32.8
+     ],
+     "src": "geteilt"
+    }
+   ],
+   "map": 2548,
+   "name": "Flusslande"
+  }
+ ]
+}

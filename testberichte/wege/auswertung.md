@@ -414,15 +414,16 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Flusslande (2548)
 
-- Wegstücke 3907, Knoten 2552, zusammenhängende Teile 7
+- Wegstücke 3923, Knoten 2576, zusammenhängende Teile 12
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 2519 Knoten, Bereich 16–88 / 15–97
+  - Teil 1: 2520 Knoten, Bereich 16–88 / 15–97
   - Teil 2: 15 Knoten, Bereich 88–89 / 26–32
   - Teil 3: 6 Knoten, Bereich 58–58 / 32–33
-  - Teil 4: 5 Knoten, Bereich 60–61 / 76–78
-  - Teil 5: 3 Knoten, Bereich 61–62 / 35–35
-  - Teil 6: 2 Knoten, Bereich 59–59 / 30–31
-  - Teil 7: 2 Knoten, Bereich 23–24 / 64–64
+  - Teil 4: 6 Knoten, Bereich 79–80 / 30–32
+  - Teil 5: 6 Knoten, Bereich 80–81 / 32–33
+  - Teil 6: 5 Knoten, Bereich 60–61 / 76–78
+  - Teil 7: 5 Knoten, Bereich 90–90 / 27–29
+  - Teil 8: 3 Knoten, Bereich 61–62 / 35–35
 
 ## Shen'dralas (2652)
 
