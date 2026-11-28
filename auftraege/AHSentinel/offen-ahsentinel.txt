@@ -7714,3 +7714,16 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
 >>> SPIELTEST AHS-CHAT-PROFIT (Weg) – Bild Nutzer 28.11. 06:12 (0.65.430), Supervisor 06:24: Chat "14 Items unter Händlerpreis – sicherer Gewinn,
     siehe Kaufen > Schnäppchen > Händlerpreis" – Weg-Text im Spiel BESTANDEN. Offen bleibt der Zahlenvergleich (Liste nach Scan-Ende öffnen: 14?).
     Sniper Ältestenhandschuhe: "in dieser Suche gekauft 0 · verpasst 1", Gold unverändert – passt (Angebot weggeschnappt).
+
+>>> SPIELTEST AHS-CHAT-PROFIT (Zahl) – Bilder Nutzer 28.11. 06:13 (0.65.430, nach Scan-Ende 06:11), Supervisor 06:28: NICHT BESTANDEN.
+    Chat "14 Items unter Händlerpreis" – Liste Kaufen > Schnäppchen > Händlerpreis "22 Einträge" (2 Seiten). Der Verdacht "Liste vor Scan-Ende
+    geöffnet" trifft hier nicht zu (Liste nach dem Scan geöffnet). Ursache mit Datei:Zeile belegen (zählt der Chat Items ab einer Gewinn-Grenze,
+    die Liste alle? 7 von 22 Zeilen haben 1c Gewinn/Stück), dann EINE Zählung oder Text nennt die Grenze.
+>>> BEFUND AHS-PROF-SP1 MITTEL (Schnäppchen > Händlerpreis, Spalten) – gleiche Bilder:
+    1. "Gewinn gesamt" ≠ "Gewinn/Stück" × "Menge": Langer Seidenumhang 7c × 76 = 5s32, angezeigt 2s56; Formel Armschiene 10c × 81 = 8s10,
+       angezeigt 2s40; Gezackter Stern 16c × 16 = 2s56, angezeigt 1s73; Leinentasche 2c × 110 = 2s20, angezeigt 1s35. Vermutlich zählt
+       "Menge" alle Stück, "Gewinn gesamt" nur die unter Händlerpreis (Gewinn/Stück = günstigstes). Belegen; Spalten so beschriften/rechnen,
+       dass Menge × Gewinn/Stück aufgeht (z. B. "Stück unter Händlerpreis" und "Ø Gewinn/Stück") – Zahlen müssen exakt aufgehen (wirtschaft-forever 0).
+    2. Seite 2 wiederholt Zeilen von Seite 1 (Formel: Handschuhe … bis Kleiner schwarzer Beutel stehen auf beiden Seiten): bei 22 Einträgen und
+       16 Zeilen je Seite muss Seite 2 nur 17–22 zeigen. NIEDRIG.
+    Test mit diesen Zahlen + Gegenprobe 0.65.430. Schritt 2b.
