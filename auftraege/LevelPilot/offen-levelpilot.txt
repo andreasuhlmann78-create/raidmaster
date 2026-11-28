@@ -2136,3 +2136,9 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
     T261: Ursache navplan-Ticker (10 s, auch im Stehen, von vorn) im Code schlüssig; C.NavDue (30 yd / anderes Ziel / 60 s) mit T400 + Gegenproben – gut.
     Erwartung −600 ms ist Verdacht -> Ingametest Einloggen (Zeile "Starts je Auftrag", Ziel < 1000 ms). LP-ML1 mit T401 – gut. Nummern T150/T155 geklärt.
     OFFEN Ingametest (Nutzer, PC): einloggen, 60 s warten, /lp testroutine alles -> T261 und protokollTeile MarktLine beim 2. Text ~0.
+
+>>> BEFUND LP-UI-AC1 NIEDRIG – Bild Nutzer 28.11. 05:09 (PC, 3.13.31): Befehls-Vorschlagsliste beim Tippen von "/lp" (Texte aus LevelPilot, z. B.
+    "Kartenrahmen aller Karten im Spiel messen …"): 1. Hintergrund durchscheinend – der Chat dahinter (DungeonJournal-/GuildSentinel-Zeilen) ist
+    durch die Liste lesbar und stört das Lesen. 2. Beschreibungen abgeschnitten ("… und spe…", "protokoll leer: löschen · protok…", "Namen in d…").
+    Auftrag: deckender Hintergrund (wie die anderen GoldSentinel-Fenster); Beschreibungen ganz lesbar (Liste breiter, Zeilenumbruch oder voller Text
+    im Tooltip der Zeile); Test mit dem längsten Text in allen Locales. Nicht vor T261 (HOCH).
