@@ -2222,3 +2222,14 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
     5. "ZEIT Start 33 ms/32× max 17 (über 16 ms)" erste 60 s – 1 ms über dem Ziel, NIEDRIG (mit T261).
     6. Speicher: Lua gesamt (alle Addons) bis 946 MB (06:29, Routine); LP angelegt seit Einloggen 94,6 MB, davon "Sicherung 39,1 MB" – erklären,
        was "Sicherung" je Sitzung so viel anlegt (leistung.md, Speicher). NIEDRIG/MITTEL nach Befund.
+
+>>> 3.13.34 (LP-FRZ1, T402, LP-PROT-N1) – Supervisor 28.11. 08:10: ANGENOMMEN (Code), addon_check OK, gemeinsame Dateien = shared/.
+    LP-FRZ1: Ursache BELEGT als EIGENE Rechenzeit (Upload 07:15: T222 1036,5 ms ohne Pausen, MeasureDetour sync in der Routine unter Guard,
+    wie T217) – meine Vermutung "Ladebildschirm" war falsch, Begründung akzeptiert. Behebung PrebuildDetours vor Guard in Portionen; Nachbau
+    T222 1115,9 ms -> nicht mehr unter den langen Bildern. Wichtig: ganzeBilder ordnete die Zeit fälschlich "Spiel/Umgebung" zu (wie T217 in
+    3.13.27) – diese Fehlzuordnung (PCallY-Coroutine zählt nicht als eigene Portion) als eigenen Punkt LP-TAKT-ZU1 MITTEL beheben, sonst wird
+    eigene Rechenzeit weiter als Umgebung gemeldet.
+    T402: Spiel-Format "[tail call]: ?" belegt und abgedeckt. LP-PROT-N1 umgesetzt (T403 mit Gegenproben).
+    T155: im Spiel 15,89 ms (1. Lauf < 16) – noch einer nötig. Nachbau T261 1057 ms (schwankt im Nachbau; im Spiel kalt 671/warm 682 OK).
+    Im Spiel prüfen (Nutzer): /lp testroutine kalt -> /reload -> 60 s -> /lp testroutine alles: T222 nicht mehr ~1 s, T155 < 16 (2. Lauf),
+    Zeile "Neuplanung angestossen von: …" mit echter Datei:Zeile, Protokoll ohne "Wegnetz laden"-Flut.

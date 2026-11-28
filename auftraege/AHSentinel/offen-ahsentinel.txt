@@ -7810,3 +7810,15 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     -> Rendite-Zeile Entzaubern = Erlös verkaufter Materialien nach 5 % − deren Kostenbasis (umgebuchter Einstand); "noch im Lager: n Stück,
     Wert x (unrealisiert)" separat. Pflicht: Summe der Arten = Kopfzeile (48g69s08 im Nachbau), jede Zahl geht auf (wirtschaft-forever 0).
     Test mit den PC-Daten 05:50 + Gegenprobe 0.65.431 (Differenz 20g96s79 muss 0 werden). Danach REN2 im Spiel abnehmen (Bild Rendite-Reiter).
+
+>>> 0.65.432 (AHS-SN-RATE1) + 0.65.433 (AHS-BH-REN2 Teil 2) – Supervisor 28.11. 08:10 (Nutzer weg, selbständige Prüfung): beide ANGENOMMEN (Code),
+    addon_check 0.65.433 OK (0.65.432 meldet nur "niedriger als 0.65.433" – erwartet). Geprüft: Sniper.lua:1861–1903 VARIANT_PER_ROUND 3,
+    VARIANT_TTL 300, Sn:VariantPick (2 günstigste + 1 im Wechsel), gemerkte Schlüssel ohne Namenssuche; Nachbau s348 7,8 -> 2,0 Anfragen/Runde.
+    Activity.lua:408 Act:BusinessBooks = Buchungen wie BK:Summary; Nachbau PC-Daten: Summe der Arten 48g69s08 = Kopfzeile (Differenz 0), T1049.
+    Gift-Tooltip: Begründung akzeptiert (Blendungspulver in Forever nicht gebunden; Zeile "ruht · gebunden" nur in der Sniper-Zielzeile) –
+    Punkt GESCHLOSSEN (beim Nutzer nicht prüfbar, T1043 im Nachbau).
+    ENTSCHEID SUPERVISOR zu AHS-BH-REN (Rendite 24 % vs 37 %): EINE Formel überall = Kopfzeile BK:Summary (s.boughtProfit / s.cost, belegt
+    Books.lua). Rendite-Reiter "Gesamt" rechnet genau so; Tooltip der Zahl zeigt die Rechnung "(Gewinn x − ohne Einkauf y) / eingesetzt z = n %",
+    Nenner ohne verfallene Einzahlungen wie s.cost (genaue Zahl im Nachbau ausgeben). Zusatz "noch im Lager aus Entzaubern (unrealisiert)" wie geplant.
+    Im Spiel prüfen (Nutzer): Sniper mit Ausrüstungs-Ziel 10 Min.: Protokoll "SUCHEN Grenze erreicht" seltener/keine, "LANGSAM … Sniper.lua …
+    SEARCH_RESULTS" weg; Rendite-Reiter "Seit Neustart" Gewinn = Kopfzeile.
