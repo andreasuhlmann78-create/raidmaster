@@ -1,6 +1,7 @@
 # Stand RaidMaster-Sitzung
 
-## Stand 27.11.2026 10:27 · Addon 3.0.53 · Uploader 2.3.30
+## Stand 28.11.2026 09:50 · Addon 3.0.53 · Uploader 2.3.30
+- Offizier B: nutzt Uploader < 2.3.15 (nur main, kein "uploader"-Feld) -> Handinstallation 2.3.30 nötig; LevelPilot fehlt in download/. Bericht.
 - DL-ABN: neue Versionen erst announce/ (Addon) bzw. Zweig pruefung/uploader-<V> (Uploader); download/ nur nach ANGENOMMEN. Ablauf veroeffentlichen.md.
 - Addon 3.0.53 (ST1 Spieler-Texte): 1 Einlog-Zeile, Hinweise einmal, Fehler 1 Zeile, Optionen 'Mithelfen', T209. Bericht 0937. Angenommen 10:30 (Abnahme im Spiel offen).
 - Uploader 2.3.30 (RM-UPD3): Einstellungsdateien automatisch, nur gleicher Bot + gleicher Discord-Server; keine j/n-Frage mehr. Bericht 0759.
@@ -35,7 +36,6 @@
 ## Offen beim Nutzer
 - PC: bei der Frage im Uploader-Fenster Taste j (Abnahme UP-UPD1). Laptop UP-AUTO1 belegt.
   Beim nächsten Update (2.3.28) per j: altes Fenster schliesst sich -> Abnahme UP-UPD1-a/b und UP-UPD1-c (stand.json "update").
-- Uploader 2.3.20 auf allen 4 liefernden Rechnern ganz entpacken + neu starten (ältere werden abgewiesen, auch 2.3.19).
 - PC/Laptop: nach Update auf 2.3.29 einmal Addons-Testversionen-an.bat, Uploader neu starten; RaidMaster 3.0.51 /rm testroutine alles (RM-P1)
 - RM-CI2: Token erstellt 13:58 (Nutzer verwahrt ihn); Auftrag an Discord-Sitzung gegeben 14:00 – Eintrag auf dem Bot-Server folgt dort Ingametest: /gsdev an, /rm testroutine alles, /reload.
 

@@ -1,0 +1,27 @@
+Bericht RaidMaster-Sitzung an die Prüf-Sitzung – 28.11.2026
+Thema: Uploader Offizier B (offen-raidmaster.txt 28.11. 09:12). Status: Ursache belegt; kein Code-Fehler – B braucht einmal eine Handinstallation.
+Keine Namen/Rechnernamen; "Rechner B" = der Eintrag ohne Feld "uploader" in stand.json.
+
+1. Welche Version nutzt B? Belegt im Daten-Repo (nur lokal gelesen) und per GitHub-Aktivität (gh api …/activity):
+   - Bs Commit "Daten <B> 28.11. 08:43" = ea0fc11 – er wurde NUR auf main geschrieben (activity: 07:24Z–08:22Z sechs Force-Pushes nur auf
+     refs/heads/main, kein refs/heads/sicherung). Ein Uploader ab 2.3.20 (UP-ALT) schreibt immer zuerst "sicherung", dann main.
+   - Bs Eintrag in stand.json (in ea0fc11) hat nur dateien/grundregeln/zeit (zeit = 28.11. 08:43), KEIN "uploader". Das Feld "uploader"
+     schreibt der Uploader seit 2.3.15 (daten.py Z. 843 "uploader": self.version, eingeführt mit Commit UP-DS2 (1), 23.11. 08:36).
+   -> B nutzt einen Uploader ÄLTER ALS 2.3.15 (also auch älter als 2.3.20). Nicht 2.3.30.
+   Folge: Bs Daten gehen verloren – der Leser nimmt nur Rechner mit "uploader" ≥ Mindestversion 2.3.20, und um 08:46:07Z hat ein aktueller
+   Uploader main wieder auf "sicherung" gesetzt (activity: main e762205->ae2827c). "Der Upload klappt" stimmt also nur für den Moment.
+2. Warum LevelPilot nicht erneuert wurde – zwei belegte Gründe:
+   a) Der Uploader < 2.3.15 kann keine Addons installieren (UP-AUTO1 erst ab 2.3.21, addons.py) und sich nicht selbst aktualisieren
+      (Selbst-Update erst ab 2.3.24, selfupdate.py). Ein so alter Uploader bleibt alt, bis er von Hand ersetzt wird.
+   b) Auch mit 2.3.30 bekäme B LevelPilot heute NICHT: Mitspieler erhalten nur stabile Versionen aus download/ (addons.py STABLE_FOLDERS
+      = ("download",), Entscheid 27.11. 07:11), und in download/ liegt keine LevelPilot-Zip (LP-DL1 offen, LevelPilot-Sitzung).
+   AHSentinel 0.65.423 = CurseForge-Stand, unabhängig vom Uploader.
+   Der Verdacht "nur CurseForge-Addons" stimmt nicht; "nur nach Neustart" stimmt nur für Schalter (Kanal/aus), nicht für das Installieren.
+3. Was B tun muss (einmal, dann läuft alles automatisch):
+   - download/RaidMasterUploader.zip (2.3.30) aus #raid-addon bzw. von /uploader laden, uploader.bat schliessen, die Zip in den bisherigen
+     Ordner RaidMasterUploader entpacken und alle Dateien ersetzen (uploader_config.json, sync_config.json, daten_config.json bleiben – sie
+     sind nicht in der Zip), uploader.bat starten.
+   - Erkennbar am Fenster: "Uploader 2.3.30", und in stand.json erscheint bei B "uploader": "2.3.30".
+   - LevelPilot kommt automatisch, sobald eine angenommene LevelPilot-Zip in download/ liegt.
+4. Vorschlag Discord-Projekt (weitergeben): der Bot könnte Besitzer von Uploadern < 2.3.24 einmal per PN auf die Handinstallation hinweisen
+   (stand.json: Eintrag ohne "uploader" oder < 2.3.24) – das war schon als "PN an Besitzer alter Uploader" beim Discord-Projekt offen.
