@@ -2166,3 +2166,10 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
     Arathi, Flusslande/Forever-Zone 2548 …) ins Werkzeug seed_bauen.py aufnehmen (Zonengrössen messen bzw. belegen, gleiche Regeln: nur "selbst",
     keine Doppelten), dann Route 1–60 ALT/NEU wieder in beiden Fällen messen (wie Bericht 05:23) und erst danach EINE Version. Reihenfolge:
     T155 und T261 kalt (HOCH) vorher. Bis dahin nichts am Startwegnetz veröffentlichen.
+
+>>> 3.13.32 (T401, T155 Teil, T261) – Supervisor 28.11. 05:50: ANGENOMMEN (Code, Teilschritt), addon_check OK, gemeinsame Dateien = shared/.
+    T401: Ursache belegt (2× GoldSentinelMarkt.DiagLines am Stück = 89,9 ms) – Stellvertreter im Test, gemeinsame Datei unverändert; passt zu SH-M1
+    (Entscheid B: DiagLines wird mit der nächsten shared/-Änderung leichter). T155: ExactOrder flache Tabellen, Route 1–60 in beiden Fällen gleich
+    (Gegenprobe), −7 %/−20 % Speicher – reicht laut Bericht NICHT unter 16 ms: T155 bleibt HOCH offen, nächster Schritt kalte Wegsuchen in
+    CheckFirstPath/Graph:Path mit Datei:Zeile. T261: Ingametest kalt beim Nutzer (erstes Einloggen nach 3.13.32, 60 s warten, dann Routine).
+    Auslöser der 9 Neuplanungen beim Einloggen im nächsten Ingametest messen.

@@ -7681,3 +7681,10 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     (itemKey mit itemLevel/itemSuffix) aus dem Browse-Ergebnis? Wenn ja, ist das sehr wahrscheinlich die Ursache von SN-FIND1: Sniper-Ziel hält
     nur EINEN Schlüssel (der 0 Angebote hat). Dann: Ziel deckt alle Schlüssel desselben Items ab (wie Einkauf), und der Einkauf fasst gleiche
     Items zu einer Zeile zusammen (oder zeigt den Unterschied an, z. B. Stufe/Suffix) – sonst wirkt die Liste wie doppelt.
+
+>>> SCHRITT 2.2 VOLLSCAN-AUSWERTUNG (Bericht 05:38, kein Code) – Supervisor 28.11. 05:50:
+    AHS-I4 ERREICHT (Spielmessung 27.11. 22:09: längstes Bild 13,4 ms, über 16 ms 0, Abgabe nicht möglich 0) – im Spiel belegt, erledigt.
+    VS-121b: Lücke 463 ms, davon 457 ms und 14,3 von 14,3 MB nicht vom Addon (eigene Arbeit 6 ms, 1 KB) -> als "Ursache im Client" geschlossen.
+    Die Zusatzmessung "Item-Antworten je Bild, davon angefordert" NICHT bauen (kein Nutzen fürs Addon). Messzeile bleibt.
+    Weiter: T459 Nachlauf-Speicher (89 976 KB ausserhalb von Aufgaben) je Schritt aufschlüsseln, dann AHS-SP1 (d). HOCH-Befunde gehen vor:
+    AHS-SN-FIND1 (Sniper findet Ältestenhandschuhe nicht) und AHS-BH-REN2 (Rendite Entzauber-Kosten 0).
