@@ -1,8 +1,8 @@
-# Stand Supervisor – 28.11.2026 08:12 (Nutzer bis ~09:15 weg; selbständige Prüfung 1 erledigt)
+# Stand Supervisor – 28.11.2026 09:14 (Nutzer kommt gleich zurück; selbständige Prüfung 2 erledigt)
 
 ## Gerade in Arbeit
 - Nichts Laufendes. Spieltests des Morgens alle ausgewertet und eingetragen.
-- Angenommen heute: AHS 0.65.428–433; LP 3.13.32–34; PS 0.9.99 (download/), 0.9.100 (PS-DL frei).
+- Angenommen heute: AHS 0.65.428–434; LP 3.13.32–34; PS 0.9.101 (Spieltest offen); PS 0.9.99 (download/), 0.9.100 (PS-DL frei).
 
 ## Nächste Schritte (Reihenfolge)
 1. Bei jedem "repo": pull, Berichte prüfen, addon_check, annehmen/ablehnen, push + nachprüfen, Workflow ansehen.
@@ -15,7 +15,7 @@
    LP-PROT-N1, Speicher "Sicherung" 39 MB; dann Wegnetz mit Zonen von B (Entscheid 05:35); LP-UI-AC1. T261 kalt BESTANDEN (671 ms).
 4. PS: Eigenbedarf Einzel-Einkauf (Entscheid 06:43), PS-UI-OVL1, PS-PERF-TSU1 (10 020 TRADE_SKILL_LIST_UPDATE, 120,9 ms), Magiestoffballen-Lehrer,
    PS-UI-REZ1, PS-GOLD-WID, PS-LVL-EINH. ERLEDIGT im Spiel: P3, SK2-b, TT-RECH, TT-EINH.
-5. Offizier B: kein Upload mit 2.3.30 bisher (stand.json prüfen). Markt-Tabelle: Zweig nachlieferung-rechner-b mitgeben.
+5. Offizier B: Upload 28.11. 08:43 in main übernommen, aber LP noch 3.12.31 und kein "uploader"-Feld -> Auftrag RaidMaster 09:12. Markt-Tabelle: Zweig nachlieferung-rechner-b mitgeben.
 
 ## Offen beim Nutzer
 - Keine Spieltests offen. Idee für später: Gilden-Homepage (mit Namen nur in eigenem Repo). 09.12. 07:00: "Raids und Taktiken" wieder einschalten.
