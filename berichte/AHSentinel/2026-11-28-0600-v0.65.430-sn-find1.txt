@@ -1,0 +1,27 @@
+BERICHT AHSentinel 0.65.430 – AHS-SN-FIND1 HOCH (Sniper findet Ältestenhandschuhe nicht) · 28.11.2026 06:00 · umgesetzt, zur Prüfung
+md5 AHSentinel-0.65.430.zip (announce/): db31dfadb28a813381e50c47f0c50887 (nur Discord; CurseForge bleibt 0.65.423)
+FULL 0.65.429: 357 PASS / 67 FAIL, Fail-Liste = 0.65.428 (keine neue Rot-Stelle).
+
+1. Ursache BELEGT (Protokoll PC, Upload 05:50, 0.65.429):
+   - Ziel i:7366 (Ältestenhandschuhe, kind item, maxPrice 1500): SNIPER-SUCHE 05:41:27/05:42:30/…/05:49:41 je "Ziel 7366 · Angebote 0".
+   - KEINE einzige Zeile SNIPER-NAME -> der Rückfall "allgemeiner Schlüssel leer -> Suche per Name" (S2/S5) lief nie.
+   - Im selben Protokoll PREISPRUEFUNG "Item 10310 · Schlüssel allgemein (Stufe 65, Suffix 0, Haustier 0)", "Item 10647 … (Stufe 50 …)":
+     C_AuctionHouse.MakeItemKey liefert im Forever-Client bei Ausrüstung die ITEMSTUFE mit.
+   - Sniper.lua (0.65.429) Rückfall-Bedingung "(k.itemLevel or 0) == 0 and (k.itemSuffix or 0) == 0" war darum bei Ausrüstung nie erfüllt.
+     Kapuze/Stulpen fanden Angebote, weil sie ohne Varianten unter dem allgemeinen Schlüssel stehen; die Ältestenhandschuhe stehen nur unter
+     Varianten-Schlüsseln (Einkauf: 3 Zeilen 1 + 7 + 1 zu 14s, Ergänzung Supervisor 05:4x).
+2. Behebung (Sniper.lua):
+   a) Sn:Search setzt s.genericKey bei Schlüssel aus MakeItemKey; Rückfall-Bedingung: (s.genericKey oder Stufe 0) und Suffix 0.
+   b) Nach der Suche per Name: ALLE Schlüssel desselben Items lesen (günstigste zuerst, höchstens Sn.VARIANT_MAX = 8), Angebote ohne doppelte
+      auctionID zusammenführen, zwischen zwei Schlüsseln auf die Server-Drossel warten (wie NAME_WAIT); Protokoll SNIPER-NAME
+      "Item n: k Suchschlüssel gelesen, zusammen m Angebote". Vorher nur der günstigste Schlüssel.
+   Verdacht, zu messen: nimmt der Server einen Kauf (PlaceBid über auctionID) aus einem früher gelesenen Schlüssel an? Wenn nicht: Fehler ohne
+   Gold-Abgang, nächste Suche (Nachbau kauft alle 9).
+3. Nachbau (ahanalyzerpro tests, gepusht): wowsim Varianten (a.variant = {Stufe, Suffix}: eigener Schlüssel je Variante, allgemeiner 0/0 bzw.
+   Stufe/0 findet nichts) und AH.makeKeyIlvl (MakeItemKey mit Itemstufe wie Forever). Szenario s346_snfind1_varianten (Ältestenhandschuhe, Umlaut,
+   3 Varianten 1 + 7 + 1 zu 14s, Max 15s): 0.65.429 FAIL "0 Stück, 0 Angebote" (= Bild des Nutzers); mit Schlüssel 0 (S346_KEY0) 0.65.429 "1 Stück";
+   0.65.430 PASS: 9 Stück gesehen, 9 gekauft. Umlaut: Name -> Item 7366 aufgelöst (kein Umlaut-Problem).
+   30 Sniper-/Such-Szenarien + s42/s43 alt = neu (3 rot wie vorher). addon_check OK.
+4. Ergänzung Einkauf (gleiches Item in mehreren Zeilen): noch NICHT gebaut – Messauftrag zuerst: liefert der Client je Zeile einen unterscheidbaren
+   Namen (Suffix, z. B. "… des Affen") über C_AuctionHouse.GetItemKeyInfo? Dann Zeile beschriften; sonst "Variante n (Stufe x)". Vorschlag folgt.
+5. Im Spiel prüfen: Sniper-Ziel Ältestenhandschuhe -> Angebote > 0, Protokoll SNIPER-NAME "per Name … Suchschlüssel gelesen".
