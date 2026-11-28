@@ -1,0 +1,60 @@
+ProfessionSentinel 0.9.102 – umgesetzt, zur Prüfung
+Bezug: offen-professionsentinel.txt Supervisor 09:10 (Freigabe Lehrer-Name), Spieltest 0.9.101 (10:25 / 10:40 / 10:42 / 10:47): PS-SK3, PS-PERF-NB1,
+ PS-P4, PS-REZ-ZAHL, PS-PLAN-KOST, PS-VAL-HV1, PS-VAL-VK1, PS-VAL-LB2. DL-ABN: nur announce/.
+Beleg "PS-SK3 nicht neu in 0.9.101": eigener Bericht 2026-11-28-1134 (Advisor.lua seit 0.9.97 unverändert).
+
+PS-SK3 + Lehrername (Freigabe 09:10):
+ - TrainerRanks.lua: beim Lehrerbesuch Name des Lehrers über UnitName("npc") (nur NPC, nie ein Spieler) je angebotenem Rezept
+   (db.trainerAt[Zauber][Name]) und je Beruf (db.trainerProfRead[Beruf].who). TR.stamp zählt Änderungen; der Plan-Zwischenspeicher fällt dann weg.
+ - Entscheid und Beleg: ein Rezept, das NUR vom Lehrer kommt (kein Rezept-Gegenstand, keine andere Quelle), nicht gelernt, und das kein
+   besuchter Lehrer seines Berufs mit vollständiger Liste anbietet (NoLevelReason "notOffered"), trägt KEINE Punkte des Plans und zieht kein
+   Material in die Einkaufsliste – wo man es lernt, ist offen; 23 Punkte und "Magiestoff mindestens 115" darauf zu bauen hiesse raten.
+   Unter den Schritten: "Nicht im Plan: Magiestoffballen" · "bei keinem besuchten Lehrer (n besucht)"; Tooltip zählt alle. Bietet ein Lehrer es
+   an, nimmt der Plan es sofort wieder auf. Noch kein Lehrer des Berufs gelesen: bleibt mit "Skill ?" (der nächste Besuch liest es).
+ - Tooltip (Quelle): "Berufslehrer (ab Fertigkeit n) – lernbar bei <Lehrer>" nur wo dort gelesen; sonst "Berufslehrer (Lernstufe unbekannt) – bei
+   keinem besuchten Lehrer (n besucht)". Lesungen vor 0.9.102 haben keine Namen: n zählt erst ab dem nächsten Besuch (bis dahin der alte Text).
+ - "125" in Data_Forever.lua:201 ist NICHT die Lernstufe, sondern die Schätzung (build_library.py "rq", Bericht 0.9.96) – keine Anzeige
+   "Skill 125 (Datenbank)" (Entscheid keine geschätzten Zahlen).
+ Test T310 (ungelesen im Plan; "notOffered" nicht im Plan und genannt; Gegenprobe Rezept-Gegenstand bleibt; gelernt nie genannt; Lehrer B bietet es
+ an -> Name gemerkt, Plan-Zwischenspeicher verworfen, wieder im Plan; gleicher Besuch keine Änderung; Tooltip "Lehrer B", kein Spielername;
+ "(2 besucht)"; ohne NPC-Namen nichts gemerkt). Gegenprobe ohne die Regel in Advisor.lua -> FEHLER "bei keinem Lehrer: noch im Plan".
+
+PS-PERF-NB1: Ursache noch NICHT belegt – das Protokoll nannte nur "Neuaufbau (Teil) 22.0 ms" ohne Teil. Belegt aus den gespeicherten Daten
+ (Sitzung 568/571, 10:17–10:21): Aufbau "Scan" längstes Bild 22,0 ms (letzter Aufbau 2 Bilder), "direkt" 21,9 ms in 1 Bild (erster Aufbau nach
+ /reload), "TRADE_SKILL_LIST_UPDATE" längstes Bild 15,2 ms; panelMode beim Export "favor". Umgesetzt: jeder Teil zählt jetzt auch ZEIT je Abschnitt
+ (dieselben Abschnitte wie die Speicher-Messung: Rangliste (UpdateBest), Liste <Ansicht>, Liste: Gruppen …, neu "Liste zeigen (Bildlaufliste)");
+ über 16 ms schreibt PS "TEIL Neuaufbau (Teil) · <Ansicht> · größter Teil <Abschnitt>" mit ms. Abgabe an andere Addons zählt nicht mit.
+ Nachbau mit den Daten des PCs (28.11. 11:03, --only-open --profile): nach 35 Min. ohne Ergebnis abgebrochen (Pause 11:25) – offen.
+ Teilen erst, wenn der Abschnitt im Spiel benannt ist (sonst geraten) – nächstes /ps protokoll zeigt ihn.
+ Test T312 (Zeiten je Abschnitt 18/3 ms, Abgabe 50 ms nicht gezählt, größter Teil, Protokollzeile; ausserhalb eines Teils nichts gezählt).
+
+PS-P4: Ursache belegt: PriceSource.lua PS.OnChanged vergaß bei JEDEM "ledger" alle WorthUpTo-Antworten (P.ForgetWorth). Jetzt PS.ForgetForLedger:
+ die erste Buchung nach Ruhe vergisst sofort; Buchungen innerhalb 5 s danach werden gesammelt und EINMAL vergessen, wenn 5 s keine Buchung
+ kam, spätestens 10 s nach der ersten gesammelten (das letzte gewinnt). Folge des Bildes 10:04:30/:34/:37/:41: vorher 4× vergessen (je 323–448
+ Antworten neu gefragt), jetzt 2× (:30 und :44, "ledger (gebündelt 3)"). "scan" vergisst weiter sofort; Entzauber-Index ("ledger" bei
+ dePending) behält wie bisher. Test T311 (genau diese Folge mit Uhr: 1 während, 2 danach, Zeitpunkt 14 s; Pause -> sofort; einzelne Buchung
+ nachgeholt; scan sofort; Index behält; Uhr zurück blockiert nicht). Gegenprobe ohne Bündeln -> FEHLER "während der Folge vergessen: 4". T302 angepasst.
+
+PS-REZ-ZAHL: "!362" = Rezept-Alarm (Alerts.lua AL.found: Rezept-GEGENSTÄNDE im AH, die einer deiner Figuren fehlen, alle Berufe). "Kennt niemand
+ in der Gilde 369" = Rezepte DIESES Berufs, die kein Gildenmitglied kennt. Zwei verschiedene Mengen – angleichen wäre falsch. Tooltip des Reiters
+ sagt jetzt: "(Rezept-Gegenstände, alle Berufe). Nicht dasselbe wie die Listen dieses Reiters (ein Beruf, z. B. „Kennt niemand in der Gilde“)."
+PS-PLAN-KOST: belegt (Advisor.lua AD.Plan): "Material mindestens" = ALLES Material des Plans zum Marktpreis (plan.cost = Σ Kosten × Herstellungen,
+ eigener Vorrat eingeschlossen). "Mit Vorrat" wählt je Punkt das Rezept mit Gewinn + gespartem Vorrat (FromStock) – das nutzt den Vorrat, kann aber
+ insgesamt teurer sein (hier: 7 Abschnitte mit Rote Wollstiefel lernen statt 6). Was man KAUFT, ist die Einkaufsliste. Jetzt zusätzlich in der
+ Zusammenfassung "Noch zu kaufen <Σ> (Händler <v> · AH <a>)" (= AD.Shopping totals); Hinweis "Mit Vorrat" sagt, dass das Material insgesamt teurer
+ sein kann, zu kaufen bleibt weniger. Sniper-Budget = Σ über AH-Zutaten (Menge × Max-Preis), Max-Preis = Marktwert + 10 % abgerundet
+ (PL.SniperTargets, Beispiel im Bericht 0.9.100: 208 × 9s41 + 50 × 38c). Darum weicht es von "AH <a>" (Marktwert) um ~10 % ab.
+ Test T309 erweitert ("noch zu kaufen" in der Zusammenfassung mit Preisen; Gegenprobe ohne Zeile -> FEHLER).
+PS-VAL-HV1/LB2 (Ursache des Werts klärt AHS, AHS-LB-AH1): WorthUpTo von AHSentinel ist der beste von drei Wegen (Kern.lua K:LohntBis: Entzauber-Grenze, Wiederverkauf-Grenze, Händler / 1,2)
+ bzw. MarketCore MK:WorthUpTo – als 2. Wert kommt der Weg (resale / vendor / disenchant). PS zeigt ihn jetzt in der Rechnung: "Lohnt bis
+ (Händler) 20s 25c - Material …". Ob die zwei 1s 80c (Weiße Leinenrobe, Azurblaue Handwickel) aus demselben Weg kommen: Verdacht, zu messen –
+ die Zeile zeigt es im Spiel. Ein unbekannter Weg erscheint nie als Rohwort.
+PS-VAL-VK1: "Verkaufen" ist der Preis je Stück, "Lohnt bis" der Wert je Herstellung (Prices.lua: Wert × Stück je Herstellung). Bei mehr als einem
+ Stück steht jetzt "für n Stück" am Wert. Fraktionsbanner: Verdacht 2 Stück (2 × 1s 5c = 2s 10c ≈ 2s 9c) – die Zeile zeigt es im Spiel.
+ Test T306 erweitert (Weg Händler/Entzaubern, unbekannter Weg ohne Klammer, 2 Stück, 1 Stück ohne Angabe, 1–2 Stück "1,5").
+
+Tests: run_offline forever 267/0, era 248/0, retail 244/0, forever --lua51 267/0; check_actions OK; gen_locale_keys OK; Smoketest: AUTOTEST OK forever/era/retail; yield_check OK; addon_check: OK.
+ md5 announce-Zip (Release v0.9.102, Repo 90d1d13): 2eaca7352e5fcd9f01b49ab3d2ff8ae1.
+Abnahme im Spiel: Lehrer Schneiderei öffnen -> Tooltip Magiestoffballen "bei keinem besuchten Lehrer (1 besucht)", Plan ohne Magiestoffballen,
+ Zeile "Nicht im Plan"; Plan-Kopf "Noch zu kaufen"; Tooltip Lohnt bis mit Weg; Post mit mehreren Briefen öffnen -> /ps protokoll "ledger (gebündelt n)";
+ Berufsfenster offen -> /ps protokoll "TEIL Neuaufbau (Teil) · … · größter Teil …" falls ein Teil über 16 ms.
