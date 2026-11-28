@@ -2142,3 +2142,9 @@ LP-I3 RÜCKSCHRITT (HOCH): T155 Ø 29,20 ms (3.13.18: 19,13; Nachbau 3.13.19: 8,
     durch die Liste lesbar und stört das Lesen. 2. Beschreibungen abgeschnitten ("… und spe…", "protokoll leer: löschen · protok…", "Namen in d…").
     Auftrag: deckender Hintergrund (wie die anderen GoldSentinel-Fenster); Beschreibungen ganz lesbar (Liste breiter, Zeilenumbruch oder voller Text
     im Tooltip der Zeile); Test mit dem längsten Text in allen Locales. Nicht vor T261 (HOCH).
+
+>>> FRAGE NUTZER 28.11. 05:15 "wurde der Weg bis 60 schneller mit den Wegdaten?" – Supervisor: Nein, noch nicht belegt. Stand laut Berichten:
+    Wegdaten B nur ausgewertet (Bericht 27.11. 22:00), Startwegnetz NICHT geändert (Probebau nur im Scratchpad); Route 1–60 seit 3.13.15 gleich
+    141 h 30, 2 344 Schritte, 814 Quests, 1 446 112 yd. Auftrag zum Probebau (stand-aktuell Schritt 5): im Bericht Route 1–60 ALT gegen NEU
+    (Startwegnetz mit Wegdaten Nutzer+B) nebeneinander: Stunden, Schritte, Quests, Yards, dazu die 5 Zonen mit der grössten Änderung, und
+    Gegenprobe, dass keine Strecke durch neue Kanten unmöglich wird (Wände/Ebenen). Erst dann als eigene Version.
