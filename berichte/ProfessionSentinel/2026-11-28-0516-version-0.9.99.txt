@@ -1,0 +1,23 @@
+ProfessionSentinel 0.9.99 – umgesetzt, zur Prüfung
+Bezug: offen-professionsentinel.txt Ingametest 28.11. 04:47 (Supervisor 04:55): PS-SK2-b NIEDRIG, PS-P3 MITTEL. DL-ABN: nur announce/.
+
+PS-SK2-b – Ursache belegt: TR.PlanWithoutLevel gab nil zurück, wenn in der Sitzung noch kein Skill-Plan gebaut war (ns.Plan.current leer) – dann liess
+ die Zeile den Teil "im Plan ohne Lernstufe" ganz weg (TrainerRanks.lua 0.9.97: `open and … or ""`). Jetzt steht die Zahl IMMER da:
+ mit Plan "im Plan ohne Lernstufe z", ohne Plan "im Beruf ohne Lernstufe z: Name1, …" = Lehrer-Rezepte der Berufe dieses Lehrers, die die Figur noch
+ lernen kann (nicht gelernt, für ihre Fertigkeit nicht grau) und noch keine Lernstufe haben, die ersten 5 Namen nach gelber Stufe.
+ Frage "ist einer der 30 (neu 1) bzw. 14 Einträge Magiestoffballen": aus den Daten NICHT beantwortbar – die gespeicherten Daten nach dem Ingametest
+ (04:47) sind noch nicht in goldsentinel-daten (letzter Stand 27.11. 23:17: trainerReq 28, 3865 nicht dabei, trainerOffered noch nicht vorhanden).
+ Mit 0.9.99 nennt die Zeile die offenen Namen: steht "Magiestoffballen" darin, hat keiner der beiden Lehrer es angeboten; sonst hat es jetzt eine Stufe.
+PS-P3 – Ursache belegt: PriceSource.lua rief bei JEDEM MERCHANT_SHOW und MERCHANT_CLOSED P.ForgetWorth (0.9.95) – blosses Öffnen/Schliessen warf alle
+ Antworten weg; der Client sendet MERCHANT_CLOSED oft doppelt (8 Einträge in 20 s). Jetzt PS.OnMerchant: bei SHOW das Gold merken; bei CLOSED nur
+ vergessen, wenn das Gold anders ist (gekauft/verkauft/repariert), Grund "Händler: Kauf/Verkauf"; ein zweites CLOSED ohne SHOW tut nichts. Das kurze
+ Wert-Gedächtnis (60 s) wird beim Händler weiter geleert (AHSentinel lernt dort Händlerpreise).
+ Grenze: ein Tausch ohne Goldänderung (z. B. Rückkauf zum gleichen Betrag wie ein Verkauf) vergisst nicht – die WorthUpTo-Antworten hängen an Preisen,
+ nicht an den Taschen; Preisänderungen kommen weiter über "scan".
+Tests: T302 erweitert (Händler öffnen/schliessen + doppeltes CLOSED -> Antworten bleiben, kein Vergessen notiert; nach Kauf (Gold anders) -> vergessen mit
+ Grund; drittes CLOSED -> nichts); T305 erweitert (Protokoll-Zeile ohne Plan "(neu 1, geändert 0); im Beruf ohne Lernstufe …"; die Liste enthält kein
+ Rezept mit Lernstufe und kein gelerntes). Regression PS-P3 -> T302.
+ run_offline forever 260/0, era 241/0, retail 238/0, forever --lua51 260/0; check_actions OK; gen_locale_keys OK; yield_check OK; Smoketest forever/era/retail AUTOTEST OK (FEHLER 29/26/26 = Mock-Grenzen, wie 0.9.98);
+ addon_check OK ohne WARNUNG. Zip md5 e097a99664539eb52c7554a3f4dc53f7, Repo 9939fd5. download/ bleibt 0.9.98 bis Freigabe.
+Abnahme im Spiel: Händler öffnen/schliessen ohne Kauf -> /ps protokoll ohne neues "WorthUpTo vergessen", nächster Lauf "0 neu"; mit Kauf -> ein Eintrag
+ "Händler: Kauf/Verkauf". Lehrer öffnen -> Zeile mit "ohne Lernstufe z: Namen".

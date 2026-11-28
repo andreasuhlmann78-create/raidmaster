@@ -1,15 +1,18 @@
-# Stand 28.11.2026 04:29 · Version 0.9.98 (announce + download)
+# Stand 28.11.2026 05:16 · Version 0.9.99 (announce), 0.9.98 (download)
 
 ## Gerade in Arbeit
-- Nichts. 0.9.98 angenommen (28.11. 04:35) und nach download/ gelegt (gleiche Zip wie announce/, md5 dbe05b13…), 0.9.93 entfernt.
-- Offen im Spiel: PS-SK2 (Schneider- + Experten-Lehrer, Tooltip Magiestoffballen), PS-P2-Abnahme (WorthUpTo je Lauf, Vergessen mit Grund).
+- 0.9.99 NUR announce/ (Release v0.9.99, Repo 9939fd5), Bericht 2026-11-28-0516-version-0.9.99.txt – zur Prüfung: PS-P3 (PS.OnMerchant,
+  vergessen nur bei Goldänderung), PS-SK2-b (Lehrer-Zeile immer "ohne Lernstufe z: Namen").
+- PS-SK2 im Spiel sichtbar behoben (Supervisor 05:05). download/ = 0.9.98.
 
 ## Nächste Schritte (Reihenfolge)
-1. Neue Version erst nach "ANGENOMMEN" nach download/ (DL-ABN).
-2. Ansicht recipes im Nachbau (2 Bilder ~405 ms, Stapel 20x ohne Addon-Zeile = Verdacht Mock) belegen.
-3. PS-TQ1 Abnahme a) mit echten Daten, sobald Herstellen+Entzaubern im Spiel (Bericht "Trefferquote je Beruf").
-4. Gilden-Sync-Tag ohne Realm prüfen.
-5. MITTEL 2 (T192, T259), MITTEL 4 (T285); Entwickler-Befehle nur im Entwicklermodus; Testort-Hinweis; Lesbarkeit L1–L8; "AH ~Preis".
+1. Tooltip/Anzeige (Supervisor 28.11.): PS-TT-RECH (Verkaufen − Material ≠ "lohnt sich": Abzüge in einer Zeile nennen; Spinnenseidenstiefel,
+   Graue Wollrobe), PS-TT-EINH ("je Herstellung" -> "je Skillpunkt"), Einheit /Herst. vs /Pkt in Leveln-Liste vereinheitlichen, "Jetzt"-Text
+   nicht abschneiden.
+2. PS-AHS-EIG1 MITTEL: Sniper-Ziele mit Zweck "eigenbedarf" sobald AHS das Feld kennt; Chat "im Sniper noch das Budget einstellen" belegen/
+   anpassen; vor dem Anlegen die Summe nennen.
+3. Neue Version erst nach "ANGENOMMEN" nach download/ (DL-ABN).
+4. PS-TQ1 Abnahme a) mit echten Daten; Gilden-Sync-Tag ohne Realm; MITTEL 2/4; Entwickler-Befehle; Lesbarkeit L1–L8; "AH ~Preis".
 
 ## Offen beim Nutzer
 - Ingametest 0.9.95 (Schneider-Figur, Berufsfenster offen, /ps protokoll): "WorthUpTo je Lauf" ab Lauf 2 "0 neu", "WorthUpTo vergessen" mit Grund.
