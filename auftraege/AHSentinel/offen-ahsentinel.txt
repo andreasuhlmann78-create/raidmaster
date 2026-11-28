@@ -7628,3 +7628,13 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
 >>> SPIELTEST AHS-UI-DD1 – Bild Nutzer 28.11. 05:33 (PC, 0.65.429), Supervisor 05:38: Seltenheits-Auswahl im Einkauf liegt GANZ sichtbar über der
     Angebotsliste (Alle/Grau/Weiss/Grün/Blau/Episch + OK), Kopf zeigt "Grün - Episch" – Teil 1 BESTANDEN. Noch offen: Schliessen bei Klick
     daneben/"Suchen", Restzeit-Spalte bei Ausrüstung (Ware öffnen), Sniper/Preisverlauf. Erst danach AHS-UI-DD1 erledigt.
+
+>>> BEFUND AHS-DE-WID1 MITTEL (Widerspruch, Psychologie) – Bilder Nutzer 28.11. 05:33 (PC, 0.65.429), Supervisor 05:40:
+    1. Chat + Bildschirm-Meldung: "Entzaubern lohnt: 2 Teile mit über 30 % Rendite verfügbar (Kaufen -> Entzaubern lohnt)". Gleichzeitig Markt >
+       Entzaubern: "Zurzeit nichts unter dem Entzauber-Wert mit mindestens 20 % Gewinn (geprüft: 1065 Items …)". 2 Teile mit > 30 % müssten dort
+       stehen (30 % > 20 %). Ursache belegen (Datei:Zeile): andere Preisquelle/Gebühren/Rendite- vs Gewinn-Begriff/Zeitpunkt/Filter (nur entzauberbar?).
+       Beide Stellen müssen dieselben Teile zählen (eine Funktion) oder der Text sagt, warum nicht.
+    2. Weg "Kaufen -> Entzaubern lohnt" gibt es als Reiter nicht (Kaufen: Einkauf/Sniper/Wächter/Schnäppchen); gemeint ist wohl der Schalter
+       "Entzaubern lohnt: aus" unten im Einkauf. Text muss den echten Weg nennen (wie AHS-CHAT-PROFIT) und der Klick sollte dorthin führen.
+    3. Markt > Entzaubern: "Preise vom Scan vor 0 Min." – Statuszeile gleichzeitig "letzter Scan vor 28 Min.". Welche Zahl stimmt? Belegen, angleichen.
+    Test: dieselben Daten -> Meldung und Liste nennen dieselbe Zahl; Gegenprobe 0.65.429. Im Schritt 2b, vor R1–R7.
