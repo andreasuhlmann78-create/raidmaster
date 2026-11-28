@@ -7676,3 +7676,8 @@ AHS-TB1 MITTEL (Anzeige verständlich, psychologie.md): Chatzeile beim Einloggen
     Verkauf unverändert; nur Wellen (36-45 und 56-60 -> durch) und kern (78 statt 77 Zellen) anders. Die Anweisung dieser Aufgabe nimmt den Zweig noch nicht
     auf – Supervisor: Anweisung anpassen, falls gewollt.
     KERN-ABGLEICH 28.11.: Zellen, die nicht aufgehen 0 / 0 / 0 (JD5SLR5, NVITMSE, M6UO3AL) – kein Befund.
+    Ergänzung AHS-SN-FIND1 (Frage Nutzer 05:44 "kommen dieselben Items mehrfach vor?"): Im Einkauf steht dasselbe Item in mehreren Zeilen
+    (Ältestenhandschuhe 3× 14s mit 1/7/1; Bebänderte Armschienen 4×; Bebänderter Umhang 6×). Belegen: Ist jede Zeile ein eigener Suchschlüssel
+    (itemKey mit itemLevel/itemSuffix) aus dem Browse-Ergebnis? Wenn ja, ist das sehr wahrscheinlich die Ursache von SN-FIND1: Sniper-Ziel hält
+    nur EINEN Schlüssel (der 0 Angebote hat). Dann: Ziel deckt alle Schlüssel desselben Items ab (wie Einkauf), und der Einkauf fasst gleiche
+    Items zu einer Zeile zusammen (oder zeigt den Unterschied an, z. B. Stufe/Suffix) – sonst wirkt die Liste wie doppelt.
