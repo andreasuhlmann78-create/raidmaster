@@ -1,0 +1,35 @@
+LevelPilot – Bericht an die Prüf-Sitzung: Route 1–60 ALT gegen NEU (Startwegnetz mit Wegdaten Nutzer + Rechner B)
+Stand 28.11.2026 05:30 · Messung im Nachbau, NICHTS veröffentlicht (Frage des Nutzers 05:15 "wurde der Weg bis 60 schneller mit den Wegdaten?")
+
+Aufbau
+- ALT = 3.13.31 mit Data/Wege.lua vom 16.11. NEU = derselbe Code, nur Data/Wege.lua neu gebaut aus testberichte/wege/LevelPilot/ (373 Pakete
+  bis 27.11., Nutzer 3.13.x + B 3.12.31) mit dem geänderten Werkzeug (nur selbst gelaufene Kanten, keine Doppelten; 9 Zonen wie bisher).
+- Reise am Stück (r3.lua, MAXL=60), Scourge Priester ab Stufe 1 in Tirisfal, Datenpaket LevelPilot_Data, WoW Forever. Zwei Fälle:
+  a) mit Kontodaten des Nutzers (lpdaten-2611c: gelernte Wege/Quests), b) ohne Kontodaten (neuer Spieler).
+- Die früheren 141 h 30 (3.13.15–3.13.24) stammen aus älteren Daten/Code; heute mit denselben Daten ALT 139 h 53. Verglichen wird nur ALT/NEU
+  unter gleichen Bedingungen.
+
+Ergebnis
+                          Stunden     Schritte  Quests  Yards       pathBlocked
+  a) Konto ALT            139 h 53    2 395     838     1 364 492   14
+  a) Konto NEU            140 h 07    2 338     809     1 425 460   12      -> +14 min (+0,2 %), langsamer
+  b) neuer Spieler ALT    194 h 40    2 155     648     1 783 624   10
+  b) neuer Spieler NEU    190 h 44    2 163     670     1 728 525   12      -> −3 h 56 (−2,0 %), schneller
+- Stufenzeiten a): L10 3 h 01 -> 2 h 20, L20 12 h 52 -> 11 h 45, L30 29 h 48 -> 28 h 55, L40 58 h 45 -> 57 h 48, L50 93 h 42 -> 92 h 47,
+  L60 139 h 43 -> 139 h 57 (bis L50 −55 min, danach +70 min: andere Zonenfolge ab L50).
+- Stufenzeiten b): L10 4 h 01 = , L20 19 h 08 -> 19 h 11, L30 43 h 08 -> 43 h 04, L40 85 h 14 -> 83 h 27, L50 130 h 09 -> 129 h 23,
+  L60 194 h 30 -> 190 h 44.
+- Grösste Änderungen (Zeit, in der die Stufe in der Zone erreicht wurde – grob, die Route verschiebt sich):
+  a) Orgrimmar 13 h 08 -> 0 h 22, Hinterland 0 -> 9 h 18, Sengende Schlucht 8 h 18 -> 0, Östl. Pestländer 5 h 08 -> 13 h 23, Hügelland 13 h 34 -> 5 h 58.
+  b) Schlingendorntal 33 h 41 -> 9 h 16, Hinterland 5 h 58 -> 19 h 13, Hügelland 13 h 18 -> 3 h 25, Teufelswald 15 h 09 -> 5 h 48, Undercity 0 -> 8 h 57.
+  Die Startnetz-Zonen selbst (Hügelland, Brachland …) werden schneller; die grossen Verschiebungen danach sind Folgen einer anderen Zonenfolge.
+- Gegenprobe Wände/Ebenen: Das Werkzeug baut Kanten nur aus gelaufenen Wegstücken. Eigene Prüfung je Zone: Startnetz-Punkte ohne gelaufenen
+  Punkt in 15 yd 0,4–4,6 % (Tirisfal 200 = 4,6 %, Brachland 236 = 1,8 %, sonst < 2,5 %); Städte mit Ebenen (Undercity, Orgrimmar) sind nicht
+  drin. pathBlocked a) 14 -> 12, b) 10 -> 12 – keine Häufung unmöglicher Strecken. Eine echte Prüfung "Strecke durch Wand" gibt es im Nachbau
+  nicht (keine Kollision) – Verdacht bleibt für die Stellen mit Punkten ohne gelaufenen Punkt, im Spiel zu prüfen.
+
+Einschätzung (zur Entscheidung)
+- Für neue Spieler bringt das neue Startwegnetz rund 2 % (4 h auf 195 h); für ein Konto mit eigenen Wegen praktisch nichts (+0,2 %).
+- Grösserer Nutzen wäre in den Zonen, die nur B gelaufen ist (Schlingendorntal, Arathi, Flusslande …) – dazu müssen sie ins Werkzeug (Zonengrössen
+  messen, Flusslande 2548 Forever-Zone). Nicht gemacht.
+- Vorschlag: NEU als eigene Version erst, wenn der Supervisor das will; vorher T261/T381 mit NEU im Nachbau und Ingametest.
