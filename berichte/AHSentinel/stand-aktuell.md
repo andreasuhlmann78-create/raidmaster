@@ -1,6 +1,6 @@
 # Stand AHSentinel (Projekt-Sitzung)
 
-## Stand 28.11.2026 12:16 · Version 0.65.439 (Discord); 0.65.437 angenommen (Code); CurseForge 0.65.423
+## Stand 28.11.2026 13:51 · Version 0.65.439 (Discord, angenommen Code 12:40); 0.65.440 in Arbeit; CurseForge 0.65.423
 Repos: ahanalyzerpro (Code, schreiben; tests/ dort direkt pflegen), raidmaster (announce/, berichte/AHSentinel/), goldsentinel-daten (nur
  lesen; Zweig sicherung: aktuell/<RECHNER>/forever/konto-*/AHSentinel.lua.gz; PC = DESKTOP-NVITMSE; Nachlieferung Rechner B: eigener Zweig).
 Arbeitskopie /home/claude/AHSentinel. Veröffentlichen: /tmp/claude-0/bin/pub.sh <neu> <alt> "<Text>" "<Berichtsdatei>" (nur Discord;
@@ -10,13 +10,14 @@ Nachbau: FULL=1 nur auf Kopie und ALLEIN (pgrep run_all.sh leer). FULL 0.65.436:
  je Funktion SINGLE=Mod:Fn. PC-Daten entpackt: /tmp/claude-0/tb1/pc_cur.lua (27.11. 23:17).
 
 ## Gerade in Arbeit
-- 0.65.439 = AHS-TT-DE2 (Berufsfenster: Herstellkosten statt AH-Kaufpreis, TT:InCraftWindow/TT:CraftCost, Titel, Hintergrund) +
-  AHS-LB-AH1 (Preissprung -> Wiederverkauf höchstens Median in A:ResalePrice; ohne Leiter Grund als 6. Wert von API.WorthUpTo).
-  Tests T1050/T1051. Messszenario zz_lb1 in /tmp/claude-0/sim2 (SVIN=pc_1156.lua). FULL 0.65.439 allein (sim_full439.txt).
-- 0.65.438 (SN-UX1 3/4, SN-ROT1, SN-BUD1) beim Supervisor; FULL 438: 364/67, keine neue Rot-Stelle (fail438.txt).
+- AHS-SN-LAG2 (Arbeitskopie, nicht veröffentlicht): (1) PollSearch liest die Angebote erst, wenn die Suche fertig ist (vorher bei
+  jeder Abfrage alle neu); (2) Ziel-Zeilen (TargetEntry) rechnen die Anzeige-Felder erst beim Lesen (ENTRY_MT): GetTargets 231 -> 60 ms,
+  GetActiveTargets 197 -> 57 ms je 60 s (s266 SNIP_PROF, 330 Angebote). Zeiten im Nachbau stark verrauscht (os.clock + GC): Empfänger
+  längster 20–29 -> 16–17 ms, Reiter längster unklar (21–40 ms beide). Nächster Schritt: Reiter listings:SetData (330 Zeilen) messen über
+  KB/Tabellen statt ms, Tabellen je Antwort wiederverwenden (Speicher-Pendel), dann T459. Nachbau s353 (LAG_L, S353_SHOW=1).
 
 ## Nächste Schritte (Reihenfolge = Masterplan Supervisor 28.11. 10:20, verbindlich)
-1. (FULL 0.65.439: 364/67, fail439.txt; 0.65.438/439 angenommen Code 12:40.) Jetzt Schritt 2 Rest (T459, SN-LAG2, SP1 d), dann 2b-Rest (DE-MSG1 u. a.).
+1. (FULL 0.65.439: 364/67, fail439.txt.) Jetzt Schritt 2 Rest (T459, SN-LAG2, SP1 d), dann 2b-Rest (DE-MSG1 u. a.).
 2. Schritt 2 Rest: T459 Nachlauf-Speicher + AHS-SN-LAG2 (SEARCH_RESULTS 16–35 ms, Tabellen wiederverwenden) + AHS-SP1 (d).
 3. Schritt 2b Rest in Masterplan-Reihenfolge: MR4-T (ma4log leer; Verdacht ReqLevel ohne Item-Cache), SP-MENGE, TT-WEG, MW-AUSR, BH-QUOTE,
    BH-LEER, DE-WID1, MKT-WID2, PROF-SP1 (+ CHAT-PROFIT Zahl 14/22), VEN-GW1 (8 Fälle), SN-LB1, Einkauf-Zeilen beschriften, Eigenbedarf-Buchung,
