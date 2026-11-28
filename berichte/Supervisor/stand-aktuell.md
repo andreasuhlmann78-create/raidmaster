@@ -1,33 +1,31 @@
-# Stand Supervisor – 28.11.2026 06:42 (Nutzer testet im Spiel, alle 3 Projekte arbeiten)
+# Stand Supervisor – 28.11.2026 07:36 (alle 3 Projekte um 07:15 angestossen)
 
 ## Gerade in Arbeit
-- Warte nicht: LP-Ingametest 3.13.33 kalt läuft beim Nutzer (/lp testroutine kalt -> /reload -> 60 s -> alles) -> T261 "erstes" < 1000 ms auswerten.
-- Angenommen heute: AHS 0.65.428/429/430; LP 3.13.32/33; PS 0.9.99 (in download/), 0.9.100 (Spieltest offen, dann PS-DL).
+- Nichts Laufendes. Spieltests des Morgens alle ausgewertet und eingetragen.
+- Angenommen heute: AHS 0.65.428–431; LP 3.13.32/33; PS 0.9.99 (download/), 0.9.100 (PS-DL frei).
 
 ## Nächste Schritte (Reihenfolge)
 1. Bei jedem "repo": pull, Berichte prüfen, addon_check, annehmen/ablehnen, push + nachprüfen, Workflow ansehen.
-2. AHS (HOCH zuerst): AHS-BH-REN2 (Rendite Entzauber-Kosten 0); dann 2b: SN-SORT1 (Sniper-Liste unsortiert nach Varianten), PROF-SP1
-   (Gewinn gesamt ≠ Stück×Menge, Seite 2 doppelt), CHAT-PROFIT Zahl 14 vs 22 (nicht bestanden), DE-WID1, MKT-WID2 (Buchband über 25 %-Grenze,
-   Schredderanleitung), SN-LB1, CF-1 (CurseForge-Kommentar Preisverlauf-Graph, Antworttext nur mit OK des Nutzers), Eigenbedarf-Buchung.
-   Masterplan v2: Schritt 2 (T459 Nachlauf-Speicher, SP1) -> 2b -> R1–R7 -> Abnahme -> 0.66.0.
-3. LP: T155 HOCH (16,99 ms im Spiel, Ziel < 16), T261 kalt; dann Wegnetz mit Zonen von B (Entscheid 05:35); LP-UI-AC1.
-4. PS: Frage an Nutzer offen: Einzel-Einkauf aus Rezeptansicht (UI.BuyForRecipe) Eigenbedarf ja/nein. Rest-Befunde PS-UI-REZ1, PS-GOLD-WID, PS-LVL-EINH.
+2. AHS (HOCH zuerst): REN2 Teil 2 (Entscheid Supervisor 07:16: realisiert, Lager separat, Summe = Kopfzeile), SN-RATE1 HOCH
+   (Varianten-Suche ~10 Anfragen/Runde, Grenze 83/90, Sniper.lua:4641 16–21 ms, Speicher +80 MB/min), SN-CNT1 (Treffer mehrfach, "offen" bleibt
+   nach Löschen 2), VEN-GW1 (Händler-Gewinn uneinheitlich, 8 Fälle), Gift-Tooltip "ruht · gebunden" fehlt (Bedingung belegen), dann 2b-Rest
+   (DE-WID1, MKT-WID2, PROF-SP1, CHAT-PROFIT Zahl 14/22, SN-LB1, CF-1 Antworttext nur mit OK), Eigenbedarf-Buchung, Schritt 2 T459/SP1.
+   ERLEDIGT im Spiel: UI-DD1, SN-FIND1 (Kauf −14s genau), I4, VS-121b geschlossen.
+3. LP: LP-FRZ1 (1037 ms – Verdacht: Ladebildschirm mitgemessen), T155 (16,99 ms; 2 Läufe < 16 nötig), T402 (debugstack ohne tail call),
+   LP-PROT-N1, Speicher "Sicherung" 39 MB; dann Wegnetz mit Zonen von B (Entscheid 05:35); LP-UI-AC1. T261 kalt BESTANDEN (671 ms).
+4. PS: Eigenbedarf Einzel-Einkauf (Entscheid 06:43), PS-UI-OVL1, PS-PERF-TSU1 (10 020 TRADE_SKILL_LIST_UPDATE, 120,9 ms), Magiestoffballen-Lehrer,
+   PS-UI-REZ1, PS-GOLD-WID, PS-LVL-EINH. ERLEDIGT im Spiel: P3, SK2-b, TT-RECH, TT-EINH.
 5. Offizier B: kein Upload mit 2.3.30 bisher (stand.json prüfen). Markt-Tabelle: Zweig nachlieferung-rechner-b mitgeben.
 
 ## Offen beim Nutzer
-- Spieltests: AHS Restzeit-Spalte bei Ausrüstung, Gift-Tooltip "ruht · gebunden", API-LANGSAM-Zeilen, Ziel löschen mit offenem Treffer,
-  echter Kauf Ältestenhandschuhe (Gold −14s); PS 0.9.99 Händler auf/zu + Lehrerzeile (Magiestoffballen?); PS 0.9.100 Tooltip Wollrobe + Plan->Sniper;
-  /lp protokoll (26 Auffälligkeiten).
-- Idee für später (Nutzer 28.11. 05:36): Gilden-Homepage (mit Spielernamen nur in eigenem Repo). Nicht begonnen.
-- Frage "kleine KI aus dem Rechenkern" (seit 14.11.). 09.12. 07:00: Aufgabe "Raids und Taktiken" wieder einschalten.
+- Keine Spieltests offen. Idee für später: Gilden-Homepage (mit Namen nur in eigenem Repo). 09.12. 07:00: "Raids und Taktiken" wieder einschalten.
 
 ## Entscheide des Nutzers seit letztem Stand (in entscheide.md)
-- 28.11. 05:03 Sniper: eine Raste kauft alle Angebote einer Ware (Ausrüstung: 1 Stück je Raste). 05:35 LP-Wegnetz erst mit Haralds Zonen.
+- 28.11. 06:43 PS Einzel-Einkauf aus Rezeptansicht = Eigenbedarf.
 
 ## Wichtig zu wissen
-- CurseForge 06:02 (Homezugriff, berichte/Supervisor/2026-11-28-0602-curseforge-meldungen.txt): AHS 34 Beiträge, 1 offen (CF-1); GS 0 Kommentare.
-  Browser für CF: nur über Homezugriff (hier kein Browser verbunden).
-- AHS-SN-FIND1 Ursache: MakeItemKey liefert bei Ausrüstung Itemstufe -> 0.65.430 liest alle Varianten-Schlüssel (max 8).
-- LP-Ablage (Umweg) gilt je Zone über Wegnetz-Kennung, nicht über Version – richtig so; kalt nur über /lp testroutine kalt.
+- CurseForge 06:02: AHS 1 Kommentar offen (CF-1), GS 0. Browser nur über Homezugriff.
+- Nutzer ist Priester (kein Schurke) – Gift-Tests beim Nutzer nicht möglich.
+- Nutzer wechselt während Testroutinen manchmal das Fenster -> Messwerte mit "Umgebung" lesen.
 - DL-ABN: download/ nur angenommene + im Spiel geprüfte Versionen; AHS/GS CF 18:00. SH-M1 (B) mit nächster shared/-Änderung.
 - Repo öffentlich: keine Spieler-/PC-Namen (Offizier A/B).
